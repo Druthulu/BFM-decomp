@@ -4084,7 +4084,75 @@ void func_80180050(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018008C);
+#include "common.h"
+
+/* 8-byte block, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2, matches
+ * the Blk8_80126940_* family in shared/engine_types.h) */
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8018008C;
+
+extern Blk8_80126940_8018008C D_80126940;
+extern Blk8_80126940_8018008C D_801274E8;
+
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+
+extern void func_8012A018(s32 a0, s32 a1);
+extern void func_80180050(void *a0);
+extern void func_80180570(s32 a0);
+extern void func_801803D8(s32 param_1, s16 *param_2);
+
+extern u8 D_80194328[];
+extern u8 D_80194314[];
+extern u8 D_801942EC[];
+extern u8 D_80194300[];
+
+void func_8018008C(s32 a0) {
+    s32 s0 = a0;
+    Blk8_80126940_8018008C local = D_80126940;
+
+    if (local.v[2] >= 0x1501) {
+        D_801274E8 = local;
+        D_80126954 = 0x12C;
+        D_8012695C = 0x2EE;
+        D_80126968 = 0x155;
+        D_8012696A = 0x800;
+        D_8012696C = 0;
+        D_80126976 = 0;
+        D_80126978 = -0x96;
+        D_8012697A = 0;
+        func_8012A018((s32)func_80180050, 1);
+    } else {
+        s32 msg;
+        if (local.v[2] >= 0x901) {
+            msg = (s32)&D_80194328;
+        } else {
+            if (local.v[0] >= 0x441) {
+                msg = (s32)&D_80194314;
+            } else {
+                if (local.v[2] >= 0x341) {
+                    msg = (s32)&D_80194300;
+                } else {
+                    msg = (s32)&D_801942EC;
+                }
+            }
+        }
+        func_80180570(msg);
+    }
+
+    if (local.v[1] >= -0x67F) {
+        local.v[1] = -0x680;
+    }
+    func_801803D8(s0, local.v);
+}
+
 
 extern s32 D_801151D4;
     void func_80180200(void) {
@@ -4781,7 +4849,64 @@ void func_80186470(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80186518);
+#include "common.h"
+
+extern void *D_801DEC8C;
+extern void func_8001C1E4(void *a0, s32 a1);
+
+void func_80186518(void *a0, void *a1, s32 a2) {
+    register void *self0 __asm__("$8");
+    s32 flag;
+    void *tbl;
+    s32 base;
+    s32 base2;
+
+    self0 = a0;
+    flag = *(u16 *)((s32)a1 + 0x86);
+    tbl = D_801DEC8C;
+    if (flag & 8) {
+        base = a2 * 12 + (s32)tbl;
+        *(s16 *)((s32)a1 + 0x6) = *(u16 *)(base + 0) - *(u16 *)(base - 0xC);
+        *(s16 *)((s32)a1 + 0xA) = *(u16 *)(base + 2) - *(u16 *)(base - 0xA);
+        *(s16 *)((s32)a1 + 0xE) = *(u16 *)(base + 4) - *(u16 *)(base - 8);
+        *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x10) =
+            *(u16 *)(base + 6) - *(u16 *)(base - 6);
+        *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x12) =
+            *(u16 *)(base + 8) - *(u16 *)(base - 4);
+        *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x14) =
+            *(u16 *)(base + 0xA) - *(u16 *)(base - 2);
+
+        func_8001C1E4(*(void **)((s32)a1 + 0x20),
+                      *(s32 *)(*(s32 *)((s32)a1 + 0x64) + 0x20));
+    } else {
+        u16 *dst;
+        s32 i;
+
+        base2 = *(s32 *)(*(s32 *)((s32)self0 + 0x20) + 0x20);
+        if (base2 != 0) {
+            s32 row2 = a2 * 12 + base2;
+            *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x10) = *(u16 *)(row2 + 6);
+            *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x12) =
+                *(u16 *)(row2 + 8) + *(u16 *)(*(s32 *)((s32)self0 + 0x20) + 0x12);
+            *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x14) = *(u16 *)(row2 + 0xA);
+        }
+
+        *(s16 *)((s32)a1 + 0x6) = *(s32 *)(*(s32 *)((s32)a1 + 0x20) + 0x48);
+        *(s16 *)((s32)a1 + 0xA) = *(s32 *)(*(s32 *)((s32)a1 + 0x20) + 0x4C);
+        *(s16 *)((s32)a1 + 0xE) = *(s32 *)(*(s32 *)((s32)a1 + 0x20) + 0x50);
+
+        dst = (u16 *)((s32)a1 + 0xE4);
+        for (i = 0; i < 4; i++) {
+            *dst = *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x10);
+            dst++;
+            *dst = *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x12);
+            dst++;
+            *dst = *(u16 *)(*(s32 *)((s32)a1 + 0x20) + 0x14);
+            dst++;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801866C4);
 
@@ -5048,7 +5173,72 @@ void func_801873D0(void) {
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801873D8);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801873F8);
+#include "common.h"
+
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012B414(int a0);
+extern void func_80187D68(void *a0);
+
+extern void *D_801EFD70[4];
+
+void func_801873F8(void *a0)
+{
+    void *s2 = a0;
+    void *s3;
+    u16 val;
+    s32 i;
+
+    s3 = *(void **)((s32)s2 + 0xCC);
+
+    if (*(s16 *)(*(s32 *)((s32)s2 + 0x20) + 0x18) != 0) {
+        *(s16 *)(*(s32 *)((s32)s2 + 0x20) + 0x18) -= 0x400;
+        val = *(u16 *)(*(s32 *)((s32)s2 + 0x20) + 0x18);
+        *(s16 *)(*(s32 *)((s32)s2 + 0x20) + 0x1A) = val;
+        if (s3 != NULL) {
+            *(s16 *)((s32)s3 + 0x18) = val;
+            *(s16 *)((s32)s3 + 0x1A) = val;
+        }
+        for (i = 0; i < 4; i++) {
+            register void *entry __asm__("$4") = D_801EFD70[i];
+            if (entry != NULL) {
+                *(s16 *)((s32)entry + 0x18) = val;
+                *(s16 *)((s32)entry + 0x1A) = val;
+            }
+        }
+
+        if (*(s16 *)(*(s32 *)((s32)s2 + 0x20) + 0x18) != 0) {
+            goto special;
+        }
+    }
+
+    for (i = 0; i < 4; i++) {
+        if (D_801EFD70[i] != NULL) {
+            func_80016714(D_801EFD70[i], 0x38);
+        }
+    }
+    if (*(void **)((s32)s2 + 0xD0) != NULL) {
+        func_80016714(*(void **)((s32)s2 + 0xD0), 0x38);
+    }
+    if (*(void **)((s32)s2 + 0xD4) != NULL) {
+        func_80016714(*(void **)((s32)s2 + 0xD4), 0x38);
+    }
+    if (s3 != NULL) {
+        func_80016714(s3, 0x84);
+    }
+    func_8012C218(s2);
+    func_8002D4C8(4, 0x88A);
+    func_8002D4C8(4, 0x88B);
+    return;
+
+special:
+    *(s16 *)(*(s32 *)((s32)s2 + 0x20) + 0x14) =
+        *(u16 *)(*(s32 *)((s32)s2 + 0x20) + 0x14) + 0x100;
+    func_8012B414((s32)s2);
+    func_80187D68(s2);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80187574);
 
@@ -5093,7 +5283,102 @@ void func_80187698(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801876A0);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018778C);
+#include "common.h"
+
+typedef struct { s16 x, y, z, w; } Vec4S16_8018778C;
+
+extern s32 func_8012B70C(s16 *a0, s16 *a1);
+extern s32 func_80187940(s32 arg0, s32 arg1, s32 arg2, s16 arg3);
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+
+/* func_8018778C — ov_SC04_011, 109 ins, MATCH.
+ *
+ * Residual class cracked on the 2nd pass: "header-load-chain-schedule-intrinsic" was NOT
+ * intrinsic — it was two sched1 LUID/birthing-boost artifacts introduced by the draft's own
+ * scaffolding (gcc-2.7.2-map/sched.md §S1 + §S2):
+ *
+ *  1. NO explicit `c140`/`c40` locals and NO hoisted `i = 0;` before the loop.  Writing the
+ *     -0x140 / -0x40 constants INLINE in the loop body and using a plain `for (i = 0; ...)`
+ *     lets loop.c hoist the constant loads into the preheader, which puts their LUIDs AFTER
+ *     the call's arg setup.  Only then do `addiu $a0,$sp,0x10` / `addiu $a1,$sp,0x18` win the
+ *     LUID tie-break and land early (target idx 12/14) as the fillers of the FIRST P-chain's
+ *     load-delay slots — instead of sinking next to the jal.  Explicit early locals for those
+ *     constants (the 1st-pass draft) forced the opposite order and cost 22 instructions.
+ *     This is also what fixes the global temps' register choice ($v1/$a2/$v0, not $v1/$a1/$v0).
+ *
+ *  2. HEADER STATEMENT ORDER is the schedule (§S1): the three self-position reads come FIRST,
+ *     in field order, and only then the three target-position globals in x,y,z order.  A 120-way
+ *     sweep over every A-vs-B interleaving x every v18 field order has exactly ONE zero-diff
+ *     point — this one; the next best (v18 written x,z,y) is 2 off, and ANY interleaving that
+ *     puts a v18 store before v10.z is >= 20 off.
+ *
+ * Note the two 1st-pass levers that are NOT needed once the above is right: the loop body writes
+ * v18 before v10 per call (kept), but the struct stays s16-typed (u16 would emit `ori` for
+ * -0x280), and no register pins / pointer locals are involved at all — an early `s16 *p1 = &v18`
+ * gets the birthing boost (REG_N_SETS==1) and sinks right back to the call.
+ */
+void func_8018778C(void *a0)
+{
+    Vec4S16_8018778C v10;
+    Vec4S16_8018778C v18;
+    s32 i;
+    s16 ang;
+
+    v10.x = *(s32 *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x48);
+    v10.y = *(s32 *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x4C);
+    v10.z = *(s32 *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x50);
+    v18.x = D_80126B5E;
+    v18.y = D_80126B62;
+    v18.z = D_80126B66;
+
+    ang = func_8012B70C((s16 *)&v10, (s16 *)&v18) & 0xFFF;
+
+    for (i = 0; i < 3; i++) {
+        s16 x = (i << 6) - 0x40;
+        v18.x = x;
+        v10.x = x;
+        v10.z = -0x140;
+        v18.z = 0;
+        v18.y = -0x40;
+        v10.y = -0x40;
+        if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
+            return;
+        }
+
+        v18.y = 0;
+        v10.y = 0;
+        if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
+            return;
+        }
+
+        v18.y = 0x40;
+        v10.y = 0x40;
+        if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
+            return;
+        }
+
+        v10.z = -0x280;
+        v18.z = -0x140;
+        if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
+            return;
+        }
+
+        v18.y = 0;
+        v10.y = 0;
+        if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
+            return;
+        }
+
+        v18.y = -0x40;
+        v10.y = -0x40;
+        if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
+            return;
+        }
+    }
+}
+
 
 #include "common.h"
 
