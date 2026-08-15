@@ -81,13 +81,53 @@ def sha():
     return r.stdout.split()[0] if r.returncode == 0 and r.stdout else None
 
 def resolve_conflicts(slate):
-    kept, dropped, seen = [], [], {}
+    """Drop drafts whose externs contradict (a) the destination TU's OWN existing declarations,
+    or (b) an earlier draft landing in the SAME file.
+
+    Two defects fixed here after the S52 recovery pass (both cost verified-correct drafts):
+
+    (a) THE TABLE STARTED EMPTY. Only draft-vs-draft was compared, so a draft contradicting a
+        declaration ALREADY IN the .c sailed through to the rebuild and only surfaced as a
+        compile error + bisect. Real case: src/800.c carries `extern void func_8001C9D0(void);`
+        (from banked func_8001C2C4) while three wave-J drafts declared it (s32) / (void *).
+        The TU is the arbiter (wave law 2) -- so the TU seeds the table.
+    (b) ONE NAMESPACE FOR ALL FILES. `seen` was global across the slate, so two drafts landing in
+        DIFFERENT .c files could not legally disagree about a symbol -- but they can; separate
+        TUs are separate namespaces. Now keyed per destination file (R39: a refusal check that
+        discards good work is worse than one that lets a failure through).
+
+    Recovery for a real (a)-class drop is the call-site cast: adopt the TU's declaration verbatim
+    and cast at the use site -- including through a function pointer when the TU's prototype takes
+    no argument and your call passes one:  ((void (*)(s32))func_8001C9D0)(a0)  (byte-identical;
+    verified on all 3 of the above)."""
+    stubs = {st.symbol: st for st in corpus.stubs('main').values()}
+    kept, dropped = [], []
+    seen_by_file, from_tu = {}, {}
+
+    def table(path):
+        if path not in seen_by_file:
+            t = {}
+            try:
+                for d in DECL.findall(open(path).read()):
+                    s = sym_of(d)
+                    if s: t[s] = typesig(d)
+            except OSError:
+                pass
+            seen_by_file[path] = t
+            from_tu[path] = set(t)          # so the report can say WHO it clashed with
+        return seen_by_file[path]
+
     for e in slate:
+        st = stubs.get(e['fn'])
+        path = st.path if st else '<unknown>'
+        seen = table(path)
         ds = [(sym_of(d), typesig(d)) for d in DECL.findall(open(e['draft']).read())]
         ds = [(s, t) for s, t in ds if s]
         clash = [(s, seen[s], t) for s, t in ds if s in seen and seen[s] != t]
         if clash:
-            dropped.append({'fn': e['fn'], 'symbol': clash[0][0],
+            sym = clash[0][0]
+            dropped.append({'fn': e['fn'], 'symbol': sym, 'file': path,
+                            'against': 'the TU itself' if sym in from_tu.get(path, ()) else 'an earlier draft',
                             'kept': str(clash[0][1]), 'this': str(clash[0][2])})
             continue
         for s, t in ds: seen[s] = t
@@ -175,7 +215,8 @@ def main():
     kept, dropped = resolve_conflicts(slate)
     print(f"slate {len(slate)} -> {len(kept)} compatible, {len(dropped)} dropped for in-TU decl conflict")
     for d in dropped:
-        print(f"  DROP {d['fn']}: {d['symbol']}  kept={d['kept']}  this={d['this']}")
+        print(f"  DROP {d['fn']}: {d['symbol']} clashes with {d.get('against','?')} "
+              f"in {d.get('file','?')}  kept={d['kept']}  this={d['this']}")
     if dropped:
         print("  (dropped drafts are usually CORRECT -- recover with a cast-at-use: adopt the")
         print("   other declaration verbatim and adapt at the use site, e.g. (&D_x)[i].)")
