@@ -27,7 +27,17 @@ void func_800CAE78(void *a0) {
 
 INCLUDE_ASM("asm/md_MAIN_014/nonmatchings/md_MAIN_014", func_800CAEB0);
 
-INCLUDE_ASM("asm/md_MAIN_014/nonmatchings/md_MAIN_014", func_800CAF20);
+#include "common.h"
+
+extern s32 D_80078EC8;
+extern void func_80165A20(void);
+
+void func_800CAF20(void) {
+    if (D_80078EC8 == 0) {
+        func_80165A20();
+    }
+}
+
 
 void func_800CAF4C(void) {
 }
