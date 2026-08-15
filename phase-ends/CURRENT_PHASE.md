@@ -57,6 +57,15 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 - 2026-08-14 — **T9 COMPLETE.** `tools/warmstart.py` (the permuter/grinder FEEDER): `--from-banked` walks a banked exemplar's h_seq family's still-open members, builds remapped proven-body drafts (`symbol_map` + `aprop_autodraft.build_draft`, refusing on reloc-count mismatch), **stream-classifies member-vs-seed with ZERO compiles** (masked_diff-shaped dicts from ground-truth bytes → `residual_class.classify_streams`), enqueues ONLY permuter-shaped (bucket==permuter or LENGTH-DRIFT |Δ|≤2) as backlog near-records; `--lenmiss` ingests T8's 49-route. **Grinder patch NOT needed** (its candidates() deliberately keeps unclassified records — "unknown is not a reason to skip" — so pre-filtered enqueues flow as-is; documented in the feeder's docstring). Armed live: **49 + 10 enqueued, 120 refused** by the stream filter (the anti-92%-wasted-CPU discipline working). `family_cousins --weak-cards`: **954 units** (the 0.70–0.85 annotate-only band, never before consumed) as seeded-crack cards, ins-ranked, §168 laws embedded, model-routed **haiku 804 / v3 43 / sonnet 86 / opus 21** (cheap tiers dominate — the token-efficiency shape), 0 unresolved `.s`.
 
+## Campaign velocity ledger (T10+)
+
+| wave | lane | cards | standalone MATCH | banked | tokens | tok/bank | lesson banked |
+|---|---|--:|--:|--:|--:|--:|---|
+| A | adapt SMALL-EDIT | 24 | 18 (75%) | **12** (+1 prop) | ~1.40M | **~117k** | zero stale seed-symbols (the §171 prompt-law works); 6 gate-fails all INTEGRATION shapes (3× decl-type vs TU, 1 arity, 2 TU-context DIFF) → wave-B prompt adds match-the-TU's-existing-decl |
+| grinder-1 | permuter | 10 | — | 0 | $0 | — | func_800CB4CC parked at best-1 (warmstart seed); queue enriched +59+6 records since |
+
+- 2026-08-14 — **CAMPAIGN OPEN (T10+, Ultracode).** Wave A: 24 adapt cards → 18/24 standalone (75%) → symfix-first (0 stale — the prompt-law worked) → gate **12 banked + 1 propagation** (~117k tok/bank e2e; stubs → 12,030). 6 NEARs (3 at close ≤3) enqueued to the grinder. Wave B (48 cards, all haiku, 29 binaries) launched with the decl-matching lesson. Grinder pass 1: 0/10 but func_800CB4CC at best-1.
+
 ## Blockers
 (none)
 
