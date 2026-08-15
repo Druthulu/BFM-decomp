@@ -3768,7 +3768,16 @@ void func_80188B9C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_80188D54);
+extern void func_8012E8A8(u8*);
+
+void func_80188D54(void *a0)
+{
+    ((void (*)(void *))func_8012E8A8)(a0);
+    *(u32 *)(a0 + 0x1C) = 0xA;
+    *(u16 *)(a0 + 0x5C) = 0;
+    *(u16 *)(a0 + 0x2) = 0xA;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_80188D90);
 
