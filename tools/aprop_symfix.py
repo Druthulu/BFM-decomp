@@ -229,7 +229,18 @@ def main():
                 ok = False
                 break
             tags.append(f"{old}->{new}")
-            deltas[int(new[-8:], 16) - int(old[-8:], 16)] += 1
+            # The delta histogram only means anything for hex-suffixed auto-names
+            # (func_XXXXXXXX / D_XXXXXXXX). A CURATED name — a PsyQ symbol like Square0 or
+            # RotMatrixY, or any hand-named symbol — has no address in its text, and the old
+            # unconditional int(...,16) raised ValueError and took the WHOLE batch down with it
+            # (P31 wave F: one `Square0` callee aborted a 55-draft audit). Such a pair is a plain
+            # 1:1 rename, which the re.subn above has already performed; it just doesn't
+            # contribute to the delta stats. R32: never let one unparseable pair answer for the
+            # batch — count it and carry on.
+            try:
+                deltas[int(new[-8:], 16) - int(old[-8:], 16)] += 1
+            except ValueError:
+                deltas['named-1:1'] += 1
         if not ok:
             continue
         d = os.path.join(a.outdir, x['fn'])
@@ -240,7 +251,8 @@ def main():
                           rebased=", ".join(tags), subs=len(tags)))
     json.dump(slate, open(a.out_slate, 'w'), indent=1)
     print(f"\nrebased {len(slate)}/{cls['STALE'] + cls['STALE-DELTA']} STALE(-DELTA) drafts -> {a.outdir}")
-    print(f"seed->target vram deltas: {[(hex(k), v) for k, v in deltas.items()]}")
+    print("seed->target vram deltas: "
+          f"{[(hex(k) if isinstance(k, int) else k, v) for k, v in deltas.items()]}")
     print(f"gateable slate: {a.out_slate}")
 
 
