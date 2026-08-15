@@ -3851,7 +3851,15 @@ DEFINE_func_80182704()  /* dedup: shared engine-core @0x80182704 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80182714);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018276C);
+#include "common.h"
+
+void func_8018276C(s32 a0) {
+    s32 v1 = *(s32 *)(a0 + 0xCC);
+    *(s16 *)(v1 + 0x8) = *(u16 *)(a0 + 0x6) - 8;
+    *(s16 *)(v1 + 0xA) = *(u16 *)(a0 + 0xA) - 0xE8;
+    *(s16 *)(v1 + 0xC) = *(u16 *)(a0 + 0xE) + 2;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801827A0);
 
