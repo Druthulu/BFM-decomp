@@ -3806,7 +3806,16 @@ void func_8017FD48(unsigned short *param_1, short *param_2, short *param_3,
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017FED4);
+extern int func_8017FF08(short*, int, int);
+
+s32 func_8017FED4(void) {
+    s32 v1 = ((s32 (*)(void))func_8017FF08)();
+    if (v1 != 0) {
+        *(s16 *)(v1 + 0x32) = 1;
+    }
+    return v1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017FF08);
 
