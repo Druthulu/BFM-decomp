@@ -16797,6 +16797,45 @@ compile standalone, so N drafts bring N independent `extern` sets into one TU:
 costs a full clean rebuild per step (a 41-draft bisect ran 28 minutes producing nothing) while the
 compiler had already printed the symbol and line. Read the error first.
 
+## §176d — THE CONFLICT TABLE MUST BE SEEDED FROM THE TU, AND KEYED PER FILE (P31 S52, 2026-08-15)
+
+§176b's batch rule was right but **under-scoped**: it made drafts agree with *each other* and
+forgot the file they land in. Recovering the 11 conflict-dropped main drafts from waves J/K/L
+exposed both halves of the mistake, and the second one is the expensive one.
+
+**(a) Seed the symbol table from the DESTINATION TU, not from nothing.** A draft can contradict a
+declaration that is *already in the .c* — put there by a function banked three waves ago. Draft-vs-
+draft comparison is blind to it, so the contradiction sails past the checker and surfaces only as a
+compile error plus a bisect. Real case: `src/800.c` has carried `extern void func_8001C9D0(void);`
+since `func_8001C2C4` banked, while three wave-J drafts declared the same callee `(s32)` and
+`(void *)`. On the 11-draft recovery slate the TU-seeded check named **7 real conflicts the old
+check missed entirely** — and it found them *iteratively*: fixing one draft reveals the next
+clash behind it, so re-run the dry run until it reports `N -> N compatible, 0 dropped`.
+
+**(b) Key the table PER DESTINATION FILE.** A single slate-wide namespace makes two drafts landing
+in *different* `.c` files illegally "conflict" over a symbol they are each entitled to declare
+their own way. Separate TUs are separate namespaces (R39: over-refusal silently discards good work,
+which is worse than letting a failure through to the gate that would catch it).
+
+**The recovery lever, extended — cast the CALLEE through a function pointer.** §176b/§174-Law-4
+covers adopting the TU's declaration for *data* and for *your own* parameters. The case they don't
+cover: the TU prototypes a callee as taking **no argument** while your function must pass one. You
+cannot pass an argument to a `(void)` prototype, and you must not change the TU's declaration
+(other banked functions depend on it). Cast the function itself at the call site:
+
+```c
+extern void func_8001C9D0(void);              /* the TU's declaration, verbatim */
+...
+((void (*)(s32))func_8001C9D0)(a0);           /* the call the target actually makes */
+```
+
+gcc-2.7.2 emits the identical `jal` with `$a0` set — a direct call to a named symbol is unaffected
+by the cast. **All 11 recovered drafts re-verified MATCH after repair**, across every variant used:
+this function-pointer cast (×3), a pointer-type cast on an argument (`(unsigned long *)`), signed↔
+unsigned data re-declaration (`u16`/`s8`, ×3), and array↔scalar (`extern u8 D_x;` + `(u32)&D_x`, ×3).
+Zero of the eleven needed a codegen change — **every one of them was a plumbing repair**, which is
+the standing P31 finding (`matching-is-solved-integration-is-the-bottleneck`) showing up once more.
+
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
 main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the
