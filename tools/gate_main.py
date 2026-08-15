@@ -51,11 +51,20 @@ def sym_of(d):
 
 def typesig(d):
     """Type signature only. Parameter NAMES do not affect C compatibility (R39: comparing them
-    dropped 2 good drafts before I fixed it)."""
+    dropped 2 good drafts before I fixed it) -- but the DECLARATOR SUFFIX absolutely does.
+
+    `u8 D_x` and `u8 D_x[]` are INCOMPATIBLE; an earlier version of this function split on the
+    symbol and kept only the prefix, so both reduced to ('u8', None) and a real conflict slipped
+    through into the build (wave K, D_80078D98: one draft scalar, two array -> compile error
+    AFTER the batch had reported BYTE-IDENTICAL). Too-coarse and too-strict are both defects."""
     d = ' '.join(d.split()); sym = sym_of(d) or ''
     m = re.search(r'\((.*)\)\s*$', d)
     ret = d.split(sym)[0].strip() if sym and sym in d else d
-    if not m: return (ret, None)
+    if not m:
+        # data decl: keep the declarator suffix ('' vs '[]' vs '[N]' -> normalized to '[]')
+        tail = d.split(sym, 1)[1].strip() if sym and sym in d else ''
+        tail = '[]' if tail.startswith('[') else tail
+        return (ret, tail)
     params = tuple(' '.join(t for t in re.findall(r'[A-Za-z_]\w*|\*', p) if t in TYPES or t == '*')
                    for p in m.group(1).split(','))
     return (ret, params)
