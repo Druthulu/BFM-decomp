@@ -69,5 +69,19 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 ## Blockers
 (none)
 
-## 🛑 SESSION CHECKPOINT (refreshed 2026-08-14, end of the build arc)
+## 🛑 SESSION CHECKPOINT (FINAL for this session, 2026-08-14 — campaign mid-flight, resume in a fresh session)
+
+**Phase 31 CONTINUES (campaign-to-ceiling; do NOT close).** Session totals: **65 banked** (17 mechanical @$0 + wave A 12+1prop @~117k tok/bank + wave B **35/37 gated, 95% conversion** @~88k tok/bank — the decl-matching lesson nearly eliminated integration failures). Stubs ≈ **11,995** (from 12,059). All banks byte-gated + committed; wave banks propagated where sharers existed.
+
+**RESUME STEPS (fresh session, after the standard load order):**
+1. `git log --oneline -20` to see the wave-B bank commits; run **R22** (`make clean && make extract-all && make check-all` → expect 213/213) — it was NOT run after wave B (context ran out; the per-bank gates each verified their own binary, but the standing clean-fleet proof is owed FIRST).
+2. `make atlas` (regenerates maps + atlas post-banks, ~15 min, $0).
+3. **Wave C is STAGED, not launched**: `.run/wave_p31c_cards.json` (14 §172b tell-cards [sonnet] + 24 weak-seed haiku cards — measures the two untested agent lanes). Launch via the persisted workflow script `workflows/scripts/p31-adapt-wave-a-wf_2fbef223-859.js` pattern (args = the cards; NOTE the tell/weak cards have different fields than adapt cards — adapt the prompt per lane or write a v2 script). Needs `/effort ultracode` (R27).
+4. Adapt pile remains ~630 SMALL-EDIT cards — the proven 73-95% lane; wave D+ = next 48 by the same selection (exclude banked; see `.run/wave_p31{a,b}_cards.json` for taken).
+5. Grinder queue armed: 59 warmstart + 6 wave-A NEARs + 8 wave-B NEARs (4 at close ≤3). Relaunch: `GATE_PHASE=phase-31 .venv/bin/python tools/grinder.py --once --batch 15 …` (single-writer: never while a gate runs).
+6. Ledger discipline: velocity row per wave (the table above); distill lessons per R16/R30; close the phase ONLY on measured multi-session yield decay (plan file §Leg-C).
+
+**Watch-fors:** gate_lane aborts on dirty src/config (clean first); symfix-first before every gate (§173); the safety-classifier can rate-limit under 48-agent bursts (harmless — retry).
+
+## (superseded) previous checkpoint (end of build arc)
 **T0–T9 ALL COMPLETE AND COMMITTED** (through `commit:2181`). Phase totals: **17 banked, 0 agent tokens**; stubs 12,059 → 12,042; R22 213/213 verified twice (post-T1, post-T6). The machine: the Atlas (5,139 groups, `make atlas`), the widened lanes (symfix STALE-DELTA, recover_integration isolation + macro-externs/tu-scope, family_align + len_tells + lenmiss routing), the armed queues (grinder: 59 warmstart records; cards: 954 weak + 192 len + 704 adapt; permuter-49). NEXT = **T10+ the campaign loop**: L3 grinder running in background (launched at checkpoint time); **card/crack WAVES need Drew's `/effort ultracode` toggle first (R27)** — prompt and WAIT. Campaign cadence + close criterion: the plan file §Leg-C. If resuming fresh: read the approved plan + this log; check `.run/auto/grinder_heartbeat.json`; run `make atlas` to refresh; continue the loop.
