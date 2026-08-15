@@ -3825,7 +3825,7 @@ DEFINE_func_8018918C()  /* dedup: shared engine-core @0x8018918C (src/shared) */
 
 // @class: struct
 // @stuck: none — MATCH expected; param_1 survives jal in $s0, table fp-call with %lo-fold
-extern void func_801891E8(u8 *a0);
+extern void func_801891E8();
 extern void (*D_80191BD4[])(int);
 
 void func_8018919C(int param_1)
@@ -3835,7 +3835,22 @@ void func_8018919C(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_801891E8);
+extern void func_80129350(s32 *a0, s32 a1);
+extern void func_80133060(s32 *a0, s32 a1, s32 a2);
+
+void func_801891E8(s32 *a0) {
+    s32 *s0;
+    s32 a1;
+
+    s0 = a0;
+    a1 = *(s32 *)((u8 *)s0 + 0x34);
+    func_80129350(s0, a1);
+
+    a1 = (s32)((u8 *)s0 + 0x4);
+    *(s16 *)((u8 *)s0 + 0xA) = *(u16 *)((u8 *)s0 + 0xA) + *(u16 *)((u8 *)s0 + 0x2C);
+    func_80133060((s32 *)((u8 *)s0 + 0x4), a1, -0x180);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80189238);
 

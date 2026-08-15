@@ -6537,7 +6537,7 @@
     }
 
 #define DEFINE_func_8018919C() \
-    extern void func_801891E8(u8 *a0); \
+    extern void func_801891E8(); \
     extern void (*D_80191BD4[])(int); \
     void func_8018919C(int param_1) \
     { \
@@ -96382,7 +96382,7 @@
     }
 
 #define DEFINE_func_8018919C() \
-    extern void func_801891E8(u8 *a0); \
+    extern void func_801891E8(); \
     extern void (*D_80191BD4[])(int); \
     void func_8018919C(int param_1) \
     { \
