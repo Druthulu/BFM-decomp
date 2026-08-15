@@ -60920,6 +60920,29 @@
         } \
     }
 
+#define DEFINE_func_80183604() \
+    extern s32 func_8012BD14(s32 a0); \
+    extern s32 func_80178BF8(); \
+    extern void func_80172710(void); \
+    s32 func_80183604(s32 param_1) { \
+        register s32 obj __asm__("$16") = param_1; \
+        s32 ptr; \
+        s32 ptr2; \
+        s32 result; \
+        ptr = *(s32 *)((char *)obj + 0x64); \
+        if (*(u16 *)((char *)ptr + 0x2) != 6) { \
+            return 0; \
+        } \
+        result = func_8012BD14(ptr); \
+        if (result >= 0x2401) { \
+            return 0; \
+        } \
+        ptr2 = *(s32 *)((char *)obj + 0x64); \
+        *(u16 *)((char *)ptr2 + 0x2) = 0xB; \
+        func_80178BF8(); \
+        return (s32)func_80172710; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -151243,6 +151266,29 @@
             func_8012E88C((s32)s0); \
             func_8012A828((s32 *)s0, (s32)&D_801B99A8); \
         } \
+    }
+
+#define DEFINE_func_80183604() \
+    extern s32 func_8012BD14(s32 a0); \
+    extern s32 func_80178BF8(); \
+    extern void func_80172710(void); \
+    s32 func_80183604(s32 param_1) { \
+        register s32 obj __asm__("$16") = param_1; \
+        s32 ptr; \
+        s32 ptr2; \
+        s32 result; \
+        ptr = *(s32 *)((char *)obj + 0x64); \
+        if (*(u16 *)((char *)ptr + 0x2) != 6) { \
+            return 0; \
+        } \
+        result = func_8012BD14(ptr); \
+        if (result >= 0x2401) { \
+            return 0; \
+        } \
+        ptr2 = *(s32 *)((char *)obj + 0x64); \
+        *(u16 *)((char *)ptr2 + 0x2) = 0xB; \
+        func_80178BF8(); \
+        return (s32)func_80172710; \
     }
 
 #endif

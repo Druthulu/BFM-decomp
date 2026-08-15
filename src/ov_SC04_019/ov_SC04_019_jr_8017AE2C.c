@@ -6612,7 +6612,7 @@ void func_80183538(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80183578);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80183604);
+DEFINE_func_80183604()  /* dedup: shared engine-core @0x80183604 (src/shared) */
 
 
 
