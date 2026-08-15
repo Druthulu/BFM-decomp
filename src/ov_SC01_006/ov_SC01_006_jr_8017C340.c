@@ -3368,7 +3368,7 @@ s16 func_8017DA9C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017C340", func_8017DAAC);
+DEFINE_func_8017DAAC()  /* dedup: shared engine-core @0x8017DAAC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017C340", func_8017DB00);
 

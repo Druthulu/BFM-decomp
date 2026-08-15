@@ -60550,6 +60550,29 @@
         *(s16 *)(a0 + 0xFC) = 0x80; \
     }
 
+#define DEFINE_func_8017DAAC() \
+    extern void func_8017DB50(void); \
+    extern u8 D_800B9A15; \
+    extern unsigned char D_800B9A13; \
+    extern u16 D_80115110; \
+    extern u16 D_80115112; \
+    extern s16 D_80115126; \
+    extern s16 D_801CD878; \
+    extern void *D_8011DB24; \
+    s32 func_8017DAAC(s32 a0, s32 a1) \
+    { \
+        void *func_ptr; \
+        D_800B9A15 = 1; \
+        D_800B9A13 = 4; \
+        D_80115110 = 3; \
+        func_ptr = func_8017DB50; \
+        D_80115112 = 0; \
+        D_80115126 = (s16)a0; \
+        D_801CD878 = (s16)a1; \
+        D_8011DB24 = func_ptr; \
+        return (s32)func_ptr; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -150503,6 +150526,29 @@
         func_8012E8E0(a0, (s32)&D_801E04F8); \
         *(s16 *)(a0 + 0xFE) = 0; \
         *(s16 *)(a0 + 0xFC) = 0x80; \
+    }
+
+#define DEFINE_func_8017DAAC() \
+    extern void func_8017DB50(void); \
+    extern u8 D_800B9A15; \
+    extern unsigned char D_800B9A13; \
+    extern u16 D_80115110; \
+    extern u16 D_80115112; \
+    extern s16 D_80115126; \
+    extern s16 D_801CD878; \
+    extern void *D_8011DB24; \
+    s32 func_8017DAAC(s32 a0, s32 a1) \
+    { \
+        void *func_ptr; \
+        D_800B9A15 = 1; \
+        D_800B9A13 = 4; \
+        D_80115110 = 3; \
+        func_ptr = func_8017DB50; \
+        D_80115112 = 0; \
+        D_80115126 = (s16)a0; \
+        D_801CD878 = (s16)a1; \
+        D_8011DB24 = func_ptr; \
+        return (s32)func_ptr; \
     }
 
 #endif
