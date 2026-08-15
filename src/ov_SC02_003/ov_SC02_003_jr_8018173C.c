@@ -3470,7 +3470,7 @@ extern void func_8012C218(void*);
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_801884B8);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_801884FC);
+DEFINE_func_801884FC()  /* dedup: shared engine-core @0x801884FC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80188680);
 
