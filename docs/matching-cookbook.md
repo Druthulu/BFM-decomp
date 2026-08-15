@@ -16705,3 +16705,28 @@ leave a lingering wrapper process that fools a bare pgrep (check the log's "once
 The safety classifier can rate-limit under ~48-agent bursts — one agent lost its match_one run
 to that (report it unverified; the gate arbitrates anyway). Wave NEARs carry named classes —
 enqueue close≤3 drafts straight to the grinder queue as warmstart records.
+
+## §175 — A CALLER-SAVED REGISTER PIN CAN BE A CORRECTNESS BUG, NOT JUST A SCHEDULING CHOICE (P31 wave H, 2026-08-15)
+
+`register T x __asm__("$2")` (or `$3`, or any **caller-saved** register) is not a hint — it forces
+literal hard-register semantics. If the pinned value is **written before a call and read after
+it**, gcc-2.7.2 is entitled to treat the pre-call store as **dead across the call**, because the
+callee may clobber $v0/$v1. It then *silently deletes the store* and the post-call read gets
+garbage. Nothing warns you; the draft just comes out one instruction short and the diff never
+converges no matter how you shuffle statements.
+
+**Byte-witnessed:** `func_80182EB0` (ov_SC02_005). A first-pass draft pinned `register s32 v0
+__asm__("$2")`, set `v0 = -1` before `func_8012AD44(...)`, and stored it after. gcc dropped the
+`addiu $v0, $zero, -1` entirely — **mine 49 ins vs target 50**, 25 mismatched, and the agent
+stalled there. The fix was not a better pin: **drop the pin** (plain `s32` pseudo) and remove the
+cross-call live range at the C level — store the constant directly *before* the call
+(`*(s16*)(s0+0xAE) = -1;`). Instruction recovered, 19 of 25 mismatches closed in one step.
+
+**The rule.** Before pinning to a caller-saved register ($v0/$v1/$a0-$a3/$t0-$t9), check that the
+value has **no live range crossing a `jal`**. If it does, either pin a **callee-saved** register
+($s0-$s7 — the §17 call-crossing lever, which is safe precisely because the callee must preserve
+it) or restructure the C so the value never crosses the call. A count mismatch of exactly one
+instruction, on a draft carrying a caller-saved pin, is this bug until proven otherwise.
+
+**Why the gate doesn't save you cheaply:** the draft is *wrong code*, not merely unmatched, so it
+fails standalone too — you pay a full diagnosis cycle. This is prevention, like §174's laws.
