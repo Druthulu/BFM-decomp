@@ -4455,7 +4455,7 @@ void func_8017DAC4(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017DBDC);
+DEFINE_func_8017DBDC()  /* dedup: shared engine-core @0x8017DBDC (src/shared) */
 
 
 // @class: regalloc-order

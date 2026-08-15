@@ -4450,15 +4450,7 @@ void func_8017DAC4(void *arg0)
 
 #include "common.h"
 
-extern void func_8013CB84(void);
-extern void func_8017DC0C(void);
-extern void func_800D06E8(void);
-
-void func_8017DBDC(void) {
-    func_8013CB84();
-    func_8017DC0C();
-    func_800D06E8();
-}
+DEFINE_func_8017DBDC()  /* dedup: shared engine-core @0x8017DBDC (src/shared) */
 
 
 
