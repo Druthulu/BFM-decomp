@@ -8029,7 +8029,21 @@ INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801867A
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80186828);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80186890);
+#include "common.h"
+
+extern void func_8012E8E0(s32, s32);
+extern void func_80187750(s32);
+extern void func_8012A828(s32, s32);
+extern s32 D_80192A64;
+extern s32 D_801C3C90;
+
+void func_80186890(s32 a0) {
+    *(s16 *)(a0 + 2) = 4;
+    func_8012E8E0(a0, (s32)&D_80192A64);
+    func_80187750(a0);
+    func_8012A828(a0, (s32)&D_801C3C90);
+}
+
 
 
 extern void (*D_80192AE8[])(void);
