@@ -16893,6 +16893,37 @@ The probe was still worth it — the reloc filter was a genuinely new discrimina
 the A10 rate?" was unanswered — but the *prior* should have been ~8%, not the optimistic read I
 started with.
 
+## §176f — THE DECLARATION FORM IS A MATCHING LEVER, SO RECONCILE TOWARD THE FORM THE MATCH NEEDS (P31 S52)
+
+§176b/§176d treat an in-TU declaration conflict as *plumbing*: pick one form, cast at the use site,
+move on. Wave O found the case where that advice is actively wrong.
+
+Six drafts in one TU referenced `D_80078D88`. Three declared it `extern s32 D_80078D88;`, three
+`extern s32 D_80078D88[];` — and one of those drafts carried a comment explaining exactly why:
+
+> with `extern s32 D_80078D88;` the global load is a plain scalar at a `symbol_ref`, so **sched1
+> hoisted the `lui/lw` above the `pkt->uv3` store**; declaring it as an ARRAY makes gcc-2.7.2's
+> `alias.c` treat the access as possibly-aliasing and the hoist stops.
+
+**So the declaration form is load-bearing codegen, not style.** Resolve such a conflict by asking
+which form the MATCHES need, then converting the other drafts toward it:
+
+- array is the *stronger* form — it constrains gcc more, so scalar users can adopt it for free by
+  indexing `D_x[0]` (identical bytes: verified on all three here);
+- the reverse is NOT free — forcing an array user to scalar can re-enable the hoist and break it.
+
+Result: **42/42 drafts compatible, 0 dropped**, where the greedy keep-first rule would have dropped
+5. Every one re-verified MATCH after conversion. Wave J/K/L each lost 5–10 drafts to this rule, and
+those were logged as "recoverable with cast-at-use" — for a *scalar/array* clash the right repair is
+usually not a cast at all, it is **converting the whole TU to the array form**.
+
+**Procedure (do this before every batch gate):**
+1. dry-run the gate; for each conflict, grep which drafts declare which form and *why*;
+2. reconcile toward the form the matches need (array > scalar; the TU's own decl wins over both);
+3. re-verify EVERY converted draft with `match_one` — the conversion is a codegen change, so it is
+   only free if the bytes say so;
+4. re-run the dry run until it reports `N -> N compatible, 0 dropped`.
+
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
 main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the
