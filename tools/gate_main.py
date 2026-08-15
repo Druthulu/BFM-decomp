@@ -94,6 +94,31 @@ def resolve_conflicts(slate):
         kept.append(e)
     return kept, dropped
 
+TYPEDEF_BLOCK = re.compile(
+    r'^[ \t]*typedef\s+(?:struct|union|enum)?[^;{]*\{[^{}]*\}\s*(\w+)\s*;[ \t]*\n', re.M)
+TYPEDEF_PLAIN = re.compile(r'^[ \t]*typedef\s+[\w\s\*]+?\s(\w+)\s*;[ \t]*\n', re.M)
+
+def strip_dup_typedefs(body, already):
+    """Drop typedefs the destination TU (or an earlier body in this batch) already defines.
+
+    Each draft is written to compile STANDALONE, so it carries its own `typedef struct {...}
+    SVECTOR;`. Once one such function is banked, that typedef lives in the .c forever and every
+    later draft defining its own collides -- a C89 duplicate-typedef error, not a byte miss.
+    `harvest_verify` already does this; wave L lost a verified-correct draft because this tool
+    did not. Returns (body, names_defined_now)."""
+    defined = set()
+    for pat in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
+        out, pos = [], 0
+        for m in pat.finditer(body):
+            name = m.group(1)
+            if name in already:
+                out.append(body[pos:m.start()]); pos = m.end()   # drop the duplicate
+            else:
+                defined.add(name)
+        out.append(body[pos:])
+        body = ''.join(out)
+    return body, defined
+
 def substitute(entries):
     """Replace each INCLUDE_ASM stub line with its draft body. Returns count."""
     stubs = {st.symbol: st for st in corpus.stubs('main').values()}
@@ -104,9 +129,13 @@ def substitute(entries):
     n = 0
     for path, items in byfile.items():
         t = open(path).read()
+        # names the destination file already defines, plus anything a shared header provides
+        seen = set(TYPEDEF_BLOCK.findall(t)) | set(TYPEDEF_PLAIN.findall(t))
         for fn, asmdir, draft in items:
             body = "\n".join(l for l in open(draft).read().splitlines()
                              if not l.strip().startswith('#include'))
+            body, newly = strip_dup_typedefs(body, seen)
+            seen |= newly
             old = f'INCLUDE_ASM("{asmdir}", {fn});'
             if old in t:
                 t = t.replace(old, body); n += 1
