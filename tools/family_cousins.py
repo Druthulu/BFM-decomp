@@ -513,6 +513,46 @@ def emit_adapt_cards():
 APROP_JSON = ".run/aprop_cards.json"
 
 
+def emit_weak_cards():
+    """P31 T9 — seeded-crack cards for the 0.70–0.85 WEAK-seed units (§168's annotate-only band,
+    recorded since S49 and never consumed). A weak seed is a HINT, not an edit basis: the card
+    hands an agent the head member + the weak seed's body ref + the honest limits (short-fn sims
+    inflate — discount below ~40 ins; a weak-seeded crack is a CRACK, priced at crack-wave rates).
+    Ranked by unit open-ins weight (§168 law 2). -> .run/weak_cards.json"""
+    data = json.load(open(OUT_JSON))
+    cards = []
+    for u in data["units"]:
+        if not u.get("weak_seed") or not u.get("seed_ref"):
+            continue
+        def _A(x):
+            return x if isinstance(x, int) else int(str(x), 16)
+        skels = sorted(u["skels"], key=lambda s: -(s["mem"] * s["nins"]))
+        head = dict(skels[0])
+        head["a"] = _A(head["a"])
+        sub = resolve_asm(head["b"], head["a"])
+        sb, sa, sn = u["seed_ref"]
+        sa = _A(sa)
+        nins = head["nins"]
+        model = "v3" if nins <= 15 else ("haiku" if nins <= 50 else
+                                         "sonnet" if nins <= 120 else "opus")
+        cards.append({
+            "fn": f"func_{head['a']:08X}", "binary": head["b"], "addr": f"0x{head['a']:08x}",
+            "nins": nins, "sim": round(u.get("best_seed") or 0.0, 3),
+            "unit_inst": u["inst"], "unit_ins": u["ins"], "cat": u["cat"],
+            "model_tier": model, "sub": sub,
+            "seed": {"binary": sb, "addr": f"0x{sa:08x}", "nins": sn,
+                     "body": seed_body_ref(sb, sa)},
+            "note": ("weak seed (0.70-0.85): a HINT for a fresh crack, not an edit basis; "
+                     "discount sims on <40-ins bodies; a bank here converts the whole unit to "
+                     "seeded/adapt lanes on the next survey"),
+        })
+    cards.sort(key=lambda c: -c["unit_ins"])
+    json.dump(cards, open(".run/weak_cards.json", "w"), indent=1)
+    n_nosub = sum(1 for c in cards if not c["sub"])
+    print(f"weak-cards: {len(cards)} units -> .run/weak_cards.json "
+          f"(unresolved .s: {n_nosub}; ins-ranked; §168 laws embedded)")
+
+
 def emit_aprop_cards(only=None, limit_members=0):
     """Cards for LANE-A members that `family_remap` REFUSES (IMM / STRUCT / plumbing-failed).
 
@@ -593,7 +633,14 @@ if __name__ == "__main__":
     ap.add_argument("--aprop-cards", action="store_true", help="emit WORD-diff cards for remap-refused LANE-A members (grouped by family)")
     ap.add_argument("--only", help="restrict --aprop-cards to these family exemplar addrs (comma-separated)")
     ap.add_argument("--limit-members", type=int, default=0, help="cap members per family card (easiest first)")
+    ap.add_argument("--weak-cards", action="store_true",
+                    help="P31 T9: emit seeded-crack cards for the WEAK-seed units (0.70-0.85 band)")
     args = ap.parse_args()
+    if args.weak_cards:
+        if not os.path.exists(OUT_JSON):
+            sys.exit(f"{OUT_JSON} missing — run the survey first")
+        emit_weak_cards()
+        sys.exit(0)
     if args.targets:
         if not os.path.exists(OUT_JSON):
             sys.exit(f"{OUT_JSON} missing — run the survey first")
