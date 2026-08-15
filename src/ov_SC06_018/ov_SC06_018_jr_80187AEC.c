@@ -5253,7 +5253,19 @@ void func_8018D1A4(unsigned short *param_1, short *param_2, short *param_3,
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018D330);
+extern int func_8018D364(short *pos, int a1, int a2);
+
+int func_8018D330(short *pos, int a1, int a2)
+{
+    int p;
+
+    p = func_8018D364(pos, a1, a2);
+    if (p != 0) {
+        *(s16 *)(p + 0x32) = 1;
+    }
+    return p;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018D364);
 
