@@ -6471,7 +6471,42 @@ void func_8017E524(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017E60C);
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017E668);
+#include "common.h"
+
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80130D48(s32 a0);
+extern void func_8017EEA8(void*);
+extern u16 D_800B99DA;
+
+void func_8017E668(s32 a0) {
+    s32 v0;
+    u16 v2;
+
+    // Check if *(s32*)(a0 + 0x1C) < 0x11
+    if (*(s32*)(a0 + 0x1C) < 0x11) {
+        register s32 mask __asm__("a0");
+        register s32 ptr __asm__("v0");
+        register s32 val __asm__("v1");
+
+        mask = 0x80000000;
+        ptr = *(s32*)(a0 + 0x20);  // Load pointer from a0+0x20
+        val = *(s32*)(ptr + 0x4);  // Load value from pointer+4
+        val ^= mask;               // XOR with mask
+        *(s32*)(ptr + 0x4) = val;  // Store back
+    }
+
+    // Call func_8012BEE8 and check result
+    v0 = func_8012BEE8(a0);
+    if (v0 != 0) {
+        // Load and mask D_800B99DA
+        v2 = D_800B99DA & 0x1F;
+        if (v2 == 0) {
+            func_80130D48(a0);
+        }
+        ((void (*)(s32))func_8017EEA8)(a0);
+    }
+}
+
 
 
 // @class: plumbing
@@ -6676,7 +6711,31 @@ s32 func_8017EB70(s32 arg0) {
 
 INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017ED6C);
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017EEA8);
+#include "common.h"
+
+extern void func_8002A04C(s32 a0);
+extern void func_8002AC00(s32 arg0);
+extern void func_8012C218(void *a0);
+
+void func_8017EEA8(void *a0)
+{
+    s32 v1;
+
+    if (*(short *)((char *)a0 + 0x102) == 0) {
+        func_8002A04C((s32)a0);
+        func_8002AC00(0x1A);
+    }
+
+    if (!((*(short *)((char *)a0 + 0x70) & 0x8000))) {
+        v1 = *(s32 *)((char *)a0 + 0x68);
+        if (v1 != 0 && ((*(short *)((char *)a0 + 0x72) & 0x8000))) {
+            *(unsigned short *)(v1 + 0xA) = *(unsigned short *)(v1 + 0xA) & 0x7FFF;
+        }
+    }
+
+    func_8012C218(a0);
+}
+
 
 
 
