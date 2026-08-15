@@ -3303,7 +3303,7 @@ void func_80186CAC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80186CE8);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80186D88);
+DEFINE_func_80186D88()  /* dedup: shared engine-core @0x80186D88 (src/shared) */
 
 
 extern void (*D_8018F3C4[])(void);

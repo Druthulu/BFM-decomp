@@ -61378,6 +61378,37 @@
         } \
     }
 
+#define DEFINE_func_80186D88() \
+    extern s32 func_80143BDC(u16 *a0); \
+    extern void func_80187558(); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8012C218(void *a0); \
+    void func_80186D88(void *s0) { \
+        void *a0; \
+        s16 v0, v1; \
+        u16 sp[3]; \
+        s32 result; \
+        void *v3; \
+        a0 = *(void **)((char *)s0 + 0x64); \
+        v0 = *(s16 *)((char *)a0 + 0xE); \
+        v1 = *(s16 *)((char *)s0 + 0xE); \
+        if ((v0 - 0x80) < v1) { \
+            *(s16 *)((char *)a0 + 0xFE) = 1; \
+            sp[0] = *(u16 *)((char *)s0 + 0x6); \
+            sp[1] = *(u16 *)((char *)s0 + 0xA) - 0x40; \
+            sp[2] = *(u16 *)((char *)s0 + 0xE); \
+            result = func_80143BDC(sp); \
+            if (result) { \
+                v3 = *(void **)((char *)result + 0xCC); \
+                *(s16 *)((char *)v3 + 0x1A) = 0x5000; \
+                *(s16 *)((char *)v3 + 0x18) = 0x5000; \
+            } \
+            func_80187558(s0); \
+            func_8002D4C8(0x4DC, 0); \
+            func_8012C218(s0); \
+        } \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -152158,6 +152189,37 @@
             func_80154274((s32 *)a0, (s32)D_8018EC34); \
             func_80154B4C((u8 *)a0, (s32)D_8018ED10); \
             *(u8 *)(a0 + 0x214) = *(u8 *)(a0 + 0x214) + 1; \
+        } \
+    }
+
+#define DEFINE_func_80186D88() \
+    extern s32 func_80143BDC(u16 *a0); \
+    extern void func_80187558(); \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8012C218(void *a0); \
+    void func_80186D88(void *s0) { \
+        void *a0; \
+        s16 v0, v1; \
+        u16 sp[3]; \
+        s32 result; \
+        void *v3; \
+        a0 = *(void **)((char *)s0 + 0x64); \
+        v0 = *(s16 *)((char *)a0 + 0xE); \
+        v1 = *(s16 *)((char *)s0 + 0xE); \
+        if ((v0 - 0x80) < v1) { \
+            *(s16 *)((char *)a0 + 0xFE) = 1; \
+            sp[0] = *(u16 *)((char *)s0 + 0x6); \
+            sp[1] = *(u16 *)((char *)s0 + 0xA) - 0x40; \
+            sp[2] = *(u16 *)((char *)s0 + 0xE); \
+            result = func_80143BDC(sp); \
+            if (result) { \
+                v3 = *(void **)((char *)result + 0xCC); \
+                *(s16 *)((char *)v3 + 0x1A) = 0x5000; \
+                *(s16 *)((char *)v3 + 0x18) = 0x5000; \
+            } \
+            func_80187558(s0); \
+            func_8002D4C8(0x4DC, 0); \
+            func_8012C218(s0); \
         } \
     }
 
