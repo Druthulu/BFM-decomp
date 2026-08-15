@@ -3769,14 +3769,7 @@ void func_8018AD08(void) {
 
 
 
-extern s32 D_801E0260;
-extern s32 D_801E7980;
-extern void func_8018A168(s32 arg0, s32 arg1);
-
-void func_8018AD3C(void) {
-    D_801E7980 = &D_801E0260;
-    func_8018A168(0x474, 0x4B0);
-}
+DEFINE_func_8018AD3C()  /* dedup: shared engine-core @0x8018AD3C (src/shared) */
 
 
 
