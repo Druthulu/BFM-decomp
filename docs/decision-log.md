@@ -2430,3 +2430,32 @@ before calling it unique") applied one level up: build the ATLAS — features + 
 joins + lever labels — the moment a frontier stops being family-shaped, not two phases later.
 The next project should build the feature/similarity layer right after its first propagation
 engine exists.
+
+## 2026-08-14 (P31 T7) — the LEN-LI mechanical cousin lane: killed by its own probe, correctly
+
+**Context and belief.** The phase plan's Leg B promised a fully-mechanical lane for the LI-ONLY
+adapt cards: align a cousin member against its matched seed, recognize the li-cluster length
+drift, swap the constant, bank for $0. The alignment engine (`tools/family_align.py`) was built
+and negative-controlled (NC-1 verdict-equivalence with `classify_member` 157/157 banked pairs —
+after two real classifier fixes the NC itself caught: R-type non-shift sa diffs are STRUCT, and
+registers are tested BEFORE the reloc skip; NC-2 imm-engine parity 21/21).
+
+**What the probe said (R37, before any driver was built).** Classifying all 26 live LI-ONLY
+cards: **0 mechanical** — STRUCT-ALIGNED 16 (regfields drift ×19) + LEN-STRUCT 10.
+
+**Why (the premise error, named).** A cousin seed is a 0.85-similar DIFFERENT function, not an
+h_seq sibling — its register allocation naturally differs everywhere, so a word-level positional
+remap between cousins was never viable. §168 law 1 says exactly this ("a cousin is a SEEDED
+CRACK, never a family_sweep remap") — the plan's mechanical lane contradicted the measured
+cousin law, and the probe re-derived the law for ~$0 instead of ~30 wasted builds.
+
+**What survives.** `family_align` itself — the aligned classifier + the aligned/cluster imm
+engine — whose correct consumer is the LEN+N NEAR-MISS pile (T8): a draft vs its OWN target is
+the SAME function, where registers agree outside the drift regions and the §172b tells route the
+indels. The 26 LI-ONLY cards stay agent cards (correct all along). Also parked for T8: lui-bearing
+clusters need a reloc-vs-constant range discriminator (`reloc_indices` conservatively flags every
+lui+consumer as an address anchor).
+
+**Hindsight.** The probe order in the plan (build NCs → probe ONE card → then the pile) was
+right; what it should ALSO have said is "probe the CLASSIFIER against the pile before building
+any driver" — that reordering is what saved the effort here.
