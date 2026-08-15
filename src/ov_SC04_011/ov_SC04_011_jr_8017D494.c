@@ -6438,7 +6438,19 @@ void func_8018F4CC(unsigned short *param_1, short *param_2, short *param_3,
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018F658);
+#include "common.h"
+
+extern int func_8018F68C(short *pos, int a1, int a2);
+
+int func_8018F658(short *pos, int a1, int a2) {
+    int ret;
+    ret = func_8018F68C(pos, a1, a2);
+    if (ret != 0) {
+        *(s16 *)(ret + 0x32) = 1;
+    }
+    return ret;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018F68C);
 
