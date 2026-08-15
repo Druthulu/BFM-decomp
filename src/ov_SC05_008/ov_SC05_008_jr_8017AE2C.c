@@ -3850,7 +3850,25 @@ void func_8017D014(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017D03C);
+#include "common.h"
+
+extern s32 func_80019198(void);
+extern void func_80019064(void *a0);
+extern s32 D_8018644C[];
+extern void *D_80186428;
+
+void func_8017D03C(s32 a0) {
+    void (*func_ptr)(void);
+    s32 v0;
+    u8 idx = *(u8 *)(a0 + 0x216);
+    func_ptr = (void (*)(void))D_8018644C[idx];
+    func_ptr();
+    v0 = func_80019198();
+    if (v0 == 0) {
+        func_80019064(&D_80186428);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017D098);
 
