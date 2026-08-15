@@ -120,7 +120,32 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 
 
-## 🛑 SESSION CHECKPOINT (REFRESHED 2026-08-15, overnight campaign mid-flight — do NOT close the phase)
+## 🛑 SESSION CHECKPOINT — OVERNIGHT CAMPAIGN CLOSED 2026-08-15 (morning). Phase 31 CONTINUES; resume in a fresh session.
+
+**Cron `be8fb48c` (23-min overnight heartbeat) is CANCELLED.** No wave will fire on its own. Nothing is in flight at handoff.
+
+### What this session did (waves C–N)
+**~448+ banked** · stubs **12,059 → 11,549** · fleet **95.4% instr** · **213/213 byte-identical after every single batch** · 0 NON_MATCHING · **main 0 → 175 matched**.
+Draft rates 91–100% across twelve waves, overwhelmingly **haiku/sonnet writing byte-exact C from raw MIPS with no reference body**. Four perfect sweeps (36/36, 44/44, 44/44, 44/44).
+
+### The three things that actually changed the campaign
+1. **MAIN IS OPEN — and was never hard.** It sat at 0.5% for the whole project, written up as the largest/hardest remaining mass. The blocker was that `gate_lane`/`gate_stage` build INCREMENTALLY while main's `make extract` runs the EXE-only `psyq_integrate`/`ld_interleave` steps that REWRITE the `.ld` → false diff (R22's own rationale). Four byte-correct drafts were rejected; I diagnosed a "linker defect" and built 3 hypotheses on it. **A null-draft control killed it** (the defect reproduced with ZERO drafts substituted). Use **`tools/gate_main.py <slate> --apply`**: substitute batch → extract → build → SHA; ONE clean rebuild verifies a WHOLE batch (40+ per rebuild). ~913 main stubs remain and they draft at 98%.
+2. **GATE-GROUP PACKING is the throughput lever.** Gate cost scales with **(binary, TU) groups**, not drafts — each group is a whole-binary rebuild. Wave D: 42 drafts / 23 groups. Waves F–N: 40–56 drafts / **1 group**. `tools/build_wave_atlas.py` packs by TU and ranks by instruction mass; `--min-ins 40` targets the band the public instr-weighted metric tracks (wave M held 98% at avg 51 ins; wave N 92% at avg 65).
+3. **`match_one` VERIFIES SHAPE, NOT SYMBOL IDENTITY.** It masks jal/HI16/LO16, so a draft calling the wrong function or storing to the wrong global reports a clean MATCH (wave K: `func_8002A234` had two globals swapped — 5 gate attempts). Only the whole-binary gate catches it. Now law 1c in the wave prompt.
+
+### Tooling built/fixed this session (all committed, all NC'd)
+`tools/gate_main.py` (NEW — batch clean-rebuild gate for main; in-TU decl-conflict resolution on TYPE SIGNATURES ONLY; duplicate-typedef stripping; compile-error culprit naming instead of bisection; **rm-output+returncode check after it once reported a FALSE PASS off a stale binary**) · `tools/build_wave_atlas.py` (NEW — TU-packed, mass-ranked selection; `main` excluded by default) · `tools/build_wave.py` (NEW — adapt/weak pools) · `gate_lane` home-TU resolution derived from `corpus` (was blind to main) · `aprop_symfix` survives curated PsyQ names · cookbook **§174 law 1b/1c**, **§175** (caller-saved pins can DELETE an instruction across a call).
+
+### Open work, in priority order
+1. **Run main waves** — highest value, ~913 stubs, 98% draft, `gate_main` handles it.
+2. **`gate_lane` swallows `gate_stage` stderr** — reports an unhandled crash as `0 banked / 0 near / 0 failed`, indistinguishable from an honest empty result (cost 2 cycles). Make it surface stderr / distinguish CRASH from NOTHING-BANKED.
+3. **Recover ~10 conflict-dropped main drafts** (waves J/K/L) — verified-correct, need cast-at-use.
+4. Grinder queue has fresh seeds incl. **close=1 DELAY-SLOT** (`func_80183578`) and count-exact `func_8017DAEC`.
+
+### The methodological lesson (worth more than the count)
+Every serious stall traced to **an instrument trusted without a control**, never to gcc: the main "linker defect"; `corpus.stubs()` read as names when it returns addr→Stub; 3 good drafts withheld on an ADVISORY symfix flag; `gate_lane` crash-as-zero; my conflict checker too strict then too coarse; my verifier passing without building. **Before believing a measurement, run the control that would make it fail** — a null input, a known-answer population, or an independent oracle. The counterweight: the safety architecture held every time. R22 caught the false pass, `corpus` refused to guess, and the byte-gate never accepted a wrong match.
+
+## (superseded) mid-flight checkpoint
 
 **Phase 31 CONTINUES.** Overnight campaign running under Drew's "waves and banking all night long" directive (Opus 5, ultracode, 23-min cron heartbeat `be8fb48c` as the loop's safety net).
 
