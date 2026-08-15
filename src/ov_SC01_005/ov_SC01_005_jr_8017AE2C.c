@@ -3398,17 +3398,7 @@ void aF8017C150(void *a0)
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017AE2C", func_8017C18C);
 
-extern void func_80147060(u8 *a0);
-extern void func_80171A1C(u8 *a0);
-extern s32 func_80174650(s32);
-
-void func_8017C1E8(void *a0) {
-    if (*(u16 *)(a0 + 0xB8) & 0x8000) {
-        func_80147060((u8 *)a0);
-        func_80171A1C((u8 *)a0);
-        func_80174650((s32)a0);
-    }
-}
+DEFINE_func_8017C1E8()  /* dedup: shared engine-core @0x8017C1E8 (src/shared) */
 
 
 DEFINE_func_8017C238()  /* dedup: shared engine-core @0x8017C238 (src/shared) */

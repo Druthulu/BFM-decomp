@@ -3381,7 +3381,7 @@ void aF8017C150(void *a0)
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017AE2C", func_8017C18C);
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017AE2C", func_8017C1E8);
+DEFINE_func_8017C1E8()  /* dedup: shared engine-core @0x8017C1E8 (src/shared) */
 
 DEFINE_func_8017C238()  /* dedup: shared engine-core @0x8017C238 (src/shared) */
 
