@@ -100,7 +100,13 @@ if not mine:
     print('FAIL: my object has no function', a.fn, '(compile produced nothing?)'); sys.exit(1)
 
 if a.emit_streams:                                        # P31 T8: word streams for len_tells
-    json.dump({"fn": a.fn, "mine": [i["word"] for i in mine], "tgt": [i["word"] for i in tgt]},
+    # P31 S52 (additive): also carry MY object's relocations. match_one MASKS them, so it is
+    # structurally blind to symbol identity (§174 law 1c) -- a draft calling the wrong function
+    # reports a clean MATCH. tools/reloc_identity.py is the disagreeing oracle (R34) and needs
+    # the reloc kind/operand per instruction index; existing consumers read "mine"/"tgt" only.
+    json.dump({"fn": a.fn, "mine": [i["word"] for i in mine], "tgt": [i["word"] for i in tgt],
+               "mine_relocs": {str(n): {"kind": i["reloc_kind"], "op": i["reloc_op"]}
+                               for n, i in enumerate(mine) if i["reloc_kind"]}},
               open(a.emit_streams, "w"))
 
 # structured residual (shared with gate_stage's near-record + the Task-12 autopsy telemetry)
