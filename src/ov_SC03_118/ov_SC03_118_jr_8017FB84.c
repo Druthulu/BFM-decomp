@@ -4322,11 +4322,7 @@ extern s32 func_8012A828(void *a0, void *a1);
 
 
 
-extern s32 func_8012A828(void *a0, void *a1);
-    extern s32 D_801C573C;
-    void func_801847FC(void *arg0) {
-        ((void (*)(s32, s32))func_8012A828)(M2C_FIELD(arg0, s32 *, 0xD0), &D_801C573C);
-    }
+DEFINE_func_801847FC()  /* dedup: shared engine-core @0x801847FC (src/shared) */
 
 
 
