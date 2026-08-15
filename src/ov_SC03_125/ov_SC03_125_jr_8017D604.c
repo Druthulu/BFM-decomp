@@ -3180,7 +3180,23 @@ s32 func_8017E4E4(s32 param_1)
 DEFINE_func_8017E534()  /* dedup: shared engine-core @0x8017E534 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8017E558);
+#include "common.h"
+
+extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
+extern void func_8017E8F8(void *a0);
+extern s32 D_80126B9C;
+extern u16 D_801270C0;
+
+s32 func_8017E558(s32 param_1)
+{
+    ((void (*)(void *, s32))func_8016EDEC)(func_8017E8F8, 0x1000000);
+    D_801270C0 = 2;
+    D_80126B9C = D_80126B9C | 0x4000000;
+    *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    *(s32 *)(param_1 + 0x28) = 0xA;
+    return 0;
+}
+
 
 DEFINE_func_8017E5C8()  /* dedup: shared engine-core @0x8017E5C8 (src/shared) */
 
