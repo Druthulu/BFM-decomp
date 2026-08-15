@@ -73,10 +73,60 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 - [ ] **S52-8 — Tooling debt: `gate_lane` swallows `gate_stage` stderr** (reports a crash as `0/0/0`).
 - [ ] **S52-9 — Bank idioms into the cookbook + refresh this checkpoint** BEFORE any pause (memory `bank-idioms-before-checkpoint`).
 
+## 📐 THE WAVE DOCTRINE (adopted 2026-08-15 by Drew, after wave O) — 6,000+ INSTRUCTIONS PER WAVE
+
+**A wave is sized by INSTRUCTION MASS, not by card count.** The public metric is instruction-
+weighted, so a wave is worth what its instructions are worth. The card lanes (12–42-ins cousins)
+carried ~1,400 ins/wave ≈ 0.011pp of fleet ⇒ ~440 waves to finish. Wave O carried **6,266 ins for
+the same gate cost and the same draft rate (47/49)**. That is the shape from here on.
+
+**The recipe** (`--target-ins` implements it; the tool now refuses to under-fill silently):
+```
+.venv/bin/python tools/build_wave_atlas.py .run/wave_<id>_cards.json 80 \
+    --target-ins 6500 --min-ins 60 --max-ins 200 --max-bins 4 \
+    --levers head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,UNKNOWN
+```
+- **`--target-ins 6500`** — draw cards until the instruction budget is met (capped by `n`).
+- **`--min-ins 60 --max-ins 200`** — the mass band. Draft rate barely decays with size (wave M 98%
+  at avg 51, wave N 92% at avg 65, **wave O 96% at avg 128**), so size is nearly free mass.
+- **`--max-bins 4`** — gate cost scales with (binary, TU) GROUPS, not drafts.
+- **UNKNOWN is now a first-class lane** (see below). `main` needs `--only-bins main` + `gate_main`.
+
+**THE UNKNOWN UNLOCK (wave O's strategic result).** UNKNOWN is not a difficulty label — it is
+"the atlas could not name a lever". Wave O ran 22 UNKNOWN cards as an R37 probe and they drafted
+like any other lane. That moves ~138k ins into reach and re-scopes the whole endgame:
+
+| pool (agent-draftable, incl. UNKNOWN) | fns | ins | waves @6k |
+|---|--:|--:|--:|
+| **mass band 60–200 ins** | 1,762 | **164,357** | **27** |
+| 40–59 ins | 1,752 | 84,009 | 14 |
+| <40 ins (the old card lanes) | 5,585 | 132,466 | 22 |
+| >200 ins | 125 | 36,493 | 6 |
+| **total agent-draftable** | **9,224** | **417,325 = 70% of all open ins** | **69** |
+
+Non-agent levers hold the remaining ~175k ins (extend-tell, jtbl-carve, cc1, o0-lane, swaprepeat,
+needs-autopsy, plumbing, frame-172) and still need their own lanes.
+**Order of work: the mass band first** — 27 waves covering 164k ins, and it is where the
+instruction-weighted metric moves fastest per agent spent.
+
+**THE PRE-GATE PROTOCOL (do all five, in order — wave O proved each one earns its place):**
+1. **Independently re-verify every claimed MATCH with `match_one`** (R14). Agent self-reports run
+   optimistic; wave O happened to agree exactly (47/49), earlier waves did not (wave C claimed
+   35/35 → 32 banked; the main probe claimed 6/6 → 4).
+2. **`tools/reloc_identity.py --batch`** — the symbol-identity check `match_one` structurally
+   cannot do. Seconds, $0, and it removes a whole failure class before a rebuild is spent.
+   (Wave O: 46 AGREE / 0 MISMATCH — the first wave of the campaign with zero symbol errors.)
+3. **`gate_main.py <slate>` DRY RUN, and iterate until `N -> N compatible, 0 dropped`.** Conflicts
+   surface one layer at a time; each fix reveals the next.
+4. **Reconcile declarations toward the form the MATCH needs, never arbitrarily** (§176f) — then
+   re-verify every converted draft, because a declaration change is a codegen change.
+5. **Gate.** main → `gate_main.py --apply` (one clean rebuild per slate). Overlays → `gate_lane`.
+
 ## Campaign velocity ledger (T10+)
 
 | wave | lane | cards | standalone MATCH | banked | tokens | tok/bank | lesson banked |
 |---|---|--:|--:|--:|--:|--:|---|
+| **O** | **mass — main head-crack + main UNKNOWN + overlay UNKNOWN (49 cards / 6,266 ins)** | 49 | **47/49 = 96%** / **6,040 ins** (my independent re-verify agreed exactly) | **50** — 46 main in ONE clean rebuild (`143dbb89` byte-identical) + 4 overlay | ~12.8M | ~256k | **THE 6k-INS WAVE SHAPE + THE UNKNOWN UNLOCK.** 4.4× the card lanes' mass at the same gate cost; UNKNOWN drafts like any lane (⇒ 138k ins re-scoped into reach). First wave with **0 symbol errors** (`reloc_identity` pre-gate). Declaration reconciliation took the slate 5-dropped → **0 dropped**, and 3 of 4 conflicts were load-bearing CODEGEN (§176f). Gate cost 8 attempts: 2 my errors, 3 real tool defects now fixed (typedef ordering, silent bisect-on-build-failure, `short`≠`s16` over-refusal), 3 reconciliation rounds |
 | A | adapt SMALL-EDIT | 24 | 18 (75%) | **12** (+1 prop) | ~1.40M | **~117k** | zero stale seed-symbols (the §171 prompt-law works); 6 gate-fails all INTEGRATION shapes (3× decl-type vs TU, 1 arity, 2 TU-context DIFF) → wave-B prompt adds match-the-TU's-existing-decl |
 | grinder-1 | permuter | 10 | — | 0 | $0 | — | func_800CB4CC parked at best-1 (warmstart seed); queue enriched +59+6 records since |
 | C-probe | tell (3) | 3 | 1 (33%) | **1** | ~300k | ~300k | §174 **Law 4**: the TU's decl of YOUR OWN fn constrains the def sig — standalone MATCH gated 0/1 until canonical-sig + cast-at-use; tell attribution unreliable (2/3 residuals were a different class) |

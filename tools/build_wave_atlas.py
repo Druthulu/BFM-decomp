@@ -41,6 +41,11 @@ ap.add_argument('--exclude-bins', default='',
                      'INCREMENTALLY, because its extract runs psyq_integrate/ld_interleave and '
                      'rewrites the .ld. Draft main like any binary; gate it with '
                      'tools/gate_main.py, never gate_lane/gate_stage.)')
+ap.add_argument('--target-ins', type=int, default=0,
+                help='size the wave by INSTRUCTION MASS: keep drawing cards until this many '
+                     'instructions are selected (still capped by n). The public metric is '
+                     'instruction-weighted, so this is the number that matters -- 6000+ is the '
+                     'P31 S52 standard (wave O: 6,266 ins in 2 gate groups, 47/49 MATCH).')
 ap.add_argument('--only-bins', default='',
                 help='comma-separated allow-list; if set, ONLY these binaries are eligible. '
                      'Use --only-bins main for a main wave: gate_main.py rebuilds the whole EXE '
@@ -123,12 +128,24 @@ for c in cands:
     by_tu[(c['binary'], c['tu'])].append(c)
 ranked = sorted(by_tu, key=lambda k: -len(by_tu[k]))[:a.max_bins]
 
-wave = []
+# principle 3 (P31 S52): SIZE A WAVE BY INSTRUCTIONS, NOT BY CARDS. The public metric is
+# instruction-weighted, so a wave is worth what its instructions are worth: the 12-42-ins card
+# lanes produced ~1,400 ins/wave (~0.011pp) while wave O carried 6,266 ins for the same gate cost
+# and the same draft rate. --target-ins keeps drawing cards until the instruction budget is met
+# (still capped by n, so a wave can never spawn an unbounded fleet).
+wave, tot_ins = [], 0
+def _full():
+    if a.target_ins:
+        return tot_ins >= a.target_ins or len(wave) >= a.n
+    return len(wave) >= a.n
 for k in ranked:                            # principle 2: within a group, mass first
     for c in sorted(by_tu[k], key=lambda c: -c['nins']):
-        if len(wave) >= a.n: break
-        wave.append(c)
-    if len(wave) >= a.n: break
+        if _full(): break
+        wave.append(c); tot_ins += c['nins']
+    if _full(): break
+if a.target_ins and tot_ins < a.target_ins:
+    print(f"NOTE: only {tot_ins} ins available under these filters (target {a.target_ins}) — "
+          f"widen --min-ins/--max-ins/--levers or raise n ({len(wave)} of max {a.n} cards used)")
 
 json.dump(wave, open(a.out, 'w'), indent=1)
 tot = sum(c['nins'] for c in wave)

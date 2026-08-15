@@ -16924,6 +16924,44 @@ usually not a cast at all, it is **converting the whole TU to the array form**.
    only free if the bytes say so;
 4. re-run the dry run until it reports `N -> N compatible, 0 dropped`.
 
+## §176g — SIZE A WAVE BY INSTRUCTIONS, NOT BY CARDS (P31 S52 — the adopted doctrine)
+
+The public metric is **instruction-weighted**, so a wave is worth what its instructions are worth —
+yet every campaign wave up to N was sized in *cards*, and drawn from the 12–42-ins cousin piles
+because those had the best seeds. That is ~1,400 ins/wave ≈ 0.011pp of fleet ⇒ **~440 waves to
+finish**. Wave O carried **6,266 ins at the same gate cost and the same draft rate**.
+
+**The draft rate barely decays with function size** — this is the measurement that makes the whole
+doctrine work, and it was not obvious in advance:
+
+| wave | avg ins/card | standalone MATCH |
+|---|--:|--:|
+| M | 51 | 98% |
+| N | 65 | 92% |
+| **O** | **128** | **96%** |
+
+So mass is nearly free: the same agent, on a function 2.5× larger, matches about as often. Size the
+wave by `--target-ins 6500 --min-ins 60 --max-ins 200`, concentrated into ≤4 gate groups.
+
+**UNKNOWN IS NOT A DIFFICULTY LABEL.** It means "the atlas could not name a lever", and it had been
+routed as needing its own bespoke lane. Wave O ran 22 UNKNOWN cards as an R37 probe: they drafted
+like any other lane. That is ~138k instructions — a quarter of everything open — reclassified as
+ordinary wave fuel by a single 22-card probe. **Before building a lane for a labelled-hard pool,
+spend a probe asking whether it is actually hard.**
+
+With UNKNOWN included, **9,224 fns / 417,325 ins = 70% of all open instructions** are agent-
+draftable, of which the 60–200-ins mass band alone is 164,357 ins ≈ **27 waves**. Work that band
+first: it is where the instruction-weighted metric moves fastest per agent spent.
+
+**THE PRE-GATE PROTOCOL** — five steps, each of which earned its place by catching something:
+1. re-verify every claimed MATCH yourself with `match_one` (R14 — self-reports run optimistic);
+2. `reloc_identity --batch` for symbol identity (§176e), which `match_one` cannot see;
+3. `gate_main` DRY RUN, iterated until `N -> N compatible, 0 dropped` — conflicts surface one
+   layer at a time and each fix reveals the next;
+4. reconcile declarations toward the form the MATCH needs (§176f), then **re-verify every converted
+   draft** — a declaration change is a codegen change;
+5. gate: `gate_main --apply` for main (one clean rebuild per slate), `gate_lane` for overlays.
+
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
 main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the
