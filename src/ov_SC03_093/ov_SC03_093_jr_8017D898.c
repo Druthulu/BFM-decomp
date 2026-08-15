@@ -4991,7 +4991,82 @@ extern void func_80182144(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_80181BEC);
+/* func_80181BEC (ov_SC03_093_jr_8017D898) — MATCH, 59/59 ins, edit of proven seed func_8012E364
+ * (src/shared/engine_core.h DEFINE_func_8012E364 body, src/ov_SC06_008/ov_SC06_008_jr_8012ACE0.c
+ * exemplar).  Edits vs the seed:
+ *   - arg0 register pin changed $6 -> $5 (target moves incoming $a0 into $a1, not $a2)
+ *   - constant 0x1000 -> 0x2000 for the flags-reset / spd value (per-overlay tuning value)
+ *   - the fixed-point scale shift changed <<12 -> <<13 to match the doubled spd/reset scale
+ *     (0x1000->0x2000); this ALSO changes the emitted `sll` immediate in the /0x90 magic-multiply
+ *     idiom from 12 to 13 — verified by residual, not guessable from the diff hints alone
+ *   - dropped the `*(s32*)(arg0+0x1C) += 1;` counter increment (absent in target asm)
+ *   - dropped the `prev`/`flags` register pins (target's local-alloc places them naturally in
+ *     $v1 unpinned; pinning as the seed did would force the wrong allocation)
+ *   - dropped the separate pinned `d` abs-result variable; `v = __builtin_abs(v)` in place
+ *     naturally ties dest==src (local-alloc combine_regs) giving the 2-insn abssi2 form with a
+ *     nop delay slot -- this target wants that form (not the seed's pinned-apart move form)
+ *   - dropped the trailing `*(s16*)(e2+0x1C)=d;` store and the `*(s16*)(...+0x1A)=0x1000;` store
+ *     (absent in target asm); only the `*(s16*)(e2+0x18)=v;` store remains
+ *   - added a single-set `cur = D_801CC568;` local before the e1 load so the fresh global reload
+ *     gets the sched1 birthing-priority boost and lands BEFORE the e1 load (CLUSTER-A pattern from
+ *     the seed's own header, but here it's the D_801CC568 reload itself that needed the split,
+ *     not e1/e2 which were already separate)
+ *   - data symbols renamed to this overlay's own statics per the target .s relocations:
+ *     D_801A8CC8 -> D_801CC568, D_801A8CCC -> D_801CC56C
+ *
+ * Verified: .venv/bin/python tools/match_one.py func_80181BEC --c <this file> \
+ *   --asm-subdir asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898 --json
+ *   -> {"status": "match", "closeness": 0, "nins": 59}
+ */
+
+extern s16 D_80126CE0;
+extern s32 D_801CC568;
+extern s32 D_801CC56C;
+
+void func_80181BEC(s32 arg0_)
+{
+    register s32 arg0 __asm__("$5");
+    s32 prev;
+    u16 flags;
+    s32 a;
+    s32 diff;
+    s32 v;
+    s32 spd;
+    s32 e1;
+    s32 e2;
+    s32 cur;
+
+    arg0 = arg0_;
+    *(s16 *)(arg0 + 0x5C) = 0;
+    a = D_80126CE0;
+    if (a == 0) {
+        D_801CC568 = 0x2000;
+        D_801CC56C = 0x2000;
+    }
+    a = ((0x90 - a) << 13) / 0x90;
+    spd = 0x2000;
+
+    diff = D_801CC568 - a;
+    if (diff > 0) {
+        D_801CC568 -= diff >> 2;
+    } else if (diff < 0) {
+        D_801CC568 += (-diff) / 4;
+    }
+
+    prev = D_801CC56C;
+    cur = D_801CC568;
+    e1 = *(s32 *)(arg0 + 0x20);
+    v = cur - prev + spd;
+    D_801CC56C = spd;
+    flags = *(u16 *)(e1 + 0x2C);
+    D_801CC568 = v;
+    *(u16 *)(e1 + 0x2C) = flags | 0x10;
+
+    e2 = *(s32 *)(arg0 + 0x20);
+    v = __builtin_abs(v);
+    *(s16 *)(e2 + 0x18) = v;
+}
+
 
 
 extern void func_80182144(void*);
