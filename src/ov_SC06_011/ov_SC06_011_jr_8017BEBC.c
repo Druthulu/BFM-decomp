@@ -3169,7 +3169,23 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017CD9C);
+#include "common.h"
+
+extern void func_8002931C(s32);
+extern void *D_8018436C;
+extern void *D_801844AC;
+extern u8 *D_801274C8;
+extern void *D_801274CC;
+extern int func_8017DA88(int);
+
+void func_8017CD9C(void)
+{
+    func_8002931C(0x1A40000);
+    D_801274C8 = (u8 *)&D_8018436C;
+    D_801274CC = (void *)&D_801844AC;
+    func_8017DA88(0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017CDE4);
 
