@@ -3743,7 +3743,27 @@ void func_80187674(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_801863CC", func_801878B8);
+#include "common.h"
+
+extern void (*D_801C700C[])(void);
+extern void func_80049CAC(s32 a0, s32 a1);
+
+void func_801878B8(void *a0) {
+    D_801C700C[*(u16 *)(a0 + 2)]();
+
+    if (*(u16 *)a0 != 0) {
+        if ((*(s16 *)(a0 + 0x70)) == 0 || (*(s16 *)(a0 + 0x70)) == 7) {
+            func_80049CAC(*(s32 *)(a0 + 0x20) + 0x10, *(s32 *)(a0 + 0x20) + 0x34);
+        }
+
+        if ((*(s16 *)(a0 + 0x70)) == 0xF) {
+            func_80049CAC(*(s32 *)(a0 + 0x20) + 0x10, *(s32 *)(a0 + 0x20) + 0x34);
+        }
+
+        func_8012B260((u8 *)a0);
+    }
+}
+
 
 #include "common.h"
 
@@ -3924,7 +3944,33 @@ void func_80187D0C(s32 a0)
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_801863CC", func_80187DF8);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_801863CC", func_80187E78);
+#include "common.h"
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 D_801C6FB4;
+extern s32 D_801C6FBC;
+
+void func_80187E78(s32 a0)
+{
+    s32 val;
+
+    *(s32*)(a0 + 0x8) += 0x100000;
+
+    val = func_8004787C(*(s16*)(*(s32*)(a0 + 0x20) + 0x12));
+    *(s32*)(a0 + 0x4) -= val << 8;
+
+    val = func_80047948(*(s16*)(*(s32*)(a0 + 0x20) + 0x12));
+    *(s32*)(a0 + 0xC) -= val << 8;
+
+    if (--*(s16*)(a0 + 0xFE) == 0) {
+        *(s16*)(a0 + 0x2) = 6;
+        func_8012D5E4(a0, (s32)&D_801C6FB4, (s32)&D_801C6FBC, 0xF);
+        *(s16*)(a0 + 0xFE) = 8;
+    }
+}
+
 
 #include "common.h"
 
@@ -4037,7 +4083,34 @@ void func_80188348(int a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_801863CC", func_80188418);
+#include "common.h"
+
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80187674(s32 a0);
+
+void func_80188418(s32 a0)
+{
+    short cnt;
+    s32 v1;
+
+    *(short *)(a0 + 0x2) = 0x11;
+    cnt = *(unsigned short *)(a0 + 0x70) + 1;
+    *(unsigned short *)(a0 + 0x70) = cnt;
+
+    if (cnt < 0x17) {
+        v1 = func_8012C658(0x1EA, cnt, a0);
+        if (v1 != 0) {
+            *(unsigned short *)(v1 + 0xFE) = *(unsigned short *)(a0 + 0x36);
+            *(s32 *)(a0 + 0x6C) = v1;
+            *(unsigned short *)(v1 + 0x108) = (*(unsigned short *)(a0 + 0x70) - 0x11) << 9;
+        }
+    }
+
+    cnt = *(unsigned short *)(a0 + 0x70) - 1;
+    *(unsigned short *)(a0 + 0x70) = cnt;
+    func_80187674(a0);
+}
+
 
 
 
