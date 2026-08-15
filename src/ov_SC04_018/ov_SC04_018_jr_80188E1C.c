@@ -4764,29 +4764,7 @@ INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_80188E1C", func_8018BFC
 
 #include "common.h"
 
-extern s32 func_80184BAC(s32 arg0, s32 arg1);
-extern void func_80184CB8(s32 *a0, s32 a1);
-extern short D_801E05C4;
-
-void func_8018C038(s32 *arg0) {
-    register s32 *s0 asm("$16") = arg0;
-    s32 v0, v1;
-
-    *(s32 *)((u8 *)(*(s32 **)((u8 *)s0 + 0xCC)) + 0xB0) = 2;
-    v0 = func_80184BAC(6, 0x12);
-
-    if (v0 != 0) {
-        v1 = 1;
-    } else {
-        v0 = func_80184BAC(0x12, 0x15);
-        v1 = (v0 != 0) ? 2 : 0;
-    }
-
-    if (v1 != 2) {
-        *(s16 *)((u8 *)s0 + 2) = 1;
-        func_80184CB8(s0, (s32)&D_801E05C4);
-    }
-}
+DEFINE_func_8018C038()  /* dedup: shared engine-core @0x8018C038 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_80188E1C", func_8018C0B0);
