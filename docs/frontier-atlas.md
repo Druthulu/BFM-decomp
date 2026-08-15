@@ -1,43 +1,44 @@
 # The Frontier Atlas (P31 T5)
 
-> Generated at HEAD `commit:2173` by `tools/atlas.py` — REGENERATE, never edit. Groups are ADVISORY (the byte-gate is the arbiter). Calibration: warm merge at norm-ratio ≥ 0.7, kNN floor 0.55.
+> Generated at HEAD `commit:2234` by `tools/atlas.py` — REGENERATE, never edit. Groups are ADVISORY (the byte-gate is the arbiter). Calibration: warm merge at norm-ratio ≥ 0.7, kNN floor 0.55.
 
-**Scope:** 12058 open instances / 7247 skeletons across 213 binaries (main: 1041 — atlas-layer join (family maps stay non-main)).  
-**Tiers:** T1.5 h_seqn merges 2 · warm merges 1019 (from 20288 ratio calls) · seed sweep: 4702 skeletons carry a ≥0.55 seed from the 2721-skeleton matched pool.
+**Scope:** 11994 open instances / 7247 skeletons across 213 binaries (main: 1041 — atlas-layer join (family maps stay non-main)).  
+**Tiers:** T1.5 h_seqn merges 2 · warm merges 1014 (from 20291 ratio calls) · seed sweep: 4710 skeletons carry a ≥0.55 seed from the 2768-skeleton matched pool.
 
 ## Groups by category
 
 | cat | groups | instances | ins |
 |---|--:|--:|--:|
-| A-prop | 193 | 1156 | 58148 |
+| A-prop | 239 | 1416 | 63824 |
 | cold | 2245 | 2245 | 183220 |
-| cousin-multi | 1767 | 6757 | 295083 |
-| main-only | 440 | 440 | 38324 |
-| seeded | 395 | 1295 | 38095 |
+| cousin-multi | 1760 | 6724 | 294394 |
+| main-only | 439 | 439 | 38315 |
+| seeded | 362 | 1005 | 31732 |
 | tiny | 99 | 165 | 840 |
 
 ## Groups by lever (confidence)
 
 | lever | groups | instances | ins |
 |---|--:|--:|--:|
-| head-crack[default] | 1283 | 4276 | 186877 |
+| head-crack[default] | 1276 | 4248 | 186291 |
 | UNKNOWN[none] | 1964 | 1964 | 138597 |
 | extend-tell[tell] | 575 | 1011 | 76730 |
-| redraft[measured] | 280 | 1097 | 46822 |
+| redraft[measured] | 280 | 1095 | 46769 |
 | jtbl-carve[tell] | 190 | 281 | 45673 |
-| seeded-crack[default] | 307 | 899 | 23444 |
-| integration[measured] | 48 | 575 | 23354 |
-| len-vein[measured] | 156 | 778 | 16844 |
+| integration[measured] | 48 | 570 | 23255 |
+| seeded-crack[default] | 277 | 673 | 18171 |
+| len-vein[measured] | 157 | 768 | 16695 |
+| family-sweep[default] | 78 | 424 | 11437 |
 | swaprepeat-tell[tell] | 69 | 116 | 9211 |
-| plumbing[ledger] | 26 | 161 | 8142 |
-| family-sweep[default] | 43 | 253 | 7328 |
+| plumbing[ledger] | 28 | 165 | 8213 |
 | o0-lane[tell] | 31 | 69 | 6564 |
 | cc1[measured] | 12 | 104 | 6382 |
-| needs-autopsy[measured] | 52 | 261 | 5121 |
+| needs-autopsy[measured] | 51 | 253 | 4995 |
+| cc1[ledger] | 11 | 56 | 4137 |
 | frame-172[measured] | 8 | 32 | 4078 |
-| cc1[ledger] | 10 | 42 | 3890 |
 | needs-autopsy[ledger] | 6 | 26 | 3683 |
 | tiny-direct[default] | 74 | 106 | 536 |
+| near-crack[measured] | 4 | 26 | 474 |
 | s16-div-tell[tell] | 4 | 6 | 419 |
 | signload[measured] | 1 | 1 | 15 |
 
@@ -45,9 +46,9 @@
 
 | gid | cat | lever | inst | ins | exemplar | seed |
 |---|---|---|--:|--:|---|---|
-| b97c15ed3011 | cousin-multi | integration[measured] | 268 | 6146 | ov_SC01_084:func_80180CBC (31) | 0.72 |
+| 96f8b78ec8d3 | cousin-multi | integration[measured] | 265 | 6084 | ov_SC01_084:func_80180CBC (31) | 0.72 |
 | e8bf2260391b | cousin-multi | frame-172[measured] | 16 | 3936 | ov_SC01_077:func_8017C294 (246) |  |
-| 4ee3f46a5818 | cousin-multi | redraft[measured] | 117 | 3028 | main:func_8001FB8C (31) | 0.72 |
+| 75cec648ba15 | cousin-multi | redraft[measured] | 116 | 3002 | main:func_8001FB8C (31) | 0.72 |
 | 4a254010e122 | A-prop | needs-autopsy[ledger] | 4 | 2444 | ov_SC03_001:func_801898E4 (611) | 1.00 |
 | aaef26b79169 | A-prop | cc1[measured] | 3 | 2310 | ov_MAIN_012:func_80144B9C (770) | 1.00 |
 | e776626310f6 | A-prop | jtbl-carve[tell] | 4 | 2204 | ov_SC03_001:func_8018C000 (551) | 1.00 |
@@ -56,8 +57,8 @@
 | 372e98dadcb4 | cousin-multi | o0-lane[tell] | 3 | 1628 | md_MAIN_011:func_800D1254 (555) |  |
 | a6899a69a378 | A-prop | integration[measured] | 4 | 1628 | md_SC03_076:func_801EFBB4 (407) | 1.00 |
 | 152d63c1086d | cousin-multi | len-vein[measured] | 64 | 1559 | main:func_80029B4C (31) | 0.63 |
-| 947494c32114 | cousin-multi | integration[measured] | 129 | 1471 | main:SetTexWindow (15) | 0.71 |
 | cd028c385150 | seeded | integration[measured] | 6 | 1466 | ov_SC07_006:func_8017F9AC (275) | 0.79 |
+| d647ea02256b | cousin-multi | integration[measured] | 128 | 1456 | main:SetTexWindow (15) | 0.72 |
 | 3ffedf1ce9c3 | cousin-multi | integration[measured] | 5 | 1395 | ov_SC01_004:func_8017EB30 (279) |  |
 | 29ff19769942 | cousin-multi | redraft[measured] | 35 | 1381 | ov_SC02_011:func_80189B64 (47) | 0.73 |
 | 77b0d495606f | A-prop | plumbing[ledger] | 7 | 1316 | ov_MAIN_012:func_8016AB6C (188) | 1.00 |
