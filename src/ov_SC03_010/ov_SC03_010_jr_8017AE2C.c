@@ -3485,7 +3485,20 @@ DEFINE_func_8017C628()  /* dedup: shared engine-core @0x8017C628 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017AE2C", func_8017C670);
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017AE2C", func_8017C6B8);
+#include "common.h"
+
+extern u8 D_80183A28[];
+
+void func_8017C6B8(s32 arg0, s32 arg1) {
+    s16 temp;
+
+    temp = *(u16 *)(arg0 + 0x20E) + D_80183A28[arg1];
+    *(s16 *)(arg0 + 0x20E) = temp;
+    if (temp > 0x60) {
+        *(s16 *)(arg0 + 0x20E) = 0;
+    }
+}
+
 
 /* func_8017C6F4 — 15 ins, ov_SC03_010 / ov_SC03_011 / ov_SC03_013
  * (jr_8017AE2C switch-case body: "stat bump + clamp to 0x60")
