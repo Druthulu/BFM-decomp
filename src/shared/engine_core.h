@@ -60995,6 +60995,19 @@
         } \
     }
 
+#define DEFINE_func_8018B614() \
+    extern s32 func_8018B5AC(void); \
+    extern void func_8018B564(void *a0); \
+    void func_8018B614(void *a0) { \
+        s32 s0; \
+        s0 = 1; \
+        *(s32 *)(*(s32 *)((char *)a0 + 0xCC) + 0xB0) = s0; \
+        if (func_8018B5AC() != s0) { \
+            return; \
+        } \
+        func_8018B564(a0); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -151393,6 +151406,19 @@
         if (func_8018B5AC() == 0) { \
             *(s16 *)((s32)a0 + 0x2) = 1; \
         } \
+    }
+
+#define DEFINE_func_8018B614() \
+    extern s32 func_8018B5AC(void); \
+    extern void func_8018B564(void *a0); \
+    void func_8018B614(void *a0) { \
+        s32 s0; \
+        s0 = 1; \
+        *(s32 *)(*(s32 *)((char *)a0 + 0xCC) + 0xB0) = s0; \
+        if (func_8018B5AC() != s0) { \
+            return; \
+        } \
+        func_8018B564(a0); \
     }
 
 #endif

@@ -3996,7 +3996,7 @@ void func_8018B570(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B5AC);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B614);
+DEFINE_func_8018B614()  /* dedup: shared engine-core @0x8018B614 (src/shared) */
 
 DEFINE_func_8018B660()  /* dedup: shared engine-core @0x8018B660 (src/shared) */
 
