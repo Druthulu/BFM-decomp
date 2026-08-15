@@ -61055,6 +61055,41 @@
         return (s32)func_80172710; \
     }
 
+#define DEFINE_func_8017DAC4() \
+    extern void func_80017714(void *); \
+    void func_8017DAC4(void *arg0) \
+    { \
+        s32 a0 = (s32)arg0; \
+        Prim_8017DAC4 prim; \
+        Prim_8017DAC4 *q; \
+        u16 *p; \
+        u16 dx, dy; \
+        s32 i; \
+        q = &prim; \
+        p = *(u16 **)(a0 + 0x0); \
+        dx = *(u16 *)(a0 + 0x12); \
+        dy = *(u16 *)(a0 + 0x14); \
+        i = 0; \
+        prim.v[0].vz = 3; \
+        prim.f20 = prim.f24 = *(s32 *)(a0 + 0x4); \
+        prim.f28 = *(s32 *)(a0 + 0x8); \
+        prim.f2C = 0; \
+        prim.f30 = 0x50000000; \
+        do { \
+            q->v[0].vx = p[0] + dx; \
+            q->v[0].vy = p[1] + dy; \
+            q->v[1].vx = p[2] + dx; \
+            q->v[1].vy = p[3] + dy; \
+            q->v[2].vx = p[4] + dx; \
+            q->v[2].vy = p[5] + dy; \
+            q->v[3].vx = p[6] + dx; \
+            q->v[3].vy = p[7] + dy; \
+            func_80017714(q); \
+            p += 8; \
+            i++; \
+        } while (i < 3); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -151513,6 +151548,41 @@
         *(u16 *)((s32)p + 0x2) = v0; \
         func_80178BF8(); \
         return (s32)func_80172710; \
+    }
+
+#define DEFINE_func_8017DAC4() \
+    extern void func_80017714(void *); \
+    void func_8017DAC4(void *arg0) \
+    { \
+        s32 a0 = (s32)arg0; \
+        Prim_8017DAC4 prim; \
+        Prim_8017DAC4 *q; \
+        u16 *p; \
+        u16 dx, dy; \
+        s32 i; \
+        q = &prim; \
+        p = *(u16 **)(a0 + 0x0); \
+        dx = *(u16 *)(a0 + 0x12); \
+        dy = *(u16 *)(a0 + 0x14); \
+        i = 0; \
+        prim.v[0].vz = 3; \
+        prim.f20 = prim.f24 = *(s32 *)(a0 + 0x4); \
+        prim.f28 = *(s32 *)(a0 + 0x8); \
+        prim.f2C = 0; \
+        prim.f30 = 0x50000000; \
+        do { \
+            q->v[0].vx = p[0] + dx; \
+            q->v[0].vy = p[1] + dy; \
+            q->v[1].vx = p[2] + dx; \
+            q->v[1].vy = p[3] + dy; \
+            q->v[2].vx = p[4] + dx; \
+            q->v[2].vy = p[5] + dy; \
+            q->v[3].vx = p[6] + dx; \
+            q->v[3].vy = p[7] + dy; \
+            func_80017714(q); \
+            p += 8; \
+            i++; \
+        } while (i < 3); \
     }
 
 #endif
