@@ -3987,7 +3987,23 @@ extern s32 func_8012AD50(void *a0);
 
 INCLUDE_ASM("asm/ov_SC07_009/nonmatchings/ov_SC07_009_jr_8017AE2C", func_8017D4CC);
 
-INCLUDE_ASM("asm/ov_SC07_009/nonmatchings/ov_SC07_009_jr_8017AE2C", func_8017D508);
+#include "common.h"
+
+extern s32 func_8017D994(s32 *a0);
+extern void func_8012BF4C(s32 a0, s32 a1);
+extern s32 func_8012AD50(void*);
+extern s32 D_8018187C;
+
+void func_8017D508(s32 a0) {
+    s32 result;
+
+    result = func_8017D994((s32 *)&D_8018187C);
+    if (result != 0) {
+        func_8012BF4C(a0, 0x52);
+        ((void (*)(void *))func_8012AD50)((void *)a0);
+    }
+}
+
 
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8017DA7C(s32 *a0);
