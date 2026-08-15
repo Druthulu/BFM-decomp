@@ -103,6 +103,9 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 ## Blockers
 - **main (79,510 weighted ins @ 0.5%) is blocked on a LINK-RESOLUTION defect, not on matching** — see the 2-byte `jal` retarget above. Needs its own lane before any main wave is worth running. Overlay/md lanes are unaffected and continue to bank.
+  - **NARROWED 2026-08-15 (a specific, testable lead).** The call site is `asm/nonmatchings/libmcrd1/func_80060D9C.s` +0xD8, and it references the callee **BY NAME**: `jal func_80061FA8`. Original encodes `0x80061FA8`; our build with one extra C function encodes `0x80062248`. **The delta is exactly `0x2A0`, which the map shows is precisely the `.text` SIZE of `build/src/800c2.o`** — the object whose `.text` *starts* at `0x80061FA8` (map line 3712: `.text 0x80061fa8 0x2a0 build/src/800c2.o`, with `func_80061FA8` and `func_80061FA8.NON_MATCHING` both bound there, and `func_80062144` inside it). So the name `func_80061FA8` resolved to the **END** of that object instead of its start — i.e. one object's length later, landing on the next section's first symbol (`firstfile`, `build/psyq/apicard/A66.o`). **Hypotheses to test, in order:** (1) the duplicate `func_80061FA8` / `func_80061FA8.NON_MATCHING` pair — a second definition winning under a changed link order; (2) `800c2.o` being dropped/reordered when a new undefined ref appears in `src/800.o`, so the name binds to the following object; (3) an `undefined_syms_auto.txt` / `symbols.us.txt` absolute (`firstfile2 = 0x80062248`) shadowing the object-provided symbol. Everything needed to test is in `build/us/SLUS_007.26.map` + `.run/wave_p31e/main/*.c` (4 preserved main drafts).
+
+
 
 ## 🛑 SESSION CHECKPOINT (REFRESHED 2026-08-15, overnight campaign mid-flight — do NOT close the phase)
 
