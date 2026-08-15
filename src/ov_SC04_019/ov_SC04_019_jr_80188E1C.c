@@ -4099,7 +4099,7 @@ void func_8018BD94(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018BDA4);
+DEFINE_func_8018BDA4()  /* dedup: shared engine-core @0x8018BDA4 (src/shared) */
 
 
 extern void func_80184CB8(s32*, s32);

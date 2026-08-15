@@ -60978,6 +60978,13 @@
         func_80185FB8(s0, 0xC, 0x1); \
     }
 
+#define DEFINE_func_8018BDA4() \
+    extern s32 func_8012E57C(s32 a0, s32 a1); \
+    void func_8018BDA4(s32 a0) { \
+        *(s16 *)(a0 + 0x2) = 1; \
+        *(s32 *)(a0 + 0xCC) = func_8012E57C(0x61, 0xA); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -151359,6 +151366,13 @@
         func_80184C90(s0); \
         func_80184ED4(s0, (s32)&D_801B65C8, 0, 0x40); \
         func_80185FB8(s0, 0xC, 0x1); \
+    }
+
+#define DEFINE_func_8018BDA4() \
+    extern s32 func_8012E57C(s32 a0, s32 a1); \
+    void func_8018BDA4(s32 a0) { \
+        *(s16 *)(a0 + 0x2) = 1; \
+        *(s32 *)(a0 + 0xCC) = func_8012E57C(0x61, 0xA); \
     }
 
 #endif
