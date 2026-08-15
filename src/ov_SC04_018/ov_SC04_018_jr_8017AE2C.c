@@ -4510,30 +4510,7 @@ s32 func_8017DCE8(void) {
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017DD0C);
 
 
-extern void func_800D1E28(void);
-extern s32 func_800D1D94(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8001BFD0(void);
-extern void func_800D0C48(s32 a0);
-
-s32 func_8017DD7C(s32 a0) {
-
-    extern s16 D_800B9A0A;
-    s16 s0;
-
-    if (--(*(s32 *)(a0 + 0x28)) == -1) {
-        func_800D1E28();
-        s0 = D_800B9A0A;
-        if (s0 != 0x1000 || (s16)func_800D1D94() != s0) {
-            func_8002D4C8(0x1C, 0);
-            func_8001BFD0();
-            func_8002D4C8(0x1D, 0);
-            func_800D0C48(1);
-        }
-        *(u8 *)(a0 + 0x15) += 1;
-    }
-    return 0;
-}
+DEFINE_func_8017DD7C()  /* dedup: shared engine-core @0x8017DD7C (src/shared) */
 
 
 extern void func_800D1EBC(void);
