@@ -3223,7 +3223,15 @@ INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_8018168
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_801816FC);
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181724);
+#include "common.h"
+
+extern void func_800291A0(s32, s32);
+extern u8 D_80183A40[];
+
+void func_80181724(s32 a0, s32 a1) {
+    func_800291A0(D_80183A40[(s16)a0], a1 & 0xFF);
+}
+
 
 void func_80181758(void *a0) {
         *(short *)(*(int *)((char *)a0 + 0x64) + 0x106) = 1;
