@@ -3621,7 +3621,21 @@ void func_8017FB48(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017FB84);
+#include "common.h"
+
+extern s32 func_80029504(void);
+extern void func_8017FBD0(s32 a0);
+extern void func_8017FCA8(s32 a0);
+
+void func_8017FB84(s32 a0) {
+    s32 v0 = func_80029504();
+    if (v0 < 0x640) {
+        func_8017FBD0(a0);
+    } else {
+        func_8017FCA8(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017FBD0);
 
