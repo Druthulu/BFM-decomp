@@ -147,6 +147,26 @@ def magic_div_count(words, mnems, reloc_idx):
     return n
 
 
+def li_norm_toks(words, reloc_idx=None):
+    """The li-NORMALIZED token stream (§168): family_cousins.tok() with (a) every `lui` that is NOT
+    an address anchor dropped, (b) `ori` mapped into the `addiu` class — so a constant's 1-vs-2
+    instruction materialization (the measured dominant near-pair drift, li 16-bit-boundary
+    expansion) yields the SAME skeleton. Shared by body_features (h_seqn) and atlas.py's normalized
+    similarity tiers (R33: one implementation)."""
+    if reloc_idx is None:
+        reloc_idx = FR.reloc_indices(words)
+    out = []
+    for i, w in enumerate(words):
+        op = w >> 26
+        if op == 0x0F and i not in reloc_idx:          # non-anchor lui: dropped
+            continue
+        if op == 0x0D:                                  # ori → addiu class
+            out.append((0x09,))
+            continue
+        out.append(FC.tok(w))
+    return out          # list, NOT tuple: h_seqn = sha1(repr(list)) — the memoized hashes depend on it
+
+
 # ---------------------------------------------------------------- body features (memo per h_exact)
 
 def body_features(words, vram):
@@ -216,14 +236,7 @@ def body_features(words, vram):
                 saves.append(rt)
 
     # li-normalized skeleton: tok stream with non-anchor lui dropped and ori→addiu class (§168)
-    toks = []
-    for i, w in enumerate(words):
-        t = FC.tok(w)
-        if mnems[i] == "lui" and i not in reloc_idx:
-            continue
-        if (w >> 26) == 0x0D:                                          # ori → addiu class
-            t = (0x09,)
-        toks.append(t)
+    toks = li_norm_toks(words, reloc_idx)
     h_seqn = hashlib.sha1(repr(toks).encode()).hexdigest()
 
     sm_h, sm_b = sign_mix(words, mnems)

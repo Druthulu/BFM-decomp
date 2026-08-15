@@ -335,6 +335,19 @@ sig-resident:
 		echo "sig-resident: signed the resident (bootstrap fallback — re-run after a build for seeded boundaries)"
 	fi
 
+# atlas (P31 T5): the full Frontier Atlas regen chain — family maps -> cards -> features -> the
+# partition-asserted atlas (every open stub in exactly one lever-labeled crack group). Run at
+# session T0 and after crack batches; ~10-15 min, zero tokens. Standalone atlas.py runs tolerate
+# maps that are stale only in the banked-since direction; this chain makes the normal path fresh.
+atlas:
+	$(VENV_PY) tools/family_hseq.py >/dev/null
+	$(VENV_PY) tools/family_cousins.py >/dev/null
+	$(VENV_PY) tools/family_cousins.py --adapt-cards >/dev/null
+	$(VENV_PY) tools/family_cousins.py --aprop-cards >/dev/null
+	$(VENV_PY) tools/atlas_features.py
+	$(VENV_PY) tools/atlas.py
+	echo "atlas: chain complete -> .run/atlas.json + docs/frontier-atlas.md"
+
 # sig-main (P31 T3): sign main's game-code STUBS with sig_image at SPLAT-TRUE lengths. main has a
 # 0x800 EXE header (file0-vram = $(main_VRAM_BASE)), interleaved data islands, and LINKED PsyQ
 # regions, so --bootstrap/func_end both mis-slice (measured 3/40 nins drift vs the .s truth);
