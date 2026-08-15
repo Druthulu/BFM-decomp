@@ -247,10 +247,16 @@ def propose_fix(v, draft_path, binary):
     renames = {}
     for s, bases in implied.items():
         if len(bases) != 1:
-            return {"fn": v["fn"], "action": "refuse",
-                    "why": f"{s} implies {len(bases)} different corrected bases "
-                           f"({', '.join('0x%08X' % b for b in sorted(bases))}) — not one wrong "
-                           f"symbol, so a rename would be a guess"}
+            # SYMBOL COLLAPSE: the draft used ONE extern where the target references N distinct
+            # globals. A textual rename cannot fix it (every occurrence would move together) --
+            # the draft needs N separate externs, one per site. Name the class and the sites so
+            # the repair is mechanical for whoever picks it up.
+            sites = [f"i={m['i']}->{m['target_addr']}" for m in v["mismatches"]
+                     if m["draft_symbol"] == s]
+            return {"fn": v["fn"], "action": "refuse", "klass": "SYMBOL-COLLAPSE",
+                    "why": f"{s} stands in for {len(bases)} DISTINCT globals "
+                           f"({', '.join('0x%08X' % b for b in sorted(bases))}) at {', '.join(sites)}"
+                           f" — split it into one extern per site; a rename moves all of them"}
         b = bases.pop()
         exact = [n for n, a in syms.items() if a == b]
         renames[s] = (sorted(exact)[0] if exact

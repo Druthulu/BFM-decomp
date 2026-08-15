@@ -16875,9 +16875,23 @@ and `--fix` mechanically repaired 10 of the 12 (the other 2 correctly refused).
 - **A nearest-symbol label needs a TIGHT window.** At 0x4000 the tool cheerfully called
   `func_8001C9D0` "SsGetMute+0xC50". A wrong label is worse than no label — the reader acts on it.
 
-**And the honest limit, measured the same session:** symbol-verified + shape-verified is still NOT
-sufficient for a bank. The first re-gate group of five such drafts banked **0/5** — what remains is
-TU plumbing (§176d), not identity. This oracle removes one named cause; it does not predict a gate.
+**And the honest limit, measured to completion the same session — this is the important half of the
+entry.** Symbol-verified + shape-verified is still NOT sufficient for a bank. Re-gating 20 such
+drafts across 5 groups banked **1 — 5%**, which is statistically the same as the project's existing
+**A10 stored-verdict law** (a blind stored-draft re-gate converts at ~0–8%; P31 T1 measured 0/23 on
+the same kind of pile). So the finding is a clean null with real value:
+
+> **Symbol verification does NOT improve stored-draft re-gate conversion.** The reason a stored
+> "match_one MATCH" draft was rejected is almost never symbol identity — it is TU plumbing (§176d)
+> or simple staleness. Do not spend rebuilds re-gating an old pile because a new filter made it
+> look clean; **the lane that banks is fresh drafting**, and this oracle's real value is as a
+> pre-gate check on FRESH drafts (where it costs seconds and removes a whole failure class before
+> the rebuild) — not as a resurrection tool for the backlog.
+
+R38 note to my future self: the phase log already recorded the 0/23 result before I ran this probe.
+The probe was still worth it — the reloc filter was a genuinely new discriminator and "does it move
+the A10 rate?" was unanswered — but the *prior* should have been ~8%, not the optimistic read I
+started with.
 
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
