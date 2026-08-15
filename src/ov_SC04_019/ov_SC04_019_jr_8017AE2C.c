@@ -5224,7 +5224,7 @@ void func_8017FA34(void) {
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017FA58);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017FAAC);
+DEFINE_func_8017FAAC()  /* dedup: shared engine-core @0x8017FAAC (src/shared) */
 
 extern s32 func_80184FA4(void);
 extern s32 func_80185BE0(s32 arg0);

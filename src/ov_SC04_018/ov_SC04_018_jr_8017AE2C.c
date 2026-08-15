@@ -5204,22 +5204,7 @@ INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017FA5
 
 #include "common.h"
 
-extern s32 func_80184BD0(u8 a0, u8 a1, u8 a2, u8 a3);
-extern void func_80184CB8(s32 *a0, s32 a1);
-extern s16 D_80191570;
-
-void func_8017FAAC(void *a0) {
-    s32 *v1;
-    s32 result;
-
-    v1 = *(s32 **)((s32)a0 + 0xCC);
-    *(s32 *)((s32)v1 + 0xB0) = 0x2;
-    result = func_80184BD0(0xE, 0xF, 0x17, 0);
-    if (result == 0) {
-        *(s16 *)((s32)a0 + 0x2) = 1;
-        func_80184CB8((s32 *)a0, (s32)&D_80191570);
-    }
-}
+DEFINE_func_8017FAAC()  /* dedup: shared engine-core @0x8017FAAC (src/shared) */
 
 
 #include "common.h"
