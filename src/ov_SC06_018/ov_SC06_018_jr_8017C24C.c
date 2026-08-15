@@ -7378,7 +7378,17 @@ LAB_80184738:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_801847FC);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012B864(s32 a0);
+extern u8 D_801CC180[];
+
+void func_801847FC(s32 a0) {
+    func_8012A828(a0, D_801CC180);
+    *(u16 *)(a0 + 0x2) = 0x10;
+    *(u16 *)(a0 + 0x34) = 0;
+    *(s32 *)(a0 + 0xE8) = func_8012B864(a0);
+}
+
 
 #include "common.h"
 
