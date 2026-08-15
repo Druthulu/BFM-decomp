@@ -4176,11 +4176,7 @@ DEFINE_func_80189898()  /* dedup: shared engine-core @0x80189898 (src/shared) */
 
 
 
-extern void (*D_8018F724[])(void);
-
-void func_801898C8(void *a0) {
-    D_8018F724[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_801898C8()  /* dedup: shared engine-core @0x801898C8 (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189904);

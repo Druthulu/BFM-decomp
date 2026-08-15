@@ -61123,6 +61123,12 @@
         func_80181998(); \
     }
 
+#define DEFINE_func_801898C8() \
+    extern void (*D_8018F724[])(void); \
+    void func_801898C8(void *a0) { \
+        D_8018F724[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -151649,6 +151655,12 @@
         *(s16*)((char *)arg0 + 0x34) = 0; \
         func_80184ED4((s32)s0, (s32)D_801B662C, 0, 0x80); \
         func_80181998(); \
+    }
+
+#define DEFINE_func_801898C8() \
+    extern void (*D_8018F724[])(void); \
+    void func_801898C8(void *a0) { \
+        D_8018F724[*(u16 *)((s32)a0 + 0x2)](); \
     }
 
 #endif
