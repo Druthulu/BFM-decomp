@@ -136,6 +136,18 @@ Draft rates 91–100% across twelve waves, overwhelmingly **haiku/sonnet writing
 ### Tooling built/fixed this session (all committed, all NC'd)
 `tools/gate_main.py` (NEW — batch clean-rebuild gate for main; in-TU decl-conflict resolution on TYPE SIGNATURES ONLY; duplicate-typedef stripping; compile-error culprit naming instead of bisection; **rm-output+returncode check after it once reported a FALSE PASS off a stale binary**) · `tools/build_wave_atlas.py` (NEW — TU-packed, mass-ranked selection; `main` excluded by default) · `tools/build_wave.py` (NEW — adapt/weak pools) · `gate_lane` home-TU resolution derived from `corpus` (was blind to main) · `aprop_symfix` survives curated PsyQ names · cookbook **§174 law 1b/1c**, **§175** (caller-saved pins can DELETE an instruction across a call).
 
+### Idioms banked before this checkpoint (Drew's rule, 2026-08-15 — memory `bank-idioms-before-checkpoint`)
+**Everything learned this session is in `docs/matching-cookbook.md`, not just in commit text.**
+- **§174 Law 1b/1c, Law 4** — PsyQ symbol names; `match_one` verifies SHAPE not SYMBOL IDENTITY; the DEF-side prototype constraint.
+- **§175** — a pin to a CALLER-SAVED register can silently DELETE an instruction when the value's live range crosses a `jal`.
+- **§176a/b/c** (mine, process-level) — the verification-layer laws (what each check can and cannot prove); batch-gating mechanics (gate cost scales with (binary,TU) groups; batched drafts must agree with each other; compile errors name their own culprit); main cannot be gated incrementally.
+- **§176 A–F** (agent-discovered, mined from all 14 wave journals by a 15-agent workflow; 26 novel of 81, each cross-checked against the existing cookbook first):
+  - **A — statement order around a call** is the FIRST check for any schedule/delay-slot/±1 residual. Two functions that first-pass agents filed as "irreducible tie-break / permuter fuel" went to MATCH by moving ONE statement above a call.
+  - **B — a small REGALLOC-PERM is usually not allocation** (narrow-symbol aliasing; pin the interloper, not the contested value).
+  - **C — 🔴 WALL REFUTATION, source-verified by me:** `gcc-2.7.2 sched.c:1704` tests `call_used_regs[i]` where every neighbouring line uses `regno + i`, so for a 1-word register it always tests `$zero` (call-used on MIPS) ⇒ **every hard-reg SET in a block gets a REG_DEP_ANTI on the last call**, while the pseudo arm is guarded by `reg_n_calls_crossed`. **A PIN CANNOT SCHEDULE AROUND A CALL — sometimes the fix is to UNPIN.** Refutes the universality of `sched.md` S11 step 1 and the "always try pins" reflex.
+  - D/E/F — CSE levers in reverse, two cc1-probed spellings, and four residual verdicts that were lying.
+  - The section ends with an explicit **"What is NOT banked here"** listing 7 mined items judged too thin — including two whose functions are still `INCLUDE_ASM` (so the lever is unverifiable) and one whose narrative **contradicts** the banked C. Nothing was silently dropped.
+
 ### Open work, in priority order
 1. **Run main waves** — highest value, ~913 stubs, 98% draft, `gate_main` handles it.
 2. **`gate_lane` swallows `gate_stage` stderr** — reports an unhandled crash as `0 banked / 0 near / 0 failed`, indistinguishable from an honest empty result (cost 2 cycles). Make it surface stderr / distinguish CRASH from NOTHING-BANKED.
