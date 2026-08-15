@@ -28,7 +28,16 @@ void func_800CAE78(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CAEC0);
+extern u8 D_800CC01C[];
+extern void func_80154274(void *a0, void *a1);
+extern void func_801655E4(void *a0);
+
+void func_800CAEC0(u8 *a0) {
+    func_80154274(a0, D_800CC01C);
+    func_801655E4(a0);
+    *(u8 *)(a0 + 0x197) = *(u8 *)(a0 + 0x197) + 1;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CAF08);
 
