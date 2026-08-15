@@ -5842,7 +5842,7 @@ s32 func_80181564(void *a0)
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801815DC);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80181648);
+DEFINE_func_80181648()  /* dedup: shared engine-core @0x80181648 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801816A8);
 
