@@ -60,5 +60,5 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 ## Blockers
 (none)
 
-## 🛑 SESSION CHECKPOINT
-T0+T1 done (commits through the t6-recover gates; T1 close commit pending the R22 run). NEXT = T2 (reference expansion: PsyQ Track-1 SAMPLE/ extraction → tools/reference/psyq-sdk/; gcc-2.7.2 calls.c + caller-save.c fetch; SETUP rows; idiom-notes seed). If resuming fresh: read the approved plan file above; check .run/t1_r22_check.log for the fleet verdict; then start T2.
+## 🛑 SESSION CHECKPOINT (refreshed 2026-08-14, end of the build arc)
+**T0–T9 ALL COMPLETE AND COMMITTED** (through `commit:2181`). Phase totals: **17 banked, 0 agent tokens**; stubs 12,059 → 12,042; R22 213/213 verified twice (post-T1, post-T6). The machine: the Atlas (5,139 groups, `make atlas`), the widened lanes (symfix STALE-DELTA, recover_integration isolation + macro-externs/tu-scope, family_align + len_tells + lenmiss routing), the armed queues (grinder: 59 warmstart records; cards: 954 weak + 192 len + 704 adapt; permuter-49). NEXT = **T10+ the campaign loop**: L3 grinder running in background (launched at checkpoint time); **card/crack WAVES need Drew's `/effort ultracode` toggle first (R27)** — prompt and WAIT. Campaign cadence + close criterion: the plan file §Leg-C. If resuming fresh: read the approved plan + this log; check `.run/auto/grinder_heartbeat.json`; run `make atlas` to refresh; continue the loop.
