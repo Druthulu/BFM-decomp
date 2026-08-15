@@ -5397,7 +5397,16 @@ void func_80185948(s16 *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80185A24);
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80185B20);
+#include "common.h"
+
+extern void func_8012CBA4(s32 a0);
+
+s16 func_80185B20(s32 a0) {
+    s32 mask = ((s32 (*)(s32))func_8012CBA4)(a0) & 0x8000;
+    s16 v = mask;
+    return v;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80185B48);
 
