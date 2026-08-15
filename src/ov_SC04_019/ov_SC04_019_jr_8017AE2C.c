@@ -5289,7 +5289,7 @@ void func_8017FCD8(void * arg0) {
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017FD28);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017FD88);
+DEFINE_func_8017FD88()  /* dedup: shared engine-core @0x8017FD88 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017FDE4);
 
