@@ -4189,15 +4189,7 @@ extern s16 D_800B9A0E;
 
 #include "common.h"
 
-extern s32 func_8012E544(s32 a0);
-extern s32 func_8012AD50(void *a0);
-
-void func_80189898(void) {
-    s32 result = func_8012E544(0x338);
-    if (result != 0) {
-        func_8012AD50((void *)result);
-    }
-}
+DEFINE_func_80189898()  /* dedup: shared engine-core @0x80189898 (src/shared) */
 
 
 

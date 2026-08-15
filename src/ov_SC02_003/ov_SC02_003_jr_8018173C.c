@@ -3931,7 +3931,7 @@ extern s16 D_800B9A0E;
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80189898);
+DEFINE_func_80189898()  /* dedup: shared engine-core @0x80189898 (src/shared) */
 
 
 extern void (*D_8018F724[])(void);
