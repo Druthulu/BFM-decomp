@@ -20,7 +20,7 @@ MUST NOT run while a gate is in flight (R35 — corpus.stubs() misreports substi
 
 Usage: build_wave_atlas.py <out.json> [N] [--max-bins K] [--min-ins M] [--levers a,b,c]
 """
-import json, sys, collections, subprocess, argparse
+import json, sys, collections, subprocess, argparse, glob
 sys.path.insert(0, 'tools')
 import corpus
 
@@ -33,25 +33,38 @@ ap.add_argument('--max-ins', type=int, default=120, help='above this the bulk la
 ap.add_argument('--levers', default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct',
                 help='agent-draftable levers; UNKNOWN/tell/jtbl/o0/cc1 need their own lanes')
 ap.add_argument('--atlas', default='.run/atlas.json')
-ap.add_argument('--exclude-bins', default='main',
-                help='comma-separated binaries to skip. main is excluded BY DEFAULT: it is blocked '
-                     'on a link-resolution defect (a byte-correct C fn retargets a jal between game '
-                     'code and a linked PsyQ archive object), not on matching — see CURRENT_PHASE.md')
+ap.add_argument('--exclude-bins', default='',
+                help='comma-separated binaries to skip. NOTHING is excluded by default. '
+                     '(History: main used to be excluded on a "link-resolution defect" — that '
+                     'diagnosis was REFUTED 2026-08-15 by a null-draft control: the false diff '
+                     'reproduces with ZERO drafts substituted. main simply cannot be gated '
+                     'INCREMENTALLY, because its extract runs psyq_integrate/ld_interleave and '
+                     'rewrites the .ld. Draft main like any binary; gate it with '
+                     'tools/gate_main.py, never gate_lane/gate_stage.)')
+ap.add_argument('--only-bins', default='',
+                help='comma-separated allow-list; if set, ONLY these binaries are eligible. '
+                     'Use --only-bins main for a main wave: gate_main.py rebuilds the whole EXE '
+                     'once per SLATE, so main has no per-TU gate cost and --max-bins can be large.')
 a = ap.parse_args()
 EXCLUDE = {b for b in a.exclude_bins.split(',') if b}
+ONLY = {b for b in a.only_bins.split(',') if b}
 
 busy = subprocess.run(['pgrep', '-f', 'tools/(gate_stage|dedup_propagate|gate_lane)'],
                       capture_output=True, text=True)
 if busy.returncode == 0 and busy.stdout.strip():
     sys.exit(f"REFUSING: gate in flight (pids {busy.stdout.split()}) — corpus.stubs() would misreport (R35).")
 
-PRIORS = ['.run/wave_p31%s_cards.json' % c for c in 'abcdefghijkl']
+# R32/R33: derive the already-waved set from what is ON DISK, never from a hardcoded wave-letter
+# list (the literal 'a'..'l' silently missed waves m and n and would have re-issued their cards).
+PRIORS = sorted(glob.glob('.run/wave_*_cards.json'))
 taken = set()
 for p in PRIORS:
     try:
         taken |= {c.get('fn') or c.get('name') for c in json.load(open(p))}
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (FileNotFoundError, json.JSONDecodeError, TypeError):
         pass
+if not PRIORS:
+    print('NOTE: no prior wave card files found — nothing filtered as already-waved', file=sys.stderr)
 
 levers = set(a.levers.split(','))
 atlas = json.load(open(a.atlas))
@@ -86,6 +99,7 @@ for g in atlas['groups']:
         fn, b, nins = m.get('name'), m.get('b'), m.get('nins') or 0
         if not fn or not b:                      skipped['no-name'] += 1; continue
         if b in EXCLUDE:                         skipped['excluded-binary'] += 1; continue
+        if ONLY and b not in ONLY:               skipped['not-in-only-bins'] += 1; continue
         if fn in taken:                          skipped['already-waved'] += 1; continue
         if not (a.min_ins <= nins <= a.max_ins): skipped['out-of-band'] += 1; continue
         if not is_open(b, fn):                   skipped['already-banked'] += 1; continue

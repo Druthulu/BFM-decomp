@@ -44,7 +44,7 @@ if n_g != len(cards):   # R32: a silent skip is a DEFECT, not a no-op
     print(f"R32 COVERAGE: {len(cards)} records -> {n_g} gateable; {len(missing)} missing drafts: {missing[:8]}", flush=True)
     if n_g == 0: sys.exit("R32: nothing gateable — refusing to report 0 as a result")
 print(f"gating {n_g} drafts in {len(groups)} groups", flush=True)
-banked=[]; res={}
+banked=[]; res={}; crashed=[]
 for (b,src),items in sorted(groups.items()):
     if dirty():
         subprocess.run("git checkout -- src/ config/",shell=True); print("  (reverted residue)",flush=True)
@@ -57,13 +57,28 @@ for (b,src),items in sorted(groups.items()):
     if sub: cmd+=["--asm-subdir",sub]
     r=subprocess.run(cmd,capture_output=True,text=True)          # NO outer timeout (§169 law 3)
     js=[l for l in (r.stdout+r.stderr).splitlines() if l.startswith('{')]
-    v=json.loads(js[-1]) if js else {}
-    got=v.get('verified',[]); banked+=got
-    print(f"  {b:14} {os.path.basename(src or ''):34} {len(items)}d -> {len(got)} banked", flush=True)
+    # A CRASH IS NOT A RESULT. Without this, an unhandled gate_stage exception (e.g.
+    # corpus.CorpusError) left js empty -> v={} -> "0 banked", INDISTINGUISHABLE from an honest
+    # empty gate. That cost two cycles in P31. Surface stderr and label the group CRASH.
+    if r.returncode != 0 or not js:
+        tail="\n".join((r.stderr or r.stdout or "").strip().splitlines()[-12:])
+        v={'CRASH':True,'returncode':r.returncode,'stderr_tail':tail,'verified':[]}
+        crashed.append(f"{b}:{src}")
+        print(f"  {b:14} {os.path.basename(src or ''):34} {len(items)}d -> ‼ CRASH rc={r.returncode} "
+              f"(NOT an empty result)\n{tail}", flush=True)
+    else:
+        v=json.loads(js[-1])
+        got=v.get('verified',[])
+        print(f"  {b:14} {os.path.basename(src or ''):34} {len(items)}d -> {len(got)} banked", flush=True)
+    banked+=v.get('verified',[])
     res[f"{b}:{src}"]=v
     json.dump(res,open(outp,'w'),indent=1)
 if dirty(): subprocess.run("git checkout -- src/ config/",shell=True)
 print(f"\nBANKED {len(banked)}: {banked}", flush=True)
+if crashed:
+    print(f"‼ {len(crashed)} GATE GROUP(S) CRASHED and were NEVER GATED: {crashed}\n"
+          f"  Their drafts are unjudged — re-run those groups after fixing the cause "
+          f"(run tools/gate_stage.py directly for the full traceback).", flush=True)
 json.dump(banked,open(outp.replace('.json','_banked.json'),'w'))
 # propagate per function
 for fn in banked:
@@ -76,3 +91,4 @@ for fn in banked:
         subprocess.run(f'git commit -q -m "feat({tag}): propagate {fn} (gate lane)"',shell=True)
         print(f"  prop {fn}: committed", flush=True)
 print("DONE", flush=True)
+if crashed: sys.exit(f"EXIT NON-ZERO: {len(crashed)} gate group(s) crashed — output above is INCOMPLETE.")
