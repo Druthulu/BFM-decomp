@@ -56500,7 +56500,7 @@
     extern void func_801847A4(void *arg0); \
     extern void func_801847D0(void *arg0); \
     extern void func_801847FC(void *arg0); \
-    extern void func_80184828(void *arg0); \
+    extern void func_80184828(); \
     extern void func_80184854(void *arg0); \
     extern void func_80184880(void *arg0); \
     extern void func_801848AC(void *arg0); \
@@ -147034,7 +147034,7 @@
     extern void func_801847A4(void *arg0); \
     extern void func_801847D0(void *arg0); \
     extern void func_801847FC(void *arg0); \
-    extern void func_80184828(void *arg0); \
+    extern void func_80184828(); \
     extern void func_80184854(void *arg0); \
     extern void func_80184880(void *arg0); \
     extern void func_801848AC(void *arg0); \
