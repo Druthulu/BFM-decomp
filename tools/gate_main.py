@@ -34,9 +34,13 @@ Usage:
      default is a DRY RUN that reports what would be substituted and any conflicts.
      --apply performs the substitution + clean rebuild and leaves banked drafts in the tree.
 """
-import argparse, collections, json, re, subprocess, sys
+import argparse, collections, functools, json, re, subprocess, sys
 sys.path.insert(0, 'tools')
 import corpus
+
+# stdout is BUFFERED when redirected to a file -- a long run then looks hung with an
+# empty log (measured: 16 min of silence during a bisect). Always flush.
+print = functools.partial(print, flush=True)
 
 GOOD = '143dbb89f34491258bbc27810d0a12ec8b43a8dd'
 TYPES = {'void','char','short','int','long','unsigned','signed','float','double','const',
@@ -110,9 +114,19 @@ def substitute(entries):
     return n
 
 def clean_build():
-    """The ONLY trustworthy main verification: extract (rewrites the .ld) then build."""
+    """The ONLY trustworthy main verification: extract (rewrites the .ld) then build.
+
+    DELETE THE OUTPUT FIRST, AND CHECK THE RETURN CODE. sha() reads build/us/SLUS_007.26 off
+    disk; if `make build` FAILS (e.g. a compile error) the PREVIOUS successful binary is still
+    sitting there, so sha() returns the GOOD hash and this tool reports BYTE-IDENTICAL for a
+    build that never ran -- a FALSE PASS. That is exactly how it once claimed "43 banked" on a
+    batch whose TU did not compile; the clean-fleet R22 caught it afterwards. A verifier that
+    can pass without building is worse than no verifier."""
+    run("rm -f build/us/SLUS_007.26")
     run("make extract BINARY=main")
     r = run("make build BINARY=main")
+    if r.returncode != 0:
+        return None, r                      # build failed -> no hash, and never a pass
     return sha(), r
 
 def try_batch(entries):
@@ -144,6 +158,20 @@ def main():
     if ok:
         print(f"\nBANKED {len(kept)} main functions -- {got} BYTE-IDENTICAL")
         json.dump([e['fn'] for e in kept], open('.run/gate_main_banked.json', 'w'))
+        return
+    # A COMPILE error names its own culprit -- read it instead of bisecting. Bisection here costs
+    # a FULL CLEAN REBUILD per step (~2-4 min), so it is worst-case hours; the compiler already
+    # told us the symbol and line. (Measured the hard way: a 41-draft bisect ran 28+ min with no
+    # output.) Only a byte MISMATCH with a clean compile genuinely needs bisection.
+    err = (r.stderr or '') + (r.stdout or '')
+    m = re.search(r'^(.*?):(\d+): previous declaration of `([^\']+)\'', err, re.M)
+    if m:
+        print(f"\nCOMPILE conflict on `{m.group(3)}' at {m.group(1)}:{m.group(2)} —"
+              f" NOT bisecting; drop or reconcile the drafts declaring it and re-run.")
+        offenders = [e['fn'] for e in kept
+                     if re.search(rf"\b{re.escape(m.group(3))}\b", open(e['draft']).read())]
+        print("  drafts declaring it:", offenders)
+        run("git checkout -- src/")
         return
     print(f"\nbatch FAILED (sha {got}); {'not bisecting' if a.no_bisect else 'bisecting'}")
     if a.no_bisect:
