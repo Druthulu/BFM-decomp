@@ -33,6 +33,9 @@ ap.add_argument('--work', default=None,
 ap.add_argument('--o0', action='store_true',
                 help='compile at -O0 (for the _o0 split subsegments: ov_SC01_077_o0.c, whale _o0b — '
                      'their target bytes are -O0; an -O2 compile can never match them, Makefile:445)')
+ap.add_argument('--emit-streams', default=None,
+                help='P31 T8 (additive): dump {"fn","mine":[words],"tgt":[words]} to this path — '
+                     'the len_tells/family_align input. No effect on stdout.')
 ap.add_argument('--json', action='store_true',
                 help='emit one JSON result line {status,closeness,nins,residual} (Task-12 structured '
                      'residual telemetry for the permuter-autopsy). Still exits 0 on MATCH, 1 otherwise.')
@@ -95,6 +98,10 @@ tgt = masked_diff.insns_from_s('%s/%s.s' % (a.asm_subdir, a.fn))
 
 if not mine:
     print('FAIL: my object has no function', a.fn, '(compile produced nothing?)'); sys.exit(1)
+
+if a.emit_streams:                                        # P31 T8: word streams for len_tells
+    json.dump({"fn": a.fn, "mine": [i["word"] for i in mine], "tgt": [i["word"] for i in tgt]},
+              open(a.emit_streams, "w"))
 
 # structured residual (shared with gate_stage's near-record + the Task-12 autopsy telemetry)
 diffs = masked_diff.structured_diff(mine, tgt)

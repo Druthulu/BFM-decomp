@@ -74,11 +74,54 @@ def _li_const(words, idxs):
     return (dest, v & 0xFFFFFFFF) if dest is not None else None
 
 
+_ADDR_RANGES = ((0x80010000, 0x80200000), (0x1F800000, 0x1F810000))
+
+
+def addr_true_rel(words):
+    """`reloc_indices` minus the lui-anchor pairs whose combined hi+lo value is NOT a plausible
+    address (T8: `reloc_indices` conservatively flags EVERY lui+consumer as an anchor — right for
+    h_norm masking, wrong for li-cluster recognition, where a 32-bit CONSTANT materialization must
+    stay eligible). jal indices are always kept. The pairing walk mirrors norm_stream's tracker."""
+    rel = FR.reloc_indices(words)
+    keep = set()
+    pending = {}                                          # reg -> (lui_idx, hi)
+    for k, w in enumerate(words):
+        op = w >> 26
+        if op in (2, 3):                                  # j/jal
+            keep.add(k)
+            continue
+        if op == 0x0F:                                    # lui
+            pending[(w >> 16) & 31] = (k, (w & 0xFFFF) << 16)
+            continue
+        rs, rt = (w >> 21) & 31, (w >> 16) & 31
+        if k in rel and rs in pending:
+            lk, hi = pending[rs]
+            imm = w & 0xFFFF
+            lo = imm - 0x10000 if imm >= 0x8000 and op in (0x09, 0x23, 0x21, 0x25, 0x20, 0x24,
+                                                           0x2B, 0x29, 0x28, 0x22, 0x26, 0x2A, 0x2E) else imm
+            v = (hi + lo) & 0xFFFFFFFF
+            if any(a <= v < b for a, b in _ADDR_RANGES):
+                keep.add(lk)
+                keep.add(k)
+            # else: a constant materialization — both indices stay OUT of the address-true set
+        # register kill tracking (approximate, matches reloc_indices' conservatism)
+        if op == 0:
+            pending.pop((w >> 11) & 31, None)
+        else:
+            pending.pop(rt, None)
+    return keep
+
+
 def classify_aligned(ex_words, sib_words):
     """-> (verdict, detail). detail: {'pairs', 'clusters': [(exv,sibv)], 'imm_pairs', 'reasons'}.
-    Equal-length identical-tok inputs reproduce classify_member's PURE/IMM/STRUCT verdicts (NC-1)."""
+    Equal-length identical-tok inputs reproduce classify_member's PURE/IMM/STRUCT verdicts (NC-1).
+    TWO reloc sets per side: the FULL conservative set (classify_member-equivalent pair semantics,
+    NC-1) and the ADDRESS-TRUE subset (indel-region eligibility only — a constant li-cluster must
+    not read as 'reloc-in-indel')."""
     rel_ex = FR.reloc_indices(ex_words)
     rel_sib = FR.reloc_indices(sib_words)
+    rel_ex_addr = addr_true_rel(ex_words)
+    rel_sib_addr = addr_true_rel(sib_words)
     ops = align_blocks(ex_words, sib_words)
 
     pairs = []                                            # aligned (i, j) index pairs
@@ -126,7 +169,7 @@ def classify_aligned(ex_words, sib_words):
         if all(w == 0 for w in region_words_ex + region_words_sib):
             verdict_flags.add("NOP")
             continue
-        if any(k in rel_ex for k in ex_idx) or any(k in rel_sib for k in sib_idx):
+        if any(k in rel_ex_addr for k in ex_idx) or any(k in rel_sib_addr for k in sib_idx):
             reasons.append("reloc-in-indel")
             verdict_flags.add("STRUCT")
             continue
