@@ -6115,7 +6115,31 @@ extern void func_8012B21C(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80183648);
+#include "common.h"
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+typedef struct { s32 w[8]; } Mtx8;
+extern Mtx8 D_800AE620;
+
+void func_80183648(s32 a0)
+{
+    Mtx8 m;
+    s32 vel[3];
+
+    m = D_800AE620;
+    vel[1] = 0;
+    vel[0] = 0;
+    vel[2] = 0xFFF20000;
+    RotMatrixY(*(s16 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x12), &m);
+    func_800484EC((s32)&m, (s32)&vel[0], a0 + 0x10);
+    func_8002D4C8(0xB3F, 0);
+    func_8012AD44((s32 *)a0, 3);
+}
+
 
 extern void (*D_801A1F44[])(void);
 extern void func_8012E014(void *a0);
