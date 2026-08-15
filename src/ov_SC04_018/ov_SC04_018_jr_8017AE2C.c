@@ -5166,18 +5166,7 @@ extern void func_80029124(s32 arg0, s32 arg1);
 
 #include "common.h"
 
-extern s32 func_80184BD0(u8 a0, u8 a1, u8 a2, u8 a3);
-extern void func_8017F500(void *a0);
-
-void func_8017FA58(void *a0) {
-    s32 v0;
-
-    *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2;
-    v0 = func_80184BD0(0xB, 0, 0x17, 0);
-    if (v0) {
-        func_8017F500(a0);
-    }
-}
+DEFINE_func_8017FA58()  /* dedup: shared engine-core @0x8017FA58 (src/shared) */
 
 
 #include "common.h"

@@ -61090,6 +61090,18 @@
         } while (i < 3); \
     }
 
+#define DEFINE_func_8017FA58() \
+    extern s32 func_80184BD0(u8 a0, u8 a1, u8 a2, u8 a3); \
+    extern void func_8017F500(void *a0); \
+    void func_8017FA58(void *a0) { \
+        s32 v0; \
+        *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2; \
+        v0 = func_80184BD0(0xB, 0, 0x17, 0); \
+        if (v0) { \
+            func_8017F500(a0); \
+        } \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -151583,6 +151595,18 @@
             p += 8; \
             i++; \
         } while (i < 3); \
+    }
+
+#define DEFINE_func_8017FA58() \
+    extern s32 func_80184BD0(u8 a0, u8 a1, u8 a2, u8 a3); \
+    extern void func_8017F500(void *a0); \
+    void func_8017FA58(void *a0) { \
+        s32 v0; \
+        *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2; \
+        v0 = func_80184BD0(0xB, 0, 0x17, 0); \
+        if (v0) { \
+            func_8017F500(a0); \
+        } \
     }
 
 #endif
