@@ -60697,6 +60697,23 @@
         func_80187674(a0); \
     }
 
+#define DEFINE_func_8018BA18() \
+    extern s32 func_80184BAC(s32 arg0, s32 arg1); \
+    extern u8 D_80078EBA; \
+    extern void func_8018B9D0(void *a0); \
+    void func_8018BA18(void *a0) { \
+        s32 v0; \
+        *(s32 *)(*(s32 *)((s32)a0 + 0xcc) + 0xb0) = 1; \
+        if (D_80078EBA == 0) { \
+            v0 = 0; \
+        } else { \
+            v0 = func_80184BAC(0xB, 0x10) != 0; \
+        } \
+        if (!v0) { \
+            func_8018B9D0(a0); \
+        } \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -150797,6 +150814,23 @@
         cnt = *(unsigned short *)(a0 + 0x70) - 1; \
         *(unsigned short *)(a0 + 0x70) = cnt; \
         func_80187674(a0); \
+    }
+
+#define DEFINE_func_8018BA18() \
+    extern s32 func_80184BAC(s32 arg0, s32 arg1); \
+    extern u8 D_80078EBA; \
+    extern void func_8018B9D0(void *a0); \
+    void func_8018BA18(void *a0) { \
+        s32 v0; \
+        *(s32 *)(*(s32 *)((s32)a0 + 0xcc) + 0xb0) = 1; \
+        if (D_80078EBA == 0) { \
+            v0 = 0; \
+        } else { \
+            v0 = func_80184BAC(0xB, 0x10) != 0; \
+        } \
+        if (!v0) { \
+            func_8018B9D0(a0); \
+        } \
     }
 
 #endif

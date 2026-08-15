@@ -4070,7 +4070,7 @@ void func_8018B9DC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018BA18);
+DEFINE_func_8018BA18()  /* dedup: shared engine-core @0x8018BA18 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018BA80);
 
