@@ -60674,6 +60674,29 @@
         } \
     }
 
+#define DEFINE_func_80188418() \
+    extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2); \
+    extern void func_80187674(s32 a0); \
+    void func_80188418(s32 a0) \
+    { \
+        short cnt; \
+        s32 v1; \
+        *(short *)(a0 + 0x2) = 0x11; \
+        cnt = *(unsigned short *)(a0 + 0x70) + 1; \
+        *(unsigned short *)(a0 + 0x70) = cnt; \
+        if (cnt < 0x17) { \
+            v1 = func_8012C658(0x1EA, cnt, a0); \
+            if (v1 != 0) { \
+                *(unsigned short *)(v1 + 0xFE) = *(unsigned short *)(a0 + 0x36); \
+                *(s32 *)(a0 + 0x6C) = v1; \
+                *(unsigned short *)(v1 + 0x108) = (*(unsigned short *)(a0 + 0x70) - 0x11) << 9; \
+            } \
+        } \
+        cnt = *(unsigned short *)(a0 + 0x70) - 1; \
+        *(unsigned short *)(a0 + 0x70) = cnt; \
+        func_80187674(a0); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -150751,6 +150774,29 @@
             func_8012D5E4(a0, (s32)&D_801C6FB4, (s32)&D_801C6FBC, 0xF); \
             *(s16*)(a0 + 0xFE) = 8; \
         } \
+    }
+
+#define DEFINE_func_80188418() \
+    extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2); \
+    extern void func_80187674(s32 a0); \
+    void func_80188418(s32 a0) \
+    { \
+        short cnt; \
+        s32 v1; \
+        *(short *)(a0 + 0x2) = 0x11; \
+        cnt = *(unsigned short *)(a0 + 0x70) + 1; \
+        *(unsigned short *)(a0 + 0x70) = cnt; \
+        if (cnt < 0x17) { \
+            v1 = func_8012C658(0x1EA, cnt, a0); \
+            if (v1 != 0) { \
+                *(unsigned short *)(v1 + 0xFE) = *(unsigned short *)(a0 + 0x36); \
+                *(s32 *)(a0 + 0x6C) = v1; \
+                *(unsigned short *)(v1 + 0x108) = (*(unsigned short *)(a0 + 0x70) - 0x11) << 9; \
+            } \
+        } \
+        cnt = *(unsigned short *)(a0 + 0x70) - 1; \
+        *(unsigned short *)(a0 + 0x70) = cnt; \
+        func_80187674(a0); \
     }
 
 #endif
