@@ -3796,7 +3796,15 @@ extern s32 func_8018B20C(void);
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80180F08);
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80180F4C);
+extern s32 *D_80126B78;
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8018618C(s16 arg0);
+
+void func_80180F4C(void) {
+    short *p = D_80126B78;
+    func_8018618C(func_8012B608(p[0x12 / 2], 0, 0x10));
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80180F88);
 
