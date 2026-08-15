@@ -4957,15 +4957,7 @@ INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017F13
 
 #include "common.h"
 
-extern void func_8014BB0C(void);
-extern void func_8014BDC8(void);
-extern void func_8002D4C8(s32 a0, s32 a1);
-
-void func_8017F174(void) {
-    func_8014BB0C();
-    func_8014BDC8();
-    ((s32 (*)(s32, s32))func_8002D4C8)(0x45C, 0);
-}
+DEFINE_func_8017F174()  /* dedup: shared engine-core @0x8017F174 (src/shared) */
 
 
 extern void func_80029514(int);

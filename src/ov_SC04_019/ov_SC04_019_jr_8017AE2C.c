@@ -4980,7 +4980,7 @@ extern void func_80029124(s32 arg0, s32 arg1);
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017F138);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017F174);
+DEFINE_func_8017F174()  /* dedup: shared engine-core @0x8017F174 (src/shared) */
 
 extern void func_80029514(int);
 void func_8017F1A8(void) {
