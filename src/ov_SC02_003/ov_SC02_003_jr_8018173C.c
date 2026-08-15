@@ -3172,7 +3172,7 @@ DEFINE_func_80184B14()  /* dedup: shared engine-core @0x80184B14 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80184BD8);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_8018512C);
+DEFINE_func_8018512C()  /* dedup: shared engine-core @0x8018512C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_801852E4);
 
