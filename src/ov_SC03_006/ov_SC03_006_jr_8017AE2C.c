@@ -8559,7 +8559,40 @@ void func_80186034(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80186070);
+#include "common.h"
+
+/* Local standalone-compile clone of engine_types.h's Mtx8_8017DE10_8017E710
+ * (match_one's isolated compile only has -Iinclude, can't resolve
+ * ../shared/engine_types.h; the host TU already includes it via engine_core.h). */
+
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern u8 D_80078EAE;
+extern Mtx8_8017DE10_8017E710 D_800AE620;
+
+void func_80186070(s32 a0) {
+    Mtx8_8017DE10_8017E710 m;
+    s32 vec[3];
+    s32 p;
+    u8 flag;
+
+    flag = D_80078EAE;
+    vec[1] = 0;
+    vec[0] = 0;
+    vec[2] = (flag == 0) ? (s32)0xFFFB8000 : (s32)0xFFFE8000;
+
+    *(s16 *)(a0 + 0x2C) = 0x3C;
+    *(s16 *)(a0 + 0x2) = 1;
+
+    m = D_800AE620;
+
+    p = *(s32 *)(a0 + 0x20);
+    RotMatrixY(*(s16 *)(p + 0x12), &m);
+
+    func_800484EC((s32)&m, (s32)vec, a0 + 0x10);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80186140);
 
@@ -8624,7 +8657,97 @@ s32 func_801861D8(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80186334);
+#include "common.h"
+
+/* func_80186334 — structurally identical to the TU-proven-MATCH sibling
+ * func_8018E208 (ov_SC02_011, cookbook family). Same computed MATRIX
+ * (func_80020DA4 + func_80020F34, translation overwritten from the entity's
+ * s16 position), same 4-iteration loop over two advancing per-overlay
+ * vertex-pair pointers (D_801C5B74 / D_801C5B74+0x20), same
+ * func_80135888 hit test. */
+
+extern s32 D_80126B58;                                     /* TU:52   verbatim */
+extern void func_80020F34(s32 a0, s32 a1);                 /* TU:1654 verbatim */
+extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3); /* TU:583  verbatim */
+extern void RotTransSV(void *a0, void *a1, void *a2);      /* TU:3111 verbatim */
+
+/* neither is declared anywhere in this TU; func_80020DA4 takes the
+ * (s32, s32) form of its TU-declared sibling func_80020F34.  D_801C5B74 is
+ * per-overlay data. */
+extern void func_80020DA4(s32 a0, s32 a1);
+extern u8 D_801C5B74[];
+
+#define SRM_80186334(r0) __asm__ volatile (              \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define STM_80186334(r0) __asm__ volatile (              \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+s32 func_80186334(void *a0)
+{
+    s32 *cfg;
+    s32  i;
+    u8  *p0;
+    u8  *p1;
+    u8  *base;
+    s32  matrix[8];   /* sp+0x10, MATRIX-shaped: t[] at matrix[5..7] */
+    s32  sv0[2];      /* sp+0x30 */
+    s32  sv1[2];      /* sp+0x38 */
+    s32  flag;        /* sp+0x40 */
+    s32  hit;
+
+    cfg = (s32 *)&D_80126B58;
+    p0 = (u8 *)*(s32 *)((s32)a0 + 0x20);
+
+    func_80020DA4((s32)p0 + 0x10, (s32)matrix);
+    func_80020F34((s32)matrix, (s32)p0 + 0x18);
+
+    matrix[5] = *(s16 *)(p0 + 0x8);
+    matrix[6] = *(s16 *)(p0 + 0xA);
+    matrix[7] = *(s16 *)(p0 + 0xC);
+
+    base = D_801C5B74;
+    p1 = base + 0x20;
+    p0 = base;
+
+    for (i = 0; i < 4; i++) {
+        SRM_80186334(matrix);
+        STM_80186334(matrix);
+
+        RotTransSV(p0, sv0, &flag);
+        RotTransSV(p1, sv1, &flag);
+
+        hit = func_80135888(*(s32 *)((u8 *)cfg + 0x20), *(s32 *)((u8 *)cfg + 0x38),
+                            (s32)sv0, (s32)sv1);
+        do { } while (0);   /* scheduling barrier — matched sibling note 3 */
+        p1 += 8;
+        if (hit != 0) {
+            return 1;
+        }
+        p0 += 8;
+    }
+    return 0;
+}
+
 
 
 extern void (*D_801C5BD4[])(void);
@@ -9765,7 +9888,56 @@ INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80188A2
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80188A94);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80188AF4);
+#include "common.h"
+
+/* match_one's standalone common.h does not reach src/shared/engine_types.h, where the
+ * real TU's Blk20 { s32 w[8]; } and Vec32 { s32 vx, vy, vz, pad; } live. Local copies here;
+ * integrator may drop these and reuse the TU's own (engine_types.h:472, :1098). */
+typedef struct { s32 w[8]; } Blk20_80188AF4;
+typedef struct { s32 vx, vy, vz, pad; } Vec32_80188AF4;
+
+void func_80188AF4(s32 a0, s32 a1) {
+    extern s32  func_8012B864(s32 a0);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+    extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+    extern Mtx8_8017DE10_8017E710 D_800AE620;
+
+    u32 pos[3];
+    Vec32_80188AF4 out;
+    u8 rotIn[8];
+    u8 rotOut[8];
+    Blk20_80188AF4 m;
+
+    m = (*(Blk20_80188AF4 *)&D_800AE620);
+    RotMatrixY(func_8012B864(a0), &m);
+    func_800484EC((s32)&m, a1, (s32)&out);
+
+    pos[0] = *(s32 *)(a0 + 0x4) + out.vx;
+    pos[1] = *(s32 *)(a0 + 0x8) + out.vy;
+    pos[2] = *(s32 *)(a0 + 0xC) + out.vz;
+
+    {
+        register u16 rix __asm__("$2");
+        register u16 roy __asm__("$3");
+        register u16 roz __asm__("$7");
+        register u16 riz __asm__("$8");
+
+        rix = *(u16 *)(a0 + 0x3A);
+        roy = *((u16 *)&pos[1] + 1);
+        roz = *((u16 *)&pos[2] + 1);
+        *(u16 *)(rotIn + 0) = rix;
+        *(u16 *)(rotIn + 2) = *(u16 *)(a0 + 0x3E);
+        riz = *(u16 *)(a0 + 0x42);
+        *(u16 *)(rotOut + 0) = *((u16 *)&pos[0] + 1);
+        *(u16 *)(rotOut + 2) = roy;
+        *(u16 *)(rotOut + 4) = roz;
+        *(u16 *)(rotIn + 4) = riz;
+    }
+
+    func_8012CEB0((s32)&rotIn[0], (s32)&rotOut[0], 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80188C18);
 
