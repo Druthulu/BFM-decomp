@@ -4811,7 +4811,7 @@ extern void func_80184CB8(s32*, s32);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017E5CC);
+DEFINE_func_8017E5CC()  /* dedup: shared engine-core @0x8017E5CC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017E628);
 
