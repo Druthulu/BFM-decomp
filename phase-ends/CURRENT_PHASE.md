@@ -143,6 +143,12 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 2. **`aprop_symfix` false-positives on LOCAL identifiers** (typedefs, inline-asm macro names) and its draft-symbol extraction misses some `extern` forms → it reported `STALE`/`AMBIGUOUS` for 3 drafts that were already correct. **Symfix is ADVISORY; the gate is the arbiter** — never withhold a standalone-MATCH draft on a flag alone.
 3. **Never `make clean` mid-campaign** without immediately re-running `make extract-all` — it wipes every binary's `asm/` and every downstream tool then fails in confusing ways (cost 2 gate cycles tonight).
 
+**📊 OVERNIGHT RESULT (2026-08-15, waves C–M).** ~408 banked · stubs 12,059 → **11,589** · fleet **95.4% instr** · **213/213 byte-identical after every batch** · **main 0 → 175 matched** (913 stubs left). Wave draft rates 91–100% across ten waves, mostly **haiku**, writing byte-exact C from raw MIPS with no reference body. Four perfect sweeps (36/36, 44/44, 44/44, 44/44).
+
+**🔧 THE MAIN LANE — HOW TO RUN IT (this is the night's unlock).** main was 0.5% and written up as the hardest remaining mass; it was never hard, it was never *gated correctly*. Use **`tools/gate_main.py <slate.json> --apply`**: substitute the batch → `make extract BINARY=main` → `make build` → SHA. ONE clean rebuild verifies the WHOLE batch (42–43 banked per rebuild). It reports in-TU declaration conflicts and, on a compile error, names the culprit instead of bisecting. **Do NOT gate main through `gate_lane`/`gate_stage`** — they build incrementally and main's extract rewrites the `.ld`, producing a false diff (R22's own rationale).
+- **Known next improvement (mechanical, recurring):** `gate_main` should strip DUPLICATE TYPEDEFS on substitution the way `harvest_verify` already does. `src/800.c` now carries local typedefs (e.g. `SVECTOR`) from previously banked functions, so any later draft defining its own collides and costs a draft per wave.
+- The 5+3+2 conflict-dropped main drafts across waves J/K/L are **verified-correct and recoverable** with cast-at-use (adopt the other declaration verbatim, adapt at the use site).
+
 **RESUME STEPS:**
 1. `pgrep -f tools/gate_lane` — never run two gates, and never run `build_wave*.py` during one (R35 guard: `corpus.stubs()` misreports substituted drafts).
 2. Gate the late-repaired wave-D drafts: `.run/wave_p31d_late_slate.json` (5 verified MATCH, rescued by the repair stage after the main slate was built).
