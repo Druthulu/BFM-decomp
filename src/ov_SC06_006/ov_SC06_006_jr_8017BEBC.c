@@ -4203,7 +4203,21 @@ void func_80181AF8(unsigned short *param_1, short *param_2, short *param_3,
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80181C84);
+#include "common.h"
+
+extern int func_80181CB8(short *pos, int a1, int a2);
+
+int func_80181C84(short *pos, int a1, int a2)
+{
+    int v1 = func_80181CB8(pos, a1, a2);
+
+    if (v1 != 0) {
+        *(short *)(v1 + 0x32) = 1;
+    }
+
+    return v1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80181CB8);
 
