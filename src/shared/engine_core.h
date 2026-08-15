@@ -60540,6 +60540,16 @@
         func_80184C90((s32)arg0); \
     }
 
+#define DEFINE_func_8018B158() \
+    extern void func_8012E8E0(s32 a0, s32 a1); \
+    extern u8 D_801E04F8[]; \
+    void func_8018B158(s32 a0) { \
+        *(s16 *)(a0 + 0x2) = 1; \
+        func_8012E8E0(a0, (s32)&D_801E04F8); \
+        *(s16 *)(a0 + 0xFE) = 0; \
+        *(s16 *)(a0 + 0xFC) = 0x80; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -150483,6 +150493,16 @@
         func_8012E88C((s32)arg0); \
         func_8012A828((s32 *)arg0, (s32)&D_801B99A8); \
         func_80184C90((s32)arg0); \
+    }
+
+#define DEFINE_func_8018B158() \
+    extern void func_8012E8E0(s32 a0, s32 a1); \
+    extern u8 D_801E04F8[]; \
+    void func_8018B158(s32 a0) { \
+        *(s16 *)(a0 + 0x2) = 1; \
+        func_8012E8E0(a0, (s32)&D_801E04F8); \
+        *(s16 *)(a0 + 0xFE) = 0; \
+        *(s16 *)(a0 + 0xFC) = 0x80; \
     }
 
 #endif
