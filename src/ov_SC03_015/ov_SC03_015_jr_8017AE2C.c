@@ -4420,7 +4420,7 @@ void func_8017DC28(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017AE2C", func_8017DC4C);
+DEFINE_func_8017DC4C()  /* dedup: shared engine-core @0x8017DC4C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_8017AE2C", func_8017DCC0);
 
