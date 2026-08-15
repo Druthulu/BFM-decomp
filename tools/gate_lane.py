@@ -21,14 +21,22 @@ def dirty(): return subprocess.run("git status --porcelain -- src/ config/",shel
 def writers(): return subprocess.run("pgrep -af 'dedup_propagate|gate_stage|harvest_verify'",
                                      shell=True,capture_output=True,text=True).stdout
 if dirty(): sys.exit("TREE DIRTY at entry — resolve before gating:\n"+dirty()[:400])
+
+# The stub's HOME .c, DERIVED from the corpus oracle (R33) rather than re-globbed. The old
+# `glob("src/<binary>/*.c")` was structurally blind to `main`, whose sources live at src/*.c —
+# every main draft grouped under src=None (R36: a consumer silently ignoring a real binary).
+# corpus.stubs() already carries the answer on each record: Stub.path.
+_HOME={}
+def _home(binary, fn):
+    if binary not in _HOME:
+        _HOME[binary]={st.symbol: st.path for st in corpus.stubs(binary).values()}
+    return _HOME[binary].get(fn)
+
 groups=collections.defaultdict(list)
 for c in cards:
     p=c.get('draft') or f"{wavedir}/{c['name']}/{c['name']}.c"   # explicit path wins (agents use per-binary dirs)
     if not os.path.isfile(p): continue
-    src=None
-    for f in sorted(glob.glob(f"src/{c['binary']}/*.c")):
-        t=open(f).read()
-        if "INCLUDE_ASM" in t and c['name'] in t: src=f; break
+    src=_home(c['binary'], c['name'])
     groups[(c['binary'],src)].append((c['name'],p))
 n_g=sum(len(v) for v in groups.values())
 missing=[c['name'] for c in cards if not os.path.isfile(c.get('draft') or f"{wavedir}/{c['name']}/{c['name']}.c")]
