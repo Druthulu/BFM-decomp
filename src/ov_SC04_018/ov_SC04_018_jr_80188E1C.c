@@ -4592,16 +4592,7 @@ void func_8018B614(void *a0) {
 
 #include "common.h"
 
-void func_8018B660(s32 a0) {
-    s32 *v1;
-
-    v1 = *(s32 **)((s32)a0 + 0xCC);
-    *(s32 *)((s32)v1 + 0xB0) = 2;
-
-    if (func_8018B5AC() == 0) {
-        *(s16 *)((s32)a0 + 0x2) = 1;
-    }
-}
+DEFINE_func_8018B660()  /* dedup: shared engine-core @0x8018B660 (src/shared) */
 
 
 void func_8018B6A0(void *a0) {

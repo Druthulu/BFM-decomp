@@ -3998,7 +3998,7 @@ INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B5A
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B614);
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B660);
+DEFINE_func_8018B660()  /* dedup: shared engine-core @0x8018B660 (src/shared) */
 
 extern s32 func_8012E57C(s32 a0, s32 a1);
 
