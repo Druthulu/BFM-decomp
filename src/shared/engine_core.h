@@ -59951,7 +59951,7 @@
     extern void func_8012C098(void); \
     extern void func_8012C218(void *a0); \
     extern void func_8017FCB0(void *a0); \
-    extern void func_8017FD2C(u8 *a0); \
+    extern void func_8017FD2C(); \
     extern void func_8017FD44(void *a0); \
     extern void func_8012A828(int, void *); \
     extern void func_8012B2CC(int); \
@@ -150485,7 +150485,7 @@
     extern void func_8012C098(void); \
     extern void func_8012C218(void *a0); \
     extern void func_8017FCB0(void *a0); \
-    extern void func_8017FD2C(u8 *a0); \
+    extern void func_8017FD2C(); \
     extern void func_8017FD44(void *a0); \
     extern void func_8012A828(int, void *); \
     extern void func_8012B2CC(int); \
