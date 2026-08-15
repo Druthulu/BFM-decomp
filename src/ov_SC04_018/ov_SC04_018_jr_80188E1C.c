@@ -4462,37 +4462,7 @@ INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_80188E1C", func_8018AFF
 
 #include "common.h"
 
-extern void func_8012C1B8(void);
-extern void func_8012CAE4(void *a0);
-extern void func_8001C214(s32, s32);
-extern void func_8012C588(s32, s32);
-extern void func_8018A0B4(void);
-
-void func_8018B0AC(void *a0) {
-    s32 v0;
-    u16 val;
-
-    v0 = ((s32 (*)(void *))func_8012C1B8)(a0);
-    *(s32 *)((char *)a0 + 0x20) = v0;
-    if (v0 == 0) {
-        func_8012CAE4(a0);
-        return;
-    }
-
-    func_8001C214(v0, 0);
-    func_8012C588(0x13F, 0);
-    func_8012C588(0x66, 0);
-    func_8012C588(0x65, 0);
-    func_8012C588(0x14C, 0);
-    func_8012C588(0x335, 0);
-    func_8012C588(0x3D9, 0);
-
-    val = *(u16 *)((char *)a0 + 0x72);
-    *(u16 *)((char *)a0 + 0x2) = 1;
-    val |= 0x1000;
-    *(u16 *)((char *)a0 + 0x72) = val;
-    func_8018A0B4();
-}
+DEFINE_func_8018B0AC()  /* dedup: shared engine-core @0x8018B0AC (src/shared) */
 
 
 DEFINE_func_8018B158()  /* dedup: shared engine-core @0x8018B158 (src/shared) */
