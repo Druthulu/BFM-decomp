@@ -222,6 +222,49 @@ def _fmt(v):
     return head
 
 
+def propose_fix(v, draft_path, binary):
+    """Mechanical repair for a MISMATCH: rename the draft's wrong symbol to the one the TARGET
+    actually references. Only when the evidence is unambiguous.
+
+    For a relocation naming symbol S with in-instruction addend A against target value T, the
+    corrected base is T - A. A rename is proposed only if EVERY mismatch naming S implies the SAME
+    corrected base -- i.e. the draft is consistently pointed at one wrong symbol (the §171
+    stale-seed-symbol shape, where all of a draft's per-location symbols are off by one delta).
+    If the implied bases disagree, the draft is wrong in more than one way and a rename would be a
+    guess: refuse and say so (R39 -- a fixer that guesses is worse than one that declines)."""
+    if not v.get("aligned") or v["status"] != "MISMATCH":
+        return {"fn": v["fn"], "action": "skip", "why": "not an aligned MISMATCH"}
+    syms = corpus.symbols(binary)
+    idx = _addr_index(binary)
+    implied = {}
+    for m in v["mismatches"]:
+        s = m["draft_symbol"]
+        d, t = int(m["draft_addr"], 16), int(m["target_addr"], 16)
+        base = resolve_name(s, syms)
+        if base is None:
+            return {"fn": v["fn"], "action": "refuse", "why": f"cannot resolve {s}"}
+        implied.setdefault(s, set()).add((t - (d - base)) & 0xFFFFFFFF)
+    renames = {}
+    for s, bases in implied.items():
+        if len(bases) != 1:
+            return {"fn": v["fn"], "action": "refuse",
+                    "why": f"{s} implies {len(bases)} different corrected bases "
+                           f"({', '.join('0x%08X' % b for b in sorted(bases))}) — not one wrong "
+                           f"symbol, so a rename would be a guess"}
+        b = bases.pop()
+        exact = [n for n, a in syms.items() if a == b]
+        renames[s] = (sorted(exact)[0] if exact
+                      else ("func_%08X" if s.startswith("func_") else "D_%08X") % b)
+    text = open(draft_path).read()
+    new = text
+    for old, nw in renames.items():
+        new = re.sub(r'\b%s\b' % re.escape(old), nw, new)
+    if new == text:
+        return {"fn": v["fn"], "action": "refuse", "why": "no textual occurrence to rewrite"}
+    return {"fn": v["fn"], "action": "rename", "renames": renames, "text": new,
+            "path": draft_path}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fn")
@@ -232,6 +275,10 @@ def main():
     ap.add_argument("--batch", help='JSON list of {"fn","binary","draft"}')
     ap.add_argument("-j", type=int, default=8)
     ap.add_argument("--out", help="write all verdicts here as JSON")
+    ap.add_argument("--fix", action="store_true",
+                    help="rewrite each unambiguously-wrong symbol to the one the TARGET "
+                         "references (refuses whenever the evidence is not unambiguous)")
+    ap.add_argument("--dry-fix", action="store_true", help="show what --fix would do, change nothing")
     a = ap.parse_args()
 
     if a.batch:
@@ -247,6 +294,28 @@ def main():
 
     for v in verdicts:
         print(_fmt(v), flush=True)
+
+    if a.fix or a.dry_fix:
+        rowmap = {}
+        if a.batch:
+            rowmap = {r["fn"]: r for r in json.load(open(a.batch))}
+        elif a.fn:
+            rowmap = {a.fn: {"fn": a.fn, "binary": a.binary, "draft": a.draft}}
+        print("\n--- %s ---" % ("FIX" if a.fix else "DRY-FIX"), flush=True)
+        for v in verdicts:
+            if v["status"] != "MISMATCH":
+                continue
+            row = rowmap.get(v["fn"])
+            if not row:
+                continue
+            pr = propose_fix(v, row["draft"], v["binary"])
+            if pr["action"] == "rename":
+                pairs = ", ".join(f"{o} -> {n}" for o, n in pr["renames"].items())
+                if a.fix:
+                    open(pr["path"], "w").write(pr["text"])
+                print(f"  {'RENAMED' if a.fix else 'would rename'} {v['fn']}: {pairs}", flush=True)
+            elif pr["action"] == "refuse":
+                print(f"  REFUSED {v['fn']}: {pr['why']}", flush=True)
     if a.out:
         json.dump(verdicts, open(a.out, "w"), indent=1)
 

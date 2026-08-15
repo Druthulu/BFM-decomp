@@ -16836,6 +16836,49 @@ unsigned data re-declaration (`u16`/`s8`, ×3), and array↔scalar (`extern u8 D
 Zero of the eleven needed a codegen change — **every one of them was a plumbing repair**, which is
 the standing P31 finding (`matching-is-solved-integration-is-the-bottleneck`) showing up once more.
 
+## §176e — SYMBOL IDENTITY IS COMPUTABLE OFFLINE (P31 S52): `tools/reloc_identity.py`
+
+§174 law 1c says `match_one` masks relocations and therefore cannot see a wrong callee or a wrong
+global. That was recorded as a *caution to the reader* ("check every symbol by hand after MATCH").
+It is actually a **computation**, and it should never have been a human's job:
+
+- the target `.s` comment column carries the **final linked word**, so the true address behind a
+  masked field is recoverable — `jal`: `((w & 0x03FFFFFF) << 2) | (pc & 0xF0000000)`; `HI16/LO16`:
+  `(hi & 0xFFFF) << 16 + sext16(lo & 0xFFFF)`;
+- the draft's own object names the symbol it will bind to;
+- `config/symbols*.txt` maps addresses back to names.
+
+Compare the two and every wrong-symbol draft is named, with its fix, for $0 and no rebuild. On the
+88-draft "match_one MATCH but the gate rejected it" pile this returned **12 MISMATCH / 68 AGREE**,
+and `--fix` mechanically repaired 10 of the 12 (the other 2 correctly refused).
+
+**The two failure shapes it separates, which look identical from the gate:**
+1. **Uniform-delta stale seed symbols** (§171): every relocation off by the SAME delta —
+   `func_80130D48` all five by `0xD1EC`, `func_8016D688` all five by `0x65450`. One rebase fixes
+   the draft. A rename is only safe when every mismatch implies the *same* corrected base; when a
+   symbol implies two different bases the draft is wrong in more than one way and the fixer must
+   refuse (it did, twice).
+2. **Wrong field offset** — small deltas (`+0x4`, `+0xC`, `+0x10`). Same symbol, wrong member.
+
+**FOUR TRAPS, all of which bit me while building it — this is a tool with sharp edges:**
+- **Splat-derived names are not in the symbol FILES.** `func_800123F0` / `D_800A4ED4` / `jtbl_*`
+  are generated for everything without a curated name; their ADDRESS IS THEIR NAME. Miss this and
+  the checker resolves nothing, checks zero relocations, and reports clean (R32 — the exact shape
+  of a checker that looks green while checking nothing).
+- **MIPS o32 uses REL, so the addend lives IN THE INSTRUCTION**, not the reloc entry. `objdump`
+  prints a bare `D_801F9DAC` for what is really `D_801F9DAC+1`. Read the addend from your own
+  object's hi/lo immediates, exactly as the linker does — otherwise every struct-field and array
+  access becomes a fabricated "symbol error" (my first run turned one byte-array walk into three).
+- **Index alignment is a precondition.** Instruction *i* corresponds to target *i* only while the
+  streams are the same shape; one inserted instruction shifts everything after it and manufactures
+  phantom mismatches. Refuse (or mark advisory) when the shapes differ.
+- **A nearest-symbol label needs a TIGHT window.** At 0x4000 the tool cheerfully called
+  `func_8001C9D0` "SsGetMute+0xC50". A wrong label is worse than no label — the reader acts on it.
+
+**And the honest limit, measured the same session:** symbol-verified + shape-verified is still NOT
+sufficient for a bank. The first re-gate group of five such drafts banked **0/5** — what remains is
+TU plumbing (§176d), not identity. This oracle removes one named cause; it does not predict a gate.
+
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
 main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the
