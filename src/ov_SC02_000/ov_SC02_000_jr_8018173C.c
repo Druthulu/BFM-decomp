@@ -3728,42 +3728,7 @@ DEFINE_func_80184174()  /* dedup: shared engine-core @0x80184174 (src/shared) */
 
 #include "common.h"
 
-extern u16 D_800B99DC;
-extern u8 D_8018B358[];
-extern void func_8013C9C4(s32);
-
-void func_8018419C(s32 a0) {
-    s16 val16;
-    u16 val;
-    u16 temp;
-
-    if (*(s16 *)(a0 + 0xDE) != 0) {
-        val = *(u16 *)(a0 + 0xE0);
-        val--;
-        *(u16 *)(a0 + 0xE0) = val;
-
-        val16 = (s16)val;
-        if (val16 == 0) {
-            func_8013C9C4((s32)D_8018B358);
-            temp = D_800B99DC;
-            temp = (temp & 7) + 3;
-            *(u16 *)(a0 + 0xE0) = temp;
-        }
-
-        val = *(u16 *)(a0 + 0xDE);
-        val--;
-        *(u16 *)(a0 + 0xDE) = val;
-    }
-
-    val = *(u16 *)(a0 + 0xDC);
-    val--;
-    *(u16 *)(a0 + 0xDC) = val;
-
-    val16 = (s16)val;
-    if (val16 == 0) {
-        *(u16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
-    }
-}
+DEFINE_func_8018419C()  /* dedup: shared engine-core @0x8018419C (src/shared) */
 
 
 #include "common.h"
