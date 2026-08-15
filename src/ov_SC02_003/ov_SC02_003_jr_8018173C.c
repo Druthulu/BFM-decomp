@@ -2928,7 +2928,7 @@ INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_8018259
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_801825E0);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80182630);
+DEFINE_func_80182630()  /* dedup: shared engine-core @0x80182630 (src/shared) */
 
 
 // @class: plumbing
