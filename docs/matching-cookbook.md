@@ -16661,6 +16661,43 @@ points of gate failure.
 priced the lane and named the failure class; 48-card wave B applied it. The lesson transfer is
 the yield lever — never fire wave N+1 before reading wave N's failure verdicts (R38).
 
+**Law 4 — the DEF-side prototype is a wave-prompt law too (P31 wave-C probe, 2026-08-14).**
+Law 2 tells the drafter to match the TU's decls for *callees and data*. The probe proved the
+same constraint binds the **function being defined**, and it silently costs the whole bank:
+`func_80181724` reached standalone MATCH (13 ins) and gated **0/1**. Cause: the destination TU
+already carried `extern void func_80181724(s32, s32);` (the §8b carried decl layer), while the
+matching definition wanted `s16 a0` to emit the entry `sll/sra` pair — a conflicting prototype,
+so the whole-binary build fails while `match_one` (which compiles the draft ALONE) is blind to it.
+This is §20's DEF-side wall arriving through the *wave* path, and it has a mechanical,
+byte-identical answer — **keep the TU's canonical signature and narrow at the USE site**:
+
+```c
+/* WRONG — conflicts with the TU's extern; match_one MATCHes, the gate refuses */
+void func_80181724(s16 a0, s32 a1) { func_800291A0(D_80183A40[a0], a1 & 0xFF); }
+/* RIGHT — same 13 bytes, no conflict: the cast emits the identical sll/sra */
+void func_80181724(s32 a0, s32 a1) { func_800291A0(D_80183A40[(s16)a0], a1 & 0xFF); }
+```
+Re-gated **1/1**. So the prompt clause is: *before choosing your parameter types, grep the
+destination TU for an existing `func_<YOURADDR>` declaration; if one exists adopt it verbatim and
+move the narrowing into the body.* Prevention again beats recovery — `canon_sig_reconcile` v3.2
+performs this same rewrite after the fact, but a prompt sentence costs nothing and never
+re-perturbs a correct draft (the §19 "sig_unify REGRESSES canonical drafts" trap).
+Corollary for triage: **a standalone MATCH that gates 0 is a declaration fact, never a codegen
+fact** — look at the TU's decls before touching the body.
+
+**Lane economics measured (P31 wave C, so future waves price correctly).** The **tell lane**
+(§172b LEN+N cards — functions that already survived one drafting attempt) runs ≈100k tok/card
+at a **33% standalone rate** (1/3 probe), and its misses are genuine compiler residuals
+(register-ROLE swap, schedule cascade) that belong to the permuter, not to more agent effort.
+The **adapt lane** runs ~64–88k tok/bank at 75–79% standalone / 95% gate. Tell cards are worth
+running once because each bank is real, but **budget the adapt pile first** — and route every
+tell-lane NEAR straight to the grinder with its named class (a count-exact near like
+`func_8017DAEC` 113=113 with a pure v0/v1 role swap is prime permuter fuel).
+Also from the probe: **the card's tell is a hint about the SHAPE of the gap, not a diagnosis** —
+in 2 of 3 the real residual was something else (one draft had omitted an entire array lookup;
+one had the promotion already satisfied and was actually a §2 cross-call address-cache
+hoist-vs-remat). Re-diagnose from the live `match_one` diff; do not trust the tell attribution.
+
 **Ops notes:** the drafter workflow makes NO tree writes (drafts land in `.run/wave_*/`;
 match_one is per-fn isolated) so drafting runs concurrently with the grinder — but the GATE is
 single-writer: stop the grinder (STOP sentinel) or wait, and note a finished `--once` grinder can
