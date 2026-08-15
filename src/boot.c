@@ -10,7 +10,15 @@ INCLUDE_ASM("asm/nonmatchings/boot", main);
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_8001096C);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_8001099C);
+
+extern s32 VSync(s32);
+extern u8 D_800AF630[];
+extern s32 D_800AE810[];
+
+void func_8001099C(void) {
+    register u8 *p = D_800AF630;
+    D_800AE810[*(u16 *)(p + 0xA3D2)] = VSync(1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80010A08);
 
