@@ -4,21 +4,21 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 351405 / 363163 = 96.76%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 12897344 / 13523865 = 95.4%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5279625 / 5851972 = 90.2%   (81631/90929 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :     436 / 79510 = 0.5%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12896908 / 13444355 = 95.9%)
+FLEET fn-count byte-ident: 351450 / 363163 = 96.77%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 12898935 / 13523865 = 95.4%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5281141 / 5851972 = 90.2%   (81670/90929 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :     545 / 79510 = 0.7%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12898390 / 13444355 = 95.9%)
 
-FLEET REAL substantive   : 349235   (of which dedup-shared 254534 via 2105 groups / 254610 instances)
+FLEET REAL substantive   : 349280   (of which dedup-shared 254534 via 2105 groups / 254610 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :  11751
+FLEET INCLUDE_ASM stubs  :  11706
 FLEET matchable          : 363163
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
-| main | 54 | 2 | 959 | 1055 | 2096 | 50.3% |
+| main | 58 | 2 | 959 | 1059 | 2096 | 50.5% |
 | resident | 129 | 0 | 0 | 131 | 145 | 90.3% |
 | md_MAIN_001 | 1 | 0 | 0 | 1 | 11 | 9.1% |
 | md_MAIN_003 | 3 | 0 | 0 | 3 | 60 | 5.0% |
@@ -226,7 +226,7 @@ FLEET matchable          : 363163
 | ov_SC07_001 | 2407 | 1807 | 0 | 2409 | 2454 | 98.2% |
 | ov_SC07_002 | 2467 | 1807 | 0 | 2471 | 2579 | 95.8% |
 | ov_SC07_006 | 2330 | 1625 | 0 | 2410 | 2456 | 98.1% |
-| ov_SC07_007 | 2354 | 1660 | 0 | 2438 | 2612 | 93.3% |
+| ov_SC07_007 | 2395 | 1660 | 0 | 2479 | 2612 | 94.9% |
 | ov_SC07_008 | 2386 | 1806 | 0 | 2386 | 2386 | 100.0% |
 | ov_SC07_009 | 2400 | 1806 | 0 | 2402 | 2430 | 98.8% |
 | ov_SC07_010 | 2324 | 1682 | 0 | 2406 | 2523 | 95.4% |
