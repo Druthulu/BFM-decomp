@@ -5318,7 +5318,16 @@ void func_80185458(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_8018546C);
+#include "common.h"
+
+extern void func_80147084(s32 *a0);
+extern s32 D_80126B58;
+
+void func_8018546C(void *a0) {
+    func_80147084(&D_80126B58);
+    *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_801854B0);
 
