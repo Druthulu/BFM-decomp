@@ -16635,3 +16635,36 @@ only recover what was stored; verdict-only rows are re-derivable by `family_swee
 a draft's decl of a `DEFINE_`-defined callee to the macro's own definition head, via
 `family_sweep.macro_def_sig_map`) · `tu-scope` (binary-tier §103 STU — move a contested file-scope
 TU decl into its consumers) · plus the pre-existing `demacroize`/`arity`.
+
+## §174 — THE ADAPT-CARD WAVE RECIPE (P31 waves A/B, 2026-08-14): prevention beats recovery
+
+**The pipeline (measured):** adapt cards (§169 emitter) → one cheap drafter per card (haiku ≤50
+ins, sonnet ≤120; model routing on the card) → each agent reads the TARGET .s in full, edits the
+proven seed body per the card's diff sites, and SELF-VERIFIES with `match_one` (≤6 iterations,
+parallel-safe) → symfix-first audit → `gate_lane` (single-writer, spread by destination TU) →
+targeted propagation. Wave A: 24 cards → 75% standalone → 12 banked (67% gate). Wave B (+1
+prompt lesson): 48 → 79% standalone → **35/37 banked (95% gate)**, ~64–88k tok/bank e2e.
+
+**Law 1 — put §171 IN the drafter prompt, not just in the recovery path.** "NEVER carry the
+seed's per-location symbols; spell every symbol from the TARGET .s's own relocations" produced
+**0 stale seed-symbols across 61 drafts** — the class that was 24/24 of S49's gate failures and
+half of T6's, eliminated at the source for free. Prevention in the prompt beats symfix after.
+
+**Law 2 — the decl-matching lesson (67%→95% gate conversion in one wave).** Wave A's six gate
+failures were ALL integration (3× a data extern typed by access width where the destination TU
+already declared it differently, 1 callee arity, 2 TU-context). The fix, verbatim in the wave-B
+prompt: *before declaring a data extern or callee, grep the destination TU for an existing
+declaration and MATCH it exactly; only if absent, type by access width.* One sentence, −28
+points of gate failure.
+
+**Law 3 — bank the lesson between waves (the calibrate-then-scale cadence).** 24-card wave A
+priced the lane and named the failure class; 48-card wave B applied it. The lesson transfer is
+the yield lever — never fire wave N+1 before reading wave N's failure verdicts (R38).
+
+**Ops notes:** the drafter workflow makes NO tree writes (drafts land in `.run/wave_*/`;
+match_one is per-fn isolated) so drafting runs concurrently with the grinder — but the GATE is
+single-writer: stop the grinder (STOP sentinel) or wait, and note a finished `--once` grinder can
+leave a lingering wrapper process that fools a bare pgrep (check the log's "once done" line).
+The safety classifier can rate-limit under ~48-agent bursts — one agent lost its match_one run
+to that (report it unverified; the gate arbitrates anyway). Wave NEARs carry named classes —
+enqueue close≤3 drafts straight to the grinder queue as warmstart records.
