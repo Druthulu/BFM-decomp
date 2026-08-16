@@ -17116,6 +17116,52 @@ in-flight draft is near-matching, the tokens are already spent and stopping conv
 "nearly banked" into "needs a second, cheaper pass" — which is fine, but it is a deferral, not a
 saving.
 
+## §177 — 🔴 THE EPILOGUE RETURN-DELAY SLOT IS DECIDED BY YOUR SAVED-REGISTER SET, NOT BY SCHEDULING
+### (P31 S52 — source-confirmed in `gcc-2.7.2/config/mips/mips.c`; eleven functions were stuck on it)
+
+**The symptom.** A draft sits at closeness 1–3 with the differing instructions clustered in the
+epilogue: the target fills the `jr $ra` delay slot with a real body instruction while your draft
+emits `addiu $sp,$sp,N` there (or the reverse). Wave Q's repair pass produced **eleven** of these
+in the `800c`/`800c3` regions, and every agent independently filed it as an intrinsic scheduling
+wall — "epilogue-delay-slot-unfillable", "gcc/maspsx structural". **It is not a scheduling problem
+and it is not a wall. It is a frame-shape problem, and it is steerable from C.**
+
+**The rule, verbatim from `mips.c:5376`:**
+
+```c
+int mips_epilogue_delay_slots () {
+  if (current_frame_info.total_size == 0)                        return 1;  /* no frame  */
+  if (current_frame_info.mask == RA_MASK && current_frame_info.fmask == 0) return 1;  /* only $ra */
+  return 0;                                                                 /* otherwise */
+}
+```
+
+So gcc-2.7.2 offers the epilogue a delay slot **only** when the function either allocates no stack
+at all, or saves **nothing but `$ra`** (no callee-saved `$s` registers, no FP registers). In every
+other case it returns 0, the slot is not offered to the scheduler, and the emitter puts the stack
+restore there instead (`mips.c:5276`, the `tsize > 0` path).
+
+**Therefore the lever is the CALLEE-SAVED SET:**
+
+| target does | means | your draft must |
+|---|---|---|
+| `jr $ra` + a body instruction in the slot | frame is `$ra`-only (or zero) | need **no** value live across a call — no `$s` registers |
+| `jr $ra` + `addiu $sp,$sp,N` | frame saves `$s` regs | keep **at least one** value live across a call |
+
+**How to steer it in C** (cheapest first):
+1. **Fewer values live across calls.** Recompute a value after the call instead of holding it; read
+   it back from the struct/global it came from. Each value whose live range spans a `jal` costs one
+   `$s` register, and the *first* one flips this switch.
+2. **More values live across calls**, for the opposite direction: hoist a load above the call and
+   use it after, instead of reloading.
+3. Only then consider register pins — and remember §176-C: a pin cannot schedule across a call, so
+   pinning is the wrong tool for this residual entirely.
+
+**Why this matters beyond the eleven.** They are ~600 instructions sitting *three instructions* from
+banked, and they were all about to be written off as intrinsic. **A residual that eleven independent
+agents call "structural" is a signal to read the compiler, not to file a wall** (R17): the answer
+was forty lines of `mips.c` and it was already sitting in `tools/reference/gcc-2.7.2/`.
+
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
 main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the
