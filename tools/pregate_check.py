@@ -100,13 +100,19 @@ def check_text(path, text):
     depth = _depth_map(masked)
     tds = _typedefs(text)
 
-    # 3. duplicate typedef with a different body
+    # 3. duplicate typedef -- ANY redefinition, identical body or not.
+    # C89 has no "compatible redefinition" allowance for typedefs: `typedef struct {...} T;` twice
+    # is an error even when the two are character-identical. My first version only flagged
+    # DIFFERING bodies and therefore missed the very case this tool was built to catch -- a draft
+    # whose typedef was renamed to match the TU's, giving two identical definitions of
+    # `OtBlk_80016450`, which the compiler rejected on the next rebuild. Measured, not reasoned.
     for name, defs in tds.items():
-        bodies = {b for _, b in defs}
-        if len(bodies) > 1:
+        if len(defs) > 1:
+            same = len({b for _, b in defs}) == 1
             findings.append(('FAIL', 'DUPLICATE-TYPEDEF',
-                             f'{path}: `{name}` defined {len(defs)}x with different bodies '
-                             f'(offsets {[o for o, _ in defs]})'))
+                             f'{path}: `{name}` defined {len(defs)}x at offsets '
+                             f'{[o for o, _ in defs]} ({"identical bodies -- still illegal in C89"
+                                                        if same else "DIFFERENT bodies"})'))
 
     # 1. typedef used above its definition
     for name, defs in tds.items():

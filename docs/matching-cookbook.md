@@ -17017,6 +17017,29 @@ with different layouts all declare `func_80032A74(Slot54 *, …)` and compare EQ
 comparing struct LAYOUTS for locally-defined types. Until then, a rename can *expose* such a
 conflict (which is a service) but the checker cannot predict it.
 
+### C2. RECONCILE BEFORE THE FIRST GATE — a parked draft gets HARDER to bank, not easier
+
+The obvious plan after a wave is "bank the clean ones now, recover the conflicted ones later."
+**That plan is backwards, and it was measured:** of 18 wave-O/P drafts parked and re-verified still
+MATCH, only **1** survived `resolve_conflicts` once their wave had banked — versus 5 before it.
+
+The mechanism is simple once seen. A banked draft's declarations *become the TU's*. So every
+parked draft that disagreed with a SIBLING now disagrees with the FILE, which is the stricter
+arbiter: sibling-vs-sibling can be settled by editing either side, but file-vs-draft can only be
+settled by editing the draft (and `gate_main` reverts `src/` before every build, so some cannot be
+settled at all — see the immovable-declaration bucket). Worse, the auto-rename that reconciles a
+cosmetic clash *pre*-bank turns into a DUPLICATE TYPEDEF *post*-bank, because the name it renames
+to is now defined in the file too.
+
+**So: iterate the dry run to `N -> N compatible, 0 dropped` BEFORE spending the first rebuild.**
+Every draft dropped from slate #1 is worth more effort than it looks, because slate #2 will be
+harder. Budget the reconciliation into the wave, not after it.
+
+Corollary for the auto-reconciler: distinguish a COSMETIC clash from a REAL one by comparing struct
+**bodies**, not names (`OtBlk_80015498` vs `OtBlk_80016450` are the same `{s32 a; s32 b[4];}` and
+rename byte-identically; `Elem12` vs `B12` genuinely differ and must not be merged). That body
+comparison is also the fix for §176h.C's spelled-name limit.
+
 ### D. The measured cost shape, and what to build next
 
 **Drafting is cheap and solved; integration is expensive.** Wave P: ~10M agent tokens produced 58
