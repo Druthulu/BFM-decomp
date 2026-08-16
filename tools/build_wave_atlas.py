@@ -20,7 +20,7 @@ MUST NOT run while a gate is in flight (R35 — corpus.stubs() misreports substi
 
 Usage: build_wave_atlas.py <out.json> [N] [--max-bins K] [--min-ins M] [--levers a,b,c]
 """
-import json, sys, collections, subprocess, argparse, glob
+import json, os, sys, collections, subprocess, argparse, glob
 sys.path.insert(0, 'tools')
 import corpus
 
@@ -41,6 +41,14 @@ ap.add_argument('--exclude-bins', default='',
                      'INCREMENTALLY, because its extract runs psyq_integrate/ld_interleave and '
                      'rewrites the .ld. Draft main like any binary; gate it with '
                      'tools/gate_main.py, never gate_lane/gate_stage.)')
+ap.add_argument('--rank', choices=('groups','mass'), default='groups',
+                help="'groups' (default) ranks gate groups by MEMBER COUNT -- right for overlays, "
+                     "where every (binary,TU) group costs its own rebuild. 'mass' ranks purely by "
+                     "instruction size across all groups -- right for MAIN, whose gate cost is per "
+                     "SLATE, not per TU: with 'groups' a wide --min-ins band fills from the "
+                     "biggest-by-count group, which is the SMALLEST-by-instruction one, and the "
+                     "wave silently collapses to tiny functions (measured: 60 cards / 2,604 ins "
+                     "avg 43, when 46 cards / 4,829 ins avg 105 were available).")
 ap.add_argument('--target-ins', type=int, default=0,
                 help='size the wave by INSTRUCTION MASS: keep drawing cards until this many '
                      'instructions are selected (still capped by n). The public metric is '
@@ -61,7 +69,11 @@ if busy.returncode == 0 and busy.stdout.strip():
 
 # R32/R33: derive the already-waved set from what is ON DISK, never from a hardcoded wave-letter
 # list (the literal 'a'..'l' silently missed waves m and n and would have re-issued their cards).
-PRIORS = sorted(glob.glob('.run/wave_*_cards.json'))
+# Exclude OUR OWN output: the glob matches it, so re-running the selector after an aborted or
+# re-tuned build marked the previous attempt's cards as 'already waved' and silently shrank the
+# pool (measured: 46 candidates instead of 60 on a re-run with identical filters).
+PRIORS = [p for p in sorted(glob.glob('.run/wave_*_cards.json'))
+          if os.path.abspath(p) != os.path.abspath(a.out)]
 taken = set()
 for p in PRIORS:
     try:
@@ -126,7 +138,10 @@ for g in atlas['groups']:
 by_tu = collections.defaultdict(list)
 for c in cands:
     by_tu[(c['binary'], c['tu'])].append(c)
-ranked = sorted(by_tu, key=lambda k: -len(by_tu[k]))[:a.max_bins]
+if a.rank == 'mass':
+    ranked = sorted(by_tu, key=lambda k: -sum(c['nins'] for c in by_tu[k]))[:a.max_bins]
+else:
+    ranked = sorted(by_tu, key=lambda k: -len(by_tu[k]))[:a.max_bins]
 
 # principle 3 (P31 S52): SIZE A WAVE BY INSTRUCTIONS, NOT BY CARDS. The public metric is
 # instruction-weighted, so a wave is worth what its instructions are worth: the 12-42-ins card
