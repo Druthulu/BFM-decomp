@@ -186,7 +186,34 @@ instruction-weighted metric moves fastest per agent spent.
 
 
 
-## 🛑 SESSION CHECKPOINT — OVERNIGHT CAMPAIGN CLOSED 2026-08-15 (morning). Phase 31 CONTINUES; resume in a fresh session.
+## 🛑 SESSION CHECKPOINT — S52 (2026-08-15, day). Phase 31 CONTINUES.
+
+**State at checkpoint:** tree CLEAN at `commit:2402` + wave-O bank commit. **R22 verified 213/213 from a fully clean tree** after wave O. Nothing owed.
+
+### What S52 banked
+**51 functions** — 46 main (ONE clean rebuild, `143dbb89` byte-identical) + 4 overlay (`ov_SC04_011`) + 1 from the re-gate probe. **main 175 → 221 matched, stubs 1,881 → 1,835.**
+
+### THE TWO RESULTS THAT MATTER MORE THAN THE COUNT
+1. **UNKNOWN IS NOT A DIFFICULTY LABEL.** It means "the atlas could not name a lever", and it had been routed as needing its own bespoke lane. Wave O's 22-card R37 probe drafted it like any other lane ⇒ **~138k ins (a quarter of everything open) reclassified as ordinary wave fuel.** With UNKNOWN in, **9,224 fns / 417,325 ins = 70% of all open instructions** are agent-draftable.
+2. **THE 6k-INS WAVE DOCTRINE (adopted by Drew).** A wave is sized by INSTRUCTION MASS, not cards — see the doctrine section above for the recipe and the pre-gate protocol. Draft rate barely decays with size (M 98% @51 ins · N 92% @65 · **O 96% @128**), so mass is nearly free. Projection: **~69 waves**, mass band first (27 waves / 164k ins), vs ~440 under the card lanes.
+
+### IN FLIGHT AT CHECKPOINT
+**Wave P** (`wf_faa2b5e5-a80`, 60 cards / 6,589 ins, 2 gate groups: main ×51 + md_SC07_004 ×9) — hit the **weekly limit** at 18/60 drafted, then RESUMED (`w8xrn5y3i`). Cached agents replay; the 42 failures re-run. On completion: run the 5-step pre-gate protocol, then `gate_main --apply` for the main half and `gate_lane` for md_SC07_004.
+- The 18 already-drafted are all MATCH-claimed; **my independent re-verify is still OWED** (the classifier rate-limited Bash mid-check). Do it before gating.
+
+### Tooling fixed this session (all committed, all NC'd)
+`reloc_identity.py` (**NEW** — the symbol-identity oracle `match_one` structurally cannot be, §176e) · `build_wave_atlas` (`--target-ins`, `--only-bins`, glob-derived taken-set, refuted main-exclusion default) · `gate_lane` (CRASH ≠ empty result) · `gate_main` ×4 (TU-seeded + per-file conflict table · typedef walk in ADDRESS order · build errors surfaced instead of silently bisected · `short`≡`s16` alias normalization).
+
+### Cookbook banked this session
+**§176d** TU-seeded conflicts + the callee function-pointer cast · **§176e** symbol identity is computable offline (+ the honest null: it does NOT rescue stored drafts, 5%) · **§176f** the declaration FORM is a matching lever · **§176g** the 6k-ins doctrine + the 5-step pre-gate protocol.
+
+### Known-open items
+1. `func_8002D034` — verified MATCH but needs `src/800.c`'s `D_800A4E74` decl changed u16→s16; `gate_main` reverts `src/` before building, so it cannot ride a slate. Recover as its own commit + verifying rebuild.
+2. `func_80016224` — verified MATCH but requires `volatile D_800B9A02`, which is fatal to two other drafts. Near-fuel until the TU's form settles.
+3. 6 of the 10 `ov_SC04_011` wave-O drafts failed the gate on TU plumbing (that overlay's own decl landscape).
+4. The AGREE re-gate lane is CLOSED (measured 5% ≈ the A10 law). Do not reopen it.
+
+## 🛑 (superseded) CHECKPOINT — OVERNIGHT CAMPAIGN CLOSED 2026-08-15 (morning)
 
 **Cron `be8fb48c` (23-min overnight heartbeat) is CANCELLED.** No wave will fire on its own. Nothing is in flight at handoff.
 

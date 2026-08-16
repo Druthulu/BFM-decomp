@@ -45,7 +45,13 @@ print = functools.partial(print, flush=True)
 GOOD = '143dbb89f34491258bbc27810d0a12ec8b43a8dd'
 TYPES = {'void','char','short','int','long','unsigned','signed','float','double','const',
          'volatile','s8','u8','s16','u16','s32','u32','f32','s64','u64','struct','union'}
-DECL = re.compile(r'^\s*extern\s+([^;]+?)\s*;\s*$', re.M)
+# Same trailing-comment blindness as the typedef patterns had: `;\s*$` misses
+# `extern u8 D_800A4640[];   /* the flag table */`, so the destination TU's own declaration went
+# UNSEEN and a contradicting draft reached the compiler. Seventh instance of one root cause in
+# this file -- a pattern that anchors on end-of-line silently under-reports on commented code,
+# and agents comment nearly everything they declare.
+DECL = re.compile(r'^\s*extern\s+([^;]+?)\s*;[ \t]*(?://[^\n]*|/\*(?:[^*]|\*(?!/))*\*/[ \t]*)?$',
+                  re.M)
 
 def sym_of(d):
     m = re.search(r'\b(D_[0-9A-Fa-f]{8}|func_[0-9A-Fa-f]{8}|[A-Za-z_]\w*)\s*(?:\[|\()', d)
@@ -152,8 +158,17 @@ def resolve_conflicts(slate):
         st = stubs.get(e['fn'])
         path = st.path if st else '<unknown>'
         seen = table(path)
-        ds = [(sym_of(d), typesig(d)) for d in DECL.findall(open(e['draft']).read())]
+        body = open(e['draft']).read()
+        ds = [(sym_of(d), typesig(d)) for d in DECL.findall(body)]
         ds = [(s, t) for s, t in ds if s]
+        # A DRAFT'S OWN DEFINITION IS A DECLARATION TOO (§20 / wave law 3, the DEF-side wall).
+        # Only `extern` lines were being compared, so a draft defining `s32 func_X(...)` against a
+        # TU (or sibling draft) prototyping it `void func_X(...)` sailed past the checker and blew
+        # up mid-build -- one wasted clean rebuild per occurrence, three of them in wave P alone.
+        dm = re.search(r'^\s*([A-Za-z_][\w \t\*]*?)\s*\b%s\s*\(([^;{]*)\)\s*\{' % re.escape(e['fn']),
+                       body, re.M)
+        if dm:
+            ds.append((e['fn'], typesig('%s %s(%s)' % (dm.group(1).strip(), e['fn'], dm.group(2)))))
         clash = [(s, seen[s], t) for s, t in ds if s in seen and seen[s] != t]
         if clash:
             sym = clash[0][0]
@@ -165,29 +180,61 @@ def resolve_conflicts(slate):
         kept.append(e)
     return kept, dropped
 
+# A TRAILING COMMENT MUST NOT DEFEAT THESE. Both patterns used to demand `;[ \t]*\n`, so
+# `typedef struct { s16 vx, vy, vz, pad; } SVEC2;   /* 0x08 */` matched NEITHER the destination
+# file's copy nor the draft's -- the TU's definition went unseen, the draft's duplicate was never
+# stripped, and the build died on a C89 duplicate typedef. Agents comment their struct sizes as a
+# matter of habit, so this was hitting the commonest possible spelling. (S52, cost 1 rebuild.)
+_EOL = r'[ \t]*(?://[^\n]*|/\*(?:[^*]|\*(?!/))*\*/[ \t]*)?\n'
 TYPEDEF_BLOCK = re.compile(
-    r'^[ \t]*typedef\s+(?:struct|union|enum)?[^;{]*\{[^{}]*\}\s*(\w+)\s*;[ \t]*\n', re.M)
-TYPEDEF_PLAIN = re.compile(r'^[ \t]*typedef\s+[\w\s\*]+?\s(\w+)\s*;[ \t]*\n', re.M)
+    r'^[ \t]*typedef\s+(?:struct|union|enum)?[^;{]*\{[^{}]*\}\s*(\w+)\s*;' + _EOL, re.M)
+TYPEDEF_PLAIN = re.compile(r'^[ \t]*typedef\s+[\w\s\*]+?\s(\w+)\s*;' + _EOL, re.M)
 
-def strip_dup_typedefs(body, already):
-    """Drop typedefs the destination TU (or an earlier body in this batch) already defines.
+def strip_dup_typedefs(body, already, suffix=''):
+    """Make a draft's typedef names unique against the destination TU and the rest of the batch.
 
     Each draft is written to compile STANDALONE, so it carries its own `typedef struct {...}
     SVECTOR;`. Once one such function is banked, that typedef lives in the .c forever and every
     later draft defining its own collides -- a C89 duplicate-typedef error, not a byte miss.
-    `harvest_verify` already does this; wave L lost a verified-correct draft because this tool
-    did not. Returns (body, names_defined_now)."""
-    defined = set()
+
+    BODY-AWARE (S52). Two wrong strategies were tried before this one, each costing a rebuild:
+
+      * STRIP every duplicate -- assumes the surviving definition sits ABOVE the insertion point.
+        It need not: the destination file's `Rsc24` lived BELOW where a draft was substituted, so
+        dropping the draft's copy left the name undefined there, gcc fell back to implicit-int,
+        and the file's later declaration collided ("previous declaration of D_800A4640").
+      * RENAME every duplicate -- wrong when several drafts share an IDENTICAL typedef, because
+        giving each its own name makes their `extern <T> D_x[]` declarations mutually
+        incompatible. I shipped that one and it broke three drafts at once.
+
+    So decide by BODY, not by name:
+      * identical definition already known -> STRIP this copy and reuse the existing name;
+      * same name, DIFFERENT definition    -> RENAME this draft's copy (private to the draft, so
+        it cannot change an emitted byte).
+    `already` maps name -> normalized definition text. Returns (body, names_now_defined)."""
+    # SINGLE PASS, NO RESCAN. An earlier version re-scanned after each edit; the rescan then found
+    # the definition it had just RENAMED, saw the new name already in `defined` with identical
+    # text, and STRIPPED it -- leaving references to a type that no longer existed
+    # ("parse error before `*'"). Decide every typedef once, against a snapshot, then apply.
+    defined, spans, renames = {}, [], {}
+    hits = []
     for pat in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
-        out, pos = [], 0
-        for m in pat.finditer(body):
-            name = m.group(1)
-            if name in already:
-                out.append(body[pos:m.start()]); pos = m.end()   # drop the duplicate
-            else:
-                defined.add(name)
-        out.append(body[pos:])
-        body = ''.join(out)
+        hits.extend(pat.finditer(body))
+    for m in sorted(hits, key=lambda x: x.start()):
+        name, text = m.group(1), ' '.join(m.group(0).split())
+        known = already.get(name, defined.get(name))
+        if known is None:
+            defined[name] = text
+        elif known == text:
+            spans.append((m.start(), m.end()))          # exact duplicate, reuse the visible one
+        else:
+            new = '%s_%s' % (name, suffix)              # same name, different shape
+            renames[name] = new
+            defined[new] = text.replace(name, new)
+    for s, e in sorted(spans, reverse=True):
+        body = body[:s] + body[e:]
+    for old, new in renames.items():
+        body = re.sub(r'\b%s\b' % re.escape(old), new, body)
     return body, defined
 
 def substitute(entries):
@@ -200,8 +247,27 @@ def substitute(entries):
     n = 0
     for path, items in byfile.items():
         t = open(path).read()
-        # names the destination file already defines, plus anything a shared header provides
-        seen = set(TYPEDEF_BLOCK.findall(t)) | set(TYPEDEF_PLAIN.findall(t))
+        # What the destination file already defines: name -> normalized definition text, so a
+        # draft carrying an IDENTICAL typedef can reuse it (strip) while a draft carrying a
+        # DIFFERENT shape under the same name gets renamed instead of silently colliding.
+        # ...and WHERE it defines them. A typedef may only be reused by a draft substituted BELOW
+        # it; the file's own copy is frequently further down the .c than the stub being replaced
+        # (src/800.c defines `Rec14`/`Rsc24` hundreds of lines after the INCLUDE_ASM lines that
+        # now want them). Reusing one from below yields `parse error before '*'` at the draft.
+        # So the visible set is recomputed per draft against its own insertion offset.
+        def defs_above(text, at):
+            """Typedefs defined strictly ABOVE offset `at` in the CURRENT text.
+
+            Recomputed per draft on purpose: `t` grows with every substitution, so offsets
+            captured once go stale and understate where a definition really sits -- which would
+            mark a below-the-draft typedef as reusable, the exact bug this guards against. It also
+            naturally picks up typedefs contributed by drafts already substituted above."""
+            out = {}
+            for p in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
+                for mm in p.finditer(text):
+                    if mm.start() < at:
+                        out.setdefault(mm.group(1), ' '.join(mm.group(0).split()))
+            return out
         # PROCESS IN FILE ORDER (= address order), not slate order. strip_dup_typedefs keeps the
         # FIRST definition it sees and drops later duplicates, so if the drafts are walked in
         # slate order the surviving typedef can end up BELOW a draft that uses it -> "syntax error
@@ -210,11 +276,13 @@ def substitute(entries):
         for _addr, fn, asmdir, draft in sorted(items):
             body = "\n".join(l for l in open(draft).read().splitlines()
                              if not l.strip().startswith('#include'))
-            body, newly = strip_dup_typedefs(body, seen)
-            seen |= newly
             old = f'INCLUDE_ASM("{asmdir}", {fn});'
-            if old in t:
-                t = t.replace(old, body); n += 1
+            if old not in t:
+                continue
+            at = t.index(old)
+            body, _newly = strip_dup_typedefs(body, defs_above(t, at), suffix=fn.split('_')[-1])
+            t = t[:at] + body + t[at + len(old):]
+            n += 1
         open(path, 'w').write(t)
     return n
 
