@@ -17286,6 +17286,302 @@ scheduling decision, not cosmetics.
 fully DAG-determined. When order does not matter, the answer is an *alias* or a *set-count*
 property, not a permutation.
 
+## §179 — IDIOMS MINED FROM THE WAVE P/Q JOURNALS (P31 S52, harvest pass)
+
+Twelve readers mined the wave-P and wave-Q agent journals; 16 candidate findings survived their
+novelty filter, and merging duplicates + dropping what §174–§178 already own leaves the **eight
+levers below**. Every gcc/tool citation here was re-read against `tools/reference/gcc-2.7.2/`,
+`tools/maspsx/`, and `tools/masked_diff.py` in this pass — three line numbers were wrong in the raw
+findings and are corrected inline (marked ⚠). Ordered by how many functions each unblocks.
+
+---
+
+### §179-A — 🔴 A LOOP-WALKED POINTER **PARAMETER** HANDS ITS ARGUMENT REGISTER TO THE GIV (9 byte-proofs)
+
+**Symptom.** A NEAR whose only residual is a register rotation around a pointer loop: the draft has
+a spurious `move $tN,$aM` that the target does not, the offset-K access lands on the *argument*
+register `$aM`, and the base cursor lands on a scratch temp — the exact mirror image of the target's
+allocation. `cc1 -dg` shows the argument register in the conflict set of the cursor pseudo
+(`N conflicts: … 7`, `M preferences: 7` for the `$a3` cases).
+
+**Mechanism** (all lines re-read and confirmed). When a pointer **parameter** is used undecorated as
+a loop's biv *and* the loop also touches a fixed offset off that same pointer (so gcc mints a giv),
+`record_initial` (`loop.c:6327`) records the biv's defining insn — which is `assign_parms`' own
+incoming-argument copy `(set P (reg $aN))` — as `bl->init_set`. At `loop.c:3500` `src =
+SET_SRC (bl->init_set)` is therefore the **hard register** itself; `valid_initial_value_p`
+(`loop.c:4120`, called at `loop.c:3509`) accepts it, since it returns 1 for `CONSTANT_P` or any
+`GET_CODE == REG` (hard regs pass its `REGNO < max_reg_before_loop` test), given no intervening
+call. `bl->initial_value = src` (`loop.c:3511`). Then `emit_iv_add_mult (bl->initial_value, …,
+loop_start)` (`loop.c:3879`) emits the giv's preheader init as `new_giv = $aN + K` — **a fresh
+reference to the hard register, inserted after P's own copy-from-`$aN`**. That extends `$aN`'s live
+range past where P's copy would have let it die, `$aN` and P become simultaneously live, P loses the
+hard-reg tie, the giv inherits `$aN`, and the dead `move` survives.
+
+**C lever — two spellings, both zero-byte, pick either:**
+```c
+/* 1. body-local copy: rename the parameter, route EVERY in-loop access through the copy */
+void f(T *param0, …) { T *p = param0;  for (…) { … p->fld … p++; } }
+
+/* 2. identity re-tie, placed in the preheader BELOW the n!=0 guard so it can't eat the
+      guard branch's delay slot */
+if (n) { __asm__("" : "=r"(p) : "0"(p));  do { … } while (--n); }
+```
+Spelling 2 works by the *defeat* route: the init insn's `SET_SRC` becomes an `ASM_OPERANDS` rtx,
+which is neither `CONSTANT_P` nor `GET_CODE == REG`, so `valid_initial_value_p` returns 0,
+`bl->initial_value` falls back to the freely-allocatable pseudo, and `$aN` is released.
+
+**Evidence (all MATCH).** `func_800262D8` (144→143, dead `move t1,a3` removed), `func_8002528C`,
+`func_80025000` (164/154-wrong → 163/4-wrong from this lever alone), `GsTMDfastF3GL`,
+`func_80025EB8`, `func_80025A30` (re-tie spelling), `func_80025504` (197 ins, poly pointer vs `$a3`),
+`func_80024DE8` (134/134, `-dg` confirmed the `$a3` conflict), `func_80025818`.
+
+**Relationship to §70 (L5639) — read this before applying.** §70 documents the *same* chain used in
+the **opposite direction**: when the target wants the giv based on the argument register, walk the
+parameter directly and do **not** copy it. §179-A is the mirror. Decide by what the target's giv is
+based on, then choose: raw parameter (§70) vs. local copy / re-tie (§179-A).
+*Honest limit:* why a second-level copy does not simply recreate the identical chain one level
+removed was not re-derived from `assign_parms`' pseudo lowering; it rests on the source-verified
+general mechanism plus nine consistent byte-proofs.
+
+---
+
+### §179-B — 🔴 THE HAND-WRITTEN-ASM TRANSCRIPTION CHECKLIST (maspsx + masked_diff; 10 byte-proofs)
+
+**Symptom.** A splat-flagged handwritten / PsyQ LIBGS routine transcribed as inline asm comes out
++N instructions (LENGTH-DRIFT), or the build dies with `MASPSX FAIL: invalid literal for int() with
+base 10: '0x18'`, or `masked_diff` reports a huge mismatch on a body you copied verbatim.
+
+**Five rules, each source-verified, each a byte-miss or a crash if violated:**
+
+1. **`.set` directives need a literal TAB.** `maspsx/__init__.py:844-848` is
+   `elif line.startswith(".set\t"): if line.endswith("\tnoreorder"): self.is_reorder = False; elif
+   line.endswith("\treorder"): self.is_reorder = True`. A space-separated `.set noreorder` matches
+   neither test, is forwarded to `as` unchanged, and leaves maspsx's tracker at its default `True` —
+   after which it auto-appends `nop  # DEBUG: branch/jump` after **every** branch/jump it emits
+   (`:1054-1057`, gated on `is_reorder`), clobbering your hand-filled delay slots. Write
+   `".set\tnoreorder\n"`.
+2. **`.ent` does NOT update maspsx's state.** `:856-859` appends `.set\tnoreorder` to the *output*
+   stream but never touches `self.is_reorder`. Never rely on it; write your own tab-formed directive.
+3. **Every displacement and immediate in DECIMAL.** `:970` and `:1038` both call bare `int(operand)`
+   (base-10 default) on the raw offset string *before* the magnitude comparison short-circuits, so
+   `lw $2,0x18($3)` throws `ValueError` regardless of range. Write `lw $2,24($3)`. (`.word`
+   constants are unaffected and may stay hex.)
+4. **maspsx's LOAD-delay nop is UNCONDITIONAL — do not write it yourself.**
+   `_handle_nop_before_next_instruction` (`:642-675`, called from `:908,931,964,991,1137,1181`)
+   contains **no** `is_reorder` reference anywhere in its body or call sites — unlike the
+   branch-delay path, which is explicitly gated. So even inside `.set\tnoreorder`, a `lw $v0,56($t1)`
+   followed by a consumer of `$v0` still gets maspsx's own nop spliced in. This is the asymmetry
+   that bites: **you manage branch-delay nops yourself; you must NOT manage load-delay nops.**
+5. **Prefix internal labels with `.L`.** `masked_diff.py:34` is
+   `_HDR_RE = re.compile(r"^[0-9a-f]+ <([^>]+)>:")`, and `insns_from_object`'s collection loop
+   (`:141-146`) sets `infn = (fn is None) or (h.group(1) == fn)` on **every** objdump `<label>:`
+   header. A plain `sel_C94:` becomes a real symtab entry that objdump prints mid-function, flipping
+   `infn` to False and silently truncating the rest of the function from the diff — a spurious
+   byte-mismatch with no codegen cause. Write `.Lsel_C94:`.
+
+**⚠ Conflict with the already-banked trampoline rules (L1848-1858).** That entry's rule 2 says *"no
+trailing `.set reorder` — it emits a stray epilogue nop."* The wave-P/Q GTE bodies found the
+opposite: close with a tab-formed `".set\treorder\n"` as the **last** asm line so maspsx restores
+its default and supplies the one nop gcc's auto-generated `jr $ra` epilogue needs. **Resolution:**
+the trampoline's body ends in a real instruction gcc's epilogue can use, the GTE bodies do not. If
+you are ±1 nop at the very end, flip this one lever and re-gate; it is the cheapest A/B in the file.
+
+**Evidence (all MATCH).** `func_80027200` (133→125 via rules 1+3), `func_80025CBC` (127 ins,
+first-pass), `GsTMDfastF4GL` (162/162, 648/648 raw bytes), `GsTMDfastG3GL` (624/624 raw bytes),
+`GsTMDfastF3GL` (129/129 words), `GsTMDfastG4GL` (rule 4: hand-written nop gave 155/156 LENGTH-DRIFT
+−1; omitting it gave 156 + 624/624 bytes), `func_8005D8B4` (43→3 mismatched), `func_80059760`,
+`func_80059234`, `MoveImage`. The mechanism is also embedded as a code comment at
+`src/800b2.c:491-500`.
+
+---
+
+### §179-C — 🔴 A FUNCTION WITH NO EPILOGUE (falls into a sibling's shared tail) MUST BE FILE-SCOPE `__asm__`
+
+**Symptom.** The target's disassembly for a symbol has **zero trailing `jr $ra`** — it ends
+mid-basic-block, or every exit is a raw unlinked `j SOME_OTHER_LABEL` with live values in argument
+registers, and the immediately-following symbol is nothing but a `lw $ra / addiu $sp / jr $ra` tail
+restoring *this* function's frame offsets. Every C shape you try comes out exactly +2 instructions
+(a phantom `jr $ra` / `nop`).
+
+**Mechanism.** gcc-2.7.2 has **no sibcall / cross-function tail-merge pass** (absent from the pinned
+`config/mips/mips.c`), and every function whose body cc1 compiles goes through normal function-exit
+expansion (`function.c:5224 expand_function_end`, return emission at `:5432-5437`) with
+`function_epilogue` (`mips.c:5072`) emitting the teardown text at final time. `noreturn`, a bare
+tail `j`, and a function-body `__asm__ __volatile__` all fail to suppress it — the append is a
+property of the enclosing C function, not of the asm's RTL.
+
+**C lever.** Write the whole thing as **top-level** (file-scope) basic asm, outside any C function,
+carrying its own directives — cc1 never runs function-expansion over it:
+```c
+__asm__(".text\n.align 2\n.globl NAME\n.ent\tNAME\n"
+        "NAME:\n.frame $sp,N,$31\n.mask MASK,-8\n.fmask 0,0\n"
+        ".set\tnoreorder\n"
+        "<body, decimal offsets, .L labels>\n"
+        ".set\treorder\n.end\tNAME\n");
+```
+Three sub-rules: (a) use **literal** `.ent\t` / `.end\t` text — `glabel` (`include/labels.inc:7`,
+`include/macro.inc:10`) is an assembler `.macro`, expanded by `as` *after* maspsx runs, so maspsx
+never sees `.ent` and leaves reorder mode on, scrambling your delay slots; (b) in file-scope asm `%`
+is literal, so write `%hi`/`%lo` **un-doubled** (the `%%hi` escaping of L1858 applies only to
+function-body operand-template asm); (c) if the *following* symbol is the shared tail, emit a second
+real `.ent <nextsym>` / label / `.end <nextsym>` immediately after this function's `.end` — the
+harness's objdump-header boundary walk (§179-B rule 5, same `_HDR_RE`) then attributes exactly the
+target's instruction count to each symbol. That is the same tooling fact used deliberately instead
+of tripped over.
+
+**Bonus: raw `.word` bodies.** When mnemonic transcription is hostile, a straight list of
+`.word 0xHHHHHHHH` copied from the target's own words works — but **stop the list before the
+target's own closing `jr $ra`/`nop`**: gcc supplies the frameless-leaf epilogue itself, so including
+them is +2. (`GsTMDfastF4GL`: all 162 words → LENGTH-DRIFT +2; words [0..159] → MATCH at 162 ins,
+648/648 bytes.)
+
+**Evidence.** `func_80059234` (71/71 real target instructions; a function-body `noreturn` asm left 2
+dead trailing instructions, a `glabel`-based file-scope attempt produced a garbled 79-ins object),
+`func_80059FC0` (MATCH, size 0xA8, two raw `j SYS_OBJ_E34` tails with `$v0`/`$v1` live-out and no
+`$s0-$s3`/`$ra` restore), `MoveImage` (42/42, closeness 0; all 7 referenced symbols verified against
+the target's own relocation lines).
+**Follow-up worth a pass:** `func_8005BD7C`, `func_8005C1C0`, `SetGraphReverse` are all NEAR in the
+same slice and all diagnose this exact root cause without finding the fix. They are likely
+re-crackable with §179-C verbatim.
+
+---
+
+### §179-D — `gte_stflg` MUST CLOBBER `"$12"` OR THE WHOLE TEMP FILE ROTATES BY ONE
+
+**Symptom.** The draft uses `$t4-$t8` where the target uses `$t5-$t9` — a clean one-slot shift of the
+*entire* temp register file. Tell: **the target never uses `$t4` even though `$t4` appears in the
+`cfc2`.**
+
+**Mechanism.** `gte_stflg` reads the GTE FLAG register with a `cfc2` hardwired to physical `$12`
+(= `$t4` in the o32/PSX ABI), outside its declared operands. With `"$12"` missing from the clobber
+list, gcc treats `$t4` as allocatable, parks a live pseudo (a loop counter, in both exemplars)
+there, and the `cfc2` destroys it — and the allocation order cascades from that point, shifting
+every later temp.
+
+**C lever.** Any inline-asm / raw-`.word` GTE macro that writes a fixed physical COP2-adjacent
+register outside its operands must list it **by number** in the clobber list: `: "$12"`.
+
+**Evidence.** `func_80025504` (MATCH, 197 ins — counter had been placed in `$t4`), `func_80024DE8`
+(MATCH, 134/134). No gcc-source claim is made here; this is byte-evidence + ABI.
+
+---
+
+### §179-E — A `>2*MAX_MOVE_BYTES` BLOCK COPY IS A **STRUCT ASSIGNMENT**, NOT A HAND LOOP
+
+**Symptom.** The target shows `[compute end address] + [loop: 4-word load/store group, compare,
+branch] + [straight-line leftover load/store group]`. Element-by-element `for` loops and
+hand-unrolled pointer-diff variants regress to 54–64 instructions with garbled 2-word sub-splits.
+
+**Mechanism.** `mips.c:2216-2217` defines `MAX_MOVE_REGS 4` / `MAX_MOVE_BYTES (MAX_MOVE_REGS *
+UNITS_PER_WORD)`. `expand_block_move` (`mips.c:2331`) dispatches any compile-time-constant,
+word-aligned BLKmode copy larger than `2*MAX_MOVE_BYTES` to `block_move_loop` (`mips.c:2222`, which
+`abort()`s below that size at `:2237`). It computes `leftover = bytes % MAX_MOVE_BYTES` (`:2240`),
+emits **one** `movstrsi_internal`-driven loop with a computed end-address compare/branch, then a
+single straight-line `movstrsi_internal` for the leftover (`:2286-2289`). This is a *different* path
+from the already-banked ≤`2*MAX_MOVE_BYTES` single-shot case (L2428) and the -O0 `memcpy`
+library-call case (L2531). `unroll.c` is dead at -O2, so no hand loop reproduces it.
+
+**C lever.**
+```c
+typedef struct { s32 words[N]; } BlkNN;   /* N sized to the exact byte count */
+extern BlkNN SRC, DST;
+void f(void) { BlkNN buf; buf = SRC; DST = buf; }
+```
+
+**Evidence.** `func_80029274` → MATCH (42/42) after the struct rewrite.
+
+---
+
+### §179-F — PINNING A LOOP-WALKED POINTER IS A TOTAL OFF-SWITCH FOR STRENGTH REDUCTION
+
+**Symptom.** The target keeps a walked pointer as a single un-combined biv (`addiu $s0,$s0,0x54`
+plus full literal field offsets at every access), and every C-source-order trick and asm fence still
+lets gcc split it into two givs.
+
+**Mechanism.** loop.c's IV machinery considers **pseudos only**. The biv scan requires
+`REGNO (dest_reg) >= FIRST_PSEUDO_REGISTER` before calling `basic_induction_var` (`loop.c:3301`),
+and the giv-collection loop does `if (REGNO (dest_reg) < FIRST_PSEUDO_REGISTER) continue;`
+(⚠ **`loop.c:3572-3573`**, not `:3571` as the raw finding claimed — `:3571` is the `dest_reg =
+SET_DEST (set);` above it). So a hard-register pin makes the pointer **categorically invisible** to
+`combine_givs`/strength-reduction, not merely de-prioritized. This is strictly stronger than the
+banked zero-byte-asm anti-dissolution launderers (L2483), which only perturb the benefit heuristic.
+
+**C lever.** `register Ent *p __asm__("$16");` on the walked pointer — using the register the target
+actually uses.
+
+**Evidence.** `func_8003324C` → MATCH (54/54). Ablation: without the pin, `p` splits into a `+0x2A0`
+call-arg giv and a `+0x2EE` address giv → 58 ins / 44 mismatched; with it, back to the single
+`addiu $s0,$s0,0x54` walk.
+
+---
+
+### §179-G — 🟡 A PIN CAN **CREATE** A COMBINE `LOG_LINK` AND DELETE AN `andi` (sixth RC-5 channel, n=1)
+
+**Symptom.** The target retains an `andi $sN,$fp,0xFFFF` narrowing mask; your draft folds it to a
+bare `move` and is one instruction short — and you currently have a pin on the mask's consumer.
+
+**Mechanism.** combine's `LOG_LINKS` never cross basic blocks (already-banked law, L2489, `flow.c:2087`),
+so a `(u16)y` mask survives whenever `y`'s def and the `andi`'s consumer sit in different blocks —
+combine has nothing to hang a link on. A `register T x __asm__("$21")` pin inserts a **same-block
+hard-reg move**, which manufactures exactly that missing `LOG_LINK`; `nonzero_bits` reasoning then
+legally folds the `andi` away. Removing the pin removes the link and the `andi` returns.
+
+**C lever.** When a target keeps a narrowing mask on a pinned value, **remove the pin first**, before
+anything else. This is a distinct causal channel from RC-5's four documented pin side effects
+(init-copy, `bad_spill_regs` poisoning, pass-0 availability shift, range blocking) and from the fifth
+(§164-49, pin-perturbs-scheduling) — all five of those are regalloc/sched1-shaped; this one runs
+through combine.
+
+**Evidence.** `func_80032048` (152/152, MATCH): removing all three pins restored the `andi` and, with
+a separate u8→u32 widening fix, closed it.
+**⚠ Banked with a flag:** n=1, no independent A/B re-run, and **no exact `combine.c` line number
+exists for the pin→LOG_LINK creation claim itself** — I could not derive one in this pass. Treat as a
+strong heuristic, not settled law. Needs an exact citation + a second exemplar. (The neighbouring
+`set_nonzero_bits_and_sign_copies` law at L11075 / `combine.c:718-788` governs a related but
+different case — a multi-set, multi-block pseudo's nonzero-bits record.)
+
+---
+
+### §179-H — A MID-BODY `.global LABEL` PAIR SLICES A BYTE-COMPARABLE FRAGMENT OUT OF A LARGER ROUTINE
+
+**Symptom.** A symbol classified NEAR/FRAGMENT that is provably not a real function — the target `.s`
+shows no prologue, and a sibling's tail branches straight into it. Reconstructing the fragment alone
+won't compile (no incoming register state); reconstructing the whole enclosing routine means the
+non-fragment part must also be byte-exact, which it never is.
+
+**C lever.** Write ONE C function that reconstructs enough of the enclosing routine to get the right
+live values into the right registers (`register T v __asm__("$N")` pins for every live-in), then drop
+`__asm__ volatile(".global TARGET\nTARGET:")` at the point corresponding to the real symbol's entry
+address and a matching `_END` label at its exit. `match_one`'s `insns_from_object` slices the object
+between symbol labels, so **only that slice must be byte-exact** and the setup code is exempt.
+Terminate the fragment's own exit with a raw `__asm__ volatile("j OTHER_FUNC")` — **not** a C call —
+so gcc does not grow an `$ra`/`$sN` save/restore frame around a region whose real frame is owned by
+the unreconstructed caller.
+
+**Evidence.** `SYS_OBJ_26EC` → MATCH (47 ins), construction confirmed by reading
+`.run/wave_p31q/main/SYS_OBJ_26EC.c` directly. The journal notes this is the "same technique as
+`SYS_OBJ_1DC0.c`" — i.e. it was used at least once before and never fed back into the cookbook, which
+is the gap this entry closes. No source-level citation; the claim rests on the byte-diff.
+
+---
+
+## Considered and NOT banked
+
+| Rejected | Why |
+|---|---|
+| **§70's "walk the parameter directly" direction** (L5639) | Already banked. Kept only as the explicit contrast note inside §179-A, which is its mirror — a future agent needs both directions side by side to choose. |
+| **`__asm__ __volatile__("" ::: "memory")` as a CSE defeat** | Already banked at L1816-1819 (§21) and L13300, and §178-G2 already warns it is a *full* barrier. Deliberately stripped from the §179-H lever description. |
+| **`"=r"(x) : "0"(x)` as an address-rematerialisation launder** | Already banked near-verbatim as §153 (L10463, "THE ADDRESS-REMATERIALISATION LAUNDER"). Note: §179-A uses the *same instrument* against a *different governing predicate* (`valid_initial_value_p`, not cse's `qty_const`), so only that new application is banked. |
+| **≤`2*MAX_MOVE_BYTES` single `movstrsi_internal` copies; -O0 `memcpy` library call** | Already banked at L2428 and L2531. §179-E covers only the `>2*MAX_MOVE_BYTES` loop-with-remainder shape. |
+| **The trampoline's three maspsx rules** (no nop after `jal`; `%%hi`/`%%lo` escaping; no trailing `.set reorder`) | Already banked at L1848-1858. The third one is *contradicted* by wave P/Q, so §179-B carries the conflict-resolution note rather than a restatement. |
+| **maspsx "forces noreorder per function"** (the `func_80185B44` vetting note, `__init__.py:857-859`) | Already banked — but it is *misleading on its own*, since `.ent` does not update `self.is_reorder`. §179-B rule 2 corrects it rather than re-banking it. |
+| **Everything in §174–§178 and §176a–§176j** | Excluded by instruction: PsyQ names, `match_one` relocation masking, statement order around a call, pins-cannot-cross-a-call, declaration form as a scheduling lever, the `$0`-add opaque copy, return-const priority, `birthing_insn_p`, narrow-type copy elision, the zero-offset alias hole, `MEM_IN_STRUCT_P`, `mips_epilogue_delay_slots`. Several readers surfaced near-restatements of these; all dropped. |
+| **§177's epilogue return-delay-slot class** (`mips.c:5376`, L17156) | Adjacent but genuinely different: that is a *within-function* scheduling gate steerable by callee-saved count. §179-C is a *cross-function* frame-sharing phenomenon with no compiler pass involved at all. Both kept, neither merged. |
+| **The raw findings' `loop.c:3571` giv-skip citation** | ⚠ **Corrected**, not dropped — the test is at `:3572-3573`. |
+| **The raw findings' `loop.c:3499` `SET_SRC` citation** | ⚠ **Corrected** to `:3500` (the `valid_initial_value_p` call at `:3509` and `bl->initial_value = src` at `:3511` both check out exactly). |
+| **"`func_8005A9FC0`"** | ⚠ Typo in the raw finding; the real symbol is `func_80059FC0` (confirmed from the draft path and `asm/nonmatchings/800c/func_80059FC0.s`). Banked under the correct name in §179-C. |
+| **"`expand_function_end` unconditionally appends, with no `noreturn` guard"** | Softened. `function.c:5224` and the return emission at `:5432-5437` are confirmed present, and `function_epilogue` (`mips.c:5072`) is the final-time emitter — but the "no guard anywhere on the path" claim was not traced line-by-line. §179-C states the observable (three byte-proofs) and cites the location, not a derived proof. |
+
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
 main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the
