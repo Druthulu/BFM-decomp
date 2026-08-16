@@ -16962,6 +16962,79 @@ first: it is where the instruction-weighted metric moves fastest per agent spent
    draft** — a declaration change is a codegen change;
 5. gate: `gate_main --apply` for main (one clean rebuild per slate), `gate_lane` for overlays.
 
+## §176h — THE BATCH-SUBSTITUTION HAZARD MAP (P31 S52): seven holes, three wrong fixes, one law
+
+Wave P drafted at 97% (58/60 byte-correct, 6,372 ins, zero symbol errors) and then cost **a dozen
+clean rebuilds to bank**. Not one of those rebuilds failed on a matching problem. Every single one
+failed on *N independently-written drafts having to agree with each other and with a translation
+unit none of them can see*. This section is that failure surface, mapped, so the next tool does
+not rediscover it.
+
+### A. The seven under-reporting holes (all in `gate_main`, all the same shape)
+
+Each looked green while reading LESS than it claimed — R32's exact failure mode, seven times in one
+tool, because nobody had ever asserted the tool's *coverage*, only its *verdicts*.
+
+| # | The checker never read… | Symptom |
+|---|---|---|
+| 1 | the destination TU's own declarations | draft contradicts a decl already in the `.c`; found only by the build |
+| 2 | shared headers (`engine_core.h`'s `DEFINE_` macro bodies declare symbols!) | file-scope array decl illegal against a macro's block-scope scalar |
+| 3 | a draft's OWN function definition | the DEF-side wall: `s32 func_X` vs the TU's `void func_X` |
+| 4 | typedefs/decls on lines with a **trailing comment** (`;\s*$` anchoring) | the commonest spelling of all; agents comment nearly everything |
+| 5 | typedef aliases (`short` ≡ `s16`) | R39 over-refusal: good drafts discarded as "conflicting" |
+| 6 | the build's actual error text (bisected instead) | a full rebuild per step to rediscover what the compiler already printed |
+| 7 | draft order vs FILE order | typedef stripped in slate order lands below its user |
+
+**Law: a batch-integration tool must be audited for what it DOESN'T look at.** Its verdicts can be
+100% correct on the inputs it reads and still be worthless, because the compiler reads more.
+
+### B. Typedef handling — the only strategy that survives contact
+
+Each draft compiles standalone, so N drafts bring N copies of `SVECTOR`/`SVEC8`/`OtBlk`/`Rec14`.
+Three strategies were tried; **two are wrong and both look right**:
+
+- ❌ **strip every duplicate** — assumes the surviving definition sits ABOVE the insertion point.
+  It often does not (`src/800.c` defines `Rec14` at line 7336 while stubs wanting it sit at 7272
+  and earlier). Stripping then leaves the name undefined ⇒ implicit-int ⇒ a collision at the real
+  declaration, reported as `previous declaration of D_800A4640` — nowhere near the actual cause.
+- ❌ **rename every duplicate** — breaks drafts that share an IDENTICAL typedef: give each its own
+  name and their `extern <T> D_x[]` declarations stop agreeing. (I shipped this; it broke three
+  drafts at once, and it *created* a conflict the batch did not have.)
+- ✅ **body-aware + position-aware, single pass:**
+  1. identical definition visible **above** the insertion point → STRIP and reuse the name;
+  2. same name, **different** definition → RENAME (a typedef name is private to the draft, so the
+     rename cannot move a byte);
+  3. definition exists only **below** → never reuse it; keep the draft's own.
+  Recompute "visible above" **per draft against the current text** — the file grows with every
+  substitution, so offsets captured once go stale and mark a below-definition as reusable.
+  And do it in ONE pass over a snapshot: a rescan loop finds the definition it just renamed, calls
+  it a duplicate of itself, and deletes it (`parse error before '*'`). That was my third wrong fix.
+
+### C. The limit that remains (recorded, not solved)
+
+Conflict detection compares **spelled type names**. Three drafts each defining their own `Slot54`
+with different layouts all declare `func_80032A74(Slot54 *, …)` and compare EQUAL. The real fix is
+comparing struct LAYOUTS for locally-defined types. Until then, a rename can *expose* such a
+conflict (which is a service) but the checker cannot predict it.
+
+### D. The measured cost shape, and what to build next
+
+**Drafting is cheap and solved; integration is expensive.** Wave P: ~10M agent tokens produced 58
+byte-correct functions on the first pass; banking them took a dozen 5-minute rebuilds and seven
+tool fixes. So the next lever is NOT a bigger wave — it is a **static pre-gate check**: substitute
+into a scratch copy and assert, on the text alone and with no `make` at all,
+(1) no typedef used above its definition, (2) no type referenced that nothing defines, (3) no
+draft `extern` contradicting the file, (4) no draft definition contradicting a prototype, (5) no
+two drafts declaring one symbol differently. Every failure in this section was visible in that
+text. Two seconds a look instead of five minutes.
+
+**And R39 applies to the tool you are fixing, not just the tool you are shipping.** I spent the day
+adding negative controls to everything and then made three regressions editing a live tool between
+rebuilds without running one. Mask comments before any "is X used before Y" scan, too — a check
+that counts mentions inside comments reports 7 phantom failures (and one that only inspects names
+that ARE defined is blind to a name you deleted outright: my own R32 hole, inside the control I
+wrote to catch R32 holes).
+
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
 main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the

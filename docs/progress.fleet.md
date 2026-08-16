@@ -4,21 +4,21 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 351731 / 363163 = 96.85%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 12912453 / 13523865 = 95.5%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5292661 / 5851972 = 90.4%   (81756/90929 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :    6849 / 79510 = 8.6%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12905604 / 13444355 = 96.0%)
+FLEET fn-count byte-ident: 351770 / 363162 = 96.86%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 12916767 / 13523865 = 95.5%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5296975 / 5851972 = 90.5%   (81764/90929 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :   10029 / 79510 = 12.6%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12906738 / 13444355 = 96.0%)
 
-FLEET REAL substantive   : 349561   (of which dedup-shared 254598 via 2137 groups / 254674 instances)
+FLEET REAL substantive   : 349600   (of which dedup-shared 254598 via 2137 groups / 254674 instances)
 FLEET LINKED PsyQ objs   :    959
-FLEET NON_MATCHING       :      7   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :  11425
-FLEET matchable          : 363163
+FLEET NON_MATCHING       :      6   (0 in any default build — G4)
+FLEET INCLUDE_ASM stubs  :  11386
+FLEET matchable          : 363162
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
-| main | 221 | 2 | 959 | 1222 | 2096 | 58.3% |
+| main | 252 | 2 | 959 | 1253 | 2095 | 59.8% |
 | resident | 129 | 0 | 0 | 131 | 145 | 90.3% |
 | md_MAIN_001 | 1 | 0 | 0 | 1 | 11 | 9.1% |
 | md_MAIN_003 | 3 | 0 | 0 | 3 | 60 | 5.0% |
@@ -89,7 +89,7 @@ FLEET matchable          : 363163
 | md_SC05_028 | 21 | 0 | 0 | 23 | 27 | 85.2% |
 | md_SC05_029 | 23 | 0 | 0 | 27 | 31 | 87.1% |
 | md_SC07_003 | 18 | 0 | 0 | 18 | 100 | 18.0% |
-| md_SC07_004 | 43 | 0 | 0 | 43 | 315 | 13.7% |
+| md_SC07_004 | 51 | 0 | 0 | 51 | 315 | 16.2% |
 | ov_MAIN_012 | 2236 | 1689 | 0 | 2315 | 2403 | 96.3% |
 | ov_SC01_000 | 2391 | 1809 | 0 | 2391 | 2403 | 99.5% |
 | ov_SC01_001 | 2401 | 1811 | 0 | 2403 | 2466 | 97.4% |
