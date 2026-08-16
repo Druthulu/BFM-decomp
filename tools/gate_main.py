@@ -237,14 +237,19 @@ def strip_dup_typedefs(body, already, suffix=''):
         body = re.sub(r'\b%s\b' % re.escape(old), new, body)
     return body, defined
 
-def substitute(entries):
-    """Replace each INCLUDE_ASM stub line with its draft body. Returns count."""
+def substitute(entries, write=True):
+    """Replace each INCLUDE_ASM stub line with its draft body.
+
+    write=False produces the substituted text WITHOUT touching the tree, which is what
+    tools/pregate_check.py needs: every batch failure this project has hit is a textual property
+    of the file that will be compiled, so it can be checked in ~2s instead of a 5-minute rebuild.
+    Returns (count, {path: text})."""
     stubs = {st.symbol: st for st in corpus.stubs('main').values()}
     byfile = collections.defaultdict(list)
     for e in entries:
         st = stubs.get(e['fn'])
         if st: byfile[st.path].append((st.addr, e['fn'], st.asm_dir, e['draft']))
-    n = 0
+    n, texts = 0, {}
     for path, items in byfile.items():
         t = open(path).read()
         # What the destination file already defines: name -> normalized definition text, so a
@@ -283,8 +288,10 @@ def substitute(entries):
             body, _newly = strip_dup_typedefs(body, defs_above(t, at), suffix=fn.split('_')[-1])
             t = t[:at] + body + t[at + len(old):]
             n += 1
-        open(path, 'w').write(t)
-    return n
+        texts[path] = t
+        if write:
+            open(path, 'w').write(t)
+    return n, texts
 
 def clean_build():
     """The ONLY trustworthy main verification: extract (rewrites the .ld) then build.
