@@ -186,66 +186,85 @@ instruction-weighted metric moves fastest per agent spent.
 
 
 
-## 🛑 SESSION CHECKPOINT — S52 CLOSED (2026-08-15/16). Phase 31 CONTINUES. NO WAVE IN FLIGHT.
+## 🛑 SESSION CHECKPOINT — S52 FINAL (2026-08-15/16). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**Tree CLEAN at `commit:2410`. Nothing running. R22 verified 213/213 (after wave P).**
-**Banked this session: 91.** main **175 → 253** matched · stubs 1,881 → **1,803**.
+**Tree CLEAN at `commit:2415`. No process running. R22 verified 213/213 from a clean tree after the last bank.**
 
-### ⚠️ WAVE Q IS DRAFTED BUT **NOT BANKED** — 51 verified drafts sitting on disk
-Wave Q (90 cards / 6,249 ins) was stopped mid-flight to save tokens, then a repair pass over the
-39 unfinished drafts was also stopped. **Nothing from wave Q is banked.** What survives on disk:
-- **51 drafts verified MATCH / 3,631 ins** — slate at `.run/gate_main_q3.json` (45 entries after
-  dropping reloc-flagged ones), all under `.run/wave_p31q/main/`.
-- 39 unfinished drafts, closeness measured: **13 within 5 instructions (691 ins)**, 7 within 15
-  (437 ins), 19 at 16–40 (1,490 ins). Repair cards ready at `.run/repair_cards_q.json`.
+### Banked this session: 131
+Wave O 46 main + 4 ov · re-gate probe 1 · wave P 32 main + 8 md · wave Q 40 main.
+**main 175 → 293 matched · stubs 1,881 → 1,763.** Fleet 213/213 byte-identical, 0 NON_MATCHING.
 
-**TO RESUME WAVE Q (zero agent tokens for step 1):**
-1. `gate_main.py .run/gate_main_q3.json --apply` **with bisect** — the binary BUILDS but the SHA
-   differs, so ≥1 of the 37 compatible drafts is byte-wrong. Bisect costs wall-clock and **$0 in
-   tokens**; it names the culprit. Then re-gate without it.
-2. Already dropped and why: `gfx2D_BG0_OBJ_698` (a neighbour's `.s` branches to `.L80050F24`
-   INSIDE it — converting it to C deletes that label; §176i) and 5 reloc-flagged drafts
-   (`func_80034C24` stores to `D_80078F20` where the target uses `cdReq_sectorHdrBuf+0xE0`, etc.).
-3. The repair pass (`scratchpad/p31_repair.js` + `.run/repair_cards_q.json`) is re-launchable as-is
-   if agent budget allows — but see §176j: it is a *deferral* of already-spent tokens, not new work.
-
-### The three results that outlive the count
-1. **UNKNOWN is not a difficulty label** — a 22-card probe reclassified ~138k ins (a quarter of all
-   open instructions) as ordinary wave fuel. Agent-draftable pool: **9,224 fns / 417,325 ins = 70%**.
-2. **Matching is solved at this scale; INTEGRATION is the entire cost.** 96–97% draft rates with
-   zero symbol errors across waves O and P, then ~14 clean rebuilds to bank them.
-3. **Reconcile BEFORE the first gate (§176h.C2).** Of 18 parked drafts still verifying MATCH, only
-   **1** survived the conflict check after their wave banked, versus 5 before. Post-bank recovery
-   banked **0**.
-
-### Measured wave economics (the numbers to plan with)
+### Measured wave economics — the numbers to plan with
 | wave | carded | drafted | BANKED | yield |
 |---|--:|--:|--:|--:|
 | O | 6,266 ins | 96% | 5,166 | **82%** |
 | P | 6,589 ins | 97% | 4,501 | **68%** |
-| Q | 6,249 ins | 58% (stopped) | 0 | **0%** |
+| Q | 6,249 ins | 58% (stopped early) + repair | ~3,000 | ~48% |
 
-**~4,800 banked ins/wave when run to completion** — not 6,000. ~87 waves for the agent-draftable
-pool, still ~5× the old card lanes.
+**~4,800 banked ins/wave when a wave runs to completion (≈75% of carded mass)** — NOT 6,000. I
+quoted the *draft* rate for most of the session and that overstated it. Still ~5× the old card
+lanes; ~87 waves for the 417k-ins agent-draftable pool.
+
+### THE FOUR RESULTS THAT OUTLIVE THE COUNT
+1. **UNKNOWN is not a difficulty label** — it means the atlas could not name a lever. A 22-card R37
+   probe drafted it like any other lane ⇒ ~138k ins (a quarter of all open instructions)
+   reclassified as ordinary wave fuel. Agent-draftable pool: **9,224 fns / 417,325 ins = 70%**.
+2. **Matching is solved at this scale; INTEGRATION is the entire cost.** 96–97% draft rates with
+   zero symbol errors, then ~14 clean rebuilds to bank them. Every failure was declaration plumbing.
+3. **Reconcile BEFORE the first gate (§176h.C2).** Of 18 parked drafts still verifying MATCH, only
+   **1** survived the conflict check after their wave banked, versus 5 before. Post-bank recovery
+   banked **0**. Budget reconciliation into the wave.
+4. **§177 — the epilogue return-delay slot is decided by the SAVED-REGISTER SET**, not scheduling
+   (`mips.c:5376 mips_epilogue_delay_slots`). Eleven functions sat 1–3 instructions from banked,
+   filed by every agent as an intrinsic wall. ~600 ins unblocked by forty lines of compiler source.
 
 ### Tooling built this session (all committed, all NC'd)
 **NEW** `reloc_identity.py` (symbol identity — the oracle `match_one` structurally cannot be) ·
-**NEW** `pregate_check.py` (validates a slate in **0.7s** vs a 5-min rebuild) ·
-**NEW** `reconcile_slate.py` (drives a slate to 0-dropped, auto-reverts any repair that moves a
-byte) · `build_wave_atlas` `--target-ins`/`--only-bins`/`--rank mass` + two selector bugs (glob
-self-poisoning, group-count ranking collapsing a wide band to the smallest functions) ·
-`gate_lane` CRASH≠empty · **`gate_main` ×8 defects**.
+**NEW** `pregate_check.py` (validates a slate in 0.7s vs a 5-min rebuild) ·
+**NEW** `reconcile_slate.py` (drives a slate to 0-dropped; auto-reverts any repair that moves a byte) ·
+**NEW** `fragment_check.py` (the enclosing-function trap: a draft that SUBSUMES another symbol, or
+that REDEFINES another stub's symbol in asm — the second cost a 3-hour bisect) ·
+**NEW** `bisect_slate.py` (**null control FIRST**, per-step logging, true binary search — found the
+culprit in 7 steps / 176s where `gate_main`'s built-in bisect ran 3 hours and named nothing) ·
+`build_wave_atlas` `--target-ins`/`--only-bins`/`--rank mass` + 2 selector bugs · `gate_lane`
+CRASH≠empty · **`gate_main` ×8 defects**.
 
-### Cookbook banked
-§176d (TU-seeded conflicts + callee function-pointer cast) · §176e (symbol identity is computable
-offline + its 5% null) · §176f (declaration FORM is a matching lever) · §176g (6k-ins doctrine +
-5-step pre-gate protocol) · §176h (batch-substitution hazard map; **C2 reconcile-before-gating**) ·
-§176i (what a static pre-gate can and cannot prove) · §176j (the cost of stopping a wave).
+### Cookbook banked: 543 → 564 sections
+§176d–k (TU-seeded conflicts · symbol identity computable offline + its 5% null · declaration FORM
+as a matching lever · the 6k-ins doctrine + 5-step pre-gate protocol · the batch-substitution hazard
+map incl. **C2 reconcile-before-gating** · what a static pre-gate can/cannot prove · the cost of
+stopping a wave + the measured repair-pass yield · two selector bugs) ·
+**§177** epilogue delay slot ← saved-register set ·
+**§178** six levers from the wave-P journals (the $0-add opaque copy vs `make_regs_eqv`;
+return-const as a priority-1 hard-reg set; `birthing_insn_p` single-set rule; narrow-type copy
+elision; the zero-offset alias hole; `MEM_IN_STRUCT_P` asymmetry) — leads with **"REGALLOC-PERM is
+this project's most over-diagnosed class"** ·
+**§179** eight more, harvested by 12 readers over 172 journal findings (loop-walked pointer
+parameter → giv; the maspsx transcription checklist; no-epilogue functions; `gte_stflg` clobber;
+struct-assignment block copy; pinning disables strength reduction; a pin creating a combine
+LOG_LINK; mid-body `.global` fragment slicing).
 
-### Deferred, verified-correct, on disk
-4 immovable-TU-declaration drafts · 9 competing-type-model conflicts · 6 `ov_SC04_011` TU-plumbing ·
-5 genuine NEARs (incl. `func_80015F04` at closeness 2 with a derived sched1/sched2 LUID model and
-three seed candidates in `.run/p31p_15F04/`).
+### NEXT SESSION — in order
+1. **Wave R the new way.** `build_wave_atlas --target-ins 6500 --min-ins 60 --max-ins 200
+   --rank mass`, then **iterate `reconcile_slate --apply` → `fragment_check` → `pregate_check` →
+   `gate_main` dry-run until `N -> N compatible, 0 dropped` BEFORE the first rebuild.** That
+   sequence is the whole difference between 68% and ~95% yield, and every tool in it now exists.
+   Use `bisect_slate.py`, never `gate_main --apply` without `--no-bisect`.
+2. **Apply §177 to the eleven epilogue near-misses** (`800c`/`800c3`, closeness 1–3, ~600 ins).
+   Pure lever application, no drafting: change what is live across the call, re-verify, gate.
+3. **4 immovable-TU-declaration drafts** (`func_8002D034`, `func_8001ABBC`, …) need their own pass:
+   edit the declaration in `src/800.c`, ONE clean rebuild, R22. They cannot ride a slate because
+   `gate_main` reverts `src/` before every build.
+4. Grinder fuel: `func_80015F04` at closeness 2 with a fully-derived sched1/sched2 LUID model and
+   three seeds in `.run/p31p_15F04/`; plus wave-Q leftovers in `.run/wave_p31q/main/`.
+
+### Watch-fors (all bit this session)
+`gate_main`'s built-in bisect is near-linear and silent — use `bisect_slate.py`. · A wave stopped
+mid-flight loses its in-flight tail; a repair-only pass recovers ~⅓ of it (12/39, 579 ins), but
+resuming the workflow re-runs unfinished agents from scratch at full cost. · `pgrep -f` self-matches
+its own shell wrapper — use the `[g]ate_main` bracket trick. · Closeness must be COUNTED, not read
+off the first differing index. · A clean `pregate_check` is a licence to build, not a prediction of
+success: link errors and byte mismatches are outside what any text check can see.
 
 ## 🛑 (superseded) SESSION CHECKPOINT — S52 mid-day
 
