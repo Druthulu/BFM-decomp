@@ -186,7 +186,68 @@ instruction-weighted metric moves fastest per agent spent.
 
 
 
-## 🛑 SESSION CHECKPOINT — S52 FINAL (2026-08-15). Phase 31 CONTINUES.
+## 🛑 SESSION CHECKPOINT — S52 CLOSED (2026-08-15/16). Phase 31 CONTINUES. NO WAVE IN FLIGHT.
+
+**Tree CLEAN at `commit:2410`. Nothing running. R22 verified 213/213 (after wave P).**
+**Banked this session: 91.** main **175 → 253** matched · stubs 1,881 → **1,803**.
+
+### ⚠️ WAVE Q IS DRAFTED BUT **NOT BANKED** — 51 verified drafts sitting on disk
+Wave Q (90 cards / 6,249 ins) was stopped mid-flight to save tokens, then a repair pass over the
+39 unfinished drafts was also stopped. **Nothing from wave Q is banked.** What survives on disk:
+- **51 drafts verified MATCH / 3,631 ins** — slate at `.run/gate_main_q3.json` (45 entries after
+  dropping reloc-flagged ones), all under `.run/wave_p31q/main/`.
+- 39 unfinished drafts, closeness measured: **13 within 5 instructions (691 ins)**, 7 within 15
+  (437 ins), 19 at 16–40 (1,490 ins). Repair cards ready at `.run/repair_cards_q.json`.
+
+**TO RESUME WAVE Q (zero agent tokens for step 1):**
+1. `gate_main.py .run/gate_main_q3.json --apply` **with bisect** — the binary BUILDS but the SHA
+   differs, so ≥1 of the 37 compatible drafts is byte-wrong. Bisect costs wall-clock and **$0 in
+   tokens**; it names the culprit. Then re-gate without it.
+2. Already dropped and why: `gfx2D_BG0_OBJ_698` (a neighbour's `.s` branches to `.L80050F24`
+   INSIDE it — converting it to C deletes that label; §176i) and 5 reloc-flagged drafts
+   (`func_80034C24` stores to `D_80078F20` where the target uses `cdReq_sectorHdrBuf+0xE0`, etc.).
+3. The repair pass (`scratchpad/p31_repair.js` + `.run/repair_cards_q.json`) is re-launchable as-is
+   if agent budget allows — but see §176j: it is a *deferral* of already-spent tokens, not new work.
+
+### The three results that outlive the count
+1. **UNKNOWN is not a difficulty label** — a 22-card probe reclassified ~138k ins (a quarter of all
+   open instructions) as ordinary wave fuel. Agent-draftable pool: **9,224 fns / 417,325 ins = 70%**.
+2. **Matching is solved at this scale; INTEGRATION is the entire cost.** 96–97% draft rates with
+   zero symbol errors across waves O and P, then ~14 clean rebuilds to bank them.
+3. **Reconcile BEFORE the first gate (§176h.C2).** Of 18 parked drafts still verifying MATCH, only
+   **1** survived the conflict check after their wave banked, versus 5 before. Post-bank recovery
+   banked **0**.
+
+### Measured wave economics (the numbers to plan with)
+| wave | carded | drafted | BANKED | yield |
+|---|--:|--:|--:|--:|
+| O | 6,266 ins | 96% | 5,166 | **82%** |
+| P | 6,589 ins | 97% | 4,501 | **68%** |
+| Q | 6,249 ins | 58% (stopped) | 0 | **0%** |
+
+**~4,800 banked ins/wave when run to completion** — not 6,000. ~87 waves for the agent-draftable
+pool, still ~5× the old card lanes.
+
+### Tooling built this session (all committed, all NC'd)
+**NEW** `reloc_identity.py` (symbol identity — the oracle `match_one` structurally cannot be) ·
+**NEW** `pregate_check.py` (validates a slate in **0.7s** vs a 5-min rebuild) ·
+**NEW** `reconcile_slate.py` (drives a slate to 0-dropped, auto-reverts any repair that moves a
+byte) · `build_wave_atlas` `--target-ins`/`--only-bins`/`--rank mass` + two selector bugs (glob
+self-poisoning, group-count ranking collapsing a wide band to the smallest functions) ·
+`gate_lane` CRASH≠empty · **`gate_main` ×8 defects**.
+
+### Cookbook banked
+§176d (TU-seeded conflicts + callee function-pointer cast) · §176e (symbol identity is computable
+offline + its 5% null) · §176f (declaration FORM is a matching lever) · §176g (6k-ins doctrine +
+5-step pre-gate protocol) · §176h (batch-substitution hazard map; **C2 reconcile-before-gating**) ·
+§176i (what a static pre-gate can and cannot prove) · §176j (the cost of stopping a wave).
+
+### Deferred, verified-correct, on disk
+4 immovable-TU-declaration drafts · 9 competing-type-model conflicts · 6 `ov_SC04_011` TU-plumbing ·
+5 genuine NEARs (incl. `func_80015F04` at closeness 2 with a derived sched1/sched2 LUID model and
+three seed candidates in `.run/p31p_15F04/`).
+
+## 🛑 (superseded) SESSION CHECKPOINT — S52 mid-day
 
 **Tree CLEAN at `commit:2407`. R22 verified 213/213 from a fully clean tree after the last bank. Nothing owed, nothing in flight.**
 
