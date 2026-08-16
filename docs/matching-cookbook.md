@@ -17058,6 +17058,64 @@ that counts mentions inside comments reports 7 phantom failures (and one that on
 that ARE defined is blind to a name you deleted outright: my own R32 hole, inside the control I
 wrote to catch R32 holes).
 
+## §176i — WHAT A STATIC PRE-GATE CHECK CAN AND CANNOT PROVE (P31 S52, wave Q)
+
+`tools/pregate_check.py` validates a slate in **0.7s** instead of a 5-minute rebuild, and wave Q
+was the first slate all session to reach the gate already reporting **clean**. It then failed the
+build twice. Both failures are *outside what any text-only check can see*, and knowing that
+boundary is the point of this entry — a tool whose limits are unknown gets trusted past them.
+
+**What it proves** (all five checks are properties of the substituted text): typedef used above its
+definition · type never defined · duplicate typedef · one symbol declared two incompatible ways ·
+definition contradicting a visible prototype.
+
+**What it CANNOT prove, with the wave-Q evidence:**
+
+1. **LINK-time undefined references.** Wave Q died on ``undefined reference `.L80050F24'``. That
+   label lives *inside* `gfx2D_BG0_OBJ_698` (0x80050EA4) and another function's `.s` branches to
+   it. Converting a function to C DELETES the local labels its neighbours jump to. No amount of
+   reading the `.c` reveals this; it is a property of the whole link.
+   **This one IS statically checkable, just not from the text:** scan every other `.s` for label
+   references landing inside the candidate's `[addr, addr+4·nins)` range and refuse those
+   candidates. Worth building — it is the split-file/jump-table class in a new costume.
+2. **BYTE mismatches.** With the link fixed the binary BUILT and the SHA differed, i.e. a draft
+   that `match_one` calls MATCH is wrong in a way only the whole-binary gate sees (§174 law 1c).
+   `reloc_identity` had already named six suspects — including `func_80034C24` storing to
+   `D_80078F20` where the target references `cdReq_sectorHdrBuf+0xE0` — which is exactly the
+   division of labour to rely on: **the text checker for shape, the reloc oracle for identity, the
+   gate for truth.**
+
+**Corollary — a clean pre-gate is a licence to build, not a prediction of success.** It removes the
+failure modes that are cheap to remove. Budget one gate attempt for the ones that are not, and when
+the binary builds but the hash differs, BISECT: it costs wall-clock and **zero tokens**, which is
+the right trade whenever agent budget is the scarce resource.
+
+## §176j — STOPPING A WAVE MID-FLIGHT COSTS THE IN-FLIGHT TAIL (and how much is recoverable)
+
+Wave Q was stopped early to save tokens. Measured consequence: **51/90 drafts verified MATCH
+(3,631 of 6,249 ins)** against the 96–97% the same pipeline produced when allowed to finish.
+
+But the loss is *suspended*, not destroyed — **every draft persists on disk**, and the stopped
+agents' partial work is closer than it looks:
+
+| closeness | fns | ins |
+|---|--:|--:|
+| ≤10 | 15 | 833 |
+| 11–30 | 10 | 729 |
+| 31–60 | 10 | 699 |
+| >60 | 4 | 357 |
+
+**Do NOT resume the workflow to recover this.** `resumeFromRunId` replays cached agents and re-runs
+the unfinished ones *from scratch* with the original prompt — full cost, no memory of their partial
+work. The cheap path is a **repair-only pass**: feed the existing draft plus its diff to the
+repair prompt (which is written to start from a draft, not from the `.s`), scoped to the ≤30-closeness
+band. Most of those need a statement moved, not a decompile.
+
+**The decision rule worth keeping:** before killing a long agent run, price the tail. If the median
+in-flight draft is near-matching, the tokens are already spent and stopping converts them from
+"nearly banked" into "needs a second, cheaper pass" — which is fine, but it is a deferral, not a
+saving.
+
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
 main's `make extract` runs the EXE-only `psyq_integrate` + `ld_interleave` steps, which **rewrite the

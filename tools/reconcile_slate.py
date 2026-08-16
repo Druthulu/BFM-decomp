@@ -145,6 +145,13 @@ def classify(drop, draft_text, tu_bodies, draft_bodies):
         return 'refuse-DIFFERENT-STRUCT', f'{tr} and {kr} have different layouts'
     if mk['tail'] != mt['tail']:
         return 'array', (mt['ret'], mk['ret'], mk['tail'])
+    # `struct Owner4EE8 *` and `Owner4EE8 *` are THE SAME TYPE when the tag is also a typedef name
+    # (`typedef struct Owner4EE8 {...} Owner4EE8;` -- the shape agents write constantly). Without
+    # this, two drafts spelling one symbol both ways were refused as a type conflict.
+    def _detag(t):
+        return re.sub(r'^\s*(?:struct|union|enum)\s+', '', t).strip()
+    if _detag(mk['ret']) == _detag(mt['ret']):
+        return 'alias', (mt['ret'], mk['ret'])
     if gm._alias(mk['ret']) == gm._alias(mt['ret']):
         return 'alias', (mt['ret'], mk['ret'])
     if {kr, tr} <= {'u8', 's8', 'u16', 's16', 'u32', 's32'}:
@@ -159,9 +166,17 @@ def repair(kind, detail, sym, path):
         old, new = detail
         out = re.sub(r'\b%s\b' % re.escape(old), new, src)
     elif kind in ('signedness', 'alias'):
-        old, new = detail
-        out = re.sub(r'(extern\s+)%s(\s+%s\b)' % (re.escape(old), re.escape(sym)),
-                     r'\g<1>%s\g<2>' % new, src)
+        _old, new = detail
+        # Retype the WHOLE declaration rather than pattern-matching the old type token: the type
+        # may be a pointer, a qualified type, or a `struct X` tag (`extern struct Owner4EE8
+        # *D_800A4EE8;`), none of which a `type + space + symbol` regex can rewrite. Preserve the
+        # declarator suffix (`[]`) -- that part is not an alias question.
+        stars = new.count('*')
+        base = new.replace('*', '').strip()
+        rendered = base + (' ' + '*' * stars if stars else ' ')
+        out = re.sub(r'^(\s*extern\s+)[^;]*?\b%s\b(\s*(?:\[[^\]]*\])?)\s*;' % re.escape(sym),
+                     lambda m: '%s%s%s%s;' % (m.group(1), rendered, sym, m.group(2)),
+                     src, count=0, flags=re.M)
     elif kind == 'defparams':
         mine, theirs = detail
         return _apply_tu_params(path, sym, mine, theirs)
