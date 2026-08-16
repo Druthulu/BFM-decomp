@@ -17116,6 +17116,43 @@ in-flight draft is near-matching, the tokens are already spent and stopping conv
 "nearly banked" into "needs a second, cheaper pass" — which is fine, but it is a deferral, not a
 saving.
 
+### §176j-2 — THE REPAIR PASS, MEASURED (do this instead of resuming)
+
+Wave Q's 39 unfinished drafts were run through a repair-only workflow: one stage, no draft phase,
+each agent handed **its own on-disk draft plus that draft's measured closeness**, with the prompt
+opening `THIS IS A REPAIR, NOT A REWRITE`. Model routing deliberately cheap (6 haiku / 29 sonnet /
+4 opus — opus only for the four >130-ins functions).
+
+**Result: 12 of 39 recovered, 579 instructions**, taking wave Q from 51 verified matches (3,631 ins)
+to **64 (4,245 ins)**. Roughly a quarter of a stopped wave's tail comes back for a fraction of a
+fresh wave's cost.
+
+Two calibration notes for next time:
+- **Closeness must be counted, not read off the first differing index.** My first measurement
+  sorted by the index of the first mismatch and reported six drafts at "closeness 0"; they were
+  *truncated* drafts (agent stopped mid-write) that matched to instruction 35–48 and then simply
+  ended. Count the differing instructions.
+- **The yield concentrates in the small-residual band.** Of the 12 recovered, most came from the
+  ≤15-differing-instruction band; the 35–40 band mostly stayed stuck (and much of what remained
+  turned out to be §177's epilogue rule, not per-function work at all).
+
+### §176k — TWO SELECTOR BUGS THAT SILENTLY SHRINK A WAVE
+
+Both found while building wave Q, both silent, both would have quietly cost instructions forever:
+
+1. **Ranking gate groups by MEMBER COUNT collapses a wide band to the smallest functions.**
+   `build_wave_atlas` ranked `(binary,TU)` groups by how many candidates they held — correct for
+   overlays, where each group costs its own rebuild. **For `main` the gate cost is per SLATE**, so
+   that ranking filled the wave from the biggest-by-count group, which is the smallest-by-
+   instruction one: measured **60 cards / 2,604 ins** selected when **46 cards / 4,829 ins** were
+   available. Fixed with `--rank mass`. *Whenever a selector ranks by a proxy, check the proxy
+   still means what it meant when the cost model was written.*
+2. **A selector that globs its own output poisons itself.** Deriving the already-waved set from
+   `glob('.run/wave_*_cards.json')` matched the file the run was about to write, so re-running with
+   identical filters counted the previous attempt's cards as spent: candidate pool **106 → 46**.
+   Fixed by excluding the output path. *Any derive-from-disk rule (R33) must exclude the artifact
+   it is about to produce.*
+
 ## §177 — 🔴 THE EPILOGUE RETURN-DELAY SLOT IS DECIDED BY YOUR SAVED-REGISTER SET, NOT BY SCHEDULING
 ### (P31 S52 — source-confirmed in `gcc-2.7.2/config/mips/mips.c`; eleven functions were stuck on it)
 
@@ -17161,6 +17198,93 @@ restore there instead (`mips.c:5276`, the `tsize > 0` path).
 banked, and they were all about to be written off as intrinsic. **A residual that eleven independent
 agents call "structural" is a signal to read the compiler, not to file a wall** (R17): the answer
 was forty lines of `mips.c` and it was already sitting in `tools/reference/gcc-2.7.2/`.
+
+## §178 — SIX LEVERS MINED FROM THE WAVE-P JOURNALS (P31 S52), each byte-proven and source-cited
+
+Wave P's repair agents did something the campaign has rarely got: they read `cc1 -dS/-da` dumps and
+then the gcc-2.7.2 source, and **four of them refuted the first pass's own diagnosis**. Every lever
+below took a draft to MATCH; every one names the file and line that explains it. The recurring
+meta-finding is stated first because it is worth more than any single lever:
+
+> **"REGALLOC-PERM" is the most over-diagnosed class in this project.** In four separate wave-P
+> functions the visible symptom was a register swap and the actual cause was in `cse.c` or
+> `sched.c`, decided *before* allocation — which is exactly why pins, declaration order and
+> statement order all failed on them. When a pin sweep plateaus, stop pinning and dump the pass.
+
+### A. THE `$0`-ADD OPAQUE COPY defeats `make_regs_eqv` (func_80033398, 93 ins)
+Symptom: `srl $s6,$s7,16` where the target has `srl $s6,$a0,16` — every pin combination left it
+bit-identical. Cause (`cse.c:826`, `make_regs_eqv`): when the second pseudo of a copy pair outlives
+the first and its live range escapes the cse block, it is head-promoted to `qty_first_reg`, and
+`canon_reg` rewrites **every later use** of the parameter pseudo to it. No C spelling of a plain
+copy escapes this. The lever:
+```c
+register s32 zr __asm__("$0");
+s7v = arg0 + zr;      /* emits `addu $s7,$a0,$zero` — but the RTL is a PLUS, not (set reg reg) */
+s6v = arg0 >> 16;     /* so the srl still reads the parm pseudo, which dies here */
+```
+Because it is a PLUS, `make_regs_eqv` never merges the quantities; local-alloc's copy suggestion
+then hands the parm `$a0` and deletes the real copy as a no-op. **MATCH on the first compile.**
+Bonus: with the opaque copy in place, 3 of the draft's 5 register pins became dead weight and were
+removed — worth re-minimising pins after any cse-level fix.
+
+### B. A `return <const>` IS A PRIORITY-1 HARD-REG SET THE SCHEDULER PLACES FIRST (func_8001BE30, 92 ins)
+Symptom: a clean `$v1`-for-`$v0` swap on throwaway temps; six levers failed. Cause, read from the
+`-da` dumps: `(set (reg/i:SI 2 v0) (const_int 0))` — the `return 0` — is a hard-reg set with
+`REG_N_SETS(reg 2) > 1` (the function has six return sites), so `birthing_insn_p`/`adjust_priority`
+give it **no boost**; it sits at priority 1 while neighbours outrank it, and gcc-2.7.2's *backward*
+list scheduler picks it last, i.e. **emits it FIRST in the block**. Hard `$v0` is then live across
+the temp's whole range at local-alloc time, forcing the temp to `$v1`. sched2+dbr later move
+`move $2,$0` into the `j` delay slot — which is why the SHAPE looked right while the register
+stayed wrong.
+**Lever: delete the hard-reg return set from the block.** Replace each in-block `return 0;` with
+`goto L_ret0;` to one shared `L_ret0: return 0;` tail. The blocks then contain no set of hard `$v0`,
+the temps take `$v0`, and dbr steals the shared `addu $v0,$zero,$zero` back into each delay slot.
+
+### C. SINGLE-SET TEMPS GET THE BIRTHING BOOST (func_8001D3FC, 196 ins)
+`birthing_insn_p` (`sched.c:2469`) boosts an insn only when its destination has **exactly one
+static set** (`reg_n_sets[dest]==1`, the discriminator at `:2490`). A three-set temp
+(`ub = expr; u = ub; ub = ub + w - 1;`) gets no boost, so its whole chain is picked late and placed
+early. Splitting off a genuinely single-set temp boosts the insn and **drags its feeder chain down
+with it**. Byte-proven that the boost must land on the insn you care about: splitting one step
+earlier reverted the schedule.
+
+### D. A NARROW TYPE BLOCKS COPY ELISION (func_8001D3FC — new idiom)
+Once a temp is single-set, a plain same-mode `u = ut` copy is deleted by cse/coalescing, and `u`
+*becomes* `ut` — which is what produced the "$a0↔$v1 swap" the first agent called irreducible.
+Declaring the destination **narrower** (`u16 u;`) makes it an SI→HI mode-changing copy that cse
+cannot propagate through and the allocator cannot coalesce, so **the copy survives at its source
+position** and the entire register assignment falls into place. One type change, ~20 instructions.
+
+### E. THE ZERO-OFFSET ALIAS HOLE (func_80037028, 71 ins)
+`sched.c:memrefs_conflict_p`, PLUS-vs-PLUS branch, falls through to `find_symbolic_term(x/y)` and
+reports **no conflict when the two symbols differ** — but that path is only reachable for the plain
+`(plus reg symbol_ref)` address form, i.e. **a field at offset 0**. A field at a non-zero offset is
+`(plus reg (const (plus symbol N)))` and comes back conservative. Consequence: an offset-0 store
+silently loses its dependence on later loads and floats to the bottom of the block. If a store at
+offset 0 is scheduled wrongly, that is why — and giving the struct a non-zero-offset field to touch
+restores the dependence.
+
+### F. `MEM_IN_STRUCT_P` ASYMMETRY IN `true_dependence` (func_80037144, 124 ins)
+`sched.c:817` skips a dependence when `x` is `/s` with a **varying** address, non-QImode, while
+`mem` is **non-`/s` at a fixed address**. So `D_800A463C[k].unk00` (struct, varying) does not
+depend on plain scalar `D_8007622C` stores. Model your externs accordingly: struct-vs-scalar is a
+scheduling decision, not cosmetics.
+
+### G. TWO MODELLING TRAPS THAT COST THESE AGENTS SWEEPS OF HUNDREDS OF COMPILES
+1. **`sw $a1, D_80076244($a0)` is ONE cc1 insn** (symbol + scaled index). The `lui/addu/store`
+   triples you see in the `.s` are **gas `-G0` macro expansion, not cc1 output**. Model at the cc1
+   level or you will chase a phantom. Only a struct array indexed by the slot produces that form;
+   six parallel `extern u8 D_800762xx[]` make every access a distinct `SYMBOL_REF` and change the
+   whole dependence graph.
+2. **`__asm__ __volatile__("" ::: "memory")` is a FULL barrier** — it clobbers all pseudos, so it
+   sinks address chains below stores and can kill a delay-slot steal. When you only want *memory*
+   ordering, that is the wrong tool; an empty non-volatile `__asm__("")` was the one that worked as
+   a pure optimization barrier elsewhere (§B above, and the STORE_FLAG_VALUE fold defeat).
+
+**Statement-order sweeps are frequently worthless here and the agents proved it by exhaustion:** a
+2,240-variant sweep and a 5,040-permutation sweep each moved nothing, because the schedule was
+fully DAG-determined. When order does not matter, the answer is an *alias* or a *set-count*
+property, not a permutation.
 
 ## §176c — MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY
 
