@@ -186,7 +186,39 @@ instruction-weighted metric moves fastest per agent spent.
 
 
 
-## 🛑 SESSION CHECKPOINT — S52 (2026-08-15, day). Phase 31 CONTINUES.
+## 🛑 SESSION CHECKPOINT — S52 FINAL (2026-08-15). Phase 31 CONTINUES.
+
+**Tree CLEAN at `commit:2407`. R22 verified 213/213 from a fully clean tree after the last bank. Nothing owed, nothing in flight.**
+
+### Banked: 91 functions
+46 main + 4 ov (wave O) · 1 (re-gate probe) · 32 main + 8 md (wave P). **main 175 → 253 matched · stubs 1,881 → 1,803.** Fleet 213/213 byte-identical, 0 NON_MATCHING.
+
+### The two waves, measured honestly
+| wave | cards / ins | drafted (my re-verify) | symbol errors | BANKED ins | yield |
+|---|---|---|--:|--:|--:|
+| O | 49 / 6,266 | 47/49 (96%) | 0 | 5,166 | 82% |
+| P | 60 / 6,589 | 58/60 (97%) | 0 | 4,501 | 68% |
+
+**The number to plan with is ~4,800 BANKED ins/wave (75% of carded mass), not 6,000** — I quoted the draft rate for most of the session and that overstated it. Still ~5× the card lanes' ~1,400. Revised projection: **~87 waves** for the 417k agent-draftable pool, not 69.
+
+### THE THREE RESULTS THAT OUTLIVE THE COUNT
+1. **UNKNOWN is not a difficulty label** — it means the atlas could not name a lever. A 22-card R37 probe drafted it like any other lane ⇒ ~138k ins (a quarter of everything open) reclassified as ordinary wave fuel. Agent-draftable pool is now **9,224 fns / 417,325 ins = 70% of all open instructions**.
+2. **Matching is solved at this scale; INTEGRATION is the whole cost.** 96–97% draft rates and zero symbol errors across two waves, then ~14 clean rebuilds to bank them. Every failure was declaration plumbing — N standalone drafts having to agree with each other and with a TU none of them can see.
+3. **Reconcile BEFORE the first gate (§176h.C2).** Measured: 18 parked drafts still MATCH, but only **1** survived the conflict check after their wave banked (vs 5 before). A banked draft's declarations become the TU's, so a sibling clash becomes a file clash, which is stricter. The post-bank recovery pass banked **0** — this law cost real work to learn.
+
+### Tooling built/fixed (all committed, all NC'd)
+**NEW** `tools/reloc_identity.py` (symbol identity, the oracle `match_one` structurally cannot be) · **NEW** `tools/pregate_check.py` (validates a slate in **0.7s** instead of a 5-min rebuild) · `build_wave_atlas --target-ins/--only-bins` + glob-derived taken-set · `gate_lane` CRASH≠empty · **`gate_main` ×8**: TU-seeded + per-file conflicts, definition-aware, trailing-comment-blind regexes (×2), typedef alias normalization, address-order walk, build errors surfaced instead of bisected, body+position-aware typedef handling.
+
+### Cookbook banked
+**§176d** TU-seeded conflicts + callee function-pointer cast · **§176e** symbol identity is computable offline (+ its honest 5% null) · **§176f** declaration FORM is a matching lever · **§176g** the 6k-ins doctrine + 5-step pre-gate protocol · **§176h** the batch-substitution hazard map (7 under-reporting holes, the 3 wrong typedef strategies, the spelled-name limit, **C2 reconcile-before-gating**).
+
+### NEXT SESSION — in order
+1. **Wave Q the NEW way**: build with `--target-ins 6500 --min-ins 60 --max-ins 200 --max-bins 4`, then **iterate `pregate_check` + `gate_main` dry-run to `N -> N compatible, 0 dropped` BEFORE the first rebuild.** That is the whole difference between 68% and ~95% yield.
+2. The 4 **immovable-TU-declaration** drafts (`func_8002D034`, `func_8001ABBC`, …) need their own pass: edit the declarations in `src/800.c`, ONE clean rebuild, R22.
+3. 5 genuine NEARs → grinder. `func_80015F04` is at **closeness 2** with a fully-derived sched1/sched2 LUID model (9/9 probes predicted) and three seed candidates in `.run/p31p_15F04/`.
+4. Latent, unfixed: conflict detection compares spelled type NAMES; comparing struct **bodies** (the auto-reconciler already does this) is the real fix.
+
+## 🛑 (superseded) checkpoint — S52 mid-session
 
 **State at checkpoint:** tree CLEAN at `commit:2402` + wave-O bank commit. **R22 verified 213/213 from a fully clean tree** after wave O. Nothing owed.
 
