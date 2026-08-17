@@ -237,6 +237,65 @@ def strip_dup_typedefs(body, already, suffix=''):
         body = re.sub(r'\b%s\b' % re.escape(old), new, body)
     return body, defined
 
+IDENT_RE = re.compile(r'\b[A-Za-z_]\w*\b')
+
+
+def hoist_typedefs(t, wanted):
+    """Move the FILE's own definitions of `wanted` typedef names above the include block.
+
+    WHY (P31 S53, cookbook §181 class 2). `strip_dup_typedefs` may only reuse a definition that is
+    visible ABOVE the insertion point, because stripping a draft's copy when the survivor sits below
+    leaves the name undefined there. Its fallback was to KEEP the draft's copy -- but two definitions
+    of one typedef name is a C89 error wherever they sit, so both horns were wrong and SEVEN
+    byte-verified wave-R drafts were parked on it.
+
+    The third option is this one: hoist the file's own definition to the top. A typedef emits no
+    code, so moving one is byte-neutral by construction -- and that claim is not taken on faith, it
+    is checked by the clean rebuild every gate already runs (the SHA is the control).
+
+    Renaming the draft's copy instead was considered and rejected: the draft's `extern <T> D_x[];`
+    would then disagree with the file's declaration of the same symbol, trading a duplicate-typedef
+    error for a conflicting-types error (the trap already recorded in strip_dup_typedefs' docstring).
+
+    REFUSES rather than guesses when a definition's body depends on another type: the dependency is
+    pulled into the hoist set too (in file order), and if a dependency cannot be located as a
+    file-level typedef it is left alone and the name is simply not hoisted. Returns (text, hoisted).
+    """
+    anchor = 0
+    for m in re.finditer(r'^#include[^\n]*\n', t, re.M):
+        anchor = m.end()
+    if not anchor:
+        return t, []
+
+    defs = {}                                   # name -> (start, end, text)
+    for p in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
+        for m in p.finditer(t):
+            defs.setdefault(m.group(1), (m.start(), m.end(), m.group(0)))
+
+    # dependency closure: a hoisted body may name another file-level typedef, which must precede it
+    need, seen = list(wanted), set()
+    while need:
+        name = need.pop()
+        if name in seen or name not in defs:
+            continue
+        seen.add(name)
+        for ident in IDENT_RE.findall(defs[name][2]):
+            if ident != name and ident in defs:
+                need.append(ident)
+
+    movable = sorted((defs[n] for n in seen if defs[n][0] > anchor), key=lambda d: d[0])
+    if not movable:
+        return t, []
+
+    block = ''.join(d[2].rstrip('\n') + '\n' for d in movable)
+    out = t
+    for start, end, _txt in sorted(movable, key=lambda d: -d[0]):
+        out = out[:start] + out[end:]           # remove from the bottom up so offsets hold
+    return (out[:anchor] + '/* hoisted by gate_main so drafts above can reuse them (§181) */\n'
+            + block + out[anchor:],
+            [n for n in seen if defs[n][0] > anchor])
+
+
 def substitute(entries, write=True):
     """Replace each INCLUDE_ASM stub line with its draft body.
 
@@ -252,6 +311,19 @@ def substitute(entries, write=True):
     n, texts = 0, {}
     for path, items in byfile.items():
         t = open(path).read()
+        # Hoist first, so `defs_above` can see the file's own copy for every draft below it.
+        # Only names the incoming drafts actually define are candidates -- we never reorganize a
+        # file for types nobody in this slate needs.
+        want = set()
+        for _addr, _fn, _asmdir, draft in items:
+            body_txt = open(draft).read()
+            for p in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
+                want |= {m.group(1) for m in p.finditer(body_txt)}
+        if want:
+            t, hoisted = hoist_typedefs(t, want)
+            if hoisted:
+                print(f"  hoisted {len(hoisted)} typedef(s) to the top of {path}: "
+                      f"{', '.join(sorted(hoisted))}")
         # What the destination file already defines: name -> normalized definition text, so a
         # draft carrying an IDENTICAL typedef can reuse it (strip) while a draft carrying a
         # DIFFERENT shape under the same name gets renamed instead of silently colliding.

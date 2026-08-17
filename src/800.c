@@ -1,6 +1,27 @@
 #include "common.h"
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
+/* hoisted by gate_main so drafts above can reuse them (§181) */
+typedef struct { s32 a; s32 b[4]; } OtBlk_80016450;
+typedef struct {
+    u32 a, b, c, d;
+} Blk16;
+typedef struct {
+    u32 a, b, c;
+} Blk12;
+typedef struct { u16 f0; } H2; /* 0x2 */
+typedef struct {
+    s32 unk00;
+    u8  unk04;
+    u8  unk05;
+    u8  unk06;
+    u8  unk07;
+    u8  unk08;
+    u8  unk09;
+    u8  unk0A;
+    u8  unk0B;
+    s32 unk0C;
+} Rsc16;                      /* 0x10 */
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800123F0);
 
@@ -1010,7 +1031,78 @@ void func_80015424(void *a0, s32 a1, s16 a2, s16 a3, s8 a4, s8 a5) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001544C);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80015498);
+
+
+extern u16 D_800B9A02;
+extern u8 D_800B9A11;
+extern u8 D_800AF630[];
+extern u8 *D_800A5E60;
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void func_80015608(s32, s32);
+extern void func_80015760(s32, s32);
+
+void func_80015498(void)
+{
+    extern OtBlk_80016450 D_800A651C[];
+    u8 *base;
+    u32 *ot;
+    u8 *entry;
+    u8 *end;
+    u8 *p;
+    s16 v1;
+    s32 tp;
+    register u32 tag0 __asm__("$4");
+    register u32 maskLo __asm__("$5");
+
+    base = D_800AF630;
+    ot = (u32 *)D_800A651C[D_800B9A02].a;
+
+    if (D_800B9A11 != 1) {
+        entry = base + 0x9DA8;
+        if (entry < base + 0xA1A8) {
+            register s16 one __asm__("$20") = 1;
+            register s16 two __asm__("$19") = 2;
+            end = base + 0xA1A8;
+            do {
+                v1 = *(s16 *)entry;
+                if (v1 == one) {
+                    goto do_call1;
+                }
+                if (v1 < 2) {
+                    goto incr_shared;
+                }
+                if (v1 == two) {
+                    goto do_call2;
+                }
+                entry += 0x10;
+                continue;
+            do_call1:
+                func_80015608((s32)entry, (s32)ot);
+                entry += 0x10;
+                continue;
+            do_call2:
+                func_80015760((s32)entry, (s32)ot);
+            incr_shared:
+                entry += 0x10;
+            } while (entry < end);
+        }
+
+        p = D_800A5E60;
+        p[3] = 1;
+        tp = GetTPage(0, 0, 0x140, 0x100);
+        maskLo = 0xFFFFFF;
+        tag0 = *(u32 *)p;
+        *(u32 *)(p + 4) = (tp & 0x9FF) | 0xE1000000;
+        *(u32 *)p = (tag0 & 0xFF000000) | (*ot & maskLo);
+        p = (u8 *)((u32)p & maskLo);
+        {
+            u32 g = (u32)D_800A5E60;
+            u32 o = *ot;
+            D_800A5E60 = (u8 *)(g + 8);
+            *ot = (o & 0xFF000000) | (u32)p;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80015608);
 
@@ -1114,7 +1206,6 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80015B6C);
  * verified: `sw $a0,0($t0)` is the packet tag, `sw $v0,0($a1)` is the OT slot.
  * src/800.c declares none of these, so no TU-declaration conflict (law 2/3).
  */
-typedef struct { s32 a; s32 b[4]; } OtBlk_80016450;
 
 extern void *func_80010A08(s32 a0);
 extern u16 D_800B9A02;
@@ -10490,16 +10581,44 @@ s32 func_8002AF60(void) {
     return D_80075A40;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002AF70);
+
+extern void func_80016714(void *a0, s32 a1);
 
 
-typedef struct {
-    u32 a, b, c, d;
-} Blk16;
 
-typedef struct {
-    u32 a, b, c;
-} Blk12;
+extern Blk16 D_80075CC0[];
+extern u32 D_80076040;
+
+void func_8002AF70(void *a0, u32 a1) {
+    register Blk16 *src __asm__("$17") = (Blk16 *)a0;
+    register u32 val __asm__("$18") = a1;
+    register Blk16 *dest __asm__("$16");
+    Blk16 *end;
+
+    __asm__(
+        "lui %0, %%hi(D_80075CC0)\n\taddiu %0, %0, %%lo(D_80075CC0)"
+        : "=r"(dest)
+        : "r"(val)
+    );
+
+    func_80016714(dest, 0x300);
+    end = src + 0x2D0 / 0x10;
+
+    do {
+        *dest = *src;
+        src++;
+        dest++;
+    } while (src != end);
+
+    __asm__ volatile("" : "=r"(src) : "0"(src));
+
+    *(Blk12 *)dest = *(Blk12 *)src;
+
+    D_80076040 = val;
+}
+
+
+
 
 extern Blk16 D_80075CC0[];
 
@@ -12979,7 +13098,6 @@ typedef struct {
 /* 2-byte stride u16 table.  Declared as an array-of-STRUCT (cookbook §18) so gcc folds
  * %lo(D_80065438) into each indexed load instead of materialising the base into a register
  * (a plain `extern u16 D_80065438[]` CSEs the two accesses into one lui/addiu/addu base). */
-typedef struct { u16 f0; } H2; /* 0x2 */
 
 typedef struct {               /* 0x18 stride; D_800A463C + k*0x18 */
     s32 unk00;
@@ -13112,7 +13230,57 @@ void *func_80037368(int *out) {
     return D_80076220;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800373D0);
+
+
+typedef struct {
+    s16 unk00;
+    u8  pad02[4];
+    u16 unk06;
+} StructA4E88;
+
+/* Law 2: the destination TU (src/800.c) already declares D_80065438 as an array-of-struct
+ * (H2 = { u16 f0; }) rather than a plain u16[] — refuse-TYPE(D_80065438, u16 vs H2).
+ * Adopt the TU's spelling verbatim; the use site indexes .f0 instead of dereferencing a u16*. */
+
+extern StructA4E88 D_800A4E88;
+extern u8           D_800BA320[];
+extern Rsc16        D_80076248[];    /* .unk09 = D_80076251, .unk0A = D_80076252 */
+extern u8           D_80076251;      /* Law 2: exact form from src/shared/clearTbl40.h (see func_80037368) */
+extern u8           D_80076250[];
+extern u8           D_80076298;
+extern H2           D_80065438[];
+
+extern void func_8002D7FC(s32 arg0);
+extern void func_8002FDE8(s32 arg0, void *arg1);
+
+void func_800373D0(void) {
+    register StructA4E88 *sp2 __asm__("$18");
+    register u8          *sp3 __asm__("$19");
+    register Rsc16 *p __asm__("$16");
+    register s32 i __asm__("$17");
+
+    sp2 = &D_800A4E88;
+    sp3 = D_800BA320;
+
+    p = D_80076248;
+    i = 0;
+    do {
+        if ((&D_80076251)[i] != 0) {
+            if (D_80076250[i] != 0) {
+                if (p->unk00 & 0x3000) {
+                    sp2->unk00 = p->unk00 & 0xFFF;
+                    sp2->unk06 |= 0x20;
+                    func_8002D7FC((s32) sp3);
+                    if (!(p->unk00 & 0x1000)) {
+                        func_8002FDE8(D_80065438[sp2->unk00].f0, sp3 + 0x7000);
+                    }
+                }
+            }
+        }
+        p++;
+        i += 0x10;
+    } while ((s32) p < (s32) &D_80076298);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800374CC);
 
@@ -13133,18 +13301,6 @@ typedef struct {
     s32 unk14;
 } Rsc24;                       /* 0x18 */
 
-typedef struct {
-    s32 unk00;
-    u8  unk04;
-    u8  unk05;
-    u8  unk06;
-    u8  unk07;
-    u8  unk08;
-    u8  unk09;
-    u8  unk0A;
-    u8  unk0B;
-    s32 unk0C;
-} Rsc16;                      /* 0x10 */
 
 typedef struct {
     u8  unk00;
