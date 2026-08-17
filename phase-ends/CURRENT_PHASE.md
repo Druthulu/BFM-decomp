@@ -57,6 +57,42 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 - 2026-08-14 — **T9 COMPLETE.** `tools/warmstart.py` (the permuter/grinder FEEDER): `--from-banked` walks a banked exemplar's h_seq family's still-open members, builds remapped proven-body drafts (`symbol_map` + `aprop_autodraft.build_draft`, refusing on reloc-count mismatch), **stream-classifies member-vs-seed with ZERO compiles** (masked_diff-shaped dicts from ground-truth bytes → `residual_class.classify_streams`), enqueues ONLY permuter-shaped (bucket==permuter or LENGTH-DRIFT |Δ|≤2) as backlog near-records; `--lenmiss` ingests T8's 49-route. **Grinder patch NOT needed** (its candidates() deliberately keeps unclassified records — "unknown is not a reason to skip" — so pre-filtered enqueues flow as-is; documented in the feeder's docstring). Armed live: **49 + 10 enqueued, 120 refused** by the stream filter (the anti-92%-wasted-CPU discipline working). `family_cousins --weak-cards`: **954 units** (the 0.70–0.85 annotate-only band, never before consumed) as seeded-crack cards, ins-ranked, §168 laws embedded, model-routed **haiku 804 / v3 43 / sonnet 86 / opus 21** (cheap tiers dominate — the token-efficiency shape), 0 unresolved `.s`.
 
+## SESSION S53 (2026-08-16, ultracode) — wave R + the leftover-draft harvest
+
+- 2026-08-16 — **S53-1 PREFLIGHT + ATLAS REGEN.** Tree clean at `commit:2416`, no gate in flight. `make atlas`
+  regenerated at HEAD (the S52 atlas predated waves P+Q, whose banks grew main's matched seed pool 175→293):
+  **4,985 groups / 11,352 open instances / 579,571 ins**, warm merges 880, seeded 4,714/6,911 skeletons, all
+  assertions green. (Watch-for confirmed live: my own `pgrep -f atlas` waiter self-matched its shell wrapper —
+  the bracket trick is mandatory.)
+- 2026-08-16 — **S53-2 LEFTOVER-DRAFT HARVEST (R38: read the recorded verdicts before designing anything).**
+  `.run/s53_scan_leftovers.py` re-verified every wave-P/Q main draft on disk with `match_one` rather than
+  trusting the journals (R14). Of 141 drafts: **72 are already banked** (their `.s` is gone — the honest
+  signal that splat stops emitting a matched function), **34 still verify MATCH and are still stubs**
+  (3,075 ins of finished work nobody had banked), **35 are NEAR**. Oracle cross-check: all 34 MATCH and all
+  35 NEAR are in `corpus.stubs('main')`; all 72 ERROR are not. Zero agent tokens.
+- 2026-08-16 — **S53-3 PRE-GATE LADDER ON THE FREE SLATE (the S52 protocol, applied cold).** `reloc_identity
+  --batch`: **33 AGREE / 1 MISMATCH** (`func_80034C24` names `D_80078F20` where the target references
+  `cdReq_sectorHdrBuf+0xE0`; its `--dry-fix` rename to `D_80078F10` is unverified, so it was dropped, not
+  guessed). `fragment_check`: **1 FAIL** — `MoveImage` DEFINES `SYS_OBJ_8F4`, a stub that still has its own
+  `.s` (exactly the enclosing-function trap that cost wave Q a 3-hour bisect; caught in milliseconds).
+  `reconcile_slate --apply` on the pruned 32: **11 compatible, 21 refused as human decisions** (7 TYPE,
+  5 SIGNATURE, 3 DIFFERENT-STRUCT, 3 BROKE-MATCH, 1 DEF-SIDE-RETURN, 1 resourceIdMap TYPE, 1 alias).
+  **The 11 were NOT gated on their own** — §176h.C2 says banking a subset hardens the rest's conflicts
+  (last session: 1 of 18 parked drafts survived that), so all 32 ride one slate after repair.
+- 2026-08-16 — **S53-4 WAVE R BUILT — and the main mass band is measurably SPENT.** `build_wave_atlas
+  --only-bins main --min-ins 60 --max-ins 200 --rank mass` returned **917 ins / 10 cards** against a 6,500
+  target: waves O/P/Q consumed main's mass band. Probes (R37 before costing): main widened to 30–400 yields
+  44 cards / 4,600 ins in 10 gate groups; **fleet-wide 60–200 yields 63 cards / 6,525 ins in exactly 2 gate
+  groups = 31.5 drafts per rebuild**, from a 1,546-candidate well. Wave R therefore = the fleet-wide draw
+  (`ov_SC06_029` ×41, `ov_SC02_005` ×22) + main's last 10 mass cards, **7,442 ins across 73 fresh cards**.
+- 2026-08-16 — **S53-5 WAVE R LAUNCHED (110 agents, 3 lanes, run `wf_c070b4fa-53b`).** Lane 1 = 73 fresh
+  mass cracks. Lane 2 = the 21 declaration-blocked drafts (already byte-MATCH; the agent's job is to make the
+  DRAFT agree with the TU, never the reverse, then re-verify — a declaration change is a codegen change).
+  Lane 3 = 16 near-miss repairs, whose residuals were classified deterministically first: **10 of 16 are the
+  §177 epilogue signature** (`addiu $sp / jr $ra / nop` vs `jr $ra / addiu $sp`, all in `800c3`), 4
+  SCHEDULE-REORDER, 1 BRANCH-POLARITY, 1 OPCODE-MIXED. The prompt carries §177 as law 4 and §178's
+  "REGALLOC-PERM is the most over-diagnosed class" as law 5.
+
 ## SESSION S52 TASK LIST (2026-08-15, ultracode) — the monitorable view (no TaskCreate tool in this harness build)
 
 - [x] **S52-1 — Preflight + wave-selector repair.** Tree clean @ `commit:2390`, no gate/grinder in flight. Fixed `build_wave_atlas.py`: (a) the already-waved set was a hardcoded `'abcdefghijkl'` wave-letter literal → now a `glob('.run/wave_*_cards.json')` derivation (R33); **NC: old 634 → new 726 taken, strict superset, +92 previously-missable cards from waves m/n**; (b) `--exclude-bins` defaulted to `main` carrying the REFUTED link-defect rationale → default now empty, help corrected to the real (gate-path) reason; (c) new `--only-bins` allow-list (main waves need it — `gate_main` rebuilds once per SLATE, so main has no per-TU gate cost).
