@@ -7381,11 +7381,7 @@ void func_80184B70(void *a0, s32 a1, s32 a2)
 }
 
 
-extern u8 D_80078EB1;
-
-s32 func_80184BAC(s32 arg0, s32 arg1) {
-    return (D_80078EB1 >= arg0) && (D_80078EB1 < arg1);
-}
+DEFINE_func_80184BAC()  /* dedup: shared engine-core @0x80184BAC (src/shared) */
 
 
 extern u8 D_80078EB0;

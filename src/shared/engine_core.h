@@ -65139,6 +65139,12 @@
         } \
     }
 
+#define DEFINE_func_80184BAC() \
+    extern u8 D_80078EB1; \
+    s32 func_80184BAC(s32 arg0, s32 arg1) { \
+        return (D_80078EB1 >= arg0) && (D_80078EB1 < arg1); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -159681,6 +159687,12 @@
             } \
             break; \
         } \
+    }
+
+#define DEFINE_func_80184BAC() \
+    extern u8 D_80078EB1; \
+    s32 func_80184BAC(s32 arg0, s32 arg1) { \
+        return (D_80078EB1 >= arg0) && (D_80078EB1 < arg1); \
     }
 
 #endif
