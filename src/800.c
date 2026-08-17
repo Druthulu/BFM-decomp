@@ -2681,7 +2681,80 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8001739C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800173BC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800173DC);
+
+/* SVECTOR-shaped vertex: vx/vy packed as one word (xy), then z, then pad.
+ * Same layout convention as V16F18 in func_80016F18 (src/800.c). */
+typedef struct {
+    u32 xy;   /* 0x0: vx (lo16) | vy (hi16) */
+    s16 z;    /* 0x4 */
+    s16 pad;  /* 0x6 */
+} SVec3_800173DC; /* 0x8 */
+
+/* Source descriptor: three vertices + three Gouraud colour words + a trailing
+ * flags/attr word (only ever read, never as a vertex). */
+typedef struct {
+    SVec3_800173DC v0;      /* 0x00 */
+    SVec3_800173DC v1;      /* 0x08 */
+    SVec3_800173DC v2;      /* 0x10 */
+    u32 rgbc0;               /* 0x18 */
+    u32 rgbc1;               /* 0x1C */
+    u32 rgbc2;               /* 0x20 */
+    u32 attr;                /* 0x24 */
+} Src_800173DC;
+
+/* POLY_G3 (libgpu), 0x1C bytes. */
+typedef struct {
+    u32 tag;    /* 0x00 */
+    u32 rgbc0;  /* 0x04 */
+    u32 xy0;    /* 0x08 */
+    u32 rgbc1;  /* 0x0C */
+    u32 xy1;    /* 0x10 */
+    u32 rgbc2;  /* 0x14 */
+    u32 xy2;    /* 0x18 */
+} G3_800173DC; /* 0x1C */
+
+extern void *func_80010A08(s32 size);
+extern void SetPolyG3(G3_800173DC *p);
+extern void func_80017E8C(s32 arg0);
+extern s32 RotTransPers3(void *v0, void *v1, void *v2,
+                          s32 *sxy0, s32 *sxy1, s32 *sxy2,
+                          s32 *p, s32 *flag);
+/* §183 TYPE-adopted-TU: src/800.c declares (and defines at 0x80018094) the
+ * third parameter as u32; adopt the TU's spelling verbatim. arg0->attr is
+ * already u32, so no cast is needed at the use site and codegen is unchanged. */
+extern void func_80018094(void *a0, s32 a1, u32 a2);
+
+void func_800173DC(Src_800173DC *arg0, s32 arg1)
+{
+    G3_800173DC *p;
+    s32 otzp;
+    s32 flg;
+    s32 otz;
+
+    p = (G3_800173DC *)func_80010A08(0x1C);
+    p->rgbc0 = arg0->rgbc0;
+    p->rgbc1 = arg0->rgbc1;
+    p->rgbc2 = arg0->rgbc2;
+    SetPolyG3(p);
+
+    if (arg1 != 0) {
+        func_80017E8C(arg1);
+        otz = RotTransPers3(&arg0->v0, &arg0->v1, &arg0->v2,
+                             (s32 *)&p->xy0, (s32 *)&p->xy1, (s32 *)&p->xy2,
+                             &otzp, &flg);
+    } else {
+        p->xy0 = arg0->v0.xy;
+        p->xy1 = arg0->v1.xy;
+        p->xy2 = arg0->v2.xy;
+        __asm__ volatile("");
+        otz = arg0->v0.z;
+        flg = 0;
+    }
+
+    if ((flg & ~0x1000) == 0) {
+        func_80018094(p, otz, arg0->attr);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800174DC);
 
