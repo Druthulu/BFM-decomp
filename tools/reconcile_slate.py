@@ -102,11 +102,26 @@ def _bodies(text):
 
 
 def _same_struct(a_name, a_body, b_name, b_body):
-    """Structurally identical modulo the typedef's own name?"""
+    """Structurally identical modulo the typedef's own name AND its comments?
+
+    COMMENTS ARE STRIPPED BEFORE COMPARING (P31 S53, R35). Without this the comparison is a
+    documentation-quality test, not a layout test: agents annotate every field with its address
+    (`s32 unk04;  /* 0x80076248 */`) and the TU usually does not, so two CHARACTER-FOR-CHARACTER
+    identical layouts read as DIFFERENT-STRUCT and the draft is refused as "a modelling decision".
+    Measured: `Slot16B` vs `Slot16` — same seven fields, same order, same widths — refused on the
+    comments alone, blocking a byte-verified draft. (A recovery agent had already flagged this as a
+    "false-positive, comment-text mismatch" on a different symbol; it is systematic, not incidental.)
+    """
     if not (a_body and b_body):
         return False
-    return (re.sub(r'\b%s\b' % re.escape(a_name), 'X', a_body) ==
-            re.sub(r'\b%s\b' % re.escape(b_name), 'X', b_body))
+
+    def norm(body, name):
+        body = re.sub(r'/\*.*?\*/', ' ', body, flags=re.S)      # block comments
+        body = re.sub(r'//[^\n]*', ' ', body)                   # line comments
+        body = re.sub(r'\b%s\b' % re.escape(name), 'X', body)   # the typedef's own name
+        return re.sub(r'\s+', ' ', body).strip()
+
+    return norm(a_body, a_name) == norm(b_body, b_name)
 
 
 def verify(fn, draft):

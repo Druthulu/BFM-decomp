@@ -2,6 +2,29 @@
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
 /* hoisted by gate_main so drafts above can reuse them (§181) */
+typedef struct {              /* base 0x80076240, stride 0x10 */
+    u16 unk00;
+    u16 unk02;
+    s32 unk04;
+    s32 unk08;
+    s32 unk0C;
+} Slot16A;
+typedef struct {
+    s32 unk00;
+    s32 unk04;
+    s32 unk08;
+    u8  unk0C;
+    u8  unk0D;
+    u8  unk0E;
+    u8  unk0F;
+} Slot16;                      /* 0x10 */
+typedef struct {               /* 0x18 stride; D_800A463C + k*0x18 */
+    s32 unk00;
+    u8  unk04[0x14];
+} Ent24;
+typedef struct { s32 v; } W32;
+typedef struct { u8  v; } W8;
+/* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct { s32 a; s32 b[4]; } OtBlk_80016450;
 typedef struct { s16 vx, vy, vz, pad; } SVEC2;      /* 0x08 */
 typedef struct {                                     /* 0x14 */
@@ -59,13 +82,6 @@ typedef struct Ent30D80 {
     /* 0x50 */ u8 unk50;
     /* 0x51 */ u8 unk51;
 } Ent30D80;
-typedef struct {              /* base 0x80076240, stride 0x10 */
-    u16 unk00;
-    u16 unk02;
-    s32 unk04;
-    s32 unk08;
-    s32 unk0C;
-} Slot16A;
 typedef struct Rec14 {
     /* 0x00 */ u16 unk00;
     /* 0x02 */ u16 unk02;
@@ -4677,7 +4693,50 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8001AAD0);
 void func_8001ABB4(void) {
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001ABBC);
+
+extern s32 resLoad_lastId;
+extern s32 resLoad_loadedFileIdx;
+extern u8 resourceIdMap[];
+extern u8 D_8006313C;
+extern s32 D_800BA1B4;
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8001AE90(s32 a0, s32 a1, s32 a2);
+extern s32 func_8001ACF0(s32 arg0, s32 arg1, s32 *arg2, s32 arg3, s32 arg4);
+
+s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4) {
+    s16 val;
+
+    if (a0 == 1) {
+        if (a1 == resLoad_lastId) {
+            return 1;
+        }
+        if (*(s16 *)(resourceIdMap + a1 * 6) == resLoad_loadedFileIdx) {
+            val = *(s16 *)(&D_8006313C + a1 * 6);
+            if (val != 0) {
+                func_8002D4C8((u16)val, 0);
+                resLoad_lastId = a1;
+            }
+            return 1;
+        }
+    }
+
+    if (D_800BA1B4 != 0) {
+        if (D_800BA1B4 != 3) {
+            return 0;
+        }
+        if (func_8001AE90(a0, a1, a2) != 0) {
+            D_800BA1B4 = 0;
+            return 1;
+        }
+    }
+
+    if (func_8001ACF0(a0, a1, (s32 *)a2, a3, a4) == 0) {
+        return 0;
+    }
+
+    D_800BA1B4 = 0;
+    return 1;
+}
 
 
 extern s32 D_800747F0;
@@ -13855,7 +13914,97 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80036FB0);
 
 CLEAR_TBL40(func_80037004)  /* dedup I0: shared body (src/shared/clearTbl40.h) */
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80037028);
+
+/* func_80037028 -- resource-slot allocator (5 slots x 0x10 bytes at 0x80076244).
+ *
+ * MATCHING NOTES (P31 second pass, cookbook §31 / sched.md S1+S5):
+ *
+ * 1) The slot table MUST be modelled as struct arrays with symbol+scaled-index
+ *    addressing (`sw $5,D_80076240+4($4)`), not as six independent `u8 X[]`
+ *    externs indexed by a byte offset.  With separate symbols gcc hoists the
+ *    D_80064D49 load chain to the top of the block and sinks the mark-used
+ *    store (37 mismatches); with the struct form the block is exact.
+ *
+ * 2) TWO overlapping bases are used on purpose (D_80076240 for the words,
+ *    D_80076244 for the bytes) so that EVERY field access has a NON-ZERO
+ *    constant offset from its base symbol.  sched.c:memrefs_conflict_p reaches
+ *    find_symbolic_term() -- and therefore proves "distinct symbols, no alias"
+ *    -- only for the plain `(plus reg symbol_ref)` form.  A zero-offset store
+ *    thus loses its dependence on the later D_80064D49 / D_800A463C loads,
+ *    becomes ready immediately and floats to the bottom of the block.  With a
+ *    single base at D_80076244 the `unk00 = val` store did exactly that
+ *    (19 mismatches).  Every offset here is non-zero, so all four leading
+ *    stores stay pinned behind the loads and are emitted in source order.
+ *    Final addresses are unchanged: D_80076240+4 == D_80076244, +8 == 248,
+ *    +12 == 24C; D_80076244+12 == D_80076250, +13 == 251, +14 == 252.
+ *
+ * 3) `D_8007622C[0]` (not a plain scalar) is required by the /s asymmetry in
+ *    sched.c:true_dependence -- a non-MEM_IN_STRUCT_P, non-varying store is
+ *    assumed not to alias a MEM_IN_STRUCT_P varying load, so the D_800A463C
+ *    reload hoisted above it.  Making the store an ARRAY_REF sets /s, kills
+ *    the exclusion clause, and pins the reload after it.
+ *
+ * 4) D_80076248 is deliberately never named: src/800.c already declares it as
+ *    `extern Rsc16 D_80076248[]`, and a second `extern u8 D_80076248[]` here
+ *    would be a conflicting-types error at bank time.
+ */
+
+
+
+typedef struct {              /* base 0x80064D49, stride 0x0C */
+    u8  unk00;
+    u8  pad[11];
+} Elm12;
+
+
+extern Slot16A D_80076240[];
+extern Slot16 D_80076244[];
+extern Elm12   D_80064D49[];
+extern Ent24   D_800A463C[];
+extern u8  D_80076251;
+extern s32 D_8007622C[];
+extern W32 D_80076228;
+extern W8  D_80076243;
+extern W8  D_80076242;
+extern W32 D_80076294;
+extern W32 D_80076238;
+extern s32 D_8007629C;
+
+void func_80037028(s32 base, s32 val) {
+    s32 slot;
+    s32 i;
+    s32 b;
+
+    for (slot = 0, i = 0; slot < 5; slot++, i += 0x10) {
+        if ((&D_80076251)[i] == 0) {
+            break;
+        }
+    }
+
+    if (slot < 5) {
+        D_80076244[slot].unk0D = 1;
+        D_80076240[slot].unk04 = val;
+        D_80076244[slot].unk0C = 0;
+        D_80076240[slot].unk08 = base;
+        b = D_80064D49[base].unk00;
+        D_80076244[slot].unk0E = b;
+        D_80076240[slot].unk0C = D_800A463C[b].unk00;
+
+        if (slot == 0) {
+            s32 r;
+            D_8007622C[0] = val;
+            r = D_800A463C[b].unk00;
+            D_80076228.v = val;
+            D_80076240[0].unk00 = 0;
+            D_80076243.v = 2;
+            D_80076242.v = 0;
+            D_80076294.v = 0;
+            D_80076238.v = r;
+        }
+    }
+
+    D_8007629C = 0;
+}
 
 
 /* The 5-entry, 0x10-stride CD-resource slot table.  src/800.c already declares the SAME
@@ -13866,24 +14015,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80037028);
  *      .unk00 = D_80076244   .unk04 = D_80076248   .unk08 = D_8007624C
  *      .unk0C = D_80076250   .unk0D = D_80076251   .unk0E = D_80076252
  * 0x80076244 + 5*0x10 == 0x80076294, which is the next scalar this function clears. */
-typedef struct {
-    s32 unk00;
-    s32 unk04;
-    s32 unk08;
-    u8  unk0C;
-    u8  unk0D;
-    u8  unk0E;
-    u8  unk0F;
-} Slot16;                      /* 0x10 */
 
 /* 2-byte stride u16 table.  Declared as an array-of-STRUCT (cookbook §18) so gcc folds
  * %lo(D_80065438) into each indexed load instead of materialising the base into a register
  * (a plain `extern u16 D_80065438[]` CSEs the two accesses into one lui/addiu/addu base). */
 
-typedef struct {               /* 0x18 stride; D_800A463C + k*0x18 */
-    s32 unk00;
-    u8  unk04[0x14];
-} Ent24;
 
 /* THE TAIL SCHEDULE LEVER (gcc-2.7.2 sched.c:817 true_dependence / :845 anti_dependence).
  * The `if (i == 0)` block interleaves the varying-address load `D_800A463C[k].unk00`
@@ -13897,9 +14033,7 @@ typedef struct {               /* 0x18 stride; D_800A463C + k*0x18 */
  * on their MEMs too, which fails `! MEM_IN_STRUCT_P (mem)` and restores the real
  * store->load / load->store edges.  The symbol names are untouched (offset 0 of a 1-field
  * struct), so every relocation is still exactly D_8007622C / D_80076228 / ... as in the .s. */
-typedef struct { s32 v; } W32;
 typedef struct { s16 v; } W16;
-typedef struct { u8  v; } W8;
 
 extern Slot16 D_80076244[];
 extern W32   D_80076228;

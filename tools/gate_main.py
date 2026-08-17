@@ -190,6 +190,21 @@ TYPEDEF_BLOCK = re.compile(
     r'^[ \t]*typedef\s+(?:struct|union|enum)?[^;{]*\{[^{}]*\}\s*(\w+)\s*;' + _EOL, re.M)
 TYPEDEF_PLAIN = re.compile(r'^[ \t]*typedef\s+[\w\s\*]+?\s(\w+)\s*;' + _EOL, re.M)
 
+def _norm_td(text):
+    """Normalize a typedef definition for COMPARISON: strip comments, then collapse whitespace.
+
+    WHY (P31 S53, R35). Two structurally identical typedefs must compare EQUAL so one can be reused
+    (stripped) instead of renamed. Without comment-stripping the comparison is a documentation test:
+    agents annotate every field with its address (`s32 unk04;  /* 0x80076248 */`) and the TU usually
+    does not, so an identical layout gets renamed to `Slot16A_80037028` — and the draft's
+    `extern Slot16A_80037028 D_80076240[];` then conflicts with the file's own declaration of that
+    symbol. Cost: a byte-verified draft blocked, twice, on prose.
+    """
+    text = re.sub(r'/\*.*?\*/', ' ', text, flags=re.S)
+    text = re.sub(r'//[^\n]*', ' ', text)
+    return ' '.join(text.split())
+
+
 def strip_dup_typedefs(body, already, suffix=''):
     """Make a draft's typedef names unique against the destination TU and the rest of the batch.
 
@@ -221,7 +236,7 @@ def strip_dup_typedefs(body, already, suffix=''):
     for pat in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
         hits.extend(pat.finditer(body))
     for m in sorted(hits, key=lambda x: x.start()):
-        name, text = m.group(1), ' '.join(m.group(0).split())
+        name, text = m.group(1), _norm_td(m.group(0))
         known = already.get(name, defined.get(name))
         if known is None:
             defined[name] = text
@@ -343,7 +358,7 @@ def substitute(entries, write=True):
             for p in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
                 for mm in p.finditer(text):
                     if mm.start() < at:
-                        out.setdefault(mm.group(1), ' '.join(mm.group(0).split()))
+                        out.setdefault(mm.group(1), _norm_td(mm.group(0)))
             return out
         # PROCESS IN FILE ORDER (= address order), not slate order. strip_dup_typedefs keeps the
         # FIRST definition it sees and drops later duplicates, so if the drafts are walked in
