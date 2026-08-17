@@ -118,6 +118,83 @@ def model_for(nins):
     return 'opus'
 
 knn = atlas.get('knn') or {}          # exemplar key -> neighbours; 'M:' entries are BANKED (§193-A)
+_TU_BODIES = {}
+
+
+def _tu_bodies(tu_path):
+    """{fn: body_text} for every function DEFINED in a TU (banked C only -- stubs are INCLUDE_ASM).
+
+    Brace-matched from each definition so a symbol is attributed to the function that uses it, not
+    to the file. Memoized per TU: a wave draws many cards from one .c."""
+    if tu_path in _TU_BODIES:
+        return _TU_BODIES[tu_path]
+    out = {}
+    try:
+        txt = open(tu_path, errors='replace').read()
+    except (OSError, TypeError):
+        _TU_BODIES[tu_path] = out
+        return out
+    import re as _re
+    for m in _re.finditer(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\{', txt, _re.M):
+        i, depth = m.end() - 1, 0
+        while i < len(txt):
+            if txt[i] == '{': depth += 1
+            elif txt[i] == '}':
+                depth -= 1
+                if depth == 0: break
+            i += 1
+        out[m.group(1)] = txt[m.start():i + 1]
+    _TU_BODIES[tu_path] = out
+    return out
+
+
+_SYM = None
+
+
+def tu_neighbours(binary, fn, tu_path, asm_file, topn=2):
+    """Banked functions in the card's OWN TU, ranked by symbols shared with the target's asm.
+
+    The symbols are read from the TARGET's .s (its relocation operands), so this is evidence about
+    the function being drafted, not about the file. See §194-E for why the card needs this at all."""
+    global _SYM
+    if not tu_path or not asm_file:
+        return []
+    import re as _re
+    if _SYM is None:
+        # OPERANDS ONLY. A splat .s carries the encoded WORD in a comment column, so a naive
+        # "[A-Z]\w{3,}" reads `D8FFBD27` and `CC00228E` as symbol names and the overlap score
+        # becomes noise (measured: 34 "symbols" for one function, 31 of them hex words).
+        # Symbols reach the .s in exactly three shapes: a jal target, and %hi()/%lo() operands.
+        _SYM = _re.compile(r'\b(?:jal\s+(\w+)|%[hl][io]\(([\w+]+)\))')
+    try:
+        raw = _SYM.findall(open(asm_file, errors='replace').read())
+    except OSError:
+        return []
+    want = {(a or b).split('+')[0] for a, b in raw if (a or b)}
+    want.discard(fn)
+    if not want:
+        return []
+    scored = []
+    for other, body in _tu_bodies(tu_path).items():
+        if other == fn:
+            continue
+        shared = [s for s in want if s in body]
+        if len(shared) >= 2:
+            scored.append((len(shared), other, sorted(shared)[:6]))
+    scored.sort(key=lambda x: -x[0])
+    if not scored:
+        # FALL BACK TO THE BEST SINGLE SHARED SYMBOL rather than emitting nothing. One shared
+        # callee is weak evidence, but the card reports the count so the agent can weigh it, and a
+        # weak same-TU lead still beats the zero-locality state §194-E measured.
+        weak = sorted(((len([s for s in want if s in body]), other)
+                       for other, body in _tu_bodies(tu_path).items() if other != fn), reverse=True)
+        if weak and weak[0][0] == 1:
+            o = weak[0][1]
+            body = _tu_bodies(tu_path)[o]
+            return [{'fn': o, 'shared': 1, 'symbols': [s for s in sorted(want) if s in body][:6]}]
+    return [{'fn': o, 'shared': n, 'symbols': syms} for n, o, syms in scored[:topn]]
+
+
 cands, skipped = [], collections.Counter()
 for g in atlas['groups']:
     if g['lever'] not in levers:
@@ -140,7 +217,13 @@ for g in atlas['groups']:
             'addr': m.get('a'), 'sub': __import__('os').path.dirname(sub),
             'gid': g['gid'], 'lever': g['lever'], 'confidence': g.get('confidence'),
             'lever_alts': g.get('lever_alts', []),
-            'exemplar': {'binary': ex.get('b'), 'fn': ex.get('name'), 'nins': ex.get('nins')},
+            # A SELF-POINTER IS NOT A POINTER (§194-E). With --one-per-gid the representative is
+            # ranked (TU-mass, nins, fn) while the group exemplar is max-nins, so the two coincide
+            # on ~half the cards: exemplar == the card's own target on 42/73 wave-U and 36/71
+            # wave-T cards (16/16 singleton groups, mathematically forced). Emit None rather than
+            # a field that reads like a lead and is the function the agent is already staring at.
+            'exemplar': (None if ex.get('name') == fn else
+                         {'binary': ex.get('b'), 'fn': ex.get('name'), 'nins': ex.get('nins')}),
             'seed_sim': seed.get('sim'),
             # THE BANKED TWIN (P31 S54, cookbook §193-A). `exemplar` is the largest OPEN member of
             # the atlas group (atlas.py:96 load_open -> corpus.stubs, :657 max(members)), so it is a
@@ -156,6 +239,14 @@ for g in atlas['groups']:
             'matched_n': [n for n in knn.get('%s:%s' % (ex.get('b'),
                                               str(ex.get('a') or '')[2:].lower()), [])
                           if str(n[0]).startswith('M:')][:3],
+            # DESTINATION-TU LOCALITY (§194-E). Neither `exemplar` nor `seed_ref` can name a banked
+            # body in the card's OWN .c -- seed_ref came back same-binary 0/51 on wave U, because
+            # the atlas dedups its matched pool by h_seq across the whole fleet. But the same-TU
+            # banked neighbour is the highest-yield reading source measured so far: 62% of wave-T
+            # targets shared >=2 callees/globals with a pre-wave banked body in their own TU,
+            # against 19% for the cross-overlay distinctive-literal grep. Ranked by shared symbol
+            # count between the TARGET's .s relocations and each banked sibling's C body.
+            'tu_ref': tu_neighbours(b, fn, home_tu(b, fn), sub),
         })
 
 # principle 4 (P31 S54): ONE CARD PER ATLAS GROUP. Same-gid members are the SAME skeleton in
