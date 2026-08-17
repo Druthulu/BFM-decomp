@@ -3742,7 +3742,65 @@ void func_8018454C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_801846CC);
+#include "common.h"
+
+typedef struct {
+    s16 f0;
+    s16 f2;
+    s16 f4;
+    s16 f6;
+} D_80195AF4_t;
+extern D_80195AF4_t D_80195AF4[];
+
+
+extern D_80195AF6_t D_80195AF6[];
+
+extern s16 D_80126CB4;
+extern s16 D_80126CB8;
+extern u16 D_801E4BBC;
+extern void *func_8018ABE0(s32 a0);
+extern void func_80132DC4(s32 a0, s32 a1, s32 a2);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_801846CC(void *a0)
+{
+    struct {
+        s16 f0;
+        s16 f2;
+        s16 f4;
+        u8 pad[8];
+    } local;
+
+    *(u16 *)((u8 *)a0 + 0x100) = *(u16 *)((u8 *)(*(void **)((u8 *)a0 + 0x64)) + 0xE0);
+    *(s16 *)((u8 *)a0 + 0x6) = *(s32 *)((u8 *)(*(void **)((u8 *)a0 + 0x20)) + 0x48);
+    *(s16 *)((u8 *)a0 + 0xA) = *(s32 *)((u8 *)(*(void **)((u8 *)a0 + 0x20)) + 0x4C);
+    *(s16 *)((u8 *)a0 + 0xE) = *(s32 *)((u8 *)(*(void **)((u8 *)a0 + 0x20)) + 0x50);
+
+    if (*(s16 *)((u8 *)a0 + 0x100) < 0) {
+        local.f0 = D_80126CB4;
+        local.f2 = *(u16 *)((u8 *)(*(void **)((u8 *)a0 + 0x64)) + 0xA);
+        local.f4 = D_80126CB8;
+    } else {
+        if (D_801E4BBC == 1) {
+            void *p = func_8018ABE0(*(s16 *)((u8 *)a0 + 0x100));
+            local.f0 = *(u16 *)((u8 *)p + 0x6);
+            local.f2 = *(u16 *)((u8 *)p + 0xA) + 0x80;
+            local.f4 = *(u16 *)((u8 *)p + 0xE);
+        } else {
+            local.f0 = D_80195AF4[*(s16 *)((u8 *)a0 + 0x100)].f0;
+            local.f2 = *(u16 *)((u8 *)(*(void **)((u8 *)a0 + 0x64)) + 0xA);
+            local.f4 = D_80195AF6[*(s16 *)((u8 *)a0 + 0x100)].f0;
+        }
+    }
+
+    if (*(s32 *)((u8 *)(*(void **)((u8 *)a0 + 0x64)) + 0xE8) & 0x2000) {
+        func_80132DC4((s32)a0, (s32)&local, 0x480);
+    } else {
+        func_80132DC4((s32)a0, (s32)&local, 0x400);
+    }
+    func_8012AD44((s32 *)a0, 3);
+}
+
 
 /* func_80184828 (ov_SC02_005, TU src/ov_SC02_005/ov_SC02_005_jr_80181D30.c) — MATCH 111/111.
  *
@@ -4366,7 +4424,66 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_801860F
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80186144);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80186178);
+#include "common.h"
+
+/* §183 TYPE-adopted-TU.  The destination TU spells this symbol
+ *     extern MainStruct *D_801E43A4;
+ * (just above func_8018622C).  Both typedefs below are VERBATIM copies of the TU's
+ * own definitions — §183.1 name/shape trap respected: same name => same body — so
+ * gate_main's strip_dup_typedefs reuses the file's copy and drops these.
+ * NOTE FOR THE BANKER: this only works once the TU's SubStruct/MainStruct block sits
+ * ABOVE the func_80186178 INCLUDE_ASM stub (TU line 4347); see the immovable report. */
+
+
+
+
+extern MainStruct *D_801E43A4;
+
+void func_80186178(s32 *a0)
+{
+    register s32 *a1 asm ("$5") = a0;
+    register s32 a2 asm ("$6") = 0x80000000;
+    register s32 *a0_reg asm ("$4");
+    s32 *v0;
+    s32 *v1;
+    s32 v2;
+
+    // First: access at 0x20
+    v1 = *(s32 **)((char *)a1 + 0x20);
+    *(s32 *)((char *)v1 + 0x4) |= a2;
+
+    // Second: access at 0xCC
+    v0 = *(s32 **)((char *)a1 + 0xCC);
+    v1 = *(s32 **)((char *)v0 + 0x20);
+    *(s32 *)((char *)v1 + 0x4) |= a2;
+
+    // Fourth (source-order moved up): global load. Placing this statement
+    // here — between the 0xCC and 0xD0 blocks — lets gcc's scheduler thread
+    // the two-instruction lui/lw address computation into the 0xD0 block's
+    // load-delay slots instead of stalling on nops (T2: source order drives
+    // scheduling for independent setup). Also frees $a0 (dead after the
+    // a1=a0 copy) via an explicit register pin, matching the target's reuse
+    // of $a0 for the global pointer.
+    a0_reg = (s32 *)D_801E43A4;   /* §183 cast at the USE SITE, not on the decl */
+
+    // Third: access at 0xD0
+    v0 = *(s32 **)((char *)a1 + 0xD0);
+    v1 = *(s32 **)((char *)v0 + 0x20);
+    *(s32 *)((char *)v1 + 0x4) |= a2;
+
+    // Fourth cont'd: from global (no 0x20 indirection, just 0xCC then 0x4)
+    v1 = *(s32 **)((char *)a0_reg + 0xCC);
+    *(s32 *)((char *)v1 + 0x4) |= a2;
+
+    // Fifth: conditional at 0xD4
+    v2 = *(s32 *)((char *)a1 + 0xE8);
+    if ((v2 & 0x2) == 0) {
+        v0 = *(s32 **)((char *)a1 + 0xD4);
+        v1 = *(s32 **)((char *)v0 + 0x20);
+        *(s32 *)((char *)v1 + 0x4) |= a2;
+    }
+}
+
 
 #include "common.h"
 
@@ -6551,7 +6668,46 @@ void func_8018D04C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018D144);
+#include "common.h"
+
+extern void func_8017C048(void);
+extern s32 func_8012BEE8(s32 a0);
+/* §183 SIGNATURE-cast-at-call.  The destination TU DEFINES this function at line 6190
+ * as `void func_8018C3EC(void)` — an explicit ZERO-parameter prototype, ABOVE this
+ * insertion point — so the unspecified-list escape (`extern void func_8018C3EC();`)
+ * does NOT save the one-argument call: gcc-2.7.2 rejects it with "too many arguments
+ * to function `func_8018C3EC'".  Adopt the TU's prototype and cast at the call site
+ * through a function pointer (the same idiom the TU's own func_8018C3EC body uses on
+ * func_8012AD44).  Byte-identical — re-verified MATCH 54/54. */
+extern void func_8018C3EC(void);
+extern void func_80016450(s32 a0, s32 a1);
+
+void func_8018D144(s32 param_1)
+{
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+    {
+        u8 v0 = *(u8 *)(param_1 + 0xFC) + 0x10;
+        *(u8 *)(param_1 + 0xFC) = v0;
+        if (v0 >= 0xF1) {
+            *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x80000000;
+            *(u32 *)(*(s32 *)(param_1 + 0xCC) + 4) |= 0x80000000;
+            *(s32 *)(param_1 + 0x1C) = 8;
+            *(u16 *)(param_1 + 0x34) += 1;
+            func_8017C048();
+        }
+        break;
+    }
+    case 1:
+        if (func_8012BEE8(param_1) != 0) {
+            ((void (*)(s32))func_8018C3EC)(param_1);
+        }
+        break;
+    }
+
+    func_80016450(*(u8 *)(param_1 + 0xFC), 1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018D21C);
 
@@ -7464,7 +7620,57 @@ void func_8018FB8C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018FC38);
+#include "common.h"
+
+/* Tag renamed per the project convention (src/shared/engine_types.h already carries
+ * struct B16_801856E4, B16_80185794, ...): the destination TU pulls in engine_types.h,
+ * which defines `struct B16 { s32 w[4]; };` at line 295, so a file-scope `struct B16`
+ * contributed by this draft is a hard "redefinition of `struct B16'" at cc1.  A unique
+ * per-function tag is the sanctioned spelling. */
+struct B16_8018FC38 { s32 w[4]; };
+
+/* §183 TYPE-adopted-TU: the destination TU already declares this symbol
+ * `extern s32 D_800A5E88;` at file scope ABOVE this insertion offset (the
+ * func_8018FA34 / func_8018FAE0 / func_8018FB8C group all spell it that way), so
+ * the TU's spelling is adopted verbatim here and the 16-byte view is applied by a
+ * cast AT THE USE SITE.  `&D_800A5E88` is unchanged by the move, so §183.3's
+ * scalar-vs-array base-register trap does not apply — verified MATCH 43/43. */
+extern s32 D_800A5E88;
+extern s32 D_800A5E90;
+extern s32 D_800A5EA0;
+extern s32 D_800A5EB0;
+extern void func_80028620(s32, void *);
+extern u8 D_80126D6C;
+
+void func_8018FC38(s32 a0) {
+    s32 s1 = a0;
+    struct B16_8018FC38 *s0;
+    s32 v0;
+
+    v0 = rand();
+    s0 = (struct B16_8018FC38 *)&D_800A5E88;
+    v0 = (v0 & 0x1F) - 0x10;
+    s0->w[0] = v0;
+    v0 = rand();
+
+    a0 = 0;
+    v0 = (v0 & 0x1F) - 0xC;
+    D_800A5E90 = v0;
+    __asm__("" : "=r"(a0) : "0"(a0));
+
+    func_80028620(a0, s0);
+    __asm__("" : "=r"(s0) : "0"(s0));
+
+    if (D_80126D6C == 0xD) {
+        *(s16*)(s1 + 0x2) = 0x8;
+        D_800A5EA0 = -0xE;
+        func_80028620(1, &s0[1]);
+
+        D_800A5EB0 = 0xA;
+        func_80028620(2, &s0[2]);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018FCE4);
 
