@@ -17765,3 +17765,68 @@ Mined but judged too thin, too specific, or contradicted by the tree. Recorded s
 - **`func_80186B1C` — "control-flow shape defers an unrelated pointer's register commit."** Two coupled fixes were required (collapse to one shared-variable if/else with a single trailing return, plus `register s16 *s0 __asm__("$16")`); each alone left 14-31 mismatches, final **MATCH 37/37**. The agent itself flagged this at lower confidence as closely adjacent to the already-documented D3 own-thread idiom (§156/§167-27) and the §17 pin protocol. Nothing separable enough to state as its own law.
 - **`func_8018549C`** (give a short early-exit tail its own label rather than folding it into a shared `goto` target — 2-insn DELAY-SLOT diff → **MATCH 111/111**) and **`func_80188AF4`** (`*((u16*)&pos[i]+1)` pointer-cast to force a stack reload instead of `>>16` on a cached register — **MATCH 73/73**). Both are single-instance observations with real byte results but no negative controls and no mechanism traced to a gcc decision point; §176-B1 above already covers the general "express the narrow read through the wide object's address" shape that `func_80188AF4` is an instance of.
 - **`func_8018A084`** (whether trailing arithmetic stays inside a ternary's expression or is split into a separate statement selects between a duplicated-tail `j` form and a fused join — only `v[2] = ((rand()&1)?r:-r) - 48;` matched, **MATCH 64/64**). The agent explicitly flagged this as a *plausible variant* of the already-documented §165-21/§164-73/§164-74 shared-trailing-store family rather than confidently novel, and did not verify it against that family's stated scope.
+---
+
+## §180 — THE LEFTOVER-DRAFT HARVEST: RE-VERIFY WHAT YOU ALREADY HAVE BEFORE DRAFTING ANYTHING NEW
+### (P31 S53, 2026-08-16 — 34 byte-perfect functions were sitting on disk, unbanked, for two sessions)
+
+**The measurement.** Before building wave R, every wave-P/Q main draft still on disk was re-verified with
+`match_one` — not read out of the workflow journals, which are self-reports (R14). 141 drafts, one parallel
+sweep, zero agent tokens:
+
+| bucket | n | what it means |
+|---|--:|---|
+| **MATCH, still a stub** | **34** (3,075 ins) | finished work nobody banked |
+| NEAR, still a stub | 35 | grinder/repair fuel, honest closeness recomputed |
+| "ERROR: no such .s" | 72 | **already banked** — not a failure at all |
+
+For scale: a full 110-agent wave targets ~6,500 instructions. **This sweep recovered 3,075 — for free.**
+
+**The `.s`-existence oracle.** Once a function becomes C, splat stops emitting its `.s`. So
+`FileNotFoundError: asm/…/<fn>.s` from a verification tool is not an error class — it is the *positive*
+statement "this one is banked", and it agrees exactly with `corpus.stubs()` (34/34 and 35/35 of the
+still-stub verdicts were in the stub set; 72/72 of the "errors" were not). A scan that files those 72 as
+failures reports a 51% failure rate on a pile that has none. **Classify by the oracle, not by the exception.**
+
+**Why the leftovers accumulate, structurally.** Three independent mechanisms, none of them mistakes:
+* a wave stopped mid-flight loses its in-flight tail (§176j);
+* the gate drops drafts on declaration conflicts, and the drop is per-slate, not permanent;
+* **the atlas draws fresh cards and has no idea what is sitting in `.run/`** — the next wave never
+  reconsiders the last wave's residue.
+So the pile grows every wave and nothing in the normal loop ever looks at it again. Sweep it at the START
+of a session, before spending a token on new cards.
+
+### §180b — WHAT THE PRE-GATE LADDER ACTUALLY FINDS IN A COLD PILE (the shape of integration debt)
+
+Running the S52 ladder over those 34 byte-perfect drafts, in order:
+
+| step | result | cost |
+|---|---|---|
+| `reloc_identity --batch` | 33 AGREE / **1 MISMATCH** (a draft naming `D_80078F20` where the target references `cdReq_sectorHdrBuf+0xE0`) | seconds |
+| `fragment_check` | **1 FAIL** — `MoveImage` DEFINES `SYS_OBJ_8F4`, a stub that still has its own `.s` | milliseconds |
+| `reconcile_slate --apply` | **11 compatible / 21 refused** (7 TYPE, 5 SIGNATURE, 3 DIFFERENT-STRUCT, 3 BROKE-MATCH, 1 DEF-SIDE-RETURN) | minutes |
+
+**Two-thirds of finished, byte-perfect work was blocked on declarations.** That is the same ratio the
+wave-P post-mortem found (97% drafted → 68% banked) reproduced on a completely independent pile, which
+makes it a property of the *pipeline*, not of any one wave. Budget for banking, not for cracking.
+
+**And do not bank the compatible subset first.** §176h.C2 measured it: once a draft banks, its declarations
+become the TU's, so a sibling-vs-sibling clash (settleable by editing either side) hardens into a
+file-vs-draft clash (settleable only by editing the draft — or not at all). Of 18 parked drafts, 1 survived
+that transition versus 5 before it. Repair the refused set, then gate the whole pile in one slate.
+
+### §180c — WHEN A BINARY'S MASS BAND IS SPENT, THE FLEET-WIDE DRAW IS STRICTLY BETTER
+
+`build_wave_atlas --only-bins main --min-ins 60 --max-ins 200 --rank mass` returned **917 ins against a
+6,500 target**: three waves had consumed main's mass band. Two probes (R37 — probe before costing) settled
+the next draw:
+
+| draw | cards | ins | gate groups | drafts per rebuild |
+|---|--:|--:|--:|--:|
+| main, widened to 30–400 ins | 44 | 4,600 | 10 | 4.4 |
+| **fleet-wide, 60–200 ins** | **63** | **6,525** | **2** | **31.5** |
+
+The fleet-wide draw hit the doctrine's 6k target *and* concentrated into two TUs, because the atlas ranks by
+gate-group concentration once the band is wide enough to have choices. **A binary running dry is not the
+frontier running dry** — it is a signal to widen the binary set, not the instruction band. Widening the band
+instead buys smaller functions at *more* gate groups, which is the wrong trade twice over.
