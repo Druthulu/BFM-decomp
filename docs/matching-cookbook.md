@@ -17178,6 +17178,17 @@ at all, or saves **nothing but `$ra`** (no callee-saved `$s` registers, no FP re
 other case it returns 0, the slot is not offered to the scheduler, and the emitter puts the stack
 restore there instead (`mips.c:5276`, the `tsize > 0` path).
 
+> ### ⛔ CORRECTED BY §188 (P31 S53) — READ THAT FIRST IF YOUR TARGET RESTORES 2+ REGISTERS
+> The table below is **inverted for the multi-restore case**. If the target's tail is
+> `jr $ra` + `addiu $sp` while **two or more** callee-saved registers are restored just above it,
+> that shape is **not gcc's at all** — it is GNU `as -O2` filling the return delay slot, and cc1
+> *cannot* emit it for any `$s`-saving frame (`mips.c:5081/5174/5204`: the only branch that puts
+> `j $31` before the stack restore is the one where `load_only_r31` holds). Saving an `$s` register
+> is precisely what makes that shape impossible, so "keep a value live across a call" is the wrong
+> lever there. Row 2 applies only to the `$ra`-only / frameless case the rule above derives.
+> **This is why the S53 §177 lane converted 4 of 16.** Use `tools/oracle_reorder.py` to tell a C
+> defect from an assembler artifact before spending an agent on it.
+
 **Therefore the lever is the CALLEE-SAVED SET:**
 
 | target does | means | your draft must |
@@ -18126,3 +18137,173 @@ stay decompilation work, and `GsSortBg`/`GsSortFastBg` remain fragment-merge tar
 class — five interior `j` targets each). It saves the far larger error of shipping a linked region
 that is six instructions short, which would have failed the byte gate and been debugged as a linker
 problem. **Check the strictest available oracle BEFORE re-architecting around a byte claim** (R35).
+
+---
+
+## §188 — 🔴 THE `jr $ra` + `addiu $sp` TAIL IS AN **ASSEMBLER** ARTIFACT, NOT A FRAME SHAPE
+### (P31 S53 — found twice independently, from `800c3` and from `800c2`; corrects §177 row 2, answers §182)
+
+**§182 asked what else forces those `800c3` frames. The answer is: nothing does — it is not gcc.**
+
+**LAW 1 — cc1 cannot produce it, so no C lever reaches it.** In `mips.c`, `function_epilogue` sets
+`noreorder = (epilogue_delay != 0)` (`:5081`). Only that noreorder branch emits `j $31` *before* the
+stack restore (`:5204`, `addu` at `:5209/:5214`); the reorder branch emits `addu $sp` first and `j $31`
+second (`:5225-5238`) — the A-form. `epilogue_delay` is non-empty only when
+`mips_epilogue_delay_slots()` returns 1 (frame empty, or `mask == RA_MASK && fmask == 0`, `:5378`), and
+**on that same branch `load_only_r31` is the identical predicate (`:5174`), so exactly one `lw $31` is
+emitted.** Therefore: a tail with `jr $ra` + `addiu $sp` **and two or more restores above it is
+unreachable from cc1 for any C body whatsoever.** §177's row 2 ("frame saves `$s` regs → keep a value
+live across a call") is *inverted* for this shape: saving an `$s` register is what makes it impossible.
+
+**LAW 2 — two conditions, both necessary, measured as a 2×2.** The B-form comes from GNU `as` filling
+the return delay slot, and it needs an *empty* slot to fill:
+* maspsx appends `nop  # DEBUG: branch/jump` into any empty `j $31` slot, and force-emits
+  `.set\tnoreorder` after every `.ent` (`tools/maspsx/maspsx/__init__.py:856-859`), while its `.set\t`
+  branch (`:844-848`) updates `is_reorder` but never re-emits — so **gcc's own `.set reorder` is
+  swallowed**. A TAB-formed `.set\tnoreorder` + SPACE-formed `.set reorder` pair emitted just before the
+  epilogue suppresses the padding (maspsx consumes the TAB form, passes the SPACE form to `as`).
+* `as -O2` performs the swap; **`as -O1` — which this project pins** (`Makefile:563`,
+  `tools/match_one.py:62`) — only pads with `nop`.
+
+Measured on `func_8005E3AC` from ONE md5-identical `.asm`: marker + `-O1` = 54 ins / 2 diffs · no marker
++ `-O1` = 54 / 2 · **no marker + `-O2` = 54 / 2 (inert — noreorder wins)** · marker + `-O2` = **53 / 0**.
+So "`as -O2` flips it" is only half the cause; the marker is load-bearing, and it is byte-inert at `-O1`.
+
+**THE DIAGNOSTIC — `tools/oracle_reorder.py`** (promoted out of gitignored scratch for exactly this
+reason). Re-assemble the same draft bypassing maspsx with `as -O2` and compare. Measured 2×2 on
+`func_80061FA8` (target 103 ins): maspsx+`-O1` 57 diffs/106 ins · maspsx+`-O2` 57/106 (inert) ·
+bypass+`-O1` 97/107 · **bypass+`-O2` 0 diffs/103 ins = MATCH.**
+**If the bypass+`-O2` cell is 0, the draft's C is already correct: file IMMOVABLE and stop grinding.**
+And do not scope this to epilogues — `func_80061FA8`'s 57-diff cascade is unfilled `beqz`/`j`/`jal` slots
+body-wide, including an `la` macro's `%lo` half.
+
+**DO NOT "FIX" IT GLOBALLY.** `as -O2` is byte-inert build-wide *today*, but maspsx's forced noreorder
+does not cover `INCLUDE_ASM`'d hand asm — that content never passes through maspsx — so flipping the
+flag changes the risk surface for every remaining stub. Treat `-O2` as a *diagnostic*, not a build change.
+
+**LAW 3 — and 6 of the affected functions are SDK objects, found with the STRICT oracle.** Running
+`psyq_identify.py` (the field-masked oracle, §187) over the band first identifies: libpad
+`pdent3.o`@`0x8005D244`, `pdent4.o`@`0x8005D33C`, `pdent5.o`@`0x8005D410` (`PadInfoComb`),
+`pdmain1.o`@`0x8005D588`, `pdmaiini.o`@`0x8005D8B4`, and libapi `first.o`@`0x80061FA8`. Those are
+decomp work only by mistake — route them to `psyq_integrate.py`. The remaining ~24 in the band are
+game-authored C whose bodies can be byte-exact today and are blocked only by Law 2.
+*(Unlike §187's refuted libgs claim, this identification comes FROM the strict oracle rather than being
+checked by it — which is the whole difference.)*
+
+## §189 — FIVE COMPILER LAWS MINED FROM THE WAVE R/S JOURNALS (P31 S53), each source-cited and re-derived by a second agent
+
+**§189-A — SPLIT-CONSTANT LUID ADJACENCY: an interloper between `lui`/`ori` proves the target wrote
+TWO source steps.** `mips.md:3208`'s `large_int` define_split fires in sched1's per-block pre-pass
+(`sched.c:4830` `try_split`, `reload_completed == 0`) — *before* `sched_analyze` hands out LUIDs
+(`sched.c:2175`). The two halves are therefore **chain-adjacent with consecutive LUIDs**, and since
+`rank_for_schedule`'s only live discriminator among equal-priority ALU constants is the `INSN_LUID`
+tie-break (`sched.c:2428`), **no statement order and no pin can put a third constant between them.**
+So if the target shows one there, the target did not write one constant.
+*Fix (both edits needed; either alone still scores 2):* split it in source with a §30#3 zero-byte re-tie
+between the halves (`x = HI; __asm__("" : "=r"(x) : "0"(x)); x |= LO;`) so the `|=` carries its own LUID,
+**and** route the interloper through an already-multi-set / pinned variable so `birthing_insn_p`
+(`sched.c:2469`) does not boost it below both halves. Four-form A/B on `func_8001BBBC`, identical
+44-instruction multiset each time, only the `li 4`'s slot moving: one constant → after both · two steps,
+no re-tie → before both · two steps + re-tie + anonymous temp → below both · **two steps + re-tie +
+multi-set pinned temp → BETWEEN, MATCH 44/44** (`src/800.c:5453`, idiom at `:5465-5476`).
+In-function control: the same function's `0xE1000040` *is* a one-statement split and its `lui`/`ori` sit
+adjacent with nothing between — exactly as the law predicts.
+**Narrative correction:** the re-tie does **not** stop cse folding the halves back into one `CONST_INT`
+(A/B shows they stay separate without it, with only a `REG_EQUAL` note). It stops cse **deleting and
+re-materialising** the `HI` set later in the chain, which is what lifts the `lui`'s LUID above the
+interloper. The comment in `src/800.c:5430-5431` says the former and is wrong.
+
+**§189-B — SELF-ACCUMULATE OPERAND ORDER IS FIXED AT RTL EXPANSION, SO REORDERING THE C ADDENDS IS A
+GUARANTEED NO-OP.** `optabs.c:399-421` swaps op0/op1 whenever `target == op1` by rtx *pointer* identity;
+for a local in a pseudo, `expand_expr`'s VAR_DECL arm returns `DECL_RTL` itself (`expr.c:4258`) and
+`store_expr` passes that same rtx as `target`. So `x = b + x` is swapped back to `(plus x b)` and emits
+**the identical `addu $x,$x,$b`** as `x = x + b`. If the target shows `addu $x,$b,$x`, permuting the
+addends will look like a refutation and prove nothing. *Levers, both of which break the identity:*
+route through a temp (`{ s32 xt = b + x; x = xt; }`), or pin the destination to a hard reg.
+**This BOUNDS §10 Residual A / Fix A1, §164-02 and §167-32's "write the operand you want in `rs`
+first"** — all three are cse/front-end mechanisms with no target-identity constraint, and all three are
+inert on a self-accumulating statement.
+
+**§189-C — A §30#3 RE-TIE THAT MUST LIVE IN bb0 NEEDS A `"memory"` CLOBBER.** The boost-kill itself is a
+sched1 effect, but the asm insn you added survives into **sched2**, where prologue saves, stack-arg loads
+and ALU fillers all tie at priority 1 and fall through to `INSN_LUID` (§167-13). Inside bb0 a bare
+`__asm__("" : "=r"(x) : "0"(x))` floats through that interleave and rotates the filler chain one triple
+early. Escalating to `__asm__("" : "=r"(x) : "0"(x) : "memory")` makes `expand_asm_operands` emit
+`(clobber (mem:BLK (scratch)))` (`stmt.c:1656-1663`), which `sched_analyze_insn` routes through the
+write-memory path (`sched.c:2035-2042` → `:1736-1790`) and pins it. `volatile` over-fences.
+*Bounds §30#3, whose prescription ("place the re-tie in a LATER basic block") has no answer when the kill
+must happen in the entry block.*
+
+**§189-D — A NARROW PARAMETER IS BORN INTO *TWO* PSEUDOS, so its target shape is a callee-saved
+COPY-OF-A-COPY with no extension anywhere.** `mips.h:1153` defines `PROMOTE_PROTOTYPES` (the caller
+widens) but the port defines **no `PROMOTE_FUNCTION_ARGS` and no `PROMOTE_MODE`**, so for a prototyped
+`u16`/`s16` parameter `nominal_mode`(HI) != `passed_mode`(SI) and `assign_parms` takes `function.c:3643`
+rather than the one-insn `emit_move_insn` at `:3679` — emitting a tempreg (`:3665/:3667`) *and* a
+parmreg conversion (`:3669-3673`). Target tell: `move $sA,$aN` then `move $sB,$sA`, the two halves
+feeding **disjoint** use sites, with no `sll/sra` and no `andi 0xffff` at any of them.
+**§167-44's extension-based tell cannot fire on this** — there is nothing widened to see.
+
+**§189-E — THE COMPARE-CONSTANT ROW FLIP: naming the constant changes the comparison's SHAPE, not just
+its schedule.** `fold-const.c:4417/4430` rewrites `X < CST` → `X <= CST-1` **only when `arg1` is an
+`INTEGER_CST`**. A named local is a `VAR_DECL`, so the fold never fires and three things flip together:
+bare literal → `li t,0xE0FF ; slt d,t,dzsq ; beqz d` (constant−1, operands swapped, materialised *at* the
+compare) versus named local → `li t,0xE100 ; slt d,dzsq,t ; bnez d` (constant verbatim, natural order,
+materialised at its own def and therefore schedulable into an earlier delay slot). *Sharpens §48-C4,
+which treated this as a scheduling lever only.*
+
+## §190 — THREE PRESCRIPTIONS FROM THE SAME HARVEST (weaker evidence than §189, honestly labelled)
+
+**§190-A — THE PREHEADER HAS THREE FIXED STRATA, and an init in the wrong stratum is not schedulable.**
+In stream order: (1) a **source biv's** own init, before `NOTE_INSN_LOOP_BEG`, never moved; (2)
+`move_movables`' hoisted invariants (`loop.c:1652/1708`, called from `scan_loop:966`); (3)
+`strength_reduce`'s **reduced-giv** inits (`emit_iv_add_mult(..., loop_start)`, `loop.c:3879`, called at
+`:976`). Strata 2 and 3 both insert immediately before `loop_start`, so the pass order `966 < 976` is
+what puts giv inits last. **A register whose zero-init sits *after* a hoisted invariant cannot be a
+source biv — it is a reduced giv of a stride-1 counter the source never named**, and
+`maybe_eliminate_biv` (`loop.c:5952`) then deletes that counter, which is why the target's exit test
+reads `slti rGIV, N*K` instead of `slti rCOUNTER, N`.
+*Tell:* count and content already match; the residual is a lone `move rX,zero` on the wrong side of the
+preheader's `la/lui` block, with zero missing or extra instructions. Do not open the permuter on it.
+*Fix:* `n = 0; ... i = n * K; ... n++;` — and `i = n * K` **must be its own named statement**, or every
+`&SYM + n*K` becomes its own address giv and floods the preheader.
+Proven twice: `src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:7740` (81/81) and `:7882` (122/122).
+*Resolves §2-T2's open case; scope-fenced to the strata BOUNDARY — order within stratum 2 is §162e2,
+within stratum 3 is §164-06.*
+
+**§190-B — COMPILE THE PLAIN NATURAL ORDER FIRST: an interleave in the target is not evidence the source
+was interleaved.** sched1 produces interleaving from natural order, so a hand-"pre-scheduled" draft is
+itself a defect class — the tell is a draft you deliberately reordered "to help gcc" sitting at a small
+stubborn residual filed as instruction-scheduling. Measured, and this is the new part: **per-block
+rigidity is asymmetric within one function**, so the winning set is a product-structured plateau, not a
+point. Permuting stores that feed later reloads is rigid (4 of 24 orders reach 0; 552/576 cells nonzero);
+permuting independent same-base writes whose values die locally is loose (8 of 24 byte-identical, natural
+among them). **So "the natural order won" and "order is a live dial" are both true at once** — do not
+generalise a loose block into §178's "statement-order sweeps are worthless", nor a rigid block into "you
+must hand-craft the order".
+
+**§190-C — A CALL-ARG CONSTANT WEDGED INTO A DEPENDENT LOAD'S DELAY SLOT IS A *sched2* HOIST.** Attribute
+it first: if `-fno-schedule-insns2` alone reproduces the target order, sched1 was already right and
+post-reload sched2 is hoisting the load above the constant. The fence is **both halves together** — arg
+registers pinned *above* a `__volatile__` memory clobber: plain `s32` locals get folded into the call's
+own arg setup and sink below the fence (verified), and it is `__volatile__` that makes the asm a barrier
+at all (`sched.c:1957`, `if (code != ASM_OPERANDS || MEM_VOLATILE_P (x))`, gating `flush_pending_lists`).
+
+## §191 — WHAT THIS HARVEST DID **NOT** BANK (4 rejected, 4 narrowed) — recorded so it is not re-derived
+
+The harvest ran 10 readers over **247 wave-R/S verdicts**, then **one adversarial verifier per candidate,
+defaulting to REJECT**: 18 candidates → **10 CONFIRMED, 4 WEAK, 4 REJECTED**. Two verifiers rebuilt their
+target from the ROM because the `.s` had been pruned on bank; one re-ran a four-form A/B rather than trust
+the reader's sweep; one caught the `src/800.c:5430` comment being wrong about its own mechanism.
+
+**Narrowed to their surviving core** (banked above only in the corrected form, with the falsified half
+named): `func_80182E2C` — roughly a third of the submitted rule was false · `func_801836D4` — the
+headline technique is byte-falsified, only the corrected form survives · `func_801859F4` — bank only the
+second half, as a sharpening of §164-73/§164-74 and a *bound* on §165-21, never as a new "LUID tie-break"
+law · `gfx2D_BG0_OBJ_4D8` — a `register __asm__("$N")` pin gets no caller-save, so the target's own spill
+block must be hand-written as C statements (fragment byte-proof only, since the merged function is not
+banked).
+
+**The standing rule this harvest reinforces:** a reader's rule and a verifier's rule are different
+artifacts. Every confirmed entry above changed shape under verification — bounds added, a mechanism
+re-attributed, a sub-claim refuted — and the ones that did not survive were rejected for exactly the
+reasons §179 predicted: not banked, or banked C contradicting the narrative written about it.
