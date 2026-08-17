@@ -117,6 +117,7 @@ def model_for(nins):
     if nins <= 120: return 'sonnet'
     return 'opus'
 
+knn = atlas.get('knn') or {}          # exemplar key -> neighbours; 'M:' entries are BANKED (§193-A)
 cands, skipped = [], collections.Counter()
 for g in atlas['groups']:
     if g['lever'] not in levers:
@@ -141,6 +142,20 @@ for g in atlas['groups']:
             'lever_alts': g.get('lever_alts', []),
             'exemplar': {'binary': ex.get('b'), 'fn': ex.get('name'), 'nins': ex.get('nins')},
             'seed_sim': seed.get('sim'),
+            # THE BANKED TWIN (P31 S54, cookbook §193-A). `exemplar` is the largest OPEN member of
+            # the atlas group (atlas.py:96 load_open -> corpus.stubs, :657 max(members)), so it is a
+            # STUB 100% of the time -- measured 0/34 on wave T, and it is 0/N at any project
+            # maturity because it is a construction invariant, not drainage. Meanwhile the atlas
+            # ALREADY computed a matched-pool twin (atlas.py:505-536: pool = sig - stubs, so 26/26
+            # of them resolve BANKED) and this builder kept only its similarity SCORE while
+            # discarding the identity. Wave T's agents were handed a dead pointer and told to grep
+            # for a live one; card func_80184FB4's discarded seed ref was a 0.951-similar banked
+            # body that reads line-for-line against the answer the agent spent the session deriving.
+            'seed_ref': (lambda rf: {'binary': rf[0], 'fn': 'func_%08X' % rf[1], 'nins': rf[2]}
+                         if rf else None)(seed.get('ref')),
+            'matched_n': [n for n in knn.get('%s:%s' % (ex.get('b'),
+                                              str(ex.get('a') or '')[2:].lower()), [])
+                          if str(n[0]).startswith('M:')][:3],
         })
 
 # principle 4 (P31 S54): ONE CARD PER ATLAS GROUP. Same-gid members are the SAME skeleton in
