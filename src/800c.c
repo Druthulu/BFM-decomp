@@ -531,7 +531,172 @@ INCLUDE_ASM("asm/nonmatchings/800c", _clr);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1D84);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1DC0);
+
+/* SYS_OBJ_1DC0 (0x8005AFF4) is NOT a callable function: it is the third code FRAGMENT of one
+ * larger routine that begins at _clr (0x8005AF68) and ends in SYS_OBJ_1F64 (0x8005B198).
+ *
+ *   _clr           -> falls through into SYS_OBJ_1D84 (also reached via `j SYS_OBJ_1D84`)
+ *   SYS_OBJ_1D84   -> falls through into SYS_OBJ_1DC0 (also reached via `j SYS_OBJ_1DC0`)
+ *   SYS_OBJ_1DC0   -> `j SYS_OBJ_1F64` on one path, falls through on the other
+ *   SYS_OBJ_1F64   -> carries the ONLY epilogue (lw $ra,0x38($sp) ... jr $ra) for the chain
+ *
+ * SYS_OBJ_1DC0 therefore has NO prologue, NO epilogue, NO `jr $ra`, and is entered with live
+ * values already in $t0 (the object pointer, set by _clr), $t1 (the second argument, set by
+ * _clr) and $v1 (the clamped Y computed by SYS_OBJ_1D84). None of that is expressible as a C
+ * function: any C function body cc1 expands gets an unconditional `jr $ra` epilogue appended
+ * (proven in this same TU for func_80059234 -- neither __attribute__((noreturn)) nor a bare
+ * tail `j` suppresses it), and a C function cannot take arguments pre-placed in $t0/$t1/$v1
+ * nor fall off its end into the next symbol.
+ *
+ * A PREVIOUS attempt reconstructed the WHOLE _clr..SYS_OBJ_1F64 chain as a single C function
+ * and dropped `.global SYS_OBJ_1DC0` asm labels mid-body so a byte-comparable slice existed.
+ * That draft reported MATCH from match_one (the sliced region really was byte-exact) but made
+ * the FULL BINARY DIFFER, and was bisect-rejected: match_one only compares the sliced region,
+ * while the object file ALSO carried the reconstructed _clr/SYS_OBJ_1D84 prologue code and an
+ * extra `SYS_combined_1DC0` / `SYS_OBJ_1DC0_END` symbol pair, none of which exist in the
+ * retail binary -- and _clr / SYS_OBJ_1D84 / SYS_OBJ_1F64 are still INCLUDE_ASM in 800c.c, so
+ * that reconstructed code was pure ADDITION to the link.
+ *
+ * Correct form (the byte-verified idiom already used five times in this TU): emit the fragment
+ * as FILE-SCOPE inline asm -- a raw text blob cc1 copies verbatim with no RTL function wrapper,
+ * so no prologue and no epilogue are ever generated and no extra symbol is defined. The literal
+ * ".ent\t" / ".end\t" pair (tab-separated, exactly as cc1 emits) is load-bearing: maspsx's
+ * process_line special-cases lines starting with ".ent\t" and emits a FRESH ".set\tnoreorder"
+ * into its own output, whereas a plain ".set\tnoreorder" line is swallowed as internal state and
+ * never re-emitted -- without it GNU `as` assembles in reorder mode and displaces every
+ * hand-placed delay-slot instruction.
+ *
+ * Body transcribed 1:1 from asm/nonmatchings/800c/SYS_OBJ_1DC0.s. SYMBOL AUDIT -- every
+ * relocation in that .s, decoded from the raw instruction words and cross-checked against
+ * config/symbols.us.txt:
+ *   jal 0x0C016DD7 x3        -> 0x016DD7<<2 | 0x80000000 = 0x8005B75C = func_8005B75C
+ *   j   0x08016C66           -> 0x016C66<<2 | 0x80000000 = 0x8005B198 = SYS_OBJ_1F64
+ *   lui 0x8008 + addiu 0x8854 -> 0x80080000-0x77AC = 0x80078854 = D_80078854 (address taken,
+ *                                masked with 0x00FFFFFF and also used as the `sw $a3,0($a2)` base)
+ *   lui 0x8007 + lw   0x285C  -> 0x8007285C = D_8007285C (pointer load, then `lw $a0,0($v0)`)
+ *   %hi/%lo store targets, all in the D_80078830 block:
+ *     D_80078830 D_80078834 D_80078838 D_8007883C D_80078840 D_80078844 D_80078848
+ *     D_8007884C D_80078850 D_80078858 D_8007885C D_80078860
+ *   (note D_80078854 is written through $a2, NOT through a %hi/%lo $at pair, and D_8007284C /
+ *    D_80078830's neighbours are NOT touched -- there is no other relocation in the file.)
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1DC0\n"
+    ".ent\tSYS_OBJ_1DC0\n"
+    "SYS_OBJ_1DC0:\n"
+        ".set\tnoreorder\n"
+        "lhu   $v0, 0($t0)\n"
+        "nop\n"
+        "andi  $v0, $v0, 0x3f\n"
+        "bnez  $v0, 1f\n"
+        "sh    $v1, 6($t0)\n"
+        "lhu   $v0, 4($t0)\n"
+        "nop\n"
+        "andi  $v0, $v0, 0x3f\n"
+        "beqz  $v0, 2f\n"
+        "lui   $v0, 0x5ff\n"
+        "1:\n"
+        "lui   $a1, 0xff\n"
+        "ori   $a1, $a1, 0xffff\n"
+        "lui   $a0, 0xe4ff\n"
+        "ori   $a0, $a0, 0xffff\n"
+        "lui   $a3, 0x3ff\n"
+        "lui   $a2, %hi(D_80078854)\n"
+        "addiu $a2, $a2, %lo(D_80078854)\n"
+        "and   $v0, $a2, $a1\n"
+        "lui   $v1, 0x800\n"
+        "or    $v0, $v0, $v1\n"
+        "lui   $s0, 0xe300\n"
+        "lui   $s1, 0xe500\n"
+        "lui   $at, %hi(D_80078830)\n"
+        "sw    $v0, %lo(D_80078830)($at)\n"
+        "lui   $v0, 0xe600\n"
+        "and   $a1, $t1, $a1\n"
+        "lui   $v1, 0x6000\n"
+        "or    $a1, $a1, $v1\n"
+        "lui   $at, %hi(D_80078840)\n"
+        "sw    $v0, %lo(D_80078840)($at)\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "lui   $v1, 0xe100\n"
+        "lui   $at, %hi(D_80078834)\n"
+        "sw    $s0, %lo(D_80078834)($at)\n"
+        "lui   $at, %hi(D_80078838)\n"
+        "sw    $a0, %lo(D_80078838)($at)\n"
+        "lui   $at, %hi(D_8007883C)\n"
+        "sw    $s1, %lo(D_8007883C)($at)\n"
+        "lw    $a0, 0($v0)\n"
+        "srl   $v0, $t1, 31\n"
+        "sll   $v0, $v0, 10\n"
+        "or    $v0, $v0, $v1\n"
+        "lui   $at, %hi(D_80078848)\n"
+        "sw    $a1, %lo(D_80078848)($at)\n"
+        "andi  $a0, $a0, 0x7ff\n"
+        "or    $a0, $a0, $v0\n"
+        "lui   $at, %hi(D_80078844)\n"
+        "sw    $a0, %lo(D_80078844)($at)\n"
+        "lw    $v0, 0($t0)\n"
+        "ori   $a3, $a3, 0xffff\n"
+        "lui   $at, %hi(D_8007884C)\n"
+        "sw    $v0, %lo(D_8007884C)($at)\n"
+        "lw    $v0, 4($t0)\n"
+        "sw    $a3, 0($a2)\n"
+        "lui   $at, %hi(D_80078850)\n"
+        "sw    $v0, %lo(D_80078850)($at)\n"
+        "jal   func_8005B75C\n"
+        "addiu $a0, $zero, 0x3\n"
+        "or    $v0, $v0, $s0\n"
+        "lui   $at, %hi(D_80078858)\n"
+        "sw    $v0, %lo(D_80078858)($at)\n"
+        "jal   func_8005B75C\n"
+        "addiu $a0, $zero, 0x4\n"
+        "lui   $v1, 0xe400\n"
+        "or    $v0, $v0, $v1\n"
+        "lui   $at, %hi(D_8007885C)\n"
+        "sw    $v0, %lo(D_8007885C)($at)\n"
+        "jal   func_8005B75C\n"
+        "addiu $a0, $zero, 0x5\n"
+        "or    $v0, $v0, $s1\n"
+        "lui   $at, %hi(D_80078860)\n"
+        "sw    $v0, %lo(D_80078860)($at)\n"
+        "j     SYS_OBJ_1F64\n"
+        "nop\n"
+        "2:\n"
+        "ori   $v0, $v0, 0xffff\n"
+        "lui   $v1, 0xff\n"
+        "ori   $v1, $v1, 0xffff\n"
+        "lui   $at, %hi(D_80078830)\n"
+        "sw    $v0, %lo(D_80078830)($at)\n"
+        "lui   $v0, 0xe600\n"
+        "and   $v1, $t1, $v1\n"
+        "lui   $a1, 0x200\n"
+        "lui   $at, %hi(D_80078834)\n"
+        "sw    $v0, %lo(D_80078834)($at)\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "or    $v1, $v1, $a1\n"
+        "lw    $a0, 0($v0)\n"
+        "srl   $v0, $t1, 31\n"
+        "sll   $v0, $v0, 10\n"
+        "lui   $at, %hi(D_8007883C)\n"
+        "sw    $v1, %lo(D_8007883C)($at)\n"
+        "lui   $v1, 0xe100\n"
+        "or    $v0, $v0, $v1\n"
+        "andi  $a0, $a0, 0x7ff\n"
+        "or    $a0, $a0, $v0\n"
+        "lui   $at, %hi(D_80078838)\n"
+        "sw    $a0, %lo(D_80078838)($at)\n"
+        "lw    $v0, 0($t0)\n"
+        "lui   $at, %hi(D_80078840)\n"
+        "sw    $v0, %lo(D_80078840)($at)\n"
+        "lw    $v0, 4($t0)\n"
+        "lui   $at, %hi(D_80078844)\n"
+        "sw    $v0, %lo(D_80078844)($at)\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_1DC0\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1F64);
 

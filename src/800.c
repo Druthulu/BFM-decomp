@@ -15,6 +15,30 @@ typedef struct Owner4EE8 {
     /* 0x00 */ u8 pad00[0x14];
     /* 0x14 */ Rec14 **unk14;
 } Owner4EE8;
+typedef struct {               /* 0x18 stride; D_800A463C + k*0x18 */
+    s32 unk00;
+    u8  unk04[0x14];
+} Ent24;
+typedef struct {              /* base 0x80064D49, stride 0x0C */
+    u8  unk00;
+    u8  pad[11];
+} Elm12;
+typedef struct {
+    s16 unk00;
+    s16 unk02;
+    s16 unk04;
+    s16 unk06;
+    s16 unk08;
+    s16 unk0A;
+    s16 unk0C;
+    s16 unk0E;
+    u8  unk10;
+    u8  unk11;
+    u8  unk12;
+    u8  unk13;
+    s32 unk14;
+} Rsc24;                       /* 0x18 */
+/* hoisted by gate_main so drafts above can reuse them (§181) */
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {              /* base 0x80076240, stride 0x10 */
     u16 unk00;
@@ -32,10 +56,6 @@ typedef struct {
     u8  unk0E;
     u8  unk0F;
 } Slot16;                      /* 0x10 */
-typedef struct {               /* 0x18 stride; D_800A463C + k*0x18 */
-    s32 unk00;
-    u8  unk04[0x14];
-} Ent24;
 typedef struct { s32 v; } W32;
 typedef struct { u8  v; } W8;
 /* hoisted by gate_main so drafts above can reuse them (§181) */
@@ -11895,7 +11915,110 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8002F1CC);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002F248);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002F4E4);
+
+/* func_8002F4E4 -- 6-level gauntlet lookup into the D_800A4EE8 owner block.
+ *
+ * TU-placement note (src/800.c): this function's INCLUDE_ASM sits at ~line 9410,
+ * BEFORE the file declares `typedef struct Owner4EE8 {...}` (~9756, whose first
+ * 0x14 bytes are an opaque pad00 that THIS function is the one to break out into
+ * fields) and BEFORE `typedef ... Rsc24` / `extern Rsc24 D_800A4640[];` (~10860/10885).
+ * So local equivalents are declared here.
+ *
+ * The two object externs are declared at BLOCK scope on purpose. A second
+ * FILE-scope declaration of D_800A4640 / D_800A4EE8 with a different (local)
+ * struct type is a hard error under the pinned cc1 ("conflicting types for
+ * `D_800A4640'", rc=33) once the real ones appear later in the TU; the same
+ * pair at block scope is only a warning ("type mismatch with previous external
+ * decl") and compiles clean. Codegen is identical either way -- verified.
+ */
+
+/* D_800A4640 element -- same layout as the TU's own `Rsc24` (src/800.c ~13288,
+ * declared later in the file than this function's INCLUDE_ASM slot, so it
+ * can't be named directly here). Spelled with the TU's own typedef NAME
+ * ("Rsc24", block-scoped -- shadows harmlessly, since the file-scope typedef
+ * of the same name/shape doesn't exist yet at this point in the TU) and the
+ * TU's own field-list TEXT verbatim, with no inline offset comments: the
+ * reconciler's cosmetic-typedef check is a literal body-text comparison
+ * against src/800.c's `Rsc24`, and per-field offset comments here (the TU's
+ * copy has only one trailing offset tag, after the closing brace, not one
+ * per field) made the two bodies textually differ and tripped
+ * refuse-DIFFERENT-STRUCT even though the layouts are identical
+ * field-for-field. */
+
+/* opaque — matches the TU's `typedef struct Owner4EE8 Owner4EE8;` spelling
+ * (src/800.c ~13559) exactly so this local decl is droppable at bank time in
+ * favor of the TU's real `typedef struct Owner4EE8 { u8 pad00[0x14]; Rec14
+ * **unk14; } Owner4EE8;`. This function only ever touches fields that live
+ * inside pad00, so it pointer-casts through the opaque type at each byte
+ * offset (same pattern as func_80034314 / func_8002C8F4) rather than naming
+ * a same-named struct with a conflicting layout. */
+
+extern s16 D_800A4EF0;
+
+s32 func_8002F4E4(u8 *a0) {
+    extern Rsc24 D_800A4640[];
+    extern Owner4EE8 *D_800A4EE8;
+    Owner4EE8 *a2;
+    s32 idx;
+    s32 lvl;
+    s32 val;
+    s32 idx2;
+    s32 word;
+    s32 rowBytes;
+    u16 *row;
+
+    if (D_800A4EF0 == 0) {
+        return 0;
+    }
+
+    a2 = D_800A4EE8;
+    if (a2 == 0) {
+        return 0;
+    }
+
+    idx = a0[2];
+    lvl = D_800A4640[idx].unk00;
+
+    if (lvl < *(s16 *)((u8 *)a2 + 0x04)) {
+        return 0;
+    }
+    lvl -= *(s16 *)((u8 *)a2 + 0x04);
+
+    if (lvl >= *(s16 *)((u8 *)a2 + 0x02)) {
+        return 0;
+    }
+
+    val = (*(s16 **)((u8 *)a2 + 0x08))[lvl];
+    if (val == 0) {
+        return 0;
+    }
+
+    idx2 = a0[3];
+    if (idx2 >= *(s16 *)((u8 *)a2 + 0x0C)) {
+        return 0;
+    }
+    val -= 1;
+
+    /* Row stride is in BYTES and must stay bound to unk0E: writing
+     * idx2 * (unk0E * 2) inline lets gcc reassociate it to
+     * (idx2 * 2) * unk0E (sll a0 then mult) -- the separate rowBytes
+     * local pins mult $a0,$v0 with $v0 = unk0E*2, as the target has.
+     * The `row` pointer temp is also load-bearing: it is what keeps val
+     * in $a1 and puts val*2 into a fresh $v0. NO register pins -- pinning
+     * val to $5 (first-pass attempt) makes the shift go in-place into $a1
+     * and reorders the mult delay shadow (sll before lw). Cookbook lever C:
+     * the fix was to UNPIN.
+     */
+    rowBytes = *(s16 *)((u8 *)a2 + 0x0E) * 2;
+    row = (u16 *)((u8 *)(*(u16 **)((u8 *)a2 + 0x10)) + idx2 * rowBytes);
+    word = row[val];
+
+    if (word != 0x7F) {
+        return word;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002F5C8);
 
@@ -11993,7 +12116,66 @@ void func_8002FAE0(void) {
     func_8002C8BC();
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002FB08);
+
+
+extern void func_800301A4(void);
+extern int  func_80037CD8(void *arg);
+extern void func_80031A98(void);
+extern void func_8002EC10(void);
+extern void func_800415A8(s32);
+
+
+
+extern Elm12 D_80064D49[];
+extern u8    D_80064D4D[];
+extern Ent24 D_800A463C[];
+extern Rsc24 D_800A4640[];
+extern s16   D_800A4642[];
+extern u8    D_800A4650[];
+extern s32   D_800A46C8;
+extern s16   D_800A46CC;
+extern s16   D_800C5328[];
+extern u8    D_8006AEF4;
+
+int func_8002FB08(int entry) {
+    s32 idx12;
+    s32 b;
+    s32 idx24;
+    s16 h;
+    s32 b2;
+    s32 idx24b;
+    s16 v;
+    s16 a4;
+
+    if (func_80037CD8((void *)func_800301A4) == 0) {
+        return 0;
+    }
+    idx12 = entry * 12;
+    b = D_80064D49[entry].unk00;
+    idx24 = b * 24;
+    D_800A46C8 = *(s32 *)((u8 *)D_800A463C + idx24);
+    if (D_800A4650[idx24] == 0) {
+        h = *(s16 *)((u8 *)D_800A4640 + idx24);
+        D_800C5328[h * 2] = -1;
+    }
+    func_80031A98();
+    b2 = D_80064D4D[idx12];
+    if (b2 != 0) {
+        idx24b = b2 * 24;
+        v = *(s16 *)((u8 *)D_800A4642 + idx24b);
+        if (v >= 0) {
+            func_8002EC10();
+            a4 = *(s16 *)((u8 *)D_800A4642 + idx24b);
+            func_800415A8(a4);
+            *(s16 *)((u8 *)D_800A4642 + idx24b) = -1;
+            *(s16 *)((u8 *)D_800A4640 + idx24b) = -1;
+        }
+        D_800A4650[idx24b] = 1;
+    }
+    D_800A46CC = 0;
+    D_8006AEF4 |= 2;
+    return 1;
+}
 
 
 extern s32  func_8003C4F0(s32);
@@ -13835,7 +14017,55 @@ s32 CdQueueBusy(void) {
     return 8;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80034C24);
+
+extern s32 D_8006AEF8;
+extern s32 D_8006AEFC;
+extern u8 D_8006AEF4;
+extern u8 D_800A63E4;
+extern void *streamLoad_savedReadyCB;
+extern u8 streamLoad_cbActive;
+extern int streamLoad_state;
+extern int D_800A6544;
+extern s32 D_8006AEE8;
+extern s32 D_800A63E8;
+extern s32 D_8007610C;
+extern u8 D_8006AEF5;
+extern u8 D_8007620C;
+extern s32 D_80076114;
+extern u8 D_80076214;
+extern s32 D_80078F10;
+extern void D_800C7D30();
+extern int DecDCToutCallback(void (*func)());
+extern s32 D_800A5BC8;
+extern s32 D_800C6D28;
+
+void func_80034C24(void) {
+    s32 *p = &D_80078F10;
+    s32 i;
+
+    D_8006AEF8 = 0;
+    D_8006AEFC = 0;
+    D_8006AEF4 = 0;
+    D_800A63E4 = 0;
+    streamLoad_savedReadyCB = 0;
+    streamLoad_cbActive = 0;
+    streamLoad_state = 0;
+    D_800A6544 = 0;
+    D_8006AEE8 = 0;
+    D_800A63E8 = 0;
+    D_8007610C = 0;
+    D_8006AEF5 = 0;
+    D_8007620C = 0;
+    D_80076114 = 0;
+    D_80076214 = 0;
+
+    for (i = 0; i < 5; i++) {
+        p[i] = 0;
+    }
+
+    D_800A5BC8 = DecDCToutCallback(D_800C7D30);
+    D_800C6D28 = 0;
+}
 
 
 extern u8 D_8006AEF5;
@@ -14365,10 +14595,6 @@ CLEAR_TBL40(func_80037004)  /* dedup I0: shared body (src/shared/clearTbl40.h) *
 
 
 
-typedef struct {              /* base 0x80064D49, stride 0x0C */
-    u8  unk00;
-    u8  pad[11];
-} Elm12;
 
 
 extern Slot16A D_80076240[];
@@ -14614,21 +14840,6 @@ void func_800373D0(void) {
 INCLUDE_ASM("asm/nonmatchings/800", func_800374CC);
 
 
-typedef struct {
-    s16 unk00;
-    s16 unk02;
-    s16 unk04;
-    s16 unk06;
-    s16 unk08;
-    s16 unk0A;
-    s16 unk0C;
-    s16 unk0E;
-    u8  unk10;
-    u8  unk11;
-    u8  unk12;
-    u8  unk13;
-    s32 unk14;
-} Rsc24;                       /* 0x18 */
 
 
 typedef struct {
