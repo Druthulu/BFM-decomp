@@ -3722,7 +3722,51 @@ extern void func_8017FD30(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8017FBDC);
+#include "common.h"
+
+extern s32 D_801D30C0;
+extern s32 D_801D30C4;
+extern s32 D_801D30C8;
+extern s32 D_801D30CC;
+/* §183 reconciled with sibling draft func_8017FD30, which landed in this same TU
+ * spelling this symbol `u16 []`.  u16 costs this function a byte (the array type
+ * feeds gcc's alias set, which reorders the block), s16 is byte-free for BOTH —
+ * so s16 is the unified spelling and func_8017FD30 was flipped to it. */
+extern s16 D_801A4B6C[];
+
+extern void func_8017FF68(void *a0, s32 a1);
+
+s32 func_8017FBDC(void) {
+    s32 result = 0;
+
+    switch (D_801D30CC) {
+    case 0:
+        D_801D30C0 = 1;
+        D_801D30C4 = 0;
+        D_801D30C8 = 1;
+        D_801D30CC = 1;
+        break;
+    case 1:
+        if (--D_801D30C0 == 0) {
+            D_801D30C0 = 4;
+            func_8017FF68(D_801A4B6C, D_801D30C4 * 6);
+            if (++D_801D30C4 >= 10) {
+                D_801D30CC++;
+                result = 1;
+            }
+        }
+        break;
+    case 2:
+        result = 1;
+        break;
+    default:
+        D_801D30CC = 0;
+        break;
+    }
+
+    return result;
+}
+
 
 extern s32 D_801D30C8;
     extern s32 D_801D30C0;
@@ -3734,7 +3778,79 @@ extern s32 D_801D30C8;
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8017FD30);
+#include "common.h"
+
+extern s32 D_801D35B4;
+extern s32 D_801D30B0;
+extern s32 D_801D30B4;
+extern s32 D_801D30B8;
+extern s32 D_801D30BC;
+extern s32 D_801D30C0;
+extern s32 D_801D30C4;
+extern s32 D_801D30C8;
+extern s32 D_801D30CC;
+extern s32 D_801D30D0;
+extern s32 D_801D30D4;
+
+extern u16 D_801A45A4[];
+extern u16 D_801A4A04[];
+extern s16 D_801A4B6C[];
+extern s32 D_8018F23C[];
+
+extern s32 func_80029178(s32 a0);
+extern void func_800183E0(s32 a0);
+extern void func_8017FF68(void *a0, s32 a1);
+
+void func_8017FD30(void) {
+    switch (D_801D35B4) {
+    case 0:
+        D_801D30CC = 0;
+        D_801D30B0 = 1;
+        D_801D30B4 = 0;
+        D_801D30B8 = 1;
+        D_801D30BC = 1;
+        D_801D30C0 = 1;
+        D_801D30C4 = 0;
+        D_801D30D0 = 0;
+        D_801D30D4 = 0;
+        D_801D30C8 = 0;
+        if ((func_80029178(0xB0) & 0xFF) != 0) {
+            func_8017FF68(D_801A4B6C, 0x36);
+            D_801D30C8 = 1;
+        }
+        D_801D35B4 = D_801D35B4 + 1;
+        break;
+
+    case 1:
+        if (D_801D30C8 == 0) {
+            D_801D30C0 = D_801D30C0 - 1;
+            if (D_801D30C0 == 0) {
+                D_801D30C0 = 4;
+                func_8017FF68(D_801A4A04, D_801D30C4 * 6);
+                D_801D30C4 = D_801D30C4 + 1;
+                if (D_801D30C4 >= 30) {
+                    D_801D30C4 = 0;
+                }
+            }
+        }
+
+        D_801D30B0 = D_801D30B0 - 1;
+        if (D_801D30B0 == 0) {
+            D_801D30B0 = 2;
+            func_8017FF68(D_801A45A4, D_801D30B4 * 6);
+            D_801D30B4 = (D_801D30B4 + 1) & 7;
+        }
+
+        D_801D30B8 = D_801D30B8 - 1;
+        if (D_801D30B8 == 0) {
+            D_801D30B8 = 8;
+            func_800183E0(D_8018F23C[D_801D30BC]);
+            D_801D30BC = (D_801D30BC + 1) & 0xF;
+        }
+        break;
+    }
+}
+
 
 
 void func_8017FF68(void *a0, s32 a1)
@@ -3983,7 +4099,44 @@ void func_801805A4(void) {
 void func_801805AC(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_801805B4);
+#include "common.h"
+
+extern void func_8012CBF4(s32 a0);
+extern void func_8012C218(void *a0);
+
+void func_801805B4(s32 arg0)
+{
+    s32 s1;
+
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) =
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) + *(u16 *)(arg0 + 0xFC);
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) + *(u16 *)(arg0 + 0xFE);
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x14) =
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x14) + *(u16 *)(arg0 + 0x100);
+
+    s1 = ((s32 (*)(s32))func_8012CBF4)(arg0);
+
+    if (*(s16 *)(arg0 + 0xA) >= 0x101) {
+        func_8012C218((void *)arg0);
+    }
+
+    if (*(u16 *)(arg0 + 0x34) != 0) {
+        if ((s1 & 0x6000) != 0) {
+            func_8012C218((void *)arg0);
+        }
+    } else if ((s1 & 0x6000) != 0) {
+        u16 newcount;
+
+        *(s32 *)(arg0 + 0x14) = 0xFFF80000;
+        newcount = *(u16 *)(arg0 + 0x34) + 1;
+        *(u16 *)(arg0 + 0xFC) = (s16)*(u16 *)(arg0 + 0xFC) >> 1;
+        *(u16 *)(arg0 + 0xFE) = (s16)*(u16 *)(arg0 + 0xFE) >> 1;
+        *(u16 *)(arg0 + 0x34) = newcount;
+        *(u16 *)(arg0 + 0x100) = (s16)*(u16 *)(arg0 + 0x100) >> 1;
+    }
+}
+
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -4124,9 +4277,144 @@ void func_80180E18(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80180E54);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80180F54);
+/* D_80126B58 already declared in TU as `extern s32`; accessed here as a small header
+ * struct: u16 state @+0x0, u16 field @+0xA. Raw form kept, cast at each use site. */
+extern s32 D_80126B58;
+
+/* D_80126B5E already declared file-scope in the TU as `extern u16` (TU:1789), read
+ * via `lh` (signed) at the use sites. */
+extern u16 D_80126B5E;
+
+/* Skeleton twin of ov_SC02_027:func_80182D4C (sim 1.0, same 64-ins body). */
+void func_80180E54(u8 *a0, u8 *a1, s32 a2)
+{
+    extern u16 D_80126B62;
+    u8 *base = (u8 *)&D_80126B58;
+    s16 selfA, self6, other4, other6;
+    s32 sum1, sum2, sum3, sum4;
+    s16 lim1, lim2;
+    u16 tmp;
+
+    if (*(u16 *)(base + 0x0) == 0x1A) {
+        return;
+    }
+
+    selfA = *(s16 *)(a0 + 0xA);
+    sum1 = selfA + *(s16 *)(a1 + 0x8);
+    lim1 = *(s16 *)&D_80126B62;
+    if (lim1 < sum1) {
+        return;
+    }
+
+    sum2 = selfA + *(s16 *)(a1 + 0xA);
+    if (!(lim1 < sum2)) {
+        return;
+    }
+
+    self6 = *(s16 *)(a0 + 0x6);
+    other4 = *(s16 *)(a1 + 0x4);
+    lim2 = *(s16 *)&D_80126B5E;
+    sum3 = self6 + other4;
+    if (sum3 >= lim2) {
+        return;
+    }
+
+    other6 = *(s16 *)(a1 + 0x6);
+    sum4 = self6 + other6;
+    if (sum4 <= lim2) {
+        return;
+    }
+
+    if (a2 < 0) {
+        /* fall through to shared tail */
+    } else if (a2 != 0) {
+        if (lim2 < sum3 + 0x18) {
+            D_80126B5E = self6 + other4;
+            return;
+        }
+    } else {
+        if (sum4 - 0x18 < lim2) {
+            D_80126B5E = self6 + other6;
+            return;
+        }
+    }
+
+    tmp = *(u16 *)(a0 + 0xA) + *(u16 *)(a1 + 0x8);
+    tmp -= 1;
+    *(u16 *)(base + 0xA) = tmp;
+}
+
+
+#include "common.h"
+
+/* func_80180F54 -- ov_SC02_028 / ov_SC02_028_jr_8017D898
+ * Mechanical remap of the banked twin func_80182E4C (ov_SC02_027, same TU
+ * family, skeleton sim 1.0): identical instruction shapes throughout, only
+ * the data symbols differ (D_801A6220/D_801A4C90/func_801806B8 here vs
+ * D_801ACA00/D_801AB5F4/func_801825B0 there).
+ *
+ * Structure: two independent early returns, each written out in full (NOT a
+ * hand-merged shared tail) -- gcc's cross_jump pass merges the duplicate
+ * "func_8012CAE4(a0); return;" bodies on its own.
+ *
+ * func_8012C1B8 declared void-returning + cast to (s32(*)(void)) at the call
+ * site, matching the TU's own existing idiom for this exact callee.
+ */
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_801806B8(s32 *a0);
+
+void func_80180F54(void *a0)
+{
+    extern s32 D_801A6220;
+    extern s32 D_801A4C90;
+    s32 v0;
+    s32 s1;
+    s32 v1;
+    u16 t;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+    func_8001C214(v0, (s32)&D_801A6220);
+
+    s1 = ((s32 (*)(void))func_8012C1B8)();
+    if (s1 == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+    func_8001C214(s1, (s32)&D_801A6220);
+
+    *(s32 *)((s32)a0 + 0xCC) = s1;
+
+    v1 = *(s32 *)((s32)a0 + 0x20);
+    *(s32 *)(v1 + 0x4) = *(s32 *)(v1 + 0x4) | 0x8000;
+
+    *(s32 *)(s1 + 0x4) = *(s32 *)(s1 + 0x4) | 0x8000;
+
+    *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x28) = 0x1800180;
+    *(s32 *)(s1 + 0x28) = 0x1800180;
+
+    *(s32 *)((s32)a0 + 0x58) = (s32)&D_801A4C90 | 0x10000000;
+
+    *(u16 *)((s32)a0 + 0x5C) = 0xC800;
+
+    *(u8 *)((s32)a0 + 0x75) = 0;
+    func_80029124(0xAE, 0);
+
+    t = *(u16 *)((s32)a0 + 0x6);
+    *(s16 *)((s32)a0 + 0xFC) = t;
+    func_801806B8((s32 *)a0);
+}
+
 
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_801806E0(void *a0);
@@ -4418,9 +4706,211 @@ INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80181E6
 void func_80181ED4(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80181EDC);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80182060);
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern s32 func_80029178(s32 arg);
+extern void func_801822D0(void *arg0);
+extern s32 func_8012C194(void);
+extern void func_8001CD9C(int, void *);
+extern void func_800233CC(void *a0, unsigned short a1);
+extern void func_80183918(void);
+extern s32 func_8012AD50(void *a0);
+
+/* 4-byte, align-4 unaligned block: forces lwl/lwr + swl/swr (cookbook §48-C2 /
+ * matches the sibling idiom at ov_SC02_005:func_8018CE04). */
+/* 4-byte, align-4 unaligned block: forces lwl/lwr + swl/swr (cookbook §48-C2 /
+ * matches the sibling idiom at ov_SC02_005:func_8018CE04). */
+typedef struct { u8 b[4]; } Blk4_80181EDC;
+
+extern u8 D_801A4E3C;
+extern u8 D_801A4E70;
+extern s32 D_801A4EB0[];
+/* §183 TYPE-adopted-sibling: func_80182060 / func_80182688 land in this same TU
+ * and spell D_801D3100 as a plain `u8` (byte lbu/sb arithmetic).  This function
+ * wants the 4-byte block view, so it adopts the raw `u8` spelling on the
+ * DECLARATION and takes the block view at the USE SITE — which it was already
+ * doing via `(s32)&D_801D3100` + `*(Blk4_80181EDC *)s0`, so this is byte-free. */
+extern u8 D_801D3100;
+extern Blk4_80181EDC D_801D3104;
+extern Blk4_80181EDC D_801D1A8C;
+extern Blk4_80181EDC D_801D1A90;
+
+void func_80181EDC(s32 s1)
+{
+    s32 v1;
+    s32 a1ptr;
+    s32 s2;
+
+    if (func_8012C354(s1, (s32)&D_801A4E3C) != 0) {
+        register s32 t0 __asm__("$2");
+        register s32 t1 __asm__("$3");
+
+        t0 = 1;
+        *(u8 *)(s1 + 0xC0) = t0;
+        t0 = (s32)&D_801A4E70;
+        *(s32 *)(s1 + 0xBC) = t0;
+        t0 = *(s32 *)(s1 + 0xC4);
+        t1 = 0x14;
+        *(u8 *)(s1 + 0x75) = t1;
+        v1 = *(s16 *)(s1 + 0x70);
+        *(s32 *)(s1 + 0xB4) = 0;
+        *(u8 *)(s1 + 0xC1) = 0;
+        t0 = t0 | 2;
+        *(s32 *)(s1 + 0xC4) = t0;
+        t0 = *(u16 *)(s1 + 0x72);
+        t0 = t0 | 0x1000;
+        *(u16 *)(s1 + 0x72) = t0;
+
+        if ((func_80029178(D_801A4EB0[v1]) & 0xFF) != 0) {
+            a1ptr = *(s32 *)(s1 + 0x20);
+            *(u32 *)(a1ptr + 4) |= 0x80000000;
+            *(s16 *)(s1 + 0xAE) = -1;
+            func_801822D0((void *)s1);
+            *(u16 *)(s1 + 0x34) += 1;
+        } else {
+            *(s16 *)(s1 + 0xAE) = -4;
+            s2 = func_8012C194();
+            *(s32 *)(s1 + 0xCC) = s2;
+            if (s2 != 0) {
+                s32 s0 = (s32)&D_801D3100;
+                func_8001CD9C(s2, (void *)s0);
+                func_800233CC((void *)s0, 0x80);
+                *(Blk4_80181EDC *)s0 = *(Blk4_80181EDC *)&D_801D1A8C;
+                *(Blk4_80181EDC *)&D_801D3104 = *(Blk4_80181EDC *)&D_801D1A90;
+                *(s16 *)(s2 + 0x18) = 0x800;
+                *(s16 *)(s2 + 0x1A) = 0x800;
+                *(u32 *)(s2 + 4) |= 0x50000000;
+            }
+            func_80183918();
+            func_8012AD50((void *)s1);
+        }
+    }
+}
+
+
+#include "common.h"
+
+/* func_80182060 — per-frame tick for an entity at $a0.
+ *
+ *  1. If entity->0xCC (a sub-object pointer) is non-NULL:
+ *       - "energy meter" accumulate: if (s16)obj->0x18 < 0x1C00, add 0x200 to
+ *         both obj->0x18 (s16) and obj->0x1A (u16).
+ *       - re-read obj->0x18; if it is >= 0x1001, look up
+ *         D_801A4EC0[(s16)entity->0xFC]; when that entry is >= 0, fire
+ *         func_80182194(entry) and bump the u16 counter at entity->0xFC.
+ *  2. Saturating triple-counter: D_801D3100/1/2 each += 0x10 while
+ *     D_801D3100 < 0xFF; on the u8 wrap to 0 all three are pinned to 0xFF.
+ *  3. func_801823F4(entity); if (func_8012BEE8(entity)) func_80182230(entity).
+ *
+ * ---------------------------------------------------------------------------
+ * S54 second pass — the residual the first draft could not move was NOT
+ * register allocation.  It was sched.c's ALIAS ORACLE.
+ *
+ * The first draft compiled the triple-counter block as
+ *      lbu D_801D3101 ; lbu D_801D3102 ; sb *p ; andi ...
+ * while the target is
+ *      sb *p ; andi ; lbu D_801D3101 ; lbu D_801D3102 ...
+ * and the two orders carry DIFFERENT colours ($v0/$v1 swapped on nc0 vs c1).
+ * Statement order in C is inert here: sched1 re-derives the order from the
+ * dependence graph, so both source orders emit the load-first form.
+ *
+ * Why the target is load-LAST: sched.c:614 memrefs_conflict_p canonicalises a
+ * MEM's base register through canon_rtx -> reg_known_value (sched.c:371,399).
+ * init_alias_analysis only records reg_known_value[r] when
+ * `reg_n_sets[r] == 1` (sched.c:426).  With a single `p = &D_801D3100;` the
+ * pseudo canonicalises to (symbol_ref D_801D3100), which provably differs from
+ * (symbol_ref D_801D3101/2) -> no anti-dependence -> the loads (priority 4,
+ * a lbu->addu->sb chain) outrank the leaf store (priority 0) and get hoisted.
+ *
+ * Giving `p` a SECOND set blinds that oracle: canon_rtx then leaves (reg p)
+ * alone, memrefs_conflict_p falls through to its final `return 1`, and the two
+ * lbu's become anti-dependent on `*p = nc0` — pinning the store first, which in
+ * turn hands nc0 the dying compare temp's $v0 and lets c1 re-use c0's $v1.
+ * The re-tie below is the second set; it emits zero bytes.  A plain source
+ * `p = &D_801D3100;` written twice does NOT work — cse deletes the redundant
+ * set and reg_n_sets falls back to 1 (verified: 10 mismatches, unchanged).
+ *
+ * The cached `u8 *p = &D_801D3100;` itself (vs. plain globals for D_801D3101/2)
+ * is the twin func_8018C07C's `p = &D_801EFE60` idiom and is what produces the
+ * `la $a1,D_801D3100` + three 0($a1) accesses.
+ */
+
+extern void func_80182194(void *a0);
+extern void func_80182230(void *a0);
+extern void func_801823F4(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+
+extern s16 D_801A4EC0[];
+extern u8 D_801D3100;
+extern u8 D_801D3101;
+extern u8 D_801D3102;
+
+void func_80182060(void *a0)
+{
+    void *s0 = a0;
+    void *v0;
+    s16 t18;
+    u16 t1a;
+    s16 tfc;
+    s16 val;
+    u16 nfc;
+    u8 c1, c2, c0, nc0;
+    u8 *p;
+
+    v0 = *(void **)((u8 *)s0 + 0xCC);
+    if (v0 != NULL) {
+        s16 e18, p18;
+        /* e18 and p18 must be SEPARATE locals: the re-read at 0x18 below is a
+         * distinct cse interval, and merging them costs a spurious reload. */
+        e18 = *(s16 *)((u8 *)v0 + 0x18);
+        if (e18 < 0x1C00) {
+            t18 = e18 + 0x200;
+            *(s16 *)((u8 *)v0 + 0x18) = t18;
+            t1a = *(u16 *)((u8 *)v0 + 0x1A);
+            t1a = t1a + 0x200;
+            *(u16 *)((u8 *)v0 + 0x1A) = t1a;
+        }
+        p18 = *(s16 *)((u8 *)v0 + 0x18);
+        if (p18 >= 0x1001) {
+            tfc = *(s16 *)((u8 *)s0 + 0xFC);
+            val = D_801A4EC0[tfc];
+            if (val >= 0) {
+                func_80182194((void *)(s32)val);
+                nfc = *(u16 *)((u8 *)s0 + 0xFC);
+                nfc = nfc + 1;
+                *(u16 *)((u8 *)s0 + 0xFC) = nfc;
+            }
+        }
+    }
+
+    p = &D_801D3100;
+    /* Zero-byte second set of `p` — blinds sched.c's reg_known_value alias
+     * oracle so `*p = nc0` anti-depends on the D_801D3101/2 loads.  See header. */
+    __asm__("" : "=r"(p) : "0"(p));
+    c0 = *p;
+    if (c0 < 0xFF) {
+        nc0 = c0 + 0x10;
+        *p = nc0;
+        c1 = D_801D3101;
+        c2 = D_801D3102;
+        c1 = c1 + 0x10;
+        c2 = c2 + 0x10;
+        D_801D3101 = c1;
+        D_801D3102 = c2;
+        if (nc0 == 0) {
+            *p = 0xFF;
+            D_801D3101 = 0xFF;
+            D_801D3102 = 0xFF;
+        }
+    }
+
+    func_801823F4((s32)s0);
+    if (func_8012BEE8((s32)s0) != 0) {
+        func_80182230(s0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80182194);
 
@@ -4482,7 +4972,72 @@ void func_801823F4(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80182438);
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8018248C);
+#include "common.h"
+
+/* local mirrors of the TU's shared engine_types.h structs (Blk8 @497, Blk32_8018AA98_80183D30
+ * @1413) — match_one compiles this draft standalone without the shared header chain, so the
+ * types are re-declared here verbatim rather than pulled through engine_core.h. */
+/* 20-byte spawn-message record built at sp+0x10: x,y,z / type / sub-id / pad / flag / pad,
+ * then a trailing s32 "extra" field copied out of *(a0+0xDC). §193-I: this aggregate's frame
+ * slot rounds up to 24 (ceil(20,8)), which is exactly the 4-byte gap between it and `vec`
+ * below in the target's stack layout (sp+0x24-0x27 unused). */
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 type;
+    s16 sub;
+    s16 pad1;
+    s16 flag;
+    s16 pad2;
+    s32 extra;
+} Msg_8018248C;
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+void func_8018248C(s32 a0, s32 a1) {
+    /* §183 TYPE-shadowed-block-scope.  Blk8 / Blk32_8018AA98_80183D30 come from
+     * the TU's own engine_types.h (lines 497 / 1413) — the draft's file-scope
+     * mirrors were dropped to avoid DUPLICATE-TYPEDEF.  D_800AE620 has NO
+     * file-scope decl in this TU: it is already declared twice, block-scoped and
+     * with two different types (Blk32_8018AA98_80183D30 @5594, s32 @6053).  This
+     * body follows that existing TU precedent verbatim. */
+    typedef struct { u8 b[8]; } Blk8;
+    typedef struct { s32 w[8]; } Blk32_8018AA98_80183D30;
+    extern Blk8 D_801D1A9C;
+    extern s32 D_800AE620;
+    Msg_8018248C msg;          /* sp+0x10 (24-byte stride, §193-I) */
+    Blk8 vec;                 /* sp+0x28 */
+    Blk32_8018AA98_80183D30 m; /* sp+0x30 */
+
+    vec = D_801D1A9C;
+    m = *(Blk32_8018AA98_80183D30 *)&D_800AE620;
+
+    RotMatrixY(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), &m);
+    ApplyMatrixSV(&m, &vec, &vec);
+
+    if (a0 != 0 && *(u16 *)a0 != 0) {
+        msg.x = *(u16 *)(a0 + 0x6) + *(u16 *)((u8 *)&vec + 0);
+        msg.y = *(u16 *)(a0 + 0xA) + *(u16 *)((u8 *)&vec + 2);
+        msg.z = *(u16 *)(a0 + 0xE) + *(u16 *)((u8 *)&vec + 4);
+    } else {
+        msg.z = 0;
+        msg.y = 0;
+        msg.x = 0;
+    }
+
+    msg.type = 0x1E1;
+    msg.sub = (s16)a1;
+    msg.pad1 = 0;
+    msg.pad2 = 0;
+    msg.extra = *(s32 *)(a0 + 0xDC);
+    msg.flag = 0x7FFF;
+
+    func_8012C51C(&msg, a0);
+}
+
 
 
 extern void (*D_801A4F00[])(void);
@@ -4494,9 +5049,104 @@ void func_801825EC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80182628);
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80182688);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80182794);
+extern void func_80183C08(s32 a0, s32 a1);
+extern void func_8018248C(s32 a0, s32 a1);
+extern void func_8018226C(void *a0);
+extern void func_801823F4(s32 a0);
+
+extern u8 D_801D3100;
+extern u8 D_801D3101;
+extern u8 D_801D3102;
+
+void func_80182688(void *arg0) {
+    s16 v;
+    void *s1;
+    u8 *p;
+
+    v = *(s16 *)((u8 *)arg0 + 0xFC);
+    s1 = *(void **)((u8 *)arg0 + 0xCC);
+
+    if (v < 0x10) {
+        func_80183C08(v, 1);
+        *(u16 *)((u8 *)arg0 + 0xFC) = *(u16 *)((u8 *)arg0 + 0xFC) + 1;
+    }
+
+    if (*(s16 *)((u8 *)arg0 + 0xFC) >= 9) {
+        if (s1 != NULL) {
+            s16 h = *(s16 *)((u8 *)s1 + 0x18);
+            if (h > 0) {
+                *(s16 *)((u8 *)s1 + 0x18) = h - 0x100;
+                *(u16 *)((u8 *)s1 + 0x1A) = *(u16 *)((u8 *)s1 + 0x1A) - 0x100;
+            }
+        }
+
+        p = &D_801D3100;
+        if (*p >= 17) {
+            *p -= 0x10;
+            D_801D3101 -= 0x10;
+            D_801D3102 -= 0x10;
+        } else {
+            *(s16 *)((u8 *)s1 + 0x0) = 0;
+            *(s32 *)((u8 *)arg0 + 0xCC) = 0;
+            func_8018248C((s32)arg0, 0x4000);
+            func_8018226C(arg0);
+        }
+    }
+
+    func_801823F4((s32)arg0);
+}
+
+
+#include "common.h"
+
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80178D18(void);
+extern s32 func_80029178(s32 a0);
+extern void func_80182294(void *arg0);
+extern void func_801822D0(void *arg0);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_80029514(s32 a0);
+extern s32 D_801A4EB0[];
+
+void func_80182794(void *a0) {
+    s32 i;
+    s32 flag;
+    s16 idx;
+
+    if (func_8012BEE8((s32)a0) == 0) {
+        return;
+    }
+
+    ((void (*)(s32))func_80178D18)((s32)a0);
+
+    flag = 0;
+    for (i = 0; i < 4; i++) {
+        flag |= func_80029178(D_801A4EB0[i]) & 0xFF;
+    }
+
+    if (flag == 0) {
+        func_80182294(a0);
+    } else {
+        func_801822D0(a0);
+    }
+    flag = 1;
+
+    idx = *(s16 *)((s32)a0 + 0x70);
+    func_80029124(D_801A4EB0[idx], 1);
+
+    for (i = 0; i < 4; i++) {
+        if ((func_80029178(D_801A4EB0[i]) & 0xFF) == 0) {
+            flag = 0;
+        }
+    }
+
+    if (flag != 0) {
+        func_80029514(0x172);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_801828A0);
 
