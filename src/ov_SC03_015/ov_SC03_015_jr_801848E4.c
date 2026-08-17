@@ -3232,7 +3232,7 @@ void func_80185EF8(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_801863B8);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_8018655C);
+DEFINE_func_8018655C()  /* dedup: shared engine-core @0x8018655C (src/shared) */
 
 DEFINE_func_801867F8()  /* dedup: shared engine-core @0x801867F8 (src/shared) */
 
