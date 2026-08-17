@@ -13903,7 +13903,7 @@ typedef struct { u8  v; } W8;
 
 extern Slot16 D_80076244[];
 extern W32   D_80076228;
-extern W32   D_8007622C;
+extern s32   D_8007622C[];
 extern W32   D_80076238;
 extern Slot16A D_80076240[];
 extern W8    D_80076242;
@@ -13967,7 +13967,7 @@ void func_80037144(s32 idx) {
         }
     after:
         if (i == 0) {
-            D_8007622C.v = (s32)D_800BA320;
+            D_8007622C[0] = (s32)D_800BA320;
             ent = D_800A463C[k].unk00;
             D_80076228.v = (s32)D_800BA320;
             D_80076240[0].unk00 = 0;
