@@ -18308,3 +18308,68 @@ banked).
 artifacts. Every confirmed entry above changed shape under verification — bounds added, a mechanism
 re-attributed, a sub-claim refuted — and the ones that did not survive were rejected for exactly the
 reasons §179 predicted: not banked, or banked C contradicting the narrative written about it.
+
+---
+
+## §192 — THE PRE-GATE LADDER WAS MAIN-ONLY, AND NOBODY COULD SEE IT (P31 S54)
+### Three defects in one call path; the overlay slates that carry most of the wave work were being waved through
+
+**The symptom.** Running `pregate_check.py` on an *overlay* slate printed:
+
+```
+slate 7 -> 7 after resolve_conflicts (0 dropped); checking 0 substituted file(s)
+  clean — no textual defect found; the batch is worth a rebuild
+```
+
+Seven byte-perfect drafts, a green light, and **zero files examined**. Every wave since O has been
+overlay work; the check that §181 credits with catching 4 of the 5 rejection classes has never once
+run on any of it.
+
+**DEFECT 1 — `gate_main.resolve_conflicts` and `gate_main.substitute` both hardcoded
+`corpus.stubs('main')`.** A non-main entry resolved to no stub, so `resolve_conflicts` compared it
+against a `'<unknown>'` pseudo-file (never clashing with anything) and `substitute` dropped it on the
+floor without a word. This is the R36 citizenship class again — a consumer structurally blind to a
+real binary — and the slate shape already carried the answer (`gate_lane` records have a `binary`
+field). Fixed with a memoized `_stubs_for(binary)`; absent, the key defaults to `main`, so every
+historical main slate behaves byte-identically.
+
+**DEFECT 2 — `sym_of` returned a KEYWORD for any pointer-to-function declaration.** The regex took
+the first identifier followed by `[` or `(`, *by position*, so
+
+```c
+extern void (*D_801923D0[])(void *);
+```
+
+reported its symbol as `void` — and then every such declaration in the TU "conflicted" with every
+other one under that name: **192 phantom CONFLICTING-EXTERN failures on one overlay TU**. Project
+symbols are now matched by NAME first, C keywords are excluded from the generic branch, and the
+parenthesised declarator `T (*NAME[])(...)` is read explicitly. Negative control across the whole
+tree: **5,526,100 declarations, 189,301 changed verdicts, 0 regressions** — every single change is a
+keyword becoming the real symbol (`void` → `D_800A4F24`, `s32` → `D_801274D0`), which also means
+`gate_main`'s own conflict table has been blind to function-pointer globals in **main** all along.
+
+**DEFECT 3 — `void f()` and `void f(void)` were normalized to the same thing.** C89 6.5.4.3 makes an
+*unspecified* parameter list compatible with any prototype (this project leans on it — §37/§124), but
+an *explicit* `(void)` against `f(s32)` is a hard error. Collapsing both to `()` cost 40 more phantom
+failures against a TU that compiles today. Now: unspecified → a `UNSPEC` wildcard, explicit `(void)` →
+`()`, and the comparison is `gate_main.sig_conflict`, not `!=`. Seven synthetic controls, including
+both directions of the pair that matters.
+
+**The residue is the point.** After the three fixes the same overlay slate reports **2 failures**, and
+both are real: a `D_80195AF6_t` typedef defined twice, and `memcpy` declared `(void*, const void*,
+u32)` in the TU against a draft's `(void*, void*, s32)`. Each of those is one lost clean rebuild —
+which is the whole reason the ladder exists.
+
+**§192b — A CHECKER THAT CHECKED NOTHING MUST NEVER READ AS A PASS.** Two guards, both earned above:
+`pregate_check` now REFUSES (exit 2) when the slate is non-empty and zero files were substituted, and
+it prints one `[DROP]` line per draft `resolve_conflicts` rejected — with the clashing symbol, the
+side it clashed with, and both signatures. Those drops were already being computed and thrown away, so
+a slate that lost **every** draft to declaration conflicts still ended with "clean — the batch is worth
+a rebuild". The drop list is not a footnote: it is the §183 playbook's worklist, and it is now the
+tool's headline output.
+
+**The generalizable law.** *A tool written against one binary is a tool with an untested hypothesis
+about every other one.* The main-vs-overlay split here is exactly the shape of R36's SC07 bug and
+R32's `build_engine_types` bug: the code did not fail, it silently narrowed its own domain and then
+reported success over the part it kept. When a checker's verdict is "clean", ask what it counted — and
+make the tool answer that question in its own output.

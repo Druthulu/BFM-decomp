@@ -41,7 +41,7 @@ ap.add_argument('--exclude-bins', default='',
                      'INCREMENTALLY, because its extract runs psyq_integrate/ld_interleave and '
                      'rewrites the .ld. Draft main like any binary; gate it with '
                      'tools/gate_main.py, never gate_lane/gate_stage.)')
-ap.add_argument('--rank', choices=('groups','mass'), default='groups',
+ap.add_argument('--rank', choices=('groups','mass','total'), default='groups',
                 help="'groups' (default) ranks gate groups by MEMBER COUNT -- right for overlays, "
                      "where every (binary,TU) group costs its own rebuild. 'mass' ranks purely by "
                      "instruction size across all groups -- right for MAIN, whose gate cost is per "
@@ -58,6 +58,17 @@ ap.add_argument('--only-bins', default='',
                 help='comma-separated allow-list; if set, ONLY these binaries are eligible. '
                      'Use --only-bins main for a main wave: gate_main.py rebuilds the whole EXE '
                      'once per SLATE, so main has no per-TU gate cost and --max-bins can be large.')
+ap.add_argument('--one-per-gid', action='store_true',
+                help="draft ONE card per atlas group and defer its same-gid siblings to "
+                     "<out>.siblings.json for the post-bank mechanical remap "
+                     "(make sig-overlays -> family_hseq.py -> family_sweep --hseq --only). "
+                     "Rationale (P31 S54): a fleet-wide draw over SIBLING overlays (ov_SC04_002 vs "
+                     "ov_SC04_005) fills half the wave with the SAME skeleton at two addresses -- "
+                     "paying an agent twice for work the deterministic remap does for free. The "
+                     "representative is the sibling in the heaviest gate group (then largest nins, "
+                     "then lexical fn) so concentration is unharmed. Every deferred sibling is "
+                     "written to the companion file and accounted (R32): representatives + "
+                     "siblings == candidates, asserted.")
 a = ap.parse_args()
 EXCLUDE = {b for b in a.exclude_bins.split(',') if b}
 ONLY = {b for b in a.only_bins.split(',') if b}
@@ -132,13 +143,51 @@ for g in atlas['groups']:
             'seed_sim': seed.get('sim'),
         })
 
+# principle 4 (P31 S54): ONE CARD PER ATLAS GROUP. Same-gid members are the SAME skeleton in
+# different overlays; the deterministic remap (family_sweep --hseq) banks the siblings behind a
+# banked exemplar for zero tokens, so drafting both is paying twice. Collapse here, BEFORE the
+# gate-group ranking, so the ranking sees distinct work; defer the rest to <out>.siblings.json.
+siblings = collections.defaultdict(list)
+if a.one_per_gid:
+    _mass = collections.Counter()
+    for c in cands:
+        _mass[(c['binary'], c['tu'])] += c['nins']
+    keep = {}
+    for c in cands:
+        cur = keep.get(c['gid'])
+        rank = (_mass[(c['binary'], c['tu'])], c['nins'], c['fn'])
+        if cur is None or rank > cur[0]:
+            if cur is not None:
+                siblings[c['gid']].append(cur[1])
+            keep[c['gid']] = (rank, c)
+        else:
+            siblings[c['gid']].append(c)
+    reps = [v[1] for v in keep.values()]
+    n_sib = sum(len(v) for v in siblings.values())
+    assert len(reps) + n_sib == len(cands), \
+        f"coverage (R32): {len(reps)} reps + {n_sib} siblings != {len(cands)} candidates"
+    print(f"--one-per-gid: {len(cands)} candidates -> {len(reps)} groups "
+          f"({n_sib} same-gid siblings deferred to the mechanical remap)")
+    cands = reps
+
 # principle 1: CONCENTRATE ON GATE GROUPS. gate_lane groups by (binary, home .c) and each group
 # is one whole-binary rebuild, so drafts-per-GROUP is the throughput number that matters -- not
 # drafts per binary. Wave D was 42 drafts over 23 groups (1.8/group, ~40 min of gate).
 by_tu = collections.defaultdict(list)
 for c in cands:
     by_tu[(c['binary'], c['tu'])].append(c)
-if a.rank == 'mass':
+if a.rank == 'total':
+    # P31 S54: rank by the mass a card actually DELIVERS -- its own instructions plus the same-gid
+    # siblings the post-bank remap banks for free. Measured on the wave-T draw: the 70 selected
+    # cards carried 9,985 sibling instructions, 1.5x the wave's own 6,509, and that leverage is
+    # very unevenly spread across gate groups (some carry 3 siblings per card, some carry none).
+    # Ranking by face mass is therefore ranking by the smaller half of the number.
+    if not a.one_per_gid:
+        sys.exit("--rank total requires --one-per-gid (there are no deferred siblings otherwise)")
+    _sibins = {g: sum(c['nins'] for c in v) for g, v in siblings.items()}
+    ranked = sorted(by_tu, key=lambda k: -sum(c['nins'] + _sibins.get(c['gid'], 0)
+                                              for c in by_tu[k]))[:a.max_bins]
+elif a.rank == 'mass':
     ranked = sorted(by_tu, key=lambda k: -sum(c['nins'] for c in by_tu[k]))[:a.max_bins]
 else:
     ranked = sorted(by_tu, key=lambda k: -len(by_tu[k]))[:a.max_bins]
@@ -153,8 +202,10 @@ def _full():
     if a.target_ins:
         return tot_ins >= a.target_ins or len(wave) >= a.n
     return len(wave) >= a.n
+_deliver = (lambda c: c['nins'] + sum(s['nins'] for s in siblings.get(c['gid'], ()))) \
+    if a.rank == 'total' else (lambda c: c['nins'])
 for k in ranked:                            # principle 2: within a group, mass first
-    for c in sorted(by_tu[k], key=lambda c: -c['nins']):
+    for c in sorted(by_tu[k], key=lambda c: -_deliver(c)):
         if _full(): break
         wave.append(c); tot_ins += c['nins']
     if _full(): break
@@ -163,6 +214,17 @@ if a.target_ins and tot_ins < a.target_ins:
           f"widen --min-ins/--max-ins/--levers or raise n ({len(wave)} of max {a.n} cards used)")
 
 json.dump(wave, open(a.out, 'w'), indent=1)
+if a.one_per_gid:
+    # Only the siblings of gids that ACTUALLY made the wave are actionable this session; the rest
+    # stay in the atlas for a later draw. Both counts are printed so nothing is silently dropped.
+    in_wave = {c['gid'] for c in wave}
+    sib_out = {g: v for g, v in siblings.items() if g in in_wave}
+    sib_path = a.out.replace('.json', '') + '.siblings.json'
+    json.dump(sib_out, open(sib_path, 'w'), indent=1)
+    n_act = sum(len(v) for v in sib_out.values())
+    print(f"-> {n_act} siblings ({sum(c['nins'] for v in sib_out.values() for c in v)} ins) behind "
+          f"{len(sib_out)} of this wave's gids -> {sib_path} (remap after the bank); "
+          f"{sum(len(v) for v in siblings.values()) - n_act} more sit behind un-drawn gids")
 tot = sum(c['nins'] for c in wave)
 print(f"candidates {len(cands)} in {len(by_tu)} gate groups (skipped {dict(skipped)})")
 ngroups = len({(c['binary'], c['tu']) for c in wave})

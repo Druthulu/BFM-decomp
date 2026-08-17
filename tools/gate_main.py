@@ -53,9 +53,28 @@ TYPES = {'void','char','short','int','long','unsigned','signed','float','double'
 DECL = re.compile(r'^\s*extern\s+([^;]+?)\s*;[ \t]*(?://[^\n]*|/\*(?:[^*]|\*(?!/))*\*/[ \t]*)?$',
                   re.M)
 
+# A DECLARATOR KEYWORD IS NEVER THE SYMBOL (P31 S54). The old single regex took the FIRST
+# identifier followed by '[' or '(', wherever it sat -- so a pointer-to-function declaration,
+#     extern void (*D_801923D0[])(void *);
+# reported its symbol as `void`, because `void (` matches first by POSITION. Every such
+# declaration in a TU then "collided" with every other one under the name `void`: 192 phantom
+# CONFLICTING-EXTERN failures on one overlay TU the first time pregate_check could see overlays.
+# Project symbols are matched by NAME first, keywords are excluded from the generic branch, and
+# the parenthesised declarator is read explicitly.
+_NOT_A_SYMBOL = {
+    'void', 'char', 'short', 'int', 'long', 'float', 'double', 'signed', 'unsigned',
+    'const', 'volatile', 'struct', 'union', 'enum', 'static', 'extern', 'register', 'typedef',
+    's8', 'u8', 's16', 'u16', 's32', 'u32', 's64', 'u64', 'f32', 'f64',
+}
+
+
 def sym_of(d):
-    m = re.search(r'\b(D_[0-9A-Fa-f]{8}|func_[0-9A-Fa-f]{8}|[A-Za-z_]\w*)\s*(?:\[|\()', d)
+    m = re.search(r'\b(D_[0-9A-Fa-f]{8}|func_[0-9A-Fa-f]{8})\s*(?:\[|\()', d)
     if m: return m.group(1)
+    m = re.search(r'\b([A-Za-z_]\w*)\s*(?:\[|\()', d)
+    if m and m.group(1) not in _NOT_A_SYMBOL: return m.group(1)
+    m = re.search(r'\(\s*\*+\s*([A-Za-z_]\w*)', d)          # T (*NAME)(...) / T (*NAME[])(...)
+    if m and m.group(1) not in _NOT_A_SYMBOL: return m.group(1)
     m = re.search(r'\b(D_[0-9A-Fa-f]{8}|func_[0-9A-Fa-f]{8})\b', d)
     return m.group(1) if m else None
 
@@ -110,12 +129,71 @@ def typesig(d):
                    for p in m.group(1).split(','))
     return (ret, params)
 
+UNSPEC = '?'          # an UNSPECIFIED parameter list -- `void f();`, not `void f(void);`
+
+
+def norm_sig(sig):
+    """Normalize a `typesig` for COMPATIBILITY comparison, keeping the one distinction C89 makes.
+
+    `extern void f();` declares an UNSPECIFIED parameter list, and C89 6.5.4.3 forms a composite
+    type with any prototype whose parameters survive the default promotions -- gcc-2.7.2 accepts
+    the pair, and this project's TUs are full of it (§37/§124, the no-prototype escape). But
+    `extern void f(void);` declares EXACTLY ZERO parameters, and that against `f(s32)` is a hard
+    error. Collapsing both to () -- as pregate_check did until P31 S54 -- makes the tool report 40
+    phantom failures on one overlay TU that compiles today, while still missing nothing.
+
+    So: unspecified -> UNSPEC (a wildcard for `sig_conflict`), explicit (void) -> ()."""
+    ret, params = sig
+    if isinstance(params, tuple):
+        if params in ((), ('',)):
+            params = UNSPEC
+        elif params == ('void',):
+            params = ()
+    return (ret, params)
+
+
+def sig_conflict(a, b):
+    """True when two normalized signatures cannot both describe one symbol.
+
+    Return types must agree (S53: even G3P* vs G4P* was rejected by gcc). Parameter lists conflict
+    only when BOTH are specified and differ."""
+    a, b = norm_sig(a), norm_sig(b)
+    if a[0] != b[0]:
+        return True
+    pa, pb = a[1], b[1]
+    if pa == UNSPEC or pb == UNSPEC:
+        return False
+    return pa != pb
+
+
 def run(cmd, **kw):
     return subprocess.run(cmd, shell=True, capture_output=True, text=True, **kw)
 
 def sha():
     r = run("sha1sum build/us/SLUS_007.26")
     return r.stdout.split()[0] if r.returncode == 0 and r.stdout else None
+
+_STUBS_BY_BIN = {}
+
+
+def _stubs_for(binary):
+    """symbol -> Stub for ONE binary, memoized.
+
+    WHY THIS EXISTS (P31 S54, R36/R33). `resolve_conflicts` and `substitute` both hardcoded
+    `corpus.stubs('main')`, so every non-main entry resolved to no stub: `resolve_conflicts` compared
+    it against the '<unknown>' pseudo-file and `substitute` skipped it silently. The visible symptom
+    was `pregate_check` printing "checking 0 substituted file(s) ... clean" for an OVERLAY slate --
+    a green light from a checker that had examined nothing, which is the exact R32 defect class this
+    project keeps re-finding. Overlay slates are the majority of wave work (every wave since O), and
+    4 of the 5 rejection classes measured in §181 are precisely what these two functions detect.
+
+    The slate shape already carries the answer: gate_lane's records have a 'binary' field. Absent
+    (every historical main slate), it defaults to 'main', so the main path is byte-identical."""
+    b = binary or 'main'
+    if b not in _STUBS_BY_BIN:
+        _STUBS_BY_BIN[b] = {st.symbol: st for st in corpus.stubs(b).values()}
+    return _STUBS_BY_BIN[b]
+
 
 def resolve_conflicts(slate):
     """Drop drafts whose externs contradict (a) the destination TU's OWN existing declarations,
@@ -137,7 +215,6 @@ def resolve_conflicts(slate):
     and cast at the use site -- including through a function pointer when the TU's prototype takes
     no argument and your call passes one:  ((void (*)(s32))func_8001C9D0)(a0)  (byte-identical;
     verified on all 3 of the above)."""
-    stubs = {st.symbol: st for st in corpus.stubs('main').values()}
     kept, dropped = [], []
     seen_by_file, from_tu = {}, {}
 
@@ -155,7 +232,7 @@ def resolve_conflicts(slate):
         return seen_by_file[path]
 
     for e in slate:
-        st = stubs.get(e['fn'])
+        st = _stubs_for(e.get('binary')).get(e['fn'])
         path = st.path if st else '<unknown>'
         seen = table(path)
         body = open(e['draft']).read()
@@ -169,7 +246,7 @@ def resolve_conflicts(slate):
                        body, re.M)
         if dm:
             ds.append((e['fn'], typesig('%s %s(%s)' % (dm.group(1).strip(), e['fn'], dm.group(2)))))
-        clash = [(s, seen[s], t) for s, t in ds if s in seen and seen[s] != t]
+        clash = [(s, seen[s], t) for s, t in ds if s in seen and sig_conflict(seen[s], t)]
         if clash:
             sym = clash[0][0]
             dropped.append({'fn': e['fn'], 'symbol': sym, 'file': path,
@@ -328,12 +405,21 @@ def substitute(entries, write=True):
     write=False produces the substituted text WITHOUT touching the tree, which is what
     tools/pregate_check.py needs: every batch failure this project has hit is a textual property
     of the file that will be compiled, so it can be checked in ~2s instead of a 5-minute rebuild.
-    Returns (count, {path: text})."""
-    stubs = {st.symbol: st for st in corpus.stubs('main').values()}
+    Returns (count, {path: text}).
+
+    Per-binary since P31 S54 (see `_stubs_for`): an entry's own 'binary' selects its stub map, and
+    an entry whose symbol is in NO stub map is reported loudly instead of being dropped on the floor
+    (R32 -- a silent skip here is what made pregate_check green on overlay slates)."""
     byfile = collections.defaultdict(list)
+    unresolved = []
     for e in entries:
-        st = stubs.get(e['fn'])
+        st = _stubs_for(e.get('binary')).get(e['fn'])
         if st: byfile[st.path].append((st.addr, e['fn'], st.asm_dir, e['draft']))
+        else:   unresolved.append((e.get('binary') or 'main', e['fn']))
+    if unresolved:
+        print("  substitute: %d entr%s resolved to NO stub (not open in that binary?): %s"
+              % (len(unresolved), 'y' if len(unresolved) == 1 else 'ies',
+                 ', '.join('%s:%s' % u for u in unresolved[:8])))
     n, texts = 0, {}
     for path, items in byfile.items():
         t = open(path).read()

@@ -57,6 +57,47 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 - 2026-08-14 — **T9 COMPLETE.** `tools/warmstart.py` (the permuter/grinder FEEDER): `--from-banked` walks a banked exemplar's h_seq family's still-open members, builds remapped proven-body drafts (`symbol_map` + `aprop_autodraft.build_draft`, refusing on reloc-count mismatch), **stream-classifies member-vs-seed with ZERO compiles** (masked_diff-shaped dicts from ground-truth bytes → `residual_class.classify_streams`), enqueues ONLY permuter-shaped (bucket==permuter or LENGTH-DRIFT |Δ|≤2) as backlog near-records; `--lenmiss` ingests T8's 49-route. **Grinder patch NOT needed** (its candidates() deliberately keeps unclassified records — "unknown is not a reason to skip" — so pre-filtered enqueues flow as-is; documented in the feeder's docstring). Armed live: **49 + 10 enqueued, 120 refused** by the stream filter (the anti-92%-wasted-CPU discipline working). `family_cousins --weak-cards`: **954 units** (the 0.70–0.85 annotate-only band, never before consumed) as seeded-crack cards, ins-ranked, §168 laws embedded, model-routed **haiku 804 / v3 43 / sonnet 86 / opus 21** (cheap tiers dominate — the token-efficiency shape), 0 unresolved `.s`.
 
+## SESSION S54 (2026-08-17, ultracode) — wave T + the pre-gate ladder learns to see overlays
+
+- 2026-08-17 — **Session opened with the §180 leftover sweep, before drafting anything new.**
+  `scan_leftovers.py` over 644 stored drafts in 5 binaries: **29 byte-perfect, still-stubbed drafts =
+  2,478 instructions** (main 3/217 · ov_SC04_011 15/1,392 · ov_SC02_005 5/261 · ov_SC06_029 5/521 ·
+  ov_SC03_028 1/87), plus 39 honest NEAR. Zero agent tokens. `reloc_identity --batch`: **29/29 AGREE**.
+  `fragment_check`: 1 FAIL — `gfx2D_BG0_OBJ_4D8` owns `.L80050D5C`, which `gfx2D_BG0_OBJ_1B4` branches
+  into (the §181 mirror class; it is also a `GsSortBg` fragment-merge target, so it routes there).
+
+- 2026-08-17 — **Wave T built and launched (71 cards / 6,557 ins / 5 gate groups / 14.2 drafts per
+  rebuild), and the selector learned two new principles.** `make atlas` first (it predated 161 banks):
+  4,836 groups / 11,183 open instances / 563,916 ins. Then two additions to `build_wave_atlas.py`:
+  * **`--one-per-gid`** — a fleet-wide draw over SIBLING overlays fills half a wave with the SAME
+    skeleton at two addresses (the naive draw put 22 of 44 groups in twice), paying an agent for work
+    `family_sweep --hseq` does free behind the banked exemplar. Collapse to one card per atlas group,
+    defer the siblings to `<out>.siblings.json`, assert reps + siblings == candidates (R32).
+  * **`--rank total`** — rank gate groups by the mass a card DELIVERS (its own instructions plus its
+    deferred siblings'), not by face mass. Measured on this draw: face 6,509 ins with 9,985 sibling ins
+    behind 57 gids under `--rank mass`, versus **6,557 ins with 12,709 sibling ins behind 69 of 71
+    gids** under `--rank total`. **Wave T's potential is 19,266 instructions for 71 agents.**
+    R39 negative control: on a pool with unique gids, `--one-per-gid` output is byte-identical.
+  The wave prompt carries the S53 harvest as laws 8-20 (§183.1/§183.3, §186, §186b, §186c, §189-A..E,
+  §190-A..C), STEP 0 (the cross-overlay magic-literal grep), a per-card sibling note, and a new
+  **Reconcile phase**: one agent per gate group runs the deterministic ladder over its own slate and
+  resolves the refusals with the §183 playbook — reconciliation moved INSIDE the wave (§176h.C2).
+
+- 2026-08-17 — **§192: the pre-gate ladder was main-only and said "clean" about it.** Running
+  `pregate_check` on an overlay slate printed `checking 0 substituted file(s) ... clean`. Three
+  defects, all fixed with controls: (1) `resolve_conflicts`/`substitute` hardcoded
+  `corpus.stubs('main')` → per-binary `_stubs_for()` (main path byte-identical); (2) `sym_of` returned
+  `void` for every `extern void (*D_x[])(...)` → 192 phantom CONFLICTING-EXTERNs; project symbols now
+  matched by name, keywords excluded, declarator read explicitly — **NC over 5,526,100 declarations:
+  189,301 changed verdicts, 0 regressions**; (3) `void f()` vs `void f(void)` were collapsed together →
+  40 more phantoms; C89's unspecified-parameter rule is now `gate_main.sig_conflict` (7 synthetic
+  controls). Same slate now reports **2 failures, both real**. Plus **§192b**: the tool REFUSES when it
+  substituted 0 files, and prints one `[DROP]` line per rejected draft — the drop reasons were being
+  computed and discarded while the tool printed "worth a rebuild".
+
+- 2026-08-17 — **Leftover-recovery lane launched** (5 agents, one per binary): each gets its slate, its
+  TU, and the deterministic `[DROP]`/refusal evidence, and applies the §183 playbook draft-side only.
+
 ## SESSION S53 (2026-08-16, ultracode) — wave R + the leftover-draft harvest
 
 - 2026-08-16 — **S53-1 PREFLIGHT + ATLAS REGEN.** Tree clean at `commit:2416`, no gate in flight. `make atlas`

@@ -68,13 +68,15 @@ STRUCT_EXTERN = re.compile(
 
 
 def _norm_sig(sig):
-    """`void f()` and `void f(void)` are not a conflict worth blocking a rebuild over: C89 calls
-    the first an unspecified parameter list, and gcc-2.7.2 accepts the pair. Normalize both to
-    (). Signedness, pointer depth and array-vs-scalar are left alone -- those are real."""
-    ret, params = sig
-    if isinstance(params, tuple) and params in ((), ('',), ('void',)):
-        params = ()
-    return (ret, params)
+    """Delegates to the single normalization oracle in gate_main (R33).
+
+    It used to collapse `void f()` AND `void f(void)` to the same (), which is right about the
+    first (C89's unspecified parameter list, compatible with any prototype) and wrong about the
+    second (exactly zero parameters, incompatible with `f(s32)`). Since this tool could only ever
+    see main's TUs, the difference never showed; the first overlay slate it ran on produced 40
+    phantom CONFLICTING-EXTERN failures against a file that compiles today. Use `gm.sig_conflict`
+    for comparisons -- `!=` on these tuples is not the compatibility relation."""
+    return gm.norm_sig(sig)
 
 
 def _typedefs(text):
@@ -180,7 +182,7 @@ def check_text(path, text):
         if not s:
             continue
         sig = _norm_sig(gm.typesig(d))
-        if s in decls and decls[s][1] != sig:
+        if s in decls and gm.sig_conflict(decls[s][1], sig):
             findings.append(('FAIL', 'CONFLICTING-EXTERN',
                              f'{path}: `{s}` declared {decls[s][1]} at offset {decls[s][0]} and '
                              f'{sig} at offset {m.start()}'))
@@ -190,7 +192,7 @@ def check_text(path, text):
     # 5. definition vs a visible prototype
     for name, (off, sig) in _func_defs(masked).items():   # masked, not raw — see the note above
         sig = _norm_sig(sig)
-        if name in decls and decls[name][1] != sig:
+        if name in decls and gm.sig_conflict(decls[name][1], sig):
             # SEVERITY CALIBRATED AGAINST THE COMPILER, not against C89 pedantry. Measured on the
             # wave-P slate that built BYTE-IDENTICAL: gcc-2.7.2 accepted `void f(void*,s32)` vs a
             # `void f(s8*,s32)` definition, and even `G3P *f(...)` vs `G4P *f(...)`. What it
@@ -222,6 +224,16 @@ def main():
     kept, dropped = gm.resolve_conflicts(slate)
     _n, texts = gm.substitute(kept, write=False)
 
+    # R32 COVERAGE ASSERTION (P31 S54). Until `gate_main` learned per-binary stub maps, an OVERLAY
+    # slate resolved to zero stubs and this tool printed "checking 0 substituted file(s) ... clean"
+    # -- a green light from a checker that had examined nothing, on exactly the slates (overlay
+    # waves) that carry most of the work. A checker that checked nothing must never read as a pass.
+    if kept and not texts:
+        print(f'REFUSING: {len(kept)} kept draft(s) but 0 substituted files — every entry resolved '
+              f'to no stub. Does each slate record carry its "binary"? Is the binary extracted '
+              f'(make extract BINARY=...)? This is not a clean result.')
+        sys.exit(2)
+
     findings = []
     for path, text in sorted(texts.items()):
         findings += check_text(path, text)
@@ -230,15 +242,25 @@ def main():
     if not a.quiet:
         print(f'slate {len(slate)} -> {len(kept)} after resolve_conflicts '
               f'({len(dropped)} dropped); checking {len(texts)} substituted file(s)')
+        # A DROP IS THE HEADLINE, NOT A FOOTNOTE (P31 S54). The drop reasons were computed and
+        # thrown away, so a slate that lost EVERY draft to declaration conflicts still printed
+        # "clean — the batch is worth a rebuild". They are the §183 playbook's actual worklist.
+        for d in dropped:
+            print(f'  [DROP] {d["fn"]}: `{d["symbol"]}` clashes with {d["against"]} in '
+                  f'{d["file"]} — kept {d["kept"]} vs this {d["this"]}')
         for sev, code, msg in findings:
             print(f'  [{sev}] {code}: {msg}')
-        if not findings:
+        if not findings and not dropped:
             print('  clean — no textual defect found; the batch is worth a rebuild')
+        elif not findings:
+            print(f'  no textual defect in what SURVIVED, but {len(dropped)} draft(s) were dropped '
+                  f'above — reconcile those before gating (they are unbanked work, not noise)')
         elif not fails:
             print(f'  {len(findings)} warning(s), no hard failure — worth a rebuild')
         else:
             print(f'\n{len(fails)} FAILURE(S) — fix these BEFORE spending a clean rebuild.')
-    sys.exit(1 if fails else 0)
+    # exit 1 also when the slate was emptied: 0 kept is not a pass, it is total refusal.
+    sys.exit(1 if (fails or (slate and not kept)) else 0)
 
 
 if __name__ == '__main__':
