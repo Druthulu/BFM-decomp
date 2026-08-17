@@ -2,6 +2,20 @@
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
 /* hoisted by gate_main so drafts above can reuse them (§181) */
+typedef struct Rec14 {
+    /* 0x00 */ u16 unk00;
+    /* 0x02 */ u16 unk02;
+    /* 0x04 */ u32 unk04;
+    /* 0x08 */ u32 unk08;
+    /* 0x0C */ u16 unk0C;
+    /* 0x0E */ u16 unk0E;
+    /* 0x10 */ u32 unk10;
+} Rec14; /* 0x14 */
+typedef struct Owner4EE8 {
+    /* 0x00 */ u8 pad00[0x14];
+    /* 0x14 */ Rec14 **unk14;
+} Owner4EE8;
+/* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {              /* base 0x80076240, stride 0x10 */
     u16 unk00;
     u16 unk02;
@@ -82,15 +96,6 @@ typedef struct Ent30D80 {
     /* 0x50 */ u8 unk50;
     /* 0x51 */ u8 unk51;
 } Ent30D80;
-typedef struct Rec14 {
-    /* 0x00 */ u16 unk00;
-    /* 0x02 */ u16 unk02;
-    /* 0x04 */ u32 unk04;
-    /* 0x08 */ u32 unk08;
-    /* 0x0C */ u16 unk0C;
-    /* 0x0E */ u16 unk0E;
-    /* 0x10 */ u32 unk10;
-} Rec14; /* 0x14 */
 typedef struct Slot54 {
     /* 0x00 */ s16 unk00;
     /* 0x02 */ s16 unk02;
@@ -99,10 +104,6 @@ typedef struct Slot54 {
     /* 0x08 */ u16 unk08;
     /* 0x0A */ s8  unk0A;
 } Slot54;
-typedef struct Owner4EE8 {
-    /* 0x00 */ u8 pad00[0x14];
-    /* 0x14 */ Rec14 **unk14;
-} Owner4EE8;
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {
     u32 a, b, c, d;
@@ -10967,7 +10968,216 @@ void func_8002C8BC(void) {
     } while ((u32)v1 < 0x1E4);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002C8F4);
+
+/* ---- callees ---- */
+extern void func_8003A424(void);
+extern void func_8003D518(void);
+extern void func_8003C598(s32 *);
+extern void func_8003BE24(s32);
+extern void func_8002D1F0(s32);
+extern void func_8003B280(s32);
+extern void func_80037D98(void);
+extern void func_8002CC4C(void);
+extern void func_8002FAE0(void);
+extern void func_80037CC8(void);
+extern void func_8003BE74(s32, s32);
+extern void func_8003B1EC(s32 *);
+extern void func_80034C24(void);
+extern void func_80037004(void);
+
+/* src/800.c (func_80032048) already declares `extern Owner4EE8 *D_800A4EE8;`
+ * where Owner4EE8 is `typedef struct Owner4EE8 {...} Owner4EE8;` defined later
+ * in the TU. Spell the extern EXACTLY like the TU (bare typedef name, no
+ * `struct` keyword) via a forward typedef so this compiles standalone too;
+ * the incomplete typedef is later completed by the TU's own full definition
+ * (identical redeclaration is legal). This is a pointer-only use here, so the
+ * type's spelling has no effect on codegen. */
+extern Owner4EE8 *D_800A4EE8;
+
+/* ---- data ---- */
+extern s32 D_800A4EA4;
+extern s16 D_800A4EA8;
+extern s16 D_800A4EAA;
+extern s16 D_800A4EAC;
+extern s16 D_800A4EAE;
+extern s16 D_800A4EB4;
+extern s16 D_800A4EB6;
+extern s32 D_800A4EB8;
+extern s32 D_800A4EBC;
+extern s32 D_800A4EC8;
+
+extern s32 D_800A4E68;
+extern s16 D_800A4E6C;
+extern s16 D_800A4E6E;
+extern u8  D_800A4E70;
+extern u8  D_800A4F18;
+extern u8  D_800A4F19;
+extern s16 D_800A4EF6;
+
+/* D_800A463C is reached as (&D_800A4638)[1]: src/800.c declares that symbol as
+ * `extern Ent24 D_800A463C[];` (anonymous typedef, defined further down the TU),
+ * so a scalar redeclaration here would conflict.  Byte-identical relocation. */
+extern s32 D_800A4638;
+
+extern u8  D_800A4E7A;
+extern u8  D_800A46E4;
+extern s32 D_800A4654;
+extern s32 D_800A466C;
+extern s32 D_800A4684;
+extern s32 D_800A469C;
+
+extern s32 D_800A64B0;
+extern u8  D_800A4650[];
+extern s16 D_800A4644[];
+extern s16 D_800A4642[];
+extern u16 D_800A46E8[];
+
+extern u8  D_800A4988[];
+extern s32 D_800A4C68[];
+extern u8  D_800A4C6C[];
+extern u8  D_800A4C6D[];
+
+extern s16 D_800A4EF8;
+extern s16 D_800A4EFA;
+extern u8  D_800A4F1B;
+extern u8  D_800A46BA;
+extern s32 D_800A2B98;
+extern s32 D_800A2BA0;
+extern s32 D_800C7D20;
+extern s32 D_800C7D2C;
+extern s8  D_800A4F17;
+extern u16 D_800A4E8E;
+extern u16 D_800A4EA2;
+extern s16 D_800A4EF0;
+extern s16 D_800A4EFC;
+extern u16 D_800A4F20;
+extern u16 D_800A4F22;
+extern u8  D_800A4F1D;
+extern s32 D_800A4EEC;
+extern u8  D_800A4EE6;
+extern u16 D_800A4EE0;
+extern u16 D_800A4EE4;
+extern void (*D_800A4F24)(void);
+extern u8  D_800A4F16;
+extern u8  D_800A4F1C;
+extern u8  D_800A4F1E;
+
+void func_8002C8F4(void)
+{
+    s32 sp10[2];
+    s32 *p;
+    u8 *q;
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 n;
+    s32 m;
+
+    func_8003A424();
+    func_8003D518();
+
+    p = &D_800A4EA4;
+    *p = 0x23CF;
+    D_800A4EA8 = 0x3FFF;
+    D_800A4EAA = 0x3FFF;
+    D_800A4EB4 = 0x3FFF;
+    D_800A4EB6 = 0x3FFF;
+    D_800A4EAC = 0;
+    D_800A4EAE = 0;
+    D_800A4EB8 = 0;
+    D_800A4EBC = 1;
+    D_800A4EC8 = 0;
+
+    func_8003C598(p);
+    func_8003BE24(1);
+    func_8002D1F0(4);
+    func_8003B280(1);
+    func_80037D98();
+
+    D_800A4E68 = 0x3C;
+    D_800A4E6C = 0x2F;
+    D_800A4E6E = 0x2F;
+    D_800A4E70 = 1;
+    D_800A4F18 = 1;
+    D_800A4F19 = 1;
+    D_800A4EF6 = 1;
+    (&D_800A4638)[1] = 0x1010;
+    D_800A4638 = 0;
+    D_800A4E7A = 0;
+    D_800A46E4 = 0;
+    D_800A4654 = 0x10000;
+    D_800A466C = 0x14000;
+    D_800A4684 = 0x18000;
+    D_800A469C = 0x39F00;
+
+    for (j = 0x54; j >= 0; j -= 0xC) {
+        *(s32 *)((u8 *)&D_800A64B0 + j) = 0;
+    }
+
+    for (i = 0; i < 5; i++) {
+        k = i * 0x18;
+        D_800A4650[k] = 1;
+        *(s16 *)((u8 *)D_800A4644 + k) = 0;
+        *(s16 *)((u8 *)D_800A4642 + k) = -1;
+    }
+
+    for (n = 0x24C; n >= 0; n -= 0x54) {
+        *(u16 *)((u8 *)D_800A46E8 + n) = 0;
+    }
+
+    m = 0x10;
+    for (i = 0, q = D_800A4988 + 0x4F; i < 8; i++, m++, q += 0x54) {
+        k = i * 0x48;
+        q[2] = i;
+        *(s16 *)(q - 0x45) = m;
+        q[-1] = 0;
+        *(s32 *)(q - 0x4B) = 0;
+        *(s32 *)(q - 0xF) = 0;
+        q[1] = 0;
+        *(s32 *)((u8 *)D_800A4C68 + k) = m;
+        D_800A4C6C[k] = 0;
+        D_800A4C6D[k] = 0;
+    }
+
+    func_8002CC4C();
+
+    D_800A4EFA = 0x7F;
+    D_800A4EF8 = 0x7F;
+    D_800A4F1B = 1;
+    D_800A46BA = 0;
+    D_800A2B98 = 0;
+    D_800C7D20 = 0;
+    D_800C7D2C = 0;
+    D_800A2BA0 = 0;
+    D_800A4F17 = 0;
+    D_800A4E8E = 0;
+    D_800A4EA2 = 0;
+    D_800A4EF0 = 0;
+    D_800A4EE8 = 0;
+    D_800A4EFC = 0;
+    D_800A4F20 = 0;
+    D_800A4F22 = 0;
+    D_800A4F1D = 0;
+    D_800A4EEC = 0;
+    D_800A4EE6 = 0;
+    D_800A4EE0 = 0x4000;
+    D_800A4EE4 = 0x4000;
+    D_800A4F24 = 0;
+    D_800A4F16 = 0;
+
+    func_8002FAE0();
+    func_80037CC8();
+    func_8003BE74(0, 0xFFFFFF);
+
+    sp10[0] = 1;
+    sp10[1] = 0;
+    func_8003B1EC(sp10);
+
+    D_800A4F1C = 0;
+    D_800A4F1E = 0;
+    func_80034C24();
+    func_80037004();
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002CC4C);
 
@@ -13285,7 +13495,211 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8003388C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800342E8);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80034314);
+
+/* TU decls already present in src/800.c (do NOT duplicate at bank time):
+ *   extern u16 D_800A46E8[];
+ *   extern s16 D_800A4EF0;
+ *   extern Owner4EE8 *D_800A4EE8;   (typedef `Owner4EE8`, defined in src/800.c
+ *       as { u8 pad00[0x14]; Rec14 **unk14; } — this function never touches
+ *       unk14; it reads offset 0x18 via a raw (u8*) pointer-cast, so it needs
+ *       Owner4EE8 only as an OPAQUE type. refuse-BROKE-MATCH note: the batch
+ *       reconciler tried to canonicalize this offset-0x18 access into a named
+ *       struct field (extending Owner4EE8's size), which shifted bytes in a
+ *       sibling already-matched user of the struct — do NOT add a field for
+ *       0x18 to Owner4EE8; keep the byte-offset cast below instead.)
+ *   extern s32 func_8003310C(s32);
+ */
+
+/* 0xC-byte sound-instrument record, indexed by p[3]. */
+typedef struct Rec12 {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ u16 unk04;
+    /* 0x06 */ u16 unk06;
+    /* 0x08 */ u8  unk08;
+    /* 0x09 */ u8  pad09[3];
+} Rec12; /* 0xC */
+
+typedef struct Snd54Sub {
+    /* 0x00 */ s16 unk00;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ s16 unk04;
+    /* 0x06 */ u8  unk06;
+    /* 0x07 */ u8  pad07;
+} Snd54Sub; /* 0x8 */
+
+/* the 0x54-stride voice slot inside D_800A46E8 */
+typedef struct Snd54 {
+    /* 0x00 */ s16 unk00;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ s16 unk04;
+    /* 0x06 */ s16 unk06;
+    /* 0x08 */ u16 unk08;
+    /* 0x0A */ u8  pad0A[2];
+    /* 0x0C */ s32 unk0C;
+    /* 0x10 */ s32 unk10;
+    /* 0x14 */ s16 unk14;
+    /* 0x16 */ u8  unk16;
+    /* 0x17 */ u8  unk17;
+    /* 0x18 */ s16 unk18;
+    /* 0x1A */ s16 unk1A;
+    /* 0x1C */ Snd54Sub unk1C[3];
+    /* 0x34 */ s16 unk34;
+    /* 0x36 */ u8  unk36;
+    /* 0x37 */ u8  unk37;
+    /* 0x38 */ u8  unk38;
+    /* 0x39 */ u8  unk39;
+    /* 0x3A */ u8  unk3A[8];
+    /* 0x42 */ u8  pad42[6];
+    /* 0x48 */ u8  unk48;
+    /* 0x49 */ u8  pad49[7];
+    /* 0x50 */ s16 unk50;
+    /* 0x52 */ s16 unk52;
+} Snd54; /* 0x54 */
+
+/* opaque — matches the TU's `typedef struct Owner4EE8 Owner4EE8;` spelling
+ * exactly so this local decl is droppable at bank time in favor of the TU's;
+ * this function only pointer-casts through it (offset 0x18), never names a
+ * field, so the incomplete type is sufficient and adds no struct layout. */
+
+extern Rec12 D_80068A54[];
+extern u8 D_8006AED8[];
+extern u16 D_800A46E8[];
+extern Owner4EE8 *D_800A4EE8;
+extern s16 D_800A4EF0;
+
+extern s32 func_8003310C(s32);
+extern s32 func_800348A8(u32);
+extern void func_80034650(u8 *, s32);
+
+s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
+    u32 flags;
+    Snd54 *e;
+    Rec12 *rec;
+    u8 *q;
+    s16 *pa;
+    register s32 idx __asm__("$3");
+    s32 ret;
+    s32 i;
+    s32 j;
+    s32 b1;
+    u32 x;
+    u32 y;
+
+    y = arg0 >> 16;
+    flags = arg2;
+    x = arg0;
+    b1 = p[1];
+    if (b1 == 0) {
+        rec = &D_80068A54[p[3]];
+    } else {
+        if (D_800A4EE8 == 0) {
+            return 0;
+        }
+        if (D_800A4EF0 != b1) {
+            return 0;
+        }
+        rec = *(Rec12 **)((u8 *)D_800A4EE8 + 0x18) + p[3];
+    }
+
+    idx = func_800348A8(arg0);
+    ret = idx;
+    if (idx != 0) {
+        idx = ret - 1;
+        e = (Snd54 *)((u8 *)D_800A46E8 + idx * 0x54);
+        if (flags & 0x1000) {
+            e->unk1C[0].unk06 = 1;
+            e->unk1C[0].unk02 = 0x100;
+            e->unk1C[0].unk04 = ((s32)(flags & 0x7F) * 0x3FFF) >> 7;
+            if (flags & 0x2000) {
+                e->unk38 = D_8006AED8[(flags >> 8) & 0xF];
+            } else {
+                e->unk38 = 0;
+                e->unk39 = 0;
+            }
+            return ret;
+        }
+        if (e->unk08 != 0) {
+            return 0;
+        }
+        func_80034650(e, 0);
+    } else {
+        idx = func_8003310C(rec->unk04);
+        ret = idx;
+        if (idx == 0) {
+            return 0;
+        }
+        idx = ret - 1;
+        e = (Snd54 *)((u8 *)D_800A46E8 + idx * 0x54);
+    }
+
+    /* dbr fence (zero-byte, non-volatile asm -> reorg stop_search_p): keeps the
+     * `j .L800344B4` delay slot a nop; without it reorg eagerly steals + duplicates
+     * the merge block's first store. */
+    __asm__ ("" : "=r"(e) : "0"(e));
+    e->unk37 = rec->unk08;
+    e->unk34 = b1;
+    e->unk0C = rec->unk00;
+    e->unk02 = rec->unk04;
+    e->unk10 = e->unk0C;
+    e->unk04 = x;
+    e->unk06 = y;
+    e->unk14 = 1;
+    e->unk17 = p[2];
+    e->unk16 = 0;
+    e->unk18 = 0x7FFF;
+    e->unk08 = rec->unk06;
+    e->unk50 = 0;
+    e->unk52 = 0;
+
+    if (rec->unk08 & 0x10) {
+        e->unk48 = 1;
+    } else {
+        e->unk48 = 0;
+    }
+
+    if (rec->unk08 & 4) {
+        e->unk1A = 0x400;
+    } else if (rec->unk08 & 8) {
+        e->unk1A = 0x200;
+    } else {
+        e->unk1A = 0x5F;
+    }
+    e->unk36 = 0;
+    /* sched fence: without it the two stores (memory-unit users) sink below the
+     * whole loop preheader (potential_hazard beats the LUID tie-break). */
+    __asm__ ("" : "=r"(e) : "0"(e));
+
+    pa = &e->unk1C[0].unk00;
+    for (i = 0; i < 3; i++, pa = (s16 *)((u8 *)pa + 8)) {
+        pa[1] = 0x100;
+        *((u8 *)pa + 6) = 0;
+        if (i != 0) {
+            pa[0] = 0x3FFF;
+            pa[2] = 0x3FFF;
+        } else if (flags & 0x1000) {
+            pa[0] = ((flags & 0x7F) * 0x3FFF) >> 7;
+            pa[2] = ((flags & 0x7F) * 0x3FFF) >> 7;
+            if (flags & 0x2000) {
+                u8 tv = D_8006AED8[(flags >> 8) & 0xF];
+                e->unk38 = tv;
+                e->unk39 = tv;
+            }
+        } else {
+            pa[0] = 0x3FFF;
+            pa[2] = 0x3FFF;
+            e->unk38 = 0;
+            e->unk39 = 0;
+        }
+    }
+
+    q = e->unk3A;
+    for (j = 7; j >= 0; j--) {
+        *q++ = 0;
+    }
+
+    e->unk00 = 5;
+    return ret;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80034650);
 
