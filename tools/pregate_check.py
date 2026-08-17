@@ -40,6 +40,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cdecl
 import gate_main as gm
 
+# gcc-2.7.2 built-ins: a conflicting redeclaration of one of these is a WARNING (verified against
+# the pinned cc1, P31 S54), so it must not block a rebuild. Anything else is a hard error.
+_BUILTINS = {
+    'memcpy', 'memset', 'memcmp', 'strcpy', 'strncpy', 'strcmp', 'strncmp', 'strlen', 'strcat',
+    'strncat', 'strchr', 'strrchr', 'abs', 'labs', 'fabs', 'alloca', 'sqrt', 'sin', 'cos',
+    'printf', 'sprintf', 'fprintf', 'putchar', 'puts', 'exit',
+}
+
 IDENT = r'[A-Za-z_]\w*'
 
 
@@ -79,11 +87,20 @@ def _norm_sig(sig):
     return gm.norm_sig(sig)
 
 
-def _typedefs(text):
-    """name -> (offset, normalized_body) for every typedef the text defines."""
+def _typedefs(text, depth=None):
+    """name -> [(offset, normalized_body)] for every FILE-SCOPE typedef the text defines.
+
+    BLOCK SCOPE IS A SCOPE (P31 S54, R39). Two functions may each declare their own
+    `typedef struct {...} Ent_801DFBF8;` INSIDE their bodies -- that is legal C and the project's
+    drafts do it constantly (it is how a draft stays self-contained for match_one without touching
+    the TU's namespace). Counting those as definitions produced a DUPLICATE-TYPEDEF FAIL against
+    a slate whose drafts were each independently byte-verified. `depth` is the brace-depth map the
+    caller already computed; passing it restricts the scan to depth 0."""
     out = {}
     for pat in (gm.TYPEDEF_BLOCK, gm.TYPEDEF_PLAIN):
         for m in pat.finditer(text):
+            if depth is not None and depth[m.start()]:
+                continue
             out.setdefault(m.group(1), []).append((m.start(), ' '.join(m.group(0).split())))
     return out
 
@@ -112,7 +129,7 @@ def check_text(path, text):
     # byte-identically for weeks. Seven of nine FAILs on a real wave-R slate were comment-borne.
     # The masking oracle was already computed one line above and simply was not used here; because
     # _mask is length-preserving, every reported offset stays valid.
-    tds = _typedefs(masked)
+    tds = _typedefs(masked, depth)
 
     # 3. duplicate typedef -- ANY redefinition, identical body or not.
     # C89 has no "compatible redefinition" allowance for typedefs: `typedef struct {...} T;` twice
@@ -183,7 +200,14 @@ def check_text(path, text):
             continue
         sig = _norm_sig(gm.typesig(d))
         if s in decls and gm.sig_conflict(decls[s][1], sig):
-            findings.append(('FAIL', 'CONFLICTING-EXTERN',
+            # A BUILT-IN IS A WARNING, NOT AN ERROR -- measured, not assumed (P31 S54). Every
+            # overlay TU in the fleet declares memcpy twice (`(void*, const void*, u32)` near the
+            # top, `(void*, void*, s32)` further down) and every one of them COMPILES TODAY. Probed
+            # against the pinned cc1: two conflicting declarations of `memcpy` give
+            # "warning: conflicting types for built-in function `memcpy'" and exit 0, while the same
+            # pair on a non-builtin name gives "conflicting types for `myfun'". Reporting these as
+            # FAIL sent the reconcile lane hunting a defect the compiler does not have (R39).
+            findings.append(('WARN' if s in _BUILTINS else 'FAIL', 'CONFLICTING-EXTERN',
                              f'{path}: `{s}` declared {decls[s][1]} at offset {decls[s][0]} and '
                              f'{sig} at offset {m.start()}'))
         else:
@@ -222,7 +246,17 @@ def main():
 
     slate = json.load(open(a.slate))
     kept, dropped = gm.resolve_conflicts(slate)
-    _n, texts = gm.substitute(kept, write=False)
+
+    # MODEL THE DRIVER THAT WILL ACTUALLY BANK THIS SLATE (P31 S54). main goes through gate_main's
+    # hoist/strip; an overlay goes gate_lane -> gate_stage -> harvest_verify, which strips every
+    # typedef its target TU already provides. Without this, the first overlay slates this tool could
+    # see reported DUPLICATE-TYPEDEF for exactly the duplicates the real gate removes.
+    def _driver_transform(body, tu_path, binary):
+        if binary == 'main':
+            return body
+        return cdecl.strip_provided_typedefs(body, cdecl.typedef_names(tu_path))
+
+    _n, texts = gm.substitute(kept, write=False, transform=_driver_transform)
 
     # R32 COVERAGE ASSERTION (P31 S54). Until `gate_main` learned per-binary stub maps, an OVERLAY
     # slate resolved to zero stubs and this tool printed "checking 0 substituted file(s) ... clean"

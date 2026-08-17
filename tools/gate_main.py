@@ -34,7 +34,7 @@ Usage:
      default is a DRY RUN that reports what would be substituted and any conflicts.
      --apply performs the substitution + clean rebuild and leaves banked drafts in the tree.
 """
-import argparse, collections, functools, json, re, subprocess, sys
+import argparse, collections, functools, json, os, re, subprocess, sys
 sys.path.insert(0, 'tools')
 import corpus
 
@@ -82,6 +82,27 @@ def sym_of(d):
 # symbol both ways do not conflict -- but a textual comparison calls them different and drops a
 # good draft (R39 over-refusal; wave O hit it with `extern short D_800B9A02`). Signedness is NOT
 # normalized away: u16 vs s16 is a genuine conflict and must stay one.
+def _common_h_aliases():
+    """The project's OWN scalar typedefs, read from include/common.h rather than restated here (R33).
+
+    `typedef s32 M2C_UNK;` makes `extern s32 D_x;` and `extern M2C_UNK D_x;` the SAME declaration,
+    but a textual comparison calls them a CONFLICTING-EXTERN and refuses a byte-verified draft --
+    measured on ov_SC03_028, where both spellings already coexist in a TU that compiles today
+    (R39 over-refusal). Only aliases of a scalar we already canonicalize are folded in; anything
+    else (struct typedefs) is deliberately left alone."""
+    out, scalars = {}, {'s8', 'u8', 's16', 'u16', 's32', 'u32', 's64', 'u64', 'f32', 'f64'}
+    try:
+        txt = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                'include', 'common.h')).read()
+    except OSError:
+        return out
+    for m in re.finditer(r'^\s*typedef\s+([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\s*;', txt, re.M):
+        base, name = m.group(1), m.group(2)
+        if base in scalars and name not in scalars:
+            out[name] = base
+    return out
+
+
 _ALIASES = {
     'char': 's8', 'signed char': 's8', 'unsigned char': 'u8',
     'short': 's16', 'signed short': 's16', 'short int': 's16',
@@ -89,6 +110,7 @@ _ALIASES = {
     'int': 's32', 'signed int': 's32', 'long': 's32', 'long int': 's32', 'signed long': 's32',
     'unsigned': 'u32', 'unsigned int': 'u32', 'unsigned long': 'u32', 'float': 'f32',
 }
+_ALIASES.update(_common_h_aliases())      # M2C_UNK -> s32, M2C_UNK16 -> s16, ... (derived, not restated)
 
 
 def _alias(t):
@@ -399,7 +421,7 @@ def hoist_typedefs(t, wanted):
             [n for n in seen if defs[n][0] > anchor])
 
 
-def substitute(entries, write=True):
+def substitute(entries, write=True, transform=None):
     """Replace each INCLUDE_ASM stub line with its draft body.
 
     write=False produces the substituted text WITHOUT touching the tree, which is what
@@ -409,13 +431,21 @@ def substitute(entries, write=True):
 
     Per-binary since P31 S54 (see `_stubs_for`): an entry's own 'binary' selects its stub map, and
     an entry whose symbol is in NO stub map is reported loudly instead of being dropped on the floor
-    (R32 -- a silent skip here is what made pregate_check green on overlay slates)."""
+    (R32 -- a silent skip here is what made pregate_check green on overlay slates).
+
+    `transform(body, tu_path, binary) -> body` is an optional per-draft rewrite applied BEFORE the
+    typedef strip. It exists because main and the overlays are banked by different drivers with
+    different draft transforms: gate_main uses the hoist/strip logic below, while gate_lane ->
+    gate_stage -> harvest_verify strips every typedef the target TU already provides
+    (`cdecl.strip_provided_typedefs`). A checker that models the wrong driver reports failures the
+    real gate would never see -- pregate_check passes the overlay transform for non-main entries."""
     byfile = collections.defaultdict(list)
     unresolved = []
     for e in entries:
-        st = _stubs_for(e.get('binary')).get(e['fn'])
-        if st: byfile[st.path].append((st.addr, e['fn'], st.asm_dir, e['draft']))
-        else:   unresolved.append((e.get('binary') or 'main', e['fn']))
+        b = e.get('binary') or 'main'
+        st = _stubs_for(b).get(e['fn'])
+        if st: byfile[st.path].append((st.addr, e['fn'], st.asm_dir, e['draft'], b))
+        else:   unresolved.append((b, e['fn']))
     if unresolved:
         print("  substitute: %d entr%s resolved to NO stub (not open in that binary?): %s"
               % (len(unresolved), 'y' if len(unresolved) == 1 else 'ies',
@@ -427,7 +457,7 @@ def substitute(entries, write=True):
         # Only names the incoming drafts actually define are candidates -- we never reorganize a
         # file for types nobody in this slate needs.
         want = set()
-        for _addr, _fn, _asmdir, draft in items:
+        for _addr, _fn, _asmdir, draft, _b in items:
             body_txt = open(draft).read()
             for p in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
                 want |= {m.group(1) for m in p.finditer(body_txt)}
@@ -462,9 +492,11 @@ def substitute(entries, write=True):
         # slate order the surviving typedef can end up BELOW a draft that uses it -> "syntax error
         # before D_800A651C" at the earlier draft's line. Each stub is substituted at its own
         # position in the .c, so the walk must follow those positions. (S52, cost 2 rebuilds.)
-        for _addr, fn, asmdir, draft in sorted(items):
+        for _addr, fn, asmdir, draft, binary in sorted(items):
             body = "\n".join(l for l in open(draft).read().splitlines()
                              if not l.strip().startswith('#include'))
+            if transform:
+                body = transform(body, path, binary)
             old = f'INCLUDE_ASM("{asmdir}", {fn});'
             if old not in t:
                 continue
