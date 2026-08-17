@@ -318,7 +318,6 @@ extern s32 func_80012B04(s32 a0, s32 a1, s32 a2);
 extern void func_801490F8(s32 a0, s32 a1);
 extern s32 func_801491C4(s32 a0);
 extern s32 func_80149184(s32 a0);
-extern s32 D_801151D4;
 extern void func_80149204(s32 *a0);
 extern void func_80149210(s32 a0, s32 a1);
 extern s32 func_80149284(s32 *a0, s32 a1);
@@ -5751,7 +5750,79 @@ void func_801810A4(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801812DC);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80181320);
+
+extern void func_80181DE0(s32 a0);
+extern s32 func_80029DB4(void);
+extern s32 func_80029E30(void);
+extern s32 func_80181C0C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012A828(s32, s32);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012CBCC(s32 a0);
+
+void func_80181320(s32 a0) {
+
+    extern s32 D_8011F730;
+    extern u8 D_801A1094[];
+    extern s32 D_801A0CE4;
+    extern s32 D_801A0D4C;
+    extern s32 D_801A0F34;
+    extern u8 D_80198078[];
+    extern u8 D_80198098[];
+
+    s32 state;
+    s32 g;
+    s32 v0;
+    s32 arg0, arg1;
+
+    func_80181DE0(a0);
+    state = *(u16 *)(a0 + 0x34);
+
+    switch (state) {
+    case 0:
+        g = D_8011F730;
+        if (g == 2) {
+            *(u16 *)(a0 + 0x34) = 3;
+            ((void (*)(s32, void *))func_8012A828)(a0, D_801A1094);
+            return;
+        } else if (g == 3) {
+            *(u16 *)(a0 + 0x34) = 1;
+            ((void (*)(s32, void *))func_8012A828)(a0, &D_801A0CE4);
+            return;
+        } else if (g == 4) {
+            *(u16 *)(a0 + 0x34) = 2;
+            ((void (*)(s32, void *))func_8012A828)(a0, &D_801A0D4C);
+            return;
+        }
+        goto tail_short;
+    case 1:
+        v0 = func_80029DB4();
+        func_80181C0C(a0, (s32)D_80198078, 7, v0);
+        arg0 = 0x1EB;
+        arg1 = 0;
+        break;
+    case 2:
+        v0 = func_80029E30();
+        func_80181C0C(a0, (s32)D_80198098, 6, v0);
+        arg0 = 0x1EB;
+        arg1 = 1;
+        break;
+    case 3:
+        goto tail_short;
+    default:
+        return;
+    }
+
+    func_8012C658(arg0, arg1, a0);
+    if (*(u16 *)(a0 + 0x72) & 0x4000) {
+        ((void (*)(s32, void *))func_8012A828)(a0, &D_801A0F34);
+    }
+
+tail_short:
+    if (((s32 (*)(s32))func_8012CBCC)(a0) & 0x2000) {
+        *(u16 *)(a0 + 0x2) = 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801814A4);
 
@@ -6057,7 +6128,88 @@ INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80181F8
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80182074);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801821DC);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+typedef struct { short a, b, c; } SV3_80181D44_801821DC;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern s32 rand(void);
+/* func_80182358 is the NEXT stub in this same TU (INCLUDE_ASM at the line below
+ * func_801821DC's).  Its own .s takes TWO args ($a0 = entity-owner, $a1 = id):
+ * do NOT adopt the 1-arg `void f(void*)` spelling that the *unrelated* overlay
+ * ov_SC03_001 uses for its own different function at the same address. */
+extern void func_80182358(s32 a0, s32 a1);
+
+/* Spawn a 0x4F entity for `a0`, then jitter its three s16 fields at +0x6/+0xA/+0xE
+ * by a random amount (mod 28 / 32 / 28, sign picked by a second rand()), flip the
+ * substruct at *(s32*)(entity+0x20) fields 0x18/0x1A/0x1C to +/-0x2000, and notify. */
+s32 func_801821DC(s32 a0) {
+    s32 s2;
+
+    s2 = func_80132EF4(a0, 0x4F);
+    if (s2 == 0) {
+        return 0;
+    }
+
+    *(s16 *)(s2 + 0xA) = *(u16 *)(s2 + 0xA) - 0x28;
+
+    /* NOTE (this is the whole match, do not "tidy" it): each block MUST own its
+     * own r/val/base locals.  With one shared `r` across all three blocks, the
+     * /32 block's remainder pseudo conflicts with the rand()-result pseudo, so
+     * global.c's expand_preferences() cannot merge their preferences (it needs
+     * a non-conflicting REG_DEAD copy).  The result pseudo then has NO hard-reg
+     * preference of its own, prune_preferences() puts $v1 into its
+     * regs_someone_prefers set, and find_reg's pass 0 skips $v1 and lands the
+     * value in $a0 instead of the target's $v1 (4 wrong instructions). */
+    {
+        s32 r, val, base;
+        r = rand() % 28;
+        base = *(s16 *)(s2 + 0x6);
+        val = (rand() & 1) ? (base + r) : (base - r);
+        *(s16 *)(s2 + 0x6) = val;
+    }
+    {
+        s32 r, val, base;
+        r = rand() % 32;
+        base = *(s16 *)(s2 + 0xA);
+        val = (rand() & 1) ? (base + r) : (base - r);
+        *(s16 *)(s2 + 0xA) = val;
+    }
+    {
+        s32 r, val, base;
+        r = rand() % 28;
+        base = *(s16 *)(s2 + 0xE);
+        val = (rand() & 1) ? (base + r) : (base - r);
+        *(s16 *)(s2 + 0xE) = val;
+    }
+
+    {
+        s32 v0, v1;
+
+        if (rand() & 1) {
+            v1 = *(s32 *)(s2 + 0x20);
+            v0 = -0x2000;
+            *(s16 *)(v1 + 0x1C) = v0;
+        } else {
+            v1 = *(s32 *)(s2 + 0x20);
+            v0 = 0x2000;
+            *(s16 *)(v1 + 0x1C) = v0;
+        }
+        *(s16 *)(v1 + 0x1A) = v0;
+        *(s16 *)(v1 + 0x18) = v0;
+    }
+
+    /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
+     * independently hoist the call's `move $a0,$s3` + `li $a1,0x7F3` above the
+     * two trailing `sh` stores (they feed the jal, so they carry the higher
+     * INSN_PRIORITY), and reorg then fills the delay slot with `sh 0x18`
+     * instead of the target's `addiu $a1`.  -fno-schedule-insns{,2} alone does
+     * not reproduce the target order -- only both together do, hence a real
+     * barrier rather than a statement reorder. */
+    __asm__ __volatile__("" ::: "memory");
+    func_80182358(a0, 0x7F3);
+    return s2;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80182358);
 
@@ -6620,7 +6772,83 @@ void func_80183040(s32 a0, s32 a1, s32 a2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801832EC);
+typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_801832EC;   /*  8 bytes, align 2 */
+
+/* func_801832EC (ov_SC04_002, ov_SC04_002_jr_8017BEBC, 83 ins)
+ *
+ * Sibling family (skeleton group, remapped mechanically once this banks):
+ *   ov_SC02_041:func_8018428C, ov_SC04_005:func_80186C80, ov_SC04_007:func_801832EC
+ *
+ * Two conflicting local extern decls exist for this function in the TU
+ * (func_8018739C uses `void *a1, MATRIX *a3`; func_80187604 uses `s32 a1,
+ * void *a3`) -- neither is dereferenced structurally inside this function's
+ * own body (a3 is only ever forwarded as an opaque pointer argument), so the
+ * definition-side signature below (s32 a1, void *a3) is chosen freely and is
+ * compatible with both call sites' own local prototypes.
+ */
+void func_801832EC(s32 a0, s32 a1, s32 a2, void *a3)
+{
+    extern s32 D_801151D4;
+    extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
+    extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+    extern void func_800D20C0(void *a0, void *a1, s32 a2);
+    extern void func_80017E68(void *a0, void *a1);
+    extern void func_800D23D0(void *a0);
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+    extern void RotMatrixYXZ(void *a0, void *a1);
+    extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
+    extern s32 ratan2(s32 a0, s32 a1);
+
+    s32 mtx1[8];   /* sp+0x10, 0x20 bytes: scratch MATRIX */
+    s16 buf2[4];   /* sp+0x30, 8 bytes: vx,vy,vz,pad */
+    s16 vec[4];    /* sp+0x38, 8 bytes: vx,vy,vz,pad */
+    s32 diff[3];   /* sp+0x40 */
+    s32 base;
+    s32 v0;
+    s32 v1;
+
+    base = D_801151D4;
+
+    func_8012EC04(a0, a2, (s32 *)mtx1);
+
+    func_8012F14C((s32)mtx1, a1 + 0x18, (s32)buf2);
+
+    func_800D20C0((void *)buf2, (void *)vec, 8);
+
+    func_80017E68((void *)buf2, a3);
+
+    v0 = *(u16 *)(a1 + 0x8);
+    v1 = *(u16 *)(a1 + 0x10);
+    v0 = v0 - v1;
+    vec[0] = v0;
+    v0 = *(u16 *)(a1 + 0xA);
+    v1 = *(u16 *)(a1 + 0x12);
+    v0 = v0 - v1;
+    vec[1] = v0;
+    v0 = *(u16 *)(a1 + 0xC);
+    v1 = *(u16 *)(a1 + 0x14);
+    v0 = v0 - v1;
+    vec[2] = v0;
+
+    ApplyMatrixSV((void *)mtx1, (void *)vec, (void *)vec);
+
+    func_800D23D0((void *)vec);
+
+    RotMatrixYXZ((void *)vec, a3);
+
+    diff[0] = *(s32 *)(base + 0x5C) - buf2[0];
+    diff[1] = *(s32 *)(base + 0x60) - buf2[1];
+    diff[2] = *(s32 *)(base + 0x64) - buf2[2];
+
+    ApplyTransposeMatrixLV(a3, (void *)diff, (void *)diff);
+
+    v0 = ratan2(diff[0], diff[1]);
+
+    vec[2] = -v0;
+
+    RotMatrixYXZ((void *)vec, a3);
+}
+
 
 typedef struct { u32 addr : 24; u32 len : 8; } PTag_801843D8_80183438;
 #define gte_ldv3_801843D8(r0, r1, r2) __asm__ volatile ( \

@@ -43,7 +43,6 @@ extern void func_80162120(void);
 extern void func_80029124(s32, s32);
 extern s32 func_80165A50(s32);
 extern void func_80029514(s32);
-extern u8 D_800AF630[];
 extern u8 D_80078EC0;
 extern s32 D_80126B58;
 extern s32 func_80028FBC(void);
@@ -2823,7 +2822,115 @@ void func_80185144(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80185180);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80185380);
+typedef struct {
+    s16 m[3][3];
+    s16 pad;
+    s32 t[3];
+} MtxLocal_80185380;
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_80185380;
+
+
+extern void func_8012C218(void *a0);
+extern s32 func_8012B8A4(s16 *a0);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern s32 func_801789AC(s32 arg0);
+extern void func_80178D18(void);
+extern void func_80029514(s32);
+extern void func_8012A568(void (*a0)(void));
+extern void func_80183980(void);
+
+
+void func_80185380(s32 param_1) {
+
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern u16 D_80190048;
+    extern u16 D_8019004A;
+    extern u16 D_8019004C;
+    extern u16 D_8019005A;
+    extern u16 D_8019005C;
+    extern s32 D_80190344;
+    u16 state;
+    s32 obj;
+
+    state = *(u16 *)(param_1 + 0x34);
+    switch (state) {
+    case 0:
+        obj = *(s32 *)(param_1 + 0x6C);
+        if (*(s16 *)(obj + 0x76) > 0) {
+            return;
+        }
+        *(u16 *)(param_1 + 0x34) = state + 1;
+        func_8012C218((void *)*(s32 *)(param_1 + 0xCC));
+        func_8012C218((void *)*(s32 *)(param_1 + 0xD0));
+
+        {
+            register s32 o __asm__("$2");
+            u16 v6;
+            register u16 *p10 __asm__("$3");
+
+            o = *(s32 *)(param_1 + 0x6C);
+            v6 = *(u16 *)(o + 0x6);
+            __asm__ __volatile__("" : "=r"(v6) : "0"(v6) : "memory");
+            p10 = &D_80190048;
+            __asm__ __volatile__("" : "=r"(p10) : "0"(p10) : "memory");
+            *p10 = v6;
+
+            o = *(s32 *)(param_1 + 0x6C);
+            D_8019004A = *(u16 *)(o + 0xA) - 0x40;
+
+            o = *(s32 *)(param_1 + 0x6C);
+            {
+                u16 g5e = D_80126B5E;
+                D_8019004C = *(u16 *)(o + 0xE);
+                *(u16 *)((u8 *)p10 + 0x10) = g5e;
+            }
+        }
+
+        D_8019005A = D_80126B62 - 0x40;
+        D_8019005C = D_80126B66;
+
+        {
+            s32 v;
+            s32 a1val;
+            s32 sinv;
+            s32 angleDelta;
+            s32 tmp;
+            s32 *p;
+
+            v = func_8012B8A4((s16 *)param_1);
+            a1val = func_8004787C(v);
+
+            p = &D_80190344;
+            angleDelta = (*(s16 *)(param_1 + 0x6) - (((a1val * 3) << 5) >> 12)) & 0xFFFF;
+            *p = angleDelta;
+
+            sinv = func_80047948(v);
+            tmp = (*(s32 *)(param_1 + 0xC) - ((sinv * 3) << 9)) & 0xFFFF0000;
+            *p = *p | tmp;
+            func_80178B18(param_1, (s32)((u8 *)p - 0x4C));
+        }
+        break;
+    case 1:
+        if (func_801789AC(param_1) != 0) {
+            ((void (*)(void *))func_80178D18)((void *)param_1);
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            *(u16 *)(*(s32 *)(param_1 + 0xD8) + 0x34) = 1;
+            func_80029514(0x2DA);
+            func_8012A568(func_80183980);
+        }
+        break;
+    }
+}
+
 
 DEFINE_func_8018553C()  /* dedup: shared engine-core @0x8018553C (src/shared) */
 
@@ -3230,13 +3337,144 @@ void func_80185EF8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_801863B8);
+    typedef struct { s32 a; s32 b[4]; } Ot_8018B23C_801863B8;
+
+/* Declarations adopted verbatim from src/ov_SC03_014/ov_SC03_014_jr_801848E4.c
+ * (law 2). D_801E2CE8 and D_80190538 are first uses in this TU, declared in
+ * the raw form matching how their addresses are consumed here (never
+ * dereferenced in this function; passed on as a pointer arg only). */
+extern s32 func_8012CBCC(s32 a0);
+extern s32 func_8012BA10(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+
+void func_801863B8(s32 a0) {
+
+    extern u8 D_801E2CE8[];
+    extern u8 D_80190538[];
+    s32 obj;
+    s32 s1;
+    s32 msg;
+    u16 sp[3];
+
+    func_8012CBCC(a0);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012BA10(a0, 4);
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (!(*(u16 *)(a0 + 0x72) & 0x4000)) {
+            break;
+        }
+        *(u16 *)(a0 + 0x34) = 1;
+        func_8012A828(a0, D_801E2CE8);
+        msg = 0xA7E;
+        goto tail;
+
+    case 1:
+        if (*(s32 *)(a0 + 0x94) != 0xF) {
+            break;
+        }
+        *(u16 *)(a0 + 0x34) = 2;
+        func_8012F14C(*(s32 *)(a0 + 0x20) + 0x34, (s32)D_80190538, (s32)sp);
+        for (s1 = -0x200; s1 < 0x300; s1 += 0x200) {
+            obj = func_8012C658(0x265, 1, a0);
+            if (obj != 0) {
+                *(u16 *)(obj + 0xFE) =
+                    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + s1;
+                *(u16 *)(*(s32 *)(obj + 0x20) + 0x14) =
+                    *(u16 *)(obj + 0xFC) + 0x200;
+                *(u16 *)(obj + 0x6) = sp[0];
+                *(u16 *)(obj + 0xA) = sp[1];
+                *(u16 *)(obj + 0xE) = sp[2];
+            }
+        }
+        msg = 0xA35;
+    tail:
+        func_8002D4C8(msg, 0);
+        break;
+
+    case 2:
+        if (!(*(u16 *)(a0 + 0x72) & 0x4000)) {
+            break;
+        }
+        *(u16 *)(a0 + 0x2) = 1;
+        func_8012A828(a0, D_801E2170);
+        break;
+    }
+}
+
 
 DEFINE_func_8018655C()  /* dedup: shared engine-core @0x8018655C (src/shared) */
 
 DEFINE_func_801867F8()  /* dedup: shared engine-core @0x801867F8 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80186A74);
+
+/* Declarations matched verbatim to src/ov_SC03_014/ov_SC03_014_jr_801848E4.c
+ * where that TU already declares the symbol (law 2/1b). Fresh raw-form decls
+ * (u8[]) for the two data symbols the TU does not yet mention. */
+extern s32 func_8012CBCC(s32 a0);
+extern s32 func_8012BA10(s32 a0, s32 a1);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+
+void func_80186A74(s32 a0) {
+
+    extern u8 D_801E2B50[];
+    extern u8 D_80190540[];
+    s16 sp10[3];
+    s32 s0;
+
+    func_8012CBCC(a0);
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012BA10(a0, 4);
+        if (*(u16 *)(a0 + 0x72) & 0x4000) {
+            *(u16 *)(a0 + 0x34) = 1;
+            func_8012A828(a0, D_801E2B50);
+            func_8002D4C8(0xA81, 0);
+        }
+        break;
+    case 1:
+        if (*(s32 *)(a0 + 0x94) == 0xF) {
+            *(u16 *)(a0 + 0x34) = 2;
+            func_8012F14C(*(s32 *)(a0 + 0x20) + 0x34, (s32)D_80190540, (s32)sp10);
+            s0 = func_8012C658(0x265, 3, a0);
+            if (s0 != 0) {
+                *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14) =
+                    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+                *(s32 *)(s0 + 0x10) =
+                    -(func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) << 8);
+                *(s32 *)(s0 + 0x18) =
+                    -(func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) << 8);
+                *(u16 *)(s0 + 0x6) = sp10[0];
+                *(u16 *)(s0 + 0xA) = sp10[1];
+                *(u16 *)(s0 + 0xE) = sp10[2];
+            }
+            func_8002D4C8(0xA36, 0);
+        }
+        break;
+    case 2:
+        if (*(u16 *)(a0 + 0x72) & 0x4000) {
+            *(u16 *)(a0 + 0xFC) = 0x1E;
+            *(u16 *)(a0 + 0x2) = 9;
+            func_8012A828(a0, D_801E2170);
+            *(u16 *)(a0 + 0xAE) = 0x2900;
+        }
+        break;
+    }
+
+    func_8012C658(0x3DE, 0, a0);
+}
+
 
 
 /* func_80186C4C — ov_SC03_014 / ov_SC03_014_jr_801848E4.  MATCH 273/273.

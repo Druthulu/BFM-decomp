@@ -4452,7 +4452,93 @@ void func_8018A0B8(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018A170);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018A28C);
+typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C;   /* == engine_types.h OtBlk (0x14) */
+
+/* func_8018A28C — ov_SC06_032 / ov_SC06_032_jr_80182890, 122 ins.
+ *
+ * State entry dispatcher: switch on (flags@0x70 & 3), where cases {0,2} take the
+ * "spawn child object" arm and cases {1,3} take the "allocate display object" arm;
+ * both then fall into a shared tail that primes the display object at +0x20.
+ *
+ * The 4-way compare tree (beq 1 / slti 2 / beqz 0 / beq 2 / beq 3 / j default) is
+ * gcc-2.7.2's balanced case tree for the four labels 0..3 with two shared bodies.
+ */
+
+
+extern int  func_8012C354();
+extern s32  func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4();
+extern void func_8001C214();
+extern s32  func_8012AD50(void *arg0);
+extern void func_8018C310(void);
+extern void func_8018AB00(void);
+extern void func_8018A474(void *arg0);
+
+void func_8018A28C(s32 param_1) {
+
+    extern u8 D_801CD3B0[];
+    extern u8 D_801CD3C0[];
+    extern u8 D_801CD3D8[];
+    extern u8 D_801D1094[];
+    s32 obj;
+    s32 g;
+
+    switch (*(u16 *)(param_1 + 0x70) & 3) {
+    case 0:
+    case 2:
+        if (((s32 (*)(s32, u8 *))func_8012C354)(param_1, D_801CD3D8) == 0) {
+            return;
+        }
+        *(s32 *)(param_1 + 0xCC) =
+            func_8012C658(0x2E4, (*(u16 *)(param_1 + 0x70) & 2) | 1, param_1);
+        *(u16 *)(param_1 + 0x104) = *(u16 *)(param_1 + 0x70) & 0x102;
+        *(u16 *)(param_1 + 0x70) = *(u16 *)(param_1 + 0x70) & 1;
+        if (*(u16 *)(param_1 + 0x104) & 0x100) {
+            func_8018C310();
+            func_8018AB00();
+        }
+        *(u8 *)(param_1 + 0xC0) = 1;
+        *(u8 **)(param_1 + 0xBC) = D_801CD3C0;
+        *(s32 *)(param_1 + 0xB4) = 0;
+        *(u8 *)(param_1 + 0xC1) = 0;
+        *(s16 *)(param_1 + 0xAE) = 0x6918;
+        *(u32 *)(param_1 + 0xC4) |= 2;
+        break;
+
+    case 1:
+    case 3:
+        obj = ((s32 (*)(void))func_8012C1B8)();
+        *(s32 *)(param_1 + 0x20) = obj;
+        if (obj == 0) {
+            ((void (*)(s32))func_8012CAE4)(param_1);
+            return;
+        }
+        ((void (*)(s32, u8 *))func_8001C214)(obj, D_801D1094);
+        *(u16 *)(param_1 + 0x104) = *(u16 *)(param_1 + 0x70) & 2;
+        *(u16 *)(param_1 + 0x70) = *(u16 *)(param_1 + 0x70) & 1;
+        *(u16 *)(param_1 + 0xA) = *(u16 *)(param_1 + 0xA) - 0xA0;
+        break;
+    }
+
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) |= 0x10;
+    /* one cached base for the three 0xE00 stores: the target loads 0x20($s0)
+     * only once here, so the source must hold it in a pseudo (any indirect
+     * store invalidates the CSE of the load in gcc-2.7.2). */
+    g = *(s32 *)(param_1 + 0x20);
+    *(s16 *)(g + 0x1C) = 0xE00;
+    *(s16 *)(g + 0x1A) = 0xE00;
+    *(s16 *)(g + 0x18) = 0xE00;
+    *(u8 *)(param_1 + 0x75) = 0;
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) |= 0x80;
+    *(u8 **)(*(s32 *)(param_1 + 0x20) + 0x80) = D_801CD3B0;
+    if (*(s16 *)(param_1 + 0x70) != 0 && *(s16 *)(param_1 + 0x104) != 0) {
+        func_8018A474((void *)param_1);
+    } else {
+        func_8012AD50((void *)param_1);
+    }
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8018A474(void *arg0) {
@@ -4671,7 +4757,6 @@ INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018AE6
 //   `addiu $a0,$sp,0x10` at each use site.
 
 
-extern Blk20_8018AF88 D_800AE620;
 extern s32 D_801CD498;
 
 extern s32 func_8012B8A4(s16 *a0);
@@ -4682,6 +4767,10 @@ extern s32 rand(void);
 
 void func_8018AF88(s32 param_1)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern Blk20_8018AF88 D_800AE620;
     Blk20_8018AF88 local_30;
     Blk20_8018AF88 *m;
     s32 iVar1;
@@ -4705,9 +4794,117 @@ void func_8018AF88(s32 param_1)
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018B060);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018B1D8);
+typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018B1D8;   /* == engine_types.h OtBlk (0x14) */
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018B330);
+/* Local standins for the shared types (src/shared/engine_types.h) that the real TU pulls in via
+ * "../shared/engine_core.h" -- match_one's -Iinclude can't reach src/shared/, so these are typed
+ * identically for the standalone compile only; the real TU already has both. */
+
+
+
+/* STEP 0 magic-literal grep: aD800AE620_8018B1D8 / D_801CD40C / ApplyMatrixSV / func_8012AD44 turned up the
+ * banked sibling func_80186160 (same TU) which establishes: the whole-struct
+ * `local = aD800AE620_8018B1D8;` idiom (typed Blk20_8018AF88_80186160, from src/shared/engine_types.h), the
+ * address of that local cached into a POINTER LOCAL (forced into $s1 because it's live across the
+ * RotMatrixY call and reused as ApplyMatrixSV's a0), and the `func_8012AD44((s32 *)param_1, N)`
+ * call-through form. D_801CD40C here is a per-overlay array of SVECTOR (indexed *8 = sizeof(SVECTOR)),
+ * unrelated to the scalar u8 D_801CD40C seen in ov_SC03_104 (different overlay, same address).
+ */
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern s32 rand(void);
+
+void func_8018B1D8(s32 param_1)
+{
+
+    extern Blk20_8018AF88_80186160 aD800AE620_8018B1D8 __asm__("D_800AE620");
+    extern SVECTOR D_801CD40C[];
+    Blk20_8018AF88_80186160 local_38;
+    Blk20_8018AF88_80186160 *m;
+    SVECTOR out;
+    s32 rotY;
+    s32 t;
+    s16 v1;
+
+    local_38 = aD800AE620_8018B1D8;
+    rotY = rand() & 0x1F0;
+    m = &local_38;
+    RotMatrixY(rotY, m);
+    ApplyMatrixSV(m, &D_801CD40C[*(s16 *)(param_1 + 0x70)], &out);
+
+    *(u16 *)(param_1 + 6) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 6) + (u16)out.vx;
+    *(u16 *)(param_1 + 0xA) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xA) + (u16)out.vy;
+    *(u16 *)(param_1 + 0xE) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xE) + (u16)out.vz;
+
+    *(s32 *)(param_1 + 0x10) = (s32)out.vx << 12;
+    t = -(((rand() & 0x3F) << 12) + 0x200000);
+    *(s32 *)(param_1 + 0x14) = t;
+    *(s32 *)(param_1 + 0xE0) = t;
+    *(s32 *)(param_1 + 0x18) = (s32)out.vz << 12;
+
+    *(u16 *)(param_1 + 0x106) = rand() & 0xF0;
+    *(u16 *)(param_1 + 0x108) = rand() & 0xF0;
+    v1 = *(s16 *)(param_1 + 0x70);
+    *(u16 *)(param_1 + 0xFE) = v1;
+
+    func_8012AD44((s32 *)param_1, 2);
+}
+
+
+
+extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_8018B714(s32 a0);
+
+void func_8018B330(s32 param_1)
+{
+
+    extern s32 D_801CD4A8;
+    s32 iVar;
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        iVar = ((s32 (*)(s32, s32))func_8012CC40)(param_1, (s32)&D_801CD4A8);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0x106);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) + *(u16 *)(param_1 + 0x108);
+        if (iVar != 0) {
+            u16 ns = *(u16 *)(param_1 + 0x34) + 1;
+            *(s32 *)(param_1 + 0x14) = *(s32 *)(param_1 + 0xE0) >> 1;
+            *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 0x10) >> 1;
+            *(s32 *)(param_1 + 0x18) = *(s32 *)(param_1 + 0x18) >> 1;
+            *(u16 *)(param_1 + 0x34) = ns;
+        }
+        func_8018B714(param_1);
+        break;
+    case 1:
+        iVar = ((s32 (*)(s32, s32))func_8012CC40)(param_1, (s32)&D_801CD4A8);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0x106);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) + *(u16 *)(param_1 + 0x108);
+        if (iVar != 0) {
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            *(s32 *)(param_1 + 0x1C) = 0x10;
+        }
+        func_8018B714(param_1);
+        break;
+    case 2:
+        if (func_8012BEE8(param_1) != 0) {
+            func_8012C218((void *)param_1);
+        } else if (*(s32 *)(param_1 + 0x1C) & 1) {
+            *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x80000000;
+        } else {
+            *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) &= 0x7FFFFFFF;
+        }
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018B4D8);
 
@@ -4761,7 +4958,89 @@ void func_8018BC40(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018BCC4);
+typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018BCC4;   /* == engine_types.h OtBlk (0x14) */
+
+/* func_8018BCC4 -- MATCH (185 ins, relocation-masked).
+ *
+ * Three load-bearing spellings, all verified by byte-diff:
+ *
+ *  (a) `pad_lo[4]` -- the target's var area starts 0x20 BELOW `sv`. Without a
+ *      32-byte leading local the frame is 0x98 instead of 0xB8 and every
+ *      sp-relative offset is short by 0x20 (134/185 mismatched). gcc-2.7.2
+ *      still reserves the slot for an unreferenced aggregate, so any 32-byte
+ *      aggregate declared first reproduces the layout.
+ *
+ *  (b) 4th param declared `u32 col` (a SCALAR whose address is taken), NOT a
+ *      4-byte struct by value, together with the `arg0->mtx` COMPONENT_REF.
+ *      Both spellings emit identical instructions, but they change gcc-2.7.2's
+ *      alias heuristic in alias.c:true_dependence -- "a varying struct ref does
+ *      not conflict with a fixed scalar ref". With a struct param the 0xC4 home
+ *      slot MEM is MEM_IN_STRUCT_P, so `sw $a3,0xC4($sp)` stays dependent on
+ *      `lw 0x20($s1)` and sched1 cannot sink it (3 mismatched at idx 11-13).
+ *      Scalar-param home slot (not in-struct, non-varying) + struct-member load
+ *      (in-struct, varying) => independent => the store sinks to idx 13. MATCH.
+ *
+ *  (c) SVec/CVec have alignment 2 / 1, which is what makes the plain struct
+ *      assignments lower to lwl/lwr + swl/swr block moves (cookbook 48-C2).
+ */
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern void func_8018C090(void *a0);
+
+typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4;   /* 8 bytes, align 2 -> lwl/lwr block move */
+typedef struct { u8 r, g, b, cd; } CVec_80186E9C_8018BCC4;        /* 4 bytes, align 1 */
+typedef struct {
+    /* 0x00 */ SVec_80186E9C_8018BCC4 v[4];
+    /* 0x20 */ CVec_80186E9C_8018BCC4 col;
+    /* 0x24 */ u32 code;
+} Quad_80186E9C_8018BCC4;
+
+typedef struct { u8 pad00[0x20]; /* 0x20 */ u8 *mtx; } Ent_80186E9C_8018BCC4;
+
+
+void func_8018BCC4(Ent_80186E9C_8018BCC4 *arg0, s32 arg1, u16 *arg2, u32 col)
+{
+
+    extern SVec_80186E9C_8018BCC4 D_801CD4E0[];
+    SVec_80186E9C_8018BCC4 pad_lo[4];   /* unused 32-byte leading local (frame filler) */
+    SVec_80186E9C_8018BCC4 sv;
+    SVec_80186E9C_8018BCC4 out[6];
+    Quad_80186E9C_8018BCC4 q;
+    long flag;
+    SVec_80186E9C_8018BCC4 *p;
+    s32 i;
+
+    func_8004914C(arg0->mtx + 0x34);
+    func_800491AC(arg0->mtx + 0x34);
+
+    p = &D_801CD4E0[(arg1 & 1) * 3];
+
+    for (i = 0; i < 3; i++) {
+        sv.vx = p[i].vx;
+        sv.vy = p[i].vy;
+        sv.vz = -arg2[0];
+        RotTransSV(&sv, &out[i], &flag);
+    }
+    for (i = 0; i < 3; i++) {
+        sv.vx = p[i].vx;
+        sv.vy = p[i].vy;
+        sv.vz = -arg2[1];
+        RotTransSV(&sv, &out[i + 3], &flag);
+    }
+
+    q.col = *(CVec_80186E9C_8018BCC4 *)&col;
+    q.code = 0x50000000;
+
+    q.v[0] = out[0]; q.v[1] = out[1]; q.v[2] = out[3]; q.v[3] = out[4];
+    func_8018C090(&q);
+    q.v[0] = out[1]; q.v[1] = out[2]; q.v[2] = out[4]; q.v[3] = out[5];
+    func_8018C090(&q);
+    q.v[0] = out[2]; q.v[1] = out[0]; q.v[2] = out[5]; q.v[3] = out[3];
+    func_8018C090(&q);
+}
+
 
 
 extern s32 ratan2(s32 a0, s32 a1);

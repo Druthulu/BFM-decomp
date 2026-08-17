@@ -5162,7 +5162,88 @@ INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_80180B2
 void func_80180BF4(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_80180BFC);
+    typedef struct { u8 b[8]; } Blk8_80180BFC;
+typedef struct {
+    s32 a;      /* 0x00 -> D_801DA750 */
+    s32 b;      /* 0x04 -> D_801DA754 */
+} Pair8_8017DDC4_80182244_80180BFC;
+
+/* Sibling shape in the SAME TU: func_80182244 (already banked, line ~3980)
+ * uses the identical idiom for the same actor kind: void *a0, raw
+ * (s32)a0+offset field access, func_8012C1B8 cast-called as (s32(*)(void)),
+ * func_8012CAE4, func_8001C214, and the 0x70-indexed table lookup + 0x1000000
+ * OR-flag pattern at (*(s32*)(sub+4)) |= 0x1000000. Adopted as a structural
+ * hint only (law 1) — none of its per-location symbols are reused here. */
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern s32 func_80029178(s32 a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+
+/* idx = *(s16*)(a0+0x70): lhu direct load, 2-byte stride -> u16 table */
+
+/* address-of only in the target (lui/addiu, no load/store through it here) */
+
+void func_80180BFC(s32 a0)
+{
+
+    extern u16 D_801AC610[];
+    extern u8 D_801AC600;
+    extern u8 D_801AC5F0;
+    if ((*(s32 *)(a0 + 0x20) = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+
+    if ((func_80029178((s32)D_801AC610[*(s16 *)(a0 + 0x70)]) & 0xFF) != 0) {
+        register s32 s0 __asm__("$16") = *(s32 *)(a0 + 0xDC);
+        if (s0 != 0) {
+            s32 a1 = *(s32 *)(s0 + 0x4);
+            if (a1 != 0) {
+                func_8001C214(*(s32 *)(a0 + 0x20), a1);
+                if (*(s32 *)(s0 + 0xC) != 0) {
+                    s32 v1 = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4);
+                    v1 |= 0x1000000;
+                    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) = v1;
+                }
+            }
+        }
+        func_8012AD50((void *)a0);
+        goto tail;
+    }
+
+    {
+        register s32 s0 __asm__("$16") = *(s32 *)(a0 + 0xDC);
+        register s32 flag __asm__("$2") = 1;
+        if (s0 != 0) {
+            s32 a1 = *(s32 *)s0;
+            if (a1 != 0) {
+                func_8001C214(*(s32 *)(a0 + 0x20), a1);
+                if (*(s32 *)(s0 + 0xC) != 0) {
+                    s32 v1 = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4);
+                    v1 |= 0x1000000;
+                    *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4) = v1;
+                }
+                flag = 1;
+            }
+        }
+        *(u8 *)(a0 + 0xC0) = flag;
+    }
+
+    *(s32 *)(a0 + 0xBC) = (s32)&D_801AC600;
+    *(s32 *)(a0 + 0x58) = (s32)&D_801AC5F0 | 0x40000000;
+    *(u16 *)(a0 + 0x5C) = 0x8800;
+    *(s32 *)(a0 + 0xB4) = 0;
+    *(u8 *)(a0 + 0xC1) = 0;
+    *(u16 *)(a0 + 0xAE) = 0x7FFF;
+    *(u8 *)(a0 + 0x75) = 0;
+    *(s32 *)(a0 + 0xC4) |= 0x2;
+
+tail:
+    func_8012AD50((void *)a0);
+}
+
 
 
 // @class: struct
