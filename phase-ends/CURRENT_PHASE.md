@@ -146,98 +146,106 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 ## 🛑 SESSION CHECKPOINT — S53 FINAL (2026-08-16/17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**Tree CLEAN. R22 `check-all` 213 passed / 0 failed of 213 from a clean tree. EXE `143dbb89`.**
+**HEAD `commit:2453`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
+R22 `make check-all` = 213 passed / 0 failed of 213 from a clean tree · EXE `143dbb89` · 0 NON_MATCHING.**
+No process running, no cron armed, no workflow in flight. 39 commits this session; Drew pushes.
 
 ### Banked this session: 161 functions
-| lane | banked |
-|---|--:|
-| wave R — mass (ov_SC06_029 36, ov_SC02_005 21, main 18) | 75 |
-| wave S — mass (ov_SC04_011 30, ov_SC03_028 33) | 63 |
-| the 27-draft recovery backlog (incl. 2 fragment merges) | 23 |
-**main stubs 1,763 → 1,714.** Fleet: instr-weighted **95.6%**, distinct-code **90.8%** (was 90.7%),
-fn-count 96.92%. 0 NON_MATCHING. 32 commits.
+| lane | banked | notes |
+|---|--:|---|
+| wave R — mass band | 75 | ov_SC06_029 36 · ov_SC02_005 21 · main 18 |
+| wave S — mass band | 63 | ov_SC04_011 30 of 45 · ov_SC03_028 33 of 34 |
+| the 27-draft recovery backlog | 23 | incl. 2 real fragment merges |
 
-### Draft rates: the drafting problem is closed
-Wave R **92/110 (84%)** — mass 93%, plumbing 95%, near-miss 25%. Wave S **70/71 (99%)**, 82 agents,
-0 errors. The §181 census stands: of 27 rejected drafts, **26 were byte-correct** and rejected on
-plumbing alone. Every hour spent making the integration layer COMPUTE a refusal outranks an hour of
-drafting.
+**main stubs 1,763 → 1,714** · **MAIN game-code weighted 17.4% → 20.4%** · fleet instr-weighted
+**95.6%**, distinct-code **90.8%** (was 90.7%), fn-count 96.92%.
+Remaining stubs in the four worked overlays: ov_SC02_005 315 · ov_SC04_011 199 · ov_SC03_028 161 ·
+ov_SC06_029 134.
 
-### Two real fragment merges banked (§181's class, solved)
-* `func_8005B7B0` absorbs **five** splat-carved fragments (184 ins) — a PsyQ queue-push routine whose
-  wait-loop test, copy loop, shared tail and epilogue were each named as separate symbols.
-* `MoveImage` absorbs `SYS_OBJ_8F4`, which was literally its own epilogue (popping a frame it never
-  allocated).
-Both agents built a SYNTHETIC MERGED `.s` (fragments concatenated in address order) and ran the real
-`match_one` against it, because the tool cannot verify a merged body otherwise. That trick is the
-reusable part.
-
-### 🔴 THE LIBGS LINK OPPORTUNITY IS REFUTED (§187) — and I reported it wrong first
-An agent found `src/800b_7.c` is `GsSortBg`/`GsSortFastBg` = PsyQ `2D_BG0.o`/`2D_BG1.o` and proposed
-linking all 1,022 instructions free. My "independent" confirmation excused any word CARRYING a
-relocation — as permissive as the agent's own check, so it corroborated nothing. Under the strict mask
-(only the relocated FIELD may differ) the object is **520 instructions where the region is 526**, with
-a one-instruction shift around COP2 words: **the game's build carries six extra GTE hazard nops.**
-Same source, different assembly; `psyq_identify` was right to refuse. Reverted; build re-verified.
-**Those 8 symbols stay decompilation work.**
+### THE FOUR RESULTS THAT OUTLIVE THE COUNT
+1. **DRAFTING IS SOLVED AT THIS SCALE; INTEGRATION IS THE ENTIRE COST.** Wave R drafted 84%, **wave S
+   70/71 = 99%** (82 agents, 0 errors). Of 27 gate-rejected main drafts, **26 were byte-correct** and
+   rejected purely on declaration plumbing (§181 census). Three independent measurements now agree
+   (§180b's cold pile 11/32, wave P's 97%→68%, this census). **Budget for banking, not cracking; an
+   hour spent making the integration layer COMPUTE a refusal outranks an hour of drafting.**
+2. **§188 — THE `jr $ra` + `addiu $sp` EPILOGUE TAIL IS AN ASSEMBLER ARTIFACT, NOT CODEGEN.** GNU
+   `as -O2` fills the return delay slot; cc1 CANNOT emit that shape for any `$s`-saving frame
+   (`mips.c:5081/5174/5204`). This **corrects §177's row 2 in place** (banner added), **answers §182's
+   open question**, and explains why that lane converted 4 of 16. `tools/oracle_reorder.py` now
+   separates a C defect from an assembler artifact in one 2×2 — a 0 in the bypass+`as -O2` cell means
+   the draft is already right and grinding is futile. **Six functions in that band are prebuilt SDK
+   objects** (libpad `pdent3/4/5`, `pdmain1`, `pdmaiini`, libapi `first.o`) → `psyq_integrate`.
+3. **§187 — THE libgs SHORTCUT IS REFUTED, AND THE LESSON IS ABOUT THE ORACLE.** `src/800b_7.c` really
+   is `GsSortBg`/`GsSortFastBg` = `2D_BG0.o`/`2D_BG1.o`, but the game's build carries **six extra GTE
+   hazard nops**: 520 object instructions vs a 526-instruction region. Two checks (the agent's and my
+   own) called it a match because both excused a whole word whenever it carried a relocation. **A mask
+   coarser than the linker's is not weak evidence, it is no evidence**, and agreement between two loose
+   checks is not corroboration (R34). Reverted; those 8 symbols stay decomp work.
+4. **COMMENT-BLINDNESS WAS A DEFECT CLASS, NOT A BUG (§184).** Three tools were comparing C text
+   without masking comments, so identical layouts read as DIFFERENT-STRUCT because agents annotate
+   fields and the TU does not — each silently refusing byte-verified work. Related: `scan_leftovers.py`
+   found **37 byte-perfect, still-stubbed drafts (3,240 ins) on its first run** — a wave targets ~6,500
+   ins, so sweep `.run/` before spending a token on new cards (§180).
 
 ### Tooling shipped this session (all negative-controlled)
-`scan_leftovers.py` **NEW** (found 37 unbanked byte-perfect drafts on the first run) ·
-`fragment_check.branched_into` **NEW** (the mirror trap; 5.7% of main stubs carry it, 0% in the wave-S
-overlays) · `gate_main`: typedef HOIST above the include block (byte-neutral, SHA-proven), comment-blind
-typedef comparison FIXED, FORWARD-typedef recognized instead of renamed · `pregate_check`: masked-text
-scan, ANY return-type disagreement now FAILs, brace-bodied externs now visible · `reconcile_slate`:
-comment-blind struct comparison FIXED.
+**NEW** `scan_leftovers.py` (re-verify unbanked drafts; the `.s`-existence oracle) ·
+**NEW** `fragment_check.branched_into` (the MIRROR trap: a sibling branches INTO your range; 5.7% of
+main stubs, 0% in the wave-S overlays) · **NEW** `tools/oracle_reorder.py` (§188's diagnostic) ·
+`gate_main`: typedef **HOIST** above the include block (byte-neutral, SHA-proven) + comment-blind
+comparison fixed + FORWARD typedef stripped instead of renamed · `pregate_check`: masked-text scan +
+ANY return-type disagreement now FAILs + brace-bodied externs visible · `reconcile_slate`:
+comment-blind struct comparison fixed.
 
-### Cookbook: §180–§191 (24 entries)
-§180/b/c/d leftover harvest + ladder composition + mass-band exhaustion + the pgrep bracket limit ·
-§181 the gate's rejection census (26 of 27 rejects byte-correct) + the mirror-fragment class ·
-§182 §177's honest negative **(now ANSWERED by §188)** · §183 the declaration-reconciliation playbook
-(the name/shape trap; why `&D_x` defeats the cast escape) · §184/b comment-blindness as a DEFECT CLASS
-(3 tools) + the forward typedef · §185/b verify-the-cheap-side + check a TU retype at its USE SITES ·
-§186/b/c cross-jumping runs after sched2 + the s16-locals frame signal + local_alloc-vs-global_alloc as
-a placement lever · §187 the libgs link REFUTED (GTE hazard nops; a mask coarser than the linker's is
-no evidence) · **§188 the `jr $ra`+`addiu $sp` tail is an ASSEMBLER artifact — corrects §177 row 2,
-answers §182, and names 6 SDK objects in the band** · §189 five source-cited compiler laws (split-constant
-LUID adjacency · self-accumulate operand order fixed at expansion · the bb0 re-tie needs a `memory`
-clobber · narrow params are born into TWO pseudos · the compare-constant row flip) · §190 three
-prescriptions (preheader strata · natural-order-first with the rigidity plateau · the sched2 arg fence) ·
-§191 what the harvest REJECTED.
-
-### The S53 journal harvest (do not redo it)
-10 readers over **247 wave-R/S verdicts**, then one adversarial verifier per candidate defaulting to
-REJECT: 18 candidates → **10 CONFIRMED, 4 WEAK, 4 REJECTED** (`.run/s53_harvest.json`). Verifiers
-rebuilt targets from the ROM where the `.s` had been pruned, re-ran A/B sweeps rather than trusting the
-readers, and caught a wrong mechanism comment in `src/800.c:5430`. §177 was corrected IN PLACE with a
-banner, `tools/oracle_reorder.py` was promoted out of gitignored scratch (a cookbook section may not
-cite evidence that evaporates), and the reusable wave prompt's law 6 was corrected so the next wave is
-not aimed at the wrong layer.
+### Cookbook: §180–§191 (24 entries) — see the section list in the S53 progress-log entries above
+The **S53 journal harvest is DONE — do not redo it**: 10 readers over 247 wave-R/S verdicts, one
+adversarial verifier per candidate defaulting to REJECT → **10 CONFIRMED / 4 WEAK / 4 REJECTED**
+(`.run/s53_harvest.json`; §191 records the rejects). Verifiers rebuilt targets from the ROM where the
+`.s` was pruned on bank, re-ran their own A/B sweeps, and caught a wrong mechanism comment at
+`src/800.c:5430`.
 
 ### NEXT SESSION — in order
-1. **Wave T.** Same recipe: `build_wave_atlas --target-ins 6500 --min-ins 60 --max-ins 200 --rank mass`
-   (fleet-wide, NOT `--only-bins main` — main's mass band is spent, §180c). Regenerate the atlas first
-   (`make atlas`); it now predates 161 banks.
-2. **The 15 wave-S rejects in `ov_SC04_011`** — that overlay's declaration landscape is the known
-   hostile one (6/10 failed there in wave O too). Run the §183 playbook lane on them; wave R's
-   equivalent converted 20/21.
-3. **`func_80031A98`** — the one honest wall: an agent PROVED with a minimal cc1 repro that the
-   block-scope `extern s16 D_800C5328[][2];` is a hard error against the file-scope flat decl, and all
-   three escapes lose the match. Unblocking = retype 7 declarations + 4 banked assignments, then
-   re-verify those functions' bytes.
-4. **`GsSortBg` / `GsSortFastBg` fragment merges** (6 symbols / 526 ins and 2 symbols / 496 ins) — the
-   merged drafts exist at `.run/final10/main/gfx2D_BG0_OBJ_4D8.c` (526/526 ins, 260 mismatched) and the
-   boundary map is in the wave-R/final-10 verdicts. Now that §187 removes the link shortcut, these are
-   the honest route.
-5. `func_80186020` (closeness 5) — grinder/permuter fuel, NOT a hand-lever target: it survived ~900
-   compiles across 11 sweeps of a fully-understood allocator tie-break (§186c).
+1. **Wave T.** `make atlas` FIRST (it predates 161 banks), then
+   `build_wave_atlas --target-ins 6500 --min-ins 60 --max-ins 200 --rank mass` **fleet-wide** — NOT
+   `--only-bins main`, whose mass band is spent (§180c). Then the pre-gate ladder BEFORE the first
+   rebuild: `reconcile_slate --apply` → `fragment_check` → `pregate_check` → `gate_main` dry-run until
+   `N -> N compatible, 0 dropped`. Gate with `bisect_slate.py`, never `gate_main --apply` without
+   `--no-bisect`. Overlays: convert slates to `gate_lane` shape first (it needs `binary` + `name`).
+2. **The 6 SDK objects from §188 Law 3** → `psyq_integrate`. Cheapest instructions on the board, and
+   the identification came FROM the strict oracle (unlike §187's refuted claim). Verify with
+   `psyq_identify` + a clean rebuild.
+3. **The 15 wave-S rejects in `ov_SC04_011`.** That overlay's declaration landscape is the known
+   hostile one (6/10 also failed there in wave O). Run the §183 playbook lane; wave R's equivalent
+   converted 20 of 21.
+4. **`GsSortBg` / `GsSortFastBg` fragment merges** (6 symbols / 526 ins; 2 symbols / 496 ins). §187
+   removed the link shortcut, so this is the honest route. A merged draft exists at
+   `.run/final10/main/gfx2D_BG0_OBJ_4D8.c` (526/526 ins, 260 mismatched) with the full boundary map in
+   the final-10 verdicts. **Merge recipe that worked twice this session:** build a synthetic merged `.s`
+   (fragments concatenated in address order, interior `j <symbol>` rewritten to `j .L<addr>`), verify
+   with `match_one` against THAT, then hand-substitute the body at the entry symbol's INCLUDE_ASM line
+   and delete the other fragments' lines — the whole-binary rebuild is the real oracle.
+5. **Do NOT re-run the §177 epilogue lane** (§182/§188). Use `oracle_reorder.py` to file the
+   assembler-artifact cases IMMOVABLE instead of drafting them.
 
-### Watch-fors (new this session)
-The `pgrep` bracket trick protects only the PATTERN — a waiter whose command line names the file
-elsewhere never exits (§180d). · `gate_main --apply` reports BANKED but VERIFY `corpus.stubs()` dropped
-before committing. · `gate_lane` needs `binary` + `name` on every slate record; `scan_leftovers` does not
-emit them. · `tools/make_libgs.sh` is not executable — invoke it as `bash tools/make_libgs.sh`. ·
-`psyq_link_region.py --verify` inside `make_libgs.sh` is STALE (missing the Phase-9-required
-`--vram-base`/`--exe`).
+### Known-open items
+* `func_80031A98` — the one honest wall. An agent PROVED with a minimal cc1 repro that the block-scope
+  `extern s16 D_800C5328[][2];` is a hard error against the file-scope flat decl, and all three escapes
+  (local 2-D pointer, inline cast, TU retype) fail. Unblock cost: retype 7 declarations + 4 banked
+  assignments in `func_80030A14`/`func_8003750C`, then re-verify THEIR bytes.
+* `func_80186020` (closeness 5) — grinder/permuter fuel, NOT a hand-lever target: survived ~900 compiles
+  across 11 sweeps of a fully-understood `global.c:allocno_compare` tie-break (§186c).
+* The AGREE re-gate lane stays CLOSED (measured 5%, S52). Do not reopen.
+
+### Watch-fors
+* The `pgrep` bracket trick protects only the PATTERN — a waiter whose command line names the file
+  elsewhere (e.g. in a `tail`) never exits (§180d). Cost this session: a 46-min loop on a finished job.
+* `gate_main --apply` prints BANKED — **verify `corpus.stubs()` actually dropped before committing.**
+* `corpus.stubs()` refuses (correctly) when a binary's `.s` files are missing: after `make clean`, only
+  the binaries you re-extracted can be queried. `make extract-all` restores the fleet.
+* `tools/make_libgs.sh` is not executable — run it as `bash tools/make_libgs.sh`.
+* `psyq_link_region.py --verify` inside `make_libgs.sh` is STALE (missing the Phase-9-required
+  `--vram-base`/`--exe`) and reports only the objects it could PLACE — a silently smaller set.
+* A workflow killed by the session usage limit resumes cleanly: `Workflow({scriptPath, resumeFromRunId,
+  args})` replays completed agents from cache and re-runs only the interrupted ones (proven twice).
 
 ## SESSION S52 TASK LIST (2026-08-15, ultracode) — the monitorable view (no TaskCreate tool in this harness build)
 
