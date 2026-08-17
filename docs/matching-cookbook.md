@@ -17976,3 +17976,9 @@ more. `pregate_check`'s CONFLICTING-EXTERN scan should have caught the `D_800727
 of them and did not: its declaration regex is single-line, and the offending declaration was a
 multi-line `extern struct { ... } *D_x;`. **A pre-gate check that sees 90% of declarations converts a
 one-rebuild-per-conflict loop into a single pass — that is where the leverage is, not in the drafting.**
+**Shipped the same session**: `pregate_check` now scans brace-bodied externs (`extern struct { ... }
+*D_x;`) with the normalized body as part of the signature, so two identical struct declarations stay
+silent while a struct-vs-`void *` clash FAILs. Negative-controlled four ways — and one of those
+controls caught a trap worth its own line: **a synthetic test using a fake symbol name (`D_x`) reported
+CLEAN for a conflict the tool does detect**, because `sym_of` only recognizes real project symbol
+spellings. A negative control must use names the system would accept, or it tests nothing.

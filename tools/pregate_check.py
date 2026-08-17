@@ -62,6 +62,11 @@ def _depth_map(masked):
     return out
 
 
+STRUCT_EXTERN = re.compile(
+    r'^[ \t]*extern\s+(?:const\s+|volatile\s+)*(struct|union)\s*\{([^{}]*)\}\s*(\**)\s*(\w+)\s*(?:\[[^\]]*\])?\s*;',
+    re.M | re.S)
+
+
 def _norm_sig(sig):
     """`void f()` and `void f(void)` are not a conflict worth blocking a rebuild over: C89 calls
     the first an unspecified parameter list, and gcc-2.7.2 accepts the pair. Normalize both to
@@ -155,6 +160,18 @@ def check_text(path, text):
 
     # 4. one symbol declared two incompatible ways anywhere in the final text
     decls = {}
+    # BRACE-BODIED EXTERNS FIRST (P31 S53). gm.DECL is single-line, so a draft declaring
+    #     extern struct { u8 pad[0x34]; s32 (*field_0x34)(s32); } *D_80072780;
+    # was invisible to this check while a sibling declared the same symbol `void *` — the clash
+    # surfaced only as a compile error, one rebuild later (§183.5). Bodies are flat here (no nested
+    # braces), and the normalized body is part of the signature so two IDENTICAL struct declarations
+    # do not read as a conflict.
+    for m in STRUCT_EXTERN.finditer(masked):
+        if depth[m.start()]:
+            continue
+        body = ' '.join(m.group(2).split())
+        sig = (f'{m.group(1)}{{{body}}}{m.group(3)}', '')
+        decls.setdefault(m.group(4), (m.start(), sig))
     for m in gm.DECL.finditer(text):
         if depth[m.start()]:            # block-scope decl: private to its function
             continue
