@@ -17830,3 +17830,84 @@ The fleet-wide draw hit the doctrine's 6k target *and* concentrated into two TUs
 gate-group concentration once the band is wide enough to have choices. **A binary running dry is not the
 frontier running dry** — it is a signal to widen the binary set, not the instruction band. Widening the band
 instead buys smaller functions at *more* gate groups, which is the wrong trade twice over.
+
+---
+
+## §181 — WHAT A WAVE'S GATE ACTUALLY REJECTS (P31 S53, measured on wave R's 45-draft main pile)
+### Only ONE of 27 blocked drafts was wrong. The other 26 were correct and unbankable.
+
+Wave R drafted **92/110 MATCH** and its main pile carried 45 byte-verified drafts. **18 banked in the
+first slate.** Every rejection was catalogued; five distinct classes, four of which `match_one`,
+`reloc_identity`, `fragment_check` and `pregate_check` are ALL structurally blind to:
+
+| class | n | how it announces itself | who could have caught it |
+|---|--:|---|---|
+| **MIRROR-FRAGMENT** | 2 | `undefined reference to '.L80050D5C'` at LINK | nothing we had |
+| duplicate typedef, TU's copy BELOW | 7 | C89 duplicate-typedef at COMPILE | `pregate_check` did |
+| draft-vs-draft data-symbol type clash | 1 | `previous declaration of D_80072784` | nothing we had |
+| draft-vs-file signature conflict | 4 | `previous declaration of func_80032A74` | nothing we had |
+| **genuinely byte-wrong** | 1 | whole-binary SHA differs | only the build |
+
+**1. THE MIRROR FRAGMENT — the reverse of §176i, and a new refusal we do not yet compute.**
+`fragment_check` asks *"does another symbol live INSIDE my range?"*. The opposite is equally fatal:
+another stub's `.s` **branches into a label inside YOUR range**, and converting you to C deletes that
+label. Two instances, both silent until the linker spoke:
+* `gfx2D_BG0_OBJ_4D8` — `gfx2D_BG0_OBJ_1B4.s` branches to `.L80050D5C` / `.L80050D70` inside it;
+* `SYS_OBJ_26EC` — `SYS_OBJ_25C8.s` branches to `.L8005B9B8` inside it.
+The test is as cheap as the forward one: for each still-stubbed sibling `.s`, collect the `.L`
+targets it references and refuse any draft whose `[addr, addr+4*nins)` contains one. **Shipped as
+`fragment_check.branched_into()`**, negative-controlled on both known-bad drafts (it names them and
+the exact referring sibling) — and then measured across the corpus, which is the number that matters:
+
+| binary | stubs owning a branched-into label |
+|---|--:|
+| `main` | **99 of 1,745 (5.7%)** — incl. `SaveLoadRoutine`, `GsSortFastBg`, the `gfx2D_BG0_*` cluster |
+| `ov_SC04_011` | 0 of 229 |
+| `ov_SC03_028` | 0 of 194 |
+
+So it is a **main-specific hazard at ~1 in 18**, and effectively absent from the overlay fleet. That
+asymmetry is itself informative: main is where splat's symbol table names the most non-function
+addresses. Two notes on the semantics — the check excludes labels a function defines itself, and it
+excludes siblings that are IN THE SAME SLATE (converting both at once removes the referencing `.s`,
+so the hazard evaporates). A population scan that puts every stub in one slate therefore correctly
+reports zero, which is a right answer to a different question.
+
+**2. THE TYPEDEF-BELOW CASE.** `gate_main.strip_dup_typedefs` reuses a definition only when it is
+visible ABOVE the insertion point — correct, since stripping a below-survivor leaves the name
+undefined (that trap is documented in its own docstring). But it then KEEPS the draft's copy, and
+two definitions of one typedef name is a C89 error wherever they sit. Both horns are wrong; the
+missing third option is to rename the draft's private copy, or hoist the file's definition (typedefs
+emit no code, so hoisting is byte-neutral). **7 correct drafts are parked on this.**
+
+**3. THE BISECT ECONOMICS ARE SETTLED.** `bisect_slate.py` — null control first, then true binary
+search — isolated the single byte-wrong draft (`SYS_OBJ_1DC0`) in **5 steps / 90 seconds**, at ~13 s
+per incremental build. `gate_main`'s built-in bisect on a comparable slate ran **3 hours and named
+nothing** (§176i). Never use the built-in one; always pass `--no-bisect` and drive `bisect_slate`.
+
+**4. THE STRATEGIC READING.** 26 of 27 blocked drafts are byte-correct work that only the *plumbing*
+rejects, which is the §180b ratio again from a third independent direction. The lesson is not "draft
+better" — the drafting is done. It is that **every hour spent making the integration layer compute a
+refusal is worth more than an hour of drafting**, because drafting is already at 84–93%.
+
+## §182 — §177's HONEST NEGATIVE: the epilogue lever cracked 4 of 16, and the `800c3` cluster held
+Wave R ran §177 (the saved-register-set → epilogue-delay-slot law) as a dedicated 16-card repair lane
+against pre-classified near-misses — 10 of them the exact `addiu $sp / jr $ra / nop` vs
+`jr $ra / addiu $sp` signature, all in `800c3`. Result: **4 MATCH, 10 still at closeness 2–3, 2
+IMMOVABLE.** Every survivor kept its original signature.
+
+So §177's *mechanism* is source-confirmed and its *lever* ("change what is live across the call") is
+not sufficient for this cluster. That is a refutation of the lever's reach, not of the rule. **Do not
+re-run this lane as-is** (R38: the verdicts are recorded in `.run/s53_epi_class.json` and the wave
+journals). The next probe should ask what ELSE forces those frames — an argument spill, a callee's
+clobber set, or a `$s`-register requirement the C shape cannot avoid — before another agent-hour is
+spent. A lane that converts 25% is a lane that needs a new hypothesis, not another pass.
+
+## §180d — THE `pgrep` BRACKET TRICK PROTECTS THE PATTERN, NOT THE COMMAND LINE
+S52 banked "`pgrep -f` self-matches its own shell wrapper — use the `[g]ate_main` bracket trick." S53
+found the trick's limit the hard way: a waiter written as
+`until ! pgrep -f '[g]ate_lane'; do sleep 20; done; tail -8 .run/gate_lane_sc02.log`
+never exits, because its own command line contains the plain string `gate_lane` **in the `tail`
+argument**. The bracket only de-fangs the occurrence inside the pattern itself. Either name the file
+nowhere else on that line, or match something unforgeable (`pgrep -f 'tools/gate_lane\.py'` from a
+wrapper that does not mention the path twice). Cost here: a 46-minute loop against a job that had
+already finished, and a false "still running" in two status reports.

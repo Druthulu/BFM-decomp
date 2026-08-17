@@ -98,7 +98,14 @@ def check_text(path, text):
     findings = []
     masked = cdecl._mask(text)          # R33: the one comment/string masking oracle
     depth = _depth_map(masked)
-    tds = _typedefs(text)
+    # SCAN THE MASKED TEXT, NEVER THE RAW TEXT (P31 S53, R35). This originally read
+    # `_typedefs(text)`, so a typedef quoted in a COMMENT counted as a definition: src/800.c's own
+    # bank note at line 2409 quotes `typedef struct { s32 a; s32 b[4]; } OtBlk_80016450;` inside a
+    # /* */ block, and the tool reported DUPLICATE-TYPEDEF against a file that has compiled
+    # byte-identically for weeks. Seven of nine FAILs on a real wave-R slate were comment-borne.
+    # The masking oracle was already computed one line above and simply was not used here; because
+    # _mask is length-preserving, every reported offset stays valid.
+    tds = _typedefs(masked)
 
     # 3. duplicate typedef -- ANY redefinition, identical body or not.
     # C89 has no "compatible redefinition" allowance for typedefs: `typedef struct {...} T;` twice
@@ -164,7 +171,7 @@ def check_text(path, text):
             decls.setdefault(s, (m.start(), sig))
 
     # 5. definition vs a visible prototype
-    for name, (off, sig) in _func_defs(text).items():
+    for name, (off, sig) in _func_defs(masked).items():   # masked, not raw — see the note above
         sig = _norm_sig(sig)
         if name in decls and decls[name][1] != sig:
             # SEVERITY CALIBRATED AGAINST THE COMPILER, not against C89 pedantry. Measured on the
