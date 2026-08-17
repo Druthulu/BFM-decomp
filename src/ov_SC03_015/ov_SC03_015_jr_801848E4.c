@@ -4283,22 +4283,7 @@ void func_8018A0F4(void *a0) {
  * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
  */
 
-extern void func_8012A828(s32 a0, void *a1);
-
-void func_8018A1B4(void *a0) {
-
-    extern u8 D_801E3980[];
-    extern u8 D_801E3760[];
-    if (*(s16 *)((s32)a0 + 0x98) == 0) {
-        *(s16 *)((s32)a0 + 0x2) = 1;
-        if (*(s16 *)((s32)a0 + 0xFE) == 1) {
-            func_8012A828((s32)a0, D_801E3980);
-        } else {
-            func_8012A828((s32)a0, D_801E3760);
-        }
-        *(s16 *)((s32)a0 + 0xFE) = 0;
-    }
-}
+DEFINE_func_8018A1B4()  /* dedup: shared engine-core @0x8018A1B4 (src/shared) */
 
 
 extern s32 *D_80126B78;
