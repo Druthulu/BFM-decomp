@@ -4307,7 +4307,76 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80180F3
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801811D0);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181220);
+#include "common.h"
+
+/* §183: this TU declares D_80126B58 at BLOCK scope with other shapes (u8[] in func_80184978,
+   u16 in func_80187068). A FILE-scope decl here turns those into hard errors, so reach the
+   symbol through an __asm__ label alias (the TU's own idiom, func_80188094 L6390). */
+extern s32 aB58_80181220[1] __asm__("D_80126B58");
+extern s16 D_801944A8[][4];
+
+/* §183 SIGNATURE-cast-at-call: the TU declares `extern void func_801833D4(int, int);`
+   (L4269/L4328) and recovers the s32 result with a call-site function-pointer cast
+   (its own idiom at L4362). Same here. */
+extern void func_801833D4(int a0, int a1);
+extern s32 func_80183A28(u8 *a0);
+extern void func_80181390(s32 a0);
+extern void func_80183564(s32 a0, s16 *a1);
+extern void func_8002D4C8(s32 arg0, s32 arg1);
+
+void func_80181220(s32 a0) {
+    s32 s0;
+    u8 *s1;
+    s32 v0;
+    u16 state;
+    s16 t;
+    s16 buf[3];
+
+    s0 = a0;
+    s1 = (u8 *)&aB58_80181220[0];
+
+    v0 = ((s32 (*)(int, int))func_801833D4)((int)s0, 0);
+    if (v0 != 0) {
+        state = *(u16 *)(s0 + 0x34);
+        switch (state) {
+        case 0:
+        case 2:
+            if (*(s16 *)(s0 + 0xF2) != 0) {
+                func_80181390(s0);
+            } else {
+                buf[0] = *(u16 *)(s1 + 0x6);
+                buf[1] = *(u16 *)(s1 + 0xA) - 0x50;
+                buf[2] = *(u16 *)(s1 + 0xE);
+                func_80183564(s0, buf);
+                *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            }
+            break;
+        case 1:
+        case 3: {
+            u16 idx = (u16)((*(u16 *)(s0 + 0xF4) + 1) & 1);
+            *(u16 *)(s0 + 0xF4) = idx;
+            func_80183564(s0, D_801944A8[idx]);
+            *(u16 *)(s0 + 0x34) = (u16)((*(u16 *)(s0 + 0x34) + 1) & 3);
+            func_8002D4C8(0x992, 0);
+            break;
+        }
+        default:
+            break;
+        }
+    } else {
+        func_80183A28((u8 *)s0);
+    }
+
+    t = *(s16 *)(s0 + 0xF2);
+    if (t == 0) {
+        if (*(s16 *)(s1 + 0xE) >= 0xA01) {
+            if (*(s16 *)(s1 + 0xA) >= -0x73F) {
+                *(s16 *)(s0 + 0xF2) = t + 1;
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181390);
 
@@ -4412,7 +4481,156 @@ void func_80181948(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181B30);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181BA0);
+#include "common.h"
+
+/* [T51] every symbol below is scoped INTO the function body: this TU already carries
+   file-scope decls of some of these names with other shapes (cookbook §103 / wave law 2).
+   The three names that ARE already visible at file scope before this function
+   (func_8012BEE8, func_8013C9C4, func_8002D4C8) are spelled exactly as the TU spells them. */
+
+extern void func_8012BEE8(u8 *a0);
+extern void func_8013C9C4(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+/* Real struct types: the entity's members MUST be COMPONENT_REFs so MEM_IN_STRUCT_P is set.
+   sched.c true_dependence drops the edge between a (IN_STRUCT && varying) member MEM and the
+   (!IN_STRUCT && !varying) SYMBOL_REF global D_801EFD40 -- that is what lets the target hoist
+   every `lhu D_801EFD40` above the entity stores (cookbook line 14831). */
+struct Sub_80181BA0 {
+    /* 0x00 */ u8  pad00[0x12];
+    /* 0x12 */ s16 unk12;
+};
+
+struct Ent_80181BA0 {
+    /* 0x00 */ u8  pad00[0x6];
+    /* 0x06 */ s16 unk06;
+    /* 0x08 */ u8  pad08[0x2];
+    /* 0x0A */ s16 unk0A;
+    /* 0x0C */ u8  pad0C[0x2];
+    /* 0x0E */ s16 unk0E;
+    /* 0x10 */ u8  pad10[0xC];
+    /* 0x1C */ s32 unk1C;
+    /* 0x20 */ struct Sub_80181BA0 *unk20;
+    /* 0x24 */ u8  pad24[0x10];
+    /* 0x34 */ u16 unk34;
+    /* 0x36 */ u8  pad36[0x5E];
+    /* 0x94 */ s32 unk94;
+    /* 0x98 */ s16 unk98;
+    /* 0x9A */ u8  pad9A[0x58];
+    /* 0xF2 */ s16 unkF2;
+    /* 0xF4 */ u8  padF4[0x2];
+    /* 0xF6 */ s16 unkF6;
+};
+
+void func_80181BA0(struct Ent_80181BA0 *a0) {
+    extern u16 D_801EFD20;
+    extern u16 D_801EFD40;
+    /* §183: the TU spells D_801EFC4C as a file-scope SCALAR; reach the array view through an
+       __asm__ label ALIAS (the TU's own idiom, func_80188094 L6390). */
+    extern s32 aFC4C[] __asm__("D_801EFC4C");
+    extern u8 D_801DF1D4[];
+    extern u8 D_80194C14[];
+    extern u8 D_80190B88[];
+
+    extern void func_80183C74(s32, s32);
+    extern void func_80183D00(s32);
+    extern void func_80185B5C(u16);
+    extern void func_80185C5C(u16);
+    extern void func_80184DB8(s32);
+    extern void func_80185A30(s32);
+    extern void func_80186300(s32, void *, s32);
+    extern void func_80186BF8(void);
+    extern void func_8018AA70(s32);
+    /* §183 SIGNATURE-cast-at-call: TU declares (s32, s32); adopt it and cast at the call. */
+    extern void func_80184CCC(s32, s32);
+    extern void func_80183CF4(void *);
+    extern void func_80185B04(s32, s32);
+    extern void func_80185C04(s32, s32);
+    extern void func_80185214(s32);
+    extern s32 func_80184F4C(void);
+    extern void func_80186BD8(void);
+    extern void func_80181EA0(s32);
+    extern s32 func_80184884(void);
+    extern void func_801826E4(s32);
+
+    struct Sub_80181BA0 *p;
+    s32 pad[2];
+
+    switch (a0->unk34) {
+    case 0:
+        func_80183C74(aFC4C[D_801EFD20], (0x18 - a0->unkF6 * 4) & 0xFFFC);
+        func_80183D00((s32)a0);
+        func_80185B5C(1);
+        func_80185C5C(3);
+        func_80184DB8(D_801EFD20);
+        func_80185A30(0);
+        if (((s32 (*)(s32))func_8012BEE8)((s32)a0) != 0) {
+            p = a0->unk20;
+            a0->unk06 = 0x508;
+            a0->unk0A = -0x76C;
+            a0->unk0E = 0x18CD;
+            func_80186300((s32)a0, D_801DF1D4, p->unk12);
+            func_80186BF8();
+            a0->unk34 = a0->unk34 + 1;
+            D_801EFD40 |= 0x800;
+        }
+        break;
+    case 1:
+        if (a0->unk98 == 0) {
+            u16 f;
+            u16 t;
+            a0->unk1C = a0->unkF6 * 8;
+            f = D_801EFD40;
+            t = a0->unk34 + 1;
+            a0->unk34 = t;
+            D_801EFD40 = f & 0xF7FF;
+        } else {
+            if (a0->unk94 == 0x28) {
+                a0->unkF2 = 0x20;
+            }
+            if (a0->unk94 == 0x24) {
+                func_8002D4C8(0x889, 0);
+            }
+            if (a0->unk94 >= 0x24 && a0->unk94 <= 0x29) {
+                func_8018AA70(aFC4C[0]);
+            }
+        }
+        break;
+    case 2:
+        if (((s32 (*)(s32))func_8012BEE8)((s32)a0) != 0) {
+            u16 t;
+            D_801EFD40 |= 0x20;
+            func_80184CCC((s32)a0, (s32)D_80194C14);
+            func_80183CF4((void *)a0);
+            func_80185B04(1, 0x20);
+            func_80185C04(3, 0x30);
+            func_80185214(a0->unk20->unk12);
+            t = a0->unk34 + 1;
+            D_801EFD40 |= 2;
+            a0->unk34 = t;
+        }
+        break;
+    case 3:
+        func_80184DB8(D_801EFD20);
+        if (func_80184F4C() != 0) {
+            D_801EFD40 &= 0xFFDD;
+            func_80186BD8();
+            func_80181EA0((s32)a0);
+        }
+        break;
+    }
+
+    if (a0->unkF2 > 0) {
+        if ((a0->unkF2 & 0xF) == 0) {
+            func_8013C9C4(D_80190B88);
+        }
+        *(u16 *)&a0->unkF2 = *(u16 *)&a0->unkF2 - 1;
+    }
+    if ((s16)func_80184884() == 0) {
+        func_801826E4((s32)a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181EA0);
 
@@ -4420,7 +4638,128 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181F0
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018214C);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801821E4);
+#include "common.h"
+
+extern s32 D_801EFC48;
+/* §183: the TU declares D_801EFC4C at BLOCK scope as `s32[]` further down; a FILE-scope
+   scalar decl here turns those into hard errors. Reach it through the batch-wide
+   __asm__ label alias instead (the TU's own idiom, func_80188094 L6390). */
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern u16 D_801EFD20;
+
+typedef struct {
+    s32 f0;
+    s32 f1;
+    s32 f2;
+} Rec801944E8;
+extern Rec801944E8 D_801944E8[];
+
+extern void func_80185960(s32 target, u16 *cur, s32 step);
+extern s32 func_80184F4C(void);
+/* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, void *, s32). */
+extern void func_80186300(s32 a0, void *a1, s32 a2);
+extern void func_80188560(s32 a0, s32 a1);
+extern void func_80185F1C(void);
+extern void func_80185214(s32 a0);
+extern void func_80184DB8(s32 a0);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_801873D8(s32 a0);
+extern void func_80185D04(s32 a0);
+extern void func_801823C0(void *a0);
+/* §183 SIGNATURE-cast-at-call: the TU DEFINES `s32 func_80184978(s32, s32, s32)` (L5102);
+   adopt that prototype and cast the buffers at the call. */
+extern s32 func_80184978(s32 a0, s32 a1, s32 a2);
+
+void func_801821E4(void *a0)
+{
+    u16 state;
+    s16 v0;
+    s32 v1;
+    u16 buf1[3];
+    u16 buf2[3];
+
+    state = *(u16 *)((char *)a0 + 0x34);
+    if (state == 0) {
+        goto L80182214;
+    }
+    if (state == 1) {
+        goto L801822F0;
+    }
+    goto L8018237C;
+
+L80182214:
+    func_80185960(0, (u16 *)((char *)(*(void **)((char *)a0 + 0x20)) + 0x12), 0x40);
+    if (*(s16 *)((char *)(*(void **)((char *)a0 + 0x20)) + 0x12) != 0) {
+        goto L801822C4;
+    }
+    if (func_80184F4C() == 0) {
+        goto L801822C4;
+    }
+    {
+        *(s16 *)((char *)a0 + 0x6) = 0x508;
+        *(s16 *)((char *)a0 + 0xA) = -0x76C;
+        *(s16 *)((char *)a0 + 0xE) = 0x18CD;
+        func_80186300((s32)a0, (void *)D_801944E8[*(s16 *)((char *)a0 + 0xE2)].f0,
+                       *(s16 *)((char *)(*(void **)((char *)a0 + 0x20)) + 0x12));
+        func_80188560(aFC4C[0], D_801EFC48);
+        func_80185F1C();
+        *(u16 *)((char *)a0 + 0x34) = *(u16 *)((char *)a0 + 0x34) + 1;
+        goto L80182378;
+    }
+
+L801822C4:
+    func_80185214(*(s16 *)((char *)(*(void **)((char *)a0 + 0x20)) + 0x12));
+    func_80184DB8(D_801EFD20);
+    goto L8018237C;
+
+L801822F0:
+    v0 = *(s16 *)((char *)a0 + 0x98);
+    if (v0 == 0) {
+        goto L80182370;
+    }
+    if (v0 != state) {
+        goto L8018237C;
+    }
+    v1 = *(s32 *)((char *)a0 + 0x94);
+    if (v1 == 0x29) {
+        *(s32 *)((char *)a0 + 0xD0) = func_8012C588(0x2B6, aFC4C[0]);
+        func_8002D4C8(0x88B, 0);
+        goto L8018237C;
+    }
+    goto L80182340;
+
+L80182340:
+    if (v1 != 0x75) {
+        goto L8018237C;
+    }
+    {
+        s32 d0 = *(s32 *)((char *)a0 + 0xD0);
+
+        if (d0 == 0) {
+            goto L80182380;
+        }
+        func_801873D8(d0);
+        func_80185D04(1);
+        goto L8018237C;
+    }
+
+L80182370:
+    func_801823C0(a0);
+    goto L80182378;
+
+L80182378:
+L8018237C:
+L80182380:
+    buf2[1] = 0x20;
+    buf1[1] = 0x20;
+    buf2[0] = 0;
+    buf1[0] = 0;
+    buf1[2] = 0;
+    buf2[2] = 0x100;
+    func_80184978(aFC4C[0], (s32)buf1, (s32)buf2);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801823C0);
 
@@ -4436,7 +4775,99 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80182AF
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80182B5C);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80182BBC);
+#include "common.h"
+
+/* TU (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c) already declares func_801833D4 as
+   `extern void func_801833D4(int a0, int a1);` at file scope -- but this call site needs the
+   return value. Match the existing decl exactly, then use the file's own established cast-call
+   idiom (see func_801805D8 / func_801805F8 in the same TU) to call it as if it returned s32. */
+extern void func_801833D4(int a0, int a1);
+extern s32 func_80183A28(u8 *a0);
+/* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, s16 *). */
+extern void func_80183564(s32 a0, s16 *a1);
+extern void func_80183BD0(u8 *a0);
+extern s32 func_80186710(void);
+extern void func_80186BD8(void);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern s32 func_80188E00(s32 a0, void *a1);
+
+extern u16 D_801EFD20;
+extern u16 D_801EFD40;
+extern s32 D_801EFD18;
+/* §183: the TU spells these symbols differently at file scope, so reach them through
+   __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
+   same assembler symbol, private type, zero declaration surface. */
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern u8 D_801944D0[];
+extern u8 D_80194538[];
+
+void func_80182BBC(u8 *self) {
+    int state = *(u16 *)(self + 0x34);
+    s32 pad[2];
+    (void)pad;
+
+    if (state < 0) {
+        goto L_end;
+    }
+    if (state < 2) {
+        goto L_BF8;
+    }
+    if (state == 2) {
+        goto L_C44;
+    }
+    goto L_end;
+
+L_BF8:
+    if (((s32 (*)(int, int))func_801833D4)((int)self, 0) == 0) {
+        goto L_D14;
+    } else {
+        register u16 f __asm__("$3") = *(u16 *)(self + 0xF4);
+        register s32 off __asm__("$5");
+        u8 *addr;
+        f = f + 1;
+        off = (s16)f * 8;
+        addr = D_80194538 + off;
+        *(u16 *)(self + 0xF4) = f;
+        func_80183564((s32)self, (s16 *)addr);
+        *(u16 *)(self + 0x34) = *(u16 *)(self + 0x34) + 1;
+        goto L_end;
+    }
+
+L_C44:
+    if (((s32 (*)(int, int))func_801833D4)((int)self, 0) == 0) {
+        goto L_D14;
+    } else {
+        s32 obj;
+        s32 vp;
+
+        obj = aFC4C[D_801EFD20];
+        if (!(D_801EFD40 & 0x400)) {
+            D_801EFD18 = func_80188E00(obj, D_801944D0);
+        }
+        vp = *(s32 *)(obj + 0x20);
+        *(s16 *)(obj + 6) = 0x500;
+        *(s16 *)(obj + 0xA) = -0xD88;
+        *(s16 *)(obj + 0xE) = 0x1980;
+        *(s16 *)(vp + 0x12) = 0;
+        vp = *(s32 *)(obj + 0x20);
+        *(s16 *)(vp + 0x10) = 0x380;
+        *(s16 *)(self + 0xFE) = 0x380;
+        func_80186710();
+        func_80183BD0(self);
+        D_801EFD40 = D_801EFD40 & 0xFFF7;
+        func_80183564((s32)self, (s16 *)D_801944D0);
+        func_80186BD8();
+        func_8012AD44((s32 *)self, 7);
+        goto L_end;
+    }
+
+L_D14:
+    func_80183A28(self);
+
+L_end:
+    return;
+}
+
 
 #include "common.h"
 
@@ -4499,7 +4930,75 @@ s32 func_80183010(s32 *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018301C);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183058);
+#include "common.h"
+
+/* §183: the TU declares D_801EFC4C at BLOCK scope as `s32[]` further down; a FILE-scope
+   scalar decl here turns those into hard errors. Reach it through the batch-wide
+   __asm__ label alias instead (the TU's own idiom, func_80188094 L6390). */
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern s32 D_801EFD14;
+extern s32 D_801EFD18;
+
+/* §183 SIGNATURE-cast-at-call: the TU DEFINES `void func_8018B2F8(s32 *, s32)` (L7882). */
+extern void func_8018B2F8(s32 *a0, s32 a1);
+extern void func_8018B830(void *a0);
+extern void func_80016450(s32 a0, s32 a1);
+extern void func_80189410(void);
+extern void func_8018B8C0(void *a0);
+extern s32  func_80143970(s32 a0);
+extern void func_8017CC2C(void);
+
+s32 func_80183058(s32 *a0) {
+    s32 s1 = (s32)a0;
+    void *s0;
+    s32 frame_pad[2];
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+    register s32 t4 __asm__("$4");
+    (void)&frame_pad;
+
+    s0 = (void *)aFC4C;
+    func_8018B2F8((s32 *)s0, 1);
+    func_8018B830(s0);
+
+    v0 = *(s16 *)(s1 + 0xF2);
+    v1 = v0;
+    __asm__("" : "=r"(v0) : "0"(v0));
+    if (v0 < 0x60) {
+        v0 = v1 + 1;
+    } else {
+        v0 = v1 + 8;
+    }
+    *(s16 *)(s1 + 0xF2) = v0;
+    __asm__("" ::: "memory");
+
+    v0 = *(s16 *)(s1 + 0xF2);
+    if (v0 >= 0x100) {
+        v0 = 0xFF;
+        *(s16 *)(s1 + 0xF2) = v0;
+    }
+
+    func_80016450(*(u8 *)(s1 + 0xF2), 1);
+
+    v1 = *(s16 *)(s1 + 0xF2);
+    if (v1 != 0xFF) {
+        goto ret0;
+    }
+    t4 = D_801EFD14;
+    if (t4 != 0) {
+        func_80189410();
+        D_801EFD14 = 0;
+    }
+    func_8018B8C0((void *)aFC4C);
+    D_801EFD18 = func_80143970(s1);
+    func_8017CC2C();
+    return 1;
+
+ret0:
+    __asm__ __volatile__("" ::: "memory");
+    return 0;
+}
+
 
 
 void func_8018314C(s32 *a0) {
@@ -4647,9 +5146,139 @@ void func_801832DC(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018332C);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801833D4);
+extern u16 D_801EFD40;
+/* §183: the TU declares D_801EFC4C at BLOCK scope as `s32[]` further down; a FILE-scope
+   scalar decl here turns those into hard errors. Reach it through the batch-wide
+   __asm__ label alias instead (the TU's own idiom, func_80188094 L6390). */
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern u16 D_801EFD20;
+
+extern void func_801863D4(void);
+extern void func_801863B4(s32 a0);
+extern void func_80184ABC(u16 a0);
+/* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, s16 *). */
+extern void func_80183564(s32 a0, s16 *a1);
+
+void func_8018332C(s32 a0, s32 a1) {
+    s32 v0;
+    s32 s1;
+    s32 s2;
+
+    v0 = D_801EFD40;
+    s1 = aFC4C[0];
+    s2 = a1;
+
+    D_801EFD20 = 0;
+    v0 = v0 | 0x4;
+    D_801EFD40 = (u16)v0;
+
+    if (v0 & 0x10) {
+        func_801863D4();
+        func_801863B4(a0);
+    }
+
+    func_80184ABC(D_801EFD20);
+    func_80183564(a0, (s16 *)s2);
+
+    v0 = *(s32 *)(s1 + 0x20);
+    v0 = *(u16 *)(v0 + 0x10);
+
+    *(u16 *)(a0 + 0x102) = 0;
+    *(u16 *)(a0 + 0x104) = 0;
+    *(u16 *)(a0 + 0xFE) = (u16)v0;
+}
+
+
+#include "common.h"
+
+extern u16 D_801EFD20;
+extern u16 D_801EFD40;
+/* §183: the TU spells these symbols differently at file scope, so reach them through
+   __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
+   same assembler symbol, private type, zero declaration surface. */
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+
+extern void func_801852BC(s32 a0);
+extern void func_801853D0(s32 a0);
+extern void func_80185648(s32 a0);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 func_80183BF0(s32 a0);
+/* §183 SIGNATURE-cast-at-call: the TU DEFINES `s32 func_801836D4(void *, void *)` (L4677). */
+extern s32 func_801836D4(void *a0, void *a1);
+extern void func_80185960(s32 target, u16 *cur, s32 step);
+
+/* NOTE (band verify): the destination TU (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:4201)
+   already has "extern void func_801833D4(int a0, int a1);" for this address, used only from
+   func_80180714() where the return value is discarded. That decl's "void" return conflicts
+   with this function's real behavior -- every path (including both early-exits) funnels into
+   a shared epilogue that copies $s4 (0 or 1) into $v0 right before the jr $ra, so the true
+   return type is s32. Flagging for the TU-side fix; this draft uses the byte-correct s32. */
+s32 impl_801833D4(s32 a0, s32 a1) __asm__("func_801833D4");
+
+s32 impl_801833D4(s32 a0, s32 a1)
+{
+    /* $a1 is call-saved across func_801852BC/func_801853D0/func_80185648 until its one use
+       far below; gcc puts its param->hardreg move in the branch's delay slot rather than up
+       front. A plain local didn't reproduce that ordering vs. the s4=0 init -- pin it to $19
+       ($s3, its natural hardreg) so the mid-fn scheduling matches (cookbook lever B/pin). */
+    register s32 r1 __asm__("$19") = a1;
+    u16 s0;
+    s32 obj;
+    s32 s4;
+    /* v[2..4] is a 3-word (vel-like x/y/z) struct passed by address to func_800484EC; the
+       real local apparently has 2 leading words of other data ahead of it in the frame (its
+       address-taken struct forces gcc to reserve stack starting 2 words earlier than our x
+       field) -- v[0]/v[1] are unused padding needed only to reproduce the frame layout. */
+    s32 v[5];
+
+    s0 = D_801EFD20;
+    s4 = 0;
+    obj = aFC4C[s0];
+
+    if (D_801EFD40 & 0x4) {
+        func_801852BC(s0);
+        func_801853D0(s0);
+        func_80185648(s0);
+
+        v[3] = 0;
+        v[2] = 0;
+        if (D_801EFD40 & 0x20) {
+            v[4] = 0xFFD80000;
+        } else {
+            v[4] = 0xFFEC0000;
+        }
+
+        func_800484EC(*(s32 *)(obj + 0x20) + 0x34, (s32)&v[2], (s32)&v[2]);
+
+        *(s32 *)(obj + 0x4) += v[2];
+        *(s32 *)(obj + 0x8) += v[3];
+        *(s32 *)(obj + 0xC) += v[4];
+
+        *(u16 *)(*(s32 *)(obj + 0x20) + 0x14) =
+            *(u16 *)(*(s32 *)(obj + 0x20) + 0x14) + r1;
+        func_80183BF0(a0);
+
+        *(u16 *)(*(s32 *)(obj + 0x20) + 0x10) =
+            *(u16 *)(a0 + 0xFE) + *(u16 *)(a0 + 0x102);
+
+        if (func_801836D4((void *)a0, (void *)obj) != 0) {
+            s4 = 1;
+        } else {
+            if (D_801EFD40 & 0x20) {
+                s0 = 0x40;
+            } else {
+                s0 = 0x20;
+            }
+            func_80185960(*(s16 *)(a0 + 0x106), (u16 *)(*(s32 *)(obj + 0x20) + 0x12), s0);
+            func_80185960(*(s16 *)(a0 + 0x100), (u16 *)(a0 + 0xFE), s0);
+        }
+    }
+
+    return s4;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183564);
 
@@ -4732,7 +5361,56 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801837C
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183880);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183A28);
+#include "common.h"
+
+/* Host TU (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c) already has this layout
+ * via ../shared/engine_core.h -> engine_types.h as MATRIX (:1168) -- byte
+ * identical. Renamed here only because match_one compiles standalone with
+ * -Iinclude (engine_core.h is not on that path); on bank, drop this typedef
+ * and use the TU's own MATRIX name. */
+typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80183A28; /* 0x20 bytes, align 4 */
+
+extern u16 D_801EFD20;
+/* §183: the TU spells these symbols differently at file scope, so reach them through
+   __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
+   same assembler symbol, private type, zero declaration surface. */
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern Mtx32_80183A28 aAE620_80183A28[1] __asm__("D_800AE620");
+extern void RotMatrixZ(s32 a0, void *a1);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
+extern s32 ratan2(s32 a0, s32 a1);
+
+s32 func_80183A28(u8 *a0) {
+    Mtx32_80183A28 m;
+    s16 out[4];
+    void *mp;
+    s32 obj;
+    s32 sub;
+    s32 v0;
+
+    m = aAE620_80183A28[0];
+    obj = aFC4C[D_801EFD20];
+    m.t[0] = *(s16 *)(obj + 6);
+    m.t[1] = *(s16 *)(obj + 0xA);
+    m.t[2] = *(s16 *)(obj + 0xE);
+    sub = *(s32 *)(obj + 0x20);
+    mp = &m;
+
+    RotMatrixZ(*(s16 *)(sub + 0x14), mp);
+    func_8012F038((int)mp, (short *)(a0 + 0xE4), out);
+    v0 = ratan2(out[2], out[0]);
+    v0 = (-v0 - 0x400) & 0xFFF;
+    *(s16 *)(a0 + 0x106) = v0;
+
+    m = aAE620_80183A28[0];
+    RotMatrixY(*(s16 *)(a0 + 0x106), mp);
+    func_8012F038((int)mp, out, out);
+    v0 = ratan2(out[2], out[1]);
+    v0 = (v0 + 0x400) & 0xFFF;
+    *(s16 *)(a0 + 0x100) = v0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183BAC);
 
@@ -4756,7 +5434,70 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183E2
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183EA8);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183F10);
+#include "common.h"
+
+typedef struct { s32 w[8]; } Blk32_80183F10;
+
+extern s32 D_801EFC54;
+/* §183: the TU spells these symbols differently at file scope, so reach them through
+   __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
+   same assembler symbol, private type, zero declaration surface. */
+extern Blk32_80183F10 aAE620_80183F10[1] __asm__("D_800AE620");
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+/* §183 SIGNATURE-cast-at-call: the TU DEFINES
+   `void func_8018B0B0(void *, void *, void *, u32)` (L7630); adopt it and cast. */
+extern void func_8018B0B0(void *a0, void *a1, void *a2, u32 a3);
+
+void func_80183F10(void)
+{
+    s16 svec[4];
+    Blk32_80183F10 m;
+    s32 vecB[4];
+    s32 out[4];
+    register void *mp __asm__("$18");
+    register void *op __asm__("$17");
+    register void *mp2 __asm__("$19");
+    register void *op2 __asm__("$18");
+    register s32 obj __asm__("$20");
+    register s32 i __asm__("$16");
+    register s32 ang __asm__("$17");
+
+    i = 0;
+    mp = &m;
+    op = out;
+    obj = D_801EFC54;
+
+    svec[1] = 0x80;
+    vecB[1] = 0xE0000;
+    svec[0] = 0;
+    svec[2] = 0;
+    vecB[0] = 0;
+    vecB[2] = 0xFFF20000;
+
+    for (; i < 8; i++) {
+        m = aAE620_80183F10[0];
+        RotMatrixY(i << 9, mp);
+        func_800484EC((s32)mp, (s32)vecB, (s32)op);
+        func_8018B0B0((void *)obj, svec, op, 0x10);
+    }
+
+    mp2 = mp;
+    i = 0;
+    op2 = op;
+    ang = 0x100;
+    vecB[1] = 0x80000;
+    vecB[0] = 0;
+    vecB[2] = 0xFFEE0000;
+    for (; i < 8; i++) {
+        m = aAE620_80183F10[0];
+        RotMatrixY(ang, mp2);
+        func_800484EC((s32)mp2, (s32)vecB, (s32)op2);
+        func_8018B0B0((void *)obj, svec, op2, 0x10);
+        ang += 0x200;
+    }
+}
+
 
 extern void func_80175454(void);
 void func_801840B8(void) {
@@ -5212,7 +5953,55 @@ void func_80184BAC(void *a0, void *a1)
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80184CCC);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80184DB8);
+#include "common.h"
+
+extern u16 D_801EFD3C;
+extern s16 D_801EFD30[];
+/* §183: the TU spells these symbols differently at file scope, so reach them through
+   __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
+   same assembler symbol, private type, zero declaration surface. */
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern u16 D_801EFD40;
+
+extern void func_801858DC(void *a0);
+extern void func_80185020(s32 a0, s32 a1);
+extern void func_8018681C(s32 a0, void *a1);
+/* §183 SIGNATURE-cast-at-call: these three take s32 elsewhere in the batch/TU; adopt that
+   prototype and cast at the call (byte-identical). */
+extern void func_801852BC(s32 a0);
+extern void func_801853D0(s32 a0);
+extern void func_80185648(s32 a0);
+
+/* §183 DEF-side: the TU declares `extern void func_80184DB8(s32 a0);` at file scope (L4350),
+   so the definition adopts s32. */
+void func_80184DB8(s32 a0) {
+    s32 i;
+    register s32 obj __asm__("$4");
+    u16 buf[3];
+
+    for (i = 0; i < D_801EFD3C; i++) {
+        func_801858DC((void *)aFC4C[D_801EFD30[i]]);
+    }
+
+    for (i = 0; i < D_801EFD3C - 1; i++) {
+        func_80185020(D_801EFD30[i], D_801EFD30[i + 1]);
+    }
+
+    if (D_801EFD30[i] < 0x13) {
+        obj = aFC4C[D_801EFD30[i]];
+        buf[0] = *(u16 *)(*(s32 *)(obj + 0x20) + 0x10);
+        buf[1] = *(u16 *)(*(s32 *)(obj + 0x20) + 0x12);
+        buf[2] = *(u16 *)(*(s32 *)(obj + 0x20) + 0x14);
+        func_8018681C(D_801EFD30[i], buf);
+    }
+
+    if (D_801EFD40 & 4) {
+        func_801852BC(a0);
+        func_801853D0(a0);
+        func_80185648(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80184F4C);
 
@@ -5287,7 +6076,39 @@ void func_80185020(s32 start, s32 end)
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80185214);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801852BC);
+#include "common.h"
+
+/* §183: the TU declares D_801EFC4C at file scope as a SCALAR (`extern s32 D_801EFC4C;`).
+   Reach it through an __asm__ label ALIAS -- the TU's own established idiom (func_80188094,
+   L6390) -- so this array view can never collide with the file's spelling. Same assembler
+   symbol, zero declaration surface. */
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern void func_80049CAC(s32 a0, s32 a1);
+
+typedef struct {
+    s32 a, b, c, d, e, f, g, h;
+} Oct_801852BC;
+
+void func_801852BC(s32 id)
+{
+    s32 obj;
+    Oct_801852BC mtx;
+
+    obj = aFC4C[id];
+    func_80049CAC(*(s32 *)(obj + 0x20) + 0x10, (s32)&mtx);
+
+    mtx.f = *(s16 *)(obj + 0x6);
+    mtx.g = *(s16 *)(obj + 0xA);
+    mtx.h = *(s16 *)(obj + 0xE);
+
+    *(Oct_801852BC *)(*(s32 *)(obj + 0x20) + 0x34) = mtx;
+    *(Oct_801852BC *)(*(s32 *)(obj + 0x20) + 0x54) = mtx;
+
+    *(s32 *)(*(s32 *)(obj + 0x20) + 0x30) = 1;
+
+    *(u16 *)(*(s32 *)(obj + 0x20) + 0x2C) |= 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801853D0);
 
@@ -6669,7 +7490,81 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188A3
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188AC4);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188B78);
+#include "common.h"
+
+/* Host TU (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c) already has these layouts
+ * via ../shared/engine_core.h -> engine_types.h as Mat32, SV_8017D7C0_8017F340,
+ * V32_8017D7C0_8017F340 -- byte identical. Renamed/redeclared here only because
+ * match_one compiles standalone with -Iinclude (engine_core.h is not on that
+ * path); on bank, drop these typedefs and use the TU's own names. */
+typedef struct { s32 w0, w4, w8, wC; s16 h10, hpad; s32 t0, t1, t2; } Mat32_80188B78; /* 0x20 bytes */
+   /* 8 bytes, align 2 */
+  /* 16 bytes, align 4 */
+
+/* §183: the TU spells these symbols differently at file scope, so reach them through
+   __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
+   same assembler symbol, private type, zero declaration surface. */
+extern Mat32_80188B78 aAE620_80188B78[1] __asm__("D_800AE620");
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyRotMatrix(void *v0, void *v1);
+extern void func_8004914C(void *a0);
+extern int rand(void);
+extern int func_8018F68C(short *pos, int a1, int a2);
+extern void func_8012C218(void *a0);
+extern SV_8017D7C0_8017F340 D_80194850[];
+
+void func_80188B78(u8 *a0)
+{
+    Mat32_80188B78 m;
+    s32 i;
+    s32 count;
+    s16 v1;
+    short buf[4];
+    V32_8017D7C0_8017F340 rv;
+    s32 vec[4];
+    int p;
+
+    m = aAE620_80188B78[0];
+
+    v1 = *(s16 *)(*(u8 **)(a0 + 0x20) + 0x1A);
+    count = 9;
+    if (v1 < 0x801) {
+        count = 4;
+    } else if (v1 < 0xC01) {
+        count = 8;
+    }
+
+    RotMatrixY(rand() & 0xFF0, &m);
+    func_8004914C(&m);
+
+    for (i = 0; i < count; i++) {
+        u16 fE;
+
+        ApplyRotMatrix(&D_80194850[i], &rv);
+
+        buf[0] = *(u16 *)(a0 + 0x6) + rv.vx;
+        buf[1] = *(u16 *)(a0 + 0xA) + rv.vy;
+        fE = *(u16 *)(a0 + 0xE);
+        buf[3] = 0x10;
+
+        vec[0] = rv.vx << 15;
+        vec[1] = (rv.vy * 3) << 13;
+        vec[3] = 0;
+        vec[2] = rv.vz << 15;
+
+        buf[2] = fE + rv.vz;
+
+        p = func_8018F68C(buf, (int)vec, 0xE08060);
+
+        if (p != 0) {
+            *(u16 *)(*(s32 *)(p + 0x20) + 0x2C) = 0xC010;
+            *(s16 *)(*(s32 *)(p + 0x20) + 0x18) = (short)((rand() & 0x1F0) + 0x600);
+        }
+    }
+
+    func_8012C218(a0);
+}
+
 
 
 extern void (*D_801948D0[])(void);
@@ -7949,9 +8844,104 @@ void func_8018B2F8(s32 *arg0, s32 arg1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018B4E0);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018B5E4);
+typedef struct { u8 c[4]; } Blk4_8018B4E0;
+
+extern void func_800233CC(void *a0, unsigned short a1);
+extern s32 func_8012C194(void);
+extern void func_8001CD9C(s32 a0, void *a1);
+/* §183: the TU spells these symbols differently at file scope, so reach them through
+   __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
+   same assembler symbol, private type, zero declaration surface. */
+extern Blk4_8018B4E0 aED994_8018B4E0[1] __asm__("D_801ED994");
+extern Blk4_8018B4E0 aEFD80_8018B4E0[1] __asm__("D_801EFD80");
+extern Blk4_8018B4E0 aEFD84_8018B4E0[1] __asm__("D_801EFD84");
+
+s32 func_8018B4E0(s32 a0) {
+    s32 s2 = a0;
+    s32 s0;
+
+    func_800233CC((void *)aEFD80_8018B4E0, 0x100);
+
+    aEFD80_8018B4E0[0] = aED994_8018B4E0[0];
+    aEFD84_8018B4E0[0] = aED994_8018B4E0[0];
+
+    s0 = func_8012C194();
+    if (s0) {
+        func_8001CD9C(s0, (void *)aEFD80_8018B4E0);
+
+        *(u16 *)(s0 + 0x18) = 0xC00;
+        *(u16 *)(s0 + 0x1A) = 0x1C00;
+        *(u16 *)(s0 + 0x2C) = 0xC040;
+        *(s32 *)(s0 + 0x4) |= 0x50000000;
+
+        *(s16 *)(s0 + 0x8) = *(s32 *)(*(s32 *)(s2 + 0x20) + 0x68);
+        *(s16 *)(s0 + 0xA) = *(s32 *)(*(s32 *)(s2 + 0x20) + 0x6C);
+        *(s16 *)(s0 + 0xC) = *(s32 *)(*(s32 *)(s2 + 0x20) + 0x70);
+    }
+
+    return s0;
+}
+
+
+#include "common.h"
+
+/* Externs copied verbatim from the destination TU
+ * (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c), sibling block for
+ * func_8018B948 immediately following this function's INCLUDE_ASM slot
+ * (L5978-5981), which shares the exact same three callees. */
+extern s32 func_8012C194(void);
+extern void func_8001CD9C(s32 a0, void *a1);
+extern void func_800233CC(void *a0, unsigned short a1);
+
+/* Same align-1 4-byte block-move idiom used elsewhere in this TU for
+ * D_801ED994 (func_8018C764, L6200-6217): lwl/lwr + swl/swr, not memcpy. */
+typedef struct { u8 d[4]; } Blk4_8018B5E4;
+/* §183: the TU spells these symbols differently at file scope, so reach them through
+   __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
+   same assembler symbol, private type, zero declaration surface. */
+extern Blk4_8018B5E4 aED994_8018B5E4[1] __asm__("D_801ED994");
+extern Blk4_8018B5E4 aEFD80_8018B5E4[1] __asm__("D_801EFD80");
+extern Blk4_8018B5E4 aEFD84_8018B5E4[1] __asm__("D_801EFD84");
+
+/* Not present in this TU yet; typed by access width (lb -> signed byte,
+ * used in bltz/bgez sign tests as the loop's negative-sentinel scan). */
+extern s8 D_80194BE4[];
+
+void func_8018B5E4(s32 a0) {
+    s32 i;
+    s32 s1;
+    s32 obj;
+    s32 tag;
+
+    func_800233CC((void *)aEFD80_8018B5E4, 0xC0);
+    aEFD80_8018B5E4[0] = aED994_8018B5E4[0];
+    aEFD84_8018B5E4[0] = aED994_8018B5E4[0];
+
+    i = 0;
+    tag = D_80194BE4[0];
+    while (tag >= 0) {
+        s1 = *(s32 *)(a0 + tag * 4);
+        if (s1 != 0) {
+            obj = func_8012C194();
+            if (obj != 0) {
+                func_8001CD9C(obj, (void *)aEFD80_8018B5E4);
+                *(u16 *)(obj + 0x2C) = 0xC040;
+                *(u32 *)(obj + 0x4) |= 0x50000000;
+                *(u16 *)(obj + 0x18) = 0x1000;
+                *(u16 *)(obj + 0x1A) = 0x1000;
+                *(u16 *)(obj + 0x8) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x68);
+                *(u16 *)(obj + 0xA) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x6C);
+                *(u16 *)(obj + 0xC) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x70);
+            }
+            *(s32 *)(s1 + 0xCC) = obj;
+        }
+        i++;
+        tag = D_80194BE4[i];
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018B744);
 
