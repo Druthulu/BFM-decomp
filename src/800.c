@@ -1163,7 +1163,273 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80015F04);
+
+/* func_80015F04 — main/800.  Build a 4-segment closed LINE_F2 wireframe
+ * rectangle: fill an 8-halfword stack corner list from (x, y, w, h) =
+ * (a0, a1, a2, a3), allocate one 0x40-byte GPU block (4 x 0x10 LINE_F2),
+ * then loop i = 0..3 writing one segment per packet (corner i -> corner i+1,
+ * code 0x40, or 0x42 = semi-transparent when arg8 < 4) and linking each packet
+ * into the current OT at depth arg7 with the open-coded PSY-Q addPrim RMW
+ * pair.  The i == 3 iteration reads pts[4] (one past the array — the original
+ * code's own overrun); the segment is closed afterwards by rewriting the last
+ * packet's (x1, y1) from pts[0].  Finally, when arg8 < 4, notify
+ * func_80016638 with the env block.
+ *
+ * @class: MATCH — 131/131 byte-exact (relocation-masked), and
+ *   tools/reloc_identity.py AGREE (relocs_checked=6): every jal / %hi / %lo
+ *   names the same symbol the target .s names.
+ *
+ * ===================================================================
+ * THE ENTRY-BLOCK FILLER PROBLEM AND THE THREE LEVERS THAT SOLVE IT
+ *
+ * The prologue is emitted as [addiu $sp][$v0=$a0][sw $s0][la $s0] then five
+ * (save, stack-arg-load, FILLER) triples.  The five fillers are exactly
+ *      A  = `addiu $a0,$zero,0x40`      (the func_80010A08 argument)
+ *      X0 = `addu $t0,$v0,$zero`        (x0 = a0)
+ *      Y0 = `addu $v1,$a1,$zero`        (y0 = a1)
+ *      X1 = `addu $v0,$v0,$a2`          (a0 += a2)
+ *      Y1 = `addu $a1,$a1,$a3`          (a1 += a3)
+ * and the target order is A, X0, Y0, X1, Y1.  All five tie at INSN_PRIORITY 1,
+ * so the order is decided in sched1 by `rank_for_schedule`'s LUID tie-break and
+ * by `adjust_priority`'s BIRTHING BOOST (sched.c:2507 / birthing_insn_p:2469 —
+ * a `SET(REG,…)` whose dest is live and has REG_N_SETS == 1 is raised to
+ * max_priority, dump tell `(7f000001)`).  sched1 picks BACKWARD and emits in
+ * reverse, so a boosted def is picked EARLY and therefore emitted LATE.
+ *
+ * Reading the `-dS` ready-list trace, the block resolves like this (AC probe):
+ *      T-19 pick Y1  (Y1 is the anti-dep gate on Y0)
+ *      T-20..T-24    the five boosted stack-arg loads
+ *      T-25 pick X1  (X1 is the anti-dep gate on X0: X1 writes the pseudo X0
+ *                     reads, so X0 cannot become ready until X1 is scheduled)
+ *      T-26 pick ?   ready = {Y0, X0, A, base}
+ *      T-27 pick ?
+ *      T-28 A,  T-29 base
+ * Emission is the reverse of the pick order, so the TARGET needs Y0 picked at
+ * T-26 and X0 at T-27.  With both copies tying at priority 1 that falls out of
+ * the LUID order (`x0 = a0;` written before `y0 = a1;`).  Any boost on X0
+ * makes X0 win T-26 and the two swap — which is the entire residual the first
+ * two passes were stuck on.
+ *
+ * LEVER 8 — PIN THE CALL ARGUMENT AND EMIT IT AS ASM.  gcc sets a call's
+ *   argument registers immediately before the `jal`, so A always had the
+ *   HIGHEST LUID in the block, was always picked first, and was therefore
+ *   always emitted LAST (filler #5 instead of #1).  The call cannot be moved
+ *   earlier — `flush_pending_lists` gives it a REG_DEP_ANTI on all eight `sh`
+ *   stores — so the fix is to give the `li` a LUID at its SOURCE position:
+ *       register s32 sz __asm__("$4");
+ *       __asm__("addiu %0,$zero,0x40" : "=r"(sz));
+ *   A plain `sz = 0x40;` does NOT work (cse copies REG_EQUAL 64 onto the
+ *   call-site no-op `(set $a0 $a0)` and flow dead-store-eliminates the early
+ *   set; `volatile` on the register var costs 25/131).  Emitting the
+ *   instruction FROM the asm sticks: one RTL insn, the target's own bytes
+ *   0x24040040, LUID at the source position, and the call's `$a0 = sz`
+ *   collapses to a deleted no-op move.  Worth 2 instructions.
+ *
+ * LEVER 9 — KILL Y0's BOOST FOR FREE BY MERGING IT WITH `ob`.  y0 and the
+ *   loop's second-addPrim OT base are BOTH $v1 with disjoint live ranges, so
+ *   they are ONE variable.  That gives the pseudo a second SET, REG_N_SETS
+ *   becomes 2, and the boost dies at zero instruction cost.  (This is why
+ *   there is no `y0` local below — `ob` carries both roles.)
+ *
+ * LEVER 10 (THE THIRD PASS'S LEVER, the 2 -> 0) — KILL X0's BOOST WITH A
+ *   RE-TIE THAT CARRIES A "memory" CLOBBER.
+ *       __asm__("" : "=r"(x0) : "0"(x0) : "memory");
+ *   The §30 #3 re-tie gives x0 a second SET and kills its boost, which fixes
+ *   all five fillers — but a BARE re-tie then costs one swap somewhere else
+ *   (`sw $ra,0x38($sp)` and `sh $t0,0x10($sp)` trade places, probes ACq1-ACq6,
+ *   all 2/131).  Reason: the bare asm's only ordering constraint is the
+ *   anti-dependence on the one store that reads the OLD x0, so sched2 is free
+ *   to treat it as a SIXTH entry-block filler; with six fillers for five
+ *   (save, load) triples the extra one drags `sh $t0,0x10($sp)` up past the
+ *   `sw $ra` save.
+ *   ADDING "memory" fixes exactly that: the clobber makes the asm a
+ *   memory-ordering barrier, so `sched_analyze` ties it to the whole pending
+ *   store list instead of to one register, it can no longer float into the
+ *   (save, load, filler) interleave, and the five real fillers keep the
+ *   triples to themselves.  It is a pure scheduling fence — zero emitted
+ *   bytes, zero registers, no effect on allocation.
+ *   Byte-verified: the "memory" re-tie MATCHes at every placement from before
+ *   `pts[0].x` through before `pts[3].x` (probes Rm0-Rm6); the bare re-tie is
+ *   2/131 at every one of those placements (Rp1-Rp6).  The `volatile` variant
+ *   is 18/131 — do NOT reach for volatile here, the clobber is the lever.
+ *
+ * LEVERS 1-7 (inherited; each byte-verified by removal):
+ *  1. `x0 = a0; ob = a1; a0 += a2; a1 += a3;` — the DESTRUCTIVE update of the
+ *     parameter is what forces the target's two extra copies and lets the sums
+ *     reuse the dying param registers.  It is also load-bearing for the
+ *     LENGTH: writing `x1 = a0 + a2` into a fresh local makes that pseudo
+ *     single-set, gcc coalesces it with $a0, both copies are copy-propagated
+ *     away and the entry copy disappears — 129 ins (probe A), 130 even with
+ *     $t0/$v1 pins (probe B).  The statement ORDER here is also load-bearing:
+ *     it is the LUID order that decides the T-25/T-26 picks above.  All six
+ *     legal interleavings were measured; only this one is right.
+ *  2. ONE local `cb` carries 3 / 0x40 / 0x42.  Three separate literals are
+ *     three single-set pseudos and loop.c HOISTS the invariant `li 3` and
+ *     `li 0x40` out of the loop (2 extra preheader regs, +7 mismatched).
+ *  3. `i = 0;` HOISTED OUT OF THE `for` HEADER, so `addu $a2,$zero,$zero` is
+ *     the first preheader insn as in the target.
+ *  4. THE MASK LOCALS ARE ASSIGNED INSIDE THE LOOP so they become loop.c
+ *     movables hoisted AFTER the `addiu $t2,$sp,0x10` array-base movable —
+ *     the target's preheader order (i=0, &pts, m24, mFF).  As explicit
+ *     preheader statements they land BEFORE $t2 instead (probes AK/AL).
+ *  5. `register s32 i4 __asm__("$9")` — with the masks hoisted, m24 and i4
+ *     tie in global-alloc and land swapped; pinning i4 to $t1 lets m24 take
+ *     $t0.
+ *  6. ADDPRIM ASYMMETRY (inherited from the matched sibling func_80016450):
+ *     the FIRST half inlines the OT-slot address expression fully, the SECOND
+ *     half binds it.  Symmetric shapes cost 20+ instructions.
+ *  7. `register s32 ob __asm__("$3")` for the second half's OT base, so the
+ *     add is the target's self-accumulating `addu $v1,$t1,$v1`.
+ *
+ * SYMBOL AUDIT (§174 law 1c — match_one masks jal/HI16/LO16, so every symbol
+ * was re-checked against this .s's own relocation lines; tools/reloc_identity.py
+ * then confirmed all 6 relocations AGREE.  The .s names exactly five relocated
+ * symbols: D_800AF630, D_800A6518, D_800A651C, func_80010A08, func_80016638):
+ *   - `lui/addiu %hi/%lo(D_800AF630)` -> $s0 is the ONLY named data base; the
+ *     OT-buffer index is reached as `*(u16 *)(base + 0xA3D2)`
+ *     (`lui $at,0x1; addu $at,$s0,$at; lhu -0x5C2E($at)`; 0x10000-0x5C2E =
+ *     0xA3D2, i.e. 0x800B9A02).  D_800B9A02 IS declared in src/800.c and IS
+ *     used by the siblings, but it does NOT appear in THIS .s — do not
+ *     substitute it here.  `lhu` => u16, not s16.
+ *   - `jal func_80010A08` with $a0 = 0x40; `jal func_80016638` with
+ *     $a0 = &D_800A6518[idx*20] (`lui %hi` + `addiu %lo` = address-of),
+ *     $a1 = arg7 ($s5 from 0x5C($sp)), $a2 = arg8 (`andi $s4,0xFFFF`).
+ *   - D_800A651C read with `lw %lo(...)($at)` = the `.a` member at offset 0;
+ *     the index is scaled *20 (`sll 2; addu; sll 2`), which is exactly
+ *     sizeof(OtBlk_80016450_80015F04) = {s32 a; s32 b[4]}.
+ *   - Store sides: `sw $v1,0($a3)` is the packet tag word ($a3 = p),
+ *     `sw $v0,0($v1)` is the OT slot.  With $a1 = p + 0xE: `sb -0xB` = len(3),
+ *     `sb -0x7` = code(7), `sb -0xA/-0x9/-0x8` = r0/g0/b0 <- $s3/$s2/$s1 <-
+ *     0x50/0x54/0x58 in that order; `sh -0x6/-0x4/-0x2/0x0` = x0/y0/x1/y1.
+ *   - Epilogue reloads pts[0] FROM THE STACK (`lhu 0x10($sp)`, `lhu 0x12`),
+ *     so the closing fixup must read `pts[0]`, never the x0/ob registers.
+ *
+ * TU CHECK (§174 laws 2/3) — src/800.c holds
+ * `INCLUDE_ASM("asm/nonmatchings/800", func_80015F04);` at line 1166:
+ *   - There is NO prototype for func_80015F04 in src/800.c or in include/, and
+ *     src/800.c does not include shared/engine_core.h, so the parameter list
+ *     below is unconstrained (no DEF-side wall here).
+ *   - `extern void *func_80010A08(s32 a0);` (src/800.c:1119),
+ *     `extern void func_80016638(void *a0, s32 a1, s32 a2);` (:1122),
+ *     `extern u8 D_800A6518[];` (:1121), `extern u8 D_800AF630[];` (:930) and
+ *     the block-scope `extern OtBlk_80016450_80015F04 D_800A651C[];` (:1126) all
+ *     ALREADY exist at file scope ABOVE line 1166 and the declarations below
+ *     are copied to agree with them exactly.  Duplicate compatible externs are
+ *     legal, so they may stay or go when banking.
+ *
+ * >>> INTEGRATION NOTE: src/800.c ALREADY defines
+ * >>>     typedef struct { s32 a; s32 b[4]; } OtBlk_80016450_80015F04;
+ * >>> at FILE scope (src/800.c:1117, i.e. ABOVE this function's slot at 1166).
+ * >>> DROP the duplicate typedef line below when banking — C89 rejects the
+ * >>> redefinition.  It is present here only so the draft compiles standalone
+ * >>> under match_one.  `Pt_80015F04` and `LineF2_80015F04` do not collide
+ * >>> with anything in src/800.c.
+ */
+typedef struct { s32 a; s32 b[4]; } OtBlk_80016450_80015F04;   /* DUPLICATE — see note */
+
+typedef struct { u16 x, y; } Pt_80015F04;             /* stack corner list */
+
+typedef struct {                                      /* 0x10 LINE_F2 */
+    u8  addr[3];
+    u8  len;
+    u8  r0, g0, b0, code;
+    s16 x0, y0;
+    s16 x1, y1;
+} LineF2_80015F04;
+
+extern void *func_80010A08(s32);
+extern void func_80016638(void *a0, s32 a1, s32 a2);
+extern u8 D_800AF630[];
+extern u8 D_800A6518[];
+
+void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
+{
+    extern OtBlk_80016450_80015F04 D_800A651C[];   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
+    Pt_80015F04 pts[4];
+    LineF2_80015F04 *p;
+    u8 *base;
+    u32 *otp;
+    register s32 ob __asm__("$3");    /* LEVER 9: y0 AND the 2nd addPrim OT   */
+    s32 i;                            /* base — one $v1 variable, two roles,  */
+    register s32 i4 __asm__("$9");    /* so REG_N_SETS==2 and the boost dies   */
+    s32 x0;
+    register s32 sz __asm__("$4");    /* LEVER 8: the func_80010A08 argument, */
+    s32 semi;                         /* pinned to $a0 so its `li` gets a LUID */
+    s32 cb;                           /* at THIS source position, not at the jal */
+    register u32 m24;
+    register u32 mFF;
+
+    base = D_800AF630;
+
+    /* LEVER 8.  Emitting the argument load from asm (rather than `sz = 0x40;`)
+     * is what stops cse folding REG_EQUAL 64 onto the call-site no-op move and
+     * dead-store-eliminating this insn.  Bytes are the target's own
+     * 0x24040040 `addiu $a0,$zero,0x40`; the call's `$a0 = sz` becomes a
+     * deleted no-op.  Removing this line costs 2 instructions. */
+    __asm__("addiu %0,$zero,0x40" : "=r"(sz));
+
+    /* LUID order below is load-bearing — see the ready-list trace in the
+     * header.  x0 before ob, and each destructive update after its own copy. */
+    x0 = a0;
+    ob = a1;
+    a0 += a2;
+    a1 += a3;
+
+    /* LEVER 10.  Second SET of x0 -> REG_N_SETS==2 -> no birthing boost, so
+     * X0 stops out-ranking Y0 at the T-26 pick.  The "memory" clobber is the
+     * load-bearing half: without it the asm becomes a sixth entry-block filler
+     * and drags `sh $t0,0x10($sp)` above `sw $ra,0x38($sp)` (2/131).  With it
+     * the asm is a store-ordering fence that cannot enter the
+     * (save, load, filler) interleave.  Emits nothing. */
+    __asm__("" : "=r"(x0) : "0"(x0) : "memory");
+
+    pts[0].x = x0;
+    pts[0].y = ob;
+    pts[1].x = a0;
+    pts[1].y = ob;
+    pts[2].x = a0;
+    pts[2].y = a1;
+    pts[3].x = x0;
+    pts[3].y = a1;
+
+    p = (LineF2_80015F04 *)func_80010A08(sz);
+
+    i = 0;
+    semi = (arg8 < 4);
+    i4 = arg7 * 4;
+    for (; i < 4; i++) {
+        cb = 3;
+        p->len = cb;
+        cb = 0x40;
+        p->code = cb;
+        if (semi) {
+            cb = 0x42;
+            p->code = cb;
+        }
+        p->r0 = arg4;
+        p->g0 = arg5;
+        p->b0 = arg6;
+        p->x0 = pts[i].x;
+        p->y0 = pts[i].y;
+        p->x1 = pts[i + 1].x;
+        p->y1 = pts[i + 1].y;
+        m24 = 0x00FFFFFF;
+        mFF = 0xFF000000;
+        *(u32 *)p = (*(u32 *)p & mFF) |
+                    (*(u32 *)(i4 + D_800A651C[*(u16 *)(base + 0xA3D2)].a) & m24);
+        ob = D_800A651C[*(u16 *)(base + 0xA3D2)].a;
+        otp = (u32 *)(i4 + ob);
+        *otp = (*otp & mFF) | ((u32)p & m24);
+        p++;
+    }
+
+    p[-1].x1 = pts[0].x;
+    p[-1].y1 = pts[0].y;
+
+    if (arg8 < 4) {
+        func_80016638(&D_800A6518[*(u16 *)(base + 0xA3D2) * 20], arg7, arg8);
+    }
+}
 
 
 /* Same shapes as the matched sibling func_80016450 (src/800.c) — a fixed
@@ -2149,7 +2415,91 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80017738);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80017758);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80017778);
+
+/* func_80017778 — src/800.c (main, -O2).
+ *
+ * Builds one POLY_G4 (0x24 bytes) from a "vector-quad" descriptor (arg0):
+ *   0x00..0x1F  four SVECTORs (v0..v3)
+ *   0x20..0x2F  four packed rgb+code words
+ *   0x30        a flags-ish word forwarded verbatim to the submit call
+ * arg1 != 0 -> run RotTransPers4 on v0..v3 (perspective project into the
+ *              packet's xy0..xy3), func_80017E8C(arg1) primes the matrix;
+ * arg1 == 0 -> copy the already-projected xy words straight through and use
+ *              v0.vz as otz.
+ * Then, unless the RotTransPers4 clip flag (bit 0x1000 masked off) is set,
+ * hand the packet to func_80017F14 (arg2 != 0) or func_80018094 (arg2 == 0).
+ *
+ * Mirrors the already-matched sibling func_80017930 (same file) which builds
+ * a POLY_GT4 the same way; here there is no uv/tpage/clut section and the GTE
+ * work goes through the SDK helper RotTransPers4 instead of raw gte_* macros.
+ */
+
+extern void *func_80010A08(s32);
+extern void SetPolyG4(void *);
+extern void func_80017E8C(s32);
+extern s32 RotTransPers4(void *, void *, void *, void *,
+                          s32 *, s32 *, s32 *, s32 *, s32 *, s32 *);
+extern void func_80017F14(void *, s32, s32);
+extern void func_80018094(void *, s32, u32);
+
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SV_80017778;
+
+typedef struct {
+    SV_80017778 v[4]; /* 0x00 */
+    u32 rgb[4];        /* 0x20 */
+    u32 flags;          /* 0x30 */
+} Src_80017778;
+
+typedef struct {
+    u32 tag;
+    u8 r0, g0, b0, code;
+    s16 x0, y0;
+    u8 r1, g1, b1, pad1;
+    s16 x1, y1;
+    u8 r2, g2, b2, pad2;
+    s16 x2, y2;
+    u8 r3, g3, b3, pad3;
+    s16 x3, y3;
+} G4_80017778;
+
+void func_80017778(Src_80017778 *arg0, s32 arg1, s32 arg2)
+{
+    G4_80017778 *p;
+    s32 otz;
+    s32 opz;
+    s32 flag;
+
+    p = (G4_80017778 *)func_80010A08(0x24);
+    *(u32 *)&p->r0 = arg0->rgb[0];
+    *(u32 *)&p->r1 = arg0->rgb[1];
+    *(u32 *)&p->r2 = arg0->rgb[2];
+    *(u32 *)&p->r3 = arg0->rgb[3];
+    SetPolyG4(p);
+
+    if (arg1 != 0) {
+        func_80017E8C(arg1);
+        otz = RotTransPers4(&arg0->v[0], &arg0->v[1], &arg0->v[2], &arg0->v[3],
+                             (s32 *)&p->x0, (s32 *)&p->x1, (s32 *)&p->x2, (s32 *)&p->x3,
+                             &opz, &flag);
+    } else {
+        *(u32 *)&p->x0 = *(u32 *)&arg0->v[0];
+        *(u32 *)&p->x1 = *(u32 *)&arg0->v[1];
+        *(u32 *)&p->x2 = *(u32 *)&arg0->v[2];
+        *(u32 *)&p->x3 = *(u32 *)&arg0->v[3];
+        otz = arg0->v[0].vz;
+        flag = 0;
+    }
+
+    if ((flag & ~0x1000) == 0) {
+        if (arg2 != 0) {
+            func_80017F14(p, otz, arg0->flags);
+        } else {
+            func_80018094(p, otz, arg0->flags);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800178C8);
 
@@ -2556,7 +2906,36 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80017E8C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80017F14);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80018094);
+
+
+extern void *func_80010A08(s32);
+extern s32 AddPrim(s32, void *);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern s32 func_8005A600(s32, s32, s32, s32, s32);
+extern u16 D_800B9A02;
+
+void func_80018094(void *a0, s32 a1, u32 a2_p) {
+    s32 a2 = (s32)a2_p;
+    extern OtBlk_80016450 D_800A651C[];
+    void *p2;
+    s32 sz;
+    s32 tp;
+
+    sz = a1;
+    if ((u32)sz >= 0x1000) {
+        sz = 0xFFF;
+    }
+
+    AddPrim(D_800A651C[D_800B9A02].a + sz * 4, a0);
+
+    if (a2 & 0x40000000) {
+        *(u8 *)((u8 *)a0 + 7) = *(u8 *)((u8 *)a0 + 7) | 2;
+        p2 = func_80010A08(0xC);
+        tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
+        func_8005A600((s32)p2, 0, 0, (u16)tp, 0);
+        AddPrim(D_800A651C[D_800B9A02].a + sz * 4, p2);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80018194);
 
@@ -4382,7 +4761,141 @@ done:
     resLoad_result = result;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/800", ResourceLoadStateMachine);
+
+/* resourceIdMap is a table of 6-byte rows. The destination TU (src/800.c) already declares this
+ * column set as three byte-typed externs (u8 resourceIdMap[], u8 D_8006313A, u8 D_8006313C) in two
+ * other functions (func_8001ACF0, ResourceGetCdLoc) — a second, differently-typed file-scope
+ * extern of the same symbols is a hard C constraint violation, so those exact declarations are
+ * adopted verbatim below. See the use-site comment for how the byte match is kept despite that. */
+extern int func_8001A114(void);
+extern void func_8001B710(void);
+extern void func_8002D4C8(int arg0, int arg1);
+extern void func_80036D58(int arg0);
+extern int StreamLoadStateMachine(int arg0, void *loc, int n);
+extern s32 CdQueueBusy(void);
+extern s32 ResourceGetCdLoc(s16 arg0);
+extern s32 resLoad_state;
+extern s32 resLoad_curId;
+extern s32 resLoad_lastId;
+extern s32 resLoad_loadedFileIdx;
+extern s32 resLoad_result;
+extern s32 cdReq_curSector;
+extern u8 resourceIdMap[]; /* 6B entries {s16 fileIdx; s16 D_8006313A; s16 D_8006313C} */
+extern u8 D_8006313A;
+extern u8 D_8006313C;
+extern u8 cdFileLocTable[]; /* 8B rows {s32 startSector; s32 size}; sites carry an explicit *8 */
+extern s32 D_800AE6F4;
+extern s32 D_800AE70C;
+
+/* Byte-measured (both tried literally, both NON-MATCH at the same 109/211 site): a raw
+ * u8-pointer-arithmetic use site (mirroring the other functions' own idiom), AND a
+ * `(ResMapCol *) resourceIdMap` cast of the u8[] object, both leave gcc treating the address as a
+ * computed POINTER value — it gets CSE'd into a callee-saved reg (`la $s0,resourceIdMap` hoisted
+ * across the 6 uses) instead of rematerialising `lui %hi / addu / lo_sum` at every site the way the
+ * target does. Only a genuine array-of-struct OBJECT TYPE avoids this (gcc builds a true ARRAY_REF
+ * off the symbol instead of an INDIRECT_REF off a pointer expression) — but declaring `resourceIdMap`
+ * that way conflicts with the u8[] extern already load-bearing elsewhere in this TU (func_8001ACF0,
+ * ResourceGetCdLoc): two file-scope externs of one identifier with incompatible types is a hard C
+ * constraint violation, which is exactly what the reconciler's refuse-TYPE caught.
+ * The resolution (cookbook §37/§124 "data asm-label alias"): declare a SEPARATE C identifier bound
+ * to the SAME linker symbol via `__asm__("resourceIdMap")`. A distinct identifier sidesteps the
+ * redeclaration-type conflict entirely (the TU's own u8[] declarations, wherever they occur, are
+ * untouched and still visible under their own name), while this alias gets the true array-of-struct
+ * type gcc needs to avoid the CSE. Byte-measured MATCH. */
+typedef struct {
+    s16 v;
+    s16 pad[2];
+} ResMapCol;
+extern ResMapCol aResourceIdMap[] __asm__("resourceIdMap");
+extern ResMapCol aD_8006313A[] __asm__("D_8006313A");
+extern ResMapCol aD_8006313C[] __asm__("D_8006313C");
+#define RES_FILE aResourceIdMap
+#define RES_ARG aD_8006313A
+#define RES_POST aD_8006313C
+
+/* Loads the resource named by resLoad_curId. Polled state machine (resLoad_state 0..3); the
+ * caller reads the done flag out of resLoad_result.
+ *   state 0  arbitrate: load-once cache hit (resLoad_lastId / resLoad_loadedFileIdx), non-CD
+ *            resources (file index < 0), CD-queue busy, and the in-flight-sector dedup; on success
+ *            latch cdReq_curSector and FALL THROUGH into state 1.
+ *   state 1  pump StreamLoadStateMachine until it reports 2 (done).
+ *   state 2  reset the stream bookkeeping and FALL THROUGH into state 3.
+ *   state 3  poll func_8001A114 for the tail work, then idle.
+ *
+ * The switch index is read UNSIGNED: that is what makes gcc's case tree degrade to the target's
+ * bare equality chain (tested 1,0,2,3 = balance_case_nodes' root-then-bounded-left order). Signed
+ * (`switch (resLoad_state)`) inserts an `slti v0,v1,2` range test the target does not have.
+ * resLoad_state itself keeps the TU-canonical s32 type; the cast lives at the use site (§20). */
+void ResourceLoadStateMachine(void) {
+    s32 result;
+    /* The original keeps 8 bytes of frame the emitted code never touches (target frame 0x38, an
+     * empty-locals build gets 0x30). Reserved as a local so the prologue/epilogue offsets match. */
+    s32 sp10[2];
+
+    result = 0;
+    switch ((u32)resLoad_state) {
+    case 0:
+        if (resLoad_curId == resLoad_lastId) {
+            resLoad_result = 1;
+            return;
+        }
+        if (RES_FILE[resLoad_curId].v == resLoad_loadedFileIdx && RES_POST[resLoad_curId].v != 0) {
+            func_8002D4C8((u16)RES_POST[resLoad_curId].v, 0);
+            resLoad_lastId = resLoad_curId;
+            resLoad_result = 1;
+            return;
+        }
+        if (CdQueueBusy() != 0) {
+            break;
+        }
+        if (RES_FILE[resLoad_curId].v < 0) {
+            func_80036D58(RES_ARG[resLoad_curId].v);
+            resLoad_result = 1;
+            return;
+        }
+        if (ResourceGetCdLoc((s16)resLoad_curId) == 0) {
+            resLoad_result = 1;
+            return;
+        }
+        if (cdReq_curSector != 0 && *(s32 *)(cdFileLocTable + RES_FILE[resLoad_curId].v * 8) != cdReq_curSector) {
+            break;
+        }
+        cdReq_curSector = *(s32 *)(cdFileLocTable + RES_FILE[resLoad_curId].v * 8);
+        resLoad_state++;
+        /* fallthrough */
+    case 1:
+        result = StreamLoadStateMachine(RES_ARG[resLoad_curId].v,
+                                        &cdFileLocTable[RES_FILE[resLoad_curId].v * 8], 0x10);
+        if (result == 2) {
+            resLoad_state++;
+            result = 0;
+        }
+        break;
+    case 2:
+        D_800AE6F4 = 0;
+        D_800AE70C = 0;
+        resLoad_state = 3;
+        /* fallthrough */
+    case 3:
+        if (func_8001A114() != 0) {
+            resLoad_state = 0;
+        }
+        break;
+    }
+    if (result != 0) {
+        resLoad_loadedFileIdx = RES_FILE[resLoad_curId].v;
+        if (RES_POST[resLoad_curId].v > 0) {
+            func_8002D4C8((u16)RES_POST[resLoad_curId].v, 0);
+            resLoad_lastId = resLoad_curId;
+            if (resLoad_curId == 0x3D) {
+                func_8001B710();
+            }
+        }
+        resLoad_state = 0;
+        cdReq_curSector = 0;
+    }
+    resLoad_result = result;
+}
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001B710);
@@ -4564,7 +5077,104 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8001BADC);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001BB60);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001BBBC);
+
+/* func_8001BBBC — main/800: build the 0x14-byte "scanline band" primitive at the
+ * head of the current prim buffer (D_800A5E60) — a GPU draw-mode word (0xE1000040)
+ * followed by a TILE (code 0x62, 0x140x8 at (a0-160, a1-120), colour a2) — then
+ * PSY-Q addPrim() it onto OT entry 1 of the current buffer's table
+ * (D_800A6610 + (D_800B9A02 << 14)) and bump D_800A5E60 past it.
+ *
+ * @class: MATCH (was SCHEDULE-REORDER/2)
+ *
+ * THE RESIDUAL AND ITS MECHANISM (the only non-obvious thing here; cookbook
+ * material — sched.md S1/S2 + §37's 2-instruction-constant note):
+ *
+ *   The target materialises the 24-bit mask as `lui $t1,0xff / addiu $v0,4 /
+ *   ori $t1,$t1,0xffff` — the independent `li 4` sits BETWEEN the two halves of
+ *   the mask.  Written as one constant (`mFF = 0xFFFFFF`) that is UNREACHABLE:
+ *   mips.md:3208's `large_int` define_split fires inside sched1's try_split
+ *   (sched.c:4830), so the lui/ori get CONSECUTIVE LUIDs, and rank_for_schedule's
+ *   only tie-break among the priority-1 constants is exactly that LUID
+ *   (sched.c:2428).  No statement order can put a third insn between two
+ *   consecutive LUIDs — a 63-variant statement-order sweep confirmed it (every
+ *   one scored the same 2).  So the target's two halves are NOT a split pair:
+ *   they are two insns from expand.  Two edits reproduce that:
+ *
+ *   1. Build the mask in two steps with a zero-byte re-tie between them
+ *      (`__asm__("" : "=r"(mFF) : "0"(mFF))`, the §30-#3 idiom already used by
+ *      func_80016110/func_80016450 in this file) so cse cannot fold
+ *      `0xFF0000 | 0xFFFF` back into one CONST_INT.  Now the `ori` carries its
+ *      own LUID, taken at the point the `|=` is written.
+ *   2. Route the len byte's 4 through the already-multi-set `tmp` ($2) instead of
+ *      an anonymous temp.  An anonymous temp is single-set, so birthing_insn_p
+ *      (sched.c:2469) boosts it to LAUNCH_PRIORITY and it sinks BELOW the mask's
+ *      low half; a hard-reg pseudo with reg_n_sets>1 gets no boost and floats up
+ *      with the other priority-1 constants in plain ascending-LUID order — which,
+ *      with the `|=` written after the store, lands it exactly between the halves.
+ *
+ *   Both are required: the split alone still scores 2, the boost-kill alone
+ *   moves the `li 4` one slot too far (ahead of the `lui`).
+ *
+ * Symbols hand-checked against asm/nonmatchings/800/func_8001BBBC.s (§174 law 1c):
+ * D_800A5E60 (lw %lo + sw %lo), D_800B9A02 (lhu %lo), D_800A6610 (addiu %lo);
+ * no calls.  All three externs are copied verbatim from src/800.c L4489-4491
+ * (the same file-scope spellings func_8001B86C and func_8001D3FC already use).
+ */
+
+extern u16 D_800B9A02;
+extern u8 D_800A6610[];
+extern u8 *D_800A5E60;
+
+void func_8001BBBC(s32 a0, s32 a1, u8 a2)
+{
+    register u8 *p __asm__("$7");
+    register u32 tblAddr __asm__("$8");
+    register u32 tmp __asm__("$2");
+    register u32 val __asm__("$3");
+    register u32 mFF __asm__("$9");
+    register u32 m24 __asm__("$4");
+    register u32 tag0 __asm__("$10");
+    u32 *tbl;
+
+    tag0 = 0xE1000040;
+    mFF = 0xFF0000;
+    __asm__("" : "=r"(mFF) : "0"(mFF));   /* zero-byte re-tie: keeps the mask's two
+                                           * halves as two expand insns (see header) */
+    a0 -= 0xA0;
+
+    p = D_800A5E60;
+    tblAddr = D_800B9A02;
+    a1 -= 0x78;
+
+    tmp = 4;
+    *(u8 *)(p + 3) = tmp;
+    mFF |= 0xFFFF;
+
+    *(u8 *)(p + 11) = 0x62;
+    *(u16 *)(p + 16) = 0x140;
+    *(u16 *)(p + 18) = 8;
+
+    val = *(u32 *)p;
+    tblAddr = (tblAddr << 14) + (u32)&D_800A6610;
+    tbl = (u32 *)tblAddr;
+
+    *(u16 *)(p + 12) = (u16)a0;
+    *(u32 *)(p + 4) = tag0;
+    *(u8 *)(p + 10) = a2;
+    *(u8 *)(p + 9) = a2;
+    *(u8 *)(p + 8) = a2;
+    *(u16 *)(p + 14) = (u16)a1;
+    tmp = tbl[1];
+    m24 = 0xFF000000;
+    val = (val & m24) | (tmp & mFF);
+    *(u32 *)p = val;
+
+    val = (u32)(p + 0x14);
+    D_800A5E60 = (u8 *)val;
+    tmp = tbl[1];
+    tmp = (tmp & m24) | ((u32)p & mFF);
+    tbl[1] = tmp;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001BC6C);
 
@@ -4787,7 +5397,24 @@ void func_8001C6E4(void *a0) {
     *(s32 *)((s32)a0 + 0x24) = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001C744);
+
+extern void func_8001C9D0(void);
+extern void func_80052D90(s32 a0, void *a1);
+extern void func_80054514(s32 a0, s32 a1);
+
+void func_8001C744(s32 a0, s32 a1) {
+    char local_buf[32];
+
+    func_8001C9D0();
+
+    *(s16 *)a0 = 1;
+    *(s16 *)(a0 + 2) = 2;
+
+    func_80052D90(0, (void *)(a0 + 0x30));
+    func_80054514(a0 + 0x30, (s32)(&local_buf[0]));
+
+    *(s32 *)(a0 + 0x24) = a1;
+}
 
 
 extern void func_8001C9D0(void);
@@ -5180,7 +5807,79 @@ void func_8001D3FC(s32 arg0)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001D70C);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001D8C4);
+
+/* ---- PsyQ GTE inline macros (same spelling as func_8001F730 / ov_SC03_* / 800.c gte_ldv0) ---- */
+#define LDV0_8001D8C4(r0) __asm__ volatile (             \
+    "lwc2 $0, 0( %0 );"                                  \
+    "lwc2 $1, 4( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+
+#define MVMVA_8001D8C4() __asm__ volatile (              \
+    "nop;"                                               \
+    "nop;"                                               \
+    "mvmva 1, 0, 0, 0, 0"                                \
+    : : : "memory" )
+
+#define STMAC123_8001D8C4(r0) __asm__ volatile (         \
+    "swc2 $25, 0( %0 );"                                 \
+    "swc2 $26, 4( %0 );"                                 \
+    "swc2 $27, 8( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+
+void func_8001D8C4(s32 a0, u8 * a1_p, u8 * a2_p) {
+    s32 a1 = (s32)a1_p;
+    s32 a2 = (s32)a2_p;
+    s16 sv[4][4];   /* 4 SVECTORs: sp+0x00..0x1F */
+    s32 out[4];     /* MAC1/2/3 scratch: sp+0x20..0x2F */
+    s32 cx, cy, dx, dy, z;
+
+    cx = *(u16 *)(a0 + 0x2E) + *(u16 *)(a1 + 0x08);
+    cy = *(u16 *)(a0 + 0x30) + *(u16 *)(a1 + 0x0A);
+    sv[0][0] = sv[2][0] = cx;
+    sv[0][1] = sv[1][1] = cy;
+
+    dx = *(u8 *)(a1 + 0x02) + cx;
+    sv[3][0] = dx;
+    sv[1][0] = dx;
+
+    dy = *(u8 *)(a1 + 0x03) + cy;
+    sv[3][1] = dy;
+    sv[2][1] = dy;
+
+    z = *(u16 *)(a0 + 0x32);
+    sv[3][2] = z;
+    sv[2][2] = z;
+    sv[1][2] = z;
+    sv[0][2] = z;
+
+    LDV0_8001D8C4(sv[0]);
+    MVMVA_8001D8C4();
+    STMAC123_8001D8C4(out);
+    *(s16 *)(a2 + 0x08) = out[0];
+    *(s16 *)(a2 + 0x0A) = out[1];
+
+    LDV0_8001D8C4(sv[1]);
+    MVMVA_8001D8C4();
+    STMAC123_8001D8C4(out);
+    *(s16 *)(a2 + 0x10) = out[0];
+    *(s16 *)(a2 + 0x12) = out[1];
+
+    LDV0_8001D8C4(sv[2]);
+    MVMVA_8001D8C4();
+    STMAC123_8001D8C4(out);
+    *(s16 *)(a2 + 0x18) = out[0];
+    *(s16 *)(a2 + 0x1A) = out[1];
+
+    LDV0_8001D8C4(sv[3]);
+    MVMVA_8001D8C4();
+    STMAC123_8001D8C4(out);
+    *(s16 *)(a2 + 0x20) = out[0];
+    *(s16 *)(a2 + 0x22) = out[1];
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001DA34);
 
@@ -10674,7 +11373,42 @@ void func_8002FAE0(void) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002FB08);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002FC64);
+
+extern s32  func_8003C4F0(s32);
+extern void func_8003C498(s32);
+extern void SpuWrite(s32, s32);
+extern void func_80037D74(void);
+extern u8   D_8006AEF4;
+extern s32  D_800A46C8;
+
+int   func_8002FC64(int nbytes, u32 *src);   /* stage/copy a payload run */
+int   func_8002FC64(int nbytes, u32 *src)
+{
+    register s32 s2 __asm__("$18") = nbytes;
+    register u32 *s1 __asm__("$17") = src;
+    register s32 *s0;
+    s32 result;
+
+    if (D_8006AEF4 & 1) {
+        if (func_8003C4F0(0) == 0) {
+            func_80037D74();
+            return 0;
+        }
+    }
+
+    s0 = (s32 *)(&D_800A46C8);
+    result = ((s32 (*)(s32))func_8003C498)(*s0);
+
+    if (result != 0) {
+        SpuWrite((s32)s1, s2);
+        *s0 += s2;
+        D_8006AEF4 |= 1;
+        return 1;
+    }
+
+    func_80037D74();
+    return 0;
+}
 
 
 extern s16 D_800A46CC;
@@ -10920,7 +11654,143 @@ void func_80030D80(Ent30D80 *arg0, s16 arg1) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80030F80);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800314DC);
+
+typedef struct Obj {
+    /* 0x00 */ u8 unk00[0xA];
+    /* 0x0A */ u16 unk0A;
+    /* 0x0C */ u16 unk0C;
+    /* 0x0E */ u16 unk0E;
+    /* 0x10 */ u16 unk10;
+    /* 0x12 */ u8 unk12[0x12];
+    /* 0x24 */ s32 unk24;
+    /* 0x28 */ s32 unk28;
+    /* 0x2C */ s32 unk2C;
+    /* 0x30 */ u16 unk30;
+    /* 0x32 */ u8 unk32[0x5];
+    /* 0x37 */ u8 unk37;
+    /* 0x38 */ u8 unk38;
+    /* 0x39 */ u8 unk39;
+    /* 0x3A */ s16 unk3A;
+    /* 0x3C */ s16 unk3C;
+    /* 0x3E */ u8 unk3E[0x13];
+    /* 0x51 */ u8 unk51;
+    /* 0x52 */ u8 unk52[2];
+} Obj;
+
+typedef struct Slot {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ s32 unk04;
+    /* 0x08 */ u8 unk08[0xC];
+    /* 0x14 */ s16 unk14;
+    /* 0x16 */ u8 unk16[2];
+    /* 0x18 */ s16 unk18;
+    /* 0x1A */ u8 unk1A[0x26];
+    /* 0x40 */ s32 unk40;
+    /* 0x44 */ u8 unk44;
+    /* 0x45 */ u8 unk45[3];
+} Slot;
+
+/* 0x0C stride record pointed at by D_8006A970[] -- must match src/800.c's B12
+   (same name, same offsets/widths) since the destination TU already declares
+   this struct and symbol. */
+
+extern Slot D_800A4C28[];
+extern s32 D_80073140[];
+extern B12 *D_8006A970[];
+extern u16 D_8006AB30[];
+extern u16 D_8006AB32[];
+
+void func_800314DC(Obj *p) {
+    Slot *e;
+    /* dead local: the target frame is `vars= 8` with no $sp reference. */
+    s32 pad[2];
+    u16 h;
+    u32 t;
+    /* $2 pin #1 -- `base` is a LOCAL qty in the D_800A4C28 block. Unpinned,
+       local-alloc.c:1825 combine_regs TIES its dest into operand 0 of the
+       addu (the dying `t & 0xFF00` temp, which lives in $v1), so base lands
+       in $v1; the target keeps it in $v0. A hard-reg dest cannot be tied, so
+       the pin materialises base in $v0 exactly where the target has it. */
+    register s32 base __asm__("$2");
+    u32 d;
+    u32 res;
+    /* $2 pin #2 (disjoint lifetime from `base`) -- see the lerp comment. */
+    register u32 q __asm__("$2");
+
+    if (!(p->unk37 & 1)) {
+        return;
+    }
+
+    if (p->unk30 != 0) {
+        p->unk30--;
+        return;
+    }
+
+    if (p->unk2C < 0) {
+        p->unk24 += p->unk2C;
+        if (p->unk24 <= p->unk28) {
+            p->unk24 = p->unk28;
+            p->unk37 &= 0xFE;
+        }
+    } else {
+        p->unk24 += p->unk2C;
+        if (p->unk24 >= p->unk28) {
+            p->unk24 = p->unk28;
+            p->unk37 &= 0xFE;
+        }
+    }
+
+    if (!(p->unk37 & 1) && p->unk38 != 0) {
+        if (p->unk24 != p->unk3C) {
+            p->unk28 = p->unk3C;
+            if (p->unk3C < p->unk24) {
+                p->unk2C = -p->unk3A;
+            } else {
+                p->unk2C = p->unk3A;
+            }
+        }
+        p->unk38 = 0;
+        p->unk37 |= 1;
+    }
+
+    e = &D_800A4C28[p->unk51];
+    e->unk00 = D_80073140[p->unk0A];
+    h = D_8006A970[p->unk10][p->unk0C].unk04;
+    /* `t` MUST be a separate SImode local: a HImode `h` used both by the
+       0x18 store and by SImode arithmetic is what keeps the otherwise
+       redundant `andi $v0,$a0,0xFFFF` alive (folding it away costs an insn). */
+    t = h;
+    /* splitting the -0x3C00 off keeps the sh scheduled AFTER the andi/sll/sra
+       chain: as one expression the store's memory dependence on the 0x24 load
+       gives it enough sched1 priority to hoist into the load-delay region. */
+    base = (t & 0xFF00) + ((s8)t * 2);
+    e->unk18 = h;
+    base -= 0x3C00;
+    /* in-place update: the target reuses $a1 for both the 0x24 load and the
+       difference, and global.c has no coalescing (K8) -- cross-block sharing
+       has to be ONE pseudo in the source. */
+    d = p->unk24;
+    d -= base;
+    if (d >= 0x5300) {
+        res = 0x3FFF;
+    } else {
+        /* `q` merges the D_8006AB30 load with the first product into one
+           $v0-pinned range. That blocks $v0 across insns 4..11 of this block,
+           which is what pushes 0x100 -> $v1, the index -> $a0, the D_8006AB32
+           load -> $v1, and (via the global pass) the second mflo -> $v1. */
+        q = D_8006AB30[d >> 8];
+        q = q * (0x100 - (d & 0xFF));
+        res = (q + D_8006AB32[d >> 8] * (d & 0xFF)) >> 8;
+    }
+    e->unk14 = res;
+    e->unk40 = p->unk0A;
+    if (e->unk44 != 0) {
+        e->unk04 |= 0x10;
+    } else {
+        e->unk44 = 1;
+        e->unk04 = 0x10;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800316F8);
 
@@ -12388,7 +13258,66 @@ int func_80037CD8(void *arg) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80037D74);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80037D98);
+
+extern u8 *D_800762B0;
+extern u8 D_800A4EFE[];
+extern s32 D_80073140[];
+
+extern u8 D_800C6DE0[];
+extern u8 D_800C6DE4[];
+extern u8 D_800C6DEC[];
+extern u8 D_800C6DEE[];
+extern u8 D_800C6E2A[];
+extern u8 D_800C6E2B[];
+extern u8 D_800C6E2C[];
+extern u8 D_800C6E2D[];
+extern u8 D_800C6E2E[];
+
+extern u8 D_800B9EC8[];
+extern u8 D_800B9ED2[];
+extern u8 D_800B9ED3[];
+
+extern s32 D_80079A68;
+extern void func_8003D424(s32 *);
+
+void func_80037D98(void) {
+    s32 i;
+    s32 offset;
+    s32 val;
+    s32 *table;
+
+    D_800762B0 = D_800A4EFE;
+
+    i = 0;
+    table = D_80073140;
+    offset = 0;
+    while (i < 0x10) {
+        val = *table;
+        table++;
+        i++;
+        D_800C6E2A[offset] = 0;
+        D_800C6E2B[offset] = 0;
+        D_800C6E2C[offset] = 0;
+        D_800C6E2D[offset] = 0;
+        *(s16 *)&D_800C6DEC[offset] = 0;
+        *(s16 *)&D_800C6DEE[offset] = 0;
+        *(s32 *)&D_800C6DE4[offset] = 0;
+        D_800C6E2E[offset] = 0;
+        *(s32 *)&D_800C6DE0[offset] = val;
+        offset += 0x60;
+    }
+
+    i = 0;
+    offset = 0;
+    for (; i < 2; i++) {
+        D_800B9ED3[offset] = 0;
+        D_800B9ED2[offset] = 0;
+        *(s16 *)&D_800B9EC8[offset] = i;
+        offset += 0x1FC;
+    }
+
+    func_8003D424(&D_80079A68);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80037EA0);
 

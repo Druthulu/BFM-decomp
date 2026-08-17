@@ -109,7 +109,55 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D118);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D138);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D184);
+
+extern void* (*D_80072970)(void);
+
+s32 func_8005D184(s32 arg0) {
+    void* v0;
+    register s32 v1 __asm__("$3");
+
+    v0 = D_80072970();
+
+    if ((*(u32*)((u8*)v0 + 0x34) & 0xFFFF0000) != 0) {
+        goto do_switch;
+    }
+    if ((u32)v0 == *(u32*)((u8*)v0 + 0x10)) {
+        goto check30;
+    }
+    if (*(u8*)((u8*)v0 + 0x38) != 0) {
+        goto do_switch;
+    }
+check30:
+    if (*(u8*)*(u32*)((u8*)v0 + 0x30) == 0) {
+        goto return_byte;
+    }
+
+do_switch:
+    v1 = *(u8*)((u8*)v0 + 0x49);
+
+    if (v1 == 3) {
+        goto return_one;
+    }
+    if (v1 < 4) {
+        if (v1 == 2) {
+            goto return_one;
+        }
+        goto return_byte;
+    }
+    if (v1 == 6) {
+        goto return_four;
+    }
+    goto return_byte;
+
+return_one:
+    return 1;
+
+return_four:
+    return 4;
+
+return_byte:
+    return *(u8*)((u8*)v0 + 0x49);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D244);
 

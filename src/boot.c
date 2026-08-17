@@ -60,7 +60,42 @@ INCLUDE_ASM("asm/nonmatchings/boot", func_80010E7C);
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80010ED4);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010F80);
+
+extern void func_800CEEC8(void);
+extern void func_80011B7C(s32);
+extern void func_8001C044(void);
+extern void func_80015310(void);
+extern void func_80011818(s32);
+extern void func_80029514(s32);
+extern u8 D_800AF630[];
+extern u8 D_80078E78[];
+extern s32 D_800629C8;
+
+void func_80010F80(void) {
+    register u8 *p = D_800AF630;
+    u8 *sp10 = D_80078E78;
+    func_800CEEC8();
+    if (*(u16 *)(p + 0xA3B6) != 0) {
+        func_80011B7C(0);
+        func_8001C044();
+        func_80015310();
+        if (*(s16 *)(p + 0xA3B8) == 4) {
+            *(u8 *)(p + 0xA434) = 1;
+            func_80011818(0xF);
+        } else if (*(s16 *)(p + 0xA3B8) < 2) {
+            *(s16 *)(p + 0xA3D8) = 0x3005;
+            *(s16 *)(p + 0xA3DA) = 0x3000;
+            func_80029514(D_800629C8);
+            if (*(s16 *)(p + 0xA3B8) == 1) {
+                func_80011818(0xA);
+                func_80011B7C(0xB);
+            } else {
+                func_80011818(0xA);
+            }
+        }
+    }
+    (void)sp10;
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_800110CC);
 

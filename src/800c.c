@@ -142,7 +142,89 @@ INCLUDE_ASM("asm/nonmatchings/800c", func_80059658);
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_800596F4);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_80059760);
+
+/* func_80059760 ("checkRECT" per Ghidra) is NOT independently C-compilable: the target's own
+ * 0xD8-byte range ends with a bare fallthrough into a sibling symbol (SYS_OBJ_604) with ZERO
+ * epilogue of its own, and its earlier exits are plain "j SYS_OBJ_604"/"j SYS_OBJ_640" with no
+ * jal and no local restore. SYS_OBJ_604's own body (asm/nonmatchings/800c/SYS_OBJ_604.s) reads
+ * $t0/$s0 directly with NO prologue copy of its own (Ghidra: "unaff_s0") -- these three symbols
+ * (func_80059760 / SYS_OBJ_604 / SYS_OBJ_640) share ONE register allocation and ONE stack frame,
+ * i.e. they are the compiled output of a single original function that this project's tooling
+ * split into 3 addressable chunks. Empirically verified (scratch tests): gcc-2.7.2 -O2 ALWAYS
+ * synthesizes a trailing return/jump for a C function (even one whose body is pure inline asm,
+ * even with __attribute__((noreturn)), even with every path ending in an asm jump) -- there is
+ * no way to get a bare "j SYS_OBJ_640" out of ordinary (or asm-augmented) C-function codegen; a
+ * real cross-function jal+return always grows the frame (confirmed: 61 ins vs target's 54, extra
+ * epilogue at each exit). File-scope raw asm (outside any C function) is therefore the only way
+ * to reproduce this byte range exactly -- same idiom as the cookbook's "full-inline-asm TRAMPOLINE"
+ * entry (a $sp-switch body "NOT expressible in C"), just at file scope so gcc adds no trailer.
+ */
+__asm__(
+".text\n"
+".align\t2\n"
+".globl\tfunc_80059760\n"
+".ent\tfunc_80059760\n"
+"func_80059760:\n"
+"    .set\tnoreorder\n"
+"    addiu $sp, $sp, -32\n"
+"    addu $t0, $a0, $zero\n"
+"    sw $s0, 24($sp)\n"
+"    addu $s0, $a1, $zero\n"
+"    lui $v1, %hi(D_8007278A)\n"
+"    lbu $v1, %lo(D_8007278A)($v1)\n"
+"    addiu $v0, $zero, 1\n"
+"    beq $v1, $v0, .L80059798\n"
+"    sw $ra, 28($sp)\n"
+"    addiu $v0, $zero, 2\n"
+"    beq $v1, $v0, .L80059830\n"
+"    nop\n"
+"    j SYS_OBJ_640\n"
+"    nop\n"
+".L80059798:\n"
+"    lh $a1, 4($s0)\n"
+"    lui $v1, %hi(D_8007278C)\n"
+"    lh $v1, %lo(D_8007278C)($v1)\n"
+"    nop\n"
+"    slt $v0, $v1, $a1\n"
+"    bnez $v0, .L80059820\n"
+"    nop\n"
+"    lh $a3, 0($s0)\n"
+"    nop\n"
+"    addu $v0, $a1, $a3\n"
+"    slt $v0, $v1, $v0\n"
+"    bnez $v0, .L80059820\n"
+"    nop\n"
+"    lh $v1, 2($s0)\n"
+"    lui $a0, %hi(D_8007278E)\n"
+"    lh $a0, %lo(D_8007278E)($a0)\n"
+"    nop\n"
+"    slt $v0, $a0, $v1\n"
+"    bnez $v0, .L80059820\n"
+"    nop\n"
+"    lh $a2, 6($s0)\n"
+"    nop\n"
+"    addu $v0, $v1, $a2\n"
+"    slt $v0, $a0, $v0\n"
+"    bnez $v0, .L80059820\n"
+"    nop\n"
+"    blez $a1, .L80059820\n"
+"    nop\n"
+"    bltz $a3, .L80059820\n"
+"    nop\n"
+"    bltz $v1, .L80059820\n"
+"    nop\n"
+"    bgtz $a2, SYS_OBJ_640\n"
+"    nop\n"
+".L80059820:\n"
+"    lui $a0, %hi(D_80074154)\n"
+"    addiu $a0, $a0, %lo(D_80074154)\n"
+"    j SYS_OBJ_604\n"
+"    nop\n"
+".L80059830:\n"
+"    lui $a0, %hi(D_80074174)\n"
+"    addiu $a0, $a0, %lo(D_80074174)\n"
+".end\tfunc_80059760\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_604);
 
@@ -160,7 +242,44 @@ INCLUDE_ASM("asm/nonmatchings/800c", MoveImage);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_8F4);
 
-INCLUDE_ASM("asm/nonmatchings/800c", ClearOTag);
+
+extern u8 D_8007278A;
+extern u32 D_80072784;
+extern char D_800741A8;
+extern char D_80072844;
+
+void *ClearOTag(u32 *otag, s32 n)
+{
+    u32 mask_low;
+    u32 mask_high;
+    u32 next_addr;
+    u32 val;
+
+    if (D_8007278A >= 2) {
+        void (*func)(u32, u32, s32) = (void (*)(u32, u32, s32))D_80072784;
+        func((u32)&D_800741A8, (u32)otag, n);
+    }
+
+    n--;
+    if (n != 0) {
+        mask_low = 0xFFFFFF;
+        mask_high = 0xFF000000;
+
+        while (n) {
+            n--;
+            next_addr = (u32)otag + 4;
+            *(u8 *)((u32)otag + 3) = 0;
+            val = *otag;
+            val = (val & mask_high);
+            val = val | (next_addr & mask_low);
+            *otag = val;
+            otag = (u32 *)next_addr;
+        }
+    }
+
+    *otag = (u32)&D_80072844 & 0xFFFFFF;
+    return otag;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_80059BFC);
 
@@ -174,7 +293,80 @@ INCLUDE_ASM("asm/nonmatchings/800c", DrawOTagEnv);
 
 INCLUDE_ASM("asm/nonmatchings/800c", GetDrawEnv);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_80059FC0);
+
+/*
+ * func_80059FC0 -- part of the SYS_OBJ_XXXX GPU-primitive dispatch family (splat's naming for
+ * hex offsets into a shared handler table). Like GsTMDfastG3GL (src/800b2.c), this is reproduced
+ * as handwritten assembly: BOTH branches end with a raw, unlinked tail jump into SYS_OBJ_E34
+ * (args left in $v0/$v1, not $a0/$a1; $ra/$s0-$s3 saved but never restored by this function) --
+ * SYS_OBJ_E34 owns the shared epilogue for this family, using the fixed 0x28-byte / s0-s3+ra
+ * frame layout every sibling in the family shares. There is NO trailing "jr $ra" anywhere in the
+ * target (function size is exactly 0xA8 bytes, ending mid-basic-block) -- gcc-2.7.2 has no
+ * general sibcall optimization AND unconditionally appends its own return sequence to every
+ * ordinary (even __asm__-bodied) C function (function.c:expand_function_end, no noreturn guard,
+ * confirmed empirically both on the callee and on this function itself), so wrapping the body in
+ * a normal C function can only ever get within +2 instructions (the phantom trailing jr/nop) of
+ * this target. FILE-SCOPE asm (outside any C function body) is the only spelling that emits
+ * exactly the target bytes with nothing appended: the compiler treats it as opaque text, no
+ * .ent-triggered epilogue machinery ever runs.
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_80059FC0\n"
+    ".ent\tfunc_80059FC0\n"
+    "func_80059FC0:\n"
+    ".frame\t$sp,40,$31\n"
+    ".mask\t0x800f0000,-8\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "lui   $2, %hi(D_8007278A)\n"
+    "lbu   $2, %lo(D_8007278A)($2)\n"
+    "addiu $sp, $sp, -40\n"
+    "sw    $16, 16($sp)\n"
+    "addu  $16, $4, $0\n"
+    "sw    $19, 28($sp)\n"
+    "lui   $19, 0x0800\n"
+    "sw    $31, 32($sp)\n"
+    "sw    $18, 24($sp)\n"
+    "sltiu $2, $2, 2\n"
+    "bnez  $2, 1f\n"
+    " sw   $17, 20($sp)\n"
+    "lui   $4, %hi(D_80074220)\n"
+    "addiu $4, $4, %lo(D_80074220)\n"
+    "lui   $2, %hi(D_80072784)\n"
+    "lw    $2, %lo(D_80072784)($2)\n"
+    "nop\n"
+    "jalr  $2\n"
+    " addu $5, $16, $0\n"
+    "1:\n"
+    "lui   $2, %hi(D_80072788)\n"
+    "lbu   $2, %lo(D_80072788)($2)\n"
+    "nop\n"
+    "addiu $2, $2, -1\n"
+    "sltiu $2, $2, 2\n"
+    "beqz  $2, 2f\n"
+    " nop\n"
+    "jal   func_8005ADB8\n"
+    " addu $4, $16, $0\n"
+    "lhu   $3, 2($16)\n"
+    "andi  $2, $2, 0xfff\n"
+    "andi  $3, $3, 0xfff\n"
+    "sll   $3, $3, 12\n"
+    "or    $3, $3, $2\n"
+    "j     SYS_OBJ_E34\n"
+    " lui  $2, 0x0500\n"
+    "2:\n"
+    "lhu   $2, 2($16)\n"
+    "lhu   $3, 0($16)\n"
+    "andi  $2, $2, 0x3ff\n"
+    "sll   $2, $2, 10\n"
+    "andi  $3, $3, 0x3ff\n"
+    "or    $2, $2, $3\n"
+    "lui   $3, 0x0500\n"
+    ".set\treorder\n"
+    ".end\tfunc_80059FC0\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_E34);
 
