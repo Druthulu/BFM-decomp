@@ -3405,7 +3405,7 @@ void func_80186C4C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80187090);
+DEFINE_func_80187090()  /* dedup: shared engine-core @0x80187090 (src/shared) */
 
 DEFINE_func_80187300()  /* dedup: shared engine-core @0x80187300 (src/shared) */
 
