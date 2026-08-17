@@ -17909,9 +17909,10 @@ IMMOVABLE.** Every survivor kept its original signature.
 So §177's *mechanism* is source-confirmed and its *lever* ("change what is live across the call") is
 not sufficient for this cluster. That is a refutation of the lever's reach, not of the rule. **Do not
 re-run this lane as-is** (R38: the verdicts are recorded in `.run/s53_epi_class.json` and the wave
-journals). The next probe should ask what ELSE forces those frames — an argument spill, a callee's
-clobber set, or a `$s`-register requirement the C shape cannot avoid — before another agent-hour is
-spent. A lane that converts 25% is a lane that needs a new hypothesis, not another pass.
+journals). **ANSWERED by §188 (same session):** none of the three — it is not gcc at all. The shape
+is GNU `as -O2` filling the return delay slot, and cc1 cannot emit it for an `$s`-saving frame, so the
+lane was aimed at a compiler decision that was never the compiler's. Six of the affected functions are
+additionally prebuilt SDK objects. Use `tools/oracle_reorder.py` before spending another agent-hour. A lane that converts 25% is a lane that needs a new hypothesis, not another pass.
 
 ## §180d — THE `pgrep` BRACKET TRICK PROTECTS THE PATTERN, NOT THE COMMAND LINE
 S52 banked "`pgrep -f` self-matches its own shell wrapper — use the `[g]ate_main` bracket trick." S53
