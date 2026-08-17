@@ -4336,7 +4336,8 @@ extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void func_80185AF0(s32 a0);
 extern void func_801859C4(s32 a0);
-extern void func_80185B5C(void);
+extern s32 func_80185B5C();   /* RETYPED P31 S54: the asm reads $a0 and sets $v0 on every exit;
+                              * unspecified params keep every existing call site legal (C89 6.5.4.3). */
 extern void func_80185CA4(s32 a0);
 
 void func_80185064(s32 a0) {
@@ -4427,7 +4428,8 @@ extern void func_801859C4(s32);
     }
 
 
-extern void func_80185B5C(void);
+extern s32 func_80185B5C();   /* RETYPED P31 S54: the asm reads $a0 and sets $v0 on every exit;
+                              * unspecified params keep every existing call site legal (C89 6.5.4.3). */
     void func_80185300(void) {
         func_80185B5C();
     }
