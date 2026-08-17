@@ -1,6 +1,34 @@
 #include "common.h"
 #include "../shared/engine_core.h"
 
+/* HOISTED (P31 S54): these three typedefs were defined further down the file, BELOW the
+ * INCLUDE_ASM lines of stubs that need them. harvest_verify strips a draft's own copy of any
+ * typedef the TU already provides, which left the name undefined at the earlier insertion
+ * point (pregate_check: TYPEDEF-USED-ABOVE-DEFINITION). Typedefs emit no code, so moving them
+ * to the top is byte-neutral -- proven by the gate, not asserted. */
+typedef struct {
+    s16 f0;
+    s16 f2;
+    s16 f4;
+    s16 f6;
+} D_80195AF6_t;
+
+typedef struct {
+    u8 pad[4];
+    s32 field_4;
+} SubStruct;
+
+typedef struct {
+    u8 pad_00[0x20];
+    SubStruct *f_20;
+    u8 pad_24[0xA8];
+    void *f_CC;
+    void *f_D0;
+    void *f_D4;
+    u8 pad_D8[0x10];
+    s32 f_E8;
+} MainStruct;
+
 
 /* ==== Phase-26 §8b carried decl layer (jr_isolate_all.py) ===================
  * The file-scope decl environment from earlier code regions of this object —
@@ -3781,12 +3809,6 @@ extern void func_8013C9C4(void *a0);
 extern void (*D_80191060[])(void);
 extern void func_8012B2CC(s32 a0);
 
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-} D_80195AF6_t;
 extern D_80195AF6_t D_80195AF6[];
 
 void func_80184828(void *a0)
@@ -4348,21 +4370,7 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018617
 
 #include "common.h"
 
-typedef struct {
-    u8 pad[4];
-    s32 field_4;
-} SubStruct;
 
-typedef struct {
-    u8 pad_00[0x20];
-    SubStruct *f_20;
-    u8 pad_24[0xA8];
-    void *f_CC;
-    void *f_D0;
-    void *f_D4;
-    u8 pad_D8[0x10];
-    s32 f_E8;
-} MainStruct;
 
 extern MainStruct *D_801E43A4;
 
