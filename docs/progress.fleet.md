@@ -4,21 +4,21 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 351879 / 363156 = 96.89%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 12926454 / 13523865 = 95.6%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5306662 / 5851972 = 90.7%   (81821/90929 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :   13799 / 79510 = 17.4%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12912655 / 13444355 = 96.0%)
+FLEET fn-count byte-ident: 351966 / 363149 = 96.92%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 12934700 / 13523865 = 95.6%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5314908 / 5851972 = 90.8%   (81884/90929 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :   16227 / 79510 = 20.4%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 12918473 / 13444355 = 96.1%)
 
-FLEET REAL substantive   : 349709   (of which dedup-shared 254600 via 2138 groups / 254676 instances)
+FLEET REAL substantive   : 349796   (of which dedup-shared 254604 via 2140 groups / 254680 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      4   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :  11273
-FLEET matchable          : 363156
+FLEET INCLUDE_ASM stubs  :  11179
+FLEET matchable          : 363149
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
-| main | 304 | 2 | 959 | 1305 | 2089 | 62.5% |
+| main | 328 | 2 | 959 | 1329 | 2082 | 63.8% |
 | resident | 129 | 0 | 0 | 131 | 145 | 90.3% |
 | md_MAIN_001 | 1 | 0 | 0 | 1 | 11 | 9.1% |
 | md_MAIN_003 | 3 | 0 | 0 | 3 | 60 | 5.0% |
@@ -128,11 +128,11 @@ FLEET matchable          : 363156
 | ov_SC03_011 | 2426 | 1807 | 0 | 2432 | 2527 | 96.2% |
 | ov_SC03_012 | 2391 | 1806 | 0 | 2392 | 2406 | 99.4% |
 | ov_SC03_013 | 2427 | 1807 | 0 | 2427 | 2493 | 97.4% |
-| ov_SC03_014 | 2598 | 1843 | 0 | 2598 | 2685 | 96.8% |
-| ov_SC03_015 | 2377 | 1843 | 0 | 2377 | 2468 | 96.3% |
+| ov_SC03_014 | 2598 | 1844 | 0 | 2598 | 2685 | 96.8% |
+| ov_SC03_015 | 2377 | 1844 | 0 | 2377 | 2468 | 96.3% |
 | ov_SC03_023 | 2404 | 1806 | 0 | 2405 | 2435 | 98.8% |
 | ov_SC03_024 | 2531 | 1813 | 0 | 2538 | 2641 | 96.1% |
-| ov_SC03_028 | 2466 | 1807 | 0 | 2470 | 2664 | 92.7% |
+| ov_SC03_028 | 2499 | 1807 | 0 | 2503 | 2664 | 94.0% |
 | ov_SC03_029 | 2505 | 1810 | 0 | 2515 | 2644 | 95.1% |
 | ov_SC03_030 | 2428 | 1811 | 0 | 2430 | 2495 | 97.4% |
 | ov_SC03_031 | 2449 | 1808 | 0 | 2452 | 2514 | 97.5% |
@@ -180,12 +180,12 @@ FLEET matchable          : 363156
 | ov_SC04_008 | 2402 | 1806 | 0 | 2402 | 2415 | 99.5% |
 | ov_SC04_009 | 2428 | 1806 | 0 | 2431 | 2441 | 99.6% |
 | ov_SC04_010 | 2405 | 1806 | 0 | 2406 | 2419 | 99.5% |
-| ov_SC04_011 | 2568 | 1811 | 0 | 2574 | 2803 | 91.8% |
+| ov_SC04_011 | 2598 | 1811 | 0 | 2604 | 2803 | 92.9% |
 | ov_SC04_012 | 2402 | 1806 | 0 | 2403 | 2420 | 99.3% |
 | ov_SC04_015 | 2545 | 1807 | 0 | 2556 | 2611 | 97.9% |
 | ov_SC04_016 | 2403 | 1806 | 0 | 2405 | 2440 | 98.6% |
-| ov_SC04_018 | 2734 | 1883 | 0 | 2734 | 2857 | 95.7% |
-| ov_SC04_019 | 2725 | 1883 | 0 | 2725 | 2857 | 95.4% |
+| ov_SC04_018 | 2734 | 1884 | 0 | 2734 | 2857 | 95.7% |
+| ov_SC04_019 | 2725 | 1884 | 0 | 2725 | 2857 | 95.4% |
 | ov_SC04_020 | 2520 | 1815 | 0 | 2532 | 2567 | 98.6% |
 | ov_SC04_021 | 2404 | 1809 | 0 | 2404 | 2423 | 99.2% |
 | ov_SC05_000 | 2407 | 1810 | 0 | 2410 | 2422 | 99.5% |
