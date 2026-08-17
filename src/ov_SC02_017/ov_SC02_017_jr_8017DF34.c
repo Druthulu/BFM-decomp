@@ -4660,7 +4660,52 @@ INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_801859C
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80185AF0);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80185B5C);
+#include "common.h"
+
+extern s32 func_8014CB0C(void);
+extern void func_8012BD14(s32 a0);
+extern s32 VectorNormalSS(void *a0, void *a1);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+
+s32 func_80185B5C(s32 a0) {
+    s16 diff[3];
+    s16 pointA[3];
+    s32 flags;
+
+    if (*(u16 *)(a0 + 0x5E) == 0x1E) {
+        return 0;
+    }
+    if (func_8014CB0C() != 0) {
+        return 0;
+    }
+    if ((*(s32 *)(a0 + 0xDC) & 0x10) != 0) {
+        return 0;
+    }
+    if (((s32 (*)(s32))func_8012BD14)(a0) < 0x2401) {
+        pointA[0] = D_80126B5E;
+        pointA[1] = D_80126B62;
+        pointA[2] = D_80126B66;
+
+        diff[0] = pointA[0] - *(u16 *)(a0 + 0x6);
+        diff[1] = pointA[1] - *(u16 *)(a0 + 0xA);
+        diff[2] = pointA[2] - *(u16 *)(a0 + 0xE);
+
+        VectorNormalSS(diff, diff);
+
+        pointA[1] -= 0x20;
+        func_8012F568(1, 6, 0, 0, (s32)pointA, (s32)diff);
+
+        flags = *(s32 *)(a0 + 0xDC);
+        flags |= 0x10;
+        *(s32 *)(a0 + 0xDC) = flags;
+        return 1;
+    }
+    return 0;
+}
+
 
 
 extern s32 rand(void);
