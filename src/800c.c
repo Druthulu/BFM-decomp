@@ -336,7 +336,47 @@ void *ClearOTag(u32 *otag, s32 n)
     return otag;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_80059BFC);
+
+extern u8 D_8007278A;
+extern volatile u8 D_800741C0[4];
+extern u32 D_80072784;
+extern void *D_80072780;
+extern char D_80072844;
+
+void func_80059BFC(s32 a0, s32 a1) {
+    s32 s0 = a0;
+    s32 s1 = a1;
+    u8 byte_val;
+    void (*func_ptr)(u32, s32, s32);
+    void (*func_ptr2)(s32, s32);
+    u32 addr;
+    u32 *v0;
+    u32 v1;
+    u32 mask;
+
+    byte_val = D_8007278A;
+
+    if (byte_val >= 2) {
+        addr = (u32)D_800741C0;
+        func_ptr = (void (*)(u32, s32, s32))D_80072784;
+        func_ptr(addr, s0, s1);
+    }
+
+    func_ptr2 = *(void (**)(s32, s32))((u8 *)D_80072780 + 0x2C);
+    func_ptr2(s0, s1);
+
+    {
+        register u32 outAddr __asm__("$2");
+        mask = 0xFFFFFF;
+        __asm__ volatile("" : "=r"(mask) : "0"(mask));
+        outAddr = (u32)s0;
+        __asm__ volatile("" : "=r"(outAddr) : "0"(outAddr));
+        v1 = (u32)&D_80072844;
+        __asm__ volatile("" : "=r"(v1) : "0"(v1));
+        v1 &= mask;
+        *(u32 *)outAddr = v1;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", DrawPrim);
 
