@@ -130,7 +130,36 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_210);
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_800594CC);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SetGraphQueue);
+
+extern u8 D_8007278A;
+extern u8 D_80072789;
+extern u32 D_80072784;
+extern void *D_80072780;
+extern u8 D_800740FC;
+
+extern void DMACallback(s32, s32);
+
+s32 SetGraphQueue(s32 a0)
+{
+    register u8 *s1 __asm__("s1") = &D_80072789;
+    u8 check;
+    u8 s2;
+
+    check = D_8007278A;
+    s2 = *s1;
+
+    if (check >= 2) {
+        ((s32 (*)(void *, s32))D_80072784)(&D_800740FC, a0);
+    }
+
+    if (a0 != *s1) {
+        (*(s32 (**)(s32))((u8 *)D_80072780 + 0x34))(1);
+        *s1 = a0;
+        DMACallback(2, 0);
+    }
+
+    return s2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", GetGraphType);
 
@@ -138,7 +167,33 @@ INCLUDE_ASM("asm/nonmatchings/800c", GetGraphDebug);
 
 INCLUDE_ASM("asm/nonmatchings/800c", DrawSyncCallback);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_80059658);
+
+extern u8 D_8007278A;
+extern u32 D_80072784;
+extern void *D_80072780;
+extern void func_8005C29C(void*, s32, s32);
+extern s32 D_8007412C;
+
+void func_80059658(s32 a0) {
+    u8 *s1 = &D_8007278A;
+
+    if (*s1 >= 2) {
+        ((void (*)(void*, s32))D_80072784)(&D_8007412C, a0);
+    }
+
+    if (a0 == 0) {
+        func_8005C29C(s1 + 0x6A, -1, 0x14);
+    }
+
+    {
+        u32 val = 0x3000001;
+        void *ptr = D_80072780;
+        if (a0 != 0) {
+            val = 0x3000000;
+        }
+        (*(void (**)(u32))((u8 *)ptr + 0x10))(val);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_800596F4);
 

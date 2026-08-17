@@ -3,6 +3,84 @@
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct { s32 a; s32 b[4]; } OtBlk_80016450;
+typedef struct { s16 vx, vy, vz, pad; } SVEC2;      /* 0x08 */
+typedef struct {                                     /* 0x14 */
+    u32 w0;      /* 0x00 */
+    u32 rgb;     /* 0x04 */
+    u16 n0;      /* 0x08 */
+    u16 v0;      /* 0x0A */
+    u16 n1;      /* 0x0C */
+    u16 v1;      /* 0x0E */
+    u16 n2;      /* 0x10 */
+    u16 v2;      /* 0x12 */
+} Face2;
+typedef struct {                                     /* 0x1C */
+    u32 tag;
+    u32 rgb0;
+    s16 x0, y0;
+    u32 rgb1;
+    s16 x1, y1;
+    u32 rgb2;
+    s16 x2, y2;
+} G3P;
+typedef struct {                                     /* 0x18 */
+    u32 w0;      /* 0x00 */
+    u32 rgb;     /* 0x04 */
+    u16 n0;      /* 0x08 */
+    u16 v0;      /* 0x0A */
+    u16 n1;      /* 0x0C */
+    u16 v1;      /* 0x0E */
+    u16 n2;      /* 0x10 */
+    u16 v2;      /* 0x12 */
+    u16 n3;      /* 0x14 */
+    u16 v3;      /* 0x16 */
+} Face3;
+typedef struct {                                     /* 0x24 */
+    u32 tag;     /* 0x00 */
+    u32 rgb0;    /* 0x04 */
+    s16 x0, y0;  /* 0x08 */
+    u32 rgb1;    /* 0x0C */
+    s16 x1, y1;  /* 0x10 */
+    u32 rgb2;    /* 0x14 */
+    s16 x2, y2;  /* 0x18 */
+    u32 rgb3;    /* 0x1C */
+    s16 x3, y3;  /* 0x20 */
+} G4P;
+typedef struct Ent30D80 {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ u8 pad04[6];
+    /* 0x0A */ u16 unk0A;
+    /* 0x0C */ u8 pad0C[0x34];
+    /* 0x40 */ void (*unk40)(s32, s32);
+    /* 0x44 */ s32 unk44;
+    /* 0x48 */ u8 pad48[6];
+    /* 0x4E */ u8 unk4E;
+    /* 0x4F */ u8 pad4F;
+    /* 0x50 */ u8 unk50;
+    /* 0x51 */ u8 unk51;
+} Ent30D80;
+typedef struct Rec14 {
+    /* 0x00 */ u16 unk00;
+    /* 0x02 */ u16 unk02;
+    /* 0x04 */ u32 unk04;
+    /* 0x08 */ u32 unk08;
+    /* 0x0C */ u16 unk0C;
+    /* 0x0E */ u16 unk0E;
+    /* 0x10 */ u32 unk10;
+} Rec14; /* 0x14 */
+typedef struct Slot54 {
+    /* 0x00 */ s16 unk00;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ s16 unk04;
+    /* 0x06 */ s16 unk06;
+    /* 0x08 */ u16 unk08;
+    /* 0x0A */ s8  unk0A;
+} Slot54;
+typedef struct Owner4EE8 {
+    /* 0x00 */ u8 pad00[0x14];
+    /* 0x14 */ Rec14 **unk14;
+} Owner4EE8;
+/* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {
     u32 a, b, c, d;
 } Blk16;
@@ -369,7 +447,49 @@ void func_80014338(void) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80014390);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800143AC);
+
+extern void func_800145EC(s32 a0);
+extern int VSync(int mode);
+
+extern u8 D_800AF7C4;
+extern u8 D_800AF7C3;
+extern u8 D_800AF7C2;
+extern u8 D_800A6610[];
+extern u8 D_800A6518[];
+extern u8 D_800A6520[];
+extern u8 D_800A6524[];
+
+
+void func_800143AC(void)
+{
+    extern OtBlk_80016450 D_800A651C[];
+    register s32 ptr __asm__("4");
+    register s32 i __asm__("5");
+    register s32 idx __asm__("3");
+    register s32 c __asm__("6");
+
+    func_800145EC(1);
+    VSync(0);
+
+    i = 0;
+    c = 0xC;
+    ptr = (s32)D_800A6610;
+    idx = 0;
+
+    D_800AF7C4 = 0;
+    D_800AF7C3 = 0;
+    D_800AF7C2 = 0;
+
+    do {
+        *(s32*)((u8*)D_800A651C + idx) = ptr;
+        ptr += 0x4000;
+        *(s32*)(D_800A6518 + idx) = c;
+        *(s32*)(D_800A6520 + idx) = 0;
+        *(s32*)(D_800A6524 + idx) = 0;
+        idx += 0x14;
+        i++;
+    } while (i < 2);
+}
 
 
 extern void func_80047CB4(void);
@@ -5588,7 +5708,33 @@ void func_8001C97C(s32 *a0) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001C9D0);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001CA1C);
+
+extern void func_8001C9D0(void);
+extern void func_80052D90(s32, void *);
+extern void func_80054514(s32 a0, s32 a1);
+
+void func_8001CA1C(void *a0, void *a1)
+{
+    register void *s0 __asm__("$16");
+    register void *s1 __asm__("$17");
+    register void *s2 __asm__("$18");
+    u32 local_pad[7];
+
+    s0 = a0;
+    s2 = a1;
+
+    func_8001C9D0();
+
+    s1 = (void *)((s32)s0 + 0x30);
+
+    *(s16 *)s0 = 1;
+    *(s16 *)((s32)s0 + 2) = 3;
+
+    func_80052D90(0, s1);
+    func_80054514((s32)s1, (s32)local_pad);
+
+    *(s32 *)((s32)s0 + 0x20) = (s32)s2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001CA88);
 
@@ -9195,7 +9341,54 @@ LineG4 *func_800279AC(SrcQ *src, Vtx8 *vb, s32 unused, LineG4 *prim, s32 n, s32 
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80027BF0);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80027C10);
+
+
+
+
+
+
+extern G3P *func_80027D20(Face2 *f, SVEC2 *verts, SVEC2 *norms, G3P *prims,
+                           s32 count, s32 shift, s32 ot);
+extern G4P *func_80027F4C(Face3 *f, SVEC2 *verts, SVEC2 *norms, G4P *prims,
+                           s32 count, s32 shift, s32 ot);
+
+void func_80027C10(void *a0, void *a1, s32 a2)
+{
+    void *geo;
+    SVEC2 *verts;
+    SVEC2 *norms;
+    Face2 *f;
+    G3P *p;
+    u32 w0;
+    s32 cnt;
+    u32 opc;
+    u32 masked;
+
+    geo = *(void **)((s32)a0 + 0x8);
+    p = *(G3P **)((s32)a0 + 0xC);
+    verts = *(SVEC2 **)((s32)geo + 0x0);
+    norms = *(SVEC2 **)((s32)geo + 0x8);
+    f = *(Face2 **)((s32)geo + 0x10);
+
+    do {
+        w0 = p->tag;
+        cnt = p->rgb0;
+        p = (G3P *)((s32)p + 8);
+        opc = (w0 >> 24) & 0xFC;
+        switch (opc) {
+        case 0x30:
+            func_80027D20(f, verts, norms, p, cnt, a2, *(s32 *)((s32)a1 + 4));
+            f = (Face2 *)((s32)f + cnt * 20);
+            break;
+        case 0x38:
+            func_80027F4C((Face3 *)f, verts, norms, (G4P *)p, cnt, a2, *(s32 *)((s32)a1 + 4));
+            f = (Face2 *)((s32)f + cnt * 24);
+            break;
+        }
+        masked = w0 & 0xFFFFFF;
+        p = (G3P *)(masked | 0x80000000);
+    } while (masked != 0);
+}
 
 
 /* ---- PsyQ inline GTE macros (same spellings as the matched ov_SC03_006 body) ---- */
@@ -9257,28 +9450,8 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80027C10);
     : "r"( r0 )                                  \
     : "memory" )
 
-typedef struct { s16 vx, vy, vz, pad; } SVEC2;      /* 0x08 */
 
-typedef struct {                                     /* 0x14 */
-    u32 w0;      /* 0x00 */
-    u32 rgb;     /* 0x04 */
-    u16 n0;      /* 0x08 */
-    u16 v0;      /* 0x0A */
-    u16 n1;      /* 0x0C */
-    u16 v1;      /* 0x0E */
-    u16 n2;      /* 0x10 */
-    u16 v2;      /* 0x12 */
-} Face2;
 
-typedef struct {                                     /* 0x1C */
-    u32 tag;
-    u32 rgb0;
-    s16 x0, y0;
-    u32 rgb1;
-    s16 x1, y1;
-    u32 rgb2;
-    s16 x2, y2;
-} G3P;
 
 extern s16 D_800C7C74;
 extern void func_80028200(s32 a0, s32 a1, s32 a2, s32 a3, s32 stack_arg);
@@ -9404,30 +9577,7 @@ G3P *func_80027D20(Face2 *f, SVEC2 *verts, SVEC2 *norms, G3P *prims,
     : "memory" )
 
 
-typedef struct {                                     /* 0x18 */
-    u32 w0;      /* 0x00 */
-    u32 rgb;     /* 0x04 */
-    u16 n0;      /* 0x08 */
-    u16 v0;      /* 0x0A */
-    u16 n1;      /* 0x0C */
-    u16 v1;      /* 0x0E */
-    u16 n2;      /* 0x10 */
-    u16 v2;      /* 0x12 */
-    u16 n3;      /* 0x14 */
-    u16 v3;      /* 0x16 */
-} Face3;
 
-typedef struct {                                     /* 0x24 */
-    u32 tag;     /* 0x00 */
-    u32 rgb0;    /* 0x04 */
-    s16 x0, y0;  /* 0x08 */
-    u32 rgb1;    /* 0x0C */
-    s16 x1, y1;  /* 0x10 */
-    u32 rgb2;    /* 0x14 */
-    s16 x2, y2;  /* 0x18 */
-    u32 rgb3;    /* 0x1C */
-    s16 x3, y3;  /* 0x20 */
-} G4P;
 
 extern s16 D_800C7C74;
 extern void func_80028200(s32 a0, s32 a1, s32 a2, s32 a3, s32 stack_arg);
@@ -10855,7 +11005,84 @@ void func_8002CDD8(void)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002CFE4);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002D034);
+extern u8 D_800A46BA;
+extern void func_8002D29C(void);
+
+extern s32 D_800A64B0;
+
+extern u8 D_8006A980;
+extern void func_8002DF80(void);
+
+extern void (*D_800A4F24)(void);
+
+extern u8 D_800A4E70;
+extern s32 D_800A4E68;
+extern s16 D_800A4E6C;
+extern void func_8002D240(s32 a0);
+
+extern u8 D_800A4E7A;
+extern s16 D_800A4E76;
+extern u16 D_800A4E74;
+extern s16 D_800A4E78;
+
+void func_8002D034(void) {
+    s32 *ptr;
+    s32 i;
+
+    if (D_800A46BA) {
+        func_8002D29C();
+    }
+
+    ptr = &D_800A64B0;
+    for (i = 0; i < 8; i++, ptr = (s32 *)((u8 *)ptr + 0xC)) {
+        if (ptr[0] != 0 && --ptr[0] == 0) {
+            void (*func)(void *) = (void (*)(void *))ptr[2];
+            func(ptr);
+        }
+    }
+
+    if ((D_8006A980 & 0xEF) != 0) {
+        func_8002DF80();
+    }
+
+    if (D_800A4F24 != NULL) {
+        D_800A4F24();
+    }
+
+    if (D_800A4E70 != 0) {
+        if (--D_800A4E68 == 0) {
+            s32 a0 = D_800A4E6C;
+            D_800A4E70 = 0;
+            func_8002D240(a0);
+        }
+    }
+
+    {
+        register u8 *flagPtr __asm__("$8");
+        flagPtr = &D_800A4E7A;
+    if (*flagPtr != 0) {
+        if (D_800A4E76 > (s16)D_800A4E74) {
+            s16 delta = D_800A4E78;
+            if ((s16)D_800A4E74 < D_800A4E76 - delta) {
+                D_800A4E74 = (s16)D_800A4E74 + delta;
+            } else {
+                D_800A4E74 = D_800A4E76;
+                *flagPtr = 0;
+            }
+        } else {
+            s16 delta = D_800A4E78;
+            if (D_800A4E76 + delta < (s16)D_800A4E74) {
+                D_800A4E74 = (s16)D_800A4E74 - delta;
+            } else {
+                D_800A4E74 = D_800A4E76;
+                *flagPtr = 0;
+            }
+        }
+
+        func_8002D240((s16)D_800A4E74);
+    }
+    }
+}
 
 
 extern void func_8003B45C(s32 *);
@@ -11701,19 +11928,6 @@ s32 func_80030A14(void) {
 INCLUDE_ASM("asm/nonmatchings/800", func_80030CA4);
 
 
-typedef struct Ent30D80 {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ u8 pad04[6];
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u8 pad0C[0x34];
-    /* 0x40 */ void (*unk40)(s32, s32);
-    /* 0x44 */ s32 unk44;
-    /* 0x48 */ u8 pad48[6];
-    /* 0x4E */ u8 unk4E;
-    /* 0x4F */ u8 pad4F;
-    /* 0x50 */ u8 unk50;
-    /* 0x51 */ u8 unk51;
-} Ent30D80;
 
 typedef struct Blk48_30D80 {
     /* 0x00 */ s32 unk00;
@@ -11993,30 +12207,9 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80031FC8);
 
 /* 0x14-byte record, indexed by p[3]. D_80068304 and D_800A4EE8->unk14 are both
  * arrays of pointers to arrays of these. */
-typedef struct Rec14 {
-    /* 0x00 */ u16 unk00;
-    /* 0x02 */ u16 unk02;
-    /* 0x04 */ u32 unk04;
-    /* 0x08 */ u32 unk08;
-    /* 0x0C */ u16 unk0C;
-    /* 0x0E */ u16 unk0E;
-    /* 0x10 */ u32 unk10;
-} Rec14; /* 0x14 */
 
 /* slot record inside D_800A46E8 (stride 0x54) */
-typedef struct Slot54 {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ s16 unk04;
-    /* 0x06 */ s16 unk06;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ s8  unk0A;
-} Slot54;
 
-typedef struct Owner4EE8 {
-    /* 0x00 */ u8 pad00[0x14];
-    /* 0x14 */ Rec14 **unk14;
-} Owner4EE8;
 
 extern Rec14 *D_80068304[];
 extern Owner4EE8 *D_800A4EE8;
@@ -12121,11 +12314,518 @@ done:
     return ret;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800322A8);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800324A4);
+/* ---- declarations copied verbatim from the destination TU (src/800.c, the
+ * block that precedes the already-matched sibling func_80032048) ----
+ *
+ * BANKING NOTE: src/800.c ALREADY has every typedef (Rec14 / Slot54 /
+ * Owner4EE8, lines 7327-7350) and every extern below (lines 7353-7363),
+ * immediately above `INCLUDE_ASM(... func_800322A8)` at line 7456.  They are
+ * reproduced here only so this file compiles standalone under match_one.
+ * When banking, replace the INCLUDE_ASM with the FUNCTION BODY ONLY (plus the
+ * SLOT_BASE #define) -- re-emitting the typedefs would be a C89 redefinition
+ * error.  src/800.c has NO prior declaration of func_800322A8, so there is no
+ * DEF-side signature wall (cookbook Sec.20). */
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80032774);
+/* 0x14-byte record, indexed by p[3]. D_80068304 and D_800A4EE8->unk14 are both
+ * arrays of pointers to arrays of these. */
+
+/* slot record inside D_800A46E8 (stride 0x54) */
+
+
+extern Rec14 *D_80068304[];
+extern Owner4EE8 *D_800A4EE8;
+extern s16 D_800A4EF0;
+extern u16 D_800A46E8[];
+extern s8 D_800A4F17;
+
+extern s32 func_800331D4(s32);
+extern s32 func_8003310C(s32);
+extern void func_8003324C(s32);
+extern void func_80032A74(Slot54 *, s32, Rec14 *, s32);
+
+/* The slot table base D_800A46E8 sits 0x82F bytes below the D_800A4F17 lock
+ * byte and the original code derives one from the other (`addiu v1,s1,-0x82F`),
+ * i.e. they live in one object.  Spelling it this way is what makes gcc CSE the
+ * two symbol addresses into a single base register instead of emitting a second
+ * lui/addiu pair (worth 2 instructions plus the whole callee-save ranking). */
+#define SLOT_BASE ((u8 *)&D_800A4F17 - 0x82F)
+
+/* SECOND-PASS LEVER (sched.md S13, the bb0 head-skip escape).  A first pass got
+ * to 3-off with a pure prologue-schedule residual: sched2 emitted
+ * `sw s5 / move s5 / srl` where the target has `srl / sw s5 / move s5`.
+ * Cause (read off the -dS dumps, not guessed): sched.c:3189-3213 pins the
+ * LEADING RUN of `pseudo = hard-arg-reg` param copies out of sched1's pool, so
+ * the a2->flags copy always kept a LOWER LUID than the `srl`; at sched2's T-15
+ * all three candidates tie at priority 1 and rank_for_schedule falls through to
+ * the LUID tie-break (2.7.2 sched.c:2428, highest LUID picked first = placed
+ * last), which put the srl last of the three.
+ * Fix: take the third parameter through a BODY-LOCAL copy declared AFTER
+ * `y = arg0 >> 16`.  The head copy `pseudo = $a2` becomes a nop-move at reload
+ * (local-alloc ties the once-used incoming pseudo to $a2) and the REAL
+ * `move s5,a2` materialises at its statement position, where the S2 birthing
+ * boost sinks it below the srl -- giving it the HIGHER LUID.  sched2 then picks
+ * it first, `sw s5` follows on the potential-hazard rule, and the srl lands at
+ * position 3.  Do NOT reorder `flags = arg2;` above `y = arg0 >> 16;`. */
+s32 func_800322A8(u32 arg0, u8 *p, u32 arg2) {
+    Rec14 *rec;
+    Slot54 *e;
+    s32 idx;
+    s32 ret;
+    u16 y;
+    u32 x;
+    u32 flags;
+    u32 v;
+    u8 old;
+    u8 b1;
+    u8 b2;
+    u32 b3;
+    u32 b0;
+
+    y = arg0 >> 16;
+    flags = arg2;
+    x = arg0;
+    b1 = p[1];
+    b2 = p[2];
+    b3 = p[3];
+
+    if (b1 == 0) {
+        rec = &D_80068304[b2][b3];
+    } else {
+        if (D_800A4EF0 != b1) {
+            return 0;
+        }
+        if (D_800A4EE8 == 0) {
+            return 0;
+        }
+        rec = D_800A4EE8->unk14[b2];
+        rec += b3;
+    }
+
+    old = *(u8 *)&D_800A4F17;
+    *(u8 *)&D_800A4F17 = 1;
+
+    ret = 0;
+    v = rec->unk00;
+
+    idx = func_800331D4((u16)arg0);
+    if (idx == 0) {
+        if (flags & 0x4000) {
+            if ((flags & 0x3000) == 0) {
+                goto done;
+            }
+        }
+        idx = func_8003310C(v);
+        if (idx == 0) {
+            goto done;
+        }
+        ret = idx;
+        idx = ret - 1;
+        e = (Slot54 *)(SLOT_BASE + idx * 0x54);
+    } else {
+        idx--;
+        e = (Slot54 *)(SLOT_BASE + idx * 0x54);
+        if (e->unk08 != 0) {
+            goto done;
+        }
+        ret = idx + 1;
+        func_8003324C((u16)idx);
+    }
+
+    b0 = p[0];
+    e->unk04 = x;
+    e->unk06 = y;
+    e->unk02 = v;
+    e->unk00 = (b0 & 0xC0) | 1;
+    e->unk08 = rec->unk0C;
+    e->unk0A = 5;
+    func_80032A74(e, idx, rec, (u16)flags);
+
+done:
+    *(u8 *)&D_800A4F17 = old;
+    return ret;
+}
+
+
+/* MATCH: 180/180 instructions, byte-exact (relocation-masked).
+ *
+ * S53 RECOVERY (compile conflict on func_80032A74's signature): the reported
+ * conflict was func_80032774's draft, which independently invented a
+ * DIFFERENT-WIDTH Slot54 (u16/u16/u16 fields + 0x48 pad, vs. this draft's
+ * s16/s16/s16/u16/s8).  Three drafts (func_800322A8, func_800324A4 here, and
+ * func_80032774) all declare `extern void func_80032A74(Slot54 *, s32,
+ * Rec14 *, s32);`, so all three Slot54 spellings must be textually identical
+ * for the merged TU to compile.  This draft's Slot54/Rec14/Owner4EE8 and the
+ * func_80032A74 prototype were ALREADY the canonical spelling (byte-identical
+ * to src/800.c's incumbent, banked for the sibling func_80032048) -- no
+ * change was needed here.  func_80032774's recovered draft (S53) was the one
+ * fixed: it now reuses this canonical Slot54 for the extern prototype and
+ * keeps its own different-width view under a separate name (Slot54View),
+ * cast at use.  All three now agree with each other and with the TU.
+ *
+ * Notes for the banker:
+ *   - src/800.c ALREADY declares Rec14 / Slot54 / Owner4EE8, D_80068304,
+ *     D_800A4EE8, D_800A4EF0, D_800A46E8, D_800A4F17, func_8003310C,
+ *     func_8003324C and func_80032A74 (they were added for the matched
+ *     func_80032048, immediately above this function's INCLUDE_ASM).  Delete
+ *     the duplicated declaration block below when banking; keep only the
+ *     LOCKBYTE / SLOTBASE macros (or inline them).
+ *   - src/800.c has NO prior prototype for func_800324A4, so the signature
+ *     below is unconstrained (no DEF-side wall here).
+ *
+ * The three levers that made it match (pass 2; pass 1 stopped at 4 diffs):
+ *   1. ONE-SYMBOL BASE (kept from pass 1, but re-spelled).  The target derives
+ *      the slot array AND the lock byte from a single lui/addiu pair
+ *      ("addiu $a2,$v1,-0x82F" / "addiu $a0,$v1,-0x824"), which gcc-2.7.2's
+ *      cse.c can only do when both constants share a symbol_ref
+ *      (related_value chains are per-symbol).  Pass 1 used D_800A46E8 as the
+ *      base and wrote the lock byte as +0x82F; that links to the same bytes
+ *      but emits the relocation against the WRONG symbol.  The target's own
+ *      relocation lines are %hi/%lo(D_800A4F17) for the shared base and for
+ *      the closing sb, and %hi/%lo(D_800A46E8) for the two `e` computations,
+ *      so the base is spelled &D_800A4F17 here and the array is derived from
+ *      it (-0x82F, register-relative, no relocation).  Verified with
+ *      `objdump -dr`: la $3,D_800A4F17 / la $3,D_800A46E8 x2 / sb $12,D_800A4F17,
+ *      no addends anywhere.
+ *   2. STATEMENT ORDER, NOT A PIN, for the prologue weave (target idx 5/6:
+ *      "sw $s4" before "srl").  sched2 is a BACKWARD list scheduler; every
+ *      insn in bb0 has priority 1, so the order is decided by
+ *      potential_hazard (stores win) then by LUID.  `sw $s4,0x30($sp)` only
+ *      becomes ready once `maxp = 0` (the insn that clobbers $s4) is
+ *      scheduled, so moving `maxp = 0;` ABOVE `y = t >> 16;` swaps their
+ *      LUIDs, delays the store's readiness by one tick and puts the srl in
+ *      the target's slot.  (cookbook S1/S7; 4 diffs -> 2.)
+ *   3. NO $5 PIN ON b1 -- widen b3 instead.  Pass 1 pinned b1 to $a1 to fix
+ *      the b1/b3 register pair, but a pinned hard-reg dest fails
+ *      birthing_insn_p's `reg_n_sets == 1` gate, so b1's lbu lost the sched1
+ *      birthing boost while b2's kept it; b2's load then sank BELOW b1's and
+ *      the two lbu's came out swapped (idx 16/17) -- unfixable by statement
+ *      order (all 120 permutations tried, floor of 2).  The real cause is a
+ *      global-alloc density tie (K2): with `u8 b3` the sll/addu uses are
+ *      subregs and b3's allocno loses to b1's, so b1 grabs $a0 first.
+ *      Declaring b3 as u32 (like the sibling func_80032048 does) makes the
+ *      uses full-SI, raises b3's allocno density above b1's, and b3 wins $a0
+ *      / b1 gets $a1 with NO pin at all -- which also restores the natural
+ *      lbu order.  (Prompt lever B: the interloper was the narrow type.)
+ *
+ * The `t` pin on $4 is still required -- see its comment below.
+ */
+
+/* 0x14-byte record, indexed by p[3]. D_80068304 and D_800A4EE8->unk14 are both
+ * arrays of pointers to arrays of these. */
+
+/* slot record inside D_800A46E8 (stride 0x54) */
+
+
+extern Rec14 *D_80068304[];
+extern Owner4EE8 *D_800A4EE8;
+extern s16 D_800A4EF0;
+extern u16 D_800A46E8[];
+extern s8 D_800A4F17;
+
+/* D_800A4F17 == (u8 *)D_800A46E8 + 0x82F.  Both the lock byte and the slot
+ * array walked by the search loop must come off the SAME symbol_ref or cse
+ * emits a second lui/addiu pair (181 insns).  The target's relocation is on
+ * D_800A4F17, so that is the base here. */
+#define LOCKBYTE (*(u8 *)&D_800A4F17)
+#define SLOTBASE ((u8 *)&D_800A4F17 - 0x82F)
+
+extern s32 func_8003310C(s32);
+extern void func_8003324C(s32);
+extern void func_80032A74(Slot54 *, s32, Rec14 *, s32);
+
+s32 func_800324A4(u32 arg0, u8 *p, u32 flags, s32 arg3) {
+    Rec14 *rec;
+    Slot54 *e;
+    u8 *q;
+    s32 i;
+    s32 idx;
+    s32 ret;
+    s32 count;
+    s32 minp;
+    s32 maxp;
+    s32 pr;
+    u32 x;
+    /* t: keeps the raw incoming arg0 in $a0 so the "srl $t4, $a0, 16" that
+     * feeds the y spill reads $a0 and not $fp.  Without it cse collapses
+     * x into the parameter pseudo, the shift reads the callee-saved home and
+     * the $s7/$fp pair flips (v <-> arg0) -- 9 diffs.  Emits no instruction. */
+    register u32 t __asm__("$4");
+    u16 y;
+    s32 v;
+    u8 old;
+    u8 b0;
+    u8 b1;
+    u8 b2;
+    /* b3 is u32, NOT u8: the width is what wins it $a0 ahead of b1.  See the
+     * header note (lever 3) -- with u8 it loses the allocno density race and
+     * the b1/b3 pair comes out swapped. */
+    u32 b3;
+
+    t = arg0;
+    x = arg0;
+    b2 = p[2];
+    b1 = p[1];
+    b3 = p[3];
+    /* maxp = 0 must precede the shift: it gates when "sw $s4" becomes ready
+     * in sched2 (lever 2). */
+    maxp = 0;
+    y = t >> 16;
+
+    if (b1 == 0) {
+        rec = &D_80068304[b2][b3];
+    } else {
+        if (D_800A4EF0 != b1) {
+            return 0;
+        }
+        if (D_800A4EE8 == 0) {
+            return 0;
+        }
+        rec = D_800A4EE8->unk14[b2];
+        rec += b3;
+    }
+
+    ret = 0;
+    idx = 0;
+    count = 0;
+
+    old = LOCKBYTE;
+    LOCKBYTE = 1;
+
+    v = rec->unk00;
+
+    q = SLOTBASE;
+    minp = 0x80;
+    for (i = 0; i < 8; i++, q += 0x54) {
+        if ((*(u16 *)q & 0x3F) == 1 && *(u16 *)(q + 4) == (u16)x) {
+            pr = q[0xB] & 0x7F;
+            if (pr < minp) {
+                idx = i + 1;
+                minp = pr;
+            }
+            if (pr >= maxp) {
+                maxp = pr;
+            }
+            count++;
+        }
+    }
+
+    if (count <= arg3) {
+        idx = 0;
+    } else if ((s32)(flags & 0x7F) < minp) {
+        goto done;
+    }
+
+    if (idx == 0) {
+        if (flags & 0x4000) {
+            if ((flags & 0x3000) == 0) {
+                goto done;
+            }
+        }
+        idx = func_8003310C(v);
+        if (idx == 0) {
+            goto done;
+        }
+        ret = idx;
+        idx = ret - 1;
+        e = (Slot54 *)((u8 *)D_800A46E8 + idx * 0x54);
+    } else {
+        idx--;
+        e = (Slot54 *)((u8 *)D_800A46E8 + idx * 0x54);
+        if (e->unk08 != 0) {
+            goto done;
+        }
+        ret = idx + 1;
+        func_8003324C((u16)idx);
+    }
+
+    if (flags & 0x1000) {
+        ((u8 *)e)[0xB] = flags & 0x7F;
+        if ((s32)(flags & 0x7F) < maxp) {
+            flags |= 0x8000;
+        }
+    }
+
+    b0 = p[0];
+    e->unk04 = x;
+    e->unk06 = y;
+    e->unk02 = v;
+    e->unk00 = (b0 & 0xC0) | 1;
+    e->unk08 = rec->unk0C;
+    e->unk0A = 5;
+    func_80032A74(e, idx, rec, (u16)flags);
+
+done:
+    LOCKBYTE = old;
+    return ret;
+}
+
+
+/* 0x14-byte record, indexed by p[3]. D_80068304 and D_800A4EE8->unk14 are both
+ * arrays of pointers to arrays of these. Identical to the TU's already-banked
+ * Rec14 (src/800.c, func_80032048's block) — kept verbatim, not renamed. */
+
+/* Canonical TU spelling of the slot record inside D_800A46E8 (stride 0x54),
+ * as already banked by func_80032048 in src/800.c. This function's own view
+ * of the same bytes needs different field widths/signs (see Slot54View
+ * below), so THIS typedef only exists to keep func_80032A74's prototype
+ * byte-identical to the TU's — the callee is called through a cast, never
+ * accessed directly as `Slot54` in this file. */
+
+/* This function's own overlay of the same 0x54-byte slot record: it needs
+ * unsigned 16-bit loads (lhu, not lh) on unk00/unk04/unk06 to byte-match, and
+ * an extra unk0B field the TU's Slot54 doesn't expose. Different tag name so
+ * it does NOT collide with the TU's `Slot54` typedef above; pointers are
+ * cast to `Slot54 *` only at the func_80032A74 call site. */
+typedef struct Slot54View {
+    /* 0x00 */ u16 unk00;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ u16 unk04;
+    /* 0x06 */ u16 unk06;
+    /* 0x08 */ u16 unk08;
+    /* 0x0A */ s8  unk0A;
+    /* 0x0B */ u8  unk0B;
+    /* 0x0C */ u8  pad0C[0x48];
+} Slot54View; /* 0x54 */
+
+
+extern Rec14 *D_80068304[];
+extern Owner4EE8 *D_800A4EE8;
+extern s16 D_800A4EF0;
+extern u16 D_800A46E8[];
+
+#define SLOTS ((Slot54View *)D_800A46E8)
+/* &D_800A4F17 expressed as an offset inside the D_800A46E8 object: the target
+ * derives both loop pointers from this one materialised address
+ * (addiu $a2,$v1,-0x82F / addiu $a1,$v1,-0x824). */
+#define PFLAG ((s8 *)((u8 *)D_800A46E8 + 0x82F))
+
+extern s32 func_8003310C(s32);
+extern void func_800335B8(s32, s32);
+extern void func_8003324C(s32);
+extern void func_80032A74(Slot54 *, s32, Rec14 *, s32);
+
+s32 func_80032774(u32 arg0, u8 *p, u32 flags)
+{
+    Rec14 *rec;
+    Slot54View *e;
+    Slot54View *q;
+    s32 ret;
+    s32 best;
+    s32 cnt;
+    s32 i;
+    s32 mn;
+    s32 mx;
+    s32 t;
+    s32 yy;
+    s32 f4000;
+    u32 x;
+    u16 y;
+    u16 v;
+    u8 old;
+    u8 b0;
+    u8 b1;
+    u8 b2;
+    s32 b3;
+
+    b2 = p[2];
+    b1 = p[1];
+    b3 = p[3];
+    mx = 0;
+    y = arg0 >> 16;
+    x = arg0;
+
+    if (b1 == 0) {
+        rec = &D_80068304[b2][b3];
+    } else {
+        if (D_800A4EF0 != b1) {
+            return 0;
+        }
+        if (D_800A4EE8 == 0) {
+            return 0;
+        }
+        rec = D_800A4EE8->unk14[b2];
+        rec += b3;
+    }
+
+    yy = y;
+    ret = 0;
+    best = 0;
+    cnt = 0;
+    old = *PFLAG;
+    *PFLAG = 1;
+    q = SLOTS;
+    mn = 0x80;
+    v = rec->unk00;
+    for (i = 0, f4000 = flags & 0x4000; i < 8; i++, q++) {
+        if ((q->unk00 & 0x3F) == 1 && q->unk04 == (u16)x) {
+            if (yy == 0 || q->unk06 == yy) {
+                if (f4000) {
+                    func_800335B8(i, (u16)flags);
+                }
+                goto done;
+            }
+            t = q->unk0B & 0x7F;
+            if (t < mn) {
+                best = i + 1;
+                mn = t;
+            }
+            if (mx <= t) {
+                mx = t;
+            }
+            cnt++;
+        }
+    }
+
+    if (cnt < 2) {
+        best = 0;
+    } else if ((s32)(flags & 0x7F) < mn) {
+        goto done;
+    }
+
+    if (best == 0) {
+        if (flags & 0x4000) {
+            if ((flags & 0x3000) == 0) {
+                goto done;
+            }
+        }
+        best = func_8003310C(v);
+        if (best == 0) {
+            goto done;
+        }
+        ret = best;
+        best = ret - 1;
+        e = &SLOTS[best];
+    } else {
+        ret = best;
+        best = ret - 1;
+        e = &SLOTS[best];
+        if (e->unk08 != 0) {
+            goto done;
+        }
+        func_8003324C((u16)best);
+    }
+
+    if (flags & 0x1000) {
+        e->unk0B = flags & 0x7F;
+        if ((s32)(flags & 0x7F) < mx) {
+            flags |= 0x8000;
+        }
+    }
+
+    b0 = p[0];
+    e->unk04 = x;
+    e->unk06 = y;
+    e->unk02 = v;
+    e->unk00 = (b0 & 0xC0) | 1;
+    e->unk08 = rec->unk0C;
+    e->unk0A = 5;
+    func_80032A74((Slot54 *)e, best, rec, (u16)flags);
+
+done:
+    *PFLAG = old;
+    return ret;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80032A74);
 
@@ -12228,7 +12928,81 @@ void func_8003324C(s32 arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80033324);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80033398);
+
+/* TU decls (src/800.c): `typedef struct Ent30D80 { ... } Ent30D80;` and
+ * `extern void func_80030D80(Ent30D80 *arg0, s16 arg1);` already exist
+ * above this function's INCLUDE_ASM line (see func_80030D80's own
+ * definition and func_8003324C's banking note) — reproduced here verbatim
+ * for standalone compilation. Do not duplicate in the TU when banking. */
+
+extern u16 D_800A46E8[];
+
+extern void func_80030D80(Ent30D80 *arg0, s16 arg1);
+/* TU already declares func_80034650 as (u8 *, s32) above func_8003324C
+ * (src/800.c) — a `void *` redeclaration here would conflict with it. */
+extern void func_80034650(u8 *a0, s32 a1);
+
+void func_80033398(u32 arg0)
+{
+    /* RC-12 / cookbook §136d-1: the $0-add OPAQUE COPY.
+     * The target's `addu $s7,$a0,$zero` must NOT be cse-linked to the
+     * parameter, so that `srl $s6,$a0,16` keeps reading the raw incoming
+     * $a0 (the parm pseudo dies at the srl and local-alloc gives it $a0,
+     * deleting the real parm copy).  A plain `s7v = arg0;` makes
+     * cse.c make_regs_eqv head-promote s7v to canonical and canon_reg
+     * rewrites the srl to `srl $s6,$s7,16` (the 1-ins residual). */
+    register s32 zr __asm__("$0");
+    u32 s7v;
+    u8 *s5v;
+    s32 s4v;
+    u32 s6v;
+    u8 *fpv;
+    register u8 *s3v __asm__("$19");
+    u8 *s2v;
+    register s32 s1v __asm__("$17");
+    register u8 *s0v __asm__("$16");
+    s32 t0;
+
+    s7v = arg0 + zr;
+    s5v = (u8 *)D_800A46E8;
+    s4v = 0;
+    s6v = arg0 >> 16;
+    fpv = s5v + 0x2A0;
+    s3v = s5v + 6;
+
+    for (; s4v < 8; s3v += 0x54, s5v += 0x54) {
+        if ((*(u16 *)s5v & 0x3F) == 1 &&
+            *(u16 *)(s3v - 2) == (u16)s7v &&
+            (s6v == 0 || *(u16 *)s3v == s6v)) {
+            s2v = (u8 *)D_800A46E8 + (u32)(u16)s4v * 0x54;
+            t0 = *(u16 *)s2v & 0x3F;
+            switch (t0) {
+            case 1:
+                s1v = 0;
+                s0v = fpv;
+                for (; s1v < 8; s1v++, s0v += 0x54) {
+                    u8 *p = s2v + s1v;
+                    if (p[0xE] != 0) {
+                        p[0xE] = 0;
+                        *(u32 *)(s0v + 0x40) = 0;
+                        if (s0v[0x4E] != 0) {
+                            func_80030D80((Ent30D80 *)s0v, 0);
+                        }
+                    }
+                }
+                *(u16 *)s2v = 0;
+                break;
+            case 5:
+                func_80034650(s2v, 0);
+                break;
+            default:
+                s4v++;
+                continue;
+            }
+        }
+        s4v++;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8003350C);
 
