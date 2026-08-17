@@ -118,6 +118,32 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
   `pregate_check` to scan comment-MASKED text (`_typedefs(text)` counted a typedef quoted in a bank
   note as a definition; negative-controlled three ways). Cookbook **§180/§180d/§181/§182** banked.
 
+- 2026-08-16 — **S53-10 THE RECOVERY BACKLOG WORKED: 15 of the 27 blocked drafts banked, and the
+  blockers turned into TOOLING.** A 20-agent lane reconciled 18/20 while keeping the match; the gate
+  then took them in three rounds as each fix exposed the next layer. Banked: 3 (typedef hoist) + 10
+  (declaration reconciliation) + 2 (byte-neutral TU edits) + 2 (forward-typedef fix) = **17 more main
+  functions this session** (stubs 1,763 → 1,728). Every gate green at `143dbb89`.
+- 2026-08-16 — **S53-11 FOUR TOOL DEFECTS FIXED, ALL FOUND BY THE WORK ITSELF (§184/§185).**
+  (a) **Comment-blindness in THREE tools** — `pregate_check._typedefs` scanned raw text (a typedef
+  quoted in a bank note counted as a definition), `reconcile_slate._same_struct` and
+  `gate_main.strip_dup_typedefs` compared body TEXT (so `Slot16B` vs `Slot16` — same seven fields —
+  read as DIFFERENT-STRUCT, and an identical struct got renamed into a conflict). Agents annotate
+  every field with its address; the TU does not. All three now mask comments; negative-controlled.
+  (b) **The forward typedef** — `typedef struct X X;` is not a competing definition; renaming it
+  manufactured the very extern conflict it was meant to avoid. Recognized and stripped now.
+  (c) **`gate_main` hoists TU typedefs** above the include block (with a dependency closure) so a
+  draft above the TU's definition can reuse it — **proven byte-neutral by the SHA**, 5–10 typedefs
+  moved per gate.
+  (d) **`pregate_check` recalibrated**: ANY return-type disagreement now FAILs (`G4P *` under a
+  `G3P *` declaration was rejected by gcc after the tool WARNed), and it now sees brace-bodied
+  externs (`extern struct { ... } *D_x;` vs `void *` — the clash that cost a rebuild).
+- 2026-08-16 — **S53-12 THREE TU RETYPES PROVEN BYTE-NEUTRAL, ONE REFUTED (§185).** `func_8001ABBC`
+  `void`→`s32`; `W16 D_80076240`→`Slot16A[]`; `W32 D_8007622C`→`s32[]` — each verified by a clean
+  rebuild at `143dbb89`. **REFUTED:** `s16 D_800C5328[]`→`[][2]` compiles at the declaration and then
+  breaks **four banked assignments** in two other functions. The rule that fell out: a TU retype is
+  byte-neutral only if every existing USE SITE still compiles unchanged — and prefer editing the
+  draft, which verifies in seconds, over the TU, which costs a rebuild and risks the whole file.
+
 ## 🛑 SESSION CHECKPOINT — S53 (2026-08-16). Phase 31 CONTINUES. NOTHING IN FLIGHT. WAVE S IS PREPARED BUT NOT STARTED.
 
 **Tree clean at `commit:2423`. No process running. R22 `check-all` 213/213 from a clean tree.**
