@@ -4341,7 +4341,88 @@ INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181BD
 
 INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181CA8);
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181D58);
+typedef struct { s16 a, b, c; } SV3x_80184B30_80181D58;
+typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80181D58;
+
+/* func_80181D58 — ov_SC03_090, 82 ins.
+ * Banked twin (seed_ref): ov_SC02_035:func_801834BC (0.7356 sim) — same opening block
+ * (func_8018271C out-buffer copy, sh 0x10, func_8012B608 damage calc, sh/lhu accumulate
+ * at 0x12, func_8012B178, func_8012CBF4). This target diverges from the twin after that:
+ *   - func_8012B178's second arg reads *(s32*)(a0+0xE0), NOT a0+0xE4 (twin's field).
+ *   - the guard chain is func_8012BEE8 -> func_80182898 -> func_801827EC -> func_8012BE54,
+ *     not the twin's func_8012BEE8 -> (a0+0xE0==0) -> func_80183F14.
+ *   - the tail (on func_8012BE54(a0) > 0x8000) sets a0+0x1C = rand()%60+0x78 and
+ *     a0+0xFE = rand()%32+0xA, matching the sibling func_80183394's else-branch pattern
+ *     (rand()%60+0x78) and func_8018362C's *(a0+0xFE)=rand()%32+10 pattern verbatim, just
+ *     spelled with the target's own magic-multiply (0x88888889) codegen for %60.
+ *   - otherwise (<=0x8000) it sets a0+0x2 = 8 (state) and returns.
+ *
+ * Declarations: none of func_8018271C/func_8012B608/func_8012B178/func_8012CBF4/
+ * func_8012BEE8/func_80182898/func_801827EC/func_8012BE54 have a FILE-SCOPE declaration
+ * before this function's INCLUDE_ASM position (line 5601) in the destination TU, so all
+ * are declared block-scope here using the canonical forms found used LATER in the same TU:
+ *   func_8018271C  -> src/ov_SC03_090/..._8017CA80.c:5646 `void func_8018271C(s32 out, s32 a1, s32 a2)`
+ *   func_8012B608  -> :5123/5201/6380  `s32 func_8012B608(s32 a0, s32 a1, s32 a2)`
+ *   func_8012B178  -> :5643/6087/6377  `void func_8012B178(s32 a0, s32 a1)`
+ *   func_8012CBF4  -> :5638/6601       `void func_8012CBF4(s32 a0)` (canonical void; cast at use site when $v0 is read — not needed here)
+ *   func_8012BEE8  -> :5640/6381/6603  `s32 func_8012BEE8(s32 a0)`
+ *   func_8012BE54  -> project-canonical (ov_SC03_099 etc, and THIS TU at :6518) `void func_8012BE54(s32 a0)`,
+ *                     with the return value recovered via a function-pointer cast AT THE CALL SITE —
+ *                     the exact pattern already used in this same TU at :6539
+ *                     `((s32 (*)(s32))func_8012BE54)(ent)`.
+ *   func_80182898  -> DEFINED further down THIS SAME TU (:5788) as `s32 func_80182898(void)`
+ *                     (it ignores its incoming register — the body only reads a global). The
+ *                     target's call site still loads $a0=s0 before the jal, so the call-site
+ *                     declaration must NOT be the real (void) prototype (that would drop the
+ *                     arg-setup instruction and lose an instruction) — declared here K&R
+ *                     no-prototype `extern s32 func_80182898();` so `func_80182898(a0)` still
+ *                     compiles and still emits the $a0 move, byte-identical to the (void)
+ *                     definition once linked (index_gap: this K&R-vs-void split for an
+ *                     ignored-but-still-passed argument, inside the SAME TU as the real def).
+ *   func_801827EC  -> INCLUDE_ASM in this TU only (:5758), no prototype anywhere else in the
+ *                     tree; typed by use: pointer arg, s32 return compared against 1.
+ */
+
+extern s32 rand(void);
+
+void func_80181D58(s32 a0)
+{
+    extern void func_8018271C(s32 out, s32 a1, s32 a2);
+    extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+    extern void func_8012B178(s32 a0, s32 a1);
+    extern void func_8012CBF4(s32 a0);
+    extern s32  func_8012BEE8(s32 a0);
+    extern s32  func_80182898();
+    extern s32  func_801827EC(s32 a0);
+    extern void func_8012BE54(s32 a0);
+
+    s32 sp10[2];
+    s32 t;
+    s32 r;
+
+    func_8018271C(sp10, a0, a0 + 0x102);
+    t = sp10[0];
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = t;
+    r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), t >> 16,
+                       *(s16 *)(a0 + 0xFE));
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+    func_8012B178(a0, *(s32 *)(a0 + 0xE0));
+    func_8012CBF4(a0);
+    if (func_8012BEE8(a0)) {
+        if (func_80182898(a0) != 1) {
+            if (func_801827EC(a0) == 1) {
+                if (((s32 (*)(s32))func_8012BE54)(a0) <= 0x8000) {
+                    *(s16 *)(a0 + 0x2) = 8;
+                } else {
+                    *(s32 *)(a0 + 0x1C) = rand() % 60 + 0x78;
+                    *(s16 *)(a0 + 0xFE) = rand() % 32 + 0xA;
+                }
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181EA0);
 

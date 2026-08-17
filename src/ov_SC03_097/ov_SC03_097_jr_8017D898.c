@@ -3952,7 +3952,92 @@ INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017FDB
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017FE4C);
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017FEA0);
+typedef struct {
+    s32 a;      /* 0x00 -> D_801DA750 */
+    s32 b;      /* 0x04 -> D_801DA754 */
+} Pair8_8017DDC4_80182244_80180040_8017FEA0;
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern s32 func_80029178(s32 arg);
+extern void func_80180294(void *arg0);
+extern s32 func_8012C194(void);
+extern void func_8001CD9C(int, void *);
+extern void func_800233CC(void *a0, unsigned short a1);
+extern void func_801818DC(void);
+extern s32 func_8012AD50(void *a0);
+
+/* 4-byte, align-4 unaligned block: forces lwl/lwr + swl/swr (cookbook §48-C2 /
+ * matches the sibling idiom at ov_SC02_005:func_8018CE04). */
+/* 4-byte, align-4 unaligned block: forces lwl/lwr + swl/swr (cookbook §48-C2 /
+ * matches the sibling idiom at ov_SC02_005:func_8018CE04). */
+typedef struct { u8 b[4]; } Blk4_80181EDC_8017FEA0;
+
+/* §183 TYPE-adopted-sibling: func_80182060 / func_80182688 land in this same TU
+ * and spell D_801AAAE0 as a plain `u8` (byte lbu/sb arithmetic).  This function
+ * wants the 4-byte block view, so it adopts the raw `u8` spelling on the
+ * DECLARATION and takes the block view at the USE SITE — which it was already
+ * doing via `(s32)&D_801AAAE0` + `*(Blk4_80181EDC_8017FEA0 *)s0`, so this is byte-free. */
+
+void func_8017FEA0(s32 s1)
+{
+
+    extern u8 D_8019AE80;
+    extern u8 D_8019AEB4;
+    extern s32 D_8019AEF4[];
+    extern u8 D_801AAAE0;
+    extern Blk4_80181EDC_8017FEA0 D_801AAAE4;
+    extern Blk4_80181EDC_8017FEA0 D_801A94BC;
+    extern Blk4_80181EDC_8017FEA0 D_801A94C0;
+    s32 v1;
+    s32 a1ptr;
+    s32 s2;
+
+    if (func_8012C354(s1, (s32)&D_8019AE80) != 0) {
+        register s32 t0 __asm__("$2");
+        register s32 t1 __asm__("$3");
+
+        t0 = 1;
+        *(u8 *)(s1 + 0xC0) = t0;
+        t0 = (s32)&D_8019AEB4;
+        *(s32 *)(s1 + 0xBC) = t0;
+        t0 = *(s32 *)(s1 + 0xC4);
+        t1 = 0x14;
+        *(u8 *)(s1 + 0x75) = t1;
+        v1 = *(s16 *)(s1 + 0x70);
+        *(s32 *)(s1 + 0xB4) = 0;
+        *(u8 *)(s1 + 0xC1) = 0;
+        t0 = t0 | 2;
+        *(s32 *)(s1 + 0xC4) = t0;
+        t0 = *(u16 *)(s1 + 0x72);
+        t0 = t0 | 0x1000;
+        *(u16 *)(s1 + 0x72) = t0;
+
+        if ((func_80029178(D_8019AEF4[v1]) & 0xFF) != 0) {
+            a1ptr = *(s32 *)(s1 + 0x20);
+            *(u32 *)(a1ptr + 4) |= 0x80000000;
+            *(s16 *)(s1 + 0xAE) = -1;
+            func_80180294((void *)s1);
+            *(u16 *)(s1 + 0x34) += 1;
+        } else {
+            *(s16 *)(s1 + 0xAE) = -4;
+            s2 = func_8012C194();
+            *(s32 *)(s1 + 0xCC) = s2;
+            if (s2 != 0) {
+                s32 s0 = (s32)&D_801AAAE0;
+                func_8001CD9C(s2, (void *)s0);
+                func_800233CC((void *)s0, 0x80);
+                *(Blk4_80181EDC_8017FEA0 *)s0 = *(Blk4_80181EDC_8017FEA0 *)&D_801A94BC;
+                *(Blk4_80181EDC_8017FEA0 *)&D_801AAAE4 = *(Blk4_80181EDC_8017FEA0 *)&D_801A94C0;
+                *(s16 *)(s2 + 0x18) = 0x800;
+                *(s16 *)(s2 + 0x1A) = 0x800;
+                *(u32 *)(s2 + 4) |= 0x50000000;
+            }
+            func_801818DC();
+            func_8012AD50((void *)s1);
+        }
+    }
+}
+
 
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_80180024);
@@ -4004,7 +4089,79 @@ INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_801803B
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_801803FC);
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_80180450);
+typedef struct {
+    u16 x, y, z;
+    s16 w;
+} Rec8_8017DDC4_8018034C_80180450;
+typedef struct {
+    s32 a;      /* 0x00 -> D_801DA750 */
+    s32 b;      /* 0x04 -> D_801DA754 */
+} Pair8_8017DDC4_80182244_80180040_80180450;
+
+/* local mirrors of the TU's shared engine_types.h structs (Blk8_80180450 @497, Blk32_8018AA98_80183D30_80180450
+ * @1413) — match_one compiles this draft standalone without the shared header chain, so the
+ * types are re-declared here verbatim rather than pulled through engine_core.h. */
+/* 20-byte spawn-message record built at sp+0x10: x,y,z / type / sub-id / pad / flag / pad,
+ * then a trailing s32 "extra" field copied out of *(a0+0xDC). §193-I: this aggregate's frame
+ * slot rounds up to 24 (ceil(20,8)), which is exactly the 4-byte gap between it and `vec`
+ * below in the target's stack layout (sp+0x24-0x27 unused). */
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 type;
+    s16 sub;
+    s16 pad1;
+    s16 flag;
+    s16 pad2;
+    s32 extra;
+} Msg_8018248C_80180450;
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+void func_80180450(s32 a0, s32 a1) {
+    /* §183 TYPE-shadowed-block-scope.  Blk8_80180450 / Blk32_8018AA98_80183D30_80180450 come from
+     * the TU's own engine_types.h (lines 497 / 1413) — the draft's file-scope
+     * mirrors were dropped to avoid DUPLICATE-TYPEDEF.  D_800AE620 has NO
+     * file-scope decl in this TU: it is already declared twice, block-scoped and
+     * with two different types (Blk32_8018AA98_80183D30_80180450 @5594, s32 @6053).  This
+     * body follows that existing TU precedent verbatim. */
+    typedef struct { u8 b[8]; } Blk8_80180450;
+    typedef struct { s32 w[8]; } Blk32_8018AA98_80183D30_80180450;
+    extern Blk8_80180450 D_801A94CC;
+    extern s32 D_800AE620;
+    Msg_8018248C_80180450 msg;          /* sp+0x10 (24-byte stride, §193-I) */
+    Blk8_80180450 vec;                 /* sp+0x28 */
+    Blk32_8018AA98_80183D30_80180450 m; /* sp+0x30 */
+
+    vec = D_801A94CC;
+    m = *(Blk32_8018AA98_80183D30_80180450 *)&D_800AE620;
+
+    RotMatrixY(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), &m);
+    ApplyMatrixSV(&m, &vec, &vec);
+
+    if (a0 != 0 && *(u16 *)a0 != 0) {
+        msg.x = *(u16 *)(a0 + 0x6) + *(u16 *)((u8 *)&vec + 0);
+        msg.y = *(u16 *)(a0 + 0xA) + *(u16 *)((u8 *)&vec + 2);
+        msg.z = *(u16 *)(a0 + 0xE) + *(u16 *)((u8 *)&vec + 4);
+    } else {
+        msg.z = 0;
+        msg.y = 0;
+        msg.x = 0;
+    }
+
+    msg.type = 0x1E1;
+    msg.sub = (s16)a1;
+    msg.pad1 = 0;
+    msg.pad2 = 0;
+    msg.extra = *(s32 *)(a0 + 0xDC);
+    msg.flag = 0x7FFF;
+
+    func_8012C51C(&msg, a0);
+}
+
 
 
 extern void (*D_8019AF44[])(void);

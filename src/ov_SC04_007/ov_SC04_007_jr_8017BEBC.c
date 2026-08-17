@@ -5053,7 +5053,102 @@ void func_8017F548(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017F634);
+extern void func_8001CF00(s32 a0);
+extern void func_8012C194(void);
+typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017F634;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+extern void func_8001CF00(s32 a0);          /* canonical def: src/800.c:6059 void func_8001CF00(s32 a0) */
+extern void func_8012C1B8(void);            /* already declared this way + cast-called elsewhere in this TU */
+extern s32  func_80029178(s32 arg);         /* already declared this way in this TU */
+extern void func_8017FA90(void *a0, s32 a1);/* stub in this TU, not yet declared: typed by call-site usage */
+extern void func_8017FCFC(void);            /* stub in this TU, not yet declared: called with no live args */
+extern void func_8012CAE4(void *a0);        /* already declared this way in this TU */
+extern void func_80016714(void *a0, s32 a1);/* already declared this way in this TU */
+extern void func_8001C2C4(s32 a0);          /* canonical def: src/800.c:5718 void func_8001C2C4(s32 a0) */
+extern s32  func_8012C658(s32 arg0, s32 arg1, s32 arg2); /* already declared this way in this TU */
+extern void func_800233CC(void *, unsigned short);       /* already declared this way in this TU */
+extern void func_8012AD50(s32);             /* already declared this way in this TU */
+
+
+void func_8017F634(void *a0) {
+
+    extern u8  D_801B5498[];   /* overlay-private data symbol (own TU, tail18.data.s) — address-of only, array form */
+    extern s16 D_80197F68;
+    extern s16 D_80197F6A;
+    extern s32 D_80197F70[];   /* lw-indexed via sll16/sra14 idx*4 pattern -> array of s32 */
+    extern s16 D_80197F5C;
+    extern s16 D_80197F5E;
+    void *s1 = a0;
+    void *s0;
+    void *s2;
+
+    s0 = (void *)((s32 (*)(void))func_8012C194)();
+    if (s0 == 0) {
+        func_8012CAE4(s1);
+        return;
+    }
+
+    func_8001CF00((s32)s0);
+
+    s2 = (void *)D_801B5498;
+    __asm__ __volatile__("" ::: "memory");
+
+    *(s32 *)((s32)s1 + 0xCC) = (s32)s0;
+    *(s16 *)((s32)s0 + 0x28) = 0x300;
+    *(s16 *)((s32)s0 + 0x2A) = 0x110;
+    *(s32 *)((s32)s0 + 0x20) = (s32)s2;
+    *(u8  *)((s32)s0 + 0x27) = 0x78;
+    *(s16 *)((s32)s0 + 0x10) = 0x400;
+    *(s16 *)((s32)s0 + 0x8) = *(u16 *)((s32)s1 + 0x6);
+    *(s16 *)((s32)s0 + 0xA) = *(u16 *)((s32)s1 + 0xA);
+    {
+        u16 v1 = *(u16 *)((s32)s1 + 0xE);
+        *(s16 *)((s32)s0 + 0x1A) = 0;
+        *(s16 *)((s32)s0 + 0x18) = 0;
+        *(u16 *)((s32)s0 + 0x2C) = 0xC004;
+        *(s16 *)((s32)s0 + 0xC) = v1;
+    }
+
+    if (*(s16 *)((s32)s1 + 0x70) & 0x8000) {
+        D_80197F68 = 0x10;
+        D_80197F6A = 0x20;
+        *(s16 *)((s32)s0 + 0x14) = 0x400;
+    } else {
+        s32 *ptr = *(s32 **)((s32)s1 + 0xDC);
+        s16 idx = *(u16 *)((s32)ptr + 0xA) - 9;
+        s32 v0;
+
+        *(s16 *)((s32)s1 + 0x108) = idx;
+
+        v0 = func_80029178(D_80197F70[idx]) & 0xFF;
+        if (v0 != 0) {
+            func_8017FA90(s1, 0);
+            func_8017FCFC();
+            func_8012CAE4(s1);
+            return;
+        }
+
+        v0 = ((s32 (*)(void))func_8012C1B8)();
+        *(s32 *)((s32)s1 + 0x20) = v0;
+        if (v0 == 0) {
+            func_8012CAE4(s1);
+            func_80016714(s0, 0x38);
+            return;
+        }
+
+        func_8001C2C4(v0);
+
+        D_80197F5C = 0x20;
+        D_80197F5E = 0x20;
+
+        *(s32 *)((s32)s0 + 0x4) |= 0x40000000;
+
+        func_8012C658(0x1F9, *(s16 *)((s32)s1 + 0x70) | 0x8000, (s32)s1);
+        func_800233CC(s2, 0x80);
+    }
+
+    func_8012AD50((s32)s1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017F7F0);
 
@@ -5101,7 +5196,97 @@ void func_8017FA54(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017FA90);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017FB1C);
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_8017FB1C; /* 0x20 bytes, align 4 */
+typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017FB1C;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+
+/* Declarations copied verbatim from the destination TU
+ * (src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c lines 861, 5865(none), 347, 57, 1628, 1630). */
+extern s32 func_80153CBC(void);
+extern s32 func_8017FC8C(void); /* no decl exists in the TU (INCLUDE_ASM only, line 5865);
+                                 * both call sites pass no arg (nop delay slots) -> (void) */
+extern s32 func_8016F1AC(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_801659A8(void);
+extern s32 func_801659CC(void);
+
+/* Actor state machine step. a0 = actor base.
+ *   +0x108 (s16) state selector (0/1/2, else no-op)
+ *   +0x106 (s16/u16) sub-phase counter
+ *   +0x1C  (s32) countdown timer
+ *
+ * Shape note (S54 §193-C / §186): every "return 0" that the target routes through the
+ * SHARED .L80180DBC "move $v0,$zero" block is written here as `break` out of the switch,
+ * falling into the single trailing `return 0;`. Writing them as literal `return 0;`
+ * statements instead makes gcc-2.7.2 lay the 0-block adjacent to each test, which then
+ * trips jump.c's "conditional jump around an unconditional jump" inversion and flips the
+ * branch polarity (bnez->epilogue + j tail  =>  beqz->tail + j epilogue). The `break`
+ * spelling keeps the 0-block remote, so reorg steals its `move $v0,$zero` into the
+ * branch delay slot and redirects to the epilogue -- which is what the target shows.
+ */
+s32 func_8017FB1C(s32 a0) {
+    s16 v1;
+    s32 s1;
+    s32 t;
+
+    v1 = *(s16 *)(a0 + 0x108);
+    switch (v1) {
+    case 0:
+        if ((u16)func_8017FC8C() != 0) {
+            break;
+        }
+        /* shared tail with case 2 (.L80180D84) -- cross_jump merges the two copies */
+        if (func_8016F1AC() != 0) {
+            break;
+        }
+        return 1;
+    case 1:
+        s1 = func_80153CBC();
+        if (*(s16 *)(a0 + 0x106) != 0) {
+            break;
+        }
+        /* the `&&` short-circuit is what thread_jumps later re-points straight at
+         * .L80180D20, skipping the redundant `if (s1 == 0)` re-test below. */
+        if ((u16)func_8017FC8C() == 0 && s1 == 0) {
+            if (func_8016F1AC() == 0) {
+                return 1;
+            }
+        }
+        if (s1 == 0) {
+            break;
+        }
+        *(u16 *)(a0 + 0x106) = *(u16 *)(a0 + 0x106) + 1;
+        func_8002D4C8(0xB6B, 0);
+        break;
+    case 2:
+        if (*(s16 *)(a0 + 0x106) != 0) {
+            t = *(s32 *)(a0 + 0x1C);
+            if (t == 0) {
+                break;
+            }
+            t--;
+            *(s32 *)(a0 + 0x1C) = t;
+            if (t == 0) {
+                break;
+            }
+            if (func_801659A8() <= 0) {
+                break;
+            }
+            *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1;
+            /* shared tail with case 0 (.L80180D84) */
+            if (func_8016F1AC() != 0) {
+                break;
+            }
+            return 1;
+        }
+        if (func_801659CC() != 0) {
+            *(s32 *)(a0 + 0x1C) = 0x80;
+            *(u16 *)(a0 + 0x106) = *(u16 *)(a0 + 0x106) + 1;
+        }
+        break;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017FC8C);
 
@@ -7021,7 +7206,123 @@ INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80183E8
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80183F4C);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80183FF8);
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_80183FF8; /* 0x20 bytes, align 4 */
+typedef struct {
+    s32 f0;
+    u8 pad[12];
+} Tbl16_8018BDE4_8017CEF4_80183FF8;
+typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C_8017CEF4_80183FF8;   /*  8 bytes, align 2 */
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_80183FF8;
+
+/* func_80183FF8 (ov_SC04_005, jr_8017BEBC TU) — fresh crack from the target .s.
+ *
+ * Four blocks:
+ *  A) sweep the 0x60-entry x 0x10C actor table D_801202A0 for type 0x210 and
+ *     flag (+0xFE = 1) every one inside a window around this actor's X/Z.
+ *  B) func_8012CBCC(self) (return discarded), then 4 probe rays built from the
+ *     u16 pair table D_801AC540 (stride 4: [i] = dx, [i+1] = dz) through
+ *     func_80133784; a 0x6000 hit resets state and plays cue 0x84B.
+ *  C) a 6x4 grid of func_8012D5E4 hit tests -> D_80126B96 = 0x4002
+ *     (same shape as ov_SC03_028:func_8018222C).
+ *  D) scale the sub-prim at *(s32*)(self+0x6C)+0xCC by the clamped height delta.
+ */
+
+typedef struct { s16 x, y, z, w; } V8_80182E54_80183FF8;
+
+extern void func_8012CBCC(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_80183FF8(s32 a0) {
+
+    /* [T51] scoped in from file scope: a file-scope decl would constrain every
+       LATER function in this TU (cookbook §103). D_801202A0 / D_80126B96 are
+       spelled exactly as the TU already spells them (TU:3583/5037, TU:6884). */
+    extern u8 D_801202A0[];
+    extern u16 D_801AC540[];
+    extern s16 D_80126B96;
+
+    V8_80182E54_80183FF8 sp10;
+    V8_80182E54_80183FF8 sp18;
+    u8 *p;
+    s32 k;
+    s32 i;
+    s32 j;
+    s32 y;
+    s32 obj;
+    s32 pr;
+    s32 d;
+    s32 t;
+    s16 v;
+
+    p = D_801202A0;
+    for (k = 0; k < 0x60; k++) {
+        if (*(u16 *)p == 0x210) {
+            if ((u16)(*(u16 *)(p + 0x6) - *(u16 *)(a0 + 0x6) + 0x9F) < 0x13F &&
+                (u16)(*(u16 *)(p + 0xE) - *(u16 *)(a0 + 0xE) + 0x9F) < 0x11F) {
+                *(s16 *)(p + 0xFE) = 1;
+            }
+        }
+        p += 0x10C;
+    }
+
+    func_8012CBCC(a0);
+
+    for (i = 0; i < 8; i += 2) {
+        sp10.x = *(u16 *)(a0 + 0x6) - D_801AC540[i];
+        y = *(u16 *)(a0 + 0xA);
+        sp10.y = y - 0x20;
+        sp10.z = *(u16 *)(a0 + 0xE) - D_801AC540[i + 1];
+        sp18.x = sp10.x;
+        sp18.y = y + 0x10;
+        sp18.z = sp10.z;
+        if (func_80133784(1, &sp10, (s32)&sp18) & 0x6000) {
+            u16 ny = sp18.y;
+            *(s16 *)(a0 + 0x98) = 1;
+            *(s16 *)(a0 + 0x2) = 5;
+            *(s16 *)(a0 + 0xFC) = 0;
+            *(s32 *)(a0 + 0xDC) = 0x80000;
+            *(u16 *)(a0 + 0xA) = ny;
+            func_8002D4C8(0x84B, 0);
+        }
+    }
+
+    sp10.y = -0x10;
+    sp18.y = 0x20;
+    for (i = -0x48; i < 0x50; i += 0x20) {
+        sp10.x = i;
+        sp18.x = i;
+        for (j = -0x48; j < 0x28; j += 0x20) {
+            sp10.z = j;
+            sp18.z = j;
+            if (func_8012D5E4(a0, (s32)&sp10, (s32)&sp18, 0x80) == 1) {
+                D_80126B96 = 0x4002;
+            }
+        }
+    }
+
+    obj = *(s32 *)(a0 + 0x6C);
+    if (obj != 0) {
+        d = *(s16 *)(a0 + 0xA) - *(s16 *)(a0 + 0x8A);
+        if (d > 0) {
+            t = (d << 5) + 0x4000;
+            pr = *(s32 *)(obj + 0xCC);
+            if (t > 0x7000) {
+                t = 0x7000;
+            }
+            v = t;
+            *(s16 *)(pr + 0x1A) = v;
+            *(s16 *)(pr + 0x18) = v;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80184238);
 

@@ -5500,7 +5500,88 @@ INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_8018406
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184138);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_801841E8);
+typedef struct { s16 a, b, c; } SV3x_80184B30_801841E8;
+typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801841E8;
+
+/* func_801841E8 — ov_SC03_090, 82 ins.
+ * Banked twin (seed_ref): ov_SC02_035:func_801834BC (0.7356 sim) — same opening block
+ * (func_80184BAC out-buffer copy, sh 0x10, func_8012B608 damage calc, sh/lhu accumulate
+ * at 0x12, func_8012B178, func_8012CBF4). This target diverges from the twin after that:
+ *   - func_8012B178's second arg reads *(s32*)(a0+0xE0), NOT a0+0xE4 (twin's field).
+ *   - the guard chain is func_8012BEE8 -> func_80184D28 -> func_80184C7C -> func_8012BE54,
+ *     not the twin's func_8012BEE8 -> (a0+0xE0==0) -> func_80183F14.
+ *   - the tail (on func_8012BE54(a0) > 0x8000) sets a0+0x1C = rand()%60+0x78 and
+ *     a0+0xFE = rand()%32+0xA, matching the sibling func_80183394's else-branch pattern
+ *     (rand()%60+0x78) and func_8018362C's *(a0+0xFE)=rand()%32+10 pattern verbatim, just
+ *     spelled with the target's own magic-multiply (0x88888889) codegen for %60.
+ *   - otherwise (<=0x8000) it sets a0+0x2 = 8 (state) and returns.
+ *
+ * Declarations: none of func_80184BAC/func_8012B608/func_8012B178/func_8012CBF4/
+ * func_8012BEE8/func_80184D28/func_80184C7C/func_8012BE54 have a FILE-SCOPE declaration
+ * before this function's INCLUDE_ASM position (line 5601) in the destination TU, so all
+ * are declared block-scope here using the canonical forms found used LATER in the same TU:
+ *   func_80184BAC  -> src/ov_SC03_090/..._8017CA80.c:5646 `void func_80184BAC(s32 out, s32 a1, s32 a2)`
+ *   func_8012B608  -> :5123/5201/6380  `s32 func_8012B608(s32 a0, s32 a1, s32 a2)`
+ *   func_8012B178  -> :5643/6087/6377  `void func_8012B178(s32 a0, s32 a1)`
+ *   func_8012CBF4  -> :5638/6601       `void func_8012CBF4(s32 a0)` (canonical void; cast at use site when $v0 is read — not needed here)
+ *   func_8012BEE8  -> :5640/6381/6603  `s32 func_8012BEE8(s32 a0)`
+ *   func_8012BE54  -> project-canonical (ov_SC03_099 etc, and THIS TU at :6518) `void func_8012BE54(s32 a0)`,
+ *                     with the return value recovered via a function-pointer cast AT THE CALL SITE —
+ *                     the exact pattern already used in this same TU at :6539
+ *                     `((s32 (*)(s32))func_8012BE54)(ent)`.
+ *   func_80184D28  -> DEFINED further down THIS SAME TU (:5788) as `s32 func_80184D28(void)`
+ *                     (it ignores its incoming register — the body only reads a global). The
+ *                     target's call site still loads $a0=s0 before the jal, so the call-site
+ *                     declaration must NOT be the real (void) prototype (that would drop the
+ *                     arg-setup instruction and lose an instruction) — declared here K&R
+ *                     no-prototype `extern s32 func_80184D28();` so `func_80184D28(a0)` still
+ *                     compiles and still emits the $a0 move, byte-identical to the (void)
+ *                     definition once linked (index_gap: this K&R-vs-void split for an
+ *                     ignored-but-still-passed argument, inside the SAME TU as the real def).
+ *   func_80184C7C  -> INCLUDE_ASM in this TU only (:5758), no prototype anywhere else in the
+ *                     tree; typed by use: pointer arg, s32 return compared against 1.
+ */
+
+extern s32 rand(void);
+
+void func_801841E8(s32 a0)
+{
+    extern void func_80184BAC(s32 out, s32 a1, s32 a2);
+    extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+    extern void func_8012B178(s32 a0, s32 a1);
+    extern void func_8012CBF4(s32 a0);
+    extern s32  func_8012BEE8(s32 a0);
+    extern s32  func_80184D28();
+    extern s32  func_80184C7C(s32 a0);
+    extern void func_8012BE54(s32 a0);
+
+    s32 sp10[2];
+    s32 t;
+    s32 r;
+
+    func_80184BAC(sp10, a0, a0 + 0x102);
+    t = sp10[0];
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = t;
+    r = func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), t >> 16,
+                       *(s16 *)(a0 + 0xFE));
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+    func_8012B178(a0, *(s32 *)(a0 + 0xE0));
+    func_8012CBF4(a0);
+    if (func_8012BEE8(a0)) {
+        if (func_80184D28(a0) != 1) {
+            if (func_80184C7C(a0) == 1) {
+                if (((s32 (*)(s32))func_8012BE54)(a0) <= 0x8000) {
+                    *(s16 *)(a0 + 0x2) = 8;
+                } else {
+                    *(s32 *)(a0 + 0x1C) = rand() % 60 + 0x78;
+                    *(s16 *)(a0 + 0xFE) = rand() % 32 + 0xA;
+                }
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184330);
 
@@ -5634,11 +5715,153 @@ void func_801844C8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184730);
+typedef struct { s16 a, b, c; } SV3x_80184B30_80184730;
+typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80184730;
+
+/* Declarations copied VERBATIM from the destination TU (src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c)
+ * where they are already established for the near-identical sibling func_801841A4's case 2
+ * (same sp10[4]/sp20[2] shared-buffer idiom, same func_8012B77C "to" record):
+ *   func_8012BEE8   TU:5640   extern s32  func_8012BEE8(s32 a0);
+ *   func_8012B2CC   TU:5644 / 2523 / 4913   extern void func_8012B2CC(s32 a0);
+ *   func_8012B178   TU:5643 / 5635   extern void func_8012B178(s32 a0, s32 a1);
+ *   func_8012B77C   TU:5645   extern s32  func_8012B77C(s32 out, s32 from, s32 to);
+ *   func_8012B0B4   TU:6779   extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+ *   func_8012E88C   TU:6520   extern void func_8012E88C(u8 *a0);
+ *   func_8012A828   TU:7157   extern void func_8012A828(s32 a0, s32 a1);
+ * D_801A64DC is not declared in this TU; other overlays (ov_SC03_113) know it as a 10-entry
+ * s32/fnptr array, but here only its ADDRESS is taken (passed through as an opaque s32/void*
+ * to func_8012A828), so it is declared in the rawest form per law 4, matching this TU's own
+ * D_801A0CB8 idiom at line 4670 (`extern u8 D_801A0CB8[];` ... `(s32)D_801A0CB8`).
+ */
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  func_8012B77C(s32 out, s32 from, s32 to);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern void func_8012E88C(u8 *a0);
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32  rand(void);
+
+void func_80184730(s32 a0) {
+
+    extern u8   D_801A64DC[];
+    s32 sp10[4];   /* 0x10: the func_8012B77C "to" record — fields at +0x2/+0x6/+0xA */
+    s32 sp20[2];   /* 0x20: the 8-byte out buffer shared by func_8012B0B4 and func_8012B77C */
+    s32 t;
+    s32 r;
+
+    if (func_8012BEE8(a0) == 0) {
+        return;
+    }
+
+    if (*(u16 *)(a0 + 0x70) & 1) {
+        *(s16 *)(a0 + 0x2) = 1;
+    } else {
+        *(s16 *)(a0 + 0x2) = 3;
+        r = rand();
+        func_8012B0B4((unsigned int *)sp20, r % 0x1000, 0x100);
+        t = sp20[0];
+        *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x6) + t;
+        *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) - 0x100;
+        *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0xE) + (t >> 16);
+        *(s16 *)((s32)sp10 + 0x2) = *(u16 *)(a0 + 0x88);
+        *(s16 *)((s32)sp10 + 0x6) = *(u16 *)(a0 + 0x8A);
+        *(s16 *)((s32)sp10 + 0xA) = *(u16 *)(a0 + 0x8C);
+        func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
+        t = sp20[0];
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = t;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = t >> 16;
+        func_8012B2CC(a0);
+        func_8012B178(a0, *(s32 *)(a0 + 0xE0));
+    }
+
+    *(s16 *)(a0 + 0x5C) = *(u16 *)(*(s32 *)(a0 + 0x78) + 0x2);
+    *(s16 *)(a0 + 0x76) = *(u16 *)(*(s32 *)(a0 + 0x78) + 0x0);
+    func_8012E88C((u8 *)a0);
+    func_8012A828(a0, (s32)D_801A64DC);
+
+    {
+        s32 u = *(s32 *)(a0 + 0xCC);
+        if (u != 0) {
+            *(s16 *)(u + 0xFC) = 0;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184880);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_801848AC);
+typedef struct { s16 a, b, c; } SV3x_80184B30_801848AC;
+typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801848AC;
+
+/* Declarations conformed to this TU's existing canonical forms (§193-B law 2):
+ *   func_8012BEE8   ov_SC03_090_jr_8017CA80.c:5640  `extern s32  func_8012BEE8(s32 a0);`
+ *   func_8012B200   ov_SC03_090_jr_8017CA80.c:5641  `extern void func_8012B200(u8 *a0);`
+ *   func_8012B2CC   ov_SC03_090_jr_8017CA80.c:5644  `extern void func_8012B2CC(s32 a0);`
+ *   func_8012B77C   ov_SC03_090_jr_8017CA80.c:5645  `extern s32  func_8012B77C(s32 out, s32 from, s32 to);`
+ *   func_8012CBF4   ov_SC03_090_jr_8017CA80.c:5638  `extern void func_8012CBF4(s32 a0);` (return value unused here)
+ *   func_8012B178   ov_SC03_090_jr_8017CA80.c:5643  `extern void func_8012B178(s32 a0, s32 a1);`
+ *   func_8012B0B4   ov_SC03_090_jr_8017CA80.c:6779  `extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);`
+ *   func_8012E8A8   ov_SC03_090_jr_8017CA80.c:6244/6677 `extern void func_8012E8A8(u8 *a0);`
+ *   func_8012E778   not declared in this TU; project-canonical form used elsewhere
+ *                   (e.g. ov_SC03_099_jr_80182F24.c:2769) `extern s32 func_8012E778(s32 a0, s32 a1);`
+ *
+ * Structural template: this TU's OWN func_801841A4 case 2 (same file, ~line 5685) walks the
+ * identical func_8012B77C((s32)out, a0+4, (s32)to) / t=out[0] / store-split-into-(a0+0x20)
+ * ->0x10/0x12 shape, and uses the same `s32 sp10[4]` "to"-record idiom with fields written at
+ * byte offsets +0x2/+0x6/+0xA via `*(s16*)((s32)sp10 + N)`. Reused verbatim here. The banked
+ * seed_ref ov_SC02_035:func_80183A14 supplied the `s16 r = rand(); func_8012B0B4(...)` /
+ * `func_8012B200/func_8012B2CC/func_8012B178` tail shape.
+ */
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012B200(u8 *a0);
+extern void func_8012B2CC(s32 a0);
+extern s32  func_8012B77C(s32 out, s32 from, s32 to);
+extern void func_8012CBF4(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern void func_8012E8A8(u8 *a0);
+extern s32  func_8012E778(s32 a0, s32 a1);
+extern s32  rand(void);
+
+void func_801848AC(s32 a0)
+{
+    s32 sp10[6];   /* the func_8012B77C "to" record — fields at +0x2/+0x6/+0xA;
+                    * sized 6 words (24B, not case2's 4) — the target's buf sits
+                    * at sp+0x28, a full 24B above sp10's base at sp+0x10. */
+    s32 sp28[2];   /* reused as both func_8012B0B4's dest and func_8012B77C's "out" */
+    s32 t;
+    s16 r;
+
+    if (*(u16 *)(a0 + 0x34) == 0) {
+        if (func_8012BEE8(a0) != 0) {
+            r = rand();
+            func_8012B0B4((unsigned int *)sp28, r % 0x1000, (r % 0x80) + 0xC0);
+
+            t = sp28[0];
+            *(s16 *)((s32)sp10 + 0x2) = t;
+            *(s16 *)((s32)sp10 + 0x6) = *(s16 *)(a0 + 0xA) - 0x180;
+            *(s16 *)((s32)sp10 + 0xA) = t >> 16;
+            func_8012B77C((s32)sp28, a0 + 4, (s32)sp10);
+
+            t = sp28[0];
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = t;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = t >> 16;
+            func_8012B200((u8 *)a0);
+            func_8012B2CC(a0);
+            func_8012B178(a0, *(s32 *)(a0 + 0xE0) - 0x20000);
+            *(s16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        }
+    } else {
+        func_8012CBF4(a0);
+        if (func_8012E778(a0, 0xA000C8) == 0) {
+            *(s16 *)(a0 + 0x2) = 0xA;
+            *(s32 *)(a0 + 0x1C) = 0x80;
+            func_8012E8A8((u8 *)a0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184A08);
 
@@ -5716,7 +5939,51 @@ void func_80184D40(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184D7C);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184E54);
+
+typedef struct { s16 a, b, c; } SV3x_80184B30_80184E54;
+typedef struct { s16 a, b, c, d; } SV4x_80184B30_80184E54;
+
+extern void func_8012B23C(void *a0);
+extern void func_80185144(s32 param_1);
+extern void func_801851A8(s32 param_1);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+
+void func_80184E54(void *a0)
+{
+
+    extern s32 D_801A3B98;
+    s32 s0 = (s32)a0;
+    s32 s1;
+    SV3x_80184B30_80184E54 out;
+
+    s1 = *(s32 *)(s0 + 0x64);
+
+    if (*(s16 *)(s0 + 0xFC) != 0) {
+        *(s16 *)(s0 + 0x2) = 2;
+        func_8012B23C((void *)s0);
+        *(s32 *)(s0 + 0x1C) = 0x5A;
+        return;
+    }
+    __asm__("" : "=r"(s0) : "0"(s0) : "memory");
+
+    if (*(s16 *)(s0 + 0xFE) != *(s16 *)(s1 + 0x36)) {
+        func_80185144(s0);
+        return;
+    }
+
+    func_8012F214(s1, (s32)&D_801A3B98, (s32)&out);
+    *(s16 *)(s0 + 0x6) = out.a;
+    *(s16 *)(s0 + 0xA) = out.b;
+    *(s16 *)(s0 + 0xE) = out.c;
+    func_801851A8(s0);
+
+    *(s32 *)(*(s32 *)(s0 + 0x20) + 0x20) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x20);
+    *(SV4x_80184B30_80184E54 *)(*(s32 *)(s0 + 0x20) + 0x10) = *(SV4x_80184B30_80184E54 *)(*(s32 *)(s1 + 0x20) + 0x10);
+    *(SV4x_80184B30_80184E54 *)(*(s32 *)(s0 + 0x20) + 0x18) = *(SV4x_80184B30_80184E54 *)(*(s32 *)(s1 + 0x20) + 0x18);
+    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = *(s16 *)(*(s32 *)(s1 + 0x20) + 0x2C) | 0x20;
+    *(s32 *)(*(s32 *)(s0 + 0x20) + 0x4) = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x4);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184F98);
 

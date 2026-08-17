@@ -1386,7 +1386,6 @@ extern void func_80160334(s32 *a0);
 extern void func_8016039C(s32 *a0);
 extern void func_80160368(s32 *a0);
 extern void func_801603D8(s32 *a0);
-extern u8 D_80062BD0;
 extern void func_80160410(s32 * a0);
 extern void func_801607B8(s32 *a0);
 extern void func_801608C0(s32 *a0);
@@ -1786,8 +1785,6 @@ extern void func_8016A700(void *a0);
 extern s32 func_8016A73C(s32 arg0);
 extern s32 func_8016A8FC(s32 a0);
 extern void func_8016A890(s32 arg0);
-extern u16 D_80126B5E;
-extern u16 D_80126B66;
 extern void func_8016AA50(s32 param_1, s32 param_2);
 extern void (*D_801825CC[])(void);
 extern void func_8016AB30(void *a0);
@@ -4641,7 +4638,105 @@ void func_8017EC74(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_006/nonmatchings/ov_SC05_006_jr_8017BEBC", func_8017EE0C);
+extern void func_80019064(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012BE54(s32 a0);
+extern void func_8012C218(void *a0);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 func_8014CB8C(void);
+typedef struct {
+    u16 f0;
+    u8  pad[14];
+} Stride16_801BA59C_8017EE0C;
+
+void func_8017EE0C(s32 a0)
+{
+
+    extern u8 D_80062BD0;
+    extern s32 D_80126B58;
+    extern Stride16_801BA59C_8017EE0C D_80183098[];
+
+    /* Frame-pad induction (cookbook §5/§163e lever 3): the target reserves
+       0x28 = 16 (arg area) + 16 (s0/s1/s2/ra) + 8 unused var_size bytes that
+       no instruction ever addresses.  An address-taken-but-never-stored local
+       array survives -O2 DCE and reserves exactly those 8 bytes; `(void)&pad`
+       emits zero code.  Without it the frame is 0x20 and all ten save/restore
+       displacements are 8 low. */
+    s32 pad[2];
+    s32 s0 = a0;
+    s32 *anchor = &D_80126B58;   /* &SYM in the entry block -> one $s2 base */
+    s32 s1 = 0;
+    (void)&pad;
+
+    if (*(u8 *)((u8 *)s0 + 0x74) != 0) {
+        if (((s32 (*)(s32))func_8012BE54)(a0) < 0x4000) {
+            if (func_8014CB8C()) {
+                /* increment before the call, store in the call's delay slot */
+                *(u16 *)((u8 *)s0 + 0xFE) = *(u16 *)((u8 *)s0 + 0xFE) + 1;
+                func_80019064(&D_80062BD0);
+                func_8012C588(0x27D, s0);
+                /* s1 = 1 is UNCONDITIONAL once this block is entered: it rides
+                   the `bnez` delay slot below, which executes either way. */
+                s1 = 1;
+                if (*(s16 *)((u8 *)s0 + 0xFE) >= 9) {
+                    s32 t1;
+                    t1 = *(u16 *)((u8 *)s0 + 0xA) + 1;
+                    *(u16 *)((u8 *)s0 + 0xA) = t1;
+                    {
+                        /* re-read 0x20 per store-separated run (§193-H) */
+                        s32 vp = *(s32 *)((u8 *)s0 + 0x20);
+                        s32 t2 = *(u16 *)((u8 *)vp + 0x18) - 0x10;
+                        *(u16 *)((u8 *)vp + 0x18) = t2;
+                    }
+                    {
+                        s32 vp = *(s32 *)((u8 *)s0 + 0x20);
+                        s32 t3 = *(u16 *)((u8 *)vp + 0x18);
+                        *(u16 *)((u8 *)vp + 0x1C) = t3;
+                    }
+                }
+            }
+        }
+        {
+            s32 t4 = D_80183098[*(s16 *)((u8 *)s0 + 0x100)].f0 - 1;
+            s32 t5 = *(u16 *)((u8 *)s0 + 0xA) + t4;
+            *(u16 *)((u8 *)anchor + 0xA) = t5;   /* D_80126B58 + 0xA */
+        }
+    }
+
+    {
+        s32 v0;
+        __asm__ __volatile__("" : "=r"(v0) : "0"(s1));
+        if (v0 == 0) {
+            *(u16 *)((u8 *)s0 + 0xFE) = 0;
+        }
+    }
+
+    {
+        /* The SImode `t6` and the HImode `u6` are two pseudos in two different
+           basic blocks, so combine.c cannot fuse the truncating copy with the
+           argument's zero-extension (LOG_LINKS never cross a block boundary).
+           That is what mints the target's redundant `addu $a0,$v0,$zero`
+           (reorg pulls it into the beqz delay slot) followed by
+           `andi $a0,$a0,0xFFFF` in the bne delay slot.  Writing this as one
+           s16 local, or as `t6 & 0xFFFF`, folds both into a single
+           `andi $a0,$v0,0xFFFF` and loses 4 instructions' worth of bytes. */
+        s32 t6 = *(s16 *)((u8 *)s0 + 0xFC);
+        u16 u6 = t6;
+        if (t6 != 0) {
+            if ((*(u16 *)((u8 *)s0 + 0xFE) & 0xF) == 1) {
+                func_8002D4C8(u6, 0);
+            }
+        }
+    }
+
+    {
+        s32 t7 = *(s16 *)((u8 *)s0 + 0x102) + 0xA0;
+        if (t7 < *(s16 *)((u8 *)s0 + 0xA)) {
+            ((void (*)(s32))func_8012C218)(s0);
+        }
+    }
+}
+
 
 
 extern void (*D_801830B0[])(void);
@@ -4651,7 +4746,105 @@ void func_8017EF68(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_006/nonmatchings/ov_SC05_006_jr_8017BEBC", func_8017EFA4);
+
+/* func_8017EFA4 — companion of func_80185730 (same TU, same idiom family):
+ * allocates a "particle/effect" slot via func_8012C1B8, picks one of two
+ * table entries by a random 1/2 flip, and if the slot+table entry are both
+ * valid, seeds a batch of random spawn fields and (sometimes) attaches a
+ * secondary effect via func_80132EF4.
+ *
+ * Declarations: func_8012C1B8 / func_8012CAE4 / func_8001C214 are already
+ * file-scope in this TU with these EXACT signatures (grepped), so re-declared
+ * identically here (law 2). func_80132EF4 is declared identically across many
+ * sibling TUs (extern s32 func_80132EF4(s32 a0, s32 a1);) though not yet in
+ * THIS TU — adopting that convention. func_8017F16C is defined later in this
+ * same TU (INCLUDE_ASM) with no separate prototype anywhere else, so this is
+ * a fresh forward declaration by access shape (one pointer arg, no return
+ * used). D_80126B5E/62/66 already extern u16 in this TU (law 2).
+ *
+ * §193-E/H: *(s32*)(a0+0x20) is a pointer-derived base load that dies across
+ * every jal — the target reloads it via a fresh `lw` after each call and
+ * shares one load across a call-free run of uses. Written as a raw pointer
+ * expression (not cached in a persisting local across calls), so CSE
+ * reproduces the target's exact reload count on its own.
+ */
+void func_8017EFA4(void *a0)
+{
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern s32 func_80132EF4(s32 a0, s32 a1);
+    extern s32 func_8012AD50(void *a0);
+    extern void func_8017F16C(void *a0);
+    extern s32 rand(void);
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+
+    register s32 *tbl __asm__("$18");
+    s32 v0;
+    s32 v1;
+    s32 a1;
+    s32 s1;
+
+    tbl = *(s32 **)(*(s32 *)((s32)a0 + 0x64) + 0xDC);
+
+    s1 = (rand() & 1) + 1;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0
+        || tbl == 0
+        || (a1 = tbl[s1]) == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    func_8001C214(v0, a1);
+
+    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x2C) |= 0x10;
+
+    {
+        s32 spread = (rand() & 0x3F0) + 0xA00;
+        v1 = *(s32 *)((s32)a0 + 0x20);
+        *(u16 *)(v1 + 0x1C) = spread;
+        *(u16 *)(v1 + 0x1A) = spread;
+        *(u16 *)(v1 + 0x18) = spread;
+    }
+
+    {
+        s32 spread2 = rand() & 0xFF0;
+        *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = spread2;
+    }
+
+    *(u16 *)((s32)a0 + 0xFE) = D_80126B5E;
+    *(u16 *)((s32)a0 + 0x6) = D_80126B5E;
+    *(u16 *)((s32)a0 + 0xA) = D_80126B62;
+    *(u16 *)((s32)a0 + 0x100) = D_80126B66;
+    *(u16 *)((s32)a0 + 0xE) = D_80126B66;
+
+    *(u16 *)((s32)a0 + 0xE2) = (rand() & 0x1C) + 0x18;
+
+    *(s32 *)((s32)a0 + 0x14) = 0xFFE80000;
+    *(s32 *)((s32)a0 + 0x48) = 0x8000;
+    *(s32 *)((s32)a0 + 0x18) = 0x50000;
+
+    *(u16 *)((s32)a0 + 0x106) = rand() & 0xF0;
+    *(u16 *)((s32)a0 + 0x108) = rand() & 0xF0;
+
+    func_8017F16C(a0);
+
+    if (s1 != 1) {
+        v1 = func_80132EF4((s32)a0, 0x22);
+        if (v1 != 0) {
+            *(u16 *)(v1 + 0x34) = 0x3001;
+            *(s32 *)(v1 + 0x14) = 0xFFFC0000;
+        }
+    }
+
+    func_8012AD50(a0);
+}
+
 
 
 extern void (*D_801830B8[])(void);

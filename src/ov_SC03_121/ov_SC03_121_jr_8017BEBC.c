@@ -3583,7 +3583,78 @@ void func_801811DC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_80181218);
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001CA1C(s32 a0, s32 a1);
+extern void func_8012A828(s32, s32);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 rand(void);
+
+
+void func_80181218(s32 arg0) {
+
+    extern s32 D_8019BCA0;
+    extern s32 D_8019BCAC;
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(arg0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)arg0);
+        return;
+    }
+
+    func_8001CA1C(v0, (s32)&D_8019BCA0);
+    ((void (*)(s32, void *))func_8012A828)(arg0, (void *)&D_8019BCAC);
+
+    *(u16 *)(arg0 + 0x2) += 1;
+
+    if (*(s16 *)(arg0 + 0x70) != 0) {
+        s16 spin;
+
+        spin = (rand() & 0x1F) - 0x10;
+        *(s16 *)(arg0 + 0x12) = spin;
+
+        *(s32 *)(arg0 + 0x44) = -(*(s32 *)(arg0 + 0x10) >> 4);
+
+        spin = (rand() & 0x1F) - 0x10;
+        *(s16 *)(arg0 + 0x16) = spin;
+
+        *(s32 *)(arg0 + 0x48) = -(*(s32 *)(arg0 + 0x14) >> 4);
+
+        spin = (rand() & 0x1F) - 0x10;
+        *(s16 *)(arg0 + 0x1A) = spin;
+    } else {
+        s32 obj;
+        s32 t;
+
+        obj = *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20);
+        t = -func_8004787C(*(u16 *)(obj + 0x12) & 0xFFF);
+        t = t >> 8;
+        *(s16 *)(arg0 + 0x12) = t;
+
+        *(s32 *)(arg0 + 0x44) = -(*(s32 *)(arg0 + 0x10) >> 4);
+
+        obj = *(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20);
+        t = -func_80047948(*(u16 *)(obj + 0x12) & 0xFFF);
+        t = t >> 8;
+        *(s16 *)(arg0 + 0x1A) = t;
+    }
+
+    *(s32 *)(arg0 + 0x4C) = -(*(s32 *)(arg0 + 0x18) >> 4);
+    __asm__ __volatile__("" ::: "memory");
+    *(s32 *)(arg0 + 0x1C) = 0x10;
+
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x18) = 0x1800;
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = 0x1800;
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x1C) = 0x1800;
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x2C) |= 0x10;
+
+    *(u16 *)(arg0 + 0xA) -= 0x30;
+}
+
 
 
 extern void (*D_8019BCB4[])(void);

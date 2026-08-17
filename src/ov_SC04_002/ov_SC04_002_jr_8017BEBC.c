@@ -6075,7 +6075,53 @@ s32 func_80181368(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_801814F4);
+typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_801814F4;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because
+
+/* Declarations conform VERBATIM to the ones already present in this TU
+ * (src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c, lines 6342-6344 / 845 / 2190-2191)
+ * for the already-matched sibling func_8018259C, which is the same skeleton
+ * template as this function (same offsets, callees, mask constants) except
+ * for the tail control flow after the second func_80133784 call. */
+
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_80182728_801814F4; /* 0x20 bytes, align 4 */
+
+typedef struct { u16 x, y, z, w; } V8_80181368_80182728_801814F4;
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+s32 func_801814F4(s32 a0, s32 a1) {
+    V8_80181368_80182728_801814F4 sp10;
+    V8_80181368_80182728_801814F4 sp18;
+    s32 t;
+    s32 r;
+
+    sp10.x = *(u16 *)(a0 + 0x6);
+    sp10.y = *(u16 *)(a0 + 0xA) - 0x20;
+    sp10.z = *(u16 *)(a0 + 0xE);
+    t = func_8004787C(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+    r = (s16)a1;
+    sp18.y = sp10.y;
+    sp18.x = sp10.x - ((t * r) >> 12);
+    t = func_80047948(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+    sp18.z = sp10.z - ((t * r) >> 12);
+    if (!(func_80133784(1, &sp10, (s32)&sp18) & 0x8000)) {
+        t = func_8004787C(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+        sp10.x = *(u16 *)(a0 + 0x6) - ((t * 8) >> 12);
+        sp10.y = *(u16 *)(a0 + 0xA) - 0x10;
+        t = func_80047948(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+        sp10.z = *(u16 *)(a0 + 0xE) - ((t * 8) >> 12);
+        sp18.x = sp10.x;
+        sp18.y = sp10.y + 0x20;
+        sp18.z = sp10.z;
+        return (func_80133784(1, &sp10, (s32)&sp18) & 0x6000) == 0;
+    }
+    *(s32 *)(a0 + 0x4) = *(s32 *)(a0 + 0x38);
+    *(s32 *)(a0 + 0xC) = *(s32 *)(a0 + 0x40);
+    return 1;
+}
+
 
 #include "common.h"
 
