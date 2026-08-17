@@ -93,6 +93,81 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
   SCHEDULE-REORDER, 1 BRANCH-POLARITY, 1 OPCODE-MIXED. The prompt carries §177 as law 4 and §178's
   "REGALLOC-PERM is the most over-diagnosed class" as law 5.
 
+- 2026-08-16 — **S53-6 WAVE R DRAFTED: 92/110 MATCH (84%), 0 agent errors, 134 agents.** Per lane:
+  **mass 68/73 (93%)** · **plumbing 20/21 (95%)** · **near-miss 4/16 (25%)**. 5 IMMOVABLE, 13 NEAR.
+  Two of the IMMOVABLEs are real structural findings, not failures: `gfx2D_BG1_OBJ_648` is the shared
+  tail of `GsSortFastBg` (no prologue; branched into three times by raw `bnez`/`j`), and `vmNoiseOn`
+  is one compiled function the splitter cut into **seven** glabels (one prologue at `0x800403A4`, its
+  only matching epilogue in `VM_NO1_OBJ_4A4`, plain `j` at every hop). Both need a TU-level merge, not
+  a draft.
+- 2026-08-16 — **S53-7 BANKED 75 FUNCTIONS / 7,400 INSTRUCTIONS.** main **18** (stubs 1,763 → 1,745,
+  EXE `143dbb89` byte-identical) · `ov_SC06_029` **36 of 41** · `ov_SC02_005` **21 of 26**.
+  **R22 clean-fleet after: `check-all` 213 passed, 0 failed of 213.**
+- 2026-08-16 — **S53-8 THE GATE'S REJECTION CENSUS (cookbook §181) — 26 of 27 blocked main drafts are
+  byte-correct.** Five classes, four of which the whole C-level ladder is blind to: **MIRROR-FRAGMENT**
+  ×2 (a sibling branches to a `.L` label *inside* the function; only the linker knows) · duplicate
+  typedef with the TU's copy BELOW the insertion point ×7 (`gate_main` reuses only definitions ABOVE,
+  so it keeps the draft's and C89 rejects the pair) · draft-vs-draft data-symbol type clash ×1
+  (`ClearOTag` says `u32 D_80072784`, `SetGraphQueue` says function pointer) · draft-vs-file signature
+  conflict ×4 · **genuinely byte-wrong ×1** (`SYS_OBJ_1DC0`). `bisect_slate` found that one in
+  **5 steps / 90 s** at 13 s per build — against `gate_main`'s built-in bisect's 3 hours and no answer.
+- 2026-08-16 — **S53-9 TOOLS: the mirror test now exists.** `fragment_check.branched_into()` refuses a
+  draft that owns a label a still-stubbed sibling branches to; negative-controlled on both known-bad
+  drafts, then measured: **99 of 1,745 main stubs (5.7%)** carry this hazard, **0 of 229** in
+  `ov_SC04_011` and **0 of 194** in `ov_SC03_028` — a main-specific trap at ~1 in 18. Also fixed
+  `pregate_check` to scan comment-MASKED text (`_typedefs(text)` counted a typedef quoted in a bank
+  note as a definition; negative-controlled three ways). Cookbook **§180/§180d/§181/§182** banked.
+
+## 🛑 SESSION CHECKPOINT — S53 (2026-08-16). Phase 31 CONTINUES. NOTHING IN FLIGHT. WAVE S IS PREPARED BUT NOT STARTED.
+
+**Tree clean at `commit:2423`. No process running. R22 `check-all` 213/213 from a clean tree.**
+
+### Banked this session: 75 functions / 7,400 instructions
+main 18 (1,483 ins) · `ov_SC06_029` 36 (3,552) · `ov_SC02_005` 21 (2,365). Fleet 213/213, 0 NON_MATCHING.
+**main stubs 1,763 → 1,745.** Wave R drafted 92/110 (84%): mass 93%, plumbing 95%, near-miss 25%.
+
+### The result that should shape the next session
+**Drafting is no longer the constraint; the integration layer is, and it is now measured three ways.**
+§180b (a cold pile: 11 of 32 shippable), the wave-P post-mortem (97% drafted → 68% banked), and
+§181's census (26 of 27 rejected drafts byte-correct) all give the same ratio from independent
+directions. Every hour spent making the integration layer *compute* a refusal outranks an hour of
+drafting.
+
+### WAVE S IS BUILT AND WAITING (Drew: do not start without the word)
+- cards `.run/wave_p31s_cards.json` — **71 drafts / 6,532 ins**, `ov_SC04_011` ×37 + `ov_SC03_028` ×34,
+  **2 gate groups = 35.5 drafts per rebuild**; models opus 14 / sonnet 57; levers UNKNOWN 53,
+  head-crack 14, redraft 4.
+- args `.run/wave_p31s_args.json` (71 compact cards) · workflow `.run/wave_p31s_workflow.js`.
+- Launch with: `Workflow({scriptPath: '.run/wave_p31s_workflow.js', args: <contents of
+  .run/wave_p31s_args.json wrapped as {wavedir:"wave_p31s", cards:[...]}>})`.
+- The prompt carries a **targeted warning for `ov_SC04_011`**: in wave O, 6 of 10 of its drafts were
+  byte-correct and still failed the gate on that TU's own declaration landscape (S52 known-open #3).
+- Mirror-fragment pre-filter is **not needed for this wave** (measured 0% in both overlays) but should
+  be run on any future main slate.
+- ⚠ The atlas predates this session's 75 banks. Stub selection is derived live (so no banked function
+  can be drawn), but exemplar/seed hints are one generation stale. `make atlas` if seeds matter.
+
+### NEXT SESSION — in order
+1. **The 27-draft recovery backlog** (`.run/s53_recovery_backlog.json`) — every entry is already
+   byte-verified; each carries its named blocker. Cheapest instructions available anywhere: 11
+   reconcile refusals, 7 duplicate-typedef, 4 compile conflicts, 3 fragment-class, 1 truly wrong.
+2. **Fix the typedef-below case in `gate_main.strip_dup_typedefs`** — rename the draft's private copy
+   (or hoist the TU's definition; typedefs emit no code, so hoisting is byte-neutral). That alone
+   unparks 7 verified drafts and every future wave's share of the same.
+3. **The two TU-merge findings**: `gfx2D_BG1_OBJ_648` into `GsSortFastBg`, and `vmNoiseOn`'s seven
+   glabels into one function. Both are documented in the wave-R verdicts with the exact edit.
+4. **Do NOT re-run the §177 epilogue lane as-is** (§182: 4/16). Form a new hypothesis about what
+   forces those `800c3` frames before spending another agent-hour.
+5. Wave S, on Drew's word.
+
+### Watch-fors (new this session)
+The `pgrep` bracket trick protects the PATTERN only — a waiter whose own command line mentions
+`gate_lane` in a `tail` argument never exits (cost: a 46-min loop on a finished job, and two status
+reports that said "running"). · `gate_main --apply` reports BANKED but a following command found the
+tree clean once; **always verify the bank landed (`corpus.stubs` count) before committing.** ·
+`gate_lane` needs `binary` and `name` fields on every slate record, which `scan_leftovers` does not
+emit — convert first.
+
 ## SESSION S52 TASK LIST (2026-08-15, ultracode) — the monitorable view (no TaskCreate tool in this harness build)
 
 - [x] **S52-1 — Preflight + wave-selector repair.** Tree clean @ `commit:2390`, no gate/grinder in flight. Fixed `build_wave_atlas.py`: (a) the already-waved set was a hardcoded `'abcdefghijkl'` wave-letter literal → now a `glob('.run/wave_*_cards.json')` derivation (R33); **NC: old 634 → new 726 taken, strict superset, +92 previously-missable cards from waves m/n**; (b) `--exclude-bins` defaulted to `main` carrying the REFUTED link-defect rationale → default now empty, help corrected to the real (gate-path) reason; (c) new `--only-bins` allow-list (main waves need it — `gate_main` rebuilds once per SLATE, so main has no per-TU gate cost).
@@ -222,7 +297,7 @@ instruction-weighted metric moves fastest per agent spent.
 
 
 
-## 🛑 SESSION CHECKPOINT — S52 FINAL (2026-08-15/16). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+## 🛑 (superseded by S53) SESSION CHECKPOINT — S52 FINAL (2026-08-15/16)
 
 **Tree CLEAN at `commit:2415`. No process running. R22 verified 213/213 from a clean tree after the last bank.**
 
