@@ -4141,7 +4141,83 @@ INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_8018262
 
 INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80182698);
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80182780);
+#include "common.h"
+
+extern s32 func_801789AC(s32 arg0);
+extern void func_80180B44(s32);
+extern s32 func_8004787C(s32 a0);
+extern int func_8001AAA0(void);
+
+extern s16 D_8018FA0C;
+extern s16 D_8018FA0E;
+extern s16 D_8018FA10;
+
+typedef struct {
+    u8 pad_0[0xCC];
+    void *arr[4];
+} D_801EC450_t;
+extern s32 D_801EC450;
+
+void func_80182780(s32 a0) {
+    register s32 s0 __asm__("$16");
+    s32 v0;
+    s16 angle;
+    void *q;
+
+    s0 = a0;
+    func_801789AC(a0);
+
+    v0 = *(s32 *)(s0 + 0x20);
+    v0 = *(s32 *)(v0 + 0x4);
+    if (v0 < 0) {
+        return;
+    }
+
+    v0 = *(s32 *)(s0 + 0x1C) - 1;
+    *(s32 *)(s0 + 0x1C) = v0;
+    if ((v0 & 1) != 0) {
+        ((void (*)(s32, s32))func_80180B44)(s0, 3);
+    }
+
+    angle = *(u16 *)(s0 + 0xE8);
+    angle = (angle + 0x88) & 0xFFF;
+    *(u16 *)(s0 + 0xE8) = angle;
+    v0 = func_8004787C(angle);
+    D_8018FA0C = (v0 >> 6) + 0xC0;
+
+    v0 = func_8004787C(*(s16 *)(s0 + 0xE8));
+    D_8018FA0E = (v0 >> 6) + 0xC0;
+
+    v0 = func_8004787C(*(s16 *)(s0 + 0xE8));
+    D_8018FA10 = (v0 >> 6) + 0xC0;
+
+    if (((int (*)(s32))func_8001AAA0)(0x24) == 0) {
+        return;
+    }
+
+    *(s16 *)(s0 + 0x2) = 0x25;
+
+    q = ((D_801EC450_t *)D_801EC450)->arr[0];
+    *(s16 *)((u8 *)q + 0x2) = 2;
+    *(u16 *)((u8 *)q + 0x5C) = 0x8000;
+    *(u8 *)((u8 *)q + 0xC1) = 0;
+
+    q = ((D_801EC450_t *)D_801EC450)->arr[1];
+    *(s16 *)((u8 *)q + 0x2) = 2;
+    *(u16 *)((u8 *)q + 0x5C) = 0x8000;
+    *(u8 *)((u8 *)q + 0xC1) = 0;
+
+    q = ((D_801EC450_t *)D_801EC450)->arr[2];
+    *(s16 *)((u8 *)q + 0x2) = 2;
+    *(u16 *)((u8 *)q + 0x5C) = 0x8000;
+    *(u8 *)((u8 *)q + 0xC1) = 0;
+
+    q = ((D_801EC450_t *)D_801EC450)->arr[3];
+    *(s16 *)((u8 *)q + 0x2) = 2;
+    *(u16 *)((u8 *)q + 0x5C) = 0x8000;
+    *(u8 *)((u8 *)q + 0xC1) = 0;
+}
+
 
 #include "common.h"
 
