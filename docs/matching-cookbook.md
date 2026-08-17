@@ -17911,3 +17911,68 @@ argument**. The bracket only de-fangs the occurrence inside the pattern itself. 
 nowhere else on that line, or match something unforgeable (`pgrep -f 'tools/gate_lane\.py'` from a
 wrapper that does not mention the path twice). Cost here: a 46-minute loop against a job that had
 already finished, and a false "still running" in two status reports.
+
+---
+
+## §183 — THE DECLARATION-RECONCILIATION PLAYBOOK (P31 S53, measured on 20 byte-verified drafts)
+### 18 of 20 reconciled while keeping the match. The two that did not are mechanism, not effort.
+
+A dedicated lane took the 20 drafts that wave R's gate rejected on declarations — each carrying the
+tooling's exact refusal — and asked one agent apiece to make the DRAFT agree with its TU without
+losing a byte. **18 still verified MATCH afterwards**; 10 banked in the first slate that followed.
+The moves that worked, by frequency:
+
+| move | n | shape |
+|---|--:|---|
+| **TYPE-adopted-TU** | 8 | take the TU's spelling verbatim, narrow at the use site |
+| SIGNATURE-cast-at-call | 3 | adopt the TU's prototype, cast the arguments |
+| STRUCT-view-cast | 2 | keep the TU's type on the declaration, cast the pointer at use |
+| TAGGED-WORD-cast-at-call | 1 | raw word type + cast at the call (§181 law 4) |
+| TYPE-shadowed-block-scope | 1 | move the private view into the function body |
+
+**1. THE NAME/SHAPE TRAP — adopting the TU's typedef NAME while keeping a different BODY is worse
+than not adopting at all.** Two drafts were told "the TU's `Owner4EE8` is the incumbent" and both
+renamed their struct to `Owner4EE8` while keeping their own field layout. `strip_dup_typedefs` then
+did exactly what it must — same name, different body, so it renamed the draft's copy to
+`Owner4EE8_8002C8F4` — and their `extern Owner4EE8_8002C8F4 *D_800A4EE8;` collided with the file's
+`extern Owner4EE8 *D_800A4EE8;`. **Adopt the SHAPE, or keep your own name and cast at the use site.
+Never adopt the name alone.**
+
+**2. §181 LAW 4 IS VALIDATED TWICE, INCLUDING FOR STRUCT-POINTER GLOBALS.** `SetGraphQueue` declared
+`extern struct { u8 pad[0x34]; s32 (*field_0x34)(s32); } *D_80072780;` — private, reasonable, and a
+landmine for every sibling that spells the same global `void *`. Replacing it with
+
+```c
+extern void *D_80072780;
+...
+(*(s32 (**)(s32))((u8 *)D_80072780 + 0x34))(1);
+```
+
+kept **MATCH (43 ins)**. A global whose real type is a pointer-to-something should be declared in the
+rawest form any sibling might use, with the structure recovered at the use site.
+
+**3. `&D_x` MATERIALIZES A SHARED BASE REGISTER, AND THAT IS WHY THE CAST ESCAPE HATCH SOMETIMES
+CANNOT WORK.** `func_80037028` needs `Slot16A D_80076240[]` while its TU declares `W16 D_80076240;`.
+All three standard reinterpretations (pointer-cast-then-arrow, pointer-cast-then-bracket,
+cast-to-array-pointer-then-deref) compile and **all three lose the match identically — 68 ins vs 71,
+diverging from instruction #1 of the function, not merely at the touch sites.** Taking `&D_80076240`
+gives gcc-2.7.2 a CSE-able address subexpression, so it materializes one base-pointer register and
+reuses it, which perturbs allocation for the WHOLE body. The true-array form `D_80076240[i].field`
+never creates that subexpression at all.
+**So DIFFERENT-STRUCT has a real, mechanistic limit**: when the TU's spelling forces an address-of and
+yours does not, no cast at the use site can recover the bytes. That case is a genuine TU edit, and it
+is correct to report it as IMMOVABLE rather than grind.
+
+**4. THE TWO REMAINING IMMOVABLES ARE ONE-LINE TU EDITS, BOTH ARGUED FROM BYTES:**
+* `func_8001ABBC` — `src/800.c:4542` declares it `void`, written for an earlier-banked caller that
+  discards the return; the function has four load-bearing `$v0`-setting return paths. Edit the
+  declaration to `s32` (byte-neutral: the sole call site ignores the value).
+* `func_80037028` — change the TU's `extern W16 D_80076240;` to `extern Slot16A D_80076240[];` and
+  its one write `D_80076240.v = 0;` to `D_80076240[0].unk00 = 0;`, then re-verify `func_80037144`.
+
+**5. THE ITERATION ECONOMICS, AND THE TOOL GAP THEY EXPOSE.** Ten banks cost four rebuild attempts,
+because **the compiler reports only its FIRST conflict**, so each drop-and-retry reveals exactly one
+more. `pregate_check`'s CONFLICTING-EXTERN scan should have caught the `D_80072780` clash before any
+of them and did not: its declaration regex is single-line, and the offending declaration was a
+multi-line `extern struct { ... } *D_x;`. **A pre-gate check that sees 90% of declarations converts a
+one-rebuild-per-conflict loop into a single pass — that is where the leverage is, not in the drafting.**
