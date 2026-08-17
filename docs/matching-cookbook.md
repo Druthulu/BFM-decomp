@@ -17982,3 +17982,63 @@ silent while a struct-vs-`void *` clash FAILs. Negative-controlled four ways —
 controls caught a trap worth its own line: **a synthetic test using a fake symbol name (`D_x`) reported
 CLEAN for a conflict the tool does detect**, because `sym_of` only recognizes real project symbol
 spellings. A negative control must use names the system would accept, or it tests nothing.
+
+---
+
+## §184 — COMMENT-BLINDNESS IS A DEFECT CLASS, NOT A BUG (P31 S53: three tools, one root cause, one session)
+
+Three independent tools were found comparing or scanning C text **without masking comments**, and each
+one was silently refusing byte-verified work:
+
+| tool | what it did | what it cost |
+|---|---|---|
+| `pregate_check._typedefs` | scanned RAW text | a typedef quoted in a bank-note comment counted as a definition |
+| `reconcile_slate._same_struct` | compared body TEXT | `Slot16B` vs `Slot16` — same 7 fields — refused as DIFFERENT-STRUCT |
+| `gate_main.strip_dup_typedefs` | compared body TEXT | renamed an identical struct to `Slot16A_80037028`, whose extern then contradicted the file's |
+
+**The root cause is the same sentence every time: the comparison was a DOCUMENTATION test, not a
+layout test.** Agents annotate every field with its address (`s32 unk04;  /* 0x80076248 */`); the TU
+usually does not. So two character-for-character identical layouts differ *as text*, and each tool
+turned that into a refusal — the R39 over-refusal failure mode, inside the tools written to prevent it.
+
+**THE RULE: any tool that compares or scans C source must mask comments first.** The project already
+has exactly one masking oracle (`cdecl._mask`, length-preserving so offsets stay valid); every one of
+these tools had it available and none used it in the path that mattered. When you find one instance,
+**grep for the others in the same session** — this class does not occur alone.
+
+**§184b — A FORWARD TYPEDEF IS NOT A COMPETING DEFINITION.** `typedef struct Owner4EE8 Owner4EE8;` in
+a draft is the *same* type as the TU's full definition, written incomplete so the draft compiles
+standalone for `match_one`. Renaming it (same name, "different" body) manufactured
+`extern Owner4EE8_8002C8F4 *D_800A4EE8;` against the file's `extern Owner4EE8 *D_800A4EE8;` — a
+conflict created entirely by the tool. `gate_main` now recognizes the forward form and strips it in
+favour of the (hoisted) real definition. Two byte-verified drafts banked immediately.
+
+## §185 — EDIT THE SIDE THAT IS CHEAP TO VERIFY, AND CHECK A TU RETYPE AT ITS USE SITES
+
+Three TU declaration retypes were attempted this session. The pattern in what worked:
+
+| edit | verdict |
+|---|---|
+| `func_8001ABBC` declared `void` → `s32` | **byte-neutral** (sole caller discards the return) |
+| `W16 D_80076240` → `Slot16A D_80076240[]` (+ its one use) | **byte-neutral** |
+| `W32 D_8007622C` → `s32 D_8007622C[]` (+ its one use) | **byte-neutral** |
+| `s16 D_800C5328[]` → `s16 D_800C5328[][2]` | **REFUTED** — compiles at the declaration, then breaks **four banked assignments** in two other functions (`incompatible types in assignment`) |
+
+**So a TU retype is byte-neutral only if every EXISTING USE SITE still compiles unchanged.** Checking
+the declaration proves nothing; grep the uses first, and count them. A retype that forces edits to
+already-banked functions is not a retype, it is a re-match of those functions.
+
+**And prefer the cheap side.** Verifying a DRAFT change costs one `match_one` (seconds, isolated);
+verifying a TU change costs a clean rebuild (minutes) and risks every function in the file. So when a
+draft and its TU disagree, push the edit into the draft by default — including adopting the TU's
+single-field wrapper structs (`D_80076228.v = x` instead of `D_80076228 = x`, identical bytes at
+offset 0). Reserve TU edits for the cases where the draft side is provably impossible.
+
+**§185b — THE BLOCK-SCOPE `extern` RETYPE CAN BE LOAD-BEARING, AND THEN NOTHING ELSE WORKS.**
+`func_80031A98` needs `extern s16 D_800C5328[][2];` *inside the function* so every access types as a
+genuine 2-D array (§164-26: outer subscript variable, inner literal, no ADDR_EXPR pseudo, per-use
+inline addressing). Both escapes fail, and fail the same way — a local `s16 (*t)[2]` pointer variable
+AND an inline `((s16 (*)[2])D_800C5328)[i][0]` cast each hoist a base load (§183.3 again). C forbids
+the block-scope redeclaration against the file-scope flat type, and retyping the file breaks four
+banked call sites. **Recorded as genuinely blocked**, with the exact cost of unblocking it: retype
+those four assignments and re-verify their bytes. That is a real answer, not a failure.
