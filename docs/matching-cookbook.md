@@ -18088,3 +18088,41 @@ And when two values tie, `global.c:allocno_compare` ranks by `floor_log2(n_refs)
 also where this function stopped: ~900 compiles across 11 generated sweeps could not rebalance the
 ratio without costing more elsewhere. **A residual that survives a 900-compile sweep of a documented
 mechanism is a grinder/permuter target, not a hand-lever target** — record it and move on (§182).
+
+---
+
+## §187 — 🔴 "SAME SOURCE" IS NOT "SAME OBJECT": THE SDK BUILD AND THE GAME BUILD DISAGREE ON GTE NOPS
+### (P31 S53 — a refuted link opportunity, and three parsers giving three different answers)
+
+**The claim.** A wave-S agent found that `src/800b_7.c` is not game code at all: its eight symbols are
+`GsSortBg` + `GsSortFastBg`, i.e. PsyQ libgs `2D_BG0.o` / `2D_BG1.o`. It reported "526 ins, 0
+relocation-masked diffs" and recommended banking all 1,022 instructions for free through the existing
+`psyq_integrate` machinery instead of decompiling them. The reasoning was excellent and the symbol
+names really do encode the SDK objects (`gfx2D_BG0_OBJ_4D8` = "2D_BG0.OBJ + 0x4D8").
+
+**The refutation, in three steps — each stricter than the last:**
+
+| oracle | verdict |
+|---|---|
+| the agent's `masked_diff` comparison | 0 diffs |
+| my re-check, excusing any word that *carries* a relocation | 0 unexplained |
+| `psyq_identify`'s objdump pattern, masking only the relocated FIELD | **271 mismatches** |
+
+The third is the one that matters, and its diff is diagnostic: the object's stream is **520
+instructions where the EXE region is 526**, and the mismatches begin as a one-instruction SHIFT around
+COP2 words (`0x005E001A`, `0x17C00002`). **The game's copy carries six extra GTE hazard `nop`s that the
+SDK object does not.** Same C source, different assembly — so the object can never fill the region
+byte-identically, and `psyq_identify` was right to refuse it as "not linked by EXE".
+
+**THE LESSON IS ABOUT THE ORACLE, NOT THE LIBRARY.** Two of the three checks agreed with each other and
+were both wrong, because both were *permissive in the same way*: they excused a whole instruction
+whenever it carried a relocation. A relocation licenses only its own FIELD to differ — 16 bits for
+HI16/LO16, 26 for a jump target — never the opcode or the register operands. **A masked comparison
+whose mask is coarser than the linker's is not evidence of a match; it is evidence of nothing.**
+Agreement between two loose checks is not corroboration (R34: oracles must be able to *disagree*).
+
+**What this costs and what it saves.** It costs the 1,022-instruction shortcut: those eight symbols
+stay decompilation work, and `GsSortBg`/`GsSortFastBg` remain fragment-merge targets (§181's mirror
+class — five interior `j` targets each). It saves the far larger error of shipping a linked region
+that is six instructions short, which would have failed the byte gate and been debugged as a linker
+problem. **Check the strictest available oracle BEFORE re-architecting around a byte claim** (R35).
