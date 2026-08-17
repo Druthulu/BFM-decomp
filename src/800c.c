@@ -768,18 +768,37 @@ INCLUDE_ASM("asm/nonmatchings/800c", func_8005B75C);
 
 INCLUDE_ASM("asm/nonmatchings/800c", _addque);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005B7B0);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005B7E4);
-
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_25C8);
-
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_26EC);
-
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_27A8);
-
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_283C);
-
+/* ============================================================================================
+ * MERGED FUNCTION — this draft defines func_8005B7B0, NOT SYS_OBJ_26EC.
+ *
+ * SYS_OBJ_26EC is not an independent function. splat carved ONE PsyQ libgpu queue-push routine
+ * (0x8005B7B0..0x8005BA8F, 184 instructions) into SIX symbols:
+ *
+ *   func_8005B7B0  0x8005B7B0..0x8005B7E3  prologue + `j` to the queue-full TEST
+ *   func_8005B7E4  0x8005B7E4..0x8005B7FB  the queue-full wait-loop BODY
+ *   SYS_OBJ_25C8   0x8005B7FC..0x8005B91F  the wait-loop TEST + the synchronous path
+ *   SYS_OBJ_26EC   0x8005B920..0x8005B9DB  the payload-copy loop + the n==0 arm
+ *   SYS_OBJ_27A8   0x8005B9DC..0x8005BA6F  the shared tail: publish, advance, drain
+ *   SYS_OBJ_283C   0x8005BA70..0x8005BA8F  the epilogue
+ *
+ * Proof they are one function, not six:
+ *   - func_8005B7B0 ends in `j SYS_OBJ_25C8` with NO epilogue, and the frame it builds
+ *     (0x28; ra@0x20, s3@0x1C, s2@0x18, s1@0x14, s0@0x10) is the frame SYS_OBJ_283C tears down;
+ *   - SYS_OBJ_25C8 branches BACKWARD into func_8005B7E4 (`beq $v0,$v1,func_8005B7E4`) — a loop;
+ *   - SYS_OBJ_25C8's `beqz $s1,.L8005B9B8` targets a label INSIDE SYS_OBJ_26EC (the reported
+ *     blocker) and SYS_OBJ_26EC's back-edge is `j SYS_OBJ_26EC` — its own head, the copy loop;
+ *   - $s0/$s1/$s2/$s3 are the four incoming arguments and are live across ALL six ranges.
+ *
+ * The owner of the merged function is func_8005B7B0: it is the range's entry point and the only
+ * symbol an external caller can name (every other symbol is a branch/`j` target from inside).
+ *
+ * The queue element type and the global names are NOT invented — they are the ones the ALREADY
+ * MATCHED sibling func_8005BA90 (src/800c.c:600) uses to DRAIN this same queue, copied verbatim
+ * per this session's law 1. The declaration block below therefore duplicates src/800c.c:579-598
+ * only so this file compiles standalone for match_one; when the body is pasted into the TU it is
+ * inserted AFTER that existing block (see "notes" — no block needs moving).
+ * ============================================================================================ */
 
 typedef struct {
     void (*f)(s32, s32);
@@ -792,11 +811,86 @@ extern volatile GpuQue D_800C5510[];
 
 extern volatile u32 *D_8007285C;
 extern volatile u32 *D_80072868;
+extern u8 D_80072789;
+extern volatile s32 D_8007287C[3];
+extern volatile s32 D_8007288C;
+extern volatile s32 D_80072890;
+extern s32 D_80072894;
+/* SCALAR, not [1]: this function stores it ONCE, which gcc-2.7.2 emits as a direct
+ * `sw $v0,%lo(D_80072790)($at)`; the array form emits an extra `la` address materialization
+ * (byte-measured: 185 ins instead of 184). func_8005BA90 needs the `la` because it touches the
+ * same object TWICE and CSEs the address — with the scalar declaration `(&D_80072790)[0]` there
+ * reproduces that byte-identically (verified: cc1 output diff is empty). */
+extern volatile s32 D_80072790;
+extern void (*D_80072794)(void);
+
+extern s32 func_800426FC(s32);
+extern void DMACallback(s32, s32);
+extern s32 func_8005C020(void);
+extern s32 func_8005C054(void);
+extern s32 func_8005BA90(void);
+
+s32 func_8005B7B0(void (*f)(s32, s32), s32 *p, s32 n, s32 r) {
+    s32 i;
+
+    func_8005C020();
+
+    while (((D_8007288C + 1) & 0x3F) == D_80072890) {
+        if (func_8005C054() != 0) {
+            return -1;
+        }
+        func_8005BA90();
+    }
+
+    D_80072894 = func_800426FC(0);
+    D_80072790 = 1;
+
+    if (D_80072789 == 0 ||
+        (D_8007288C == D_80072890 && !(*D_80072868 & 0x01000000) && D_80072794 == 0)) {
+        while (!(*D_8007285C & 0x04000000)) {
+            ;
+        }
+        f((s32) p, r);
+        D_8007287C[0] = (s32) f;
+        D_8007287C[1] = (s32) p;
+        D_8007287C[2] = r;
+        func_800426FC(D_80072894);
+        return 0;
+    }
+
+    DMACallback(2, (s32) func_8005BA90);
+
+    if (n != 0) {
+        for (i = 0; i < n / 4; i++) {
+            D_800C5510[D_8007288C].pad[i] = p[i];
+        }
+        D_800C5510[D_8007288C].a = (s32) D_800C5510[D_8007288C].pad;
+    } else {
+        D_800C5510[D_8007288C].a = (s32) p;
+    }
+
+    D_800C5510[D_8007288C].b = r;
+    D_800C5510[D_8007288C].f = f;
+    D_8007288C = (D_8007288C + 1) & 0x3F;
+    func_800426FC(D_80072894);
+    func_8005BA90();
+
+    return (D_8007288C - D_80072890) & 0x3F;
+}
+
+
+
+
+
+
+
+
+extern volatile u32 *D_8007285C;
+extern volatile u32 *D_80072868;
 extern volatile s32 D_8007287C[3];
 extern volatile s32 D_8007288C;
 extern volatile s32 D_80072890;
 extern s32 D_80072898;
-extern volatile s32 D_80072790[1];
 extern void (*D_80072794)(void);
 
 extern s32 func_800426FC(s32);
@@ -825,9 +919,9 @@ s32 func_8005BA90(void) {
 
     func_800426FC(D_80072898);
 
-    if (D_8007288C == D_80072890 && !(*D_80072868 & 0x01000000) && D_80072790[0] != 0 &&
+    if (D_8007288C == D_80072890 && !(*D_80072868 & 0x01000000) && (&D_80072790)[0] != 0 &&
         D_80072794 != 0) {
-        D_80072790[0] = 0;
+        (&D_80072790)[0] = 0;
         D_80072794();
     }
 
