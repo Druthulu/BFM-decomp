@@ -59,6 +59,13 @@ typedef struct Ent30D80 {
     /* 0x50 */ u8 unk50;
     /* 0x51 */ u8 unk51;
 } Ent30D80;
+typedef struct {              /* base 0x80076240, stride 0x10 */
+    u16 unk00;
+    u16 unk02;
+    s32 unk04;
+    s32 unk08;
+    s32 unk0C;
+} Slot16A;
 typedef struct Rec14 {
     /* 0x00 */ u16 unk00;
     /* 0x02 */ u16 unk02;
@@ -4659,7 +4666,7 @@ void func_8001AA98(void) {
 }
 
 
-extern void func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 
 void func_8001AAA0(s32 arg0) {
     func_8001ABBC(1, arg0, 0, 0, 0);
@@ -13898,7 +13905,7 @@ extern Slot16 D_80076244[];
 extern W32   D_80076228;
 extern W32   D_8007622C;
 extern W32   D_80076238;
-extern W16   D_80076240;
+extern Slot16A D_80076240[];
 extern W8    D_80076242;
 extern W8    D_80076243;
 extern W32   D_80076294;
@@ -13963,7 +13970,7 @@ void func_80037144(s32 idx) {
             D_8007622C.v = (s32)D_800BA320;
             ent = D_800A463C[k].unk00;
             D_80076228.v = (s32)D_800BA320;
-            D_80076240.v = 0;
+            D_80076240[0].unk00 = 0;
             D_80076243.v = 1;
             D_80076242.v = 0;
             D_80076294.v = 0;
