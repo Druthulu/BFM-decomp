@@ -190,6 +190,9 @@ TYPEDEF_BLOCK = re.compile(
     r'^[ \t]*typedef\s+(?:struct|union|enum)?[^;{]*\{[^{}]*\}\s*(\w+)\s*;' + _EOL, re.M)
 TYPEDEF_PLAIN = re.compile(r'^[ \t]*typedef\s+[\w\s\*]+?\s(\w+)\s*;' + _EOL, re.M)
 
+FORWARD_TD = re.compile(r'^typedef\s+(?:struct|union|enum)\s+(\w+)\s+\1\s*;$')
+
+
 def _norm_td(text):
     """Normalize a typedef definition for COMPARISON: strip comments, then collapse whitespace.
 
@@ -240,8 +243,16 @@ def strip_dup_typedefs(body, already, suffix=''):
         known = already.get(name, defined.get(name))
         if known is None:
             defined[name] = text
-        elif known == text:
-            spans.append((m.start(), m.end()))          # exact duplicate, reuse the visible one
+        elif known == text or FORWARD_TD.match(text):
+            # exact duplicate, OR a FORWARD declaration (`typedef struct X X;`) whose full
+            # definition the file already provides. A forward typedef is not a competing shape --
+            # it is the same type, deliberately incomplete so the draft compiles standalone for
+            # match_one. Renaming it (the old behaviour) turned two CORRECT pointer-only drafts
+            # into `extern Owner4EE8_8002C8F4 *D_800A4EE8;`, which then contradicted the file's own
+            # `extern Owner4EE8 *D_800A4EE8;` — a conflict manufactured entirely by this tool.
+            # Stripping is safe because hoist_typedefs has already lifted the real definition above
+            # every insertion point (P31 S53).
+            spans.append((m.start(), m.end()))          # reuse the visible/hoisted definition
         else:
             new = '%s_%s' % (name, suffix)              # same name, different shape
             renames[name] = new
