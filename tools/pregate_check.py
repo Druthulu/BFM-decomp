@@ -180,8 +180,14 @@ def check_text(path, text):
             # REJECTED was func_8001ABBC declared `void` and defined `s32` -- a void/non-void
             # return split. So that is the only FAIL; everything else is a WARN worth reading but
             # not worth blocking a rebuild over (R39: an over-refusal costs verified-correct work).
+            # RECALIBRATED (P31 S53). The rule was "only a void/non-void split is fatal", measured on
+            # the wave-P slate. S53 refuted the generalization: `func_80027F4C` DEFINED `G4P *` under
+            # a visible `G3P *` declaration -- both non-void -- and gcc-2.7.2 REJECTED it
+            # ("previous declaration of func_80027F4C", src/800.c:9225), costing a rebuild after this
+            # tool had reported only a WARN. So ANY return-type disagreement is a FAIL; parameter
+            # disagreements stay a WARN, which is still the calibration the wave-P bytes support.
             d_ret, m_ret = decls[name][1][0], sig[0]
-            voidness = (d_ret == 'void') != (m_ret == 'void')
+            voidness = d_ret != m_ret
             findings.append(('FAIL' if voidness else 'WARN', 'DEF-VS-DECL',
                              f'{path}: `{name}` DEFINED {sig} at offset {off} but DECLARED '
                              f'{decls[name][1]} at offset {decls[name][0]} — the DEF-side wall; '
