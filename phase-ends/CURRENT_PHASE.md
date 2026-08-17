@@ -189,7 +189,29 @@ typedef comparison FIXED, FORWARD-typedef recognized instead of renamed · `preg
 scan, ANY return-type disagreement now FAILs, brace-bodied externs now visible · `reconcile_slate`:
 comment-blind struct comparison FIXED.
 
-### Cookbook: §180, §180b, §180c, §180d, §181, §182, §183, §184, §184b, §185, §185b, §186, §186b, §186c, §187
+### Cookbook: §180–§191 (24 entries)
+§180/b/c/d leftover harvest + ladder composition + mass-band exhaustion + the pgrep bracket limit ·
+§181 the gate's rejection census (26 of 27 rejects byte-correct) + the mirror-fragment class ·
+§182 §177's honest negative **(now ANSWERED by §188)** · §183 the declaration-reconciliation playbook
+(the name/shape trap; why `&D_x` defeats the cast escape) · §184/b comment-blindness as a DEFECT CLASS
+(3 tools) + the forward typedef · §185/b verify-the-cheap-side + check a TU retype at its USE SITES ·
+§186/b/c cross-jumping runs after sched2 + the s16-locals frame signal + local_alloc-vs-global_alloc as
+a placement lever · §187 the libgs link REFUTED (GTE hazard nops; a mask coarser than the linker's is
+no evidence) · **§188 the `jr $ra`+`addiu $sp` tail is an ASSEMBLER artifact — corrects §177 row 2,
+answers §182, and names 6 SDK objects in the band** · §189 five source-cited compiler laws (split-constant
+LUID adjacency · self-accumulate operand order fixed at expansion · the bb0 re-tie needs a `memory`
+clobber · narrow params are born into TWO pseudos · the compare-constant row flip) · §190 three
+prescriptions (preheader strata · natural-order-first with the rigidity plateau · the sched2 arg fence) ·
+§191 what the harvest REJECTED.
+
+### The S53 journal harvest (do not redo it)
+10 readers over **247 wave-R/S verdicts**, then one adversarial verifier per candidate defaulting to
+REJECT: 18 candidates → **10 CONFIRMED, 4 WEAK, 4 REJECTED** (`.run/s53_harvest.json`). Verifiers
+rebuilt targets from the ROM where the `.s` had been pruned, re-ran A/B sweeps rather than trusting the
+readers, and caught a wrong mechanism comment in `src/800.c:5430`. §177 was corrected IN PLACE with a
+banner, `tools/oracle_reorder.py` was promoted out of gitignored scratch (a cookbook section may not
+cite evidence that evaporates), and the reusable wave prompt's law 6 was corrected so the next wave is
+not aimed at the wrong layer.
 
 ### NEXT SESSION — in order
 1. **Wave T.** Same recipe: `build_wave_atlas --target-ins 6500 --min-ins 60 --max-ins 200 --rank mass`
