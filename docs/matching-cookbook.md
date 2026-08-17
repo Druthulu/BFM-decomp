@@ -18042,3 +18042,49 @@ AND an inline `((s16 (*)[2])D_800C5328)[i][0]` cast each hoist a base load (§18
 the block-scope redeclaration against the file-scope flat type, and retyping the file breaks four
 banked call sites. **Recorded as genuinely blocked**, with the exact cost of unblocking it: retype
 those four assignments and re-verify their bytes. That is a real answer, not a failure.
+
+---
+
+## §186 — CROSS-JUMPING RUNS **AFTER** SCHEDULING, SO NO C-LEVEL BARRIER CAN STEER IT
+### (P31 S53, wave S — source-cited from `toplev.c` + a `-dR -dJ` RTL dump; cost 8 wasted attempts before the refutation)
+
+A wave-S near-miss was filed by its first agent as "cross-jump tail-merge granularity", and eight
+attempts went into steering gcc's cross-jumper with the §5a `__asm__ __volatile__("")` barrier. All
+eight failed, and the reason is structural:
+
+* **`toplev.c:3142` — cross-jumping is the `jump2` pass, which runs AFTER `sched2` (`toplev.c:3104`).**
+  The merge boundary is therefore computed on the **scheduled** insn order, not on source order.
+* `jump.c:find_cross_jump` walks the two blocks' suffixes backwards and stops at the first
+  `rtx_renumbered_equal_p` failure. The RTL dump showed the scheduler hoisting a `lhu` and a `lw`
+  ABOVE the arm-distinguishing `addiu`, leaving a 3-insn common suffix — so two insns duplicate.
+* **A barrier cannot help**: it constrains scheduling *within* a block, and the decision being fought
+  happens after scheduling has already run.
+
+**The actual lever is source-level SHARED TAIL.** The target was not cross-jumping at all — its arms
+genuinely fall into one common basic block. Restructuring the C from "two arms each ending in the
+same three statements" to "`if (bit1) {...} else {...}` followed by the common statements" dropped the
+residual **36 → 10 mismatches and fixed the instruction count exactly**. When you see a tail-merge
+residual, write the shared tail in the source instead of hoping the compiler will merge yours.
+
+### §186b — A NO-SAVE 16-BYTE FRAME IN A LEAF FUNCTION MEANS `s16` LOCALS, NOT A HIDDEN CALL
+`mips.c:compute_frame_size` computes `total = var_size + args_size + extra_size`. HImode (s16) locals
+contribute `var_size` even in a leaf function that saves no registers, producing the distinctive
+`addiu $sp,$sp,-0x10` … `addiu $sp,$sp,0x10` pair with **no `sw` of any register**. An otherwise
+identical body written with `s32` locals compiles **frameless** and can never reach the target's
+instruction count. So: a small frame with no saved registers is a *type-width* signal — widen or
+narrow your locals rather than hunting for a call you cannot find.
+
+### §186c — WHERE A VALUE IS LOADED DECIDES WHICH ALLOCATOR OWNS IT, AND THEREFORE ITS REGISTER
+gcc-2.7.2 runs `local_alloc` before `global_alloc`. A pseudo whose references all sit in ONE basic
+block is handled by `local_alloc`, which — since MIPS 2.7.2 defines no `REG_ALLOC_ORDER` — takes the
+default ascending order and lands on **`$v0`**. A pseudo live across blocks falls to `global_alloc`
+and gets what is left (typically `$v1`). This is a *placement* lever, not a pin:
+
+> To put a value in `$v1`, load it inside the ARMS (making it live across blocks).
+> To put it in `$v0`, load it in the single block that uses it.
+
+And when two values tie, `global.c:allocno_compare` ranks by `floor_log2(n_refs) * n_refs / live_length`
+— which is why writing `d += n` instead of `n = d + n` can flip which one wins `$v0`. That last tie is
+also where this function stopped: ~900 compiles across 11 generated sweeps could not rebalance the
+ratio without costing more elsewhere. **A residual that survives a 900-compile sweep of a documented
+mechanism is a grinder/permuter target, not a hand-lever target** — record it and move on (§182).
