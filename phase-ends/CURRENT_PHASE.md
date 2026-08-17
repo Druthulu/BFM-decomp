@@ -98,6 +98,50 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 - 2026-08-17 — **Leftover-recovery lane launched** (5 agents, one per binary): each gets its slate, its
   TU, and the deterministic `[DROP]`/refusal evidence, and applies the §183 playbook draft-side only.
 
+- 2026-08-17 — **WAVE T: 71 cards -> 70 MATCH -> 70 BANKED, zero drops in five gate groups.** 87 agents,
+  8.71M tokens, 0 errors, ~70 min. The only structural change from wave S was the **Reconcile phase**:
+  one agent per gate group runs `reconcile_slate --apply` -> §183 playbook -> `pregate_check` over its
+  OWN slate, re-verifying every edit with match_one, BEFORE the first rebuild (§176h.C2 says
+  reconciliation belongs inside the wave; this is that, automated). Wave R banked 18 of 45 on its first
+  slate; wave T dropped nothing. Selector changes that made the pool worth more per agent:
+  **`--one-per-gid`** (the naive draw duplicated 22 of 44 skeletons across sibling overlays) and
+  **`--rank total`** (rank gate groups by card + deferred-sibling mass). Potential 19,266 ins for 71
+  agent-slots; **49 siblings (4,954 ins) then banked mechanically** via `family_sweep --hseq`.
+
+- 2026-08-17 — **The §180 leftover pile: 24 banked for ~0 drafting tokens.** 644 stored drafts
+  re-verified -> 29 byte-perfect and still stubbed; `reloc_identity` 29/29 AGREE; `fragment_check` 1 FAIL
+  (`gfx2D_BG0_OBJ_4D8`, the §181 mirror class, routed to the fragment-merge lane). A 5-agent §183 lane
+  reconciled them draft-side; gates: ov_SC04_011 14/15 · ov_SC06_029 4/4 · ov_SC03_028 1/1 ·
+  ov_SC02_005 4/5 (after a 3-typedef hoist in its TU, **null-control-built byte-identical first**) ·
+  main 1 (the second is `func_80031A98`, the known `D_800C5328` wall).
+
+- 2026-08-17 — **§192 + four over-refusals: the pre-gate ladder was main-only and said "clean" about it.**
+  `pregate_check` on an overlay slate printed `checking 0 substituted file(s) ... clean`. Fixed, each
+  with controls: per-binary `_stubs_for()` (main path byte-identical); `sym_of` no longer returns the
+  keyword `void` for `extern void (*D_x[])(...)` (**NC: 5,526,100 declarations, 189,301 changed
+  verdicts, 0 regressions**); C89's unspecified-parameter rule as `gate_main.sig_conflict`; the overlay
+  DRIVER's typedef transform modelled (harvest_verify strips TU-provided typedefs, gate_main hoists);
+  block-scope typedefs skipped; `M2C_UNK` and friends derived from include/common.h as scalar aliases
+  (R33). A cc1 probe settled the builtin case: two conflicting `memcpy` decls are a WARNING (exit 0),
+  the same pair on a non-builtin is an error. §192b: the tool now REFUSES when it substituted 0 files
+  and prints the per-draft `[DROP]` reasons it used to compute and discard.
+
+- 2026-08-17 — **Harvest: 71 index_gaps -> 9 CONFIRMED laws (§193-A..I), 5 REJECTED, 61 ALREADY COVERED.**
+  19 agents (5 cluster readers + one adversarial verifier per candidate, defaulting to REJECT). The 61
+  is the actionable number: the cookbook knew and the agents did not find it. **§193-A is the cause and
+  the fix** — a card's `exemplar`/`sibs` come from the atlas's OPEN set by construction (`atlas.py:96`
+  load_open, `:657` max over open members) = 0/34 banked measured, 0% at any maturity, while
+  `atlas.py:505-536` already computes a MATCHED-pool twin whose identity `build_wave_atlas` discarded.
+  Cards now carry `seed_ref` + `matched_n` (control draw: seed_ref banked **4/4**, exemplar **0/12**).
+  §193-B byte-refutes §43's cast absolute (the decider is `combine.c:929`'s cross-call guard);
+  §193-G refutes §164-54's ">=4 arms" bound (`balance_case_nodes` splits at `i > 2`); §193-C bounds
+  §8/§48-A1's cross-jump refund to TAILS (gcc-2.7.2 has no prefix merge).
+
+- 2026-08-17 — **R22 clean-fleet: `make clean` + extract-all (212/212 + main) + `check-all` = 213 passed
+  / 0 failed of 213**, EXE `143dbb89` unchanged. Fleet **95.7% instr-weighted · 91.0% distinct-code ·
+  96.96% fn-count**; MAIN 20.5%. Session total: **143 functions banked** (70 wave + 49 mechanical +
+  24 leftovers), of which only 70 cost an agent.
+
 ## SESSION S53 (2026-08-16, ultracode) — wave R + the leftover-draft harvest
 
 - 2026-08-16 — **S53-1 PREFLIGHT + ATLAS REGEN.** Tree clean at `commit:2416`, no gate in flight. `make atlas`

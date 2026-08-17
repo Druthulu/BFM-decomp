@@ -193,3 +193,42 @@ under-report the drafters and send the next wave hunting compiler walls that are
 **Cost:** 1.31M subagent tokens, 8 agents, 0 errors. **Idioms harvested:** cookbook §144 (literal
 spelling picks the immediate encoding). **Defect found:** `.run/ghidra_c/func_8017EF54.c` is a stale
 decompile of the WRONG function — the prefetch cache is not trustworthy per-entry.
+
+---
+
+## Wave T (P31 S54, 2026-08-17) — the first wave to bank EVERY byte-verified draft
+
+| | wave S (S53) | **wave T (S54)** |
+|---|---|---|
+| cards | 71 | **71** |
+| drafted instructions | 6,532 | **6,557** |
+| gate groups | 2 | 5 |
+| agents / tokens / wall | 82 / — / — | **87 / 8.71M / 70 min** |
+| standalone MATCH | 70 (99%) | **70 (99%)** |
+| **banked at the gate** | 63 of 71 | **70 of 70 — zero drops** |
+| mechanical siblings banked behind it | — | **49 (4,954 ins)** |
+
+**What changed, and it is the only thing that changed:** the wave script grew a **Reconcile phase**.
+After a gate group's drafts finish, ONE agent per group runs the deterministic ladder over that
+group's own slate — `reconcile_slate --apply` → resolve the refusals with the §183 playbook → 
+`pregate_check` — re-verifying every edit with `match_one`, before any rebuild. Wave R had banked 18
+of 45 on its first slate and needed a separate recovery lane afterwards (§181: 26 of the 27
+rejections were byte-perfect drafts). Wave T dropped nothing, in five groups, on first contact.
+
+Two selector changes made the pool worth more per agent (§193-A, `--one-per-gid` + `--rank total`):
+the naive fleet-wide draw had put 22 of 44 skeletons in the wave TWICE (sibling overlays at two
+addresses), and ranking gate groups by face mass ignored the sibling mass hanging behind each card.
+Deduped and re-ranked, the same 71 agent-slots carried **19,266 instructions of potential** — 6,557
+drafted plus 12,709 staged for the free remap — of which 4,954 sibling instructions banked
+mechanically the same session.
+
+**Cost line for the ledger:** 8.71M subagent tokens over 87 agents, 0 errors, ~124k tokens per banked
+head — but the head is not the unit: 70 heads + 49 mechanical siblings = **11,511 instructions banked
+for one wave's tokens**, against wave 6's 10,616 and wave 5's ~7,200.
+
+**Harvest attached (19 more agents, 1.97M tokens):** 71 `index_gap` reports → 9 CONFIRMED laws
+(cookbook §193-A…I), 5 REJECTED, and **61 answered by sections that already existed**. That last
+number is the one to act on: the knowledge base knew, and the agents did not find it. §193-A is the
+mechanical cause and its fix — the card's `exemplar`/`sibs` pointers are drawn from the atlas's OPEN
+set by construction (0/34 banked, and 0% at any maturity), while the atlas's own MATCHED-pool twin
+(`seed.ref`, 4/4 banked on a control draw) was being discarded by the card builder.
