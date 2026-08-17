@@ -293,9 +293,109 @@ INCLUDE_ASM("asm/nonmatchings/800c", func_800599B8);
 
 INCLUDE_ASM("asm/nonmatchings/800c", StoreImage);
 
-INCLUDE_ASM("asm/nonmatchings/800c", MoveImage);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_8F4);
+/* ===========================================================================
+ * MERGED FUNCTION — MoveImage absorbs SYS_OBJ_8F4.
+ *
+ * splat split ONE function into two symbols:
+ *     MoveImage    0x80059A80..0x80059B27   (0xA8, 42 insns)
+ *     SYS_OBJ_8F4  0x80059B28..0x80059B43   (0x1C,  7 insns)
+ * Combined range: 0x80059A80..0x80059B43, 0xC4 bytes, 49 instructions.
+ *
+ * SYS_OBJ_8F4 is not an independent function — it is MoveImage's own epilogue:
+ * it pops ra/s2/s1/s0 out of MoveImage's OWN 0x20-byte frame (ra@0x1C, s2@0x18,
+ * s1@0x14, s0@0x10 — the exact slots MoveImage's prologue pushed), adds 0x20 to
+ * sp and returns.  MoveImage's two early "return -1" paths branch INTO it
+ * (`beqz $v0, SYS_OBJ_8F4` at 0x80059AB8 and `j SYS_OBJ_8F4` at 0x80059AD0) and
+ * MoveImage's own tail falls THROUGH into it.  Nothing else in the binary
+ * mentions SYS_OBJ_8F4 (grep of asm/nonmatchings/800c: only its own .s and
+ * MoveImage.s).  The label exists only because the PsyQ libgpu object carried a
+ * local symbol on the epilogue block.
+ *
+ * Written here as one C function: both `return -1;` statements share gcc's
+ * single function epilogue, which is byte-identical to SYS_OBJ_8F4's body.
+ *
+ * The two early exits come from ONE `||` test, not two separate `if`s — two
+ * `if`s make gcc cross-jump the -1 returns into a single tail block placed
+ * AFTER the call, which costs an extra insn and moves the -1 out of the delay
+ * slots.  With `||` the layout is exactly the target's:
+ *     beq w,0 -> epilogue (delay: li -1)   [the delay-slot filler copied the -1
+ *                                           out of the shared L_ret block and
+ *                                           retargeted the branch past the j]
+ *     bne h,0 -> body     (delay: sll y,16)
+ *     j epilogue          (delay: li -1)
+ *
+ * The 5-word MOVE_IMAGE packet lives at 0x80072830 (asm/data/53198.data.s):
+ *     0x80072830 .word 0x04FFFFFF   tag  (len 4, next = end-of-list)
+ *     0x80072834 .word 0x80000000   GPU cmd: VRAM->VRAM rectangle copy
+ *     0x80072838 .word <src  x|y>   written here
+ *     0x8007283C .word <dst  x|y>   written here
+ *     0x80072840 .word <size w|h>   written here
+ * splat emitted NO symbol at 0x80072830 (it falls inside the D_8007281C dlabel
+ * block) because the compiler never materialized that address directly: it kept
+ * &D_80072838 in $a1 for the store and reached the packet base with
+ * `addiu $a1, $a1, -8` in the jalr delay slot.  So the base is spelled the same
+ * way here — `(u8 *)p - 8`.
+ *
+ * Why the store to 0x80072838 goes through a STRUCT pointer (MovePktSrc) and
+ * not through a plain `u32 *`: it is the only form that lets gcc-2.7.2 hoist
+ * `lw $v1, D_80072780` ABOVE the packet stores, which the target does (that load
+ * sits at 0x80059AEC/AF0, before both `sw`s).  A store through a plain scalar
+ * `u32 *` is an opaque MEM the scheduler will not reorder against a global load,
+ * so the load sinks two slots and 6 of 49 instructions land out of place.  A
+ * struct-typed MEM sets MEM_IN_STRUCT_P, gcc-2.7.2's scalar-vs-aggregate
+ * disambiguation fires, and the schedule becomes byte-identical.  Measured:
+ * plain `u32 *` = 6 mismatched; struct pointer = MATCH.  (A 120-variant sweep
+ * over statement order, hoisted temporaries and local-vs-inline GPU pointer
+ * never got below 6 without the struct type.)
+ * ===========================================================================*/
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 w;
+    s16 h;
+} GpuRect;
+
+/* the packet's src word, at 0x80072838; the packet itself starts 8 bytes lower */
+typedef struct {
+    u32 src;
+} MovePktSrc;
+
+typedef s32 (*GpuFn)(void *, void *, s32, s32);
+
+/* spelled exactly as the rest of src/800c.c already spells it
+ * (SetGraphQueue, func_80059658) */
+extern void *D_80072780;
+
+/* checkRECT-style validator + its name string ("MoveImage"); the direct
+ * analogue of StoreImage's D_80074190 immediately above in the same TU */
+extern char D_8007419C;
+extern void func_80059760(char *name, GpuRect *rect);
+
+extern u32 D_80072838;
+extern u32 D_8007283C;
+extern u32 D_80072840;
+
+s32 MoveImage(GpuRect *rect, s32 x, s32 y)
+{
+    MovePktSrc *p;
+
+    func_80059760(&D_8007419C, rect);
+
+    if (rect->w == 0 || rect->h == 0) {
+        return -1;
+    }
+
+    p = (MovePktSrc *)&D_80072838;
+    p->src = *(u32 *)rect;
+    D_8007283C = (y << 16) | (x & 0xFFFF);
+    D_80072840 = *(u32 *)&rect->w;
+
+    return (*(GpuFn *)((u8 *)D_80072780 + 0x8))(
+        *(void **)((u8 *)D_80072780 + 0x18), (u8 *)p - 8, 0x14, 0);
+}
+
 
 
 extern u8 D_8007278A;
