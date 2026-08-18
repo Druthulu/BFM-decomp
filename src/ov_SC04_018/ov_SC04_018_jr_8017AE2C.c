@@ -8155,20 +8155,4 @@ void *func_80185C6C(void *a0) {
 }
 
 
-extern u16 D_80126B5E;
-extern u16 D_80126B62;
-extern u16 D_80126B66;
-
-extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
-extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
-
-s32 func_80185D10(void *a0) {
-    s16 out[3];
-    s16 in[3];
-
-    in[0] = D_80126B5E;
-    in[1] = D_80126B62;
-    in[2] = D_80126B66;
-    func_8012F2E8((s32)a0, (s32)in, (s32)out);
-    return func_8012CB64((s32)out, -0x80, 0x80, -0x60, 0);
-}
+DEFINE_func_80185D10()  /* dedup: shared engine-core @0x80185D10 (src/shared) */
