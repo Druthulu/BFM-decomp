@@ -65,6 +65,13 @@ _NOT_A_SYMBOL = {
     'void', 'char', 'short', 'int', 'long', 'float', 'double', 'signed', 'unsigned',
     'const', 'volatile', 'struct', 'union', 'enum', 'static', 'extern', 'register', 'typedef',
     's8', 'u8', 's16', 'u16', 's32', 'u32', 's64', 'u64', 'f32', 'f64',
+    # THE ASM-LABEL ALIAS (P31 S55, second instance of the §192 defect class). The project's own
+    # §37/§124 idiom spells a renamed symbol `extern s32 gVecX __asm__("D_80126B5C");`, and the
+    # generic branch below matched `__asm__` -- an identifier followed by '(' -- before ever
+    # reaching the real one. Every aliased declaration then "conflicted" with every other under the
+    # name `__asm__`: measured on wave Y's ov_SC02_017 slate, 1 byte-verified draft DROPPED and 2
+    # phantom CONFLICTING-EXTERN failures, on an idiom this very session used to recover work.
+    '__asm__', 'asm', '__volatile__', '__attribute__',
 }
 
 
@@ -74,6 +81,10 @@ def sym_of(d):
     m = re.search(r'\b([A-Za-z_]\w*)\s*(?:\[|\()', d)
     if m and m.group(1) not in _NOT_A_SYMBOL: return m.group(1)
     m = re.search(r'\(\s*\*+\s*([A-Za-z_]\w*)', d)          # T (*NAME)(...) / T (*NAME[])(...)
+    if m and m.group(1) not in _NOT_A_SYMBOL: return m.group(1)
+    # `T NAME __asm__("LABEL")` -- the declared identifier is the one BEFORE the asm label, and the
+    # label itself is the LINK name, not a C symbol (§37/§124).
+    m = re.search(r'\b([A-Za-z_]\w*)\s*(?:\[[^\]]*\])?\s*__asm__\s*\(', d)
     if m and m.group(1) not in _NOT_A_SYMBOL: return m.group(1)
     m = re.search(r'\b(D_[0-9A-Fa-f]{8}|func_[0-9A-Fa-f]{8})\b', d)
     return m.group(1) if m else None
