@@ -263,14 +263,42 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
   and the pass question is recorded open. Both verifiers independently **byte-refuted §136 type-form
   rule 9's cure**: `u16 v[4]` and `SVECTOR v` compile byte-identically in rule 9's own context.
 
+- 2026-08-18 — **WAVE X: 64/65 drafted, 62 banked in 4 gate groups; UNKNOWN confirmed as a lane on its
+  second wave.** md_SC07_003 24/24 · ov_SC06_016 18/18 · ov_SC06_025 19/20 · ov_SC03_001 1/1. A SECOND
+  module binary went clean. Sibling remap 1 (UNKNOWN groups are singletons — the recorded cost of the
+  lane). R22 **213/213** from a clean tree. **Fleet crossed 96.0% instr-weighted** (91.6% distinct,
+  97.05% fn-count). The one near-miss, `func_8017F9D8`, sits at **closeness 1** — 93 of 94 words
+  byte-identical, a branch landing one instruction early — and its agent got there from 21 by reading
+  each delay slot as a PROVENANCE fact (§194-M) rather than as scheduling noise: a `bgtz` + filler
+  that moved BACKWARD proves the statement DOMINATES the branch, so it belongs above the test, not
+  inside the arm. The session's own harvest being used mid-wave.
+
+- 2026-08-18 — **§199 harvest (7 confirmed / 2 rejected / 56 already-covered) — and it BYTE-REFUTES
+  §189-A, banked this morning.** §189-A claimed an interloper between a split constant's `lui`/`ori`
+  PROVES two source steps. Four independent refutations: the banked one-statement slice
+  `prim.col[1] = 0x101010;` compiles with SEVEN insns in the gap; the prescribed two-step spelling is
+  BYTE-IDENTICAL (the fix is inert); moving an unrelated statement moves a third constant in and out
+  of the gap; and one separated pair is `0x88888889` — gcc's own reciprocal magic for `/ 0x3C`, a
+  constant with NO source spelling, so the inference is unsatisfiable there. Mechanism corrected off
+  cc1's `-dS`: `rank_for_schedule` tests INSN_PRIORITY FIRST (`sched.c:2395`), the LUID tie-break is
+  last (`:2428`), and the separator is the BIRTHING BOOST (`birthing_insn_p`, gate `reg_n_sets == 1`)
+  which the split pair can never have because `try_split` gives its pseudo two sets. The dump also
+  corrected the READER: sched1 is a BACKWARD scheduler, so the LUI sinks, not the ORI. §189-A's
+  split-TIMING half survives and carries a banner. **Two of the seven laws correct laws from earlier
+  the same day — that is the adversarial verifier paying for itself.**
+
+- 2026-08-18 — **Usage-limit recovery, third use, reliable.** The wave-X harvest died mid-flight with
+  3 verifiers outstanding. `Workflow({scriptPath, resumeFromRunId, args})` replayed 10 finished agents
+  from cache and re-ran only the 3: **398k tokens against the original run's 1.31M**.
+
 ## 🛑 SESSION CHECKPOINT — S54 FINAL (2026-08-17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `commit:2515`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
+**HEAD `commit:2529`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
 R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree (run 3x this session, after
 each wave) · EXE `143dbb89` · 0 NON_MATCHING.** No process running, no cron armed, no workflow in
 flight. Drew pushes.
 
-### Banked this session: 412 functions (303 gated heads + 108 mechanical siblings + 1 main)
+### Banked this session: 475 functions (365 gated heads + 109 mechanical siblings + 1 main)
 | lane | banked | notes |
 |---|--:|---|
 | wave T — mass band, 5 groups | 70 of 70 | **zero drops** — first wave ever to bank every byte-verified draft |
@@ -278,9 +306,10 @@ flight. Drew pushes.
 | wave V — mass band, 9 groups | 68 of 69 | 8 of 9 groups clean |
 | mechanical siblings (`family_sweep --hseq`) | 49 + 34 + 25 = **108** | ~0 tokens; 9 failed of 112 attempts |
 | wave W — UNKNOWN lane, 3 groups | 68 of 70 | 71/71 drafted; 0 siblings (UNKNOWN groups are singletons) |
+| wave X — UNKNOWN lane, 4 groups | 62 of 63 | 2nd module binary clean; 1 sibling |
 | §180 leftover sweep | 24 | byte-perfect drafts already on disk from waves M/O/P/R/S |
 
-**Fleet 95.9% instr-weighted · 91.5% distinct-code · 97.04% fn-count · MAIN 20.5%.**
+**Fleet 96.0% instr-weighted · 91.6% distinct-code · 97.05% fn-count · MAIN 20.5%.**
 (Session start: 95.6 / 90.8 / 96.92.)
 
 ### THE FIVE RESULTS THAT OUTLIVE THE COUNT
