@@ -53,11 +53,39 @@ def asm_symbols(path):
     return {(a or b).split('+')[0] for a, b in raw if (a or b)}
 
 
+OVERLAY_WINDOW = 0x80170000   # >= this, a func_ADDR name is per-overlay and NOT fleet-unique
+
+
+def _binary_of(path):
+    """src/<binary>/<file>.c -> <binary>; src/800.c and friends -> 'main'."""
+    rel = os.path.relpath(path, os.path.join(REPO, 'src'))
+    parts = rel.split(os.sep)
+    return parts[0] if len(parts) > 1 else 'main'
+
+
+def _is_overlay_window(sym):
+    """A func_ADDR / D_ADDR symbol in the overlay load window is a DIFFERENT object per overlay."""
+    m = re.match(r'(?:func|D)_([0-9A-Fa-f]{8})$', sym)
+    return bool(m) and int(m.group(1), 16) >= OVERLAY_WINDOW
+
+
 def build(verbose=True):
-    """symbol -> {'def': [sig, n], 'ext': [[sig, n], ...]} over every committed .c."""
-    defs, exts = collections.defaultdict(collections.Counter), collections.defaultdict(collections.Counter)
+    """symbol -> {'def': {binary: [sig, n]}, 'ext': [[sig, n], ...]}.
+
+    DEFS ARE KEYED BY BINARY (P31 S55, cookbook §201 — §150-B applied to this index). Overlay
+    functions are named by VRAM address and 134 overlays load at the same window, so a bare
+    `defs[name]` counter mixes N UNRELATED functions: measured over the tree, 3,911 of 9,861
+    symbols with a definition are defined in more than one binary, 1,219 of those disagree on
+    ARITY, and 818 of the disagreements are a top-two TIE that `most_common` broke by sorted-file
+    order — i.e. the lowest-numbered overlay silently won. On wave Y's five binaries the card
+    printed 65 DEF rows for overlay-window symbols and 26 of them (40%) were another overlay's
+    function. Byte-proven cost: applying one such row's arity to `func_8017E83C` took it from
+    MATCH (114 ins) to 113 ins / 83 mismatched."""
+    defs = collections.defaultdict(lambda: collections.defaultdict(collections.Counter))
+    exts = collections.defaultdict(collections.Counter)
     files = sorted(glob.glob(os.path.join(REPO, 'src', '**', '*.c'), recursive=True))
     for p in files:
+        b = _binary_of(p)
         txt = cdecl._mask(open(p, errors='replace').read())      # R33: the one masking oracle
         for d in gm.DECL.findall(txt):
             s = gm.sym_of(d)
@@ -68,13 +96,12 @@ def build(verbose=True):
             if name in ('if', 'for', 'while', 'switch', 'return', 'sizeof'):
                 continue
             ret = txt[max(0, m.start()):m.start(1)].strip()
-            defs[name][str(gm.norm_sig(gm.typesig('%s %s(%s)' % (ret, name, params))))] += 1
+            defs[name][b][str(gm.norm_sig(gm.typesig('%s %s(%s)' % (ret, name, params))))] += 1
     out = {}
     for s in set(defs) | set(exts):
         row = {}
         if defs.get(s):
-            sig, n = defs[s].most_common(1)[0]
-            row['def'] = [sig, n]
+            row['def'] = {b: list(c.most_common(1)[0]) for b, c in defs[s].items()}
         if exts.get(s):
             row['ext'] = [[sig, n] for sig, n in exts[s].most_common(3)]
         out[s] = row
@@ -106,9 +133,12 @@ def tu_decls(tu_path):
     return out
 
 
-def for_asm(asm_path, tu_path=None, idx=None, limit=14):
+def for_asm(asm_path, tu_path=None, idx=None, limit=14, binary=None):
     """[{sym, tu, def, fleet, rivals}] for the symbols a target references. Rows the destination TU
-    already declares are marked `tu` and need no fleet evidence -- law 2 settles them."""
+    already declares are marked `tu` and need no fleet evidence -- law 2 settles them.
+
+    `binary` is the TARGET's binary and is required for a trustworthy `def` row on overlay-window
+    symbols (§201); without it, such rows are withheld with a `def_absent` reason."""
     idx = idx if idx is not None else load()
     mine = tu_decls(tu_path) if tu_path else {}
     rows = []
@@ -120,7 +150,23 @@ def for_asm(asm_path, tu_path=None, idx=None, limit=14):
         if s in mine:
             row['tu'] = mine[s]
         if r and r.get('def'):
-            row['def'] = r['def'][0]
+            # §201: a DEF row is authoritative only from the TARGET'S OWN binary when the symbol
+            # lives in the overlay window — otherwise it is another overlay's function wearing the
+            # same address-derived name (§150-B / §164-77: a fleet plurality carries ZERO authority
+            # for a per-overlay symbol). Resident/shared/main symbols are fleet-unique and fine.
+            d = r['def']
+            if binary and binary in d:
+                row['def'] = d[binary][0]
+            elif not _is_overlay_window(s):
+                sig, n = sorted(d.values(), key=lambda x: -x[1])[0]
+                row['def'] = sig
+                row['def_n'] = n
+            elif len(d) == 1 and not binary:
+                row['def'] = list(d.values())[0][0]
+            else:
+                # Say WHY there is no def row rather than silently omitting it.
+                row['def_absent'] = ('%d other binar%s define this address; none is yours'
+                                     % (len(d), 'y' if len(d) == 1 else 'ies'))
         if r and r.get('ext'):
             row['fleet'] = r['ext'][0][0]
             row['n'] = r['ext'][0][1]

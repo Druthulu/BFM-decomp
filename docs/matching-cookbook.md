@@ -20460,6 +20460,18 @@ The falsifier text reads: "Find any function where two `$sp+K` addresses are pas
 
 ---
 
+> 🔴 **ITS `def` ROW WAS ADDRESS-KEYED AND WRONG IN THE OVERLAY WINDOW — corrected by §201-A,
+> same session, before wave Z launched.** Overlay functions are named by VRAM address and 134
+> overlays load at the same window, so the index mixed N unrelated functions under one name and
+> §196 ranked that row ABOVE the destination TU. Measured: 3,911 of 9,861 symbols with a
+> definition are defined in >1 binary, 1,219 disagree on ARITY, and 818 of those were a TIE that
+> `most_common` broke by sorted-file order (lowest-numbered overlay silently won). On wave Y's
+> binaries, 26 of 65 overlay-window DEF rows (40%) were another overlay's function. Byte cost:
+> applying one row's arity to `func_8017E83C` took it from MATCH (114 ins) to 113 / 83 mismatched.
+> `tools/decl_prior.py` now keys defs by BINARY and withholds the row with a stated reason when
+> the target's own binary does not define the symbol. Resident/shared/main symbols are
+> fleet-unique and were always fine (0 of 43 wrong).
+
 ## §196 — PUT ON THE CARD WHAT THE TREE ALREADY KNOWS: the fleet's declaration consensus (P31 S54)
 
 **The measurement that chose this lever.** Wave V's output tokens, attributed by phase:
@@ -21092,3 +21104,307 @@ aliased declarations all collided under that name — 1 byte-verified draft drop
 CONFLICTING-EXTERNs on the very slate this lane was recovering. Fixed with a 0-regression control
 over 1,210 changed verdicts (899 of them one symbol: the idiom is fleet-wide). **A project idiom the
 tools cannot parse is an idiom that silently costs work** — third instance of the §192 class.
+
+
+---
+
+## §201 — THE WAVE-Y HARVEST (P31 S55): 67 gap reports -> 5 laws, 8 rejected, 53 already-covered
+
+Sixth harvest. The rejection count (8) is the highest of the session and the confirmation count the
+lowest — the readers were seeded with §193/§194/§195/§197/§199/§200, six passes of prior art, and
+the verifiers killed most of what got past them. **That is the flywheel converging, not failing.**
+
+**§201-A is a defect in `decl_prior` — the card field shipped EARLIER THE SAME SESSION as §196** —
+and it is the fourth same-session self-correction (§194-E→§193-A, §199-A→§189-A, §197-A→§136-9,
+now §201-A→§196). Fixed before wave Z launched; see the entry for the byte evidence and the fix.
+
+### §201-A — §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definition" is usually another overlay's function, and the card ranks it ABOVE the destination TU
+
+(signature-index analogue) — `decl_prior`'s DEF row is ADDRESS-keyed, so in the overlay window it is usually a DIFFERENT function's signature — and §196 ranks it ABOVE the destination TU
+
+*(corrects the evidence hierarchy of §196/L20492 and `tools/decl_prior.py`'s docstring L21-25; this is §150-B (L10267, functions) and §164-77 (L13523, data — "a fleet PLURALITY … carries zero authority") reaching the one artifact they had not been applied to. Not a new mechanism.)*
+
+**THE LAW.** `build()` globs `src/**/*.c` with no binary awareness (`decl_prior.py:59`) and accumulates every definition of a name into ONE counter (`:71`). Overlay functions are named by VRAM address and 134 overlays load at the same window, so for a `func_8017xxxx`–`func_801Axxxx` symbol `defs[name]` mixes N unrelated functions. `:77` takes `most_common(1)` — and `:123` throws the count away, so the card cannot show that the "consensus" was 1-vs-1. **A DEF row for an overlay-window symbol is evidence only if the target's OWN binary is among the definers. Otherwise it is §164-77's zero-authority declaration wearing the label "the function exists; this is its real shape."**
+
+**MEASURED (whole tree, 4,165 files, re-derived with the tool's own `_DEF` regex + `cdecl._mask`):** 9,861 symbols carry a banked DEF. **3,911 (39.7%) are defined in more than one binary**; 1,219 have DEFs that disagree on **arity**, **1,204 of them in the overlay window**, and **818 of those are a top-two TIE** that `most_common` breaks by sorted-file order — i.e. the lowest-numbered defining overlay wins, systematically. On the five wave-Y binaries the card would print **65 DEF rows for overlay-window symbols; 26 (40%) are not this overlay's function** (18 with no definition in the target binary at all, 8 printing a foreign signature even though the target binary defines it). **Resident/shared rows are clean: 0 of 43 wrong.**
+
+**BYTE EVIDENCE (mine, this session).** `func_8017E83C` (ov_SC03_007, 114 ins). Card says `def=('void',('s32',))` for `func_8017EC90`, from ov_SC04_011 — a different overlay. The target's own `.s` sets `$a0` and puts `addiu $a1,$zero,0x2` in the `jal`'s delay slot. Banked 2-arg form → **MATCH (114)**; the identical file with only the DEF-row arity applied (`extern void func_8017EC90(s32 a0);` + drop the second argument at both call sites, 4 diff lines) → **113 ins, 83 mismatched, LENGTH-DRIFT**. `.run/harvest_y/e83c_base.c` vs `e83c_defrow.c`. Three unrelated bodies confirmed under `func_801806B8` (ov_SC03_007:5236 `s32 f(s32,s32,s32,s32)`, ov_SC02_028:4144 `void f(s32*)`, ov_SC03_110:2909 `void f(s32)`), and `func_8017BEBC` has **8 distinct bodies over 95 TUs** (23 to 7,036 normalized chars).
+
+**THE TELL, and the ordering fix.** Read the address before reading the row. `< 0x80170000` ⇒ one function fleet-wide, DEF is exactly what §196 claims. `>= 0x80170000` ⇒ **DEF outranks nothing**; the correct hierarchy in the overlay window is **TU > this-binary DEF > the callee's own `.s` (§176-F row 1) > nothing**, and a foreign DEF is worth less than a coin flip because it is confidently wrong 40% of the time.
+
+**TOOL PRESCRIPTION.** Key `defs` by `(binary, symbol)` for overlay-window names; emit the target binary's own DEF and suppress the rest, or label them `def(foreign: ov_SC02_028)` so the row cannot read as ground truth. Restore the count that `:123` strips — the docstring already promises it ("each row is emitted with its count so the agent can weigh") and a 1-vs-1-vs-1 tie must never render like a 95× consensus. The same scoping bug is in the FLEET row; §164-77 already condemned it for data and the argument is identical for code.
+
+**BOUND.** **Does NOT apply to resident/engine addresses (`< 0x80170000`).** Only 15 of the 1,219 arity disagreements live there, and on the wave-Y cards **0 of 43** resident DEF rows were wrong — 26 of them came from another binary and were still correct, because that IS the same code. For resident symbols §196's hierarchy is exactly right and this correction must not be applied.
+
+**Does NOT apply when the target's own binary is among the definers** — 47 of the 65 overlay-window rows on the wave-Y cards, 39 of them printing the right signature. The failure is *silent selection*, not universal wrongness.
+
+**The "1,204 = aliasing" number is a ceiling, not a floor.** The candidate's falsifier branch 2 has partial bite: some arity disagreements are genuine declaration latitude among h_norm family siblings (the same body at the same address, spelled by different agents), which §22 already covers — extra unused params sit in `$a0-$a3` and are free at -O2. Measured: 4 of the 1,219 have byte-identical normalized bodies across all defs and **93 (7.6%) have all defs within 15% normalized body length**, i.e. plausibly one function. The other **1,126 (92%) have grossly different body lengths** and are different functions. State the blast radius as "≥92% of 1,204", never as all of them.
+
+**Unaffected:** the TU row (by construction the target's own file), §193-A `seed_ref` and §194-E `tu_ref` (same-family / same-TU pointers), and any binary-scoped consumer. The fix is scoping and ordering, not deleting the row.
+
+**Cost shape:** for a callee whose true arity is HIGHER than the DEF row, gcc-2.7.2 rejects the extra argument outright, so a stubborn drafter finds out on compile #1; the expensive path is the one measured above — the drafter believes the row, writes the shorter call, and burns compiles on an 83-mismatch LENGTH-DRIFT with no obvious cause. That is precisely the compile budget §196 was built to save.
+
+**SECOND INSTANCE.** Byte-proven by me, in a different target function and a different callee from the submitter's headline `func_80180598`/`func_801806B8` case:
+
+**`func_8017E83C` (ov_SC03_007, 114 ins) calling `func_8017EC90`.** The DEF row is `('void',('s32',))` and comes from `src/ov_SC04_011/ov_SC04_011_jr_8017D494.c` — a foreign overlay (its rival, tied at 1, is ov_SC04_016's `void f(void*)`; neither is ov_SC03_007's function). The target's own asm proves 2 arguments (`addu $a0,$s3,$zero` at `8017E8AC`, `addiu $a1,$zero,0x2` in the `jal` delay slot at `8017E8B4`). A/B under `match_one` against `.run/waveY_asm_snapshot/ov_SC03_007`: banked 2-arg = **MATCH (114 ins)**, DEF-row 1-arg = **113 ins, 83 mismatched (LENGTH-DRIFT)**. The banked TU's own header comment at `ov_SC03_007_jr_8017AE2C.c:4477-4479` records the agent working around it by hand.
+
+**Third instance (population-scale, no byte test):** `func_8017BEBC` is defined in **95** TUs with **8 distinct normalized bodies**, from 23 to 7,036 characters — at minimum eight different functions collapsed into one `defs[name]` counter. `func_8017C180` (8 defs, 3 bodies) and `func_8017BF34` (8 defs, 3 bodies) are the same shape.
+
+### §201-B — In a narrowed PLUS/MINUS/AND/IOR/XOR expression the destination pointee is INERT — the sign of the materialized constant is decided by an OR over the UNWIDENED operands (convert.c trunc1), which bounds §1841 to direct constant stores
+
+**§ — WHEN A CONSTANT MUST BE MATERIALIZED INSIDE A NARROWED `+ - & | ^` EXPRESSION, THE DESTINATION POINTEE IS INERT: `ori` vs `addiu` IS DECIDED BY AN OR OVER THE **UNWIDENED** OPERANDS. THIS BOUNDS §1841 / §136-rule-3 (L8788) / §2928-5 TO THE *DIRECT CONSTANT STORE* SHAPE THEY WERE MEASURED ON.**
+
+*(Bounds §1841 L1839-1846, §136 type-form rule 3 L8788, §2928-5, and unifies them with cookbook-index L28's narrow-local tell under one RTL-level statement. First cookbook citation of `convert.c`.)*
+
+**THE LAW.** Every member of this family reduces to one fact: **the opcode is the SIGN OF THE `const_int` THAT THE C FRONT END PUTS INTO THE INITIAL RTL.** `-130` → `addiu` (`0x24`); `65406` → `ori` (`0x34`). objdump prints both as `li` (§1841) — read the opcode byte. Three different front-end routes choose that sign, and they do not agree:
+
+1. **Direct constant store** — `*(T *)p = K;` — the POINTEE `T` decides. This is §1841/§8788-3/§2928-5, and it remains correct *only here*.
+2. **Named local** — `T k = K;` — the LOCAL'S OWN declared type decides, independent of everything downstream. `s16 k = -0x82` → `(reg/v:HI) (const_int -130)` → `addiu`; `u16 k = -0x82` → `(reg/v:HI) (const_int 65406)` → `ori`; `s32 k` → `(reg/v:SI) (const_int -130)` → `addiu`. **Both narrow spellings are HImode — the pseudo's MODE is not the discriminator, the stored value is.** (This is index L28, given its RTL.)
+3. **Bare literal inside a store-/assignment-narrowed expression** — the DESTINATION HAS NO VOTE. `convert_to_integer`'s `trunc1` (`tools/reference/gcc-2.7.2/convert.c:270-316`) redoes the arithmetic in `typex`, whose signedness is `TREE_UNSIGNED(TREE_TYPE(expr)) || TREE_UNSIGNED(TREE_TYPE(arg0)) || TREE_UNSIGNED(TREE_TYPE(arg1))` (**:306-309**), where `arg0`/`arg1` come from `get_unwidened` (**:277-278**). **Any one unsigned unwidened operand ⇒ unsigned `typex` ⇒ the INTEGER_CST is converted to `unsigned short` ⇒ `ori`.**
+
+**THE TRUTH TABLE (byte-verified, `func_8017F234`, all four cells, one line changed each):**
+
+| destination | operand | opcode | verdict |
+|---|---|---|---|
+| `*(s16 *)` | `*(u16 *)` | `3402ff7e ori` | DIFF |
+| `*(s16 *)` | `*(s16 *)` | `2402ff7e addiu` | **MATCH 80** |
+| `*(u16 *)` | `*(u16 *)` | `3402ff7e ori` | DIFF |
+| `*(u16 *)` | `*(s16 *)` | `2402ff7e addiu` | **MATCH 80** |
+
+**The destination column is constant-free. Do not reach for the pointee.**
+
+**`get_unwidened` STRIPS CASTS — the C-visible operand type is not the decider.** `-0x82 - (s32)*(u16 *)(p+0x8A)` still emits `ori`. Only a cast to a NARROW signed type (`(s16)`) works, because that is what survives unwidening.
+
+**DIAGNOSTIC TELL.** Exactly one mismatched instruction, zero length drift, class `OPCODE-MIXED`, `34xx` where the target has `24xx` (or the reverse), on a standalone `li` feeding a `subu` whose result goes to `sh`. **Three one-token fixes, in this order of preference:**
+1. flip the OPERAND's cast `*(u16 *)` ⇄ `*(s16 *)` (free — see the load note below);
+2. cast the operand `(s16)`/`(u16)`;
+3. bind the constant to a local of the matching signedness (`s16 k` for `addiu`, `u16 k` for `ori`).
+Reading asm→source: a bare `ori $rX,$zero,0x8000+` feeding a `subu` into an `sh` says **at least one operand was written unsigned** — it says nothing about the store's pointee.
+
+**FREE-EDIT NOTE (and a bound on §194-D's "load width is a separate axis").** In this shape `*(s16 *)` ⇄ `*(u16 *)` on the OPERAND is byte-visible **only** through the constant's opcode — the load stays `lhu` either way, because a HImode load feeding HImode arithmetic into an `sh` carries no signedness. `f234_C_signedoperand.c` flipped the operand to `*(s16 *)` and matched 80/0 with no `lh`/`lhu` residual. So this fix costs nothing; §194-D's "changing the source cast selects `lh` vs `lhu`" does not apply when the value's only consumer is narrow arithmetic + `sh`. (Same statement as index L28's "it does NOT cost you the `lhu` on readback", now with its precondition named.)
+
+**FALSIFIED HALVES OF THE SUBMISSION — DO NOT BANK THESE:**
+- ❌ "binding it to a named local of **ANY** type restores the `addiu`" — `u16 k = -0x82;` emits `ori` on both exemplars.
+- ❌ "the lever is **NAMING**, not the type" — the operand's cast is the primary lever; naming is the third-choice one.
+- ❌ "a MIPS local scalar is promoted to SImode, so it emits `addiu`" — REFUTED by `-dr`: `s16 k` and `u16 k` are BOTH `(reg/v:HI 105)`; only the const_int differs.
+- ❌ The submitted falsifier (d) ("find the constant in SImode ⇒ mechanism dead") — the bare-literal constant IS SImode (`(set (reg:SI 110) (const_int 65406))`) and the mechanism is right. **The correct falsifier is the VALUE: if the bare-literal build shows `const_int -130` rather than `65406` in the initial RTL, `trunc1` did not fire.**
+
+**BOUND.** All measured, not asserted.
+
+1. **BIT 15 OF THE 16-BIT CONSTANT MUST BE SET** (`[-0x8000,-1]` or `[0x8000,0xFFFF]`). At `0x82` the lever is completely inert: `f234_D_bit15clear_bare.c` and `f234_E_bit15clear_named.c` produce the identical `24020082 li v0,130`. Byte-witnessed in the ORIGINAL too — `func_80185D24` carries its own negative control four instructions above the firing site: `addiu $v0,$zero,0x10 ; subu $v0,$v0,$v1(lhu) ; sh` (same shape, bit-15 clear, `addiu`). (This half agrees with §1841's own bound, though §1841 says "both emit `ori`" for K<0x8000 while the measured answer here is that both emit `addiu` — §1841's low-K clause is loose and should not be quoted.)
+
+2. **THE CONSTANT MUST ACTUALLY NEED MATERIALIZATION.** `x - K` folds K into the operand's own `addiu` immediate (no standalone `li`, nothing to flip). `-0x82 & *(u16 *)p` folds to `andi $v0,$v0,0xff7e` — no `li` emitted at all (`f234_M_andop.c`). `D_80126CB4 - *(u16 *)(p+0x88)` — the sibling line one above the exemplar — has no constant and is unaffected. In practice the firing shape is **the constant as the LEFT operand of `-`**.
+
+3. **THE EXPRESSION MUST BE NARROWED BY THE ASSIGNMENT.** `s32 ang = -6 - *(u16 *)(a0+0x104);` (banked, `src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:7061`, plus ~30 `-3 - *(u16*)` siblings across the `_jr_8017AE2C` family) never enters `trunc1` — SImode arithmetic, always `addiu`. A wide destination kills the law. Confirmed by probe: `*(s16 *)dest = -0x82 - *(s32 *)src` → `2402ff7e addiu` (`f234_P_s32op.c`).
+
+4. **ONLY `trunc1`'s OPCODES:** PLUS, MINUS, BIT_AND, BIT_IOR, BIT_XOR, BIT_ANDTC (`convert.c:270-276`). **MULT is a different rule** — it takes the `:253-264` path whose gate is `TREE_UNSIGNED(arg0) == TREE_UNSIGNED(arg1)` (equality, not an OR); `f234_N_multop.c` reads 82 vs 80 ins, a different class entirely. Division and shifts never reach `trunc1`.
+
+5. **WIDTH-AGNOSTIC ON THE OPERAND.** `*(u8 *)` fires (`f234_O_u8op.c` → `ori`, 2 mismatched). `*(u32 *)` also fires (`f234_L_u32op.c` → `ori`), but via the *first* disjunct `TREE_UNSIGNED(TREE_TYPE(expr))` — the whole expression became `unsigned int` — not via `get_unwidened`. All-signed operand sets at any width give `addiu`.
+
+6. **UNTESTED, do not assume:** -O0 (this is a front-end fact so it should hold, but no probe was run); QImode destinations (`*(s8 *)`); an unsigned *named local* used as the OPERAND rather than a memory deref; and whether the load-width freeness in the "FREE-EDIT NOTE" survives when the value has a second, SImode consumer (§194-D's territory — change one axis at a time).
+
+**SECOND INSTANCE.** **`func_80185D24`, `ov_SC06_000` (22 ins, still nonmatching, `asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C/func_80185D24.s`).** Found by scripted scan of all 14,352 `asm/**/*.s` for `ori $rX,$zero,0x8000+` followed within 7 insns by a `subu`/`addu` on that register and an `sh` (`.run/harvest_y/scan_ori.py`, 24 hits; this and `ov_SC02_003:func_8018483C` @80184934 — `ori $v0,$zero,0xFE60 ; andi $v1,$v1,0x1C ; subu $v0,$v0,$v1 ; sh $v0,0($s2)` — are the two clean ones).
+
+Target, verbatim:
+```
+80185D38  addiu $v0, $zero, 0x10        <- bit-15 CLEAR sibling: addiu
+80185D40  subu  $v0, $v0, $v1           <-   $v1 = lhu %lo(D_800B9ABA)
+80185D44  sh    $v0, 0x0($a1)
+80185D48  ori   $v0, $zero, 0xFFB0      <- bit-15 SET: ori  (= -0x50)
+80185D50  lhu   $a0, %lo(D_800B9AB8)($a0)
+80185D58  subu  $v0, $v0, $a0
+80185D60  sh    $v0, %lo(D_801B2150)($at)
+```
+So the ORIGINAL SOURCE wrote the firing spelling — this is not merely "the compiler can do this".
+
+I drafted it (`.run/harvest_y/g5d24_v1.c`, `D_801B2150`/`D_801B2152` declared `s16`, `D_800B9AB8`/`D_800B9ABA` declared `u16`) and ran the same four-way A/B against the real `.s`. The function does not fully match (17 mismatched, LENGTH-DRIFT/1 — an unrelated shared-`%lo`-address-register residual on the two stores to `D_801B2152`), but the constant insn is decisive and independent:
+
+| variant | constant insn |
+|---|---|
+| `v1` bare literal, `u16` operand | `3402ffb0 ori` ✅ **= target** |
+| `v2_signedop` bare literal, `s16` operand | `2402ffb0 addiu` ❌ |
+| `v3_named` `s16 kk = -0x50` | `2402ffb0 addiu` ❌ |
+| `v4_u16named` `u16 kk = -0x50` | `3402ffb0 ori` ✅ |
+
+Identical four-way table to `func_8017F234`, in a **different overlay**, with a **different constant** (−0x50 vs −0x82), a **different operand kind** (`%hi/%lo` global vs `$s0` struct field), and a **different destination kind** (global vs struct field). n = 2 functions / 2 overlays / 8 builds, plus the in-target bit-15-clear negative control at 80185D38.
+
+Two further corroborating (untested) sites from the same scan sharing the signature: `ov_SC02_003:func_8018483C` @80184934 (`0xFE60` minus an `andi`-masked, therefore unsigned, value → `sh`) and the `0xFFFF`/`sra 16`/`negu`/`sh 0xFE($s0)` family that recurs in `ov_SC03_006`, `ov_SC03_007`, `ov_SC02_016`, `ov_SC02_017`.
+
+### §201-C — §X — A CALL'S OWN DELAY SLOT AND THE UPSTREAM CONDITIONAL BRANCH'S SLOT COMPETE FOR ONE INSN (the call's argument copy), AND ONE STATEMENT'S POSITION RELATIVE TO THE CALL DECIDES BOTH — the residual is visible at the BRANCH, not at the call
+
+ONE STATEMENT'S POSITION RELATIVE TO A CALL DECIDES **TWO** DELAY SLOTS: the call's backward fill and the UPSTREAM CONDITIONAL BRANCH's eager fill contend for the same insn — the call's own argument copy
+
+*(the diagnostic §176-A/L17616 is missing: §176-A's prescription is identical ("move the store above the call") but all three of its tells — A1 an arg-register-addressed store in the `jal` slot, A2 a −1 drift with a `nop` in a following unconditional jump's slot, A3 a call result in the `jal` slot — are sited AT the call. This entry is the case where the call looks fine and the defect is upstream. Composes `docs/gcc-2.7.2-map/sched.md` D1 (nearest-eligible backward fill; arg-reg setups eligible for their own call's slot) + D3 (pass order; the "provide a backward candidate" lever, stated there for the branch's OWN slot, not for a downstream call's). Distinct from §194-M (a STORE in a conditional slot ⇒ dominance — §194-M BOUND 2 explicitly says non-store insns ARE freely stolen, which is this case), from §165-24 (a `nop` in the call's OWN slot + the copy duplicated per-predecessor ⇒ the source wrote the call ≥2 times), and from §193-D (the sched1 hoist that PUTS the copy at the block head in the first place — that hoist is this law's precondition).)*
+
+**THE LAW.** `dbr_schedule` runs `fill_simple_delay_slots (first, 1)` — non-jump slot owners, i.e. CALL_INSNs — **before** `fill_simple_delay_slots (first, 0)` and before `fill_eager_delay_slots` (`reorg.c:4329-4332`, same order at `:4170-4171`). A call's backward scan (`reorg.c:2907`, `for (trial = prev_nonnote_insn (insn); ! stop_search_p (trial, 1); …)`, `break` on the first eligible trial at `:2945`) is **almost unconstrained**: the slot owner's resources are computed with `include_delayed_effects == 0` (`reorg.c:2904-2905`), so `mark_referenced_resources`' `case CALL_INSN:` arm (`:373-374`) is skipped entirely and the call contributes no `needed` — **not even its own argument registers**. It therefore takes the literal nearest eligible preceding insn.
+
+sched1 has already hoisted the compiler-generated `addu $aN,$sN,$zero` to the **head of the fall-through block** (§193-D). So there are exactly two claimants on it:
+
+* **Store written ABOVE the call in C** ⇒ the store is nearest the `jal`; the call takes the store; the arg copy survives at the block head, and `fill_eager_delay_slots` (running later) hands it to the preceding conditional branch. **Both slots filled.**
+* **Store written BELOW the call** ⇒ the arg copy is the nearest eligible insn (a `la $aN,SYM` between them is a 2-insn macro and ineligible per sched.md D2); the call eats its own copy; by the time `fill_eager` runs there is nothing left at the block head, and the branch's slot **changes owner**.
+
+**THE READING RULE (asm → source).** A conditional branch whose slot holds `addu $aN,$sN,$zero` for an argument of a call that appears **several instructions further down the same block**, where that call's own slot holds a store ⇒ **that store's C statement is written ABOVE the call.** Write it there. Do not route the branch-slot defect to §5a/§34 (asm fence), §194-H (WAR fence) or §194-M (dominance) — all three are wrong here, and §194-M BOUND 1 explicitly excludes `jal` slots from its reading so it cannot cover it.
+
+**THE DIAGNOSTIC TELL (the whole point of the entry).** Your draft's defect is at the **conditional branch**, one or more instructions UPSTREAM of the call you actually have to edit. The branch slot no longer holds the arg copy; the arg copy has reappeared in the `jal`'s slot below. **The residual class is unstable and carries no information** — it was `LENGTH-DRIFT/+1` with a real `nop` on one exemplar and `ADDRESSING/li!=addu profile=cse` at **zero** drift with a wrong-arm insn on the other. **Route on WHO OWNS THE BRANCH SLOT, never on the class or the count.**
+
+**⛔ TWO HALVES OF THE ORIGINAL CLAIM ARE FALSIFIED — do not bank them.**
+1. **"`mostly_true_jump` returns 0 for `beqz`, so the fall-through is tried first" is NOT the cause.** True of the code path (`reorg.c:1405`, `:3713`) but not load-bearing. Rewriting the guard so it compiles to `bnez` (prediction = 1, TARGET thread tried first, `reorg.c:3690`) leaves the arg copy in the branch slot anyway — it arrives via the `if (delay_list == 0 && own_fallthrough)` fallback at `reorg.c:3698`. Byte-checked object: `bnez v0,110 / move a0,s0`. **The lever is branch-polarity-independent** — which also means §199-F's `bgez/bgtz/bne` LIVE vs `beq/beqz/blez/bltz` DEAD gate does NOT apply to this law.
+2. **"the visible residual is a `nop`" / "+1 drift" is NOT an invariant.** See the second instance: zero drift, and the slot is taken by an insn stolen from the *other* arm.
+
+**BOUND.** 1. **A single-insn candidate must actually exist between the branch and the call.** If everything between them is `la $aN,SYM` / large-`li` (2-insn macros at -G0), or a load / `mfhi` / `mflo` (`dslot=yes`, sched.md D2), the call has nothing else to take, it eats the arg copy regardless of where you put the store, and the store-order lever is inert. This is why `func_801803D8`'s FIRST `beqz` (@801803F4) legitimately keeps a real `nop` while its second one is filled — a `la $a0,D_801D5210` is the only thing in that block head.
+
+2. **The freed copy is NOT guaranteed to reach the branch slot** (this is the honest weak point). `fill_eager`'s fall-through fallback is gated on `own_fallthrough` (`reorg.c:3698`, and `own_thread_p` at `:2151-2170` requires `LABEL_NUSES == 1` + a preceding BARRIER). If the fall-through block has a second incoming edge you get a bare `nop` even with the store correctly placed. Untested here; inherited from §199-F BOUND 2. So the law reads **asm→source as a strong tell, and source→asm only as a necessary condition** (same one-way shape as §194-M BOUND 3).
+
+3. **The substitute is not necessarily a `nop`, and not necessarily from the fall-through.** On `func_801803D8` the vacated slot was taken by `li $a0,0xF` from the **target** thread (the else-arm's first insn). Predict "the slot changes owner", never "the slot goes `nop`".
+
+4. **CONDITIONAL branches with a fall-through body only.** For a `j` / `jal` the eager machinery is not involved (`condition == const_true_rtx`, `reorg.c:3289-3290`), and §176-A/A2 already owns the following-unconditional-jump case.
+
+5. **The store must be genuinely independent of the arg copy and of the branch's condition register.** The backward scan accumulates `set`/`needed` from every trial it skips (`reorg.c:2951-2952`); a store that reads the register the copy writes, or writes the branch's condition register, is refused and the whole contention dissolves.
+
+6. **§193-D's hoist is a precondition.** If sched1 did not put the copy at the block head — e.g. the argument is not the bare variable, the pointer is not in a callee-saved register, or a surviving CODE_LABEL splits the block (§194-N) — there is no copy at the head for `fill_eager` to steal and the second slot never existed.
+
+7. **Not a length law.** Both directions cost 0 or ±1 depending on whether the displaced insn lands somewhere the assembler would otherwise `nop`-pad (§188). Zero routing authority from the count.
+
+8. **Target-scoped:** gcc-2.7.2 -O2 -G0 -mips1 -mcpu=3000 + maspsx/ASPSX 2.56, the pinned triple. `-fno-delayed-branch` erases the whole effect (I used it deliberately to read the pre-reorg stream).
+
+**SECOND INSTANCE.** **`func_801803D8` (ov_SC05_017, 70 ins, banked MATCH)** — different overlay, different TU, different callee, and it contains BOTH polarities of the shape inside one body, which makes it the better teaching exemplar of the two.
+
+Banked C: `/home/musashi/bfm-decomp/src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c:5588` — `*(s16 *)((char *)a0 + 0x2) = 3;` written **above** `func_8012E8E0((s32)a0, (s32)&D_80191434);`.
+Target: `/home/musashi/bfm-decomp/.run/waveV_asm_snapshot/ov_SC05_017/func_801803D8.s`, which shows the paired slots
+
+    /* 80180428 */  beqz  $v0, .L8018047C
+    /* 8018042C */   addu $a0, $s0, $zero      <- the arg copy, in the BRANCH's slot
+    /* 8018043C */  jal   func_8012E8E0
+    /* 80180440 */   sh   $v0, 0x2($s0)        <- the store, in the CALL's slot
+
+I extracted it standalone to `/home/musashi/bfm-decomp/.run/harvest_y/v3D8_base.c` → **MATCH (70 ins)**, then moved that one store below the call (`/home/musashi/bfm-decomp/.run/harvest_y/v3D8_A_storebelow.c`) → **DIFF, 70 ins vs 70, 15 mismatched, `ADDRESSING [structural] sig=ADDRESSING/li!=addu profile=cse`**. The `-fno-delayed-branch`-free cc1 output shows the mechanism directly: `jal func_8012E8E0 / move $4,$16` (the call ate its own copy) and `beq $2,$0,$L3 / li $4,0x0000000f` (the branch slot backfilled from the ELSE arm). **This is the instance that kills the submitted "+1 / `nop` upstream" tell** — zero length drift, no `nop`, and the substitute came from the target thread rather than the fall-through.
+
+Population of the shape (my scan, `/home/musashi/bfm-decomp/.run/harvest_y/vscan.py`): **514** sites across `asm/**/*.s` + all `.run/wave*_asm_snapshot/`, 41 of them in snapshotted waves.
+
+### §201-D — THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER `get_narrower` STRIPS WIDENING CONVERSIONS — NEVER BY A PROVABLE RANGE. AN `& 0xFF` IS NOT A CONVERSION, SO IT NEVER FLIPS THE MAGIC; A DECLARED-UNSIGNED LOCAL *OR* A NARROWING CAST WRITTEN AT THE DIVIDE BOTH DO.
+
+**§X — THE SIGNEDNESS OF A div/mod MAGIC IS THE SIGNEDNESS OF THE DIVIDEND TREE *AFTER* `get_narrower` STRIPS WIDENING CONVERSIONS. A PROVABLE RANGE IS IRRELEVANT, AN `& 0xFF` IS NOT A CONVERSION AND NEVER FLIPS IT, AND A NARROWING CAST AT THE DIVIDE IS AS STRONG A DIAL AS THE DECLARATION.** *(sharpens §167-03 (L15039), which owns the same `shorten`/`get_narrower` predicate for the HImode `sll 16 ; sra 16` position and whose "the cast is INERT" lever is measured on a WIDENING cast only — the narrowing direction is live and is the half a reader will get wrong; and §167-39 (L15974), which gives the signed SHAPE `mult ; sra 31 ; mfhi ; sra k ; subu` but no C-side dial. Divisor arithmetic stays §194-I/§16N+3; powers of two stay §164-04; variable divisors stay §1-I4.)*
+
+**THE MECHANISM.** In `build_binary_op`'s TRUNC_DIV/TRUNC_MOD arm, `shorten = (TREE_UNSIGNED (TREE_TYPE (orig_op0)) || divisor is an INTEGER_CST != -1)` (`c-typeck.c:2029-2032`, comment at :2027 — "We shorten only if unsigned or if dividing by something we know != -1"). Under `if (shorten && none_complex)` (:2352) gcc calls `get_narrower (op0, &unsigned0)` (:2355), then at :2406-2413 the `TREE_CODE (arg1) == INTEGER_CST` arm sets `result_type = signed_or_unsigned_type (unsigned0, TREE_TYPE (arg0))`. `get_narrower` walks *conversions only* (NOP_EXPR chains). Therefore:
+
+| dividend as written (divisor a non-2^k constant) | emitted |
+|---|---|
+| `s32 c = f() & 0xFF; c % 3`            | **mult** 0x55555556 + `sra 31` — the mask is a BIT_AND_EXPR, not a conversion |
+| `(f() & 0xFF) % 3` (no local at all)   | **mult** — identical; the range 0..255 is invisible to the front end |
+| `s32 c; (s32)c % 3`                    | **mult** — widening cast inert (§167-03) |
+| `s8 c; c % 3`                          | **mult** (operand `sra 24`) — narrow but SIGNED |
+| `u8 c; c % 3`                          | **multu** 0xAAAAAAAB + `srl` |
+| `u16 c; c / 5`                         | **multu** 0xCCCCCCCD |
+| `u32 c = f() & 0xFF; c % 3`            | **multu** — no narrowing involved at all; `result_type` is simply unsigned |
+| `s32 c = f() & 0xFF; (u8)c % 3`        | **multu** — a NARROWING cast IS the dial |
+| `u16 f; (s16)f / 15`                   | **mult** 0x88888889 + `sra 31` — and the reverse dial |
+
+**THE C-SIDE RULE.** Read `mult`+`sra 31` ⇒ write the dividend so the stripped tree is SIGNED (a plain `s32`/`s16`/`s8` local, or an explicit narrowing signed cast on an unsigned object). Read `multu`+`srl` ⇒ make it unsigned (declared `u8`/`u16`/`u32`, or a narrowing unsigned cast). Do NOT reach for a mask, a pin, or the permuter — the mask is a different dial entirely.
+
+**THE SECOND, ORTHOGONAL DIAL — WHERE THE `andi` SITS.** The source mask and the magic's signedness are independent. On func_80182F3C, deleting `& 0xFF` from a signed local costs **exactly one instruction** and leaves the magic untouched (139 ins, 1 mismatch — `move $a1,$v0` where the target has `andi $a1,$v0,0xFF`). Re-spelling the same operand `u8` costs **56 of 140 words**: the truncation migrates off the definition site (`move $a1,$v0`) and reappears one instruction later on the consumer (`andi $a0,$a1,0xff`), and the count grows by one. So: mask present/absent = one `andi` at the DEF; declared/cast unsignedness = the whole ladder plus the `andi`'s POSITION.
+
+**BLAST-RADIUS TELL.** A single `mult`↔`multu` residual never appears alone. Getting the signedness wrong on a 139-ins function moved 56 words and 1 instruction of length, because the ladder length differs (`sra 31` + `subu` vs `srl 1` + `subu` + trailing `andi`) and every branch offset behind it shifts. A LENGTH-DRIFT/1 residual whose first real divergence is a `lui 0xaaaa` against a `lui 0x5555` is this bug and nothing else.
+
+**BOUND.** Conditions under which it does NOT apply — several of these falsify the candidate as submitted:
+
+1. **"Declared type" is NOT the dial — signedness of the stripped tree is.** `get_narrower` strips conversions, so a narrowing cast written at the divide overrides the declaration in BOTH directions. `s32 c; (u8)c % 3` -> multu; `u16 f; (s16)f / 15` -> mult. The submitted title's "declared C type ... via get_narrower" is false as an exclusive claim.
+2. **"Narrow ⇒ multu" is FALSE.** An `s8` local takes the SIGNED path (probe t8: `sra $2,$4,24 ; mult ; sra 31`). Width is not the dial.
+3. **"get_narrower narrowing" is not the only route.** A `u32`/`unsigned int` operand flips to multu with no narrowing at all — `TREE_UNSIGNED (result_type)` alone does it. The candidate's QImode story is correct only for the u8/u16 case.
+4. **"Cannot strip a VAR_DECL" is the wrong framing** (inherited from §167-03). The real statement is "a mask is not a conversion": with NO local at all — `(f() & 0xFF) % 3` written inline — gcc still emits the signed magic. The VAR_DECL case is a special case of the general rule, and stating it the narrow way invites the false inference that hoisting the expression into a temp is what matters.
+5. **Constant divisors only.** `shorten` needs `TREE_CODE (op1) == INTEGER_CST`; a runtime divisor takes the `div`/`divu` + zero-check `break` path (§1-I4) and no magic exists to be signed (probe t9 confirms: no `mult` at all).
+6. **Divisor == -1 kills `shorten` for a signed operand** (the `!= -1` clause), so the whole shortening block is skipped.
+7. **Powers of two are a different regime** (§164-04/§167-40): signedness still shows (the `bgez`/bias `addiu 2^k-1`), but there is no magic and none of the above shapes apply.
+8. **Unsigned `mh != 0` divisors** (d = 7, 127, 455 …) emit the add-correct `multu ; mfhi ; subu ; srl 1 ; addu ; srl k` form — the unsigned side's own exception, already owned by §194-I; do not read those through the plain multu shape.
+9. Everything AFTER the ladder is the source's own arithmetic (§167-39 half 2) — unchanged by this entry.
+
+**SECOND INSTANCE.** **`func_80176218`, src/ov_SC03_099/ov_SC03_099_jr_801734BC.c — BANKED** (no `func_80176218.s` anywhere under `asm/`, no `INCLUDE_ASM`; i.e. byte-matching under the whole-binary gate). Different overlay, different function, different divisors, and it carries BOTH directions of the dial in one body:
+
+- **line 3208** — `u16 cc; ... *(u8 *)(pp + 0x5D) = D_80186BBC[cc / 5];` → the declared-unsigned side. My isolated probe of that exact spelling: `andi $4,$4,0xffff ; li $2,0xcccccccd ; multu $4,$2 ; srl $2,$3,2`.
+- **line 3274-3275** — `u16 f = *(u16 *)(cach + 0x1A); ... s32 t = (((s16)f / 15) & 3) * 15;` → the SAME u16 object, with an explicit `(s16)` narrowing cast written at the divide, and it flips to the signed ladder: `sra $2,$4,16 ; li $3,0x88888889 ; mult $2,$3 ; sra $4,$4,31 ; sra $2,$2,3`. Dropping just the cast (`f / 15`) gives `multu $4, 0x88888889 ; srl` — control run, same probe file.
+
+This is the strongest possible corroboration AND the reason the law had to be narrowed: a previous session banking this function had to write `(s16)f` on a `u16` variable to get `mult`. Under the submitted headline ("declared C type decides it") that banked line is the submitter's own named falsifier and refutes the read; under the corrected statement ("the type after `get_narrower` strips conversions") it is a clean confirmation.
+
+Third, target-side corroboration of the signed shape at other sites is already banked in §167-39 / §194-I (0x2AAAAAAB in 69 files, 0x55555556 in 43).
+
+(Probes: `.run/harvest_y/verify_f3c/p1.c`, `p2.c`, driven by `.run/harvest_y/verify_f3c/probe.sh` — the pinned cpp→cc1 -O2→maspsx triple copied out of tools/match_one.py.)
+
+### §201-E — §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in the printed stream; a foreign store moved between the pair in C source is a real lever, and `volatile` is not always the better one
+
+§194-J's deletion window is measured in SOURCE (expand) order, not in the printed stream — so statement order IS a lever, and `volatile` is not always the better one
+
+**AMENDS §194-J (L19363). Falsifies two of its sentences: L19373 ("Statement order is a no-op too — moving a real foreign store between them saves the store but costs you a `SCHEDULE-REORDER/2`") and L19382 ("only `volatile` is [reliable]"). The mechanism and all five of §194-J's BOUNDs stand unchanged.**
+
+**THE CORRECTION.** `propagate_block`'s `last_mem_set` DSE runs inside `flow_analysis` (toplev.c:2983), which is BEFORE sched1 (`schedule_insns`, toplev.c:3033, gated by `flag_schedule_insns` at :3028) and long before sched2 (:3117); both flags are set at -O2 by :3397-3398. (The pass-order fact itself is not new — it is already the opening of §164-43/§NNNb at L12778, for a different consequence.) The RTL flow inspects is therefore still in expand order — i.e. **C statement order** — while the `.s` you are diffing is post-sched2. Consequence, and it cuts both ways:
+
+- **(a) A memory reference that PRINTS between the two identical stores does not save the first one** if the source did not put it there. §194-J's BOUND 1 test ("ANY memory reference falls between them", L19381) must be applied to the **C source**, never to the emitted stream.
+- **(b) The store that actually saves the pair can print arbitrarily far AFTER both**, because the scheduler is free to sink it — including into a `jal` delay slot.
+
+**BYTE PROOF (func_8017F818, ov_SC05_018, 94 ins, banked at src/ov_SC05_018/ov_SC05_018_jr_8017D604.c:3479).** The target's printed stream is `sh $t1,0x12($sp)` / `sh $t3,0x10($sp)` / `sh $t1,0x12($sp)` — the printed separator is the 0x10 store, and that is **not** what saves the pair. One line moved, nothing else changed:
+
+| source order of the four `sh`s | result |
+|---|---|
+| A: 0x10, 0x12, **0x14**, 0x12 (`local.z = …` written before `local.y = local.y + a3;`) | **MATCH (94 ins)** |
+| B: 0x10, 0x12, 0x12, 0x14 | DIFF 93 vs 94, 80 mismatched, `LENGTH-DRIFT/-1` |
+| Bvol: B + `*(volatile s16 *)&local.y = …` | 94/94 but **49 mismatched**, `OPCODE-MIXED/addressing,strength` |
+
+Since A is byte-identical to the target, the saving store — `sh $t2,0x14($sp)` — provably prints at 8017F904, **in the `jal func_80015954` delay slot, after both 0x12 stores**. The `local.y = local.y + a3` read of local.y is present in both arms and saves nothing (§194-J BOUND 2: cse folds it, no MEM survives to flow). On this exemplar `volatile` is a **strictly worse** lever than statement order.
+
+**THE SEPARATOR CHOICE IS LOAD-BEARING — SWEEP IT (this is why §194-J concluded the opposite).** On §194-J's own second instance `func_8018392C` (ov_SC01_084), moving a foreign store between `buf1[1] = v0dead;` and `buf1[1] = angle2;` saves the store in **both** trials (82 -> 84 ins), but the two separators do not cost the same:
+
+| separator moved between the pair | result |
+|---|---|
+| `*((s16 *)&in3[0] + 1) = (s16)sinVal;` | 84/84, 2 mismatched, `SCHEDULE-REORDER/2` — **exactly §194-J's measurement** |
+| `buf1[2] = (s16)cosVal;` | **MATCH (84 ins)** — zero cost, no `volatile` |
+
+§194-J's "statement order costs you a SCHEDULE-REORDER/2" was one unswept sample, not a property of the lever.
+
+**PRESCRIPTION.** At a §194-J site, both levers are candidates and neither dominates — try both, and when trying statement order, **sweep every legally-movable foreign store in the block as the separator**, not just the nearest one. The statement-order fix costs zero bytes and zero declarations.
+
+**SECONDARY DIAGNOSTIC.** A §194-J hit in straight-line code does NOT present as a local `-1`. The single deleted store cascaded to **80 of 93** instructions mismatched on f818 and 45 of 82 on 392C. The tell is `LENGTH-DRIFT/-1` (or `/-2`, when the producing insn dies too) paired with a mismatch count near the whole function.
+
+**BOUND.** The amendment does NOT apply, or does not help, when:
+
+1. **There is no foreign store available to move.** The separator must be a REAL store (or a load that survives cse — §194-J BOUND 2 is unchanged and still the trap). If the block contains only the two identical stores, `volatile` remains the only lever. Statement order is an ADDITIONAL lever, not a replacement.
+2. **The intervening statement is data-dependent on the pair.** Both f818 (`local.z` is independent of `local.y`) and 392C (`buf1[2] = cosVal` is independent) are free reorders. If moving the separator changes semantics you cannot use it, and the sweep space may be empty.
+3. **The separator choice is wrong.** Measured, not asserted: on 392C one legal separator MATCHES and another costs `SCHEDULE-REORDER/2`. Statement order is zero-cost only if you sweep; a single trial reproduces §194-J's pessimistic reading. Corollary: a lone `SCHEDULE-REORDER/2` result is NOT evidence that the lever is broken — it is evidence you picked the wrong separator.
+4. **`volatile` is not uniformly worse.** On 392C `volatile` MATCHES (84 ins) and so does the right statement order; the "`volatile` is strictly worse" finding is f818-specific (49 mismatched there). Neither lever dominates the other across functions.
+5. **All of §194-J's original five BOUNDs still hold unchanged** and gate this amendment too: an intervening load that cse folds does not count (BOUND 2); the two stores must be in the SAME basic block (BOUND 3, flow.c:1391) or nothing is deleted in the first place; at -O0 `stupid_life_analysis` (toplev.c:2974) runs instead and there is no DSE at all (BOUND 5), so neither lever is needed.
+6. **Frequency, inherited from §194-J:** 31 adjacent same-width/same-offset/same-base store pairs across all 14,647 files in `asm/`. This is a rare shape — do not over-invest in the sweep tooling.
+7. **Credit bound:** the pass-order half ("flow at :2983 precedes sched1 at :3033, the .s is sched2's order") is NOT new — it is already stated at L12778 in §164-43/§NNNb. Cite that section for the pass order; this section is only for the DSE consequence.
+
+**SECOND INSTANCE.** **func_8018392C (ov_SC01_084, jr_8017CA80, 84 ins) — §194-J's OWN second instance, re-run by me with the new lever.** Different overlay, different function, different separator, and it is the instance that both confirms the amendment and explains §194-J's error.
+
+Baselines first, reproduced from §194-J's own files against `asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80/`:
+- `.run/harvest_u/vfy_392C_vol.c` -> MATCH (84 ins)
+- `.run/harvest_u/vfy_392C_novol.c` -> DIFF 82 vs 84, 45 mismatched, `LENGTH-DRIFT/-2`
+
+Then two statement-order variants I built myself from the novol arm (one line moved between `buf1[1] = (s16)v0dead;` and `buf1[1] = (s16)angle2;`, no `volatile` anywhere):
+- `/home/musashi/bfm-decomp/.run/harvest_y/f392C_SO1.c` — separator `*((s16 *)&in3[0] + 1) = (s16)sinVal;` -> DIFF 84 vs 84, 2 mismatched, `SCHEDULE-REORDER/2`
+- `/home/musashi/bfm-decomp/.run/harvest_y/f392C_SO2.c` — separator `buf1[2] = (s16)cosVal;` -> **MATCH (84 ins)**
+
+Both SO arms restore 82 -> 84 instructions, so the store is saved by source-order separation in both — the candidate's core mechanism holds on a second function. SO1 reproduces §194-J's exact measured penalty (`SCHEDULE-REORDER/2`), which pins down why §194-J demoted the lever: it tried one separator. SO2 shows a zero-cost separator exists on that same function. The amendment is general; the "zero-cost" adjective is conditional on sweeping.
+
+### §201-REJECTED — eight, the session's highest
+
+* **A goto-target block is emitted at its SOURCE position, so it can land between the two arms of an earlier if/else — residual is equal-count OPCODE-MIXED/structural** — ATTACK 1 — LANDS. The mechanism is a re-derivation of **§164-55** (L13048). Its LAW paragraph is not scoped to arms; it is stated in full generality and in the candidate's own words: *"gcc-2.7.2 has no basic-block reordering pass (bb-reorder is gcc-3.x); RTL block order is the order `expand_stmt` em
+* **Halfword store of a bit-15-set literal: destination pointee signedness picks addiu vs ori** — ATTACK 1 LANDED — the mechanism is already in the cookbook, three times over.
+
+**§21 — wave-distilled idioms (Phase 21)**, `docs/matching-cookbook.md` **L1841-1846**, states the candidate's headline law essentially verbatim:
+
+> "**store a high-bit (≥0x8000) 16-bit constant to a halfword → `unsigned 
+* **Narrow store-to-load forwarding into `sll 16; sra 16` — fix at the store end, not the §21 read end (ov_SC03_121 / func_8017F374)** — ATTACK 1 LANDED — this is a re-derivation of §193-E, with §195-L BOUND 3 as a second owner. Both halves of the candidate are already in `docs/matching-cookbook.md`, with the SAME gcc-2.7.2 citations.
+
+(a) THE MECHANISM AND THE STORE-END LEVER — §193-E (L18623, "A varying-address (pointer) load is re
+* **A constant-valued local passed as a call argument is const-propagated by cse1 into the argument-load — but "the fence family is structurally powerless, only a second SET ** — ATTACK 2 LANDED (decisively), and ATTACK 1 landed alongside it. ATTACK 3 and the mechanism half survived; ATTACK 4 would have capped it at WEAK anyway.
+
+ATTACK 1 — ALREADY IN THE COOKBOOK. §190-C (docs/matching-cookbook.md L18302, "A CALL-ARG CONSTANT WEDGED INTO A DEPENDENT LOAD'S DELAY SLOT IS A *
+* **Sharing one C local across two repeated sub-blocks kills sched1's birthing boost (reg_n_sets 1→2) — a 2-insn transposition** — ATTACK 1 LANDED — re-derivation of banked prior art, and not of one section but of four independent ones. The submitter's novelty claim ("none states the inverse — that ordinary variable reuse kills it by accident — and none gives the diagnostic tell") is false against the text of the cookbook:
+
+(a)
+* **A narrow (u16/u8) MEMORY LOAD separated from its first widening use by ANY memory-writing insn keeps a real `andi 0xFFFF` at zero frame change — the decider is combine.c:** — ATTACK 1 (already in the cookbook) — did NOT land. I grepped §16Xy (L12925), §165-02/§165-09 (L13913-13927), §162b1 (L11072), §193-B (L18480), §197-A. §16Xy's own isolated A/B records `u16 s` (from memory) as emitting NEITHER an andi NOR frame, and §165-02's table has no row for a widening use separ
+* **Zero-drift `andi` operand swap (raw vs masked) on `c = f() & 0xFF; … c & 1` — submitted as combine `force_to_mode`, actually cse `fold_rtx` `from_plus:`; "subset" discrim** — ATTACK 3 (misattributed mechanism) LANDED, and ATTACK 4's falsifier (a) — the submitter's OWN pre-registered falsifier — landed too.
+
+1. COOKBOOK — does not land, but the candidate missed its two nearest neighbours. It is not a re-derivation of §165-41 (that is the mask DELETION / length change). BU
+* **N-ARM CONSTANT STORE AT A JOIN — re-derivation of §164-73/§164-74, and its "NOT a shared local" half is byte-refuted** — TWO attacks landed; either alone is fatal.
+
+**ATTACK 1 — ALREADY IN THE COOKBOOK (§164-73 L13425, §164-74 L13452, bounded by §165-21 L14198).** The submitter's "ruled out" list names §193-C, §194-M, §8/§48-A1/§50-B, §186c, §3-T4 — and omits the entire family that owns this shape. §164-73's title *is
