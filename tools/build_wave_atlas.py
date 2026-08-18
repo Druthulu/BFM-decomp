@@ -23,6 +23,7 @@ Usage: build_wave_atlas.py <out.json> [N] [--max-bins K] [--min-ins M] [--levers
 import json, os, sys, collections, subprocess, argparse, glob
 sys.path.insert(0, 'tools')
 import corpus
+import decl_prior as DP
 
 ap = argparse.ArgumentParser()
 ap.add_argument('out')
@@ -117,6 +118,7 @@ def model_for(nins):
     if nins <= 120: return 'sonnet'
     return 'opus'
 
+_DPIDX = DP.load()                    # symbol -> fleet declaration evidence (§196)
 knn = atlas.get('knn') or {}          # exemplar key -> neighbours; 'M:' entries are BANKED (§193-A)
 _TU_BODIES = {}
 
@@ -247,6 +249,14 @@ for g in atlas['groups']:
             # against 19% for the cross-overlay distinctive-literal grep. Ranked by shared symbol
             # count between the TARGET's .s relocations and each banked sibling's C body.
             'tu_ref': tu_neighbours(b, fn, home_tu(b, fn), sub),
+            # THE FLEET'S DECLARATION CONSENSUS (P31 S54, cookbook §196). §195-A proved callee arity
+            # has NO positive tell in the asm -- an argument that dies at the call is allocated
+            # straight into $aN, so the prescribed procedure is a two-arity A/B, i.e. an extra
+            # compile per ambiguous callee. But some other TU has usually banked a caller already:
+            # func_8012BEE8 is declared ('s32', ('s32',)) in 4,674 places fleet-wide. Same story for
+            # the D_ globals every CONFLICTING-EXTERN drop is about. Deterministic, zero tokens, and
+            # the destination TU's own spelling is marked authoritative (wave law 2) when present.
+            'decl_prior': DP.for_asm(sub, home_tu(b, fn), idx=_DPIDX),
         })
 
 # principle 4 (P31 S54): ONE CARD PER ATLAS GROUP. Same-gid members are the SAME skeleton in

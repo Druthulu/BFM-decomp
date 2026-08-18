@@ -20440,3 +20440,57 @@ The falsifier text reads: "Find any function where two `$sp+K` addresses are pas
 
 **Attack 1 (already in the cookbook?) — PARTIAL HIT, not fatal on its own.** The positive half is already banked twice, in two places the candidate did not list under "ruled out":
 - **§34, L2465** ("Statement-position / type levers"): *"an explicit `u32 pv = uVar1;` 
+
+---
+
+## §196 — PUT ON THE CARD WHAT THE TREE ALREADY KNOWS: the fleet's declaration consensus (P31 S54)
+
+**The measurement that chose this lever.** Wave V's output tokens, attributed by phase:
+
+| phase | agents | output tokens | share |
+|---|--:|--:|--:|
+| draft | 70 | 2,748,778 | **88.3%** |
+| repair | 6 | 262,938 | 8.4% |
+| reconcile | 9 | 99,986 | **3.2%** |
+
+So the plumbing is already cheap — eliminating declaration conflicts outright would recover ~3%.
+**The leverage is in what a drafter must GUESS before its first compile**, and the wave averaged
+**9.3 `match_one` compiles per agent** (37 of 85 agents needed 10 or more). Every guess that can be
+answered from the tree instead of from a compile is a direct saving.
+
+**Two guesses are answered somewhere in the tree and were on nobody's card:**
+* **CALLEE ARITY AND RETURN TYPE.** §195-A proved there is *no positive tell in the asm* — an
+  argument that dies at the call is allocated straight into `$aN`, so its only def is a plain load
+  and every intervening use reads `$aN`; the def/use walk cannot decide, in either direction. The
+  prescribed procedure is a two-arity A/B, i.e. an extra compile per ambiguous callee. But some
+  other TU has usually banked a caller already: `func_8012BEE8` is declared `('s32', ('s32',))` in
+  **4,674 places fleet-wide**.
+* **GLOBAL TYPE.** Every CONFLICTING-EXTERN drop and the whole Reconcile phase exist because N
+  drafters independently invent a spelling for one `D_` symbol. The fleet has usually settled it.
+
+**`tools/decl_prior.py`** builds the index deterministically (4,162 files → **67,094 symbols**, 9,739
+with a banked DEFINITION) and `build_wave_atlas` puts the rows for each target's own symbols on its
+card, strongest evidence first:
+
+1. **DEF** — a banked definition's own signature. The function exists; this is its real shape.
+2. **TU** — the destination TU's own declaration. Authoritative for this draft by wave law 2
+   whatever the fleet says, because that is the file it has to compile in.
+3. **FLEET** — the modal `extern` spelling with its count, plus its rivals and their counts.
+
+Measured on a control draw: 63 rows over 10 cards, **83% already settled by the destination TU** —
+which is not wasted, because the agent was grepping the TU for each of them by hand. The other 17%
+is the part with no local answer at all, and that is precisely the §195-A arity guess.
+
+**THE GENERAL LAW, third instance in one session.** §193-A (`seed_ref`, the atlas's banked twin),
+§194-E (`tu_ref`, the banked neighbour in the destination TU) and now §196 are the same finding:
+**the answer was already computed and the card did not carry it.** Before adding an agent, an
+attempt, or a prompt paragraph, ask what the tree already knows — the card is the cheapest place in
+the whole pipeline to put a fact, and every field costs zero tokens per wave forever.
+
+**What this is NOT.** It is not a struct model, and it does not attempt one. `docs/actor-struct.md`
+already measured that: feeding the recovered ~154-field actor struct to m2c as `--context` scored
+**0 better / 10 same / 2 worse** on a 12-function sample — type recovery is *comprehension*, not a
+match-rate lever. And `p->field` is not always byte-equal to `*(T *)(p + K)` (§183.3: a spelling that
+forces `&D_x` materialises one shared base register and perturbs the whole body). Declarations are
+the part that is both cheap to derive and load-bearing for the GATE; the struct model is a
+readability project for later, introduced per-adoption behind the byte gate.
