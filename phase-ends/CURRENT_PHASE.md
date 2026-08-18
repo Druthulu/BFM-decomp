@@ -403,7 +403,133 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
     (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
 
-## 🛑 SESSION CHECKPOINT — S54/S55 FINAL (2026-08-17/18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+## 🛑 SESSION CHECKPOINT — S56 FINAL (2026-08-18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+
+**HEAD `commit:2563` · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) and
+`.run/` scratch · R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree · EXE
+`143dbb89` · 0 NON_MATCHING in any default build (G4) · dedup-check 2,165 validated / 0 failed · C1
+254,731/254,731.** No process running, no cron armed, no workflow in flight. Drew pushes.
+
+### Banked this session: 127 functions
+| lane | banked | notes |
+|---|--:|---|
+| wave Z drafts, first gate | 72 of 73 | 74/75 drafted MATCH, 0 immovable, 73 reconciled onto slates |
+| recovery — `func_800CC310` | 1 | §203 address-order typedef hoist; **0 agent tokens** |
+| recovery — `func_8018280C` | 1 | §202 alias on a DEFINITION (the §183.3 DEF-side wall); **0 agent tokens** |
+| mechanical siblings — first sweep | 3 | **mis-scoped, see below** |
+| mechanical siblings — corrected sweep | 50 | 22 families, `--band all`, ~0 tokens |
+
+**Fleet 96.1% instr-weighted · 91.8% distinct-code · 97.11% fn-count · MAIN 20.5%.**
+(Session start: 96.0 / 91.7 / 97.07.) **10,501 stubs open.**
+
+### THE ONE-LINE VERSION OF WHAT THIS SESSION LEARNED
+**Four tools were silently answering a narrower question than they were asked, and every one exited
+zero reporting a TRUE number.** `wave_snapshot` found 9 of 75 targets (and took the S46 validity gate
+off the path with it for six waves) · `family_sweep --only` selected 2 families instead of 21
+(**3 banked vs 50**, same tree, same day) · `decl_prior`'s `%hi/%lo` arm had **never fired in 1,210
+opportunities** across four waves · `pregate_check` modelled the banking driver faithfully and never
+checked the consequence, so it said "clean" about the batch it broke. **The byte-gate cannot see any
+of this** — it is a perfect CORRECTNESS oracle and a null COVERAGE oracle (R34). When a step reports
+a count, ask what denominator it is a fraction of, and make the tool print it.
+
+### RESULTS THAT OUTLIVE THE COUNT
+1. **§202 — THE ALIAS CARRIES A DEFINITION.** `s32 aF8018280C(s32) __asm__("func_8018280C");` banks a
+   DEF-side return-type wall with the TU's three `void` decls left untouched. §183.3's "report
+   IMMOVABLE with a TU edit" is no longer the end of that road. In-tree the idiom existed only on
+   declarations. **Reach for it the moment a wall is DEF-side.**
+2. **§203 — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT.** Two slate-mates sharing a type:
+   `strip_provided_typedefs` drops the earlier-addressed one's copy and the survivor lands below its
+   uses (`parse error before '<symbol>'`, which reads like a codegen residual). **Hoist to the top of
+   the TU; never rename in one draft** — that gives one symbol two types and the failure just moves.
+   `pregate_check` now reports `[DROP-RISK] §203 USE-BEFORE-TYPEDEF` before the gate cycle.
+3. **R38 PAID FOR ITSELF, AFTER I IGNORED IT.** The verdict was on disk in
+   `.run/harvest_failed.<binary>.classified.txt` before I ran a single oracle. I ran `reloc_identity`
+   (AGREE, correct, irrelevant) and then a disassembly that read **69/69 identical** — an artifact,
+   because the draft never compiled and the `.elf` still held the original `INCLUDE_ASM` bytes.
+   **A byte-diff against a build that failed to include your draft always reads MATCH.**
+4. **THE HARVEST'S ADVERSARIAL VERIFIER KILLED 7 OF 12 LAW CLAIMS** — two by reproducing the claimed
+   mechanism and finding it BYTE-FALSE, five as re-derivations of existing §§. The synthesizer then
+   corrected three wrong line citations and re-measured a law's claimed +4 instruction cost as an
+   actual **+1**. 82 reports -> 30 already-covered, 31 confirmations, 5 laws, 16 rejected (**§204**).
+5. **A BACKLOG DRAFT PATH IS NOT A STABLE ORIGINAL.** `gate_stage` calls `backlog.save_draft()` on
+   failure, so a failed attempt OVERWRITES it; "copying the original back" copied my rename. The
+   bytes banked correctly, but §203's first write-up claimed "draft byte-unchanged" and was wrong —
+   corrected in place. **Snapshot text you intend to re-gate.** A symbol-rewriting transform also
+   mangled prose INSIDE A COMMENT (`(*(Quad4_800CCAD0 *)&D_800CCB14)`) — transforms must skip comments (H5).
+
+### Tooling shipped (all negative-controlled, both directions)
+`build_wave_atlas`: **the S46 validity gate now runs where cards are BORN** (`--allow-invalid` escape)
+— NC: wave AA 69/69 OK pre-draft, poisoned card refused OUT-OF-RANGE ·
+`validate_targets`: accepts the card spelling `fn`; **PRE-DRAFT-ONLY constraint documented in the tool**
+(every verdict reads live sig/stub/.s state, so the same check after a wave condemns exactly the
+targets that BANKED — an R39 refusal-check at the wrong moment) ·
+`wave_snapshot`: honors the card's `sub` (NC 9/9 legacy byte-identical, 66/66 split-TU recovered;
+wave AA snapshotted **69/69** by the call that found 9 of 75 this morning) ·
+`family_sweep --only`: resolves MEMBER addrs to their family, **always prints
+`--only: N addr(s) -> M family(ies) (... K unresolved)`**, refuses on zero ·
+`pregate_check`: `[DROP-RISK] §203 USE-BEFORE-TYPEDEF` (searches a comment-blanked copy — its first
+draft read a typedef named in its own comment as a use) ·
+`decl_prior`: **§204-E** — the leading `\b` bound to the whole alternation, demanding a word boundary
+before `%`, impossible in a `.s` (NC: `jal` 306→306 zero regressions, data **0→299**); uncopyable
+pointer-to-function spellings are now MARKED `fleet_note`, not dropped.
+Docs: **SETUP.md "Crack-wave toolchain — the four flow traps"**; memories `crack-wave-sweep-map-regen`
+(rewritten) + new `silently-narrowed-tool-scope`.
+
+### WAVE AA IS BUILT AND STAGED — DELIBERATELY NOT LAUNCHED (Drew's instruction)
+**69 cards / 6,539 ins / 8 GATE GROUPS** (8.6 drafts per rebuild) · models opus 19 / sonnet 50 ·
+seed_ref 34 · tu_ref 46 · decl_prior rows **471, of which 165 are DATA rows — 0 on every prior wave**
+(the §204-E fix; 49 marked `fleet_note` as uncopyable fn-pointer spellings) · 33 siblings behind 25
+gids staged · nins 60-197 (avg 95) · levers UNKNOWN 36 / head-crack 12 / family-sweep 10 / redraft 6 /
+seeded-crack 3 / len-vein 1 / integration 1.
+Binaries: ov_SC07_000 14 · ov_SC01_080 13 · ov_SC07_006 9 · ov_SC02_021 9 · ov_SC04_004 8 ·
+ov_SC06_032 7 · ov_SC02_000 5 · ov_SC02_016 4. **All 69 passed the validity gate pre-draft.**
+**To fire it:**
+```
+Workflow({scriptPath: ".run/wave_p31aa_workflow.js", args: <the object in .run/wave_aa_args.json>})
+```
+Cards `.run/wave_aa_cards.json` · siblings `.run/wave_aa_cards.siblings.json` · wavedir
+`.run/wave_p31aa` · snapshot `.run/waveAA_asm_snapshot/` (69/69 + MANIFEST.sha1).
+**Gate-group count is 8, same as wave Z** — the recipe's re-open-the-band trigger is ~12, not yet hit.
+
+### THE WAVE-CLOSING SEQUENCE (memory `wave-harvest-is-a-pipeline-step`)
+snapshot+verify+**gate** -> **RECOVER** the failures (near-miss / gate-drop / errored; read
+`.run/harvest_failed.<bin>.classified.txt` FIRST) -> gate the recovery -> **regen** (`make
+sig-overlays` + `family_hseq.py`) -> `family_sweep --hseq --band all` **with families selected by
+MEMBERSHIP, not by handing it your banked addrs** -> **R22 once** -> **harvest+bank idioms** (run
+`gap_triage` first) -> **build the next wave's cards** -> **CHECKPOINT, always, refreshed if any work
+lands after it.**
+
+### Known-open items
+* `func_8018675C` (ov_SC02_005, closeness 6) — ~35 variants ground; residual attributed to
+  **cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases**, which retires
+  "reorder the addends" as a lever. **Permuter fuel, not a hand lever.**
+* `func_80184F18` (wave V, closeness 9) · `func_80184500` (wave W, 4) · `func_8017F9D8` (wave X, 1).
+* `func_80031A98` — the `D_800C5328` wall. The 6 §188 SDK objects -> `psyq_integrate`.
+  `GsSortBg`/`GsSortFastBg` fragment merges. `gfx2D_BG0_OBJ_4D8` (§181 mirror class).
+* Two wave-W cards still released to the pool: `func_80185480`, `func_8017EC98`.
+* **`gate_main.typesig` renders pointer-to-function unusably** (`('void (*', ('* void',))`). NOT
+  fixed: `typesig`/`norm_sig` is the BANKING DRIVER's conflict oracle (`sig_conflict`), so changing
+  its output changes signature equality classes fleet-wide. The safe fix is a DISPLAY-only
+  pretty-printer in `decl_prior` — **no index rebuild needed, the tuple is what's stored**. Rows are
+  marked meanwhile so no agent pastes one.
+* The **typing/naming debt** remains the largest non-matching liability (S54 note): 9.5 casts per 100
+  lines, 749 per-function invented typedefs vs 220 shared. Byte-checkable by the same gate.
+
+### Watch-fors
+* **Transient API failures are normal at this scale**: resume with
+  `Workflow({scriptPath, resumeFromRunId, args})` — cached agents replay, only dead ones re-run. Never
+  rebuild a wave by hand.
+* A wave script's LAWS block is a JS template literal: **backticks inside law text terminate it.**
+* `gate_lane` aborts on a dirty `src/`/`config/`; it commits per function, so **do not run your own
+  `git commit` while it runs** (index.lock race).
+* Do NOT run card tooling (`build_wave*`, `validate_targets`) DURING a gate — `corpus.stubs()`
+  misreports substituted drafts and every verdict reads ALREADY-DONE.
+* **md_* MODULE binaries gate through `gate_lane` like overlays. Only `main` (the EXE) needs
+  `gate_main --apply`** — its extract rewrites the `.ld` and an incremental build gives a false diff.
+* `pregate_check` models two drivers (main -> `gate_main` hoist/strip, overlay/module ->
+  `harvest_verify.strip_provided_typedefs`). **A third driver would need teaching.**
+
+## 🛑 (superseded by S56) SESSION CHECKPOINT — S54/S55 FINAL (2026-08-17/18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
 **HEAD `commit:2546` · tree clean except `.run/backlog.jsonl` churn + Ghidra `db.*.gbf` restart-noise
 (R23: do NOT stage) · R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree, run

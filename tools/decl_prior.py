@@ -137,6 +137,12 @@ def tu_decls(tu_path):
     return out
 
 
+def _uncopyable(sig):
+    """True when a rendered signature cannot be pasted into C as-is (pointer-to-function shapes)."""
+    t = str(sig)
+    return '(*' in t or '* void' in t or '*,' in t
+
+
 def for_asm(asm_path, tu_path=None, idx=None, limit=14, binary=None):
     """[{sym, tu, def, fleet, rivals}] for the symbols a target references. Rows the destination TU
     already declares are marked `tu` and need no fleet evidence -- law 2 settles them.
@@ -174,6 +180,17 @@ def for_asm(asm_path, tu_path=None, idx=None, limit=14, binary=None):
         if r and r.get('ext'):
             row['fleet'] = r['ext'][0][0]
             row['n'] = r['ext'][0][1]
+            # A POINTER-TO-FUNCTION decomposes into a spelling nobody can paste --
+            # ('void (*', ('* void',)) is really `void (*D_x)(void *)`. The CONSENSUS is still
+            # real information ("19 TUs agree this symbol is a function pointer"), so the row stays;
+            # what must not happen is an agent copying that tuple into C and burning iterations on
+            # the compile error. §204-E surfaced 49 such rows on wave AA (0 on every earlier wave,
+            # because the %hi/%lo arm had never fired) -- the renderer limitation is older than the
+            # fix that revealed it. Marked, not dropped, until the index's type formatter is rebuilt.
+            if _uncopyable(row['fleet']):
+                row['fleet_note'] = ('FUNCTION POINTER — the fleet agrees on the SHAPE but this '
+                                     'rendering is not valid C. Write the spelling yourself from '
+                                     'the .s; do NOT paste this tuple.')
             if len(r['ext']) > 1:
                 row['rivals'] = ['%s x%d' % (sig, n) for sig, n in r['ext'][1:]]
         rows.append(row)
