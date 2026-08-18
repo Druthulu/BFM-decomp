@@ -4370,7 +4370,68 @@ void func_80189C28(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_80189D64);
+#include "common.h"
+
+/* TU-canonical declarations (law 2) — verbatim from
+ * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c (L2761/2988/etc for func_8012C218,
+ * L1752 for func_80017758). */
+extern void func_8012C218(void *a0);
+extern s32 func_80017758(void *a0, void *a1);
+
+/* Same-TU spelling already used at L4773 for this exact symbol (block-scoped
+ * extern, address-of use — matches this function's need exactly). */
+
+
+/* Isomorphic twin: ov_SC06_032:func_80184B08 (skeleton similarity 1.0, byte-
+ * identical instruction stream). Copied verbatim with only the symbol/function
+ * name unchanged (all callee/global symbols are shared across overlays). */
+void func_80189D64(void *a0)
+{
+    extern Blk20_8018AF88 D_800AE620;
+    s32 c;
+
+    if (*(u16 *)((u8 *)a0 + 0x34) == 0) {
+        *(u16 *)((u8 *)a0 + 0xCC) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xCC);
+        *(u16 *)((u8 *)a0 + 0xCE) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xCE);
+        *(u16 *)((u8 *)a0 + 0xD0) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xD0);
+        *(u16 *)((u8 *)a0 + 0xD4) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xD4);
+        *(u16 *)((u8 *)a0 + 0xD6) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xD6);
+        *(u16 *)((u8 *)a0 + 0xD8) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xD8);
+        *(u16 *)((u8 *)a0 + 0x34) += 1;
+    }
+
+    *(s32 *)((u8 *)a0 + 0xFC) = 0x50000000;
+
+    c = *(s32 *)((u8 *)a0 + 0x1C);
+    {
+        u8 v = (u8)(c * 30);
+
+        *(u8 *)((u8 *)a0 + 0xEC) =
+        *(u8 *)((u8 *)a0 + 0xED) =
+        *(u8 *)((u8 *)a0 + 0xEE) =
+        *(u8 *)((u8 *)a0 + 0xF0) =
+        *(u8 *)((u8 *)a0 + 0xF1) =
+        *(u8 *)((u8 *)a0 + 0xF2) =
+        *(u8 *)((u8 *)a0 + 0xF4) =
+        *(u8 *)((u8 *)a0 + 0xF5) =
+        *(u8 *)((u8 *)a0 + 0xF6) =
+        *(u8 *)((u8 *)a0 + 0xF8) =
+        *(u8 *)((u8 *)a0 + 0xF9) =
+        *(u8 *)((u8 *)a0 + 0xFA) = v;
+    }
+
+    func_80017758((u8 *)a0 + 0xCC, &D_800AE620);
+
+    {
+        s32 d = *(s32 *)((u8 *)a0 + 0x1C) - 1;
+
+        *(s32 *)((u8 *)a0 + 0x1C) = d;
+        if (d == 0) {
+            func_8012C218(a0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_80189E60);
 
