@@ -21480,7 +21480,16 @@ stripper delete the draft's copy as designed:
 typedef struct { u8 f0; u8 f1; u8 f2; u8 f3; } Quad4_800CCB14;
 ```
 
-Banked on the next gate (commit `commit:2558`), draft byte-unchanged from the wave's MATCH.
+Banked on the next gate (commit `commit:2558`).
+
+**Correction, recorded because it bit the writer of this section (P31 S56).** The text that banked
+is the RENAMED variant, not the original draft — `gate_stage` calls `backlog.save_draft()` on
+failure, so the failed rename attempt OVERWROTE `.run/backlog_drafts/func_800CC310.c`, and copying
+"the original" back copied the rename. The BYTES are correct (whole-binary gate + R22 213/213), but
+the TU now carries two names for one 4-byte shape, and a symbol-rewriting transform mangled prose
+*inside a comment* (`not (*(Quad4_800CCAD0 *)&D_800CCB14)`). Two lessons: **a backlog draft path is
+not a stable original** — snapshot the text you mean to re-gate; and **a transform that rewrites
+symbols must skip comments** (H5).
 
 **The general law.** *A type shared by two functions in one TU belongs at the TOP of that TU, not
 beside whichever of them happened to bank first.* `pregate_check` already hoists for main's

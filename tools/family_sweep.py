@@ -558,7 +558,40 @@ def hseq_sweep(a):
     if bands:
         fams = [f for f in fams if f["band"] in bands]
     if only is not None:
-        fams = [f for f in fams if int(f["exemplar"]["addr"], 16) in only]
+        # ---- R32/R33 (P31 S56): --only IS KEYED ON THE FAMILY'S EXEMPLAR ADDRESS, and the caller
+        # almost never has those. The natural thing to pass after a crack wave is the addresses you
+        # just BANKED -- which are family MEMBERS. Keyed strictly, that silently selects almost
+        # nothing: wave Z passed 15 banked addrs, matched 2 families, swept 4 candidates and banked
+        # 3, reporting success. Re-derived through member lookup it was 21 families / 196 open
+        # members / 50 banked. A 17x difference, invisible, because the tool answered exactly what
+        # was asked. So: resolve member addrs to their family too, and ALWAYS report the coverage.
+        by_ex = {int(f["exemplar"]["addr"], 16): f for f in fams}
+        member_of = {}
+        for f in fams:
+            for m in list(f.get("members", [])) + list(f.get("matched_members", [])):
+                member_of.setdefault(int(m[1], 16), f)
+        picked, via_member, unresolved = {}, 0, []
+        for addr in only:
+            f = by_ex.get(addr)
+            if f is None:
+                f = member_of.get(addr)
+                if f is not None:
+                    via_member += 1
+            if f is None:
+                unresolved.append(addr)
+            else:
+                picked[id(f)] = f
+        print(f"[hseq] --only: {len(only)} addr(s) -> {len(picked)} family(ies) "
+              f"({len(only) - via_member - len(unresolved)} matched an exemplar directly, "
+              f"{via_member} resolved via family MEMBERSHIP, {len(unresolved)} unresolved)")
+        if unresolved:
+            print("[hseq] UNRESOLVED (not an exemplar and not a member of any sweepable family): "
+                  + ", ".join(f"0x{x:08x}" for x in sorted(unresolved)[:12]))
+        if not picked:
+            sys.exit("[hseq] REFUSING: --only resolved to ZERO families. Passing addresses that are "
+                     "not exemplars and not members yields a silent no-op that reads as a clean 0. "
+                     "Check the addrs against .run/family_hseq.json, or drop --only.")
+        fams = list(picked.values())
     if a.reconcile_raw:                                        # only families with a raw crack to reconcile
         fams = [f for f in fams if os.path.exists(
             os.path.join(REPO, a.reconcile_raw, f"func_{int(f['exemplar']['addr'], 16):08X}.c"))]

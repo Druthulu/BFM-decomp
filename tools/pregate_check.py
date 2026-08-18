@@ -238,6 +238,54 @@ def check_text(path, text):
     return findings
 
 
+def _typedef_use_before_def(text):
+    defs = {}
+    for st in cdecl.split_statements(text):
+        if not re.match(r'\s*typedef\b', st.text):
+            continue
+        try:
+            ds = cdecl.parse(st.text)
+        except Exception:                      # noqa: BLE001 - a parse miss must not sink the check
+            continue
+        for d in ds:
+            if getattr(d, 'storage', None) == 'typedef' and d.name and d.name not in defs:
+                defs[d.name] = st.start
+    # Search for the first use in a COMMENT-BLANKED copy, offsets preserved. The first draft of
+    # this check searched the raw text and flagged a typedef named in its own explanatory comment
+    # (R39 negative control: 1 false positive on md_MAIN_034 AFTER it banked). A checker that
+    # refuses a good slate over prose is worse than no checker -- it discards work silently.
+    blanked = _blank_comments(text)
+    bad = []
+    for name, pos in sorted(defs.items(), key=lambda kv: kv[1]):
+        m = re.search(r'\b%s\b' % re.escape(name), blanked)
+        if m and m.start() < pos:
+            bad.append((name, m.start(), pos))
+    return bad
+
+
+def _blank_comments(text):
+    """Replace /*...*/ and //... with spaces, preserving every byte offset."""
+    out = list(text)
+    i, n = 0, len(text)
+    while i < n:
+        if text.startswith('/*', i):
+            j = text.find('*/', i + 2)
+            j = n if j < 0 else j + 2
+            for k in range(i, j):
+                if out[k] != '\n':
+                    out[k] = ' '
+            i = j
+        elif text.startswith('//', i):
+            j = text.find('\n', i)
+            j = n if j < 0 else j
+            for k in range(i, j):
+                out[k] = ' '
+            i = j
+        else:
+            i += 1
+    return ''.join(out)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('slate')
@@ -257,6 +305,28 @@ def main():
         return cdecl.strip_provided_typedefs(body, cdecl.typedef_names(tu_path))
 
     _n, texts = gm.substitute(kept, write=False, transform=_driver_transform)
+
+    # ---- §203: A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT (P31 S56).
+    # The transform above is faithful to the driver, and that is exactly the hazard: when two
+    # slate-mates share a type, harvest_verify strips the duplicate from BOTH drafts, and the one
+    # surviving definition sits wherever its owner splices. If the OTHER function is earlier in
+    # ADDRESS order, its externs reference a type the file has not defined yet, and the whole batch
+    # loses that draft to `parse error before '<symbol>'` -- a PLUMBING failure that reads like a
+    # codegen residual. Measured: wave Z's md_MAIN_034 group banked 6 of 7 exactly this way; the
+    # drop cost a gate cycle, three oracles and a wrong first fix to diagnose (cookbook §203).
+    # Cheap to detect here, because we already hold the post-transform text.
+    order_defects = []
+    for _tu, _text in (texts.items() if isinstance(texts, dict) else texts):
+        for name, use_at, def_at in _typedef_use_before_def(_text):
+            line = _text.count('\n', 0, use_at) + 1
+            dline = _text.count('\n', 0, def_at) + 1
+            order_defects.append((_tu, name, line, dline))
+    for tu, name, uline, dline in order_defects:
+        print(f'[DROP-RISK] §203 USE-BEFORE-TYPEDEF: {tu}: `{name}` is used at line {uline} but '
+              f'defined at line {dline}. Two slate-mates share this type and the earlier-addressed '
+              f'one lost its copy to strip_provided_typedefs. FIX: hoist the typedef to the top of '
+              f'the TU (above every splice point); do NOT rename it in one draft -- that gives one '
+              f'symbol two types and the failure just moves.')
 
     # R32 COVERAGE ASSERTION (P31 S54). Until `gate_main` learned per-binary stub maps, an OVERLAY
     # slate resolved to zero stubs and this tool printed "checking 0 substituted file(s) ... clean"

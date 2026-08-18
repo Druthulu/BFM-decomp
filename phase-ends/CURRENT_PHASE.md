@@ -347,6 +347,10 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     `func_800CC310`'s duplicate, and `func_800CC310` splices EARLIER in address order — survivor below
     its uses. First fix (rename to dodge the stripper) was WRONG and the gate caught it: one symbol,
     two types. Hoisting the typedef to the top of the TU banked it (`commit:2558`). Cookbook **§203**.
+    **Correction (same session):** the text that banked is the RENAMED variant — `gate_stage`'s
+    `backlog.save_draft()` overwrote the original draft on the failed attempt, so "copying the
+    original back" copied the rename. Bytes are correct (R22 213/213); the TU carries two names for
+    one shape and a transform mangled a COMMENT. A backlog draft path is not a stable original.
     `func_8018280C` (ov_SC05_001) — the reconciler's IMMOVABLE §183.3 DEF-SIDE-RETURN wall (asm proves
     `s32`, TU declares `void` at three sites with live callers). The **§200 alias applied to a
     DEFINITION** — `s32 aF8018280C(s32) __asm__("func_8018280C")` — banked first try (`commit:2559`),
@@ -381,6 +385,20 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     bound to the whole alternation, demanding a word boundary before `%` — impossible in a .s — so the
     `%hi/%lo` arm had NEVER fired (0 of 1,210 over four waves). NC over the 75 wave-Z targets: **jal
     306 -> 306, zero regressions; data 0 -> 299 symbols recovered.**
+  - **Flow hardening after Drew asked whether the findings were actually wired in (S56).** The audit
+    found three gaps beyond the four fixes already committed: (a) **R21 violation — `docs/SETUP.md`
+    was not updated**; now carries a "Crack-wave toolchain — the four flow traps" table naming each
+    trap, its measured cost and where it is caught. (b) **`family_sweep --only` had no coverage
+    assertion**, so my 3-vs-50 mis-scope could recur silently; it now resolves member addrs to their
+    family, ALWAYS prints `--only: N addr(s) -> M family(ies) (... K unresolved)`, and REFUSES on zero
+    (replaying the exact wave-Z call now prints `15 -> 3, 12 unresolved` instead of quietly sweeping
+    nothing). (c) **`pregate_check` modelled the driver's typedef strip but never checked the
+    consequence**; it now reports `[DROP-RISK] §203 USE-BEFORE-TYPEDEF` — R39 bidirectional NC: flags
+    the known-bad pre-hoist splice, 0 false positives on the post-hoist file and on all 7 other
+    wave-Z TUs (its first draft read a typedef named in its own COMMENT as a use, so it searches a
+    comment-blanked copy with offsets preserved). Memories: `crack-wave-sweep-map-regen` rewritten
+    with the exemplar-vs-member keying, and a new `silently-narrowed-tool-scope` recording all four
+    instances as one defect class.
   - Outstanding: `func_8018675C` (ov_SC02_005, closeness 6) — its agent ran ~35 variants and attributed
     the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
     (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
