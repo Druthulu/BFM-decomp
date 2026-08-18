@@ -3684,11 +3684,7 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
 
 
 
-extern void (*D_8018F500[])(void);
-
-void func_801805BC(void *a0) {
-    D_8018F500[*(u8 *)((s32)a0 + 0x216)]();
-}
+DEFINE_func_801805BC()  /* dedup: shared engine-core @0x801805BC (src/shared) */
 
 
 #include "common.h"
