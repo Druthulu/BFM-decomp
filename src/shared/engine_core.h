@@ -65772,6 +65772,12 @@
         D_80127050 = 1; \
     }
 
+#define DEFINE_func_8018048C() \
+    extern void (*D_801919C4[])(void); \
+    void func_8018048C(void *a0) { \
+        D_801919C4[*(u16 *)((s32)a0 + 0x2)](); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -160947,6 +160953,12 @@
     extern s32 D_80127050; \
     void func_8017E024(void) { \
         D_80127050 = 1; \
+    }
+
+#define DEFINE_func_8018048C() \
+    extern void (*D_801919C4[])(void); \
+    void func_8018048C(void *a0) { \
+        D_801919C4[*(u16 *)((s32)a0 + 0x2)](); \
     }
 
 #endif

@@ -5370,11 +5370,7 @@ DEFINE_func_8018042C()  /* dedup: shared engine-core @0x8018042C (src/shared) */
 
 
 
-extern void (*D_801919C4[])(void);
-
-void func_8018048C(void *a0) {
-    D_801919C4[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_8018048C()  /* dedup: shared engine-core @0x8018048C (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_801804C8);
