@@ -14,11 +14,474 @@ INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CB5D0);
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CB7BC);
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CBA18);
+#include "common.h"
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CBC2C);
+/* func_800CBA18 — md_MAIN_034 — textured-quad (POLY_FT4 / OT tag 0x09000000)
+ * emitter with flat NCCS lighting.
+ *
+ * Fresh crack.  Structural twins already matched in src/800.c:
+ *   func_80027D20 / func_80027F4C  -> `prim = &prims[D_800C7C74]; prim += 2;`
+ *                                     + `func_80028200(ot, opz, shift, prim, TAG)`
+ *                                     (func_800CC110 is this overlay's copy of that)
+ *   func_80025EB8                  -> the FT4 packet + `gte_ldrgb(&D_80063880)`
+ *                                     hoisted once out of the loop, Prim20 face.
+ *
+ * Deltas vs. those twins:
+ *   - OTZ comes from AVSZ4 (not the STSZ4 min/max ladder).
+ *   - the flat colour is chosen by func_800CC0A0(prim): non-zero picks the
+ *     constant colour word D_800CCA04, zero runs NCCS on the face normal.
+ *
+ * Register map read off the target .s:
+ *   $s0 = &f->n0 giv (a0+0x14, stride 0x20)   $s1 = prim (a3 + D_800C7C74*0x28,
+ *   stride 0x50 = 2 packets)                  $s2 = &prim->rgb giv (prim+4)
+ *   $s3 = verts   $fp = norms                 $s4 = loop counter (stack arg 4)
+ *   $s5 = &g.otz (sp+0x1C)                    $s6 = &g.flag (sp+0x18)
+ *   $s7 = ~0x1000, hoisted (used by both flag tests)
+ */
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CBE28);
+/* ---- PsyQ inline_c.h GTE macros (same spellings as the matched twins) ---- */
+#define gte_ldv0(r0) __asm__ volatile (           \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 );"                           \
+    "lwc2 $2, 0( %1 );"                           \
+    "lwc2 $3, 4( %1 );"                           \
+    "lwc2 $4, 0( %2 );"                           \
+    "lwc2 $5, 4( %2 )"                            \
+    :                                             \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_ldrgb(r0) __asm__ volatile (          \
+    "lwc2 $6, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+
+#define gte_stflg(r0) __asm__ volatile (          \
+    "cfc2 $12, $31;"                              \
+    "nop;"                                        \
+    "sw $12, 0( %0 )"                             \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (          \
+    "swc2 $24, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (          \
+    "swc2 $7, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy(r0) __asm__ volatile (          \
+    "swc2 $14, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy3_ft4(r0) __asm__ volatile (     \
+    "swc2 $12, 8( %0 );"                          \
+    "swc2 $13, 16( %0 );"                         \
+    "swc2 $14, 24( %0 )"                          \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_strgb(r0) __asm__ volatile (          \
+    "swc2 $22, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+/* ---- types ------------------------------------------------------------- */
+typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CBA18;   /* 0x08 */
+
+/* face record, 0x20 bytes; only the index half (0x14..) is read here */
+typedef struct {
+    /* 0x00 */ u32 unk00;
+    /* 0x04 */ u32 uv0;
+    /* 0x08 */ u32 uv1;
+    /* 0x0C */ u32 uv2;
+    /* 0x10 */ u32 uv3;
+    /* 0x14 */ u16 n0;
+    /* 0x16 */ u16 v0;
+    /* 0x18 */ u16 v1;
+    /* 0x1A */ u16 v2;
+    /* 0x1C */ u16 v3;
+    /* 0x1E */ u16 pad1E;
+} Face20_800CBA18;                                        /* 0x20 */
+
+typedef struct {          /* libgpu POLY_FT4, 0x28 bytes */
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ u32 rgb;
+    /* 0x08 */ u32 xy0;
+    /* 0x0C */ u32 uv0;
+    /* 0x10 */ u32 xy1;
+    /* 0x14 */ u32 uv1;
+    /* 0x18 */ u32 xy2;
+    /* 0x1C */ u32 uv2;
+    /* 0x20 */ u32 xy3;
+    /* 0x24 */ u32 uv3;
+} Ft4_800CBA18;                                           /* 0x28 */
+
+extern s16 D_800C7C74;      /* double-buffer parity index */
+extern u32 D_80063880;      /* GTE RGB seed word */
+extern u32 D_800CCA04;      /* flat colour used when func_800CC0A0() says so */
+
+extern s32 func_800CC0A0(void *prim);
+extern void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code);
+
+Ft4_800CBA18 *func_800CBA18(Face20_800CBA18 *f, SVEC8_800CBA18 *verts,
+                            SVEC8_800CBA18 *norms, Ft4_800CBA18 *prims,
+                            s32 count, s32 shift, u32 *ot)
+{
+    struct { s32 flag, otz; } g;
+    Ft4_800CBA18 *prim;
+
+    prim = &prims[D_800C7C74];
+    gte_ldrgb(&D_80063880);
+
+    for (; count != 0; count--, f++, prim += 2) {
+        gte_ldv3(&verts[f->v0], &verts[f->v1], &verts[f->v2]);
+        gte_rtpt();
+        gte_stflg(&g.flag);
+        if (!(g.flag & ~0x1000)) {
+            gte_nclip();
+            gte_stopz(&g.otz);
+            if (g.otz > 0) {
+                gte_stsxy3_ft4(prim);
+                gte_ldv0(&verts[f->v3]);
+                gte_rtps();
+                gte_stflg(&g.flag);
+                if (!(g.flag & ~0x1000)) {
+                    gte_stsxy(&prim->xy3);
+                    gte_avsz4();
+                    gte_stotz(&g.otz);
+                    if (func_800CC0A0(prim)) {
+                        prim->rgb = D_800CCA04;
+                    } else {
+                        gte_ldv0(&norms[f->n0]);
+                        gte_nccs();
+                        gte_strgb(&prim->rgb);
+                    }
+                    func_800CC110((s32)ot, g.otz, shift, prim, 0x09000000);
+                }
+            }
+        }
+    }
+
+    return prim;
+}
+
+
+#include "common.h"
+
+/* ---- geometry / primitive types local to this draft ---- */
+typedef struct { s16 vx, vy, vz, pad; } SVEC2;      /* 0x08 */
+
+typedef struct {                                     /* 0x1C */
+    u32 w0;      /* 0x00 */
+    u32 w1;      /* 0x04 */
+    u32 w2;      /* 0x08 */
+    u32 w3;      /* 0x0C */
+    u16 n0;      /* 0x10 */
+    u16 v0;      /* 0x12 */
+    u16 n1;      /* 0x14 */
+    u16 v1;      /* 0x16 */
+    u16 n2;      /* 0x18 */
+    u16 v2;      /* 0x1A */
+} FaceT3;
+
+typedef struct {                                     /* 0x28 */
+    u32 tag;     /* 0x00 */
+    u32 rgb0;    /* 0x04 */
+    s16 x0, y0;  /* 0x08 */
+    u16 u0, cl;  /* 0x0C */
+    u32 rgb1;    /* 0x10 */
+    s16 x1, y1;  /* 0x14 */
+    u16 u1, tp;  /* 0x18 */
+    u32 rgb2;    /* 0x1C */
+    s16 x2, y2;  /* 0x20 */
+    u16 u2, pd;  /* 0x24 */
+} GT3P;
+
+/* ---- PsyQ inline GTE macros (same spellings as the matched func_80027D20) ---- */
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_ldrgb(r0) __asm__ volatile (         \
+    "lwc2 $6, 0( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+#define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (         \
+    "swc2 $24, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (         \
+    "swc2 $7, 0( %0 )"                           \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3_gt3(r0) __asm__ volatile (    \
+    "swc2 $12, 8( %0 );"                         \
+    "swc2 $13, 20( %0 );"                        \
+    "swc2 $14, 32( %0 )"                         \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_strgb3_gt3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $20, 0( %0 );"                         \
+    "swc2 $21, 0( %1 );"                         \
+    "swc2 $22, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+extern s16 D_800C7C74;
+extern u32 D_80063884;
+extern u32 D_800CCA10;
+extern s32 func_800CC0A0(void *prim);
+extern void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code);
+
+GT3P *func_800CBC2C(FaceT3 *f, SVEC2 *verts, SVEC2 *norms, GT3P *prims,
+                    s32 count, s32 shift, s32 ot)
+{
+    struct { s32 flag, opz; } g;
+    GT3P *prim;
+
+    prim = &prims[D_800C7C74];
+    gte_ldrgb(&D_80063884);
+
+    for (; count != 0; count--, f++, prim += 2) {
+        gte_ldv3(&verts[f->v0], &verts[f->v1], &verts[f->v2]);
+        gte_rtpt();
+        gte_stflg(&g.flag);
+        if (!(g.flag & ~0x1000)) {
+            gte_nclip();
+            gte_stopz(&g.opz);
+            if (g.opz > 0) {
+                gte_stsxy3_gt3(prim);
+                gte_avsz3();
+                gte_stotz(&g.opz);
+                if (func_800CC0A0(prim) != 0) {
+                    prim->rgb0 = D_800CCA10;
+                    prim->rgb1 = D_800CCA10;
+                    prim->rgb2 = D_800CCA10;
+                } else {
+                    gte_ldv3(&norms[f->n0], &norms[f->n0], &norms[f->n0]);
+                    gte_ncct();
+                    gte_strgb3_gt3(&prim->rgb0, &prim->rgb1, &prim->rgb2);
+                }
+                func_800CC110(ot, g.opz, shift, prim, 0x09000000);
+            }
+        }
+    }
+
+    return prim;
+}
+
+
+#include "common.h"
+
+/* ---- PsyQ inline GTE macros (same spellings as the matched func_800262D8 body) ---- */
+
+#define gte_ldv0(r0) __asm__ volatile (           \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_ldrgb(r0) __asm__ volatile (          \
+    "lwc2 $6, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 );"                           \
+    "lwc2 $2, 0( %1 );"                           \
+    "lwc2 $3, 4( %1 );"                           \
+    "lwc2 $4, 0( %2 );"                           \
+    "lwc2 $5, 4( %2 )"                            \
+    :                                             \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+#define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+
+#define gte_stflg(r0) __asm__ volatile (          \
+    "cfc2 $12, $31;"                              \
+    "nop;"                                        \
+    "sw $12, 0( %0 )"                             \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (          \
+    "swc2 $24, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (          \
+    "swc2 $7, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy(r0) __asm__ volatile (          \
+    "swc2 $14, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy3_gt4(r0) __asm__ volatile (     \
+    "swc2 $12, 8( %0 );"                          \
+    "swc2 $13, 20( %0 );"                         \
+    "swc2 $14, 32( %0 )"                          \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_strgb(r0) __asm__ volatile (          \
+    "swc2 $22, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_strgb3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $20, 0( %0 );"                          \
+    "swc2 $21, 0( %1 );"                          \
+    "swc2 $22, 0( %2 )"                           \
+    :                                             \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )             \
+    : "memory" )
+
+typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CBE28;          /* 0x08 */
+
+typedef struct {                                        /* 0x24 */
+    u32 unk00;
+    u32 uv0;
+    u32 uv1;
+    u32 uv2;
+    u32 uv3;
+    u16 n0, v0;      /* 0x14 / 0x16 */
+    u16 n1, v1;      /* 0x18 / 0x1A */
+    u16 n2, v2;      /* 0x1C / 0x1E */
+    u16 n3, v3;      /* 0x20 / 0x22 */
+} FaceGT4_800CBE28;
+
+typedef struct {                                        /* 0x34 */
+    u32 tag;
+    u32 rgb0, xy0, uv0;   /* 0x04 0x08 0x0C */
+    u32 rgb1, xy1, uv1;   /* 0x10 0x14 0x18 */
+    u32 rgb2, xy2, uv2;   /* 0x1C 0x20 0x24 */
+    u32 rgb3, xy3, uv3;   /* 0x28 0x2C 0x30 */
+} PktGT4_800CBE28;
+
+extern u32 D_80063888;
+extern s16 D_800C7C74;
+extern u32 D_800CCA14;
+
+extern s32 func_800CC0A0(void *pkt);
+extern void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code);
+
+PktGT4_800CBE28 *func_800CBE28(FaceGT4_800CBE28 *face, SVEC8_800CBE28 *vtx,
+                               SVEC8_800CBE28 *nrm, PktGT4_800CBE28 *arg3,
+                               s32 count, s32 shift, s32 ot)
+{
+    long flag;
+    long otz;
+    PktGT4_800CBE28 *pkt;
+
+    pkt = &arg3[D_800C7C74];
+
+    gte_ldrgb(&D_80063888);
+
+    while (count != 0) {
+        gte_ldv3(&vtx[face->v0], &vtx[face->v1], &vtx[face->v2]);
+        gte_rtpt();
+        gte_stflg(&flag);
+        if (!(flag & ~0x1000)) {
+            gte_nclip();
+            gte_stopz(&otz);
+            if (otz > 0) {
+                gte_stsxy3_gt4(pkt);
+                gte_ldv0(&vtx[face->v3]);
+                gte_rtps();
+                gte_stflg(&flag);
+                if (!(flag & ~0x1000)) {
+                    gte_stsxy(&pkt->xy3);
+                    gte_avsz4();
+                    gte_stotz(&otz);
+                    if (func_800CC0A0(pkt) != 0) {
+                        pkt->rgb0 = D_800CCA14;
+                        pkt->rgb1 = D_800CCA14;
+                        pkt->rgb2 = D_800CCA14;
+                        pkt->rgb3 = D_800CCA14;
+                    } else {
+                        gte_ldv3(&nrm[face->n0], &nrm[face->n0], &nrm[face->n0]);
+                        gte_ncct();
+                        gte_strgb3(&pkt->rgb0, &pkt->rgb1, &pkt->rgb2);
+                        gte_ldv0(&nrm[face->n0]);
+                        gte_nccs();
+                        gte_strgb(&pkt->rgb3);
+                    }
+                    func_800CC110(ot, otz, shift, (void *)pkt, 0x0C000000);
+                }
+            }
+        }
+        count--;
+        face++;
+        pkt += 2;
+    }
+    return pkt;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC0A0);
 
@@ -68,7 +531,63 @@ INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC310);
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC424);
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC4E8);
+#include "common.h"
+
+extern s32 func_80146E98(s32 a0);
+extern void func_80146CA0(void *a0);
+extern void func_800CC6C4(void *a0, void *a1, void *a2, void *a3);
+
+extern u8 D_800CCB10;
+typedef struct {
+    u8 f0;
+    u8 f1;
+    u8 f2;
+    u8 f3;
+} Quad4_800CCB14;
+
+extern Quad4_800CCB14 D_800CCB14;
+
+void func_800CC4E8(void *a0) {
+    void *s1;
+    register s32 t __asm__("$2");
+
+    s1 = *(void **)((u8 *)a0 + 0x20);
+    func_80146E98((s32)a0);
+    if (*(s32 *)((u8 *)a0 + 0x1c) < 8) {
+        t = *(u16 *)((u8 *)a0 + 0x58) - 0x100;
+        *(s16 *)((u8 *)a0 + 0x58) = t;
+        __asm__ __volatile__("");
+        if ((t << 16) < 0) {
+            *(s16 *)((u8 *)a0 + 0x58) = 0;
+        }
+
+        t = *(u16 *)((u8 *)a0 + 0x5a) - 0x100;
+        *(s16 *)((u8 *)a0 + 0x5a) = t;
+        __asm__ __volatile__("");
+        if ((t << 16) < 0) {
+            *(s16 *)((u8 *)a0 + 0x5a) = 0;
+        }
+
+        t = *(u16 *)((u8 *)s1 + 0x1a) - 0x100;
+        *(s16 *)((u8 *)s1 + 0x1a) = t;
+        *(s16 *)((u8 *)s1 + 0x18) = t;
+        if (*(s16 *)((u8 *)s1 + 0x1a) < 0) {
+            *(s16 *)((u8 *)a0 + 0x60) = 0;
+            *(s16 *)((u8 *)s1 + 0x1a) = 0;
+            *(s16 *)((u8 *)s1 + 0x18) = 0;
+            func_80146CA0(a0);
+        }
+    }
+
+    {
+        register u16 x __asm__("$2") = (*(u16 *)((u8 *)s1 + 0x10) + 0x2d) & 0xfff;
+        u16 y = (*(u16 *)((u8 *)s1 + 0x12) + 0x16) & 0xfff;
+        *(u16 *)((u8 *)s1 + 0x10) = x;
+        *(u16 *)((u8 *)s1 + 0x12) = y;
+        func_800CC6C4(a0, &D_800CCB10, &D_800CCB14, (u8 *)a0 + 0x58);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC5E4);
 
@@ -80,9 +599,90 @@ void func_800CC6A4(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC6C4);
+#include "common.h"
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC7FC);
+extern void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4);
+
+void func_800CC6C4(void *a0, void *a1, void *a2, void *a3) {
+    extern s32 D_800CCA9C;
+    void *v4;
+
+    v4 = *(void **)((s32)a0 + 0x20);
+    *(u16 *)((s32)a3 + 0x6) = *(u16 *)((s32)v4 + 0x12);
+    func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
+
+    *(u16 *)((s32)a3 + 0x6) = (*(u16 *)((s32)a3 + 0x6) + 0x555) & 0xFFF;
+    func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
+
+    *(u16 *)((s32)a3 + 0x6) = (*(u16 *)((s32)a3 + 0x6) + 0x555) & 0xFFF;
+    func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
+
+    *(u16 *)((s32)a3 + 0x6) = *(u16 *)((s32)v4 + 0x10);
+    func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
+
+    *(u16 *)((s32)a3 + 0x6) = (*(u16 *)((s32)a3 + 0x6) - 0x555) & 0xFFF;
+    func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
+
+    *(u16 *)((s32)a3 + 0x6) = (*(u16 *)((s32)a3 + 0x6) - 0x555) & 0xFFF;
+    func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
+}
+
+
+#include "common.h"
+
+typedef struct { char b[4]; } W;
+typedef struct { s16 m[9]; s16 pad; s32 t[3]; s32 rest[8]; } Mtx;
+typedef struct { s16 x, y, z; } Vec3s;
+
+extern void func_80015978(s32 a0, void *a1);
+extern void func_8012EFB8();
+extern void func_80013F3C(s32 a0);
+extern void func_800123F0(s32 a0, s32 a1);
+extern void func_80020F34(s32 a0, s32 a1);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void func_80017714();
+
+void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
+    extern s32 D_800CCA3C;
+    extern s32 D_800CCA44;
+    extern s32 D_800CCA4C;
+    extern s32 D_800CCA54;
+
+    Mtx buf;
+    Vec3s v1;
+    Vec3s v2;
+
+    *(u32 *)((s32)a4 + 0x30) = 0x50000000;
+    *(W *)((s32)a4 + 0x20) = *(W *)a1;
+    *(W *)((s32)a4 + 0x24) = *(W *)a1;
+    *(W *)((s32)a4 + 0x28) = *(W *)a2;
+    *(W *)((s32)a4 + 0x2c) = *(W *)a2;
+
+    func_80015978(a0 + 4, &v1);
+    ((void (*)())func_8012EFB8)(&v1, &v1);
+    func_80013F3C((s32)&buf);
+    func_800123F0((s32)&buf, *(s16 *)((s32)a3 + 6));
+
+    v2.x = *(u16 *)((s32)a3 + 0);
+    v2.y = *(u16 *)((s32)a3 + 2);
+    v2.z = *(u16 *)((s32)a3 + 4);
+    func_80020F34((s32)&buf, (s32)&v2);
+
+    buf.t[0] = v1.x;
+    buf.t[1] = v1.y;
+    buf.t[2] = v1.z;
+    func_8012F14C((s32)&buf, (s32)&D_800CCA3C, (s32)a4);
+    func_8012F14C((s32)&buf, (s32)&D_800CCA44, (s32)a4 + 8);
+    func_8012F14C((s32)&buf, (s32)&D_800CCA4C, (s32)a4 + 0x10);
+    func_8012F14C((s32)&buf, (s32)&D_800CCA54, (s32)a4 + 0x18);
+
+    *(s16 *)((s32)a4 + 4) = 0;
+    *(s16 *)((s32)a4 + 0xc) = 0;
+    *(s16 *)((s32)a4 + 0x14) = 0;
+    *(s16 *)((s32)a4 + 0x1c) = 0;
+    func_80017714(a4);
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC968);
 
