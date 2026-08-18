@@ -6065,7 +6065,57 @@ INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_801826C
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_801827A0);
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8018280C);
+#include "common.h"
+
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern void func_8012BD14(s32 a0);
+extern s32 VectorNormalSS(void *a0, void *a1);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+/* §200 ALIAS ESCAPE (S56). The asm PROVES an s32 return -- every exit path writes $v0
+ * (addu $v0,$zero,$zero at 0x80182828/0x8018283C/0x80182858; addiu $v0,$zero,1 at
+ * 0x801828E8) -- but this TU already declares the symbol `void` at three sites, two of
+ * them file-scope, with live callers. Only the LINK name has to agree: define the body
+ * under a private C name carrying the real assembler name, and the existing void decls
+ * stay valid for the callers. Same idiom as `extern void aF80137030(...) __asm__(...)`
+ * already in ov_SC03_099/ov_SC06_008, applied to a DEFINITION rather than a decl. */
+s32 aF8018280C(s32 a0) __asm__("func_8018280C");
+
+s32 aF8018280C(s32 a0) {
+    extern u16 D_80126B62;
+    s16 diff[3];
+    s16 pointA[3];
+    s32 flags;
+
+    if (*(u16 *)(a0 + 0x5E) == 0x1E) {
+        return 0;
+    }
+    if ((*(s32 *)(a0 + 0xDC) & 0x10) != 0) {
+        return 0;
+    }
+    if (((s32 (*)(s32))func_8012BD14)(a0) < 0x2401) {
+        pointA[0] = D_80126B5E;
+        pointA[1] = D_80126B62;
+        pointA[2] = D_80126B66;
+
+        diff[0] = pointA[0] - *(u16 *)(a0 + 0x6);
+        diff[1] = pointA[1] - *(u16 *)(a0 + 0xA);
+        diff[2] = pointA[2] - *(u16 *)(a0 + 0xE);
+
+        VectorNormalSS(diff, diff);
+
+        pointA[1] -= 0x20;
+        func_8012F568(1, 0x2001, 0, 0, (s32)pointA, (s32)diff);
+
+        flags = *(s32 *)(a0 + 0xDC);
+        flags |= 0x10;
+        *(s32 *)(a0 + 0xDC) = flags;
+        return 1;
+    }
+    return 0;
+}
+
 
 
 extern s32 rand(void);
