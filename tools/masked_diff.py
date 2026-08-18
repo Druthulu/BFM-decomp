@@ -123,9 +123,18 @@ def mask_for(word, reloc_kind):
     Masking PC16 exactly like HI16/LO16 (keep opcode+regs, drop the linker-filled displacement) cures
     151 of the 155 and introduces ZERO new lies across all 60,740 functions (auditor's counterfactual,
     independently re-run by a skeptic). The 4 survivors are a separate length-delta defect."""
-    if (word >> 26) in (2, 3):        # jal / j — the 26-bit target is a link-time value
-        return 0
-    if reloc_kind == "26":
+    # AN INTERNAL `j` IS NOT A LINK-TIME VALUE (P31 S54, cookbook §195). This short-circuit used to
+    # sit AHEAD of the reloc dispatch and fire on the OPCODE alone, so every `j .L…` to a local label
+    # in the same function -- which the assembler resolves itself, emitting NO relocation -- was
+    # dropped from the comparison. That is a semantic hole, not a cosmetic one: for a loop or switch
+    # arm, which label the `j` targets is the whole difference between `break` (fall into the shared
+    # tail, executing its calls) and `return` (skip them). Byte-proven on ov_SC03_118:func_801825EC,
+    # where the banked `break;` and a `return;` variant that SKIPS a call differ in exactly one word
+    # (0800003e vs 08000041) and both reported MATCH. The blindness reached match_one, the permuter's
+    # scorer, family_cousins.tok and the atlas tiers at once -- nothing between a draft and the
+    # whole-binary gate could see it. Now: mask the 26-bit field only when the assembler left it for
+    # the LINKER (reloc_kind "26"); an unrelocated `j`/`jal` word is compared in full.
+    if reloc_kind == "26":            # jal / j to an EXTERNAL symbol — the target is link-time
         return 0
     if reloc_kind in ("HI16", "LO16", "PC16"):
         return 0xFFFF0000             # keep opcode+regs, drop the linker-filled immediate/displacement

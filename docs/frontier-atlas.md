@@ -1,40 +1,40 @@
 # The Frontier Atlas (P31 T5)
 
-> Generated at HEAD `commit:2478` by `tools/atlas.py` — REGENERATE, never edit. Groups are ADVISORY (the byte-gate is the arbiter). Calibration: warm merge at norm-ratio ≥ 0.7, kNN floor 0.55.
+> Generated at HEAD `commit:2492` by `tools/atlas.py` — REGENERATE, never edit. Groups are ADVISORY (the byte-gate is the arbiter). Calibration: warm merge at norm-ratio ≥ 0.7, kNN floor 0.55.
 
-**Scope:** 11039 open instances / 6686 skeletons across 213 binaries (main: 752 — atlas-layer join (family maps stay non-main)).  
-**Tiers:** T1.5 h_seqn merges 2 · warm merges 876 (from 18260 ratio calls) · seed sweep: 4680 skeletons carry a ≥0.55 seed from the 3288-skeleton matched pool.
+**Scope:** 10931 open instances / 6640 skeletons across 213 binaries (main: 752 — atlas-layer join (family maps stay non-main)).  
+**Tiers:** T1.5 h_seqn merges 2 · warm merges 876 (from 18256 ratio calls) · seed sweep: 4662 skeletons carry a ≥0.55 seed from the 3339-skeleton matched pool.
 
 ## Groups by category
 
 | cat | groups | instances | ins |
 |---|--:|--:|--:|
-| A-prop | 426 | 2096 | 91898 |
-| cold | 2131 | 2131 | 170628 |
-| cousin-multi | 1473 | 5471 | 227343 |
+| A-prop | 429 | 2103 | 92486 |
+| cold | 2128 | 2128 | 170184 |
+| cousin-multi | 1431 | 5350 | 216461 |
 | main-only | 314 | 314 | 27589 |
-| seeded | 346 | 864 | 31870 |
+| seeded | 352 | 873 | 32596 |
 | tiny | 97 | 163 | 827 |
 
 ## Groups by lever (confidence)
 
 | lever | groups | instances | ins |
 |---|--:|--:|--:|
-| head-crack[default] | 1019 | 3300 | 130309 |
+| head-crack[default] | 982 | 3190 | 120239 |
 | UNKNOWN[none] | 1739 | 1739 | 116335 |
-| extend-tell[tell] | 580 | 1037 | 77742 |
+| extend-tell[tell] | 581 | 1038 | 77817 |
 | jtbl-carve[tell] | 190 | 281 | 45673 |
-| redraft[measured] | 258 | 1022 | 42174 |
-| family-sweep[default] | 227 | 887 | 32284 |
-| integration[measured] | 47 | 490 | 21258 |
-| seeded-crack[default] | 261 | 576 | 18089 |
-| len-vein[measured] | 148 | 666 | 14310 |
-| plumbing[ledger] | 38 | 190 | 9739 |
+| redraft[measured] | 251 | 1003 | 40515 |
+| family-sweep[default] | 226 | 894 | 32674 |
+| integration[measured] | 47 | 489 | 21158 |
+| seeded-crack[default] | 267 | 586 | 18907 |
+| len-vein[measured] | 148 | 665 | 14185 |
+| plumbing[ledger] | 39 | 192 | 9987 |
 | swaprepeat-tell[tell] | 70 | 119 | 9316 |
 | o0-lane[tell] | 31 | 69 | 6564 |
 | cc1[measured] | 12 | 104 | 6382 |
 | needs-autopsy[measured] | 52 | 263 | 5090 |
-| cc1[ledger] | 12 | 58 | 4243 |
+| cc1[ledger] | 13 | 61 | 4654 |
 | frame-172[measured] | 8 | 32 | 4078 |
 | needs-autopsy[ledger] | 9 | 33 | 3914 |
 | near-crack[measured] | 9 | 62 | 1698 |
@@ -67,13 +67,13 @@
 | 1d9aada32e7d | cousin-multi | len-vein[measured] | 44 | 1076 | md_MAIN_003:func_800D2454 (31) | 0.79 |
 | 1ff75ac372d6 | A-prop | len-vein[measured] | 4 | 1049 | ov_SC03_028:func_80180494 (270) | 0.95 |
 | 93cd03e11398 | A-prop | cc1[ledger] | 11 | 1035 | ov_SC06_032:func_801820C4 (113) | 1.00 |
-| 499aeb359ebe | A-prop | len-vein[measured] | 9 | 1021 | ov_SC01_084:func_8017DECC (125) | 0.89 |
 | 4109ef56e262 | A-prop | jtbl-carve[tell] | 3 | 987 | ov_MAIN_012:func_8013C414 (329) | 1.00 |
 | 435e948b661b | A-prop | extend-tell[tell] | 18 | 979 | ov_SC03_100:func_8017EC84 (67) | 0.84 |
 | 75f80de517ba | A-prop | family-sweep[default] | 12 | 964 | md_SC03_079:func_801EFB94 (87) | 0.94 |
 | 4f680d0642d8 | A-prop | extend-tell[tell] | 8 | 914 | ov_SC02_011:func_80182B88 (118) | 0.99 |
 | dd647efa7db9 | cousin-multi | extend-tell[tell] | 8 | 912 | main:func_8001E378 (188) | 0.59 |
 | 9ec470fd06a4 | A-prop | family-sweep[default] | 19 | 908 | ov_SC02_026:func_80182318 (52) | 0.85 |
+| f6ccefbf1d58 | A-prop | len-vein[measured] | 8 | 896 | ov_SC02_000:func_80181E70 (122) | 0.96 |
 | c4949914e999 | A-prop | plumbing[ledger] | 7 | 889 | ov_MAIN_012:func_80145CEC (127) | 1.00 |
 | 8a879fea07f9 | A-prop | integration[measured] | 4 | 872 | md_SC03_076:func_801F0734 (218) | 1.00 |
 | 861af215f885 | cousin-multi | head-crack[default] | 3 | 853 | ov_SC01_001:func_8017F328 (307) |  |
