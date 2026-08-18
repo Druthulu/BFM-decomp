@@ -65981,6 +65981,18 @@
         return (s32)func_80172710; \
     }
 
+#define DEFINE_func_80184460() \
+    extern s32 func_80184BAC(s32 arg0, s32 arg1); \
+    extern void func_80183E20(void *arg0); \
+    void func_80184460(void *arg0) { \
+        s32 v1; \
+        v1 = *(s32 *)((char *)arg0 + 0xCC); \
+        *(s32 *)((char *)v1 + 0xB0) = 2; \
+        if (func_80184BAC(6, 0x14) != 0) { \
+            func_80183E20(arg0); \
+        } \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -161365,6 +161377,18 @@
         } \
         func_80178BF8(); \
         return (s32)func_80172710; \
+    }
+
+#define DEFINE_func_80184460() \
+    extern s32 func_80184BAC(s32 arg0, s32 arg1); \
+    extern void func_80183E20(void *arg0); \
+    void func_80184460(void *arg0) { \
+        s32 v1; \
+        v1 = *(s32 *)((char *)arg0 + 0xCC); \
+        *(s32 *)((char *)v1 + 0xB0) = 2; \
+        if (func_80184BAC(6, 0x14) != 0) { \
+            func_80183E20(arg0); \
+        } \
     }
 
 #endif
