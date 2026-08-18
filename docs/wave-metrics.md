@@ -232,3 +232,32 @@ number is the one to act on: the knowledge base knew, and the agents did not fin
 mechanical cause and its fix — the card's `exemplar`/`sibs` pointers are drawn from the atlas's OPEN
 set by construction (0/34 banked, and 0% at any maturity), while the atlas's own MATCHED-pool twin
 (`seed.ref`, 4/4 banked on a control draw) was being discarded by the card builder.
+
+## Waves U and V (P31 S54) — the Reconcile phase holds, and the card's pointers get fixed
+
+| | wave T | wave U | wave V |
+|---|--:|--:|--:|
+| cards | 71 | 73 | 70 |
+| drafted instructions | 6,557 | 6,567 | 6,503 |
+| gate groups | **5** | **7** | **9** |
+| standalone MATCH | 70 (99%) | **73 (100%)** | 69 (99%) |
+| banked at the gate | **70 of 70** | **73 of 73** | **68 of 69** |
+| agents / tokens / wall | 87 / 8.71M / 70 min | 86 / **7.42M** / **45 min** | 85 / 8.88M / 71 min |
+| mechanical siblings banked | 49 | 34 | 25 |
+| index_gaps -> confirmed / rejected / already-covered | 71 -> 9 / 5 / 61 | 64 -> 14 / 5 / 44 | 67 -> 14 / 9 / 76 |
+
+**Three data points, one steady result and one non-trend.** The steady result is BANKING: the
+Reconcile phase has now delivered 70/70, 73/73 and 68/69 against wave R's 18-of-45 before it existed.
+The non-trend is the 100%: wave U's perfect draft rate did not repeat, and 99% -> 100% -> 99% is
+noise on 70-card samples. **Do not report the 100% as a new floor.**
+
+**Wave U's real signal is the COST, not the rate.** Same models, same gate, same laws — but the cards
+carried `seed_ref`, the atlas's *banked* twin (§193-A), for the first time. 15% fewer tokens and 64%
+of the wall-clock for one more card. Several agents filed their class as "none (direct twin
+transcription)". Reading a banked body beats deriving from the `.s`, and the atlas had been computing
+that pointer all along while the card builder discarded it.
+
+**THE NUMBER TO WATCH IS GATE GROUPS: 5 -> 7 -> 9 for the same ~6,500 instructions.** That is the
+fleet-wide 60-200 mass band thinning under `--rank total`. Each group is a whole-binary rebuild, so
+the gate cost per banked instruction is rising even while the bank rate holds. At ~12 groups, re-open
+the band question against the velocity ledger rather than drawing another wave on reflex.

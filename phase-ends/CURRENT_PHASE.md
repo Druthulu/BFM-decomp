@@ -229,7 +229,100 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
   byte-neutral only if every existing USE SITE still compiles unchanged — and prefer editing the
   draft, which verifies in seconds, over the TU, which costs a rebuild and risks the whole file.
 
-## 🛑 SESSION CHECKPOINT — S53 FINAL (2026-08-16/17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+## 🛑 SESSION CHECKPOINT — S54 FINAL (2026-08-17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+
+**HEAD `commit:2509` · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
+R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree (run 3x this session, after
+each wave) · EXE `143dbb89` · 0 NON_MATCHING.** No process running, no cron armed, no workflow in
+flight. Drew pushes.
+
+### Banked this session: 344 functions (235 gated heads + 108 mechanical siblings + 1 main)
+| lane | banked | notes |
+|---|--:|---|
+| wave T — mass band, 5 groups | 70 of 70 | **zero drops** — first wave ever to bank every byte-verified draft |
+| wave U — mass band, 7 groups | 73 of 73 | **100% drafted AND 100% banked**; 15% fewer tokens, 64% of the wall-clock |
+| wave V — mass band, 9 groups | 68 of 69 | 8 of 9 groups clean |
+| mechanical siblings (`family_sweep --hseq`) | 49 + 34 + 25 = **108** | ~0 tokens; 9 failed of 112 attempts |
+| §180 leftover sweep | 24 | byte-perfect drafts already on disk from waves M/O/P/R/S |
+
+**Fleet 95.9% instr-weighted · 91.4% distinct-code · 97.02% fn-count · MAIN 20.5%.**
+(Session start: 95.6 / 90.8 / 96.92.)
+
+### THE FIVE RESULTS THAT OUTLIVE THE COUNT
+1. **RECONCILIATION BELONGS INSIDE THE WAVE.** The only structural change from wave S was a
+   **Reconcile phase**: one agent per gate group runs `reconcile_slate --apply` -> the §183 playbook
+   -> `pregate_check` over its OWN slate, re-verifying every edit with match_one, BEFORE the first
+   rebuild. Wave R banked 18 of 45 on its first slate and needed a recovery lane afterwards (§181:
+   26 of 27 rejections were byte-perfect drafts). Waves T/U/V banked **70/70, 73/73, 68/69**. This is
+   the single highest-leverage change of the session and it costs one agent per gate group.
+2. **§192 — THE PRE-GATE LADDER WAS MAIN-ONLY AND SAID "clean" ABOUT IT.** `pregate_check` on an
+   overlay slate printed `checking 0 substituted file(s) ... clean`. Four fixes, each controlled:
+   per-binary `_stubs_for()`; `sym_of` no longer returns the keyword `void` for
+   `extern void (*D_x[])(...)` (**NC: 5,526,100 declarations, 189,301 changed verdicts, 0
+   regressions**); C89's unspecified-parameter rule as `gate_main.sig_conflict`; the overlay DRIVER's
+   typedef transform modelled. Plus §192b: the tool REFUSES when it substituted 0 files.
+3. **§193-A -> §194-E — THE CARD WAS HANDING AGENTS A DEAD POINTER.** `exemplar`/`sibs` come from the
+   atlas's OPEN set by construction, so they are stubs 0/34 measured — and on ~half the cards
+   `exemplar` IS the card's own target. Meanwhile `atlas.py:505-536` already computed a MATCHED-pool
+   twin whose identity the card builder discarded. Cards now carry **`seed_ref`** (banked 51/51 on
+   wave U's draw, 37/37 on wave V's) and **`tu_ref`** — banked functions in the card's OWN .c ranked
+   by symbols shared with the target's `.s` relocations (48/70 cards on wave V; 62% of wave-T targets
+   have such a neighbour vs 19% for the cross-overlay literal grep).
+4. **§195-D — AN INTERNAL `j` WAS INVISIBLE TO THE FAST ORACLE.** `masked_diff.mask_for`
+   short-circuited on the OPCODE ahead of the reloc dispatch, so every `j .L…` was dropped from the
+   comparison. For a loop/switch arm that is the difference between `break` (execute the shared
+   tail's calls) and `return` (skip them): byte-proven on `ov_SC03_118:func_801825EC`, where the two
+   objects differ in ONE word (`0800003e` vs `08000041`) and both reported MATCH. It blinded
+   match_one, the permuter's scorer, `family_cousins.tok` and the atlas tiers at once. Fixed (mask
+   only when `reloc_kind == "26"`); R39 control 35/35 banked drafts still MATCH. **The similarity
+   TOKENIZERS are deliberately left blind** — everything they feed is byte-gated, and the raw field
+   is position-dependent so including it naively would break sibling grouping.
+5. **THE HARVEST IS THE PRODUCT, AND ITS BIGGEST NUMBER IS "ALREADY COVERED".** Three harvests:
+   **9 CONFIRMED / 5 rejected / 61 already-covered** (T), **14 / 5 / 44** (U), **14 / 9 / 76** (V) —
+   37 verified laws banked as §193-A..I, §194-A..N, §195-A..N. Two of §194 correct §193 entries
+   written the SAME DAY (both cross-bannered). The already-covered majority is a RETRIEVAL problem,
+   which is what `tu_ref` and the prompt's STEP 0b cookbook-search exist to fix.
+
+### Tooling shipped (all negative-controlled)
+`build_wave_atlas`: **`--one-per-gid`** (collapse same-skeleton siblings to one card, defer the rest
+to the mechanical remap; R32 accounting asserted) · **`--rank total`** (rank gate groups by DELIVERED
+mass = card + deferred siblings) · **`seed_ref`/`matched_n`** (§193-A) · **`tu_ref`** + null
+self-exemplars (§194-E; operand-only `.s` symbol extraction — a naive uppercase regex read the
+comment column's hex words as symbols) · `gate_main`: `_stubs_for`, `sym_of`, `norm_sig`/`sig_conflict`,
+`substitute(transform=)`, common.h-derived scalar aliases · `pregate_check`: driver-accurate overlay
+transform, builtin conflicts -> WARN (cc1-probed), block-scope typedefs skipped, `[DROP]` reporting,
+refuse-on-zero-files · `masked_diff.mask_for`: internal `j` compared.
+
+### NEXT SESSION — in order
+1. **`make atlas` FIRST**, then wave W: `build_wave_atlas --target-ins 6500 --min-ins 60 --max-ins 200
+   --rank total --one-per-gid --max-bins 10`. **Watch the gate-group count**: waves T/U/V needed
+   5 -> 7 -> 9 groups for the same ~6,500 instructions. When it reaches ~12, the fleet-wide 60-200
+   mass band is thinning and the honest move is to re-open the band question with the velocity
+   ledger, not to keep drawing.
+2. **Close the wave the same way every time** (memory `wave-harvest-is-a-pipeline-step`):
+   gate -> `family_sweep --hseq --only <exemplar addrs>` (after `make sig-overlays` +
+   `family_hseq.py`) -> R22 clean-fleet -> **harvest the index_gaps**. Snapshot each target's `.s`
+   BEFORE gating (`.run/wave*_asm_snapshot/`) — banking prunes it and the verifiers need both sides.
+3. **The typing/naming debt is now the largest non-matching liability** (see the S54 note below):
+   9.5 casts per 100 lines, 749 distinct per-function invented typedefs vs 220 shared, parameters
+   typed `s32` that are really pointers. Not a matching problem; it is THE readability problem, and
+   every retype is byte-checkable by the same gate (§185: grep and COUNT the use sites first).
+4. **Carry-overs**: `func_80184F18` (wave V, closeness 9, ~12 permutations pinned — permuter fuel);
+   `func_80031A98` (the `D_800C5328` wall, unchanged); the 6 §188 SDK objects -> `psyq_integrate`;
+   the `GsSortBg`/`GsSortFastBg` fragment merges; `gfx2D_BG0_OBJ_4D8` (§181 mirror class).
+
+### Watch-fors
+* `gate_lane` needs `binary` + `name` in its slate records; the leftover slates from
+  `scan_leftovers.py` carry `fn` + `draft` only — add `binary` before gating.
+* A wave script's LAWS block is a JS template literal: **backticks inside the law text terminate it**.
+  Wave U's first launch died on exactly that; write law text with single quotes.
+* `pregate_check` models the DRIVER: main goes through gate_main's hoist/strip, overlays through
+  harvest_verify's `strip_provided_typedefs`. If you add a third banking driver, teach it the tool.
+* A TU typedef defined BELOW the stubs that need it breaks the overlay path (the draft's copy is
+  stripped, the survivor sits below). Hoisting is byte-neutral — null-control-build it first, as
+  `ov_SC02_005` was.
+
+## 🛑 (superseded by S54) SESSION CHECKPOINT — S53 FINAL (2026-08-16/17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
 **HEAD `commit:2453`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
 R22 `make check-all` = 213 passed / 0 failed of 213 from a clean tree · EXE `143dbb89` · 0 NON_MATCHING.**
