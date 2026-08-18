@@ -1,5 +1,16 @@
 #include "common.h"
 
+/* HOISTED (S56): defined here rather than beside func_800CC4E8 because
+ * func_800CC310 splices EARLIER in address order and declares externs of this
+ * type; strip_provided_typedefs removes the draft's own copy as "already
+ * provided", so the surviving definition must precede every use in the file. */
+typedef struct {
+    u8 f0;
+    u8 f1;
+    u8 f2;
+    u8 f3;
+} Quad4_800CCB14;
+
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CAE88);
 
 INCLUDE_RODATA("asm/md_MAIN_034/nonmatchings/md_MAIN_034", D_800CAE08);
@@ -527,7 +538,81 @@ void func_800CC290(void) {
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC298);
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC310);
+#include "common.h"
+
+/* NOTE (S56): named for THIS function's own base symbol, not (*(Quad4_800CCAD0 *)&D_800CCB14), so
+ * strip_provided_typedefs does not remove it as "already provided" by
+ * func_800CC4E8 (banked in the same batch) — whose copy is defined LATER in the
+ * file than this function's address-ordered splice point, leaving these externs
+ * with no visible type ("parse error before D_800CCAD0").
+ * Struct for the 4-byte (unaligned, all-u8) quad block at (*(Quad4_800CCAD0 *)&D_800CCB14) / D_800CCAD4.
+ * Whole-struct assignment below reproduces the target's lwl/lwr + swl/swr unaligned
+ * word copy (fields are u8, so the struct's natural alignment is 1, matching the
+ * "Quad" block-copy idiom noted on the seed_ref twin ov_SC02_011:func_8017FB14). */
+typedef struct {
+    u8 f0;
+    u8 f1;
+    u8 f2;
+    u8 f3;
+} Quad4_800CCAD0;
+
+extern void func_80146578(void);
+extern void func_8001CD9C(void *a0, void *a1);
+extern void func_800233CC(void *a0, u16 a1);
+extern void func_80146CA0(void *a0);
+extern void func_800CC6A4();   /* TU later defines this void(void) at line 78; call with an
+                                 * unspecified-arglist decl here (house style, see func_800CC1E8
+                                 * above) avoids a 1-arg-vs-0-arg prototype conflict when this
+                                 * function's INCLUDE_ASM slot (earlier in file) is replaced. */
+
+extern Quad4_800CCAD0 D_800CCAD0;   /* struct base passed to func_8001CD9C; D_800CCAD4 below is its +4 quad */
+extern Quad4_800CCAD0 D_800CCAD4;
+extern Quad4_800CCB14 D_800CCB14;
+extern u8 D_800CCB10;
+extern u8 D_800CCB11;
+extern u8 D_800CCB12;
+
+void func_800CC310(void *a0)
+{
+    void *s1;
+    void *s0;
+
+    s1 = ((void *(*)(void))func_80146578)();
+    *(void **)((u8 *)a0 + 0x20) = s1;
+
+    if (s1 != NULL) {
+        s0 = &D_800CCAD0;
+        func_8001CD9C(s1, s0);
+        func_800233CC(s0, 0xC0);
+
+        *(s16 *)((u8 *)s1 + 0x2C) = 1;
+        *(s32 *)((u8 *)s1 + 4) |= 0x50000000;
+        *(s16 *)((u8 *)s1 + 0x1A) = 0;
+        *(s16 *)((u8 *)s1 + 0x18) = 0;
+        *(s16 *)((u8 *)s1 + 0x10) = 0;
+        *(s16 *)((u8 *)s1 + 0x12) = 0;
+        *(s16 *)((u8 *)s1 + 0x14) = 0;
+
+        *(s16 *)((u8 *)a0 + 0x5A) = 0;
+        *(s16 *)((u8 *)a0 + 0x58) = 0;
+        *(s16 *)((u8 *)a0 + 0x60) = 0;
+        *(s16 *)((u8 *)a0 + 0x62) = 0;
+
+        (*(Quad4_800CCAD0 *)&D_800CCB14).f0 = 0x20;
+        (*(Quad4_800CCAD0 *)&D_800CCB14).f1 = 0;
+        (*(Quad4_800CCAD0 *)&D_800CCB14).f2 = 0x20;
+        D_800CCAD4 = (*(Quad4_800CCAD0 *)&D_800CCB14);
+
+        D_800CCB10 = 0xFF;
+        D_800CCB11 = 0xFF;
+        D_800CCB12 = 0xFF;
+
+        func_80146CA0(a0);
+    } else {
+        func_800CC6A4(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC424);
 
@@ -538,12 +623,6 @@ extern void func_80146CA0(void *a0);
 extern void func_800CC6C4(void *a0, void *a1, void *a2, void *a3);
 
 extern u8 D_800CCB10;
-typedef struct {
-    u8 f0;
-    u8 f1;
-    u8 f2;
-    u8 f3;
-} Quad4_800CCB14;
 
 extern Quad4_800CCB14 D_800CCB14;
 
