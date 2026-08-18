@@ -3577,19 +3577,386 @@ int func_8017D868(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017D898);
+#include "common.h"
+
+/* func_8017D898 -- ov_SC03_094 / ov_SC03_094_jr_8017BEBC
+ * TU-verbatim decls (src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c):
+ *   extern s32 func_80133784(s32 a0, void *a1, s32 a2);   (line 594 / 849 / 6420)
+ *   extern u8  D_801202A0[];                              (line 3788 / 5181)
+ *   extern u16 D_80126B5E;                                (line 1784)
+ *   extern u16 D_80126B66;                                (line 1785)
+ *   extern u16 D_80126B62;  + `*(s16 *)&D_80126B62`       (line 3700 / 3716)
+ * D_8018B53C is a stride-8 short table in asm/ov_SC03_094/data/tail.data.s:7564;
+ * splat split it into D_8018B53C/D_8018B53E/D_8018B540 because THIS function is
+ * the only thing that references +2 and +4.  Loads are `lhu` -> u16 fields.
+ */
+
+typedef struct {
+    u16 x, y, z, w;                 /* stride 8, +0/+2/+4 used */
+} Tbl8_8017D898;
+
+typedef struct {
+    s16 x, y, z, w;                 /* 8-byte stack vector (sh stores, lh reads) */
+} V8_8017D898;
+
+typedef struct {
+    u16 f0;                         /* 0x00 */
+    u8  p2[4];
+    s16 x;                          /* 0x06 */
+    u8  p8[6];
+    s16 z;                          /* 0x0E */
+    u8  p10[0x10C - 0x10];          /* stride 0x10C */
+} Ent_8017D898;
+
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+s32 func_8017D898(s32 a0, s32 a1) {
+
+    extern u8 D_801202A0[];
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern Tbl8_8017D898 D_8018B53C[];
+
+    V8_8017D898 src;
+    V8_8017D898 dst;
+    Ent_8017D898 *e;
+    s16 *q;
+    s32 i;
+    s32 ok;
+    s32 x, y, z;
+    s32 dx, dz;
+    u16 *p66;
+
+    x = *(u16 *)(a0 + 0x6) + D_8018B53C[a1].x;
+    src.x = x;
+    y = *(u16 *)(a0 + 0xA) + D_8018B53C[a1].y;
+    src.y = y;
+    z = *(u16 *)(a0 + 0xE) + D_8018B53C[a1].z;
+    src.z = z;
+    x += D_8018B53C[a1 + 1].x;
+    dst.x = x;
+    y += D_8018B53C[a1 + 1].y;
+    dst.y = y;
+    z += D_8018B53C[a1 + 1].z;
+    dst.z = z;
+
+    if (func_80133784(1, &src, (s32)&dst) == 0) {
+        src.x = *(u16 *)(a0 + 0x6) + D_8018B53C[a1 + 4].x;
+        src.y = *(u16 *)(a0 + 0xA) + D_8018B53C[a1 + 4].y;
+        src.z = *(u16 *)(a0 + 0xE) + D_8018B53C[a1 + 4].z;
+
+        q = (s16 *)&src;
+        e = (Ent_8017D898 *)D_801202A0;
+        for (i = 0; i < 0x60; i++, e++) {
+            if (e->f0 == 0x182 && a0 != (s32)e) {
+                dx = e->x - q[0];
+                dz = e->z - q[2];
+                if (dx * dx + dz * dz < 0x401) {
+                    ok = 0;
+                    goto check;
+                }
+            }
+        }
+        ok = 1;
+    check:
+        if (ok == 1) {
+            if (*(s16 *)(a0 + 0xA) == *(s16 *)&D_80126B62) {
+                return 1;
+            }
+        }
+    }
+
+    p66 = &D_80126B66;
+    *p66 = *p66 + (*(u16 *)(a0 + 0x8C) - *(u16 *)(a0 + 0xE));
+    *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0x8C);
+    D_80126B5E += *(u16 *)(a0 + 0x88) - *(u16 *)(a0 + 0x6);
+    *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x88);
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017DAC8);
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017DEBC);
+#include "common.h"
+
+/* func_8017DEBC (ov_SC03_094) — "walk toward the stored target square".
+ *
+ * Fires a 0x10-tall vertical probe (func_80133784) at the entity's feet; if it
+ * misses, the entity falls (state 6).  Otherwise, when the entity is not yet on
+ * its stored destination tile (obj+0x88 / obj+0x8C vs obj+0x6 / obj+0xE), it
+ * asks func_8012B8A4 for its facing, quantises that to one of four quadrants
+ * via ((facing + 0x200) & 0xC00), and for whichever quadrant applies runs the
+ * per-direction step: nudge the global camera anchor by the delta it is about
+ * to take, set the walk state / lean, and snap the axis to the target.
+ *
+ * Object field map used below:
+ *   +0x02  u16  state
+ *   +0x06  u16  world x
+ *   +0x0A  u16  world y
+ *   +0x0E  u16  world z
+ *   +0x5C  u16  render flags   (bit 0x1000 cleared, bit 0x800 set)
+ *   +0x88  u16  target x
+ *   +0x8C  u16  target z
+ *   +0xFC  s16  sub-step index (reset)
+ *   +0xFE  s16  lean/offset    (+/-0x80)
+ */
+
+/* Destination-TU spellings (law 2) — all copied verbatim from
+ * src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c:
+ *   line 1784  extern u16 D_80126B5E;
+ *   line 1785  extern u16 D_80126B66;
+ *   line  594  extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+ *   line 4337  extern void func_8012B23C(void *a0);
+ *   line   57  extern void func_8002D4C8(s32 a0, s32 a1);
+ * func_8012B8A4 is absent from the TU -> fleet modal (1352 sites).
+ * func_8017D898 is INCLUDE_ASM'd in this TU; the fleet's ('void',('s32',))
+ * row is for a different overlay's symbol at that address, so it is typed
+ * from the call site here (two args, result tested). */
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern void func_8012B23C(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012B8A4(s16 *a0);
+extern s32 func_8017D898(s32 a0, s32 a1);
+
+/* 8-byte probe endpoint, same shape as the neighbouring func_801844C8's
+ * V8_80184F90_801844C8 (s16 x,y,z,w). */
+typedef struct { s16 x, y, z, w; } V8_8017DEBC;
+
+void func_8017DEBC(s32 a0) {
+    V8_8017DEBC src;
+    V8_8017DEBC dst;
+    s32 x;
+    s32 y;
+    s32 z;
+
+    /* One load per field, reused by both endpoints (the target keeps $a2/$v1/$v0
+     * live across the stack stores -- naming them in C locals collapses the
+     * three duplicate reloads, cookbook law 23 / §193-E). */
+    x = *(u16 *)(a0 + 0x6);
+    src.x = x;
+    y = *(u16 *)(a0 + 0xA);
+    src.y = y - 0x10;
+    z = *(u16 *)(a0 + 0xE);
+    dst.x = x;
+    dst.y = y + 0x10;
+    src.z = z;
+    dst.z = z;
+
+    if (func_80133784(1, &src, (s32)&dst) == 0) {
+        *(s16 *)(a0 + 0x2) = 6;
+        func_8012B23C((void *)a0);
+        return;
+    }
+
+    if (*(s16 *)(a0 + 0x6) == *(s16 *)(a0 + 0x88) &&
+        *(s16 *)(a0 + 0xE) == *(s16 *)(a0 + 0x8C)) {
+        return;
+    }
+
+    switch ((func_8012B8A4((s16 *)a0) + 0x200) & 0xC00) {
+    case 0x800:
+        if (func_8017D898(a0, 0) == 0) {
+            return;
+        }
+        { u16 *g = &D_80126B5E; *g = *g + (*(u16 *)(a0 + 0x88) - *(u16 *)(a0 + 0x6)); }
+        *(s16 *)(a0 + 0xFE) = -0x80;
+        *(s16 *)(a0 + 0x2) = 3;
+        *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x88);
+        break;
+
+    case 0xC00:
+        if (func_8017D898(a0, 5) == 0) {
+            return;
+        }
+        { u16 *g = &D_80126B66; *g = *g + (*(u16 *)(a0 + 0x8C) - *(u16 *)(a0 + 0xE)); }
+        *(s16 *)(a0 + 0x2) = 2;
+        *(s16 *)(a0 + 0xFE) = -0x80;
+        *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0x8C);
+        break;
+
+    case 0:
+        if (func_8017D898(a0, 0xA) == 0) {
+            return;
+        }
+        { u16 *g = &D_80126B5E; *g = *g + (*(u16 *)(a0 + 0x88) - *(u16 *)(a0 + 0x6)); }
+        *(s16 *)(a0 + 0x2) = 3;
+        *(s16 *)(a0 + 0xFE) = 0x80;
+        *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x88);
+        break;
+
+    case 0x400:
+        if (func_8017D898(a0, 0xF) == 0) {
+            return;
+        }
+        { u16 *g = &D_80126B66; *g = *g + (*(u16 *)(a0 + 0x8C) - *(u16 *)(a0 + 0xE)); }
+        *(s16 *)(a0 + 0x2) = 2;
+        *(s16 *)(a0 + 0xFE) = 0x80;
+        *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0x8C);
+        break;
+    }
+
+    *(s16 *)(a0 + 0xFC) = 0;
+    *(u16 *)(a0 + 0x5C) = (*(u16 *)(a0 + 0x5C) & 0xEFFF) | 0x800;
+    func_8002D4C8(0x743, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017E0FC);
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017E254);
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017E3B0);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017E52C);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80029178(s32 arg);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8017E3B0(s32 a0) {
+    extern u8 D_801202A0[];
+    /* three 8-byte-stride halfword arrays; only the first halfword of each
+     * 8-byte slot is written (index = field 0x70, byte offset = idx * 8) */
+    extern u8 D_8018B50C[];
+    extern u8 D_8018B50E[];
+    extern u8 D_8018B510[];
+    extern s32 D_8018B52C[];     /* pointer table, indexed by field 0x70 */
+
+    s32 s2 = a0;
+    s32 s1;
+    s32 s3;
+    s32 val;
+    s32 ret;
+    s32 counter;
+    s32 idx;
+    s32 idx2;
+    s32 idx3;
+
+    ret = func_8004787C(*(s16 *)(s2 + 0xFC));
+    counter = *(u16 *)(s2 + 0xFC) + 0x40;
+    idx = *(s16 *)(s2 + 0x70) * 8;
+    val = (ret >> 5) + 0x80;
+    *(u16 *)(s2 + 0xFC) = counter;
+    *(s16 *)(D_8018B50C + idx) = val;
+    idx2 = *(s16 *)(s2 + 0x70) * 8;
+    *(s16 *)(D_8018B50E + idx2) = val;
+    idx3 = *(s16 *)(s2 + 0x70) * 8;
+    *(s16 *)(D_8018B510 + idx3) = val;
+
+    if (*(s16 *)(s2 + 0xFC) < 0x800) {
+        return;
+    }
+
+    *(s16 *)(s2 + 0x2) = 5;
+
+    s1 = (s32)D_801202A0;
+    for (s3 = 0; s3 < 0x60; s3++, s1 += 0x10C) {
+        if (*(u16 *)(s1 + 0x0) == 0x1BE) {
+            if ((func_80029178(D_8018B52C[*(s16 *)(s1 + 0x70)]) & 0xFF) == 0) {
+                s16 cnt = *(u16 *)(s1 + 0xFC) - 1;
+                *(u16 *)(s1 + 0xFC) = cnt;
+                if (cnt == 0) {
+                    func_80029124(D_8018B52C[*(s16 *)(s1 + 0x70)], 1);
+                    func_8002D4C8(0x745, 0);
+                }
+            }
+        }
+    }
+
+    *(u16 *)(s2 + 0x5C) = (*(u16 *)(s2 + 0x5C) | 0x1000) & 0xF7FF;
+}
+
+
+#include "common.h"
+
+/* Entity slot of the global D_801202A0 table: 0x10C stride, 0x60 entries.
+ * Only the three fields this function touches are named. */
+typedef struct {
+    u16 f0;                     /* 0x00  kind tag (0x1BE here) */
+    u8  p02[0x70 - 0x02];
+    s16 f70;                    /* 0x70  index into D_8018B52C */
+    u8  p72[0xFC - 0x72];
+    u16 fFC;                    /* 0xFC  counter */
+    u8  pFE[0x10C - 0xFE];
+} Ent_8017FD58_8017E52C;
+
+extern s32 func_8017D898(s32 a0, s32 a1);
+extern s32 func_80029178(s32 arg);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+
+void func_8017E52C(s32 a0) {
+
+    extern u8 D_801202A0[];
+    extern s32 *D_80126B78;
+    extern s32 D_8018B52C[];
+    Ent_8017FD58_8017E52C *e;
+    u16 *cam;
+    s32 i;
+
+    if (*(s16 *)(a0 + 0x6) == *(s16 *)(a0 + 0x88) &&
+        *(s16 *)(a0 + 0xE) == *(s16 *)(a0 + 0x8C)) {
+        return;
+    }
+
+    switch (*(u16 *)((s32)D_80126B78 + 0x12) & 0xC00) {
+    case 0x0:
+        if (func_8017D898(a0, 0) == 0) {
+            return;
+        }
+        cam = &D_80126B5E;
+        *cam += *(u16 *)(a0 + 0x88) - *(u16 *)(a0 + 0x6);
+        *(s16 *)(a0 + 0xFE) = -0x80;
+        *(s16 *)(a0 + 0x2) = 3;
+        *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x88);
+        break;
+    case 0x400:
+        if (func_8017D898(a0, 5) == 0) {
+            return;
+        }
+        cam = &D_80126B66;
+        *cam += *(u16 *)(a0 + 0x8C) - *(u16 *)(a0 + 0xE);
+        *(s16 *)(a0 + 0x2) = 2;
+        *(s16 *)(a0 + 0xFE) = -0x80;
+        *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0x8C);
+        break;
+    case 0x800:
+        if (func_8017D898(a0, 0xA) == 0) {
+            return;
+        }
+        cam = &D_80126B5E;
+        *cam += *(u16 *)(a0 + 0x88) - *(u16 *)(a0 + 0x6);
+        *(s16 *)(a0 + 0x2) = 3;
+        *(s16 *)(a0 + 0xFE) = 0x80;
+        *(s16 *)(a0 + 0x6) = *(u16 *)(a0 + 0x88);
+        break;
+    case 0xC00:
+        if (func_8017D898(a0, 0xF) == 0) {
+            return;
+        }
+        cam = &D_80126B66;
+        *cam += *(u16 *)(a0 + 0x8C) - *(u16 *)(a0 + 0xE);
+        *(s16 *)(a0 + 0x2) = 2;
+        *(s16 *)(a0 + 0xFE) = 0x80;
+        *(s16 *)(a0 + 0xE) = *(u16 *)(a0 + 0x8C);
+        break;
+    }
+
+    *(s16 *)(a0 + 0xFC) = 0;
+    *(u16 *)(a0 + 0x5C) = (*(u16 *)(a0 + 0x5C) & 0xEFFF) | 0x800;
+
+    e = (Ent_8017FD58_8017E52C *)D_801202A0;
+    for (i = 0; i < 0x60; i++, e++) {
+        if (e->f0 == 0x1BE) {
+            if ((u8)func_80029178(D_8018B52C[e->f70]) == 0) {
+                e->fFC++;
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017E7B0);
 
@@ -3612,7 +3979,43 @@ void func_8017E84C(void *a0) {
 void func_8017E888(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017E890);
+#include "common.h"
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32 func_80029178(s32 arg);
+
+void func_8017E890(s32 a0) {
+    extern u8 D_8018B4B8[];
+    extern u8 D_80187C00[];
+    extern s32 D_8018B52C[];
+    extern u16 D_8018B4EC[];
+    extern u16 D_8018B4F0[];
+    extern u8 D_8018B5EC[];
+
+    if (func_8012C354(a0, (s32)D_8018B4B8) != 0) {
+        *(u8 *)(a0 + 0xC0) = 1;
+        func_8012A828(a0, (s32)D_80187C00);
+        *(s16 *)(a0 + 0x2) = 1;
+        *(u8 *)(a0 + 0x75) = 0;
+
+        if ((func_80029178(D_8018B52C[*(s16 *)(a0 + 0x70)]) & 0xFF) != 0) {
+            *(s16 *)(a0 + 0x2) = 5;
+            *(u16 *)(a0 + 0x6) = D_8018B4EC[*(s16 *)(a0 + 0x70) * 4];
+            *(u16 *)(a0 + 0xE) = D_8018B4F0[*(s16 *)(a0 + 0x70) * 4];
+            *(u16 *)(a0 + 0x5C) = (*(u16 *)(a0 + 0x5C) & 0xEFFF) | 0x800;
+            *(s16 *)(a0 + 0xAE) = -1;
+            *(u16 *)(a0 + 0x88) = *(u16 *)(a0 + 0x6);
+            *(u16 *)(a0 + 0x8C) = *(u16 *)(a0 + 0xE);
+        } else {
+            *(s16 *)(a0 + 0xAE) = 0x2100;
+            *(s32 *)(a0 + 0xC4) = 3;
+            *(s32 *)(a0 + 0xB4) = 0;
+            *(s32 *)(a0 + 0xBC) = (s32)D_8018B5EC;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017E990);
 
@@ -6172,7 +6575,65 @@ INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8018374
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8018379C);
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_801837FC);
+#include "common.h"
+
+extern void func_8002A04C(s32 a0);
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C098(void *a0);
+extern void func_8012E8A8(u8 *a0);
+extern void func_80183AC8(s32 a0, s32 a1);
+extern void func_8012B260(u8 *a0);
+
+void func_801837FC(void *arg0) {
+    s32 s0;
+
+    func_8002A04C((s32)arg0);
+    s0 = (s32)arg0;
+
+    if (*(s32 *)(s0 + 0xE4) == 0 && (*(u16 *)(s0 + 0x70) & 0x800) == 0) {
+        func_80016714(*(void **)(s0 + 0xD4), 0x38);
+        func_8012C098((void *)s0);
+    } else {
+        *(s8 *)(s0 + 0xC1) = 0;
+        *(s16 *)(s0 + 0x5E) = 0;
+        *(s16 *)(s0 + 0x5C) = 0;
+
+        if ((*(u16 *)(s0 + 0x70) & 0x800) == 0) {
+            *(s16 *)(s0 + 0x2) = 6;
+            func_8012E8A8((u8 *)s0);
+            func_80016714(*(void **)(s0 + 0xD4), 0x38);
+        } else {
+            s32 p;
+            s32 q;
+            s32 a;
+            s16 h1, h2, h3;
+
+            p = *(s32 *)(s0 + 0x78);
+            *(s16 *)(s0 + 0x2) = 1;
+            *(s32 *)(s0 + 0x1C) = 0x80;
+            *(s16 *)(s0 + 0x76) = *(u16 *)p;
+            q = *(s32 *)(s0 + 0x20);
+            *(s16 *)(q + 0x1A) = 0x2000;
+            *(s16 *)(q + 0x18) = 0x2000;
+            a = *(s32 *)(s0 + 0xD4);
+            h1 = *(u16 *)(s0 + 0x88);
+            h2 = *(u16 *)(s0 + 0x8A);
+            h3 = *(u16 *)(s0 + 0x8C);
+            *(s16 *)(s0 + 0x108) = 0;
+            *(s16 *)(s0 + 0x106) = 0;
+            *(s16 *)(s0 + 0x104) = 0;
+            *(s16 *)(s0 + 0x100) = 0;
+            *(s16 *)(s0 + 0xFE) = 0;
+            *(s16 *)(s0 + 0xFC) = 0;
+            *(s16 *)(s0 + 0x6) = h1;
+            *(s16 *)(s0 + 0xA) = h2;
+            *(s16 *)(s0 + 0xE) = h3;
+            func_80183AC8(a, 0);
+            func_8012B260((u8 *)s0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80183910);
 
@@ -6519,9 +6980,178 @@ s32 func_801844C8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8018487C);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_801849B4);
+/* func_8018487C (ov_SC03_094, jr_8017BEBC TU) — fresh crack from the target .s.
+ *
+ * Same TU house idiom as func_801844C8 (shares func_8012DEB8/func_80133784/
+ * func_80183E70): a probe ray built from self's X/Y/Z through func_80133784,
+ * then a 6x6 grid of func_8012DEB8 hit tests (Y fixed at 0x60/0x80, X/Z swept
+ * -0x50..0x60 step 0x20) -> D_80126B96 = 0x4002 (cf. func_801844C8's
+ * 0x4004 grids and func_8017EC9C's table-driven variant of the same idiom).
+ */
+
+typedef struct { s16 x, y, z, w; } V8_8018487C;
+
+extern void func_8012CBCC(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern void func_80183E70(s32 a0, s32 a1);
+extern void func_8012E688(void *a0, s32 a1, s32 a2);
+extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
+
+void func_8018487C(s32 a0) {
+
+    extern u16 D_80126B96;
+
+    V8_8018487C src;
+    V8_8018487C dst;
+    s32 i;
+    s32 j;
+    u16 x;
+    s32 y;
+    u16 z;
+
+    func_8012CBCC(a0);
+
+    x = *(u16 *)(a0 + 0x6);
+    src.x = x;
+    y = *(u16 *)(a0 + 0xA);
+    src.y = y + 0x50;
+    z = *(u16 *)(a0 + 0xE);
+    dst.x = x;
+    dst.y = y + 0x70;
+    src.z = z;
+    dst.z = z;
+
+    if (func_80133784(1, &src, (s32)&dst) != 0) {
+        *(s16 *)(a0 + 0xA) = dst.y - 0x60;
+        *(s16 *)(a0 + 0x2) = 4;
+        *(s32 *)(a0 + 0x1C) = 0x1E;
+        func_80183E70(a0, 0);
+        *(s16 *)(a0 + 0xFE) = 0x40;
+        func_8012E688((void *)a0, 0x6F1, 0);
+    }
+
+    src.y = 0x60;
+    dst.y = 0x80;
+    for (i = -0x50; i < 0x60; i += 0x20) {
+        src.x = i;
+        dst.x = i;
+        for (j = -0x50; j < 0x60; j += 0x20) {
+            src.z = j;
+            dst.z = j;
+            if (func_8012DEB8(a0, (s32)&src, (s32)&dst) == 1) {
+                D_80126B96 = 0x4002;
+            }
+        }
+    }
+}
+
+
+#include "common.h"
+
+/* func_801849B4 -- ov_SC03_094 / ov_SC03_094_jr_8017BEBC
+ * TU-verbatim decls (src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c):
+ *   typedef struct { s16 x, y, z, w; } V8_80184F90_801844C8;   (file scope, above func_801844C8)
+ *   extern s32  func_80133784(s32 a0, void *a1, s32 a2);       (TU:594/849/6420)
+ *   extern void func_80183E70(s32 a0, s32 a1);                 (TU:6421, defined TU:6241)
+ *   extern void func_8012CBCC(s32 a0);                         (TU:4283/4307/4385/4915)
+ *   extern void func_8002D59C(s32 a0, u16 a1, s32 a2);         (TU:3696)
+ *   s32 func_801844C8(s32 a0);                                 (defined TU:6427)
+ * func_8012F49C: not in this TU -> fleet-modal `s32 *(s32 *, s32, s32)` (43 defs).
+ * D_801B2C08 is the 4-entry {s16 x,y,z,w} table at asm/ov_SC03_094/data/tail.data.s:49387
+ * (0x801B2C08..0x801B2C28); .y/.z reach the split-out D_801B2C0A/D_801B2C0C labels,
+ * exactly as func_801844C8 does with D_801B2BA8/D_801B2BAA.
+ *
+ * BANKING NOTE: the typedef below is ALREADY at file scope in the TU (line 6424,
+ * just above func_801844C8, i.e. BEFORE this function's INCLUDE_ASM slot) -- DROP
+ * the typedef line when banking (a repeated typedef is a C89 error). The five
+ * extern lines below are byte-identical to the TU's existing file-scope decls
+ * (repeat is legal); only `extern s32 *func_8012F49C(...)` is new to this TU. */
+
+
+
+extern s32  func_80133784(s32 a0, void *a1, s32 a2);
+extern void func_80183E70(s32 a0, s32 a1);
+extern void func_8012CBCC(s32 a0);
+extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
+extern s32  func_801844C8(s32 a0);
+extern s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3);
+
+void func_801849B4(s32 a0) {
+
+    extern V8_80184F90_801844C8 D_801B2C08[];
+
+    V8_80184F90_801844C8 src;
+    V8_80184F90_801844C8 dst;
+    s16 out[8];
+    s32 d;
+
+    if (*(s16 *)(a0 + 0xDC) != 0) {
+        *(s16 *)(a0 + 0xDC) = *(s16 *)(a0 + 0xDC) - 1;
+        if (*(s16 *)(a0 + 0xDC) == 0) {
+            *(s32 *)(a0 + 0x10) = 0;
+            *(s32 *)(a0 + 0x44) = 0;
+            *(s32 *)(a0 + 0x14) = 0;
+            *(s32 *)(a0 + 0x48) = 0;
+            *(s32 *)(a0 + 0x18) = 0;
+            *(s32 *)(a0 + 0x4C) = 0;
+            if (*(s16 *)(a0 + 0x70) == 1) {
+                if (*(s16 *)(a0 + 0xFC) == 2) {
+                    *(s16 *)(a0 + 0xFC) = 1;
+                    *(s16 *)(a0 + 0x1A) = 4;
+                    *(s32 *)(a0 + 0x4C) = 0x4000;
+                } else {
+                    *(s16 *)(a0 + 0xFC) = 2;
+                    *(s16 *)(a0 + 0x1A) = -4;
+                    *(s32 *)(a0 + 0x4C) = -0x4000;
+                }
+            } else {
+                if (*(s16 *)(a0 + 0xFC) == 4) {
+                    *(s16 *)(a0 + 0xFC) = 3;
+                    *(s16 *)(a0 + 0x12) = 4;
+                    *(s32 *)(a0 + 0x44) = 0x4000;
+                } else {
+                    *(s16 *)(a0 + 0xFC) = 4;
+                    *(s16 *)(a0 + 0x12) = -4;
+                    *(s32 *)(a0 + 0x44) = -0x4000;
+                }
+            }
+        }
+    } else {
+        func_8012CBCC(a0);
+        if (func_801844C8(a0) == 0) {
+            *(s16 *)(a0 + 0xDC) = 0x1E;
+        } else {
+            src.x = *(u16 *)(a0 + 0x6) + D_801B2C08[*(s16 *)(a0 + 0xFC) - 1].x;
+            src.y = *(u16 *)(a0 + 0xA) + D_801B2C08[*(s16 *)(a0 + 0xFC) - 1].y;
+            src.z = *(u16 *)(a0 + 0xE) + D_801B2C08[*(s16 *)(a0 + 0xFC) - 1].z;
+            dst.x = src.x;
+            dst.y = src.y + 0x20;
+            dst.z = src.z;
+            if (func_80133784(1, &src, (s32)&dst) != 0) {
+                func_80183E70(a0, 5);
+                *(s16 *)(a0 + 0x84) = 1;
+                src.z = 0;
+                src.y = 0;
+                src.x = 0;
+                func_8012F49C((s32 *)out, a0, (s32)&src);
+                d = out[0] * out[0] + out[1] * out[1];
+                if (d > 40000) {
+                    d = 40000;
+                }
+                func_8002D59C(0x6F0, (0x7F - (d * 127) / 40000) | 0x1000,
+                              *(u16 *)(a0 + 0x36));
+            } else {
+                if (*(s16 *)(a0 + 0x84) != 0) {
+                    *(s16 *)(a0 + 0x84) = 0;
+                    func_8002D59C(4, 0x6F0, *(u16 *)(a0 + 0x36));
+                }
+            }
+        }
+    }
+}
+
 
 
 extern void (*D_801B2C28[])(void);
