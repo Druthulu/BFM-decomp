@@ -8892,6 +8892,9 @@ right lever was hoisting the assignment above the call (`func_80183394`).
 9. **`lhu` + `sll 16` + `sra 16+N` on a stack local an out-param call wrote ⇒ the local is `u16`,
    read as `(s16)x >> N`** — the combiner folds the sign-extending `sra 16` into the user shift.
    Through a PsyQ `SVECTOR` (`short vx`) you get `lh` + `sra N` instead. **A scratch vector read back
+> ⚠ **RULE 9's CURE IS BYTE-REFUTED — see §197-A (P31 S54).** `u16 v[4]` and `SVECTOR v` compile
+> BYTE-IDENTICALLY in rule 9's own stated context (`lhu ; sll 16 ; sra 23` in both); the declared
+> type is inert. The residual is real, the tell is right, the cure is a zero-byte asm re-tie.
    sign-extended-then-shifted must be `u16 v[4]`, NOT `SVECTOR`.** (`func_8017D2B8`.)
 10. **An unexplained `addu $vX,$aY,$zero` before a conditional branch, with the two feeding `lh`
     loads in the wrong order ⇒ the value is an `s16` LOCAL, not `s32`.** `LOAD_EXTEND_OP` folds the
@@ -20494,3 +20497,143 @@ match-rate lever. And `p->field` is not always byte-equal to `*(T *)(p + K)` (§
 forces `&D_x` materialises one shared base register and perturbs the whole body). Declarations are
 the part that is both cheap to derive and load-bearing for the GATE; the struct model is a
 readability project for later, introduced per-adoption behind the byte gate.
+
+
+---
+
+## §197 — THE WAVE-W HARVEST (P31 S54): 68 index_gap reports -> 4 laws, 3 rejected, 41 already-covered
+
+Fourth harvest of the session, and the first on a wave drawn from the **UNKNOWN lever lane** (see
+§198). Yield fell to 4 confirmed from 14 — expected and healthy: the readers were seeded with §193,
+§194 AND §195, so three sessions of laws were off the table before they started.
+
+**⚠ TWO VERIFIERS CONFIRMED THE SAME PHENOMENON WITH CONTRADICTORY PASS ATTRIBUTIONS.** Both looked
+at `lhu ; sll 16 ; sra 16+K` vs the target's `lh ; sra K`; one attributes the merge to **cse**
+(`fold_rtx`'s associative block), the other to **combine** (preferring the count-merge over forming
+`lh`). They cannot both be right, and R34 forbids banking agreement between disagreeing oracles as if
+it were corroboration. What they agree on — the tell, the cure, and the refutation of §136-9's stated
+cure — is banked below as ONE entry with the discrepancy named. The C lever is identical either way,
+so the open question is attribution only.
+
+### §197-A — A NARROW SIGNED MEMORY READ FEEDING A CONSTANT `>>` LOSES ITS `lh`, AND THE CURE IS AN ASM RE-TIE (attribution CONTESTED: cse vs combine)
+
+**TARGET SHAPE / DIAGNOSTIC TELL (both verifiers agree, byte-probed twice).** The target has
+`lh $r,K(base)` followed — with no intervening write of `$r` — by `sra $r,$r,N` with `0 < N < 16`.
+You have `lhu $r,K(base) ; sll $r,$r,16 ; sra $r,$r,16+N`: **LENGTH-DRIFT +1**, and your `sra` count
+is exactly the target's plus 16. Do not chase it with casts, widths, or a `u16` spelling.
+
+**THE CURE (both agree, and both byte-proved it).** A zero-byte `__asm__` SET that takes the user
+shift's operand out of the extension's equivalence class — e.g.
+`__asm__("" : "=r"(u) : "0"(t)); return u >> 7;` — restores `lh ; sra 7` (2 ins). One verifier proved
+a *fresh temp* works with no second SET of the original pseudo at all, which refutes the "second SET
+of the shifted pseudo" framing; plain-C control flow that makes the operand multi-def does it too.
+Controls that are INERT: `"" ::: "memory"`, a bare `__asm__ __volatile__("")`, an output-only asm on
+an unrelated pseudo. One control is WORSE than inert: the input-only anchor
+`__asm__ __volatile__("" :: "r"(t))` costs **+1** by forcing the extension result live.
+
+**⚠ THE ATTRIBUTION IS UNSETTLED — DO NOT CITE EITHER PASS AS SETTLED.**
+* **cse** (`cse.c:5577-5666`, `fold_rtx`'s `from_plus:` associative block, reached from
+  `case ASHIFTRT` at `:5581`; `lookup_as_function(op0, ASHIFTRT)` at `:5592`). Evidence offered:
+  `-da` dumps in which the middle `sra 16` insn is **already gone in `x.i.cse`** with its
+  `REG_EQUAL sign_extend` note, and `x.i.combine` is unchanged on those insns. The source comment at
+  `:5582-5588` names the case ("the similar optimization done by combine.c only works if the
+  intermediate operation's result has only one reference") and `:5641-5656` describes this exact
+  sign-extend-then-shift pair. An independent prediction confirmed: the ASHIFTRT clamp makes
+  `t >> 16` and `t >> 20` both emit `sra 31`.
+* **combine** (`mips.md:2340` `extendhisi2`, whose `:2346` `force_not_mem` at -O2 means the one-insn
+  `extendhisi2_internal` is never produced at expand, so combine faces a choice between forming
+  `lh` and merging the counts). Evidence offered: the expansion order plus the single-def/multi-def
+  fork.
+**Whoever is right, the observable and the lever are the same.** Settle it, if it ever matters, by
+re-running `-da` on the two spellings and reading which dump first loses the middle insn.
+
+**BOTH VERIFIERS BYTE-REFUTE §136 TYPE-FORM RULE 9's CURE.** Rule 9 (L8892-8895) says a scratch
+vector read back sign-extended-then-shifted "must be `u16 v[4]`, NOT `SVECTOR`". Built both spellings
+in rule 9's own stated context (a stack local filled by an out-param call): `u16 v[4]` and
+`SVECTOR v` compile **byte-identically** — `lhu 16(sp) ; sll 16 ; sra 23` in both. **The declared type
+is inert; strike that half of rule 9 and use the re-tie.**
+
+### §197-B — A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_code` CHANNEL (the non-EQ complement of §165-03) — and a front-end-opaque mask on EITHER compare is a pure-C dial that keeps the target's second branch
+
+**§NEW — A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_code` CHANNEL — the non-EQ complement of §165-03, and the case §164-46's "never across a statement boundary" mispredicts. The dial is a front-end-opaque mask on EITHER compare.** *(NEW channel. §165-03 (L13767) is the `code == EQ` EQUIVALENCE arm of the SAME function — cse.c:5951 splits the two arms — and §164-46 (L12828) is the RANGE channel; neither covers this, and §164-46's headline predicts the opposite outcome here. Extends and CORRECTS docs/gcc-2.7.2-map/cse_expr.md:389, whose antidote is asm-only and whose recognition tell is byte-refuted.)*
+
+**Target shape.** The same value tested against the same constant TWICE on one straight path — classically an early-out `beqz rX` and, later, a loop-entry guard `beqz rX` on the same register. The natural C spelling emits only ONE of them.
+
+**THE LAW.** On a conditional branch, `cse_basic_block` calls `record_jump_equiv` — fall-through at `cse.c:7511`, taken at `:8448`. For a **non-EQ** code (including the NE that a `beqz`'s fall-through implies, and the NE that the fall-through of an `if (n == K)` implies) `record_jump_cond` takes the `if (code != EQ || FLOAT_MODE_P (GET_MODE (op0)))` arm at `cse.c:5951`, returns at `:5961` unless `GET_CODE (op0) == REG`, and otherwise stores `qty_comparison_code[reg_qty[REGNO (op0)]] = code;` at `:5985`. The consumer is `fold_rtx` at `cse.c:5413-5431`: it requires `GET_CODE (folded_arg0) == REG`, looks up `reg_qty[REGNO (folded_arg0)]`, and when `comparison_dominates_p (qty_comparison_code[qty], code)` holds it returns `true`/`false` — the second branch is proved and deleted. **The knowledge is keyed on the QUANTITY of the compare's operand register**, so the dial is not "hide the test from cse" but **"make the two compares reference DIFFERENT quantities."**
+
+**THE DIAL (pure C, no asm).** Wrap EITHER compare's operand in a mask the front end cannot fold to identity: `if ((n & 0xFFFF) == 0)` or `if ((n & 0xFFFF) != 0)`. The compare's op0 is then the AND-result pseudo, whose quantity either carries no recorded comparison (masking the FIRST test) or is not the quantity that was recorded (masking the SECOND). **The dial is symmetric — masking either side works** — and that symmetry is what proves the mechanism is the LOOKUP, not the recording.
+
+**COST — read this as a gate, not a footnote.** The mask emits nothing **iff** combine can prove the value's `nonzero_bits` already fit the mask, i.e. the value's single set is an `lhu`/`lbu` (or equivalent). Then the mask is byte-free. **On an argument, a call return, or an `lw`, the same dial still works but costs a real `andi`.** Check the provenance before you spend the mask.
+
+**THE DIAGNOSTIC TELL.** `LENGTH-DRIFT/-1` where the missing instruction is a conditional branch whose register is ALREADY tested earlier on the same path, and the residual then cascades far beyond the branch — into the callee-save prologue and the loop preheader — because the surviving guard is what pins the preheader statements below it and fixes callee-saved letter order by definition order. **Do not chase that cascade with register pins;** restore the branch and the cascade dissolves.
+
+**PREFER THE MASK OVER §165-03's ASM.** The identity re-tie `__asm__ ("" : "=r"(n) : "0"(n))` also works and is codegen-identical on a straight body (byte-checked), but it emits an `#APP` block — which per the maspsx note (cookbook L2497) blocks the ASPSX delay-slot hop — and it adds a SECOND SET to the pseudo, forfeiting `update_equiv_regs`' single-set live_length doubling (`local-alloc.c:1064`, cse_expr.md item 2) and rotating the callee-saved bank. The mask does neither. Reach for the mask first; keep the asm for values you cannot mask.
+
+**BOUND.** Four bounds, all byte-probed by me under `.run/harvest_w/vet/`:
+
+1. **PROVENANCE GATE (falsifies the "zero bytes" headline).** The mask is free only when combine can prove `nonzero_bits(value) ⊆ mask` — in practice a single set from `lhu`/`lbu`. `b1_arg.c` (identical body, `n` an incoming `unsigned int` parameter) keeps both branches but pays a real `andi v0,s0,0xffff` = one instruction. On an `lw`, a call return, or a computed value the dial costs bytes and stops being a free lever.
+
+2. **THE MASK MUST BE FRONT-END-OPAQUE.** `b2_full.c` with `(n & 0xFFFFFFFF)` → ONE branch: fold-const collapses `x & -1` to `x` before cse ever runs, so the dial is dead. The mask must be a no-op the FRONT END cannot see but COMBINE can. Same reasoning kills `+ 0` and `| 0`.
+
+3. **ONE cse PATH ONLY (§164-52 lifetime).** `e2_label.c` interposes a balanced `if (C) {…} else {…}` between the two tests; its join label has ≥2 jump references, the cse table resets, and **the second `beqz` survives with no dial at all** (3 conditional branches). If a multiply-referenced label separates the two tests, the guard is already free and adding a mask is a §3-perturbation trap. Same bound as §165-03(a): two sibling tests at the same level are separate PATHS and neither folds the other.
+
+4. **NOT A ZERO-TEST LAW — but also not an EQ-equivalence law.** It widens to any repeated compare against the same constant (`== 5` / `!= 5` reproduced), but the channel is `qty_comparison_code`, which `cse.c:5951` reaches ONLY for `code != EQ`. When you are on the TAKEN side of an `if (x == K)`, you are in §165-03's equivalence channel instead — different structure, different antidote (that one merges the operands into one class and reaches stores' SET_SRC too, per §165-43/§167-41). Diagnose which side of the branch you are on before picking the dial.
+
+Not tested, so out of scope: float modes (`FLOAT_MODE_P` short-circuits the whole arm at `:5951`), and whether a mask narrower than the value's nonzero_bits (a genuinely semantic mask) behaves the same — that changes program meaning and is not a dial.
+
+### §197-C — Fix A1 (operand order) cannot move a commutative destination whose .greg conflict set already contains BOTH operand hard registers — split the accumulate so the destination IS the load's pseudo
+
+**§NNN — FIX A1 (OPERAND ORDER) CANNOT MOVE A COMMUTATIVE DESTINATION WHOSE `.greg` CONFLICT SET ALREADY CONTAINS BOTH OPERAND HARD REGISTERS. SPLIT THE ACCUMULATE SO THE DESTINATION *IS* THE LOAD'S PSEUDO.** *(BOUNDS §10 Residual A / Fix A1 (L856-864) on a new axis — the previous bounds are §164-01 (L11876, pointer canonicalisation), §164-02/§165-33 (L11897/L15823, cse const-equivalence) and §189-B (L18217, self-accumulate identity); none covers a fresh destination fed by two ordinary operands. The LEVER is NOT new: it is §164-64's (L13256) "write the product IN PLACE — `n = A; n = n * B;`", here supplying that entry's missing second instance and a second residual class for it.)*
+
+**THE SHAPE.** `t = x + y;` (or `|`, `&`) where `t` survives its block. Expand mints three pseudos: `(set P1 …x)`, `(set P2 …y)`, `(set P0 (plus P1 P2))`. Both operand pseudos are live at the add, local-alloc places them in `$v1`/`$v0`, and `global.c:668-671` re-marks those placements as live HARD registers before the global conflict scan — so `P0`'s conflict set contains BOTH. Whatever preference it has is then stripped by `prune_preferences` (`global.c:849-862`) and `find_reg` hands it a third register.
+
+**WHY OPERAND ORDER IS INERT ON THE DESTINATION.** Two independent reasons, and you need both:
+1. `combine_regs` is out of scope. `local-alloc.c:472-477` gives a pseudo `reg_qty == -2` only when `reg_basic_block >= 0 && reg_n_deaths == 1`; anything else gets `-1`. `combine_regs` bails on `reg_qty[sreg] == -1` (`local-alloc.c:1774`) and only ties when it is `-2` (`:1843`). **The `;; N regs to allocate:` line in the `-dg` dump is the free printed test for whether your destination is in scope.**
+2. global-alloc's order-sensitive path exists but is symmetric-and-pruned. `set_preference` is called for EVERY set (`global.c:1348`), and for a non-copy src it descends into operand 0 (`global.c:1546-1547`, `src = XEXP (src, 0), copy = 0`) — so a global destination CAN get a hard-reg preference off `(plus P1 P2)`'s first addend. It just cannot be granted here, because that register is in the destination's own conflict set. Swapping the addends swaps which operand is in `$v0`/`$v1` in lockstep, so the conflict set `{2,3}` is unchanged.
+**⚠ Do NOT cite "global.c has no coalescing for a non-copy insn" — that is false and it will send you past the line that actually decides.** Read the CONFLICT SET, not the preference line (the §193 lesson at L19701, again).
+
+**THE LEVER.** `t = x; t += y;` — the accumulator and the load become ONE pseudo at expand, so the destination's conflict set loses that operand's register and it can take it. `t = x; t = t + y;` is byte-identical (§189-B: the compound operator is not the ingredient; the SPLIT is).
+
+**BYTE EVIDENCE** (`func_8017F074`, ov_SC06_006, 121 ins, banked at `src/ov_SC06_006/ov_SC06_006_jr_8017BEBC.c:4067`; three r/g/b clamp blocks; all five re-run independently at vet time against `.run/waveW_asm_snapshot/ov_SC06_006`, files `.run/harvest_w/vfy_{A..E}.c`):
+
+| variant | spelling | result |
+|---|---|---|
+| A | `tr = a.r; tr += b.r;` ×3 (banked) | **MATCH 121** |
+| B | `tr = a.r + b.r;` | 120 ins, 69 mismatched, **LENGTH-DRIFT −1** |
+| C | `tr = b.r + a.r;` (Fix A1) | 120 ins, 72 mismatched, **same −1 drift** |
+| D | `tr = a.r; tr = tr + b.r;` | **MATCH 121** (§189-B: `+=` is not the ingredient) |
+| E | B + `register s32 tr __asm__("$3")` | 121 ins, 3 mismatched, REGALLOC-PERM |
+
+`diff vfyB.s vfyC.s` is exactly **three hunks, all of them the two `lbu`s swapping `$3`/`$2`** — the adds are `addu $4,$3,$2` in both spellings, and `addu $3,$3,$2` in the split. **Fix A1 is inert on the DESTINATION, which is the only thing it promises to move; it does permute the operand loads.** `.greg` proof, one number: B/C `;; 77 conflicts: 73 74 77 2 3 29` → `77 in 4`; A `;; 77 conflicts: 73 74 77 78 2 29` → `77 in 3`. All three read `;; 6 regs to allocate: 79 77 78 93 74 73`, so `tr` is a global allocno in every spelling.
+
+**THE DIAGNOSTIC TELL (the expensive half — this is what the entry is worth).** Failing the tie makes consecutive accumulate/clamp temps share one hard register (mine `$a0/$a0/$v1`, target `$v1/$a0/$v1`). The resulting anti-dependence pins each `sb <prev>` ahead of the next block's `addu`, where it fills a load-delay slot the assembler otherwise emits as `nop` (§188). **The residual therefore presents as LENGTH-DRIFT −1/−2 with per-block `nop`s MISSING**, which `match_one` stamps `[structural]` and which sends an agent hunting for source that does not exist. Concretely, B idx 54: mine `sb a0,16(sp)` where the target has `nop`, with the target's `sb $v1,0x10($sp)` displaced three slots later. **When a LENGTH-DRIFT −N sits on top of RGB/clamp-style accumulators, count the accumulators' destination registers before you look for missing statements.**
+
+**THE PIN IS THE WRONG TOOL, BUT IT IS NOT "WORSE".** `register s32 tr __asm__("$3")` fixes the LENGTH (121 ins) — corroborating the anti-dependence story from the other side — but a pinned pseudo can never be the load's destination, so it converts the drift into a permanent `lbu`-destination swap (`$v0`↔`$v1`) it cannot close: 3 mismatched, stuck. Far closer than the 69 of the unpinned one-expression form, and still not bankable. **Split first; if you have already pinned and are stuck at ~3 REGALLOC-PERM on two `lbu`s, un-pin and split.**
+
+**BOUND.** Where it does NOT apply, measured or reasoned:
+
+1. **"Global allocno" is SUFFICIENT, NOT the discriminator — do not read it as an if-and-only-if.** My probes `.run/harvest_w/vfy2/pL1.c` vs `pL2.c` put the commutative destination in a BLOCK-LOCAL pseudo (no `;; regs to allocate` line at all) and Fix A1 was equally inert: `addu $3,$3,$2` in both spellings, only the two `lbu`s swapping. Same in `qL1/qL2` with pre-named operands. The candidate's own falsifier — "a block-local destination where the split fails and A1 succeeds" — is therefore already half-answered in the negative: A1 does not move the destination in the block-local case either. The operative condition is the CONFLICT SET, and a block-local destination born with both operands live has the same symmetric `{$v0,$v1}` problem. State the law by the conflict set, not by the allocno class.
+
+2. **It requires BOTH operands live at the insn.** If one operand is a constant, a `$zero`, an in-place accumulator, or a value already dead, the conflict set is asymmetric and operand order can genuinely reach the destination — that is §10 Residual A's own territory and Fix A1 stays live there. `qG1` shows the granted case: `;; 78 preferences: 3` recorded off `(plus 77 79)`'s operand 0 and honoured.
+
+3. **It says nothing about pointer adds or symbol bases.** `pointer_int_sum` canonicalisation (§164-01, L11876) and cse's const-equivalence swap (§164-02/§165-33, L11897/L15823) each defeat Fix A1 BEFORE allocation, for different reasons; on those shapes this entry's `.greg` test will look consistent while the real decider ran two passes earlier. Two `zero_extend`ed `u8` operands cannot reach either path, which is why they are disjoint bounds.
+
+4. **It does not apply to a SELF-accumulating statement** (`x = b + x`) — that is §189-B (L18217), where `optabs.c:399-421` swaps by rtx-pointer identity and the addends are already in the right order.
+
+5. **The split is not free elsewhere.** §NNNb/§164-43 (L12775) is the standing warning: how many named temps an expression is split into is a non-monotone global-alloc pricing dial. Splitting an accumulate you did NOT need to split can move a whole function's allocation. Ablate the split per accumulator, do not sweep it globally.
+
+6. **The `[structural]` tell is not exclusive.** A LENGTH-DRIFT −N with missing load-delay `nop`s can still be genuine missing source, a strength-reduced giv (see the `ang += 0x100` family, `src/ov_SC03_014/…:5211`), or §78. This entry only earns its place when the drift co-occurs with **≥2 same-shape accumulators sharing one destination register**. Check that first; it is one grep of the draft `.s`.
+
+7. **Scope of the byte evidence: one banked function.** The bound half is verified on four controlled synthetic shapes; the LENGTH-DRIFT/missing-`nop` diagnostic half has exactly one banked instance. Treat the diagnostic as a strong hypothesis at n=1 until a second function confirms it.
+
+### §197-REJECTED
+
+* **Inside a loop gcc-2.7.2 clears `subtarget`, so a compound assignment can never write its own destination in place — different inside a loop, byte-identical outside one** — Attacks 1, 2 AND 3 all land. Any one is fatal.
+
+**1 — ALREADY IN THE COOKBOOK (§164-80 LAW 1, L13565).** The submitter grepped for `subtarget` and `preserve_subexpressions` (0 hits, correct) but never grepped for the *phenomenon*. §164-80 LAW 1 states it verbatim: "`t = (t & M) | x;` evaluates the inner AND into an ano
+* **THE ARG-COPY ARITY EXEMPTION DIES AT THE FIRST CALL, NOT AT THE FIRST LABEL** — ATTACK 3 LANDED (misattributed mechanism — the pass that actually decides it runs much later), with ATTACK 2 landing on the control half.
+
+1. COOKBOOK — did NOT land. `grep` for invalidate_for_call / find_equiv_reg / "first call" turns up §164-61/§16Xd (L13164), §167-23 (L15542), §195-B (L19745), and the L13339 entry (
+* **Statement order inside a §194-A fence's clean region as a byte-live ordering dial, inert without the fence** — ATTACK 4 LANDED — decisively, and it is the candidate's OWN NAMED FALSIFIER ("a case where the fence-free source is already order-sensitive, which would refute the 'inert without the fence' half and reduce this to plain cookbook-index L25"). ATTACK 1 then lands on the residue.
+
+ATTACK 1 — ALREADY IN THE COOKBOOK (LANDS

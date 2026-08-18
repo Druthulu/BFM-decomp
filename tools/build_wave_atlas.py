@@ -31,8 +31,16 @@ ap.add_argument('n', nargs='?', type=int, default=96)
 ap.add_argument("--max-bins", type=int, default=12, help="concentrate into this many GATE GROUPS (binary,TU)")
 ap.add_argument('--min-ins', type=int, default=0)
 ap.add_argument('--max-ins', type=int, default=120, help='above this the bulk ladder stops being honest')
-ap.add_argument('--levers', default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct',
-                help='agent-draftable levers; UNKNOWN/tell/jtbl/o0/cc1 need their own lanes')
+ap.add_argument('--levers',
+                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN',
+                help="agent-draftable levers; tell/jtbl/o0/cc1 need their own lanes. UNKNOWN IS IN THE "
+                     "DEFAULT LANE since P31 S54 (cookbook §198): it was excluded here while the wave "
+                     "PROMPT told every agent 'UNKNOWN does NOT mean hard -- it means the atlas could "
+                     "not name a lever', so the tool was silently overriding the doctrine. Measured: "
+                     "UNKNOWN held 607 of the 1,179 in-band members -- more than every other lane "
+                     "COMBINED -- and wave W drew 73 cards from it into 3 gate groups (24.3 drafts per "
+                     "rebuild vs wave V's 7.8) for 71/71 drafted and 68 banked. Cost, recorded: UNKNOWN "
+                     "groups are mostly singletons, so the free sibling remap yielded ZERO.")
 ap.add_argument('--atlas', default='.run/atlas.json')
 ap.add_argument('--exclude-bins', default='',
                 help='comma-separated binaries to skip. NOTHING is excluded by default. '
