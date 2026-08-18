@@ -334,7 +334,122 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
                 args: <the object in .run/wave_y_harvest_args.json>})
   This is the ONLY step of the seven-step wave-closing sequence left undone for wave Y.
 
-## 🛑 SESSION CHECKPOINT — S54 FINAL (2026-08-17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+## 🛑 SESSION CHECKPOINT — S54/S55 FINAL (2026-08-17/18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+
+**HEAD `commit:2546` · tree clean except `.run/backlog.jsonl` churn + Ghidra `db.*.gbf` restart-noise
+(R23: do NOT stage) · R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree, run
+SEVEN times this session (after every wave and after wave Y's recovery) · EXE `143dbb89` ·
+0 NON_MATCHING.** No process running, no cron armed, no workflow in flight. Drew pushes.
+
+### Banked this session: 547 functions
+| lane | banked | notes |
+|---|--:|---|
+| wave T — 5 groups | 70 of 70 | **zero drops** — first wave ever to bank every byte-verified draft |
+| wave U — 7 groups | 73 of 73 | **100% drafted AND banked**; 15% fewer tokens, 64% of the wall-clock |
+| wave V — 9 groups | 68 of 69 | |
+| wave W — 3 groups, UNKNOWN lane | 68 of 70 | 24.3 drafts/rebuild; first MODULE binary |
+| wave X — 4 groups | 62 of 63 | second module binary clean |
+| wave Y — 5 groups | 72 | 64 gate + **4 recovery (§200, 0 agent tokens)** + 4 siblings |
+| mechanical siblings (all waves) | 113 | `family_sweep --hseq`, ~0 tokens |
+| §180 leftover sweep | 24 | byte-perfect drafts already on disk from waves M/O/P/R/S |
+
+**Fleet 96.0% instr-weighted · 91.7% distinct-code · 97.07% fn-count · MAIN 20.5%.**
+(Session start: 95.6 / 90.8 / 96.92.)
+
+### THE ONE-LINE VERSION OF WHAT THIS SESSION LEARNED
+**Every single lever that moved the numbers was already computed and simply not carried anywhere.**
+§193-A (the atlas's banked twin, discarded by the card builder) · §194-E (`tu_ref`, the banked
+neighbour in the destination TU) · §196 (`decl_prior`, the fleet's declaration consensus) · §198
+(the UNKNOWN lever lane, excluded by a default flag while the PROMPT told agents to draft it) ·
+§200 (the asm-label alias, an idiom the project already used and the tools could not parse) ·
+`gap_triage` (the harvest's majority verdict is a text search). **Before adding an agent, an
+attempt, or a prompt paragraph, ask what the tree already knows.**
+
+### THE SEVEN RESULTS THAT OUTLIVE THE COUNT
+1. **RECONCILIATION BELONGS INSIDE THE WAVE.** One agent per gate group runs the deterministic
+   ladder over its OWN slate before the first rebuild. Wave R banked 18 of 45 and needed a recovery
+   lane; waves T-Y banked 70/70, 73/73, 68/69, 68/70, 62/63, 64/69. Costs one agent per group.
+2. **THE CARD IS THE CHEAPEST PLACE IN THE PIPELINE TO PUT A FACT.** `seed_ref` (banked 51/51 on
+   wave U's draw vs `exemplar` 0/73) took wave U to 100% drafted at 15% fewer tokens and 64% of the
+   wall-clock. `tu_ref` reaches 48-64 cards per wave. `decl_prior` answers the arity guess §195-A
+   proved the asm cannot answer. Every field costs zero tokens per wave, forever.
+3. **§198 — THE SELECTOR WAS OVERRIDING THE DOCTRINE.** `UNKNOWN` held 607 of 1,179 in-band members,
+   more than every other lane combined, and `--levers` excluded it while the prompt told agents it
+   drafts like any other lane. Promoted (measured 71/71 drafted, 68 banked, 24.3 drafts/rebuild).
+   **Recorded cost: zero siblings** — UNKNOWN groups are singletons.
+4. **§200 — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE.** Only the LINK name has to agree:
+   `extern u8 aD8018A800[] __asm__("D_8018A800");`. Five refusal classes, one move, five still
+   MATCH, four re-gated — during a total API outage, by hand, at zero agent cost. Ordering: adopt
+   the TU's spelling -> cast at the use site -> alias.
+5. **FOUR SELF-CORRECTIONS IN ONE SESSION.** §194-E corrected §193-A · §199-A byte-refuted §189-A ·
+   §197-A refuted §136-9's cure · §201-A caught `decl_prior`'s address-keyed DEF row **before wave Z
+   launched**. A law from one wave is a first draft; the next wave is its review. This is the
+   adversarial verifier paying for itself, and it is why the harvest is a pipeline step.
+6. **THE §192 DEFECT CLASS, THREE MORE INSTANCES.** The pre-gate ladder was main-only and said
+   "clean" about it; `sym_of` returned the keyword `void` for pointer-to-function decls (189,301
+   verdicts corrected) and `__asm__` for the project's own alias idiom (1,210 more); `masked_diff`
+   dropped every internal `j` so a `break`-vs-`return` error read as MATCH. **A tool written against
+   one binary — or blind to one idiom — silently narrows its own domain and reports success over
+   what is left.**
+7. **THE HARVEST CONVERGES, AND THAT IS THE POINT.** already-covered by wave: 61/71 (T), 44/64 (U),
+   76/67 (V), 41/68 (W), 56/63 (X), 53/67 (Y); confirmations 9, 14, 14, 4, 7, 5; wave Y's 8
+   rejections are the session high. Readers seeded with all prior passes cannot re-derive them.
+
+### Tooling shipped (all negative-controlled)
+`build_wave_atlas`: `--one-per-gid` · `--rank total` · `seed_ref`/`matched_n` (§193-A) · `tu_ref` +
+null self-exemplars (§194-E) · `decl_prior` rows (§196), now per-binary (§201-A) · UNKNOWN in the
+default lane (§198) ·
+**NEW** `tools/decl_prior.py` (67,558 symbols; DEF keyed by binary) ·
+**NEW** `tools/gap_triage.py` (harvest pre-filter; wired as step 0 of the harvest prompt, SETUP.md
+row, named in the wave-closing memory) ·
+`gate_main`: `_stubs_for` · `sym_of` x2 · `norm_sig`/`sig_conflict` · `substitute(transform=)` ·
+common.h-derived aliases · `pregate_check`: overlay driver transform, builtin->WARN, block-scope
+typedefs, `[DROP]` reporting, refuse-on-zero-files · `masked_diff`: internal `j` compared.
+
+### WAVE Z IS BUILT AND STAGED — DELIBERATELY NOT LAUNCHED (Drew's instruction)
+**75 cards / 6,517 ins / 8 GATE GROUPS** (9.4 drafts per rebuild) · seed_ref 46 · tu_ref 50 ·
+decl_prior 70 · 43 siblings staged. Binaries: ov_SC02_005 20 · ov_SC01_084 16 · ov_SC05_001 11 ·
+ov_SC03_011 10 · ov_SC03_094 8 · md_MAIN_034 7 · md_SC03_075 2 · ov_SC06_018 1.
+**Cards were REDRAWN after the §201-A fix** — the first staging carried 24 poisoned DEF rows of 292;
+the current file has 0 poisoned and 24 withheld with a stated reason.
+**To fire it:**
+```
+Workflow({scriptPath: ".run/wave_p31z_workflow.js", args: <the object in .run/wave_z_args.json>})
+```
+Cards `.run/wave_z_cards.json` · siblings `.run/wave_z_cards.siblings.json` · wavedir `.run/wave_p31z`.
+
+### THE WAVE-CLOSING SEQUENCE (eight steps, memory `wave-harvest-is-a-pipeline-step`)
+snapshot+verify+**gate** -> **RECOVER** the failures (near-miss / gate-drop / errored) -> gate the
+recovery -> `family_sweep --hseq` siblings -> **R22 once** -> **harvest+bank idioms** (run
+`gap_triage` first) -> **build the next wave's cards** -> **CHECKPOINT, always, written for a fresh
+session — and refresh it if any work lands after it.**
+
+### Known-open items
+* `func_8017FCFC` (ov_SC02_017, closeness 3) — the ONE wave-Y near-miss not recovered. Its agent
+  attributed the last 3 instructions to sched1 by elimination (`oracle_reorder` bypass+`as -O2` = 9
+  diffs so NOT an assembler artifact; `-fno-schedule-insns2` alone does not fix it;
+  `-fno-schedule-insns` alone fixes idx 25-27 and breaks 50-52). Permuter fuel, not a hand lever.
+* `func_80184F18` (wave V, closeness 9) · `func_80184500` (wave W, closeness 4) · `func_8017F9D8`
+  (wave X, closeness 1 — 93 of 94 words identical, a branch landing one instruction early).
+* `func_80031A98` — the `D_800C5328` wall, unchanged. The 6 §188 SDK objects -> `psyq_integrate`.
+  `GsSortBg`/`GsSortFastBg` fragment merges. `gfx2D_BG0_OBJ_4D8` (§181 mirror class).
+* Two wave-W cards released back to the pool (agents died on rate limits, no draft):
+  `func_80185480`, `func_8017EC98`.
+
+### Watch-fors
+* **Transient API failures are normal at this scale and the recovery is always the same.** Session
+  limit (wave X harvest) and 529 Overloaded (wave Y recovery + harvest, four rounds, ~17 agents, 0
+  tokens) both resolved with `Workflow({scriptPath, resumeFromRunId, args})` — cached agents replay,
+  only the dead ones re-run (measured 398k vs the original 1.31M). Do not rebuild a wave by hand.
+* A wave script's LAWS block is a JS template literal: **backticks inside law text terminate it.**
+* `gate_lane` needs `binary` + `name` per slate record; `scan_leftovers` slates carry `fn` + `draft`.
+* If a Reconcile agent dies, its group has NO slate — build it from the drafts on disk and run the
+  ladder by hand (that is why the phase's product is a FILE, not an agent return value).
+* `pregate_check` models the banking DRIVER: main goes through gate_main's hoist/strip, overlays
+  through harvest_verify's `strip_provided_typedefs`. A third driver would need teaching.
+* Snapshot every target's `.s` BEFORE gating — banking prunes it and recovery/harvest need both sides.
+
+## 🛑 (superseded by S54/S55) SESSION CHECKPOINT — S54 FINAL (2026-08-17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
 **HEAD `commit:2541`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
 R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree (run 3x this session, after

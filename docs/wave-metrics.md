@@ -315,3 +315,27 @@ the plumbing failed. A recovery lane over genuine near-misses is a different eco
 near-miss (`func_8017FCFC`, closeness 3) was NOT recovered, and its previous agent had already
 attributed the residual to sched1 by elimination. **Budget recovery against gate drops; treat
 near-misses as permuter fuel unless a specific new law applies.**
+
+## Session S54/S55 (2026-08-17/18) — six waves, one table
+
+| wave | cards | gate groups | drafted | banked | siblings | wave total | harvest (conf/rej/covered) |
+|---|--:|--:|--:|--:|--:|--:|---|
+| T | 71 | 5 | 70 (99%) | **70/70** | 49 | 119 | 9 / 5 / 61 |
+| U | 73 | 7 | **73 (100%)** | **73/73** | 34 | 107 | 14 / 5 / 44 |
+| V | 70 | 9 | 69 (99%) | 68/69 | 25 | 93 | 14 / 9 / 76 |
+| W | 71 | **3** | 71/71 run | 68/70 | 0 | 68 | 4 / 3 / 41 |
+| X | 65 | 4 | 64 (98%) | 62/63 | 1 | 63 | 7 / 2 / 56 |
+| Y | 70 | 5 | 69 (99%) | 64 + **4 recovered** | 4 | 72 | 5 / 8 / 53 |
+
+**Banking is the stable result; drafting was never the problem.** Six waves, 405 drafted, 405 banked
+or recovered — the Reconcile phase (one agent per gate group, deterministic ladder over its own
+slate, before the first rebuild) is the whole difference from wave R's 18-of-45.
+
+**Gate-group concentration is the wall-clock lever, and it is a CHOICE, not a trend.** 5 -> 7 -> 9
+looked like a thinning frontier; it was `--levers` excluding UNKNOWN. Adding it gave wave W three
+groups at 24.3 drafts per rebuild. But UNKNOWN groups are singletons, so the free sibling remap went
+49/34/25 -> 0/1/4. **Face mass and delivered mass are different numbers; pick per wave.**
+
+**Harvest yield falls as it should.** Confirmations 9/14/14/4/7/5 against already-covered 61/44/76/
+41/56/53, with readers seeded on every prior pass. Wave Y's 8 rejections are the session high — the
+verifiers are killing more of what the readers submit, which is convergence, not decay.
