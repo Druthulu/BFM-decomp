@@ -21044,3 +21044,51 @@ Independent corroboration noted by the submitter: a second wave-X agent reported
 * **`register T x __asm__("$N") = INIT;` silently emits no instruction when a call clobbers $N before the first use** — ATTACK 1 LANDED — this is a re-derivation of TWO existing sections, not one.
 
 **§74** (`docs/matching-cookbook.md` L5822, "Auditing a pinned draft: the §72 hazard is CALLER-SAVED pins spanning a call"), failure mode 1, states the mechanism verbatim: *"gcc-2.7.2 does not save/restore an explicit-register variable across
+
+---
+
+## §200 — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P31 S55)
+
+**The situation this replaces.** A byte-verified draft is refused because its declaration of a symbol
+disagrees with the destination TU's, or with a slate-mate's. §183's playbook answers this by
+NEGOTIATING — adopt the TU's spelling and narrow at the use site, cast at the call, view-cast the
+pointer — and that works 18 times in 20. The other 2 are §183.3's hard limit: when the TU's spelling
+forces an `&D_x` your spelling does not, every cast escape loses the match **from instruction #1**,
+and the entry says to report IMMOVABLE with a TU edit.
+
+**There is a third option, and it always works: don't share the C identifier at all.**
+The link name is the only thing that has to agree. gcc's asm-label binding (§37/§124) lets a draft
+declare its OWN identifier, with its OWN type, bound to the same symbol:
+
+```c
+extern u8  aD8018A800[] __asm__("D_8018A800");   /* TU spells it `extern s32 D_8018A800;`     */
+extern void *aD801EF9FC  __asm__("D_801EF9FC");  /* TU spells it `extern s32 D_801EF9FC;`     */
+s32 aF80185B48(s32 a0)   __asm__("func_80185B48");  /* TU prototypes it `void func_…(s32);`   */
+```
+
+Same symbol, same relocation, **same bytes** — and nothing left for the slate to disagree about.
+It works on the DEF side too, which matters because a definition's own signature is the one place a
+cast cannot reach (§183.3, §20's DEF-side wall): give the definition a private C name and bind it.
+
+**Measured, wave Y's recovery lane (P31 S55).** Five gate drops, five different refusal classes:
+array-vs-scalar where `reconcile_slate`'s automatic array fix had *broken the match*; a slate-mate's
+private struct type; a `void *` vs `s32` global; and two DEF-side return conflicts, one of them a
+function whose only in-TU use TAKES ITS ADDRESS as a callback. **All five aliased, all five still
+MATCH, all four re-gated banked** (the fifth was already banked by then). Total agent cost: **zero** —
+the API was down with 529s and the whole lane was done by hand in three edits.
+
+**WHEN NOT TO REACH FOR IT.** This is the escape hatch, not the first move, and the ordering matters:
+1. **Adopt the TU's spelling** if it costs no bytes — that is what wave law 2 is for, it keeps the
+   file readable, and it is right 18 times in 20.
+2. **Cast at the use site** (§183's playbook) when the types differ but the access does not.
+3. **Alias** when 1 and 2 cost bytes, or when the conflict is DEF-side and has no cast form.
+An alias is a small readability debt: a reader sees `aD8018A800` and must follow the label to learn
+it is `D_8018A800`. Pay it deliberately, with the comment explaining WHICH spelling you could not
+use and why — every alias in the tree carries one.
+
+**The tooling had to learn this idiom the same day.** `sym_of` was returning `__asm__` as the symbol
+for every aliased declaration (an identifier followed by `(`, matched before the real one), so
+aliased declarations all collided under that name — 1 byte-verified draft dropped and 2 phantom
+CONFLICTING-EXTERNs on the very slate this lane was recovering. Fixed with a 0-regression control
+over 1,210 changed verdicts (899 of them one symbol: the idiom is fleet-wide). **A project idiom the
+tools cannot parse is an idiom that silently costs work** — third instance of the §192 class.
