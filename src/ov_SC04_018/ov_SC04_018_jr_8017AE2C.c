@@ -5754,11 +5754,7 @@ extern void func_80184CB8(s32*, s32);
 
 
 
-extern void (*D_80191B20[])(void);
-
-void func_801812FC(void *a0) {
-    D_80191B20[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_801812FC()  /* dedup: shared engine-core @0x801812FC (src/shared) */
 
 
 
