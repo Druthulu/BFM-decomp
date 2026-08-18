@@ -65766,6 +65766,12 @@
         } \
     }
 
+#define DEFINE_func_8017E024() \
+    extern s32 D_80127050; \
+    void func_8017E024(void) { \
+        D_80127050 = 1; \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -160935,6 +160941,12 @@
             } \
             param_1 += 0xE; \
         } \
+    }
+
+#define DEFINE_func_8017E024() \
+    extern s32 D_80127050; \
+    void func_8017E024(void) { \
+        D_80127050 = 1; \
     }
 
 #endif

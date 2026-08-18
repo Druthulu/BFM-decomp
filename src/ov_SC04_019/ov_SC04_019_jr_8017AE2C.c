@@ -4529,10 +4529,7 @@ void func_8017DFE8(void *a0) {
 }
 
 
-extern s32 D_80127050;
-    void func_8017E024(void) {
-        D_80127050 = 1;
-    }
+DEFINE_func_8017E024()  /* dedup: shared engine-core @0x8017E024 (src/shared) */
 
 
 
