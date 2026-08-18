@@ -291,14 +291,57 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
   3 verifiers outstanding. `Workflow({scriptPath, resumeFromRunId, args})` replayed 10 finished agents
   from cache and re-ran only the 3: **398k tokens against the original run's 1.31M**.
 
+- 2026-08-18 — **WAVE Y: 69/70 drafted, 72 banked (64 gate + 4 recovery + 4 siblings).** Groups:
+  ov_SC03_007 20/21 · ov_SC03_121 14/14 · ov_SC02_017 15/19 · ov_SC03_001 12/12 · ov_SC05_018 3/3.
+  R22 **213/213** twice (before and after the recovery lane). Fleet **96.0% instr-weighted · 91.7%
+  distinct · 97.07% fn-count**. One reconcile agent died on a server error, so I built that group's
+  slate from the drafts on disk and ran the ladder by hand — which is exactly why the Reconcile
+  phase's product is a FILE, not an agent return value.
+
+- 2026-08-18 — **§200 — THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE, and it was found because the
+  API went down.** Wave Y's recovery lane lost 12 agents to two rounds of 529 Overloaded (0 tokens),
+  so the five gate drops were fixed BY HAND — and five different refusal classes turned out to need
+  ONE move. §183's playbook negotiates with the TU's spelling; §200 declines to share the C
+  identifier at all: only the LINK name has to agree, so bind a private identifier to the symbol with
+  gcc's asm label (§37/§124). `extern u8 aD8018A800[] __asm__("D_8018A800");`. Classes recovered:
+  array-vs-scalar where `reconcile_slate`'s own array fix had BROKEN the match · a slate-mate's
+  private struct · `void *` vs `s32` · and TWO DEF-side return conflicts (one of them a function
+  whose only in-TU use takes its ADDRESS as a callback) — the case §183.3 says has no cast escape.
+  All five still MATCH; 4 re-gated and banked. **Ordering recorded so it stays an escape hatch:**
+  adopt the TU's spelling → cast at the use site → alias. Every alias in the tree carries a comment
+  naming the spelling it could not use.
+
+- 2026-08-18 — **THIRD INSTANCE OF THE §192 CLASS, on our own idiom.** `sym_of` returned `__asm__` as
+  the symbol for every asm-label alias (an identifier followed by `(`, matched before the real one),
+  so aliased declarations all collided under that name — 1 byte-verified draft DROPPED and 2 phantom
+  CONFLICTING-EXTERNs **on the very slate the recovery lane was fixing**. NC over the tree: **1,210
+  changed verdicts, 0 regressions**, 899 of them one symbol — the idiom is fleet-wide, so the
+  miscount was too. *A project idiom the tools cannot parse is an idiom that silently costs work.*
+
+- 2026-08-18 — **WAVE Z IS BUILT AND STAGED, DELIBERATELY NOT LAUNCHED** (Drew's instruction).
+  75 cards / 6,517 ins / **8 gate groups** (9.4 drafts per rebuild) · seed_ref 46 · tu_ref 50 ·
+  decl_prior 70 · 43 siblings staged. Binaries: ov_SC02_005 20 · ov_SC01_084 16 · ov_SC05_001 11 ·
+  ov_SC03_011 10 · ov_SC03_094 8 · md_MAIN_034 7 · md_SC03_075 2 · ov_SC06_018 1.
+  **To fire it:**
+      Workflow({scriptPath: ".run/wave_p31z_workflow.js", args: <the object in .run/wave_z_args.json>})
+  Cards `.run/wave_z_cards.json`, siblings `.run/wave_z_cards.siblings.json`, wavedir `.run/wave_p31z`.
+
+- 2026-08-18 — **⚠ WAVE Y'S HARVEST IS OUTSTANDING — the API is 529-Overloaded for subagents.** Three
+  separate launches lost every agent at spawn (12 recovery + 5 readers), all at zero tokens. The gap
+  reports are captured at `.run/wave_y_gaps.json` (67 of them) and the targets are snapshotted at
+  `.run/waveY_asm_snapshot/`, so nothing is lost. **Resume with:**
+      Workflow({scriptPath: ".run/wave_y_harvest_workflow.js", resumeFromRunId: "wf_ef996308-610",
+                args: <the object in .run/wave_y_harvest_args.json>})
+  This is the ONLY step of the seven-step wave-closing sequence left undone for wave Y.
+
 ## 🛑 SESSION CHECKPOINT — S54 FINAL (2026-08-17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `commit:2529`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
+**HEAD `commit:2541`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
 R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree (run 3x this session, after
 each wave) · EXE `143dbb89` · 0 NON_MATCHING.** No process running, no cron armed, no workflow in
 flight. Drew pushes.
 
-### Banked this session: 475 functions (365 gated heads + 109 mechanical siblings + 1 main)
+### Banked this session: 547 functions (433 gated heads + 113 mechanical siblings + 1 main)
 | lane | banked | notes |
 |---|--:|---|
 | wave T — mass band, 5 groups | 70 of 70 | **zero drops** — first wave ever to bank every byte-verified draft |
@@ -307,9 +350,10 @@ flight. Drew pushes.
 | mechanical siblings (`family_sweep --hseq`) | 49 + 34 + 25 = **108** | ~0 tokens; 9 failed of 112 attempts |
 | wave W — UNKNOWN lane, 3 groups | 68 of 70 | 71/71 drafted; 0 siblings (UNKNOWN groups are singletons) |
 | wave X — UNKNOWN lane, 4 groups | 62 of 63 | 2nd module binary clean; 1 sibling |
+| wave Y — UNKNOWN lane, 5 groups | 72 | 64 gate + 4 recovery (§200, 0 agent tokens) + 4 siblings |
 | §180 leftover sweep | 24 | byte-perfect drafts already on disk from waves M/O/P/R/S |
 
-**Fleet 96.0% instr-weighted · 91.6% distinct-code · 97.05% fn-count · MAIN 20.5%.**
+**Fleet 96.0% instr-weighted · 91.7% distinct-code · 97.07% fn-count · MAIN 20.5%.**
 (Session start: 95.6 / 90.8 / 96.92.)
 
 ### THE FIVE RESULTS THAT OUTLIVE THE COUNT

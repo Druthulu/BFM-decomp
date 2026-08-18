@@ -290,3 +290,28 @@ lane. The tool was silently overriding the doctrine, and the "thinning frontier"
 
 **Gate-group concentration is the wall-clock lever overnight**: 3 rebuilds instead of 9 is roughly an
 hour back per wave, and wall-clock — not tokens — is what bounds a session that runs waves in series.
+
+## Wave Y (P31 S55) — the recovery lane earns its place on its first outing
+
+| | wave X | **wave Y** |
+|---|--:|--:|
+| cards / drafted ins | 65 / 6,549 | 70 / 6,550 |
+| gate groups | 4 | 5 |
+| standalone MATCH | 64/65 | **69/70** |
+| banked at the gate | 62 | 64 |
+| **recovered afterwards** | — | **+4** (§200, **zero agent tokens**) |
+| mechanical siblings | 1 | +4 |
+| **wave total** | 63 | **72** |
+
+**The recovery lane changed the wave's yield by 6%, and it ran during a total API outage.** Twelve
+agents died across two rounds of 529 Overloaded without starting, so the five gate drops were fixed
+by hand — and the five refusal classes collapsed into one move (§200: bind a private C identifier to
+the link symbol instead of negotiating over the shared one). Four re-gated and banked; the fifth had
+already banked. **The lane cost nothing and returned four functions.**
+
+**Read that number carefully before generalising it.** Recovery is cheap here because the drops were
+DECLARATION refusals on already-byte-verified drafts — §181's class, where the work is done and only
+the plumbing failed. A recovery lane over genuine near-misses is a different economy: wave Y's one
+near-miss (`func_8017FCFC`, closeness 3) was NOT recovered, and its previous agent had already
+attributed the residual to sched1 by elimination. **Budget recovery against gate drops; treat
+near-misses as permuter fuel unless a specific new law applies.**
