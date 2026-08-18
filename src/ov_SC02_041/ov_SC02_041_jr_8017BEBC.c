@@ -6497,7 +6497,39 @@ void func_80182B08(s32 arg0) {
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80182B38);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80182BAC);
+
+/* Local twin used as the shape reference: func_801862F0 (this very TU, already MATCHED,
+ * lines 6969-6988): same D_80126B78/D_80126B90/D_801152A8 globals, same
+ * func_8012F14C / func_80135888 / func_8012F568 call chain. */
+
+typedef struct { short vx, vy, vz, pad; } SVec_801861D0_80182BAC;
+
+extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+s32 func_80182BAC(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+
+    extern s32 *D_80126B90;
+    s32 buf1[8];
+    SVec_801861D0_80182BAC vecA;
+    SVec_801861D0_80182BAC vecB;
+    SVec_801861D0_80182BAC vecC;
+
+    func_8012EC04(arg0, arg2, buf1);
+    func_8012F14C((s32)buf1, arg1, (s32)&vecA);
+    func_8012F14C((s32)buf1, arg1 + 8, (s32)&vecB);
+    func_8012F14C((s32)buf1, arg1 + 0x10, (s32)&vecC);
+    *(SVec_801861D0_80182BAC *)(arg0 + 0xFC) = vecC;
+    *(SVec_801861D0_80182BAC *)(arg0 + 0x104) = vecB;
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&vecA, (s32)&vecB) != 0) {
+        func_8012F568(1, 1, 0, arg3, (s32)&vecB, (s32)D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+
 
 #include "common.h"
 

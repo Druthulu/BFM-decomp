@@ -4173,7 +4173,18 @@ void func_80182D0C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80182EC4);
+
+
+extern void func_8012E8A8(u8*);
+
+void func_80182EC4(void *a0)
+{
+    ((void (*)(void *))func_8012E8A8)(a0);
+    *(u32 *)(a0 + 0x1C) = 0xA;
+    *(u16 *)(a0 + 0x5C) = 0;
+    *(u16 *)(a0 + 0x2) = 0xA;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80182F00);
 
@@ -4736,7 +4747,86 @@ void func_80183D98(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80183ED4);
+typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C_8018BCC4_80183ED4;   /* 8 bytes, align 2 -> lwl/lwr block move */
+typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C_80183ED4;   /* == engine_types.h OtBlk (0x14) */
+typedef struct {
+    u16 f0;                     /* 0x00  entity kind; 0x282 is the one we want */
+    s16 f2;                     /* 0x02  state -> 9 on a hit                   */
+    u8  p04[0x20 - 0x04];
+    s32 f20;                    /* 0x20  collision volume A                    */
+    u8  p24[0x58 - 0x24];
+    s32 f58;                    /* 0x58  collision volume B                    */
+    u8  p5C[0x70 - 0x5C];
+    s16 f70;                    /* 0x70  sub-kind / owner tag                  */
+    u8  p72[0x10C - 0x72];      /* stride 0x10C, 0x60 entries (0x6480)         */
+} Ent_80188E10_80183ED4;
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_80183ED4;
+
+/* TU-canonical declarations (law 2) — verbatim from
+ * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c (L2761/2988/etc for func_8012C218,
+ * L1752 for func_80017758). */
+extern void func_8012C218(void *a0);
+extern s32 func_80017758(void *a0, void *a1);
+
+/* Same-TU spelling already used at L4773 for this exact symbol (block-scoped
+ * extern, address-of use — matches this function's need exactly). */
+
+
+/* Isomorphic twin: ov_SC06_032:func_80184B08 (skeleton similarity 1.0, byte-
+ * identical instruction stream). Copied verbatim with only the symbol/function
+ * name unchanged (all callee/global symbols are shared across overlays). */
+void func_80183ED4(void *a0)
+{
+    extern Blk20_8018AF88 D_800AE620;
+    s32 c;
+
+    if (*(u16 *)((u8 *)a0 + 0x34) == 0) {
+        *(u16 *)((u8 *)a0 + 0xCC) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xCC);
+        *(u16 *)((u8 *)a0 + 0xCE) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xCE);
+        *(u16 *)((u8 *)a0 + 0xD0) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xD0);
+        *(u16 *)((u8 *)a0 + 0xD4) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xD4);
+        *(u16 *)((u8 *)a0 + 0xD6) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xD6);
+        *(u16 *)((u8 *)a0 + 0xD8) = *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0xD8);
+        *(u16 *)((u8 *)a0 + 0x34) += 1;
+    }
+
+    *(s32 *)((u8 *)a0 + 0xFC) = 0x50000000;
+
+    c = *(s32 *)((u8 *)a0 + 0x1C);
+    {
+        u8 v = (u8)(c * 30);
+
+        *(u8 *)((u8 *)a0 + 0xEC) =
+        *(u8 *)((u8 *)a0 + 0xED) =
+        *(u8 *)((u8 *)a0 + 0xEE) =
+        *(u8 *)((u8 *)a0 + 0xF0) =
+        *(u8 *)((u8 *)a0 + 0xF1) =
+        *(u8 *)((u8 *)a0 + 0xF2) =
+        *(u8 *)((u8 *)a0 + 0xF4) =
+        *(u8 *)((u8 *)a0 + 0xF5) =
+        *(u8 *)((u8 *)a0 + 0xF6) =
+        *(u8 *)((u8 *)a0 + 0xF8) =
+        *(u8 *)((u8 *)a0 + 0xF9) =
+        *(u8 *)((u8 *)a0 + 0xFA) = v;
+    }
+
+    func_80017758((u8 *)a0 + 0xCC, &D_800AE620);
+
+    {
+        s32 d = *(s32 *)((u8 *)a0 + 0x1C) - 1;
+
+        *(s32 *)((u8 *)a0 + 0x1C) = d;
+        if (d == 0) {
+            func_8012C218(a0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80183FD0);
 

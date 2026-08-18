@@ -4897,7 +4897,64 @@ INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_801802C
 
 INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_80180328);
 
-INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_80180388);
+
+extern void func_8002A04C(s32 a0);
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C098(void *a0);
+extern void func_8012E8A8(u8 *a0);
+extern void func_80180654(s32 a0, s32 a1);
+extern void func_8012B260(u8 *a0);
+
+void func_80180388(void *arg0) {
+    s32 s0;
+
+    func_8002A04C((s32)arg0);
+    s0 = (s32)arg0;
+
+    if (*(s32 *)(s0 + 0xE4) == 0 && (*(u16 *)(s0 + 0x70) & 0x800) == 0) {
+        func_80016714(*(void **)(s0 + 0xD4), 0x38);
+        func_8012C098((void *)s0);
+    } else {
+        *(s8 *)(s0 + 0xC1) = 0;
+        *(s16 *)(s0 + 0x5E) = 0;
+        *(s16 *)(s0 + 0x5C) = 0;
+
+        if ((*(u16 *)(s0 + 0x70) & 0x800) == 0) {
+            *(s16 *)(s0 + 0x2) = 6;
+            func_8012E8A8((u8 *)s0);
+            func_80016714(*(void **)(s0 + 0xD4), 0x38);
+        } else {
+            s32 p;
+            s32 q;
+            s32 a;
+            s16 h1, h2, h3;
+
+            p = *(s32 *)(s0 + 0x78);
+            *(s16 *)(s0 + 0x2) = 1;
+            *(s32 *)(s0 + 0x1C) = 0x80;
+            *(s16 *)(s0 + 0x76) = *(u16 *)p;
+            q = *(s32 *)(s0 + 0x20);
+            *(s16 *)(q + 0x1A) = 0x2000;
+            *(s16 *)(q + 0x18) = 0x2000;
+            a = *(s32 *)(s0 + 0xD4);
+            h1 = *(u16 *)(s0 + 0x88);
+            h2 = *(u16 *)(s0 + 0x8A);
+            h3 = *(u16 *)(s0 + 0x8C);
+            *(s16 *)(s0 + 0x108) = 0;
+            *(s16 *)(s0 + 0x106) = 0;
+            *(s16 *)(s0 + 0x104) = 0;
+            *(s16 *)(s0 + 0x100) = 0;
+            *(s16 *)(s0 + 0xFE) = 0;
+            *(s16 *)(s0 + 0xFC) = 0;
+            *(s16 *)(s0 + 0x6) = h1;
+            *(s16 *)(s0 + 0xA) = h2;
+            *(s16 *)(s0 + 0xE) = h3;
+            func_80180654(a, 0);
+            func_8012B260((u8 *)s0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_8018049C);
 

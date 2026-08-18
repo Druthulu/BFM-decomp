@@ -4741,7 +4741,6 @@ extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_80184938(s32 a0, s32 a1);
 
-extern u16 D_80126B96;
 
 typedef struct { s16 x, y, z, w; } V8_80184F90;
 
@@ -4750,6 +4749,10 @@ extern V8_80184F90 D_801C5E88[];
 extern V8_80184F90 D_801C5EA8[];
 
 s32 func_80184F90(s32 a0) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u16 D_80126B96;
     V8_80184F90 src;
     V8_80184F90 dst;
     s32 i;
@@ -4839,7 +4842,76 @@ s32 func_80184F90(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_801825B8", func_80185344);
+typedef struct {
+    u16 x, y, z;
+    s16 w;
+} Rec8_8017DDC4_801815C4_80185344;
+
+/* func_80185344 (ov_SC03_094, jr_8017BEBC TU) — fresh crack from the target .s.
+ *
+ * Same TU house idiom as func_801844C8 (shares func_8012DEB8/func_80133784/
+ * func_80184938): a probe ray built from self's X/Y/Z through func_80133784,
+ * then a 6x6 grid of func_8012DEB8 hit tests (Y fixed at 0x60/0x80, X/Z swept
+ * -0x50..0x60 step 0x20) -> D_80126B96 = 0x4002 (cf. func_801844C8's
+ * 0x4004 grids and func_8017EC9C's table-driven variant of the same idiom).
+ */
+
+typedef struct { s16 x, y, z, w; } V8_8018487C_80185344;
+
+extern void func_8012CBCC(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern void func_80184938(s32 a0, s32 a1);
+extern void func_8012E688(void *a0, s32 a1, s32 a2);
+extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
+
+void func_80185344(s32 a0) {
+
+    extern u16 D_80126B96;
+
+    V8_8018487C_80185344 src;
+    V8_8018487C_80185344 dst;
+    s32 i;
+    s32 j;
+    u16 x;
+    s32 y;
+    u16 z;
+
+    func_8012CBCC(a0);
+
+    x = *(u16 *)(a0 + 0x6);
+    src.x = x;
+    y = *(u16 *)(a0 + 0xA);
+    src.y = y + 0x50;
+    z = *(u16 *)(a0 + 0xE);
+    dst.x = x;
+    dst.y = y + 0x70;
+    src.z = z;
+    dst.z = z;
+
+    if (func_80133784(1, &src, (s32)&dst) != 0) {
+        *(s16 *)(a0 + 0xA) = dst.y - 0x60;
+        *(s16 *)(a0 + 0x2) = 4;
+        *(s32 *)(a0 + 0x1C) = 0x1E;
+        func_80184938(a0, 0);
+        *(s16 *)(a0 + 0xFE) = 0x40;
+        func_8012E688((void *)a0, 0x6F1, 0);
+    }
+
+    src.y = 0x60;
+    dst.y = 0x80;
+    for (i = -0x50; i < 0x60; i += 0x20) {
+        src.x = i;
+        dst.x = i;
+        for (j = -0x50; j < 0x60; j += 0x20) {
+            src.z = j;
+            dst.z = j;
+            if (func_8012DEB8(a0, (s32)&src, (s32)&dst) == 1) {
+                D_80126B96 = 0x4002;
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_801825B8", func_8018547C);
 
