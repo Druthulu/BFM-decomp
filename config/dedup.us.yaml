@@ -15167,3 +15167,10 @@ groups:
     func: DEFINE_func_801860C0
     vram: 0x801860C0
     binaries: [ov_SC04_018, ov_SC04_019]
+  - id: E_func_80184B94
+    tier: h_exact
+    hash: e527d31f7e87d1b18abcd3100326c904a11a4f92
+    source: src/shared/engine_core.h
+    func: DEFINE_func_80184B94
+    vram: 0x80184B94
+    binaries: [ov_SC03_118, ov_SC03_119]
