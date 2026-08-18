@@ -18196,6 +18196,20 @@ checked by it — which is the whole difference.)*
 
 ## §189 — FIVE COMPILER LAWS MINED FROM THE WAVE R/S JOURNALS (P31 S53), each source-cited and re-derived by a second agent
 
+> 🔴 **THE INFERENCE DIRECTION IS BYTE-REFUTED — see §199-A/§199-E (next session's harvest).**
+> The SPLIT-TIMING half below survives (`-fno-schedule-insns` emits an unsplit `li` and no pair at
+> all). What is FALSE is everything downstream of it: LUID adjacency does NOT imply emission
+> adjacency, an interloper licenses NO conclusion about the source spelling, and the "no statement
+> order and no pin" absolute is wrong. Byte-proof: the banked one-statement slice
+> `prim.col[1] = 0x101010;` compiles with SEVEN insns between its `lui` and `ori`; the two-step
+> spelling prescribed below is BYTE-IDENTICAL (the fix is inert); moving an unrelated statement
+> moves a third constant in and out of the gap; and one separated pair is `0x88888889`, gcc's own
+> reciprocal magic for `/ 0x3C` — a constant with no source spelling at all, so "the target wrote
+> two steps" is unsatisfiable there. `rank_for_schedule` tests INSN_PRIORITY first (sched.c:2395)
+> and reaches the LUID tie-break only at :2428; the separator is the BIRTHING BOOST
+> (`birthing_insn_p`, gated on `reg_n_sets == 1`), which the split pair can never have because
+> `try_split` gives its pseudo two sets. 8 separated pairs across 5 functions in 3 binaries.
+
 **§189-A — SPLIT-CONSTANT LUID ADJACENCY: an interloper between `lui`/`ori` proves the target wrote
 TWO source steps.** `mips.md:3208`'s `large_int` define_split fires in sched1's per-block pre-pass
 (`sched.c:4830` `try_split`, `reload_completed == 0`) — *before* `sched_analyze` hands out LUIDs
@@ -20637,3 +20651,396 @@ Not tested, so out of scope: float modes (`FLOAT_MODE_P` short-circuits the whol
 * **Statement order inside a §194-A fence's clean region as a byte-live ordering dial, inert without the fence** — ATTACK 4 LANDED — decisively, and it is the candidate's OWN NAMED FALSIFIER ("a case where the fence-free source is already order-sensitive, which would refute the 'inert without the fence' half and reduce this to plain cookbook-index L25"). ATTACK 1 then lands on the residue.
 
 ATTACK 1 — ALREADY IN THE COOKBOOK (LANDS
+
+
+---
+
+## §199 — THE WAVE-X HARVEST (P31 S54/S55): 63 index_gap reports -> 7 laws, 2 rejected, 56 already-covered
+
+Fifth harvest of the session. **Two of the seven correct laws banked EARLIER TODAY** (§189-A twice
+over, from two independent readers), which is the adversarial-verifier design earning its cost: a law
+written from one wave's evidence is a first draft, and the next wave is its review.
+
+*(Process note: this run was killed mid-flight by the session usage limit with 3 verifiers
+outstanding. `Workflow({scriptPath, resumeFromRunId, args})` replayed the 10 finished agents from
+cache and re-ran only the 3 — 398k tokens against the original 1.31M. Third time this recovery has
+been used; it is reliable.)*
+
+### §199-A — §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui`/`ori` is a SCHEDULE fact, not a source fact — and the separator is the BIRTHING BOOST, not a "priority floor" (§189-A's split-timing half survives; its "no statement order / no pin" absolute and the candidate's own forward-scheduler narrative both fall)
+
+**§NNN — A SPLIT CONSTANT'S `lui`/`ori` ARE LUID-ADJACENT BUT FREELY SEPARABLE: an interloper between them is a SCHEDULE fact, never a source fact.** *(REFUTES the inference direction and the "no statement order / no pin" absolute of §189-A (L18199); §189-A's split-TIMING half survives untouched. Composes §30#3 / §49-variant onto the split pair.)*
+
+**What survives of §189-A.** `mips.md:3208`'s `large_int` define_split does fire inside sched1's per-block `try_split` (`sched.c:4830`, `reload_completed == 0`), before `sched_analyze` hands out LUIDs (`:2175`), so the two halves really are chain-adjacent with consecutive LUIDs. Byte-proof: the same preprocessed input compiled with `-fno-schedule-insns` emits a single unsplit `li $2,0x00101010` and no pair at all. sched1 both CREATES and SEPARATES the pair.
+
+**What is FALSE.** LUID adjacency does **not** imply emission adjacency, and an interloper (including a *second constant*) licenses **no** conclusion about the source spelling. `rank_for_schedule` tests `INSN_PRIORITY` FIRST (`sched.c:2395`), then the 3-class dependence test (`:2399-2422`), and reaches the `INSN_LUID` tie-break only at `:2428`. §189-A's derivation is scoped to *equal-priority* insns and its conclusion drops that scope. Worse, the LUID tie-break can never adjudicate the pair at all: they are data-dependent, so they are never on the ready list simultaneously.
+
+**The real mechanism (read off `-dS`, not modelled).** gcc-2.7.2's sched1 is a BACKWARD list scheduler (`sched.c:3771-3772` "we are traversing the instructions backwards"; `:3748` "the first insn scheduled becomes the new tail"), so picked-first = placed-last. The `ori` is picked early and placed LATE; the `lui` only enters the ready list *after* the `ori` is picked, and then competes at plain priority 1 against everything already waiting. The usual thing that beats it is the **birthing boost**: `adjust_priority` (`:2507`) → `birthing_insn_p` (`:2469`) raises to `max_priority` any `SET (REG,…)` whose dest has `reg_n_sets[i] == 1` (`:2490`). **A split constant can never be birthing — `try_split` gave its pseudo TWO sets** — while an ordinary one-instruction constant next to it is single-set and boosts to `0x7f000001`. The boosted neighbour wins the priority test outright and is placed later, i.e. **between the halves**. (Same `reg_n_sets==2` fact as L2503, spent on the scheduler instead of `local-alloc.c:1021`.)
+
+**Ground truth** (`func_801A5674`, md_SC07_003, 123 ins, banked MATCH; `-dS` bb 16): every insn in the contest is `priority = 1` except `insn 232` = `lui $v0,0x50000000` (pseudo 118, one set) at `(7f000001)`. Pick order T-5 `ori`(301) → T-8 `lui $v0`(232) → T-13 `lui $v1`(300). Emitted: `lui v1,0x10` · `lui v0,0x5000` · 4× `sh zero` · `sw v0` · `lhu v0` · `ori v1,v1,0x1010` — from the single statement `prim.col[1] = 0x101010;` (`src/md_SC07_003/md_SC07_003.c:1988`).
+
+**Corollary — the tell is non-discriminating, and statement order is the actual dial.** On this function the one-statement spelling and the two-step spelling (`s32 c1 = 0x100000; c1 |= 0x1010;`) both return MATCH (123 ins) — identical bytes, so the interloper cannot distinguish them in either direction. What *does* move the interloper is statement order: hoisting/sinking the neighbouring constant's own statement moves it out of the gap (12 mismatches, `lui $v0,0x5000` migrating from idx 91 to idx 98).
+
+**Independent instances** (2 other binaries): `func_801800E0` (ov_SC06_016) — one plain `… & 0x7FFFFFFF;` statement, halves split by `sh`+`lhu`; and, decisively, `func_801812FC` (ov_SC06_025) — the split constant is `0x88888889`, gcc's synthesized magic for the `/ 0x3C` at `:4617`, a constant **no source can spell**, halves split by `lhu`.
+
+**Practical rule.** Never read a lui/ori gap as evidence about the C. When you actually need the halves adjacent (or apart), reach for the priority dial, not the spelling: kill the *interloper's* birthing boost (§30#3 re-tie / multi-set / arg-reg pin → `reg_n_sets > 1`), or move the interloper's defining statement.
+
+**BOUND.** Where the corrected law does NOT apply, and what it does not claim:
+
+1. **It does not touch §189-A's split-timing half.** `try_split` at `sched.c:4830` genuinely precedes LUID assignment at `:2175`; the halves genuinely are LUID-adjacent. Keep that clause; delete only the inference and the "no statement order / no pin" absolute.
+
+2. **Adjacency is still the DEFAULT, and that is why §189-A looked right.** Separation requires (a) other insns ready in the SAME basic block, and (b) at least one of them beating priority 1 — via the birthing boost, a longer dependence chain, or the 3-class hazard/`potential_hazard` reorder. In a block with nothing else to schedule, or where every rival is also multi-set/priority-1, the pair stays adjacent and the LUID tie-break does keep them together. Across the whole `waveX` snapshot corpus only 8 separated pairs exist in 5 functions; most gaps are 1-2 insns. So "adjacent" is weak *positive* evidence of a quiet block, and "separated" is evidence of a busy one — neither is evidence about the C.
+
+3. **Pre-reload only.** `birthing_insn_p` returns 0 when `reload_completed == 1` (`sched.c:2474`), so the boost is dead in sched2. A gap that first appears after reload (sched2/jump2/dbr) is a different mechanism; do not attribute it here. Likewise the `sw` in a branch delay slot is dbr's doing and is irrelevant at sched1 — the candidate's "delay-slot priority floor" story is the falsified half.
+
+4. **Not about `%hi`/`%lo` symbol pairs.** A `lui`/`addiu` (or `lui`/`ori`) pair that resolves to a *relocated symbol* is the `la` macro handled by maspsx/`as`, not the `large_int` define_split; nothing here governs it. The law is scoped to plain-literal splits (splat renders these as `(0xNNNNNN >> 16)` / `(0xNNNNNN & 0xFFFF)`).
+
+5. **It does not say §189-A's prescribed FIX never works.** Two source steps + a §30#3 re-tie is still a legitimate dial (it changes `reg_n_sets` and cse's remat behaviour), and §189-A reports it moving bytes on `func_8001BBBC`. The claim is narrower and sharper: the *asm tell* does not license reaching for that dial, and on `func_801A5674` the fix is byte-inert (both spellings MATCH). Treat the two-step spelling as a scheduling lever to TRY, never as a diagnosis to READ.
+
+6. **Not a claim about which half moves in general.** In `func_801A5674` the `lui` is the sunk half because the `ori` feeds a store scheduled early in the backward pass. A different consumer structure can invert that. The invariant is only: the pair is never simultaneously ready, so LUID never decides between them, and whichever half enters the ready list second competes on priority/hazard against every independent insn waiting.
+
+7. **Single-compiler scope.** All of this is gcc-2.7.2 `sched.c` as shipped in `tools/reference/gcc-2.7.2/` (verified byte-identical to vanilla per the cookbook's pass-order note). No claim about aspsx/maspsx, which the `-fno-schedule-insns` control rules out as the separator here.
+
+**SECOND INSTANCE.** Two independent second instances, in two different binaries from the candidate's, both banked C (I checked there is no `INCLUDE_ASM` stub for either in its own TU — the only `INCLUDE_ASM(func_801812FC)` lives in a *different* overlay, `src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:4442`):
+
+**(a) `func_801800E0` — ov_SC06_016.** Definition: `/home/musashi/bfm-decomp/src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c:4165`. The source writes ONE plain statement at `:4208`:
+`*(s32 *)((s32)p + 0x4) = *(s32 *)((s32)p + 0x4) & 0x7FFFFFFF;`
+Target `/home/musashi/bfm-decomp/.run/waveX_asm_snapshot/ov_SC06_016/func_801800E0.s:80-83`:
+`lui $a0,(0x7FFFFFFF >> 16)` @80180204 · `sh $v0,0x8($s0)` · `lhu $v0,0x12($sp)` · `ori $a0,$a0,(0x7FFFFFFF & 0xFFFF)` @80180210.
+Two interlopers from one plain masking statement.
+
+**(b) `func_801812FC` — ov_SC06_025 (the decisive one).** Definition: `/home/musashi/bfm-decomp/src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:4592`. The split constant is **`0x88888889`** — gcc's synthesized reciprocal magic for the `/ 0x3C` in the statement at `:4617` (`*(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = (0x3C - *(s32 *)(a0 + 0x1C)) * 0x1000 / 0x3C;`). There is no source constant `0x88888889` anywhere, so §189-A's conclusion ("the target wrote two source steps") is not just false, it is unsatisfiable. Target `/home/musashi/bfm-decomp/.run/waveX_asm_snapshot/ov_SC06_025/func_801812FC.s:51-53`:
+`lui $a0,(0x88888889 >> 16)` @801813AC · `lhu $v0,0x2C($v1)` · `ori $a0,$a0,(0x88888889 & 0xFFFF)` @801813B4.
+
+**(c) Three further separated pairs** found by the same sweep, unexamined but same shape: `func_801839D0` (ov_SC06_016, `0x60000040`, gap 1), `func_8018048C` (ov_SC06_016, `0x7FFFFFFF`, gap 1), `func_8017F694` (ov_SC06_016, `0x7FFFFFFF`, gap 1).
+
+Sweep script (mine): `/home/musashi/bfm-decomp/.run/harvest_x/vscan.py` — 8 separated `lui`/`ori` literal-split pairs across the whole `.run/waveX_asm_snapshot/` corpus.
+
+### §199-B — A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent pins as "obviously load-bearing" is the one carrying the signal, and the partial sweep returns a FLAT residual that reads as proof of order-invariance
+
+**§NNN — A PERMUTATION SWEEP THAT HOLDS *ANY* STATEMENT FIXED IS NOT A SWEEP. The statement an agent pins because it "looks load-bearing" is the one whose position carries the signal, and pinning it at the wrong end returns a residual so FLAT it reads as proof that sched1 normalizes the block.** *(BOUNDS `docs/cookbook-index.md:25`, which prescribes the N! brute force without a completeness requirement, and BOUNDS §178-G (L17298), whose "statement-order sweeps are frequently worthless — proven by exhaustion" is exactly the false conclusion an incomplete sweep manufactures. Upstream of §194-A: run the COMPLETE sweep before spending the zero-byte fence.)*
+
+**THE RULE (one line):** *when the instruction count already matches and the residual is intra-block store order plus the register assignment falling out of it, the permutation set must include EVERY independent statement in the block — no exceptions, and specifically not the one with memory operands.*
+
+**THE DIAGNOSTIC TELL (this is the payload).** Your sweep comes back with a *narrow* residual band and no MATCH — a floor of 18 with a spread of 0–2 across 120 orders. That is not order-invariance; it is the signature of a **pinned degree of freedom**. A complete sweep of the same block spreads 0–23. **Flatness is evidence about your sweep, not about the compiler.** Measured, two functions:
+
+| function | sweep | result |
+|---|---|---|
+| `func_801A2014` (md_SC07_003, 154 ins) | full 6! | 3 exact orders, closeness spread **0–23** |
+| " | mem-stmt pinned LAST (120) | **60×18 + 60×19**, spread 1, 0 matches — **18 diffs from a reachable MATCH** |
+| " | mem-stmt pinned FIRST (120) | 20/21/22 only, spread 2, 0 matches |
+| `func_80182A24` (ov_SC01_077, 158 ins) | full 6! | 10 exact orders, spread 0–18 |
+| " | mem-stmt pinned FIRST (120) | **every one of 120 = exactly 18**, spread **0**, 0 matches |
+| " | mem-stmt pinned SECOND (120) | every one of 120 = exactly 18, spread 0, 0 matches |
+
+**THE FALSIFIED HALF — do not file it.** "Pinning the memory statement makes the answer unreachable" is **byte-wrong**. On `func_80182A24` the answer *needs* that statement LAST (all 10 exact orders have it there), so a last-pinned sweep would have found it. The two functions want it in *opposite* places — position 3-of-6 on the exemplar, position 6-of-6 on the second instance. **You cannot know which position is right in advance; that is the whole reason the sweep must be complete.** Equally, do not file "the memory statement is the *only* load-bearing one": on the exemplar, swapping the two constant stores `f10=0` ↔ `f0C=0x7FFF` costs 8 diffs, and pinning `f08 = i` last also hides all three answers (min 18).
+
+**MECHANISM (honest state).** `rank_for_schedule` decides on `INSN_PRIORITY` first (`sched.c:2395`), then on a dependence class against `last_scheduled_insn` (`:2400-2422`), and only then on `INSN_LUID` — literal source order (`:2428`); priority is computed at `sched.c:1423-1470`. The statement with memory operands carries the largest dependence height and therefore the largest reach over the ready-list contest, which is *consistent with* the measured landscape. **This has not been instrumented** — no `INSN_PRIORITY` values were dumped. The rule above stands on the 1,440 measured compiles alone and does not need the mechanism. Pass attribution IS verified: `-fno-schedule-insns` moves the exemplar's natural order from 154 to 156 insns, so sched1 owns this residual.
+
+**COST.** 6! = 720 compiles ≈ 4 min at 16–24-way; 7! = 5,040 ≈ 30 min. Past 7 independent statements the exhaustive sweep stops being affordable — that is where §3/§3b's permuter takes over, not before.
+
+*(Evidence: `func_801A2014` md_SC07_003 154 ins banked, `src/md_SC07_003/md_SC07_003.c:784`; `func_80182A24` ov_SC01_077 158 ins banked, `src/ov_SC01_077/ov_SC01_077_jr_80182268.c:3404`. 1,440 compiles, independently reproduced 2026-08-18: `.run/harvest_x/vsweep.py|vsweep.json`, `vsweep2.py|vsweep2.json`, `vattr.py`.)*
+
+**BOUND.** **Where it does NOT apply.**
+
+1. **Count-exact only.** Both sweeps held instruction count constant (154/154 across all 720; 158/158 across all 720). If orders change the count, the residual is not a schedule and a permutation sweep is the wrong tool.
+2. **Straight-line, mutually independent statements only.** Field stores to one local aggregate with no data dependence between them. A dependence chain collapses the reachable order set and the sweep degenerates.
+3. **sched1 must own the residual.** Verify with `-fno-schedule-insns` first (§194-A's attribution step). If `-fno-schedule-insns2` alone reproduces the target you are in §190-C's sched2 case and the block-order dial is different.
+4. **This does not resurrect §178-G's dead sweeps.** A block that is genuinely fully DAG-determined stays fully DAG-determined; the claim is only that a *flat result from an incomplete sweep* is not evidence of that. A flat result from a **complete** sweep is real evidence — believe it and go looking for an alias or set-count property, exactly as §178-G says.
+5. **N ≤ 7.** 8! = 40,320 compiles is not a lever.
+6. **Not a "middle position" law.** The two verified instances put the memory statement at opposite positions. Any rule of the form "put the memory statement at position k" is refuted by the pair.
+7. **Not "the memory statement is the unique degree of freedom."** At least two other statements in the exemplar block move the residual materially (8 diffs; and an end-pin that hides all matches).
+8. **One idiom family.** Both instances are the `func_8012C51C` prim-submit block. The law is not yet tested outside contiguous aggregate-field-store blocks.
+
+**SECOND INSTANCE.** **The submitter's second instance does not exist.** Its "wave-X agent self-report ... at a different N" is the SAME function: I read the source gap report in `/home/musashi/bfm-decomp/.run/wave_x_gaps.json`, and it names `prim.f0E` / `f0A` / `f10` / `f0C` — `func_801A2014` itself, swept at N=7 (5,040 orders, 12 MATCHes) instead of the submitter's N=6 (720, 3 MATCHes). Presenting the source agent's own report as independent corroboration is the one integrity failure in the submission. (The agent's own conclusion — *"the permutation set must include EVERY statement in the block"* — is correct and is the half that survives.)
+
+**A genuine second instance, found and measured by me:** `func_80182A24`, `/home/musashi/bfm-decomp/src/ov_SC01_077/ov_SC01_077_jr_80182268.c:3404` (banked, 158 ins, different overlay, different TU, same `func_8012C51C` prim-submit idiom). Block: `sp.f10=0; sp.fE=0; sp.f0=buf[0]; sp.f2=buf[1]; sp.f4=buf[2]; sp.fC=*(u16*)(*(s32*)(arg0+0x20)+0x12);` — five constant/stack-load stores plus exactly one double-deref memory statement (`fC`). All 720 orders compiled, referenced against the banked natural order's own object via `masked_diff.diff_object_object` (a banked function's natural-order object IS the target bytes; no snapshot `.s` exists because banked functions are removed from `asm/*/nonmatchings/`).
+
+Result — it **splits the law**:
+- **Confirms the flatness half, harder than the exemplar.** `fC` pinned FIRST: all 120 orders return **exactly 18**, spread **0**, zero matches. Pinned SECOND: all 120 return exactly 18, spread 0, zero matches. A perfectly constant residual with the answer 18 diffs away.
+- **Refutes the unreachability half.** `fC` pinned LAST: contains all **10** exact orders (`ABCDEM`, `ACBDEM`, `ACDBEM`, `ACDEBM`, `CABDEM`, `CADBEM`, `CADEBM`, `CDABEM`, `CDAEBM`, `CDEABM`). The submitter's own falsifier condition (a) fires.
+- **Confirms the position-dominance half.** Min closeness by memory-statement position: `18 / 18 / 16 / 9 / 8 / **0**` — monotone, a 18-diff swing, and the mirror image of the exemplar's `20 / 19 / 11 / **0** / 17 / 18`.
+
+### §199-C — A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's negate_variant — but whether you ever SEE the neg is decided by COMBINE, and for an EVEN |K| it never disappears
+
+**§NNN — A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's `negate_variant`; WHETHER YOU EVER SEE THE `neg` IS DECIDED BY COMBINE, AND FOR AN EVEN |K| IT NEVER DISAPPEARS.** *(sharpens §136-7 (L8881) and the §1 swarm bullet at L1047, both of which are sign-blind: §136-7 tells you a literal `x*K` goes through synth_mult but never that the chain SHAPE differs by sign; L1047's "hand-write the explicit `x*2 + x*8` form" is spelling-blind advice that misfires on positive constants.)*
+
+**Target shape** — a shift/subtract chain whose subtract reads the SOURCE register first, then a shift, then a plain `addu`:
+```
+sll  $v0, $v1, 3      # v1 = D
+subu $v1, $v1, $v0    # D - 8D   <-- source reg is operand 1
+sll  $v1, $v1, 4      # * -112
+addu $v0, $v0, $v1
+```
+
+**THE LAW.** For a CONST_INT multiplier, `expand_mult` (expmed.c:2136) unconditionally tries `synth_mult (&alg2, - val, …)` at :2186-2193 and takes `negate_variant` whenever `alg2.cost + negate_cost < alg.cost`. For any negative literal the magnitude's chain is the cheap one, so gcc **always** builds the POSITIVE chain for |K| and emits a `neg` at :2314. What you finally read in the `.s` is then decided by **combine**, not by expmed, and there are exactly three outcomes:
+
+1. **synth_mult's chain for |K| ends in a SUBTRACT** (`alg_sub_t_m2` / `alg_sub_t2_m` / `alg_sub_factor`) ⇒ combine rewrites `neg(A − B)` as `B − A`, the neg vanishes into the chain's own subtract with its operands swapped, and the plain literal **already emits the direct negative chain**. `x * -7` → `sll 3 ; subu $2,$4,$2`. **Write the literal. Do not rewrite.**
+2. **The chain ends in a SHIFT — i.e. |K| is EVEN — or in an ADD** ⇒ the neg cannot pass through and survives. If the product is immediately `+=`/`-=`-ed, combine folds it into that operator: the trailing `addu` becomes `subu` and the chain keeps the POSITIVE operand order (`8D − D`), count-neutral. **This is unreachable from any negative literal spelling, and `-= x*K` gives the identical result — permuting the two natural spellings proves nothing.** Write the shift arithmetic explicitly: `(D - D*8) * 16`, never `D * -112`.
+3. **Same as 2 but the product is NOT adjacent to an add/sub** (standalone, or feeding a `mult`) ⇒ the neg materialises as its own `subu $rD,$zero,$rS` and the negative literal is **one instruction longer**, not count-neutral.
+
+**Measured discriminant** (399 cc1 compiles of `a + x * -K`, K = 2..400): **0 / 200 even K** absorb the neg; **99 / 199 odd K** do (K ≡ 3 mod 4, plus 45, 93, 189, 213, 345, 381). So the operational rule is: **|K| even ⇒ the literal can never produce the direct chain, spell the shifts. |K| odd ⇒ compile the literal FIRST; half the time it is already right, and rewriting it by hand breaks it.**
+
+**No mirrored rule for POSITIVE constants** — but not because "spellings converge". They converge only when your explicit spelling IS synth_mult's own chain: `x*240` and `(x*16 - x)*16` are byte-identical, while `x*10` (`sll 2 ; addu ; sll 1`) and the hand-written `x*2 + x*8` (`sll 1 ; sll 3 ; addu`) are NOT, and `x*256 - x*16` is not `x*240`. For a positive constant the literal is always the safe spelling; L1047's hand-written form is a lever for forcing a NON-canonical decomposition, not a general cleanup.
+
+**DIAGNOSTIC TELL.** `match_one` reports equal instruction counts, a handful of mismatches, and the class **`ADDRESSING [structural] sig=ADDRESSING/subu!=addu profile=cse`** — a mislabel that routes you to CSE and addressing levers. Ignore it. Read the two `subu` operand orders instead: yours `subu rD, rSHIFTED, rSRC` (= 8x − x, the positive chain) against the target's `subu rD, rSRC, rSHIFTED` (= x − 8x). Compute the net multiplier; if it is EVEN, the target cannot come from a literal and one character of source (`* -112` → `(x - x*8) * 16`) is the whole fix. The register-role swap on the preceding `lui/lh/sll` triple is a consequence, not a regalloc permute — do not reach for pins or the permuter.
+
+**BOUND.** Does NOT apply when:
+
+1. **|K| is ODD and synth_mult's chain for |K| ends in a subtract** — 99 of the 199 odd K in 2..400, i.e. K ≡ 3 mod 4 plus the factor cases {45, 93, 189, 213, 345, 381}. There the plain literal already emits the direct negative chain and hand-writing the shifts is a needless (and often wrong-shaped) edit. Two of the three instances of this asm shape in the whole `asm/` tree (`func_80183DA0` @ 80183E3C, `func_8017F4DC` @ 8017F5B4) are exactly this case, both ×-127.
+2. **The product is not adjacent to an add/sub.** Then outcome 3 applies: the negative literal emits a visible extra `subu $rD,$zero,$rS` and the counts differ, so the residual is a LENGTH drift, not a same-count operand permute. (`func_801844D8` is this case — the product feeds a `mult`.)
+3. **The multiplier is a non-const local**, not a literal — §136-7 owns that (a real `mult $rX,$rY`); `expand_mult`'s CONST_INT arm is never entered.
+4. **The multiply is DImode, or the mode is wider than `HOST_BITS_PER_INT`** — expmed.c:2157-2159 sets `const_op1 = 0` and :2187's guard `HOST_BITS_PER_INT >= GET_MODE_BITSIZE (mode)` skips the negate_variant entirely. Not reachable on our SImode/HImode targets, but it is the source-level boundary of the "always".
+5. **`add_variant` wins** (expmed.c:2196-2199, `synth_mult (&alg2, val - 1, …)`) — mostly a division-by-constant path; a chain ending in `+ op0` with a REG_EQUAL note for `val-1` is that, not this.
+6. **The expression is narrowed to HImode** before expansion — §136-8's territory; the constant becomes its 16-bit unsigned image and the sign question is moot.
+7. **This is a DIVISION magic multiply** (`expand_divmod` / `choose_multiplier`, cookbook L19319+, §167-24) — a different function with its own sign correction; a `mult` against a `lui/ori` magic is never this law.
+
+**SECOND INSTANCE.** Found — `asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0/func_801844D8.s:28-30` (VRAM 80184534-8018453C), a DIFFERENT overlay from the submitter's md_SC07_003:
+
+```
+/* 5C3D4 8018452C 00140600 */  sll   $v0, $a2, 16     # sign-extend s16
+/* 5C3D8 80184530 03140200 */  sra   $v0, $v0, 16
+/* 5C3DC 80184534 00190200 */  sll   $v1, $v0, 4
+/* 5C3E0 80184538 23104300 */  subu  $v0, $v0, $v1    # x - 16x   <-- source reg first
+/* 5C3E4 8018453C 00110200 */  sll   $v0, $v0, 4      # * -240
+/* 5C3E8 80184540 18004400 */  mult  $v0, $a0
+```
+Net multiplier −240, EVEN ⇒ case 2/3 of the law. I verified both halves with cc1: `int f(int x){return (x-x*16)*16;}` emits exactly `sll $2,$4,4 ; subu $2,$4,$2 ; sll $2,$2,4` — the target's three instructions — while `int f(int x){return x*-240;}` emits `sll $2,$4,4 ; subu $2,$2,$4 ; sll $2,$2,4 ; subu $2,$0,$2`, four instructions with the naked NEG. This function is still unmatched, so it is a live prediction, not a banked proof.
+
+I scanned all 14423 files under `asm/` for the shape (`sll rD,rS,k` immediately followed by `subu rX,rS,rD`) — exactly 3 hits. The other two (`func_80183DA0` @ 80183E3C, `func_8017F4DC` @ 8017F5B4) are both ×-127, ODD, and are instances of the FALSIFIED half: `x * -127` emits `sll 7 ; subu $2,$4,$2` from the plain literal. Banked C contains exactly one occurrence of the explicit spelling — src/md_SC07_003/md_SC07_003.c:371, the submitter's own function. So: one banked instance, one predicted instance in another overlay, and two counter-instances that define the bound.
+
+### §199-D — A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is the WIDTH of a real object, and a widening `(s32)` cast is inert — AMENDS §35 (whose stated "only CSE-reuse canonicalizes" mechanism is byte-wrong) and does NOT apply inside a `switch`
+
+**AMENDS §35 (L2483) — the "separate signed-int copy" prescription is right, its stated reason is byte-WRONG, and it has a scope limit §35 never named.**
+
+In an ordered comparison **expression** (`< > <= >=` in an `if`/`?:`/`&&`), gcc-2.7.2's C front end runs `shorten_compare` on both operands (`c-typeck.c:2456-2470`, reached whenever `short_compare = 1` is set at `:2205`/`:2284`). `shorten_compare` calls `get_narrower`, which **throws away every widening conversion already present in the operand** (`fold-const.c:1753-1760`, whose comment says so in as many words), redoes the comparison in the narrower type, and takes the UNSIGNED variant if the stripped operand was unsigned. That `unsignedp` picks the `LTU`/GEU row over the `LT`/GE row of `cmp_info` in `config/mips/mips.c:1734-1764`.
+
+**Therefore:**
+- `if (*(u16*)p >= K)` / `if (*(u8*)p < K)` → **`sltiu`/`sltu`**. `lhu`/`lbu` feeding a SIGNED `slti`/`slt` is UNREACHABLE from a direct compare of the loaded value.
+- **The dial is the WIDTH OF A REAL OBJECT, in both directions.** `s32 t = *(u16*)p; if (t >= K)` → `slti`. `s32 t = …; if ((u16)t >= K)` → back to `sltiu`. A NARROWING cast is a live dial.
+- **A widening `(s32)` cast is INERT.** `if ((s32)*(u16*)p >= K)` is byte-identical to the uncast form — `get_narrower` strips it. This is the half a reader will get wrong, and it is the half §35's phrase "a separate signed-int copy" invites you to get wrong.
+- **Width, not naming.** `u16 t = *(u16*)p; if (t >= K)` is byte-identical to the raw rvalue. A named local buys nothing; a WIDE named local buys everything.
+- **Narrow-unsigned is the trigger, not narrow.** `s16 t = …` keeps `slti` — but changes the load to `lh`, so it is only usable when the target actually has `lh`/`lb`.
+- **The mask is a separate, independently-visible axis.** Dropping a source `& 0xFF` restores nothing about signedness and costs a target-visible `andi` (`H_nomask`: −1 instruction, LENGTH-DRIFT).
+
+**Falsified half of §35, stated plainly:** §35 L2483's reason — "*since only CSE-reuse canonicalizes signed→unsigned*" — is byte-wrong. The canonicalisation is in the C front end, happens with a SINGLE use and no second read (`one_use_raw` below), needs no CSE, and survives an explicit `(s32)` cast. Do not go looking for a second use to suppress; there is nothing there to suppress.
+
+**Falsified half of the submission:** the wide-local prescription is not new (cookbook-index L20 → §35), and "the ONLY C dial is a real assignment into a wide local" is false twice over — a narrowing cast is also a dial, and inside a `switch` there is no C dial at all.
+
+**Reader's rule:** target has `lhu`/`lbu` then SIGNED `slti`/`slt`? First check whether it is a `switch` dispatch (an `addiu $x,$zero,K ; beq` staircase around it, or a `jtbl`). If yes, the signed compare is free — write the natural `switch` and chase nothing. If it is a real `if`, the source parked the value in an `int`/`s32` object first; write the assignment, not a cast.
+
+**BOUND.** **HARD BOUND (found by me, not in the submission — and it is where the submitter's own falsifier #2 misfires): the law applies ONLY to ordered comparison EXPRESSIONS, never to `switch` dispatch.**
+
+`expand_end_case` synthesises its own range/bisection compares in the back end; they never pass through `c-typeck.c`'s `short_compare` path, so `shorten_compare` never sees them and the operand's narrow unsignedness is irrelevant. Both rows are then unconditionally SIGNED, and the wide-local dial is completely inert.
+
+Micro-probe (`/home/musashi/bfm-decomp/.run/harvest_x/vrf/micro.c`), four functions, identical `*(u16*)(p+0x34)` operand, cases 0/1/2:
+```
+m_switch_u16:  lhu $3,52($4) ; slt  $2,$3,2     <- bare u16 in a SWITCH  -> SIGNED
+m_if_u16:      lhu $3,52($4) ; sltu $2,$3,2     <- bare u16 in an IF     -> unsigned
+m_switch_s32:  lhu $3,52($4) ; slt  $2,$3,2     <- wide local, SWITCH    -> dial INERT
+m_if_s32:      lhu $3,52($4) ; slt  $2,$3,2     <- wide local, IF        -> dial WORKS
+```
+Corroborated by banked, byte-matching source: `func_801812FC` (ov_SC06_025) is `switch (*(u16 *)(a0 + 0x34))` — a bare u16 rvalue, no local, no cast — and its target is `slti $v0,$v1,0x2`. `func_801831C8` (ov_SC05_017) goes further and uses a `u16 st;` NAMED local in the switch, still `slti $v0,$v1,0x6`.
+
+**Why this bound is load-bearing rather than pedantic.** I swept every `.run/*asm_snapshot/*/*.s` for "`lhu`/`lbu` whose destination reaches a SIGNED `slt`/`slti` within 3 instructions": 30 sites in the snapshots (212 counting `asm/`). Classifying them, **~24 of 30 are switch dispatch**, not law instances. A reader who applies this law to the majority population will hunt for a wide local that the source does not contain and cannot contain. Naming the bound is most of the value.
+
+Two further limits:
+- **`==`/`!=` are outside the law.** `short_compare` is set only on the ordered arms; equality compares go the `XOR` rows of `cmp_info` and have no signed/unsigned distinction to pick. `func_801828A0`'s own later `if (*(u16 *)(s1 + 2) == 5)` is a bare rvalue and is untouched.
+- **The `s16`/`*(s16*)` escape changes the LOAD.** It restores `slti` but turns `lhu`→`lh` (`V5_s16local`: 1 mismatched, `sig=WIDTH/lh!=lhu`). It is only a fix when the target genuinely has `lh`/`lb`.
+
+**SECOND INSTANCE.** Three beyond the submitted pair, two of them outside `ov_SC06_016`.
+
+**1. `func_80182E2C` — ov_SC03_028, a DIFFERENT overlay, banked and byte-matching, the UNSIGNED row from target-true code.** Source at `/home/musashi/bfm-decomp/src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c:4425` is a bare u16 rvalue in an ordered `if` with no local and no mask:
+```c
+void func_80182E2C(void *a0) {
+    if (*(u16 *)((s32)a0 + 0x2) < 0x21) {
+```
+Compiling that banked TU through the pinned triple gives `lhu $2,2($16)` ; **`sltu $2,$2,33`**. Because the function is banked, that output IS the target bytes — an independent, cross-overlay instance of the exact row the law predicts. (`func_80180120` in the same file, `if (*(u16 *)(s1 + 0x2) < 0x1B)`, and `func_80183814` in ov_SC07_006, `if (*(u16 *)((s32)a0 + 0x34) < 0x11)`, are two more of the same shape.)
+
+**2. `func_8017F3B8` — the u8 width, reproduced and IMPROVED.** The submitter's `I_raw.c` changes three things at once. I built the one-token version instead: on the banked file, `if (cc < 0xFF)` → `if ((u8)cc < 0xFF)` (`W4_castcmp.c`). Result: 112 ins vs 112, **exactly 1 mismatched**, `sltiu $v0,$a0,255` where the target has `slti $v0,$a0,0xFF`. Nothing else moves. Companion `W5_s16cc.c` (`s16 cc`) keeps `slti` — proving the trigger is narrow-AND-UNSIGNED, not narrowness.
+
+**3. CSE-free micro-probes (`micro2.c`) — the airtight refutation of §35's stated reason.** Every probe below has ONE load and ONE use, so no CSE and no reuse is possible:
+```
+one_use_raw:      lhu $2,2($4) ; sltu $2,$2,7    if (*(u16*)(p+2) >= 7)
+one_use_cast:     lhu $2,2($4) ; sltu $2,$2,7    if ((s32)*(u16*)(p+2) >= 7)   <- cast INERT
+one_use_wide:     lhu $2,2($4) ; slt  $2,$2,7    s32 t = *(u16*)(p+2); if (t >= 7)
+one_use_u8raw:    lbu $2,2($4) ; sltu $2,$2,7    (same law at byte width)
+one_use_u8wide:   lbu $2,2($4) ; slt  $2,$2,7
+wide_then_narrow: lhu $2,2($4) ; sltu $2,$2,7    s32 t = …; if ((u16)t >= 7)   <- REVERSE dial
+```
+
+### §199-E — §189-A BOUNDED AND CORRECTED — the discriminator is INSN_PRIORITY, not "is the interloper a constant": an insn between a `lui`/`ori` pair proves NOTHING about the source spelling unless it TIES the `ori` on priority, and on the pinned `-mcpu=3000` triple a dependent load never does
+
+**§189-A BOUNDED — AN INTERLOPER BETWEEN `lui`/`ori` IS A PRIORITY FACT, NOT A SOURCE-SPELLING FACT. It proves two source steps ONLY if it TIES the `ori` on `INSN_PRIORITY`; on the pinned `-mcpu=3000` triple a dependent load never ties, so `lui K>>16 / lw / ori K&0xFFFF` carries ZERO information about the C.**
+
+*Falsifies §189-A's headline ("an interloper … proves the target wrote TWO source steps"), its inference rule ("if the target shows one there, the target did not write one constant"), and its prescribed fix. §189-A's MECHANISM SENTENCE is the only part that survives, and only when read with its own qualifier doing all the work: "`rank_for_schedule`'s only live discriminator among **equal-priority** ALU constants is the `INSN_LUID` tie-break".*
+
+**Why.** `rank_for_schedule` (`sched.c:2385`) returns `INSN_PRIORITY` difference FIRST (`:2394`), the class-vs-`last_scheduled_insn` rule second (`:2420`), and `INSN_LUID` only as the stable-sort fallback (`:2427-2428`). `mips.md:3208`'s `large_int` split does make the halves LUID-adjacent (still true), but **LUID adjacency is only enforceable across a priority TIE.** `priority()` is dep-chain depth weighted by function-unit ready-delay: `mips.md:153-163` gives a load ready-delay **2 on r3000** (3 otherwise), a store 1, ALU 1, with `mips.h:2944` ADJUST_COST zeroing only anti/output deps. For the ubiquitous mask RMW `*p &= K`:
+
+| insn | chain | priority |
+|---|---|---|
+| `lui K>>16` | → ori → and → sw | P(and)+2 |
+| `lw` | → and → sw | P(and)+**2** |
+| `ori K&0xFFFF` | → and → sw | P(and)+1 |
+
+lui and lw tie ⇒ LUID picks `lui`; then `lw` **outranks** `ori` ⇒ `lw` is placed next. Result `lui / lw / ori` from ONE C statement. Recompiling the identical C at `-mcpu=4000` (ready-delay 3) makes the `lw` outrank both halves and hoist ABOVE the `lui`, leaving them adjacent — proof that ready-delay, not spelling, is the dial.
+
+**And "constant" is not the predicate either.** `q[0] = 4; p[1] &= 0x7FFFFFFF;` (ONE source constant) emits `li 0x7fff0000 / li 4 / sw / lw / ori 0xffff` — a plain `li 4` between the halves, put there by statement order alone, because it feeds a store and so does not tie the `ori`. The same `li 4` feeding a *call argument* (a real tie) stays out in either statement order.
+
+**PRESCRIPTION.**
+1. **Never read an interloper as a source tell** unless you have checked it ties the `ori` on priority — i.e. it is a single-cycle ALU insn whose dependence chain to the block's tail is exactly as deep as the `ori`'s. In practice on this frontier that is almost never: a census of `asm/` finds 376 `lui`/X/`ori` sightings, 284 of them loads and 73 delay-slot `jal`/`j` fills; ~0 are the second constant §189-A describes.
+2. **Write `*p &= K;` / `*p |= K;` / `*p -= K;` as ONE statement** and expect the load to land between the halves. That is the default shape, not a residual.
+3. **Do NOT apply §189-A's fix at a load interloper.** The split alone is inert (byte-identical stream), and the §30#3 zero-byte re-tie between the halves is an active regression: it perturbs local-alloc and swaps the whole `lui/lw/ori/and/sw` group's registers.
+
+**BYTE EVIDENCE (re-run by the verifier, not inherited).** `func_8017F694` (ov_SC06_016, 60 ins, banked at `src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c:3969`), target `lui $v1,0x7FFF / lw $v0,0x4($a3) / ori $v1,$v1,0xFFFF` at `8017F6D8-E0`:
+| probe | source form | result |
+|---|---|---|
+| `J_694_base.c` | `*(s32*)(ptr2+4) &= 0x7FFFFFFF;` — ONE statement | **MATCH 60/60** (§189-A predicts impossible) |
+| `L_split_nortie.c` | `m = 0x7FFF0000; m \|= 0xFFFF; *p &= m;` — TWO statements | **MATCH 60/60**, byte-identical to J |
+| `K_189A_split.c` | §189-A's full recipe: split **+ the §30#3 re-tie between the halves** | **DIFF 60/60, 5 mismatched**, `REGALLOC-PERM/$v0>$v1>$v0` |
+One-statement and two-statement are INDISTINGUISHABLE in the emitted stream; the re-tie alone (L vs K) is what costs the match.
+
+**MINIMAL STANDALONE REPRO** (pinned cc1 only, no BFM headers — `.run/harvest_x/minimal/m1.c`): `f(){p[1] &= 0x7FFFFFFF;}` and `g(){s32 m=0x7FFF0000; m|=0xFFFF; p[1]&=m;}` compile to the **same six insns**, both with the `lw` between the halves.
+
+**FURTHER INSTANCES (banked, byte-matching).** `func_8018048C` (ov_SC06_016, `a->flags &= 0x7FFFFFFF;` → `lui $a0 / lw $v0,0x4($s1) / ori $a0` at `8018053C`); `func_80186C4C` (ov_SC03_014, 273/273, `*(s32*)(r+0x48) = *(s32*)(r+0x48) - 0xC000;` → `lui v1,0xffff / lw v0,72(s1) / ori v1,v1,0x4000` — already printed inside **§16Xb**'s own byte evidence); `func_801839D0` (ov_SC06_016, `|= 0x60000040`).
+
+**WHAT §189-A'S ORIGINAL A/B ACTUALLY SHOWED.** Its four-form ladder on `func_8001BBBC` moved a `li 4` — an insn that *did* tie — so the observation is real; the generalization from it is not. Keep §189-A's ladder as an equal-priority-tie recipe; delete its unconditional headline, inference rule and fix.
+
+**BOUND.** The corrected law is itself scoped. It does NOT apply, and §189-A's original claim DOES hold, when the candidate interloper ties the `ori` on `INSN_PRIORITY` and on class: a single-cycle ALU insn (a `li`/`addiu` constant, a `move`, a shift) whose dependence chain to the block tail is exactly as deep as the `ori`'s. Verified positively: `k1`/`k2` (`li 4` feeding a call argument, i.e. a true tie) refuse to enter the pair in EITHER statement order. That is the cell §189-A's `func_8001BBBC` ladder lives in, and inside it the LUID argument is sound.
+
+Further conditions:
+- **`-mcpu` sensitive.** The `lui / lw / ori` shape is specific to r3000's load ready-delay of 2 (`mips.md:157-159`). At the generic ready-delay 3 the load hoists ABOVE the `lui` and the halves go adjacent again. Our pinned triple is `-mcpu=3000`, so on THIS project the interloping form is the default — but do not carry the shape to a project on another `-mcpu`.
+- **Only for a load the split constant's consumer also consumes.** The `lw` must be an operand of the same `and`/`or`/`addu` the `ori` feeds. An unrelated load in the block is ranked by its own chain and may land anywhere.
+- **Delay-slot fills are a different pass.** The 73 `jal`/`j` interlopers in the census are `reorg` artifacts (the `ori` was pulled into the delay slot); the pair was adjacent when sched1 finished. Never read those as a scheduling fact at all.
+- **The harm half is site-specific.** "The §189-A re-tie costs 5 instructions of drift" is proven at `func_8017F694`; the *general* claim is only that the re-tie is UNNECESSARY at a load interloper (L matches without it) and is an allocation perturbation whose sign must be measured. I did not search for a re-tie placement that recovers K's match.
+- **Says nothing about `%hi`/`%lo` symbol pairs** — those are `LO_SUM`, not `large_int`, and are excluded from the census.
+- **Silent on §189-B through §189-E**, which were not tested.
+
+**SECOND INSTANCE.** Four independent instances beyond the submitted one, all banked and byte-matching, spanning three overlays, three different constants and three different operations:
+
+1. **`func_8018048C`** (ov_SC06_016, banked at `src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c:4303`). Source is the single statement `a->flags &= 0x7FFFFFFF;`. Target `.run/waveX_asm_snapshot/ov_SC06_016/func_8018048C.s:51-55` — `8018053C lui $a0,(0x7FFFFFFF>>16) / 80180540 lw $v0,0x4($s1) / 80180544 ori $a0,$a0,(0x7FFFFFFF&0xFFFF) / and / sw`. Same shape, different function, in the SAME overlay, with no re-tie anywhere in the banked C.
+
+2. **`func_80186C4C`** (ov_SC03_014, 273/273, `src/ov_SC03_014/ov_SC03_014_jr_801848E4.c`). Source is the single statement `*(s32 *)(r + 0x48) = *(s32 *)(r + 0x48) - 0xC000;`. Its target stream is quoted verbatim inside the cookbook's own **§16Xb** at L13145: `lui v1,0xffff ; lw v0,72(s1) ; ori v1,v1,0x4000 ; addu v0,v0,v1 ; sw v0,72(s1)`, explicitly annotated there as "the whole `r->0x48 -= 0xC000` statement". Different overlay, different constant (`0xFFFF4000`), different operator (subtract, not mask) — and it has been sitting in the cookbook as a standing counterexample to §189-A since before §189-A was written.
+
+3. **`func_801839D0`** (ov_SC06_016, `src/ov_SC06_016/ov_SC06_016_jr_801839D0.c:2841`): single statement `*(s32*)(*(s32*)((s32)a0+0x20)+0x4) |= 0x60000040;` → `.run/waveX_asm_snapshot/ov_SC06_016/func_801839D0.s`, `80183B1C lui $v1,(0x60000040>>16) / 80183B20 lw $v0,0x4($a0) / 80183B24 ori $v1,...`.
+
+4. **A standalone minimal repro that needs no BFM code at all** (`.run/harvest_x/minimal/m1.c`, pinned cc1): the one-statement `f` and the two-statement `g` produce byte-identical streams, both interloped.
+
+Target-side census (shape only, unbanked): 376 sightings across `asm/`, 284 of them loads. `func_8017CC44`/`func_8017CCC4` (ov_SC03_015), `func_8017EBD0`/`func_8017F01C` (ov_SC03_092), `func_8017E30C` (ov_SC06_013), `func_80187660` (ov_SC06_029) and many more are the identical `lui 0x7FFFFFFF / lw 0x4(base) / ori` fingerprint awaiting the same one-statement spelling.
+
+### §199-F — §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN `mostly_true_jump > 0` (amendment to §164-36; its "−1 instruction" tell is falsified)
+
+**§164-36b — AMENDMENT TO §164-36: THE TARGET-HEAD FENCE DOES NOT LEAVE A `nop`; IT HANDS THE SLOT TO THE FALL-THROUGH THREAD. THE FENCE IS A THREAD SELECTOR, AND IT ONLY FIRES ON A BRANCH `mostly_true_jump` PREDICTS TAKEN.** *(amends §164-36 / L12620, which states only the denial half and misnames the pass; the placement warnings at §165-40/L14720 and §194-A/L18943 inherit both fixes.)*
+
+**THE PASS, corrected.** For a CONDITIONAL branch the slot is not filled by `fill_simple_delay_slots` — its forward scan is fenced off by `if (target == 0) break;` (`reorg.c:3041-3042`), false for any JUMP_INSN. It is filled by `fill_eager_delay_slots` → `fill_slots_from_thread`, whose scan loop is `for (trial = thread; ! stop_search_p (trial, ! thread_if_true) && (! lose || own_thread); …)` (`reorg.c:3315-3317`). `stop_search_p` (`:674-704`) returns 1 on `ASM_INPUT` / `asm_noperands (…) >= 0`, so an asm as the FIRST insn of the thread ends the loop before its first iteration and the call returns 0 — §164-36's predicate is right, its function name is not.
+
+**THE UNSTATED CONSEQUENCE — the actionable half.** `fill_eager_delay_slots` does not stop there:
+
+    if (prediction > 0)
+      { delay_list = fill_slots_from_thread (…, insn_at_target, …);      /* reorg.c:3692 */
+        if (delay_list == 0 && own_fallthrough)                          /* reorg.c:3698 */
+          delay_list = fill_slots_from_thread (…, fallthrough_insn, …); } /* reorg.c:3706 */
+
+So on a two-armed `if/else` the fence is a **THREAD SELECTOR**: fence the head of the arm whose insn you do NOT want in the slot, and the OTHER arm's insn appears there.
+
+**READ THE TARGET FROM THIS END.** The delay slot of a conditional branch holds an insn from the FALL-THROUGH arm while the branch-TARGET block still owns its own first insn ⇒ the original had something at the head of the target block that reorg refused. Add a bare `__asm__ __volatile__("");` as the FIRST statement of the target arm. Your draft's tell is the mirror: the slot holds the TARGET block's head insn and that block now opens one insn later.
+
+**BYTE EVIDENCE (independently re-run, two functions / three branch sites / two overlays).**
+* `func_8017F694`, ov_SC06_016, banked `src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c:3945`. Fence present → **MATCH 60 ins**, `bgez $v0,.L8017F6D8 ; lui $v1,0x8000` (the fall-through `|= 0x80000000` arm's insn). One line deleted → **59 ins, 45 mismatched**, slot holds `lui $v1,0x7fff` and `.L8017F6D8` opens on `lw`.
+* `func_8017ED80`, ov_SC06_008, banked `src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:3853,3873`, both sites, same flip — at **ZERO length drift**.
+
+**THE FENCE IS PER-THREAD, NOT A BARRIER.** Moving the identical fence to the head of the FALL-THROUGH arm instead is INERT: byte-identical to no fence (59 ins / 45 mismatched). It denies the thread it sits in, nothing else.
+
+**⛔ DO NOT USE LENGTH AS THE TELL.** §164-36's "+1 instruction" and this exemplar's "−1" are both INCIDENTAL: the displaced insn may or may not land in a load-delay slot the assembler would otherwise fill with `nop` (§188). `func_8017ED80` flips thread at 117 → 117. **The invariant is WHICH ARM owns the insn in the slot, never the count.**
+
+**Also correct the in-source comment at `ov_SC06_016_jr_8017C8D0.c:3958-3967`:** it labels the lever §194-A and credits it a second job, "pins the arm's first sched1 group". Byte-checked false — the else-arm's internal order (`lw / ori / sh / and / sw`) is identical with and without the fence; the only change is the hoist. This is reorg, one mechanism, one axis. (Its "drop it and the diff is 7" is also stale; the measured residual is 45.)
+
+**BOUND.** **1. THE HARD GATE — it only works on a branch `mostly_true_jump` predicts TAKEN, and this is byte-proven.** `fill_eager_delay_slots` only tries the target thread first (and therefore only *falls back* to the fall-through) when `prediction > 0` (`reorg.c:3690`). When `prediction <= 0` the fall-through is tried FIRST (`:3714-3722`) and a fence at the target head changes nothing. I inverted `func_8017F694`'s test so the same two arms compile to `bltz` instead of `bgez` (`.run/harvest_x/ZZ_inv_fenced.c` vs `ZZ_inv_nofence.c`): the .s is **character-identical with and without the fence** — the lever is completely inert. From `reorg.c:1397-1418`: NE ⇒ 1, GE/GT-vs-0 ⇒ 1, unconditional ⇒ 1, loop-top ⇒ 2 (`:1360`), loop-test ⇒ 1; EQ ⇒ 0, LE/LT-vs-0 ⇒ 0. In MIPS terms: **`bgez` / `bgtz` / `bne` — lever LIVE. `beq` / `beqz` / `blez` / `bltz` — lever DEAD.** (Plus two overrides ahead of that table: `rare_fallthrough - rare_dest` at `:1377-1391`, and `LABEL_OUTSIDE_LOOP_P ⇒ -1` at `:1343-1350`.)
+
+**2. THE FALLBACK IS CONDITIONAL ON `own_fallthrough` — denial with NO guaranteed substitute.** `reorg.c:3698` is `if (delay_list == 0 && own_fallthrough)`. If the fall-through block is entered by a second edge (`own_thread_p` false, `LABEL_NUSES != 1`, `:2151-2170`) there is no second try and you get a bare `nop`. This is the submitter's own suspected weak point; I did not construct the case, so treat "the slot gets filled from the other arm" as conditional on a singly-entered fall-through.
+
+**3. The substitute is not guaranteed to be the fall-through's FIRST insn.** The scan continues past ineligible insns while `own_thread` holds; in `func_8017F694` the winner (`li $3,0x80000000`) is the fall-through arm's SECOND insn — the first (`lw $2,4($7)`) sets the branch's own condition register and is refused. Predict "some insn from that arm", not "that arm's head".
+
+**4. Zero length authority.** See the amendment — do not route by ±1.
+
+**5. Not a sched1 lever.** The arm's internal statement order is untouched. If your residual is an order problem inside the arm, this is the wrong section (§194-A / §165-40).
+
+**6. Placement is strictly the block HEAD.** `stop_search_p` halts at the FIRST asm; a fence lower in the target block leaves everything above it stealable.
+
+**7. Target-scoped:** gcc-2.7.2 -O2 -mips1 -mcpu=3000, the pinned triple. `-fno-delayed-branch` erases the whole effect.
+
+**SECOND INSTANCE.** `func_8017ED80` — ov_SC06_008, banked at `src/ov_SC06_008/ov_SC06_008_jr_8017C294.c` (declared `aF8017ED80` via `__asm__("func_8017ED80")` at :3830), with the fence at :3853 and :3873. Two independent branch sites in one body, same `if (*(s32*)(*(s32*)(a0+0x20)+0x4) < 0) { … |= 0x80000000; } else { fence; … &= 0x7FFFFFFF; }` shape as the exemplar but in a different overlay, different TU, different surrounding code, and with a `register u32 val __asm__("$2")` pin in the other arm.
+
+Reproduction (no target .s exists — the function is banked, so its asm is out of `asm/nonmatchings/`; the banked C IS the target by the whole-binary gate, and the A/B is therefore against the banked form):
+  `cp src/ov_SC06_008/ov_SC06_008_jr_8017C294.c .run/harvest_x/ZZ_ed80_full.c`
+  `sed '3853d;3873d' .run/harvest_x/ZZ_ed80_full.c > .run/harvest_x/ZZ_ed80_nofence.c`
+  `bash .run/harvest_x/cc1s.sh <each> | awk '/\.ent[ \t]+func_8017ED80/,/\.end[ \t]+func_8017ED80/'`
+
+Banked: `bgez $2,$L233 ; li $3,-2147483648` and `$L233:` → `#APP / #NO_APP / li $3,0x7fff0000 / lw $2,4($5) / ori / and`.
+Fences deleted: `bgez $2,$L233 ; li $3,0x7fff0000` and `$L233:` → `lw $2,4($5) / ori / and`, with `li $3,-2147483648` pushed back inline into the fall-through arm.
+Instruction count (`#nop` included): **117 both ways** — the second instance is where the submitted "−1" tell dies.
+
+Two further shapes in the tree are the fence-as-sched1-barrier placement, NOT this law, and should not be counted as instances: `src/ov_SC03_099/ov_SC03_099_jr_80135D20.c:1169-1178` (fence mid-arm, after two statements) and its ov_SC03_006 / ov_SC02_027 / ov_SC05_003 family copies.
+
+### §199-G — At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positive + a trailing `j default`, NOT the first test's polarity
+
+**§X — AT TWO CASE NODES THE DISPATCH ORACLE IS NOT BLIND: A `switch` EMITS A CONTIGUOUS HEADER OF *ALL-POSITIVE* EQUALITY TESTS THAT FALLS OUT TO `j <default>`; AN `if`-CONSTRUCT ALWAYS SPENDS ONE INVERTED TEST AND PUTS A BODY INSIDE THE HEADER.** *(fills the hole §193-G leaves open — "Below 3 nodes the oracle is genuinely blind and §164-54's original warning stands" (L18703 BOUND) — and retires §164-54's "at 2-3 arms a switch and an if-chain can both emit a `bne` staircase" (L13030) for the 2-node half as well as the 3-node half.)*
+
+**THE MECHANISM (both halves read out of the pinned source).**
+* `switch`: at 2 case nodes `balance_case_nodes`' split gate `if (i > 2)` (`stmt.c:5361`) never fires, so no median and no ordering test — this is why §193-G calls it blind. But `expand_end_case` takes `before_case = get_last_insn()` **after** the bodies are already in the stream (`stmt.c:4749`), emits `emit_case_nodes` + **`emit_jump_if_reachable (default_label)` (`stmt.c:4909`)**, then **`reorder_insns (before_case, get_last_insn(), thiscase->data.case_stmt.start)` (`stmt.c:5054-5056`)** hoists that whole block in front of every body. `emit_case_nodes` tests each node with a branch **TO** its arm, so every test is positive and the header falls out to the default jump.
+* `if`/`else if`: `expand_start_cond` calls **`do_jump (cond, next_label, NULL_RTX)` (`stmt.c:2009`)** — branch to the FALSE label — and `expand_start_elseif` (**`stmt.c:2016-2024`**) emits `emit_jump (endif_label)` and *then* the next `do_jump`. There is no reorder. Body 0 is therefore physically interposed between test 0 and test 1, and at least one test must point at a non-arm.
+* **NOT `jump_optimize`.** jump.c runs long after both; it never sees a choice here.
+
+**READ IT BACKWARDS — THE TELL (read the WHOLE header, never just the first branch).** A 2-arm dispatch on one value is a `switch` iff **(a) both equality tests are positive (`beq`/`beqz`) and each branches to a distinct arm body, (b) nothing but the compare-constant `li` sits between them, and (c) the header falls out to a `j` at the *default/join*.** Any `if` spelling breaks at least one of (a)/(b)/(c):
+| C construct | header |
+|---|---|
+| `switch (x) { case A: … case B: … }` | `beq→armA ; li ; beq→armB ; j default` |
+| `if (x==A){…} else if (x==B){…}` | `bne→L ; bodyA ; j end ; L: bne→…` — **body inside the header, first test inverted** |
+| `if (x!=A){ if (x==B){…} } else {bodyA}` | `beq→armA ; li ; bne→default ; j armB` — **first test positive, LAST test inverted and the `j` points at an arm** |
+
+**PRESCRIPTION.** Target shows the all-positive contiguous header + `j default` ⇒ write a bare `switch`. **§164-54's prescribed cached local (`s16 st = x;`) is inert here** — byte-identical output with and without it; the *construct* is the only lever, exactly as §193-G found at 3 nodes for arm order.
+
+**THE SIGN TRAP — worth banking with it.** The if-chain is **SHORTER** (the switch pays `j default` + `nop`), so the residual presents as **LENGTH-DRIFT / −2 with a whole-function mismatch cascade** (61 of 76 on the exemplar). That signature invites a structural rewrite; the fix is a one-word construct swap. Symptom line: *"LENGTH-DRIFT −2 on a small dispatch function, drift starting at the very first conditional branch, first branch `bnez` where the target has `beqz`"* ⇒ swap the if-chain for a `switch` before touching anything else.
+
+**BYTE EVIDENCE.** `func_801817A8` (ov_SC06_025, 76 ins, banked) — `switch` = **MATCH (76)**; same file, construct-only change to `if/else if` = **74 ins, 61 mismatched, LENGTH-DRIFT/−2**; with the §164-54 cached local = **byte-identical to the uncached if-chain (74/61)**; nested-inverted spelling = **74 ins, 63 mismatched**. Second instance, ROM bytes: `func_80018A20` / `src/800.c:3611` in the main binary (`143dbb89` = `config/check.us.sha`), `beqz s0 ; li v0,1 ; beq s0,v0 ; j default`.
+
+*(SHARPENS — fills §193-G's 2-node blind spot (L18703) and §164-54's ⚠ bound (L13030); orthogonal to §3-T4 / §32.2, which pick an ARM inside one if/else, not a construct; evidence: byte-probed in-tree + ROM-verified second instance + cc1-probed on the pinned triple; from `func_801817A8`, `func_80018A20`.)*
+
+**BOUND.** **FALSIFIED HALF — DELETE IT: "read the FIRST test's POLARITY."** Byte-refuted twice, once in-tree.
+`if (x != A) { if (x == B) {…} } else { bodyA }` — a nested inverted `if`, not a flat chain — compiles to a **contiguous header with a POSITIVE first test**. In-tree: `.run/harvest_x/a8_nested_inv.c` vs the real target gives `idx 3 beqz` which **agrees with the target's `beqz $v1,.L801817D0`**, while `idx 6` is `bne $v1,$v0` against the target's `beq` (74 ins, 63 mismatched, LENGTH-DRIFT/−2). Controlled cc1 probe `h_ifneg` (`.run/harvest_x/vprobe.c`) reproduces it in isolation: `beq $4,$0,$L45 ; li $2,1 ; bne $4,$2,$L47 ; j $L48` — the same instruction count as the 2-arm switch, differing only in the *second* opcode and the two jump targets. **A drafter reading only branch #1 would have declared the nested-if correct.** The discriminator is the LAST test plus where the fall-out `j` points.
+
+**FALSIFIERS THE SUBMITTER NAMED THAT DO NOT LAND (tested, refuted):**
+- *"the tell inverts on u32"* — **NO.** Probe `d_swu` (`switch (unsigned int)` over {0,1}) emits `beq $4,$0 ; beq $4,$2 ; j $L19` — the same positive grouped header. §193-G's u32 caveat is about the *ordering test*, which does not exist at 2 nodes, so it has no purchase here. Also holds for `u8` (`q_u8`), `short`, `int`.
+- *"reversing the if-chain's arm order flips the polarity"* — **NO.** Probe `c_ifrev` (`if(x==1)… else if(x==0)…`) still leads with `bne $4,$2`. Arm order is not the lever, matching §193-G's 3-node finding.
+
+**WHERE THE LAW DOES NOT APPLY:**
+1. **Exactly 2 case NODES.** At **1 node** the switch itself emits the inverted branch (`j_sw1`: `bne $4,$0,$L56` and no `j default`) — indistinguishable from an `if`, genuinely blind. At **≥3 nodes** §193-G's median/`slti` tell takes over and the header leads with the *median* `beq`, not case 0. Node counting follows §193-G: `case 0: case 2:` is 2 nodes; adjacent labels collapse.
+2. **Every arm must have a non-empty body.** Probe `l_empty` (`case 0: break;`): the empty arm's label folds onto the join, and the SECOND test comes out inverted (`beq $4,$0,$L2 ; … bne $4,$2,$L2`) with no `j default`. Clause (a)/(c) both fail on a real switch.
+3. **Arms that all `return` lose clause (c).** Probe `m_ret`: both tests stay positive but the default falls straight into the epilogue and the label-collapse eats the `j`. Read (a)+(b) only; do not require the `j`.
+4. Unchanged from §164-54/§55a/§163c: this is entirely inside the sub-`CASE_VALUES_THRESHOLD` tree route. At 2 cases `count = 2 < 5` always, so the jump-table route is unreachable and that caveat is automatically satisfied — one fewer thing to check than at 3-4 nodes.
+5. Values may be gapped (`g_swg` {3,7}), far apart (`o_far` {100, 90000}), negative (`p_neg` {-5,3}), come from a call (`n_call`), carry an explicit `default:` (`f_swd`), or fall through between arms (`k_swft`) — all still emit the all-positive header + `j default`.
+
+**SECOND INSTANCE.** **`func_80018A20` — banked C at `/home/musashi/bfm-decomp/src/800.c:3611-3624`, main binary, ROM-byte verified.** Different binary from the exemplar (main vs ov_SC06_025), different discriminant class (an `s32` **parameter** `arg0` vs an `s16` **global**), different TU. Its C is a bare 2-case switch with no default:
+
+    switch (arg0) { case 0: chan = 0; break; case 1: chan = 16; break; }
+
+`sha1sum build/us/SLUS_007.26` = `143dbb89f34491258bbc27810d0a12ec8b43a8dd`, which equals `config/check.us.sha`, so the disassembly below is the shipped ROM's bytes, not merely our compiler's opinion (`mipsel-linux-gnu-objdump -d --start-address=0x80018A20 build/us/SLUS_007.26.elf`):
+
+    80018a54  12000006  beqz s0,80018a70   <- positive, to arm 0
+    80018a5c  24020001  li   v0,1
+    80018a60  12020005  beq  s0,v0,80018a78 <- positive, to arm 1
+    80018a68  0800629f  j    80018a7c       <- j default (the join)
+
+Same shape as the exemplar's `beqz $v1,.L801817D0 ; addiu $v0,$zero,0x1 ; beq $v1,$v0,.L80181880 ; j .L801818C8`, where `.L801818C8` is byte-confirmed to be the epilogue (`lw $ra,0x18($sp) ; addiu $sp ; jr $ra`), i.e. the implicit default.
+
+**Population check.** A structural scan of banked `src/**/*.c` for single-level switches with exactly 2 top-level `case` labels returns **510 sites** across the main binary and ~130 overlays (`src/800.c` ×4, `src/ov_SC06_008/ov_SC06_008_jr_8017C294.c:4364`, `src/ov_SC03_014/ov_SC03_014_jr_801848E4.c:2838`, `src/ov_SC06_032/ov_SC06_032_jr_80182890.c:7805`, …). Every one of those is a shape §193-G's "genuinely blind below 3 nodes" told a reader to give up on.
+
+Independent corroboration noted by the submitter: a second wave-X agent reported the adjacent 2-vs-3-node cliff on `func_801805BC`. I did not verify that one.
+
+### §199-REJECTED
+
+* **A $v0-setting insn in an ordinary conditional branch's delay slot proves the function returns void** — ATTACK 4/5 LANDED HARD (the inference is false), and ATTACK 1 landed partially (the mechanism is a re-derivation of `docs/gcc-2.7.2-map/sched.md` §D3).
+
+**Attack 1 — already in the knowledge base: PARTIAL HIT, and it is the damning one.** The candidate's "ruled out" list checks §162f1, §162g, §194-M, L3096, L14761 — al
+* **`register T x __asm__("$N") = INIT;` silently emits no instruction when a call clobbers $N before the first use** — ATTACK 1 LANDED — this is a re-derivation of TWO existing sections, not one.
+
+**§74** (`docs/matching-cookbook.md` L5822, "Auditing a pinned draft: the §72 hazard is CALLER-SAVED pins spanning a call"), failure mode 1, states the mechanism verbatim: *"gcc-2.7.2 does not save/restore an explicit-register variable across

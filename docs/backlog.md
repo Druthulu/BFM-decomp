@@ -889,8 +889,8 @@
 | 881 | func_8017DAF4 | None |  | None | near | 111 | residual: 111 mismatch | `.run/backlog_drafts/func_8017DAF4.c` |
 | 882 | func_8017FE9C | None |  | None | near | 111 | residual: 111 mismatch | `.run/backlog_drafts/func_8017FE9C.c` |
 | 883 | func_8017F768 | None |  | None | near | 112 | residual: 112 mismatch | `.run/backlog_drafts/func_8017F768.c` |
-| 884 | func_8017F3B8 | None |  | None | near | 112 | residual: 112 mismatch | `.run/backlog_drafts/func_8017F3B8.c` |
-| 885 | func_8017D508 | None |  | None | near | 113 | residual: 113 mismatch | `.run/backlog_drafts/func_8017D508.c` |
+| 884 | func_8017D508 | None |  | None | near | 113 | residual: 113 mismatch | `.run/backlog_drafts/func_8017D508.c` |
+| 885 | func_8017DB98 | None |  | None | near | 115 | residual: 115 mismatch | `.run/backlog_drafts/func_8017DB98.c` |
 | 886 | func_80180C90 | 1 | STRUCT | 160 | near | 116 | STRUCT: 116 mismatch | `.run/backlog_drafts/func_80180C90.c` |
 | 887 | func_8017D890 | None |  | None | near | 124 | residual: 124 mismatch | `.run/backlog_drafts/func_8017D890.c` |
 | 888 | func_8017DECC | None |  | None | near | 125 | residual: 125 mismatch | `.run/backlog_drafts/func_8017DECC.c` |
