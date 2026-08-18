@@ -261,3 +261,32 @@ that pointer all along while the card builder discarded it.
 fleet-wide 60-200 mass band thinning under `--rank total`. Each group is a whole-binary rebuild, so
 the gate cost per banked instruction is rising even while the bank rate holds. At ~12 groups, re-open
 the band question against the velocity ledger rather than drawing another wave on reflex.
+
+## Wave W (P31 S54) — the UNKNOWN lane, and the selector that was overriding the prompt
+
+| | wave V | **wave W** |
+|---|--:|--:|
+| cards / drafted ins | 70 / 6,503 | 71 / 6,500 |
+| **gate groups** | 9 | **3** |
+| **drafts per rebuild** | 7.8 | **24.3** |
+| standalone MATCH | 69/70 | **71/71 of the agents that ran** (2 lost to server rate-limiting) |
+| banked | 68 | **68** |
+| mechanical siblings | 25 | **0** |
+| index_gaps -> confirmed / rejected / already-covered | 67 -> 14 / 9 / 76 | 68 -> 4 / 3 / 41 |
+
+**The draw is the story.** Wave W's first draw came up SHORT — 63 cards, 5,647 ins, 10 gate groups —
+continuing 5 -> 7 -> 9. Probing the atlas rather than accepting it: **`UNKNOWN` held 607 of the 1,179
+in-band members, more than every other lever lane combined**, and `build_wave_atlas`'s default
+`--levers` excluded it — while the wave PROMPT tells every agent that UNKNOWN drafts like any other
+lane. The tool was silently overriding the doctrine, and the "thinning frontier" was a default flag.
+
+**Two costs, both real, recorded so the next draw is a choice and not a reflex:**
+* **Zero siblings.** UNKNOWN groups are mostly singletons: waves T/U/V got 49/34/25 functions free
+  from the remap, W got none. Face mass and delivered mass are different numbers (§193-A/`--rank
+  total`), and the UNKNOWN lane maximises the first at the expense of the second.
+* **Harvest yield fell to 4** from 14. Partly the seeding (three sessions of laws off the table),
+  partly that this lane's functions are ordinary — the atlas could not name a lever precisely because
+  there was no distinctive one to name.
+
+**Gate-group concentration is the wall-clock lever overnight**: 3 rebuilds instead of 9 is roughly an
+hour back per wave, and wall-clock — not tokens — is what bounds a session that runs waves in series.

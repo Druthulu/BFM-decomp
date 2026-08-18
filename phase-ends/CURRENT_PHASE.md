@@ -229,23 +229,58 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
   byte-neutral only if every existing USE SITE still compiles unchanged — and prefer editing the
   draft, which verifies in seconds, over the TU, which costs a rebuild and risks the whole file.
 
+- 2026-08-18 — **WAVE W: 71/71 drafted, 68 banked in THREE gate groups — and the draw exposed that the
+  SELECTOR had been overriding the DOCTRINE.** The first draw came up short (63 cards / 5,647 ins /
+  10 groups, continuing 5 -> 7 -> 9), so I probed the atlas instead of accepting it: **UNKNOWN held
+  607 of the 1,179 in-band members — more than every other lane COMBINED — and
+  `build_wave_atlas`'s default `--levers` excluded it**, while the wave PROMPT tells every agent
+  "UNKNOWN does NOT mean hard — it means the atlas could not name a lever ... UNKNOWN cards draft
+  like any other lane (measured across waves O-S)". Redrawn with UNKNOWN in: **73 cards / 6,500 ins
+  in 3 GATE GROUPS = 24.3 drafts per rebuild** (T 14.2 · U 10.4 · V 7.8). Result: **71/71 of the
+  agents that ran matched** (2 died on server rate-limiting and are released back to the pool),
+  **68 banked** (ov_SC03_105 26/26 · md_SC07_004 34/36 · ov_SC06_006 8/8 — the first MODULE binary
+  drafted this session). UNKNOWN is now a DEFAULT lane (§198). **Recorded cost: zero siblings** —
+  UNKNOWN groups are mostly singletons, so the free remap that gave T/U/V 49/34/25 gave W nothing.
+  Concentration and sibling mass trade against each other; pick per wave.
+
+- 2026-08-18 — **§196 `decl_prior`: the card now carries the fleet's declaration consensus.** Chosen
+  by measurement, not intuition: wave V's tokens are **88.3% drafting / 8.4% repair / 3.2% reconcile**
+  at **9.3 match_one compiles per agent**, so the lever is what a drafter must GUESS before its first
+  compile. Two such guesses are answered in the tree — callee arity/return type (§195-A: the asm has
+  NO tell either way, the procedure is a two-arity A/B) and global type (every CONFLICTING-EXTERN
+  drop). `tools/decl_prior.py` indexes 4,162 files -> **67,094 symbols** (9,739 with a banked
+  DEFINITION); cards carry the rows for their own target's symbols, ranked DEF > TU (authoritative,
+  law 2) > FLEET modal + rivals with counts. I did NOT build the offset-width prior I first sketched:
+  the `.s` already gives access width unambiguously (`lh`/`lhu`/`lw`), so it would have been
+  redundant. Structs deferred to the readability pass per Drew.
+
+- 2026-08-18 — **§197 harvest (4 confirmed / 3 rejected / 41 already-covered), and one entry is banked
+  CONTESTED.** Two verifiers confirmed the same phenomenon (`lhu ; sll 16 ; sra 16+K` where the
+  target has `lh ; sra K`) and attributed it to DIFFERENT passes — cse's `fold_rtx` associative block
+  (with `-da` dumps showing the middle insn already gone in `x.i.cse`) vs combine preferring the
+  count-merge. R34 forbids reading agreement between disagreeing oracles as corroboration, so the
+  tell and the cure (a zero-byte asm re-tie; a FRESH TEMP works with no second SET at all) are banked
+  and the pass question is recorded open. Both verifiers independently **byte-refuted §136 type-form
+  rule 9's cure**: `u16 v[4]` and `SVECTOR v` compile byte-identically in rule 9's own context.
+
 ## 🛑 SESSION CHECKPOINT — S54 FINAL (2026-08-17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `commit:2509` · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
+**HEAD `commit:2515`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
 R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree (run 3x this session, after
 each wave) · EXE `143dbb89` · 0 NON_MATCHING.** No process running, no cron armed, no workflow in
 flight. Drew pushes.
 
-### Banked this session: 344 functions (235 gated heads + 108 mechanical siblings + 1 main)
+### Banked this session: 412 functions (303 gated heads + 108 mechanical siblings + 1 main)
 | lane | banked | notes |
 |---|--:|---|
 | wave T — mass band, 5 groups | 70 of 70 | **zero drops** — first wave ever to bank every byte-verified draft |
 | wave U — mass band, 7 groups | 73 of 73 | **100% drafted AND 100% banked**; 15% fewer tokens, 64% of the wall-clock |
 | wave V — mass band, 9 groups | 68 of 69 | 8 of 9 groups clean |
 | mechanical siblings (`family_sweep --hseq`) | 49 + 34 + 25 = **108** | ~0 tokens; 9 failed of 112 attempts |
+| wave W — UNKNOWN lane, 3 groups | 68 of 70 | 71/71 drafted; 0 siblings (UNKNOWN groups are singletons) |
 | §180 leftover sweep | 24 | byte-perfect drafts already on disk from waves M/O/P/R/S |
 
-**Fleet 95.9% instr-weighted · 91.4% distinct-code · 97.02% fn-count · MAIN 20.5%.**
+**Fleet 95.9% instr-weighted · 91.5% distinct-code · 97.04% fn-count · MAIN 20.5%.**
 (Session start: 95.6 / 90.8 / 96.92.)
 
 ### THE FIVE RESULTS THAT OUTLIVE THE COUNT
