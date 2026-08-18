@@ -5822,12 +5822,7 @@ extern void func_80184CB8(s32*, s32);
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80181738);
 
 
-extern void func_80184CB8(s32*, s32);
-    extern short D_80191B34;
-    void func_8018178C(void * arg0) {
-        *(short *)((char *)arg0 + 0x2) = 9;
-        ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_80191B34);
-    }
+DEFINE_func_8018178C()  /* dedup: shared engine-core @0x8018178C (src/shared) */
 
 
 INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801817B8);

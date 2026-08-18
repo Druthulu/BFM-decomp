@@ -65722,6 +65722,14 @@
         func_8012AD44((s32 *)self, 9); \
     }
 
+#define DEFINE_func_8018178C() \
+    extern void func_80184CB8(s32*, s32); \
+        extern short D_80191B34; \
+        void func_8018178C(void * arg0) { \
+            *(short *)((char *)arg0 + 0x2) = 9; \
+            ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_80191B34); \
+        }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -160848,5 +160856,13 @@
         func_8012A828(self, &D_8018DF4C); \
         func_8012AD44((s32 *)self, 9); \
     }
+
+#define DEFINE_func_8018178C() \
+    extern void func_80184CB8(s32*, s32); \
+        extern short D_80191B34; \
+        void func_8018178C(void * arg0) { \
+            *(short *)((char *)arg0 + 0x2) = 9; \
+            ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_80191B34); \
+        }
 
 #endif
