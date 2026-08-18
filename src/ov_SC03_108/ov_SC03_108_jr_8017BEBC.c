@@ -3384,7 +3384,7 @@ void func_8017D2B8(s32 param_1, s32 param_2, s16 *param_3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017D484);
+DEFINE_func_8017D484()  /* dedup: shared engine-core @0x8017D484 (src/shared) */
 
 
 /* func_8017D5F4 — ov_SC02_039 / ov_SC02_039_jr_8017BEBC   (46 ins, MATCH)
