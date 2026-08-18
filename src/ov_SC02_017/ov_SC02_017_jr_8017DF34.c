@@ -3655,7 +3655,73 @@ void func_8017FB00(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8017FB60);
+#include "common.h"
+
+/* Declarations conform to the TU's existing spellings for these callees
+ * (src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c lines 3806-3808, 2530, 61,
+ * and the func_80188BB0/5651-5693 twin for func_8012CAE4/func_8012A828). */
+extern void func_8012C1B8(void);
+extern void func_8001C214(s32, s32);
+extern s32 func_800291B4(s32 arg);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012CAE4(void *a0);
+extern void func_8012A828(s32 a0, void *a1);
+
+/* Not declared anywhere in this TU -- typed by access width (§ law 2 fallback). */
+extern u8 D_801C81C8[];
+extern s32 D_8018E204[];
+extern u8 D_8018E1E4[];
+extern u8 D_8018E1F4[];
+/* DATA-SYMBOL ALIAS (§37/§124, applied P31 S55 recovery). The destination TU spells D_8018A800 as
+ * extern s32 D_8018A800;, which this function cannot use (the TU declares it a scalar s32 and reconcile_slate's array fix broke the match). A cast at the use site cannot
+ * recover the bytes here, so the draft binds its OWN identifier to the same link name: same
+ * symbol, same relocation, same bytes, and no declaration for the slate to disagree about. */
+extern u8 aD8018A800[] __asm__("D_8018A800");
+
+void func_8017FB60(void *a0) {
+    s32 v0;
+    s32 res2;
+    s32 s1;
+    u16 idx;
+
+    *(s16 *)((s32)a0 + 0x76) = 1;
+    *(u16 *)((s32)a0 + 0x5C) = 0x8800;
+    v0 = ((s32 (*)(void *))func_8012C1B8)(a0);
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    func_8001C214(v0, (s32)D_801C81C8);
+
+    idx = *(u16 *)((s32)a0 + 0x70) & 0xF;
+    v0 = func_800291B4(D_8018E204[idx]);
+    s1 = v0 & 0xFF;
+
+    if (s1 != 3) {
+        res2 = func_8012C658(0xAF, *(s16 *)((s32)a0 + 0x70), (s32)a0);
+        *(s32 *)((s32)a0 + 0xCC) = res2;
+        if (res2 == 0) {
+            func_8012CAE4(a0);
+            return;
+        }
+        if (s1 == 0) {
+            *(s32 *)((s32)a0 + 0x58) = (s32)D_8018E1E4 | 0x40000000 | 0x20000000;
+            goto common;
+        }
+    }
+
+    *(s32 *)((s32)a0 + 0x58) = (s32)D_8018E1F4 | 0x40000000 | 0x20000000;
+    *(u16 *)((s32)a0 + 0x5C) = *(u16 *)((s32)a0 + 0x5C) | 0x400;
+
+common:
+    *(u8 *)((s32)a0 + 0x75) = 4;
+    *(u16 *)((s32)a0 + 0x2) = 1;
+    *(s16 *)((s32)a0 + 0xAE) = -4;
+    func_8012A828((s32)a0, aD8018A800);
+}
+
 
 void func_8017FC84(void) {
 }
@@ -4326,7 +4392,87 @@ void func_80181604(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018183C);
+#include "common.h"
+
+/* Declarations copied VERBATIM from this same TU (src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c),
+ * where the sibling func_8018925C (aF8018A224) already declares the identical set
+ * (D_80126B78, RotTransSV, func_80135888, func_80172710, func_80178BF8, the SRM/STM
+ * ctc2 macros). This function is that same GTE idiom but copies the 8 matrix words
+ * into a local array first (func_8018E208's idiom in ov_SC02_011), and has only ONE
+ * gate (no func_8012BDBC), storing the literal 4 instead of 3. */
+
+extern s32 *D_80126B78;
+extern u8 D_8018E328[];
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80172710(void);
+extern s32 func_80178BF8();
+extern void RotTransSV(void *a0, void *a1, void *a2);
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+
+
+/* DEF-SIDE ALIAS (§37/§124, applied P31 S55 recovery). The TU declares this
+ * `extern void func_8018183C(void);` because its only in-TU use TAKES ITS ADDRESS as a callback
+ * (`func_801788B8(param_1, (s32)func_8018183C)`), where the declared type is erased by the cast
+ * anyway. The real definition takes an argument and returns a value, and a definition's own
+ * signature has no cast escape, so it binds a private identifier to the link name and the TU's
+ * address-taking call site keeps compiling unchanged. */
+s32 aF8018183C(void *a0) __asm__("func_8018183C");
+
+s32 aF8018183C(void *a0)
+{
+    u8 *p;
+    s32 matrix[8];
+    s32 sv0[2];
+    s32 sv1[2];
+    s32 flag;
+    s32 result;
+
+    p = (u8 *)D_80126B78;
+    *(Blk16 *)&matrix[0] = *(Blk16 *)(p + 0x34);
+    *(Blk16 *)&matrix[4] = *(Blk16 *)(p + 0x44);
+
+    gte_SetRotMatrix(matrix);
+    gte_SetTransMatrix(matrix);
+
+    RotTransSV(D_8018E328, sv0, &flag);
+    RotTransSV(D_8018E328 + 8, sv1, &flag);
+
+    result = func_80135888(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20),
+                            *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x58),
+                            (s32)sv0, (s32)sv1);
+    if (result != 0) {
+        *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 4;
+        func_80178BF8();
+        return (s32)func_80172710;
+    }
+    return 0;
+}
+
 
 extern void (*D_8018E52C[])(void);
 
@@ -4784,7 +4930,63 @@ INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80183D6
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80183DFC);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80183E70);
+#include "common.h"
+
+/* local copies of shared-header types (match_one's isolated compile can't reach
+ * src/shared/engine_types.h via the TU's "../shared/..." relative include); shapes copied
+ * verbatim from engine_types.h:612 (SV3) and :497 (Blk8) which the real TU already sees. */
+
+
+
+/* decl_prior: destination TU spellings (src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c), adopted verbatim */
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void func_8012AD80(s32 a0);
+extern void func_8012B2CC(s32 a0);
+
+/* not declared anywhere else in the fleet (fresh symbols): type by access width */
+/* DATA-SYMBOL ALIAS (§37/§124, applied P31 S55 recovery). The destination TU spells D_801EF9FC as
+ * extern s32 D_801EF9FC;, which this function cannot use (the TU declares it a plain s32 while this function dereferences it). A cast at the use site cannot
+ * recover the bytes here, so the draft binds its OWN identifier to the same link name: same
+ * symbol, same relocation, same bytes, and no declaration for the slate to disagree about. */
+extern void *aD801EF9FC __asm__("D_801EF9FC");   /* lw-loaded 32-bit slot; single .word 0 in data */
+extern u16 D_8018EED4;     /* lhu */
+extern u16 D_8018EED6;     /* lhu */
+extern u16 D_8018EED8;     /* lhu */
+
+void func_80183E70(s32 param_1) {
+    s32 v0;
+    SV3 in;
+    SV3 out;
+
+    if (func_8012BEE8(param_1) != 0) {
+        func_8002D4C8(0x5D7, 0);
+        func_8012C218((void *)param_1);
+    } else {
+        v0 = *(s16 *)(param_1 + 0x70);
+        if (v0 != 0) {
+            in.a = v0 << 4;
+            in.b = 0;
+            in.c = 0;
+            ((void (*)(s32, void *, void *))func_8012F214)((s32)aD801EF9FC, &in, &out);
+            *(s16 *)(param_1 + 0x6) = out.a;
+            *(s16 *)(param_1 + 0xA) = out.b;
+            *(s16 *)(param_1 + 0xE) = out.c;
+
+            *(Blk8 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+                *(Blk8 *)(*(s32 *)((s32)aD801EF9FC + 0x20) + 0x10);
+        } else {
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) += D_8018EED4;
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) += D_8018EED6;
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) += D_8018EED8;
+            func_8012AD80(param_1);
+            func_8012B2CC(param_1);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80183FA8);
 
