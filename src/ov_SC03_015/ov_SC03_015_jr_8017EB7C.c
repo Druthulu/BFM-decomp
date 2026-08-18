@@ -5069,24 +5069,7 @@ void func_801827CC(void *a0)
 }
 
 
-extern void func_80182348(int);
-extern void func_80146C3C(void);
-void func_801828A0(void *a0)
-{
-    void *obj;
-    s16 v;
-    v = *(u16 *)((s32)a0 + 0x12) - 0x100;
-    obj = *(void **)((s32)a0 + 0x34);
-    *(s16 *)((s32)a0 + 0x12) = v;
-    if (v > 0) {
-        ((void (*)(void *))func_80182348)(a0);
-    } else {
-        *(s16 *)((s32)obj + 0x64) = 0x1000;
-        *(s16 *)((s32)obj + 0x62) = 0x1000;
-        *(s16 *)((s32)obj + 0x60) = 0x1000;
-        func_80146C3C();
-    }
-}
+DEFINE_func_801828A0()  /* dedup: shared engine-core @0x801828A0 (src/shared) */
 
 
 
