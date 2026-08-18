@@ -3483,30 +3483,7 @@ void func_8017D480(void *a0) {
  *   counter unconditionally (gcc puts that store in the beqz delay slot),
  *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
 
-extern void func_80147324(s32 arg0);
-extern void func_80147084(s32 *a0);
-extern void func_801472B4(void *a0);
-extern void func_8017D0F8(int);
-
-void func_8017D4F0(void *a0)
-{
-    s32 t;
-    s32 *sub;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    sub = *(s32 **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        *(u16 *)((s32)a0 + 0x2A) = *(u16 *)((s32)a0 + 0x2A) - 0x10;
-    } else {
-        func_80147324(*(u16 *)((s32)a0 + 0x2C));
-        func_80147084(sub);
-        func_801472B4(sub);
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-    }
-    ((void (*)(void *))func_8017D0F8)(a0);
-}
+DEFINE_func_8017D4F0()  /* dedup: shared engine-core @0x8017D4F0 (src/shared) */
 
 
 
