@@ -3519,11 +3519,7 @@ s32 func_8017F14C(void) {
 
 
 
-extern void (*D_80183110[])(void);
-
-void func_8017F154(void *a0) {
-    D_80183110[*(u16 *)((s32)a0 + 0x2)]();
-}
+DEFINE_func_8017F154()  /* dedup: shared engine-core @0x8017F154 (src/shared) */
 
 
 DEFINE_func_8017F190()  /* dedup: shared engine-core @0x8017F190 (src/shared) */
