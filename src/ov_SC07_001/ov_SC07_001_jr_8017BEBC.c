@@ -3853,7 +3853,87 @@ INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F47
 
 INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F4E4);
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F668);
+
+/* ---- local layout typedef (standalone match_one compilation) --------------
+ * SVec: {s16 vx,vy,vz,pad;} 8 bytes.
+ * Prim: v[4] @0x00 (0x20 bytes), 8 UV/coord shorts @0x20 (0x10 bytes),
+ *       bcast(u32) @0x30, tag(s32) @0x34, code(u8) @0x38, padded to 0x40.
+ *       frame: prim @ sp+0x10..sp+0x50 -> var_size 0x40, matches the 0x68
+ *       frame with 6 callee-saves (s0-s4, ra).
+ * Same shape as func_80183F84 (ov_SC03_105) / func_8018DA64 (ov_SC04_011).
+ */
+typedef struct { s16 vx, vy, vz, pad; } SVec_801A4680_8017F668;
+typedef struct {
+    SVec_801A4680_8017F668 v[4];                  /* 0x00 */
+    s16 u0, t0, u1, t1, u2, t2, u3, t3;  /* 0x20 */
+    u32 bcast;                           /* 0x30 */
+    s32 tag;                             /* 0x34 */
+    u8  code;                            /* 0x38 */
+    u8  pad39[7];                        /* -> 0x40 */
+} Prim_801A4680_8017F668;
+
+extern void func_80016EF8(void *a0, void *a1);
+
+void func_8017F668(void *a0) {
+    Prim_801A4680_8017F668 prim;
+    s32 i, j;
+
+    prim.bcast = 0x808080;
+    prim.tag = 0x50000000;
+    prim.code = 0x8F;
+
+    prim.v[3].vy = -0x40;
+    prim.v[2].vy = -0x40;
+    prim.v[1].vy = -0x40;
+    prim.v[0].vy = -0x40;
+
+    prim.v[3].vz = 0;
+    prim.v[2].vz = 0;
+    prim.v[1].vz = 0;
+    prim.v[0].vz = 0;
+
+    prim.t3 = 0x100;
+    prim.t2 = 0x100;
+    prim.t1 = 0x100;
+    prim.t0 = 0x100;
+
+    for (i = 0; i < 8; i++) {
+        prim.v[3].vx = -0x40;
+        prim.v[2].vx = -0x40;
+        prim.v[1].vx = -0x40;
+        prim.v[0].vx = -0x40;
+
+        prim.u3 = 0xB60;
+        prim.u2 = 0xB60;
+        prim.u1 = 0xB60;
+        prim.u0 = 0xB60;
+
+        prim.v[2].vy += 0x10;
+        prim.v[3].vy += 0x10;
+        prim.t2 += 0xF;
+        prim.t3 += 0xF;
+
+        for (j = 0; j < 8; j++) {
+            prim.v[1].vx += 0x10;
+            prim.v[3].vx += 0x10;
+            prim.u1 += 0xF;
+            prim.u3 += 0xF;
+
+            func_80016EF8(&prim, (void *)(*(s32 *)((u8 *)a0 + 0x20) + 0x34));
+
+            prim.v[0].vx = prim.v[1].vx;
+            prim.v[2].vx = prim.v[3].vx;
+            prim.u0 = prim.u1;
+            prim.u2 = prim.u3;
+        }
+
+        prim.v[0].vy = prim.v[2].vy;
+        prim.v[1].vy = prim.v[3].vy;
+        prim.t0 = prim.t2;
+        prim.t1 = prim.t3;
+    }
+}
+
 
 
 extern void (*D_80185388[])(void);
