@@ -4497,7 +4497,51 @@ void func_8017FEA4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_8017FEE0);
+#include "common.h"
+
+extern s32 func_8012C438(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8001D0E8(s32 arg0, s32 arg1, s32 arg2);
+
+void func_8017FEE0(s32 a0) {
+    extern u8 D_80198930[];
+    extern u8 D_80183BF4[];
+    extern u16 D_80198A34[];
+    extern u16 D_80198A36[];
+    extern u16 D_80198A38[];
+    extern u16 D_80198A3A[];
+
+    s32 v0 = *(u16 *)(a0 + 0x70) & 0xF;
+    u16 flag;
+
+    if (func_8012C438(a0, (s32)(D_80198930 + v0 * 52)) != 0) {
+        func_8012A828(a0, (s32)D_80183BF4);
+        *(u8 *)(a0 + 0x75) = 0;
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 0x4) |= 0x8040;
+
+        *(u16 *)(a0 + 0xFE) = D_80198A34[*(s16 *)(a0 + 0xFC) * 4];
+        *(u16 *)(a0 + 0x100) = D_80198A36[*(s16 *)(a0 + 0xFC) * 4];
+        *(u16 *)(a0 + 0x102) = D_80198A38[*(s16 *)(a0 + 0xFC) * 4];
+        *(u16 *)(a0 + 0x104) = D_80198A3A[*(s16 *)(a0 + 0xFC) * 4];
+        func_8001D0E8(*(s32 *)(a0 + 0x20), 0x104, 0xDC);
+
+        flag = *(u16 *)(a0 + 0x70) & 0xF0;
+        switch (flag) {
+        case 0:
+            *(s16 *)(a0 + 0x2) = 1;
+            break;
+        case 0x10:
+            *(s16 *)(a0 + 0x2) = 2;
+            break;
+        case 0x20:
+            *(s16 *)(a0 + 0x2) = 3;
+            break;
+        }
+        func_8012C588(0x1C4, a0);
+    }
+}
+
 
 
 
@@ -4518,7 +4562,64 @@ void func_80180034(int param_1)
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180084);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801800FC);
+#include "common.h"
+
+/* card f1e19908c725 — mass lane, fresh crack from the target .s (no banked
+ * twin, no viable seed). Same-TU neighbour func_801828E4 shares
+ * func_80047948, whose prototype (`extern s32 func_80047948(s32 a0)`) is
+ * adopted verbatim below. func_8012B414 / func_8012D5E4 / D_80126B96 are
+ * declared per their spelling in sibling TUs (ov_SC03_099 etc.) that already
+ * call them. D_801988B8 has no prior declaration anywhere in src/ — typed
+ * raw as u8[] since the function only takes its address (stride-8 walk),
+ * never dereferences it directly.
+ */
+
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_80047948(s32 a0);
+extern void func_8012B414(int a0);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u16 D_80126B96;
+extern u8 D_801988B8[];
+
+void func_801800FC(s32 a0) {
+    register s32 s2 __asm__("$18");
+    s32 i;
+    s32 sum;
+    s32 v0;
+    u8 *base;
+    u8 *p0;
+    u8 *p1;
+    s32 want;
+    u16 setval;
+
+    s2 = a0;
+
+    sum = *(u16 *)(s2 + 0xFE) + *(u16 *)(s2 + 0xFC);
+    *(u16 *)(s2 + 0xFE) = sum & 0xFFF;
+    if ((sum & 0x7FF) < 0x61) {
+        func_8002D4C8(0x6A5, 0);
+    }
+
+    v0 = func_80047948(*(s16 *)(s2 + 0xFE));
+    *(s16 *)(*(s32 *)(s2 + 0x20) + 0x14) = v0 >> 3;
+
+    if (*(s16 *)(s2 + 0x70) != 0) {
+        func_8012B414(s2);
+    }
+
+    i = 0;
+    want = 1;
+    setval = 0x4004;
+    base = D_801988B8;
+    p1 = base + 8;
+    p0 = base;
+    for (; i < 5; p1 += 8, i++, p0 += 8) {
+        if (func_8012D5E4(s2, (s32)p0, (s32)p1, 0x30) == want) {
+            D_80126B96 = setval;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801801FC);
 
@@ -4685,7 +4786,90 @@ void func_80180400(s32 s1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180584);
+#include "common.h"
+
+/* func_80180584 — per-frame tick for an entity at $a0.
+ * Structural twin: ov_SC02_028:func_80182060 (same skeleton, sim 1.0).
+ * See that TU (src/ov_SC02_028/ov_SC02_028_jr_8017D898.c) for the full
+ * derivation of the sched.c alias-oracle lever on the triple-counter block.
+ */
+
+extern void func_801806B8(void *a0);
+extern void func_80180918(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80180754(void *a0);
+
+extern s16 D_8019A9F8[];
+extern u8 D_8019DCF8;
+extern u8 D_8019DCF9;
+extern u8 D_8019DCFA;
+
+void func_80180584(void *a0)
+{
+    void *s0 = a0;
+    void *v0;
+    s16 t18;
+    u16 t1a;
+    s16 tfc;
+    s16 val;
+    u16 nfc;
+    u8 c1, c2, c0, nc0;
+    u8 *p;
+
+    v0 = *(void **)((u8 *)s0 + 0xCC);
+    if (v0 != NULL) {
+        s16 e18, p18;
+        /* e18 and p18 must be SEPARATE locals: the re-read at 0x18 below is a
+         * distinct cse interval, and merging them costs a spurious reload
+         * (twin's finding, ov_SC02_028:func_80182060). */
+        e18 = *(s16 *)((u8 *)v0 + 0x18);
+        if (e18 < 0x1C00) {
+            t18 = e18 + 0x200;
+            *(s16 *)((u8 *)v0 + 0x18) = t18;
+            t1a = *(u16 *)((u8 *)v0 + 0x1A);
+            t1a = t1a + 0x200;
+            *(u16 *)((u8 *)v0 + 0x1A) = t1a;
+        }
+        p18 = *(s16 *)((u8 *)v0 + 0x18);
+        if (p18 >= 0x1001) {
+            tfc = *(s16 *)((u8 *)s0 + 0xFC);
+            val = D_8019A9F8[tfc];
+            if (val >= 0) {
+                func_801806B8((void *)(s32)val);
+                nfc = *(u16 *)((u8 *)s0 + 0xFC);
+                nfc = nfc + 1;
+                *(u16 *)((u8 *)s0 + 0xFC) = nfc;
+            }
+        }
+    }
+
+    p = &D_8019DCF8;
+    /* Zero-byte second set of `p` — blinds sched.c's reg_known_value alias
+     * oracle so `*p = nc0` anti-depends on the D_8019DCF9/A loads. */
+    __asm__("" : "=r"(p) : "0"(p));
+    c0 = *p;
+    if (c0 < 0xFF) {
+        nc0 = c0 + 0x10;
+        *p = nc0;
+        c1 = D_8019DCF9;
+        c2 = D_8019DCFA;
+        c1 = c1 + 0x10;
+        c2 = c2 + 0x10;
+        D_8019DCF9 = c1;
+        D_8019DCFA = c2;
+        if (nc0 == 0) {
+            *p = 0xFF;
+            D_8019DCF9 = 0xFF;
+            D_8019DCFA = 0xFF;
+        }
+    }
+
+    func_80180918((s32)s0);
+    if (func_8012BEE8((s32)s0) != 0) {
+        func_80180754(s0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801806B8);
 
