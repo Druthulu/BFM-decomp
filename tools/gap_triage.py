@@ -56,6 +56,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('gaps'); ap.add_argument('--top', type=int, default=3)
     ap.add_argument('--out', default=None)
+    ap.add_argument('--min-score', type=float, default=0.15,
+                    help='drop candidates below this. Measured on wave Y: the top-candidate score\n'
+                         'distribution is min 0.009 / p50 0.08 / p90 0.26 / max 0.53, and hand-checking\n'
+                         'the low half found generic co-occurrence ("delay slot" matching every section\n'
+                         'that says "delay slot"), not real answers. Below ~0.15 this is noise dressed as\n'
+                         'a suggestion, which is worse than an empty list -- it spends a readers attention.')
     a = ap.parse_args()
 
     secs = sections()
@@ -73,7 +79,7 @@ def main():
         for anc, c in sec_terms:
             # IDF-weighted overlap: a term in 300 sections says nothing, one in 2 says a lot.
             s = sum(1.0 / (1 + df[t]) for t in want if t in c)
-            if s: scored.append((round(s, 3), anc))
+            if s >= a.min_score: scored.append((round(s, 3), anc))
         scored.sort(reverse=True)
         rows.append({'fn': g['fn'], 'terms': sorted(want)[:8],
                      'candidates': [{'section': anc, 'score': s} for s, anc in scored[:a.top]]})
@@ -83,7 +89,7 @@ def main():
     json.dump(rows, open(out, 'w'), indent=1)
     hit = sum(1 for r in rows if r['candidates'])
     print(f"gap_triage: {len(rows)} gaps vs {len(secs)} cookbook sections -> {hit} with a candidate "
-          f"section, {len(rows)-hit} with none -> {out}")
+          f"section at score >= {a.min_score}, {len(rows)-hit} with none -> {out}")
     print("  (a candidate is a STARTING POINT for the reader, never a verdict — the harvest still "
           "runs its own grep and its own adversarial verifier)")
     for r in rows[:5]:
