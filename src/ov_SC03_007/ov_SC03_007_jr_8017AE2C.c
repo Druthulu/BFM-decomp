@@ -7395,7 +7395,123 @@ s16 func_80185B20(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80185B48);
+#include "common.h"
+
+/* Already declared at file scope in the destination TU (adopted verbatim):
+ *   extern void MoveImage(void *a0, s32 a1, s32 a2);          (line 71)
+ *   extern void func_8016AA50(s32 param_1, s32 param_2);      (line 1792)
+ * They are repeated here only so this draft compiles standalone. */
+extern void MoveImage(void *a0, s32 a1, s32 a2);
+extern void func_8016AA50(s32 param_1, s32 param_2);
+
+/* NOTE for banking: src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c currently carries
+ * "extern void func_80185B48(s32 a0);" (file scope, ~line 6008).  The target
+ * assembly returns a value in $v0 (0 / 1 / -1), so that extern must become
+ * "extern s32 func_80185B48(s32 a0);".  The one call site (func_80186584)
+ * discards the result, so the change is behaviour-neutral. */
+
+/* DEF-SIDE ALIAS (§37/§124, applied P31 S55 recovery). The TU declares this
+ * `extern void func_80185B48(s32 a0);` at two file-scope points and its one call site discards the
+ * result, but the target genuinely sets $v0 on every path — a definition's own signature has no
+ * cast escape, so the definition takes a private C identifier bound to the real link name. The TU
+ * is left untouched; no rebuild risk to its other functions. */
+s32 aF80185B48(s32 a0) __asm__("func_80185B48");
+
+s32 aF80185B48(s32 a0) {
+
+    /* House style of this TU: per-function block-scope externs (cf. func_801848BC). */
+    extern void func_8012B200(u8 *a0);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern void (*D_8018C678[])(void);
+
+    s16 rect[4];   /* sp+0x10 : MoveImage RECT { x, y, w, h } */
+    s32 ret;
+    s32 spd;
+    s16 tmr;
+    s16 st;
+    s32 hp;
+    s32 mode;      /* reused: entity mode (0x5E), then the 0xFE sub-state */
+
+    ret = 0;
+    mode = *(u16 *)(a0 + 0x5E);
+    if (mode != 0) {
+        /* 0x60 (s16) * (*(s32*)(a0+0x78))->0x30 (s16), 12.4 -> integer */
+        spd = (*(s16 *)(a0 + 0x60) * *(s16 *)(*(s32 *)(a0 + 0x78) + 0x30)) >> 12;
+        if (spd <= 0) {
+            spd = 1;
+        }
+
+        if (mode == 0xA) {
+            *(s16 *)(a0 + 0xF4) = 1;
+            *(s16 *)(a0 + 0x5E) = 0;
+            *(s32 *)(a0 + 0x1C) = 0x14;
+            *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) & 0xFDFF;
+            func_8012B200((u8 *)a0);
+            func_8012A828(a0, (void *)&D_8018C678);
+            *(s16 *)(a0 + 0x2) = 7;
+            return -1;
+        }
+
+        if (spd != 0) {
+            tmr = *(s16 *)(a0 + 0xFA);
+            if (tmr == 0) {
+                func_8016AA50(a0, spd);
+
+                hp = *(u16 *)(a0 + 0x76) - spd;
+                *(s16 *)(a0 + 0x76) = hp;
+                if ((s16)hp < 0) {
+                    *(s16 *)(a0 + 0x76) = 0;
+                }
+
+                *(s16 *)(a0 + 0xFA) = 8;
+                st = *(s16 *)(a0 + 0xFE);
+                mode = st;
+                switch (mode) {
+                case 0:
+                    if (*(s16 *)(a0 + 0x76) < 0x7D0) {
+                        s16 nxt = st + 1;
+                        *(s16 *)(a0 + 0xFE) = nxt;
+                        rect[0] = 0x2B4;
+                        rect[1] = 0x188;
+                        rect[2] = 0xC;
+                        rect[3] = 0x28;
+                        MoveImage(rect, 0x2A8, 0x188);
+                    }
+                    ret = 1;
+                    break;
+                case 1:
+                    if (*(s16 *)(a0 + 0x76) < 0x640) {
+                        st = st + 1;
+                        *(s16 *)(a0 + 0xFE) = st;
+                        *(s16 *)(a0 + 0xF8) = 5;
+                        return -1;
+                    }
+                    ret = 1;
+                    break;
+                case 2:
+                    if (*(s16 *)(a0 + 0x76) < 0x3E8) {
+                        *(s16 *)(a0 + 0xFE) = st + 1;
+                    }
+                    ret = 1;
+                    break;
+                default:
+                    ret = 1;
+                    break;
+                }
+            } else {
+                tmr = tmr - 1;
+                *(s16 *)(a0 + 0xFA) = tmr;
+                if (tmr == 0) {
+                    *(s16 *)(a0 + 0x60) = 0;
+                    *(s16 *)(a0 + 0x5E) = 0;
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80185D3C);
 
