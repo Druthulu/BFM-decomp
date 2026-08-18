@@ -356,7 +356,6 @@ extern s32 func_801498E0(s32 *a0);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
 extern void func_80147364(u16 a0, s32 a1);
 extern s32 func_800CCF28(s32 a0);
-extern u8 D_80126B5C;
 extern s32 func_80149954(s32 s0);
 extern s32 func_80149A64(s32 *a0);
 extern void func_8015DAC4(s32 *a0);
@@ -4009,7 +4008,84 @@ void func_8017D960(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017D99C);
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+extern void func_8017DED4(s32 a0);   /* slate-wide spelling (func_80184278); cast at call */
+extern s32 func_8012AD50(void *a0);
+extern s32 rand(void);
+
+/* MATCH (82 ins, relocation-masked; all 27 relocs verified against the target .s).
+ *
+ * The whole 17-instruction entry-block residual of the first pass was ONE alias fact,
+ * not scheduling or regalloc:
+ *
+ *   sched.c:817 true_dependence()/anti_dependence() drop the dependence between a
+ *   MEM_IN_STRUCT_P reference at a VARYING address (non-QImode) and a non-MEM_IN_STRUCT
+ *   reference at a FIXED address.  The four D_801EB1xx stores are plain extern scalars
+ *   (fixed SYMBOL_REF address, MEM_IN_STRUCT_P == 0), so if the a0-derived reads carry
+ *   MEM_IN_STRUCT_P the scheduler may hoist ALL of them above ALL of the stores -- which
+ *   is exactly the target's opening block (lh 0xFC / lh 0x70 / lw 0xDC all before the
+ *   first store, three simultaneously-live temps in $v0/$v1/$a2, and the a1 arg setup
+ *   free to float to the top of the block).
+ *
+ *   expr.c:4567-4577 sets MEM_IN_STRUCT_P on an INDIRECT_REF only when the address
+ *   TREE is a PLUS_EXPR.  `*(s16 *)(a0 + 0x70)` is INDIRECT_REF(NOP_EXPR(PLUS_EXPR)) --
+ *   the NOP sits on top, so the flag is NOT set and every load stays pinned below the
+ *   preceding store.  `((s16 *)a0)[0x70/2]` is build_array_ref -> INDIRECT_REF(PLUS_EXPR)
+ *   with the NOP inside, so the flag IS set.  Identical addressing bytes, opposite
+ *   scheduling freedom.  Rewriting the three entry-block reads in the [] form took the
+ *   residual 17 -> 4; the last 4 were the $v0/$a2 assignment of the two independent
+ *   stores, fixed by emitting D_801930C0 before D_801930C4 in source order.
+ *
+ * The loads inside the loop are deliberately left in the raw `*(T *)(p + K)` form -- that
+ * region was already byte-identical and granting them MEM_IN_STRUCT_P would re-open it.
+ */
+void func_8017D99C(s32 a0) {
+
+    extern u8 D_80126B5C;
+    extern s32 D_801930C0;
+    extern s16 D_801930C4;
+    extern s32 D_801930C8;
+    extern s32 D_801930CC;
+    extern u8 D_80182290[];
+    extern u8 D_80182298[];
+    extern s8 D_80191C70;
+    extern s8 D_80191CBF;
+
+    s16 buf[4];
+    s32 i;
+    s8 *p;
+    u8 *obj;
+
+    /* [] form (not *(T *)(a0 + K)) -- see the MEM_IN_STRUCT_P note above. */
+    D_801930C0 = ((s16 *)a0)[0xFC / 2];
+    D_801930C4 = ((s32 *)a0)[0xDC / 4];
+    D_801930C8 = (s32)(D_80182290 + ((s16 *)a0)[0x70 / 2] * 4);
+    D_801930CC = (s32)(D_80182298 + ((s16 *)a0)[0x70 / 2] * 8);
+
+    func_80015978((s32)&D_80126B5C, (s32 *)buf);
+    buf[1] = *(u16 *)(a0 + 0xA);
+
+    p = &D_80191CBF;
+    for (i = 0x4F; i >= 0; i--) {
+        *p = 0;
+        p--;
+    }
+
+    for (i = 0; i < D_801930C0; i++) {
+        obj = func_801290DC(0x61, (u8 *)buf);
+        if (obj != 0) {
+            *(&D_80191C70 + i) = 1;
+            *(s32 *)(obj + 0x34) = i;
+            func_8017DED4((s32)obj);
+            *(u16 *)(obj + 0xA) += (rand() & 0xF) * 3 * 16;
+        }
+    }
+
+    func_8012AD50((void *)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017DAE4);
 
@@ -4021,7 +4097,80 @@ void func_8017DBB0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017DBEC);
+typedef struct { s16 vx, vy; } DVEC2_C59C_8017DBEC;
+typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_8017DBEC;
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_8017DBEC;
+
+extern void func_8001CD9C(int, void *);
+extern void func_800233CC(void *, unsigned short);
+extern void func_8017DED4(s32);
+extern s32 rand(void);
+
+void func_8017DBEC(int param_1)
+{
+
+    extern u8 D_80191CC0[];
+    extern s32 D_801930CC;
+    s32 p;
+    s32 idx;
+    s32 dst;
+    s32 ptr;
+    s32 r;
+    s32 v;
+    s32 c1, c2, c3, c4;
+    s32 s0v;
+    s32 v1a;
+
+    p = *(s32 *)(param_1 + 0x20);
+    idx = *(s32 *)(param_1 + 0x34);
+    dst = (s32)(D_80191CC0 + idx * 0x40);
+
+    func_8001CD9C(p, (void *)dst);
+    func_800233CC((void *)dst, 0x10);
+
+    r = rand();
+    r = (r & 7) + 1;
+    *(s32 *)(dst + 0) = (r << 7) | ((r << 23) | (r << 15));
+    *(s32 *)(dst + 4) = 0;
+
+    *(s32 *)(p + 4) = *(s32 *)(p + 4) | 0x50000000;
+
+    func_8017DED4(param_1);
+
+    r = rand();
+    v = (r & 3) * 1365;
+    ptr = D_801930CC;
+    *(s16 *)(p + 0x1A) = v;
+    *(s16 *)(p + 0x18) = v;
+
+    *(s16 *)(param_1 + 0x12) = *(u16 *)(param_1 + 6) + *(u16 *)(ptr + 2);
+    __asm__ __volatile__("");
+    v1a = *(u16 *)(param_1 + 0xE) + *(u16 *)(ptr + 6);
+    *(s16 *)(param_1 + 0x10) = 0;
+    *(s16 *)(param_1 + 0x18) = 0;
+    *(s16 *)(param_1 + 0x1A) = v1a;
+
+    c1 = rand();
+    c2 = rand();
+    c3 = rand();
+    c4 = rand();
+
+    s0v = ((c1 & 3) << 10) + ((c2 & 0x1F) << 5) + ((c3 & 3) << 8) + (c4 & 0xFF);
+    *(s16 *)(p + 0x12) = s0v;
+
+    r = rand();
+    *(s16 *)(param_1 + 0x2E) = (r & 7) * 11;
+
+    r = rand();
+    *(s16 *)(param_1 + 0x2C) = (r & 0x1F) + 4;
+    *(s16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017DD84);
 

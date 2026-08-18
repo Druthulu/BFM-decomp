@@ -4230,7 +4230,106 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80185BA
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80185E68);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80186078);
+extern void func_8012A828(s32 a0, void * a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012C218(void *a0);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void func_80186330(void *arg0);
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C59C_80186078;
+
+void func_80186078(s32 arg0) {
+
+    extern s32 D_801DA988;
+    extern s16 D_801DA98A[];
+    extern s32 D_801DA98C;
+    extern s16 D_801DA98E[];
+    extern s32 D_801DA990;
+    extern s16 D_801DA992[];
+    extern s32 D_801D55AC[];
+    extern u8 D_801D5568;
+    extern u8 D_801D5558;
+
+    u16 in[4];   /* sp+0x10 */
+    u16 out[4];  /* sp+0x18 */
+    s32 *p1;
+    s32 *p2;
+    s32 *p3;
+    s32 t;
+    s32 o;
+    s32 base;
+    s32 idx;
+    u16 *dst;
+
+    *(s32 *)(*(s32 *)(arg0 + 0x20) + 0x48) = *(s16 *)(arg0 + 0xDC);
+    *(s32 *)(*(s32 *)(arg0 + 0x20) + 0x50) = *(s16 *)(arg0 + 0xDE);
+    in[0] = (*(s32 *)(arg0 + 0x1C) & 1) << 2;
+    in[2] = 0;
+    in[1] = 0;
+    func_8012F214(arg0, (s32)&in[0], (s32)&out[0]);
+
+    *(u16 *)(arg0 + 6) = out[0];
+    *(u16 *)(arg0 + 0xE) = out[2];
+    *(s16 *)(arg0 + 0x98) = 0;
+    base = *(s32 *)(*(s32 *)(arg0 + 0x90));
+    idx = *(s16 *)(arg0 + 0xFC);
+    *(s32 *)(arg0 + 0x10) += *(s32 *)(arg0 + 0x44);
+    *(s32 *)(arg0 + 0x14) += *(s32 *)(arg0 + 0x48);
+    *(s32 *)(arg0 + 0x18) += *(s32 *)(arg0 + 0x4C);
+
+    p1 = &D_801DA988;
+    *p1 += *(s32 *)(arg0 + 0x10);
+    p2 = &D_801DA98C;
+    *p2 += *(s32 *)(arg0 + 0x14);
+    p3 = &D_801DA990;
+    *p3 += *(s32 *)(arg0 + 0x18);
+
+    dst = (u16 *)(base + idx * 12);
+    dst[0] = *(u16 *)D_801DA98A - in[0];
+    dst[1] = *(u16 *)D_801DA98E;
+    dst[2] = *(u16 *)D_801DA992 - in[2];
+
+    if (*(s32 *)(arg0 + 0x1C) >= 0xB) {
+        o = func_8012C588(0x24, arg0);
+        if (o != 0) {
+            in[0] = dst[0];
+            in[1] = dst[1];
+            in[2] = dst[2];
+            func_8012F214(arg0, (s32)&in[0], (s32)&out[0]);
+            *(u16 *)(o + 6) = out[0];
+            *(u16 *)(o + 0xA) = out[1];
+            *(u16 *)(o + 0xE) = out[2];
+        }
+    }
+
+    if (func_8012BEE8(arg0) != 0) {
+        if (*(s16 *)(arg0 + 0x76) <= 0) {
+            if (*(s16 *)(arg0 + 0x70) == 4) {
+                func_8012C218((void *)arg0);
+            } else {
+                func_80186330((void *)arg0);
+            }
+        } else {
+            ((void (*)(s32, s32))func_8012A828)(arg0, D_801D55AC[*(s16 *)(arg0 + 0x76)]);
+            *(s16 *)(arg0 + 2) = 1;
+            if (*(s16 *)(arg0 + 0x70) == 4) {
+                *(s32 *)(arg0 + 0x58) = (s32)&D_801D5568;
+            } else {
+                *(s32 *)(arg0 + 0x58) = (s32)&D_801D5558;
+            }
+            *(u32 *)(arg0 + 0x58) |= 0x60000000;
+            t = *(s32 *)(arg0 + 0x20);
+            *(u16 *)(t + 0x1C) = 0x1C00;
+            *(u16 *)(t + 0x1A) = 0x1C00;
+            *(u16 *)(t + 0x18) = 0x1C00;
+            *(u16 *)(arg0 + 0x5E) = 0;
+            *(u16 *)(arg0 + 0x5C) |= 0x8800;
+            *(u16 *)(arg0 + 6) = *(u16 *)(arg0 + 0xDC);
+            *(u16 *)(arg0 + 0xE) = *(u16 *)(arg0 + 0xDE);
+        }
+    }
+}
+
 
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
@@ -4350,7 +4449,81 @@ void func_80186574(int param_1)
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_801865EC);
+typedef struct { s16 vx, vy; } DVEC2_C59C_801865EC;
+typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_801865EC;
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_801865EC;
+
+/* Declarations copied verbatim from src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c (law 2) */
+extern s32 rand(void);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+
+/* new to this TU */
+extern void func_8012B21C(void *a0);
+
+void func_801865EC(s32 arg0) {
+
+    extern s32 D_801D5638[];
+    s32 ret;
+    s32 obj;
+    s32 base;
+    s32 ang;
+    s32 v;
+
+    ret = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(arg0 + 0x20) = ret;
+    if (ret == 0) {
+        func_8012CAE4((void *)arg0);
+    } else {
+        func_8001C214(*(s32 *)(arg0 + 0x20), D_801D5638[rand() % 3]);
+        if (*(s16 *)(arg0 + 0x70) != 0) {
+            s32 addr = arg0 + 0x24;
+            ang = -*(s16 *)(arg0 + 0xE);
+            base = ang + 0x400;
+            *(s16 *)(arg0 + 0x2A) = -2;
+            *(s16 *)(arg0 + 0x24) = base * 48 / 2048;
+            *(s16 *)(arg0 + 0x26) = base * 96 / 2048;
+            *(s16 *)(arg0 + 0x28) = base / 64;
+            obj = *(s32 *)(arg0 + 0x20);
+            *(u16 *)(obj + 0x2C) = *(u16 *)(obj + 0x2C) | 0x80;
+            *(s32 *)(*(s32 *)(arg0 + 0x20) + 0x80) = addr;
+        }
+        obj = *(s32 *)(arg0 + 0x20);
+        *(u16 *)(obj + 0x2C) = *(u16 *)(obj + 0x2C) | 0x10;
+        obj = *(s32 *)(arg0 + 0x20);
+        *(u16 *)(obj + 0x1C) = 0x2000;
+        *(u16 *)(obj + 0x1A) = 0x2000;
+        *(u16 *)(obj + 0x18) = 0x2000;
+        func_8012A828(arg0, &D_80186E48);
+        *(s16 *)(arg0 + 2) = 1;
+        func_8012B21C((void *)arg0);
+        *(s32 *)(arg0 + 0x48) = 0x18000;
+        v = rand() << 4;
+        if ((rand() & 1) == 0) {
+            v = -v;
+        }
+        *(s32 *)(arg0 + 0x10) = v;
+        v = rand() << 4;
+        if ((rand() & 1) == 0) {
+            v = -v;
+        }
+        *(s32 *)(arg0 + 0x18) = v;
+        if (*(s16 *)(arg0 + 0x70) == 0) {
+            *(s32 *)(arg0 + 0x14) = -(rand() << 4);
+        } else {
+            *(s32 *)(arg0 + 0x14) = -0x80000 - (rand() << 5);
+        }
+        *(s32 *)(arg0 + 0x1C) = 0x32;
+    }
+}
+
 
 // @class: struct
 // @stuck: none — MATCH expected (fn-pointer-table dispatch, lhu+2 index, %lo-folded lw)

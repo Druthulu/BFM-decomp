@@ -6826,7 +6826,86 @@ extern s32 func_800D0CE0(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80183BB0);
+
+extern u8 *func_8012913C(s32 a0);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern s32 rand(void);
+
+/* Per-frame emitter: every 8th tick spawn one type-0x6C particle at a random
+ * polar offset around the owner, with two randomized 16.16 velocities and a
+ * randomized downward gravity term.
+ *
+ * Matching notes (S54 wave V, second pass):
+ *  - The two `rand() % 4` magnitudes are written HAND-EXPANDED (copy / +3 /
+ *    sra 2 / sll 2 / subu) instead of with the `%` operator.  With `%`,
+ *    expand_divmod's own t1 = copy_to_mode_reg(op0) dies BEFORE op0 (the
+ *    `subu` is op0's last use), so cse's make_regs_eqv leaves op0 canonical
+ *    and the compare reads $v0 -- freeing reorg to put the copy in the branch
+ *    delay slot.  Writing `m = (rand() % 4) << 16;` in C gives that same RTL
+ *    but allocates the chain to $v0/$v1 and costs a duplicated `sra` in the
+ *    delay slot (+1 insn per block, 119 vs 117).  Spelling the chain out with
+ *    a temp `n` whose last use is the SAME insn as `q`'s reproduces the
+ *    canonicalization (`bgez $v0`, `addiu $s0,$v0,3`) and the filled slot.
+ *  - `n` is pinned to $s0: it crosses no call, so global_alloc's find_reg
+ *    hands it the lowest already-used free reg ($v1); the target reuses $s0
+ *    (which `m` owns and which `n` does not conflict with).  Cookbook §17.
+ *  - The `ent+0x2C = a0` store must come AFTER the `ent+0x14` store: it
+ *    lengthens a0's live range just enough to drop its allocno_compare
+ *    priority below `ent`'s, which is what puts a0 in $s2 and ent in $s1.
+ */
+void func_80183BB0(s32 a0) {
+    s32 p;
+    s32 ent;
+    s32 t;
+    s32 m;
+    s32 q;
+    register s32 n __asm__("$16");
+    unsigned int sp10;
+
+    p = *(s32 *)(a0 + 0x20);                       /* owner's actor */
+    *(u16 *)(p + 0x14) = *(u16 *)(p + 0x14) + 0x200;
+
+    *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1; /* tick counter */
+    if ((*(s32 *)(a0 + 0x1C) & 7) != 0) {
+        return;
+    }
+    ent = (s32)func_8012913C(0x6C);                /* alloc particle */
+    if (ent == 0) {
+        return;
+    }
+    /* polar scatter: angle in [0,0x1000), radius in [0, actor_r*3/512) */
+    func_8012B0B4(&sp10, rand() % 0x1000,
+                  rand() % ((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) * 3) >> 9));
+    t = (s32)sp10;                                 /* packed dx (lo16) / dz (hi16) */
+    *(u16 *)(ent + 6) = *(u16 *)(a0 + 6) + t;      /* X */
+    *(u16 *)(ent + 0xA) = *(u16 *)(a0 + 0xA);      /* Y */
+    *(u16 *)(ent + 0xE) = *(u16 *)(a0 + 0xE) + (t >> 16); /* Z */
+
+    /* vel X = +/- (rand() % 4) << 16 */
+    q = rand();
+    n = q;
+    if (q < 0) n = q + 3;
+    n = n >> 2;
+    n = n << 2;
+    m = (q - n) << 16;
+    if ((rand() & 1) == 0) m = -m;
+    *(s32 *)(ent + 0x10) = m;
+
+    /* vel Z = +/- (rand() % 4) << 16 */
+    q = rand();
+    n = q;
+    if (q < 0) n = q + 3;
+    n = n >> 2;
+    n = n << 2;
+    m = (q - n) << 16;
+    if ((rand() & 1) == 0) m = -m;
+    *(s32 *)(ent + 0x18) = m;
+
+    /* vel Y = (-12 - rand() % 9) << 16   (0x38E38E39 magic /9) */
+    *(s32 *)(ent + 0x14) = -0xC0000 - ((rand() % 9) << 16);
+    *(s32 *)(ent + 0x2C) = a0;                     /* owner backref */
+}
+
 
 
 extern void (*D_80189420[])(void);
@@ -6836,7 +6915,105 @@ void func_80183D84(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80183DC0);
+typedef struct {
+    SVECTOR_8016E7C8 v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_80183DC0;
+extern void func_8012931C(struct vec *a0);
+extern void func_801292C8(u8 *a0);
+extern void func_8012EFB8(s32 a0);   /* TU spelling (line 329) — cast at use */
+extern s32  rand(void);
+
+void func_80183DC0(void *a0) {
+    u16 in3[3];   /* 0x10 */
+    s16 out2[2];  /* 0x18 */
+    struct { s32 vx, vy, vz, pad; } d;   /* 0x20 — same body as the TU's LVec1CDC,
+                                           * left ANONYMOUS so banking cannot collide
+                                           * with engine_types.h's typedef (§183.1/law 8) */
+    s32 v;
+    void *tgt = *(void **)((s32)a0 + 0x2C);
+
+    d.vx = *(s16 *)((s32)a0 + 0x6) - *(s16 *)((s32)tgt + 0x6);
+    d.vy = 0;
+    d.vz = *(s16 *)((s32)a0 + 0xE) - *(s16 *)((s32)tgt + 0xE);
+    /* The target INLINES the GTE square (lwc2 IR1..IR3 / sqr 0 / swc2 MAC1..MAC3)
+     * off ONE base register instead of calling Square0 — same idiom already used
+     * in src/ov_SC03_099/ov_SC03_099_jr_8012ACE0.c:2737. */
+    {
+        s32 *p = &d.vx;
+        __asm__ __volatile__(
+            "lwc2 $9, 0(%0)\n"
+            "lwc2 $10, 4(%0)\n"
+            "lwc2 $11, 8(%0)\n"
+            "nop\n"
+            "nop\n"
+            "sqr 0\n"
+            : : "r"(p) : "$9", "$10", "$11", "memory");
+        __asm__ __volatile__(
+            "swc2 $25, 0(%0)\n"
+            "swc2 $26, 4(%0)\n"
+            "swc2 $27, 8(%0)\n"
+            : : "r"(p) : "memory");
+    }
+
+    if (*(s16 *)((s32)a0 + 0x36) == 0) {
+        /* the pointer is re-loaded per statement: each `sh` kills the CSE
+         * of `*(s32 *)(a0+0x20)` (§193-E), which is why the target has three
+         * `lw $a0,0x20($s0)`. */
+        *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) += *(u16 *)((s32)a0 + 0x30);
+        *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) += *(u16 *)((s32)a0 + 0x32);
+        *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14) += *(u16 *)((s32)a0 + 0x34);
+
+        if (d.vx + d.vz > 0x9000) {
+            *(s32 *)((s32)a0 + 0x14) = 0x18000;
+            *(s32 *)((s32)a0 + 0x18) = 0;
+            *(s32 *)((s32)a0 + 0x10) = 0;
+            *(u16 *)((s32)a0 + 0x36) += 1;
+        }
+    } else {
+        *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) += 0x80;
+        *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14) += 0x80;
+
+        if (d.vx + d.vz < 0x4001) {
+            /* its OWN pseudo: sharing `v` with the abs() block below gives the
+             * merged pseudo a whole-function live range, and global_alloc then
+             * seats it in $a0 instead of $v0 (§186c). */
+            s32 t = rand();
+            *(s16 *)((s32)a0 + 0x36) = 0;
+            *(s32 *)((s32)a0 + 0x14) = -0x100000 - ((t % 9) << 16);
+        }
+    }
+
+    func_8012931C((struct vec *)a0);
+
+    in3[0] = *(u16 *)((s32)a0 + 0x6);
+    in3[1] = *(u16 *)((s32)a0 + 0xA);
+    in3[2] = *(u16 *)((s32)a0 + 0xE);
+    ((void (*)(u16 *, s16 *))func_8012EFB8)(in3, out2);
+
+    /* CALL unless (|out2[0]| < 0xB5 && |out2[1]| < 0x8D && obj->y < 0x10).
+     * Written as a nested if with an early `return` so the call is emitted
+     * ONCE (a duplicated tail would need cross_jump to refund it, §193-C). */
+    v = out2[0];
+    if (v < 0) {
+        v = -v;
+    }
+    if (v < 0xB5) {
+        v = out2[1];
+        if (v < 0) {
+            v = -v;
+        }
+        if (v < 0x8D) {
+            if (*(s16 *)((s32)a0 + 0xA) < 0x10) {
+                return;
+            }
+        }
+    }
+    func_801292C8((u8 *)a0);
+}
+
 
 
 extern void (*D_80189438[])(void);
