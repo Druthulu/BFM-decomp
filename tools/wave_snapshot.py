@@ -27,6 +27,7 @@ USAGE
     then point the wave prompt's --asm-subdir at .run/wave4/asm/<bin>/nonmatchings/<bin>
 """
 import argparse
+import glob
 import hashlib
 import json
 import os
@@ -112,12 +113,32 @@ def main():
                 inc_n += 1
 
     for t in targets:
-        fn, src = t['name'], t['source']
-        rel = os.path.join(src, 'nonmatchings', src, fn + '.s')
-        s = os.path.join(a.asm_root, rel)
-        if not os.path.exists(s):
+        fn = t.get('name') or t.get('n') or t.get('fn')
+        src = t.get('source') or t.get('s') or t.get('binary')
+        # THE TU SUBDIR IS NOT THE BINARY NAME (S56). Only a single-TU binary puts its .s at
+        # asm/<bin>/nonmatchings/<bin>/; a split overlay puts each function under its own TU stem
+        # (asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC/). Hardcoding the binary name found
+        # 9 of 75 wave-Z targets -- and because the R32 assertion below then refused to ship a short
+        # snapshot, six consecutive waves hand-rolled the copy and took the S46 VALIDITY GATE above
+        # off the path with it. Cards already carry the answer in `sub`; use it, fall back to the
+        # old convention, then glob as a last resort so a caller with neither still works.
+        cand = []
+        if t.get('sub'):
+            cand.append(os.path.join(t['sub'], fn + '.s'))
+        cand.append(os.path.join(a.asm_root, src, 'nonmatchings', src, fn + '.s'))
+        hit = next((c for c in cand if os.path.exists(c)), None)
+        if hit is None:
+            g = glob.glob(os.path.join(a.asm_root, src, 'nonmatchings', '*', fn + '.s'))
+            hit = g[0] if len(g) == 1 else None
+        if hit is None:
             missing.append(fn)
             continue
+        s = hit
+        # Mirror the SOURCE layout under <out>/asm so a prompt can point --asm-subdir at the
+        # snapshot and the path shape it sees is identical to the live tree's.
+        rel = os.path.relpath(hit, a.asm_root) if not os.path.isabs(hit) and \
+              os.path.commonpath([os.path.abspath(hit), os.path.abspath(a.asm_root)]) == \
+              os.path.abspath(a.asm_root) else os.path.join(src, 'nonmatchings', src, fn + '.s')
         d = os.path.join(a.out, 'asm', rel)
         os.makedirs(os.path.dirname(d), exist_ok=True)
         shutil.copy2(s, d)

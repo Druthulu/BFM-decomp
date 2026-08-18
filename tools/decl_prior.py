@@ -40,7 +40,11 @@ INDEX = os.path.join(REPO, '.run', 'decl_prior.json')
 
 # Symbols reach a .s in exactly three shapes (§194-E: an uppercase-word regex reads the comment
 # column's hex WORDS as symbol names -- 34 "symbols" for one function, 31 of them hex).
-_ASM_SYM = re.compile(r'\b(?:jal\s+(\w+)|%[hl][io]\(([\w+]+)\))')
+# §204-E: the `\b` must bind to the `jal` arm ONLY. Prefixing the whole alternation demands a
+# word boundary immediately before `%`, and in a .s that position always follows a space -- so
+# the %hi/%lo arm could never match and the card's promised GLOBAL-TYPE row was 0 of 1,210 across
+# four waves. NC on the 75 wave-Z targets: jal 306 -> 306 (zero regressions), data 0 -> 299.
+_ASM_SYM = re.compile(r'(?:\bjal\s+(\w+)|%[hl][io]\(([\w+]+)\))')
 _DEF = re.compile(r'^[A-Za-z_][\w \t\*]*?\b(\w+)\s*\(([^;{]*)\)\s*\{', re.M)
 
 

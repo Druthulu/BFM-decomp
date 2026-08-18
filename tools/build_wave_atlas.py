@@ -50,6 +50,10 @@ ap.add_argument('--exclude-bins', default='',
                      'INCREMENTALLY, because its extract runs psyq_integrate/ld_interleave and '
                      'rewrites the .ld. Draft main like any binary; gate it with '
                      'tools/gate_main.py, never gate_lane/gate_stage.)')
+ap.add_argument('--allow-invalid', action='store_true',
+                help='emit the wave even if the S46 validity gate flags cards as NO-ASM / MID-BODY / '
+                     'OUT-OF-RANGE / ALREADY-DONE. Deliberate triage only -- each invalid card costs '
+                     'an agent per cascade tier proving a phantom does not exist.')
 ap.add_argument('--rank', choices=('groups','mass','total'), default='groups',
                 help="'groups' (default) ranks gate groups by MEMBER COUNT -- right for overlays, "
                      "where every (binary,TU) group costs its own rebuild. 'mass' ranks purely by "
@@ -336,6 +340,33 @@ for k in ranked:                            # principle 2: within a group, mass 
 if a.target_ins and tot_ins < a.target_ins:
     print(f"NOTE: only {tot_ins} ins available under these filters (target {a.target_ins}) — "
           f"widen --min-ins/--max-ins/--levers or raise n ({len(wave)} of max {a.n} cards used)")
+
+# ---- THE S46 VALIDITY GATE, AT THE POINT CARDS ARE BORN (S56).
+# It has always lived in wave_snapshot.py, whose comment argues "a gate that is a separate command
+# is a gate someone forgets". It was right, and then it was forgotten: wave_snapshot hardcodes
+# asm/<bin>/nonmatchings/<bin>/, which is structurally wrong for every split-TU overlay, so the
+# snapshot step got hand-rolled and the gate came off the path for waves T-Z. Here it cannot be
+# skipped, and here is the only moment it is MEANINGFUL: every verdict reads live sig/stub/.s state,
+# so the same check after drafting would condemn precisely the targets that banked (see
+# validate_targets' "PRE-DRAFT ONLY" note). A card that fails burns an agent per cascade tier
+# proving a phantom absent -- S46 measured ~29 phantoms x 3 tiers = 87 wasted agents, 9.7M tokens.
+try:
+    import validate_targets as _VT
+    _rows = _VT.validate(wave)
+    _bad = [(t, v, d) for t, v, d in _rows if v != 'OK']
+    if _bad:
+        import collections as _c
+        _cls = _c.Counter(v for _t, v, _d in _bad)
+        print(f"VALIDITY GATE: {len(_bad)} of {len(wave)} cards are INVALID -- "
+              + ', '.join(f'{k}={n}' for k, n in _cls.most_common()), file=sys.stderr)
+        for _t, _v, _d in _bad[:12]:
+            print(f"    [{_v}] {_t.get('fn')} ({_t.get('binary')}): {_d}", file=sys.stderr)
+        if not a.allow_invalid:
+            sys.exit("*** Refusing to emit a wave scoped on phantoms. Fix the atlas/family inputs, "
+                     "or pass --allow-invalid deliberately. (If these read ALREADY-DONE, a gate is "
+                     "probably running: corpus misreports substituted drafts -- wait for it.) ***")
+except ImportError:
+    print('build_wave_atlas: validate_targets not importable -- VALIDITY GATE SKIPPED', file=sys.stderr)
 
 json.dump(wave, open(a.out, 'w'), indent=1)
 if a.one_per_gid:

@@ -21408,3 +21408,602 @@ ATTACK 1 — ALREADY IN THE COOKBOOK. §190-C (docs/matching-cookbook.md L18302,
 * **N-ARM CONSTANT STORE AT A JOIN — re-derivation of §164-73/§164-74, and its "NOT a shared local" half is byte-refuted** — TWO attacks landed; either alone is fatal.
 
 **ATTACK 1 — ALREADY IN THE COOKBOOK (§164-73 L13425, §164-74 L13452, bounded by §165-21 L14198).** The submitter's "ruled out" list names §193-C, §194-M, §8/§48-A1/§50-B, §186c, §3-T4 — and omits the entire family that owns this shape. §164-73's title *is
+
+## §202 — THE ALIAS CARRIES A DEFINITION, NOT JUST A DECLARATION: the DEF-SIDE-RETURN wall (P31 S56)
+
+**§200 escapes a *use*-side clash. This escapes a *definition*-side one, and it is the same move.**
+
+`func_8018280C` (ov_SC05_001, wave Z) drafted MATCH and its reconciler correctly refused to slate it,
+reporting IMMOVABLE with the §183.3 DEF-SIDE-RETURN verdict:
+
+* the asm PROVES an `s32` return — every exit path writes `$v0` (`addu $v0,$zero,$zero` at
+  `0x80182828` / `0x8018283C` / `0x80182858`, `addiu $v0,$zero,0x1` at `0x801828E8`);
+* the destination TU already declares the symbol **`void` at three sites**, two of them file-scope
+  (`:5735`, `:5847`) plus one block-scope (`:5822`), with live callers at `:5753`, `:5825`, `:5873`
+  — one of them already casting through `((void (*)(s32))func_8018280C)`.
+
+Adopting the TU's `void` loses the return; changing the TU's decls touches three sites and every
+caller. Both are the negotiation §200 says to stop having.
+
+**The fix — put the alias on the DEFINITION:**
+
+```c
+s32 aF8018280C(s32 a0) __asm__("func_8018280C");
+
+s32 aF8018280C(s32 a0) { ... }          /* the byte-verified body, unchanged */
+```
+
+The TU's three `void` decls stay exactly as they are and keep serving their callers; the compiler
+never sees a conflict because the C identifiers differ; the linker resolves both to one symbol.
+**Banked first try** (commit `commit:2559`), body untouched from the drafted MATCH.
+
+**What is genuinely new.** The tree already used this idiom, but only ever on *declarations of
+externs* — `extern void aF80137030(s32 x, s32 y) __asm__("func_80137030");` in ov_SC03_099 /
+ov_SC06_008. Applying it to a **definition** is what makes it a DEF-side escape, and it means
+§183.3's "report IMMOVABLE with a TU edit" is no longer the end of that road: a def-side return-type
+or arity wall is now a one-line, zero-token, zero-TU-edit recovery.
+
+**Ordering (extends §200's).** adopt the TU's spelling -> cast at the use site -> alias the *use* ->
+**alias the *definition***. Reach for it the moment a wall is DEF-side, before writing IMMOVABLE.
+
+## §203 — A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56)
+
+**The defect.** `strip_provided_typedefs` (harvest_verify:225) removes from a draft every typedef the
+destination TU already provides. That is right, and it is address-blind — which is wrong when a
+slate banks two functions that share a type.
+
+Wave Z's md_MAIN_034 group banked 6 of 7. The drop, `func_800CC310`, failed with:
+
+```
+PLUMBING: src/md_MAIN_034/md_MAIN_034.c:547: parse error before `D_800CCAD0'
+```
+
+`func_800CC4E8` — same slate, same batch — banked a `Quad4_800CCB14` typedef into the TU. The
+stripper then correctly deleted `func_800CC310`'s duplicate copy as "already provided". But
+**`func_800CC310` splices EARLIER in address order** (`0x800CC310` < `0x800CC4E8`), so the surviving
+definition sat ~20 lines BELOW the externs that needed it. The type was provided, just not yet.
+
+**The wrong fix, and why the gate caught it.** Renaming the draft's typedef so the stripper spares it
+(`Quad4_800CCB14` -> `Quad4_800CCAD0`) moves the error rather than removing it: the draft then
+declares `extern Quad4_800CCAD0 D_800CCB14;` while the TU declares `extern Quad4_800CCB14 D_800CCB14;`
+— **one symbol, two types**, and the failure simply walks to the second line. A dedup fix that
+introduces a second name for one type is not a fix.
+
+**The fix.** Hoist the shared typedef to the top of the TU, above every splice point, and let the
+stripper delete the draft's copy as designed:
+
+```c
+#include "common.h"
+
+/* HOISTED: defined here rather than beside its first banker, because an
+ * EARLIER-addressed function's draft declares externs of this type. */
+typedef struct { u8 f0; u8 f1; u8 f2; u8 f3; } Quad4_800CCB14;
+```
+
+Banked on the next gate (commit `commit:2558`), draft byte-unchanged from the wave's MATCH.
+
+**The general law.** *A type shared by two functions in one TU belongs at the TOP of that TU, not
+beside whichever of them happened to bank first.* `pregate_check` already hoists for main's
+`gate_main` driver (it hoisted one for ov_SC03_094 in this very wave) — it does not for
+harvest_verify's module/overlay driver, which is the third-driver gap the S55 checkpoint warned
+about. Until it does, a slate with two functions sharing a typedef needs the hoist by hand.
+
+**Diagnostic order for this class (R38, learned the expensive way).** The verdict was already on
+disk in `.run/harvest_failed.<binary>.classified.txt` before any investigation started. Reading it
+first would have cost one command. Instead: `reloc_identity` (AGREE, 13 relocs — correct and
+irrelevant), then a disassembly of the built `.elf` showing **69/69 instructions identical** — a
+clean-looking result that was pure artifact, because the draft never compiled and the `.elf`
+therefore still held the original `INCLUDE_ASM` bytes. **A byte-diff against a build that failed to
+include your draft is a diff against the target and itself: it always reads MATCH.** Check the
+classified ledger before any oracle, and confirm a build actually consumed your source before
+believing any diff taken from it.
+
+## §204 — THE WAVE-Z HARVEST (P31 S56): 82 gap reports -> 5 laws, 16 rejected, 30 already-covered
+
+Seventh harvest, and the biggest batch yet (82 reports, 75 targets, 74 banked). **The rejection count
+doubled again — 16, twice wave Y's record 8 — and it is the headline number.** The readers were seeded
+with seven passes of prior art (§193/§194/§195/§197/§199/§200/§201) plus §202/§203 from earlier the same
+session, and the verifiers killed sixteen submissions: eight as re-derivations that one `grep -n` would
+have found, five as records that explicitly contained no claim at all ("gap: none"), two as byte-false
+mechanisms, one as a confirmed dead end. **30 already-covered on top of that is the index WORKING.**
+A harvest that comes back mostly-new means the readers did not grep; a harvest that comes back
+mostly-covered means the knowledge base is doing the job it was built to do and the marginal cost of
+the next function is falling. Only 5 of 82 reports contained something the tree did not already hold.
+
+**§204-E is the THIRD tool defect found in the §196 declaration-card this session** — §201-A killed
+the DEF row's overlay scoping, §203 killed `strip_provided_typedefs`' ordering, and §204-E finds that
+the card's *second headline lever* — the GLOBAL TYPE row — **has never emitted a single row in four
+shipped waves.** Same shape all three times: the field shipped, the evidence never arrived. That is
+§176h.A ("a batch-integration tool must be audited for what it DOESN'T look at") collecting its fourth
+instance, and it is the strongest argument in the file for auditing a tool's OUTPUT rather than its code.
+
+### §204-A — A COMPARE THAT APPEARS BOTH IN A BRANCH'S DELAY SLOT AND AGAIN ON THE FALL-THROUGH IS A JOIN WITH TWO INCOMING EDGES: THE TWO GUARDS ARE SEQUENTIAL `if`s, NEVER `if/else if`
+
+*(reads §165-24's `own_thread_p` law (L14317) BACKWARDS, as a source-shape oracle on a **guard pair**
+rather than on a call's argument move. **BOUNDS §164-55 (L13048)**, whose "**the spelling is
+irrelevant** — a guard clause and `} else if …` compile to the same bytes" holds only because its arms
+END IN `return`; and bounds the `func_80184944` refutation at L13677-13681 the same way. Cousin of
+§167-40 (L16001), the same `bgez`-slot / fall-through duplication for the signed-division bias.
+Disjoint from §164-47 / §164-54 / §193-G, which choose a DISPATCH construct, not a guard's
+exclusivity.)*
+
+**THE TRIGGER (readable in the target before you write a line).** The *same* compare instruction
+appears twice, a few insns apart: once in a conditional branch's delay slot, once immediately before
+the label that branch targets. `func_80182E14` (ov_SC01_084, 95 ins, banked;
+`.run/waveZ_asm_snapshot/ov_SC01_084/func_80182E14.s`) does it **twice in one function**:
+
+```
+80182EA0  bgez  $a1, .L80182EB0
+80182EA4   slti $v0, $a1, 0x301      <- the upper-bound compare, in the slot
+80182EA8  addu  $a1, $zero, $zero    <- the lower-bound reset
+80182EAC  slti  $v0, $a1, 0x301      <- THE SAME COMPARE AGAIN
+.L80182EB0:
+80182EB0  bnez  $v0, .L80182EBC
+```
+
+and identically at `80182EE4-80182EF0` with `slti $v0,$a1,0x80`.
+
+**THE LAW.** cc1 expands each compare exactly **once**; the second copy is `reorg`'s doing.
+`if (v<lo) v=lo; if (v>hi) v=hi;` makes the upper-bound test the head of a join reached by **two**
+edges — the `bgez`-taken edge and the reset's fall-through — so `own_thread_p` is false and
+`fill_slots_from_thread` **may not delete what it takes**: it puts `copy_rtx (trial)` in the slot and
+`reorg_redirect_jump`s the branch past the original (`reorg.c:3423-3433`, `:3593-3616`; §165-24).
+Writing the same clamp as `if (v<lo) v=lo; else if (v>hi) v=hi;` gives the upper-bound test **one**
+predecessor, `own_thread_p` is true, and the compare is **MOVED** into the slot — it can then never
+appear twice. **A compare on both continuations of an earlier related branch is therefore positive
+proof that the two tests are independent statements, and it is unreachable from any `else`-chain
+spelling.** Do not read the duplicate as a missing statement, as a lost CSE, or as scheduling noise.
+
+**BYTE EVIDENCE (A/B re-run at vet time, pinned triple: `cpp -P` → `tools/bin/gcc-2.7.2-psx/cc1
+-quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float`; the two sources one `else` apart, both clamps).**
+Banked C: `src/ov_SC01_084/ov_SC01_084_jr_8017CA80.c:4411-4423`. Probes
+`.run/harvest_z/seq.c` / `.run/harvest_z/els.c`.
+
+| spelling | cc1 `.s`, one clamp |
+|---|---|
+| `if (v<0) v=0; if (v>0x300) v=0x300;` | `bgez $3,$L6 ; slt $2,$3,769` / `move $3,$0` / `slt $2,$3,769` / `$L6:` — **the target, duplicate present** |
+| `if (v<0) v=0; else if (v>0x300) v=0x300;` | `bgez $3,$L2 ; slt $2,$3,769` / `j $L3 ; move $3,$0` / `$L2:` — **no duplicate compare anywhere, in either clamp** |
+
+**⚠ NARROWED AT VET TIME — the length delta is NOT the tell; the DUPLICATED COMPARE is.** The
+submission claimed the else-if form costs "+2 ins per clamp, +4 across this function's two". Measured
+on the harness above: **32 insns sequential vs 33 else-if — +1 across BOTH clamps, not +4.** Per clamp
+the two forms are length-neutral (the sequential form's extra `slt` is paid for by the else form's
+extra `j`); the lone +1 comes from elsewhere — the else form's join label lands *inside* the chain and
+`reorg` duplicates the **next statement's** constant load (`li $4,0x2aaa0000`) into the `$L3` path
+instead. **So do not route on a ±N drift.** Route on the literal duplicated compare, which is
+categorical and which the else form cannot produce at any length.
+
+**BOUND.**
+
+1. **The two guards must have FALL-THROUGH arms.** §164-55 measured guard-vs-`else if` as
+   byte-identical, and it is right — *for arms that end in `return`*. An arm ending in `return`
+   terminates its block, there is no join to have two predecessors, and the spelling really is free.
+   The moment both arms fall through to a common continuation, §164-55's "spelling is irrelevant"
+   stops applying and this section takes over. Read the two sections as one law with a fall-through
+   discriminator, not as a contradiction.
+2. **A single duplicated compare is not enough on its own** — you need the branch/slot/fall-through
+   *triple*: branch B, compare C in B's delay slot, C again immediately before B's target label. A
+   compare that merely appears twice in a function is ordinary (`reorg` is not the only way to get
+   there; cse can fail to unify two genuinely separate source tests).
+3. **`reorg` runs after everything**, so no C-level fence, `volatile`, or statement reorder can add or
+   remove the duplicate — §186's "cross-jumping/reorg runs AFTER scheduling, so no C-level barrier can
+   steer it" applies verbatim. The ONLY lever is the guard construct.
+4. **Untested:** three-or-more-way clamp chains, and the case where the reset arm is more than one
+   insn (here it is a single `addu $a1,$zero,$zero`; a multi-insn arm may exceed the slot budget and
+   suppress the duplication without changing the source construct).
+
+### §204-B — A LOOP COUNT THAT ARRIVES ON THE STACK IS DECREMENTED IN PLACE: a fresh counter local can cost a real `move` AND permute the whole callee-saved file
+
+*(NEW for scalars. The scalar mirror of §52 lever 1 ("declare the walking pointer AS the mutated
+parameter"), and the OPPOSITE prescription from §164-41 ("a `++`-ed POINTER parameter MUST be aliased
+into a local"). Distinct from §161b/§162n2 (unconditional pointer ALIAS — frame +8 and one extra
+`sw $sN`) and from §167-21 (a REASSIGNED parameter — count-neutral). Evidence: byte-probed at vet
+time; from `func_800CBA18`.)*
+
+**TRIGGER.** A 5th-or-later integer parameter — it arrives in the caller's outgoing-args area, so the
+prologue reads it with `lw rX,K($sp)` — and the function loops down from it.
+
+**TARGET SHAPE / THE TELL (readable before you compile).**
+
+```
+lw    $s4, 0x58($sp)        <- the stack arg loads STRAIGHT into a callee-saved reg,
+                               with NO `move` after it
+...
+addiu $s4, $s4, -0x1        <- and that same register is the loop's counter
+bnez  $s4, .Lbody
+```
+
+Your draft's failing signature: **LENGTH-DRIFT +1**, an `lw $v0,K($sp)` … `move $sN,$v0` pair in the
+prologue, and one or more callee-saved registers trading roles with the counter.
+
+**THE MOVE.** Write the loop against the PARAMETER — `for (; count != 0; count--, …)` or
+`while (count--)` — never `s32 i = count; … i--`. When the copy survives it is not merely +1
+instruction: the extra live pseudo re-ranks the allocnos and the whole callee-saved assignment shifts
+behind it.
+
+**BYTE EVIDENCE (re-run at vet time, pinned triple).** `func_800CBA18` (md_MAIN_034, 133 ins, banked
+`src/md_MAIN_034/md_MAIN_034.c:169`; target `.run/waveZ_asm_snapshot/md_MAIN_034/func_800CBA18.s`,
+whose `lw $s4,0x58($sp)` at `800CBA38` feeds `addiu $s4,$s4,-0x1` at `800CBBE0` with no intervening
+`move`). Baseline `for (; count != 0; count--, f++, prim += 2)` → **MATCH (133 ins)**. Single edit —
+wrap the loop in `{ s32 i = count; for (; i != 0; i--, f++, prim += 2) … }`, nothing else —
+→ **`mine=134, target=133, 124 mismatched, LENGTH-DRIFT`**. The extra insns are `lw $v0,88($sp)` +
+`move $s3,$v0`; `$s3` and `$s4` then trade places (target `$s3`=verts / `$s4`=count; draft
+`$s4`=verts / `$s3`=count) and the permutation ripples through the body. Probes:
+`.run/verify_b3/base.c` vs `.run/verify_b3/cnt.c`.
+
+**⚠ BOUND — the copy is NOT unconditionally un-coalescable; do not restate this as a compiler rule.**
+Two counter-probes on the same cc1:
+
+* `.run/verify_b3/a.c` vs `b.c` — the identical 7-arg, stack-passed-count shape in an isolated 69-insn
+  function — compile **byte-identical**, the `lw`+`move` folding to one `lw $19,80($sp)`.
+* `.run/verify_b3/ra.c` vs `rb.c` — the same body with `count` moved to `$a0` — differ only in where
+  `move $19,$4` is scheduled, same instruction count.
+
+The stack-passed qualifier is **necessary but not sufficient**: the copy only survives when the
+counter is a multi-block / call-crossing **global** allocno, which local-alloc cannot tie and
+global-alloc will not coalesce (§45 Lever A, K8). **Treat the edit as free and tell-driven** — it
+never cost instructions in any probe run here, and it is the first thing to try when the tell fires.
+
+**DISCRIMINATOR against the neighbours (this is the part that keeps the three sections apart).**
+
+| shape | prescription | section |
+|---|---|---|
+| POINTER parameter that is `++`-ed in a loop | **alias it into a local** | §164-41 |
+| POINTER parameter, unconditional alias | costs frame +8 and an `sw $sN` — only when forced | §161b / §162n2 |
+| SCALAR parameter reassigned (not counted down) | give the recomputed value its own local; count-neutral | §167-21 |
+| SCALAR loop COUNT arriving on the stack | **decrement the parameter in place** | **this section** |
+
+The pointer and scalar cases point in opposite directions and both are real. Read the parameter's
+*kind* first, then the section.
+
+### §204-C — WHEN A LOCAL BUFFER'S ADDRESS IS PASSED TO A CALL, ITS SIZE IS A FACT ABOUT THE CALLEE'S BODY, NOT ABOUT THE CALL SITE: grep the callee's proven definition and count the stores through the pointer parameter before you declare the local
+
+*(EXTENDS §196/§201-A one level down: the DEF row hands you the callee's SIGNATURE, which for
+`T *param_1` is silent about how much of `*param_1` is written. The arity analogue is already banked —
+§176-F row 1 (L17760), "open the callee's target `.s` and count the argument registers it saves/uses";
+this is the same move for the caller's FRAME. COMPLEMENTS — and points the opposite way from —
+§136's "partially-read out-param region → ONE stack struct, not separate scalars" (L1775), which cures
+a frame that is too SMALL and will mislead you when the frame is too BIG.)*
+
+**THE TELL.** A frame-size mismatch (here `0x50` vs the target's `0x40`) on a caller whose only
+unexplained locals are stack addresses handed to calls. Nothing else in the body drifts.
+
+**THE PROCEDURE — one grep, no rebuild.** For each `$sp`-relative address passed to a `jal`, look for
+a proven body of that callee, in this order:
+
+1. `grep -n 'DEFINE_func_<addr>()' src/shared/engine_core.h` — 1,377 such macros exist (§28/L447) and
+   no col-0 text scan of a `.c` can see them;
+2. an in-tree definition (`grep -rn '<callee>(' src/`);
+3. the callee's own `.s`, reading `sw`/`sh`/`sb` through `$a0`.
+
+Count the stores through the pointer parameter. **That count — not the call site — sizes the local.**
+
+**THE NEGATIVE RULE (the part that costs waves).** An immediate sitting beside the pointer argument is
+NOT a size, however plausible its magnitude. `0x18` next to a `void *` reads as 24 bytes / 6 words and
+is **wrong** here: in `DEFINE_func_8012B0B4()` that argument is `param_3`, a **multiplier**
+(`prod = iVar1 * param_3`). Argument-shape inference about a buffer is a guess; the callee body is
+ground truth.
+
+**DO NOT REACH FOR THE SCOPE LEVERS FIRST.** Block/nested-scope declaration tricks and §136-6/§79
+declaration-order reordering are the wrong tool for a frame that is simply over-sized — the drafter
+tried them first here with **ZERO byte effect**. Check the callee's write footprint before spending
+any allocator lever.
+
+**BYTE EVIDENCE.** `func_801846B4` (ov_SC01_084, 81 ins, fresh crack, banked MATCH). Target
+`.run/waveZ_asm_snapshot/ov_SC01_084/func_801846B4.s`: frame `addiu $sp,$sp,-0x40`;
+`addiu $a0,$sp,0x10` / `addiu $a2,$zero,0x18` feeding `jal func_8012B0B4` at `801846C8-801846D4`; and
+the ONLY access to that region anywhere in the function is `lw $v1,0x10($sp)` at `801846E4` — **one
+word** (the frame's other slots, `0x18-0x28` and `0x30-0x34`, belong to two different calls).
+`DEFINE_func_8012B0B4()` at `src/shared/engine_core.h:89027` is
+`void func_8012B0B4(unsigned int *param_1, int param_2, int param_3)` whose sole write through the
+pointer is `*p = result;`. Draft `unsigned int buf[6]` (sized off the `0x18`) → frame `0x50`, 16 bytes
+over. `unsigned int buf` → frame `0x40`, **MATCH**.
+
+**BOUND.**
+
+1. **Requires a proven callee body.** With no `DEFINE_` macro and no in-tree definition you fall back
+   to reading the callee's `.s`, which is sound but slower and gives you a *lower* bound only (a
+   store the callee makes under a branch you cannot prove taken still needs the slot).
+2. **The write footprint is a lower bound on the LOCAL, not on the FRAME.** Alignment, other calls'
+   argument areas, and §195-M's orphan/addressable-scalar rounding all still apply — this section
+   fixes the buffer, not the frame arithmetic. If the residual survives at the right buffer size, that
+   is §193-I/§195-M territory.
+3. **Does NOT apply when the callee writes a variable amount** (a `memset`-shaped callee whose count
+   really is an argument). Then the call-site immediate genuinely IS the size — but you learn that
+   from the body too, not from the argument's magnitude.
+4. **Do not generalise from "one word" to "always one word".** The law is *go read it*, not *it is
+   usually small*.
+
+### §204-D — A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.field` PASSES, THE SAME READ THROUGH A POINTER LOCAL IS REFUSED
+
+`scan_loop`'s THIRD blocker (loop.c:715), and a one-line bidirectional dial.
+
+*(THIRD entry in the movable-blocker set that §162e3 (L11184-11192) closes as "Two independent
+gates" — §52-3's `n_times_set != 1` and §162e3's own (1)(2)(3) safety filter. All three live in
+`scan_loop`, and two of them are conjuncts of the SAME `else if`, so do not read them as separate
+passes. BOUNDS `docs/gcc-2.7.2-map/loop.md:224`, which states the gate abstractly — "`may_trap_p` src
+can't move past a conditional/call" — with no C spelling, no tell and no dial. NOT §148-A/§148-A2 (the
+`threshold × savings × lifetime` arithmetic, which runs only on candidates that already got past this)
+and NOT §190-A (preheader strata). Evidence: two-sided byte A/B on the pinned triple; from
+`func_8017D898`, ov_SC03_094.)*
+
+**THE GATE.** `scan_loop`'s candidate `else if` (`tools/reference/gcc-2.7.2/loop.c:702-716`) ends:
+
+```c
+	           /* If the insn can cause a trap (such as divide by zero),
+	              can't move it unless it's guaranteed to be executed
+	              once loop is entered.  Even a function call might
+	              prevent the trap insn from being reached
+	              (since it might exit!)  */
+	           && ! ((maybe_never || call_passed)
+	                 && may_trap_p (src)))
+```
+
+`may_trap_p`'s `case MEM:` is `return rtx_addr_can_trap_p (XEXP (x, 0));` — the comment above it reads
+*"Memory ref can trap unless it's a static var or a stack slot"*. `rtx_addr_can_trap_p` returns **0**
+for `SYMBOL_REF`/`LABEL_REF`; **0** for a `REG` only when the rtx *is* `frame_pointer_rtx` /
+`hard_frame_pointer_rtx` / `stack_pointer_rtx` / `arg_pointer_rtx` (an **rtx-identity** test, not a
+regno test); for `PLUS`, `can_trap(op0) || GET_CODE(op1) != CONST_INT`; and **1** for everything else.
+**⚠ `rtlanal.c` is NOT in `tools/reference/gcc-2.7.2/`** — read it at
+`tools/reference/gcc-papermario/rtlanal.c` (same function text).
+
+So, for a read that appears twice in a loop body:
+
+| C spelling | rtx after `instantiate_virtual_regs` | `may_trap_p` | under `maybe_never` |
+|---|---|---|---|
+| `local.field` / `arr[i]` on a stack object | `(mem (plus (reg frame_pointer_rtx) (const_int K)))` | 0 | **movable → hoisted to the preheader**; cse2 then forwards the just-stored register (an `sll/sra` pair in the preheader instead of an in-loop `lh`) |
+| `D_SYM[k]` fixed global | `(mem (symbol_ref …))` / `(mem (plus (symbol_ref) (const_int)))` | 0 | same — hoisted |
+| `q[0]` where `T *q = (T *)&local;` | `(mem (reg <pseudo>))` | **1** | **refused — stays in the body, reloaded every iteration through an address register** |
+
+`maybe_never` goes to 1 the moment `scan_loop` passes a conditional jump (`loop.c:923-930`, already
+cited by §162e3), so the gate is armed in **any** loop whose body branches ahead of the read.
+
+**DIAGNOSTIC TELL (read it in both directions — this is the dial).** The target holds an
+`addiu $tN,$sp,K` **outside** the loop and reloads `0($tN)` / `K2($tN)` **inside** it, off slots the
+preheader itself just wrote ⇒ the source read that object **through a pointer**. Conversely, if your
+draft reloads in-loop what the target hoisted, **delete the pointer indirection and read the object as
+a member/array directly**. This is neither a scheduling nor a regalloc residual — do not open §47 /
+§158 / §136 or the permuter on it.
+
+**BYTE EVIDENCE.** `func_8017D898` (ov_SC03_094, 149 ins, banked
+`src/ov_SC03_094/ov_SC03_094_jr_8017BEBC.c:3613`). Same body, one spelling apart; the target's
+`addiu $a2,$sp,0x18` / `addiu $a1,$sp,0x10` / `addiu $t0,$sp,0x10` (at `8017D930`, `8017D948`,
+`8017D960`) are the pointer-held stack addresses the law predicts, and the in-loop reads go through
+them rather than off `$sp` directly.
+
+**BOUND.**
+
+1. **The loop body must branch (or call) ahead of the read.** With `maybe_never == 0` and
+   `call_passed == 0` the whole conjunct is false and the trap test never runs — a straight-line loop
+   body hoists the pointer read too, and this section is inert. Check for the conditional first.
+2. **This gate runs BEFORE §148-A's cost arithmetic**, not instead of it. Passing this gate only makes
+   the load a *candidate*; §148-A can still decline to hoist it. A refusal at this gate is
+   categorical, a refusal at §148-A is arithmetic — different residuals, different fixes.
+3. **It is an rtx-IDENTITY test on the base register**, so a pseudo that merely *holds* `$sp` does not
+   qualify. This is exactly why `T *q = (T *)&local;` fails while `local.field` passes: the two are
+   semantically identical in C and structurally different in RTL.
+4. **Cuts both ways and both directions are levers.** Adding an indirection is a legitimate way to
+   *prevent* a hoist your draft is doing and the target is not. Do not read this section as "pointers
+   are bad".
+5. **Untested:** volatile-qualified reads (a different `may_trap_p` path), and whether a `restrict`-
+   free pointer that provably came from `&local` in the same block is ever seen through by cse before
+   `scan_loop` runs. Change one axis at a time.
+
+### §204-E — `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of 1,210
+
+*(Second defect in the §196 card, same shape as §201-A: the field shipped, the evidence never arrived.
+Corrects `tools/decl_prior.py:43`. Not a new mechanism — it is §176h.A ("a batch-integration tool must
+be audited for what it DOESN'T look at") and §192's class, fourth instance.)*
+
+**THE DEFECT.**
+
+```python
+_ASM_SYM = re.compile(r'\b(?:jal\s+(\w+)|%[hl][io]\(([\w+]+)\))')   # decl_prior.py:43
+```
+
+The leading `\b` scopes the **ENTIRE alternation**. A `%hi(`/`%lo(` operand is always preceded by
+whitespace or a comma — non-word to non-word, so there is no boundary there — and the data arm is
+**dead code**. `asm_symbols()` has only ever returned `jal` targets.
+
+**MEASURED.** `.run/waveZ_asm_snapshot/ov_SC05_001/func_8017F3E4.s` references six `%hi/%lo` data
+symbols (`D_801AEEB0`, `D_80189738`, `D_801897B8`, `D_8018974E`, `D_80189748`, `D_80189838`);
+re-running the tool's own regex over that file at vet time returns **eight matches, all of them `jal`
+targets, and `None` in the data group every time**. Across four shipped waves the cards carry **0 `D_`
+rows out of 1,210** (W 233 / X 284 / Y 401 / Z 292). **The index is not the problem** — it holds
+**54,572 `D_` symbols of 67,558**, and `for_asm()` has no function/data branch. §196's second headline
+lever ("GLOBAL TYPE. Every CONFLICTING-EXTERN drop and the whole Reconcile phase exist because N
+drafters independently invent a spelling for one `D_` symbol") has therefore **never been delivered to
+a single agent.**
+
+**THE COST.** Recovering the arm on wave Z's 75 targets surfaces **298 data symbols (~4 per function),
+193 with a fleet extern row.** These are precisely the CONFLICTING-EXTERN drops the reconcile lane
+exists to repair.
+
+**THE FIX, AND ITS BOUND.** Drop the `\b` (or use `(?<![\w])`). Then apply §164-77/§201-A **before
+printing**: of the 193, **95 are resident (`< 0x80170000`) — one object fleet-wide, so the fleet modal
+is real evidence** — and **98 are overlay-window, where a fleet plurality carries ZERO authority** (a
+per-overlay `D_` is a different object in each of 134 overlays) and must be suppressed or labelled
+`fleet(foreign)`, exactly as §201-A rules for DEF. **Shipping the data rows unscoped would convert one
+silent hole into 98 confident false leads** — do not fix half of this.
+
+**THE READER'S RULE UNTIL IT SHIPS.** A card with no `D_` row is **not** evidence that the fleet has no
+opinion — it is evidence of *nothing*. Run `python3 tools/decl_prior.py --query D_XXXXXXXX` per data
+symbol yourself, and discard the answer when the address is `>= 0x80170000`.
+
+**FALSIFIED HALVES OF THE SUBMISSION — DO NOT BANK THESE:**
+
+* ❌ "data symbols aren't tracked in `decl_prior` / `build()` only sees banked callees" — the index
+  holds **54,572** of them; the loss is at **extraction**, not at indexing.
+* ❌ "the card has no row for an in-flight sibling draft, so grep `.run/wave_<W>/<binary>/` before
+  adopting a spelling" — §176b/§176d/§176h.D already state the sibling-agreement law, §176h.C2 assigns
+  it to the pre-gate tool, and `reconcile_slate.py` ran on this very slate. A parallel wave's sibling
+  file usually does not exist at the moment you would grep it.
+* ❌ "`def_absent` should print the other binary's signature" — §201-A withholds it **on byte
+  evidence**, and re-adding it would reintroduce exactly the failure §201-A measured at 40%.
+
+### §204-CONFIRMED — 30 reports that the index already answered
+
+Each names the section that already held the law, plus what wave Z added to it. **A confirmation is a
+successful index lookup that the drafter made after the fact instead of before it** — the fix is the
+drafter's grep discipline, not a new section.
+
+* **func_8018599C** → §194-B, §164-64, §136d-1/§165-47 (RC-5 pin family). Three sub-claims, all
+  confirmations. The compound-vs-split register-cost lever (`x = (x & c1) << c2;` costs a scratch reg
+  the split `x &= c1; x <<= c2;` avoids) is §164-64's mechanism on a new exemplar.
+* **func_8018353C** → §165-47 (L14852), *pin every member of a register relationship or none*. New
+  exemplar for "pinning the DEST alone is a trap; a pin is a preference over ONE quantity (§72)".
+* **func_80183068** → §193-E BOUND 1 (L18639, a same-address store re-seeds the cse interval, so
+  `field = field+1; if (field==4)` needs a genuine reload) + §164-66 (volatile blocks combine's
+  `zero_extend` fold — explains the spurious `andi`); gap 2 → `reorg.c` `fill_simple_delay_slots`
+  backward scan (L868, §21's `jal`-slot bullets).
+* **func_80180300** → §30#3 / §37 / §162d1 / §164-50 / §165-19 / §194-A, the birthing-boost family
+  (L2382-2418, L11101-11124, L18921-19010, L14137-14192).
+* **func_80180300** (second report) → §167-28 (L15696-15704), quoted verbatim by the gap:
+  `schedule_block` traverses each bb backward, so picked-earlier = placed-later, and a C edit can only
+  ever RAISE a priority.
+* **func_8018BE88** → §186c (L18092) + §194-F (L19169-19240), which explicitly *sharpens* §186c as
+  "reached by expression nesting rather than by load placement".
+* **func_800CBE28** → §145(c) (L9958) already word-for-word ("chained assignment emits stores
+  RIGHT-TO-LEFT… writing three separate statements gives ascending order"); §164-34 (L12575, two biv
+  increments emit in LUID/source order) CONFIRMED with a new datapoint.
+* **func_8017F9CC** → §164-52 (L12946) + §20's scalar-global-RMW pointer-variable bullet (L1907). A
+  store then two branch-arm dereferences of one address had to route through ONE explicit
+  `addr = (s32)&SYM` local. Near-perfect structural twin of `ov_SC01_077:func_8012C354`.
+* **func_80181574** → §201-B (L21153) **rule 3** — a bare literal inside a store-narrowed expression.
+  ⚠ The submitter cited "§201-D", which does not exist; the mechanism is §201-B's third route. Fix:
+  hoist `t + 0x80` into a named `s32` local before storing to the `u8`/`s8` field.
+* **func_801807D8** → §193-I (L18820) for the frame-sizing corollary + §194-I (L19320) for the
+  magic-divide grep tip. Two stack aggregates 24 bytes apart, both declared 6-wide even though only 3
+  elements of each are live — MATCH 123 ins on first compile.
+* **func_8018FEA0** → §164-52 (L12946) for the plain-C fold, §153 (L10466) for the asm-launder cure,
+  here generalized beyond §153's call-argument trigger. Guarded triple-init of `D_800A5E88[3]`; `s0`
+  bound via `__asm__("la %0,D_800A5E88":"=r"(s0))`.
+* **func_8017F268** → §164-54 (L13008) / §193-G (L18717) / the unnamed § at L20998-21018: the
+  **dispatch-topology oracle** — the construct, not the case count or body density, decides the
+  compare shape. Written as a full `switch(0,1,2,3)` though cases 2 and 3 are empty `break`s.
+* **func_8017F744** → bounds L20048's "branch sense is free, `jump1` normalizes it". Case 1's inner
+  conditional needed an explicit `if (cond) goto Label;` with the *then* body placed at a label AFTER
+  the case's `break;`. **This is a real narrowing of an existing claim, recorded here rather than as a
+  new section because n = 1.**
+* **func_80184460** → §167-27 (L15655-15692, `jump.c:1800-1875` every-arm-returns swap, incl. the
+  `! first` precondition at L15670) + §164-38 (compare operand order = load order).
+* **func_8017E65C** → §3-T4 (L90-103) / §32.2 (L2426) branch polarity read off the target opcode,
+  + §36 (the `$0`-add opaque copy) + §193-E BOUND 6 (naming changes placement, not just count).
+* **func_8017ECD4** → §179-F (L17507-17524): pinning a loop-walked pointer/biv is a **total off-switch**
+  for strength reduction — `loop.c:3301` requires `REGNO(dest_reg) >= FIRST_PSEUDO_REGISTER`.
+* **func_80180830** → §165-24 (L14312-14317, the shared `jal`'s own delay slot as a copy-count oracle)
+  + §21's combined-assignment and cross-jump-duplicate-the-call bullets (L1872-1881).
+* **func_8017F5A4** → §193-E BOUND 6 (L18649): count-only, not placement — raw→named also changes
+  register pressure.
+* **func_801870BC** → §18 (L1561-1568), the `%lo`-folding array-of-STRUCT idiom for indexed globals:
+  pick the struct so the accessed field's address == the target symbol.
+* **func_80187E18** → §16Xd / §164-61 (L13172-13184): the arg-copy delay-slot arity tell is
+  **basic-block scoped** and uninformative in-block; take the arity from another call site, a sibling
+  overlay, or the TU's existing decl.
+* **func_801837FC** → §201-A / §150-B / §164-77 (L21121-21135): fleet-consensus rows carry authority
+  proportional to *real, binary-scoped* agreement; a 1-vs-1 tie is not ground truth.
+* **func_80183BD0** → §193-B (L18480-18499), §16Xb/§164-59 (L13140-13153), §195-C (L19804/L19823).
+  L18486 names the mechanism generically as `combine.c:924-929`'s cross-call guard on ANY
+  `(set pseudo hardreg)` copy; BOUND 4 (L18499) already says "not a type-recovery tell".
+* **func_801849B4** → §193-I (L18818) + §195-M (L20333-20360). L20348's worked example already shows
+  the naive flat `CEIL(size,8)` sum under-predicting frame size by exactly this shape (sum 36, walk
+  and compiler both 40).
+* **func_8017E3B0** → §167-21 (L15507-15521), stated there for a REASSIGNED PARAMETER; this gap's
+  `D_8018B50C/E/510` index temp is a reused LOCAL reloaded three times. Same prescription, wider
+  trigger — noted, not re-sectioned.
+* **func_80180874** → §190-B (L18291-18300, esp. L19839-19840): per-block statement-order rigidity for
+  independent same-base writes is real; direction is unpredictable, do not generalise either way.
+* **func_8017FC10** → §164-74 (L13452, "the poison is a FRESH allocno, not a temp") / §167-21 (L15507)
+  / §176-B2 pin-the-interloper (L17655).
+* **func_80180A10** → §199-F / §164-36b (L20946) `fill_eager_delay_slots` thread selection, BOUND 2
+  ("no guaranteed substitute" when the fall-through block is not `own_thread_p`), + the dbr
+  insn-duplication law at L14317-14330 (`reorg.c:3128-3130`). **Same mechanism as §204-A above, seen
+  from the call side** — the target duplicated a shared merge-block's `addu $a0,$s0,$zero` into the
+  slot because `.L80180AB8` has ≥2 incoming edges.
+* **func_80182998** → §70 (L5619), *walk the PARAMETER, not a copy of it*. §70's own byte evidence
+  (`func_801777BC`) is the identical symptom and fix for a narrower precondition:
+  `u32 *q = (u32*)a0; … q += 5;` makes `cse.c:make_regs_eqv` canonicalize on the outliving local.
+  **Read alongside §204-B** — same family, scalar vs pointer.
+* **func_8018FCE4** → §194-K (L19415-19463), *blind sched1's alias oracle with a second SET of a
+  pointer pseudo*. The reported lever (an opaque `__asm__("":"=r"(s0):"0"(s0))` retie of `s0`
+  immediately before the store, to stop cse folding `s0[8]=0` into a fresh `lui/addiu`) is §194-K's.
+* **func_800CC4E8** → §165-17 / §194-D (L14094, L19088): the declared width of a
+  computed-value local is a sched1 dial. The report itself frames it as adjacent to §165-17.
+* **func_80185764** → §201-A (L21121) — `decl_prior`'s overlay-window fleet/DEF rows can be a wrong,
+  address-colliding, same-named-different-function signature — and §174 law 1c (L16844) —
+  `match_one` masks relocations and cannot see a wrong callee. The drafter took `(s32, void*, void*)`
+  from the target's own `$a0/$a1/$a2` setup and **ignored** the card's `('void',('s32',))`. **This is
+  §201-A being used correctly by a reader one wave after it was written — the flywheel closing.**
+
+### §204-REJECTED — sixteen, twice the previous record
+
+Recorded so they are not re-derived. The reason matters more than the claim.
+
+**Killed by ATTACK 1 (already in the cookbook) — eight:**
+
+* **func_8017F27C** — REFUTED on all four attacks, three independently decisive. The headline warrant
+  ("RC-9 is a bare label with no elaborating section anywhere") is **false**: §167-23 (L15545,
+  arg-copy deletion is label-scoped, `cse.c:8039`), §164-49 (L12884, "a pin that fixes the register
+  and leaves a residual is the CAUSE, not the cure"), the §189-C refutation half (L19001, the
+  identical pin + `"memory"` re-tie ablation on `func_80183094`), and
+  `docs/gcc-2.7.2-map/regalloc.md` §RC-9 (L145-149) all exist.
+* **func_8018A968** — REFUTED at step 1 (both triggers already held: §136-3 rule 3 at L8862-8866 as
+  corrected at L19003 for trigger A; §176-B2 "pin the interloper, not the contested value" at
+  L17655-17665 for trigger B) **and** at step 2 (trigger A's stated mechanism is byte-false). The pins
+  are real and load-bearing — verified, not taken on trust — but the *explanation* was wrong.
+* **func_80184460** — REFUTED at steps 1, 2 and 4. The mechanism is not open: it is §167-27's own
+  cited pass, `jump.c:1799` *"Look for if (foo) bar; else break;"*, and **the wave's own banked source
+  already derives it in full** at `src/ov_SC01_084/ov_SC01_084_jr_8017CA80.c:5081-5098`. A claim whose
+  answer is in the header comment of the file being submitted is the cheapest possible rejection.
+* **func_8018C758** — the evidence is REAL (61-ins target, `lui $v1,0x7FFF / lw $v0,0x4($s0) / ori` at
+  `8018C770-78`; both levers carried in the banked C at
+  `src/ov_SC02_005/ov_SC02_005_jr_80181D30.c:7254`) and every part of it is already banked: §194-A
+  (L18925-18960), §164-36 (L12567, L12620-12628), §31 lever 2 (L2919), §201-C, §42d lever 2
+  (L3097-3103), §48-B corollary (L11165-11168), §48-C1, §162l (L11485-11520), §176f — **plus a
+  standing §195-REJECTED entry at L20434 for the same claim.** Rejected twice now.
+* **func_80184B80** — a re-derivation of §167-08's DIAGNOSTIC TELL almost word for word
+  (`docs/matching-cookbook.md:15188-15211`, *"an argument register that is READ before the `jal` is
+  scratch, not an argument — count the DEFs, not the mentions"*), reinforced by the giant-crack
+  recipe's arity rule at L2266-2270 and by §166a. Landed on the **first** grep. ⚠ Note for the
+  reader: §167-08's tell is itself already BOUNDED by §195-B (L19693) — a `$aN` read before the `jal`
+  CAN still be that call's argument when the value dies at the call — so the correct move at this
+  shape is to A/B both arities, not to trust either section unilaterally.
+* **func_801829B0** — REFUTED on its own evidence, then again on coverage. The four cited symbols
+  (`func_8012B0B4/B6D4/BC60/CEB0`) are all **resident** (`< 0x80170000`), which is precisely the case
+  §201-A's BOUND exempts; the ranking half is §196 + §150-B/§164-77.
+* **func_8018599C** (second submission) — no surviving claim after the §194-B/§164-64 confirmation
+  above absorbed it.
+* **func_80182BAC** — no surviving claim; the residual reduced to an existing pin-family entry.
+
+**Killed as byte-false mechanisms — two:**
+
+* **func_800CBC2C** — REFUTED at step 2/3: the stated MECHANISM is byte-false, so the "law" is an
+  incidental allocation outcome of one function. I reproduced the baseline and ran the A/B the claim
+  never ran. **This is §204-B's near-miss twin** — the *direction* (use the raw parameter, do not
+  alias it into a local) is already §161b's, with §164-41 supplying the pointer exception and §167-21
+  the reassignment case. §204-B was banked only because the stack-passed-count trigger and the
+  callee-saved permutation cost are new; **this submission had neither.**
+* **func_8018A968** — see above; the mechanism half was byte-false independently of the coverage kill.
+
+**Killed as a confirmed dead end — one:**
+
+* **func_8018C758** (second report) — the submitter's own record is a dead end: ~6 C-level nudges
+  (constant-splitting re-tie, `__asm__` fences on both sides, statement reordering) all failed to move
+  the target's `lui $v1,0x7FFF / lw $v0,4($s0) / ori $v1,…` interleave. **A negative result with no
+  mechanism is a worklog entry, not a section.**
+
+**Killed as process notes, not compiler mechanisms — five:**
+
+* **func_80186DE8** — "I noticed a TU-neighbor's style and copied it." Consulting a proven
+  sibling/neighbour before deriving from scratch is already the cookbook's standing prescription.
+* **func_8018A1D8** — the record itself states no derivation beyond standard steps was needed.
+* **func_8018392C** — the record itself states existing structural-twin guidance already covers it.
+* **func_800CC6C4** — gap field reads *"none — this was a clean first-pass mass-lane draft, no residual
+  encountered."*
+* **func_8018B058** / **func_8017E890** — both gap fields read "none"; the only work was a
+  reorder-and-retry (`8018B058`) and a same-TU-neighbor + seed-twin lookup (`8017E890`).
+
+**THE PATTERN IN THE FIVE.** A "gap: none" record is not a failure of the drafter — it is the index
+paying off, and it should be *reported as none* rather than padded into a claim. The harvest's cost is
+dominated by verifying submissions that had no claim in them; the cheapest improvement to the next
+wave's harvest is a prompt that says **"if nothing was derived, write `none` and stop."**

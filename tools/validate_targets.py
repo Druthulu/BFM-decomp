@@ -17,6 +17,15 @@ warning fired on this very list, reporting 24 of 57 found, and was routed around
 This tool makes the check explicit, names the class, and exits non-zero, so the next wave cannot be
 scoped on phantoms.
 
+WHEN IT IS MEANINGFUL — PRE-DRAFT ONLY (S56).
+    Every verdict is read off LIVE state: `DP.load_sig(binary)`, `corpus.stubs(binary)` and the .s on
+    disk. Banking removes a stub and prunes its .s, so running this AFTER a wave gates reports
+    ALREADY-DONE for precisely the targets that SUCCEEDED. That is not a defect and must not be
+    "fixed" by loosening the class — it means the gate belongs where cards are BORN
+    (build_wave_atlas), never downstream of drafting. A refusal-check run at the wrong moment
+    discards good work silently, which is the R39 failure mode. Do not run it during a gate either:
+    corpus misreports substituted drafts while gate_stage holds the tree.
+
 USAGE
     tools/validate_targets.py --targets .run/wave/args.json            # exit 1 if ANY invalid
     tools/validate_targets.py --targets args.json --out clean.json     # write the surviving subset
@@ -50,7 +59,9 @@ def validate(targets, sig_cache=None, stub_cache=None):
     stub_cache = {} if stub_cache is None else stub_cache
     out = []
     for t in targets:
-        name = _key(t, "name", "n")
+        # `fn` is the CARD spelling (build_wave_atlas), `name`/`n` the older wave-args spellings.
+        # Widening only: a dict carrying `fn` previously fell through to MALFORMED.
+        name = _key(t, "name", "n", "fn")
         binary = _key(t, "source", "s", "binary")
         if not name or not binary:
             out.append((t, "MALFORMED", "missing name/source"))
@@ -112,7 +123,7 @@ def main():
     print(f"{len(targets)} targets -> " + ", ".join(f"{k}={v}" for k, v in sorted(counts.items())))
     bad = [(t, v, d) for t, v, d in rows if v != "OK"]
     for t, v, d in bad[:20]:
-        print(f"  [{v}] {_key(t, 'name', 'n')} ({_key(t, 'source', 's', 'binary')}): {d}")
+        print(f"  [{v}] {_key(t, 'name', 'n', 'fn')} ({_key(t, 'source', 's', 'binary')}): {d}")
     if len(bad) > 20:
         print(f"  … and {len(bad) - 20} more")
     if a.out:

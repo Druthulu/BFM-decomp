@@ -334,6 +334,57 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
                 args: <the object in .run/wave_y_harvest_args.json>})
   This is the ONLY step of the seven-step wave-closing sequence left undone for wave Y.
 
+- 2026-08-18 — **WAVE Z FIRED AND CLOSED (S56). 127 banked; R22 213/213; fleet 96.1 / 91.8 / 97.11.**
+  Wave Z (`wf_3a3c6273-f82`, 75 cards / 6,517 ins / 8 gate groups, 93 agents, 0 errors, 81 min):
+  **74/75 standalone MATCH, 0 immovable**, 73 reconciled onto slates, **72 banked on the first gate**.
+  - **Recovery, 2 for 2, zero agent tokens.** `func_800CC310` (md_MAIN_034) — `match_one` MATCH but the
+    whole-binary gate refused. `reloc_identity` AGREE (13 relocs); a disassembly of the built `.elf`
+    read 69/69 identical **and was an artifact** — the draft never compiled, so the `.elf` still held
+    the original `INCLUDE_ASM` bytes. **The verdict was already on disk** in
+    `.run/harvest_failed.md_MAIN_034.classified.txt`: `PLUMBING: parse error before 'D_800CCAD0'`
+    (R38 — reading it first would have cost one command instead of three oracles). Cause: slate-mate
+    `func_800CC4E8` banked a `Quad4_800CCB14` typedef, `strip_provided_typedefs` correctly dropped
+    `func_800CC310`'s duplicate, and `func_800CC310` splices EARLIER in address order — survivor below
+    its uses. First fix (rename to dodge the stripper) was WRONG and the gate caught it: one symbol,
+    two types. Hoisting the typedef to the top of the TU banked it (`commit:2558`). Cookbook **§203**.
+    `func_8018280C` (ov_SC05_001) — the reconciler's IMMOVABLE §183.3 DEF-SIDE-RETURN wall (asm proves
+    `s32`, TU declares `void` at three sites with live callers). The **§200 alias applied to a
+    DEFINITION** — `s32 aF8018280C(s32) __asm__("func_8018280C")` — banked first try (`commit:2559`),
+    body untouched. Cookbook **§202**; the idiom existed in-tree only on declarations.
+  - **Sibling sweep: 3, then 50 — the difference was MY scoping error, not the tree.** The first
+    `family_sweep --hseq` passed the ATLAS gid-exemplar addresses to `--only`, which filters on
+    `family_hseq`'s OWN exemplar addr; with the default `--band substantial` that left 2 families / 4
+    candidates. Recomputed from the manifest: **59 families contain a wave-Z function, 21 with a
+    matched exemplar and 196 open members**. Re-swept `--band all`: **50 banked / 91 failed / 60
+    skipped** (45 STRUCT-class, 12 unresolved-immediates, 3 not-stub). §53's "a 0% from the wrong tool
+    is not evidence", one level up: **a small yield from a mis-scoped sweep is not evidence either.**
+  - **R22 `make check-all` = 213 passed / 0 failed of 213** from a clean tree. dedup-check 2,165/0;
+    C1 254,731/254,731; 0 NON_MATCHING in any default build (G4). **Fleet 96.1% instr-weighted /
+    91.8% distinct-code / 97.11% fn-count / MAIN 20.5%** (session start 96.0 / 91.7 / 97.07), 10,501
+    stubs open. Honest ratio: 74 agent-drafted fns moved instr-weighted ~0.1pt; the 53 mechanical
+    siblings cost ~0 tokens. **Draw exemplars that carry siblings.**
+  - **Harvest (`wf_5508f6b2-fae`, 16 agents): 82 gap reports -> 30 already-covered, 31 confirmations,
+    5 laws, 16 rejected.** The adversarial verifier killed **7 of 12** law claims — two on byte-false
+    mechanisms it reproduced itself, five as re-derivations of existing §§. The synthesizer corrected
+    three wrong line citations, narrowed §204-A's instruction delta from a claimed +4 to a measured
+    +1 by re-running the A/B, and flagged a miscite. **§204 written, 510 lines** (§204-A..E +
+    CONFIRMED + REJECTED).
+  - **Tooling (all negative-controlled).** (1) **The S46 validity gate was OFF the path for waves T-Z**
+    — it lives in `wave_snapshot.py`, which hardcodes `asm/<bin>/nonmatchings/<bin>/` and so found 9 of
+    75 split-TU targets; its R32 assertion fired correctly, the snapshot step got hand-rolled, and the
+    phantom-target gate went with it. Wired `validate_targets` into **`build_wave_atlas`** where cards
+    are BORN (`--allow-invalid` escape), widened `_key` to the card spelling `fn`, and documented the
+    PRE-DRAFT-ONLY constraint in the tool: every verdict reads live sig/stub/.s state, so the same
+    check after a wave condemns exactly the targets that BANKED (an R39 refusal-check run at the wrong
+    moment). (2) `wave_snapshot` now honors the card's `sub` (NC: 9/9 legacy targets byte-identical,
+    66/66 split-TU targets recovered). (3) **§204-E fixed**: `decl_prior._ASM_SYM`'s leading `\b`
+    bound to the whole alternation, demanding a word boundary before `%` — impossible in a .s — so the
+    `%hi/%lo` arm had NEVER fired (0 of 1,210 over four waves). NC over the 75 wave-Z targets: **jal
+    306 -> 306, zero regressions; data 0 -> 299 symbols recovered.**
+  - Outstanding: `func_8018675C` (ov_SC02_005, closeness 6) — its agent ran ~35 variants and attributed
+    the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
+    (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
+
 ## 🛑 SESSION CHECKPOINT — S54/S55 FINAL (2026-08-17/18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
 **HEAD `commit:2546` · tree clean except `.run/backlog.jsonl` churn + Ghidra `db.*.gbf` restart-noise
