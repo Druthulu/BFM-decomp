@@ -187,7 +187,20 @@ INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A0524);
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A060C);
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A0648);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012BD14(s32);
+
+void func_801A0648(s32 arg0) {
+    if (func_8012BEE8(arg0) != 0) {
+        *(s16 *)(arg0 + 2) = 7;
+    }
+    if (*(s32 *)(arg0 + 0x1C) < 0x20) {
+        if (((s32 (*)(s32))func_8012BD14)(arg0) <= 0x10000) {
+            *(s16 *)(arg0 + 2) = 0xF;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A06AC);
 
