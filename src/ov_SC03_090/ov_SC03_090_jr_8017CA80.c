@@ -4567,7 +4567,25 @@ int func_80181ED0(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80181F00);
+extern u8 D_8018F788[];
+extern u8 D_8018F798[];
+extern s32 D_801CBC90;
+
+void func_80181F00(u8 *parent)
+{
+    switch (*(s16 *)(parent + 0x70)) {
+    case 0:
+        func_8013B598(1, (u16 *)D_8018F788);
+        func_8013B598(2, (u16 *)(D_8018F788 + 8));
+        break;
+    case 1:
+        func_8013B598(1, (u16 *)D_8018F798);
+        D_801CBC90 = 0x140;
+        func_8013B598(2, (u16 *)(D_8018F798 + 8));
+        break;
+    }
+}
+
 
 
 
