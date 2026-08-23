@@ -13693,7 +13693,7 @@
 #define DEFINE_func_8013CF68() \
     void func_8013CF68() \
     { \
-        extern void func_80028620(); \
+        extern void func_80028620(s32, void *); \
         extern u8 D_800A5E94[]; \
         extern s32 D_800A5E8C; \
         extern s32 D_800A5E90; \
@@ -109091,7 +109091,7 @@
 #define DEFINE_func_8013CF68() \
     void func_8013CF68() \
     { \
-        extern void func_80028620(); \
+        extern void func_80028620(s32, void *); \
         extern u8 D_800A5E94[]; \
         extern s32 D_800A5E8C; \
         extern s32 D_800A5E90; \
@@ -153787,7 +153787,7 @@
     extern void func_8013CB20(void); \
     extern void func_8013C98C(void); \
     extern void func_8002850C(s32, s32, s32); \
-    extern void func_80028620(s32, void *); \
+    extern void func_80028620(); \
     extern s16 D_800B9AAC[]; \
     extern s16 D_800B9B00; \
     extern u16 D_801270C0; \
@@ -158882,7 +158882,7 @@
     extern void func_8013CB20(void); \
     extern void func_8013C98C(void); \
     extern void func_8002850C(s32, s32, s32); \
-    extern void func_80028620(s32, void *); \
+    extern void func_80028620(); \
     extern s16 D_800B9AAC[]; \
     extern s16 D_800B9B00; \
     extern u16 D_801270C0; \
