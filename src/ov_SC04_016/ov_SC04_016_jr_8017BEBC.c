@@ -3461,7 +3461,14 @@ INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017EE2
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017EE78);
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017EF58);
+extern s32 D_80183A0C;
+extern void func_800D1724(s32);
+
+void func_8017EF58(void *a0) {
+    ((void (*)(s32 *))func_800D1724)(&D_80183A0C);
+    *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
+}
+
 
 void func_8017EF9C(void) {
 }
@@ -3544,7 +3551,43 @@ void func_8017F72C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017F82C);
+
+
+void func_8017F82C(void *a0) {
+    s32 *s1;
+    s32 *s0;
+    u16 v0_const;
+    s32 rand_val;
+    u16 *val_ptr;
+
+    s1 = (s32 *)a0;
+    v0_const = 0x0B;
+    __asm__("");
+    s0 = *(s32 **)((u8 *)s1 + 0x20);
+
+    
+    *(u16 *)((u8 *)s0 + 0x2) = v0_const;
+
+    
+    *(s32 *)((u8 *)s0 + 0x4) |= 0x50000000;
+
+    
+    if (*(s16 *)((u8 *)s0 + 0x18) == 0) {
+        *(s16 *)((u8 *)s0 + 0x18) = 0x600;
+    }
+
+    
+    rand_val = rand();
+    *(u16 *)((u8 *)s0 + 0x14) = (u16)(rand_val & 0xFF0);
+
+    
+    val_ptr = (u16 *)((u8 *)s1 + 0x2);
+    *val_ptr = *val_ptr + 1;
+
+    
+    *(s16 *)((u8 *)s1 + 0x30) = 0x100;
+}
+
 
 #define gte_ldv0(r0) __asm__ volatile (          \
     "lwc2 $0, 0( %0 );"                          \
@@ -3817,7 +3860,33 @@ s32 func_8017FED4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017FF08);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+
+int func_8017FF08(short *pos, int a1, int a2)
+{
+    u8 *v1;
+
+    v1 = func_801290DC(0x55, (u8 *)pos);
+
+    if (v1 != 0) {
+        *(s32 *)(v1 + 0x1C) = pos[3];
+
+        if (a1 != 0) {
+            *(s32 *)(v1 + 0x10) = *(s32 *)(a1 + 0x0);
+            *(s32 *)(v1 + 0x14) = *(s32 *)(a1 + 0x4);
+            *(s32 *)(v1 + 0x18) = *(s32 *)(a1 + 0x8);
+            *(s32 *)(v1 + 0x34) = *(s32 *)(a1 + 0xC);
+        }
+
+        if (a2 != 0) {
+            u8 *ptr = *(u8 **)(v1 + 0x20);
+            *(s32 *)(ptr + 0x24) = a2;
+        }
+    }
+
+    return (int)v1;
+}
+
 
 
 

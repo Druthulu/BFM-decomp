@@ -51422,7 +51422,7 @@
     }
 
 #define DEFINE_func_80182998() \
-    extern void func_801829E4(u8 *a0); \
+    extern void func_801829E4(); \
     extern void (*D_8018E134[])(int); \
     void func_80182998(int param_1) \
     { \
@@ -56467,7 +56467,7 @@
     extern void func_8002D4C8(s32 arg0, s32 arg1); \
     extern void func_8018295C(void *a0); \
     extern void func_80182988(s32 *a0); \
-    extern void func_801829E4(u8 *a0); \
+    extern void func_801829E4(); \
     extern void (*D_8018E134[])(int); \
     extern void func_80182998(int param_1); \
     extern void func_80182ADC(void); \
@@ -62976,7 +62976,7 @@
     extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3); \
     extern s32 func_8014ED80(struct SubED80 *a0); \
     extern int D_801E6E60; \
-    extern void func_8014ED28(s32 _arg0); \
+    extern void func_8014ED28(); \
     extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2); \
     extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2); \
     extern s32 func_8014F24C(struct SubF24C *a0); \
@@ -63290,7 +63290,7 @@
     extern void func_80155B9C(s32 a0); \
     extern u8 D_800D4DD4[]; \
     extern void func_80155C0C(s32 *a0); \
-    extern void func_8014ED28(s32 a0); \
+    extern void func_8014ED28(); \
     extern int func_80155FF8(int arg, int a1); \
     extern s32 D_800D4DF4; \
     extern void func_80155C64(s32 a0); \
@@ -146820,7 +146820,7 @@
     }
 
 #define DEFINE_func_80182998() \
-    extern void func_801829E4(u8 *a0); \
+    extern void func_801829E4(); \
     extern void (*D_8018E134[])(int); \
     void func_80182998(int param_1) \
     { \
@@ -151865,7 +151865,7 @@
     extern void func_8002D4C8(s32 arg0, s32 arg1); \
     extern void func_8018295C(void *a0); \
     extern void func_80182988(s32 *a0); \
-    extern void func_801829E4(u8 *a0); \
+    extern void func_801829E4(); \
     extern void (*D_8018E134[])(int); \
     extern void func_80182998(int param_1); \
     extern void func_80182ADC(void); \
@@ -158374,7 +158374,7 @@
     extern s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3); \
     extern s32 func_8014ED80(struct SubED80 *a0); \
     extern int D_801E6E60; \
-    extern void func_8014ED28(s32 _arg0); \
+    extern void func_8014ED28(); \
     extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2); \
     extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2); \
     extern s32 func_8014F24C(struct SubF24C *a0); \
@@ -158688,7 +158688,7 @@
     extern void func_80155B9C(s32 a0); \
     extern u8 D_800D4DD4[]; \
     extern void func_80155C0C(s32 *a0); \
-    extern void func_8014ED28(s32 a0); \
+    extern void func_8014ED28(); \
     extern int func_80155FF8(int arg, int a1); \
     extern s32 D_800D4DF4; \
     extern void func_80155C64(s32 a0); \

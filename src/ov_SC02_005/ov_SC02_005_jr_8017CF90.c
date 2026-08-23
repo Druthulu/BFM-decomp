@@ -3630,7 +3630,24 @@ extern void func_80171B44(s32 *a0);
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017F244);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017F2C4);
+extern s32 func_801399F0(s32);
+extern void func_80139914(s32 a0);
+
+    void func_8017F2C4(s32 a0)
+    {
+        u8 *s0 = (u8 *)a0;
+        register s32 v0 asm("v0");
+        register s32 v1 asm("v1");
+        v0 = func_801399F0(*(s32 *)(s0 + 0x198));
+        if (v0 != 0) {
+            func_80139914(*(s32 *)(s0 + 0x198));
+            v0 = s0[0x4D];
+            v1 = s0[0x214];
+            s0[0x4D] = v0 - 1;
+            s0[0x214] = v1 + 1;
+        }
+    }
+
 
 
 // @class: plumbing

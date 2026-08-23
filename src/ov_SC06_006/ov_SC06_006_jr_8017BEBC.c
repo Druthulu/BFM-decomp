@@ -3381,7 +3381,16 @@ extern void func_801800B8(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017D4F0);
+extern int func_8001AAA0(void);
+extern s32 D_80185AD8;
+extern void func_801800B8(void *a0);
+
+void func_8017D4F0(u8 *a0) {
+    *(s16 *)(a0 + 0x2) = 0x5;
+    ((void (*)(s32))func_801800B8)((s32)&D_80185AD8);
+    ((void (*)(s32))func_8001AAA0)(0x99);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017D528);
 
@@ -3488,7 +3497,16 @@ void func_8017D730(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017D90C);
+extern int func_8001AAA0(void);
+extern s32 D_80185D28;
+extern void func_801800B8(void *a0);
+
+void func_8017D90C(u8 *a0) {
+    *(s16 *)(a0 + 0x2) = 0xf;
+    ((void (*)(s32))func_801800B8)((s32)&D_80185D28);
+    ((void (*)(s32))func_8001AAA0)(0x9A);
+}
+
 
 extern void func_801800B8(void *a0);
     extern s16 D_80185D94;
@@ -4400,7 +4418,16 @@ void func_80180534(void) {
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8018056C);
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_801805EC);
+extern s32 D_80185AFC;
+extern s32 func_8018034C(void);
+extern void func_8017F7C4(s32 arg0);
+
+void func_801805EC(void) {
+    if (!func_8018034C()) {
+        ((void (*)(s32))func_8017F7C4)((s32)&D_80185AFC);
+    }
+}
+
 
 extern s32 func_8018034C(void);
     void func_80180624(void) {
@@ -4788,7 +4815,43 @@ void func_801814DC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_801815DC);
+
+
+void func_801815DC(void *a0) {
+    s32 *s1;
+    s32 *s0;
+    u16 v0_const;
+    s32 rand_val;
+    u16 *val_ptr;
+
+    s1 = (s32 *)a0;
+    v0_const = 0x0B;
+    __asm__("");
+    s0 = *(s32 **)((u8 *)s1 + 0x20);
+
+    
+    *(u16 *)((u8 *)s0 + 0x2) = v0_const;
+
+    
+    *(s32 *)((u8 *)s0 + 0x4) |= 0x50000000;
+
+    
+    if (*(s16 *)((u8 *)s0 + 0x18) == 0) {
+        *(s16 *)((u8 *)s0 + 0x18) = 0x600;
+    }
+
+    
+    rand_val = rand();
+    *(u16 *)((u8 *)s0 + 0x14) = (u16)(rand_val & 0xFF0);
+
+    
+    val_ptr = (u16 *)((u8 *)s1 + 0x2);
+    *val_ptr = *val_ptr + 1;
+
+    
+    *(s16 *)((u8 *)s1 + 0x30) = 0x100;
+}
+
 
 #define gte_ldv0(r0) __asm__ volatile (          \
     "lwc2 $0, 0( %0 );"                          \
@@ -5066,7 +5129,33 @@ int func_80181C84(short *pos, int a1, int a2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80181CB8);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+
+int func_80181CB8(short *pos, int a1, int a2)
+{
+    u8 *v1;
+
+    v1 = func_801290DC(0x55, (u8 *)pos);
+
+    if (v1 != 0) {
+        *(s32 *)(v1 + 0x1C) = pos[3];
+
+        if (a1 != 0) {
+            *(s32 *)(v1 + 0x10) = *(s32 *)(a1 + 0x0);
+            *(s32 *)(v1 + 0x14) = *(s32 *)(a1 + 0x4);
+            *(s32 *)(v1 + 0x18) = *(s32 *)(a1 + 0x8);
+            *(s32 *)(v1 + 0x34) = *(s32 *)(a1 + 0xC);
+        }
+
+        if (a2 != 0) {
+            u8 *ptr = *(u8 **)(v1 + 0x20);
+            *(s32 *)(ptr + 0x24) = a2;
+        }
+    }
+
+    return (int)v1;
+}
+
 
 
 

@@ -4364,7 +4364,49 @@ void func_80180F30(s32 target, u16 *cur, s32 step)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80180FB4);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+
+void func_80180FB4(s32 self)
+{
+    u16 sv[4];
+    u16 scratch[4];
+    s32 obj;
+    s32 target;
+    s32 i;
+
+    func_8004914C((void *)(*(s32 *)(self + 0x20) + 0x54));
+    func_800491AC((void *)(*(s32 *)(self + 0x20) + 0x54));
+
+    sv[1] = 0;
+    sv[0] = 0;
+    *(s16 *)&sv[2] = -0x60;
+    RotTransSV(&sv[0], &sv[0], &scratch[0]);
+
+    obj = func_80132EF4(self, 0x22);
+    if (obj != 0) {
+        u16 c;
+        *(u16 *)(obj + 0x6) = sv[0];
+        *(u16 *)(obj + 0xA) = sv[1];
+        c = sv[2];
+        *(u16 *)(obj + 0x34) = 0x4000;
+        *(u16 *)(obj + 0xE) = c;
+        *(u16 *)(*(s32 *)(obj + 0x20) + 0x2C) = 0xC008;
+    }
+    for (i = 0; i < 7; i++) {
+        target = func_8012C658(0x2FE, i, self);
+        if (target != 0) {
+            *(u16 *)(target + 0x6) = sv[0];
+            *(u16 *)(target + 0xA) = sv[1];
+            *(u16 *)(target + 0xE) = sv[2];
+        }
+    }
+    func_8002D4C8(0xAE6, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_801810C0);
 
@@ -4459,7 +4501,16 @@ void func_801812F8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_80181394);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_80181394(void *arg0) {
+    s32 t;
+    *(s16 *)((char *)arg0 + 0xe6) = 0xc;
+    t = *(s16 *)((char *)arg0 + 0x70);
+    *(s16 *)((char *)arg0 + 0xe4) = t << 1;
+    ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 2);
+}
+
 
 
 // @class: struct

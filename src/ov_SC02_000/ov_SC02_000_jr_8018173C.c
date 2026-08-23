@@ -3921,7 +3921,15 @@ INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80185EC
 DEFINE_func_80185F24()  /* dedup: shared engine-core @0x80185F24 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80185F58);
+extern s32 func_8012E504(s32 a0, s32 a1);
+
+    void func_80185F58(void) {
+        s32 v1 = func_8012E504(0, 0x29);
+        if (v1 != 0) {
+            *(s16 *)(v1 + 2) = 0x13;
+        }
+    }
+
 
 #include "common.h"
 

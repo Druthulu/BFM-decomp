@@ -3192,7 +3192,25 @@ DEFINE_func_8017E678()  /* dedup: shared engine-core @0x8017E678 (src/shared) */
 DEFINE_func_8017E698()  /* dedup: shared engine-core @0x8017E698 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_8017E6EC);
+extern s32 func_800291B4(s32 arg);
+extern void func_8001BFD0(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_800D0C48(s32 a0);
+extern void func_800D1E28(void);
+
+s32 func_8017E6EC(s32 param_1) {
+    if ((*(s32 *)(param_1 + 0x28) = *(s32 *)(param_1 + 0x28) - 1) == -1) {
+        func_800D1E28();
+        func_8002D4C8(0x1C, 0);
+        func_8001BFD0();
+        if ((func_800291B4(0xCE) & 0xFF) == 0) {
+            func_800D0C48(1);
+        }
+        *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_8017E770);
 
@@ -4563,7 +4581,36 @@ void func_80183ABC(void) {
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80183AF8);
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80183B90);
+extern s32 D_801A10E4;
+extern s32 D_801A1164;
+extern s32 D_801DA908;
+extern s32 D_801DAC58;
+extern s32 func_8012B030(u8*);
+extern void func_8012A828(void);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012E88C(s32 a0);
+extern void func_8012E8E0(s32 a0, s32 a1);
+extern void func_801848B8(s32 a0, s32 a1, s32 a2, s32 a3);
+
+void func_80183B90(void *arg0) {
+    s32 v0;
+
+    *(short *)((char *)arg0 + 0x2) = 5;
+    func_8012E8E0((s32)arg0, (s32)&D_801A1164);
+    func_8012E88C((s32)arg0);
+    ((void (*)(s32, s32))func_8012A828)((s32)arg0, (s32)&D_801DA908);
+
+    v0 = (s32)&D_801A10E4 | 0x40000000;
+    *(s32 *)((char *)arg0 + 0x58) = v0;
+    *(short *)((char *)arg0 + 0x34) = 0;
+    *(short *)((char *)arg0 + 0x5C) = 0x800;
+    *(s32 *)((char *)arg0 + 0x1C) = 0;
+
+    func_801848B8((s32)arg0, (s32)&D_801DAC58, 0x1, 0x60);
+    ((void (*)(s32))func_8012B030)((s32)arg0);
+    func_8012B2CC((s32)arg0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80183C2C);
 
@@ -4686,7 +4733,7 @@ INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80183F2
  * (the sibling's is `bnez` => `== 0`; polarity is read off the opcode). */
 
 extern void func_80184590(s32, s32);
-extern void func_80183B90(void *arg0);
+extern void func_80183B90();
 
 void func_80183F9C(void *arg0) {
     if (((s32 (*)(s32, s32))func_80184590)(9, 0x12) != 0) {

@@ -3768,7 +3768,15 @@ void func_80184618(s32 a0) {
 void func_801848AC(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_80182B9C", func_801848B4);
+extern void func_80184DB4(s32, s32);
+
+void func_801848B4(void *arg0) {
+    void *temp_a0;
+    temp_a0 = *(void **)((char *)arg0 + 0xD4);
+    ((void (*)(void *, s32))func_80184DB4)(temp_a0, 1);
+    *(s32 *)((char *)arg0 + 0x48) = 0;
+}
+
 
 
 extern void func_80184E6C(s32);
@@ -3779,7 +3787,54 @@ extern void func_80184E6C(s32);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_80182B9C", func_80184914);
+extern s16 D_80126CE0;
+extern s32 D_801AAD58;
+extern s32 D_801AAD5C;
+
+void func_80184914(s32 arg0_)
+{
+    register s32 arg0 __asm__("$5");
+    s32 prev;
+    u16 flags;
+    s32 a;
+    s32 diff;
+    s32 v;
+    s32 spd;
+    s32 e1;
+    s32 e2;
+    s32 cur;
+
+    arg0 = arg0_;
+    *(s16 *)(arg0 + 0x5C) = 0;
+    a = D_80126CE0;
+    if (a == 0) {
+        D_801AAD58 = 0x2000;
+        D_801AAD5C = 0x2000;
+    }
+    a = ((0x90 - a) << 13) / 0x90;
+    spd = 0x2000;
+
+    diff = D_801AAD58 - a;
+    if (diff > 0) {
+        D_801AAD58 -= diff >> 2;
+    } else if (diff < 0) {
+        D_801AAD58 += (-diff) / 4;
+    }
+
+    prev = D_801AAD5C;
+    cur = D_801AAD58;
+    e1 = *(s32 *)(arg0 + 0x20);
+    v = cur - prev + spd;
+    D_801AAD5C = spd;
+    flags = *(u16 *)(e1 + 0x2C);
+    D_801AAD58 = v;
+    *(u16 *)(e1 + 0x2C) = flags | 0x10;
+
+    e2 = *(s32 *)(arg0 + 0x20);
+    v = __builtin_abs(v);
+    *(s16 *)(e2 + 0x18) = v;
+}
+
 
 
 extern void func_80184E6C(s32);

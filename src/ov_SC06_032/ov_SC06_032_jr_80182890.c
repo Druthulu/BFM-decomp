@@ -5324,7 +5324,43 @@ void func_80187D60(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_80187E60);
+
+
+void func_80187E60(void *a0) {
+    s32 *s1;
+    s32 *s0;
+    u16 v0_const;
+    s32 rand_val;
+    u16 *val_ptr;
+
+    s1 = (s32 *)a0;
+    v0_const = 0x0B;
+    __asm__("");
+    s0 = *(s32 **)((u8 *)s1 + 0x20);
+
+    
+    *(u16 *)((u8 *)s0 + 0x2) = v0_const;
+
+    
+    *(s32 *)((u8 *)s0 + 0x4) |= 0x50000000;
+
+    
+    if (*(s16 *)((u8 *)s0 + 0x18) == 0) {
+        *(s16 *)((u8 *)s0 + 0x18) = 0x600;
+    }
+
+    
+    rand_val = rand();
+    *(u16 *)((u8 *)s0 + 0x14) = (u16)(rand_val & 0xFF0);
+
+    
+    val_ptr = (u16 *)((u8 *)s1 + 0x2);
+    *val_ptr = *val_ptr + 1;
+
+    
+    *(s16 *)((u8 *)s1 + 0x30) = 0x100;
+}
+
 
 #define gte_ldv0(r0) __asm__ volatile (          \
     "lwc2 $0, 0( %0 );"                          \
@@ -5599,7 +5635,33 @@ int func_80188508(short *pos, int a1, int a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_8018853C);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+
+int func_8018853C(short *pos, int a1, int a2)
+{
+    u8 *v1;
+
+    v1 = func_801290DC(0x55, (u8 *)pos);
+
+    if (v1 != 0) {
+        *(s32 *)(v1 + 0x1C) = pos[3];
+
+        if (a1 != 0) {
+            *(s32 *)(v1 + 0x10) = *(s32 *)(a1 + 0x0);
+            *(s32 *)(v1 + 0x14) = *(s32 *)(a1 + 0x4);
+            *(s32 *)(v1 + 0x18) = *(s32 *)(a1 + 0x8);
+            *(s32 *)(v1 + 0x34) = *(s32 *)(a1 + 0xC);
+        }
+
+        if (a2 != 0) {
+            u8 *ptr = *(u8 **)(v1 + 0x20);
+            *(s32 *)(ptr + 0x24) = a2;
+        }
+    }
+
+    return (int)v1;
+}
+
 
 
 
@@ -7481,7 +7543,38 @@ extern void func_8012B370(int a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_8018B740);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+s32 func_8018B740(s32 param_1, s32 param_2)
+{
+    int iVar1;
+    unsigned int uVar2;
+    int iVar3;
+    SVECTOR sv1;
+    SVECTOR sv2;
+
+    sv1.vx = *(short *)(param_1 + 6);
+    sv1.vy = *(short *)(param_1 + 0xa) + -0x20;
+    sv1.vz = *(short *)(param_1 + 0xe);
+    iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    iVar3 = (short)param_2;
+    sv2.vy = sv1.vy;
+    sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
+    iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
+    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
+    if ((uVar2 & 0x8000) != 0) {
+        iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+        *(short *)(param_1 + 6) = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
+        iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+        *(short *)(param_1 + 0xe) = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
+        return 1;
+    }
+    return 0;
+}
+
 
 
 /* TU declares func_8018B878 as void(void) (S35 self-axis) but the asm takes

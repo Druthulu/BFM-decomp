@@ -3738,7 +3738,15 @@ extern s32 func_8012BEE8(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E84C);
+
+
+void func_8017E84C(void *a0) {
+        *(short *)((char *)a0 + 0x2) = 0x3;
+        *(short *)((char *)a0 + 0xfe) = 0;
+        *(unsigned short *)((char *)a0 + 0x5c) = 0xaa10;
+        *(int *)((char *)a0 + 0xdc) &= ~0x10;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E874);
 
@@ -3918,7 +3926,40 @@ void func_8017EBE4(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017ECCC);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017ED28);
+extern s32 func_8012BEE8(s32 a0);
+extern u16 D_800B99DA;
+extern void func_80130D48(s32 a0);
+extern void func_8017F568(void*);
+
+void func_8017ED28(s32 a0) {
+    s32 v0;
+    u16 v2;
+
+    
+    if (*(s32*)(a0 + 0x1C) < 0x11) {
+        register s32 mask __asm__("a0");
+        register s32 ptr __asm__("v0");
+        register s32 val __asm__("v1");
+
+        mask = 0x80000000;
+        ptr = *(s32*)(a0 + 0x20);  
+        val = *(s32*)(ptr + 0x4);  
+        val ^= mask;               
+        *(s32*)(ptr + 0x4) = val;  
+    }
+
+    
+    v0 = func_8012BEE8(a0);
+    if (v0 != 0) {
+        
+        v2 = D_800B99DA & 0x1F;
+        if (v2 == 0) {
+            func_80130D48(a0);
+        }
+        ((void (*)(s32))func_8017F568)(a0);
+    }
+}
+
 
 //   the beqz delay slot), so it is the FIRST statement, above the if; (3) both `*(s32*)(p+0x20)`
 //   reads in arm A are written as separate expressions — the intervening `sh` to 0x10 blocks CSE,

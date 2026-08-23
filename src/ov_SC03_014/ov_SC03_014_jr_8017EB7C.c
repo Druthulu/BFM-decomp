@@ -3852,7 +3852,26 @@ void func_8018089C(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017EB7C", func_80180A68);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017EB7C", func_80180AC4);
+extern s16 D_8018F540;
+extern s16 D_8018F542;
+extern s16 D_8018F544;
+extern void func_80162CCC(void);
+
+void func_80180AC4(void) {
+    extern s16 D_8018F544;
+    extern s16 D_8018F542;
+    extern s16 D_8018F540;
+    s16 sVar1;
+
+    sVar1 = D_8018F544 - 8;
+    D_8018F544 = sVar1;
+    D_8018F542 = sVar1;
+    D_8018F540 = sVar1;
+    if (sVar1 < -0x80) {
+        func_80162CCC();
+    }
+}
+
 
 DEFINE_func_80180B20()  /* dedup: shared engine-core @0x80180B20 (src/shared) */
 

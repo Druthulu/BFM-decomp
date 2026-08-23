@@ -6627,7 +6627,19 @@ extern void func_8002D4C8(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_8018229C);
+extern void func_8002A04C(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_80165988(void);
+
+void func_8018229C(s32 arg0) {
+    register s32 s0 __asm__("$16") = arg0;
+    ((void (*)(s32))func_80165988)(arg0);
+    if (*(s32 *)(s0 + 0x78) != 0) {
+        func_8002A04C(s0);
+    }
+    func_8012C218((void *)s0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_801822E4);
 
@@ -8001,7 +8013,17 @@ void func_80184A38(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80184C70);
+extern u8 D_801BE7C4[];
+extern void func_8012A828(s32, s32);
+extern void func_8012B200(u8 *a0);
+
+void func_80184C70(s32 a0) {
+    func_8012B200((u8 *)a0);
+    ((void (*)(s32, void *))func_8012A828)(a0, &D_801BE7C4);
+    *(s16 *)((char *)a0 + 0x2) = 0x8;
+    *(s16 *)((char *)a0 + 0x34) = 0;
+}
+
 
 
 extern void func_80185774(s32 a0);
@@ -8801,7 +8823,39 @@ void func_801861A4(s32 a0)
 
 INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_801864DC);
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80186544);
+extern void D_801B811C;
+extern void func_8001C214(s32, s32);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+
+void func_80186544(s32 *s0)
+{
+    s32 iVar2;
+    s32 *v1;
+    u16 uVar1;
+    u16 uVar2;
+
+    iVar2 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((u8 *)s0 + 0x20) = iVar2;
+
+    if (iVar2 == 0) {
+        func_8012CAE4(s0);
+    }
+    else {
+        ((void (*)(s32, void*))func_8001C214)(iVar2, &D_801B811C);
+        v1 = *(s32 **)((u8 *)s0 + 0x20);
+        uVar1 = *(u16 *)((u8 *)s0 + 0xFC);
+        *(u16 *)((u8 *)v1 + 0x12) = uVar1;
+        func_8012B2CC(s0);
+
+        uVar2 = *(u16 *)((u8 *)s0 + 0x2);
+        *(s32 *)((u8 *)s0 + 0xE8) = 0xFFE00000;
+        uVar2 = uVar2 + 1;
+        *(u16 *)((u8 *)s0 + 0x2) = uVar2;
+    }
+}
+
 
 
 

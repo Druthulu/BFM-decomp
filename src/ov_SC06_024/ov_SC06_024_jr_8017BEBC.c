@@ -3834,7 +3834,28 @@ void func_80181204(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80181254);
+extern int func_801511E0(int arg);
+extern s32 func_80172630(u8 *a0);
+extern u8 D_801937E8[];
+extern void func_80146CA0(void *a0);
+extern void func_80147324(s32 arg0);
+extern void func_80149020(s32 *a0);
+extern void func_80154274(s32 *a0, s32 a1);
+extern void func_80181468(void);
+
+void func_80181254(s32 p)
+{
+    func_80147324(0x451);
+    ((void (*)(s32))func_801511E0)(p);
+    ((void (*)(s32, s32))func_80154274)(p, (s32)D_801937E8);
+    ((void (*)(s32))func_80149020)(p);
+    *(u8 *)(p + 0xDE) = 0x1E;
+    *(u8 *)(p + 0xDF) = 0;
+    func_80181468();
+    ((void (*)(s32))func_80172630)(p);
+    ((void (*)(s32))func_80146CA0)(p);
+}
+
 
 
 /* func_801812C0 @ ov_SC02_016 (subseg ov_SC02_016_jr_8017DC70) — 85 ins.

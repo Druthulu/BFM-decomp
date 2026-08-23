@@ -3332,7 +3332,13 @@ s32 *func_8018893C(out, src, idx, w, col)
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_80188C68);
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_80189504);
+extern s16 D_80115126;
+extern s32 D_801BCA2C[];
+
+    void *func_80189504(s32 a0) {
+        return (void *)D_801BCA2C[D_80115126 * 10 + (s16) a0];
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_8018953C);
 

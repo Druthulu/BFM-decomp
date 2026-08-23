@@ -3887,7 +3887,40 @@ void func_8017E634(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017E71C);
 
-INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017E778);
+extern s32 func_8012BEE8(s32 a0);
+extern u16 D_800B99DA;
+extern void func_80130D48(s32 a0);
+extern void func_8017EFB8(s32);
+
+void func_8017E778(s32 a0) {
+    s32 v0;
+    u16 v2;
+
+    
+    if (*(s32*)(a0 + 0x1C) < 0x11) {
+        register s32 mask __asm__("a0");
+        register s32 ptr __asm__("v0");
+        register s32 val __asm__("v1");
+
+        mask = 0x80000000;
+        ptr = *(s32*)(a0 + 0x20);  
+        val = *(s32*)(ptr + 0x4);  
+        val ^= mask;               
+        *(s32*)(ptr + 0x4) = val;  
+    }
+
+    
+    v0 = func_8012BEE8(a0);
+    if (v0 != 0) {
+        
+        v2 = D_800B99DA & 0x1F;
+        if (v2 == 0) {
+            func_80130D48(a0);
+        }
+        ((void (*)(s32))func_8017EFB8)(a0);
+    }
+}
+
 
 //   the beqz delay slot), so it is the FIRST statement, above the if; (3) both `*(s32*)(p+0x20)`
 //   reads in arm A are written as separate expressions — the intervening `sh` to 0x10 blocks CSE,

@@ -3483,7 +3483,18 @@ INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017AE2C", func_8017C5D
 DEFINE_func_8017C628()  /* dedup: shared engine-core @0x8017C628 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017AE2C", func_8017C670);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80147060(u8 *a0);
+extern void func_80171A10(s32*);
+extern void func_8017BEE8(void);
+
+    void func_8017C670(u8 *a0) {
+        func_8002D4C8(0x1B, 0);
+        func_80147060(a0);
+        func_8017BEE8();
+        ((void (*)(u8 *))func_80171A10)(a0);
+    }
+
 
 #include "common.h"
 

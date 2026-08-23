@@ -3212,7 +3212,18 @@ void func_801841A8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_801841E4);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_801841E4(s32 *a0) {
+    s32 *v0;
+
+    v0 = *(s32 **)(((u8 *)a0) + 0x20);
+    *(s16 *)(((u8 *)v0) + 0x1C) = 0;
+    *(s16 *)(((u8 *)v0) + 0x1A) = 0;
+    *(s16 *)(((u8 *)v0) + 0x18) = 0;
+    func_8012AD44(a0, 1);
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_80184214(void *a0) {

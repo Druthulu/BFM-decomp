@@ -1990,7 +1990,35 @@ void func_801A9B04(void *a0) {
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A9B40);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A9B80);
+extern void func_800599B8(void*, void*);
+
+void func_801A9B80(s32 *a0, u16 a1, u16 a2) {
+    s32 t1;
+    s32 t2;
+    s32 i;
+    u16 buf[4];
+
+    t1 = a0[7];
+    t2 = a0[6];
+
+    i = 7;
+    do {
+        a0[i] = a0[i - 2];
+        a0[i - 1] = a0[i - 3];
+        i -= 2;
+    } while (i >= 3);
+
+    a0[i] = t1;
+    a0[i - 1] = t2;
+
+    buf[2] = 0x10;
+    buf[0] = a1;
+    buf[1] = a2;
+    buf[3] = 1;
+
+    ((void (*)(u16 *, s32 *))func_800599B8)(buf, a0);
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A9C00);
 
@@ -3704,7 +3732,43 @@ void func_801AF1EC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AF2EC);
+
+
+void func_801AF2EC(void *a0) {
+    s32 *s1;
+    s32 *s0;
+    u16 v0_const;
+    s32 rand_val;
+    u16 *val_ptr;
+
+    s1 = (s32 *)a0;
+    v0_const = 0x0B;
+    __asm__("");
+    s0 = *(s32 **)((u8 *)s1 + 0x20);
+
+    
+    *(u16 *)((u8 *)s0 + 0x2) = v0_const;
+
+    
+    *(s32 *)((u8 *)s0 + 0x4) |= 0x50000000;
+
+    
+    if (*(s16 *)((u8 *)s0 + 0x18) == 0) {
+        *(s16 *)((u8 *)s0 + 0x18) = 0x600;
+    }
+
+    
+    rand_val = rand();
+    *(u16 *)((u8 *)s0 + 0x14) = (u16)(rand_val & 0xFF0);
+
+    
+    val_ptr = (u16 *)((u8 *)s1 + 0x2);
+    *val_ptr = *val_ptr + 1;
+
+    
+    *(s16 *)((u8 *)s1 + 0x30) = 0x100;
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AF368);
 
@@ -3745,6 +3809,42 @@ void func_801AF808(unsigned short *param_1, short *param_2, short *param_3,
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AF994);
+extern int func_801AF9C8(short *pos, int a1, int a2);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AF9C8);
+int func_801AF994(short *pos, int a1, int a2) {
+    int ret;
+    ret = func_801AF9C8(pos, a1, a2);
+    if (ret != 0) {
+        *(s16 *)(ret + 0x32) = 1;
+    }
+    return ret;
+}
+
+
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+
+int func_801AF9C8(short *pos, int a1, int a2)
+{
+    u8 *v1;
+
+    v1 = func_801290DC(0x55, (u8 *)pos);
+
+    if (v1 != 0) {
+        *(s32 *)(v1 + 0x1C) = pos[3];
+
+        if (a1 != 0) {
+            *(s32 *)(v1 + 0x10) = *(s32 *)(a1 + 0x0);
+            *(s32 *)(v1 + 0x14) = *(s32 *)(a1 + 0x4);
+            *(s32 *)(v1 + 0x18) = *(s32 *)(a1 + 0x8);
+            *(s32 *)(v1 + 0x34) = *(s32 *)(a1 + 0xC);
+        }
+
+        if (a2 != 0) {
+            u8 *ptr = *(u8 **)(v1 + 0x20);
+            *(s32 *)(ptr + 0x24) = a2;
+        }
+    }
+
+    return (int)v1;
+}
+
