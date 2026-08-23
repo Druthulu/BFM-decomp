@@ -4126,7 +4126,21 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018364
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018373C);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80183768);
+void func_80183768(void *a0, s32 a1, s32 a2)
+{
+    s32 s0a, s0b;
+    s32 arg[3];
+
+    s0a = func_80047948((*(s32 *)((u8 *)a0 + 0x1C) << 5) & 0xFE0)
+        - func_80047948(((*(s32 *)((u8 *)a0 + 0x1C) - 1) << 5) & 0xFE0);
+    arg[0] = (a1 * s0a) << 4;
+    arg[2] = 0;
+    s0b = func_8004787C((*(s32 *)((u8 *)a0 + 0x1C) << 5) & 0x7E0)
+        - func_8004787C(((*(s32 *)((u8 *)a0 + 0x1C) - 1) << 5) & 0x7E0);
+    arg[1] = -((a2 * s0b) << 4);
+    func_8018383C(a0, arg);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018383C);
 
@@ -4991,7 +5005,29 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018574
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80185810);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80185FB4);
+
+
+void func_80185FB4(s32 a0, s32 a1, s32 a2)
+{
+    extern MATRIX_80188114 D_800AE620;
+    extern void func_80020DA4(s32 a0, s32 a1);
+    extern void func_80020F34(s32 a0, s32 a1);
+
+    if (a1 & 0x200000) {
+        func_80020DA4(a0 + 0x10, a2);
+    } else {
+        *(MATRIX_80188114 *)a2 = D_800AE620;
+    }
+
+    if (a1 & 0x400000) {
+        func_80020F34(a2, a0 + 0x18);
+    }
+
+    *(s32 *)(a2 + 0x14) = *(s16 *)(a0 + 0x8);
+    *(s32 *)(a2 + 0x18) = *(s16 *)(a0 + 0xA);
+    *(s32 *)(a2 + 0x1C) = *(s16 *)(a0 + 0xC);
+}
+
 
 
 extern void (*D_8018F114[])(void);
@@ -5773,7 +5809,31 @@ void func_80188EAC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80188FA4);
+void func_80188FA4(s32 param_1)
+{
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+    {
+        u8 v0 = *(u8 *)(param_1 + 0xFC) + 0x10;
+        *(u8 *)(param_1 + 0xFC) = v0;
+        if (v0 >= 0xF1) {
+            *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x80000000;
+            *(u32 *)(*(s32 *)(param_1 + 0xCC) + 4) |= 0x80000000;
+            *(s32 *)(param_1 + 0x1C) = 8;
+            *(u16 *)(param_1 + 0x34) += 1;
+        }
+        break;
+    }
+    case 1:
+        if (func_8012BEE8(param_1) != 0) {
+            func_80188574(param_1);
+        }
+        break;
+    }
+
+    func_80016450(*(u8 *)(param_1 + 0xFC), 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80189074);
 

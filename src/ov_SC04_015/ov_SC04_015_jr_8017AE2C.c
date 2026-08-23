@@ -4597,7 +4597,47 @@ INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017E83
 
 INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017E9B0);
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017EA2C);
+
+extern s32 D_80126D50;
+extern s32 D_801C8B6C;
+extern s16 D_801C8B70;
+extern s32 D_801C8B7C;
+extern s16 D_801C8B80[];
+extern s32 D_801C8C60;
+extern void func_8017E520();
+extern void func_8017EB14();
+
+void func_8017EA2C(void) {
+    s32 i;
+    s32 p;
+    s32 idx;
+    s32 t;
+
+    if (D_80126D50 == 0) {
+        D_801C8B6C = 1;
+    } else {
+        D_801C8B6C = 0;
+    }
+    t = D_801C8B70;
+    if (D_801C8B7C != t) {
+        D_801C8B7C = t;
+        *(s16 *)((s32)&D_801C8B80 + t * 0x1C) = 6;
+    }
+    D_801C8C60 = 0;
+    i = 0;
+    p = (s32)&D_801C8B80;
+    idx = 0;
+    do {
+        if ((*(s16 *)((s32)&D_801C8B80 + idx)) != 0) {
+            func_8017E520(p);
+        }
+        p += 0x1C;
+        i += 1;
+        idx += 0x1C;
+    } while (i < 8);
+    func_8017EB14();
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017EB14);
 
@@ -4627,7 +4667,46 @@ void func_8017F408(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017F444);
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern void func_801292C8(u8 *a0);
+extern void func_8012931C(struct vec *a0);
+extern u8 D_801888FC[];
+extern void (*D_80188908[])(void);
+
+void func_8017F444(s32 param_1)
+{
+    s32 cnt;
+
+    if (*(u16 *)(param_1 + 2) == 0) {
+        s32 h = (s32)D_801888FC;
+        s32 obj = *(s32 *)(param_1 + 0x20);
+        s32 s0 = param_1 + 0x24;
+        *(s32 *)(obj + 0x20) = h;
+        *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) =
+            *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) | 0x50000000;
+        *(u8 *)(*(s32 *)(param_1 + 0x20) + 0x27) = 0x4B;
+        {
+            s32 q = *(s32 *)(param_1 + 0x20);
+            *(u16 *)(q + 0x1A) = 0x3000;
+            *(u16 *)(q + 0x18) = 0x3000;
+        }
+        func_80128EA8(*(s32 *)(param_1 + 0x20), s0, (s32)D_80188908);
+        *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+        func_80128ED8(*(s32 *)(param_1 + 0x20), (s32 *)s0);
+        *(s32 *)(param_1 + 0x1C) = 0;
+        *(s32 *)(param_1 + 0x14) = 0xFFF00000;
+    } else {
+        func_8012931C((struct vec *)param_1);
+        func_80128ED8(*(s32 *)(param_1 + 0x20), (s32 *)(param_1 + 0x24));
+        cnt = *(s32 *)(param_1 + 0x1C) + 1;
+        *(s32 *)(param_1 + 0x1C) = cnt;
+        if (cnt >= 9) {
+            func_801292C8((u8 *)param_1);
+        }
+    }
+}
+
 
 extern s16 D_801C8B70;
 
@@ -4646,7 +4725,36 @@ void func_8017F54C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017F588);
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017F600);
+extern s32 func_80132EF4(s32 arg0, s32 arg1);
+extern void func_8012C218(void *arg0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8017F600(void *a0) {
+    if (*(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0x2) == 1 &&
+        *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0x34) == 2) {
+        func_80132EF4((s32)a0, 0x4E);
+        func_8012C218(a0);
+    } else {
+        switch (*(u16 *)((u8 *)a0 + 0x34)) {
+        case 0:
+            if ((*(u16 *)((u8 *)a0 + 0x5C) & 1) && *(u16 *)((u8 *)a0 + 0x5E) == 0x23) {
+                *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0x5C) |= 1;
+                *(u16 *)(*(s32 *)((u8 *)a0 + 0x64) + 0x5E) = 0x23;
+                *(u16 *)((u8 *)a0 + 0x34) = 1;
+                *(s32 *)((u8 *)a0 + 0x1C) = 3;
+                func_8002D4C8(0x76D, 0);
+            }
+            break;
+        case 1:
+            if (--*(s32 *)((u8 *)a0 + 0x1C) == 0) {
+                *(u16 *)((u8 *)a0 + 0x34) = 0;
+            }
+            *(u16 *)((u8 *)a0 + 0x5C) = 0x8000;
+            break;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017F708);
 

@@ -3981,7 +3981,31 @@ void func_80180614(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_80180650);
+void func_80180650(s32 a0, s32 out) {
+    s32 t;
+    s32 x;
+    s32 y;
+    s32 angle;
+    s32 q1;
+    s32 q2;
+    s32 sinVal;
+    s32 cosVal;
+
+    t = a0;
+    x = -(t * 1536);
+    y = -(t * 160);
+    angle = t & 0xFFF;
+    q1 = x / 12288 - 0x22;
+    q2 = y / 12288 + 0x260;
+
+    sinVal = func_80047948(angle) * q2 >> 12;
+    cosVal = func_8004787C(angle) * q2 >> 12;
+
+    *(s16 *)(out + 0) = sinVal;
+    *(s16 *)(out + 2) = q1;
+    *(s16 *)(out + 4) = cosVal;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_80180720);
 
@@ -5169,7 +5193,42 @@ void func_80184460(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_801845A0);
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_801845EC);
+struct S845EC_in { s16 f00, f02, f04, f06, f08, f0A, f0C, f0E; s32 f10; };
+struct S845EC_out { s16 a, b, c; };
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern u8 D_8018AA6C[];
+
+s32 func_801845EC(s32 a0, s32 a1)
+{
+    s32 s1;
+    struct S845EC_in in;
+    struct S845EC_out out;
+
+    func_8012F214(a0, (s32)&D_8018AA6C[a1 * 8], (s32)&out);
+    in.f00 = out.a;
+    in.f02 = out.b;
+    in.f04 = out.c;
+    in.f06 = 0x20;
+    in.f08 = a1;
+    in.f0A = 0;
+    in.f10 = 0;
+    in.f0E = 0;
+    s1 = func_8012C51C((void *)&in, a0);
+
+    if (a1 == 0 && s1 != 0) {
+        s32 t = *(s32 *)(a0 + 0x20);
+        if (t != 0) {
+            *(unsigned short *)(*(s32 *)(s1 + 0x20) + 0x12) =
+                *(unsigned short *)(t + 0x12);
+        }
+        func_8012B2CC(s1);
+    }
+    return s1;
+}
+
 
 #include "common.h"
 
