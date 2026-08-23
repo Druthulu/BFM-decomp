@@ -405,7 +405,7 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 ## 🛑 SESSION CHECKPOINT — S57 FINAL (2026-08-19/23). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `<commit>` · R22 `make check-all` 213/213 from a clean tree still VALID (no src/ change since
+**HEAD `commit:2565` · R22 `make check-all` 213/213 from a clean tree still VALID (no src/ change since
 S56; this session banked NOTHING) · EXE `143dbb89` · 0 NON_MATCHING · fleet unchanged at 96.1 /
 91.8 / 97.11.** No process running, no wave launched, no cron armed.
 
