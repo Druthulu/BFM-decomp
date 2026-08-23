@@ -222,7 +222,11 @@ void func_801EDE70(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_028/nonmatchings/md_SC05_028", func_801EDEAC);
+void func_801EDEAC(s32 a0) {
+    extern s16 D_801274E8;
+    func_801EDED4(a0, &D_801274E8);
+}
+
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
