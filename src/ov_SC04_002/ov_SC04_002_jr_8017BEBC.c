@@ -7577,7 +7577,27 @@ extern void func_80016714(void *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80184D24);
+extern s32 func_8012BCCC(s32 a0);
+extern void func_80184574(s32 a0);
+
+void func_80184D24(s32 a0) {
+    register s32 result __asm__("$2");
+    register s32 threshold __asm__("$3");
+
+    if (*(s16 *)(a0 + 0x70) & 0x8000) {
+        result = func_8012BCCC(a0);
+        threshold = 0x90000;
+    } else {
+        result = func_8012BCCC(a0);
+        threshold = 0x24000;
+    }
+    threshold = (threshold < result);
+    if (threshold) {
+        return;
+    }
+    func_80184574(a0);
+}
+
 
 extern s32 func_8012BEE8(s32 arg);
     extern void func_801845B4(s32 arg);
