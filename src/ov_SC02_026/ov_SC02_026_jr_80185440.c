@@ -2688,7 +2688,7 @@ extern void func_8017D6D0(s32 a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
 extern void func_8013B7F4(void *a0, int a1);
 extern code_fn D_801A42AC[];
-extern s32 func_8017DD84(s32 a0);
+extern s32 func_8017DD84();
 extern void func_8017DC3C(int param_1);
 extern void (*D_801A4308[])(void);
 extern void func_8017DFE0(void *a0);
