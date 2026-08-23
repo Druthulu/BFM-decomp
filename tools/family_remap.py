@@ -440,13 +440,40 @@ def imm_map_tier1(unit, ex_words, sib_words):
 _TU_CACHE = {}
 
 
-def _tu_text(ov):
-    if ov not in _TU_CACHE:
-        _TU_CACHE[ov] = "".join(open(f).read() for f in sorted(glob.glob(f"src/{ov}/{ov}*.c")))
-    return _TU_CACHE[ov]
+def _tu_text(ov, prefer=None):
+    """The overlay's source text, with `prefer` (the file the unit was EXTRACTED from) placed FIRST.
+
+    THE DEFECT THIS CLOSES (P31 S56, found by the 611-ins autopsy). This used to concatenate every
+    `src/<ov>/<ov>*.c` in `sorted()` order, and `gather_externs` takes the FIRST textual match for a
+    symbol. An overlay has up to 14 TUs and they do NOT agree about every shared resident global, so
+    the alphabetically-first file won regardless of which file the body actually came from:
+
+        ov_SC04_018_jr_8013F350.c:890   extern s16 D_8011514C;   <- alphabetically first, WON
+        ov_SC04_018_jr_8013F350.c:964   extern u8  D_8011515C;   <- WON
+        ov_SC04_018_jr_80186570.c:3543  extern s16 D_8011515C;   <- correct, same file as the body
+        ov_SC04_018_jr_80186570.c:3544  extern u8  D_8011514C;   <- correct
+
+    The remap therefore carried those two types SWAPPED into every sibling. That is invisible in the
+    C and flips the emitted opcode class (`sh`/`lh` vs `lbu`/`sb`), so the draft compiles, looks
+    right, and diffs: measured LENGTH-DRIFT 610 vs 611 diverging at instruction 448 on
+    func_801898E4. A whole 4-member family (2,444 instructions) sat unbanked behind it.
+
+    The owning file's own declaration is authoritative for a body extracted from that file, so it
+    goes first and wins the scan. The rest of the overlay still follows as the fallback, because a
+    body can legitimately reference a symbol its own file never declares (that is the entire reason
+    gather_externs exists)."""
+    key = (ov, prefer)
+    if key not in _TU_CACHE:
+        files = sorted(glob.glob(f"src/{ov}/{ov}*.c"))
+        if prefer:
+            pa = os.path.abspath(prefer)
+            files = ([f for f in files if os.path.abspath(f) == pa]
+                     + [f for f in files if os.path.abspath(f) != pa])
+        _TU_CACHE[key] = "".join(open(f).read() for f in files)
+    return _TU_CACHE[key]
 
 
-def gather_externs(from_ov, from_addr, unit):
+def gather_externs(from_ov, from_addr, unit, prefer=None):
     """file-scope `extern` decls from the exemplar TU for every func_/D_ symbol the body references but
     the extracted unit does NOT already declare. extract_unit only grabs the immediately-preceding
     externs; a per-location body that indexes a global (`(*D_x[..])()`) references symbols declared once
@@ -467,7 +494,7 @@ def gather_externs(from_ov, from_addr, unit):
     self_sym = f"func_{from_addr:08X}"
     unit_mask = cdecl._mask(unit)
     refs = set(re.findall(r'\b(?:func_[0-9A-Fa-f]{8}|D_[0-9A-Fa-f]{8})\b', unit_mask)) - {self_sym}
-    tu = _tu_text(from_ov)
+    tu = _tu_text(from_ov, prefer)
     tu_mask = cdecl._mask(tu)
     lines, seen, unresolved = [], set(), []
 
@@ -567,7 +594,7 @@ def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
         imm_map, unresolved, unit = imm_map_tier1(unit, ex_words, sib_words)
         if unresolved:
             return None, f"unresolved immediates (Tier-2): {unresolved}"
-    externs = gather_externs(from_ov, from_addr, unit)
+    externs = gather_externs(from_ov, from_addr, unit, prefer=cf)
     if externs:
         unit = "\n".join(externs) + "\n" + unit
     table = dict(m)

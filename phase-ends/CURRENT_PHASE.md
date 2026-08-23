@@ -403,7 +403,105 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
     (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
 
-## 🛑 SESSION CHECKPOINT — S56 FINAL (2026-08-18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+## 🛑 SESSION CHECKPOINT — S57 FINAL (2026-08-19/23). Phase 31 CONTINUES. NOTHING IN FLIGHT.
+
+**HEAD `<commit>` · R22 `make check-all` 213/213 from a clean tree still VALID (no src/ change since
+S56; this session banked NOTHING) · EXE `143dbb89` · 0 NON_MATCHING · fleet unchanged at 96.1 /
+91.8 / 97.11.** No process running, no wave launched, no cron armed.
+
+### WHAT THIS SESSION WAS
+An **external-model bake-off**, not a banking session. Drew's goal: replace ultracode wave agents
+with cheap/free API models to stop burning weekly Claude usage. Answer: **yes, decisively** — but
+NOTHING WAS BANKED, and that is the top of the next session's list.
+
+### THE FOUR RESULTS THAT MATTER
+1. **CARD FUEL IS THE BIGGEST LEVER — bigger than model choice.** Injecting the wave card's
+   `seed_ref`/`tu_ref`/`decl_prior` into an API model took the SAME 10 cards from **4/10 to 9/10**
+   (DeepSeek) and 4/5 (ox). `func_80181E70` (122 ins) went from *no compiling draft* to MATCH in
+   **2 oracle calls**. The "60-instruction ceiling" I inferred earlier was an artifact of withholding
+   fuel, not a capability limit. **Always `--cards` before drafting; it is free and deterministic.**
+2. **Sub-50 is nearly free money: 19/19 verified MATCH at $0.007/function**, blind (no fuel). The
+   pool is **7,724 sub-50 open functions = 73.5% of all open**, in 2,710 groups (1,457 multi-member
+   holding 6,471; 5,014 are siblings). All 2,710 exemplars ≈ **$19**; every sub-50 directly ≈ **$54**.
+3. **A free model cracked a 611-ins function AND wrote a publishable idiom.** All four autopsy arms
+   (Opus/Sonnet/ox/DeepSeek) matched `func_801898E4` + 3 siblings = **2,444 instructions**, every one
+   `reloc_identity` AGREE at 80 relocs. ox also cracked the jtbl exemplar (83 ins) and distilled
+   **§206** — whose two negative results I independently byte-confirmed (51 and 66 mismatches).
+4. **§206 transfers WITHIN a family, NOT across.** exemplar 40 turns/5 oracle -> within-family
+   **11 turns/3 oracle MATCH** -> cross-family **56 turns/0 compiles, FAILED**. So jtbl costs ~40
+   turns of learning **per family** (191 families), not per class. The jtbl quest is a project, not
+   a lane — defer it.
+
+### ⚠ THE BIG UNBANKED PILE (do this FIRST next session)
+Everything below is `reloc_identity`-verified and sitting in `.run/bakeoff/`, banked nowhere:
+| work | ins | where | note |
+|---|--:|---|---|
+| **611 family ×4** | **2,444** | `.run/bakeoff/ap-opus/`, `ap-sonnet/`, `ap-ds/`, `ap-ox/` | TWO independent drafts each; both blocking tool bugs FIXED |
+| sub-50 probe | 19 fns | `.run/bakeoff/sub50A/`, `sub50B/` | 19/19 verified |
+| fueled batch-10 | ~9 fns | `.run/bakeoff/ds-fuelA/`, `ds-fuelB/`, `ox-fuelA/` | vs 4/10 blind |
+| jtbl exemplar + sibling | 170 | `.run/bakeoff/jtbl-ox2/`, `jtbl-xfer/` | **needs the §8a CARVE first — a verified match_one is NOT bankable until the table is carved** |
+**Matching is solved; integration is the bottleneck** — this session proved the first half four times
+over and never touched the second.
+
+### TOOL FIXES SHIPPED (all negative-controlled)
+* **`family_remap.gather_externs`** — scanned every `.c` in the source overlay and took the FIRST
+  alphabetical match, so it carried `D_8011514C`/`D_8011515C` **type-swapped** (`sh/lh` vs `lbu/sb`,
+  LENGTH-DRIFT 610 vs 611 at insn 448). Now prefers the extracted unit's own file. NC: reproduces the
+  correct `u8`/`s16` pair.
+* **`atlas.py::member_lever`** — `aprop_card` was loaded and **never read** while a bare `DIFF` token
+  promoted members to `needs-autopsy`. `PURE` now outranks the ledger; provenance recorded in the
+  confidence string. **Rescues 32 members / 11 families / 3,810 ins.**
+* **`decl_prior._ASM_SYM`** — `\b` bound to the whole alternation, so the `%hi/%lo` arm had NEVER
+  fired (0 of 1,210 across four waves). NC: jal 306->306 zero regressions, data **0->299**.
+* **`api_agent.py` (NEW, untracked)** — the API-model harness. Gained this session: `--cards` (fuel),
+  `--brief` (analysis tasks), `--max-cost`/`--max-cost-per-fn` (OpenRouter Agent-SDK style), nudge
+  loop, 429 backoff with PLATFORM-vs-PROVIDER attribution + Retry-After, transport retry, directory
+  reads, non-fatal tool faults, error-body surfacing, and a **repeated-call guard** (identical call
+  x4 breaks the loop — ox burned 56 turns on 46 identical greps with 0 compiles).
+* **`api_draft.py`** — FRESH_RETRY, reasoning controls, unterminated-fence extraction.
+
+### MODEL LEDGER (OpenRouter, ~$21 spent of $26.83; all costs MEASURED)
+| model | verdict |
+|---|---|
+| **stealth/ox-alpha** | **$0.00**, cracked 611 + jtbl + wrote §206; 4/5 fueled. BURSTY — `upstream_provider_shared_pool` 429s; NOT a `:free` variant so no 20/min-1000/day cap. **Rumoured 5-day window.** |
+| **deepseek/deepseek-v4-flash-0731** | $0.46 total; the DEPENDABLE lane. `effort=high`. 9/10 fueled |
+| z-ai/glm-5.3 | $6.31 — 3/4 rungs but $1.10 on ONE failure. **`effort=max` REGRESSED it** (0 compiles on a card it had matched); wants `REASON_CAP=16000` |
+| RETIRED | Kimi K3 ($2.71, surrendered), Qwen 3.8 Max ($5.98) + 2.4t ($3.20) — read exhaustively, compile rarely |
+| free tier | `glm-5.2:free` unreachable (Decart shared pool, 11h+); laguna/dots never compiled; nemotron-ultra works at `effort` (NOT `reasoning.max_tokens` — that 502s) |
+**REQUESTS PER FUNCTION = 12-25** (each turn is one POST). `:free` caps = 20/min, 1000/day -> only
+40-80 functions/day. ox escapes that cap but not its provider's pool.
+
+### RECOMMENDED NEXT SESSION, IN ORDER
+1. **BANK THE 2,444** (611 family ×4) — highest value, drafts verified twice, blockers fixed.
+2. Bank the sub-50 19 + the fueled batch-10.
+3. Then the sub-50 wave with `--cards` (~$19 for all 2,710 exemplars; gate by TU density — the
+   top-40 TUs hold 52% of the pool in 40 rebuilds).
+4. **Worktrees** are the untested accelerator: `gate_lane` refuses to run concurrently, so parallel
+   drafting queues behind one serial gate. Worktrees would fix it.
+5. DEFER: the 245-member jtbl quest (per-family learning cost), more model comparisons.
+
+### RULES PROPOSED THIS SESSION (P10 — Drew accepts / modifies / rejects)
+
+| Rule | Reason |
+|---|---|
+| **R40 — EXONERATE THE INSTRUMENT BEFORE YOU ATTRIBUTE A FAILURE TO ITS SUBJECT.** When a measured subject (a model, a binary, a family, a lane) appears to fail, the harness that produced the reading is a suspect until cleared. Before writing "X failed", check the run for: a truncated reply (`finish=length`), a transport error, a rate limit, an unhandled tool fault, a parameter the provider rejected, a missing input the subject was entitled to, and a loop the harness never bounded. Report the failure only once those are excluded — and when one of them WAS the cause, say so as a correction, not as a footnote. | **Seven instances in one session, every one reported to Drew as a model result first**: a 568k-token prompt read as "GLM returns empty"; an unstripped code fence read as "Qwen writes broken C"; uncapped reasoning read as three separate models "failing"; break-on-`finish=length` read as "DeepSeek gave up with 24 turns unspent"; a `reasoning.max_tokens` that 502s one provider read as "nemotron-ultra can't run"; an `IncompleteRead` read as "near 17 is its ceiling"; a directory read that killed the jtbl run at turn 2 of 50. The models were fine; the instrument was not. Extends **R35** (fix the instrument before trusting the measurement) to the ATTRIBUTION step, which R35 does not cover. |
+| **R41 — A COST, RATE OR YIELD NUMBER SHIPS WITH ITS DENOMINATOR.** Never quote a marginal figure where a total is implied, or a success rate without the attempts it excludes. Say which one it is in the same sentence: "$0.09 per solved function, $6.31 spent total", "19/19 on a seeded stratified sample of 19", "12–25 requests per function, so 1,000/day = 40–80 functions". | I reported GLM-5.3 as costing **$0.30** for eight messages. Drew's bill said **$5**. Both were true: $0.30 was the marginal cost of the two runs that matched, $6.31 was the spend, and 95% of the difference was experiments and my own configuration failures. The flattering number was the one I kept repeating. This is the session's own dominant defect class — *a true number about a narrower scope than the reader believes* (memory `silently-narrowed-tool-scope`) — turned on my own reporting, and it extends **P9** (milestone honesty) from outcomes to metrics. |
+
+**Not elevated to rules** (Phase-8+ precedent — techniques to the cookbook, findings to the checkpoint):
+the card-fuel result (**§206** + the fuel A/B) is a *procedure* already enforced by `--cards`; the
+jtbl idiom is **§206**; the `gather_externs` / `atlas` / `decl_prior` defects are R32/R33/R36 cases
+the existing rules already govern; "a verified `match_one` is not a bankable jtbl card" is a
+watch-for below.
+
+### WATCH-FORS
+* A verified `match_one` is **NOT** a bankable card for jtbl functions — the §8a carve
+  (`jtbl_carve` -> `make extract`) must happen first; `api_agent` cannot do it (read-only, no config).
+* `reloc_identity`'s summary line prints `shape=MATCH` even when it means "streams not aligned,
+  verdict advisory" — read the line BELOW it.
+* Don't run card tooling during a gate (`corpus.stubs()` misreports substituted drafts).
+* `.env` holds the OpenRouter key as `open_router_key=` (no export, no prefix).
+
+## 🛑 (superseded by S57) SESSION CHECKPOINT — S56 FINAL (2026-08-18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
 **HEAD `commit:2563` · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) and
 `.run/` scratch · R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree · EXE

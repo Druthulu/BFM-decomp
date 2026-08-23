@@ -399,10 +399,36 @@ def member_lever(k, v, ev):
     if r and r.get("bucket"):
         return {"integration": "integration", "permuter": "permuter",
                 "structural": "redraft", "redraft": "redraft"}.get(r["bucket"], "needs-autopsy"), "measured"
+    # A "PURE" A-PROP CARD OUTRANKS A BARE LEDGER STRING (P31 S56, found by the 611-ins autopsy).
+    #
+    # `aprop_card` was collected at line ~324 and then NEVER READ -- `grep -n aprop tools/atlas.py`
+    # returned exactly one hit, the loader. Meanwhile a bare `DIFF` token from a ledger promoted the
+    # member to `needs-autopsy` at confidence "ledger" and the ladder returned there.
+    #
+    # Measured cost of that ordering: the func_801898E4 family (4 members x 611 ins = 2,444
+    # instructions) carries `aprop_card: PURE` AND `seed: {sim 1.0, ref ov_SC04_018:0x80186E24}` --
+    # i.e. a banked byte-identical twin and a relocation-only delta -- yet was labelled
+    # needs-autopsy, so no sweep ever selected it. All four members matched from the twin with no
+    # logic edits once anyone looked.
+    #
+    # PURE means the member differs from its seed only in per-location relocations; that is the
+    # definition of a remap, and it is FRESH structural evidence. A ledger token is one historical
+    # attempt with no draft path, no residual and no timestamp.
+    ap = e.get("aprop_card")
+    if isinstance(ap, str) and ap.upper() == "PURE":
+        return "remap", "aprop-pure"
+
     led = e.get("ledger")
     if led:
+        # PROVENANCE GATE. A ledger verdict is evidence about the draft that produced it, not about
+        # the member. func_801898E4's DIFF came from .run/s34/.../func_801898E4.c dated 2026-08-04 --
+        # SIX DAYS BEFORE its seed was banked (commit:1541, 2026-08-10). A 607-instruction hand-draft
+        # that predates the 611-instruction twin cannot be evidence that remapping the twin fails.
+        # When the record carries no usable provenance, say so in the confidence string rather than
+        # presenting a stale token as a measurement (R35: fix the instrument before trusting it).
+        conf = "ledger" if e.get("ledger_detail") else "ledger-bare"
         return {"PLUMBING": "plumbing", "CC1-FAIL": "cc1", "CC1-FAIL(no-diagnostic)": "cc1",
-                "CARVE-REFUSED": "carve", "DIFF": "needs-autopsy"}.get(led, "needs-autopsy"), "ledger"
+                "CARVE-REFUSED": "carve", "DIFF": "needs-autopsy"}.get(led, "needs-autopsy"), conf
     bl = e.get("backlog")
     if bl and isinstance(bl.get("closeness"), int) and bl["closeness"] <= 2:
         return "near-crack", "measured"

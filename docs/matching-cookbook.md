@@ -22016,3 +22016,127 @@ Recorded so they are not re-derived. The reason matters more than the claim.
 paying off, and it should be *reported as none* rather than padded into a claim. The harvest's cost is
 dominated by verifying submissions that had no claim in them; the cheapest improvement to the next
 wave's harvest is a prompt that says **"if nothing was derived, write `none` and stop."**
+
+## §205 — THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy that no local, no pin and no statement reorder will move (P31 S56)
+
+**Bounds §162d1** ("Statement-vs-expression is not the dial; `REG_N_SETS` is") — which holds for sched1's
+S2 birthing boost and does NOT hold for this shape — and extends §NNNb's finding that expression
+granularity is a pricing dial in its own right.
+
+**The residual.** `func_80181714` (ov_SC02_016, 121 ins) drafted to `SCHEDULE-REORDER/4`: the
+`addu $a0,$s0,$zero` argument copy feeding `func_8012BEE8` sat **three slots too early**, above the
+`sll 9 / sra 12 / addiu 0x1000` chain the target puts before it. Emitted instructions and register
+assignment were otherwise identical.
+
+**The fix.**
+
+```c
+*(s16 *)(p + 0x18) = *(s16 *)(p + 0x1C) = t;    /* MATCH */
+```
+
+versus the two-statement form, which does NOT match:
+
+```c
+*(s16 *)(p + 0x1C) = t;                          /* near 4 */
+*(s16 *)(p + 0x18) = t;
+```
+
+Both emit the same instructions in the same registers. Only the expression FORM differs.
+
+**Why it works.** The chained assignment stores to the inner lvalue first and keeps BOTH stores
+inside one expression's RTL, which shifts the LUIDs that sched2's tie-break reads. The two-statement
+form gives each store its own expression and its own LUID span; the chained form does not.
+
+**The negative controls that make this a law and not a lucky variant** — five alternative levers were
+byte-tested against the SAME residual, and **all five left the exact same 4 mismatches**:
+
+| lever tried | result |
+|---|---|
+| explicit single-set local `t1` (§162d1's own prescription) | 4 mismatches |
+| re-assigned pointer local | 4 mismatches |
+| a second pointer local `q` | 4 mismatches |
+| a `t2` local for the second shift chain | 4 mismatches |
+| a dead re-set of `r` to break the birthing boost (§55a) | 4 mismatches |
+| **`*b = *a = v;`** | **MATCH** |
+
+So the dial here is **not** `REG_N_SETS`, **not** statement order, and **not** the birthing boost —
+the three levers §162d1/§55a would send you to first. It is the chained-assignment expression form.
+
+**The law.** *When a same-value pair of stores through one pointer leaves a call's argument copy
+scheduled too early, try `*b = *a = v;` BEFORE reaching for any local, pin, or reorder lever.
+§162d1's fresh-single-set-local prescription does not fire on this shape.*
+
+**Provenance.** Found by the Opus arm of the P31 S56 model bake-off, drafting under the standard wave
+laws with `match_one` as its oracle; the six-variant ablation was run in one gated batch. The match
+was independently confirmed by `reloc_identity` (11 relocations, all agreeing) before this entry was
+written. §199-D supplied the structural template for the function itself (it names `func_801812FC`,
+ov_SC06_025, as the banked twin of this `slti 0x2` switch shape).
+
+## §206 — THE JTBL-CARVE DRAFTING IDIOM: the bounds check is the entry count, and an EMPTY case owns a slot (P31 S56)
+
+**Scope.** 286 open `jtbl-carve` members, 46,068 instructions, 191 families — of which **245 members
+(36,685 ins) are COLD** (no sim≥0.99 twin) and therefore need this idiom rather than a remap.
+Worked exemplar: `func_801F218C` (md_SC03_076, 83 ins, `jtbl_801EF6D0`), MATCH in 5 oracle calls,
+`reloc_identity` AGREE on 13 relocations.
+
+**1. THE RECOGNITION TELL — the bounds check IS the entry count.**
+Find the `sltiu $vN,$vM,K` feeding the `beqz` that guards the `jr`. K is the number of cases:
+
+```
+lui  $at, %hi(jtbl_801EF6D0) ; lw $v0, %lo(jtbl_801EF6D0)($at) ; jr $v0
+sltiu $v0,$v1,0x5            <- FIVE entries
+```
+
+CONFIRM against the `dlabel`…`enddlabel` span, but when they disagree **trust the `sltiu`**: a
+trailing extra word is §8e alignment pad, not a case (§8a's law, byte-confirmed on `func_8015AE2C`
+at 7-vs-8). Here the span is 5 and `0x801EF6D0` is 8-aligned, so no pad was possible.
+
+**2. AN EMPTY CASE OWNS A TABLE SLOT, AND THE SLOT POINTS AT THE EPILOGUE.** *(new — not in §8a/§8e)*
+Read the table entries as labels first, and only then assign case numbers:
+
+```
+[case0=.L801F21C8, case1=.L801F22C4 (= the EPILOGUE -> EMPTY case), case2=.L801F2238, ...]
+```
+
+An entry aimed at the epilogue is `case N: break;` — it must be **written literally**. Omitting it is
+not cosmetic:
+
+| variant | result |
+|---|---|
+| `case 1: break;` present (correct) | **MATCH 83/83** |
+| the empty case omitted | **90 ins, 66 mismatched** |
+
+Note the direction: dropping it makes the function *seven instructions LONGER*, because gcc re-derives
+a denser table and different bounds handling — so a length-drift of +N on a jtbl function is a tell
+for a missing empty case, not for a missing body.
+
+**3. WHEN THE OUT-OF-RANGE TARGET EQUALS A TABLE ENTRY, THERE IS NO `default` CLAUSE.** *(new)*
+One observation settles two source decisions: the `beqz` (out-of-range) target here is `.L801F22C4`,
+which is *also* table entry 1. So the source has **no default clause** AND entry 1 is the empty case.
+
+**4. A 3-CASE DISPATCH ON A CALLEE RETURN IS A NESTED `switch`, NEVER AN IF-CHAIN.** *(new, ablated)*
+gcc-2.7.2 compiles `switch(t){case 1;case 2;case 3;}` to a binary tree — `beq t==2` first, then
+`slti` at the middle value, `li`/`beq` leaves, explicit `j` to the join for the fall-through leaf.
+The if-chain form does not reproduce it:
+
+| inner form | result |
+|---|---|
+| nested `switch (t)` | **MATCH 83/83** |
+| `if (t==1) … else if (t==2) … else if (t==3)` | **77 ins, 51 mismatched** |
+
+**5. TAIL-MERGE ACROSS CASES IS SOURCE-ORDER, NOT A LEVER TO FIGHT.** Two sites share
+`jal func_80178CBC; sh $zero,0x34`: one arrives by an explicit `j`, the other FALLS THROUGH. Write
+the same two statements in each case and the asymmetry falls out of source order for free.
+
+**6. KEEP EXACTLY ONE POINTER LIVE.** Type the parameter as the struct pointer itself; a
+`param + derived copy` pair forced `$s0`+`$s1` saves and a 32-byte frame against the target's 24.
+
+**BANKING (this is drafting only — the carve is a separate, deterministic step).** The draft matches
+against the `.s`, but banking needs the §8a carve first: move `jtbl_801EF6D0` (5 words, 8-aligned ⇒
+no pad) into the binary's rodata subseg per §8/§8b's `ld_interleave` sandwich, then replace the
+`INCLUDE_ASM` line. `tools/jtbl_family_bank.py` does carve → extract → remap → gate per sibling.
+
+**PROVENANCE.** Cracked and distilled by `stealth/ox-alpha` (free tier) under the P31 S56 bake-off,
+at $0.00 and 5 oracle calls. Both negative results in §4 and §2 were **independently re-run and
+byte-confirmed** before this entry was written (51 and 66 mismatches respectively) — the model
+asserted them, the gate proved them.

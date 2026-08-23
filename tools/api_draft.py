@@ -30,11 +30,15 @@ API_BASE = os.environ.get('API_BASE', 'http://localhost:1234/v1').rstrip('/')
 API_KEY = os.environ.get('API_KEY', 'lm-studio')
 MODEL = os.environ.get('MODEL', 'local-model')
 TEMP = float(os.environ.get('TEMP', '0.3'))   # thinking-mode models: ~0.6; deterministic drafting: ~0.2
-LEAN = os.environ.get('LEAN', '0') != '0'     # LEAN=1: asm-only prompt for a FINE-TUNED model (no cookbook)
+LEAN = os.environ.get('LEAN', '0') != '0'
+FRESH_RETRY = os.environ.get('FRESH_RETRY', '0') != '0'   # each retry = a NEW instance seeded with the prior draft     # LEAN=1: asm-only prompt for a FINE-TUNED model (no cookbook)
 MAXTOK = int(os.environ.get('MAXTOK', '512'))  # output cap; RAISE for reasoning models (GLM/o1-class spend
                                                # the budget on reasoning tokens -> empty content at 512)
 _COST = [0.0]                                  # accumulated OpenRouter usage.cost across calls (0 for local)
-_REASON = ['']                                 # last call's reasoning trace (GLM/o1-class) — idiom source (R16)
+_REASON = ['']
+REASON_CAP = int(os.environ.get('REASON_CAP', '0'))      # reasoning token ceiling (0 = unset)
+REASON_EFFORT = os.environ.get('REASON_EFFORT', '')       # 'low'|'medium'|'high' for providers that map effort
+_TRUNC = [False]        # last call hit the output cap (finish_reason='length')                                 # last call's reasoning trace (GLM/o1-class) — idiom source (R16)
 
 # Fair harness: give the no-tool local model the SAME context the agents read themselves — the shared
 # type header, the live matching cookbook, and worked byte-matched examples (all inlined). COOKBOOK_FULL=0
@@ -158,8 +162,19 @@ def build_user_lean(t, asm_text, ghidra_text):
 
 def call_api(messages, max_tokens=None, temperature=TEMP, timeout=600):  # default cap = MAXTOK env (512 local,
                                                                          # raise for reasoning models via MAXTOK)
-    body = json.dumps({'model': MODEL, 'messages': messages,
-                       'max_tokens': max_tokens or MAXTOK, 'temperature': temperature}).encode()
+    payload = {'model': MODEL, 'messages': messages,
+               'max_tokens': max_tokens or MAXTOK, 'temperature': temperature}
+    # REASONING MODELS SILENTLY EAT THE WHOLE OUTPUT BUDGET (P31 S56). Measured on this task at a
+    # 13.6k prompt / max_tokens=24000: glm-5.3 returned finish_reason='length', 24,000 output tokens,
+    # 68,312 chars of reasoning and *zero* content -- scored by the harness as "empty reply", i.e. as
+    # a drafting failure. With reasoning capped it returns 2,619 chars of C in 3,628 tokens for $0.04.
+    # NOT universal: qwen3.8-max ignores reasoning.max_tokens (62,624 chars of reasoning against a
+    # 6,000 cap), so REASON_EFFORT is offered too -- providers map one or the other.
+    if REASON_CAP:
+        payload['reasoning'] = {'max_tokens': REASON_CAP}
+    elif REASON_EFFORT:
+        payload['reasoning'] = {'effort': REASON_EFFORT}
+    body = json.dumps(payload).encode()
     req = urllib.request.Request(API_BASE + '/chat/completions', data=body,
                                  headers={'Content-Type': 'application/json',
                                           'Authorization': 'Bearer ' + (API_KEY or 'none')})
@@ -169,6 +184,10 @@ def call_api(messages, max_tokens=None, temperature=TEMP, timeout=600):  # defau
         msg = d['choices'][0]['message']
         _COST[0] += (d.get('usage') or {}).get('cost', 0) or 0   # OpenRouter reports per-call $ in usage.cost
         _REASON[0] = msg.get('reasoning') or ''                  # reasoning models carry it separately
+        # finish_reason='length' means the reply was CUT OFF mid-output. Scored as a bad draft it
+        # looks like a model that cannot write C; it is really a budget that ran out (P31 S56 --
+        # qwen3.8-max returned 402 bytes ending mid-statement and was logged 'compile-fail').
+        _TRUNC[0] = (d['choices'][0].get('finish_reason') == 'length')
         return msg['content']
     except urllib.error.URLError as e:
         print('  API error:', e, file=sys.stderr)
@@ -183,6 +202,12 @@ def extract_code(text):
     blocks = re.findall(r'```(?:c|cpp|C)?\s*\n(.*?)```', text, flags=re.S)
     if blocks:
         return max(blocks, key=len).strip() + '\n'
+    # A TRUNCATED reply opens a fence and never closes it. The old fallback returned the raw text,
+    # so the ``` line itself landed in the .c and every such draft compile-failed on line 1 --
+    # indistinguishable from bad C. Take everything after the last opening fence instead.
+    m = list(re.finditer(r'```(?:c|cpp|C)?\s*\n', text))
+    if m:
+        return text[m[-1].end():].strip() + '\n'
     return text.strip() + '\n'   # model ignored the fence instruction; use as-is
 
 
@@ -199,6 +224,21 @@ def match_one(fn, cfile, asm_subdir):
     return ('fail', None, out)
 
 
+_C_ADDR = re.compile(r'(?:FUN_|DAT_|PTR_DAT_|func_0x|D_|LAB_|jtbl_)([0-9a-fA-F]{8})')
+_S_SYM = re.compile(r'(?:jal\s+(\w+)|%[hl][io]\((\w+)\))')
+
+
+def _hint_matches(ghidra_text, asm_text):
+    """True unless the hint's addresses are provably a DIFFERENT function's than the .s's."""
+    ca = {a.lower() for a in _C_ADDR.findall(ghidra_text)}
+    sa = set()
+    for m in _S_SYM.finditer(asm_text):
+        h = re.search(r'([0-9A-Fa-f]{8})', m.group(1) or m.group(2) or '')
+        if h:
+            sa.add(h.group(1).lower())
+    return not (ca and sa) or bool(ca & sa)   # can't tell -> keep it; disjoint -> suppress
+
+
 def draft_one(t, outdir, iters):
     fn = t['name']
     asm_path = os.path.join(REPO, t['asm'])
@@ -206,6 +246,18 @@ def draft_one(t, outdir, iters):
     gc_path = os.path.join(REPO, t.get('ghidra_c', ''))
     asm_text = open(asm_path).read() if os.path.exists(asm_path) else '(asm missing)'
     ghidra_text = open(gc_path).read() if (t.get('ghidra_c') and os.path.isfile(gc_path)) else '(no ghidra-c)'
+    # THE HINT MUST BE OF *THIS* FUNCTION (P31 S56). `.run/ghidra_c/` is keyed `func_%08X.c` --
+    # ADDRESS ONLY (prefetch_fleet.py:45), and 134 overlays load at the same VRAM window, so the
+    # first overlay to cache an address owns it and every other overlay silently inherits ITS body.
+    # Measured: 1,093 of 4,102 checkable entries (26.6%, a LOWER bound) reference an address set
+    # DISJOINT from their target's own .s. A hint of the wrong function is worse than no hint --
+    # it actively misleads, and NO GATE CAN CATCH IT because a hint never reaches the bytes.
+    # Suppress rather than mislead; the .s is always the truth.
+    if ghidra_text != '(no ghidra-c)' and not _hint_matches(ghidra_text, asm_text):
+        print('  %s: ghidra-c hint SUPPRESSED — it references a disjoint address set from the '
+              'target .s (address-keyed cache collision, see cookbook §205)' % fn)
+        ghidra_text = '(no ghidra-c — the cached decompilation was another overlay\'s function)'
+
 
     cfile = os.path.join(outdir, fn + '.c')
     sys_msg = LEAN_SYS if LEAN else SYS
@@ -227,16 +279,30 @@ def draft_one(t, outdir, iters):
         if score < best[1]:
             best = (code, score)
         tag = 'MATCH' if status == 'match' else ('near %d' % close if status == 'near' else 'compile-fail')
+        if _TRUNC[0]:
+            tag += ' [TRUNCATED at the output cap — raise MAXTOK; not a drafting failure]'
         print('  %s iter %d: %s' % (fn, i, tag))
         if status == 'match':
             break
-        if i < iters - 1:   # feed the diff back for a revision (context-aware retry)
+        if i < iters - 1:
             diff = '\n'.join(out.splitlines()[:45])
-            messages += [{'role': 'assistant', 'content': '```c\n' + code + '```'},
-                         {'role': 'user', 'content':
-                          'Not byte-identical yet. match_one diff (idx | MINE | TARGET):\n' + diff +
-                          '\nApply the toolkit (register pins, width/loop-form/schedule fixes) and reply '
-                          'with the corrected full function in ONE ```c block.'}]
+            retry = {'role': 'user', 'content':
+                     'Not byte-identical yet. match_one diff (idx | MINE | TARGET):\n' + diff +
+                     '\nApply the toolkit (register pins, width/loop-form/schedule fixes) and reply '
+                     'with the corrected full function in ONE ```c block.'}
+            if FRESH_RETRY:
+                # A NEW INSTANCE SOLVES ITS OWN DRAFT (P31 S56). The default retry APPENDS to the
+                # same conversation, so the model re-reads its own failed reasoning and tends to
+                # defend it. FRESH_RETRY rebuilds the context from scratch each round -- same task,
+                # same asm, plus the previous attempt and its diff presented as someone else's work.
+                # Costs more input tokens per round; the question it answers is whether the failure
+                # was the MODEL or the accumulated context.
+                messages = [{'role': 'system', 'content': sys_msg},
+                            {'role': 'user', 'content':
+                             usr + '\n\n--- A PREVIOUS ATTEMPT AT THIS FUNCTION (not yours; it is '
+                             'WRONG) ---\n```c\n' + code + '```\n' + retry['content']}]
+            else:   # context-aware retry (the mode the cheap-tier A/B was validated on)
+                messages += [{'role': 'assistant', 'content': '```c\n' + code + '```'}, retry]
 
     # write the BEST draft seen (not necessarily the last)
     if best[0] is not None:
