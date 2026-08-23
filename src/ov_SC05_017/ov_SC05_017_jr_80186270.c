@@ -3266,7 +3266,329 @@ void func_80186270(void) {
     func_80186B24();
 }
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80186270", func_80186B24);
+#include "common.h"
+extern char *strcpy(char *, const char *);
+
+/* mode selector */
+extern s16 D_80115126;
+
+/* phase 1 — default-string fill */
+extern char D_801EB724[];
+extern char D_801EB744[];
+extern char D_801EB764[];
+extern char D_801EB544[];
+extern char D_801EB788[];
+extern char D_801ECE94[];
+extern char D_801ED0D4[];
+extern char D_801ED314[];
+
+/* phase 2 — mode dispatch */
+extern s32 func_80029178(s32);
+extern s32 func_80029504(void);
+extern s32 func_800291B4(s32);
+extern u8  D_801B9288[];
+extern u8  D_801B9268[];
+extern u8  D_801B9290[];
+extern u8  D_801B9298[];
+extern s16 D_8011515A;
+extern u8 *D_801ED554;
+
+/* phase 3 — item name + quantity render */
+extern u8   D_8010EDE8[];   /* stride 12, +0 = char *name  */
+extern u8   D_8010EDEC[];   /* stride 12, +4 = u16 qty     */
+extern s16  D_801ED5EC;
+extern u32 func_801783D0(s32, s32);
+extern char D_801ECEAF[];
+
+/* phase 4 — side table */
+extern u8    D_8011514A;
+extern u8    D_801ED610[];
+extern u8   *D_801E9B7C[];
+extern u8    D_801E9B74[];
+extern u8   *D_801ED55C;
+extern s16   D_8011515E;
+extern s32   func_800D0F8C(s32);
+extern char *D_801B8EC8;
+extern char  D_801ECF14[];
+
+/* phase 5 — mode 3 builder */
+extern u8    D_8010F468[];  /* stride 8, +0 = char *name */
+extern s16   D_800A6586[];
+extern char  D_801ED0EF[];
+extern char  D_801ED0EA[];
+extern char *D_801B8ECC[];
+
+/* phase 6 — 64-entry filter */
+extern u16 D_8011511A;
+extern u8  D_801ED618[];
+extern s16 D_8011515C;
+extern u8  D_8011514C;
+
+/* phase 7 — mode 4 builder */
+extern u8   *D_801B8ED0[];
+extern u8 *D_801ED5D4[];
+extern char *D_801B8E40[];
+extern char  D_801ED318[];
+
+/* phase 8 — mode 5 builder */
+extern char *D_801B8F00;
+extern char  D_801ED320[];
+
+#define COPY2(d_, s_)                       \
+    while (*(s_) != 0) {                    \
+        *(d_)++ = *(s_)++;                  \
+        *(d_)++ = *(s_)++;                  \
+    }
+
+#define RENDER_QTY(dst_, q_, sep_, cnt_, k_, dp_) \
+    {                                       \
+        (k_) = -0x1000;                     \
+        for ((cnt_) = 3; (cnt_) >= 0; (cnt_)--) { \
+            if (((q_) & (k_)) != 0) {       \
+                break;                      \
+            }                               \
+            (k_) >>= 4;                     \
+        }                                   \
+        (dp_) = (dst_);                     \
+        for ((k_) = 0; (k_) < (cnt_) + 1; (k_)++, (q_) >>= 4) { \
+            *(dp_) = ((q_) & 0xF) + 0x4F;   \
+            (dp_)--;                        \
+            *(dp_) = (sep_);                \
+            (dp_)--;                        \
+        }                                   \
+        *(dp_) = 0x46;                      \
+        (dp_)[-1] = 0x81;                   \
+    }
+
+void func_80186B24(void)
+{
+    s32 pad[2];
+    s16 i;
+    s16 cnt;
+    s16 k;
+    s32 b;
+    u8 *s;
+    char *d;
+    char *srcA;
+    char *srcB;
+    register char *tmpl __asm__("$17");
+    register s32 count __asm__("$19");
+    register u8 *table __asm__("$20");
+    register s32 descCount __asm__("$19");
+    register u8 *table2 __asm__("$20");
+
+    /* ---- phase 1: default template + 16-row fill ---- */
+    srcA = D_801EB724;
+    srcB = D_801EB744;
+    if (D_80115126 == 4) {
+        tmpl = D_801EB764;
+    } else {
+        tmpl = D_801EB544;
+        if (D_80115126 == 5) {
+            tmpl = D_801EB788;
+        }
+    }
+
+    for (i = 0; i < 16; i++) {
+        strcpy(&D_801ECE94[i * 36], srcA);
+        strcpy(&D_801ED0D4[i * 36], srcB);
+        strcpy(&D_801ED314[i * 36], tmpl);
+    }
+
+    /* ---- phase 2: item table / count dispatch ---- */
+    switch (D_80115126) {
+    case 0:
+        {
+            #define flags i
+
+            if ((u8)func_80029178(0xFB) != 0) {
+                flags = 1;
+            } else {
+                flags = (((u32 (*)(void))func_80029504)() >= 0x258);
+            }
+            if ((u8)func_80029178(0x9B) != 0) {
+                flags |= 2;
+            }
+            if ((u8)func_800291B4(0x5B) >= 3) {
+                flags |= 4;
+            }
+            count = D_801B9288[flags];
+            D_8011515A = count | 0x100;
+            table = *(u8 **)(D_801B9268 + flags * 4);
+            D_801ED554 = table;
+            #undef flags
+        }
+        break;
+    case 1:
+        count = 7;
+        if (((u32 (*)(void))func_80029504)() < 0x258) {
+            count = 5;
+        }
+        table = D_801B9290;
+        D_8011515A = count | 0x100;
+        D_801ED554 = table;
+        break;
+    case 5:
+        table = D_801B9298;
+        D_801ED554 = table;
+        count = 7;
+        break;
+    default:
+        count = 0;
+        break;
+    }
+
+    /* ---- phase 3: name copy + quantity render ---- */
+    i = 0;
+    if (count != 0) {
+        do {
+            s32 pct;
+            s32 sub;
+            s32 raw;
+            u16 q;
+
+            b = table[i];
+            s = *(u8 **)(D_8010EDE8 + b * 12);
+            d = &D_801ECE94[i * 36];
+            COPY2(d, s)
+
+            pct = D_801ED5EC;
+            sub = pct;
+            if (pct != 0) {
+                if (D_80115126 == 0) {
+                    raw = (*(s16 *)(D_8010EDE8 + b * 12 + 4) * (100 - pct)) / 100;
+                } else {
+                    raw = *(u16 *)(D_8010EDEC + b * 12) - sub;
+                }
+            } else {
+                raw = *(u16 *)(D_8010F468 - 0x67C + b * 12);
+            }
+
+            q = ((s32 (*)(s16, s32))func_801783D0)(raw, 0);
+            RENDER_QTY(&D_801ECEAF[i * 36], q, 0x82, cnt, k, d)
+
+            i++;
+        } while (i < count);
+    }
+
+    /* ---- phase 4: side-table lookup + conditional strcpy ---- */
+    {
+        u8 sel = D_801ED610[D_8011514A];
+
+        table2 = D_801E9B7C[sel];
+        descCount = D_801E9B74[sel];
+        D_801ED55C = table2;
+        D_8011515E = descCount | 0x100;
+
+        if (D_80115126 == 0) {
+            if (func_800D0F8C(0xA) != 0) {
+                strcpy(D_801ECF14, D_801B8EC8);
+            }
+        }
+    }
+
+    /* ---- phase 5 (mode 3): second builder + the 64-entry filter ---- */
+    if (D_80115126 == 3) {
+        i = 0;
+        if (descCount != 0) {
+            do {
+                register s32 zr __asm__("$0");
+                s32 id;
+
+                b = table2[i];
+                s = *(u8 **)(D_8010F468 + b * 8);
+                d = &D_801ED0D4[i * 36];
+                COPY2(d, s)
+
+                id = b + zr;
+                cnt = (u8)func_800291B4(id + 0x62);
+                if ((cnt & 0x80) != 0) {
+                    if ((cnt & 0x40) == 0) {
+                        u16 q = ((s32 (*)(s16, s32))func_801783D0)(D_800A6586[id], 0);
+                        RENDER_QTY(&D_801ED0EF[i * 36], q, 0x82, cnt, k, d)
+                    } else {
+                        strcpy(&D_801ED0EA[i * 36], D_801B8EC8 + 2);
+                    }
+                } else {
+                    strcpy(&D_801ED0D4[i * 36], D_801B8ECC[0]);
+                }
+
+                i++;
+            } while (i < descCount);
+        }
+
+        if (D_8011511A != 1 && D_8011511A != 2) {
+            i = 0;
+            cnt = 0;
+
+            for (; i < 0x40; i++) {
+                if ((func_800291B4(i + 0x63) & 0x40) != 0) {
+                    D_801ED618[cnt++] = i;
+                }
+            }
+
+            D_8011515C = cnt | 0x100;
+            if (D_8011514C >= cnt) {
+                if (cnt != 0) {
+                    D_8011514C = cnt - 1;
+                } else {
+                    D_8011514C = 0;
+                }
+            }
+        }
+    }
+
+    /* ---- phase 6 (mode 4): 6-entry name/description assembly ---- */
+    if (D_80115126 == 4) {
+        i = 0;
+        do {
+            s32 *p;
+
+            s = D_801B8ED0[i];
+            d = &D_801ED318[i * 36];
+            d[0] = s[0];
+            d[1] = s[1];
+
+            d = &D_801ED318[i * 36 + 4];
+            p = ((s32 *)D_801ED5D4)[i];
+            if (p != 0) {
+                s = (u8 *)D_801B8E40[p[2]];
+
+                COPY2(d, s)
+            } else {
+                strcpy(&D_801ED318[i * 36 + 0x16], (char *)D_801B8ED0[i + 6]);
+            }
+
+            i++;
+        } while (i < 6);
+    }
+
+    /* ---- phase 7 (mode 5): 6-entry variant ---- */
+    if (D_80115126 == 5) {
+        i = 0;
+        do {
+            s32 *p;
+
+            d = &D_801ED314[i * 36];
+            if (i == 0) {
+                s = (u8 *)D_801B8F00;
+            } else {
+                s = (u8 *)D_801B8ECC[i];
+                d += 8;
+            }
+
+            COPY2(d, s)
+
+            p = ((s32 *)D_801ED5D4)[i];
+            if (p != 0) {
+                strcpy(&D_801ED320[i * 36], D_801B8E40[p[2]]);
+            }
+
+            i++;
+        } while (i < 6);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80186270", func_801874B0);
 
