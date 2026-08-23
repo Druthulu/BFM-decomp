@@ -134,6 +134,25 @@ def provision(wt, prov):
                 os.symlink(os.path.join(src_ex, "retail", name), dst)
     prov["extracted"] = "symlinked .CD/.CD.dir bulk -> main clone (untracked, ROM-derived)"
 
+    # 3b. .run/obj40 — the PsyQ SDK ELF objects (LIBCD/LIBGS/LIBETC/LIBGPU/LIBMCRD ...).
+    #
+    # Same class as extracted/: gitignored because it is SDK-derived, deterministic, regenerable
+    # (tools/psyq_build_libs.sh), and READ-ONLY during a build. The Makefile's LIBCD_ELF and friends
+    # point straight at it, and build/psyq/*/ is populated FROM it — so a worktree without it links
+    # main with the PsyQ objects silently absent. Measured P31 S58: the tool reported main RED with
+    # `undefined reference to CdReadyCallback` at 212/213, which reads as a source regression and is
+    # nothing of the kind. tools/psyq/lib40_elf/*.a WAS present (it is tracked), which is exactly why
+    # the gap was not obvious — the archives are there, the extracted objects are not.
+    o40 = os.path.join(wt, ".run/obj40")
+    if not os.path.isdir(o40):
+        src_o40 = os.path.join(REPO, ".run/obj40")
+        if not os.path.isdir(src_o40):
+            return (".run/obj40 absent in BOTH the worktree and the main clone — "
+                    "run tools/psyq_build_libs.sh first")
+        os.makedirs(os.path.dirname(o40), exist_ok=True)
+        os.symlink(src_o40, o40)
+    prov["obj40"] = "symlinked -> main clone (untracked, SDK-derived PsyQ ELF objects)"
+
     # 4. maspsx — a pinned submodule. Record the gitlink the COMMIT expects and what we provide.
     want_sm = None
     r = run(["git", "ls-tree", "HEAD", "tools/maspsx"], cwd=wt, quiet=True)
@@ -162,7 +181,16 @@ def main():
     ap.add_argument("--jobs", default=None, help="JOBS= for extract-all/check-all")
     a = ap.parse_args()
 
-    sha = a.sha or run(["git", "rev-parse", "HEAD"], cwd=REPO, quiet=True).stdout.strip()
+    # ALWAYS resolve through the MAIN clone's rev-parse, including an explicit --sha. Passing the
+    # literal string through was a live false-RED generator (found P31 S58): `--sha HEAD` reached
+    # `git checkout --detach HEAD` INSIDE the worktree, which is a no-op that leaves the worktree on
+    # whatever it was already on — in that instance `commit:orphan-35 "TEMP: deliberate corruption for the
+    # verify-worktree negative control"`, left behind by the Stage-2 control. The tool then reported
+    # a perfectly real 212/213 RED naming ov_SC02_037 against a commit the caller never asked for,
+    # and wrote it to `.run/verify/HEAD.json`. The main tree built that same binary byte-identical.
+    sha = run(["git", "rev-parse", a.sha or "HEAD"], cwd=REPO, quiet=True).stdout.strip()
+    if not sha:
+        sys.exit(f"could not resolve --sha {a.sha!r} in {REPO}")
     short = sha[:9]
     t0 = time.time()
     prov = {}

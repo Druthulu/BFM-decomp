@@ -446,10 +446,19 @@ def member_lever(k, v, ev):
     return None, None
 
 
-_LEVER_RANK = ["integration", "plumbing", "near-crack", "len-vein", "frame-172", "signload",
+# "remap" leads: it is the only fully-mechanical lever (per-location relocations only, no logic
+# edit), so when it wins a vote it is the cheapest possible action. It was MISSING from this list
+# while member_lever already emitted it (P31 S57) — harmless only because `x[0] in _LEVER_RANK`
+# guards the lookup, which silently sorted every remap vote LAST inside its confidence tier.
+_LEVER_RANK = ["remap", "integration", "plumbing", "near-crack", "len-vein", "frame-172", "signload",
                "carve", "cc1", "permuter", "jtbl-carve", "o0-lane", "extend-tell",
                "swaprepeat-tell", "s16-div-tell", "needs-autopsy", "redraft"]
-_CONF_RANK = {"measured": 0, "ledger": 1, "tell": 2, "default": 3, "none": 4}
+# "aprop-pure" (P31 S57) is FRESH STRUCTURAL evidence — the member differs from a banked seed
+# only in per-location relocations — so it outranks a historical "ledger" token by design.
+# It was emitted by member_lever but never added here, and `_CONF_RANK[x[1]]` is an
+# unguarded dict lookup: atlas.py died with KeyError: 'aprop-pure' on the first group
+# carrying such a vote, i.e. the S57 fix could never produce an atlas (found P31 S58).
+_CONF_RANK = {"measured": 0, "aprop-pure": 1, "ledger": 2, "tell": 3, "default": 4, "none": 5}
 
 
 # ------------------------------------------------------------------ the survey

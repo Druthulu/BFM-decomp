@@ -403,6 +403,15 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
     (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
 
+## RULES ADDED IN S58 — **ACCEPTED BY DREW 2026-08-23, BINDING FROM NOW**
+
+| Rule | Reason |
+|---|---|
+| **R42 — COMMIT BANKED WORK THE MOMENT IT EXISTS; NEVER BLIND-REVERT A DIRTY `src/`.** A gate that banks with `commit=False` (`sweep_parallel`, `gate_stage --no-propagate`) leaves REAL, byte-proven functions uncommitted in the tree, and **no tool can distinguish them from residue**. Two obligations follow. (a) A lane that banks **commits before handing control to any other lane, tool, or step** — not at the end of the wave, not "after main", immediately. (b) A tool that finds a dirty tree **COMMITS it or REFUSES**; `git checkout -- src/ config/` as a tidy-up is forbidden. The byte-gate is the arbiter of whether work is correct; git is the only thing that makes it durable, and the window between the two is where work dies. | **Three instances in one session, one of which fired.** `ox_campaign.gate()` and `idiom_serial` both opened with `git checkout -- src/ config/` to clear "residue" — caught before they ran. `gate_main.py` then did it for real: it substitutes into `src/` and reverts on a failing batch, could not tell its own substitution from the 61 overlay functions `sweep_parallel` had just banked with `commit=False`, and reverted **all 61 back to `INCLUDE_ASM` stubs** (verified against `corpus.stubs`) after 95 minutes of bisecting. The drafts survived in `.run/`, the gate cycle did not. |
+| **R43 — A TOOL MUST REFUSE AN INPUT IT CANNOT HANDLE, NEVER PROCESS IT WRONGLY.** Silently accepting work a tool will mishandle is worse than skipping it, because the output is a plausible FAILURE that gets attributed to the subject instead of the harness. Where a tool has a known-unsupported input class, it fails loud and names the tool that does handle it. | `sweep_parallel` contained an explicit `"us.exe" if b == "main"` branch — written to LET main IN — while `gate_main.py`'s own docstring documents that main cannot be gated incrementally (its extract rewrites the linker script). Measured: wave `ab` drew **105 main cards and banked 0 of 105**, while its 115 non-main cards banked 94 (82%). The drafts were competent; the harness could not accept them, and the wave read as a drafting failure for a whole session. Extends **R32** (assert your coverage) from *silently skipping* work to *silently accepting work it will mishandle*, and is the same family as **R40** (exonerate the instrument). |
+
+---
+
 ## 🛑 SESSION CHECKPOINT — S57 FINAL (2026-08-19/23). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
 **HEAD `commit:2565` · R22 `make check-all` 213/213 from a clean tree still VALID (no src/ change since

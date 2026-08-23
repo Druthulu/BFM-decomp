@@ -165,3 +165,43 @@ warning — and the only one that was *correct and overridden*.
 **The rule:** before a wave, every target passes a validity gate; and in any cascade, a tier that
 cannot act ends the chain. Cheap targets must fail cheaply, or the cheapest thing in the pool becomes
 the most expensive.
+
+---
+
+## Harness self-inflicted wounds (P31 S58) — the checks that were vacuous
+
+Four defects in one session where the *tooling around the work* failed, not the work. Each cost real
+throughput, and each was invisible to the check I was relying on. These generalize to any
+Claude-Code-driven pipeline, not just decomp.
+
+**1. A `#` comment between backslash-continued argument lines silently drops every argument.**
+```bash
+$PY tools/ox_campaign.py \
+    # this comment eats everything below it
+    --waves 40 --workers 128 ...          # never reaches the program
+```
+The run falls back to argparse DEFAULTS and looks completely normal. `bash -n` does **not** catch it
+— the construct is syntactically valid — and grepping the file finds the arguments even though they
+are unreachable. **The only reliable check is a startup banner that prints the values the program
+actually received.** Every long-running driver should print its effective config on line one.
+
+**2. `pgrep -f <pattern>` matches your own shell.** A command containing the pattern string has that
+string in its own `/proc/<pid>/cmdline`, so `pkill -f 'tools/foo.py'` kills the shell issuing it
+(observed three times, twice fatally mid-edit). It also matches the harness's `bash -c "... eval
+'...'"` wrapper, which **outlives** the process it launched — so a `while pgrep -f X; do sleep; done`
+wait never ends. Anchor at the start of the cmdline (`'^\.venv/bin/python tools/foo'`), or collect
+PIDs in one call and `kill` them in a separate one.
+
+**3. `cmd | tail -N` buffers everything until exit.** A background job piped through `tail` writes a
+0-byte log for its entire run, so "no errors yet" and "no output yet" are indistinguishable. Same for
+any unflushed `print()` in a redirected Python process — use `python -u`, and redirect to a file you
+can `tail` yourself rather than piping through one.
+
+**4. Telemetry that only exists in a log line is not telemetry.** `429` handling printed with
+`flush=True` into a block-buffered shard log; the rate-limit question ("are we being throttled?") was
+unanswerable until every request appended to a JSONL (`tools/api_rate.py`). **If a number will decide
+something, write it to a file a separate process can read at any moment.**
+
+**The pattern behind all four:** the check I trusted (`bash -n`, `grep`, an empty log, a silent
+console) could not distinguish "working" from "not running". Prefer checks that are *positively
+affirmative* — a banner echoing real values, an append-only ledger, a counter that must move.

@@ -36,6 +36,26 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import api_draft as AD          # reuse the validated endpoint/match_one/extract plumbing
 
 REPO = AD.REPO
+
+# --- request telemetry (P31 S58) --------------------------------------------------------------
+# Every POST appends one line to .run/api_rate.jsonl: when, which model, which pid, and the event.
+# WHY: the overnight ox campaign needs a MEASURED requests-per-minute and a MEASURED 429 rate with
+# platform-vs-provider attribution (R40/R41). Before this, the only 429 evidence was a flush=True
+# print into a block-buffered log file — so "no 429s" and "the buffer has not filled yet" were the
+# same observation. A shared append-only JSONL is readable from outside the process at any moment.
+_RATE_PATH = os.path.join(REPO, '.run/api_rate.jsonl')
+
+
+def _rate_log(event, **kw):
+    """Append one telemetry record. Never raises: telemetry must not be able to kill a run."""
+    try:
+        rec = {'t': time.time(), 'pid': os.getpid(), 'model': AD.MODEL, 'ev': event}
+        rec.update(kw)
+        with open(_RATE_PATH, 'a') as fh:
+            fh.write(json.dumps(rec) + chr(10))
+    except Exception:
+        pass
+
 READABLE = ('src/', 'asm/', 'docs/', 'include/', '.run/bakeoff/')   # read-only surface
 MAX_BYTES = 60000               # per read_file / grep response, so one call cannot flood context
 NUDGE_MAX = int(os.environ.get('NUDGE_MAX', '6'))   # continuations offered when a turn yields no tool call
@@ -151,8 +171,13 @@ def call(messages, tools):
     # version of this function let that kill the run: dots-3-note died at turn 21 and nemotron at
     # turn 3, both at $0.00 with ZERO oracle calls, and both got written down as model failures.
     # The daily budget was barely touched. Back off and continue; only give up after MAX_429 tries.
-    MAX_429, delay = 6, 20
+    # MAX_429 is env-tunable because a PROVIDER burst is not a verdict and not our ceiling.
+    # The upstream shared pool saturates and then resumes; the only wrong response is to give
+    # up inside the burst. Default 6 tolerates ~6 min of backoff (20+40+80+120+120); the
+    # overnight campaign raises it so a long burst costs latency, never a lost function.
+    MAX_429, delay = int(os.environ.get('MAX_429', '6')), 20
     for attempt in range(MAX_429):
+        _rate_log('POST')
         try:
             with urllib.request.urlopen(req, timeout=1800) as r:
                 d = json.loads(r.read())
@@ -213,6 +238,7 @@ def call(messages, tools):
                     wait = max(1, min(int(float(ra)), 300))
                 except ValueError:
                     pass
+            _rate_log('429', src=src, wait=wait, attempt=attempt + 1)
             print(f'    (429 {src} — waiting {wait}s, retry {attempt + 1}/{MAX_429 - 1})', flush=True)
             time.sleep(wait)
             delay = min(delay * 2, 120)

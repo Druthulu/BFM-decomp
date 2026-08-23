@@ -17,5 +17,3 @@ REAL matches: CdQueueBusy CdReadRequest ClearOTag DebugMenuHandler GameModeDispa
 NON_MATCHING: CdReadSectorReadyCB CdReadStateMachine StreamLoadStateMachine func_80015A74
 
 build SHA1: 143dbb89f34491258bbc27810d0a12ec8b43a8dd  (byte-identical)
-
-empties audit: 42/42 genuine jr;nop  (all clean)

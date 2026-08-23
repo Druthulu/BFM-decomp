@@ -66,11 +66,30 @@ def validate(targets, sig_cache=None, stub_cache=None):
         if not name or not binary:
             out.append((t, "MALFORMED", "missing name/source"))
             continue
-        try:
-            addr = int(name[5:], 16)
-        except (ValueError, IndexError):
-            out.append((t, "MALFORMED", f"cannot parse an address out of {name!r}"))
-            continue
+        # Address: prefer the card's OWN `addr` field, and only fall back to slicing the name.
+        #
+        # `int(name[5:], 16)` assumes every target is spelled `func_XXXXXXXX`. Symbols we have
+        # already NAMED — `SYS_OBJ_F00`, `SaveLoadRoutine`, `StreamLoadStateMachine`, every main
+        # symbol carrying a real identifier — have no address in their name, so they came back
+        # MALFORMED and the S46 validity gate then refused the ENTIRE wave they appeared in.
+        # Measured P31 S58: wave `aj` (220 cards) was discarded outright over one such card, and
+        # the campaign skipped the wave. build_wave_atlas has always emitted `addr` on every card;
+        # nothing had to be derived. The irony is that naming a function — progress — is what made
+        # it undraftable.
+        raw = _key(t, "addr", "a")
+        addr = None
+        if raw is not None:
+            try:
+                addr = int(raw, 16) if isinstance(raw, str) else int(raw)
+            except (TypeError, ValueError):
+                addr = None
+        if addr is None:
+            try:
+                addr = int(name[5:], 16)
+            except (ValueError, IndexError):
+                out.append((t, "MALFORMED",
+                            f"no usable 'addr' field and cannot parse one out of {name!r}"))
+                continue
         sig = sig_cache.setdefault(binary, DP.load_sig(binary))
         if not sig:
             out.append((t, "OUT-OF-RANGE", f"{binary} has no sig at all"))

@@ -72,7 +72,7 @@ def main():
     os.chdir(REPO)
 
     only = set(a.only.split(",")) if a.only else None
-    jobs, skipped = [], []
+    jobs, skipped, refused_main = [], [], []
     for d in sorted(glob.glob(os.path.join(a.drafts, "*"))):
         if not os.path.isdir(d):
             continue
@@ -80,7 +80,19 @@ def main():
         # A real binary has a splat config (R33/R36). This ALSO filters gate_stage's own intermediate
         # ladder dirs (-cn/-cast/-rc/-s2in/-uni), which a bare glob picks up as if they were binaries
         # — the phantom-PARTIAL bug measured in SESSION-20.
-        if not os.path.exists("config/splat.%s.yaml" % ("us.exe" if b == "main" else b)):
+        # MAIN IS NOT GATEABLE HERE, AND SILENTLY TRYING IS WORSE THAN REFUSING.
+        #
+        # gate_stage builds INCREMENTALLY. main's `make extract` runs psyq_integrate +
+        # ld_interleave, which REWRITE the linker script, so an incremental build after a source
+        # change re-runs that on an already-rewritten .ld and yields a FALSE DIFF (gate_main.py's
+        # docstring documents the night this cost). This driver accepted main anyway — the
+        # `"us.exe" if b == "main"` branch below was written to LET IT IN — so every main draft
+        # that reached here was gated by a path that cannot bank it. Measured P31 S58: wave `ab`
+        # drew 105 main cards and banked 0 of 105, while its 115 non-main cards banked 94 (82%).
+        # The drafts were fine. Route main to tools/gate_main.py (one clean rebuild per BATCH).
+        if b == "main":
+            refused_main.append(b); continue
+        if not os.path.exists("config/splat.%s.yaml" % b):
             skipped.append(b); continue
         if only and b not in only:
             continue
@@ -91,6 +103,9 @@ def main():
     if skipped:
         print(f"skipped {len(skipped)} non-binary dirs (ladder scratch): {', '.join(skipped[:6])}"
               f"{' …' if len(skipped) > 6 else ''}")
+    if refused_main:
+        print("REFUSED: main drafts were staged here. main cannot be gated incrementally — "
+              "route them to tools/gate_main.py. Nothing was gated for main.")
     print(f"gating {len(jobs)} binaries with -j {a.jobs}")
 
     banked = failed = 0

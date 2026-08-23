@@ -1,0 +1,570 @@
+#!/usr/bin/env python3
+"""ox_campaign.py — the unattended overnight wave loop (P31 S58).
+
+ONE WAVE = draw -> draft -> reloc pre-filter -> parallel gate -> commit -> ledger. The loop repeats
+until --waves is exhausted, the credit floor is hit, or .run/ox_campaign.stop appears.
+
+WHY EACH STEP IS WHERE IT IS
+  * reloc_identity BEFORE the gate. match_one masks jal/HI16/LO16, so it scores a wrong-symbol draft
+    as MATCH (§174 law 1c). Measured this session on the S57 sub-50 pile: reloc_identity predicted
+    4 of the 5 gate rejections for free, before any rebuild. Gating a draft it refuses is a rebuild
+    spent to learn something a deterministic check already knew.
+  * sweep_parallel, not gate_lane. gate_lane walks (binary, TU) groups SERIALLY — right when many
+    drafts share one destination TU, wrong for a wide slate. Measured: 7 binaries / 10 drafts in 53s
+    parallel vs ~25 min for 19 binaries serial.
+  * The gate step is serial across waves BY CONSTRUCTION. Two sweeps could schedule the same binary,
+    and the per-binary flock would then serialize them anyway — with two writers in one src/ tree.
+  * MAXTOK is set explicitly. api_draft's 512 default is a LOCAL-model output cap; a reasoning model
+    emitting a whole C function truncates every turn (measured 348 of 918 turns finish=length, all
+    reported as "no compiling draft"). R40: that is a harness verdict wearing a model's name.
+
+WORKER STEP-UP. Concurrency rises only on EVIDENCE: a wave that recorded zero 429s earns +step
+workers, a wave that recorded any drops back to the last clean level. Measured start point: 24
+workers sustained 167 req/min with 0 429s on a non-free-tier key.
+
+  tools/ox_campaign.py --waves 8 --workers 24 --max-workers 64
+"""
+import argparse
+import collections
+import glob
+import json
+import os
+import shutil
+import string
+import subprocess
+import sys
+import time
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(REPO)
+PY = ".venv/bin/python"
+LEDGER = ".run/ox_campaign_ledger.jsonl"
+STOP = ".run/ox_campaign.stop"
+RATE = ".run/api_rate.jsonl"
+
+
+def log(msg):
+    print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
+
+
+def sh(cmd, timeout=None, quiet=True):
+    r = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=timeout)
+    if not quiet and r.returncode != 0:
+        log(f"  ! rc={r.returncode}: {(r.stderr or r.stdout)[-300:]}")
+    return r
+
+
+def credits_left():
+    """Remaining OpenRouter credit, or None if unreadable. Never fatal — telemetry, not a gate."""
+    key = ""
+    try:
+        for line in open(".env"):
+            if line.startswith("open_router_key="):
+                key = line.split("=", 1)[1].strip(); break
+    except OSError:
+        return None
+    if not key:
+        return None
+    r = sh(f'curl -s -H "Authorization: Bearer {key}" https://openrouter.ai/api/v1/auth/key')
+    try:
+        return json.loads(r.stdout)["data"]["limit_remaining"]
+    except Exception:
+        return None
+
+
+def mem_snapshot():
+    """Free/available memory in MB. Recorded per wave so a LOCAL bottleneck stays distinguishable
+    from a provider one: at 256 agents (~70 MB each) the box is carrying ~18 GB of ~30 GB, and if
+    it starts swapping, requests/minute collapses for a reason that has nothing to do with any
+    rate limit — and would otherwise read as 'we found the ceiling'."""
+    try:
+        info = {}
+        for line in open("/proc/meminfo"):
+            k, _, v = line.partition(":")
+            info[k] = int(v.split()[0]) // 1024
+        return {"mem_avail_mb": info.get("MemAvailable"), "swap_used_mb":
+                (info.get("SwapTotal", 0) - info.get("SwapFree", 0))}
+    except Exception:
+        return {}
+
+
+def rate_slice(t0):
+    """The wave's OWN request numbers, and — the part that matters for scaling — whether any 429s
+    were a BURST or SUSTAINED.
+
+    A provider burst is not our ceiling. `upstream_provider_shared_pool` saturates because everyone
+    on that provider is hitting it at once, then it resumes; backing off permanently on a burst
+    throttles us to someone else's transient. Two things distinguish a real ceiling from a burst:
+
+      * ATTRIBUTION. A PLATFORM 429 is OpenRouter refusing OUR account — that is our limit, full
+        stop. A PROVIDER 429 is the upstream pool, and says nothing about our account.
+      * PERSISTENCE. A burst occupies one or two clock minutes. A ceiling holds minute after minute.
+        `sustained_min` is the LONGEST RUN of consecutive minutes each containing a 429.
+
+    Returned alongside is `req_per_min`, because the honest ceiling test is not 429 counts at all:
+    it is whether adding workers still buys throughput.
+    """
+    posts, h429 = [], []
+    src = collections.Counter()
+    try:
+        for line in open(RATE):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                r = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if r.get("t", 0) < t0:
+                continue
+            if r.get("ev") == "POST":
+                posts.append(r)
+            elif r.get("ev") == "429":
+                h429.append(r)
+                src[r.get("src", "?")] += 1
+    except OSError:
+        pass
+    span = (posts[-1]["t"] - posts[0]["t"]) if len(posts) > 1 else 0
+    rpm = round(60.0 * len(posts) / span, 1) if span > 30 else 0.0
+    mins = sorted({int(r["t"] // 60) for r in h429})
+    longest = run = 0
+    for i, m in enumerate(mins):
+        run = run + 1 if i and m == mins[i - 1] + 1 else 1
+        longest = max(longest, run)
+    platform = sum(v for k, v in src.items() if str(k).startswith("PLATFORM"))
+    per_model = {}
+    for r in posts:
+        per_model.setdefault(r.get("model", "?"), [0, 0])[0] += 1
+    for r in h429:
+        per_model.setdefault(r.get("model", "?"), [0, 0])[1] += 1
+    return {"requests": len(posts), "h429": len(h429), "h429_src": dict(src),
+            "platform_429": platform, "sustained_min": longest, "req_per_min": rpm,
+            "per_model": {k: {"req": v[0], "h429": v[1]} for k, v in per_model.items()}}
+
+
+def draw_wave(tag, n, band, levers=None):
+    lo, hi = band
+    cards = f".run/wave_{tag}_cards.json"
+    if os.path.exists(cards):
+        log(f"  wave {tag}: cards already drawn, reusing")
+        return cards
+    # ';' inside a lane spec becomes ',' here: commas already separate LANES in --lanes, so a
+    # multi-lever lane has to use a different inner separator.
+    lv = f" --levers {levers.replace(';', ',')}" if levers else ""
+    r = sh(f"{PY} tools/build_wave_atlas.py {cards} {n} --min-ins {lo} --max-ins {hi} "
+           f"--max-bins 24 --one-per-gid{lv}", timeout=3600, quiet=False)
+    if not os.path.exists(cards):
+        log(f"  wave {tag}: DRAW FAILED — {(r.stderr or r.stdout)[-300:]}")
+        return None
+    for line in r.stdout.splitlines():
+        if line.startswith("-> wave"):
+            log(f"  {line.strip()}")
+    return cards
+
+
+def shard_targets(tag, cards_path, workers):
+    cards = json.load(open(cards_path))
+    cards = cards if isinstance(cards, list) else cards.get("cards", [])
+    targets = [{"name": c["fn"], "addr": c["addr"], "nins": c["nins"], "binary": c["binary"],
+                "sub": c["sub"], "asm": f"{c['sub']}/{c['fn']}.s", "tu": c.get("tu"),
+                "ghidra_c": f".run/ghidra_c/{c['fn']}.c"} for c in cards]
+    targets = [t for t in targets if os.path.isfile(t["asm"])]     # R32: assert, do not assume
+    for i in range(workers):
+        json.dump(targets[i::workers], open(f".run/wave_{tag}_targets.{i}.json", "w"), indent=1)
+    return targets
+
+
+def draft(tag, lanes, maxtok, max_turns):
+    """Draft one wave across SEVERAL MODEL LANES at once.
+
+    Concurrency on ONE model is spent (P31 S58, measured): every 429 we have ever recorded is
+    `upstream_provider_shared_pool` — the provider's pool, never OpenRouter refusing the account —
+    and wave `ae` at 48 workers achieved 43.5 req/min against peaks of 109-159 at 24-36. More
+    workers on a saturated pool buy LESS throughput. Independent pools do not share that ceiling,
+    so the remaining headroom is breadth across providers, not depth on one.
+
+    `lanes` is [(model, workers, extra_env), ...]. Shards are dealt out contiguously so each lane
+    owns a known slice, and every request already carries its model in the telemetry — so the
+    per-lane 429 rate is measurable after the fact instead of assumed.
+    """
+    outdir = f".run/wave_{tag}"
+    shutil.rmtree(outdir, ignore_errors=True)
+    os.makedirs(outdir, exist_ok=True)
+    key = ""
+    for line in open(".env"):
+        if line.startswith("open_router_key="):
+            key = line.split("=", 1)[1].strip(); break
+    # INTERLEAVE the lanes across shard indices, do not hand each lane a contiguous BLOCK.
+    #
+    # shard_targets deals `targets[i::workers]`, so when a wave holds fewer cards than there are
+    # workers, only the LOW shard indices get any targets. With contiguous blocks (ox 0-85,
+    # deepseek 86-127) a 73-card wave therefore gave ox all 73 shards and deepseek ZERO — one whole
+    # provider pool idle, which is the exact opposite of why the second lane exists. Measured on
+    # wave `al`: "lane deepseek: 0 shards". Round-robin by lane proportion keeps both pools fed at
+    # any wave size.
+    # Build the order by SMALLEST-RATIO scheduling, not by concatenating blocks. `[0]*86 + [1]*42`
+    # is still one contiguous run of ox followed by one of deepseek — modulo-indexing it changes
+    # nothing, and a 73-card wave still lands entirely on ox. Picking, at each position, the lane
+    # furthest behind its own share yields ox,ox,ds,ox,ox,ds,... so ANY prefix holds the ratio.
+    counts = [max(0, n) for _model, n, _e in lanes]
+    total = sum(counts)
+    order, assigned = [], [0] * len(lanes)
+    for _ in range(total):
+        li = min((l for l in range(len(lanes)) if counts[l]),
+                 key=lambda l: (assigned[l] + 1) / counts[l])
+        order.append(li)
+        assigned[li] += 1
+    if not order:
+        order = [0]
+    assign = {}
+    for idx in range(len(order)):
+        assign[idx] = order[idx % len(order)]
+
+    procs = []
+    started = collections.Counter()
+    for idx in range(len(order)):
+        tf = f".run/wave_{tag}_targets.{idx}.json"
+        if not os.path.exists(tf) or not json.load(open(tf)):
+            continue
+        model, _n, extra = lanes[assign[idx]]
+        env = dict(os.environ, API_BASE="https://openrouter.ai/api/v1", API_KEY=key,
+                   MODEL=model, MAXTOK=str(maxtok), **extra)
+        fh = open(f"{outdir}/shard{idx}.log", "w")
+        procs.append(subprocess.Popen(
+            [PY, "-u", "tools/api_agent.py", "--targets", tf, "--cards",
+             f".run/wave_{tag}_cards.json", "--out", f"{outdir}/shard{idx}",
+             "--max-turns", str(max_turns), "--max-cost", "1.0", "--max-cost-per-fn", "0.15"],
+            stdout=fh, stderr=subprocess.STDOUT, env=env))
+        started[model] += 1
+    json.dump({str(k): lanes[v][0] for k, v in assign.items()},
+              open(f"{outdir}/lane_map.json", "w"), indent=1)   # so per-lane stats stay derivable
+    for model, cnt in started.items():
+        log(f"  lane {model}: {cnt} shards")
+    log(f"  {len(procs)} shards drafting across {len(lanes)} model lane(s)")
+    for p in procs:
+        p.wait()
+    drafts = sorted(glob.glob(f"{outdir}/shard*/*.c"))
+    trunc = int(sh(f"grep -h 'finish=length' {outdir}/shard*.log 2>/dev/null | wc -l").stdout or 0)
+    return drafts, trunc
+
+
+def reloc_filter(tag, drafts, cards_path):
+    """Keep only drafts whose relocations name the SAME symbols the target .s does."""
+    cards = json.load(open(cards_path))
+    cards = cards if isinstance(cards, list) else cards.get("cards", [])
+    binof = {c["fn"]: c["binary"] for c in cards}
+    batch = []
+    for d in drafts:
+        fn = os.path.basename(d)[:-2]
+        if fn in binof:
+            batch.append({"fn": fn, "binary": binof[fn], "draft": d})
+    if not batch:
+        return [], {}
+    bp = f".run/wave_{tag}_reloc_in.json"
+    op = f".run/wave_{tag}_reloc_out.json"
+    json.dump(batch, open(bp, "w"), indent=1)
+    sh(f"{PY} tools/reloc_identity.py --batch {bp} -j 12 --out {op}", timeout=7200)
+    try:
+        res = json.load(open(op))
+    except Exception:
+        return batch, {"(reloc_identity produced no output — gating unfiltered)": len(batch)}
+    status = {r["fn"]: r.get("status") for r in res}
+    counts = collections.Counter(status.values())
+    keep = [b for b in batch if status.get(b["fn"]) in ("AGREE", "NOT-A-STUB")]
+    return keep, dict(counts)
+
+
+def gate_main_batch(tag, mains):
+    """main is gated by ONE CLEAN REBUILD of the whole EXE, never incrementally.
+
+    gate_stage/sweep_parallel build incrementally, and main's extract rewrites the linker script,
+    so an incremental main gate returns a FALSE DIFF. Measured P31 S58: wave `ab` drew 105 main
+    cards and banked 0 of them while its non-main cards banked 82% — 105 competent drafts thrown
+    away by the harness, and the failure read as a drafting problem. tools/gate_main.py does the
+    substitute -> extract -> build -> compare cycle once for the entire batch.
+    """
+    if not mains:
+        return 0, []
+    slate = f".run/wave_{tag}_main_slate.json"
+    json.dump([{"fn": m["fn"], "draft": m["draft"], "binary": "main"} for m in mains],
+              open(slate, "w"), indent=1)
+    log(f"  main: {len(mains)} drafts -> gate_main.py (one clean EXE rebuild)")
+    r = sh(f"{PY} tools/gate_main.py {slate} --apply", timeout=14400)
+    banked = []
+    try:
+        banked = json.load(open(".run/gate_main_banked.json"))
+    except Exception:
+        pass
+    tail = [l for l in (r.stdout or "").splitlines() if "BANKED" in l or "MISMATCH" in l]
+    log(f"  main: {tail[-1].strip() if tail else 'no verdict line'}")
+    return len(banked), banked
+
+
+def gate(tag, keep, jobs):
+    mains = [k for k in keep if k["binary"] == "main"]
+    keep = [k for k in keep if k["binary"] != "main"]
+    d = f".run/sweep_{tag}"
+    shutil.rmtree(d, ignore_errors=True)
+    for b in keep:
+        bd = os.path.join(d, b["binary"])
+        os.makedirs(bd, exist_ok=True)
+        shutil.copy(b["draft"], os.path.join(bd, b["fn"] + ".c"))
+    if not glob.glob(d + "/*/*.c"):
+        return gate_main_batch(tag, mains)
+    # NEVER blind-revert a dirty tree. `git checkout -- src/ config/` at gate entry was written for
+    # "a failed gate left residue", but it cannot tell residue from REAL BANKED WORK that simply has
+    # not been committed yet — and a concurrent lane (the free A-prop sweep) leaves exactly that:
+    # sweep_parallel gates with commit=False, so hundreds of banked functions sit uncommitted by
+    # design. Running this loop against that tree would have destroyed them. Commit first, ask
+    # questions never.
+    dirty = sh("git status --porcelain -- src/ config/").stdout.strip()
+    if dirty:
+        n_files = len(dirty.splitlines())
+        log(f"  tree dirty at gate entry ({n_files} files) — committing it rather than reverting")
+        sh("git add -A src/ config/")
+        r = sh('git commit -q -m "chore(decomp): commit in-tree banked work before the next gate\n\n'
+               'Uncommitted src/ changes found at gate entry. These are banked functions from a lane '
+               'that gates with commit=False, not residue — preserved, not reverted."')
+        if r.returncode != 0 and sh("git status --porcelain -- src/ config/").stdout.strip():
+            log("  ! could not commit the dirty tree — REFUSING to gate (would risk real work)")
+            return 0, []
+    t0 = time.time()
+    r = sh(f"{PY} tools/sweep_parallel.py --drafts {d} -j {jobs}", timeout=28800, quiet=False)
+    banked = []
+    for f in glob.glob(".run/auto/bulk/*.verified.txt"):
+        if os.path.getmtime(f) >= t0:
+            banked += [l.strip() for l in open(f) if l.strip()]
+    # COMMIT THE OVERLAY BANKS BEFORE main RUNS. gate_main substitutes into src/ and REVERTS on a
+    # failing batch, and it cannot distinguish its own substitution from the overlay work that
+    # sweep_parallel left uncommitted (it gates with commit=False by design). Measured P31 S58 on
+    # wave aj: 61 overlay functions banked, gate_main then bisected the main batch for 95 minutes
+    # and reverted all 61 — every one back to an INCLUDE_ASM stub, verified against corpus.stubs.
+    # Nothing was lost permanently (the drafts survive in .run/wave_<tag>/) but the gate cycle was.
+    # Uncommitted banked work is fragile; commit it the moment it exists.
+    if banked:
+        sh("git add -A src/ config/")
+        sh(f'git commit -q -m "feat(decomp): ox wave {tag} overlays — {len(banked)} banked\n\n'
+           f'Committed before the main batch: gate_main reverts on failure and would take these '
+           f'with it."')
+        log(f"  committed {len(banked)} overlay banks before the main batch")
+
+    # main batches are CHUNKED. gate_main bisects on failure and each bisection step is a full
+    # clean EXE rebuild (~2-4 min), so one bad draft in a 29-draft batch is hours. Chunks of 8
+    # bound that to a few rebuilds per chunk, and a poisoned chunk cannot stall the rest.
+    mn, mb = 0, []
+    for i in range(0, len(mains), 8):
+        chunk = mains[i:i + 8]
+        cn, cb = gate_main_batch(f"{tag}_m{i//8}", chunk)
+        mn += cn
+        mb += cb
+    return len(banked) + mn, banked + mb
+
+
+def commit(tag, n, banked):
+    if not sh("git status --porcelain -- src/ config/").stdout.strip():
+        return None
+    sh("git add -A src/ config/")
+    msg = (f"feat(decomp): ox wave {tag} — {n} banked\\n\\n"
+           f"Card-fuelled ox drafts, reloc_identity pre-filtered, gated via sweep_parallel.\\n"
+           f"{' '.join(banked[:40])}{' …' if len(banked) > 40 else ''}")
+    r = sh(f'git commit -q -m "{msg}"')
+    return sh("git rev-parse --short HEAD").stdout.strip() if r.returncode == 0 else None
+
+
+def parse_lanes(spec, single_model, workers):
+    """'model:n[:K=V;K=V],...' -> [(model, n, env)]. Absent spec = one lane on `single_model`.
+
+    When a spec IS given its per-lane counts are proportions, rescaled to the campaign's current
+    worker total — so the step-up/hold policy keeps governing total concurrency and the spec only
+    decides how that total is SPLIT between pools.
+    """
+    if not spec:
+        return [(single_model, workers, {})]
+    lanes, total = [], 0
+    for part in spec.split(","):
+        bits = part.split(":")
+        model, n = bits[0], int(bits[1])
+        env = {}
+        if len(bits) > 2 and bits[2]:
+            for kv in bits[2].split(";"):
+                if "=" in kv:
+                    k, v = kv.split("=", 1); env[k] = v
+        lanes.append([model, n, env]); total += n
+    if total and total != workers:
+        scaled = [[m, max(1, round(n * workers / total)), e] for m, n, e in lanes]
+        lanes = scaled
+    return [(m, n, e) for m, n, e in lanes]
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--waves", type=int, default=8)
+    ap.add_argument("--workers", type=int, default=24)
+    ap.add_argument("--max-workers", type=int, default=64)
+    ap.add_argument("--step", type=int, default=8, help="worker increase after a 429-free wave")
+    ap.add_argument("--cards-per-wave", type=int, default=220)
+    ap.add_argument("--max-ins", type=int, default=50, help="ignored when --bands is set")
+    ap.add_argument("--bands", default="5-50,50-120,120-400,400-2000",
+                    help="comma-separated MIN-MAX instruction bands, rotated one per wave. Sub-50 is "
+                         "73.5%% of the OPEN COUNT but the mass is elsewhere: groups with a >=120-ins "
+                         "exemplar hold 141,724 instructions (28%% of the frontier) against the sub-50 "
+                         "pool's much smaller mass. A campaign that only ever draws sub-50 optimises "
+                         "the function counter and leaves the instruction counter alone — and ox has "
+                         "already cracked 611 instructions in one sitting, so the band is not a "
+                         "capability limit.")
+    ap.add_argument("--maxtok", type=int, default=8000)
+    ap.add_argument("--model", default="stealth/ox-alpha", help="single-lane shorthand; --models wins")
+    ap.add_argument("--models", default=None,
+                    help="MODEL:WORKERS[:ENV=V;ENV=V],... — run several provider pools at once, e.g. "
+                         "'stealth/ox-alpha:32,deepseek/deepseek-v4-flash-0731:16:REASON_EFFORT=high'. "
+                         "Total workers = the sum, and --workers/--step scaling applies to that sum.")
+    ap.add_argument("--max-turns", type=int, default=24)
+    ap.add_argument("--gate-jobs", type=int, default=10)
+    ap.add_argument("--credit-floor", type=float, default=2.0)
+    ap.add_argument("--lanes", default=None,
+                    help="NAME:LEVERS,... rotated one per wave. Default is the historical single "
+                         "lane. The 'tell' levers were EXCLUDED from every wave ab..ah by "
+                         "build_wave_atlas's default and hold 86,602 instructions "
+                         "(extend-tell 76,972 · swaprepeat-tell 9,211 · s16-div-tell 419) — more "
+                         "than most of what the default lane has left. jtbl/o0/cc1 are NOT here on "
+                         "purpose: jtbl needs a carve before its drafts are bankable at all "
+                         "(tools/idiom_serial.py), and o0/cc1 gate differently — drafting them into "
+                         "this loop would produce verified drafts that cannot bank, which is "
+                         "exactly the trap that cost S57 its whole jtbl result.")
+    ap.add_argument("--sustained", type=int, default=3,
+                    help="consecutive minutes carrying a provider 429 before it counts as a real "
+                         "ceiling rather than a burst (default 3)")
+    ap.add_argument("--start-tag", default=None, help="two-letter tag to start from (default: next free)")
+    ap.add_argument("--gate-only", default=None, metavar="TAG",
+                    help="skip drawing and drafting: pre-filter and gate the drafts ALREADY sitting "
+                         "in .run/wave_<TAG>/shard*/, then commit. For a wave drafted outside the "
+                         "loop (or one whose gate step was interrupted) — the drafts are on disk and "
+                         "re-drafting them would spend the model again to reproduce what exists.")
+    a = ap.parse_args()
+
+    if a.gate_only:
+        tag = a.gate_only
+        t0 = time.time()
+        cards = f".run/wave_{tag}_cards.json"
+        drafts = sorted(glob.glob(f".run/wave_{tag}/shard*/*.c"))
+        log(f"gate-only wave {tag}: {len(drafts)} drafts on disk")
+        keep, counts = reloc_filter(tag, drafts, cards)
+        log(f"  reloc_identity: {counts} -> gating {len(keep)}")
+        n, banked = gate(tag, keep, a.gate_jobs)
+        sha = commit(tag, n, banked)
+        rs = rate_slice(t0)
+        row = {"wave": tag, "t": t0, "wall_min": round((time.time() - t0) / 60, 1),
+               "workers": 0, "targets": len(drafts), "drafts": len(drafts), "truncated_turns": None,
+               "reloc": counts, "gated": len(keep), "banked": n, "commit": sha,
+               "mode": "gate-only", "credit_left": credits_left(), **rs}
+        with open(LEDGER, "a") as fh:
+            fh.write(json.dumps(row) + "\n")
+        log(f"  WAVE {tag} (gate-only): banked {n}/{len(keep)} gated of {len(drafts)} drafts · {sha}")
+        return 0
+
+    tags = [x + y for x in string.ascii_lowercase for y in string.ascii_lowercase]
+    used = {os.path.basename(p)[5:7] for p in glob.glob(".run/wave_??_cards.json")}
+    pending = [t for t in tags if t not in used]
+    if a.start_tag:
+        pending = tags[tags.index(a.start_tag):]
+
+    bands = [tuple(int(x) for x in b.split("-")) for b in a.bands.split(",")]
+    if a.lanes:
+        lane_specs = []
+        for part in a.lanes.split(","):
+            nm, _, lv = part.partition(":")
+            lane_specs.append({"name": nm, "levers": lv or None})
+    else:
+        lane_specs = [{"name": "default", "levers": None}]
+    log(f"lanes: {[l['name'] for l in lane_specs]}")
+    workers, last_clean = a.workers, a.workers
+    prev_rpm, stalls = 0.0, 0
+    log(f"campaign: {a.waves} waves x {a.cards_per_wave} cards, {workers} workers, model {a.model}")
+    for w in range(a.waves):
+        if os.path.exists(STOP):
+            log("STOP file present — ending campaign"); break
+        cr = credits_left()
+        if cr is not None and cr < a.credit_floor:
+            log(f"credit floor reached (${cr:.2f} < ${a.credit_floor}) — ending campaign"); break
+        tag = pending[w] if w < len(pending) else tags[len(used) + w]
+        t0 = time.time()
+        log(f"=== WAVE {tag} ({w+1}/{a.waves}) · {workers} workers · ${cr if cr is None else round(cr,2)} credit ===")
+        lane = lane_specs[w % len(lane_specs)]
+        band = bands[w % len(bands)]
+        log(f"  lane {lane['name']} · band {band[0]}-{band[1]} instructions")
+        cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
+        if not cards:
+            log("  draw failed — skipping wave"); continue
+        targets = shard_targets(tag, cards, workers)
+        log(f"  {len(targets)} targets sharded")
+        lanes = parse_lanes(a.models, a.model, workers)
+        drafts, trunc = draft(tag, lanes, a.maxtok, a.max_turns)
+        log(f"  {len(drafts)} drafts produced ({trunc} truncated turns)")
+        keep, counts = reloc_filter(tag, drafts, cards)
+        log(f"  reloc_identity: {counts} -> gating {len(keep)}")
+        n, banked = gate(tag, keep, a.gate_jobs)
+        sha = commit(tag, n, banked)
+        rs = rate_slice(t0)
+        row = {"wave": tag, "t": t0, "wall_min": round((time.time() - t0) / 60, 1),
+               "workers": workers, "targets": len(targets), "drafts": len(drafts),
+               "truncated_turns": trunc, "reloc": counts, "gated": len(keep),
+               "banked": n, "commit": sha, "credit_left": credits_left(),
+               **mem_snapshot(), **rs}
+        with open(LEDGER, "a") as fh:
+            fh.write(json.dumps(row) + "\n")
+        log(f"  WAVE {tag}: banked {n}/{len(keep)} gated of {len(drafts)} drafts · "
+            f"{rs['requests']} req @ {rs['req_per_min']}/min · {rs['h429']} 429 "
+            f"(sustained {rs['sustained_min']} min) · {row['wall_min']}min · {sha}")
+
+        # HARVEST BEFORE THE NEXT DRAW (Drew, 2026-08-23 — "that's how our whole system works").
+        # R16's flywheel only turns if the lesson reaches the knowledge base BEFORE the next wave
+        # is drafted; otherwise every wave re-learns what the last one already paid for. Waves
+        # ab..ag banked 1,262 functions and emitted 211 "the cookbook did not cover this" notes,
+        # none of which reached docs/ — that is the failure this step exists to prevent. Only
+        # notes from BYTE-GATE-BANKED functions are harvested (idiom_harvest derives banked-ness
+        # from corpus.stubs; a match_one MATCH that the gate rejected can carry a WRONG lesson).
+        hp = f".run/idiom_candidates.{tag}.md"
+        hr = sh(f"{PY} tools/idiom_harvest.py --waves {tag} --out {hp}", timeout=1800)
+        hline = (hr.stdout or "").strip().splitlines()
+        log(f"  harvest: {hline[-1] if hline else 'FAILED — ' + (hr.stderr or '')[-160:]}")
+        row["harvest"] = hline[-1] if hline else None
+
+        # SCALING DECISION. Three ways to stop, and only three:
+        #   1. PLATFORM 429 — OpenRouter refusing this account. That IS the ceiling.
+        #   2. SUSTAINED provider 429s — >= --sustained consecutive minutes carrying one. A burst
+        #      that resumes is not this, and must not be treated as this.
+        #   3. THROUGHPUT STALL — more workers stopped buying requests/minute. The honest test:
+        #      the ceiling can be reached with zero 429s if the provider simply serves us slower.
+        if rs["platform_429"]:
+            log(f"  PLATFORM 429 x{rs['platform_429']} — that is OUR account limit. "
+                f"Holding at {last_clean}.")
+            workers = last_clean
+        elif rs["sustained_min"] >= a.sustained:
+            log(f"  provider 429s SUSTAINED across {rs['sustained_min']} consecutive minutes "
+                f"(>= {a.sustained}) — treating as a real ceiling, holding at {last_clean}")
+            workers = last_clean
+        elif prev_rpm and rs["req_per_min"] and rs["req_per_min"] < prev_rpm * 1.10:
+            stalls += 1
+            log(f"  throughput {rs['req_per_min']}/min vs {prev_rpm}/min at fewer workers "
+                f"— +10% not bought (stall {stalls}/2)")
+            if stalls >= 2:
+                log(f"  two consecutive stalls — ceiling found near {workers} workers, holding")
+                workers = last_clean
+            else:
+                last_clean = workers
+                workers = min(a.max_workers, workers + a.step)
+        else:
+            stalls = 0
+            if rs["h429"]:
+                log(f"  {rs['h429']} 429s but only a burst ({rs['h429_src']}) — NOT our limit, "
+                    f"continuing to scale")
+            last_clean = workers
+            workers = min(a.max_workers, workers + a.step)
+            log(f"  stepping workers to {workers}")
+        if rs["req_per_min"]:
+            prev_rpm = rs["req_per_min"]
+    log("campaign finished")
+
+
+if __name__ == "__main__":
+    sys.exit(main() or 0)
