@@ -5529,7 +5529,23 @@ void func_8017F368(u16 *a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_8017F750);
+extern s32 D_801EE950[];
+extern s32 D_801EE968[];
+
+void func_8017F750(void *a0, s32 a1) {
+    s32 v1;
+    s32 *a2;
+
+    v1 = ((u16 *)a0)[3] >> 12;
+    a2 = (s32 *)D_801EE950[v1];
+    a2[1] &= 0x7FFFFFFF;
+    D_801EE968[v1 * 16] = a1;
+    ((u16 *)a2)[4] = ((u16 *)a0)[0];
+    ((u16 *)a2)[5] = ((u16 *)a0)[1];
+    ((u16 *)a2)[6] = ((u16 *)a0)[2];
+    ((u16 *)a2)[9] = (((u16 *)a0)[3] & 0xF) << 10;
+}
+
 
 
 extern void (*D_801918FC[])(void);

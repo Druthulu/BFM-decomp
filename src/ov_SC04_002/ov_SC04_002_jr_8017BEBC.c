@@ -4740,7 +4740,25 @@ void func_8017F104(s32 *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017F120);
+extern void func_80149374(s32 a0, s32 a1);
+
+void func_8017F120(s32 *a0)
+{
+    register s32 t1 asm("$6");
+    register s32 t2 asm("$2");
+    register s32 t3 asm("$3");
+    s32 x;
+
+    t1 = a0[4];
+    x = a0[13];
+    t2 = a0[5];
+    t3 = a0[6];
+    a0[1] = t1;
+    a0[2] = t2;
+    a0[3] = t3;
+    func_80149374(x, (s32)(a0 + 1));
+}
+
 
 
 extern void (*D_8018C0AC[])(void);
@@ -7036,7 +7054,35 @@ void func_80182424(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_801824A4);
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80182564);
+extern s32 D_801A86E4;
+extern s32 func_801826E8(s32 arg0);
+extern void func_8012A8B0(u8*, s32);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_8012ADE4(u8 *a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012B23C(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012CBA4(s32);
+
+s32 func_80182564(s32 a0, s32 a1, s32 *a2) {
+    s32 cba4;
+
+    func_8012B2CC(a0);
+    func_8012B178(a0, a1);
+    cba4 = ((s32 (*)(s32))func_8012CBA4)(a0);
+    if ((*a2 = func_801826E8(a0)) != 0) goto fail;
+    if (cba4 == 0x2000) goto zeroret;
+fail:
+    func_8012ADE4((u8 *)a0);
+    *(s32 *)(a0 + 0x1C) = 8;
+    func_8012A8B0((u8 *)a0, (s32)&D_801A86E4);
+    func_8012B23C(a0);
+    func_8012AD44((s32 *)a0, 1);
+    return 1;
+zeroret:
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80182618);
 
@@ -7836,7 +7882,46 @@ void func_80183E68(s32 param_1) {
 void func_80183F1C(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80183F24);
+extern s32 func_80183790(s32);
+extern s32 func_80183820(s32);
+extern void func_8012C218(void *a0);
+extern void func_8012CBF4(s32);
+extern void func_801439C0(u8*);
+extern void func_8018395C(s32);
+extern void func_80183BE4(s32, s32);
+
+void func_80183F24(s32 a0) {
+    s32 result;
+    s16 field_a;
+    void *d0;
+    void *t;
+
+    result = ((s32 (*)(s32))func_8012CBF4)(a0);
+    field_a = *(s16 *)(a0 + 0xA);
+    if (field_a >= 0x81) {
+        d0 = *(void **)(a0 + 0xD0);
+        if (d0 != NULL) {
+            ((void (*)(void *))func_801439C0)(d0);
+        }
+        ((void (*)(void *))func_8012C218)((void *)a0);
+        return;
+    }
+    if ((result & 0x2000) != 0) {
+        if ((result & 0xC000) == 0) {
+            if (((s32 (*)(s32))func_80183790)(a0) != 0) {
+                ((void (*)(void *))func_8018395C)(a0);
+            } else {
+                t = (void *)((s32 (*)(s32))func_80183820)(a0);
+                if (t != NULL) {
+                    if (*(u16 *)t == 0x1FC) {
+                        ((void (*)(void *, void *))func_80183BE4)((void *)a0, t);
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 
 // @class: struct

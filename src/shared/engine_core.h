@@ -50848,7 +50848,7 @@
     }
 
 #define DEFINE_func_80180B20() \
-    extern void func_80180DB8(void); \
+    extern void func_80180DB8(); \
     extern void (*D_8018F58C[])(int); \
     extern void func_80162D28(s32*); \
     void func_80180B20(int param_1) \
@@ -51356,7 +51356,7 @@
     }
 
 #define DEFINE_func_801817BC() \
-    extern void func_80181A14(void); \
+    extern void func_80181A14(); \
     s32 func_801817BC(s32 a0) { \
         func_80181A14(); \
         *(s32 *)(a0 + 0x28) = 10; \
@@ -56425,7 +56425,7 @@
     extern s32 func_8018173C(s32 a0); \
     extern void (*D_8018DDA8[])(void); \
     extern void func_80181780(void *a0); \
-    extern void func_80181A14(void); \
+    extern void func_80181A14(); \
     extern s32 func_801817BC(s32 a0); \
     extern void func_800D1EBC(void); \
     extern void func_8018188C(void); \
@@ -60182,7 +60182,7 @@
         }
 
 #define DEFINE_func_8017F8A8() \
-        extern void func_8017FB40(void); \
+        extern void func_8017FB40(); \
         extern void (*D_8018DAA8[])(int); \
         extern void func_80162D28(s32*); \
         void func_8017F8A8(int param_1) \
@@ -146246,7 +146246,7 @@
     }
 
 #define DEFINE_func_80180B20() \
-    extern void func_80180DB8(void); \
+    extern void func_80180DB8(); \
     extern void (*D_8018F58C[])(int); \
     extern void func_80162D28(s32*); \
     void func_80180B20(int param_1) \
@@ -146754,7 +146754,7 @@
     }
 
 #define DEFINE_func_801817BC() \
-    extern void func_80181A14(void); \
+    extern void func_80181A14(); \
     s32 func_801817BC(s32 a0) { \
         func_80181A14(); \
         *(s32 *)(a0 + 0x28) = 10; \
@@ -151823,7 +151823,7 @@
     extern s32 func_8018173C(s32 a0); \
     extern void (*D_8018DDA8[])(void); \
     extern void func_80181780(void *a0); \
-    extern void func_80181A14(void); \
+    extern void func_80181A14(); \
     extern s32 func_801817BC(s32 a0); \
     extern void func_800D1EBC(void); \
     extern void func_8018188C(void); \
@@ -155580,7 +155580,7 @@
         }
 
 #define DEFINE_func_8017F8A8() \
-        extern void func_8017FB40(void); \
+        extern void func_8017FB40(); \
         extern void (*D_8018DAA8[])(int); \
         extern void func_80162D28(s32*); \
         void func_8017F8A8(int param_1) \

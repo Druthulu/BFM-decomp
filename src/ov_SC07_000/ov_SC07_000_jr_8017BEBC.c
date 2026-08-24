@@ -3170,7 +3170,22 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017CD9C);
+extern void func_80052D90(s32 a0, void *a1);
+extern void func_80054514(s32 a0, s32 a1);
+
+void func_8017CD9C(s32 a0) {
+    s32 sp10[8];
+
+    func_80052D90(0, (void *)a0);
+    func_80054514(a0, (s32)sp10);
+    *(s32 *)(a0 + 0x18) = 0;
+    *(s32 *)(a0 + 0x1C) = 0;
+    *(s32 *)(a0 + 0x20) = 0;
+    *(s16 *)(a0 + 0x50) = 0;
+    *(s16 *)(a0 + 0x52) = 0;
+    *(s16 *)(a0 + 0x54) = 0;
+}
+
 
 /* func_8017CDF0 — ov_SC07_000_jr_8017BEBC
  * Structural twin of the SAME-TU banked sibling func_8017BEBC (§136c sibling-first):
@@ -4118,7 +4133,7 @@ void func_80180818(void *a0) {
 
 
 extern u8 D_801ADEA0[];
-extern void func_8018091C(s32 a0, void *a1);
+extern void func_8018091C();
 extern void func_8018096C(void *a0);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
@@ -4151,7 +4166,17 @@ void func_80180854(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8018091C);
+
+
+void func_8018091C(void *a0, void *a1) {
+    *(u16 *)((s32)a0 + 0x6) = *(u16 *)((s32)a1 + 0x0);
+    *(u16 *)((s32)a0 + 0xA) = *(u16 *)((s32)a1 + 0x2);
+    *(u16 *)((s32)a0 + 0xE) = *(u16 *)((s32)a1 + 0x4);
+    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) = *(u16 *)((s32)a1 + 0x6);
+    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = *(u16 *)((s32)a1 + 0x8);
+    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14) = *(u16 *)((s32)a1 + 0xA);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8018096C);
 

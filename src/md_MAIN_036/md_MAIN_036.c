@@ -230,7 +230,19 @@ void func_800CBD2C(s32 param_1) {
 
 INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CBD54);
 
-INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CBEB0);
+
+
+void func_800CBEB0(s32 a0) {
+    s32 p;
+    *(s32 *)(a0 + 0x4) += *(s32 *)(a0 + 0x10);
+    *(s32 *)(a0 + 0x8) += *(s32 *)(a0 + 0x14);
+    *(s32 *)(a0 + 0xC) += *(s32 *)(a0 + 0x18);
+    p = *(s32 *)(a0 + 0x20);
+    *(u16 *)(p + 0x10) += *(s32 *)(a0 + 0x4C);
+    *(u16 *)(p + 0x12) += *(s32 *)(a0 + 0x50);
+    *(u16 *)(p + 0x14) += *(s32 *)(a0 + 0x54);
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CBF24);
 

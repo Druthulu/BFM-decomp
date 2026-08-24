@@ -1381,7 +1381,18 @@ void func_801A6428(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A649C);
+
+
+void func_801A649C(void *a0, u16 a1, u16 a2) {
+    u16 buf[4];
+
+    buf[2] = 0x10;
+    buf[0] = a1;
+    buf[1] = a2;
+    buf[3] = 1;
+    StoreImage((s32)&buf, (void *)a0);
+}
+
 
 extern s16 D_801AFBC8;
 extern s16 D_801AFBCA;

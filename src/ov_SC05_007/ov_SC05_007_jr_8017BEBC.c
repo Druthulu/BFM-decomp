@@ -3510,7 +3510,16 @@ INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017D99
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017DAE4);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017DB58);
+extern void func_8014BC44(s32 a0, s32 a1);
+extern void func_80151664(void);
+
+void func_8017DB58(s32 a0)
+{
+    func_8014BC44(a0, *(s16 *)(a0 + 0xF2));
+    *(u8 *)(a0 + 0xA8) = 0x20;
+    ((void (*)(s32))func_80151664)(a0);
+}
+
 
 extern void (*D_80190994[])(void);
 
@@ -3697,7 +3706,16 @@ void func_8017E124(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E1F4);
+extern u8 D_80197680[];
+extern void func_8012A828(s32*, s32);
+
+void func_8017E1F4(s32 a0) {
+    *(s16 *)(a0 + 2) = 4;
+    ((void (*)(s32, void *))func_8012A828)(a0, (void *)&(*(u8 *)D_80197680));
+    *(s32 *)(a0 + 0x1C) = rand() % 17 + 0x28;
+    *(u16 *)(a0 + 0x52) = 0;
+}
+
 
 extern s32 func_8012BEE8(s32 arg);
     void func_8017E268(void *a0) {
@@ -4051,7 +4069,18 @@ void func_8017EBE4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017ECCC);
+extern u8 D_80195F04;
+extern u8 D_80197B68;
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_8012A828(s32*, s32);
+
+void func_8017ECCC(s32 param_1) {
+    *(s32 *)(param_1 + 0x1C) = 0x37;
+    func_8001C924(*(s32 *)(param_1 + 0x20), &D_80195F04);
+    ((void (*)(s32, void *))func_8012A828)(param_1, &D_80197B68);
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = *(u16 *)(param_1 + 0x62);
+}
+
 
 extern s32 func_8012BEE8(s32 a0);
 extern u16 D_800B99DA;
@@ -4232,7 +4261,20 @@ extern s32 rand(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017F1C4);
+extern s32 func_8014CB1C(void);
+
+void func_8017F1C4(s32 a0) {
+    if (func_8014CB1C() != 0) {
+        *(s32 *)(a0 + 0xDC) |= 0x20;
+    } else {
+        if ((rand() & 1) != 0) {
+            *(s32 *)(a0 + 0xDC) |= 0x20;
+        } else {
+            *(s32 *)(a0 + 0xDC) &= ~0x20;
+        }
+    }
+}
+
 
 typedef struct { s16 vx, vy, vz, pad; } SVEC_EB70;
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);

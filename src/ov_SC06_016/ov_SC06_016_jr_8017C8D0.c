@@ -4212,7 +4212,7 @@ extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
 extern s32 func_80135004(s32 a0, void *a1, s32 a2);
-extern void func_801803BC(void *a0, void *a1);
+extern void func_801803BC();
 extern void *D_8019FA00[4];
 extern void *D_8019FAD0;
 extern void *D_8019FAD4;
@@ -4298,7 +4298,19 @@ void func_801800E0(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_801803BC);
+
+
+void func_801803BC(short *a0, short *a1) {
+    short *dst = a0;
+
+    if (dst != NULL) {
+        dst[4] = a1[0];
+        dst[5] = a1[1];
+        dst[6] = a1[2];
+        *(s32 *)((s32)dst + 4) = *(s32 *)((s32)dst + 4) & 0x7FFFFFFF;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_801803FC);
 

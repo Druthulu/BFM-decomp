@@ -4291,7 +4291,16 @@ INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80187D7
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80187E48);
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80187E9C);
+extern void func_8014BC44(s32 a0, s32 a1);
+extern void func_80151664(void);
+
+void func_80187E9C(s32 a0)
+{
+    func_8014BC44(a0, *(s16 *)(a0 + 0xF2));
+    *(u8 *)(a0 + 0xA8) = 0x20;
+    ((void (*)(s32))func_80151664)(a0);
+}
+
 
 
 extern void (*D_801C3D18[])(void);
@@ -4330,7 +4339,19 @@ void func_801880FC(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80188168);
+extern void func_8014BC44(s32 a0, s32 a1);
+extern void func_80151664(void);
+
+s32 func_80188168(s32 a0)
+{
+    s32 s0 = a0;
+
+    func_8014BC44(s0, *(s16 *)(s0 + 0xF2));
+    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0;
+    *(u8 *)(s0 + 0xA8) = 0x20;
+    ((void (*)(s32))func_80151664)(s0);
+}
+
 
 
 extern void (*D_801C3D3C[])(void);
@@ -4358,7 +4379,16 @@ INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_8018823
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80188334);
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80188468);
+extern void func_8014BC44(s32 a0, s32 a1);
+extern void func_80151664(void);
+
+void func_80188468(s32 a0)
+{
+    func_8014BC44(a0, *(s16 *)(a0 + 0xF2));
+    *(u8 *)(a0 + 0xA8) = 0x20;
+    ((void (*)(s32))func_80151664)(a0);
+}
+
 
 
 extern void (*D_801C3DD8[])(void);
@@ -4386,7 +4416,7 @@ INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_8018852
 
 #include "common.h"
 
-extern void func_801886F4(s32 *a0);
+extern void func_801886F4();
 extern void func_80149020(s32 *a0);
 extern void func_80159B3C(void *a0);
 extern M2C_UNK D_800D5880;
@@ -4408,7 +4438,16 @@ void func_80188680(s32 *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_801886F4);
+extern void func_8014BC44(s32 a0, s32 a1);
+extern void func_80151664(void);
+
+void func_801886F4(s32 a0)
+{
+    func_8014BC44(a0, *(s16 *)(a0 + 0xF2));
+    *(u8 *)(a0 + 0xA8) = 0x20;
+    ((void (*)(s32))func_80151664)(a0);
+}
+
 
 
 extern void (*D_801C3E40[])(void);

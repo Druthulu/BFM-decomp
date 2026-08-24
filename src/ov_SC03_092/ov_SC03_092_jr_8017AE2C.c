@@ -5335,7 +5335,7 @@ tail:
 
 extern code_fn D_801AC620[];
 
-extern s32 func_80180EC8(s32 a0);
+extern s32 func_80180EC8();
 
 void func_80180D80(int param_1)
 {
@@ -5349,7 +5349,22 @@ INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_80180DD
 
 INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_80180E50);
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_80180EC8);
+
+
+s32 func_80180EC8(u8 *a0)
+{
+    s32 *p;
+    void (*fp)(u8 *, u8 *);
+
+    p = *(s32 **)(a0 + 0xDC);
+    if (p != 0) {
+        fp = (void (*)(u8 *, u8 *))p[3];
+        if (fp != 0) {
+            fp(a0, a0 + 0x24);
+        }
+    }
+}
+
 
 
 /* 8-byte, align-4 pair record: the per-index slot pair at D_801B2EB0/D_801B2EB4 */

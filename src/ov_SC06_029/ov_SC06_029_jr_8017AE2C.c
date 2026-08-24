@@ -3802,6 +3802,30 @@ extern s32 D_801DCCA0;
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017AE2C", func_8017C8E4);
+extern s32 D_801DCCA0;
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017AE2C", func_8017C918);
+s32 func_8017C8E4(s32 arg) {
+    extern s32 D_801DCCA0;
+
+    D_801DCCA0 -= 4;
+    if (D_801DCCA0 < 0) {
+        D_801DCCA0 = 0;
+        return 1;
+    }
+    return 0;
+}
+
+
+extern s32 D_801DCCA0;
+
+s32 func_8017C918(void) {
+    extern s32 D_801DCCA0;
+
+    D_801DCCA0 = D_801DCCA0 + 4;
+    if (D_801DCCA0 >= 0x80) {
+        D_801DCCA0 = 0x80;
+        return 1;
+    }
+    return 0;
+}
+

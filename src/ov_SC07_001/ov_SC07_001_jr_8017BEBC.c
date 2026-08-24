@@ -3170,7 +3170,22 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017CD9C);
+extern void func_80052D90(s32 a0, void *a1);
+extern void func_80054514(s32 a0, s32 a1);
+
+void func_8017CD9C(s32 a0) {
+    s32 sp10[8];
+
+    func_80052D90(0, (void *)a0);
+    func_80054514(a0, (s32)sp10);
+    *(s32 *)(a0 + 0x18) = 0;
+    *(s32 *)(a0 + 0x1C) = 0;
+    *(s32 *)(a0 + 0x20) = 0;
+    *(s16 *)(a0 + 0x50) = 0;
+    *(s16 *)(a0 + 0x52) = 0;
+    *(s16 *)(a0 + 0x54) = 0;
+}
+
 
 #define gte_ldv0(r0) __asm__ volatile (          \
     "lwc2 $0, 0( %0 );"                          \

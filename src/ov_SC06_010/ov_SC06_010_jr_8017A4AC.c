@@ -3493,7 +3493,22 @@ DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017BEBC);
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017CA80);
+extern void func_80052D90(s32 a0, void *a1);
+extern void func_80054514(s32 a0, s32 a1);
+
+void func_8017CA80(s32 a0) {
+    s32 sp10[8];
+
+    func_80052D90(0, (void *)a0);
+    func_80054514(a0, (s32)sp10);
+    *(s32 *)(a0 + 0x18) = 0;
+    *(s32 *)(a0 + 0x1C) = 0;
+    *(s32 *)(a0 + 0x20) = 0;
+    *(s16 *)(a0 + 0x50) = 0;
+    *(s16 *)(a0 + 0x52) = 0;
+    *(s16 *)(a0 + 0x54) = 0;
+}
+
 
 #include "common.h"
 
@@ -5423,7 +5438,39 @@ void func_80181D80(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_80181EB0);
+extern s32 D_801A4C30[];
+extern s32 func_8012C044(s32 a0);
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C098(void *a0);
+extern void func_80181408(void);
+
+void func_80181EB0(s32 a0)
+{
+    void (*handler)(s32);
+
+    handler = (void (*)(s32))D_801A4C30[*(u16 *)(a0 + 0x2)];
+    handler(a0);
+
+    if (*(u16 *)(a0 + 0x0) == 0)
+        return;
+
+    ((void (*)(s32))func_80181408)(a0);
+
+    if (func_8012C044(a0) == 0)
+        return;
+
+    if (*(s16 *)(a0 + 0x70) == 0) {
+        if (*(s32 *)(a0 + 0xCC) != 0)
+            func_80016714(*(void **)(a0 + 0xCC), 0x84);
+        if (*(s32 *)(a0 + 0xD0) != 0)
+            func_80016714(*(void **)(a0 + 0xD0), 0x84);
+        func_8012C098((void *)a0);
+    } else {
+        if (*(u16 *)(a0 + 0x2) < 4)
+            *(u16 *)(a0 + 0x2) = 4;
+    }
+}
+
 
 
 extern void (*D_801A4C5C[])(void);
@@ -5716,7 +5763,27 @@ void func_801825DC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_80182710);
+
+
+void func_80182710(s32 a0) {
+    s32 p;
+    s32 q;
+
+    p = *(s32 *)(a0 + 0x20);
+    *(u16 *)(a0 + 0x6) = 0x7FFF;
+    *(s16 *)(a0 + 0xA) = -0x1000;
+    *(u16 *)(a0 + 0x2) = 5;
+    *(u16 *)(a0 + 0x34) = 0;
+    *(s32 *)(a0 + 0x1C) = 0x12C;
+    *(s32 *)(p + 0x4) |= 0x80000000;
+    q = *(s32 *)(a0 + 0x20);
+    *(u16 *)(q + 0x1C) = 0x1000;
+    *(u16 *)(q + 0x1A) = 0x1000;
+    *(u16 *)(q + 0x18) = 0x1000;
+    *(u16 *)(a0 + 0x76) = 0x1E0;
+    *(u16 *)(a0 + 0x5C) = 0x8810;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_80182770);
 

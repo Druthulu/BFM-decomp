@@ -4772,7 +4772,16 @@ void func_8017FB7C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_8017FC4C);
+extern u8 D_801A7C94[];
+extern void func_8012A828(s32*, s32);
+
+void func_8017FC4C(s32 a0) {
+    *(s16 *)(a0 + 2) = 4;
+    ((void (*)(s32, void *))func_8012A828)(a0, (void *)&(*(u8 *)D_801A7C94));
+    *(s32 *)(a0 + 0x1C) = rand() % 17 + 0x28;
+    *(u16 *)(a0 + 0x52) = 0;
+}
+
 
 
 extern s32 func_8012BEE8(s32 arg);
@@ -5098,9 +5107,53 @@ void func_8018063C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_80180724);
+extern u8 D_801A6518;
+extern u8 D_801A817C;
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_8012A828(s32*, s32);
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_80180780);
+void func_80180724(s32 param_1) {
+    *(s32 *)(param_1 + 0x1C) = 0x37;
+    func_8001C924(*(s32 *)(param_1 + 0x20), &D_801A6518);
+    ((void (*)(s32, void *))func_8012A828)(param_1, &D_801A817C);
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = *(u16 *)(param_1 + 0x62);
+}
+
+
+extern s32 func_8012BEE8(s32 a0);
+extern u16 D_800B99DA;
+extern void func_80130D48(s32 a0);
+extern void func_80180FC0(void*);
+
+void func_80180780(s32 a0) {
+    s32 v0;
+    u16 v2;
+
+    
+    if (*(s32*)(a0 + 0x1C) < 0x11) {
+        register s32 mask __asm__("a0");
+        register s32 ptr __asm__("v0");
+        register s32 val __asm__("v1");
+
+        mask = 0x80000000;
+        ptr = *(s32*)(a0 + 0x20);  
+        val = *(s32*)(ptr + 0x4);  
+        val ^= mask;               
+        *(s32*)(ptr + 0x4) = val;  
+    }
+
+    
+    v0 = func_8012BEE8(a0);
+    if (v0 != 0) {
+        
+        v2 = D_800B99DA & 0x1F;
+        if (v2 == 0) {
+            func_80130D48(a0);
+        }
+        ((void (*)(s32))func_80180FC0)(a0);
+    }
+}
+
 
 //   the beqz delay slot), so it is the FIRST statement, above the if; (3) both `*(s32*)(p+0x20)`
 //   reads in arm A are written as separate expressions — the intervening `sh` to 0x10 blocks CSE,
@@ -5217,7 +5270,20 @@ extern s32 rand(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_80180C1C);
+extern s32 func_8014CB1C(void);
+
+void func_80180C1C(s32 a0) {
+    if (func_8014CB1C() != 0) {
+        *(s32 *)(a0 + 0xDC) |= 0x20;
+    } else {
+        if ((rand() & 1) != 0) {
+            *(s32 *)(a0 + 0xDC) |= 0x20;
+        } else {
+            *(s32 *)(a0 + 0xDC) &= ~0x20;
+        }
+    }
+}
+
 
 #include "common.h"
 

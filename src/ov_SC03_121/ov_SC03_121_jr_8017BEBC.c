@@ -3212,7 +3212,7 @@ extern s32 func_80148980(u8 *a0);
 extern s32 func_801489E8(s32 a0);
 extern s32 func_80148A48(s32 a0);
 extern int func_80148AFC(void *a0);
-extern void func_8017D024(void *a0);
+extern void func_8017D024();
 extern void func_80159B3C(void *a0);
 extern void func_80165718(s32 a0);
 extern s32 func_8017261C(u8 *a0);
@@ -3306,7 +3306,16 @@ tail:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017D024);
+extern void func_8014BC44(s32 a0, s32 a1);
+extern void func_80151664(void);
+
+void func_8017D024(s32 a0)
+{
+    func_8014BC44(a0, *(s16 *)(a0 + 0xF2));
+    *(u8 *)(a0 + 0xA8) = 0x20;
+    ((void (*)(s32))func_80151664)(a0);
+}
+
 
 
 extern void func_80019064(void *a0);
