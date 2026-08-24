@@ -34,8 +34,14 @@ ap.add_argument("--max-bins", type=int, default=12, help="concentrate into this 
 ap.add_argument('--min-ins', type=int, default=0)
 ap.add_argument('--max-ins', type=int, default=120, help='above this the bulk ladder stops being honest')
 ap.add_argument('--levers',
-                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN,cc1',
-                help="agent-draftable levers; tell/jtbl/o0 need their own lanes. CC1 JOINED THE "
+                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN,cc1,jtbl-carve',
+                help="agent-draftable levers; tell/o0 need their own lanes. JTBL-CARVE JOINED THE "
+                     "DEFAULT LANE in P31 S59, once the gate could carve per draft: the members it "
+                     "can structurally reach are filtered by jtbl_carve.island_probe and capped at "
+                     "ONE PER BINARY PER WAVE (§61c — one table-bearing draft per gate invocation), "
+                     "so they MIX INTO ordinary waves rather than forming their own. A dedicated jtbl "
+                     "wave draws ~12 cards and would idle a 2,000-agent fleet; mixed in, the cap "
+                     "costs nothing and the fleet stays fed. CC1 JOINED THE "
                      "DEFAULT LANE in P31 S59: unlike jtbl (needs a carve before a draft is bankable "
                      "at all) and o0 (needs an -O0 object, Makefile globs cover no md_*), `cc1` is not "
                      "a structural blocker — it records that SOME EARLIER DRAFT failed to compile. "
@@ -50,6 +56,10 @@ ap.add_argument('--levers',
                      "COMBINED -- and wave W drew 73 cards from it into 3 gate groups (24.3 drafts per "
                      "rebuild vs wave V's 7.8) for 71/71 drafted and 68 banked. Cost, recorded: UNKNOWN "
                      "groups are mostly singletons, so the free sibling remap yielded ZERO.")
+ap.add_argument('--jtbl-quota', type=int, default=6,
+                help="cards per wave reserved for the jtbl-carve lever (default 6). They are "
+                     "one-per-binary by construction and so always lose the gate-group ranking; "
+                     "each costs one extra whole-binary rebuild at gate time. 0 disables.")
 ap.add_argument('--atlas', default='.run/atlas.json')
 ap.add_argument('--exclude-bins', default='',
                 help='comma-separated binaries to skip. NOTHING is excluded by default. '
@@ -476,15 +486,33 @@ else:
 # and the same draft rate. --target-ins keeps drawing cards until the instruction budget is met
 # (still capped by n, so a wave can never spawn an unbounded fleet).
 wave, tot_ins = [], 0
+_in_wave = set()
 def _full():
     if a.target_ins:
         return tot_ins >= a.target_ins or len(wave) >= a.n
     return len(wave) >= a.n
 _deliver = (lambda c: c['nins'] + sum(s['nins'] for s in siblings.get(c['gid'], ()))) \
     if a.rank == 'total' else (lambda c: c['nins'])
+# THE JTBL QUOTA (P31 S59). A jtbl card is one-per-binary by construction, so jtbl cards are
+# maximally UN-concentrated — and the gate-group ranking above exists precisely to pack many drafts
+# behind ONE rebuild. The two are in direct opposition: a mixed draw with `jtbl-carve` in the lever
+# list produced 71 jtbl candidates and selected ZERO of them, every wave, forever. Reserve a small
+# quota so the lane advances inside ordinary waves instead of needing a dedicated wave (a jtbl-only
+# draw is ~12 cards and would idle a 2,000-agent fleet). Cost is exactly `--jtbl-quota` extra
+# whole-binary rebuilds at gate time; largest-first, since the carve pays the same either way.
+_jt_pool = sorted((c for grp in by_tu.values() for c in grp if c['lever'] == 'jtbl-carve'),
+                  key=lambda c: -c['nins'])
+for c in _jt_pool[:a.jtbl_quota]:
+    if _full(): break
+    wave.append(c); tot_ins += c['nins']; _in_wave.add(id(c))
+if _jt_pool:
+    print(f"jtbl: reserved {min(len(_jt_pool), a.jtbl_quota)} of {len(_jt_pool)} eligible jtbl "
+          f"card(s) (quota; one per binary, each one extra rebuild at gate time)", file=sys.stderr)
+
 for k in ranked:                            # principle 2: within a group, mass first
     for c in sorted(by_tu[k], key=lambda c: -_deliver(c)):
         if _full(): break
+        if id(c) in _in_wave: continue      # already seeded by the jtbl quota
         wave.append(c); tot_ins += c['nins']
     if _full(): break
 if a.target_ins and tot_ins < a.target_ins:
