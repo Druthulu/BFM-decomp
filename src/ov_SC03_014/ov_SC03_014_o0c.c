@@ -2836,7 +2836,69 @@ s32 func_80184028(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_o0c", func_80184058);
+#include "common.h"
+
+/* 16.16 fixed-point view: unkE0 is a 32-bit accumulator whose HIGH half is the s16
+ * unkE2 the rest of the function reads (little-endian overlay). */
+typedef struct {
+    /* 0x00 */ s16 unk00;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ u8  pad04[0xD8];
+    /* 0xDC */ s16 unkDC;
+    /* 0xDE */ s16 unkDE;
+    /* 0xE0 */ s32 unkE0;
+} Ent58_fx;
+
+typedef struct {
+    /* 0x00 */ s16 unk00;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ u8  pad04[0xD8];
+    /* 0xDC */ s16 unkDC;
+    /* 0xDE */ s16 unkDE;
+    /* 0xE0 */ s16 unkE0;
+    /* 0xE2 */ s16 unkE2;
+    /* 0xE4 */ s16 unkE4;
+    /* 0xE6 */ s16 unkE6;
+    /* 0xE8 */ s16 unkE8;
+    /* 0xEA */ s16 unkEA;
+} Ent_80184058;
+
+extern s32 D_801EAFD0;
+extern s32 D_8018F858[];
+extern s32 D_801270C8;
+extern u16 D_800B99DC;
+extern u8 D_8018BCC8;
+extern void func_8017DF84(void *a0, s32 a1, s32 a2, s32 a3);
+extern void func_80184354(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8013C9C4(void *a0);
+extern void func_8013373C(s32 a0);
+
+void func_80184058(Ent_80184058 *p) {
+    func_8017DF84(&D_801EAFD0, D_8018F858[p->unkE4], p->unkDC, p->unkE2);
+    func_80184354();
+    if (p->unkEA == 0) {
+        ((Ent58_fx *)p)->unkE0 += 0x5CCCC;
+    } else {
+        if (--p->unkEA == 0) {
+            func_8002D4C8(0x81E, 0);
+        }
+    }
+    if (--p->unkE8 == 0) {
+        func_8013C9C4(&D_8018BCC8);
+        p->unkE8 = (D_800B99DC & 7) + 3;
+    }
+    if (p->unkE2 >= 0x259) {
+        p->unkE2 = 0;
+        D_801270C8 = 2;
+        p->unkE4 = 0;
+        func_8013373C(1);
+        func_8002D4C8(4, 0x81E);
+        ++p->unk02;
+    }
+    p->unkDC += 8;
+}
+
 
 #include "common.h"
 
