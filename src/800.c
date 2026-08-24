@@ -1,6 +1,9 @@
 #include "common.h"
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
+typedef struct {
+    s32 words[38];
+} Blk98_80029274;
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {
     s16 unk00;
@@ -10379,9 +10382,6 @@ s32 func_80029264(void) {
 }
 
 
-typedef struct {
-    s32 words[38];
-} Blk98_80029274;
 
 extern Blk98_80029274 D_80072C84;
 extern Blk98_80029274 D_80078E78;
@@ -10504,7 +10504,38 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80029774);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800298BC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002992C);
+
+typedef struct {
+    u8 b[4];
+} Blk4;
+
+extern Blk98_80029274 D_80078E78;
+extern u16 D_800A6588[];
+extern u8 D_800BA2B8[];
+extern u8 D_80078F28[];
+extern u8 D_800AE648[];
+extern u8 D_800BA1B8[];
+
+void func_8002992C(s32 arg0) {
+    u8* base;
+    s32 i;
+
+    base = D_80078F28 + arg0 * 0x2DC;
+    D_80078E78 = *(Blk98_80029274*)(base + 0x24);
+
+    for (i = 0; i < 0x40; i++) {
+        D_800A6588[i] = *(u16*)(base + 0xBC + i * 2);
+    }
+    for (i = 0; i < 0x40; i++) {
+        D_800AE648[i] = *(i + base + 0x13C);
+    }
+    for (i = 0; i < 0x100; i++) {
+        D_800BA1B8[i] = *(i + base + 0x17C);
+    }
+    for (i = 0; i < 0x18; i++) {
+        *(Blk4*)(D_800BA2B8 + i * 4) = *(Blk4*)(base + 0x27C + i * 4);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80029A58);
 
@@ -15556,7 +15587,48 @@ void func_80038668(s32 a0, s32 a1) {
     *(baseptr + a1) &= 0xFE;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80038698);
+s32 func_80038698(void *arg0) {
+    register u8 *a3 asm("$7");
+    u32 a2;
+    u16 v1;
+    s32 a0;
+
+    a3 = *(u8 **)(arg0);
+    *(u8 **)(arg0) = a3 + 1;
+    a2 = a3[0];
+    *(u8 **)(arg0) = a3 + 2;
+    a2 |= (a3[1] << 8);
+    *(u8 **)(arg0) = a3 + 3;
+    a2 |= (a3[2] << 16);
+    *(u8 **)(arg0) = a3 + 4;
+    a2 |= (a3[3] << 24);
+    if (a2 != 0x6468544D) {
+        return -1;
+    }
+    *(u8 **)(arg0) = a3 + 5;
+    a2 = a3[4];
+    *(u8 **)(arg0) = a3 + 6;
+    a2 = (a2 << 8) | a3[5];
+    *(u8 **)(arg0) = a3 + 7;
+    a2 = (a2 << 8) | a3[6];
+    *(u8 **)(arg0) = a3 + 8;
+    a2 = (a2 << 8) | a3[7];
+    v1 = (a3[8] << 8) | a3[9];
+    if (v1 != 0) {
+        return -1;
+    }
+    v1 = (a3[10] << 8) | a3[11];
+    if ((s16)v1 != 1) {
+        return -1;
+    }
+    a0 = (s16)((a3[12] << 8) | a3[13]);
+    if (a0 & 0x8000) {
+        return -1;
+    }
+    *(u16 *)((char *)(arg0) + 0x1E6) = a0 & 0x7FFF;
+    *(u8 **)(arg0) += a2;
+    return 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800387C0);
 
