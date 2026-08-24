@@ -860,7 +860,15 @@ void func_801EAF9C(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 
-INCLUDE_ASM("asm/md_SC04_027/nonmatchings/md_SC04_027", func_801EAFE4);
+extern s32 D_801F24A4;
+extern s32 D_801F2624;
+extern void func_80016714(s8*, s32);
+
+void func_801EAFE4(void) {
+    ((void (*)(void *, s32))func_80016714)(&D_801F24A4, 0x180);
+    D_801F2624 = 0;
+}
+
 
 INCLUDE_ASM("asm/md_SC04_027/nonmatchings/md_SC04_027", func_801EB014);
 
