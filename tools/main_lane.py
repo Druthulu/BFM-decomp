@@ -37,6 +37,7 @@ once, and the overlay lanes are untouched by construction — different binaries
 """
 import argparse
 import glob
+import re
 import json
 import os
 import subprocess
@@ -66,18 +67,27 @@ def next_tag():
     return None
 
 
+MAX_RETRY = 2
+
+
 def parked_slate():
-    """Main drafts the overlay waves parked before main was excluded — free, already drafted."""
+    """Main drafts waiting to be gated: the overlay waves' parked queue, plus this lane's own
+    failures (a failed batch is evidence, not garbage — with bisecting, most of a failed slate is
+    innocent). A draft that has failed MAX_RETRY times is left in the failed file and skipped, so a
+    permanently-unbankable body cannot spin the lane forever."""
     out = []
-    for p in sorted(glob.glob(".run/main_queue/*.json")):
+    for p in sorted(glob.glob(".run/main_queue/*.json") + [".run/main_queue_failed.json"]):
+        if not os.path.exists(p):
+            continue
         try:
             rows = json.load(open(p))
         except Exception:
             continue
         for r in rows:
             d = r.get("draft") or r.get("c")
-            if d and os.path.exists(d):
-                out.append({"fn": r.get("fn") or r.get("name"), "draft": d, "src": p})
+            if d and os.path.exists(d) and int(r.get("tries", 0)) < MAX_RETRY:
+                out.append({"fn": r.get("fn") or r.get("name"), "draft": d, "src": p,
+                            "tries": int(r.get("tries", 0))})
     seen, uniq = set(), []
     for r in out:                                   # a function can be parked by two waves
         if r["fn"] and r["fn"] not in seen:
@@ -101,28 +111,84 @@ def draw(tag, n, lo, hi):
     return cards
 
 
-def gate_batch(tag, slate):
-    """One clean whole-EXE rebuild for the whole slate; bisects internally on failure."""
-    if not slate:
-        return 0, []
+def _stub_removals():
+    """Functions whose INCLUDE_ASM line disappeared from main's sources in the WORKING TREE.
+
+    This is the ground truth for "what did this run bank", and it is deliberately not a tool's
+    self-report: the first version of this function asked `corpus.stubs('main')` whether each name
+    was still a stub, and `corpus.stubs` returns a dict keyed by ADDRESS (int). Comparing a function
+    NAME against a set of ints is always True, so the lane reported 12 banked of 12 from a gate that
+    had banked nothing and committed nothing. A check that is true about the wrong thing is worse
+    than no check — it is the exact defect class R32/R40 exist for, and it took 17 seconds to
+    produce a confident lie."""
+    r = OX.sh("git diff --unified=0 -- src/*.c | grep '^-INCLUDE_ASM' || true")
+    out = []
+    for line in (r.stdout or "").splitlines():
+        i = line.rfind(",")
+        if i > 0:
+            out.append(line[i + 1:].strip().rstrip(");").strip())
+    return [x for x in out if x.startswith(("func_", "D_")) or x]
+
+
+def _main_sha_green():
+    """The arbiter (G3/P9): main builds byte-identical. Held under main's own gate lock so this can
+    never race a gate_main."""
+    r = OX.sh("( flock -w 3600 9 || exit 1; make check BINARY=main 2>&1 | tail -3 ) "
+              "9>.run/auto/gate.main.lock", timeout=7200)
+    out = (r.stdout or "") + (r.stderr or "")
+    return ("BYTE-IDENTICAL" in out), out.strip().splitlines()[-1] if out.strip() else ""
+
+
+def _gate_once(tag, slate):
+    """Substitute this slate, clean-rebuild, and return (banked_names, gate_main's output)."""
     sp = f".run/main_slate_{tag}.json"
     json.dump([{"fn": s["fn"], "draft": s["draft"]} for s in slate], open(sp, "w"), indent=1)
-    log(f"{tag}: gating {len(slate)} draft(s) — ONE clean whole-EXE rebuild, bisect on failure")
     t0 = time.time()
     r = OX.sh(f"{PY} tools/gate_main.py {sp} --apply", timeout=14400, quiet=False)
-    mins = (time.time() - t0) / 60.0
-    out = (r.stdout or "") + (r.stderr or "")
-    banked = [s["fn"] for s in slate if f"BANKED {s['fn']}" in out or f"banked {s['fn']}" in out]
-    if not banked:                                  # fall back to the tree: what stopped being a stub
-        try:
-            import corpus
-            corpus.stubs.cache_clear() if hasattr(corpus.stubs, "cache_clear") else None
-            open_now = {s.name if hasattr(s, "name") else s for s in corpus.stubs("main")}
-            banked = [s["fn"] for s in slate if s["fn"] not in open_now]
-        except Exception:
-            pass
-    log(f"{tag}: gate finished in {mins:.1f} min — {len(banked)} banked of {len(slate)}")
-    return len(banked), banked
+    out = ((r.stdout or "") + (r.stderr or "")).strip()
+    banked = _stub_removals()
+    log(f"{tag}: {len(slate)} draft(s) -> {len(banked)} banked in {(time.time()-t0)/60:.1f} min")
+    return banked, out
+
+
+def gate_batch(tag, slate, depth=0):
+    """One clean whole-EXE rebuild for the slate, BISECTING on a compile conflict.
+
+    gate_main bisects byte MISMATCHES but deliberately refuses to bisect a COMPILE conflict: it
+    names the symbol and stops, because a decl clash is not a wrong body (§236). That is right for
+    a tool whose caller might be a human, and wrong for an unattended lane — the first live batch
+    hit `COMPILE conflict on func_80017778` where the symbol was in the TU, not in any draft, so
+    there was nothing to drop and 40 innocent drafts died with it. Halving costs one rebuild per
+    level and a main rebuild here measures ~18 s, so the lane bisects rather than discards.
+
+    Nothing is credited until BOTH the stubs are gone from the tree AND main builds byte-identical.
+    """
+    if not slate:
+        return 0, []
+    log(f"{tag}: gating {len(slate)} draft(s)"
+        + (f" (bisect depth {depth})" if depth else " — ONE clean whole-EXE rebuild"))
+    banked, out = _gate_once(tag, slate)
+
+    if banked:
+        green, line = _main_sha_green()
+        if not green:
+            log(f"{tag}: REFUSING to credit {len(banked)} substitution(s) — main is NOT "
+                f"byte-identical ({line}). Left for a human; gate_main reverts its own aborts.")
+            return 0, []
+        log(f"{tag}: {len(banked)} banked, main byte-identical — {line}")
+        return len(banked), banked
+
+    if "COMPILE conflict" in out and len(slate) > 1 and depth < 4:
+        mid = len(slate) // 2
+        log(f"{tag}: compile conflict with nothing to drop — bisecting {len(slate)} into "
+            f"{mid}+{len(slate)-mid}")
+        n1, b1 = gate_batch(f"{tag}a", slate[:mid], depth + 1)
+        n2, b2 = gate_batch(f"{tag}b", slate[mid:], depth + 1)
+        return n1 + n2, b1 + b2
+
+    tail = "\n      ".join(out.splitlines()[-4:])
+    log(f"{tag}: nothing banked. gate_main's last words:\n      {tail}")
+    return 0, []
 
 
 def commit_banks(tag, banked):
@@ -131,11 +197,17 @@ def commit_banks(tag, banked):
     if not banked:
         return
     OX.sh("git add src/*.c config/symbols.us.txt 2>/dev/null || true")
-    msg = (f"feat(decomp): main lane {tag} — {len(banked)} banked\\n\\n"
-           f"One clean whole-EXE rebuild verified the batch (gate_main). Functions:\\n"
-           + "\\n".join(f"  {f}" for f in sorted(banked)[:40])
-           + ("\\n  …" if len(banked) > 40 else ""))
-    OX.sh(f"git commit -q -m {json.dumps(msg)} || true")
+    # -F a file, never -m with a shell-quoted string: json.dumps() escapes newlines and em-dashes,
+    # so the first version of this committed a message reading "main lane m00 \\u2014 11 banked\\n\\n…"
+    # as ONE literal line.
+    mp = f".run/main_commit_{tag}.txt"
+    with open(mp, "w") as f:
+        f.write(f"feat(decomp): main lane {tag} — {len(banked)} banked\n\n"
+                f"One clean whole-EXE rebuild verified the batch (gate_main), and main re-checked\n"
+                f"BYTE-IDENTICAL against config/check.us.sha before anything was credited.\n\n"
+                + "\n".join(f"  {f_}" for f_ in sorted(banked)[:60])
+                + ("\n  …" if len(banked) > 60 else "") + "\n")
+    OX.sh(f"git commit -q -F {mp} || true")
     log(f"{tag}: committed {len(banked)} bank(s)")
 
 
@@ -148,6 +220,24 @@ def cycle(a, tag):
         batch = parked[:a.batch]
         n, banked = gate_batch(tag, batch)
         commit_banks(tag, banked)
+        failed = [x for x in batch if x["fn"] not in set(banked)]
+        if failed:
+            fp = ".run/main_queue_failed.json"
+            try:
+                prev = json.load(open(fp))
+            except Exception:
+                prev = []
+            seen = {x.get("fn") for x in prev}
+            bumped = {x["fn"]: int(x.get("tries", 0)) + 1 for x in failed}
+            for row in prev:                                  # count a repeat failure
+                if row.get("fn") in bumped:
+                    row["tries"] = bumped.pop(row["fn"])
+            prev += [{"fn": x["fn"], "draft": x["draft"], "tag": tag, "t": time.time(),
+                      "tries": bumped[x["fn"]]}
+                     for x in failed if x["fn"] in bumped and x["fn"] not in seen]
+            json.dump(prev, open(fp, "w"), indent=1)
+            log(f"{tag}: {len(failed)} draft(s) did not bank -> parked in {fp} with their tag "
+                f"(recoverable; a failed draft is evidence, not garbage)")
         for r in {x["src"] for x in batch}:         # consume the queue file once its rows are gated
             done = {x["fn"] for x in batch}
             try:
