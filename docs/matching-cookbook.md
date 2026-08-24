@@ -25193,3 +25193,277 @@ byte-banked in waves bh/bk/bl:
 
 ---
 
+
+## §268 — A `register __asm__` PIN ON A CALL-CLOBBERED REGISTER IS HONORED EXACTLY WHEN THE PINNED RANGE CROSSES NO CALL (P31 S59c; three A/B'd cards, unifying §257-2's two)
+
+**The symptom you see in a diff — two opposite faces.** Face A (§257-2's): you add a `$2`/`$4` pin
+and the output does not move an instruction — the pin "is silently ignored." Face B (this batch's):
+a REGALLOC-LOCAL / REGALLOC-PERM residual where values rotate through `$v0`/`$v1`/`$a0` and no
+naming, ordering, or width spelling sticks — and a pin FIXES it, in a function that has calls, which
+§257-2 says should not work.
+
+**The mechanism (behavioral; both directions byte-proven).** The pin binds the variable to the hard
+register only where the value's live range avoids calls. A range that crosses a `jal` cannot live in
+a call-clobbered register, and gcc-2.7.2 neither errors nor saves/restores — it silently falls back
+to ordinary allocation (that is §257-2's observed identical-to-unpinned output). A range that sits
+**between** calls is honored fully, and inside that window the pin also steers first-fit for every
+neighboring value. §257-2 is therefore not "pins on call-clobbered regs do nothing"; it is "pins on
+call-CROSSING values do nothing." **Check which one you have before writing the pin off — or in.**
+
+**The C spelling.** Pin only values born after one call and dead before the next:
+
+```c
+register s32 x __asm__("$4");
+register s32 r __asm__("$2");
+...
+r = rand() & 0xF;                    /* born from $v0, used immediately */
+x = *(u16 *)(s0 + 6) - 8;
+*(u16 *)(s0 + 6) = x + (*(u16 *)(param_1 + 0x104) + r);   /* both dead before next jal */
+```
+
+**The evidence.**
+- `func_8017F964` (ov_SC05_001, 45/45, banked, THREE calls): both pins' ranges are call-free windows.
+  Solo strip → **14 mismatched, REGALLOC-LOCAL** (`$a0`/`$v0`/`$v1` rotate). Honored, load-bearing.
+  A/B: `.run/s59_distill2/func_8017F964_{base,nopins}.c`.
+- `func_8018BAC4` (ov_SC04_011, 32/32, banked, LEAF): `$2/$3/$4` pins, `$3` shared by two disjoint
+  ranges (`r`/`x`). A leaf has no calls anywhere, so every pin is honored: strip → **+3
+  LENGTH-DRIFT / 34 mismatched**. A/B: `func_8018BAC4_{base,nopins,bare}.c`.
+- `func_80182480`/`func_8017FE78`: pins on CALLEE-SAVED `$16` — outside this law's register class
+  (callee-saved pins are always honored) but confirming the strip-test discipline; see ADD-6.
+- §257-2's `func_8018270C` / `func_8017F790`: `$2` pins on values living ACROSS calls → output
+  identical to unpinned. Ignored. (Unchanged; now explained.)
+
+**What was tried and failed.** The `func_8017F964` drafter burned its session on free-local
+spellings and parenthesisations ("no free-local spelling reaches that assignment") — correct, and
+now explained: inside a call-free window the assignment is local-alloc first-fit, which C spelling
+barely reaches; the pin is the intended tool there. Conversely REF-5 of the previous batch
+(`func_801816C8`) and this §'s Face A are the SAME test read in the other direction.
+
+**Boundary and composition.** §257-6 still stands (pinning MORE than the target's callee-saved set
+blocks `jal`-slot filling — pin only what allocation would choose anyway); §257-3 (pins on
+parameters are a syntax error); §162p/§37 (a pin forfeits ×134 family propagation — try the unpinned
+spelling first, §257-9). And compose with §266: before CREDITING a pin, strip it; before DISMISSING
+one as a rider, check whether its range crosses a call. Grep bait: `pin ignored`, `pin did nothing`,
+`call-clobbered pin`, `$2 pin rand`, `pin between calls`, `REGALLOC-LOCAL pins`.
+
+
+
+## §269 — ADDENDA HARVESTED FROM WAVES ax/bm (P31 S59c)
+
+*Ten amendments to existing sections, distilled from 82 byte-gate-banked harvest notes — 67 of which
+(81.7%) were already covered, the same ~85% re-derivation rate the previous batch measured. Each
+block names the section it amends, so a grep for that § finds the amendment too. Sources, the
+per-candidate ledger and the re-runnable A/B files: `docs/distill/axbm.md`, `.run/s59_distill2/`.*
+
+**THE INERT-RIDER RATE IS NOW A MEASUREMENT, NOT AN ANECDOTE (§266).** This batch ran 19 solo-lever
+strip-tests across 13 banked bodies (34 `match_one` runs): **6 of 19 credited levers were byte-inert**
+— 32%, against the previous batch's 4-of-8. One in three "this is what made it match" claims credits
+something that changes nothing, and the banked artifact contains the rider precisely because it is
+inert. One whole proposed section dissolved under its own strip test (`func_8017F0A8`: a named
+shifted temp, a `*0x10000` spelling and an init-then-override select were ALL riders; the only
+load-bearing part was one `(s16)` cast's sign semantics). Run the strip before you write the law.
+
+### ADD-1 → §257-8 addendum — THE INTERPOSED ASM'S `__volatile__` IS A PER-SHAPE DIAL, AND THE "NO-OUTPUT ASM IS IMPLICITLY VOLATILE" LORE IS BYTE-FALSE IN gcc-2.7.2
+
+§257-8 records that §16x's interposed-asm prologue lever DIES under `__volatile__` and only the
+non-volatile `__asm__("" :: "r"(arg))` flips the save pair (`func_80186C0C`, banked twice). The
+opposite polarity is now equally byte-proven: `func_800CEED0` (md_MAIN_003, 13/13, banked) needs the
+prologue order `sw $ra` FIRST and gets it **only with** `__asm__ __volatile__("" : : "r"(idx))` on
+the `$2`-pinned incoming index; the non-volatile spelling swaps `sw $ra` below the `sll` (5
+mismatched, OPCODE-MIXED — A/B `.run/s59_distill2/func_800CEED0_{base,novol}.c`). Two corollaries:
+(1) the volatile-ness of an interposed asm is a per-shape ~20-second A/B, not a rule — do not carry
+either polarity between functions; (2) the folk rule "an asm with no outputs is implicitly volatile"
+does NOT hold behaviorally in this cc1 — the explicit keyword changes scheduling. Grep bait:
+`interposed asm volatile`, `prologue save order asm`, `sw $ra first`.
+
+### ADD-2 → §236 addendum (item 1 corollary) — THE SILENT-SPLICE DECLARATION LADDER: WHERE THE TU HAS NO SPELLING, UNPROTOTYPED `()` BEATS THE FLEET VOTE
+
+§236-1 says in-TU beats fleet consensus, always. The vacuum case needed stating: at a splice point
+where the TU carries NO declaration for a callee (defined below, never declared above), the robust
+default is the **unprototyped `()` extern for every callee** — C89-composite with any later
+prototype or definition, immune to §236's classes 1/3/5/8. Copying the atlas/fleet def-signature
+instead is what failed the gate once on `func_801824E4` (ov_SC02_031, 63 ins — atlas
+`('void',('void*',))` lifted, gate red; `()` banked). `func_8017FCBC` (ov_SC03_030, 230 ins)
+corroborates: canon votes for its callee come from OTHER binaries' same-address functions (§150-B),
+so a prototyped canon lift would be actively wrong; `()` vs prototyped verified byte-neutral. The
+ladder: in-TU spelling > unprototyped `()` > fleet vote — the fleet is LAST even in a vacuum
+(§196's loss extended). Grep bait: `no in-TU spelling`, `undefined splice point`, `unprototyped
+default`, `fleet vote vacuum`.
+
+### ADD-3 → §238 addendum — TWO BINARIES CAN EACH DEFINE THE SAME `func_` NAME WITH DIFFERENT BYTES, AND NO GENERATED REPORT SHOWS IT
+
+`func_800CF370` is defined in `src/md_MAIN_003/md_MAIN_003.c:141` (13 ins, this card's bytes) AND in
+`src/resident/resident.c:281` with contradicting content — both correct for their own binaries
+(separate links; resident's own comment admits its disassembly matches neither image).
+`duplicates.cross.md` inventories only byte-IDENTICAL groups, so a byte-DIFFERENT same-name pair is
+invisible to every generated report, and a "reconcile" toward either side silently breaks the other
+binary. This is §150-B's "same address + same name ≠ same body" restated at the DEFINITION level:
+before trusting an in-TU splice for a `func_800xxxxx`/shared-address symbol, grep the
+sibling-binary TUs (`src/resident/`, other `src/md_MAIN_*/`) for a second definition, and never
+conform one binary's def to another's. Grep bait: `cross-binary duplicate`, `same name different
+bytes`, `resident twin`, `reconcile trap`.
+
+### ADD-4 → §167-37 addendum — THE FIFTH PRECONDITION, NOW MEASURED: DOWNSTREAM FIELD RE-READS ⇒ NAME IT **AND** STORE **INSIDE** THE ARM
+
+§167-37's boundary note ("do not widen past its four preconditions") now has its byte-proven
+counter-case. `func_80181164` (ov_SC05_005, 48/48, banked): same three-line shape (call result,
+stored to `+0x20`, null-guarded, handed to the next call) **plus** downstream uses through five
+field re-reads — and the target's store sits in the **`jal`'s slot inside the else arm** (`addu
+$a0,$v0` in the `bnez` slot, `sw $a0,0x20($s0)` in the call's slot), not in the guard's slot. Both
+prescriptions §167-37 would suggest measure 2-mismatch by solo A/B: the no-local store-and-re-read
+form AND the named-local store-before-guard form each swap `sw`↔`move` at idx 6/14
+(`.run/s59_distill2/func_80181164_{preguard,noname}.c`). The winning spelling names the result and
+places the store between the guard and the first consuming call, inside the arm. **Read the store's
+HOME first:** store in the GUARD's slot ⇒ unconditional, §167-37/§252-reading (write it before the
+`if`); store in the ARM's call slot ⇒ conditional, this row (write it inside the arm). Mechanism per
+§48-A4: the named local dies at the second call's argument setup, so its range crosses zero calls
+and takes the arg-register copy preference; dbr then fills both slots. Grep bait: `store inside the
+arm`, `sw in jal slot inside arm`, `name nothing failed`, `167-37 counter`.
+
+### ADD-5 → §267-ADD-6 / §172b-1 addendum — THE SIGN-TEST FACE: `(s16)v < 0` IS `sll 16` + `bgez` ON THE SHIFTED COPY, RAW STAYS LIVE — AND THE HALFWORD-ABS SHAPE NEEDS NO RITUAL
+
+ADD-6 (§267) gave the ZERO-test face (`(x<<16) != 0`). The SIGN face: testing `(s16)v < 0` —
+equivalently `(v << 16) < 0` or `v * 0x10000 < 0` — emits a lone `sll $t,$v,16` feeding
+`bgez`/`bltz` on the SHIFTED copy with **no `sra`** (only the sign is needed), while raw `v` stays
+live for both arms. The halfword-abs composition seen on `func_8017F0A8` (ov_SC03_092, 91/91,
+banked) — `subu; sll 16; bgez (slot: addu $a0,raw); negu $a0,raw` — is reached by ANY select
+spelling over that test: named-shifted-temp, inline expression, `(s16)` cast, and plain
+`if/else` all compile byte-identical (4-way A/B, `.run/s59_distill2/func_8017F0A8_*.c`). The ONLY
+load-bearing choice is the semantics: the raw s32 test `v < 0` drops the `sll` and drifts −1. The
+drafter's "two-liveness" construction (`t = v1 * 0x10000; a0 = v1; if (t < 0) a0 = -v1;`) is three
+inert riders around one s16 cast — do not transcribe the ritual into future drafts. Reading rule: a
+`bgez` on a freshly-`sll`'d copy whose ARMS use the unshifted register = abs/negate-select of the
+low halfword; write `if ((s16)x < 0)` and any select shape. Grep bait: `sll 16 bgez`, `abs idiom`,
+`negu delay slot abs`, `sign test halfword`, `two liveness`.
+
+### ADD-6 → §220-addendum — THE FOURTH FACE: WHEN THE NAMED COPY ITSELF BUYS THE EXTRA CALLEE-SAVED, PIN THE COPY TO `$16`
+
+§220-addendum's three faces end at "an explicit named local is the reliable way to pin a
+callee-saved copy." The fourth face: sometimes the plain named copy is what OVERSHOOTS — parameter
+pseudo and copy each take a callee-saved register. `func_80182480` (ov_SC03_098, 22/22): plain
+`s32 s0 = arg0;` → +2 LENGTH-DRIFT, frame 0x20 vs 0x18, extra `$s1` save/restore;
+`register s32 s0 __asm__("$16"); s0 = arg0;` banks — the pin unifies copy and home so the parameter
+pseudo dies at the copy. `func_8017FE78` (ov_SC02_017, 52/52) is the same face at two registers:
+stripping both pins costs +3 with the whole s-register file shifted (`$s0`→`$s1`, constant→`$s2`).
+Both solo-A/B'd (`.run/s59_distill2/func_80182480_nopin.c`, `func_8017FE78_nopins.c`). Distinct
+from §136d-1 (pin-as-CSE-defeat): this pin SHRINKS a live range. Compose with §266 — FE78's second
+(`$17`) pin was a rider (strip-tested MATCH); pin the copy, not the constants. And the standing
+tax: a pin forfeits ×134 propagation (§162p) — try §220's plain-parameter form first; reach for the
+pin only when the plain copy demonstrably buys the extra register. Grep bait: `pin the copy`,
+`extra callee-saved from local`, `s16 pin live range`, `frame 0x20 vs 0x18`.
+
+### ADD-7 → §229 addendum — THE VALUE FACE: A LOOP-STORE CONSTANT SPELLED AS A LITERAL HAS NO SOURCE POSITION; NAME IT TO PIN THE PROLOGUE INIT ORDER
+
+§229's law is stated for ADDRESSES. The same birth-order mechanism reaches a plain constant:
+`func_80182AC4` (ov_SC01_080, 27/27, banked) needs the prologue order `la $a1(D_801C7560)`,
+`li $a2,1`, `li $v1,3`, `la $v0(D_801C755C)`. Writing the loop store as literal `*p = 1` leaves the
+constant with no statement of its own — gcc materializes it at its own rank and the surrounding
+address setups re-order (4 mismatched, ADDRESSING/lui!=addiu, profile=cse — A/B
+`.run/s59_distill2/func_80182AC4_lit.c`). A single-set named local (`val = 1;` before the loop,
+`*p = val;` inside) gives the constant a birth position, and §3-T2's source-order law then governs
+all four inits. Boundary note for §3-T2: a literal OPERAND is not a statement — source order cannot
+place what has no statement. Grep bait: `literal loop constant`, `prologue init order`, `li reordered
+against la`, `name the constant`.
+
+### ADD-8 → §30a addendum — THE THIRD COLUMN: `*p++` IS ALSO SERIALIZED BUT BURNS `addiu`; ONLY CAST-PLUS GIVES SERIALIZATION *AND* DISPLACEMENT FOLDING
+
+§30a#1 documents that `*(T*)((s32)p + k)` denies `/s` (NOP_EXPR over the PLUS) while bare `q[k]`
+grants it. Complete the matrix with the third spelling and the codegen-shape consequences, from
+`func_8017D164` (ov_SC01_000, 20/20, banked — six lockstep lhu/lui/sh pairs):
+
+| spelling | `/s` | consequence |
+|---|---|---|
+| bare `p[k]` | granted | loads hoist above the aliasing stores into a 3-load cluster — 16 mismatched, WIDTH/lhu!=lui (A/B `.run/s59_distill2/func_8017D164_index.c`) |
+| `*p++` | denied | serialized, but real `addiu` pointer steps materialize — LENGTH-DRIFT (+2 per drafter's bracket) |
+| `*(u16*)((s32)p + k)` | denied | serialized AND `combine` folds `k` into the load displacement — zero extra instructions; the only column that matches a lockstep copy chain |
+
+Grep bait: `p++ addiu burn`, `cast plus displacement`, `serialized field copy`, `three spellings
+aliasing`.
+
+### ADD-9 → §255 "AND CASE-BODY PLACEMENT" bound / §222-addendum-3 — ON A LARGE SPARSE TREE, BODIES FOLLOW **SOURCE** ORDER (measured by a one-word probe)
+
+§255 states case bodies emit in DFS order (root body first) and §222 holds source order for dense
+switches. Measured on the 29-case sparse balanced tree `func_8017F328` (ov_SC01_001, 307/307,
+banked): swapping the SOURCE positions of the `case 2:`/`case 3:` blocks (identical instruction
+shapes, only masked symbols differ) moves exactly ONE unmasked word — the dispatch `beq`'s target
+(1 mismatched, IMM-OFFSET/−8; A/B `.run/s59_distill2/func_8017F328_swap23.c`). Bodies are laid in
+source order here, and the drafter's recovery rule holds: **the tree's `beq` targets, read in
+ascending physical order, name the source case sequence.** Both regimes now have measured
+exemplars — when reading a switch, recover case VALUES from the `beq`/`slti` chain (per §255), and
+recover BODY order from the physical layout only on the source-order regime; when transplanting a
+big switch, preserve the source case order exactly. Grep bait: `case body order`, `switch source
+order probe`, `beq targets name cases`.
+
+### ADD-10 → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)
+
+- **§210** ← `func_801856F0` (bm, 24/24) — second live gate for name-the-mask, at the `== 0`
+  polarity (`sltiu $v0,$v0,0x1`); both direct spellings (`(x&M)==0`, `!(x&M)`) measure +1 with the
+  `srl 15/xori/andi` extract. The section's two fixes stand exactly.
+- **§162d1** ← `func_8017D8D0` (bm, 28/28) — the missing independent A/B its own text asks for:
+  two-statement split = −1 (first mask folds into jal-2's slot, cross-call `addu $s0,$v0` copy
+  deleted); the one-expression sum is load-bearing.
+- **§237-escape-2** ← `func_801810CC` (bm) — strongest return-axis-only card yet: stale `void`
+  self-decls left by BANKED CALLERS (:4650/:4700), cured in-body by the def-side
+  `__asm__("func_801810CC")` alias; the §85 widen verified as the alternative. Also a process
+  fact worth §236-8's margin: fixes prescribed in NOTES never reach the gate — the cure must ride
+  in the submitted code.
+- **§257-6** ← `func_8017F10C` (ax; its own third note) and `func_801A6A38` (bm; "first thing to
+  try on a redraft-lever card: the unpinned direct spelling" — §257-9 restated).
+- **§236-2** ← `func_80182CF4` (ax) — the DATA-symbol face: two incompatible block-scope decls of
+  `D_801888B0` in sibling functions + a new file-scope extern = whole-TU cc1 death with a green
+  oracle; moving the three data externs to block scope cured it.
+- **§150-B** ← `func_80180CE0` (ax; a non-authoritative fleet row `('s32',...)` for a callee whose
+  own `.s` proves `void` — ground-truth unbanked callees against their `.s`) and `func_8017FCBC`
+  (ax; address-taken array beats the scalar plurality).
+- **§253 / §165-06** ← `func_80181D08` (bm) — second card for single-observation §253: the
+  postfix-vs-compound axis also decides STORE PLACEMENT (`var = (*p)++;` keeps the store after the
+  `mfhi`/`bnez` pair in its own slot; bare `++`/pre-increment sink it before the div).
+- **§235 / §195-D** ← `func_801EFC30` (bm) — a transposed digit in a `jal` symbol
+  (`func_80116714` for `func_80016714`) scored MATCH at 10 ins; the post-MATCH relocation walk is
+  not optional at any size. Plus the §235 boundary caution from `func_801811D0` (ax): a deliberate
+  probe constant in a SUBMISSION weaponizes the same blind spot — probes belong in scratch A/Bs;
+  the whole-binary gate is unmasked (the banked tree carries the true `0x7FFFFFFF`).
+- **§229** ← `func_801A6A38` (bm; negative face: reordering plain stores does NOT drag the
+  hoisted `la` down — address birth position is independent of its consumers' statement order).
+- **§164-59** ← `func_80183BA0` (ax). **§251-2** ← `func_801A0DA4` (bm; `addiu -0x5` reads
+  `&= ~0x4`, never `~0x5`) + `func_801820B0` (ax; `&= ~0x10` → `addiu -0x11`). **§243** ←
+  `func_801862C8` (bm; an intervening `sh` blocks CSE ⇒ the double `lw 0x20` is inline re-derivation,
+  not a local). **§164-73/-74** ← `func_801835F4` (bm). **§214-addendum** ← `func_80180150` (bm;
+  stub twin ⇒ grep `DEFINE_` in engine_core.h by tail sequence). **§254** ← `func_8018944C` (ax;
+  already cited there). **§224-addendum-4** ← `func_801853F0` (ax; already cited there).
+
+---
+
+
+### 1a. The §266 sweep — every solo-lever A/B run for this batch
+
+All files in `.run/s59_distill2/`; every baseline re-verified MATCH before the strip.
+
+| fn (banked ins) | lever stripped/varied | solo A/B result | verdict |
+|---|---|---|---|
+| func_8017F0A8 (91) | named shifted temp `t = v1 * 0x10000` → inline expr | **MATCH** | INERT RIDER |
+| func_8017F0A8 | `* 0x10000` spelling → plain `(s16)v1 < 0` | **MATCH** | INERT RIDER |
+| func_8017F0A8 | init-then-override → plain `if/else` select | **MATCH** | INERT RIDER |
+| func_8017F0A8 | s16 sign test → raw s32 `v1 < 0` | DIFF −1, 61 mism. | load-bearing (semantic) |
+| func_8018BAC4 (32) | `volatile` on the three `u8` loads | **MATCH** | INERT RIDER |
+| func_8018BAC4 | the `$2/$3/$4` pins | DIFF +3, 34 mism. | load-bearing |
+| func_800CEED0 (13) | `__volatile__` on the interposed asm | DIFF 5 mism. (sw $ra↔sll swap) | load-bearing → ADD-1 |
+| func_80181164 (48) | store moved above the guard | DIFF 2 mism. | load-bearing → ADD-4 |
+| func_80181164 | named local removed (§167-37 no-name form) | DIFF 2 mism. | load-bearing → ADD-4 |
+| func_8017FE78 (52) | both `$16`/`$17` pins | DIFF +3, 46 mism. | load-bearing (as a set) |
+| func_8017FE78 | `$17` pin alone | **MATCH** | INERT RIDER |
+| func_801856F0 (24) | named mask temp → `return (s0&0x8000)==0` (and `!` form) | DIFF +1, 9 mism. (`srl/xori`) | load-bearing → §210 ⊕ |
+| func_80182AC4 (27) | named `val = 1` → literal store | DIFF 4 mism. (cse profile) | load-bearing → ADD-7 |
+| func_8017D8D0 (28) | one-expression rand-sum → two statements | DIFF −1, 22 mism. | load-bearing → §162d1 ⊕ |
+| func_8017F964 (45) | `$4`/`$2` pins | DIFF 14 mism. REGALLOC-LOCAL | load-bearing → §268 |
+| func_80182480 (22) | `$16` pin → plain local | DIFF +2, 21 mism. (frame 0x20≠0x18) | load-bearing → ADD-6 |
+| func_801F0D88 (33) | byte-offset IV → indexed `D[i][0]`, `i++` | **MATCH** | INERT RIDER |
+| func_8017D164 (20) | cast-PLUS → bare `p[k]` index | DIFF 16 mism. WIDTH/lhu!=lui | load-bearing → ADD-8 |
+| func_8017F328 (307) | case 2/3 SOURCE blocks swapped | DIFF 1 mism. IMM-OFFSET/−8 | load-bearing → ADD-9 |
+
+**6 of 19 credited levers are riders (32%)** — the same one-in-three rate §266 measured on the
+previous batch (4 of 8). The harvest-note convention ("banked WITH X; X not solo-A/B'd") is not yet
+being followed by drafters; every rider above arrived stated as a certainty.
+
+---
+
