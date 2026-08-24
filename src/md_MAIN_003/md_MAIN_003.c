@@ -432,7 +432,32 @@ void func_800D2454(s32 a0, s32 a1, s32 *a2) {
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D24D0);
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D2704);
+extern s32 func_800D27A0(s32 a0, s32 a1);
+extern void func_800D3234(s32 a0, s32 a1);
+extern void StFreeRing(s32 a0);
+
+s32 func_800D2704(s32 a0, s32 a1) {
+    s32 *ptr;
+    s32 cnt;
+    s32 ring;
+    s32 a1s;
+    ptr = (s32 *)a0;
+    a1s = a1;
+    cnt = 0x20;
+    do {
+        ring = func_800D27A0((s32)ptr, a1s);
+        if (ring == 0) {
+            cnt--;
+        } else {
+            ptr[2] = (ptr[2] == 0);
+            func_800D3234(ring, ptr[ptr[2]]);
+            StFreeRing(ring);
+            return 0;
+        }
+    } while (cnt != 0);
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D27A0);
 
