@@ -32,8 +32,15 @@ ap.add_argument("--max-bins", type=int, default=12, help="concentrate into this 
 ap.add_argument('--min-ins', type=int, default=0)
 ap.add_argument('--max-ins', type=int, default=120, help='above this the bulk ladder stops being honest')
 ap.add_argument('--levers',
-                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN',
-                help="agent-draftable levers; tell/jtbl/o0/cc1 need their own lanes. UNKNOWN IS IN THE "
+                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN,cc1',
+                help="agent-draftable levers; tell/jtbl/o0 need their own lanes. CC1 JOINED THE "
+                     "DEFAULT LANE in P31 S59: unlike jtbl (needs a carve before a draft is bankable "
+                     "at all) and o0 (needs an -O0 object, Makefile globs cover no md_*), `cc1` is not "
+                     "a structural blocker — it records that SOME EARLIER DRAFT failed to compile. "
+                     "The gate never needed to exclude it: a compiling draft banks through the normal "
+                     "splice->build->SHA path regardless of history, and a non-compiling one fails "
+                     "fast at cc1 for the price of one build. Holding 14 groups / 105 instances / "
+                     "6,511 ins out of every wave bought nothing. UNKNOWN IS IN THE "
                      "DEFAULT LANE since P31 S54 (cookbook §198): it was excluded here while the wave "
                      "PROMPT told every agent 'UNKNOWN does NOT mean hard -- it means the atlas could "
                      "not name a lever', so the tool was silently overriding the doctrine. Measured: "
