@@ -55,6 +55,12 @@ for r in sel:
     shutil.copy(r['draft'], f"{d}/{r['fn']}.c")
 print('staged', len(sel))
 PY
+  # FREE RECOVERY OF PRE-GATE REJECTS (P31 S59). 45% of drafts never reach the gate — the reloc
+  # pre-filter drops them — and 13% of those have a body that ALREADY MATCHES with only the symbol
+  # names wrong (§171). Rebasing is deterministic and costs no model tokens, so it belongs in this
+  # lane beside the A-prop sweep. It only STAGES; the gate below is what decides.
+  .venv/bin/python tools/recover_rejects.py --limit 60 2>&1 | tail -3
+
   if [ -n "$(ls .run/sweep_maint 2>/dev/null)" ]; then
     flock .run/auto/draw.lock .venv/bin/python tools/sweep_parallel.py --drafts .run/sweep_maint -j 10 2>&1 | tail -2
     if [ -n "$(git status --porcelain -- src/ config/)" ]; then

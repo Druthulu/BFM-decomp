@@ -71,6 +71,12 @@
 #     3 banks for a 40-minute slot, against ~150 for a full-band wave. Big functions are still drawn:
 #     the full band includes them, and the draw takes mass-first inside each gate group.
 #
+# MAXTOK 16000 (P31 S59, measured). The output cap was 8,000 and the shard logs say the model was
+# hitting it BEFORE emitting a tool call: in wave bk, 240 of 244 turn-finishes were
+# `no tool call (finish=length) — NUDGE n/6`. A turn that ends in a nudge did no work at all, and an
+# agent gets six of them before it gives up, which is why the mean is 2.8 oracle calls per MATCH on
+# a 24-turn budget: the turns are being spent on truncation, not on iteration. ox is free, so a
+# larger output budget costs latency and nothing else.
 set -u
 cd /home/musashi/bfm-decomp
 export MAX_429=10
@@ -79,6 +85,7 @@ while [ ! -e .run/ox_campaign.stop ]; do
       --workers 2000 \
       --models 'stealth/ox-alpha:2000' \
       --bands '5-2000' \
+      --maxtok 16000 \
       --cards-per-wave 3000 --queue-depth 2 --credit-floor 0.25 2>&1
   echo "[$(date +%H:%M:%S)] [drafter] exited; restarting in 20s"
   sleep 20
