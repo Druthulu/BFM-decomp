@@ -61,6 +61,16 @@
 # TO RESTORE the second provider pool after a top-up: put the deepseek lane back in --models and
 # raise --credit-floor to 2.0. Its value is a pool with an independent 429 ceiling (it has never
 # returned one), not throughput: it was 280 of 2,000 workers.
+# ONE LANE, ONE BAND (P31 S59, superseding the rotation above). Two measurements collapsed it:
+#
+#   * THE TELLS SLOT IS NOW A QUOTA. build_wave_atlas reserves 60 tell-lever cards (<=80 ins) inside
+#     every ordinary wave. A dedicated tells WAVE draws only 70-87 cards — a whole 40-minute slot at
+#     a quarter of a default wave — and with the quota in place the slot is also redundant.
+#   * THE LARGE BAND IS THE WORST WAVE WE RUN. Bank rate by size, measured: 57% under 50 ins, 30% at
+#     50-80, 22% at 80-120, 3% at 120-200, 6% above. The 120-2000 slot drew 69 cards at ~4% — about
+#     3 banks for a 40-minute slot, against ~150 for a full-band wave. Big functions are still drawn:
+#     the full band includes them, and the draw takes mass-first inside each gate group.
+#
 set -u
 cd /home/musashi/bfm-decomp
 export MAX_429=10
@@ -68,8 +78,7 @@ while [ ! -e .run/ox_campaign.stop ]; do
   .venv/bin/python tools/ox_campaign.py --drafter \
       --workers 2000 \
       --models 'stealth/ox-alpha:2000' \
-      --lanes 'default:,tells:extend-tell;swaprepeat-tell;s16-div-tell,default:,default:' \
-      --bands '5-2000,5-80,5-2000,120-2000' \
+      --bands '5-2000' \
       --cards-per-wave 3000 --queue-depth 2 --credit-floor 0.25 2>&1
   echo "[$(date +%H:%M:%S)] [drafter] exited; restarting in 20s"
   sleep 20
