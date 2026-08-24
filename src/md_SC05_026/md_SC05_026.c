@@ -1013,7 +1013,15 @@ void func_801F0E24(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801F0E6C);
+extern s32 D_801F832C;
+extern s32 D_801F84AC;
+extern void func_80016714(void *a0, s32 a1);
+
+void func_801F0E6C(void) {
+    func_80016714(&D_801F832C, 0x180);
+    D_801F84AC = 0;
+}
+
 
 INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801F0E9C);
 
