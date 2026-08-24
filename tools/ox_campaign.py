@@ -264,10 +264,33 @@ def draft(tag, lanes, maxtok, max_turns, stagger=0.06):
     return procs
 
 
-def collect_drafts(tag, procs):
-    """Block until this wave's shards finish, then return its drafts."""
-    for p in procs:
-        p.wait()
+def collect_drafts(tag, procs, straggler_grace=600, done_frac=0.95):
+    """Wait for this wave's shards — but do NOT let a handful of stragglers idle the whole fleet.
+
+    A wave queues only when every shard exits, so its TAIL is dead time: measured P31 S58, wave
+    `ai` sat at 2 live agents of 220 for 34 minutes while the gater had nothing queued and 218
+    shards' drafts sat finished on disk. The fleet was at 1% utilisation waiting for 1% of the work.
+
+    Once `done_frac` of shards have exited, the rest get `straggler_grace` seconds and then the wave
+    is queued WITHOUT killing them: their drafts still land in the same directory, and a later
+    re-gate or --gate-only picks them up. Nothing is discarded — only the BLOCKING is dropped.
+    """
+    deadline = None
+    while True:
+        alive = [p for p in procs if p.poll() is None]
+        if not alive:
+            break
+        done = len(procs) - len(alive)
+        if done >= done_frac * len(procs):
+            if deadline is None:
+                deadline = time.time() + straggler_grace
+                log(f"  {tag}: {done}/{len(procs)} shards done — {len(alive)} straggler(s) get "
+                    f"{straggler_grace}s, then the wave queues without them")
+            elif time.time() > deadline:
+                log(f"  {tag}: queueing with {len(alive)} straggler(s) still running "
+                    f"(their drafts will land and can be re-gated)")
+                break
+        time.sleep(5)
     outdir = f".run/wave_{tag}"
     drafts = sorted(glob.glob(f"{outdir}/shard*/*.c"))
     trunc = int(sh(f"grep -h 'finish=length' {outdir}/shard*.log 2>/dev/null | wc -l").stdout or 0)
@@ -553,25 +576,29 @@ def run_drafter(a):
         else:
             cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
             lk.close()
-            # Draw the NEXT wave's cards too while the lock is ours, so the next gate cannot idle
-            # the fleet. Cheap (a few minutes of CPU) and it buys a whole gate's worth of drafting.
-            nxt = next((t for t in tags
-                        if t not in {os.path.basename(q)[5:7]
-                                     for q in glob.glob(".run/wave_??_cards.json")}), None)
-            if nxt:
-                nlane = lane_specs[(w) % len(lane_specs)]
-                nband = bands[(w) % len(bands)]
-                lk2 = _drawlock_nb()
-                if lk2 is not None:
-                    log(f"  pre-drawing {nxt} (lane {nlane['name']}, band {nband[0]}-{nband[1]}) "
-                        f"so the next gate cannot idle the fleet")
-                    draw_wave(nxt, a.cards_per_wave, nband, nlane.get("levers"))
-                    lk2.close()
         if not cards:
             log(f"  {tag}: draw failed — retrying next cycle"); time.sleep(30); continue
         targets = shard_targets(tag, cards, a.workers)
         t0 = time.time()
         procs = draft(tag, parse_lanes(a.models, a.model, a.workers), a.maxtok, a.max_turns)
+
+        # PRE-DRAW THE NEXT WAVE **AFTER** THE SHARDS ARE RUNNING, never before. Drawing takes
+        # minutes of CPU (build_wave_atlas over the whole atlas), and doing it between the draw and
+        # the launch left the fleet at 8 agents while a card job ran — the pre-draw, whose entire
+        # purpose is to prevent idle, was causing it. Now it overlaps the drafting it exists to feed.
+        nxt = next((t for t in tags
+                    if t not in {os.path.basename(q)[5:7]
+                                 for q in glob.glob(".run/wave_??_cards.json")}), None)
+        if nxt:
+            nlane = lane_specs[w % len(lane_specs)]
+            nband = bands[w % len(bands)]
+            lk2 = _drawlock_nb()
+            if lk2 is not None:
+                log(f"  pre-drawing {nxt} (lane {nlane['name']}, band {nband[0]}-{nband[1]}) "
+                    f"while {tag} drafts")
+                draw_wave(nxt, a.cards_per_wave, nband, nlane.get("levers"))
+                lk2.close()
+
         drafts, trunc = collect_drafts(tag, procs)
         json.dump({"tag": tag, "cards": cards, "targets": len(targets), "drafts": len(drafts),
                    "trunc": trunc, "t0": t0, "workers": a.workers, "band": list(band),

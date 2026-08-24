@@ -592,7 +592,21 @@ def main():
     # told us the symbol and line. (Measured the hard way: a 41-draft bisect ran 28+ min with no
     # output.) Only a byte MISMATCH with a clean compile genuinely needs bisection.
     err = (r.stderr or '') + (r.stdout or '')
-    m = re.search(r'^(.*?):(\d+): previous declaration of `([^\']+)\'', err, re.M)
+    # Match every shape gcc uses to name a declaration conflict, not just one. The single
+    # "previous declaration of" pattern missed the IMPLICIT-declaration form entirely:
+    #
+    #   src/800.c:3018: warning: type mismatch with previous implicit declaration
+    #   src/800.c:2910: warning: previous implicit declaration of `func_80017930'
+    #
+    # so a batch whose culprit gcc had already named fell through to bisection — measured P31 S58:
+    # 8 main drafts, 20+ minutes and 6 full clean EXE rebuilds to rediscover a symbol the compiler
+    # printed in the first build. This shortcut exists precisely to avoid that, and it was one
+    # regex away from working. (An implicit declaration arises from a CALL SITE with no prototype,
+    # which is why resolve_conflicts — draft-vs-draft and draft-vs-explicit-decl — cannot see it.)
+    m = (re.search(r'^(.*?):(\d+): previous declaration of `([^\']+)\'', err, re.M)
+         or re.search(r'^(.*?):(\d+): (?:warning: )?previous implicit declaration of `([^\']+)\'',
+                      err, re.M)
+         or re.search(r'^(.*?):(\d+): (?:warning: )?conflicting types for `([^\']+)\'', err, re.M))
     if m:
         print(f"\nCOMPILE conflict on `{m.group(3)}' at {m.group(1)}:{m.group(2)} —"
               f" NOT bisecting; drop or reconcile the drafts declaring it and re-run.")
