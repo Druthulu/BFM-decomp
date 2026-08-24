@@ -59945,7 +59945,7 @@
     extern char D_801A668C[]; \
     extern void func_8017F5A0(int param_1); \
     extern s32 D_801A72C4; \
-    extern void func_8017F5E4(s32 param_1); \
+    extern void func_8017F5E4(); \
     extern void func_8017FC9C(void *a0); \
     extern s32 D_801270CC; \
     extern void func_8012C098(void); \
@@ -65040,7 +65040,7 @@
     extern char D_801A668C[]; \
     extern void func_8017F5A0(int param_1); \
     extern s32 D_801A72C4; \
-    extern void func_8017F5E4(s32 param_1); \
+    extern void func_8017F5E4(); \
     extern void func_8017FC9C(void *a0); \
     extern s32 D_801270CC; \
     extern void func_8012C098(void); \
@@ -155343,7 +155343,7 @@
     extern char D_801A668C[]; \
     extern void func_8017F5A0(int param_1); \
     extern s32 D_801A72C4; \
-    extern void func_8017F5E4(s32 param_1); \
+    extern void func_8017F5E4(); \
     extern void func_8017FC9C(void *a0); \
     extern s32 D_801270CC; \
     extern void func_8012C098(void); \
@@ -160438,7 +160438,7 @@
     extern char D_801A668C[]; \
     extern void func_8017F5A0(int param_1); \
     extern s32 D_801A72C4; \
-    extern void func_8017F5E4(s32 param_1); \
+    extern void func_8017F5E4(); \
     extern void func_8017FC9C(void *a0); \
     extern s32 D_801270CC; \
     extern void func_8012C098(void); \
