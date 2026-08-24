@@ -3589,7 +3589,41 @@ void func_8017D9AC(u8 *a0) {
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017D9E4);
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017DA8C);
+
+
+
+
+extern void (*D_80185E90[])(void *);
+extern void func_8017F5D0(void);
+extern void func_8017F3E8(void);
+extern void func_8017F8CC(void);
+extern s32 D_801F8080;
+extern s32 D_801F8084;
+extern s32 D_801F8088;
+extern s16 D_801F80A8;
+extern s32 func_800CF8B4();
+extern s32 func_80014C54(s32 a0, s32 a1, s32 a2);
+extern s32 D_801857BC;
+extern void func_800D1724(s32 a0);
+extern void func_801379D8(void);
+
+void func_8017DA8C(void *param_1)
+{
+    ((void (*)(void *))D_80185E90[*(u16 *)((s32)param_1 + 2)])((void *)param_1);
+    ((void (*)(void))func_8017F5D0)();
+    ((void (*)(void))func_8017F3E8)();
+    ((void (*)(void))func_8017F8CC)();
+    D_801F8080 = D_801F8080 + 1;
+    D_801F8084 = D_801F8084 + 1;
+    D_801F8088 = D_801F8088 + 1;
+    if (D_801F80A8 == 0 && func_800CF8B4() != 0 &&
+        ((s16)func_80014C54(0, 0, 0x800) != 0 || (s16)func_80014C54(0, 0, 0x40) != 0)) {
+        D_801F80A8 = 1;
+        ((void (*)(s32))func_800D1724)((s32)&D_801857BC);
+        ((void (*)(void))func_801379D8)();
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017DB90);
 
@@ -3845,7 +3879,105 @@ INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017E55
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017E734);
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017E878);
+typedef struct {
+    s16 x, y, z, pad;
+} Rot_8017E878;
+
+/* the coordinate/model record hung off +0x20 of both the actor and the driver */
+typedef struct {
+    u8            pad00[0x10];
+    u16           f10;          /* 0x10 */
+    u16           f12;          /* 0x12 */
+    u16           f14;          /* 0x14 */
+    u8            pad16[0x02];
+    Rot_8017E878  rot;          /* 0x18 */
+    s32           align;        /* keeps align 4 so the +0x20 pointer loads with lw */
+} Coord_8017E878;
+
+typedef struct {
+    u8              pad00[0x06];
+    s16             f06;        /* 0x06 */
+    u8              pad08[0x02];
+    s16             f0A;        /* 0x0A */
+    u8              pad0C[0x02];
+    s16             f0E;        /* 0x0E */
+    u8              pad10[0x10];
+    Coord_8017E878 *f20;        /* 0x20 */
+    u8              pad24[0x40];
+    s32             f64;        /* 0x64 — driver record pointer */
+    u8              pad68[0x08];
+    u8              f70;        /* 0x70 — pose index */
+    u8              pad71[0x27];
+    s16             f98;        /* 0x98 */
+} Actor_8017E878;
+
+typedef struct {
+    u8              pad00[0x02];
+    u16             f02;        /* 0x02 */
+    u8              pad04[0x1C];
+    Coord_8017E878 *f20;        /* 0x20 */
+    u8              pad24[0x10];
+    u16             f34;        /* 0x34 */
+} Drv_8017E878;
+
+/* 12-byte stride pose table based at D_801F82A8 */
+typedef struct {
+    s16 x, y, z;
+    u16 a, b, c;
+} Pose_8017E878;
+
+/* 16 bytes: the frame's var region is 0x10..0x1F (only x/y/z are ever touched) */
+typedef struct { s16 x, y, z; s16 pad[5]; } Work_8017E878;
+
+extern s32   D_801F8090;
+extern void *D_801F8118;
+extern Pose_8017E878 D_801F82A8[];
+
+extern void func_8012E88C(u8 *a0);
+extern void func_8012E8A8(u8 *a0);
+extern void func_8017E734(void *a0);
+
+void func_8017E878(Actor_8017E878 *a0) {
+    Work_8017E878 v;            /* sp+0x10 */
+    Drv_8017E878 *p;
+    Pose_8017E878 *pp;
+
+    p = (Drv_8017E878 *)a0->f64;
+    if (p == NULL) {
+        return;
+    }
+
+    pp = &D_801F82A8[a0->f70];
+
+    if ((p->f02 == 1) && (p->f34 == 1)) {
+        func_8012E88C((u8 *)a0);
+        a0->f98 = 0;
+
+        v.x = (pp->x * D_801F8090) >> 12;
+        v.y = (pp->y * D_801F8090) >> 12;
+        v.z = (pp->z * D_801F8090) >> 12;
+
+        if (*(u16 *)((u8 *)D_801F8118 + 2) == 0xF) {
+            a0->f06 = v.x;
+            a0->f0A = v.y;
+            a0->f0E = v.z;
+            func_8017E734(a0);
+        } else {
+            a0->f06 = v.x;
+            a0->f0A = v.y;
+            a0->f0E = v.z;
+            a0->f20->rot = p->f20->rot;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
+        }
+
+        a0->f20->f10 = pp->a;
+        a0->f20->f12 = pp->b;
+        a0->f20->f14 = pp->c;
+    } else {
+        func_8012E8A8((u8 *)a0);
+        a0->f98 = 0;
+    }
+}
+
 
 #include "common.h"
 
@@ -4349,7 +4481,46 @@ void func_8017F8CC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017F934);
+extern s32 D_801F80B8;
+extern u16 D_801F824E;
+extern u16 D_801F8250;
+extern u16 D_801F8252;
+extern s16 D_801F8248;
+extern s16 D_801F824A;
+extern s16 D_801F824C;
+extern s32 D_801F8090;
+extern s32 D_80186394;
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_80020F34(s32 a0, s32 a1);
+extern void func_8017FA2C();
+
+void func_8017F934(void) {
+    struct {
+        u8 pad[0x14];
+        s32 x;
+        s32 y;
+        s32 z;
+        u8 pad2[0x1C];
+    } sp10;
+    u16 sp50[3];
+    u16 sp58[3];
+
+    if (D_801F80B8 != 0 && *(u16 *)(D_801F80B8 + 2) == 1 && *(u16 *)(D_801F80B8 + 0x34) == 1) {
+        sp50[0] = D_801F824E;
+        sp50[1] = D_801F8250;
+        sp50[2] = D_801F8252;
+        func_80049CAC((s32)sp50, (s32)&sp10);
+        sp10.x = (D_801F8248 * D_801F8090) >> 12;
+        sp10.y = (D_801F824A * D_801F8090) >> 12;
+        sp10.z = (D_801F824C * D_801F8090) >> 12;
+        sp58[0] = (u16)D_801F8090;
+        sp58[1] = (u16)D_801F8090;
+        sp58[2] = (u16)D_801F8090;
+        func_80020F34((s32)&sp10, (s32)sp58);
+        func_8017FA2C(&sp10, &D_80186394, &D_80186394 + 2);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017FA2C);
 

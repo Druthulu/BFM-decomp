@@ -8144,7 +8144,52 @@ void func_80185120(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018515C);
+void func_8018515C(void *param_1)
+{
+    extern u8 D_80195834[];
+    extern u16 D_801958A8[];
+    extern s32 func_8012C354(s32 a0, s32 a1);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8012C1B8(void);
+    extern void func_8001C810(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+
+    u16 f;
+    u8 *s1;
+    s32 v0;
+
+    f = *(u16 *)((s32)param_1 + 0x70);
+    s1 = &D_80195834[(f & 1) * 0x34];
+
+    if ((f & 0x80) != 0) {
+        *(s32 *)((s32)param_1 + 0x78) = (s32)s1;
+        *(u16 *)((s32)param_1 + 0x5C) = *(u16 *)(s1 + 2);
+        v0 = ((s32 (*)(void))func_8012C1B8)();
+        *(s32 *)((s32)param_1 + 0x20) = v0;
+        if (v0 == 0) {
+            func_8012CAE4(param_1);
+            return;
+        }
+        func_8001C810(v0, *(s32 *)(s1 + 4));
+        *(s32 *)((s32)param_1 + 0x58) = *(s32 *)(s1 + 8) | 0x60000000;
+        *(s32 *)(*(s32 *)((s32)param_1 + 0x20) + 4) |= 0x8000;
+    } else {
+        if (func_8012C354((s32)param_1, (s32)s1) == 0) {
+            return;
+        }
+    }
+
+    *(s32 *)((s32)param_1 + 0xDC) = 1;
+    func_8012A828((s32)param_1, D_801958A8);
+    *(u8 *)((s32)param_1 + 0x75) = 0;
+
+    if ((*(s16 *)((s32)param_1 + 0x70) & 0x8000) != 0) {
+        *(s16 *)((s32)param_1 + 2) = 1;
+    } else {
+        *(s16 *)((s32)param_1 + 2) = 3;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80185268);
 
@@ -10711,7 +10756,63 @@ extern s32 func_800D0CE0(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80189F30);
+extern u16 D_801961CE;
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32 func_80143BDC(u16 *a0);
+extern s32 rand(void);
+
+#define SRM_80189F30(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define STM_80189F30(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+void func_80189F30(void *param_1) {
+    s16 v[8];
+    register s32 i __asm__("$17");
+    s32 r;
+    s32 t;
+    s32 flag;
+    s32 *m;
+
+    v[1] = D_801961CE;
+    m = (s32 *)(*(s32 *)((s32)param_1 + 0x20) + 0x34);
+    SRM_80189F30(m);
+    STM_80189F30(m);
+    for (i = 0; i < 10; i++) {
+        r = rand() % 144;
+        if (rand() & 1) {
+            t = r;
+        } else {
+            t = -r;
+        }
+        v[0] = t;
+        r = rand() % 48;
+        v[2] = ((rand() & 1) ? r : -r) - 48;
+        RotTransSV(&v[0], &v[4], &flag);
+        func_80143BDC((u16 *)&v[4]);
+    }
+}
+
 
 #include "common.h"
 
