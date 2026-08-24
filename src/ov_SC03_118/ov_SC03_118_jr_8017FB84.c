@@ -4405,7 +4405,23 @@ void func_80182E38(void *param_1) {
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80182E88);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80182F44);
+void func_80182F44(void) {
+    extern u8 D_801D4304;
+    extern u8 D_801D4305;
+    extern u8 D_801D4306;
+    u8 *a0 = &D_801D4304;
+
+    if (*a0 < 0x60) {
+        *a0 += 4;
+    }
+    if (D_801D4305 < 0x60) {
+        D_801D4305 += 4;
+    }
+    if (D_801D4306 < 0xC0) {
+        D_801D4306 += 4;
+    }
+}
+
 
 extern void func_8018291C(void);
     void func_80182FAC(void) {
@@ -4931,7 +4947,42 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184B1
 DEFINE_func_80184B94()  /* dedup: shared engine-core @0x80184B94 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184CE0);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern s32 func_8012B744(void *a0, void *a1);
+
+void func_80184CE0(s32 param_1)
+{
+    s16 sp10[3];
+    s32 v;
+
+    if ((*(s32 *)(param_1 + 0xE0) & 0x40000000) == 0) {
+        *(u16 *)(param_1 + 2) = 1;
+        sp10[1] = 0;
+        sp10[0] = D_80126B5E - 0x80;
+        sp10[2] = D_80126B66;
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = func_8012B744(param_1 + 4, sp10);
+        return;
+    }
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + *(u16 *)(param_1 + 0xFE);
+    if (*(s16 *)(param_1 + 0xFE) > 0) {
+        if (*(s16 *)(param_1 + 0x100) + 0x200 < *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12)) {
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = *(s16 *)(param_1 + 0x100) + 0x200;
+        } else {
+            return;
+        }
+    } else {
+        if (*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) < *(s16 *)(param_1 + 0x100) - 0x200) {
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = *(s16 *)(param_1 + 0x100) - 0x200;
+        } else {
+            return;
+        }
+    }
+    v = *(s16 *)(param_1 + 0xFE);
+    *(s16 *)(param_1 + 0xFE) = -v;
+}
+
 
 
 // @class: struct

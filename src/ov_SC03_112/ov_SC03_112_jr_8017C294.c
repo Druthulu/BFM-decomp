@@ -4423,7 +4423,46 @@ void func_8017F0F4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_8017F1CC);
+#include "common.h"
+
+extern void func_8017EE48(s32 a0);
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern u16 D_80126CAC;
+extern u8 D_80189694[];
+
+void func_8017F1CC(s32 a0) {
+    s16 dist;
+
+    if (*(u16 *)(a0 + 0xFE) < 2) {
+        dist = *(u16 *)(a0 + 6) - D_80126CAC;
+        if (dist < 0) {
+            dist = -dist;
+        }
+        if (dist >= 0x801) {
+            *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
+        } else {
+            func_8017EE48(a0);
+            *(u32 *)(*(s32 *)(a0 + 0x20) + 4) &= 0x7FFFFFFF;
+            func_8017EBE4(a0);
+        }
+    } else {
+        if (*(s32 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 4) < 0) {
+            *(u16 *)(a0 + 0x5C) = 0;
+            return;
+        }
+        *(u16 *)(a0 + 0x5C) |= 0x4400;
+        func_8017EBE4(a0);
+        if (*(s16 *)(a0 + 0xFE) == 3) {
+            if (func_8017EFAC(a0, (s32)D_80189694)) {
+                D_80126B96 = 0x6001;
+                D_80126B98 = 0x10;
+            }
+        }
+        *(u8 *)(a0 + 0x102) = *(u8 *)(a0 + 0x74);
+    }
+}
+
 
 extern s32 func_8017F30C(void);
 

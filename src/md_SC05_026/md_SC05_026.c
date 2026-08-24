@@ -96,7 +96,53 @@ void func_801EDD98(void) {
 
 INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EDDF4);
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EDE38);
+extern s32 D_801F82F8;
+extern u8 D_801F8308[];
+extern void (*D_801F8010)();
+extern s16 D_801F800C;
+extern s16 D_801F8018;
+extern s16 D_80115118;
+extern s16 D_8011512C;
+extern s32 D_801F1838;
+extern s32 D_80115130;
+extern s32 D_80115134;
+extern s32 D_801F18E4[];
+extern s16 D_80115126;
+extern u8 D_80115138[];
+extern s32 D_801F17A0;
+
+void func_801EDE38(void) {
+    s16 i;
+    s32 cond;
+    s32 *p;
+    s16 *q;
+
+    D_801F82F8 = 0;
+    for (i = 0; i < 8; i++) {
+        D_801F8308[i] = -1;
+    }
+    cond = *(s16 *)&D_801F8010;
+    D_801F800C = 0;
+    D_801F8018 = 0;
+    D_80115118 = 0;
+    if (cond == 0) {
+        D_8011512C = 0;
+        D_801F1838 = D_801F17A0;
+    } else {
+        D_8011512C = 9;
+        D_801F1838 = 26;
+    }
+    i = 0;
+    p = &D_80115130;
+    *p = 0;
+    D_80115134 = D_801F18E4[D_80115126];
+    q = (s16 *)p + 20;
+    for (; i < 6; i++) {
+        D_80115138[i] = *(u16 *)(D_80115134 + i * 32);
+        q[i] = *(u16 *)(D_80115134 + i * 32 + 2);
+    }
+}
+
 
             typedef struct { s8 c[8]; } Blk8_8012C890_801EDF64;
 
@@ -363,7 +409,37 @@ s32 func_801EE8E0(s32 ot, u8 *s, s16 c) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EEBD0);
+s32 func_801EEBD0(s32 a0, s16 a1, s16 a2, s16 a3, s32 *out)
+{
+    extern u8 D_80115158[];
+    s32 i;
+    s32 ret = 0;
+
+    *out = 0x808080;
+    a2 = D_80115158[a2 * 2];
+
+    if (a1 < 5) {
+        if (a1 > 0) {
+            goto compute;
+        }
+        if (a1 == 0) {
+            goto end;
+        }
+        goto compute;
+    } else {
+        if (a1 == 5) {
+            goto end;
+        }
+    }
+compute:
+    i = a3;
+    if (i < a2) {
+        ret = *(s32 *)(a0 + i * 4);
+    }
+end:
+    return ret;
+}
+
 
 INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EEC54);
 
@@ -389,7 +465,33 @@ u32 func_801EF960(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EF9C8);
+void func_801EF9C8(val, n, dst, flag)
+unsigned int val;
+short n;
+unsigned short *dst;
+short flag;
+{
+    extern unsigned short *D_801F1740[];
+    register unsigned int d __asm__("$3");
+    short i;
+    int idx;
+
+    for (i = 0; i < n; i++) {
+        d = val >> 28;
+        idx = d;
+        if (flag != 0) {
+            if (d != 0) {
+                flag = 0;
+            } else {
+                idx = 10;
+            }
+        }
+        val <<= 4;
+        *dst = *D_801F1740[idx];
+        dst++;
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EFA40);
 
