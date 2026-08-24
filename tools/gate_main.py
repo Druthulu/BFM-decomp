@@ -376,6 +376,9 @@ def strip_dup_typedefs(body, already, suffix=''):
 IDENT_RE = re.compile(r'\b[A-Za-z_]\w*\b')
 
 
+HOIST_MARK = '/* hoisted by gate_main so drafts above can reuse them (§181) */\n'
+
+
 def hoist_typedefs(t, wanted):
     """Move the FILE's own definitions of `wanted` typedef names above the include block.
 
@@ -419,7 +422,24 @@ def hoist_typedefs(t, wanted):
             if ident != name and ident in defs:
                 need.append(ident)
 
-    movable = sorted((defs[n] for n in seen if defs[n][0] > anchor), key=lambda d: d[0])
+    # IDEMPOTENCE. The block is inserted AT `anchor`, so anything hoisted previously still starts
+    # AFTER `anchor` on the next call and would be hoisted again — removed and re-inserted with a
+    # fresh marker line every time. That is not theoretical: the P31 S58 main probe emitted
+    # "hoisted 2 typedef(s)" 150 TIMES across 38 minutes without ever reaching a verdict, and the
+    # working tree at kill time held a duplicated marker comment. A repair that cannot recognise
+    # its own prior work cannot converge.
+    #
+    # Everything between the marker and the end of the contiguous block that follows it is already
+    # hoisted; exclude those definitions from consideration.
+    hoisted_end = anchor
+    mk = t.find(HOIST_MARK)
+    if mk != -1:
+        hoisted_end = max(anchor, mk + len(HOIST_MARK))
+        for _n, (st, en, _tx) in defs.items():
+            if mk <= st <= hoisted_end + 4:      # contiguous run directly under the marker
+                hoisted_end = max(hoisted_end, en)
+
+    movable = sorted((defs[n] for n in seen if defs[n][0] > hoisted_end), key=lambda d: d[0])
     if not movable:
         return t, []
 
@@ -427,9 +447,10 @@ def hoist_typedefs(t, wanted):
     out = t
     for start, end, _txt in sorted(movable, key=lambda d: -d[0]):
         out = out[:start] + out[end:]           # remove from the bottom up so offsets hold
-    return (out[:anchor] + '/* hoisted by gate_main so drafts above can reuse them (§181) */\n'
-            + block + out[anchor:],
-            [n for n in seen if defs[n][0] > anchor])
+    # Reuse the EXISTING marker if there is one, so repeated runs never stack marker comments.
+    mark = '' if HOIST_MARK in out else HOIST_MARK
+    return (out[:anchor] + mark + block + out[anchor:],
+            [n for n in seen if defs[n][0] > hoisted_end])
 
 
 def substitute(entries, write=True, transform=None):
@@ -647,20 +668,43 @@ def main():
     print(f"\nbatch FAILED (sha {got}); {'not bisecting' if a.no_bisect else 'bisecting'}")
     if a.no_bisect:
         run("git checkout -- src/"); return
-    good = []
-    lo = kept
-    while lo:
-        half = max(1, len(lo)//2)
-        head, lo = lo[:half], lo[half:]
-        ok, got, _ = try_batch(good + head)
-        if ok: good += head
-        elif len(head) == 1:
-            print(f"  reject {head[0]['fn']}")
+    # THE OLD LOOP COULD NOT TERMINATE. On a failing multi-element chunk it did `lo = head + lo`,
+    # restoring `lo` to exactly its previous value — so the next iteration recomputed the SAME
+    # `head`, failed identically, and restored again. Forever. Combined with a non-idempotent
+    # typedef hoist that re-ran each step, the P31 S58 main probe spun 150 times over 38 minutes on
+    # 8 drafts and never produced a verdict.
+    #
+    # This is an explicit-stack bisect: a failing chunk is SPLIT and both halves pushed, so the
+    # work strictly decreases and termination is structural. MAX_STEPS is a backstop, not the
+    # mechanism — if it ever trips, something is wrong that bisection cannot fix, and it says so
+    # loudly instead of burning clean rebuilds in silence.
+    MAX_STEPS = int(os.environ.get('GATE_MAIN_MAX_STEPS', '24'))
+    good, rejected, steps = [], [], 0
+    stack = [kept]
+    while stack:
+        if steps >= MAX_STEPS:
+            print(f"\n*** BISECT ABORTED after {MAX_STEPS} rebuilds with {len(stack)} chunk(s) "
+                  f"unresolved. Each step is a full clean EXE rebuild, so this is a bounded "
+                  f"failure, not progress. Banking the {len(good)} proven so far and stopping; "
+                  f"raise GATE_MAIN_MAX_STEPS only if you know why it is not converging.")
+            break
+        chunk = stack.pop()
+        steps += 1
+        ok, got, _ = try_batch(good + chunk)
+        if ok:
+            good += chunk
+        elif len(chunk) == 1:
+            rejected.append(chunk[0]['fn'])
+            print(f"  reject {chunk[0]['fn']}")
         else:
-            lo = head + lo   # split further
+            mid = len(chunk) // 2
+            stack.append(chunk[mid:])
+            stack.append(chunk[:mid])
     ok, got, _ = try_batch(good)
-    print(f"\nBANKED {len(good)} of {len(kept)} after bisection -- {got}"
+    print(f"\nBANKED {len(good)} of {len(kept)} after bisection in {steps} rebuild(s) -- {got}"
           f"{' BYTE-IDENTICAL' if ok else ' *** STILL MISMATCHED ***'}")
+    if rejected:
+        print(f"  rejected: {rejected}")
     json.dump([e['fn'] for e in good], open('.run/gate_main_banked.json', 'w'))
 
 if __name__ == '__main__':
