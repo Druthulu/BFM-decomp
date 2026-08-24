@@ -136,3 +136,56 @@ plausible-failure list (table twice, boundary off, diff moved) all fail SHA. Cav
   only for func_801F0F28).
 - Whether any md_* binary actually has a tail-region jtbl (the trigger for hazard §4.2) — the
   hazard is structural regardless.
+
+---
+
+## Addendum — S59 (2026-08-24): the precondition is done, and what it measured
+
+`parse_config` is fixed and the S58 blanket `md_*`/main refusal in `cfg_path` is lifted.
+Proof: `tools/test_jtbl_parse_config.py` (read-only; run it before touching any of this).
+
+**Three corrections to what S58 recorded.**
+
+1. **The corruption class is exactly the 42 `md_*` configs, and `main` was never in it.** Measured
+   over all 213 splat configs: 171 (every `ov_*`, `main`, resident) already satisfied the
+   documented contract because their layout is `[all c pieces …, data tail]`; the 42 `md_*`
+   modules do not, because the §154-A leading island puts `- [0x0, .rodata, md_XXX]` *before* the
+   `c` piece. Under the historical derivation all 42 lose a `c` line to `apply()`'s splice — that
+   is now demonstrated per-config, not inferred from a failure signature.
+
+2. **main's defects were the path and the base, not the parse.** `cfg_path('main')` now resolves
+   `config/splat.us.exe.yaml`, and `overlay_vram_base('main')` returns 0x8000F800 via the single
+   existing derivation in `family_remap.vram_of` (R33) instead of the yaml's first `vram:`
+   0x80010000 — with the naive value every vram→offset conversion was 0x800 short and
+   `payload_word` silently read the wrong word.
+
+3. **A third main defect the studies missed: the asm tree.** main is the one binary splat writes
+   to the tree root — `asm/nonmatchings/800/func_8001A114.s`, `asm/data/*.data.s` — while every
+   other alias gets `asm/<alias>/…`. `jtbl_carve` hardcoded `asm/<ov>/…` in nine places, so every
+   main lookup missed a directory that does not exist and reported it as *"already spliced AND no
+   stale copy"* — a true-sounding message about the wrong tree. Now routed through `asm_dir(ov)`.
+
+**The refusal that replaced the class refusal** is operation-level (R43): a table whose file offset
+is below the data region is in the leading island, which a tail carve cannot reach, so
+`build_carve` refuses and names this lane. On the canonical target it prints the line to insert:
+
+```
+jtbl_carve: func_801F218C's jtbl_801EF6D0 at file 0x268 is BELOW md_SC03_076's data region
+(starts 0x35ac) — it lives in the §154-A leading .rodata island … insert one
+`- [0x268, .rodata, md_SC03_076_jr_801F218C]` piece in the island region and isolate with
+jr_isolate_all.py --only
+```
+
+That 0x268 is derived from the payload and the config, independently of this document — a second
+oracle agreeing with §2's prescription (R34).
+
+**Where the two examples now stop, which is the next lane's starting line.**
+
+| target | outcome |
+|---|---|
+| `md_SC03_076` / `func_801F218C` | refused with the island message above; config byte-unchanged |
+| `main` / `func_8001A114` | reaches the real analysis and refuses correctly: subseg `800` would host non-contiguous `.rodata` carves (0x63238, the existing LZSS table, and 0x6327c) — isolate first, exactly as an overlay would |
+
+So main's jtbl population is now blocked on `jr_isolate_all.py`, not on `jtbl_carve`; and the md
+island split is blocked on the one inserted line plus isolation, as §2 prescribed. Neither is
+blocked on config corruption any more.

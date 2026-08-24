@@ -118,6 +118,17 @@ def _main_file_base():
         os.chdir(cwd)
 
 
+def asm_dir(ov):
+    """The root of this binary's split asm tree.
+
+    Overlays and modules get `asm/<alias>/…`; main is the ONE binary splat writes to the tree root
+    (`asm/nonmatchings/800/func_8001A114.s`, `asm/data/*.data.s`) because it is the EXE the project
+    is named for and its yaml predates the per-binary layout. Hardcoding `asm/<ov>` therefore made
+    every main lookup miss a directory that does not exist and report the miss as
+    "already spliced AND no stale copy" — a true-sounding message about the wrong tree (R43)."""
+    return os.path.join(REPO, "asm") if ov == "main" else os.path.join(REPO, "asm", ov)
+
+
 def payload_path(ov):
     """The overlay's decompressed payload, derived from the config's target_path (R33)."""
     m = re.search(r"target_path:\s*(\S+)", open(cfg_path(ov)).read())
@@ -207,7 +218,7 @@ def overlay_jtbl_addrs(ov):
     address-stable). Used to reconstruct the TABLE STARTS inside an existing carve span, whose
     dlabels are long gone from the data asm (Phase-29 §8e)."""
     addrs = set()
-    for p in glob.glob(os.path.join(REPO, "asm", ov, "nonmatchings", "*", "func_*.s")):
+    for p in glob.glob(os.path.join(asm_dir(ov), "nonmatchings", "*", "func_*.s")):
         for m in re.finditer(r"jtbl_([0-9A-Fa-f]{8})", open(p).read()):
             addrs.add(int(m.group(1), 16))
     return addrs
@@ -262,11 +273,11 @@ def func_jtbls(ov, func):
     dir still holds the correct jtbl refs (the fn's code, hence its %hi(jtbl_...) set, is
     address-stable regardless of which subseg owned it)."""
     sub = func_subseg(ov, func)
-    p = os.path.join(REPO, "asm", ov, "nonmatchings", sub, f"{func}.s")
+    p = os.path.join(asm_dir(ov), "nonmatchings", sub, f"{func}.s")
     if not os.path.exists(p):
-        stale = sorted(glob.glob(os.path.join(REPO, "asm", ov, "nonmatchings", "*", f"{func}.s")))
+        stale = sorted(glob.glob(os.path.join(asm_dir(ov), "nonmatchings", "*", f"{func}.s")))
         if not stale:
-            sys.exit(f"jtbl_carve: no .s for {func} anywhere under asm/{ov}/nonmatchings/ — "
+            sys.exit(f"jtbl_carve: no .s for {func} anywhere under {os.path.relpath(asm_dir(ov), REPO)}/nonmatchings/ — "
                      f"already spliced AND no stale copy; re-extract from the stub state first")
         p = stale[0]
         print(f"jtbl_carve: {func}.s not in config-derived subseg '{sub}' — using stale-location "
@@ -278,7 +289,7 @@ def func_jtbls(ov, func):
 def all_data_labels(ov):
     """All (jtbl_|D_) dlabel vrams across every asm/<ov>/data/*.data.s, sorted ascending."""
     labels = set()
-    for p in glob.glob(os.path.join(REPO, "asm", ov, "data", "*.data.s")):
+    for p in glob.glob(os.path.join(asm_dir(ov), "data", "*.data.s")):
         for ln in open(p):
             m = re.match(r"\s*(?:dlabel|glabel)\s+(?:jtbl_|D_)([0-9A-Fa-f]{8})", ln)
             if m:
@@ -289,7 +300,7 @@ def all_data_labels(ov):
 def jtbl_words(ov, jtbl_hex):
     """The raw `.word` values under `dlabel jtbl_<hex>`, in order."""
     pat = re.compile(rf"dlabel\s+jtbl_{jtbl_hex}\b", re.I)
-    for p in glob.glob(os.path.join(REPO, "asm", ov, "data", "*.data.s")):
+    for p in glob.glob(os.path.join(asm_dir(ov), "data", "*.data.s")):
         lines = open(p).read().split("\n")
         for i, ln in enumerate(lines):
             if pat.search(ln):
@@ -308,7 +319,7 @@ def jtbl_words(ov, jtbl_hex):
 def _label_words(ov, prefix, hex_addr):
     """The raw `.word` values under `dlabel <prefix><hex>`, in order (generic jtbl_words)."""
     pat = re.compile(rf"dlabel\s+{prefix}{hex_addr}\b", re.I)
-    for p in glob.glob(os.path.join(REPO, "asm", ov, "data", "*.data.s")):
+    for p in glob.glob(os.path.join(asm_dir(ov), "data", "*.data.s")):
         lines = open(p).read().split("\n")
         for i, ln in enumerate(lines):
             if pat.search(ln):
@@ -331,7 +342,7 @@ def _sltiu_bounds(ov, fn, sub):
     `sltiu $v0, $idx, N` immediately before the indexed load, so the FUNCTION ITSELF declares
     its table length. Everything else (the next dlabel, an xref census, the trailing-zero trim)
     is inference about what spimdisasm chose to emit; this is the program's own statement."""
-    p = os.path.join(REPO, "asm", ov, "nonmatchings", sub, f"{fn}.s")
+    p = os.path.join(asm_dir(ov), "nonmatchings", sub, f"{fn}.s")
     if not os.path.exists(p):
         return set()
     out = set()
@@ -586,23 +597,28 @@ def build_carve(ov, funcs):
         if not js:
             sys.exit(f"jtbl_carve: {f} references no jtbl_ (not a jr/switch function?)")
         for jh in js:
+            # ISLAND CHECK FIRST, from the table's OWN address — before jtbl_range, which resolves
+            # the span out of the RAW data asm and therefore reports an island table as "not found
+            # in asm/<ov>/data/*.data.s — already carved / stale asm?". That message is true and
+            # useless: an island table was never in the data asm, it is INCLUDE_RODATA'd from the
+            # module's leading `.rodata` piece, and re-extracting will never produce it.
+            #
+            # A table BELOW the data region cannot be reached by a tail carve at all: apply() only
+            # rewrites [tail_start, region_end), so the piece line would land out of address order
+            # and splat would mis-slice the module. That is the island-split lane's job — ONE
+            # inserted `.rodata` line at the table's own offset plus jr_isolate_all.py --only
+            # (docs/tool-designs/jtbl-island-split-review.md) — so name it and refuse (R43).
+            isl_off = int(jh, 16) - base
+            if isl_off < tail_start:
+                sys.exit(
+                    f"jtbl_carve: {f}'s jtbl_{jh} at file 0x{isl_off:x} is BELOW {ov}'s data "
+                    f"region (starts 0x{tail_start:x}) — it lives in the §154-A leading .rodata "
+                    f"island, which a tail carve cannot reach. That is the island split: insert "
+                    f"one `- [0x{isl_off:x}, .rodata, {ov}_jr_{f.replace('func_', '')}]` piece in "
+                    f"the island region and isolate with jr_isolate_all.py --only "
+                    f"(docs/tool-designs/jtbl-island-split-review.md).")
             s_vram, e_vram = jtbl_range(ov, jh, labels, region_end_vram, fn=f, sub=sub)
             s_off, e_off = s_vram - base, e_vram - base
-            # A table BELOW the data region is in the §154-A leading island, and a tail carve
-            # cannot reach it: apply() only ever rewrites [tail_start, region_end), so the piece
-            # line would be inserted out of address order and splat would mis-slice the module.
-            # This is the island-split lane's job (docs/tool-designs/jtbl-island-split-review.md:
-            # one inserted `.rodata` line at the table's own offset + jr_isolate_all.py --only),
-            # not a tail carve's. Refuse and name it (R43) rather than emit a plausible-looking
-            # config the SHA gate will reject for reasons that point nowhere near here.
-            if s_off < tail_start:
-                sys.exit(
-                    f"jtbl_carve: {f}'s jtbl_{jh} at file 0x{s_off:x} is BELOW {ov}'s data region "
-                    f"(starts 0x{tail_start:x}) — it lives in the leading .rodata island, which a "
-                    f"tail carve cannot reach. That is the island split: insert one "
-                    f"`- [0x{s_off:x}, .rodata, {ov}_jr_{f.replace('func_', '')}]` piece in the "
-                    f"island region and isolate with jr_isolate_all.py --only "
-                    f"(docs/tool-designs/jtbl-island-split-review.md).")
             if s_off in have:
                 continue                       # idempotent: already carved
             carves.append((s_off, e_off, sub))
@@ -790,9 +806,9 @@ def migrated_tables(ov, funcs):
         sub, js = func_jtbls(ov, f)
         if not js:
             continue
-        p = os.path.join(REPO, "asm", ov, "nonmatchings", sub, f"{f}.s")
+        p = os.path.join(asm_dir(ov), "nonmatchings", sub, f"{f}.s")
         if not os.path.exists(p):
-            stale = sorted(glob.glob(os.path.join(REPO, "asm", ov, "nonmatchings", "*", f"{f}.s")))
+            stale = sorted(glob.glob(os.path.join(asm_dir(ov), "nonmatchings", "*", f"{f}.s")))
             p = stale[0] if stale else None
         own = set()
         if p:
