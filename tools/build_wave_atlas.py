@@ -21,6 +21,7 @@ MUST NOT run while a gate is in flight (R35 — corpus.stubs() misreports substi
 Usage: build_wave_atlas.py <out.json> [N] [--max-bins K] [--min-ins M] [--levers a,b,c]
 """
 import json, os, re, sys, collections, subprocess, argparse, glob
+import fcntl
 sys.path.insert(0, 'tools')
 import corpus
 import decl_prior as DP
@@ -120,19 +121,43 @@ a = ap.parse_args()
 EXCLUDE = {b for b in a.exclude_bins.split(',') if b}
 ONLY = {b for b in a.only_bins.split(',') if b}
 
-# THE GATE-IN-FLIGHT REFUSAL, SCOPED TO THE BINARIES THIS DRAW ACTUALLY READS (P31 S59).
-# A gate substitutes draft bodies into src/, so corpus.stubs() misreports WHILE IT RUNS (R35) — but
-# only for the binaries being gated. The blanket check refused every draw whenever any overlay gate
-# was running, which is most of the time, and that made the new main lane unable to draw at all:
-# its cards come from `main`, whose sources no overlay gate touches (main is gated only by
-# gate_main, under its own lock). Main-only draws therefore watch gate_main; every other draw keeps
-# the original blanket refusal, because an overlay draw really can read a binary that is mid-gate.
-_gate_pat = ('tools/gate_main' if ONLY == {'main'}
-             else 'tools/(gate_stage|dedup_propagate|gate_lane|gate_main)')
-busy = subprocess.run(['pgrep', '-f', _gate_pat], capture_output=True, text=True)
-if busy.returncode == 0 and busy.stdout.strip():
-    sys.exit(f"REFUSING: gate in flight (pids {busy.stdout.split()}) matching {_gate_pat!r} — "
-             f"corpus.stubs() would misreport (R35).")
+# GATES IN FLIGHT: EXCLUDE THE BINARIES BEING GATED, DO NOT REFUSE THE WHOLE DRAW (P31 S59).
+# corpus.stubs() misreports for a binary WHILE a gate has draft bodies substituted into its sources
+# (R35) — but only for THAT binary. The blanket refusal this replaces cost far more than it saved:
+# the gater runs almost continuously, so nearly every fresh draw was refused and the drafter fell
+# back to PRE-DRAWN waves (measured 15:20 — `br` refused, wave `bj` drafted instead). Pre-drawn
+# waves were drawn under the OLD defaults, so every new draw-time feature — the tells quota, the
+# jtbl quota, the -O0 and oversize filters — silently failed to reach the fleet.
+# Which binaries are mid-gate is not a guess: gate_stage and gate_main hold `.run/auto/gate.<bin>.lock`
+# for exactly that window, so a non-blocking test-lock answers it per binary.
+def _gating_now():
+    held = set()
+    for lk in glob.glob(os.path.join(REPO, ".run/auto/gate.*.lock")):
+        b = os.path.basename(lk)[len("gate."):-len(".lock")]
+        if b in ("lock", ""):
+            continue
+        try:
+            fh = open(lk, "a")
+            try:
+                fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                fcntl.flock(fh, fcntl.LOCK_UN)
+            except OSError:
+                held.add("main" if b == "main" else b)
+            fh.close()
+        except OSError:
+            continue
+    return held
+
+
+_busy_bins = _gating_now()
+if _busy_bins:
+    EXCLUDE |= _busy_bins
+    print(f"draw: {len(_busy_bins)} binary/binaries mid-gate, excluded from THIS draw "
+          f"(their stubs would misreport, R35): {sorted(_busy_bins)[:6]}"
+          + ("…" if len(_busy_bins) > 6 else ""), file=sys.stderr)
+if ONLY and ONLY <= _busy_bins:
+    sys.exit(f"REFUSING: every requested binary {sorted(ONLY)} is mid-gate — corpus.stubs() would "
+             f"misreport (R35). Retry when its gate finishes.")
 
 # R32/R33: derive the already-waved set from what is ON DISK, never from a hardcoded wave-letter
 # list (the literal 'a'..'l' silently missed waves m and n and would have re-issued their cards).
