@@ -403,6 +403,83 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
     (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
 
+## 🛑 SESSION CHECKPOINT — S59 LIVE (2026-08-24 ~11:45). Phase 31 CONTINUES. **THREE FABLE AGENTS IN FLIGHT.**
+
+**HEAD `commit:2656` · autonomous lanes RUNNING (drafter · gater · maintenance · stallguard, ~130
+agents) · `src/`+`config/` carry live campaign work — COMMIT IT, NEVER REVERT (R42).**
+
+### WHAT S59 DID — the S58 handoff's three tooling lanes, worked to a verdict each
+
+**LANE 4 (jtbl) — the §154-A island split is BYTE-PROVEN.** `md_SC03_076` / `func_801F218C`, exactly
+as the adversarial review prescribed: one inserted `- [0x268, .rodata, md_SC03_076_jr_801F218C]`
+plus `jr_isolate_all.py --only`. No `_pre` piece, no `ld_interleave` change, island piece untouched.
+Clean rebuild (build dirs deleted → re-extract → rebuild): `sha1 9a165e36…` BYTE-IDENTICAL, and the
+object-level control that a green SHA alone cannot give — `md_SC03_076.o` `.rodata` 0x27c→**0x268**,
+new jr object **0x14**. Four md_*-blindness fixes made it possible:
+* `jtbl_carve.parse_config` implements its documented contract at last (it took the FIRST
+  data/.rodata piece; on the 42 md_* configs that is the leading island, so `apply()` DELETED the
+  `c` line and corrupted the yaml on disk). `tools/test_jtbl_parse_config.py`: 171/171 non-md
+  unchanged, 42/42 md_* now keep their `c` line. **main was never in that corruption class** — its
+  defects were the config path (`splat.us.exe.yaml`), the file base (0x8000F800, not 0x80010000) and
+  the asm tree (`asm/nonmatchings/800/`, not `asm/main/`). All three fixed; main now reaches the real
+  analysis and refuses correctly (`func_8001A114`: subseg `800` would host non-contiguous carves).
+* `jr_isolate_all.rodata_carves` no longer reads the leading island as a carve (it aborted
+  `UNOWNED 0x801ef468`; discriminator verified over all 213 configs).
+* Cookbook **§260** carries the recipe + the island-is-a-stack census (only the END-adjacent table
+  carves cheaply; each isolation exposes the next).
+* **Open:** `func_801F218C` is ONE instruction from banking — gcc schedules `addu $a0,$s0,$zero`
+  into a `jal` delay slot the target leaves as `nop`. §5a fence both sides, if/else inversion,
+  early-break form and a 1200s permuter at -j12 all failed. Logged to the backlog (closeness 1,
+  DELAY-SLOT) with the lever list, so the grinder keeps at it.
+
+**LANE 3 (o0/cc1) — answered with a census.** 167 of 14,400 `.s` files carry the real -O0 prologue;
+the handoff's "311 `$fp` files" over-counts (`$fp` is `$s8`, allocatable at -O2). 51 sit in -O0
+objects; **116 / 14,148 ins are stranded in -O2 subsegs and cannot bank at all** — more than double
+the atlas estimate, with x2/x3/x4 sibling replication. **The handoff's refutation of md_MAIN_003/011
+is itself WRONG** (16 and 21 -O0 functions, byte-verified) and is now marked so in the design doc.
+Two fixes landed: `match_one` derives the opt level from the target (prologue tell OR -O0 subseg) —
+`--o0` existed and NOTHING ever passed it, so every agent handed an -O0 target saw an -O2 compile of
+its own C, a mismatch on every instruction and no way to converge; and `build_wave_atlas` now
+refuses to DRAW a stranded -O0 function (measured: 11 of them drawn **79 times across 19 waves**,
+~6 per wave, under head-crack/UNKNOWN/tells/len-vein/redraft labels, none of which could ever bank —
+a live draw now reports `o0-in-an-O2-object: 54`). `cc1` joined the default lever list: it records a
+past compile failure, not a structural blocker. Cookbook **§261**.
+
+**LANE 1 (tells) — the removal measured the population, not the lever.** All four waves S58 cited
+ran at band 120-2000. Bank rate by size, from each wave's cards joined to the functions its own
+commit banked: 0-50 default 57% / tells 40% · 50-80 30%/27% · 80-120 22%/10% · 120-200 3%/1% ·
+200+ 6%/0%. Tells cards are median 89-95 ins vs default's 37-39 (2.4x). Tells is restored and pinned
+to band **5-80**; the large band always goes to `default`. **§235 (phantom symbol) is REFUTED** as
+the tells cause — among MISMATCH? rows the shape-already-matched fraction is 6/66, 4/81, 5/47 on
+tells vs 25/87, 16/79, 17/66, 13/57 on default: tells drafts fail on the BODY. Wave `bi` confirmed
+the band diagnosis live: tells @120-2000, **0 banked of 50 drafts**. Cookbook **§262**.
+
+### IN FLIGHT — THREE FABLE AGENTS (launched ~11:45; results NOT yet on disk)
+| agent | asked for | deliverable |
+|---|---|---|
+| tells | residual taxonomy from the drafts on disk, the idioms drafters lack, card/prompt changes, honest 75% verdict | `docs/tool-designs/tells-lane-s59.md` (proposes diffs only) |
+| o0 | per-sub-population bankability, whether we can write -O0-matching C at all (byte-proven crack), serial-vs-wave, worth-it verdict | `docs/tool-designs/o0-path-s59.md` (proposes diffs only) |
+| jtbl | AUTOMATE carve→draft→bank, prove on two targets, name the campaign hook | `docs/tool-designs/jtbl-automation-s59.md` + implementation + commits |
+
+**If this session died before they returned:** their docs may or may not exist — check
+`docs/tool-designs/*-s59.md` and `git log`. Re-spawning is cheap; the briefs are in the S59
+transcript and every fact they were given is in this checkpoint.
+
+### OPS LAW LEARNED (docs/accelerators.md #5)
+**A running lane script does not read your edit.** bash parses `while … done` in full before
+executing, so a lane-ARG change is invisible to the running shell and a python bounce re-runs the
+OLD command line (measured: an 18-minute-old edit was invisible until the shell restarted). Code
+changes (`tools/*.py`) → a bounce suffices. Arg changes (`.sh`) → fresh shell, via
+`tools/lanes/relaunch_drafter_shell.sh`, which waits for a wave to queue so no drafts are lost.
+Wave-draw defaults (`build_wave_atlas.py`) → next draw, no restart at all.
+
+### STANDING VERIFICATION
+`md_SC03_076` re-verified byte-identical from a CLEAN per-binary rebuild (R22 scoped to the binary I
+touched — a fleet `make clean` is unsafe while gates are building). No fleet R22 run this session;
+the campaign's own gates carry it.
+
+---
+
 ## 🛑 CRASH-RECOVERY CHECKPOINT — S58 LIVE (2026-08-24 00:2x). Phase 31 CONTINUES. **WORK IS IN FLIGHT.**
 
 **This is NOT a fresh-session handoff — it is a crash-recovery snapshot.** Autonomous lanes are
