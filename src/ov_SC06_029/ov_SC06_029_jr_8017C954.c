@@ -6087,7 +6087,114 @@ INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80184FF
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80185214);
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_801852E4);
+typedef struct { s16 vx, vy, vz, pad; } SV;
+
+extern void func_8012C218(void *a0);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void RotMatrixY(s32 r, void *m);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void func_800176F0(void *a0);
+extern Blk20 D_800AE620;
+extern u8 D_800AF648;
+
+#define gte_ldv0(r0) __asm__ volatile ("lwc2 $0, 0( %0 );" "lwc2 $1, 4( %0 )" : : "r"(r0))
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy(r0) __asm__ volatile ("swc2 $14, 0( %0 )" : : "r"(r0) : "memory")
+#define gte_stflg(r0) __asm__ volatile ("cfc2 $12, $31;" "nop;" "sw $12, 0( %0 )" : : "r"(r0) : "$12", "memory")
+#define gte_stszotz(r0) __asm__ volatile ("mfc2 $12, $19;" "nop;" "sra $12, $12, 2;" "sw $12, 0( %0 )" : : "r"(r0) : "$12", "memory")
+#define gte_SetRotMatrix(r0) __asm__ volatile ( \
+    "lw $12, 0( %0 );"                          \
+    "lw $13, 4( %0 );"                          \
+    "ctc2 $12, $0;"                             \
+    "ctc2 $13, $1;"                             \
+    "lw $12, 8( %0 );"                          \
+    "lw $13, 12( %0 );"                         \
+    "lw $14, 16( %0 );"                         \
+    "ctc2 $12, $2;"                             \
+    "ctc2 $13, $3;"                             \
+    "ctc2 $14, $4"                              \
+    : : "r"(r0) : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                           \
+    "lw $13, 24( %0 );"                           \
+    "ctc2 $12, $5;"                               \
+    "lw $14, 28( %0 );"                           \
+    "ctc2 $13, $6;"                               \
+    "ctc2 $14, $7"                                \
+    : : "r"(r0) : "$12", "$13", "$14" )
+
+void func_801852E4(s32 arg0)
+{
+    struct B { SV v[4]; u32 w[6]; } b;
+    SV *vp;
+    MTX m;
+    s32 otz[4];
+    u32 flag;
+    s32 i;
+    s32 t;
+    s32 h;
+
+    if (*(s16 *)(*(s32 *)(arg0 + 0x64) + 0x36) != *(s16 *)(arg0 + 0x100)) {
+        func_8012C218((void *)arg0);
+        return;
+    }
+    *(s32 *)(arg0 + 8) = *(s32 *)(*(s32 *)(arg0 + 0x64) + 8) + 0xFF000000;
+    (*(s32 *)(arg0 + 0xE0)) -= 0x40;
+    if (*(s32 *)(arg0 + 0xE0) < -0x200) {
+        *(s32 *)(arg0 + 0xE0) = -0x200;
+    }
+    b.v[0].vx = -0x10;
+    b.v[1].vx = 0x10;
+    b.v[1].vz = -0x140;
+    b.v[0].vz = -0x140;
+    b.v[2].vz = *(s32 *)(arg0 + 0xE0);
+    b.v[3].vz = *(s32 *)(arg0 + 0xE0);
+    b.v[3].vy = 0;
+    b.v[2].vy = 0;
+    b.v[3].vx = 0;
+    b.v[2].vx = 0;
+    b.v[1].vy = 0;
+    b.v[0].vy = 0;
+    func_8012F214(arg0, (s32)&b.v[0], (s32)&b.v[0]);
+    func_8012F214(arg0, (s32)&b.v[1], (s32)&b.v[1]);
+    m = (*(MTX *)&D_800AE620);
+    RotMatrixY(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) + *(s16 *)(arg0 + 0xFE), &m);
+    func_8012F14C((s32)&m, (s32)&b.v[2], (s32)&b.v[2]);
+    m = (*(MTX *)&D_800AE620);
+    RotMatrixY(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) - *(s16 *)(arg0 + 0xFE), &m);
+    func_8012F14C((s32)&m, (s32)&b.v[3], (s32)&b.v[3]);
+    *(u16 *)&b.v[2].vx += *(u16 *)&b.v[0].vx;
+    *(u16 *)&b.v[2].vy += *(u16 *)&b.v[0].vy;
+    *(u16 *)&b.v[2].vz += *(u16 *)&b.v[0].vz;
+    *(u16 *)&b.v[3].vx += *(u16 *)&b.v[1].vx;
+    *(u16 *)&b.v[3].vy += *(u16 *)&b.v[1].vy;
+    *(u16 *)&b.v[3].vz += *(u16 *)&b.v[1].vz;
+    gte_SetRotMatrix(&D_800AF648);
+    gte_SetTransMatrix(&D_800AF648);
+    for (i = 0, vp = b.v; i < 4; i++, vp++) {
+        gte_ldv0(vp);
+        gte_rtps();
+        gte_stsxy(vp);
+        gte_stflg(&flag);
+        gte_stszotz(&otz[i]);
+        if (flag & ~0x1000u) {
+            return;
+        }
+    }
+    t = otz[2];
+    if (otz[3] < t) t = otz[3];
+    h = otz[0];
+    if (otz[1] < h) h = otz[1];
+    if (t < h) h = t;
+    *(u16 *)&b.v[0].vz = h;
+    b.w[0] = 0xC0C0C0;
+    b.w[1] = 0xC0C0C0;
+    b.w[2] = 0;
+    b.w[3] = 0;
+    b.w[4] = 0x50000000;
+    func_800176F0((void *)b.v);
+}
+
 
 extern void (*D_80190A20[])(void);
 
@@ -7870,7 +7977,18 @@ extern s16 D_801DFFDC;
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80188568);
+extern s32 *D_80126B78;
+extern u8 D_80126B5C;
+extern s32 func_8012BB3C(s32 a0, s32 a1, u32 a2, s32 a3);
+
+s32 func_80188568(s32 arg0) {
+    s32 r;
+    r = func_8012BB3C((s32)&D_80126B5C, *(s32 *)(arg0 + 0xD4) + 4,
+                      ((s16 *)D_80126B78)[9], 8);
+    ((s16 *)D_80126B78)[9] += r;
+    return (s16)r == 0;
+}
+
 
 void func_801885C0(s32 *a0, s32 *a1)
 {

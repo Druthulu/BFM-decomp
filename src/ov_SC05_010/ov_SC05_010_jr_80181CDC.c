@@ -4205,7 +4205,31 @@ void func_8018645C(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_801864E4);
+void func_801864E4(int a0) {
+    int t;
+    int r;
+    int sel;
+    int start;
+
+    t = *(u16 *)(a0 + 0xFC) + 0x20;
+    *(u16 *)(a0 + 0xFC) = t;
+    *(int *)(a0 + 4) = *(int *)(a0 + 0x10) + (func_80047948((s16)t) << 13);
+    *(int *)(a0 + 8) = *(int *)(a0 + 0x14) - (func_8004787C(*(s16 *)(a0 + 0xFC)) << 13);
+
+    if (*(s16 *)(a0 + 0xFC) >= 0x400) {
+        sel = (rand() & 1) ? -0x255555 : -0x1D5555;
+        __asm__("" : "=r"(sel) : "0"(sel));
+        start = sel;
+        for (; start <= 0x3AAAA9; start += 0x1AAAAA) {
+            r = func_8012C658(0x29E, 1, a0);
+            if (r != 0) {
+                *(int *)(r + 0x10) = start;
+            }
+        }
+        func_8012C218(a0);
+    }
+}
+
 
 extern void func_8012CBCC(s32 a0);
     extern void func_8012C218(void *a0);

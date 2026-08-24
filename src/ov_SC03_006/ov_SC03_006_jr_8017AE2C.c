@@ -9194,7 +9194,68 @@ void func_801856A0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018584C);
+#define SRM_8018584C(r0) __asm__ volatile (   \
+    "lw $12, 0( %0 );"                        \
+    "lw $13, 4( %0 );"                        \
+    "ctc2 $12, $0;"                           \
+    "ctc2 $13, $1;"                           \
+    "lw $12, 8( %0 );"                        \
+    "lw $13, 12( %0 );"                       \
+    "lw $14, 16( %0 );"                       \
+    "ctc2 $12, $2;"                           \
+    "ctc2 $13, $3;"                           \
+    "ctc2 $14, $4"                            \
+    :                                         \
+    : "r"( r0 )                               \
+    : "$12", "$13", "$14" )
+#define STM_8018584C(r0) __asm__ volatile (   \
+    "lw $12, 20( %0 );"                       \
+    "lw $13, 24( %0 );"                       \
+    "ctc2 $12, $5;"                           \
+    "lw $14, 28( %0 );"                       \
+    "ctc2 $13, $6;"                           \
+    "ctc2 $14, $7"                            \
+    :                                         \
+    : "r"( r0 )                               \
+    : "$12", "$13", "$14" )
+
+/* DEF-SIDE ALIAS (§37/§124, §136f#2): TU declares `extern s32 func_8018584C(s32)`
+ * (TU:8796) and both callers discard the result; the real definition is
+ * effectively VOID (nothing carried out in $v0 — §42d#1 inverse rule). */
+void aF8018584C(s32 a0) __asm__("func_8018584C");
+
+void aF8018584C(s32 a0)
+{
+    extern u8 D_801C5A48[];
+    extern u8 D_801C5A50[];
+
+    s32 out0[2];   /* sp+0x10 */
+    s32 out1[2];   /* sp+0x18 */
+    s32 flag;      /* sp+0x20 */
+    s32 *mtx;
+    s32 t;
+
+    mtx = *(s32 **)(a0 + 0x20) + 13;
+    SRM_8018584C(mtx);
+    STM_8018584C(mtx);
+
+    RotTransSV(D_801C5A48, out0, &flag);
+    RotTransSV(D_801C5A50, out1, &flag);
+
+    func_8018594C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                  (s32)out0,
+                  *(s16 *)(a0 + 0xDC));
+    func_8018594C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                  (s32)out1,
+                  *(s16 *)(a0 + 0xDC));
+
+    t = *(u16 *)(a0 + 0xDC) + 1;
+    *(u16 *)(a0 + 0xDC) = t;
+    if ((s16)t >= 3) {
+        *(u16 *)(a0 + 0xDC) = 2;
+    }
+}
+
 
 extern u32 D_801C5988[];
 extern u8 *func_801290DC(s32 a0, u8 *a1);

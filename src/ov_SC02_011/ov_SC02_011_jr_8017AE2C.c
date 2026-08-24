@@ -9228,7 +9228,23 @@ void func_80186734(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80186740);
+s32 func_80186740(void)
+{
+    typedef struct { unsigned char b[4]; } __attribute__((packed, aligned(1))) Block4;
+
+    extern Block4 D_801EB524;
+    extern unsigned char D_801EB525;
+    extern unsigned char D_801EB526;
+
+    unsigned char *p = (unsigned char *)&D_801EB524;
+
+    if (*p < 0xF8U) {
+        *p += 4;
+        D_801EB525 += 4;
+        D_801EB526 += 8;
+    }
+}
+
 
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);

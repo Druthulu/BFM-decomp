@@ -4265,7 +4265,30 @@ DEFINE_func_80188470()  /* dedup: shared engine-core @0x80188470 (src/shared) */
 DEFINE_func_80188478()  /* dedup: shared engine-core @0x80188478 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_8018858C);
+extern s32 func_80184028();
+extern u16 D_80126B66;
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8018858C(s32 a0) {
+    s32 v0 = *(s16 *)(a0 + 0x84);
+    if (v0 != 0) {
+        v0 = func_80184028();
+        if (v0 == 0x18) {
+            *(s16 *)(a0 + 0x84) = 0;
+        }
+    } else {
+        s32 a1;
+        v0 = func_80184028();
+        if (v0 == 0xF) {
+            *(s16 *)(a0 + 0x84) = 1;
+            a1 = -(s16)D_80126B66 >> 3;
+            if (a1 < 0) a1 = 0;
+            if (a1 > 0x7F) a1 = 0x7F;
+            func_8002D4C8(0xBAB, (u16)(a1 | 0x1000));
+        }
+    }
+}
+
 
 
 extern void (*D_801918B0[])(void);
@@ -4628,7 +4651,29 @@ extern s32 func_80189110(void);
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_801897C4);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80189824);
+extern u8 D_801EAC94;
+extern u8 D_801EAC95;
+extern u8 D_801EAC96;
+
+void func_80189824(void *arg0) {
+    s16 *p;
+    u8 *q;
+
+    p = *(s16 **)((s32)arg0 + 0x20);
+    if (*(s16 *)((s32)p + 0x18) > 0x800) {
+        *(s16 *)((s32)p + 0x18) = *(s16 *)((s32)p + 0x18) - 0x200;
+    }
+    if (*(s16 *)((s32)p + 0x1A) > 0x800) {
+        *(s16 *)((s32)p + 0x1A) = *(s16 *)((s32)p + 0x1A) - 0x200;
+    }
+    q = &D_801EAC94;
+    if (*q >= 0xC1) {
+        *q -= 4;
+        D_801EAC95 -= 8;
+        D_801EAC96 -= 8;
+    }
+}
+
 
 #include "common.h"
 
@@ -4690,7 +4735,23 @@ void func_801899F4(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80189A60);
+
+
+extern SV4 D_80191BEC;
+extern s32 func_80029504(void);
+extern s32 func_80029178(s32 arg);
+extern void func_80029124(s32, s32);
+extern s32 func_801899AC(void *a0, s32 *p);
+
+void func_80189A60(void *a0) {
+    if (func_80029504() == 0x2DA) {
+        if ((func_80029178(0x11F) & 0xFF) == 0) {
+            func_80029124(0x11F, 1);
+            *(s32 *)((s32)a0 + 0xDC) = func_801899AC(a0, (s32 *)&D_80191BEC);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80189AC4);
 
@@ -5106,7 +5167,18 @@ s32 aF8018A224(param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_8018A31C);
+typedef struct { s16 x; u16 y; u16 z; s16 w; } Rec8_8018A31C;
+void func_8018A31C(s32 a0) {
+    extern Rec8_8018A31C D_801E3990[];
+    s32 i = 0;
+    if (D_801E3990[0].x != 0) {
+        do {
+            func_8012C658(0x10D, i, a0);
+            i++;
+        } while (D_801E3990[i].x != 0);
+    }
+}
+
 
 /* func_8018A390 — allocates a GTE-projection slot, seeds a random spread
  * vector from a per-index table, rotates it by the model's Y angle, applies

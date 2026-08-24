@@ -3341,7 +3341,18 @@ void func_8017BF20(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017BF58);
+extern void func_801827F4(void);
+extern void func_80171A1C(u8 *a0);
+extern s32 func_80174650(s32 a0);
+
+void func_8017BF58(void *a0) {
+    if (((s32 (*)(void *))func_801827F4)(a0) == 0) {
+        return;
+    }
+    func_80171A1C(a0);
+    func_80174650(a0);
+}
+
 
 DEFINE_func_8017BF98()  /* dedup: shared engine-core @0x8017BF98 (src/shared) */
 
@@ -6959,7 +6970,35 @@ void func_801815E8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801816AC);
+void func_801816AC(void) {
+    extern struct { u8 b[8]; } D_8018C0E0, D_801274E8;
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8 D_80126948[];
+    extern void func_8012A018(s32, s32);
+    extern void func_8012A094(s32);
+    extern void func_80181A78(void *);
+
+    D_801274E8 = D_8018C0E0;
+    D_80126954 = 0x190;
+    D_8012695C = 0x900;
+    D_80126968 = 0x140;
+    D_8012696A = 0xE00;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = 0;
+    D_8012697A = 0;
+    func_8012A018((s32)func_80181A78, 2);
+    func_8012A094((s32)D_80126948);
+    func_80181A78((void *)D_80126948);
+}
+
 
 typedef struct { u8 b[8]; } Blk8_80181774;
 
@@ -7056,7 +7095,23 @@ void func_80181AB4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80181BA4);
+void func_80181BA4(s32 param_1)
+{
+    typedef struct { u8 b[8]; } Blk8_80181774;
+    typedef struct { s16 m0, m1, m2, m3; } Sp10_80181BA4;
+    extern Blk8_80181774 D_801274E8;
+    extern s32 ratan2(s32 dx, s32 dy);
+    extern void func_80181CCC();
+    extern void func_80181F14();
+    Sp10_80181BA4 sp10;
+    register s32 ang __asm__("$16");
+
+    sp10 = *(Sp10_80181BA4 *)D_801274E8.b;
+    ang = ratan2(sp10.m0, sp10.m2) & 0xFFF;
+    func_80181CCC(param_1, (s32)&sp10, ang);
+    func_80181F14(param_1, (s32)&sp10, ang);
+}
+
 
 void func_80181C38(s32 param_1)
 {

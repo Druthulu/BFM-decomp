@@ -4755,7 +4755,25 @@ s32 func_80184214(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801842DC);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184334);
+extern s32 D_801D4358;
+extern s32 D_801D435C;
+extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+
+void func_80184334(int param_1) {
+    struct W80184334 {
+        s32 pad[15];
+        s32 f3C, f40, f44, f48, f4C, f50;
+    };
+    struct W80184334 *p = (struct W80184334 *)param_1;
+
+    p->f48 = (short)func_80012C6C((int)*(short *)&p->f48, (int)*(short *)D_801D4358, 0x20);
+    p->f4C = (short)func_80012C6C((int)*(short *)&p->f4C, (int)*(short *)(D_801D4358 + 2), 0x20);
+    p->f50 = (short)func_80012C6C((int)*(short *)&p->f50, (int)*(short *)(D_801D4358 + 4), 0x20);
+    p->f3C = (short)func_80012C6C((int)*(short *)&p->f3C, (int)*(short *)D_801D435C, 0x20);
+    p->f40 = (short)func_80012C6C((int)*(short *)&p->f40, (int)*(short *)(D_801D435C + 2), 0x20);
+    p->f44 = (short)func_80012C6C((int)*(short *)&p->f44, (int)*(short *)(D_801D435C + 4), 0x20);
+}
+
 
 
 extern void (*D_8018EC14[])(void);

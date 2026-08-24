@@ -8821,7 +8821,42 @@ void func_80185948(s16 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80185A24);
+extern void func_8012CBA4(s32 a0);
+extern void func_8012ADE4(u8 *a0);
+extern void func_80185D3C(void *a0, s32 a1);
+
+s32 func_80185A24(s32 arg0) {
+    s32 ret;
+    s32 raw;
+    s32 flags;
+    s32 h;
+
+    ret = 0;
+    raw = ((s32 (*)(s32))func_8012CBA4)(arg0);
+    flags = raw;
+    __asm__ __volatile__("" : "=r"(flags) : "0"(flags));
+    if ((raw & 0x6000) != 0x2000) {
+        func_8012ADE4((u8 *)arg0);
+        if (*(s32 *)(arg0 + 0x1C) > 8) {
+            *(s32 *)(arg0 + 0x1C) = *(s32 *)(arg0 + 0x1C) - 8;
+        }
+    }
+    h = (s16)flags;
+    if (((h & 0x8000) != 0) || ((flags & 0x6000) != 0x2000)) {
+        if (*(s16 *)(arg0 + 0x106) == 0) {
+            *(s16 *)(arg0 + 0x106) = (h < 0) ? -0x100 : 0x100;
+        }
+        if (*(s32 *)(arg0 + 0x1C) > 4) {
+            *(s32 *)(arg0 + 0x1C) = *(s32 *)(arg0 + 0x1C) - 4;
+        }
+        ret = 1;
+        *(u16 *)(arg0 + 0x108) = *(u16 *)(arg0 + 0x108) + 1;
+    } else {
+        *(u16 *)(arg0 + 0x106) = 0;
+    }
+    return (s16)(ret | ((s32 (*)(void *, s32))func_80185D3C)((void *)arg0, 0));
+}
+
 
 #include "common.h"
 

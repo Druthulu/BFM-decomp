@@ -5679,7 +5679,22 @@ void func_80186B08(s32 param_1)
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80186BB8);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80186C0C);
+void func_80186C0C(void *a0) {
+    typedef struct { u8 pad[0x5C]; u16 f5C; } F5C_S;
+    extern F5C_S *D_801E43CC[];
+    extern s8 D_80195ABC[];
+    s32 i;
+    s32 ent;
+    s32 c;
+
+    for (i = 0; (c = D_80195ABC[i]) >= 0; i++) {
+        ent = (s32)D_801E43CC[c];
+        if (*(s32 *)(ent + 0xDC) == 0) {
+            *(u16 *)(ent + 0xAE) = 0;
+        }
+    }
+}
+
 
 typedef struct {
     u8 pad[0x5C];
@@ -6724,7 +6739,35 @@ void func_801884C8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018850C);
+#include "common.h"
+
+extern void func_8013240C(s32 a0, s32 a1, u32 a2);
+extern void func_80183FCC();
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_80132784(s32 a0, s32 a1, u32 a2);
+extern s32 D_801E44E0;
+extern u32 D_801E44EC;
+extern void (*D_80196338[])(void);
+
+void func_8018850C(s32 *s0) {
+    s32 *v1;
+
+    v1 = (s32 *)*(s32 *)((u8 *)s0 + 0x20);
+    *(u16 *)((u8 *)v1 + 0x2C) |= 1;
+    ((void (*)(s32))func_8013240C)((s32)&D_801E44E0);
+
+    if (D_801E44EC & 0x4000) {
+        v1 = (s32 *)*(s32 *)((u8 *)s0 + 0x64);
+        *(u32 *)((u8 *)v1 + 0xE8) |= 2;
+        func_80183FCC((s32)s0);
+        *(u8 *)((u8 *)s0 + 0xC1) = 0;
+        *(u16 *)((u8 *)s0 + 0x5E) = 0;
+        func_8012AD44(s0, 2);
+        *(s32 *)((u8 *)s0 + 0x58) = (s32)&D_80196338 | 0x40000000;
+        func_80132784((s32)s0, *(s32 *)((u8 *)s0 + 0x64), 0x15);
+    }
+}
+
 
 #include "common.h"
 
@@ -10223,7 +10266,23 @@ void func_8018DDFC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018DE5C);
+extern s32 D_801270C8;
+extern void func_801439C0(u8 *a0);
+extern void func_8012C218(void *a0);
+
+void func_8018DE5C(void *a0) {
+    void *p;
+
+    if (D_801270C8 > 0x15) {
+        p = *(void **)((s32)a0 + 0xD0);
+        if (p != NULL) {
+            *(s16 *)((s32)p + 0) = 0;
+        }
+        func_801439C0((u8 *)*(s32 *)((s32)a0 + 0xCC));
+        func_8012C218((void *)a0);
+    }
+}
+
 
 void func_8018DEB8(s16 param_1) {
     struct {

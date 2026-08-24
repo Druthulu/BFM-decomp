@@ -3813,7 +3813,73 @@ void func_8017EC5C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017EC98);
+#include "common.h"
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001CA1C(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8017F0C8(s32 a0, s32 a1);
+extern s32  func_8012B77C(s32 out, s32 from, s32 to);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32  D_80126B64;
+extern u8   D_8018E064[];
+extern u8   D_8018E0C4[];
+extern u8   D_8018E10C[];
+extern u8   D_8018E11C[];
+
+void func_8017EC98(void *a0) {
+    s32 sp10[3];
+    s16 sp20[3];
+    s32 sp28[3];
+    s32 sp38[8];
+    s32 sp58;
+    s32 obj;
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    if (obj == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+
+    *(s32 *)(a0 + 0x20) = obj;
+    func_8001CA1C(obj, (s32)D_8018E064);
+    func_8012A828((s32)a0, D_8018E0C4);
+
+    *(s16 *)(obj + 0x18) = (*(s16 *)(a0 + 0xFC) < 0) ? 0x3000 : -0x3000;
+    *(s16 *)(obj + 0x1A) = *(s32 *)(a0 + 0xDC);
+    *(s32 *)(obj + 0x4) |= 0x50000000;
+    *(u16 *)(obj + 0x2C) |= 0x10;
+    *(u16 *)(a0 + 0x5C) = 0x8000;
+    *(s16 *)(a0 + 0xAE) = -1;
+    if (*(u16 *)(a0 + 0x70) & 1) {
+        func_8017F0C8((s32)a0, 0xFFF40000);
+        *(u16 *)(a0 + 0x34) += 1;
+    } else {
+        sp10[0] = *(s32 *)(a0 + 0x4);
+        sp10[1] = 0xFEFE0000;
+        sp10[2] = D_80126B64;
+        func_8012B77C((s32)&sp58, (s32)(a0 + 4), (s32)sp10);
+
+        sp20[2] = 0;
+        sp28[1] = 0;
+        sp28[0] = 0;
+        sp28[2] = -0x8000;
+        sp20[0] = sp58;
+        sp20[1] = sp58 >> 16;
+        func_80049CAC((s32)sp20, (s32)sp38);
+        func_800484EC((s32)sp38, (s32)sp28, (s32)(a0 + 0x44));
+    }
+
+    if (*(s16 *)(a0 + 0xFC) < 0) {
+        *(s32 *)(a0 + 0x58) = (((s32)D_8018E10C | 0x40000000) | 0x20000000);
+    } else {
+        *(s32 *)(a0 + 0x58) = (((s32)D_8018E11C | 0x40000000) | 0x20000000);
+    }
+    *(u16 *)(a0 + 0x2) += 1;
+}
+
 
 #include "common.h"
 
@@ -4926,7 +4992,7 @@ extern void func_80185218(void *arg0);
  * target .s call-site register setup (decl_prior had no "tu" row to adopt). */
 extern s32  func_80185680(void *a0, void *a1);
 extern void func_80185810(s32 a0);
-extern s32 func_80185480(void *a0, s32 a1);
+extern s32 func_80185480();
 
 extern s32 func_80047D3C(s32 a0);
 typedef struct { s16 vx, vy, vz, pad; } SVEC_801BA5A8;
@@ -5455,7 +5521,65 @@ s32 func_8018526C(s32 a0, s32 a1, s32 a2, s32 a3) {
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80185380);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80185480);
+typedef struct { s16 x, y, z, w; } V4_80185480;
+typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80185480;
+
+extern void func_80185FB4(s32, s32, s32);
+extern void func_8012F14C(s32, s32, s32);
+extern s32 func_80135888(s32, s32, s32, s32);
+extern void func_8012F568(s32, s32, s32, s32, s32, s32);
+extern s32 D_80126B58;
+extern u8 D_801152A8[];
+
+s32 func_80185480(void *a0, void *a1)
+{
+    V4_80185480 va;
+    V4_80185480 vb;
+    V4_80185480 c;
+    V4_80185480 d;
+    Mtx32_80185480 mtx;
+    u8 *s4p;
+    u8 *b58;
+    s32 w0;
+    s32 w1;
+    s32 sum;
+    s32 i;
+
+    s4p = (u8 *)a0 + 0x20;
+
+    ((void (*)(s32, void *, void *))func_80185FB4)(*(s32 *)(*(s32 *)((s32)a0 + 0x40) + 0x20),
+                  *(s32 *)((s32)a0 + 0x20), &mtx);
+
+    b58 = (u8 *)&D_80126B58;
+    w0 = *(s32 *)((s32)a0 + 0x10) << 1;
+    w1 = *(s32 *)((s32)a0 + 0x18) << 1;
+
+    va.x = 0;
+    vb.x = (*(s16 *)(s4p + 0x14) + *((s16 *)&w0 + 1)) >> 1;
+    va.z = 0;
+    vb.z = (*(s16 *)(s4p + 0x18) + *((s16 *)&w1 + 1)) >> 1;
+    sum = *(u16 *)(s4p + 0x16) + *(u16 *)(s4p + 0x1E) + 0x30;
+    vb.y = sum;
+    va.y = sum;
+
+    i = 0;
+    do {
+        func_8012F14C((s32)&mtx, (s32)&va, (s32)&c);
+        func_8012F14C((s32)&mtx, (s32)&vb, (s32)&d);
+        if (func_80135888(*(s32 *)(b58 + 0x20), *(s32 *)(b58 + 0x38),
+                          (s32)&c, (s32)&d) == 0) {
+            va = vb;
+            vb.x = *(u16 *)(s4p + 0x14) + *((u16 *)&w0 + 1);
+            vb.z = *(u16 *)(s4p + 0x18) + *((u16 *)&w1 + 1);
+            i++;
+        } else {
+            func_8012F568(1, 0x4201, 0, (s32)a1, (s32)&d, (s32)D_801152A8);
+            return 1;
+        }
+    } while (i < 2);
+    return 0;
+}
+
 
 extern s32 ratan2(s32 a0, s32 a1);
 
