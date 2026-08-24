@@ -3838,7 +3838,50 @@ void func_8017FE3C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8017FE78);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B2CC(s32 a0);
+
+/* Not declared anywhere in this TU -- typed by access width (law 2 fallback). */
+extern u8 D_801C8558[];
+
+void func_8017FE78(void *a0) {
+    register s32 s0 __asm__("$16");
+    register s32 s1 __asm__("$17");
+    s32 v0;
+    s32 v1;
+
+    s0 = (s32)a0;
+    s1 = 1;
+    *(s16 *)(s0 + 0x76) = s1;
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(s0 + 0x20) = v0;
+
+    if (v0 == 0) {
+        func_8012CAE4((void *)s0);
+        return;
+    }
+
+    func_8001C214(v0, (s32)D_801C8558);
+    *(s16 *)(s0 + 0xA) = *(u16 *)(s0 + 0xA) - 0x42;
+    func_8012C658(0x101, 0, s0);
+    func_8012C658(0x101, 1, s0);
+    v1 = *(s32 *)(s0 + 0x64);
+    *(u8 *)(s0 + 0x75) = 4;
+    *(s16 *)(s0 + 2) = s1;
+    v1 = *(u16 *)(v1 + 0x36);
+    *(s32 *)(s0 + 0xE4) = s0 + 0xFC;
+    *(s16 *)(s0 + 0xE8) = s1;
+    *(s32 *)(s0 + 0xEC) = 0;
+    *(s16 *)(s0 + 0xF0) = -2;
+    *(s16 *)(s0 + 0x108) = v1;
+    func_8012A828(s0, (void *)(s0 + 0xE4));
+    func_8012B2CC(s0);
+}
+
 
 #include "common.h"
 
@@ -5520,7 +5563,17 @@ void func_801833FC(s32 arg0) {
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018347C);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_801835F4);
+extern u16 D_80126B5E;
+extern s32 D_801EFCBC;
+
+void func_801835F4(void) {
+    if ((s16) D_80126B5E < 0) {
+        *(s32 *) (D_801EFCBC + 4) = 0xFE40;
+    } else {
+        *(s32 *) (D_801EFCBC + 4) = 0x1C0;
+    }
+}
+
 
 extern u16 D_80126B5E;
 extern s32 D_801EFCBC;
@@ -6183,7 +6236,40 @@ void func_8018467C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_801846B8);
+#include "common.h"
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32, s32);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_80132288(s32 *param_1, s32 *param_2, s32 param_3);
+
+extern s32 D_801EFA68;
+extern s32 D_801CC38C;
+extern s32 D_801CCE84;
+/* DATA-SYMBOL ALIAS (§37/§124): TU spells D_8018A800 as scalar extern s32; bind own name. */
+extern u8 aD8018A800[] __asm__("D_8018A800");
+
+void func_801846B8(void *arg0)
+{
+    register s32 s1 __asm__("$17") = (s32)arg0;
+    register s32 *p __asm__("$16");
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(s1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(s32))func_8012CAE4)(s1);
+    } else {
+        p = &D_801CCE84;
+        ((void (*)(s32, s32))func_8001C214)(v0, (s32)p);
+        *(u16 *)(s1 + 0xFC) = *(u16 *)(*(s32 *)(s1 + 0x64) + 0x36);
+        *(u16 *)(s1 + 0x2) = 1;
+        ((void (*)(s32, void *))func_8012A828)(s1, aD8018A800);
+        ((void (*)(s32 *, s32 *, s32))func_80132288)(&D_801EFA68, &D_801CC38C, *p);
+    }
+}
+
 
 #include "common.h"
 
@@ -8314,7 +8400,24 @@ INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_801885B
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80188620);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018875C);
+void func_8018875C(s32 a0) {
+    register s32 result __asm__("$2");
+    register s32 threshold __asm__("$3");
+
+    if (*(s16 *)(a0 + 0x70) & 0x8000) {
+        result = func_8012BCCC(a0);
+        threshold = 0x90000;
+    } else {
+        result = func_8012BCCC(a0);
+        threshold = 0x24000;
+    }
+    threshold = (threshold < result);
+    if (threshold) {
+        return;
+    }
+    func_80188240(a0);
+}
+
 
 extern s32 func_8012BEE8(s32 arg);
     extern void func_801883A0(s32 *a0);

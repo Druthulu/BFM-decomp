@@ -495,7 +495,12 @@ short flag;
 
 INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EFA40);
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EFC30);
+void func_801EFC30(void) {
+    extern void func_80016714(void *a0, s32 a1);
+    extern char D_801F801C;
+    func_80016714(&D_801F801C, 0x2DC);
+}
+
 
 
 /* 152-byte engine block, copied whole (struct assignment -> 9x16B block move + 8B tail).
@@ -965,7 +970,30 @@ void func_801F0BB4(void *a0) {
 
 INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801F0C4C);
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801F0D88);
+extern void func_801F0C4C();
+extern s32 D_801F84AC;
+extern s32 D_801F8334[][4];
+extern s32 D_801F8330[][4];
+
+s32 func_801F0D88(s32 a0) {
+    s32 s0;
+    s32 cnt;
+    s32 off;
+    s0 = a0;
+    func_801F0C4C();
+    cnt = D_801F84AC;
+    if (cnt > 0) {
+        off = 0;
+        do {
+            if (*(s32 *)((s32)((s32 *)D_801F8334) + off) == s0) {
+                return *(s32 *)((s32)((s32 *)D_801F8330) + off);
+            }
+            off += 16;
+        } while (off < cnt * 16);
+    }
+    return 0;
+}
+
 
 s32 func_801F0E0C(s32 a0, s32 a1, s32 a2) {
     return (a0 >= a1) && (a0 < a2);

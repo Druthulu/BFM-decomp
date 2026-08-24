@@ -1586,7 +1586,10 @@ void func_801A57E8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5AA0);
+void func_801A5AA0(void *arg0) {
+    func_8012AD44((s32 *)arg0, 1);
+}
+
 
 void func_801A5AC0(void *a0) {
     func_8012AD44((s32 *)a0, 2);
@@ -1717,7 +1720,7 @@ extern Pair4_801B02DC D_801B02DC[];
 extern Pair4_801B02DC D_801B02DE[];
 
 extern void func_801A6184(u8 *, s32, s32);
-extern void func_801A5E60(void *, void *);
+extern void func_801A5E60();
 
 void func_801A5D68(void *arg) {
     Entry8_801A5D68 buf[4];
@@ -1760,7 +1763,101 @@ void func_801A5D68(void *arg) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5E60);
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
+
+#define gte_ldv0(r0) __asm__ volatile ("lwc2 $0, 0( %0 );" "lwc2 $1, 4( %0 )" : : "r"( r0 ))
+#define gte_ldv3(r0, r1, r2) __asm__ volatile ("lwc2 $0, 0( %0 );" "lwc2 $1, 4( %0 );" "lwc2 $2, 0( %1 );" "lwc2 $3, 4( %1 );" "lwc2 $4, 0( %2 );" "lwc2 $5, 4( %2 )" : : "r"( r0 ), "r"( r1 ), "r"( r2 ))
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+#define gte_stsxy(r0) __asm__ volatile ("swc2 $14, 0( %0 )" : : "r"( r0 ) : "memory")
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ("swc2 $12, 0( %0 );" "swc2 $13, 0( %1 );" "swc2 $14, 0( %2 )" : : "r"( r0 ), "r"( r1 ), "r"( r2 ) : "memory")
+#define gte_stotz(r0) __asm__ volatile ("swc2 $7, 0( %0 )" : : "r"( r0 ) : "memory")
+#define gte_stflg(r0) __asm__ volatile ("cfc2 $12, $31;" "nop;" "sw $12, 0( %0 )" : : "r"( r0 ) : "$12", "memory")
+
+void func_801A5E60(s32 a0, u8 *v)
+{
+    extern void *func_80010A08(s32);
+    extern u8 D_800A6610[];
+    extern u16 D_800B9A02;
+    extern u8 D_801F8744[];
+    extern u8 D_801F8745[];
+    extern u8 D_801F8746[];
+
+    u8 *pv;
+    u32 *pot;
+    s32 pz;
+    s32 flag, flag2, otz;
+    u8 *pkt;
+    u8 *q;
+    u32 *otp;
+
+    pv = v;
+    {
+        register u32 tv __asm__("$2") = *(u16 *)&D_800B9A02;
+        register u32 bv __asm__("$3") = (u32)&D_800A6610;
+        pot = (u32 *)((tv << 14) + bv);
+    }
+    pkt = func_80010A08(0x24);
+    pkt[3] = 8;
+    pkt[7] = 0x38;
+
+    gte_ldv3(pv, pv + 8, pv + 0x10);
+    gte_rtpt();
+    gte_stflg(&flag);
+    gte_stsxy3(pkt + 8, pkt + 0x10, pkt + 0x18);
+    gte_ldv0(pv + 0x18);
+    gte_rtps();
+    gte_stflg(&flag2);
+    flag |= flag2;
+    gte_stsxy(pkt + 0x20);
+    gte_avsz4();
+    gte_stotz(&otz);
+
+    if ((flag & ~0x1000) == 0) {
+        {
+            register s32 ozt __asm__("$2") = otz;
+            pz = ozt - 8;
+        }
+        if ((u32)pz < 0x1000) {
+            if (*(u16 *)(pv + 4) & 1) {
+                pkt[4] = 0; pkt[5] = 0; pkt[6] = 0;
+            } else {
+                pkt[4] = D_801F8744[0]; pkt[5] = D_801F8745[0]; pkt[6] = D_801F8746[0];
+            }
+            if (*(u16 *)(pv + 0xC) & 1) {
+                pkt[0xC] = 0; pkt[0xD] = 0; pkt[0xE] = 0;
+            } else {
+                pkt[0xC] = D_801F8744[0]; pkt[0xD] = D_801F8745[0]; pkt[0xE] = D_801F8746[0];
+            }
+            if (*(u16 *)(pv + 0x14) & 1) {
+                pkt[0x14] = 0; pkt[0x15] = 0; pkt[0x16] = 0;
+            } else {
+                pkt[0x14] = D_801F8744[0]; pkt[0x15] = D_801F8745[0]; pkt[0x16] = D_801F8746[0];
+            }
+            if (*(u16 *)(pv + 0x1C) & 1) {
+                pkt[0x1C] = 0; pkt[0x1D] = 0; pkt[0x1E] = 0;
+            } else {
+                pkt[0x1C] = D_801F8744[0]; pkt[0x1D] = D_801F8745[0]; pkt[0x1E] = D_801F8746[0];
+            }
+            {
+                register u32 m24 = 0x00FFFFFF;
+                register u32 mFF = 0xFF000000;
+
+                otp = (u32 *)(pz * 4 + (u32)pot);
+                pkt[7] |= 2;
+                ((P_TAG *)pkt)->addr = ((P_TAG *)otp)->addr;
+                ((P_TAG *)otp)->addr = (u32)pkt;
+                q = func_80010A08(8);
+                q[3] = 1;
+                *(u32 *)(q + 4) = 0xE1000020;
+                ((P_TAG *)q)->addr = ((P_TAG *)otp)->addr;
+                ((P_TAG *)otp)->addr = (u32)q;
+            }
+        }
+    }
+}
+
 
 #include "common.h"
 
@@ -2137,7 +2234,38 @@ void func_801A6A18(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A6A38);
+#include "common.h"
+
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C2C4(s32 a0);
+extern void func_8012AD50(void *a0);
+
+extern u8 D_801AFF14[];
+extern u8 D_801AFF24[];
+
+void func_801A6A38(void *a0) {
+    s32 v0;
+
+    v0 = func_8012C1B8();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+    func_8001C2C4(v0);
+
+    *(s32 *)((s32)a0 + 0x58) = (s32)D_801AFF14 | 0x40000000;
+    *(u16 *)((s32)a0 + 0x5C) = 0x8800;
+    *(u8 *)((s32)a0 + 0xC0) = 1;
+    *(s32 *)((s32)a0 + 0xB4) = 0;
+    *(u16 *)((s32)a0 + 0xAE) = 0;
+    *(s32 *)((s32)a0 + 0xBC) = (s32)D_801AFF24;
+    *(u8 *)((s32)a0 + 0xC1) = 0;
+    *(s32 *)((s32)a0 + 0xC4) |= 2;
+    func_8012AD50(a0);
+}
+
 
 #include "common.h"
 
@@ -5002,7 +5130,57 @@ void func_801AB78C(void *a0) {
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AB818);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AB8C0);
+#include "common.h"
+
+typedef struct { char c[4]; } Blk4_801AB8C0;
+
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_800233CC(void *a0, unsigned short a1);
+extern s32 func_8001CA88(s32 a0, void *a1);
+extern void func_801A881C(s32 a0);
+
+extern u8 D_801F8978[3];
+extern Blk4_801AB8C0 D_801F897C;
+extern Blk4_801A7358 D_801A01E8;
+extern u8 D_801A0214;
+
+/* §8 rodata island: D_801A0214 (0x00800000) lives only in this function's
+ * migrated .s and has no INCLUDE_RODATA line in the TU; while the function
+ * was INCLUDE_ASM the island rode in on the stub. Re-emit it here so the
+ * banked C does not drop the symbol from the link. */
+__asm__(".section .rodata\nD_801A0214:\n.word 0x00800000\n.section .text");
+
+void func_801AB8C0(s32 s1)
+{
+    s32 a0;
+    s32 a1;
+    s32 v1;
+    u8 *s0;
+
+    if ((*(s32 *)(s1 + 0x20) = func_8012C1B8()) == 0) {
+        func_8012CAE4((void *)s1);
+        return;
+    }
+
+    if (*(s16 *)(s1 + 0x70) == 0) {
+        s0 = D_801F8978;
+        func_800233CC(s0, 0x30);
+        *(Blk4_801AB8C0 *)s0 = *(Blk4_801AB8C0 *)&D_801A0214;
+        D_801F897C = (*(Blk4_801AB8C0 *)&D_801A01E8);
+    }
+
+    func_8001CA88(*(s32 *)(s1 + 0x20), D_801F8978);
+
+    a0 = s1;
+    a1 = *(s32 *)(a0 + 0x20);
+    *(s32 *)(a1 + 4) |= 0x50000000;
+    v1 = *(s32 *)(a0 + 0x20);
+    *(s16 *)(v1 + 0x1A) = 0x200;
+    *(s16 *)(v1 + 0x18) = 0x200;
+    func_801A881C(a0);
+}
+
 
 extern u16 D_8019FF8A;
 extern void func_801A8884(s32 *a0);

@@ -783,7 +783,49 @@ void func_800D2D44(s32 arg0) {
 
 INCLUDE_RODATA("asm/md_MAIN_003/nonmatchings/md_MAIN_003", D_800CEDF8);
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D2D68);
+__asm__(
+    ".section .rodata\n"
+    ".align 2\n"
+    ".globl D_800CEE1C\n"
+    "D_800CEE1C:\n"
+    ".asciz \"MDEC_rest:bad option(%d)\\n\"\n"
+    ".align 2\n"
+    ".section .text\n"
+);
+
+extern void func_800D2E64();
+extern void func_8005C604();
+extern volatile s32 *aD800DB670 __asm__("D_800DB670");
+extern volatile s32 *aD800DB644 __asm__("D_800DB644");
+extern volatile s32 *aD800DB650 __asm__("D_800DB650");
+extern s32 D_800DB52C;
+extern s32 D_800DB5B0;
+extern char D_800CEE1C[];
+
+void func_800D2D68(s32 arg0) {
+    s32 dummy;
+    switch (arg0) {
+    case 0:
+        *aD800DB670 = 0x80000000;
+        *aD800DB644 = 0;
+        *aD800DB650 = 0;
+        *aD800DB670 = 0x60000000;
+        func_800D2E64((s32)&D_800DB52C, 0x20);
+        func_800D2E64((s32)&D_800DB5B0, 0x20);
+        break;
+    case 1:
+        *aD800DB670 = 0x80000000;
+        *aD800DB644 = 0;
+        *aD800DB650 = 0;
+        dummy = *aD800DB650;
+        *aD800DB670 = 0x60000000;
+        break;
+    default:
+        func_8005C604(D_800CEE1C, arg0);
+        break;
+    }
+}
+
 
 extern s32 *D_800DB674;
 extern s32 *D_800DB63C;

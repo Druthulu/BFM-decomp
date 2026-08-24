@@ -4733,7 +4733,22 @@ extern s32 func_8012AD50(void *a0);
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017F65C);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017F6A4);
+void func_8017F6A4(void *a0) {
+    extern s32 D_801151D4;
+    extern s32 func_801823B8(void*, s32, void*);
+    extern s32 func_80182334(void);
+    extern void func_8012C098(void);
+
+    if (*(s32 *)((s32)a0 + 0xDC) - 10 == *(u16 *)(D_801151D4 + 0x38)) {
+        func_8002D4C8(0x894, 2);
+    }
+    ((void (*)(s32, s32, s32))func_801823B8)((s32)a0, 0, -2);
+    if (((s32 (*)(s32))func_80182334)((s32)a0) == 0) {
+        ((void (*)(s32))func_8012C098)((s32)a0);
+        func_8002D4C8(0xA76, 0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017F724);
 
@@ -4907,7 +4922,24 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801800D8);
+extern void func_8012C1B8(void);
+extern void func_8018227C(void*, void*);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+extern u8 D_801963AC[];
+
+void func_801800D8(s32 arg0) {
+    s32 ret;
+
+    ret = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(arg0 + 0x20) = ret;
+    if (ret != 0) {
+        ((void (*)(s32, u8 *))func_8018227C)(arg0, D_801963AC);
+        func_8012C588(0x2B2, arg0);
+        func_8012AD50((void *)arg0);
+    }
+}
+
 
 
 
@@ -5507,7 +5539,23 @@ void func_80181848(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_801818D4);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_80182334(void);
+extern s32 func_80182478();
+extern s32 func_8012AD50(void *a0);
+
+void func_801818D4(void *arg0) {
+    void *sp0;
+
+    sp0 = arg0;
+    func_80182334();
+    if (func_80182478() + 0x23 == *(s32 *)((s32)sp0 + 0xDC)) {
+        *(s16 *)((s32)sp0 + 0xFE) = 0;
+        func_8002D4C8(0x891, 0);
+        func_8012AD50(sp0);
+    }
+}
+
 
 void func_80181928(s32 arg0) {
     s16 temp_v0;

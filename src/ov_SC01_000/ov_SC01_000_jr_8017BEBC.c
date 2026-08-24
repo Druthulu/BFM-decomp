@@ -3226,7 +3226,16 @@ void func_8017CF60(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017CF9C);
+extern void func_800CFBCC(s32 arg);
+
+s32 func_8017CF9C(void) {
+    if ((func_800167F0(4) & 0xFFFF) == 0) {
+        return 0;
+    }
+    func_800CFBCC(0);
+    return 1;
+}
+
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 void func_8017CFD4(void) {
@@ -3277,7 +3286,22 @@ void func_8017D024(void) {
 
 INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017D0BC);
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017D164);
+void func_8017D164(u16 *arg0, u16 *arg1) {
+    extern u16 D_80182698;
+    extern u16 D_8018269A;
+    extern u16 D_8018269C;
+    extern u16 D_801826A0;
+    extern u16 D_801826A2;
+    extern u16 D_801826A4;
+
+    D_80182698 = *(u16 *)((s32)arg0 + 0x0);
+    D_8018269A = *(u16 *)((s32)arg0 + 0x2);
+    D_8018269C = *(u16 *)((s32)arg0 + 0x4);
+    D_801826A0 = *(u16 *)((s32)arg1 + 0x0);
+    D_801826A2 = *(u16 *)((s32)arg1 + 0x2);
+    D_801826A4 = *(u16 *)((s32)arg1 + 0x4);
+}
+
 
 
 extern void (*D_801826A8[])(void);
@@ -3358,7 +3382,23 @@ void func_8017D290(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017D428);
+extern s16 D_80182698;
+extern s16 D_8018269A;
+extern s16 D_8018269C;
+extern s16 D_801826A0;
+extern s16 D_801826A2;
+extern s16 D_801826A4;
+
+void func_8017D428(s32 param_1)
+{
+    *(s32 *)(param_1 + 0x3C) = D_80182698;
+    *(s32 *)(param_1 + 0x40) = D_8018269A;
+    *(s32 *)(param_1 + 0x44) = D_8018269C;
+    *(s32 *)(param_1 + 0x48) = D_801826A0;
+    *(s32 *)(param_1 + 0x4C) = D_801826A2;
+    *(s32 *)(param_1 + 0x50) = D_801826A4;
+}
+
 
 s32 func_8017D488(void) {
         return 0x80;
@@ -3387,6 +3427,17 @@ extern void func_80016224(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017EB54);
+extern s16 D_800AF7CE;
+extern void func_80016224(s32 a0, s32 a1);
+
+s32 func_8017EB54(void) {
+    D_800AF7CE = (u16)D_800AF7CE + 4;
+    if ((u16)D_800AF7CE > 0xFF) {
+        D_800AF7CE = 0xFF;
+    }
+    func_80016224((u8)D_800AF7CE, 0);
+    return (u16)D_800AF7CE >= 0xFF;
+}
+
 
 

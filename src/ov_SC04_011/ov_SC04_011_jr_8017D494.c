@@ -9922,7 +9922,37 @@ void func_8018A074(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018A0E0);
+#include "common.h"
+
+void func_8018A0E0(s32 arg0)
+{
+    /* All declaration surface kept block-scope (house style, cf.
+     * func_80188094): private types + __asm__ label aliases reach the
+     * assembler symbols without touching the TU's own decls. */
+    typedef struct { s32 w[8]; } Mtx_8018A0E0;  /* 0x20, align 4 */
+
+    extern Mtx_8018A0E0 aAE620_8018A0E0 __asm__("D_800AE620");
+    extern u8 a194A68_8018A0E0[] __asm__("D_80194A68");
+    extern void RotMatrixZ(s32 a0, void *a1);
+    extern s32 func_80132EF4(s32 a0, s32 a1);
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+    Mtx_8018A0E0 m;     /* sp+0x10 */
+    s32 i;              /* s0 */
+    s32 p;
+
+    m = aAE620_8018A0E0;
+    RotMatrixZ(-0x200, &m);
+    for (i = 0; i < 6; i++) {
+        p = func_80132EF4(arg0, 0x22);
+        if (p != 0) {
+            *(s32 *)(p + 0x34) = 0x6002;
+            func_800484EC((s32)&m, (s32)a194A68_8018A0E0, p + 0x10);
+        }
+        RotMatrixZ(0x100, &m);
+    }
+}
+
 
 #include "common.h"
 
@@ -10946,7 +10976,50 @@ void func_8018BA9C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018BAC4);
+extern u8 D_801EFEA0[];
+extern u8 D_801EFEA1;
+extern u8 D_801EFEA2;
+
+void func_8018BAC4(void) {
+    register u8 *pa __asm__("$4");
+    register s32 t __asm__("$2");
+    register s32 r __asm__("$3");
+    register s32 x __asm__("$3");
+
+    pa = &D_801EFEA0[0];
+    x = *(volatile u8 *)pa;
+    if (x != 0) {
+        t = x - 0x18;
+        r = t;
+        if (t < 0) {
+            r = 0;
+        }
+        *pa = r;
+    }
+
+    pa = &D_801EFEA1;
+    x = *(volatile u8 *)pa;
+    if (x != 0) {
+        t = x - 0x18;
+        r = t;
+        if (t < 0) {
+            r = 0;
+        }
+        *pa = r;
+    }
+
+    pa = &D_801EFEA2;
+    x = *(volatile u8 *)pa;
+    if (x != 0) {
+        t = x - 0xD;
+        r = t;
+        if (t < 0) {
+            r = 0;
+        }
+        *pa = r;
+    }
+}
+
 
 void func_8018BB44(void) {
     extern u8 sBB44_A0 __asm__("D_801EFEA0");

@@ -5503,7 +5503,34 @@ void func_80186600(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018675C);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018687C);
+extern u16 D_801E4BBC;
+extern s32 D_80195AD0[];
+extern s32 D_80195AD2[];
+
+s32 func_8018687C(s32 a0)
+{
+    if (*(u32 *)(a0 + 0xE8) & 0x800) {
+        return 0;
+    }
+
+    if (*(s32 *)(a0 + 0x10) > 0) {
+        if (*(s16 *)(D_80195AD2 + D_801E4BBC) < *(s16 *)(a0 + 6)) {
+            *(s16 *)(a0 + 6) = *(s16 *)(D_80195AD2 + D_801E4BBC);
+            return 1;
+        }
+    }
+
+    if (*(s32 *)(a0 + 0x10) >= 0) {
+        return 0;
+    }
+
+    if (*(s16 *)(a0 + 6) >= *(s16 *)(D_80195AD0 + D_801E4BBC)) {
+        return 0;
+    }
+    *(s16 *)(a0 + 6) = *(s16 *)(D_80195AD0 + D_801E4BBC);
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018692C);
 
@@ -8921,7 +8948,31 @@ void func_8018C1C0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018C204);
+#include "common.h"
+
+extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+
+void func_8018C204(void *a0) {
+    extern u16 D_80196B60;
+    extern u16 D_80196B62;
+    s16 p1[4];
+    s16 p2[4];
+
+    p1[2] = 0;
+    p1[0] = 0;
+    p2[2] = 0;
+    p2[0] = 0;
+    p1[1] = D_80196B60;
+    p2[1] = D_80196B62;
+
+    if (func_8012DEB8((s32)a0, (s32)p1, (s32)p2)) {
+        D_80126B98 = 5;
+        D_80126B96 |= 0x4200;
+    }
+}
+
 
 
 extern void (*D_80196B8C[])(void);
@@ -9683,7 +9734,27 @@ void func_8018D270(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018D318);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018D43C);
+extern s32 D_801270C8;
+extern s32 func_8012C750(s32 a0);
+
+void func_8018D43C(void) {
+    struct {
+        u16 f00, f02, f04, f06, f08, f0A, f0C, f0E;
+        u32 f10;
+    } buf;
+
+    D_801270C8 = 0;
+    buf.f06 = 0x52;
+    buf.f04 = 0;
+    buf.f02 = 0;
+    buf.f00 = 0;
+    buf.f0A = 0;
+    buf.f08 = 0;
+    buf.f0E = 0;
+    buf.f10 = 0;
+    func_8012C750((s32)&buf);
+}
+
 
 extern s32 D_801270C8;
 extern s32 func_8012C750(s32 a0);
