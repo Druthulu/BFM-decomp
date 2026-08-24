@@ -224,15 +224,60 @@ def render(secs):
     return "\n".join(L) + "\n"
 
 
+def _line_alias(secs):
+    """The L->§ ALIAS TABLE (P31 S59b).
+
+    Every index row ends with a `<sub>L1234</sub>` anchor giving the section's LINE in the cookbook.
+    Drafters read that number as a section id and cite it: the at/bh/bk/bl harvest alone carries
+    `§1907, §12479, §2965, §11383, §8892, §5583, §1832, §2429, §1755, §2609` — line numbers, every
+    one, and a grep for any of them by the next reader returns nothing. The number is real and the
+    reading is wrong, which is the worst kind of dead end because it looks like a citation.
+
+    So publish the mapping instead of pretending it is not being made: a reverse table keyed by the
+    L-number, which resolves both a bare `L1234` and a mis-cited `§1234` in ONE grep. Nearest-line
+    rows are included because a note usually cites the anchor of the row it was reading, not an
+    exact section start."""
+    rows = sorted(secs, key=lambda x: x["line"])
+    out = ["", "", "---", "",
+           "## L-number → section (if you cited `§1234` and the grep failed, it was a LINE number)",
+           "",
+           "Index rows carry a `<sub>L…</sub>` anchor = the section's line in `docs/matching-cookbook.md`.",
+           "Notes routinely quote that as a section id. This table resolves it. Grep bait: `L-number`,",
+           "`line number cited as section`, `§ grep failed`.",
+           "", "| L | section | title |", "|---|---|---|"]
+    for x in rows:
+        out.append(f"| L{x['line']} | {x['ref']} | {x['title'][:90]} |")
+    return "\n".join(out) + "\n"
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--resolve", metavar="N",
+                    help="resolve a cited number to a section: `--resolve 12479` answers the "
+                         "'I cited §12479 and the grep found nothing' case, because that is a "
+                         "cookbook LINE number read off an index <sub>L…</sub> anchor. Accepts "
+                         "`12479`, `L12479` or `§12479`.")
     ap.add_argument("--check", action="store_true",
                     help="exit non-zero if docs/cookbook-index.md is stale vs the cookbook")
     a = ap.parse_args()
     secs = sections()
+    if a.resolve:
+        n = int(str(a.resolve).lstrip("L§ ").strip())
+        rows = sorted(secs, key=lambda x: x["line"])
+        hit = None
+        for x in rows:
+            if x["line"] <= n:
+                hit = x
+            else:
+                break
+        if not hit:
+            print(f"L{n}: before the first section")
+            return 1
+        print(f"L{n} is inside {hit['ref']} (starts L{hit['line']}) — {hit['title']}")
+        return 0
     if not secs:
         sys.exit("cookbook_index: parsed 0 sections — the header format changed; fix HDR (R32)")
-    text = render(secs)
+    text = render(secs) + _line_alias(secs)
     if a.check:
         cur = open(OUT, errors="replace").read() if os.path.exists(OUT) else ""
         if cur != text:

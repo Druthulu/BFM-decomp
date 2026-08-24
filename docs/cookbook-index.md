@@ -1941,3 +1941,779 @@
 - **ADD-9** — → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED SCALAR NEIGHBOR IS DEAD-STORED  <sub>L25127</sub>
 - **ADD-10** — → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS AN OUTGOING-ARGUMENT MATERIALISATION  <sub>L25137</sub>
 - **ADD-11** — → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)  <sub>L25146</sub>
+
+
+---
+
+## L-number → section (if you cited `§1234` and the grep failed, it was a LINE number)
+
+Index rows carry a `<sub>L…</sub>` anchor = the section's line in `docs/matching-cookbook.md`.
+Notes routinely quote that as a section id. This table resolves it. Grep bait: `L-number`,
+`line number cited as section`, `§ grep failed`.
+
+| L | section | title |
+|---|---|---|
+| L30 | §3-How | to use this |
+| L39 | §1 | Idiom catalog (asm pattern → C that produces it) |
+| L41 | §3-I1 | Unsigned range check: `(x - lo) < (hi-lo)` → `addiu`+`sltiu` |
+| L47 | §3-I2 | Byte mask forces `andi` even after `lbu` |
+| L54 | §3-I3 | Division by a constant → magic multiply |
+| L60 | §3-I4 | Runtime (variable) division → `divu` + zero-check `break` (NEEDS `--expand-div`) |
+| L69 | §2 | Writing matching C (what makes gcc emit X) |
+| L71 | §3-T1 | Loop pointer: top-of-body for `addu` induction, not constant-folded `addiu` |
+| L78 | §3-T2 | Source statement order drives instruction scheduling |
+| L85 | §3-T3 | Types |
+| L90 | §3-T4 | Branch polarity: invert the source condition to flip gcc's chosen branch |
+| L107 | §3 | When a diff is pure scheduling → decomp-permuter (harness built, Phase 6) |
+| L128 | §3a | Escalation TIER above the permuter — web-research the compiler internals (HIGH VALUE, prov |
+| L147 | §3b | §31-directed permuter mutation — bias the search over the class's levers (Phase 24 T5) |
+| L190 | §4 | Flag/toolchain gotchas |
+| L199 | §5 | Known hard-residual classes (instruction-identical, one byte-exact blocker) |
+| L211 | §5a | Cross-jump tail-merge — gcc collapses two byte-identical blocks the original kept separate |
+| L246 | §6 | Per-module optimization mixing — the -O0 boot module (Phase 7) |
+| L254 | Detecting | the opt level (do this first) |
+| L288 | Build | mechanism — per-file opt override (splat resegmentation) |
+| L303 | §7 | PsyQ SDK types & symbols (the library-call prerequisite) |
+| L320 | §8 | rodata island (compiler jump tables) — the `.data→.rodata→.data` sandwich (Phase 7) |
+| L342 | §8a | rodata island in a flat OVERLAY — the tail sandwich, per matched jr-function (Phase 26 — P |
+| L380 | §8a-pad | a trailing `.word 0x00000000` under a jtbl dlabel is `.align` PAD, not an entry (Phase 26  |
+| L404 | §8b | MULTI-jtbl per overlay — the `ld_interleave --order` sandwich + the same-subseg cases (Pha |
+| L437 | §8c | Splitting a TU means rebuilding its DECLARATION ENVIRONMENT, not moving text (Phase 26 ses |
+| L483 | §8d | Templating a body INTO a TU must not CHANGE its declaration environment — demote the carri |
+| L530 | §8e | The jtbl ALIGNMENT LAW + the pad-spec filter — multi-table .rodata spans (Phase 29, byte-p |
+| L613 | §9 | Link real PsyQ library objects byte-exact (Phase 7 — GO proven) |
+| L642 | §9.1 | Generalised per-object linker — `tools/psyq_link.py` (+ `psyq_link_lib.py`), 18/18 libcd b |
+| L666 | §9.2 | Wire a library region into the build with NOLOAD — no data carving (`tools/psyq_link_regio |
+| L685 | §9.3 | Make it the build: resegment + swap + resolve (`tools/psyq_integrate.py`, libcd DONE) |
+| L712 | §9.4 | Integrating a SECOND library (libgs block 6 after libcd) — multi-library gotchas |
+| L740 | §9.5 | Integrating a WHOLE multi-block library in one call (full libgs — Phase 7 session G) |
+| L766 | §9.6 | Scaling library linking to the whole EXE (Phase 8 — 8 libs linked, 20%→50% byte-identical) |
+| L802 | §9.7 | Binary-agnostic toolchain refactor (Phase 9) — the reusable pattern for Gen2 |
+| L835 | §10 | Closing the regalloc/scheduling hard tail by hand (LZSS, Phase 7 session F — the full clos |
+| L844 | §3-The | clean object-level metric (use this, not the permuter score, for jtbl/rodata functions) |
+| L856 | Residual | A — commutative `|`/`&`/`+` result lands in the wrong source-operand register |
+| L867 | Residual | B — a `return <const>` materialised late / merged instead of distributed per-site |
+| L908 | §11 | Cross-binary dedup & code-sharing (Phase 11 — "one match unlocks many") |
+| L926 | §3-The | mechanism: game-code dedup is SOURCE-LEVEL, not an object swap (R-D1, the key lesson) |
+| L959 | Per-binary | toolchain provenance (R24) |
+| L964 | §12 | Ultracode harvest — parallel-draft + byte-gate at scale (Phase 12, resident: 1.4%→71.7% in |
+| L1056 | §13 | Add a location overlay — the canonical runbook (Phase 13; the Phase-15 fleet recipe) |
+| L1062 | One-command | onboarding — `tools/new_overlay.sh <SCxx> <FILE_nnn>` |
+| L1071 | §3-The | flat-blob overlay config (what the template encodes) |
+| L1079 | §3-THE | NON-4-ALIGNED-OVERLAY GOTCHA (≈75% of the fleet; fixed in the template + Makefile, automat |
+| L1091 | §3-The | A→B→C per-overlay workflow |
+| L1108 | Dedup-credit | (§11) for overlays — two shapes |
+| L1120 | Fleet | build — `make build-all` / `make check-all` |
+| L1126 | §14 | Propagate a matched function across the fleet — `tools/dedup_propagate.py` (Phase 15) |
+| L1169 | §14a | The fleet bulk run (Phase 15 — `--auto-from`, 947 REAL → 74,527; 3.82% → 22.14% in one pas |
+| L1192 | §14b | Harvesting the UNMATCHED shared core — the match_one wall (Phase 15) |
+| L1213 | §14c | Callee-signature-aware harvest — breaking the extern-type-conflict wall (Phase 15, T6) |
+| L1269 | §14d | Deterministic recovery beats agent waves on the hard tail (Phase 15, the final-session fin |
+| L1298 | §14e | Two hard-tail dead-ends (Phase 15 — documented so they aren't re-attempted) |
+| L1313 | §15 | Struct-heavy shared-core pipeline (Phase 16) — empirical determinations (S0) |
+| L1335 | §16 | Guided hand-matching the struct-heavy core (Phase 17 — beats the §15 brute-force) |
+| L1376 | §17 | The compiler-quirk wall — the matching TOOLKIT (Phase 18; gcc-2.7.2 source + byte-gated) |
+| L1384 | Register-allocation | ORDER (call-crossing $s0/$s1 swap) → FORCE it with register pins (byte-proven) |
+| L1404 | §3-The | STEERABLE idioms (byte-confirmed this phase) |
+| L1421 | §3-The | pipeline gotcha — match_one ≠ the gate; `sig_unify` is MANDATORY |
+| L1428 | §3-The | LOOSE-TYPING wall is real for narrow params (Phase 16, reconfirmed) |
+| L1435 | Strategic | conclusion — the match-% lever post-research |
+| L1445 | §17a | The TOOLKIT at WAVE scale (Phase-18 Step-3b/Step-1 — measured) + the pipeline-integration  |
+| L1519 | §18 | Per-file `-O0` split inside an overlay/blob (Phase 19 T1) |
+| L1597 | §19 | Scaling the toolkit waves — the recovery PIPELINE + the propagation CAP (Phase 19 T3) |
+| L1632 | §20 | The wave-at-scale GATE CAP + residual-class verdicts (Phase 20) |
+| L1637 | §3-THE | CAP: at this tail the match_one→gate gap is the LOOSE-TYPING CALL-GRAPH wall (not cheap pl |
+| L1654 | Diagnostic | lesson: a failed in-TU build leaves a STALE `.o` |
+| L1660 | §3-NEW | / CONFIRMED residual classes (this session) |
+| L1681 | Operational | gotchas (cost real time) |
+| L1689 | What | WORKED — the Phase-20 reusable wins |
+| L1701 | Phase-20 | RESOLUTION — `tools/cast_call_sites.py` BUILT + the cap re-diagnosed (R14, byte-proven) |
+| L1752 | §21 | wave-distilled idioms (Phase 21) |
+| L2005 | §22 | DEF-side loose-typing recovery + grinder blacklist (Phase 21) |
+| L2032 | §23 | Giant `func_80153E00` cracked (scalar-data CAST); BUT most giant drafts are STALE+INCOMPLE |
+| L2085 | §24 | The `ov_SC01_077_a.c` split-file vein: split-aware propagation, but loose-typing-gated (Ph |
+| L2132 | §25 | The "schedule" class is mostly COALESCING (pin-crackable), not scheduling; + the gate two- |
+| L2144 | §3-The | crack: the residual was gcc-2.7.2 COPY-COALESCING, not the instruction scheduler |
+| L2160 | §3-The | genuine scheduler — `rank_for_schedule` (sched.c), for when it IS scheduling |
+| L2169 | §3-The | genuine schedule WALLS (do NOT re-grind — stub) |
+| L2177 | §3-h | _exact OVER-COUNTS ×134 — verify shareability before crediting a class's "reach-134" (R14) |
+| L2189 | §3-The | gate two-stage — sig_unify is a FALLBACK, not unconditional (`gate_stage.py`, §19 folded i |
+| L2199 | §26 | The cheap close=0 recovery lever is EXHAUSTED; `idiom_loop --assess` was DOUBLY inflated ( |
+| L2205 | §3-The | `_a` close=0 recovery banks 0/20 — same def-side wall as MAIN (0/40) |
+| L2233 | Where | this leaves the reach-134 tail (cont.6 option-3, now CONFIRMED byte-backed) |
+| L2259 | §27 | Giant matching recipe (Phase 21 cont.7b — validated on func_80176D94, 152 ins) |
+| L2325 | §28 | Banking a "close=0 gate-rejected" giant: the canonical-extern recovery (Phase 22 T1, byte- |
+| L2345 | §28a | decomp.wiki GCC patterns worth trying on BFM giants (decomp.wiki/compilers/GCC, raw at dec |
+| L2352 | §28c | The close=0 recovery is NOT fully exhausted (§26 corrected, R14); + the dedup_propagate re |
+| L2357 | §28b | The struct-walled close=0 giant (§28 case #3) IS bankable: the engine_types.h type-lift (P |
+| L2366 | §28d | The "macro-extern-injection" lever: freeing reach-134 inline matches dedup_propagate skips |
+| L2374 | §29 | Reasoning-model (GLM5.2) DEF-side reconciliation idioms + the wall's hard limit (Phase 23  |
+| L2382 | §30 | Fable5Max cracks §20/§10 "unsteerable" from the gcc SOURCE: store-vs-load is a `/s` aliasi |
+| L2394 | §30a | §30 generalizes to the FULL near-miss backlog (via STANDARD Opus agents, not just Fable5)  |
+| L2402 | §31 | THE gcc-2.7.2 CODEGEN MAP: pass → residual → C-lever catalog (Phase 23; 4 Fable5 agents re |
+| L2422 | §32 | The region-a CAMERA-GIANT idiom set: struct-base hoisting + 4 sibling levers (Phase 24 T7, |
+| L2434 | §33 | Automating the giant decl-reconcile: `tools/reconcile_decls.py` (the DATA analog of §20's  |
+| L2454 | §34 | The `func_80138ED0` giant crack: gcc-2.7.2's **3-qty sort bug** + the **zero-byte asm allo |
+| L2471 | §35 | The region-a sibling-giant harvest: difficulty ≠ $s-reg count (it's global-array hoisting) |
+| L2487 | §36 | Fable5 giant-crack levers (Phase 24 T7 Fable5 batch; accumulates as each lands — full RTL  |
+| L2506 | §37 | The T7 §G giant endgame: 6/8 cracked, meta-laws + transferable levers (Phase 24, 2026-07-0 |
+| L2527 | §38 | The WHALE `func_80144B9C` (770 ins): the -O0 struct-assign memcpy idiom + the -O0 reach-13 |
+| L2537 | §39 | The ×1→×134 giant-endgame: propagate a matched **-O2** giant via the NATIVE DEFINE-macro p |
+| L2553 | §40 | Structural families: the MECHANICAL symbol-remap (crack one exemplar → remap the rest, ~0  |
+| L2601 | §40a | The DECL-RECONCILE pass (type-lift so remapped drafts compile in the sibling TU) (Phase 25 |
+| L2634 | §40b | The reloc-tracker blind spot: the indexed-global idiom that hid the "reach-1 tail" (Phase  |
+| L2676 | §40c | The h_seq per-sibling reconcile: templating a reconcile-class crack ×134 (Phase 26 Task 8, |
+| L2693 | §31-triage | R17 applies to CODEGEN residuals, never to a compile ERROR (Phase 26 session 7, Drew asked |
+| L2710 | §41 | The DEF-SIDE canonical-sig wall: mechanically banking a drafted giant past `conflicting ty |
+| L2754 | §41a | v3.1: the def-side wall was ~71% TOOL-shaped — the five measured defects + the laws that d |
+| L2809 | §41b | T7 execution: the object-only probe OVER-counts BANKABLE by two link/rodata classes (Phase |
+| L2839 | §41c | T7-M2: the ×134 def-side-wall sweep via per-sibling RE-reconcile (Phase 25, 2026-07-10; 4, |
+| L2858 | §41b | addendum — M4 "reconcile_decls" tier is ALSO a probe over-count: 0/8 mechanical (Phase 25  |
+| L2878 | §41d | `void`→`s32` is NOT always byte-neutral: gate the RAW draft FIRST (Phase 26 session 6, byt |
+| L2900 | §42 | The F-band ≤28 regalloc crack wave: register-pin/DENSITY levers beat the permuter (Phase 2 |
+| L2953 | §42a | addendum — wave 2 (residuals + 29-100 band): iso-MATCH ≠ real-TU bank, the memcpy→struct-a |
+| L2994 | §42b | addendum — wave 3 (Max, 2026-07-10c): THE STALE-OBJECT GATE TRAP + the read-global `&`-cas |
+| L3033 | §42c | addendum — wave 3 (Max orchestrator + CORRECTED Ultracode fan-out, 2026-07-10c): the real- |
+| L3082 | §42d | addendum — wave 4 (rtu_match fan-out over the mapped frontier, 2026-07-10c): 24/26 MATCH,  |
+| L3121 | §42e | propagating a CRACK ×134: the def-finder bug + the byte-drift residual (the "remap-fail" m |
+| L3195 | §43 | The K&R s16-param definition DISSOLVES the "narrow-param wall" for by-value register args  |
+| L3242 | §44 | The Phase-25 cheap-Opus giant batch: 5 structural levers + the §43 extension (2026-07-11,  |
+| L3298 | §45 | The flagship `func_80133CD4` crack (399 ins ×134): the merged-variable permutation-breaker |
+| L3313 | §46 | The `func_80178D40` crack (890 ins ×134, the heaviest core in the game): four LOOP-STRUCTU |
+| L3365 | §47 | The live-length SLIDER: splitting a global.c allocno-priority TIE with one zero-byte asm ( |
+| L3405 | §48 | The 12-core jr crack wave: the ALLOCNO-PRICING dials and the EBB rule (Phase 26 session 8, |
+| L3413 | §3-A. | ALLOCNO-PRICING DIALS — move a value into the register you want, byte-neutrally |
+| L3444 | §3-A4 | SINK THE CONSUMER CALL INTO THE ARMS (the inverse of A1; `func_8016AB6C`, byte-proven) |
+| L3468 | §3-B. | THE EBB RULE — the general form of §46-L2 |
+| L3484 | §3-C. | TYPE- AND SHAPE-DRIVEN CODEGEN (the C type literally selects the addressing mode) |
+| L3508 | §3-D. | THE CROSS-JUMP RATCHET (the sharpest new trap — `func_80131340` L-C) |
+| L3518 | §3-E. | Meta |
+| L3527 | §49 | The LUID DIAL: a zero-byte SCHEDULING dial (the sched.c analogue of §47) — `func_8017A4AC` |
+| L3576 | §50 | Refinements that BOUND §47/§48 (from the `func_80135EB0` wall, 21→6; Phase 26 session 8) |
+| L3630 | §51 | TOOLING INTEGRITY: the silent skip, and how to hunt it |
+| L3636 | §51a | The bug class |
+| L3652 | §51b | Why the byte-gate cannot save you |
+| L3662 | §51c | THE METHOD (do not audit by reading the regex) |
+| L3677 | §51d | THE LAWS |
+| L3739 | §51e | The false-wall pipeline (why this is not just hygiene) |
+| L3755 | §51f | Checklist for any new corpus-scanning tool |
+| L3769 | §51g | When the thing you are scanning has a GRAMMAR, parse the grammar (`tools/cdecl.py`) |
+| L3913 | §52 | The WALKER-FAMILY skeleton: 6 regalloc-order levers + a deeply-characterized intrinsic wal |
+| L3924 | §3-The | 6 levers (the "walker-family skeleton" — apply to the 12 siblings; levers 1-5 retire ~half |
+| L3945 | §3-Why | the wall is (probably) intrinsic |
+| L3959 | §52a | The regalloc sibling wave: new levers + two new wall classes (cheap-Opus applying §52, 202 |
+| L3997 | §52b | Sibling wave 2: more de-pin levers, a third wall class, and the match_one→whole-binary gap |
+| L4028 | §53 | SWEEP A FAMILY WITH THE TOOL ITS EXEMPLAR NEEDED: the jr/switch carve, and how omitting it |
+| L4033 | §3-The | case |
+| L4045 | §3-Why | 0/8 was structural, and predictable from two words |
+| L4062 | §3-The | rule |
+| L4078 | §3-The | meta-lesson (R35, and why this one is expensive) |
+| L4093 | §55 | Core-crack wave levers + the GATE-ORCHESTRATION law (Phase 29 T3, 13-agent ultracode wave, |
+| L4098 | §55a | New byte-proven levers (each from a banked or near draft) |
+| L4122 | §55b | THE GATE-ORCHESTRATION LAW (3 traps, ~3.5h lost; all recovered, 0 data lost) |
+| L4141 | §55c | Sizing the propagate: a TARGETED propagate is ~4 min/core, and "it's slow" was a BROKEN-TR |
+| L4163 | §54 | `--fix-def-sig`: the member's CANONICAL DECLARATION is a build step too (tiny-IMM mega-poo |
+| L4187 | §56 | Banking a hand-drafted GIANT into its exemplar TU: self-contained draft vs live-TU decls,  |
+| L4232 | §56b | PROPAGATING an h_seq giant: the exemplar's externs MUST be fleet-canonical, not the draft' |
+| L4256 | §57 | The SELF-decl normalize: the sibling's OWN caller declares the templated fn divergently (t |
+| L4303 | §57a | Two NSD corrections + the SURGICAL-ONLY law + the honest broad-sweep yield (Phase 29, 2026 |
+| L4343 | §58 | match_one MATCH ≠ BANK: the four blind spots + the crack-wave reconcile-before-bank law (P |
+| L4377 | §59 | Three h_seq sweep-residual classes match_one/the-exemplar-bank don't reveal (Phase 29 crac |
+| L4407 | §60 | Classify the residual, don't rank it: the deterministic residual→class classifier and what |
+| L4431 | What | it measured — the whole open backlog, byte-grounded |
+| L4450 | §3-Two | corollaries worth remembering |
+| L4463 | §3-The | parallel-probe race this surfaced |
+| L4472 | §60a | What the first DIRECTED grinder run exposed (Phase 29 Task-13B, 2026-07-21) |
+| L4510 | §60b | The plateau autopsy's verdict: a `partial` drift is a WRONG DRAFT, not a missing transform |
+| L4545 | §61 | Task 14: the gate ladder's missing stage is the ARITY pre-pass, and it is TU-side not draf |
+| L4606 | §61a | The Task-5 wave: 11/12 MATCH, 0 banked — three DISTINCT integration walls, each now named  |
+| L4658 | §61b | The jtbl gate stage: built, and the ORDERING law it exposed (Phase 29 Task-14 stage 4, 202 |
+| L4713 | §61c | The jtbl bank is INCREMENTALLY valid and CLEAN-INVALID (Phase 29, 2026-07-21) — the blocki |
+| L4779 | §61d | The undo was eating the tree: two tools, one defect, invisible to the byte-gate (Phase 29, |
+| L4833 | §62 | The jtbl RECONCILE must also follow the carve: the post-carve draft reconcile (`harvest_ve |
+| L4877 | §63 | The fresh-138 DEF-SIDE blocker: fix the HEADER decl, not the draft (`fix_header_decl.py`,  |
+| L4908 | §64 | The §20 type-lift's three laws: fold the tagged typedef, check VISIBILITY, and strip only  |
+| L4957 | §64a | VARIANT types: UNIQUIFY the camps, do not reconcile them (`uniquify_type.py`, Phase 29 SES |
+| L5000 | §63 | UPDATE (Phase 29 SESSION-14) — `fix_header_decl`'s "SAFE" verdict is FLEET-BLIND; it MUST  |
+| L5015 | §65 | The stranded-draft recovery: BLAST-RADIUS TIERS, and the per-overlay de-macroize that refu |
+| L5030 | §65a | The blast-radius taxonomy (makes §61's law structural instead of remembered) |
+| L5045 | §65b | The escape: de-macroize the instantiation, don't touch the shared header |
+| L5081 | §65c | `rtu_match` MATCH → bank held 13/13 on self-decl, but broke on the FIRST callee-decl case |
+| L5091 | §65d | Existing-ladder baseline, measured (do this before building a recovery stage) |
+| L5101 | §65e | Two oracles, and the disagreement is the finding (R34 in practice) |
+| L5118 | §65f | The de-macroize lever's BOUNDARY, measured: byte-neutral 14 times of 15, and the 15th is w |
+| L5139 | §65g | Where the cheap levers STOP: the local-type and in-TU-self-decl classes did not yield |
+| L5159 | §66 | Exercise a banking driver's SUCCESS path before pointing it at a wave: the free re-bank te |
+| L5181 | §66a | The widest write in a pipeline is the one most likely to be UNDECLARED |
+| L5200 | §66b | A metric parsed out of another tool's prose goes NULL silently when the label changes |
+| L5217 | §66c | Before a wave, verify the FUEL exists; an "already attempted" set built from the wrong dir |
+| L5245 | §66d | The permuter⇄reader loop: alternate a random search with a byte-verified idiom, and let `r |
+| L5280 | §66d-1 | What transfers between giants is the LOOP, not the PIN |
+| L5289 | §66d-2 | Two operational sharp edges |
+| L5300 | §66d-3 | Read the ILS per-cycle SERIES, not its final best: a repeated score and a still-falling on |
+| L5315 | §67 | The arg-copy PLACEMENT lever: launder a parameter into a fresh pseudo AT the statement whe |
+| L5405 | §67a | Run the symbol-set guard BEFORE you pay for a gate (`tools/symcheck.py`, Phase 29 SESSION- |
+| L5438 | §66d-4 | "ILS converged" means converged FOR THAT WEIGHT PROFILE, not a floor (amends §66d-3; Phase |
+| L5491 | §66d-5 | `residual_class`'s "structural ⇒ permuter CPU is waste" is WRONG for schedule permutations |
+| L5524 | §68 | A comment-only line halted the extern scan, and the skip label blamed the type cap (Phase  |
+| L5569 | §69 | How to attack a behemoth: map it, don't draft it (Phase 29 SESSION-18, `func_80183814`, 5, |
+| L5619 | §70 | The giv-init base register: walk the PARAMETER, not a copy of it (Phase 29 SESSION-18, `fu |
+| L5660 | §71 | Before mapping a giant, look for an already-matched SIBLING beside it (Phase 29 SESSION-18 |
+| L5726 | §72 | A `register __asm__` pin is a PREFERENCE, not a reservation (Phase 29 SESSION-18, `func_80 |
+| L5750 | §3-The | honest fix was source-level and cheap |
+| L5760 | §3-Giv | record order (the §70 family) |
+| L5766 | What | is left, and what is byte-recorded as SPENT |
+| L5783 | §73 | A def-side self-decl conflict has TWO axes: RETURN (fleet widen, T2) and PARAMS (casts at  |
+| L5822 | §74 | Auditing a pinned draft: the §72 hazard is CALLER-SAVED pins spanning a call, and only the |
+| L5866 | §75 | A propagation cap is usually a MINORITY-SPELLING SOURCE OVERLAY, not a wall: census the ca |
+| L5925 | §75a | The exclusion classes, enumerated with named causes (Phase 29 SESSION-19, the 134-binary ` |
+| L5948 | §75b | A body's preamble can carry `#define`s, not just `extern`s; extraction lifts only the exte |
+| L5997 | §75c | Class-B's remedy is the FULL §17a-1 PAIR (decl **and** call-site cast); a decl-only fix mo |
+| L6028 | §76 | The allocno CLASS (local vs global) is the dominant regalloc lever, and C reaches it ONLY  |
+| L6037 | §3-The | mechanism, with citations |
+| L6057 | §3-The | attribution primitive (use this before calling anything a scheduling residual) |
+| L6064 | §3-Two | diagnosis traps this function proved |
+| L6074 | Practice | Practice |
+| L6084 | §77 | Every extraction tool carries a NARROW hard-coded preamble set; anything outside it silent |
+| L6124 | §3-The | CANDIDATE gate and the REAL gate need DIFFERENT preambles — keep the difference out of the |
+| L6174 | §78 | A LENGTH drift can be a register grant in disguise; and `fold` never leaves a literal firs |
+| L6180 | §3-The | drift was an allocation decision, not missing code |
+| L6211 | §3-The | economics |
+| L6220 | §79 | For a 0-callee giant, fingerprint by DATA symbols (§71 cannot fire); and the STACK-SLOT OR |
+| L6226 | §71 | has a blind spot, and this is it |
+| L6240 | §3-NEW | LEVER — the frame layout reads back the original declaration order |
+| L6251 | §76 | confirmed at scale, and a pin nuance |
+| L6260 | §3-The | residual, and the honest read |
+| L6270 | §80 | A do-not-re-buy entry is scoped to its BASE, not to the function; and the pin's hidden cos |
+| L6291 | §3-The | pin's hidden cost, with the citation |
+| L6302 | §3-The | flagged "#1 move" LOST — and why the failure is informative |
+| L6312 | §78 | 's attribution primitive, run and reproduced |
+| L6318 | Cold-start | economics, now complete |
+| L6323 | §81 | Banking a jr (jump-table) function: the 3-step carve chain, and why `match_one` cannot see |
+| L6354 | §3-The | defect this exposed: a shared type that is present but invisible |
+| L6370 | §82 | Two source-shape oracles from behemoth #6: a duplicated `addiu $aN,$sp,K` across a `jal` m |
+| L6375 | §3-1. | The inlined-helper signature |
+| L6389 | §3-2. | Scalar vs aggregate decides *when* the slot is allocated |
+| L6401 | Also | reproduced on this function |
+| L6405 | §3-And | the banking footnote (§75a class A, one line) |
+| L6412 | §83 | The parameterised-repeat law, the spill-area trap, and why a per-case edit cannot move a p |
+| L6419 | §83a | READ THE HEADLINE NUMBER CORRECTLY: a LENGTH drift makes `match_one`'s count meaningless |
+| L6427 | §83b | THE LEVER: find the parameterised REPEAT before decoding case-by-case |
+| L6445 | §83c | TRAP: a "dead local" in a prior draft may be gcc's OWN spill area |
+| L6452 | §83d | CSE's quantity budget is WHOLE-FUNCTION, so a local rewrite cannot fix a local symptom |
+| L6466 | §83e | §80 vindicated again, on the same day it was written |
+| L6472 | §84 | The DERIVED-OFFSET remap bug: a hand-computed literal that encodes the DISTANCE between tw |
+| L6477 | §3-The | construct |
+| L6495 | §3-Why | it survived every candidate gate |
+| L6510 | §3-THE | FIX IS MECHANICAL — the tool already holds the answer |
+| L6518 | Scope | , measured (do not over-generalise — §80) |
+| L6528 | §3-Two | ladder lessons banked with it |
+| L6539 | §85 | The RETURN-axis fleet widen is ALL-OR-NOTHING: widening the shared header alone guarantees |
+| L6544 | §3-The | conflict |
+| L6552 | §3-THE | FAILURE MODE — widening only `engine_core.h` is worse than not starting |
+| L6559 | §3-The | precondition, and how to check it in one grep |
+| L6567 | §3-Do | the WHOLE axis in one edit, then R22 once |
+| L6576 | Reading | , for the next person |
+| L6589 | §86 | Pinned-exemplar templatability is a PER-FAMILY property, not a per-member rate; and the §4 |
+| L6591 | §3-The | guard refuses a class that largely works |
+| L6600 | §3-THE | LAW: all-or-nothing PER FAMILY |
+| L6627 | §3-Why | the two live families differ from the three dead ones — the open question |
+| L6633 | §87 | `match_one` COMPILES but never LINKS, so an unresolvable data symbol reads as MATCH; and s |
+| L6649 | §3-The | blindness ladder, now complete — FOUR classes `match_one` cannot see |
+| L6659 | Consequence | for the backlog ledger |
+| L6666 | §3-The | cheap discriminator, before spending a sweep |
+| L6674 | §88 | `cross_jump` will not merge a common suffix containing a CALL; and §78 is scoped to ORDERE |
+| L6679 | §88a | repeated CALL-shaped blocks are left UNMERGED; call-free tails are merged for you |
+| L6686 | §88b | the `slti` literal-position law (extends §78 to comparisons) |
+| L6701 | §88d | BANKING ORDER: run the §81 carve chain BEFORE banking, never after |
+| L6708 | §88e | a wrong diagnosis, refuted properly (the model for how to treat an inherited lever) |
+| L6718 | §88f | the missing rung: a RELOCATION gate between `match_one` and the binary |
+| L6726 | §89 | Two throughput rules the project already had written down and was not following (Phase 29  |
+| L6732 | §89a | MEASURE the write set; do not assert its tier (`tools/blast_radius.py`) |
+| L6745 | §89b | the parallel gate farm existed; the family path could not reach it (`tools/sweep_parallel. |
+| L6758 | §3-The | standing sequence |
+| L6766 | §90 | Five tool-integrity laws from one session, each of which changed an answer (Phase 29 SESSI |
+| L6772 | §90a | A comparison tool MUST share its reference oracle's index space, exactly |
+| L6789 | §90b | "Byte-neutral" is not "wanted": undo on the SUCCESS path too |
+| L6799 | §90c | A library-callable function must FAIL CLOSED on an unconfigured module |
+| L6810 | §90d | Do not measure a live wave's drafts (§87 in real time) |
+| L6818 | §90e | An agent's CONCLUSION and its EVIDENCE fail independently — re-derive the premise, not the |
+| L6842 | §91 | A structure-TRANSFER is only valid where the structure corresponds: the `--like` role trap |
+| L6871 | §3-The | three-hypothesis trail, because two of them were wrong and the wrongness is instructive |
+| L6891 | §92 | Conforming a DECLARATION: pointer changes are caller-neutral, scalar-WIDTH changes are not |
+| L6922 | §93 | `set -o pipefail` attributes a pipeline failure to the LAST stage, not the failing one (Ph |
+| L6947 | §94 | A family sweep's `0/N` is a TYPE-CARRY failure until proven otherwise: lift the exemplar's |
+| L6983 | §95 | `reconcile_tu` dropped the SIBLING declarators of a multi-symbol `extern` line (Phase 29 S |
+| L7018 | §96 | The same rewrite, one shape down: `reconcile_tu` matched statements to lines by TEXT, so e |
+| L7066 | §97 | The gate's own tree hygiene: a refused carve, an unchecked recovery, and a snapshot that c |
+| L7113 | §98 | `conform_decls` had three defects, and only the third needed R22 to find (Phase 29 SESSION |
+| L7167 | §99 | The narrow-param wall is a DEF-side problem with a ZERO-blast-radius fix: convert the defi |
+| L7190 | §3-Two | `reconcile_tu` bugs found underneath, one introduced while fixing the other |
+| L7216 | §100 | Prefer the DRAFT-LOCAL fix: a type only one function uses belongs in its BODY, not in a sh |
+| L7245 | §101 | The STALE DEFAULT class: a guard whose cause was removed is a silent skip wearing a safety |
+| L7272 | §102 | A PLUMBING verdict can MASK a DIFF; and K&R is not always a codegen change (Phase 29 SESSI |
+| L7307 | §103 | A FILE-scope `extern` in a shared overlay TU is a GLOBAL constraint on every LATER functio |
+| L7395 | §104 | Two silent-skip defects in one scan: match on MASKED text, emit from the ORIGINAL (Phase 2 |
+| L7431 | §105 | A gate's revert must survive an EXCEPTION, not just a failure (Phase 29 T53, `jtbl_family_ |
+| L7470 | §106 | Persist the MEASUREMENT, derive the POLICY: a stored route let a stale file out-vote the l |
+| L7513 | §107 | A lever wired into ONE gate path is a lever most families cannot reach (Phase 29 T56, `fun |
+| L7551 | §108 | Diagnosing a family `0/N`: the four causes, and the third opt-in lever (Phase 29 T59) |
+| L7600 | §109 | Conforming a definition to a shared header: fix the NAMES, then check the RETURN precondit |
+| L7640 | §110 | A unit must define exactly ONE function, and "ends in `;`" does not tell you which line de |
+| L7681 | §111 | The distinct-code metric is not noisy: a family pays it only if its members are byte-VARIA |
+| L7730 | §112 | A macro-scoped declaration only collides where the macro is INSTANTIATED (Phase 29 T67/T69 |
+| L7776 | §113 | An ARITY blocker only exists if the macro CALLS the function; an address-taken use has no  |
+| L7808 | §114 | The THIRD decl axis: a CALLEE the draft declares differently from the target TU (Phase 29  |
+| L7850 | §115 | A `func_XXXXXXXX` predicate rots by design: the same name-form assumption in THREE places  |
+| L7877 | §116 | Optimization level is a property of the FILE, not the function: read a family 0/N against  |
+| L7895 | §3-The | fix moves the DEFINITION, not the stub — and here is why the obvious shortcut fails |
+| L7926 | §117 | Spell the sibling's symbol from the SIBLING's address, not the exemplar's kind (Phase 29 T |
+| L7953 | §3-Why | it survived so long: a MASKED oracle will MATCH a wrong symbol |
+| L7963 | §118 | Ordinal (positional) immediate resolution: compare C tokens to the DIFFERING asm uses (Pha |
+| L7997 | §119 | Two levers on the SAME axis, opposite directions: test the off-diagonal (Phase 29 T89) |
+| L8026 | §120 | Uniquify draft-defined TYPE names; and check which of N staging sites you actually patched |
+| L8037 | §3-Do | NOT "strip the duplicate typedef" — it breaks the extern that uses it |
+| L8043 | §3-The | wiring trap that cost two attempts |
+| L8061 | §121 | Synthesise externs for macro-DEFINED callees from the macro's own definition head (Phase 2 |
+| L8084 | §122 | GATE RAW BEFORE TRANSFORMING; the undo belongs to the WRITER, as a per-edit journal (P30 T |
+| L8116 | §123 | PROPAGATE A FAMILY WITH THE TOOL ITS TIER NEEDS: `dedup_propagate` is h_exact-only; its re |
+| L8153 | §124 | A "not matched" verdict can mean the definition is there under a DIFFERENT C NAME: the asm |
+| L8198 | §124a | a family sweep's `0 matched-exemplar families` may be a FILTER, not a wall |
+| L8206 | §125 | Split the CARVE from the BODY before calling a jr residue a wall — and measure it by SHA f |
+| L8213 | §3-The | method (keep this) |
+| L8223 | §3-The | instrument rules that make its answer trustworthy (this is where I failed) |
+| L8238 | §3-The | corrected results (each SHA-verified, from a clean tree, restore re-verified) |
+| L8248 | §3-Two | further notes worth keeping |
+| L8257 | §3-The | meta-lesson |
+| L8264 | §126 | The carve-within-a-carve: an ADDRESS RANGE is not an OPTIMIZATION REGION (P30 T2, byte-pro |
+| L8279 | §3-The | finding: opt level is per FILE, so the file's contents must be opt-HOMOGENEOUS |
+| L8290 | §3-The | instrument trap that hid it (and it is §124's shape again) |
+| L8299 | §3-The | mechanics |
+| L8317 | §126a | a bare `except: continue` around a coverage-asserting oracle re-creates the silent skip (P |
+| L8349 | §127 | The `-O0` regime: the CONSTANT-OFFSET FOLD, and why `-O0` needs its own idiom set (P30 T3  |
+| L8356 | §3-The | idiom they kept re-deriving: the constant-offset fold |
+| L8367 | §3-The | rest of the `-O0` regime (write PLAIN C, and mean it) |
+| L8377 | §127a | §71 (sibling-first) is the strongest `-O0` lever, and it beats the index |
+| L8386 | §127b | the knowledge was in a SOURCE COMMENT, not the cookbook |
+| L8393 | §128 | A raw NUL in C source makes grep SILENTLY SKIP the file (P30 S28, 137 files) |
+| L8425 | §128a | a negative control must corrupt a SCRATCH COPY, never the tracked file |
+| L8437 | §129 | Post-carve, `rtu_match`/`match_one` COUNT THE JUMP TABLE AS INSTRUCTIONS; and a carve must |
+| L8441 | §129a | the target instruction count is INFLATED after a carve |
+| L8462 | §129b | never commit a carve whose owner is still a stub (it strands the carve) |
+| L8477 | §3-The | real blocker underneath, for the record |
+| L8486 | §130 | An INCREMENTAL build can report BYTE-IDENTICAL for a change the CLEAN build cannot even LI |
+| L8523 | §3-The | diagnostic ladder that finally located it (reusable) |
+| L8533 | §131 | The jtbl OVER-SPAN: `sltiu N` is ground truth in BOTH directions, and the zero-word rule o |
+| L8570 | §132 | The `JR-PAIR-IN-ONE-O0-OBJECT` "wall" was TWO instrument defects: a merged-double span the |
+| L8579 | Defect | 1 — a pre-§8e MERGED DOUBLE is not a single-table predecessor |
+| L8597 | Defect | 2 — `as` writes a corpse and nothing deletes it |
+| L8607 | §3-The | fingerprint, and the 30-second ladder that found it |
+| L8628 | §3-The | transferable rule |
+| L8635 | §132a | `--like` is for a sibling with NO record; against one that HAS a record it over-derives (P |
+| L8660 | §132b | When the span's already-matched owner is ITSELF multi-switch: `--span-rel` (P30 S1, `func_ |
+| L8685 | §133 | The DEFAULT-FILTER class: three times in one session, a tool silently answered a narrower  |
+| L8711 | §134 | MULTI-LINE BLINDNESS: one root cause, four faces, in `family_remap`'s preamble scanner (P3 |
+| L8765 | §135 | Six byte-verified gcc-2.7.2 idioms from the P30 S6f-h waves (and the two-lane wave shape t |
+| L8770 | §3-The | codegen idioms |
+| L8804 | §3-The | integration idioms (these decide whether a byte-correct draft BANKS) |
+| L8819 | §3-The | wave shape that produced these |
+| L8837 | §136 | The LOCAL-VARIABLE lever: how many C locals, at what scope (P30 wave 4a, 25 byte-verified  |
+| L8853 | §3-The | splitting/merging rules (each closed a residual, byte-gated) |
+| L8879 | §3-The | type-form rules |
+| L8912 | §3-The | scheduling rules (refining §135-2 and §135-4) |
+| L8941 | §3-The | declaration surface (integration, not codegen) |
+| L8953 | Wave | economics (measured, for the next batch's sizing) |
+| L8976 | §136a | Blocker capture: classify on the OUTPUT, never on the exit status |
+| L9033 | §136b | A prior wave's "genuine byte-DIFF" verdict is NOT reliable evidence (4 of 4 refuted) |
+| L9069 | §136c | SIBLING-FIRST is a DERIVATION shortcut, not just a conflict fix (the fastest route in a fa |
+| L9094 | §136d | Four gcc-2.7.2 levers the redraft lane found (each closed a residual no other lever moved) |
+| L9138 | §136e | §136c's PRECONDITION, and two more symptom keys (wave 4b batch 3) |
+| L9186 | §136f | Two declaration sub-cases the reconcile lane surfaced (lane now 15/15 lifetime) |
+| L9211 | §136g | When the index points at the WRONG lever: two byte-refuted routings (func_801863B4) |
+| L9240 | §136h | CORRECTION: the zero-crack pool does NOT "refill with cheap work" (my error, byte-measured |
+| L9270 | §136i | The drafter model LADDER: Haiku → **Sonnet** → Opus → Fable5 (Drew, 2026-08-03) |
+| L9302 | §136j | The failure MIX flips with function size (measured across four bands, one session) |
+| L9344 | §137 | REGALLOC-PERM is a TWO-COMPILE ARITHMETIC PROBLEM, not a permuter job |
+| L9386 | §137a | A gate verdict has a TIMESTAMP; re-check it against the draft's mtime |
+| L9415 | §138 | The propagation lanes: a gate refusal is a DECLARATION, and which lever you owe depends on |
+| L9421 | §3-The | triage, cheapest first |
+| L9473 | §3-The | DEFINITION-side alias is the only escape when the fleet canon disagrees on a promoting par |
+| L9481 | Rank | the lane by measured concentration, not by class count |
+| L9490 | THREE | carry variants hide in one "CARRY-FIXABLE" bucket — and they need different fixes |
+| L9526 | §134 | again, in a second tool — and the waiter rule corrected |
+| L9546 | STEP | 0 of sibling-first: grep `src/` for a distinctive LITERAL from the `.s` |
+| L9565 | Reconciling | a gate-refused draft: which way you edit depends on WHERE the TU's decl is |
+| L9594 | §139 | A GATE THAT GREPS FOR VERDICTS MUST ASSERT 1:1 ACCOUNTING; and a `--src` filter must not s |
+| L9626 | §3-The | generalisation — three corollaries worth more than the bug |
+| L9643 | §3-And | the inverse-lookup trap, same session |
+| L9660 | §140 | A METRIC IS NOT A MEASUREMENT UNTIL IT IS REPRODUCIBLE FROM THE COMMITTED TREE (P30 S1e: a |
+| L9680 | §3-The | three-line proof (do this before diagnosing any metric movement) |
+| L9689 | §3-The | two instrument defects it exposed |
+| L9709 | §3-The | same swallow, twice more, in the integration spine |
+| L9720 | §3-Two | wrong mechanisms I chased first, and why they were wrong |
+| L9740 | §141 | The §134 class is CLOSED: every line-shape decision now routes through `cdecl._mask` (P30  |
+| L9778 | §142 | An open stub whose `h_exact` class is MATCHED elsewhere is FREE. Propagate the body; do no |
+| L9790 | §3-The | measurement (do this before any wave; it is ~20 lines and needs no builds) |
+| L9805 | §3-The | trap that hid it — SAME FUNCTION, TWO ROUTES, ONLY ONE IS FREE |
+| L9814 | Route | selection (why `--addr` sometimes says "nothing changed") |
+| L9822 | §3-And | the report-vs-bytes lesson attached to it |
+| L9834 | §143 | `cast_call_sites` read a RETURN STATEMENT as a prototype and deleted it. A 0/39 sweep beca |
+| L9888 | §144 | THE LITERAL'S SPELLING PICKS THE IMMEDIATE ENCODING (P30 S40 wave 1, `func_801822E0`) |
+| L9927 | §145 | Three loop/combine levers from the S40 wave-2 drafters (16/16 match_one) |
+| L9977 | §146 | RE-MEASURE A WALL BEFORE YOU RESPECT IT. Both "permanent" giants fell to drafts already on |
+| L9988 | §3-Why | a correct draft can read as an intrinsic wall |
+| L10000 | Then | propagation returned 0/137 TWICE — both times a missing TYPE |
+| L10009 | §3-Two | errors of mine, both instructive |
+| L10023 | §3-The | rule |
+| L10036 | §147 | The three-stratum FRAME LAW, and four "stop searching" verdicts (P30 S42, `func_8017C294`, |
+| L10041 | §3-A. | The frame has THREE strata, and stratum 3 is unreachable from C |
+| L10057 | §3-B. | A `?:` on MEMORY operands costs ~16 bytes of invisible frame; on REGISTER operands, zero |
+| L10068 | §3-C. | Inner-block declaration does NOT delay slot allocation — BYTE-REFUTED |
+| L10073 | §3-D. | A lone `$t8`/`$t9` in the target is RELOAD SCRATCH — reproduce the spill, don't pin the re |
+| L10083 | §3-E. | A `qty_compare` TIE is not spelling-reachable — recognise it and stop |
+| L10095 | Consequence | for the family (a real scheduling decision) |
+| L10145 | §148 | The loop.c hoisting THRESHOLD is arithmetic you can compute, and the `?:` clamp that folds |
+| L10151 | §3-A. | `move_movables` hoists iff `threshold × savings × lifetime ≥ insn_count` — and you can rea |
+| L10170 | §3-B. | `(v < 0x40) ? v : 0x3F` is folded to `MIN_EXPR` and expands to the WRONG SHAPE |
+| L10184 | §3-C. | A zero-byte ALLOCNO-PRIORITY slider |
+| L10194 | §3-D. | Reproduce the original's BUGS verbatim |
+| L10243 | §149 | Four instrument defects in one session, and the two questions they were hiding (P30 S43) |
+| L10249 | §3-A. | A prep step that returns its input on failure is indistinguishable from a search that foun |
+| L10267 | §3-B. | Same address + same name ≠ same body — and the ledger keys on address |
+| L10283 | §3-C. | `make: *** [...] Error N` is a summary, never a diagnosis |
+| L10293 | §3-D. | "Cheap fuel" that was never probed: 0 of 31 templatable |
+| L10312 | §150 | A register ROTATION across symmetric blocks is VARIABLE-IDENTITY evidence, not an allocato |
+| L10319 | §3-The | fix |
+| L10329 | §3-The | method that found it (this is the transferable part) |
+| L10345 | §3-Two | corrections to the record |
+| L10356 | Diagnostic | order (adopt this) |
+| L10367 | §151 | THE GHOST WEDGE: when a load-before-store transposition is unreachable by ANY statement or |
+| L10372 | §3-The | mechanism (read from cc1's own `-dR` trace, not inferred) |
+| L10387 | §3-The | lever — a zero-emission insn that absorbs the blocked tick |
+| L10395 | §3-The | two fallouts, and how to close them (both measured, in order) |
+| L10407 | When | to reach for it |
+| L10418 | §152 | BYTE SIZE is the family key that name- and h_seq-grouping both miss (P30 S43, the 0xECC fa |
+| L10423 | §3-The | finding |
+| L10432 | §3-The | key |
+| L10443 | §3-Two | cautions that must travel with this technique |
+| L10454 | §3-The | companion defect (open) |
+| L10466 | §153 | THE ADDRESS-REMATERIALISATION LAUNDER: a third zero-emission asm lever (P30 S43, `func_801 |
+| L10474 | Symptom | Symptom |
+| L10479 | Mechanism | (gcc source + RTL dumps, not inferred) |
+| L10486 | What | does NOT work (14 byte-measured probes) |
+| L10492 | §3-The | cure — a fresh launder per site, each in its own block |
+| L10502 | Companion | levers from the same function |
+| L10522 | §154 | Reading a disc payload: the module-id word, static base derivation, and "type 1 = uncompre |
+| L10527 | §3-A. | Payload word0 is a global MODULE ID; code starts after the header |
+| L10536 | §3-B. | Two static base-derivation methods that must AGREE (use both) |
+| L10548 | §3-C. | PAC type 1 = the same payload class as type 4, just NOT compressed |
+| L10558 | §155 | hi/lo literal scanning MUST track base registers (S45) |
+| L10567 | §155a | the same failure class, one level up: SHAPE-blind table scanning (S45 p5) |
+| L10587 | §155b | check the TYPE your oracle returns before comparing against it (S45 p5) |
+| L10610 | §155c | the ZERO-REFERENCE trap: gcc splits a global-array address across the `lui` and the LOAD ( |
+| L10640 | §156 | an ORPHANED reconcile poisons the fleet: `dedup_propagate`'s kept edit (S45 p6/p7) |
+| L10687 | §157 | the cheap-tier size cliff, measured (S45 p6) |
+| L10712 | §158 | The RANGE-EXTENDER: a fourth zero-emission asm lever completes the allocno toolkit (P30 S4 |
+| L10721 | Symptom | Symptom |
+| L10727 | §3-Why | the fork is chained (gcc source, validated insn-by-insn against -dS/-dR dumps) |
+| L10740 | §3-The | method (dump-arithmetic first, then place — no probing) |
+| L10757 | Bonus | facts worth keeping |
+| L10772 | §156 | THE PREFERENCE-DONOR MERGE: cross-region variable reuse is what fills a0-a3, and a call-ar |
+| L10828 | §159 | THE DECLARATION AXIS: conform to byte-truth, and make every guard state its COVERAGE (P30  |
+| L10893 | §160 | THE REACH-15 WAVE HARVEST: an align-1 block move, and the instrument that called it a wall |
+| L10969 | §161 | THE RETRY-WAVE HARVEST: a jump table indexed from zero, and two allocator traps (P30 S47) |
+| L11014 | §162 | S48 WAVE-1 HARVEST (P30, 2026-08-11): the reach-ordered sibling campaign's first 12 target |
+| L11041 | §162a | SHARPENS  *(sharpens §161a, §131, §8a-pad, §129a)* |
+| L11070 | §162b | SHARPENS  *(sharpens §48-A3, §156, §150, §76)* |
+| L11099 | §162d | SHARPENS  *(sharpens §31, §21, §30, §55a)* |
+| L11141 | §162e | NEW |
+| L11143 | §162 | THE LICM PAIR: what makes an address a movable AT ALL, and why the preheader order is the  |
+| L11209 | §162f | SHARPENS  *(sharpens §42d, §41d, §73, §10)* |
+| L11264 | §162g | NEW |
+| L11266 | §162 | CROSS-JUMP DIRECTION: the surviving copy is always the LATER one, so a BACKWARD `j` into a |
+| L11300 | §162h | SHARPENS  *(sharpens §88, §88a, §50-B, §8)* |
+| L11302 | §162 | The cross-jump "CALL veto" is a COUNT law, not a CALL law (BOUNDS §88a; P30 S48, `func_801 |
+| L11368 | §162i | SHARPENS  *(sharpens §135, §21, §42, §32)* |
+| L11393 | §162j | SHARPENS  *(sharpens §25, §136d-1, §48-B, §46-L2)* |
+| L11422 | §162k | SHARPENS  *(sharpens §1-I2, §12, §160d, §21)* |
+| L11485 | §162l | SHARPENS  *(sharpens §48-B, §48-C1, §20, §21)* |
+| L11540 | §162m | SHARPENS  *(sharpens §36, §158, §148, §153)* |
+| L11542 | §158a | THE FIFTH LEVER IS NOT AN ASM: `do { } while (0)` is a REGION ref-multiplier you MINT (P30 |
+| L11549 | §3-The | law |
+| L11560 | Size | it before you write it (§158 step 1-2, applied) |
+| L11581 | §3-The | wrap BOUNDARY is the dial — and it is indiscriminate |
+| L11587 | §3-Not | a pure dial |
+| L11591 | DIAGNOSTIC | TELL — two faces, one law |
+| L11613 | §162n | NEW |
+| L11646 | §162o | SHARPENS  *(sharpens §158, §136-1, §136-6, §79)* |
+| L11705 | §162p | SHARPENS  *(sharpens §48-B, §46-L2, §156, §136d-1)* |
+| L11722 | §162q | SHARPENS  *(sharpens §30, §30a, §135-2, §136-13)* |
+| L11760 | §163 | S48 WAVES 2-3 HARVEST (P30, 2026-08-11/12): the five that were byte-probed and are actiona |
+| L11828 | §163z | THE UNVETTED REMAINDER (do not cite as law; each needs a dedupe pass) |
+| L11848 | §164 | S48 §163z SKEPTIC PASS (P30, 2026-08-12): 190 claims vetted, 82 banked |
+| L12300 | §16Xy | SHARPENS  *(sharpens §136d-3, §37 /s-DEP LATTICE, §135-2, §136-13, §162q)* |
+| L12302 | §3-The | `/s` drop clause is in ALL THREE dependence predicates, so the FIXED-ADDRESS STORE is what |
+| L13623 | §164z | REFUTED CLAIMS: do NOT re-derive these |
+| L13689 | §165 | S48 WAVE-4 HARVEST (P30, 2026-08-12): banked the same day the wave landed |
+| L14340 | §16Z | SHARPENS  *(sharpens §37 "the /s-DEP LATTICE", §136-13, §136-14, §16Xy, §162q, `gcc-2.7.2- |
+| L14342 | §3-The | ADDRESS-CLASS TABLE: which load/store pairs even REACH the `/s` clause (P30 S48 wave 4, `f |
+| L14858 | §165z | REFUTED THIS WAVE: do NOT re-derive |
+| L14902 | §166 | THE DESTINATION-TU ORACLE (P30 S48): the seven-attempt bug that was never codegen |
+| L14958 | §167 | S48 WAVE-5/6 HARVEST (P30, 2026-08-12): the saturation point |
+| L16154 | §167z | REFUTED IN WAVES 5/6: do NOT re-derive |
+| L16211 | §168 | THE COUSIN TIER (P30 S49, 2026-08-12): h_seq's exact-hash brittleness, measured — and the  |
+| L16263 | §169 | THE MICRO-ADAPT LANE (P30 S49): edit a proven body, don't crack a new one |
+| L16310 | §170 | THE A-PROP WORD-DIFF CARD (P30 S49): the lane that had no owner |
+| L16354 | §171 | THE STALE SEED SYMBOL (P30 S50, 2026-08-13): why §170's 91%→57% was never codegen |
+| L16420 | §171a | THE MECHANICAL A-PROP DRAFT (P30 S50): 256 members banked with no agent in the loop |
+| L16470 | §171b | THREE CARRIES THE MECHANICAL DRAFT NEEDS (P30 S50, banking the top-reach families) |
+| L16503 | §172 | THE ORPHAN-SLOT MECHANISM v2 (P30 S50-Max): the complete frame-residue model for gcc-2.7.2 |
+| L16557 | §172a | TWO DECOMPILATION TELLS FROM THE SAME DIG (P30 S50-Max) |
+| L16573 | §172b | THREE MORE TELLS FROM THE GCC READ (P30 S50-Max, banked on Drew's ask) |
+| L16616 | §173 | THE STORED-PLUMBING RECOVERY RECIPE (P31 T6): symfix-first, per-group isolation, and where |
+| L16652 | §174 | THE ADAPT-CARD WAVE RECIPE (P31 waves A/B, 2026-08-14): prevention beats recovery |
+| L16722 | §175 | A CALLER-SAVED REGISTER PIN CAN BE A CORRECTNESS BUG, NOT JUST A SCHEDULING CHOICE (P31 wa |
+| L16747 | §176a | THE VERIFICATION-LAYER LAWS (P31 overnight, 2026-08-15). What each check can and cannot pr |
+| L16787 | §176b | BATCH-GATING MECHANICS (P31): what changes when N drafts land in ONE .c |
+| L16813 | §176d | THE CONFLICT TABLE MUST BE SEEDED FROM THE TU, AND KEYED PER FILE (P31 S52, 2026-08-15) |
+| L16852 | §176e | SYMBOL IDENTITY IS COMPUTABLE OFFLINE (P31 S52): `tools/reloc_identity.py` |
+| L16909 | §176f | THE DECLARATION FORM IS A MATCHING LEVER, SO RECONCILE TOWARD THE FORM THE MATCH NEEDS (P3 |
+| L16940 | §176g | SIZE A WAVE BY INSTRUCTIONS, NOT BY CARDS (P31 S52 — the adopted doctrine) |
+| L16978 | §176h | THE BATCH-SUBSTITUTION HAZARD MAP (P31 S52): seven holes, three wrong fixes, one law |
+| L16986 | §3-A. | The seven under-reporting holes (all in `gate_main`, all the same shape) |
+| L17004 | §3-B. | Typedef handling — the only strategy that survives contact |
+| L17026 | §3-C. | The limit that remains (recorded, not solved) |
+| L17033 | §3-C2. | RECONCILE BEFORE THE FIRST GATE — a parked draft gets HARDER to bank, not easier |
+| L17056 | §3-D. | The measured cost shape, and what to build next |
+| L17074 | §176i | WHAT A STATIC PRE-GATE CHECK CAN AND CANNOT PROVE (P31 S52, wave Q) |
+| L17106 | §176j | STOPPING A WAVE MID-FLIGHT COSTS THE IN-FLIGHT TAIL (and how much is recoverable) |
+| L17132 | §176j-2 | THE REPAIR PASS, MEASURED (do this instead of resuming) |
+| L17152 | §176k | TWO SELECTOR BUGS THAT SILENTLY SHRINK A WAVE |
+| L17169 | §177 | 🔴 THE EPILOGUE RETURN-DELAY SLOT IS DECIDED BY YOUR SAVED-REGISTER SET, NOT BY SCHEDULING |
+| L17226 | §178 | SIX LEVERS MINED FROM THE WAVE-P JOURNALS (P31 S52), each byte-proven and source-cited |
+| L17238 | §3-A. | THE `$0`-ADD OPAQUE COPY defeats `make_regs_eqv` (func_80033398, 93 ins) |
+| L17254 | §3-B. | A `return <const>` IS A PRIORITY-1 HARD-REG SET THE SCHEDULER PLACES FIRST (func_8001BE30, |
+| L17267 | §3-C. | SINGLE-SET TEMPS GET THE BIRTHING BOOST (func_8001D3FC, 196 ins) |
+| L17275 | §3-D. | A NARROW TYPE BLOCKS COPY ELISION (func_8001D3FC — new idiom) |
+| L17282 | §3-E. | THE ZERO-OFFSET ALIAS HOLE (func_80037028, 71 ins) |
+| L17291 | §3-F. | `MEM_IN_STRUCT_P` ASYMMETRY IN `true_dependence` (func_80037144, 124 ins) |
+| L17297 | §3-G. | TWO MODELLING TRAPS THAT COST THESE AGENTS SWEEPS OF HUNDREDS OF COMPILES |
+| L17313 | §179 | IDIOMS MINED FROM THE WAVE P/Q JOURNALS (P31 S52, harvest pass) |
+| L17323 | §179-A | 🔴 A LOOP-WALKED POINTER **PARAMETER** HANDS ITS ARGUMENT REGISTER TO THE GIV (9 byte-proof |
+| L17372 | §179-B | 🔴 THE HAND-WRITTEN-ASM TRANSCRIPTION CHECKLIST (maspsx + masked_diff; 10 byte-proofs) |
+| L17422 | §179-C | 🔴 A FUNCTION WITH NO EPILOGUE (falls into a sibling's shared tail) MUST BE FILE-SCOPE `__a |
+| L17473 | §179-D | `gte_stflg` MUST CLOBBER `"$12"` OR THE WHOLE TEMP FILE ROTATES BY ONE |
+| L17493 | §179-E | A `>2*MAX_MOVE_BYTES` BLOCK COPY IS A **STRUCT ASSIGNMENT**, NOT A HAND LOOP |
+| L17519 | §179-F | PINNING A LOOP-WALKED POINTER IS A TOTAL OFF-SWITCH FOR STRENGTH REDUCTION |
+| L17542 | §179-G | 🟡 A PIN CAN **CREATE** A COMBINE `LOG_LINK` AND DELETE AN `andi` (sixth RC-5 channel, n=1) |
+| L17569 | §179-H | A MID-BODY `.global LABEL` PAIR SLICES A BYTE-COMPARABLE FRAGMENT OUT OF A LARGER ROUTINE |
+| L17592 | Considered | and NOT banked |
+| L17609 | §176c | MAIN (SLUS_007.26) CANNOT BE GATED INCREMENTALLY |
+| L17620 | §176 | SEVEN LEVERS FROM THE P31 OVERNIGHT WAVES (2026-08-15): statement order, false regalloc, a |
+| L17626 | §176-A | "SCHEDULE / DELAY-SLOT / LENGTH-DRIFT ±1" ⇒ check STATEMENT ORDER around the call first |
+| L17650 | §176-B | "REGALLOC-PERM, 1-4 instructions off" ⇒ it is usually NOT register allocation |
+| L17690 | §176-C | 🔴 WALL REFUTATION: a hard-register pin CANNOT schedule around a call, because of a genuine |
+| L17716 | §176-D | CSE-class levers used in reverse (two sharpenings of §153 and cse_expr §2) |
+| L17742 | §176-E | Two cheap source spellings, both cc1-probed |
+| L17764 | §176-F | Misdiagnosis triage: four residual verdicts that were lying |
+| L17781 | What | is NOT banked here |
+| L17794 | §180 | THE LEFTOVER-DRAFT HARVEST: RE-VERIFY WHAT YOU ALREADY HAVE BEFORE DRAFTING ANYTHING NEW |
+| L17823 | §180b | WHAT THE PRE-GATE LADDER ACTUALLY FINDS IN A COLD PILE (the shape of integration debt) |
+| L17842 | §180c | WHEN A BINARY'S MASS BAND IS SPENT, THE FLEET-WIDE DRAW IS STRICTLY BETTER |
+| L17860 | §181 | WHAT A WAVE'S GATE ACTUALLY REJECTS (P31 S53, measured on wave R's 45-draft main pile) |
+| L17861 | Only | ONE of 27 blocked drafts was wrong. The other 26 were correct and unbankable. |
+| L17916 | §182 | §177's HONEST NEGATIVE: the epilogue lever cracked 4 of 16, and the `800c3` cluster held |
+| L17930 | §180d | THE `pgrep` BRACKET TRICK PROTECTS THE PATTERN, NOT THE COMMAND LINE |
+| L17942 | §183 | THE DECLARATION-RECONCILIATION PLAYBOOK (P31 S53, measured on 20 byte-verified drafts) |
+| L17943 | §3-18 | of 20 reconciled while keeping the match. The two that did not are mechanism, not effort. |
+| L18013 | §184 | COMMENT-BLINDNESS IS A DEFECT CLASS, NOT A BUG (P31 S53: three tools, one root cause, one  |
+| L18041 | §185 | EDIT THE SIDE THAT IS CHEAP TO VERIFY, AND CHECK A TU RETYPE AT ITS USE SITES |
+| L18073 | §186 | CROSS-JUMPING RUNS **AFTER** SCHEDULING, SO NO C-LEVEL BARRIER CAN STEER IT |
+| L18094 | §186b | A NO-SAVE 16-BYTE FRAME IN A LEAF FUNCTION MEANS `s16` LOCALS, NOT A HIDDEN CALL |
+| L18102 | §186c | WHERE A VALUE IS LOADED DECIDES WHICH ALLOCATOR OWNS IT, AND THEREFORE ITS REGISTER |
+| L18119 | §187 | 🔴 "SAME SOURCE" IS NOT "SAME OBJECT": THE SDK BUILD AND THE GAME BUILD DISAGREE ON GTE NOP |
+| L18157 | §188 | 🔴 THE `jr $ra` + `addiu $sp` TAIL IS AN **ASSEMBLER** ARTIFACT, NOT A FRAME SHAPE |
+| L18207 | §189 | FIVE COMPILER LAWS MINED FROM THE WAVE R/S JOURNALS (P31 S53), each source-cited and re-de |
+| L18282 | §190 | THREE PRESCRIPTIONS FROM THE SAME HARVEST (weaker evidence than §189, honestly labelled) |
+| L18319 | §191 | WHAT THIS HARVEST DID **NOT** BANK (4 rejected, 4 narrowed) — recorded so it is not re-der |
+| L18341 | §192 | THE PRE-GATE LADDER WAS MAIN-ONLY, AND NOBODY COULD SEE IT (P31 S54) |
+| L18342 | Three | defects in one call path; the overlay slates that carry most of the wave work were being w |
+| L18406 | §193 | THE WAVE-T HARVEST (P31 S54): 71 index_gap reports -> 9 laws, 5 rejected, 61 already-cover |
+| L18423 | §193-A | The wave card ships only OPEN-set pointers and discards the atlas's BANKED one — `exemplar |
+| L18490 | §193-B | A NARROW CAST OF A WIDE PARAMETER COSTS ONE EXTRA INSTRUCTION WHEN ITS STATEMENT SITS AFTE |
+| L18528 | §193-C | gcc-2.7.2 cross_jump merges the SCHEDULED common SUFFIX only — there is no prefix/head mer |
+| L18562 | §193-D | A COMPILER-GENERATED ARGUMENT COPY IS A `optimize_reg_copy_1` TRIGGER: when the pointer's  |
+| L18633 | §193-E | A varying-address (pointer) load is re-emitted once per CSE-LIVE INTERVAL, and naming it i |
+| L18663 | §193-F | §148-A2 — The `threshold -= 3` STAIRCASE: `move_movables` admits a COUNT of invariants, no |
+| L18727 | §193-G | §164-54's "scope to ≥4 arms" bound is byte-wrong — the dispatch-topology oracle goes live  |
+| L18788 | §193-H | A pointer-derived base load `*(s32*)(p+K)` is uncacheable across ANY memory write or call  |
+| L18828 | §193-I | A DECLARED AGGREGATE LOCAL HAS AN 8-BYTE FRAME STRIDE — CEIL(size,8), NOT size. N ARRAYS T |
+| L18887 | §193-REJECTED | what this harvest did NOT bank (recorded so it is not re-derived) |
+| L18914 | §194 | THE WAVE-U HARVEST (P31 S54): 64 index_gap reports -> 14 laws, 5 rejected, 44 already-cove |
+| L18931 | §194-A | A zero-byte scheduling fence goes AFTER the defining statement to make that computation em |
+| L18997 | §194-B | A `addu $rA,$rB,$zero` copy feeding ≥2 `sh` stores is a SECOND, 16-BIT-DECLARED local — th |
+| L19035 | §194-C | A CALLER-SAVED loop counter proves its live range crosses ZERO calls — so it cannot share  |
+| L19098 | §194-D | Declared width of a computed-value local is a sched1 dial (count-neutral) — a replication  |
+| L19139 | §194-E | The wave card's `exemplar` is the TARGET ITSELF on 42/73 wave-U and 36/71 wave-T cards — a |
+| L19176 | §194-F | `if ((*p = v = f()) == 0)` is an expand-time pseudo SPLITTER (store_expr's `want_value &&  |
+| L19249 | §194-G | Reading the integer half of a 16.16 stack aggregate: REGISTER-LIVENESS, not the C spelling |
+| L19292 | §194-H | §164-29's WAR fence runs again at SCHED2 ON HARD REGISTERS: an in-place `v &= K` before a  |
+| L19330 | §194-I | §16N+2's magic-per-odd-part ladder has exactly one broken row — read the divisor arithmeti |
+| L19373 | §194-J | Back-to-back identical stores: flow.c's `last_mem_set` deletes the first, and only `volati |
+| L19425 | §194-K | Blind sched1's alias oracle with a second SET of a pointer pseudo — the first zero-byte, n |
+| L19503 | §194-L | §88b and §189-E are BOTH half-wrong, but not the way the candidate says: the compare-const |
+| L19551 | §194-M | A STORE in a CONDITIONAL branch's delay slot proves its C statement DOMINATES the branch — |
+| L19606 | §194-N | §193-D's C dial is misstated: the lever is a SURVIVING CODE_LABEL (a label with a real inc |
+| L19666 | §194-REJECTED | what this harvest did NOT bank (recorded so it is not re-derived) |
+| L19687 | §195 | THE WAVE-V HARVEST (P31 S54): 67 index_gap reports -> 14 laws, 9 rejected, 76 already-cove |
+| L19701 | §195-A | §167-08's "an $aN READ before the jal is scratch" has a byte-proven FALSE-NEGATIVE class:  |
+| L19772 | §195-B | A CALL_INSN does not start a basic block in gcc-2.7.2 — so a call-crossing temp can be a L |
+| L19814 | §195-C | A call-argument `%hi/%lo` pair sitting at the block head, far above its `jal`, is a load-d |
+| L19862 | §195-D | §195 — `masked_diff.mask_for` returns 0 for EVERY `j`/`jal` word, so an internal `j` desti |
+| L19930 | §195-E | A 0/1 materialised at a JOIN immediately before the controlling `beqz`/`bnez` proves the s |
+| L19988 | §195-F | fold-const.c:4825 canonicalises a `?:` whose THEN arm is zero (or constant against a non-c |
+| L20040 | §195-G | §NEW — TWO ARMS CALLING THE SAME CALLEE MERGE INTO ONE `jal` UNLESS EACH ARM'S OWN CODE CO |
+| L20088 | §195-H | §165-27g — ON A FIXED-SYMBOL GLOBAL, `extern T D[];` + `D[0]` IS THE CSE RELOAD DIAL, AT Z |
+| L20135 | §195-I | §145(b) AMENDED — the pointer-bump `addiu` is saved by cse, not combine: ANY second SET of |
+| L20200 | §195-J | GTE / PsyQ op CALL-vs-INLINE is a PER-SITE SOURCE FACT, not a TU style — both forms coexis |
+| L20244 | §195-K | At -O2 the §18 array-of-struct lever is a FRAME lever, not a length lever — but only when  |
+| L20296 | §195-L | The cse store-re-seed does not cross a JOIN LABEL: per-arm stores + a join read keep the r |
+| L20343 | §195-M | Frame `vars` is a SEQUENTIAL bump-allocation, not a flat sum: §193-I's CEIL(aggregate,8) t |
+| L20392 | §195-N | In a call-bearing chain of N≥2 `if (f(...)) return 1;` tests closed by `return 0;`, the LA |
+| L20439 | §195-REJECTED | what this harvest did NOT bank (recorded so it is not re-derived) |
+| L20485 | §196 | PUT ON THE CARD WHAT THE TREE ALREADY KNOWS: the fleet's declaration consensus (P31 S54) |
+| L20540 | §197 | THE WAVE-W HARVEST (P31 S54): 68 index_gap reports -> 4 laws, 3 rejected, 41 already-cover |
+| L20554 | §197-A | A NARROW SIGNED MEMORY READ FEEDING A CONSTANT `>>` LOSES ITS `lh`, AND THE CURE IS AN ASM |
+| L20592 | §197-B | A REPEATED COMPARE OF ONE VALUE AGAINST ONE CONSTANT IS DELETED BY cse's `qty_comparison_c |
+| L20620 | §197-C | Fix A1 (operand order) cannot move a commutative destination whose .greg conflict set alre |
+| L20665 | §197-REJECTED | §197-REJECTED |
+| L20680 | §199 | THE WAVE-X HARVEST (P31 S54/S55): 63 index_gap reports -> 7 laws, 2 rejected, 56 already-c |
+| L20691 | §199-A | §189-A's asm→source inference is byte-FALSE: an interloper between a split constant's `lui |
+| L20740 | §199-B | A permutation sweep that holds ANY statement fixed is not a sweep: the statement an agent  |
+| L20785 | §199-C | A NEGATIVE CONSTANT MULTIPLY ALWAYS TAKES expmed's negate_variant — but whether you ever S |
+| L20833 | §199-D | A narrow UNSIGNED value compared in an ordered `if` emits `sltiu`/`sltu`; the only dial is |
+| L20893 | §199-E | §189-A BOUNDED AND CORRECTED — the discriminator is INSN_PRIORITY, not "is the interloper  |
+| L20952 | §199-F | §164-36b — THE TARGET-HEAD FENCE IS A DELAY-SLOT THREAD SELECTOR, AND IT ONLY FIRES WHEN ` |
+| L21006 | §199-G | At TWO case nodes the switch-vs-if oracle is not blind — but the tell is ALL tests positiv |
+| L21061 | §199-REJECTED | §199-REJECTED |
+| L21072 | §200 | THE ALIAS IS THE UNIVERSAL DECLARATION ESCAPE: stop negotiating with the TU's spelling (P3 |
+| L21121 | §201 | THE WAVE-Y HARVEST (P31 S55): 67 gap reports -> 5 laws, 8 rejected, 53 already-covered |
+| L21131 | §201-A | §150-B applies to `decl_prior`'s DEF row: for an overlay-window symbol the banked "definit |
+| L21163 | §201-B | In a narrowed PLUS/MINUS/AND/IOR/XOR expression the destination pointee is INERT — the sig |
+| L21243 | §201-C | §X — A CALL'S OWN DELAY SLOT AND THE UPSTREAM CONDITIONAL BRANCH'S SLOT COMPETE FOR ONE IN |
+| L21294 | §201-D | THE SIGNEDNESS OF A div/mod MAGIC IS DECIDED BY THE STATIC TYPE OF THE DIVIDEND TREE AFTER |
+| L21341 | §201-E | §194-J-2 — The `last_mem_set` deletion window is measured in SOURCE/expand order, not in t |
+| L21397 | §201-REJECTED | eight, the session's highest |
+| L21422 | §202 | THE ALIAS CARRIES A DEFINITION, NOT JUST A DECLARATION: the DEF-SIDE-RETURN wall (P31 S56) |
+| L21459 | §203 | A DEDUPED TYPEDEF MUST PRECEDE EVERY SPLICE POINT, NOT JUST ITS OWN (P31 S56) |
+| L21520 | §204 | THE WAVE-Z HARVEST (P31 S56): 82 gap reports -> 5 laws, 16 rejected, 30 already-covered |
+| L21539 | §204-A | A COMPARE THAT APPEARS BOTH IN A BRANCH'S DELAY SLOT AND AGAIN ON THE FALL-THROUGH IS A JO |
+| L21614 | §204-B | A LOOP COUNT THAT ARRIVES ON THE STACK IS DECREMENTED IN PLACE: a fresh counter local can  |
+| L21678 | §204-C | WHEN A LOCAL BUFFER'S ADDRESS IS PASSED TO A CALL, ITS SIZE IS A FACT ABOUT THE CALLEE'S B |
+| L21736 | §204-D | A LOOP-INVARIANT LOAD IS ADMITTED AS A MOVABLE ONLY IF ITS ADDRESS CANNOT TRAP: `local.fie |
+| L21811 | §204-E | `decl_prior`'s `%hi/%lo` ARM HAS NEVER FIRED: the card's promised GLOBAL-TYPE row is 0 of  |
+| L21863 | §204-CONFIRMED | 30 reports that the index already answered |
+| L21957 | §204-REJECTED | sixteen, twice the previous record |
+| L22030 | §205 | THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL: `*b = *a = v;` moves an argument copy t |
+| L22085 | §206 | THE JTBL-CARVE DRAFTING IDIOM: the bounds check is the entry count, and an EMPTY case owns |
+| L22154 | §207 | THE WAVE ab–ag HARVEST (P31 S58): 278 byte-banked notes → 25 laws, 103 self-reported no-ga |
+| L22175 | §208 | TWO NAMED LOCALS FOR ONE RELOADED EXPRESSION BUY TWO ALLOCNOS — the naming granularity own |
+| L22224 | §209 | THE NARROW LOCAL IS A DIAL IN TWO OPPOSITE DIRECTIONS, AND §194-B's "≥2 `sh` STORES" BOUND |
+| L22301 | §210 | THE SINGLE-BIT MASK IN A BOOLEAN TAIL: `andi K ; sltu $zero,v` vs `srl n ; andi 1` is a ST |
+| L22347 | §211 | HOIST THE LOOP INIT ABOVE THE DOMINATING GUARD: it fills the guard's delay slot AND flips  |
+| L22395 | §212 | THE WALKING CURSOR IS COUNTABLE: `*wp++` emits one `addiu` PER STORE, `wp[0..2]` emits one |
+| L22440 | §213 | INDEPENDENT SAME-BASE STORES: THE EMISSION ORDER IS A PERMUTATION OF SOURCE ORDER, AND THE |
+| L22476 | §214 | THE BANKED TWIN MAY BE A MACRO, A DELETED `.s`, OR A SEMANTIC INVERSE — six ways a ≥0.9 si |
+| L22522 | §215 | PIN ECONOMY: the twin's pins are NOT part of the shape, and §17's "pin every call-crossing |
+| L22578 | §216 | DISTINCT ADJACENT SCALARS vs ONE ARRAY: one `lui` per access is the tell, and the array de |
+| L22618 | §217 | DECODING A CALL'S STACK ARGUMENT SLOTS: `sw` at `0x10`/`0x14`/`0x18` are params 5/6/7 **(s |
+| L22644 | §218 | A NARROW TYPE AT THE ABI BOUNDARY COSTS AN IN-PLACE `sll/sra` PAIR — on the RETURN as well |
+| L22673 | §219 | COMPOUND `+=`, FULL ASSIGNMENT, AND AN EXPLICIT TEMP ARE THREE DIFFERENT SCHEDULES OF ONE  |
+| L22700 | §220 | THE PARAMETER ITSELF IS A REGALLOC DIAL: use it directly, prefer `s32` to `void*`, and pla |
+| L22734 | §221 | A CONSTANT SHARED BY TWO STORES DIES AT THE CALL WHOSE DELAY SLOT REFILLS ITS REGISTER **( |
+| L22750 | §222 | SWITCH vs IF-CHAIN, PART 3: source arm order IS emission order, a leading EMPTY case buys  |
+| L22792 | §223 | READING A `jal` DELAY SLOT: the value in it was produced BEFORE the call, so it is NEVER t |
+| L22854 | §224 | CROSS-JUMP: WRITE THE DUPLICATE, AND READ A SHARED DELAY SLOT AS THE MERGE SIGNATURE (P31  |
+| L22890 | §225 | THREE CONTROL-FLOW SHAPES NO STRUCTURED SPELLING REACHES (P31 S58) |
+| L22933 | §226 | FRAME PADS: FOUR WAYS §162i1/§2429's DEAD-LOCAL LEVER MISFIRES (P31 S58) |
+| L22974 | §227 | TYPE THE SOURCE BY THE **LOAD** WIDTH, NOT BY THE STORE WIDTH (P31 S58) |
+| L22994 | §228 | READING THE DIVIDE, PART N: the off-by-one compare is `% K == 1`, and three more discrimin |
+| L23031 | §229 | THE ADDRESS IS A VALUE: NAMING IT MOVES THE `lui`/`addiu` PAIR — AND §L14410 SAYS THE OPPO |
+| L23080 | §230 | THE ANCHOR PROBE: with `%hi`/`%lo` masked, the surviving `addiu` deltas tell you which ass |
+| L23095 | §231 | TRANSCRIPTION AND SEMANTIC-READ HYGIENE: six ways the listing misleads (P31 S58) |
+| L23136 | §232 | WHEN THE `jr` DELAY SLOT'S STORE STORES THE RETURN VALUE, TIE THEM WITH ONE PSEUDO **(sing |
+| L23172 | §30 | addendum (P31 S58) — the `/s` grant closes a SCHEDULING residual and a REGISTER residual w |
+| L23192 | §194-B | addendum (P31 S58) — BOUND 2 is byte-wrong; see §209 Direction A |
+| L23198 | §176-B | addendum (P31 S58) — the misdiagnosis direction |
+| L23204 | §165-40 | addendum (P31 S58) — the barrier goes at the COPY SITE, not inside the region it protects |
+| L23213 | §164-63 | addendum (P31 S58) — the interposed asm works when the SECOND value is an ordinary assignm |
+| L23222 | §193-A | / §194-E addendum (P31 S58) — where the twin's body actually lives |
+| L23228 | §233 | THE WAVE aa–bg HARVEST (P31 S58b): 1,101 byte-banked notes → 24 new laws, 21 addenda, ~700 |
+| L23272 | §234 | CONSTANT MATERIALISATION: THE STORE LVALUE'S SIGNEDNESS PICKS `addiu` vs `li`/`ori` (P31 S |
+| L23313 | §235 | THE PHANTOM SYMBOL: A MASKED `MATCH` CAN CARRY A RELOCATION THAT DOES NOT EXIST (P31 S58b) |
+| L23342 | §236 | THE DECLARATION LAYER IS THE DOMINANT BANK-BLOCKER: NINE WAYS A BYTE-PERFECT BODY FAILS TH |
+| L23421 | §237 | THE CAST-AT-CALL-SITE DECISION TABLE: WHAT §17a-1 FIXES, WHAT IT CANNOT, AND THE FOUR ESCA |
+| L23476 | §238 | SAME NAME, DIFFERENT FUNCTION: THE OVERLAY-HOMONYM TRAP (P31 S58b) |
+| L23516 | §239 | TWO-STATEMENT INTEGER-SPACE MATERIALISATION REORDERS `la` vs `sll`; AND THE PLUS-TREE OPER |
+| L23550 | §240 | `A + K + B`: WRITE THE CONSTANT **BETWEEN** THE TWO RUNTIME TERMS (P31 S58b) |
+| L23579 | §241 | THE FOLDED SIGN-EXTEND-AND-SCALE: `sll 16 ; sra (16 − log2 scale)` (P31 S58b) |
+| L23608 | §242 | `*k` vs `<<n`, AND `/2^n` vs `>>n`: EXPRESSION SPELLING OWNS THE LOAD WIDTH AND THE ROUNDI |
+| L23636 | §243 | SPELL THE CSE BARRIER AS A REASSIGNED POINTER; AND THE `nop`-AFTER-EVERY-`lh` SIGNATURE (P |
+| L23666 | §244 | `volatile` IS A COUNTING INSTRUMENT, A STORE-ORDER PIN, AND MUST SOMETIMES BE ASYMMETRIC ( |
+| L23701 | §245 | THE CALL'S ARGUMENT LIST IS A SCHEDULING SLOT (P31 S58b) |
+| L23748 | §246 | THREE-LIVE-VALUE SCAN LOOPS WANT ADDRESS-FROM-INDEX; AND TWO SYMBOLS CAN SHARE ONE giv (P3 |
+| L23788 | §247 | TWO BRANCHES TO **ONE** LABEL MEANS THE SOURCE CONDITION IS NEGATED (P31 S58b) |
+| L23822 | §248 | SPLIT THE LOAD FROM THE ARITHMETIC: A FUSED `g + K` DENIES THE CALLEE-SAVED REGISTER ITS D |
+| L23846 | §249 | THE SELF-ASSIGN, THE DEAD RE-ASSIGN, AND THE `+ zr` COPY: THREE WAYS TO MAKE A DELETED INS |
+| L23888 | §250 | `%hi/%lo` vs `lw`: THE EXTERN'S ARRAY-vs-SCALAR SHAPE DECIDES ADDRESS MATERIALISATION (P31 |
+| L23925 | §251 | IMMEDIATE-SPELLING TRIGGERS: `+= 0xFF`, FULL-WIDTH `~K`, AND THE TWO-OR SPLIT (P31 S58b) |
+| L23947 | §252 | THE GUARDED PRE-DECREMENT: `(x != 0) && (--x == 0)` (P31 S58b) |
+| L23968 | §253 | POSTFIX `++` vs `+= 1` PICKS A DIFFERENT SCRATCH REGISTER **(single observation — not yet  |
+| L23982 | §254 | THE DEAD PARAMETER IS A REGISTER-PLACEMENT TOOL **(single observation — not yet cross-conf |
+| L23994 | §255 | THE EMPTY CASE, PART 2: FOUR TREE SHAPES IT BUYS (P31 S58b) |
+| L24029 | §256 | GOTOS IN THE TARGET'S BLOCK ORDER REPRODUCE SWITCH PLACEMENT WITHOUT SWITCH'S SIDE EFFECTS |
+| L24066 | §257 | THE DEAD-END LEDGER (P31 S58b): ELEVEN LEVERS THAT MEASURED NULL OR BACKFIRED |
+| L24109 | §258 | ADDENDA TO EXISTING SECTIONS (P31 S58b) |
+| L24114 | §30 | addendum (P31 S58b) — THE ANONYMOUS STRUCT MEMBER REF GRANTS `/s`, AND THAT IS A TWO-FOR-O |
+| L24135 | §194-B | / §209 addendum (P31 S58b) — TWO MORE INSTANCES, AND THE BOUND IS NOW REFUTED FOUR WAYS |
+| L24158 | §202 | addendum (P31 S58b) — THE DEF-SIDE ALIAS ALSO CLEARS A RETURN+PARAM DOUBLE CONFLICT |
+| L24169 | §205 | addendum (P31 S58b) — CHAINED ASSIGNMENT: N≥3 IS INNERMOST-FIRST, AND THE TEXT MIRRORS EMI |
+| L24186 | §208 | addendum (P31 S58b) — IT SCALES TO SIX SITES, AND IT HAS AN EXACT INVERSE |
+| L24215 | §210 | addendum (P31 S58b) — THREE CONFIRMED SPELLINGS OF THE BOOLEAN TAIL |
+| L24231 | §211 | addendum (P31 S58b) — INIT PLACEMENT: FIVE MORE DIALS BEYOND THE GUARD HOIST |
+| L24274 | §213 | addendum (P31 S58b) — THREE MORE PERMUTATION LAWS FOR INDEPENDENT SAME-BASE STORES |
+| L24303 | §214 | addendum (P31 S58b) — FOUR MORE WAYS A HIGH-SIMILARITY TWIN LIES |
+| L24339 | §215 | addendum (P31 S58b) — PIN ECONOMY, PART 2: NINE REFINEMENTS |
+| L24391 | §217 | CROSS-CONFIRMED (P31 S58b) — AND THE INCOMING HOME SLOT IS THE MIRROR |
+| L24408 | §220 | addendum (P31 S58b) — THE PARAMETER, NOT A COPY (SEVEN CARDS) |
+| L24433 | §222 | addendum (P31 S58b) — IF-CHAIN vs SWITCH: THREE MORE DISCRIMINATORS |
+| L24451 | §223 | addendum (P31 S58b) — FIVE MORE CONFIRMATIONS, AND THE CONSTANT-IN-`$v0` CASE |
+| L24475 | §224 | addendum (P31 S58b) — CROSS-JUMP MERGES *CALLS*, AND THE DELAY SLOT IS THE DISCRIMINATOR |
+| L24505 | §225 | addendum (P31 S58b) — THE GUARD-CLAUSE FINGERPRINT, AND THREE MORE SHAPES |
+| L24532 | §226 | addendum (P31 S58b) — THE FRAME CATALOGUE: SEVEN MORE LEVERS, AND SLOT ORDER IS DECLARATIO |
+| L24577 | §229 | addendum (P31 S58b) — NAME IT **INSIDE** THE ARM |
+| L24588 | §230 | CROSS-CONFIRMED (P31 S58b) |
+| L24597 | §231 | addendum (P31 S58b) — FOUR MORE WAYS THE LISTING MISLEADS |
+| L24628 | §232 | CROSS-CONFIRMED (P31 S58b) |
+| L24639 | §259 | THE DISCARD LEDGER FOR THE aa–bg HARVEST (P31 S58b): WHAT WAS MINED AND REJECTED, AND WHY |
+| L24678 | §260 | THE §154-A LEADING-ISLAND SPLIT: ONE CONFIG LINE, AND THE ISLAND PEELS FROM THE END (P31 S |
+| L24728 | §260-A | STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day |
+| L24764 | §261 | THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59) |
+| L24790 | §261a | THE -O0 FRAME-RELOAD GRAMMAR: reload COUNT disambiguates the C spelling (P31 S59, byte-pro |
+| L24812 | §262 | A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59) |
+| L24842 | §263 | A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCH |
+| L24883 | §264 | FOUR TELLS-LANE C RECIPES, EACH DRIVEN TO MATCH (P31 S59) |
+| L24930 | §265 | THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BO |
+| L24992 | §266 | THE INERT-RIDER LAW: A LEVER IS ONLY CITABLE WHEN ITS SOLO REMOVAL BREAKS THE MATCH (P31 S |
+| L25032 | §267 | ADDENDA HARVESTED FROM WAVES at/bh/bk/bl (P31 S59b) |
+| L25040 | ADD-1 | → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION |
+| L25049 | ADD-2 | → §42a addendum — A SHARED CONSTANT *NAMED IN A LOCAL* ACROSS A `jal` IS AN ISO→TU DRIFT H |
+| L25061 | ADD-3 | → §236, item 10 — THE UN-DELETED `INCLUDE_ASM` STUB IS A DUPLICATE DEFINITION |
+| L25071 | ADD-4 | → §225-3/-4 addendum — THE MIRROR ROW: VALUE-RETURN IN THE *TAKEN* ARM + TRAILING BARE `re |
+| L25085 | ADD-5 | → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TR |
+| L25094 | ADD-6 | → §172b-1 / §264 addendum — SHIFT-AS-TEST: `(x << 16) != 0` TESTS THE LOW HALF WITHOUT TRU |
+| L25103 | ADD-7 | → §256 addendum — THE SINGLE-GUARD GOTO: THEN-BLOCK OUT OF LINE AT THE TAIL |
+| L25115 | ADD-8 | → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6) |
+| L25127 | ADD-9 | → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED |
+| L25137 | ADD-10 | → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS A |
+| L25146 | ADD-11 | → Cross-confirmation card block (per §259's standing instruction: confirmation, not news) |

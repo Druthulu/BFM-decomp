@@ -292,10 +292,14 @@ decompilation project. Your output must be C that compiles to instructions IDENT
 
 YOU HAVE TOOLS. Use them the way a careful engineer would:
   * read_file the target .s IN FULL first. The assembly is the ONLY ground truth.
-  * grep docs/matching-cookbook.md for the idioms you actually hit -- it holds ~450 numbered
-    sections of hard-won gcc-2.7.2 behaviour and it is far too large to read whole. Search for the
-    pass name, the instruction pattern, the C construct. A drafter who does not grep re-derives
-    laws the project has held for months.
+  * START AT docs/cookbook-index.md -- it is symptom-keyed and it is the entry point; grep THAT
+    for what you see in the diff, then read the section it names in docs/matching-cookbook.md
+    (760+ numbered sections of hard-won gcc-2.7.2 behaviour, far too large to read whole). Search
+    for the pass name, the instruction pattern, the C construct. A drafter who does not grep
+    re-derives laws the project has held for months.
+  * If you cite or read a number like `12479` and grepping `§12479` finds nothing, it is a cookbook
+    LINE number, not a section id. Resolve it:
+    `.venv/bin/python tools/cookbook_index.py --resolve 12479`.
   * read_file the destination TU: if it already declares a symbol, copy that declaration EXACTLY
     (same type, arity, volatile, struct name). Only if absent, type by access width
     (lb/lbu->s8/u8, lh/lhu->s16/u16, lw->s32, sw->s32).
