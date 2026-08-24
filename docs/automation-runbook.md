@@ -1,107 +1,185 @@
-# Phase-21 Automation Runbook (the unattended grind)
+# Automation runbook — the autonomous campaign, as it actually runs
 
-The automation manager: a **token-free grinder** (CPU permuter) + a **token-heavy worker** (LLM
-agent waves), both banking through the **incorruptible whole-binary byte-gate** (G3/P9 — a wrong
-match can NEVER bank) and logging every near-miss to a **ranked backlog** for hand-finishing.
+**Rewritten 2026-08-24 (P31 S59).** The previous version described the June reach-1 grinder pivot and
+was two months stale: it named no lane that exists today. If this file and the lane scripts ever
+disagree again, **the scripts are the truth** — `tools/lanes/*.sh` are the tracked copies of what runs.
 
-## What is running right now (2026-06-22 — reach-1 pivot)
+Companions: `docs/SETUP.md` (per-tool reference table, versions, install), `docs/accelerators.md`
+(ops traps that cost real time), `docs/matching-cookbook.md` (the matching knowledge the drafters grep).
 
-**Nothing running.** The reach-134 ×134 wave fuel hit its wall (waves 1–16 → fleet ≈61.16%, then confirmed
-walls), and the grinder is STOPPED (`.run/auto/STOP` present). The project pivoted to the **reach-1 harvest**
-(below) — fuel built + staged, NOT started; Drew drives it from a fresh session. Full state:
-`phase-ends/CURRENT_PHASE.md` ★★ REACH-1 HANDOFF.
+---
 
-## ★ Reach-1 harvest — smallest-first idiom-mining (the Phase-21 active direction)
+## 1. What runs right now
 
-**Fuel (BUILT):** 420 reach-1 (overlay-unique) region-main draftable fns in `ov_SC01_077`, ALL Ghidra-C cached,
-small (median 47 ins; 251 ≤60 ins). `tools/wave_targets.py --pool reach1` serves them **smallest-first**; the
-orchestrator `POOLS` + `.run/auto/orch_state.json` are set to `reach1`, so **`prep --mode pool` serves it**.
-Leverage is **×1** (overlay-unique → banks in `ov_SC01_077` only; `dedup_propagate` skips reach<2, no ×134) —
-but `ov_SC01_077` is the largest overlay, so 420 small fns is a real fleet lever (plausibly +1–3%).
+Six detached lanes, each `setsid`-launched from `.run/<name>.sh` (a copy of `tools/lanes/<name>.sh`):
 
-**The cycle (Drew controls pacing — `/loop` self-paced or hand-cycle):**
-1. `.venv/bin/python tools/orchestrator.py prep --mode pool --n 24` → reach1 smallest-first batch → `.run/auto/wave_batch.json`.
-2. Read the batch; launch `tools/workflows/worker_wave.js` with `args={draftDir:".run/drafts-wave", targets:<batch array PASTED VERBATIM>}`.
-3. `.venv/bin/python tools/orchestrator.py finish --drafts .run/drafts-wave --commit` — **BACKGROUNDED + `dangerouslyDisableSandbox`** (foreground make build/git get sandbox-killed exit 144). Prints `{banked, near, verified, fleet_pct, …}`.
-4. **Distill EVERY wave that has `verified` banks** — `tools/workflows/distill.js` `args={draftsDir:".run/drafts-wave", verified:<array>}`. This is an idiom-MINING pass (more aggressive than the conservative ×134 run): each new gcc quirk → cookbook → feeds forward to bigger reach-1 fns AND occasionally cracks a reach-134 **wall** (×134 bonus, like the Phase-18 pin idiom).
-5. Loop (~17 waves for all 420). close-rate should stay HIGH (small fns) → no pool rotation; if it drops <0.15 ×2 and rotates off `reach1`, re-route by setting `"pool":"reach1"` in `.run/auto/orch_state.json`.
-6. **Optional token-free grinder** (parallel — permutes reach-1 near-misses): `rm -f .run/auto/STOP && DRIVER=tools/grinder.py setsid nohup bash tools/auto_supervisor.sh --permute-secs 120 -j 14 >/dev/null 2>&1 &` (dangerouslyDisableSandbox).
+| lane | script | what it does | safe to restart? |
+|---|---|---|---|
+| **drafter** | `.run/drafter.sh` | draw → shard → draft → queue a ready marker, forever | **Never stop it to ship a change.** Doing that cost 139 of 162 idle minutes on 2026-08-23. Restart only at a wave boundary (see §3) |
+| **gater** | `.run/gater.sh` | reloc pre-filter → gate → commit → harvest → ledger | yes, freely — nothing is lost but the pause |
+| **maintenance** | `.run/maintenance.sh` | the free A-prop sibling sweep when the gater is idle; zero model tokens | yes |
+| **stallguard** | `.run/stallguard.sh` | 60 s: revive a dead lane shell, kill agents silent >20 min, kill a gate >90 min, bounce an idle drafter | yes |
+| **distill** | `.run/distill.sh` | watch harvested candidates, raise a READY marker when a batch is worth review | yes |
+| **main** | `.run/main.sh` | the EXE's own draft→gate→commit cadence (§5) | yes — `gate_main` reverts its own aborts |
 
-The Monitor / STOP / grinder / safety sections below apply unchanged. (The original ×134 "Launch the WORKER
-waves" cycle below is the same mechanics with a different pool — reach1 supersedes it for the active run.)
+```bash
+# is everything alive?
+for l in drafter gater maintenance stallguard distill main; do
+  printf "%-12s %s\n" "$l" "$(pgrep -f "bash .run/$l.sh" >/dev/null && echo alive || echo DEAD)"; done
+pgrep -cf '^\.venv/bin/python -u tools/api_agent'      # drafting agents right now
 
-### Grinder (token-free, currently STOPPED)
-
-`tools/grinder.py` under `tools/auto_supervisor.sh` — permutes the backlog's closest near-misses → byte-gate →
-banks → ×134. Idles when drained; supervisor relaunches on crash. Heartbeat: `.run/auto/grinder_heartbeat.json`.
-
-## Monitor (read-only, from anywhere)
-
-```sh
-bash tools/auto_status.sh                 # grinder + worker heartbeats, backlog size, recent commits
-cat .run/auto/grinder_heartbeat.json      # grinder: state/current/banked/fleet
-.venv/bin/python tools/orchestrator.py status   # worker ROI state (pool, waves, banked_total)
-.venv/bin/python tools/backlog.py show -n 40     # the ranked near-miss backlog (docs/backlog.md)
-git log --oneline -15 | grep phase-21     # what banked
-make report BINARY=main                   # fleet % (+ dedup byte-honesty check, must be 0 failed)
+touch .run/ox_campaign.stop        # THE KILL SWITCH — every lane exits at its next loop top
+rm .run/ox_campaign.stop           # then relaunch the lanes you want
 ```
 
-## STOP everything (the kill switch)
+---
 
-```sh
-bash tools/auto_stop.sh        # touches .run/auto/STOP -> grinder finishes its current step, exits;
-                               # the supervisor sees STOP and does not relaunch. Safe at any time.
-rm .run/auto/STOP              # to allow a relaunch later
+## 2. The drafting toolchain (OpenRouter)
+
+`tools/ox_campaign.py --drafter` draws a wave, shards it, and spawns one `tools/api_agent.py` per
+card. **Shard count tracks CARDS, not the `--workers` cap**: a 71-card wave runs 71 agents however
+many workers are configured. Card supply, not throughput, is the binding constraint.
+
+* **Models.** `--models 'stealth/ox-alpha:2000'` — ox is free for this window. The paid deepseek lane
+  was dropped 2026-08-24 at $2.22 remaining (§7). Restoring it is two edits, named in the drafter
+  script's header.
+* **The card is the fuel.** `tools/build_wave_atlas.py` writes `.run/wave_<tag>_cards.json`:
+  `fn · binary · nins · lever · model · tu · seed_ref · tu_ref · decl_prior`. `api_agent._fuel`
+  renders it, and `LEVER_CRIB` explains what each lever MEANS plus the cookbook § to grep — a bare
+  lever label is a dead end (108 transcripts grepped `extend-tell` against a cookbook containing
+  that string zero times).
+* **Budgets are per lane** (`ox_campaign.LANE_BUDGET`): tells gets 40 turns / $0.40, everything else
+  24 / $0.15. One global cap starved the large cards — 98 of 270 tells attempts ended AT the cap.
+* **Model routing inside a wave** is by function size (cookbook §157): Haiku ≤30 ins → Sonnet 50-120
+  → Opus ≥120. **Fable is for new wall classes only — never for idiom distillation or review.**
+
+### What the draw admits, and what it refuses (all counted in the skip census)
+
+| filter | why |
+|---|---|
+| `o0-in-an-O2-object` | an -O0 function in an -O2 object cannot bank however good the draft (§261). 11 such were drawn **79 times across 19 waves** before this existed |
+| `tells-oversize-serial-lane` | tell-lever members > `--tells-max-ins` (80). Bank rate 27-40% at 5-80, 10% at 81-120, 1% at 121-200, 0% above. Those 383 members are `idiom_serial`'s work |
+| `jtbl-*` (`main-manual`, `island-blocked`, `island-pads`) | the gate's carve cannot reach that table yet (`jtbl_carve.island_probe`) |
+| `jtbl-one-per-binary` | §61c: one table-bearing draft per gate invocation |
+| `already-waved` / `already-banked` / `out-of-band` | ordinary pool bookkeeping |
+
+**Quotas** reserve cards that the gate-group ranking would otherwise never pick, because they are
+spread thin across binaries: `--tells-quota 60`, `--jtbl-quota 6`. **A quota is a floor AND a
+ceiling** — tells enter through the quota or not at all (left free, they took 41% of a test wave).
+
+---
+
+## 3. Changing something while it runs (read this before editing a lane)
+
+bash parses a `while … done` body **in full** before executing it, so the loop's command line is
+fixed for the life of that shell (`docs/accelerators.md` #5):
+
+| change | how it takes effect |
+|---|---|
+| lane **code** (`tools/*.py`) | next python start — bounce the python, args are unchanged |
+| lane **args** (the `.sh` invocation) | needs a fresh **shell** — `tools/lanes/relaunch_drafter_shell.sh` waits for a wave to queue first, so no drafts are lost |
+| wave-draw **defaults** (`build_wave_atlas.py`) | next draw — it is a fresh subprocess per wave, no restart at all |
+| the **gater's** args | `tools/lanes/restart_gater_when_idle.sh` — restarts once no sweep is in flight |
+
+Verify from the PROCESS, never the file: `tr '\0' ' ' < /proc/<pid>/cmdline`, or the startup banner.
+
+---
+
+## 4. The banking toolchain, by binary class
+
+**A bank is byte-identical instructions AND a green whole-binary SHA1. Nothing else counts (G3/P9).**
+
+| class | path | notes |
+|---|---|---|
+| overlays / md | `sweep_parallel` → `gate_stage` → `harvest_verify` | per-binary flock `.run/auto/gate.<bin>.lock`; distinct binaries gate concurrently |
+| **main** | `gate_main.py` ONLY | incremental builds give a FALSE diff (main's extract rewrites the linker script). `sweep_parallel` REFUSES main (R43) after wave `ab` banked 0 of 105 |
+| jtbl functions | the carve happens **at the gate** (`harvest_verify._jtbl_prep_one`), never pre-draw | §61b's proven order; `jtbl_lane.py` is the serial route |
+| -O0 functions | ordinary gates, but only from an **-O0 object** | the Makefile decides per object; `corpus.o0_subseg()` is the oracle, not the subseg name |
+
+Standing verification: **R22 = a CLEAN rebuild** (`make clean && make extract-all && make check-all`,
+~1 min parallel). Do not run it while gates are building; scope it to the binary you touched with
+`rm -rf build/<bin> build/src/<bin> && make extract BINARY=<bin> && make check BINARY=<bin>`.
+
+**R42 — never revert a dirty `src/` or `config/`.** Other lanes bank real, byte-proven functions with
+`commit=False`, and no tool can tell them from residue; a blind `git checkout` destroyed 61 banked
+functions once. Commit named paths, or leave the tree alone.
+
+---
+
+## 5. The main lane (P31 S59)
+
+main is excluded from every overlay wave draw (`--exclude-bins main`) because its gate is a clean
+whole-EXE rebuild that bisects — three measured stalls put it off the critical path. It now has its
+own lane instead of no cadence at all:
+
+```
+.run/main_queue/*.json  (parked drafts, free)      ─┐
+build_wave_atlas --only-bins main                  ─┴→ draft → reloc filter → gate_main --apply
+                                                        → verify main byte-identical → commit (R42)
 ```
 
-## Launch the WORKER waves (token-heavy — the high-yield engine)
+* Batches of 40: **one clean rebuild verifies the whole slate** (~15 s measured), which is what makes
+  main affordable. The reloc pre-filter keeps the batch from bisecting.
+* On a `COMPILE conflict` the lane **halves the slate and retries** — `gate_main` deliberately
+  refuses to bisect a decl clash (right for a human, wrong for an unattended lane: 40 innocent drafts
+  died with one conflicting symbol that was in the TU and in no draft).
+* Failed drafts are parked with a try count (`.run/main_queue_failed.json`), capped at 2.
+* **Credit requires two oracles**: the `INCLUDE_ASM` line gone from the tree AND main re-checked
+  byte-identical. The first version asked `corpus.stubs('main')` — which returns `{addr: Stub}`, keyed
+  by INT — so a name-vs-int comparison reported "12 banked of 12" from a gate that banked nothing.
 
-The worker drafts matching C with LLM agents (the §17–20 toolkit: register pins, array-of-struct
-%lo-fold, call-site casts) — it cracks the hard tail the grinder can't. It needs a **Claude session**
-(only a session can invoke the Workflow tool), so it runs as a self-paced **`/loop`**:
+---
 
-1. In a Claude Code session in this repo, run **`/loop`** with this cycle as the prompt:
-   > Run one Phase-21 orchestrator cycle, then stop if `.run/auto/STOP` exists:
-   > (a) `.venv/bin/python tools/orchestrator.py prep --n 24` — auto-picks a **class-focused** wave (re-attempt
-   > the backlog's biggest gcc-quirk class) or a **fresh pool** wave; it prints `{mode, sel, n, batch}`.
-   > (b) Read `.run/auto/wave_batch.json` and launch the **`tools/workflows/worker_wave.js`** Workflow with
-   > `args={draftDir:".run/drafts-wave", targets:<the batch array>}`. Wait for it.
-   > (c) `.venv/bin/python tools/orchestrator.py finish --drafts .run/drafts-wave --commit` — gates, banks,
-   > propagates ×134, logs near-misses; prints `{banked, propagated, near, verified, ...}`.
-   > (d) If `verified` is non-empty, launch the **`tools/workflows/distill.js`** Workflow with
-   > `args={draftsDir:".run/drafts-wave", verified:<the verified array>}` — it extracts any NEW byte-verified
-   > gcc idiom into the cookbook so the next wave inherits it (the learning flywheel).
-   > (e) Report the one-line result.
-2. **The learning flywheel:** fresh waves classify their near-misses by gcc-quirk (the drafter stamps
-   `// @class`/`// @stuck`); once a class accrues ≥6 near-misses, `prep` fires a **class-focused re-attempt
-   wave** for it (drafters get the prior stuck-point + the live cookbook); `distill` turns each wave's banked
-   techniques into new cookbook idioms. This is the Phase-18 close-rate-rising loop, automated.
-3. `/loop` self-paces (~15–20 min/wave, ~275k tokens/wave of ~24 agents). The grinder runs alongside,
-   draining near-misses. Cost-bounded by the ROI gate + `auto_stop.sh`. Inspect classes anytime:
-   `.venv/bin/python tools/wave_targets.py --list-classes`.
+## 6. The distill lane and the flywheel
 
-**Remote management (Drew has laptop + can remote into the dev box):** you don't need a bulletproof
-keep-alive — if the worker `/loop` session dies, just remote in and re-run `/loop` (the grinder daemon
-keeps running regardless, and every bank is already committed, so nothing is lost). Monitor with
-`tools/auto_status.sh`; stop with `tools/auto_stop.sh`; resume by re-launching. The byte-gate guarantees
-correctness while unattended, so the worst case of a crash is "it paused," never "it broke something."
+The gater harvests every wave before the next draw (`idiom_harvest.py`) into
+`.run/idiom_candidates.<tag>.md`. That is EXTRACTION. **Distillation into the cookbook is what
+changes the next wave**, because that is what the agents grep.
 
-## Re-prefetch fuel (only if adding fresh targets, needs Ghidra)
+* `.run/distill.sh` raises `.run/distill_ready/<batch>.json` at ≥30 novel candidates or ≥2 waves.
+* State is `{tag: novel-count-when-mined}` — never a done-list, because a re-gated wave rewrites its
+  candidate file under the same tag.
+* **The reviewer is an Opus or Sonnet subagent, never Fable** (Drew, 2026-08-24).
+* Measured yield, twice: **~82-88% of candidates are already covered**, ~1 new law + ~10 addenda per
+  80 candidates, and **one in three credited levers is byte-inert** (§266 — strip it and recompile
+  before writing the law).
+* Wave N's ore is distilled while wave N+1 drafts, so **wave N+2 is the first that can grep it**.
+  That one-wave lag is the price of never pausing the fleet.
 
-The run is **cache-based** (no live MCP needed). To add targets to the Ghidra-C cache later:
-```sh
-bash tools/ghidra_mcp_stop.sh                                    # R23 (free the project lock)
-.venv/bin/python tools/build_fuel_manifest.py --emit-prefetch .run/prefetch_addrs.txt
-"$HOME/ghidra_12.1_PUBLIC/support/analyzeHeadless" "$HOME/bfm-decomp/ghidra" bfm \
-  -process ov_SC01_077 -noanalysis -readOnly -scriptPath tools/ghidra_scripts \
-  -postScript DecompileFunctions.java .run/prefetch_addrs.txt .run/ghidra_c
-```
+---
 
-## Safety invariants (why this is safe to leave running)
+## 7. Rate limits, credits, and the measured ceiling
 
-- **Byte-gate is the sole arbiter (G3/P9):** every bank is whole-binary SHA1-verified; a wrong draft
-  is reverted, never banked. `make check-all` stays 136/136.
-- **git is the crash-safe state machine:** every bank is a checkpoint commit (push is manual, R6 —
-  nothing leaves the machine on its own); `dedup_propagate --auto-from` is additive/resumable.
-- **`auto_stop.sh`** halts both engines at the next safe boundary.
-- **Honest measurement (P9):** only byte-matches bank; near-misses go to `docs/backlog.md`, ranked.
+| fact | number |
+|---|---|
+| lifetime requests / 429s | 121,166 / 7,667 = **6.3%** |
+| 429 attribution | 100% provider shared capacity (`openrouter_shared_capacity`, `upstream_provider_shared_pool`) — **zero platform refusals, ever** |
+| steady state | 50-95 req/min → **0-3.5%** 429s |
+| the knee | 195-227 req/min → **6.6-12.7%** 429s |
+| one-minute peak observed | 2,755 requests |
+| per-agent request rate | 0.31-0.78 req/min (mean ~0.6) — so ~350-380 agents sits at the knee |
+| retry policy | `MAX_429=10` with 20 s backoff (default 6). A 429 costs a retry; an idle agent costs a card |
+
+Telemetry: every request appends to `.run/api_rate.jsonl`; read it with `tools/api_rate.py`.
+**Bucket 429s over time before calling anything a ceiling** — launch bursts fake one.
+
+**Credits.** `credits_left()` reads the OpenRouter balance. `--credit-floor` does **not** pause the
+paid lane, it breaks the whole drafting loop — and the shell then restarts a python that breaks
+again. With a free model the balance is not a proxy for "can we draft", so the floor is 0.25.
+
+---
+
+## 8. Recovery
+
+1. `git status --porcelain -- src/ config/` — if dirty, **COMMIT it, never revert** (R42). The one
+   safe revert is `src/800.c`/`src/800c.c` alone when a `gate_main` was interrupted mid-substitution.
+2. Salvage drafts: `find .run/wave_* -name '*.c' | wc -l` — drafts survive crashes and are worth
+   re-gating via `ox_campaign.py --gate-only <tag>` before drafting anything new.
+3. Relaunch lanes: `setsid nohup .run/<lane>.sh >> .run/<lane>.log 2>&1 </dev/null &`, and verify
+   from the STARTUP BANNER, not the file.
+4. Drafting is the clock-limited resource (the free-model window) — start it FIRST, do bookkeeping
+   while it runs.
+
+**Never `pkill -f` a lane by a bare name**: it matches the harness's own `bash -c "… eval '…'"`
+wrapper and kills the command issuing it (three times, twice fatally). Anchor the pattern
+(`'^bash \.run/drafter\.sh'`) or collect PIDs first and `kill` them in a separate call.
