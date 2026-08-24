@@ -271,7 +271,14 @@ void func_801A108C(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A1124);
+void func_801A1124(s32 a0) {
+    s32 v0;
+    v0 = *(s32 *)(a0 + 0x1C);
+    if ((v0 & 3) == 0) {
+        func_8012C588(0x44, a0);
+    }
+}
+
 
 #include "common.h"
 
@@ -418,7 +425,43 @@ INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A1C7C);
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A1E74);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A1E94);
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_80132288(s32 *arg_a0, s32 *a1, s32 a2);
+extern s32 func_801A8528(s32 a0);
+extern void func_80178B18(s32 a0, s32 a1);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+extern s32 D_801BF01C;
+extern s32 D_801F8724;
+extern s32 D_801AFB58;
+extern s32 D_801AFCF8;
+
+/* Definition is (void) to agree with the pre-existing TU declarations
+   (md_SC07_004.c lines 10/1941). The entity pointer arrives in $a0; the
+   pin-to-local copy forces gcc to home it in a callee-saved reg exactly as
+   the target's `addu $s0,$a0,$zero`. */
+void func_801A1E94(void)
+{
+    register s32 param_1 __asm__("$4");
+    s32 p;
+    s32 *s0;
+    s32 *s1;
+
+    p = param_1;
+    s0 = (s32 *)p;
+    s1 = &D_801BF01C;
+    func_8001C924(*(s32 *)(p + 0x20), s1);
+    func_80132288(&D_801F8724, &D_801AFB58, *s1);
+    *(s16 *)(p + 0xA) = -0x240;
+    *(s16 *)(p + 0xE) = 0x30;
+    *(s32 *)(p + 0xD4) = func_801A8528(p);
+    func_80178B18(p, (s32)&D_801AFCF8);
+    *(s32 *)(p + 0x1C) = 0x60;
+    *(s16 *)(p + 0x100) = 0xFF;
+    *(s16 *)(p + 0x84) = 0;
+    func_8012AD44((s32 *)p, 0xE);
+}
+
 
 INCLUDE_RODATA("asm/md_SC07_004/nonmatchings/md_SC07_004", D_801A0168);
 
@@ -1547,7 +1590,10 @@ INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5AA0);
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5AC0);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5AE0);
+void func_801A5AE0(void *a0) {
+    func_8012AD44((s32 *)a0, 3);
+}
+
 
 void func_801A5B00(s32 *a0) {
     func_8012AD44(a0, 4);
@@ -1591,7 +1637,25 @@ void func_801A5B5C(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5C44);
+extern s32 func_8004787C(s32 a0);
+
+void func_801A5C44(void) {
+    register s32 a0 __asm__("$4");
+    s32 s0 = a0;
+    s32 s2;
+    s32 s1;
+    s32 temp;
+
+    temp = *(s16 *)(s0 + 0x100);
+    s2 = *(s32 *)(s0 + 0xCC);
+    s1 = *(s32 *)(s0 + 0xD4);
+    temp = func_8004787C(temp) >> 4;
+    *(s16 *)(s2 + 0x18) = *(u16 *)(s1 + (*(s16 *)(s0 + 0x70) * 4)) + temp;
+    temp = func_8004787C(*(s16 *)(s0 + 0x100) + 0x800) >> 4;
+    *(s16 *)(s2 + 0x1A) = *(u16 *)(s1 + (*(s16 *)(s0 + 0x70) * 4) + 2) + temp;
+    *(u16 *)(s0 + 0x100) += 0x40;
+}
+
 
 typedef struct { s16 vx, vy, vz, pad; } SVec_801A5CE8;
 
@@ -5476,7 +5540,34 @@ void func_801AC8B8(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AC940);
+
+extern Blk4_801A7358 D_801F88B8;
+
+void func_801AC940(s32 arg0)
+{
+    extern void func_801292C8(u8 *a0);
+    extern void func_8012931C(struct vec *a0);
+
+    s32 a1 = arg0;
+    s32 v0;
+    s16 v1;
+
+    v0 = *(s32 *)(a1 + 0x1C);
+    if (v0 == 0) {
+        func_801292C8((u8 *)a1);
+        return;
+    }
+    v0 = v0 - 1;
+    *(s32 *)(a1 + 0x1C) = v0;
+    if ((v0 & 3) == 0 && *(s16 *)(a1 + 0x2C) < 3) {
+        v1 = *(s16 *)(a1 + 0x2C);
+        v1 = v1 + 1;
+        *(s16 *)(a1 + 0x2C) = v1;
+        *(s32 *)(*(s32 *)(a1 + 0x20) + 0x20) = (s32)&D_801F88B8 + (v1 << 6);
+    }
+    func_8012931C((struct vec *)a1);
+}
+
 
 extern void func_80016714(void *a0, s32 a1);
 extern s32 func_8017D7D4(void *a0, void *a1, void *a2, s32 a3);
@@ -6840,7 +6931,49 @@ void func_801AEAE4(void *a0) {
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AEB04);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AEB94);
+
+
+extern U16x4 D_801F8EA0[];
+extern u16 D_801F8EA2;
+extern u16 D_801F8EA4;
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_80020F34(s32 a0, s32 a1);
+extern void func_801AEC38(s32 a0, s32 a1, s32 a2);
+
+void func_801AEB94(void)
+{
+    register s32 q __asm__("$16"); /* $s0 */
+    register s32 i __asm__("$17"); /* $s1 */
+    register s32 p __asm__("$18"); /* $s2 */
+    s32 loc[8];
+    s32 a0v, a1v;
+
+    p = (s32)D_801F8EA0;
+    func_80049CAC(p + 0x10, (s32)loc);
+
+    a0v = (s32)loc;
+    __asm__ __volatile__("" : "=r"(a0v) : "0"(a0v));
+    a1v = p + 8;
+    __asm__ __volatile__("" : "=r"(a1v) : "0"(a1v));
+
+    q = p + 0x18;
+    loc[5] = *(s16 *)p;
+    loc[6] = (s16)D_801F8EA2;
+    i = 0;
+    loc[7] = (s16)D_801F8EA4;
+    func_80020F34(a0v, a1v);
+
+    do {
+        if (*(u16 *)q != 0) {
+            s32 b0 = p;
+            __asm__ __volatile__("" : "=r"(b0) : "0"(b0));
+            func_801AEC38(b0, q, (s32)loc);
+        }
+        i++;
+        q += 0x24;
+    } while (i < 0x20);
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AEC38);
 
