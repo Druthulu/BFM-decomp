@@ -56,7 +56,7 @@ many workers are configured. Card supply, not throughput, is the binding constra
 
   | knob | value | why |
   |---|---|---|
-  | `--maxtok` | **16000** | the model's thinking is IN the content stream (`reasoning_tokens=0`), so the output cap WAS the reasoning cap. At 8k, 240 of 244 turn-finishes in wave `bk` were `no tool call (finish=length) — NUDGE n/6`: the turn did no work at all. An uncapped hard prompt wanted **8,067** tokens — finishing exactly where the old cap cut it |
+  | `--maxtok` | **16000** | the model's thinking is IN the content stream (`reasoning_tokens=0`), so the output cap WAS the reasoning cap. Measured over ALL turns (the denominator matters — an early count compared truncated turns only against turns that printed a finish reason, i.e. against themselves, and read as ~100%): wave `bk` at 8k truncated **240 of 3,222 turns = 7.4%**; wave `bt` at 16k truncated **16 of 1,210 = 1.3%**, a ~6x reduction. A truncated turn is a TAX, not a death — the log shows the agent emitting a tool call on the very next turn — so it costs one turn of 24. An uncapped hard prompt wanted **8,067** tokens, finishing exactly where the old cap cut it |
   | `HTTP_TIMEOUT` | **700** | ox generates at **~30 tok/s**, so a full 16k generation needs ~530 s. At the old 420 s the socket would kill the very turns the bigger budget exists to allow — and a timeout wastes the whole turn where truncation leaves a partial |
   | model ceiling | 1M context / **131,072** max completion | so 16k is OUR choice, not a limit. The binding constraint is the timeout, not the model |
 
