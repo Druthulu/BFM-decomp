@@ -5973,7 +5973,31 @@ void func_8018A3FC(S_8018A3FC *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_8018A440);
+extern void func_8001CB00(s32 a0, void *a1, s32 a2, s32 a3);
+extern void func_8001D074(s32 a0, s32 a1);
+extern u8 D_801E8844[];
+
+s32 func_8018A440(s16 id, void *rec, s16 x, s16 y, u8 p)
+{
+    s32 i;
+    s32 obj;
+
+    for (i = 0; i < 8 && *(s32 *)(D_801E8844 + i * 4) != 0; i++)
+        ;
+    if (i < 8) {
+        obj = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+        if (obj != 0) {
+            func_8001CB00(obj, rec, x, y);
+            *(u8 *)(obj + 0x27) = p;
+            *(u32 *)(obj + 4) |= 0xD0000000;
+            *(s32 *)(D_801E8844 + i * 4) = obj;
+            *(s16 *)((u8 *)D_801E8844 + i * 2 - 0x10) = id;
+            return i;
+        }
+    }
+    return -1;
+}
+
 
 #include "common.h"
 

@@ -4047,7 +4047,64 @@ void func_8017D8C4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017D900);
+void func_8017D900(s32 param_1) {
+    extern s32 D_80126B58;
+    extern s16 D_801864E0[];
+    extern u8 D_8018AF54[];
+    extern u8 D_8018DE54[];
+    extern u16 func_80148800(s32 *a0);
+    extern s32 func_800291B4(s32 a0);
+    extern void func_800291A0(s32 a0, s32 a1);
+    extern void func_8017D78C(void);
+    extern void func_8017DC50(s32 a0, s32 a1);
+    extern void func_8017DAB8(s32 a0, s16 *a1);
+
+    u8 *self = (u8 *)param_1;
+    s16 sp10[3];
+    s16 *rec;
+    s32 ta;
+    s32 tb;
+    s32 tc;
+    s32 state;
+
+    state = func_800291B4(0xE0) & 0xFF;
+    ta = func_80148800(&D_80126B58);
+    if ((ta & 3) != 0) {
+        ta = (*(self + 5) + 1) & 1;
+        *(self + 5) = ta;
+        *(s32 *)(self + 0x14) = D_801864E0[ta];
+    }
+    if (*(u16 *)(self + 0x38) == 0x398) {
+        tb = *(u16 *)(self + 0xA0) + 1;
+        *(u16 *)(self + 0xA0) = tb;
+        func_8017DC50((s32)(s16)tb, (s32)self);
+    }
+    if (*(s32 *)(self + 0xA0) == 6 && *(u16 *)(self + 0x38) >= 0x2EF) {
+        tc = *(u16 *)(self + 0xA2) + 1;
+        *(u16 *)(self + 0xA2) = tc;
+        func_8017D78C();
+    }
+    switch (state) {
+    case 0:
+        if ((*(s32 *)(self + 0x34) == (s32)D_8018AF54) & (*(u16 *)(self + 0x38) >= 0x169)) {
+            state = 1;
+        }
+        break;
+    case 1:
+        if ((*(s32 *)(self + 0x34) == (s32)D_8018DE54) & (*(u16 *)(self + 0x38) >= 0x155)) {
+            state = 2;
+        }
+        break;
+    }
+    func_800291A0(0xE0, state);
+    rec = (s16 *)(*(s32 *)(self + 0x34) + (*(u16 *)(self + 0x38) + 8) * 6);
+    sp10[0] = rec[0];
+    sp10[1] = rec[1];
+    sp10[2] = rec[2];
+    *(u16 *)(self + 0x38) = *(u16 *)(self + 0x38) + 1;
+    func_8017DAB8((s32)self, sp10);
+}
+
 
 
 // @class: schedule

@@ -5233,7 +5233,37 @@ void func_8017FC98(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017FD38);
+void func_8017FD38(s32 a0) {
+    typedef struct { s16 v[4]; } Blk8_80126940_8017FC98;
+    extern s32 D_80126B58;
+    extern s16 D_8018C490[];
+    extern Blk8_80126940_8017FC98 D_80126940;
+    Blk8_80126940_8017FC98 sp10;
+    u8 t;
+    s16 v1;
+    s16 t2;
+    s32 n;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018C490[t];
+    }
+    sp10 = D_80126940;
+
+    v1 = sp10.v[1];
+    if (v1 >= -0x282) {
+        t2 = -0x82 - v1;
+        n = t2 * 455;
+        if (n < 0) {
+            n += 0x1FF;
+        }
+        *(s16 *)(a0 + 0x20) = (n >> 9) + 0x1C7;
+    }
+
+    func_8017FE28(a0, sp10.v);
+}
+
 
 
 // @class: schedule
@@ -7528,7 +7558,38 @@ void func_80182FBC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80183008);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_80182808(s32 a0);
+extern s32 func_80182618(void *a0, void *a1);
+
+void func_80183008(s32 param_1) {
+    s16 ret;
+    s32 buf[2];
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        if ((*(s32 *)(param_1 + 0x94) == 0xE) && ((*(u16 *)(param_1 + 0x72) & 0x400) == 0)) {
+            *(u16 *)(param_1 + 0x98) = 0;
+            *(s32 *)(param_1 + 0x1C) = 8;
+            *(u16 *)(param_1 + 0x34) += 1;
+        } else {
+            ret = func_80182808(param_1);
+            if ((ret != 0) && (func_80182618((void *)param_1, buf) != 0)) {
+                func_80181CE8((void *)param_1, ret);
+            }
+        }
+        break;
+
+    case 1:
+        if (func_8012BEE8(param_1) != 0) {
+            func_80181C7C((void *)param_1);
+        }
+        break;
+    }
+
+    func_80182BA4(param_1, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_801830EC);
 
