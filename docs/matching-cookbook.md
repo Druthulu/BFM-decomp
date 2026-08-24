@@ -16572,6 +16572,16 @@ repeated operand expressions — that redundancy is load-bearing for byte-matchi
 
 ## §172b — THREE MORE TELLS FROM THE GCC READ (P30 S50-Max, banked on Drew's ask)
 
+**LANE ALIASES (grep bait — added P31 S59).** The atlas lever labels a drafting card carries
+(`tools/atlas.py`) do not appear anywhere else in this cookbook, so an agent that greps the label it
+was handed finds NOTHING: measured over the tells waves, **108 failure transcripts grepped
+`extend-tell` and 28 grepped `swaprepeat` against zero hits** while the knowledge sat here under
+different words. The map:
+`extend-tell` → **§172b-1** (+ the C recipes in §264) · `swaprepeat-tell` → **§172a** (macro-vs-inline
+repeats) + **§172b-2** · `s16-div-tell` → **§172b-4**. If you arrived by grepping a card label, this
+is your section.
+
+
 **1. The sll/sra-16 pair tell (extendhisi2 is MEM-only).** The single-insn sign-extending load
 (`extendhisi2_internal`) exists ONLY for memory operands. A visible `sll X,Y,16; sra X,X,16` pair
 in the target is therefore a promotion of a REGISTER-held short — a multi-def s16 variable (a
@@ -24869,3 +24879,50 @@ levers and twenty CPU-minutes went to a defect one deleted argument closed.
 function takes the struct pointer, or because a seed's sibling had it. `decl_prior` (the fleet
 declaration consensus on the card) answers this when the symbol is known fleet-wide — read it before
 inventing a signature.
+
+## §264 — FOUR TELLS-LANE C RECIPES, EACH DRIVEN TO MATCH (P31 S59)
+
+The `extend-tell` / `swaprepeat-tell` / `s16-div-tell` population banks well below the default lane,
+and the measured cause is not the models: **the card names a lever that appears nowhere in this
+cookbook** (see the LANE ALIASES block at §172b) and the drafts stack 3-5 idioms. These four were
+proven this session by taking real failed wave drafts to `MATCH`; full derivations, transcripts and
+probe files in `docs/tool-designs/tells-lane-s59.md` and `.run/s59_tells/`.
+
+**1. The `(s16)` promotion belongs INLINE in the call argument** (`func_8017D8E8`, 33/33). Spelled
+inline, its `sra` lands in the `jal` delay slot; hoisting it into a temp kills that fill. Three
+companions in the same function: hold the table base in a *source pointer local* so it owns its
+`$sN` across calls (gcc-2.7.2 has no cross-bb CSE, L2425); index with `p[i]` so `(field<<3)+base`
+stays ONE association unit (writing `base + f8 + i2` lets fold re-associate the constant out); read
+an s16 field directly in the expression for a plain `lh`. The failing draft had pinned EIGHT
+registers to transcribe the asm 1:1 and plateaued at near-2 over 23 oracle calls — **pins are the
+last resort (§17), not the opening move; they block the parm-copy and arg-copy shapes.**
+
+**2. NEW LAW — a save-order-only residual is a bb0 anti-dependence** (`func_801808AC`, 67/67).
+Symptom: your prologue emits `sw $s1` before `sw $ra` where the target has `$ra` first, and nothing
+else differs. Saves are emitted descending-regno and woven at sched2, so an anti-dependence from a
+**basic-block-zero write of that `$sN`** promotes its store. Cure: move the first write of that
+variable out of bb0 and into a branch arm — `i = 0; if (…) goto found; i = 1;` becomes
+`if (…) i = 0; else if (…) i = 1; … else return;`. reorg then re-creates the target's
+`addu $s1,$zero` in the `beq` delay slot by thread fill.
+
+**3. NEW LAW — an opaque bound must live in a LOCAL, assigned LATE** (`func_80180E58`, 34/34).
+`if (v < 0x10000)` and `if (v <= 0xFFFF)` both canonicalize to `li 0xFFFF; slt(0xFFFF,v); bnez`.
+The target's `lui 0x10000; slt(v,K); beqz` — plus the arm's store REUSING that register — is only
+reachable with the bound in a local, and assigned **late**, so its live range starts after the block
+temps die (assigned at the top it takes `$a1`, not `$v1`). Two companions: use the PARAMETER as the
+multi-use variable (its expand-time parm copy survives exactly when `$aN` is re-used; a
+`self = arg0` local emits double moves), and name the inner term of a nested `a - (b - K)` as a temp
+or fold distributes it away.
+
+**4. §172b-1 made concrete — a naked `sll/sra` pair on a REGISTER is a branch-merged multi-def
+variable** (`func_8018A6A0`). Not a cast of a fresh load: mirror the memory slot with a variable
+written on BOTH paths (`vec0[1] = w = *s1;` at entry, `w = vec0[1] + …; vec0[1] = w;` in the loop)
+and compare `(s16)w` after the join. `(s16)vec0[1]` instead emits a fresh `lh` — store-forwarding
+cannot cross a two-predecessor label. This flipped the residual from structural to a 3-instruction
+commutative register tie, i.e. from an idiom problem to permuter fuel.
+
+**Two honest walls recorded so nobody re-spends them:** `func_801AE3A4`'s missing same-value copy is
+reachable by an `"0"(b)` re-tie but sits behind §172's +8-frame canonicalization wall; and the
+`swaprepeat` siblings `func_80187E08`/`func_80182FD0` already carry the right doubled-compare
+structure — their 2-10-instruction scratch permutation is the S11 knife-edge, permuter fuel, and one
+fix banks both by remap.

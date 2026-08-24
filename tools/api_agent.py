@@ -310,9 +310,48 @@ THE LAWS THAT MATTER MOST:
    A draft that calls the WRONG function reports a clean MATCH. After MATCH, walk the .s once more
    and check every symbol you wrote against its own relocation lines.
 2. A seed or twin gives you the SHAPE, never the symbols, and never the literals. Re-read both.
+3. IF YOUR CARD NAMES A LEVER, grep the cookbook for the § its crib cites BEFORE you draft. And a
+   plateaued diff whose class says [permuter] is DONE: submit NEAR with the class rather than
+   spending ten more compiles on a 2-instruction register swap the search cannot reach from C.
+4. AN ARGUMENT YOU INVENTED CHANGES SCHEDULING (§263). If your only residual is one stolen delay
+   slot holding a `move $aN,$sN`, you gave a no-argument callee a parameter — check its arity
+   against decl_prior before touching a fence or the permuter, which cannot change call arity.
 
 Work until match_one says MATCH, or until you have genuinely exhausted your levers -- then submit
 with an honest status and say what the cookbook did NOT already tell you."""
+
+
+# THE LEVER CRIB (P31 S59). The card used to state its lever as a bare label and nothing else, and
+# the label is a word this project's 750-section cookbook DOES NOT CONTAIN: measured over the tells
+# waves, 108 failure transcripts grepped `extend-tell` and 28 grepped `swaprepeat` for zero hits
+# while the knowledge sat at §172a/§172b/§264 under different words. A label the drafter cannot look
+# up is not fuel; it is a dead end that costs a grep and buys nothing. Each entry below states what
+# the tell MEANS, names the § to grep, and gives the C spellings — all byte-proven (§264).
+LEVER_CRIB = {
+    'extend-tell': (
+        "extend-tell = §172b-1 + §264 (grep 'sll/sra-16 pair tell'). The target promotes\n"
+        "REGISTER-held s16 values. Four placements, four C spellings:\n"
+        "  * naked sll/sra pair  = a MULTI-DEF s16/u16 variable merged across branches — write it\n"
+        "    on BOTH paths mirroring the mem slot (`x[i] = w = ...`), then compare (s16)w;\n"
+        "  * plain lh            = one promoted use — read the s16 memory DIRECTLY, no temp;\n"
+        "  * sll before a jal, sra IN its delay slot = the (s16) cast written INLINE in the call\n"
+        "    argument (a temp kills the delay-slot fill);\n"
+        "  * lhu + separate sll/sra = the value is ALSO used as u16 — keep the u16 variable.\n"
+        "Sign test (s16)t < 0 emits sll+bgez only (the sra is elided).\n"
+        "NO register pins first — §17 is the last resort; pins block the parm-copy and arg-copy\n"
+        "shapes. If a parameter is copied to $aN, type the PARAMETER and use it everywhere rather\n"
+        "than inventing `self = arg0`.\n"),
+    'swaprepeat-tell': (
+        "swaprepeat-tell = §172a + §172b-2 (grep 'swapped-arm select tell'). Textual REPEATS are\n"
+        "load-bearing: a repeated compare/select re-emits its own slt+branch, so write the repeat\n"
+        "TEXTUALLY — nested macros repeat their operands, inline functions collapse them.\n"
+        "A range check is plain `if (-lim < x && x < lim)`; the second slt rides the first beqz's\n"
+        "delay slot for free.\n"),
+    's16-div-tell': (
+        "s16-div-tell = §172b-4 (grep 'Division-by-constant sign-correction'). For s16/K magic\n"
+        "multiplies keep the promotion as an EXPRESSION, never a temp, so the sign-sra can reuse\n"
+        "the <<16 intermediate; the magic pairs for K are in §167-25 and the odd-part table.\n"),
+}
 
 
 def _fuel(t, card):
@@ -383,6 +422,14 @@ def _fuel(t, card):
         out.append( "WORTH, not where an answer is.")
     if card.get('lever'):
         out.append(f"\nThe atlas labels this card's lever: {card['lever']}.")
+        crib = LEVER_CRIB.get(card['lever'])
+        if crib:
+            out.append(crib)
+            out.append("Universal fold-blockers when a shape refuses: name the inner term of a "
+                       "nested +/- as a temp (keeps association); hold a non-slti constant bound "
+                       "in a LOCAL assigned right before its `if` (defeats the 0xFFFF "
+                       "canonicalization and lets the arm's store reuse its register); hold a "
+                       "global base in a pointer local when it must live in an $sN across calls.")
     return '\n'.join(out)
 
 

@@ -187,7 +187,17 @@ def shard_targets(tag, cards_path, workers):
     return targets
 
 
-def draft(tag, lanes, maxtok, max_turns, ramp_seconds=float(os.environ.get('RAMP_SECONDS', '240'))):
+# PER-LANE AGENT BUDGETS (P31 S59, measured). The turn/cost caps were one global pair, and the
+# tells lane's cards are 2.4x the default lane's size (median 89-95 instructions vs 37-39) and stack
+# 3-5 idioms each: 98 of 270 final tells attempts ended AT the turn cap and 36% of failures ended at
+# a cap of some kind — i.e. they ran out of budget mid-work rather than failing. A budget that fits
+# a 38-instruction card starves a 95-instruction one. {lane: (max_turns, max_cost_per_fn)}.
+LANE_BUDGET = {'tells': (40, 0.40)}
+LANE_BUDGET_DEFAULT = (None, 0.15)          # None = the campaign's --max-turns
+
+
+def draft(tag, lanes, maxtok, max_turns, ramp_seconds=float(os.environ.get('RAMP_SECONDS', '240')),
+          wave_lane=None):
     """Draft one wave across SEVERAL MODEL LANES at once.
 
     Concurrency on ONE model is spent (P31 S58, measured): every 429 we have ever recorded is
@@ -200,6 +210,11 @@ def draft(tag, lanes, maxtok, max_turns, ramp_seconds=float(os.environ.get('RAMP
     owns a known slice, and every request already carries its model in the telemetry — so the
     per-lane 429 rate is measurable after the fact instead of assumed.
     """
+    _t, _cost = LANE_BUDGET.get(wave_lane or '', LANE_BUDGET_DEFAULT)
+    _turns = _t if _t is not None else max_turns
+    if _t is not None:
+        log(f"  lane {wave_lane}: budget {_turns} turns / ${_cost:.2f} per function "
+            f"(default {max_turns}/$0.15)")
     outdir = f".run/wave_{tag}"
     shutil.rmtree(outdir, ignore_errors=True)
     os.makedirs(outdir, exist_ok=True)
@@ -261,7 +276,7 @@ def draft(tag, lanes, maxtok, max_turns, ramp_seconds=float(os.environ.get('RAMP
         procs.append(subprocess.Popen(
             [PY, "-u", "tools/api_agent.py", "--targets", tf, "--cards",
              f".run/wave_{tag}_cards.json", "--out", f"{outdir}/shard{idx}",
-             "--max-turns", str(max_turns), "--max-cost", "1.0", "--max-cost-per-fn", "0.15"],
+             "--max-turns", str(_turns), "--max-cost", "1.0", "--max-cost-per-fn", str(_cost)],
             stdout=fh, stderr=subprocess.STDOUT, env=env))
         started[model] += 1
         # STAGGER THE LAUNCH. Every shard issues its first request immediately, so starting N at
@@ -615,7 +630,8 @@ def run_drafter(a):
             log(f"  {tag}: draw failed — retrying next cycle"); time.sleep(30); continue
         targets = shard_targets(tag, cards, a.workers)
         t0 = time.time()
-        procs = draft(tag, parse_lanes(a.models, a.model, a.workers), a.maxtok, a.max_turns)
+        procs = draft(tag, parse_lanes(a.models, a.model, a.workers), a.maxtok, a.max_turns,
+                      wave_lane=lane['name'])
 
         # PRE-DRAW THE NEXT WAVE **AFTER** THE SHARDS ARE RUNNING, never before. Drawing takes
         # minutes of CPU (build_wave_atlas over the whole atlas), and doing it between the draw and
@@ -806,7 +822,8 @@ def main():
                 log("  draw failed — skipping wave"); continue
             targets = shard_targets(tag, cards, workers)
             log(f"  {len(targets)} targets sharded")
-            procs = draft(tag, parse_lanes(a.models, a.model, workers), a.maxtok, a.max_turns)
+            procs = draft(tag, parse_lanes(a.models, a.model, workers), a.maxtok, a.max_turns,
+                          wave_lane=lane['name'])
             inflight = (tag, cards, targets, procs, time.time())
 
         tag, cards, targets, procs, t0 = inflight
@@ -824,7 +841,8 @@ def main():
             ncards = draw_wave(ntag, a.cards_per_wave, nband, nlane.get("levers"))
             if ncards:
                 ntargets = shard_targets(ntag, ncards, workers)
-                nprocs = draft(ntag, parse_lanes(a.models, a.model, workers), a.maxtok, a.max_turns)
+                nprocs = draft(ntag, parse_lanes(a.models, a.model, workers), a.maxtok, a.max_turns,
+                               wave_lane=nlane['name'])
                 inflight = (ntag, ncards, ntargets, nprocs, time.time())
             else:
                 log(f"  wave {ntag}: draw failed — next cycle will redraw")
