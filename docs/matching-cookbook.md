@@ -24828,3 +24828,44 @@ standing hypothesis (§235, the phantom symbol): among `MISMATCH?` rows the frac
 instruction SHAPE already matched — the symbol-only class §235 describes — is 25/87, 16/79, 17/66,
 13/57 on default waves but 6/66, 4/81, 5/47 on tells. Tells drafts fail because the BODY is wrong,
 which is what a 2.4× larger median predicts, not because of symbols.
+
+## §263 — A STOLEN DELAY SLOT WHOSE INSTRUCTION IS AN ARG-REGISTER COPY IS AN ARITY ERROR, NOT A SCHEDULE (P31 S59, byte-proven)
+
+**Symptom.** Equal instruction count, exactly ONE mismatch, and it reads like a scheduling loss:
+
+```
+idx | MINE                      | TARGET
+ 49 | 02002021 move a0,s0       | 00000000 nop
+```
+
+`residual_class` calls it `DELAY-SLOT [permuter] profile=schedule`, and it is right about the shape
+and wrong about the cause.
+
+**The mechanism.** An argument-register copy is only *available* to the delay-slot filler if your C
+says the call needs it. Declare a **no-argument** callee as taking a parameter and pass it, and the
+copy must dominate that call — so the filler puts it in the call's delay slot, where the original
+has a `nop`. The same instruction still appears in the target, one block later, in the *branch*
+delay slot, because there it serves only the successor that really does take the argument.
+
+**The tell that beats §195-A.** §195-A says the asm carries no tell for callee arity. This is the
+exception: if a callee took the argument, its setup would have to dominate the call on **every**
+path that reaches it. A setup sitting in a **branch** delay slot, needed by only one successor, is
+positive evidence that the call does **not** use that register.
+
+**Test first, grind never.** Flip the suspect callee's arity and recompile — one A/B, ~20 seconds:
+
+```c
+extern void func_801EF6E4(void *);  func_801EF6E4(a0);   /* DIFF 83 vs 83, 1 mismatched */
+extern void func_801EF6E4(void);    func_801EF6E4();     /* MATCH (83 ins) */
+```
+
+**Evidence and the cost of not doing that.** `func_801F218C` @ `md_SC03_076`. Before the A/B: the
+§5a zero-byte fence in both placements, if/else inversion, an early-break restructuring, and a
+**1,200 s decomp-permuter run at -j12** — all failed, because **the permuter cannot change call
+arity**. Any residual in this class is guaranteed permuter waste. Roughly forty minutes of hand
+levers and twenty CPU-minutes went to a defect one deleted argument closed.
+
+**Where the wrong arity comes from.** A drafter types the argument because every *other* call in the
+function takes the struct pointer, or because a seed's sibling had it. `decl_prior` (the fleet
+declaration consensus on the card) answers this when the symbol is known fleet-wide — read it before
+inventing a signature.
