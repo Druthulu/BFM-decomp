@@ -466,7 +466,23 @@ void func_800141F0(void) {
     func_800142C8();
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80014238);
+extern u8 D_800AF630[];
+void func_80014238(void) {
+    func_80014928();
+    func_80059234(1);
+    func_80059658(0);
+    VSync(0);
+    func_80016714(&D_800AF630, 0xA444);
+    func_800143AC();
+    func_80014444();
+    func_8001C044();
+    func_80014588();
+    func_80015310();
+    func_80028A48();
+    func_80028C50();
+    func_800142C8();
+    func_80059658(1);
+}
 
 
 extern void func_80029044(void);
@@ -3244,7 +3260,29 @@ void func_80017D98(void *a0)
     p[8] = val;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80017DC4);
+typedef struct {
+    /* 0x00 */ u16 unk00;
+    /* 0x02 */ u16 unk02;
+    /* 0x04 */ u16 unk04;
+    /* 0x06 */ u16 unk06;
+    /* 0x08 */ u16 unk08;
+    /* 0x0A */ u16 unk0A;
+    /* 0x0C */ u16 unk0C;
+    /* 0x0E */ u16 unk0E;
+    /* 0x10 */ u16 unk10;
+} Dst17DC4;
+
+void func_80017DC4(u16 *a0, Dst17DC4 *a1) {
+    a1->unk00 = a0[0];
+    a1->unk02 = 0;
+    a1->unk04 = 0;
+    a1->unk06 = 0;
+    a1->unk08 = a0[1];
+    a1->unk0A = 0;
+    a1->unk0C = 0;
+    a1->unk0E = 0;
+    a1->unk10 = a0[2];
+}
 
 
 extern void func_8004978C(s16 *a0, void *a1);
@@ -10230,7 +10268,14 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80029104);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80029124);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80029178);
+extern u8 D_800AE648[];
+
+s32 func_80029178(u32 arg0) {
+    u32 idx = arg0 >> 3;
+    u32 bit = arg0 & 7;
+    u32 m = 1 << bit;
+    return (D_800AE648[idx] & m) != 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800291A0);
 
@@ -10727,7 +10772,12 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8002A748);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002A76C);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002A790);
+extern void func_8002A7B4(s32);
+
+void func_8002A790(u8 *a0)
+{
+    func_8002A7B4(a0[0xC9]);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002A7B4);
 
@@ -10792,7 +10842,17 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8002A9B8);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002A9DC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002AA00);
+extern s32 func_8002AA3C(void);
+
+s32 func_8002AA00(s32 a0) {
+    s32 ret;
+
+    ret = func_8002AA3C();
+    if (ret != 0) {
+        return !(a0 < ret);
+    }
+    return -1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002AA3C);
 
@@ -11629,7 +11689,12 @@ void func_8002D7FC(s32 arg0) {
     D_800A4E7C = arg0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002D80C);
+extern u16 D_800A4E8E;
+extern s16 D_8006A990;
+
+u16 func_8002D80C(void) {
+    return (D_800A4E8E & 1) ? D_8006A990 : 0;
+}
 
 extern s16 D_8006A990;
 void func_8002D834(void) {
@@ -11640,9 +11705,26 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8002D844);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002D858);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002D8A8);
+s32 func_8002D8A8(void) {
+    extern void (*D_800A4F24)(void);
+    extern s16 D_800760EC;
+    extern s16 D_800760E8;
+    extern void func_8002FA3C(void);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002D8D4);
+    D_800760EC = 6;
+    D_800A4F24 = func_8002FA3C;
+    D_800760E8 = 0;
+    return 0x10;
+}
+
+extern void (*D_800A4F24)(void);
+extern int func_8003EDE8(int a0, int a1, int a2);
+
+int func_8002D8D4(void) {
+    D_800A4F24 = NULL;
+    func_8003EDE8(0, 0, 0);
+    return 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002D904);
 
@@ -11728,7 +11810,19 @@ void func_8002DF80(void) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002E138);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002E5BC);
+extern u8 D_800A4F19;
+extern void CdMix(u8 *);
+
+void func_8002E5BC(void) {
+    u8 sp10[4];
+
+    sp10[0] = 0x5A;
+    sp10[1] = 0x5A;
+    sp10[2] = 0x5A;
+    sp10[3] = 0x5A;
+    CdMix(sp10);
+    D_800A4F19 = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002E5F8);
 
@@ -13905,7 +13999,12 @@ void func_800336A8(Req336A8 *arg)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8003388C);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800342E8);
+extern u16 D_800A46E8[];
+
+void func_800342E8(u8 *a0, s32 a1) {
+    u32 t = a1 * 84 + (u32)D_800A46E8;
+    *(u8 *)(t + (u32)a0 + 0x3A) = 0;
+}
 
 
 /* TU decls already present in src/800.c (do NOT duplicate at bank time):
@@ -14429,7 +14528,13 @@ void func_8003500C(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800351E8);
+extern s32 D_80076218;
+
+s32 func_800351E8(s32 arg0)
+{
+    D_80076218 = arg0;
+    return arg0 & -((u32)(arg0 - 0x1010) <= 0x7EFF0);
+}
 
 
 extern s32 D_80076218;
@@ -14753,7 +14858,18 @@ INCLUDE_ASM("asm/nonmatchings/800", StreamLoadStateMachine);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80036AF8);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80036D24);
+extern s32 D_8006AEE8;
+extern s32 D_80078F10;
+extern u8 D_800A4F1A;
+
+void func_80036D24(void) {
+    s32 v0 = D_8006AEE8;
+    D_80078F10 = 0;
+    if (v0 < 2) {
+        D_8006AEE8 = 0;
+        D_800A4F1A = 0;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80036D58);
 
@@ -15641,7 +15757,9 @@ void func_8003A234(func_8003A234_Ctx *a0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8003A3D8);
+u32 func_8003A3D8(u32 a) {
+    return ((a & 0xFF) << 24) + (((a >> 8) & 0xFF) << 16) + (((a >> 16) & 0xFF) << 8) | (a >> 24);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8003A404);
 
