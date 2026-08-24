@@ -5104,7 +5104,39 @@ INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181EA
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181F0C);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018214C);
+#include "common.h"
+
+void func_8018214C(s32 a0, s32 a1) {
+    /* §T6-3/§2329: ALL externs block-scope, types verbatim - self-contained lift unit.
+       Legal vs TU decls above (L4593/L4595/L4779/L4788, identical types) and below
+       (func_80132EC4 L5378, Rec801944E8/D_801944E8 L5118, compatible layouts). */
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern u16 D_801EFD40;
+    extern u8 D_80194C14[];
+    extern void func_80184CCC();
+    extern void func_80132EC4(s32 a0, s32 a1);
+    extern struct { s32 f0; s32 f1; s32 f2; } D_801944E8[];
+
+    register s32 s0 __asm__("$16") = a0;
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+
+    if (a1 < 0) {
+        v0 = rand() & 1;
+    } else {
+        v0 = a1 & 1;
+    }
+    *(s16 *)(s0 + 0xE2) = v0;
+    __asm__("" ::: "memory");
+
+    v0 = (s32)(*(s16 *)(s0 + 0xE2));
+    func_80132EC4(D_801944E8[v0].f0, 0x2);
+
+    D_801EFD40 |= 0x20;
+    func_80184CCC((s32)s0, (s32)D_80194C14);
+    func_8012AD44((s32 *)s0, 0xA);
+}
+
 
 #include "common.h"
 
@@ -13001,7 +13033,15 @@ extern s16 D_801F141A;
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018E198);
+extern s32 func_8018E2C4(void);
+
+void func_8018E198(s32 a0, s32 a1, s32 a2) {
+    s32 v0 = func_8018E2C4();
+    if (v0 >= 0) {
+        func_8018E1F0(v0, a0, a1, a2);
+    }
+}
+
 
 
 /* func_8018E1F0 — SPLICE RECONCILE (bytes unchanged from the s6h draft).

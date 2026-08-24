@@ -5921,7 +5921,56 @@ INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017EBC
 
 INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017ED68);
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017ED90);
+
+extern s16 D_80126940;
+
+typedef struct {
+    s16 pad00[4];
+    s32 f08;
+    s32 f0C;
+    s32 f10;
+    s32 f14;
+    s16 f18;
+    s16 f1A;
+    s16 f1C;
+    s16 pad1E;
+    s16 f20;
+    s16 f22;
+    s16 f24;
+    s16 pad26;
+    s16 f28;
+    s16 f2A;
+    s16 f2C;
+    s16 f2E;
+    s16 f30;
+    s16 f32;
+} St_8017ED90;
+
+extern s32 func_8017EEC4(s32 arg0, void *arg1);
+extern s32 func_800130D0(s32 arg0, s32 arg1, s32 arg2);
+
+void func_8017ED90(St_8017ED90 *arg0)
+{
+    Unaligned8 sp10;
+    s16 var_s0;
+    s16 var_s1;
+    s16 var_s2;
+
+    sp10 = *(Unaligned8 *)&D_80126940;
+    var_s0 = func_80012C6C(((s16 *)arg0)[4], 500, 32);
+    arg0->f08 = arg0->f0C = var_s0;
+    var_s1 = func_80012C6C(((s16 *)arg0)[8], 1200, 32);
+    arg0->f10 = arg0->f14 = var_s1;
+    var_s2 = func_80012DBC(arg0->f18, 568, 16, 1);
+    arg0->f18 = arg0->f20 = var_s2;
+    arg0->f1A = arg0->f22 = func_80012DBC(arg0->f1A, 2048, 16, 1);
+    arg0->f1C = arg0->f24 = func_80012DBC(arg0->f1C, 0, 16, 1);
+    arg0->f28 = arg0->f2E = func_800130D0(arg0->f28, 0, 32);
+    arg0->f2A = arg0->f30 = func_800130D0(arg0->f2A, 0, 32);
+    arg0->f2C = arg0->f32 = func_800130D0(arg0->f2C, 0, 32);
+    func_8017EEC4(arg0, &sp10);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017EEC4);
 

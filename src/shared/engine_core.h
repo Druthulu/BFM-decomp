@@ -3244,7 +3244,7 @@
     }
 
 #define DEFINE_func_801897A4() \
-    extern s32 func_80189110(void); \
+    extern s32 func_80189110(); \
         void func_801897A4(void) { \
             func_80189110(); \
         }
@@ -61142,7 +61142,7 @@
     extern s32 D_8018F424[3]; \
     extern s32 D_8018F430[]; \
     extern s16 D_8018F3E4[]; \
-    extern void func_80188C0C(void *a0, s16 a1); \
+    extern void func_80188C0C(); \
     void func_80187354(s32 a0) { \
         s16 buf[3]; \
         s16 vec[3]; \
@@ -98642,7 +98642,7 @@
     }
 
 #define DEFINE_func_801897A4() \
-    extern s32 func_80189110(void); \
+    extern s32 func_80189110(); \
         void func_801897A4(void) { \
             func_80189110(); \
         }
@@ -156540,7 +156540,7 @@
     extern s32 D_8018F424[3]; \
     extern s32 D_8018F430[]; \
     extern s16 D_8018F3E4[]; \
-    extern void func_80188C0C(void *a0, s16 a1); \
+    extern void func_80188C0C(); \
     void func_80187354(s32 a0) { \
         s16 buf[3]; \
         s16 vec[3]; \

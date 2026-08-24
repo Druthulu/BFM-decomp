@@ -3414,7 +3414,33 @@ void func_8017DD18(void *arg0) {
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017DDA0);
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017DE80);
+extern u8 D_80184C6C[];
+extern u8 D_80184C74[];
+extern s32 D_80184C80;
+extern s32 D_80184C84;
+extern s32 func_8017FED4();
+
+void func_8017DE80(s32 param_1, s16 param_2)
+{
+    s32 buf[4];
+    u16 pos[4];
+    s32 ret;
+    s32 t;
+
+    func_800139C8(param_2, D_80184C6C, pos);
+    pos[0] = pos[0] + *(u16 *)(param_1 + 6);
+    t = rand();
+    pos[1] = pos[1] + (*(u16 *)(param_1 + 0xA) - ((t & 0xF) + 0x38));
+    pos[2] = pos[2] + *(u16 *)(param_1 + 0xE);
+    pos[3] = 5;
+    func_8001382C(param_2, D_80184C74, buf);
+    buf[3] = D_80184C80;
+    ret = func_8017FED4(pos, buf, D_80184C84);
+    if (ret != 0) {
+        *(s16 *)(*(s32 *)(ret + 0x20) + 0x18) = 0x124;
+    }
+}
+
 
 
 extern s32 D_801A6B40;

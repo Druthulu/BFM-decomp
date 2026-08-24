@@ -3450,7 +3450,47 @@ void func_8017D474(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8017D550);
+
+
+void func_8017D550(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_801932E8[];
+    extern Blk8_80126940_8017D474 D_80126940;
+    Blk8_80126940_8017D474 sp10;
+    u8 t;
+    s16 v0, v1;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_801932E8[t];
+    }
+    sp10 = D_80126940;
+
+    /* Clamp sp10.v[0] */
+    v1 = sp10.v[0];
+    if (v1 < -0xF80) {
+        sp10.v[0] = -0xF80;
+    } else if (v1 < 0x941) {
+        /* v1 stays unchanged */
+    } else {
+        sp10.v[0] = 0x940;
+    }
+
+    /* Clamp sp10.v[2] */
+    v0 = sp10.v[2];
+    if (v0 < 0x43E) {
+        sp10.v[2] = 0x43E;
+    } else if (v0 < 0x481) {
+        /* v0 stays unchanged */
+    } else {
+        sp10.v[2] = 0x480;
+    }
+
+    func_8017D63C(a0, sp10.v);
+}
+
 
 
 // @class: schedule

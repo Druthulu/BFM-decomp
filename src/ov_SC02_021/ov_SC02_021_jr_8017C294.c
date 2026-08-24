@@ -3547,7 +3547,34 @@ s32 func_8017E608(s32 a0, s32 a1, s16 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017E734);
+/* ==== func_8017E734 ==== */
+extern u16 D_800B99D8;
+extern u8 *func_8012913C(s32 arg);
+
+void func_8017E734(s32 arg0) {
+    u8 *ptr;
+    s32 i;
+    s16 scale;
+    s32 t;
+
+    if ((D_800B99D8 & 3) == 0) {
+        scale = ((D_800B99D8 & 4) == 0) << 9;
+        for (i = 0; i < 4; i++) {
+            ptr = func_8012913C(0x22);
+            if (ptr != NULL) {
+                t = (*(s16 *)(arg0 + 0x12) - *(s16 *)(arg0 + 0x10)) * scale >> 12;
+                *(s16 *)(ptr + 6) = *(s16 *)(arg0 + 0x10) + t;
+                *(s16 *)(ptr + 0xA) = *(s32 *)(arg0 + 8);
+                t = (*(s16 *)(arg0 + 0x16) - *(s16 *)(arg0 + 0x14)) * scale >> 12;
+                *(s16 *)(ptr + 0xE) = *(s16 *)(arg0 + 0x14) + t;
+                *(s16 *)(ptr + 0x34) = (rand() & 0x7F0) + 0x2C00;
+                *(u16 *)(*(s32 *)(ptr + 0x20) + 0x2C) = 0xC010;
+            }
+            scale += 0x400;
+        }
+    }
+}
+
 
 #include "common.h"
 

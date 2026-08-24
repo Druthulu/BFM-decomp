@@ -7841,7 +7841,7 @@ extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012ADE4(u8 *a0);
 extern void func_8012B260(u8 *a0);
 extern void func_8017C294(s32 a0, s16 *a1, s16 a2);
-extern s32 func_80183C2C(s32 a0, void *a1, s32 a2);
+extern s32 func_80183C2C();
 
 s32 func_80183994(s32 a0, s32 a1) {
     s32 hit;
@@ -7925,7 +7925,145 @@ s32 func_80183B30(s32 param_1, s32 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80183C2C);
+extern s32 func_801840C0();
+
+s32 func_80183C2C(s32 param_1, s32 param_2, u32 param_3)
+{
+    unsigned short sp10[3];
+    unsigned short sp18[3];
+    unsigned int addr;
+    s32 ret;
+
+    addr = (*(unsigned int *)(param_1 + 0x58) & 0xFFFFFFF) | 0x80000000;
+    if (param_3 & 1) {
+        sp10[0] = *(unsigned short *)(addr + 4);
+        sp10[1] = *(unsigned short *)(addr + 8);
+        sp10[2] = *(unsigned short *)(addr + 0xC);
+        sp18[0] = *(unsigned short *)(addr + 6);
+        sp18[1] = *(unsigned short *)(addr + 8);
+        sp18[2] = *(unsigned short *)(addr + 0xC);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 4);
+        sp10[1] = *(unsigned short *)(addr + 0xA);
+        sp10[2] = *(unsigned short *)(addr + 0xC);
+        sp18[0] = *(unsigned short *)(addr + 6);
+        sp18[1] = *(unsigned short *)(addr + 0xA);
+        sp18[2] = *(unsigned short *)(addr + 0xC);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 4);
+        sp10[1] = *(unsigned short *)(addr + 8);
+        sp10[2] = *(unsigned short *)(addr + 0xE);
+        sp18[0] = *(unsigned short *)(addr + 6);
+        sp18[1] = *(unsigned short *)(addr + 8);
+        sp18[2] = *(unsigned short *)(addr + 0xE);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 4);
+        sp10[1] = *(unsigned short *)(addr + 0xA);
+        sp10[2] = *(unsigned short *)(addr + 0xE);
+        sp18[0] = *(unsigned short *)(addr + 6);
+        sp18[1] = *(unsigned short *)(addr + 0xA);
+        sp18[2] = *(unsigned short *)(addr + 0xE);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+    }
+    if (param_3 & 2) {
+        sp10[0] = *(unsigned short *)(addr + 4);
+        sp10[1] = *(unsigned short *)(addr + 8);
+        sp10[2] = *(unsigned short *)(addr + 0xC);
+        sp18[0] = *(unsigned short *)(addr + 4);
+        sp18[1] = *(unsigned short *)(addr + 0xA);
+        sp18[2] = *(unsigned short *)(addr + 0xC);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 4);
+        sp10[1] = *(unsigned short *)(addr + 8);
+        sp10[2] = *(unsigned short *)(addr + 0xE);
+        sp18[0] = *(unsigned short *)(addr + 4);
+        sp18[1] = *(unsigned short *)(addr + 0xA);
+        sp18[2] = *(unsigned short *)(addr + 0xE);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 6);
+        sp10[1] = *(unsigned short *)(addr + 8);
+        sp10[2] = *(unsigned short *)(addr + 0xC);
+        sp18[0] = *(unsigned short *)(addr + 6);
+        sp18[1] = *(unsigned short *)(addr + 0xA);
+        sp18[2] = *(unsigned short *)(addr + 0xC);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 6);
+        sp10[1] = *(unsigned short *)(addr + 8);
+        sp10[2] = *(unsigned short *)(addr + 0xE);
+        sp18[0] = *(unsigned short *)(addr + 6);
+        sp18[1] = *(unsigned short *)(addr + 0xA);
+        sp18[2] = *(unsigned short *)(addr + 0xE);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+    }
+    if (param_3 & 4) {
+        sp10[0] = *(unsigned short *)(addr + 4);
+        sp10[1] = *(unsigned short *)(addr + 8);
+        sp10[2] = *(unsigned short *)(addr + 0xC);
+        sp18[0] = *(unsigned short *)(addr + 4);
+        sp18[1] = *(unsigned short *)(addr + 8);
+        sp18[2] = *(unsigned short *)(addr + 0xE);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 4);
+        sp10[1] = *(unsigned short *)(addr + 0xA);
+        sp10[2] = *(unsigned short *)(addr + 0xC);
+        sp18[0] = *(unsigned short *)(addr + 4);
+        sp18[1] = *(unsigned short *)(addr + 0xA);
+        sp18[2] = *(unsigned short *)(addr + 0xE);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 6);
+        sp10[1] = *(unsigned short *)(addr + 8);
+        sp10[2] = *(unsigned short *)(addr + 0xC);
+        sp18[0] = *(unsigned short *)(addr + 6);
+        sp18[1] = *(unsigned short *)(addr + 8);
+        sp18[2] = *(unsigned short *)(addr + 0xE);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+        sp10[0] = *(unsigned short *)(addr + 6);
+        sp10[1] = *(unsigned short *)(addr + 0xA);
+        sp10[2] = *(unsigned short *)(addr + 0xC);
+        sp18[0] = *(unsigned short *)(addr + 6);
+        sp18[1] = *(unsigned short *)(addr + 0xA);
+        sp18[2] = *(unsigned short *)(addr + 0xE);
+        ret = func_801840C0(param_1, param_2, sp10, sp18);
+        if (ret == 1) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_801840C0);
 
@@ -13009,7 +13147,26 @@ INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018C17
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018C1E0);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018C31C);
+extern s32 func_8012BCCC(s32 a0);
+
+void func_8018C31C(s32 a0) {
+    register s32 result __asm__("$2");
+    register s32 threshold __asm__("$3");
+
+    if (*(s16 *)(a0 + 0x70) & 0x8000) {
+        result = func_8012BCCC(a0);
+        threshold = 0x90000;
+    } else {
+        result = func_8012BCCC(a0);
+        threshold = 0x24000;
+    }
+    threshold = (threshold < result);
+    if (threshold) {
+        return;
+    }
+    func_8018BE00(a0);
+}
+
 
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8018BF60(void *a0);

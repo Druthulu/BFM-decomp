@@ -1346,7 +1346,11 @@ void func_801A53B8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A53F4);
+void func_801A53F4(s32 *arg0)
+{
+    func_8012AD44(arg0, 1);
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5414);
 
@@ -2428,7 +2432,7 @@ extern void func_8001C214(s32 a0, s32 a1);
 extern void func_801A5798(s32);
 extern s32 func_80143970(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);
-extern void func_801A53F4(void *a0);
+extern void func_801A53F4();
 extern u8 D_801BA9E8[];
 extern u8 D_801EFA00[];
 
@@ -2566,7 +2570,26 @@ void func_801A7200(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A72DC);
+extern u8 D_801F8744[];
+
+void func_801A72DC(void *a0)
+{
+    extern void func_801292C8(u8 *a0);
+    extern void func_8012931C(struct vec *a0);
+
+    s32 v0;
+
+    v0 = *(u16 *)((s32)a0 + 0x2C) + 1;
+    *(u16 *)((s32)a0 + 0x2C) = v0;
+    if ((s16)v0 >= 4) {
+        func_801292C8((u8 *)a0);
+        return;
+    }
+    func_8012931C((struct vec *)a0);
+    *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x20) =
+        (s32)D_801F8744 + (*(s16 *)((s32)a0 + 0x2C) << 6);
+}
+
 
 #include "common.h"
 

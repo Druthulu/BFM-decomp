@@ -6666,7 +6666,48 @@ void func_80186F04(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80186FA4);
+extern u8 D_801ADC24[];
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012CBCC(s32 a0);
+
+void func_80186FA4(void *a0) {
+    register s32 s0 __asm__("$16");
+    s32 dz;
+    s32 dzsq;
+    s32 dy;
+    s32 thresh;
+
+    s0 = (s32)a0;
+    __asm__("" ::: "$4");
+    if (*(s32 *)(s0 + 0x94) == 6) {
+        *(u16 *)(s0 + 0x98) = 0;
+    }
+
+    thresh = 0xE100;
+    dz = *(s16 *)(s0 + 0xE) - 0x3C0;
+    dzsq = dz * dz;
+    dy = (s16)*(u16 *)(s0 + 0x6);
+    if (dzsq < 0x1901) {
+        dzsq += 0x4000;
+    }
+    dzsq += dy * dy;
+    if (dzsq < thresh) goto skip_escape;
+
+    *(s32 *)(s0 + 0x10) = 0;
+    *(s32 *)(s0 + 0x18) = 0;
+    *(u16 *)(s0 + 0x6) -= dy >> 5;
+    *(u16 *)(s0 + 0xE) -= dz >> 5;
+skip_escape:;
+
+    if ((((s32 (*)(s32))func_8012CBCC)(s0) & 0x2000) != 0) {
+        func_8002D4C8(0x560, 0);
+        *(s16 *)(s0 + 0x2) = 5;
+        func_8012A828(s0, D_801ADC24);
+        *(s32 *)(s0 + 0x1C) = 1;
+    }
+}
+
 
 #include "common.h"
 
@@ -8254,7 +8295,50 @@ void func_8018A364(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_8018A404);
+void func_8018A404(void *a0) {
+    register void *s0 __asm__("$16");
+    s32 v0;
+
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001CA1C(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern u8 D_80190988;
+    extern u8 D_80190994;
+    extern u8 D_80190A20;
+    extern u8 D_801907C4;
+
+    s0 = a0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)s0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(s0);
+    } else {
+        register s32 t __asm__("$2");
+
+        func_8001CA1C(v0, (s32)&D_80190988);
+        func_8012A828((s32)s0, (void *)&D_80190994);
+        *(s16 *)((s32)s0 + 0x2) = 1;
+        *(s8 *)((s32)s0 + 0xC0) = 1;
+        *(s32 *)((s32)s0 + 0xBC) = (s32)&D_80190A20;
+        *(u16 *)((s32)s0 + 0x5C) = 0x8000;
+        __asm__("" ::: "memory");
+        t = *(s32 *)((s32)s0 + 0xC4);
+        *(s32 *)((s32)s0 + 0x58) = (s32)&D_801907C4;
+        *(s32 *)((s32)s0 + 0xC4) = t | 0x2;
+        *(s8 *)((s32)s0 + 0xC1) = 0;
+        *(s32 *)((s32)s0 + 0xB4) = 0;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x18) = 0x4000;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1A) = 0x4000;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1C) = 0x4000;
+        *(u16 *)(*(s32 *)((s32)s0 + 0x20) + 0x2C) |= 0x10;
+        *(s32 *)(*(s32 *)((s32)s0 + 0x20) + 0x4) = 0x01000000;
+        *(s32 *)((s32)s0 + 0x1C) = 0x20;
+        *(s16 *)((s32)s0 + 0x10A) = 0x5;
+    }
+}
+
 
 #include "common.h"
 

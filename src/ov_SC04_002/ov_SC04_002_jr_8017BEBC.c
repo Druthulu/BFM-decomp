@@ -8036,14 +8036,55 @@ void func_80183BE4(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80183C54);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern void ApplyRotMatrixLV(void *a0, void *a1);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+
+typedef struct { s32 m[5]; s32 t[3]; } MtxW;
+extern Mtx8 D_800AE620;
+extern s16 D_801A1F54[];
+extern s16 D_801A1F5C[];
+
+void func_80183C54(s32 param_1)
+{
+    MtxW m;
+    u16 out[3];
+    u16 sv[3];
+    s32 ent;
+    s16 i;
+
+    m.t[0] = *(s16 *)(param_1 + 6);
+    m.t[1] = *(s16 *)(param_1 + 0xA);
+    m.t[2] = *(s16 *)(param_1 + 0xE);
+    func_800491AC(&m);
+    i = 0;
+    do {
+        ent = func_80132EF4(param_1, 0x22);
+        if (ent != 0) {
+            m = (*(MtxW *)&D_800AE620);
+            RotMatrixY(i, &m);
+            func_8004914C(&m);
+            RotTransSV(D_801A1F54, out, sv);
+            *(u16 *)(ent + 6) = out[0];
+            *(u16 *)(ent + 0xA) = out[1];
+            *(u16 *)(ent + 0xE) = out[2];
+            ApplyRotMatrixLV(D_801A1F5C, param_1 + 0x10);
+            *(s32 *)(ent + 0x34) = 0x4000;
+        }
+        i += 0x200;
+    } while (i < 0x1000);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80183D94);
 
 extern void func_8012CBF4(s32 a0);
 extern void func_8012C218(void *a0);
 extern void func_801439C0(u8 *a0);
-extern void func_80183C54(void *a0);
+extern void func_80183C54();
 extern s32 func_80183790(s32 a0);
 extern void func_8018395C(s32 a0);
 
