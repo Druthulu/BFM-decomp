@@ -56426,7 +56426,7 @@
     extern void (*D_8018DDA8[])(void); \
     extern void func_80181780(void *a0); \
     extern void func_80181A14(); \
-    extern s32 func_801817BC(s32 a0); \
+    extern s32 func_801817BC(); \
     extern void func_800D1EBC(void); \
     extern void func_8018188C(void); \
     extern void (*D_8018DDB4[])(void); \
@@ -151824,7 +151824,7 @@
     extern void (*D_8018DDA8[])(void); \
     extern void func_80181780(void *a0); \
     extern void func_80181A14(); \
-    extern s32 func_801817BC(s32 a0); \
+    extern s32 func_801817BC(); \
     extern void func_800D1EBC(void); \
     extern void func_8018188C(void); \
     extern void (*D_8018DDB4[])(void); \

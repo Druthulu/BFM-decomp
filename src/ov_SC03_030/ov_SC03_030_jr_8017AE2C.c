@@ -4112,7 +4112,20 @@ extern s32 func_80171990(u8 *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017DD08);
+extern u8 D_801858EC;
+
+void func_8017DD08(s32 param_1) {
+    func_80019064(&D_801858EC);
+    func_8017DFA0(param_1);
+    func_8017E204(param_1);
+    func_8017E090(param_1);
+    func_8017E1BC(param_1);
+    if (*(s16 *)(param_1 + 0xE) < -0x1120) {
+        func_80146D90(param_1);
+        func_80171990(param_1);
+    }
+}
+
 
 extern u8 D_801858EC;
 extern u16 D_801E1ABE;
@@ -4178,7 +4191,17 @@ void func_8017DF1C(void *param) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017DF54);
+extern s32 D_801858FC;
+extern void func_80019064(void *a0);
+extern void func_80147324(s32 arg0);
+
+void func_8017DF54(void *param) {
+    func_80019064(&D_801858FC);
+    func_80147324(0x57F);
+    *(s16 *)((s32)param + 0x20C) = 0x1000;
+    *(s16 *)((s32)param + 0x13A) = 1;
+}
+
 
 
 // func_8017DFA0 — MATCH (60 ins), match_one + rtu_match. Two levers:
@@ -4422,7 +4445,7 @@ void func_8017E5F8(s32 param_1, s16 *param_2) {
 
 
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8017E7D4(void *);
+extern void func_8017E7D4();
 extern s32 D_801E1BB8;
 
 void func_8017E790(void) {
@@ -4434,7 +4457,87 @@ void func_8017E790(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017E7D4);
+extern void func_800183E0(s32 a0);
+extern void func_8017EB98(void *a0, s32 a1);
+extern s32 D_801E1BB4;
+extern s32 D_801E1C40;
+extern s32 D_801E1C44;
+extern s32 D_801DA588;
+extern s32 D_801DA5E8;
+extern s32 D_801DA648;
+extern s32 D_801DA6A8;
+extern s32 D_801DA708;
+extern s32 D_801DA768;
+extern s32 D_801DA7C8;
+extern s32 D_801DA828;
+extern s32 D_801DA888;
+extern s32 D_801DA8E8;
+extern s32 D_801DA948;
+extern s32 D_801DA9A8;
+extern s32 D_801DAA08;
+extern s32 D_801DAA68;
+extern s32 D_801DAAC8;
+extern s32 D_801DAB28;
+extern s32 D_801E06C4[];
+extern s32 D_801E06E4[];
+extern s32 D_801E0704[];
+extern s32 D_801E0724[];
+extern s32 D_801E0744[];
+
+typedef struct { s32 w[8]; } Copy32;
+
+void func_8017E7D4(void) {
+    Copy32 b0;
+    Copy32 b1;
+    Copy32 b2;
+    Copy32 b3;
+    Copy32 b4;
+    s32 *p;
+    s32 var_s1;
+
+    p = &b0.w[0];
+    b0 = *(Copy32 *)D_801E06C4;
+    b1 = *(Copy32 *)D_801E06E4;
+    b2 = *(Copy32 *)D_801E0704;
+    b3 = *(Copy32 *)D_801E0724;
+    b4 = *(Copy32 *)D_801E0744;
+    switch (D_801E1BB4) {
+    case 0:
+        D_801E1C40 = 1;
+        D_801E1C44 = 0;
+        D_801E1BB4 = 1;
+        break;
+    case 1:
+        if (--D_801E1C40 == 0) {
+            D_801E1C40 = 2;
+            var_s1 = D_801E1C44 * 6;
+            func_800183E0(p[D_801E1C44]);
+            func_800183E0(p[8 + D_801E1C44]);
+            func_800183E0(p[16 + D_801E1C44]);
+            func_800183E0(p[24 + D_801E1C44]);
+            func_800183E0(p[32 + D_801E1C44]);
+            func_8017EB98(&D_801DA588, var_s1);
+            func_8017EB98(&D_801DA5E8, var_s1);
+            func_8017EB98(&D_801DA648, var_s1);
+            func_8017EB98(&D_801DA6A8, var_s1);
+            func_8017EB98(&D_801DA708, var_s1);
+            func_8017EB98(&D_801DA768, var_s1);
+            func_8017EB98(&D_801DA7C8, var_s1);
+            func_8017EB98(&D_801DA828, var_s1);
+            func_8017EB98(&D_801DA888, var_s1);
+            func_8017EB98(&D_801DA8E8, var_s1);
+            func_8017EB98(&D_801DA948, var_s1);
+            func_8017EB98(&D_801DA9A8, var_s1);
+            func_8017EB98(&D_801DAA08, var_s1);
+            func_8017EB98(&D_801DAA68, var_s1);
+            func_8017EB98(&D_801DAAC8, var_s1);
+            func_8017EB98(&D_801DAB28, var_s1);
+            D_801E1C44 = (D_801E1C44 + 1) & 7;
+        }
+        break;
+    }
+}
+
 
 
 void func_8017EB98(void *a0, s32 a1)
@@ -4473,7 +4576,40 @@ void func_8017EBF8(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017EC34);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017ECA8);
+extern u8 func_8014BF6C(void);
+
+void func_8017ECA8(void) {
+    extern s32 D_80126B58;
+    register s32 s0 __asm__("$16");
+    register s32 s1 __asm__("$17");
+    s32 r;
+    s32 v0;
+    s32 v1;
+
+    s0 = ((s32 (*)(void))func_8014BF6C)();
+    s1 = (s32)&D_80126B58;
+
+    v0 = s0 & 0xFF;
+    if (v0 != 0) {
+        r = func_8017267C((s32 *)s1);
+        s0 = s0 - 1;
+        if (r == 0) {
+            return;
+        }
+        s0 = s0 & 0xFF;
+        func_8014BF18(s0);
+        if (s0 != 0) {
+            return;
+        }
+    } else {
+        v1 = *(u16 *)s1;
+        if (v1 == 0x1A) {
+            return;
+        }
+    }
+    func_8012DB84();
+}
+
 
 
 extern void (*D_8018597C[])(void);
@@ -4893,7 +5029,34 @@ void func_801802BC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180398);
+
+extern Blk8 D_8018687C;
+extern u16 D_80186880;
+extern s32 func_8004787C(s32 a0);
+extern void func_8012C218(void *a0);
+
+void func_80180398(void *a0) {
+    register s32 s1 __asm__("$17");
+    register s32 s0 __asm__("$16");
+    s16 v0;
+    s16 pad[4];
+    (void)pad;
+    s1 = (s32)a0;
+    s0 = *(s32 *)(s1 + 0x20);
+    v0 = func_8004787C(*(s32 *)(s1 + 0x1C) << 5) + 1;
+    *(u16 *)(s0 + 0x1C) = v0;
+    *(u16 *)(s0 + 0x18) = v0;
+    v0 = func_8004787C(*(s32 *)(s1 + 0x1C) << 6) + 1;
+    *(u16 *)(s0 + 0x1A) = v0;
+    *(u16 *)((u8 *)&D_8018687C) -= 4;
+    *(u16 *)((u8 *)&D_8018687C + 2) -= 4;
+    D_80186880 -= 4;
+    *(s32 *)(s1 + 0x1C) += 1;
+    if (*(s32 *)(s1 + 0x1C) >= 0x20) {
+        func_8012C218((void *)s1);
+    }
+}
+
 
 
 extern void (*D_8018688C[])(void);
@@ -4916,7 +5079,31 @@ void func_80180494(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_801804F4);
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s32 func_8014C860(s32 a0, s32 a1);
+
+void func_801804F4(void *param_1) {
+    register void *arg0 __asm__("$4");
+    register s16 *lim __asm__("$7");
+    register void *out __asm__("$5");
+    register s16 cnt __asm__("$2");
+
+    arg0 = param_1;
+    lim = (s16 *)&D_80126B66;
+    cnt = *(u16 *)((s32)arg0 + 0x100) - 8;
+    *(u16 *)((s32)arg0 + 0x100) = cnt;
+    if (*lim < cnt) {
+        out = (char *)arg0 + 0xFC;
+        *(u16 *)((s32)arg0 + 0x100) = *lim;
+    } else {
+        out = (char *)arg0 + 0xFC;
+    }
+    *(u16 *)((s32)arg0 + 0xFC) = 0;
+    *(u16 *)((s32)arg0 + 0xFE) = D_80126B62;
+    func_8014C860((s32)lim - 0xE, (s32)out);
+}
+
 
 
 extern s32 func_8012C0EC(s32 a0);
@@ -5050,7 +5237,26 @@ void func_80180880(s32 a0) {
 void func_801808E8(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_801808F0);
+extern void func_80143994(s32 a0, s32 a1);
+
+void func_801808F0(s32 arg0) {
+    register s32 s0 __asm__("$16") = arg0;
+
+    if (*(u16 *)(s0 + 0x70) & 1) {
+        *(u16 *)(s0 + 2) = 5;
+    } else {
+        *(u16 *)(s0 + 2) = 4;
+    }
+
+    *(s32 *)(s0 + 0xCC) = ((s32 (*)(s32, s32))func_80143994)(s0, 1);
+    *(s32 *)(s0 + 0x18) = 0;
+    *(s32 *)(s0 + 0x14) = 0;
+    *(s32 *)(s0 + 0x10) = 0;
+    *(s32 *)(s0 + 0x4C) = 0;
+    *(s32 *)(s0 + 0x44) = 0;
+    *(s32 *)(s0 + 0x48) = 0x18000;
+}
+
 
 extern void (*D_80186950[])(void);
 extern s32 func_8012CC40();
@@ -5089,7 +5295,36 @@ void func_80180960(u8 *param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180A3C);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012CC40();
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80180B44(s32 a0);
+extern void (*D_80186958[])(void);
+
+void func_80180A3C(s32 param_1) {
+    s32 temp;
+    s32 var;
+
+    temp = *(s32 *)(param_1 + 0xCC);
+    if (temp != 0) {
+        var = *(s32 *)(temp + 0xCC);
+        *(u16 *)(var + 0x18) += 0x700;
+        *(u16 *)(var + 0x1A) += 0x700;
+        if (*(s16 *)(var + 0x18) >= 0x7001) {
+            *(u16 *)(var + 0x18) = 0x7000;
+        }
+        if (*(s16 *)(var + 0x1A) >= 0x7001) {
+            *(u16 *)(var + 0x1A) = 0x7000;
+        }
+    }
+    if (func_8012CC40(param_1, (s32)D_80186958) & 0x2000) {
+        func_8002D4C8(0x582, 0);
+        *(u16 *)(param_1 + 2) = 2;
+        func_8012C658(0xF0, 1, param_1);
+    }
+    func_80180B44(param_1);
+}
+
 
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
@@ -5226,7 +5461,19 @@ void func_80181178(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80181214);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8018127C);
+void func_8018127C(s32 a0) {
+    extern s32 rand(void);
+    extern s32 func_8012BEE8(s32 a0);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 D_801DD860;
+
+    if (func_8012BEE8(a0) != 0) {
+        *(s32 *)(a0 + 0x1C) = rand() % 31 + 60;
+        func_8012A828(a0, &D_801DD860);
+        *(s16 *)(a0 + 2) = 1;
+    }
+}
+
 
 
 extern void (*D_801869F0[])(void);
@@ -5322,9 +5569,174 @@ void func_801814F4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80181708);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80181824);
+extern s32 func_80181824();
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern void RotMatrixZ(s32 a0, void *a1);
+extern void func_80181A60(void *a0);
+extern u8 D_801869E0[];
+extern u8 D_801869E8[];
+
+/* gte_Set{Rot,Trans}Matrix — same macro form already used in this TU (ov_SC03_028 twin func_801808CC). */
+#define gte_SetRotMatrix(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_80181708;
+
+/* param type is void* to agree with the TU's own forward decls of this function
+ * (lines 5041/5058: `extern void func_80181708(void *a0);`) — an s32-param def
+ * here is `conflicting types for func_80181708` at the whole-binary gate. */
+void func_80181708(void *param_1)
+{
+    MTX_80181708 mtx; /* sp+0x10 */
+    u16 v0[4];        /* sp+0x30 : RotTransSV out -> func_80181A60 */
+    u16 v1[4];        /* sp+0x38 : RotTransSV out */
+    s32 flag;         /* sp+0x40 */
+
+    if (func_80181824((s32)param_1, &mtx) != 0) {
+        gte_SetRotMatrix(&mtx);
+        gte_SetTransMatrix(&mtx);
+
+        RotTransSV(D_801869E0, v0, &flag);
+        RotMatrixZ(*(s16 *)((s32)param_1 + 0x100), &mtx);
+        gte_SetRotMatrix(&mtx);
+        RotTransSV(D_801869E8, v1, &flag);
+
+        func_80181A60(v0);
+        *(u16 *)((s32)param_1 + 6) = v1[0];
+        *(u16 *)((s32)param_1 + 10) = v1[1];
+        *(u16 *)((s32)param_1 + 14) = v1[2];
+    }
+}
+
+
+typedef struct { short m[3][3]; long t[3]; } MTX_80181824;
+typedef struct { short vx, vy, vz, pad; } SV_80181824;
+
+extern void func_80020DA4(s32 a0, s32 a1);
+
+s32 func_80181824(s32 param_1, s32 param_2)
+{
+    SV_80181824 out;
+    MTX_80181824 m1;
+    SV_80181824 unused;
+    u32 w;
+    u32 p;
+    s32 ent;
+    s32 M;
+    s32 c;
+    s32 mp;
+
+    ent = *(s32 *)(param_1 + 0x64);
+    p = *(u32 *)((*(u32 *)(ent + 0x94) * 8) + *(u32 *)(ent + 0x90));
+    if (p == 0) {
+        return 0;
+    }
+    p &= 0xfeffffff;
+    p += 0x50;
+    mp = (s32)&m1;
+    out.vx = *(s16 *)(p + 6);
+    w = *(u32 *)p;
+    out.vy = (s16)(*(u8 *)(p + 1) | ((w & 0xf) << 8));
+    out.vz = (s16)(((w >> 0x10) & 0xff) | ((w & 0xf0) << 4));
+    func_80020DA4((s32)&out, mp);
+    m1.t[0] = *(s8 *)(p + 3);
+    m1.t[1] = *(s8 *)(p + 4);
+    m1.t[2] = *(s8 *)(p + 5);
+
+    /* gte_SetRotMatrix(M) */
+    M = *(s32 *)(ent + 0x20) + 0x34;
+    __asm__ __volatile__(
+        "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
+        "ctc2 $12, $0\n" "ctc2 $13, $1\n"
+        "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
+        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
+        : : "r"(M) : "$12", "$13", "$14", "memory");
+
+    /* column 0 */
+    __asm__ __volatile__(
+        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
+        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
+        : : "r"(mp) : "$12", "$13", "$14", "memory");
+    __asm__ __volatile__(
+        "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n"
+        "sh $12, 0(%0)\n" "sh $13, 6(%0)\n" "sh $14, 12(%0)\n"
+        : : "r"(param_2) : "$12", "$13", "$14", "memory");
+
+    /* column 1 */
+    c = (s32)&m1 + 2;
+    __asm__ __volatile__(
+        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
+        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
+        : : "r"(c) : "$12", "$13", "$14", "memory");
+    c = param_2 + 2;
+    __asm__ __volatile__(
+        "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n"
+        "sh $12, 0(%0)\n" "sh $13, 6(%0)\n" "sh $14, 12(%0)\n"
+        : : "r"(c) : "$12", "$13", "$14", "memory");
+
+    /* column 2 */
+    c = (s32)&m1 + 4;
+    __asm__ __volatile__(
+        "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"
+        "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"
+        "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"
+        : : "r"(c) : "$12", "$13", "$14", "memory");
+    c = param_2 + 4;
+    __asm__ __volatile__(
+        "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n"
+        "sh $12, 0(%0)\n" "sh $13, 6(%0)\n" "sh $14, 12(%0)\n"
+        : : "r"(c) : "$12", "$13", "$14", "memory");
+
+    /* gte_SetTransMatrix(M) */
+    M = *(s32 *)(ent + 0x20) + 0x34;
+    __asm__ __volatile__(
+        "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
+        "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
+        "ctc2 $13, $6\n" "ctc2 $14, $7\n"
+        : : "r"(M) : "$12", "$13", "$14", "memory");
+
+    /* gte_ldlv0(m1.t) ; gte_rt() ; gte_stlvnl(dst->t) */
+    c = (s32)&m1 + 0x14;
+    __asm__ __volatile__(
+        "lhu $13, 4(%0)\n" "lhu $12, 0(%0)\n"
+        "sll $13, $13, 16\n" "or $12, $12, $13\n"
+        "mtc2 $12, $0\n" "lwc2 $1, 8(%0)\n"
+        "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n"
+        : : "r"(c) : "$12", "$13", "memory");
+    c = param_2 + 0x14;
+    __asm__ __volatile__(
+        "swc2 $25, 0(%0)\n" "swc2 $26, 4(%0)\n" "swc2 $27, 8(%0)\n"
+        : : "r"(c) : "memory");
+
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80181A60);
 
