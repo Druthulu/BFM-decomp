@@ -4813,7 +4813,21 @@ void func_80181308(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_801813E0);
+extern void (*D_801A4680[])(void);
+extern void func_80182000(s32 a0);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 D_801A4620[];
+
+void func_801813E0(s32 *arg0) {
+    D_801A4680[*(u16 *)((s32)arg0 + 2)]();
+    if (*(s32 *)((s32)arg0 + 0xE4) != 0) {
+        func_80182000((s32)arg0);
+    }
+    if ((*(u16 *)arg0 != 0) && (*(s32 *)((s32)arg0 + 0xD4) != 0)) {
+        func_8012F214((s32)arg0, (s32)D_801A4620, *(s32 *)((s32)arg0 + 0xD4) + 8);
+    }
+}
+
 
 #include "common.h"
 
@@ -4896,7 +4910,26 @@ void func_80181470(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_801815FC);
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_8018164C);
+extern s32 rand(void);
+extern s32 func_8004787C(s32 a0);
+extern void func_80182124(s32 arg0);
+
+void func_8018164C(s32 a0) {
+    s32 ent;
+
+    *(s16 *)(a0 + 0x100) = ((u32)func_8004787C(*(s32 *)(a0 + 0x1C) << 4) >> 5) & 0xFF;
+    *(s16 *)(a0 + 0xFE) = *(s16 *)(a0 + 0x100);
+    *(s16 *)(a0 + 0xFC) = *(s16 *)(a0 + 0xFE);
+    *(s32 *)(a0 + 0x1C) += 1;
+    if (*(s32 *)(a0 + 0x1C) >= 0x41) {
+        ent = *(s32 *)(a0 + 0x78);
+        *(s16 *)(a0 + 2) = 3;
+        *(s16 *)(a0 + 0x5C) = *(u16 *)(ent + 2);
+        *(s32 *)(a0 + 0x1C) = rand();
+        func_80182124(*(s32 *)(a0 + 0xD4));
+    }
+}
+
 
 void func_801816C8(void *a0) {
     s32 r;
@@ -5227,7 +5260,21 @@ void func_80181DC0(void *arg0) {
 
 INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_80181ED4);
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_80181F88);
+void func_80181F88(s32 param_1, s32 param_2) {
+    u8 sp10[0x20];
+    s32 sp30[3];
+
+    *(u16 *)(param_1 + 0x106) =
+        *(u16 *)(param_1 + 0x106) +
+        func_8012B608(*(s16 *)(param_1 + 0x106), func_8012B864(param_1),
+                      *(s32 *)(param_1 + 0xE8));
+    sp30[1] = 0;
+    sp30[0] = 0;
+    sp30[2] = param_2;
+    func_80049CAC(param_1 + 0x104, sp10);
+    func_800484EC(sp10, sp30, param_1 + 0x10);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_80182000);
 

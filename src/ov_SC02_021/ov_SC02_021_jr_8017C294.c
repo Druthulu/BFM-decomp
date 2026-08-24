@@ -3311,7 +3311,29 @@ void func_8017D500(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017D53C);
+void func_8017D53C(s32 param_1) {
+    extern u16 D_80126940;
+    extern s16 D_80126942;
+    extern s16 D_80126944;
+    extern void func_8017D5C8(s32, s16 *);
+    s16 buf[3];
+
+    buf[0] = D_80126940;
+    if (D_80126942 < -0x570) {
+        buf[1] = -0x570;
+    } else if (!(D_80126942 < -0x3bf)) {
+        buf[1] = -0x3c0;
+    } else {
+        buf[1] = D_80126942;
+    }
+    if (D_80126944 < -0x60) {
+        buf[2] = -0x60;
+    } else {
+        buf[2] = D_80126944;
+    }
+    func_8017D5C8(param_1, buf);
+}
+
 
 
 /* Local address-suffixed clones of the PSX MATRIX/SVECTOR layouts (cookbook: match_one's isolated
@@ -3651,7 +3673,14 @@ extern void func_800D0F4C(s32 arg);
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017EFB0);
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017F014);
+void func_8017F014(void) {
+    extern u16 D_80078EAC;
+    extern u8 D_80078EB0;
+    extern u8 D_80078EB1;
+    extern u8 D_80193528[];
+    *(s32 *)D_80193528 = D_80078EAC * 1440 + D_80078EB1 * 60 + D_80078EB0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017F064);
 

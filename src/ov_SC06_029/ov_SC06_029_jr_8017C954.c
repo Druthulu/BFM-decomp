@@ -3997,7 +3997,23 @@ void func_8017EBC4(Obj8017EBC4 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017EDA8);
+extern s32 func_8016F1AC(void);
+extern void func_801746DC(void);
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern void func_80016450(s32 a0, s32 a1);
+extern void (*D_80190534[])(void);
+
+void func_8017EDA8(s32 param_1) {
+    if (func_8016F1AC() == 0) {
+        func_801746DC();
+        func_80178B18(param_1, (s32)&D_80190534);
+        *(s16 *)(param_1 + 2) = 2;
+        *(s16 *)(param_1 + 0x34) = 0;
+        *(s32 *)(param_1 + 0x1C) = 3;
+    }
+    func_80016450(0xFF, 0);
+}
+
 
 void func_8017EE10(s32 param_1) {
     extern void func_8012BEE8(void);
@@ -4160,7 +4176,63 @@ void func_8017FE58(void *fp, s32 count)
 
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80180030);
+#include "common.h"
+
+extern void *func_80185C6C(); /* TU idiom: calls go through a (s32,s32) fn-ptr cast */
+#define CALL_80185C6C ((void *(*)(s32, s32))func_80185C6C)
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_80013478(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern u8 D_80126B5C;
+extern void (*D_80190218[])(void);
+extern s32 D_801DDB2C[5];
+
+/* §37/§124 asm-label alias: the TU's own caller decl at line 4100 says
+ * `extern void func_80180030(void *a0, s32 a1);` but the target PROVABLY returns
+ * a value (count==0 path `addu $v0,$zero,$zero` @80180100 + final
+ * `sltu $v0,$zero,$v0` @80180164). A void definition DCEs those (LENGTH-DRIFT -3,
+ * 87 ins — byte-tested). The alias defines under a different C identifier and binds
+ * the emitted symbol back to func_80180030; the caller discards the return, so it is
+ * byte-neutral for the caller (§30#2 / §136f-2 in-TU precedent aF8018B20C). */
+s32 aF80180030(void *a0, s32 a1) __asm__("func_80180030");
+s32 aF80180030(void *a0, s32 a1)
+{
+    u8 idxArr[4];
+    s32 valArr[4];
+    s8 buf[8];
+    void *cur;
+    s32 ptr;
+    s32 count;
+    s32 i;
+    s32 val;
+    s32 bestVal;
+    s32 bestSlot;
+
+    count = 0;
+    cur = CALL_80185C6C(a1, 0);
+    ptr = D_801DDB2C[a1];
+    for (i = 0; i < 4; i++, cur = (void *)((u8 *)cur + 8)) {
+        if (!(*(u8 *)((u8 *)cur + 6) & 0x80)) {
+            func_8012F214(ptr, (s32)&D_80190218[(*(u8 *)((u8 *)cur + 6) & 0xF) * 2], (s32)buf);
+            valArr[count] = func_80013478((s32)&D_80126B5C, (s32)buf);
+            idxArr[count] = i;
+            count++;
+        }
+    }
+    if (count == 0) {
+        return 0;
+    }
+    bestVal = valArr[0];
+    bestSlot = 0;
+    for (i = 1; i < count; i++) {
+        if (valArr[i] < bestVal) {
+            bestVal = valArr[i];
+            bestSlot = i;
+        }
+    }
+    return func_8012C658(0x2EF, idxArr[bestSlot], D_801DDB2C[a1]) != 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80180198);
 
