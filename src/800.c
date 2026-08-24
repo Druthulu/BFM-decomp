@@ -3,6 +3,15 @@
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {
+    u16 x;
+    u16 y;
+} Poly12Pt;
+typedef struct {
+    u8 pad_00[0x10];
+    Poly12Pt pts[12];
+} Poly12Obj;
+/* hoisted by gate_main so drafts above can reuse them (§181) */
+typedef struct {
     s16 unk00;
     s16 unk02;
     s16 unk04;
@@ -607,7 +616,42 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80014588);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800145EC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800146B0);
+extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
+extern void func_80053EEC(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80059234(s32);
+extern void func_80053218(void);
+extern void func_80014774(void);
+extern void func_800147B8(void);
+
+extern u8 D_80062A3C[];
+extern u8 D_80062A3E[];
+extern u8 D_80062A40[];
+extern u16 D_800AF7BC;
+extern u16 D_800AF7BE;
+extern u16 D_800AF7C0;
+
+void func_800146B0(s32 mode) {
+    s32 off;
+
+    off = (mode & 0xFFFF) * 6;
+
+    D_800AF7BC = *(u16 *) (D_80062A3C + off);
+    D_800AF7BE = *(u16 *) (D_80062A3E + off);
+    D_800AF7C0 = *(u16 *) (D_80062A40 + off);
+
+    GsInitGraph2(D_800AF7BC, D_800AF7BE, D_800AF7C0 | 4, 0, 0);
+
+    if (D_800AF7BE == 0x1E0) {
+        func_80053EEC(0, 0, 0, 0);
+    } else {
+        func_80053EEC(0, D_800AF7BE, 0, 0);
+    }
+
+    func_80059234(1);
+    func_80053218();
+    func_80014774();
+    func_800147B8();
+}
 
 
 extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
@@ -1311,7 +1355,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800159C0);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800159E4);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80015A08);
+void func_80015A08(s32 *a0, s32 *a1) {
+    *(u16 *)((s32)a1 + 0x0) = *(u16 *)((s32)a0 + 0x0);
+    *(u16 *)((s32)a1 + 0x4) = *(u16 *)((s32)a0 + 0x4);
+    *(u16 *)((s32)a1 + 0x8) = *(u16 *)((s32)a0 + 0x8);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80015A2C);
 
@@ -7130,15 +7178,7 @@ void func_80023138(s32 *arg0, u8 *col, u8 *pts, u32 *ot)
 extern s32 func_8004787C(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed */
 extern s32 func_80047948(s32 a0); /* rsin-like: angle (0..0xFFF) -> 1.12 fixed */
 
-typedef struct {
-    u16 x;
-    u16 y;
-} Poly12Pt;
 
-typedef struct {
-    u8 pad_00[0x10];
-    Poly12Pt pts[12];
-} Poly12Obj;
 
 /* Builds a 12-gon of radius a1 into the u16{x,y} table at obj+0x10:
  * quarter arc (4 pts, angle step 0x155), mirrored in y, then in x. */
@@ -7167,7 +7207,23 @@ void func_800233CC(Poly12Obj *a0, u16 a1) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800234E4);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+
+
+
+void func_800234E4(Poly12Obj *obj, u16 radius, u16 ang0) {
+    s32 i = 0;
+    s32 r = radius;
+    register s32 ang __asm__("$16") = ang0;
+
+    do {
+        obj->pts[i].x = (func_8004787C(ang) * r) >> 12;
+        obj->pts[i].y = (func_80047948(ang) * r) >> 12;
+        ang += 0x155;
+        i++;
+    } while (i < 12);
+}
 
 
 typedef struct { u32 addr : 24; u32 len : 8; } PTag_80023570;
@@ -11301,7 +11357,11 @@ void func_8002C8F4(void)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002CC4C);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002CCB4);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8002CCB4(void) {
+    func_8002D4C8(2, 0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002CCD8);
 
