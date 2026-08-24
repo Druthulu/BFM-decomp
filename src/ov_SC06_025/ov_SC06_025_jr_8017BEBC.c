@@ -4040,7 +4040,7 @@ INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8017EA7
 
 extern s32 func_8012E544(s32 a0);
 extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
-extern s32 func_80182090();
+extern s32 func_80182090(s32, s32);
 extern void func_80181CA4();
 
 void func_8017ED5C(s32 a0) {
@@ -5126,7 +5126,7 @@ void func_80181E08(s32 arg0) {
     extern void func_8012E28C(s32, s32);
     extern void func_8012E32C(void);
     extern s32 func_801823D4(s32, s32);
-    extern s32 func_80182090(s32, s32);
+    extern s32 func_80182090();
     extern short D_800B9A02;      /* TU's own spelling (see line 2466/2820 of the TU) */
 
     V8 *pa, *pb;
