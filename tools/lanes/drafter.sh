@@ -22,9 +22,23 @@
 # name symbols the target .s never references, i.e. cookbook §235 (the phantom symbol), which is a
 # BRIEF fix, not a lane deletion. R40: exonerate the instrument before blaming the subject.
 #
-# The rotation below pins the arithmetic: lane = index%4, band = index%4, so slot 1 (tells) always
-# draws the full band and slot 3 (the large band) is always default. Changing the length of either
-# list breaks that alignment — change both together.
+# S59 REFINEMENT, from the same ledger joined to the wave cards and to the BANKED FUNCTIONS the
+# wave's own commit names (bank rate by size, cards->banked, pooled over waves bb/bg vs bc/bf):
+#   nins    default        tells
+#   0-50    303/528  57%   27/ 67  40%
+#   50-80    43/145  30%   20/ 73  27%
+#   80-120    9/ 41  22%   10/100  10%
+#   120-200   1/ 30   3%    1/ 68   1%
+#   200+      2/ 35   6%    0/ 30   0%
+# At EQUAL SIZE the two lanes are close below 80 instructions and both collapse above it. What
+# actually separated them is the card SIZE MIX: default's cards are median 37-39 ins, the tells
+# pool is median 89-95 — 2.4x larger — so "the tells lane is broken" was measuring the population,
+# not the lever. Tells therefore draws a SMALL band (5-80), where its yield is within a few points
+# of default's; widen it only when that stratum is worked out.
+#
+# The rotation pins the arithmetic: lane = index%4, band = index%4, so slot 1 (tells) always draws
+# the small band and slot 3 (the large band) is always default. Changing the length of either list
+# breaks that alignment — change both together.
 #
 # NOTE: do NOT assume aprop_autodraft is the answer for tells. Its input population overlaps the
 # 1,040 tells member functions by only 44 (4.2%) — checked, after asserting the opposite three
@@ -45,7 +59,7 @@ while [ ! -e .run/ox_campaign.stop ]; do
       --workers 2000 \
       --models 'stealth/ox-alpha:1720,deepseek/deepseek-v4-flash-0731:280:REASON_EFFORT=high' \
       --lanes 'default:,tells:extend-tell;swaprepeat-tell;s16-div-tell,default:,default:' \
-      --bands '5-2000,5-2000,5-2000,120-2000' \
+      --bands '5-2000,5-80,5-2000,120-2000' \
       --cards-per-wave 3000 --queue-depth 2 2>&1
   echo "[$(date +%H:%M:%S)] [drafter] exited; restarting in 20s"
   sleep 20
