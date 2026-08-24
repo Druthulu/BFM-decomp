@@ -2810,7 +2810,7 @@ extern void func_801898EC(s32, void*, void*, s32);
 extern void func_80189888(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_80185EF8(s32 param_1);
-extern void func_801875A4(void);
+extern void func_801875A4();
 extern void func_80186314(void *a0);
 /* ==== end §8b carried decl layer ==== */
 

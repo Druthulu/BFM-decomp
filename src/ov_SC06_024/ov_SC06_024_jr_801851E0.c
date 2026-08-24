@@ -3423,7 +3423,7 @@ void func_80186198(s32 p)
 }
 
 
-extern void func_801875A4(void);
+extern void func_801875A4();
     void func_80186314(void *a0) {
         if (*(s16 *)((s32)a0 + 0x98) == 0) {
             ((void (*)(void))func_801875A4)();

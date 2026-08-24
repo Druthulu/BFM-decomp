@@ -1588,7 +1588,10 @@ void func_801A57E8(void *a0) {
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5AA0);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A5AC0);
+void func_801A5AC0(void *a0) {
+    func_8012AD44((s32 *)a0, 2);
+}
+
 
 void func_801A5AE0(void *a0) {
     func_8012AD44((s32 *)a0, 3);
@@ -6968,7 +6971,30 @@ void func_801AEAE4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AEB04);
+typedef struct {
+    u8 unk0[8];
+} B8_801AEB04;
+
+typedef struct {
+    u8 unk0[4];
+} M4_801AEB04;
+
+const s8 D_801A022C[4] = { 0, 0, 0, 0 };
+
+void func_801AEB04(s32 a0, s16 a1, s32 a2, s32 a3) {
+    *(u16 *)(a0 + 0x00) = 1;
+    *(u16 *)(a0 + 0x02) = a1;
+    *(B8_801AEB04 *)(a0 + 0x04) = *(B8_801AEB04 *)a2;
+    *(u16 *)(a0 + 0x10) = 0x1000;
+    *(u16 *)(a0 + 0x0E) = 0x1000;
+    *(u16 *)(a0 + 0x0C) = 0x1000;
+    *(u16 *)(a0 + 0x12) = 0;
+    *(s32 *)(a0 + 0x20) = a3;
+    *(M4_801AEB04 *)(a0 + 0x14) = *(M4_801AEB04 *)&D_801A022C;
+    *(M4_801AEB04 *)(a0 + 0x18) = *(M4_801AEB04 *)&D_801A022C;
+    *(M4_801AEB04 *)(a0 + 0x1C) = *(M4_801AEB04 *)&D_801A022C;
+}
+
 
 
 

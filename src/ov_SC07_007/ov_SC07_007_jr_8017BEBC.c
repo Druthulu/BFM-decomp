@@ -3904,7 +3904,42 @@ INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017D35
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017D41C);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017D4E4);
+#include "common.h"
+
+extern void func_8012A018(s32 a0, s32 a1);
+extern void func_8012A094(s32 a0);
+extern void func_8017D648(void *a0);
+
+typedef struct { s16 x0, x1, x2, x3; } UnalignedShortBlock;
+
+void func_8017D4E4(void) {
+    extern u8 D_80126948[];
+    extern u8 D_801869D8;
+    extern u8 D_801274E8[];
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+
+    D_80126954 = 0x190;
+    D_8012695C = 0x15E;
+    D_80126968 = -0x38;
+    D_80126976 = -0x140;
+    D_8012696A = 0;
+    D_8012696C = 0;
+    D_80126978 = -0x60;
+    D_8012697A = 0;
+
+    func_8012A018((s32)func_8017D648, 6);
+    *(UnalignedShortBlock *)&D_801274E8 = *(UnalignedShortBlock *)&D_801869D8;
+    func_8012A094((s32)D_80126948);
+    func_8017D648(D_80126948);
+}
+
 
 
 extern void func_8012A018(s32 a, s32 b);
@@ -5182,7 +5217,26 @@ void func_8017F788(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017F814);
+#include "common.h"
+
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80180F94(s32 a0);
+extern void func_8018122C(s32 a0, void *a1);
+extern s32 func_8012AD50(void *arg0);
+
+extern s16 D_80188B18;
+
+void func_8017F814(s32 a0) {
+    s32 s0;
+
+    s0 = a0;
+    if (func_8012BEE8(a0) != 0) {
+        func_80180F94(8);
+        func_8018122C(s0, &D_80188B18);
+        func_8012AD50((void *)s0);
+    }
+}
+
 
 #include "common.h"
 

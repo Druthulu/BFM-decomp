@@ -3493,7 +3493,14 @@ void func_8017DC10(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017DC18);
+extern s16 D_800B9AB8[];
+extern s16 D_800B9ABA[];
+
+void func_8017DC18(void) {
+    D_800B9AB8[0] = 0;
+    D_800B9ABA[0] = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017DC30);
 
@@ -6039,7 +6046,17 @@ void func_801824F8(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_80182714);
+void func_80182714(s32 param_1) {
+    extern void func_80142414(s32 a0, s16 a1);
+    extern s32 func_8012BEE8(s32 a0);
+    if (*(s32 *)(param_1 + 0x1C) == 0xF) {
+        func_80142414(param_1, -0x90);
+    }
+    if (func_8012BEE8(param_1) != 0) {
+        *(s16 *)(param_1 + 2) = 2;
+    }
+}
+
 
 
 /* func_80182764 — a randomised state entry: seed the timer at 0x1C with
@@ -6228,9 +6245,49 @@ void func_801829D8(s32 p)
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_80182B60);
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_80182B94);
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012BEE8();
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_80182C1C);
+void func_80182B94(s32 param_1)
+{
+    register s32 p __asm__("$16") = param_1;
+
+    if (func_8012BDBC(p, 0x300) != 0) {
+        s32 r = func_8012BCCC(p);
+        if (r < 0x100000) {
+            *(s16 *)(p + 2) = (r < 0x6400) ? 8 : 4;
+            return;
+        }
+    } else {
+        s32 r = func_8012BCCC(p);
+        if (r < 0x4000) {
+            *(s16 *)(p + 2) = 0xF;
+            return;
+        }
+    }
+
+    if (func_8012BEE8(p) != 0) {
+        *(s16 *)(p + 2) = 2;
+    }
+}
+
+
+#include "common.h"
+
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_80182C1C(s32 p)
+{
+    extern u8 D_801C6AB4[];
+    u32 f;
+
+    func_8012A828(p, D_801C6AB4);
+    f = *(u32 *)(p + 0xE0);
+    *(u16 *)(p + 2) = 9;
+    *(u32 *)(p + 0xE0) = (f | 2) & ~0x10;
+}
+
 
 
 extern s32  func_80185BB8(s32 a0, s32 a1);
