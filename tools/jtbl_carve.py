@@ -58,21 +58,24 @@ EOF_RE = re.compile(r"^\s*- \[(0x[0-9A-Fa-f]+)\]\s*(?:#.*)?$")
 
 
 def cfg_path(ov):
-    # HARD REFUSAL for binary classes this tool cannot handle. Two independent reviews (ox design
-    # study + Fable validation, P31 S58) established that on md_* and main jtbl_carve does not
-    # merely fail — `parse_config` does not implement its own documented contract, so it can DELETE
-    # the `c` config line and CORRUPT the yaml on disk before it errors out. main additionally has
-    # no `config/splat.main.yaml` at all (it is `splat.us.exe.yaml`), so the unguarded open() below
-    # raised FileNotFoundError on every main jtbl target.
-    #
-    # Refusing loudly beats corrupting quietly (R43). Lift this only once parse_config is hardened
-    # and the fix is proven on two examples — see docs/tool-designs/jtbl-island-split-review.md,
-    # whose verdict is that the real change is ONE inserted `.rodata` carve line plus
-    # jr_isolate_all.py --only, NOT the _pre split or an ld_interleave leading mode.
-    if ov == "main" or ov.startswith("md_"):
-        sys.exit(f"jtbl_carve: REFUSING {ov} — md_*/main configs are corrupted by parse_config "
-                 f"before it errors (see docs/tool-designs/jtbl-island-split-review.md). "
-                 f"Overlays (ov_*) are supported.")
+    # The S58 blanket refusal of md_*/main is LIFTED (P31 S59) now that `parse_config` implements
+    # its documented contract — see its docstring for the measured corruption it used to cause and
+    # tools/test_jtbl_parse_config.py for the proof (171 non-md configs byte-unchanged, 42 md_*
+    # configs now keep their `c` line). Two class facts the refusal had lumped together:
+    #   * md_* (42 configs) was the real corruption class — the §154-A leading island puts a
+    #     `.rodata` piece BEFORE the `c` piece.
+    #   * main was never in it. Its pieces are already [all c ..., data, .rodata, data], so the
+    #     contract held; main's defects were this path (there is no `config/splat.main.yaml`) and
+    #     the file base (see overlay_vram_base).
+    # What is still refused is the OPERATION that cannot work, not the binary class: a carve that
+    # lands in a leading island is rejected in build_carve, which names the lane that owns it.
+    if ov == "main":
+        # main is `config/splat.us.exe.yaml` — there is no `splat.main.yaml`, and the unguarded
+        # open() below used to raise FileNotFoundError on every main jtbl target.
+        p = os.path.join(REPO, "config/splat.us.exe.yaml")
+        if not os.path.exists(p):
+            sys.exit(f"jtbl_carve: no splat config at {p} for binary 'main'")
+        return p
     p = os.path.join(REPO, f"config/splat.{ov}.yaml")
     if not os.path.exists(p):
         sys.exit(f"jtbl_carve: no splat config at {p} for binary {ov!r}")
@@ -80,12 +83,39 @@ def cfg_path(ov):
 
 
 def overlay_vram_base(ov):
-    """The overlay's load vram (all location overlays share the 0x80128158 slot, but read it)."""
+    """The binary's file0->vram delta (all location overlays share the 0x80128158 slot, but read it).
+
+    Every `off` in this module is a FILE offset into the payload and every address is a vram, so
+    this is the one place the two coordinate systems meet: vram = base + off.
+
+    main is the exception the naive `first vram: in the yaml` read gets WRONG. The EXE carries a
+    0x800 header before its code segment, so its delta is the code segment's `vram - start`
+    (0x80010000 - 0x800 = 0x8000F800), not 0x80010000. With the naive value every vram->offset
+    conversion (`s_vram - base`) comes out 0x800 too small and `payload_word` silently reads 0x800
+    early — a wrong word, not an error. That derivation already exists once, in
+    family_remap.vram_of (P31 T3); call it rather than write a second one (R33)."""
+    if ov == "main":
+        return _main_file_base()
     txt = open(cfg_path(ov)).read()
     m = re.search(r"vram:\s*(0x[0-9A-Fa-f]+)", txt)
     if not m:
         sys.exit(f"jtbl_carve: no vram in {cfg_path(ov)}")
     return int(m.group(1), 16)
+
+
+def _main_file_base():
+    """main's file0->vram delta, via the single derivation in family_remap.vram_of (R33).
+
+    family_remap reads cwd-relative config paths (its callers run at the repo root) while this
+    module is REPO-absolute on purpose, so the cwd is switched for the call and restored."""
+    sys.path.insert(0, os.path.join(REPO, "tools"))
+    cwd = os.getcwd()
+    try:
+        os.chdir(REPO)
+        import family_remap
+        return family_remap.vram_of("main")
+    finally:
+        os.chdir(cwd)
 
 
 def payload_path(ov):
@@ -485,10 +515,21 @@ def parse_config(ov):
         e = EOF_RE.match(ln)
         if e:
             eof_off = int(e.group(1), 16)
-    # The data region = the trailing run of {data, .rodata} pieces after the last `c` piece.
-    data_pieces = [p for p in pieces if p[3] in ("data", ".rodata")]
+    # THE DATA REGION IS THE TRAILING RUN AFTER THE LAST `c` PIECE. That is what this docstring
+    # has always claimed and what apply()'s splice `lines[:lo] + region + lines[hi:]` requires;
+    # until P31 S59 the code took `data_pieces[0]` — the first data/.rodata piece ANYWHERE in the
+    # file — and the two agree only by accident of layout:
+    #   * 171 configs (every ov_*, main, resident) are [all c pieces ... , data tail] -> same line.
+    #   * 42 md_* configs open with the §154-A LEADING ISLAND `- [0x0, .rodata, md_XXX]` BEFORE
+    #     their `c` piece -> region_lo_idx pointed at the island, and the splice DELETED the `c`
+    #     line, corrupting the yaml ON DISK before the tool errored out for unrelated reasons.
+    # Deriving the region from the last `c` makes the contract true for both layouts, and leaves a
+    # leading island where it belongs: outside the region this function describes.
+    c_idxs = [q[0] for q in pieces if q[3] == "c"]
+    last_c = c_idxs[-1] if c_idxs else -1
+    data_pieces = [q for q in pieces if q[3] in ("data", ".rodata") and q[0] > last_c]
     if not data_pieces:
-        sys.exit(f"jtbl_carve: no data-tail region in {cfg_path(ov)}")
+        sys.exit(f"jtbl_carve: no data/.rodata region after the last `c` piece in {cfg_path(ov)}")
     region_lo_idx = data_pieces[0][0]
     indent = data_pieces[0][1]
     tail_start = data_pieces[0][2]
@@ -505,6 +546,16 @@ def parse_config(ov):
         region_hi_idx = next(i for i, ln in enumerate(lines) if EOF_RE.match(ln))
         region_end = eof_off
         trailing_present = False
+    # R43 GUARD, not an assumption. Everything downstream REWRITES [region_lo_idx, region_hi_idx)
+    # wholesale, so a `c` piece inside that window is destroyed source configuration, not a bad
+    # carve. The derivation above cannot produce one; this fires if a future layout, or an edit to
+    # that derivation, ever reintroduces the md_* corruption.
+    inside = [i for i in c_idxs if region_lo_idx <= i < region_hi_idx]
+    if inside:
+        sys.exit(f"jtbl_carve: REFUSING {ov} — `c` piece(s) at line(s) "
+                 f"{[i + 1 for i in inside]} lie inside the data region "
+                 f"[{region_lo_idx + 1}, {region_hi_idx + 1}) that apply() rewrites wholesale. "
+                 f"Rewriting it would delete them from {cfg_path(ov)}.")
     # Existing .rodata carves: end = the following piece's off (or region_end for the last).
     region = [p for p in data_pieces if region_lo_idx <= p[0] < region_hi_idx]
     existing = []
@@ -537,6 +588,21 @@ def build_carve(ov, funcs):
         for jh in js:
             s_vram, e_vram = jtbl_range(ov, jh, labels, region_end_vram, fn=f, sub=sub)
             s_off, e_off = s_vram - base, e_vram - base
+            # A table BELOW the data region is in the §154-A leading island, and a tail carve
+            # cannot reach it: apply() only ever rewrites [tail_start, region_end), so the piece
+            # line would be inserted out of address order and splat would mis-slice the module.
+            # This is the island-split lane's job (docs/tool-designs/jtbl-island-split-review.md:
+            # one inserted `.rodata` line at the table's own offset + jr_isolate_all.py --only),
+            # not a tail carve's. Refuse and name it (R43) rather than emit a plausible-looking
+            # config the SHA gate will reject for reasons that point nowhere near here.
+            if s_off < tail_start:
+                sys.exit(
+                    f"jtbl_carve: {f}'s jtbl_{jh} at file 0x{s_off:x} is BELOW {ov}'s data region "
+                    f"(starts 0x{tail_start:x}) — it lives in the leading .rodata island, which a "
+                    f"tail carve cannot reach. That is the island split: insert one "
+                    f"`- [0x{s_off:x}, .rodata, {ov}_jr_{f.replace('func_', '')}]` piece in the "
+                    f"island region and isolate with jr_isolate_all.py --only "
+                    f"(docs/tool-designs/jtbl-island-split-review.md).")
             if s_off in have:
                 continue                       # idempotent: already carved
             carves.append((s_off, e_off, sub))
