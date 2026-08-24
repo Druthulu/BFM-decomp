@@ -7380,7 +7380,47 @@ void func_801836CC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8018370C);
+typedef struct { u16 x, y, z, w; } V8_8018370C;
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+s32 func_8018370C(s32 a0, s32 a1) {
+    V8_8018370C sp10;
+    V8_8018370C sp18;
+    s32 t;
+    s32 r;
+
+    sp10.x = *(u16 *)(a0 + 0x6);
+    sp10.y = *(u16 *)(a0 + 0xA) - 0x20;
+    sp10.z = *(u16 *)(a0 + 0xE);
+    t = func_8004787C(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+    r = (s16)a1;
+    sp18.y = sp10.y;
+    sp18.x = sp10.x - ((t * r) >> 12);
+    t = func_80047948(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+    sp18.z = sp10.z - ((t * r) >> 12);
+    if ((func_80133784(1, &sp10, (s32)&sp18) & 0x8000) == 0) {
+        t = func_8004787C(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+        sp10.x = *(u16 *)(a0 + 0x6) - ((t * r) >> 12);
+        sp10.y = *(u16 *)(a0 + 0xA) - 0x10;
+        t = func_80047948(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+        sp10.z = *(u16 *)(a0 + 0xE) - ((t * r) >> 12);
+        sp18.x = sp10.x;
+        sp18.y = sp10.y + 0x20;
+        sp18.z = sp10.z;
+        if (func_80133784(1, &sp10, (s32)&sp18) & 0x6000) {
+            return 0;
+        }
+    }
+    t = func_8004787C(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+    *(u16 *)(a0 + 0x6) = sp18.x + ((t * r) >> 12);
+    t = func_80047948(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+    *(u16 *)(a0 + 0xE) = sp18.z + ((t * r) >> 12);
+    return 1;
+}
+
 
 extern s32 func_8004787C(s32 a0);
 extern s32 func_8012B864(s32 a0);

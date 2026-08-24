@@ -4153,7 +4153,65 @@ void func_8017DAB8(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017DC50);
+void func_8017DC50(s32 arg0, s32 arg1) {
+    s16 delta[3];
+    s32 i;
+    u16 *t1;
+    u16 *t2;
+    u8 *t0;
+    u16 *rec;
+    u8 *q;
+    s32 c;
+    s32 d;
+    u16 a;
+    extern u8 D_801202A0[];
+    extern u8 D_8011DB30[];
+    extern u8 D_801864E4[];
+    extern u8 D_80186504[];
+    extern s32 D_801A1274;
+
+    t0 = (u8 *)arg1;
+    t1 = *(u16 **)(D_801864E4 + (arg0 << 2));
+    rec = (u16 *)(*(s32 *)(t0 + 0x34) + *(u16 *)(t0 + 0x38) * 6);
+    a = t1[0];
+    t2 = *(u16 **)(D_80186504 + (arg0 << 2));
+    delta[0] = a - rec[0];
+    delta[1] = t1[1] - rec[1];
+    delta[2] = t1[2] - rec[2];
+
+    for (i = 0; i < 0x60; i++) {
+        q = &D_801202A0[i * 0x10C];
+        c = *(u16 *)q;
+        if ((u16)c == 0x209 || c - 0x21AU < 2 || c - 0x2C2U < 2 ||
+            c - 0x2C4U < 2 || c - 0x20BU < 2 || c - 0x20DU < 2 ||
+            (u16)c == 0x20F || (u16)c == 0x21C || (u16)c == 0x2AA || (u16)c == 0x2B2 ||
+            c - 0x212U < 2 || c - 0x2ABU < 2 || c - 0x2ADU < 2 ||
+            (u16)c == 0x2AF || c - 0x2E1U < 2) {
+            d = *(s32 *)(q + 0xDC) - *(u16 *)(t0 + 0x38);
+            *(s32 *)(q + 0xDC) = d;
+            if (d < 0) {
+                *(s32 *)(q + 0xDC) = 0;
+            }
+            *(u16 *)(q + 6) += delta[0];
+            *(u16 *)(q + 0xA) += delta[1];
+            *(u16 *)(q + 0xE) += delta[2];
+        }
+    }
+
+    for (i = 0; i < 0x80; i++) {
+        q = &D_8011DB30[i * 0x38];
+        if (*(u16 *)q == 0x4B) {
+            *(u16 *)(q + 6) += delta[0];
+            *(u16 *)(q + 0xA) += delta[1];
+            *(u16 *)(q + 0xE) += delta[2];
+        }
+    }
+
+    D_801A1274 = (s32)t2;
+    *(s32 *)(t0 + 0x34) = (s32)t1;
+    *(u16 *)(t0 + 0x38) = 0;
+}
+
 
 
 extern void (*D_80186524[])(void);
