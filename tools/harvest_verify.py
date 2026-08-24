@@ -260,6 +260,10 @@ verified, failed = [], []
 # baseline are re-derived afterwards (they are keyed by path).
 _JTBL_RE = re.compile(r"jtbl_[0-9A-Fa-f]{8}")
 _ISO_WALLS = ("NON-CONTIGUOUS", "do not fit the span")
+# §154-A leading-island refusals (both spellings jtbl_carve emits: apply()'s migrated-table
+# message and build_carve's below-the-data-region message). Handled by the §260 island split
+# branch in _jtbl_prep_one, byte-proven on md_SC03_076/func_801F218C (sha 9a165e36…).
+_ISLAND_WALLS = ("LEADING-ISLAND", "leading .rodata island")
 
 
 def _sh(cmd, timeout=1800):
@@ -431,6 +435,32 @@ def _jtbl_prep_one(fn):
                 print('  [jtbl] isolate FAILED %s' % fn); continue
             if _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary]).returncode:
                 print('  [jtbl] extract-after-isolate FAILED %s' % fn); continue
+            r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
+        elif r.returncode and any(w in out for w in _ISLAND_WALLS):
+            # THE §260 ISLAND SPLIT, AT GATE TIME (P31 S59). An md_* module binds its rodata
+            # island at offset 0 to its own code subseg; a table in that island cannot be tail-
+            # carved (jtbl_carve refuses with the messages matched above). The byte-proven fix is
+            # ONE inserted config line binding the fn's table span to the fn's OWN isolated
+            # object (cookbook §260, sha 9a165e36… on md_SC03_076/func_801F218C).
+            #   ORDER MATTERS twice over:
+            #   * isolate FIRST, insert SECOND — jr_inventory asserts every .rodata carve
+            #     resolves to exactly one owner (R32), and the fresh line's owner would look like
+            #     nobody until the fn's C is in the tree; running the isolation before the line
+            #     exists keeps the assertion out of the loop.
+            #   * isolate WITH THE BODY STILL SPLICED — same §61b reason as the branch above:
+            #     jr_isolate_all carries each region's decl context, and partitioning around the
+            #     stub gives the region a different environment than the draft's body needs.
+            #   Only an END-ADJACENT table can take the split (the island is a stack; the probe
+            #   inside --island-split enforces it and names the blocking owner otherwise), so a
+            #   blocked member fails here LOUDLY and becomes CARVE-REFUSED — the honest verdict.
+            if _sh([PY, 'tools/jr_isolate_all.py', a.binary, '--only', fn]).returncode:
+                print('  [jtbl] island-isolate FAILED %s' % fn); continue
+            spl = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--island-split', '--func', fn])
+            if spl.returncode:
+                last = ((spl.stdout or '') + (spl.stderr or '')).strip().splitlines()[-1:] or ['']
+                print('  [jtbl] island-split REFUSED %s: %s' % (fn, last[0][:160])); continue
+            if _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary]).returncode:
+                print('  [jtbl] extract-after-island-split FAILED %s' % fn); continue
             r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
         # ALWAYS un-splice — but the isolation may have MOVED the body to a new region file, so
         # find where it actually is now and restore the stub line for THAT subseg. The gate then

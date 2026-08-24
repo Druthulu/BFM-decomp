@@ -24715,6 +24715,42 @@ owner; it aborted with `UNOWNED 0x801ef468` and md_* could not be isolated at al
 discriminator, verified over all 213 configs: a `.rodata` piece at offset 0 whose subseg is the
 binary's own alias exists in exactly the 42 `md_*` and in none of the others.
 
+### §260-A — STAGE 2 IS PROVEN, AND THE WHOLE jtbl PIPELINE IS AUTOMATED AT THE GATE (P31 S59, same day)
+
+Three byte-proofs, one per structural class, each carve→draft→bank through
+`tools/jtbl_lane.py` → `gate_stage.run_gate` → `harvest_verify._jtbl_prep_one` with the live
+campaign running (per-binary flock + exclusive shared lock + the campaign's draw lock held across
+gate+commit — gates never overlap):
+
+* **tail** (ov_SC03_014/func_8017DCC0, 45 ins, commit `commit:2661`): the §8b same-subseg ADJACENT
+  MERGE + §8e single-table-predecessor pad recovery, untouched machinery — jr_8017AE2C.o .rodata
+  0x14→0x28 TIGHT, `JTBL_PADS := 0,0 tables=+0x0,+0x14` self-derived, sha `d84b01a2…` green.
+* **covered** (md_SC03_076/func_801F218C, 83 ins, commit `commit:2663`): §260 STAGE 2 — the matched
+  C emits the island table itself; sha `9a165e36…` IDENTICAL to stage 1, jr .rodata 0x14 now
+  COMPILER-EMITTED, md .rodata 0x268. **The first md_* jr function ever banked.** `jtbl_carve`
+  now reports this state as a no-op success instead of the historical refusal.
+* **island-end** (md_SC03_135/func_801E5358, 83 ins, commit `commit:2664`): the FULL split done BY
+  THE GATE on a virgin module — isolate → insert `- [0x268, .rodata, <ov>_jr_<ADDR>]` →
+  re-extract → covered no-op → bank; sha `b901fda5…`, md.o 0x27c→0x268 + jr.o 0x14. ~1.1 s wall
+  (an md module is 34 KB; R40-checked against artifact mtimes before believing it).
+
+**The joins that made it automatic** (each one line to find): `jtbl_carve.island_probe` — the
+READ-ONLY structural classifier (tail / covered / island-end / island-blocked / island-pads /
+main-manual) that `build_wave_atlas` (`--levers jtbl-carve` only) and `jtbl_lane --census` route
+on; `jtbl_carve --island-split` — the one-line §260 insert, refusing non-end-adjacent tables;
+`harvest_verify._ISLAND_WALLS` — the prep branch that runs isolate (body spliced, §61b) →
+split → extract → re-carve on the §154-A refusal. Census over all 245 jtbl members (R32):
+tail 173 / island-end 7 / covered 1 = **181 members, 26,445 ins reachable unattended**;
+main-manual 47 (parked), island-blocked 10 (stack-ordered, convert as peels land), island-pads 6
+(needs §8e pads wired for config/modules.mk — jtbl_carve's mk writers are overlays.mk-only),
+no-jtbl 1 (atlas mislabel). ORDER LAW for the island branch: **isolate FIRST, insert SECOND** —
+jr_inventory's 1:1 owner assertion runs inside the isolation, and the fresh line has no owner
+until the body is real C. Drafter nuance that cost the only iteration: a callee reached via an
+eagerly-filled branch delay slot (`a0=s0` serving the ELSE path) reads like an argument — 
+func_801EF6E4 takes NONE (`extern void f(void)`), and the one-mismatch signature is a redundant
+`move a0,s0` in the jal's own slot. Full design + failure semantics:
+`docs/tool-designs/jtbl-automation-s59.md`.
+
 ## §261 — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)
 
 `match_one --o0` existed for a year and **nothing ever passed it**. `api_draft.match_one()` — the

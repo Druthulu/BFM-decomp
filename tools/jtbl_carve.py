@@ -503,6 +503,186 @@ def jtbl_range(ov, jtbl_hex, labels, region_end_vram, fn=None, sub=None):
     return start, end
 
 
+def _migrated_spans(ov, func):
+    """[(start_off, end_off, n_pad_words)] for each table MIGRATED into FUNC's own `.s`
+    (§154-A: a module's island tables live in the owning stub's `.s`, never in the data asm).
+
+    Word counts come from the dlabel block itself — the only place a migrated table's extent
+    exists (the island has no per-table dlabels anywhere else). A trailing `.word 0x00000000`
+    is counted separately (`n_pad_words`): in the STUB state the `.s` supplies it, but a MATCHED
+    body's cc1 re-emits only the real entries (a single table at section offset 0 gets no
+    `.align 3` pad), so a padded migrated table cannot round-trip byte-identically without the
+    §8e pad machinery — which config/modules.mk does not carry. Callers refuse on pads (R43)."""
+    base = overlay_vram_base(ov)
+    sub = func_subseg(ov, func)
+    p = os.path.join(asm_dir(ov), "nonmatchings", sub, f"{func}.s")
+    if not os.path.exists(p):
+        stale = sorted(glob.glob(os.path.join(asm_dir(ov), "nonmatchings", "*", f"{func}.s")))
+        if not stale:
+            sys.exit(f"jtbl_carve: no .s for {func} anywhere under "
+                     f"{os.path.relpath(asm_dir(ov), REPO)}/nonmatchings/ — cannot derive the "
+                     f"migrated table span; re-extract first")
+        p = stale[0]
+    spans, cur, words = [], None, []
+    for ln in open(p).read().split("\n"):
+        m = re.match(r"\s*dlabel\s+jtbl_([0-9A-Fa-f]{8})", ln)
+        if m:
+            cur, words = int(m.group(1), 16) - base, []
+            continue
+        if cur is None:
+            continue
+        w = re.search(r"\.word\s+(\S+)", ln)
+        if w:
+            words.append(w.group(1))
+            continue
+        if re.search(r"\benddlabel\b", ln):
+            pad = 0
+            while words and words[-1] in ("0x00000000", "0"):
+                words.pop(); pad += 1
+            spans.append((cur, cur + 4 * (len(words) + pad), pad))
+            cur = None
+    return sorted(spans)
+
+
+def island_probe(ov, func):
+    """Classify how FUNC's jump tables become bankable in OV — READ-ONLY, nothing is written.
+
+    Returns (kind, detail). Kinds and the lane that owns each (R43):
+      'tail'           — table(s) in the data tail: the standard §8a carve; harvest_verify's
+                         gate-time `_jtbl_prep_one` handles it (merge / auto-isolate included).
+      'covered'        — §260 island split already in place (piece named for the fn's own
+                         isolated object, extent == the fn's table span): the carve is a no-op.
+      'island-end'     — §154-A leading-island table that is END-ADJACENT (its span abuts the
+                         next config piece): the automated §260 split (jr_isolate_all --only +
+                         `--island-split`) reaches it — harvest_verify does this at gate time.
+      'island-blocked' — an island table with ANOTHER owner's bytes between it and the next
+                         piece. The island is a stack (§260): peel the end-adjacent owner first;
+                         this member becomes 'island-end' after that owner banks.
+      'island-pads'    — the migrated table carries a trailing pad word, or multiple tables
+                         with a 4-mod-8 interior boundary: needs §8e JTBL_PADS, which
+                         config/modules.mk is not wired for. A named wall, not a lane.
+      'main-manual'    — main is parked off the automated path (its gate is a whole-EXE clean
+                         rebuild that bisects); route through tools/gate_main.py by hand.
+      'no-jtbl' / 'mixed' / 'error' — see detail.
+
+    R32 — what this classifier does and does NOT guarantee: it decides the STRUCTURAL class
+    only (which mechanism can reach the table). It does not predict that the carve will
+    succeed — §61b proved same-subseg contiguity is only detectable with the body spliced, so
+    span-fit/table-count-drift refusals still surface at gate time, honestly, as CARVE-REFUSED."""
+    if ov == "main":
+        return ("main-manual",
+                "main jtbl functions are parked: gate = tools/gate_main.py (whole-EXE clean "
+                "rebuild, off the automated lane per the S59 decision); isolation is also "
+                "unported for main (jr_isolate_all reads config/splat.main.yaml, which does "
+                "not exist)")
+    try:
+        sub, js = func_jtbls(ov, func)
+        if not js:
+            return ("no-jtbl", f"{func} references no jtbl_")
+        base = overlay_vram_base(ov)
+        _, _, _, _, tail_start, _, _, _ = parse_config(ov)
+        offs = sorted(int(j, 16) - base for j in js)
+        if all(o >= tail_start for o in offs):
+            return ("tail", "table(s) in the data tail — standard §8a carve at gate time")
+        if any(o >= tail_start for o in offs):
+            return ("mixed", "tables in BOTH the leading island and the data tail — no "
+                             "precedent (R32); refuse rather than half-carve")
+        spans = _migrated_spans(ov, func)
+        if not spans:
+            return ("error", "island table referenced but no migrated dlabel in the fn's .s")
+        if any(p for _, _, p in spans):
+            return ("island-pads", "migrated table carries trailing pad word(s) — a matched "
+                                   "body re-emits only real entries; needs §8e pads for "
+                                   "modules.mk (not wired)")
+        lo, hi = min(s for s, _, _ in spans), max(e for _, e, _ in spans)
+        if sum(e - s for s, e, _ in spans) != hi - lo:
+            return ("island-pads", "the fn's tables are not tight-contiguous in the island")
+        if len(spans) > 1 and any(s % 8 == 4 for s, _, _ in spans[1:]):
+            return ("island-pads", "multi-table span with a 4-mod-8 interior boundary — cc1's "
+                                   ".align 3 would pad where the island is tight (§8e law 5)")
+        # config pieces at/after the span: is the split already there, or is the span end-adjacent?
+        pieces = []
+        for ln in open(cfg_path(ov)):
+            m = PIECE_RE.match(ln)
+            if m:
+                pieces.append((int(m.group(2), 16), m.group(3), m.group(4)))
+        pieces.sort()
+        at_lo = [p for p in pieces if p[0] == lo]
+        nxt = next((p for p in pieces if p[0] > lo), None)
+        if at_lo:
+            off, kind, name = at_lo[0]
+            if kind == ".rodata" and name == sub and nxt and nxt[0] == hi:
+                return ("covered", f"§260 split in place: `- [{hex(lo)}, .rodata, {sub}]`, "
+                                   f"extent {hex(hi - lo)} == the fn's table span")
+            return ("error", f"a piece already sits at {hex(lo)} ({kind}, {name}) but does not "
+                             f"cover the fn's span as its own object — inspect by hand")
+        if nxt is None or nxt[0] != hi:
+            return ("island-blocked",
+                    f"table span {hex(lo)}..{hex(hi)} does not abut the next piece "
+                    f"(at {hex(nxt[0]) if nxt else '?'}) — another owner's island bytes sit "
+                    f"between; §260: the island peels from the END, peel that owner first")
+        return ("island-end",
+                f"span {hex(lo)}..{hex(hi)} abuts the next piece — the §260 split reaches it "
+                f"(jr_isolate_all --only {func}, then --island-split; automated in "
+                f"harvest_verify._jtbl_prep_one)")
+    except SystemExit as e:                     # helpers fail loud; the probe reports, not dies
+        return ("error", str(e)[:300])
+
+
+def island_split(ov, func):
+    """§260: insert the ONE config line that peels FUNC's island table into its own object.
+
+    Preconditions (both checked, both named on refusal — R43):
+      * island_probe says 'island-end' (or 'covered' — then this is an idempotent no-op), and
+      * FUNC already owns an isolated `<ov>_jr_<ADDR>` code subseg (jr_isolate_all --only) —
+        the inserted piece binds by NAME to that object (the §8a dotted-subseg law), and
+        inserting before the isolation would make jr_inventory's carve-ownership check abort
+        UNOWNED on the next isolation in this binary.
+
+    Writes ONLY config/splat.<ov>.yaml (one inserted line). No overlays.mk var (a single-table
+    piece needs none — §8e), no extract (the caller extracts). The island piece at 0x0 is left
+    untouched: its extent shrinks automatically (end = next piece's offset) — the review-proven
+    correction to the `_pre` design (docs/tool-designs/jtbl-island-split-review.md #7)."""
+    kind, detail = island_probe(ov, func)
+    if kind == "covered":
+        print(f"jtbl_carve --island-split {ov} {func}: already split — no-op ({detail})")
+        return
+    if kind != "island-end":
+        sys.exit(f"jtbl_carve --island-split: {ov}/{func} is '{kind}', not 'island-end' — "
+                 f"{detail}")
+    sub = func_subseg(ov, func)
+    want = f"{ov}_jr_{int(func[len('func_'):], 16):08X}"
+    if sub != want:
+        sys.exit(f"jtbl_carve --island-split: {func} still lives in code subseg '{sub}', not its "
+                 f"own '{want}' — run `tools/jr_isolate_all.py {ov} --only {func}` first "
+                 f"(harvest_verify._jtbl_prep_one does this automatically at gate time)")
+    spans = _migrated_spans(ov, func)
+    lo = min(s for s, _, _ in spans)
+    size = sum(e - s for s, e, _ in spans)
+    lines = open(cfg_path(ov)).read().splitlines()
+    ins_at, indent = None, "      "
+    for i, ln in enumerate(lines):
+        m = PIECE_RE.match(ln)
+        if not m:
+            continue
+        off = int(m.group(2), 16)
+        indent = m.group(1)
+        if off < lo:
+            ins_at = i + 1                  # after the last piece that precedes the span
+        elif ins_at is not None:
+            break
+    if ins_at is None:
+        sys.exit(f"jtbl_carve --island-split: no config piece precedes offset {hex(lo)} in "
+                 f"{cfg_path(ov)} — layout not the §154-A island shape")
+    new = f"{indent}- [{hex(lo)}, .rodata, {sub}]   # §154-A island split (jtbl_carve --island-split)"
+    lines.insert(ins_at, new)
+    open(cfg_path(ov), "w").write("\n".join(lines) + "\n")
+    print(f"jtbl_carve --island-split {ov}: inserted `- [{hex(lo)}, .rodata, {sub}]` (§260).")
+    print(f"  object-level discriminator after the build (a green SHA alone cannot tell a split "
+          f"that WORKED from one that did nothing — §260): {sub}.o .rodata sh_size == {hex(size)} "
+          f"and {ov}.o's .rodata shrinks by exactly {hex(size)}.")
+
+
 def parse_config(ov):
     """Parse the flat-overlay config's tail data region.
 
@@ -613,9 +793,9 @@ def build_carve(ov, funcs):
                 sys.exit(
                     f"jtbl_carve: {f}'s jtbl_{jh} at file 0x{isl_off:x} is BELOW {ov}'s data "
                     f"region (starts 0x{tail_start:x}) — it lives in the §154-A leading .rodata "
-                    f"island, which a tail carve cannot reach. That is the island split: insert "
-                    f"one `- [0x{isl_off:x}, .rodata, {ov}_jr_{f.replace('func_', '')}]` piece in "
-                    f"the island region and isolate with jr_isolate_all.py --only "
+                    f"island, which a tail carve cannot reach. That is the island split (§260): "
+                    f"jr_isolate_all.py --only {f}, then `jtbl_carve.py {ov} --island-split "
+                    f"--func {f}` — automated at gate time by harvest_verify._jtbl_prep_one "
                     f"(docs/tool-designs/jtbl-island-split-review.md).")
             s_vram, e_vram = jtbl_range(ov, jh, labels, region_end_vram, fn=f, sub=sub)
             s_off, e_off = s_vram - base, e_vram - base
@@ -827,20 +1007,47 @@ def migrated_tables(ov, funcs):
 def apply(ov, funcs):
     mig = migrated_tables(ov, funcs)
     if mig:
+        # §154-A migrated tables. Two states, byte-distinguished by island_probe:
+        #   * 'covered' — the §260 island split is IN PLACE (the fn is isolated into its own
+        #     `_jr_` object and a same-named `.rodata` piece spans exactly its tables). Then the
+        #     carve is genuinely a NO-OP: stub state migrates the table into the jr object's .s,
+        #     matched state has cc1 emit the same table into the same object at the same offset
+        #     (single table at section offset 0 — `.align 3` pads nothing). Byte-proven on
+        #     md_SC03_076/func_801F218C (sha 9a165e36…, jr .rodata 0x14 / md .rodata 0x268).
+        #   * anything else — the historical refusal below stands. The split IS implemented now
+        #     (island_split + jr_isolate_all --only, automated in harvest_verify._jtbl_prep_one),
+        #     but it must run BEFORE this carve, and only an END-ADJACENT table can take it
+        #     (§260: the island is a stack).
+        if set(mig) != set(funcs):
+            sys.exit(f"jtbl_carve: {ov}: {sorted(set(funcs) - set(mig))} carve from the data "
+                     f"tail while {mig} carry migrated island tables — no precedent for a mixed "
+                     f"batch (R32); carve them in separate invocations")
+        uncovered = {}
+        for f in mig:
+            kind, detail = island_probe(ov, f)
+            if kind != "covered":
+                uncovered[f] = (kind, detail)
+        if not uncovered:
+            for f in mig:
+                print(f"jtbl_carve {ov}: {f} — §260 island split in place; its migrated table "
+                      f"IS its own object's .rodata piece already. Nothing to carve (no-op OK).")
+            return
         sys.exit(
-            f"jtbl_carve: {ov} is a §154-A LEADING-ISLAND binary and {mig} carry MIGRATED tables — "
-            f"this needs an island SPLIT, which is not implemented; a tail carve cannot help (P30 S48, "
+            f"jtbl_carve: {ov} is a §154-A LEADING-ISLAND binary and {sorted(uncovered)} carry "
+            f"MIGRATED tables with no island split in place — a tail carve cannot help (P30 S48, "
             f"byte-measured on md_SC03_076/func_801F0F28).\n"
-            f"  WHY: the module binds `.rodata` at 0x0 to the SAME subseg as its code, so the object's\n"
+            + "".join(f"    {f}: {k} — {d}\n" for f, (k, d) in sorted(uncovered.items()))
+            + f"  WHY: the module binds `.rodata` at 0x0 to the SAME subseg as its code, so the object's\n"
             f"  rodata order is the C file's include chain — INCLUDE_RODATA pieces, then each\n"
             f"  INCLUDE_ASM'd function's migrated table, in address order. That reproduces the island\n"
             f"  exactly WHILE THE FUNCTION IS A STUB. Matching it PRUNES its .s, so its table leaves the\n"
             f"  chain and cc1 re-emits it at the END of the object's .rodata — 8 bytes of growth and\n"
             f"  every later symbol shifted (build 43,768 vs 43,760 bytes; first diff at 0x144, inside\n"
             f"  the island's own pointer table).\n"
-            f"  WHAT WOULD WORK: give the module the overlay treatment — isolate the jr function into\n"
-            f"  its own code subseg so its .rodata is a separate OBJECT, then order the objects with\n"
-            f"  ld_interleave (the §8 machinery, re-aimed at a LEADING island instead of a data tail).\n"
+            f"  WHAT WORKS (§260, byte-proven; AUTOMATED in harvest_verify._jtbl_prep_one): for an\n"
+            f"  END-ADJACENT table, `jr_isolate_all.py {ov} --only <fn>` then\n"
+            f"  `jtbl_carve.py {ov} --island-split --func <fn>`, re-extract, and re-run this carve\n"
+            f"  (it then reports the no-op). A NON-end-adjacent table waits its turn on the stack.\n"
             f"  JTBL_PADS alone does NOT reach it: `jtbl_rodata_pads` refuses this object outright — "
             f"  'unexpected rodata content .include \"…/D_801EF468.s\"' — because the carve model covers\n"
             f"  jump tables only, not an island of mixed included data.")
@@ -972,6 +1179,14 @@ def main():
     ap.add_argument("ov")
     ap.add_argument("--func", action="append", default=[], help="matched jr-function to carve (repeatable)")
     ap.add_argument("--revert", action="store_true", help="restore config from git + drop the var")
+    ap.add_argument("--island-split", action="store_true",
+                    help="§260: insert the one-line .rodata piece that peels --func's END-ADJACENT "
+                         "leading-island table into its own (already-isolated) _jr_ object. "
+                         "Idempotent; refuses non-end-adjacent tables (the island is a stack).")
+    ap.add_argument("--probe", action="store_true",
+                    help="READ-ONLY: classify how --func's tables become bankable "
+                         "(tail / covered / island-end / island-blocked / island-pads / …) and exit 0. "
+                         "The classifier build_wave_atlas and jtbl_lane use.")
     ap.add_argument("--like", metavar="OV",
                     help="§8e sibling sweep: transfer span table-structure (tables= rel offsets) "
                          "from this exemplar overlay's committed JTBL_PADS lines, role-matched by "
@@ -987,6 +1202,15 @@ def main():
         SPAN_TABLES_OVERRIDE[sub] = {int(x, 16) for x in addrs.split(",")}
     if a.revert:
         revert(a.ov)
+    elif a.probe:
+        if len(a.func) != 1:
+            ap.error("--probe takes exactly one --func")
+        kind, detail = island_probe(a.ov, a.func[0])
+        print(f"jtbl_carve --probe {a.ov} {a.func[0]}: {kind} — {detail}")
+    elif a.island_split:
+        if len(a.func) != 1:
+            ap.error("--island-split takes exactly one --func")
+        island_split(a.ov, a.func[0])
     elif a.func:
         apply(a.ov, a.func)
     else:

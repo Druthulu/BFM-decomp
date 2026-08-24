@@ -297,6 +297,32 @@ def _o0_unbankable(spath):
 
 _O0_UNREADABLE = []
 
+_JT_MOD = None
+
+
+def _jtbl_class(binary, fn):
+    """None if the gate-time jtbl prep can structurally reach this member's table; else the skip
+    class (P31 S59, R43). Inert unless 'jtbl-carve' is in --levers — the default lane never pays
+    for the probe.
+
+    The classifier is jtbl_carve.island_probe (one implementation, R33): 'tail' (standard §8a
+    gate-time carve), 'covered' and 'island-end' (the §260 md island split, automated in
+    harvest_verify._jtbl_prep_one) are bankable-by-construction; 'island-blocked' waits its turn
+    on the island stack, 'island-pads' needs §8e pads for modules.mk, 'main-manual' is parked on
+    tools/gate_main.py's cadence. Drawing an unreachable member costs a whole draft cascade to
+    prove a CARVE-REFUSED that the probe knew statically."""
+    global _JT_MOD
+    if _JT_MOD is None:
+        import jtbl_carve as _JT_MOD  # noqa: PLW0603
+    try:
+        kind, _detail = _JT_MOD.island_probe(binary, fn)
+    except SystemExit:
+        return 'probe-refused'
+    except Exception:
+        return 'probe-error'
+    return None if kind in ('tail', 'covered', 'island-end') else kind
+
+
 cands, skipped = [], collections.Counter()
 for g in atlas['groups']:
     if g['lever'] not in levers:
@@ -324,6 +350,9 @@ for g in atlas['groups']:
         # not one of them could ever have banked. That is a standing per-wave tax on agent time,
         # invisible because each draft failed for what looked like an ordinary reason.
         if _o0_unbankable(sub):                  skipped['o0-in-an-O2-object'] += 1; continue
+        if g['lever'] == 'jtbl-carve':
+            _v = _jtbl_class(b, fn)
+            if _v is not None:                   skipped['jtbl-' + _v] += 1; continue
         cands.append({
             'tu': home_tu(b, fn),
             'fn': fn, 'binary': b, 'lane': 'mass', 'model': model_for(nins), 'nins': nins,
@@ -369,6 +398,26 @@ for g in atlas['groups']:
             # the destination TU's own spelling is marked authoritative (wave law 2) when present.
             'decl_prior': DP.for_asm(sub, home_tu(b, fn), idx=_DPIDX, binary=b),
         })
+
+# AT MOST ONE JTBL CARD PER BINARY PER WAVE (P31 S59). The gate's per-draft carve/undo is
+# byte-proven for ONE table-bearing draft per harvest_verify invocation (§61c/§62: a second one
+# in the same batch repartitions shared source under the first one's snapshot — the batch case
+# was never re-proven after the S22 fixes). Keeping it unreachable by construction costs one
+# deferred card, which --retry-unbanked returns to the pool next wave.
+if any(c['lever'] == 'jtbl-carve' for c in cands):
+    _jt_keep = {}
+    for c in cands:
+        if c['lever'] != 'jtbl-carve':
+            continue
+        cur = _jt_keep.get(c['binary'])
+        if cur is None or (c['nins'], c['fn']) > (cur['nins'], cur['fn']):
+            _jt_keep[c['binary']] = c
+    _n0 = len(cands)
+    cands = [c for c in cands if c['lever'] != 'jtbl-carve' or _jt_keep[c['binary']] is c]
+    if _n0 != len(cands):
+        skipped['jtbl-one-per-binary'] += _n0 - len(cands)
+        print(f'jtbl: {_n0 - len(cands)} same-binary jtbl card(s) deferred '
+              f'(one table-bearing draft per gate invocation — §61c)', file=sys.stderr)
 
 # principle 4 (P31 S54): ONE CARD PER ATLAS GROUP. Same-gid members are the SAME skeleton in
 # different overlays; the deterministic remap (family_sweep --hseq) banks the siblings behind a

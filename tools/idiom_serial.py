@@ -167,6 +167,18 @@ def main():
                     help="include md_* members (jtbl_carve refuses leading-island modules — off by default)")
     a = ap.parse_args()
 
+    # R43 (P31 S59): jtbl-carve moved to tools/jtbl_lane.py. This lane's prepare() carves the
+    # UNSPLICED function — the §61b-refuted order (the same-subseg non-contiguity is only
+    # detectable with the body in the object, so the pre-carve "succeeds" with a spec that fails
+    # when the body lands) — and it cannot auto-isolate (the S58 ledger: 8 attempts, 0 banks).
+    # jtbl_lane defers the carve to harvest_verify's gate-time prep and probes feasibility
+    # read-only instead. Refuse rather than mishandle.
+    if a.lever == "jtbl-carve":
+        sys.exit("idiom_serial: the jtbl-carve lever is handled by tools/jtbl_lane.py (P31 S59) —"
+                 " this lane's pre-draft carve runs the §61b-refuted order and cannot isolate.\n"
+                 "  tools/jtbl_lane.py --census        # ranked work-list\n"
+                 "  tools/jtbl_lane.py --n 6           # serial carve→draft→bank")
+
     targets = pick_targets(a.lever, a.n, a.min_ins, a.allow_md)
     if not targets:
         sys.exit(f"no {a.lever} targets at >={a.min_ins} ins (allow_md={a.allow_md})")
