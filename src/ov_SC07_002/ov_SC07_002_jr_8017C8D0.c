@@ -4040,13 +4040,57 @@ void func_80180CAC(void) {
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80180CCC);
 
-extern s32 func_80180DAC(void);
+extern s32 func_80180DAC();
     void func_80180D8C(void) {
         func_80180DAC();
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80180DAC);
+typedef struct { s16 m0, m1, m2, m3; } Pos;
+
+extern s16 D_80126940[4];
+extern void func_80180F7C(s32 a0, void *a1);
+
+s32 func_80180DAC(s32 a0)
+{
+    Pos cur;
+    Pos target;
+    s32 ret;
+    s32 dist;
+    s16 clamped;
+    register s16 ang __asm__("$5");
+    register s32 sc __asm__("$2");
+
+    cur = *(Pos *) D_80126940;
+    ret = func_8012E544(0x306);
+    if (ret != 0) {
+        func_80015978(ret + 4, (s32 *) &target);
+        if (cur.m1 > -0x200) {
+            cur.m1 = -0x200;
+        }
+        func_80015978(ret + 4, (s32 *) &target);
+        target.m1 = cur.m1;
+        dist = func_80013294(&cur, &target) - 0x80;
+        clamped = dist;
+        if (clamped < 0) {
+            clamped = 0;
+        }
+        if (clamped > 0x380) {
+            clamped = 0x380;
+        }
+        ang = ((clamped * 111) / 896) - 0x70;
+        *(s16 *) (a0 + 0x30) = ang;
+        sc = ((clamped * 1000) / 896) + 0x190;
+        *(s32 *) (a0 + 0x14) = (s16) sc;
+    } else {
+        target = *(Pos *) D_80126940;
+    }
+
+    cur.m0 = (cur.m0 + target.m0) / 2;
+    cur.m2 = (cur.m2 + target.m2) / 2;
+    func_80180F7C(a0, &cur);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80180F7C);
 
@@ -4225,7 +4269,63 @@ void func_80181CBC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80181CF0);
+#include "common.h"
+
+extern s32 func_8004787C(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_801829F0(s32 *a0);
+
+void func_80181CF0(void *a0)
+{
+    s32 s0 = (s32)a0;
+    s32 v;
+    s32 p;
+    s32 q;
+
+    switch (*(u16 *)(s0 + 0x34)) {
+    case 0:
+        *(u16 *)(s0 + 0x100) = *(u16 *)(s0 + 0x100) + 0x40;
+        if (0x80 < *(s32 *)(s0 + 0xE0)) {
+            *(s32 *)(s0 + 0xE0) = *(s32 *)(s0 + 0xE0) - 0x10;
+        }
+        if (0x300 < *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18)) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) =
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) - 0x40;
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1A) =
+                *(u16 *)(*(s32 *)(s0 + 0x20) + 0x18);
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1C) =
+                *(u16 *)(*(s32 *)(s0 + 0x20) + 0x18);
+        }
+        if (0x1800 < *(s16 *)(s0 + 0x100)) {
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        }
+        break;
+    case 1:
+        *(u16 *)(s0 + 0x100) = *(u16 *)(s0 + 0x100) + 0x80;
+        *(s32 *)(s0 + 0xE0) = *(s32 *)(s0 + 0xE0) - 4;
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) =
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) - 0x10;
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1A) =
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x18);
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1C) =
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x18);
+        if (*(s32 *)(s0 + 0xE0) > 0) {
+            break;
+        }
+        func_8012C218((void *)s0);
+        return;
+    }
+    v = *(u16 *)(s0 + 0x104) + 0x30;
+    *(u16 *)(s0 + 0x104) = v;
+    v = func_8004787C((s16)v);
+    *(u16 *)(s0 + 0x102) = v >> 4;
+    func_801829F0((s32 *)s0);
+    p = *(s32 *)(s0 + 0x20);
+    *(u16 *)(p + 0x10) = *(u16 *)(p + 0x10) + *(u16 *)(s0 + 0x106);
+    q = *(s32 *)(s0 + 0x20);
+    *(u16 *)(q + 0x14) = *(u16 *)(q + 0x14) + *(u16 *)(s0 + 0x108);
+}
+
 
 
 extern void (*D_8018A428[])(void);
@@ -4388,7 +4488,12 @@ void func_80182270(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8018241C);
+void func_8018241C(void *a0) {
+    s16 v = (s16)(*(u16 *)((s32)a0 + 0xE8) + 0x30);
+    *(u16 *)((s32)a0 + 0xE8) = v;
+    *(u16 *)((s32)a0 + 0x52) = func_8004787C(v) >> 8;
+}
+
 
 void func_80182464(void *a0) {
         s32 v0 = *(u16 *)((s32)a0 + 0xA);

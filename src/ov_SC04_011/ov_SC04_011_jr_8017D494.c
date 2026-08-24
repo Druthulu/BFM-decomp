@@ -7610,7 +7610,40 @@ void func_80186908(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80186940);
+#include "common.h"
+
+extern u16 D_801EFD40;
+extern s32 D_801EFC48;
+extern s32 D_801EFD24;
+extern s32 D_801EFD28;
+extern s16 func_80186A20(s32 a0, s32 a1);
+extern void func_80186A68(void);
+extern void func_8016AA50(s32 param_1, s32 param_2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_80186940(void *a0, s32 a1, s32 a2) {
+    s16 ret;
+    s16 a2s;
+    s32 msg;
+
+    a2s = a2;
+    D_801EFD40 |= 0x80;
+    ret = func_80186A20(D_801EFC48, (s16)a1);
+    *(u16 *)(D_801EFC48 + 0x60) = *(u16 *)(D_801EFC48 + 0x60) + ret;
+    if (a2s != 0) {
+        func_8016AA50((s32)a0, ret);
+    }
+    *(u16 *)&D_801EFD24 = 8;
+    if (ret != 0) {
+        func_80186A68();
+        msg = 0xBA9;
+        if (*(u16 *)&D_801EFD28 - *(s16 *)(D_801EFC48 + 0x60) > 0) {
+            msg = 0x906;
+        }
+        func_8002D4C8(msg, 0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80186A20);
 

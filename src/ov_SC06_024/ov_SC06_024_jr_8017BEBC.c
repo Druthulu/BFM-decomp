@@ -3838,7 +3838,39 @@ void func_80180AA8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80180B5C);
+#include "common.h"
+
+extern s32 func_80047948(s32 a0);
+extern s32 D_80126B60;
+
+s32 func_80180B5C(s32 arg0)
+{
+    u16 v1 = *(u16 *)((s32)arg0 + 0x34);
+
+    switch (v1) {
+    case 0: {
+        u16 t = *(u16 *)((s32)arg0 + 0xFC);
+        t = t + 0x40;
+        *(u16 *)((s32)arg0 + 0xFC) = t;
+        if ((s16)t >= 0x400) {
+            *(u16 *)((s32)arg0 + 0x34) = *(u16 *)((s32)arg0 + 0x34) + 1;
+        }
+        *(s32 *)((s32)arg0 + 0x8) =
+            *(s32 *)((s32)arg0 + 0x8) -
+            ((0x1000 - func_80047948(*(s16 *)((s32)arg0 + 0xFC))) << 7);
+        break;
+    }
+    case 1:
+        if (D_80126B60 != *(s32 *)((s32)arg0 + 0xDC)) {
+            *(u16 *)((s32)arg0 + 0xA) = *(u16 *)((s32)arg0 + 0xA) - 8;
+        }
+        break;
+    }
+
+    *(s32 *)((s32)arg0 + 0xDC) = D_80126B60;
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80180C34);
 

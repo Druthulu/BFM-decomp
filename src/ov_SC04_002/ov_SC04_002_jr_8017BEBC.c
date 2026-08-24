@@ -7224,7 +7224,32 @@ s32 func_801826E8(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80182808);
+extern s32 func_80132E6C(s16 *a0);
+extern s32 func_8012B864(s32 a0);
+
+s32 func_80182808(s32 a0) {
+    s32 t;
+    s16 r;
+    s16 sd;
+
+    if (func_80132E6C((s16 *)a0) > 0x23FFF) {
+        return 0;
+    }
+    t = func_8012B864(a0);
+    r = t;
+    sd = t - (*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+    if (sd < 0) {
+        sd = -sd;
+    }
+    if (sd < 0x180) {
+        if ((t << 16) == 0) {
+            r = t + 1;
+        }
+        return r;
+    }
+    return 0;
+}
+
 
 extern s32 func_8012C588(s32 a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -7591,7 +7616,44 @@ void func_80183008(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_801830EC);
+#include "common.h"
+
+extern s32 func_80182564(s32 a0, s32 a1, s32 *a2);
+extern void func_8012ADE4(u8 *a0);
+extern void func_8012A8B0(u8 *a0, s32 a1);
+extern void func_8012B23C(s32 a0);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 D_801A86E4;
+extern s32 func_80182808(s32 a0);
+extern void func_80181CE8(void *arg0, s16 a1);
+extern void func_80182BA4(s32 a0, s32 a1);
+
+void func_801830EC(s32 param_1) {
+    s32 out;
+
+    if (func_80182564(param_1, 0xFFFB0000, &out) == 1) {
+        func_8012ADE4((u8 *)param_1);
+        *(s32 *)(param_1 + 0x1C) = 8;
+        func_8012A8B0((u8 *)param_1, (s32)&D_801A86E4);
+        func_8012B23C(param_1);
+        func_8012AD44((s32 *)param_1, 1);
+    } else if (func_8012BEE8(param_1) != 0) {
+        *(s32 *)(param_1 + 0x1C) = 8;
+        func_8012A8B0((u8 *)param_1, (s32)&D_801A86E4);
+        func_8012B23C(param_1);
+        func_8012AD44((s32 *)param_1, 1);
+    } else {
+        if ((*(u16 *)(param_1 + 0x86) & 1) == 0) {
+            s16 r = func_80182808(param_1);
+            if (r != 0) {
+                func_80181CE8((void *)param_1, r);
+            }
+        }
+    }
+    func_80182BA4(param_1, 1);
+}
+
 
 #include "common.h"
 

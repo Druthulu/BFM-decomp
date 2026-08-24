@@ -7387,7 +7387,22 @@ void func_8018A0E4(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018A174);
+void func_8018A174(s32 arg0) {
+    u8 *ptr;
+    s32 i;
+    s16 val;
+
+    i = 0;
+    val = 0x4000;
+    do {
+        ptr = func_8018A30C(arg0, i);
+        if (ptr != NULL) {
+            *(s16 *) (ptr + 0x34) = val;
+        }
+        i++;
+    } while (i < 4);
+}
+
 
 #include "common.h"
 

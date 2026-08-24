@@ -5421,7 +5421,63 @@ INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_8017FB4
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_8017FBA0);
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_8017FC6C);
+#include "common.h"
+
+typedef struct { s16 a, b, c, d; } SV4_FC6C;
+
+extern s32 *D_80126B78;
+extern u8 D_8018BE48[];
+extern u8 D_8018BE50[];
+extern void RotTransSV(void *a0, void *a1, void *a2);
+
+#define SRM_FC6C(r0) __asm__ volatile (              \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define STM_FC6C(r0) __asm__ volatile (              \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+extern u8 *func_8017FD6C(s32 a0, s32 a1, s32 a2);
+
+void func_8017FC6C(s32 s2)
+{
+    SV4_FC6C sv0;   /* sp+0x10 */
+    SV4_FC6C sv1;   /* sp+0x18 */
+    s32 flag;       /* sp+0x20 */
+
+    SRM_FC6C(*(s32 *)((char *)s2 + 0x20) + 0x34);
+    STM_FC6C(*(s32 *)((char *)s2 + 0x20) + 0x34);
+
+    RotTransSV((void *)D_8018BE48, &sv0, &flag);
+    RotTransSV((void *)D_8018BE50, &sv1, &flag);
+
+    func_8017FD6C(*(s16 *)(*(s32 *)((char *)s2 + 0x20) + 0x12), (s32)&sv0, *(s16 *)((char *)s2 + 0xDC));
+    func_8017FD6C(*(s16 *)(*(s32 *)((char *)s2 + 0x20) + 0x12), (s32)&sv1, *(s16 *)((char *)s2 + 0xDC));
+
+    *(u16 *)((char *)s2 + 0xDC) = *(u16 *)((char *)s2 + 0xDC) + 1;
+    if ((s16)*(u16 *)((char *)s2 + 0xDC) >= 3) {
+        *(u16 *)((char *)s2 + 0xDC) = 2;
+    }
+}
+
 
 extern u32 D_8018BD88[];
 extern u8 *func_801290DC(s32 a0, u8 *a1);
