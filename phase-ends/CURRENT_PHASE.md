@@ -484,6 +484,113 @@ other 287 / 6,130. Clean-run pace ~400 banked/hour; today's actual was 1,790 in 
 
 ---
 
+## 🛑 S58 HANDOFF — THE THREE OPEN TOOLING LANES (jtbl · o0/cc1 · tells)
+
+Written 2026-08-24 with full session context. Each lane below has a STUDY on disk, a VERDICT, and
+a named next action. **Read the linked doc before touching the tool** — both studies contain claims
+that were checked and refuted, and re-deriving them costs hours.
+
+---
+
+### LANE 4 — jtbl island split · `docs/tool-designs/jtbl-island-split{,-review}.md`
+
+**Population** (atlas): 177 groups / 245 instances / **36,685 ins**. By binary class:
+ov 169 · main 47 · md 24 · resident 5. **150 of 177 groups are SINGLETONS** — only 26
+multi-member non-md groups exist (6,294 ins), so there is very little family leverage to amortise
+the tooling. Judge the investment against that, not against 36,685.
+
+**Verdict: GO-WITH-CHANGES.** Fable's adversarial review = 14 CONFIRMED / 8 WRONG / 1 UNVERIFIABLE.
+**The correct implementation is SMALLER than the ox design proposed:**
+
+* **DO NOT create a `_pre` piece.** A dotted `.rodata` named `md_SC03_076_pre` has no sibling `.c`,
+  so splat points the ld at a never-built "implied C file" object; the rename also unbinds the
+  island from `md_SC03_076.c`, breaking the other five stub tables' migration and both
+  INCLUDE_RODATA blobs.
+* **DO NOT touch `ld_interleave`.** Verified against the real generated
+  `build/md_SC03_076/md_SC03_076.ld` + splat's `LinkerWriter`: the native script is **already
+  rodata-first in yaml order**. No leading mode, no make variable.
+* **KEEP** `- [0x0, .rodata, md_SC03_076]` untouched. The whole "split" is **ONE INSERTED LINE**:
+  `- [0x268, .rodata, md_SC03_076_jr_801F218C]`.
+* **Isolate with `jr_isolate_all.py --only`, NOT `jr_isolate.py`.** The latter's backend
+  (`split_src_region.py:109-111`) provably `sys.exit`s on `md_SC03_076.c`'s top-level extern
+  block. `jtbl_family_bank.py:183` already uses the right one.
+
+**BEFORE any of that — harden `parse_config`.** On md_*/main it does not implement its own
+documented contract and can **DELETE the `c` config line, corrupting the yaml on disk** before it
+errors out. `tools/jtbl_carve.py::cfg_path` now HARD-REFUSES md_*/main for this reason (S58); lift
+that refusal only once parse_config is fixed and proven on two examples.
+
+**main additionally needs:** a file-base of 0x8000F800 (not the yaml's 0x80010000 — `payload_word`
+silently reads 0x800 early), and there is no `config/splat.main.yaml` at all (it is
+`splat.us.exe.yaml`), which was the original FileNotFoundError.
+
+**Known real defects in the existing tools** (from the study, worth fixing while in there): the
+`migrated_tables` "same address by construction" premise is refuted by `apply()`'s own measurement;
+the hardcoded 0x80100000–0x801D0000 vram window is vacuous for md_* text at 0x801EF468+ AND for
+main, and for md the clamp's safety guard inverts into silent entry-dropping; the `--order`
+docstring overstates what that branch does.
+
+**NEGATIVE CONTROL — do not trust the one in the ox study.** It cites func_801F218C @ md_SC03_076
+going 43,760 → 43,760 vs a diseased 43,768 (+8, first diff 0x144). Fable found that +8/0x144
+baseline was **measured on func_801F0F28 and misattributed**. Build a fresh control. The
+object-level `.rodata sh_size 0x14` discriminator is sound; the whole-binary SHA gate is the arbiter.
+
+**Also missed by the design:** a per-target migration-re-homing precheck (func_801F218C is safe by
+census), and the **pre-object contiguity wall** — only island-end-adjacent tables carve cheaply;
+func_801F0F28 itself needs cascading isolation. Pipeline integration goes through
+`jtbl_family_bank`.
+
+---
+
+### LANE 3 — the -O0 and cc1 lanes · `docs/tool-designs/o0-cc1-lanes.md`
+
+**Populations** (atlas): o0-lane 31 groups / 69 instances / **6,564 ins** · cc1 14 groups / 105
+instances / **6,511 ins**. Small. A defensible outcome is "not worth building" — say so with
+evidence rather than building a lane that cannot bank.
+
+**Status: the study is HALF REFUTED and the header of that doc records which half.**
+
+| claim | verdict |
+|---|---|
+| `func_801F0A9C` @ md_SC03_076 has no frame pointer, so the atlas `o0-lane` tag is WRONG for it | **CONFIRMED** — zero `$fp` under `asm/md_SC03_076/` |
+| md_MAIN_003 (~16 fns) and md_MAIN_011 (~20 fns) are the un-routed -O0 population | **WRONG** — zero `$fp` in *either* module |
+
+**`$fp` occurs in 311 files across `asm/`** — that is the population an -O0 lane would really
+target, and nobody has looked at it. Start there.
+
+**Detection law (byte-proven, cookbook §6/§18):** gcc-2.7.2 at -O0 keeps a frame pointer;
+`addu $fp,$sp,$zero` = bytes `21F0A003`. -O2 omits it.
+
+**Already-routed -O0 machinery — do not rebuild it:** `boot` is handled at `Makefile:697`
+(`build/src/boot.o: CC1FLAGS := …-O0`); overlay clusters are covered by the Makefile globs
+`WHALE_O0B_OBJS` (`src/ov_*/ov_*_o0?.c`) and `O0_CLUSTER_OBJS` (`*_o0.c`); `tools/rollout_o0.py`
+and `tools/o0_subsplit.py` exist.
+
+**THE LOAD-BEARING QUESTION FOR BOTH, STILL UNANSWERED:** *can the existing gate path bank these
+functions unchanged?* A lane that drafts functions the gate cannot accept produces verified drafts
+that never bank — that trap has already cost this project two sessions (S57's jtbl pair; wave ab's
+105 main cards banking 0/105). Answer this BEFORE drafting a single card.
+
+---
+
+### LANE 1 (half done) — tells: REMOVED from drafting, destination UNKNOWN
+
+`extend-tell` / `swaprepeat-tell` / `s16-div-tell` = 1,040 member functions / **86,602 ins**.
+Removed from the drafting rotation in `tools/lanes/drafter.sh` on measured evidence — four waves:
+`as` 5/9 gated of 57 drafts · `aw` 6/12 of 60 · `az` 4/10 of 55 · `bd` 3/9 of 56, because **~80% of
+tells drafts name symbols the target `.s` never references** (vs the default lane's 74-84% clean).
+
+**DO NOT assume `aprop_autodraft` is the answer.** I asserted that three times from the failure
+signature alone; checked, its input population overlaps the 1,040 tells members by **44 (4.2%)**.
+
+**The one live hypothesis, untested:** cookbook **§235 (the phantom symbol)** — `match_one` masks
+relocations, so a draft naming a nonexistent symbol scores a clean MATCH with **no instruction diff
+at all**; the cure is the `extern u16 SYM[]; SYM[1]` spelling for `%hi(SYM+K)`. That is exactly the
+tells failure signature. **Cheap test:** draw one tells wave with §235 in the brief and compare the
+`MISMATCH?` rate against the 80% baseline before writing the lane off.
+
+---
+
 ## RULES ADDED IN S58 — **ACCEPTED BY DREW 2026-08-23, BINDING FROM NOW**
 
 | Rule | Reason |
