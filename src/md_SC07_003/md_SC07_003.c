@@ -2816,7 +2816,36 @@ void func_801A5F18(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A5F6C);
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern s32 rand(void);
+
+void func_801A5F6C(s32 a0) {
+    s32 v0;
+    s32 v1;
+    s32 p64;
+    u16 tmp;
+
+    v0 = func_8012C1B8();
+    *(s32 *)(a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+    func_8001C214(v0, 0);
+
+    *(s32 *)(a0 + 0xE0) = rand() % 64 + 0x20;
+
+    *(s32 *)(a0 + 0xE8) = rand() % 5 + 4;
+    *(s32 *)(a0 + 0x48) = 0xC000;
+
+    p64 = *(s32 *)(a0 + 0x64);
+    tmp = *(u16 *)(p64 + 0x36);
+    *(u16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
+    *(u16 *)(a0 + 0x10A) = tmp;
+}
+
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
