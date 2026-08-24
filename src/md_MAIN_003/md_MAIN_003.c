@@ -755,7 +755,7 @@ s32 func_800D2CA8(s32 a0, s32 a1) {
 }
 
 
-extern u32 func_800D3020(void);
+extern u32 func_800D3020();
 extern s32 func_800D30B8(void);
 
 s32 func_800D2CE4(s32 *a0) {
@@ -811,7 +811,7 @@ extern s32 *D_800DB674;
 extern s32 *D_800DB650;
 extern s32 *D_800DB648;
 extern s32 *D_800DB64C;
-extern u32 func_800D3020(void);
+extern u32 func_800D3020();
 
 void func_800D2EF8(s32 a0, s32 a1) {
     s32 s1;
@@ -830,7 +830,21 @@ void func_800D2EF8(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D2F88);
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D3020);
+extern s32 *D_800DB650;
+extern void func_800D30D0(char *a0);
+
+u32 func_800D3020(void)
+{
+    volatile int count = 0x100000;
+    while (*(*(u32 * *)&D_800DB650) & 0x1000000) {
+        if (--count == -1) {
+            func_800D30D0("MDEC_out_sync");
+            return -1;
+        }
+    }
+    return 0;
+}
+
 
 extern s32 *D_800DB670;
 s32 func_800D30B8(void) {

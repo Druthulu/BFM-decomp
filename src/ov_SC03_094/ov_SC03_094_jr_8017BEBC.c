@@ -7629,7 +7629,23 @@ void func_80184D3C(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80184D6C);
+void func_80184D6C(void *a0) {
+    extern void func_8012B23C(void *a0);
+    s32 counter = *(s32 *)((s32)a0 + 0x1C);
+    s32 y;
+    if (counter == 0) {
+        *(u16 *)((s32)a0 + 0xA) -= 4;
+        y = *(u16 *)((s32)a0 + 0xFE) - 1;
+        *(u16 *)((s32)a0 + 0xFE) = y;
+        if ((y << 0x10) == 0) {
+            func_8012B23C(a0);
+            *(u16 *)((s32)a0 + 0x2) = 1;
+        }
+    } else {
+        *(s32 *)((s32)a0 + 0x1C) = counter - 1;
+    }
+}
+
 
 
 

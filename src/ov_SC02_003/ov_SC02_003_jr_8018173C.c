@@ -3250,7 +3250,17 @@ void func_80183018(u8 *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80183098);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_8018316C);
+extern s32 D_80126984;
+extern s32 D_80126990;
+void func_8018316C(void)
+{
+  if (1000 < D_80126984) {
+    D_80126984 -= 0x14;
+    D_80126990 -= 0x14;
+  }
+  return;
+}
+
 
 DEFINE_func_801831A8()  /* dedup: shared engine-core @0x801831A8 (src/shared) */
 
@@ -4920,7 +4930,36 @@ void func_80189340(s32 p)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80189750);
+void func_80189750(s32 param_1)
+{
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 func_80189888(void);
+    extern void func_80188F30(void *a0);
+    extern u8 D_801A629C;
+    extern s16 D_801965CC;
+    register s32 p0 __asm__("$16");
+    register s32 iVar1 __asm__("$17");
+    register s32 t __asm__("$2");
+
+    p0 = param_1;
+    t = ((s32 (*)(void))func_8012C1B8)();
+    iVar1 = t;
+    *(s32 *)(p0 + 0x20) = t;
+    if (t == 0 || func_80189888() != 0) {
+        func_8012CAE4(p0);
+        return;
+    }
+
+    func_8001C214(iVar1, (s32)&D_801965CC);
+    func_8012A828(p0, &D_801A629C);
+
+    *(s32 *)(*(s32 *)(p0 + 0x20) + 4) |= 0x80000000;
+    func_80188F30(p0);
+}
+
 
 extern s16 D_800B9A0E;
 extern s32 D_801E8778;
