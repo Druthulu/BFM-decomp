@@ -51,16 +51,26 @@
 # cards for a 2,000-worker fleet (0.45% utilisation) because that band has 37 groups total and
 # most are banked. One targeted 120-2000 slot is kept so large functions still get drawn
 # deliberately; the rest draw from everything.
+# CREDIT STOP, 2026-08-24 ~14:15 (P31 S59). The paid deepseek lane was burning the OpenRouter
+# balance at ~$1.43/h over the last three waves ($4.56 -> $2.56 between 11:54 and 13:18) and the
+# balance was ~23 minutes from `--credit-floor 2.0`, which does not pause the paid lane — it BREAKS
+# the whole drafting loop, and the shell then restarts a python that breaks again. ox-alpha is free
+# for the rest of this window, so drafting continues on ox alone at zero burn; the floor drops to
+# 0.25 because with a free model the balance is no longer a proxy for "can we draft".
+#
+# TO RESTORE the second provider pool after a top-up: put the deepseek lane back in --models and
+# raise --credit-floor to 2.0. Its value is a pool with an independent 429 ceiling (it has never
+# returned one), not throughput: it was 280 of 2,000 workers.
 set -u
 cd /home/musashi/bfm-decomp
 export MAX_429=10
 while [ ! -e .run/ox_campaign.stop ]; do
   .venv/bin/python tools/ox_campaign.py --drafter \
       --workers 2000 \
-      --models 'stealth/ox-alpha:1720,deepseek/deepseek-v4-flash-0731:280:REASON_EFFORT=high' \
+      --models 'stealth/ox-alpha:2000' \
       --lanes 'default:,tells:extend-tell;swaprepeat-tell;s16-div-tell,default:,default:' \
       --bands '5-2000,5-80,5-2000,120-2000' \
-      --cards-per-wave 3000 --queue-depth 2 2>&1
+      --cards-per-wave 3000 --queue-depth 2 --credit-floor 0.25 2>&1
   echo "[$(date +%H:%M:%S)] [drafter] exited; restarting in 20s"
   sleep 20
 done
