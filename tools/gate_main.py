@@ -590,6 +590,31 @@ def main():
         fcntl.flock(_lock, fcntl.LOCK_EX)
     _lock.write(f"{os.getpid()}\n"); _lock.flush()
 
+    # REVERT MY OWN SUBSTITUTION IF I DIE. gate_main writes unverified draft bodies into main's
+    # sources and only reverts them on paths it reaches deliberately. Killed mid-run — timeout,
+    # Ctrl-C, a supervisor's kill — the substitution simply stays in src/, and the next lane's
+    # R42 auto-commit ("commit a dirty tree rather than revert it") ADOPTS it as if it were banked
+    # work. That is not hypothetical: P31 S58 committed 10 ungated bodies into src/800.c and
+    # src/800c.c that way, main built to the wrong SHA for NINE HOURS, and R22 quietly ran 212/213
+    # the whole time. R42 is right for a per-binary gate that leaves PROVEN banks uncommitted; it
+    # is wrong for this tool, whose output is unverified by construction until the SHA matches.
+    import atexit, signal as _signal
+    _banked_ok = {'done': False}
+
+    def _revert_if_unbanked():
+        if _banked_ok['done']:
+            return
+        dirty = subprocess.run("git status --porcelain -- src/", shell=True,
+                               capture_output=True, text=True).stdout.strip()
+        if dirty:
+            print("gate_main: aborting with an UNVERIFIED substitution in src/ — reverting it "
+                  "(it never passed the byte-gate, so no bank is lost).", flush=True)
+            subprocess.run("git checkout -- src/", shell=True)
+
+    atexit.register(_revert_if_unbanked)
+    for _sig in (_signal.SIGTERM, _signal.SIGINT, _signal.SIGHUP):
+        _signal.signal(_sig, lambda *_a: sys.exit(130))
+
     slate = json.load(open(a.slate))
     kept, dropped = resolve_conflicts(slate)
     print(f"slate {len(slate)} -> {len(kept)} compatible, {len(dropped)} dropped for in-TU decl conflict")
@@ -606,6 +631,7 @@ def main():
     ok, got, r = try_batch(kept)
     if ok:
         print(f"\nBANKED {len(kept)} main functions -- {got} BYTE-IDENTICAL")
+        _banked_ok['done'] = True
         json.dump([e['fn'] for e in kept], open('.run/gate_main_banked.json', 'w'))
         return
     # A COMPILE error names its own culprit -- read it instead of bisecting. Bisection here costs
@@ -701,6 +727,7 @@ def main():
             stack.append(chunk[mid:])
             stack.append(chunk[:mid])
     ok, got, _ = try_batch(good)
+    _banked_ok['done'] = True
     print(f"\nBANKED {len(good)} of {len(kept)} after bisection in {steps} rebuild(s) -- {got}"
           f"{' BYTE-IDENTICAL' if ok else ' *** STILL MISMATCHED ***'}")
     if rejected:

@@ -30,6 +30,7 @@ import fcntl
 import glob
 import json
 import os
+import re
 import shutil
 import string
 import subprocess
@@ -186,7 +187,7 @@ def shard_targets(tag, cards_path, workers):
     return targets
 
 
-def draft(tag, lanes, maxtok, max_turns, stagger=0.06):
+def draft(tag, lanes, maxtok, max_turns, ramp_seconds=float(os.environ.get('RAMP_SECONDS', '240'))):
     """Draft one wave across SEVERAL MODEL LANES at once.
 
     Concurrency on ONE model is spent (P31 S58, measured): every 429 we have ever recorded is
@@ -232,6 +233,21 @@ def draft(tag, lanes, maxtok, max_turns, stagger=0.06):
     for idx in range(len(order)):
         assign[idx] = order[idx % len(order)]
 
+    # RAMP OVER A FIXED WINDOW, not a fixed per-shard delay. A constant 0.06s stagger spreads 220
+    # starts over 13s and 572 over 34s — so the bigger the wave, the harder it hits the pool, which
+    # is backwards. Measured P31 S58 at 572 ox shards: 64% 429s in the launch minute decaying to
+    # 0.0% by minute 9, i.e. the pool absorbs 572 concurrent agents fine and simply cannot absorb
+    # them ARRIVING at once. Dividing a fixed ramp window by the shard count makes big waves ramp
+    # gently and leaves small ones effectively instant.
+    n_shards = sum(1 for i in range(len(order))
+                   if os.path.exists(f".run/wave_{tag}_targets.{i}.json"))
+    # Capped at 0.5s/shard: dividing a fixed window by a SMALL shard count inverts the problem —
+    # a 9-shard wave would take the full 240s to launch nine agents. The cap means small waves start
+    # promptly and only large ones actually consume the ramp window.
+    stagger = min(ramp_seconds / n_shards, 0.5) if n_shards > 1 else 0
+    if n_shards > 50:
+        log(f"  ramping {n_shards} shards over {ramp_seconds:.0f}s ({stagger:.2f}s apart)")
+
     procs = []
     started = collections.Counter()
     for idx in range(len(order)):
@@ -264,7 +280,9 @@ def draft(tag, lanes, maxtok, max_turns, stagger=0.06):
     return procs
 
 
-def collect_drafts(tag, procs, straggler_grace=600, done_frac=0.95):
+def collect_drafts(tag, procs,
+                   straggler_grace=int(os.environ.get('STRAGGLER_GRACE', '120')),
+                   done_frac=0.95):
     """Wait for this wave's shards — but do NOT let a handful of stragglers idle the whole fleet.
 
     A wave queues only when every shard exits, so its TAIL is dead time: measured P31 S58, wave
@@ -274,6 +292,11 @@ def collect_drafts(tag, procs, straggler_grace=600, done_frac=0.95):
     Once `done_frac` of shards have exited, the rest get `straggler_grace` seconds and then the wave
     is queued WITHOUT killing them: their drafts still land in the same directory, and a later
     re-gate or --gate-only picks them up. Nothing is discarded — only the BLOCKING is dropped.
+
+    GRACE IS SHORT ON PURPOSE (120s, was 600s). The trade is not "discard work vs keep it" — the
+    stragglers keep running and their drafts still land either way. It is "how long does the WHOLE
+    FLEET idle to shorten one wave's tail". Measured P31 S58 on wave `aq`: 85/89 shards done, and
+    600s of grace meant ten minutes at 2 live agents. Five times shorter costs nothing real.
     """
     deadline = None
     while True:
@@ -391,6 +414,18 @@ def gate(tag, keep, jobs, run_id=None):
     dirty = sh("git status --porcelain -- src/ config/").stdout.strip()
     if dirty:
         n_files = len(dirty.splitlines())
+        # R42 CARVE-OUT: never adopt main's sources. R42 says commit a dirty tree rather than
+        # revert it, because a per-binary gate leaves PROVEN banks uncommitted and reverting
+        # destroys them. main is the exception: gate_main writes UNVERIFIED bodies into src/800*.c
+        # and src/*.c, so a dirty main source is not banked work — it is an abandoned batch.
+        # Measured P31 S58: two auto-commits adopted 10 such bodies, main built to the wrong SHA
+        # for nine hours, and R22 ran 212/213 without anyone noticing the guarantee was partial.
+        main_dirty = [l.split()[-1] for l in dirty.splitlines()
+                      if re.match(r'^\s*[MARD?]+\s+src/[^/]+\.c$', l)]
+        if main_dirty:
+            log(f"  REFUSING to commit main sources {main_dirty} — gate_main's substitution is "
+                f"unverified by construction; reverting those and committing the rest")
+            sh("git checkout -- " + " ".join(main_dirty))
         log(f"  tree dirty at gate entry ({n_files} files) — committing it rather than reverting")
         sh("git add -A src/ config/")
         r = sh('git commit -q -m "chore(decomp): commit in-tree banked work before the next gate\n\n'
