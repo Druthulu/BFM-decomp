@@ -17,7 +17,7 @@ Six detached lanes, each `setsid`-launched from `.run/<name>.sh` (a copy of `too
 |---|---|---|---|
 | **drafter** | `.run/drafter.sh` | draw → shard → draft → queue a ready marker, forever | **Never stop it to ship a change.** Doing that cost 139 of 162 idle minutes on 2026-08-23. Restart only at a wave boundary (see §3) |
 | **gater** | `.run/gater.sh` | reloc pre-filter → gate → commit → harvest → ledger | yes, freely — nothing is lost but the pause |
-| **maintenance** | `.run/maintenance.sh` | the free A-prop sibling sweep when the gater is idle; zero model tokens | yes |
+| **maintenance** | `.run/maintenance.sh` | free zero-token work when the gater is idle: the A-prop sibling sweep **and** `recover_rejects.py` (rebase pre-gate rejects whose body already matches and only the symbols are wrong — §171; 45% of drafts never reach the gate and 13% of those are recoverable) | yes |
 | **stallguard** | `.run/stallguard.sh` | 60 s: revive a dead lane shell, kill agents silent >20 min, kill a gate >90 min, bounce an idle drafter | yes |
 | **distill** | `.run/distill.sh` | watch harvested candidates, raise a READY marker when a batch is worth review | yes |
 | **main** | `.run/main.sh` | the EXE's own draft→gate→commit cadence (§5) | yes — `gate_main` reverts its own aborts |
@@ -52,6 +52,22 @@ many workers are configured. Card supply, not throughput, is the binding constra
   24 / $0.15. One global cap starved the large cards — 98 of 270 tells attempts ended AT the cap.
 * **Model routing inside a wave** is by function size (cookbook §157): Haiku ≤30 ins → Sonnet 50-120
   → Opus ≥120. **Fable is for new wall classes only — never for idiom distillation or review.**
+* **Output budget and socket timeout are ONE setting** (P31 S59, probed directly against ox-alpha):
+
+  | knob | value | why |
+  |---|---|---|
+  | `--maxtok` | **16000** | the model's thinking is IN the content stream (`reasoning_tokens=0`), so the output cap WAS the reasoning cap. At 8k, 240 of 244 turn-finishes in wave `bk` were `no tool call (finish=length) — NUDGE n/6`: the turn did no work at all. An uncapped hard prompt wanted **8,067** tokens — finishing exactly where the old cap cut it |
+  | `HTTP_TIMEOUT` | **700** | ox generates at **~30 tok/s**, so a full 16k generation needs ~530 s. At the old 420 s the socket would kill the very turns the bigger budget exists to allow — and a timeout wastes the whole turn where truncation leaves a partial |
+  | model ceiling | 1M context / **131,072** max completion | so 16k is OUR choice, not a limit. The binding constraint is the timeout, not the model |
+
+  **The ordering that must hold:** generation < `HTTP_TIMEOUT` (700) < stallguard's wedged-agent kill
+  (1200 s). 420 was itself deliberate — 1800 once parked a hung agent for thirty minutes.
+  A **reasoning cap** (`REASON_CAP` → `reasoning:{max_tokens}`) does work on ox, but it shortens the
+  ANSWER too (618-672 tokens against 8,067 uncapped): a quality dial, not a truncation fix.
+* **Turn caps are NOT binding on the default lane.** Across 1,166 completions, non-MATCH runs used a
+  median of 4 oracle calls and a p90 of 12 against 24 available; exactly 1 of 194 reached 20. Agents
+  give up early after truncated turns — which is why the fix above is the budget, not the cap.
+  (The tells lane WAS cap-bound, 98 of 270, hence its 40.)
 
 ### What the draw admits, and what it refuses (all counted in the skip census)
 
@@ -62,6 +78,8 @@ many workers are configured. Card supply, not throughput, is the binding constra
 | `jtbl-*` (`main-manual`, `island-blocked`, `island-pads`) | the gate's carve cannot reach that table yet (`jtbl_carve.island_probe`) |
 | `jtbl-one-per-binary` | §61c: one table-bearing draft per gate invocation |
 | `already-waved` / `already-banked` / `out-of-band` | ordinary pool bookkeeping |
+
+**One lane, one band** (P31 S59): every wave is a full-range default draw. The tells slot became redundant when the quota landed, and the dedicated 120-2000 slot was the worst wave we ran — bank rate 3% at 120-200 and 6% above, against 57% under 50 ins. Large functions still appear: the full band contains them and the draw takes mass-first inside each gate group.
 
 **Quotas** reserve cards that the gate-group ranking would otherwise never pick, because they are
 spread thin across binaries: `--tells-quota 60`, `--jtbl-quota 6`. **A quota is a floor AND a
@@ -80,6 +98,7 @@ fixed for the life of that shell (`docs/accelerators.md` #5):
 | lane **args** (the `.sh` invocation) | needs a fresh **shell** — `tools/lanes/relaunch_drafter_shell.sh` waits for a wave to queue first, so no drafts are lost |
 | wave-draw **defaults** (`build_wave_atlas.py`) | next draw — it is a fresh subprocess per wave, no restart at all |
 | the **gater's** args | `tools/lanes/restart_gater_when_idle.sh` — restarts once no sweep is in flight |
+| the **main lane's** args | `tools/lanes/restart_main_lane_when_idle.sh` — restarts in the gap between its gate and its next draw |
 
 Verify from the PROCESS, never the file: `tr '\0' ' ' < /proc/<pid>/cmdline`, or the startup banner.
 
