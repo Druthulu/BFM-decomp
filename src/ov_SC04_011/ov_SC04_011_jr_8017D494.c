@@ -5623,7 +5623,7 @@ extern s32 aFC4C[] __asm__("D_801EFC4C");
 
 extern void func_801852BC(s32 a0);
 extern void func_801853D0(s32 a0);
-extern void func_80185648(s32 a0);
+extern void func_80185648();
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern s32 func_80183BF0(s32 a0);
 /* §183 SIGNATURE-cast-at-call: the TU DEFINES `s32 func_801836D4(void *, void *)` (L4677). */
@@ -5819,7 +5819,7 @@ void func_80183880(s32 a0)
     extern s32 D_801EFC4C[];
     extern void func_801852BC(s32);
     extern void func_801853D0(s32);
-    extern void func_80185648(s32);
+    extern void func_80185648();
     extern void func_800484EC(s32, s32, s32);
     extern s32 func_80183BF0(s32);
     extern void func_80185960(s32, u16 *, s32);
@@ -6638,7 +6638,7 @@ extern void func_8018681C(s32 a0, void *a1);
    prototype and cast at the call (byte-identical). */
 extern void func_801852BC(s32 a0);
 extern void func_801853D0(s32 a0);
-extern void func_80185648(s32 a0);
+extern void func_80185648();
 
 /* §183 DEF-side: the TU declares `extern void func_80184DB8(s32 a0);` at file scope (L4350),
    so the definition adopts s32. */
@@ -6916,7 +6916,141 @@ void func_801853D0(s32 id)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80185648);
+#define gte_ldv0(r0) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );" \
+    "lwc2 $1, 4( %0 )" \
+    : : "r"( r0 ) : "memory" )
+#define gte_rt() __asm__ volatile ( \
+    "nop;" \
+    "nop;" \
+    "mvmva 1, 0, 0, 0, 0" \
+    : : : "memory" )
+#define gte_stlvnl(r0) __asm__ volatile ( \
+    "swc2 $25, 0( %0 );" \
+    "swc2 $26, 4( %0 );" \
+    "swc2 $27, 8( %0 )" \
+    : : "r"( r0 ) : "memory" )
+#define gte_stflg(r0) __asm__ volatile ( \
+    "cfc2 $12, $31;" \
+    "nop;" \
+    "sw $12, 0( %0 )" \
+    : : "r"( r0 ) : "$12", "memory" )
+#define gte_SetRotMatrix(r0) __asm__ volatile ( \
+    "lw $12, 0( %0 );" \
+    "lw $13, 4( %0 );" \
+    "ctc2 $12, $0;" \
+    "ctc2 $13, $1;" \
+    "lw $12, 8( %0 );" \
+    "lw $13, 12( %0 );" \
+    "lw $14, 16( %0 );" \
+    "ctc2 $12, $2;" \
+    "ctc2 $13, $3;" \
+    "ctc2 $14, $4" \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );" \
+    "lw $13, 24( %0 );" \
+    "ctc2 $12, $5;" \
+    "lw $14, 28( %0 );" \
+    "ctc2 $13, $6;" \
+    "ctc2 $14, $7" \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+
+typedef struct { s32 a, b, c, d, e, f, g, h; } MTX8_80185648;
+
+void func_80185648(u32 a0)
+{
+    extern s32 aFC4C[] __asm__("D_801EFC4C");
+    extern u8 D_80194724[];
+    extern u8 D_80194723[];
+    extern void func_80049CAC(s32, s32);
+    extern void func_80184BAC(void *, void *);
+    extern void func_801858DC(void *);
+
+    volatile s32 pad[8];   /* dead 0x20 slot — reproduces the target's frame gap */
+    MTX8_80185648 m;
+    s32 r[3];
+    s32 flag;
+    s32 w0, w1, w2, sh, c;
+    register s32 t __asm__("$2");
+    register s32 s0 __asm__("$16");
+    register s32 s1 __asm__("$17");
+    register s32 s2 __asm__("$18");
+    register s32 s3 __asm__("$19");
+    register s32 s4 __asm__("$20");
+    register s32 s5 __asm__("$21");
+    register s32 s6 __asm__("$22");
+
+    if (a0 >= 0x14) return;
+    s2 = a0 + 1;
+    if (s2 >= 0x15) return;
+    s4 = 1;
+    s5 = (s32)&aFC4C[0];
+    s6 = s5 - 4;
+    t = s2 << 2;
+    s3 = t + s5;
+
+    do {
+        if (D_80194724[s2] == 0) {
+            s0 = *(s32 *)s3;
+            sh = s2 << 2;
+            if (D_80194723[s2] != 0)
+                s1 = *(s32 *)(s5 + sh - 8);
+            else
+                s1 = *(s32 *)(sh + s6);
+
+            {
+                s32 rp = *(s32 *)(s1 + 0x20) + 0x34;
+                gte_SetRotMatrix((void *)rp);
+                gte_SetTransMatrix((void *)rp);
+            }
+            gte_ldv0((void *)(s1 + 0x104));
+            gte_rt();
+            gte_stlvnl(r);
+            gte_stflg(&flag);
+
+            func_80049CAC(*(s32 *)(s0 + 0x20) + 0x10, (s32)&m);
+
+            w0 = r[0];
+            *(s16 *)(s0 + 6) = w0;
+            m.f = (s16)w0;
+            w1 = r[1];
+            *(s16 *)(s0 + 0xA) = w1;
+            m.g = (s16)w1;
+            w2 = r[2];
+            *(s16 *)(s0 + 0xE) = w2;
+            m.h = (s16)w2;
+
+            {
+                s32 d = *(s32 *)(s0 + 0x20);
+                *(MTX8_80185648 *)(d + 0x34) = *(MTX8_80185648 *)&m;
+            }
+            {
+                s32 d = *(s32 *)(s0 + 0x20);
+                *(MTX8_80185648 *)(d + 0x54) = *(MTX8_80185648 *)&m;
+            }
+
+            *(s32 *)(*(s32 *)(s0 + 0x20) + 0x30) = s4;
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) |= 1;
+
+            c = *(u8 *)(s0 + 0x10A);
+            if (c == s4)
+                goto lbac;
+            if (c == 2)
+                goto ldc;
+            goto linc;
+        lbac:
+            func_80184BAC((void *)s0, (void *)s1);
+            goto linc;
+        ldc:
+            func_801858DC((void *)s0);
+        }
+    linc:
+        s2++;
+        s3 += 4;
+    } while (s2 < 0x15);
+}
+
 
 #include "common.h"
 
@@ -7735,7 +7869,7 @@ extern u16 D_801EFD40;
 extern void func_801805F8(s32 arg0);
 extern void func_801852BC(s32 a0);
 extern void func_801853D0(s32 a0);
-extern void func_80185648(s32 a0);
+extern void func_80185648();
 
 void func_80187008(s32 arg0) {
     s32 g = D_801EFD20;

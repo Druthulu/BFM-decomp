@@ -6444,7 +6444,68 @@ void func_801859D0(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801859DC);
+extern s32 rand(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012E778(s32 param_1, s32 param_2);
+extern s32 func_80186D9C(s16 *a0, s32 a1, s32 a2, s32 a3);
+extern u8 D_801B4380;
+extern u8 D_801AF86C[];
+extern u8 D_801AF87C[];
+
+typedef struct { u8 c[8]; } Blk8_801859DC;
+
+void func_801859DC(s32 a0) {
+    s16 buf[3];
+    Blk8_801859DC tmp;
+    s32 k;
+    register s32 tbl __asm__("$17");
+    register s32 ang1 __asm__("$20");
+    register s32 ang2 __asm__("$19");
+    register s32 p __asm__("$16");
+
+    if ((*(s32 *)(a0 + 0xE0) & 1) == 0) {
+        if (func_8012BD3C(a0, 0x400, *(s32 *)(a0 + 0xDC)) == 0) {
+            *(u16 *)(a0 + 2) = 1;
+        } else {
+            func_8012A828(a0, (s32)&D_801B4380);
+            if (func_8012E778(a0, 0x8C00B4) == 1) {
+                func_8002D4C8(0x64A, 0);
+            }
+        }
+    }
+
+    if (*(s32 *)(a0 + 0x94) == 0x19) {
+        p = (s32)&D_801AF86C;
+        func_8012F214(a0, p, (s32)&buf[0]);
+        func_8012F214(a0, p + 8, (s32)&tmp);
+        {
+            register s32 f __asm__("$2") = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+            ang1 = f + 0x400;
+            ang2 = f - 0x400;
+        }
+        p = 0;
+        while (p < 6) {
+            __asm__ __volatile__("" : "=r"(ang1) : "0"(ang1));
+            func_80186D9C(buf, ang1 * 0x10000 >> 0x10, (rand() % 4) * -0x10000 + -0x80000, 0);
+            __asm__ __volatile__("" : "=r"(ang2) : "0"(ang2));
+            func_80186D9C((s16 *)&tmp, ang2 * 0x10000 >> 0x10, (rand() % 4) * -0x10000 + -0x80000, 0);
+            p++;
+        }
+        p = 0;
+        k = 0x80000;
+        tbl = (s32)&D_801AF87C;
+        while (p < 4) {
+            func_8012F214(a0, tbl, (s32)&buf[0]);
+            func_80186D9C(buf, 0, (rand() % 4) * 0x10000 + k, 1);
+            p++;
+            tbl += 8;
+        }
+    }
+}
+
 
 void func_80185BC0(s32 a0)
 {
