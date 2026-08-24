@@ -12,11 +12,22 @@
 # Cost is one shell exec, taken at the moment a wave has just queued, so no drafts are lost.
 set -u
 cd /home/musashi/bfm-decomp
-BEFORE=$(ls .run/ready/ 2>/dev/null | wc -l)
+# WATCH BY NAME, NOT BY COUNT. The queue is two-sided: the gater CONSUMES markers while the drafter
+# produces them, so "the count went up" is not "a wave queued". The first version latched BEFORE=1,
+# the gater consumed that marker, and the next wave queuing took the count back to 1 — not greater
+# than 1 — so it would have waited out its whole deadline while the thing it waits for happened.
+# The condition was true about a number and false about the world.
+BEFORE=" $(ls .run/ready/ 2>/dev/null | tr '\n' ' ')"
 DEADLINE=$(( $(date +%s) + 5400 ))
 say(){ echo "[$(date +%H:%M:%S)] [relaunch] $*"; }
-say "waiting for a new ready marker (have $BEFORE)"
-while [ "$(ls .run/ready/ 2>/dev/null | wc -l)" -le "$BEFORE" ]; do
+say "waiting for a ready marker not in:$BEFORE"
+new_marker(){
+  for m in $(ls .run/ready/ 2>/dev/null); do
+    case "$BEFORE" in *" $m "*) ;; *) return 0;; esac
+  done
+  return 1
+}
+while ! new_marker; do
   [ "$(date +%s)" -ge "$DEADLINE" ] && { say "deadline passed — NOT restarting"; exit 1; }
   [ -e .run/ox_campaign.stop ] && { say "campaign stopped"; exit 0; }
   sleep 30
