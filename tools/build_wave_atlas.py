@@ -20,10 +20,12 @@ MUST NOT run while a gate is in flight (R35 — corpus.stubs() misreports substi
 
 Usage: build_wave_atlas.py <out.json> [N] [--max-bins K] [--min-ins M] [--levers a,b,c]
 """
-import json, os, sys, collections, subprocess, argparse, glob
+import json, os, re, sys, collections, subprocess, argparse, glob
 sys.path.insert(0, 'tools')
 import corpus
 import decl_prior as DP
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ap = argparse.ArgumentParser()
 ap.add_argument('out')
@@ -256,6 +258,45 @@ def tu_neighbours(binary, fn, tu_path, asm_file, topn=2):
     return [{'fn': o, 'shared': n, 'symbols': syms} for n, o, syms in scored[:topn]]
 
 
+
+def _o0_unbankable(spath):
+    """True iff this target is an -O0 function sitting in a subseg the build compiles -O2.
+
+    `spath` is corpus.asm_path()'s value: the .s FILE path (e.g.
+    asm/md_MAIN_011/nonmatchings/md_MAIN_011/func_800CFC58.s), not a directory. The first draft of
+    this helper treated it as a directory, so every open() raised and it returned False for
+    everything — a filter that ran on every card and filtered nothing, and whose unit test passed
+    because the test fed it the directory the code expected instead of the value the caller passes.
+    Read the caller, not the docstring you wish it had.
+
+    Detection is match_one's (cookbook §261): the -O0 frame-pointer prologue `sw $fp` +
+    `addu $fp,$sp,$zero` inside the function's first instructions, anchored at `glabel` so a
+    migrated jump table or .asciz blob ahead of the code is not read as the prologue."""
+    seg = os.path.basename(os.path.dirname(str(spath)))
+    if '_o0' in seg or seg == 'boot':
+        return False                                   # the build compiles this object -O0
+    try:
+        head, started = [], False
+        for ln in open(os.path.join(REPO, str(spath))):
+            if 'glabel' in ln and re.match(r'\s*glabel\s', ln):
+                started = True; continue
+            if not started:
+                continue
+            m = re.match(r'\s*/\* [0-9A-Fa-f]+ [0-9A-Fa-f]{8} ([0-9A-Fa-f]{8}) \*/\s*(\S.*)?', ln)
+            if m:
+                head.append((m.group(1).upper(), (m.group(2) or '').strip()))
+            if len(head) >= 8:
+                break
+    except OSError:
+        _O0_UNREADABLE.append(str(spath))
+        return False
+    setup = any(w == '21F0A003' or re.match(r'addu\s+\$fp,\s*\$sp,\s*\$zero', t) for w, t in head)
+    save = any(re.match(r'sw\s+\$fp,', t) for _w, t in head)
+    return setup and save
+
+
+_O0_UNREADABLE = []
+
 cands, skipped = [], collections.Counter()
 for g in atlas['groups']:
     if g['lever'] not in levers:
@@ -272,6 +313,17 @@ for g in atlas['groups']:
         if not is_open(b, fn):                   skipped['already-banked'] += 1; continue
         sub = corpus.asm_path(b, fn)
         if not sub:                              skipped['no-asm'] += 1; continue
+        # AN -O0 FUNCTION IN AN -O2 OBJECT CANNOT BANK, HOWEVER GOOD THE DRAFT (R43, cookbook §261).
+        # The build decides the opt level per OBJECT, and the Makefile's -O0 rules cover `boot`,
+        # `ov_SC01_077_o0` and `src/ov_*/ov_*_o0?.c` — nothing else, `src/md_*/` least of all. A
+        # function whose target bytes carry the -O0 frame-pointer prologue while its subseg is
+        # compiled -O2 is unbankable until it is carved into an -O0 object.
+        # MEASURED before this filter existed: 11 such functions had been drawn 79 times across 19
+        # waves — 6 per wave in the recent ones — under head-crack/UNKNOWN/tells/len-vein/redraft
+        # labels (the atlas `o0-lane` label catches only a fraction of the real -O0 population), and
+        # not one of them could ever have banked. That is a standing per-wave tax on agent time,
+        # invisible because each draft failed for what looked like an ordinary reason.
+        if _o0_unbankable(sub):                  skipped['o0-in-an-O2-object'] += 1; continue
         cands.append({
             'tu': home_tu(b, fn),
             'fn': fn, 'binary': b, 'lane': 'mass', 'model': model_for(nins), 'nins': nins,
