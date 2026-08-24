@@ -14,7 +14,7 @@ Verified by grep over `asm/` on 2026-08-24:
 | claim | verdict |
 |---|---|
 | `func_801F0A9C` / md_SC03_076 carries no frame pointer → the `o0-lane` tag is wrong for it | **CONFIRMED** — zero `$fp` anywhere under `asm/md_SC03_076/` |
-| md_MAIN_003 (~16 fns) and md_MAIN_011 (~20 fns) carry the -O0 fingerprint | **WRONG** — zero `$fp` in EITHER module |
+| md_MAIN_003 (~16 fns) and md_MAIN_011 (~20 fns) carry the -O0 fingerprint | ~~**WRONG** — zero `$fp` in EITHER module~~ **THIS REFUTATION IS ITSELF WRONG — see the S59 addendum at the end of this file. The study's claim is CORRECT: 16 and 21 functions respectively, byte-verified.** |
 
 `$fp` does occur in **311 files across `asm/`**, so the signature is real and greppable; those 311
 are the population an -O0 lane would actually target, and they are NOT the modules named here.
@@ -74,3 +74,75 @@ The gate itself (splice â `make build BINARY=<bin>` â SHA1 vs config/c
 2. The un-routed -O0 instruction mass is concentrated in exactly TWO whole modules (md_MAIN_003 ~16 fns, md_MAIN_011 ~20 fns) whose configs lack any _o0 carve — not spread thinly across overlays. That makes the §18-P29 wall a TWO-BINARY decision, not a fleet-wide one, which materially changes its cost/benefit versus the deferred 1,233-member estimate.
 3. The Makefile's P30 widening (`_o0?` glob, line 709-717) already covers arbitrary lettered -O0 sub-splits (_o0c/_o0e exist in tree), so the o0_subsplit path needs NO Makefile change — only splat yaml + region files + the byte-neutral-split proof. The residual risk is entirely the §18-P29 splat-re-disassembly class.
 4. The wave harness's drafting oracle is -O2-hardcoded (ap-opus/tu_test.sh:16), so even the already-routed -O0 sub-population cannot be iterated locally today — this, not the gate, is the binding constraint for lane (a).
+
+---
+
+## Addendum — S59 (2026-08-24): the census, re-measured, and the oracle half built
+
+**The header table's second row was wrong, and the study it refuted was right.** Re-grepped over
+the full tree: `asm/md_MAIN_003/` holds **16** functions with the canonical -O0 prologue and
+`asm/md_MAIN_011/` holds **21** — e.g. `func_800D0C50`:
+
+```
+addiu $sp, $sp, -0x30
+sw    $ra, 0x2C($sp)
+sw    $fp, 0x28($sp)
+addu  $fp, $sp, $zero      /* 21F0A003 */
+```
+
+Whatever grep produced "zero `$fp` in EITHER module", the bytes disagree. R40 cuts both ways: an
+instrument can exonerate a subject it should have convicted. Do not act on the refuted row.
+
+**The 311 figure must not be used as the population.** `$fp` is `$s8`, an ordinary allocatable
+callee-saved register at -O2, so "files mentioning `$fp`" over-counts. Requiring the -O0 *prologue*
+(`sw $fp` + `addu $fp,$sp,$zero`, both within the function's first 8 instructions) gives the real
+population, out of **14,400** `.s` files under `asm/`:
+
+| | files |
+|---|---|
+| mention `$fp` anywhere | 311 |
+| carry the -O0 prologue | **167** |
+| of those, already inside an -O0 object (`boot`, `*_o0*`) | 51 / 2,339 ins |
+| **uncovered — an -O0 function the build compiles -O2** | **116 / 14,148 ins** |
+
+Every one of these is OPEN by construction (`extract` prunes a matched function's `.s`). 14,148 ins
+is more than double the atlas's `o0-lane` estimate of 6,564, and the shape is unusually favourable:
+
+| subseg | fns | ins | replication |
+|---|---|---|---|
+| `md_MAIN_011` | 21 | 4,339 | — |
+| `md_MAIN_003` | 16 | 1,862 | — |
+| `*_jr_801380E0` | 16 | 1,289 | ×3 (ov_SC02_037, ov_MAIN_012, ov_SC03_107) |
+| `*_jr_8013F350` | 2 | 849 | ×3 (same three) |
+| `*_jr_8017FB84` | 10 | 459 | ×2 (ov_SC03_118/119) |
+| `*_jr_801457A4` | 1 | 79 | ×4 (ov_SC07_006/007/010/011) |
+| `main`/`800` | 1 | 299 | — |
+
+29 distinct overlay functions carry 5,072 instructions of banked value once remapped across their
+siblings (§40).
+
+**The load-bearing question, answered: NO — not unchanged, and for a reason that was not in either
+study.** The gate honours per-object `CC1FLAGS`, so an -O0 function can only bank from an object the
+Makefile compiles -O0 (`build/src/boot.o`, `ov_SC01_077_o0.o`, `WHALE_O0B_OBJS` =
+`src/ov_*/ov_*_o0?.c`, `O0_CLUSTER_OBJS` = `src/ov_*/ov_*_o0.c`). **No glob matches `src/md_*/`
+at all**, so the md_MAIN_003/011 bulk needs a Makefile rule as well as a carve. That part of the
+study's verdict (e) stands: the carve half sits behind the §18-P29 splat-integration wall.
+
+**The oracle half is now built, and the gap was worse than described.** The study said the drafting
+oracle is hardwired -O2 and cited a staged bakeoff script. The live path is worse: `match_one --o0`
+has existed all along, and **nothing ever passed it** — `api_draft.match_one()`, the oracle every
+wave agent iterates against, builds a fixed argv without it. So every agent handed any of these 167
+targets, *including the 51 already sitting in -O0 objects*, was shown an -O2 compile of its own C
+and a mismatch on every instruction: feedback that cannot converge, for a reason invisible in the
+diff. `match_one` now derives the opt level from the target itself (R33) — the prologue tell, OR the
+subseg being an -O0 object, two oracles because neither alone covers `boot/start.s` (built -O0, no
+ordinary prologue) or an -O0 function stranded in an -O2 subseg. `--no-auto-o0` overrides.
+It also prints a standing warning on that stranded class: a MATCH there cannot bank until the
+function is carved. `tools/test_o0_detect.py` is the control: 167/167 covered, 0 false positives
+outside -O0 objects, and the two `md_MAIN_011` files whose `.s` opens with a jump table / `.asciz`
+blob are detected — they are why the scan is anchored at `glabel` rather than at the top of the file.
+
+**Recommended order** (unchanged in spirit from verdict (e), now with the numbers): run
+`rollout_o0.py` over the already-routed families with the fixed oracle first — that is the 51
+covered functions plus whatever the ×2/×3/×4 replication reaches — before deciding whether the
+md_* carve is worth the wall.

@@ -31,8 +31,11 @@ ap.add_argument('--work', default=None,
                      'It used to default to the SHARED ".run/match", which silently broke the one '
                      'property this tool advertises — see below.')
 ap.add_argument('--o0', action='store_true',
-                help='compile at -O0 (for the _o0 split subsegments: ov_SC01_077_o0.c, whale _o0b — '
-                     'their target bytes are -O0; an -O2 compile can never match them, Makefile:445)')
+                help='force -O0 (for the _o0 split subsegments: ov_SC01_077_o0.c, whale _o0b — '
+                     'their target bytes are -O0; an -O2 compile can never match them, Makefile:445). '
+                     'Normally unnecessary: the opt level is AUTO-DETECTED from the target .s.')
+ap.add_argument('--no-auto-o0', action='store_true',
+                help='disable the auto-detection and compile -O2 unless --o0 is given')
 ap.add_argument('--emit-streams', default=None,
                 help='P31 T8 (additive): dump {"fn","mine":[words],"tgt":[words]} to this path — '
                      'the len_tells/family_align input. No effect on stdout.')
@@ -54,11 +57,68 @@ a = ap.parse_args()
 if not a.work:
     a.work = os.path.join('.run/match', f'{a.fn}.{os.getpid()}')
 
+def detect_o0(spath):
+    """Is the TARGET compiled -O0? Read it off its own prologue (cookbook §6/§18, byte-proven).
+
+    gcc-2.7.2 keeps a frame pointer at -O0 and omits it at -O2, so an -O0 function opens with
+    `sw $fp, N($sp)` + `addu $fp, $sp, $zero` (word 21F0A003) inside its first few instructions.
+    Requiring BOTH, and requiring them in the PROLOGUE, is what separates the tell from -O2 code
+    that merely uses $fp/$s8 as an ordinary allocatable callee-saved register — the distinction that
+    makes "$fp occurs in 311 files under asm/" the WRONG population (the real one is 167 files).
+
+    WHY AUTO. Nothing in the drafting path ever passed --o0: api_draft.match_one() (the oracle every
+    wave agent iterates against) builds a fixed argv without it. An agent handed an -O0 target was
+    therefore shown an -O2 compile of its own C and a mismatch on every instruction — feedback that
+    cannot converge, for a reason invisible in the diff. Detecting it from the bytes costs one file
+    read and needs no card field, no lane, and no agent instruction (R33: derive it, do not ask).
+    """
+    try:
+        head, started = [], False
+        for ln in open(spath):
+            # START AT THE FUNCTION, NOT AT THE FILE. A migrated jump table or an .asciz blob is
+            # emitted into the same .s ahead of the code (`.section .rodata` first), so a naive
+            # "first 8 encoded lines" reads TABLE WORDS as the prologue and calls an -O0 function
+            # -O2 (measured on md_MAIN_011/func_800CF28C and func_800D04F4).
+            if re.match(r'\s*(glabel|dlabel|\w+:)\s', ln) and 'glabel' in ln:
+                started = True
+                continue
+            if not started:
+                continue
+            m = re.match(r'\s*/\* [0-9A-Fa-f]+ [0-9A-Fa-f]{8} ([0-9A-Fa-f]{8}) \*/\s*(\S.*)?', ln)
+            if m:
+                head.append((m.group(1).upper(), (m.group(2) or '').strip()))
+            if len(head) >= 8:
+                break
+    except OSError:
+        return False
+    setup = any(w == '21F0A003' or re.match(r'addu\s+\$fp,\s*\$sp,\s*\$zero', t) for w, t in head)
+    save = any(re.match(r'sw\s+\$fp,', t) for _w, t in head)
+    return setup and save
+
+
+_sub = os.path.basename(a.asm_subdir.rstrip('/'))
+# TWO ORACLES, and they answer different questions (R34). The PROLOGUE says what the target bytes
+# were compiled as; the SUBSEG NAME says what this build will compile the C as (Makefile:697/702/
+# 716/724 give `boot` and every `*_o0*.c` object -O0 flags). Either one alone is wrong somewhere:
+# `boot/start.s` has no ordinary prologue yet is built -O0, and an -O0 function sitting in an -O2
+# subseg has the prologue but cannot bank until it is carved.
+_sub_o0 = ('_o0' in _sub) or _sub == 'boot'
+_tell_o0 = detect_o0('%s/%s.s' % (a.asm_subdir, a.fn))
+_o0 = a.o0 or (not a.no_auto_o0 and (_tell_o0 or _sub_o0))
+if _o0 and not a.o0:
+    print('match_one: compiling at -O0 (%s; pass --no-auto-o0 to override)'
+          % ('frame-pointer prologue in the target' if _tell_o0 else 'subseg %r is an -O0 object' % _sub))
+if _tell_o0 and not _sub_o0:
+    print('match_one: NOTE — %s is an -O0 function in subseg %r, which the build compiles -O2. '
+          'A MATCH here CANNOT BANK until the function lives in an -O0 object '
+          '(tools/o0_subsplit.py / tools/rollout_o0.py + the Makefile -O0 globs).'
+          % (a.fn, _sub))
+
 CPP = 'mipsel-linux-gnu-cpp'; CC1 = 'tools/bin/gcc-2.7.2-psx/cc1'
 MASPSX = 'tools/maspsx/maspsx.py'; AS = 'mipsel-linux-gnu-as'; PY = '.venv/bin/python'
 CPPFLAGS = '-lang-c -Iinclude -undef -Wall -fno-builtin -Dmips -D__GNUC__=2 -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C'.split()
 CC1FLAGS = ('-quiet %s -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker'
-            % ('-O0' if a.o0 else '-O2')).split()
+            % ('-O0' if _o0 else '-O2')).split()
 ASFLAGS = '-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0'.split()
 
 cfile = a.c
