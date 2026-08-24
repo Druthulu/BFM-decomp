@@ -4581,7 +4581,32 @@ extern void func_80171A1C(u8 *a0);
 DEFINE_func_8017DC4C()  /* dedup: shared engine-core @0x8017DC4C (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017DCC0);
+
+
+
+
+
+extern s16 D_80126B3A;
+extern s16 D_80126B3C;
+extern void func_8017C624(void *a0, s32 a1, s32 a2);
+extern void func_80171A1C(u8 *a0);
+
+void func_8017DCC0(u8 *a0) {
+    s32 v;
+    if (*(u16 *)(a0 + 0xB8) & 0x8000) {
+        switch ((s16)(*(u16 *)&D_80126B3A - 2)) {
+        case 0: v = 0; break;
+        case 1: v = 1; break;
+        case 2: v = 2; break;
+        case 3: v = 3; break;
+        case 4: v = 4; break;
+        }
+        D_80126B3C = v;
+        func_8017C624(a0, -0x60, v);
+        func_80171A1C(a0);
+    }
+}
+
 
 DEFINE_func_8017DD74()  /* dedup: shared engine-core @0x8017DD74 (src/shared) */
 
