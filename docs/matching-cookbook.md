@@ -24741,6 +24741,28 @@ perfect the body: the object's `CC1FLAGS` decide, and the Makefile's -O0 globs c
 Of the 167, 51 are inside an -O0 object and **116 (14,148 ins) are stranded in -O2 subsegs**, so
 `match_one` now says so on sight rather than letting an agent chase a body that can never land.
 
+### §261a — THE -O0 FRAME-RELOAD GRAMMAR: reload COUNT disambiguates the C spelling (P31 S59, byte-proven)
+
+`func_80184058` (131 ins, `ov_SC03_014_o0c`) banked on the FIRST compile — MATCH(131) then
+whole-binary BYTE-IDENTICAL — because at -O0 the number of frame reloads of a pointer is a
+fingerprint of the exact C spelling. Read it off the target before writing anything:
+
+* `p->f += k` (value unused) → **2** reloads of `p` (STORE base first, read base second), no copy.
+* `--p->f` / `++p->f` → **3** reloads (the FIRST is dead), an `addu rd,rs,$zero` copy after the
+  add, and — only when the value is used — `sll 16; sra 16` on the STORED register (no re-load).
+  So `if (--p->f == 0)` vs `p->f -= 1; if (p->f == 0)` (re-loads the field) vs `p->f -= 1;`
+  (2 reloads, no copy) are all distinguishable from the asm alone.
+* s16 fields: `lh` at a plain read, but `lhu` inside a read-modify-write.
+* Overlapping s32/s16 (a 16.16 accumulator at 0xE0 whose high half is read as the s16 at 0xE2):
+  spell the wide access through a SECOND struct view and cast the pointer —
+  `((Ent_fx *)p)->unkE0 += 0x5CCCC;` — the cast is free at -O0; no union needed.
+* §127a compounded: the decisive spellings (the call-arg marshaling, `++p->unk02`) were lifted
+  VERBATIM from banked siblings in the same `_o0*` TU. Read the TU's banked bodies first, always.
+
+With the §261 auto-oracle + this grammar, an -O0 function is STRICTLY easier than -O2 of the same
+size: no scheduling, no regalloc steering, no permuter — every miss is a spelling miss, and the
+spelling is enumerable from the reload count.
+
 ## §262 — A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59)
 
 The `tells` lane was removed from the drafting rotation on four waves that gated 3–6 of ~56 drafts.
