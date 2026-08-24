@@ -333,7 +333,19 @@ s32 func_800D1E18(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D1E58);
+
+
+extern D_800D942C_entry D_800D942C[];
+extern s32 D_800EC9E0;
+extern void func_800D1E9C(void *arg0);
+extern void func_8001BFB0(void);
+
+void func_800D1E58(void) {
+    D_800EC9E0 = 0;
+    func_800D1E9C(&D_800D942C[func_8001BFA0()]);
+    func_8001BFB0();
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D1E9C);
 

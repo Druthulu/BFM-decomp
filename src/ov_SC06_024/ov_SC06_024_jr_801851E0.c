@@ -3156,15 +3156,7 @@ void func_8018588C(s32 p) {
 }
 
 
-extern short D_801D33F4;
-extern void func_8012A828(s32, void *);
-
-void func_8018596C(s32 a0) {
-    *(s16 *)(a0 + 0x1b) = 2;
-    func_8012A828(a0, &(*(u8 *)&D_801D33F4));
-    *(s32 *)(a0 + 0x1C) = 0x20;
-}
-
+INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_801851E0", func_8018596C);
 
 INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_801851E0", func_801859AC);
 
