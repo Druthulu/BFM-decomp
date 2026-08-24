@@ -4005,7 +4005,39 @@ INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017E27
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017E2E8);
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017E39C);
+void func_8017E39C(s32 a0) {
+    extern u8 D_80190C84[];
+    extern s16 D_80190C88;
+    s32 t;
+    s32 p;
+    s16 v1;
+
+    if (*(s16 *)(a0 + 0x70) & 0x8000) {
+        t = *(s32 *)(a0 + 0x64);
+        if (*(u16 *)(t + 0x2) == 3) {
+            func_8012C218((void *)a0);
+        } else {
+            p = *(s32 *)(t + 0xCC);
+            v1 = *(s16 *)(p + 0x18);
+            if (v1 != 0) {
+                a0 = *(s32 *)(a0 + 0xCC);
+                *(s16 *)(a0 + 0x18) = v1;
+                *(u16 *)(a0 + 0x1A) = *(u16 *)(p + 0x1A);
+                func_8017E4F4((void *)a0, D_80190C84);
+                *(u16 *)(a0 + 0x14) = *(u16 *)(a0 + 0x14) - 4;
+                D_80190C88 = D_80190C88 + 1;
+                if (D_80190C88 >= 0x30) {
+                    D_80190C88 = 0x10;
+                }
+            }
+        }
+    } else {
+        if (func_8017E108(a0) != 0) {
+            func_8017DDDC((u8 *)a0);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017E498);
 
@@ -5138,7 +5170,39 @@ INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80180D5
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80180E34);
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80180E8C);
+typedef struct { s32 w[8]; } Blk32_80180E8C;
+typedef struct { s16 vx, vy, vz, pad; } Vec_80180E8C;
+
+extern Blk32_80180E8C aAE620_80180E8C[1] __asm__("D_800AE620");
+extern s32 func_8012B8A4(void *a0);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern u8 D_801152A8[];
+
+void func_80180E8C(u8 *a0)
+{
+    Vec_80180E8C out;
+    Vec_80180E8C sv;
+    Blk32_80180E8C m;
+    s16 r;
+    s32 ang;
+    s32 t;
+
+    m = aAE620_80180E8C[0];
+    ang = *(s16 *)(*(u32 *)(a0 + 0x20) + 0x18);
+    sv.vx = sv.vy = 0;
+    t = (ang * 9) >> 9;
+    sv.vz = -t;
+    r = func_8012B8A4(a0);
+    RotMatrixY(r, &m);
+    ApplyMatrixSV(&m, &sv, &out);
+    out.vx += *(u16 *)(a0 + 6);
+    out.vy += *(u16 *)(a0 + 0xA) - t;
+    out.vz += *(u16 *)(a0 + 0xE);
+    func_8012F568(1, 0x4002, 0, 0x14, (s32)&out, (s32)D_801152A8);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80180FB8);
 

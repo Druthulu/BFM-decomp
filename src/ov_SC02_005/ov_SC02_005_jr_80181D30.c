@@ -9816,7 +9816,45 @@ void func_8018DB40(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018DCD8);
+#include "common.h"
+
+extern s32 func_8012D714(s32 a0, u32 a1);
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern void func_8012AD80(s32 a0);
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern void func_8001C97C(s32 *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern u8 D_801D9044;
+
+void func_8018DCD8(s32 a0)
+{
+    s32 s3;
+    s16 i;
+
+    s3 = *(s32 *)(a0 + 0x20);
+    if (func_8012D714(a0, 2) != 0) {
+        D_80126B96 = 0x4001;
+        D_80126B98 = 5;
+    }
+    func_8012AD80(a0);
+    if (*(s16 *)(a0 + 0xA) >= -0x802) {
+        *(s16 *)(a0 + 0xA) = -0x802;
+        **(s16 **)(a0 + 0xD0) = 0;
+        for (i = 0; i < 8; i++) {
+            func_8012C658(99, i, a0);
+            func_8012C658(100, i, a0);
+        }
+        func_8001C97C((s32 *)&D_801D9044);
+        *(s32 *)(s3 + 0x24) = &D_801D9044;
+        *(s32 *)(a0 + 0x1C) = 0x10;
+        func_8002D4C8(0x4FF, 0);
+        *(u16 *)(a0 + 2) += 1;
+    } else {
+        *(s32 *)(a0 + 0x14) += 0x1C000;
+    }
+}
+
 
 extern void func_801439C0(u8 *a0);
 extern void func_8012C218(void *a0);
@@ -10035,7 +10073,57 @@ void func_8018E730(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018E7E4);
+
+
+extern Blk20 D_800AE620;
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern s32 VectorNormalSS(void *a0, void *a1);
+extern s32 func_8012C750(s32 a0);
+extern void RotMatrixY(s32 a0, void *a1);
+
+void func_8018E7E4(arg0, arg1, arg2, arg3, count)
+    s32 arg0;
+    void *arg1;
+    void *arg2;
+    void *arg3;
+    s16 count;
+{
+    Blk20 mat;
+    u16 vec[3];
+    s16 out[3];
+    s16 i;
+    s32 prim;
+    s32 val;
+
+    mat = D_800AE620;
+    RotMatrixY(*(s16 *)((s32)arg1 + 0xC), &mat);
+    for (i = 0; i < count; i++) {
+        vec[0] = *(u16 *)((s32)arg2 + i * 12);
+        vec[1] = *(u16 *)((s32)arg2 + i * 12 + 2);
+        vec[2] = *(u16 *)((s32)arg2 + i * 12 + 4);
+        ApplyMatrixSV(&mat, vec, out);
+        *(u16 *)((s32)arg1 + 0) = *(u16 *)((s32)arg0 + 6) + out[0];
+        *(u16 *)((s32)arg1 + 2) = *(u16 *)((s32)arg0 + 0xA) + out[1];
+        *(u16 *)((s32)arg1 + 4) = *(u16 *)((s32)arg0 + 0xE) + out[2];
+        *(u16 *)((s32)arg1 + 0xE) = i;
+        prim = func_8012C750((s32)arg1);
+        if (prim != 0) {
+            out[0] = vec[0] - *(u16 *)((s32)arg3 + 0);
+            out[1] = vec[1] - *(u16 *)((s32)arg3 + 2);
+            out[2] = vec[2] - *(u16 *)((s32)arg3 + 4);
+            VectorNormalSS(out, out);
+            ApplyMatrixSV(&mat, out, out);
+            val = (out[0] << 9) + (out[0] << 8);
+            *(s32 *)(prim + 0x10) = val;
+            val = (out[1] << 9) + (out[1] << 8);
+            *(s32 *)(prim + 0xDC) = val;
+            *(s32 *)(prim + 0x14) = val;
+            val = (out[2] << 9) + (out[2] << 8);
+            *(s32 *)(prim + 0x18) = val;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018EA04);
 

@@ -5321,7 +5321,57 @@ s32 func_80183848(s32 a0, s32 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_801838BC);
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_801838BC(short *param_1, short *param_2)
+{
+    s32 v[3];
+    s16 X;
+    s16 Y;
+    s32 t;
+
+    v[0] = param_1[0] - *(s16 *)&D_80126B5E;
+    X = 0x7F;
+    v[1] = ((param_1[1] + param_2[1]) >> 1) - *(s16 *)&D_80126B62;
+    Y = 0x7F;
+    v[2] = param_1[2] - *(s16 *)&D_80126B66;
+
+    __asm__ __volatile__(
+        "lwc2 $9, 0(%0)\n"
+        "lwc2 $10, 4(%0)\n"
+        "lwc2 $11, 8(%0)\n"
+        "nop\n"
+        "nop\n"
+        "sqr 0\n"
+        : : "r"(v) : "$9", "$10", "$11", "memory");
+    __asm__ __volatile__(
+        "swc2 $25, 0(%0)\n"
+        "swc2 $26, 4(%0)\n"
+        "swc2 $27, 8(%0)\n"
+        : : "r"(v) : "memory");
+
+    t = v[0] + v[2] - 0x4000;
+    if (t > 0) {
+        if (t < 0x40000) {
+            X = Y - (t * 111 / 0x40000);
+        } else {
+            X = 0x10;
+        }
+    }
+    t = v[1] - 0x5100;
+    if (t > 0) {
+        if (t < 0x40000) {
+            Y = Y - (t * 111 / 0x40000);
+        } else {
+            Y = Y - 0x6F;
+        }
+    }
+    func_8002D4C8(0x9CF, ((((s32)X + (s32)Y) >> 1) | 0x1000) & 0xFFFF);
+}
+
 
 
 extern void (*D_801909E4[])(void);
@@ -7220,7 +7270,29 @@ void func_80187C2C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80187CE4);
+extern s32 D_801DFF7C;
+extern s32 D_801DFF6C;
+extern s32 D_8018CCC4;
+extern void func_8013C9C4(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80187D64(s32 arg0);
+extern void func_8012E8A8(u8 *a0);
+
+s32 func_80187CE4(void) {
+    s32 a0 = D_801DFF7C;
+    s16 v = *(u16 *)(a0 + 0xA) + 0x14;
+    *(s16 *)(a0 + 0xA) = v;
+    if (v >= -130) {
+        *(s16 *)(a0 + 0xA) = -130;
+        func_80187D64(a0);
+        ((void (*)(s32))func_8012E8A8)(D_801DFF6C);
+        func_8013C9C4(&D_8018CCC4);
+        func_8002D4C8(0xB5F, 0);
+        return 1;
+    }
+    return 0;
+}
+
 
 #include "common.h"
 #include "/home/musashi/bfm-decomp/src/shared/engine_core.h"

@@ -3556,7 +3556,36 @@ void func_80183B64(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80183BA4);
+extern s16 D_800AE7E0;
+extern s16 D_800AE7E2;
+extern s16 D_800AE7E4;
+extern void func_80028558(s32, s32, s32, s32);
+
+void func_80183BA4(s32 arg0)
+{
+    s16 *p;
+
+    *(s16 *)(arg0 + 0x20E) = *(s16 *)(arg0 + 0x20E) + 0x30;
+    if (*(u8 *)(arg0 + 0x20F) >= 0xFF) {
+        *(u8 *)(arg0 + 0x20F) = 0xFE;
+    }
+    *(s16 *)(arg0 + 0x210) = *(s16 *)(arg0 + 0x210) + 0x10;
+    if (*(u8 *)(arg0 + 0x211) > 0x90) {
+        *(u8 *)(arg0 + 0x211) = 0x90;
+    }
+    *(s16 *)(arg0 + 0x212) = *(s16 *)(arg0 + 0x212) - 0x10;
+    if (*(u8 *)(arg0 + 0x213) < 0x20) {
+        *(u8 *)(arg0 + 0x213) = 0x20;
+    }
+    func_80028558(0, *(u8 *)(arg0 + 0x20F), *(u8 *)(arg0 + 0x211), *(u8 *)(arg0 + 0x213));
+    p = &D_800AE7E0;
+    *p += 3;
+    if (*p > 0x1000) {
+        *p = 0x1000;
+    }
+    func_8002850C(*p, D_800AE7E2, D_800AE7E4);
+}
+
 
 DEFINE_func_80183C94()  /* dedup: shared engine-core @0x80183C94 (src/shared) */
 
@@ -3923,7 +3952,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32  func_80185C48(s32 a0, s32 a1);
 extern void func_8013C9C4(s32);
 extern void func_8018623C(u16 arg0, u16 arg1);
-extern void func_8018762C(s32 a0, void *a1);
+extern void func_8018762C();
 extern void func_80187354(s32 a0);
 extern s32  func_80185D58(s32 a0);
 extern s32  func_8012C588(s32 a0, s32 a1);
@@ -4821,7 +4850,50 @@ void func_80187558(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_8018762C);
+#ifndef BFM_ENGINE_TYPES_H
+struct sprite8 {
+    short f0;
+    short f2;
+    short f4;
+    short f6;
+    short f8;
+    short fa;
+    short fc;
+    short fe;
+    int   f10;
+};
+#endif
+extern u16 D_800B99D8;
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+void func_8018762C(s32 a0, s32 a1)
+{
+    register s32 i __asm__("$16");
+    register s32 s1 __asm__("$17");
+    register u16 s2 __asm__("$18");
+    struct sprite8 spr;
+    s32 t;
+
+    s2 = D_800B99D8;
+    i = 0;
+    s1 = 0;
+    spr.f4 = *(u16 *)(a1 + 4);
+
+    do {
+        t = *(s16 *)(a1 + 0);
+        spr.f0 = (i & 1) ? (t + 0xC) : (t - 0xC);
+        spr.f2 = *(u16 *)(a1 + 2) - s1;
+        spr.f6 = 0x4D;
+        if (i >= 2) spr.f8 = 0;
+        spr.fa = s2;
+        s2++;
+        s1 += 0x18;
+        i++;
+        spr.f8 |= 0x100;
+        func_8012C51C(&spr, a0);
+    } while (i < 2);
+}
+
 
 
 extern void (*D_8018F460[])(void);

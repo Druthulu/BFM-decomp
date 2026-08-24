@@ -61658,7 +61658,7 @@
     extern void func_80181C10(void); \
     extern void func_80175414(s32 _arg0); \
     extern void func_801839C4(void *a0); \
-    extern void func_80183BA4(void *a0); \
+    extern void func_80183BA4(); \
     extern void func_80183C9C(s32 a0); \
     extern void func_800D1724(s32 a0); \
     extern s16 D_800B9AAC[]; \
@@ -157056,7 +157056,7 @@
     extern void func_80181C10(void); \
     extern void func_80175414(s32 _arg0); \
     extern void func_801839C4(void *a0); \
-    extern void func_80183BA4(void *a0); \
+    extern void func_80183BA4(); \
     extern void func_80183C9C(s32 a0); \
     extern void func_800D1724(s32 a0); \
     extern s16 D_800B9AAC[]; \

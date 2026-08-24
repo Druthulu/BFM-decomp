@@ -6806,7 +6806,115 @@ void func_801852BC(s32 id)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801853D0);
+#include "common.h"
+
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern u8 D_80194724[];
+extern u8 D_80194725[];
+
+extern void func_80049CAC(s32 a0, s32 a1);
+
+#define gte_SetTransMatrix(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                          \
+    "lw $13, 24( %0 );"                          \
+    "ctc2 $12, $5;"                              \
+    "lw $14, 28( %0 );"                          \
+    "ctc2 $13, $6;"                              \
+    "ctc2 $14, $7"                               \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "$13", "$14" )
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (  \
+    "lw $12, 0( %0 );"                           \
+    "lw $13, 4( %0 );"                           \
+    "ctc2 $12, $0;"                              \
+    "ctc2 $13, $1;"                              \
+    "lw $12, 8( %0 );"                           \
+    "lw $13, 12( %0 );"                          \
+    "lw $14, 16( %0 );"                          \
+    "ctc2 $12, $2;"                              \
+    "ctc2 $13, $3;"                              \
+    "ctc2 $14, $4"                               \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "$13", "$14" )
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_rt() __asm__ volatile ("nop;nop;mvmva 1, 0, 0, 0, 0")
+
+#define gte_stlvnl(r0) __asm__ volatile (        \
+    "swc2 $25, 0( %0 );"                         \
+    "swc2 $26, 4( %0 );"                         \
+    "swc2 $27, 8( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+typedef struct {
+    s32 w[8];
+} Oct_801853D0;
+
+void func_801853D0(s32 id)
+{
+    s32 l[16];
+    s32 obj;
+    s32 obj2;
+    s16 t;
+    s32 i;
+
+    if ((id != 0) && ((u32)id < 0x15)) {
+        for (i = id - 1; i >= 0; i--) {
+            if (D_80194724[i] == 0) {
+                obj = aFC4C[i];
+                obj2 = D_80194725[i] ? aFC4C[i + 2] : aFC4C[i + 1];
+
+                func_80049CAC(*(s32 *)(obj + 0x20) + 0x10, (s32)l);
+                gte_SetTransMatrix((void *)(*(s32 *)(obj2 + 0x20) + 0x34));
+                gte_SetRotMatrix((void *)l);
+
+                *(s16 *)((s32)l + 0x20) = -*(u16 *)(obj + 0x104);
+                *(s16 *)((s32)l + 0x22) = -*(u16 *)(obj + 0x106);
+                *(s16 *)((s32)l + 0x24) = -*(u16 *)(obj + 0x108);
+
+                gte_ldv0((s32)l + 0x20);
+                gte_rt();
+                gte_stlvnl((s32)l + 0x28);
+                gte_stflg((s32)l + 0x38);
+
+                t = l[10];
+                *(s16 *)(obj + 6) = t;
+                l[5] = t;
+                t = l[11];
+                *(s16 *)(obj + 0xA) = t;
+                l[6] = t;
+                t = l[12];
+                *(s16 *)(obj + 0xE) = t;
+                l[7] = t;
+
+                *(Oct_801853D0 *)(*(s32 *)(obj + 0x20) + 0x34) = *(Oct_801853D0 *)l;
+                *(Oct_801853D0 *)(*(s32 *)(obj + 0x20) + 0x54) = *(Oct_801853D0 *)l;
+
+                *(s32 *)(*(s32 *)(obj + 0x20) + 0x30) = 1;
+                *(u16 *)(*(s32 *)(obj + 0x20) + 0x2C) |= 1;
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80185648);
 
@@ -6884,7 +6992,45 @@ void func_80185A18(s32 idx, s32 val)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80185A30);
+s16 func_80185A30(s32 param_1) {
+    extern s32 aFC4C[] __asm__("D_801EFC4C");
+    extern s32 aB58[] __asm__("D_80126B58");
+    extern s32 func_8012BE54(s32);
+    extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+    s32 iVar5;
+    s32 iVar2;
+    s32 uVar3;
+    register s16 *p58 __asm__("$17");
+    register s16 *pE4 __asm__("$18");
+
+    iVar5 = aFC4C[param_1];
+    p58 = (s16 *)aB58;
+    iVar2 = func_8012BE54(iVar5);
+    pE4 = (s16 *)(iVar5 + 0xE4);
+    if (iVar2 < 0x4000) {
+        return *(s16 *)(iVar5 + 0xE6);
+    }
+    uVar3 = func_8012B6D4(iVar5 + 4, p58 + 2);
+    uVar3 &= 0xFFF;
+    if (uVar3 < 0x800) {
+        if (uVar3 > 0x400) {
+            uVar3 = 0x800 - uVar3;
+        }
+        if (uVar3 >= 0x301) {
+            uVar3 = 0x300;
+        }
+    } else {
+        if (uVar3 < 0xC00) {
+            uVar3 = 0x17FF - uVar3;
+        }
+        if (uVar3 < 0xD00) {
+            uVar3 = 0xD00;
+        }
+    }
+    pE4[1] = (s16)uVar3;
+    return (s16)uVar3;
+}
+
 
 extern s32 D_801EFC48;
 extern s32 aFC4C[] __asm__("D_801EFC4C");
@@ -11783,7 +11929,46 @@ void func_8018D66C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018D6C4);
+extern void *D_801F01C8;
+
+void func_8018D6C4(void *a0) {
+    s32 s1, s2;
+    s16 *p;
+    u16 cnt;
+    s16 kind;
+    s32 neg1;
+
+    s2 = 0;
+    neg1 = -1;
+    s1 = 0;
+    do {
+        p = (s16 *)(((u8 *)&D_801F01C8) + s1);
+        kind = p[0];
+        switch (kind) {
+        case 0:
+            cnt = *(u16 *)(p + 1) - 1;
+            *(u16 *)(p + 1) = cnt;
+            if ((s16)cnt == neg1) {
+                *(u16 *)(p + 1) = 0xA;
+                *(u16 *)(p + 0) = *(u16 *)(p + 0) + 1;
+            }
+            break;
+        case 1:
+            cnt = *(u16 *)(p + 1) - 1;
+            *(u16 *)(p + 1) = cnt;
+            if ((s16)cnt == neg1) {
+                func_8018D7C8((int)p, *(s32 *)((u8 *)a0 + 0xDC));
+            } else {
+                func_8018DA18((s32)a0, (void *)p);
+                func_8018D988((u8 *)p);
+            }
+            break;
+        }
+        s2++;
+        s1 += 0x44;
+    } while (s2 < 0x40);
+}
+
 
 #include "common.h"
 
