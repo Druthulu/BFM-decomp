@@ -9,15 +9,26 @@
 #     staggering shard startup, not by capping concurrency.
 #   * "39 MB per agent" — a STARTUP snapshot with the card file freshly loaded. Steady state is
 #     ~10 MB, so 45 GB carries thousands, not hundreds.
-# TELLS REMOVED FROM THE DRAFTING ROTATION (P31 S58, 2026-08-24). Four waves measured:
-#   as 5/9 gated of 57 drafts · aw 6/12 of 60 · az 4/10 of 55 · bd 3/9 of 56
-# ~80% of tells drafts name symbols the target .s never references, so reloc_identity discards
-# them before they reach a gate. Against the default lane's 73-86% of gated, that is ~55 drafts of
-# fleet time per wave for 3-6 functions.
+# TELLS: RESTORED, BUT PINNED TO THE FULL BAND (P31 S59, 2026-08-24). S58 removed the lane on four
+# waves — as 5/9 gated of 57 · aw 6/12 of 60 · az 4/10 of 55 · bd 3/9 of 56 — and attributed the
+# failure to the LANE. The campaign ledger says it was the BAND: every one of those four ran at
+# 120-2000, and the whole tells population splits cleanly by band:
+#   tells @ 120-2000 (as/aw/az/bd): 228 drafts ->  18 banked =  7.9%
+#   tells @ full band (ao/au/bb/bg): 655 drafts -> 161 banked = 24.6%
+#   default @ full band            : 2,996 drafts -> 1,335 banked = 44.6%
+# So tells is ~2x worse per draft than default, not dead, and it is the only lane that touches
+# 1,040 members / 86,602 instructions. Of what actually reaches a gate the two lanes are the SAME
+# (tells 54.4% of gated, default 56.4%) — the entire loss is reloc_identity discarding drafts that
+# name symbols the target .s never references, i.e. cookbook §235 (the phantom symbol), which is a
+# BRIEF fix, not a lane deletion. R40: exonerate the instrument before blaming the subject.
 #
-# NOTE: do NOT assume aprop_autodraft is the answer. Its input population overlaps the 1,040 tells
-# member functions by only 44 (4.2%) — checked, after asserting the opposite three times from the
-# failure signature alone. Where tells should go is an OPEN QUESTION requiring its own study.
+# The rotation below pins the arithmetic: lane = index%4, band = index%4, so slot 1 (tells) always
+# draws the full band and slot 3 (the large band) is always default. Changing the length of either
+# list breaks that alignment — change both together.
+#
+# NOTE: do NOT assume aprop_autodraft is the answer for tells. Its input population overlaps the
+# 1,040 tells member functions by only 44 (4.2%) — checked, after asserting the opposite three
+# times from the failure signature alone.
 #
 # The remaining real constraint is CARD SUPPLY: a fleet is only as busy as the wave is large.
 #
@@ -33,7 +44,8 @@ while [ ! -e .run/ox_campaign.stop ]; do
   .venv/bin/python tools/ox_campaign.py --drafter \
       --workers 2000 \
       --models 'stealth/ox-alpha:1720,deepseek/deepseek-v4-flash-0731:280:REASON_EFFORT=high' \
-      --bands '5-2000,5-2000,120-2000,5-2000' \
+      --lanes 'default:,tells:extend-tell;swaprepeat-tell;s16-div-tell,default:,default:' \
+      --bands '5-2000,5-2000,5-2000,120-2000' \
       --cards-per-wave 3000 --queue-depth 2 2>&1
   echo "[$(date +%H:%M:%S)] [drafter] exited; restarting in 20s"
   sleep 20
