@@ -176,6 +176,11 @@ def gate_batch(tag, slate, depth=0):
                 f"byte-identical ({line}). Left for a human; gate_main reverts its own aborts.")
             return 0, []
         log(f"{tag}: {len(banked)} banked, main byte-identical — {line}")
+        # COMMIT HERE, not at the end of the cycle (R42). A bisect can run for many levels, and
+        # deferring left byte-proven functions sitting uncommitted in src/ the whole time — exactly
+        # the window in which a blind revert by any other tool destroys them. The tree is verified
+        # byte-identical on this line; that is the moment it is safe and the moment it is durable.
+        commit_banks(tag, banked)
         return len(banked), banked
 
     if "COMPILE conflict" in out and len(slate) > 1 and depth < 4:
@@ -218,8 +223,7 @@ def cycle(a, tag):
         log(f"{tag}: {len(parked)} PARKED draft(s) from earlier overlay waves — gating those first "
             f"(already drafted, never gated)")
         batch = parked[:a.batch]
-        n, banked = gate_batch(tag, batch)
-        commit_banks(tag, banked)
+        n, banked = gate_batch(tag, batch)      # gate_batch commits each verified sub-batch (R42)
         failed = [x for x in batch if x["fn"] not in set(banked)]
         if failed:
             fp = ".run/main_queue_failed.json"
@@ -262,8 +266,7 @@ def cycle(a, tag):
     keep, counts = OX.reloc_filter(tag, drafts, cards)
     log(f"{tag}: reloc_identity {counts} -> slate {len(keep)}")
     slate = [{"fn": k["fn"], "draft": k["draft"]} for k in keep][:a.batch]
-    n, banked = gate_batch(tag, slate)
-    commit_banks(tag, banked)
+    n, banked = gate_batch(tag, slate)          # gate_batch commits each verified sub-batch (R42)
     with open(LEDGER, "a") as f:
         f.write(json.dumps({"t": time.time(), "tag": tag, "cards": len(targets),
                             "drafts": len(drafts), "slate": len(slate), "banked": n,
