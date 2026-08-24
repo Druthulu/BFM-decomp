@@ -4427,7 +4427,37 @@ DEFINE_func_801838A4()  /* dedup: shared engine-core @0x801838A4 (src/shared) */
 DEFINE_func_801838E0()  /* dedup: shared engine-core @0x801838E0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_8018391C);
+void func_8018391C(void *a0)
+{
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001CA1C(s32, s32);
+    extern s32 func_8012A828(void*, void*);
+    extern s32 rand(void);
+    extern u8 D_8018E160;
+    extern u8 D_8018E1C0;
+
+    register s32 s0 __asm__("$16");
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    s0 = (s32)a0;
+    *(s32 *)(s0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)s0);
+    } else {
+        ((void (*)(s32, void *))func_8001CA1C)(v0, &D_8018E160);
+        ((s32 (*)(s32, void *))func_8012A828)(s0, &D_8018E1C0);
+        *(s32 *)(s0 + 0x94) = rand() & 7;
+        *(u16 *)(s0 + 2) = 1;
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = (rand() >> 3) + 0x2000;
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x2000;
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) |= 0x10;
+        *(u32 *)(*(s32 *)(s0 + 0x20) + 4) |= 0x8000000;
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x14) = rand() & 0xFFF;
+    }
+}
+
 
 void func_801839F4(s32 param_1) {
     if ((func_80029178(0xB8) & 0xFF) != 0) {
@@ -5328,7 +5358,22 @@ void func_80185550(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_801855F0);
+void func_801855F0(s32 arg0, s32 arg1, s32 arg2) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type
+       (func_80185698 below declares D_801D4472 as s32 at block scope).
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s16 D_801D446C;
+    extern s16 D_801D446E;
+    extern s16 D_801D4470;
+    extern s16 D_801D4472;
+
+    D_801D446C = *(u16 *)((s32)arg0 + 0x0);
+    D_801D446E = *(u16 *)((s32)arg0 + 0x2);
+    D_801D4470 = arg1;
+    D_801D4472 = arg2;
+}
+
 
 
 

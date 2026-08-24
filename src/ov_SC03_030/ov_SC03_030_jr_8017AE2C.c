@@ -4051,7 +4051,31 @@ void func_8017DA4C(int param_1)
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017DA9C);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017DAFC);
+typedef struct { u8 b[8]; } Blk8_8017DAFC;
+extern Blk8_8017DAFC D_801E06BC;
+extern u8 D_801858EC;
+extern void func_80019064(void *a0);
+extern s32 func_80171D78(s32 a0, s32 a1);
+extern void func_8017DFA0(s32 param_1);
+extern void func_80175414(s32 _arg0);
+extern void func_8016F264(void);
+extern s32 func_80171990(u8 *a0);
+
+void func_8017DAFC(void *a0) {
+    void *s0 = a0;
+    Blk8_8017DAFC buffer;
+
+    buffer = D_801E06BC;
+    func_80019064(&D_801858EC);
+    func_80171D78((s32)s0, (s32)&buffer);
+    func_8017DFA0((s32)s0);
+    if (--*(s32 *)((s32)s0 + 0x200) == -1) {
+        ((void (*)(void))func_80175414)();
+        func_8016F264();
+        func_80171990((u8 *)s0);
+    }
+}
+
 
 extern u8 D_801858EC;
 extern void func_80019064(void *a0);

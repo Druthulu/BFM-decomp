@@ -6222,7 +6222,47 @@ void func_80184D40(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184D7C);
+void func_80184D7C(s32 param_1)
+{
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern s32 func_8012C194(void);
+    extern void func_8001CD9C(s32 a0, void *a1);
+    extern u8 D_801A4014;
+    extern u8 D_801A3B18;
+    extern u16 D_801A3B58[];
+
+    s32 obj;
+    s32 sub;
+    u16 t;
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = obj;
+    if (obj == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+
+    func_8001C214(obj, (s32)&D_801A4014);
+
+    sub = ((s32 (*)(void))func_8012C194)();
+    if (sub != 0) {
+        *(s32 *)(param_1 + 0xCC) = sub;
+        func_8001CD9C(sub, (void *)&D_801A3B18);
+        *(u16 *)(sub + 0x18) = 0x800;
+        *(u16 *)(sub + 0x1A) = 0x800;
+        *(u32 *)(sub + 4) |= 0x50000000;
+    }
+
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) |= 0x20;
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x80) = (s32)D_801A3B58;
+
+    t = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0x36);
+    *(s16 *)(param_1 + 2) = 1;
+    *(u16 *)(param_1 + 0xFE) = t;
+}
+
 
 
 typedef struct { s16 a, b, c; } SV3x_80184B30_80184E54;

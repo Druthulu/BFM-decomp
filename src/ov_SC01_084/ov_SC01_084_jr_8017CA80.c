@@ -3843,7 +3843,27 @@ void func_8017F378(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017F474);
+void func_8017F474(void *a0) {
+    extern struct B8_17F474 { u8 b[8]; } D_8018A790[];
+    extern s32 D_801270D8;
+    extern s32 func_8012BEE8(s32 a0);
+    extern s32 func_8012BD14(s32 a0);
+    extern s32 D_80126B9C;
+    extern void func_8017F218(void *a0);
+
+    *(struct B8_17F474 *)((s32)a0 + 0x50) = D_8018A790[0];
+
+    if (D_801270D8 == 6) {
+        if (func_8012BEE8((s32)a0)) {
+            if (func_8012BD14((s32)a0) <= 0x27100) {
+                if (D_80126B9C & 0x8000000) {
+                    func_8017F218(a0);
+                }
+            }
+        }
+    }
+}
+
 
 extern s32 func_8012BEE8(s32 arg);
     extern void func_8017F26C(s32 *a0);

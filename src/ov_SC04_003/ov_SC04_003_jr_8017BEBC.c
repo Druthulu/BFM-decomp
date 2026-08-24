@@ -3925,7 +3925,28 @@ void func_8017E040(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017E07C);
+void func_8017E07C(void *a0, s32 a1) {
+    extern s32 func_8012C51C(void *a0, s32 a1);
+    struct S80143BDC { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } sp;
+
+    if (a0 != 0 && *(u16 *)a0 != 0) {
+        sp.f0 = *(u16 *)((s32)a0 + 0x6);
+        sp.f2 = *(u16 *)((s32)a0 + 0xA);
+        sp.f4 = *(u16 *)((s32)a0 + 0xE);
+    } else {
+        sp.f4 = 0;
+        sp.f2 = 0;
+        sp.f0 = 0;
+    }
+    sp.f6 = 0x8E;
+    sp.fE = 0;
+    sp.fA = 0;
+    sp.f8 = 0;
+    sp.f10 = *(s32 *)((s32)a0 + 0xDC);
+    sp.fC = a1;
+    func_8012C51C(&sp, (s32)a0);
+}
+
 
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C_8017E108; /* 0x20 bytes, align 4 */
 typedef struct { short a, b, c; } SV3_80181D44_8017CEF4_8017E108;   /* == the TU's own `SV3` (engine_types.h:612); renamed only because

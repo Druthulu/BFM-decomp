@@ -5532,7 +5532,35 @@ s32 func_8018687C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018692C);
+#include "common.h"
+
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+
+s32 func_8018692C(s32 arg0) {
+    extern s32 D_801E43CC[];
+    extern s32 D_801E4400[];
+
+    s32 count = 0;
+    s32 i = 0;
+    s32 *p = D_801E43CC;
+
+    for (; i < 13; i++, p++) {
+        if ((*p = func_8012C658(0x49, i, arg0)) == 0) {
+            count++;
+        }
+    }
+
+    i = 0;
+    p = D_801E4400;
+    for (; i < 6; i++, p++) {
+        if ((*p = func_8012C658(0x49, i + 13, arg0)) == 0) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 
 
 

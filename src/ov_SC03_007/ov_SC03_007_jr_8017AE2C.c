@@ -8300,7 +8300,28 @@ void func_80184278(int param_1)
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80184410);
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80184500);
+extern void func_801846EC(s32 *param_1);
+extern u8 D_801E9D30[];
+
+void func_80184500(s32 param_1) {
+    s32 rec;
+    s32 val;
+
+    rec = (s32)(D_801E9D30 + *(s32 *)(param_1 + 0x34) * 0x40);
+    val = *(u8 *)rec;
+    val = val - 8;
+    if (val > 0) {
+        goto join;
+    }
+    func_801846EC(param_1);
+join:
+    if (val <= 0) {
+        return;
+    }
+    val = (val << 16 | val << 8) | val;
+    *(s32 *)rec = val;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_80184560);
 
