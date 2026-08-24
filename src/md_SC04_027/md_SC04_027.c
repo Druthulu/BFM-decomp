@@ -394,7 +394,28 @@ u32 func_801E9B00(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/md_SC04_027/nonmatchings/md_SC04_027", func_801E9B68);
+void func_801E9B68(unsigned int val, short n, unsigned short *dst, short flag) {
+    extern unsigned short *D_801EB8B8[];
+    register unsigned int d __asm__("$3");
+    short i;
+    int idx;
+
+    for (i = 0; i < n; i++) {
+        d = val >> 28;
+        idx = d;
+        if (flag != 0) {
+            if (d != 0) {
+                flag = 0;
+            } else {
+                idx = 10;
+            }
+        }
+        val <<= 4;
+        *dst = *D_801EB8B8[idx];
+        dst++;
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC04_027/nonmatchings/md_SC04_027", func_801E9BE0);
 

@@ -4392,7 +4392,27 @@ void func_801812FC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80181324);
+typedef struct { u8 b[8]; } Blk8_80181324;
+
+extern Blk8_80181324 D_8018AA14;
+extern u16 D_8018AA1C[];
+extern void func_80182CDC(void*, void*, s32, s32);
+
+void func_80181324(void) {
+    Blk8_80181324 local;
+    s32 s1 = 0, s0 = 0;
+    do {
+        local = D_8018AA14;
+        func_80182CDC(&local, D_8018AA1C, (s16)s1, 2);
+        if ((s0 & 1) != 0)
+            D_8018AA1C[1] += 0x30;
+        else
+            D_8018AA1C[1] -= 0x30;
+        s0++;
+        s1 += 0x80;
+    } while (s0 < 0x20);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_801813E8);
 

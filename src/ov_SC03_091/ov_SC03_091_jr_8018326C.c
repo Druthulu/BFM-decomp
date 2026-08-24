@@ -6236,7 +6236,39 @@ void func_801889A0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8018326C", func_801889EC);
+extern s32  func_8012B77C(s32 out, s32 from, s32 to);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern s32  rand(void);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+
+void func_801889EC(s32 a0, s32 a1)
+{
+    s16 sp10[8];   /* the func_8012B77C "to" record — fields at +0x2/+0x6/+0xA */
+    s32 sp20[2];   /* reused as both func_8012B0B4's dest and func_8012B77C's "out" */
+    s32 t;
+    s16 r;
+
+    r = rand();
+    func_8012B0B4((unsigned int *)sp20, r % 0x1000, (r % 0x100) + 0x200);
+
+    t = sp20[0];
+    if (a1 != 0) {
+        sp10[1] = D_80126B5E + t;
+        sp10[3] = *(u16 *)(a0 + 0xA);
+        sp10[5] = D_80126B66 + (t >> 16);
+    } else {
+        sp10[1] = *(u16 *)(a0 + 0x88) + t;
+        sp10[3] = *(u16 *)(a0 + 0xA);
+        sp10[5] = *(u16 *)(a0 + 0x8C) + (t >> 16);
+    }
+    func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
+
+    t = sp20[0];
+    *(s16 *)(a0 + 0x100) = *(s16 *)(a0 + 0xE4) = t;
+    *(s16 *)(a0 + 0x102) = *(s16 *)(a0 + 0xE6) = t >> 16;
+}
+
 
 typedef struct { short m[3][3]; long t[3]; } MTX_80188B0C;
 typedef struct { s32 vx, vy, vz; } V32_80188B0C;

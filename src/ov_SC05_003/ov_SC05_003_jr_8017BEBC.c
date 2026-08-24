@@ -5257,7 +5257,31 @@ s32 func_80180B04(s32 a0, s32 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80180C44);
+extern s32 func_80133784(s32, void *, s32);
+struct SV3_8012CC88 { u16 vx, vy, vz; u8 pad; };
+
+s32 func_80180C44(s32 a0, void *a1, s32 a2) {
+    struct SV3_8012CC88 sp10;
+    struct SV3_8012CC88 sp18;
+    s32 v0;
+
+    sp10.vx = *(u16 *)(a0 + 0x06);
+    sp10.vy = *(u16 *)(a0 + 0x0A);
+    sp10.vz = *(u16 *)(a0 + 0x0E);
+
+    sp18.vx = *(u16 *)(a0 + 0x06);
+    sp18.vy = *(u16 *)(a0 + 0x0A);
+    sp18.vz = *(u16 *)(a0 + 0x0E);
+    sp18.vx += *(u16 *)(a1 + 0);
+    sp18.vy += *(u16 *)(a1 + 2);
+    sp18.vz += *(u16 *)(a1 + 4);
+
+    v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)&sp10, (s32)&sp18);
+
+    v0 |= *(u8 *)&sp18.pad;
+    return v0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80180CE8);
 
@@ -5349,7 +5373,36 @@ void func_8018105C(void *param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8018111C);
+extern s32 D_801A9850;
+extern s32 D_801A97C8;
+extern void func_801814D8(s32 a0, s32 a1);
+
+void func_8018111C(s32 param_1)
+{
+    s32 vec;
+    s32 w;
+
+    vec = *(s32 *)(param_1 + 0x20);
+    if (*(s16 *)(param_1 + 0xFE) != *(s16 *)(*(s32 *)(param_1 + 0x64) + 0x36) ||
+        *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x90) == (s32)&D_801A9850) {
+        *(s32 *)(param_1 + 0x48) = 0xC000;
+        *(u16 *)(param_1 + 2) = 3;
+        return;
+    }
+    w = *(u16 *)(vec + 0x1A) + 0x40;
+    *(u16 *)(vec + 0x18) += 0x40;
+    *(u16 *)(vec + 0x1A) = w;
+    if ((s16)*(u16 *)(vec + 0x18) >= 0x1801 || (s16)w >= 0x1801) {
+        *(u16 *)(vec + 0x1A) = 0x1800;
+        *(u16 *)(vec + 0x18) = 0x1800;
+    }
+    if (*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x90) == (s32)&D_801A97C8 &&
+        *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x94) == 9) {
+        *(u16 *)(param_1 + 2) = 2;
+    }
+    func_801814D8(param_1, 2);
+}
+
 
 #include "common.h"
 

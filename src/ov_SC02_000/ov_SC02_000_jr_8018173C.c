@@ -6133,7 +6133,33 @@ void func_80189904(s32 param_1)
 
 DEFINE_func_80189950()  /* dedup: shared engine-core @0x80189950 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189958);
+extern void func_8012BF4C(s32 *arg0, s32 arg1);
+extern s32 func_8012AD50(void *arg0);
+extern void func_80189B1C();
+extern u32 func_80189DB8(u32 a0, u32 a1);
+extern s16 D_8018F71E;
+
+void func_80189958(s32 param_1) {
+    s16 *ptr = &D_8018F71E;
+    int val;
+    int sum;
+    u16 range[2];
+
+    val = *(u16 *)(param_1 + 0x100) + 0x100;
+    sum = *(u16 *)(param_1 + 0xFE) + val;
+    *(u16 *)(param_1 + 0x100) = val;
+    *(u16 *)(param_1 + 0xFE) = sum;
+    *ptr = sum;
+    if (*ptr >= 0x2001) {
+        *ptr = 0x2000;
+        func_8012BF4C((s32 *)param_1, 0xA);
+        func_8012AD50((void *)param_1);
+    }
+    range[0] = 0;
+    range[1] = 0x50;
+    func_80189B1C((void *)param_1, range, ptr - 1, (void *)func_80189DB8(param_1, 0x2020F0));
+}
+
 
 extern u32 func_80189DB8(u32 param_1, u32 param_2);
 extern void func_80189B1C();
