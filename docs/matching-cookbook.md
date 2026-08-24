@@ -24926,3 +24926,270 @@ reachable by an `"0"(b)` re-tie but sits behind §172's +8-frame canonicalizatio
 `swaprepeat` siblings `func_80187E08`/`func_80182FD0` already carry the right doubled-compare
 structure — their 2-10-instruction scratch permutation is the S11 knife-edge, permuter fuel, and one
 fix banks both by remap.
+
+## §265 — THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BODY (P31 S59b; two banked cards, two in-tree precedents)
+
+**The symptom you see in a diff.** Every draft plateaus at SIZE-MISMATCH or an unclosable structural
+residual, and the target has one of the un-compilable tells: the -O0 prologue (`addu $fp,$sp,$zero` /
+`21F0A003`, `nop` in every delay slot, per-statement `li`) while the object's Makefile globs compile it
+-O2 (§261: **116 functions / 14,148 ins are stranded this way — nothing matches `src/md_*/`**); or the
+splat header says `/* Handwritten function */`; or the shape is one gcc-2.7.2 never emits (a `bgez`
+whose OR-path falls through into a `j` chain, hand-placed GTE hazard `nop`s). **No C source can score
+MATCH against these under the object's real CC1FLAGS. Stop drafting C.**
+
+**The mechanism.** A raw `__asm__` body is opt-level-independent: cc1 passes the string through
+untouched, so it emits the identical instructions whether the TU compiles -O0 or -O2, and the ordinary
+whole-binary gate accepts it the moment the `INCLUDE_ASM` stub line is replaced. Two byte-banked forms:
+
+1. **File-scope block** (for a stranded ordinary function): transcribe the whole `.s` —
+   `__asm__(".text\n.align 2\n.globl <fn>\n.ent\t<fn>\n" "<fn>:\n.frame $sp,40,$31\n.mask 0xC0010000,-16\n.fmask 0,0\n" ".set\tnoreorder\n" …every instruction… ".set\treorder\n.end\t<fn>\n");`
+   Banked: `func_800D0440` (93/93, md_MAIN_003 — a gcc -O0 body inside an -O2 module, at
+   `src/md_MAIN_003/md_MAIN_003.c:329`). Precedent: `func_80185810`
+   (`src/ov_SC03_105/ov_SC03_105_jr_8017C8D0.c:5493`).
+2. **C-definition wrapper** (for a `/* Handwritten function */`): `void <fn>() { __asm__ __volatile__(".set\tnoreorder\n" … ); }`
+   Banked: `func_800CBA44` (109/109, md_MAIN_027, handwritten GTE add-halfwords loop, at
+   `src/md_MAIN_027/md_MAIN_027.c:225`). Precedent: `src/800b2.c`.
+
+**The transcription rules (each one cost a compile or a session somewhere):**
+- **MASPSX REJECTS HEX IMMEDIATES inside `__asm__` strings** — the error is
+  `invalid literal for int() with base 10: '0x20'`. Every immediate must be **decimal** (`65535`, `-40`,
+  `24`). `%hi(SYM)`/`%lo(SYM)` and bare `jal <sym>` work and relocate correctly.
+- **Transcribe verbatim, model nothing.** The -O0 `$fp` prologue, every delay-slot `nop`, and fake
+  frames all stay: `func_800CBA44` carries a mid-body `addiu $sp,-8` + `lw 0x18/0x1C($sp)` whose only
+  purpose is reloading stack args 5/6 and hosting `cfc2` flag spills — transcribe it, do not turn it
+  into C locals.
+- **Ship NO C externs with the file-scope form.** The asm resolves symbols at link time; a guessed type
+  for an otherwise-undeclared global (`D_800EC894`) is pure §236-1 conflict risk with zero benefit.
+- **Leave the recovered C semantics in a comment** beside the body so the eventual real decomp (post
+  §260/§261 lane work) starts warm.
+
+**What was tried and failed (the reason this lane exists):** three sessions of near-79/83
+SIZE-MISMATCH C drafts on `func_800D0440` against a hardcoded -O2 oracle — a feedback loop that cannot
+converge (§261); and a 7-oracle-call full lever sweep (polarity flips, goto tails, ternaries, pins,
+hoists, rtps nop orders) on the `/* Handwritten function */` homonym of `func_8017FB04`
+(ov_SC03_030, 83 ins, rtps/ctc2) whose `bgez`-with-OR-fallthrough tail **no compiler output ever
+contains** — see Refuted #3 below. Check the handwritten tag and the §261 prologue oracle FIRST;
+`grep -l 'Handwritten' asm/<ov>/nonmatchings/*/<fn>.s` is free.
+
+**ACCOUNTING (added at review, P31 S59b).** A verbatim-asm body is not an `INCLUDE_ASM` stub, so
+`corpus.stubs()` — and therefore every progress number derived from it — counts it as MATCHED. That
+is a true number about something narrower than the reader assumes (R32/R41): the bytes are proven,
+the function is not decompiled. Two exist in the tree today (`func_800D0440` @ md_MAIN_003,
+`func_80185810` @ ov_SC03_105) plus the `src/800b2.c` wrapper form, so the distortion is currently
+negligible — but the §261-stranded population is 116 functions, and banking them this way would move
+the headline metric without decompiling a line. **Use it for hand-written asm, where no C is the
+right answer; for an -O0 C function, the right answer is the -O0 object (§261/§261a) and this lane is
+a temporary hold at best.** If a future session banks more than a handful this way, split the metric
+before the number is quoted anywhere.
+
+**Boundary.** This banks bytes, not understanding — it is the escape hatch for the §261-stranded
+population and hand-written asm only. An ordinary -O2 function that merely resists you is not in
+scope; neither is an -O0 function already inside an `_o0*` object (those bank as real C per §261a and
+are STRICTLY easier). Grep bait: `verbatim asm`, `asm body`, `handwritten`, `maspsx hex immediate`,
+`decimal immediates`, `-O0 stranded`, `.set noreorder body`.
+
+
+## §266 — THE INERT-RIDER LAW: A LEVER IS ONLY CITABLE WHEN ITS SOLO REMOVAL BREAKS THE MATCH (P31 S59b; measured 4-of-8 on this batch)
+
+**The symptom.** A victory note — or your own session memory — credits a MATCH to one named lever
+("the volatile is what makes the ordering stick", "fell to a single `$2` pin", "only the named local
+splits the pseudos", "separate statements block the fold"). The lever was added in the same edit as
+other changes, and the note's confidence is absolute.
+
+**The mechanism.** Near-miss iteration stacks edits. When the miss closes, the **last-added** lever
+gets the credit — and byte-inert riders survive into the banked body precisely *because* they are
+inert: a `register __asm__("$2")` pin in a function with a call is silently dropped (§257-2), a
+`volatile` on an RMW the scheduler already orders is a no-op, a named constant local coalesces to the
+same RTL. The banked artifact then *contains* the rider, which reads as proof.
+
+**The instrument.** `match_one` the banked body with the lever removed — one edit, ~20 s, private
+scratch. This distillation ran it on all 8 solo-attributable lever claims in the batch. **Four were
+inert** (the banked body matches with the lever stripped):
+
+| card | credited lever | solo A/B |
+|---|---|---|
+| `func_801816C8` (ov_SC03_093) | `register s32 q __asm__("$2")` on the modulo result | pin / no-pin **both MATCH 21/21** — §257-2's silent drop, confirmed live |
+| `func_80188770` (ov_SC05_010) | `volatile` on the post-call counter RMW | volatile / plain **both MATCH 54/54** |
+| `func_80183994` (ov_SC02_011) | `t = 0; … return t;` naming to split return pseudos | named / literal `return 0` **both MATCH 103/103** |
+| `func_8018046C` (ov_SC03_024) | separate load/dec/store statements to block a `(x−1)==−1` fold | separated, fused-temp, and compound-in-condition **all MATCH 69/69** |
+
+and four were load-bearing (removal breaks it): `func_8017EF64` (+2 LENGTH-DRIFT), `func_801E28D0`
+(−4), `func_801822D8` (25 mismatches), `func_801AEB94` (SCHEDULE-REORDER/4) — plus `func_801E2BE0`
+(1 mismatch) and `func_8018117C` (−2) from the same campaign. A/B files: `.run/s59_distill/`.
+
+**The law.** Before a lever enters a note, a card comment, or this cookbook: strip it from the
+otherwise-final body and recompile. If the match holds, the lever is a rider — record the *actual*
+spelling that survives (here: the named quotient local, the statement shapes, the plain RMW), not the
+rider. This is R40 (exonerate the instrument) applied to the flywheel itself, and it is why three of
+this batch's five "law-grade" candidate claims died in review. **Harvest-note convention: write
+"banked WITH X; X not solo-A/B'd" unless you ran the A/B.** Grep bait: `inert rider`, `lever
+attribution`, `solo A/B`, `pin did nothing`, `volatile did nothing`.
+
+---
+
+
+
+## §267 — ADDENDA HARVESTED FROM WAVES at/bh/bk/bl (P31 S59b)
+
+*Eleven amendments to existing sections, distilled from 165 byte-gate-banked harvest notes (145 of
+which were already covered — the harvest is mostly re-derivation, which is itself the finding). Each
+block names the section it amends, so a grep for that § finds the amendment too. Six of the eleven
+carry a fresh `match_one` A/B; the rest are artifact-verified. Sources and per-candidate dispositions:
+`docs/distill/atbhbkbl.md`.*
+
+### ADD-1 → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION
+
+A relocation-masked `jal` can render in `match_one`'s diff pane as if the call were DELETED — the
+aligner shows the slot's instruction where you expect the `jal`, and a drafter reads "my call didn't
+emit" (several near-15/17 verdicts on `func_80188770` were exactly this misdiagnosis, in both its
+wave notes). The call was always there; §195-D's `mask_for` returns 0 for every `j`/`jal` word.
+**The 20-second probe: compile a one-line body `f(p){g(p);}` and diff — if the `jal` appears there, it
+was never missing in your draft either.** Read the masked columns as *alignment*, not absence.
+
+### ADD-2 → §42a addendum — A SHARED CONSTANT *NAMED IN A LOCAL* ACROSS A `jal` IS AN ISO→TU DRIFT HAZARD; WRITE BARE LITERALS
+
+§42a lever 4 documents const-load sinking past a call, but not this: a `s32 k = 0x40;` reused on both
+sides of a `jal` keeps a pseudo live across the call, giving global-alloc the *choice* between a
+callee-saved home and rematerialising `li` — a choice that is stable in isolation and can flip under
+the real TU's ambient pressure (the §42a iso-MATCH→real-TU class). Bare literals at each use delete
+the freedom. Cards: `func_80180820` (ov_SC03_094 — the true twin `func_80181644`'s banked C uses bare
+literals; the named-local draft iso-MATCHed and failed the gate) and `func_800CB2CC` (md_MAIN_027 —
+"passing literal 1 to both calls lets gcc schedule `li s0,1` after the address calc; a named const
+got scheduled too early"). *Honesty bound: iso-side both spellings can MATCH, so this is a bank-side
+rule; it cannot be A/B'd by `match_one` alone.*
+
+### ADD-3 → §236, item 10 — THE UN-DELETED `INCLUDE_ASM` STUB IS A DUPLICATE DEFINITION
+
+The tenth way a byte-perfect body fails the gate, and the only one that is pure splice mechanics: the
+C definition lands but the function's own `INCLUDE_ASM(...)` line is not removed — two definitions of
+one symbol, whole binary red, zero instruction diff. `func_80180800` (ov_SC03_030) burned a full
+session on body levers before the stub was found; the shard-replay framing ("wrong in ONE place")
+points at the body when the wrong place is the line above it. Add to §236's PROCEDURE: **grep the TU
+for `INCLUDE_ASM.*<fn>` after every splice** (a lingering `.s` file in `nonmatchings/` is normal and
+harmless — §238; the *stub line* is the killer).
+
+### ADD-4 → §225-3/-4 addendum — THE MIRROR ROW: VALUE-RETURN IN THE *TAKEN* ARM + TRAILING BARE `return 0`
+
+§225-3's exemplar puts the constant on the early-return edges and the computed value on the
+fall-through. The mirror shape exists and has its own spelling: when the target's guard `beqz` jumps
+to the epilogue **with the zero written in its own delay slot** — counter-intuitively *clobbering the
+just-tested register* (`andi $v0,0xFF ; beqz $v0 ; addu $v0,$zero,$zero`) — the source is
+`if (A != 0) { return <computed>; } return 0;`: guard-positive, computed predicate in the taken arm,
+zero on the fall-through. **A/B-proven on `func_8017EF64`** (ov_SC01_009, 24/24): rewriting it as the
+early-return ladder `if (A == 0) return 0; return B == 0;` drifts +2 — the `beqz` slot empties to
+`nop` and a trailing `move v0,zero` block appears. The wave note also byte-refuted (a) `A && B` as a
+value (boolean homed in `$s0`, +sw pair), (c) the ternary `cond ? B : 0` (per §195-F it re-canonicalises),
+and (d) an accumulator local (homed callee-saved). *Reading tell worth its own grep string: a
+delay-slot write that clobbers the branch's own tested register is the other path's return constant.*
+
+### ADD-5 → §1/I1 addendum — THE INVERTED RANGE TEST: `(u32)(x-lo) >= N` WITH THE ZERO-ARM AS THE TRAILING `else`
+
+I1 shows only the positive layout. When the target emits `sltiu $v0,(v-lo),N ; bnez → <zero-store>`,
+the source is the NEGATED range test with the in-range body as the trailing else:
+`if ((u32)(v - 5) >= 0x4B5) { …out-of-range arms… } else { D = 0; }`. **A/B-proven on
+`func_801E28D0`** (md_SC03_135, 35/35): the natural `if (in-range) D = 0; else …` polarity drifts −4
+with 22 mismatches (beqz layout, different join). This is §247's branch-count read applied to I1 —
+cite both.
+
+### ADD-6 → §172b-1 / §264 addendum — SHIFT-AS-TEST: `(x << 16) != 0` TESTS THE LOW HALF WITHOUT TRUNCATING THE PSEUDO
+
+A lone `sll $v0,$sN,16` feeding only a `beqz`/`bnez`, while `$sN` itself stays RAW for a later `sh`,
+is not a cast and not an extend-pair: the source tests the low halfword **as an expression**, leaving
+the variable's mode alone: `s32 v; … if ((v << 16) != 0) { …; store(v); }`. **Three-way A/B on
+`func_801E2BE0`** (md_SC03_135, 56/56): the `(x<<16)!=0` spelling MATCHes; `(u16)v != 0` emits
+`andi v0,s0,0xffff` (1 mismatch, OPCODE-MIXED at the tail test); declaring the local `u16` also emits
+`andi`. File this beside the `extend-tell` LANE ALIASES block at §172b so the lane label greps to it.
+
+### ADD-7 → §256 addendum — THE SINGLE-GUARD GOTO: THEN-BLOCK OUT OF LINE AT THE TAIL
+
+§256 covers goto-dispatch. The degenerate single-guard case exists and no structured spelling reaches
+it: the target lays the guard's then-body **after** the function's `return` flow, entered by one
+forward `beq`, with the inline else-chain ending in `j .Lepilogue`. The source is an explicit goto:
+`if (v0 == -1) goto L1; …else-work…; return; L1: …then-work…;`. **A/B-proven on `func_801822D8`**
+(ov_SC01_009, 36/36, banked with the goto): the structured `if/else-if` inlines the then-body at the
+head — 25 mismatches, −1. (Its decrement is also a §252-reading instance: `v0 = load − 1; store;
+if (v0 == -1)` — but per §266, that statement split is byte-inert here; the goto is the load-bearing
+half.) The §162 "backward `j` into a sibling arm" law reads the same fact from the cross-jump side;
+this is the forward/out-of-line face.
+
+### ADD-8 → §245 addendum — THE RE-TIE BARRIER PINS CALL-ARG SETUP TO SOURCE ORDER (construct 6)
+
+When call N+1's two argument `addiu`s must issue at exact early slots while cheaper independent inits
+(`q = …; i = 0;`) sink below them, no statement permutation works — sched1 re-ranks them freely. Birth
+each argument as a local immediately after call N and nail it with the zero-byte re-tie:
+`a0v = (s32)loc; __asm__ __volatile__("" : "=r"(a0v) : "0"(a0v));` (one per argument), then pass
+`f(a0v, a1v)`. The `__volatile__` asm is scheduler-immovable (§257-8's fence effect, used
+constructively), so the two `addiu`s hold source position while the untied inits sink. **A/B-proven on
+`func_801AEB94`** (md_SC07_004, 41/41, banked with the barriers): stripping the two re-ties gives
+SCHEDULE-REORDER/4 — the arg `addiu`s sink to slots 12/18, `q`/`i` rise to 10/11. Boundary: this is a
+placement lever (§245's rule); it moves nothing across a call and adds zero bytes.
+
+### ADD-9 → §213-3 / §217 addendum — ADJACENT PRE-CALL FRAME STORES ARE ONE AGGREGATE; THE UNESCAPED SCALAR NEIGHBOR IS DEAD-STORED
+
+§213-3 reads interleaved `sh $zero` runs as adjacent-array initialisers. The escape-analysis corollary
+bites on call setup: `sh $zero,0x18($sp) ; sh $v0,0x1A($sp)` ahead of a call taking `$sp+0x18` is a
+**two-element `s16 buf[2]`** whose whole address escapes. Spelled as two scalars with `&sp18` passed,
+gcc dead-stores the neighbor whose address never escapes. **A/B-proven on `func_8018117C`**
+(ov_SC03_116, 34/34): the `s16 buf[2]` form MATCHes; `s16 sp18, sp1A; … &sp18` drifts −2 — the
+`sp1A = 0x20` store (and its `li`) vanish. Reading rule: adjacent stack stores feeding one escaping
+address = one aggregate, never sibling scalars.
+
+### ADD-10 → §237 addendum (arity-evidence paragraph) — AN `la` PAIR ABOVE THE PROLOGUE `sw $ra` IS AN OUTGOING-ARGUMENT MATERIALISATION
+
+Add to the asm arity tells: a `lui/addiu %hi/%lo(SYM) → $aN` pair issued **above** `sw $ra` — while
+the incoming `$a0` is never touched — declares SYM the callee's argument N+1 and the raw parameter
+argument 1, i.e. a two-arg call even when every visible decl says `void f()`. `func_8017EB38`
+(ov_SC02_005, 21 ins): `lui/addiu $a1,%hi/%lo(D_801E4C50)` sits two instructions above `sw $ra`; the
+banked C is `func_8017EDF8(a0, p)` with the atlas row a bare `?`. §217's mirror covers *incoming*
+stack args read above the save; this is the outgoing face.
+
+### ADD-11 → Cross-confirmation card block (per §259's standing instruction: confirmation, not news)
+
+Append these card references to the named sections — each was independently re-derived and
+byte-banked in waves bh/bk/bl:
+
+- **§209-addendum no-local row + §226-4 INVERSE** ← `func_80180EFC` (ov_SC04_005, bl) — un-hoisted
+  double textual read regenerated the `addu` copy AND the 0x20 frame in one edit; both entries were
+  single-card, now cross-confirmed. Its sharpening stands: a guarded value stored once should not be
+  given a name even when guard and use are textually adjacent.
+- **§223-A/-B** ← `func_800CB61C` (bl; the slot `$v0` is the PRECEDING call's return),
+  `func_800CB234`, `func_80180F68` (bk; pre-call store fills the slot), `func_801875A4` (bk; every
+  slot store is a source store-before-call — see Refuted #1).
+- **§234** ← `func_8017EDC4` (u16→`ori 0xff00` / s16→`addiu -0x100`), `func_801803F0` (s16 record
+  element → `addiu -2`), `func_8017FF6C` (0xC800 u16→`ori`), `func_80181DC0` (negative chain constants
+  spelled `-0xB2` for `addiu`) — all bh.
+- **§236-2** ← `func_801819A0` (bh) — tu-typed `extern s32` MUST be block-scoped because sibling
+  functions carry block-scope `s16` decls of the same symbol; store through `*(s16*)&`.
+- **§236-1/-2 (fn-ptr tables)** ← `func_8017E448` (bk) — the conflict class on a function-pointer
+  TABLE extern; fleet spells `void (*D[])(void)`, dispatch passes nothing.
+- **§238** ← ~14 fresh cards across bh/bk/bl (`func_801808F0`, `func_80181090`, `func_80184500`,
+  `func_801816D8`, `func_8017F4DC`, `func_801857F4`, `func_801802CC`, `func_8017EE80`, `func_8017F7F0`,
+  `func_8017E940`, …) — including the sharpened tells: re-confirm the mounted oracle target's `glabel`
+  + ins count after any session resume; the task-header asm path outranks every replayed artifact.
+- **§246-3** ← `func_8017F724` (bh) — pointer-chase `p += 6` IV split killed by the index-loop form;
+  §1412's for-vs-do-while note supplies the loop shape.
+- **§255** ← `func_8018F194` (bh) — empty `case 1: break;` between {0,2} roots the tree on ==1.
+- **§225-3** ← `func_8017E7C4` (bh) — the SAME mixed construct at the opposite constant polarity:
+  `if (c1||c2||c3) return 1; return c4;`, all three `li v0,1` folds landing in the failing branches'
+  delay slots (22/22).
+- **§214-addendum-10** ← `func_801830B4` (bk) — a MATCHED twin's C comment carried `*24` while its own
+  bytes compute `*48`; diff the twin's encodings, never its comments.
+- **§252-related / §172b** ← `func_801914A0` (bh) — signed-short temp flips the post-decrement test
+  from `andi 0xffff` to `sll 16`.
+- **§165-17-correction (L19102)** ← `func_80181D04` (bh) — a pure bb0 swap around a masked shift fell
+  to retyping the temp `s32→u8`; statement order was inert.
+- **§20 pointer-var bullet / §243** ← `func_8018208C`, `func_80180108`, `func_80181230` (bh) — the
+  held-pointer lever on an indexed global, a global RMW, and an RMW-across-store respectively; on the
+  last, the memory-clobber barrier and `volatile` (both directions) were measured FAILURES — the
+  naming is the lever.
+- **§257-2** ← `func_801816C8` (bh) — now A/B-proven live: the `$2` pin in a rand()-calling function
+  is byte-inert (see §266).
+- **§226-addendum data point** ← `func_8017D710` (bk) — an address-taken `s32 frame_pad[2]` measured
+  0x10, not 8; the address-taken pad-form table's size column is `CEIL(size,8)` + rounding, worth a
+  row note.
+- **§220-addendum × loop-form interaction** ← `func_8017DF88` (bl) — only the combination
+  "plain `a0` param + `for` loop" reproduces the delay-slot refill; "named `s1` local + `for`" still
+  misses by spill. The two dials compose; A/B them jointly.
+
+---
+
