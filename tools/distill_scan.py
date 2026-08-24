@@ -10,6 +10,9 @@ and a tag re-opens the moment its file grows.
 
 Writes a READY marker when the pending rows are worth a reviewer's turn. Writes nothing else.
 
+The reviewer is an **Opus or Sonnet** subagent, never Fable (Drew, 2026-08-24): distilling is
+judgement over an existing corpus, not a new wall class.
+
   distill_scan.py <state.json> <ready_dir> <min_novel> <min_waves>
 """
 import glob

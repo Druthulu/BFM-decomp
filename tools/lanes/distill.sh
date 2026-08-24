@@ -9,7 +9,12 @@
 #
 # This lane does the zero-token half: watch for new candidate rows, and when a batch is worth a
 # reviewer's turn raise a READY marker naming the waves. A human + subagent then distills, lands the
-# sections, and records the mined count. Nothing here writes the cookbook, src/ or config/ — a bad
+# sections, and records the mined count.
+#
+# WHICH TIER REVIEWS A BATCH: **Opus or Sonnet — NOT Fable** (Drew, 2026-08-24). Distillation is
+# judgement over an existing corpus — read harvested notes, decide covered / addendum / new against
+# 760+ sections — not a new wall class. Fable is for the walls: an unsolved tooling problem, an
+# adversarial design review, a residual no documented lever reaches. Nothing here writes the cookbook, src/ or config/ — a bad
 # harvest can never pollute the knowledge base on its own.
 #
 # It never blocks a draw. Wave N's ore is distilled while wave N+1 drafts, so wave N+2 is the first
