@@ -6118,7 +6118,52 @@ void func_8018056C(S_8018056C *s0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_801805D0);
+extern M2C_UNK D_80199824;
+extern M2C_UNK D_8019972C;
+extern s32 D_801997A4;
+
+void func_801805D0(void *arg0) {
+    void *s0 = arg0;
+    void *a1 = *(void **)((u8 *)s0 + 0x20);
+
+    if (*(s16 *)((u8 *)s0 + 0xFE) == *(s16 *)((u8 *)a1 + 0x12)) {
+        s32 buf[2];
+
+        if (func_80180BA4(s0, buf) == 1) {
+            if ((*(u16 *)((u8 *)s0 + 0x86) & 1) != 0) {
+                goto L_C0;
+            }
+            if ((rand() & 1) == 0) {
+                goto L_FC;
+            }
+            if ((*(u16 *)((u8 *)s0 + 0x86) & 1) == 0) {
+                goto L_D0;
+            }
+L_C0:
+            func_801804CC(s0);
+            goto tail;
+L_D0:
+            func_8012A8B0((u8 *)s0, (s32)&D_80199824);
+            *(s32 *)((u8 *)s0 + 0x1C) = 0x60;
+            func_8012AD44((s32 *)s0, 3);
+            goto tail;
+L_FC:
+            func_8012A8B0((u8 *)s0, (s32)&D_8019972C);
+            *(s32 *)((u8 *)s0 + 0x94) = 0xF;
+            *(s32 *)(*(u8 **)((u8 *)s0 + 0x20) + 0x20) = D_801997A4;
+            func_8012B23C((s32)s0);
+            func_8012AD44((s32 *)s0, 2);
+        } else {
+            *(u16 *)((u8 *)s0 + 0xFE) += 0x200;
+        }
+
+tail:
+        *(u16 *)((u8 *)s0 + 0x100) += 1;
+    } else {
+        func_80180F74(*(s16 *)((u8 *)s0 + 0xFE), (u16 *)((u8 *)a1 + 0x12), 0x20);
+    }
+}
+
 
 extern M2C_UNK D_80199644;
 extern void func_8012A8B0(u8 *a0, s32 a1);
@@ -6133,7 +6178,54 @@ void func_8018070C(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80180750);
+typedef struct { s32 w[8]; } MTX8L_80180750;
+
+s32 func_80180750(s32 a0)
+{
+    extern MTX8L_80180750 aD800AE620 __asm__("D_800AE620");
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_80020F34(s32 a0, s32 a1);
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void RotTransSV(void *a0, void *a1, void *a2);
+    extern s32 func_8012C588(s32 a0, s32 a1);
+
+    s16 *s1;
+    s16 rv[4];
+    s16 vec[4];
+    MTX8L_80180750 m;
+    s16 out[4];
+
+    s1 = (s16 *)func_8012C588(0x239, a0);
+    if (s1 != 0) {
+        m = aD800AE620;
+
+        vec[2] = 0x1800;
+        vec[1] = 0x1800;
+        vec[0] = 0x1800;
+
+        RotMatrixY(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), &m);
+
+        func_80020F34((s32)&m, (s32)vec);
+
+        func_8004914C(&m);
+
+        func_800491AC((void *)(*(s32 *)(a0 + 0x20) + 0x34));
+
+        rv[1] = -0x200;
+        rv[0] = 0;
+        rv[2] = -0x48;
+        RotTransSV(rv, rv, out);
+
+        *(u16 *)((u8 *)s1 + 0x6) = *(u16 *)&rv[0];
+        *(u16 *)((u8 *)s1 + 0xA) = *(u16 *)&rv[1];
+        *(u16 *)((u8 *)s1 + 0xE) = *(u16 *)&rv[2];
+
+        *(s32 *)(a0 + 0xCC) = (s32)s1;
+    }
+    return (s32)s1;
+}
+
 
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
