@@ -24664,3 +24664,109 @@ lever, and would be a false law if written up):
   (§246, `func_801AB5D4`). Nine drafts, all near-40.
 
 Both are permuter jobs, not source-lever jobs. Do not spend a wave's budget re-deriving them.
+
+## §260 — THE §154-A LEADING-ISLAND SPLIT: ONE CONFIG LINE, AND THE ISLAND PEELS FROM THE END (P31 S59, byte-proven)
+
+An `md_*` module binds `.rodata` at offset 0 to the same subseg as its code, so the object's rodata
+order is the C file's include chain: the `INCLUDE_RODATA` blobs, then every `INCLUDE_ASM`'d
+function's still-migrated jump table, in source order. That island reproduces byte-exactly **while
+the functions are stubs**, and the moment one is matched its table leaves the chain and cc1 re-emits
+it at the end of the object's `.rodata` — the +8-and-everything-shifts failure P30 S48 measured.
+
+**THE WHOLE FIX IS ONE INSERTED CONFIG LINE PLUS AN ISOLATION.** On `md_SC03_076` /
+`func_801F218C`:
+
+```yaml
+      - [0x0, .rodata, md_SC03_076]                      # leave the island piece ALONE
+      - [0x268, .rodata, md_SC03_076_jr_801F218C]        # the split: the function's own table
+      - [0x27c, c, md_SC03_076]
+      - [0x2d24, c, md_SC03_076_jr_801F218C]             # jr_isolate_all.py --only
+```
+
+Do **not** create a `_pre` piece (a dotted `.rodata` with no sibling `.c` points splat's ld at a
+never-built implied C file and unbinds the island from its module). Do **not** touch
+`ld_interleave` — the generated script is already rodata-first in yaml order. Use
+`jr_isolate_all.py --only`, not `jr_isolate.py` (its backend `sys.exit`s on a top-level extern
+block).
+
+**THE CONTROL THAT SEPARATES "IT WORKED" FROM "IT DID NOTHING."** A green SHA proves nothing on its
+own here, because a split that silently failed to happen is also green. Pair it with the
+object-level size:
+
+| | whole-binary sha1 | `md_SC03_076.o` `.rodata` | `md_SC03_076_jr_801F218C.o` `.rodata` |
+|---|---|---|---|
+| before | `9a165e36…` | 0x27c (the whole island) | — |
+| after | `9a165e36…` | **0x268** | **0x14** (the 5-entry table) |
+
+**THE ISLAND IS A STACK.** Census of `md_SC03_076` (file offsets): `D_801EF468` 0x000, `D_801EF540`
+0x0D8, then `func_801EFBB4` 0x144 · `func_801F0210` 0x1B4 · `func_801F0734` 0x1EC ·
+`func_801F0A9C` 0x214 · `func_801F0F28` 0x23C · `func_801F218C` 0x268 → 0x27C, the island end. Only
+the **end-adjacent** table carves cheaply; each isolation makes the next one end-adjacent, so a
+module peels from the end, one function at a time. Picking a middle table first is what makes the
+job look like cascading isolation.
+
+**TWO TOOL BLINDNESSES THIS EXPOSED, both md_*-only and both now fixed.** (1)
+`jtbl_carve.parse_config` took the FIRST `data/.rodata` piece in the file rather than the trailing
+run after the last `c` — identical on 171 configs, and on the 42 `md_*` it pointed at the island, so
+`apply()`'s splice DELETED the `c` line and wrote the yaml to disk before erroring for unrelated
+reasons. (2) `jr_isolate_all.jr_inventory` asserts every `.rodata` piece resolves to exactly one
+banked owner (R32) — true where jtbl_carve created every piece, false for the island, which has no
+owner; it aborted with `UNOWNED 0x801ef468` and md_* could not be isolated at all. The structural
+discriminator, verified over all 213 configs: a `.rodata` piece at offset 0 whose subseg is the
+binary's own alias exists in exactly the 42 `md_*` and in none of the others.
+
+## §261 — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)
+
+`match_one --o0` existed for a year and **nothing ever passed it**. `api_draft.match_one()` — the
+oracle every wave agent iterates against — builds a fixed argv without it, so an agent handed an
+-O0 target was shown an **-O2 compile of its own C** and a mismatch on every instruction: feedback
+that cannot converge, for a reason that never appears in the diff. It hit even the functions already
+sitting in `_o0` objects, where a match was otherwise bankable today.
+
+**DERIVE IT (R33), FROM TWO ORACLES (R34), BECAUSE NEITHER ALONE COVERS THE TREE:**
+* **the target's own prologue** — `sw $fp, N($sp)` + `addu $fp, $sp, $zero` (`21F0A003`) inside the
+  function's first instructions. gcc-2.7.2 keeps a frame pointer at -O0 and omits it at -O2.
+* **the subseg's build flags** — `boot` and every `*_o0*` object are compiled -O0 by the Makefile.
+  `boot/start.s` is -O0 with no ordinary prologue; only this oracle sees it.
+
+**`$fp` MENTIONS ARE NOT THE POPULATION.** `$fp` is `$s8`, an ordinary allocatable callee-saved
+register at -O2. Over 14,400 `.s` files: **311 mention `$fp`, 167 carry the -O0 prologue.** Sizing a
+lane off the 311 over-counts by 1.9×. Anchor the prologue scan at `glabel`, not the top of the file
+— two `md_MAIN_011` targets open with a migrated jump table / `.asciz` blob, and a naive "first 8
+encoded lines" reads table words as the prologue and calls an -O0 function -O2.
+
+**A MATCH IS NOT A BANK FOR THIS CLASS.** An -O0 function in an -O2 subseg cannot bank however
+perfect the body: the object's `CC1FLAGS` decide, and the Makefile's -O0 globs cover `boot`,
+`ov_SC01_077_o0`, `src/ov_*/ov_*_o0.c` and `src/ov_*/ov_*_o0?.c` — **nothing matches `src/md_*/`**.
+Of the 167, 51 are inside an -O0 object and **116 (14,148 ins) are stranded in -O2 subsegs**, so
+`match_one` now says so on sight rather than letting an agent chase a body that can never land.
+
+## §262 — A LANE'S YIELD IS ONLY A LANE FACT IF IT IS SIZE-MATCHED (P31 S59)
+
+The `tells` lane was removed from the drafting rotation on four waves that gated 3–6 of ~56 drafts.
+Two confounds, both measurable from artefacts the campaign already writes:
+
+1. **The band.** All four cited waves ran at 120-2000. Pooled by band: tells @120-2000 = 228 drafts
+   → 18 banked (7.9%); tells @ full band = 655 → 161 (24.6%); default @ full band = 2,996 → 1,335
+   (44.6%).
+2. **The size mix.** Join each wave's cards to the functions its own commit banked (the removed
+   `INCLUDE_ASM` lines are the ground truth — no roster, no ledger):
+
+| nins | default | tells |
+|---|---|---|
+| 0–50 | 303/528 **57%** | 27/67 **40%** |
+| 50–80 | 43/145 30% | 20/73 27% |
+| 80–120 | 9/41 22% | 10/100 10% |
+| 120–200 | 1/30 3% | 1/68 1% |
+| 200+ | 2/35 6% | 0/30 0% |
+
+At equal size the lanes are close below 80 instructions and **both collapse above it**. What
+separated them was the pool: default's cards are median 37–39 ins, the tells pool median 89–95 —
+2.4× larger. "The lane is broken" was a statement about the population.
+
+**THE CHEAP CHECK BEFORE YOU RETIRE A LANE:** compare bank rate *inside a size bucket*, and read the
+recorded pre-gate verdicts first (R38). Here the recorded `reloc_identity` rows also refuted the
+standing hypothesis (§235, the phantom symbol): among `MISMATCH?` rows the fraction whose
+instruction SHAPE already matched — the symbol-only class §235 describes — is 25/87, 16/79, 17/66,
+13/57 on default waves but 6/66, 4/81, 5/47 on tells. Tells drafts fail because the BODY is wrong,
+which is what a 2.4× larger median predicts, not because of symbols.
