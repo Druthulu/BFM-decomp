@@ -59,13 +59,26 @@ def code_objects(cfg_lines):
     return objs
 
 
-def rodata_carves(cfg_lines):
-    """[(line_idx, off, subseg)] for every `.rodata` carve piece."""
+def rodata_carves(cfg_lines, ov=None):
+    """[(line_idx, off, subseg)] for every `.rodata` CARVE piece.
+
+    A carve is a jump table jtbl_carve.py lifted out of the data tail so its owning object can
+    emit it. The §154-A LEADING ISLAND — `- [0x0, .rodata, <alias>]`, the module's own rodata blob
+    of INCLUDE_RODATA data plus every stub's still-migrated table — is NOT one: it has no single
+    owner, so jr_inventory's "every carve resolves to exactly one banked function" check (R32)
+    aborted on it and md_* could not be isolated at all.
+
+    The discriminator is structural and was verified across all 213 splat configs: a `.rodata`
+    piece at offset 0 whose subseg is the binary's own alias exists in exactly the 42 md_* configs
+    and in none of the others, so passing `ov` is a no-op for every ov_*/main config."""
     out = []
     for i, ln in enumerate(cfg_lines):
         m = re.match(r'^\s*- \[(0x[0-9A-Fa-f]+),\s*\.rodata,\s*(\w+)\]', ln)
         if m:
-            out.append((i, int(m.group(1), 16), m.group(2)))
+            off, sub = int(m.group(1), 16), m.group(2)
+            if ov is not None and off == 0 and sub == ov:
+                continue                                   # the leading island, not a carve
+            out.append((i, off, sub))
     return out
 
 
@@ -107,7 +120,7 @@ def jr_inventory(ov):
     # already-banked jr: every real-C def/define fn that references a committed carve
     # offset in the IMAGE (read once, passed to reloc_targets).
     cfg_lines = open(os.path.join(REPO, f"config/splat.{ov}.yaml")).read().splitlines()
-    carve_offs = {off for _li, off, _sub in rodata_carves(cfg_lines)}
+    carve_offs = {off for _li, off, _sub in rodata_carves(cfg_lines, ov)}
     img = open(family_remap.img_path(ov), "rb").read()
     banked, owners = {}, {}                              # owners: carve_off -> [names]
     for cf in glob.glob(os.path.join(REPO, f"src/{ov}/*.c")):
