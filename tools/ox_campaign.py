@@ -363,6 +363,31 @@ def reloc_filter(tag, drafts, cards_path):
     # and takes the group's genuinely-new drafts down with it. Wave `an` carried 480 NOT-A-STUB of
     # 697 "gated" and banked 0. Only AGREE is a pass. (R43: refuse input the step cannot use.)
     keep = [b for b in batch if status.get(b["fn"]) == "AGREE"]
+
+    # CAPTURE THE PRE-FILTER REJECTS (P31 S59). Everything that reaches the GATE and fails gets a
+    # backlog row with its closeness, class and best draft (gate_stage) — but a draft the reloc
+    # pre-filter drops never reaches the gate, so it was recorded NOWHERE and simply sat on disk.
+    # That is 45% of all drafts (569 of 1,261 over eight waves), and 13% of the MISMATCH? rejects
+    # have a body that ALREADY MATCHES — only the symbol names are wrong, which is the deterministic
+    # `aprop_symfix` stale-symbol class that banked 4 of 4 earlier this session. A rejected draft is
+    # evidence, not garbage; index it so a recovery pass can find it without re-drafting.
+    try:
+        det = {r["fn"]: r for r in res}
+        with open(".run/reloc_rejects.jsonl", "a") as fh:
+            for b in batch:
+                st = status.get(b["fn"])
+                if st in (None, "AGREE", "NOT-A-STUB"):
+                    continue
+                d = det.get(b["fn"], {})
+                fh.write(json.dumps({
+                    "t": time.time(), "wave": tag, "fn": b["fn"], "binary": b["binary"],
+                    "draft": b["draft"], "status": st,
+                    "shape": d.get("shape"),          # MATCH here = right body, wrong symbols
+                    "checked": d.get("checked"), "aligned": d.get("aligned"),
+                    "mismatches": (d.get("mismatches") or [])[:6],
+                }) + "\n")
+    except Exception as e:                            # telemetry must never break a gate
+        log(f"  (reject capture skipped: {type(e).__name__}: {e})")
     n_banked_already = sum(1 for b in batch if status.get(b["fn"]) == "NOT-A-STUB")
     if n_banked_already:
         counts = dict(counts, _already_banked_excluded=n_banked_already)
