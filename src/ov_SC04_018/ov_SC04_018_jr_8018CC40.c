@@ -3092,7 +3092,7 @@ extern void func_80139A68(s32 a0, u16 a1);
 extern s16 func_8014168C(s16 a0);
 extern void func_80188778(void);
 extern s32 func_80189540(s32 a0, s16 a1);
-extern s16 func_80189E54(s32 a0);
+extern s16 func_80189E54();
 extern void func_801878E8(void);
 extern s16 D_801B9414[];
 extern void func_801EA0E4(s32 a0);

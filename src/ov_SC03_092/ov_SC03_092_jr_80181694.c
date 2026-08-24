@@ -2779,7 +2779,7 @@ extern void func_801801F4(void *a0);
 extern void (*D_80189488[])(void);
 extern void func_80180584(void *a0);
 extern s32 func_8012BEE8(s32 a0);
-extern s32 func_8018052C(void *a0);
+extern s32 func_8018052C();
 extern void func_80180614(int param_1);
 extern void func_8018074C(s32 a0, s32 a1);
 extern void func_8018064C(s32 arg0);

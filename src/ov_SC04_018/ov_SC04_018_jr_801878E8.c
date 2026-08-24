@@ -3105,7 +3105,7 @@ extern s16 func_8014168C(s16 a0);
 extern s32 func_8017ADE8(s32 a0);
 extern void func_80188778(void);
 extern s32 func_80189540(s32 a0, s16 a1);
-extern s16 func_80189E54(s32 a0);
+extern s16 func_80189E54();
 
 void func_801878E8(void) {
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
