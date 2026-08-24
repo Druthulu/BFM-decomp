@@ -298,6 +298,21 @@ def o0_sources():
     return frozenset(out)
 
 
+def o0_subseg(binary, subseg):
+    """Is the OBJECT built from this asm subseg compiled at -O0?
+
+    Derived from the Makefile via o0_sources() (R33), not from the subseg NAME. Three tools used to
+    ask `'_o0' in name or name == 'boot'` — a convention, and it broke the moment P31 S59 gave
+    md_MAIN_011 a whole-object -O0 rule while it kept its plain name: `match_one` would have warned
+    "this cannot bank" about 21 functions that now bank fine, and the wave draw would have kept
+    refusing to draw them. A name is a convention; the Makefile is the ground truth.
+
+    The subseg name is the .c basename by construction (splat writes `src/<bin>/<subseg>.c`, and
+    main's subsegs live at the tree root as `src/<subseg>.c`)."""
+    rel = f"src/{subseg}.c" if binary == "main" else f"src/{binary}/{subseg}.c"
+    return is_o0(rel)
+
+
 def is_o0(src_path):
     """Is this .c compiled at -O0? `src_path` is repo-relative (a Stub.path) or absolute."""
     rel = os.path.relpath(src_path, REPO) if os.path.isabs(src_path) else src_path

@@ -724,6 +724,16 @@ $(WHALE_O0B_OBJS): CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-flo
 O0_CLUSTER_OBJS := $(patsubst src/%.c,build/src/%.o,$(filter-out src/ov_SC01_077/ov_SC01_077_o0.c,$(wildcard src/ov_*/ov_*_o0.c)))
 $(O0_CLUSTER_OBJS): CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
+# md_MAIN_011 IS AN ENTIRELY -O0 MODULE (P31 S59, census in .run/s59_o0/). All 21 functions in its
+# single code subseg carry the -O0 frame-pointer prologue (`sw $fp` + `addu $fp,$sp,$zero`), the
+# .c is stub-only, and no -O0 glob matches `src/md_*/` at all — so its functions were unbankable no
+# matter how good a draft was, and the wave draw now refuses to draw them (build_wave_atlas's
+# `o0-in-an-O2-object` skip). Whole-object override, the `boot` precedent (§6): no splat change, no
+# carve, and therefore none of the §18-P29 re-disassembly risk. Byte-neutral while the file is
+# stub-only — proven by gating md_MAIN_011 when this landed. `corpus.o0_sources()` parses this rule,
+# so every -O0-aware tool picks the object up without a name convention.
+build/src/md_MAIN_011/md_MAIN_011.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
+
 # link (the .ld pulls in the .o by path) + objcopy to the raw PS-X EXE image.
 $(OUT): $(OBJS) $(ASSET_OBJS) $(LD_SCRIPT)
 	@set -e

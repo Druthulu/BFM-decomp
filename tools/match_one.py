@@ -97,12 +97,21 @@ def detect_o0(spath):
 
 
 _sub = os.path.basename(a.asm_subdir.rstrip('/'))
+# The BINARY, from the asm tree layout: asm/<bin>/nonmatchings/<sub> for every alias except main,
+# which splat writes at the tree root as asm/nonmatchings/<sub>.
+_parts = os.path.normpath(a.asm_subdir).split(os.sep)
+_bin = 'main' if (len(_parts) > 1 and _parts[1] == 'nonmatchings') else (_parts[1] if len(_parts) > 1 else 'main')
 # TWO ORACLES, and they answer different questions (R34). The PROLOGUE says what the target bytes
 # were compiled as; the SUBSEG NAME says what this build will compile the C as (Makefile:697/702/
 # 716/724 give `boot` and every `*_o0*.c` object -O0 flags). Either one alone is wrong somewhere:
 # `boot/start.s` has no ordinary prologue yet is built -O0, and an -O0 function sitting in an -O2
 # subseg has the prologue but cannot bank until it is carved.
-_sub_o0 = ('_o0' in _sub) or _sub == 'boot'
+try:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import corpus as _corpus
+    _sub_o0 = _corpus.o0_subseg(_bin, _sub)      # the Makefile is the ground truth, not the name
+except Exception:
+    _sub_o0 = ('_o0' in _sub) or _sub == 'boot'  # fallback: the old name convention
 _tell_o0 = detect_o0('%s/%s.s' % (a.asm_subdir, a.fn))
 _o0 = a.o0 or (not a.no_auto_o0 and (_tell_o0 or _sub_o0))
 if _o0 and not a.o0:

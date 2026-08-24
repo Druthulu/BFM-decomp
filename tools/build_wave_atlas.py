@@ -273,8 +273,10 @@ def _o0_unbankable(spath):
     `addu $fp,$sp,$zero` inside the function's first instructions, anchored at `glabel` so a
     migrated jump table or .asciz blob ahead of the code is not read as the prologue."""
     seg = os.path.basename(os.path.dirname(str(spath)))
-    if '_o0' in seg or seg == 'boot':
-        return False                                   # the build compiles this object -O0
+    parts = os.path.normpath(str(spath)).split(os.sep)
+    binary = 'main' if (len(parts) > 1 and parts[1] == 'nonmatchings') else parts[1]
+    if corpus.o0_subseg(binary, seg):
+        return False                                   # the Makefile compiles this object -O0
     try:
         head, started = [], False
         for ln in open(os.path.join(REPO, str(spath))):

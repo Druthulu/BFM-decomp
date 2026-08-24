@@ -38,13 +38,19 @@ _NS = {"re": re, "os": os}
 exec(_FN, _NS)
 detect_o0 = _NS["detect_o0"]
 
+sys.path.insert(0, os.path.join(REPO, "tools"))
+import corpus                                                        # noqa: E402
+
 FAIL = []
 
 
 def sub_is_o0(path):
-    """Does the BUILD compile this subseg -O0? (Makefile:697/702/716/724)"""
+    """Does the BUILD compile this subseg -O0? Asked of the Makefile, never of the name (R33) —
+    md_MAIN_011 keeps its plain name and is compiled -O0 by an explicit whole-object rule."""
     sub = os.path.basename(os.path.dirname(path))
-    return ("_o0" in sub) or sub == "boot"
+    parts = os.path.normpath(path).split(os.sep)
+    binary = "main" if (len(parts) > 1 and parts[1] == "nonmatchings") else parts[1]
+    return corpus.o0_subseg(binary, sub)
 
 
 def main():
