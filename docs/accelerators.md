@@ -205,3 +205,21 @@ something, write it to a file a separate process can read at any moment.**
 **The pattern behind all four:** the check I trusted (`bash -n`, `grep`, an empty log, a silent
 console) could not distinguish "working" from "not running". Prefer checks that are *positively
 affirmative* — a banner echoing real values, an append-only ledger, a counter that must move.
+
+**5. A running lane script does not read your edit — bash parses `while … done` up front.** Editing
+`.run/drafter.sh` and bouncing only its python re-runs the OLD command line: bash parses a compound
+command in full before executing it, so the loop body — python invocation and all — is fixed in
+memory for the life of that shell. Measured P31 S59: the file changed at 10:44, the python was
+bounced at 11:02, and it came back on the pre-change lane list (it logged `lane tells, band
+(5, 2000)`, which only the old list produces at that rotation index). The distinction to keep
+straight:
+
+| change | how it takes effect |
+|---|---|
+| lane **code** (`tools/*.py`) | next python start — a bounce is enough, since the arg list is unchanged |
+| lane **args** (the `.sh` invocation) | needs a fresh **shell** (`tools/lanes/relaunch_drafter_shell.sh` waits for a wave to queue first, so no drafts are lost) |
+| wave-draw **defaults** (`build_wave_atlas.py`) | next wave draw — it is a fresh subprocess per draw, no restart at all |
+
+Same family as #1–#4: the check that "the change is live" was reading the file on disk, which cannot
+distinguish *edited* from *in effect*. Verify from the process — its `/proc/<pid>/cmdline`, or the
+startup banner echoing the values it actually parsed.
