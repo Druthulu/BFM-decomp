@@ -159,7 +159,12 @@ s32 func_800D2CE4(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D2D20);
+extern void DMACallback(s32, s32);
+
+void func_800D2D20(s32 a0) {
+    DMACallback(0, a0);
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D2D44);
 
