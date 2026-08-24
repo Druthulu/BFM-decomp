@@ -3856,7 +3856,72 @@ void func_8017E3A0(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017E3AC);
+extern s32 rand(void);
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012E778(s32 param_1, s32 param_2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_8017F76C(s16 *a0, s32 a1, s32 a2, s32 a3);
+
+extern u8 D_801A9C08[];
+extern u8 D_801A50F4[];
+extern u8 D_801A5104[];
+
+typedef struct { u8 b[8]; } Blk8_func_8017E3AC;
+
+void func_8017E3AC(s32 a0) {
+    Blk8_func_8017E3AC sp10;
+    Blk8_func_8017E3AC sp18;
+    register s32 act __asm__("$18");
+    register s32 i __asm__("$16");
+    register s32 angm __asm__("$19");
+    register s32 angp __asm__("$20");
+    s32 k;
+    s32 j;
+    s32 pos;
+
+    act = a0;
+    if ((*(u32 *)(act + 0xE0) & 1) == 0) {
+        if (func_8012BD3C(act, 0x400, *(s32 *)(act + 0xDC)) == 0) {
+            *(u16 *)(act + 2) = 1;
+        } else {
+            func_8012A828(act, (s32)D_801A9C08);
+            if (func_8012E778(act, 0x8C00B4) == 1) {
+                func_8002D4C8(0x64A, 0);
+            }
+        }
+    }
+
+    if (*(s32 *)(act + 0x94) == 0x19) {
+        func_8012F214(act, (s32)D_801A50F4, (s32)&sp10);
+        func_8012F214(act, (s32)&D_801A50F4[8], (s32)&sp18);
+        i = 0;
+        {
+            register s32 fv __asm__("$2") = *(u16 *)(*(s32 *)(act + 0x20) + 0x12);
+            angp = fv + 0x400;
+            angm = fv - 0x400;
+        }
+        k = -0x80000;
+        while (i < 6) {
+            func_8017F76C((s16 *)&sp10, angp * 0x10000 >> 0x10,
+                          rand() % 4 * -0x10000 + k, 0);
+            func_8017F76C((s16 *)&sp18, angm * 0x10000 >> 0x10,
+                          rand() % 4 * -0x10000 + k, 0);
+            i++;
+        }
+        j = 0;
+        pos = 0x80000;
+        k = (s32)D_801A5104;
+        while (j < 4) {
+            func_8012F214(act, k, (s32)&sp10);
+            func_8017F76C((s16 *)&sp10, 0, rand() % 4 * 0x10000 + pos, 1);
+            j++;
+            k += 8;
+        }
+    }
+}
+
 
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
