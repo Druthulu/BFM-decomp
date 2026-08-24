@@ -7694,7 +7694,32 @@ extern void func_8012A828(s32, void*);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80183080);
+void func_80183080(s32 arg0) {
+    extern s32 func_80178BF8();
+    extern void func_801746DC(void);
+    extern void func_8012E88C(u8 *a0);
+    extern s32 func_8012E57C(s32 a0, s32 a1);
+    extern void func_80184918(s32 arg0, s32 arg1);
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    u16 x;
+    u16 y;
+    u16 z;
+
+    x = D_80126B5E;
+    y = D_80126B62;
+    z = D_80126B66;
+    if ((u16)(x + 0x25D) < 0xDD && (s16)y >= -0x142 && (u32)(z - 0x3C3) < 0x31D) {
+        func_80178BF8();
+        func_801746DC();
+        *(u16 *)(arg0 + 2) = 6;
+        func_8012E88C((u8 *)arg0);
+        *(u16 *)(func_8012E57C(0xB0, 0x881) + 0xFC) = 1;
+        func_80184918(arg0, 0x26);
+    }
+}
+
 
 void func_8018312C(s32 a0) {
     extern s16 D_80195198;
@@ -9514,9 +9539,60 @@ void func_80187254(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_801872B4);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018734C);
+extern Block4 D_801EB524;
+extern unsigned char D_801EB525;
+extern unsigned char D_801EB526;
+
+void func_801872B4(s32 arg0) {
+    s32 a0;
+    u32 v1;
+
+    __asm__("":: : "memory");
+    a0 = *(s32 *)(arg0 + 0x20);
+    if (*(s16 *)(a0 + 0x18) > 0x800) {
+        *(s16 *)(a0 + 0x18) = *(s16 *)(a0 + 0x18) - 0x200;
+    }
+    if (*(s16 *)(a0 + 0x1A) > 0x800) {
+        *(s16 *)(a0 + 0x1A) = *(s16 *)(a0 + 0x1A) - 0x200;
+    }
+    v1 = D_801EB524.b[0];
+    if (v1 >= 0xC1) {
+        D_801EB524.b[0] = v1 - 4;
+        D_801EB525 -= 4;
+        D_801EB526 -= 8;
+    }
+}
+
+
+
+extern Block4 D_801EB524;
+extern u8 D_801EB525;
+extern u8 D_801EB526;
+
+void func_8018734C(void *a0) {
+    s16 *p;
+    s32 t;
+    u8 v;
+    p = *(s16 **)((s32)a0 + 0x20);
+    if (*(s16 *)((s32)p + 0x18) > 0x800) {
+        *(s16 *)((s32)p + 0x18) = *(s16 *)((s32)p + 0x18) - 0x200;
+    }
+    if (*(s16 *)((s32)p + 0x1A) > 0x800) {
+        *(s16 *)((s32)p + 0x1A) = *(s16 *)((s32)p + 0x1A) - 0x200;
+    }
+    t = *(s32 *)((s32)a0 + 0x1C) + 1;
+    *(s32 *)((s32)a0 + 0x1C) = t;
+    if (t & 0x10) {
+        v = ((t & 0xF) >> 1) + 9;
+    } else {
+        v = 0x10 - ((t & 0xF) >> 1);
+    }
+    D_801EB524.b[0] = v * 12;
+    D_801EB525 = v * 12;
+    D_801EB526 = v * 2;
+}
+
 
 
 extern void (*D_80195D50[])(void);
