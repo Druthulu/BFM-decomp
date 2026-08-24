@@ -2861,7 +2861,26 @@ INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80181D6
 
 DEFINE_func_80181DE0()  /* dedup: shared engine-core @0x80181DE0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80181DE8);
+void func_80181DE8(s32 param_1)
+{
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern s16 D_801274E8;
+    extern s32 func_80181E70(s32, s32, s32);
+    s16 sp[3];
+
+    sp[0] = D_801274E8;
+    sp[1] = D_80126B62;
+    sp[2] = D_80126B66;
+    if ((s16)D_80126B66 >= -0xCFF && (s16)D_80126B62 >= -0x17F) {
+        sp[1] = -0x180;
+    }
+    if ((s16)sp[2] < -0x1980) {
+        sp[2] = -0x1980;
+    }
+    func_80181E70(param_1, 0, (s32)sp);
+}
+
 
 typedef struct { short m[3][3]; long t[3]; } Mtx_8017DECC;
 typedef struct { short vx, vy, vz, pad; } Sv_8017DECC;
@@ -4355,7 +4374,21 @@ s32 func_80185C48(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80185D58);
+s32 func_80185D58(s32 a0) {
+    s16 x = *(s16 *)(a0 + 0xE);
+    if ((u32)(x - 0x3057) < 0x30) return 1;
+    if ((u32)(x - 0x2D37) < 0x10) return 1;
+    if ((u32)(x - 0x377) < 0x10) return 1;
+    if ((u32)(x - 0x177) < 0x10) return 1;
+    if ((u32)(x + 0xB54) < 0x10) return 1;
+    if ((u32)(x + 0xF31) < 0x1B3) return 1;
+    if ((u32)(x + 0x17E4) < 0x10) return 2;
+    if ((u32)(x + 0x77E) < 0x28E) return 1;
+    if ((u32)(x + 0x99A) < 0x10A) return 1;
+    if ((u32)(x + 0x1391) < 0x197) return 1;
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80185E00);
 
@@ -5724,7 +5757,23 @@ INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189C6
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189D10);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189DB8);
+extern u16 D_800B99DA;
+u32 func_80189DB8(u32 param_1, u32 param_2)
+{
+    if (D_800B99DA & 1) {
+        u8 b[4];
+        *(u32*)b = param_2;
+        b[0] = (u8)(b[0] - 8);
+        if (b[0] >= 0xF8) b[0] = 0;
+        b[1] = (u8)(b[1] - 8);
+        if (b[1] >= 0xF8) b[1] = 0;
+        b[2] = (u8)(b[2] - 8);
+        if (b[2] >= 0xF8) b[2] = 0;
+        param_2 = *(u32*)b;
+    }
+    return param_2;
+}
+
 
 
 // @class: struct

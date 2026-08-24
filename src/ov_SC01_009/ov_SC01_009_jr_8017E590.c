@@ -3246,7 +3246,33 @@ INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FA1
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FAFC);
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FB98);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+extern s32 func_801789AC(s32 arg0);
+extern s32 D_801E91F0[];
+extern s32 D_801E9220[];
+extern s32 D_801E9240[];
+
+void func_8017FB98(s32 arg0) {
+    s16 state = func_801789AC(arg0);
+    if (state == 1) goto L1;
+    if (state < 2) goto End;
+    if (state == 2) goto L2;
+    if (state == 3) goto L3;
+    goto End;
+L1:
+    func_80178CBC(arg0, (s32)D_801E91F0);
+    *(u16 *)(arg0 + 2) += 1;
+    goto End;
+L2:
+    func_80178CBC(arg0, (s32)D_801E9220);
+    *(s16 *)(arg0 + 2) = 4;
+    goto End;
+L3:
+    func_80178CBC(arg0, (s32)D_801E9240);
+    *(s16 *)(arg0 + 2) = 5;
+End:;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FC44);
 

@@ -6645,7 +6645,27 @@ void func_80182D18(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80182D90);
+void func_80182D90(int param_1)
+{
+    extern u8 D_8019B178[];
+    extern u16 D_8019B17A;
+    extern u16 D_8019B17C;
+    s32 r;
+    u16 sp18;
+    s32 var_a2;
+
+    if (func_8012BEE8(param_1) != 0) {
+        r = rand();
+        sp18 = *(u16 *)(param_1 + 0xFC);
+        var_a2 = (s16)sp18 / 2 - (r & (sp18 - 1));
+        *(u16 *)D_8019B178 = *(u16 *)(param_1 + 6) + var_a2 * 2;
+        D_8019B17A = *(u16 *)(param_1 + 0xA);
+        D_8019B17C = *(u16 *)(param_1 + 0xE) + var_a2 * 2;
+        func_80182E40(param_1, D_8019B178);
+        *(s32 *)(param_1 + 0x1C) = (rand() & 0x7F) + 0x40;
+    }
+}
+
 
 
 

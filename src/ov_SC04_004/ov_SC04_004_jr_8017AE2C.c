@@ -6399,7 +6399,34 @@ s32 func_80180C74(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80180D94);
+extern s32 func_80132E6C(s16 *a0);
+extern s32 func_8012B864(s32 a0);
+
+s32 func_80180D94(s32 a0) {
+    s16 ret;
+    s16 result;
+    s16 val;
+    s16 t;
+
+    if (func_80132E6C((s16 *)a0) > 0x23FFF) {
+        return 0;
+    }
+    ret = func_8012B864(a0);
+    val = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+    result = ret;
+    t = ret - (val & 0xFFF);
+    if (t < 0) {
+        t = -t;
+    }
+    if (t < 0x180) {
+        if (ret == 0) {
+            result = ret + 1;
+        }
+        return result;
+    }
+    return 0;
+}
+
 
 extern u8 D_80195254[0x20];
 extern s32 D_801B3A80[8];

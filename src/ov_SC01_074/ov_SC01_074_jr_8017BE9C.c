@@ -3493,7 +3493,39 @@ void func_8017DD1C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017DD58);
+#include "common.h"
+
+typedef struct { s16 v[4]; } Blk8_dd58;
+
+extern void func_8017DE88(s32 param_1, s16 *param_2);
+extern s16 D_80126940;
+extern u16 D_80182234;
+
+void func_8017DD58(s32 a0) {
+    s16 t1;
+    s16 t2;
+
+    *(Blk8_dd58 *)&D_80126940 = *(Blk8_dd58 *)&D_80182234;
+
+    t1 = *(u16 *)(a0 + 0x20) - 5;
+    *(u16 *)(a0 + 0x20) = t1;
+    *(u16 *)(a0 + 0x18) = t1;
+    if (t1 < 0) {
+        *(u16 *)(a0 + 0x20) = 0;
+        *(u16 *)(a0 + 0x18) = 0;
+    }
+
+    t2 = *(u16 *)(a0 + 0x22) + 6;
+    *(u16 *)(a0 + 0x22) = t2;
+    *(u16 *)(a0 + 0x1A) = t2;
+    if (t2 > 0xFE0) {
+        *(u16 *)(a0 + 0x22) = 0xFE0;
+        *(u16 *)(a0 + 0x1A) = 0xFE0;
+    }
+
+    func_8017DE88(a0, &D_80126940);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017DE0C);
 

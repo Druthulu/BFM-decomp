@@ -4487,7 +4487,32 @@ void func_80180D08(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80180DA8);
+
+
+void func_80180DA8(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_8018B084[];
+    extern Blk8_80126940_80180D08 D_80126940;
+    Blk8_80126940_80180D08 sp10;
+    u8 t;
+    s16 v0;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018B084[t];
+    }
+    sp10 = D_80126940;
+
+    v0 = sp10.v[1];
+    if (v0 < -0x220) {
+        sp10.v[1] = -0x220;
+    }
+
+    func_80180EA8(a0, sp10.v);
+}
+
 
 
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
@@ -5607,7 +5632,32 @@ INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80182EE
 
 INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80182F48);
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80182FE0);
+extern u8 D_801C135C;
+extern u8 D_801C135D;
+extern u8 D_801C135E;
+void func_80182FE0(void *a0) {
+    s16 *p;
+    s32 t;
+    u8 v;
+    p = *(s16 **)((s32)a0 + 0x20);
+    if (*(s16 *)((s32)p + 0x18) > 0x800) {
+        *(s16 *)((s32)p + 0x18) = *(s16 *)((s32)p + 0x18) - 0x200;
+    }
+    if (*(s16 *)((s32)p + 0x1A) > 0x800) {
+        *(s16 *)((s32)p + 0x1A) = *(s16 *)((s32)p + 0x1A) - 0x200;
+    }
+    t = *(s32 *)((s32)a0 + 0x1C) + 1;
+    *(s32 *)((s32)a0 + 0x1C) = t;
+    if (t & 0x10) {
+        v = ((t & 0xF) >> 1) + 9;
+    } else {
+        v = 0x10 - ((t & 0xF) >> 1);
+    }
+    D_801C135C = v * 6;
+    D_801C135D = v * 12;
+    D_801C135E = v * 6;
+}
+
 
 
 extern s32 D_801C13A0;

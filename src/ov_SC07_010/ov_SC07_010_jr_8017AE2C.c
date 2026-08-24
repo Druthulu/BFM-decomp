@@ -4911,7 +4911,21 @@ void func_80181204(A801593E4 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80181224);
+extern u16 D_80185F88;
+extern u16 D_80185F8A;
+extern u16 D_80185F8C;
+
+void func_80181224(void) {
+    u16 *p = &D_80185F88;
+
+    *p += 4;
+    if ((s16)*p >= 0x100) {
+        *p = 0xFF;
+    }
+    D_80185F8C = *p;
+    D_80185F8A = *p;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80181270);
 
