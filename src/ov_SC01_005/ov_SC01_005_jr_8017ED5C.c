@@ -3005,7 +3005,79 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_8017F2D
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_8017F730);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_8017F790);
+typedef struct { u32 a, b, c, d; } B16;
+extern B16 D_800A5E88, D_800A5E98, D_800A5EA8;
+extern B16 D_801CE030, D_801CE040, D_801CE050;
+extern u8 D_801BBA7F[];
+extern s32 func_8017D9F4(s32);
+extern s32 func_800291B4(s32);
+extern void func_800D0C48(s32);
+extern void func_8013C938(void);
+extern s32 func_8012C51C(void *, s32);
+extern void func_80028394(s32, s32, s32, s32);
+extern void func_80028428(s32, s32, s32, s32);
+
+typedef struct { s16 f10, f12, f14, f16, f18, f1A, f1C, f1E; s32 f20; } PrimF790;
+
+s32 func_8017F790(s32 a0) {
+    u8 c;
+
+    if (*(s16 *)(a0 + 0xFE) != 0) goto L818;
+    c = D_801BBA7F[*(s16 *)(a0 + 0x100)];
+    if (c >= 0x2C) {
+        *(s16 *)(a0 + 0xFE) = 1;
+        goto L818;
+    }
+    if (func_8017D9F4(c) != 0) {
+        *(s16 *)(a0 + 0xFE) = 1;
+        if (*(s16 *)(a0 + 0x100) == 0x1C && (func_800291B4(0x7E) & 0x20)) {
+            func_800D0C48(1);
+        }
+    }
+L818:
+    if (*(s16 *)(a0 + 0x10A) < 0x31) goto L874;
+    {
+        u16 n = *(u16 *)(a0 + 0x106) + 0x10;
+        *(s16 *)(a0 + 0x106) = n;
+        *(s16 *)(a0 + 0x108) = n;
+        if ((s16)n >= 0x100) {
+            *(s16 *)(a0 + 0x106) = 0xFF;
+            *(s16 *)(a0 + 0x108) = 0xFF;
+        }
+        *(s16 *)(a0 + 0x10A) = *(u16 *)(a0 + 0x10A) - 3;
+        return 0;
+    }
+L874:
+    if (*(s16 *)(a0 + 0xFE) == 0) return 0;
+    func_8013C938();
+    {
+        PrimF790 sp;
+        s32 f18v;
+        sp.f16 = 0x1ED;
+        f18v = *(u16 *)(a0 + 0x100);
+        sp.f1A = 0;
+        sp.f1C = 0;
+        sp.f1E = 0;
+        sp.f20 = 0;
+        sp.f10 = 0;
+        sp.f12 = -0x400;
+        sp.f14 = 0;
+        sp.f18 = f18v;
+        *(s32 *)(a0 + 0xD4) = func_8012C51C(&sp, a0);
+    }
+    *(s16 *)(a0 + 0x104) = 0;
+    D_801CE030 = D_800A5E88;
+    D_801CE040 = D_800A5E98;
+    D_801CE050 = D_800A5EA8;
+    func_80028394(0, 0, 0x14, 0x13);
+    func_80028428(0, 0x96, 0x96, 0xAA);
+    func_80028394(1, 0, 0xA, 0x14);
+    func_80028428(1, 0x66, 0x66, 0x66);
+    func_80028394(2, 0, -0xA, 0);
+    func_80028428(2, 0x4D, 0x33, 0x80);
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_8017F9F8);
 

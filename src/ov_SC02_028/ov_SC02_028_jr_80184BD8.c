@@ -3655,7 +3655,68 @@ void func_801863B4(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_801863C0);
+extern u8 D_801AE220[];
+extern s32 D_801A970C;
+extern u8 D_801A971C[];
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32 func_8012E778(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_80187780(s16 *a0, s32 a1, s32 a2, s32 a3);
+extern s32 rand(void);
+
+void func_801863C0(s32 a0) {
+    s16 sp10[4];
+    s16 sp18[4];
+    register s32 ang1 __asm__("$20");
+    register s32 ang2 __asm__("$19");
+    register s32 negbase __asm__("$17");
+
+    if ((*(s32 *)(a0 + 0xE0) & 1) == 0) {
+        if (func_8012BD3C(a0, 0x400, *(s32 *)(a0 + 0xDC)) == 0) {
+            *(s16 *)(a0 + 2) = 1;
+        } else {
+            func_8012A828(a0, (s32)D_801AE220);
+            if (func_8012E778(a0, 0x8C00B4) == 1) {
+                func_8002D4C8(0x64A, 0);
+            }
+        }
+    }
+
+    if (*(s32 *)(a0 + 0x94) == 0x19) {
+        register s32 i __asm__("$16");
+        func_8012F214(a0, (s32)&D_801A970C, (s32)sp10);
+        func_8012F214(a0, (s32)&D_801A970C + 8, (s32)sp18);
+        i = 0;
+        {
+            register s32 fieldval __asm__("$2");
+            fieldval = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+            ang1 = fieldval + 0x400;
+            negbase = -0x80000;
+            ang2 = fieldval - 0x400;
+        }
+        for (; i < 6; i++) {
+            __asm__ __volatile__("" : "=r"(ang1) : "0"(ang1));
+            func_80187780(sp10, (s16)ang1, negbase - (rand() % 4) * 0x10000, 0);
+            __asm__ __volatile__("" : "=r"(ang2) : "0"(ang2));
+            func_80187780(sp18, (s16)ang2, negbase - (rand() % 4) * 0x10000, 0);
+        }
+        {
+            register s32 halfbase __asm__("$19");
+            register s32 ptr __asm__("$17");
+            i = 0;
+            halfbase = 0x80000;
+            ptr = (s32)D_801A971C;
+            while (i < 4) {
+                func_8012F214(a0, ptr, (s32)sp10);
+                func_80187780(sp10, 0, (rand() % 4) * 0x10000 + halfbase, 1);
+                i++;
+                ptr += 8;
+            }
+        }
+    }
+}
+
 
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
