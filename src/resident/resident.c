@@ -897,7 +897,94 @@ void func_800CFDE8(s32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFE60);
+
+
+s32 func_800CFE60(void) {
+    extern s16 currentLocationId;
+    extern s32 D_800D34AC[];
+    extern s16 D_800D34AE[];
+    extern u8 D_800AF630[];
+    extern CdFileLoc cdFileLocTable[];
+    extern void *D_80072C74;
+    extern s32 D_800C7C60;
+    extern s32 *D_800C7C64;
+    extern s32 D_800A2E20;
+
+    extern s32 func_8002F648(void);
+    extern void func_8002F620(void);
+    extern s32 func_80029504(void);
+    extern s32 func_80029178(s32);
+    extern s32 func_8002F658(void);
+    extern void func_800D00E4(s32);
+    extern s32 CdReadRequest(void *, void *, s32, s32);
+
+    register u8 *base __asm__("$20");
+    register s32 mode __asm__("$19");
+    s32 file;
+    s32 val;
+    s32 st;
+    s32 cnt;
+    s32 res;
+    s32 *p;
+
+    base = D_800AF630;
+
+    file = D_800D34AC[currentLocationId & 0xFFFF0FFF] & 0xFFF;
+    val = D_800D34AE[(currentLocationId & 0xFFFF0FFF) * 2];
+
+    st = func_8002F648();
+    mode = -1;
+    if (st != ((*(u32 *)((u8 *)D_800D34AC + ((currentLocationId & 0xFFFF0FFF) << 2)) >> 12) & 0xF)) {
+        mode = 0;
+        if (st != 0) {
+            func_8002F620();
+        }
+    }
+
+    cnt = func_80029504();
+
+    if (*(s16 *)(base + 0xA3D8) == 0x300B && *(s16 *)(base + 0xA3DE) != 0) {
+        val = 8;
+        file = 0x8A;
+    }
+    if (*(s16 *)(base + 0xA3D8) == 0x3001 && cnt < 5) {
+        file = 0x37;
+    }
+    if (*(s16 *)(base + 0xA3D8) == 0x304E && (func_80029178(0x17) & 0xFF) != 0) {
+        file = 0x129;
+        val = 0x2F;
+    }
+    if (*(s16 *)(base + 0xA3D8) == 0x1077 && cnt >= 0x2A8) {
+        file = 0x151;
+        val = 0x34;
+    }
+    if (*(s16 *)(base + 0xA3D8) == 0x3021 && (func_80029178(0xB9) & 0xFF) != 0) {
+        file = 0xC1;
+        val = 0x41;
+    }
+
+    if (func_8002F658() != val || mode >= 0) {
+        s32 *q = &D_800C7C60;
+        __asm__("" : "=r"(q) : "0"(q));
+        p = q;
+        *p = val;
+        D_800C7C64 = &D_800A2E20;
+    } else {
+        p = 0;
+    }
+
+    if (file >= 0 && cdFileLocTable[file].word0 != 0) {
+        res = CdReadRequest(&cdFileLocTable[file], D_80072C74, mode, p);
+    } else {
+        res = 1;
+    }
+
+    if (mode == 0 && (res & 1)) {
+        func_800D00E4((((u32)D_800D34AC[*(s16 *)(base + 0xA3D8) & 0xFFFF0FFF]) >> 12) & 0xF);
+    }
+    return res;
+}
+
 
 /* func_800D00E4: left as INCLUDE_ASM — genuine structural mismatch. The matched
  * binary references an EXTERNAL jump table `jtbl_80113ED8` (defined in
