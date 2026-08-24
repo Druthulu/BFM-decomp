@@ -34,7 +34,7 @@ Usage:
      default is a DRY RUN that reports what would be substituted and any conflicts.
      --apply performs the substitution + clean rebuild and leaves banked drafts in the tree.
 """
-import argparse, collections, functools, json, os, re, subprocess, sys
+import argparse, collections, fcntl, functools, json, os, re, subprocess, sys
 sys.path.insert(0, 'tools')
 import corpus
 
@@ -548,6 +548,26 @@ def main():
     ap.add_argument('slate'); ap.add_argument('--apply', action='store_true')
     ap.add_argument('--no-bisect', action='store_true')
     a = ap.parse_args()
+
+    # THE main GATE LOCK. gate_stage takes a per-binary flock, and that lock IS the entire safety
+    # argument for gating overlays in parallel — but main never had one. Two gate_main runs both
+    # substitute into the SAME src/800c.c and clean-rebuild the SAME build/us tree, interleaving
+    # writes while each reads a hash the other produced. Observed P31 S58: a wave re-gate and the
+    # live campaign's gate ran main concurrently for six minutes before a human spotted it.
+    # Blocking, not LOCK_NB: the second run should WAIT and then do its work — a batch of verified
+    # drafts is expensive to reproduce, so refusing it would be worse than queueing it.
+    # R36's principle: assert it, do not remember it.
+    _repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    os.makedirs(os.path.join(_repo, ".run/auto"), exist_ok=True)
+    _lock_path = os.path.join(_repo, ".run/auto/gate.main.lock")
+    _lock = open(_lock_path, "w")
+    try:
+        fcntl.flock(_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        print("another gate_main holds .run/auto/gate.main.lock — WAITING for it "
+              "(main cannot be gated by two processes at once)", flush=True)
+        fcntl.flock(_lock, fcntl.LOCK_EX)
+    _lock.write(f"{os.getpid()}\n"); _lock.flush()
 
     slate = json.load(open(a.slate))
     kept, dropped = resolve_conflicts(slate)

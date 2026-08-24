@@ -26,6 +26,7 @@ workers sustained 167 req/min with 0 429s on a non-free-tier key.
 """
 import argparse
 import collections
+import fcntl
 import glob
 import json
 import os
@@ -151,8 +152,19 @@ def draw_wave(tag, n, band, levers=None):
     # ';' inside a lane spec becomes ',' here: commas already separate LANES in --lanes, so a
     # multi-lever lane has to use a different inner separator.
     lv = f" --levers {levers.replace(';', ',')}" if levers else ""
+    # --retry-unbanked: a drawn-but-unbanked card is unfinished work, not spent work. Without it
+    # the pool bleeds: 1,785 cards / 72,961 instructions were locked out across 11 waves while the
+    # drafting lane starved (wave ak asked for 1,400 cards and its band could supply 497).
+    # main IS EXCLUDED FROM WAVE DRAWS. Not because its functions are unwanted — 1,041 open stubs
+    # is real territory — but because its gate is a CLEAN WHOLE-EXE REBUILD that bisects on failure,
+    # and that does not belong on the critical path of a loop whose other gates take minutes.
+    # Measured P31 S58, three times: 39 min unfinished on a 29-draft batch, 25 min on a chunk of 8,
+    # then 65+ min on another chunk of 8 while waves `an` and `ao` sat queued behind it. Main needs
+    # its own cadence (drafts accumulate, gate them in one batch when nothing else is waiting), and
+    # a wave that cannot bank main should not spend agents drafting it either.
     r = sh(f"{PY} tools/build_wave_atlas.py {cards} {n} --min-ins {lo} --max-ins {hi} "
-           f"--max-bins 24 --one-per-gid{lv}", timeout=3600, quiet=False)
+           f"--max-bins 24 --one-per-gid --retry-unbanked --exclude-bins main{lv}",
+           timeout=3600, quiet=False)
     if not os.path.exists(cards):
         log(f"  wave {tag}: DRAW FAILED — {(r.stderr or r.stdout)[-300:]}")
         return None
@@ -174,7 +186,7 @@ def shard_targets(tag, cards_path, workers):
     return targets
 
 
-def draft(tag, lanes, maxtok, max_turns):
+def draft(tag, lanes, maxtok, max_turns, stagger=0.06):
     """Draft one wave across SEVERAL MODEL LANES at once.
 
     Concurrency on ONE model is spent (P31 S58, measured): every 429 we have ever recorded is
@@ -236,13 +248,27 @@ def draft(tag, lanes, maxtok, max_turns):
              "--max-turns", str(max_turns), "--max-cost", "1.0", "--max-cost-per-fn", "0.15"],
             stdout=fh, stderr=subprocess.STDOUT, env=env))
         started[model] += 1
+        # STAGGER THE LAUNCH. Every shard issues its first request immediately, so starting N at
+        # once is an N-wide burst against one provider pool. Measured P31 S58 at 818 shards: the
+        # first 5-minute bucket took 961 of the run's 964 429s (19.0%), and every bucket after it
+        # was 0.0%. That burst was read as "ox's capacity ceiling at 9.8%" — it was the harness
+        # knocking on the door 818 times in one second. Spreading startup over ~STAGGER seconds
+        # costs nothing (agents run for minutes) and removes the spike entirely.
+        if stagger:
+            time.sleep(stagger)
     json.dump({str(k): lanes[v][0] for k, v in assign.items()},
               open(f"{outdir}/lane_map.json", "w"), indent=1)   # so per-lane stats stay derivable
     for model, cnt in started.items():
         log(f"  lane {model}: {cnt} shards")
     log(f"  {len(procs)} shards drafting across {len(lanes)} model lane(s)")
+    return procs
+
+
+def collect_drafts(tag, procs):
+    """Block until this wave's shards finish, then return its drafts."""
     for p in procs:
         p.wait()
+    outdir = f".run/wave_{tag}"
     drafts = sorted(glob.glob(f"{outdir}/shard*/*.c"))
     trunc = int(sh(f"grep -h 'finish=length' {outdir}/shard*.log 2>/dev/null | wc -l").stdout or 0)
     return drafts, trunc
@@ -301,8 +327,17 @@ def gate_main_batch(tag, mains):
 
 
 def gate(tag, keep, jobs):
+    # Any main drafts that slipped through (an older wave's cards) are PARKED for the periodic main
+    # batch rather than gated inline — see draw_wave's note on why main is off the critical path.
     mains = [k for k in keep if k["binary"] == "main"]
     keep = [k for k in keep if k["binary"] != "main"]
+    if mains:
+        os.makedirs(".run/main_queue", exist_ok=True)
+        json.dump([{"fn": m["fn"], "draft": m["draft"], "binary": "main"} for m in mains],
+                  open(f".run/main_queue/{tag}.json", "w"), indent=1)
+        log(f"  main: {len(mains)} drafts PARKED to .run/main_queue/{tag}.json "
+            f"(gate them with tools/gate_main.py when no wave is waiting)")
+        mains = []
     d = f".run/sweep_{tag}"
     shutil.rmtree(d, ignore_errors=True)
     for b in keep:
@@ -396,6 +431,122 @@ def parse_lanes(spec, single_model, workers):
     return [(m, n, e) for m, n, e in lanes]
 
 
+READY = ".run/ready"
+DRAWLOCK = ".run/auto/draw.lock"
+
+
+def _drawlock():
+    """Serializes DRAW against GATE — never against drafting.
+
+    build_wave_atlas reads corpus.stubs(), which misreports substituted drafts while a gate is
+    mid-flight and would silently skip real stubs as already-banked. Drafting touches neither, so
+    it runs unlocked and uninterrupted, which is the entire point of the split.
+    """
+    os.makedirs(".run/auto", exist_ok=True)
+    fh = open(DRAWLOCK, "w")
+    fcntl.flock(fh, fcntl.LOCK_EX)
+    return fh
+
+
+def run_drafter(a):
+    """THE LANE THAT MUST NEVER STOP. Draw -> shard -> draft -> publish a ready marker. Forever.
+
+    WHY THIS IS SEPARATE (P31 S58, measured): over five hours the drafting fleet was IDLE 53% of
+    the time — 162 minutes — and 139 of those were a single stretch where the supervisor was killed
+    to pick up a code change. Gating cost 18 minutes across the same window. So the dominant loss
+    was never gate contention, and a worktree gate lane would have addressed the small half. What
+    actually costs a free-model window is coupling the drafting lane's LIFETIME to a process you
+    need to restart. Split apart, the gater can be killed, edited and relaunched at will while 640+
+    agents keep drafting.
+    """
+    tags = [x + y for x in string.ascii_lowercase for y in string.ascii_lowercase]
+    bands = [tuple(int(x) for x in b.split("-")) for b in a.bands.split(",")]
+    lane_specs = ([{"name": n, "levers": lv or None}
+                   for n, _, lv in (p.partition(":") for p in a.lanes.split(","))]
+                  if a.lanes else [{"name": "default", "levers": None}])
+    os.makedirs(READY, exist_ok=True)
+    # ROTATION INDEX DERIVED FROM DISK, not from a counter that resets on restart. With `w = 0` at
+    # every launch, a lane list of [default, tells] only ever reaches index 0 unless the process
+    # survives a full wave — and across a day of restarts (code fixes, two power cuts) the `tells`
+    # lane was never once drawn, while holding 86,602 instructions nobody had touched. Same class
+    # as R33: derive from the invariant (waves on disk) rather than from in-process state.
+    w = len(glob.glob(".run/wave_??_cards.json"))
+    log(f"drafter: resuming rotation at index {w} -> lane "
+        f"{lane_specs[w % len(lane_specs)]['name']}, band {bands[w % len(bands)]}")
+    while not os.path.exists(STOP):
+        # Bound the run-ahead: drawing 40 waves of cards while the gater lags would strand them all
+        # as "already-waved" and starve later waves of candidates.
+        if len(glob.glob(f"{READY}/*.json")) >= a.queue_depth:
+            time.sleep(30)
+            continue
+        cr = credits_left()
+        if cr is not None and cr < a.credit_floor:
+            log(f"drafter: credit floor (${cr:.2f}) — stopping"); break
+        used = {os.path.basename(p)[5:7] for p in glob.glob(".run/wave_??_cards.json")}
+        tag = next((t for t in tags if t not in used), None)
+        if not tag:
+            log("drafter: out of wave tags"); break
+        lane, band = lane_specs[w % len(lane_specs)], bands[w % len(bands)]
+        w += 1
+        log(f"=== DRAFT {tag} · lane {lane['name']} · band {band[0]}-{band[1]} · "
+            f"{a.workers} workers ===")
+        lk = _drawlock()
+        cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
+        lk.close()
+        if not cards:
+            log(f"  {tag}: draw failed — retrying next cycle"); time.sleep(30); continue
+        targets = shard_targets(tag, cards, a.workers)
+        t0 = time.time()
+        procs = draft(tag, parse_lanes(a.models, a.model, a.workers), a.maxtok, a.max_turns)
+        drafts, trunc = collect_drafts(tag, procs)
+        json.dump({"tag": tag, "cards": cards, "targets": len(targets), "drafts": len(drafts),
+                   "trunc": trunc, "t0": t0, "workers": a.workers, "band": list(band),
+                   "lane": lane["name"]}, open(f"{READY}/{tag}.json", "w"), indent=1)
+        log(f"  DRAFT {tag} done: {len(drafts)} drafts ({trunc} truncated) -> queued for the gater")
+    log("drafter: finished")
+
+
+def run_gater(a):
+    """Consume ready waves: reloc pre-filter -> gate -> commit -> harvest -> ledger. Restartable
+    at any moment; the drafter neither knows nor cares."""
+    os.makedirs(READY, exist_ok=True)
+    while not os.path.exists(STOP):
+        ready = sorted(glob.glob(f"{READY}/*.json"), key=os.path.getmtime)
+        if not ready:
+            time.sleep(20)
+            continue
+        meta = json.load(open(ready[0]))
+        tag = meta["tag"]
+        t0 = meta.get("t0", time.time())
+        drafts = sorted(glob.glob(f".run/wave_{tag}/shard*/*.c"))
+        log(f"=== GATE {tag} · {len(drafts)} drafts ===")
+        keep, counts = reloc_filter(tag, drafts, meta["cards"])
+        log(f"  reloc_identity: {counts} -> gating {len(keep)}")
+        lk = _drawlock()
+        try:
+            n, banked = gate(tag, keep, a.gate_jobs)
+        finally:
+            lk.close()
+        sha = commit(tag, n, banked)
+        hp = f".run/idiom_candidates.{tag}.md"
+        hr = sh(f"{PY} tools/idiom_harvest.py --waves {tag} --out {hp}", timeout=1800)
+        hl = (hr.stdout or "").strip().splitlines()
+        log(f"  harvest: {hl[-1] if hl else 'FAILED'}")
+        rs = rate_slice(t0)
+        row = {"wave": tag, "t": t0, "wall_min": round((time.time() - t0) / 60, 1),
+               "workers": meta.get("workers"), "band": meta.get("band"), "lane": meta.get("lane"),
+               "targets": meta.get("targets"), "drafts": len(drafts),
+               "truncated_turns": meta.get("trunc"), "reloc": counts, "gated": len(keep),
+               "banked": n, "commit": sha, "harvest": hl[-1] if hl else None,
+               "credit_left": credits_left(), **mem_snapshot(), **rs}
+        with open(LEDGER, "a") as fh:
+            fh.write(json.dumps(row) + "\n")
+        log(f"  GATE {tag}: banked {n}/{len(keep)} gated of {len(drafts)} drafts · "
+            f"{rs['requests']} req · {rs['h429']} 429 · {row['wall_min']}min · {sha}")
+        os.remove(ready[0])
+    log("gater: finished")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--waves", type=int, default=8)
@@ -435,6 +586,14 @@ def main():
                     help="consecutive minutes carrying a provider 429 before it counts as a real "
                          "ceiling rather than a burst (default 3)")
     ap.add_argument("--start-tag", default=None, help="two-letter tag to start from (default: next free)")
+    ap.add_argument("--drafter", action="store_true",
+                    help="run ONLY the drafting lane, forever. Never stop this process to ship a "
+                         "code change — that is what cost 139 of 162 idle minutes on 2026-08-23.")
+    ap.add_argument("--gater", action="store_true",
+                    help="run ONLY the gate/commit/harvest lane, forever. Safe to kill and restart "
+                         "at any moment; drafting is unaffected.")
+    ap.add_argument("--queue-depth", type=int, default=2,
+                    help="how many drafted-but-ungated waves the drafter may run ahead")
     ap.add_argument("--gate-only", default=None, metavar="TAG",
                     help="skip drawing and drafting: pre-filter and gate the drafts ALREADY sitting "
                          "in .run/wave_<TAG>/shard*/, then commit. For a wave drafted outside the "
@@ -442,6 +601,10 @@ def main():
                          "re-drafting them would spend the model again to reproduce what exists.")
     a = ap.parse_args()
 
+    if a.drafter:
+        return run_drafter(a)
+    if a.gater:
+        return run_gater(a)
     if a.gate_only:
         tag = a.gate_only
         t0 = time.time()
@@ -479,6 +642,7 @@ def main():
     log(f"lanes: {[l['name'] for l in lane_specs]}")
     workers, last_clean = a.workers, a.workers
     prev_rpm, stalls = 0.0, 0
+    inflight = None
     log(f"campaign: {a.waves} waves x {a.cards_per_wave} cards, {workers} workers, model {a.model}")
     for w in range(a.waves):
         if os.path.exists(STOP):
@@ -486,20 +650,48 @@ def main():
         cr = credits_left()
         if cr is not None and cr < a.credit_floor:
             log(f"credit floor reached (${cr:.2f} < ${a.credit_floor}) — ending campaign"); break
-        tag = pending[w] if w < len(pending) else tags[len(used) + w]
-        t0 = time.time()
-        log(f"=== WAVE {tag} ({w+1}/{a.waves}) · {workers} workers · ${cr if cr is None else round(cr,2)} credit ===")
-        lane = lane_specs[w % len(lane_specs)]
-        band = bands[w % len(bands)]
-        log(f"  lane {lane['name']} · band {band[0]}-{band[1]} instructions")
-        cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
-        if not cards:
-            log("  draw failed — skipping wave"); continue
-        targets = shard_targets(tag, cards, workers)
-        log(f"  {len(targets)} targets sharded")
-        lanes = parse_lanes(a.models, a.model, workers)
-        drafts, trunc = draft(tag, lanes, a.maxtok, a.max_turns)
-        log(f"  {len(drafts)} drafts produced ({trunc} truncated turns)")
+        # PIPELINED: wave N+1 DRAFTS while wave N GATES (docs/concurrency-design.md lane D || G).
+        # Drafting writes only .run/ and match_one works in per-pid scratch; gating writes src/.
+        # Serially, every gate left 640 agents idle — ak's gate ran 8 minutes with zero drafting,
+        # and on a clock-limited free-model window that is the single largest waste in the loop.
+        #
+        # The DRAW must still happen BEFORE the gate starts: build_wave_atlas reads corpus.stubs(),
+        # which misreports substituted drafts mid-gate and would silently skip them as
+        # already-banked. So the order is: draw N+1 -> start N+1 drafting -> gate N.
+        if inflight is None:
+            tag = pending[w] if w < len(pending) else tags[len(used) + w]
+            lane = lane_specs[w % len(lane_specs)]
+            band = bands[w % len(bands)]
+            log(f"=== WAVE {tag} ({w+1}/{a.waves}) · {workers} workers · "
+                f"${cr if cr is None else round(cr,2)} credit ===")
+            log(f"  lane {lane['name']} · band {band[0]}-{band[1]} instructions")
+            cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
+            if not cards:
+                log("  draw failed — skipping wave"); continue
+            targets = shard_targets(tag, cards, workers)
+            log(f"  {len(targets)} targets sharded")
+            procs = draft(tag, parse_lanes(a.models, a.model, workers), a.maxtok, a.max_turns)
+            inflight = (tag, cards, targets, procs, time.time())
+
+        tag, cards, targets, procs, t0 = inflight
+        inflight = None
+        drafts, trunc = collect_drafts(tag, procs)
+        log(f"  WAVE {tag}: {len(drafts)} drafts produced ({trunc} truncated turns)")
+
+        # Start the NEXT wave drafting before gating this one — this is the whole point.
+        if w + 1 < a.waves and not os.path.exists(STOP):
+            ntag = pending[w + 1] if w + 1 < len(pending) else tags[len(used) + w + 1]
+            nlane = lane_specs[(w + 1) % len(lane_specs)]
+            nband = bands[(w + 1) % len(bands)]
+            log(f"=== WAVE {ntag} ({w+2}/{a.waves}) drafting AHEAD · lane {nlane['name']} · "
+                f"band {nband[0]}-{nband[1]} ===")
+            ncards = draw_wave(ntag, a.cards_per_wave, nband, nlane.get("levers"))
+            if ncards:
+                ntargets = shard_targets(ntag, ncards, workers)
+                nprocs = draft(ntag, parse_lanes(a.models, a.model, workers), a.maxtok, a.max_turns)
+                inflight = (ntag, ncards, ntargets, nprocs, time.time())
+            else:
+                log(f"  wave {ntag}: draw failed — next cycle will redraw")
         keep, counts = reloc_filter(tag, drafts, cards)
         log(f"  reloc_identity: {counts} -> gating {len(keep)}")
         n, banked = gate(tag, keep, a.gate_jobs)

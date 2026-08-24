@@ -30,7 +30,7 @@ USAGE
     REASON_CAP=6000 .venv/bin/python tools/api_agent.py \
         --targets .run/bakeoff/rung0.json --out .run/bakeoff/glm-agent --max-turns 24
 """
-import argparse, http.client, json, os, re, socket, subprocess, sys, time, urllib.request, urllib.error
+import argparse, glob, http.client, json, os, re, socket, subprocess, sys, time, urllib.request, urllib.error
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import api_draft as AD          # reuse the validated endpoint/match_one/extract plumbing
@@ -56,7 +56,15 @@ def _rate_log(event, **kw):
     except Exception:
         pass
 
-READABLE = ('src/', 'asm/', 'docs/', 'include/', '.run/bakeoff/')   # read-only surface
+# Read-only surface. EXTRA_READABLE widens it for a task that genuinely needs more — a
+# TOOLING-DESIGN brief must read config/ and tools/, which a decompilation brief must not.
+READABLE = tuple(x for x in (('src/', 'asm/', 'docs/', 'include/', '.run/bakeoff/')
+                             + tuple(y for d in os.environ.get('EXTRA_READABLE', '').split(',')
+                                     if d.strip()
+                                     # BOTH forms: 'config/' matches a directory tree, bare
+                                     # 'Makefile' matches a single granted FILE (which never
+                                     # matches a trailing-slash prefix).
+                                     for y in (f'{d.strip().rstrip("/")}/', d.strip().rstrip("/")))))
 MAX_BYTES = 60000               # per read_file / grep response, so one call cannot flood context
 NUDGE_MAX = int(os.environ.get('NUDGE_MAX', '6'))   # continuations offered when a turn yields no tool call
 REPEAT_MAX = int(os.environ.get('REPEAT_MAX', '4'))  # identical consecutive tool calls before the loop is broken
@@ -102,7 +110,14 @@ TOOLS = [
 
 def _safe(path):
     p = os.path.normpath(path).lstrip('/')
-    if not p.startswith(READABLE) or '..' in p.split(os.sep):
+    # Compare with a trailing slash appended so a BARE DIRECTORY matches its own allowed root.
+    # Every entry in READABLE ends in '/', so `p = '.run/bakeoff'` failed startswith and the agent
+    # was refused access to the very directory that was granted to it — measured P31 S58: a tooling
+    # brief could not grep the tool sources staged for it under .run/bakeoff/toolwork, and burned
+    # its turns on nudges. A refusal that names the granted path as "outside the readable surface"
+    # is a harness bug wearing a permissions message (R40).
+    probe = p if p.endswith('/') else p + '/'
+    if not (probe.startswith(READABLE) or p.startswith(READABLE)) or '..' in p.split(os.sep):
         return None
     full = os.path.join(REPO, p)
     return full if os.path.exists(full) else None
@@ -179,7 +194,12 @@ def call(messages, tools):
     for attempt in range(MAX_429):
         _rate_log('POST')
         try:
-            with urllib.request.urlopen(req, timeout=1800) as r:
+            # 1800s meant one hung generation parked an agent for THIRTY MINUTES, and from the
+            # outside that is indistinguishable from a stall (measured: an agent 1,690s silent
+            # while the 429 backoff chain caps at ~14 min, so it was not backoff). At 2,000 agents
+            # a 30-minute park is 30 minutes of a worker doing nothing. Env-tunable; the retry loop
+            # above already treats a timeout as transient and tries again.
+            with urllib.request.urlopen(req, timeout=int(os.environ.get('HTTP_TIMEOUT', '420'))) as r:
                 d = json.loads(r.read())
             break
         except (http.client.IncompleteRead, http.client.RemoteDisconnected,
@@ -197,8 +217,22 @@ def call(messages, tools):
             delay = min(delay * 2, 120)
             continue
         except urllib.error.HTTPError as e:
-            if e.code != 429 or attempt == MAX_429 - 1:
+            # 5xx IS TRANSIENT TRANSPORT, NOT A VERDICT — retry it exactly like a 429.
+            # Only 429 was retried, so a single 502/503/504 raised, the caller logged "API error
+            # HTTPError", and the function was ABANDONED mid-solve. Measured P31 S58: one shard
+            # lost func_801833E8 to a 502 at turn 11 while sitting at "near 19" — two oracle calls
+            # of real progress discarded and written down as a model outcome ("near 19, no submit").
+            # A gateway hiccup must cost latency, never a function. (R40: exonerate the instrument.)
+            if (e.code != 429 and not (500 <= e.code < 600)) or attempt == MAX_429 - 1:
                 raise
+            if e.code != 429:
+                wait = min(delay, 60)
+                _rate_log(str(e.code), wait=wait, attempt=attempt + 1)
+                print(f'    (HTTP {e.code} — transient, waiting {wait}s, '
+                      f'retry {attempt + 1}/{MAX_429 - 1})', flush=True)
+                time.sleep(wait)
+                delay = min(delay * 2, 120)
+                continue
             # A 429 has TWO possible sources and they need different responses:
             #   * PLATFORM  -- OpenRouter's own free-variant caps (20/min, 1000/day at >=$10
             #     lifetime credit) or DDoS protection. Carries X-RateLimit-{Limit,Remaining,Reset}.
@@ -352,6 +386,59 @@ def _fuel(t, card):
     return '\n'.join(out)
 
 
+def prior_transcript(t, budget=240000):
+    """The most recent prior CONVERSATION for this function, trimmed to a character budget.
+
+    Replayed as real assistant/tool turns rather than summarized: the tool results carry the .s
+    excerpts, cookbook sections and match_one diffs the last attempt paid to fetch, and a summary
+    of "it read the cookbook" is worth far less than the section it actually read. The opening
+    user turn is dropped (the new run builds its own, with fresher cards) and the oldest middle
+    turns are trimmed first, keeping the most recent exchanges where the reasoning converged.
+    """
+    newest, path = None, None
+    for p in sorted(glob.glob(f".run/wave_*/shard*/{t['name']}.messages.json"),
+                    key=lambda x: -os.path.getmtime(x)):
+        try:
+            newest = json.load(open(p)); path = p; break
+        except (OSError, json.JSONDecodeError):
+            continue
+    if not newest:
+        return None, None, None
+    msgs = [m for m in newest.get('messages', []) if m.get('role') != 'system'][1:]
+    while msgs and sum(len(json.dumps(m)) for m in msgs) > budget:
+        del msgs[0]
+        while msgs and msgs[0].get('role') == 'tool':      # never orphan a tool result
+            del msgs[0]
+    return msgs, path, newest
+
+
+def prior_draft(t):
+    """The best body a PREVIOUS attempt on this function reached, if one is on disk.
+
+    A retry currently starts cold and re-derives everything the last attempt already worked out.
+    That is pure waste at any time and acute now: --retry-unbanked returned 1,763 drawn-but-unbanked
+    cards to the pool (P31 S58), every one of which has a saved draft. It is also the only recovery
+    path for work lost to transport — one shard reached "near 19" on func_801833E8 and a 502 ended
+    the run; the conversation is gone (nothing persists it) but the body survived.
+
+    Deliberately NOT presented as correct: a saved draft is by definition one the byte-gate has not
+    accepted, so it is offered as a starting point to improve or discard, never as a seed to trust.
+    """
+    best, where = None, None
+    for pat in (f".run/wave_*/shard*/{t['name']}.c", f".run/*/{t['name']}.c"):
+        for p in sorted(glob.glob(pat), key=lambda x: -os.path.getmtime(x)):
+            try:
+                body = open(p).read()
+            except OSError:
+                continue
+            if body.strip():
+                best, where = body, p
+                break
+        if best:
+            break
+    return best, where
+
+
 def user_msg(t, card=None):
     base = f"""TARGET: {t['name']} · {t['nins']} instructions · binary {t.get('binary','?')}
   target asm     : {t['asm']}
@@ -419,9 +506,36 @@ def main():
         state = {'best': (None, 10 ** 9), 'calls': 0, 'submitted': None, 'nudges': 0,
                  'recent': []}
         um = user_msg(t, cards.get(t['name']))
+        pd, pdwhere = prior_draft(t)
+        if pd:
+            um += ("\n\nA PREVIOUS ATTEMPT on this exact function left this body behind "
+                   f"({pdwhere}). The whole-binary byte-gate did NOT accept it, so it is wrong "
+                   "somewhere — but it is usually wrong in ONE place, and re-deriving the other "
+                   "90% from scratch wastes the turns you need for the real difference. Read it "
+                   "against the .s, keep what matches, and fix what does not. Discard it entirely "
+                   "if it is a different function's body.\n\n```c\n" + pd.strip() + "\n```\n")
+            print(f'  {t["name"]}: warm start from {pdwhere}', flush=True)
         if a.brief:
             um = open(a.brief).read().rstrip() + '\n\n' + um
         messages = [{'role': 'system', 'content': SYS}, {'role': 'user', 'content': um}]
+        # RESUME rather than restart: splice the previous attempt's turns in after the new opening
+        # message, then tell the model plainly what it is looking at. Its own prior tool results —
+        # the .s excerpts, the cookbook sections, the match_one diffs — come back with it, so the
+        # retry begins where the last one stopped instead of re-buying the same context.
+        prev, prevpath, prevmeta = prior_transcript(t)
+        if prev:
+            messages += prev
+            messages.append({'role': 'user', 'content':
+                f"RESUMING. Everything above is YOUR OWN previous attempt on {t['name']}, replayed "
+                f"from {os.path.basename(prevpath)}. It ended at "
+                f"{prevmeta.get('verdict','an unknown verdict')} after "
+                f"{prevmeta.get('oracle_calls','?')} oracle call(s) — so it did NOT bank, and "
+                "somewhere in there is a wrong assumption. Do not repeat the searches and reads you "
+                "already did; their results are above. Start from the best body you reached, decide "
+                "what is still unexplained in the .s, and go at THAT. If the previous line of attack "
+                "was a dead end, say so and take a different one."})
+            print(f'  {t["name"]}: RESUMING from {prevpath} '
+                  f'({len(prev)} prior turns, ended {prevmeta.get("verdict")})', flush=True)
         spent_at_start = AD._COST[0]
         for turn in range(a.max_turns):
             spent_fn = AD._COST[0] - spent_at_start
@@ -526,6 +640,18 @@ def main():
         best, score = state['best']
         if best is not None:
             open(os.path.join(outdir, t['name'] + '.c'), 'w').write(best if best.endswith('\n') else best + '\n')
+        # PERSIST THE TRANSCRIPT. Until now only the final body survived a run, so a retry restarted
+        # cold and re-derived every read, every grep and every rejected hypothesis. The body says
+        # WHAT the last attempt concluded; the transcript says WHY, and which approaches were already
+        # ruled out. Acute with --retry-unbanked returning 1,763 drawn-but-unbanked cards to the pool.
+        try:
+            json.dump({'fn': t['name'], 'binary': t.get('binary'), 'score': score,
+                       'verdict': 'MATCH' if score == 0 else
+                                  (f'near {score}' if score < 10 ** 7 else 'no compiling draft'),
+                       'oracle_calls': state['calls'], 'model': AD.MODEL, 'messages': messages},
+                      open(os.path.join(outdir, t['name'] + '.messages.json'), 'w'))
+        except Exception:
+            pass
         verdict = 'MATCH' if score == 0 else (f'near {score}' if score < 10 ** 7 else 'no compiling draft')
         print(f'  {t["name"]}: {verdict} after {state["calls"]} oracle call(s), '
               f'${AD._COST[0] - spent_at_start:.4f}, {state["submitted"] or "no submit"}')

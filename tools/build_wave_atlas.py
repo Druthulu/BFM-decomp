@@ -71,6 +71,11 @@ ap.add_argument('--only-bins', default='',
                 help='comma-separated allow-list; if set, ONLY these binaries are eligible. '
                      'Use --only-bins main for a main wave: gate_main.py rebuilds the whole EXE '
                      'once per SLATE, so main has no per-TU gate cost and --max-bins can be large.')
+ap.add_argument('--retry-unbanked', action='store_true',
+                help='return previously-waved cards to the pool when they are STILL OPEN STUBS. '
+                     'The already-waved filter otherwise reads "drawn" as "done", stranding every '
+                     'card that was drafted-and-rejected or never drafted at all: 1,785 cards / '
+                     '72,961 instructions across 11 waves (P31 S58).')
 ap.add_argument('--one-per-gid', action='store_true',
                 help="draft ONE card per atlas group and defer its same-gid siblings to "
                      "<out>.siblings.json for the post-bank mechanical remap "
@@ -104,6 +109,41 @@ for p in PRIORS:
         taken |= {c.get('fn') or c.get('name') for c in json.load(open(p))}
     except (FileNotFoundError, json.JSONDecodeError, TypeError):
         pass
+
+# --retry-unbanked: a card that was DRAWN but never BANKED is not spent work, it is UNFINISHED work.
+#
+# The already-waved filter treats "this wave drew it" as "this is done", so a card that was drafted
+# and gate-rejected, or drafted with wrong symbols, or never drafted at all because its wave was cut
+# short, is excluded from every future wave forever. Measured P31 S58 across 11 waves: 4,080 cards
+# drawn, 2,295 banked, and **1,785 still-open cards holding 72,961 instructions** locked out of the
+# pool — while the drafting lane was simultaneously starving for cards (wave `ak` asked for 1,400
+# and the band could only supply 497).
+#
+# Re-drawing is not a re-run of the same experiment: the cookbook has grown by 26 sections (§207+)
+# harvested from those very waves, so a second attempt carries knowledge the first did not. Opt-in,
+# because re-drafting a known-hard card is a real cost and that should be a decision, not a default.
+if a.retry_unbanked:
+    import corpus as _corpus
+    _stubs, _kept = {}, 0
+    def _open(fn, binary):
+        if binary not in _stubs:
+            try:
+                _stubs[binary] = {st.symbol for st in _corpus.stubs(binary).values()}
+            except Exception:
+                _stubs[binary] = None
+        return None if _stubs[binary] is None else (fn in _stubs[binary])
+    _still_open = set()
+    for p in PRIORS:
+        try:
+            for c in json.load(open(p)):
+                fn, b = (c.get('fn') or c.get('name')), c.get('binary')
+                if fn and b and _open(fn, b) is True:
+                    _still_open.add(fn)
+        except (FileNotFoundError, json.JSONDecodeError, TypeError):
+            pass
+    taken -= _still_open
+    print(f'--retry-unbanked: {len(_still_open)} previously-waved cards are still OPEN stubs '
+          f'and are back in the pool', file=sys.stderr)
 if not PRIORS:
     print('NOTE: no prior wave card files found — nothing filtered as already-waved', file=sys.stderr)
 

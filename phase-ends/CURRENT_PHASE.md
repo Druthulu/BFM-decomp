@@ -403,6 +403,87 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
     (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
 
+## 🛑 CRASH-RECOVERY CHECKPOINT — S58 LIVE (2026-08-24 00:2x). Phase 31 CONTINUES. **WORK IS IN FLIGHT.**
+
+**This is NOT a fresh-session handoff — it is a crash-recovery snapshot.** Autonomous lanes are
+RUNNING right now. If you are reading this after a crash, the first question is not "what next"
+but "what is still alive" — see RESTART below.
+
+**HEAD `commit:2600` · 1,790 functions banked today across 36 commits · 7,581 open overlay/md/resident
+stubs · tree clean · R22 last verified GREEN 213/213 at `commit:2587` (re-verify before trusting).**
+
+### WHAT IS RUNNING (all `setsid`-detached, all self-restarting)
+| lane | script | role |
+|---|---|---|
+| drafter | `.run/drafter.sh` | draw → shard → draft → queue a ready marker, forever. **NEVER stop this to ship a code change** (that cost 139 of 162 idle minutes on 2026-08-23) |
+| gater | `.run/gater.sh` | reloc pre-filter → gate → commit → harvest → ledger. Safe to kill/restart |
+| maintenance | `.run/maintenance.sh` | the FREE A-prop sibling lane whenever the gater is idle; zero model tokens |
+| stallguard | `.run/stallguard.sh` | 60s cycle: revive a dead lane shell, kill agents silent >20min, kill a gate >90min, bounce an idle drafter |
+| toolwork | `.run/toolwork.sh` | 2 ox agents designing the jtbl island-split and the o0/cc1 lanes (read-only) |
+
+Stop everything cleanly: `touch .run/ox_campaign.stop`. A 5-minute cron (`271eadf8`) checks the lanes.
+
+### RESTART AFTER A CRASH, IN THIS ORDER
+1. `git status --porcelain -- src/ config/` — if dirty, **COMMIT it, never revert** (R42). A dirty
+   `src/` after a crash is usually banked work a gate had not committed yet. The one safe revert is
+   `src/800.c`/`src/800c.c` alone when a `gate_main` was interrupted mid-substitution.
+2. Salvage drafts: `find .run/wave_* -name '*.c' | wc -l` — drafts survive crashes and are worth
+   re-gating via `ox_campaign.py --gate-only <tag>` before drafting anything new.
+3. Relaunch: `setsid nohup .run/drafter.sh >> .run/drafter.log 2>&1 </dev/null &` then the same for
+   `gater.sh`, `maintenance.sh`, `stallguard.sh`. Verify from the STARTUP BANNER, not the config file
+   (a `#` between backslash-continued args silently drops them all — see `docs/accelerators.md`).
+4. Drafting is the clock-limited resource (ox is free for ~3 more days) — start it FIRST, do
+   bookkeeping while it runs.
+
+### FLEET / SCALING, AS MEASURED
+* **1,720 ox + 280 deepseek**, 3,000-card waves. Shard count tracks CARDS, not the config: a
+  818-card wave runs 818 shards however many are configured. **Card supply is the binding constraint.**
+* ox 429s are **launch burst only** — 961 of 964 landed in the first 5-minute bucket when 818 shards
+  fired at once; every later bucket 0.0%. Startup is now staggered. **Not a capacity ceiling.**
+* Agent RSS ~10 MB steady (the 39 MB figure was a startup snapshot). WSL raised 32→48 GB via
+  `/mnt/c/Users/user/.wslconfig`; 45 GB available carries thousands, not hundreds.
+* deepseek's pool has never returned a 429. Zero PLATFORM 429s ever — OpenRouter has not once
+  refused this account. Credit ~$16.
+* Telemetry: every request and 429 appends to `.run/api_rate.jsonl`; read with `tools/api_rate.py`.
+
+### TOOLS BUILT THIS SESSION
+`tools/ox_campaign.py` (drafter/gater split, lane+band rotation, pipelining, main parking,
+smallest-ratio model lanes, launch stagger, per-wave harvest) · `tools/idiom_harvest.py` ·
+`tools/api_rate.py` · `tools/idiom_serial.py` (serial compounding lane, ov_* jtbl only) ·
+`.run/{drafter,gater,maintenance,stallguard,toolwork,sibling_lane}.sh`
+
+### FIXES THAT MUST NOT REGRESS
+* `atlas.py` `_CONF_RANK` needs `aprop-pure` — without it atlas.py cannot run AT ALL, and the
+  `remap` lever (235 groups / 46,240 ins) is invisible.
+* `validate_targets` prefers the card's own `addr` — name-slicing made every NAMED symbol MALFORMED
+  and discarded whole 220-card waves.
+* `sweep_parallel` REFUSES main (R43). `gate_main` holds `.run/auto/gate.main.lock` (R42 companion).
+* `api_agent`: 5xx retried like 429; `HTTP_TIMEOUT` 420s not 1800; `EXTRA_READABLE` widens the
+  read surface for tooling briefs; bare-directory paths no longer refused.
+* `ox_campaign.gate()` COMMITS a dirty tree, never reverts (R42).
+
+### THE WORK QUEUE (ordered, and why)
+1. **jtbl/o0/cc1 tooling** — the two ox study agents return DESIGNS; a Fable agent validates each
+   design before implementation; then WE write the tool and verify on **2 examples per tool** before
+   it joins the toolset; then cards that exercise it, end-to-end, before autonomy resumes.
+   Population: jtbl 177 groups / 36,685 ins (169 of 245 members are ov_*, where the carve works;
+   150 of 177 groups are SINGLETONS so there is little family leverage) · o0 6,564 ins · cc1 6,511.
+2. **main** — 157 drafts parked in `.run/main_queue/`, ~1,041 open stubs. Its gate is a clean whole-EXE
+   rebuild that bisects on failure: 39 min unfinished on 29 drafts, 25 min on 8, 65+ min on 8.
+   Needs a cheaper gate, not more agents. **~54 h of gate time at current rates = the schedule risk.**
+3. **The tells lane** — 86,602 ins, never drawn until now (a rotation counter reset to 0 on every
+   restart, so index 1 was never reached). Draws at rotation index 16.
+4. **Sibling remap** — use `aprop_autodraft` (synthesizes a minimal preamble), NOT
+   `family_sweep --hseq` (carries the seed's decl layer: 0/14 banked on a PURE probe, all PLUMBING).
+   527 templatable families / 1,334 members is the tool-verified number; the 5,042 card-file count
+   was optimistic.
+
+### HONEST FRONTIER (atlas, before today's ~1,790 banks)
+SOLVED lanes 8,607 inst / 352,649 ins · TELLS 1,132 / 86,602 · NEEDS TOOLING 452 / 53,853 ·
+other 287 / 6,130. Clean-run pace ~400 banked/hour; today's actual was 1,790 in ~24 h at 53% idle.
+
+---
+
 ## RULES ADDED IN S58 — **ACCEPTED BY DREW 2026-08-23, BINDING FROM NOW**
 
 | Rule | Reason |
