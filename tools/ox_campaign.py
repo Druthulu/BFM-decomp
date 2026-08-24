@@ -296,7 +296,15 @@ def reloc_filter(tag, drafts, cards_path):
         return batch, {"(reloc_identity produced no output — gating unfiltered)": len(batch)}
     status = {r["fn"]: r.get("status") for r in res}
     counts = collections.Counter(status.values())
-    keep = [b for b in batch if status.get(b["fn"]) in ("AGREE", "NOT-A-STUB")]
+    # NOT-A-STUB IS NOT A PASS — it means reloc_identity found nothing to check because the
+    # function is ALREADY BANKED. Gating those re-stages a draft body over source that already
+    # byte-matches: pure waste at best, and at worst it perturbs a banked function inside a group
+    # and takes the group's genuinely-new drafts down with it. Wave `an` carried 480 NOT-A-STUB of
+    # 697 "gated" and banked 0. Only AGREE is a pass. (R43: refuse input the step cannot use.)
+    keep = [b for b in batch if status.get(b["fn"]) == "AGREE"]
+    n_banked_already = sum(1 for b in batch if status.get(b["fn"]) == "NOT-A-STUB")
+    if n_banked_already:
+        counts = dict(counts, _already_banked_excluded=n_banked_already)
     return keep, dict(counts)
 
 
@@ -326,7 +334,7 @@ def gate_main_batch(tag, mains):
     return len(banked), banked
 
 
-def gate(tag, keep, jobs):
+def gate(tag, keep, jobs, run_id=None):
     # Any main drafts that slipped through (an older wave's cards) are PARKED for the periodic main
     # batch rather than gated inline — see draw_wave's note on why main is off the critical path.
     mains = [k for k in keep if k["binary"] == "main"]
@@ -338,7 +346,12 @@ def gate(tag, keep, jobs):
         log(f"  main: {len(mains)} drafts PARKED to .run/main_queue/{tag}.json "
             f"(gate them with tools/gate_main.py when no wave is waiting)")
         mains = []
-    d = f".run/sweep_{tag}"
+    # PER-RUN staging dir. Reusing `.run/sweep_<tag>` let a KILLED gate's staged drafts survive
+    # into the next gate of the same tag: measured wave `an` staging 697 drafts into a directory
+    # that held 3,186, so every per-binary group carried stale bodies and failed as a group —
+    # 208 reloc-AGREE drafts banked 0. rmtree is not enough when a crashed or concurrent run may
+    # have written the same path; a unique path makes the contamination impossible, not unlikely.
+    d = f".run/sweep_{tag}" + (f".{run_id}" if run_id else "")
     shutil.rmtree(d, ignore_errors=True)
     for b in keep:
         bd = os.path.join(d, b["binary"])
@@ -448,6 +461,32 @@ def _drawlock():
     return fh
 
 
+def _drawlock_nb():
+    """Non-blocking draw lock. Returns None if a gate holds it — the caller must NOT wait."""
+    os.makedirs(".run/auto", exist_ok=True)
+    fh = open(DRAWLOCK, "w")
+    try:
+        fcntl.flock(fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        return fh
+    except BlockingIOError:
+        fh.close()
+        return None
+
+
+def _predrawn(skip_tag):
+    """A wave whose cards exist but which has never been drafted — free work while a gate runs."""
+    for p in sorted(glob.glob(".run/wave_??_cards.json"), key=os.path.getmtime):
+        t = os.path.basename(p)[5:7]
+        if t == skip_tag:
+            continue
+        if os.path.exists(f"{READY}/{t}.json"):        # already drafted and queued
+            continue
+        if glob.glob(f".run/wave_{t}/shard*/*.c"):     # already has drafts
+            continue
+        return t, p
+    return None
+
+
 def run_drafter(a):
     """THE LANE THAT MUST NEVER STOP. Draw -> shard -> draft -> publish a ready marker. Forever.
 
@@ -474,11 +513,17 @@ def run_drafter(a):
     log(f"drafter: resuming rotation at index {w} -> lane "
         f"{lane_specs[w % len(lane_specs)]['name']}, band {bands[w % len(bands)]}")
     while not os.path.exists(STOP):
-        # Bound the run-ahead: drawing 40 waves of cards while the gater lags would strand them all
-        # as "already-waved" and starve later waves of candidates.
-        if len(glob.glob(f"{READY}/*.json")) >= a.queue_depth:
-            time.sleep(30)
-            continue
+        # Bound the run-ahead on DRAWING only. Drawing 40 waves while the gater lags would strand
+        # them all as "already-waved"; DRAFTING a wave whose cards already exist strands nothing.
+        # Conflating the two stopped the fleet dead: with queue_depth=2 and two waves queued, the
+        # drafter slept while `aa` and `ai` sat pre-drawn and undrafted (measured P31 S58).
+        backlogged = len(glob.glob(f"{READY}/*.json")) >= a.queue_depth
+        if backlogged:
+            pre = _predrawn(None)
+            if not pre:
+                log(f"  gater backlogged ({a.queue_depth}+ waves) and nothing pre-drawn — waiting")
+                time.sleep(60)
+                continue
         cr = credits_left()
         if cr is not None and cr < a.credit_floor:
             log(f"drafter: credit floor (${cr:.2f}) — stopping"); break
@@ -490,9 +535,38 @@ def run_drafter(a):
         w += 1
         log(f"=== DRAFT {tag} · lane {lane['name']} · band {band[0]}-{band[1]} · "
             f"{a.workers} workers ===")
-        lk = _drawlock()
-        cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
-        lk.close()
+        # NON-BLOCKING draw. The gater holds this lock for its WHOLE gate (substituted drafts make
+        # corpus.stubs() lie), so a blocking acquire here parks the entire drafting fleet for the
+        # duration of every gate — measured 7 minutes idle with 0 agents while wave `an` gated, and
+        # it would recur on every wave. Drafting is the clock-limited resource; it must never wait
+        # on gating. If the lock is busy we draft a wave that was PRE-DRAWN earlier instead, and
+        # only sleep when there is genuinely nothing drawn to work on.
+        lk = None if backlogged else _drawlock_nb()
+        if lk is None:
+            pre = _predrawn(tag)
+            if pre:
+                tag, cards = pre
+                log(f"  gate in progress — drafting PRE-DRAWN wave {tag} instead of waiting")
+            else:
+                log("  gate holds the draw lock and nothing is pre-drawn — waiting 30s")
+                time.sleep(30); continue
+        else:
+            cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
+            lk.close()
+            # Draw the NEXT wave's cards too while the lock is ours, so the next gate cannot idle
+            # the fleet. Cheap (a few minutes of CPU) and it buys a whole gate's worth of drafting.
+            nxt = next((t for t in tags
+                        if t not in {os.path.basename(q)[5:7]
+                                     for q in glob.glob(".run/wave_??_cards.json")}), None)
+            if nxt:
+                nlane = lane_specs[(w) % len(lane_specs)]
+                nband = bands[(w) % len(bands)]
+                lk2 = _drawlock_nb()
+                if lk2 is not None:
+                    log(f"  pre-drawing {nxt} (lane {nlane['name']}, band {nband[0]}-{nband[1]}) "
+                        f"so the next gate cannot idle the fleet")
+                    draw_wave(nxt, a.cards_per_wave, nband, nlane.get("levers"))
+                    lk2.close()
         if not cards:
             log(f"  {tag}: draw failed — retrying next cycle"); time.sleep(30); continue
         targets = shard_targets(tag, cards, a.workers)
@@ -524,7 +598,7 @@ def run_gater(a):
         log(f"  reloc_identity: {counts} -> gating {len(keep)}")
         lk = _drawlock()
         try:
-            n, banked = gate(tag, keep, a.gate_jobs)
+            n, banked = gate(tag, keep, a.gate_jobs, run_id=str(os.getpid()))
         finally:
             lk.close()
         sha = commit(tag, n, banked)

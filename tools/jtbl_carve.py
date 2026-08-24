@@ -58,7 +58,25 @@ EOF_RE = re.compile(r"^\s*- \[(0x[0-9A-Fa-f]+)\]\s*(?:#.*)?$")
 
 
 def cfg_path(ov):
-    return os.path.join(REPO, f"config/splat.{ov}.yaml")
+    # HARD REFUSAL for binary classes this tool cannot handle. Two independent reviews (ox design
+    # study + Fable validation, P31 S58) established that on md_* and main jtbl_carve does not
+    # merely fail — `parse_config` does not implement its own documented contract, so it can DELETE
+    # the `c` config line and CORRUPT the yaml on disk before it errors out. main additionally has
+    # no `config/splat.main.yaml` at all (it is `splat.us.exe.yaml`), so the unguarded open() below
+    # raised FileNotFoundError on every main jtbl target.
+    #
+    # Refusing loudly beats corrupting quietly (R43). Lift this only once parse_config is hardened
+    # and the fix is proven on two examples — see docs/tool-designs/jtbl-island-split-review.md,
+    # whose verdict is that the real change is ONE inserted `.rodata` carve line plus
+    # jr_isolate_all.py --only, NOT the _pre split or an ld_interleave leading mode.
+    if ov == "main" or ov.startswith("md_"):
+        sys.exit(f"jtbl_carve: REFUSING {ov} — md_*/main configs are corrupted by parse_config "
+                 f"before it errors (see docs/tool-designs/jtbl-island-split-review.md). "
+                 f"Overlays (ov_*) are supported.")
+    p = os.path.join(REPO, f"config/splat.{ov}.yaml")
+    if not os.path.exists(p):
+        sys.exit(f"jtbl_carve: no splat config at {p} for binary {ov!r}")
+    return p
 
 
 def overlay_vram_base(ov):
