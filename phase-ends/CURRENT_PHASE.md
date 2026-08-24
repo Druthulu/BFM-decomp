@@ -403,6 +403,70 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
     (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
 
+## 🛑 SESSION CHECKPOINT — S59 (2026-08-24 ~12:50). Phase 31 CONTINUES. **AGENTS RETURNED; EVERY FIX LANDED.**
+
+**All three Fable agents completed and every claim was re-verified against the bytes by the main
+loop (each binary rebuilt under its own gate lock).** 4 functions banked by the agents; the
+campaign banked 145 more (waves bk 110, bl 35) while they worked, undisturbed.
+
+### THE ANSWER TO "CAN THE WAVES DRAW AND BANK EACH TYPE NOW"
+| type | drawn by waves? | banks? | mechanism |
+|---|---|---|---|
+| **default** | yes | yes | unchanged |
+| **cc1** | **yes (new)** | yes | never a structural blocker — it recorded a past compile failure |
+| **tells** | yes, band 5-80 | yes | + the LEVER_CRIB on the card, the §172b grep aliases, 40 turns / $0.40 |
+| **jtbl** | **yes (new)** — 6/wave via `--jtbl-quota` | yes, gate-time carve | probe-filtered to reachable members, ONE per binary (§61c), main excluded |
+| **-O0, in an -O0 object** | **yes** (50, incl. md_MAIN_011's 21) | yes | `match_one` auto-selects -O0; the Makefile is now the oracle, not the name |
+| **-O0, stranded in -O2** | **deliberately refused** | no | unbankable by construction until U2/U3/U5 land — the draw says `o0-in-an-O2-object` |
+
+### WHAT LANDED AFTER THE AGENTS RETURNED
+* **tells** (`commit:2667`): `LEVER_CRIB` in `api_agent._fuel` (what each tell MEANS, the § to grep,
+  the byte-proven C spellings) · a **LANE ALIASES grep-bait block at §172b** — the card named a word
+  the 750-section cookbook contained **zero times**, and 108 failure transcripts grepped it for
+  nothing · `LANE_BUDGET` = 40 turns / $0.40 for tells (98 of 270 attempts had ended AT the 24-turn
+  cap on cards 2.4x the default size) · two new SYS laws (grep the crib's §; stop when the class
+  says `[permuter]`) · cookbook **§264** = the four recipes the agent drove to MATCH, including two
+  NEW laws (save-order = a bb0 anti-dependence; an opaque bound must be a LATE-assigned local).
+* **-O0** (`commit:2669`): **md_MAIN_011 now compiles -O0** — whole-object override, the boot
+  precedent, no carve, no §18-P29 risk. Byte-proven by a CLEAN per-binary rebuild:
+  `sha1 80731bac0ddd6b3e354f43b2c179582b12590752`. Landed with its coupling fix: three tools decided
+  -O0-ness from the subseg NAME, and this object keeps its plain name, so `corpus.o0_subseg()` now
+  derives it from the Makefile (R33). Verified end to end — match_one compiles those targets -O0
+  with the cannot-bank warning correctly gone, and the draw emits cards for them.
+* **jtbl** (`commit:2670`): the lever alone was **inert** — jtbl cards are one-per-binary by
+  construction, so they are maximally un-concentrated and the gate-group ranking (which exists to
+  pack drafts behind one rebuild) selected **0 of 71** candidates. `--jtbl-quota 6` seeds them
+  before the ranked fill. Measured: 6 jtbl cards in a 200-card wave, 13,470 ins across 7 gate groups
+  (was 11,451 in 1).
+* **§263** (`commit:2666`): the `func_801F218C` residual I could not close was an **ARITY error**, not
+  a schedule — I had given a no-argument callee a parameter, so the copy had to dominate the call
+  and the delay-slot filler took it. `func_801EF6E4(a0)` → `func_801EF6E4()` = MATCH (83 ins). The
+  §5a fence (both placements), if/else inversion, an early-break form and a 1,200 s permuter at -j12
+  had all failed, because **the permuter cannot change call arity**.
+
+### RULE CANDIDATES FOR PHASEEND (P10 — Drew accepts, modifies or rejects)
+* **R44 — A CARD MAY NOT NAME A LEVER THE KNOWLEDGE BASE DOES NOT CONTAIN.** Fuel a drafter cannot
+  look up is a dead end that costs a grep and buys nothing; 108 transcripts proved it. Any label put
+  on a card must resolve to a cookbook § by the words on the card itself.
+* **R45 — DRAW-TIME BANKABILITY: never draw a card the pipeline cannot bank.** R43 for the wave
+  draw. Measured: 11 -O0 functions drawn 79 times across 19 waves, none bankable; and jtbl members
+  whose table the gate cannot reach. Each failure then looks ordinary and is attributed to the model.
+* **R46 — A BUDGET IS PART OF THE HARNESS, NOT A CONSTANT.** One turn/cost cap across card sizes
+  that differ 2.4x starves the large ones: 36% of tells failures ended at a cap, not at a wall.
+
+### STILL OPEN (ranked, from the agents' docs)
+1. **-O0 U2** — `rollout_o0.py` SC07 fix (~15 lines, 4 fns / 316 ins, zero drafting).
+2. **-O0 U3** — the ×3 `jr_801380E0`/`jr_8013F350` carve+remap (54 fns / 6,414 ins, zero drafting;
+   ov_SC01_077 already has all 16 exemplars matched). **Draft-first ordering is what makes carves
+   safe: stubs-in-new-object scored 1/4 and 2/2 historically; populated-at-carve is 137/137.**
+3. **tells 6.3/6.5/6.6** — tell COUNTS on the card; the post-wave permuter + §173 recovery pass
+   (16 permuter candidates and 34 shape-MATCH strays are waiting); route extend-tell ≥80 ins to
+   `idiom_serial` (never once run on tells) instead of drafting the band wide.
+4. **jtbl** — the 10 island-blocked members convert as the island stack peels; the 6 island-pads
+   members need §8e pads wired for modules.mk.
+
+---
+
 ## 🛑 SESSION CHECKPOINT — S59 LIVE (2026-08-24 ~11:45). Phase 31 CONTINUES. **THREE FABLE AGENTS IN FLIGHT.**
 
 **HEAD `commit:2656` · autonomous lanes RUNNING (drafter · gater · maintenance · stallguard, ~130
