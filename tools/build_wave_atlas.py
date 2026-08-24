@@ -34,7 +34,7 @@ ap.add_argument("--max-bins", type=int, default=12, help="concentrate into this 
 ap.add_argument('--min-ins', type=int, default=0)
 ap.add_argument('--max-ins', type=int, default=120, help='above this the bulk ladder stops being honest')
 ap.add_argument('--levers',
-                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN,cc1,jtbl-carve',
+                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN,cc1,jtbl-carve,extend-tell,swaprepeat-tell,s16-div-tell',
                 help="agent-draftable levers; tell/o0 need their own lanes. JTBL-CARVE JOINED THE "
                      "DEFAULT LANE in P31 S59, once the gate could carve per draft: the members it "
                      "can structurally reach are filtered by jtbl_carve.island_probe and capped at "
@@ -56,6 +56,16 @@ ap.add_argument('--levers',
                      "COMBINED -- and wave W drew 73 cards from it into 3 gate groups (24.3 drafts per "
                      "rebuild vs wave V's 7.8) for 71/71 drafted and 68 banked. Cost, recorded: UNKNOWN "
                      "groups are mostly singletons, so the free sibling remap yielded ZERO.")
+ap.add_argument('--tells-quota', type=int, default=60,
+                help="cards per wave reserved for the tell levers (default 60). Like jtbl they are "
+                     "spread thin across binaries and lose the gate-group ranking, and a dedicated "
+                     "tells WAVE only draws 70-87 cards — a whole 40-minute slot at a fraction of a "
+                     "default wave's size. 0 disables.")
+ap.add_argument('--tells-max-ins', type=int, default=80,
+                help="tell-lever members above this are not drawn at all (default 80). Measured "
+                     "bank rate by size: 5-80 = 27-40%%, 81-120 = 10%%, 121-200 = 1%%, 200+ = 0%%. "
+                     "The 383 members above the cap are the serial lane's work (idiom_serial), not "
+                     "the fan-out's.")
 ap.add_argument('--jtbl-quota', type=int, default=6,
                 help="cards per wave reserved for the jtbl-carve lever (default 6). They are "
                      "one-per-binary by construction and so always lose the gate-group ranking; "
@@ -310,6 +320,7 @@ def _o0_unbankable(spath):
 _O0_UNREADABLE = []
 
 _JT_MOD = None
+_TELL_LEVERS = ('extend-tell', 'swaprepeat-tell', 's16-div-tell')
 
 
 def _jtbl_class(binary, fn):
@@ -362,6 +373,14 @@ for g in atlas['groups']:
         # not one of them could ever have banked. That is a standing per-wave tax on agent time,
         # invisible because each draft failed for what looked like an ordinary reason.
         if _o0_unbankable(sub):                  skipped['o0-in-an-O2-object'] += 1; continue
+        # TELL-LEVER SIZE CAP (P31 S59). Bank rate by size, pooled over the tells waves: 5-80 =
+        # 27-40%, 81-120 = 10%, 121-200 = 1%, 200+ = 0%. A tells function stacks 3-5 idioms and
+        # p(all of them) falls geometrically, so above the cap a 2,000-agent fan-out is buying
+        # almost nothing. Those 383 members / 51,941 ins are the SERIAL lane's work
+        # (tools/idiom_serial.py, whose distill step compounds where a fan-out cannot) — R45: do
+        # not draw what this pipeline cannot bank at a sane rate, and name who owns it instead.
+        if g['lever'] in _TELL_LEVERS and nins > a.tells_max_ins:
+            skipped['tells-oversize-serial-lane'] += 1; continue
         if g['lever'] == 'jtbl-carve':
             _v = _jtbl_class(b, fn)
             if _v is not None:                   skipped['jtbl-' + _v] += 1; continue
@@ -500,6 +519,19 @@ _deliver = (lambda c: c['nins'] + sum(s['nins'] for s in siblings.get(c['gid'], 
 # quota so the lane advances inside ordinary waves instead of needing a dedicated wave (a jtbl-only
 # draw is ~12 cards and would idle a 2,000-agent fleet). Cost is exactly `--jtbl-quota` extra
 # whole-binary rebuilds at gate time; largest-first, since the carve pays the same either way.
+# THE TELLS QUOTA (P31 S59), same reasoning as the jtbl one: tell-lever members are spread thin
+# across binaries, so the gate-group ranking never picks them, and giving them their own rotation
+# slot instead produced 70-87-card waves — a full 40-minute drafting slot at a quarter of a default
+# wave's size. Mixed in with a quota, the size discipline is kept and the fleet stays fed.
+_tl_pool = sorted((c for grp in by_tu.values() for c in grp if c['lever'] in _TELL_LEVERS),
+                  key=lambda c: -c['nins'])
+for c in _tl_pool[:a.tells_quota]:
+    if _full(): break
+    wave.append(c); tot_ins += c['nins']; _in_wave.add(id(c))
+if _tl_pool:
+    print(f"tells: reserved {min(len(_tl_pool), a.tells_quota)} of {len(_tl_pool)} eligible "
+          f"tell-lever card(s) (quota; <= {a.tells_max_ins} ins)", file=sys.stderr)
+
 _jt_pool = sorted((c for grp in by_tu.values() for c in grp if c['lever'] == 'jtbl-carve'),
                   key=lambda c: -c['nins'])
 for c in _jt_pool[:a.jtbl_quota]:
@@ -512,7 +544,12 @@ if _jt_pool:
 for k in ranked:                            # principle 2: within a group, mass first
     for c in sorted(by_tu[k], key=lambda c: -_deliver(c)):
         if _full(): break
-        if id(c) in _in_wave: continue      # already seeded by the jtbl quota
+        if id(c) in _in_wave: continue      # already seeded by a quota
+        # QUOTA-ONLY LEVERS. A quota is a FLOOR unless it is also a ceiling: with the tell levers in
+        # the default list, the ranked fill picked them up again and a 300-card test wave came back
+        # 122 tells (41%) — the size cap was respected and the MIX was not. Tells enter through the
+        # quota or not at all.
+        if c['lever'] in _TELL_LEVERS: continue
         wave.append(c); tot_ins += c['nins']
     if _full(): break
 if a.target_ins and tot_ins < a.target_ins:
