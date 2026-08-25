@@ -5829,7 +5829,35 @@ void func_80180894(s32 param_1, s32 param_2)
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80180B64);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80180CA0);
+extern u8 D_801A0A84[];
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern s32 func_80143994(s32 a0, s32 a1);
+extern u8 D_80198034[];
+extern u8 D_80198150[];
+extern void func_8012A828(s32, s32);
+extern void func_8012B2CC(s32 a0);
+
+void func_80180CA0(a0)
+s32 a0;
+{
+    extern u8 D_80198034[];
+    extern u8 D_80198150[];
+    extern u8 D_801A0A84[];
+
+    if (func_8012C354(a0, (s32)D_80198034) != 0) {
+        *(u8 *)(a0 + 0xC0) = 1;
+        *(s32 *)(a0 + 0xBC) = (s32)D_80198150;
+        *(s32 *)(a0 + 0xB4) = -1;
+        ((void (*)(s32, void *))func_8012A828)(a0, (void *)&(*(s32 *)D_801A0A84));
+        func_80143994(a0, 0x2000);
+        *(s16 *)(a0 + 0x2) = 3;
+        *(s32 *)(a0 + 0xEC) = rand();
+        *(s32 *)(a0 + 0xF0) = (rand() % 32) + 0x10;
+        *(s32 *)(a0 + 0xF4) = 2;
+        func_8012B2CC(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80180D50);
 

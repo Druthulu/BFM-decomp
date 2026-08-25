@@ -1463,7 +1463,7 @@ extern void func_8014AB7C();
 extern void func_8014AC10();
 extern void func_8014AA28(void);
 extern void func_8014AB5C(void);
-extern void func_80162CCC(void);
+extern void func_80162CCC();
 extern void func_8014AB7C(s32 arg0);
 extern void func_8014ABF0(void);
 extern void func_8014AC10(s32 arg0);
@@ -6162,7 +6162,25 @@ DEFINE_func_80162B1C()  /* dedup: shared engine-core @0x80162b1c (src/shared) */
 void func_80162CC4(void) {
 }
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8015A3C8", func_80162CCC);
+extern void func_80016714(void *a0, s32 a1);
+
+    void func_80162CCC(a0)
+u8 *a0;
+{
+        u8 *s0 = a0;
+        u16 *p = *(u16 **)(s0 + 0x20);
+        if (p != 0) {
+            s32 a1;
+            if (*p == 1) {
+                a1 = 0x84;
+            } else {
+                a1 = 0x38;
+            }
+            func_80016714(p, a1);
+        }
+        func_80016714(s0, 0x68);
+    }
+
 
 DEFINE_func_80162D28()  /* dedup: shared engine-core @0x80162d28 (src/shared) */
 
@@ -6524,7 +6542,7 @@ void func_801647A4(int param_1) {
 DEFINE_func_80164864()  /* dedup: shared engine-core @0x80164864 (src/shared) */
 
 
-extern void func_80162CCC(void);
+extern void func_80162CCC();
 extern void func_80164ACC();
 
 // @class: regalloc-order — wave-3 real-TU crack (§42a); cracked at Max.

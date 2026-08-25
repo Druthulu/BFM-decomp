@@ -5848,7 +5848,7 @@ struct Mtx32_80184008 { s32 w[8]; };
 
 extern void func_8012B23C(s32 a0);
 extern s32  func_80184520(s32 a0);
-extern s32  func_80184580(void *a0, void *a1);
+extern s32  func_80184580();
 extern void func_8012ADE4(s32 a0);
 extern s32  func_8012B864(s32 a0);
 extern void RotMatrixY(s32 a0, void *a1);
@@ -6130,7 +6130,46 @@ s32 func_80184520(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80184580);
+
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern s32 func_80134510(s32 arg);
+
+s32 func_80184580(a0, a1)
+void *a0;
+SVECTOR *a1;
+{
+    SVECTOR tmp;
+    SVECTOR in;
+    SVECTOR out;
+
+    if ((func_80133784(1, a0, (s32)a1) & 0x8000) != 0) {
+        return 0;
+    }
+
+    tmp.vx = a1->vx;
+    tmp.vy = a1->vy;
+    tmp.vz = a1->vz;
+
+    if (func_80134510((s32)&tmp) == 0) {
+        return 0;
+    }
+
+    in.vx = tmp.vx;
+    in.vy = tmp.vy;
+    in.vz = tmp.vz;
+    out.vx = tmp.vx;
+    out.vy = tmp.vy + 8;
+    out.vz = tmp.vz;
+
+    if ((func_80133784(1, &in, (s32)&out) & 0x2000) == 0
+        || *((u8 *)&out + 6) != 2) {
+        a1->vy = tmp.vy;
+        return 1;
+    }
+
+    return 0;
+}
+
 
 
 extern void (*D_801C4954[])(void);

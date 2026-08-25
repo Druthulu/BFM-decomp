@@ -10987,7 +10987,17 @@ void func_8018964C(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80189674);
+extern short D_801D4494;
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_80189674(a0)
+s32 a0;
+{
+    *(s16 *)(a0 + 0x2) = 14;
+    func_8012A828(a0, &(*(u8 *)&D_801D4494));
+    *(s32 *)(a0 + 0x1C) = 0x1e;
+}
+
 
 #include "common.h"
 
