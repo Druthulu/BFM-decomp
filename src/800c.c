@@ -1,4 +1,8 @@
 #include "common.h"
+/* hoisted by gate_main so drafts above can reuse them (§181) */
+    typedef struct {
+        u32 tag;
+    } PrimHdr;
 
 
 /* func_80059234 is one of MANY tiny "object type dispatcher" functions in this file that
@@ -273,7 +277,23 @@ INCLUDE_ASM("asm/nonmatchings/800c", GetGraphType);
 
 INCLUDE_ASM("asm/nonmatchings/800c", GetGraphDebug);
 
-INCLUDE_ASM("asm/nonmatchings/800c", DrawSyncCallback);
+extern u8 D_8007278A;
+extern u32 D_80072784;
+extern u8 D_80074110;
+extern void (*D_80072794)(void);
+
+void (*DrawSyncCallback(void (*func)(void)))(void)
+{
+    void (*old)(void);
+
+    if (D_8007278A >= 2) {
+        ((void (*)(void *, void (*)(void)))D_80072784)(&D_80074110, func);
+    }
+
+    old = D_80072794;
+    D_80072794 = func;
+    return old;
+}
 
 
 extern u8 D_8007278A;
@@ -430,7 +450,17 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_640);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_80059888);
+extern void *D_80072780;
+extern char D_80074178;
+extern void func_80059760();
+
+s32 func_80059888(void *rect, u8 r, u8 g, u8 b)
+{
+    func_80059760(&D_80074178, rect);
+    return (*(s32 (**)(void *, void *, s32, s32))((u8 *)D_80072780 + 0x8))(
+        *(void **)((u8 *)D_80072780 + 0xC), rect, 8,
+        (((b << 16) | (g << 8)) | r));
+}
 
 extern void *D_80072780;
 extern char D_80074178;
@@ -659,7 +689,56 @@ s32 func_80059CF4(s32 a0) {
         *(void **)((u8 *)D_80072780 + 0x18), (void *)a0, 0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_80059D68);
+
+void *func_80059D68(void *env)
+{
+    typedef struct {
+        u32 w[4];
+    } EnvQuad;
+
+    typedef struct {
+        u32 w[3];
+    } EnvTail;
+
+
+    typedef void (*EnvGpuFn)(void *, void *, s32, s32);
+
+    extern u8 D_8007278A;
+    extern u32 D_80072784;
+    extern void *D_80072780;
+    extern char D_800741EC;
+    extern void func_8005A870();
+
+    u8 *flagp = &D_8007278A;
+    u32 *s0;
+    PrimHdr *t;
+    EnvQuad *src;
+    EnvQuad *dst;
+    EnvQuad *end;
+
+    if (*flagp >= 2) {
+        ((void (*)(void *, void *))D_80072784)(&D_800741EC, env);
+    }
+
+    s0 = (u32 *)((u8 *)env + 0x1C);
+    func_8005A870(s0, env);
+
+    t = (PrimHdr *)s0;
+    t->tag |= 0xFFFFFF;
+
+    (*(EnvGpuFn *)((u8 *)D_80072780 + 0x8))(
+        *(void **)((u8 *)D_80072780 + 0x18), s0, 0x40, 0);
+
+    dst = (EnvQuad *)(flagp + 0xE);
+    src = (EnvQuad *)env;
+    end = (EnvQuad *)((u8 *)env + 0x50);
+    do {
+        *dst++ = *src++;
+    } while (src != end);
+    *(EnvTail *)dst = *(EnvTail *)src;
+
+    return env;
+}
 
 /* DrawOTagEnv - all auxiliary decls block-scoped */
 extern u8 D_8007278A;
@@ -676,9 +755,6 @@ void DrawOTagEnv(void *p, u32 *otag)
         u32 w[3];
     } OTagTail;
 
-    typedef struct {
-        u32 tag;
-    } PrimHdr;
 
     typedef s32 (*OTagEnvGpuFn)(void *, void *, s32, s32);
 
@@ -1691,7 +1767,41 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_202C);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_21A4);
 
-INCLUDE_ASM("asm/nonmatchings/800c", _drs);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\t_drs\n"
+    ".ent\t_drs\n"
+    "_drs:\n"
+        ".set\tnoreorder\n"
+        "addiu $sp, $sp, -72\n"
+        "sw    $s1, 52($sp)\n"
+        "addu  $s1, $a0, $zero\n"
+        "sw    $s2, 56($sp)\n"
+        "addu  $s2, $a1, $zero\n"
+        "sw    $ra, 68($sp)\n"
+        "sw    $s4, 64($sp)\n"
+        "sw    $s3, 60($sp)\n"
+        "jal   func_8005C020\n"
+        "sw    $s0, 48($sp)\n"
+        "lh    $a1, 4($s1)\n"
+        "nop\n"
+        "bltz  $a1, .L8005B45C\n"
+        "addu  $v1, $a1, $zero\n"
+        "lui   $v0, %hi(D_8007278C)\n"
+        "lh    $v0, %lo(D_8007278C)($v0)\n"
+        "nop\n"
+        "addu  $a0, $v0, $zero\n"
+        "slt   $v0, $v0, $a1\n"
+        "beqz  $v0, SYS_OBJ_222C\n"
+        "nop\n"
+        "j     SYS_OBJ_222C\n"
+        "addu  $v1, $a0, $zero\n"
+        ".L8005B45C:\n"
+        "addu  $v1, $zero, $zero\n"
+        ".set\treorder\n"
+    ".end\t_drs\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_222C);
 
