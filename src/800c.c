@@ -1954,7 +1954,49 @@ __asm__(
     ".end\tSYS_OBJ_1DC0\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1F64);
+/* SYS_OBJ_1F64 (0x8005B198) is NOT a callable function: it is the TAIL FRAGMENT of one larger
+ * routine that begins at _clr (0x8005AF68) and runs _clr -> SYS_OBJ_1D84 -> SYS_OBJ_1DC0 ->
+ * SYS_OBJ_1F64 (see the SYS_OBJ_1DC0 block above). SYS_OBJ_1F64 carries the ONLY epilogue of the
+ * chain: it tears down the 0x40-byte frame BUILT BY _CLR (ra@0x38, s1@0x34, s0@0x30) -- a frame
+ * this fragment never created. No C function body can express that: cc1 unconditionally appends
+ * its own prologue/epilogue around any C body (proven in this TU for func_80059234), so the
+ * correct form is the byte-verified FILE-SCOPE inline asm idiom already used for SYS_OBJ_1DC0,
+ * replacing the INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1F64); stub. The literal
+ * ".ent\t"/".end\t" pair (tab-separated) is load-bearing: maspsx special-cases lines starting
+ * with ".ent\t" and re-emits a fresh ".set\tnoreorder", whereas a bare ".set\tnoreorder" line is
+ * swallowed and never re-emitted. NOTE: maspsx parses load/store displacements with int(x)
+ * base 10 -- memory offsets must be written in DECIMAL (0x38=56, 0x34=52, 0x30=48, 0x40=64).
+ *
+ * Body transcribed 1:1 from asm/nonmatchings/800c/SYS_OBJ_1F64.s. SYMBOL AUDIT -- every
+ * relocation in that .s, decoded from the raw instruction words:
+ *   lui 0x3C048008 + addiu 0x24848830 -> 0x80080000-0x77D0 = 0x80078830 = D_80078830
+ *                                      (address taken, passed as $a0)
+ *   jal 0x0C016DC4                    -> 0x016DC4<<2 | 0x80000000 = 0x8005B710 = func_8005B710
+ *                                      (defined in this TU; writes D_8007285C/D_80072860/
+ *                                       D_80072864/D_80072868 -- the GPU clear/draw-env kick)
+ *   (no other relocation in the file.)
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1F64\n"
+    ".ent\tSYS_OBJ_1F64\n"
+    "SYS_OBJ_1F64:\n"
+        ".set\tnoreorder\n"
+        "lui   $a0, %hi(D_80078830)\n"
+        "addiu $a0, $a0, %lo(D_80078830)\n"
+        "jal   func_8005B710\n"
+        "nop\n"
+        "addu  $v0, $zero, $zero\n"
+        "lw    $ra, 56($sp)\n"
+        "lw    $s1, 52($sp)\n"
+        "lw    $s0, 48($sp)\n"
+        "addiu $sp, $sp, 64\n"
+        "jr    $ra\n"
+        "nop\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_1F64\n"
+);
 
 
 /* _dws (0x8005B1C4) is NOT a callable function: it is the HEAD FRAGMENT of one larger routine

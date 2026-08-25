@@ -7148,7 +7148,11 @@ void func_8001BBBC(s32 a0, s32 a1, u8 a2)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001BC6C);
 
-INCLUDE_ASM("asm/nonmatchings/800", SsGetMute);
+extern s32 CdQueueBusy(void);
+
+s32 SsGetMute(void) {
+    return CdQueueBusy() != 0;
+}
 
 extern void func_8002CCD8(void);
 extern void func_800596F4(s32);
@@ -13027,7 +13031,11 @@ void func_80028F10(s32 a0) {
     func_80029124(0x11, a0 & 0xFF);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028F34);
+extern s32 func_80029178();
+
+u8 func_80028F34(void) {
+    return func_80029178(0x12);
+}
 
 extern void func_80029124(s32, s32);
 
@@ -16622,7 +16630,29 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80031CC8);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80031D70);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80031DEC);
+void func_80031DEC(void) {
+    extern u16 D_800A46E8[];
+    extern void func_8003350C(s32 a0, s32 a1);
+    extern void func_80034A54(s32 a0);
+    u16 *p;
+    s32 i;
+    p = D_800A46E8;
+    i = 0;
+    do {
+        switch (*p & 0x3F) {
+        case 1:
+            if ((*p & 0x40) == 0) {
+                func_8003350C(i, 1);
+            }
+            break;
+        case 5:
+            func_80034A54((s32)p);
+            break;
+        }
+        i += 1;
+        p += 0x2A;
+    } while (i < 8);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80031E94);
 
