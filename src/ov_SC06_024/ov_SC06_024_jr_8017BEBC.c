@@ -5549,7 +5549,43 @@ void func_80182B58(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80182BD8);
+
+
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void RotMatrixY(s32 a0, void *a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 rand(void);
+extern Blk20 D_800AE620;
+extern u8 D_801AC510[];
+
+void func_80182BD8(s32 a0, void *a1, s32 a2, s32 a3)
+{
+    register s32 r __asm__("$2");
+    register s32 t __asm__("$3");
+    Blk20 m;
+    s32 out[3];
+    s32 ent;
+    s32 o;
+
+    m = D_800AE620;
+    ent = func_8012C658((s16)a2, (s16)a3, a0);
+    if (ent != 0) {
+        r = rand();
+        o = *(u16 *)(ent + 6);
+        *(u16 *)(ent + 6) = (o - 31) + (*(u16 *)a1 + (r & 0x3F));
+        r = rand();
+        o = *(u16 *)(ent + 10);
+        *(u16 *)(ent + 10) = (o - 31) + (((u16 *)a1)[1] + (r & 0x3F));
+        *(u16 *)(ent + 14) += ((u16 *)a1)[2];
+        RotMatrixY(*(s16 *)((u8 *)a1 + 6), &m);
+        func_800484EC((s32)&m, (s32)&D_801AC510, (s32)out);
+        t = out[0];
+        *(s32 *)(ent + 0x14) = -0x100000;
+        *(s32 *)(ent + 0x10) = t;
+        *(s32 *)(ent + 0x18) = out[2];
+    }
+}
+
 
 #include "common.h"
 
