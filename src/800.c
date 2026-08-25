@@ -3072,7 +3072,99 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800174DC);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800174FC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001751C);
+/* func_8001751C (POLY_GT3 builder) -- splat tags the target "Handwritten
+ * function": hand-placed cop2 nops and delay-slot fills no -O2 C emits.
+ * The GTE ops are written as single-statement inline asm (NO backslash-
+ * continued macros, NO typedefs, externs block-scoped with the canonical
+ * def-sigs) so the body is self-contained and liftable to any splice point
+ * (cookbook recover_giant shape).
+ *
+ * Recovered semantics: alloc 0x28 POLY_GT3 via func_80010A08; copy the three
+ * colour words; SetPolyGT3; if arg1: func_80017E8C + rtpt over the three
+ * vertices (sxy -> p+8/0x14/0x20, IR0 -> sz, FLAG -> flag, SZ3>>2 -> otz),
+ * else copy the xy words through, otz = (s16)v0.vz, sz = 0; split the three
+ * uv words into u/v bytes; tpage/clut via GetTPage/GetClut; finally
+ * if ((sz & ~0x1000) == 0) func_80018194(p, otz, attr).
+ */
+void func_8001751C(s32 *arg0, s32 arg1)
+{
+    extern void *func_80010A08(s32);
+    extern void SetPolyGT3();
+    extern void func_80017E8C(s32);
+    extern s32 GetTPage(s32, s32, s32, s32);
+    extern s32 GetClut(s32, s32);
+    extern void func_80018194(void *, s32, u32);
+
+    u8 *p;
+    s32 *va1, *va2;
+    u8 *d0, *d1, *d2;
+    s32 sz, flag, otz;
+    u32 t, c;
+
+    p = (u8 *)func_80010A08(0x28);
+    *(u32 *)(p + 4) = *(u32 *)(arg0 + 9);
+    *(u32 *)(p + 16) = *(u32 *)(arg0 + 10);
+    *(u32 *)(p + 28) = *(u32 *)(arg0 + 11);
+    SetPolyGT3(p);
+
+    if (arg1 != 0) {
+        func_80017E8C(arg1);
+        va1 = arg0 + 2;
+        va2 = arg0 + 4;
+        __asm__ volatile (
+            "lwc2 $0, 0( %0 );"
+            "lwc2 $1, 4( %0 );"
+            "lwc2 $2, 0( %1 );"
+            "lwc2 $3, 4( %1 );"
+            "lwc2 $4, 0( %2 );"
+            "lwc2 $5, 4( %2 )"
+            : : "r"(arg0), "r"(va1), "r"(va2));
+        __asm__ volatile ("nop;nop;rtpt");
+        d0 = p + 8;
+        d1 = p + 20;
+        d2 = p + 32;
+        __asm__ volatile (
+            "swc2 $12, 0( %0 );"
+            "swc2 $13, 0( %1 );"
+            "swc2 $14, 0( %2 )"
+            : : "r"(d0), "r"(d1), "r"(d2) : "memory");
+        __asm__ volatile ("swc2 $8, 0( %0 )" : : "r"(&sz) : "memory");
+        __asm__ volatile (
+            "cfc2 $12, $31;nop;sw $12, 0( %0 )"
+            : : "r"(&flag) : "$12", "memory");
+        __asm__ volatile (
+            "mfc2 $12, $19;nop;sra $12, $12, 2;sw $12, 0( %0 )"
+            : : "r"(&otz) : "$12", "memory");
+    } else {
+        *(u32 *)(p + 8) = *(u32 *)(arg0 + 0);
+        *(u32 *)(p + 20) = *(u32 *)(arg0 + 2);
+        *(u32 *)(p + 32) = *(u32 *)(arg0 + 4);
+        otz = *(s16 *)((s8 *)arg0 + 4);
+        sz = 0;
+    }
+
+    t = *(u32 *)(arg0 + 6);
+    *(p + 12) = t;
+    *(p + 13) = t >> 16;
+    t = *(u32 *)(arg0 + 7);
+    *(p + 24) = t;
+    *(p + 25) = t >> 16;
+    t = *(u32 *)(arg0 + 8);
+    *(p + 36) = t;
+    *(p + 37) = t >> 16;
+
+    *(u16 *)(p + 26) = GetTPage(((*(u32 *)(arg0 + 12)) >> 24) & 3,
+                                ((*(u32 *)(arg0 + 12)) >> 28) & 3,
+                                ((*(u16 *)((s8 *)arg0 + 24)) >> 2) & 0x3FC0,
+                                *(u16 *)((s8 *)arg0 + 26) & 0xFF00);
+
+    c = *((u8 *)arg0 + 52);
+    *(u16 *)(p + 14) = GetClut(c < 0xE0 ? 0x160 : 0x100, c | 0x100);
+
+    if ((sz & ~0x1000) == 0) {
+        func_80018194((void *)p, otz, *(u32 *)(arg0 + 12));
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800176F0);
 

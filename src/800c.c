@@ -981,7 +981,16 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1964);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_19A4);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_19D8);
+s32 SYS_OBJ_19D8(s32 a0, s32 a1, s32 a2, s32 a3) {
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+    __asm__ __volatile__("" : "=r"(v0));
+    __asm__ __volatile__("" : "=r"(v1));
+    a0 = 0xE3000000;
+    v0 = v1 | (v0 | a0);
+    __asm__ __volatile__("addiu\t$sp, $sp, 0x10");
+    return v0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_8005AC24);
 
@@ -1383,7 +1392,13 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2264);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_242C);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005B684);
+extern volatile u32 *D_8007285C;
+extern u8 D_80078874[];
+
+void func_8005B684(u32 arg) {
+    *D_8007285C = arg;
+    D_80078874[arg >> 24] = arg;
+}
 
 extern u8 D_80078874[];
 
