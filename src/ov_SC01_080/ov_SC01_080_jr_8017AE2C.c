@@ -5287,7 +5287,32 @@ void func_8017FC04(s32 arg0) {
 
 INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_8017FCC0);
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_8017FCFC);
+extern u16 D_801C7600[];
+
+void func_8017FCFC(u16 *a0) {
+    register u16 *p __asm__("$5");
+    register s32 i __asm__("$6");
+    register s32 c __asm__("$7");
+    register u16 *q __asm__("$3");
+
+    p = D_801C7600;
+    i = 0;
+    c = 0x20;
+    q = p + 2;
+    do {
+        if (*(s16 *)(q + 1) == 0) {
+            *(s16 *)(q + 1) = c;
+            p[0] = a0[0];
+            q[-1] = a0[1];
+            q[0] = a0[2];
+            return;
+        }
+        i++;
+        q += 4;
+        p += 4;
+    } while (i < 0x100);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_8017FD64);
 
