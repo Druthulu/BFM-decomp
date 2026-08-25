@@ -2975,7 +2975,7 @@ extern u8 D_801D4CC0[];
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012B14C(s32 a0, s32 a1);
 extern void func_80131B14();
-extern void func_80185578();
+extern void func_80185578(s32 a0, s32 a1);
 
 void func_80184768(s32 *a0) {
     s32 s0 = a0;

@@ -3654,7 +3654,7 @@ extern void func_80131E00(s32 a0, s32 a1);
 extern void func_8012B2CC(s32 a0);
 extern void func_80187EF4(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
-extern void func_80185578();
+extern void func_80185578(s32 a0, s32 a1);
 
 void func_80183FEC(s32 p) {
     s32 buf20[2];
