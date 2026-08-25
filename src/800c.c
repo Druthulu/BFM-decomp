@@ -1220,7 +1220,14 @@ s32 GetODE(void)
     return (*(u32 (**)(void))((u8 *)D_80072780 + 0x38))() >> 31;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", SetTexWindow);
+extern s32 func_8005AD34(s32 a0);
+
+void SetTexWindow(void *a0, s32 a1)
+{
+    *(u8 *)(a0 + 3) = 2;
+    *(s32 *)(a0 + 4) = func_8005AD34(a1);
+    *(s32 *)(a0 + 8) = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", SetDrawArea);
 
