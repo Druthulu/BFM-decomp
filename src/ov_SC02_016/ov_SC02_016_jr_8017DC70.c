@@ -3308,7 +3308,58 @@ void func_8017EE24(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017EE60);
+extern u16 func_80148800(s32 *a0);
+extern void func_8017EF84(s32 a0, s16 *a1);
+extern s32 D_80126B58;
+extern s16 D_80126940;
+extern s16 D_80126942;
+extern s16 D_80126944;
+extern s16 D_801880B0[];
+
+void func_8017EE60(s32 param_1) {
+    s16 sp10[3];
+
+    if ((func_80148800(&D_80126B58) & 3) != 0) {
+        *(u8 *)(param_1 + 5) = (*(u8 *)(param_1 + 5) + 1) & 1;
+        *(s32 *)(param_1 + 0x14) = D_801880B0[*(u8 *)(param_1 + 5)];
+    }
+    if (D_80126942 < -0x200) {
+        *(s16 *)(param_1 + 0x20) = 0xAA;
+    } else {
+        *(s16 *)(param_1 + 0x20) = 0x18D;
+    }
+    if (D_80126940 < -0x380) {
+        sp10[0] = -0x380;
+    } else if (D_80126940 < 0x2A1) {
+        goto c1mid;
+    } else {
+        sp10[0] = 0x2A0;
+    }
+    goto c1end;
+c1mid:
+    sp10[0] = D_80126940;
+c1end:
+    if (D_80126942 < -0x460) {
+        sp10[1] = -0x460;
+    } else {
+        goto c2mid;
+    }
+    goto c2end;
+c2mid:
+    sp10[1] = D_80126942;
+c2end:
+    if (D_80126944 < -0x13F) {
+        goto c3mid;
+    } else {
+        sp10[2] = -0x140;
+    }
+    goto c3end;
+c3mid:
+    sp10[2] = D_80126944;
+c3end:
+    func_8017EF84(param_1, sp10);
+}
+
 
 
 // @class: schedule
@@ -3361,7 +3412,15 @@ INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017F11
 
 INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017F154);
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017F190);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_8017F190(s32 a0) {
+    *(u16 *)(a0 + 0xFE) = *(u16 *)(a0 + 6);
+    *(u16 *)(a0 + 0x100) = *(u16 *)(a0 + 0xA);
+    *(u16 *)(a0 + 0x102) = *(u16 *)(a0 + 0xE);
+    func_8012AD44((s32 *)a0, 3);
+}
+
 
 void func_8017F1C8(void *a0) {
     extern void (*D_801880EC[])(void);
@@ -3470,7 +3529,31 @@ void func_8017F33C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017F434);
+#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s32 func_800132BC(s32 a0, s32 a1);
+
+s32 func_8017F434(s32 a0) {
+    SV3_8012CC88 sp10;
+    SV3_8012CC88 sp18;
+    SV3_8012CC88 sp20;
+
+    sp10.vx = D_80126B5E;
+    sp10.vy = D_80126B62;
+    sp10.vz = D_80126B66;
+    sp18.vx = *(u16 *)(a0 + 6);
+    sp18.vy = *(u16 *)(a0 + 0xA);
+    sp18.vz = 0;
+    sp20.vx = D_80126B5E;
+    sp20.vy = D_80126B62;
+    sp20.vz = 0;
+
+    return func_800132BC((s32)&sp18, (s32)&sp20);
+}
+
 
 
 extern void (*D_801880FC[])(void);
@@ -3508,7 +3591,82 @@ void func_8017F880(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017F8C0);
+#include "common.h"
+
+
+
+extern void func_8004978C(s16 *a0, void *a1);
+extern void func_8017F228();
+
+void func_8017F8C0(void *a0) {
+    u8 *s0 = (u8 *)a0;
+    MTX_801749C8 mtx;
+    s16 angle[3];
+    s16 vec0[4];
+    s32 flags;
+
+    angle[2] = 0;
+    angle[0] = 0;
+    angle[1] = *(u16 *)(s0 + 0xFC);
+
+    vec0[1] = 0;
+    vec0[0] = 0;
+    vec0[2] = *(u16 *)(s0 + 0xDC);
+
+    mtx.t[0] = *(s16 *)(s0 + 0xFE);
+    mtx.t[1] = *(s16 *)(s0 + 0x100);
+    mtx.t[2] = *(s16 *)(s0 + 0x102);
+
+    func_8004978C(angle, &mtx);
+
+    __asm__ __volatile__(
+        "lw $12, 0(%0)\n"
+        "lw $13, 4(%0)\n"
+        "ctc2 $12, $0\n"
+        "ctc2 $13, $1\n"
+        "lw $12, 8(%0)\n"
+        "lw $13, 12(%0)\n"
+        "lw $14, 16(%0)\n"
+        "ctc2 $12, $2\n"
+        "ctc2 $13, $3\n"
+        "ctc2 $14, $4\n"
+        "lw $12, 20(%0)\n"
+        "lw $13, 24(%0)\n"
+        "ctc2 $12, $5\n"
+        "lw $14, 28(%0)\n"
+        "ctc2 $13, $6\n"
+        "ctc2 $14, $7\n"
+        : : "r"(&mtx) : "$12", "$13", "$14");
+
+    __asm__ __volatile__(
+        "lwc2 $0, 0(%0)\n"
+        "lwc2 $1, 4(%0)\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 0, 0, 0\n"
+        : : "r"(vec0) : "memory");
+
+    __asm__ __volatile__(
+        "swc2 $25, 0(%0)\n"
+        "swc2 $26, 4(%0)\n"
+        "swc2 $27, 8(%0)\n"
+        : : "r"(s0 + 4) : "memory");
+
+    __asm__ __volatile__(
+        "cfc2 $12, $31\n"
+        "nop\n"
+        "sw $12, 0(%0)\n"
+        : : "r"(&flags) : "$12", "memory");
+
+    *(s32 *)(s0 + 4) <<= 16;
+    *(s32 *)(s0 + 8) <<= 16;
+    *(s32 *)(s0 + 0xC) <<= 16;
+
+    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) = *(u16 *)(s0 + 0xFC) - 0x400;
+    *(u16 *)(s0 + 0xFC) = *(u16 *)(s0 + 0xFC) + 0x40;
+    func_8017F228(s0);
+}
+
 
 extern void func_8001CD9C(int, void *);
 extern void func_800233CC(void *, unsigned short);
