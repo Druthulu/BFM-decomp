@@ -3600,7 +3600,10 @@ void func_80017254(void *arg0)
     func_80017294(arg0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80017274);
+void func_80017274(void)
+{
+    func_80017294();
+}
 
 
 /* func_80017294 (main, src/800.c) — mass-lane fresh crack.
@@ -12869,7 +12872,11 @@ void func_800290E0(void) {
     func_80029124(0x7F, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80029104);
+extern s32 func_80029178();
+
+u8 func_80029104(void) {
+    return func_80029178(0x7F);
+}
 
 extern u8 D_800AE648[];
 
