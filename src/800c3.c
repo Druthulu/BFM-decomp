@@ -118,7 +118,15 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D0F8);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D118);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D138);
+extern s32 D_800729A8;
+extern s32 D_80072990;
+
+s32 func_8005D138(s32 arg0) {
+    if (D_800729A8 != 0) {
+        return *(u8 *)(D_80072990 + (arg0 >> 4) * 0xF0 + 0xE8) == 8;
+    }
+    return 0;
+}
 
 
 extern void* (*D_80072970)(void);
