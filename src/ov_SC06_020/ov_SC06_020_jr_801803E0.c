@@ -2952,7 +2952,20 @@ void func_801808A8(u8 *a0) {
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_801803E0", func_801808F4);
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_801803E0", func_80180970);
+extern void func_80131B14();
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 D_8019EA4C;
+
+void func_80180970(s32 param_1) {
+    s32 s0 = param_1;
+    u16 idx;
+
+    func_80131B14();
+    idx = *(u16 *)(s0 + 0x70);
+    *(s16 *)(s0 + 0x52) = -0x30;
+    func_8012A828(s0, (&D_8019EA4C)[idx & 0xF]);
+}
+
 
 extern s32 func_80180A98();
 

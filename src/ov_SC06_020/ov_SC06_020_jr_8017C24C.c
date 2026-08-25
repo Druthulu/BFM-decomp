@@ -3460,7 +3460,72 @@ void func_8017D79C(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017D918);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_800178EC(s32 a0, s32 a1);
+
+s32 func_8017D918(s32 obj, s32 mode, s32 a2, s32 a3, s32 a4, s32 a5)
+{
+    struct S_8017D918 {
+        u16 f00; u16 f02; u16 f04; u16 f06;
+        u16 f08; u16 f0A; u16 f0C; u16 f0E;
+        u16 f10; u16 f12; u16 f14; u16 f16;
+        u16 f18; u16 f1A; u16 f1C; u16 f1E;
+        u16 f20; u16 f22; u16 f24; u16 f26;
+        u16 f28; u16 f2A; u16 f2C; u16 f2E;
+        s32 f30; s32 f34; s32 f38; s32 f3C;
+        s32 f40; u8 f44; u8 pad45[3];
+    } s;
+    register struct S_8017D918 *p __asm__("$16");
+    register s32 x __asm__("$2");
+    register s32 sz __asm__("$5");
+    u16 h[2];
+
+    func_80015978(obj + 4, (s32 *)h);
+    s.f00 = h[0] + a2;
+    s.f02 = h[1] + 0x80;
+    s.f08 = h[0] + a3;
+    s.f0A = h[1] - 0x80;
+    p = &s;
+
+    switch (mode) {
+    case 0:
+        s.f10 = h[0] - 0xA0;
+        s.f12 = h[1] + 0x80;
+        s.f18 = h[0] - 0xA0;
+        s.f1A = h[1] - 0x80;
+        break;
+    case 1:
+        s.f10 = h[0] + 0xA0;
+        s.f12 = h[1] + 0x80;
+        s.f18 = h[0] + 0xA0;
+        s.f1A = h[1] - 0x80;
+        break;
+    default:
+        p->f04 = 0;
+        goto tail;
+    }
+    p->f04 = 0;
+tail:
+    sz = 0x13F;
+    p->f34 = a4;
+    p->f30 = a4;
+    p->f3C = a5;
+    p->f38 = a5;
+
+    p->f22 = 0x100;
+    p->f20 = *(s32 *)(obj + 0xE4) + 0xC00;
+    p->f26 = 0x100;
+    p->f24 = *(s32 *)(obj + 0xE4) + 0xC3F;
+    p->f2A = sz;
+    p->f28 = *(s32 *)(obj + 0xE4) + 0xC00;
+    p->f2C = *(s32 *)(obj + 0xE4) + 0xC3F;
+    p->f44 = 0x36;
+    p->f40 = 0x50000000;
+    p->f2E = sz;
+
+    func_800178EC((s32)p, sz);
+}
+
 
 extern s16 D_80126CAC;
 extern s16 D_80126CB0;

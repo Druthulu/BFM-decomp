@@ -3530,7 +3530,164 @@ void func_801859F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_80185B80);
+/* ov_SC06_022 :: func_80185B80 — actor state machine, jump-table switch on the
+ * u16 state word at +0x34.  Jump table = jtbl_801E0C3C (6 entries, 0..5),
+ * defined in asm/ov_SC06_022/data/tail19.data.s — this .s carries no data of
+ * its own (§160c), so plain `extern`s are correct here.
+ *
+ * Mechanical remap of ov_SC06_018 :: func_80187AEC (§40) — that body is BANKED
+ * and whole-binary-gate-proven (§260-A); this draft is its line-for-line
+ * relative with exactly four symbols remapped to this overlay's own relocs:
+ *   D_801B5400 -> D_801BD358      func_80189000 -> func_80187094
+ *   func_8018944C -> func_801874E0
+ * (jtbl name is compiler-generated from the switch lowering.)
+ *
+ * ⚠ BANK PREREQUISITE (not a body defect): §81 jr-function — match_one MATCH is
+ * necessary but not sufficient.  Class = §260-A/S59 'tail' (ov_* binary, table
+ * raw in the data tail): bankable ONLY through a gate arming
+ * harvest_verify._jtbl_prep_one — tools/jtbl_lane.py --targets
+ * func_80185B80@ov_SC06_022 --draft-dir <dir>, or a wave drawn with jtbl-carve
+ * in --levers.  A plain-path gate cannot bank ANY jr function regardless of
+ * body (duplicate table: C-emitted .rodata + raw tail copy).  No manual wiring
+ * needed: §131 clamp auto-trims the non-code surplus word 0x9C024030
+ * (unambiguous sltiu=6); single-table 4-mod-8-first carve takes no JTBL_PADS
+ * var (§8e-2).  GEOMETRY NOTE for the gate run: this is a VIRGIN-overlay,
+ * MID-REGION first carve — raw data flanks the table on BOTH sides (tail18
+ * opens at 0x801E0AD8 with func_8017F85C's own jtbl + D_801E0C38; more raw
+ * data follows 0x801E0C54), so ld_interleave must emit the N-piece
+ * address-ordered sandwich [raw ≤0xC3C][rodata 0xC3C..0xC54][raw ≥0xC54]
+ * (§8b additive regenerate-from-config; harder than §6a's adjacent-extend and
+ * §6c's md-island proofs, both of which had a committed neighbour/island).
+ *
+ * Keys (all byte-forced, do NOT "clean up") — inherited verbatim from the
+ * banked exemplar:
+ *
+ * (1) §161a — table indexed from ZERO (`lhu 0x34 ; sltiu <6 ; sll 2`), entry[0]
+ *     is a real body, so `case 0:` carries the first arm.
+ * (2) `s32 pad[1];` is LOAD-BEARING: forces the 0x20 frame (args 0x10 + ra/s0
+ *     at 0x18/0x1C).  Without it the frame compiles to 0x18 and all six
+ *     prologue/epilogue immediates rot.  4 bytes -> right, 8 -> wrong.
+ * (3) Case 0's 0x102 write must be TWO stores in an if/else: with a live temp
+ *     gcc keeps the value in $a0 for the later +0x400; the target instead
+ *     re-LOADS `lhu 0x102($s0)` (§160d).  Two stores kill the temp, the
+ *     cross-jumper re-merges the single `sh`, the reload comes back.
+ * (4) Case 0's `iVar >= 4` test is written "wrong" round on purpose: the >= 4
+ *     arm is the fall-through, the div arm is the branch target.
+ * (5) Case 1 re-reads *(s16*)(param_1+0x70) at BOTH tests: one local gives
+ *     `andi $v0,$v1,0x8000` (184 ins); two reads make cse emit
+ *     `addu $v0,$v1,$zero` — the 185th instruction — and let the delay-slot
+ *     filler steal `andi $v1,$v0,0xF`.
+ * (6) func_8012CC40 is fleet-canonical `void`; its $v0 is used here, so it is
+ *     called through a cast (§17a-1) rather than being re-declared.
+ */
+
+extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32  func_80143B6C(s32 a0, s32 a1);       /* fleet-canonical */
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012E8C4(u8 *a0);
+extern void func_8012E8A8(u8 *a0);
+extern void func_80187094(s32 a0, s32 a1);
+extern s32  func_801874E0(s32 a0, s32 a1, s32 a2);
+extern void func_8012C218(void *a0);
+
+extern u8 D_801BD358;
+
+void func_80185B80(s32 param_1)
+{
+    s32 iVar;
+    s32 t;
+    u16 st;
+    u16 uVar1;
+    s32 pad[1];   /* see key (2): forces the 0x20 frame — never referenced */
+
+    if (0xf < *(s16 *)(param_1 + 0xA)) {
+        func_8012C218((void *)param_1);
+        return;
+    }
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0xFC);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + *(u16 *)(param_1 + 0xFE);
+        if ((((s32 (*)(s32, s32))func_8012CC40)(
+                 param_1,
+                 ((*(u16 *)(param_1 + 0x70) & 0xF) * 8) + (s32)&D_801BD358) &
+             0x2000) == 0) {
+            return;
+        }
+        iVar = *(s32 *)(param_1 + 0x1C) + 1;
+        *(s32 *)(param_1 + 0x1C) = iVar;
+        if (iVar >= 4) {
+            if ((*(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) & 0xFFFU) > 0x800U) {
+                *(u16 *)(param_1 + 0x102) = 0xC00;
+            } else {
+                *(u16 *)(param_1 + 0x102) = 0x400;
+            }
+            t = *(u16 *)(param_1 + 0x70) & 0xF;
+            if (t < 4 && t != 0) {
+                *(u16 *)(param_1 + 0x102) = *(u16 *)(param_1 + 0x102) + 0x400;
+            }
+            *(s32 *)(param_1 + 0x1C) = 0x1E;
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        } else {
+            *(s32 *)(param_1 + 0x14) = -(0x80000 / iVar);
+            func_80143B6C(param_1, 1);
+        }
+        return;
+    case 1:
+        iVar = func_8012B608((s32)*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10),
+                             (s32)*(s16 *)(param_1 + 0x102), 4);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + iVar;
+        if (func_8012BEE8(param_1) == 0) {
+            return;
+        }
+        st = *(u16 *)(param_1 + 0x34);
+        *(s32 *)(param_1 + 0x1C) = 0x1E;
+        *(u16 *)(param_1 + 0x34) = st + 1;
+        if ((*(s16 *)(param_1 + 0x70) & 0x8000) != 0) {
+            *(u16 *)(param_1 + 0x34) = st + 2;
+        } else if ((*(s16 *)(param_1 + 0x70) & 0xF) == 4) {
+            *(u16 *)(param_1 + 0x34) = 4;
+            *(s32 *)(param_1 + 0x1C) = 0x1E;
+        }
+        return;
+    case 2:
+        func_8012E8C4((u8 *)param_1);
+        if (func_8012BEE8(param_1) == 1) {
+            func_8012C218((void *)param_1);
+        }
+        return;
+    case 3:
+        if (*(s16 *)(*(s32 *)(param_1 + 0x64) + 0x36) != *(s16 *)(param_1 + 0x10A) &&
+            *(s32 *)(param_1 + 0xE0) == 0) {
+            *(s32 *)(param_1 + 0x1C) = 0x1E;
+            uVar1 = 2;
+            if ((*(u16 *)(param_1 + 0x70) & 0xF) == 4) {
+                uVar1 = 4;
+            }
+            *(u16 *)(param_1 + 0x34) = uVar1;
+            *(s32 *)(param_1 + 0xE0) = 1;
+        }
+        return;
+    case 4:
+        if (func_8012BEE8(param_1) != 0) {
+            *(s32 *)(param_1 + 0x1C) = 0xA;
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            func_8012E8A8((u8 *)param_1);
+            func_80187094(param_1, 1);
+        }
+        return;
+    case 5:
+        if (func_801874E0(param_1, 0x60, 0xA0) == 1) {
+            func_8012C218((void *)param_1);
+        }
+        return;
+    }
+}
+
 
 
 extern void func_8012C218(void *a0);

@@ -3338,7 +3338,45 @@ void func_8017D104(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_027/nonmatchings/ov_SC06_027_jr_8017BEBC", func_8017D1C0);
+
+
+
+
+extern s32 func_80012C6C(s32, s32, s32);
+extern s32 func_80012ABC(s16 arg0, s16 arg1, s32 arg2);
+extern void func_8017DC3C(u16* arg0, s16* arg1);
+extern void ApplyMatrixSV(void*, void*, void*);
+
+void func_8017D1C0(u8* arg0, s16* arg1, s16* arg2, s32 arg3) {
+    s16 sp10[16];
+    s16 sp30[4];
+    u16 sp38[4];
+    u16 sp40[4];
+
+    *(s32*)(arg0 + 8) = (s16)((s32 (*)(s16, s16, s32))func_80012C6C)(*(s16*)(arg0 + 8), *(s16*)(arg0 + 0xC), 4);
+    *(s32*)(arg0 + 0x10) = (s16)((s32 (*)(s16, s16, s32))func_80012C6C)(*(s16*)(arg0 + 0x10), *(s16*)(arg0 + 0x14), 4);
+    *(s16*)(arg0 + 0x18) = (s16)func_80012ABC(*(s16*)(arg0 + 0x18), *(s16*)(arg0 + 0x20), 4);
+    *(s16*)(arg0 + 0x1A) = (s16)func_80012ABC(*(s16*)(arg0 + 0x1A), *(s16*)(arg0 + 0x22), 4);
+    *(s16*)(arg0 + 0x1C) = (s16)func_80012ABC(*(s16*)(arg0 + 0x1C), *(s16*)(arg0 + 0x24), 4);
+    *(s16*)(arg0 + 0x28) = (s16)((s32 (*)(s16, s16, s32))func_80012C6C)(*(s16*)(arg0 + 0x28), *(s16*)(arg0 + 0x2E), 0x10);
+    *(s16*)(arg0 + 0x2A) = (s16)((s32 (*)(s16, s16, s32))func_80012C6C)(*(s16*)(arg0 + 0x2A), *(s16*)(arg0 + 0x30), 0x10);
+    *(s16*)(arg0 + 0x2C) = (s16)((s32 (*)(s16, s16, s32))func_80012C6C)(*(s16*)(arg0 + 0x2C), *(s16*)(arg0 + 0x32), 0x10);
+    *(s32*)(arg0 + 0x48) = *(s16*)(arg0 + 0x28) + arg2[0];
+    *(s32*)(arg0 + 0x4C) = *(s16*)(arg0 + 0x2A) + arg2[1];
+    *(s32*)(arg0 + 0x50) = *(s16*)(arg0 + 0x2C) + arg2[2];
+    sp40[0] = *(u16*)(arg0 + 0x18);
+    sp40[1] = *(u16*)(arg0 + 0x1A) + arg3;
+    sp40[2] = *(u16*)(arg0 + 0x1C);
+    func_8017DC3C(sp40, sp10);
+    sp30[0] = 0;
+    sp30[1] = 0;
+    sp30[2] = *(s32*)(arg0 + 0x10);
+    ((void (*)(s16*, s16*, s16*))ApplyMatrixSV)(sp10, sp30, sp38);
+    *(s32*)(arg0 + 0x3C) = (sp38[0] << 16 >> 19) + *(s16*)(arg0 + 0x28) + arg1[0];
+    *(s32*)(arg0 + 0x40) = (sp38[1] << 16 >> 19) + *(s16*)(arg0 + 0x2A) + arg1[1];
+    *(s32*)(arg0 + 0x44) = (sp38[2] << 16 >> 19) + *(s16*)(arg0 + 0x2C) + arg1[2];
+}
+
 
 
 s32 func_8017D398(void) {

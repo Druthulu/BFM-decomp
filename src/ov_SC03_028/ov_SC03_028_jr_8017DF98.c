@@ -7261,7 +7261,16 @@ void func_801879AC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80187AB0);
+void func_80187AB0(void *a0) {
+    if (*(s32 *)((s32)a0 + 0x1C) != 0) {
+        (*(s32 *)((s32)a0 + 0x1C))--;
+    } else {
+        func_8017F93C();
+        *(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x6C) = 0;
+        func_8012C218(a0);
+    }
+}
+
 
 #include "common.h"
 

@@ -4051,7 +4051,41 @@ void func_8017FECC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017DB90", func_8017FF24);
+void func_8017FF24(void) {
+    extern s16 D_801F8078;
+    extern s16 D_801F807C;
+    extern s32 D_801F8080;
+    extern s32 D_801F8084;
+    extern s32 D_801F8088;
+    extern s32 D_801F8090;
+    extern s16 D_801F8094;
+    extern s16 D_801F8098;
+    extern s16 D_801F809C;
+    extern s16 D_801F80A0;
+    extern s16 D_801F80A4;
+    extern s16 D_801F80A8;
+    extern s16 D_801F8A10;
+    extern s16 D_801F8A12;
+    extern s16 D_801F8A14;
+    s32 scale = 0x1000;
+
+    D_801F8078 = 0;
+    D_801F807C = 0;
+    D_801F8080 = 0;
+    D_801F8084 = 0;
+    D_801F8088 = 0;
+    D_801F8090 = scale;
+    D_801F8094 = 0;
+    D_801F8098 = 0;
+    D_801F809C = 0;
+    D_801F80A0 = 0;
+    D_801F80A4 = 0;
+    D_801F80A8 = 0;
+    D_801F8A10 = 0;
+    D_801F8A12 = 0;
+    D_801F8A14 = 0;
+}
+
 
 extern u8 *D_801F80AC[];
 extern s32 D_801F80BC;

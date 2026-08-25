@@ -3531,7 +3531,48 @@ void func_8017D458(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_8017D544);
+
+
+void func_8017D544(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_8018B490[];
+    extern Blk8_80126940_8017D630 D_80126940;
+    Blk8_80126940_8017D630 sp10;
+    u8 t;
+    s16 v0, v1, lim;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018B490[t];
+    }
+    sp10 = D_80126940;
+
+    /* Clamp sp10.v[0] min */
+    lim = -0x6C0;
+    v0 = sp10.v[0];
+    if (v0 < lim) {
+        sp10.v[0] = -0x6C0;
+    }
+
+    /* Clamp sp10.v[0] max */
+    v1 = sp10.v[0];
+    lim = -0x6C0;
+    if (lim < v1) {
+        sp10.v[0] = -0x6C0;
+    }
+
+    /* Clamp sp10.v[2] max */
+    v1 = sp10.v[2];
+    lim = 0x18C0;
+    if (lim < v1) {
+        sp10.v[2] = 0x18C0;
+    }
+
+    func_8017D6D0(a0, sp10.v);
+}
+
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
@@ -5649,7 +5690,11 @@ void func_80180F70(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_801811D4);
+void func_801811D4(s32 a0) {
+    *(u16 *)(a0 + 2) = 1;
+    *(u16 *)(a0 + 0x5C) = 0xA810U;
+}
+
 
 
 extern s32 rand(void);

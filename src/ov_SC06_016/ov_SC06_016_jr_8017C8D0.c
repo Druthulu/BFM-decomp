@@ -3721,7 +3721,20 @@ INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8017E71
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8017E7D0);
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8017E8A8);
+extern s16 D_8019F708;
+extern s16 D_8019F70C;
+extern s32 D_80194FFC[];
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8017EEFC(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+
+void func_8017E8A8(s32 a0) {
+    D_8019F70C = 0;
+    D_8019F708 = D_8019F708 + 1;
+    func_8017EEFC(a0, 10, 0, (s32)&D_80194FFC);
+    *(s32 *)(a0 + 0x1C) = 0x18;
+    func_8012C588(0x2FD, a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8017E910);
 
