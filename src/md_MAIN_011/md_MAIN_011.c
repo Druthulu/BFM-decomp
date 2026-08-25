@@ -1,6 +1,19 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CEE74);
+#include "common.h"
+
+extern u8 D_800AF630[];
+
+typedef struct { void (*fn)(void); } FnEntry;
+extern FnEntry D_800D4C54[];
+
+void func_800CEE74(void) {
+    register u8 *base = (u8 *)D_800AF630;
+    if (*(u16 *)(base + 0xA3B4) < 5u) {
+        D_800D4C54[*(u16 *)(base + 0xA3B4)].fn();
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CEF00);
 

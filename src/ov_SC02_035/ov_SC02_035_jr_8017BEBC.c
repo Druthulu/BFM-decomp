@@ -4907,7 +4907,35 @@ void func_8017F96C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_8017FB1C);
+extern s32 rand(void);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012B23C(void *a0);
+extern s32 func_801803F8(void *a0, s32 a1, s32 a2, s32 a3);
+
+void func_8017FB1C(s32 a0) {
+    s32 ent;
+    s32 i;
+    s32 angle;
+    s32 base;
+
+    ent = a0;
+    i = 0;
+    base = -0x40000;
+    angle = ((*(u16 *)(ent + 0x70) & 0xF) | -0x8000) << 16;
+    while (i < 4) {
+        func_801803F8((void *)(ent + 0x7C),
+                      *(s16 *)(*(s32 *)(ent + 0x20) + 0x12),
+                      base - rand() % 4 * 0x10000,
+                      angle >> 16);
+        i++;
+    }
+    *(s32 *)(ent + 0xEC) = 0x40000;
+    func_8012B23C((void *)ent);
+    func_8012B178(ent, *(s32 *)(ent + 0xEC));
+    *(s32 *)(ent + 0x1C) = 0x10;
+    *(s16 *)(ent + 0x34) = 0;
+}
+
 
 
 extern s32 func_80047948(s32 a0);

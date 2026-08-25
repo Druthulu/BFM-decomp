@@ -2822,7 +2822,32 @@ DEFINE_func_8015B6F4()  /* dedup: shared engine-core @0x8015b6f4 (src/shared) */
 DEFINE_func_8015B7B4()  /* dedup: shared engine-core @0x8015b7b4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8015A3C8", func_8015B858);
+extern int func_8014A51C(int param_1);
+extern void func_801477E8(s32 *a0, s32 a1);
+extern void func_80154274(s32 *a0, s32 a1);
+
+s32 func_8015B858(u8 *a0)
+{
+    extern u8 D_800D4BE0[];
+    extern s32 D_8011F730;
+
+    if (*(u8 *)(a0 + 0x1C6) != 0) {
+        return 0;
+    }
+    if (*(s32 *)(a0 + 0x240) != 0) {
+        return 0;
+    }
+    if (((s32 (*)(void))func_8014A51C)() == 0) {
+        return 0;
+    }
+    *(s32 *)(a0 + 0x23C) = *(s32 *)(a0 + 0xB4);
+    *(u8 *)(a0 + 0x244) = *(u8 *)(a0 + 0xBC);
+    func_801477E8((s32 *)a0, 0xFFF20000);
+    func_80154274((s32 *)a0, (s32)D_800D4BE0);
+    D_8011F730 |= 2;
+    return 1;
+}
+
 
 DEFINE_func_8015B8F8()  /* dedup: shared engine-core @0x8015b8f8 (src/shared) */
 
@@ -6239,7 +6264,15 @@ DEFINE_func_80163328()  /* dedup: shared engine-core @0x80163328 (src/shared) */
 DEFINE_func_801633A8()  /* dedup: shared engine-core @0x801633a8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8015A3C8", func_80163408);
+s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
+    extern int func_8016345C(int, unsigned short, int, unsigned short, void *);
+    extern char aD8018393C_80163408[8] __asm__("D_8018393C");
+
+    unsigned char sp18[8];
+    memcpy(sp18, aD8018393C_80163408, 8);
+    return func_8016345C(((int)param_1), ((int)param_2), ((int)param_3), ((int)param_4), sp18);
+}
+
 
 DEFINE_func_8016345C()  /* dedup: shared engine-core @0x8016345c (src/shared) */
 

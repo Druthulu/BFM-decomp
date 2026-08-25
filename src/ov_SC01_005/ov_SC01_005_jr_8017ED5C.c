@@ -3467,7 +3467,29 @@ void func_80180D10(void *a0) {
 DEFINE_func_80180D48()  /* dedup: shared engine-core @0x80180D48 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180D9C);
+extern void func_8012A828(s32 a0, void *a1);
+extern void *D_801BC78C[];
+
+void func_80180D9C(s32 a0) {
+    s16 temp;
+
+    if (*(s16 *)(a0 + 0xFC) == 0) {
+        return;
+    }
+    temp = *(s16 *)(a0 + 0xFE);
+    if (temp == 0) {
+        *(s16 *)(a0 + 0xFE) = 8;
+        return;
+    }
+    temp = temp - 1;
+    *(s16 *)(a0 + 0xFE) = temp;
+    if ((temp << 16) != 0) {
+        return;
+    }
+    func_8012A828(a0, D_801BC78C[*(s16 *)(a0 + 0xFC)]);
+    *(s16 *)(a0 + 0xFC) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180E24);
 

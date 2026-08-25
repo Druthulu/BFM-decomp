@@ -121,7 +121,56 @@ s32 func_800CB170(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB1A0);
+#include "common.h"
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+
+void func_800CB1A0(void) {
+    extern u16 D_800B99DA;
+    extern s32 D_800CC580;
+    extern s32 D_800CC584;
+    extern s32 D_800CC588;
+    extern u8 D_800CC58C;
+    extern u8 D_800CC58D;
+    extern u8 D_800CC58E;
+    extern s32 D_800CC590;
+    extern s32 D_800CC594;
+    extern s32 D_800CC598;
+    extern u8 D_800CC59C;
+    extern u8 D_800CC59D;
+    extern u8 D_800CC59E;
+    extern s32 D_800CC5A0;
+    extern s32 D_800CC5A4;
+    extern s32 D_800CC5A8;
+    extern u8 D_800CC5AC;
+    extern u8 D_800CC5AD;
+    extern u8 D_800CC5AE;
+    u16 *p;
+    s32 ff;
+
+    p = &D_800B99DA;
+    D_800CC580 = func_8004787C((p[0] & 7) << 9);
+    D_800CC584 = 0;
+    D_800CC588 = func_80047948((p[0] & 7) << 9);
+    ff = 0xFF;
+    D_800CC58C = ff;
+    D_800CC58D = 0;
+    D_800CC58E = 0;
+    D_800CC590 = func_8004787C((p[0] & 7) << 9);
+    D_800CC594 = func_80047948((p[0] & 7) << 9);
+    D_800CC598 = 0;
+    D_800CC59C = 0;
+    D_800CC59D = 0;
+    D_800CC59E = ff;
+    D_800CC5A0 = 0;
+    D_800CC5A4 = func_8004787C((p[0] & 7) << 9);
+    D_800CC5A8 = func_80047948((p[0] & 7) << 9);
+    D_800CC5AC = ff;
+    D_800CC5AD = ff;
+    D_800CC5AE = ff;
+}
+
 
 
 extern void func_800CB4A8(void);
@@ -141,7 +190,36 @@ void func_800CB2C8(void *arg0) {
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB324);
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB3FC);
+typedef struct { s32 vpx, vpy, vpz, vrx, vry, vrz, rz, super; } RView;
+
+extern void func_800CB578(void *a0);
+extern s32 func_80146E98(s32 a0);
+extern void func_80015954(s32 a0, s32 a1);
+extern void func_80149374(s32 a0, s32 a1);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_80146CA0(void *a0);
+extern void func_800CBC0C(void *a0);
+
+void func_800CB3FC(void *arg0)
+{
+    RView view; /* unused: reserves the extra 0x20 frame bytes the target has */
+    *(u16 *)((s32)arg0 + 0x14) -= 6;
+    func_800CB578(arg0);
+    if (func_80146E98((s32)arg0) != 0) {
+        func_80015954((s32)arg0 + 0x10, (s32)arg0 + 4);
+        func_80149374((s32)arg0, (s32)arg0 + 4);
+        func_80146A6C(3, arg0,
+                      *(s16 *)((s32)arg0 + 6),
+                      *(s16 *)((s32)arg0 + 0xA),
+                      *(s16 *)((s32)arg0 + 0xE),
+                      0,
+                      0x80001C00);
+        func_80146CA0(arg0);
+    } else {
+        func_800CBC0C(arg0);
+    }
+}
+
 
 extern void func_80162CCC(void);
 void func_800CB4A8(void) {
@@ -180,7 +258,128 @@ void func_800CB4C8(void *arg0) {
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB578);
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB9F8);
+extern s32 func_80017DC4(void *a0, void *a1);
+extern s32 func_80017758(void *a0, void *a1);
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14", "memory" )
+
+void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
+    struct { s16 v[4]; } p[4];
+    s32 w[4];
+    s32 hdr[2];
+    s16 mat[16];
+    void *pa;
+    s32 t;
+
+    t = *(volatile s32 *)&stg;
+    p[0].v[0] = a0[0] - 8;
+    p[0].v[1] = a0[1];
+    p[0].v[2] = a0[2];
+    p[1].v[0] = a0[0] + 8;
+    p[1].v[1] = a0[1];
+    p[1].v[2] = a0[2];
+    p[2].v[0] = a1[0] - 8;
+    p[2].v[1] = a1[1];
+    p[2].v[2] = a1[2];
+    p[3].v[0] = a1[0] + 8;
+    p[3].v[1] = a1[1];
+    p[3].v[2] = a1[2];
+    w[0] = *(volatile s32 *)a3;
+    w[1] = *(volatile s32 *)a3;
+    w[2] = *(volatile s32 *)(a3 + 1);
+    w[3] = *(volatile s32 *)(a3 + 1);
+    hdr[0] = 0x50000000;
+    func_80017DC4((void *)t, (void *)mat);
+    pa = p;
+    gte_SetRotMatrix(a2);
+    __asm__ volatile (
+        "lhu $12, 0( %0 );"
+        "lhu $13, 6( %0 );"
+        "lhu $14, 12( %0 );"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0"
+        :
+        : "r"((s32)mat)
+        : "$12", "$13", "$14", "memory");
+    __asm__ volatile (
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0( %0 );"
+        "sh $13, 6( %0 );"
+        "sh $14, 12( %0 )"
+        :
+        : "r"((s32)mat)
+        : "$12", "$13", "$14", "memory");
+    __asm__ volatile (
+        "lhu $12, 0( %0 );"
+        "lhu $13, 6( %0 );"
+        "lhu $14, 12( %0 );"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0"
+        :
+        : "r"((s32)mat + 2)
+        : "$12", "$13", "$14", "memory");
+    __asm__ volatile (
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0( %0 );"
+        "sh $13, 6( %0 );"
+        "sh $14, 12( %0 )"
+        :
+        : "r"((s32)mat + 2)
+        : "$12", "$13", "$14", "memory");
+    __asm__ volatile (
+        "lhu $12, 0( %0 );"
+        "lhu $13, 6( %0 );"
+        "lhu $14, 12( %0 );"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0"
+        :
+        : "r"((s32)mat + 4)
+        : "$12", "$13", "$14", "memory");
+    __asm__ volatile (
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0( %0 );"
+        "sh $13, 6( %0 );"
+        "sh $14, 12( %0 )"
+        :
+        : "r"((s32)mat + 4)
+        : "$12", "$13", "$14", "memory");
+    ((s32 *)mat)[5] = a2[5];
+    ((s32 *)mat)[6] = a2[6];
+    ((s32 *)mat)[7] = a2[7];
+    func_80017758(pa, (void *)mat);
+}
+
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern void func_80015954(s32 a0, s32 a1);
@@ -298,4 +497,16 @@ void func_800CBF60(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBF80);
+extern u16 D_800B99DA;
+extern s32 D_800CC830;
+
+void func_800CBF80(void *a0) {
+    s32 v;
+
+    v = 0xFF0000;
+    if (!(D_800B99DA & 3)) {
+        v = 0xFFFF;
+    }
+    D_800CC830 = v;
+}
+

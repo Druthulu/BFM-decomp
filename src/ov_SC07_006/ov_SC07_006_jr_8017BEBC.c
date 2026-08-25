@@ -4528,7 +4528,58 @@ void func_80181C74(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80181E64);
+
+
+extern s32 *D_801BF5CC;
+extern SVECTOR2 *D_801C1E14;
+extern SVECTOR2 *D_801C1E18;
+
+void func_80181E64(s32 arg0, s32 arg1)
+{
+    Morph_8017DC1C *mp;
+    SVECTOR2 *md;
+    SVECTOR2 *msa;
+    SVECTOR2 *msb;
+    s32 mn;
+    SVECTOR2 *pa;
+    SVECTOR2 *pb;
+    s32 t;
+    s32 k;
+    s32 m;
+    s32 v;
+
+    {
+        register s32 zr __asm__("$0");
+        v = (*(u16 *)(arg1 + 0x100) + 0x100) & 0xFFF;
+        t = v + zr;
+    }
+    *(s16 *)(arg1 + 0x100) = t;
+
+    mp = D_801BF5CC;
+    msb = D_801C1E14;
+    msa = D_801C1E18;
+    if (mp->mode == 1) {
+        md = (SVECTOR2 *)mp->dst;
+    } else {
+        md = (SVECTOR2 *)((u32 *)&mp->dst + (mp->dst >> 2));
+    }
+    mn = mp->n;
+    pb = msb;
+    pa = msa;
+    while (mn != 0) {
+        k = func_8004787C(t);
+        m = arg0 + ((k * (func_8004787C(arg0 >> 1) >> 4)) >> 12);
+        md->vx = pb->vx + (((pa->vx - pb->vx) * m) >> 12);
+        md->vy = pb->vy + (((pa->vy - pb->vy) * m) >> 12);
+        md->vz = pb->vz + (((pa->vz - pb->vz) * m) >> 12);
+        t += 0x600;
+        md++;
+        pb++;
+        pa++;
+        mn--;
+    }
+}
+
 
 extern u8 D_801BFCCC;
 extern u8 D_8018E3A8[];

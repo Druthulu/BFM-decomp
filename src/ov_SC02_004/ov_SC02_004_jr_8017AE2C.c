@@ -4019,7 +4019,21 @@ void func_8017D874(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_004/nonmatchings/ov_SC02_004_jr_8017AE2C", func_8017D8B0);
 
-INCLUDE_ASM("asm/ov_SC02_004/nonmatchings/ov_SC02_004_jr_8017AE2C", func_8017D910);
+extern void func_8017D9C4(void *a0);
+
+void func_8017D910(void *a0) {
+    s32 var_s0;
+    for (var_s0 = 0; var_s0 < *(s32 *)((s32)a0 + 0x1c); var_s0++) {
+        func_8017D9C4(a0);
+    }
+    func_8017D9C4(a0);
+    func_8017D9C4(a0);
+    *(s32 *)((s32)a0 + 0x1c) = *(s32 *)((s32)a0 + 0x1c) >> 1;
+    if (*(s32 *)((s32)a0 + 0x1c) == 0) {
+        *(u16 *)((s32)a0 + 2) += 1;
+    }
+}
+
 
 extern u16 D_80126B66;
     void func_8017D99C(s32 *a0) {
@@ -4033,7 +4047,40 @@ INCLUDE_ASM("asm/ov_SC02_004/nonmatchings/ov_SC02_004_jr_8017AE2C", func_8017D9C
 
 INCLUDE_ASM("asm/ov_SC02_004/nonmatchings/ov_SC02_004_jr_8017AE2C", func_8017DA30);
 
-INCLUDE_ASM("asm/ov_SC02_004/nonmatchings/ov_SC02_004_jr_8017AE2C", func_8017DB2C);
+void func_8017DB2C(s32 a0) {
+    s32 ret;
+    u16 vecA[4];
+    u16 vecB[4];
+
+    ret = func_80128ED8(*(s32 *)(a0 + 0x20), (s32 *)(a0 + 0x24));
+    if (ret != 0) {
+        func_801292C8((u8 *)a0);
+    } else {
+        if (*(s16 *)(a0 + 0x2E) != 0) {
+            func_8012931C((struct vec *)a0);
+            *(s32 *)(a0 + 0x10) -= *(s32 *)(a0 + 0x10) >> 3;
+            *(s32 *)(a0 + 0x14) += -0x4000;
+            *(s32 *)(a0 + 0x18) -= *(s32 *)(a0 + 0x18) >> 3;
+        } else {
+            vecA[0] = *(u16 *)(a0 + 6);
+            vecA[1] = *(u16 *)(a0 + 10);
+            vecA[2] = *(u16 *)(a0 + 14);
+            func_8012931C((struct vec *)a0);
+            vecB[0] = *(u16 *)(a0 + 6);
+            vecB[1] = *(u16 *)(a0 + 10);
+            vecB[2] = *(u16 *)(a0 + 14);
+            ret = func_80135168(0, vecA, vecB);
+            if (ret != 0) {
+                *(u16 *)(a0 + 6) = vecB[0];
+                *(u16 *)(a0 + 10) = vecB[1];
+                *(u16 *)(a0 + 14) = vecB[2];
+                *(s32 *)(a0 + 0x14) = -(*(s32 *)(a0 + 0x14) >> 1);
+            }
+            *(s32 *)(a0 + 0x14) += 0x1C000;
+        }
+    }
+}
+
 
 
 extern void (*D_80181804[])(void);

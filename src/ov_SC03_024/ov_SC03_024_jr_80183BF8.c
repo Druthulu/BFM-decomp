@@ -4095,7 +4095,17 @@ extern s16 D_801C15FA;
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_80183BF8", func_80185BA8);
+
+extern void func_80185C00(s32 arg0, Rec_8018A6A4_80185A44 *arg1, s32 arg2, s32 arg3);
+
+void func_80185BA8(s32 a0, s32 a1, s32 a2) {
+    extern s32 func_80185CD4(void);
+    s32 v0 = func_80185CD4();
+    if (v0 >= 0) {
+        func_80185C00(v0, (Rec_8018A6A4_80185A44 *)a0, a1, a2);
+    }
+}
+
 
 
 /* func_80185C00 — SPLICE RECONCILE (bytes unchanged from the s6h draft).

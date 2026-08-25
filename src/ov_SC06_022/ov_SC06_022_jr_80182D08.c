@@ -3478,7 +3478,7 @@ void func_80183CC0(s32 p)
 
 
 
-extern void func_801850CC(void);
+extern void func_801850CC();
     void func_80183E3C(s32 arg0) {
         if (*(s16 *)((char *)arg0 + 0x98) == 0) {
             ((void (*)(void))func_801850CC)();

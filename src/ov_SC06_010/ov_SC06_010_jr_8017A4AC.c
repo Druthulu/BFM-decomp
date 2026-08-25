@@ -4845,7 +4845,22 @@ void func_8017EE3C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017F024);
+extern void (*D_8018AFBC[])(void);
+extern void func_8012B2CC(s32 a0);
+
+void func_8017F024(s32 a0) {
+    register s32 *p __asm__("$2");
+    s32 self;
+
+    D_8018AFBC[*(u16 *)(a0 + 2)]();
+    if (*(u16 *)a0 != 0) {
+        __asm__ __volatile__("" : "=r"(self) : "0"(a0));
+        p = *(s32 **)(a0 + 0x20);
+        p[1] |= 0x80000000;
+        func_8012B2CC(self);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017F098);
 

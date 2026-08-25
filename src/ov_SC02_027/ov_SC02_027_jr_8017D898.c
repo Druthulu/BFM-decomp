@@ -3929,7 +3929,160 @@ extern void func_801806FC(void * arg0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80180088);
+extern unsigned short D_801270C0;
+extern s32 *D_80126B90;
+extern unsigned short D_80126B94;
+extern unsigned char D_8018F210[];
+extern s32 D_80126B58;
+extern s32 *D_80126B78;
+extern unsigned char D_801152A8[];
+extern s32 rand(void);
+extern void func_8012931C(struct vec *a0);
+extern void func_801292C8(u8 *a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern s32 func_8014A454(s32 a0);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
+
+typedef struct { s32 w[8]; } Mtx32_80180088;
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (     \
+    "lw $12, 0( %0 );"                                \
+    "lw $13, 4( %0 );"                                \
+    "ctc2 $12, $0;"                                   \
+    "ctc2 $13, $1;"                                   \
+    "lw $12, 8( %0 );"                                \
+    "lw $13, 12( %0 );"                               \
+    "lw $14, 16( %0 );"                               \
+    "ctc2 $12, $2;"                                   \
+    "ctc2 $13, $3;"                                   \
+    "ctc2 $14, $4"                                    \
+    :                                                 \
+    : "r"( r0 )                                       \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (   \
+    "lw $12, 20( %0 );"                               \
+    "lw $13, 24( %0 );"                               \
+    "ctc2 $12, $5;"                                   \
+    "lw $14, 28( %0 );"                               \
+    "ctc2 $13, $6;"                                   \
+    "ctc2 $14, $7"                                    \
+    :                                                 \
+    : "r"( r0 )                                       \
+    : "$12", "$13", "$14" )
+
+void func_80180088(s32 param_1)
+{
+    extern Mtx32_80180088 aD800AE620[] __asm__("D_800AE620");
+    short sp18[4];
+    short sp20[4];
+    Mtx32_80180088 wk;
+    s32 out[2];
+
+    if (*(s16 *)&D_801270C0 != 2) {
+        sp18[0] = *(unsigned short *)(param_1 + 6);
+        sp18[1] = *(unsigned short *)(param_1 + 0xA);
+        sp18[2] = *(unsigned short *)(param_1 + 0xE);
+        func_8012931C((struct vec *)param_1);
+        sp20[0] = *(unsigned short *)(param_1 + 6);
+        sp20[1] = *(unsigned short *)(param_1 + 0xA);
+        sp20[2] = *(unsigned short *)(param_1 + 0xE);
+        if (func_80133784(1, sp18, (s32)sp20) != 0) {
+            s32 *obj;
+            s32 d;
+            s32 val;
+            *(unsigned short *)(param_1 + 2) = 2;
+            *(unsigned short *)(param_1 + 6) = sp20[0];
+            *(unsigned short *)(param_1 + 0xA) = sp20[1];
+            *(unsigned short *)(param_1 + 0xE) = sp20[2];
+            *(s32 *)(param_1 + 0x10) = 0;
+            *(s32 *)(param_1 + 0x14) = 0;
+            *(s32 *)(param_1 + 0x18) = 0;
+            *(s32 *)(param_1 + 0x34) = -1;
+            obj = *(s32 **)(param_1 + 0x20);
+            d = rand() % 256;
+            val = *(short *)((char *)*(s32 **)(param_1 + 0x20) + 0x10);
+            *(short *)((char *)obj + 0x10) = (rand() & 1) ? val + d : val - d;
+            obj = *(s32 **)(param_1 + 0x20);
+            d = rand() % 256;
+            val = *(short *)((char *)*(s32 **)(param_1 + 0x20) + 0x12);
+            *(short *)((char *)obj + 0x12) = (rand() & 1) ? val + d : val - d;
+            {
+                s32 *obj3;
+                s32 val3;
+                obj3 = *(s32 **)(param_1 + 0x20);
+                d = rand() % 256;
+                val3 = *(short *)((char *)*(s32 **)(param_1 + 0x20) + 0x14);
+                *(short *)((char *)obj3 + 0x14) = (rand() & 1) ? val3 + d : val3 - d;
+            }
+            return;
+        }
+    }
+
+    wk = aD800AE620[0];
+    wk.w[5] = *(short *)(param_1 + 6);
+    wk.w[6] = *(short *)(param_1 + 0xA);
+    wk.w[7] = *(short *)(param_1 + 0xE);
+
+    RotMatrixY(*(short *)((s32)*(s32 **)(param_1 + 0x20) + 0x14), &wk.w[0]);
+    {
+        s32 *b58 = &D_80126B58;
+        gte_SetRotMatrix(&wk.w[0]);
+        gte_SetTransMatrix(&wk.w[0]);
+
+        RotTransSV(D_8018F210, sp18, out);
+        RotTransSV(D_8018F210 + 8, sp20, out);
+
+        if (func_80135888((s32)D_80126B78, D_80126B90, (s32)sp18, (s32)sp20) != 0) {
+            func_8012F568(1, 0x201,
+                          *(short *)((s32)*(s32 **)(param_1 + 0x20) + 0x14), 0x1E,
+                          (s32)sp20, (s32)D_801152A8);
+            if (func_8014A454((s32)b58) == 0 && (D_80126B94 & 0x8000)) {
+                s32 d;
+                s32 dn;
+                func_8012F038((int)((s32)D_80126B78 + 0x34), sp20, sp18);
+                *(unsigned short *)(param_1 + 0x12) = sp18[0];
+                *(unsigned short *)(param_1 + 0x16) = sp18[1];
+                *(unsigned short *)(param_1 + 0x1A) = sp18[2];
+                *(s32 *)(param_1 + 0x1C) = 0x3C;
+                *(unsigned short *)(param_1 + 2) = 3;
+                *(unsigned short *)(param_1 + 0x2A) = *(unsigned short *)((s32)D_80126B78 + 0x12);
+                d = rand() % 256;
+                dn = (rand() & 1) ? d : -d;
+                *(u16 *)((s32)*(s32 **)(param_1 + 0x20) + 0x10) += dn;
+                *(u16 *)((s32)*(s32 **)(param_1 + 0x20) + 0x12) += dn;
+                {
+                    u16 *p14;
+                    s32 v14;
+                    p14 = (u16 *)(s32)*(s32 **)(param_1 + 0x20);
+                    v14 = p14[10];
+                    out[0] = dn;
+                    p14[10] = v14 + dn;
+                }
+                *(s32 *)(param_1 + 0x34) = -1;
+            } else {
+                func_801292C8((u8 *)param_1);
+            }
+        } else {
+            s32 cur = 0;
+            do {
+                RotTransSV(D_8018F210 + 0x10 + cur * 0x10, sp18, out);
+                RotTransSV(D_8018F210 + 0x18 + cur * 0x10, sp20, out);
+                if (func_80135888(*(s32 *)((s32)b58 + 0x20),
+                                  *(s32 *)((s32)b58 + 0x38),
+                                  (s32)sp18, (s32)sp20) != 0) {
+                    func_8012F568(1, 0x4204, 0, 0x1E, (s32)sp20, (s32)D_801152A8);
+                    return;
+                }
+                cur++;
+            } while (cur < 2);
+        }
+    }
+}
+
 
 extern void func_8012931C(struct vec *a0);
 extern void func_80143BDC(u16 *a0);

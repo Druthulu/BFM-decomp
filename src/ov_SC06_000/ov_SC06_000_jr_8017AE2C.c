@@ -7130,7 +7130,36 @@ void func_80181918(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80181940);
+void aF80181940(void) __asm__("func_80181940");
+void aF80181940(void) {
+    typedef struct { u8 b[8]; } Blk8_80181940;
+    extern Blk8_80181940 D_8018C0F8;
+    extern Blk8_80181940 D_801274E8;
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8 D_80126948[];
+    extern void func_8012A018(s32 a, s32 b);
+    extern void func_80181A78(void *a0);
+
+    D_801274E8 = D_8018C0F8;
+    D_80126954 = 0x190;
+    D_8012695C = 0x200;
+    D_80126968 = 0x40;
+    D_8012696A = 0;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = 0;
+    D_8012697A = 0;
+    func_8012A018((s32)func_80181A78, 2);
+    func_80181A78((void *)D_80126948);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801819F4);
 

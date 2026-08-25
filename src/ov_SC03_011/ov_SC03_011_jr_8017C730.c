@@ -3507,7 +3507,31 @@ void func_8017DF84(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017DFE4);
+extern s32 D_80185F80;
+extern s32 D_80185FA8;
+
+void func_8017DFE4(s32 param_1)
+{
+    s32 state;
+
+    state = func_801399F0(*(s32 *)(param_1 + 0x198));
+    if (state != 0) {
+        func_80139914(*(s32 *)(param_1 + 0x198));
+        *(s32 *)(param_1 + 0x198) = 0;
+        switch (state) {
+        default:
+        case 1:
+            *(s32 *)(param_1 + 0x198) = func_8013767C((s32)&D_80185F80);
+            func_80171990((u8 *)param_1);
+            break;
+        case 2:
+            *(s32 *)(param_1 + 0x198) = func_8013767C((s32)&D_80185FA8);
+            *(u8 *)(param_1 + 0x216) = 5;
+            break;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017E08C);
 
@@ -4263,7 +4287,45 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017F584);
+void func_8017F584(s32 a0) {
+    extern s16 D_801A2270;
+    extern void func_8017EB88();
+    extern s32 func_8012BEE8(s32 a0);
+    extern void func_8017ECD4(s32 a0);
+    extern s32 func_8012AD50(void *a0);
+    extern void func_80019064(void *a0);
+    extern s32 rand(void);
+    extern s32 D_80062BE8;
+    extern s32 D_80062BC0;
+    volatile s32 spacer;
+    s32 this = a0;
+    register s32 v0 __asm__("$2");
+    register s32 tmp __asm__("$3");
+
+    if ((D_801A2270 & 0xFFFF) != 0) {
+        func_8017EB88(this);
+        if ((D_801A2270 & 0xFFFF) == 2 && func_8012BEE8(this) != 0) {
+            func_8017ECD4(this);
+            *(s32 *)(this + 0x1C) = 0x10;
+            func_8012AD50((void *)this);
+            func_80019064(&D_80062BE8);
+        } else {
+            v0 = *(s16 *)(this + 0x104);
+            if (v0 != 0) {
+                tmp = v0;
+                __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp) : "memory");
+                v0 = tmp - 1;
+            } else {
+                func_80019064(&D_80062BC0);
+                v0 = rand() & 3;
+                __asm__ __volatile__("" : "=r"(v0) : "0"(v0) : "memory");
+                v0 = v0 + 8;
+            }
+            *(s16 *)(this + 0x104) = v0;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017F64C);
 

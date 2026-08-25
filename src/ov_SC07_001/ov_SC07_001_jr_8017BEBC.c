@@ -4372,7 +4372,55 @@ INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F3E
 
 INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F470);
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F4E4);
+typedef struct { s32 w0, w4, w8, wC; s16 h10, hpad; s32 t0, t1, t2; } Mat32_8017F4E4;
+typedef struct { s16 x, y, z; } V3_8017F4E4;
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern s32 func_80135004(s32 a0, void *a1, s32 a2);
+extern Mat32_8017F4E4 D_800AE620_8017F4E4[1] __asm__("D_800AE620");
+
+void func_8017F4E4(u8 *a0)
+{
+    s16 arr1[4];
+    s16 arr2[4];
+    V3_8017F4E4 vec;
+    Mat32_8017F4E4 m;
+    u8 *work;
+    register s32 t __asm__("$8");
+    register s32 j __asm__("$17");
+
+    m = D_800AE620_8017F4E4[0];
+    work = *(u8 **)(a0 + 0x64);
+    RotMatrixY(*(s16 *)(*(u8 **)(work + 0x20) + 0x12), &m);
+    t = 0;
+    vec.z = 0;
+    vec.y = 0;
+    vec.x = 0;
+    for (;;) {
+        arr1[0] = *(u16 *)(work + 6) + vec.x;
+        arr1[1] = *(u16 *)(work + 0xA) + vec.y;
+        arr1[2] = *(u16 *)(work + 0xE) + vec.z;
+        vec.y = 0;
+        vec.x = 0;
+        vec.z = -((j = t + 1) << 7);
+        ApplyMatrixSV(&m, &vec, &vec);
+        arr2[0] = *(u16 *)(work + 6) + vec.x;
+        arr2[1] = *(u16 *)(work + 0xA) + vec.y;
+        arr2[2] = *(u16 *)(work + 0xE) + vec.z;
+        if (func_80135004(1, arr1, arr2) != 0) {
+            *(u16 *)(a0 + 6) = arr2[0];
+            *(u16 *)(a0 + 0xA) = arr2[1] - 0x80;
+            *(u16 *)(a0 + 0xE) = arr2[2];
+            return;
+        }
+        t = j;
+        if (t >= 0xA) {
+            return;
+        }
+    }
+}
+
 
 
 /* ---- local layout typedef (standalone match_one compilation) --------------

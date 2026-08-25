@@ -3203,7 +3203,66 @@ void func_80183F4C(int param_1) {
     *(int *)(param_1 + 0xdc) = 0;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80183FB8);
+
+extern s32 func_8012CBA4();
+
+void func_80183FB8(int param_1) {
+    extern s32 D_8018AE80;
+    extern s32 D_8018AE84;
+    extern void func_80184254(s32 a0);
+    extern void func_80184238(void *a0);
+    int iVar4;
+    int a3;
+    int src;
+    short sVar3;
+
+    ((void (*)(void))func_8012CBA4)();
+    iVar4 = *(int *)(param_1 + 0xdc) + D_8018AE84;
+    *(int *)(param_1 + 0xdc) = iVar4;
+    if (D_8018AE80 < iVar4) {
+        *(int *)(param_1 + 0xdc) = D_8018AE80;
+    }
+
+    if (*(unsigned short *)(param_1 + 0x34) == 0) {
+        *(int *)(param_1 + 0x18) = *(int *)(param_1 + 0xdc);
+    } else {
+        *(int *)(param_1 + 0x18) = -*(int *)(param_1 + 0xdc);
+    }
+
+    if (0x600000 < *(int *)(param_1 + 0x14)) {
+        *(int *)(param_1 + 0x14) = 0x600000;
+    }
+
+    a3 = *(int *)(param_1 + 0xcc);
+    if (a3 != 0) {
+        *(unsigned short *)(a3 + 0x18) = 0x1800;
+        *(unsigned short *)(a3 + 0x2c) |= 0x10;
+        src = *(int *)(param_1 + 0x20);
+        *(Blk8 *)(a3 + 8) = *(Blk8 *)(src + 8);
+        *(unsigned short *)(a3 + 0xa) -= 0x10;
+        *(unsigned short *)(a3 + 0x10) = *(unsigned short *)(a3 + 0x10) + *(short *)(param_1 + 0x1a) * -0x10;
+    }
+
+    sVar3 = *(unsigned short *)(param_1 + 0x84) + 1;
+    *(unsigned short *)(param_1 + 0x84) = sVar3;
+    if (sVar3 >= 0x10) {
+        func_8002D4C8(0x48a, 0);
+        *(unsigned short *)(param_1 + 0x84) = 0;
+    }
+
+    if (*(unsigned short *)(param_1 + 0x34) == 0) {
+        if (0xf00 < *(short *)(param_1 + 0xe)) {
+            func_80184254(param_1);
+        }
+    } else {
+        if (*(short *)(param_1 + 0xe) < 0x830) {
+            func_80184238((void *)param_1);
+        }
+    }
+
+    func_8018414C((short *)param_1);
+}
+
 
 // @class: regalloc-order
 // @stuck: none — MATCH
@@ -3273,7 +3332,38 @@ void func_80184278(int param_1)
     return;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_801842C8);
+#include "common.h"
+
+void func_801842C8(s32 a0) {
+    typedef struct { s8 c[8]; } Blk8;
+    extern s32 func_8012CBA4(s32);
+    extern s32 func_8012BEE8(s32);
+    s32 a3;
+    s32 v0;
+
+    a3 = *(s32 *)(a0 + 0xCC);
+    if (a3 != 0) {
+        *(s16 *)(a3 + 0x18) = 0x1800;
+        *(u16 *)(a3 + 0x2C) |= 0x10;
+        v0 = *(s32 *)(a0 + 0x20);
+        *(Blk8 *)(a3 + 8) = *(Blk8 *)(v0 + 8);
+        *(u16 *)(a3 + 0xA) -= 0x10;
+        *(u16 *)(a3 + 0x10) = *(u16 *)(a3 + 0x10) + *(s16 *)(a0 + 0x1A) * -0x10;
+    }
+    if (*(u16 *)(a0 + 0x34) != 0 && *(u16 *)(a0 + 0x34) == 1) {
+        if (*(s32 *)(a0 + 0x1C) >= 6) {
+            *(s32 *)(a0 + 0x18) -= 0x10000;
+        }
+        func_8012CBA4(a0);
+        if (func_8012BEE8(a0) != 0) {
+            *(s16 *)(a0 + 2) = 3;
+            *(u16 *)(a0 + 0x34) = 0;
+            *(s32 *)(a0 + 0x18) = 0;
+            *(u16 *)(a0 + 0x5C) = 0x800;
+        }
+    }
+}
+
 
 // @class: other
 // @stuck: none — MATCH expected; mirrors matched sibling func_80185814 (s0=param_1 call-crossing, sh stores via short* casts, nested second func_8012C1B8)

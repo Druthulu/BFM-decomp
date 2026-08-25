@@ -3257,7 +3257,55 @@ void func_8017E7FC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017E8B0);
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern s32 D_801892C8;
+extern s32 D_801A7F4C;
+extern s32 D_80126B60;
+extern s32 D_80126B64;
+extern s32 D_801892FC;
+extern void func_8012B23C(s32 a0);
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern s32 func_80143970(s32 a0);
+extern s32 func_80029504(void);
+extern s32 func_80029178(s32 a0);
+extern s32 func_800291DC(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_800291C8(s32 a0, s32 a1);
+extern void func_80029514(s32 a0);
+extern void func_80029124(s32 a0, s32 a1);
+extern u8 D_80126B5C;
+
+void func_8017E8B0(void *a0) {
+    s32 v1;
+
+    if (func_8012C354((s32)a0, (s32)&D_801892C8) == 0) {
+        return;
+    }
+    if ((u32)func_80029504() >= 0x14 || (func_80029178(0xDF) & 0xFF) == 0 || (func_800291DC(0xA) & 0x40) == 0) {
+        func_8012C218(a0);
+        return;
+    }
+    *(u16 *)((s32)a0 + 2) = 1;
+    func_8012B23C((s32)a0);
+    func_8012A828((s32)a0, (s32)&D_801A7F4C);
+    v1 = *(s32 *)((s32)a0 + 0x20);
+    *(s32 *)((s32)a0 + 4) = *(s32 *)&D_80126B5C;
+    *(s32 *)((s32)a0 + 8) = D_80126B60;
+    *(s32 *)((s32)a0 + 0xC) = D_80126B64;
+    *(u16 *)((s32)v1 + 0x12) = 0xF00;
+    func_8012B2CC((s32)a0);
+    func_8012B1B4((s32)a0, (s32)&D_801892FC);
+    *(s32 *)((s32)a0 + 0x1C) = 6;
+    *(s32 *)((s32)a0 + 4) += *(s32 *)((s32)a0 + 0x10);
+    *(s32 *)((s32)a0 + 0xC) += *(s32 *)((s32)a0 + 0x18);
+    func_80143970((s32)a0);
+    func_800291C8(0xA, 0x1011);
+    func_80029514(0x14);
+    func_80029124(0xE1, 1);
+}
+
 
 
 extern void (*D_80189308[])(void);
@@ -4883,12 +4931,3 @@ void func_80181B1C(void) {
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80181B24);
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80181B88);
-
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80181BCC);
-
-
-extern void (*D_80189BEC[])(void);
-
-void func_80181D3C(void *a0) {
-    D_80189BEC[*(u16 *)((s32)a0 + 0x2)]();
-}

@@ -4185,7 +4185,29 @@ extern s32 D_801A9788;
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_801870AC);
+void func_801870AC(s32 a0) {
+    typedef struct {
+        u8 c[8];
+    } Blk8_801870AC;
+    Blk8_801870AC sv;
+    s32 obj;
+    s32 p;
+
+    obj = *(s32 *)(a0 + 0x64);
+    p = *(s32 *)(a0 + 0xCC);
+    func_8012F14C(*(s32 *)(obj + 0x20) + 0x34, p, (s32)&sv);
+    *(u16 *)(a0 + 6) = *(u16 *)&sv.c[0];
+    *(u16 *)(a0 + 0xA) = *(u16 *)&sv.c[2];
+    *(u16 *)(a0 + 0xE) = *(u16 *)&sv.c[4];
+    p += 8;
+    if (*(s16 *)(p + 6) == 0x7FFF) {
+        *(s16 *)(a0 + 0x2) = 1;
+        *(u16 *)(a0 + 0x70) |= 1;
+    } else {
+        *(s32 *)(a0 + 0xCC) = p;
+    }
+}
+
 
 extern s32 D_801A9910;
 
@@ -4291,7 +4313,26 @@ void func_80187190(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_801873A4);
+extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
+extern u16 D_80126B96;
+extern s16 D_80126B9A;
+
+s32 aF801873A4(s32 param_1) __asm__("func_801873A4");
+
+s32 aF801873A4(s32 param_1) {
+    s32 p;
+    u16 val;
+
+    if (func_8012D624(param_1, (*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x18) * 3) >> 9, 0x21) == 1) {
+        p = *(s32 *)(param_1 + 0x20);
+        val = *(u16 *)(p + 0x12);
+        D_80126B96 = 0x4002;
+        D_80126B9A = val;
+        return 1;
+    }
+    return 0;
+}
+
 
 extern void func_80187454(void);
 
@@ -4907,7 +4948,16 @@ void func_80188204(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_80188300);
+extern void func_8012C218(void *a0);
+
+void func_80188300(void *a0) {
+    if (--*(s32 *)((s32)a0 + 0x1C) == 0) {
+        func_8012C218((void *)a0);
+    } else {
+        *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 4) ^= 0x80000000;
+    }
+}
+
 
 
 /* func_80188354 — "spawn a paired effect entity above/below the actor" template

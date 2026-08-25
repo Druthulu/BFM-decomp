@@ -3927,7 +3927,35 @@ extern s32 func_8012BEE8(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E29C);
+extern s32 rand(void);
+extern void func_8012B23C(s32 a0);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern u8 D_80197770[];
+extern u8 D_80078E78[];
+
+void func_8017E29C(void *a0) {
+    s32 pad[4];
+    s32 r;
+    s32 q;
+    s32 base;
+    u8 *p;
+
+    r = rand();
+    p = D_80078E78;
+    q = r % 1024;
+    base = *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12);
+    *(s32 *)((s32)a0 + 0xE0) = (rand() & 1) ? base + q : base - q;
+    func_8012B23C((s32)a0);
+    func_8012A828((s32 *)a0, (s32)D_80197770);
+    *(s32 *)((s32)a0 + 0x1C) = 0x96;
+    *(s32 *)((s32)a0 + 0xE4) = 0;
+    if (p[0x36] == 0) {
+        *(s16 *)((s32)a0 + 0x2) = 7;
+    } else {
+        *(s16 *)((s32)a0 + 0x2) = 6;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E360);
 
@@ -4126,7 +4154,41 @@ void func_8017E874(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E8A4);
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E930);
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_801809B0(s32 a0, u16 *a1, s16 a2);
+
+void func_8017E930(s32 a0) {
+    register s32 s0 __asm__("$16") = a0;
+    extern u8 D_80194554;
+    extern u8 D_80194564;
+    s32 v0;
+    s32 v1;
+    s16 sp10[3];
+
+    if (*(s32 *)(*(s32 *)(s0 + 0x20) + 0x24) == (s32)&D_80194564) {
+        func_8001C924(*(s32 *)(s0 + 0x20), &D_80194554);
+        v0 = 0x18;
+    } else {
+        v0 = 0x18;
+    }
+
+    *(s32 *)(s0 + 0x1C) = v0;
+
+    *(u32 *)(s0 + 0xDC) &= ~0x10;
+
+    v1 = *(u16 *)(s0 + 0x5E);
+    if (v1 == 0x23) {
+        *(s16 *)(s0 + 0xFE) = 0x1;
+        func_8002D4C8(0xAA1, 0);
+    } else if (v1 == 0x24) {
+        sp10[0] = 0;
+        sp10[1] = 0x10;
+        sp10[2] = 0;
+        func_801809B0(s0, sp10, 0);
+    }
+}
+
 
 
 extern void func_8017EF48(s32 a0);

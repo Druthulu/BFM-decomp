@@ -5804,7 +5804,62 @@ void func_80189FDC(s32 param_1)
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_8018A124);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_8018A150);
+#include "common.h"
+
+extern u8 D_801F6140;
+extern u8 D_801F6180;
+extern u8 D_801F6181;
+extern u8 D_801F6182;
+extern u8 D_801F6184;
+extern u8 D_801F6185;
+extern u8 D_801F6186;
+extern void func_801292C8(u8 *a0);
+
+void func_8018A150(void *a0)
+{
+    u8 *q;
+    s32 d;
+
+    switch (*(s32 *)((s32)a0 + 0x2C)) {
+    case 0:
+        q = &D_801F6186;
+        {
+            s16 v;
+
+            d = q[0] + 4;
+            if (d >= 0xFF) {
+                *(u16 *)((s32)a0 + 2) += 1;
+                d = 0xFF;
+            }
+            v = d;
+            D_801F6184 = v;
+            D_801F6185 = v;
+            q[0] = v;
+            D_801F6180 = v;
+            D_801F6181 = v;
+            D_801F6182 = v;
+        }
+        __asm__ __volatile__("" : : : "memory");
+        break;
+    case 1:
+        q = &D_801F6140;
+        d = q[0] - 3;
+        if (d <= 0) {
+            func_801292C8((u8 *)a0);
+            break;
+        }
+        q[0] = d;
+        break;
+    case 2:
+        *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x18) += 0x200;
+        *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x1A) += 0x200;
+        if (*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x18) >= 0x2000) {
+            func_801292C8((u8 *)a0);
+        }
+        break;
+    }
+}
+
 
 void func_8018A284(void) {
 }

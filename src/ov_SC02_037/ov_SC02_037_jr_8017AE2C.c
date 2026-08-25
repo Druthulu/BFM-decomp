@@ -5902,11 +5902,73 @@ void func_8017E9EC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017EA14);
+extern void func_8012A018(s32 a0, s32 a1);
+extern void func_8012A094(s32 a0);
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017EAB4);
+void func_8017EA14(void) {
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017EB50);
+    extern s32 D_80126954;
+    extern s32 D_80126950;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8 D_80126948[];
+    extern void func_8017EB88(void *a0);
+    D_80126954 = 0x1F4;
+    D_80126950 = 0x1F4;
+    D_8012695C = 0x4B0;
+    D_80126968 = 0x238;
+    D_8012696A = 0x800;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = 0;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017EB88, 0);
+    func_8012A094((s32)D_80126948);
+    func_8017EB88(D_80126948);
+}
+
+
+void func_8017EAB4(void) {
+    extern u8 D_80126948[];
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern void func_8012A018(s32 a, s32 b);
+    extern void func_8012A094(s32 a0);
+    extern void func_8017EB88(void *a0);
+    D_80126954 = 0x1F4;
+    D_8012695C = 0x4B0;
+    D_80126968 = 0xE3;
+    D_8012696A = 0x221;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x40;
+    D_8012697A = 0;
+    ((void (*)(void *, s32))func_8012A018)((void *)func_8017EB88, 0x1);
+    func_8012A094((s32)D_80126948);
+    func_8017EB88((void *)D_80126948);
+}
+
+
+void func_8017EB50(void) {
+    extern void func_8012A018(s32 a0, s32 a1);
+    extern void func_8017EB88(void *a0);
+    extern u8 D_80126948[];
+
+    func_8012A018((s32)func_8017EB88, 2);
+    func_8017EB88(D_80126948);
+}
+
 
 
 
@@ -6035,13 +6097,60 @@ INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017F2B
 
 INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017F3F8);
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017F490);
+void func_8017F490(s32 a0) {
+    extern void (*D_801878A8[])(void);
+    extern u8 D_80183F38[];
+    extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+
+    s32 s0;
+    s32 t;
+    s32 t1;
+    s32 t2;
+
+    t = func_8012C354(a0, (s32)D_801878A8);
+    s0 = a0;
+    if (t != 0) {
+        func_8001D0E8(*(s32 *)(s0 + 0x20), 0x104, 0xF0);
+        func_8012A828(s0, D_80183F38);
+        *(s16 *)(s0 + 0x2) = 1;
+        func_8012B030((u8 *)s0);
+
+        t1 = func_8012C588(0x1B2, s0);
+        *(s32 *)(s0 + 0xCC) = t1;
+        if (t1 != 0) {
+            *(s16 *)(t1 + 0x16) = -9;
+            *(s16 *)(t1 + 0x1A) = 0x20;
+            *(s16 *)(t1 + 0xE) = *(u16 *)(t1 + 0xE) - 0x264;
+            *(s16 *)(t1 + 0xA) = *(u16 *)(t1 + 0xA) + 0x82;
+        }
+
+        t2 = func_8012C588(0x1B2, s0);
+        *(s32 *)(s0 + 0xD0) = t2;
+        if (t2 != 0) {
+            *(s16 *)(t2 + 0x16) = -9;
+            *(s16 *)(t2 + 0x1A) = -0x20;
+            *(s16 *)(t2 + 0xE) = *(u16 *)(t2 + 0xE) + 0x264;
+            *(s16 *)(t2 + 0xA) = *(u16 *)(t2 + 0xA) + 0x82;
+        }
+
+        *(u8 *)(s0 + 0x75) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017F578);
 
 INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017F684);
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017F6EC);
+void func_8017F6EC(s32 *a0)
+{
+    if (*(s16 *)((s32)a0 + 0xFC) != 0) {
+        *(s16 *)((s32)a0 + 0xFC) = *(s16 *)((s32)a0 + 0xFC) - 1;
+        *(u16 *)((s32)a0 + 0xE) += *(u16 *)((s32)a0 + 0x1A);
+        *(u16 *)((s32)a0 + 0xA) += *(u16 *)((s32)a0 + 0x16);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017F734);
 

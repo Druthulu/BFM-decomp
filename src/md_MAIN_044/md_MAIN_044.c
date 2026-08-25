@@ -295,7 +295,12 @@ void func_800CD63C(s32 a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD758);
+extern void func_80015978(s32 a0, s32 *a1);
+
+void func_800CD758(s32 param_1) {
+    func_80015978(param_1 + 4, param_1 + 0x58);
+}
+
 
 extern void func_80015954(s32 a0, s32 a1);
 
@@ -329,7 +334,44 @@ void func_800CD834(void *a0) {
 
 INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD848);
 
-INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD894);
+extern void func_80015978(s32 a0, s32 *a1);
+extern s32 func_80135260(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u8 D_801202A0[];
+
+typedef struct {
+    u16 unk00;
+    u8 pad02[0x1E];
+    s32 unk20;
+    u8 pad24[0x34];
+    s32 unk58;
+    u8 pad5C[0xB0];
+} Ent_CD894;
+
+s32 func_800CD894(void *a0) {
+    u8 sp10[8];
+    s32 sp18;
+    s32 i;
+    register s32 tag __asm__("$2");
+    Ent_CD894 *base = (Ent_CD894 *)D_801202A0;
+
+    __builtin_memcpy(sp10, (u8 *)a0 + 0x44, 8);
+    func_80015978((s32)a0 + 4, &sp18);
+    for (i = 0; i < 0x60; i++) {
+        Ent_CD894 *e = base + i;
+        tag = 0x200;
+        if (e->unk00 == tag) {
+            s32 f58 = e->unk58;
+            if (f58 != 0) {
+                s32 f20 = e->unk20;
+                if (f20 != 0 && func_80135260(f20, f58, sp10, &sp18) != 0) {
+                    return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 
 
 

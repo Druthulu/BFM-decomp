@@ -3350,7 +3350,22 @@ void func_8018953C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_8018957C);
+extern s32 D_80078E8C;
+
+s16 func_8018957C(s32 a0) {
+    s32 var;
+
+    var = D_80078E8C + a0;
+    if (var > 99999) {
+        var = 99999;
+    }
+    if (var < 0) {
+        return 1;
+    }
+    D_80078E8C = var;
+    return 0;
+}
+
 
 
 /* func_801895C8 — ov_SC03_001 (133 ins), exemplar of a 5-member open-only
@@ -3997,7 +4012,18 @@ void func_8018A594(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_8018A5B8);
+void func_8018A5B8(s32 arg0) {
+    extern s32 D_801DE488;
+
+    *(u16 *)(arg0 + 0x5C) &= 0xFFFE;
+    *(u8 *)(arg0 + 0xC1) = 4;
+    *(u8 *)(arg0 + 0xC2) = 0;
+    func_8012B14C(arg0, (s32)&D_801DE488);
+    *(s32 *)(arg0 + 0x1C) = 0;
+    *(u16 *)(arg0 + 0x108) = 0x28;
+    func_80189D4C(arg0, -0x28, 1);
+}
+
 
 void func_8018A61C(s32 arg0)
 {
@@ -4041,7 +4067,37 @@ void func_8018A698(void)
 void func_8018A6B8(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_8018A6C0);
+extern s32 func_8012B030(u8 *a0);
+
+void func_8018A6C0(s32 a0) {
+    extern u16 D_801DE494;
+    extern u16 D_801DE496;
+    extern u16 D_801DE498;
+    s32 v1 = *(s32 *)(a0 + 0x20);
+    u16 v0;
+
+    *(u16 *)(v1 + 0x10) = *(u16 *)(v1 + 0x10) - 0x30;
+
+    v0 = *(u16 *)(a0 + 0xA) + 2;
+    v1 = *(s32 *)(a0 + 0x1C) - 1;
+    *(u16 *)(a0 + 0xA) = v0;
+    *(s32 *)(a0 + 0x1C) = v1;
+    if (v1 == 0) {
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+        *(s16 *)(a0 + 0x2) = 1;
+        *(s32 *)(a0 + 0x1C) = 2;
+        *(u16 *)(a0 + 0xFC) = 0x3C;
+        *(u16 *)(a0 + 0x6) = D_801DE494;
+        *(u16 *)(a0 + 0xA) = D_801DE496;
+        *(u16 *)(a0 + 0xE) = D_801DE498;
+        func_8012B030((u8 *)a0);
+        *(u16 *)(a0 + 0x5C) = 0x8E10;
+        if (*(s16 *)(a0 + 0x76) < 0x320) {
+            *(u16 *)(a0 + 0x76) = 0x384;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_8018A788);
 

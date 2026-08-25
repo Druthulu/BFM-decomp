@@ -2762,7 +2762,7 @@ extern void func_80187414(s32, void*, void*, s32);
 extern void func_801873B0(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_80183A20(s32 param_1);
-extern void func_801850CC(void);
+extern void func_801850CC();
 extern void func_80183E3C(s32 arg0);
 /* ==== end §8b carried decl layer ==== */
 
@@ -2994,7 +2994,7 @@ void func_80184F88(s32 a0)
 
 
 
-extern void func_801850CC(void);
+extern void func_801850CC();
 extern void func_80185578(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
 
@@ -3026,7 +3026,45 @@ void func_8018500C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_801850CC);
+void func_801850CC(s32 a0) {
+
+    extern u8 D_801D4E18[];
+    extern u8 D_801D4140[];
+    extern s32 D_801BD154[];
+    extern s32 D_801BD164[];
+    s32 flags;
+
+    flags = *(s32 *)(a0 + 0xE0);
+    if (flags & 4) {
+        goto L_bit4;
+    }
+    if (flags & 0x800) {
+        *(u16 *)(a0 + 2) = 0xE;
+        func_8012A828(a0, D_801D4E18);
+        return;
+    }
+    if (flags & 1) {
+        goto L_tbl154;
+    }
+    if (*(s32 *)(a0 + 0xD0) == 0) {
+        goto L_tbl154;
+    }
+    *(u16 *)(a0 + 2) = 0xE;
+    *(u16 *)(a0 + 0x34) = 2;
+    *(s32 *)(a0 + 0x1C) = 0x200;
+    func_8012A828(a0, D_801D4140);
+    return;
+
+L_tbl154:
+    *(u16 *)(a0 + 2) = D_801BD154[*(u16 *)(a0 + 0x70) & 0xF];
+    return;
+
+L_bit4:
+    *(u16 *)(a0 + 2) = D_801BD164[*(u16 *)(a0 + 0x70) & 0xF];
+    func_8012A828(a0, D_801D4E18);
+    *(s32 *)(a0 + 0x1C) = 0x200;
+}
+
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -4400,7 +4438,22 @@ s32 aF80187460(s32 a0, s16 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_801874E0);
+s32 func_801874E0(s32 param_1, s32 param_2, s32 param_3)
+{
+    s32 result;
+
+    if (func_8012BEE8(param_1) != 0) {
+        result = func_80132EF4(param_1, 0x22);
+        if (result != 0) {
+            *(u16 *)(result + 0x34) = 0x7FFF;
+            *(u16 *)(*(s32 *)(result + 0x20) + 0x2C) = 0xC006;
+            *(u32 *)(result + 0x14) = 0xFFFE0000;
+        }
+        return 1;
+    }
+    return 0;
+}
+
 
 
 extern void (*D_801BD4D8[])(void);

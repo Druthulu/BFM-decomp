@@ -3388,7 +3388,12 @@ void func_801A6038(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A6108);
+void func_801A6108(s32 arg0) {
+    if (*(u8 *)(arg0 + 0x74) != 0) {
+        func_8012E014(arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A6138);
 

@@ -3419,7 +3419,29 @@ void func_8017DB50(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017DBC0);
+void func_8017DBC0(void) {
+    extern void func_800D24A0(s32 a0);
+    extern s16 D_801CD878;
+    extern u16 D_8011511A;
+    extern u16 D_80115112;
+    extern u32 D_801CD9B0;
+    extern u32 D_801CD9A8;
+    extern s32 D_80115130;
+
+    func_800D24A0(4);
+    func_8017DC48();
+    if (D_801CD878 == 0) {
+        D_8011511A = 0;
+    } else {
+        D_8011511A = D_801CD878;
+    }
+    D_801CD9B0 = 0;
+    D_801CD9A8 = 0;
+    D_80115130 = 0;
+    D_801CD878 = 0;
+    D_80115112++;
+}
+
 
 
 /* Declarations reconciled against src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:
@@ -3682,7 +3704,58 @@ DEFINE_func_8017E0EC()  /* dedup: shared engine-core @0x8017E0EC (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017E108);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017E258);
+void func_8017E258(void) {
+    extern short D_800B9A02;
+    extern u32 D_801CD9A8;
+    extern u32 D_801CD9AC;
+    extern s32 D_801151C8[];
+    extern s32 D_801151D0;
+    extern u16 D_8011511A;
+    extern u8 D_80115138[];
+    extern s16 D_801CD870;
+    extern u16 D_80115112;
+    extern u8 D_800B9A15;
+    extern s32 func_801399F0(s32);
+    extern s32 func_80014ED4(s32);
+    extern s16 func_8014168C(s16);
+    extern s32 func_8017F2D4(s32, s32);
+    extern void func_80139954(void);
+    extern void func_8002D4C8(s32, s32);
+    extern void func_8017E6BC(void);
+    extern void func_80137B80(void);
+
+    s32 flags;
+    s32 pad[2];
+
+    D_801151D0 = D_801151C8[*(u16 *)&D_800B9A02];
+
+    if (D_801CD9A8 != 0) {
+        if (func_801399F0(D_801CD9AC) != 0) {
+            D_801CD9A8 = 0;
+        }
+    } else {
+        flags = func_80014ED4(0);
+        if ((flags & 0x50) != 0) {
+            u16 t;
+            t = D_8011511A;
+            if (D_80115138[t] == 8) {
+                func_8017F2D4(0xF, func_8014168C(t));
+            }
+            if (D_801CD870 != 0) {
+                func_80139954();
+                D_800B9A15 = 0;
+                func_8002D4C8(0x474, 0);
+                D_80115112++;
+            } else {
+                D_80115112--;
+            }
+        }
+    }
+
+    func_8017E6BC();
+    func_80137B80();
+}
+
 
 extern short D_800B9A02;
 extern u16 D_80115114;

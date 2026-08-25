@@ -25,7 +25,20 @@ void func_800CAE78(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_020/nonmatchings/md_MAIN_020", func_800CAEB0);
+extern void func_801599A4(void *a0);
+extern s32 func_80165910();
+extern void func_801655E4(s32 a0);
+extern void func_8016629C(void *a0);
+void func_800CAEB0(void *a0) {
+    func_801599A4(a0);
+    func_800CAF6C(a0);
+    if (func_80165910(a0) == 0) {
+        func_801655E4((s32)a0);
+    }
+    func_8016629C(a0);
+    *(u8 *)((s32)a0 + 0x197) += 1;
+}
+
 
 void func_800CAF10(void) {
 }

@@ -9345,7 +9345,30 @@ void func_80188524(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188560);
+#include "common.h"
+
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+/* TU decl at L5304 says `void func_80188560(s32,s32)`; the asm copies $s0 -> $v0
+ * before the epilogue, so the true return is s32 (same situation as impl_801833D4,
+ * L5924). Define under the private C name with the __asm__ label -- the TU's own
+ * idiom -- so nothing else in the file needs to change. */
+s32 impl_80188560(s32 a0, s32 a1) __asm__("func_80188560");
+
+s32 impl_80188560(s32 a0, s32 a1)
+{
+    s32 rec;
+
+    rec = func_80132EF4(a0, 0x5C);
+    if (rec != 0) {
+        *(s32 *)((s32)rec + 0x34) = a0;
+        *(s32 *)((s32)rec + 0x30) = a1;
+    }
+    func_8002D4C8(0x88A, 0);
+    return rec;
+}
+
 
 #include "common.h"
 

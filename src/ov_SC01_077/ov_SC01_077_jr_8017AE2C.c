@@ -4418,7 +4418,21 @@ s32 func_8017E210(u8 *a0) {
     return v;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017E224);
+typedef struct { u8 c[8]; } Blk8_8017E224;
+
+void func_8017E224(s32 param_1)
+{
+    extern s32 func_80171D1C(void *a0, void *a1, s32 a2);
+    extern Blk8_8017E224 D_801D90F0;
+    Blk8_8017E224 buffer;
+
+    buffer = D_801D90F0;
+
+    if (func_80171D1C((void *)param_1, &buffer, 0x80) != 0) {
+        *(u8 *)(param_1 + 0x214) += 1;
+    }
+}
+
 
 // @class: schedule
 // @stuck: none — MATCH. Cross-jump/tail-merge of the two `p->0x214=...` sb stores defeated by

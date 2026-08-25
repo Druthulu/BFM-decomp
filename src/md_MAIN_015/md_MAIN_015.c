@@ -245,7 +245,19 @@ Lend:;
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_015/nonmatchings/md_MAIN_015", func_800CB6A4);
+void func_800CB6A4(void *arg0) {
+    extern s32 func_800CB6FC(s32 a0);
+    extern void func_80146C3C(void);
+
+    (*(s32 *)((char *)arg0 + 0x1C))++;
+    if ((*(s32 *)((char *)arg0 + 0x1C)) < 2) {
+        *(u32 *)((char *)arg0 + 0x30) >>= 1;
+        func_800CB6FC((s32)arg0);
+    } else {
+        func_80146C3C();
+    }
+}
+
 
 extern signed char D_800CBB44[];
 extern s32 func_80017758(void *a0, void *a1);

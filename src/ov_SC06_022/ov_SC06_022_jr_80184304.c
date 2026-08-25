@@ -2776,7 +2776,7 @@ extern void func_80187414(s32, void*, void*, s32);
 extern void func_801873B0(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_80183A20(s32 param_1);
-extern void func_801850CC(void);
+extern void func_801850CC();
 extern void func_80183E3C(s32 arg0);
 /* ==== end §8b carried decl layer ==== */
 
@@ -2989,15 +2989,44 @@ void func_80184768(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184304", func_801847CC);
+extern s32 D_801BD2B4[];
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_801847CC(s32 *a0) {
+    func_8012A828((s32)a0, D_801BD2B4[*(u16 *)((s32)a0 + 0x70) & 0xF]);
+    *(s32 *)((s32)a0 + 0xE4) = 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184304", func_80184818);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184304", func_80184894);
+extern void func_802A828_dummy_never_used(void);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_80131B14();
+
+extern s32 D_801BD174[];
+
+void func_80184894(s32 *a0) {
+    s32 s0 = a0;
+    func_80131B14();
+    *(s16 *)(s0 + 0x52) = -0x30;
+    func_8012A828(s0, D_801BD174[*(u16 *)(s0 + 0x70) & 0xF]);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184304", func_801848E4);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184304", func_80184928);
+extern void func_8012E8A8(u8 *a0);
+extern void func_80187094(s32 a0, s32 a1);
+
+void func_80184928(s32 *a0) {
+    s32 s0 = a0;
+    *(u16 *)(s0 + 0x5C) = 0;
+    func_8012E8A8((u8 *)s0);
+    *(s32 *)(s0 + 0x1C) = 0xA;
+    func_80187094(s0, (*(u16 *)(s0 + 0x70) & 0xF) + 2);
+}
+
 
 extern s32 func_801874E0(s32 a0, s32 a1, s32 a2);
 extern void func_80130D48(s32 a0);
@@ -3014,6 +3043,29 @@ void func_80184970(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184304", func_801849BC);
+
+
+
+
+extern s32 D_801BD2C4;
+extern s32 D_801BD2D4;
+
+void func_801849BC(s32 *a0) {
+    s32 s0 = a0;
+    *(u8 *)(s0 + 0xC2) = 0;
+    *(u8 *)(s0 + 0xC3) = 0;
+    *(u32 *)(s0 + 0x1C) = 0;
+    func_80131B14();
+    switch (*(u16 *)(s0 + 0x5E)) {
+    case 9:
+    case 0x1C:
+        func_8012B14C(s0, (s32)&D_801BD2C4);
+        break;
+    default:
+        func_8012B14C(s0, (s32)&D_801BD2D4);
+        break;
+    }
+}
+
 
 

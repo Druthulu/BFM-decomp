@@ -3700,7 +3700,21 @@ void func_8017DFE4(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_109/nonmatchings/ov_SC03_109_jr_8017C180", func_8017E024);
 
-INCLUDE_ASM("asm/ov_SC03_109/nonmatchings/ov_SC03_109_jr_8017C180", func_8017E0E4);
+void func_8017E0E4(s32 arg0) {
+    extern u8 D_80197734[];
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+
+    if (*(s16 *) (arg0 + 0x98) == 0) {
+        if (*(s16 *) (arg0 + 0xFE) == 2) {
+            func_8002D4C8(0x888, 0);
+            func_8012A828(arg0, D_80197734);
+        }
+        *(s16 *) (arg0 + 2) = 5;
+        *(s16 *) (arg0 + 0xFE) = 0;
+    }
+}
+
 
 void func_8017E150(void *a0) {
         *(short *)(*(int *)((char *)a0 + 0x6c) + 0xfe) = 1;

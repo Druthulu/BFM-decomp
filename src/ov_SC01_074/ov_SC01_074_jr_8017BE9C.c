@@ -3260,7 +3260,32 @@ s32 func_8017CF50(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017CFC4);
+
+
+extern s32 func_80029504(void);
+
+extern void (*D_801820A8[])(struct Entry_8016E95C *);
+extern void (*D_801820CC[])(struct Entry_8016E95C *);
+extern void (*D_801820F0[])(struct Entry_8016E95C *);
+extern void (*D_80182114[])(struct Entry_8016E95C *);
+
+Handler func_8017CFC4(void)
+{
+    s32 x;
+
+    x = func_80029504();
+    if (x >= 900) {
+        return D_80182114;
+    }
+    if (x >= 600) {
+        return D_801820F0;
+    }
+    if (x >= 200) {
+        return D_801820CC;
+    }
+    return D_801820A8;
+}
+
 
 
 extern void (*D_80182158[])(void);
@@ -3320,7 +3345,16 @@ void func_8017D15C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017D184);
+extern void (*D_801821BC[])(void);
+extern void func_8017D2F8();
+
+void func_8017D184(int param_1)
+{
+    D_801821BC[*(unsigned char *)(param_1 + 0x216)]();
+    func_8017D2F8(param_1, *(signed short *)(param_1 + 0x20C));
+    return;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017D1D8);
 
@@ -3472,7 +3506,17 @@ void func_8017D6FC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017D738);
+void func_8017D738(void *a0) {
+    func_8014706C(a0);
+    func_8014708C(a0);
+    func_801472C8(a0);
+    *(s32 *)((s32)a0 + 0x200) = 400;
+    *(s16 *)((s32)a0 + 0x20C) = 1;
+    func_8017D98C(a0, 1, *(s32 *)((s32)a0 + 0x200), 0);
+    func_80147324(0xC26);
+    func_80171990(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017D7A4);
 
@@ -3848,7 +3892,24 @@ void func_8017E504(void *a0) {
 void func_8017E54C(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017E554);
+extern u8 D_80078EAE;
+
+s32 func_8017E554(s32 arg0) {
+    if (arg0 == 10) {
+        return 0x32;
+    }
+    if (arg0 == 0x488) {
+        return 0x89;
+    }
+    if (arg0 - 900U < 0x6EU) {
+        return 0x65;
+    }
+    if (D_80078EAE == 1) {
+        return 0xF;
+    }
+    return 0x10;
+}
+
 
 
 

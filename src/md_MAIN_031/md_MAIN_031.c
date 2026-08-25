@@ -365,7 +365,99 @@ void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_031/nonmatchings/md_MAIN_031", func_800CB964);
+
+
+#define SETROT_A(p) __asm__ __volatile__( \
+    "lw $12, 0(%0)\n" \
+    "lw $13, 4(%0)\n" \
+    "ctc2 $12, $0\n" \
+    "ctc2 $13, $1\n" \
+    "lw $12, 8(%0)\n" \
+    "lw $13, 12(%0)\n" \
+    "lw $14, 16(%0)\n" \
+    "ctc2 $12, $2\n" \
+    "ctc2 $13, $3\n" \
+    "ctc2 $14, $4\n" \
+    : : "r"(p) : "$12", "$13", "$14", "memory")
+
+#define LDV_A(p) __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(p) : "memory")
+
+#define MVMVA_A() __asm__ __volatile__( \
+    "nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 3, 0\n" \
+    : : : "memory")
+
+#define STSV_A(p) __asm__ __volatile__( \
+    "mfc2 $12, $9\n" \
+    "mfc2 $13, $10\n" \
+    "mfc2 $14, $11\n" \
+    "sh $12, 0(%0)\n" \
+    "sh $13, 2(%0)\n" \
+    "sh $14, 4(%0)\n" \
+    : : "r"(p) : "$12", "$13", "$14", "memory")
+
+extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_80017714(void *a0);
+
+void func_800CB964(void *a0, void *a1, void *a2) {
+    s16 mat[4][4];
+    u16 vin[4];
+    u16 vec[4][4];
+    u8 tail[20];
+    register u16 *o0 __asm__("$4");
+
+    func_80017DC4(a2, mat);
+    o0 = &vec[0][0];
+
+    vin[2] = 0;
+    vin[0] = *(u16 *)((u8 *)a1 + 0) - 0x38;
+    vin[1] = *(u16 *)((u8 *)a1 + 2) - 0x28;
+    SETROT_A(mat);
+    LDV_A(vin);
+    MVMVA_A();
+    STSV_A(o0);
+
+    vin[0] = *(u16 *)((u8 *)a1 + 0) + 0x38;
+    vin[1] = *(u16 *)((u8 *)a1 + 2) - 0x28;
+    SETROT_A(mat);
+    LDV_A(vin);
+    MVMVA_A();
+    STSV_A(vec[1]);
+
+    vin[0] = *(u16 *)((u8 *)a1 + 0) - 0x38;
+    vin[1] = *(u16 *)((u8 *)a1 + 2) + 0x28;
+    SETROT_A(mat);
+    LDV_A(vin);
+    MVMVA_A();
+    STSV_A(vec[2]);
+
+    vin[0] = *(u16 *)((u8 *)a1 + 0) + 0x38;
+    vin[1] = *(u16 *)((u8 *)a1 + 2) + 0x28;
+    SETROT_A(mat);
+    LDV_A(vin);
+    MVMVA_A();
+    STSV_A(vec[3]);
+
+    tail[0xE] = 0x80;
+    tail[0xD] = 0x80;
+    tail[0xC] = 0x80;
+    tail[2] = 0;
+    tail[1] = 0;
+    tail[0] = 0;
+    tail[6] = 0;
+    tail[5] = 0;
+    tail[4] = 0;
+    tail[0xA] = 0;
+    tail[9] = 0;
+    tail[8] = 0;
+    *(u32 *)(tail + 0x10) = 0x40000000;
+    func_80017714(o0);
+}
+
 
 
 extern void func_800CBEB8(void);

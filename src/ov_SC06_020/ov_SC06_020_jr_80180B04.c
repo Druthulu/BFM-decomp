@@ -2939,7 +2939,26 @@ extern void func_80183FD0(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80181064);
+extern void func_8002A04C(s32 a0);
+extern void func_8002AC00(s32 a0);
+extern void func_8012C098(void *param_1);
+
+void func_80181064(s32 a0) {
+    switch (*(u16 *)(a0 + 0x70) & 0xF) {
+    case 0:
+        func_8002AC00(0x1F);
+        break;
+    case 1:
+        func_8002AC00(0x20);
+        break;
+    case 2:
+        func_8002AC00(0x21);
+        break;
+    }
+    func_8002A04C(a0);
+    func_8012C098((void *)a0);
+}
+
 
 
 extern void func_801811A8(void);
@@ -3755,7 +3774,22 @@ void func_80182234(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_801823A4);
+void func_801823A4(s32 param_1) {
+    s32 obj;
+    s32 obj2;
+    u16 w;
+
+    obj = *(s32 *)(param_1 + 0x20);
+    *(s32 *)(param_1 + 0x1C) = 0x18;
+    *(s16 *)(obj + 0x10) = 0x80;
+    obj2 = *(s32 *)(param_1 + 0x20);
+    w = *(u16 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x12);
+    *(s16 *)(obj2 + 0x12) = w;
+    func_8012B2CC(param_1);
+    func_8012B178(param_1, 0xFFF00000);
+    *(s16 *)(param_1 + 2) = 2;
+}
+
 
 
 extern void func_8012C218(void *a0);
@@ -3868,7 +3902,20 @@ LAB_80188494:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80182664);
+void func_80182664(s32 param_1) {
+    s32 v1;
+
+    *(s32 *)(param_1 + 0x48) = 0xC000;
+    v1 = *(s32 *)(param_1 + 0x64);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(v1 + 0x20) + 0x12);
+    func_8012B2CC(param_1);
+    func_8012B178(param_1, 0x20000);
+    *(u16 *)(param_1 + 2) = 4;
+    *(s32 *)(param_1 + 0x1C) = 0;
+    *(u16 *)(param_1 + 0x34) = 0;
+}
+
 
 
 extern void func_8012C218(void *a0);
@@ -4186,7 +4233,22 @@ void func_80182EC4(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80182F00);
+extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
+extern s32 func_801835BC(s32 a0, s32 a1, s32 a2);
+extern void func_8012C218(void *a0);
+extern u16 D_80126B96;
+
+void func_80182F00(s32 param_1)
+{
+    if ((*(u16 *)(param_1 + 0x70) & 1) &&
+        func_8012D624((void *)param_1, 0x60, *(s16 *)(param_1 + 0x104)) == 1) {
+        D_80126B96 = 0x4001;
+    }
+    if (func_801835BC(param_1, 0x60, *(s16 *)(param_1 + 0x104)) == 1) {
+        func_8012C218((void *)param_1);
+    }
+}
+
 
 
 /* func_80182F80 @ ov_SC06_018 (subseg ov_SC06_018_jr_8017C24C) — 124 ins. MATCH.

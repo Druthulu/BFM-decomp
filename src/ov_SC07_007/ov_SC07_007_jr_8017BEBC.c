@@ -5698,7 +5698,21 @@ void func_8017FDBC(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017FE28);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017FE74);
+extern s32 func_80180F84(void);
+extern void func_80181048(void *a0, void *a1);
+extern s32 func_8012AD50(void *a0);
+
+extern u8 D_80187858;
+
+void func_8017FE74(s32 a0) {
+    s32 s0 = a0;
+    s32 v0 = func_80180F84();
+    if (v0 == 8) {
+        func_80181048((void *)s0, (void *)&D_80187858);
+        func_8012AD50((void *)s0);
+    }
+}
+
 
 #include "common.h"
 
