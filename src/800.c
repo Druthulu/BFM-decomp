@@ -821,7 +821,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80013FBC);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80013FE0);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80014004);
+void func_80014004(unsigned short *a0, unsigned short *a1) {
+    a0[0] = a1[0];
+    a0[3] = a1[1];
+    a0[6] = a1[2];
+}
 
 void func_80014028(s32 *a0, s32 *a1) {
         *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a1 + 0x0);
@@ -1811,7 +1815,22 @@ void func_800152F4(s32 idx) {
     D_800B93D8[((idx << 16) >> 16) * 8] = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80015310);
+
+
+extern s16 D_800B93D8[];
+
+void func_80015310(void) {
+    extern DispSlot_800184F0 D_800B97D8[];
+    s32 pad[2];
+    DispSlot_800184F0 *p;
+    DispSlot_800184F0 *end;
+
+    p = (DispSlot_800184F0 *)D_800B93D8;
+    end = D_800B97D8;
+    for (; p < end; p++) {
+        p->flag = 0;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001534C);
 
@@ -3324,7 +3343,10 @@ void func_80016ED4(void *arg0)
     func_80016F18(arg0, 0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80016EF8);
+void func_80016EF8(void *arg0, s32 arg1)
+{
+    func_80016F18(arg0, arg1, 0);
+}
 
 
 /* ---- PsyQ GTE inline macros (same spelling as the matched ov_SC03_* TUs) ---- */
@@ -5189,7 +5211,11 @@ s32 func_80019198(void) {
     return D_800747C0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800191A8);
+extern s32 D_80078E30;
+
+void func_800191A8(void) {
+    D_80078E30 = -1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800191BC);
 
@@ -12602,7 +12628,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80028F10);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028F34);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028F54);
+extern void func_80029124(s32, s32);
+
+void func_80028F54(s32 a0) {
+    func_80029124(0x12, a0 & 0xFF);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028F78);
 
@@ -13241,7 +13271,12 @@ s32 func_8002A4C8(void) {
     return D_80078EF0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002A4D8);
+extern s32 D_80078EEC;
+extern u8 D_800638FC[];
+
+s32 func_8002A4D8(void) {
+    return *(u16 *)(D_800638FC + D_80078EEC * 16);
+}
 
 extern s32 D_80078EEC;
 extern u8 D_800638FE[];
