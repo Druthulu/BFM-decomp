@@ -3581,7 +3581,39 @@ void func_8017DF44(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017DFE8);
+extern s32 func_8004787C(s32);
+extern s32 func_80047948(s32);
+extern void func_8017E0E4();
+
+void func_8017DFE8(s32 arg0, s32 arg1, s32 arg2)
+{
+    register s32 s2 __asm__("$18") = arg0;
+    register s32 s3 __asm__("$19") = arg1;
+    register s32 s4 __asm__("$20") = arg2;
+    register s32 r1;
+    register s32 r2;
+    s32 w;
+
+    r1 = func_8004787C(*(s16 *)((u8 *)s2 + 0x100));
+    if (r1 < 0) {
+        r1 += 0x7F;
+    }
+    r1 >>= 7;
+    w = (*(u16 *)((u8 *)s2 + 0x100)) + (*(u16 *)((u8 *)s2 + 0x102));
+    *(u16 *)((u8 *)s2 + 0x100) = w;
+    r2 = func_80047948((s16)w);
+    if (r2 < 0) {
+        r2 += 0x7F;
+    }
+    r2 >>= 7;
+    *(s32 *)((u8 *)s2 + 0xE4) += 4;
+    if (*(s32 *)((u8 *)s2 + 0xE4) >= 0x40) {
+        *(s32 *)((u8 *)s2 + 0xE4) = 0;
+    }
+    func_8017E0E4(s2, 0, (s16)r1, (s16)r2, s3, s4);
+    func_8017E0E4(s2, 1, (s16)r1, (s16)r2, s3, s4);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017E0E4);
 
@@ -3653,7 +3685,30 @@ void func_8017E7DC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017E82C);
+extern s16 currentLocationId;
+extern u8 D_801953A4[];
+extern void func_80147324(s32 a0);
+extern int func_801511E0(int arg);
+extern void func_80154274(s32 *a0, s32 a1);
+extern void func_80149020(s32 *a0);
+extern void func_8017EA60(void);
+extern void func_80146CA0(void *a0);
+
+void func_8017E82C(s32 p)
+{
+    if (currentLocationId == 0x3083) {
+        *(u16 *)(p + 0xA) -= 8;
+    }
+    func_80147324(0x451);
+    ((void (*)(s32))func_801511E0)(p);
+    ((void (*)(s32, s32))func_80154274)(p, (s32)D_801953A4);
+    ((void (*)(s32))func_80149020)(p);
+    *(u8 *)(p + 0xDE) = 0xA;
+    *(u8 *)(p + 0xDF) = 0;
+    func_8017EA60();
+    ((void (*)(s32))func_80146CA0)((void *)p);
+}
+
 
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern s32 func_8017EA84(void);

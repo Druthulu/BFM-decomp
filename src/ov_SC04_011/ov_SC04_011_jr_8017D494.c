@@ -6343,7 +6343,21 @@ void aF80183E20(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183EA8);
+extern s32 rand(void);
+extern s32 D_801EFC54;
+extern void func_8018B0B0(void *a0, void *a1, void *a2, u32 a3);
+
+void func_80183EA8(void) {
+    s16 svec[4];
+    s32 obj;
+
+    obj = D_801EFC54;
+    svec[0] = (rand() & 0x3F) - 0x20;
+    svec[1] = 0x80;
+    svec[2] = (rand() & 0x3F) - 0x20;
+    func_8018B0B0((void *)obj, svec, (void *)0, 8);
+}
+
 
 #include "common.h"
 
