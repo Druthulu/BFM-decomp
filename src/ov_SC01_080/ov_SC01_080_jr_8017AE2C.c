@@ -5733,7 +5733,26 @@ INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_8018185
 
 INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80181918);
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_801819D0);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+
+typedef struct { u8 b[8]; } Copy8;
+
+void func_801819D0(s32 a0) {
+    u16 sp10[3];
+    u16 sp18[4];
+
+    sp10[0] = *(u16 *)(a0 + 6);
+    sp10[1] = *(u16 *)(a0 + 0xA);
+    sp10[2] = *(u16 *)(a0 + 0xE);
+    func_800D20C0(sp10, sp18, 1);
+    func_800D23D0(sp18);
+    sp18[2] = sp18[1] << 2;
+    if (*(s32 *)(a0 + 0x34) != 0) {
+        *(Copy8 *)(*(s32 *)(a0 + 0x34) + 0x10) = *(Copy8 *)sp18;
+    }
+}
+
 
 void func_80181A70(void *a0)
 {

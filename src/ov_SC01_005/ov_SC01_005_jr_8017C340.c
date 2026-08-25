@@ -3357,7 +3357,32 @@ DEFINE_func_8017D808()  /* dedup: shared engine-core @0x8017D808 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017D9A0);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017C340", func_8017D9F4);
+s32 func_8017D9F4(s32 arg0) {
+    extern struct { s32 word0; s32 word4; } cdFileLocTable[];
+    extern s32 D_800C7C60;
+    extern s32 *D_800C7C64;
+    extern s32 D_800A2E20;
+    extern s32 D_801CAE4C;
+    extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
+    extern u16 D_80185EFC[];
+    extern s16 D_80185EFE[];
+    s32 *p;
+    u16 t;
+    s32 w;
+    s32 x;
+
+    t = *(u16 *)((s8 *)D_80185EFC + arg0 * 4);
+    w = *(s16 *)((s8 *)D_80185EFE + arg0 * 4);
+    D_800C7C64 = &D_800A2E20;
+    p = &D_800C7C60;
+    *p = w;
+    x = (s16)t;
+    if (x <= 0) {
+        return 1;
+    }
+    return func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[x], D_801CAE4C, p);
+}
+
 
 DEFINE_func_8017DA84()  /* dedup: shared engine-core @0x8017DA84 (src/shared) */
 

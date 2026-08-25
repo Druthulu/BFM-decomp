@@ -7467,7 +7467,26 @@ void func_80185C5C(u16 id)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80185D04);
+extern s32 D_801EFC64[];
+void func_80185D9C(void *a0);
+
+void func_80185D04(s32 a0)
+{
+    s32 i = 6;
+    s32 h = 0x1000;
+    s32 *p = D_801EFC64;
+
+    for (; i < 0x15; i++, p++) {
+        s32 rec = *p;
+        *(u16 *)(*(s32 *)(rec + 0x20) + 0x18) = h;
+        *(u16 *)(*(s32 *)(rec + 0x20) + 0x1A) = h;
+        *(u16 *)(rec + 0x86) &= ~1;
+        if (a0 != 0) {
+            func_80185D9C((void *)rec);
+        }
+    }
+}
+
 
 void func_80185D9C(void *a0)
 {
@@ -10034,7 +10053,17 @@ void func_80189EAC(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80189EFC);
+extern void func_80189F6C();
+
+void func_80189EFC(s32 arg0) {
+    u16 arr[3];
+
+    arr[0] = *(u16 *)(arg0 + 6) + (rand() & 0x3F) - 0x20;
+    arr[1] = *(u16 *)(arg0 + 0xA) - 0x40;
+    arr[2] = *(u16 *)(arg0 + 0xE) + (rand() & 0xFF) - 0x80;
+    func_80189F6C(arg0, arr);
+}
+
 
 #include "common.h"
 

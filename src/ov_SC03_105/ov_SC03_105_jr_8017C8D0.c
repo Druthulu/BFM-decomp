@@ -6554,7 +6554,41 @@ void func_80187928(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80187A30);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80187F7C);
+extern u16 D_800B99DA;
+extern u16 D_8018F154[];
+extern s16 D_801BC9E8[];
+extern s32 D_8018F174;
+extern void func_800183E0(s32 a0);
+
+void func_80187F7C(void) {
+    u16 *src;
+    s16 *dst;
+    s32 i;
+    s32 m;
+    s32 w;
+    s32 v;
+    s32 pad[2];
+
+    src = D_8018F154;
+    i = 0;
+    m = D_800B99DA & 0xF;
+    dst = &D_801BC9E8[0xF - m];
+    for (; i <= m; i++) {
+        w = *src++;
+        *dst++ = w | -0x8000;
+    }
+    dst = D_801BC9E8;
+    if (15 - m > 0) {
+        i = 0;
+        do {
+            v = *src++;
+            *dst++ = v | -0x8000;
+            i++;
+        } while (i < 15 - m);
+    }
+    func_800183E0(&D_8018F174);
+}
+
 
 
 extern void (*D_8018F19C[])(void);

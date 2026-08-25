@@ -3584,7 +3584,7 @@ s32 func_8017F434(void) {
 extern s32 func_8012C044(void *);
 extern void (*D_8019C0AC[])(void);
 extern void func_80180CF4(void *);
-extern void func_80180D2C(void *);
+extern void func_80180D2C();
 
 void func_8017F43C(void *a0)
 {
