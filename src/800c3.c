@@ -721,7 +721,12 @@ void func_8005EA54(void *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EA68);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EA88);
+void func_8005EA88(void *arg0, s32 arg1) {
+    *(u8 *)((u8 *)arg0 + 0x36) = 0x46;
+    *(s32 *)((u8 *)arg0 + 0x2C) = (s32)((u8 *)arg0 + 0x24);
+    *(u8 *)((u8 *)arg0 + 0x24) = arg1;
+    *(u8 *)((u8 *)arg0 + 0x35) = 1;
+}
 
 void func_8005EAA8(void *arg0, s32 arg1) {
     *(u8 *)((u8 *)arg0 + 0x36) = 0x47;
