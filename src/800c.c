@@ -2426,7 +2426,34 @@ __asm__(
     ".end\tfunc_8005BD7C\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2C6C);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_2C6C\n"
+    ".ent\tSYS_OBJ_2C6C\n"
+    "SYS_OBJ_2C6C:\n"
+    ".frame\t$sp,24,$31\n"
+    ".mask\t0x80010000,-4\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "lui   $a0, %hi(D_8007289C)\n"
+    "lw    $a0, %lo(D_8007289C)($a0)\n"
+    "jal   func_800426FC\n"
+    "nop\n"
+    "andi  $v0, $s0, 0x7\n"
+    "bnez  $v0, .L8005BEC4\n"
+    "addu  $v0, $zero, $zero\n"
+    "jal   func_8005C1C0\n"
+    "addu  $a0, $s0, $zero\n"
+    ".L8005BEC4:\n"
+    "lw    $ra, 20($sp)\n"
+    "lw    $s0, 16($sp)\n"
+    "addiu $sp, $sp, 24\n"
+    "jr    $ra\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_2C6C\n"
+);
 
 __asm__(
     ".text\n"
