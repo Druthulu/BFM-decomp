@@ -4099,7 +4099,15 @@ void func_8017D6AC(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017BEBC", func_8017D6E4);
+void func_8017D6E4(void *a0) {
+    extern void (*D_801820B4[])(void);
+    extern void func_800D1724(s32 a0);
+    extern void func_80171928(void *a0);
+
+    func_800D1724((s32)D_801820B4);
+    func_80171928(a0);
+}
+
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 void func_8017D720(void) {

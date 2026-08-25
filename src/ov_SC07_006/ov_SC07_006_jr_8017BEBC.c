@@ -3792,7 +3792,55 @@ void func_8017CFA4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017D040);
+typedef struct {
+    s16 off00; s16 off02; s16 off04; s16 off06;
+    u16 off08; s16 off0A; u16 off0C;
+    u8 pad0E[0x12];
+} Ent8018DE64;
+
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+extern s32 D_801269E4;
+extern s16 D_801269E8;
+extern u8 D_80126948[];
+extern Ent8018DE64 D_8018DE64[];
+extern s16 *D_801F6098;
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8012A094(s32 a0);
+void func_8017D0F4(void *a0);
+
+void func_8017D040(s32 arg0) {
+    register s32 t __asm__("v0");
+    register s32 tc __asm__("a1");
+    Ent8018DE64 *ptr;
+
+    t = 0x190;
+    D_80126954 = t;
+    ptr = &D_8018DE64[arg0];
+    t = *(s16 *)((s32)ptr + 0xA);
+    D_8012695C = t;
+    t = *(u16 *)((s32)ptr + 0xC);
+    D_80126968 = t;
+    D_801F6098 = (s16 *)ptr;
+    tc = *(u16 *)((s32)ptr + 8);
+    D_8012696A = tc;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    t = -0x20;
+    D_80126978 = t;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017D0F4, 1);
+    func_8012A094((s32)D_80126948);
+    D_801269E4 = 0;
+    D_801269E8 = 0;
+}
+
 
 
 
@@ -4007,7 +4055,49 @@ void func_8017D868(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017D8A4);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017DA30);
+extern s32 func_8004787C(s32 a0);
+
+void func_8017DA30(s32 d, void *x, void *y, s32 t, s32 n, s32 w) {
+    s32 t0;
+    s32 v0;
+
+    t0 = t + ((func_8004787C(w) * (func_8004787C(t >> 1) >> 3)) >> 12);
+    if (n > 0) {
+        do {
+            *(s16 *)d = *(s16 *)x + ((((s16)*(s16 *)y - (s16)*(s16 *)x) * t) >> 12);
+            *(s16 *)(d + 2) = *(s16 *)((u8 *)x + 2) + ((((s16)*(s16 *)((u8 *)y + 2) - (s16)*(s16 *)((u8 *)x + 2)) * t0) >> 12);
+            *(s16 *)(d + 4) = *(s16 *)((u8 *)x + 4) + ((((s16)*(s16 *)((u8 *)y + 4) - (s16)*(s16 *)((u8 *)x + 4)) * t0) >> 12);
+            v0 = *(s16 *)((u8 *)y + 6) - *(s16 *)((u8 *)x + 6);
+            if (v0 >= 0x801) {
+                v0 -= 0x1000;
+            }
+            if (v0 < -0x800) {
+                v0 += 0x1000;
+            }
+            *(s16 *)(d + 6) = *(s16 *)((u8 *)x + 6) + ((v0 * t) >> 12);
+            v0 = *(s16 *)((u8 *)y + 8) - *(s16 *)((u8 *)x + 8);
+            if (v0 >= 0x801) {
+                v0 -= 0x1000;
+            }
+            if (v0 < -0x800) {
+                v0 += 0x1000;
+            }
+            *(s16 *)(d + 8) = *(s16 *)((u8 *)x + 8) + ((v0 * t) >> 12);
+            v0 = *(s16 *)((u8 *)y + 0xA) - *(s16 *)((u8 *)x + 0xA);
+            if (v0 >= 0x801) {
+                v0 -= 0x1000;
+            }
+            if (v0 < -0x800) {
+                v0 += 0x1000;
+            }
+            *(s16 *)(d + 0xA) = *(s16 *)((u8 *)x + 0xA) + ((v0 * t) >> 12);
+            d += 0xC;
+            x = (u8 *)x + 0xC;
+            y = (u8 *)y + 0xC;
+        } while (--n > 0);
+    }
+}
+
 
 /* func_8017DC1C @ ov_SC07_006 (subseg ov_SC07_006_jr_8017BEBC) — behemoth #8, 1,518 ins.
  *

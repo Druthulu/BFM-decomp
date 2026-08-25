@@ -5463,24 +5463,7 @@ void func_8018247C(void)
 }
 
 
-extern s32 func_80132EF4(s32 a0, s32 a1);
-extern s32 rand(void);
-
-void func_80182538(s32 param_1)
-{
-    s32 p;
-    s32 t;
-
-    p = func_80132EF4(param_1, 0x72);
-    if (p != 0) {
-        t = *(u16 *)(p + 6) - 0x30 + rand() % 96;
-        *(u16 *)(p + 6) = t;
-        *(u16 *)(p + 0xA) = *(u16 *)(param_1 + 0x52) + (*(u16 *)(p + 0xA) + 0x80);
-        t = *(u16 *)(p + 0xE) - 0x30 + rand() % 96;
-        *(u16 *)(p + 0xE) = t;
-    }
-}
-
+INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80182538);
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern u16 D_8018A464[];

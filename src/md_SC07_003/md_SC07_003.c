@@ -2603,7 +2603,26 @@ void func_801A4A78(s32 arg0) {
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A4CF4);
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A4D58);
+typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A4D58;
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+void func_801A4D58(s32 a0, s32 a1)
+{
+    extern u8 D_800AE620[];
+
+    Mtx32_801A4D58 m;
+    s32 vel[3];
+
+    m = *(Mtx32_801A4D58 *)&D_800AE620;
+    vel[1] = 0;
+    vel[0] = 0;
+    vel[2] = a1;
+    RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14), &m);
+    func_800484EC((s32)&m, (s32)&vel[0], a0 + 0x10);
+}
+
 
 #include "common.h"
 
