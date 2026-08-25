@@ -106,7 +106,7 @@ while [ ! -e .run/ox_campaign.stop ]; do
       --models 'stealth/ox-alpha:2000' \
       --bands '5-2000' \
       --maxtok 16000 \
-      --cards-per-wave 3000 --queue-depth 2 --credit-floor 0.25 2>&1
+      --cards-per-wave 3000 --queue-depth 4 --credit-floor 0.25 2>&1
   echo "[$(date +%H:%M:%S)] [drafter] exited; restarting in 20s"
   sleep 20
 done

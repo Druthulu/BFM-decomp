@@ -20,7 +20,7 @@ MUST NOT run while a gate is in flight (R35 — corpus.stubs() misreports substi
 
 Usage: build_wave_atlas.py <out.json> [N] [--max-bins K] [--min-ins M] [--levers a,b,c]
 """
-import json, os, re, sys, collections, subprocess, argparse, glob
+import json, os, re, sys, time, collections, subprocess, argparse, glob
 import fcntl
 sys.path.insert(0, 'tools')
 import corpus
@@ -195,8 +195,35 @@ if a.retry_unbanked:
             except Exception:
                 _stubs[binary] = None
         return None if _stubs[binary] is None else (fn in _stubs[binary])
+    # AN IN-FLIGHT WAVE'S CARDS ARE NOT UNFINISHED WORK — THEY ARE WORK IN PROGRESS (P31 S60).
+    # Every card of the wave currently drafting is still an OPEN STUB (its gate has not run yet),
+    # so this filter handed the whole wave back to the pool, and the pre-draw — which runs WHILE
+    # that wave drafts — rebuilt it card for card. Measured over 18 waves: ck->cl 239/239 shared,
+    # co->cp 238/238, cv->cw 222/222, db->dc 208/209, and the pairs that were not identical still
+    # shared 50-90%. The duplicate wave then banks almost nothing, because by ITS gate time the
+    # first wave has banked the cards: yield alternated 47.6% / 3.8% / 35.3% / 3.6% / 29.9% / 3.7%
+    # across the night. Half of all drafting was spent re-drafting work already in flight.
+    #
+    # A wave is finished when its GATE has run, and the gater says so in its own log (R33 — derive
+    # from the artifact that already exists, do not invent a marker). Tags with no GATE line are in
+    # flight and stay excluded; a tag whose card file is older than STALE_H with no gate line never
+    # got one (a killed wave) and is released, so nothing is locked out forever.
+    STALE_H = 6
+    gated_tags = set()
+    try:
+        for line in open('.run/gater.log', errors='replace'):
+            m = re.search(r'GATE (\w+): banked ', line)
+            if m:
+                gated_tags.add(m.group(1))
+    except OSError:
+        pass
+    _inflight = 0
     _still_open = set()
     for p in PRIORS:
+        tag = os.path.basename(p)[5:-11]          # .run/wave_<tag>_cards.json
+        if tag not in gated_tags and (time.time() - os.path.getmtime(p)) < STALE_H * 3600:
+            _inflight += 1
+            continue
         try:
             for c in json.load(open(p)):
                 fn, b = (c.get('fn') or c.get('name')), c.get('binary')
@@ -205,6 +232,9 @@ if a.retry_unbanked:
         except (FileNotFoundError, json.JSONDecodeError, TypeError):
             pass
     taken -= _still_open
+    if _inflight:
+        print(f'--retry-unbanked: {_inflight} wave(s) still in flight (no GATE line yet) — their '
+              f'cards stay OUT of this draw', file=sys.stderr)
     print(f'--retry-unbanked: {len(_still_open)} previously-waved cards are still OPEN stubs '
           f'and are back in the pool', file=sys.stderr)
 if not PRIORS:

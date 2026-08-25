@@ -178,8 +178,16 @@ def draw_wave(tag, n, band, levers=None):
     # then 65+ min on another chunk of 8 while waves `an` and `ao` sat queued behind it. Main needs
     # its own cadence (drafts accumulate, gate them in one batch when nothing else is waiting), and
     # a wave that cannot bank main should not spend agents drafting it either.
+    # MAX_BINS 24 -> 160 (P31 S60, measured). Concentrating a wave into 24 gate groups was a
+    # CPU-economy choice: each group is one whole-binary rebuild. The CPU is not the scarce
+    # resource — a live gate runs at load 2.7 of 32 cores (8%), one harvest_verify at --chunk 1 —
+    # while the DRAFTING fleet, the thing actually bounded by the free-model clock, sat at ~200
+    # agents because the draw handed it 196 cards out of 699 available distinct-gid candidates in
+    # 224 gate groups. req/min is agents-in-flight x ~0.8, so the draw was setting the campaign's
+    # throughput. Raise the cap to take essentially the whole pool; MAX_BINS overrides it.
+    bins = os.environ.get("MAX_BINS", "160")
     r = sh(f"{PY} tools/build_wave_atlas.py {cards} {n} --min-ins {lo} --max-ins {hi} "
-           f"--max-bins 24 --one-per-gid --retry-unbanked --exclude-bins main{lv}",
+           f"--max-bins {bins} --one-per-gid --retry-unbanked --exclude-bins main{lv}",
            timeout=3600, quiet=False)
     if not os.path.exists(cards):
         log(f"  wave {tag}: DRAW FAILED — {(r.stderr or r.stdout)[-300:]}")
@@ -350,7 +358,8 @@ def collect_drafts(tag, procs,
     return drafts, trunc
 
 
-def wait_for_tail(tag, procs, done_frac=0.95):
+def wait_for_tail(tag, procs,
+                  done_frac=float(os.environ.get('TAIL_DONE_FRAC', '0.80'))):
     """Block until `done_frac` of a wave's shards have exited — then RETURN, tail still running.
 
     THE TAIL MUST NOT IDLE THE FLEET (P31 S60, measured). collect_drafts() blocks through the whole
@@ -364,6 +373,13 @@ def wait_for_tail(tag, procs, done_frac=0.95):
     shorter grace guillotines agents mid-thought and COSTS drafts). What was wrong is BLOCKING on
     it. The wave now hands its tail to finish_wave_async() and the next wave draws and ramps
     immediately, so the grace overlaps the next wave instead of the void.
+
+    DONE_FRAC 0.95 -> 0.80 (P31 S60, second pass). Overlapping at 95% still left a real trough:
+    25% of the minutes after the first fix ran under 20 req/min, because the last 5% of a wave
+    is its SLOWEST 5% — the long generations — and one wave's 12 stragglers cannot fill a fleet.
+    Handing off at 80% starts the next ramp while ~40 agents are still working, so the fleet is
+    never carried by a handful of agents. Nothing is cut short: the stragglers keep their full
+    grace in the finisher thread and their drafts still land in the wave.
     """
     while True:
         alive = [p for p in procs if p.poll() is None]
