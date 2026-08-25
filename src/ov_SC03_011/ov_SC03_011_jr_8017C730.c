@@ -4333,7 +4333,40 @@ INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017F6B
 
 INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017F718);
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017F790);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C2C4(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+extern s32 func_800291B4(s32 a0);
+extern s16 D_80185448;
+
+void func_8017F790(void *a0) {
+    register void *s0 __asm__("$16") = a0;
+    s32 r;
+    s32 buf[4];
+
+    if (((func_800291B4(0xCD) & 0xFF) != 0) ||
+        ((r = ((s32 (*)(void))func_8012C1B8)()),
+         (*(s32 *)((u8 *)s0 + 0x20) = r),
+         r == 0)) {
+        func_8012CAE4(s0);
+        return;
+    }
+    func_8001C2C4(r);
+    *(s16 *)(*(s32 *)((u8 *)s0 + 0x20) + 0x10) = 0x400;
+    *(s16 *)(*(s32 *)((u8 *)s0 + 0x20) + 0x12) = 0x400;
+    func_8012B2CC((s32)s0);
+    buf[1] = 0;
+    buf[0] = 0;
+    buf[2] = 0xE0000;
+    func_8012B14C((s32)s0, (s32)buf);
+    *(s32 *)((u8 *)s0 + 0x58) = (u32)&D_80185448 | 0x40000000;
+    *(s16 *)((u8 *)s0 + 0x5C) = 0x800;
+    func_8012AD50(s0);
+}
+
 
 #include "common.h"
 

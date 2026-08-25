@@ -4028,7 +4028,53 @@ s32 func_8017E2F4(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_039/nonmatchings/ov_SC02_039_jr_8017BEBC", func_8017E428);
+#include "common.h"
+
+/* --- callees (spelled from asm/ov_SC02_039/nonmatchings/.../func_8017E428.s;
+ *      func_8012C1B8/CAE4/C810/AD50 reuse the verbatim decls from the
+ *      func_8017DE84 block above) --- */
+extern void func_8012C1B8(void);        /* §183 SIGNATURE-cast-at-call */
+extern void func_8012CAE4(void *a0);
+extern void func_8001C810(s32 a0, s32 a1);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8017DE00(s32 a0);
+extern s32  func_8012AD50(void *a0);
+
+/* --- data (raw forms, cast at use site — law 4) --- */
+extern s32 D_8019CA6C;        /* address only: passed to func_8001C810 */
+extern s32 D_8019DEE0;        /* address only: passed to func_8001C214 */
+
+void func_8017E428(s32 param_1) {
+    s32 obj;
+    s32 obj2;
+
+    /* §194-F: separate statements keep ONE pseudo in $v0 all the way down to
+     * the func_8001C810 argument copy (`addu $a0,$v0,$zero` in the jal slot). */
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = obj;
+    if (obj == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+
+    func_8001C810(obj, (s32)&D_8019CA6C);
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) =
+        *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) | 0x8040;
+    /* the store killed the base (§193-E): this statement reloads 0x20($s1) */
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x28) = 0x1800180;
+
+    obj2 = ((s32 (*)(void))func_8012C1B8)();
+    if (obj2 != 0) {
+        func_8001C214(obj2, (s32)&D_8019DEE0);
+        *(u16 *)(obj2 + 8)   = *(u16 *)(param_1 + 6);
+        *(u16 *)(obj2 + 0xA) = *(u16 *)(param_1 + 0xA) + 0xC0;
+        *(u16 *)(obj2 + 0xC) = *(u16 *)(param_1 + 0xE) - 0xB0;
+    }
+
+    func_8017DE00(param_1);
+    func_8012AD50((void *)param_1);
+}
+
 
 extern void func_8017E024(s32 a0);
 extern s32 func_8017E2F4(s32 a0, s32 a1);
@@ -4296,7 +4342,26 @@ void func_8017EE9C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_039/nonmatchings/ov_SC02_039_jr_8017BEBC", func_8017EED8);
+void func_8017EED8(s32 a0in) {
+    extern s32 D_8019B618[];
+    extern void func_8012B2CC(s32 a0);
+    extern s32 func_8017EF5C(s32 a0, s32 a1);
+    extern u16 D_80126B96;
+    extern s16 D_80126B98;
+    register s32 param_1 __asm__("$16");
+    register s32 s1 __asm__("$17");
+
+    param_1 = a0in;
+    s1 = D_8019B618[*(s16 *)(param_1 + 0x102)];
+    if (s1 != 0) {
+        ((void (*)(void))func_8012B2CC)();
+        if (func_8017EF5C(param_1, s1) != 0) {
+            D_80126B96 = *(u16 *)(s1 + 4);
+            D_80126B98 = *(s16 *)(s1 + 6);
+        }
+    }
+}
+
 
 #include "common.h"
 #include "/home/musashi/bfm-decomp/src/shared/engine_core.h"

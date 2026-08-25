@@ -202,7 +202,19 @@ void func_800CB518(void *arg0) {
 
 INCLUDE_ASM("asm/md_MAIN_038/nonmatchings/md_MAIN_038", func_800CB574);
 
-INCLUDE_ASM("asm/md_MAIN_038/nonmatchings/md_MAIN_038", func_800CB728);
+extern void func_800CB780(s32 param_1);
+extern void func_80146C3C(void);
+
+void func_800CB728(s32 *arg0) {
+    arg0[7] = arg0[7] + 1;
+    if (arg0[7] < 2) {
+        *(u32 *)&arg0[12] >>= 1;
+        func_800CB780((s32)arg0);
+    } else {
+        func_80146C3C();
+    }
+}
+
 
 extern signed char D_800CBBD4[];
 

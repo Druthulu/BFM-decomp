@@ -3268,7 +3268,12 @@ void func_80181688(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_801816FC);
+extern s32 func_800291B4(s32 arg);
+
+s16 func_801816FC(s32 arg) {
+    return func_800291B4((s16)arg + 0x3A) & 0xFF;
+}
+
 
 #include "common.h"
 
@@ -3392,7 +3397,31 @@ extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181AA8);
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181B04);
+void func_80181B04(s32 arg0) {
+    extern u16 D_801ED59C[];
+    extern s32 D_801ED4E4[];
+    extern void *D_801F32DC;
+    extern s32 func_80128CFC(s32 arg0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 func_80143994(s32 a0, s32 a1);
+    register s32 s0 __asm__("$16");
+    s32 flag;
+    void *mat;
+
+    __asm__("addu %0,%1,$zero" : "=r"(s0) : "r"(arg0));
+    flag = D_801ED59C[*(s16 *)(s0 + 0x10A)];
+    if (flag == 0 || func_80128CFC(flag) != 0) {
+        func_8001C214(*(s32 *)(s0 + 0x20), D_801ED4E4[*(s16 *)(s0 + 0x10A)]);
+        mat = D_801F32DC;
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) = -0x400;
+        func_8012A828(s0, mat);
+        *(s32 *)(s0 + 0x1C) = 1;
+        *(s32 *)(s0 + 0xD8) = func_80143994(s0, 0x3000);
+        *(u16 *)(s0 + 2) = *(u16 *)(s0 + 2) + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181BBC);
 
@@ -3422,7 +3451,16 @@ void func_80181C64(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181CF8);
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181D38);
+void func_80181D38(void *a0) {
+    extern void func_801439C0(u8 *a0);
+    extern void func_8012C218(void *a0);
+    u8 *ent = *(u8 **)((u8 *)a0 + 0xD8);
+    if (ent != 0) {
+        func_801439C0(ent);
+    }
+    func_8012C218(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181D7C);
 

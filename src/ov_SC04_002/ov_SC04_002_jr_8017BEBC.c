@@ -4906,7 +4906,47 @@ INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017F4E
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017F534);
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017F55C);
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017F55C; /* 0x20 bytes, align 4 */
+
+extern s32  func_80017DC4(void *a0, void *a1);
+extern void func_80017DF8(void *a0, void *a1);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80017E68(void *a0, void *a1);
+extern void func_80017168(void *a0, void *a1);
+
+void func_8017F55C(s32 a0, s32 a1)
+{
+    s32 p;
+    MTX_8017F55C mtx;
+    s16 buf[4];
+
+    p = *(s32 *)(a0 + 0x20);
+    *(s32 *)(a1 + 0x1c) = 0x50000000;
+
+    func_80017DC4((void *)(p + 0x18), &mtx);
+    func_80017DF8((void *)(p + 0x10), &mtx);
+    func_80015978(a0 + 4, (s32 *)buf);
+    func_80017E68((void *)buf, &mtx);
+    func_80017168((void *)a1, &mtx);
+
+    mtx.t[0] += *(s16 *)(a0 + 0x38);
+    mtx.t[1] += *(s16 *)(a0 + 0x3a);
+    mtx.t[2] += *(s16 *)(a0 + 0x3c);
+    func_80017168((void *)a1, &mtx);
+    func_80017E68((void *)buf, &mtx);
+
+    mtx.t[0] += *(s16 *)(a0 + 0x3e);
+    mtx.t[1] += *(s16 *)(a0 + 0x40);
+    mtx.t[2] += *(s16 *)(a0 + 0x42);
+    func_80017168((void *)a1, &mtx);
+    func_80017E68((void *)buf, &mtx);
+
+    mtx.t[0] += *(s16 *)(a0 + 0x44);
+    mtx.t[1] += *(s16 *)(a0 + 0x46);
+    mtx.t[2] += *(s16 *)(a0 + 0x48);
+    func_80017168((void *)a1, &mtx);
+}
+
 
 void func_8017F6B8(s32 a0) {
     s32 p;
@@ -10311,7 +10351,17 @@ void func_80186DD4(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8018710C);
+extern void (*D_801B511C[])(void);
+extern u8 D_801B4F44[];
+extern void func_8018739C(s32 a0, void *a1, s32 a2);
+
+void func_8018710C(void *a0) {
+    D_801B511C[*(u16 *)((s32)a0 + 0x2)]();
+    if (*(u16 *)a0 != 0) {
+        func_8018739C((s32)a0, (void *)&D_801B4F44, 0);
+    }
+}
+
 
 extern void D_801B7690;
 extern void func_8001C214(s32, s32);

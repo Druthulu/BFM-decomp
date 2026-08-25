@@ -4062,7 +4062,28 @@ void func_8017FEC8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_8017FF4C);
+struct vecr { int _m; };
+
+extern void func_8012AD80(struct vec*);
+extern void func_80180F3C(void *a0);
+extern s32 func_801809F0(s32 a0, void *a1, s32 a2, s32 a3);
+extern void func_8012C218(void *a0);
+
+void func_8017FF4C(s32 arg0) {
+    extern u8 D_801A60E8[]; /* two 0x10-byte records */
+    s32 sp10[2];
+    s32 ret;
+    s32 v1;
+
+    ((void (*)(struct vecr *))func_8012AD80)((struct vecr *)arg0);
+    ((void (*)(s32, void *, void *))func_80180F3C)(arg0, &D_801A60E8[0], &sp10);
+    ret = func_801809F0(arg0, &sp10, 1, 1);
+    v1 = ret & 0xFF;
+    if (v1 == 0x1A || v1 == 0x1C || ret == 0) {
+        func_8012C218((void *)arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_8017FFC8);
 

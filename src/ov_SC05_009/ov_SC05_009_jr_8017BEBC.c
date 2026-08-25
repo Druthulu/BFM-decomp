@@ -3281,7 +3281,36 @@ extern s32 D_80196A90;
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017D010);
+void func_8017D010(void) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8 D_80126948[];
+    extern void func_8012A018(s32 a0, s32 a1);
+    extern void func_8012A094(s32 a0);
+    extern void func_8017D1D4(void *a0);
+
+    D_80126954 = 0x190;
+    D_8012695C = 0x4B0;
+    D_80126968 = 0xE3;
+    D_8012696A = 0xA00;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x90;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017D1D4, 0);
+    func_8012A094((s32)D_80126948);
+    func_8017D1D4(D_80126948);
+}
+
 
 extern void func_8012A018(s32 a, s32 b);
 extern void func_8012A094(s32 a0);
@@ -3630,7 +3659,32 @@ s32 func_8017D950(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017D9F0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8013C9C4(void *a0);
+extern void func_80147324(s32 a0);
+extern void func_80147364(u16 a0, s32 a1);
+
+s32 func_8017D9F0(s32 param_1) {
+    extern s16 D_80182564[];
+    s32 frame_pad[2];
+    (void)&frame_pad;
+
+    *(u16 *)(param_1 + 6) = *(u16 *)(param_1 + 0xFC);
+    *(u16 *)(param_1 + 0xFC) = *(u16 *)(param_1 + 0xFC) + *(u16 *)(param_1 + 0xDE);
+    if (*(s16 *)(param_1 + 6) >= 0x1A1) {
+        func_8012C658(0x251, 0, param_1);
+        func_8012C658(0x251, 1, param_1);
+        func_8012C658(0x251, 2, param_1);
+        func_8012C658(0x251, 3, param_1);
+        func_8012C658(0x251, 4, param_1);
+        func_8013C9C4(D_80182564);
+        func_80147324(0x807);
+        func_80147364(4, 0x9D2);
+        return 1;
+    }
+    return 0;
+}
+
 
 
 extern void (*D_801825DC[])(void);
@@ -3751,7 +3805,14 @@ void func_8017DD8C(s32 *a0) {
 void func_8017DDE0(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017DDE8);
+void func_8017DDE8(s32 *a0) {
+    extern void *D_80191A54[];
+    func_80154274(a0, (s32)D_80191A54);
+    func_801477E8(a0, 0xFFFE0000);
+    func_80146DE8(a0, 0, 0, 0xFFC00000);
+    func_80171A1C((u8 *)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017DE40);
 
@@ -3986,7 +4047,44 @@ void func_8017E280(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_009/nonmatchings/ov_SC05_009_jr_8017BEBC", func_8017E2BC);
+typedef struct { s32 w[8]; } Mat32_8017E2BC;
+typedef struct { s16 a, b, c, d; } SV4_8017E2BC;
+
+void func_8017E2BC(void *a0)
+{
+    extern s32 D_800AE620;
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void RotTransSV(void *a0, void *a1, void *a2);
+
+    Mat32_8017E2BC m;
+    SV4_8017E2BC sv;
+    SV4_8017E2BC out;
+    void *mp;
+
+    m = *(Mat32_8017E2BC *)&D_800AE620;
+    mp = &m;
+
+    RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12), mp);
+
+    m.w[5] = *(s16 *)((s32)a0 + 0xFE);
+    m.w[6] = *(s16 *)((s32)a0 + 0xA);
+    m.w[7] = *(s16 *)((s32)a0 + 0x100);
+
+    func_8004914C(mp);
+    func_800491AC(mp);
+
+    sv.a = 0;
+    sv.b = 0;
+    sv.c = *(u16 *)((s32)a0 + 0xE2);
+
+    RotTransSV(&sv, &sv, &out);
+
+    *(s16 *)((s32)a0 + 0x6) = sv.a;
+    *(s16 *)((s32)a0 + 0xE) = sv.c;
+}
+
 
 extern s32 func_8012AD50(void *a0);
 extern u8 D_80193874[];

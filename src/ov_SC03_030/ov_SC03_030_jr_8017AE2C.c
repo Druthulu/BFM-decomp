@@ -4355,7 +4355,31 @@ void func_8017E2A0(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017E2C8);
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+extern u8 D_80126948[];
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8017E3F4(void *a0);
+
+void func_8017E2C8(void) {
+    D_80126954 = 500;
+    D_8012695C = 0x4B0;
+    D_80126968 = 0x238;
+    D_8012696A = 0x800;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = 0;
+    D_8012697A = 0xFF80;
+    func_8012A018((s32)func_8017E3F4, 0);
+    func_8017E3F4(&D_80126948);
+}
+
 
 void func_8017E354(void) {
     extern void func_8012A018(s32 a, s32 b);
@@ -4830,7 +4854,63 @@ void func_8017F26C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017F5D8);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern void func_8012931C(struct vec *a0);
+extern void func_801292C8();
+
+void func_8017F5D8(s32 arg0)
+{
+    register s32 s1 __asm__("$17") = arg0;
+    register s32 s0 __asm__("$16");
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+    register s32 a0 __asm__("$4");
+    register s32 a1 __asm__("$5");
+    register s32 a2 __asm__("$6");
+    register s32 zr __asm__("$0");
+
+    /* Load velocity components */
+    v0 = *(s32 *)(s1 + 0x10);
+    v1 = *(s32 *)(s1 + 0x2C);
+    a1 = *(s32 *)(s1 + 0x30);
+    a2 = *(s32 *)(s1 + 0x34);
+
+    /* Load s0 pointer from offset 0x20 */
+    s0 = *(s32 *)(s1 + 0x20);
+
+    /* Add velocity to position at 0x10 */
+    v0 = v0 + v1;
+    *(s32 *)(s1 + 0x10) = v0;
+
+    /* Load and add velocity to positions at 0x14 and 0x18 */
+    v0 = *(s32 *)(s1 + 0x14);
+    v1 = *(s32 *)(s1 + 0x18);
+    v0 = v0 + a1;
+    v1 = v1 + a2;
+    *(s32 *)(s1 + 0x14) = v0;
+    *(s32 *)(s1 + 0x18) = v1;
+
+    /* Call update function (target passes no argument registers) */
+    ((void (*)(void))func_8012931C)();
+
+    /* Opaque copy s0 -> a0 */
+    a0 = s0 + zr;
+
+    /* Call func_80128ED8 and branch on result */
+    if (func_80128ED8(a0, (s32 *)(s1 + 0x24)) != 0) {
+        ((void (*)(s32))func_801292C8)(s1);
+    } else {
+        v0 = *(s32 *)(s1 + 0x1C);
+        if (v0 != 0) {
+            v0--;
+            *(s32 *)(s1 + 0x1C) = v0;
+            if (v0 == 0) {
+                ((void (*)(s32))func_801292C8)(s1);
+            }
+        }
+    }
+}
+
 
 
 // @class: struct

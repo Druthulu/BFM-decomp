@@ -2668,7 +2668,19 @@ void func_801A505C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A5098);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_801A5098(s32 a0) {
+    s32 *v0;
+
+    v0 = *(s32 **)(((u8 *)a0) + 0x20);
+    *(s16 *)(((u8 *)v0) + 0x1C) = 0;
+    *(s16 *)(((u8 *)v0) + 0x1A) = 0;
+    *(s16 *)(((u8 *)v0) + 0x18) = 0;
+    func_8012AD44((s32 *)a0, 1);
+    func_8002D4C8(0xB58, 0);
+}
+
 
 
 extern void func_8012AD44(s32 *a0, s16 a1);

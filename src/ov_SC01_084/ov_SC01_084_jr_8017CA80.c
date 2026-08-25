@@ -3218,7 +3218,26 @@ void func_8017DA00(void) {
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017DA9C);
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017DAF8);
+void func_8017DAF8(void)
+{
+    typedef struct { s32 w[4]; } Blk16;
+    extern u8 D_80126948[];
+    extern u8 D_8011F920[];
+    Blk16 *src;
+    Blk16 *dst;
+    Blk16 *end;
+
+    dst = (Blk16 *)&D_80126948;
+    src = (Blk16 *)D_8011F920;
+    end = src + 10;
+    do {
+        *dst = *src;
+        src++;
+        dst++;
+    } while (src != end);
+    *(s32 *)dst = *(s32 *)src;
+}
+
 
 extern void func_8012A018(s32 a, s32 b);
 extern void func_8012A094(s32 a0);

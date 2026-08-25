@@ -4252,7 +4252,22 @@ void func_8017FF90(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017FFEC);
+extern void func_801292C8(void);
+extern void func_8012931C(void *);
+
+void func_8017FFEC(s32 a0) {
+    s32 s0;
+    s32 t;
+
+    s0 = a0;
+    func_8012931C((void *)a0);
+    t = *(s32 *)(s0 + 0x1C) - 1;
+    *(s32 *)(s0 + 0x1C) = t;
+    if (t == 0) {
+        ((void (*)(s32))func_801292C8)(s0);
+    }
+}
+
 
 
 #include "common.h"

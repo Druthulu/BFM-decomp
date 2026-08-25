@@ -4047,7 +4047,17 @@ void func_8017E814(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8017EA30);
+void func_8017EA30(s32 param_1) {
+    extern void func_80142414(s32 a0, s16 a1);
+    extern s32 func_8012BEE8(s32 a0);
+    if (*(s32 *)(param_1 + 0x1C) == 0xF) {
+        func_80142414(param_1, -0x90);
+    }
+    if (func_8012BEE8(param_1) != 0) {
+        *(s16 *)(param_1 + 2) = 2;
+    }
+}
+
 
 
 /* func_8017EA80 — a randomised state entry: seed the timer at 0x1C with

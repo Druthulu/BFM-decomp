@@ -2925,7 +2925,21 @@ void func_801857C4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_801855D0", func_80185874);
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_80185874(void *a0) {
+    struct B16_80185634 { s32 w[4]; };
+
+    extern struct B16_80185634 D_800A5EA8;
+    extern struct B16_80185634 D_801B6E44;
+    extern s32 D_800A5EB0;
+    D_800A5EA8 = D_801B6E44;
+    D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 6 / 4096 - 3;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(2, &D_800A5EA8);
+}
+
 
 
 /* §71 sibling-first: func_80185634 (same TU, already MATCHed) is the exact template.
@@ -2990,7 +3004,29 @@ void func_80185A80(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_801855D0", func_80185ABC);
+extern s32 func_8012AD50(void * arg0);
+
+void func_80185ABC(void *a0)
+{
+    extern u8 D_801B9AB4[];
+    extern void func_80185C9C();
+    s32 i;
+    u8 *p;
+
+    if (*(s16 *)((s32)a0 + 0xDE) != 0) {
+        func_80185C9C(a0);
+    } else {
+        i = 4;
+        p = D_801B9AB4;
+        do {
+            *p = 0;
+            p--;
+        } while (--i >= 0);
+        *(s32 *)((s32)a0 + 0x1C) = (rand() & 0x7F) + 0x40;
+        func_8012AD50(a0);
+    }
+}
+
 
 void func_80185B34(void *param_1)
 {

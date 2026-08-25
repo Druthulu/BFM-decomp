@@ -3377,7 +3377,32 @@ s32 func_8017EC2C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017EC6C);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8001BFD0(void);
+extern void func_800D0C48(s32 a0);
+extern void func_800D1E28(void);
+extern s32 func_8017FAE0(void);
+
+s32 func_8017EC6C(void *a0) {
+    s32 v0;
+    s32 v1 = -1;
+    v0 = *(s32 *)(a0 + 0x28);
+    v0 += -1;
+    *(s32 *)(a0 + 0x28) = v0;
+    if (v0 == v1) {
+        func_8002D4C8(4, 0x6CA);
+        func_8002D4C8(0x1C, 0);
+        func_8001BFD0();
+        func_8002D4C8(0x1D, 0);
+        if (func_8017FAE0() != 0) {
+            func_800D0C48(1);
+        }
+        func_800D1E28();
+        *(u8 *)(a0 + 0x15) = *(u8 *)(a0 + 0x15) + 1;
+    }
+    return 0;
+}
+
 
 
 extern void (*D_8018F070[])(void);
@@ -3802,7 +3827,14 @@ int func_8017FAB0(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017FAE0);
+s32 func_8017FAE0(void) {
+    extern s32 resLoad_lastId;
+    if (resLoad_lastId == 0x39 || resLoad_lastId == 0x3B) {
+        return 0;
+    }
+    return 1;
+}
+
 
 extern s32 resLoad_lastId;
 extern void func_8002D4C8(s32 arg0, s32 arg1);
@@ -4538,7 +4570,23 @@ void func_80181858(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80181894);
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80181A54);
+extern void func_8012CBCC(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012C218(void *a0);
+
+void func_80181A54(s32 param_1) {
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0xFC);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + *(u16 *)(param_1 + 0xFE);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) + *(u16 *)(param_1 + 0x100);
+
+    if ((((s32 (*)(s32))func_8012CBCC)(param_1) != 0) || (func_8012BEE8(param_1) != 0)) {
+        func_8012C218((void *)param_1);
+    }
+}
+
 
 
 extern void (*D_8018F49C[])(void);

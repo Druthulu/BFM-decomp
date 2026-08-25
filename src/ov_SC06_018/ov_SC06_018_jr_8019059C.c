@@ -3507,4 +3507,67 @@ void func_80191320(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8019059C", func_80191A78);
+#include "common.h"
+
+extern void func_8018D654(void *a0);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+
+void func_80191A78(s32 arg0) {
+    register s32 r __asm__("$6");
+    u16 t;
+    s32 d0;
+    s32 d1;
+    register s32 e __asm__("$6");
+
+    *(u16 *)(arg0 + 0xE8) = (*(u8 *)(arg0 + 0xC2) << 4) + 0x100;
+    switch (*(u16 *)(arg0 + 0x34)) {
+    case 0:
+        r = func_8012C658(0x318, 5, arg0);
+        if (r == 0) {
+            break;
+        }
+        *(u16 *)(*(s32 *)(r + 0x20) + 0x12) = 0xD00;
+        *(u16 *)(r + 6) = *(u16 *)(r + 6) - 0x180;
+        t = *(u16 *)(arg0 + 0x34);
+        *(s32 *)(arg0 + 0x6C) = r;
+        goto inc;
+    case 1:
+        r = func_8012C658(0x318, 6, arg0);
+        if (r == 0) {
+            break;
+        }
+        *(u16 *)(r + 6) = *(u16 *)(r + 6) + 0x30;
+        *(u16 *)(r + 0xA) = *(u16 *)(r + 0xA) - 0xF0;
+        *(u16 *)(*(s32 *)(r + 0x20) + 0x10) = 0xC00;
+        *(u16 *)(*(s32 *)(r + 0x20) + 0x12) = 0xC00;
+        t = *(u16 *)(arg0 + 0x34);
+        *(s32 *)(arg0 + 0xCC) = r;
+    inc:
+        *(u16 *)(arg0 + 0x34) = t + 1;
+        break;
+    case 2:
+        d0 = *(s16 *)&D_80126B5E - *(s16 *)(arg0 + 6) - 0xC0;
+        d1 = *(s16 *)&D_80126B66 - *(s16 *)(arg0 + 0xE);
+        if (d0 * d0 + d1 * d1 < 0x40000) {
+            *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
+            e = *(s32 *)(arg0 + 0x6C);
+            *(u16 *)(e + 0x34) = *(u16 *)(e + 0x34) + 1;
+        }
+        break;
+    case 3:
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) - 0x40;
+        if (*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12) == 0) {
+            *(u16 *)(arg0 + 0xAE) = 0;
+            *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
+            e = *(s32 *)(arg0 + 0xCC);
+            *(u16 *)(e + 0x34) = *(u16 *)(e + 0x34) + 1;
+            func_8002D4C8(0xAD5, 0);
+        }
+        break;
+    case 4:
+        break;
+    }
+    func_8018D654((void *)arg0);
+}
+

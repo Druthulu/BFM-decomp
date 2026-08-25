@@ -3406,7 +3406,26 @@ extern void func_80189E60(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80186270", func_80186EF4);
+extern void func_8002A04C(s32 a0);
+extern void func_8002AC00(s32 a0);
+extern void func_8012C098(void *param_1);
+
+void func_80186EF4(s32 a0) {
+    switch (*(u16 *)(a0 + 0x70) & 0xF) {
+    case 1:
+        func_8002AC00(0x20);
+        break;
+    case 0:
+        func_8002AC00(0x1F);
+        break;
+    case 2:
+        func_8002AC00(0x21);
+        break;
+    }
+    func_8002A04C(a0);
+    func_8012C098((void *)a0);
+}
+
 
 #include "common.h"
 
@@ -3687,7 +3706,22 @@ void func_80187320(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80186270", func_801874E4);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80186270", func_8018765C);
+s32 func_8018765C(s32 a0) {
+    s32 s1;
+    s32 s0;
+    s32 r;
+
+    s1 = a0;
+    s0 = func_8012CBA4(a0);
+    func_801876BC(s1, s0);
+    if (s0 & 0x2000) {
+        r = s0 & 0x8000;
+        return r == 0;
+    }
+    func_8012ADE4((u8 *)s1);
+    return 0;
+}
+
 
 #include "common.h"
 

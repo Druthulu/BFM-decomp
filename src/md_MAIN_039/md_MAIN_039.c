@@ -457,7 +457,12 @@ void func_800CBAAC(s32 param_1)
 
 INCLUDE_ASM("asm/md_MAIN_039/nonmatchings/md_MAIN_039", func_800CBB54);
 
-INCLUDE_ASM("asm/md_MAIN_039/nonmatchings/md_MAIN_039", func_800CBBDC);
+void func_800CBBDC(s32 a0) {
+    *(s32 *)(a0 + 4) += *(s32 *)(a0 + 0x10);
+    *(s32 *)(a0 + 8) += *(s32 *)(a0 + 0x14);
+    *(s32 *)(a0 + 0xC) += *(s32 *)(a0 + 0x18);
+}
+
 
 void func_800CBC10(void *arg0) {
     u8 *a0 = (u8 *)arg0;

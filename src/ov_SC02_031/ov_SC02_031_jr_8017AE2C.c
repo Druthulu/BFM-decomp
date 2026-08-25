@@ -6846,7 +6846,20 @@ void func_80181E88(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80181EF0);
+extern u8 D_80078EBA;
+extern u8 D_80078EB1;
+
+s32 func_80181EF0(void) {
+    register s32 m __asm__("$4");
+    register s32 c __asm__("$3");
+    m = D_80078EBA;
+    c = 4;
+    if (m == c) {
+        return (u32)(D_80078EB1 - 7) < 5;
+    }
+    return 0;
+}
+
 
 
 extern void (*D_80188E50[])(void);

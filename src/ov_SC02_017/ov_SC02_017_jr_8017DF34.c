@@ -5348,7 +5348,33 @@ void func_80182844(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018287C);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80182938);
+typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80182938;
+typedef struct { s16 a, b, c; } SV3_80182938;
+
+extern s32 *D_80126B78;
+extern u8 D_8018E61C[];
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void func_8012B260(u8 *a0);
+
+void func_80182938(void* param_1)
+{
+    u8 *obj;
+    SV3_80182938 out;
+
+    obj = *(u8 **)(param_1 + 0x20);
+
+    *(Mtx32_80182938 *)(obj + 0x34) = *(Mtx32_80182938 *)((u8 *)D_80126B78 + 0x34);
+
+    func_8012F214((s32)param_1, (s32)(D_8018E61C + *(s16 *)(param_1 + 0x70) * 8), (s32)&out);
+
+    *(s16 *)(param_1 + 0x6) = out.a;
+    *(s16 *)(param_1 + 0xa) = out.b;
+    *(s16 *)(param_1 + 0xe) = out.c;
+
+    func_8012B260(param_1);
+}
+
 
 void func_801829F4(u8 *a0, u8 *a1) {
     u16 temp[3];

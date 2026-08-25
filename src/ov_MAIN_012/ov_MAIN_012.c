@@ -1642,7 +1642,93 @@ DEFINE_func_8012E5CC()  /* dedup: shared engine-core @0x8012e5cc (src/shared) */
 DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012e688 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_8012E778);
+
+
+extern u8 D_800AF648;
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_ldlv0(r0) __asm__ volatile (                 \
+    "lhu $13, 4( %0 );"                                  \
+    "lhu $12, 0( %0 );"                                  \
+    "sll $13, $13, 16;"                                  \
+    "or $12, $12, $13;"                                  \
+    "mtc2 $12, $0;"                                      \
+    "lwc2 $1, 8( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13" )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+
+    s32 func_8012E778(param_1, param_2)
+int param_1;
+int param_2;
+{
+        MATRIX_L48 *r0;
+        int iVarX;
+        int iVarY;
+        int iVar3;
+        int iVar4;
+        int sp[6];
+        sp[0] = (int)*(short *)(param_1 + 6);
+        sp[1] = (int)*(short *)(param_1 + 10);
+        sp[2] = (int)*(short *)(param_1 + 0xe);
+        r0 = (MATRIX_L48 *)&D_800AF648;
+        gte_SetRotMatrix(r0);
+        gte_SetTransMatrix(r0);
+        gte_ldlv0((VECTOR *)sp);
+        gte_rtps();
+        gte_stsxy((long *)((int)sp + 0x10));
+        iVarX = (int)*(short *)((int)sp + 0x10);
+        iVar3 = (short)param_2;
+        if (iVarX >= 0) {
+            if (iVar3 >= iVarX) goto cy;
+            return 0;
+        }
+        if (iVar3 < -iVarX) return 0;
+    cy:
+        iVarY = (int)*(short *)((int)sp + 0x12);
+        iVar4 = param_2 >> 0x10;
+        if (iVarY >= 0) {
+            if (iVar4 >= iVarY) goto c1;
+            return 0;
+        }
+        if (iVar4 < -iVarY) return 0;
+    c1:
+        return 1;
+    }
+
 
 DEFINE_func_8012E88C()  /* dedup: shared engine-core @0x8012e88c (src/shared) */
 
@@ -2091,7 +2177,174 @@ void func_80130D0C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012", func_80130D48);
+extern s32 rand(void);
+extern u8 D_80078E78[];
+extern u16 D_80078EB2;
+extern u16 D_80078EB4;
+extern s16 D_8017E760[];
+extern s16 D_8017E790[];
+extern s16 D_8017E7F0[];
+extern s16 D_8017E7F8[];
+extern s16 D_8017E818[];
+
+void func_80130D48(s32 arg0)
+{
+    extern s32 func_80131CF4(s32);
+
+    register s16 *tbl __asm__("$16");
+    register s32 pa __asm__("$18") = arg0;
+    register u8 *p  __asm__("$19") = D_80078E78;
+    s32 s1v;
+    s32 call_a0;
+    s32 call_a1;
+    s32 cnt;
+    s32 r;
+    void *ret;
+
+    s1v = ((int (*)(int, int))func_80131CF4)(*(s32 *)((s8 *)pa + 0xBC), 0x15);
+    if (s1v == 0) {
+        return;
+    }
+
+    if (*(u8 *)((s8 *)pa + 0x5E) == 0xB) {
+        call_a0 = 0x33;
+        call_a1 = 0;
+        goto do_call;
+    }
+
+    switch (s1v & 0xFFFF0000) {
+    case 0x10000: {
+        u32 x = D_80078EB4;
+        u32 y = D_80078EB2;
+        u32 b;
+        u32 a;
+
+        s1v = 0;
+        if (x == y) {
+            s1v = 0xC;
+        } else if ((y >> 1) >= x) {
+            s1v = 3;
+        }
+
+        b = *(u16 *)(p + 0x40);
+        a = *(u16 *)(p + 0x3E);
+        if (b == a) {
+            s1v += 0x18;
+        } else if ((a >> 1) >= b) {
+            s1v += 6;
+        }
+        { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8017E790; tbl = (s16 *)(bp + v1); }
+
+        r = rand() % 100;
+        cnt = 0;
+    loop27:
+        if (r >= *tbl) {
+            cnt += 1;
+            tbl += 1;
+            if (cnt < 3) {
+                goto loop27;
+            }
+        }
+
+        s1v = 0;
+        switch (cnt) {
+        case 0:
+            tbl = D_8017E7F0;
+            s1v = 0x31;
+            break;
+        case 1: {
+            s32 mx = *(u16 *)(p + 0x3A);
+            s32 cur = *(u16 *)(p + 0x3C);
+            if (((mx * 7) / 10) >= cur) {
+                s1v = 4;
+                if ((mx / 2) >= cur) {
+                    s1v = 8;
+                    if ((mx / 5) >= cur) {
+                        s1v = 0xC;
+                    }
+                }
+            }
+            { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8017E7F8; tbl = (s16 *)(bp + v1); }
+            s1v = 0x32;
+            break;
+        }
+        case 2: {
+            s32 mx = *(u16 *)(p + 0x3E);
+            s32 cur = *(u16 *)(p + 0x40);
+            if (((mx * 7) / 10) >= cur) {
+                s1v = 4;
+                if ((mx / 2) >= cur) {
+                    s1v = 8;
+                    if ((mx / 5) >= cur) {
+                        s1v = 0xC;
+                    }
+                }
+            }
+            { register s32 v1 __asm__("$3"); register s8 *bp __asm__("$2"); v1 = s1v * 2; bp = (s8 *)D_8017E818; tbl = (s16 *)(bp + v1); }
+            s1v = 0x33;
+            break;
+        }
+        }
+
+        r = rand() % 100;
+        call_a1 = 0;
+    loop50:
+        if (r >= *tbl) {
+            call_a1 += 1;
+            tbl += 1;
+            if (call_a1 < 4) {
+                goto loop50;
+            }
+        }
+        call_a0 = s1v;
+        goto do_call;
+    }
+    case 0x20000:
+        call_a0 = 0x33;
+        call_a1 = 0;
+        goto do_call;
+    case 0x30000:
+        call_a0 = 0x31;
+        call_a1 = 0;
+        goto do_call;
+    case 0x40000:
+        call_a0 = 0x32;
+        call_a1 = 0;
+        goto do_call;
+    case 0x50000:
+        call_a0 = 0x33;
+        call_a1 = 0;
+        goto do_call;
+    case 0x60000: {
+        s32 rr = rand() & 0xFF;
+        tbl = D_8017E760;
+        if (rr >= *tbl) {
+            do {
+                tbl += 3;
+            } while (rr >= *tbl);
+        }
+        call_a0 = tbl[1];
+        if (*(u16 *)(p + 0x40) < 4U) {
+            call_a0 = 0x33;
+        }
+        call_a1 = tbl[2];
+        goto do_call;
+    }
+    case 0x70000:
+        call_a0 = 0x27B;
+        call_a1 = 0;
+        goto do_call;
+    default:
+        return;
+    }
+
+do_call:
+    ret = func_8012C658(call_a0, call_a1, pa);
+    if (ret != 0) {
+        *(u16 *)((s8 *)ret + 0xA) -= 0x20;
+    }
+}
+
 
 extern void func_8012B14C(s32 a0, s32 a1);
 extern s32 func_8012BCCC(s32 a0);

@@ -2839,7 +2839,84 @@ void func_80185144(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80184F14", func_80185180);
+extern s32 func_80029504(void);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012B2CC(s32 a0);
+extern void func_800D0C48(s32 a0);
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern s16 D_80190078;
+
+void func_80185180(s32 param_1) {
+    s32 s0;
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        if ((u32)func_80029504() >= 0x2D0) {
+            *(u16 *)(param_1 + 0xA) += 0xF00;
+            *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) &= 0x7FFFFFFF;
+            *(u16 *)(param_1 + 0x34) += 1;
+            func_800D0C48(1);
+        }
+        break;
+    case 1:
+        s0 = func_8012C658(0x265, 5, param_1);
+        if (s0 == 0) {
+            break;
+        }
+        *(s16 *)(s0 + 6) = 0x276;
+        *(s16 *)(s0 + 0xA) = -0x48;
+        *(s16 *)(s0 + 0xE) = -0x2DA;
+        func_8012B2CC(s0);
+        *(s32 *)(param_1 + 0xCC) = s0;
+        *(u16 *)(param_1 + 0x34) += 1;
+        break;
+    case 2:
+        s0 = func_8012C658(0x265, 5, param_1);
+        if (s0 == 0) {
+            break;
+        }
+        *(s16 *)(s0 + 6) = -0x26C;
+        *(s16 *)(s0 + 0xA) = -0x48;
+        *(s16 *)(s0 + 0xE) = -0x2DA;
+        func_8012B2CC(s0);
+        *(s32 *)(param_1 + 0xD0) = s0;
+        *(u16 *)(param_1 + 0x34) += 1;
+        break;
+    case 3:
+        s0 = func_8012C658(0x265, 0, param_1);
+        if (s0 == 0) {
+            break;
+        }
+        *(s16 *)(s0 + 6) = -0x15B;
+        *(s16 *)(s0 + 0xA) = -0x82;
+        *(s16 *)(s0 + 0xE) = -0x1ED;
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) = -0x600;
+        *(s32 *)(param_1 + 0x6C) = s0;
+        *(u16 *)(param_1 + 0x34) += 1;
+        break;
+    case 4:
+        s0 = func_8012C658(0x265, 6, param_1);
+        if (s0 == 0) {
+            break;
+        }
+        *(u16 *)(s0 + 0xA) -= 0x10;
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) = 0x900;
+        *(s32 *)(param_1 + 0xD8) = s0;
+        *(u16 *)(param_1 + 0x34) += 1;
+        func_80178B18(param_1, (s32)&D_80190078);
+        break;
+    case 5:
+        if (((s32 (*)(s32))func_80178970)(param_1) != 0) {
+            ((void (*)(s32))func_80178D18)(param_1);
+            *(u16 *)(param_1 + 0x34) = 0;
+            *(u16 *)(param_1 + 2) += 1;
+        }
+        break;
+    }
+}
+
 
 typedef struct {
     s16 m[3][3];

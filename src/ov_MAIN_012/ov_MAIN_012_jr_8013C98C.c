@@ -1643,7 +1643,88 @@ void func_8013DBE4(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8013C98C", func_8013DD68);
+
+
+
+
+#define IDVAL (*(u16 *)(pbase + 0xA3D2))
+#define OTE ((P_TAG_8013DD68 *)(D_800BA0E4 + IDVAL * 0x10))
+
+void func_8013DD68() {
+    extern void SetDrawEnv(void *p, void *env);
+    extern s32 D_800A5E60;
+    extern u16 D_800AF7B8;
+    extern u8 D_800AF630[];
+    extern u8 D_800BA0E4[];
+    extern s16 *D_801841AC;
+    extern s32 D_801841DC;
+    extern s32 D_801841E0;
+    extern s32 D_801841E4;
+    extern s32 D_8017ED24;
+
+    u32 *p;
+    u16 uVar1;
+    u16 *puVar16;
+    u16 *q;
+    u16 *puVar10;
+    register u16 uVar2 __asm__("$3");
+    int uVar5;
+    register int iVar14 __asm__("$7");
+    Buf_8013DD68 buf;
+    u8 *pbase;
+    u8 *base;
+
+    pbase = D_800AF630;
+    puVar16 = (*(u16 * *)&D_801841AC);
+    p = (*(u32 * *)&D_800A5E60);
+    uVar1 = *puVar16;
+    puVar16 = puVar16 + 1;
+    base = pbase + (u32)D_800AF7B8 * 0x5C;
+    buf.env = *(DrawEnv_8013DD68 *)(base + 0x38);
+    *((u8 *)&buf + 0x18) = 0;
+    SetDrawEnv(p, &buf);
+    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    iVar14 = 0;
+    if (uVar1 != 0) {
+        register int c5 __asm__("$11") = 5;
+        puVar10 = (u16 *)((int)p + 0x18);
+        q = puVar16 + 8;
+        do {
+            *(u8 *)((int)puVar10 + -0x15) = c5;
+            uVar2 = q[-6];
+            *(u8 *)((int)puVar10 + -0xd) = 100;
+            *(u8 *)((int)puVar10 + -0x10) = (u8)(*(int*)&D_801841DC);
+            *(u8 *)((int)puVar10 + -0xf) = (u8)(*(int*)&D_801841E0);
+            uVar5 = (*(int*)&D_801841E4);
+            *(u32 *)((int)puVar10 + -0x14) = uVar2 & 0x9ff | 0xe1000400;
+            *(u8 *)((int)puVar10 + -0xe) = (u8)uVar5;
+            *(u16 *)((int)puVar10 + -0xc) = q[-4];
+            iVar14 = iVar14 + 1;
+            *(u16 *)((int)puVar10 + -0xa) = q[-3];
+            *(u8 *)((int)puVar10 + -8) = (u8)*puVar16;
+            uVar2 = q[-7];
+            *(u16 *)((int)puVar10 + -6) = 0x7800;
+            *(u8 *)((int)puVar10 + -7) = (u8)uVar2;
+            puVar16 = puVar16 + 8;
+            *(u16 *)((int)puVar10 + -4) = q[-2];
+            *(u16 *)((int)puVar10 + -2) = q[-1];
+            ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+            puVar10 = puVar10 + 0xc;
+            OTE->addr = (u32)p;
+            p = p + 6;
+            q = q + 8;
+        } while (iVar14 < (int)(u32)uVar1);
+    }
+    SetDrawEnv(p, &D_8017ED24);
+    ((P_TAG_8013DD68 *)p)->addr = OTE->addr;
+    OTE->addr = (u32)p;
+    p = p + 0x10;
+    (*(u32 * *)&D_800A5E60) = p;
+    return;
+}
+
 
 
 
@@ -1979,7 +2060,58 @@ void func_8013EB7C(void) {
 DEFINE_func_8013ED6C()  /* dedup: shared engine-core @0x8013ed6c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8013C98C", func_8013EE10);
+
+
+s32 func_8013EE10() {
+    extern E4 aD80115188[] __asm__("D_80115188");
+    extern E4 D_80115168[];
+    extern unsigned short D_80115118;
+    extern short D_800B9A02;
+    extern u8 D_801151C8[];
+    extern s32 D_801151D0;
+    extern s16 D_8017F6F8;
+    extern s16 D_8017F6FA;
+    extern unsigned char D_8017F6FC;
+    extern unsigned short D_80115112;
+    extern void func_8013FAF8(s16 a0, s16 a1);
+    extern void func_801376E8(int a0, int a1);
+    extern unsigned char *func_80141CA4(void);
+
+    short i;
+    u16 *p;
+    u16 old;
+    s16 *r;
+    u16 *c;
+    s32 sp10[2];
+
+    D_801151D0 = *(s32 *)&D_801151C8[(u16)D_800B9A02 * 4];
+    func_8013FAF8(0, 5);
+    for (i = 0; i < 5; i++) {
+        s32 t = D_80115168[i].f0 * 3 >> 2;
+        aD80115188[i].f0 = t;
+        D_80115168[i].f0 = D_80115168[i].f0 - t;
+    }
+    r = &D_8017F6FA;
+    if (*r < 3) {
+        *r = *r + 1;
+    }
+    D_8017F6F8 = (u16)D_8017F6F8 + 2;
+    p = &D_80115118;
+    old = *p;
+    *p = old + 1;
+    if (old >= 5) {
+        ((void (*)(int, unsigned char *))func_801376E8)((int)func_80141CA4(), &D_8017F6FC);
+        for (i = 0; i < 5; i++) {
+            s32 *q = (s32 *)((char *)p - 8);
+            *(s32 *)((char *)&q[i] + 0x78) = 0;
+            D_80115168[i].f0 = 0;
+        }
+        c = &D_80115112;
+        *c += 1;
+    }
+    (void)sp10;
+}
+
 
 extern void func_8013FAF8(s16 a0, s16 a1);
 

@@ -3457,7 +3457,47 @@ u32 func_8017D5F4(s16 *param_1, s16 *param_2, s16 *param_3) {
 
 INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017D6AC);
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017D764);
+extern u16 D_80126CAC;
+extern u16 D_8018479C[];
+extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
+
+void func_8017D764(s32 a0) {
+    s16 dist;
+    s16 d;
+    s16 vol;
+
+    dist = *(u16 *)(a0 + 0x6) - D_80126CAC;
+    if (dist < 0) {
+        dist = -dist;
+    }
+
+    if (dist >= 0x801) {
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 0x4) |= 0x80000000;
+    } else {
+        *(u32 *)(*(s32 *)(a0 + 0x20) + 0x4) &= 0x7FFFFFFF;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) += D_8018479C[*(s16 *)(a0 + 0x70)];
+    }
+
+    d = dist - 0x140;
+    if (d < 0) {
+        vol = 0x7F;
+    } else if (d >= 0x200) {
+        vol = 0;
+    } else {
+        vol = 0x7F - (d >> 2);
+    }
+
+    if (vol == 0) {
+        if (*(s16 *)(a0 + 0x84) != 0) {
+            func_8002D59C(4, 0x6DD, *(u16 *)(a0 + 0x70));
+            *(s16 *)(a0 + 0x84) = 0;
+        }
+    } else {
+        func_8002D59C(0x6DD, vol | 0x1000, *(u16 *)(a0 + 0x70));
+        *(s16 *)(a0 + 0x84) = 1;
+    }
+}
+
 
 
 // @class: struct

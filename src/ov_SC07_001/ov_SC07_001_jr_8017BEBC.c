@@ -4264,7 +4264,90 @@ INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017ED5
 
 INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017EDC0);
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017EF30);
+
+
+
+
+
+#define gte_SetRotMatrix(r0) __asm__ __volatile__ ( \
+    "lw $12, 0( %0 );"   \
+    "lw $13, 4( %0 );"   \
+    "ctc2 $12, $0;"      \
+    "ctc2 $13, $1;"      \
+    "lw $12, 8( %0 );"   \
+    "lw $13, 12( %0 );"  \
+    "lw $14, 16( %0 );"  \
+    "ctc2 $12, $2;"      \
+    "ctc2 $13, $3;"      \
+    "ctc2 $14, $4"       \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ __volatile__ ( \
+    "lw $12, 20( %0 );"  \
+    "lw $13, 24( %0 );"  \
+    "ctc2 $12, $5;"      \
+    "lw $14, 28( %0 );"  \
+    "ctc2 $13, $6;"      \
+    "ctc2 $14, $7"       \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+
+extern s16 D_80185034[];
+extern void func_8012EC04(s32 a0, s32 a1, void *a2);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32 func_8012913C(s32 a0);
+extern s32 func_8012C51C(void *a0, s32 a1, s32 a2);
+extern s32 rand(void);
+
+void func_8017EF30(s32 arg)
+{
+    s32 mat[8];
+    volatile u16 sv[4];
+    u16 arr[10];
+    s32 flag;
+    s16 *p;
+    s32 i;
+    s32 j;
+    s32 hit;
+    s32 q;
+    s32 r;
+    register s32 t __asm__("$6");
+
+    p = D_80185034;
+    arr[3] = 0x3A7;
+    arr[4] = 0;
+    arr[5] = 0;
+    *(s32 *)&arr[8] = 0;
+    arr[7] = 0;
+    arr[6] = 0x7FFF;
+
+    for (i = 0; i < 4; i++) {
+        func_8012EC04((s32)arg, p[3], mat);
+        gte_SetRotMatrix(mat);
+        gte_SetTransMatrix(mat);
+
+        for (j = 0; j < 3; j++, p += 4) {
+            RotTransSV(p, sv, &flag);
+
+            hit = func_8012913C(0x22);
+            if (hit != 0) {
+                *(u16 *)(hit + 6) = sv[0];
+                *(u16 *)(hit + 0xA) = sv[1];
+                *(u16 *)(hit + 0xE) = sv[2];
+                q = rand();
+                r = rand();
+                *(u16 *)(hit + 0x34) =
+                    (((q % 0x2000) + 0x5000) & ~0xF) | (r % 3);
+            }
+
+            arr[0] = sv[0];
+            arr[1] = sv[1];
+            t = sv[2];
+            arr[2] = t;
+            func_8012C51C(arr, (s32)arg, t);
+        }
+    }
+}
+
 
 extern void func_8012CC64(s32 a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);

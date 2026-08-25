@@ -8154,7 +8154,12 @@ extern void func_8002AC00(s32 arg0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801843CC);
+void func_801843CC(u8 *a0) {
+    M2C_FIELD(a0, u8 *, 0xC1) = 0;
+    M2C_FIELD(a0, s16 *, 0x5E) = 0;
+    M2C_FIELD(a0, u16 *, 0x5C) = 0xA810;
+}
+
 
 void func_801843E0(s32 a0) {
     extern s32 func_8012C354(s32 a0, s32 a1);

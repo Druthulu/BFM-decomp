@@ -3189,7 +3189,23 @@ void func_8017CD9C(void)
 
 INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017CDE4);
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017CE2C);
+#include "common.h"
+
+extern void func_8002931C(s32);
+extern u16 D_801845D8[];
+extern u16 D_80184650[];
+extern u8 *D_801274C8;
+extern void *D_801274CC;
+extern s32 func_8017DA88(s32);
+
+void func_8017CE2C(void)
+{
+    func_8002931C(0x1A40000);
+    D_801274C8 = (u8 *)&D_801845D8;
+    D_801274CC = (void *)&D_80184650;
+    func_8017DA88(2);
+}
+
 
 extern void func_8002931C(s32);
 extern s32 D_801ABBF4;
@@ -3759,7 +3775,59 @@ void func_8017DDD8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017DE14);
+extern void *func_80010A08(s32 a0);
+extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32 AddPrim(s32 a0, void *a1);
+extern s32 D_800A651C;
+extern s16 D_800B9A02;
+
+s32 func_8017DE14(s32 a0)
+{
+    u8 *p;
+    s32 ot;
+    s32 tp;
+    register s32 c1 __asm__("$3");
+
+    ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14));
+
+    p = (u8 *)func_80010A08(0x30);
+    if (p != 0) {
+        tp = GetTPage(0, 1, 0, 0);
+        func_8005A600((s32)p, 0, 0, (u16)tp, 0);
+
+        /* r0,r1,r2,r3 then g0..g3 then b0..b3 -- one load each */
+        *(u8 *)(p + 0x10) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x18) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x20) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x28) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x11) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x19) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x21) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x29) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x12) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x1A) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x22) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x2A) = *(s32 *)((u8 *)a0 + 0x1C);
+
+        *(u8 *)(p + 0xF) = 8;      /* tag len  */
+        *(u8 *)(p + 0x13) = 0x3A;  /* code     */
+
+        *(s16 *)(p + 0x1C) = 0xA0;   /* x1 */
+        *(s16 *)(p + 0x2C) = 0xA0;   /* x3 */
+        *(s16 *)(p + 0x16) = -0x78;  /* y0 */
+        *(s16 *)(p + 0x1E) = -0x78;  /* y1 */
+        c1 = -0xA0;
+        *(s16 *)(p + 0x14) = c1;     /* x0 */
+        *(s16 *)(p + 0x24) = c1;     /* x2 */
+        *(s16 *)(p + 0x26) = 0x78;   /* y2 */
+        *(s16 *)(p + 0x2E) = 0x78;   /* y3 */
+
+        AddPrim(ot, p + 0xC);
+        AddPrim(ot, p);
+    }
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_8017DE14(s32 a0);
@@ -4875,7 +4943,36 @@ void func_8017FE34(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017FEB4);
+#include "common.h"
+
+extern s32 D_801A0874[];
+extern s32 func_8012C044(s32 arg0);
+extern void func_8002AC00(s32 arg0);
+extern void func_8012C098(void *arg0);
+
+void func_8017FEB4(s32 arg0) {
+    void (*handler)(s32);
+    register u8 val __asm__("$3");
+
+    handler = (void (*)(s32))D_801A0874[((u16 *)arg0)[1]];
+    handler(arg0);
+
+    if (((u16 *)arg0)[0] == 0)
+        return;
+
+    if (func_8012C044(arg0) == 0)
+        return;
+
+    *(u16 *)(arg0 + 0x100) = 1;
+
+    val = ((u8 *)arg0)[0xC1];
+    if (val == 5 || val == 0xD || val == 0xB || val == 0xE) {
+        func_8002AC00(0x7);
+    }
+
+    func_8012C098((void *)arg0);
+}
+
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
     void func_8017FF58(void) {

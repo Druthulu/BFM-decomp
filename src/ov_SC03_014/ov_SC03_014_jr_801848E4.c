@@ -4734,7 +4734,29 @@ DEFINE_func_801892DC()  /* dedup: shared engine-core @0x801892DC (src/shared) */
 DEFINE_func_801892E4()  /* dedup: shared engine-core @0x801892E4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80189310);
+extern void func_80188B94(void*);
+extern int func_80178970(void);
+
+void func_80189310(s32 *a0) {
+    if (*(u16 *)((s32)a0 + 0x34) == 0) {
+        func_8012AD80((s32)a0);
+        if (func_8012BEE8((s32)a0) != 0) {
+            *(u16 *)((s32)a0 + 0x100) = 0x80;
+            *(s32 *)((s32)a0 + 0x1C) = 0x30;
+            (*(u16 *)((s32)a0 + 0x34))++;
+            func_80188F18(a0);
+        }
+    } else {
+        if (func_8012BEE8((s32)a0) != 0) {
+            ((void (*)(s32))func_80188B94)((s32)a0);
+        } else {
+            func_80188F28((s32)a0);
+        }
+    }
+    ((int (*)(s32))func_80178970)((s32)a0);
+    func_8018B128();
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_801893BC);
 
@@ -4762,7 +4784,49 @@ void func_80189630(void *param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80189680);
+#include "common.h"
+
+extern void func_8001CD9C(s32, void *);
+extern void func_800233CC(void *, u16);
+
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
+
+extern u8 D_801EAC94;
+extern Block4 D_801E94F4;
+extern Block4 D_801EAC98;
+
+void func_80189680(s32 a0) {
+    register u8 *s0 __asm__("$16");
+    register s32 *s1 __asm__("$17");
+    s32 *v1;
+    s32 *a0_ptr;
+    s8 pad[32];  /* Force larger stack frame */
+
+    s1 = (s32 *)a0;
+    s0 = &D_801EAC94;
+
+    func_8001CD9C(s1[8], s0);
+
+    func_800233CC(s0, 0x80);
+
+    *(Block4 *)s0 = D_801E94F4;
+
+    D_801EAC98 = D_801E94F4;
+
+    v1 = s1[8];
+    *(s16 *)((s8 *)v1 + 0x18) = 0x800;
+
+    v1 = s1[8];
+    *(s16 *)((s8 *)v1 + 0x1A) = 0x1000;
+
+    a0_ptr = s1[8];
+    *(s32 *)((s8 *)a0_ptr + 0x4) |= 0x50000000;
+
+    *(s16 *)((s8 *)s1 + 0x2) = 1;
+
+    (void)pad;
+}
+
 
 extern u8 D_801EAC94;
 extern u8 D_801EAC95;

@@ -4362,7 +4362,31 @@ void func_8017F298(void *a0, u16 a1, u16 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017F2D8);
+extern void func_800599B8(u16 *, s32 *);
+
+void func_8017F2D8(s32 *a0, u16 a1, u16 a2) {
+    s32 t;
+    s32 i;
+    u16 buf[4];
+
+    t = a0[7];
+
+    i = 7;
+    do {
+        a0[i] = a0[i - 1];
+        i--;
+    } while (i > 0);
+
+    a0[i] = t;
+
+    buf[2] = 0x10;
+    buf[0] = a1;
+    buf[1] = a2;
+    buf[3] = 1;
+
+    func_800599B8(buf, a0);
+}
+
 
 typedef struct { u8 b[4]; } Blk4;
 
@@ -4796,7 +4820,34 @@ void func_801804DC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80180518);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80180558);
+extern s32 rand(void);
+extern u16 D_800B99DA;
+extern u8 *func_801290DC(s32 arg0, u8 *arg1);
+
+void func_80180558(s32 param_1)
+{
+    u16 sp10[3];
+    s32 i;
+    s32 r;
+
+    if ((D_800B99DA & 3) == 0) {
+        sp10[1] = *(u16 *)(param_1 + 0xA);
+        for (i = 0; i < 2; i++) {
+            r = rand();
+            {
+                register s32 t __asm__("$3") = *(u16 *)(param_1 + 6) - 0x20;
+                sp10[0] = t + (r & 0x3F);
+            }
+            r = rand();
+            {
+                register s32 u __asm__("$3") = *(u16 *)(param_1 + 0xE) - 0x20;
+                sp10[2] = u + (r & 0x3F);
+            }
+            func_801290DC(0x66, (u8 *)sp10);
+        }
+    }
+}
+
 
 
 extern void (*D_80188818[])(void);

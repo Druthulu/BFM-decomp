@@ -4573,7 +4573,34 @@ void func_8017FA1C(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017FAFC);
+extern s32 D_8018DA74;
+
+void func_8017FAFC(s32 arg0) {
+    s32 v;
+
+    switch (*(s16 *)((u8 *)arg0 + 0x70)) {
+    case 0:
+        v = 0x1A;
+        break;
+    case 1:
+        func_8013C9C4(&D_8018DA74);
+        func_8002D4C8(0x950, 0);
+        /* fall through */
+    case 2:
+        v = 0x6918;
+        *(u16 *)((u8 *)arg0 + 0xAE) = v;
+        v = 0x8000;
+        *(u16 *)((u8 *)arg0 + 0x5C) = v;
+        v = 2;
+        break;
+    default:
+        goto tail;
+    }
+    *(s32 *)((u8 *)arg0 + 0x1C) = v;
+tail:
+    func_8012AD44((s32 *)arg0, 3);
+}
+
 
 #include "common.h"
 

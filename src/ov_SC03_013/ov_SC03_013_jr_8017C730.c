@@ -4824,7 +4824,27 @@ void func_80180E00(s32 *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017C730", func_80180E4C);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+
+void func_80180E4C(void *a0)
+{
+    s32 result;
+
+    func_8012B0B4((unsigned int *)&result, *(int *)((s32)a0 + 0xDC), 0xF3);
+
+    *(s32 *)((s32)a0 + 0x8) = result;
+    *(s16 *)((s32)a0 + 0xA) += *(s16 *)((s32)a0 + 0xE2);
+    *(s32 *)((s32)a0 + 0xDC) += 0x18;
+
+    if (*(s32 *)((s32)a0 + 0xDC) < 0x1000) {
+        return;
+    }
+
+    *(s16 *)((s32)a0 + 0x34) = 1;
+    *(s16 *)((s32)a0 + 0x2) = 1;
+    *(s32 *)((s32)a0 + 0x1C) = 0x1E;
+}
+
 
 void func_80180EC0(s32 a0)
 {

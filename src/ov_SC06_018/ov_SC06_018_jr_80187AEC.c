@@ -5711,7 +5711,69 @@ void func_8018C090(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018C190);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
+extern u8 D_801CD4C8[];
+
+struct Fr_8018C190 {
+    s16 mtx[10];   /* sp+0x10, only its address is used (func_80049CAC out) */
+    s32 pos[3];    /* sp+0x24 */
+    s16 sv[4];     /* sp+0x30 (RotTransSV out) */
+    s16 sv2[4];    /* sp+0x38 (unused, layout filler) */
+    s16 buf40[4];  /* sp+0x40 (func_8012F038 out) */
+    s16 rot[4];    /* sp+0x48 */
+    s32 flg[4];    /* sp+0x50 (RotTransSV flag out) */
+};
+
+void func_8018C190(s32 param_1) {
+    struct Fr_8018C190 fr;
+    s32 dx, dy, dz;
+    s32 ang;
+    s32 r1, r2, r3;
+    s32 t;
+
+    func_8004914C((void *)(*(s32 *)(param_1 + 0x20) + 0x34));
+    func_800491AC((void *)(*(s32 *)(param_1 + 0x20) + 0x34));
+    RotTransSV(D_801CD4C8, fr.sv, fr.flg);
+
+    dz = *(s16 *)(param_1 + 0xE4) - (s16)fr.sv[2];
+    dx = *(s16 *)(param_1 + 0xE0) - (s16)fr.sv[0];
+    dy = *(s16 *)(param_1 + 0xE2) - (s16)fr.sv[1];
+
+    ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
+    t &= 0xFFFF;
+    t |= ang << 16;
+
+    r1 = func_80047948(ang);
+    r2 = func_8004787C(ang);
+    dz = (dz * r1 + dx * r2) >> 12;
+    r3 = ratan2(dy, -dz);
+    t &= 0xFFFF0000;
+    t |= r3 & 0xFFFF;
+    fr.flg[2] = t;
+
+    fr.rot[0] = t;
+    fr.rot[1] = t >> 16;
+    fr.rot[2] = 0;
+    ((void (*)(void *, void *))func_80049CAC)(fr.rot, fr.mtx);
+
+    fr.pos[0] = fr.sv[0];
+    fr.pos[1] = fr.sv[1];
+    fr.pos[2] = fr.sv[2];
+
+    func_8004914C((void *)(*(s32 *)(param_1 + 0x20) + 0x34));
+    func_800491AC((void *)(*(s32 *)(param_1 + 0x20) + 0x34));
+    func_8012F038(*(s32 *)(param_1 + 0x20) + 0x34, (short *)(param_1 + 0xE0), fr.buf40);
+
+    *(s16 *)(param_1 + 0xFE) = -fr.buf40[2];
+}
+
 
 
 

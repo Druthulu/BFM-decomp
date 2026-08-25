@@ -3897,7 +3897,33 @@ void func_8018106C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017F210", func_801810EC);
+void func_801810EC(void *a0)
+{
+    extern void func_8012BE54(s32 a0);
+    extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+    extern s32 rand(void);
+
+    s32 e = (s32)a0;
+    s32 o;
+    s32 r;
+    s32 st;
+
+    if (((s32 (*)(s32))func_8012BE54)(e) > 0x23FFFF) {
+        return;
+    }
+    if (--*(s32 *)(e + 0x1C) != 0) {
+        return;
+    }
+
+    o = func_8012C658(0x1EA, 0xF, e);
+    r = rand() & 0x1F;
+    st = *(s16 *)(e + 0x70);
+    *(s32 *)(e + 0x1C) = r + 0x2D;
+    if (st == 0x18 && o != 0) {
+        *(u16 *)(*(s32 *)(o + 0x20) + 0x12) = 0x400;
+    }
+}
+
 
 
 extern int func_8012C658(int arg0, int arg1, int arg2);

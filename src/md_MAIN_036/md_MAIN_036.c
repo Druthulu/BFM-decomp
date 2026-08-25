@@ -213,7 +213,15 @@ void func_800CB570(int param_1)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CB5A8);
+extern s32 D_80126B58[];
+extern void func_80162CCC(void);
+extern s32 func_80165A20(s32 a0);
+
+void func_800CB5A8(void) {
+    func_80162CCC();
+    func_80165A20((s32)&D_80126B58);
+}
+
 
 
 extern void func_800CB774(void);

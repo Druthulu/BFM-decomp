@@ -12605,7 +12605,33 @@ s32 func_80189E88(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A05C);
+#include "common.h"
+
+extern void func_8002A04C(s32 a0);
+extern void func_8002AC00(s32 arg0);
+extern void func_8012C218(void *a0);
+
+void func_8018A05C(s32 a0)
+{
+    s32 v1;
+
+    if (*(short *)((char *)a0 + 0x102) == 0) {
+        func_8002A04C((s32)a0);
+        if (*(unsigned char *)((char *)a0 + 0xC1) == 0xE) {
+            func_8002AC00(0xB);
+        }
+    }
+
+    if (!((*(short *)((char *)a0 + 0x70) & 0x8000))) {
+        v1 = *(s32 *)((char *)a0 + 0x68);
+        if (v1 != 0 && ((*(short *)((char *)a0 + 0x72) & 0x8000))) {
+            *(unsigned short *)(v1 + 0xA) = *(unsigned short *)(v1 + 0xA) & 0x7FFF;
+        }
+    }
+
+    func_8012C218(a0);
+}
+
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
     void func_8018A100(void) {

@@ -26,9 +26,32 @@ s32 func_800CAE78(u8 *a0)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_016/nonmatchings/md_MAIN_016", func_800CAE8C);
+extern s32 func_80165910(void);
+extern void func_801655E4(s32 a0);
+extern s32 func_80146A6C(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
-INCLUDE_ASM("asm/md_MAIN_016/nonmatchings/md_MAIN_016", func_800CAEF4);
+s32 func_800CAE8C(s32 arg0)
+{
+    s32 v;
+    if (func_80165910() == 0) {
+        func_801655E4(arg0);
+    }
+    func_80146A6C(0x4B, arg0, 0, 0, 0, 0, 0);
+    v = *(u8 *)((s32)arg0 + 0x197) + 1;
+    *(u8 *)((s32)arg0 + 0x197) = v;
+    return v;
+}
+
+
+extern s32 D_80078EC8;
+extern void func_80165A20(void);
+
+void func_800CAEF4(void) {
+    if (D_80078EC8 == 0) {
+        func_80165A20();
+    }
+}
+
 
 void func_800CAF20(void) {
 }

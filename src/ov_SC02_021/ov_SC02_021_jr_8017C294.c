@@ -3678,7 +3678,19 @@ void func_8017E8CC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017E908);
+u8 *func_8017E908(void) {
+    extern u8 D_80192D28[];
+    s32 a0;
+    s32 v1;
+    v1 = (s32)D_80192D28;
+    for (a0 = 0; a0 < 0x20; a0++, v1 += 0x40) {
+        if (*(u8 *)(v1 + 3) == 0) {
+            return (u8 *)v1;
+        }
+    }
+    return 0;
+}
+
 
 typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
 extern Block4 D_80191968;

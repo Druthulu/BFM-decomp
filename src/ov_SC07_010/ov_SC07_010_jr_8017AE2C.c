@@ -5601,7 +5601,61 @@ void func_801808F0(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80180944);
+
+
+
+void func_80180944(s32 param_1)
+{
+    extern s32 rand(void);
+    extern s32 D_801A9254;
+    extern s32 D_801A9258;
+    extern s32 D_801A925C;
+    extern s32 D_801A9264;
+    extern s32 D_801A9268;
+    extern s32 D_801A926C;
+    extern s32 D_801A9274;
+    extern s32 D_801A9278;
+    extern s32 D_801A927C;
+    SV4_L_8017C294 vec;   /* sp+0x10 */
+    MTX_L_8017C294 mtx;   /* sp+0x18 */
+    s32 prim;
+    s32 mode;
+    s32 code;
+    s32 hi;
+    s32 val;
+
+    if ((rand() & 0xF) != 0) {
+        mode = 0x40000000;
+    } else {
+        mode = 0x50000000;
+    }
+    prim = *(s32 *)(param_1 + 0x20);
+    code = *(s32 *)(prim + 4) & 0xCFFFFFFF;
+    hi = 0x40000000;
+    *(s32 *)(prim + 4) = code | (mode | hi);
+    val = *(u16 *)(param_1 + 0x108) + 0x80;
+    *(u16 *)(param_1 + 0x108) = val;
+    vec.a = val;
+    val = *(u16 *)(param_1 + 0x10A) + 0x100;
+    *(u16 *)(param_1 + 0x10A) = val;
+    vec.b = val;
+    vec.c = 0;
+    RotMatrixYXZ(&vec, &mtx);
+    vec.b = 0;
+    vec.a = 0;
+    vec.c = 0x200;
+    ApplyMatrixSV(&mtx, &vec, &vec);
+    D_801A9274 = vec.a;
+    D_801A9264 = vec.a;
+    D_801A9254 = vec.a;
+    D_801A9278 = vec.b;
+    D_801A9268 = vec.b;
+    D_801A9258 = vec.b;
+    D_801A927C = vec.c;
+    D_801A926C = vec.c;
+    D_801A925C = vec.c;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80180A50);
 

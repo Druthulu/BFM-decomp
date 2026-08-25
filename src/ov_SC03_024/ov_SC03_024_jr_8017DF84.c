@@ -5949,7 +5949,29 @@ void func_80182EE8(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80182F48);
+extern u8 D_801C135C;
+extern u8 D_801C135D;
+extern u8 D_801C135E;
+
+void func_80182F48(void *arg0) {
+    s16 *p;
+    u8 *q;
+
+    p = *(s16 **)((s32)arg0 + 0x20);
+    if (*(s16 *)((s32)p + 0x18) > 0x800) {
+        *(s16 *)((s32)p + 0x18) = *(s16 *)((s32)p + 0x18) - 0x200;
+    }
+    if (*(s16 *)((s32)p + 0x1A) > 0x800) {
+        *(s16 *)((s32)p + 0x1A) = *(s16 *)((s32)p + 0x1A) - 0x200;
+    }
+    q = &D_801C135D;
+    if (*q > 0xC0) {
+        *q = *q - 4;
+        D_801C135C = D_801C135C - 6;
+        D_801C135E = D_801C135E - 6;
+    }
+}
+
 
 extern u8 D_801C135C;
 extern u8 D_801C135D;

@@ -7204,7 +7204,17 @@ extern s32 func_80180F84(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_801829A0);
+extern s32 func_80180F84(void);
+extern void func_80147060(u8 *a0);
+extern void func_80171928(void *a0);
+
+void func_801829A0(s32 a0) {
+    if (func_80180F84() == 0xA) {
+        func_80147060((u8 *)a0);
+        func_80171928((void *)a0);
+    }
+}
+
 
 
 extern s32 func_80180F84(void);

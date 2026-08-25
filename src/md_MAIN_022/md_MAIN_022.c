@@ -32,7 +32,20 @@ void func_800CAEB0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_022/nonmatchings/md_MAIN_022", func_800CAEE8);
+extern void func_8014B2F8(void);
+extern s32 func_80146994(s32, s32, s32, s32);
+extern void func_80147324(s32 arg0);
+extern void func_801599A4(void *a0);
+extern void func_80159B3C(void *a0);
+
+void func_800CAEE8(void *a0) {
+    func_8014B2F8();
+    func_80146994(0x41, (s32)a0, 0, 0);
+    func_80147324(0x836);
+    func_801599A4(a0);
+    func_80159B3C(a0);
+}
+
 
 void func_800CAF3C(void) {
 }

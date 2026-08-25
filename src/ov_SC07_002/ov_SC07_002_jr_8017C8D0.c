@@ -4706,7 +4706,28 @@ void func_8017FE78(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017FEC4);
+void func_8017FEC4(s32 s0) {
+    typedef struct { s16 vx, vy, vz, pad; } SVfec4;
+    extern SVfec4 D_80126940;
+    extern s32 func_8012E544(s32 a0);
+    extern void func_80015978(s32 a0, s32 *a1);
+    extern s32 ratan2(s32 dx, s32 dy);
+    extern void func_80181394();
+
+    SVfec4 base;
+    SVfec4 target;
+    s32 ret;
+
+    base = D_80126940;
+    ret = func_8012E544(0x322);
+    if (ret != 0) {
+        func_80015978(ret + 4, (s32 *)&target);
+    } else {
+        target = D_80126940;
+    }
+    func_80181394(s0, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
+}
+
 
 void func_8017FF84(s32 s1) {
     typedef struct { s16 vx, vy, vz, pad; } SVff84;

@@ -4719,7 +4719,50 @@ void func_8017F6B0(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017F6F4);
+ /* stripped at substitution time */
+
+extern Blk20 D_800AE620;
+extern void RotMatrixY(s32 a0, void *a1);
+extern s32 func_8012C588(s32 a0, s32 a1);
+
+s32 func_8017F6F4(s32 a0)
+{
+    s16 *s1;
+    s16 rv[4];
+    s16 vec[4];
+    Blk20 m;
+    s16 out[4];
+
+    s1 = (s16 *)func_8012C588(0x239, a0);
+    if (s1 != 0) {
+        m = D_800AE620;
+
+        vec[2] = 0x1800;
+        vec[1] = 0x1800;
+        vec[0] = 0x1800;
+
+        RotMatrixY(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), &m);
+
+        func_80020F34((s32)&m, (s32)vec);
+
+        func_8004914C(&m);
+
+        func_800491AC((void *)(*(s32 *)(a0 + 0x20) + 0x34));
+
+        rv[1] = -0x200;
+        rv[0] = 0;
+        rv[2] = -0x48;
+        RotTransSV(rv, rv, out);
+
+        *(u16 *)((u8 *)s1 + 0x6) = *(u16 *)&rv[0];
+        *(u16 *)((u8 *)s1 + 0xA) = *(u16 *)&rv[1];
+        *(u16 *)((u8 *)s1 + 0xE) = *(u16 *)&rv[2];
+
+        *(s32 *)(a0 + 0xCC) = (s32)s1;
+    }
+    return s1;
+}
+
 
 extern void func_8012A8B0(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);

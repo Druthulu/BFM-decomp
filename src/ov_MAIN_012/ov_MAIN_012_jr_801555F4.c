@@ -2303,7 +2303,21 @@ void func_801577C8(s32 *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_801555F4", func_80157808);
+extern void func_801599A4(void *a0);
+extern void func_80159B3C(void *a0);
+
+void func_80157808(s32 *a0)
+{
+    extern void (*D_8018068C[])(void);
+    extern s32 D_80184280;
+    D_8018068C[*(unsigned short *)((char *)a0 + 2)]();
+    D_80184280 = D_80184280 - 1;
+    if (D_80184280 == -1) {
+        func_801599A4(a0);
+        func_80159B3C(a0);
+    }
+}
+
 
 DEFINE_func_80157880()  /* dedup: shared engine-core @0x80157880 (src/shared) */
 
@@ -2731,7 +2745,82 @@ void func_80158880(s32 *param) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_801555F4", func_801588CC);
+
+
+void func_801588CC(int param_1) {
+
+    extern void (*D_80180720[])(void);
+    extern s32 D_80184288;
+    extern s32 D_8018428C;
+    extern s32 D_80184290;
+    extern s32 D_80184294;
+    extern s32 D_80184298;
+    extern int func_800D0CA0(int);
+    extern int func_8001AAA0(int);
+    extern int SsGetMute(void);
+    extern s32 func_80159464(void);
+    short sVar1;
+
+    D_80180720[*(unsigned short *)(param_1 + 2)]();
+    switch (D_80184288) {
+    case 0:
+        break;
+    case 1:
+        func_800D0CA0(2);
+        D_80184290 = 0;
+        D_8018428C = 0x46;
+        D_80184288 += 1;
+        break;
+    case 2:
+        if (D_8018428C == 0) {
+            if (SsGetMute() == 0) {
+                D_80184288 += 1;
+            }
+        } else {
+            D_8018428C -= 1;
+        }
+        break;
+    case 3:
+        if (func_8001AAA0(0x83) != 0) {
+            D_80184288 += 1;
+        }
+        break;
+    case 4:
+        D_80184294 = 0;
+        sVar1 = ((int (*)(int))func_80159464)(param_1);
+        if (sVar1 != 0) {
+            D_8018428C = 0xd2;
+        } else {
+            D_8018428C = 1;
+        }
+        break;
+    case 5:
+        D_8018428C -= 1;
+        if (D_8018428C == -1 || D_80184298 != 0) {
+            D_8018428C = 0;
+            D_80184288 += 1;
+        }
+        break;
+    case 6:
+        func_800D0CA0(1);
+        D_8018428C = 0x28;
+        D_80184288 += 1;
+        break;
+    case 7:
+        if (D_8018428C == 0) {
+            if (SsGetMute() == 0) {
+                D_80184288 += 1;
+            }
+        } else {
+            D_8018428C -= 1;
+        }
+        break;
+    case 8:
+        D_80184290 = 1;
+        break;
+    }
+}
+
 
 DEFINE_func_80158AB4()  /* dedup: shared engine-core @0x80158ab4 (src/shared) */
 

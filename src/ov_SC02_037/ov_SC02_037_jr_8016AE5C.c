@@ -3324,7 +3324,34 @@ s32 func_8016BBE0(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8016AE5C", func_8016BCC0);
+extern void func_80146E90(s32 *a0, s32 a1);
+M2C_UNK func_8016BF50();                            /* extern */
+extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
+extern M2C_UNK D_801C8AEC;
+extern M2C_UNK D_801C8AF0;
+
+void func_8016BCC0(void *arg0) {
+    u16 temp_a2;
+    u16 temp_v0;
+    void *temp_s0;
+
+    temp_s0 = M2C_FIELD(arg0, void **, 0x20);
+    func_8016BF50();
+    temp_a2 = M2C_FIELD(arg0, u16 *, 0x10) + 0x60;
+    M2C_FIELD(arg0, u16 *, 0x10) = temp_a2;
+    temp_v0 = M2C_FIELD(temp_s0, u16 *, 0x1A) + temp_a2;
+    M2C_FIELD(temp_s0, u16 *, 0x1A) = temp_v0;
+    M2C_FIELD(temp_s0, u16 *, 0x18) = temp_v0;
+    M2C_FIELD(temp_s0, u16 *, 0x12) = (u16) ((M2C_FIELD(temp_s0, u16 *, 0x12) + 0x71) & 0xFFF);
+    func_8016BFA8(arg0, &D_801C8AEC, &D_801C8AF0, temp_s0 + 0x18);
+    if ((s16) M2C_FIELD(temp_s0, u16 *, 0x1A) >= 0x1001) {
+        M2C_FIELD(temp_s0, u16 *, 0x18) = 0x1000U;
+        M2C_FIELD(temp_s0, u16 *, 0x1A) = 0x1000U;
+        func_80146E90(arg0, M2C_FIELD(arg0, s32 *, 0x30));
+        M2C_FIELD(arg0, u16 *, 2) = (u16) (M2C_FIELD(arg0, u16 *, 2) + 1);
+    }
+}
+
 
 extern s32 func_8016BF50(s32);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -4003,7 +4030,100 @@ void func_8016D19C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8016AE5C", func_8016D1D8);
+
+
+
+extern void func_801465C0(void);
+extern void func_800233CC(void*, unsigned short);
+extern void func_8001CD9C(int, void*);
+extern void func_80147324(int a);
+extern int  rand(void);
+extern void RotMatrixYXZ(void *a, void *b);
+extern void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*);
+
+void func_8016D1D8(int param_1) {
+
+    extern u8 D_801C8B49[];
+    extern u8 D_801C8B4A;
+    extern u8 D_801C8B4C;
+    extern u8 D_801C8B4D;
+    extern u8 D_801C8B4E;
+    extern u8 D_801C8B89[];
+    extern u8 D_801C8B8A;
+    extern u8 D_801C8B8C;
+    extern u8 D_801C8B8D;
+    extern u8 D_801C8B8E;
+    int iVar5;
+    int iVar2;
+    u16 uVar1;
+    unsigned int uVar3;
+    short sVar4;
+    SVEC_L1 sv;
+    MTX_L1 mtx;
+
+    iVar5 = *(int *)(param_1 + 0x34);
+    if (*(int *)(param_1 + 0x2c) == 0) {
+        D_801C8B49[0] = 0xE0;
+        D_801C8B4A = 0xE0;
+        D_801C8B49[-1] = 0xE0;
+        D_801C8B4E = 0;
+        D_801C8B4D = 0;
+        D_801C8B4C = 0;
+        iVar5 = ((int (*)(void))func_801465C0)();
+        if (iVar5 != 0) {
+            int pp;
+            *(int *)(param_1 + 0x20) = iVar5;
+            ((void (*)(void *, int))func_800233CC)(D_801C8B49 - 1, 0x28);
+            ((void (*)(void *, void *))func_8001CD9C)((void *)iVar5, D_801C8B49 - 1);
+            *(short *)(iVar5 + 0x1a) = 0x1400;
+            *(u32 *)(iVar5 + 4) |= 0x50000000;
+            pp = *(int *)(param_1 + 0x30);
+            *(u16 *)(param_1 + 0x28) = *(u16 *)(pp + 0x36);
+            *(u16 *)(param_1 + 0x12) = *(u16 *)(pp + 6);
+            *(short *)(param_1 + 0x16) = *(u16 *)(pp + 0xa) - 0x28;
+            uVar1 = *(u16 *)(pp + 0xe);
+            *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+            *(u16 *)(param_1 + 0x1a) = uVar1;
+        }
+        *(int *)(param_1 + 0x1c) = 8;
+        func_80147324(0x647);
+    } else {
+        D_801C8B89[0] = 0xE0;
+        D_801C8B8A = 0x20;
+        D_801C8B89[-1] = 0x20;
+        D_801C8B8D = 0;
+        D_801C8B8E = 0;
+        D_801C8B8C = 0;
+        iVar2 = ((int (*)(void))func_801465C0)();
+        if (iVar2 != 0) {
+            *(int *)(param_1 + 0x20) = iVar2;
+            ((void (*)(void *, int))func_800233CC)(D_801C8B89 - 1, 0x18);
+            ((void (*)(void *, void *))func_8001CD9C)((void *)iVar2, D_801C8B89 - 1);
+            *(u32 *)(iVar2 + 4) |= 0x50000000;
+            *(u16 *)(param_1 + 6) = *(u16 *)(iVar5 + 6);
+            *(u16 *)(param_1 + 0xa) = *(u16 *)(iVar5 + 0xa);
+            *(u16 *)(param_1 + 0xe) = *(u16 *)(iVar5 + 0xe);
+            uVar3 = rand();
+            sv.vx = ((uVar3 & 0x7F) * 8) - 0x80;
+            sv.vy = (uVar3 & 0x7F00) >> 3;
+            sv.vz = 0;
+            RotMatrixYXZ(&sv, &mtx);
+            sv.vy = 0;
+            sv.vx = 0;
+            sv.vz = 0x240;
+            ((void (*)(void *, void *, void *))ApplyMatrixSV)(&mtx, &sv, &sv);
+            *(int *)(param_1 + 0x10) = (int)sv.vx << 0xc;
+            *(int *)(param_1 + 0x14) = (int)sv.vy << 0xc;
+            sVar4 = (uVar3 & 0x3F0) + 0x200;
+            *(int *)(param_1 + 0x18) = (int)sv.vz << 0xc;
+            *(short *)(iVar2 + 0x1a) = sVar4;
+            *(short *)(iVar2 + 0x18) = sVar4;
+            *(int *)(param_1 + 0x1c) = 0x10;
+            *(short *)(param_1 + 2) = 2;
+        }
+    }
+}
+
 
 
 

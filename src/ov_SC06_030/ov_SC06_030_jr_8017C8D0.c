@@ -4111,7 +4111,188 @@ void func_801801E8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_80180228);
+#include "common.h"
+
+/* func_80180228 — ov_SC06_030 / ov_SC06_030_jr_8017C8D0 (132 ins)
+ *
+ * Remap variant of the banked family func_80187EE8 (ov_SC03_014_jr_801848E4,
+ * MATCH): builds ONE 4-vertex gouraud packet on the stack (verts sp+0x10,
+ * colours sp+0x30, code sp+0x40), colour ramp derived from the s32 at a0+0x1C
+ * (*15, >>1, -0x10 clamped-at-0 for the far pair), then loads the camera matrix
+ * cached at D_800AF630+0x18 and runs one rtpt+rtps+avsz4 group over the
+ * SVECTORs at a0+0xFC / a0+0x104 / a0+0xDC / a0+0xE4, with the shared
+ * OT-range guard (otz>0, flag>=0, OT slot < &D_800AE610, (flag&~0x1000)==0).
+ *
+ * REMAP vs twin: the HALVED channel is BLUE here (twin: green). Target store
+ * order per vertex pair is b1,b0,r1,r0,g1,g0 — reproduced by three chained
+ * statements (right-to-left evaluation), b/r/g.
+ */
+
+extern u8 D_800AF630[];   /* TU line 53, verbatim */
+
+typedef struct { s16 vx, vy, vz, pad; } SV_80180228;
+typedef struct { u8 r, g, b, cd; } CV_80180228;
+typedef struct {
+    SV_80180228 v[4];    /* +0x00 : sxy0..3 (v[0].vz doubles as the otz slot) */
+    CV_80180228 rgb[4];  /* +0x20 */
+    u32 code;            /* +0x30 */
+    u32 pad;             /* +0x34 */
+} PKT_80180228;
+
+/* every macro is suffixed: this TU already #defines the unsuffixed gte_* family
+ * (func_8017C8D0 region), so an unsuffixed name would clash. */
+#define gte_ldv0_80180228(r0) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_ldv3_80180228(r0, r1, r2) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtps_80180228() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt_80180228() __asm__ volatile ("nop;nop;rtpt")
+#define gte_avsz4_80180228() __asm__ volatile ("nop;nop;avsz4")
+
+#define gte_stsxy_80180228(r0) __asm__ volatile ( \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3_80180228(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stotz_80180228(r0) __asm__ volatile ( \
+    "swc2 $7, 0( %0 )"                           \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stflg_80180228(r0) __asm__ volatile ( \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_SetRotMatrix_80180228(r0) __asm__ volatile ( \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix_80180228(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+void func_80180228(s32 a0)
+{
+    extern void func_80017714(void *);
+    extern s16 D_800B9A02;
+    /* §183 TYPE-shadowed-block-scope: adopt the twin's spelling for D_800A651C.
+     * The typedef is declared BLOCK-SCOPE here so it shadows (never redefines)
+     * the file-scope copy in src/shared/engine_types.h, which is byte-identical. */
+    typedef struct { s32 a; s32 b[4]; } Ot_8018B23C;
+    extern Ot_8018B23C D_800A651C[];
+    extern u8 D_800AE610[];
+
+    PKT_80180228 pkt;   /* sp+0x10 .. sp+0x47 */
+    s32 flag1;          /* sp+0x48 */
+    s32 flag2;          /* sp+0x4C */
+    s32 otz;            /* sp+0x50 */
+    u8 *base;
+    s32 *m;
+    s16 c, p, q;
+    s32 d;
+
+    c = *(s32 *)(a0 + 0x1C) * 15;
+    base = D_800AF630;
+    p = c;
+    d = c >> 1;
+    q = d;
+
+    /* REMAP: halved channel is BLUE (twin func_80187EE8: green).
+       Store order b1,b0,r1,r0,g1,g0 == target's sb sequence. */
+    pkt.rgb[0].b = pkt.rgb[1].b = q;
+    pkt.rgb[0].r = pkt.rgb[1].r = p;
+    pkt.rgb[0].g = pkt.rgb[1].g = p;
+
+    c -= 0x10;
+    p = c;
+    if (c < 0) {
+        p = 0;
+    }
+    {
+        s16 e;          /* block-scoped: one pseudo (§136/L1) */
+        e = d - 0x10;
+        q = e;
+        if (e < 0) {
+            q = 0;
+        }
+    }
+    pkt.rgb[2].b = pkt.rgb[3].b = q;
+    pkt.rgb[2].r = pkt.rgb[3].r = p;
+    pkt.rgb[2].g = pkt.rgb[3].g = p;
+
+    pkt.code = 0x50000000;
+
+    m = (s32 *)(base + 0x18);
+    gte_SetRotMatrix_80180228(m);
+    gte_SetTransMatrix_80180228(m);
+
+    gte_ldv3_80180228((SV_80180228 *)(a0 + 0xFC), (SV_80180228 *)(a0 + 0x104),
+                      (SV_80180228 *)(a0 + 0xDC));
+    gte_rtpt_80180228();
+    gte_stflg_80180228(&flag1);
+    gte_stsxy3_80180228(&pkt.v[0], &pkt.v[1], &pkt.v[2]);
+    gte_ldv0_80180228((SV_80180228 *)(a0 + 0xE4));
+    gte_rtps_80180228();
+    gte_stflg_80180228(&flag2);
+    flag1 = flag1 | flag2;
+    gte_stsxy_80180228(&pkt.v[3]);
+    gte_avsz4_80180228();
+    gte_stotz_80180228(&otz);
+
+    if (otz > 0 && flag1 >= 0 &&
+        !((u32)&D_800AE610 <
+          (u32)(*(s32 *)((u8 *)&D_800A651C + (*(u16 *)&D_800B9A02) * 0x14)
+                + otz * 4)) &&
+        (flag1 & 0xFFFFEFFF) == 0) {
+        pkt.v[0].vz = (s16)otz;
+        func_80017714(&pkt.v[0]);
+    }
+}
+
 
 extern void func_8001AAA0(s32 arg);
     s32 func_80180438(void) {
