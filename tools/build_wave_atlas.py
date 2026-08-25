@@ -597,6 +597,14 @@ if a.one_per_gid:
 by_tu = collections.defaultdict(list)
 for c in cands:
     by_tu[(c['binary'], c['tu'])].append(c)
+# GENERATIONAL TOP-OFF (P31 S60, Drew): a wave fills from the LOWEST generation available and
+# only then moves up, instead of either ignoring generations (retries compete with never-drafted
+# work) or filtering to one generation (which starved the fleet to 46 cards — see --generational).
+# Applied at BOTH levels: gate groups holding never-drafted cards rank ahead of all-retry groups,
+# and within a group the untouched cards are taken first. Generation is the primary key and the
+# existing mass/count criterion breaks ties, so wave SIZE is untouched — only the ORDER changes.
+_mingen = {k: min(draw_count.get(c['fn'], 0) for c in v) for k, v in by_tu.items()}
+
 if a.rank == 'total':
     # P31 S54: rank by the mass a card actually DELIVERS -- its own instructions plus the same-gid
     # siblings the post-bank remap banks for free. Measured on the wave-T draw: the 70 selected
@@ -606,12 +614,13 @@ if a.rank == 'total':
     if not a.one_per_gid:
         sys.exit("--rank total requires --one-per-gid (there are no deferred siblings otherwise)")
     _sibins = {g: sum(c['nins'] for c in v) for g, v in siblings.items()}
-    ranked = sorted(by_tu, key=lambda k: -sum(c['nins'] + _sibins.get(c['gid'], 0)
-                                              for c in by_tu[k]))[:a.max_bins]
+    ranked = sorted(by_tu, key=lambda k: (_mingen[k],
+                                          -sum(c['nins'] + _sibins.get(c['gid'], 0)
+                                               for c in by_tu[k])))[:a.max_bins]
 elif a.rank == 'mass':
-    ranked = sorted(by_tu, key=lambda k: -sum(c['nins'] for c in by_tu[k]))[:a.max_bins]
+    ranked = sorted(by_tu, key=lambda k: (_mingen[k], -sum(c['nins'] for c in by_tu[k])))[:a.max_bins]
 else:
-    ranked = sorted(by_tu, key=lambda k: -len(by_tu[k]))[:a.max_bins]
+    ranked = sorted(by_tu, key=lambda k: (_mingen[k], -len(by_tu[k])))[:a.max_bins]
 
 # principle 3 (P31 S52): SIZE A WAVE BY INSTRUCTIONS, NOT BY CARDS. The public metric is
 # instruction-weighted, so a wave is worth what its instructions are worth: the 12-42-ins card
@@ -656,7 +665,7 @@ if _jt_pool:
           f"card(s) (quota; one per binary, each one extra rebuild at gate time)", file=sys.stderr)
 
 for k in ranked:                            # principle 2: within a group, mass first
-    for c in sorted(by_tu[k], key=lambda c: -_deliver(c)):
+    for c in sorted(by_tu[k], key=lambda c: (draw_count.get(c['fn'], 0), -_deliver(c))):
         if _full(): break
         if id(c) in _in_wave: continue      # already seeded by a quota
         # QUOTA-ONLY LEVERS. A quota is a FLOOR unless it is also a ceiling: with the tell levers in
