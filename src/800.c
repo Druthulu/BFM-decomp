@@ -3770,7 +3770,10 @@ void func_800174DC(void *arg0)
     func_8001751C(arg0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800174FC);
+void func_800174FC(void)
+{
+    func_8001751C();
+}
 
 /* func_8001751C (POLY_GT3 builder) -- splat tags the target "Handwritten
  * function": hand-placed cop2 nops and delay-slot fills no -O2 C emits.
