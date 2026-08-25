@@ -3577,7 +3577,67 @@ void func_8017F2F4(void *arg0) {
 
 INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8017F390);
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8017F41C);
+extern s32 D_80188030;
+extern s32 D_80188040;
+extern s32 D_80188054;
+extern s32 D_801BB7A8;
+extern s32 func_80029178(s32 arg);
+extern s32 func_80029504(void);
+extern s32 func_801788B8(s32 arg0, s32 arg1);
+extern s32 func_801815EC(void *a0, void *a1);
+extern s32 func_801819DC(s32 arg0, s32 arg1);
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_8012CAE4(void *a0);
+extern void func_8012E88C(s32 a0);
+extern void func_8012E8A8(u8 *a0);
+extern void func_8012E8E0(s32 a0, s32 a1);
+extern void func_8017F68C();
+
+void func_8017F41C(a0)
+void *a0;
+{
+
+    extern s32 D_80188040;
+    extern s32 D_80188054;
+    extern s32 D_801BB7A8;
+    extern s32 D_80188030;
+
+    s32 s1;
+
+    if ((func_80029178(0xF0) & 0xFF) != 0 ||
+        (u32)(func_80029504() - 0x85) < 2) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    if (func_801815EC(a0, &D_80188040) == 0) {
+        return;
+    }
+
+    *(s16 *)(*(s32 *)((char *)a0 + 0x68) + 0xC) = 0x7FFF;
+    s1 = (s32)&D_80188054 | 0x40000000;
+    *(s32 *)((char *)a0 + 0x58) = s1;
+    *(s16 *)((char *)a0 + 0x5C) = 0x800;
+
+    if (((s32 (*)(s32, s32))func_801819DC)(9, 0x12) != 0) {
+        *(s16 *)((char *)a0 + 0x2) = 2;
+        ((void (*)(s32, s32))func_8012A828)((s32)a0, (s32)&D_801BB7A8);
+        func_8012E88C((s32)a0);
+        func_8012E8E0((s32)a0, (s32)&D_80188030);
+        *(s32 *)((char *)a0 + 0x58) = s1;
+        *(s16 *)((char *)a0 + 0x5C) = 0x800;
+    } else {
+        *(s16 *)((char *)a0 + 0x2) = 1;
+        *(s16 *)((char *)a0 + 0x98) = 0;
+        func_8012E8A8((u8 *)a0);
+        func_8012E8E0((s32)a0, (s32)&D_80188030);
+        *(s32 *)((char *)a0 + 0x58) = s1;
+        *(s16 *)((char *)a0 + 0x5C) = 0;
+    }
+
+    *(s32 *)((char *)a0 + 0xD4) = func_801788B8((s32)a0, (s32)func_8017F68C);
+}
+
 
 
 extern void (*D_801880EC[])(void);
