@@ -12028,7 +12028,10 @@ LineG4 *func_800279AC(SrcQ *src, Vtx8 *vb, s32 unused, LineG4 *prim, s32 n, s32 
     return prim;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80027BF0);
+void func_80027BF0(void)
+{
+    func_80027C10();
+}
 
 
 
