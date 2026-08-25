@@ -6971,7 +6971,44 @@ void func_8001BA84(void) {
     func_8001BC6C(addr + 24, 0x80);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001BADC);
+extern s32 D_80074808;
+
+s32 func_8001BADC(s32 arg0, s32 arg1) {
+    register s32 orig    __asm__("$10");
+    register s32 i       __asm__("$8");
+    register s32 mask    __asm__("$11");
+    register s32 off     __asm__("$9");
+    register s32 c29     __asm__("$12");
+    register s32 colbase __asm__("$13");
+    register s32 c       __asm__("$6");
+    register s32 p       __asm__("$5");
+    s32 color;
+    s32 idx;
+    s32 *addr;
+
+    orig = arg0;
+    i = 0;
+    mask = -(arg1 != 0);
+    colbase = 0x62000000;
+    c29 = 29;
+    off = 0;
+    while (i < 15) {
+        c = 0;
+        if (i < orig) {
+            c = mask & 8;
+        }
+        color = (c << 16) | ((c << 8) | colbase) | c;
+        idx = c29 - i;
+        p = D_80074808;
+        addr = (s32 *)(p + off);
+        addr[2] = color;
+        addr = (s32 *)(p + idx * 20);
+        addr[2] = color;
+        i++;
+        off += 20;
+    }
+    return orig >= 44;
+}
 
 extern u8 *D_800A5E60;
 extern s32 D_80074808;
