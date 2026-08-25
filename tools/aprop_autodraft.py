@@ -164,7 +164,7 @@ def _arity_breaks(decl, sym, body):
     return False
 
 
-def decl_for(sym, seed_text, dest_text="", body="", fleet_text=""):
+def decl_for(sym, seed_text, dest_text="", body="", fleet_text="", target_sym=None):
     """A file-scope declaration for `sym`, preferring the DESTINATION TU's own spelling — where
     that spelling can still compile the body.
 
@@ -191,16 +191,22 @@ def decl_for(sym, seed_text, dest_text="", body="", fleet_text=""):
     member's own TU already emits those bytes (as `INCLUDE_RODATA`, or inside the function's own
     `.s`). Emitting the definition instead would either duplicate the data or fight splat for the
     address."""
-    # the destination HOME TU's own spelling first — unless the body cannot compile against it
+    # the destination HOME TU's own spelling first — unless the body cannot compile against it.
+    # DEST/FLEET are searched for the TARGET name; the seed tiers below use the SEED name. The
+    # first cut searched the destination for the SEED's spelling of a RENAMED symbol — which the
+    # destination cannot contain — so every renamed data symbol silently fell through to the
+    # seed's spelling and the destination preference never applied where it mattered (S59:
+    # D_801B9DF8 adopted `short` from the seed against the TU's file-scope `s32`).
+    tsym = target_sym or sym
     if dest_text:
-        m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(sym)}\b[^\n;]*;', dest_text, re.M)
+        m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(tsym)}\b[^\n;]*;', dest_text, re.M)
         if m:
             d = m.group(0).strip().rstrip("\\").rstrip()          # macro-body decls end in ` \`
-            void_ret = re.match(r'extern\s+void\s*[^\(\*]*\b' + re.escape(sym), d) and '*' not in d.split(sym)[0]
+            void_ret = re.match(r'extern\s+void\s*[^\(\*]*\b' + re.escape(tsym), d) and '*' not in d.split(tsym)[0]
             value_used = body and re.search(
-                rf'(=\s*[^=;]*\b{re.escape(sym)}\s*\(|\breturn\s+[^;]*\b{re.escape(sym)}\s*\(|'
-                rf'[<>!=+\-*/&|^]\s*{re.escape(sym)}\s*\(|\b{re.escape(sym)}\s*\([^;]*\)\s*[<>!=+\-*/&|^)])', body)
-            if not (void_ret and value_used) and not _arity_breaks(d, sym, body):
+                rf'(=\s*[^=;]*\b{re.escape(tsym)}\s*\(|\breturn\s+[^;]*\b{re.escape(tsym)}\s*\(|'
+                rf'[<>!=+\-*/&|^]\s*{re.escape(tsym)}\s*\(|\b{re.escape(tsym)}\s*\([^;]*\)\s*[<>!=+\-*/&|^)])', body)
+            if not (void_ret and value_used) and not _arity_breaks(d, tsym, body):
                 return d
     m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(sym)}\b[^\n;]*;', seed_text, re.M)
     if m:
@@ -219,15 +225,27 @@ def decl_for(sym, seed_text, dest_text="", body="", fleet_text=""):
     # adopted one, and the whole-binary byte-gate arbitrates; refusing outright left 125 members
     # undrafted. Refuse only when nobody in the fleet spells the symbol at all.
     if fleet_text:
-        m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(sym)}\b[^\n;]*;', fleet_text, re.M)
+        m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(tsym)}\b[^\n;]*;', fleet_text, re.M)
         if m:
             d = m.group(0).strip()
-            void_ret = re.match(r'extern\s+void\s*[^\(\*]*\b' + re.escape(sym), d) and '*' not in d.split(sym)[0]
+            void_ret = re.match(r'extern\s+void\s*[^\(\*]*\b' + re.escape(tsym), d) and '*' not in d.split(tsym)[0]
             value_used = body and re.search(
-                rf'(=\s*[^=;]*\b{re.escape(sym)}\s*\(|\breturn\s+[^;]*\b{re.escape(sym)}\s*\(|'
-                rf'[<>!=+\-*/&|^]\s*{re.escape(sym)}\s*\(|\b{re.escape(sym)}\s*\([^;]*\)\s*[<>!=+\-*/&|^)])', body)
-            if not (void_ret and value_used) and not _arity_breaks(d, sym, body):
+                rf'(=\s*[^=;]*\b{re.escape(tsym)}\s*\(|\breturn\s+[^;]*\b{re.escape(tsym)}\s*\(|'
+                rf'[<>!=+\-*/&|^]\s*{re.escape(tsym)}\s*\(|\b{re.escape(tsym)}\s*\([^;]*\)\s*[<>!=+\-*/&|^)])', body)
+            if not (void_ret and value_used) and not _arity_breaks(d, tsym, body):
                 return d
+    # SYNTHESIZED no-proto for a FUNCTION whose call value the body never reads (S59). A function
+    # symbol used only as a call target or an address needs nothing but linkage: `extern void f();`
+    # is always compilable, coexists with any promotion-safe definition, and an address-take or an
+    # ignored-value call emits identical code whatever the return type. Never synthesized when the
+    # body reads the value — the return type drives codegen there, and guessing it is how wrong
+    # bytes are born (the gate would catch it, but a build is not free).
+    if re.match(r'func_[0-9A-Fa-f]{8}$', tsym) and body:
+        value_used = re.search(
+            rf'(=\s*[^=;]*\b{re.escape(tsym)}\s*\(|\breturn\s+[^;]*\b{re.escape(tsym)}\s*\(|'
+            rf'[<>!=+\-*/&|^]\s*{re.escape(tsym)}\s*\(|\b{re.escape(tsym)}\s*\([^;]*\)\s*[<>!=+\-*/&|^)])', body)
+        if not value_used:
+            return f"extern void {tsym}();"
     return None
 
 
@@ -264,6 +282,27 @@ def _all_macro_bodies(header="src/shared/engine_core.h"):
     return _MACRO_BODIES
 
 
+def _file_scope_only(text):
+    """text with every brace-enclosed region blanked (length-preserving) — so a decl search sees
+    FILE-scope declarations only. WHY (S59, measured): the TUs are full of BLOCK-scope externs
+    inside banked bodies (`void f(){ extern short D_x; … }` — the §63 per-fn override idiom), and
+    a flat regex over the TU adopted one of those (`extern short D_801B9DF8;`) as "the destination
+    spelling" while the TU's true file scope (a DEFINE_ macro body) says `extern s32 D_801B9DF8;`
+    — the drafted file-scope `short` then conflicts and cc1 rejects the TU with the byte-correct
+    body in it (func_8018067C@ov_SC04_018, one of 12 stranded on exactly this)."""
+    out, depth = [], 0
+    for c in text:
+        if c == "{":
+            depth += 1
+            out.append(c)
+        elif c == "}":
+            depth = max(0, depth - 1)
+            out.append(c)
+        else:
+            out.append(c if depth == 0 or c == "\n" else " ")
+    return "".join(out)
+
+
 def dest_scope(path):
     """The member's HOME TU text with its DEFINE_x() engine-core instantiations EXPANDED — what the
     TU's file scope actually contains at the splice point (S59).
@@ -280,7 +319,7 @@ def dest_scope(path):
         txt = open(path).read() if path and os.path.isfile(path) else ""
         mb = _all_macro_bodies()
         extra = [mb[n] for n in re.findall(r'^\s*DEFINE_(\w+)\s*\(\s*\)', txt, re.M) if n in mb]
-        _DEST_CACHE[path] = txt + "\n" + "\n".join(extra)
+        _DEST_CACHE[path] = _file_scope_only(txt + "\n" + "\n".join(extra))
     return _DEST_CACHE[path]
 
 
@@ -416,6 +455,33 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
     # byte-proof). Done AFTER the definition-assert so the regex there sees the ANSI form.
     new_body = kr_definition(new_body, member_name)
 
+    # BLOCK-SCOPE externs the seed body carries can CONFLICT with the destination's file scope
+    # (`extern short D_801B9DF8;` in the body vs the TU macro's file-scope `extern s32 …` —
+    # cc1 rejects a block decl that diverges from a visible file-scope one, measured S59 on
+    # func_8018067C@ov_SC04_018). When every use of the symbol is ADDRESS-ONLY (`&sym`), the type
+    # is codegen-irrelevant, so adopt the destination's spelling in place; a valued use keeps the
+    # seed's spelling (its type drives the emitted opcode) and takes its chances at the gate.
+    for bm in list(re.finditer(r'^([ \t]+)(extern\s+[A-Za-z_][^\n;{}]*?\b([A-Za-z_]\w*)\s*;)[ \t]*$',
+                               new_body, re.M)):
+        s2 = bm.group(3)
+        dm = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(s2)}\b[^\n;]*;', dest_text, re.M)
+        if not dm:
+            continue
+        dd = dm.group(0).strip().rstrip("\\").strip()
+        if dd.split() == bm.group(2).strip().split():
+            continue                                             # same spelling already
+        addr_only = True
+        for u in re.finditer(rf'\b{re.escape(s2)}\b', new_body):
+            before = new_body[:u.start()].rstrip()
+            line_start = new_body.rfind("\n", 0, u.start()) + 1
+            if "extern" in new_body[line_start:u.start()]:
+                continue                                         # the decl itself
+            if not before.endswith("&"):
+                addr_only = False
+                break
+        if addr_only:
+            new_body = new_body.replace(bm.group(0), bm.group(1) + dd, 1)
+
     if already_self_contained:
         # A de-macroized body already carries its own externs; synthesizing a second set would
         # re-declare every one of them.
@@ -433,14 +499,20 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
                 return None, f"data lives in the member's own .s and its initializer is not a flat byte list: {s}"
             decls.append(d)
             continue
-        d = decl_for(old, seed_text, dest_text, body=new_body, fleet_text=fleet_text)
+        d = decl_for(old, seed_text, dest_text, body=new_body, fleet_text=fleet_text, target_sym=s)
         if d is None:
             # No decl in the seed — but if the DESTINATION already declares it, none is needed.
             # Refusing here cost 55 macro-seeded members whose definition references a symbol the
             # destination TU knows perfectly well (R32 should refuse the UNKNOWN, not the
-            # already-satisfied).
-            if re.search(rf'^[ \t]*(extern|const|static)?[^\n;]*\b{re.escape(s)}\b[^\n;]*;',
-                         dest_text, re.M):
+            # already-satisfied). The match must be a REAL declaration or definition: the old
+            # optional-keyword form ('(extern|const|static)?[^;]*sym[^;]*;') also matched the
+            # TU's own `INCLUDE_ASM("...", sym);` stub line and bare CALL statements — so a draft
+            # taking sym's ADDRESS shipped with no extern at all and died in the real TU as
+            # `sym undeclared (first use)` (S59, func_80180F1C@ov_SC03_002 using func_8018118C
+            # as a function-pointer value while the TU merely stubs it).
+            if re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(s)}\b[^\n;]*;', dest_text, re.M) or \
+               re.search(rf'^[ \t]*(?:const\s+|static\s+|volatile\s+)*[A-Za-z_]\w+[\s\*]+'
+                         rf'{re.escape(s)}\s*[\[=;(]', dest_text, re.M):
                 continue
             missing.append(s)
             continue
