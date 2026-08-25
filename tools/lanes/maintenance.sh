@@ -80,6 +80,28 @@ PY
       say "nothing banked this pass"
     fi
   fi
+  # PERIODIC FLEET CHECK (P31 S59). Two binaries sat RED for hours — ov_SC07_010 from a commit whose
+  # tree state was never built, ov_SC07_002 from a stale 2-table jtbl pad spec — and NOTHING noticed,
+  # because every lane only ever checks the binary it is currently touching. A byte-gate is a
+  # correctness oracle with a null coverage model: it is silent about everything it did not build.
+  # So sweep the whole fleet on a slow cadence, report REDs loudly, and FIX NOTHING automatically —
+  # a wrong repair to a pad spec or a config is exactly how a silent byte shift gets committed.
+  # Every 4th pass (~3 h). Skipped while any gate is in flight: check-all rebuilds stale objects and
+  # must not race a gate's build for the same binary.
+  FC=$(cat .run/maint_fleet_count 2>/dev/null || echo 0); FC=$((FC+1)); echo "$FC" > .run/maint_fleet_count
+  if [ $((FC % 4)) -eq 0 ] && ! pgrep -f 'tools/sweep_parallel|tools/gate_stage|tools/gate_main' >/dev/null; then
+    say "fleet R22 sweep (every 4th pass) — this checks binaries no lane has touched"
+    make check-all JOBS=12 >.run/fleet_check.log 2>&1 || true
+    grep -E "^\[FAIL\]" .run/check-all.txt 2>/dev/null | awk '{print $2}' > .run/fleet_red.txt || true
+    NRED=$(grep -c . .run/fleet_red.txt 2>/dev/null || echo 0)
+    if [ "$NRED" -gt 0 ]; then
+      say "*** $NRED BINARY/BINARIES ARE RED — see .run/fleet_red.txt (NOT auto-fixed, by design) ***"
+      head -8 .run/fleet_red.txt | sed 's/^/      RED: /'
+    else
+      say "fleet R22: all binaries byte-identical ($(grep -c '^\[ OK \]' .run/check-all.txt 2>/dev/null || echo 0) checked)"
+    fi
+  fi
+
   say "pass complete; sleeping 45m"
   sleep 2700
 done
