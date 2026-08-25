@@ -4267,7 +4267,23 @@ void func_8017DBEC(int param_1)
 
 INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017DD84);
 
-INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017DE74);
+void func_8017DE74(s32 arg0) {
+    extern u8 D_80191CC0[];
+    extern void func_8017E060(s32 *a0);
+    register s32 val;
+    register s32 *ptr;
+
+    ptr = (s32 *)(D_80191CC0 + (*(s32 *)(arg0 + 0x34) << 6));
+    val = *(u8 *)ptr;
+    val = val - 8;
+    if (val <= 0) {
+        func_8017E060((s32 *)arg0);
+        return;
+    }
+    val |= (val << 16) | (val << 8);
+    *ptr = val;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017DED4);
 

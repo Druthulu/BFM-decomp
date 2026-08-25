@@ -4700,7 +4700,54 @@ void func_8017F24C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017F288);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017F438);
+extern s32 func_8012C588(s32 a0, s32 a1);
+
+void func_8017F438(s32 param_1) {
+    extern s32 D_801151D4;
+    extern s32 D_801A1274;
+    extern void (*D_801865B8[])(void);
+    extern u8 D_801A1107;
+    s32 wp;
+    s32 s1;
+    s32 s0;
+    s16 lim;
+    s32 ext;
+    s32 v0;
+    s32 n;
+    u8 *p;
+    void (**tbl)(void);
+
+    wp = D_801151D4;
+    s1 = D_801A1274;
+    lim = *(u16 *)(*(s32 *)(wp + 0x34) + *(u16 *)(wp + 0x38) * 6 + 0x1E4);
+    if (*(s32 *)(s1 + 0xC) != 0) {
+        ext = lim;
+        tbl = D_801865B8;
+        s0 = s1 + 0xC;
+        do {
+            if (*(s16 *)(s0 - 8) >= ext) {
+                goto done;
+            }
+            v0 = func_8012C588((s32)tbl[*(u32 *)s0], param_1);
+            if (v0 != 0) {
+                *(s32 *)(v0 + 0xCC) = s1;
+                *(s32 *)(v0 + 0xDC) = *(u16 *)(wp + 0x38) + 0x50;
+            }
+            s0 += 0x10;
+            s1 += 0x10;
+        } while (*(u32 *)s0 != 0);
+    }
+done:
+    D_801A1274 = s1;
+    n = 0x4F;
+    p = (u8 *)&D_801A1107;
+    do {
+        *p = 0;
+        n--;
+        p--;
+    } while (n >= 0);
+}
+
 
 extern void (*D_8018661C[])(void);
 extern s32 func_80013328(s32 a0, s32 a1);

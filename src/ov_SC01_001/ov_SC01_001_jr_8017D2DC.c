@@ -4703,7 +4703,191 @@ extern s32 D_801EDA44;
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_80181A4C);
+extern s32 D_801F3050;
+extern s32 D_801F304C;
+extern s32 D_80188C78[];
+extern s32 D_801EDA70[];
+extern s32 D_801EDA6C[];
+extern s32 D_801F2A6C[];
+extern u16 D_800B99DC;
+extern s32 D_801EDA44;
+extern s32 D_801EDA48[];
+extern s32 D_801EDA4C[];
+extern s32 D_801EDA50[];
+extern s32 D_801EDA54[];
+extern s32 D_801EDA58[];
+extern s32 D_801EDA5C[];
+extern s32 D_801EDA60[];
+extern s32 D_801EDA88[];
+extern s32 D_801EDA8C[];
+extern s32 D_801EDA90[];
+
+void func_80181A4C(void)
+{
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+    register s32 a0 __asm__("$4");
+    register s32 a1 __asm__("$5");
+    register s32 a2 __asm__("$6");
+    register s32 a3 __asm__("$7");
+    register s32 t0 __asm__("$8");
+    register s32 t1 __asm__("$9");
+    register s32 t2 __asm__("$10");
+    register s32 *t3 __asm__("$11");
+    register s32 *t4 __asm__("$12");
+    register s32 *t5 __asm__("$13");
+    register s32 *t6 __asm__("$14");
+    register s32 *t7 __asm__("$15");
+    register s32 i __asm__("$16");
+    register s32 back __asm__("$17");
+    register s32 *src __asm__("$18");
+    register s32 color __asm__("$19");
+    register s32 *tbl __asm__("$20");
+    register s32 *srcm12 __asm__("$21");
+    register s32 *tbl4 __asm__("$22");
+    register s32 *t8 __asm__("$24");
+    register s32 *t9 __asm__("$25");
+
+    if (((D_801F3050 = D_801F3050 + 1) & 7) != 0) {
+        return;
+    }
+
+    back = D_801F304C;
+    for (i = back & 1; i < 0x10;) {
+        color = 0xFCF50000;
+        tbl = D_80188C78;
+        tbl4 = tbl + 1;
+        src = D_801EDA70;
+        srcm12 = src - 3;
+
+        do {
+            v0 = back + 7;
+            back = v0 & 0xF;
+            v1 = back * 8;
+            a0 = v1 + (s32)tbl4;
+            t4 = D_801EDA6C;
+            t9 = t4 - 1;
+            t8 = t4 - 2;
+            t7 = t4 + 6;
+            t6 = t4 + 5;
+            t5 = t4 + 4;
+            a3 = 0;
+            t1 = (s32)srcm12;
+            t0 = (s32)src;
+            do {
+                if (*(s32 *)((char *)&D_801EDA44 + a3) == 0) {
+                    v0 = 1;
+                    *(s32 *)((char *)&D_801EDA44 + a3) = v0;
+                    __asm__ __volatile__("addu %0,%1,%2" : "=r"(v0) : "r"(v1), "r"(tbl));
+                    __asm__ __volatile__("move %0,%1" : "=r"(t3) : "r"(t1));
+                    *(s32 *)((char *)&D_801EDA58 + a3) = 0;
+                    *(s32 *)((char *)&D_801EDA5C + a3) = color;
+                    *(s32 *)((char *)&D_801EDA60 + a3) = 0;
+                    v0 = *(s32 *)v0;
+                    v1 = D_801F304C;
+                    v0 <<= 16;
+                    v1 &= 0x1F;
+                    v1 <<= 19;
+                    *(s32 *)((char *)&D_801EDA4C + a3) = v0;
+                    v0 = *(s32 *)a0;
+                    a0 = (s32)(src - 9);
+                    a0 = a3 + a0;
+                    *(s32 *)((char *)&D_801EDA54 + a3) = v1;
+                    v0 <<= 16;
+                    v0 += color;
+                    *(s32 *)((char *)&D_801EDA50 + a3) = v0;
+                    __asm__ __volatile__("lw %0,0(%3)\n\tlw %1,4(%3)\n\tlw %2,8(%3)\n\tsw %0,0(%4)\n\tsw %1,4(%4)\n\tsw %2,8(%4)"
+                                         : "=r"(v0), "=r"(v1), "=r"(a1)
+                                         : "r"(a0), "r"(t0));
+                    v1 = (s32)(src - 6);
+                    v1 = a3 + v1;
+                    a1 = *(s16 *)(v1 + 2);
+                    v0 = *(s16 *)(a0 + 2);
+                    a2 = *(s16 *)(v1 + 6);
+                    v1 = *(s16 *)(v1 + 10);
+                    t2 = a1 - v0;
+                    t0 = t2;
+                    a1 = *(s16 *)(a0 + 6);
+                    v0 = *(s16 *)(a0 + 10);
+                    a2 -= a1;
+                    t1 = v1 - v0;
+                    if (t2 < 0) {
+                        t0 = -t2;
+                    }
+                    a0 = a2;
+                    if (a2 < 0) {
+                        a0 = -a2;
+                    }
+                    v1 = t1;
+                    if (t1 < 0) {
+                        v1 = -t1;
+                    }
+                    v0 = (a0 < t0);
+                    a1 = t0;
+                    if (!v0) {
+                        a1 = a0;
+                    }
+                    v0 = (a1 < v1);
+                    if (v0) {
+                        a1 = v1;
+                    }
+                    a0 = t2 << 16;
+                    a0 /= a1;
+                    v1 = a2 << 16;
+                    v1 /= a1;
+                    v0 = t1 << 16;
+                    v0 /= a1;
+                    *(s32 *)((char *)t3 + 0) = a0;
+                    *(s32 *)((char *)t3 + 4) = v1;
+                    *(s32 *)((char *)t3 + 8) = v0;
+                    v0 = *t8;
+                    v0 <<= 1;
+                    *t5 = v0;
+                    v0 = *t9;
+                    v0 <<= 1;
+                    *t6 = v0;
+                    v0 = *t4;
+                    v0 <<= 1;
+                    *t7 = v0;
+                    *t5 = 0;
+                    *t6 = 0;
+                    *t7 = 0;
+                    v0 = *t8;
+                    v1 = (u32)v0 >> 31;
+                    v0 += v1;
+                    v0 >>= 1;
+                    *(s32 *)((char *)&D_801EDA88 + a3) = v0;
+                    v0 = *t9;
+                    v1 = (u32)v0 >> 31;
+                    v0 += v1;
+                    v0 >>= 1;
+                    *(s32 *)((char *)&D_801EDA8C + a3) = v0;
+                    v0 = *t4;
+                    v1 = (u32)v0 >> 31;
+                    v0 += v1;
+                    v0 >>= 1;
+                    *(s32 *)((char *)&D_801EDA90 + a3) = v0;
+                    v0 = D_800B99DC;
+                    v0 &= 7;
+                    v0 += 10;
+                    *(s32 *)((char *)&D_801EDA48 + a3) = v0;
+                    break;
+                }
+                t4 += 20;
+                t9 += 20;
+                t8 += 20;
+                t7 += 20;
+                t6 += 20;
+                t5 += 20;
+                a3 += 0x50;
+                t1 += 0x50;
+                t0 += 0x50;
+            } while ((s32)t4 < (s32)D_801F2A6C);
+            D_801F304C = D_801F304C + 7;
+        } while (++i < 0x10);
+    }
+}
+
 
 __asm__(".text\n.align 2\n.globl func_80181E04\n.ent\tfunc_80181E04\n"
 "func_80181E04:\n.frame $sp,88,$31\n.mask 0x80000000,-8\n.fmask 0,0\n"
