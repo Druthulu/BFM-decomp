@@ -265,7 +265,7 @@ void func_800CB688(void *a0) {
 
 extern void func_80146CA0(void *a0);
 extern void func_800CB8C4(void *a0, void *a1);
-extern void func_800CB900(void *a0, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6);
+extern void func_800CB900();
 
 void func_800CB6E8(void *arg0) {
     s16 w;
@@ -289,7 +289,7 @@ void func_800CB77C(void *arg0) {
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern void func_80146CA0(void *a0);
     extern void func_800CB8C4(void *a0, void *a1);
-    extern void func_800CB900(void *a0, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6);
+    extern void func_800CB900();
     s16 w;
     s32 pad[2];
 
@@ -327,4 +327,88 @@ void func_800CB8C4(void *a0, void *a1) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_026/nonmatchings/md_MAIN_026", func_800CB900);
+void func_800CB900(void *arg0, void *trns, void *vsrc, void *dsrc, void *oncep, void *twicep, s16 *angp) {
+    extern u16 D_800B99DA;
+    struct {
+        s16 o1[4];
+        s16 o2[4];
+        s16 o3[4];
+        u16 q28, q2A, q2C, q2E, q30, q32;
+        u32 w34, w38, w3C, w40;
+        u8 b44;
+        char z45[3];
+        s16 v48[4];
+        s16 v50[4];
+        s16 v58[4];
+        s32 mat[8];
+    } L;
+    u32 w3c;
+    u16 t;
+
+    func_80013F3C(L.mat);
+    RotMatrixZ(*angp, L.mat);
+
+    L.mat[5] = *(s16 *)trns;
+    L.mat[6] = *((s16 *)trns + 1);
+    L.mat[7] = 0;
+    func_8004914C(L.mat);
+    func_800491AC(L.mat);
+
+    __asm__ __volatile__("" : : "r"(twicep));
+
+    L.w40 = 0x50000000;
+    L.w34 = *(u32 *)oncep;
+    L.w38 = *(u32 *)twicep;
+
+    w3c = *(u32 *)twicep;
+    L.v48[0] = *(u16 *)vsrc;
+    L.v48[1] = *((u16 *)vsrc + 1);
+    L.v48[2] = 0;
+    L.v50[0] = *(u16 *)vsrc - *(u16 *)dsrc;
+    L.v50[1] = *((u16 *)dsrc + 1);
+    L.v50[2] = 0;
+    L.v58[0] = *(u16 *)vsrc + *(u16 *)dsrc;
+    L.v58[1] = *((u16 *)dsrc + 1);
+    L.w3C = w3c;
+    w3c = (u32)L.o1;
+    L.v58[2] = 0;
+
+#define LDV(p) __asm__ __volatile__("lwc2 $0, 0(%0)\n" \
+    "lwc2 $1, 4(%0)\n" \
+    : : "r"(p) : "memory")
+#define MVMVA __asm__ __volatile__("nop\n" \
+    "nop\n" \
+    "mvmva 1, 0, 0, 0, 0\n" \
+    : : : "memory")
+#define STSV(p) __asm__ __volatile__("mfc2 $12, $9\n" \
+    "mfc2 $13, $10\n" \
+    "mfc2 $14, $11\n" \
+    "sh $12, 0(%0)\n" \
+    "sh $13, 2(%0)\n" \
+    "sh $14, 4(%0)\n" \
+    : : "r"(p) : "$12", "$13", "$14", "memory")
+
+    LDV(L.v48);
+    MVMVA;
+    STSV((u16 *)w3c);
+    LDV(L.v50);
+    MVMVA;
+    STSV(L.o2);
+    LDV(L.v58);
+    MVMVA;
+    STSV(L.o3);
+
+    __asm__ __volatile__("" : : "r"(twicep));
+
+    L.q2A = 0x13F;
+    L.q2E = 0x100;
+    L.q32 = 0x17F;
+    L.b44 = 0x19;
+    L.o1[2] = 1;
+    t = (D_800B99DA << 2) & 0x3F;
+    L.q28 = t | 0x680;
+    L.q2C = t + 0x6BF;
+    L.q30 = L.q2C;
+    func_800174DC();
+}
+
