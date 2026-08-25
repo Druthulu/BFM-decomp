@@ -275,7 +275,15 @@ INCLUDE_ASM("asm/nonmatchings/boot", func_80010E14);
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80010E48);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010E7C);
+extern u8 D_800AF630[];
+extern void func_8002D4C8(s32, s32);
+
+void func_80010E7C(void) {
+    register u8 *p = D_800AF630;
+
+    func_8002D4C8(2, 0);
+    *(u16 *)(p + 0xA3D4) = 1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80010ED4);
 
