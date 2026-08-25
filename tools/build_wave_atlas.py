@@ -116,6 +116,13 @@ ap.add_argument('--retry-unbanked', action='store_true',
                      'The already-waved filter otherwise reads "drawn" as "done", stranding every '
                      'card that was drafted-and-rejected or never drafted at all: 1,785 cards / '
                      '72,961 instructions across 11 waves (P31 S58).')
+ap.add_argument('--generational', action='store_true',
+                help="draw ONLY the lowest generation present: no function gets a 2nd draft while "
+                     "any drawable function still lacks a 1st. OPT-IN, and measured why (P31 S60): "
+                     "with 46 never-drafted skeletons left against ~681 drawable, making this the "
+                     "default starved the fleet to 46 agents. Use it for a priority pass over the "
+                     "untouched population, not as the standing policy. Env BFM_GENERATIONAL=1 "
+                     "sets it for a whole run.")
 ap.add_argument('--one-per-gid', action='store_true',
                 help="draft ONE card per atlas group and defer its same-gid siblings to "
                      "<out>.siblings.json for the post-bank mechanical remap "
@@ -177,11 +184,15 @@ if ONLY and ONLY <= _busy_bins:
 PRIORS = [p for p in sorted(glob.glob('.run/wave_*_cards.json'))
           if os.path.abspath(p) != os.path.abspath(a.out)]
 taken = set()
+draw_count = collections.Counter()          # {fn: how many waves have drafted it}
 for p in PRIORS:
     try:
-        taken |= {c.get('fn') or c.get('name') for c in json.load(open(p))}
+        _cards = json.load(open(p))
     except (FileNotFoundError, json.JSONDecodeError, TypeError):
-        pass
+        continue
+    _names = {c.get('fn') or c.get('name') for c in _cards}
+    taken |= _names
+    draw_count.update(n for n in _names if n)
 
 # --retry-unbanked: a card that was DRAWN but never BANKED is not spent work, it is UNFINISHED work.
 #
@@ -530,6 +541,28 @@ if any(c['lever'] == 'jtbl-carve' for c in cands):
         skipped['jtbl-one-per-binary'] += _n0 - len(cands)
         print(f'jtbl: {_n0 - len(cands)} same-binary jtbl card(s) deferred '
               f'(one table-bearing draft per gate invocation — §61c)', file=sys.stderr)
+
+# GENERATIONAL DRAW (P31 S60, Drew): EVERY function gets its FIRST draft before ANY function
+# gets its second, and so on. The pool is 83% never-drafted — 3,926 of 4,711 open stubs have
+# never had a single shard spent on them — while 471 of the 785 touched-and-still-open have been
+# drawn FIVE OR MORE times. Those are not coin flips to re-toss: a card that failed five waves
+# needs a LEVER the cookbook does not hold yet, and re-drawing it spends a shard to re-learn what
+# five waves already established. Deferring is not abandoning — the corpus grows every wave
+# (§274-§277 landed today), so a generation-2 pass drafts against knowledge generation-1 lacked.
+#
+# The gate keeps only the LOWEST generation present among this lane's candidates, so retries
+# become eligible exactly when the untouched population is exhausted, per lane and band (a narrow
+# band can reach its own generation 1 while the wide bands are still on 0 — that is correct: the
+# rule is about the population a wave can actually draw from).
+if (a.generational or os.environ.get('BFM_GENERATIONAL') == '1') and cands:
+    _gen = min(draw_count.get(c['fn'], 0) for c in cands)
+    _keep = [c for c in cands if draw_count.get(c['fn'], 0) == _gen]
+    if len(_keep) != len(cands):
+        skipped['later-generation'] += len(cands) - len(_keep)
+        print(f"generational draw: generation {_gen} ({'never drafted' if not _gen else str(_gen)+'x drafted'}) "
+              f"has {len(_keep)} candidate(s); {len(cands) - len(_keep)} held for a later pass",
+              file=sys.stderr)
+    cands = _keep
 
 # principle 4 (P31 S54): ONE CARD PER ATLAS GROUP. Same-gid members are the SAME skeleton in
 # different overlays; the deterministic remap (family_sweep --hseq) banks the siblings behind a
