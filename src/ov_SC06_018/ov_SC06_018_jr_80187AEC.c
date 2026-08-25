@@ -5016,7 +5016,21 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018AB00);
+void func_8018AB00(void)
+{
+    typedef struct { u8 b0, b1, b2, b3; } Blk4;
+    extern void func_800233CC(void *, unsigned short);
+    extern Blk4 D_801D57B0;
+    extern Blk4 D_801D57B4;
+    extern Blk4 D_801D3B08;
+    extern Blk4 D_801D3B0C;
+
+    func_800233CC(&D_801D57B0, 0x80);
+
+    D_801D57B0 = D_801D3B08;
+    D_801D57B4 = D_801D3B0C;
+}
+
 
 typedef struct { u8 b0, b1, b2, b3; } Blk4;
 extern Blk4 D_801D57B0;

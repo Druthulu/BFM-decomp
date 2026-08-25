@@ -4396,7 +4396,37 @@ void func_80181874(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_801818B0);
+
+
+void func_801818B0(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_8018F774[];
+    extern Blk8_80126940_8017D6D0_80181C80 D_80126940;
+    Blk8_80126940_8017D6D0_80181C80 sp10;
+    u8 t;
+    s16 v0, v1;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018F774[t];
+    }
+    sp10 = D_80126940;
+
+    /* Set sp10.v[0] */
+    v1 = -0x340;
+    sp10.v[0] = v1;
+
+    /* Clamp sp10.v[2] */
+    v0 = -0x740;
+    if (sp10.v[2] < v0) {
+        sp10.v[2] = v0;
+    }
+
+    func_80181D30(a0, sp10.v);
+}
+
 
 #include "common.h"
 

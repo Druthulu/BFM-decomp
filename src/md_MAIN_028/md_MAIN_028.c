@@ -166,7 +166,12 @@ INCLUDE_ASM("asm/md_MAIN_028/nonmatchings/md_MAIN_028", func_800CB59C);
 
 INCLUDE_ASM("asm/md_MAIN_028/nonmatchings/md_MAIN_028", func_800CB620);
 
-INCLUDE_ASM("asm/md_MAIN_028/nonmatchings/md_MAIN_028", func_800CB684);
+void func_800CB684(s32 a0, s32 a1) {
+    extern s32 rand(void);
+    *(u16 *)(a0 + 0x60) = a1 + (rand() & 0x7F);
+    *(u16 *)(a0 + 0x62) = a1 + (rand() & 0x7F);
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_028/nonmatchings/md_MAIN_028", func_800CB6D4);
 
