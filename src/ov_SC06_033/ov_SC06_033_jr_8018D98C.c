@@ -3447,7 +3447,41 @@ void func_8018F2BC(void) {
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018D98C", func_8018F2C4);
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018D98C", func_8018F3E0);
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+s32 func_8018F3E0(param_1, param_2)
+s32 param_1;
+s32 param_2;
+{
+    int iVar1;
+    unsigned int uVar2;
+    int iVar3;
+    SVECTOR sv1;
+    SVECTOR sv2;
+
+    sv1.vx = *(short *)(param_1 + 6);
+    sv1.vy = *(short *)(param_1 + 0xa) + -0x20;
+    sv1.vz = *(short *)(param_1 + 0xe);
+    iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    iVar3 = (short)param_2;
+    sv2.vy = sv1.vy;
+    sv2.vx = sv1.vx - (short)(iVar1 * iVar3 >> 0xc);
+    iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+    sv2.vz = sv1.vz - (short)(iVar1 * iVar3 >> 0xc);
+    uVar2 = ((int (*)(int, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
+    if ((uVar2 & 0x8000) != 0) {
+        iVar1 = func_8004787C(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+        *(short *)(param_1 + 6) = sv2.vx + (short)(iVar1 * iVar3 >> 0xc);
+        iVar1 = func_80047948(*(unsigned short *)(*(int *)(param_1 + 0x20) + 0x12) & 0xfff);
+        *(short *)(param_1 + 0xe) = sv2.vz + (short)(iVar1 * iVar3 >> 0xc);
+        return 1;
+    }
+    return 0;
+}
+
 
 
 /* TU declares func_8018F518 as void(void) (S35 self-axis) but the asm takes
@@ -3720,7 +3754,7 @@ extern void func_8012BE98(s32 a0, u16 *a1);
 extern void func_8012BE54(s32 a0);
 extern s32 func_8012B744(void *a0, void *a1);
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
-extern s32 func_8018F3E0(s32 a0, s32 a1);
+extern s32 func_8018F3E0();
 
 void func_8018FA80(s32 a0)
 {
@@ -4301,7 +4335,7 @@ fail:
 
 extern void func_8012B1B4(void*, void*);
 extern void func_8012CBCC(s32 a0);
-extern s32 func_8018F3E0(s32 a0, s32 a1);
+extern s32 func_8018F3E0();
 extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 
 void func_801908C0(s32 a0)
