@@ -201,6 +201,27 @@ def call(messages, tools):
             # above already treats a timeout as transient and tries again.
             with urllib.request.urlopen(req, timeout=int(os.environ.get('HTTP_TIMEOUT', '420'))) as r:
                 d = json.loads(r.read())
+            # A SOFT 429: HTTP 200 WITH A RATE-LIMIT ERROR IN THE BODY (P31 S59, measured).
+            # OpenRouter returns the provider's throttle as a 200 whose body carries no `choices`
+            # and an `error` of {"message": "Provider returned error", "code": 429}. That never
+            # reached the 429 handler below — which keys on HTTPError — so it fell through to the
+            # `no choices` raise and KILLED THE AGENT at turn 1 with no draft, no submit, $0.00.
+            # Measured on wave cd: 260 of 260 shards "finished cleanly" and 187 produced NOTHING,
+            # 186 of them on this exact error. It reads as a completion collapse (28-60% where the
+            # fleet used to do 84-89%) and it is really an unretried rate limit. Same treatment as
+            # every other transient: back off and carry on.
+            _err = (d or {}).get('error') or {}
+            if 'choices' not in (d or {}) and (
+                    str(_err.get('code')) == '429' or 'rate' in str(_err.get('message', '')).lower()
+                    or 'Provider returned error' in str(_err.get('message', ''))):
+                if attempt == MAX_429 - 1:
+                    raise RuntimeError('soft 429 exhausted: ' + json.dumps(_err)[:300])
+                _rate_log('429', src='SOFT-BODY', wait=delay, attempt=attempt + 1)
+                print(f'    (soft 429 in a 200 body — waiting {delay}s, '
+                      f'retry {attempt + 1}/{MAX_429 - 1})', flush=True)
+                time.sleep(delay)
+                delay = min(delay * 2, 120)
+                continue
             break
         except (http.client.IncompleteRead, http.client.RemoteDisconnected,
                 ConnectionError, TimeoutError, socket.timeout) as e:
