@@ -3889,7 +3889,19 @@ void func_800184F0(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80018714);
+extern unsigned int lzss_state;          /* 0x800C7D24 */
+extern unsigned char *lzss_outPtr;       /* 0x800747AC */
+
+/* LZSS sector-state reset: state = 1 (fresh), outPtr = destination buffer.
+ * Sole caller: CdReadSectorReadyCB PAC-type-4 case (passes cdReq_dest).
+ * K&R unprototyped definition ON PURPOSE: compatible with the stale
+ * `extern void func_80018714(void);` further down the TU, while still
+ * reading $a0. Types spelled as builtins so this compiles both
+ * standalone and inside src/800.c (u32==unsigned int, u8==unsigned char). */
+void func_80018714(arg0) void *arg0; {
+    lzss_state = 1;
+    lzss_outPtr = (unsigned char *)arg0;
+}
 
 /* LZSS streaming sector decompressor (resumable coroutine state machine).
  * Decodes up to 0x800 input bytes per call out of an LZSS stream into a 0x400-byte
@@ -5050,7 +5062,12 @@ setDefault:
 INCLUDE_ASM("asm/nonmatchings/800", CdReadStateMachine);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001A0FC);
+extern s32 D_800AE6F4;
+extern s32 D_800AE70C;
+void func_8001A0FC(void) {
+    D_800AE6F4 = 0;
+    D_800AE70C = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001A114);
 
@@ -10959,7 +10976,11 @@ void func_80029218(void) {
     func_80016714(&D_800AE6A8, 0x3C);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80029240);
+extern s32 D_80075838;
+
+void func_80029240(void) {
+    D_80075838 = 1;
+}
 
 extern s32 D_80075838;
 void func_80029254(void) {
