@@ -1347,7 +1347,36 @@ void func_801A27A4(void *a0, void *a1)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A28AC);
+#include "common.h"
+
+extern s32 func_8012E544(s32 a0);
+extern void func_8012C218(void *a0);
+
+extern s32 D_801F1FD8;
+extern u16 D_801F43C0;
+extern s32 D_801AE21C[];
+
+void func_801A28AC(s32 arg0)
+{
+    s32 handle;
+    s32 obj;
+
+    if (*(s32 *)(arg0 + 0x90) == (s32)&D_801F1FD8) {
+        handle = func_8012E544(0x3D0);
+        if (handle != 0) {
+            func_8012C218((void *)handle);
+        }
+        obj = *(s32 *)(arg0 + 0x20);
+        {
+            register s32 state __asm__("$2");
+
+            state = 3;
+            D_801F43C0 = (u16)state;
+        }
+        *(s32 *)(obj + 0x24) = (s32)D_801AE21C;
+    }
+}
+
 
 s32 func_801A2918(s32 arg0) {
     register s32 r __asm__("$2");
@@ -1363,7 +1392,38 @@ s32 func_801A2918(s32 arg0) {
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A293C);
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A2E20);
+#include "common.h"
+
+extern u16 D_801A6914[];   /* source palette B (subtrahend) */
+extern u16 D_801A6934[];   /* source palette A (minuend)    */
+
+/* stride-6 colour records; the three labels overlap (+0/+2/+4) but each
+   store must anchor its OWN symbol, hence three array decls */
+typedef struct {
+    u16 r;
+    u16 g;
+    u16 b;
+} Col6_801A2E20;
+
+extern Col6_801A2E20 D_801F43C4[];
+extern Col6_801A2E20 D_801F43C6[];
+extern Col6_801A2E20 D_801F43C8[];
+
+void func_801A2E20(void)
+{
+    u16 *a = D_801A6934;
+    u16 *b = D_801A6914;
+    s32 i;
+
+    for (i = 0; i < 16; i++) {
+        D_801F43C4[i].r = (*a & 0x1F) - (*b & 0x1F);
+        D_801F43C6[i].r = ((*a >> 5) & 0x1F) - ((*b >> 5) & 0x1F);
+        D_801F43C8[i].r = ((*a >> 10) & 0x1F) - ((*b >> 10) & 0x1F);
+        a++;
+        b++;
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A2EC8);
 
@@ -1711,11 +1771,401 @@ void func_801A3788(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A38A8);
+extern void func_8012C218(void *a0);
+
+void func_801A38A8(s32 arg0) {
+    if (*(u32 *)(*(u32 *)(arg0 + 0x64) + 0xE0) & 0x10) {
+        func_8012C218((void *)arg0);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A38E4);
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A3BCC);
+#include "common.h"
+
+void func_801A3BCC(void *a0)
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "addiu $29, $29, -312\n"
+        "sw $23, 300($29)\n"
+        "addu $23, $4, $0\n"
+        "sw $31, 308($29)\n"
+        "sw $30, 304($29)\n"
+        "sw $22, 296($29)\n"
+        "sw $21, 292($29)\n"
+        "sw $20, 288($29)\n"
+        "sw $19, 284($29)\n"
+        "sw $18, 280($29)\n"
+        "sw $17, 276($29)\n"
+        "sw $16, 272($29)\n"
+        "lw $16, 100($23)\n"
+        "nop\n"
+        "lw $2, 32($16)\n"
+        "nop\n"
+        "lhu $2, 16($2)\n"
+        "nop\n"
+        "sh $2, 40($29)\n"
+        "lw $2, 32($16)\n"
+        "nop\n"
+        "lhu $2, 18($2)\n"
+        "nop\n"
+        "sh $2, 42($29)\n"
+        "lw $2, 32($16)\n"
+        "lui $30, %hi(D_80126B58)\n"
+        "addiu $30, $30, %lo(D_80126B58)\n"
+        "lhu $2, 20($2)\n"
+        "addiu $5, $0, 10\n"
+        "sh $2, 44($29)\n"
+        "lw $2, 32($16)\n"
+        "addiu $6, $29, 80\n"
+        "lw $2, 72($2)\n"
+        "addu $21, $0, $0\n"
+        "sw $2, 68($29)\n"
+        "lw $2, 32($16)\n"
+        "addiu $19, $29, 48\n"
+        "lw $2, 76($2)\n"
+        "addiu $22, $29, 176\n"
+        "sw $2, 72($29)\n"
+        "lw $2, 32($16)\n"
+        "addiu $20, $29, 32\n"
+        "lw $2, 80($2)\n"
+        "addu $4, $16, $0\n"
+        "jal func_8012EA90\n"
+        "sw $2, 76($29)\n"
+        "addu $4, $16, $0\n"
+        "addiu $5, $0, 11\n"
+        "jal func_8012EA90\n"
+        "addiu $6, $29, 112\n"
+        "addu $4, $16, $0\n"
+        "addiu $5, $0, 12\n"
+        "jal func_8012EA90\n"
+        "addiu $6, $29, 144\n"
+        "addiu $4, $29, 40\n"
+        "9:\n"
+        "lui $3, %hi(D_801F435C)\n"
+        "lh $3, %lo(D_801F435C)($3)\n"
+        "addu $5, $19, $0\n"
+        "negu $3, $3\n"
+        "sll $2, $3, 3\n"
+        "addu $2, $2, $3\n"
+        "lhu $3, 42($29)\n"
+        "sll $2, $2, 1\n"
+        "addu $3, $3, $2\n"
+        "jal func_80049CAC\n"
+        "sh $3, 42($29)\n"
+        "lw $12, 0($19)\n"
+        "lw $13, 4($19)\n"
+        "ctc2 $12, $0\n"
+        "ctc2 $13, $1\n"
+        "lw $12, 8($19)\n"
+        "lw $13, 12($19)\n"
+        "lw $14, 16($19)\n"
+        "ctc2 $12, $2\n"
+        "ctc2 $13, $3\n"
+        "ctc2 $14, $4\n"
+        "addiu $2, $29, 80\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($22)\n"
+        "sh $13, 6($22)\n"
+        "sh $14, 12($22)\n"
+        "addiu $2, $29, 82\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "addiu $2, $29, 178\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($2)\n"
+        "sh $13, 6($2)\n"
+        "sh $14, 12($2)\n"
+        "addiu $2, $29, 84\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "addiu $2, $29, 180\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($2)\n"
+        "sh $13, 6($2)\n"
+        "sh $14, 12($2)\n"
+        "lw $12, 20($19)\n"
+        "lw $13, 24($19)\n"
+        "ctc2 $12, $5\n"
+        "lw $14, 28($19)\n"
+        "ctc2 $13, $6\n"
+        "ctc2 $14, $7\n"
+        "addiu $2, $29, 100\n"
+        "lhu $13, 4($2)\n"
+        "lhu $12, 0($2)\n"
+        "sll $13, $13, 16\n"
+        "or $12, $12, $13\n"
+        "mtc2 $12, $0\n"
+        "lwc2 $1, 8($2)\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 0, 0, 0\n"
+        "addiu $2, $29, 196\n"
+        "swc2 $25, 0($2)\n"
+        "swc2 $26, 4($2)\n"
+        "swc2 $27, 8($2)\n"
+        "lw $12, 0($19)\n"
+        "lw $13, 4($19)\n"
+        "ctc2 $12, $0\n"
+        "ctc2 $13, $1\n"
+        "lw $12, 8($19)\n"
+        "lw $13, 12($19)\n"
+        "lw $14, 16($19)\n"
+        "ctc2 $12, $2\n"
+        "ctc2 $13, $3\n"
+        "ctc2 $14, $4\n"
+        "addiu $2, $29, 112\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "addiu $2, $29, 208\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($2)\n"
+        "sh $13, 6($2)\n"
+        "sh $14, 12($2)\n"
+        "addiu $2, $29, 114\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "addiu $2, $29, 210\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($2)\n"
+        "sh $13, 6($2)\n"
+        "sh $14, 12($2)\n"
+        "addiu $2, $29, 116\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "addiu $2, $29, 212\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($2)\n"
+        "sh $13, 6($2)\n"
+        "sh $14, 12($2)\n"
+        "lw $12, 20($19)\n"
+        "lw $13, 24($19)\n"
+        "ctc2 $12, $5\n"
+        "lw $14, 28($19)\n"
+        "ctc2 $13, $6\n"
+        "ctc2 $14, $7\n"
+        "addiu $2, $29, 132\n"
+        "lhu $13, 4($2)\n"
+        "lhu $12, 0($2)\n"
+        "sll $13, $13, 16\n"
+        "or $12, $12, $13\n"
+        "mtc2 $12, $0\n"
+        "lwc2 $1, 8($2)\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 0, 0, 0\n"
+        "addiu $2, $29, 228\n"
+        "swc2 $25, 0($2)\n"
+        "swc2 $26, 4($2)\n"
+        "swc2 $27, 8($2)\n"
+        "lw $12, 0($19)\n"
+        "lw $13, 4($19)\n"
+        "ctc2 $12, $0\n"
+        "ctc2 $13, $1\n"
+        "lw $12, 8($19)\n"
+        "lw $13, 12($19)\n"
+        "lw $14, 16($19)\n"
+        "ctc2 $12, $2\n"
+        "ctc2 $13, $3\n"
+        "ctc2 $14, $4\n"
+        "addiu $2, $29, 144\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "addiu $2, $29, 240\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($2)\n"
+        "sh $13, 6($2)\n"
+        "sh $14, 12($2)\n"
+        "addiu $2, $29, 146\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "addiu $2, $29, 242\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($2)\n"
+        "sh $13, 6($2)\n"
+        "sh $14, 12($2)\n"
+        "addiu $2, $29, 148\n"
+        "lhu $12, 0($2)\n"
+        "lhu $13, 6($2)\n"
+        "lhu $14, 12($2)\n"
+        "mtc2 $12, $9\n"
+        "mtc2 $13, $10\n"
+        "mtc2 $14, $11\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 3, 3, 0\n"
+        "addiu $2, $29, 244\n"
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0($2)\n"
+        "sh $13, 6($2)\n"
+        "sh $14, 12($2)\n"
+        "lw $12, 20($19)\n"
+        "lw $13, 24($19)\n"
+        "ctc2 $12, $5\n"
+        "lw $14, 28($19)\n"
+        "ctc2 $13, $6\n"
+        "ctc2 $14, $7\n"
+        "addiu $2, $29, 164\n"
+        "lhu $13, 4($2)\n"
+        "lhu $12, 0($2)\n"
+        "sll $13, $13, 16\n"
+        "or $12, $12, $13\n"
+        "mtc2 $12, $0\n"
+        "lwc2 $1, 8($2)\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 0, 0, 0\n"
+        "addiu $2, $29, 260\n"
+        "swc2 $25, 0($2)\n"
+        "swc2 $26, 4($2)\n"
+        "swc2 $27, 8($2)\n"
+        "lui $18, %hi(D_801A6DA8)\n"
+        "addiu $18, $18, %lo(D_801A6DA8)\n"
+        "addu $17, $0, $0\n"
+        "8:\n"
+        "lui $2, 21845\n"
+        "ori $2, $2, 21846\n"
+        "mult $17, $2\n"
+        "addu $5, $18, $0\n"
+        "addiu $6, $29, 24\n"
+        "sra $16, $17, 31\n"
+        "mfhi $8\n"
+        "subu $16, $8, $16\n"
+        "sll $16, $16, 5\n"
+        "addu $16, $22, $16\n"
+        "jal func_8012F14C\n"
+        "addu $4, $16, $0\n"
+        "addu $4, $16, $0\n"
+        "addiu $5, $18, 8\n"
+        "jal func_8012F14C\n"
+        "addu $6, $20, $0\n"
+        "addiu $6, $29, 24\n"
+        "lw $4, 32($30)\n"
+        "lw $5, 56($30)\n"
+        "jal func_80135888\n"
+        "addu $7, $20, $0\n"
+        "beqz $2, 7f\n"
+        "addiu $17, $17, 1\n"
+        "addiu $4, $0, 1\n"
+        "addiu $5, $0, 16411\n"
+        "addiu $7, $0, 128\n"
+        "lw $2, 32($23)\n"
+        "lui $3, %hi(D_801F435C)\n"
+        "lh $3, %lo(D_801F435C)($3)\n"
+        "lh $6, 18($2)\n"
+        "lui $2, %hi(D_801152A8)\n"
+        "addiu $2, $2, %lo(D_801152A8)\n"
+        "sll $3, $3, 10\n"
+        "sw $20, 16($29)\n"
+        "sw $2, 20($29)\n"
+        "subu $6, $6, $3\n"
+        "jal func_8012F568\n"
+        "andi $6, $6, 4095\n"
+        "j 6f\n"
+        "addiu $2, $0, 1\n"
+        "7:\n"
+        "slti $2, $17, 9\n"
+        "bnez $2, 8b\n"
+        "addiu $18, $18, 16\n"
+        "addiu $21, $21, 1\n"
+        "slti $2, $21, 8\n"
+        "bnez $2, 9b\n"
+        "addiu $4, $29, 40\n"
+        "addu $2, $0, $0\n"
+        "6:\n"
+        "lw $31, 308($29)\n"
+        "lw $30, 304($29)\n"
+        "lw $23, 300($29)\n"
+        "lw $22, 296($29)\n"
+        "lw $21, 292($29)\n"
+        "lw $20, 288($29)\n"
+        "lw $19, 284($29)\n"
+        "lw $18, 280($29)\n"
+        "lw $17, 276($29)\n"
+        "lw $16, 272($29)\n"
+        "addiu $29, $29, 312\n"
+        ".set\treorder\n"
+    );
+}
+
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A419C);
 
@@ -2816,7 +3266,36 @@ void func_801A5D4C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A5E44);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80016450(s32 a0, s32 a1);
+
+void func_801A5E44(s32 param_1)
+{
+    s32 state = *(u16 *)(param_1 + 0x34);
+
+    switch (state) {
+    case 0:
+    {
+        u8 v0 = *(u8 *)(param_1 + 0xFC) + 0x10;
+        *(u8 *)(param_1 + 0xFC) = v0;
+        if (v0 >= 0xF1) {
+            *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x80000000;
+            *(u32 *)(*(s32 *)(param_1 + 0xCC) + 4) |= 0x80000000;
+            *(s32 *)(param_1 + 0x1C) = 8;
+            *(u16 *)(param_1 + 0x34) += 1;
+        }
+        break;
+    }
+    case 1:
+        if (func_8012BEE8(param_1) != 0) {
+            *(s32 *)(param_1 + 0xE0) = state;
+        }
+        break;
+    }
+
+    func_80016450(*(u8 *)(param_1 + 0xFC), 0);
+}
+
 
 void func_801A5F18(void *a0) {
     u32 v;

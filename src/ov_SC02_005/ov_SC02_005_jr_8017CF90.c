@@ -3703,7 +3703,13 @@ void func_8017E9B8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017EA74);
+extern s16 D_801E4C50;
+extern void func_8017EDF8();
+
+void func_8017EA74(void *a0) {
+    func_8017EDF8(a0, &D_801E4C50);
+}
+
 
 
 
@@ -4180,7 +4186,36 @@ void func_8017F748(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017F7CC);
+void func_8017F7CC(s32 param_1)
+{
+    typedef struct { u8 b[8]; } M8;
+    typedef struct { u8 b[0x10]; } S16;
+    extern M8 D_801E2DD8;
+    extern void func_8017E5CC(void);
+    extern void func_8017E0B4(void);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern s32 D_801270C8;
+    extern s16 D_801E4C50;
+
+    S16 loc;
+    s32 iVar2;
+
+    __asm__ __volatile__("" ::: "memory");
+    *(s16 *)&loc.b[0] = 0;
+    *(s16 *)&loc.b[2] = -0x40;
+    *(M8 *)&loc.b[8] = D_801E2DD8;
+    iVar2 = *(s32 *)(param_1 + 0x204) - 1;
+    *(s32 *)(param_1 + 0x204) = iVar2;
+    if (iVar2 == -1) {
+        *(M8 *)&D_801E4C50 = *(M8 *)&loc.b[8];
+        func_8017E5CC();
+        func_8017E0B4();
+        func_8002D4C8(0x510, 0x103F);
+        D_801270C8 = 9;
+        *(u8 *)(param_1 + 0x214) += 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017F898);
 

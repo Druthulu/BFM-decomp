@@ -407,7 +407,29 @@ s32 func_801F03C0(s32 ot, u8 *s, s16 c) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801F06B0);
+s32 func_801F06B0(s32 a0, s16 a1, s16 a2, s16 a3, s32 *p) {
+    extern u8 D_80115158[];
+    s32 t0 = 0;
+    *p = 0x808080;
+    a2 = D_80115158[(s16)a2 * 2];
+    if (a1 < 5) {
+        if (a1 > 0) {
+            if ((s16)a3 < a2) {
+                t0 = *(s32 *)(a0 + a3 * 4);
+            }
+        } else if (a1 != 0) {
+            if ((s16)a3 < a2) {
+                t0 = *(s32 *)(a0 + a3 * 4);
+            }
+        }
+    } else if (a1 != 5) {
+        if ((s16)a3 < a2) {
+            t0 = *(s32 *)(a0 + a3 * 4);
+        }
+    }
+    return t0;
+}
+
 
 INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076", func_801F0734);
 

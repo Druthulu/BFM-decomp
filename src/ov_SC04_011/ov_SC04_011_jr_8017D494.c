@@ -7980,7 +7980,20 @@ s32 func_80186710(void) {
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80186798);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018681C);
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+extern u8 D_80194724[];
+extern void func_801868A0();
+
+void func_8018681C(s32 a0, void *a1) {
+    s32 i;
+
+    for (i = a0 + 1; i < 0x15; i++) {
+        if (D_80194724[i] == 0) {
+            func_801868A0((void *)aFC4C[i], a1);
+        }
+    }
+}
+
 
 void func_801868A0(void *a0, u16 *a1) {
     u16 *dst;

@@ -3554,7 +3554,40 @@ void func_8017F49C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_8017F4C4);
+extern u8 D_80126948[];
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8012A094(s32 a0);
+extern void func_8017F724(void *a0);
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+extern s16 D_80126940;
+extern s16 D_801274E8;
+
+struct UShortBlk_F4C4 {
+    s16 x0, x1, x2, x3;
+};
+
+void func_8017F4C4(void) {
+    D_80126954 = 0x190;
+    D_8012695C = 0x384;
+    D_80126968 = 0x2D8;
+    D_8012696A = 0xE00;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x80;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017F724, 0);
+    func_8012A094((s32)D_80126948);
+    *(struct UShortBlk_F4C4 *)&D_801274E8 = *(struct UShortBlk_F4C4 *)&D_80126940;
+    func_8017F724((void *)D_80126948);
+}
+
 
 extern u8 D_80126948[];
 extern void func_8012A018(s32 a, s32 b);
@@ -3997,7 +4030,23 @@ void func_80180F00(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80180F3C);
+extern u8 *func_8012913C(s32 a0);
+
+void func_80180F3C(void) {
+    register s32 a0v __asm__("$4");
+    s32 s0 = a0v;
+    u8 *v1 = func_8012913C(0x2B);
+    if (v1 != 0) {
+        u16 v0 = *(u16 *)(s0 + 0x106) + 1;
+        v0 &= 3;
+        *(s16 *)(s0 + 0x106) = v0;
+        *(s32 *)(v1 + 0x2C) = v0;
+        *(s32 *)(v1 + 4) = *(s32 *)(s0 + 4);
+        *(s32 *)(v1 + 8) = *(s32 *)(s0 + 8);
+        *(s32 *)(v1 + 0xC) = *(s32 *)(s0 + 0xC);
+    }
+}
+
 
 
 extern void (*D_8018B934[])(void);
@@ -7932,7 +7981,32 @@ s32 func_80186DD4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80186ECC);
+extern s32 func_80186ECC_def(s32 a0, s32 a1) __asm__("func_80186ECC");
+
+s32 func_80186ECC_def(s32 a0, s32 a1) {
+    extern s32 D_801CA248;
+    extern s32 D_801CA418;
+    extern void func_800183E0(s32);
+    s32 ptr;
+
+    if (a1 & 1) {
+        if ((*(u16 *)(a0 + 0xDC) & 2) == 0) {
+            return 1;
+        }
+        ptr = (s32)&D_801CA248;
+    } else if (a1 & 2) {
+        if ((*(u16 *)(a0 + 0xDC) & 1) == 0) {
+            return 1;
+        }
+        ptr = (s32)&D_801CA418;
+    } else {
+        return 1;
+    }
+    func_800183E0(ptr);
+    *(u16 *)(a0 + 0xDC) = a1;
+    return 0;
+}
+
 
 
 extern s32 rand(void);

@@ -3744,7 +3744,19 @@ void func_801A8C58(s32 s2)
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A8CE0);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A8DCC);
+extern int rand(void);
+extern void func_801A8E34(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+
+void func_801A8DCC(s32 a0, s32 a1)
+{
+    s32 s0;
+    s32 v0;
+
+    s0 = rand() & 0xFF8;
+    v0 = rand();
+    func_801A8E34(a0, a1, s0, ((v0 & 0xF) + 0x38) << 15, 0x14);
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A8E34);
 
@@ -6715,7 +6727,25 @@ void func_801ADA9C(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801ADBB0);
+void func_801ADBB0(s32 x, s32 y, s32 z)
+{
+    extern u8 *func_8012913C(s32 a0);
+
+    register s32 tx __asm__("$18") = x;
+    register s32 ty __asm__("$19") = y;
+    register s16 dup __asm__("$16") = z;
+    u8 *work;
+
+    work = func_8012913C(0x74);
+
+    if (work != NULL) {
+        *(u16 *)(work + 0x2C) = dup;
+        *(u16 *)(*(s32 *)(work + 0x20) + 0x10) = tx;
+        *(u16 *)(*(s32 *)(work + 0x20) + 0x12) = ty;
+        *(u16 *)(*(s32 *)(work + 0x20) + 0x14) = (s16)z * 0x300;
+    }
+}
+
 
 #include "common.h"
 

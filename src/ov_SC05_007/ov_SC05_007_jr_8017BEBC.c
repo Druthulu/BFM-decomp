@@ -3293,7 +3293,32 @@ void func_8017D0F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017D130);
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+
+
+void func_8017D130(s32 a0) {
+    extern s32 D_80126B58;
+    extern s16 D_801844DC[];
+    extern Blk8_80126940 D_80126940;
+    extern void func_8017D1E8(s32 param_1, s16 *param_2);
+    Blk8_80126940 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_801844DC[t];
+    }
+    sp10 = D_80126940;
+
+    /* Force sp10.v[1] down to -0x100 unless already below -0xFF */
+    if (sp10.v[1] >= -0xFF) {
+        sp10.v[1] = -0x100;
+    }
+
+    func_8017D1E8(a0, sp10.v);
+}
+
 
 
 // @class: schedule
