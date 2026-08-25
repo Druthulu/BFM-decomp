@@ -3052,7 +3052,56 @@ void func_801839D4(void *arg0) {
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_80183508", func_80183A30);
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_80183508", func_80183BB0);
+#include "common.h"
+
+extern void func_80131E00(s32 a0, s32 a1);
+extern void func_8012E9C0(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012A828(s32*, s32);
+extern s32 func_8018466C();
+extern void func_80184430(s32 *a0);
+extern u8 D_801AE478[];
+extern u8 D_801AE488[];
+extern u8 D_801AE498[];
+extern s32 D_801AE350;
+
+void func_80183BB0(s32 param_1)
+{
+    s32 tbl;
+
+    func_80184430((s32 *)param_1);
+    switch (*(u16 *)(param_1 + 0x5e)) {
+    case 1:
+        if (*(s16 *)(param_1 + 0x60) == 0) {
+            *(u16 *)(param_1 + 0x76) = *(u16 *)(param_1 + 0x76) - *(s16 *)(param_1 + 0x60);
+            if ((s32)(*(u16 *)(param_1 + 0x76) << 16) <= 0) {
+                func_80131E00(param_1, 0xe);
+            }
+            func_8012E9C0(param_1);
+            *(s16 *)(param_1 + 0x34) = 3;
+            return;
+        }
+        tbl = (s32)D_801AE478;
+        break;
+    case 8:
+        tbl = (s32)D_801AE488;
+        break;
+    case 5:
+    case 0x1d:
+    case 0x20:
+        tbl = (s32)D_801AE498;
+        break;
+    case 0x32:
+    default:
+        tbl = (s32)D_801AE478;
+        break;
+    }
+    func_8012B14C(param_1, tbl);
+    ((void (*)(s32, void *))func_8012A828)((s32)param_1, &D_801AE350);
+    *(s16 *)(param_1 + 0x34) = 0;
+    func_8018466C(param_1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_80183508", func_80183C9C);
 

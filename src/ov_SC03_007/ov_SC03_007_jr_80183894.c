@@ -3388,7 +3388,13 @@ void func_80183E9C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_80183F7C);
+extern s32 resLoad_lastId;
+extern s32 func_80183FB4(s32 arg0);
+
+s32 func_80183F7C(void) {
+    return (u32)(func_80183FB4(func_80029504()) ^ resLoad_lastId) != 0;
+}
+
 
 
 

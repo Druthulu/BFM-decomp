@@ -5074,3 +5074,4 @@ ov_SC03_107_ASM_DIR     := asm/ov_SC03_107
 ov_SC03_107_SRC_DIR     := src/ov_SC03_107
 ov_SC03_107_UNDEF_SYMS  := build/ov_SC03_107/undefined_syms_auto.txt
 ov_SC03_107_UNDEF_FUNCS := build/ov_SC03_107/undefined_funcs_auto.txt
+uto.txt

@@ -5001,7 +5001,50 @@ void func_8017ECF4(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017EDA4);
+extern void func_8017EDA4(void);
+
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern s32 func_801848DC(void);
+extern s32 func_8018625C(void *);
+
+s32 func_8017EDA4_body(void *a0) __asm__("func_8017EDA4");
+
+s32 func_8017EDA4_body(void *a0)
+{
+    void *p;
+    u16 st;
+
+    p = *(void **)((s32)a0 + 0x64);
+    st = *(u16 *)((s32)p + 2);
+    switch (st) {
+    case 2:
+        if (((s32 (*)(void *))func_801848DC)(a0) == 0) {
+            return 0;
+        }
+        p = *(void **)((s32)a0 + 0x64);
+        if (func_8018625C(p) != 0) {
+            return 0;
+        }
+        *(u16 *)((s32)*(void **)((s32)a0 + 0x64) + 2) = 3;
+        break;
+    case 5:
+        if (*(u16 *)((s32)p + 0x34) != 2) {
+            return 0;
+        }
+        if (func_8012BD14((s32)p) >= 0x4001) {
+            return 0;
+        }
+        *(u16 *)((s32)*(void **)((s32)a0 + 0x64) + 2) = 6;
+        break;
+    default:
+        return 0;
+    }
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 extern s32 D_8019133C;
 extern s32 D_80191364;

@@ -3977,7 +3977,172 @@ void func_8017F5CC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017F5E4);
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017F6A8);
+extern void func_80015978(s32 a0, s32 *a1);
+extern s32 func_8012EF34(s32 a0, s32 a1);
+extern void func_80017D98(void *a0);
+extern void func_8001739C(void *a0);
+
+extern s16 D_8018395C;
+extern s16 D_80183964;
+extern s16 D_8018396C;
+extern s16 D_80183958;
+extern s16 D_80183960;
+extern s16 D_80183968;
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (  \
+    "lw $12, 0( %0 );"                           \
+    "lw $13, 4( %0 );"                           \
+    "ctc2 $12, $0;"                              \
+    "ctc2 $13, $1;"                              \
+    "lw $12, 8( %0 );"                           \
+    "lw $13, 12( %0 );"                          \
+    "lw $14, 16( %0 );"                          \
+    "ctc2 $12, $2;"                              \
+    "ctc2 $13, $3;"                              \
+    "ctc2 $14, $4"                               \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                           \
+    "lw $13, 24( %0 );"                           \
+    "ctc2 $12, $5;"                               \
+    "lw $14, 28( %0 );"                           \
+    "ctc2 $13, $6;"                               \
+    "ctc2 $14, $7"                                \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "$12", "$13", "$14" )
+
+typedef struct {
+    s16 x;      /* +0x0 */
+    s16 y;      /* +0x2 */
+    s16 c;      /* +0x4 */
+    s16 pad;    /* +0x6 */
+} Vtx_8017F6A8;                     /* 0x08 */
+
+typedef struct {
+    Vtx_8017F6A8 v[3];              /* +0x00 +0x08 +0x10 */
+    u8 r0, g0, b0, code;            /* +0x18 .. +0x1B */
+    u8 r1, g1, b1, pad1;            /* +0x1C .. +0x1F */
+    u8 r2, g2, b2, pad2;            /* +0x20 .. +0x23 */
+    u32 color;                      /* +0x24 */
+} Prim_8017F6A8;                    /* 0x28 */
+
+typedef struct {
+    u16 x;      /* +0x0 */
+    u16 y;      /* +0x2 */
+    u16 z;      /* +0x4 */
+} Pos_8017F6A8;                     /* 0x06 -> 8-byte frame stride */
+
+typedef struct {
+    u16 vx;     /* +0x0 */
+    u16 vy;     /* +0x2 */
+    u16 vz;     /* +0x4 */
+    u16 pad;    /* +0x6 */
+} Sxy_8017F6A8;                     /* 0x08 */
+
+typedef struct {
+    s16 m[3][3];                    /* +0x00, padded to 0x14 */
+    s32 t[3];                       /* +0x14 +0x18 +0x1C */
+} Mtx_8017F6A8;                     /* 0x20 */
+
+void func_8017F6A8(s32 arg0)
+{
+    Prim_8017F6A8 prim;             /* sp+0x10 */
+    Pos_8017F6A8 wpos;              /* sp+0x38 */
+    Pos_8017F6A8 spos;              /* sp+0x40 */
+    Sxy_8017F6A8 sxy[4];            /* sp+0x48 */
+    Mtx_8017F6A8 mtx;               /* sp+0x68 */
+    s32 otz;                        /* sp+0x88 */
+    s32 flag;                       /* sp+0x8C */
+    s32 t;
+
+    func_80015978(arg0 + 4, (s32 *)&wpos);
+    if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
+        gte_stszotz(&otz);
+        D_8018395C = spos.z;
+        D_80183964 = spos.z;
+        D_8018396C = spos.z;
+        func_80017D98(&mtx);
+        mtx.t[2] = 0;
+        mtx.t[1] = 0;
+        mtx.t[0] = 0;
+        gte_SetRotMatrix(&mtx);
+        gte_SetTransMatrix(&mtx);
+        gte_ldv3(&D_80183958, &D_80183960, &D_80183968);
+        gte_rtpt();
+        gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
+        gte_stflg(&flag);
+        if (flag >= 0) {
+            prim.b0 = 0xC0;
+            prim.g0 = 0xC0;
+            prim.r0 = 0xC0;
+            prim.b1 = 0x40;
+            prim.g1 = 0x20;
+            prim.r1 = 0x20;
+            prim.b2 = 0x40;
+            prim.g2 = 0x20;
+            prim.r2 = 0x20;
+            prim.color = 0x50000000;
+            prim.v[0].x = sxy[0].vx + spos.x;
+            prim.v[0].y = sxy[0].vy + spos.y;
+            prim.v[1].x = sxy[1].vx + spos.x;
+            prim.v[1].y = sxy[1].vy + spos.y;
+            prim.v[2].x = sxy[2].vx + spos.x;
+            prim.v[2].y = sxy[2].vy + spos.y;
+            prim.v[0].c = otz;
+            func_8001739C(&prim);
+            t = sxy[1].vy;
+            prim.v[1].y = spos.y - t;
+            func_8001739C(&prim);
+            t = sxy[2].vx;
+            prim.v[2].x = spos.x - t;
+            func_8001739C(&prim);
+            prim.v[1].y = sxy[1].vy + spos.y;
+            func_8001739C(&prim);
+        }
+    }
+}
+
 
 
 extern void (*D_80183970[])(void);

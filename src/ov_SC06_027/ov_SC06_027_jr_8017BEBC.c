@@ -3319,7 +3319,24 @@ void func_8017D0C8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_027/nonmatchings/ov_SC06_027_jr_8017BEBC", func_8017D104);
+void func_8017D104(s32 param_1) {
+    typedef struct { s16 v[4]; } Blk8L;
+    typedef struct { Blk8L pad; Blk8L a; Blk8L b; } Locs;
+    extern Blk8L D_80126940;
+    extern s32 ratan2(s32 a0, s32 a1);
+    extern void func_8017D1C0();
+    Locs L;
+    s32 ret;
+
+    L.a = D_80126940;
+    L.b = D_80126940;
+    ret = ratan2(L.a.v[0], L.a.v[2]) & 0xFFF;
+    if (L.a.v[1] > -0x500) {
+        L.a.v[1] = -0x500;
+    }
+    func_8017D1C0(param_1, &L.a, &L.b, ret);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_027/nonmatchings/ov_SC06_027_jr_8017BEBC", func_8017D1C0);
 
@@ -3329,7 +3346,117 @@ s32 func_8017D398(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_027/nonmatchings/ov_SC06_027_jr_8017BEBC", func_8017D3A0);
+/* decl_prior fleet-modal spellings (wave law #2); none of these are declared at file
+ * scope in the destination TU (src/ov_SC06_027/ov_SC06_027_jr_8017BEBC.c) -- the TU's
+ * only relevant file-scope decls are "extern short D_800B9A02;" (2469) and
+ * "extern s16 D_800B9A02;" (2471), and the s16 spelling below is copied verbatim from
+ * the latter.  D_800A651C: see the OtBlk note below. */
+extern s32 GetTPage(s32, s32, s32, s32);
+extern s32 func_8005A600(s32, s32, s32, s32, s32);
+extern void *func_80010A08(s32);
+extern s32 AddPrim(s32, void *);
+extern s16 D_800B9A02;
+
+/* engine_types.h:525 `OtBlk` == this struct VERBATIM ({s32 a; s32 b[4];}, 0x14 stride).
+ * The real TU reaches the `OtBlk` NAME through engine_core.h -> engine_types.h, but
+ * match_one's standalone -Iinclude compile cannot see that header -- and a second
+ * file-scope `typedef ... OtBlk;` would be a C89 redefinition against engine_types.h
+ * if it survived the merge.  So the restatement carries a UNIQUE name (house style:
+ * OtBlk_8018A974_* / SVEC_8017FB50 in the banked siblings); identical layout, `.a`
+ * still at offset 0, zero codegen difference.  The array-of-struct form is load-bearing:
+ * the raw-word `extern s32 D_800A651C;` + &-arithmetic spelling costs the %lo fold
+ * (lui $at/addu/lw %lo -> la + addu + lw) inside a loop. */
+typedef struct { s32 a; s32 b[4]; } OtBlk_8017D3A0;
+
+extern OtBlk_8017D3A0 D_800A651C[];
+
+/*
+ * func_8017D3A0 -- allocate a 0x30-byte prim pair, tint it from a0->field_0x1C, and
+ * queue both halves onto the current OT.
+ *
+ * Signature note: the destination TU already declares this function block-scoped at
+ * line 3453 as `extern void func_8017D3A0(s32 a0);` (caller at 3456).  Copied EXACTLY;
+ * the pointer is recovered by cast at each use -- identical codegen, since the prologue
+ * moves $a0 to $s1 untyped.
+ *
+ * Layout (recovered from the store offsets): the block holds TWO prims. The second one
+ * lives at p+0xC and is a POLY_G4 (p+0xF = tag len = 8 words, p+0x13 = code = 0x3A =
+ * 0x38 POLY_G4 | 0x02 semi-transparent):
+ *      p+0x10/0x11/0x12  r0,g0,b0     p+0x14/0x16  x0,y0 = (-160,-120)
+ *      p+0x18/0x19/0x1A  r1,g1,b1     p+0x1C/0x1E  x1,y1 = ( 160,-120)
+ *      p+0x20/0x21/0x22  r2,g2,b2     p+0x24/0x26  x2,y2 = (-160, 120)
+ *      p+0x28/0x29/0x2A  r3,g3,b3     p+0x2C/0x2E  x3,y3 = ( 160, 120)
+ * i.e. a full-screen 320x240 gouraud quad, every channel of every vertex set to the
+ * same byte. The prim at p+0 is initialised by func_8005A600 (tpage from GetTPage).
+ *
+ * Two shape facts drive the byte-exact output:
+ *
+ * 1. The 12 colour bytes each RE-READ *(s32 *)((u8 *)a0 + 0x1C) (target: 12 separate
+ *    "lw ...,0x1C($s1)"). Every read is separated from the next by a store through the
+ *    unrelated pointer p, and cse's store-kill is unconditional there (S193-E/H), so
+ *    each read is its own CSE-live interval. Caching the value in a C local would
+ *    collapse all twelve into one load. The 12th read lands in $a2 on its own -- no pin
+ *    needed, $v0 is busy with the literal churn and $v1 is taken (see 2).
+ *
+ * 2. The x0/x2 constant -160 is held in $v1 across the whole literal block while
+ *    +160/-120/+120 cycle through $v0, and its "addiu $v1,$zero,-0xA0" is hoisted by
+ *    sched2/reorg into the 11th colour load's delay slot. Written as a bare literal (or
+ *    as a plain named local -- gcc folds it straight back) all four constants share one
+ *    $v0 pseudo, so -160 can never be hoisted, the slot stays a nop and the function
+ *    comes out at 91 instructions. Giving it its own hard register with a register pin
+ *    is what buys the distinct live range; the pin must be a DECLARATION with a
+ *    SEPARATE assignment ("register s32 c1 __asm__("$3"); ... c1 = -0xA0;") -- the
+ *    initialiser form "register s16 c1 __asm__("$3") = -0xA0;" makes cc1 drop the set
+ *    entirely (no li is emitted at all, and the function silently stores whatever $v1
+ *    happens to hold). A zero-byte __asm__ re-tie also creates the live range but plants
+ *    an APP block that eats the 9th load's delay slot -> 4 residual instructions.
+ */
+void func_8017D3A0(s32 a0)
+{
+    u8 *p;
+    s32 ot;
+    s32 tp;
+    register s32 c1 __asm__("$3");
+
+    ot = D_800A651C[(u16)D_800B9A02].a;
+
+    p = (u8 *)func_80010A08(0x30);
+    if (p != 0) {
+        tp = GetTPage(0, 1, 0, 0);
+        func_8005A600((s32)p, 0, 0, (u16)tp, 0);
+
+        /* r0,r1,r2,r3 then g0..g3 then b0..b3 -- one load each */
+        *(u8 *)(p + 0x10) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x18) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x20) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x28) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x11) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x19) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x21) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x29) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x12) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x1A) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x22) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x2A) = *(s32 *)((u8 *)a0 + 0x1C);
+
+        *(u8 *)(p + 0xF) = 8;      /* tag len  */
+        *(u8 *)(p + 0x13) = 0x3A;  /* code     */
+
+        *(s16 *)(p + 0x1C) = 0xA0;   /* x1 */
+        *(s16 *)(p + 0x2C) = 0xA0;   /* x3 */
+        *(s16 *)(p + 0x16) = -0x78;  /* y0 */
+        *(s16 *)(p + 0x1E) = -0x78;  /* y1 */
+        c1 = -0xA0;
+        *(s16 *)(p + 0x14) = c1;     /* x0 */
+        *(s16 *)(p + 0x24) = c1;     /* x2 */
+        *(s16 *)(p + 0x26) = 0x78;   /* y2 */
+        *(s16 *)(p + 0x2E) = 0x78;   /* y3 */
+
+        AddPrim(ot, p + 0xC);
+        AddPrim(ot, p);
+    }
+}
+
 
 
 extern void (*D_80181A78[])(void);

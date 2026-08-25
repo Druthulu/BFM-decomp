@@ -510,7 +510,21 @@ void func_801F028C(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_075/nonmatchings/md_SC03_075", func_801F02B0);
+void func_801F02B0(s32 a0_) {
+
+    extern s32 D_801F6CA8;
+    extern s32 D_801F6CAC;
+
+    register s32 c __asm__("$3") = 1;
+    register s32 a0 __asm__("$4") = a0_;
+    s32 p1 = D_801F6CA8;
+
+    *(s16 *)((s32)a0 + 0xFC) = 0;
+    a0 = D_801F6CAC;
+    *(s16 *)(p1 + 0xFC) = c;
+    *(s16 *)((s32)a0 + 0xFC) = 0;
+}
+
 
 void func_801F02D4(void *a0) {
     extern s32 D_801F6CA8;

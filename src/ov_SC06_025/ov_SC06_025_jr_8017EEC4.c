@@ -3504,7 +3504,14 @@ void func_80180E98(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180ED4);
+extern void (*D_801890A4[])(void);
+
+s32 func_80180ED4(void)
+{
+    register s32 a0 __asm__("$4");
+    return (s32)&D_801890A4[a0 * 2];
+}
+
 
 extern s32 func_8012E544(s32 a0);
 

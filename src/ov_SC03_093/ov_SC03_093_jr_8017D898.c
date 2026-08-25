@@ -3843,7 +3843,25 @@ INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_8017F76
 
 INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_8017F7D0);
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_8017F834);
+extern u8 D_801202A0[];
+
+void func_8017F834(s32 param_1) {
+    u8 *ptr = D_801202A0;
+    u8 *end = ptr + 0x6480;
+
+    if (ptr < end) {
+        s32 want = param_1 & 0xFFFF;
+        s32 mask = 0x7FFFFFFF;
+        u8 *lim = end;
+        do {
+            if (*(u16 *)ptr == want) {
+                (*(s32 **)(ptr + 0x20))[1] &= mask;
+            }
+            ptr += 0x10C;
+        } while (ptr < lim);
+    }
+}
+
 
 
 extern void (*D_801A124C[])(void);

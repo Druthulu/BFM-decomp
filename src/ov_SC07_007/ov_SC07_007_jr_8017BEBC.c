@@ -4757,7 +4757,43 @@ void func_8017E9F0(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017EA48);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017EB34);
+#include "common.h"
+
+extern s32 func_80180F84(void);
+extern void func_8017D158(void);
+extern void func_801813EC(s32 a0);
+extern void func_8018122C(s32 a0, void *a1);
+extern void func_80181048(void *a0, void *a1);
+extern void func_80181120(void);
+extern s32 func_8012AD50(void *arg0);
+
+extern s32 D_801151D4;
+extern void (*D_80188AA8[])(void);
+extern void (*D_80186BC8[])(void);
+extern s16 D_80187DA8[];
+
+void func_8017EB34(s32 a0) {
+    register s32 s0 __asm__("$16") = a0;
+    register s32 s1 __asm__("$17") = D_801151D4;
+    s32 v0;
+
+    if (func_80180F84() != 6) {
+        return;
+    }
+
+    func_8017D158();
+
+    v0 = 0x11C;
+    *(u16 *)((u8 *)s1 + 0x1A) = v0;
+    *(u16 *)((u8 *)s1 + 0x22) = v0;
+
+    func_801813EC((s32)s0);
+    func_8018122C((s32)s0, &D_80188AA8);
+    ((void (*)(s32, void *))func_80181048)((void *)s0, (void *)&D_80186BC8);
+    ((void (*)(s32, void *))func_80181120)((s32)s0, (void *)&D_80187DA8);
+    func_8012AD50((void *)s0);
+}
+
 
 #include "common.h"
 

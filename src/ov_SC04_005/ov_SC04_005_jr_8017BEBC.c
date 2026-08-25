@@ -7607,7 +7607,16 @@ void func_801831F0(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80183228);
+s32 func_80183228(s32 a0) {
+    s32 ret;
+    ret = 0xA810;
+    *(u8 *)((s32)a0 + 0xC1) = 0;
+    *(u16 *)((s32)a0 + 0x5E) = 0;
+    __asm__ __volatile__("" ::: "memory");
+    *(u16 *)((s32)a0 + 0x5C) = ret;
+    return ret;
+}
+
 
 #include "common.h"
 
@@ -10346,7 +10355,29 @@ extern void func_8012B21C(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80187108);
+typedef struct { s32 b[8]; } Blk20_80187108;
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_80187108(s32 a0)
+{
+    extern Blk20_80187108 aD800AE620 __asm__("D_800AE620");
+    Blk20_80187108 m;
+    s32 vel[3];
+
+    m = aD800AE620;
+    vel[1] = 0;
+    vel[0] = 0;
+    vel[2] = 0xFFF20000;
+    RotMatrixY(*(s16 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x12), &m);
+    func_800484EC((s32)&m, (s32)&vel[0], a0 + 0x10);
+    func_8002D4C8(0xB3F, 0);
+    func_8012AD44((s32 *)a0, 3);
+}
+
 
 extern s32 D_801BEE54;
 extern void (*D_801BEE64[])(void);
