@@ -1365,7 +1365,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80015908);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80015954);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80015978);
+void func_80015978(s32 *a0, s32 *a1) {
+    *(u16 *)((s32)a1 + 0x0) = *(u16 *)((s32)a0 + 0x2);
+    *(u16 *)((s32)a1 + 0x2) = *(u16 *)((s32)a0 + 0x6);
+    *(u16 *)((s32)a1 + 0x4) = *(u16 *)((s32)a0 + 0xA);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001599C);
 
@@ -10723,7 +10727,11 @@ void func_800290BC(void) {
     func_80029124(0x7F, 1);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800290E0);
+extern void func_80029124(s32, s32);
+
+void func_800290E0(void) {
+    func_80029124(0x7F, 0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80029104);
 
