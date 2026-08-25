@@ -3499,7 +3499,92 @@ void func_80184B80(s32 param_1, s32 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_80183BF8", func_80184CB0);
+typedef struct { u8 b[0x6C]; } Blk6C_80184CB0;
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8001C810(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8001D074(s32 a0, s32 a1);
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *a0, unsigned short a1);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+extern void RotMatrixYXZ(void *a0, void *a1);
+
+extern u8 D_8018B7A4[];
+extern u8 D_801BBF94[];
+extern u8 D_8018B7D8[];
+extern u8 D_801C13A8[];
+extern u8 D_80126B5C;
+extern s32 D_80126B60;
+extern s32 D_80126B64;
+extern u8 D_801C1458[];
+extern u8 D_801C1418;
+extern u8 D_801C1419;
+extern u8 D_801C141A;
+extern u8 D_801C141C;
+extern u8 D_801C141D;
+extern u8 D_801C141E;
+extern s32 D_801C14D8[];
+
+void func_80184CB0(s32 a0) {
+    extern u8 D_801BBFBC[];
+    u8 *p;
+    s16 sp[8];
+    s32 s3;
+
+    if (*(s32 *)(a0 + 0x20) == 0) {
+        if (func_8012C354(a0, (s32)&D_8018B7A4) == 0) {
+            return;
+        }
+        func_8001C810(*(s32 *)(a0 + 0x20), (s32)&D_801BBF94);
+        func_8012A828(a0, (void *)&D_8018B7D8);
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x20;
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x80) = (s32)&D_801C13A8;
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x40000000;
+        *(s16 *)(a0 + 0xAE) = -3;
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
+    }
+    *(s32 *)(a0 + 4) = *(s32 *)&D_80126B5C;
+    *(s32 *)(a0 + 8) = D_80126B60;
+    *(s32 *)(a0 + 0xC) = D_80126B64;
+    func_8012B2CC(a0);
+    *(Blk6C_80184CB0 *)D_801C1458 = *(Blk6C_80184CB0 *)D_801BBFBC;
+    *(s32 *)(a0 + 0xD8) = (s32)&D_801C1458;
+
+    s3 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+    if (s3 == 0) {
+        return;
+    }
+    p = &D_801C1418;
+    *(s32 *)(a0 + 0xD0) = s3;
+    func_8001CD50(s3, (s32)p);
+    D_801C1419 = 0xFF;
+    D_801C141A = 0xFF;
+    *p = 0xFF;
+    D_801C141E = 0;
+    D_801C141D = 0;
+    D_801C141C = 0;
+    func_800233CC(p, 0x100);
+
+    sp[0] = *(u16 *)(a0 + 6);
+    sp[1] = (u16)(*(u16 *)(a0 + 0xA) - 0x38);
+    sp[2] = *(u16 *)(a0 + 0xE);
+    func_800D20C0(&sp[0], &sp[4], 5);
+
+    D_801C14D8[0] = sp[0];
+    D_801C14D8[1] = sp[1];
+    D_801C14D8[2] = sp[2];
+    func_800D23D0(&sp[4]);
+    RotMatrixYXZ(&sp[4], &D_801C14D8[-5]);
+    *(s32 *)(s3 + 0x34) = (s32)&D_801C14D8[-5];
+    *(s16 *)(s3 + 0x1A) = 0;
+    *(s16 *)(s3 + 0x18) = 0;
+    *(s32 *)(s3 + 4) |= 0x50000000;
+    *(u16 *)(a0 + 2) = 0xB;
+}
+
 
 #include "common.h"
 
