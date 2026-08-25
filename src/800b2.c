@@ -153,7 +153,122 @@ void *GsTMDfastG3GL()
         : : : "memory");
 }
 
-INCLUDE_ASM("asm/nonmatchings/800b2", GsTMDfastG3GNL);
+/* GsTMDfastG3GNL (0x80057B14) -- PsyQ libgs, HANDWRITTEN assembly (splat marks it
+ * "Handwritten function"). Raw GTE code: cop2 compute ops (rtpt/nclip/avsz3), direct
+ * lwc2/swc2 to numbered cop2 data registers, cfc2 $31, hand-filled branch delay slots
+ * and explicit cop2/load-latency nops, 8 arguments (4 in $a0-$a3, 4 on the stack),
+ * allocation uses only $t0-$t7. gcc-2.7.2 -O2 cannot emit this from C.
+ *
+ * Reproduced the way the project's other handwritten GTE bodies are (see the banked
+ * GsTMDfastG3GL directly above): the whole body is one __asm__ __volatile__ block.
+ * gcc supplies only the label and the zero-frame leaf epilogue (jr $ra + nop), which
+ * is exactly the target's tail. GTE compute ops written as `cop2 <imm>` because
+ * binutils has no rtpt/nclip/avsz3 mnemonics reachable from inline asm:
+ *    rtpt  = 0x4A280030 -> cop2 0x0280030
+ *    nclip = 0x4B400006 -> cop2 0x1400006
+ *    avsz3 = 0x4B58002D -> cop2 0x158002D
+ * This is the no-lighting variant of G3GL: instead of per-vertex nccs it copies the
+ * primitive's three colour words (prim+4/+8/+12) straight into the packet, and the
+ * primitive/packet stride is 0x1C.
+ */
+void *GsTMDfastG3GNL()
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "addiu $sp, $sp, -8\n"
+        "lw    $14, 24($sp)\n"
+        "lw    $2, 28($sp)\n"
+        "lw    $3, 32($sp)\n"
+        "lw    $8, 36($sp)\n"
+        "lw    $3, 4($3)\n"
+        "addu  $10, $0, $0\n"
+        "sw    $2, 12($8)\n"
+        "blez  $14, 2f\n"
+        " sw   $3, 16($8)\n"
+        "addiu $15, $8, 36\n"
+        "addiu $13, $8, 24\n"
+        "lui   $11, 0xFF\n"
+        "ori   $11, $11, 0xFFFF\n"
+        "addiu $6, $4, 12\n"
+        "addiu $9, $7, 20\n"
+        "1:\n"
+        "lhu   $4, 6($6)\n"
+        "lhu   $3, 10($6)\n"
+        "lhu   $2, 14($6)\n"
+        "sll   $4, $4, 3\n"
+        "addu  $4, $5, $4\n"
+        "sll   $3, $3, 3\n"
+        "addu  $3, $5, $3\n"
+        "sll   $2, $2, 3\n"
+        "addu  $2, $5, $2\n"
+        "lwc2  $0, 0($4)\n"
+        "lwc2  $1, 4($4)\n"
+        "lwc2  $2, 0($3)\n"
+        "lwc2  $3, 4($3)\n"
+        "lwc2  $4, 0($2)\n"
+        "lwc2  $5, 4($2)\n"
+        "nop\n"
+        "nop\n"
+        "cop2  0x0280030\n"      /* rtpt */
+        "lw    $2, -8($6)\n"
+        "nop\n"
+        "sw    $2, -16($9)\n"
+        "cfc2  $12, $31\n"
+        "nop\n"
+        "sw    $12, 0($15)\n"
+        "lw    $2, 36($8)\n"
+        "nop\n"
+        "bltz  $2, 3f\n"
+        " nop\n"
+        "nop\n"
+        "nop\n"
+        "cop2  0x1400006\n"      /* nclip */
+        "lw    $2, -4($6)\n"
+        "nop\n"
+        "sw    $2, -8($9)\n"
+        "swc2  $24, 0($13)\n"
+        "lw    $2, 24($8)\n"
+        "nop\n"
+        "blez  $2, 3f\n"
+        " nop\n"
+        "swc2  $12, 8($7)\n"
+        "swc2  $13, 16($7)\n"
+        "swc2  $14, 24($7)\n"
+        "nop\n"
+        "nop\n"
+        "cop2  0x158002D\n"      /* avsz3 */
+        "lw    $2, 0($6)\n"
+        "nop\n"
+        "sw    $2, 0($9)\n"
+        "swc2  $7, 0($13)\n"
+        "lw    $3, 24($8)\n"
+        "lw    $2, 12($8)\n"
+        "addiu $9, $9, 28\n"
+        "srav  $3, $3, $2\n"
+        "lw    $2, 16($8)\n"
+        "sll   $3, $3, 2\n"
+        "addu  $2, $2, $3\n"
+        "sw    $2, 52($8)\n"
+        "lw    $3, 0($2)\n"
+        "lui   $2, 0x600\n"
+        "and   $3, $3, $11\n"
+        "or    $3, $3, $2\n"
+        "sw    $3, 0($7)\n"
+        "and   $3, $7, $11\n"
+        "lw    $2, 52($8)\n"
+        "addiu $7, $7, 28\n"
+        "sw    $3, 0($2)\n"
+        "3:\n"
+        "addiu $10, $10, 1\n"
+        "slt   $2, $10, $14\n"
+        "bne   $2, $0, 1b\n"
+        " addiu $6, $6, 28\n"
+        "2:\n"
+        "addu  $2, $7, $0\n"
+        "addiu $sp, $sp, 8\n"
+        ".set\treorder\n"
+        : : : "memory");
+}
 
 
 void *GsTMDfastF3GL(void *prim, void *vert, void *norm, void *pkt,
