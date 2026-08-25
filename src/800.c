@@ -1,9 +1,6 @@
 #include "common.h"
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
-typedef struct {
-    s32 words[38];
-} Blk98_80029274;
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {
     s16 unk00;
@@ -6368,110 +6365,7 @@ void func_8001D3FC(s32 arg0)
     }
 }
 
-void func_8001D70C(s32 param_1)
-{
-    s32 matrix[8];  /* sp+0x10 */
-    s16 sc[20];     /* sp+0x30 */
-
-    func_8004978C((s16 *)(param_1 + 0x10), (void *)matrix);
-
-    /* build the diagonal scale matrix at sp+0x30 */
-    sc[0] = *(u16 *)(param_1 + 0x18);
-    sc[1] = 0;
-    sc[2] = 0;
-    sc[3] = 0;
-    sc[4] = *(u16 *)(param_1 + 0x1A);
-    sc[5] = 0;
-    sc[6] = 0;
-    sc[7] = 0;
-    sc[8] = 0x1000;
-
-    __asm__ volatile (
-        "lw $12, 0(%0);"
-        "lw $13, 4(%0);"
-        "ctc2 $12, $0;"
-        "ctc2 $13, $1;"
-        "lw $12, 8(%0);"
-        "lw $13, 12(%0);"
-        "lw $14, 16(%0);"
-        "ctc2 $12, $2;"
-        "ctc2 $13, $3;"
-        "ctc2 $14, $4;"
-        "addiu $2, $sp, 0x30;"
-        "lhu $12, 0($2);"
-        "lhu $13, 6($2);"
-        "lhu $14, 12($2);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        "nop;"
-        "nop;"
-        "mvmva 1, 0, 3, 3, 0;"
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0(%0);"
-        "sh $13, 6(%0);"
-        "sh $14, 12(%0);"
-        "addiu $2, $sp, 0x32;"
-        "lhu $12, 0($2);"
-        "lhu $13, 6($2);"
-        "lhu $14, 12($2);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        "nop;"
-        "nop;"
-        "mvmva 1, 0, 3, 3, 0;"
-        "addiu $2, $sp, 0x12;"
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0($2);"
-        "sh $13, 6($2);"
-        "sh $14, 12($2);"
-        "addiu $2, $sp, 0x34;"
-        "lhu $12, 0($2);"
-        "lhu $13, 6($2);"
-        "lhu $14, 12($2);"
-        "mtc2 $12, $9;"
-        "mtc2 $13, $10;"
-        "mtc2 $14, $11;"
-        "nop;"
-        "nop;"
-        "mvmva 1, 0, 3, 3, 0;"
-        "addiu $2, $sp, 0x14;"
-        "mfc2 $12, $9;"
-        "mfc2 $13, $10;"
-        "mfc2 $14, $11;"
-        "sh $12, 0($2);"
-        "sh $13, 6($2);"
-        "sh $14, 12($2);"
-        : : "r"((s32)matrix) : "$12", "$13", "$14", "$2", "memory");
-
-    *(s32 *)((u8 *)matrix + 0x14) = *(s16 *)(param_1 + 8);
-    *(s32 *)((u8 *)matrix + 0x18) = *(s16 *)(param_1 + 10);
-    *(s32 *)((u8 *)matrix + 0x1C) = *(s16 *)(param_1 + 12);
-
-    __asm__ volatile (
-        "lw $12, 0(%0);"
-        "lw $13, 4(%0);"
-        "ctc2 $12, $0;"
-        "ctc2 $13, $1;"
-        "lw $12, 8(%0);"
-        "lw $13, 12(%0);"
-        "lw $14, 16(%0);"
-        "ctc2 $12, $2;"
-        "ctc2 $13, $3;"
-        "ctc2 $14, $4;"
-        "lw $12, 20(%0);"
-        "lw $13, 24(%0);"
-        "ctc2 $12, $5;"
-        "lw $14, 28(%0);"
-        "ctc2 $13, $6;"
-        "ctc2 $14, $7"
-        : : "r"((s32)matrix) : "$12", "$13", "$14", "$2");
-}
+INCLUDE_ASM("asm/nonmatchings/800", func_8001D70C);
 
 
 /* ---- PsyQ GTE inline macros (same spelling as func_8001F730 / ov_SC03_* / 800.c gte_ldv0) ---- */
@@ -10452,29 +10346,13 @@ s32 func_80029178(u32 arg0) {
     return (D_800AE648[idx] & m) != 0;
 }
 
-extern u8 D_800BA1B8[];
+INCLUDE_ASM("asm/nonmatchings/800", func_800291A0);
 
-void func_800291A0(s32 arg0, s32 arg1) {
-    D_800BA1B8[arg0] = arg1;
-}
+INCLUDE_ASM("asm/nonmatchings/800", func_800291B4);
 
-extern u8 D_800BA1B8[];
+INCLUDE_ASM("asm/nonmatchings/800", func_800291C8);
 
-s32 func_800291B4(s32 arg0) {
-    return D_800BA1B8[arg0];
-}
-
-extern u8 D_800BA1B8[];
-
-void func_800291C8(s32 arg0, s32 arg1) {
-    *(u16 *) &D_800BA1B8[arg0] = arg1;
-}
-
-extern u8 D_800BA1B8[];
-
-s32 func_800291DC(s32 index) {
-    return *(s16 *)&D_800BA1B8[index];
-}
+INCLUDE_ASM("asm/nonmatchings/800", func_800291DC);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800291F0);
 
@@ -10501,6 +10379,9 @@ s32 func_80029264(void) {
 }
 
 
+typedef struct {
+    s32 words[38];
+} Blk98_80029274;
 
 extern Blk98_80029274 D_80072C84;
 extern Blk98_80029274 D_80078E78;
@@ -10623,38 +10504,7 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80029774);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800298BC);
 
-
-typedef struct {
-    u8 b[4];
-} Blk4;
-
-extern Blk98_80029274 D_80078E78;
-extern u16 D_800A6588[];
-extern u8 D_800BA2B8[];
-extern u8 D_80078F28[];
-extern u8 D_800AE648[];
-extern u8 D_800BA1B8[];
-
-void func_8002992C(s32 arg0) {
-    u8* base;
-    s32 i;
-
-    base = D_80078F28 + arg0 * 0x2DC;
-    D_80078E78 = *(Blk98_80029274*)(base + 0x24);
-
-    for (i = 0; i < 0x40; i++) {
-        D_800A6588[i] = *(u16*)(base + 0xBC + i * 2);
-    }
-    for (i = 0; i < 0x40; i++) {
-        D_800AE648[i] = *(i + base + 0x13C);
-    }
-    for (i = 0; i < 0x100; i++) {
-        D_800BA1B8[i] = *(i + base + 0x17C);
-    }
-    for (i = 0; i < 0x18; i++) {
-        *(Blk4*)(D_800BA2B8 + i * 4) = *(Blk4*)(base + 0x27C + i * 4);
-    }
-}
+INCLUDE_ASM("asm/nonmatchings/800", func_8002992C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80029A58);
 
@@ -15706,48 +15556,7 @@ void func_80038668(s32 a0, s32 a1) {
     *(baseptr + a1) &= 0xFE;
 }
 
-s32 func_80038698(void *arg0) {
-    register u8 *a3 asm("$7");
-    u32 a2;
-    u16 v1;
-    s32 a0;
-
-    a3 = *(u8 **)(arg0);
-    *(u8 **)(arg0) = a3 + 1;
-    a2 = a3[0];
-    *(u8 **)(arg0) = a3 + 2;
-    a2 |= (a3[1] << 8);
-    *(u8 **)(arg0) = a3 + 3;
-    a2 |= (a3[2] << 16);
-    *(u8 **)(arg0) = a3 + 4;
-    a2 |= (a3[3] << 24);
-    if (a2 != 0x6468544D) {
-        return -1;
-    }
-    *(u8 **)(arg0) = a3 + 5;
-    a2 = a3[4];
-    *(u8 **)(arg0) = a3 + 6;
-    a2 = (a2 << 8) | a3[5];
-    *(u8 **)(arg0) = a3 + 7;
-    a2 = (a2 << 8) | a3[6];
-    *(u8 **)(arg0) = a3 + 8;
-    a2 = (a2 << 8) | a3[7];
-    v1 = (a3[8] << 8) | a3[9];
-    if (v1 != 0) {
-        return -1;
-    }
-    v1 = (a3[10] << 8) | a3[11];
-    if ((s16)v1 != 1) {
-        return -1;
-    }
-    a0 = (s16)((a3[12] << 8) | a3[13]);
-    if (a0 & 0x8000) {
-        return -1;
-    }
-    *(u16 *)((char *)(arg0) + 0x1E6) = a0 & 0x7FFF;
-    *(u8 **)(arg0) += a2;
-    return 0;
-}
+INCLUDE_ASM("asm/nonmatchings/800", func_80038698);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800387C0);
 
@@ -15914,9 +15723,7 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80039F50);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8003A098);
 
-void func_8003A0D0(s32 *arg0) {
-    (*arg0)++;
-}
+INCLUDE_ASM("asm/nonmatchings/800", func_8003A0D0);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8003A0E4);
 

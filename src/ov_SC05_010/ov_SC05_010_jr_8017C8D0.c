@@ -3499,7 +3499,38 @@ void func_8017DE28(s32 p) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017DEEC);
+extern s32 func_80146E98(s32 a0);
+extern void func_80162CCC(void);
+
+void func_8017DEEC(s32 a0) {
+    u8 *s0;
+    u8 *s2;
+    u16 w;
+
+    s2 = *(u8 **)(a0 + 0x4C);
+    s0 = *(u8 **)(a0 + 0x20);
+
+    if (func_80146E98(a0) != 0) {
+        w = *(u16 *)(s0 + 0x1C) + 0x400;
+        *(u16 *)(s0 + 0x1C) = w;
+        *(u16 *)(s0 + 0x18) = w;
+        if ((s16)w >= 0x7001) {
+            *(u16 *)(s0 + 0x1C) = 0x7000;
+            *(u16 *)(s0 + 0x18) = 0x7000;
+        }
+
+        w = *(u16 *)(s0 + 0x1A) + 0x100;
+        *(u16 *)(s0 + 0x1A) = w;
+        if ((s16)w >= 0x7001) {
+            *(u16 *)(s0 + 0x1A) = 0x7000;
+        }
+    }
+
+    if (*(u16 *)s2 != 0x16) {
+        ((void (*)(s32))func_80162CCC)(a0);
+    }
+}
+
 
 
 
@@ -4070,7 +4101,57 @@ void func_8018060C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_801806A0);
+typedef struct {
+    u8 unk00[0x70];
+    s16 unk70;
+    s16 unk72;
+    s16 unk74;
+    s16 unk76;
+    u8 pad78[0x84];
+    s16 unkFC;
+} Work;
+
+extern void MoveImage(void *a0, s32 a1, s32 a2);
+extern u8 D_801925C4[];
+extern s16 D_80192614[];
+extern s16 D_801926D4[];
+
+void func_801806A0(Work *work, s32 arg1)
+{
+    s32 i;
+
+    if (work->unk76 > 0) {
+        for (i = 0; i < 5; i++) {
+            if (work->unk76 >= D_801926D4[i]) {
+                if (work->unkFC == i) {
+                    return;
+                }
+                MoveImage(D_801925C4 + i * 0x10, work->unk70 * 0x10 + 0x2B0, 0x100);
+                MoveImage(D_801925C4 + i * 0x10 + 8, 0x160, work->unk70 + 0x147);
+                work->unkFC = i;
+                return;
+            }
+        }
+        return;
+    }
+    if (arg1 != 0) {
+        if (work->unk76 == 0) {
+            work->unk76 = 300;
+            MoveImage(D_801925C4, work->unk70 * 0x10 + 0x2B0, 0x100);
+            MoveImage(D_801925C4 + 8, 0x160, work->unk70 + 0x147);
+            work->unkFC = 0;
+            return;
+        }
+        if (work->unk76 >= -4) {
+            MoveImage(&D_801926D4[work->unk76 * 8], work->unk70 * 0x10 + 0x2B0, 0x100);
+            MoveImage(&D_801926D4[work->unk76 * 8 + 4], 0x160, work->unk70 + 0x147);
+            return;
+        }
+    }
+    MoveImage(&D_80192614[(work->unk76 & 7) * 8], work->unk70 * 0x10 + 0x2B0, 0x100);
+    MoveImage(&D_80192614[(work->unk76 & 7) * 8 + 4], 0x160, work->unk70 + 0x147);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_80180854);
 
@@ -4090,7 +4171,18 @@ INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_80180E2
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_80180F84);
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_801813F4);
+extern void (*D_80192854[])(void);
+
+void func_801813F4(s32 arg0) {
+    D_80192854[*(u16 *)(arg0 + 2)]();
+    if (*(u16 *)arg0 != 0) {
+        *(u16 *)(arg0 + 0xFC) &= 0xFFF;
+        *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) = 0x1000 - (func_80047948(*(s16 *)(arg0 + 0xFC)) >> 3);
+        *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = (func_80047948(*(s16 *)(arg0 + 0xFC)) >> 3) + 0x1000;
+        *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1C) = (func_80047948(*(s16 *)(arg0 + 0xFC)) >> 3) + 0x1000;
+    }
+}
+
 
 extern void func_800599B8(void *a0, void *a1);
 extern void func_8012C218(void *a0);

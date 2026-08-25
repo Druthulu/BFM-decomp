@@ -4326,7 +4326,100 @@ INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017F09
 
 INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017F0D0);
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017F15C);
+extern void func_8012AD80();
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012A828();
+extern void func_8017F888(s32 *a0, s32 *a1);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s16 D_801D0B7C;
+extern void D_80186558;
+extern void D_801BCE04;
+
+void func_8017F15C(s32 s0)
+{
+    register s32 v1 __asm__("v1");
+    s32 t;
+    s32 u;
+    s32 z;
+
+    v1 = *(u16 *)(s0 + 0x34);
+    switch (v1) {
+    case 0:
+        v1 = *(s32 *)(s0 + 0x20);
+        *(u16 *)(v1 + 0x12) = *(u16 *)(v1 + 0x12) - 0x20;
+        v1 = *(s32 *)(s0 + 0x20);
+        *(u16 *)(v1 + 0x10) = *(u16 *)(v1 + 0x10) + 0x18;
+        func_8012AD80(s0);
+        if (func_8012BEE8(s0) == 0) {
+            return;
+        }
+        v1 = *(s32 *)(s0 + 0x20);
+        *(u16 *)(v1 + 0x1C) = 0x2400;
+        *(u16 *)(v1 + 0x1A) = 0x2400;
+        *(u16 *)(v1 + 0x18) = 0x2400;
+        *(u16 *)(s0 + 0xFE) = 0x120;
+        *(s32 *)(s0 + 0x1C) = 0x40;
+        *(u16 *)(s0 + 0x34) += 1;
+        return;
+    case 1:
+        v1 = *(s32 *)(s0 + 0x20);
+        *(u16 *)(v1 + 0x10) = *(u16 *)(v1 + 0x10) + 0x80;
+        v1 = *(s32 *)(s0 + 0x20);
+        *(u16 *)(v1 + 0x14) = *(u16 *)(v1 + 0x14) - 0x10;
+        func_8012AD80(s0);
+        if (func_8012BEE8(s0) != 0) {
+            *(u16 *)(s0 + 0x34) += 1;
+            return;
+        }
+        t = *(s32 *)(s0 + 0x20);
+        if (*(s16 *)(t + 0x18) >= 0x201) {
+            *(s16 *)(t + 0x18) = *(s16 *)(t + 0x18) - *(u16 *)(s0 + 0xFE);
+        }
+        u = *(s32 *)(s0 + 0x20);
+        v1 = *(u16 *)(u + 0x18);
+        *(u16 *)(u + 0x1C) = v1;
+        *(u16 *)(u + 0x1A) = v1;
+        if (*(s16 *)(s0 + 0xFE) < 0x41) {
+            return;
+        }
+        *(u16 *)(s0 + 0xFE) = *(s16 *)(s0 + 0xFE) - 8;
+        return;
+    case 2:
+        if (*(u16 *)&D_801D0B7C != 7) {
+            return;
+        }
+        func_8017F888((s32 *)s0, (s32 *)&D_80186558);
+        z = *(s32 *)(s0 + 0x20);
+        *(u16 *)(z + 0x14) = 0;
+        *(u16 *)(z + 0x12) = 0;
+        *(u16 *)(z + 0x10) = 0;
+        v1 = *(s32 *)(s0 + 0x20);
+        *(u16 *)(v1 + 0x1C) = 0x1000;
+        *(u16 *)(v1 + 0x1A) = 0x1000;
+        *(u16 *)(v1 + 0x18) = 0x1000;
+        *(u16 *)(s0 + 0x34) += 1;
+        return;
+    case 3:
+        if (*(u16 *)&D_801D0B7C != 6) {
+            return;
+        }
+        func_8012A828(s0, (void *)&D_801BCE04);
+        *(s32 *)(s0 + 0x10) = 0x00080000;
+        *(s32 *)(s0 + 0x14) = -0x160000;
+        *(s32 *)(s0 + 0x18) = 0x00180000;
+        *(s32 *)(s0 + 0x1C) = 0xC;
+        v1 = func_80132EF4(s0, 0x76);
+        if (v1 != 0) {
+            *(u16 *)(v1 + 0xA) = *(u16 *)(v1 + 0xA) - 0x50;
+        }
+        func_8012AD44((s32 *)s0, 6);
+        func_8002D4C8(0xC1B, 0);
+        return;
+    }
+}
+
 
 
 extern void (*D_80186560[])(void);
@@ -5057,7 +5150,21 @@ void func_801813D4(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_801814B0);
+void func_801814B0(s32 param)
+{
+    extern s32 func_8012BEE8(s32 arg0);
+    extern void func_8012C218(void *arg0);
+    extern void func_8012AD80(s32 arg0);
+
+    if (func_8012BEE8(param) != 0) {
+        func_8012C218((void *)param);
+    } else {
+        func_8012AD80(param);
+        *(u16 *)(*(s32 *)(param + 0x20) + 0x10) += *(u16 *)(param + 0x106);
+        *(u16 *)(*(s32 *)(param + 0x20) + 0x14) += *(u16 *)(param + 0x108);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_80181528);
 
