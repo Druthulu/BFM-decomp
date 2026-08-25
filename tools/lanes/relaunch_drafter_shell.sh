@@ -20,7 +20,7 @@ cd /home/musashi/bfm-decomp
 BEFORE=" $(ls .run/ready/ 2>/dev/null | tr '\n' ' ')"
 DEADLINE=$(( $(date +%s) + 5400 ))
 say(){ echo "[$(date +%H:%M:%S)] [relaunch] $*"; }
-say "waiting for a ready marker not in:$BEFORE"
+say "waiting for a ready marker not in:$BEFORE (5s poll — the running python still carries the PAID lane)"
 new_marker(){
   for m in $(ls .run/ready/ 2>/dev/null); do
     case "$BEFORE" in *" $m "*) ;; *) return 0;; esac
@@ -30,7 +30,7 @@ new_marker(){
 while ! new_marker; do
   [ "$(date +%s)" -ge "$DEADLINE" ] && { say "deadline passed — NOT restarting"; exit 1; }
   [ -e .run/ox_campaign.stop ] && { say "campaign stopped"; exit 0; }
-  sleep 30
+  sleep 5
 done
 say "a wave queued; restarting the drafter shell"
 pkill -f 'bash .run/drafter.sh' 2>/dev/null || true

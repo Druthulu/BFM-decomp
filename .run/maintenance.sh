@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# TWO PATHS, ONE SCRIPT: this file is tracked at BOTH .run/maintenance.sh and
+# tools/lanes/maintenance.sh, and `bash .run/maintenance.sh` is what actually runs. They diverged
+# once (P31 S59->S60): tools/lanes/ held a pre-S59 copy, an edit landed there, and copying it over
+# .run/ silently reverted the R47 shape filter, the R48 (binary,fn) keying, reloc --fix,
+# rtu_second_chance and fix_tu_ret_decls. EDIT ONE, COPY TO THE OTHER, DIFF BOTH BEFORE COMMITTING.
 # The FREE lane on a loop: re-run the A-prop sibling remap whenever the gater is idle.
 #
 # It compounds — every exemplar the waves bank creates new PURE seeds — and costs zero model
@@ -28,8 +33,12 @@ while [ ! -e .run/ox_campaign.stop ]; do
   NEWFN=$(git log -$(( NOW - LAST > 0 ? NOW - LAST : 1 )) --format=%s 2>/dev/null \
           | grep -oP '— \K[0-9]+(?= banked)' | paste -sd+ | bc 2>/dev/null || echo 0)
   NEWFN=${NEWFN:-0}
-  if [ "$NEWFN" -lt 150 ]; then
-    say "only $NEWFN functions banked since the last pass (need 150) — skipping"
+  # THRESHOLD 150 -> 50 (Drew, P31 S59): the A-prop pipeline was rebuilt to consume every
+  # verdict layer and the lane now also carries the free reject-recovery and the periodic
+  # fleet R22, so a pass is worth running on a smaller refill than when it only re-swept an
+  # unchanged sibling pool. 150 was tuned for the old dead lane.
+  if [ "$NEWFN" -lt 50 ]; then
+    say "only $NEWFN functions banked since the last pass (need 50) — skipping"
     sleep 1800; continue
   fi
   echo "$NOW" > .run/maint_last_rev
@@ -154,6 +163,28 @@ PY
       say "nothing banked this pass"
     fi
   fi
+  # PERIODIC FLEET CHECK (P31 S59). Two binaries sat RED for hours — ov_SC07_010 from a commit whose
+  # tree state was never built, ov_SC07_002 from a stale 2-table jtbl pad spec — and NOTHING noticed,
+  # because every lane only ever checks the binary it is currently touching. A byte-gate is a
+  # correctness oracle with a null coverage model: it is silent about everything it did not build.
+  # So sweep the whole fleet on a slow cadence, report REDs loudly, and FIX NOTHING automatically —
+  # a wrong repair to a pad spec or a config is exactly how a silent byte shift gets committed.
+  # Every 4th pass (~3 h). Skipped while any gate is in flight: check-all rebuilds stale objects and
+  # must not race a gate's build for the same binary.
+  FC=$(cat .run/maint_fleet_count 2>/dev/null || echo 0); FC=$((FC+1)); echo "$FC" > .run/maint_fleet_count
+  if [ $((FC % 4)) -eq 0 ] && ! pgrep -f 'tools/sweep_parallel|tools/gate_stage|tools/gate_main' >/dev/null; then
+    say "fleet R22 sweep (every 4th pass) — this checks binaries no lane has touched"
+    make check-all JOBS=12 >.run/fleet_check.log 2>&1 || true
+    grep -E "^\[FAIL\]" .run/check-all.txt 2>/dev/null | awk '{print $2}' > .run/fleet_red.txt || true
+    NRED=$(grep -c . .run/fleet_red.txt 2>/dev/null || echo 0)
+    if [ "$NRED" -gt 0 ]; then
+      say "*** $NRED BINARY/BINARIES ARE RED — see .run/fleet_red.txt (NOT auto-fixed, by design) ***"
+      head -8 .run/fleet_red.txt | sed 's/^/      RED: /'
+    else
+      say "fleet R22: all binaries byte-identical ($(grep -c '^\[ OK \]' .run/check-all.txt 2>/dev/null || echo 0) checked)"
+    fi
+  fi
+
   say "pass complete; sleeping 45m"
   sleep 2700
 done

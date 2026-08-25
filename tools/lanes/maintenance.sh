@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# TWO PATHS, ONE SCRIPT: this file is tracked at BOTH .run/maintenance.sh and
+# tools/lanes/maintenance.sh, and `bash .run/maintenance.sh` is what actually runs. They diverged
+# once (P31 S59->S60): tools/lanes/ held a pre-S59 copy, an edit landed there, and copying it over
+# .run/ silently reverted the R47 shape filter, the R48 (binary,fn) keying, reloc --fix,
+# rtu_second_chance and fix_tu_ret_decls. EDIT ONE, COPY TO THE OTHER, DIFF BOTH BEFORE COMMITTING.
 # The FREE lane on a loop: re-run the A-prop sibling remap whenever the gater is idle.
 #
 # It compounds — every exemplar the waves bank creates new PURE seeds — and costs zero model
@@ -15,10 +20,6 @@ while [ ! -e .run/ox_campaign.stop ]; do
   if [ -n "$(ls .run/ready/ 2>/dev/null)" ] || pgrep -f 'tools/sweep_parallel' >/dev/null; then
     sleep 300; continue
   fi
-  # THRESHOLD 150 -> 50 (Drew, P31 S59): the A-prop pipeline was rebuilt to consume every
-  # verdict layer and the lane now also carries the free reject-recovery and the periodic
-  # fleet R22, so a pass is worth running on a smaller refill than when it only re-swept an
-  # unchanged sibling pool. 150 was tuned for the old dead lane.
   # EXEMPLAR-COUNT TRIGGER, not a timer. The A-prop pool only refills when waves bank NEW
   # exemplars that create fresh PURE seeds; on a 45-minute timer it re-swept an unchanged
   # population and banked 390 -> 7 -> 0 -> 0 (P31 S58), holding a sweep slot and the draw lock for
@@ -32,6 +33,10 @@ while [ ! -e .run/ox_campaign.stop ]; do
   NEWFN=$(git log -$(( NOW - LAST > 0 ? NOW - LAST : 1 )) --format=%s 2>/dev/null \
           | grep -oP '— \K[0-9]+(?= banked)' | paste -sd+ | bc 2>/dev/null || echo 0)
   NEWFN=${NEWFN:-0}
+  # THRESHOLD 150 -> 50 (Drew, P31 S59): the A-prop pipeline was rebuilt to consume every
+  # verdict layer and the lane now also carries the free reject-recovery and the periodic
+  # fleet R22, so a pass is worth running on a smaller refill than when it only re-swept an
+  # unchanged sibling pool. 150 was tuned for the old dead lane.
   if [ "$NEWFN" -lt 50 ]; then
     say "only $NEWFN functions banked since the last pass (need 50) — skipping"
     sleep 1800; continue
@@ -48,17 +53,60 @@ json.dump([{'fn':r['fn'],'binary':r['binary'],'draft':r['draft']} for r in s],
 print('drafts:',len(s))
 PY
   .venv/bin/python tools/reloc_identity.py --batch .run/reloc_maint.json -j 12 --out .run/reloc_maint.out.json 2>&1 | tail -1
+  # MECHANICAL SYMBOL REPAIR (S59): an unambiguous reloc MISMATCH is a RENAME, not a reject —
+  # --fix rewrites the draft in place (it refuses ambiguity, R39) and the re-check below refreshes
+  # the verdicts so a repaired draft stages on this same pass. Measured: 4 of 4 MISMATCHes of the
+  # first fixed batch repaired to AGREE/MATCH this way.
   .venv/bin/python - <<'PY'
-import json,os,shutil
+import json, subprocess
+res = json.load(open('.run/reloc_maint.out.json'))
+mm = [r for r in res if r.get('status') == 'MISMATCH']
+if mm:
+    rows = {(r['binary'], r['fn']) for r in mm}
+    batch = [r for r in json.load(open('.run/reloc_maint.json')) if (r['binary'], r['fn']) in rows]
+    json.dump(batch, open('.run/reloc_maint_mm.json', 'w'), indent=1)
+    subprocess.run(['.venv/bin/python', 'tools/reloc_identity.py', '--batch',
+                    '.run/reloc_maint_mm.json', '-j', '4', '--fix'], capture_output=True)
+    p = subprocess.run(['.venv/bin/python', 'tools/reloc_identity.py', '--batch',
+                        '.run/reloc_maint_mm.json', '-j', '4', '--out',
+                        '.run/reloc_maint_mm.out.json'], capture_output=True)
+    fixed = {(r['binary'], r['fn']): r for r in json.load(open('.run/reloc_maint_mm.out.json'))}
+    res = [fixed.get((r.get('binary'), r['fn']), r) for r in res]
+    json.dump(res, open('.run/reloc_maint.out.json', 'w'), indent=1)
+    n = sum(1 for r in fixed.values() if r['status'] == 'AGREE')
+    print(f'reloc --fix: {n}/{len(mm)} MISMATCH draft(s) repaired to AGREE')
+PY
+  .venv/bin/python - <<'PY'
+import json,os,shutil,collections
 res=json.load(open('.run/reloc_maint.out.json'))
-ok={r['fn'] for r in res if r.get('status')=='AGREE'}
-sel=[r for r in json.load(open('.run/aprop_maint_slate.json')) if r['fn'] in ok]
+# STAGE ONLY WHAT CAN BANK (S59, measured). status==AGREE alone let 82 shape-DIFF drafts through
+# — reloc AGREE says the SYMBOLS agree, shape==MATCH says the INSTRUCTIONS do; a shape-DIFF draft
+# cannot be byte-identical, so each one staged is a whole-binary build spent to learn what
+# match_one already printed. Three consecutive 0-bank passes gated 82 of these every 45 minutes.
+# Key by (binary, fn): overlays share function NAMES across binaries (func_80162CCC exists in
+# main AND ov_MAIN_012), and an fn-keyed set stages every same-named draft when ONE agrees.
+ok={(r.get('binary'), r['fn']) for r in res
+   if r.get('status') in ('AGREE','UNRESOLVED') and r.get('shape')=='MATCH'}
+sla=json.load(open('.run/aprop_maint_slate.json'))
+sel=[r for r in sla if (r['binary'], r['fn']) in ok]
+dropped=collections.Counter()
+for r in res:
+    if (r.get('binary'), r['fn']) not in ok:
+        dropped[f"{r.get('status')}/{r.get('shape') or '-'}"] += 1
 shutil.rmtree('.run/sweep_maint', ignore_errors=True)
 for r in sel:
     d=f".run/sweep_maint/{r['binary']}"; os.makedirs(d, exist_ok=True)
     shutil.copy(r['draft'], f"{d}/{r['fn']}.c")
-print('staged', len(sel))
+print('staged', len(sel), 'of', len(sla), '; dropped by class:', dict(dropped))
 PY
+  # SECOND CHANCE FOR STANDALONE COMPILE-FAILS (P31 S59). reloc_identity compiles each draft
+  # STANDALONE, but the draft is written to land in a TU that provides typedefs/decls the
+  # standalone compile lacks — the wrong oracle for the question (R33). Re-judge those against the
+  # REAL TU via rtu_match (no build tree, no locks) and stage the byte-MATCHes: measured 7 of 27
+  # such drafts were TU-byte-identical the day this landed, all previously dropped unjudged.
+  .venv/bin/python tools/rtu_second_chance.py --reloc .run/reloc_maint.out.json \
+      --slate .run/aprop_maint_slate.json --stage .run/sweep_maint -j 8 2>&1 | tail -2
+
   # FREE RECOVERY OF PRE-GATE REJECTS (P31 S59). 45% of drafts never reach the gate — the reloc
   # pre-filter drops them — and 13% of those have a body that ALREADY MATCHES with only the symbol
   # names wrong (§171). Rebasing is deterministic and costs no model tokens, so it belongs in this
@@ -67,6 +115,37 @@ PY
 
   if [ -n "$(ls .run/sweep_maint 2>/dev/null)" ]; then
     flock .run/auto/draw.lock .venv/bin/python tools/sweep_parallel.py --drafts .run/sweep_maint -j 10 2>&1 | tail -2
+    # THE RETURN-TYPE HALF OF THE STALE-DECL WALL (S59, byte-proven 14/30 on its first run): a
+    # draft the gate rejects at closeness 0 has a byte-correct body; the dominant residual is the
+    # TU's own 'extern void f(void);' against a value-returning definition — the arity pre-pass
+    # relaxes the parens, not the return. fix_tu_ret_decls retypes the TU's decls to the
+    # definition's return (byte-neutral: declared-void callers ignore $v0), gates, and restores
+    # every edit the gate does not pay for. Zero tokens; the whole-binary SHA stays sole arbiter.
+    .venv/bin/python - <<'PY'
+import json, glob, os, datetime
+cut = (datetime.datetime.now() - datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M')
+pairs = []
+for d in glob.glob('.run/sweep_maint/*/'):
+    b = os.path.basename(d.rstrip('/'))
+    p = f'.run/auto/bulk/{b}.backlog.jsonl'
+    if not os.path.exists(f'config/splat.{b}.yaml') or not os.path.exists(p):
+        continue
+    fns = {os.path.basename(c)[:-2] for c in glob.glob(d + '*.c')}
+    last = {}
+    for line in open(p, errors='replace'):
+        try: r = json.loads(line)
+        except Exception: continue
+        if r.get('name') in fns and r.get('ts', '') >= cut:
+            last[r['name']] = r
+    pairs += [[b, fn] for fn, r in last.items()
+              if r.get('status') == 'near' and r.get('closeness') == 0]
+json.dump(pairs, open('.run/ret_pairs_maint.json', 'w'))
+print('fix_tu_ret candidates:', len(pairs))
+PY
+    if [ -s .run/ret_pairs_maint.json ] && [ "$(cat .run/ret_pairs_maint.json)" != "[]" ]; then
+      .venv/bin/python tools/fix_tu_ret_decls.py --pairs-file .run/ret_pairs_maint.json \
+          --drafts .run/sweep_maint -j 6 2>&1 | tail -2
+    fi
     if [ -n "$(git status --porcelain -- src/ config/)" ]; then
       git add -A src/ config/
       # NEVER stage main's TUs (top-level src/*.c) from this lane (S59): sweep_parallel refuses
