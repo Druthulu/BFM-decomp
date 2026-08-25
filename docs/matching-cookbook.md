@@ -26533,3 +26533,499 @@ merge with a zero fallback on the other path. (2) For a value that is copied-the
 (or similarly copied-then-conditionally-modified), declare the copy's variable NARROWER than the
 source when the target shows a real copy instruction surviving in a branch delay slot — same width
 lets gcc coalesce the two into one in-place operation and delete the copy.*
+
+## §278 — ADDENDA HARVESTED FROM WAVE cf (P31 S60): 34 candidates, 13 already covered, 8 sharpenings, 4 new laws
+
+**Provenance.** Wave cf — the first wave drafted after the soft-429 fix, and the largest single-wave harvest yet reviewed. One Sonnet reviewer read all 34 notes against a corpus that had just grown by §274-§277 from the 18-wave batch earlier the same day, checking each ADDENDUM/NEW claim against the banked C in `src/` and the target `.s` before proposing it.
+
+**Verification (R14/G3).** Two claims did NOT survive byte-checking and are recorded as refuted rather than laundered in: `func_800CAE74`'s note described a "parameter reassignment" idiom that is not in the banked C at all (the real law is §279), and `func_800CBCD4`'s note named the wrong register (`$v1` where the bytes use `$v0`). At merge I re-verified §279 independently: the target carries one `slt` and zero `sltu`, and the banked C drives the bound test with a plain `s32` cursor beside a separate `s32 *` — the direction the law predicts.
+
+**Three harness suspicions, not idioms** (recorded, not acted on): `func_800CAFE4`, `func_8017F39C` and `func_800CBC14` each describe a byte-correct body that would not bank. All three resolve to documented mechanisms (§42b stale-object gate trap, §238 overlay-homonym trap), but `func_8017F39C` suspects a binary-registration mixup with a same-named function in `ov_SC01_009` — worth a maintenance look at the GATE side, not the drafting side.
+
+#### ADDENDUM to §74 (func_800D0E30, resident)
+
+**DELIBERATELY CO-PINNING TWO NAMED LOCALS TO ONE HARD REGISTER, NOT JUST TOLERATING INCIDENTAL SCRATCH REUSE**
+
+§74's "SCRATCH REUSE" bullet documents an *incidental* case: gcc uses a pinned register as a temporary
+for an unrelated value before the pinned variable's own value lands there, and calls it "usually
+benign." `func_800D0E30` (resident, 37/37 MATCH) shows the *deliberate* form of the same fact, usable
+as an active decoding lever rather than something to merely tolerate: when the target's disassembly
+shows ONE physical register carrying two unrelated short-lived value-chains at two different points in
+the function with a genuine gap between them (no instruction anywhere reads chain A's value after
+chain B's first write), declare TWO separate `register T x __asm__("$N")` locals — same `$N`, different
+C names — one per chain, rather than forcing a single C variable to span the whole gap (which would
+wrongly extend its live range and risk cse/global-alloc treating it as one value) or leaving the
+register unpinned (which gives the allocator no reason to reuse the same physical register for both
+chains at all).
+
+Byte evidence (`src/resident/resident.c:1369-1398` vs `asm/resident/nonmatchings/resident/func_800D0E30.s`):
+`register u32 t3 __asm__("$3")` and `register u32 h __asm__("$3")` are two different C locals sharing
+register `$3`. `t3` is defined and consumed only inside the first `if` block
+(`t3=(b+0x3C)&0xFF; b=t2|t3;`), dead afterward; `h` is defined right after that block (`h=t2>>8;`) and
+consumed in the second `if`'s condition, entirely inside `t3`'s dead gap; `t3` is then redefined fresh
+in the second `if` body. The two pinned locals' live ranges are provably disjoint.
+
+**Precondition: verify the gap is real (no read of the earlier chain survives past the later chain's
+first write) before co-pinning** — this is not a general "reuse pins freely" law, it is a same-hard-reg
+case of §72's "preference, not reservation."
+
+Note also: the PARAM-CARRY half of this candidate's note (assign a packed value back into the
+parameter variable when the target redefines an argument register in place) is already §167-21
+verbatim — covered, not repeated here. Its TWO-USE SPLIT claim (hoisting a shift into its own statement
+to block a fold) describes an untried counterfactual spelling and was not promoted.
+
+---
+
+---
+
+#### ADDENDUM to §172b-4 (func_80185054, ov_SC03_097)
+
+**A hand-written `(x + (x>>31)) >> 1` on an explicitly-unsigned expression is sometimes REQUIRED, not just "not required" — §172b-4's own boundary, sharpened.**
+
+§172b-4's existing addendum shows a plain `(s16)w / 2` (SIGNED context) auto-producing
+`srl 31/addu/srl 1` from gcc's own constant-division expansion — no hand-rolling needed. §1-I5
+separately states an *unsigned* divide-by-2 emits a bare `srl` with no bias at all. Both are true and
+do not contradict this entry: `func_80185054` (ov_SC03_097, MATCH 66/66) needs the FULL 3-instruction
+bias tail on a value the C code casts to `u32`, in a context where gcc's automatic lowering (per §1-I5)
+would never emit it, because unsigned division by a power of two needs no correction.
+
+**Why.** gcc cannot prove a `u32` expression is always `< 0x80000000`, so a *literally hand-written*
+round-toward-zero bias — `((u32)(t*3) + ((u32)(t*3) >> 31)) >> 1` — is not simplified away even though
+it is a mathematical no-op for every value the expression can realistically take (`t*3` is far below
+2^31 here). This is dead-in-practice-but-live-to-the-compiler code, faithfully lowered
+instruction-for-instruction: `sll/addu` (the `*3`), `srl $r,$r,31` (extract bit 31), `addu` (apply
+bias), `srl $r,$r,1` (final shift — LOGICAL because the C type of the shifted expression is unsigned).
+
+**The discriminator vs the automatic case (§172b-4/§1-I5).** If the target's bias tail sits on a value
+that is genuinely SIGNED in the source's own arithmetic (no `(u32)` needed to explain it) — the plain
+cast-division `(s16)x / K` already produces it; do not hand-roll. If the target's tail sits on a value
+that is unsigned, OR signed-but-explicitly-cast-to-unsigned for that one sub-expression, and a bare
+`srl` (§1-I5's automatic-unsigned form) is too short by 2 instructions — the bias must be spelled out
+literally, `(u32)` cast included even when the underlying variable is `s32`/`s16`.
+
+**Evidence.** `func_80185054`: block 1 (`u16` dividend, `w` declared `u32`) — `w*3` then
+`srl 31/addu/srl 1`, all logical, final op `srl`. Block 2 (dividend is
+`t = (s16)func_8004787C(...)`, itself signed) — the identical 3-op tail is reached ONLY by writing
+`((u32)(t*3) + ((u32)(t*3)>>31))>>1`; omitting the cast routes through gcc's own signed-division
+machinery, giving a shorter `sra`-terminated shape that fails to match. Source:
+`src/ov_SC03_097/ov_SC03_097_jr_80182B9C.c:4084-4085,4093-4094`. Target:
+`asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_80182B9C/func_80185054.s`, idx `8018508C-80185098` and
+`801850FC-80185108`.
+
+---
+
+---
+
+#### ADDENDUM to §265 (func_8017DC80, ov_SC07_002)
+
+**A card's embedded seed transcription can itself be a stale sibling copy — re-open the real target `.s` and diff line-by-line before finalizing, even inside this same verbatim-asm lane.**
+
+**Symptom.** A §265-lane card ships a pre-transcribed `__asm__` block as its seed (a prior session's
+attempt, or a copy adapted from a structurally similar sibling function). The seed looks right —
+same instruction count in the ballpark, same handwritten-asm tells — and it is tempting to trust it
+since §265's own workflow is "transcribe verbatim, model nothing," which reads as if there is nothing
+left to verify once a transcription exists. Byte-proven case: `func_8017DC80` (ov_SC07_002, 346 ins,
+banked at `src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c:3298`). Its precedent function in the same
+handler family, `func_80185810`, is structurally close enough that a seed built by adapting one for
+the other reads as plausible but is not byte-identical.
+
+**Mechanism.** §265 already establishes that a raw `__asm__` body must be transcribed verbatim with no
+modelling — but that rule presumes the thing being transcribed is a correct read of *this* function's
+`.s`. Two concrete deltas surfaced only on a fresh read of the true target, both invisible from the
+seed alone: (1) one conditional arm's tail jumps to a shared label (`j .L8017E0D4`) instead of
+duplicating the inline tail the seed had written out (+2 ins if missed); (2) one arm has **no** `nop`
+between its last `lbu …,0x29($v0)` and the following `j`, while a structurally similar twin arm (which
+has two more `sb` stores after the same `lbu 0x29`) *does* carry a `nop` there — the seed had copied
+the twin's slot layout onto the wrong arm (+1 ins). Both are exactly the class of instruction §265
+says to "leave alone, transcribe it" — but that only holds if the source of the transcription is the
+real `.s`, not a look-alike seed.
+
+**The law.** Before finalizing a §265-lane transcription, read the actual target `.s` fresh and diff
+it against the seed's `__asm__` block instruction-by-instruction — do not trust a seed just because it
+already looks like a correct verbatim-asm transcription. This is the same "wrong-body" risk §238
+documents for ordinary C drafts, but it survives *inside* the §265 lane specifically because that
+lane's own instruction ("transcribe verbatim, model nothing") reads as license to stop checking once
+a transcription exists.
+
+**Verification.** Confirmed in the current tree: `func_8017DC80` is banked verbatim-asm at the cited
+line; `asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0/func_8017DC80.s` contains both the
+`lbu $v0, 0x29($v0)` / `nop` pair and, later, the `j .L8017E0D4` the note describes.
+
+---
+
+---
+
+#### ADDENDUM to §17 (func_800CB794, md_MAIN_036)
+
+**THE ASYMMETRIC LOOP-BOUND LEVER, RESOLVING THE §17-NOTED "IV-FINAL-VALUE ADDRESSING" STUB**
+
+§17's own residual notes (the `func_8012C2D0` passage) flagged a case where a loop's two bound tests
+address logically the same value with two DIFFERENT instruction shapes — one folded (`base + N`
+materialized as a single `lui/addiu` off the array symbol), one a wholly separate symbol
+(`lui/addiu` of its OWN name) — and concluded *"no clean C form (pointer-var, struct-array index)
+reproduces the separate base materialization. Still a genuine residual — stub."*
+
+**The resolved lever, byte-proven on `func_800CB794` (md_MAIN_036, MATCH 0x120/0x120):** write the two
+tests as two DIFFERENT C-level bound expressions, not one reused bound:
+
+```c
+u8 *p = D_801202A0;
+if (p < D_801202A0 + 0x6480) {          /* entry guard: folds to lui/addiu(D_801202A0) + addiu 0x6480 */
+    do {
+        ...
+        p += 0x10C;
+    } while (p < D_80126720);           /* back-edge: a SEPARATE, independently-materialized symbol */
+}
+```
+
+The entry test's bound is spelled as `<array-base> + <constant>` (gcc folds this into one
+`lui/addiu` off the base plus a single `addiu` for the offset). The back-edge test's bound is spelled
+as a **distinct extern symbol name** (`D_80126720`) even though it is numerically the same address as
+`D_801202A0 + 0x6480` — this materializes its OWN independent `lui %hi/addiu %lo` pair rather than
+reusing/folding through the base. There is no single bound variable or expression that produces both
+shapes; the two tests must be written with two different spellings of "the same" address.
+
+**Evidence.** `asm/md_MAIN_036/nonmatchings/md_MAIN_036/func_800CB794.s`: entry guard at
+`800CB7A4-800CB7B0` (`lui $s0,%hi(D_801202A0); addiu $s0,%lo; addiu $v0,$s0,0x6480; sltu`); back-edge
+at `800CB884-800CB88C` (`lui $v0,%hi(D_80126720); addiu $v0,%lo(D_80126720); sltu`) — two independent
+`%hi/%lo` materializations for numerically-identical addresses. Source:
+`src/md_MAIN_036/md_MAIN_036.c:287-317`.
+
+**When it applies.** A loop whose entry guard and back-edge test bound the SAME logical range but
+whose target asm shows one bound folded (`addiu` off an already-loaded base) and the other as its own
+`lui/addiu` pair — do not chase a single C bound expression; declare a second extern for the
+numerically-identical end address and use it only at the back edge.
+
+(The candidate's induction-variable-fusion half — "write NO second pointer, let gcc's strength
+reduction fuse the givs" — is fully covered already, §30-2/§52-2/§135-17/§145/§36; not repeated here.)
+
+---
+
+---
+
+#### ADDENDUM to §162p (func_8017C120, ov_MAIN_012)
+
+**RUNG 1 ALSO COVERS A POINTER-PLUS-OFFSET ADDRESS, NOT ONLY A BARE COPY OR A GLOBAL'S ADDRESS**
+
+§162p rung 1's ladder ("use inside a loop, and the loop already hoists something → write the copy IN
+THE LOOP BODY... `move_movables` carries it to the preheader, in BODY order") was stated for a plain
+register-register copy (§48-B extended to `dim = flag;`). `func_8017C120` (ov_MAIN_012, `jr_801789AC`,
+MATCH 34/34) shows the same lever fires for a **computed address**, `s16 *q = (s16 *)p + 20;`, when
+declared as a loop-body statement inside a loop that already hoists another invariant
+(`D_80115130[i]` array-load chain).
+
+**Placement is body-order, exactly as rung 1 predicts.** Declaring `q`'s initializer OUTSIDE the loop
+(as a preheader statement written by hand) schedules it EAGERLY — before the array-load chain that also
+gets hoisted — landing it in the wrong preheader slot. Declaring it as a loop-body statement lets LICM
+hoist it, and its position among the OTHER hoisted movables is set by where it sits in the body
+relative to them, landing it in the target's slot 47 (immediately after the array-load chain's
+preheader materialization).
+
+**Precondition already covered elsewhere (§167-33), noted for completeness:** the base pointer must be
+routed through an actual pointer local (`p = &D_80115130; *p = 0;`) rather than a bare
+`D_80115130 = 0;`, so both the zero-store and the loop's `q = p + 20` derive from the SAME register —
+this is §167-33's own law, not new here.
+
+**Evidence.** `src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:5843-5850`; target
+`asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_801789AC/func_8017C120.s`.
+
+**When it applies.** A loop-invariant ADDRESS (not just a value) that must land in a specific preheader
+slot relative to another invariant the loop already hoists — try the loop-body-initializer placement
+before reaching for statement reordering outside the loop or a register pin.
+
+---
+
+---
+
+#### ADDENDUM to §20 (~L1947) (func_80186AD0, ov_SC06_032)
+
+**THE "FILL A LOAD-DELAY SLOT IN A TAIL-STORE SEQUENCE" LEVER ALSO FIRES FROM PLAIN SOURCE-ORDER PLACEMENT, NO MANUAL TEMP NEEDED, AND REACHES PAST A NON-CONSTANT WORD OP**
+
+§20's existing entry for this lever requires pulling the deferred field into an explicit named temp one
+statement early (`c = out.c; <constant stores>; *(short*)(p+0xe)=c;`) and is worded only for a tail of
+CONSTANT stores. `func_80186AD0` (ov_SC06_032, 40/40 MATCH) shows a narrower-effort variant: simply
+writing the halfword copy statement `*(u16*)(dst+K) = *(u16*)(src+K2);` in SOURCE POSITION before an
+unrelated statement — here a non-constant `*(s32*)(dst+4) |= 0x50000000;` word RMW, not another
+constant store — is enough on its own; no manual temp hoist is required. sched1 still hoists the
+halfword LOAD early (to fill the load-delay slot ahead of the OR's own load) while independently
+sinking the STORE to the end of the block, past the OR and three later constant stores.
+
+**Read as:** the entry's law is broader than its own example — the "tail" can contain a non-constant
+RMW, and the C lever is plain statement placement, not necessarily a named early temp.
+
+**Byte evidence.** `src/ov_SC06_032/ov_SC06_032_jr_80182890.c:5347-5364` vs
+`asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890/func_80186AD0.s:5E9C4-5E9E8`
+(`lhu $a0,0xE($s1)` at the OR's load site; `sh $a0,0xC($s0)` as the LAST store in the block, after
+three unrelated constant stores).
+
+*(The candidate's other claim — that a `register __asm__("$4")` pin on the copy source would delete
+the copy instruction entirely — describes a spelling the final banked code does not use (it uses a
+plain local `s32 a; a = s0;`); this could not be checked against the banked bytes and was not
+promoted. See "could not verify.")*
+
+---
+
+---
+
+#### ADDENDUM to §164-56 (func_8017F644, ov_SC04_005)
+
+**`switch` NEVER PRODUCES `range_test`'S SHAPE; A MIXED TARGET (SOME CASES FOLDED, SOME NOT) MEANS RESPELL AS SEPARATE `||` GROUPS BY K,K+1 ADJACENCY**
+
+**Symptom.** A target dispatching on a small set of case constants shows range_test's
+`addiu(-K)/sltiu(2)` shape (§164-56) for SOME of the values but a plain `andi`/compare chain for the
+rest — inside what a `switch`-shaped seed reads as one statement. `switch{case 0x31,0x32,0x33,0x27B:
+...}` compiles via `expand_end_case`'s dense-compare tree (`stmt.c`), which never calls
+`fold_truthop`/`range_test` at all: **no spelling of a `switch` can ever reproduce a mixed
+range_test/plain-compare target**, regardless of case values.
+
+**Mechanism, byte-confirmed on `func_8017F644` (ov_SC04_005).** The case set
+`{0x31,0x32,0x33,0x27B}` splits into exactly two `if`-groups by §164-56's own K,K+1-consecutive rule:
+`{0x31,0x32}` IS a K,K+1 pair and folds to `addiu $v0,$v1,-0x31 ; sltiu $v0,$v0,2 ; bnez` — **no**
+`andi 0xffff` mask, because the operand is a fresh `lhu` result (already zero-extended, no prior
+arithmetic to lose that guarantee). `{0x33,0x27B}` is NOT K,K+1-adjacent, so `range_test`'s
+consecutive-constant test never fires and it stays a plain `beq`/`bne` pair — preceded by a defensive
+`andi $v1,$v1,0xFFFF`, because the earlier `addiu`/`sltiu` on the same register loses the compiler's
+zero-extension tracking on it. Source: two SEPARATE `if` statements, each its own `||` pair —
+`if (x==0x31||x==0x32) return 1; if (x==0x33||x==0x27B) return 1;` — banked at
+`src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:5057-5075`; asm at
+`asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC/func_8017F644.s`.
+
+**Rule.** When a target's case-dispatch mixes range_test and plain-compare shapes: (1) never write it
+as a `switch` — go straight to `if`/`||`; (2) group the case constants into pairs strictly by K,K+1
+adjacency, one `if` per pair/singleton, matching whichever pairs the target folded — don't chain all
+cases into one `||`. §164-56's own "count `andi 0xffff` between `addiu` and `sltiu`" tell can point
+backwards here: the FOLDED pair may show no mask (raw unsigned load operand) while the UNFOLDED pair
+still shows one (zero-extension tracking lost after the folded pair's arithmetic). Trust the K,K+1-
+adjacency test over the mask-counting tell when the two disagree.
+
+---
+
+---
+
+#### ADDENDUM to §237 (func_8017F7FC, ov_SC03_092)
+
+**A BLOCK-SCOPE UNPROTOTYPED EXTERN DOES NOT ALWAYS SHADOW A HOSTILE FILE-SCOPE PROTOTYPE**
+
+**Symptom.** §236 point 5's fix ("block-scope the `()` decl inside your function so it shadows the
+prototype") is not universal. `func_8017F7FC` (ov_SC03_092): a block-scope
+`extern void func_80178D18();` was written to call the callee WITH an argument, but the TU's dominant
+declaration for that identifier is the FULL prototype `extern void func_80178D18(void);` — present at
+file scope (`src/ov_SC03_092/ov_SC03_092_jr_8017AE2C.c:2542`) and repeated at nearly every call site in
+this TU, including line 5358 immediately above the target's own definition. Under C89's composite-type
+rule, a declaration of an identifier with external linkage composites with every other visible
+declaration of the SAME external object — the inner unprototyped `()` form does not erase the outer
+`(void)` prototype, it merges with it. The call with an argument then fails **"too many arguments" at
+the CALL SITE**, not a warning at either declaration, which reads as an unrelated breakage because
+nothing points at the declaration itself.
+
+**Fix.** Do not contest the arity via a competing declaration. Adopt the TU's own prototype AND its
+cast-at-call-site idiom (§237 "IT FIXES" bullet 2):
+`extern void func_80178D18(void); ... ((void (*)(s32))func_80178D18)(arg0);` — banked verbatim at
+`src/ov_SC03_092/ov_SC03_092_jr_8017AE2C.c:5358-5364`, and the identical pattern recurs for this exact
+callee at nine-plus other sites across this overlay family (lines 4872, 5107, 5301, and
+`ov_SC03_092_jr_80178D40.c` / `jr_8017A4AC.c` / `jr_80181694.c`).
+
+**Boundary for §236-5.** When a callee's dominant TU declaration is a full prototype, redeclaring it
+unprototyped at block scope is not a reliable escape from its arity — cast at the use site instead.
+
+---
+
+
+## §279 — A `do/while (p < end)` LOOP UNDER AN ENTRY GUARD: the guard decides the compare, not the loop (P31 S60; wave cf, func_8017F2A4, ov_SC03_096, byte-proven)
+## §NNN — A DO-WHILE'S GUARD AND LATCH MUST REPEAT THE SAME BOUND EXPRESSION, NOT SHARE ONE LOCAL: THE REPETITION IS WHAT BUYS THE CSE'D COPY INTO A SECOND REGISTER (P31 S60; `func_8017F2A4`, ov_SC03_096, byte-proven 25/25)
+
+**Mechanism.** For a `do { ... } while (p < end)` loop dominated by an entry guard
+(`if (p < end) { do {...} while (p < end); }`), when BOTH occurrences of `end` are written as the
+identical literal expression (`base + K`) rather than hoisted to a shared named local, cse commons the
+two into ONE `lui/addiu` materialisation at the entry guard — but still emits a plain reg-reg COPY of
+that value into a SECOND register for the latch test, because the register holding it at the guard
+gets reused as scratch inside the loop body and is not live-range-safe to reuse directly at the
+back-edge. A single shared local (`s32 end = base + K;` referenced at both sites) does **not**
+reproduce this: it keeps one pseudo referenced directly at the latch with no extra copy — one
+instruction shorter, and wrong.
+
+**Evidence.** `asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC/func_8017F2A4.s`: entry —
+`addiu $v1,$a1,0x6480 ; sltu $v0,$a1,$v1 ; beqz $v0,.L8017F300`; loop-prep —
+`addu $a2,$v1,$zero` (the copy — `$v1` gets reused inside the loop for `lhu $v0,0($a1)` /
+`lw $v1,0x20($a1)`); latch — `addiu $a1,$a1,0x10C ; sltu $v0,$a1,$a2 ; bnez $v0,.L8017F2C8`. Banked
+source, `src/ov_SC03_096/ov_SC03_096_jr_8017BEBC.c:4560-4571`, literally repeats
+`D_801202A0 + 0x6480` in both the `if` guard and the `while` condition — no shared local. 25/25 MATCH;
+a shared-local rewrite measured one instruction short (24).
+
+**When it applies.** Any do-while loop with an entry guard sharing a bound with its own back-edge
+test, where the guard's bound register is reused for something else in the loop body. **Tell:** a
+lone, otherwise-unexplained `addu $rX,$rY,$zero` (or OR-with-zero) between the guard's delay slot and
+the loop label, copying the value the guard just tested — write the bound expression twice in source,
+not once in a local.
+
+*(This candidate's harness-pitfall half — "a wrong-path first read poisons every later oracle verdict
+invisibly" — is COVERED by §238's existing "replayed previous attempt" / stale-shard tells; not
+repeated here.)*
+
+---
+
+
+## §280 — THE CURSOR'S DECLARED TYPE PICKS `sltu` vs `slt`: a `T*` bound test is UNSIGNED by C rule, an integer cursor is signed (P31 S60; wave cf, func_800CAE74, md_MAIN_031, byte-proven)
+## §NNN — A LOOP CURSOR'S C TYPE (POINTER vs PLAIN INTEGER) SELECTS `sltu` vs `slt` FOR ITS BOUND TEST, INDEPENDENT OF THE VALUES INVOLVED (P31 S60; `func_800CAE74`, md_MAIN_031, byte-proven; cross-confirmed same wave by `func_8017F2A4`, ov_SC03_096)
+
+**THE LAW.** C mandates unsigned comparison semantics for `T*` relational operators (`<`, `>=`, …), so
+a loop cursor DECLARED as a pointer (`u8 *p; ... while (p < end)`) always lowers to `sltu`, while the
+identical byte-address arithmetic done through a PLAIN INTEGER cursor
+(`s32 p; ... while (p < base+K)`) lowers to `slt` — even though the underlying values, the loop body,
+and the generated addresses are byte-identical either way. This is a pure declared-TYPE dial with zero
+effect on the address arithmetic itself (both spellings emit the same `addiu`/`addu` for the bump and
+the same base computation); it only flips the one comparison opcode.
+
+**ASM EVIDENCE.** `func_800CAE74`: cursor `p`/end `base+0x1F` declared `s32`, target emits
+`slt $v0,$v1,$a3` (signed) at `func_800CAE74.s:D8`, bound hoisted at `addiu $a3,$a1,0x1F` (line B8).
+Independent same-wave confirmation, `func_8017F2A4` (ov_SC03_096): the submitting agent independently
+reports "`sltu` forces pointer-typed rec/end (s32 arithmetic emits signed `slt`)" for a different
+record-scan loop in a different overlay — same law, opposite direction, unrelated function.
+
+**WHEN IT APPLIES.** Any bottom-tested or top-tested loop whose residual is a `slt`/`sltu` MISMATCH on
+the bound test with everything else (bump, base, body) already byte-identical. Check the target opcode
+first: `sltu`/`sltiu` ⇒ declare the cursor and its bound as a pointer type; `slt`/`slti` ⇒ declare both
+as a plain signed integer (`s32`) and do the pointer arithmetic in integer space (`*(u8*)p`/`*(u8*)s`
+for the dereference, `p += 1` for the bump). Do not reach for a cast-only fix (`(s32)(p < end)` does
+not change the opcode — the DECLARED type of the compared operands is what the signed/unsigned dispatch
+reads, not a cast at the compare site) — this needs the variable's own declaration changed, not a
+use-site cast.
+
+*(The candidate's other claims — a "parameter reassignment" narrative for `arg1`, and a two-cursor
+split — do not survive checking against the actual banked C: `arg1` is untouched and lives in `$s2`
+only because it is read across a later call, ordinary call-crossing liveness already covered by
+§167-21/§76; not promoted. See the "could not verify" section.)*
+
+---
+
+
+## §281 — GROUP COPY-THEN-RMW BY OPERATION KIND, NOT FIELD BY FIELD: sched1 does the interleaving, the source must not (P31 S60; wave cf, func_80180FB4, ov_SC03_111, byte-proven)
+## §NNN — A DEPENDENT COPY-THEN-RMW BLOCK MUST BE SOURCE-GROUPED BY OPERATION KIND, NOT BY FIELD, AND SCHED1 DOES THE INTERLEAVING (P31 S60; `func_80180FB4`, ov_SC03_111, byte-proven)
+
+**The symptom.** A run of N `dst[k] = src[k]` field copies immediately followed by N `dst[k] += C`
+read-modify-writes on the SAME destination fields (a struct/array init-then-adjust idiom) diffs as a
+scheduling residual no amount of pin/fence work closes — because the actual target instruction stream
+is neither "all copies then all RMWs" nor "each copy immediately followed by its own RMW"; it is an
+sched1-interleaved mixture where a LATER copy's load/store is threaded in among an EARLIER field's RMW
+chain.
+
+**The law.** Write the SOURCE in two flat groups — every copy statement first, in field order, then
+every RMW statement, in field order:
+
+```c
+p[4] = s0[3];
+p[5] = s0[5];
+p[6] = s0[7];
+p[4] += 8;
+p[5] += 0x88;
+p[6] += 8;
+```
+
+Do **not** pair each copy with its own RMW (`p[4]=s0[3]; p[4]+=8; p[5]=s0[5]; p[5]+=0x88; ...`) — that
+spelling collapses via store-to-load forwarding and loses instructions the target keeps. sched1,
+working within the basic block, reorders and threads the resulting RTL into the target's exact
+interleave on its own; the grouping is the only C-level lever, and there is exactly one grouping (of
+the small number of legal topological orders respecting each RMW's data dependency on its own copy)
+that reaches the target.
+
+**Evidence.** `func_80180FB4` (ov_SC03_111, `jr_8017EC58`, MATCH 40/40, 0xA0 bytes). Source:
+`src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c:3661-3676`. Target:
+`asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58/func_80180FB4.s`. Instruction trace confirms the
+interleave: `lw $v1` (p) → copy1 load+store → copy2 load+store → RMW1-load → **copy3-load** (threaded
+in) → RMW1-add/store → RMW2-load → **copy3-store** (threaded in) → RMW3-load → RMW2-add → RMW3-add →
+RMW2-store → RMW3-store.
+
+**When it applies.** Any target where several fields are first copied from a source struct and then
+each independently adjusted by a constant, and the naive per-field grouping (copy;RMW;copy;RMW;...)
+undershoots the target's instruction count.
+
+**Homonym caution.** `func_80180FB4` also exists (a different body) in `asm/ov_SC06_022/` — confirm
+the overlay before transcribing (§238).
+
+---
+
+
+## §282 — gcc's OWN LOOP REVERSAL PUTS THE COUNTER INIT AFTER THE HOISTED MOVABLES — a position no hand-written down-count can reach (P31 S60; wave cf, func_80180DD8, ov_SC04_005, byte-proven)
+## §NNN — WRITE THE UP-COUNT LOOP: gcc's OWN REVERSAL PRODUCES A COUNTER-INIT INSTRUCTION THAT LANDS AFTER HOISTED MOVABLES, WHICH A HAND-WRITTEN DOWN-COUNT LOOP CANNOT REPRODUCE (P31 S60; `func_80180DD8`, ov_SC04_005, byte-proven)
+
+**The symptom.** A target loop counts DOWN from a constant with a `bgez`/`addiu -1` backedge, and the
+counter's `addiu $reg,$zero,K` initializer sits AFTER several other pre-loop constant loads the loop
+hoists (e.g. switch-dispatch case constants). Every hand-written down-count C loop
+(`for (i = K; i >= 0; i--)`) emits its counter init BEFORE those hoisted constants — an unclosable
+off-by-position residual, because the down-count statement's LUID precedes `loop_start`'s insertion
+point for the movables loop.c hoists, no matter how the source is reordered.
+
+**The law.** Write the loop as an UP-count in the source:
+`for (i = 0; i < N; i++) { ...switch(*p){...}... }`. gcc-2.7.2's own loop-reversal machinery (the
+strength-reduction pass that turns a provably-monotonic up-counting `biv` into a `dbra`-style
+down-count when doing so is cheaper — a bare decrement-and-test-sign beats an increment-and-compare)
+rewrites it into the down-count-from-`(N-1)`/`bgez` form ITSELF, as a LATE transformation. Because this
+reversal happens after the movable-hoisting pass has already placed the loop's hoisted invariants in
+the preheader, the new reversed-counter's init instruction is inserted where loop.c puts it — AFTER
+the already-hoisted movables — reproducing the target's exact instruction order. A hand-written
+down-count loop supplies its own counter-init statement at ordinary source-LUID position, which
+predates the movable-hoisting insertion point, and gcc has no later pass that moves a *source-level*
+down-count init downward past movables it did not itself just create.
+
+**Evidence.** `func_80180DD8` (ov_SC04_005, `jr_8017BEBC`, MATCH, 0x70 bytes / 28 ins). Source:
+`src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:6237-6255` — plain `for (i = 0; i < 0x60; i++)`. Target:
+`asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC/func_80180DD8.s` lines 4-10 — four `addiu` loads
+of the switch constants (`0x1FC,0x1DC,0x210,0x219`) at `80180DE4-80180DF0`, THEN
+`addiu $a0,$zero,0x5F` at `80180DF4` (the reversed counter init), loop body,
+`bgez $a0,.L80180DF8` / `addiu $a0,$a0,-0x1` backedge at `80180E38-80180E3C`. The sibling
+`func_80180E48` in the same TU (already matched, house style) independently confirms the up-count
+spelling for this loop family.
+
+**When it applies.** Target shows a down-count `bgez`/decrement loop whose counter-init constant sits
+AFTER one or more other hoisted pre-loop constants, and no reordering of a hand-written down-count
+loop's source statements relocates the init past them. No jump table need be present (this target's
+dense 4-case switch folds to compares, not a jtbl).
+
+---
+
+## What I could not verify
+
+- **func_80184458 (ov_SC04_005):** could not independently re-verify the reported 41-vs-40-instruction
+  delta between the pass-by-address and pass-by-value spellings — only the banked target is on disk,
+  not the rejected counterfactual draft. The underlying mechanism (§229's declaration corollary) is
+  already general and doesn't depend on this one instance to stand.
+
+- **func_80181600 (ov_SC01_009):** accepted the "missing TU decl → implicit-int → extend-tell silently
+  drops the promotion pair" claim on the strength of §172b-1's already-proven mechanism plus the
+  already-documented standalone-compile fact; did not independently re-derive the implicit-int
+  interaction from gcc internals in the time available.
+
+- **func_800CAE74 (md_MAIN_031) — reviewer claim did NOT survive checking.** The original note's claim
+  that the target's dataflow is a special "parameter reassignment" idiom (`arg1 = *(arg1+0xC)` parking
+  the incoming register for a later tail call) does not match the actual banked C, which uses an
+  ordinary fresh local while `arg1` itself stays untouched and lives in `$s2` purely because it is read
+  across a later `jal` — ordinary call-crossing liveness (§167-21/§76 family), not a distinct
+  mechanism. The genuinely new content of this candidate (pointer-vs-integer cursor typing selecting
+  `sltu`/`slt`) was separated out and promoted as its own NEW section above.
+
+- **func_800CBCD4 (md_MAIN_031) — reviewer claim did NOT survive checking.** The original note's claim
+  5 ("the 4th else copy needs its own fresh temp so its value lands in v1 like the target's lhu v1/sh
+  v1 pair") is factually wrong: the actual 4th else-copy in the target `.s` uses `lhu $v0`/`sh $v0`, not
+  `$v1`. The rest of the note resolves to already-covered law (§193-H, §247), so this candidate was
+  rejected outright rather than partially promoted.
+
+- **func_80186AD0 (ov_SC06_032):** the note's claim that a `register __asm__("$4")` pin on the copy
+  source deletes the copy instruction and drops the delay-slot fill could not be checked — the final
+  banked code uses a plain local (`s32 a; a = s0;`), not the pinned spelling the note describes, so
+  there is no byte evidence for that half of the claim in the current tree. Only the statement-order
+  half (verified) was promoted.
+
+- **func_800CB428 (md_MAIN_031):** the note's claim that a literal `do-while` + `break` spelling would
+  have compiled to a rotated/duplicated-header shape (vs the goto-based loop actually used) is a
+  counterfactual about an untried spelling and cannot be checked against the banked bytes; not
+  promoted, though it is consistent with the already-documented §17775/F5 "goto/label loop is invisible
+  to loop.c" fact.
+
+**Harness-defect flags (not idioms, called out per the assignment's request):** three candidates
+(func_800CAFE4, func_8017F39C, func_800CBC14) describe repeated non-banking of a body the submitting
+agent had already proven byte-correct multiple ways, with the residual explicitly attributed to
+harness/gate state rather than source — func_8017F39C in particular flags a suspected same-name
+binary-registration collision (a homonym in ov_SC01_009 sharing the symbol) as the likely cause if the
+non-bank persists. All three resolve to already-documented classes (§42b's stale-object gate trap,
+§238's overlay-homonym trap) rather than new gaps, but are flagged here in case the underlying gate
+behavior itself — not just the drafting-side diagnostic — merits a maintenance look.
