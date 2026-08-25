@@ -230,7 +230,105 @@ typedef struct {
     s32 unk0C;
 } Rsc16;                      /* 0x10 */
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800123F0);
+extern s32 func_8004787C(s32 angle);
+extern s32 func_80047948(s32 angle);
+extern void func_8001282C();
+
+void func_800123F0(s32 param_1, s32 param_2)
+{
+    s32 s0;
+    s32 s1;
+    s32 cos_val;
+    s32 sin_val;
+    register s32 v1 __asm__("$3");
+    s16 matrix[16];
+
+    s1 = (s32)param_1;
+    s0 = param_2;
+
+    sin_val = func_8004787C(s0);
+    cos_val = func_80047948(s0);
+
+    /* Build Z-rotation matrix on stack */
+    v1 = -sin_val;
+    *(s16 *)((s32)matrix + 0x00) = cos_val;
+    *(s16 *)((s32)matrix + 0x08) = cos_val;
+    *(s16 *)((s32)matrix + 0x02) = v1;
+    *(s16 *)((s32)matrix + 0x04) = 0;
+    *(s16 *)((s32)matrix + 0x06) = sin_val;
+    *(s16 *)((s32)matrix + 0x0A) = 0;
+    *(s16 *)((s32)matrix + 0x0C) = 0;
+    *(s16 *)((s32)matrix + 0x0E) = 0;
+    *(s16 *)((s32)matrix + 0x10) = 0x1000;
+
+    __asm__ __volatile__ (
+        "lw $12, 0(%0);"
+        "lw $13, 4(%0);"
+        "ctc2 $12, $0;"
+        "ctc2 $13, $1;"
+        "lw $12, 8(%0);"
+        "lw $13, 12(%0);"
+        "lw $14, 16(%0);"
+        "ctc2 $12, $2;"
+        "ctc2 $13, $3;"
+        "ctc2 $14, $4;"
+        "addiu $2, $sp, 16;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0(%0);"
+        "sh $13, 6(%0);"
+        "sh $14, 12(%0);"
+        "addiu $2, $sp, 18;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "addiu $2, %0, 2;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0($2);"
+        "sh $13, 6($2);"
+        "sh $14, 12($2);"
+        "addiu $2, $sp, 20;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "addiu $2, %0, 4;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0($2);"
+        "sh $13, 6($2);"
+        "sh $14, 12($2)"
+        :
+        : "r"(s1)
+        : "$12", "$13", "$14", "$2"
+    );
+
+    func_8001282C(s1);
+}
 
 extern s32 func_8004787C(s32 angle);
 extern s32 func_80047948(s32 angle);
@@ -717,7 +815,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80014004);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80014028);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001404C);
+void func_8001404C(s32 *a0, s32 *a1) {
+        *(u16 *)((s32)a0 + 0x4) = *(u16 *)((s32)a1 + 0x0);
+        *(u16 *)((s32)a0 + 0xA) = *(u16 *)((s32)a1 + 0x2);
+        *(u16 *)((s32)a0 + 0x10) = *(u16 *)((s32)a1 + 0x4);
+    }
 
 void func_80014070(void* a0, void* a1)
 {
@@ -3203,7 +3305,10 @@ void func_80016D78(S16D78 *arg0, s32 arg1)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80016EB0);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80016ED4);
+void func_80016ED4(void *arg0)
+{
+    func_80016F18(arg0, 0, 0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80016EF8);
 
@@ -3518,7 +3623,10 @@ void func_80017294(Src_80017294 *arg0, s32 arg1)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001739C);
+void func_8001739C(void *arg0)
+{
+    func_800173DC(arg0, 0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800173BC);
 
@@ -3801,7 +3909,10 @@ void func_80017778(Src_80017778 *arg0, s32 arg1, s32 arg2)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800178C8);
+void func_800178C8(void *arg0)
+{
+    func_80017930(arg0, 0, 1);
+}
 
 void func_800178EC(s32 a0) {
     func_80017930(a0, 0, 0);
@@ -7041,7 +7152,11 @@ s32 func_8001BFE8(void) {
     return D_800747D8;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001BFF8);
+extern s32 D_800747D8;
+
+s32 func_8001BFF8(void) {
+    return D_800747D8 = 1;
+}
 
 
 extern u8 D_800B9A11;
@@ -12472,7 +12587,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80028F98);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028FBC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028FDC);
+extern void func_800291A0(s32, s32);
+
+void func_80028FDC(s32 a0) {
+    func_800291A0(0x2C, a0 & 0xFF);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80029000);
 
@@ -13162,7 +13281,12 @@ s32 func_8002A738(void) {
     return D_80078F00;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002A748);
+extern s32 D_80078EFC;
+extern u16 D_80063900[][8];
+
+s32 func_8002A748(void) {
+    return D_80063900[D_80078EFC][0];
+}
 
 extern s32 D_80078EFC;
 extern u16 D_80063902[][8];
@@ -18659,7 +18783,21 @@ s32 func_80038210(s32 a0, s16 a1, s32 a2)
     return -1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80038308);
+extern u8 D_800B9ED2[];
+extern u8 D_800B9CD8[];
+
+typedef s32 a32;
+
+void func_80038308(s16 a0)
+{
+    register a32 arg0 asm("$4");
+    s32 offset;
+
+    offset = arg0 * 127;
+    offset = offset * 4;
+    D_800B9ED2[offset] = 1;
+    func_80038908(&D_800B9CD8[offset]);
+}
 
 extern u8 D_800B9ECA[];
 

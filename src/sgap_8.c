@@ -2,7 +2,47 @@
 
 INCLUDE_ASM("asm/nonmatchings/sgap_8", _SsVmKeyOnNow);
 
-INCLUDE_ASM("asm/nonmatchings/sgap_8", VM_NOWON_OBJ_1C0);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tVM_NOWON_OBJ_1C0\n"
+    ".type\tVM_NOWON_OBJ_1C0, @function\n"
+    ".ent\tVM_NOWON_OBJ_1C0\n"
+    "VM_NOWON_OBJ_1C0:\n"
+    ".set\tnoreorder\n"
+    "lui   $v1, %hi(D_800B9B2B)\n"
+    "lbu   $v1, %lo(D_800B9B2B)($v1)\n"
+    "nop\n"
+    "sltiu $v0, $v1, 0x40\n"
+    "beqz  $v0, .L80040B38\n"
+    " mult $a2, $v1\n"
+    "mflo  $v0\n"
+    "lui   $v1, 0x410\n"
+    "ori   $v1, $v1, 0x4105\n"
+    "multu $v0, $v1\n"
+    "mfhi  $v1\n"
+    "subu  $v0, $v0, $v1\n"
+    "srl   $v0, $v0, 1\n"
+    "addu  $v1, $v1, $v0\n"
+    "j     VM_NOWON_OBJ_230\n"
+    " srl  $a2, $v1, 5\n"
+    ".L80040B38:\n"
+    "addiu $v0, $zero, 0x7F\n"
+    "subu  $v0, $v0, $v1\n"
+    "mult  $a1, $v0\n"
+    "mflo  $v0\n"
+    "lui   $v1, 0x410\n"
+    "ori   $v1, $v1, 0x4105\n"
+    "multu $v0, $v1\n"
+    "mfhi  $v1\n"
+    "subu  $v0, $v0, $v1\n"
+    "srl   $v0, $v0, 1\n"
+    "addu  $v1, $v1, $v0\n"
+    "srl   $a1, $v1, 5\n"
+    ".set\treorder\n"
+    ".size\tVM_NOWON_OBJ_1C0, . - VM_NOWON_OBJ_1C0\n"
+    ".end\tVM_NOWON_OBJ_1C0\n"
+);
 
 __asm__(
     ".text\n"
@@ -278,6 +318,21 @@ s32 func_80041354(s32 param_1, u16 *param_2, u16 *param_3)
 
 INCLUDE_ASM("asm/nonmatchings/sgap_8", func_800413B8);
 
-INCLUDE_ASM("asm/nonmatchings/sgap_8", func_80041400);
+
+extern s32 D_800C73D8[];
+extern s16 D_800B9B36;
+
+s32 func_80041400(s32 param_1)
+{
+    s32 base;
+    s32 vab;
+
+    base = D_800C73D8[param_1 & 0xFF];
+    __asm__ __volatile__("" ::: "memory");
+    D_800B9B36 = param_1;
+    vab = (param_1 & 0xFF00) >> 8;
+    base += vab * 0xB0;
+    return *(s16 *)(base + 0x5A);
+}
 
 INCLUDE_ASM("asm/nonmatchings/sgap_8", func_80041448);

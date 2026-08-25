@@ -1991,7 +1991,31 @@ __asm__(
     ".end\t_dws\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1FF4);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1FF4\n"
+    ".ent\tSYS_OBJ_1FF4\n"
+    "SYS_OBJ_1FF4:\n"
+        ".set\tnoreorder\n"
+        "lh    $a1, 6($s1)\n"
+        "sh    $v1, 4($s1)\n"
+        "bltz  $a1, .L8005B25C\n"
+        "addu  $v1, $a1, $zero\n"
+        "lui   $v0, %hi(D_8007278E)\n"
+        "lh    $v0, %lo(D_8007278E)($v0)\n"
+        "addu  $a0, $v1, $zero\n"
+        "addu  $v1, $v0, $zero\n"
+        "slt   $v0, $v0, $a1\n"
+        "beqz  $v0, .L8005B264\n"
+        "sll   $v0, $a0, 16\n"
+        "j     SYS_OBJ_202C\n"
+        "addu  $a0, $v1, $zero\n"
+        ".L8005B25C:\n"
+        "addu  $a0, $zero, $zero\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_1FF4\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_202C);
 
