@@ -106,6 +106,37 @@ PY
 
   if [ -n "$(ls .run/sweep_maint 2>/dev/null)" ]; then
     flock .run/auto/draw.lock .venv/bin/python tools/sweep_parallel.py --drafts .run/sweep_maint -j 10 2>&1 | tail -2
+    # THE RETURN-TYPE HALF OF THE STALE-DECL WALL (S59, byte-proven 14/30 on its first run): a
+    # draft the gate rejects at closeness 0 has a byte-correct body; the dominant residual is the
+    # TU's own 'extern void f(void);' against a value-returning definition — the arity pre-pass
+    # relaxes the parens, not the return. fix_tu_ret_decls retypes the TU's decls to the
+    # definition's return (byte-neutral: declared-void callers ignore $v0), gates, and restores
+    # every edit the gate does not pay for. Zero tokens; the whole-binary SHA stays sole arbiter.
+    .venv/bin/python - <<'PY'
+import json, glob, os, datetime
+cut = (datetime.datetime.now() - datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M')
+pairs = []
+for d in glob.glob('.run/sweep_maint/*/'):
+    b = os.path.basename(d.rstrip('/'))
+    p = f'.run/auto/bulk/{b}.backlog.jsonl'
+    if not os.path.exists(f'config/splat.{b}.yaml') or not os.path.exists(p):
+        continue
+    fns = {os.path.basename(c)[:-2] for c in glob.glob(d + '*.c')}
+    last = {}
+    for line in open(p, errors='replace'):
+        try: r = json.loads(line)
+        except Exception: continue
+        if r.get('name') in fns and r.get('ts', '') >= cut:
+            last[r['name']] = r
+    pairs += [[b, fn] for fn, r in last.items()
+              if r.get('status') == 'near' and r.get('closeness') == 0]
+json.dump(pairs, open('.run/ret_pairs_maint.json', 'w'))
+print('fix_tu_ret candidates:', len(pairs))
+PY
+    if [ -s .run/ret_pairs_maint.json ] && [ "$(cat .run/ret_pairs_maint.json)" != "[]" ]; then
+      .venv/bin/python tools/fix_tu_ret_decls.py --pairs-file .run/ret_pairs_maint.json \
+          --drafts .run/sweep_maint -j 6 2>&1 | tail -2
+    fi
     if [ -n "$(git status --porcelain -- src/ config/)" ]; then
       git add -A src/ config/
       # NEVER stage main's TUs (top-level src/*.c) from this lane (S59): sweep_parallel refuses

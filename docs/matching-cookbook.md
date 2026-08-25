@@ -25467,3 +25467,78 @@ being followed by drafters; every rider above arrived stated as a certainty.
 
 ---
 
+
+## §270 — The A-prop 0-bank anatomy: a byte-correct body still needs FOUR layers to agree (P31 S59)
+
+The free A-prop lane staged 117 mechanically-remapped drafts a pass and banked ZERO, three passes
+running. The autopsy decomposed into four INDEPENDENT defects — none of them the body:
+
+  82/117  shape-DIFF staged anyway (the filter read reloc `status==AGREE` and ignored `shape`)
+  35/82   ONE ordinal-pairing defect (§271) — the value/offset swap
+  16/117  match_one MATCH, TU rejected (§272 — the `(void)`-decl + empty-call wall)
+  19/117  standalone COMPILE-FAIL used as a TU verdict (§273 — wrong oracle)
+
+**Law: a mechanical remap is judged four times — instructions (match_one), symbols
+(reloc_identity), TU coexistence (rtu_match / the gate ladder), whole-binary bytes (the gate) —
+and a lane that stages on fewer than all four burns a build per missing layer, per pass, forever.**
+The four verdicts disagree BY DESIGN (each sees what the others mask); the lane must consume all
+of them. `.run/maintenance.sh` now stages on `status∈{AGREE,UNRESOLVED} ∧ shape==MATCH`, keyed
+`(binary, fn)` — overlays share function NAMES (three binaries each carry a `func_8013BCDC`), so
+an fn-keyed set/rowmap silently acts on the wrong binary's row (bit reloc_identity --fix too).
+
+## §271 — Ordinal IMM pairing: text order is NOT emission order; emit CANDIDATES, let the oracle pick (P31 S59)
+
+35 staged drafts shared one residual, byte-for-byte:
+
+    draft:  li v0,2 ; sh v0,3(s0)        target:  li v0,3 ; sh v0,2(s0)
+
+i.e. `*(p + 3) = 2` drafted for a target of `*(p + 2) = 3`. Two stacked causes in the §T87
+ordinal resolver (`family_remap._ordinal_edits`):
+
+  1. It scanned the literal's SPELLINGS one form at a time (`0x2` before `2`) and paired against
+     the first form with any occurrences — a seed spelling the offset `0x2` and the value `2`
+     exposed only the offset span to the pairing.
+  2. Even unioned, an in-order zip is wrong for `*(p + OFF) = VAL`: the C names OFF first, gcc
+     emits VAL's `li` first.
+
+**Law: no static pairing of asm imm-positions onto C literal occurrences is right for every
+shape. Enumerate the order-preserving assignments (union of spellings, capped) and adjudicate
+with match_one at DRAFT time — seconds against the gate's minutes.** Implemented as
+`family_remap._ordinal_candidates` + `imm_map_tier1(want_alts=True)` + the match_one loop in
+`aprop_autodraft`; the fix also un-skipped the ~50 members the single guess had refused as
+`asm-ambiguous`. Spot-proof `ov_SC04_018/func_8018067C`: `*(short *)((char *)arg0 + 0x2) = 3;`.
+
+## §272 — The `(void)`-decl + empty-call wall: K&R the DEFINITION, not just the decls (P31 S59)
+
+A family member's TU (and engine_core.h, inside DEFINE_ macros the TU instantiates — 42 of them
+for func_80162CCC, at the infamous `engine_core.h:57282`) declares the member
+`extern void f(void);` because every banked caller calls it K&R-style with no args. The draft's
+ANSI definition `void f(u8 *a0)` then fails TWICE, in sequence:
+
+  1. `conflicting types for 'f'` against the `(void)` decls — the gate's arity pre-pass
+     (`fix_arity_callers --any-proto`) fixes exactly this, and DID fire in every 0-bank pass;
+  2. …after which the TU's own EMPTY CALL SITES `f()` die against the ANSI definition's
+     prototype: `too few arguments to function 'f'`. This is the layer nothing addressed.
+
+**Law: when the destination TU calls the member with fewer args than its true definition takes,
+the definition must be K&R (`void f(a0) u8 *a0; {…}` — §99's zero-blast-radius lever): a K&R
+definition establishes no prototype, so the sloppy calls stay legal.** Promotion-safe params only
+(pointers/int-width; a K&R narrow param compiles differently, §43/§102). Byte-proof:
+func_80162CCC rtu-FAILED as ANSI at both layers, rtu-MATCHed (23 ins) as K&R + pre-pass, then
+banked at the whole-binary gate. `aprop_autodraft.kr_definition` now emits every eligible draft
+K&R.
+
+## §273 — A standalone compile is the WRONG oracle for a TU-destined draft (P31 S59)
+
+The lane's pre-filter compiled each draft standalone (match_one inside reloc_identity) and
+dropped every COMPILE-FAIL before the gate: 43/182 on the measured pass, unjudged. But the draft
+is written to land in a TU that provides what the standalone compile lacks — typedefs
+(`parse error before 'Blk8'`), struct defs (`dereferencing pointer to incomplete type`),
+canonical decls. Re-judged against the REAL TU (`tools/rtu_second_chance.py`, rtu_match per draft
+— no build tree, no locks, thread-parallel): **7 of 27 were TU-byte-MATCHes** and staged straight
+to the gate. **Law (R33 shape): judge a draft with the oracle that sees its destination context;
+a standalone verdict may only REFUSE a standalone claim, never a TU one.** Corollary from the
+same session, the other direction: the destination TU's decl spelling may only be adopted into a
+draft when the seed BODY still compiles against it — a `void`-return spelling for a callee whose
+value the body reads, or a prototype stricter than the body's K&R-sloppy empty calls, breaks the
+draft in both worlds (decl_for's guards; 42 and 15 drafts measured respectively).
