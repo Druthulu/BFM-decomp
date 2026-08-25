@@ -57,6 +57,103 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 - 2026-08-14 — **T9 COMPLETE.** `tools/warmstart.py` (the permuter/grinder FEEDER): `--from-banked` walks a banked exemplar's h_seq family's still-open members, builds remapped proven-body drafts (`symbol_map` + `aprop_autodraft.build_draft`, refusing on reloc-count mismatch), **stream-classifies member-vs-seed with ZERO compiles** (masked_diff-shaped dicts from ground-truth bytes → `residual_class.classify_streams`), enqueues ONLY permuter-shaped (bucket==permuter or LENGTH-DRIFT |Δ|≤2) as backlog near-records; `--lenmiss` ingests T8's 49-route. **Grinder patch NOT needed** (its candidates() deliberately keeps unclassified records — "unknown is not a reason to skip" — so pre-filtered enqueues flow as-is; documented in the feeder's docstring). Armed live: **49 + 10 enqueued, 120 refused** by the stream filter (the anti-92%-wasted-CPU discipline working). `family_cousins --weak-cards`: **954 units** (the 0.70–0.85 annotate-only band, never before consumed) as seeded-crack cards, ins-ranked, §168 laws embedded, model-routed **haiku 804 / v3 43 / sonnet 86 / opus 21** (cheap tiers dominate — the token-efficiency shape), 0 unresolved `.s`.
 
+## 🛑 SESSION CHECKPOINT — S60 (2026-08-25 15:35). Phase 31 CONTINUES. **ALL LANES RUNNING.**
+
+**1,947 banked today · 4,819 -> ~3,652 open crackable · fleet 97.4% instr-weighted.**
+Seven lanes alive: drafter · gater · maintenance · stallguard · distill · main · **serial (new)**.
+
+### THE SESSION'S ONE LESSON
+**Every throughput ceiling was a harness defect, and the last one nearly cost the fleet.** In order:
+1. **The tail blocked the fleet.** `collect_drafts` waited out the full 700s straggler grace before
+   queueing, so 11m40s of every ~44-min wave ran at 4-13 agents — four waves for four. Fixed by
+   handing the tail to a finisher thread (`wait_for_tail` + `finish_wave_async`); measured 11m41s →
+   **0s**.
+2. **The draw set the request rate, not the API.** `--max-bins 24` handed 196 cards of 699 available
+   to a 2,000-agent fleet. Raised to 160: **644 cards / 46,590 ins**. The endpoint's real envelope,
+   from 170k logged requests: 2,755 req/min peak minute, 764/min sustained 15 min at 8% 429s. My
+   earlier "knee at 150-250" was confounded by ramp bursts — **corrected**.
+3. **Every second wave re-drafted the wave still in flight.** `--retry-unbanked` returns
+   "waved but still open" cards, and the pre-draw runs WHILE a wave drafts, when none of its cards
+   have gated. ck→cl 239/239 identical, co→cp 238/238, cv→cw 222/222. Yield alternated 47.6% / 3.8%
+   / 35.3% / 3.6%. Fixed by deriving finished-ness from BOTH gate logs.
+4. **The parallel gate was serial.** `gate_stage` takes the fleet-shared lock EXCLUSIVE unless
+   `GATE_NO_ARITY` is set; `sweep_parallel` never set it, so 24 workers queued on one lock — 0-2
+   builds at load 2.2 of 32 cores. Two-phase split (parallel readers, then serial arity for
+   COMPILE-failures only): gate dd banked **217 in 39 min** vs 50 in 63 min before.
+5. **`config/overlays.mk` was committed EMPTY** by wave dk's gate — the 5,077-line registry for all
+   141 overlays. main could not build (its glob prunes siblings via `$(<bin>_ASM_DIR)`, so every
+   overlay's nonmatchings fell into MAIN's OBJS), the main lane correctly refused against a RED
+   baseline for 1,288 stubs, and gates collapsed (dn 0/224, do 0/236). Restored; `config_sane()` now
+   refuses to commit any config below 80% of HEAD's lines at all three commit sites.
+
+### WHAT LANDED (all committed)
+* **Throughput**: tail overlap (TAIL_DONE_FRAC 0.75) · MAX_BINS 160→50 (see below) · queue-depth 4 ·
+  levers remap/needs-autopsy/plumbing added · gate two-phase. Rate 65 → **341 req/min peak**, 452 agents.
+* **-O0 U2/U3**: whale object resolved BY CONTENT (NC 134/134) → 4 SC07 banked; the ×3 carve at
+  [0x8013B568,0x8013C98C) byte-neutral on all three, then **48/48 banked**. 52 fns / ~6,730 ins, zero tokens.
+* **Cookbook §274-§282** from two distill batches (18 waves + cf); index **824 sections**.
+* **jtbl_pads_fix.py** — repairs a stale JTBL_PADS spec by ENUMERATING candidates and keeping one only
+  if it is the UNIQUE byte-identical spec. Three of five REDs today were that one stored-derived-state class.
+* **Generational draw**: `--generational` (opt-in) + **top-off** (generation is the primary ordering at
+  both assembly levels, so every wave fills lowest-first without shrinking).
+* **Serial lane fixed and RUNNING for the first time**: it passed a FAMILY-card file to a per-function
+  consumer, so `api_agent` died with KeyError at turn 0 on every target since the line was written —
+  which is why its ledger held 8 rows and tells had "never been run".
+
+### THE STRATEGIC FINDING (this changes the endgame)
+Two populations, 10x apart, and both are true:
+* **open crackable functions: 3,652** — 2,873 never drafted (78.7%)
+* **DRAWABLE skeletons: 334** — gen0 **5**, gen1 2, gen2 4, gen3 6, gen4 4, gen5 5, **gen6+ 308**
+
+683 candidates collapse to 334 skeletons (349 same-gid siblings). The ~2,900 untouched functions sit
+BEHIND those skeletons and bank by mechanical remap once an exemplar cracks — they are not waiting for
+a draft. So wide drafting is done: it now converts at **5%** (dq: 8 banked of 167 gated, 98 min of gate)
+because the drawable pool is 92% gen6+ walls. **"Everything out of gen2" is 11 cards away.**
+Also corrected: **main is 327 crackable, not 1,288** — 961 of its stubs are LINKED PsyQ segments and
+data blobs, which are linked byte-exact and never decompiled.
+
+### RUNNING RIGHT NOW
+drafter (waves ea/eb) · gater (4-deep queue draining) · main (m41) · serial lane on
+`func_8017D1C0 @ ov_SC06_027` (118 ins, 60 turns) · maintenance · stallguard · distill.
+Re-gate of the false-verdict waves: dk 15 · dl 12 · dm 3 banked; dn/do NOT re-gated (stopped
+deliberately to give the gater its capacity back — their drafts are intact in `.run/wave_d[no]/`).
+
+### OPEN THREADS (ranked)
+1. **The fleet R22 never actually runs.** It is guarded to skip while any gate is in flight, and the
+   campaign always has one — last real sweep 12:54, and `.run/fleet_red.txt` still names main RED
+   (stale; main is green). Give it a lock-aware window instead of a skip.
+2. **5,388 near-records at closeness <=2 have NO consumer.** No permuter/grinder lane exists. tells 6.5,
+   the A-prop IMM tier-2 slice (7 IMM-VALUE + 4 IMM-OFFSET) and the general tail all terminate here.
+3. **Run several serial lanes in parallel, one per lever** — the only shape that both uses API capacity
+   and compounds. One lane = one agent; the free-ox window cannot otherwise be spent.
+4. **A-prop residual, named and sized**: 169 STRUCT · 121 no-seed-decl (needs type inference from usage,
+   not lookup) · ~73 IMM-unresolved · 12 void-returning near-0s (gate_stage-internals candidates).
+5. **`func_8017F39C` suspects a binary-registration mixup** with a same-named function in ov_SC01_009
+   (from the cf distill) — a GATE-side question, worth checking after today's registry incident.
+
+### HOW TO RESUME
+`tools/campaign_status.py` first. Then `git status --porcelain -- src/ config/` — if dirty, **COMMIT,
+never revert** (R42). Two stale `.git/index.lock` files blocked every lane today (8 min and 21 min);
+if one is present with no `git` process and `.git/index` newer than it, it is residue — verify, then
+remove. Lane changes take effect on three clocks: draw defaults next draw, tool code next invocation,
+lane args/env only on a fresh SHELL (`tools/lanes/relaunch_drafter_shell.sh`). **Verify from the
+process (`/proc/<pid>/cmdline`), never from the file you edited** — `pgrep` matches your own shell.
+
+### RULE CANDIDATES FOR PHASEEND (P10)
+* **R51 — A DERIVED PROPERTY STORED AS CONFIG WILL GO STALE AND TAKE A BINARY WITH IT.** JTBL_PADS
+  records how many jump tables an object emits; every bank carrying a `switch` can change it. Three
+  REDs in one day. Either derive it, or give it a byte-proven self-repair (jtbl_pads_fix).
+* **R52 — A BLANKET COMMITTER MUST NOT ADOPT A COLLAPSED FILE.** "Commit the dirty tree rather than
+  revert" is right for src/ and wrong for config: config holds no proven state that exists only in the
+  worktree, and an empty registry is never intended.
+* **R53 — VERIFY A BUILD FROM ITS EXIT CODE, NOT ITS OUTPUT FILE.** A failed build leaves the previous
+  binary in place, so `make build; sha1sum build/<bin>/<bin>` reports a FALSE GREEN over a build that
+  never linked. It convinced me twice today.
+* **R54 — A GUARD DOWNSTREAM OF THE FAILURE IS NOT A GUARD.** api_agent's "ZERO matched — wrong card
+  file?" warning sat one line below the KeyError that killed every serial-lane run.
+
+---
+
 ## SESSION S54 (2026-08-17, ultracode) — wave T + the pre-gate ladder learns to see overlays
 
 - 2026-08-17 — **Session opened with the §180 leftover sweep, before drafting anything new.**
