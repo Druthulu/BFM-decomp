@@ -22,7 +22,7 @@ Phase-26 extends this to the looser h_seq family key (mnemonic skeleton, immedia
 
   tools/family_remap.py --addr 0xADDR --from ov_SC01_077 --to ov_SC01_000 [--to-addr 0xADDR2] [--out draft.c]
 """
-import struct, json, glob, re, sys, argparse, collections, functools, os
+import struct, json, glob, re, sys, argparse, collections, functools, itertools, os
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cdecl                                                    # noqa: E402
@@ -349,56 +349,95 @@ def _fmt_like(tok, v):
     return str(v)
 
 
-def _ordinal_edits(unit, exv, valpos, diff_idx, sib_words):
-    """ORDINAL (positional) resolution for an `asm-ambiguous` value — Phase 29 T87.
+def _ordinal_candidates(unit, exv, valpos, diff_idx, sib_words, cap=6):
+    """ORDINAL (positional) candidate pairings for an `asm-ambiguous` value — Phase 29 T87,
+    generalized to a CANDIDATE SET in P31 S59.
 
     The value substitution in `imm_map_tier1` is BY VALUE over the whole body, so when the exemplar
     uses the same literal at a position that differs AND at one that does not, it cannot tell the two
-    apart and (correctly) refuses rather than corrupt the fixed one. But the asm knows exactly which
-    occurrence moved: zip the value's asm positions against the C literal's occurrences IN ORDER and
-    rewrite only the occurrences whose instruction is in `diff_idx`.
+    apart and (correctly) refuses rather than corrupt the fixed one. The asm knows which occurrence
+    moved; pairing it with the right C literal is the remaining guess, and S59 measured the old
+    single-guess implementation wrong in BOTH of its assumptions on the same 35-draft cluster:
 
-    Only fires when the two counts agree, which is the check that makes the order assumption safe
-    enough to try; gcc may still reorder, so the whole-binary byte-gate remains the sole arbiter
-    (G3/P9) — a wrong pairing is rejected, never banked.
+      * it scanned the literal's spellings ONE FORM AT A TIME (`0x2` before `2`) and paired against
+        the first form with any occurrences — so a seed spelling the offset `0x2` and the value `2`
+        exposed only the offset to the pairing, and every sibling shipped with the store OFFSET
+        edited instead of the stored VALUE (`*(p + 3) = 2` for a target of `*(p + 2) = 3`;
+        closeness-2, 35 of the 117 staged drafts of the 21:04 pass). Spans are now the UNION of all
+        spellings, in text order.
+      * text order is not emission order: in `*(p + OFF) = VAL` the C names OFF first while gcc
+        emits VAL's `li` first, so even the unioned in-order zip pairs them crosswise. No single
+        static pairing is right for every shape — so return EVERY order-preserving assignment of
+        the differing positions onto the C spans (the historical default first, `cap`ped), and let
+        the caller adjudicate with the local compile oracle. The whole-binary byte-gate remains the
+        sole arbiter (G3/P9) — a wrong pairing is rejected, never banked.
 
-    Returns [(start, end, replacement)] on the ORIGINAL unit, or None if it cannot be resolved."""
+    Returns a list of edit-lists [(start, end, replacement)] on the ORIGINAL unit; [] if nothing is
+    safely pairable."""
     asm_pos = [k for k, v in enumerate(valpos) if v == exv]
     if not any(k in diff_idx for k in asm_pos):
-        return None
+        return []
     forms = ([f"0x{exv:x}", f"0x{exv:X}", str(exv)] if exv >= 0
              else [f"-0x{-exv:x}", f"-0x{-exv:X}", str(exv)])
+    spans = []
     for t in forms:
-        spans = [mm.span() for mm in re.finditer(r'(?<!\w)' + re.escape(t) + r'\b', unit)]
-        if not spans:
-            continue
-        diff_pos = [k for k in asm_pos if k in diff_idx]
-        if len(spans) == len(asm_pos):
-            pairing = list(zip(spans, asm_pos))                  # every asm use has a C token
-        elif len(spans) == len(diff_pos):
-            # FEWER C tokens than asm uses, and exactly as many as the DIFFERING uses: the extra asm
-            # occurrences are IMPLICIT — gcc synthesised them, so no C literal names them and a swap
-            # cannot corrupt them. The canonical case is an array index: `D_x[*(u16 *)(a0 + 0x2)]()`
-            # emits BOTH the `0x2` offset (per-member) and a fixed `sll ..,2` for the 4-byte stride.
-            # Pairing against ALL uses would never match and the member would refuse forever.
-            pairing = list(zip(spans, diff_pos))
-        else:
-            return None                                          # counts disagree -> not safely pairable
-        edits = []
-        for (s, e), k in pairing:
+        for mm in re.finditer(r'(?<!\w)' + re.escape(t) + r'\b', unit):
+            spans.append((mm.span(), t))
+    spans.sort()
+    if not spans:
+        return []
+    diff_pos = [k for k in asm_pos if k in diff_idx]
+
+    def _edits(pairing):
+        out = []
+        for ((s, e), t), k in pairing:
             if k in diff_idx:
                 sv = imm_value(sib_words[k], False)
                 if sv is None:
                     return None
-                edits.append((s, e, _fmt_like(t, sv)))
-        return edits or None
-    return None
+                out.append((s, e, _fmt_like(t, sv)))
+        return out or None
+
+    if len(spans) < len(diff_pos):
+        return []                                # fewer C tokens than differing uses: cannot cover
+    cands = []
+    if len(spans) == len(asm_pos):
+        e = _edits(list(zip(spans, asm_pos)))                    # every asm use has a C token
+        if e:
+            cands.append(e)
+    elif len(spans) == len(diff_pos):
+        # FEWER C tokens than asm uses, and exactly as many as the DIFFERING uses: the extra asm
+        # occurrences are IMPLICIT — gcc synthesised them, so no C literal names them and a swap
+        # cannot corrupt them. The canonical case is an array index: `D_x[*(u16 *)(a0 + 0x2)]()`
+        # emits BOTH the `0x2` offset (per-member) and a fixed `sll ..,2` for the 4-byte stride.
+        e = _edits(list(zip(spans, diff_pos)))
+        if e:
+            cands.append(e)
+    # Any other count relation is NOT a refusal (S59 — the union of spellings legitimately finds
+    # MORE spans than the old single-form scan, e.g. `0x2` twice + `2` once against two asm uses):
+    # emit every order-preserving assignment as a candidate and let the caller's compile oracle
+    # pick. The historical single-guess `return None` here is what left 50 IMM members skipped as
+    # `asm-ambiguous` forever.
+    for combo in itertools.combinations(spans, len(diff_pos)):
+        e = _edits(list(zip(combo, diff_pos)))
+        if e and e not in cands:
+            cands.append(e)
+        if len(cands) >= cap:
+            break
+    return cands
 
 
-def imm_map_tier1(unit, ex_words, sib_words):
+def _ordinal_edits(unit, exv, valpos, diff_idx, sib_words):
+    """The historical single-answer form: the default candidate (see _ordinal_candidates)."""
+    c = _ordinal_candidates(unit, exv, valpos, diff_idx, sib_words)
+    return c[0] if c else None
+
+
+def imm_map_tier1(unit, ex_words, sib_words, want_alts=False):
     """Tier 1: {c_literal_token: replacement} for the unambiguous immediate diffs; plus the list of
     UNRESOLVED (value, reason) that need the Tier-2 probe, and the unit with any ORDINAL edits
-    (§T87) already applied. Returns (imm_map, unresolved, unit)."""
+    (§T87) already applied. Returns (imm_map, unresolved, unit); with want_alts=True, a fourth
+    element carries the ALTERNATIVE units from the other ordinal candidate pairings (S59)."""
     rel = reloc_indices(ex_words)
     valpos = [imm_value(w, k in rel) for k, w in enumerate(ex_words)]
     diff_idx = {k for k in range(len(ex_words)) if ex_words[k] != sib_words[k]}
@@ -415,7 +454,7 @@ def imm_map_tier1(unit, ex_words, sib_words):
         by_val[ev].add(imm_value(sib_words[k], False))
         handled.add(k)
     imm_map = {}
-    ord_edits = []
+    ord_cands = []                                # one candidate-list per ambiguous value
     for exv, sibvs in by_val.items():
         if len(sibvs) != 1 or None in sibvs:
             unresolved.append((exv, "multi-target")); continue
@@ -423,18 +462,29 @@ def imm_map_tier1(unit, ex_words, sib_words):
         if any(valpos[k] == exv for k in range(len(ex_words)) if k not in diff_idx and valpos[k] is not None):
             # value also used at a FIXED position -> a by-value swap would corrupt it. Try the
             # ORDINAL resolution (T87) before giving up; it pairs asm positions to C occurrences.
-            e = _ordinal_edits(unit, exv, valpos, diff_idx, sib_words)
-            if e:
-                ord_edits.extend(e); continue
+            cands = _ordinal_candidates(unit, exv, valpos, diff_idx, sib_words)
+            if cands:
+                ord_cands.append(cands); continue
             unresolved.append((exv, "asm-ambiguous")); continue
         tok, rep = _c_literal_swap(unit, exv, sibv)
         if tok is None:
             unresolved.append((exv, "not-in-C")); continue
         imm_map[tok] = rep
-    if ord_edits:                                                # apply right-to-left: spans are on
-        for s, e_, rep in sorted(ord_edits, key=lambda x: -x[0]):  # the ORIGINAL unit
-            unit = unit[:s] + rep + unit[e_:]
-    return imm_map, unresolved, unit
+    units = [unit]
+    if ord_cands:
+        # Cartesian product of each ambiguous value's candidate pairings (capped): units[0] is the
+        # historical default; the rest are the alternatives a caller can adjudicate with the local
+        # compile oracle (S59 — no static pairing is right for every shape; see _ordinal_candidates).
+        units = []
+        for combo in itertools.islice(itertools.product(*ord_cands), 8):
+            edits = [e for lst in combo for e in lst]
+            u = unit
+            for s, e_, rep in sorted(edits, key=lambda x: -x[0]):  # right-to-left on the ORIGINAL
+                u = u[:s] + rep + u[e_:]
+            units.append(u)
+    if want_alts:
+        return imm_map, unresolved, units[0], units[1:]
+    return imm_map, unresolved, units[0]
 
 
 _TU_CACHE = {}

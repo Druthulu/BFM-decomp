@@ -24,7 +24,7 @@ output slate through `tools/gate_lane.py`.
 
   tools/aprop_autodraft.py [--limit N] [--only <family-addr>] [--max-sites N]
 """
-import argparse, collections, glob, json, os, re, sys
+import argparse, collections, glob, json, os, re, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import aprop_symfix as ASF
@@ -121,28 +121,87 @@ def data_def_for(sym, new_sym, seed_text, data):
     return f"{m.group(1).strip()} {new_sym}{m.group(2) or ''} = {init};".replace("static ", "")
 
 
-def decl_for(sym, seed_text, dest_text=""):
-    """A file-scope declaration for `sym`, preferring the DESTINATION TU's own spelling.
+def _paren_args(text, i):
+    """arg count of the call whose '(' is at text[i]; None if unparsable. Empty list -> 0."""
+    depth, args, empty = 0, 1, True
+    for j in range(i, min(i + 2000, len(text))):
+        c = text[j]
+        if c == "(":
+            depth += 1
+        elif c == ")":
+            depth -= 1
+            if depth == 0:
+                return 0 if empty else args
+        elif depth == 1 and c == ",":
+            args += 1
+        elif not c.isspace():
+            empty = False if depth >= 1 and (j > i) else empty
+    return None
 
-    WHY THE DESTINATION WINS (P31 S59, measured). This used to read the SEED's TU only, and the
-    seed's spelling of a shared callee is frequently not the destination's: 45 of 188 staged A-prop
-    drafts (24%) declared an extern whose type conflicted with the destination binary's own — e.g.
-    `extern void func_8014E98C(u8 *a0)` in the draft against `extern s32 func_8014E98C(void *a0)`
-    in twelve sibling files. C then rejects the whole translation unit, so one conflicting draft
-    sinks every innocent draft gated with it: the maintenance lane staged 117 byte-correct bodies
-    and banked ZERO, twice, on exactly this. The destination's declaration is authoritative (wave
-    law 2) and it is free to read, so take it verbatim when it exists and fall back to the seed's
-    only when the destination is silent.
+
+def _arity_breaks(decl, sym, body):
+    """True iff adopting `decl` makes a CALL in `body` uncompilable — a prototyped decl with N
+    params against a call passing M != N args (`too few/many arguments`). The seed's body carries
+    the original code's K&R sloppiness (empty calls to functions that take args), and the seed's
+    own TU spelled the callee to match; a stricter destination prototype rejects those calls, so
+    the seed's spelling is the only one that compiles the body (S59: 15 fresh drafts died on
+    `too few arguments to func_80146C3C` when the destination's 2-param prototype was adopted)."""
+    if not body:
+        return False
+    pm = re.search(rf'\b{re.escape(sym)}\s*\(([^()]*(?:\([^()]*\)[^()]*)*)\)\s*;', decl)
+    if not pm:
+        return False
+    params = pm.group(1).strip()
+    if params == "":
+        return False                                             # no-proto: any call is legal
+    if "..." in params:
+        return False
+    nparams = 0 if params == "void" else params.count(",") + 1
+    for cm in re.finditer(rf'\b{re.escape(sym)}\s*\(', body):
+        n = _paren_args(body, cm.end() - 1)
+        if n is not None and n != nparams:
+            return True
+    return False
+
+
+def decl_for(sym, seed_text, dest_text="", body=""):
+    """A file-scope declaration for `sym`, preferring the DESTINATION TU's own spelling — where
+    that spelling can still compile the body.
+
+    WHY THE DESTINATION IS PREFERRED (P31 S59, measured). This used to read the SEED's TU only, and
+    the seed's spelling of a shared callee is frequently not the destination's: 45 of 188 staged
+    A-prop drafts (24%) declared an extern whose type conflicted with the destination TU's own —
+    C rejects the spliced TU on the conflict, so the byte-correct body never reaches the gate.
+    The destination's declaration is what the spliced TU must coexist with (wave law 2), so take it
+    when it exists.
+
+    TWO SCOPE CORRECTIONS (S59, measured on the first fixed batch — COMPILE-FAIL went 43->85):
+      * dest_text must be the member's HOME TU only, never the whole binary concatenated. C scope
+        is the TU: a decl in a SIBLING TU of the same overlay can neither conflict with nor rescue
+        the splice, and the whole-binary scan adopted `extern void func_8012BD14(s32)` from eleven
+        sibling files into a TU that never declares it.
+      * the destination's spelling is only usable if the BODY still compiles against it: 42 fresh
+        drafts adopted a void return for a callee whose value the seed body reads
+        (`if (func_8012BD14(..) > 0x1000)`) — `void value not ignored`, standalone and spliced
+        alike. When the spellings conflict AND the body reads the value, the seed's spelling is
+        the only one that preserves the bytes (signedness drives slt vs sltu); TU agreement is then
+        the gate ladder's job (reconcile_tu casts the use, §41).
 
     A definition (`const Blk8 D_801EF6C0 = {...}`) must become a DECLARATION in the member — the
     member's own TU already emits those bytes (as `INCLUDE_RODATA`, or inside the function's own
     `.s`). Emitting the definition instead would either duplicate the data or fight splat for the
     address."""
-    # the destination's own spelling, verbatim, before anything else
+    # the destination HOME TU's own spelling first — unless the body cannot compile against it
     if dest_text:
         m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(sym)}\b[^\n;]*;', dest_text, re.M)
         if m:
-            return m.group(0).strip()
+            d = m.group(0).strip().rstrip("\\").rstrip()          # macro-body decls end in ` \`
+            void_ret = re.match(r'extern\s+void\s*[^\(\*]*\b' + re.escape(sym), d) and '*' not in d.split(sym)[0]
+            value_used = body and re.search(
+                rf'(=\s*[^=;]*\b{re.escape(sym)}\s*\(|\breturn\s+[^;]*\b{re.escape(sym)}\s*\(|'
+                rf'[<>!=+\-*/&|^]\s*{re.escape(sym)}\s*\(|\b{re.escape(sym)}\s*\([^;]*\)\s*[<>!=+\-*/&|^)])', body)
+            if not (void_ret and value_used) and not _arity_breaks(d, sym, body):
+                return d
     m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(sym)}\b[^\n;]*;', seed_text, re.M)
     if m:
         return m.group(0).strip()
@@ -152,6 +211,58 @@ def decl_for(sym, seed_text, dest_text=""):
         return f"extern {m.group(1).strip()} {sym}{m.group(2) or ''};".replace("static ", "")
     m = re.search(rf'^[ \t]*[A-Za-z_][\w \*]*\b{re.escape(sym)}\s*\([^;{{]*\)\s*;', seed_text, re.M)
     return m.group(0).strip() if m else None
+
+
+_MACRO_BODIES = None
+_DEST_CACHE = {}
+
+
+def _all_macro_bodies(header="src/shared/engine_core.h"):
+    """{name: de-macroized body} for every DEFINE_<name>() in engine_core.h, parsed in ONE pass
+    (macro_body() re-scans the 57k-line header per name — fine for one seed, quadratic for all)."""
+    global _MACRO_BODIES
+    if _MACRO_BODIES is None:
+        _MACRO_BODIES = {}
+        h = seed_file_text(header)
+        lines = h.split("\n")
+        i = 0
+        while i < len(lines):
+            m = re.match(r'^[ \t]*#define\s+DEFINE_(\w+)\s*\(\s*\)\s*\\\s*$', lines[i])
+            if m:
+                out = []
+                j = i + 1
+                while j < len(lines):
+                    ln = lines[j].rstrip()
+                    cont = ln.endswith("\\")
+                    out.append(ln[:-1].rstrip() if cont else ln)
+                    j += 1
+                    if not cont:
+                        break
+                _MACRO_BODIES[m.group(1)] = "\n".join(out)
+                i = j
+            else:
+                i += 1
+    return _MACRO_BODIES
+
+
+def dest_scope(path):
+    """The member's HOME TU text with its DEFINE_x() engine-core instantiations EXPANDED — what the
+    TU's file scope actually contains at the splice point (S59).
+
+    Two prior scopes were both wrong, measured on consecutive batches:
+      * the WHOLE-BINARY concat adopted `extern void func_8012BD14(s32)` from eleven sibling TUs
+        into a TU that never declares it (and C scope is the TU — a sibling's decl neither
+        conflicts nor rescues), while its bulk also vetoed typedefs the home TU needs;
+      * the RAW home-TU text missed every declaration living inside an instantiated DEFINE_ macro
+        — which is where a dedup'd caller's `extern void f(void);` actually sits, i.e. the exact
+        decl the draft must agree with (the func_80162CCC conflict was at engine_core.h:57282,
+        inside a macro the TU instantiates)."""
+    if path not in _DEST_CACHE:
+        txt = open(path).read() if path and os.path.isfile(path) else ""
+        mb = _all_macro_bodies()
+        extra = [mb[n] for n in re.findall(r'^\s*DEFINE_(\w+)\s*\(\s*\)', txt, re.M) if n in mb]
+        _DEST_CACHE[path] = txt + "\n" + "\n".join(extra)
+    return _DEST_CACHE[path]
 
 
 TYPES_H = "src/shared/engine_types.h"
@@ -215,6 +326,47 @@ def typedefs_for(body, seed_text, dest_text):
     return out
 
 
+_NARROW = re.compile(r'\b(char|short|signed\s+char|unsigned\s+char|unsigned\s+short|s8|u8|s16|u16|float|f32)\b')
+
+
+def kr_definition(body, name):
+    """Convert the member's ANSI definition to the K&R form when every param is promotion-safe.
+
+    WHY (P31 S59, byte-proven func_80162CCC@ov_MAIN_012 via rtu_match then the whole-binary gate).
+    16 of the 117 staged drafts of the 21:04 pass carried a byte-correct body (match_one MATCH) and
+    still failed the gate. The chain, measured on the real TU: the destination TU and 42 DEFINE_
+    macros in engine_core.h declare the member `extern void f(void);` — the original code calls it
+    K&R-style with no args. gate_stage's arity pre-pass relaxes those DECLS to no-proto, but the
+    draft's ANSI definition `void f(u8 *a0)` then establishes a prototype, and the TU's own empty
+    call sites `f()` die as `too few arguments` — cc1 rejects the TU and the gate can never see the
+    bytes. A K&R definition establishes NO prototype, so the empty calls stay legal (§99: the
+    zero-blast-radius def-side fix).
+
+    Codegen-neutral ONLY for promotion-safe params (pointers, int-width scalars): a K&R narrow
+    param (u8/s16 by value) is promoted and compiles DIFFERENTLY from its ANSI form (§43/§102), and
+    the seed banked in the ANSI form — so narrow-param definitions are left as the seed wrote them
+    and take their chances with the gate exactly as before. Any parse doubt (fn-ptr param, array)
+    also bails to the untouched body: this transform must only ever widen compatibility."""
+    m = re.search(rf'^([^\n=;]*?\b{re.escape(name)}\s*)\(([^;{{)]*)\)(\s*\{{)', body, re.M)
+    if not m:
+        return body
+    params = m.group(2).strip()
+    if params in ("", "void"):
+        return body[:m.start()] + m.group(1) + "()" + m.group(3) + body[m.end():]
+    names, decls = [], []
+    for p in (x.strip() for x in params.split(",")):
+        pm = re.match(r'^((?:const\s+|volatile\s+|unsigned\s+|signed\s+|struct\s+[A-Za-z_]\w*\s+'
+                      r'|[A-Za-z_]\w*\s+)+[\s\*]*)([A-Za-z_]\w*)$', p)
+        if not pm:
+            return body                                   # unparsed shape: keep ANSI
+        if "*" not in pm.group(1) and _NARROW.search(pm.group(1)):
+            return body                                   # narrow by-value: K&R would change codegen
+        names.append(pm.group(2))
+        decls.append(p + ";")
+    kr = "%s(%s)\n%s\n%s" % (m.group(1), ", ".join(names), "\n".join(decls), m.group(3).strip())
+    return body[:m.start()] + kr + body[m.end():]
+
+
 def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
                 already_self_contained=False, member_asm=None):
     """-> (draft_text, skipped_reason). Renames are applied SIMULTANEOUSLY (one pass), so a chain
@@ -241,6 +393,10 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
     if re.search(r'__asm__\s*(__volatile__\s*)?\(', new_body) and '.set' in new_body:
         return None, "seed body is a verbatim __asm__ block (§265) — not decompiled C, refusing to propagate"
 
+    # K&R the definition (promotion-safe params only; see kr_definition's docstring for the
+    # byte-proof). Done AFTER the definition-assert so the regex there sees the ANSI form.
+    new_body = kr_definition(new_body, member_name)
+
     if already_self_contained:
         # A de-macroized body already carries its own externs; synthesizing a second set would
         # re-declare every one of them.
@@ -258,7 +414,7 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
                 return None, f"data lives in the member's own .s and its initializer is not a flat byte list: {s}"
             decls.append(d)
             continue
-        d = decl_for(old, seed_text, dest_text)
+        d = decl_for(old, seed_text, dest_text, body=new_body)
         if d is None:
             # No decl in the seed — but if the DESTINATION already declares it, none is needed.
             # Refusing here cost 55 macro-seeded members whose definition references a symbol the
@@ -277,6 +433,25 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
     pre = (shared_types_for(new_body, dest_text)
            + typedefs_for(new_body, seed_text, dest_text) + sorted(set(decls)))
     return "\n".join(pre) + "\n\n" + new_body + "\n", None
+
+
+def _local_verdict(fn, text, sub, o0):
+    """('match'|'near'|None, closeness) from match_one on a draft variant — the LOCAL adjudicator
+    for ordinal-ambiguous IMM pairings (S59). Advisory only: the whole-binary gate stays the sole
+    arbiter (G3/P9); this merely picks WHICH candidate to spend the build on."""
+    d = os.path.join(".run", "aprop_mo")
+    os.makedirs(d, exist_ok=True)
+    p = os.path.join(d, fn + ".c")
+    open(p, "w").write(text)
+    cmd = [".venv/bin/python", "tools/match_one.py", fn, "--c", p, "--asm-subdir", sub, "--json"]
+    if o0:
+        cmd += ["--o0"]
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+        j = json.loads([l for l in r.stdout.strip().splitlines() if l.strip()][-1])
+        return j.get("status"), j.get("closeness")
+    except Exception:
+        return None, None
 
 
 def main():
@@ -312,7 +487,8 @@ def main():
                 skip["over --max-sites"] += 1
                 continue
             stubs = corpus.stubs(m["binary"])
-            if not any(s.symbol.lower() == m["name"].lower() for s in stubs.values()):
+            home = next((s for s in stubs.values() if s.symbol.lower() == m["name"].lower()), None)
+            if home is None:
                 skip["already banked"] += 1
                 continue
             # THE SELECTOR (S50, measured): a symbol rebase can only ever fix a RELOC diff. An IMM
@@ -324,16 +500,17 @@ def main():
             if cls == "STRUCT" and not a.allow_impure:
                 skip["not templatable (STRUCT: register/opcode drift needs a real edit)"] += 1
                 continue
-            member_body, imm_map = body, {}
+            member_body, imm_map, alt_bodies = body, {}, []
             if cls == "IMM":
                 # T2a's immediate engine resolves a per-location LITERAL the same way symbol_map
                 # resolves a per-location symbol. Measured: 131 of 275 IMM members resolve with no
                 # unresolved sites — the rest genuinely need an edit.
-                imm_map, unresolved, member_body = FR.imm_map_tier1(body, seed_words, sib_words)
+                imm_map, unresolved, member_body, alt_bodies = FR.imm_map_tier1(
+                    body, seed_words, sib_words, want_alts=True)
                 if unresolved and not a.allow_impure:
                     skip[f"IMM unresolved ({unresolved[0][1]})"] += 1
                     continue
-                if not imm_map and member_body == body:
+                if not imm_map and member_body == body and not alt_bodies:
                     skip["IMM with no resolvable literal edit"] += 1
                     continue
             ren, err = FR.symbol_map(int(seed["addr"], 16), seed["binary"],
@@ -341,7 +518,12 @@ def main():
             if err:
                 skip["symbol_map: " + err.split("(")[0].strip()] += 1
                 continue
-            dest = "".join(open(p).read() for p in sorted(glob.glob(f"src/{m['binary']}/*.c")))
+            # THE HOME TU ONLY, macro-expanded (S59). C scope is the TU: a decl in a sibling TU of
+            # the same overlay can neither conflict with nor rescue the splice, and the whole-binary
+            # concat both adopted spellings the home TU never declares AND vetoed typedefs the home
+            # TU needs. dest_scope() expands the TU's DEFINE_x() instantiations so the decls INSIDE
+            # engine-core macros (where the dedup'd callers' externs actually live) are visible.
+            dest = dest_scope(home.path)
             if imm_map:
                 member_body = FR.apply_remap(member_body, imm_map)
             draft, why = build_draft(member_body, sb.get("name") or seed["name"],
@@ -351,6 +533,33 @@ def main():
             if draft is None:
                 skip[why.split(" for ")[0]] += 1
                 continue
+            # ORDINAL-AMBIGUOUS IMM: adjudicate the candidate pairings with the LOCAL compile
+            # oracle before spending a whole-binary build (S59). No static pairing is right for
+            # every shape (`*(p + OFF) = VAL` names OFF first, gcc emits VAL first — 35 of the
+            # 21:04 pass's 117 staged drafts shipped with the two swapped, closeness-2 forever).
+            # match_one is seconds; the gate is minutes; the gate remains the sole arbiter.
+            if alt_bodies:
+                variants = [draft]
+                for ab in alt_bodies:
+                    ab2 = FR.apply_remap(ab, imm_map) if imm_map else ab
+                    dtext, _w = build_draft(ab2, sb.get("name") or seed["name"],
+                                            m["name"], ren, seed_text, dest,
+                                            already_self_contained=False,
+                                            member_asm=corpus.asm_path(m["binary"], m["name"]))
+                    if dtext:
+                        variants.append(dtext)
+                if len(variants) > 1:
+                    o0 = corpus.is_o0(home.path)
+                    best, bestcl = None, None
+                    for vt in variants:
+                        st_, cl_ = _local_verdict(m["name"], vt, m["sub"], o0)
+                        if st_ == "match":
+                            best = vt
+                            break
+                        if st_ == "near" and cl_ is not None and (bestcl is None or cl_ < bestcl):
+                            best, bestcl = vt, cl_
+                    if best is not None:
+                        draft = best
             # STATIC PRE-CHECKS (S50): both classes below were measured as real build failures and
             # both are decidable without compiling. Negative-controlled against all 205 banked
             # drafts of run 1: zero false positives; catches 39 of 67 known failures.
