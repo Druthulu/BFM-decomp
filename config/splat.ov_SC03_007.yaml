@@ -162,7 +162,7 @@ segments:
       - [0xc06cc, .rodata, ov_SC03_007_jr_8017A4AC]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xc0758, data, tail17]
       - [0xc075c, .rodata, ov_SC03_007_jr_8017AE2C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0xc07c0, data, tail18]
+      - [0xc07d4, data, tail18]
       - [0xc0814, .rodata, ov_SC03_007_jr_80183894]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xc0840, data, tail19]
       - [0xC316C, bin, trailing]    # final 3 bytes (EOF not 4-aligned; spimdisasm drops a partial word)

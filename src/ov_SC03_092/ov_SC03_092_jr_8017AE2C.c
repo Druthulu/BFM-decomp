@@ -4962,7 +4962,23 @@ void func_8017ED38(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017EDDC);
+extern void func_8012BE54(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+s32 aF8017EDDC() __asm__("func_8017EDDC");
+
+s32 aF8017EDDC(a0)
+    void *a0;
+{
+    if (((s32 (*)(s32))func_8012BE54)(*(s32 *)((s32)a0 + 0x64)) >= 0x2401) {
+        return 0;
+    }
+    *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 3;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 void func_8017EE38(void) {
 }

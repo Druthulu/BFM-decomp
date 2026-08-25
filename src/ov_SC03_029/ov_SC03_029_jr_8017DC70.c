@@ -6302,7 +6302,59 @@ void func_80184658(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80184694);
+#include "common.h"
+
+/* func_80184694 -- spawn/init: pick dive-in velocity from D_80078EAE state,
+ * stamp timer fields, copy matrix D_800AE620 to stack, rotate by the object's
+ * yaw (*(obj+0x20))+0x12 and transform the vector into obj+0x10.
+ *
+ * Declaration discipline (all elements follow banked precedents):
+ * - Uniquely-named typedefs at file scope (pattern: .run/bakeoff/q24t-r0
+ *   SVEC_80184358, ds-fuelB Mtx_8017DECC/Sv_8017DECC): nothing collides with
+ *   the TU's own struct Mtx32_80184008 (@5970) or engine_core.h types.
+ * - D_800AE620 is reached through a FRESH identifier bound to the real
+ *   assembler symbol (pattern: ov_SC03_029_jr_8017AE2C.c:4598
+ *   `aD800AE620 __asm__("D_800AE620")`; ov_SC07_000_jr_8017BEBC.c:4794
+ *   `aF8018AFD0 __asm__("func_801820E0")`) -- no identifier clash, no type
+ *   clash vs the TU's own decl @5984, same lui/addiu %hi/%lo pair.
+ * - RotMatrixY/func_800484EC externs are byte-identical redeclarations of
+ *   the TU's own @5977/@5978 (the TU itself repeats func_800484EC verbatim
+ *   @6592); D_80078EAE is block-scoped (house style: func_801862B8).
+ * - VecL_80184694 is 12 bytes (libgpu VECTOR layout: 3 longs); the asm
+ *   stores words (sw zero,0x30/0x34, sw v0,0x38) and never touches a pad. */
+typedef struct { s32 w[8]; } Blk20_80184694;
+typedef struct { s32 vx, vy, vz; } VecL_80184694;
+
+extern u8 D_80078EAE;
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+void func_80184694(void *a0)
+{
+    Blk20_80184694 m;
+    VecL_80184694 vec;
+    void *mp;
+    extern Blk20_80184694 aD800AE620_80184694 __asm__("D_800AE620");
+
+    vec.vy = 0;
+    vec.vx = 0;
+    if (!D_80078EAE) {
+        vec.vz = (s32)0xFFFB8000;
+    } else {
+        vec.vz = (s32)0xFFFE8000;
+    }
+
+    *(s16 *)((s32)a0 + 0x2C) = 0x3C;
+    *(s16 *)((s32)a0 + 0x2) = 1;
+
+    m = aD800AE620_80184694;
+    mp = &m;
+
+    RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12), mp);
+
+    func_800484EC((s32)mp, (s32)&vec, (s32)a0 + 0x10);
+}
+
 
 extern u16 D_801270C0;
 extern void func_801292C8(u8 *a0);

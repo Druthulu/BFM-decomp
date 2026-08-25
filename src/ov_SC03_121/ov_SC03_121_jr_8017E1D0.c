@@ -3253,7 +3253,34 @@ void func_8017F840(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017E1D0", func_8017F87C);
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_8012B23C(s32 a0);
+extern s32 func_8017D65C(s32 a0);
+extern s32 func_8012B744(void *a0, void *a1);
+extern u8 D_8018D9F4[];
+extern s16 D_80185CAC[];
+
+void func_8017F87C(s32 a0) {
+    s32 sm;
+
+    *(u16 *)(a0 + 0x5C) = 0xAA00;
+    *(u16 *)(a0 + 0x34) = 0;
+    func_8012A828(a0, (s32)D_8018D9F4);
+    func_8012B23C(a0);
+    if (func_8017D65C(a0) != 0) {
+        if (*(s16 *)(a0 + 0x10A) != 5) {
+            *(s16 *)(a0 + 2) = 6;
+            *(u16 *)(a0 + 0x10A) = 0;
+            if (*(s16 *)(a0 + 0xA) < -0x90) {
+                sm = func_8012B744((void *)(a0 + 4), (void *)D_80185CAC);
+                sm += 0x800;
+                *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = sm & 0xFFF;
+                *(s16 *)(a0 + 0x16) = -8;
+            }
+        }
+    }
+}
+
 
 void func_8017F91C(s32 param_1) {
     *(u8 *)(param_1 + 0xC1) = 0;
@@ -3333,7 +3360,36 @@ INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017E1D0", func_8017FC5
 
 INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017E1D0", func_8017FCB8);
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017E1D0", func_8017FD14);
+/* func_8017FD14 -- ov_SC03_121, TU ov_SC03_121_jr_8017E1D0.c.  MATCH (29 ins).
+ * CBCC-guarded trigger: sound(0x709); ++u16 counter at a0+2; ++global
+ * D_801AECD4; when it reaches 3, one-shot func_8013C9C4(&D_801828E0).
+ * Decls verbatim from this TU (lines 57 / 1303 / 2706); D_801AECD4 typed by
+ * access width (lw+sw -> s32); D_801828E0 address-only -> u8[]. */
+
+extern void func_8012CBCC(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8013C9C4(void *a0);
+
+extern s32 D_801AECD4;
+extern u8 D_801828E0[];
+
+void func_8017FD14(s32 a0)
+{
+    s32 v0;
+    s32 v1;
+
+    if (((s32 (*)(s32))func_8012CBCC)(a0) != 0) {
+        func_8002D4C8(0x709, 0);
+        v0 = *(u16 *)(a0 + 2);
+        v1 = D_801AECD4 + 1;
+        *(u16 *)(a0 + 2) = v0 + 1;
+        D_801AECD4 = v1;
+        if (v1 == 3) {
+            func_8013C9C4(D_801828E0);
+        }
+    }
+}
+
 
 extern void func_8012A828(s32, s32);
     extern s32 D_8018D8AC;

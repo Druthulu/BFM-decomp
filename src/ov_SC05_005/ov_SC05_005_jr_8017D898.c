@@ -4451,7 +4451,45 @@ INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_8018093
 
 INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_801809F0);
 
-INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_80180C0C);
+struct vec;
+extern void func_8012AD80(struct vec *a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+s32 aF80180C0C(s32 a0, s32 a1, s32 a2) __asm__("func_80180C0C");
+
+s32 aF80180C0C(s32 a0, s32 a1, s32 a2) {
+    u16 sp10[4];
+    u16 sp18[4];
+    s32 v0;
+
+    sp10[0] = *(u16 *)(a0 + 0x3A);
+    sp10[1] = *(u16 *)(a0 + 0x3E);
+    sp10[2] = *(u16 *)(a0 + 0x42);
+    sp10[0] += *(u16 *)(a1 + 0);
+    sp10[1] += *(u16 *)(a1 + 2);
+    sp10[2] += *(u16 *)(a1 + 4);
+
+    func_8012AD80((struct vec *)a0);
+
+    sp18[0] = *(u16 *)(a0 + 0x06);
+    sp18[1] = *(u16 *)(a0 + 0x0A);
+    sp18[2] = *(u16 *)(a0 + 0x0E);
+    sp18[0] += *(u16 *)(a1 + 0);
+    sp18[1] += *(u16 *)(a1 + 2);
+    sp18[2] += *(u16 *)(a1 + 4);
+
+    v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)sp10, (s32)sp18);
+
+    sp18[0] -= *(u16 *)(a1 + 0);
+    sp18[1] -= *(u16 *)(a1 + 2);
+    v0 |= *(u8 *)((char *)sp18 + 6);
+    sp18[2] -= *(u16 *)(a1 + 4);
+    *(u16 *)(a0 + 0x06) = sp18[0];
+    *(u16 *)(a0 + 0x0A) = sp18[1];
+    *(u16 *)(a0 + 0x0E) = sp18[2];
+    return v0;
+}
+
 
 s32 func_80180D4C(u8 *a0, u8 *a1, s32 a2) {
     u16 sp10[3];

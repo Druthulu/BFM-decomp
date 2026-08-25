@@ -4180,7 +4180,46 @@ void func_8017EA1C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017EB34);
+#include "common.h"
+
+
+
+extern Block4 D_801CE398;
+
+void func_8017EB34(s32 a0) {
+    register s32 *work __asm__("$6");
+    register s32 x __asm__("$3");
+    register s16 r __asm__("$3");
+    s16 y;
+    s32 t;
+    s32 c;
+    s32 n;
+
+    work = (s32 *)a0;
+    if (*(volatile s32 *)((char *)work + 0xD0) == 0) {
+        return;
+    }
+
+    x = *(volatile s32 *)((char *)work + 0x94);
+    y = x;
+    if ((s16)x >= 0x11) {
+        t = 0x20 - x;
+        y = t;
+        if ((s16)t < 0) {
+            y = 0;
+        }
+    }
+
+    c = *(volatile u16 *)((char *)work + 0xE0) + 1;
+    *(u16 *)((char *)work + 0xE0) = c;
+
+    r = n = c + y * 3 + 0x40;
+    if ((s16)n >= 0x100) {
+        r = 0xFF;
+    }
+    *(u8 *)&D_801CE398 = r;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017EBCC);
 
@@ -4785,7 +4824,180 @@ void func_8018004C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_80180064);
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8018012C);
+/* func_8018012C — projected 4-way mirrored triangle fan (banked twin ov_SC01_084:func_80185C0C) */
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern s16 D_801887F4;   /* vert0 .vx/.vy word */
+extern s16 D_801887FC;   /* vert0 .vz          */
+extern s16 D_80188804;   /* vert1 .vx/.vy      */
+extern s16 D_801887F0;   /* vert1 .vz          */
+extern s16 D_801887F8;   /* vert2 .vx/.vy      */
+extern s16 D_80188800;   /* vert2 .vz          */
+
+/* NOTE: shared DEFINE_func_8012EF34() spells `void func_8012EF34(s32,s32)`;
+ * this call site consumes the leaked $v0, so declare s32 return here. */
+extern s32 func_8012EF34(s32 a0, s32 a1);
+extern void func_80017D98(void *a0);
+extern void func_8001739C(void *a0);
+
+/* === macros below spelled EXACTLY as destination TU lines 2693-2795 === */
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (  \
+    "lw $12, 0( %0 );"                           \
+    "lw $13, 4( %0 );"                           \
+    "ctc2 $12, $0;"                              \
+    "ctc2 $13, $1;"                              \
+    "lw $12, 8( %0 );"                           \
+    "lw $13, 12( %0 );"                          \
+    "lw $14, 16( %0 );"                          \
+    "ctc2 $12, $2;"                              \
+    "ctc2 $13, $3;"                              \
+    "ctc2 $14, $4"                               \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                          \
+    "lw $13, 24( %0 );"                          \
+    "ctc2 $12, $5;"                              \
+    "lw $14, 28( %0 );"                          \
+    "ctc2 $13, $6;"                              \
+    "ctc2 $14, $7"                               \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "$13", "$14" )
+
+typedef struct {
+    s16 x;      /* +0x0 */
+    s16 y;      /* +0x2 */
+    s16 c;      /* +0x4 */
+    s16 pad;    /* +0x6 */
+} Vtx_8018012C;                     /* 0x08 */
+
+typedef struct {
+    Vtx_8018012C v[3];              /* +0x00 +0x08 +0x10 */
+    u8 r0, g0, b0, code;            /* +0x18 .. +0x1B */
+    u8 r1, g1, b1, pad1;            /* +0x1C .. +0x1F */
+    u8 r2, g2, b2, pad2;            /* +0x20 .. +0x23 */
+    u32 color;                      /* +0x24 */
+} Prim_8018012C;                    /* 0x28 */
+
+typedef struct {
+    u16 x;      /* +0x0 */
+    u16 y;      /* +0x2 */
+    u16 z;      /* +0x4 */
+} Pos_8018012C;                     /* 0x06 -> 8-byte frame stride */
+
+typedef struct {
+    u16 vx;     /* +0x0 */
+    u16 vy;     /* +0x2 */
+    u16 vz;     /* +0x4 */
+    u16 pad;    /* +0x6 */
+} Sxy_8018012C;                     /* 0x08 */
+
+typedef struct {
+    s16 m[3][3];                    /* +0x00, padded to 0x14 */
+    s32 t[3];                       /* +0x14 +0x18 +0x1C */
+} Mtx_8018012C;                     /* 0x20 */
+
+void func_8018012C(s32 arg0)
+{
+    Prim_8018012C prim;             /* sp+0x10 */
+    Pos_8018012C wpos;              /* sp+0x38 */
+    Pos_8018012C spos;              /* sp+0x40 */
+    Sxy_8018012C sxy[4];            /* sp+0x48 */
+    Mtx_8018012C mtx;               /* sp+0x68 */
+    s32 otz;                        /* sp+0x88 */
+    s32 flag;                       /* sp+0x8C */
+    s32 t;
+    Prim_8018012C *p = &prim;
+
+    func_80015978(arg0 + 4, (s32 *)&wpos);
+    if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
+        gte_stszotz(&otz);
+        D_801887F4 = spos.z;
+        D_801887FC = spos.z;
+        D_80188804 = spos.z;
+        func_80017D98(&mtx);
+        /* emitted 0x84/0x80/0x7C -> source runs t[2] first */
+        mtx.t[2] = 0;
+        mtx.t[1] = 0;
+        mtx.t[0] = 0;
+        gte_SetRotMatrix(&mtx);
+        gte_SetTransMatrix(&mtx);
+        gte_ldv3(&D_801887F0, &D_801887F8, &D_80188800);
+        gte_rtpt();
+        gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
+        gte_stflg(&flag);
+        if (flag >= 0) {
+            p->b0 = 0xC0;
+            p->g0 = 0xC0;
+            p->r0 = 0xC0;
+            p->b1 = 0x40;
+            p->g1 = 0x20;
+            p->r1 = 0x20;
+            p->b2 = 0x40;
+            p->g2 = 0x20;
+            p->r2 = 0x20;
+            p->color = 0x50000000;
+            p->v[0].x = sxy[0].vx + spos.x;
+            p->v[0].y = sxy[0].vy + spos.y;
+            p->v[1].x = sxy[1].vx + spos.x;
+            p->v[1].y = sxy[1].vy + spos.y;
+            p->v[2].x = sxy[2].vx + spos.x;
+            p->v[2].y = sxy[2].vy + spos.y;
+            p->v[0].c = otz;
+            func_8001739C(p);
+            t = sxy[1].vy;
+            p->v[1].y = spos.y - t;
+            func_8001739C(p);
+            t = sxy[2].vx;
+            p->v[2].x = spos.x - t;
+            func_8001739C(p);
+            p->v[1].y = sxy[1].vy + spos.y;
+            func_8001739C(p);
+        }
+    }
+}
+
 
 
 extern void (*D_80188808[])(void);

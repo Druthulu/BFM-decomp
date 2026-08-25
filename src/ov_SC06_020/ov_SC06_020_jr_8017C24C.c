@@ -3412,7 +3412,53 @@ void func_8017D72C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017D79C);
+extern s32 func_8017D918(s32 param_1);
+
+void func_8017D79C(int param_1)
+{
+    int iVar2;
+    int iVar3;
+    int iVar4;
+    int iVar5;
+    int tmp;
+    int dcVal;
+
+    if (*(short *)(param_1 + 0xfe) == 0) {
+        iVar2 = func_8004787C((int)*(short *)(param_1 + 0x100));
+        if (iVar2 < 0) {
+            iVar2 = iVar2 + 0x7f;
+        }
+        iVar2 = iVar2 >> 7;
+        tmp = *(unsigned short *)(param_1 + 0x100) + *(unsigned short *)(param_1 + 0x102);
+        *(short *)(param_1 + 0x100) = (short)tmp;
+        iVar3 = func_80047948((short)tmp);
+        if (iVar3 < 0) {
+            iVar3 = iVar3 + 0x7f;
+        }
+        *(int *)(param_1 + 0xe4) = *(int *)(param_1 + 0xe4) + 4;
+        iVar3 = iVar3 >> 7;
+        if (*(int *)(param_1 + 0xe4) >= 0x40) {
+            *(int *)(param_1 + 0xe4) = 0;
+        }
+        dcVal = *(int *)(param_1 + 0xdc);
+        *(int *)(param_1 + 0xe0) = *(int *)(param_1 + 0xe0) + 0xb;
+        iVar4 = func_8004787C(*(int *)(param_1 + 0xe0)) * 0x30;
+        if (iVar4 < 0) {
+            iVar4 = iVar4 + 0xfff;
+        }
+        iVar5 = iVar4 >> 0xc;
+        if (*(int *)(param_1 + 0xe0) >= 0x800) {
+            *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) - 1;
+            return;
+        }
+        iVar5 = iVar5 << 0x10 | iVar5 << 8 | iVar5;
+        ((void (*)(s32, s32, s32, s32, s32, s32))func_8017D918)(param_1, 0, (short)iVar2, (short)iVar3, dcVal, iVar5);
+        ((void (*)(s32, s32, s32, s32, s32, s32))func_8017D918)(param_1, 1, (short)iVar2, (short)iVar3, dcVal, iVar5);
+    } else {
+        *(short *)(param_1 + 0xfe) = *(short *)(param_1 + 0xfe) - 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017D918);
 

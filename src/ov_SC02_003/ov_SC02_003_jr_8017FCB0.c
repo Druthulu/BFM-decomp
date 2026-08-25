@@ -3026,7 +3026,20 @@ DEFINE_func_80180394()  /* dedup: shared engine-core @0x80180394 (src/shared) */
 
 DEFINE_func_801803B0()  /* dedup: shared engine-core @0x801803B0 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_801803D0);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 D_801A72C4;
+
+void func_801803D0(s32 param_1)
+{
+    *(s16 *)(param_1 + 2) = 0xB;
+    *(s16 *)(param_1 + 0x34) = 1;
+    *(s16 *)(param_1 + 0x5E) = 0;
+    *(u16 *)(param_1 + 0x5C) = 0xAA10;
+    func_8012A828(param_1, &D_801A72C4);
+    *(u8 *)(param_1 + 0x102) = 0;
+    *(s32 *)(param_1 + 0x1C) = 0x1E;
+}
+
 
 
 // @class: plumbing

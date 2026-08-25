@@ -3904,5 +3904,67 @@ s32 func_8018D05C(s32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018C2D8", func_8018D7B4);
+extern void func_80189390(void *arg);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+
+void func_8018D7B4(void *arg)
+{
+    u8 *s0 = (u8 *)arg;
+    u8 *p;
+
+    *(u16 *)(s0 + 0xE8) = (*(u8 *)(s0 + 0xC2) << 4) + 0x100;
+
+    switch (*(u16 *)(s0 + 0x34)) {
+    case 0:
+        p = (u8 *)func_8012C658(0x318, 5, (s32)s0);
+        if (p == 0) break;
+        *(u16 *)(*(s32 *)(p + 0x20) + 0x12) = 0xD00;
+        *(u16 *)(p + 6) = *(u16 *)(p + 6) - 0x180;
+        *(s32 *)(s0 + 0x6C) = (s32)p;
+        *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        break;
+
+    case 1:
+        p = (u8 *)func_8012C658(0x318, 6, (s32)s0);
+        if (p == 0) break;
+        *(u16 *)(p + 6) = *(u16 *)(p + 6) + 0x30;
+        *(u16 *)(p + 0xA) = *(u16 *)(p + 0xA) - 0xF0;
+        *(u16 *)(*(s32 *)(p + 0x20) + 0x10) = 0xC00;
+        *(u16 *)(*(s32 *)(p + 0x20) + 0x12) = 0xC00;
+        *(s32 *)(s0 + 0xCC) = (s32)p;
+        *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        break;
+
+    case 2: {
+        s32 dx = *(s16 *)&D_80126B5E - *(s16 *)(s0 + 6) - 0xC0;
+        s32 dy = *(s16 *)&D_80126B66 - *(s16 *)(s0 + 0xE);
+        if (0x3FFFF < dx * dx + dy * dy) break;
+        *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        p = *(u8 **)(s0 + 0x6C);
+        *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+        break;
+    }
+
+    case 3: {
+        u8 *prim = *(u8 **)(s0 + 0x20);
+        *(u16 *)(prim + 0x12) = *(u16 *)(prim + 0x12) - 0x40;
+        if (*(s16 *)(*(u8 **)(s0 + 0x20) + 0x12) != 0) break;
+        *(u16 *)(s0 + 0xAE) = 0;
+        *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        p = *(u8 **)(s0 + 0xCC);
+        *(u16 *)(p + 0x34) = *(u16 *)(p + 0x34) + 1;
+        func_8002D4C8(0xAD5, 0);
+        break;
+    }
+
+    case 4:
+        break;
+    }
+
+    func_80189390(s0);
+}
+
 

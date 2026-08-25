@@ -2958,5 +2958,54 @@ void func_80181984(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181984", func_80181BE8);
+void func_80181BE8(void *a0) {
+    void *s0 = a0;
+    u16 state;
+    s16 v0;
+    s32 v1;
+
+    if ((*(u32 *)((s32)s0 + 0xE8) & 0x60000) != 0) {
+        func_80182998();
+    } else {
+        state = *(u16 *)((s32)s0 + 0x34);
+        switch (state) {
+        case 0:
+            v0 = *(s16 *)((s32)s0 + 0x98);
+            if (v0 == 0) {
+                {
+                    u16 ns = state + 1;
+                    __asm__("" : "=r"(ns) : "0"(ns));
+                    *(u16 *)((s32)s0 + 0x34) = ns;
+                }
+                func_80187070(s0);
+                {
+                    u32 e8 = *(u32 *)((s32)s0 + 0xE8);
+                    *(u32 *)((s32)s0 + 0xE8) = e8 & ~1;
+                    if (e8 & 0x2000) {
+                        *(u32 *)((s32)s0 + 0x1C) = 0x80;
+                    } else {
+                        *(u32 *)((s32)s0 + 0x1C) = 0x90;
+                    }
+                }
+            } else if (*(s32 *)((s32)s0 + 0x94) == 8 && v0 == 1) {
+                func_8002D4C8(0x4FD, 0);
+            }
+            break;
+        case 1:
+            if (func_8012BEE8(s0) != 0) {
+                register s32 a0r __asm__("$4");
+                a0r = (s32)s0;
+                *(u16 *)((s32)s0 + 0x34) += 1;
+                func_80186304((u8 *)s0, 0xF, 2);
+            }
+            break;
+        case 2:
+            if (*(s16 *)((s32)s0 + 0x98) == 0) {
+                func_801838A8(s0);
+            }
+            break;
+        }
+    }
+}
+
 

@@ -3272,7 +3272,116 @@ s32 func_801855CC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_80184F64", func_801856A8);
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern s32 func_8018739C(void);
+extern s32 func_80188D1C(void *);
+extern s32 func_8018766C(s32 arg0, s32 arg1);
+
+/* ROOT CAUSE (found round 21, after 21 MATCH-without-bank rounds): this TU
+ * carries a FILE-SCOPE `extern void func_801856A8();` (L3345, load-bearing for
+ * the &func_801856A8 address-take at L3387) while the byte-true definition is
+ * `s32 (void *)`.  Any correctly-spelled plain definition conflicts with it at
+ * splice time -> hard error -> whole-binary DIFF on EVERY gate, invisible to
+ * standalone match_one.  FIX (cookbook §138, sanctioned T2 lever): define under
+ * an asm-label alias — immune to any TU decl of the real name, byte-neutral
+ * here because the single caller use is fully cast.  Round-22 audit: the alias
+ * draft's compile-time footprint contains NO remaining conflict-class member
+ * (six externs = legal duplicates of the twin's banked block; aF801856A8 is a
+ * fresh identifier; the __asm__ binding is symbol-level, not a C decl).
+ * Bank precondition still applies (§81/§88d; jtbl-automation-s59.md): census
+ * `tail` member =>
+ *   tools/jtbl_lane.py --targets func_801856A8@ov_SC03_001 --draft-dir <dir>
+ * (gate-time _jtbl_prep_one carves; §61b order; proof shapes func_8017DCC0@
+ * ov_SC03_014 commit commit:2661 and func_8017EDA4@ov_SC04_018).  NOTE: raw
+ * jtbls sit in .section .data here (tail20.data.s:3); §81 applies identically.
+ * NOTE for the banker: func_801859AC (adjacent jtbl_801ECE88/ECEA0 owner) is an
+ * INCLUDE_ASM stub IN THIS SAME TU — isolation WILL repartition it; check
+ * stranded-carve residue first (§61c fault 1 / §61d).  reloc_filter tax does
+ * NOT apply (six resolvable callees -> AGREE).  §138 caveat: name-anchored
+ * matchers cannot see aliased defs (_alias_decl_for / R33) — if your chain
+ * still refuses, classify on the BUILD OUTPUT (§136a); the plain-form body
+ * (identical 115-ins stream, prior submissions) is the fallback iff the log
+ * shows tooling (not compiler) failing on the alias.  Do NOT perturb the body:
+ * oracle-MATCH x13 incl. this exact text; idioms verified against BOTH banked
+ * twins (func_801855CC this TU; ov_SC04_018:func_8017EDA4).
+ */
+s32 aF801856A8(void *a0) __asm__("func_801856A8");
+s32 aF801856A8(void *a0)
+{
+    u16 st;
+
+    st = *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2);
+    switch (st) {                                         /* jtbl_801ECE20 */
+    case 2:
+        if (((s32 (*)(void *))func_8018739C)(a0) == 0) {
+            return 0;
+        }
+        if (func_8018766C(8, 0x14) == 0) {
+            return 0;
+        }
+        if (func_80188D1C(*(void **)((s32)a0 + 0x64)) != 0) {
+            return 0;
+        }
+        *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 3;
+        break;
+    case 7:
+        if (((s32 (*)(void *))func_8018739C)(a0) == 0) {
+            return 0;
+        }
+        if (func_8018766C(8, 0x14) == 0) {
+            return 0;
+        }
+        if (func_80188D1C(*(void **)((s32)a0 + 0x64)) != 0) {
+            return 0;
+        }
+        *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 8;
+        break;
+    case 0xC:
+        *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 0xD;
+        break;
+    case 0x12:
+        if (((s32 (*)(void *))func_8018739C)(a0) == 0) {
+            return 0;
+        }
+        if (func_8018766C(8, 0x14) == 0) {
+            return 0;
+        }
+        if (func_80188D1C(*(void **)((s32)a0 + 0x64)) != 0) {
+            return 0;
+        }
+        *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 0x13;
+        break;
+    case 0x17:
+        if (((s32 (*)(void *))func_8018739C)(a0) == 0) {
+            return 0;
+        }
+        if (func_8018766C(8, 0x14) == 0) {
+            return 0;
+        }
+        if (func_80188D1C(*(void **)((s32)a0 + 0x64)) != 0) {
+            return 0;
+        }
+        *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 0x18;
+        break;
+    case 0x1B:
+        if (*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x34) != 2) {
+            return 0;
+        }
+        if (func_8012BD14(*(s32 *)((s32)a0 + 0x64)) > 0x4000) {
+            return 0;
+        }
+        *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 0x1C;
+        break;
+    default:
+        return 0;
+    }
+
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 extern void func_80187778(s32 *a0, s32 a1);
     extern short D_80192864;
@@ -3823,7 +3932,33 @@ void func_801867A8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_80184F64", func_80186828);
+extern void func_80172710(void);
+extern s32 func_8018739C(void);
+extern s32 func_80178BF8();
+
+s32 aF80186828(void *a0) __asm__("func_80186828");
+
+s32 aF80186828(void *a0)
+{
+    void *s0 = a0;
+    void **v0p;
+    u16 v1;
+
+    v0p = (void **)(s0 + 0x64);
+    v1 = *(u16 *)(*v0p + 0x2);
+    if (v1 != 0x2) {
+        return 0;
+    }
+
+    if (func_8018739C() != 0) {
+        *(u16 *)(*v0p + 0x2) = 0x3;
+        func_80178BF8();
+        return (s32)func_80172710;
+    }
+
+    return 0;
+}
+
 
 #include "common.h"
 
@@ -4034,7 +4169,13 @@ extern void func_8012B2CC(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_80184F64", func_80186DAC);
+void func_80186DAC(void *arg0) {
+    u16 *p = *(u16 **)((char *)arg0 + 0x20);
+    *(s16 *)((char *)arg0 + 0x2) = 4;
+    *(s16 *)((char *)p + 0x12) = 0x600;
+    func_8012B2CC((s32)arg0);
+}
+
 
 
 extern void func_8012C1B8(void);

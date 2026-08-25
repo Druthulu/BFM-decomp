@@ -4990,7 +4990,69 @@ s32 func_8017EA48(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_8017EC90);
+
+
+extern MTX_8017EA48 D_800AE620;
+extern s32 rand(void);
+extern s32 func_8017EEA4(s32 a0);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+void func_8017EC90(a0, a1)
+s32 a0;
+s32 a1;
+{
+    register s32 a0v __asm__("$4");
+    register s32 a1v __asm__("$5");
+    register s32 p __asm__("$18");
+    s32 vec[3];
+    MTX_8017EA48 m;
+    s32 d;
+    s32 angle;
+    s32 idx;
+
+    p = a0v;
+    idx = a1v;
+
+    vec[2] = (s32)0xFFFC0000;
+    vec[1] = 0;
+    vec[0] = 0;
+
+    switch (idx) {
+    default:
+        goto join;
+    case 0:
+        if (rand() & 1) {
+            goto join;
+        }
+        /* fallthrough */
+    case 1:
+        *(s16 *)(p + 0xDC) = func_8017EEA4(p);
+        goto join;
+    case 2:
+        d = rand() % 80;
+        angle = *(s16 *)(p + 0xDC);
+        if ((rand() & 1) == 0) {
+            s32 t = angle + 0x800;
+            *(s16 *)(p + 0xDC) = t - d;
+        } else {
+            s32 t = angle + 0x800;
+            *(s16 *)(p + 0xDC) = t + d;
+        }
+        break;
+    case 3:
+        *(s16 *)(p + 0xDC) = rand() % 4096;
+        break;
+    case 4:
+        *(s16 *)(p + 0xDC) = (func_8017EEA4(p) + 0x800) & 0xFFF;
+        break;
+    }
+join:
+    m = D_800AE620;
+    RotMatrixY(*(s16 *)(p + 0xDC), &m);
+    func_800484EC((s32)&m, (s32)&vec, p + 0x10);
+}
+
 
 extern void func_8002A04C(s32 a0);
 extern void func_8012C098(void);

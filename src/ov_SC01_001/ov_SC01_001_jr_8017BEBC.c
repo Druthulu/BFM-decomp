@@ -3218,7 +3218,17 @@ s32 func_8017CEC4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017BEBC", func_8017CF40);
+extern s32 func_800167F0(s32 a0);
+extern void func_800CFBCC(s32 arg);
+
+s32 func_8017CF40(void) {
+    if ((func_800167F0(4) & 0xFFFF) == 0) {
+        return 0;
+    }
+    func_800CFBCC(0);
+    return 1;
+}
+
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 void func_8017CF78(void) {

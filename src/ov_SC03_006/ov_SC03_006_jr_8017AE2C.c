@@ -8468,7 +8468,73 @@ ret0:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018450C);
+extern u8 D_80078EAE;
+extern u8 D_80078E78[];
+extern s32 rand(void);
+extern s32 func_8012B864(s32 a0);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+void func_8018450C(s32 a0, s32 a1) {
+    typedef struct { s32 m[8]; } Mtx8_8017DE10_8017E710;
+    extern Mtx8_8017DE10_8017E710 D_800AE620;
+    register s32 obj __asm__("$18");
+    register s32 cur __asm__("$17");
+    register s32 r2  __asm__("$2");
+    s32 flag;
+    u8 *base;
+    s32 vec[3];
+    Mtx8_8017DE10_8017E710 m;
+    s32 off;
+    s32 val;
+
+    obj = a0;
+    flag = D_80078EAE;
+    base = D_80078E78;
+    vec[1] = 0;
+    vec[0] = 0;
+    if (flag) {
+        vec[2] = (s32)0xFFFA0000;
+    } else {
+        vec[2] = (s32)0xFFF80000;
+    }
+
+    switch (a1) {
+    case 0:
+        if (base[0x36] != 0 && (rand() & 1) != 0) {
+            break;
+        }
+        /* fall through */
+    case 1:
+        *(s16 *)(obj + 0xDC) = func_8012B864(obj);
+        break;
+    case 2:
+        off = rand() % 512;
+        cur = *(s16 *)(obj + 0xDC);
+        if ((rand() & 1) == 0) {
+            r2 = cur + 0x800;
+            r2 = r2 - off;
+        } else {
+            r2 = cur + 0x800;
+            r2 = r2 + off;
+        }
+        *(s16 *)(obj + 0xDC) = r2;
+        break;
+    case 3:
+        do {
+            val = rand() % 0x1000;
+        } while (*(s16 *)(obj + 0xDC) == (s16)val);
+        break;
+    case 4:
+        *(s16 *)(obj + 0xDC) = (func_8012B864(obj) + 0x800) & 0xFFF;
+        break;
+    }
+
+    m = D_800AE620;
+    RotMatrixY(*(s16 *)(obj + 0xDC), &m);
+    func_800484EC((s32)&m, (s32)vec, obj + 0x10);
+}
+
 
 #include "common.h"
 

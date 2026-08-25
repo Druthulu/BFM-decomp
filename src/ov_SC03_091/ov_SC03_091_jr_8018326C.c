@@ -4617,7 +4617,34 @@ void func_80186040(s32 arg0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8018326C", func_80186060);
+void func_80186060(s32 a0)
+{
+    extern s32 func_8004787C(s32 a0);
+    extern u8 D_801A6038[];
+    extern u8 D_801A5FEC[];
+    extern u8 D_801A5FED;
+    extern u8 D_801A5FEE;
+    typedef struct { u8 r, g, b, pad[13]; } Row_80186060;
+    s32 v1;
+    s32 i;
+    s32 j;
+
+    v1 = ((func_8004787C((*(s32 *)(a0 + 0x1C) << 6) & 0x7C0) * 100) >> 12) + 0x64;
+    i = 0;
+    j = 0;
+    do {
+        i++;
+        ((Row_80186060 *)D_801A6038)[j].b = v1;
+        ((Row_80186060 *)D_801A6038)[j].g = v1;
+        ((Row_80186060 *)D_801A6038)[j].r = v1;
+        j++;
+    } while (i < 3);
+    D_801A5FEE = v1;
+    D_801A5FED = v1;
+    (*(u8 *)D_801A5FEC) = v1;
+    *(s32 *)(a0 + 0x1C) += 1;
+}
+
 
 
 extern void (*D_801A61D4[])(void);

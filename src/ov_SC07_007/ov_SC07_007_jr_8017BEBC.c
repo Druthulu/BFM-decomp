@@ -6886,7 +6886,18 @@ s32 func_801815B8(s32 arg0, s32 arg1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80181614);
+s16 func_80181614_body(s32 param_1, s32 param_2) __asm__("func_80181614");
+s16 func_80181614_body(s32 param_1, s32 param_2)
+{
+    s32 s0;
+    s16 ret;
+
+    s0 = *(s32 *)(param_1 + 0x20);
+    ret = func_8012B608(*(s16 *)(s0 + 0x12), (s16)param_2, 4);
+    *(u16 *)(s0 + 0x12) = (*(u16 *)(s0 + 0x12) + ret) & 0xFFF;
+    return (ret << 16) == 0;
+}
+
 
 
 

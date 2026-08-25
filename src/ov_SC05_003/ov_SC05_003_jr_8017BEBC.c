@@ -4777,7 +4777,24 @@ void func_8017F880(void *arg0) {
 
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8017F8B8);
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8017F914);
+extern s32 rand(void);
+extern void func_8012B23C(s32 a0);
+extern void func_8012A828(s32 a0, s32 a1);
+extern s32 D_801A9620;
+
+void func_8017F914(s32 param_1) {
+    s32 r;
+
+    r = rand();
+    *(s32 *)(param_1 + 0xE0) = r % 4096;
+    *(s16 *)(param_1 + 2) = 4;
+    r = rand();
+    *(s32 *)(param_1 + 0x1C) = r % 32 + 0x40;
+    *(s32 *)(param_1 + 0xE4) &= ~1;
+    func_8012B23C(param_1);
+    func_8012A828(param_1, (s32)&D_801A9620);
+}
+
 
 #include "common.h"
 

@@ -3680,7 +3680,35 @@ void func_8017D9AC(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_8017D9E4);
+extern s16 D_80185E28[];
+extern s16 D_80185E3A;
+extern u8 D_80185E40[];
+extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80015D4C();
+
+void func_8017D9E4(void) {
+    volatile s32 pad[2];
+    s32 i;
+    s32 r;
+    s32 g;
+    s32 b;
+    s16 *p;
+
+    i = 0;
+    p = D_80185E28;
+    if (D_80185E3A > 0) {
+        __asm__ __volatile__("" : "=r"(i) : "0"(i));
+        do {
+            func_801437D8((s32)D_80185E40, (s32)p, (s32)(p + 4), *(u16 *)(p + 8));
+            i++;
+        } while (i < *(s16 *)(p + 9));
+    }
+    r = *(u8 *)((s32)p + 0x14);
+    g = *(u8 *)((s32)p + 0x15);
+    b = *(u8 *)((s32)p + 0x16);
+    func_80015D4C(0, 0, 0xA0, 0x78, r, g, b, 0xF00, 2);
+}
+
 
 
 

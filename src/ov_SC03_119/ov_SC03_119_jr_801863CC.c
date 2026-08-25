@@ -3881,7 +3881,19 @@ void func_80187F2C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_801863CC", func_8018800C);
+extern s32 func_8004787C(s32 a0);
+
+void func_8018800C(s32 *a0)
+{
+    *(u16 *)((s32)a0 + 0xFC) += 0x20;
+    *(s16 *)((s32)a0 + 0xA) = *(u16 *)((s32)a0 + 0x100);
+    *(s32 *)((s32)a0 + 0x8) -= func_8004787C(*(s16 *)((s32)a0 + 0xFC)) << 10;
+
+    if (*(s16 *)((s32)a0 + 0xFC) >= 0x800) {
+        *(s16 *)((s32)a0 + 0x2) = 3;
+    }
+}
+
 
 DEFINE_func_80188074()  /* dedup: shared engine-core @0x80188074 (src/shared) */
 

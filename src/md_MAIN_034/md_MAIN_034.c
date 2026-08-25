@@ -1261,6 +1261,23 @@ void func_800CC968(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC9AC);
+void func_800CC9AC(void *a0) {
+    extern u16 D_800B99DA;
+    extern Quad4_800CCAD0 D_800CCAD0;
+    extern u8 D_800CCAD1;
+    extern u8 D_800CCAD2;
+    int col;
+
+    col = D_800B99DA & 1;
+    if (col != 0) {
+        col = 0xFF;
+    } else {
+        col = 0xEF;
+    }
+    (*(u8 *)&D_800CCAD0) = col;
+    D_800CCAD1 = col;
+    D_800CCAD2 = col;
+}
+
 
 INCLUDE_RODATA("asm/md_MAIN_034/nonmatchings/md_MAIN_034", D_800CAE80);

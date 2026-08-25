@@ -3465,7 +3465,28 @@ void func_8017D48C(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_009/nonmatchings/ov_SC04_009_jr_8017BEBC", func_8017D4AC);
+s32 func_8017D4AC(void *a0) {
+    switch (*(s16 *)((s32)a0 + 0x100)) {
+    case 0:
+        *(u16 *)((s32)a0 + 0x104) += 8;
+        *(u16 *)((s32)a0 + 0xE) = *(u16 *)((s32)a0 + 0x102) + *(u16 *)((s32)a0 + 0x104);
+        if (*(s16 *)((s32)a0 + 0x104) >= 0x30) {
+            (*(u16 *)((s32)a0 + 0x100))++;
+            func_8002D4C8(0xA48, 0);
+        }
+        return 0;
+    case 1:
+        *(u16 *)((s32)a0 + 0x108) -= 4;
+        *(u16 *)((s32)a0 + 0xA) = *(u16 *)((s32)a0 + 0x106) + *(u16 *)((s32)a0 + 0x108);
+        if (*(s16 *)((s32)a0 + 0x108) < -0xBF) {
+            *(u32 *)(*(s32 *)((s32)a0 + 0x20) + 4) |= 0x80000000;
+            func_8002D4C8(4, 0xA48);
+            return 1;
+        }
+        return 0;
+    }
+}
+
 
 
 extern void (*D_8018278C[])(void);
