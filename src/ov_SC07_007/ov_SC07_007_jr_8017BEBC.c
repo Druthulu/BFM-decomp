@@ -4106,7 +4106,27 @@ void func_8017D86C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017D8E0);
+extern Blk8 D_801274F0;
+extern void func_8017DAE8(void *a0, void *a1);
+extern void func_8017DC20(void *a0, void *a1, void *a2);
+extern void func_8017DF04();
+
+void func_8017D8E0(a0)
+s32 a0;
+{
+    s32 pad[2]; 
+    Blk8 local_18;
+
+    local_18 = D_801274F0;
+
+    ((void (*)(s32, Blk8 *))func_8017DAE8)(a0, &local_18);
+
+    D_801274F0 = local_18;
+
+    ((void (*)(s32))func_8017DF04)(a0);
+    ((void (*)(s32, void *, void *))func_8017DC20)(a0, (void *)((u8 *)&D_801274F0 - 8), (void *)&D_801274F0);
+}
+
 
 #include "common.h"
 

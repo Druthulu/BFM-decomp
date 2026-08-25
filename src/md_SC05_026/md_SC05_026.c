@@ -852,7 +852,23 @@ void func_801F04DC(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801F06D4);
+
+
+u8 func_801F06D4(a0)
+u32 a0;
+{
+    if ((u32)(a0 - 0x460) < 0x32) {
+        return 0x89;
+    }
+    if ((u32)(a0 - 0x384) < 0x6E) {
+        return 0x65;
+    }
+    if ((u32)(a0 - 0x64) < 0x1E) {
+        return 0x28;
+    }
+    return 0x16;
+}
+
 
 
 
