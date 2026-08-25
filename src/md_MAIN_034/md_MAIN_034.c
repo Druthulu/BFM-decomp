@@ -17,7 +17,134 @@ INCLUDE_RODATA("asm/md_MAIN_034/nonmatchings/md_MAIN_034", D_800CAE08);
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CB00C);
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CB1F8);
+#include "common.h"
+
+/* ---- PsyQ inline GTE macros (same spellings as the matched siblings
+ *      func_800CBA18 / func_800CBC2C in this TU) ---- */
+
+#define gte_ldv0(r0) __asm__ volatile (           \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 );"                           \
+    "lwc2 $2, 0( %1 );"                           \
+    "lwc2 $3, 4( %1 );"                           \
+    "lwc2 $4, 0( %2 );"                           \
+    "lwc2 $5, 4( %2 )"                            \
+    :                                             \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_ldrgb(r0) __asm__ volatile (          \
+    "lwc2 $6, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+
+#define gte_stflg(r0) __asm__ volatile (          \
+    "cfc2 $12, $31;"                              \
+    "nop;"                                        \
+    "sw $12, 0( %0 )"                             \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (          \
+    "swc2 $24, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (          \
+    "swc2 $7, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy3_f3(r0) __asm__ volatile (      \
+    "swc2 $12, 8( %0 );"                          \
+    "swc2 $13, 12( %0 );"                         \
+    "swc2 $14, 16( %0 )"                          \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_strgb(r0) __asm__ volatile (          \
+    "swc2 $22, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+/* ---- types ------------------------------------------------------------- */
+typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB1F8;   /* 0x08 */
+
+/* face record, 0x10 bytes; word 1 is the face base colour */
+typedef struct {
+    /* 0x00 */ u32 unk00;
+    /* 0x04 */ u32 rgb;
+    /* 0x08 */ u16 n0;
+    /* 0x0A */ u16 v0;
+    /* 0x0C */ u16 v1;
+    /* 0x0E */ u16 v2;
+} Face10_800CB1F8;                                         /* 0x10 */
+
+typedef struct {          /* flat tri packet, 0x14 bytes */
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ u32 rgb0;
+    /* 0x08 */ u32 xy0;
+    /* 0x0C */ u32 xy1;
+    /* 0x10 */ u32 xy2;
+} F3P_800CB1F8;                                           /* 0x14 */
+
+extern s16 D_800C7C74;      /* double-buffer parity index */
+extern u32 D_800CC9F8;      /* flat colour used when func_800CC0A0() says so */
+
+extern s32 func_800CC0A0(void *prim);
+extern void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code);
+
+F3P_800CB1F8 *func_800CB1F8(Face10_800CB1F8 *f, SVEC8_800CB1F8 *verts,
+                            SVEC8_800CB1F8 *norms, F3P_800CB1F8 *prims,
+                            s32 count, s32 shift, s32 ot)
+{
+    struct { s32 flag, opz; } g;
+    F3P_800CB1F8 *prim;
+
+    prim = &prims[D_800C7C74];
+
+    for (; count != 0; count--, f++, prim += 2) {
+        gte_ldv3(&verts[f->v0], &verts[f->v1], &verts[f->v2]);
+        gte_rtpt();
+        gte_stflg(&g.flag);
+        if (!(g.flag & ~0x1000)) {
+            gte_nclip();
+            gte_stopz(&g.opz);
+            if (g.opz > 0) {
+                gte_stsxy3_f3(prim);
+                gte_avsz3();
+                gte_stotz(&g.opz);
+                if (func_800CC0A0(prim) != 0) {
+                    prim->rgb0 = D_800CC9F8;
+                } else {
+                    gte_ldrgb(&f->rgb);
+                    gte_ldv0(&norms[f->n0]);
+                    gte_nccs();
+                    gte_strgb(&prim->rgb0);
+                }
+                func_800CC110(ot, g.opz, shift, prim, 0x4000000);
+            }
+        }
+    }
+
+    return prim;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CB3C0);
 
@@ -154,7 +281,148 @@ Prim1C_800CB5D0 *func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts,
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CB7BC);
+#define gte_ldv0(r0) __asm__ volatile (           \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_ldrgb(r0) __asm__ volatile (          \
+    "lwc2 $6, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 );"                           \
+    "lwc2 $2, 0( %1 );"                           \
+    "lwc2 $3, 4( %1 );"                           \
+    "lwc2 $4, 0( %2 );"                           \
+    "lwc2 $5, 4( %2 )"                            \
+    :                                             \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+#define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+
+#define gte_stflg(r0) __asm__ volatile (          \
+    "cfc2 $12, $31;"                              \
+    "nop;"                                        \
+    "sw $12, 0( %0 )"                             \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (          \
+    "swc2 $24, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (          \
+    "swc2 $7, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy(r0) __asm__ volatile (          \
+    "swc2 $14, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy3_gt4(r0) __asm__ volatile (     \
+    "swc2 $12, 8( %0 );"                          \
+    "swc2 $13, 16( %0 );"                         \
+    "swc2 $14, 24( %0 )"                          \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_strgb(r0) __asm__ volatile (          \
+    "swc2 $22, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_strgb3_gt4(r0) __asm__ volatile (     \
+    "swc2 $20, 4( %0 );"                          \
+    "swc2 $21, 12( %0 );"                         \
+    "swc2 $22, 20( %0 )"                          \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB7BC; /* 0x08 */
+
+typedef struct { u32 unk00; u32 rgb; u16 n0, v0; u16 n1, v1; u16 n2, v2; u16 n3, v3; } FaceGT4_800CB7BC; /* 0x18 */
+
+typedef struct {
+    u32 tag;
+    u32 rgb0, xy0;
+    u32 rgb1, xy1;
+    u32 rgb2, xy2;
+    u32 rgb3, xy3;
+} PktGT4_800CB7BC; /* 0x24 */
+
+extern s16 D_800C7C74;
+extern u32 D_800CCA0C;
+
+extern s32 func_800CC0A0(void *prim);
+extern void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code);
+
+PktGT4_800CB7BC *func_800CB7BC(FaceGT4_800CB7BC *face, SVEC8_800CB7BC *vtx,
+                               SVEC8_800CB7BC *nrm, PktGT4_800CB7BC *prims,
+                               s32 count, s32 shift, s32 ot)
+{
+    struct { s32 flag, opz; } g;
+    PktGT4_800CB7BC *pkt;
+
+    pkt = &prims[D_800C7C74];
+
+    for (; count != 0; count--, face++, pkt += 2) {
+        gte_ldv3(&vtx[face->v0], &vtx[face->v1], &vtx[face->v2]);
+        gte_rtpt();
+        gte_stflg(&g.flag);
+        if (!(g.flag & ~0x1000)) {
+            gte_nclip();
+            gte_stopz(&g.opz);
+            if (g.opz > 0) {
+                gte_stsxy3_gt4(pkt);
+                gte_ldv0(&vtx[face->v3]);
+                gte_rtps();
+                gte_stflg(&g.flag);
+                if (!(g.flag & ~0x1000)) {
+                    gte_stsxy(&pkt->xy3);
+                    gte_avsz4();
+                    gte_stotz(&g.opz);
+                    if (func_800CC0A0(pkt) != 0) {
+                        pkt->rgb0 = D_800CCA0C;
+                        pkt->rgb1 = D_800CCA0C;
+                        pkt->rgb2 = D_800CCA0C;
+                        pkt->rgb3 = D_800CCA0C;
+                    } else {
+                        gte_ldrgb(&face->rgb);
+                        gte_ldv3(&nrm[face->n0], &nrm[face->n0], &nrm[face->n0]);
+                        gte_ncct();
+                        gte_strgb3_gt4(pkt);
+                        gte_ldv0(&nrm[face->n0]);
+                        gte_nccs();
+                        gte_strgb(&pkt->rgb3);
+                    }
+                    func_800CC110(ot, g.opz, shift, pkt, 0x08000000);
+                }
+            }
+        }
+    }
+
+    return pkt;
+}
+
 
 #include "common.h"
 

@@ -4166,7 +4166,82 @@ void func_8018102C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801810A0);
+typedef struct {
+    u8 pad0[0x20];
+    s32 f20;
+    u8 pad24[0x10];
+    u16 f34;
+    u8 pad36[0xC6];
+    s16 fFC;
+    s16 fFE;
+} W_801810A0;
+
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern s32 func_8018152C(s32 a0, s16 a1);
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012C51C(s32 a0, s32 a1);
+
+void func_801810A0(W_801810A0 *w) {
+    extern u64 D_8018F298[];
+    struct {
+        s16 f0, f1, f2, f3, f4, f5, f6;
+        u16 timer;
+        s32 tbl;
+        s32 pad[5];
+    } L;
+    register s32 t asm("v0");
+    s32 f;
+    register s32 u asm("a0");
+
+    if (func_8012BDBC((s32)w, 0x380)) {
+        __asm__ __volatile__("" ::: "memory");
+        if (!func_8018152C((s32)w, 0x380)) {
+            goto el;
+        }
+        __asm__ __volatile__("" ::: "memory");
+        *(s16 *)(w->f20 + 0x12) += func_8012B8E4((s32)w, 0x14);
+        if (w->f34 == 0) {
+            if (w->fFE == 0) {
+                func_8002D4C8(0x68B, 0);
+                w->fFE = 1;
+            }
+            if (w->fFC >= 0xA) {
+                w->fFC = 0xA;
+                w->f34 += 1;
+            }
+            L.tbl = (s32)&D_8018F298[*(s16 *)&w->fFC];
+            L.f3 = 0x175;
+            L.f6 = 0x7FFF;
+            L.f2 = 0;
+            L.f1 = 0;
+            L.f0 = 0;
+            L.f5 = 0;
+            L.f4 = 0;
+            L.timer = w->fFC;
+            if (func_8012C51C((s32)&L, (s32)w)) {
+                w->fFC += 1;
+            }
+        }
+    } else {
+el:
+        t = w->fFC;
+        if (t != 0) {
+            f = w->fFE;
+            u = t;
+            __asm__ __volatile__("" : "=r"(u) : "0"(u));
+            __asm__ __volatile__("" : : "r"(t));
+            t = u - 1;
+            w->fFC = t;
+            w->f34 = 0;
+            if (f != 0) {
+                w->fFE = 0;
+                func_8002D4C8(4, 0x68B);
+            }
+        }
+    }
+}
+
 
 void func_80181200(s32 a0)
 {

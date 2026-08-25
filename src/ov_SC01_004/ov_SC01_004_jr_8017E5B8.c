@@ -3104,7 +3104,23 @@ s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
 INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017E5B8", func_8017EB30);
 
-INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017E5B8", func_8017EF8C);
+s16 func_8017EF8C(void) {
+    extern u8 D_801802E4[];
+    extern u8 D_801802EA;
+
+    s32 result;
+    s16 idx;
+
+    if ((func_800291B4(D_801802EA) & 0xFF) == 0) {
+        result = 0;
+        goto end;
+    }
+    idx = func_8014168C(1);
+    result = (func_800291B4(D_801802E4[idx]) & 0xFF) == 0;
+end:
+    return result;
+}
+
 
 
 extern void (*D_8018C2EC[])(void);

@@ -4566,7 +4566,22 @@ void func_8017DF90(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017DFCC);
+void func_8017DFCC(int param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  extern s32 D_801C9364;
+  
+  iVar1 = (int)*(short *)(*(int *)(param_1 + 0x20) + 0x12) + 0x100;
+  iVar2 = D_801C9364;
+  for (iVar3 = 0; iVar3 < 0x10; iVar3++) {
+    *(int *)(iVar2 + iVar3 * 0x10 + 4) = iVar1;
+    iVar1 = iVar1 + 0x100;
+  }
+}
+
 
 
 
