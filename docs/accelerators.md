@@ -245,3 +245,19 @@ baseline is the thing that is broken. Corollary from the same incident: a shared
 ONE writer and ONE committer — any "commit whatever is dirty" adopter over a file another process
 substitutes into will eventually commit an unverified intermediate, no matter what pre-check it
 runs, because the check and the add are two separate reads of a file someone else is writing.
+
+**7. A mechanical-remap lane needs ALL FOUR verdict layers wired in from day one — instructions,
+symbols, TU coexistence, whole-binary bytes.** The A-prop lane shipped with two of the four
+(match_one shape inside reloc_identity, whole-binary gate at the end), consumed only ONE bit of one
+of them (`status==AGREE`, ignoring `shape`), and had NO TU-level oracle at all — so it staged 82
+already-refuted drafts per pass while dropping 27 standalone COMPILE-FAILs of which 7 were
+byte-perfect in their real TU, and its byte-correct near-0 drafts died forever on TU decl walls
+the pipeline had a tool for (fix_arity_callers) but no wiring to. Measured cost: three consecutive
+0/117 passes at ~25 min of gate machine each, plus every diagnosis run being a re-derivation.
+When it was finally decomposed (P31 S59), the fixes were all one-day work — K&R definitions,
+candidate-adjudicated IMM pairing, decl scope/name/direction corrections, rtu_second_chance,
+fix_tu_ret_decls — and the same population banked 64+ in one session at zero tokens. The
+accelerator: for ANY lane that mass-produces candidates from a template, build the verdict ladder
+FIRST (cheapest oracle to most expensive, every verdict consumed, every drop named), and treat "an
+oracle exists but the lane doesn't consume it" as a defect with a per-pass machine cost, not a
+nice-to-have (`docs/tool-designs/aprop-lane-s59.md`, cookbook §270–§273).
