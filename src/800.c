@@ -13043,7 +13043,11 @@ void func_80028F54(s32 a0) {
     func_80029124(0x12, a0 & 0xFF);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028F78);
+extern s32 func_80029178();
+
+u8 func_80028F78(void) {
+    return func_80029178(0x13);
+}
 
 extern void func_80029124(s32, s32);
 
