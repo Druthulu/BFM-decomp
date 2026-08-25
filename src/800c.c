@@ -2106,7 +2106,57 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_202C);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_21A4);
+/* SYS_OBJ_21A4 -- SHARED EPILOGUE of caller SYS_OBJ_202C's 0x50-byte frame
+ * (ra@0x48, s5@0x44, s4@0x40, s3@0x3C, s2@0x38, s1@0x34, s0@0x30).
+ * NOT independently C-compilable: SYS_OBJ_202C reaches it with BARE tail transfers
+ * ("j SYS_OBJ_21A4" / "bnez $v0, SYS_OBJ_21A4" with -1 in $v0 -- its error exits,
+ * asm/nonmatchings/800c/SYS_OBJ_202C.s lines 17/35) and its own last block FALLS
+ * THROUGH into this address (8005B3D8) with the return value already in $v0. There
+ * is no prologue and no body: any real C definition forces cc1 to synthesize its own
+ * return sequence after the hand-written restore (empirically probed in this TU:
+ * neither __attribute__((noreturn)) nor __builtin_unreachable__ suppresses it), so
+ * file-scope raw asm is the only form -- same family as the banked SYS_OBJ_16C /
+ * SYS_OBJ_210 / func_80059760+SYS_OBJ_604+SYS_OBJ_640 blobs above.
+ *
+ * PLACEMENT (MANDATORY -- cookbook §236 item 10 / ADD-3, see the func_8005C054 block
+ * at ~line 2604): this blob REPLACES the INCLUDE_ASM("asm/nonmatchings/800c",
+ * SYS_OBJ_21A4); line at src/800c.c:2109. The stub itself .includes the .s and thus
+ * DEFINES the symbol (include_asm.h), so keeping both double-defines .globl
+ * SYS_OBJ_21A4 -- and the stub's `nonmatching` macro additionally defines a SECOND
+ * global, SYS_OBJ_21A4.NON_MATCHING (include/labels.inc) -- the whole binary goes red
+ * with ZERO instruction diff. Like func_80059234/func_80059760/SYS_OBJ_E34/SYS_OBJ_1DC0/
+ * func_8005C054, no stub line may remain next to this blob.
+ *
+ * The literal ".ent\t"/".end\t" pair is load-bearing (maspsx re-emits .set noreorder
+ * after ".ent\t"; a plain .set\tnoreorder line is swallowed and as assembles in
+ * reorder mode, displacing the hand-placed delay-slot nop). NOTE: maspsx parses
+ * lw/sw offsets as decimal ints -- hex offsets like 0x48($sp) crash it ('invalid
+ * literal for int() with base 10'); write 72($sp)..80($sp).
+ *
+ * Body transcribed 1:1 from asm/nonmatchings/800c/SYS_OBJ_21A4.s (10 ins, oracle-
+ * verified MATCH). The .s contains exactly one symbol (glabel SYS_OBJ_21A4) and zero
+ * jal/%hi/%lo relocation lines -- no data/function/jtbl references exist to spell.
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_21A4\n"
+    ".ent\tSYS_OBJ_21A4\n"
+    "SYS_OBJ_21A4:\n"
+        ".set\tnoreorder\n"
+        "lw    $ra, 72($sp)\n"
+        "lw    $s5, 68($sp)\n"
+        "lw    $s4, 64($sp)\n"
+        "lw    $s3, 60($sp)\n"
+        "lw    $s2, 56($sp)\n"
+        "lw    $s1, 52($sp)\n"
+        "lw    $s0, 48($sp)\n"
+        "addiu $sp, $sp, 80\n"
+        "jr    $ra\n"
+        "nop\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_21A4\n"
+);
 
 __asm__(
     ".text\n"
