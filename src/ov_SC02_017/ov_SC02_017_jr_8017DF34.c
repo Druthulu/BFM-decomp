@@ -6469,7 +6469,41 @@ void func_80184878(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_801848B4);
+void func_801848B4(s32 param_1) {
+    register s32 s0 __asm__("$16");
+    register s32 a0 __asm__("$4");
+    s32 v0;
+    s32 v1;
+
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 D_801CC3B4[];
+    /* DATA-SYMBOL ALIAS (§37/§124): TU spells D_8018A800 as scalar extern s32; bind own name. */
+    extern u8 aD8018A800[] __asm__("D_8018A800");
+
+    s0 = param_1;
+    a0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(s0 + 0x20) = a0;
+    if (a0 == 0) {
+        func_8012CAE4((void *)s0);
+        return;
+    }
+    func_8001C214(a0, D_801CC3B4[*(u16 *)(s0 + 0x70) & 1]);
+    v1 = *(u16 *)(*(s32 *)(s0 + 0x64) + 0x36);
+    *(s16 *)(s0 + 0x2) = 1;
+    *(s16 *)(s0 + 0xFC) = v1;
+    func_8012A828(s0, aD8018A800);
+    v0 = *(u16 *)(s0 + 0x70) & 1;
+    if (v0 != 0) {
+        v0 = 1000;
+    } else {
+        v0 = -250;
+    }
+    *(s16 *)(s0 + 0xFE) = v0;
+}
+
 
 #include "common.h"
 

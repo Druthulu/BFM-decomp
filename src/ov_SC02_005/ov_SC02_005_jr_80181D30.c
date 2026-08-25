@@ -3623,7 +3623,7 @@ void func_80183218(void *arg0) {
 
 
 extern void func_801804AC(void);
-extern void func_801858C4(void *a0);
+extern void func_801858C4();
 
 void func_801834C8(void *arg0)
 {
@@ -4105,7 +4105,7 @@ void func_8018431C(void *a0) {
 extern s32 D_801E44E0;
 extern s32 D_801963D0;
 extern s32 *D_801D6D94;
-extern void func_801858C4(void *a0);
+extern void func_801858C4();
 void func_80184358(u8 *arg0) {
     register u8 *a0 __asm__("$4") = arg0;
     register s32 v0 __asm__("$2");
@@ -5034,7 +5034,7 @@ void func_8018550C(void *a0)
 
 
 
-extern void func_801858C4(void *a0);
+extern void func_801858C4();
 extern void func_80185858(s32 a0, void *a1, void *a2);
 
 extern Blk8 D_801E2E9C;
@@ -5057,7 +5057,7 @@ void func_801856E4(void)
 
 
 
-extern void func_801858C4(void *a0);
+extern void func_801858C4();
 extern void func_80185858(s32 a0, void *a1, void *a2);
 
 extern Blk8 D_801E2EAC;
@@ -5084,7 +5084,25 @@ void func_80185764(void *a0)
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80185858);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_801858C4);
+#include "common.h"
+
+extern void func_8012C218(void *a0);
+extern s32 D_801E43C0;
+extern s32 D_801E43C4;
+
+void func_801858C4(void) {
+    s32 *ptr = &D_801E43C0;
+
+    if (*ptr != 0) {
+        func_8012C218((void *)*ptr);
+        *ptr = 0;
+    }
+    if (D_801E43C4 != 0) {
+        func_8012C218((void *)D_801E43C4);
+        D_801E43C4 = 0;
+    }
+}
+
 
 #include "common.h"
 

@@ -4499,7 +4499,71 @@ ret0:
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8017F338);
+#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+
+extern s32 rand(void);
+extern u8 D_80078E78[];
+extern u8 D_80078EAE;
+extern s32 func_8012B864(s32 a0);
+extern Blk20 D_800AE620;
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+void func_8017F338(s32 arg0, s32 arg1) {
+    u8 *tbl;
+    VECTOR v;
+    Blk20 m;
+    s32 r;
+    s32 d;
+    s32 cur;
+    s32 val;
+
+    tbl = D_80078E78;
+    v.vy = 0;
+    v.vx = 0;
+    if (D_80078EAE != 0) {
+        v.vz = -0x60000;
+    } else {
+        v.vz = -0x80000;
+    }
+
+    switch (arg1) {
+    case 0:
+        if (tbl[0x36] != 0 && (rand() & 1) != 0) {
+            break;
+        }
+        /* fall through */
+    case 1:
+        *(s16 *)(arg0 + 0xDC) = func_8012B864(arg0);
+        break;
+    case 2:
+        r = rand();
+        d = r % 512;
+        cur = *(s16 *)(arg0 + 0xDC);
+        if ((rand() & 1) == 0) {
+            val = cur + 0x800;
+            val = val - d;
+        } else {
+            val = cur + 0x800;
+            val = val + d;
+        }
+        *(s16 *)(arg0 + 0xDC) = val;
+        break;
+    case 3:
+        do {
+            val = rand() % 0x1000;
+        } while (*(s16 *)(arg0 + 0xDC) == (s16)val);
+        break;
+    case 4:
+        *(s16 *)(arg0 + 0xDC) = (func_8012B864(arg0) + 0x800) & 0xFFF;
+        break;
+    }
+
+    m = D_800AE620;
+    RotMatrixY(*(s16 *)(arg0 + 0xDC), &m);
+    func_800484EC((s32)&m, (s32)&v, arg0 + 0x10);
+}
+
 
 #include "common.h"
 
@@ -5316,7 +5380,40 @@ void func_80180D70(s32 a0, s32 a1) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80180E58);
+extern s32 func_8012B0B4(u32 *a0, s32 a1, s32 a2);
+
+void func_80180E58(s32 a0) {
+    s16 arr[8];
+    s32 obj[2];
+    s32 base;
+    s32 i;
+    s32 t;
+    s32 va;
+    s32 vb;
+
+    arr[1] = *(u16 *)(a0 + 0xA);
+    base = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+    for (i = 0; i < 0x20; i++) {
+        func_8012B0B4((u32 *)obj, base, 0x10);
+        t = obj[0];
+        va = *(u16 *)(a0 + 6) + t;
+        arr[0] = arr[4] = va;
+        vb = *(u16 *)(a0 + 0xE) + (t >> 16);
+        arr[2] = arr[6] = vb;
+        arr[5] = *(u16 *)(a0 + 0xA) + 8;
+        if (func_80133784(1, arr, &arr[4]) & 0x2000) {
+            *(u16 *)(a0 + 6) = arr[4];
+            *(u16 *)(a0 + 0xA) = arr[5];
+            *(u16 *)(a0 + 0xE) = arr[6];
+            *(s32 *)(a0 + 0xE0) = base;
+            *(s16 *)(*(volatile s32 *)(a0 + 0x20) + 0x12) = base;
+            break;
+        }
+        base += 0x80;
+    }
+    *(s32 *)(a0 + 0xE8) = 0;
+}
+
 
 extern u16 D_800B99DA;
 extern s32 D_801A46B4[];
