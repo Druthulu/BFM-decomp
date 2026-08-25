@@ -230,3 +230,18 @@ straight:
 Same family as #1–#4: the check that "the change is live" was reading the file on disk, which cannot
 distinguish *edited* from *in effect*. Verify from the process — its `/proc/<pid>/cmdline`, or the
 startup banner echoing the values it actually parsed.
+
+**6. A 0% gate yield is a statement about the INSTRUMENT until a no-input control says otherwise.**
+The main lane drafted at 84–98% completion all day and banked ZERO for 3h46m — and every log line
+blamed the drafts (`reject func_…`, `COMPILE conflict … drafts declaring it: []`, tries burned,
+bisects to MAX_STEPS). One `try_batch([])` control — build the committed tree with NOTHING
+substituted — would have named the real defect (`commit:2693` had adopted a mid-flight substitution;
+HEAD itself built RED) in ~40 seconds. Measured cost of not having it: ~737 drafts drafted, 160
+slated, ~50 clean whole-EXE rebuilds burned, and a day's lane output read as a model failure
+(P31 S59, `docs/tool-designs/main-lane-fix-s59.md`). The generalization for ANY gated pipeline:
+**wire the null-input control into the failure path itself** — on the first batch failure, gate an
+empty slate before judging a single draft, and refuse loudly (exit ≠ 0, sentinel file) when the
+baseline is the thing that is broken. Corollary from the same incident: a shared mutable file needs
+ONE writer and ONE committer — any "commit whatever is dirty" adopter over a file another process
+substitutes into will eventually commit an unverified intermediate, no matter what pre-check it
+runs, because the check and the add are two separate reads of a file someone else is writing.
