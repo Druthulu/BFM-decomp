@@ -31,6 +31,7 @@ import argparse
 import glob
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -196,8 +197,10 @@ def main():
         if sh("git status --porcelain -- src/ config/").stdout.strip():
             log("  tree dirty at entry — committing it rather than reverting")
             sh("git add -A src/ config/")
+            sh("git reset -q -- src/*.c")   # S59: main TUs — one writer (gate_main), one committer (main_lane)
             sh('git commit -q -m "chore(decomp): commit in-tree banked work before the serial lane"')
-            if sh("git status --porcelain -- src/ config/").stdout.strip():
+            if any(l.strip() and not re.match(r'^\s*[MARD?]+\s+src/[^/]+\.c$', l)
+                   for l in sh("git status --porcelain -- src/ config/").stdout.splitlines()):
                 log("  ! could not commit — refusing to run the serial lane on a dirty tree")
                 return 1
 
@@ -240,6 +243,7 @@ def main():
                      for f in glob.glob(".run/auto/bulk/*.verified.txt"))
         if banked:
             sh("git add -A src/ config/")
+            sh("git reset -q -- src/*.c")   # S59: main TUs — one writer, one committer
             sh(f'git commit -q -m "feat(decomp): serial idiom lane — {t["name"]} '
                f'({t["nins"]} ins, {t["lever"]}, group worth {t["group_ins"]})"')
             nb = distill(t, outdir, env)

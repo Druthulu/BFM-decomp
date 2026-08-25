@@ -34,7 +34,7 @@ Usage:
      default is a DRY RUN that reports what would be substituted and any conflicts.
      --apply performs the substitution + clean rebuild and leaves banked drafts in the tree.
 """
-import argparse, collections, fcntl, functools, json, os, re, subprocess, sys
+import argparse, collections, fcntl, functools, glob, json, os, re, subprocess, sys
 sys.path.insert(0, 'tools')
 import corpus
 
@@ -205,6 +205,16 @@ def run(cmd, **kw):
 def sha():
     r = run("sha1sum build/us/SLUS_007.26")
     return r.stdout.split()[0] if r.returncode == 0 and r.stdout else None
+
+
+def main_tus():
+    """The files this tool may write or revert: the EXE's own TUs, i.e. TOP-LEVEL src/*.c only.
+
+    `git checkout -- src/` was a blanket revert of every lane's in-flight work: measured P31 S58,
+    a main bisect reverted 61 just-banked overlay functions (the reason ox_campaign commits
+    overlay banks before its main batch). main's stubs live in top-level src/*.c and nowhere
+    else, so that is all this tool is allowed to touch (S59)."""
+    return sorted(glob.glob('src/*.c'))
 
 _STUBS_BY_BIN = {}
 
@@ -554,11 +564,21 @@ def clean_build():
     run("make extract BINARY=main")
     r = run("make build BINARY=main")
     if r.returncode != 0:
-        return None, r                      # build failed -> no hash, and never a pass
+        # `make build BINARY=main` runs the SHA check itself, so rc!=0 does NOT mean "no
+        # binary": a linked-but-MISMATCHED build also exits nonzero. Returning None here routed
+        # every byte mismatch into the compile-failure analysis, whose conflict regex then
+        # matched a WARNING the baseline prints on every build (`previous implicit declaration
+        # of func_800143AC` — src/800.c calls it before its decl), so m04's chunks all died with
+        # "COMPILE conflict ... drafts declaring it: []" on slates that compiled fine (S59).
+        # The binary was deleted above, so its presence now proves the link ran: report the
+        # real hash and let the caller see an honest mismatch.
+        if os.path.exists("build/us/SLUS_007.26"):
+            return sha(), r
+        return None, r                      # build truly failed -> no hash, and never a pass
     return sha(), r
 
 def try_batch(entries):
-    run("git checkout -- src/")
+    run("git checkout -- " + " ".join(main_tus()))
     run("make extract BINARY=main")          # regenerate .s for the reverted stubs (hazard 2)
     substitute(entries)
     got, r = clean_build()
@@ -566,9 +586,14 @@ def try_batch(entries):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('slate'); ap.add_argument('--apply', action='store_true')
+    ap.add_argument('slate', nargs='?'); ap.add_argument('--apply', action='store_true')
     ap.add_argument('--no-bisect', action='store_true')
+    ap.add_argument('--assert-baseline', action='store_true',
+                    help='no slate: clean-build the committed tree with NO draft substituted; '
+                         'exit 0 green / 3 red. The lane runs this before spending tokens (S59).')
     a = ap.parse_args()
+    if not a.assert_baseline and not a.slate:
+        ap.error('a slate file is required unless --assert-baseline')
 
     # THE main GATE LOCK. gate_stage takes a per-binary flock, and that lock IS the entire safety
     # argument for gating overlays in parallel — but main never had one. Two gate_main runs both
@@ -604,16 +629,33 @@ def main():
     def _revert_if_unbanked():
         if _banked_ok['done']:
             return
-        dirty = subprocess.run("git status --porcelain -- src/", shell=True,
+        dirty = subprocess.run("git status --porcelain -- " + " ".join(main_tus()), shell=True,
                                capture_output=True, text=True).stdout.strip()
         if dirty:
-            print("gate_main: aborting with an UNVERIFIED substitution in src/ — reverting it "
-                  "(it never passed the byte-gate, so no bank is lost).", flush=True)
-            subprocess.run("git checkout -- src/", shell=True)
+            print("gate_main: aborting with an UNVERIFIED substitution in main's TUs — reverting "
+                  "them (never passed the byte-gate, so no bank is lost; overlay files are NOT "
+                  "touched — S59).", flush=True)
+            subprocess.run("git checkout -- " + " ".join(main_tus()), shell=True)
 
     atexit.register(_revert_if_unbanked)
     for _sig in (_signal.SIGTERM, _signal.SIGINT, _signal.SIGHUP):
         _signal.signal(_sig, lambda *_a: sys.exit(130))
+
+    if a.assert_baseline:
+        # THE R40 CONTROL AS A FIRST-CLASS MODE (S59). From 14:57 to 18:43 on 2026-08-24 the
+        # committed baseline built RED (an overlay-lane auto-commit adopted a mid-flight
+        # substitution) and the main lane burned four 200-card draft rounds against it — every
+        # verdict false. One clean rebuild before spending tokens is the cheapest insurance the
+        # lane can buy, and it runs under the same lock as any gate.
+        ok0, got0, _r0 = try_batch([])
+        _banked_ok['done'] = True                    # nothing substituted; tree left clean
+        if ok0:
+            print(f"BASELINE GREEN — {got0} BYTE-IDENTICAL")
+            sys.exit(0)
+        print(f"*** BASELINE RED — HEAD builds to {got0}, want {GOOD}, with NO draft "
+              f"substituted. Nothing can bank until the committed baseline is fixed "
+              f"(find the adopting commit: git log -- 'src/*.c').")
+        sys.exit(3)
 
     slate = json.load(open(a.slate))
     kept, dropped = resolve_conflicts(slate)
@@ -639,29 +681,53 @@ def main():
     # told us the symbol and line. (Measured the hard way: a 41-draft bisect ran 28+ min with no
     # output.) Only a byte MISMATCH with a clean compile genuinely needs bisection.
     err = (r.stderr or '') + (r.stdout or '')
-    # Match every shape gcc uses to name a declaration conflict, not just one. The single
-    # "previous declaration of" pattern missed the IMPLICIT-declaration form entirely:
-    #
-    #   src/800.c:3018: warning: type mismatch with previous implicit declaration
-    #   src/800.c:2910: warning: previous implicit declaration of `func_80017930'
-    #
-    # so a batch whose culprit gcc had already named fell through to bisection — measured P31 S58:
-    # 8 main drafts, 20+ minutes and 6 full clean EXE rebuilds to rediscover a symbol the compiler
-    # printed in the first build. This shortcut exists precisely to avoid that, and it was one
-    # regex away from working. (An implicit declaration arises from a CALL SITE with no prototype,
-    # which is why resolve_conflicts — draft-vs-draft and draft-vs-explicit-decl — cannot see it.)
-    m = (re.search(r'^(.*?):(\d+): previous declaration of `([^\']+)\'', err, re.M)
-         or re.search(r'^(.*?):(\d+): (?:warning: )?previous implicit declaration of `([^\']+)\'',
-                      err, re.M)
-         or re.search(r'^(.*?):(\d+): (?:warning: )?conflicting types for `([^\']+)\'', err, re.M))
-    if m:
-        print(f"\nCOMPILE conflict on `{m.group(3)}' at {m.group(1)}:{m.group(2)} —"
-              f" NOT bisecting; drop or reconcile the drafts declaring it and re-run.")
-        offenders = [e['fn'] for e in kept
-                     if re.search(rf"\b{re.escape(m.group(3))}\b", open(e['draft']).read())]
-        print("  drafts declaring it:", offenders)
-        run("git checkout -- src/")
-        return
+
+    # R40 — EXONERATE THE INSTRUMENT BEFORE JUDGING THE DRAFTS (S59). From 14:57 to 18:43 on
+    # 2026-08-24 the committed baseline built RED (an overlay-lane auto-commit, commit:2693, had
+    # adopted a mid-flight substitution), and this gate judged four 200-card draft rounds against
+    # it: 0 banked, ~50 clean rebuilds burned, every rejection a false verdict. One control
+    # rebuild answers the only question that matters first: does HEAD, with NO draft substituted,
+    # still build byte-identical? If not, nothing in this slate can bank, and bisecting would
+    # only reject innocent drafts one by one until MAX_STEPS.
+    base_ok, base_got, _rb = try_batch([])
+    if not base_ok:
+        print(f"\n*** BASELINE RED — HEAD builds to {base_got}, want {GOOD}, with NO draft "
+              f"substituted. Every per-draft verdict from this tree would be FALSE; the slate "
+              f"is untouched and reusable. Fix the committed baseline first "
+              f"(find the adopting commit: git log -- 'src/*.c'). NOT bisecting.")
+        _banked_ok['done'] = True       # the control substituted nothing; the tree is clean
+        sys.exit(3)
+
+    if got is None:
+        # A COMPILE error names its own culprit — read it instead of bisecting (a bisect step is
+        # a full clean rebuild). Two conditions gate this shortcut since S59:
+        #   * ERROR-shaped lines only, never `warning:` forms. gcc 2.7.2 WARNS about an
+        #     implicit-decl mismatch the baseline itself carries (src/800.c:479 calls
+        #     func_800143AC before its decl on EVERY build), and matching the warning here blamed
+        #     slates that never mentioned the symbol — every m04 chunk died with
+        #     "COMPILE conflict on func_800143AC ... drafts declaring it: []".
+        #   * a draft in THIS slate must actually name the symbol. An empty offender list means
+        #     the conflict pre-exists in the TU or arose indirectly; "drop the drafts declaring
+        #     it" is unactionable then, and the honest path is the error report + bisect below.
+        # (The S58 case this shortcut was built for — a slate draft calling a symbol with no
+        # prototype — still hits it: the draft names the symbol, so offenders is non-empty.)
+        m = (re.search(r'^(.*?):(\d+): previous declaration of `([^\']+)\'', err, re.M)
+             or re.search(r'^(.*?):(\d+): previous implicit declaration of `([^\']+)\'',
+                          err, re.M)
+             or re.search(r'^(.*?):(\d+): conflicting types for `([^\']+)\'', err, re.M))
+        offenders = ([e['fn'] for e in kept
+                      if re.search(rf"\b{re.escape(m.group(3))}\b", open(e['draft']).read())]
+                     if m else [])
+        if m and offenders:
+            print(f"\nCOMPILE conflict on `{m.group(3)}' at {m.group(1)}:{m.group(2)} —"
+                  f" NOT bisecting; drop or reconcile the drafts declaring it and re-run.")
+            print("  drafts declaring it:", offenders)
+            run("git checkout -- " + " ".join(main_tus()))
+            return
+        if m:
+            print(f"\n(note: a decl conflict on `{m.group(3)}' at {m.group(1)}:{m.group(2)} is "
+                  f"in the build log but NO draft in this slate names it — pre-existing in the "
+                  f"TU; falling through to the error report + bisect.)")
     # A BUILD failure (sha None) is not a byte mismatch, and bisecting it costs a full clean
     # rebuild per step to rediscover what the compiler/linker already printed. The named-culprit
     # path above only recognizes ONE error shape ("previous declaration of"); everything else --
@@ -693,7 +759,7 @@ def main():
                 print(f"  {label} `{s}' -> drafts referencing it: {owners or '(none in slate)'}")
     print(f"\nbatch FAILED (sha {got}); {'not bisecting' if a.no_bisect else 'bisecting'}")
     if a.no_bisect:
-        run("git checkout -- src/"); return
+        run("git checkout -- " + " ".join(main_tus())); return
     # THE OLD LOOP COULD NOT TERMINATE. On a failing multi-element chunk it did `lo = head + lo`,
     # restoring `lo` to exactly its previous value — so the next iteration recomputed the SAME
     # `head`, failed identically, and restored again. Forever. Combined with a non-idempotent

@@ -23,6 +23,7 @@ Usage:
 Prints a JSON summary; importable as run_gate(...)->dict.
 """
 import argparse, fcntl, glob, json, os, re, shutil, subprocess, sys, time
+import glob as _glob
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import backlog
 
@@ -517,6 +518,11 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         #      the same-named split — the Phase-29 §-lesson (a filename glob silently omitted 4
         #      R22-verified banks from a commit). `-u` cannot miss a modified tracked file.
         sh(["git", "add", "-u", "src/"])
+        # NEVER stage main's TUs from the overlay gate (S59): a concurrent gate_main substitution
+        # in top-level src/*.c is unverified by construction, and adopting one mid-flight is how
+        # commit:2693 turned main's baseline RED for 3h46m. gate_main writes them; main_lane
+        # commits them after the whole-EXE SHA re-checks green; nobody else touches them.
+        sh(["git", "reset", "-q", "--"] + sorted(_glob.glob("src/*.c")))
         # P30 T3 pre-work: `-u` cannot stage NEW files — a jr bank's jtbl prep CREATES
         # src/<binary>/<binary>_jr_XXXX.c and edits config/overlays.mk + the binary's splat yaml,
         # all of which the old scope silently omitted (a clone of such a bank commit failed to

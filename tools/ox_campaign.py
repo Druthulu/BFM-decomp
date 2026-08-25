@@ -56,6 +56,20 @@ def sh(cmd, timeout=None, quiet=True):
     return r
 
 
+def unstage_main_tus():
+    """Drop TOP-LEVEL src/*.c from the index before an overlay/maintenance commit (S59).
+
+    A concurrent gate_main substitution in main's TUs is unverified by construction, and this
+    campaign's blanket `git add -A src/` adopted one mid-flight at 14:57:01 (commit:2693): main
+    built RED until 18:43 and the main lane banked 0 from four 200-card draft rounds — every
+    rejection a false verdict. main's TUs have exactly ONE writer (gate_main) and ONE committer
+    (main_lane, after the whole-EXE SHA re-checks green); every other lane must neither commit
+    NOR revert them (after a GREEN gate, byte-proven work legitimately sits there uncommitted)."""
+    files = sorted(glob.glob('src/*.c'))
+    if files:
+        sh("git reset -q -- " + " ".join(files))
+
+
 def credits_left():
     """Remaining OpenRouter credit, or None if unreadable. Never fatal — telemetry, not a gate."""
     key = ""
@@ -463,15 +477,26 @@ def gate(tag, keep, jobs, run_id=None):
         main_dirty = [l.split()[-1] for l in dirty.splitlines()
                       if re.match(r'^\s*[MARD?]+\s+src/[^/]+\.c$', l)]
         if main_dirty:
-            log(f"  REFUSING to commit main sources {main_dirty} — gate_main's substitution is "
-                f"unverified by construction; reverting those and committing the rest")
-            sh("git checkout -- " + " ".join(main_dirty))
+            # NEITHER COMMIT NOR REVERT main's TUs (S59). The old carve-out REVERTED them here —
+            # and lost a TOCTOU race with the live gate_main, whose substitute() re-wrote
+            # src/800.c between our checkout and the `git add -A` below: auto-commit commit:2693
+            # adopted two unverified bodies at 14:57:01 (14 s after a main bisect chunk banked —
+            # exactly one chunk cadence), main built RED until 18:43, and the main lane burned
+            # four 200-card draft rounds against it, banking zero. Reverting is not safe either:
+            # after a GREEN gate, byte-proven work sits uncommitted in these files until
+            # main_lane commits it moments later. One writer (gate_main), one committer
+            # (main_lane); this lane leaves main's TUs alone in both directions.
+            log(f"  leaving dirty main TU(s) alone — gate_main/main_lane own them: {main_dirty}")
         log(f"  tree dirty at gate entry ({n_files} files) — committing it rather than reverting")
         sh("git add -A src/ config/")
+        unstage_main_tus()
         r = sh('git commit -q -m "chore(decomp): commit in-tree banked work before the next gate\n\n'
                'Uncommitted src/ changes found at gate entry. These are banked functions from a lane '
-               'that gates with commit=False, not residue — preserved, not reverted."')
-        if r.returncode != 0 and sh("git status --porcelain -- src/ config/").stdout.strip():
+               'that gates with commit=False, not residue — preserved, not reverted. Top-level '
+               'src/*.c (main TUs) are excluded by construction (S59)."')
+        leftover = [l for l in sh("git status --porcelain -- src/ config/").stdout.splitlines()
+                    if l.strip() and not re.match(r'^\s*[MARD?]+\s+src/[^/]+\.c$', l)]
+        if r.returncode != 0 and leftover:
             log("  ! could not commit the dirty tree — REFUSING to gate (would risk real work)")
             return 0, []
     t0 = time.time()
@@ -489,6 +514,7 @@ def gate(tag, keep, jobs, run_id=None):
     # Uncommitted banked work is fragile; commit it the moment it exists.
     if banked:
         sh("git add -A src/ config/")
+        unstage_main_tus()
         sh(f'git commit -q -m "feat(decomp): ox wave {tag} overlays — {len(banked)} banked\n\n'
            f'Committed before the main batch: gate_main reverts on failure and would take these '
            f'with it."')
@@ -510,6 +536,7 @@ def commit(tag, n, banked):
     if not sh("git status --porcelain -- src/ config/").stdout.strip():
         return None
     sh("git add -A src/ config/")
+    unstage_main_tus()
     msg = (f"feat(decomp): ox wave {tag} — {n} banked\\n\\n"
            f"Card-fuelled ox drafts, reloc_identity pre-filtered, gated via sweep_parallel.\\n"
            f"{' '.join(banked[:40])}{' …' if len(banked) > 40 else ''}")

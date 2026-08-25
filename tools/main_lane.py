@@ -50,6 +50,17 @@ import ox_campaign as OX                                                   # noq
 REPO = OX.REPO if hasattr(OX, "REPO") else os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = ".venv/bin/python"
 LEDGER = ".run/main_lane_ledger.jsonl"
+RED_SENTINEL = ".run/main_lane.BASELINE_RED"
+
+
+class BaselineRed(RuntimeError):
+    """The committed tree does not build byte-identical with NO draft substituted.
+
+    Raised instead of judging (or retrying) any draft: against a red baseline every gate verdict
+    is FALSE — S59 measured it the hard way, when auto-commit commit:2693 adopted a mid-flight
+    gate_main substitution at 14:57 and this lane then drafted four 200-card rounds (m00-m03
+    cycles, ~737 drafts) and banked ZERO until 18:43, burning ~50 clean rebuilds and a tries
+    strike on every parked draft it falsely rejected (R40/R43)."""
 
 
 def log(msg):
@@ -168,6 +179,11 @@ def gate_batch(tag, slate, depth=0):
     log(f"{tag}: gating {len(slate)} draft(s)"
         + (f" (bisect depth {depth})" if depth else " — ONE clean whole-EXE rebuild"))
     banked, out = _gate_once(tag, slate)
+    if 'BASELINE RED' in out:
+        # gate_main ran its no-draft control and the TREE, not the slate, is broken. Do not
+        # bisect, do not bump tries — the slate is unjudged and fully reusable (S59).
+        raise BaselineRed("gate_main's no-draft control found the committed baseline RED "
+                          "mid-cycle — the slate was not judged")
 
     if banked:
         green, line = _main_sha_green()
@@ -218,6 +234,18 @@ def commit_banks(tag, banked):
 
 def cycle(a, tag):
     """One draw→draft→filter→gate→commit pass. Returns the number banked."""
+    # R43 (S59): assert the arbiter BEFORE spending tokens or rebuilds. One clean no-draft
+    # rebuild (~40 s, under the gate lock) is the cheapest insurance this lane can buy: it
+    # converts "every batch mysteriously gates 0 and the ledger reads as a drafting failure"
+    # into one loud refusal naming the actual defect.
+    r = OX.sh(f"{PY} tools/gate_main.py --assert-baseline", timeout=7200)
+    if r.returncode != 0:
+        tail = ((r.stdout or '') + (r.stderr or '')).strip().splitlines()
+        raise BaselineRed(tail[-1] if tail else f"gate_main --assert-baseline rc={r.returncode}")
+    if os.path.exists(RED_SENTINEL):
+        os.unlink(RED_SENTINEL)
+        log("baseline is GREEN again — resuming normal cadence")
+
     parked = parked_slate() if not a.no_parked else []
     if parked:
         log(f"{tag}: {len(parked)} PARKED draft(s) from earlier overlay waves — gating those first "
@@ -303,6 +331,17 @@ def main():
             log("out of main-lane tags"); return
         try:
             cycle(a, tag)
+        except BaselineRed as e:
+            log(f"{tag}: BASELINE RED — {e}")
+            log(f"{tag}: REFUSING to draft or gate against a broken baseline (R43): every "
+                f"verdict would be false and every rebuild wasted. Re-checking in 30 min; "
+                f"fix the committed baseline (git log -- 'src/*.c') to resume.")
+            with open(RED_SENTINEL, 'w') as f:
+                f.write(time.strftime('%F %T') + '\n' + str(e) + '\n')
+            if a.once:
+                return
+            time.sleep(1800)
+            continue
         except Exception as e:                       # a lane must survive its own bad cycle
             log(f"{tag}: cycle failed: {type(e).__name__}: {e}")
         if a.once:

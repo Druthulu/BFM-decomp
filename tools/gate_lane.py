@@ -88,6 +88,9 @@ for fn in banked:
     if dirty():
         tag=os.environ.get("GATE_PHASE","decomp")   # P31 T1: was hardcoded "phase-30 S49"
         subprocess.run("git add src/ config/",shell=True)
+        # S59: never stage main's TUs from an overlay propagate — one writer (gate_main),
+        # one committer (main_lane). See ox_campaign.unstage_main_tus.
+        subprocess.run("git reset -q -- src/*.c",shell=True)
         subprocess.run(f'git commit -q -m "feat({tag}): propagate {fn} (gate lane)"',shell=True)
         print(f"  prop {fn}: committed", flush=True)
 print("DONE", flush=True)

@@ -65,8 +65,17 @@ PY
     flock .run/auto/draw.lock .venv/bin/python tools/sweep_parallel.py --drafts .run/sweep_maint -j 10 2>&1 | tail -2
     if [ -n "$(git status --porcelain -- src/ config/)" ]; then
       git add -A src/ config/
-      git commit -q -m "feat(decomp): free A-prop sibling lane (maintenance pass) — zero model tokens"
-      say "committed $(git rev-parse --short HEAD)"
+      # NEVER stage main's TUs (top-level src/*.c) from this lane (S59): sweep_parallel refuses
+      # main, so any dirt there is another lane's in-flight gate_main work — unverified by
+      # construction. One writer (gate_main), one committer (main_lane); adopting a mid-flight
+      # substitution is how commit:2693 turned main's baseline RED for 3h46m.
+      git reset -q -- src/*.c 2>/dev/null || true
+      if git diff --cached --quiet; then
+        say "only main-TU dirt found — leaving it to gate_main/main_lane; nothing to commit"
+      else
+        git commit -q -m "feat(decomp): free A-prop sibling lane (maintenance pass) — zero model tokens"
+        say "committed $(git rev-parse --short HEAD)"
+      fi
     else
       say "nothing banked this pass"
     fi
