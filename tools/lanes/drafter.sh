@@ -99,6 +99,12 @@ export HTTP_TIMEOUT=700
 # finisher thread, so the next wave draws and ramps while the stragglers run. Blocking on this
 # grace was 11m40s of 2-5% fleet utilisation at the end of every wave, four waves for four.
 export STRAGGLER_GRACE=700
+# TAIL_DONE_FRAC 0.80 -> 0.65 (P31 S60, Drew: "get the throughput up"). At 0.80 the fleet ran
+# 2-3 overlapping waves and averaged ~250 req/min; the remaining troughs are the gap between
+# one wave draining and the next ramping. Handing off at 65% keeps 3-4 waves overlapping, so
+# the fleet is always carrying a full ramp somewhere. Stragglers still keep the full 700s
+# grace in the finisher thread — this changes WHEN THE NEXT WAVE STARTS, never what lands.
+export TAIL_DONE_FRAC=0.65
 export MAX_429=10
 while [ ! -e .run/ox_campaign.stop ]; do
   .venv/bin/python tools/ox_campaign.py --drafter \

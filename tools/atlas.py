@@ -742,7 +742,10 @@ def survey(args):
         "groups": groups,
         "knn": knn,
     }
-    json.dump(out, open(".run/atlas.json", "w"))
+    # ATOMIC (P31 S60): the lanes read .run/atlas.json at every draw, and a plain dump leaves a
+    # truncated file readable for the length of the write. Rename is atomic on the same fs.
+    json.dump(out, open(".run/atlas.json.tmp", "w"))
+    os.replace(".run/atlas.json.tmp", ".run/atlas.json")
     render(out)
     print(f"atlas: {len(groups)} groups / {len(inst)} instances / "
           f"{sum(g['ins'] for g in groups)} ins; t1.5 merges={t15_merges} warm merges={warm_merges}; "

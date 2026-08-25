@@ -113,7 +113,15 @@ def draw(tag, n, lo, hi):
     if os.path.exists(cards):
         log(f"{tag}: cards already drawn, reusing")
         return cards
+    # --max-bins MUST be passed here (P31 S60). build_wave_atlas defaults to 12 gate groups, a cap
+    # that exists because each group costs one whole-binary rebuild — and main's own --only-bins
+    # docstring says the opposite applies to it: "main is gated ONCE per SLATE, so main has no
+    # per-TU gate cost and --max-bins can be large." Nobody passed it, so this lane asked for 200
+    # cards and drew 32 (12 of main's TUs), every wave. Measured cost: main banked ~19 stubs/hour
+    # against 1,291 remaining while the overlay lane ran 650-card waves beside it.
+    bins = os.environ.get("MAIN_MAX_BINS", "400")
     r = OX.sh(f"{PY} tools/build_wave_atlas.py {cards} {n} --min-ins {lo} --max-ins {hi} "
+              f"--max-bins {bins} "
               f"--only-bins main --one-per-gid --retry-unbanked --tells-quota 0 --jtbl-quota 0",
               timeout=3600, quiet=False)
     if not os.path.exists(cards):

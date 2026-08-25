@@ -219,14 +219,21 @@ if a.retry_unbanked:
     # flight and stay excluded; a tag whose card file is older than STALE_H with no gate line never
     # got one (a killed wave) and is released, so nothing is locked out forever.
     STALE_H = 6
+    # TWO LANES GATE, SO READ BOTH LOGS (P31 S60, caught by its own probe). The overlay gater
+    # writes "GATE <tag>: banked N/M"; the MAIN lane gates its own waves and writes
+    # "[main-lane] <tag><batch>: N banked" to a different file. Reading only the gater's log made
+    # every m## wave look permanently in flight, and main's draw — the lane with 1,291 stubs left —
+    # lost 425 cards to an exclusion meant for work in progress.
     gated_tags = set()
-    try:
-        for line in open('.run/gater.log', errors='replace'):
-            m = re.search(r'GATE (\w+): banked ', line)
-            if m:
-                gated_tags.add(m.group(1))
-    except OSError:
-        pass
+    for path, pat in (('.run/gater.log', r'GATE (\w+): banked '),
+                      ('.run/main_lane.log', r'\[main-lane\] (m\d+)[a-z]*:.*\bbanked\b')):
+        try:
+            for line in open(path, errors='replace'):
+                m = re.search(pat, line)
+                if m:
+                    gated_tags.add(m.group(1))
+        except OSError:
+            pass
     _inflight = 0
     _still_open = set()
     for p in PRIORS:

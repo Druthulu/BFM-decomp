@@ -31,7 +31,7 @@ export HTTP_TIMEOUT=700
 # is tied to HTTP_TIMEOUT rather than set independently.
 export STRAGGLER_GRACE=700
 while [ ! -e .run/ox_campaign.stop ]; do
-  .venv/bin/python tools/main_lane.py --workers 150 --batch 40 --cards 200 --max-ins 200 --maxtok 16000 2>&1
+  .venv/bin/python tools/main_lane.py --workers 600 --batch 40 --cards 600 --max-ins 200 --maxtok 16000 2>&1
   echo "[$(date +%H:%M:%S)] [main-lane] exited; restarting in 20s"
   sleep 20
 done
