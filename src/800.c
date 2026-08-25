@@ -630,7 +630,40 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80014564);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80014588);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800145EC);
+void func_800145EC(s32 mode) {
+    extern void func_800525DC(s32 w, s32 h, s32 mode2, s32 a3, s32 st);
+    extern void func_80053178(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_80059234(s32);
+    extern void func_80053218(void);
+    extern void func_80014774(void);
+    extern void func_800147B8(void);
+    extern u8 D_80062A3C[];
+    extern u8 D_80062A3E[];
+    extern u8 D_80062A40[];
+    extern u16 D_800AF7BC;
+    extern u16 D_800AF7BE;
+    extern u16 D_800AF7C0;
+    s32 off;
+
+    off = (mode & 0xFFFF) * 6;
+
+    D_800AF7BC = *(u16 *) (D_80062A3C + off);
+    D_800AF7BE = *(u16 *) (D_80062A3E + off);
+    D_800AF7C0 = *(u16 *) (D_80062A40 + off);
+
+    func_800525DC(D_800AF7BC, D_800AF7BE, D_800AF7C0 | 4, 0, 0);
+
+    if (D_800AF7BE == 0x1E0) {
+        func_80053178(0, 0, 0, 0);
+    } else {
+        func_80053178(0, D_800AF7BE, 0, 0);
+    }
+
+    func_80059234(1);
+    func_80053218();
+    func_80014774();
+    func_800147B8();
+}
 
 void func_800146B0(s32 mode) {
     extern void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);

@@ -109,7 +109,16 @@ s32 GetRCnt(s32 spec) {
     return ret;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", StartRCnt);
+extern s32 D_80072934;
+extern s32 D_8007293C[];
+
+s32 StartRCnt(s32 spec) {
+    s32 t;
+
+    t = spec & 0xFFFF;
+    *(s32 *)(D_80072934 + 4) |= D_8007293C[t];
+    return t < 3;
+}
 
 __asm__(".text\n.align 2\n.globl StopRCnt\n.ent\tStopRCnt\n"
         "StopRCnt:\n.frame $sp,0,$31\n"
@@ -570,7 +579,40 @@ s32 func_8005E528(Ctx *s) {
     return 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E79C);
+__asm__(
+    "\t.set\tnoreorder\n"
+    ".set noreorder\n"
+    "\t.globl\tfunc_8005E79C\n"
+    "func_8005E79C:\n"
+    "addiu $sp, $sp, -32\n"
+    "sw $s0, 16($sp)\n"
+    "addu $s0, $a0, $zero\n"
+    "sw $s1, 20($sp)\n"
+    "lui $v0, %hi(D_80072978)\n"
+    "lw $v0, %lo(D_80072978)($v0)\n"
+    "sw $ra, 24($sp)\n"
+    "jalr $v0\n"
+    "addu $s1, $a1, $zero\n"
+    "bnez $v0, 1f\n"
+    "addu $v0, $zero, $zero\n"
+    "addiu $v0, $zero, 1\n"
+    "addiu $v1, $zero, 1\n"
+    "sb $v1, 70($s0)\n"
+    "lui $v1, %hi(func_8005E804)\n"
+    "addiu $v1, $v1, %lo(func_8005E804)\n"
+    "sw $v1, 20($s0)\n"
+    "lui $v1, %hi(func_8005E820)\n"
+    "addiu $v1, $v1, %lo(func_8005E820)\n"
+    "sw $s1, 32($s0)\n"
+    "sw $v1, 24($s0)\n"
+    "1:\n"
+    "lw $ra, 24($sp)\n"
+    "lw $s1, 20($sp)\n"
+    "lw $s0, 16($sp)\n"
+    "jr $ra\n"
+    "addiu $sp, $sp, 32\n"
+    ".set reorder\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E804);
 
@@ -658,7 +700,22 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EA88);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAA8);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAC8);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005EAC8\n"
+    ".ent\tfunc_8005EAC8\n"
+    "func_8005EAC8:\n"
+    ".set\tnoreorder\n"
+    "addiu $v0, $zero, 75\n"
+    "sb    $v0, 54($a0)\n"
+    "sw    $zero, 44($a0)\n"
+    "jr    $ra\n"
+    "sb    $zero, 53($a0)\n"
+    "nop\n"
+    "nop\n"
+    "nop\n"
+    ".end\tfunc_8005EAC8\n");
 
 __asm__(
     ".text\n"
