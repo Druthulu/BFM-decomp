@@ -8902,7 +8902,139 @@ s32 func_8018567C(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018576C);
+
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (         \
+    "swc2 $7, 0( %0 )"                           \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+void func_8018576C(u8 *vb)
+{
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+    extern short D_800B9A02;
+
+    register u8 *p __asm__("$4");
+    register s32 t1 __asm__("$9");
+    register s32 i __asm__("$11");
+    register s32 t0 __asm__("$8");
+    register s32 k __asm__("$2");
+    u8 *pkt;
+    u32 *ot;
+    u32 *otp;
+    u8 *v4;
+    s32 flag, flag2, otz;
+    s32 d;
+    s32 z;
+    u32 mAnd;
+    u32 mOr;
+    short vv[16];
+    s16 vz0;
+
+#define RS(o) (*(s16 *)((s32)vb + (o)))
+
+    p = (u8 *)(((*(u32 *)((s32)vb + 0x58)) & 0xFFFFFFF) | 0x80000000);
+    vv[1] = RS(0x8A) + *(u16 *)(p + 8) - 0x40;
+    vv[5] = RS(0x8A) + *(u16 *)(p + 8) - 0x40;
+    vv[9] = RS(0x8A) + *(u16 *)(p + 0xA) + 0x40;
+    vv[13] = RS(0x8A) + *(u16 *)(p + 0xA) + 0x40;
+    vz0 = RS(0x8C) - 0x50;
+    ot = (u32 *)&D_800A6610[((u16)D_800B9A02) << 14];
+    vv[14] = vz0;
+    vv[10] = vz0;
+    vv[6] = vz0;
+    vv[2] = vz0;
+    d = *(s16 *)(p + 4);
+    if ((d - 0x20) >= 0) {
+        z = (d - 0x20) / 2;
+    } else {
+        z = (0x20 - d) / 2;
+    }
+    i = -2;
+    v4 = (u8 *)&vv[4];
+    mOr = 0xFFFFFF;
+    mAnd = 0xFF000000;
+    k = -2 * z;
+    t1 = k + z;
+    t0 = k;
+    for (; i < 2; i++) {
+        pkt = D_800A5E60;
+        D_800A5E60 = pkt + 0x18;
+        *(u8 *)(pkt + 3) = 5;
+        *(u32 *)(pkt + 4) = 0;
+        *(u8 *)(pkt + 7) = 0x28;
+        vv[0] = vv[8] = RS(0x88) + t0;
+        vv[4] = vv[12] = RS(0x88) + t1;
+        gte_ldv3(&vv[0], v4, &vv[8]);
+        gte_rtpt();
+        gte_stflg(&flag);
+        gte_stsxy3(pkt + 8, pkt + 0xC, pkt + 0x10);
+        gte_ldv0(&vv[12]);
+        gte_rtps();
+        gte_stflg(&flag2);
+        flag |= flag2;
+        gte_stsxy(pkt + 0x14);
+        gte_avsz4();
+        gte_stotz(&otz);
+        if ((flag & ~0x1000) == 0) {
+            s32 tt = otz + 0x29;
+            if (tt > 0xFFF) {
+                tt = 0x1000;
+            }
+            otp = (u32 *)(tt * 4 + (u32)ot);
+            *(u32 *)pkt = (*(u32 *)pkt & mAnd) | (*(u32 *)otp & mOr);
+            *(u32 *)otp = (*(u32 *)otp & mAnd) | ((u32)pkt & mOr);
+        }
+        t1 += z;
+        t0 += z;
+    }
+#undef RS
+}
+
 
 
 extern void (*D_801958E8[])(void);
