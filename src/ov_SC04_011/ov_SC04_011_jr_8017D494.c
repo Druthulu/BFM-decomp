@@ -8318,7 +8318,12 @@ default_case:
 void func_801873D0(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801873D8);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_801873D8(s32 arg0) {
+    func_8012AD44((s32 *)arg0, 3);
+}
+
 
 #include "common.h"
 

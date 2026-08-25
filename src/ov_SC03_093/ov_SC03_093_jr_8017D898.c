@@ -5374,7 +5374,48 @@ s32 func_80182208(s32 a0, s16 a1) {
 
 INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_80182288);
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_8018232C);
+extern void func_801292C8(u8 *a0);
+
+void func_8018232C(int param_1) {
+    s32 s1;
+    s32 r;
+    s16 rs;
+    u32 prod;
+    u32 t;
+    u8 b;
+
+    s1 = *(s32 *)(param_1 + 0x20);
+    if (*(u16 *)(param_1 + 2) == 0) {
+        r = func_8004787C(*(s32 *)(param_1 + 0x1C) << 6);
+        t = r * 3;
+        t += t >> 31;
+        t >>= 1;
+        *(s16 *)(s1 + 0x18) = t;
+        *(s16 *)(s1 + 0x1A) = t;
+        *(s32 *)(param_1 + 0x1C) += 1;
+        if (*(s32 *)(param_1 + 0x1C) >= 0x10) {
+            *(u16 *)(param_1 + 2) += 1;
+            *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) * 2 - 1;
+        }
+    } else {
+        rs = func_8004787C(*(s32 *)(param_1 + 0x1C) << 5);
+        prod = *(s32 *)(param_1 + 0x2C) * rs;
+        t = rs * 3;
+        t += t >> 31;
+        t >>= 1;
+        *(s16 *)(s1 + 0x18) = t;
+        *(s16 *)(s1 + 0x1A) = t;
+        b = prod >> 12;
+        *(s8 *)(s1 + 0x24) = b;
+        *(s8 *)(s1 + 0x25) = b;
+        *(s8 *)(s1 + 0x26) = b;
+        *(s32 *)(param_1 + 0x1C) -= 1;
+        if (*(s32 *)(param_1 + 0x1C) == 0) {
+            func_801292C8((u8 *)param_1);
+        }
+    }
+}
+
 
 
 /* func_80182434 — "spawn a paired effect entity above/below the actor" template

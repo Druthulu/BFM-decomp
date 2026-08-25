@@ -4999,7 +4999,29 @@ void func_8017FCBC(void) {
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180054);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_801801E8);
+extern s16 D_80126CB4;
+
+s32 func_801801E8(void *arg0, s32 arg1) {
+    void *p;
+    s32 best;
+    s32 lim;
+    s32 w;
+    s32 val;
+
+    best = 0xFFFF;
+    p = arg0;
+    while (*(s16 *)((u8 *)p + 6) == 0) {
+        lim = (s16)arg1;
+        w = func_80013294(&D_80126CB4, p);
+        val = w & 0xFFFF;
+        if (val < lim && (u32)val < (u32)(u16)best) {
+            best = w;
+        }
+        p = (u8 *)p + 8;
+    }
+    return best & 0xFFFF;
+}
+
 
 
 extern void (*D_80186884[])(void);

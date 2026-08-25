@@ -5107,7 +5107,23 @@ extern s32 func_80029178(s32 arg);
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017EE10);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017EEC8);
+extern s32 func_801848AC(s32 arg0, s32 arg1);
+extern s16 func_80184B44(void);
+
+void func_8017EEC8(void *a0) {
+    s32 ok;
+
+    if (((s32 (*)(void))func_80184B44)() == 1) {
+        ok = 0;
+    } else {
+        ok = func_801848AC(9, 0x11) != 0;
+    }
+
+    if (ok != 0) {
+        func_8017E7EC(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017EF20);
 
@@ -6865,7 +6881,52 @@ void func_801818A0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8018193C);
+extern void func_8012A828(s32, s32);
+extern void func_801849B8(s32*, s32);
+
+void func_8018193C(void *a0) {
+
+    /* [T51] shadow: file-scope `extern s16 ((s32 (*)(void))func_80184B44)(void)` (this TU, near
+       func_8017FA58) is in scope at this point and would sign-extend $v0 with
+       an sll after the jal; the target has none. Block-scope int-return decl
+       restores the implicit-int call shape (cf. func_80181364's cast). */
+    extern s16 func_80184B44(void);
+
+    extern s16 D_801918BC;
+    extern s16 D_801918B4;
+    extern short D_801C0CFC;
+    extern short D_801918AC;
+    extern s32 D_801D5AFC;
+    extern s32 D_801D2C58;
+    extern s32 D_801ECE80;
+    extern s32 func_80181A4C(void*);
+    void *v1;
+
+    if (((s32 (*)(void))func_80184B44)() != 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+    if (func_801844BC(a0, &D_801918BC) == 0) {
+        return;
+    }
+    func_8001C97C((s32)&D_801D5AFC);
+    D_801ECE80 = D_801D2C58;
+    D_801D2C58 = D_801D5AFC;
+    if (func_801848AC(7, 0xE) != 0) {
+        *(s16 *)((char *)a0 + 0x2) = 3;
+        func_8012E8E0((s32)a0, (s32)&D_801918B4);
+        func_8012E88C((s32)a0);
+        ((void (*)(s32 *, s32))func_8012A828)((s32 *)a0, (s32)&D_801C0CFC);
+        func_80184990((s32)a0);
+    } else {
+        *(s16 *)((char *)a0 + 0x2) = 1;
+        ((void (*)(s32, s32))func_801849B8)((int)a0, (int)&D_801918AC);
+    }
+    v1 = *(void **)((char *)a0 + 0x68);
+    *(s16 *)((char *)v1 + 0xC) = 0x7FFF;
+    *(s32 *)((char *)a0 + 0xD4) = func_801788B8((s32)a0, (s32)&func_80181A4C);
+}
+
 
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012E544(s32 a0);
@@ -7223,7 +7284,25 @@ void func_80182410(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80182448);
+extern void func_80184BD4(s32, s32, s32, s32);
+extern s32 func_801848AC(s32 arg0, s32 arg1);
+extern s32 func_80184CA4(s32);
+
+void func_80182448(s32 a0) {
+    extern s32 D_801B6578;
+    extern void func_80181F60(s32);
+
+    if (func_80184CA4(a0) == 0) {
+        return;
+    }
+
+    if (func_801848AC(9, 0x11) == 0) {
+        ((void (*)(void *))func_80181F60)((void *)a0);
+    } else {
+        func_80184BD4(a0, (s32)&D_801B6578, 0, 0x40);
+    }
+}
+
 
 extern int func_80178970(void);
 extern s32 D_801B9C0C;

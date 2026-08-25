@@ -3238,7 +3238,7 @@
     }
 
 #define DEFINE_func_801890D8() \
-    extern void func_8017BFA0(void); \
+    extern void func_8017BFA0(); \
     void func_801890D8(void) { \
         func_8017BFA0(); \
     }
@@ -50947,7 +50947,7 @@
     }
 
 #define DEFINE_func_801828C4() \
-    extern void func_8017BFA0(void); \
+    extern void func_8017BFA0(); \
     void func_801828C4(void) { \
         func_8017BFA0(); \
     }
@@ -56458,7 +56458,7 @@
     extern void func_80182704(void *a0); \
     extern void func_8017BEBC(void); \
     extern void func_801828A4(void); \
-    extern void func_8017BFA0(void); \
+    extern void func_8017BFA0(); \
     extern void func_801828C4(void); \
     extern void func_800D0C48(s32 arg); \
     extern void func_801828E4(void); \
@@ -98636,7 +98636,7 @@
     }
 
 #define DEFINE_func_801890D8() \
-    extern void func_8017BFA0(void); \
+    extern void func_8017BFA0(); \
     void func_801890D8(void) { \
         func_8017BFA0(); \
     }
@@ -146345,7 +146345,7 @@
     }
 
 #define DEFINE_func_801828C4() \
-    extern void func_8017BFA0(void); \
+    extern void func_8017BFA0(); \
     void func_801828C4(void) { \
         func_8017BFA0(); \
     }
@@ -151856,7 +151856,7 @@
     extern void func_80182704(void *a0); \
     extern void func_8017BEBC(void); \
     extern void func_801828A4(void); \
-    extern void func_8017BFA0(void); \
+    extern void func_8017BFA0(); \
     extern void func_801828C4(void); \
     extern void func_800D0C48(s32 arg); \
     extern void func_801828E4(void); \
