@@ -509,6 +509,26 @@ def _fuel(t, card):
         out.append( "⚠ Do NOT hunt in `sibs` for a body to read: they are drawn from the OPEN set by")
         out.append( "construction, so they are stubs 100% of the time. They tell you what your work is")
         out.append( "WORTH, not where an answer is.")
+    # 6.3 TELL COUNTS (P31 S60). Counts derived from the TARGET's own bytes by atlas_features,
+    # joined onto the card by build_wave_atlas. They are a CHECKLIST, not a hint: the target
+    # provably contains this many sites, so a draft that produces fewer has missed some.
+    _t = card.get('tells') or {}
+    _bits = []
+    if _t.get('extpair'):
+        _bits.append(f"{_t['extpair']} sign-extend pair site(s) (sll/sra, §172b EXTPAIR)")
+    if _t.get('dupselect'):
+        _bits.append(f"{_t['dupselect']} repeated two-arm select(s) (§172b SELECT)")
+    if _t.get('magic_div'):
+        _bits.append(f"{_t['magic_div']} magic-division site(s)")
+    if _t.get('sign_lh'):
+        _bits.append("signed halfword load(s) (lh, not lhu)")
+    if _t.get('sign_lb'):
+        _bits.append("signed byte load(s) (lb, not lbu)")
+    if _bits:
+        out.append("\nTELLS COUNTED IN THE TARGET (from its bytes, not a guess) — expect: "
+                   + "; ".join(_bits) + ".")
+        out.append("If your draft emits fewer of these than the count says, you have missed "
+                   "sites — find them before spending a turn on anything else.")
     if card.get('lever'):
         out.append(f"\nThe atlas labels this card's lever: {card['lever']}.")
         crib = LEVER_CRIB.get(card['lever'])

@@ -706,6 +706,50 @@ try:
 except ImportError:
     print('build_wave_atlas: validate_targets not importable -- VALIDITY GATE SKIPPED', file=sys.stderr)
 
+# 6.3 TELL COUNTS ON THE CARD (P31 S60, tells-lane-s59.md). A tell-lever card named a lever and
+# then made the agent go find its sites: the card said "extend-tell" and nothing about WHERE or HOW
+# MANY. atlas_features already computed the per-function detector counts into .run/feat.<bin>.jsonl
+# at atlas time, so this is a join, not a computation — one dict load per binary in the wave.
+# Attached for EVERY card, not just tell-lever ones: a sll/sra pair site or a repeated select is
+# worth knowing about whatever lever the card was drawn under.
+_feat_cache = {}
+def _feat_rows(binary):
+    if binary not in _feat_cache:
+        rows = {}
+        try:
+            with open(f'.run/feat.{binary}.jsonl', errors='replace') as fh:
+                for ln in fh:
+                    ln = ln.strip()
+                    if not ln.startswith('{'):
+                        continue
+                    try:
+                        r = json.loads(ln)
+                    except ValueError:
+                        continue
+                    try:
+                        rows[int(str(r.get('addr')), 16)] = r
+                    except (TypeError, ValueError):
+                        pass
+        except OSError:
+            rows = {}
+        _feat_cache[binary] = rows
+    return _feat_cache[binary]
+
+_n_tells = 0
+for c in wave:
+    try:
+        _r = _feat_rows(c['binary']).get(int(str(c.get('addr')), 16))
+    except (TypeError, ValueError):
+        _r = None
+    if not _r:
+        continue
+    t = {k: _r.get(k, 0) for k in ('extpair', 'dupselect', 'magic_div', 'sign_lh', 'sign_lb')}
+    if any(t.values()):
+        c['tells'] = t
+        _n_tells += 1
+print(f"tell counts attached to {_n_tells} of {len(wave)} card(s) "
+      f"(extpair/dupselect/magic_div/sign_lh/sign_lb from .run/feat.<bin>.jsonl)", file=sys.stderr)
+
 json.dump(wave, open(a.out, 'w'), indent=1)
 if a.one_per_gid:
     # Only the siblings of gids that ACTUALLY made the wave are actionable this session; the rest
