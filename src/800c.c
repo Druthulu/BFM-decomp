@@ -124,7 +124,37 @@ __asm__(
     ".end\tfunc_80059234\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_11C);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_11C\n"
+    ".ent\tSYS_OBJ_11C\n"
+    "SYS_OBJ_11C:\n"
+        ".set\tnoreorder\n"
+        "lui   $v0, %hi(D_8007278A)\n"
+        "lbu   $v0, %lo(D_8007278A)($v0)\n"
+        "nop\n"
+        "sltiu $v0, $v0, 0x2\n"
+        "bnez  $v0, 1f\n"
+        "nop\n"
+        "lui   $a0, %hi(D_800740A4)\n"
+        "addiu $a0, $a0, %lo(D_800740A4)\n"
+        "lui   $v0, %hi(D_80072784)\n"
+        "lw    $v0, %lo(D_80072784)($v0)\n"
+        "nop\n"
+        "jalr  $v0\n"
+        "addu  $a1, $s1, $zero\n"
+        "1:\n"
+        "lui   $v0, %hi(D_80072780)\n"
+        "lw    $v0, %lo(D_80072780)($v0)\n"
+        "nop\n"
+        "lw    $v0, 52($v0)\n"
+        "nop\n"
+        "jalr  $v0\n"
+        "addiu $a0, $zero, 0x1\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_11C\n"
+);
 
 __asm__(
     ".text\n"
@@ -463,7 +493,21 @@ __asm__(
 ".end\tSYS_OBJ_604\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_640);
+__asm__(
+".text\n"
+".align\t2\n"
+".globl\tSYS_OBJ_640\n"
+".ent\tSYS_OBJ_640\n"
+"SYS_OBJ_640:\n"
+".set\tnoreorder\n"
+"lw $ra, 28($sp)\n"
+"lw $s0, 24($sp)\n"
+"addiu $sp, $sp, 32\n"
+"jr $ra\n"
+"nop\n"
+".set\treorder\n"
+".end\tSYS_OBJ_640\n"
+);
 
 extern void *D_80072780;
 extern char D_80074178;
@@ -1154,7 +1198,14 @@ INCLUDE_ASM("asm/nonmatchings/800c", SetTexWindow);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SetDrawArea);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SetDrawOffset);
+extern s32 func_8005ACF0(s32 x, s32 y);
+
+void SetDrawOffset(void *a0, s16 *a1)
+{
+    *(u8 *)(a0 + 3) = 2;
+    *(s32 *)(a0 + 4) = func_8005ACF0(a1[0], a1[1]);
+    *(s32 *)(a0 + 8) = 0;
+}
 
 void SetPriority(unsigned char *arg0, int arg1, int arg2) {
     unsigned int temp;
@@ -1408,7 +1459,33 @@ INCLUDE_ASM("asm/nonmatchings/800c", func_8005AB58);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1964);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_19A4);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_19A4\n"
+    ".ent\tSYS_OBJ_19A4\n"
+    "SYS_OBJ_19A4:\n"
+    ".frame\t$sp,0,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "lui   $2, %hi(D_80072788)\n"
+    "lbu   $2, %lo(D_80072788)($2)\n"
+    "nop\n"
+    "addiu $2, $2, -1\n"
+    "sltiu $2, $2, 2\n"
+    "bnez  $2, 1f\n"
+    " andi $3, $5, 0xfff\n"
+    "andi  $3, $5, 0x3ff\n"
+    "sll   $3, $3, 10\n"
+    "j     SYS_OBJ_19D8\n"
+    " andi $2, $7, 0x3ff\n"
+    "1:\n"
+    "sll   $3, $3, 12\n"
+    "andi  $2, $7, 0xfff\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_19A4\n"
+);
 
 s32 SYS_OBJ_19D8(s32 a0, s32 a1, s32 a2, s32 a3) {
     register s32 v0 __asm__("$2");
@@ -1926,7 +2003,31 @@ __asm__(
     ".end\t_drs\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_222C);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_222C\n"
+    ".ent\tSYS_OBJ_222C\n"
+    "SYS_OBJ_222C:\n"
+        ".set\tnoreorder\n"
+        "lh    $a1, 6($s1)\n"
+        "sh    $v1, 4($s1)\n"
+        "bltz  $a1, .L8005B494\n"
+        "addu  $v1, $a1, $zero\n"
+        "lui   $v0, %hi(D_8007278E)\n"
+        "lh    $v0, %lo(D_8007278E)($v0)\n"
+        "addu  $a0, $v1, $zero\n"
+        "addu  $v1, $v0, $zero\n"
+        "slt   $v0, $v0, $a1\n"
+        "beqz  $v0, .L8005B49C\n"
+        "sll   $v0, $a0, 16\n"
+        "j     SYS_OBJ_2264\n"
+        "addu  $a0, $v1, $zero\n"
+        ".L8005B494:\n"
+        "addu  $a0, $zero, $zero\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_222C\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2264);
 
@@ -2258,7 +2359,24 @@ __asm__(
     ".end\tfunc_8005BED8\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2CC4);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_2CC4\n"
+    ".type\tSYS_OBJ_2CC4, @function\n"
+    ".ent\tSYS_OBJ_2CC4\n"
+    "SYS_OBJ_2CC4:\n"
+    ".set\tnoreorder\n"
+    "    jal   func_8005BA90\n"
+    "    nop\n"
+    "    jal   func_8005C054\n"
+    "    nop\n"
+    "    bnez  $v0, SYS_OBJ_2DD8\n"
+    "    addiu $v0, $zero, -1\n"
+    ".set\treorder\n"
+    ".size\tSYS_OBJ_2CC4, . - SYS_OBJ_2CC4\n"
+    ".end\tSYS_OBJ_2CC4\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2CDC);
 

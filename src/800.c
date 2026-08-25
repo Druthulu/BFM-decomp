@@ -11198,7 +11198,33 @@ void func_80028428(s32 a0, s32 a1, s32 a2, s32 a3) {
     func_80028620(a0, (void *)((s32)&D_800A5E88 + offset));
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028488);
+extern u8 D_800A5E88;
+extern s32 D_800A5E8C;
+extern s32 D_800A5E90;
+extern u8 D_800A5E94;
+extern u8 D_800A5E95;
+extern u8 D_800A5E96;
+extern void func_80028620(s32 a0, void *a1);
+
+void func_80028488(s32 a0) {
+    s32 offset;
+
+    a0 &= 0xFFFF;
+    if ((u16)a0 >= 3) {
+        return;
+    }
+
+    offset = a0 << 4;
+
+    *(s32 *)((s32)&D_800A5E90 + offset) = 100;
+    *(s32 *)((s32)&D_800A5E88 + offset) = 0;
+    *(s32 *)((s32)&D_800A5E8C + offset) = 0;
+    *(u8 *)((s32)&D_800A5E94 + offset) = 0;
+    *(u8 *)((s32)&D_800A5E95 + offset) = 0;
+    *(u8 *)((s32)&D_800A5E96 + offset) = 0;
+
+    func_80028620(a0, (void *)((s32)&D_800A5E88 + offset));
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002850C);
 
