@@ -870,7 +870,22 @@ void func_800D2EF8(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D2F88);
+extern s32 *D_800DB670;
+extern void func_800D30D0(char *a0);
+
+u32 aF800D2F88(void) __asm__("func_800D2F88");
+u32 aF800D2F88(void)
+{
+    volatile int count = 0x100000;
+    while (*(*(u32 **)&D_800DB670) & 0x20000000) {
+        if (--count == -1) {
+            func_800D30D0("MDEC_in_sync");
+            return -1;
+        }
+    }
+    return 0;
+}
+
 
 extern s32 *D_800DB650;
 extern void func_800D30D0(char *a0);

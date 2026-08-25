@@ -4138,7 +4138,42 @@ void func_8017DAA8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017DAE8);
+void func_8017DAE8(void *a0, void *a1)
+{
+    typedef struct { s16 a, b, c, d; } SV4;
+    extern s32 func_8012E544(s32);
+    extern void func_80015978(s32, s32 *);
+    extern s16 func_800130D0(s16, s16, s16);
+    extern s32 D_801C7800;
+    extern s32 D_801C7804;
+    extern s16 D_80126940;
+    extern s16 D_801274F8;
+
+    SV4 loc0;
+    s16 s;
+
+    if (D_801C7800 != -1) {
+        if (D_801C7800 == 0) {
+            loc0 = *(SV4 *)&D_80126940;
+        } else {
+            s32 v = func_8012E544(D_801C7800);
+            if (v != 0) {
+                func_80015978(v + 4, (s32 *)&loc0);
+            }
+        }
+    } else {
+        loc0 = *(SV4 *)&D_801274F8;
+    }
+    s = (s16)D_801C7804;
+    if (D_801C7804 == -1) {
+        *(SV4 *)a1 = loc0;
+    } else {
+        *(s16 *)a1 = func_800130D0(*(s16 *)a1, loc0.a, s);
+        *(s16 *)((u8 *)a1 + 2) = func_800130D0(*(s16 *)((u8 *)a1 + 2), loc0.b, s);
+        *(s16 *)((u8 *)a1 + 4) = func_800130D0(*(s16 *)((u8 *)a1 + 4), loc0.c, s);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017DC20);
 
@@ -6387,9 +6422,35 @@ s32 func_80180FA4(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80180FF4);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80181048);
+s32 aF80181048(void *a0, void *a1) __asm__("func_80181048");
+s32 aF80181048(void *a0, void *a1) {
+    extern void func_8012A828(s32 a0, void *a1);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8018107C);
+    if (*(s32 *)((u8 *)a0 + 0x90) == (s32)a1) {
+        return 0;
+    }
+    func_8012A828((s32)a0, a1);
+    return 1;
+}
+
+
+extern void func_801810CC(s32, s32, s32);
+extern void func_801813A8(s32, s32);
+
+s32 func_8018107C(s32 a0, s32 a1, s32 a2) {
+    register s32 s1 __asm__("$17") = a0;
+    register s32 s0 __asm__("$16");
+    s32 res;
+    register s32 tmp __asm__("$6");
+    s0 = tmp;
+    res = ((s32 (*)(s32, s32, s32))func_801810CC)(a0, a1, a2);
+    if (res != 0) {
+        func_801813A8(s1, s0);
+        return 1;
+    }
+    return 0;
+}
+
 
 extern s32 func_80181384(s32, s32);
 extern void func_80181120(void);

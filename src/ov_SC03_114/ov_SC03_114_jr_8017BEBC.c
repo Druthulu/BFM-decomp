@@ -3695,7 +3695,38 @@ void func_8017DF88(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC", func_8017E014);
 
-INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC", func_8017E070);
+extern void (*D_80183284)(void);
+extern void (*D_80183280)(void);
+extern void (*D_8018326C[])(void);
+extern void (*D_80183274[])(void);
+
+void func_8017E070(s32 param_1, s32 param_2)
+{
+    s32 buf10[4];
+    short buf20[4];
+    s16 p2;
+    s32 r1;
+    s32 r2;
+    s32 t;
+    s32 ret;
+
+    p2 = param_2;
+    func_800139C8(p2, D_8018326C, buf20);
+    buf20[0] += *(u16 *)(param_1 + 6);
+    r1 = rand();
+    r2 = rand();
+    t = (r1 & 0xF) - 0xC0;
+    buf20[1] += (*(u16 *)(param_1 + 0xA) - t) - (r2 & 0xF);
+    buf20[2] += *(u16 *)(param_1 + 0xE);
+    buf20[3] = 8;
+    func_8001382C(p2, D_80183274, buf10);
+    buf10[3] = (s32)D_80183280;
+    ret = func_8017E918(buf20, (s32)buf10, (s32)D_80183284);
+    if (ret != 0) {
+        *(u16 *)(*(s32 *)(ret + 0x20) + 0x18) = 0x200;
+    }
+}
+
 
 extern void func_8017E270(void *a0);
 extern void func_8017E2EC(void *a0);

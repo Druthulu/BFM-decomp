@@ -886,7 +886,45 @@ void func_801A4060(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A40CC);
+typedef struct { char c[4]; } Blk4_801A40CC;
+
+extern void func_800233CC(void *a0, unsigned short a1);
+extern void func_801A417C(s32 arg0);
+extern u8 D_801F8744[];
+extern u8 D_801AFEF8[];
+extern s32 D_801A01B4[];
+
+__asm__(
+    ".section .rodata\n"
+    "dlabel D_801A01B4\n"
+    ".word 0x00000000\n"
+    ".word 0x00000000\n"
+    "enddlabel D_801A01B4\n"
+    ".section .text\n"
+);
+
+void func_801A40CC(s32 a0) {
+    u8 *base;
+    u8 *p;
+    u8 *q;
+    s32 i;
+
+    i = 0;
+    base = D_801F8744;
+    q = base + 4;
+    p = base;
+
+    for (; i < 4; i++) {
+        func_800233CC((void *)p, 0x40);
+        *(Blk4_801A40CC *)p = *(Blk4_801A40CC *)&D_801AFEF8;
+        *(Blk4_801A40CC *)q = *(Blk4_801A40CC *)&D_801A01B4;
+        q += 0x40;
+        p += 0x40;
+    }
+
+    func_801A417C(a0);
+}
+
 
 
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
@@ -4951,7 +4989,7 @@ s32 func_801AAF8C(SV_801AAF8C *src, SV_801AAF8C *ofs, s32 arg2)
 
 
 
-extern void func_801AB1A8(void);
+extern void func_801AB1A8();
     void func_801AB178(s32 *param) {
         if (*(u16 *)((char *)param + 0x2) == 0) {
             ((void (*)(void))func_801AB1A8)();
@@ -4959,7 +4997,32 @@ extern void func_801AB1A8(void);
     }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AB1A8);
+#include "common.h"
+
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012AD50(void *a0);
+
+extern u8 D_801F7490[];
+
+void func_801AB1A8(void *a0) {
+    s32 v0;
+
+    v0 = func_8012C1B8();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+    func_8001C214(v0, (s32)&D_801F7490);
+    *(u16 *)((s32)a0 + 0xE) = 0;
+    *(u16 *)((s32)a0 + 0xA) = 0;
+    *(u16 *)((s32)a0 + 6) = 0;
+    *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x28) = 0x1000100;
+    func_8012AD50(a0);
+}
+
 
 #include "common.h"
 

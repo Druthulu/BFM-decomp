@@ -7992,7 +7992,29 @@ void func_80183C9C(void *a0)
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80183DAC);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80183E48);
+typedef struct { s32 w[8]; } Mat32L;
+
+void func_80183E48(void *a0)
+{
+    extern s32 D_800AE620;
+    extern void CompMatrix(void *a0, void *a1, void *a2);
+
+    Mat32L m; /* sp+0x10 */
+    void *mp;
+
+    m = *(Mat32L *)&D_800AE620;
+    mp = &m;
+    *(s32 *)((s32)mp + 0x18) = -0xF8;
+    *(s32 *)((s32)mp + 0x14) = 0;
+    *(s32 *)((s32)mp + 0x1C) = 8;
+
+    CompMatrix((void *)(*(s32 *)(*(s32 *)((s32)a0 + 0x64) + 0x20) + 0x34),
+               mp,
+               (void *)(*(s32 *)((s32)a0 + 0x20) + 0x34));
+
+    *(volatile u16 *)(*(volatile s32 *)((s32)a0 + 0x20) + 0x2C) |= 1;
+}
+
 
 
 extern void (*D_8018C964[])(void);
