@@ -302,16 +302,20 @@ def main():
         print(_fmt(v), flush=True)
 
     if a.fix or a.dry_fix:
+        # Key by (binary, fn), NEVER fn alone: overlays share function names across binaries
+        # (three ov_* binaries each carry a func_8013BCDC), and an fn-keyed map hands propose_fix
+        # ONE binary's draft for all three — the other two then "have no textual occurrence" of a
+        # symbol that was never theirs (S59, measured on the first --fix batch).
         rowmap = {}
         if a.batch:
-            rowmap = {r["fn"]: r for r in json.load(open(a.batch))}
+            rowmap = {(r["binary"], r["fn"]): r for r in json.load(open(a.batch))}
         elif a.fn:
-            rowmap = {a.fn: {"fn": a.fn, "binary": a.binary, "draft": a.draft}}
+            rowmap = {(a.binary, a.fn): {"fn": a.fn, "binary": a.binary, "draft": a.draft}}
         print("\n--- %s ---" % ("FIX" if a.fix else "DRY-FIX"), flush=True)
         for v in verdicts:
             if v["status"] != "MISMATCH":
                 continue
-            row = rowmap.get(v["fn"])
+            row = rowmap.get((v.get("binary"), v["fn"]))
             if not row:
                 continue
             pr = propose_fix(v, row["draft"], v["binary"])

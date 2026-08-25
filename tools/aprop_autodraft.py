@@ -164,7 +164,7 @@ def _arity_breaks(decl, sym, body):
     return False
 
 
-def decl_for(sym, seed_text, dest_text="", body=""):
+def decl_for(sym, seed_text, dest_text="", body="", fleet_text=""):
     """A file-scope declaration for `sym`, preferring the DESTINATION TU's own spelling — where
     that spelling can still compile the body.
 
@@ -210,11 +210,30 @@ def decl_for(sym, seed_text, dest_text="", body=""):
     if m:
         return f"extern {m.group(1).strip()} {sym}{m.group(2) or ''};".replace("static ", "")
     m = re.search(rf'^[ \t]*[A-Za-z_][\w \*]*\b{re.escape(sym)}\s*\([^;{{]*\)\s*;', seed_text, re.M)
-    return m.group(0).strip() if m else None
+    if m:
+        return m.group(0).strip()
+    # LAST RESORT — BORROW a sibling TU's spelling (S59). When both the seed's TU and the home TU
+    # are silent, the old whole-binary scan happened to supply a spelling and the scope fix removed
+    # it wholesale — but "which TU may CONFLICT" (home only) and "where may a GUESS come from"
+    # (anywhere) are different questions. A borrowed extern is a guess with the same guards as an
+    # adopted one, and the whole-binary byte-gate arbitrates; refusing outright left 125 members
+    # undrafted. Refuse only when nobody in the fleet spells the symbol at all.
+    if fleet_text:
+        m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(sym)}\b[^\n;]*;', fleet_text, re.M)
+        if m:
+            d = m.group(0).strip()
+            void_ret = re.match(r'extern\s+void\s*[^\(\*]*\b' + re.escape(sym), d) and '*' not in d.split(sym)[0]
+            value_used = body and re.search(
+                rf'(=\s*[^=;]*\b{re.escape(sym)}\s*\(|\breturn\s+[^;]*\b{re.escape(sym)}\s*\(|'
+                rf'[<>!=+\-*/&|^]\s*{re.escape(sym)}\s*\(|\b{re.escape(sym)}\s*\([^;]*\)\s*[<>!=+\-*/&|^)])', body)
+            if not (void_ret and value_used) and not _arity_breaks(d, sym, body):
+                return d
+    return None
 
 
 _MACRO_BODIES = None
 _DEST_CACHE = {}
+_FLEET_CACHE = {}
 
 
 def _all_macro_bodies(header="src/shared/engine_core.h"):
@@ -368,7 +387,7 @@ def kr_definition(body, name):
 
 
 def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
-                already_self_contained=False, member_asm=None):
+                already_self_contained=False, member_asm=None, fleet_text=""):
     """-> (draft_text, skipped_reason). Renames are applied SIMULTANEOUSLY (one pass), so a chain
     like D_A->D_B, D_B->D_C can never cascade."""
     keys = sorted((k for k in renames if k != seed_name), key=len, reverse=True)
@@ -414,7 +433,7 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
                 return None, f"data lives in the member's own .s and its initializer is not a flat byte list: {s}"
             decls.append(d)
             continue
-        d = decl_for(old, seed_text, dest_text, body=new_body)
+        d = decl_for(old, seed_text, dest_text, body=new_body, fleet_text=fleet_text)
         if d is None:
             # No decl in the seed — but if the DESTINATION already declares it, none is needed.
             # Refusing here cost 55 macro-seeded members whose definition references a symbol the
@@ -524,12 +543,18 @@ def main():
             # TU needs. dest_scope() expands the TU's DEFINE_x() instantiations so the decls INSIDE
             # engine-core macros (where the dedup'd callers' externs actually live) are visible.
             dest = dest_scope(home.path)
+            # sibling-TU spellings, as a LAST-RESORT decl source only (see decl_for's borrow tier)
+            if m["binary"] not in _FLEET_CACHE:
+                _FLEET_CACHE[m["binary"]] = "".join(
+                    open(p).read() for p in sorted(glob.glob(f"src/{m['binary']}/*.c")))
+            fleet = _FLEET_CACHE[m["binary"]]
             if imm_map:
                 member_body = FR.apply_remap(member_body, imm_map)
             draft, why = build_draft(member_body, sb.get("name") or seed["name"],
                                      m["name"], ren, seed_text, dest,
                                      already_self_contained=False,
-                                     member_asm=corpus.asm_path(m["binary"], m["name"]))
+                                     member_asm=corpus.asm_path(m["binary"], m["name"]),
+                                     fleet_text=fleet)
             if draft is None:
                 skip[why.split(" for ")[0]] += 1
                 continue
@@ -545,7 +570,8 @@ def main():
                     dtext, _w = build_draft(ab2, sb.get("name") or seed["name"],
                                             m["name"], ren, seed_text, dest,
                                             already_self_contained=False,
-                                            member_asm=corpus.asm_path(m["binary"], m["name"]))
+                                            member_asm=corpus.asm_path(m["binary"], m["name"]),
+                                            fleet_text=fleet)
                     if dtext:
                         variants.append(dtext)
                 if len(variants) > 1:

@@ -44,6 +44,29 @@ json.dump([{'fn':r['fn'],'binary':r['binary'],'draft':r['draft']} for r in s],
 print('drafts:',len(s))
 PY
   .venv/bin/python tools/reloc_identity.py --batch .run/reloc_maint.json -j 12 --out .run/reloc_maint.out.json 2>&1 | tail -1
+  # MECHANICAL SYMBOL REPAIR (S59): an unambiguous reloc MISMATCH is a RENAME, not a reject —
+  # --fix rewrites the draft in place (it refuses ambiguity, R39) and the re-check below refreshes
+  # the verdicts so a repaired draft stages on this same pass. Measured: 4 of 4 MISMATCHes of the
+  # first fixed batch repaired to AGREE/MATCH this way.
+  .venv/bin/python - <<'PY'
+import json, subprocess
+res = json.load(open('.run/reloc_maint.out.json'))
+mm = [r for r in res if r.get('status') == 'MISMATCH']
+if mm:
+    rows = {(r['binary'], r['fn']) for r in mm}
+    batch = [r for r in json.load(open('.run/reloc_maint.json')) if (r['binary'], r['fn']) in rows]
+    json.dump(batch, open('.run/reloc_maint_mm.json', 'w'), indent=1)
+    subprocess.run(['.venv/bin/python', 'tools/reloc_identity.py', '--batch',
+                    '.run/reloc_maint_mm.json', '-j', '4', '--fix'], capture_output=True)
+    p = subprocess.run(['.venv/bin/python', 'tools/reloc_identity.py', '--batch',
+                        '.run/reloc_maint_mm.json', '-j', '4', '--out',
+                        '.run/reloc_maint_mm.out.json'], capture_output=True)
+    fixed = {(r['binary'], r['fn']): r for r in json.load(open('.run/reloc_maint_mm.out.json'))}
+    res = [fixed.get((r.get('binary'), r['fn']), r) for r in res]
+    json.dump(res, open('.run/reloc_maint.out.json', 'w'), indent=1)
+    n = sum(1 for r in fixed.values() if r['status'] == 'AGREE')
+    print(f'reloc --fix: {n}/{len(mm)} MISMATCH draft(s) repaired to AGREE')
+PY
   .venv/bin/python - <<'PY'
 import json,os,shutil,collections
 res=json.load(open('.run/reloc_maint.out.json'))
@@ -53,7 +76,8 @@ res=json.load(open('.run/reloc_maint.out.json'))
 # match_one already printed. Three consecutive 0-bank passes gated 82 of these every 45 minutes.
 # Key by (binary, fn): overlays share function NAMES across binaries (func_80162CCC exists in
 # main AND ov_MAIN_012), and an fn-keyed set stages every same-named draft when ONE agrees.
-ok={(r.get('binary'), r['fn']) for r in res if r.get('status')=='AGREE' and r.get('shape')=='MATCH'}
+ok={(r.get('binary'), r['fn']) for r in res
+   if r.get('status') in ('AGREE','UNRESOLVED') and r.get('shape')=='MATCH'}
 sla=json.load(open('.run/aprop_maint_slate.json'))
 sel=[r for r in sla if (r['binary'], r['fn']) in ok]
 dropped=collections.Counter()
@@ -66,6 +90,14 @@ for r in sel:
     shutil.copy(r['draft'], f"{d}/{r['fn']}.c")
 print('staged', len(sel), 'of', len(sla), '; dropped by class:', dict(dropped))
 PY
+  # SECOND CHANCE FOR STANDALONE COMPILE-FAILS (P31 S59). reloc_identity compiles each draft
+  # STANDALONE, but the draft is written to land in a TU that provides typedefs/decls the
+  # standalone compile lacks — the wrong oracle for the question (R33). Re-judge those against the
+  # REAL TU via rtu_match (no build tree, no locks) and stage the byte-MATCHes: measured 7 of 27
+  # such drafts were TU-byte-identical the day this landed, all previously dropped unjudged.
+  .venv/bin/python tools/rtu_second_chance.py --reloc .run/reloc_maint.out.json \
+      --slate .run/aprop_maint_slate.json --stage .run/sweep_maint -j 8 2>&1 | tail -2
+
   # FREE RECOVERY OF PRE-GATE REJECTS (P31 S59). 45% of drafts never reach the gate — the reloc
   # pre-filter drops them — and 13% of those have a body that ALREADY MATCHES with only the symbol
   # names wrong (§171). Rebasing is deterministic and costs no model tokens, so it belongs in this
