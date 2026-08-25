@@ -3381,7 +3381,38 @@ void func_8017D1D4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010_jr_8017BEBC", func_8017D210);
+extern void func_8017D2D4();
+
+
+
+extern Blk8_80126940_8017D210 D_80126940;
+
+void func_8017D210(s32 a0) {
+    Blk8_80126940_8017D210 sp10;
+    Blk8_80126940_8017D210 sp18;
+    s16 y;
+
+    sp10 = D_80126940;
+    sp18 = D_80126940;
+
+    sp10.v[0] = 0x1D0;
+    *(s16 *)&sp10.v[1] = -0x802;
+    sp10.v[2] = 0x1180;
+    y = sp18.v[0];
+    if (y >= 0x1D1) {
+        sp18.v[0] = 0x1D0;
+    }
+
+    y = sp18.v[2];
+    if (y < 0x10E0) {
+        sp18.v[2] = 0x10E0;
+    } else if (y >= 0x1221) {
+        sp18.v[2] = 0x1220;
+    }
+
+    func_8017D2D4(a0, (s16 *)sp10.v, (s16 *)sp18.v);
+}
+
 
 
    /* 8 bytes */

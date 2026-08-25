@@ -5764,7 +5764,41 @@ void func_8017F2D0(s32 p) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8017F394);
+void func_8017F394(void *a0) {
+    extern s32 func_80146E98(s32 a0);
+    extern void func_80162CCC(void);
+
+    register s32 s1 __asm__("$17") = (s32)a0;
+    register u16 *s2 __asm__("$18");
+    register u16 *s0 __asm__("$16");
+
+    s2 = *(u16 **)(s1 + 0x4C);
+    s0 = *(u16 **)(s1 + 0x20);
+
+    if (func_80146E98((s32)a0)) {
+        {
+            s16 t = *(u16 *)(s0 + 0xE) + 0x400;
+            *(u16 *)(s0 + 0xE) = t;
+            *(u16 *)(s0 + 0xC) = t;
+            if (t >= 0x7001) {
+                *(u16 *)(s0 + 0xE) = 0x7000;
+                *(u16 *)(s0 + 0xC) = 0x7000;
+            }
+        }
+        {
+            s16 u = *(u16 *)(s0 + 0xD) + 0x100;
+            *(u16 *)(s0 + 0xD) = u;
+            if (u >= 0x7001) {
+                *(u16 *)(s0 + 0xD) = 0x7000;
+            }
+        }
+    }
+
+    if (*(u16 *)s2 != 0x16) {
+        ((void (*)(s32))func_80162CCC)((s32)s1);
+    }
+}
+
 
 void func_8017F454(s32 param_1) {
     s32 tbl;
@@ -11485,7 +11519,108 @@ L9F0:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80188410);
+#include "common.h"
+
+/* Local standalone-compile clone of engine_types.h's Mtx8_8017DE10_8017E710
+ * (match_one's isolated compile only has -Iinclude, can't resolve
+ * ../shared/engine_types.h; the host TU already includes it via engine_core.h).
+ * Same-shape clone -> byte-neutral; the gate's strip_provided_typedefs drops it. */
+
+
+void func_80188410(s32 a0)
+{
+    extern void func_80188978(s32 a0, s32 a1, s32 a2);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern void func_8012B2CC(s32 a0);
+    extern s32 func_8012B864(s32 a0);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+    extern Mtx8_8017DE10_8017E710 D_800AE620;
+    extern M2C_UNK D_801C9FFC;
+    extern M2C_UNK D_801CA030;
+    extern u8 D_801CA074[];
+    extern u8 D_801CA084[];
+    extern u8 D_801CA094[];
+
+    Mtx8_8017DE10_8017E710 m;
+    u8 *p;
+
+    func_80188978(a0, (s32)&D_801C9FFC, 0);
+    func_8012A828(a0, (void *)&D_801CA030);
+    func_8012B2CC(a0);
+    m = D_800AE620;
+    RotMatrixY((func_8012B864(a0) + 0x800) & 0xFFF, &m);
+    /* LOAD-BEARING: every case label 1..0x32 must be WRITTEN OUT. gcc-2.7.2's
+     * table-vs-compare-chain choice keys on DISTINCT LABEL COUNT over the
+     * value range, not on a `default:` arm: with only the 4 distinct bodies
+     * spelled (case 8 / 5,0x1d,0x20 / default) it emits a li/beq chain and no
+     * jtbl at all. With ~50 labels it emits addiu $v1,$v0,-1 ; sltiu
+     * $v0,$v1,0x32 ; sll 2 ; jtbl_801F5F74 (minval=1, 50 entries) -- the
+     * target's exact dispatch. Do NOT "simplify" to a default-only switch. */
+    switch (*(u16 *)(a0 + 0x5e)) {
+    case 8:
+        p = D_801CA084;
+        break;
+    case 5:
+    case 0x1d:
+    case 0x20:
+        p = D_801CA094;
+        break;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 6:
+    case 7:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 25:
+    case 26:
+    case 27:
+    case 28:
+    case 30:
+    case 31:
+    case 33:
+    case 34:
+    case 35:
+    case 36:
+    case 37:
+    case 38:
+    case 39:
+    case 40:
+    case 41:
+    case 42:
+    case 43:
+    case 44:
+    case 45:
+    case 46:
+    case 47:
+    case 48:
+    case 49:
+    case 50:
+    default:
+        p = D_801CA074;
+        break;
+    }
+    func_800484EC((s32)&m, (s32)p, a0 + 0x10);
+    *(u16 *)(a0 + 0x34) = 0;
+    *(s32 *)(a0 + 0x1c) = 0;
+}
+
 
 #include "common.h"
 
