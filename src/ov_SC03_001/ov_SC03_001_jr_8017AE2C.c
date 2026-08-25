@@ -8883,7 +8883,23 @@ check:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80184B60);
+extern int func_80178970(void);
+extern s32 D_801C3990;
+extern void func_8012A828(s32, s32);
+extern void func_80178D18(void);
+
+void func_80184B60(arg0)
+void * arg0;
+{
+
+    extern s32 D_801C3990;
+    if (func_80178970() != 0) {
+        ((void (*)(s32))func_80178D18)((s32)arg0);
+        *(short *)((char *)arg0 + 0x2) = 3;
+        ((void (*)(s32, s32))func_8012A828)((int)arg0, (int)&D_801C3990);
+    }
+}
+
 
 extern s32 func_80187A64(s32 a0);
 extern short D_8019254C;

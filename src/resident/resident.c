@@ -1873,7 +1873,7 @@ typedef struct {
 
 extern void func_800D1F58(void);
 extern void func_801285D4(void);
-extern void func_800D1984(S800D1938 *arg0);
+extern s32 func_800D1984();
 
 s32 func_800D1938(S800D1938 *arg0) {
     func_800D1F58();
