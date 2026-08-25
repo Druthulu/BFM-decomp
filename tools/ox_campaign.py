@@ -186,8 +186,18 @@ def draw_wave(tag, n, band, levers=None):
     # 224 gate groups. req/min is agents-in-flight x ~0.8, so the draw was setting the campaign's
     # throughput. Raise the cap to take essentially the whole pool; MAX_BINS overrides it.
     bins = os.environ.get("MAX_BINS", "160")
+    # ONE_PER_GID=0 — DRAFT EVERY INSTANCE, SIBLINGS INCLUDED (P31 S60, Drew). The collapse exists
+    # because a same-gid sibling banks by mechanical remap once its exemplar cracks, so drafting it
+    # is paying for what the remap does free. That reasoning prices AGENT TOKENS as scarce; on the
+    # free ox window they are not, and the collapse is what makes 3,652 open functions look like 334
+    # drawable skeletons — 92% of which are gen6+ walls the remap will never be unlocked by.
+    # A sibling drafted directly can crack on its OWN terms and bank without waiting for an exemplar
+    # that has already refused six waves. The gate cost does not scale with functions: it is per
+    # (binary, TU) group, chunked, so siblings landing in binaries the wave already touches are
+    # close to free at the gate — which is exactly why this is worth trying rather than assuming.
+    gid = "" if os.environ.get("ONE_PER_GID") == "0" else " --one-per-gid"
     r = sh(f"{PY} tools/build_wave_atlas.py {cards} {n} --min-ins {lo} --max-ins {hi} "
-           f"--max-bins {bins} --one-per-gid --retry-unbanked --exclude-bins main{lv}",
+           f"--max-bins {bins}{gid} --retry-unbanked --exclude-bins main{lv}",
            timeout=3600, quiet=False)
     if not os.path.exists(cards):
         log(f"  wave {tag}: DRAW FAILED — {(r.stderr or r.stdout)[-300:]}")
@@ -205,6 +215,17 @@ def shard_targets(tag, cards_path, workers):
                 "sub": c["sub"], "asm": f"{c['sub']}/{c['fn']}.s", "tu": c.get("tu"),
                 "ghidra_c": f".run/ghidra_c/{c['fn']}.c"} for c in cards]
     targets = [t for t in targets if os.path.isfile(t["asm"])]     # R32: assert, do not assume
+    # ATTEMPTS: K INDEPENDENT SHOTS PER CARD (P31 S60, Drew). Drafting is free on the ox window and
+    # the drawable pool is now 92% gen6+ walls — functions that refused five waves each. One more
+    # sample of the same wall converts at ~5%; K independent samples of it convert K times as often
+    # for the same zero token cost. The GATE cost does not multiply: reloc_filter keys by fn and
+    # staging writes <binary>/<fn>.c, so a function still consumes exactly one whole-binary build
+    # per wave — the extra attempts compete to BE that build (see pick_attempt in reloc_filter).
+    attempts = max(1, int(os.environ.get("ATTEMPTS", "1")))
+    if attempts > 1:
+        targets = [dict(t, _attempt=k) for t in targets for k in range(attempts)]
+        log(f"  ATTEMPTS={attempts}: {len(targets)} shard target(s) over "
+            f"{len(targets)//attempts} card(s)")
     for i in range(workers):
         json.dump(targets[i::workers], open(f".run/wave_{tag}_targets.{i}.json", "w"), indent=1)
     return targets
@@ -425,6 +446,7 @@ def reloc_filter(tag, drafts, cards_path):
     cards = json.load(open(cards_path))
     cards = cards if isinstance(cards, list) else cards.get("cards", [])
     binof = {c["fn"]: c["binary"] for c in cards}
+    subof = {c["fn"]: c.get("sub", "") for c in cards}   # asm subdir — match_one's --asm-subdir
     batch = []
     for d in drafts:
         fn = os.path.basename(d)[:-2]
@@ -448,6 +470,38 @@ def reloc_filter(tag, drafts, cards_path):
     # and takes the group's genuinely-new drafts down with it. Wave `an` carried 480 NOT-A-STUB of
     # 697 "gated" and banked 0. Only AGREE is a pass. (R43: refuse input the step cannot use.)
     keep = [b for b in batch if status.get(b["fn"]) == "AGREE"]
+
+    # PICK THE BEST ATTEMPT (P31 S60). With ATTEMPTS>1 the same function arrives several times from
+    # different agents. Staging would keep whichever landed last — an arbitrary choice of the one
+    # draft that gets this function's single whole-binary build. match_one is LOCAL (it compiles the
+    # one function and diffs it; no binary build, no lock), so it can rank the attempts for free and
+    # give the build to the best one. Ties and errors fall back to first-seen, and every alternate
+    # stays on disk in .run/wave_<tag>/shard*/ for a later recovery pass — nothing is discarded.
+    _by_fn = collections.defaultdict(list)
+    for b in keep:
+        _by_fn[(b["binary"], b["fn"])].append(b)
+    _dupes = {k: v for k, v in _by_fn.items() if len(v) > 1}
+    if _dupes:
+        def _score(b):
+            try:
+                sd = subof.get(b['fn'])
+                if not sd:
+                    return 1 << 30          # no asm subdir on the card -> cannot rank, stay neutral
+                r = sh(f"{PY} tools/match_one.py {b['fn']} --c {b['draft']} "
+                       f"--asm-subdir {sd} --json", timeout=300)
+                j = json.loads((r.stdout or "{}").strip().splitlines()[-1])
+                return 0 if j.get("match") else int(j.get("diff", 1 << 30))
+            except Exception:
+                return 1 << 30
+        picked, dropped = [], 0
+        for k, v in _by_fn.items():
+            if len(v) == 1:
+                picked.append(v[0]); continue
+            best = min(v, key=_score)
+            picked.append(best); dropped += len(v) - 1
+        keep = picked
+        log(f"  attempts: {len(_dupes)} function(s) had multiple surviving drafts; "
+            f"match_one picked the best of each, {dropped} alternate(s) left on disk")
 
     # CAPTURE THE PRE-FILTER REJECTS (P31 S59). Everything that reaches the GATE and fails gets a
     # backlog row with its closeness, class and best draft (gate_stage) — but a draft the reloc

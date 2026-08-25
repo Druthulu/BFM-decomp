@@ -110,7 +110,18 @@ export TAIL_DONE_FRAC=0.75
 # took 98 MINUTES of gate to do it, while four drafted waves queued behind it and the free-ox
 # fleet sat at 14 agents / 10 req/min. At this conversion a 150-card wave banks what a
 # 430-card wave banks, in a third of the gate. Raise it again when the tail starts converting.
-export MAX_BINS=50
+# ONE_PER_GID=0 + MAX_BINS 250 (P31 S60, Drew: "draft all remaining funcs, sib family be damned").
+# The sibling collapse was priced when agent tokens were scarce: a same-gid sibling banks by
+# mechanical remap once its exemplar cracks, so drafting it pays for what the remap does free. On a
+# free ox window that reasoning inverts — and the collapse is what makes 3,271 open crackable
+# functions look like 334 drawable skeletons, 92% of which are gen6+ walls whose exemplars have
+# already refused six waves. A sibling drafted directly can crack on its OWN terms.
+# Measured on a live draw: 627 cards / 44,403 ins / 215 gate groups uncollapsed, vs 334 / 30,926 /
+# 127 collapsed — and the gate got MORE efficient per build, 2.9 drafts per rebuild vs 2.6, because
+# siblings land in binaries the wave already touches and the gate is per (binary, TU), chunked.
+# MAX_BINS goes back up because the whole pool is now the target; revert both if the gate backs up.
+export ONE_PER_GID=0
+export MAX_BINS=250
 export MAX_429=10
 while [ ! -e .run/ox_campaign.stop ]; do
   .venv/bin/python tools/ox_campaign.py --drafter \
