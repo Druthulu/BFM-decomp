@@ -787,7 +787,14 @@ INCLUDE_ASM("asm/nonmatchings/800c", SetDrawOffset);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SetPriority);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005A600);
+extern s32 func_8005AB00(s32 a0, s32 a1, u16 a2);
+extern s32 func_8005AD34(s32 a0);
+
+s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4) {
+    *(u8 *)(a0 + 3) = 2;
+    *(s32 *)(a0 + 4) = func_8005AB00(a1, a2, a3);
+    return *(s32 *)(a0 + 8) = func_8005AD34(a4);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", SetDrawEnv);
 
@@ -1078,7 +1085,85 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1F64);
 
-INCLUDE_ASM("asm/nonmatchings/800c", _dws);
+
+/* _dws (0x8005B1C4) is NOT a callable function: it is the HEAD FRAGMENT of one larger routine
+ * that continues at SYS_OBJ_1FF4 (0x8005B228, the very next address after this symbol's 25
+ * instructions end).  _dws has NO epilogue and NO `jr $ra` anywhere in its 25 instructions,
+ * while it builds a full 0x50-byte frame (ra@0x48, s5@0x44, s4@0x40, s3@0x3C, s2@0x38,
+ * s1@0x34, s0@0x30) that only the continuation tears down, and it ends in a BARE FALLTHROUGH
+ * into SYS_OBJ_1FF4 at .L8005B224. None of that is expressible as a C function: any C function
+ * body cc1 expands gets an unconditional `jr $ra` epilogue appended (proven three times in
+ * this same TU: func_80059234 / SYS_OBJ_16C-family / SYS_OBJ_1DC0 -- neither
+ * __attribute__((noreturn)) nor a bare tail `j` suppresses it), and a C function cannot fall
+ * off its end into the next symbol. Correct form (the byte-verified idiom already used five
+ * times in this TU): emit the fragment as FILE-SCOPE inline asm -- a raw text blob cc1 copies
+ * verbatim with no RTL function wrapper, so no prologue and no epilogue are ever generated.
+ *
+ * The literal ".ent\t" / ".end\t" pair (tab-separated, exactly as cc1 emits) is load-bearing:
+ * maspsx's process_line special-cases lines starting with ".ent\t" and emits a FRESH
+ * ".set\tnoreorder" into its own output, whereas a plain ".set\tnoreorder" line is swallowed as
+ * internal state and never re-emitted -- without it GNU `as` assembles in reorder mode and
+ * displaces every hand-placed delay-slot instruction.
+ *
+ * IMMEDIATE SPELLING LAW (byte-proven this session): maspsx int()s MEM-OPERAND OFFSETS with
+ * base 10 ONLY -- writing the target's own hex spelling ("sw $s1, 0x34($sp)") dies with
+ * "MASPSX: invalid literal for int() with base 10: '0x34'", while non-mem immediates
+ * (addiu -0x50 etc.) pass through untouched. Decimal mem offsets are therefore MANDATORY,
+ * every banked blob in this TU spells them decimally (20($sp)/24($sp)/...), and textual
+ * parity with the splat .s is impossible by design -- the bytes are identical regardless.
+ *
+ * The local branch-back label keeps the TARGET .s's own spelling `.L8005B224` (law 2: spell
+ * every symbol from the target); the TU's other banked blobs use exactly this named-.L style
+ * (.L80059798/.L80059820/.L8005A0FC/...), labels are address-unique so no collision exists,
+ * and SYS_OBJ_1FF4.s was checked: nothing branches back into _dws's range.
+ *
+ * Body transcribed 1:1 from asm/nonmatchings/800c/_dws.s. SYMBOL AUDIT -- every relocation in
+ * that .s, decoded from the raw instruction words:
+ *   jal 0x0C017008 -> 0x017008<<2 | 0x80000000 = 0x8005C020 = func_8005C020 -- called with NO
+ *      arguments and its result discarded, exactly as this TU's existing declaration
+ *      (src/800c.c: `extern s32 func_8005C020(void);`) and the atlas tu-row ('s32', ()) say;
+ *   lui 0x8007 + lh 0x278C -> 0x8007278C = D_8007278C
+ *   beqz 0x10400004 @0x8005B214 / j 0x08016C8A -> both target 0x8005B228 = SYS_OBJ_1FF4
+ *                                   (the continuation fragment)
+ *   bltz 0x04A0000A @0x8005B1F8 -> 0x8005B224 = the local fallthrough label .L8005B224
+ *   (there is no other relocation in the file.)
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\t_dws\n"
+    ".ent\t_dws\n"
+    "_dws:\n"
+        ".set\tnoreorder\n"
+        "addiu $sp, $sp, -80\n"
+        "sw    $s1, 52($sp)\n"
+        "addu  $s1, $a0, $zero\n"
+        "sw    $s2, 56($sp)\n"
+        "addu  $s2, $a1, $zero\n"
+        "sw    $ra, 72($sp)\n"
+        "sw    $s5, 68($sp)\n"
+        "sw    $s4, 64($sp)\n"
+        "sw    $s3, 60($sp)\n"
+        "jal   func_8005C020\n"
+        "sw    $s0, 48($sp)\n"
+        "lh    $a1, 4($s1)\n"
+        "addu  $s5, $zero, $zero\n"
+        "bltz  $a1, .L8005B224\n"
+        "addu  $v1, $a1, $zero\n"
+        "lui   $v0, %hi(D_8007278C)\n"
+        "lh    $v0, %lo(D_8007278C)($v0)\n"
+        "nop\n"
+        "addu  $a0, $v0, $zero\n"
+        "slt   $v0, $v0, $a1\n"
+        "beqz  $v0, SYS_OBJ_1FF4\n"
+        "nop\n"
+        "j     SYS_OBJ_1FF4\n"
+        "addu  $v1, $a0, $zero\n"
+        ".L8005B224:\n"
+        "addu  $v1, $zero, $zero\n"
+        ".set\treorder\n"
+    ".end\t_dws\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1FF4);
 
@@ -1098,7 +1183,20 @@ INCLUDE_ASM("asm/nonmatchings/800c", func_8005B684);
 
 INCLUDE_ASM("asm/nonmatchings/800c", _getctl);
 
-INCLUDE_ASM("asm/nonmatchings/800c", _cwb);
+extern volatile u32 *D_8007285C;
+extern volatile u32 *D_80072858;
+
+s32 _cwb(u32 *src, s32 n) {
+    s32 i;
+
+    *D_8007285C = 0x04000000;
+
+    for (i = n - 1; i != -1; i--) {
+        *D_80072858 = *src++;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_8005B710);
 
