@@ -30,7 +30,9 @@ SAFETY — the invariants that make parallel gating sound here, all pre-existing
   tools/sweep_parallel.py --drafts .run/sweep -j 12 --only ov_SC01_000,ov_SC01_001
 """
 import argparse
+import datetime
 import glob
+import json
 import os
 import sys
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -109,18 +111,69 @@ def main():
     print(f"gating {len(jobs)} binaries with -j {a.jobs}")
 
     banked = failed = 0
+    # PHASE A — PARALLEL, ARITY OFF. gate_stage takes the fleet-shared lock EXCLUSIVE when it may
+    # write shared state, and `_writes_shared = propagate or not GATE_NO_ARITY` — so with the arity
+    # pre-pass on (the default) EVERY worker is a writer and all of them serialize on one lock.
+    # Measured P31 S60 on a live gate: 24 workers, 32 cores, and 0-2 concurrent builds with load
+    # 2.2. -j was decorative. bulk_harvest's phase B has documented the contract since P30 —
+    # "SET GATE_NO_ARITY=1 FOR THIS PHASE ... route arity-needing drafts to the serial phase" —
+    # and this driver, the one the campaign gater actually calls, never set it.
+    os.environ["GATE_NO_ARITY"] = "1"
+    _t0 = datetime.datetime.now()
+    leftovers = []
     with ProcessPoolExecutor(max_workers=a.jobs) as ex:
         futs = {ex.submit(_worker, j): j["binary"] for j in jobs}
         for i, f in enumerate(as_completed(futs), 1):
             r = f.result()
             n = len(r["banked"])
             banked += n
-            failed += max(0, r["drafts"] - n)
             if r.get("error"):
                 print(f"  [{i}/{len(jobs)}] {r['binary']}: ERROR {r['error']}")
             elif n < r["drafts"]:
                 print(f"  [{i}/{len(jobs)}] {r['binary']}: {n}/{r['drafts']}")
-    print(f"\nSWEEP DONE: banked={banked} notbanked={failed} over {len(jobs)} binaries")
+            if n < r["drafts"] and not r.get("error"):
+                leftovers.append(next(j for j in jobs if j["binary"] == r["binary"]))
+    _t0_iso = _t0.strftime("%Y-%m-%d %H:%M")
+
+    # ASSERT THE ISOLATION, DO NOT TRUST IT (bulk_harvest's own rule). If a worker wrote shared
+    # state despite GATE_NO_ARITY, it shows up here and nowhere else.
+    import subprocess as _sp
+    _dirty = _sp.run(["git", "status", "--porcelain", "--", "src/shared", "config"],
+                     cwd=REPO, capture_output=True, text=True).stdout.strip()
+    if _dirty:
+        print(f"  WARNING: shared state dirty after the parallel phase ({len(_dirty.splitlines())} "
+              f"file(s)) — a worker escaped GATE_NO_ARITY:\n{_dirty[:400]}")
+
+    # PHASE B — SERIAL, ARITY ON, only for binaries that still have unbanked drafts. The arity
+    # pre-pass rewrites caller externs in the fleet-shared header, so it can never run concurrently;
+    # giving it the leftovers keeps the lever (§ the byte-probe that took func_8016EFC8 from
+    # gate-REJECTED to BANKED) at a cost proportional to what phase A could not bank.
+    del os.environ["GATE_NO_ARITY"]
+    b2 = 0
+    # ONLY THE ARITY CLASS GOES SERIAL. A leftover is not automatically an arity candidate: the
+    # backlog separates "won't compile standalone (loose-typing / missing decl)" (status failed —
+    # what fix_arity_callers exists for) from "residual: N mismatch" (status near — a codegen
+    # residual no decl rewrite can reach). Re-gating every leftover serially would hand back the
+    # parallelism this change just bought; recent rows run ~13% failed, so phase B stays small.
+    def _has_compile_failure(binary):
+        try:
+            with open(os.path.join(REPO, BULK, "%s.backlog.jsonl" % binary), errors="replace") as fh:
+                rows = [json.loads(l) for l in fh if l.strip().startswith("{")]
+        except (OSError, ValueError):
+            return False
+        return any(r.get("ts", "") >= _t0_iso and r.get("status") == "failed" for r in rows)
+    leftovers = [j for j in leftovers if _has_compile_failure(j["binary"])]
+    if leftovers:
+        print(f"  phase B (serial, arity pre-pass on): {len(leftovers)} binary/binaries whose "
+              f"drafts failed to COMPILE (the class the pre-pass fixes)")
+        for j in leftovers:
+            r = _worker(j)
+            b2 += len(r["banked"])
+            failed += max(0, r["drafts"] - len(r["banked"]))
+        banked += b2
+        print(f"  phase B banked {b2}")
+    print(f"\nSWEEP DONE: banked={banked} (phase A {banked - b2} parallel + phase B {b2} serial) "
+          f"notbanked={failed} over {len(jobs)} binaries")
     print("NEXT: tools/blast_radius.py — if it reports T2, R22 is MANDATORY (§63/§85).")
     return 0
 
