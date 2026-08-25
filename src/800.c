@@ -16027,7 +16027,9 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80039308);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80039B20);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80039C5C);
+void func_80039C5C(s32 *param_1) {
+    *param_1 += 2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80039C70);
 

@@ -257,7 +257,31 @@ s32 func_8005E0AC(void) {
     return 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E13C);
+
+extern s32 *D_800729C0;
+
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005E13C\n"
+    ".ent\tfunc_8005E13C\n"
+    "func_8005E13C:\n"
+    ".set\tnoreorder\n"
+    "lui   $v1, %hi(D_800729C0)\n"
+    "lw    $v1, %lo(D_800729C0)($v1)\n"
+    "nop\n"
+    "1:\n"
+    "lhu   $v0, 4($v1)\n"
+    "nop\n"
+    "andi  $v0, $v0, 0x2\n"
+    "beqz  $v0, 1b\n"
+    "nop\n"
+    "jr    $ra\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005E13C\n"
+    "nop\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", SysEnqIntRP);
 
