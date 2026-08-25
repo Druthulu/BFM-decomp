@@ -15,6 +15,10 @@ while [ ! -e .run/ox_campaign.stop ]; do
   if [ -n "$(ls .run/ready/ 2>/dev/null)" ] || pgrep -f 'tools/sweep_parallel' >/dev/null; then
     sleep 300; continue
   fi
+  # THRESHOLD 150 -> 50 (Drew, P31 S59): the A-prop pipeline was rebuilt to consume every
+  # verdict layer and the lane now also carries the free reject-recovery and the periodic
+  # fleet R22, so a pass is worth running on a smaller refill than when it only re-swept an
+  # unchanged sibling pool. 150 was tuned for the old dead lane.
   # EXEMPLAR-COUNT TRIGGER, not a timer. The A-prop pool only refills when waves bank NEW
   # exemplars that create fresh PURE seeds; on a 45-minute timer it re-swept an unchanged
   # population and banked 390 -> 7 -> 0 -> 0 (P31 S58), holding a sweep slot and the draw lock for
@@ -28,8 +32,8 @@ while [ ! -e .run/ox_campaign.stop ]; do
   NEWFN=$(git log -$(( NOW - LAST > 0 ? NOW - LAST : 1 )) --format=%s 2>/dev/null \
           | grep -oP '— \K[0-9]+(?= banked)' | paste -sd+ | bc 2>/dev/null || echo 0)
   NEWFN=${NEWFN:-0}
-  if [ "$NEWFN" -lt 150 ]; then
-    say "only $NEWFN functions banked since the last pass (need 150) — skipping"
+  if [ "$NEWFN" -lt 50 ]; then
+    say "only $NEWFN functions banked since the last pass (need 50) — skipping"
     sleep 1800; continue
   fi
   echo "$NOW" > .run/maint_last_rev
