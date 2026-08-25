@@ -5671,41 +5671,7 @@ void func_801826B4(void *a0) {
     }
 
 
-extern s32 func_80182784(s32 arg0, s32 arg1, s32 arg2);
-
-int func_801826E8(int a0, void* a1)
-{
-    s16 stack_buf[8];
-    register s16 *s0 __asm__("$16") = (s16 *)a1;
-    s16 v0;
-    s32 result;
-    s32 ret;
-
-    v0 = s0[2];
-    stack_buf[0] = v0;
-    v0 = s0[3];
-    stack_buf[4] = v0;
-    v0 = s0[5];
-    stack_buf[5] = v0;
-    stack_buf[1] = v0;
-    v0 = s0[6];
-    stack_buf[6] = v0;
-    stack_buf[2] = v0;
-
-    result = func_80182784((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);
-
-    if (result != 0) {
-        ret = 1;
-    } else {
-        v0 = s0[7];
-        stack_buf[6] = v0;
-        stack_buf[2] = v0;
-        result = func_80182784((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);
-        ret = (result != 0);
-    }
-    return ret;
-}
-
+INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_801826E8);
 
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;
@@ -5902,7 +5868,7 @@ extern void func_801823B4(s32 a0);
 
     extern int func_80178970(void);
     extern void func_8018265C(int a0);
-    extern int func_801826E8();
+    extern int func_801826E8(int a0, void *a1);
     extern void func_80182408(int a0);
     extern char D_8018B164[];
     void func_80182BE0(int param_1)
