@@ -98,6 +98,8 @@ segments:
       - [0xd8f4, c, ov_MAIN_012_jr_80135A4C]
       - [0xdd58, c, ov_MAIN_012_jr_80135EB0]
       - [0xff88, c, ov_MAIN_012_jr_801380E0]
+      - [0x13410, c, ov_MAIN_012_o0c]
+      - [0x14834, c, ov_MAIN_012_jr_8013C98C]
       - [0x171f8, c, ov_MAIN_012_jr_8013F350]
       - [0x2c8a0, c, ov_MAIN_012_jr_801549F8]
       - [0x2d49c, c, ov_MAIN_012_jr_801555F4]
