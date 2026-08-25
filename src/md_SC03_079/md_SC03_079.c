@@ -151,7 +151,28 @@ void func_801EF7E4(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_079/nonmatchings/md_SC03_079", func_801EF804);
+#include "common.h"
+
+
+extern s32 func_80171D78(u32, void *);
+extern void func_80171A1C(void*);
+
+const Blk8 D_801EF474[3] = {
+    {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}},
+    {{0x08, 0x00, 0xE0, 0x03, 0x00, 0x00, 0x00, 0x00}},
+    {{0x08, 0x00, 0xE0, 0x03, 0x00, 0x00, 0x00, 0x00}},
+};
+
+void func_801EF804(u32 arg0) {
+    Blk8 buffer;
+
+    buffer = D_801EF474[0];
+
+    if (func_80171D78(arg0, &buffer)) {
+        ((void (*)(u32))func_80171A1C)(arg0);
+    }
+}
+
 
 void func_801EF86C(void) {
 }
