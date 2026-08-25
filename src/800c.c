@@ -875,7 +875,13 @@ void DrawOTagEnv(void *p, u32 *otag)
     *(OTagTail *)dst = *(OTagTail *)src;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", GetDrawEnv);
+extern void func_8005C324(s32 dst, s32 src, s32 n);
+extern u8 D_80072798[0x5C];
+
+void *GetDrawEnv(void *a0) {
+    func_8005C324((s32)a0, (s32)D_80072798, 0x5C);
+    return a0;
+}
 
 
 /*
