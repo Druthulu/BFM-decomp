@@ -446,7 +446,10 @@ INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A1C38);
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A1C7C);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A1E74);
+void func_801A1E74(s32 a0) {
+    func_8012AD44((s32 *)a0, 0xD);
+}
+
 
 extern void func_8001C924(s32 a0, void *a1);
 extern void func_80132288(s32 *arg_a0, s32 *a1, s32 a2);

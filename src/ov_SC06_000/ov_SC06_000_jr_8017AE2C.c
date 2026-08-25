@@ -7331,7 +7331,45 @@ s32 func_801825E8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80182614);
+extern s32 D_801AEAFC;
+extern s16 D_801AEAFE;
+extern void (*D_801889E4[])(void);
+extern u16 D_800B99DC;
+extern s32 D_801B20E0;
+extern s32 D_8019FD8C;
+extern s32 D_80197B60;
+extern s32 D_801AEBCC;
+extern s32 D_801AEC08;
+extern void func_8013C9C4(void *a0);
+extern void func_8017EF68(s32 arg0, s32 arg1, s32 arg2);
+
+void func_80182614(void *a0) {
+    s32 *p;
+    s32 *base;
+    s32 *q;
+    u16 val;
+
+    __asm__("la %0, D_801AEAFC" : "=r"(p));
+    *p += 0xFFFEE000;
+    if (D_801AEAFE < 0) {
+        *p = 0;
+        (*(u16 *)((s32)a0 + 2))++;
+    }
+    val = *(u16 *)((s32)a0 + 0xE0);
+    val--;
+    *(u16 *)((s32)a0 + 0xE0) = val;
+    if ((val << 0x10) == 0) {
+        func_8013C9C4(&D_801889E4);
+        *(u16 *)((s32)a0 + 0xE0) = (D_800B99DC & 7) + 3;
+    }
+    __asm__("la %0, D_801B20E0" : "=r"(base));
+    __asm__("la %0, D_801AEBCC" : "=r"(q));
+    q[-7] = 0;
+    q[0] = D_801AEAFE;
+    func_8017EF68((s32)base, (s32)&D_8019FD8C, (s32)q - 0x1C);
+    func_8017EF68((s32)base, (s32)&D_80197B60, (s32)&D_801AEC08);
+}
+
 
 void func_8018270C(void) {
     extern s32 D_801B20E0;
@@ -8899,7 +8937,44 @@ void func_80185A5C(s32 param_1, s32 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80185B04);
+typedef struct {
+    u16 h0, h1, h2, h3;
+} QB_80185B04;
+
+typedef struct {
+    s16 m[10];
+    s32 x;
+    s32 y;
+    s32 z;
+} MB_80185B04;
+
+typedef struct {
+    QB_80185B04 a;
+    QB_80185B04 b;
+    s32 c;
+    s32 d;
+    s32 e;
+} BIG_80185B04;
+
+void func_80185B04(void *a0, void *a1)
+{
+    BIG_80185B04 b;
+    MB_80185B04 mb;
+    extern void func_80017D98(void *);
+    extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
+
+    func_80017D98(mb.m);
+    mb.z = 0;
+    mb.y = 0;
+    mb.x = 0;
+    b.a = *(QB_80185B04 *)((s8 *)a1 + 8);
+    b.b = *(QB_80185B04 *)((s8 *)a1 + 0x10);
+    b.d = 0;
+    b.c = *(s32 *)((s8 *)a1 + 0x18);
+    b.e = 0x50000000;
+    aFunc80016A5C(&b, mb.m);
+}
+
 
 
 extern void (*D_8018CD04[])(void);

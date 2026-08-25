@@ -6321,7 +6321,33 @@ void func_801871C0(void *arg0, s32 arg1, s32 arg2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801873C8);
+/* named key local + while-form tail ordering */
+extern u8 D_801202A0[];
+
+void func_801873C8(void) {
+    register u8 *q __asm__("$4");
+    u8 *p;
+    s32 i;
+    s32 count;
+    s32 key;
+
+    p = D_801202A0;
+    count = 0;
+    i = 0;
+    key = 0x1F3;
+    q = p + 0x1C;
+    while (i < 0x60) {
+        if (*(u16 *)p == key && (*(u16 *)(q + 0x54) & 0x2000)) {
+            *(s32 *)q = count << 4;
+            *(u16 *)(q + 0x18) += 1;
+            count++;
+        }
+        i++;
+        q += 0x10C;
+        p += 0x10C;
+    }
+}
+
 
 extern void func_8012EC04(s32 a0, s32 a1, s32 *a2);
 

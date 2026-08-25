@@ -4426,7 +4426,37 @@ void func_80181028(void) {
 
 INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116_jr_8017AE2C", func_80181030);
 
-INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116_jr_8017AE2C", func_801810C8);
+extern s32 func_8012AD50(void *a0);
+extern void func_8012BF4C(s32 *a0, s32 a1);
+extern void func_801812AC(s32 a0, void *a1, void *a2, s32 a3, s32 a4);
+extern s16 D_80186320;
+
+void func_801810C8(s32 a0) {
+    s16 buf[8];
+    s16 *angle;
+    s32 color;
+    s32 t1;
+    s32 t2;
+    s32 w;
+
+    angle = &D_80186320;
+    t1 = *(u16 *)(a0 + 0x100) + 0x40;
+    t2 = *(u16 *)(a0 + 0xFE) + t1;
+    *(u16 *)(a0 + 0x100) = t1;
+    *(u16 *)(a0 + 0xFE) = t2;
+    w = *(u16 *)angle + t2;
+    *(u16 *)angle = w;
+    if ((s16)w >= 0x2001) {
+        *(u16 *)angle = 0x2000;
+        func_8012BF4C((s32 *)a0, 0xA);
+        func_8012AD50((void *)a0);
+    }
+    color = 0x4020F0;
+    buf[0] = 0;
+    buf[1] = 0x20;
+    func_801812AC(a0, buf, angle - 2, 0, color);
+}
+
 
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012AD50(void *a0);

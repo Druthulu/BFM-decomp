@@ -9922,7 +9922,33 @@ void func_80189EB0(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80189F28);
+extern s32 rand(void);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80189FD8();
+extern s16 D_801D2B1C;
+extern s16 D_801D2B1E;
+extern s16 D_801D2B20;
+
+void func_80189F28(s32 a0)
+{
+    s16 *p;
+    s32 r;
+    s32 w;
+    s32 t;
+
+    if (func_8012BEE8(a0) != 0) {
+        r = rand();
+        w = *(u16 *)((s32)a0 + 0xFC);
+        p = &D_801D2B1C;
+        t = ((s16)w / 2 - (r & (w - 1))) * 2;
+        *p = *(u16 *)((s32)a0 + 6) + t;
+        D_801D2B1E = *(u16 *)((s32)a0 + 0xA);
+        D_801D2B20 = *(u16 *)((s32)a0 + 0xE) + t;
+        func_80189FD8(a0, p);
+        *(s32 *)((s32)a0 + 0x1C) = (rand() & 0x7F) + 0x40;
+    }
+}
+
 
 #include "common.h"
 
