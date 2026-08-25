@@ -76,7 +76,10 @@ TOOLS = [
         'description': ("Search the repository with ripgrep-style regex. THIS IS HOW YOU USE THE "
                         "COOKBOOK: docs/matching-cookbook.md is ~22,000 lines and ~450 numbered "
                         "sections -- never ask to read it whole, grep it for the idiom you are "
-                        "actually looking at, then read_file the section you hit."),
+                        "actually looking at, then read_file the section you hit. Each cookbook "
+                        "hit comes back prefixed with the SECTION it lives in (e.g. '§164 | "
+                        "docs/...:13446: ...'): cite that §, never the line number after the "
+                        "colon -- '§13446' is not a section and nobody can grep it."),
         'parameters': {'type': 'object', 'required': ['pattern'], 'properties': {
             'pattern': {'type': 'string', 'description': 'regex'},
             'path': {'type': 'string', 'description': 'file or dir, default docs/matching-cookbook.md'},
@@ -123,6 +126,65 @@ def _safe(path):
     return full if os.path.exists(full) else None
 
 
+_SEC_CACHE = {}
+_SEC_HEAD = re.compile(r'^#+\s*(\u00a7[0-9][\w.\-]*)')
+
+
+def _section_index(full):
+    """[(first_line, label)] for every `## §N` heading in a cookbook-shaped file (cached by mtime)."""
+    key = (full, os.path.getmtime(full))
+    if key not in _SEC_CACHE:
+        # BOTH LEVELS. The corpus nests: `## §164` holds `#### §16Xy`, and the sub-heading is the
+        # precise citation while the top-level one is the stable anchor an agent can always find.
+        # Emitting only the parent throws away precision; only the child sends the next agent
+        # hunting for a heading it cannot place. Emit `§164 > §16Xy` and both are greppable.
+        idx, top = [], ''
+        with open(full, errors='replace') as fh:
+            for i, line in enumerate(fh, 1):
+                m = _SEC_HEAD.match(line)
+                if not m:
+                    continue
+                lab = m.group(1)
+                if line.startswith('## ') and not line.startswith('### '):
+                    top = lab
+                    idx.append((i, lab))
+                else:
+                    idx.append((i, f'{top} > {lab}' if top and top != lab else lab))
+        _SEC_CACHE.clear()
+        _SEC_CACHE[key] = idx
+    return _SEC_CACHE[key]
+
+
+def _label_sections(full, out):
+    """Prefix each cookbook grep hit with the § section that CONTAINS it.
+
+    AGENTS CITE THE GREP LINE NUMBER AS A SECTION NUMBER (P31 S60, measured). The harvested
+    notes carry 13 citations to sections that do not exist — `§2329` (x5) is line 2329, inside
+    §28; `§13446/13474` are lines inside §164; `§1914` is a line in §20; the corpus stops at
+    §273. A citation nobody can grep is worse than none: the next agent reads "covered by
+    §2329", finds nothing, and re-derives a lever we already own — and a distill reviewer
+    scores the note as covered by a section that was never written.
+
+    The fix is not a warning, it is the right answer in the output (R33): grep hands back the
+    containing §, so the number in front of the agent is the one it should cite.
+    """
+    idx = _section_index(full)
+    if not idx:
+        return out
+    import bisect
+    starts = [i for i, _lab in idx]
+    lines = []
+    for ln in out.splitlines():
+        parts = ln.split(':', 2)
+        lab = ''
+        if len(parts) == 3 and parts[1].isdigit():
+            k = bisect.bisect_right(starts, int(parts[1])) - 1
+            if k >= 0:
+                lab = idx[k][1] + ' | '
+        lines.append(lab + ln)
+    return '\n'.join(lines)
+
+
 def run_tool(name, args, target, outdir, state):
     if name == 'grep':
         path = args.get('path') or 'docs/matching-cookbook.md'
@@ -132,8 +194,10 @@ def run_tool(name, args, target, outdir, state):
         n = int(args.get('max_hits') or 40)
         r = subprocess.run(['grep', '-rn', '-m', str(n), '-E', args['pattern'], full],
                            capture_output=True, text=True, timeout=120)
-        out = (r.stdout or '(no hits)')[:MAX_BYTES]
-        return out
+        out = r.stdout or '(no hits)'
+        if full.endswith('matching-cookbook.md') and r.stdout:
+            out = _label_sections(full, out)
+        return out[:MAX_BYTES]
     if name == 'read_file':
         full = _safe(args['path'])
         if not full:
