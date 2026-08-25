@@ -3425,7 +3425,19 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180BD
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180C98);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180D10);
+#include "common.h"
+
+extern u8 D_801BC6C8[];
+
+void func_80180D10(void *a0) {
+    if (*(s32 *)((char *)a0 + 0x1c) != 0) {
+        *(s32 *)((char *)a0 + 0x1c) = *(s32 *)((char *)a0 + 0x1c) - 1;
+    } else {
+        *(void **)((char *)a0 + 0xcc) = D_801BC6C8;
+        *(u16 *)((char *)a0 + 2) = *(u16 *)((char *)a0 + 2) + 1;
+    }
+}
+
 
 #include "common.h"
 

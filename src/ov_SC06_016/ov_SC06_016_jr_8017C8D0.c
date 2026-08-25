@@ -6067,7 +6067,58 @@ void func_80182E24(void *param)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_80182E64);
+extern u8 D_801202A0[];
+extern s32 func_80013328(s32 a0, s32 a1);
+extern void func_800D1724(s32 a0);
+extern void func_80171928(void *a0);
+
+typedef struct {
+    u16 f_00;
+    u8 pad_02[0x5A];
+    u16 f_5C;
+    u8 pad_5E[0x7E];
+    s32 f_DC;
+} Ent_80182E64;
+
+void func_80182E64(void *arg0)
+{
+    register Ent_80182E64 *found __asm__("$20");
+    s32 best;
+    s32 i;
+    s32 off;
+    s32 d;
+    Ent_80182E64 *p;
+
+    found = NULL;
+    best = 0x7FFFFFFF;
+    i = 0;
+    off = 0;
+loop:
+    p = (Ent_80182E64 *)(D_801202A0 + off);
+    if (p->f_00 == 0) {
+        goto next;
+    }
+    if (!(p->f_5C & 0x80)) {
+        goto next;
+    }
+    d = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
+    if (d >= best) {
+        goto next;
+    }
+    best = d;
+    found = p;
+next:
+    i++;
+    if (i < 0x60) {
+        off += 0x10C;
+        goto loop;
+    }
+    if (found != NULL) {
+        func_800D1724(found->f_DC);
+    }
+    func_80171928(arg0);
+}
+
 
 extern s32 func_80013328(s32 a0, s32 a1);
 extern void func_80015978(s32 a0, s32 *a1);

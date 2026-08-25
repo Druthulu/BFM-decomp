@@ -1187,7 +1187,12 @@ void func_801A4A18(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A4AAC);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_801A4AAC(void *a0) {
+    func_8012AD44((s32 *)a0, 3);
+}
+
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A4ACC);
 

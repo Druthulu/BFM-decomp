@@ -3792,7 +3792,7 @@ DEFINE_func_80181E58()  /* dedup: shared engine-core @0x80181E58 (src/shared) */
 extern int func_80178970(void);
 extern s32 D_801D4300;
 extern s32 func_8012BEE8(s32 a0);
-extern s32 func_8018219C(s32 a0);
+extern s32 func_8018219C();
 extern s32 func_80183178(void);
 extern void func_8013CABC(void);
 extern void func_8018226C(s32 a0);
@@ -3843,7 +3843,43 @@ void func_8018201C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_8018219C);
+extern u16 D_800B99D8;
+extern s32 func_80132EF4(s32 a0, s32 a1);
+
+s32 func_8018219C(s32 arg0)
+{
+    s32 owner;
+    s32 i;
+    register s32 obj __asm__("$4");
+    register s32 d __asm__("$2");
+    u16 a;
+    u16 b;
+
+    owner = arg0;
+    i = 0;
+    do {
+        obj = func_80132EF4(owner, 0x22);
+        if (obj != 0) {
+            a = *(u16 *)(obj + 6) - 0x28;
+            *(u16 *)(obj + 6) = a;
+            b = *(u16 *)(obj + 0xA) - 0x20;
+            *(u16 *)(obj + 0xA) = b;
+            d = (i + (D_800B99D8 & 4) * 3) - 0x2A;
+            *(u16 *)(obj + 0xE) = *(u16 *)(obj + 0xE) + d;
+            d = (s16)d;
+            if (d >= 0) {
+                d = d << 7;
+            } else {
+                d = -(d << 7);
+            }
+            *(u16 *)(obj + 0x34) = d + 0x1000;
+            *(s32 *)(obj + 0x14) = 0xFFFE0000;
+            *(s32 *)(obj + 0x10) = 0xFFFD0000;
+        }
+        i += 0x18;
+    } while (i < 0x49);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_8018226C);
 

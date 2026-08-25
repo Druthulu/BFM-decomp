@@ -3281,7 +3281,32 @@ void func_8017F8D8(s32 *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017F8E4);
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017F900);
+extern s32 ratan2(s32 dx, s32 dy);
+extern void func_80171B10(void *a0);
+
+s32 func_8017F900(void *a0) {
+    extern s32 D_80126B58;
+    extern s32 D_801E97C4;
+    s16 pos[3];
+    s32 old;
+
+    if (*(s32 *)((char *)a0 + 0x1C) < 0x82) {
+        pos[0] = *(u16 *)(*(s32 *)((char *)a0 + 0xD4) + 6);
+        pos[1] = 0;
+        pos[2] = *(u16 *)(*(s32 *)((char *)a0 + 0xD4) + 0xE);
+        ((void (*)(void *, void *))func_80171B10)(&D_80126B58, pos);
+        old = *(s32 *)((char *)a0 + 0x1C);
+        *(s32 *)((char *)a0 + 0x1C) = old + 1;
+        if (old >= 0x56) {
+            pos[0] = pos[0] - *(u16 *)((char *)a0 + 6);
+            pos[2] = pos[2] - *(u16 *)((char *)a0 + 0xE);
+            D_801E97C4 = -ratan2(pos[0], pos[2]);
+        }
+        return 1;
+    }
+    return 0;
+}
+
 
 extern void func_8001AAA0(s32 arg0);
 extern s32 func_8001B710(void);

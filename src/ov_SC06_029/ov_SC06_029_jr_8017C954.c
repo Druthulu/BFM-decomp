@@ -8202,7 +8202,38 @@ extern void func_8012A018(s32 a, s32 b);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80188988);
+void func_80188988(int param_1) {
+    extern s32 D_801DFFE0;
+    extern s32 D_801DFFE4;
+    extern s32 D_801DFFE8;
+    extern s32 D_801DFFEC;
+    extern s32 func_80012CB8(s32 a0, s32 a1, s32 a2);
+    register s16 *psVar1 __asm__("$5");
+    s16 *psVar2;
+    s16 *psVar3;
+    s16 *psVar5;
+    s16 sVar4;
+
+    psVar1 = (s16 *)D_801DFFE0;
+    psVar2 = (s16 *)D_801DFFE4;
+    *(s32 *)(param_1 + 0x4C) = psVar1[1];
+    *(s32 *)(param_1 + 0x50) = psVar1[2];
+    *(s32 *)(param_1 + 0x40) = psVar2[1];
+    psVar3 = (s16 *)D_801DFFE8;
+    *(s32 *)(param_1 + 0x44) = psVar2[2];
+    sVar4 = func_80012CB8(*psVar3, *psVar1, 0x80);
+    ((struct { s32 f; } *)(param_1 + 0x48))->f += sVar4;
+    sVar4 = func_80012CB8(*(s16 *)D_801DFFEC, *(s16 *)D_801DFFE4, 0x80);
+    psVar5 = (s16 *)D_801DFFE0;
+    *(s32 *)(param_1 + 0x3C) += sVar4;
+    if (psVar5[0] < *(s32 *)(param_1 + 0x48)) {
+        *(s32 *)(param_1 + 0x48) = psVar5[0];
+    }
+    if (*(s16 *)D_801DFFE4 < *(s32 *)(param_1 + 0x3C)) {
+        *(s32 *)(param_1 + 0x3C) = *(s16 *)D_801DFFE4;
+    }
+}
+
 
 extern u16 D_801913E4[];
 extern u16 D_801913EC[];

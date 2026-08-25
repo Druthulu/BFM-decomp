@@ -4011,7 +4011,35 @@ INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8017AE2C", func_8017DE9
 
 INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8017AE2C", func_8017DEB0);
 
-INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8017AE2C", func_8017DEF0);
+extern void func_8017D6B4(void);
+
+void func_8017DEF0(void *a0) {
+    s16 val16;
+    u16 val;
+
+    val = *(u16 *)((char *)a0 + 0xE4);
+    val--;
+    *(u16 *)((char *)a0 + 0xE4) = val;
+    val16 = (s16)val;
+    if (val16 == 0) {
+        func_8017D6B4();
+    }
+    val = *(u16 *)((char *)a0 + 0xE0);
+    val--;
+    *(u16 *)((char *)a0 + 0xE0) = val;
+    val16 = (s16)val;
+    if (val16 < 4) {
+        *(u16 *)((char *)a0 + 0xE2) = 0x10;
+    }
+    if (*(s16 *)((char *)a0 + 0xE0) < 2) {
+        *(u16 *)((char *)a0 + 0xE2) = 8;
+    }
+    *(u16 *)(*(s32 *)((char *)a0 + 0x20) + 0x10) = *(u16 *)(*(s32 *)((char *)a0 + 0x20) + 0x10) + *(u16 *)((char *)a0 + 0xE2);
+    if (*(s16 *)(*(s32 *)((char *)a0 + 0x20) + 0x10) >= 0x401) {
+        *(u16 *)((char *)a0 + 2) += 1;
+    }
+}
+
 
 void func_8017DFBC(void *a0) {
         *(short *)(*(int *)((char *)a0 + 0x64) + 0xe0) = 2;

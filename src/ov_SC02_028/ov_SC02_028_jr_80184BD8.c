@@ -4265,7 +4265,21 @@ s32 func_80187414(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_80187454);
+extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
+extern void func_8012C218(void *a0);
+
+/* §37/§124 def-side asm-label alias: the TU declares `extern void func_80187454(void);`
+ * (L4194) for the no-argument caller at L4205, while the byte-true definition takes a
+ * pointer in $a0 (sw $s0 / addu $s0,$a0,$zero prologue). Neither side can move, so the
+ * definition gets a private C identifier and binds the emitted symbol with a GNU asm
+ * label. Same class as banked func_8017EF54 (ov_SC06_008_jr_8017C294.c:4152). */
+void aF80187454(void *arg0) __asm__("func_80187454");
+
+void aF80187454(void *arg0) {
+    func_8002D59C(4, 0x64E, *(u16 *)((char *)arg0 + 0x104));
+    func_8012C218(arg0);
+}
+
 
 extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
 

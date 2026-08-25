@@ -3666,7 +3666,42 @@ void func_8017E97C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017E9B8);
+#include "common.h"
+
+/* engine_types.h:497 `Blk8` VERBATIM -- the real TU reaches it via engine_core.h ->
+ * engine_types.h, so the bank driver strips this local copy; match_one's standalone
+ * compile cannot see that header, hence the restatement. */
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern s32 func_80013294(void *a0, void *a1);
+extern s32 func_8014C168(s32 *a0, s32 a1);
+extern void func_8017EDF8();
+extern Blk8 D_801274E8;
+extern s32 D_80126B58;
+
+void func_8017E9B8(void *a0) {
+    Blk8 buf1;
+    Blk8 buf2;
+    s32 *s0;
+    s32 cmp;
+    s32 res;
+
+    s0 = &D_80126B58;
+    func_80015978(func_8014C168(s0, 0x3D) + 4, &buf1);
+    func_80015978((s32)(s0 + 1), &buf2);
+    s0 = &buf2;
+    cmp = func_80013294(&buf1, s0);
+    if (cmp < 0x100) {
+        res = func_80013294(&buf1, s0) + 0x28A;
+    } else {
+        res = 0x38A;
+    }
+    *(s32 *)((u8 *)a0 + 0x14) = res;
+    D_801274E8 = buf1;
+    func_8017EDF8(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017EA74);
 

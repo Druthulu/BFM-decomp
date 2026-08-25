@@ -182,7 +182,61 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D244);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D33C);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D410);
+extern void* (*D_80072970)(void);
+
+__asm__(
+    "\t.set\tnoreorder\n"
+    ".set noreorder\n"
+    "\t.globl\tfunc_8005D410\n"
+    "func_8005D410:\n"
+    "lui $v0, %hi(D_80072970)\n"
+    "lw $v0, %lo(D_80072970)($v0)\n"
+    "addiu $sp, $sp, -32\n"
+    "sw $s0, 16($sp)\n"
+    "addu $s0, $a1, $zero\n"
+    "sw $s1, 20($sp)\n"
+    "sw $ra, 24($sp)\n"
+    "jalr $v0\n"
+    "addu $s1, $a2, $zero\n"
+    "bgez $s0, 1f\n"
+    "addu $v1, $v0, $zero\n"
+    "lbu $v0, 234($v1)\n"
+    "j 4f\n"
+    "nop\n"
+    "1:\n"
+    "lbu $v0, 234($v1)\n"
+    "nop\n"
+    "slt $v0, $s0, $v0\n"
+    "beq $v0, $zero, 3f\n"
+    "sll $v0, $s0, 3\n"
+    "lw $v1, 8($v1)\n"
+    "bgez $s1, 2f\n"
+    "addu $v1, $v1, $v0\n"
+    "lbu $v0, 0($v1)\n"
+    "j 4f\n"
+    "nop\n"
+    "2:\n"
+    "lbu $v0, 0($v1)\n"
+    "nop\n"
+    "slt $v0, $s1, $v0\n"
+    "beq $v0, $zero, 4f\n"
+    "addu $v0, $zero, $zero\n"
+    "lw $v0, 4($v1)\n"
+    "nop\n"
+    "addu $v0, $v0, $s1\n"
+    "lbu $v0, 0($v0)\n"
+    "j 4f\n"
+    "nop\n"
+    "3:\n"
+    "addu $v0, $zero, $zero\n"
+    "4:\n"
+    "lw $ra, 24($sp)\n"
+    "lw $s1, 20($sp)\n"
+    "lw $s0, 16($sp)\n"
+    "jr $ra\n"
+    "addiu $sp, $sp, 32\n"
+    ".set reorder\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D4B8);
 
@@ -529,7 +583,17 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F450);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F6CC);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F704);
+extern u8 D_80078A48;
+
+s32 func_8005F704(s32 arg0) {
+    s32 var_v0 = (s32)&D_80078A48;
+    if (arg0 & 0xF0) {
+        var_v0 += 0xF0;
+    }
+    return var_v0;
+}
+
+__asm__(".word 0x00000000\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F728);
 

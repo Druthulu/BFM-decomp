@@ -5487,7 +5487,37 @@ void func_80180F90(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017BEBC", func_80180FE8);
+s32 func_80180FE8(u8 *a0, u8 *a1, s32 a2) {
+    extern s32 D_801F89E0;
+    extern s16 D_801F8A10;
+    extern s16 D_801F8A12;
+    extern s16 D_801F8A14;
+    extern s32 D_801F8AEC;
+    register u8 *p __asm__("$5");
+    register s16 *pa __asm__("$6");
+    register u8 *self __asm__("$7");
+    s32 aec;
+
+    p = a1 + (s16)a2 * 14;
+    pa = &D_801F8A10;
+    __asm__ __volatile__("" : "=r"(pa) : "0"(pa));
+    self = a0;
+    if (*(s16 *)(p + 0xC) == 0x7FFF) {
+        (*(u16 *)(self + 0x38))--;
+        p -= 14;
+    }
+    *(s32 *)(self + 0x3C) = (*(s16 *)(p + 0) * D_801F89E0 >> 12) + pa[0];
+    *(s32 *)(self + 0x40) = (*(s16 *)(p + 2) * D_801F89E0 >> 12) + (&D_801F8A10)[1];
+    *(s32 *)(self + 0x44) = (*(s16 *)(p + 4) * D_801F89E0 >> 12) + (&D_801F8A10)[2];
+    *(s32 *)(self + 0x48) = (*(s16 *)(p + 6) * D_801F89E0 >> 12) + pa[0];
+    *(s32 *)(self + 0x4C) = (*(s16 *)(p + 8) * D_801F89E0 >> 12) + D_801F8A12;
+    *(s32 *)(self + 0x50) = (*(s16 *)(p + 0xA) * D_801F89E0 >> 12) + D_801F8A14;
+    aec = D_801F8AEC;
+    *(s32 *)(self + 0x54) = *(s16 *)(p + 0xC) << 5;
+    *(s32 *)(self + 0x08) = aec;
+    return 0;
+}
+
 
 s32 func_80181120(u8 *a0, s32 a1, u8 *a2, u8 *a3) {
     a1 = (s16)a1;
