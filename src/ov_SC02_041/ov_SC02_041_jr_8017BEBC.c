@@ -7435,7 +7435,7 @@ void func_80182974(s32 a0) {
 
 
 extern s32 D_801B5BC4;
-extern s32 func_80182F20(s32 a0);
+extern s32 func_80182F20();
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012B23C(s32 a0);
 extern void func_8012CBCC(s32 a0);

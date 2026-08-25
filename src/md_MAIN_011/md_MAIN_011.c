@@ -101,7 +101,17 @@ INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D03F8);
 
 INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D0430);
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D0450);
+
+
+extern s16 D_800D4C80;
+extern FnEntry D_800D4C68[];
+
+void func_800D0450(void) {
+    if (D_800D4C80 < 5) {
+        D_800D4C68[D_800D4C80].fn();
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D04C4);
 
