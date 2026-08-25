@@ -5016,7 +5016,42 @@ extern void func_8017EB8C(s32 arg0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017FD80);
+#include "common.h"
+
+/* func_8017FD80 (ov_SC06_018_jr_8017C24C) — card twin ov_SC06_008:func_8017FF74 (banked),
+ * mirrored spelling: block-scope externs, direct BEE8 test, bare & 0x2000, cast idiom.
+ * Tail callee is func_8017EB8C in THIS binary (twin's func_8017ED80 == same source fn,
+ * cf. this TU's aF8017ED80 __asm__("func_8017EB8C") alias); kept (s32)-proto for
+ * compatibility with this TU's earlier decls.
+ */
+
+void func_8017FD80(s32 a0)
+{
+    extern void func_801319E0(s32 a0);
+    extern s32  func_8012BEE8(s32 a0);
+    extern void func_8012CBF4(s32 a0);
+    extern void func_80131C78(s32 a0);
+    extern void func_80131E00(int a0, int a1);
+    extern void func_8017EB8C(s32 a0);
+    s16 field_a;
+    s32 result;
+
+    field_a = *(s16 *)(a0 + 0xA);
+    if (field_a >= 0x10) {
+        func_801319E0(a0);
+    } else {
+        if (func_8012BEE8(a0) != 0) {
+            func_80131E00(a0, 6);
+        } else {
+            result = ((s32 (*)(s32))func_8012CBF4)(a0);
+            if (result & 0x2000) {
+                func_80131C78(a0);
+            }
+            ((void (*)(s32))func_8017EB8C)(a0);
+        }
+    }
+}
+
 
 void func_8017FE0C(s32 a0) {
 

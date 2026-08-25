@@ -7601,7 +7601,30 @@ void func_80183AEC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_103/nonmatchings/ov_SC03_103_jr_8017C294", func_80183B74);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8012EFB8(s32 a0);
+
+s32 func_80183B74(a0)
+s32 a0;
+{
+    extern void func_8012EFB8(s32 a0);
+    s32 sp10;
+    s32 v1;
+
+    func_80015978(a0 + 4, &sp10);
+    if ((((s32 (*)(s32, s32))func_8012EFB8)((s32)&sp10, (s32)&sp10) & 0xFFFFEFFF) != 0) {
+        v1 = 1;
+    } else {
+        v1 = (*(s16 *)&sp10 * 64) / 160 + 0x40;
+    }
+    if (v1 <= 0) {
+        v1 = 1;
+    } else if (v1 >= 0x80) {
+        v1 = 0x7F;
+    }
+    return v1;
+}
+
 
 
 extern void (*D_801C20DC[])(void);

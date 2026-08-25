@@ -5359,7 +5359,7 @@ typedef struct {
 
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012AD50(void *a0);
-extern void *func_80189DB8(void *a0, s32 color);
+extern u32 func_80189DB8();
 extern void func_80189B1C(void *a0, Range_80189B1C *a1, void *a2, void *a3);
 extern u8 D_8018F71C[];
 
@@ -5384,7 +5384,7 @@ typedef struct {
 
 extern u8 D_8018F71C[];
 extern s16 D_8018F71E;
-extern void *func_80189DB8();
+extern u32 func_80189DB8();
 
 void func_80189A70(s32 *a0)
 {
@@ -5417,7 +5417,26 @@ INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80189C6
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80189D10);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80189DB8);
+extern u16 D_800B99DA;
+
+u32 func_80189DB8(param_1, param_2)
+u32 param_1;
+u32 param_2;
+{
+    if (D_800B99DA & 1) {
+        u8 b[4];
+        *(u32*)b = param_2;
+        b[0] = (u8)(b[0] - 8);
+        if (b[0] >= 0xF8) b[0] = 0;
+        b[1] = (u8)(b[1] - 8);
+        if (b[1] >= 0xF8) b[1] = 0;
+        b[2] = (u8)(b[2] - 8);
+        if (b[2] >= 0xF8) b[2] = 0;
+        param_2 = *(u32*)b;
+    }
+    return param_2;
+}
+
 
 
 // @class: struct

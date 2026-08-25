@@ -3712,7 +3712,7 @@ extern void func_8012CAE4(void *a0);
 extern void func_8012E88C(s32 a0);
 extern void func_8012E8A8(u8 *a0);
 extern void func_8012E8E0(s32 a0, s32 a1);
-extern void func_8017F68C();
+extern s32 func_8017F68C();
 
 void func_8017F41C(a0)
 void *a0;
@@ -3790,7 +3790,38 @@ void func_8017F62C(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8017F68C);
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+s32 func_8017F68C(a0)
+void *a0;
+{
+    s32 ptr;
+    u16 st;
+
+    ptr = *(s32 *)((s32)a0 + 0x64);
+    st = *(u16 *)((s32)ptr + 0x2);
+    if (st != 2) {
+        return 0;
+    }
+
+    if (func_8012BD14((s32)a0) >= 0x4000) {
+        return 0;
+    }
+
+    {
+        s32 p;
+        u16 st2;
+        p = *(s32 *)((s32)a0 + 0x64);
+        st2 = *(u16 *)((s32)p + 0x2);
+        st2++;
+        *(u16 *)((s32)p + 0x2) = st2;
+    }
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 
 /* func_8017F700 — guarded dispatch: ask func_801819DC(9, 0x12); if it answers

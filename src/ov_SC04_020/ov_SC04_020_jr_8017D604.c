@@ -4321,7 +4321,7 @@ void func_8018067C(void *arg0) {
 
 
 extern void func_8012CAE4(void *a0);
-extern void func_80180978(void);
+extern s32 func_80180978();
 
 void func_80180708(void *a0) {
 
@@ -4424,7 +4424,38 @@ void func_80180918(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_80180978);
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+s32 func_80180978(a0)
+void *a0;
+{
+    s32 ptr;
+    u16 st;
+
+    ptr = *(s32 *)((s32)a0 + 0x64);
+    st = *(u16 *)((s32)ptr + 0x2);
+    if (st != 2) {
+        return 0;
+    }
+
+    if (func_8012BD14((s32)a0) >= 0x4000) {
+        return 0;
+    }
+
+    {
+        s32 p;
+        u16 st2;
+        p = *(s32 *)((s32)a0 + 0x64);
+        st2 = *(u16 *)((s32)p + 0x2);
+        st2++;
+        *(u16 *)((s32)p + 0x2) = st2;
+    }
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 
 /* func_801809EC — guarded dispatch: ask func_80181388(9, 0x12); if it answers
