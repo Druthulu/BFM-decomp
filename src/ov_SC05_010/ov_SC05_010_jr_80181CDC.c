@@ -3854,7 +3854,44 @@ void func_80185394(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_801853B0);
+void func_801853B0(s32 a0)
+{
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 func_8012C588(s32 a0, s32 a1);
+    extern s32 D_801C7E4C[];
+    extern void (*D_801A33AC)(void);
+
+    s32 s1 = a0;
+    s32 v;
+    s32 i;
+    s32 r;
+
+    v = *(s32 *)(s1 + 0x1C);
+    if (v == 0) {
+        *(u16 *)(s1 + 2) = 1;
+        func_8012A828(s1, &D_801A33AC);
+        *(s32 *)(s1 + 0x1C) = 0xB4;
+    } else {
+        v = v - 1;
+        *(s32 *)(s1 + 0x1C) = v;
+        if ((v & 7) == 0) {
+            func_8012C588(0x275, s1);
+            *(u16 *)(*(s32 *)(*(s32 *)D_801C7E4C + 0x20) + 0x1A) = 0xC00;
+            for (i = 0; i < 8; i++) {
+                r = func_8012C588(0x2ED, s1);
+                if (r != 0) {
+                    *(s16 *)(r + 0x16) = -0x10;
+                    *(u16 *)(r + 6) = *(u16 *)(r + 6) + 0x25B;
+                    *(u16 *)(r + 0xA) = *(u16 *)(r + 0xA) - 0x70;
+                    *(u16 *)(r + 0x12) = (rand() & 7) - 4;
+                    *(u16 *)(r + 0x1A) = -4 - (rand() & 7);
+                    func_8002D4C8(0x895, 0);
+                }
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_801854B8);
 
