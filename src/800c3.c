@@ -186,7 +186,23 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D588);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D6A0);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D6CC);
+extern s32 *D_800729BC;
+extern void (*D_80072984)(void);
+
+s32 func_8005D6CC(void) {
+    s32 *ptr = D_800729BC;
+
+    if ((*(s32 *)((s8 *)ptr + 4) & 1) == 0) {
+        return 0;
+    }
+    if ((*ptr & 1) == 0) {
+        return 0;
+    }
+    if (D_80072984 != NULL) {
+        (*D_80072984)();
+    }
+    return 1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D734);
 
@@ -255,7 +271,28 @@ s32 func_8005E374(u8 *a0) {
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E3AC);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E480);
+extern void func_8005EA68(void *arg0, s32 arg1);
+extern void func_8005EA88(void *arg0, s32 arg1);
+extern void func_8005EAA8(void *arg0, s32 arg1);
+extern void func_8005EAC8(void);
+
+void func_8005E480(void *arg0) {
+    switch (*(u8 *)((s32)arg0 + 0x46)) {
+    case 2:
+        func_8005EA68(arg0, *(u8 *)((s32)arg0 + 0x47));
+        break;
+    case 3:
+        func_8005EA88(arg0, *(u8 *)((s32)arg0 + 0x47));
+        break;
+    case 4:
+        if (*(u8 *)((s32)arg0 + 0x48) == 0) {
+            func_8005EAA8(arg0, *(u8 *)((s32)arg0 + 0x47));
+        } else {
+            func_8005EAC8();
+        }
+        break;
+    }
+}
 
 
 typedef struct Entry {
