@@ -6032,7 +6032,26 @@ void func_80183D68(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80183DFC);
+void func_80183DFC(s32 param_1)
+{
+    extern s16 D_8018EE98;
+    extern s16 D_8018EEDC;
+    extern s32 func_8012BEE8(s32 a0);
+    extern void func_80183800(s32 a0);
+
+    if (*(u16 *)(param_1 + 0x34) == 0) {
+        if (D_8018EE98 == 4) {
+            u16 t = *(u16 *)(param_1 + 0x34);
+            *(s32 *)(param_1 + 0x1c) = D_8018EEDC;
+            *(u16 *)(param_1 + 0x34) = t + 1;
+        }
+    } else {
+        if (func_8012BEE8(param_1) != 0) {
+            func_80183800(param_1);
+        }
+    }
+}
+
 
 #include "common.h"
 
