@@ -3433,7 +3433,27 @@ void func_8017D440(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017BE9C", func_8017D494);
+void func_8017D494(s32 a0) {
+    extern u8 D_800B9A15;
+    extern unsigned char D_800B9A13;
+    extern u16 D_80115110;
+    extern u16 D_80115112;
+    extern s16 D_80115126;
+    extern s16 D_801A3328;
+    extern void *D_8011DB24;
+    extern void func_8013E5E8(void);
+    void *func_ptr;
+
+    D_800B9A15 = 1;
+    D_80115112 = 7;
+    D_800B9A13 = 1;
+    func_ptr = func_8013E5E8;
+    D_80115110 = 0;
+    D_80115126 = (s16)a0;
+    D_801A3328 = 0;
+    D_8011DB24 = func_ptr;
+}
+
 
 
 extern void func_80029444(void);

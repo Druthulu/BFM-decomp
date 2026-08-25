@@ -465,7 +465,10 @@ void func_800CDA14(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_046/nonmatchings/md_MAIN_046", func_800CDA44);
+void func_800CDA44(s32 *a0) {
+    *(s16 *)((s32)a0 + 0x1C8) = 0;
+}
+
 
 extern s32 func_80161A30(s32 a0);
 extern void (*D_800CE0AC[])(void);

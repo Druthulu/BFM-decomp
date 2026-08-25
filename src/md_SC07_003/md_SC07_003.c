@@ -2601,7 +2601,23 @@ void func_801A4A78(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A4CF4);
+extern void func_8012C218(void *a0);
+extern void func_8012B260(u8 *a0);
+
+void func_801A4CF4(s32 a0) {
+    s32 a1 = *(s32 *)(a0 + 0x64);
+
+    if (*(s16 *)(a1 + 0x36) != *(s16 *)(a0 + 0x10A)) {
+        func_8012C218((void *)a0);
+        return;
+    }
+
+    *(s32 *)(a0 + 0x4) = *(s32 *)(a1 + 0x38);
+    *(s32 *)(a0 + 0x8) = *(s32 *)(a1 + 0x3C);
+    *(s32 *)(a0 + 0xC) = *(s32 *)(a1 + 0x40);
+    func_8012B260((u8 *)a0);
+}
+
 
 typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_801A4D58;
 

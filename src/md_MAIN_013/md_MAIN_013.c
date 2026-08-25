@@ -59,7 +59,10 @@ void func_800CB018(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_013/nonmatchings/md_MAIN_013", func_800CB054);
+void func_800CB054(void *a0) {
+    *(s32 *)((s32)a0 + 0xC0) = 0;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_013/nonmatchings/md_MAIN_013", func_800CB05C);
 

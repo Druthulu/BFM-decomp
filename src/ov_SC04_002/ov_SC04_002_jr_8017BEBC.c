@@ -4941,7 +4941,13 @@ void func_8017F470(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017F4EC);
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017F534);
+extern void func_8017F55C(s32 a0, s32 a1);
+extern u8 D_8018C054[];
+
+void func_8017F534(s32 arg0) {
+    func_8017F55C(arg0, D_8018C054);
+}
+
 
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017F55C; /* 0x20 bytes, align 4 */
 

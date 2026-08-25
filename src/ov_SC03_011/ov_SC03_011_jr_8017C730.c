@@ -4789,7 +4789,15 @@ void func_80180228(void *a0) {
 void func_80180324(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8018032C);
+extern s32 func_8012E544(s32 a0);
+extern s32 func_80178BF8();
+
+void func_8018032C(void) {
+    s32 v0 = func_8012E544(0x106);
+    *(s16 *) (v0 + 2) = 2;
+    func_80178BF8();
+}
+
 
 void func_80180358(void *a0) {
         *(short *)((char *)a0 + 0x2) = 0x4;

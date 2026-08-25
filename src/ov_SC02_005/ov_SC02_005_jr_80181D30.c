@@ -8266,7 +8266,27 @@ s32 func_8018AD20(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018AD8C);
+#include "common.h"
+
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_8018A4C4(s32 a0);
+extern s32 D_801E4A58[];
+
+void func_8018AD8C(s32 arg0, s32 arg1)
+{
+    s32 s0 = D_801E4A58[arg0];
+
+    if (s0 != 0) {
+        *(s16 *)(s0 + 0xFE) = arg1;
+        *(s32 *)(s0 + 0xC) = 0;
+        *(s32 *)(s0 + 8) = 0;
+        *(s32 *)(s0 + 4) = 0;
+        *(s16 *)(s0 + 0xFC) = 1;
+        func_8012AD44((s32 *)s0, 2);
+        func_8018A4C4(s0);
+    }
+}
+
 
 #include "common.h"
 

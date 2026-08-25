@@ -5154,7 +5154,12 @@ void func_80181778(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_801819DC);
+void func_801819DC(s32 a0)
+{
+    *(u16 *)(a0 + 0x2) = 1;
+    *(u16 *)(a0 + 0x5C) = 0xA810;
+}
+
 
 
 extern s32 rand(void);

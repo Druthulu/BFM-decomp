@@ -5860,7 +5860,14 @@ void func_801839C8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80183A40);
+void func_80183A40(s32 arg0) {
+    void **fp = *(void ***)(*(s32 *)((s32)arg0 + 0x64) + 0xDC);
+
+    if (fp != NULL && *fp != NULL) {
+        (*(void (*)(void)) * fp)();
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80183A88);
 

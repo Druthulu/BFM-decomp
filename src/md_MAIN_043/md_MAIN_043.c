@@ -129,7 +129,11 @@ void func_800CCE24(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_043/nonmatchings/md_MAIN_043", func_800CCEA0);
+s32 func_800CCEA0(void *a0) {
+    *(s32 *)((s32)a0 + 0x234) = 150;
+    return 150;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_043/nonmatchings/md_MAIN_043", func_800CCEAC);
 

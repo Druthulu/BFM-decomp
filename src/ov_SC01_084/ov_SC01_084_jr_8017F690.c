@@ -3282,7 +3282,10 @@ void func_80180650(s32 a0, s32 out) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80180720);
+s32 func_80180720(s32 a0) {
+    return -a0 & 0xFFF;
+}
+
 
 extern s32 func_80047948(s32 a0);
 extern s32 func_8004787C(s32 a0);

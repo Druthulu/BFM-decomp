@@ -5043,7 +5043,10 @@ void func_801817E0(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80181834);
+s32 func_80181834(s32 arg0) {
+    return -(arg0 < 0x640) & 0x98;
+}
+
 
 void func_80181844(void) {
 }

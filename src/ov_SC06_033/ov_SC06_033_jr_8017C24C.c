@@ -3504,7 +3504,30 @@ void func_8017DC18(void) {
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017DC30);
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017DCC4);
+extern s16 D_80126CB0;
+extern s16 D_80126CAC;
+
+int func_8017DCC4(s16 *a0) {
+    int data[3];
+    data[0] = D_80126CAC - a0[3];
+    data[1] = 0;
+    data[2] = D_80126CB0 - a0[7];
+    __asm__ __volatile__(
+        "lwc2 $9, 0($sp)\n"
+        "lwc2 $10, 4($sp)\n"
+        "lwc2 $11, 8($sp)\n"
+        "nop\n"
+        "nop\n"
+        "sqr 0\n"
+        : : : "$9", "$10", "$11", "memory");
+    __asm__ __volatile__(
+        "swc2 $25, 0($sp)\n"
+        "swc2 $26, 4($sp)\n"
+        "swc2 $27, 8($sp)\n"
+        : : : "memory");
+    return 0xC3FFF < data[0] + data[1] + data[2];
+}
+
 
 void func_8017DD48(void) {
     extern u8 D_801202A0[];

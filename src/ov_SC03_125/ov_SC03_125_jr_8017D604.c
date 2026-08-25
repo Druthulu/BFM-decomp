@@ -3904,7 +3904,28 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8017FD98);
+extern void func_8017FE60();
+
+void func_8017FD98(void *a0) {
+    typedef struct { short vx, vy, vz, pad; } SVFD98;
+    extern SVFD98 D_801C2D6C;
+    extern SVFD98 D_801C2D74;
+    extern void func_80015978(s32 a0, s32 *a1);
+    SVFD98 buf10;
+    SVFD98 buf18;
+    SVFD98 buf20;
+
+    buf10 = D_801C2D6C;
+    buf18 = D_801C2D74;
+    if (*(s16 *)((s32)a0 + 0xFC) == 0) {
+        func_8017FE60(&buf10, &buf18);
+    } else {
+        func_80015978((s32)a0 + 4, (s32 *)&buf20);
+        func_8017FE60(&buf10, &buf20);
+        func_8017FE60(&buf20, &buf18);
+    }
+}
+
 
 
 /* identical layout to SVECTOR_8016E7C8 (src/shared/engine_types.h) */
