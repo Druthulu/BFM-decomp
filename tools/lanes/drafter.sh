@@ -95,6 +95,9 @@ export HTTP_TIMEOUT=700
 # agents guillotined mid-thought with NO draft at all: overlay draft completion fell from 84-89%
 # (8k) to 41% on wave bt and 69% on bu. A grace shorter than one turn guarantees that loss, so it
 # is tied to HTTP_TIMEOUT rather than set independently.
+# ...and since P31 S60 the grace no longer COSTS anything: wait_for_tail() hands the tail to a
+# finisher thread, so the next wave draws and ramps while the stragglers run. Blocking on this
+# grace was 11m40s of 2-5% fleet utilisation at the end of every wave, four waves for four.
 export STRAGGLER_GRACE=700
 export MAX_429=10
 while [ ! -e .run/ox_campaign.stop ]; do

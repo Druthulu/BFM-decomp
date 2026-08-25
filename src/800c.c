@@ -1683,7 +1683,37 @@ s32 func_8005AE80(s32 *a0, s32 a1) {
     return s0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", _clr);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\t_clr\n"
+    ".ent\t_clr\n"
+    "_clr:\n"
+        ".set\tnoreorder\n"
+        "addiu $sp, $sp, -64\n"
+        "addu  $t0, $a0, $zero\n"
+        "sw    $ra, 56($sp)\n"
+        "sw    $s1, 52($sp)\n"
+        "sw    $s0, 48($sp)\n"
+        "lh    $a0, 4($t0)\n"
+        "addu  $t1, $a1, $zero\n"
+        "bltz  $a0, .L8005AFB4\n"
+        "addu  $a1, $a0, $zero\n"
+        "lui   $v0, %hi(D_8007278C)\n"
+        "lh    $v0, %lo(D_8007278C)($v0)\n"
+        "nop\n"
+        "addu  $v1, $v0, $zero\n"
+        "addiu $v0, $v0, -1\n"
+        "slt   $v0, $v0, $a0\n"
+        "bnez  $v0, SYS_OBJ_1D84\n"
+        "addiu $v0, $v1, -1\n"
+        "j     SYS_OBJ_1D84\n"
+        "addu  $v0, $a1, $zero\n"
+        ".L8005AFB4:\n"
+        "addu  $v0, $zero, $zero\n"
+        ".set\treorder\n"
+    ".end\t_clr\n"
+);
 
 __asm__(
     ".text\n"
@@ -2380,7 +2410,30 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2CDC);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2DD8);
+/* SYS_OBJ_2DD8 is the SHARED EPILOGUE TAIL for the 0x18-byte frame family in this slice
+ * (ra@0x14 / s0@0x10): SYS_OBJ_2CDC reaches it via "j SYS_OBJ_2DD8", SYS_OBJ_2CC4 via
+ * "bnez $v0, SYS_OBJ_2DD8" -- callers arrive mid-stream with THIS frame already built, i.e.
+ * the symbol's whole body is another function's epilogue (cookbook SS179-C). A C-function
+ * body always grows a phantom prologue/epilogue of its own (expand_function_end +
+ * function_epilogue append unconditionally), so the 5 instructions are transcribed 1:1 as
+ * file-scope basic asm with literal tab-formed .ent/.end, decimal displacements, and no
+ * hand-written load-delay nops (no instruction here consumes a just-loaded register).
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_2DD8\n"
+    ".ent\tSYS_OBJ_2DD8\n"
+    "SYS_OBJ_2DD8:\n"
+    ".set\tnoreorder\n"
+    "lw    $ra, 20($sp)\n"
+    "lw    $s0, 16($sp)\n"
+    "addiu $sp, $sp, 24\n"
+    "jr    $ra\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_2DD8\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_8005C020);
 

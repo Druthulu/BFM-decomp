@@ -35,6 +35,7 @@ import shutil
 import string
 import subprocess
 import sys
+import threading
 import time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -347,6 +348,60 @@ def collect_drafts(tag, procs,
     drafts = sorted(glob.glob(f"{outdir}/shard*/*.c"))
     trunc = int(sh(f"grep -h 'finish=length' {outdir}/shard*.log 2>/dev/null | wc -l").stdout or 0)
     return drafts, trunc
+
+
+def wait_for_tail(tag, procs, done_frac=0.95):
+    """Block until `done_frac` of a wave's shards have exited — then RETURN, tail still running.
+
+    THE TAIL MUST NOT IDLE THE FLEET (P31 S60, measured). collect_drafts() blocks through the whole
+    straggler grace before the wave queues and the next one starts, so with STRAGGLER_GRACE=700 the
+    drafter sat on 4-13 live agents for ELEVEN MINUTES FORTY SECONDS at the end of every wave —
+    cd 22:32->22:43, cc 23:06->23:18, ce 23:53->00:04, cf 00:37->00:48, four for four. Against a
+    ~44-minute wave cycle that is 27% of the campaign's wall clock at 2-5% fleet utilisation, and
+    the API rate collapsed from ~65 req/min to 2-5 in each trough.
+
+    The grace itself is right and stays (a straggler mid-generation needs one full turn, §S59: a
+    shorter grace guillotines agents mid-thought and COSTS drafts). What was wrong is BLOCKING on
+    it. The wave now hands its tail to finish_wave_async() and the next wave draws and ramps
+    immediately, so the grace overlaps the next wave instead of the void.
+    """
+    while True:
+        alive = [p for p in procs if p.poll() is None]
+        if not alive:
+            return []
+        done = len(procs) - len(alive)
+        if done >= done_frac * len(procs):
+            log(f"  {tag}: {done}/{len(procs)} shards done — {len(alive)} straggler(s) keep their "
+                f"full grace while the NEXT wave starts; {tag} queues when they land")
+            return alive
+        time.sleep(5)
+
+
+def finish_wave_async(tag, procs, cards, ntargets, t0, workers, band, lane,
+                      straggler_grace=int(os.environ.get('STRAGGLER_GRACE', '120'))):
+    """Wait out this wave's stragglers in a thread, then collect the drafts and queue the wave.
+
+    Nothing here touches src/, config/ or any lock — it globs the wave's own directory and writes
+    one marker — so it is safe beside a live drafting wave. If the drafter is restarted while a
+    tail is outstanding the marker is never written and the drafts sit on disk, exactly as they did
+    when a kill interrupted collect_drafts(); `--gate-only <tag>` picks them up.
+    """
+    def run():
+        deadline = time.time() + straggler_grace
+        while time.time() < deadline and any(p.poll() is None for p in procs):
+            time.sleep(5)
+        alive = [p for p in procs if p.poll() is None]
+        outdir = f".run/wave_{tag}"
+        drafts = sorted(glob.glob(f"{outdir}/shard*/*.c"))
+        trunc = int(sh(f"grep -h 'finish=length' {outdir}/shard*.log 2>/dev/null | wc -l").stdout or 0)
+        json.dump({"tag": tag, "cards": cards, "targets": ntargets, "drafts": len(drafts),
+                   "trunc": trunc, "t0": t0, "workers": workers, "band": list(band),
+                   "lane": lane["name"]}, open(f"{READY}/{tag}.json", "w"), indent=1)
+        tail = f" · {len(alive)} straggler(s) still running" if alive else ""
+        log(f"  DRAFT {tag} done: {len(drafts)} drafts ({trunc} truncated){tail} -> queued for the gater")
+    t = threading.Thread(target=run, name=f"finish-{tag}", daemon=True)
+    t.start()
+    return t
 
 
 def reloc_filter(tag, drafts, cards_path):
@@ -712,11 +767,8 @@ def run_drafter(a):
                 draw_wave(nxt, a.cards_per_wave, nband, nlane.get("levers"))
                 lk2.close()
 
-        drafts, trunc = collect_drafts(tag, procs)
-        json.dump({"tag": tag, "cards": cards, "targets": len(targets), "drafts": len(drafts),
-                   "trunc": trunc, "t0": t0, "workers": a.workers, "band": list(band),
-                   "lane": lane["name"]}, open(f"{READY}/{tag}.json", "w"), indent=1)
-        log(f"  DRAFT {tag} done: {len(drafts)} drafts ({trunc} truncated) -> queued for the gater")
+        wait_for_tail(tag, procs)
+        finish_wave_async(tag, procs, cards, len(targets), t0, a.workers, band, lane)
     log("drafter: finished")
 
 
