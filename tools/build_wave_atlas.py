@@ -35,7 +35,7 @@ ap.add_argument("--max-bins", type=int, default=12, help="concentrate into this 
 ap.add_argument('--min-ins', type=int, default=0)
 ap.add_argument('--max-ins', type=int, default=120, help='above this the bulk ladder stops being honest')
 ap.add_argument('--levers',
-                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN,cc1,jtbl-carve,extend-tell,swaprepeat-tell,s16-div-tell',
+                default='head-crack,seeded-crack,redraft,len-vein,integration,family-sweep,tiny-direct,UNKNOWN,cc1,jtbl-carve,extend-tell,swaprepeat-tell,s16-div-tell,remap,needs-autopsy,plumbing',
                 help="agent-draftable levers; tell/o0 need their own lanes. JTBL-CARVE JOINED THE "
                      "DEFAULT LANE in P31 S59, once the gate could carve per draft: the members it "
                      "can structurally reach are filtered by jtbl_carve.island_probe and capped at "
@@ -56,7 +56,17 @@ ap.add_argument('--levers',
                      "UNKNOWN held 607 of the 1,179 in-band members -- more than every other lane "
                      "COMBINED -- and wave W drew 73 cards from it into 3 gate groups (24.3 drafts per "
                      "rebuild vs wave V's 7.8) for 71/71 drafted and 68 banked. Cost, recorded: UNKNOWN "
-                     "groups are mostly singletons, so the free sibling remap yielded ZERO.")
+                     "groups are mostly singletons, so the free sibling remap yielded ZERO. "
+                     "REMAP, NEEDS-AUTOPSY AND PLUMBING JOINED THE DEFAULT LANE in P31 S60 (Drew): "
+                     "they were held out because each has a cheaper deterministic owner — the "
+                     "family remap banks a `remap` card for zero tokens, `plumbing` is "
+                     "recover_integration's, `needs-autopsy` wants a look before a draft. That "
+                     "reasoning priced AGENT TOKENS as the scarce resource; on a free model the "
+                     "scarce resource is CARDS, and holding 1,219 instances out of every wave to "
+                     "protect a token budget that does not bind starves a 2,000-agent fleet. The "
+                     "deterministic lanes still run and still bank these first — the byte gate "
+                     "refuses a duplicate, so a drafted card that a remap already banked costs one "
+                     "wasted shard, not a wrong bank.")
 ap.add_argument('--tells-quota', type=int, default=60,
                 help="cards per wave reserved for the tell levers (default 60). Like jtbl they are "
                      "spread thin across binaries and lose the gate-group ranking, and a dedicated "
