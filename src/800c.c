@@ -480,7 +480,29 @@ void func_80059BFC(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/nonmatchings/800c", DrawPrim);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_80059CF4);
+extern u8 D_8007278A;
+extern u32 D_80072784;
+extern void *D_80072780;
+extern u8 D_800741D8;
+
+/* PsyQ DrawOTag: guard call passes the "DrawOTag(%08x)...\n" debug string
+ * (D_800741D8), then dispatches through GPU fn-table slot +0x8 with the draw
+ * env pointer at +0x18, the OT, and two zero args. Canonical signature per
+ * src/resident/resident.c (`extern s32 func_80059CF4(s32);`) -- the tail GPU-fn
+ * call's result is left in $v0 and becomes this function's return value.
+ *
+ * Integration: replace the INCLUDE_ASM("asm/nonmatchings/800c", func_80059CF4)
+ * stub at line 483 of src/800c.c. D_8007278A/D_80072784/D_80072780 are already
+ * declared at lines 134-137 of that TU with identical types -- keep those, add
+ * only `extern u8 D_800741D8;`.
+ */
+s32 func_80059CF4(s32 a0) {
+    if (D_8007278A >= 2) {
+        ((void (*)(void *, s32))D_80072784)(&D_800741D8, a0);
+    }
+    return (*(s32 (**)(void *, void *, s32, s32))((u8 *)D_80072780 + 0x8))(
+        *(void **)((u8 *)D_80072780 + 0x18), (void *)a0, 0, 0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_80059D68);
 
@@ -682,7 +704,70 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_F00);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_F24);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_F58);
+/* SYS_OBJ_F58 reads $s0/$s1/$s2 as live globals (same frame shape as its sibling
+ * SYS_OBJ_FD8), so plain C cannot carry the register allocation: emit the whole
+ * function as FILE-SCOPE inline asm, transcribed 1:1 from
+ * asm/nonmatchings/800c/SYS_OBJ_F58.s (cookbook 179-C: no epilogue of its own --
+ * every exit is a raw unlinked j/beqz into SYS_OBJ_FD8, and .L8005A208 falls
+ * through into the sibling's entry, so a normal C body would gain a phantom
+ * jr/nop pair).
+ * Real ".ent"/".end" text (not glabel/endlabel) so maspsx emits the fresh
+ * ".set noreorder" and our hand-placed delay slots survive (179-B rules 1-2).
+ * NOTE: maspsx parses ALL displacements AND immediates with bare int() -- every
+ * number below must be DECIMAL (179-B rule 3 / 265): 0x50=80, 0x10=16,
+ * 0xCDB=3291, 0xCDA=3290, 0x12=18, 0x137=311, 0x101=257, 0x100=256, 0x136=310.
+ * Load-delay nops after the two lbu are already in the target and stay (maspsx
+ * only splices its own when a consumer follows the load).
+ * PLACEMENT: this block REPLACES the INCLUDE_ASM("asm/nonmatchings/800c",
+ * SYS_OBJ_F58) stub at src/800c.c:634 -- do not keep both (duplicate symbol). */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_F58\n"
+    ".ent\tSYS_OBJ_F58\n"
+    "SYS_OBJ_F58:\n"
+    ".set\tnoreorder\n"
+    "addu  $v1, $a1, $zero\n"
+    "addiu $a1, $v1, 80\n"
+    "slt   $v0, $a2, $a1\n"
+    "bnez  $v0, .L8005A1B4\n"
+    "slti  $v0, $s1, 16\n"
+    "slti  $v0, $a2, 3291\n"
+    "beqz  $v0, .L8005A1B0\n"
+    "addiu $a1, $zero, 3290\n"
+    "addu  $a1, $a2, $zero\n"
+    ".L8005A1B0:\n"
+    "slti  $v0, $s1, 16\n"
+    ".L8005A1B4:\n"
+    "bnez  $v0, .L8005A208\n"
+    "addu  $a2, $a1, $zero\n"
+    "lbu   $v0, 18($s0)\n"
+    "nop\n"
+    "beqz  $v0, .L8005A1DC\n"
+    "slti  $v0, $s1, 311\n"
+    "beqz  $v0, .L8005A1E8\n"
+    "nop\n"
+    "j     SYS_OBJ_FD8\n"
+    "addu  $a0, $s1, $zero\n"
+    ".L8005A1DC:\n"
+    "slti  $v0, $s1, 257\n"
+    "bnez  $v0, .L8005A200\n"
+    "nop\n"
+    ".L8005A1E8:\n"
+    "lbu   $v0, 18($s0)\n"
+    "nop\n"
+    "beqz  $v0, SYS_OBJ_FD8\n"
+    "addiu $a0, $zero, 256\n"
+    "j     SYS_OBJ_FD8\n"
+    "addiu $a0, $zero, 310\n"
+    ".L8005A200:\n"
+    "j     SYS_OBJ_FD8\n"
+    "addu  $a0, $s1, $zero\n"
+    ".L8005A208:\n"
+    "addiu $a0, $zero, 16\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_F58\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_FD8);
 
@@ -738,7 +823,47 @@ INCLUDE_ASM("asm/nonmatchings/800c", func_8005ACF0);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1AF0);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005AD34);
+__asm__(
+".text\n"
+".align\t2\n"
+".globl\tfunc_8005AD34\n"
+".ent\tfunc_8005AD34\n"
+"func_8005AD34:\n"
+"    .set\tnoreorder\n"
+"    bnez $a0, .L8005AD44\n"
+"    addiu $sp, $sp, -16\n"
+"    j SYS_OBJ_1B78\n"
+"    addu $v0, $zero, $zero\n"
+".L8005AD44:\n"
+"    lbu $a1, 0($a0)\n"
+"    nop\n"
+"    srl $a1, $a1, 3\n"
+"    sw $a1, 0($sp)\n"
+"    lh $a2, 4($a0)\n"
+"    nop\n"
+"    negu $a2, $a2\n"
+"    andi $a2, $a2, 0xFF\n"
+"    sra $a2, $a2, 3\n"
+"    sw $a2, 8($sp)\n"
+"    lbu $v0, 2($a0)\n"
+"    sll $a1, $a1, 10\n"
+"    srl $v0, $v0, 3\n"
+"    sw $v0, 4($sp)\n"
+"    sll $v0, $v0, 15\n"
+"    lh $v1, 6($a0)\n"
+"    lui $a0, 0xe200\n"
+"    or $a1, $a1, $a0\n"
+"    or $v0, $v0, $a1\n"
+"    negu $v1, $v1\n"
+"    andi $v1, $v1, 0xFF\n"
+"    sra $v1, $v1, 3\n"
+"    sll $a0, $v1, 5\n"
+"    or $v0, $v0, $a0\n"
+"    or $v0, $v0, $a2\n"
+"    sw $v1, 12($sp)\n"
+".set\treorder\n"
+".end\tfunc_8005AD34\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1B78);
 
