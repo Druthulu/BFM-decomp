@@ -3336,7 +3336,11 @@ void func_80185808(s32 a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80184CF8", func_8018595C);
+extern void func_801888E8(s32 a0, s32 a1);
+void func_8018595C(s32 a0) {
+    func_801888E8(a0, 0x9B7);
+}
+
 
 extern void func_8002A04C(s32 a0);
 extern void func_8002AC00(s32 a0);

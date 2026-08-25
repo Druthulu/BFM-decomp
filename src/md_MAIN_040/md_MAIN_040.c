@@ -241,7 +241,12 @@ void func_800CB7B8(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_040/nonmatchings/md_MAIN_040", func_800CB840);
+void func_800CB840(s32 param_1) {
+    *(s32 *)(param_1 + 0x4) += *(s32 *)(param_1 + 0x10);
+    *(s32 *)(param_1 + 0x8) += *(s32 *)(param_1 + 0x14);
+    *(s32 *)(param_1 + 0xC) += *(s32 *)(param_1 + 0x18);
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_040/nonmatchings/md_MAIN_040", func_800CB874);
 

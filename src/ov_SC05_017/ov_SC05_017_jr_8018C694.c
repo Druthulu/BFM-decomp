@@ -3464,7 +3464,36 @@ void func_8018CCBC(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8018C694", func_8018CD04);
+extern void func_8012C218(s32 a0);
+
+void func_8018CD04(s32 param_1) {
+    s32 v;
+    s32 flag;
+    s16 t;
+
+    v = func_80029504();
+    flag = 0;
+    t = *(s16 *)(param_1 + 0x70);
+    switch (t) {
+    case 0:
+        if ((u32)(v - 100) < 30) {
+            flag = 1;
+        }
+        break;
+    case 1:
+        if ((u32)(v - 950) < 50) {
+            flag = 1;
+        }
+        break;
+    }
+    if (flag != 0) {
+        func_8012C658(0x21, 1 - *(u16 *)(param_1 + 2), param_1);
+        func_8012C218(param_1);
+    } else if (*(u16 *)(param_1 + 2) == 0) {
+        *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8018C694", func_8018CDB0);
 

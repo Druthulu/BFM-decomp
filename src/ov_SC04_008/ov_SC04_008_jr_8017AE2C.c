@@ -4702,7 +4702,29 @@ void func_8017E8B8(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017E9D8);
+extern void MoveImage(void *a0, s32 a1, s32 a2);
+extern void func_800599B8();
+extern u8 D_8018ED58[];
+extern u8 D_8018EE58[];
+extern s32 rand(void);
+
+void func_8017E9D8(s32 a0) {
+    s32 r;
+
+    if (*(s32 *)(a0 + 0x1C) != 0) {
+        (*(s32 *)(a0 + 0x1C))--;
+        return;
+    }
+    r = (*(u16 *)(a0 + 0xFC) + 1) & 7;
+    *(u16 *)(a0 + 0xFC) = r;
+    if (r == 0) {
+        *(s32 *)(a0 + 0x1C) = (rand() & 0x1F) + 10;
+        func_800599B8(D_8018EE58, D_8018ED58);
+    } else {
+        MoveImage(&D_8018EE58[r * 8], 0x2F0, 0x120);
+    }
+}
+
 
 
 

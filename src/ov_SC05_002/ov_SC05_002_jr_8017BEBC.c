@@ -4642,7 +4642,37 @@ void func_8017F868(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_002/nonmatchings/ov_SC05_002_jr_8017BEBC", func_8017F940);
+extern void func_8012E014(s32 a0);
+
+extern s16 D_8019C7D4[];
+extern s16 D_8019C7C4[];
+
+void func_8017F940(void *a0) {
+
+    register s32 e __asm__("$6");
+    register s32 val __asm__("$2");
+    s32 tv;
+    s16 diff;
+    s16 mag;
+
+    tv = *(u16 *)&D_8019C7D4[*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x70)];
+    val = *(u16 *)((s32)a0 + 0xA) + tv;
+    *(u16 *)((s32)a0 + 0xA) = (u16)val;
+    e = *(s32 *)((s32)a0 + 0x64);
+    diff = val - *(u16 *)(e + 0xA);
+    mag = diff;
+    if (mag < 0) {
+        mag = -mag;
+    }
+    if (mag >= D_8019C7C4[*(s16 *)(e + 0x70)]) {
+        func_8012C218(a0);
+        return;
+    }
+    if (*(u8 *)((s32)a0 + 0x74) != 0) {
+        func_8012E014((s32)a0);
+    }
+}
+
 
 void func_8017F9F4(void) {
 }

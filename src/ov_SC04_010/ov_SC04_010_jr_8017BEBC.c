@@ -3469,7 +3469,45 @@ void func_8017D524(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010_jr_8017BEBC", func_8017D560);
 
-INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010_jr_8017BEBC", func_8017D5DC);
+typedef struct { u8 b[4]; } Blk4_8017D5DC;
+
+extern void func_8001D074(s32 a0, s32 a1);
+extern void func_800233CC(void *, unsigned short);
+extern void func_8001CD9C(int, void *);
+
+extern u8 D_8018F598[];
+extern u8 D_8018E24C[];
+extern u16 D_8018E250[];
+extern u8 D_8018F59C[];
+
+s32 func_8017D5DC(void* param_1)
+{
+    u8 *s0;
+    s32 s1;
+    register u16 ret asm("$2");
+
+    s1 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+    if (s1 == 0) {
+        return 0;
+    }
+
+    s0 = D_8018F598;
+    func_800233CC(s0, 0x28);
+    *(Blk4_8017D5DC *)s0 = *(Blk4_8017D5DC *)D_8018E24C;
+    *(Blk4_8017D5DC *)D_8018F59C = *(Blk4_8017D5DC *)D_8018E250;
+
+    func_8001CD9C(s1, s0);
+
+    *(u16 *)(s1 + 0x2C) = 0xC008;
+    *(u32 *)(s1 + 4) |= 0x50000000;
+
+    *(u16 *)(s1 + 8) = *(u16 *)(param_1 + 6);
+    *(u16 *)(s1 + 0xA) = *(u16 *)(param_1 + 0xA);
+    ret = *(u16 *)(param_1 + 0xE);
+    *(u16 *)(s1 + 0xC) = ret;
+    return ret;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_010/nonmatchings/ov_SC04_010_jr_8017BEBC", func_8017D6C4);
 

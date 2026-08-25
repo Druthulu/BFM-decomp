@@ -4174,7 +4174,52 @@ void func_80183F88(s32 *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_80182038", func_80183FE8);
+extern u8 D_801C00B0;
+extern u8 D_801C00B1;
+extern u8 D_801C00B2;
+extern void func_80185568(s32 a0, s32 a1);
+extern void func_80183DEC(s32 a0, s32 a1);
+extern void func_80183BCC(void *a0);
+extern void func_80183D54(s32 a0);
+
+void func_80183FE8(void *arg0) {
+    s16 v;
+    void *s1;
+    u8 *p;
+
+    v = *(s16 *)((u8 *)arg0 + 0xFC);
+    s1 = *(void **)((u8 *)arg0 + 0xCC);
+
+    if (v < 0x10) {
+        func_80185568(v, 1);
+        *(u16 *)((u8 *)arg0 + 0xFC) = *(u16 *)((u8 *)arg0 + 0xFC) + 1;
+    }
+
+    if (*(s16 *)((u8 *)arg0 + 0xFC) >= 9) {
+        if (s1 != NULL) {
+            s16 h = *(s16 *)((u8 *)s1 + 0x18);
+            if (h > 0) {
+                *(s16 *)((u8 *)s1 + 0x18) = h - 0x100;
+                *(u16 *)((u8 *)s1 + 0x1A) = *(u16 *)((u8 *)s1 + 0x1A) - 0x100;
+            }
+        }
+
+        p = &D_801C00B0;
+        if (*p >= 17) {
+            *p -= 0x10;
+            D_801C00B1 -= 0x10;
+            D_801C00B2 -= 0x10;
+        } else {
+            *(s16 *)((u8 *)s1 + 0x0) = 0;
+            *(s32 *)((u8 *)arg0 + 0xCC) = 0;
+            func_80183DEC((s32)arg0, 0x4000);
+            func_80183BCC(arg0);
+        }
+    }
+
+    func_80183D54((s32)arg0);
+}
+
 
 extern s32 D_8019CA20[];
 extern s32 func_80029178(s32 arg);
@@ -4984,7 +5029,17 @@ void func_8018536C(s32 a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_80182038", func_80185400);
+
+
+extern void func_80185458(s32 arg0, Rec_8018A6A4_8018529C *arg1, s32 arg2, s32 arg3);
+
+void func_80185400(void *a0, void *a1, void *a2) {
+    s32 v0 = func_8018552C();
+    if (v0 >= 0) {
+        func_80185458(v0, (Rec_8018A6A4_8018529C *)a0, (s32)a1, (s32)a2);
+    }
+}
+
 
 
 /* func_80185458 — SPLICE RECONCILE (bytes unchanged from the s6h draft).

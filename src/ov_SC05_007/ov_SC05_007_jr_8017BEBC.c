@@ -3283,7 +3283,33 @@ void func_8017D030(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017D058);
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+extern u8 D_80126948[];
+extern void func_8012A018(s32 a0, s32 a1);
+extern void func_8012A094(s32 a0);
+extern void func_8017D0F4(void *a0);
+
+void func_8017D058(void) {
+    D_80126954 = 0x190;
+    D_8012695C = 0x4B0;
+    D_80126968 = 0x155;
+    D_8012696A = 0x800;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x20;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017D0F4, 0);
+    func_8012A094((s32)D_80126948);
+    func_8017D0F4(D_80126948);
+}
+
 
 
 extern void (*D_801844D8[])(void);
@@ -3957,7 +3983,36 @@ void func_8017E29C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017E360);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32 func_8017F42C(s32, s32);
+extern s32 func_8017F230(s32 a0);
+extern void func_8017F188(s32 a0);
+
+void func_8017E360(s32 a0) {
+    if (func_8012BD3C(a0, 0x400, 0x20000) == 1) {
+        if (func_8012BCCC(a0) < 0x3001) {
+            *(s16 *)(a0 + 0x2) = 8;
+            return;
+        }
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012B8E4(a0, 8);
+    } else {
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), *(s32 *)(a0 + 0xE0), 0xA);
+    }
+    func_8012B178(a0, *(s32 *)(a0 + 0xE8));
+    ((void (*)(s32, s32))func_8017F42C)(a0, 0);
+    if (func_8017F230(a0) == 0) {
+        return;
+    }
+    if (func_8012BEE8(a0) != 0) {
+        func_8017F188(a0);
+    }
+}
+
 
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_8012BCCC(s32 a0);

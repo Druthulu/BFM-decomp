@@ -3461,7 +3461,38 @@ void func_80180B7C(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180D28);
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180D84);
+void func_80180D84(void *arg0) {
+    /* block-scope layout type, named uniquely so it can never collide with the
+     * TU's file-scope typedef St_8017E95C_r (gcc-2.7.2 rejects typedef
+     * redefinition; cookbook §120: rename, don't remove) */
+    typedef struct {
+        s16 unk0;                /* 0x00 */
+        u8 pad[0x102];           /* -> 0x104 */
+    } Obj80180D84;
+
+    extern s32 D_801270C8;
+    extern St_8017E95C_r D_801B12F0[4];
+    extern void func_8012A828(s32 a0, void *a1);
+    extern void (*D_80188F18[])(void);
+    extern u8 D_801889F8[];
+    extern u8 D_801A892C[];
+
+    *(s16 *)((char *)arg0 + 0x2) = 8;
+    *(s16 *)((char *)arg0 + 0x34) = 0;
+    func_8012E8E0((s32)arg0, (s32)&D_801889F8);
+    func_8012A828((s32)arg0, &D_801A892C);
+    D_801270C8 = 0;
+    *(s32 *)((char *)arg0 + 0x1C) = 0;
+    func_8002A088(0x190);
+    func_8002D4C8(0xA98, 0);
+    func_80029514(0x5DC);
+    func_800D0C48(1);
+    func_80016714(((Obj80180D84 *)D_801B12F0), 0x410);
+    func_80178BF8();
+    func_801746A4();
+    func_80178CBC((s32)arg0, (s32)&D_80188F18);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180E30);
 

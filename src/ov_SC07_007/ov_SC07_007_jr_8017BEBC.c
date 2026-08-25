@@ -4791,7 +4791,55 @@ void func_8017EBCC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017EC68);
+void func_8017EC68(s32 *a0) {
+    extern s32 func_80180F84(void);
+    extern void func_8018122C(s32 a0, void *a1);
+    extern void func_8017D41C(void);
+    extern void func_801813EC(s32 a0);
+    extern s32 func_8012AD50(void *arg0);
+    extern void func_8018263C(void *a0);
+
+    extern s32 D_801151D4;
+    extern void (*D_80188BA8[])(void);
+    extern s32 D_801C7808;
+
+    register s32 s1 __asm__("$17") = D_801151D4;
+    s32 *s0 = a0;
+    s32 status;
+    register s32 *v1 __asm__("$3");
+    s32 v0;
+    s32 a4;
+    void *fnptr;
+
+    status = func_80180F84();
+
+    if (status != 0xA) {
+        return;
+    }
+
+    func_8018122C((s32)s0, &D_80188BA8);
+    func_8017D41C();
+    func_801813EC((s32)s0);
+
+    *(s32 *)((u8 *)s1 + 0x14) = 0x190;
+    *(s32 *)((u8 *)s1 + 0x10) = 0x190;
+
+    fnptr = (void *)func_8018263C;
+    a4 = 0;
+    v1 = (s32 *)&D_801C7808;
+    do {
+        v0 = *v1;
+        a4++;
+        if (v0 == 0) {
+            *v1 = (s32)fnptr;
+            goto loop_done;
+        }
+        v1 = (s32 *)((u8 *)v1 + 0x18);
+    } while (a4 < 4);
+loop_done:
+    func_8012AD50(s0);
+}
+
 
 #include "common.h"
 
@@ -7172,7 +7220,18 @@ void func_80182888(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_801828A8);
+extern s32 func_80180F84(void);
+extern void func_80147060(u8 *a0);
+extern void func_80171928(void *a0);
+
+void func_801828A8(s32 a0) {
+    s32 s0 = a0;
+    if (func_80180F84() == 2) {
+        func_80147060((u8 *)s0);
+        func_80171928((void *)s0);
+    }
+}
+
 
 
 extern s32 func_80180F84(void);

@@ -4347,7 +4347,46 @@ void func_80182E38(void *param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_80182E88);
+extern void func_8001CD9C(int, void *);
+extern void func_800233CC(void *, unsigned short);
+
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
+
+void func_80182E88(s32 a0) {
+    extern Block4 D_801D2E50;
+    extern Block4 D_801D4304;
+    extern Block4 D_801D4308;
+    register u8 *s0 __asm__("$16");
+    register s32 *s1 __asm__("$17");
+    s32 *v1;
+    s32 *a0_ptr;
+    s8 pad[32];  /* Force larger stack frame */
+
+    s1 = (s32 *)a0;
+    s0 = (u8 *)&D_801D4304;
+
+    func_8001CD9C(s1[8], (s32 *)s0);
+
+    func_800233CC(s0, 0x80);
+
+    *(Block4 *)s0 = D_801D2E50;
+
+    D_801D4308 = D_801D2E50;
+
+    v1 = s1[8];
+    *(s16 *)((s8 *)v1 + 0x18) = 0x800;
+
+    v1 = s1[8];
+    *(s16 *)((s8 *)v1 + 0x1A) = 0x1000;
+
+    a0_ptr = s1[8];
+    *(s32 *)((s8 *)a0_ptr + 0x4) |= 0x50000000;
+
+    *(s16 *)((s8 *)s1 + 0x2) = 1;
+
+    (void)pad;
+}
+
 
 void func_80182F44(void) {
     extern u8 D_801D4304;

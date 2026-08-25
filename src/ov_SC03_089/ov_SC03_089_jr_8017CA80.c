@@ -6352,7 +6352,54 @@ void func_80184E54(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184F98);
+typedef struct {
+    u32 field0;
+    u32 field1;
+} __attribute__((packed, aligned(1))) Block8_80184F98;
+
+extern Block8_80184F98 D_801C53F8;
+/* Canonical shared engine-core spelling (return read via call-site cast,
+ * codebase idiom). */
+extern void func_8012CC64(s32 a0, s32 a1);
+extern void func_8012E8A8(u8 *a0);
+extern void func_801854BC(s32 arg0);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8018517C(void *a0);
+extern void func_8018545C(void *a0);
+
+void func_80184F98(s32 a0)
+{
+    Block8_80184F98 buffer;
+    s32 v0;
+    s32 s1;
+
+    buffer = D_801C53F8;
+    v0 = ((s32 (*)(s32, s32))func_8012CC64)(a0, (s32)&buffer);
+
+    if (v0 & 0x2000) {
+        *(s16 *)(a0 + 0x2) = 3;
+        func_8012E8A8((u8 *)a0);
+        func_801854BC(*(s32 *)(a0 + 0xCC));
+        s1 = 0;
+        func_8012C588(0x1AA, a0);
+        do {
+            func_8012C588(0x1B0, a0);
+        } while (++s1 < 8);
+        func_8002D4C8(0x705, 0);
+    } else {
+        if (func_8012BEE8(a0) != 0) {
+            *(s16 *)(a0 + 0x2) = 3;
+            func_8012E8A8((u8 *)a0);
+            func_801854BC(*(s32 *)(a0 + 0xCC));
+        } else {
+            func_8018517C((void *)a0);
+            func_8018545C((void *)a0);
+        }
+    }
+}
+
 
 extern void func_80185144(s32 param_1);
 extern void func_8012E88C(u8 *a0);

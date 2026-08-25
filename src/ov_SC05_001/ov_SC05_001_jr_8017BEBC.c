@@ -6477,7 +6477,14 @@ set_state:
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_80181F50);
+extern void func_801826C8(s32 a0);
+
+void func_80181F50(s32 a0) {
+    *(s32 *)(a0 + 0xDC) &= ~0x10;
+    func_801826C8(a0);
+    *(s32 *)(a0 + 0x1C) = 0xA;
+}
+
 
 extern s32 func_8012BEE8(s32 arg);
     extern void func_8018280C(s32 arg);

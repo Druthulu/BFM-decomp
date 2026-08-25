@@ -3132,7 +3132,18 @@ void func_8017EFEC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017E5B8", func_8017F028);
 
-INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017E5B8", func_8017F078);
+void func_8017F078(void *a0) {
+    if (*(s32 *)((s32)a0 + 0x1C) != 0) {
+        *(s32 *)((s32)a0 + 0x1C) = *(s32 *)((s32)a0 + 0x1C) - 1;
+    } else {
+        if (func_8016F1AC() == 0) {
+            func_801746A4();
+            *(s32 *)((s32)a0 + 0x1C) = 0xC;
+            *(u16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017E5B8", func_8017F0E0);
 

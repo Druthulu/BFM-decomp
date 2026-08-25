@@ -3182,7 +3182,19 @@ void func_80186B4C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80186574", func_80186CBC);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+
+void func_80186CBC(s32 param_1) {
+    *(s32 *)(param_1 + 0x1C) = 0x18;
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0x80;
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x12);
+    func_8012B2CC(param_1);
+    func_8012B178(param_1, -0x100000);
+    *(s16 *)(param_1 + 2) = 2;
+}
+
 
 
 extern void func_8012C218(void *a0);
@@ -3348,7 +3360,13 @@ LAB_tail:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80186574", func_80187114);
+void func_80187114(s32 a0) {
+    s32 v1 = *(s32 *)(a0 + 0x64);
+    *(u16 *)(a0 + 2) = 6;
+    *(u16 *)(a0 + 0x34) = 0;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(v1 + 0x20) + 0x12);
+}
+
 
 
 // @class: struct
@@ -3555,7 +3573,22 @@ void func_801877DC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80186574", func_80187818);
+extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
+extern s32 func_80187ED4(s32 a0, s32 a1, s32 a2);
+extern void func_8012C218(void *a0);
+
+void func_80187818(s32 param_1) {
+    extern u16 D_80126B96;
+    if (*(u16 *)(param_1 + 0x70) & 1) {
+        if (func_8012D624((void *)param_1, 0x60, *(s16 *)(param_1 + 0x104)) == 1) {
+            D_80126B96 = 0x4001;
+        }
+    }
+    if (func_80187ED4(param_1, 0x60, *(s16 *)(param_1 + 0x104)) == 1) {
+        func_8012C218((void *)param_1);
+    }
+}
+
 
 
 /* func_80187898 @ ov_SC06_018 (subseg ov_SC06_018_jr_8017C24C) — 124 ins. MATCH.
@@ -3827,7 +3860,25 @@ s32 aF80187E54(s32 a0, s16 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80186574", func_80187ED4);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+
+s32 func_80187ED4(s32 a0, s32 a1, s32 a2)
+{
+    s32 e;
+
+    if (func_8012BEE8(a0) != 0) {
+        e = func_80132EF4(a0, 0x22);
+        if (e != 0) {
+            *(u16 *)(e + 0x34) = 0x7FFF;
+            *(u16 *)(*(s32 *)(e + 0x20) + 0x2C) = 0xC006;
+            *(s32 *)(e + 0x14) = 0xFFFE0000;
+        }
+        return 1;
+    }
+    return 0;
+}
+
 
 extern void (*D_801AFDA4[])(void);
 
@@ -4597,7 +4648,112 @@ void func_80189250(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80186574", func_80189390);
+typedef struct {
+    u16 f0;                     /* 0x00  kind; 0 = dead, 0x318 = skipped     */
+    u8  p02[0x04 - 0x02];
+    s16 f4;                     /* 0x04  x, fractional half                  */
+    s16 f6;                     /* 0x06  x                                   */
+    u8  p08[0x0C - 0x08];
+    s16 fC;                     /* 0x0C  y, fractional half                  */
+    s16 fE;                     /* 0x0E  y   (*(s32 *)&fC is the whole fixed) */
+    s32 f10;                    /* 0x10  velocity, zeroed on reset           */
+    u8  p14[0x18 - 0x14];
+    s32 f18;                    /* 0x18  velocity, zeroed on reset           */
+    u8  p1C[0x20 - 0x1C];
+    s32 f20;                    /* 0x20  -> sub object (0x12 = busy bits)    */
+    u8  p24[0x38 - 0x24];
+    s16 f38;                    /* 0x38  home x, fractional half             */
+    s16 f3A;                    /* 0x3A  home x                              */
+    s32 f3C;                    /* 0x3C  "has a home" flag                   */
+    s16 f40;                    /* 0x40  home y, fractional half             */
+    s16 f42;                    /* 0x42  home y                              */
+    u8  p44[0x5E - 0x44];
+    u8  f5E;                    /* 0x5E  kind tag; 0x25 is excluded          */
+    u8  p5F[0x70 - 0x5F];
+    s16 f70;                    /* 0x70  band: 4 = left, 5 = right           */
+    u8  p72[0x76 - 0x72];
+    s16 f76;                    /* 0x76  budget                              */
+    u8  p78[0x10C - 0x78];      /* stride 0x10C, 0x60 entries                */
+} Ent_8018D654;
+
+extern s32 D_80126B58;
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u8  D_801202A0[];
+
+extern s32 func_8014CB8C(void);
+extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
+
+void func_80189390(void *arg) {
+    Ent_8018D654 *self = (Ent_8018D654 *)arg;
+    s16 v[4];                   /* 0x10(sp); gcc adds the other 8 bytes */
+    Ent_8018D654 *e;
+    s32 i;
+
+    if (self->f0 == 0) {
+        return;
+    }
+    if ((*(u16 *)(self->f20 + 0x12) & 0xFFF) != 0) {
+        return;
+    }
+
+    {
+        s32 *lim = (s32 *)((u8 *)&D_80126B58 + 0xC);            /* L1 */
+
+        if (*lim >= *(s32 *)&self->fC - 0x800000) {
+            if (func_8014CB8C() != 0 && self->f5E != 0x25 && self->f76 > 0) {
+                i = self->f6 - *(s16 *)&D_80126B5E;             /* L3, L4 */
+                v[0] = *(s16 *)&D_80126B5E;                     /* L4 */
+                v[1] = D_80126B62 - 0x40;
+                v[2] = self->fE - 0x30;
+                v[3] = 0;
+                if (self->f70 == 4 && i >= -8 && i <= 0xB0) {
+                    func_8014C3A4(&D_80126B58, (s32)self, 0x25, (s32)v);
+                }
+                if (self->f70 == 5 && i >= -0xB0 && i <= 8) {
+                    func_8014C3A4(&D_80126B58, (s32)self, 0x25, (s32)v);
+                }
+            }
+        }
+    }
+
+    {
+        s32 *lim = (s32 *)((u8 *)&D_80126B58 + 0xC);            /* L1: its own */
+
+        if (*lim >= *(s32 *)&self->fC - 0x500000) {
+            *lim = *(s32 *)&self->fC - 0x500000;
+        }
+    }
+
+    e = (Ent_8018D654 *)D_801202A0;
+    for (i = 0; i < 0x60; i++, e++) {
+        if (e->f0 == 0) {
+            continue;
+        }
+        if (e->f0 == 0x318) {
+            continue;
+        }
+        if (e->f3C == 0) {
+            continue;
+        }
+        if (e->fE >= self->fE) {                                /* L7 */
+            if (e->f42 < self->fE) {
+                e->f6 = e->f3A;                                 /* L6 */
+                e->fE = e->f42;
+                e->f10 = 0;
+                e->f18 = 0;
+            }
+        } else {
+            if (e->f42 >= self->fE) {
+                e->f6 = e->f3A;                                 /* L6 */
+                e->fE = e->f42;
+                e->f10 = 0;
+                e->f18 = 0;
+            }
+        }
+    }
+}
+
 
 
 // func_801895AC — ov_SC06_018 / ov_SC06_018_jr_8017C24C

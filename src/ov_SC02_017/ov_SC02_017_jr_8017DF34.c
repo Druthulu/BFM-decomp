@@ -8233,7 +8233,18 @@ void func_80187A24(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80187A68);
+extern s32 func_8012BCCC(s32 a0);
+extern void func_80186FA8(s32 a0);
+extern s32 D_801D61C0;
+
+void func_80187A68(void *a0) {
+    s32 s0 = (s32)a0;
+    s32 v0 = func_8012BCCC(s0);
+    if (v0 < D_801D61C0) {
+        func_80186FA8(s0);
+    }
+}
+
 
 
 // @class: struct

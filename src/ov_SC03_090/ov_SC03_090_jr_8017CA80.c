@@ -5733,7 +5733,16 @@ void func_80183BF0(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80183C3C);
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80183C80);
+extern void func_8013B6A0(s32 idx, u16 *src, s32 val);
+
+void func_80183C80(s32 a0, s32 a1, s32 a2) {
+    u16 sp[3];
+    sp[0] = *(u16 *)(a0 + 0x2);
+    sp[1] = *(u16 *)(a0 + 0x6);
+    sp[2] = *(u16 *)(a0 + 0xA);
+    func_8013B6A0(a1, sp, a2);
+}
+
 
 void func_80183CC4(void) {
 }
@@ -6135,7 +6144,16 @@ void func_8018440C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_8018455C);
+void func_8018455C(void *a0) {
+    s32 v1 = *(s32 *)((char *)a0 + 0xCC);
+    *(s16 *)((char *)a0 + 2) = 9;
+    *(s32 *)((char *)a0 + 0x1C) = 0x20;
+    *(s16 *)((char *)a0 + 0x34) = 0;
+    if (v1 != 0) {
+        *(s16 *)((char *)v1 + 0xFC) = 1;
+    }
+}
+
 
 #include "common.h"
 

@@ -4193,7 +4193,24 @@ s32 func_8017D674(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017D698);
+#include "common.h"
+
+extern void func_8017D9FC(void);
+extern u16 D_801270C0;
+extern s32 D_80126B9C;
+
+s32 func_8017D698(s32 a0) {
+    s32 s0;
+
+    s0 = a0;
+    func_8017D9FC();
+    D_801270C0 = 2;
+    D_80126B9C |= 0x4000000;
+    *(u8 *)(s0 + 0x15) += 1;
+    *(s32 *)(s0 + 0x28) = 0xA;
+    return 0;
+}
+
 
 
 extern void func_800D1E28(void);

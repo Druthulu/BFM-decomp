@@ -7088,7 +7088,35 @@ void func_80182674(s32 a0, s16 *vec, s32 count, s32 flag) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80182848);
+typedef struct {
+    s16 f0;
+    s16 f1;
+    s16 f2;
+    s16 f3;
+} Spawn8_80182848;
+
+void func_80182848(void *a0, u8 *a1, s32 a2, s32 a3, s32 a4) {
+    Spawn8_80182848 sp;
+    s32 i;
+    s32 t;
+    s32 m;
+    s32 b1;
+    s32 b2;
+
+    sp = *(Spawn8_80182848 *)a1;
+    for (i = 0; i < a2; i++) {
+        t = rand() % 320;
+        b1 = *(s16 *)a1;
+        sp.f0 = (rand() & 1) ? b1 + t : b1 - t;
+        if (a3 != 0) {
+            m = rand() % 64;
+            b2 = *(s16 *)((s32)a1 + 4);
+            sp.f2 = (rand() & 1) ? b2 + m : b2 - m;
+        }
+        func_8017BEBC(a0, (s16 *)&sp, (s16)a4);
+    }
+}
+
 
 void func_80182994(void *a0) {
         *(short *)((char *)a0 + 0xfe) = 1;
