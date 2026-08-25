@@ -3539,7 +3539,28 @@ void func_8017D98C(void *a0, s32 a1, s32 a2, s32 a3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017DB04);
+void func_8017DB04(void *a0, s32 a1)
+{
+    extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern void func_800139C8(s32 a0, void *a1, void *a2);
+    extern void func_80013E94(void *a0, void *a1);
+    extern u16 D_800B99DA;
+    extern s16 D_80182224[];
+    struct { s16 x, y, z; } local;
+    u32 buf[2];
+    int p;
+    u32 v;
+
+    p = *(int *)((s32)a0 + 0x20);
+    func_800139C8((s16)(*(short *)(p + 0x12) + a1), D_80182224, &local);
+    func_80013E94(&local, buf);
+    v = buf[0] | 0x80000000;
+    buf[0] = v;
+    if ((D_800B99DA & 3) == 0) {
+        func_80146A6C(6, a0, *(s16 *)((s32)a0 + 6), *(s16 *)((s32)a0 + 0xA), *(s16 *)((s32)a0 + 0xE), v, 0);
+    }
+}
+
 
 #include "common.h"
 

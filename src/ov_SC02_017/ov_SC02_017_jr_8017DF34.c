@@ -5130,7 +5130,52 @@ void func_8018241C(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80182468);
+#include "common.h"
+
+
+
+extern Blk8 D_801EE3EC;
+
+extern void func_8001C2C4(s32 a0);
+extern s32 func_80029504(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8012C1B8(void);
+extern s32 func_8012AD50(void *a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+
+void func_80182468(s32 arg0) {
+    Blk8 buffer;
+    s32 v0;
+    s32 s0;
+    u8 i;
+
+    buffer = D_801EE3EC;
+
+    v0 = *(u16 *)((u8 *)arg0 + 0x72) | 0x1000;
+    *(u16 *)((u8 *)arg0 + 0x72) = (u16)v0;
+    v0 = func_80029504();
+
+    if ((u32)v0 >= 0xC8) {
+        func_8012CAE4((void *)arg0);
+        return;
+    }
+
+    s0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((u8 *)arg0 + 0x20) = s0;
+    if (s0 == 0) {
+        return;
+    }
+
+    func_8001C2C4(s0);
+    *(Blk8 *)((u8 *)s0 + 0x10) = buffer;
+
+    for (i = 0; i < 4; i++) {
+        func_8012C658(0x118, i, arg0);
+    }
+
+    func_8012AD50((void *)arg0);
+}
+
 
 extern s32 func_80029178(s32 arg);
 extern void func_80147324(s32 arg0);

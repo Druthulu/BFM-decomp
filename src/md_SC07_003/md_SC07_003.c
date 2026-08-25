@@ -1379,7 +1379,24 @@ void func_801A3034(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A3054);
+extern u16 D_80126B66;
+extern u16 D_80126B5E;
+extern s32 ratan2(s32 a0, s32 a1);
+
+s32 func_801A3054(s32 s0, s32 a1, s32 s1) {
+    s32 v0;
+    s32 v1;
+
+    v0 = ratan2(*(s16 *)(a1 + 4) - *(s16 *)&D_80126B66,
+                *(s16 *)&D_80126B5E - *(s16 *)(a1 + 0));
+    v0 = ((v0 - 0x400) & 0xFFF) - *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12);
+    v1 = v0 & 0xFFF;
+    if (v1 < 0x800) {
+        return v1 < (s16)s1;
+    }
+    return 0x1000 - v1 < (s16)s1;
+}
+
 
 extern void func_8018672C(int);
 void func_801A30EC(void) {

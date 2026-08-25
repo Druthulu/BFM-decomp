@@ -4445,7 +4445,47 @@ void func_8017F4D0(void *param)
 
 INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017F510);
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017BEBC", func_8017F5F0);
+extern u8 D_801202A0[];
+extern s32 D_801ABBD8;
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80015978(s32 a0, s32 *a1);
+extern s32 func_80013328(s32 a0, s32 a1);
+extern void func_8012F2E8(s32 a0, s32 a1, s32 a2);
+
+void func_8017F5F0(s32 arg0)
+{
+    s16 v;
+    s32 i;
+    s32 best;
+    unsigned short *p;
+    s32 buf[2];
+
+    best = 0x7FFFFFFF;
+    i = 0;
+    p = (unsigned short *)D_801202A0;
+    D_801ABBD8 = 0;
+loop:
+    if (*p == 0x26E) {
+        v = (s16)func_80013328(arg0 + 4, (s32)(p + 2));
+        if (v < best) {
+            best = v;
+            D_801ABBD8 = (s32)p;
+        }
+    }
+    __asm__("" ::
+                "r"(best));
+    i++;
+    p += 0x86;
+    if (i < 0x60) {
+        goto loop;
+    }
+    *(s16 *)(arg0 + 0x208) = 0;
+    func_80015978(arg0 + 4, buf);
+    func_8012F2E8(D_801ABBD8, (s32)buf, arg0 + 0x20C);
+    *(s32 *)(arg0 + 0x204) = D_801ABBD8;
+    func_8002D4C8(0x8B0, 0);
+}
+
 
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);

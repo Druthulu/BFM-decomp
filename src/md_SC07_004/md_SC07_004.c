@@ -3150,7 +3150,28 @@ void func_801A7F84(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A8054);
+
+
+extern Blk4_801A7358 D_801A01E8;
+extern s32 D_801F89B8[];
+extern u8 D_801B0388;
+extern u8 D_801F89BC;
+
+void func_801A8054(s32 a0)
+{
+    s32 v0;
+
+    *(Blk4_801A7358 *)&D_801F89B8 = *(Blk4_801A7358 *)&D_801A01E8;
+    *(Blk4_801A7358 *)&D_801F89BC = *(Blk4_801A7358 *)&D_801B0388;
+
+    v0 = *(s32 *)(a0 + 0x20);
+    *(s16 *)(v0 + 0x1A) = 0;
+    *(s16 *)(v0 + 0x18) = 0;
+
+    *(s32 *)(a0 + 0x1C) = 1;
+    *(s16 *)(a0 + 2) = 9;
+}
+
 
 #include "common.h"
 
@@ -4086,7 +4107,35 @@ void func_801A9B80(s32 *a0, u16 a1, u16 a2) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A9C00);
+extern s32 func_8012C2D0(void);
+extern s32 func_8012C890(s32 a0, s32 a1, s32 a2);
+
+void func_801A9C00(void *a0) {
+    s32 v0;
+    s16 sp[10];
+    if (a0 != 0 && *(u16 *)a0 != 0) {
+        sp[0] = *(u16 *)((s32)a0 + 0x6);
+        sp[1] = *(u16 *)((s32)a0 + 0xA);
+        sp[2] = *(u16 *)((s32)a0 + 0xE);
+    } else {
+        sp[2] = 0;
+        sp[1] = 0;
+        sp[0] = 0;
+    }
+    sp[3] = 0x43;
+    sp[5] = 0;
+    sp[4] = 0;
+    *(s32 *)&sp[8] = 0;
+    sp[7] = 0;
+    sp[6] = 0x7FFF;
+    v0 = func_8012C2D0();
+    if (v0 != 0) {
+        func_8012C890((s32)&sp[0], v0, (s32)a0);
+    } else {
+        __asm__ __volatile__("addu\t$v0,$zero,$zero");
+    }
+}
+
 
 #include "common.h"
 

@@ -5074,7 +5074,14 @@ void func_8017E318(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8017E358);
+extern void func_80174684(void *);
+extern void func_8017E380(void *);
+
+s32 func_8017E358(void)
+{
+    func_80174684((void *)func_8017E380);
+}
+
 
 
 extern void (*D_80194B8C[])(void);
@@ -9344,7 +9351,7 @@ s32 func_80186680(s32 arg0, s32 arg1, s32 arg2)
 }
 
 
-extern s32 func_8017E358(void);
+extern s32 func_8017E358();
     void func_801866E8(void) {
         func_8017E358();
     }
@@ -11723,7 +11730,16 @@ extern s16 D_801EB6E2;
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018A890);
+extern s32 func_8018A9BC(void);
+extern void func_8018A8E8();
+
+void func_8018A890(s32 a0, s32 a1, s32 a2) {
+    s32 v0 = func_8018A9BC();
+    if (v0 >= 0) {
+        func_8018A8E8(v0, (void *)a0, a1, a2);
+    }
+}
+
 
 
 /* func_8018A8E8 — SPLICE RECONCILE (bytes unchanged from the s6h draft).

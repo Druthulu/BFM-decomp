@@ -4374,7 +4374,33 @@ s32 func_8017E33C(void * arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017E350);
+#include "common.h"
+
+void func_8017E350(s32 a0) {
+    extern void func_80016714(void *a0, s32 a1);
+    extern u8 D_801274E8[];
+    extern Blk8 D_801274F0;
+    extern u8 D_801274EC[];
+    u16 prev;
+    s16 t;
+
+    if ((*(u16 *)(a0 + 8) & 3) == 0) {
+        (*(u16 *)(D_801274E8 + 2)) += 1;
+    }
+
+    prev = *(u16 *)(a0 + 8);
+    *(u16 *)(a0 + 8) = prev + 1;
+    if ((prev & 1) != 0) {
+        (*(u16 *)D_801274EC) -= 1;
+    }
+
+    t = *(s16 *)D_801274E8 - 1;
+    *(s16 *)D_801274E8 = t;
+    if (t < *(s16 *)((u8 *)&D_801274F0)) {
+        func_80016714((void *)a0, 0x18);
+    }
+}
+
 
 extern void (*D_80187E48[19])(void);
 

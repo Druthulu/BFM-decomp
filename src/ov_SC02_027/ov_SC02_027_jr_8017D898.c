@@ -4114,7 +4114,30 @@ void func_80180FE0(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018102C);
+extern s32 func_80029178(s32 a0);
+extern void func_8012CAE4(void *a0);
+extern s32 func_8012C354(s32 a0, s32 a1);
+
+/* entity-state dispatch table: only its ADDRESS reaches func_8012C354 here */
+extern void (*D_8018F264[])(void);
+
+void func_8018102C(void *a0)
+{
+    u16 bits;
+
+    if ((func_80029178(0xB4) & 0xFF) != 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    if (func_8012C354((s32)a0, (s32)D_8018F264) != 0) {
+        bits = *(u16 *)((s32)a0 + 0xAE);
+        *(u8 *)((s32)a0 + 0x75) = 0;
+        *(u16 *)((s32)a0 + 2) = 1;
+        *(u16 *)((s32)a0 + 0xAE) = bits | 0x8000;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801810A0);
 

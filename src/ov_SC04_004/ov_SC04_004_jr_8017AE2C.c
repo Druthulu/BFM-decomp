@@ -6364,7 +6364,36 @@ zeroret:
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80180BA4);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012CBA4(s32);
+extern s32 func_80180C74(s32 arg0);
+extern void func_8012ADE4(u8 *a0);
+
+s32 func_80180BA4(void *a0, void *a1) {
+    s32 arr[3];
+    s32 cba4;
+
+    arr[0] = *(s32 *)((u8 *)a0 + 0x10);
+    arr[1] = *(s32 *)((u8 *)a0 + 0x14);
+    arr[2] = *(s32 *)((u8 *)a0 + 0x18);
+    func_8012B2CC((s32)a0);
+    func_8012B178((s32)a0, 0xFFF10000);
+    cba4 = ((s32 (*)(s32))func_8012CBA4)((s32)a0);
+    *(s32 *)((u8 *)a0 + 0x10) = arr[0];
+    *(s32 *)((u8 *)a0 + 0x14) = arr[1];
+    *(s32 *)((u8 *)a0 + 0x18) = arr[2];
+    *(s32 *)a1 = func_80180C74((s32)a0);
+    func_8012ADE4((u8 *)a0);
+    *(u16 *)(*(s32 *)((u8 *)a0 + 0x20) + 0x2C) &= 0xFFFE;
+    if (*(s32 *)a1 != 0) {
+        goto ret0;
+    }
+    return cba4 == 0x2000;
+ret0:
+    return 0;
+}
+
 
 extern u8 D_801202A0[];
 extern s32 func_8012BE98(s32, u16*);
@@ -6726,7 +6755,23 @@ void func_8018142C(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80181548);
+
+
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_80180BA4(void *a0, void *a1);
+extern void func_8018056C(S_8018056C *s0);
+extern void func_80181130(s32 a0, s32 a1);
+
+void func_80181548(s32 a0) {
+    s32 buf[2];
+
+    if (func_8012BEE8(a0) != 0) {
+        func_80180BA4((void *)a0, buf);
+        func_8018056C((S_8018056C *)a0);
+    }
+    func_80181130(a0, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80181594);
 
@@ -7483,7 +7528,19 @@ void func_80182CAC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80182DC4);
+extern void (*D_8019DC44[])();
+
+void func_80182DC4(int a0)
+{
+    if (*(s16 *)(a0 + 0x10A) != 0) {
+        *(s16 *)(a0 + 0x10A) = *(s16 *)(a0 + 0x10A) - 1;
+        if (*(s16 *)(a0 + 0x10A) == 0) {
+            *(s32 *)(a0 + 0xC4) &= ~1;
+        }
+    }
+    D_8019DC44[*(u16 *)(a0 + 2)]();
+}
+
 
 extern void func_8012A828(s32 a0, void *a1);
 

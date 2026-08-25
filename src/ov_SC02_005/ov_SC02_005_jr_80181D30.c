@@ -3073,7 +3073,7 @@ extern void func_8018AEB4(s32 a0, s32 a1);
 extern s32 func_8018675C(void *a0);
 extern void func_80186F58(void *a0);
 extern void func_80184C20(s32 a0);
-extern void func_80186BB8(void *a0);
+extern void func_80186BB8();
 extern void func_80186CA8();
 extern void func_80186D00(void);
 extern void func_801900F4(void);
@@ -3527,7 +3527,7 @@ extern void func_80186F58(void *a0);
 extern void func_80184C20(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186304();
-extern void func_80186BB8(void *a0);
+extern void func_80186BB8();
 extern void func_80186D00(void);
 extern void func_801900F4(void);
 extern void func_80184184(s32 a0);
@@ -5705,7 +5705,25 @@ void func_80186B08(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80186BB8);
+void func_80186BB8(void) {
+    typedef struct {
+        u8 pad[0x5C];
+        u16 f5C;
+    } F5C_S;
+    extern F5C_S *D_801E43CC[];
+    extern s8 D_80195ABC[];
+    s32 i;
+    s32 c;
+
+    i = 0;
+    c = D_80195ABC[0];
+    while (c >= 0) {
+        *(s16 *)((s32)D_801E43CC[c] + 0xAE) = -1;
+        i++;
+        c = D_80195ABC[i];
+    }
+}
+
 
 void func_80186C0C(void *a0) {
     typedef struct { u8 pad[0x5C]; u16 f5C; } F5C_S;
