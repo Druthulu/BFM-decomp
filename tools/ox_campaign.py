@@ -673,8 +673,18 @@ def run_drafter(a):
                 tag, cards = pre
                 log(f"  gate in progress — drafting PRE-DRAWN wave {tag} instead of waiting")
             else:
-                log("  gate holds the draw lock and nothing is pre-drawn — waiting 30s")
-                time.sleep(30); continue
+                # DRAW ANYWAY (P31 S59). The blocking wait here dates from when a draw during a gate
+                # was genuinely unsafe: corpus.stubs() misreports for a binary whose sources carry a
+                # substituted draft (R35), so the draw refused outright. Since 15:23 build_wave_atlas
+                # EXCLUDES exactly the binaries whose per-binary gate lock is held and draws from the
+                # rest — the hazard is handled at the right granularity, and this wait now protects
+                # nothing while starving the one resource that is clock-limited.
+                # Measured 23:20: the maintenance lane held the draw lock for a multi-minute sweep,
+                # the pre-draw buffer happened to be empty, and the drafting fleet sat at 13 agents /
+                # 3 req/min printing this line every 30 s.
+                log("  draw lock busy and nothing pre-drawn — drawing anyway "
+                    "(mid-gate binaries are excluded by the draw itself)")
+                cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
         else:
             cards = draw_wave(tag, a.cards_per_wave, band, lane.get("levers"))
             lk.close()
