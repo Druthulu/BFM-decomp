@@ -22,7 +22,12 @@ Scope rules (R14/§52b — every claim gated, nothing forced):
   * members come from the family map (handles cross-address families: the stub NAME is derived
     from the MEMBER's address, not the exemplar's); each member's stub line is located in any of
     its overlay's non-`_o0` TUs (T85 hardcoded `_after.c`; SC05_017's stub lives elsewhere).
-  * overlays without `<ov>_o0b.c` (the 4 SC07) are reported OUT-OF-SCOPE, never guessed at.
+  * the whale object is resolved BY CONTENT, not by name (P31 S60/U2). The letter drifts across
+    the fleet — `_o0b` almost everywhere, `_o0c` in ov_SC07_010, `_o0d` in SC07_006/007/011 — and
+    hardcoding `_o0b.c` put four overlays permanently OUT-OF-SCOPE for a naming reason, not a
+    structural one. The invariant that actually identifies the file is that it ENDS at the whale
+    and therefore includes `shared/func_80144B9C.h`; resolve on that and the four join the fleet
+    with no splat change and no new mechanics. An overlay with no such file is still refused.
   * the driver does NOT commit; the operator commits per family after the batch's R22 clean-fleet.
 
   tools/rollout_o0.py --fn func_8013B6A0 [--apply] [--limit N] [--jobs N]
@@ -44,7 +49,7 @@ sys.path.insert(0, os.path.join(REPO, "tools"))
 import family_remap as FR  # noqa: E402
 
 EX_OV = "ov_SC01_077"
-SC07_NO_O0B = {"ov_SC07_006", "ov_SC07_007", "ov_SC07_010", "ov_SC07_011"}
+WHALE_HDR = "shared/func_80144B9C.h"
 
 NOTE = ("/* {fn} (@0x{addr:08X}) is an -O0 function; its definition lives in {o0b} (the -O0\n"
         " * whale object). Mirrors ov_SC01_077 (rollout_o0, generalizing §116/T85). */")
@@ -63,10 +68,21 @@ def good_sha(ov):
 
 
 def build_ok(ov):
-    r = subprocess.run(["make", "build", f"BINARY={ov}"], cwd=REPO,
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    out = os.path.join(REPO, f"build/{ov}/{ov}")
-    return r.returncode == 0 and os.path.exists(out) and sha1(out) == good_sha(ov)
+    """Build ONE overlay under the SAME per-binary lock every other gate takes.
+
+    Without it this driver raced the campaign lanes: the gater, sweep_parallel and the
+    maintenance sweep all build binaries concurrently under `.run/auto/gate.<bin>.lock`, and two
+    processes in one `build/<ov>` tree produce a verdict about neither tree. The driver used to
+    be run by hand between waves, so the gap never fired; with six lanes running it would.
+    """
+    lock_path = os.path.join(REPO, f".run/auto/gate.{ov}.lock")
+    with open(lock_path, "w") as lk:
+        import fcntl
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        r = subprocess.run(["make", "build", f"BINARY={ov}"], cwd=REPO,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        out = os.path.join(REPO, f"build/{ov}/{ov}")
+        return r.returncode == 0 and os.path.exists(out) and sha1(out) == good_sha(ov)
 
 
 def o0_matched_exemplars():
@@ -94,12 +110,27 @@ def stub_file_of(ov, fn):
     return None, pat
 
 
+def whale_file_of(ov):
+    """The overlay's -O0 object that ENDS at the whale (0x801457A4), found by content.
+
+    One file per overlay includes the whale's shared header; that include is the structural
+    identity of the object, while the `_o0<letter>` suffix is an artefact of how many carves that
+    overlay happened to need. Refuses on ambiguity rather than picking one (R43): two matches means
+    the assumption behind the append is wrong for this overlay and a human should look.
+    """
+    hits = [p for p in sorted(glob.glob(os.path.join(REPO, f"src/{ov}/{ov}_o0*.c")))
+            if WHALE_HDR in open(p, errors="replace").read()]
+    if len(hits) > 1:
+        print(f"  {ov}: REFUSED — {len(hits)} -O0 files include the whale header: "
+              f"{[os.path.basename(h) for h in hits]}", flush=True)
+        return None
+    return hits[0] if hits else None
+
+
 def attempt(ex_addr, ov, member_addr, apply):
     fn = "func_%08X" % member_addr
-    if ov in SC07_NO_O0B:
-        return ov, "out-of-scope-sc07", ""
-    o0b = os.path.join(REPO, f"src/{ov}/{ov}_o0b.c")
-    if not os.path.exists(o0b):
+    o0b = whale_file_of(ov)
+    if not o0b:
         return ov, "no-o0b", ""
     stub_path, pat = stub_file_of(ov, fn)
     if not stub_path:

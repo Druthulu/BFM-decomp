@@ -1021,8 +1021,8 @@ extern unsigned short D_80126B66;
 extern int func_80144B14(int param_1);
 /* ==== end §8b carried decl layer ==== */
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_801457A4", func_801457A4);
-
+/* func_801457A4 (@0x801457A4) is an -O0 function; its definition lives in ov_SC07_006_o0d.c (the -O0
+ * whale object). Mirrors ov_SC01_077 (rollout_o0, generalizing §116/T85). */
 void func_801458E0(void) {
 }
 
