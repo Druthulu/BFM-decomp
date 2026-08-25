@@ -4929,7 +4929,7 @@ INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017F1C
 
 extern s32 func_8012AD50(void*);
 extern void func_8017DCB8(s32 a0);
-extern void func_8017F2BC(void);
+extern void func_8017F2BC();
 
 void func_8017F214(s32 a0) {
     u8 *s0;
