@@ -15777,7 +15777,11 @@ int func_8002FD14(int buf, int len) {
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002FDC8);
+extern void func_80037D74(void);
+
+void func_8002FDC8(void) {
+    func_80037D74();
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002FDE8);
 
