@@ -108,8 +108,13 @@ one: `BANKED 0 of 36 … STILL MISMATCHED`.
 
 * Baseline at current HEAD (`commit:2712`), measured under the lock, no gate alive, clean sources:
   rc=0, `143dbb89f34491258bbc27810d0a12ec8b43a8dd  build/us/SLUS_007.26` — **BYTE-IDENTICAL**.
-* Proof run: one `main_lane.py --once` cycle through the fixed machinery over the recovery queue
-  (result appended below).
+* Proof run (19:15–19:22): one `main_lane.py --once` cycle through the fixed machinery over the
+  recovery queue — `--assert-baseline` GREEN, then **40 drafts → 32 banked in ONE clean rebuild**,
+  `sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == config/check.us.sha (BYTE-IDENTICAL)`,
+  committed as `commit:2717` (feat(decomp): main lane m05 — 32 banked). The 32 include all 7
+  recovered bodies AND drafts the red-window gates had "rejected" by name (`func_80015A08`,
+  `func_8002A520`, …). 8 genuinely failed and parked with a try count. The same draft population
+  had banked 0/160 all day against the red baseline — the drafts were never the problem.
 
 ## 6. The laws this re-proves
 
