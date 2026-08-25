@@ -99,7 +99,18 @@ INCLUDE_ASM("asm/nonmatchings/800c3", StartRCnt);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", StopRCnt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", ResetRCnt);
+extern u32 D_80072938;
+
+s32 ResetRCnt(s32 spec) {
+    s32 v1 = spec & 0xFFFF;
+    if (v1 >= 3) {
+        return 0;
+    }
+    *(u16 *)((v1 << 4) + *(u32 *)&D_80072938) = 0;
+    return 1;
+}
+
+__asm__(".word 0x00000000");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D0D8);
 
@@ -236,7 +247,11 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E1A4);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E228);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E374);
+s32 func_8005E374(u8 *a0) {
+    s32 t = ((a0[0xE3] + 1) / 2) * 4;
+    s32 m = (((a0[0xE9] * 5) + 3) & 0xFFC) + 4;
+    return t + m + *(u32 *)(a0 + 0xEC);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E3AC);
 
@@ -510,7 +525,21 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F830);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005FA94);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005FB70);
+s32 func_8005FB70(void *arg0) {
+    register s32 ff __asm__("$2");
+
+    if (*(u16 *)((u8 *)arg0 + 0xE6) == 0) {
+        return 1;
+    }
+    ff = 0xFF;
+    __asm__ __volatile__("" : "=r"(ff) : "0"(ff));
+    if (*(u8 *)((u8 *)arg0 + 0x46) == ff) {
+        return 0;
+    }
+    return 1;
+}
+
+__asm__(".nop\n.nop\n.nop");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005FBA8);
 
