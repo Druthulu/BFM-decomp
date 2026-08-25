@@ -2695,7 +2695,7 @@ extern void func_8017E40C(void *a0);
 extern void func_8017EFD8(void);
 extern void (*D_80191058[])(void);
 extern void func_8017F2D0(void *a0);
-extern s32 func_8017F0D4(void);
+extern s32 func_8017F0D4();
 extern void func_8017F4B0(void);
 extern void (*D_80191070[])(void);
 extern void func_8017F4D0(void *a0);

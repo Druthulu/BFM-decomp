@@ -3900,7 +3900,41 @@ void func_8017D1F0(void) {
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017D288);
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017D350);
+#include "common.h"
+
+extern void func_8012A018(s32 a0, s32 a1);
+extern void func_8012A094(s32 a0);
+extern void func_8017D648(void *a0);
+
+void func_8017D350(void) {
+    typedef struct { s16 x0, x1, x2, x3; } BlkT;
+    extern u8 D_80126948[];
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8 D_801274E8[];
+    extern u8 D_801869C8;
+
+    D_80126954 = 0x190;
+    D_8012695C = 0x15E;
+    D_80126968 = -0x38;
+    D_8012696A = 0x800;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x60;
+    D_8012697A = 0;
+
+    func_8012A018((s32)func_8017D648, 4);
+    *(BlkT *)&D_801274E8 = *(BlkT *)&D_801869C8;
+    func_8012A094((s32)D_80126948);
+    func_8017D648(D_80126948);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017D41C);
 
