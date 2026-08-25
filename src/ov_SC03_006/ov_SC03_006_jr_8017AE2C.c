@@ -6517,7 +6517,13 @@ void func_8017F510(s32 arg0, s32 arg1, s32 arg2)
 
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80180CAC);
+void func_80180CAC(void) {
+    func_80029124(0x142, 0);
+    if ((func_800291B4(0xCC) & 0xFF) == 1) {
+        func_800291A0(0xCC, 2);
+    }
+}
+
 
 extern void func_80029124(s32 arg0, s32 arg1);
     void func_80180CF0(void) {
@@ -13005,7 +13011,20 @@ void func_8018A2F8(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A384);
+void func_8018A384(s16 *param_1)
+{
+    s32 s0 = (s32)param_1;
+    u16 v;
+
+    v = *(u16 *)(s0 + 0xFE);
+    v = v - 1;
+    *(u16 *)(s0 + 0xFE) = v;
+    if ((s32)(v << 16) <= 0) {
+        func_80143B6C(param_1, 0);
+        *(u16 *)(s0 + 0xFE) = 8;
+    }
+}
+
 
 #include "common.h"
 
@@ -13075,11 +13094,47 @@ void func_8018A4B4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A538);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern u8 D_801E0084;
+extern s32 D_801D7E84;
+extern s32 D_801F7740;
+
+void func_8018A538(s32 param_1) {
+    s32 v1;
+
+    *(u16 *)(param_1 + 2) = 4;
+    *(u16 *)(param_1 + 0x34) = 0;
+    func_8012A828(param_1, &D_801E0084);
+    v1 = D_801D7E84;
+    *(s32 *)(param_1 + 0x1C) = 0x28;
+    D_801F7740 = v1;
+    func_8002D4C8(0x660, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A598);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A5C4);
+extern void func_8012CBA4(s32 a0);
+extern void func_80131E00();
+extern void func_8012ADE4(u8 *a0);
+
+s32 func_8018A5C4_impl(s32 a0) __asm__("func_8018A5C4");
+s32 func_8018A5C4_impl(s32 a0)
+{
+    s32 flags;
+
+    flags = ((s32 (*)(s32))func_8012CBA4)(a0);
+    if ((flags & 0x1000) != 0) {
+        ((void (*)(s32, s32))func_80131E00)(a0, 0x12);
+        return 0;
+    }
+    if (flags != 0x2000) {
+        func_8012ADE4((u8 *)a0);
+    }
+    return 1;
+}
+
 
 #include "common.h"
 

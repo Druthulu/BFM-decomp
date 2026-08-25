@@ -291,7 +291,17 @@ void func_800CB5DC(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_033/nonmatchings/md_MAIN_033", func_800CB6D4);
+void func_800CB6D4(void *a0)
+{
+    extern void func_800CB76C(void *arg0);
+
+    if (*(u16 *)*(s32 *)((u8 *)a0 + 0x34) == 0) {
+        *(u16 *)((u8 *)a0 + 2) = *(u16 *)((u8 *)a0 + 2) + 1;
+    } else {
+        func_800CB76C(a0);
+    }
+}
+
 
 extern void func_80146C3C(void);
 

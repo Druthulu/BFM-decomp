@@ -30,7 +30,24 @@ void func_800CAE78(u8 *a0) {
 
 INCLUDE_ASM("asm/md_MAIN_032/nonmatchings/md_MAIN_032", func_800CAEC0);
 
-INCLUDE_ASM("asm/md_MAIN_032/nonmatchings/md_MAIN_032", func_800CAF60);
+void func_800CAF60(void *a0) {
+    extern void func_80147A84(s32 a0);
+    extern void func_801473EC(s32 *a0);
+    extern void func_80148038(s32 a0, s32 a1);
+    extern void func_80147460(s32 a0);
+    extern s32  func_80161418(void *a0);
+    extern s32  func_80155FD4(s32 a0, s32 a1);
+
+    *(u32 *)((u8 *)a0 + 0x44) |= 2;
+    func_80147A84((s32)a0);
+    func_801473EC((s32 *)a0);
+    func_80148038((s32)a0, 0x20000);
+    func_80147460((s32)a0);
+    if (func_80161418(a0) == 0) {
+        func_80155FD4((s32)a0, *(u8 *)((u8 *)a0 + 0x1AA));
+    }
+}
+
 
 void func_800CAFD0(void *a0) {
     extern u8 D_8011F9D0[];

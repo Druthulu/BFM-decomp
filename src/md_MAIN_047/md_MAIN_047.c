@@ -224,7 +224,21 @@ void func_800CD4D0(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_047/nonmatchings/md_MAIN_047", func_800CD58C);
+void func_800CD58C(void *arg0) {
+    extern u8 D_800CD6E0[];
+    extern void func_80016714(void *a0, s32 a1);
+    extern void func_800CCBC0(void);
+
+    if (*(s32 *)((s32)arg0 + 0x2C) != 0) {
+        func_800CCDE8(arg0, 1, 0x37);
+        func_800CCBC0();
+        *(s32 *)((s32)arg0 + 0x2C) = 0;
+    } else {
+        func_80016714(D_800CD6E0, 0xC4);
+        func_800CCDE8(arg0, 0, 0);
+    }
+}
+
 
 void func_800CD5F8(void *arg0) {
     extern void func_801465C0(void);

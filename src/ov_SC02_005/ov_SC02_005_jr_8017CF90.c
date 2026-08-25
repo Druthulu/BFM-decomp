@@ -3743,7 +3743,26 @@ void func_8017EA9C(void *param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017EAD4);
+
+
+void func_8017EAD4(void *param_1)
+{
+    extern void func_8017EFB4();
+    extern void func_8017EDF8();
+    extern s32 func_8014C168(s32 *a0, s32 a1);
+    extern Blk8 D_801274E8;
+    extern s16 D_801274EC;
+    extern s32 D_80126B58;
+
+    s32 ptr;
+
+    func_8017EFB4(param_1);
+    ptr = func_8014C168(&D_80126B58, 0x3D);
+    *(s16 *)&D_801274E8 = *(u16 *)(ptr + 6);
+    D_801274EC = *(u16 *)(ptr + 0xE);
+    func_8017EDF8(param_1, &D_801274E8);
+}
+
 
 void func_8017EB30(void) {
 }
@@ -4060,7 +4079,14 @@ void func_8017F358(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017F394);
+void func_8017F394(void *a0) {
+    extern void func_80171B44(s32 *a0);
+
+    (*(u8 *)((s32)a0 + 0x214))++;
+    *(u16 *)(*(u32 *)((s32)a0 + 0x20) + 0x12) = 0;
+    ((void (*)(void))func_80171B44)();
+}
+
 
 
 // @class: plumbing

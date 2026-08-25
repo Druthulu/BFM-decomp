@@ -5333,7 +5333,32 @@ void func_80180260(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8018029C);
+#include "common.h"
+
+/* Callee spellings copied VERBATIM from this TU (law 2):
+ *   func_80178B18 @2535/@4800, func_8016F2A8 @1946, func_8016F2EC @1948,
+ *   func_8002D4C8 @59/@4802, func_8012AD44 @5060/@5182.
+ * D_80189B10 is only address-taken (2nd arg of func_80178B18); spelled as a
+ * dispatcher table to match the adjacent D_80189AF8 (@5329) / D_80189B18 (@5359)
+ * declarations in this same TU. */
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern void func_8016F2A8(void);
+extern void func_8016F2EC(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+extern void (*D_80189B10[])(void);
+
+void func_8018029C(s32 param_1) {
+    func_80178B18(param_1, (s32)D_80189B10);
+    func_8016F2A8();
+    func_8016F2EC();
+    *(u16 *)(param_1 + 0xFE) = 0x14;
+    *(s32 *)(param_1 + 0x1C) = 4;
+    func_8002D4C8(0x8FE, 0);
+    func_8012AD44((s32 *)param_1, 2);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_80180304);
 

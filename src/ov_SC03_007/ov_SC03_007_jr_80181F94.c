@@ -3450,7 +3450,16 @@ void func_80182A18(int param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80181F94", func_80182A80);
+extern s32 func_8012BCCC(s32 a0);
+
+void func_80182A80(s32 param_1) {
+    s32 ret;
+    ret = func_8012BCCC(param_1);
+    if (ret < 0x24001) {
+        func_80182468(param_1);
+    }
+}
+
 
 extern s32 func_8012BEE8(s32 arg);
     extern s32 func_801824A8();

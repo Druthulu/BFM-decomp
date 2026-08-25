@@ -3130,7 +3130,14 @@ void func_8017EFEC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017E5B8", func_8017F028);
+void func_8017F028(s32 param_1) {
+    if ((u32)func_80029504() < 5) {
+        func_80029514(5);
+    }
+    *(s32 *)(param_1 + 0x1C) = 4;
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 void func_8017F078(void *a0) {
     if (*(s32 *)((s32)a0 + 0x1C) != 0) {

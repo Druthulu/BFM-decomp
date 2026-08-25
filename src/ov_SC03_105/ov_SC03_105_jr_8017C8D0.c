@@ -4418,7 +4418,19 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801818E
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80181C84);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80182220);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80183EE8(void);
+extern void func_80184604();
+
+void func_80182220(s32 a0) {
+    *(s16 *)((s32)a0 + 0x2) = 0xB;
+    *(s32 *)((s32)a0 + 0x1C) = 0x3C;
+    *(s16 *)((s32)a0 + 0x34) = 0;
+    func_8002D4C8(0x72C, 0);
+    func_80183EE8();
+    func_80184604(-1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018226C);
 
@@ -6634,7 +6646,35 @@ void func_8018784C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80187890);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_80187890(void *arg0) {
+    s32 t;
+    s32 v0;
+
+    *(s32 *)((u8 *)arg0 + 0x20) = ((s32 (*)(void))func_8012C1B8)();
+    if (*(s32 *)((u8 *)arg0 + 0x20) == 0) {
+        func_8012CAE4((void *)arg0);
+        return;
+    }
+    func_8001C214(*(s32 *)((u8 *)arg0 + 0x20), 0);
+    *(s16 *)((u8 *)arg0 + 0x102) = -0x1AC;
+    *(s16 *)((u8 *)arg0 + 0xFE) = -0x1AC;
+    *(s16 *)((u8 *)arg0 + 0x104) = -0x1AC;
+    *(s16 *)((u8 *)arg0 + 0x100) = -0x1AC;
+    *(s32 *)((u8 *)arg0 + 0x1C) = 0x1F;
+    t = *(u16 *)(*(s32 *)((u8 *)arg0 + 0x64) + 2);
+    v0 = 0x775;
+    if (t != 9) {
+        v0 = 0x733;
+    }
+    func_8002D4C8(v0, 0);
+    *(u16 *)((u8 *)arg0 + 2) = *(u16 *)((u8 *)arg0 + 2) + 1;
+}
+
 
 #include "common.h"
 
@@ -6720,7 +6760,30 @@ void func_80188040(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018807C);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern s32 rand(void);
+
+void func_8018807C(s32 a0) {
+    s32 obj;
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = obj;
+    if (obj == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+
+    func_8001C214(obj, 0);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) = *(u16 *)(a0 + 0xFC);
+    func_8012B2CC(a0);
+
+    *(u16 *)(a0 + 0xFE) = rand() % 32 + 0x20;
+    *(u16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
+}
+
 
 #include "common.h"
 

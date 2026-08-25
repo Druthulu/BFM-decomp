@@ -8808,7 +8808,17 @@ void func_801857CC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_80185944);
+extern void func_8012A828(s32 a0, void *a1);
+extern u8 D_801CC6E8[];
+
+void func_80185944(s32 p) {
+    *(u16 *)(p + 2) = 0x20;
+    func_8012A828(p, D_801CC6E8);
+    *(s32 *)(p + 0x1C) = 0;
+    *(s32 *)(p + 0xE4) = 0;
+    *(s32 *)(p + 0x48) = 0x4650;
+}
+
 
 // @class: regalloc-order
 // @stuck: none — MATCH (168/168). $s4/$s5 pins for base+&local28; s32 sVar1 for single lh;

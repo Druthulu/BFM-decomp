@@ -3772,7 +3772,27 @@ void func_801865A4(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_80186668);
+void func_80186668(s32 a0)
+{
+    s32 sp18;
+    s32 ret;
+
+    sp18 = *(s32 *)(a0 + 0x20);
+    ret = func_80047948((*(s32 *)(a0 + 0x1C) << 9) >> 4);
+    *(s16 *)(sp18 + 0x18) = *(s16 *)(sp18 + 0x1A) = *(s16 *)(sp18 + 0x1C) = ret * 2;
+    if (*(s16 *)(a0 + 0x100) <= *(s16 *)(sp18 + 0x18)) {
+        *(s16 *)(sp18 + 0x18) = *(s16 *)(sp18 + 0x1A) = *(s16 *)(sp18 + 0x1C) = *(s16 *)(a0 + 0x100);
+        *(u16 *)(a0 + 2) = 1;
+        *(u16 *)(a0 + 0x5C) = *(u16 *)(*(s32 *)(a0 + 0x78) + 2);
+        *(u16 *)(a0 + 0x76) = *(u16 *)*(s32 *)(a0 + 0x78);
+        *(s32 *)(a0 + 0xE0) &= ~1;
+        if (!(*(u16 *)(a0 + 0x70) & 1)) {
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) &= ~0x10;
+        }
+    }
+    --*(s32 *)(a0 + 0x1C);
+}
+
 
     typedef struct { u8 b[8]; } Blk8_80186740;
     typedef struct {
@@ -4478,7 +4498,38 @@ void func_801875F0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_801876C4);
+extern s32 D_801A9A78[];
+extern s32 D_801A9A7C[];
+extern s32 D_801A9A80[];
+extern s32 D_801A9A84[];
+extern s32 D_801A9A88[];
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+void func_801876C4(void *a0, s32 a1) {
+    s32 sp10[5];
+    s32 obj;
+    register s32 w __asm__("$7");
+    s32 x, y, z;
+    register s32 t __asm__("$3");
+
+    obj = (s32)a0;
+    x = D_801A9A78[a1 * 5];
+    y = D_801A9A7C[a1 * 5];
+    z = D_801A9A80[a1 * 5];
+    w = D_801A9A84[a1 * 5];
+    sp10[0] = x;
+    sp10[1] = y;
+    sp10[2] = z;
+    sp10[3] = w;
+    t = D_801A9A88[a1 * 5];
+    sp10[4] = t;
+    __asm__ __volatile__("" ::: "memory");
+    ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + *(u16 *)(obj + 6);
+    ((u16 *)sp10)[1] = ((u16 *)sp10)[1] + *(u16 *)(obj + 0xA);
+    ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + *(u16 *)(obj + 0xE);
+    func_8012C51C(sp10, obj);
+}
+
 
 typedef struct {
     s32 a;      /* 0x00 -> D_801D0120 */

@@ -297,7 +297,11 @@ void func_800CD57C(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD5EC);
+void func_800CD5EC(void *a0) {
+    func_800CD758((s32)a0);
+    *(u16 *)((s32)a0 + 0x66) = (*(s32 *)((s32)a0 + 0x50) * 1365) & 0xFFF;
+}
+
 
 #include "common.h"
 
@@ -371,7 +375,14 @@ void func_800CD834(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CD848);
+extern s32 func_80012F74(s32, s32, s32, s32);
+
+void func_800CD848(s32 param_1) {
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x18) =
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1A) =
+        func_80012F74(*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1A), 0x1000, 4, 1);
+}
+
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_80135260(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -492,7 +503,20 @@ void func_800CDA80(int param_1)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDB4C);
+extern s32 func_80146E98(s32 a0);
+extern s32 func_80146C3C(void *a0);
+void func_800CDB4C(int param_1)
+{
+    extern unsigned char D_800CEBF4[];
+    unsigned char *base;
+
+    base = (unsigned char *)D_800CEBF4 + *(s32 *)(param_1 + 0x2C) * 0x40;
+    base[2] = base[2] - 8;
+    if (func_80146E98(param_1) != 0) {
+        func_80146C3C((void *)param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CDBA8);
 
@@ -560,7 +584,16 @@ L_c3c:
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CE134);
+void func_800CE134(void) {
+    register s32 a0v __asm__("$4");
+    s32 param_1 = a0v;
+
+    *(s32 *)(param_1 + 0x30) = *(s32 *)(param_1 + 0x1C) * 8;
+    func_80169A4C(a0v, param_1 + 0x38);
+    if (--*(s32 *)(param_1 + 0x1C) == 0)
+        func_80146C3C((void *)param_1);
+}
+
 
 
 

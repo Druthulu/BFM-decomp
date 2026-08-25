@@ -3497,7 +3497,16 @@ s32 func_8017D608(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017D628);
+void func_8017D628(s32 param_1) {
+    s32 ret;
+
+    ret = func_800D0EC4();
+    func_800D0F0C(ret, *(s16 *)(param_1 + 0x70) + 0x62);
+    func_800291A0(0xDE, *(u8 *)(param_1 + 0x70));
+    *(s16 *)(param_1 + 0x70) = 0;
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x80000000;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017D684);
 

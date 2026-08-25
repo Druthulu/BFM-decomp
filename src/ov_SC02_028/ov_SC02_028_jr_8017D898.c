@@ -5292,7 +5292,14 @@ void func_80181AD0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80181B48);
+void func_80181B48(int param_1)
+{
+    void **fp = *(void ***)(*(int *)(param_1 + 0x64) + 0xDC);
+
+    if (fp != 0 && *fp != 0)
+        (*(void (*)(void))*fp)();
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80181B90);
 

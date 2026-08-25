@@ -50,7 +50,19 @@ void func_800CAF68(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_026/nonmatchings/md_MAIN_026", func_800CB010);
+extern s32 func_8014C088(s32 a0, s32 a1);
+extern s32 func_80165A20(s32 a0);
+extern void func_800CB108();
+
+void func_800CB010(void *arg0) {
+    if (func_8014C088((s32)arg0, 0xB) == 0) {
+        *(u8 *)((s32)arg0 + 0x197) += 1;
+        func_80165A20((s32)arg0);
+    } else if (*(u8 *)((s32)arg0 + 0xBE) != 0) {
+        func_800CB108(arg0);
+    }
+}
+
 
 extern void func_800CB108(void);
 void func_800CB078(void) {

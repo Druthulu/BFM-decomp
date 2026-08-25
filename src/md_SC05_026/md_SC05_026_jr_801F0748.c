@@ -483,7 +483,22 @@ void func_801F0E6C(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026_jr_801F0748", func_801F0E9C);
+extern s32 D_801F832C;
+extern s32 D_801F84AC;
+
+void func_801F0E9C(void) {
+    typedef struct { s32 next; u8 pad[0xC]; } Node_801F0E9C;
+    Node_801F0E9C *p;
+    s32 i;
+
+    p = (Node_801F0E9C *)&D_801F832C;
+    for (i = 0; i < D_801F84AC - 1; ) {
+        p->next = (s32)(p + 1);
+        i++;
+        p = p + 1;
+    }
+}
+
 
 extern s32 func_80029504(void);
 extern void func_80029124(s32 a0, s32 a1);

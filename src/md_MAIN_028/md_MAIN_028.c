@@ -164,7 +164,19 @@ INCLUDE_ASM("asm/md_MAIN_028/nonmatchings/md_MAIN_028", func_800CB59C);
     }
 
 
-INCLUDE_ASM("asm/md_MAIN_028/nonmatchings/md_MAIN_028", func_800CB620);
+void func_800CB620(s32 arg0) {
+    s32 v;
+    *(u16 *)(arg0 + 0x10) = *(u16 *)(arg0 + 6);
+    *(u16 *)(arg0 + 0x12) = *(u16 *)(arg0 + 0xA);
+    *(u16 *)(arg0 + 0x14) = *(u16 *)(arg0 + 0xE);
+    v = rand() & 0x1F;
+    v <<= 7;
+    *(u16 *)(arg0 + 0x64) = v;
+    *(u16 *)(arg0 + 0x66) = v;
+    func_800CB684(arg0, 0x200);
+    func_800CB6D4(arg0);
+}
+
 
 void func_800CB684(s32 a0, s32 a1) {
     extern s32 rand(void);

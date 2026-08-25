@@ -66,7 +66,16 @@ void func_800CB054(void *a0) {
 
 INCLUDE_ASM("asm/md_MAIN_013/nonmatchings/md_MAIN_013", func_800CB05C);
 
-INCLUDE_ASM("asm/md_MAIN_013/nonmatchings/md_MAIN_013", func_800CB0E8);
+void func_800CB0E8(void *a0) {
+    extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
+    s32 v1;
+
+    v1 = func_80146994(0x15, (s32)a0, 0, 0);
+    if (v1 != 0) {
+        *(s32 *)(v1 + 0x30) = *(s16 *)((u8 *)a0 + 0x36);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_013/nonmatchings/md_MAIN_013", func_800CB138);
 
