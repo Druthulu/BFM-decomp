@@ -4440,7 +4440,56 @@ void func_8017EBA8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017EC64);
+void func_8017EC64(void *a0) {
+    extern u8 D_8019B094[];
+    extern void func_8012A828(s32, s32);
+    extern void func_8012EFB8(s32 a0);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    s16 in[4];
+    s16 out[4];
+    s32 x;
+    s32 z;
+
+    *(s16 *)((s32)a0 + 0x5C) = 0;
+    *(s32 *)((s32)a0 + 0x1C) = 0x37;
+    *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) = 0;
+    ((void (*)(s32, void *))func_8012A828)((s32)a0, D_8019B094);
+    *(s16 *)((s32)a0 + 0x34) = 0;
+
+    in[0] = *(u16 *)((s32)a0 + 0x6);
+    in[1] = *(u16 *)((s32)a0 + 0xA);
+    in[2] = *(u16 *)((s32)a0 + 0xE);
+    ((s32 (*)(void *, void *))func_8012EFB8)(in, out);
+
+    x = out[0];
+    if (x >= 0) {
+        if (x < 0xB5) {
+            goto zcheck;
+        }
+    } else {
+        if (-x < 0xB5) {
+            goto zcheck;
+        }
+    }
+    return;
+zcheck:
+    z = out[1];
+    if (z < 0) {
+        goto negarm;
+    }
+    if (z < 0xA1) {
+        goto docall;
+    }
+    goto end;
+negarm:
+    if (-z >= 0xA1) {
+        goto end;
+    }
+docall:
+    func_8002D4C8(0x98A, 0);
+end:;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017ED40);
 

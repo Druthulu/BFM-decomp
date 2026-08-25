@@ -6124,9 +6124,43 @@ void func_80183CF4(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183D00);
+void func_80183D00(s32 param_1)
+{
+    s32 obj;
+    s16 v;
+    u16 arr[5];
+    u16 *p;
+    s32 i;
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183DF8);
+    obj = *(s32 *)(param_1 + 0xCC);
+    v = *(u16 *)(param_1 + 0xE2) + 0x20;
+    *(s16 *)(param_1 + 0xE2) = v;
+    *(s16 *)(param_1 + 0x108) = func_8004787C(v) >> 3;
+    arr[4] = 0;
+    i = 1;
+    arr[3] = (*(s16 *)(param_1 + 0x108) / 4) * 3;
+    p = &arr[1];
+    arr[2] = -(((s16)*(u16 *)(param_1 + 0x108)) >> 1);
+    arr[1] = *(u16 *)(param_1 + 0x108);
+    do {
+        func_80185A18(*(u8 *)(obj + i * 8 + 6),
+                      (s16)(*(u16 *)(obj + i * 8 + 2) + *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + *p));
+        p++;
+        if (*(s16 *)(obj + i * 8 + 6) & 0x8000) {
+            return;
+        }
+        i++;
+    } while (i < 5);
+}
+
+
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+
+void func_80183DF8(void) {
+    func_8012C588(0x2A9, aFC4C[0]);
+}
+
 
 /* §183/§200 DEF+DATA asm-label aliases: the TU prototypes this fn `extern s32
    func_80183E20(s32);` (L5706) and declares D_801EFD24 `extern s32` (L7727);

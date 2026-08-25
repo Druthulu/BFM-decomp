@@ -4655,7 +4655,42 @@ void func_8017F8C8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_113/nonmatchings/ov_SC03_113_jr_8017C294", func_8017F904);
+extern u8 D_80186FA4[];
+extern u8 D_8018715C[];
+extern s32 func_8012C194(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8017F6CC();
+extern s32 func_80029178(s32 arg);
+extern s32 func_8012AD50(void *a0);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_8017F904(void *a0) {
+    s32 iVar;
+    u16 tbl;
+
+    *(u16 *)((s32)a0 + 0xFE) = *(u16 *)((s32)a0 + 0x70) & 0x8000;
+    *(u16 *)((s32)a0 + 0x70) = *(u16 *)((s32)a0 + 0x70) & 3;
+    iVar = func_8012C194();
+    if (iVar == 0) {
+        func_8012CAE4(a0);
+    } else {
+        *(s32 *)((s32)a0 + 0x20) = iVar;
+        func_8001CB6C((u8 *)iVar, (s32)&D_80186FA4, 0x300, 0x100);
+        *(u8 *)(iVar + 0x27) = 100;
+        tbl = *(u16 *)(D_8018715C + (*(s16 *)((s32)a0 + 0x70)) * 2);
+        *(s16 *)(iVar + 0x32) = -0x20;
+        *(u16 *)(iVar + 0x2C) = 0x8004;
+        *(u16 *)(iVar + 0x30) = tbl;
+        func_8017F6CC(a0);
+        if (*(s16 *)((s32)a0 + 0xFE) != 0 && (u8)func_80029178(0xBA) == 0) {
+            func_8012AD44((s32 *)a0, 2);
+        } else {
+            func_8012AD50(a0);
+        }
+    }
+}
+
 
 void func_8017F9F4(void) {
 }
@@ -6314,7 +6349,28 @@ void func_801827D8(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_113/nonmatchings/ov_SC03_113_jr_8017C294", func_80182858);
+extern void func_8012BE54(s32 a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 rand(void);
+
+void func_80182858(s32 a0)
+{
+    s32 v0;
+    s32 s1;
+
+    if (((s32 (*)(s32))func_8012BE54)(a0) <= 0x23FFFF) {
+        v0 = *(s32 *)(a0 + 0x1C) - 1;
+        *(s32 *)(a0 + 0x1C) = v0;
+        if (v0 == 0) {
+            s1 = func_8012C658(0x1EA, 0xF, a0);
+            *(s32 *)(a0 + 0x1C) = (rand() & 0x1F) + 0x2D;
+            if (*(s16 *)(a0 + 0x70) == 0x18 && s1 != 0) {
+                *(u16 *)(*(s32 *)(s1 + 0x20) + 0x12) = 0x400;
+            }
+        }
+    }
+}
+
 
 
 extern int func_8012C658(int arg0, int arg1, int arg2);

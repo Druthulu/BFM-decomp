@@ -4328,7 +4328,29 @@ s32 FUNC_80180a08(s32 param_1, u16 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80180AC4);
+void func_80180AC4(s32 arg0, s32 arg1) {
+    register s32 ret __asm__("$2");
+    s32 a2 = arg0;
+    s32 dz = *(s16 *)(a2 + 0xE) - 0x3C0;
+    s32 dzsq = dz * dz;
+    s32 dy = (s16)*(u16 *)(a2 + 0x6);
+    if (dzsq < 0x1901) {
+        dzsq += 0x4000;
+    }
+    dzsq += dy * dy;
+    if (dzsq < arg1) {
+        ret = 0;
+        goto out;
+    }
+    *(s32 *)(a2 + 0x10) = 0;
+    *(s32 *)(a2 + 0x18) = 0;
+    *(u16 *)(a2 + 0x6) -= dy >> 5;
+    *(u16 *)(a2 + 0xE) -= dz >> 5;
+    ret = 1;
+out:
+    __asm__ __volatile__("" :: "r"(ret));
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80180B44);
 
@@ -8199,7 +8221,53 @@ void func_80189EDC(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80189F7C);
+void func_80189F7C(void *a0)
+{
+    register void *s0 __asm__("$16");
+    s32 v0;
+
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001CA1C(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern u8 D_801908C4;
+    extern u8 D_801908D0;
+    extern u8 D_8019095C;
+    extern u8 D_801907C4;
+
+    s0 = a0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)s0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(s0);
+    } else {
+        register s32 t __asm__("$2");
+        register s32 v1 __asm__("$3");
+
+        func_8001CA1C(v0, (s32)&D_801908C4);
+        func_8012A828((s32)s0, (void *)&D_801908D0);
+        *(s16 *)((s32)s0 + 0x2) = 1;
+        *(s8 *)((s32)s0 + 0xC0) = 1;
+        *(s32 *)((s32)s0 + 0xBC) = (s32)&D_8019095C;
+        *(u16 *)((s32)s0 + 0x5C) = 0x8000;
+        __asm__("" ::: "memory");
+        v1 = 0x4000;
+        t = *(s32 *)((s32)s0 + 0xC4);
+        *(s32 *)((s32)s0 + 0x58) = (s32)&D_801907C4;
+        *(s32 *)((s32)s0 + 0xC4) = t | 0x2;
+        *(s8 *)((s32)s0 + 0xC1) = 0;
+        *(s32 *)((s32)s0 + 0xB4) = 0;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x18) = v1;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1A) = v1;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1C) = v1;
+        *(u16 *)(*(s32 *)((s32)s0 + 0x20) + 0x2C) |= 0x10;
+        *(s32 *)(*(s32 *)((s32)s0 + 0x20) + 0x4) = 0x01000000;
+        *(s32 *)((s32)s0 + 0x1C) = 0x20;
+        *(s16 *)((s32)s0 + 0x10A) = 0x5;
+    }
+}
+
 
 typedef struct {
     u8 pad00[2];   /* 0x00 */

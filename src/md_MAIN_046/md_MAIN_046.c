@@ -332,7 +332,39 @@ void func_800CD7D8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_046/nonmatchings/md_MAIN_046", func_800CD884);
+extern s32 rand(void);
+extern void func_800CD96C(s32 a0);
+
+void func_800CD884(void *arg0) {
+    s32 s0;
+    u16 w;
+    u16 t2;
+
+    s0 = *(s32 *)((s32)arg0 + 0x20);
+    if (*(s16 *)((s32)arg0 + 0x60) != 0) {
+        w = *(u16 *)(s0 + 0x18) + 0x100;
+        *(u16 *)(s0 + 0x18) = w;
+        if ((s16)w > 0x1000) {
+            if ((rand() & 1) != 0) {
+                *(u16 *)(s0 + 0x18) = 0x1000;
+            } else {
+                *(u16 *)(s0 + 0x18) = 0x1333;
+            }
+        }
+    } else {
+        w = *(u16 *)(s0 + 0x18) - 0x100;
+        *(u16 *)(s0 + 0x18) = w;
+        if ((s16)w < 0) {
+            *(u16 *)(s0 + 0x18) = 0;
+        }
+    }
+    t2 = *(u16 *)(s0 + 0x18);
+    *(u16 *)(s0 + 0x1C) = t2;
+    *(u16 *)(s0 + 0x1A) = t2;
+    *(u16 *)(s0 + 0x12) += 0x1C7;
+    func_800CD96C((s32)arg0);
+}
+
 
 extern void func_80162CCC(void);
 void func_800CD94C(void) {

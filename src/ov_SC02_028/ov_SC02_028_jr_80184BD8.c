@@ -3872,9 +3872,44 @@ void func_80186740(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_801868E8);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80186D20();
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_80186994);
+void func_801868E8(s32 self) {
+    s32 var;
+
+    var = -(func_8004787C((*(s32 *)(self + 0x1C) << 10) & 0xC00) >> 12);
+    *(u16 *)(self + 0x6) += *(u16 *)(self + 0x102) * var;
+    *(u16 *)(self + 0xA) += *(u16 *)(self + 0x104) * var;
+    *(u16 *)(self + 0xE) += *(u16 *)(self + 0x106) * var;
+    if (func_8012BEE8(self) != 0) {
+        *(u8 *)(self + 0xC1) = 0;
+        *(u16 *)(self + 0x5E) = 0;
+        func_80186D20(self);
+    }
+}
+
+
+extern u8 D_801A95F8;
+extern void func_80143CD4(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_800CB0E8(s32 a0);
+
+void func_80186994(s32 param_1)
+{
+    s32 v0;
+
+    v0 = *(u16 *)(param_1 + 0x5C);
+    *(s32 *)(param_1 + 0x1C) = 0x78;
+    *(u16 *)(param_1 + 0x5C) = v0 & 0xFFFE;
+    func_80143CD4(param_1);
+    func_8002D4C8(0x47B, 0);
+    func_8002D4C8(0x478, 0);
+    func_800CB0E8(param_1);
+    *(s32 *)(param_1 + 0xCC) = (s32)&D_801A95F8;
+}
+
 
 extern s32 func_8012BEE8(s32 a0);
 extern u8 D_801A95F8;
@@ -4038,7 +4073,30 @@ void func_80186D94(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_80186DD0);
+void func_80186DD0(s32 param_1)
+{
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern u8 D_801ACF50[];
+    typedef struct { u8 b[8]; } Blk8;
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+    func_8001C214(v0, (s32)D_801ACF50);
+    *(u16 *)(param_1 + 0xFC) = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0x36);
+    *(Blk8 *)(*(s32 *)(param_1 + 0x20) + 0x18) =
+        *(Blk8 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x18);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) =
+        *(u16 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x2C);
+    *(u16 *)(param_1 + 2) = 1;
+}
+
 
 extern void func_8012C218(void *a0);
     void func_80186E88(s32 arg0) {

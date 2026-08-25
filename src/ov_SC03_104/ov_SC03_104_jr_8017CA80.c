@@ -4466,4 +4466,38 @@ INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181EA
 
 INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181EF4);
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181F54);
+void func_80181F54(s32 a0)
+{
+    register s32 vin __asm__("$2");
+    extern s32 *D_80126B78;
+    extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+    extern void func_8018271C(s32 out, s32 a1, s32 a2);
+    extern void func_8012B200(void *a0);
+    extern void func_8012B2CC(s32 a0);
+    extern void func_8012B178(s32 a0, s32 a1);
+
+    s16 sp10[4];
+    s32 sp18[2];
+    s32 t;
+    s32 u;
+
+    func_8012B0B4((unsigned int *)sp18,
+                  *(s16 *)((s32)D_80126B78 + 0x12) + 0x800,
+                  (s16)(((s16)vin) % 128) + 0x100);
+
+    t = sp18[0];
+    sp10[1] = -0x20;
+    sp10[0] = t;
+    sp10[2] = t >> 16;
+    func_8018271C(sp18, a0, (s32)sp10);
+
+    u = sp18[0];
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = u;
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = u >> 16;
+    func_8012B200((void *)a0);
+    func_8012B2CC(a0);
+    func_8012B178(a0, *(s32 *)(a0 + 0xE0) + 0xFFFE0000);
+    *(s16 *)(a0 + 0x2) = 6;
+    *(s16 *)(a0 + 0x34) = 0;
+}
+

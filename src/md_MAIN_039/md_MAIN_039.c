@@ -184,7 +184,87 @@ s32 func_800CB61C(s32 a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_039/nonmatchings/md_MAIN_039", func_800CB6F4);
+#define gte_SetRotMatrix(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_ldlv0(r0) __asm__ volatile (                 \
+    "lhu $13, 4( %0 );"                                  \
+    "lhu $12, 0( %0 );"                                  \
+    "sll $13, $13, 16;"                                  \
+    "or $12, $12, $13;"                                  \
+    "mtc2 $12, $0;"                                      \
+    "lwc2 $1, 8( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13" )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+
+extern u8 D_800AF648;
+
+s32 func_800CB6F4(int param_1, int param_2)
+{
+    u8 *r0;
+    int iVarX;
+    int iVarY;
+    int sp[6];
+    sp[0] = (int)*(short *)(param_1 + 6);
+    sp[1] = (int)*(short *)(param_1 + 10);
+    sp[2] = (int)*(short *)(param_1 + 0xe);
+    r0 = &D_800AF648;
+    gte_SetRotMatrix(r0);
+    gte_SetTransMatrix(r0);
+    gte_ldlv0(sp);
+    gte_rtps();
+    gte_stsxy((int *)sp + 4);
+    iVarX = *(short *)((int)sp + 0x10);
+    if (iVarX >= 0) {
+        if (iVarX < 0xAB) goto cy;
+        goto ret0;
+    }
+    if (-iVarX >= 0xAB) goto ret0;
+cy:
+    iVarY = *(short *)((int)sp + 0x12);
+    if (iVarY >= 0) {
+        if (iVarY < 0x81) goto c1;
+        goto ret0;
+    }
+    if (-iVarY >= 0x81) goto ret0;
+c1:
+    return 1;
+ret0:
+    return 0;
+}
+
 
 
 extern void func_80146C3C(void);
