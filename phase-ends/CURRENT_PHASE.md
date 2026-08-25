@@ -403,6 +403,84 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
     the residual to cse.c:5278's unconditional constant-second swap for symbol-valued pointer bases
     (retires "reorder the addends" as a lever). **Permuter fuel, not a hand lever.**
 
+## 🛑 SESSION CHECKPOINT — S59 FINAL (2026-08-24 → 08-25 00:20). Phase 31 CONTINUES. **LANES RUNNING; NOTHING BLOCKED.**
+
+**1,342 banked this session · 140 commits · open stubs 6,575 (main 1,493 · overlay/md 5,082).**
+Six lanes alive and self-restarting: drafter · gater · maintenance · stallguard · **distill** (new)
+· **main** (new). `tools/campaign_status.py` prints all six with their own metrics — **use it for
+every status check**; reporting only the loud lanes is how two of this session's bugs hid for hours.
+
+### THE SESSION'S ONE LESSON, MEASURED SIX TIMES
+**Every lane that looked like "the models can't crack these" was a HARNESS defect.** In order found:
+1. `match_one --o0` existed for a year and **nothing ever passed it** — agents were shown an -O2
+   compile of their own C. Fixed → an agent then banked a 131-ins -O0 function on the FIRST compile.
+2. The **tells** lane was retired on a lane verdict that was really a card-SIZE verdict.
+3. The **jtbl** carve machinery had existed since Phase 29; nothing handed it a draft.
+4. The **main** lane's 737 drafts banked zero because the committed BASELINE was red — with no draft
+   substituted, main built the wrong hash. Every rejection was a false verdict.
+5. **44-72% of shards per wave died at turn 1 on a SOFT 429** — HTTP 200 whose body carried
+   `{"code": 429}`. The retry path keyed on the envelope. One wave logged **202 retries** the moment
+   it could see them. It had read as "poor draft completion", and I wrongly blamed the straggler grace.
+6. The **A-prop** lane staged 82 hopeless drafts of 117 because it read one bit of one verdict
+   (reloc `status==AGREE`, ignoring `shape`).
+
+### WHAT LANDED (all byte-proven; commits named in the docs)
+* **jtbl**: the §154-A island split works — ONE config line + `jr_isolate_all --only`, with the
+  object-level `sh_size` control a green SHA cannot give (§260). The lane is automated at the gate
+  and byte-proven ×3, one per class; 181 members / 26,445 ins reachable unattended.
+* **-O0**: census corrected (167 real, not 311 `$fp` mentions); `md_MAIN_011` compiles -O0 via ONE
+  Makefile line (21 fns / 4,321 ins unlocked); `corpus.o0_subseg()` derives -O0-ness from the
+  Makefile, never a name (§261, §261a).
+* **main lane** (new): its own draft→gate→commit cadence, baseline-asserted every cycle, bisecting
+  compile conflicts. **Open main stubs 1,713 → 1,493.**
+* **distill lane** (new): the flywheel's second half beside drafting; §265-§269 landed from two
+  batches. Reviewer tier is **Opus/Sonnet, never Fable**.
+* **Fleet hygiene**: two RED binaries found and fixed (`ov_SC07_010` never-built commit;
+  `ov_SC07_002` stale 2-table jtbl pad spec), and the maintenance lane now runs a **periodic fleet
+  R22** every 4th pass — it reports and FIXES NOTHING.
+* **Throughput**: MAXTOK 16k + HTTP_TIMEOUT 700 (one setting, probed: ox is 1M context / 131,072 max
+  completion at ~30 tok/s); tells and jtbl are QUOTAS inside ordinary waves; the draw excludes
+  mid-gate binaries instead of refusing; the drafter never blocks on the draw lock.
+* **Docs**: `docs/portable-decomp-workflow.md` (NEW — the part that transfers, for the public
+  deliverable), the automation runbook rewritten from two months stale, accelerators #5/#6.
+
+### RULE CANDIDATES FOR PHASEEND (P10 — Drew accepts, modifies or rejects)
+* **R44 — a card may not name a lever the knowledge base does not contain.** 108 transcripts grepped
+  `extend-tell` against a cookbook containing that string zero times.
+* **R45 — draw-time bankability: never draw a card the pipeline cannot bank.** 11 -O0 functions drawn
+  79 times across 19 waves; none could ever have banked.
+* **R46 — a budget is part of the harness, not a constant.** One turn/cost cap across card sizes that
+  differ 2.4× starved the large ones.
+* **R47 — CONSUME EVERY VERDICT LAYER.** A stage that reads one bit of one oracle stages garbage
+  forever: 82 of 117 A-prop drafts were shape-DIFF and rebuilt every 45 minutes.
+* **R48 — NEVER KEY BY BARE FUNCTION NAME.** Three fn-keyed collision defects in one session,
+  including a scratch dir one concurrent run `rm -rf`'d out from under another.
+* **R49 — A SOFT ERROR INSIDE A SUCCESS ENVELOPE IS STILL THAT ERROR.** The soft 429 (200 + code 429)
+  and `gate_main`'s `clean_build` reading rc≠0 as "no binary" are the same defect.
+* **R50 — PERIODIC WHOLE-FLEET VERIFICATION.** A byte gate is silent about every binary it did not
+  build; two sat RED for hours.
+
+### OPEN THREADS (ranked)
+1. **`cf` is the first wave drafted with the soft-429 fix** — its completion and bank rate are the
+   honest read on every throughput change today. Everything before it is contaminated.
+2. **A-prop residual, named and sized** (`docs/tool-designs/aprop-lane-s59.md`): 169 STRUCT real
+   cracks · 121 no-decl-anywhere · ~73 IMM tier-2 · 8 wrong-family · 12 stubborn near-0s.
+3. **-O0 U2/U3** — `rollout_o0.py` SC07 fix (4 fns), the ×3 `jr_801380E0` carve+remap (54 fns /
+   6,414 ins, zero drafting). **Draft-first ordering is what makes carves safe: populated-at-carve
+   is 137/137; stubs-in-new-object was 1/4 and 2/2.**
+4. **tells 6.3/6.5/6.6** — tell COUNTS on the card, the post-wave permuter/§173 recovery pass, and
+   routing extend-tell ≥80 ins to `idiom_serial` (never once run on tells).
+5. **The distill batch `axbm.json`** is still parked for review.
+
+### HOW TO RESUME
+`tools/campaign_status.py` first. Then: `git status --porcelain -- src/ config/` — if dirty,
+**COMMIT it, never revert** (R42). Lane changes take effect on three different clocks — draw
+defaults next draw, tool code next invocation, lane args/env only on a fresh SHELL — see
+`docs/automation-runbook.md` §3 and the restart helpers in `tools/lanes/`. **Verify from the
+process (`/proc/<pid>/cmdline`, `/proc/<pid>/environ`), never from the file you edited.**
+
+---
+
 ## 🛑 SESSION CHECKPOINT — S59 (2026-08-24 ~12:50). Phase 31 CONTINUES. **AGENTS RETURNED; EVERY FIX LANDED.**
 
 **All three Fable agents completed and every claim was re-verified against the bytes by the main
