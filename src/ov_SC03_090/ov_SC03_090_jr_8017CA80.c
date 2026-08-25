@@ -6569,7 +6569,15 @@ extern void func_80016714(void *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80184E58);
+extern s32 D_801A3048;
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+
+    void func_80184E58(arg0)
+s32 arg0;
+{
+        ((void (*)(void *, s32, s32, s32))func_8012D5E4)((void *)arg0, &D_801A3048, (s32)&D_801A3048 + 0x8, 0x5);
+    }
+
 
 #define gte_SetRotMatrix(r0) __asm__ volatile (         \
     "lw $12, 0( %0 );"                                   \

@@ -3230,7 +3230,120 @@ void func_8018D98C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018D98C", func_8018E4A4);
+extern s32  func_8012C588(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern u8  *func_8012913C();
+extern u8 D_801C9488[];
+extern void func_8001C214();
+extern void func_8002A04C(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern void func_80189390(void *a0);
+
+void func_8018E4A4(arg0)
+s32 arg0;
+{
+    s32 e;
+    s32 p;
+    s32 i;
+    s32 t;
+
+    switch (*(u16 *)(arg0 + 0x34)) {
+    case 0:
+        *(s32 *)(arg0 + 0x1C) = 0x1E;
+        *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
+        goto end;
+    case 1:
+        *(u8 *)(arg0 + 0xC2) = 0xA;
+        e = ((s32 (*)(s32))func_8012913C)(0x23);
+        if (e != 0) {
+            *(u16 *)(e + 6) = *(u16 *)(arg0 + 6) - rand() % 224 + 0x10;
+            *(u16 *)(e + 0xA) = *(u16 *)(arg0 + 0xA) - rand() % 320;
+            *(u16 *)(e + 0xE) = *(u16 *)(arg0 + 0xE) - 0x28;
+            *(s32 *)(e + 0x18) = 0;
+            *(s32 *)(e + 0x14) = 0;
+            *(s32 *)(e + 0x10) = 0;
+            *(u16 *)(e + 0x34) = (rand() & 0x17FF) + 0x1800;
+            func_8002D4C8(0xAD7, 0);
+        }
+        t = *(s32 *)(arg0 + 0x1C) - 1;
+        *(s32 *)(arg0 + 0x1C) = t;
+        if (t == 0) {
+            e = *(s32 *)(arg0 + 0xCC);
+            *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
+            if (e != 0) {
+                *(u16 *)(e + 0x5C) = *(u16 *)(e + 0x5C) | 1;
+                if (*(s32 *)(*(s32 *)(arg0 + 0x6C) + 0xF4) == 0) {
+                    *(s16 *)(e + 0x76) = -0x1F4;
+                } else {
+                    *(s16 *)(e + 0x76) = -0x3E8;
+                }
+                *(u16 *)(e + 0x5E) = 2;
+                *(s32 *)(arg0 + 0xCC) = 0;
+            }
+        }
+        goto end;
+    case 2:
+        if (*(s32 *)(*(s32 *)(arg0 + 0x6C) + 0xF4) != 0) {
+            func_8002D4C8(0xAD6, 0);
+            p = func_8012C658(0x33, 3, arg0);
+            if (p != 0) {
+                *(s16 *)(p + 0x12) = -3;
+                *(s16 *)(p + 0x16) = -0x10;
+                *(s16 *)(p + 0x1A) = -4;
+                *(u16 *)(p + 6) = *(u16 *)(p + 6) - 0x140;
+            }
+            p = func_8012C658(0x33, 2, arg0);
+            if (p != 0) {
+                *(u16 *)(p + 0x12) = 3;
+                *(s16 *)(p + 0x16) = -0x10;
+                *(s16 *)(p + 0x1A) = -4;
+                *(u16 *)(p + 6) = *(u16 *)(p + 6) - 0x140;
+            }
+            p = func_8012C658(0x32, 2, arg0);
+            if (p != 0) {
+                *(u16 *)(p + 0x12) = 0;
+                *(s16 *)(p + 0x16) = -0x10;
+                *(s16 *)(p + 0x1A) = -4;
+                *(u16 *)(p + 6) = *(u16 *)(p + 6) - 0x140;
+            }
+            i = 0;
+            do {
+                e = func_8012C588(0x281, arg0);
+                if (e != 0) {
+                    *(s32 *)(e + 0x1C) = 2;
+                    *(u16 *)(e + 6) = (u16)(*(u16 *)(e + 6) - 0x30) - rand() % 320;
+                    *(u16 *)(e + 0xA) = (u16)(*(u16 *)(e + 0xA) - 0x20) - rand() % 256;
+                    *(u16 *)(e + 0x12) = (rand() & 0x1F) - 0x10;
+                    *(u16 *)(e + 0x16) = -((rand() & 0xF) + 0x10);
+                    *(u16 *)(e + 0x1A) = (rand() & 0x1F) - 0x10;
+                }
+                i += 1;
+            } while (i < 8);
+            func_8002A04C(arg0);
+            if (*(s32 *)(*(s32 *)(arg0 + 0x6C) + 0xCC) != 0) {
+                e = *(s32 *)(*(s32 *)(arg0 + 0x6C) + 0xCC);
+                *(s16 *)(e + 0x76) = -0x3E8;
+                *(u16 *)(e + 0x5E) = 2;
+                *(u16 *)(e + 0x5C) = *(u16 *)(e + 0x5C) | 1;
+            }
+            func_8012C218(*(void **)(arg0 + 0x6C));
+            func_8012C218((void *)arg0);
+            goto end;
+        }
+        i = *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
+        func_8001C214(*(s32 *)(arg0 + 0x20), D_801C9488);
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = i;
+        *(s16 *)(arg0 + 0xAE) = -1;
+        *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
+        goto end;
+    default:
+        goto end;
+    }
+end:
+    ((void (*)(s32))func_80189390)(arg0);
+}
+
 
 void func_8018E89C(void *arg) {
     extern s32 rand(void);
