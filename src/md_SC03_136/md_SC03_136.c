@@ -218,7 +218,14 @@ void func_801E2ACC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_136/nonmatchings/md_SC03_136", func_801E2B08);
+void func_801E2B08(void) {
+    extern void func_801E2B30(s32 param_1, s16 *param_2);
+    extern s16 D_801274E8;
+    s32 x;
+
+    func_801E2B30(x, &D_801274E8);
+}
+
 
 typedef struct { short vx, vy, vz, pad; } SVECTOR;
 typedef struct { short m[3][3]; long t[3]; } MATRIX;

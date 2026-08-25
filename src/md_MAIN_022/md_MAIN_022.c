@@ -211,7 +211,24 @@ void func_800CB1BC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_022/nonmatchings/md_MAIN_022", func_800CB2F4);
+extern void func_80146CA0(s32);
+
+void func_800CB2F4(void *a0) {
+    void *a1;
+    s16 v0;
+
+    a1 = *(void **)((s32)a0 + 0x20);
+    *(u16 *)((s32)a0 + 0x60) += 0x60;
+    v0 = *(u16 *)((s32)a1 + 0x1A) + 0x200;
+    *(u16 *)((s32)a1 + 0x1A) = v0;
+    *(u16 *)((s32)a1 + 0x18) = v0;
+    if (v0 >= 0x1001) {
+        *(u16 *)((s32)a1 + 0x1A) = 0x1000;
+        *(u16 *)((s32)a1 + 0x18) = 0x1000;
+        func_80146CA0((s32)a0);
+    }
+}
+
 
 extern void func_80146CA0(s32);
 extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
