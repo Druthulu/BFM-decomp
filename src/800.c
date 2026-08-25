@@ -428,7 +428,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8001404C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80014070);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80014094);
+void func_80014094(s32 *arg0, void *arg1) {
+    *(s16 *)((u8 *)arg1 + 0x0) = arg0[0];
+    *(s16 *)((u8 *)arg1 + 0x2) = arg0[1];
+    *(s16 *)((u8 *)arg1 + 0x4) = arg0[2];
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800140B8);
 
@@ -1371,7 +1375,11 @@ void func_80015978(s32 *a0, s32 *a1) {
     *(u16 *)((s32)a1 + 0x4) = *(u16 *)((s32)a0 + 0xA);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001599C);
+void func_8001599C(s32 a0, s32 a1) {
+    *(s32 *)(a1 + 0x0) = *(s32 *)(a0 + 0x0);
+    *(s32 *)(a1 + 0x4) = *(s32 *)(a0 + 0x4);
+    *(s32 *)(a1 + 0x8) = *(s32 *)(a0 + 0x8);
+}
 
 void func_800159C0(s32 a0, s32 a1) {
     *(s32 *)(a1 + 0x0) = *(s32 *)(a0 + 0x0);
@@ -1391,7 +1399,11 @@ void func_80015A08(s32 *a0, s32 *a1) {
     *(u16 *)((s32)a1 + 0x8) = *(u16 *)((s32)a0 + 0x8);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80015A2C);
+void func_80015A2C(short* arg0, int* arg1) {
+    arg1[0] = arg0[0];
+    arg1[1] = arg0[1];
+    arg1[2] = arg0[2];
+}
 
 void func_80015A50(s32 *arg0, s16 *arg1) {
     arg1[0] = arg0[0];
@@ -2313,7 +2325,64 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80016A3C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80016A5C);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80016A7C);
+typedef struct {
+    u32 xy;   /* 0x0: vx (lo16) | vy (hi16) */
+    s16 z;    /* 0x4 */
+    s16 pad;  /* 0x6 */
+} SV_80016A7C; /* 0x8 */
+
+typedef struct {
+    SV_80016A7C v[2];  /* 0x00 */
+    u32 rgb0;          /* 0x10 */
+    u32 rgb1;          /* 0x14 */
+    u32 attr;          /* 0x18 */
+} Src_80016A7C;
+
+typedef struct {
+    u32 tag;   /* 0x00 */
+    u32 rgb0;  /* 0x04 */
+    u32 xy0;   /* 0x08 */
+    u32 rgb1;  /* 0x0C */
+    u32 xy1;   /* 0x10 */
+} LineG2_80016A7C; /* 0x14 */
+
+extern void *func_80010A08(s32 size);
+extern void SetLineG2(void *p);
+extern void func_80017E8C(s32 arg0);
+extern s32 RotTransPers3(void *v0, void *v1, void *v2,
+                          s32 *sxy0, s32 *sxy1, s32 *sxy2,
+                          s32 *p, s32 *flag);
+extern void func_80018094(void *p, s32 otz, u32 flags);
+
+void func_80016A7C(Src_80016A7C *arg0, s32 arg1)
+{
+    LineG2_80016A7C *p;
+    s32 opz;
+    s32 flag;
+    s32 otz;
+
+    p = (LineG2_80016A7C *)func_80010A08(0x14);
+    p->rgb0 = arg0->rgb0;
+    p->rgb1 = arg0->rgb1;
+    SetLineG2(p);
+
+    if (arg1 != 0) {
+        func_80017E8C(arg1);
+        otz = RotTransPers3(&arg0->v[0], &arg0->v[1], &arg0->v[1],
+                             (s32 *)&p->xy0, (s32 *)&p->xy1, (s32 *)&p->xy1,
+                             &opz, &flag);
+    } else {
+        p->xy0 = arg0->v[0].xy;
+        p->xy1 = arg0->v[1].xy;
+        __asm__ volatile("");
+        otz = arg0->v[0].z;
+        flag = 0;
+    }
+
+    if ((flag & ~0x1000) == 0) {
+        func_80018094(p, otz, arg0->attr);
+    }
+}
 
 
 typedef struct {
@@ -3014,7 +3083,10 @@ void func_80017738(void *a0, s32 a1)
     func_80017778(a0, a1, 1);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80017758);
+void func_80017758(void *a0, s32 a1)
+{
+    func_80017778(a0, a1, 0);
+}
 
 
 /* func_80017778 — src/800.c (main, -O2).
@@ -5986,7 +6058,13 @@ void func_8001BFB0(void) {
     D_80063074++;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001BFD0);
+extern s32 D_800A2B70;
+extern s32 D_800BA0FC;
+
+void func_8001BFD0(void) {
+    D_800A2B70 = 0;
+    D_800BA0FC = 0;
+}
 
 extern s32 D_800747D8;
 s32 func_8001BFE8(void) {
@@ -11495,7 +11573,10 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8002AC98);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002AE60);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002AED0);
+extern s32 D_800760C8;
+void func_8002AED0(void) {
+    D_800760C8 = 1;
+}
 
 extern s32 D_800760C8;
 void func_8002AEE4(void) {
