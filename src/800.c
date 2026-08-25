@@ -395,7 +395,22 @@ s32 func_80013450(void) {
     return func_80047D3C(result);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80013478);
+s32 func_80013478(void) {
+    register s16 *a0 __asm__("$4");
+    register s16 *a1 __asm__("$5");
+    volatile s32 diff[3];
+    s32 result[3];
+
+    diff[0] = a0[1] - a1[0];
+    diff[1] = a0[3] - a1[1];
+    diff[2] = a0[5] - a1[2];
+
+    __asm__ volatile("lwc2 $9, 0(%0)\n\tlwc2 $10, 4(%0)\n\tlwc2 $11, 8(%0)" : : "r"(diff));
+    __asm__ volatile("nop\n\tnop\n\tsqr 0");
+    __asm__ volatile("swc2 $25, 0(%0)\n\tswc2 $26, 4(%0)\n\tswc2 $27, 8(%0)" : : "r"(result) : "memory");
+
+    return result[0] + result[1] + result[2];
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800134FC);
 
@@ -6374,7 +6389,33 @@ void func_8001C00C(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001C044);
+void func_8001C044(void) {
+    extern void func_80016714(void *a0, s32 a1);
+    extern u8 D_800AF630[];
+
+    u8 *base;
+    u8 *p;
+    s32 i;
+
+    base = D_800AF630;
+    p = &base[0x65A8];
+    i = 0;
+    do {
+        func_80016714(p, 0x38);
+        i++;
+        p += 0x38;
+    } while (i < 0x100);
+
+    p = &base[0x2A8];
+    i = 0;
+    do {
+        func_80016714(p, 0x84);
+        i++;
+        p += 0x84;
+    } while (i < 0xC0);
+
+    *(u16 *)&base[0x19C] = 0;
+}
 
 void func_8001C0C8(void) {
     extern void func_80016714(void *a0, s32 a1);

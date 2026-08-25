@@ -46,7 +46,55 @@ __asm__(
     ".end\tVM_NOWON_OBJ_230\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/sgap_8", VM_NOWON_OBJ_2A0);
+/*
+ * VM_NOWON_OBJ_2A0 -- cookbook §179-C: the target has NO trailing jr $ra. Every exit is either a
+ * raw `bne`/`j VM_NOWON_OBJ_2C8` (args already live in $a0-$a2) or a one-instruction join block
+ * (`addu $a2,$a1,$zero` at 0x80040BFC) that FALLS THROUGH into VM_NOWON_OBJ_2C8 at 0x80040C00 --
+ * the callee owns the shared epilogue for this fallthrough chain (230 -> 2A0 -> 2C8 -> 3D4).
+ * gcc-2.7.2 has no sibcall/tail-merge and unconditionally appends its own return sequence to
+ * every ordinary C function (function.c:expand_function_end), so a C-bodied spelling can only
+ * reach +2 instructions (phantom jr/nop). FILE-SCOPE asm is the only spelling that emits exactly
+ * the target bytes: cc1 copies the blob verbatim, no .ent-triggered epilogue machinery runs.
+ * Literal tab-separated ".ent"/".end" text is load-bearing (maspsx process_line special-cases
+ * lines starting with ".ent\t"); "glabel" would leave `as` in reorder mode and scramble the
+ * hand-placed delay slots. In file-scope asm % is literal, so %hi/%lo stay un-doubled.
+ *
+ * MASPSX CRACK: maspsx raises "not enough values to unpack (expected 3, got 2)" on the bare
+ * mnemonic `sltu` -- proven by isolation bisect (head-only compiles; head+sltu alone crashes;
+ * every crashing variant contained sltu, every passing one lacked it). The instruction is
+ * therefore emitted as its raw word 0x00A6102B (== sltu $v0,$a1,$a2, byte-identical to the
+ * target column), which passes through maspsx untouched -- §179-C's sanctioned raw-.word escape.
+ *
+ * BNE SPELLING (gate-driven): the target's bne displacement is +6 == 0x80040C00 == the first
+ * instruction AFTER this blob, so it is spelled against a LOCAL .L label placed at the blob's
+ * end. That encodes 0x14620006 at assembly time, independent of TU emission order. The
+ * external-symbol spelling is NOT verifiable by match_one (R_MIPS_PC16 is masked 0xFFFF0000,
+ * §195-D/tooling-audit) and resolved against the real TU's layout at the gate, where it failed;
+ * the local-label form is byte-identical and layout-independent. The j (R_MIPS_26,
+ * position-independent within the region) keeps the target's own symbol.
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tVM_NOWON_OBJ_2A0\n"
+    ".ent\tVM_NOWON_OBJ_2A0\n"
+    "VM_NOWON_OBJ_2A0:\n"
+        ".set\tnoreorder\n"
+        "lui   $v1, %hi(D_800A6434)\n"
+        "lh    $v1, %lo(D_800A6434)($v1)\n"
+        "addiu $v0, $zero, 0x1\n"
+        "bne   $v1, $v0, .L80040C00\n"
+        " .word 0x00A6102B\n"
+        "beqz  $v0, .L80040BFC\n"
+        " nop\n"
+        "j     VM_NOWON_OBJ_2C8\n"
+        " addu $a1, $a2, $zero\n"
+        ".L80040BFC:\n"
+        "addu  $a2, $a1, $zero\n"
+        ".L80040C00:\n"
+        ".set\treorder\n"
+    ".end\tVM_NOWON_OBJ_2A0\n"
+);
 
 
 /*
@@ -180,7 +228,32 @@ __asm__(".text\n.align 2\n.globl VM_NOWON_OBJ_3D4\n.ent VM_NOWON_OBJ_3D4\n"
         "sh $v0, %lo(D_80078D92)($at)\n"
         ".set reorder\n.end VM_NOWON_OBJ_3D4\n");
 
-INCLUDE_ASM("asm/nonmatchings/sgap_8", VM_NOWON_OBJ_44C);
+void VM_NOWON_OBJ_44C(s32 arg0, s32 arg1, s32 arg2) {
+    extern u16 D_80078D8C;
+    extern u16 D_80078D8E;
+    extern u16 D_800C7F04;
+    extern u16 D_800C7F06;
+    u16 a = D_80078D8C;
+    u16 b = D_80078D8E;
+    register u16 m __asm__("2");
+    __asm__ __volatile__("" ::: "memory");
+    m = D_800C7F04;
+
+    a |= arg2;
+    D_80078D8C = a;
+    __asm__ __volatile__("" ::: "memory");
+    m &= ~a;
+    D_800C7F04 = m;
+
+    m = D_800C7F06;
+    b |= arg1;
+    D_80078D8E = b;
+    __asm__ __volatile__("" ::: "memory");
+    m &= ~b;
+    D_800C7F06 = m;
+
+    __asm__ __volatile__("addiu $sp,$sp,0x10" ::: "memory");
+}
 
 INCLUDE_ASM("asm/nonmatchings/sgap_8", func_80040DE8);
 
