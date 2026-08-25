@@ -4977,7 +4977,24 @@ void func_80183364(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_801833A0);
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80183404);
+void func_80183404(void *a0) {
+    extern s32 func_8012B77C(s32 out, s32 from, s32 to);
+    extern s32 D_801B1D20[];
+    extern s32 D_801151D4;
+    s32 sp10[4];  /* 0x10: the func_8012B77C "to" record — fields at +0x2/+0x6/+0xA */
+    s32 sp20[2];  /* 0x20: the 8-byte out buffer */
+    s32 t;
+
+    *(s16 *)((s32)sp10 + 0x2) = *(s32 *)(D_801151D4 + 0x5C);
+    *(s16 *)((s32)sp10 + 0x6) = *(s32 *)(D_801151D4 + 0x60);
+    *(s16 *)((s32)sp10 + 0xA) = *(s32 *)(D_801151D4 + 0x64);
+    func_8012B77C((s32)sp20, (s32)a0 + 4, (s32)sp10);
+    t = sp20[0];
+    *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) = t;
+    *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = t >> 16;
+    ((void (*)(void *))D_801B1D20[*(u16 *)((s32)a0 + 2)])(a0);
+}
+
 
 
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);

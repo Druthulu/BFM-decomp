@@ -5020,7 +5020,34 @@ void func_80180DB4(s32 ent) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_80180ED0);
+extern void func_8017FB38();
+struct D_801D0630_s { u16 f0; u16 f2; u16 pad[2]; };
+extern struct D_801D0630_s D_801D0630[];
+struct D_801D0660_s { u16 f0; u16 f2; };
+extern struct D_801D0660_s D_801D0660[];
+extern struct D_801D0660_s D_801D0662[];
+
+void func_80180ED0(s32 arg0) {
+    register s32 a3 __asm__("$7") = arg0;
+    register s32 i __asm__("$6");
+    register s32 a1 __asm__("$5");
+
+    if (*(s32 *)(a3 + 0x1C) != 0) {
+        (*(s32 *)(a3 + 0x1C))--;
+        for (i = 0, a1 = (s32)D_801D0630; i < 12; i += 2) {
+            *(u16 *)(a1 + 0) += D_801D0660[i >> 1].f0;
+            *(u16 *)(a1 + 2) += D_801D0662[i >> 1].f0;
+            a1 += 8;
+        }
+        *(u16 *)(*(s32 *)(a3 + 0x20) + 0x18) += 0x200;
+        *(u16 *)(*(s32 *)(a3 + 0x20) + 0x1A) += 0x200;
+    } else {
+        *(s32 *)(a3 + 0x1C) = 4;
+        *(u16 *)(a3 + 0x2) += 1;
+    }
+    func_8017FB38(a3);
+}
+
 
 #include "common.h"
 
@@ -5386,7 +5413,16 @@ extern s16 D_801D0A82;
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_80181918);
+void func_80181918(s32 arg0, s32 arg1, s32 arg2) {
+    extern s32 func_80181A44(void);
+    s32 idx;
+
+    idx = func_80181A44();
+    if (idx >= 0) {
+        func_80181970(idx, arg0, arg1, arg2);
+    }
+}
+
 
 
 /* func_80181970 — SPLICE RECONCILE (bytes unchanged from the s6h draft).

@@ -420,7 +420,33 @@ u32 func_801E45C0(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_135/nonmatchings/md_SC03_135", func_801E4628);
+void func_801E4628(val, n, dst, flag)
+unsigned int val;
+short n;
+unsigned short *dst;
+short flag;
+{
+    extern unsigned short *D_801E6350[];
+    short i;
+    int idx;
+    register unsigned int d __asm__("$3");
+
+    for (i = 0; i < n; i++) {
+        d = val >> 28;
+        idx = d;
+        if ((flag << 16) != 0) {
+            if (d != 0) {
+                flag = 0;
+            } else {
+                idx = 10;
+            }
+        }
+        val <<= 4;
+        *dst = *D_801E6350[idx];
+        dst++;
+    }
+}
+
 
 INCLUDE_ASM("asm/md_SC03_135/nonmatchings/md_SC03_135", func_801E46A0);
 

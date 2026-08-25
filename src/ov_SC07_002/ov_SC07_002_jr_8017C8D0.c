@@ -3222,7 +3222,66 @@ s32 func_8017D8D8(void) {
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017D920);
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017DAEC);
+extern void func_8017E5D4(s32);
+extern void func_8017DC80(void);
+
+typedef union {
+    u8 b;
+    u16 h[0x1C];
+    s16 s[0x1C];
+} R38;
+
+extern R38 A_B8[0xC0] __asm__("D_8019B7B8");
+extern R38 A_BA[0xC0] __asm__("D_8019B7BA");
+extern R38 A_DC[0xC0] __asm__("D_8019B7DC");
+extern R38 A_E0[0xC0] __asm__("D_8019B7E0");
+extern R38 A_E2[0xC0] __asm__("D_8019B7E2");
+extern R38 A_E4[0xC0] __asm__("D_8019B7E4");
+extern R38 A_E6[0xC0] __asm__("D_8019B7E6");
+
+void func_8017DAEC(void)
+{
+    s32 i;
+    R38 *e;
+    s16 t;
+    s16 d;
+    s32 st;
+
+    for (i = 0; i < 0xC0; i++) {
+        st = A_B8[i].b;
+        if (st < 2) {
+            continue;
+        }
+        t = A_BA[i].s[0];
+        if (t == 0) {
+            continue;
+        }
+        d = t - 1;
+        e = &A_B8[i];
+        e->h[1] = d;
+        if (A_BA[i].s[0] == 0) {
+            ((void (*)(void *))func_8017E5D4)(e);
+            continue;
+        }
+        if (A_DC[i].h[0] < A_E2[i].h[0]) {
+            A_DC[i].h[0] = 0;
+        } else {
+            A_DC[i].h[0] = A_DC[i].h[0] - A_E2[i].h[0];
+        }
+        if (A_DC[i].h[1] < A_E4[i].h[0]) {
+            A_DC[i].h[1] = 0;
+        } else {
+            A_DC[i].h[1] = A_DC[i].h[1] - A_E4[i].h[0];
+        }
+        if (A_E0[i].h[0] < A_E6[i].h[0]) {
+            A_E0[i].h[0] = 0;
+        } else {
+            A_E0[i].h[0] = A_E0[i].h[0] - A_E6[i].h[0];
+        }
+    }
+    func_8017DC80();
+}
+
 
 /* func_8017DC80 — VERBATIM-ASM BANK (cookbook §265).
  * Target .s carries the splat tag "Handwritten function" (line 1): interleaved
@@ -4755,13 +4814,34 @@ extern s32 func_8018094C(void);
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8018094C);
 
-extern s32 func_80180A2C(void);
+extern s32 func_80180A2C();
     void func_80180A0C(void) {
         func_80180A2C();
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80180A2C);
+s32 func_80180A2C(s32 s1) {
+    typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
+    extern s16 D_80126940[4];
+    extern s32 func_8012E544(s32 a0);
+    extern void func_80015978(s32 a0, s32 *a1);
+    extern s32 ratan2(s32 dx, s32 dy);
+    extern s32 func_80181394();
+
+    SVfbd0 base;
+    SVfbd0 target;
+    s32 ret;
+
+    base = (*(SVfbd0 *)D_80126940);
+    ret = func_8012E544(0x306);
+    if (ret != 0) {
+        func_80015978(ret + 4, (s32 *)&target);
+    } else {
+        target = (*(SVfbd0 *)D_80126940);
+    }
+    func_80181394(s1, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
+}
+
 
 extern void func_80180B0C();
 void func_80180AEC(void) {

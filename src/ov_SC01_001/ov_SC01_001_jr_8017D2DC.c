@@ -4895,7 +4895,25 @@ void func_80182F58(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_80182F94);
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_80183034);
+extern s32 D_801EDA30;
+
+void func_80183034(void *param_1)
+{
+    if (func_80183128(param_1, 1, 0x10) != 0) {
+        register u32 v __asm__("$2");
+        int d;
+        v = 0xFFF40000;
+        d = D_801EDA30;
+        *(u32 *)((s32)param_1 + 0x18) = 0;
+        *(u32 *)((s32)param_1 + 0x14) = v;
+        if (d == 0) {
+            D_801EDA30 = 1;
+            func_8002D4C8(0xB98, 0);
+        }
+        *(u16 *)((s32)param_1 + 2) += 1;
+    }
+}
+
 
 void func_801830A8(void *a0) {
     if (func_80183128(a0, 1, 0) != 0) {
