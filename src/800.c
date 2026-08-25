@@ -6255,7 +6255,11 @@ endReason:
 INCLUDE_ASM("asm/nonmatchings/800", CdReadSectorReadyCB);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001A9D8);
+extern s32 CdQueueBusy(void);
+
+void func_8001A9D8(void) {
+    CdQueueBusy();
+}
 
 
 void func_8001A9F8(s32 a0)
