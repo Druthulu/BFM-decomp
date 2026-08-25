@@ -327,7 +327,22 @@ s32 func_801EE1A8(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_025/nonmatchings/md_SC05_025", func_801EE1B8);
+extern s32 func_80029178(s32 arg);
+extern void func_80029124(s32, s32);
+extern s32 func_80029504(void);
+
+s32 func_801EE1B8(void) {
+    if ((func_80029178(0xF5) & 0xFF) != 0) {
+        return 0;
+    }
+    if ((u32)(func_80029504() - 0xC8) < 0x190) {
+        func_80029124(0xF5, 1);
+        func_80029124(0x10F, 1);
+        return 1;
+    }
+    return 0;
+}
+
 
 
 

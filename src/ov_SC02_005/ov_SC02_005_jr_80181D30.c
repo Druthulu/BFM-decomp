@@ -9484,7 +9484,16 @@ extern void func_8012C218(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018CA3C);
+extern s32 D_801270C8;
+extern void func_8012C218(void *a0);
+
+void func_8018CA3C(s32 a0) {
+    if (*(s16 *)(a0 + 0x100) == 0) {
+        D_801270C8 = 13;
+        func_8012C218((void *)a0);
+    }
+}
+
 
 #include "common.h"
 

@@ -3510,7 +3510,60 @@ INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017E2C
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017E334);
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017E384);
+extern s32 func_8016F410(s32 a0);
+extern void func_80154274(s32 *a0, s32 a1);
+extern s32 func_801399F0(s32 a0);
+extern void func_80139914(s32 a0);
+extern u8 D_8018A310[];
+extern u8 D_8018A390[];
+extern u8 D_8018A410[];
+extern u8 D_800D59EC[];
+extern u8 D_800D5A34[];
+
+void func_8017E384(int param_1)
+{
+    switch (*(s16 *)(param_1 + 0x20C)) {
+    case 0:
+        if (func_8016F410(0) != 0) {
+            func_80154274((s32 *)param_1, (s32)&D_8018A310);
+            *(u16 *)(param_1 + 0x20E) = 0;
+            *(u16 *)(param_1 + 0x20C) = *(u16 *)(param_1 + 0x20C) + 1;
+        }
+        break;
+    case 1:
+        if (((*(u16 *)(param_1 + 0xB8) & 0x8000) != 0) && (*(s16 *)(param_1 + 0x20E) == 0)) {
+            *(u16 *)(param_1 + 0x20E) = 1;
+            func_80154274((s32 *)param_1, (s32)&D_8018A410);
+        }
+        if (func_8016F410(1) != 0) {
+            func_80154274((s32 *)param_1, (s32)&D_8018A390);
+            *(u16 *)(param_1 + 0x20C) = *(u16 *)(param_1 + 0x20C) + 1;
+        }
+        break;
+    case 3:
+        if (func_8016F410(2) != 0) {
+            func_80154274((s32 *)param_1, (s32)&D_800D59EC);
+            *(u16 *)(param_1 + 0x20C) = *(u16 *)(param_1 + 0x20C) + 1;
+        }
+        break;
+    case 2:
+    case 4:
+        if ((*(u16 *)(param_1 + 0xB8) & 0x8000) != 0) {
+            func_80154274((s32 *)param_1, (s32)&D_800D5A34);
+            *(u16 *)(param_1 + 0x20C) = *(u16 *)(param_1 + 0x20C) + 1;
+        }
+        break;
+    case 5:
+        break;
+    }
+
+    if (func_801399F0(*(s32 *)(param_1 + 0x198)) != 0) {
+        func_80139914(*(s32 *)(param_1 + 0x198));
+        *(u8 *)(param_1 + 0x4D) = *(u8 *)(param_1 + 0x4D) - 1;
+        *(u8 *)(param_1 + 0x214) = *(u8 *)(param_1 + 0x214) + 1;
+    }
+}
+
 
 extern void func_8017DCAC(void);
 extern void func_8016F0E4(void);
