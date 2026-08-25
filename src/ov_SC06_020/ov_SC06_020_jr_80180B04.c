@@ -4539,7 +4539,22 @@ s32 aF8018353C(s32 a0, s16 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_801835BC);
+s32 func_801835BC(s32 param_1, s32 a1, s32 a2)
+{
+    s32 e;
+
+    if (func_8012BEE8(param_1) != 0) {
+        e = func_80132EF4(param_1, 0x22);
+        if (e != 0) {
+            *(u16 *)(e + 0x34) = 0x7FFF;
+            *(u16 *)(*(s32 *)(e + 0x20) + 0x2C) = 0xC006;
+            *(s32 *)(e + 0x14) = 0xFFFE0000;
+        }
+        return 1;
+    }
+    return 0;
+}
+
 
 
 extern void (*D_8019EDB0[])(void);

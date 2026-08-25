@@ -5150,7 +5150,16 @@ void func_80180DBC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_80180E04);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 D_801A2284;
+extern void *D_801A2280;
+extern u8 D_801859BC;
+
+void func_80180E04(void) {
+    func_8012A828(D_801A2284, &D_801859BC);
+    func_8012A828((s32)D_801A2280, &D_801859BC);
+}
+
 
 extern s32 *D_80126B78;
 extern u8 D_80126B5C;

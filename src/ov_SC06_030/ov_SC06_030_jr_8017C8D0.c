@@ -4859,7 +4859,71 @@ void func_80181938(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_80181A80);
+extern u8 D_801202A0[];
+extern void *D_80126CC8;
+extern u8 D_801B72B4[];
+extern u8 D_801B6914[];
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_80180D68(void);
+
+void func_80181A80(void *a0) {
+    u16 state = *(u16 *)((s32)a0 + 0x34);
+
+    switch (state) {
+    case 4:
+    {
+        u8 *p = D_801202A0;
+        s32 i;
+
+        for (i = 0; i < 0x60; i++, p += 0x10C) {
+            if (*(u16 *)(p + 0) == 0x2E7 && *(u16 *)(p + 2) == 4) {
+                func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)D_801B72B4);
+                *(u16 *)((s32)a0 + 0x5C) = 0x8800;
+                *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = 0x400;
+                *(s16 *)((s32)a0 + 0x34) = 3;
+            }
+        }
+        /* fall through */
+    }
+    case 0:
+        if (D_80126CC8 == a0) {
+            u16 t0 = *(u16 *)((s32)a0 + 0x88);
+            u16 t1 = *(u16 *)((s32)a0 + 0x8A);
+            u16 t2 = *(u16 *)((s32)a0 + 0x8C);
+
+            *(s16 *)((s32)a0 + 0x34) = 1;
+            *(s16 *)((s32)a0 + 0x5C) = 0;
+            *(u16 *)((s32)a0 + 0x6) = t0;
+            *(u16 *)((s32)a0 + 0xA) = t1;
+            *(u16 *)((s32)a0 + 0xE) = t2;
+            func_80180D68();
+        }
+        break;
+    case 1:
+        break;
+    case 2:
+    {
+        u8 *p = D_801202A0;
+        s32 i;
+
+        for (i = 0; i < 0x60; i++, p += 0x10C) {
+            if (*(u16 *)(p + 0) == 0x2E7 && *(u16 *)(p + 2) == 4) {
+                func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)D_801B6914);
+                *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x4) |= 0x60000040;
+                *(u16 *)((s32)a0 + 0x5C) = 0x9000;
+                *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = 0x400;
+                *(s16 *)((s32)a0 + 0x34) = 0;
+            }
+        }
+        break;
+    }
+    case 3:
+        break;
+    default:
+        break;
+    }
+}
+
 
 
 extern void (*D_801B4DA8[])(void);

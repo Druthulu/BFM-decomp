@@ -3981,7 +3981,14 @@ store5:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017E220);
+extern void func_8017E998(s32 a0);
+
+void func_8017E220(s32 a0) {
+    *(s32 *)(a0 + 0xDC) &= ~0x10;
+    func_8017E998(a0);
+    *(s32 *)(a0 + 0x1C) = 0xA;
+}
+
 
 
 extern s32 func_8012BEE8(s32 arg);

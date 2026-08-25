@@ -3205,7 +3205,3 @@ void func_80181BE4(s32 p)
         return;
     }
 }
-
-
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80181BE4", func_80181F08);
-
