@@ -1217,7 +1217,13 @@ __asm__(
     ".end\tSYS_OBJ_11C0\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", GetDispEnv);
+extern void func_8005C324(s32 dst, s32 src, s32 n);
+extern u8 D_800727F4[0x14];
+
+void *GetDispEnv(void *a0) {
+    func_8005C324((s32)a0, (s32)D_800727F4, 0x14);
+    return a0;
+}
 
 extern void *D_80072780;
 
