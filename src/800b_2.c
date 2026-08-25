@@ -87,7 +87,24 @@ s32 *Square12(s32 *a0, s32 *a1)
     return a1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800b_2", Square0);
+s32 *Square0(s32 *a0, s32 *a1)
+{
+    register s32 *out __asm__("$5");
+    out = a1;
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "lwc2  $9, 0(%0)\n"
+        "lwc2  $10, 4(%0)\n"
+        "lwc2  $11, 8(%0)\n"
+        "nop\n"
+        "sqr   0\n"
+        "swc2  $25, 0(%1)\n"
+        "swc2  $26, 4(%1)\n"
+        "swc2  $27, 8(%1)\n"
+        ".set\treorder\n"
+        : : "r"(a0), "r"(out) : "$9", "$10", "$11", "memory");
+    return a1;
+}
 
 void AverageZ3()
 {

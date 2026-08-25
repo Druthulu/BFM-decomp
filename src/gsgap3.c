@@ -90,7 +90,36 @@ void func_80052654(u16 w, u16 h, u16 intmode, u16 dither, u16 varh)
     func_80059FC0((u8 *)q);
 }
 
-INCLUDE_ASM("asm/nonmatchings/gsgap3", GsInitGraph2);
+extern s16 D_800A644C;
+extern u8 D_800A644E;
+extern u8 D_800A644F;
+extern u8 D_800A6450;
+extern s16 D_800A649C;
+extern s16 D_800A649E;
+extern u8 D_800A64A8;
+extern u8 D_800A64A9;
+extern s16 D_800C7C88;
+
+void func_8005283C(s32 a0, s32 a1);
+
+/* hostile fleet-canonical prototype, as carried by caller TUs */
+void GsInitGraph2(s32 w, s32 h, s32 mode, s32 a3, s32 st);
+
+void GsInitGraph2_body(u16 w, u16 h, u16 intmode, u16 dither, u16 varh) __asm__("GsInitGraph2");
+
+void GsInitGraph2_body(u16 w, u16 h, u16 intmode, u16 dither, u16 varh)
+{
+    D_800A649C = w;
+    D_800A649E = h;
+    D_800A644C = 0;
+    D_800A644E = dither;
+    D_800A644F = 0;
+    D_800A6450 = 0;
+    D_800A64A8 = intmode & 1;
+    D_800C7C88 = intmode & 4;
+    D_800A64A9 = varh;
+    func_8005283C(w, h);
+}
 
 
 typedef struct {
@@ -266,4 +295,25 @@ __asm__(
     ".end\tGsSortClear\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/gsgap3", GS_001_OBJ_5D0);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tGS_001_OBJ_5D0\n"
+    ".ent\tGS_001_OBJ_5D0\n"
+    "GS_001_OBJ_5D0:\n"
+    ".set\tnoreorder\n"
+    "lui   $2, %hi(D_80078810)\n"
+    "addiu $2, $2, %lo(D_80078810)\n"
+    "lui   $5, %hi(D_800C7C74)\n"
+    "lh    $5, %lo(D_800C7C74)($5)\n"
+    "lw    $4, 16($7)\n"
+    "sll   $5, $5, 4\n"
+    "jal   AddPrim\n"
+    "addu  $5, $5, $2\n"
+    "lw    $31, 16($sp)\n"
+    "addiu $sp, $sp, 24\n"
+    "jr    $31\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tGS_001_OBJ_5D0\n"
+);

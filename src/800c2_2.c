@@ -120,4 +120,20 @@ s32 func_800625DC(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c2_2", func_80062644);
+s32 func_80062644(void) {
+    extern s32 *D_80072A2C;
+    s32 *p = D_80072A2C;
+
+    if ((p[1] & 1) == 0) {
+        return 0;
+    }
+    if ((p[0] & 1) != 0) {
+        return 1;
+    }
+    if ((p[0] & 1) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+__asm__(".word 0x00000000\n");

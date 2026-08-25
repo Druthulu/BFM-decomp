@@ -470,7 +470,149 @@ void *GsTMDfastF4GL(void)
     );
 }
 
-INCLUDE_ASM("asm/nonmatchings/800b2", GsTMDfastF4GNL);
+/* GsTMDfastF4GNL @ 0x80058284 -- HANDWRITTEN PsyQ libgs TMD primitive walker
+ * (flat, 4-vertex, lit, non-textured "fast" path). Splat marks it "Handwritten
+ * function": raw GTE code (rtpt/nclip/rtps/avsz4), direct lwc2/swc2 to numbered
+ * cop2 data registers, cfc2 $31, hand-filled branch delay slots and explicit
+ * load-latency nops, 8 arguments (4 in $a0-$a3, 4 on the stack), allocation in
+ * $t0-$t9 only. Not expressible as compiler-generated C; reproduced verbatim
+ * the way the project's other handwritten GTE bodies are (see GsTMDfastG3GL
+ * above): one __asm__ __volatile__ block under .set noreorder. gcc supplies the
+ * label, the 8-byte frame for the two-word flag/otz scratch pair, and the
+ * trailing "jr $ra / nop" epilogue -- exactly the target's head and tail.
+ * GTE compute ops are written as `cop2 <imm>` (binutils has no mnemonics):
+ *    rtpt  = 0x4A280030 -> cop2 0x0280030
+ *    nclip = 0x4B400006 -> cop2 0x1400006
+ *    rtps  = 0x4A180001 -> cop2 0x0180001
+ *    avsz4 = 0x4B68002E -> cop2 0x168002E
+ * No relocations and no symbol references: the body touches only its arguments,
+ * the stack scratch pair and the GTE. */
+void *GsTMDfastF4GNL()
+{
+    volatile int g[2];
+
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "lw    $24, 24($29)\n"
+        "lw    $2, 28($29)\n"
+        "lw    $3, 32($29)\n"
+        "lw    $8, 36($29)\n"
+        "lw    $3, 4($3)\n"
+        "addu  $10, $0, $0\n"
+        "sw    $2, 12($8)\n"
+        "blez  $24, 2f\n"
+        " sw   $3, 16($8)\n"
+        "lui   $11, 0xFF\n"
+        "ori   $11, $11, 0xFFFF\n"
+        "addiu $14, $8, 40\n"
+        "lui   $15, 0x8000\n"
+        "addiu $13, $8, 24\n"
+        "addiu $6, $4, 16\n"
+        "addiu $9, $7, 28\n"
+        "1:\n"
+        "lhu   $4, 6($6)\n"
+        "lhu   $3, 8($6)\n"
+        "lhu   $2, 10($6)\n"
+        "sll   $4, $4, 3\n"
+        "addu  $4, $5, $4\n"
+        "sll   $3, $3, 3\n"
+        "addu  $3, $5, $3\n"
+        "sll   $2, $2, 3\n"
+        "addu  $2, $5, $2\n"
+        "lwc2  $0, 0($4)\n"
+        "lwc2  $1, 4($4)\n"
+        "lwc2  $2, 0($3)\n"
+        "lwc2  $3, 4($3)\n"
+        "lwc2  $4, 0($2)\n"
+        "lwc2  $5, 4($2)\n"
+        "nop\n"
+        "nop\n"
+        "cop2  0x0280030\n"      /* rtpt */
+        "lw    $2, -12($6)\n"
+        "nop\n"
+        "and   $2, $2, $11\n"
+        "sw    $2, -24($9)\n"
+        "lbu   $2, -13($6)\n"
+        "nop\n"
+        "ori   $2, $2, 0x10\n"
+        "sb    $2, -21($9)\n"
+        "cfc2  $12, $31\n"
+        "nop\n"
+        "sw    $12, 0($14)\n"
+        "lw    $2, 40($8)\n"
+        "nop\n"
+        "and   $2, $2, $15\n"
+        "bnez  $2, 3f\n"
+        " nop\n"
+        "nop\n"
+        "nop\n"
+        "cop2  0x1400006\n"      /* nclip */
+        "lw    $2, -8($6)\n"
+        "nop\n"
+        "sw    $2, -16($9)\n"
+        "swc2  $24, 0($13)\n"
+        "lw    $2, 24($8)\n"
+        "nop\n"
+        "blez  $2, 3f\n"
+        " nop\n"
+        "swc2  $12, 8($7)\n"
+        "swc2  $13, 16($7)\n"
+        "swc2  $14, 24($7)\n"
+        "lhu   $2, 12($6)\n"
+        "nop\n"
+        "sll   $2, $2, 3\n"
+        "addu  $2, $5, $2\n"
+        "lwc2  $0, 0($2)\n"
+        "lwc2  $1, 4($2)\n"
+        "nop\n"
+        "nop\n"
+        "cop2  0x0180001\n"      /* rtps */
+        "lw    $2, -4($6)\n"
+        "nop\n"
+        "sw    $2, -8($9)\n"
+        "cfc2  $12, $31\n"
+        "nop\n"
+        "sw    $12, 0($14)\n"
+        "lw    $2, 40($8)\n"
+        "nop\n"
+        "and   $2, $2, $15\n"
+        "bnez  $2, 3f\n"
+        " addiu $2, $7, 32\n"
+        "swc2  $14, 0($2)\n"
+        "nop\n"
+        "nop\n"
+        "cop2  0x168002E\n"      /* avsz4 */
+        "lw    $2, 0($6)\n"
+        "nop\n"
+        "sw    $2, 0($9)\n"
+        "swc2  $7, 0($13)\n"
+        "lw    $3, 24($8)\n"
+        "lw    $2, 12($8)\n"
+        "addiu $9, $9, 36\n"
+        "srav  $3, $3, $2\n"
+        "lw    $2, 16($8)\n"
+        "sll   $3, $3, 2\n"
+        "addu  $2, $2, $3\n"
+        "sw    $2, 56($8)\n"
+        "lw    $3, 0($2)\n"
+        "lui   $2, 0x800\n"
+        "and   $3, $3, $11\n"
+        "or    $3, $3, $2\n"
+        "sw    $3, 0($7)\n"
+        "and   $3, $7, $11\n"
+        "lw    $2, 56($8)\n"
+        "addiu $7, $7, 36\n"
+        "sw    $3, 0($2)\n"
+        "3:\n"
+        "addiu $10, $10, 1\n"
+        "slt   $2, $10, $24\n"
+        "bnez  $2, 1b\n"
+        " addiu $6, $6, 32\n"
+        "2:\n"
+        "addu  $2, $7, $0\n"
+        ".set\treorder\n"
+        : : : "memory");
+}
 
 
 /*
