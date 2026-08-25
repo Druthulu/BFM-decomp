@@ -2459,3 +2459,33 @@ lui+consumer as an address anchor).
 **Hindsight.** The probe order in the plan (build NCs → probe ONE card → then the pile) was
 right; what it should ALSO have said is "probe the CLASSIFIER against the pile before building
 any driver" — that reordering is what saved the effort here.
+
+---
+
+## 2026-08-24 (P31 S59) — the A-prop 0-bank decomposition: consume the verdicts you already compute
+
+**Decision.** When the free A-prop lane banked 0/117 three passes running, the response was to
+decompose the failure population INDIVIDUALLY (four probes, four DIFFERENT causes) rather than
+treat "the lane is broken" as one defect — and then to fix each class in the LANE, not as one-off
+rescues.
+
+**What the decomposition bought.** 117 staged = 82 already-refuted-by-match_one (staged anyway:
+the filter read `status==AGREE` and ignored `shape`) + 19 judged by the WRONG oracle (standalone
+compile for a TU-destined draft; 7/27 were byte-perfect in their real TU) + 16 byte-correct
+bodies stranded on TU decl walls the pipeline had a tool for but no wiring to. Even the "gate
+never saw it" probe artifact decomposed: a triage harness racing itself on an fn-keyed scratch
+dir — the third fn-keyed-collision defect found in one session (staging filter, reloc --fix
+rowmap, triage dir), which is now a named anti-pattern: **key nothing by bare fn name; overlays
+share function names.**
+
+**The general law (cookbook §270).** A mechanical remap is judged four times — instructions,
+symbols, TU coexistence, whole-binary bytes — and a lane that stages on fewer than all four burns
+a build per missing layer per pass, forever. Result of wiring all four + the decl-layer fixes:
+the same population banked 64+ in one session, zero model tokens, and the mechanisms are in the
+unattended lane.
+
+**Ceiling honesty (R41).** The lane's own number ("117") was a stage count with a
+three-quarters-hopeless numerator. The real denominator is 973 open members; the mechanically
+reachable slice is ~120/pass banking at ~50–60%; the remaining ~850 are named residuals (169
+STRUCT cracks, 121 type-inference, ~73 IMM tier-2, wrong-family cards) — work for different
+tools, not this lane. Saying so beats reporting a flattering fraction of the wrong denominator.
