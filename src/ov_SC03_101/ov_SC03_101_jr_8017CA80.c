@@ -5310,7 +5310,34 @@ void func_801811C8(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801812B4);
+extern void Square0(s32 *a0, s32 *a1);
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u16 D_80126B5E;
+
+s32 func_801812B4(void *arg0, s32 arg1) {
+    s32 in[3];
+    s32 out[3];
+    s16 d;
+    register int ret __asm__("$2");
+    register int decoy;
+    in[0] = ((s16 *)arg0)[3] - *(s16 *)&D_80126B5E;
+    in[1] = 0;
+    in[2] = ((s16 *)arg0)[7] - *(s16 *)&D_80126B66;
+    Square0(in, out);
+    d = D_80126B62 - ((u16 *)arg0)[5];
+    if (d < 0) {
+        d = -d;
+    }
+    asm("":"=r"(decoy));
+    asm(""::"r"(decoy));
+    ret = 0;
+    if (out[0] + out[2] < (u16)arg1 * (u16)arg1) {
+        ret = d < 4;
+    }
+    return ret;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80181374);
 

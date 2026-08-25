@@ -5718,7 +5718,7 @@ extern u16 D_801EFD40;
 extern s32 aFC4C[] __asm__("D_801EFC4C");
 extern u16 D_801EFD20;
 
-extern void func_801863D4(void);
+extern void func_801863D4();
 extern void func_801863B4(s32 a0);
 extern void func_80184ABC(u16 a0);
 /* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, s16 *). */
@@ -5924,7 +5924,7 @@ void func_801837C4(s32 a0, s32 a1) {
     extern u16 D_801EFD40;
     extern s32 aFC4C[] __asm__("D_801EFC4C");
     extern u16 D_801EFD20;
-    extern void func_801863D4(void);
+    extern void func_801863D4();
     extern void func_801863B4(s32 a0);
     extern void func_80184ABC(u16 a0);
     s32 v0;
@@ -7649,7 +7649,36 @@ void func_801863B4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801863D4);
+extern u16 D_801EFD40;
+extern s32 D_801EFC4C;
+extern void func_80186518(void *a0, void *a1, s32 a2);
+extern void func_801866C4(void *a0);
+
+void func_801863D4(void *a0) {
+    s32 i;
+    s32 *p;
+
+    i = 0;
+    p = &((s32 *)&D_801EFC4C)[0];
+    do {
+        u16 flag;
+        void *ent;
+
+        flag = D_801EFD40;
+        ent = (void *)p[0];
+        flag &= 0x4;
+        if (flag != 0) {
+            func_80186518(a0, ent, i);
+        } else {
+            func_801866C4(ent);
+        }
+        *(u16 *)((u8 *)ent + 0x86) &= ~0x10;
+        __asm__ __volatile__("" ::: "memory");
+        i++;
+        p++;
+    } while (i < 0x15);
+}
+
 
 #include "common.h"
 

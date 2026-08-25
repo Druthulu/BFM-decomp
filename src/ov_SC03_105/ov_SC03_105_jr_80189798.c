@@ -2972,7 +2972,30 @@ void func_80189C48(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80189798", func_80189C84);
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80189798", func_80189CFC);
+void func_80189CFC(void *a0)
+{
+    extern s32 func_8012BEE8(s32 a0);
+    extern void func_80189DAC();
+    extern u16 D_801B68F8;
+    extern u16 D_801B68FA;
+    extern u16 D_801B68FC;
+    u16 *ptr;
+    u16 fc;
+    s32 rnd;
+
+    if (func_8012BEE8((s32)a0) == 0) {
+        return;
+    }
+    rnd = rand();
+    fc = *(u16 *)((s32)a0 + 0xFC);
+    ptr = &D_801B68F8;
+    ptr[0] = *(u16 *)((s32)a0 + 6) + ((s16)fc / 2 - (rnd & (fc - 1))) * 2;
+    D_801B68FA = *(u16 *)((s32)a0 + 0xA);
+    D_801B68FC = *(u16 *)((s32)a0 + 0xE) + ((s16)fc / 2 - (rnd & (fc - 1))) * 2;
+    func_80189DAC((s32)a0, ptr);
+    *(s32 *)((s32)a0 + 0x1C) = (rand() & 0x7F) + 0x40;
+}
+
 
 
 

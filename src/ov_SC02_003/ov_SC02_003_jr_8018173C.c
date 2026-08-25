@@ -3283,7 +3283,36 @@ void func_80183018(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80183098);
+typedef struct { u8 b[8]; } St_801E6C9C;
+extern St_801E6C9C D_801E6C9C;
+extern void func_801473EC(s32 *a0);
+extern void func_80147460(s32 a0);
+extern void func_80147A84(s32 arg0);
+extern void func_80148038(s32 a0, s32 a1);
+
+void func_80183098(s32 arg0)
+{
+    St_801E6C9C buf;
+
+    buf = D_801E6C9C;
+    if (*(s16 *)(arg0 + 0xA) >= -0xBFF) {
+        *(u16 *)(arg0 + 0x88) = *(u16 *)&buf.b[0];
+        *(u16 *)(arg0 + 0x06) = *(u16 *)&buf.b[0];
+        *(u16 *)(arg0 + 0x8A) = *(u16 *)&buf.b[2];
+        *(u16 *)(arg0 + 0x0A) = *(u16 *)&buf.b[2];
+        *(u16 *)(arg0 + 0x8C) = *(u16 *)&buf.b[4];
+        *(u16 *)(arg0 + 0x0E) = *(u16 *)&buf.b[4];
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = 0;
+        *(u8 *)(arg0 + 0x4D) -= 1;
+        *(u8 *)(arg0 + 0x214) += 1;
+    } else {
+        func_80148038(arg0, 0x18000);
+        func_80147A84(arg0);
+        func_801473EC(arg0);
+        func_80147460(arg0);
+    }
+}
+
 
 extern s32 D_80126984;
 extern s32 D_80126990;

@@ -5700,7 +5700,56 @@ void func_801813F8(void *a0, void *a1, void *a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8018140C);
+extern void (*D_80185FC0[])(void *);
+extern u32 D_80185F90[];
+
+s32 func_8018140C(void)
+{
+    s32 done;
+    s32 i;
+    s32 c;
+    u16 *p;
+    u8 *q;
+
+    done = 0;
+    for (i = 0; i < 3; i++) {
+        p = (u16 *)((u32 *)D_80185F90 + i * 2);
+        q = (u8 *)(D_80185FC0 + i);
+        switch ((s16)p[0]) {
+        case 0:
+            p[1] -= 1;
+            if ((s16)p[1] == -1) {
+                p[0] = p[0] + 1;
+            }
+            break;
+        case 1:
+            c = *q;
+            c += 0x10;
+            if (c >= 0x100) {
+                c = 0xFF;
+                p[0] = p[0] + 1;
+            }
+            c = (c << 0x10) | (c << 8) | c;
+            *(u32 *)q = c;
+            break;
+        case 2:
+            c = *q;
+            c -= 0x10;
+            if (c < 0) {
+                c = 0;
+                p[0] = p[0] + 1;
+            }
+            c = (c << 0x10) | (c << 8) | c;
+            *(u32 *)q = c;
+            break;
+        case 3:
+            done += 1;
+            break;
+        }
+    }
+    return done == 3;
+}
+
 
 extern s32 func_8017DCC8(void);
 extern void func_800167B8(s32 a0);
