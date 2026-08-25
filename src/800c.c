@@ -740,7 +740,15 @@ void func_80059BFC(s32 a0, s32 a1) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", DrawPrim);
+extern void *D_80072780;
+
+void DrawPrim(void *prim) {
+    u8 len;
+
+    len = *(u8 *)((u8 *)prim + 3);
+    (*(void (**)(s32))((u8 *)D_80072780 + 0x3C))(0);
+    (*(void (**)(void *, s32))((u8 *)D_80072780 + 0x14))((u8 *)prim + 4, len);
+}
 
 extern u8 D_8007278A;
 extern u32 D_80072784;

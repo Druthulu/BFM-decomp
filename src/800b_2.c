@@ -80,7 +80,20 @@ void DpqColor3(void)
         : : : "memory");
 }
 
-INCLUDE_ASM("asm/nonmatchings/800b_2", Intpl);
+void Intpl()
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "lwc2   $9, 0($4)\n"
+        "lwc2   $10, 4($4)\n"
+        "lwc2   $11, 8($4)\n"
+        "mtc2   $5, $8\n"
+        "nop\n"
+        "intpl\n"
+        "swc2   $22, 0($6)\n"
+        ".set\treorder\n"
+        : : : "memory");
+}
 
 s32 *Square12(s32 *a0, s32 *a1)
 {
