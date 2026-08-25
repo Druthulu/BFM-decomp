@@ -3599,7 +3599,20 @@ void func_8017DBE0(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017DDFC);
+extern s32 func_8012BEE8();
+extern void func_80142414(s32 a0, s16 a1);
+
+void func_8017DDFC(p)
+s32 p;
+{
+    if (*(s32 *)(p + 0x1C) == 0xF) {
+        func_80142414(p, -0x90);
+    }
+    if (func_8012BEE8(p) != 0) {
+        *(u16 *)(p + 2) = 2;
+    }
+}
+
 
 
 /* func_8017DE4C — a randomised state entry: seed the timer at 0x1C with
@@ -3786,7 +3799,17 @@ void func_8017E0C0(s32 p)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017E248);
+extern u8 D_801B59B0[];
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_8017E248(param_1)
+s32 param_1;
+{
+    *(s32 *)(param_1 + 0x1C) = 0x20;
+    *(u16 *)(param_1 + 2) = 7;
+    func_8012A828(param_1, D_801B59B0);
+}
+
 
 void func_8017E27C(s32 p)
 {
@@ -4197,7 +4220,26 @@ void func_8017EAB4(s32 p)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017EC18);
+extern u8 D_8019E78C[];
+extern u8 D_801B5D60[];
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_8017EC18(p)
+s32 p;
+{
+    extern u8 D_8019E78C[];
+    extern u8 D_801B5D60[];
+
+    *(s16 *)(p + 2) = 0x14;
+    if (!(*(u32 *)(p + 0xE0) & 0x400)) {
+        *(s16 *)(p + 0x34) = 1;
+        func_8012A828(p, D_801B5D60);
+    } else {
+        *(s16 *)(p + 0x34) = 0;
+        func_8012A828(p, D_8019E78C);
+    }
+}
+
 
 typedef struct {
     SVECTOR_8016E7C8 v[4];               /* 0x00 */
@@ -4640,7 +4682,25 @@ void func_8017F490(s32 p) {
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017F570);
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017F5B0);
+extern s32  func_801833F4(void *a0, s32 a1, s32 a2);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012BEE8();
+extern u8  D_8019E994[];
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+
+void func_8017F5B0(p)
+s32 p;
+{
+    s32 buf10[2];
+    ((void (*)(s32, void *, void *))func_8012F214)(p, D_8019E994, buf10);
+    if (func_801833F4(buf10, *(s16 *)(*(s32 *)(p + 0x20) + 0x12), 0x380) != 0 &&
+        func_8012BCCC(p) < 0x64000) {
+        *(u16 *)(p + 2) = 0x1C;
+    } else if (func_8012BEE8(p) != 0) {
+        *(u16 *)(p + 2) = 0x18;
+    }
+}
+
 
 
 extern void func_8012A828(s32, void*);

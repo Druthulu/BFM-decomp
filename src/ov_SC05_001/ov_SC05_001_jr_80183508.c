@@ -3431,7 +3431,38 @@ s32 func_8018466C(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_80183508", func_80184750);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
+
+void func_80184750(arg0)
+s32 arg0;
+{
+    struct { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; } s;
+    u32 buf[2];
+    s32 i;
+    u32 *bp;
+    s32 x;
+
+    i = 0;
+    bp = buf;
+
+    s.f6 = 0x33;
+    s.fA = 0;
+    s.f8 = 0;
+    s.f10 = 0;
+    s.fE = 0;
+    s.fC = 0x7FFF;
+
+    for (; i < 5; i++) {
+        func_8012B0B4(bp, rand() % 4096, rand() % 64);
+        x = *(s32 *)buf;
+        s.f0 = *(u16 *)(arg0 + 6) + x;
+        s.f2 = *(u16 *)(arg0 + 0xA) - 0x60;
+        s.f4 = *(u16 *)(arg0 + 0xE) + (x >> 16);
+        func_8012C51C(&s, arg0);
+    }
+}
+
 
 extern u16 D_800B99DA;
 extern u8 D_801AE326;

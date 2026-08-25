@@ -7742,7 +7742,55 @@ void func_80182D80(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80182F20);
+extern s32 D_8011F730;
+extern s32 D_801B5E24;
+extern s32 D_801B5E8C;
+extern short D_801B5F44;
+extern u8 D_801B5FAC[];
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B200(u8 *a0);
+
+s32 func_80182F20(a0)
+s32 a0;
+{
+    extern s32 D_8011F730;
+    extern u8 D_801B5FAC[];
+    extern s32 D_801B5E24;
+    extern s32 D_801B5E8C;
+    extern short D_801B5F44;
+
+    s32 ret;
+
+    ret = 1;
+    switch (D_8011F730) {
+    case 1:
+        func_8012B200((u8 *)a0);
+        func_8012A828(a0, &D_801B5FAC);
+        *(u16 *)(a0 + 0x2) = 8;
+        *(u16 *)(a0 + 0x34) = 0;
+        break;
+    case 2:
+        *(u16 *)(a0 + 0x2) = 0xB;
+        break;
+    case 3:
+        func_8012A828(a0, &D_801B5E24);
+        *(u16 *)(a0 + 0x2) = 0xE;
+        break;
+    case 4:
+        func_8012A828(a0, &D_801B5E8C);
+        *(u16 *)(a0 + 0x2) = 0x10;
+        break;
+    case 5:
+        *(u16 *)(a0 + 0x2) = 0x12;
+        func_8012A828(a0, &D_801B5F44);
+        break;
+    default:
+        ret = 0;
+        break;
+    }
+    return ret;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80183014);
 

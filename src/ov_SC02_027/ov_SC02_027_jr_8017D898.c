@@ -3437,7 +3437,34 @@ void func_8017ED04(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017ED40);
+extern s32 func_8017FAE0(void);
+extern void func_8001BFD0(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_800D0C48(s32 a0);
+extern void func_800D1E28(void);
+
+s32 func_8017ED40(a0)
+void *a0;
+{
+    s32 v0;
+    s32 v1 = -1;
+    v0 = *(s32 *)(a0 + 0x28);
+    v0 += -1;
+    *(s32 *)(a0 + 0x28) = v0;
+    if (v0 == v1) {
+        func_8002D4C8(4, 0x6CA);
+        func_8002D4C8(0x1C, 0);
+        func_8001BFD0();
+        func_8002D4C8(0x1D, 0);
+        if (func_8017FAE0() != 0) {
+            func_800D0C48(1);
+        }
+        func_800D1E28();
+        *(u8 *)(a0 + 0x15) = *(u8 *)(a0 + 0x15) + 1;
+    }
+    return 0;
+}
+
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 void func_8017EDD8(void) {
@@ -5404,7 +5431,7 @@ void func_80182E4C(void *a0)
 
 
 extern s32 func_8012BEE8(s32 arg);
-    extern void func_801825D8(s32 arg);
+    extern s32 func_801825D8();
     void func_80182F3C(s32 arg0) {
         if (func_8012BEE8(arg0)) {
             func_801825D8(arg0);
@@ -5412,7 +5439,19 @@ extern s32 func_8012BEE8(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80182F74);
+extern void func_8012AD80(s32 a0);
+extern void func_80182610(s32 a0);
+
+void func_80182F74(arg0)
+s32 arg0;
+{
+    s32 s0 = arg0;
+    func_8012AD80(arg0);
+    if (*(s16 *)((s32)s0 + 6) - *(s16 *)((s32)s0 + 0xFC) >= 0x161) {
+        func_80182610(s0);
+    }
+}
+
 
 void func_80182FC0(void) {
 }
@@ -5483,7 +5522,37 @@ void func_801830EC(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018315C);
+extern s16 D_801AB624[];
+extern s16 D_801AB626[];
+extern s32 func_8012BEE8(s32 a0);
+
+void func_8018315C(arg0)
+void *arg0;
+{
+    extern s16 D_801AB624[];
+    extern s16 D_801AB626[];
+    u16 cnt;
+    s32 r;
+    volatile s32 pad;
+
+    if (*(u16 *)((char *)arg0 + 0x34) != 0) {
+        return;
+    }
+    if (func_8012BEE8((s32)arg0) == 0) {
+        return;
+    }
+    *(s16 *)((char *)arg0 + 0xFE) = *(u16 *)((char *)D_801AB626 + (*(s16 *)((char *)arg0 + 0x100)) * 4);
+    cnt = *(u16 *)((char *)arg0 + 0x100);
+    cnt = cnt + 1;
+    *(u16 *)((char *)arg0 + 0x100) = cnt;
+    r = D_801AB624[(s16)cnt * 2];
+    *(s32 *)((char *)arg0 + 0x1C) = r;
+    if (r != 0) {
+        return;
+    }
+    *(u16 *)((char *)arg0 + 0x34) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801831F4);
 
@@ -7624,7 +7693,30 @@ extern s32 D_801AF8E8;
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801866C8);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+
+void func_801866C8(a0)
+s32 a0;
+{
+    s16 sp10[3];
+    s32 obj;
+    s32 p;
+
+    obj = *(s32 *)(a0 + 0x64);
+    p = *(s32 *)(a0 + 0xCC);
+    func_8012F14C(*(s32 *)(obj + 0x20) + 0x34, p, (s32)sp10);
+    *(u16 *)(a0 + 6) = sp10[0];
+    *(u16 *)(a0 + 0xA) = sp10[1];
+    *(u16 *)(a0 + 0xE) = sp10[2];
+    p += 8;
+    if (*(s16 *)(p + 6) == 0x7FFF) {
+        *(s16 *)(a0 + 2) = 1;
+        *(u16 *)(a0 + 0x70) |= 1;
+    } else {
+        *(s32 *)(a0 + 0xCC) = p;
+    }
+}
+
 
 extern u8 D_801AFA70[];
 
@@ -8390,7 +8482,18 @@ void func_80187820(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018791C);
+extern void func_8012C218(void *a0);
+
+void func_8018791C(a0)
+void *a0;
+{
+    if (--*(s32 *)((s32)a0 + 0x1C) == 0) {
+        func_8012C218((void *)a0);
+    } else {
+        *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 4) ^= 0x80000000;
+    }
+}
+
 
 
 /* func_80187970 — "spawn a paired effect entity above/below the actor" template
@@ -10539,7 +10642,35 @@ void func_8018A21C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8018A41C);
+extern s32 func_8018A4A4(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8018A41C(a0)
+s32 a0;
+{
+    s32 t;
+    s32 id;
+
+    switch (*(s16 *)(a0 + 0x70)) {
+    case 0:
+        func_8002D4C8(0x6D5, 0);
+        return;
+    case 1:
+        t = func_8018A4A4(a0);
+        id = 0x856;
+        break;
+    case 2:
+        t = func_8018A4A4(a0);
+        id = 0x857;
+        break;
+    default:
+        return;
+    }
+
+    t |= 0x2000;
+    func_8002D4C8(id, t & 0xFFFF);
+}
+
 
 s32 func_8018A4A4(s32 a0)
 {

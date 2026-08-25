@@ -4579,7 +4579,30 @@ void func_80180C50(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8017D898", func_80180CA0);
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern u8 D_80184C18[];
+extern u8 D_801A23E8[];
+extern void func_8001D0E8(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012A828(s32, void*);
+
+void func_80180CA0(a0)
+s32 a0;
+{
+    extern u8 D_801A23E8[];
+    extern u8 D_80184C18[];
+    u16 old_fc;
+
+    if (func_8012C354(a0, (s32)D_801A23E8) != 0) {
+        ((void (*)(s32, s32))func_8012A828)(a0, (s32)D_80184C18);
+        *(s16 *)(a0 + 0x2) = 1;
+        *(u8 *)(a0 + 0x75) = 8;
+        func_8001D0E8(*(s32 *)(a0 + 0x20), 0x104, 0xDC);
+        old_fc = *(u16 *)(a0 + 0xFC);
+        *(u16 *)(a0 + 0xFC) = 0x60;
+        *(u16 *)(a0 + 0xFE) = old_fc;
+    }
+}
+
 
 extern s32 func_80047948(s32 a0);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -6850,9 +6873,60 @@ void func_801838C8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8017D898", func_80183AC8);
+extern s32 func_80183B50(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
 
-INCLUDE_ASM("asm/ov_SC03_100/nonmatchings/ov_SC03_100_jr_8017D898", func_80183B50);
+void func_80183AC8(a0)
+s32 a0;
+{
+    s32 t;
+    s32 id;
+
+    switch (*(s16 *)(a0 + 0x70)) {
+    case 0:
+        func_8002D4C8(0x6D5, 0);
+        return;
+    case 1:
+        t = func_80183B50(a0);
+        id = 0x856;
+        break;
+    case 2:
+        t = func_80183B50(a0);
+        id = 0x857;
+        break;
+    default:
+        return;
+    }
+
+    t |= 0x2000;
+    func_8002D4C8(id, t & 0xFFFF);
+}
+
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8012EFB8(s32 a0);
+
+s32 func_80183B50(a0)
+s32 a0;
+{
+    extern void func_8012EFB8(s32 a0);
+    s32 sp10;
+    s32 v1;
+
+    func_80015978(a0 + 4, &sp10);
+    if ((((s32 (*)(s32, s32))func_8012EFB8)((s32)&sp10, (s32)&sp10) & 0xFFFFEFFF) != 0) {
+        v1 = 1;
+    } else {
+        v1 = (*(s16 *)&sp10 * 64) / 160 + 0x40;
+    }
+    if (v1 <= 0) {
+        v1 = 1;
+    } else if (v1 >= 0x80) {
+        v1 = 0x7F;
+    }
+    return v1;
+}
+
 
 
 extern void (*D_801C4FAC[])(void);

@@ -4673,7 +4673,30 @@ void func_80180034(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180084);
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern u8 D_80183BF4[];
+extern u8 D_80198884[];
+extern void func_8001D0E8(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012A828(s32 a0, s32 a1);
+
+void func_80180084(a0)
+s32 a0;
+{
+    extern u8 D_80198884[];
+    extern u8 D_80183BF4[];
+    u16 old_fc;
+
+    if (func_8012C354(a0, (s32)D_80198884) != 0) {
+        func_8012A828(a0, (s32)D_80183BF4);
+        *(s16 *)(a0 + 0x2) = 1;
+        *(u8 *)(a0 + 0x75) = 8;
+        func_8001D0E8(*(s32 *)(a0 + 0x20), 0x104, 0xDC);
+        old_fc = *(u16 *)(a0 + 0xFC);
+        *(u16 *)(a0 + 0xFC) = 0x60;
+        *(u16 *)(a0 + 0xFE) = old_fc;
+    }
+}
+
 
 #include "common.h"
 
@@ -5001,7 +5024,18 @@ void func_80180584(void *a0)
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801806B8);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180754);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_80180754(a0)
+void *a0;
+{
+    s32 a1;
+    a1 = *(s32 *)((s32)a0 + 0x20);
+    *(s32 *)(a1 + 4) = *(s32 *)(a1 + 4) | 0x80000000;
+    *(s16 *)((s32)a0 + 0xFC) = 0;
+    ((void (*)(s32, s32))func_8012AD44)((s32)a0, 0x3);
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_80180790(void *arg0) {
@@ -5155,7 +5189,28 @@ void func_80180B10(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180B4C);
+extern u8 D_8019DCF8;
+extern u8 D_8019DCF9;
+extern u8 D_8019DCFA;
+
+void func_80180B4C(a0)
+void *a0;
+{
+    s32 t;
+    u8 v;
+
+    t = *(s32 *)((s32)a0 + 0x1C) + 1;
+    *(s32 *)((s32)a0 + 0x1C) = t;
+    if (t & 0x10) {
+        v = ((t & 0xF) >> 1) + 9;
+    } else {
+        v = 0x10 - ((t & 0xF) >> 1);
+    }
+    D_8019DCFA = v * 8;
+    D_8019DCF9 = v * 8;
+    D_8019DCF8 = v * 8;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180BAC);
 

@@ -5752,7 +5752,34 @@ void func_80180DB4(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_80180E8C);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern void func_80146C3C();
+
+void func_80180E8C(a0)
+void *a0;
+{
+    register s32 self __asm__("$16");
+    register s32 obj __asm__("$17");
+
+    self = (s32)a0;
+    obj = *(s32 *)(self + 0x20);
+    if (func_80128ED8(obj, (s32 *)(self + 0x24)) != 0) {
+        ((void (*)(s32))func_80146C3C)(self);
+    } else {
+        *(s32 *)(self + 0x14) += -0x8000;
+        *(s32 *)(self + 0x8) += *(s32 *)(self + 0x14);
+        *(u16 *)(obj + 0x18) += 0x500;
+        if (*(s32 *)(self + 0x2C) == 0) {
+            *(u16 *)(obj + 0x1A) += 0x300;
+        } else {
+            *(u16 *)(obj + 0x1A) += 0x600;
+        }
+        *(u8 *)(obj + 0x26) -= 4;
+        *(u8 *)(obj + 0x24) = *(u8 *)(obj + 0x26);
+        *(u8 *)(obj + 0x25) -= 8;
+    }
+}
+
 
 s32 func_80180F50(s32 param_1) {
     func_80149374(*(s32 *)(param_1 + 0x34), param_1 + 4);

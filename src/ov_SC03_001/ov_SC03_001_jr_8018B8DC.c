@@ -3890,7 +3890,16 @@ extern s32 D_801C16C4[];
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8018B8DC", func_8018C8D4);
+extern s16 D_80115126;
+extern s32 D_801C16C4[];
+extern s32 D_801EF1E0;
+
+void func_8018C8D4(a0)
+s32 a0;
+{
+    D_801EF1E0 = (s32) D_801C16C4[D_80115126 * 10 + (s16) a0];
+}
+
 
 extern s32 D_80078E8C;
 

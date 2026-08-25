@@ -4558,7 +4558,14 @@ void func_80180C34(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017DB90", func_80180C6C);
+extern void (*D_801860D4[])(void);
+
+void func_80180C6C(a0)
+void *a0;
+{
+    D_801860D4[*(s16 *)((s32)a0 + 2)]();
+}
+
 
 
 extern s16 D_801F8094;

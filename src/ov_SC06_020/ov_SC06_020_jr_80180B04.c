@@ -3968,7 +3968,18 @@ LAB_tail:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_801827FC);
+
+
+void func_801827FC(arg0)
+s32 arg0;
+{
+    s32 temp;
+    temp = *(s32 *)(arg0 + 0x64);
+    *(u16 *)(arg0 + 2) = 6;
+    *(u16 *)(arg0 + 0x34) = 0;
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(temp + 0x20) + 0x12);
+}
+
 
 
 // @class: struct

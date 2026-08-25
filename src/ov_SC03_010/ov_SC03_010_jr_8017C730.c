@@ -3506,9 +3506,50 @@ void func_8017DAAC(void) {
 
 INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017DAD4);
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017DB20);
+extern s32 func_800291B4(s32 arg);
+extern u8 D_80183BC5[];
+extern void func_80171A04(s32 *a0);
+extern void func_80171A10(s32 *a0);
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017DB84);
+void func_8017DB20(arg)
+s32 *arg;
+{
+    if ((u32)(func_800291B4(0xCE) & 0xFF) < D_80183BC5[*(u8 *)((s32)arg + 0x218)]) {
+        func_80171A04(arg);
+    } else {
+        func_80171A10(arg);
+    }
+}
+
+
+extern s32 func_800291B4(s32 arg);
+extern u8 D_80183BC4[];
+extern u8 D_80183BC5[];
+extern void func_800291A0(s32, s32);
+extern void func_80171A04(s32 *a0);
+extern void func_80171A10(s32 *a0);
+extern void func_8017EE30(void);
+
+void func_8017DB84(s0)
+s32 *s0;
+{
+    s32 v;
+    u8 idx, hi, vv;
+
+    v = func_800291B4(0xCE);
+    idx = ((u8 *)s0)[0x218];
+    hi = D_80183BC5[idx];
+    vv = v & 0xFF;
+    if (vv < hi && vv >= D_80183BC4[idx]) {
+        func_800291A0(0xCE, hi);
+        func_80171A04(s0);
+    } else {
+        func_800291A0(0xCE, 1);
+        func_8017EE30();
+        func_80171A10(s0);
+    }
+}
+
 
 extern s32 func_800291B4(s32 arg);
 extern void func_8016216C(void);
@@ -4548,7 +4589,35 @@ void func_8017FCB4(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017FD28);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+
+void func_8017FD28(a0)
+void *a0;
+{
+    s32 result[2];
+    s32 result2[2];
+    s32 result3[2];
+    s32 temp;
+
+    func_8012B0B4((unsigned int *)result, *(int *)((s32)a0 + 0xDC), 0x100);
+
+    *(s32 *)((s32)a0 + 0x8) = result[0];
+    *(s16 *)((s32)a0 + 0xA) += *(s16 *)((s32)a0 + 0xE2);
+    *(s32 *)((s32)a0 + 0xDC) += 0x18;
+
+    if (*(s32 *)((s32)a0 + 0xDC) < 0xC00) {
+        return;
+    }
+
+    func_8012B0B4((unsigned int *)result2, *(int *)((s32)a0 + 0xDC), 0x100);
+    *(s32 *)((s32)a0 + 0x14) = result2[0];
+    func_8012B0B4((unsigned int *)result3, *(int *)((s32)a0 + 0xDC) - 0x18, 0x100);
+
+    temp = result3[0];
+    *(s32 *)((s32)a0 + 0x14) -= temp;
+    *(s16 *)((s32)a0 + 0x2) = 9;
+}
+
 
 void func_8017FDC8(int param_1)
 

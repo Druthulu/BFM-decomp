@@ -3439,7 +3439,29 @@ void func_8017D460(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017D4D0);
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017D528);
+extern s32 func_80171990(u8 *a0);
+extern u8 D_80182200[];
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8017D98C(void *a0, s32 a1, s32 a2, s32 a3);
+
+void func_8017D528(a0)
+s32 a0;
+{
+    register int p __asm__("$16");
+    u16 v;
+    int s1byte;
+
+    p = a0;
+    v = *(u16 *)((u8 *)p + 0x20E);
+    (*(u16 *)((u8 *)p + 0x20E)) = v + 1;
+    s1byte = D_80182200[(s16)v];
+    if (s1byte == 0) {
+        func_8002D4C8(0xBE7, 0);
+        func_80171990((u8 *)p);
+    }
+    func_8017D98C((void *)p, *(s16 *)((u8 *)p + 0x20C), *(s32 *)((u8 *)p + 0x200), s1byte);
+}
+
 
 void func_8017D5A8(void *param_1) {
     extern void func_8017D98C();

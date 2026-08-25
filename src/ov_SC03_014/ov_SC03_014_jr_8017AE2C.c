@@ -3382,7 +3382,23 @@ void func_8017C0C8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017C104);
+
+
+void func_8017C104(a0)
+u8 *a0;
+{
+    s32 frame_pad[10];
+    u16 v1;
+    u16 v0;
+    (void)&frame_pad;
+    v1 = *(u16 *)(a0 + 0x2);
+    v0 = *(u16 *)(a0 + 0xE);
+    v1 += 0x1;
+    v0 += 0x10;
+    *(u16 *)(a0 + 0xE) = v0;
+    *(u16 *)(a0 + 0x2) = v1;
+}
+
 
 extern void func_8017C154();
     void func_8017C12C(void) {
@@ -4443,7 +4459,30 @@ void func_8017D804(s32 param) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017AE2C", func_8017D890);
+extern u8 D_801EA884;
+extern u8 D_801EA885;
+extern u8 D_801EA886;
+
+void func_8017D890(arg0, a1)
+void *arg0;
+void *a1;
+{
+    s16 var;
+
+    a1 = *(void **)((s32)arg0 + 0x20);
+    var = *(u16 *)((s32)a1 + 0x1A) + 0x200;
+    *(u16 *)((s32)a1 + 0x1A) = var;
+    *(u16 *)((s32)a1 + 0x18) = var;
+    if (var >= 0x1001) {
+        D_801EA884 = 0xFF;
+        D_801EA885 = 0xFF;
+        D_801EA886 = 0xFF;
+        *(u16 *)((s32)a1 + 0x1A) = 0x1000;
+        *(u16 *)((s32)a1 + 0x18) = 0x1000;
+        *(u16 *)((s32)arg0 + 2) = *(u16 *)((s32)arg0 + 2) + 1;
+    }
+}
+
 
 #include "common.h"
 

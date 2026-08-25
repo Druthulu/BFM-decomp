@@ -3381,7 +3381,23 @@ void func_8017C0C8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017C104);
+
+
+void func_8017C104(a0)
+u8 *a0;
+{
+    s32 frame_pad[10];
+    u16 v1;
+    u16 v0;
+    (void)&frame_pad;
+    v1 = *(u16 *)(a0 + 0x2);
+    v0 = *(u16 *)(a0 + 0xE);
+    v1 += 0x1;
+    v0 += 0x10;
+    *(u16 *)(a0 + 0xE) = v0;
+    *(u16 *)(a0 + 0x2) = v1;
+}
+
 
 extern void func_8017C154();
 void func_8017C12C(void) {
@@ -4396,7 +4412,30 @@ void func_8017D804(s32 param) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017D890);
+extern u8 D_801D426C;
+extern u8 D_801D426D;
+extern u8 D_801D426E;
+
+void func_8017D890(arg0, a1)
+void *arg0;
+void *a1;
+{
+    s16 var;
+
+    a1 = *(void **)((s32)arg0 + 0x20);
+    var = *(u16 *)((s32)a1 + 0x1A) + 0x200;
+    *(u16 *)((s32)a1 + 0x1A) = var;
+    *(u16 *)((s32)a1 + 0x18) = var;
+    if (var >= 0x1001) {
+        D_801D426C = 0xFF;
+        D_801D426D = 0xFF;
+        D_801D426E = 0xFF;
+        *(u16 *)((s32)a1 + 0x1A) = 0x1000;
+        *(u16 *)((s32)a1 + 0x18) = 0x1000;
+        *(u16 *)((s32)arg0 + 2) = *(u16 *)((s32)arg0 + 2) + 1;
+    }
+}
+
 
 
 /* func_8017D900 — fade the 4-byte colour quad at D_801D4268 one step toward 0
@@ -4556,7 +4595,29 @@ extern void func_80171A1C(u8 *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017DCC0);
+extern s16 D_80126B3A;
+extern s16 D_80126B3C;
+extern void func_80171A1C(u8 *a0);
+extern void func_8017C624(void *a0, s32 a1, s32 a2);
+
+void func_8017DCC0(a0)
+u8 *a0;
+{
+    s32 v;
+    if (*(u16 *)(a0 + 0xB8) & 0x8000) {
+        switch ((s16)(*(u16 *)&D_80126B3A - 2)) {
+        case 0: v = 0; break;
+        case 1: v = 1; break;
+        case 2: v = 2; break;
+        case 3: v = 3; break;
+        case 4: v = 4; break;
+        }
+        D_80126B3C = v;
+        func_8017C624(a0, -0x60, v);
+        func_80171A1C(a0);
+    }
+}
+
 
 DEFINE_func_8017DD74()  /* dedup: shared engine-core @0x8017DD74 (src/shared) */
 
@@ -5547,7 +5608,21 @@ void func_8017F380(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017AE2C", func_8017F3C0);
+extern s32 func_80171990(u8 *a0);
+extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern void func_80147324(s32 arg0);
+
+void func_8017F3C0(arg0)
+void *arg0;
+{
+    if (*(u16 *)((s32)arg0 + 0xB8) & 0x4000) {
+        *(s32 *)((s32)arg0 + 0x44) |= 0x20000;
+        func_801466F0(0x16, (s32)arg0, 0, -0x80, -0x10, 0, 0, 0);
+        func_80147324(0x7BC);
+        func_80171990((u8 *)arg0);
+    }
+}
+
 
 extern s32 func_8014C088(s32 a0, s32 a1);
 extern s32 func_8014CB58(void);

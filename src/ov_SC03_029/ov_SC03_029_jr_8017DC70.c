@@ -3527,7 +3527,15 @@ void func_8017F310(u32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_8017F378);
+extern s32 func_80171E08(s32 arg0, s32 arg1, s32 arg2);
+extern s8 D_8018B5FC;
+
+s32 func_8017F378(param_1)
+s32 param_1;
+{
+    return func_80171E08(param_1, (s32)&D_8018B5FC + (*(s16 *)(param_1 + 0x210) << 3), 0xA);
+}
+
 
 
 // func_8017F3AC — MATCH (60 ins), match_one + rtu_match. Two levers:
@@ -3652,7 +3660,36 @@ void func_8017F590(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_8017F658);
+extern s16 D_80126940;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+extern s16 D_801274E8;
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern u8 D_80126948[];
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8012A094(s32 a0);
+extern void func_8017F724(void *a0);
+
+void func_8017F658() {
+    D_80126954 = 0x190;
+    D_8012695C = 0x384;
+    D_80126968 = 0x38E;
+    D_8012696A = 0xE00;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x80;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017F724, 0);
+    func_8012A094((s32)D_80126948);
+    *(struct UShortBlk_F4C4 *)&D_801274E8 = *(struct UShortBlk_F4C4 *)&D_80126940;
+    func_8017F724((void *)D_80126948);
+}
+
 
 
 extern void (*D_8018B624[])(void);

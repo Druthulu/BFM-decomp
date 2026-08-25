@@ -3331,7 +3331,7 @@ INCLUDE_ASM("asm/ov_SC03_003/nonmatchings/ov_SC03_003_jr_8017D5C0", func_8017E9C
 
 INCLUDE_ASM("asm/ov_SC03_003/nonmatchings/ov_SC03_003_jr_8017D5C0", func_8017EA10);
 
-extern s32 func_8017EC64(u8 *a0);
+extern s32 func_8017EC64();
 
 void func_8017EA88(u8 *a0) {
     if (func_8017EC64(a0) == 0x12C) {
@@ -3345,7 +3345,7 @@ void func_8017EA88(u8 *a0) {
 
 extern s32 D_8018FB78;
 extern u8 D_801830D8;
-extern s32 func_8017EC64(u8*);
+extern s32 func_8017EC64();
 extern s32 func_801399F0(s32 a0);
 extern void func_80139914(s32 a0);
 extern s32 func_8013767C(s32 a0);

@@ -3421,7 +3421,19 @@ void func_8017F11C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017F154);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_8012B200(u8 *a0);
+
+void func_8017F154(a0)
+s32 a0;
+{
+    s32 *s0 = a0;
+
+    func_8012B200(s0);
+    s0[7] = 0x20;
+    func_8012AD44(s0, 2);
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 

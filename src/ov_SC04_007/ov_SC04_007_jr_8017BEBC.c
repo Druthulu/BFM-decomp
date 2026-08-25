@@ -6039,7 +6039,20 @@ void func_80180E78(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8018105C);
+extern M2C_UNK D_801A0BD4;
+extern void func_8012A828(s32, s32);
+extern void func_8012B200(u8 *a0);
+
+void func_8018105C(arg0)
+void *arg0;
+{
+    func_8012A828((s32)arg0, &D_801A0BD4);
+    *(s16 *)((char *)arg0 + 0x2) = 6;
+    *(s16 *)((char *)arg0 + 0x34) = 0;
+    *(s32 *)((char *)arg0 + 0xD0) = 0;
+    func_8012B200((u8 *)arg0);
+}
+
 
 
 /* func_801810A4 — ov_SC02_041 / ov_SC02_041_jr_8017BEBC.c   MATCH (142 ins)
@@ -6239,7 +6252,18 @@ tail_short:
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_801814A4);
+extern s32 D_801A1254;
+extern void func_8012A828(s32, s32);
+extern void func_8012B23C(s32 a0);
+
+void func_801814A4(a0)
+s32 a0;
+{
+    func_8012B23C(a0);
+    func_8012A828(a0, &D_801A1254);
+    *(s16 *)((char *)a0 + 0x2) = 0xA;
+}
+
 
 extern void func_8012CBCC(s32 a0);
     void func_801814E4(s32 arg0) {
@@ -6515,7 +6539,25 @@ void func_80181A78(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80181AB4);
+extern u8 D_8019A758[];
+extern void func_8001C924(s32 a0, void *a1);
+extern void func_8012C218(void *a0);
+extern void func_80181B98(s32 a0);
+
+void func_80181AB4(a0)
+s32 a0;
+{
+    if (*(s32 *)(a0 + 0xE0) & 1) {
+        func_8001C924(*(s32 *)(a0 + 0x20), D_8019A758);
+        if (*(s32 *)(a0 + 0xCC) != 0) {
+            func_8012C218((void *)*(s32 *)(a0 + 0xCC));
+            *(s32 *)(a0 + 0xCC) = 0;
+        }
+        *(s32 *)(a0 + 0xE0) &= ~3;
+    }
+    func_80181B98(a0);
+}
+
 
 void func_80181B34(s32 a0) {
     if (*(u32 *)(a0 + 0xC4) & 4) {
@@ -7840,7 +7882,20 @@ void func_801839FC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80183B14);
+extern void (*D_801A15BC[])();
+
+void func_80183B14(a0)
+int a0;
+{
+    if (*(s16 *)(a0 + 0x10A) != 0) {
+        *(s16 *)(a0 + 0x10A) = *(s16 *)(a0 + 0x10A) - 1;
+        if (*(s16 *)(a0 + 0x10A) == 0) {
+            *(s32 *)(a0 + 0xC4) &= ~1;
+        }
+    }
+    D_801A15BC[*(u16 *)(a0 + 2)]();
+}
+
 
 extern u8 D_801AC210[];
 extern u8 D_801AC3D0[];

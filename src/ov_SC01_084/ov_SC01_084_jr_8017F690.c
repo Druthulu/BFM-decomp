@@ -2981,7 +2981,19 @@ void func_8017FD2C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_8017FD68);
+extern u8 D_801C7B00;
+extern void func_8001CD9C(int, void *);
+
+void func_8017FD68(param_1)
+void *param_1;
+{
+    s32 obj;
+
+    obj = *(s32 *)((u8 *)param_1 + 0x20);
+    func_8001CD9C(obj, &D_801C7B00);
+    *(u16 *)((u8 *)param_1 + 2) = *(u16 *)((u8 *)param_1 + 2) + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_8017FDB0);
 

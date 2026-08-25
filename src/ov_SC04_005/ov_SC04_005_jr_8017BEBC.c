@@ -7046,7 +7046,59 @@ void func_80182380(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80182424);
+extern s16 D_80126B96;
+extern s16 D_80199B7C;
+extern s32 D_80199C98;
+extern s32 D_80199CB4;
+extern s32 D_80199CBC;
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern u8 D_801A4400[];
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012A828(s32, s32);
+extern void func_8012B1B4(s32 a0, void *a1);
+
+void func_80182424(arg0)
+s32 arg0;
+{
+    register s32 s0 __asm__("$16");
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+    register s32 a0 __asm__("$4");
+    register s32 a1 __asm__("$5");
+    register s32 a2 __asm__("$6");
+    register s32 a3 __asm__("$7");
+
+    s0 = arg0;
+
+    if (*(s16 *)(s0 + 0x98) == 0) {
+        func_8012A828(s0, (s32)D_801A4400);
+        *(s16 *)(s0 + 0xFC) = 0;
+    }
+
+    if (*(s32 *)(s0 + 0x94) == 15) {
+        func_8012B1B4(s0, (void *)&D_80199C98);
+        a0 = s0;
+        a1 = (s32)&D_80199CB4;
+        __asm__ __volatile__("" :: "r"(a1));
+        v0 = 0xFFF60000;
+        s0 = 4;
+        *(s32 *)(a0 + 0x14) = v0;
+        v0 = (s32)&D_80199B7C;
+        v1 = 0x40000000;
+        v0 = v0 | v1;
+        v1 = 0x20000000;
+        v0 = v0 | v1;
+        a2 = (s32)&D_80199CBC;
+        a3 = 0x20;
+        *(s16 *)(a0 + 2) = s0;
+        *(s32 *)(a0 + 0x58) = v0;
+        if (func_8012D5E4(a0, a1, a2, a3) == 1) {
+            D_80126B96 = s0;
+        }
+        func_8002D4C8(0xA9D, 0);
+    }
+}
+
 
     extern void func_8012CBCC(s32);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);

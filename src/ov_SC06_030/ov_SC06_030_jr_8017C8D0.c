@@ -4654,7 +4654,7 @@ void func_80180CE0(void *a0) {
 
 
 
-extern s32 func_801810D0(void);
+extern s32 func_801810D0();
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_80171928(void *a0);
 
@@ -4688,7 +4688,7 @@ void func_80180D90(void *a0) {
 INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_80180DCC);
 
 
-extern s32 func_801810D0(void);
+extern s32 func_801810D0();
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_80171990(u8*);
 
@@ -4703,11 +4703,66 @@ void func_80180ED4(void *param)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_80180F14);
+extern s32 func_80013328(s32 a0, s32 a1);
+extern u8 D_801202A0[];
+extern void func_800D1724(s32 a0);
+extern void func_80171928(void *a0);
+
+void func_80180F14(arg0)
+void *arg0;
+{
+    u8 *p;
+    u8 *found;
+    s32 i;
+    s32 best;
+    s16 t;
+
+    found = 0;
+    best = 0x7FFFFFFF;
+    for (i = 0; i < 0x60; i++) {
+        p = &D_801202A0[i * 0x10C];
+        if ((*(u16 *)(p + 0) != 0) && ((*(u16 *)(p + 0x5C) & 0x80) != 0)) {
+            t = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
+            if (t < best) {
+                best = t;
+                found = p;
+            }
+        }
+    }
+    if (found != 0) {
+        func_800D1724(*(s32 *)(found + 0xDC));
+    }
+    func_80171928(arg0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_80180FF4);
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_801810D0);
+extern void func_80015954(s32 a0, s32 a1);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+
+s32 func_801810D0(param_1)
+s32 param_1;
+{
+    s32 sp10[2];
+    s32 p;
+    s32 q;
+    short v;
+
+    p = *(s32 *)(param_1 + 0x204);
+    q = *(s32 *)(p + 0x20);
+    if (p != 0) {
+        *(u16 *)(q + 0x12) = *(u16 *)(q + 0x12) + 0x80;
+        func_8012F14C(q + 0x34, param_1 + 0x20C, (s32)sp10);
+        func_80015954((s32)sp10, param_1 + 4);
+    }
+    q = *(s32 *)(param_1 + 0x20);
+    *(u16 *)(q + 0x12) = *(u16 *)(q + 0x12) + 0x80;
+    v = *(u16 *)(param_1 + 0x208) + 0x80;
+    *(u16 *)(param_1 + 0x208) = v;
+    return v == 0x800;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_80181164);
 

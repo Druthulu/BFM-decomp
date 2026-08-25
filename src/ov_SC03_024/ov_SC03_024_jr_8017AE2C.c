@@ -3389,7 +3389,23 @@ void func_8017C0C8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017C104);
+
+
+void func_8017C104(a0)
+u8 *a0;
+{
+    s32 frame_pad[10];
+    u16 v1;
+    u16 v0;
+    (void)&frame_pad;
+    v1 = *(u16 *)(a0 + 0x2);
+    v0 = *(u16 *)(a0 + 0xE);
+    v1 += 0x1;
+    v0 += 0x10;
+    *(u16 *)(a0 + 0xE) = v0;
+    *(u16 *)(a0 + 0x2) = v1;
+}
+
 
 extern void func_8017C154();
 void func_8017C12C(void) {
@@ -4590,7 +4606,29 @@ extern void func_80171A1C(u8 *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017DCC0);
+extern s16 D_80126B3A;
+extern s16 D_80126B3C;
+extern void func_80171A1C(u8 *a0);
+extern void func_8017C624(void *a0, s32 a1, s32 a2);
+
+void func_8017DCC0(a0)
+u8 *a0;
+{
+    s32 v;
+    if (*(u16 *)(a0 + 0xB8) & 0x8000) {
+        switch ((s16)(*(u16 *)&D_80126B3A - 2)) {
+        case 0: v = 0; break;
+        case 1: v = 1; break;
+        case 2: v = 2; break;
+        case 3: v = 3; break;
+        case 4: v = 4; break;
+        }
+        D_80126B3C = v;
+        func_8017C624(a0, -0x60, v);
+        func_80171A1C(a0);
+    }
+}
+
 
 DEFINE_func_8017DD74()  /* dedup: shared engine-core @0x8017DD74 (src/shared) */
 

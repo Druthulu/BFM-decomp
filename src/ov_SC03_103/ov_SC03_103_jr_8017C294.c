@@ -7582,7 +7582,7 @@ void func_801838EC(void *a0) {
 }
 
 
-extern void func_80183B74(s32 a0);
+extern s32 func_80183B74();
 extern void func_8002D4C8(s32 a0, s32 a1);
 
 void func_80183AEC(s32 a0)

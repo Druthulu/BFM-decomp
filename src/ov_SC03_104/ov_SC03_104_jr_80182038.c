@@ -3016,7 +3016,16 @@ void func_80182578(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_80182038", func_801825C8);
+
+
+void func_801825C8(arg0)
+s32 arg0;
+{
+    if (*(s32*)(arg0 + 0xCC) != 0) {
+        *(u16*)(*(s32*)(arg0 + 0xCC) + 0xFC) = 1;
+    }
+}
+
 
 extern void func_8002A04C(s32 a0);
 extern void func_8012B200(u8 *a0);

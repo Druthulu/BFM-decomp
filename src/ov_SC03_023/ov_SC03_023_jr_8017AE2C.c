@@ -4305,7 +4305,21 @@ void func_8017DDF8(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_023/nonmatchings/ov_SC03_023_jr_8017AE2C", func_8017DECC);
+
+
+void func_8017DECC(arg0)
+void *arg0;
+{
+    *(s16 *)((s32)arg0 + 0x98) = 1;
+    *(s32 *)((s32)arg0 + 0x1C) = 1;
+    *(u16 *)((s32)arg0 + 0x5C) = 0x8810;
+    *(s32 *)((s32)arg0 + 0xB4) &= ~1;
+    *(s32 *)((s32)arg0 + 0xC4) |= 2;
+    if (*(s16 *)((s32)arg0 + 0x76) < 0x370) {
+        *(s16 *)((s32)arg0 + 0x76) = 0x2BC;
+    }
+}
+
 
 extern void (*D_80182AC4[])(void);
 extern void (*D_80182ADC[])(void);

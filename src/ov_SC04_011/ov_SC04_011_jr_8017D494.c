@@ -10159,7 +10159,22 @@ void func_80189A24(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80189A60);
+extern u8 D_801EFF20[];
+
+void * func_80189A60(void)
+{
+    extern u8 D_801EFF20[];
+    s32 a0;
+    s32 v1;
+    v1 = (s32)D_801EFF20;
+    for (a0 = 0; a0 < 0x4; a0++, v1 += 0x40) {
+        if (*(u8 *)(v1 + 11) == 0) {
+            return (u8 *)v1;
+        }
+    }
+    return 0;
+}
+
 
 #include "common.h"
 

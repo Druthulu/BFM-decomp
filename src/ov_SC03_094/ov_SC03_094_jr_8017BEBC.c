@@ -6252,7 +6252,22 @@ s32 func_80181EC0(s32 a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80181F98);
+extern s32 func_8004787C(s32 a0);
+
+void func_80181F98(a0)
+s32 a0;
+{
+    s32 t;
+    s32 w;
+    s32 sub;
+
+    t = func_8004787C((*(s32 *)(a0 + 0x1C) << 7) & 0x780);
+    w = *(s32 *)(a0 + 0x34) - ((*(s32 *)(a0 + 0x34) >> 2) * t >> 12);
+    sub = *(s32 *)(a0 + 0x20);
+    *(s16 *)(sub + 0x1A) = w;
+    *(s16 *)(sub + 0x18) = w;
+}
+
 
 
 extern void (*D_801A8E4C[])(void);
@@ -6924,7 +6939,20 @@ void func_80183088(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80183104);
+
+
+void func_80183104(a0)
+void *a0;
+{
+    s32 r;
+    register s32 q __asm__("$2");
+
+    *(s16 *)((s32)a0 + 2) = 4;
+    r = rand();
+    q = r % 64;
+    *(s32 *)((s32)a0 + 0xE8) = q + 64;
+}
+
 
 
 extern s32 func_8004787C(s32 a0);
@@ -7329,7 +7357,51 @@ s32 func_80183C44(s32 a0, s16 a1) {
 
 INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80183CC4);
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80183D68);
+extern s32 func_8004787C(s32 a0);
+extern void func_801292C8(u8 *a0);
+
+void func_80183D68(param_1)
+int param_1;
+{
+    s32 s1;
+    s32 r;
+    s16 rs;
+    u32 prod;
+    u32 t;
+    u8 b;
+
+    s1 = *(s32 *)(param_1 + 0x20);
+    if (*(u16 *)(param_1 + 2) == 0) {
+        r = func_8004787C(*(s32 *)(param_1 + 0x1C) << 6);
+        t = r * 3;
+        t += t >> 31;
+        t >>= 1;
+        *(s16 *)(s1 + 0x18) = t;
+        *(s16 *)(s1 + 0x1A) = t;
+        *(s32 *)(param_1 + 0x1C) += 1;
+        if (*(s32 *)(param_1 + 0x1C) >= 0x10) {
+            *(u16 *)(param_1 + 2) += 1;
+            *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) * 2 - 1;
+        }
+    } else {
+        rs = func_8004787C(*(s32 *)(param_1 + 0x1C) << 5);
+        prod = *(s32 *)(param_1 + 0x2C) * rs;
+        t = rs * 3;
+        t += t >> 31;
+        t >>= 1;
+        *(s16 *)(s1 + 0x18) = t;
+        *(s16 *)(s1 + 0x1A) = t;
+        b = prod >> 12;
+        *(s8 *)(s1 + 0x24) = b;
+        *(s8 *)(s1 + 0x25) = b;
+        *(s8 *)(s1 + 0x26) = b;
+        *(s32 *)(param_1 + 0x1C) -= 1;
+        if (*(s32 *)(param_1 + 0x1C) == 0) {
+            func_801292C8((u8 *)param_1);
+        }
+    }
+}
+
 
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
