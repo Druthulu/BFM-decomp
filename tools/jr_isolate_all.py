@@ -32,6 +32,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import overlay_src_split as oss
+import mk_write as MKW    # atomic, collapse-refusing overlays.mk writer (P31 S60)
 
 REPO = oss.REPO
 O0_SUFFIX = ("_o0", "_o0b")
@@ -590,7 +591,7 @@ def repoint_overlays_mk(carve_renames, dry, ov=None, cfg_lines=None):
         txt = re.sub(pads_pat, lambda m: m.group(1) + new_sub + m.group(2), txt, count=1, flags=re.M)
         changed.append(f"JTBL_PADS {old_sub}.o -> {new_sub}.o")
     if not dry:
-        open(mk, "w").write(txt)
+        MKW.write_overlays_mk(txt, path=mk)
     return changed
 
 

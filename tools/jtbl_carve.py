@@ -46,6 +46,7 @@ import os
 import re
 import subprocess
 import sys
+import mk_write as MKW    # atomic, collapse-refusing overlays.mk writer (P31 S60)
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -1074,7 +1075,7 @@ def set_overlays_var(ov, args):
         if anchor not in txt:
             sys.exit(f"jtbl_carve: no {anchor} anchor in overlays.mk")
         txt = txt.replace(anchor, anchor + "\n" + var, 1)
-    open(mk, "w").write(txt)
+    MKW.write_overlays_mk(txt, path=mk)
 
 
 def set_pads_vars(ov, pads_map):
@@ -1115,7 +1116,7 @@ def set_pads_vars(ov, pads_map):
         if not m:
             sys.exit(f"jtbl_carve: no {ov}_JTBL_INTERLEAVE line to anchor JTBL_PADS on")
         txt = txt[:m.end()] + "\n" + block + txt[m.end():]
-    open(mk, "w").write(txt)
+    MKW.write_overlays_mk(txt, path=mk)
     for sub in set(before) | set(after):
         if before.get(sub) != after.get(sub):
             obj = os.path.join(REPO, f"build/src/{ov}/{sub}.o")
@@ -1162,7 +1163,7 @@ def revert(ov):
         if not m2:
             sys.exit(f"jtbl_carve: no {ov}_JTBL_INTERLEAVE line to anchor committed JTBL_PADS on")
         txt = txt[:m2.end()] + "\n" + "\n".join(committed_lines) + txt[m2.end():]
-    open(mk, "w").write(txt)
+    MKW.write_overlays_mk(txt, path=mk)
     for sub in set(now_pads) | set(committed_pads):
         if now_pads.get(sub) != committed_pads.get(sub):
             obj = os.path.join(REPO, f"build/src/{ov}/{sub}.o")
