@@ -155,7 +155,11 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D0D8);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D0F8);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D118);
+extern void func_8005D980(void);
+
+void func_8005D118(void) {
+    func_8005D980();
+}
 
 extern s32 D_800729A8;
 extern s32 D_80072990;
