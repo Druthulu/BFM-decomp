@@ -299,7 +299,31 @@ __asm__(
     ".set reorder\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D4F0);
+__asm__(
+    "\t.set\tnoreorder\n"
+    ".set noreorder\n"
+    "\t.globl\tfunc_8005D4F0\n"
+    "func_8005D4F0:\n"
+    "lui $v0, %hi(D_80072970)\n"
+    "lw $v0, %lo(D_80072970)($v0)\n"
+    "addiu $sp, $sp, -32\n"
+    "sw $s0, 16($sp)\n"
+    "addu $s0, $a1, $zero\n"
+    "sw $s1, 20($sp)\n"
+    "sw $ra, 24($sp)\n"
+    "jalr $v0\n"
+    "addu $s1, $a2, $zero\n"
+    "addu $a0, $v0, $zero\n"
+    "andi $a1, $s0, 255\n"
+    "jal func_8005E8E8\n"
+    "andi $a2, $s1, 255\n"
+    "lw $ra, 24($sp)\n"
+    "lw $s1, 20($sp)\n"
+    "lw $s0, 16($sp)\n"
+    "jr $ra\n"
+    "addiu $sp, $sp, 32\n"
+    ".set reorder\n"
+);
 
 __asm__(
     "\t.set\tnoreorder\n"

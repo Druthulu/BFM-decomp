@@ -2137,7 +2137,11 @@ u32 func_8005B75C(u32 a0) {
     return *D_80072858 & 0xFFFFFF;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", _addque);
+extern s32 func_8005B7B0(void (*f)(s32, s32), s32 *p, s32 n, s32 r);
+
+s32 _addque(void (*f)(s32, s32), s32 *p, s32 r) {
+    return func_8005B7B0(f, p, 0, r);
+}
 
 
 /* ============================================================================================

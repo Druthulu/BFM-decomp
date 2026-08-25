@@ -316,7 +316,21 @@ s32 func_80041354(s32 param_1, u16 *param_2, u16 *param_3)
     return *attr;
 }
 
-INCLUDE_ASM("asm/nonmatchings/sgap_8", func_800413B8);
+extern s32 D_800C73D8[];
+extern s16 D_800B9B36;
+
+s32 func_800413B8(s32 param_1)
+{
+    s32 base;
+    s32 vab;
+
+    base = D_800C73D8[param_1 & 0xFF];
+    __asm__ __volatile__("" ::: "memory");
+    D_800B9B36 = param_1;
+    vab = (param_1 & 0xFF00) >> 8;
+    base += vab * 0xB0;
+    return *(s16 *)(base + 0x58);
+}
 
 
 extern s32 D_800C73D8[];

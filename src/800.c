@@ -772,7 +772,17 @@ void func_80013E94(u16 *src, u32 *dst) {
          | (((u32)src[2] << 19) >> 22);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80013ED0);
+void func_80013ED0(void* a0, void* a1, void* a2, void* a3) {
+    ((u16*)a0)[0] = ((u16*)a1)[0];
+    ((u16*)a0)[1] = ((u16*)a2)[0];
+    ((u16*)a0)[2] = ((u16*)a3)[0];
+    ((u16*)a0)[3] = ((u16*)a1)[1];
+    ((u16*)a0)[4] = ((u16*)a2)[1];
+    ((u16*)a0)[5] = ((u16*)a3)[1];
+    ((u16*)a0)[6] = ((u16*)a1)[2];
+    ((u16*)a0)[7] = ((u16*)a2)[2];
+    ((u16*)a0)[8] = ((u16*)a3)[2];
+}
 
 
 void func_80013F3C(void *ptr) {
@@ -813,7 +823,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80013FE0);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80014004);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80014028);
+void func_80014028(s32 *a0, s32 *a1) {
+        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a1 + 0x0);
+        *(u16 *)((s32)a0 + 0x8) = *(u16 *)((s32)a1 + 0x2);
+        *(u16 *)((s32)a0 + 0xE) = *(u16 *)((s32)a1 + 0x4);
+    }
 
 void func_8001404C(s32 *a0, s32 *a1) {
         *(u16 *)((s32)a0 + 0x4) = *(u16 *)((s32)a1 + 0x0);
@@ -3538,7 +3552,10 @@ void func_80017168(Src_80017168 *arg0, s32 arg1)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80017254);
+void func_80017254(void *arg0)
+{
+    func_80017294(arg0, 0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80017274);
 
@@ -3806,7 +3823,10 @@ void func_8001751C(s32 *arg0, s32 arg1)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800176F0);
+void func_800176F0(void *arg0)
+{
+    func_80017778(arg0, 0, 1);
+}
 
 void func_80017714(void *arg0) {
     extern void func_80017778();
@@ -5688,7 +5708,10 @@ void LoaderResetReadState(void) {
     D_800AE70C = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80019A10);
+void func_80019A10(void) {
+    extern s32 D_80078E30;
+    D_80078E30 = -1;
+}
 
 extern s32 CdQueueBusy(void);
 extern void CdReadStateMachine(int);
@@ -12583,7 +12606,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80028F54);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028F78);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028F98);
+extern void func_80029124(s32, s32);
+
+void func_80028F98(s32 a0) {
+    func_80029124(0x13, a0 & 0xFF);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028FBC);
 
@@ -13216,7 +13243,12 @@ s32 func_8002A4C8(void) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002A4D8);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002A4FC);
+extern s32 D_80078EEC;
+extern u8 D_800638FE[];
+
+s32 func_8002A4FC(s32 a0) {
+    return *(u16 *)(D_800638FE + D_80078EEC * 16);
+}
 
 extern void func_8002A544(s32);
 
