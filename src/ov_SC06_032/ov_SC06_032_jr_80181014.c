@@ -2998,7 +2998,18 @@ void func_801815A4(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_801815F4);
+extern void func_801816CC(s32 a0);
+
+void func_801815F4(u8 *a0) {
+    register s32 c4 __asm__("$3");
+    *(u32 *)(a0 + 0xE0) |= 0x28;
+    c4 = *(u32 *)(a0 + 0xC4);
+    *(u16 *)(a0 + 0x52) = 0;
+    *(u32 *)(a0 + 0xC4) = c4 | 4;
+    *(u16 *)(a0 + 0xAE) |= 1;
+    func_801816CC((s32)a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_80181638);
 

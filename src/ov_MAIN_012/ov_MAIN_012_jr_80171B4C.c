@@ -3808,7 +3808,13 @@ void func_801748E4(void) {
 DEFINE_func_801748EC()  /* dedup: shared engine-core @0x801748ec (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_80171B4C", func_8017496C);
+extern void (*D_801819F4[])(void *a0);
+
+s32 func_8017496C(void *a0)
+{
+    D_801819F4[*(u8 *)((s32)a0 + 4)](a0);
+}
+
 
 DEFINE_func_801749A8()  /* dedup: shared engine-core @0x801749a8 (src/shared) */
 

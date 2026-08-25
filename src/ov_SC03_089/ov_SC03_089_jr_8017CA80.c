@@ -5704,7 +5704,14 @@ void func_80183F60(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80183FA4);
+void func_80183FA4(s32 a0, s32 a1, s32 a2) {
+    u16 sp[3];
+    sp[0] = *(u16 *)(a0 + 0x2);
+    sp[1] = *(u16 *)(a0 + 0x6);
+    sp[2] = *(u16 *)(a0 + 0xA);
+    func_8013B6A0(a1, sp, a2);
+}
+
 
 void func_80183FE8(void) {
 }
@@ -6079,7 +6086,18 @@ void func_80184730(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80184880);
+void func_80184880(s32 arg0) {
+    s32 v1;
+
+    v1 = *(s32 *)(arg0 + 0xCC);
+    *(s16 *)(arg0 + 0x2) = 9;
+    *(s32 *)(arg0 + 0x1C) = 0x20;
+    *(s16 *)(arg0 + 0x34) = 0;
+    if (v1 != 0) {
+        *(s16 *)(v1 + 0xFC) = 1;
+    }
+}
+
 
 typedef struct { s16 a, b, c; } SV3x_80184B30_801848AC;
 typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_801848AC;

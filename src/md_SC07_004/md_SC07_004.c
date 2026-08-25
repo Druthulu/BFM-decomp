@@ -6667,7 +6667,73 @@ INCLUDE_RODATA("asm/md_SC07_004/nonmatchings/md_SC07_004", D_801A021C);
 
 INCLUDE_RODATA("asm/md_SC07_004/nonmatchings/md_SC07_004", D_801A0220);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AD31C);
+#include "common.h"
+
+/* §160a idiom: lwl/lwr + swl/swr == emit_block_move on an ALIGN-1 4-byte struct
+   (same idiom the TU already names Blk4_801A7358 for other rodata globals). */
+typedef struct { char c[4]; } Blk4_801AD31C;
+
+/* §160c: the target .s's rodata island IS the definition -- this draft owns both symbols.
+   Bytes straight off the splat: ".asciz @@"+pad -> 40 40 00 00; .word 0x002040F0 -> F0 40 20 00. */
+const Blk4_801AD31C D_801A0224 = {{'@', '@', 0, 0}};
+const Blk4_801AD31C D_801A0228 = {{0xF0, 0x40, 0x20, 0}};
+
+extern u8 D_801F8D98[];
+extern Blk4_801AD31C D_801A021C;
+
+extern void func_800233CC(void *a0, unsigned short a1);
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_801AD4C0(void *a0);
+extern void func_801AD4D4(void *a0);
+
+void func_801AD31C(void *s1)
+{
+    u8 *s0;
+    u16 v0;
+    u16 flags;
+    u16 c;
+    s32 sub;
+
+    v0 = *(u16 *)((u8 *)s1 + 0x2E);
+    s0 = D_801F8D98 + ((v0 & 3) << 6);
+    flags = v0 & 0xF00;
+
+    switch (flags) {
+    case 0:
+        func_800233CC(s0, 0x80);
+        *(Blk4_801AD31C *)(s0 + 0) = D_801A021C;
+        *(Blk4_801AD31C *)(s0 + 4) = D_801A021C;
+        func_8001CD50(*(s32 *)((u8 *)s1 + 0x20), (s32)s0);
+        sub = *(s32 *)((u8 *)s1 + 0x20);
+        c = 0x5000;
+        *(s16 *)(sub + 0x1A) = c;
+        *(s16 *)(sub + 0x18) = c;
+        *(s16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x10) = 0xC00;
+        *(s16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x12) = *(u16 *)((u8 *)s1 + 0x2C);
+        *(s16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x1E) = 0xD00;
+        *(s32 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x4) = 0x50000000;
+        *(u16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x2C) = 0xC040;
+        func_801AD4C0(s1);
+        break;
+    case 0x100:
+        func_800233CC(s0, 0x80);
+        *(Blk4_801AD31C *)(s0 + 0) = D_801A0224;
+        *(Blk4_801AD31C *)(s0 + 4) = D_801A0228;
+        func_8001CD50(*(s32 *)((u8 *)s1 + 0x20), (s32)s0);
+        sub = *(s32 *)((u8 *)s1 + 0x20);
+        c = 0x100;
+        *(s16 *)(sub + 0x1A) = c;
+        *(s16 *)(sub + 0x18) = c;
+        *(s16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x10) = 0xC80;
+        *(s16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x12) = *(u16 *)((u8 *)s1 + 0x2C);
+        *(s16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x1E) = 0xC00;
+        *(s32 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x4) = 0x50000000;
+        *(u16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x2C) = 0xC100;
+        func_801AD4D4(s1);
+        break;
+    }
+}
+
 
 
 void func_801AD4C0(void *a0) {

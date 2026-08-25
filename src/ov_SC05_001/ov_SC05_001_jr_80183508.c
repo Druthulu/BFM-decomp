@@ -3242,7 +3242,23 @@ LAB_80180740:
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_80183508", func_80184430);
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_80183508", func_80184494);
+extern void func_8012A828(s32*, s32);
+extern s32 func_8012B030(u8 *a0);
+
+void func_80184494(void *a0) {
+
+    extern u8 D_80185D94[];
+    s32 ptr;
+    u16 val;
+
+    *(u16 *)((s32)a0 + 2) = 1;
+    ptr = *(s32 *)((s32)a0 + 0x78);
+    val = *(u16 *)(ptr + 2);
+    *(u16 *)((s32)a0 + 0x5C) = val;
+    ((void (*)(s32, void *))func_8012A828)((s32)a0, D_80185D94);
+    func_8012B030((u8 *)a0);
+}
+
 
 void func_801844E0(void *a0) {
         s32 v1 = *(s32 *)((s32)a0 + 0x20);

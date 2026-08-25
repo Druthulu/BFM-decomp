@@ -4585,7 +4585,61 @@ void func_8018A0B8(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018A170);
+void func_8018A170(s32 a0)
+{
+    extern void func_8012B23C(void *a0);
+    extern void func_8012CBCC(s32 a0);
+    extern u8 *func_8012913C(s32 a0);
+    extern void func_8012C218(void *a0);
+    s32 s0 = a0;
+    s32 ret;
+    u16 val;
+
+    if (*(u16 *)(s0 + 2) == 0) {
+        *(u8 *)(s0 + 0xC0) = 1;
+        *(u16 *)(s0 + 2) = *(u16 *)(s0 + 2) + 1;
+        func_8012B23C((void *)s0);
+        *(s32 *)(s0 + 0x1C) = 1;
+        return;
+    }
+
+    *(s32 *)(s0 + 0xDC) = *(s32 *)(s0 + 0x14);
+    ret = ((s32 (*)(s32))func_8012CBCC)(s0);
+    if (ret != 0 && (ret & 0x6000) != 0) {
+        s32 cnt = *(s32 *)(s0 + 0x1C) - 1;
+        *(s32 *)(s0 + 0x1C) = cnt;
+        if (cnt == 0) {
+            goto L8018A270;
+        }
+        *(s32 *)(s0 + 0x14) = -*(s32 *)(s0 + 0xDC) >> 2;
+    }
+
+    val = *(u16 *)(s0 + 0xFC) + 1;
+    *(u16 *)(s0 + 0xFC) = val;
+    if ((val & 1) != 0) {
+        s32 np = (s32)func_8012913C(0x23);
+        if (np != 0) {
+            *(u16 *)(np + 6) = *(u16 *)(s0 + 6);
+            *(u16 *)(np + 0xA) = *(u16 *)(s0 + 0xA);
+            {
+                u16 t = *(u16 *)(s0 + 0xE);
+                *(u32 *)(np + 0x18) = 0;
+                *(u32 *)(np + 0x14) = 0;
+                *(u32 *)(np + 0x10) = 0;
+                *(u16 *)(np + 0x34) = 0x3000;
+                *(u16 *)(np + 0xE) = t;
+            }
+        }
+    }
+
+    if (*(s16 *)(s0 + 0xA) < 0x20) {
+        return;
+    }
+
+L8018A270:
+    func_8012C218((void *)s0);
+}
+
 
 typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C;   /* == engine_types.h OtBlk (0x14) */
 
@@ -5791,7 +5845,45 @@ void func_8018C310(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018C334);
+typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018C334;
+typedef struct { u8 d[8]; } __attribute__((packed, aligned(1))) B8_8018C334;
+
+void func_8018C334(s32 param_1, s32 param_2)
+{
+    extern u8 D_801D55B0[];
+
+    u8 *p;
+    s32 i;
+    s32 c;
+
+    p = D_801D55B0;
+    i = 0;
+    do {
+        i++;
+        if (*(s16 *)(p + 0xE) == 0) {
+            *(B8_8018C334 *)(p + 8) = *(B8_8018C334 *)(((u8 *)param_1) + 0);
+            *(B4_8018C334 *)p = *(B4_8018C334 *)(((u8 *)&param_2) + 0);
+            c = p[0] >> 3;
+            p[4] = c;
+            if (c == 0) {
+                p[4] = 1;
+            }
+            c = p[1] >> 3;
+            p[5] = c;
+            if (c == 0) {
+                p[5] = 1;
+            }
+            c = p[2] >> 3;
+            p[6] = c;
+            if (c == 0) {
+                p[6] = 1;
+            }
+            break;
+        }
+        p += 0x10;
+    } while (i < 0x20);
+}
+
 
 #include "common.h"
 

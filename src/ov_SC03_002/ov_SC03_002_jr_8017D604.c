@@ -4938,7 +4938,28 @@ extern void func_80178CBC(s32 arg0, s32 arg1);
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80181938);
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80181990);
+extern s32 func_80182E88(void);
+extern s32 func_80183158(s32 arg0, s32 arg1);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+s32 aF80181990(void *a0) __asm__("func_80181990");
+
+s32 aF80181990(void *a0) {
+    register s32 obj __asm__("$16") = (s32)a0;
+    s32 ptr;
+    s32 ptr2;
+    ptr = *(s32 *)((char *)obj + 0x64);
+    if (*(u16 *)((char *)ptr + 0x2) == 2 && func_80182E88() != 0 && func_80183158(7, 0x15) != 0) {
+        ptr2 = *(s32 *)((char *)obj + 0x64);
+        *(u16 *)((char *)ptr2 + 0x2) = 3;
+    } else {
+        return 0;
+    }
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80181A10);
 

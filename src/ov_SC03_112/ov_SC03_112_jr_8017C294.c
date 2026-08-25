@@ -5110,7 +5110,16 @@ void func_80180198(int param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_80180228);
+#include "common.h"
+
+extern void func_801809A0(s32 a0);
+
+void func_80180228(s32 a0) {
+    *(s32 *)((s32)a0 + 0xDC) &= ~0x10;
+    func_801809A0(a0);
+    *(s32 *)((s32)a0 + 0x1C) = 0xA;
+}
+
 
 
 extern s32 func_8012BEE8(s32 arg);

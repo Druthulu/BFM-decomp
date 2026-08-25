@@ -4040,7 +4040,31 @@ s32 func_8017E108(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017E278);
+s32 func_8017E278(void)
+{
+    extern u8 D_801202A0[];
+    u8 *p;
+    s32 i;
+    s32 h;
+    s32 count;
+
+    count = 0;
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        h = *(u16 *)p;
+        switch (h) {
+        case 0x1FC:
+        case 0x1DC:
+        case 0x210:
+        case 0x219:
+            count++;
+            break;
+        }
+        p += 0x10C;
+    }
+    return (u16)count;
+}
+
 
 void func_8017E2E8(void) {
     extern u8 D_801202A0[];

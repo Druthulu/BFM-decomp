@@ -5182,7 +5182,15 @@ void func_80180CB8(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180DC4);
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180E04);
+extern void func_801809B0(s32 a0, s32 a1);
+
+void func_80180E04(void *arg0) {
+    if (*(u16 *)((s32)arg0 + 0x34) != 0) {
+        func_801809B0((s32)arg0, 0);
+        *(u16 *)((s32)arg0 + 0x34) = *(u16 *)((s32)arg0 + 0x34) - 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180E50);
 
@@ -5891,7 +5899,18 @@ extern s16 D_8019DE8A;
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80181FC4);
+
+
+extern void func_8018201C(s32 arg0, Rec_8018A6A4_80181E60 *arg1, s32 arg2, s32 arg3);
+extern s32 func_801820F0(void);
+
+void func_80181FC4(s32 a0, s32 a1, s32 a2) {
+    s32 v0 = func_801820F0();
+    if (v0 >= 0) {
+        func_8018201C(v0, (Rec_8018A6A4_80181E60 *)a0, a1, a2);
+    }
+}
+
 
 
 /* func_8018201C — SPLICE RECONCILE (bytes unchanged from the s6h draft).

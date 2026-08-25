@@ -3760,5 +3760,85 @@ s32 func_80191070(s32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_801902EC", func_801917C8);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8018D3A4(void *a0);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+
+void func_801917C8(s32 param_1)
+{
+    s32 eNew;
+    s32 dx;
+    s32 dy;
+
+    *(u16 *)(param_1 + 0xE8) = (*(u8 *)(param_1 + 0xC2) << 4) + 0x100;
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        eNew = func_8012C658(0x318, 5, param_1);
+        if (eNew == 0) {
+            break;
+        }
+        *(u16 *)(*(s32 *)(eNew + 0x20) + 0x12) = 0xD00;
+        *(u16 *)(eNew + 6) = *(u16 *)(eNew + 6) - 0x180;
+        {
+            u16 t = *(u16 *)(param_1 + 0x34);
+            *(s32 *)(param_1 + 0x6C) = eNew;
+            *(u16 *)(param_1 + 0x34) = t + 1;
+        }
+        break;
+
+    case 1:
+        eNew = func_8012C658(0x318, 6, param_1);
+        if (eNew == 0) {
+            break;
+        }
+        *(u16 *)(eNew + 6) = *(u16 *)(eNew + 6) + 0x30;
+        *(u16 *)(eNew + 0xA) = *(u16 *)(eNew + 0xA) - 0xF0;
+        *(u16 *)(*(s32 *)(eNew + 0x20) + 0x10) = 0xC00;
+        *(u16 *)(*(s32 *)(eNew + 0x20) + 0x12) = 0xC00;
+        {
+            u16 t = *(u16 *)(param_1 + 0x34);
+            *(s32 *)(param_1 + 0xCC) = eNew;
+            *(u16 *)(param_1 + 0x34) = t + 1;
+        }
+        break;
+
+    case 2:
+        dx = *(s16 *)&D_80126B5E - *(s16 *)(param_1 + 6) - 0xC0;
+        dy = *(s16 *)&D_80126B66 - *(s16 *)(param_1 + 0xE);
+        if (0x3FFFF < dx * dx + dy * dy) {
+            break;
+        }
+        {
+            u16 t = *(u16 *)(param_1 + 0x34);
+            eNew = *(s32 *)(param_1 + 0x6C);
+            *(u16 *)(param_1 + 0x34) = t + 1;
+            *(u16 *)(eNew + 0x34) = *(u16 *)(eNew + 0x34) + 1;
+        }
+        break;
+
+    case 3:
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) - 0x40;
+        if (*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) != 0) {
+            break;
+        }
+        eNew = *(s32 *)(param_1 + 0xCC);
+        {
+            u16 t = *(u16 *)(param_1 + 0x34);
+            *(u16 *)(param_1 + 0xAE) = 0;
+            *(u16 *)(param_1 + 0x34) = t + 1;
+            *(u16 *)(eNew + 0x34) = *(u16 *)(eNew + 0x34) + 1;
+        }
+        func_8002D4C8(0xAD5, 0);
+        break;
+
+    case 4:
+        break;
+    }
+
+    func_8018D3A4((void *)param_1);
+}
+
 

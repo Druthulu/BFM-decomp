@@ -6214,7 +6214,36 @@ void func_80180748(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_80180788);
+/* TU-adopted declarations (law 2): spelled exactly as this TU already declares them. */
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern void func_8012E8E0(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_8012A828(s32, s32);
+extern void func_80184990(s32);
+
+/* Not declared anywhere yet in this TU. */
+extern s32 D_80191434;
+extern s16 D_801C0CFC;
+extern s32 D_801CE1C0;
+extern s32 D_801D5210;
+
+void func_80180788(s32 a0) {
+    /* [T-193 / §183.2] TU decls are `int func_80178970(void)` /
+       `void func_80178D18(void)`, but the target passes the object
+       pointer to both -- keep the TU decl, cast at the use site
+       (same resolution as func_8017E92C case 2 above). */
+    if (((s32 (*)(s32))func_80178970)(a0) != 0) {
+        ((void (*)(s32))func_80178D18)(a0);
+        *(short *)((char *)a0 + 0x2) = 3;
+        func_8012E8E0(a0, (s32)&D_80191434);
+        func_8012E88C(a0);
+        func_8012A828(a0, (s32)&D_801C0CFC);
+        func_80184990(a0);
+        D_801CE1C0 = D_801D5210;
+    }
+}
+
 
 
 extern s32 func_80184CA4(s32 a0);

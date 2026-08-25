@@ -3295,7 +3295,12 @@ int func_8017F7B4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017F7D8);
+extern s32 D_801F3304;
+
+s32 func_8017F7D8(void) {
+    return (u32)(D_801F3304 ^ 1) != 0;
+}
+
 
 void func_8017F7F0(void) {
     extern s32 func_800291B4(s32 arg);

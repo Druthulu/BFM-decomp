@@ -4072,7 +4072,19 @@ void func_8016D848(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8016AE5C", func_8016D984);
+extern void func_80146C3C(u8*);
+extern void func_800D22E4(s32 a0);
+void func_8016D984(s32 *a0) {
+    if ((--*(s32 *)((char *)a0 + 0x1C)) == 0) {
+        ((void (*)(void))func_80146C3C)();
+    } else {
+        func_800D22E4((s32)a0);
+        *(s32 *)((char *)a0 + 0x10) -= *(s32 *)((char *)a0 + 0x10) >> 4;
+        *(s32 *)((char *)a0 + 0x14) -= *(s32 *)((char *)a0 + 0x14) >> 4;
+        *(s32 *)((char *)a0 + 0x18) -= *(s32 *)((char *)a0 + 0x18) >> 4;
+    }
+}
+
 
 DEFINE_func_8016DA04()  /* dedup: shared engine-core @0x8016da04 (src/shared) */
 

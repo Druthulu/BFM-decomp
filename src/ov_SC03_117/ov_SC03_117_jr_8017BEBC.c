@@ -3371,7 +3371,23 @@ void func_8017D07C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017D248);
+extern void func_80146CA0(void *a0);
+
+void func_8017D248(s32 a0) {
+    extern u16 D_8018839C;
+    extern u16 D_8018839A;
+    extern u16 D_80188398;
+    u16 uVar1;
+
+    uVar1 = D_8018839C + 8;
+    D_8018839C = uVar1;
+    D_8018839A = uVar1;
+    D_80188398 = uVar1;
+    if ((s16)uVar1 > 0x100) {
+        func_80146CA0((void *)a0);
+    }
+}
+
 
 #include "common.h"
 

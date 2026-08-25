@@ -6649,7 +6649,23 @@ void func_801811A0(s32 param_1, s32 param_2, s32 param_3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8018122C);
+extern s32 D_801C79CC;
+extern void func_801812BC(void);
+extern s32 func_8013767C(s32 a0);
+
+void func_8018122C(s32 param_1, void* param_2)
+{
+    register s32 base __asm__("$16");
+    register s32 val __asm__("$17");
+
+    base = param_1;
+    val = param_2;
+    func_801812BC();
+    if (D_801C79CC == 0) {
+        *(s32 *)(base + 0xCC) = func_8013767C(val);
+    }
+}
+
 
 extern s32 func_801399F0(s32 a0);
 extern s32 D_801C79CC;

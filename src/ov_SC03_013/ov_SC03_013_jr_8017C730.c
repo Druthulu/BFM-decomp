@@ -3344,7 +3344,21 @@ void func_8017DAAC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017C730", func_8017DAD4);
+typedef struct {
+    s32 unk00;
+    s32 unk04;
+} Struct_80184C18;
+
+extern Struct_80184C18 D_80184C18[];
+extern s32 func_80171CC4(void *a0, void *a1);
+extern void func_80171928(void *a0);
+
+void func_8017DAD4(s32 arg0) {
+    if (func_80171CC4((void *)arg0, &D_80184C18[*(u8 *)(arg0 + 0x218)]) != 0) {
+        func_80171928((void *)arg0);
+    }
+}
+
 
 extern u8 D_80184C59[];
 
@@ -3711,7 +3725,44 @@ void func_8017E9CC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017C730", func_8017EA08);
+#include "common.h"
+
+extern s32 func_8017EE28(s32 a0, s32 a1, s32 a2);
+extern s8 D_80184CCC[];
+
+s32 func_8017EA08(void *a0) {
+    s16 buf[8];
+    u16 *tbl;
+    s16 v0;
+    s32 result;
+    s32 ret;
+
+    tbl = (u16 *)&D_80184CCC[*(s16 *)((s32)a0 + 0x100) * 16];
+
+    v0 = tbl[6];
+    buf[2] = v0;
+    v0 = tbl[7];
+    buf[5] = 0;
+    buf[1] = 0;
+    buf[6] = v0;
+    v0 = tbl[2];
+    buf[4] = v0;
+    buf[0] = v0;
+
+    result = func_8017EE28((s32)a0, (s32)&buf[0], (s32)&buf[4]);
+
+    if (result != 0) {
+        ret = 1;
+    } else {
+        v0 = tbl[3];
+        buf[4] = v0;
+        buf[0] = v0;
+        result = func_8017EE28((s32)a0, (s32)&buf[0], (s32)&buf[4]);
+        ret = (result != 0);
+    }
+    return ret;
+}
+
 
 #include "common.h"
 

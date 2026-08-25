@@ -4004,7 +4004,19 @@ LAB_80184738:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017E96C);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012B864(s32 a0);
+extern u8 D_801B59B0[];
+
+void func_8017E96C(void *arg0) {
+    s32 *s0 = (s32 *)arg0;
+
+    func_8012A828((s32)arg0, &D_801B59B0);
+    ((s16 *)s0)[1] = 0x10;
+    ((u16 *)s0)[0x1A] = 0;
+    s0[0x3A] = func_8012B864((s32)s0);
+}
+
 
 
 extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);

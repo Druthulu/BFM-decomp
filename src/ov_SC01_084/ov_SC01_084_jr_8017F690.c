@@ -5802,7 +5802,20 @@ void func_80185C0C(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80185E38);
+extern s32 func_800CF854(s32);
+
+s32 func_80185E38(void)
+{
+    register s32 r __asm__("$2");
+    s32 v;
+
+    v = ((s32 (*)(void))func_800CF854)();
+    r = 3;
+    if (v != 0)
+        r = 4;
+    return r;
+}
+
 
 
 extern s32 D_801C7728;
