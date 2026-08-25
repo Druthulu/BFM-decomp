@@ -1675,7 +1675,27 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2C6C);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005BED8);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005BED8\n"
+    ".ent\tfunc_8005BED8\n"
+    ".frame\t$sp,24,$31\n"
+    ".mask\t0x80010000,-4\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "func_8005BED8:\n"
+    "addiu $sp, $sp, -24\n"
+    "sw    $ra, 20($sp)\n"
+    "bnez  $a0, .L8005BF8C\n"
+    " sw   $s0, 16($sp)\n"
+    "jal   func_8005C020\n"
+    " nop\n"
+    "j     SYS_OBJ_2CDC\n"
+    " nop\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005BED8\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2CC4);
 

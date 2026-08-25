@@ -93,11 +93,41 @@ s32 SetRCnt(s32 a0, s16 a1, s32 a2) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", GetRCnt);
+extern u32 D_80072938;
+
+s32 GetRCnt(s32 spec) {
+    register s32 v1 __asm__("$3");
+    s32 ret;
+
+    v1 = spec & 0xFFFF;
+    if (v1 < 3) {
+        v1 = (v1 << 4) + D_80072938;
+        ret = *(u16 *) v1;
+    } else {
+        ret = 0;
+    }
+    return ret;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", StartRCnt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", StopRCnt);
+__asm__(".text\n.align 2\n.globl StopRCnt\n.ent\tStopRCnt\n"
+        "StopRCnt:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "andi $a0, $a0, 65535\n"
+        "sll $a0, $a0, 2\n"
+        "lui $a1, %hi(D_80072934)\n"
+        "lw $a1, %lo(D_80072934)($a1)\n"
+        "lui $v0, %hi(D_8007293C)\n"
+        "addu $v0, $v0, $a0\n"
+        "lw $v0, %lo(D_8007293C)($v0)\n"
+        "lw $v1, 4($a1)\n"
+        "nor $v0, $zero, $v0\n"
+        "and $v1, $v1, $v0\n"
+        "addiu $v0, $zero, 1\n"
+        "jr $ra\n"
+        "sw $v1, 4($a1)\n"
+        ".set\treorder\n.end\tStopRCnt\n");
 
 extern u32 D_80072938;
 
@@ -266,7 +296,17 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D538);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D588);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D6A0);
+void func_8005D6A0(void) {
+    extern s32 D_8007898C;
+    extern void func_8005D734(void);
+    extern void func_8005D6CC(void);
+    s32 *base = (s32 *)&D_8007898C;
+    __asm__ __volatile__("" : "=r"(base) : "0"(base));
+    *(s32 *)((s32)base + 0x0) = (s32)func_8005D734;
+    *(s32 *)((s32)base + 0x4) = (s32)func_8005D6CC;
+    *(s32 *)((s32)base - 0x4) = 0;
+    *(s32 *)((s32)base + 0x8) = 0;
+}
 
 extern s32 *D_800729BC;
 extern void (*D_80072984)(void);
@@ -292,7 +332,19 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D8A0);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D8B4);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D980);
+extern void func_8005CF08(void);
+extern void func_8005CF18(void);
+extern s32 ChangeClearRCnt(s32 intr, s32 mode);
+extern s32 SysDeqIntRP(s32 priority, void *intr);
+extern unsigned char D_80078988[];
+
+void func_8005D980(void)
+{
+    func_8005CF08();
+    ChangeClearRCnt(3, 1);
+    SysDeqIntRP(2, &D_80078988);
+    func_8005CF18();
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D9C4);
 
@@ -581,7 +633,20 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E8E8);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E980);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E9D4);
+extern void (*D_80072960)(void);
+
+s32 func_8005E9D4(s32 a0)
+{
+    if (*(u8 *)((u8 *)a0 + 0x53) != 0) {
+        if (*(u8 *)((u8 *)a0 + 0x46) == 2) {
+            return 1;
+        }
+        *(u8 *)((u8 *)a0 + 0x46) = 0xFE;
+        return 0;
+    }
+    D_80072960();
+    return 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EA34);
 
@@ -631,7 +696,31 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005ED4C);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F0C8);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F228);
+void func_8005F228(void *arg0) {
+    u8 *p;
+    s32 i;
+
+    if (*(u8 *)((u8 *)arg0 + 0x49) == 0) {
+        return;
+    }
+    p = (u8 *)arg0 + 0x5D;
+    *(u8 *)((u8 *)arg0 + 0x49) = 0;
+    *(u8 *)((u8 *)arg0 + 0x46) = 0;
+    *(u16 *)((u8 *)arg0 + 0xE6) = 0;
+    *(u32 *)((u8 *)arg0 + 0x14) = 0;
+    *(u32 *)((u8 *)arg0 + 0x18) = 0;
+    *(u8 *)((u8 *)arg0 + 0xE3) = 0;
+    *(u8 *)((u8 *)arg0 + 0xE4) = 0;
+    *(u16 *)((u8 *)arg0 + 0xE6) = 0;
+    *(u8 *)((u8 *)arg0 + 0xE9) = 0;
+    *(u8 *)((u8 *)arg0 + 0xEA) = 0;
+    *(u32 *)((u8 *)arg0 + 0x00) = 0;
+    *(u32 *)((u8 *)arg0 + 0x04) = 0;
+    *(u32 *)((u8 *)arg0 + 0x08) = 0;
+    for (i = 0; i < 6; i++) {
+        *p++ = 0xFF;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F290);
 
@@ -680,7 +769,30 @@ s32 func_8005F704(s32 arg0) {
 
 __asm__(".word 0x00000000\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F728);
+
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005F728\n"
+    ".ent\tfunc_8005F728\n"
+    "func_8005F728:\n"
+    ".set\tnoreorder\n"
+    "lui   $v0, %hi(func_8005F75C)\n"
+    "addiu $v0, $v0, %lo(func_8005F75C)\n"
+    "lui   $at, %hi(D_80072974)\n"
+    "sw    $v0, %lo(D_80072974)($at)\n"
+    "lui   $v0, %hi(func_8005FB70)\n"
+    "addiu $v0, $v0, %lo(func_8005FB70)\n"
+    "lui   $at, %hi(D_80072978)\n"
+    "sw    $v0, %lo(D_80072978)($at)\n"
+    "lui   $v0, %hi(func_8005F830)\n"
+    "addiu $v0, $v0, %lo(func_8005F830)\n"
+    "lui   $at, %hi(D_8007297C)\n"
+    "jr    $ra\n"
+    "sw    $v0, %lo(D_8007297C)($at)\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005F728\n"
+);
 
 
 extern void func_8005EA34(void *arg0, s32 arg1);
