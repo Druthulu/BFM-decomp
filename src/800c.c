@@ -124,7 +124,53 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_11C);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_16C);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SetGraphReverse);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSetGraphReverse\n"
+    ".ent\tSetGraphReverse\n"
+    "SetGraphReverse:\n"
+    ".set\tnoreorder\n"
+    "    lui $v0, %hi(D_8007278A)\n"
+    "    lbu $v0, %lo(D_8007278A)($v0)\n"
+    "    addiu $sp, $sp, -32\n"
+    "    sw $s1, 20($sp)\n"
+    "    sw $s0, 16($sp)\n"
+    "    lui $s0, %hi(D_8007278B)\n"
+    "    addiu $s0, $s0, %lo(D_8007278B)\n"
+    "    sw $ra, 28($sp)\n"
+    "    sw $s2, 24($sp)\n"
+    "    lbu $s2, 0($s0)\n"
+    "    sltiu $v0, $v0, 2\n"
+    "    bnez $v0, 1f\n"
+    "    addu $s1, $a0, $zero\n"
+    "    lui $a0, %hi(D_800740B8)\n"
+    "    addiu $a0, $a0, %lo(D_800740B8)\n"
+    "    lui $v0, %hi(D_80072784)\n"
+    "    lw $v0, %lo(D_80072784)($v0)\n"
+    "    nop\n"
+    "    jalr $v0\n"
+    "    addu $a1, $s1, $zero\n"
+    "1:\n"
+    "    lui $v0, %hi(D_80072780)\n"
+    "    lw $v0, %lo(D_80072780)($v0)\n"
+    "    sb $s1, 0($s0)\n"
+    "    lw $v0, 40($v0)\n"
+    "    nop\n"
+    "    jalr $v0\n"
+    "    addiu $a0, $zero, 8\n"
+    "    lbu $v1, 0($s0)\n"
+    "    nop\n"
+    "    beqz $v1, 2f\n"
+    "    addu $a0, $v0, $zero\n"
+    "    lui $v0, (0x8000080 >> 16)\n"
+    "    j SYS_OBJ_210\n"
+    "    ori $v0, $v0, (0x8000080 & 0xFFFF)\n"
+    "2:\n"
+    "    lui $v0, (0x8000000 >> 16)\n"
+    ".set\treorder\n"
+    ".end\tSetGraphReverse\n"
+);
 
 __asm__(
     ".text\n"
@@ -362,7 +408,17 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_640);
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_80059888);
 
-INCLUDE_ASM("asm/nonmatchings/800c", ClearImage2);
+extern void *D_80072780;
+extern char D_80074178;
+extern void func_80059760();
+
+void ClearImage2(void *rect, u8 r, u8 g, u8 b)
+{
+    func_80059760(&D_80074178, rect);
+    (*(s32 (**)(void *, void *, s32, s32))((u8 *)D_80072780 + 0x8))(
+        *(void **)((u8 *)D_80072780 + 0xC), rect, 8,
+        ((((b & 0xFF) << 16) | 0x80000000) | ((g & 0xFF) << 8)) | (r & 0xFF));
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_800599B8);
 
@@ -963,11 +1019,187 @@ s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4) {
 
 INCLUDE_ASM("asm/nonmatchings/800c", SetDrawEnv);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1578);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1578\n"
+    ".ent\tSYS_OBJ_1578\n"
+    "SYS_OBJ_1578:\n"
+    ".frame\t$sp,64,$31\n"
+    ".mask\t0x80030000,-16\n"
+    ".fmask\t0,0\n"
+    ".set\tnoreorder\n"
+    "sll   $a2, $a3, 2\n"
+    "addiu $a3, $a3, 1\n"
+    "sll   $a1, $a3, 2\n"
+    "addiu $a3, $a3, 1\n"
+    "sh    $v0, 22($sp)\n"
+    "lhu   $v0, 16($sp)\n"
+    "lhu   $v1, 8($s0)\n"
+    "addu  $a2, $a2, $s1\n"
+    "subu  $v0, $v0, $v1\n"
+    "sh    $v0, 16($sp)\n"
+    "lhu   $v0, 18($sp)\n"
+    "lhu   $v1, 10($s0)\n"
+    "lui   $a0, 24576\n"
+    "subu  $v0, $v0, $v1\n"
+    "sh    $v0, 18($sp)\n"
+    "lbu   $v0, 27($s0)\n"
+    "lbu   $v1, 26($s0)\n"
+    "sll   $v0, $v0, 16\n"
+    "sll   $v1, $v1, 8\n"
+    "or    $v1, $v1, $a0\n"
+    "lbu   $a0, 25($s0)\n"
+    "or    $v0, $v0, $v1\n"
+    "or    $v0, $v0, $a0\n"
+    "sw    $v0, 0($a2)\n"
+    "lw    $v0, 16($sp)\n"
+    "addu  $a1, $a1, $s1\n"
+    "sw    $v0, 0($a1)\n"
+    "sll   $v0, $a3, 2\n"
+    "lw    $v1, 20($sp)\n"
+    "addu  $v0, $v0, $s1\n"
+    "sw    $v1, 0($v0)\n"
+    "lhu   $v0, 16($sp)\n"
+    "lhu   $v1, 8($s0)\n"
+    "nop\n"
+    "addu  $v0, $v0, $v1\n"
+    "sh    $v0, 16($sp)\n"
+    "lhu   $v0, 18($sp)\n"
+    "lhu   $v1, 10($s0)\n"
+    "addiu $a3, $a3, 1\n"
+    "addu  $v0, $v0, $v1\n"
+    "sh    $v0, 18($sp)\n"
+    ".L8005A850:\n"
+    "addiu $v0, $a3, -1\n"
+    "sb    $v0, 3($s1)\n"
+    "lw    $ra, 56($sp)\n"
+    "lw    $s1, 52($sp)\n"
+    "lw    $s0, 48($sp)\n"
+    "addiu $sp, $sp, 64\n"
+    "jr    $ra\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_1578\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_8005A870);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1790);
+/* SYS_OBJ_1790 (0x8005A9C4, 0x11C, 71 insns) -- REPLACES the
+ * INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1790) entry at this exact spot
+ * (between func_8005A870 and SYS_OBJ_18AC).
+ *
+ * NOT a callable C function: it is the TAIL FRAGMENT of func_8005A870 (that
+ * parent stashes x/y/w/h in its own 0x40-byte frame slots 0x10/0x12/0x14/0x16,
+ * clamps them against D_8007278C/D_8007278E, and enters here via
+ * `bnez $v0, SYS_OBJ_1790` / `j SYS_OBJ_1790` with the clamped width in $v0,
+ * consumed by this fragment's first pair lhu $v1,16($sp)/sh $v0,22($sp)).
+ * Both exits leave via bare tail `j SYS_OBJ_18AC` -- the shared family
+ * epilogue (lw ra/s1/s0, addiu sp,0x40, jr ra). gcc-2.7.2 unconditionally
+ * appends a jr $ra epilogue to every C-function body (even noreturn/pure-asm),
+ * so the fragment is FILE-SCOPE inline asm -- the idiom already used by
+ * func_80059234, func_80059760, func_80059FC0/SYS_OBJ_E34 and SYS_OBJ_1DC0 in
+ * this TU. The tab-separated ".ent\t"/".end\t" pair is load-bearing (maspsx
+ * re-emits .set noreorder only on ".ent\t"; a plain .set line is swallowed, so
+ * GNU as would assemble in reorder mode and displace the delay slots).
+ * .frame/.mask/.fmask copied from the working func_80059FC0 blob (declares the
+ * PARENT frame: 64=0x40 bytes, mask ra|s1|s0=0x80030000).
+ *
+ * Body transcribed 1:1 from asm/nonmatchings/800c/SYS_OBJ_1790.s.
+ * SYMBOL AUDIT: the ONLY relocation in range is `j SYS_OBJ_18AC`
+ * (word 0x08016AB8 -> 0x8005AAE0, confirmed against SYS_OBJ_18AC.s); the two
+ * luis are pure literals (0x60000000>>16 GPU cmd base, 0x2000000>>16 blend
+ * tag), no %hi/%lo, no jal, no data symbols. Local labels numeric (1f/2f;
+ * branch offsets 6/0x28 encode identically to the target's .L names).
+ * Load/store offsets DECIMAL: maspsx hard-fails hex mem offsets ("invalid
+ * literal for int() with base 10"); lui/addiu/andi/or immediates stay hex.
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1790\n"
+    ".ent\tSYS_OBJ_1790\n"
+    "SYS_OBJ_1790:\n"
+    ".frame\t$sp,64,$31\n"
+    ".mask\t0x80030000,-8\n"
+    ".fmask\t0x00000000,0\n"
+        ".set\tnoreorder\n"
+        "lhu   $v1, 16($sp)\n"
+        "sh    $v0, 22($sp)\n"
+        "andi  $v0, $v1, 0x3f\n"
+        "bnez  $v0, 1f\n"
+        " sll  $a2, $t0, 2\n"
+        "lhu   $v0, 20($sp)\n"
+        "nop\n"
+        "andi  $v0, $v0, 0x3f\n"
+        "beqz  $v0, 2f\n"
+        " sll  $a1, $t0, 2\n"
+        "1:\n"
+        "addiu $t0, $t0, 0x1\n"
+        "sll   $a1, $t0, 2\n"
+        "addiu $t0, $t0, 0x1\n"
+        "lhu   $v0, 8($s0)\n"
+        "addu  $a2, $a2, $s1\n"
+        "subu  $v0, $v1, $v0\n"
+        "sh    $v0, 16($sp)\n"
+        "lhu   $v0, 18($sp)\n"
+        "lhu   $v1, 10($s0)\n"
+        "lui   $a0, 0x6000\n"
+        "subu  $v0, $v0, $v1\n"
+        "sh    $v0, 18($sp)\n"
+        "lbu   $v0, 27($s0)\n"
+        "lbu   $v1, 26($s0)\n"
+        "sll   $v0, $v0, 16\n"
+        "sll   $v1, $v1, 8\n"
+        "or    $v1, $v1, $a0\n"
+        "lbu   $a0, 25($s0)\n"
+        "or    $v0, $v0, $v1\n"
+        "or    $v0, $v0, $a0\n"
+        "sw    $v0, 0($a2)\n"
+        "lw    $v0, 16($sp)\n"
+        "addu  $a1, $a1, $s1\n"
+        "sw    $v0, 0($a1)\n"
+        "sll   $v0, $t0, 2\n"
+        "lw    $v1, 20($sp)\n"
+        "addu  $v0, $v0, $s1\n"
+        "sw    $v1, 0($v0)\n"
+        "lhu   $v0, 16($sp)\n"
+        "lhu   $v1, 8($s0)\n"
+        "nop\n"
+        "addu  $v0, $v0, $v1\n"
+        "sh    $v0, 16($sp)\n"
+        "lhu   $v0, 18($sp)\n"
+        "lhu   $v1, 10($s0)\n"
+        "addiu $t0, $t0, 0x1\n"
+        "addu  $v0, $v0, $v1\n"
+        "j     SYS_OBJ_18AC\n"
+        " sh   $v0, 18($sp)\n"
+        "2:\n"
+        "addiu $t0, $t0, 0x1\n"
+        "sll   $a2, $t0, 2\n"
+        "addiu $t0, $t0, 0x1\n"
+        "sll   $a3, $t0, 2\n"
+        "addiu $t0, $t0, 0x1\n"
+        "addu  $a1, $a1, $s1\n"
+        "lui   $a0, 0x200\n"
+        "lbu   $v0, 27($s0)\n"
+        "lbu   $v1, 26($s0)\n"
+        "sll   $v0, $v0, 16\n"
+        "sll   $v1, $v1, 8\n"
+        "or    $v1, $v1, $a0\n"
+        "lbu   $a0, 25($s0)\n"
+        "or    $v0, $v0, $v1\n"
+        "or    $v0, $v0, $a0\n"
+        "sw    $v0, 0($a1)\n"
+        "lw    $v0, 16($sp)\n"
+        "addu  $a2, $a2, $s1\n"
+        "sw    $v0, 0($a2)\n"
+        "lw    $v0, 20($sp)\n"
+        "addu  $a3, $a3, $s1\n"
+        "sw    $v0, 0($a3)\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_1790\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_18AC);
 
@@ -1860,7 +2092,95 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2F7C);
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005C1C0);
+/*
+ * func_8005C1C0 -- GPU-primitive dispatch sibling (same family as func_80059FC0/SYS_OBJ_E34,
+ * src/800c.c:508). The target has NO trailing "jr $ra": all four exits are raw, unlinked tail
+ * jumps into SYS_OBJ_3060 with the return value materialised in the DELAY SLOT ($v0 = 0/1/2/3),
+ * and SYS_OBJ_3060 (banked as the C stub immediately below) owns the shared epilogue for this
+ * frame. gcc-2.7.2 unconditionally appends its own return sequence to any ordinary C function
+ * body (function.c:expand_function_end, no noreturn guard -- matching-cookbook.md §179-C, whose
+ * follow-up list names THIS function), so a C spelling can only get within +2 instructions.
+ * FILE-SCOPE asm is the only spelling that emits exactly the target bytes. Per §179-C sub-rules:
+ * literal ".ent"/".end" (not glabel), %hi/%lo un-doubled, ".L" local labels only. No second
+ * ".ent SYS_OBJ_3060" is needed after ".end" (sub-rule c) because the following symbol is a real
+ * gcc-compiled C function carrying its own header.
+ *
+ * BANKING: this block REPLACES the line
+ *     INCLUDE_ASM("asm/nonmatchings/800c", func_8005C1C0);
+ * at src/800c.c:1111, in place (between SYS_OBJ_2F7C and the SYS_OBJ_3060 stub) so link order
+ * is unchanged: func_8005C1C0 @0x8005C1C0 (0xD4 bytes) -> SYS_OBJ_3060 @0x8005C294 ->
+ * func_8005C29C @0x8005C29C.
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005C1C0\n"
+    ".ent\tfunc_8005C1C0\n"
+    "func_8005C1C0:\n"
+    ".frame\t$sp,0,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "lui   $3, 0x1000\n"
+    "lui   $2, %hi(D_8007285C)\n"
+    "lw    $2, %lo(D_8007285C)($2)\n"
+    "ori   $3, $3, 7\n"
+    "sw    $3, 0($2)\n"
+    "lui   $5, %hi(D_80072858)\n"
+    "lw    $5, %lo(D_80072858)($5)\n"
+    "lui   $3, 0xff\n"
+    "lw    $2, 0($5)\n"
+    "ori   $3, $3, 0xffff\n"
+    "and   $2, $2, $3\n"
+    "addiu $3, $0, 2\n"
+    "beq   $2, $3, .L8005C268\n"
+    " lui  $3, 0xe100\n"
+    "lui   $2, %hi(D_8007285C)\n"
+    "lw    $2, %lo(D_8007285C)($2)\n"
+    "nop\n"
+    "lw    $2, 0($2)\n"
+    "ori   $3, $3, 0x1000\n"
+    "andi  $2, $2, 0x3fff\n"
+    "or    $2, $2, $3\n"
+    "sw    $2, 0($5)\n"
+    "lui   $2, %hi(D_80072858)\n"
+    "lw    $2, %lo(D_80072858)($2)\n"
+    "lui   $3, %hi(D_8007285C)\n"
+    "lw    $3, %lo(D_8007285C)($3)\n"
+    "lw    $2, 0($2)\n"
+    "lw    $2, 0($3)\n"
+    "nop\n"
+    "andi  $2, $2, 0x1000\n"
+    "bnez  $2, .L8005C248\n"
+    " andi $2, $4, 8\n"
+    "j     SYS_OBJ_3060\n"
+    " addu $2, $0, $0\n"
+    ".L8005C248:\n"
+    "bnez  $2, .L8005C258\n"
+    " lui  $2, 0x2000\n"
+    "j     SYS_OBJ_3060\n"
+    " addiu $2, $0, 1\n"
+    ".L8005C258:\n"
+    "ori   $2, $2, 0x504\n"
+    "sw    $2, 0($3)\n"
+    "j     SYS_OBJ_3060\n"
+    " addiu $2, $0, 2\n"
+    ".L8005C268:\n"
+    "andi  $2, $4, 8\n"
+    "beqz  $2, .L8005C290\n"
+    " lui  $4, 0x900\n"
+    "ori   $4, $4, 1\n"
+    "lui   $3, %hi(D_8007285C)\n"
+    "lw    $3, %lo(D_8007285C)($3)\n"
+    "addiu $2, $0, 4\n"
+    "sw    $4, 0($3)\n"
+    "j     SYS_OBJ_3060\n"
+    "nop\n"
+    ".L8005C290:\n"
+    "addiu $2, $0, 3\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005C1C0\n"
+);
 
 void SYS_OBJ_3060(void) {
 }
