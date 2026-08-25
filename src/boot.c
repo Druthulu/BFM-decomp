@@ -67,7 +67,76 @@ __asm__(".text\n"
 
 void start(void);
 
-INCLUDE_ASM("asm/nonmatchings/boot", __main);
+/* __main (0x800100A0) -- crt0 constructor-runner, HANDWRITTEN assembly.
+ * Replaces the boot __main stub line in src/boot.c IN PLACE (order preserved:
+ * lands right after the `start` artifact, before __do_global_dtors). Same
+ * lane-2 file-scope __asm__ form already byte-gated in this TU for `start`,
+ * and used by banked StopRCnt/gfx2D_BG0_OBJ_658/FGO_06_OBJ_64/func_800D0440
+ * elsewhere in the tree. Per cookbook §265: ship NO C externs/prototype with
+ * the file-scope form -- the asm resolves symbols at link time; a guessed
+ * decl for a crt-reserved name is pure conflict risk.
+ *
+ * WHY ASM, NOT C: this TU builds -O0 per-file (the boot.c precedent), but
+ * __main's target bytes are -O2/handwritten-shaped code (loop state held in
+ * $s0/$s1 across the call, delay slots filled, zero local spill/reload) --
+ * no C body in this TU can produce them (a C draft compiles to 47 spilled
+ * -O0 insns).
+ *
+ * RECOVERED SEMANTICS (for the eventual real decomp):
+ *   static int done;              // D_80062998
+ *   void __main(void) {
+ *       if (!done) {
+ *           done = 1;
+ *           int *p = (int *)&start;   // init-array base
+ *           int n = 3;                // count ships as literal zeros in the
+ *                                     // target (splat renders `lui $s1,(0x0>>16)`
+ *                                     // / `addiu $s1,$s1,0x0` -- its display of a
+ *                                     // bare 32-bit literal, cf. `(0x80000000 >> 16)`
+ *                                     // for raw 0080033C); emitted as plain zero
+ *                                     // immediates, byte-identical, no relocation
+ *           do { ((void (*)(void))*p)(); p++; n--; } while (n != 0);
+ *       }
+ *   }
+ * Maspsx rules honored per the start artifact: decimal immediates only,
+ * .set noreorder with explicit delay-slot nops, .ent/.end wrappers. */
+__asm__(".text\n"
+        ".align 2\n"
+        ".globl __main\n"
+        ".ent\t__main\n"
+        "__main:\n"
+        ".set\tnoreorder\n"
+        "lui $t0, %hi(D_80062998)\n"
+        "lw $t0, %lo(D_80062998)($t0)\n"
+        "addiu $sp, $sp, -16\n"
+        "sw $s0, 4($sp)\n"
+        "sw $s1, 8($sp)\n"
+        "sw $ra, 12($sp)\n"
+        "bnez $t0, .L800100F8\n"
+        "ori $t0, $zero, 1\n"
+        "lui $at, %hi(D_80062998)\n"
+        "sw $t0, %lo(D_80062998)($at)\n"
+        "lui $s0, %hi(start)\n"
+        "addiu $s0, $s0, %lo(start)\n"
+        "lui $s1, 0\n"
+        "addiu $s1, $s1, 0\n"
+        "beqz $s1, .L800100F8\n"
+        "nop\n"
+        ".L800100E0:\n"
+        "lw $t0, 0($s0)\n"
+        "addiu $s0, $s0, 4\n"
+        "jalr $t0\n"
+        "addiu $s1, $s1, -1\n"
+        "bnez $s1, .L800100E0\n"
+        "nop\n"
+        ".L800100F8:\n"
+        "lw $ra, 12($sp)\n"
+        "lw $s1, 8($sp)\n"
+        "lw $s0, 4($sp)\n"
+        "addiu $sp, $sp, 16\n"
+        "jr $ra\n"
+        "nop\n"
+        ".set\treorder\n"
+        ".end\t__main\n");
 
 INCLUDE_ASM("asm/nonmatchings/boot", __do_global_dtors);
 

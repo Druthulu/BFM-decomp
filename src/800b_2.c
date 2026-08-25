@@ -17,7 +17,21 @@ void LightColor(void)
         : : : "memory");
 }
 
-INCLUDE_ASM("asm/nonmatchings/800b_2", DpqColorLight);
+void DpqColorLight()
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "lwc2   $9, 0($4)\n"
+        "lwc2   $10, 4($4)\n"
+        "lwc2   $11, 8($4)\n"
+        "lwc2   $6, 0($5)\n"
+        "mtc2   $6, $8\n"
+        "nop\n"
+        "dpcl\n"
+        "swc2   $22, 0($7)\n"
+        ".set\treorder\n"
+    );
+}
 
 
 /* DpqColor3 @ 0x8004929C -- handwritten PsyQ depth-cue colour routine.

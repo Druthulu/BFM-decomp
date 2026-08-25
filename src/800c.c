@@ -544,7 +544,16 @@ s32 func_800599B8(void *rect, void *p)
         *(void **)((u8 *)D_80072780 + 0x20), rect, 8, p);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", StoreImage);
+extern void *D_80072780;
+extern char D_80074190;
+extern void func_80059760();
+
+s32 StoreImage(void *rect, void *p)
+{
+    func_80059760(&D_80074190, rect);
+    return (*(s32 (**)(void *, void *, s32, s32))((u8 *)D_80072780 + 0x8))(
+        *(void **)((u8 *)D_80072780 + 0x1C), rect, 8, p);
+}
 
 
 /* ===========================================================================

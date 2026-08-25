@@ -817,7 +817,11 @@ void func_80013F68(s16 *a0) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80013F98);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80013FBC);
+void func_80013FBC(void *a0, void *a1) {
+    *(u16 *)((s32)a1 + 0x0) = *(u16 *)((s32)a0 + 0x2);
+    *(u16 *)((s32)a1 + 0x2) = *(u16 *)((s32)a0 + 0x8);
+    *(u16 *)((s32)a1 + 0x4) = *(u16 *)((s32)a0 + 0xE);
+}
 
 void func_80013FE0(void *a0, void *a1) {
     *(u16 *)((s32)a1 + 0x0) = *(u16 *)((s32)a0 + 0x4);
@@ -1107,7 +1111,10 @@ void func_80014554(void) {
 void func_8001455C(void) {
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80014564);
+void func_80014564(void *arg0) {
+    extern void func_8005C358(void *a0, s32 a1, s32 a2);
+    func_8005C358(arg0, 0, 0x10);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80014588);
 
@@ -12407,7 +12414,11 @@ void func_80028558(s32 a0, s32 a1, s32 a2, s32 a3) {
     func_80028620(a0, (u8 *)&D_800A5E88 + v0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", SsUtReverbOff);
+extern void func_800538EC(s32 param);
+
+void SsUtReverbOff(void) {
+    func_800538EC(0);
+}
 
 
 extern s16 D_800C6D18;
@@ -12633,7 +12644,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80028E88);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028EAC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028ECC);
+extern void func_80029124(s32, s32);
+
+void func_80028ECC(s32 a0) {
+    func_80029124(0x10, a0 & 0xFF);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028EF0);
 
@@ -13223,7 +13238,12 @@ s32 func_8002A27C(void) {
     return D_80078EE8;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002A28C);
+extern s32 D_80078EE4;
+extern u8 D_800638F8[];
+
+s32 func_8002A28C(void) {
+    return *(u16 *)(D_800638F8 + D_80078EE4 * 16);
+}
 
 extern s32 D_80078EE4;
 extern u8 D_800638FA[];

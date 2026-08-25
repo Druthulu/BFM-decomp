@@ -49,4 +49,55 @@ __asm__(
     "nop\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c2_3", func_80062768);
+/* Handwritten function (splat header) — banked verbatim per §265 form 1.
+ * Recovered semantics:
+ *   D_80078D28 = return address; func_8005CF08(); call vector 0xB0 ($t2=176);
+ *   p = (*(ret + 0x16C)) + 0x62C; for (i = 9; i; --i) *p++ = 0;
+ *   FlushCache(); func_8005CF18(); return via saved $ra.
+ * NOTE: maspsx did NOT auto-insert load-delay nops here (after
+ * "lw $v0,364($v0)" and "lw $ra,%lo(D_80078D28)($ra)") — both written by
+ * hand, matching the banked sibling func_800626F0 in this same TU; this
+ * contradicts §179-B rule 4 as observed on this build.
+ */
+__asm__(
+    ".text\n"
+    ".align 2\n"
+    ".globl func_80062768\n"
+    ".ent\tfunc_80062768\n"
+    "func_80062768:\n"
+    ".frame $sp, 0, $31\n"
+    ".mask 0x00000000, 0\n"
+    ".fmask 0x00000000, 0\n"
+    ".set\tnoreorder\n"
+    "lui   $at, %hi(D_80078D28)\n"
+    "sw    $ra, %lo(D_80078D28)($at)\n"
+    "jal   func_8005CF08\n"
+    "nop\n"
+    "addiu $t1, $0, 87\n"
+    "addiu $t2, $0, 176\n"
+    "jalr  $t2\n"
+    "nop\n"
+    "addiu $t2, $0, 9\n"
+    "lw    $v0, 364($v0)\n"
+    "nop\n"
+    "addi  $v1, $v0, 1580\n"
+    ".L80062798:\n"
+    "sw    $0, 0($v1)\n"
+    "addiu $v1, $v1, 4\n"
+    "addiu $t2, $t2, -1\n"
+    "bnez  $t2, .L80062798\n"
+    "nop\n"
+    "jal   FlushCache\n"
+    "nop\n"
+    "jal   func_8005CF18\n"
+    "nop\n"
+    "lui   $ra, %hi(D_80078D28)\n"
+    "lw    $ra, %lo(D_80078D28)($ra)\n"
+    "nop\n"
+    "jr    $ra\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tfunc_80062768\n"
+    "nop\n"
+    "nop\n"
+);
