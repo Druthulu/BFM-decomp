@@ -3272,7 +3272,98 @@ void func_80183C84(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80183D5C);
+typedef struct { s16 vx, vy, vz, pad; } SV83;
+
+void func_80183D5C(s32 arg0)
+{
+    extern void func_8004914C(void *);
+    extern void func_800491AC(void *);
+    extern s32 func_8004787C(s32);
+    extern s32 func_80047948(s32);
+    extern s32 RotTransPers3(void *, void *, void *, s32 *, s32 *, s32 *, s32 *, s32 *);
+    extern void *func_80010A08(s32);
+    extern s32 GetTPage(s32, s32, s32, s32);
+    extern s32 func_8005A600(s32, s32, s32, s32, s32);
+    extern s32 AddPrim(s32, void *);
+    extern u8 D_800AF648;
+    extern s32 D_800A651C[];
+    extern s16 D_800B9A02;
+
+    register u8 *db __asm__("$16");
+    register s32 obj __asm__("$17");
+    void *q;
+    SV83 v[3];
+    s32 scr[6];
+    s32 ret;
+    s32 tp;
+    s32 i;
+    u16 *e;
+    u8 *r;
+    s32 ot;
+
+    obj = arg0;
+    db = &D_800AF648;
+    func_8004914C(db);
+    func_800491AC(db);
+
+    v[0].vx = *(u16 *)((char *)obj + 6);
+    v[0].vy = *(u16 *)((char *)obj + 0xA);
+    v[0].vz = *(u16 *)((char *)obj + 0xE);
+
+    ret = func_8004787C(*(s16 *)((char *)obj + 0xFC) + 0x40);
+    v[1].vx = *(u16 *)((char *)obj + 6) - (ret * *(s16 *)((char *)obj + 0x100) >> 7);
+    v[1].vy = *(u16 *)((char *)obj + 0xA) - (*(u16 *)((char *)obj + 0x100) << 5);
+    ret = func_80047948(*(s16 *)((char *)obj + 0xFC) + 0x40);
+    v[1].vz = *(u16 *)((char *)obj + 0xE) - (ret * *(s16 *)((char *)obj + 0x100) >> 7);
+    ret = func_8004787C(*(s16 *)((char *)obj + 0xFC) - 0x40);
+    v[2].vx = *(u16 *)((char *)obj + 6) - (ret * *(s16 *)((char *)obj + 0x100) >> 7);
+    v[2].vy = *(u16 *)((char *)obj + 0xA) - (*(u16 *)((char *)obj + 0x100) << 5);
+    ret = func_80047948(*(s16 *)((char *)obj + 0xFC) - 0x40);
+    v[2].vz = *(u16 *)((char *)obj + 0xE) - (ret * *(s16 *)((char *)obj + 0x100) >> 7);
+
+    ret = RotTransPers3(&v[0], &v[1], &v[2], &scr[0], &scr[1], &scr[2], &scr[4], &scr[5]);
+    if (ret <= 0 || scr[5] < 0) {
+        *(u16 *)((char *)obj + 0x102) = 0;
+        *(u16 *)((char *)obj + 0x100) = *(u16 *)((char *)obj + 0x100) - 1;
+        return;
+    }
+    ret -= 0x10;
+
+    ot = D_800A651C[*(u16 *)&D_800B9A02 * 5] + (ret << 2);
+
+    q = func_80010A08(0x30);
+    if (q == 0) {
+        return;
+    }
+
+    tp = GetTPage(0, 1, 0, 0);
+    func_8005A600((s32)q, 0, 0, (u16)tp, 0);
+
+    r = (u8 *)q + 0xC;
+    for (i = 0, e = (u16 *)scr; i < 3; i++) {
+        if (!((u16)(e[0] + 0xA0) < 0x141 && (u16)(e[1] + 0x78) < 0xF1)) {
+            *(u16 *)((char *)obj + 0x102) = 0;
+        }
+        e += 2;
+    }
+
+    r[0x1C] = r[0x14] = r[0xC] = r[4] = 0xFF;
+    r[0x1D] = r[0x15] = r[0xD] = r[5] = 0xFF;
+    r[0x1E] = r[0x16] = r[0xE] = r[6] = 0xFF;
+    r[3] = 8;
+    r[7] = 0x3A;
+    *(u16 *)(r + 8) = *(volatile u16 *)&scr[0];
+    *(u16 *)(r + 0x10) = *(volatile u16 *)&scr[0];
+    *(u16 *)(r + 0x18) = *(volatile u16 *)&scr[1];
+    *(u16 *)(r + 0x20) = *(volatile u16 *)&scr[2];
+    *(u16 *)(r + 0xA) = *(volatile u16 *)((u16 *)&scr[0] + 1);
+    *(u16 *)(r + 0x12) = *(volatile u16 *)((u16 *)&scr[0] + 1);
+    *(u16 *)(r + 0x1A) = *(volatile u16 *)((u16 *)&scr[1] + 1);
+    *(u16 *)(r + 0x22) = *(volatile u16 *)((u16 *)&scr[2] + 1);
+    AddPrim(ot, r);
+    AddPrim(ot, q);
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80184084);
 

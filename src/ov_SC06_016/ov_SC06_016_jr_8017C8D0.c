@@ -5344,7 +5344,22 @@ void func_80181840(void *s0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8018191C);
+extern void func_8012F568();
+extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+
+void func_8018191C(s32 a0, void *a1, void *a2, s32 a3)
+{
+    extern s32 *D_80126B78;
+    extern s32 *D_80126B90;
+    extern s16  D_80126B9A;
+    extern u8   D_801152A8[];
+
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)a1, (s32)a2) != 0) {
+        func_8012F568(1, 0x4201, a3, 0x5A, a2, D_801152A8);
+        D_80126B9A = a3;
+    }
+}
+
 
 #include "common.h"
 
@@ -5637,7 +5652,38 @@ void func_8018205C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_801820E0);
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern int func_800D0CE0(void);
+extern void func_8017C068(void);
+extern s16 D_8019F71C;
+
+void func_801820E0(s32 a0) {
+    u16 var = *(u16 *)(a0 + 0x34);
+
+    switch (var) {
+    case 0:
+        *(u16 *)(a0 + 0x34) = var + 1;
+        break;
+    case 1:
+        if (((s32 (*)(s32))func_80178970)(a0) != 0) {
+            ((void (*)(s32))func_80178D18)(a0);
+            *(s32 *)(a0 + 0xDC) = 0;
+            *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        }
+        break;
+    case 2:
+        if (func_800D0CE0() == 1) {
+            *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        }
+        break;
+    case 3:
+        func_8017C068();
+        D_8019F71C = 1;
+        break;
+    }
+}
+
 
 extern u16 D_80188BB4;
 
