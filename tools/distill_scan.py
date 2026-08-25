@@ -50,6 +50,20 @@ def main():
     # the lane wrote a fresh, overlapping marker every five minutes — eight batches queued
     # (`bobq`, `bebobq`, `bebjbobq`, …), each a superset of the last, and a reviewer cannot tell
     # which one is the work. The next pass will re-offer whatever is still unmined anyway.
+    # A MARKER IS A CLAIM ON WORK, NOT A RECORD OF IT (P31 S60). A reviewer who distils a batch and
+    # forgets to remove its marker blocks the lane forever: `axbm.json` sat for 10.5 h AFTER its
+    # waves were mined into cookbook §269, while 18 waves / 315 candidates piled up behind it. The
+    # marker's own waves are checkable against `mined`, so check them — a stale claim clears itself.
+    for mk in sorted(glob.glob(os.path.join(ready_dir, "*.json"))):
+        try:
+            waves = json.load(open(mk)).get("waves", [])
+        except Exception:
+            continue
+        if waves and all(t in mined for t in waves) and not any(t == p_t for p_t, _n, _p in pend for t in waves):
+            os.remove(mk)
+            print("  cleared a stale marker (%s): every wave in it is mined"
+                  % os.path.basename(mk))
+
     already = glob.glob(os.path.join(ready_dir, "*.json"))
     if already:
         print("  a batch is already pending review (%s) — not raising another"
