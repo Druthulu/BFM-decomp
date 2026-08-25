@@ -895,7 +895,9 @@ void func_800140B8(s32 a0, s32 a1, s32 a2)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80014128);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80014148);
+void func_80014148(s32 a0, s32 a1, s32 a2) {
+    func_800484EC(a0, a1, a2);
+}
 
 
 typedef struct { u8 b[8]; } Blk8;
@@ -12810,7 +12812,12 @@ void func_80028F98(s32 a0) {
     func_80029124(0x13, a0 & 0xFF);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028FBC);
+extern s32 func_800291B4(s32);
+
+u8 func_80028FBC(void)
+{
+    return func_800291B4(0x2C);
+}
 
 extern void func_800291A0(s32, s32);
 
