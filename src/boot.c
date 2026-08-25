@@ -168,7 +168,11 @@ INCLUDE_ASM("asm/nonmatchings/boot", func_80011CFC);
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011D54);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011DA0);
+extern s32 D_80074780;
+
+void func_80011DA0(void) {
+    D_80074780 = 1;
+}
 
 extern s32 D_80074780;
 
@@ -180,7 +184,10 @@ INCLUDE_ASM("asm/nonmatchings/boot", func_80011DF4);
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011E24);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011E84);
+void func_80011E84(s32 a0) {
+    extern s32 D_80074790;
+    D_80074790 = a0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011EB4);
 

@@ -1,6 +1,16 @@
 #include "common.h"
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
+typedef struct {
+    u32 pad0;
+    u32 rgb0;
+    u32 rgb1;
+    u32 rgb2;
+    u16 n0;
+    u16 v0;
+    u16 v1;
+    u16 v2;
+} TmdG3;
 /* hoisted by gate_main so drafts above can reuse them (§181) */
 typedef struct {
     s16 unk00;
@@ -8557,16 +8567,6 @@ POLY_F4 *func_80024BC0(Face *f, SVECTOR_80024BC0 *sv, SVECTOR_80024BC0 *nv, POLY
     : "r"( r0 )                                 \
     : "memory" )
 
-typedef struct {
-    u32 pad0;
-    u32 rgb0;
-    u32 rgb1;
-    u32 rgb2;
-    u16 n0;
-    u16 v0;
-    u16 v1;
-    u16 v2;
-} TmdG3;
 
 extern s32 D_800A2B78;
 
@@ -10241,7 +10241,97 @@ void func_80027200(void)
     );
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800273F4);
+/* ---- PsyQ inline_c.h GTE macros ---- */
+#define gte_ldv3(r0, r1, r2) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );"                         \
+    "lwc2 $1, 4( %0 );"                         \
+    "lwc2 $2, 0( %1 );"                         \
+    "lwc2 $3, 4( %1 );"                         \
+    "lwc2 $4, 0( %2 );"                         \
+    "lwc2 $5, 4( %2 )"                          \
+    :                                           \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+
+#define gte_stflg(r0) __asm__ volatile (        \
+    "cfc2 $12, $31;"                            \
+    "nop;"                                      \
+    "sw   $12, 0( %0 )"                         \
+    :                                           \
+    : "r"( r0 )                                 \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (        \
+    "swc2 $24, 0( %0 )"                         \
+    :                                           \
+    : "r"( r0 )                                 \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (        \
+    "swc2 $7, 0( %0 )"                          \
+    :                                           \
+    : "r"( r0 )                                 \
+    : "memory" )
+
+#define gte_stsxy3_g3(r0) __asm__ volatile (    \
+    "swc2 $12,  8( %0 );"                       \
+    "swc2 $13, 16( %0 );"                       \
+    "swc2 $14, 24( %0 )"                        \
+    :                                           \
+    : "r"( r0 )                                 \
+    : "memory" )
+
+
+extern s32 D_800A2B78;
+
+u8 *func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot)
+{
+    s32 flag;
+    s32 z;
+    u32 *otp;
+
+    if (n != 0) {
+        __asm__("" : "=r"(pkt) : "0"(pkt));
+        do {
+            gte_ldv3(vtx + f->v0 * 8, vtx + f->v1 * 8, vtx + f->v2 * 8);
+            gte_rtpt();
+            gte_stflg(&flag);
+            if ((flag & ~0x1000) == 0) {
+                gte_nclip();
+                gte_stopz(&z);
+                if (z > 0) {
+                    gte_stsxy3_g3(pkt);
+                    gte_avsz3();
+                    gte_stotz(&z);
+                    *(u32 *)(pkt + 4) = f->rgb0;
+                    *(u32 *)(pkt + 0xC) = f->rgb1;
+                    *(u32 *)(pkt + 0x14) = f->rgb2;
+                    pkt[7] = (pkt[7] & 2) | 0x30;
+                    otp = ot + (z >> shift);
+                    *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x6000000;
+                    *otp = (u32)pkt & 0xFFFFFF;
+                    pkt += 0x1C;
+                    if (D_800A2B78 != 0) {
+                        if (pkt[7 - 0x1C] & 2) {
+                            otp = ot + (z >> shift);
+                            pkt[3] = 1;
+                            *(u32 *)(pkt + 4) = ((D_800A2B78 & 3) << 5) | 0xE100000A;
+                            *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x1000000;
+                            *otp = (u32)pkt & 0xFFFFFF;
+                            pkt += 8;
+                        }
+                    }
+                }
+            }
+            n--;
+            f++;
+        } while (n != 0);
+    }
+    return pkt;
+}
 
 
 /* ---- PsyQ inline GTE macros (inline_c.h forms) ------------------------- */
@@ -12840,7 +12930,46 @@ u8 func_8002D4B8(void) {
     return D_800A46BA;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002D4C8);
+extern s8 D_800A4F17;
+extern u8 D_800A4F18;
+extern s16 D_800A4EFC;
+extern void func_8002D904(s32);
+extern void func_8002DC68(s32 a0, s32 a1);
+extern void func_8002E138(s32 a0, s32 a1, s32 a2);
+extern void func_80030F80(void);
+extern void func_8002D320(void);
+extern void func_80031BE0(void);
+
+void func_8002D4C8(s32 arg0, s32 arg1) {
+    u8 v0;
+    s8 *p;
+
+    D_800A4F17 = 1;
+    if ((u16)arg0 < 0x80) {
+        func_8002E138((u16)arg0, arg1 & 0xFFFF, 0);
+    } else if ((u16)arg0 >= 0x100) {
+        if ((u16)arg0 < 0x400) {
+            func_8002D904((u16)arg0);
+        } else {
+            func_8002DC68((u16)arg0, arg1 & 0xFFFF);
+        }
+    }
+
+    p = &D_800A4F17;
+    v0 = D_800A4F18;
+    *p = v0;
+    if (v0 != 0) {
+        s16 cnt = D_800A4EFC;
+        if (cnt != 0) {
+            D_800A4EFC = cnt - 1;
+        }
+        func_80030F80();
+        func_8002D320();
+        func_80031BE0();
+        D_800A4F18 = 0;
+        *p = 0;
+    }
+}
 
 extern s8 D_800A4F17;
 extern u8 D_800A4F18;
