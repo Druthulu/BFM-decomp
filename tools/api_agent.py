@@ -644,7 +644,25 @@ def main():
     cards = {}
     if a.cards:
         raw = json.load(open(a.cards))
-        cards = {c['fn']: c for c in (raw if isinstance(raw, list) else raw.get('cards', []))}
+        _rows = raw if isinstance(raw, list) else raw.get('cards', [])
+        # A CARD FILE OF THE WRONG SHAPE MUST REFUSE, NOT CRASH (R43, P31 S60). This was
+        # `{c['fn']: c for c in _rows}` and died with KeyError: 'fn' when idiom_serial passed
+        # .run/aprop_cards.json — a FAMILY-card file (family/members/seed, no per-function key).
+        # The traceback killed the agent at turn 0, so every serial-lane target logged "no-draft"
+        # and the lane read as a model failure. The R32 warning two lines below already existed to
+        # catch exactly this ("ZERO matched — wrong card file?") and was unreachable behind the
+        # crash. Accept 'fn' or 'name', skip rows with neither, and let that warning do its job.
+        cards = {}
+        _skipped = 0
+        for c in _rows:
+            k = c.get('fn') or c.get('name') if isinstance(c, dict) else None
+            if k:
+                cards[k] = c
+            else:
+                _skipped += 1
+        if _skipped:
+            print(f'card fuel: {_skipped} row(s) in {a.cards} carry no fn/name key — '
+                  f'is this a per-function card file?')
         hit = sum(1 for t in targets if t['name'] in cards)
         # R32: say what fraction of the batch actually got fuel. A card file that silently matches
         # nothing would look exactly like a model that ignored it.

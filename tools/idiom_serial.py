@@ -243,8 +243,14 @@ def main():
         tf = f"{outdir}/target.json"; json.dump([t], open(tf, "w"), indent=1)
         log(f"  drafting (max {a.max_turns} turns, brief carries "
             f"{os.path.getsize(NOTES) if os.path.exists(NOTES) else 0} bytes of learned idioms)")
-        subprocess.run([PY, "-u", "tools/api_agent.py", "--targets", tf, "--cards",
-                        ".run/aprop_cards.json", "--brief", bp, "--out", f"{outdir}/draft",
+        # NO --cards HERE (P31 S60). .run/aprop_cards.json is a FAMILY-card file — rows are
+        # {family, members, seed, ...} with no per-function key — while api_agent's --cards wants
+        # per-function wave cards. It crashed the agent at turn 0 on every target since this line
+        # was written, which is why the lane's ledger held 8 rows and had "never yet run on tells".
+        # The serial lane's fuel is its --brief (the target plus every idiom distilled so far this
+        # run), which is the compounding channel the wide fan-out lacks; it needs no wave card.
+        subprocess.run([PY, "-u", "tools/api_agent.py", "--targets", tf,
+                        "--brief", bp, "--out", f"{outdir}/draft",
                         "--max-turns", str(a.max_turns), "--max-cost", "2.0"],
                        stdout=open(f"{outdir}/draft.log", "w"), stderr=subprocess.STDOUT,
                        env=env, timeout=14400)
