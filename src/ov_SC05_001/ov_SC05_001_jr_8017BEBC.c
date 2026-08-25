@@ -6238,7 +6238,43 @@ extern s32 func_8012BEE8(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_80181A1C);
+extern void func_8012A828(s32*, s32);
+extern void func_8012B23C(s32 a0);
+extern u8 D_80078E78[];
+extern s32 rand(void);
+
+/* func_80181A1C — entity state-kick #0xA (head-crack entry). */
+void func_80181A1C(void *a0) {
+
+    extern u8 D_801ADDEC[];
+    volatile s32 pad[4];
+    u8 *p;
+    s32 t;
+    s32 r;
+    s32 h;
+    s32 v;
+
+    t = rand();
+    p = D_80078E78;
+    r = t % 1024;
+    h = *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12);
+    if (rand() & 1) {
+        v = h + r;
+    } else {
+        v = h - r;
+    }
+    *(s32 *)((s32)a0 + 0xE0) = v;
+    func_8012B23C((s32)a0);
+    ((void (*)(s32, void *))func_8012A828)((s32)a0, D_801ADDEC);
+    *(s32 *)((s32)a0 + 0x1C) = 150;
+    *(s32 *)((s32)a0 + 0xE4) = 0;
+    if (p[0x36] != 0) {
+        *(s16 *)((s32)a0 + 2) = 6;
+    } else {
+        *(s16 *)((s32)a0 + 2) = 7;
+    }
+}
+
 
 extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012B8E4(s32 a0, s32 a1);
