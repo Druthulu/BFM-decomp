@@ -3636,7 +3636,7 @@ extern s32 func_8012C354(s32 a0, s32 a1);
 extern void func_8012A828(s32*, s32);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
-extern void func_8017DE70(void);
+extern void func_8017DE70();
 
 void func_8017DCD8(s32 a0) {
 
