@@ -3730,7 +3730,84 @@ void func_8017E940(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017EA5C);
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017EB00);
+extern s32 func_80029178(s32);
+extern s32 func_80029504(void);
+extern s32 func_8012BD14(s32);
+extern void func_8012C218(s32);
+extern void func_8017ECFC(s16*);
+
+extern s32 D_80126B58;
+extern s16 D_80126B5E;
+extern s16 D_80126B62;
+extern s16 D_80126B66;
+extern s32 D_80126B9C;
+
+void func_8017EB00(s32 arg0) {
+    s32 ret;
+    s32 ret2;
+    s32 var;
+    s16* p;
+    p = (s16*) &D_80126B58;
+    ret = func_80029504();
+    if (ret < 240) {
+        var = 0;
+    } else if (ret < 250) {
+        var = 1;
+    } else if (ret < 260) {
+        var = 2;
+    } else {
+        if (ret < 270) {
+            var = 3;
+        } else if (ret < 280) {
+            var = 4;
+        } else {
+            var = 5;
+        }
+    }
+    switch (var) {
+    case 0:
+        break;
+    case 1:
+    case 2:
+        if (D_80126B5E >= -31) {
+            D_80126B5E = -32;
+        }
+        if (D_80126B66 < 727) {
+            D_80126B66 = 727;
+        }
+        if (((D_80126B9C & 0x8000000) && D_80126B62 < -1343) == 0) {
+            return;
+        }
+        if (p[3] >= -159) {
+            func_8017ECFC((s16*) arg0);
+        }
+        break;
+    case 3:
+    case 4:
+        ret2 = func_8012BD14(arg0);
+        if (ret2 <= 147455) {
+            if (D_80126B5E < -160) {
+                D_80126B5E = -160;
+            }
+            if (D_80126B66 < 727) {
+                D_80126B66 = 727;
+            }
+        }
+        if (((D_80126B9C & 0x8000000) && D_80126B62 < -1343) == 0) {
+            return;
+        }
+        if (p[3] < -32) {
+            func_8017ECFC((s16*) arg0);
+        }
+        break;
+    case 5:
+        if ((func_80029178(250) & 0xFF) == 0) {
+            func_8012C218(arg0);
+        }
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017ECFC);
 
