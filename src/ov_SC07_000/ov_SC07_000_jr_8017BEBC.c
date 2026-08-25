@@ -4433,7 +4433,55 @@ void func_8017FAFC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017FB38);
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017FBE8);
+extern void func_8001CD9C(s32, void *);
+extern void func_800233CC(void *, u16);
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4;
+extern Blk4 D_801CE7A4[];
+extern u8 D_801865C0;
+extern u8 D_801D0678[];
+
+void func_8017FBE8(void *arg0) {
+    s32 mode = *(s16 *)((u8 *)arg0 + 0x2C);
+    u8 *s0 = (u8 *)D_801D0678 + (mode << 6);
+    switch (mode) {
+    case 0:
+        func_8001CD9C(*(s32 *)((u8 *)arg0 + 0x20), s0);
+        func_800233CC(s0, 0x80);
+        *(Blk4 *)s0 = D_801CE7A4[0];
+        *(Blk4 *)(s0 + 4) = D_801CE7A4[0];
+        *(u32 *)(*(s32 *)((u8 *)arg0 + 0x20) + 4) |= 0x60000000;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x18) = 0;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x1A) = 0;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x2C) = 0xC040;
+        *(u16 *)((u8 *)arg0 + 0x2E) = 1;
+        *(s32 *)((u8 *)arg0 + 0x1C) = 2;
+        *(u16 *)((u8 *)arg0 + 2) = 1;
+        break;
+    case 1:
+        func_8001CD9C(*(s32 *)((u8 *)arg0 + 0x20), s0);
+        func_800233CC(s0, 0x40);
+        *(Blk4 *)s0 = D_801CE7A4[0];
+        *(Blk4 *)(s0 + 4) = D_801CE7A4[0];
+        *(u32 *)(*(s32 *)((u8 *)arg0 + 0x20) + 4) |= 0x50000000;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x18) = 0;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x1A) = 0;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x2C) = 0xC040;
+        *(u16 *)((u8 *)arg0 + 2) = 3;
+        break;
+    case 2:
+        func_8001CD9C(*(s32 *)((u8 *)arg0 + 0x20), s0);
+        func_800233CC(s0, 0x80);
+        *(Blk4 *)s0 = D_801CE7A4[0];
+        *(Blk4 *)(s0 + 4) = ((Blk4 *)&D_801865C0)[0];
+        *(u32 *)(*(s32 *)((u8 *)arg0 + 0x20) + 4) |= 0x50000000;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x18) = 0;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x1A) = 0;
+        *(u16 *)(*(s32 *)((u8 *)arg0 + 0x20) + 0x2C) = 0xC040;
+        *(u16 *)((u8 *)arg0 + 2) = 4;
+        break;
+    }
+}
+
 
 
 extern void (*D_801865C4[])(void);

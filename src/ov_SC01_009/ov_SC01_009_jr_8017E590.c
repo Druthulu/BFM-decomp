@@ -3166,7 +3166,17 @@ void func_8017F6B4(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017F6C0);
+extern s32 func_800291B4(s32 arg);
+
+s32 func_8017F6C0(void *a0) {
+    *(s16 *)((char *)a0 + 0x104) = 2;
+    if ((func_800291B4(0x4C) & 0xFF) != 0) {
+        return 0;
+    }
+    *(s16 *)((char *)a0 + 0x104) -= 1;
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017F710);
 
@@ -3288,9 +3298,71 @@ extern void func_800D0C48(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FA14);
+void func_8017FA14(s32 a0)
+{
+    extern s32 func_8012C1B8(void);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern u8 D_801AAEDC[];
+    extern void func_8012A828(s32 a0, void *a1);
+    extern u8 D_801E9088[];
+    extern void func_80143994(s32 a0, s32 a1);
+    extern void func_8017EFC4(s32 a0);
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FAFC);
+    s16 arr[4];
+    s32 t;
+    s32 c;
+
+    if ((*(s32 *)(a0 + 0x20) = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+        return;
+    }
+    func_8001C214(*(s32 *)(a0 + 0x20), (s32)D_801AAEDC);
+    func_8012A828(a0, &D_801E9088);
+    func_80143994(a0, 0x3000);
+    t = func_80029504();
+    c = func_800291B4(0x3B);
+    if (((u16)(t - 0x2DA) < 0x14) && ((c & 0xFF) < 9)) {
+        *(s16 *)(a0 + 0x102) = 1;
+        func_8017EFC4(a0);
+        arr[0] = 0;
+        arr[1] = -0x82;
+        arr[2] = -0x1F8;
+        arr[3] = 0x800;
+        func_80172310((u8 *)arr);
+        *(s32 *)(a0 + 0x1C) = 0xF;
+    } else {
+        *(s32 *)(a0 + 0x1C) = 2;
+    }
+    *(u16 *)(a0 + 2) += 1;
+}
+
+
+extern s32 D_801E91A8;
+extern s32 D_801E9528;
+
+void func_8017FAFC(s32 param_1) {
+    s32 v0;
+    s16 h;
+
+    v0 = *(s32 *)(param_1 + 0x1C);
+    if (v0 != 0) {
+        *(s32 *)(param_1 + 0x1C) = v0 - 1;
+        return;
+    }
+    if (func_8016F1AC() != 0) {
+        h = *(s16 *)(param_1 + 0x102);
+        if (h == 0) {
+            return;
+        }
+    }
+    h = *(s16 *)(param_1 + 0x102);
+    if (h == 0) {
+        func_80178B18(param_1, (s32)&D_801E91A8);
+    } else {
+        func_80178B18(param_1, (s32)&D_801E9528);
+    }
+    *(u16 *)(param_1 + 2) += 1;
+}
+
 
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern s32 func_801789AC(s32 arg0);

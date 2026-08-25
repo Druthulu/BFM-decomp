@@ -149,13 +149,77 @@ void func_800CB4A8(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB4C8);
+typedef struct { u8 b[8]; } Blk8;
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80149374(s32 a0, s32 a1);
+extern u8 D_800CC5B0[];
+
+void func_800CB4C8(void *arg0) {
+    s32 s1 = (s32)arg0;
+    s32 off;
+    s32 t;
+    s32 s2;
+    u8 *dst;
+    s32 i;
+
+    s2 = *(s32 *)(s1 + 0x4C);
+    off = *(s32 *)(s1 + 0x50) * 160;
+    dst = D_800CC5B0 + off;
+    func_80015978(s1 + 4, (s32 *)(s1 + 0x10));
+    for (i = 0; i < 20; i++) {
+        *(Blk8 *)dst = *(Blk8 *)(s1 + 0x10);
+        dst += 8;
+    }
+    func_80149374(s2, s1 + 4);
+    t = *(s32 *)(s1 + 0x50);
+    *(u16 *)(s1 + 0x60) = 0;
+    *(u16 *)(s1 + 0x64) = t << 10;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB578);
 
 INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CB9F8);
 
-INCLUDE_ASM("asm/md_MAIN_019/nonmatchings/md_MAIN_019", func_800CBC0C);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80015954(s32 a0, s32 a1);
+extern void func_80149374(s32 a0, s32 a1);
+extern s32 func_8014C308(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8014C278(s32 a0, s32 a1, s32 a2);
+extern s32 func_8014C3A4(void *a0, s32 a1, s32 a2, s32 a3);
+extern u8 D_801202A0[];
+extern u8 D_80126720[];
+
+void func_800CBC0C(void *a0) {
+    u8 *r04;
+    u8 *p;
+    s16 buf10[4];
+    s16 buf18[4];
+
+    r04 = (u8 *)a0 + 4;
+    func_80015978((s32)r04, (s32 *)buf18);
+    func_80015954((s32)a0 + 0x10, (s32)r04);
+    *(s16 *)((s32)a0 + 0xA) = 0;
+    func_80149374((s32)a0, (s32)r04);
+    p = D_801202A0;
+    if (p < p + 0x6480) {
+        do {
+            if (func_8014C308((s32)a0, (s32)p, 0x1E, 0x2000) != 0) {
+                if (*(s16 *)(p + 0xAA) == 0) {
+                    if (func_8014C278((s32)a0, (s32)p, 0x40) != 0) {
+                        func_80015978((s32)(p + 4), (s32 *)buf10);
+                        buf10[3] = 0;
+                        func_8014C3A4((void *)a0, (s32)p, 0x1E, (s32)buf10);
+                    }
+                }
+            }
+            p += 0x10C;
+        } while (p < D_80126720);
+    }
+    func_80015954((s32)buf18, (s32)((u8 *)a0 + 4));
+}
+
 
 
 
