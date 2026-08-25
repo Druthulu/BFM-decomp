@@ -238,7 +238,27 @@ __asm__(
     ".set reorder\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D4B8);
+__asm__(
+    "\t.set\tnoreorder\n"
+    ".set noreorder\n"
+    "\t.globl\tfunc_8005D4B8\n"
+    "func_8005D4B8:\n"
+    "lui $v0, %hi(D_80072970)\n"
+    "lw $v0, %lo(D_80072970)($v0)\n"
+    "addiu $sp, $sp, -24\n"
+    "sw $s0, 16($sp)\n"
+    "sw $ra, 20($sp)\n"
+    "jalr $v0\n"
+    "addu $s0, $a1, $zero\n"
+    "addu $a0, $v0, $zero\n"
+    "jal func_8005E79C\n"
+    "addu $a1, $s0, $zero\n"
+    "lw $ra, 20($sp)\n"
+    "lw $s0, 16($sp)\n"
+    "jr $ra\n"
+    "addiu $sp, $sp, 24\n"
+    ".set reorder\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D4F0);
 
@@ -345,7 +365,23 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E188);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E194);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E1A4);
+extern void func_8005EA54();
+extern void func_8005EA68(void *arg0, s32 arg1);
+extern void func_8005EAA8(void *arg0, s32 arg1);
+
+void func_8005E1A4(void *arg0) {
+    switch (*(u8 *)((u8 *)arg0 + 0x46)) {
+    case 2:
+        func_8005EA54(arg0);
+        break;
+    case 3:
+        func_8005EA68(arg0, *(u8 *)((u8 *)arg0 + 0xE4));
+        break;
+    case 4:
+        func_8005EAA8(arg0, *(u8 *)((u8 *)arg0 + 0x47));
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E228);
 
@@ -559,7 +595,31 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAA8);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAC8);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAE8);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005EAE8\n"
+    ".ent\tfunc_8005EAE8\n"
+    "func_8005EAE8:\n"
+        ".set\tnoreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "sw    $s0, 16($sp)\n"
+        "lui   $v0, %hi(D_80072974)\n"
+        "lw    $v0, %lo(D_80072974)($v0)\n"
+        "sw    $ra, 20($sp)\n"
+        "jalr  $v0\n"
+        "addu  $s0, $a0, $zero\n"
+        "addu  $a0, $s0, $zero\n"
+        "lui   $at, %hi(D_800729DC)\n"
+        "sw    $v0, %lo(D_800729DC)($at)\n"
+        "jal   func_8005DCA0\n"
+        "addiu $a1, $zero, -2\n"
+        "lw    $ra, 20($sp)\n"
+        "lw    $s0, 16($sp)\n"
+        "jr    $ra\n"
+        "addiu $sp, $sp, 24\n"
+        ".set\treorder\n"
+    ".end\tfunc_8005EAE8\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EB28);
 
@@ -581,7 +641,32 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F394);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F450);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F6CC);
+
+extern u8 D_80078A48;
+
+s32 func_8005F6CC(void *a0)
+{
+    s32 i;
+    s32 ret;
+    u8 *p;
+    s32 res;
+
+    i = 0;
+    ret = 0x10;
+    p = &D_80078A48;
+    do {
+        if (a0 == p) {
+            res = ret;
+            goto done;
+        }
+        ret += 0x10;
+        i++;
+        p += 0xF0;
+    } while (i < 2);
+    res = 0xFF;
+done:
+    return res;
+}
 
 extern u8 D_80078A48;
 
