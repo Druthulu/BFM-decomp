@@ -3005,7 +3005,9 @@ void func_80016A3C(void *arg0)
     func_80016A7C(arg0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80016A5C);
+void func_80016A5C(void) {
+    func_80016A7C();
+}
 
 typedef struct {
     u32 xy;   /* 0x0: vx (lo16) | vy (hi16) */
@@ -12816,7 +12818,12 @@ void func_80028FDC(s32 a0) {
     func_800291A0(0x2C, a0 & 0xFF);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80029000);
+extern s32 func_800291B4(s32);
+
+u8 func_80029000(void)
+{
+    return func_800291B4(0x2D);
+}
 
 extern void func_800291A0(s32, s32);
 
