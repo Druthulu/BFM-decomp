@@ -2,7 +2,47 @@
 
 INCLUDE_ASM("asm/nonmatchings/sgap_7", vmNoiseOn);
 
-INCLUDE_ASM("asm/nonmatchings/sgap_7", VM_NO1_OBJ_184);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tVM_NO1_OBJ_184\n"
+    ".type\tVM_NO1_OBJ_184, @function\n"
+    ".ent\tVM_NO1_OBJ_184\n"
+    "VM_NO1_OBJ_184:\n"
+    ".set\tnoreorder\n"
+    "lui   $t0, %hi(D_800B9B2B)\n"
+    "lbu   $t0, %lo(D_800B9B2B)($t0)\n"
+    "nop\n"
+    "sltiu $v0, $t0, 0x40\n"
+    "beqz  $v0, .L80040568\n"
+    " mult $a2, $t0\n"
+    "mflo  $v0\n"
+    "lui   $v1, 0x0410\n"
+    "ori   $v1, $v1, 0x4105\n"
+    "multu $v0, $v1\n"
+    "mfhi  $v1\n"
+    "subu  $v0, $v0, $v1\n"
+    "srl   $v0, $v0, 1\n"
+    "addu  $v1, $v1, $v0\n"
+    "j     VM_NO1_OBJ_1F4\n"
+    " srl  $a2, $v1, 5\n"
+    ".L80040568:\n"
+    "addiu $v0, $zero, 0x7F\n"
+    "subu  $v0, $v0, $t0\n"
+    "mult  $a1, $v0\n"
+    "mflo  $v0\n"
+    "lui   $v1, 0x0410\n"
+    "ori   $v1, $v1, 0x4105\n"
+    "multu $v0, $v1\n"
+    "mfhi  $v1\n"
+    "subu  $v0, $v0, $v1\n"
+    "srl   $v0, $v0, 1\n"
+    "addu  $v1, $v1, $v0\n"
+    "srl   $a1, $v1, 5\n"
+    ".set\treorder\n"
+    ".size\tVM_NO1_OBJ_184, . - VM_NO1_OBJ_184\n"
+    ".end\tVM_NO1_OBJ_184\n"
+);
 
 __asm__(
     ".text\n"

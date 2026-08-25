@@ -64,7 +64,15 @@ void SetSZfifo4()
         "mtc2 $7, $19\n");
 }
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetSXSYfifo);
+void SetSXSYfifo(long r0, long r1, long r2)
+{
+    __asm__ __volatile__(
+        "mtc2 %0, $12\n"
+        "mtc2 %1, $13\n"
+        "mtc2 %2, $14"
+        :
+        : "r"(r0), "r"(r1), "r"(r2));
+}
 
 void SetRii()
 {
@@ -84,4 +92,16 @@ INCLUDE_ASM("asm/nonmatchings/gsgap5", SetDQA);
 
 INCLUDE_ASM("asm/nonmatchings/gsgap5", SetDQB);
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", func_80053AD8);
+void func_80053AD8()
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "sll    $4, $4, 4\n"
+        "sll    $5, $5, 4\n"
+        "sll    $6, $6, 4\n"
+        "ctc2   $4, $21\n"
+        "ctc2   $5, $22\n"
+        "ctc2   $6, $23\n"
+        ".set\treorder\n"
+    );
+}

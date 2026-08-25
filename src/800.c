@@ -14086,7 +14086,42 @@ void func_8002F12C(s32 a0) {
     func_8002DC68(*(s32 *)(a0 + 4), 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002F150);
+extern u8 D_800A4694[];
+
+void func_8002F150(s32 arg0) {
+    struct F150Rec {
+        u8 pad[0x0E];
+        u8 flg[8];
+        u8 tail[0x3E];
+    };
+    struct F150Slot {
+        u8 pad[0x20];
+        u32 u20;
+        u32 u24;
+        u32 u28;
+        u32 u2C;
+        u16 u30;
+        u8 mid[5];
+        u8 u37;
+        u8 u38;
+        u8 tail[0x1B];
+    };
+
+    struct F150Rec *rec = (struct F150Rec *)D_800A4694 + arg0;
+    struct F150Slot *slots = (struct F150Slot *)(D_800A4694 + 0x2F4);
+    s32 i;
+    s32 val;
+
+    for (i = 0, val = -0x18; i < 8; i++) {
+        if (rec->flg[i]) {
+            slots[i].u28 = slots[i].u20 - 0x100;
+            slots[i].u37 |= 1;
+            slots[i].u30 = 0;
+            slots[i].u38 = 0;
+            slots[i].u2C = val;
+        }
+    }
+}
 
 typedef struct F1ccRec {
     u8 pad[0x0E];
