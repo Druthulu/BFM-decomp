@@ -505,6 +505,44 @@ def gate_main_batch(tag, mains):
     return len(banked), banked
 
 
+def config_sane(min_ratio=0.8):
+    """Refuse to commit a config file that COLLAPSED, and restore it from HEAD.
+
+    P31 S60, the most expensive defect of the campaign: config/overlays.mk — the 5,077-line
+    registry defining all 141 overlay binaries — was committed as a ZERO-LINE file by
+    commit:2863 ("ox wave dk overlays — 2 banked"). Two failures, neither sufficient alone:
+    some writer rewrites that file in place with no tmp+rename while lanes edit it
+    concurrently (the version before the deletion already carried a stray partial line), and
+    THIS committer swept the wreckage in, because "the tree is dirty at gate entry" cannot
+    tell a truncated config from an intended edit.
+
+    While it was empty: main could not build at all (its object glob prunes siblings via
+    $(<bin>_ASM_DIR), so every overlay's nonmatchings/*.s fell into MAIN's OBJS and was
+    assembled standalone), the main lane correctly refused to gate against a RED baseline
+    with 1,288 stubs behind it, and overlay gates collapsed — GATE do banked 0 of 236 gated.
+
+    R42 says commit a dirty tree rather than revert it, and that stands for src/: a per-binary
+    gate leaves PROVEN banks uncommitted and reverting destroys them. A config file is the
+    opposite case — it holds no proven state that exists only in the worktree, and a collapsed
+    one is never intended. P28's registry died the same way (H5: never silently drop content
+    on a rewrite); this enforces the rule instead of remembering it.
+    """
+    bad = []
+    for path in ("config/overlays.mk", "config/dedup.us.yaml"):
+        full = os.path.join(REPO, path)
+        if not os.path.exists(full):
+            continue
+        with open(full, errors="replace") as fh:
+            now = sum(1 for _ in fh)
+        was = sh(f"git show HEAD:{path}").stdout.count("\n")
+        if was and now < was * min_ratio:
+            sh(f"git checkout HEAD -- {path}")
+            bad.append(f"{path}: {now} lines vs {was} at HEAD — RESTORED, not committed")
+    for b in bad:
+        log(f"  *** CONFIG COLLAPSE REFUSED — {b}")
+    return not bad
+
+
 def gate(tag, keep, jobs, run_id=None):
     # Any main drafts that slipped through (an older wave's cards) are PARKED for the periodic main
     # batch rather than gated inline — see draw_wave's note on why main is off the critical path.
@@ -559,6 +597,7 @@ def gate(tag, keep, jobs, run_id=None):
             # (main_lane); this lane leaves main's TUs alone in both directions.
             log(f"  leaving dirty main TU(s) alone — gate_main/main_lane own them: {main_dirty}")
         log(f"  tree dirty at gate entry ({n_files} files) — committing it rather than reverting")
+        config_sane()
         sh("git add -A src/ config/")
         unstage_main_tus()
         r = sh('git commit -q -m "chore(decomp): commit in-tree banked work before the next gate\n\n'
@@ -584,6 +623,7 @@ def gate(tag, keep, jobs, run_id=None):
     # Nothing was lost permanently (the drafts survive in .run/wave_<tag>/) but the gate cycle was.
     # Uncommitted banked work is fragile; commit it the moment it exists.
     if banked:
+        config_sane()
         sh("git add -A src/ config/")
         unstage_main_tus()
         sh(f'git commit -q -m "feat(decomp): ox wave {tag} overlays — {len(banked)} banked\n\n'
@@ -606,6 +646,7 @@ def gate(tag, keep, jobs, run_id=None):
 def commit(tag, n, banked):
     if not sh("git status --porcelain -- src/ config/").stdout.strip():
         return None
+    config_sane()
     sh("git add -A src/ config/")
     unstage_main_tus()
     msg = (f"feat(decomp): ox wave {tag} — {n} banked\\n\\n"
