@@ -104,7 +104,13 @@ export STRAGGLER_GRACE=700
 # one wave draining and the next ramping. Handing off at 65% keeps 3-4 waves overlapping, so
 # the fleet is always carrying a full ramp somewhere. Stragglers still keep the full 700s
 # grace in the finisher thread — this changes WHEN THE NEXT WAVE STARTS, never what lands.
-export TAIL_DONE_FRAC=0.65
+export TAIL_DONE_FRAC=0.75
+# MAX_BINS 160 -> 50 (P31 S60). Wave size was the right lever at 50% conversion (wave dd:
+# 217 banked of 422 gated in 39 min). It is dead weight at 5%: dq banked 8 of 167 gated and
+# took 98 MINUTES of gate to do it, while four drafted waves queued behind it and the free-ox
+# fleet sat at 14 agents / 10 req/min. At this conversion a 150-card wave banks what a
+# 430-card wave banks, in a third of the gate. Raise it again when the tail starts converting.
+export MAX_BINS=50
 export MAX_429=10
 while [ ! -e .run/ox_campaign.stop ]; do
   .venv/bin/python tools/ox_campaign.py --drafter \

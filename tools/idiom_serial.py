@@ -74,6 +74,12 @@ def pick_targets(lever, n, min_ins, allow_md):
             continue
         if not allow_md and ex["b"].startswith("md_"):
             continue
+        # MAIN IS NEVER A SERIAL-LANE TARGET (P31 S60). main gates through tools/gate_main.py on
+        # the main lane's own cadence — a clean whole-EXE rebuild with bisection — so this lane
+        # cannot bank it however good the draft is, and a main target burns a slot to learn that.
+        # Measured on the lane's first tells run: target [2/6] was func_8001382C @ main.
+        if ex["b"] == "main":
+            continue
         out.append({"gid": g["gid"], "name": ex["name"], "binary": ex["b"], "addr": ex["a"],
                     "nins": ex["nins"], "group_ins": g["ins"], "inst": g["inst"],
                     "lever": lever})
@@ -198,10 +204,23 @@ def main():
             log("  tree dirty at entry — committing it rather than reverting")
             sh("git add -A src/ config/")
             sh("git reset -q -- src/*.c")   # S59: main TUs — one writer (gate_main), one committer (main_lane)
-            sh('git commit -q -m "chore(decomp): commit in-tree banked work before the serial lane"')
+            # A CONTENDED INDEX IS NOT A DIRTY TREE (P31 S60). Six campaign lanes plus the
+            # re-gate runner commit continuously, so `git commit` here loses the index.lock race
+            # routinely — and the lane then refused, on its first tells run, over a tree that was
+            # perfectly fine. Retry the commit a few times before concluding anything; the refusal
+            # is for FOREIGN DIRT this lane must not adopt, not for a lock held for two seconds.
+            for _try in range(6):
+                if not sh("git status --porcelain -- src/ config/").stdout.strip():
+                    break
+                sh("git add -A src/ config/")
+                sh("git reset -q -- src/*.c")
+                if sh('git commit -q -m "chore(decomp): commit in-tree banked work before the '
+                      'serial lane"').returncode == 0:
+                    break
+                time.sleep(5)
             if any(l.strip() and not re.match(r'^\s*[MARD?]+\s+src/[^/]+\.c$', l)
                    for l in sh("git status --porcelain -- src/ config/").stdout.splitlines()):
-                log("  ! could not commit — refusing to run the serial lane on a dirty tree")
+                log("  ! foreign dirt in src/ or config/ that this lane must not adopt — refusing")
                 return 1
 
         ok, note = prepare(t)
