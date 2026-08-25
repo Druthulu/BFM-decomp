@@ -15260,7 +15260,9 @@ void func_8002EE90(void) {
     func_8002EC10();
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002EEB8);
+void func_8002EEB8(void) {
+    func_80036EE8();
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002EED8);
 
