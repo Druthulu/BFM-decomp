@@ -3198,7 +3198,15 @@ s32 func_8017D7D4(s32 a0, s32 a1, s32 a2, s8 a3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017D858);
+s32 func_8017D858(s32 a0, s32 a1, s32 a2, s8 a3) {
+    s32 handle;
+    handle = func_8017D8D8();
+    if (handle != 0) {
+        func_8017D920(handle, a0, a1, a2, a3);
+    }
+    return handle;
+}
+
 
 extern s32 D_8019B7B8;
 s32 func_8017D8D8(void) {
@@ -3216,7 +3224,383 @@ INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017D92
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017DAEC);
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017DC80);
+/* func_8017DC80 — VERBATIM-ASM BANK (cookbook §265).
+ * Target .s carries the splat tag "Handwritten function" (line 1): interleaved
+ * callee-save/base materialisation prologue, hand-placed GTE hazard nops, fall-through
+ * loop head — no -O2 C schedule reaches it (~20 C drafts plateaued at LENGTH-DRIFT/-33).
+ * Recovered semantics (for the eventual real decomp): walks the 0xC0-record table at
+ * D_8019B7B8 (stride 0x38); records with low byte < 2 project v3(vb, r+0xC, va)+v0(r+0x1C),
+ * clamp OTZ by the mode word at c-0x1F (0xC000 subtract-clamp / 0x4000 add), skip if
+ * flag&~0x1000 or otz>=0x1000, fill a POLY_G4 (0x24) or POLY_F3-ish (0x14) from c[-4..0]
+ * and tex-page p+0x25/27/29, setcode by n<4, addPrim into OT bucket
+ * D_800A6610[D_800B9A02<<14] + n*4, and chain a DR_TPAGE ((n<<5)&0x9FF)|0xE1000000 when
+ * n<4.  Immediates are DECIMAL throughout (maspsx rejects hex in __asm__ strings, §265). */
+
+__asm__(".text\n.align 2\n.globl func_8017DC80\n.ent\tfunc_8017DC80\n"
+"func_8017DC80:\n.frame $sp,112,$31\n.mask 3238002688,-16\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"addiu $sp, $sp, -112\n"
+"lui $a0, %hi(D_800AF648)\n"
+"addiu $a0, $a0, %lo(D_800AF648)\n"
+"sw $s4, 88($sp)\n"
+"lui $s4, %hi(D_8019B7B8)\n"
+"addiu $s4, $s4, %lo(D_8019B7B8)\n"
+"sw $s3, 84($sp)\n"
+"lui $s3, 255\n"
+"ori $s3, $s3, 65535\n"
+"sw $s7, 100($sp)\n"
+"lui $s7, 65280\n"
+"sw $s2, 80($sp)\n"
+"addiu $s2, $s4, 41\n"
+"sw $s5, 92($sp)\n"
+"addiu $s5, $s4, 20\n"
+"sw $s6, 96($sp)\n"
+"addiu $s6, $s4, 4\n"
+"lui $v0, %hi(D_800B9A02)\n"
+"lhu $v0, %lo(D_800B9A02)($v0)\n"
+"lui $v1, %hi(D_800A6610)\n"
+"addiu $v1, $v1, %lo(D_800A6610)\n"
+"sw $ra, 108($sp)\n"
+"sw $fp, 104($sp)\n"
+"sw $s1, 76($sp)\n"
+"sw $s0, 72($sp)\n"
+"sw $zero, 48($sp)\n"
+"sll $v0, $v0, 14\n"
+"jal func_80052E38\n"
+"addu $fp, $v0, $v1\n"
+".L8017DCF4:\n"
+"lhu $v1, 0($s4)\n"
+"nop\n"
+"andi $v0, $v1, 255\n"
+"slti $v0, $v0, 2\n"
+"bnez $v0, .L8017E190\n"
+"nop\n"
+"lhu $v0, -31($s2)\n"
+"nop\n"
+"andi $v0, $v0, 4096\n"
+"bnez $v0, .L8017DF50\n"
+"srl $s0, $v1, 8\n"
+"jal func_80010A08\n"
+"addiu $a0, $zero, 36\n"
+"addu $a1, $v0, $zero\n"
+"addiu $v0, $zero, 8\n"
+"sb $v0, 3($a1)\n"
+"addiu $v0, $zero, 56\n"
+"sb $v0, 7($a1)\n"
+"addiu $v0, $s4, 12\n"
+"lwc2 $0, 0($s6)\n"
+"lwc2 $1, 4($s6)\n"
+"lwc2 $2, 0($v0)\n"
+"lwc2 $3, 4($v0)\n"
+"lwc2 $4, 0($s5)\n"
+"lwc2 $5, 4($s5)\n"
+"nop\n"
+"nop\n"
+"rtpt\n"
+"addiu $v0, $sp, 16\n"
+"cfc2 $12, $31\n"
+"nop\n"
+"sw $12, 0($v0)\n"
+"addiu $4, $sp, 20\n"
+"addiu $3, $sp, 24\n"
+"addiu $2, $sp, 28\n"
+"swc2 $12, 0($4)\n"
+"swc2 $13, 0($3)\n"
+"swc2 $14, 0($2)\n"
+"addiu $2, $s4, 28\n"
+"lwc2 $0, 0($2)\n"
+"lwc2 $1, 4($2)\n"
+"nop\n"
+"nop\n"
+"rtps\n"
+"addiu $2, $sp, 32\n"
+"cfc2 $12, $31\n"
+"nop\n"
+"sw $12, 0($2)\n"
+"lw $2, 16($sp)\n"
+"lw $3, 32($sp)\n"
+"nop\n"
+"or $2, $2, $3\n"
+"sw $2, 16($sp)\n"
+"addiu $2, $sp, 36\n"
+"swc2 $14, 0($2)\n"
+"nop\n"
+"nop\n"
+"avsz4\n"
+"addiu $2, $sp, 40\n"
+"swc2 $7, 0($2)\n"
+"lw $2, 16($sp)\n"
+"addiu $3, $zero, -4097\n"
+"and $2, $2, $3\n"
+"bnez $2, .L8017E190\n"
+"nop\n"
+"lh $2, -31($s2)\n"
+"lw $17, 40($sp)\n"
+"andi $4, $2, 49152\n"
+"beqz $4, .L8017DE30\n"
+"addu $3, $2, $zero\n"
+"ori $2, $zero, 49152\n"
+"bne $4, $2, .L8017DE2C\n"
+"andi $2, $3, 4095\n"
+"subu $17, $17, $2\n"
+"bgez $17, .L8017DE34\n"
+"sltiu $2, $17, 4096\n"
+"j .L8017DE30\n"
+"addu $17, $zero, $zero\n"
+".L8017DE2C:\n"
+"addu $17, $17, $2\n"
+".L8017DE30:\n"
+"sltiu $2, $17, 4096\n"
+".L8017DE34:\n"
+"beqz $2, .L8017E190\n"
+"nop\n"
+"lw $2, 20($sp)\n"
+"nop\n"
+"sh $2, 8($5)\n"
+"lw $3, 24($sp)\n"
+"sra $2, $2, 16\n"
+"sh $2, 10($5)\n"
+"sh $3, 16($5)\n"
+"lw $4, 28($sp)\n"
+"sra $3, $3, 16\n"
+"sh $3, 18($5)\n"
+"sh $4, 24($5)\n"
+"lw $2, 36($sp)\n"
+"sra $4, $4, 16\n"
+"sh $4, 26($5)\n"
+"sh $2, 32($5)\n"
+"sra $2, $2, 16\n"
+"sh $2, 34($5)\n"
+"lw $2, 11($s2)\n"
+"nop\n"
+"beqz $2, .L8017DF0C\n"
+"nop\n"
+"lbu $2, -4($s2)\n"
+"nop\n"
+"sb $2, 12($5)\n"
+"sb $2, 4($5)\n"
+"lbu $2, -2($s2)\n"
+"nop\n"
+"sb $2, 13($5)\n"
+"sb $2, 5($5)\n"
+"lbu $2, 0($s2)\n"
+"nop\n"
+"sb $2, 14($5)\n"
+"sb $2, 6($5)\n"
+"lw $2, 11($s2)\n"
+"nop\n"
+"lbu $2, 37($2)\n"
+"nop\n"
+"sb $2, 28($5)\n"
+"sb $2, 20($5)\n"
+"lw $2, 11($s2)\n"
+"nop\n"
+"lbu $2, 39($2)\n"
+"nop\n"
+"sb $2, 29($5)\n"
+"sb $2, 21($5)\n"
+"lw $2, 11($s2)\n"
+"nop\n"
+"lbu $2, 41($2)\n"
+"nop\n"
+"sb $2, 30($5)\n"
+"j .L8017E0E0\n"
+"sb $2, 22($5)\n"
+".L8017DF0C:\n"
+"lbu $2, -4($s2)\n"
+"nop\n"
+"sb $2, 28($5)\n"
+"sb $2, 20($5)\n"
+"sb $2, 12($5)\n"
+"sb $2, 4($5)\n"
+"lbu $2, -2($s2)\n"
+"nop\n"
+"sb $2, 29($5)\n"
+"sb $2, 21($5)\n"
+"sb $2, 13($5)\n"
+"sb $2, 5($5)\n"
+"lbu $2, 0($s2)\n"
+"nop\n"
+"sb $2, 30($5)\n"
+"j .L8017E0D4\n"
+"sb $2, 22($5)\n"
+".L8017DF50:\n"
+"jal func_80010A08\n"
+"addiu $4, $zero, 20\n"
+"addu $5, $2, $zero\n"
+"addiu $2, $zero, 4\n"
+"sb $2, 3($5)\n"
+"addiu $2, $zero, 80\n"
+"sb $2, 7($5)\n"
+"lwc2 $0, 0($s6)\n"
+"lwc2 $1, 4($s6)\n"
+"lwc2 $2, 0($s5)\n"
+"lwc2 $3, 4($s5)\n"
+"lwc2 $4, 0($s5)\n"
+"lwc2 $5, 4($s5)\n"
+"nop\n"
+"nop\n"
+"rtpt\n"
+"addiu $2, $sp, 20\n"
+"swc2 $12, 0($2)\n"
+"addiu $2, $sp, 24\n"
+"swc2 $13, 0($2)\n"
+"addiu $2, $sp, 16\n"
+"cfc2 $12, $31\n"
+"nop\n"
+"sw $12, 0($2)\n"
+"addiu $2, $sp, 40\n"
+"mfc2 $12, $19\n"
+"nop\n"
+"sra $12, $12, 2\n"
+"sw $12, 0($2)\n"
+"lw $2, 16($sp)\n"
+"addiu $3, $zero, -4097\n"
+"and $2, $2, $3\n"
+"bnez $2, .L8017E190\n"
+"nop\n"
+"lh $2, -31($s2)\n"
+"lw $17, 40($sp)\n"
+"andi $4, $2, 49152\n"
+"beqz $4, .L8017E010\n"
+"addu $3, $2, $zero\n"
+"ori $2, $zero, 49152\n"
+"bne $4, $2, .L8017E00C\n"
+"andi $2, $3, 4095\n"
+"subu $17, $17, $2\n"
+"bgez $17, .L8017E014\n"
+"sltiu $2, $17, 4096\n"
+"j .L8017E010\n"
+"addu $17, $zero, $zero\n"
+".L8017E00C:\n"
+"addu $17, $17, $2\n"
+".L8017E010:\n"
+"sltiu $2, $17, 4096\n"
+".L8017E014:\n"
+"beqz $2, .L8017E190\n"
+"nop\n"
+"lw $2, 20($sp)\n"
+"nop\n"
+"sh $2, 8($5)\n"
+"lw $3, 24($sp)\n"
+"sra $2, $2, 16\n"
+"sh $2, 10($5)\n"
+"sh $3, 16($5)\n"
+"sra $3, $3, 16\n"
+"sh $3, 18($5)\n"
+"lw $2, 11($s2)\n"
+"nop\n"
+"beqz $2, .L8017E0B0\n"
+"nop\n"
+"lbu $2, -4($s2)\n"
+"nop\n"
+"sb $2, 4($5)\n"
+"lbu $2, -2($s2)\n"
+"nop\n"
+"sb $2, 5($5)\n"
+"lbu $2, 0($s2)\n"
+"nop\n"
+"sb $2, 6($5)\n"
+"lw $2, 11($s2)\n"
+"nop\n"
+"lbu $2, 37($2)\n"
+"nop\n"
+"sb $2, 12($5)\n"
+"lw $2, 11($s2)\n"
+"nop\n"
+"lbu $2, 39($2)\n"
+"nop\n"
+"sb $2, 13($5)\n"
+"lw $2, 11($s2)\n"
+"nop\n"
+"lbu $2, 41($2)\n"
+"j .L8017E0E0\n"
+"sb $2, 14($5)\n"
+".L8017E0B0:\n"
+"lbu $2, -4($s2)\n"
+"nop\n"
+"sb $2, 12($5)\n"
+"sb $2, 4($5)\n"
+"lbu $2, -2($s2)\n"
+"nop\n"
+"sb $2, 13($5)\n"
+"sb $2, 5($5)\n"
+"lbu $2, 0($s2)\n"
+".L8017E0D4:\n"
+"nop\n"
+"sb $2, 14($5)\n"
+"sb $2, 6($5)\n"
+".L8017E0E0:\n"
+"slti $2, $16, 4\n"
+"beqz $2, .L8017E0FC\n"
+"sll $4, $17, 2\n"
+"lbu $2, 7($5)\n"
+"nop\n"
+"ori $2, $2, 2\n"
+"sb $2, 7($5)\n"
+".L8017E0FC:\n"
+"addu $4, $4, $30\n"
+"lw $3, 0($5)\n"
+"lw $2, 0($4)\n"
+"and $3, $3, $23\n"
+"and $2, $2, $19\n"
+"or $3, $3, $2\n"
+"sw $3, 0($5)\n"
+"lw $2, 0($4)\n"
+"and $3, $5, $19\n"
+"and $2, $2, $23\n"
+"or $2, $2, $3\n"
+"sw $2, 0($4)\n"
+"slti $2, $16, 4\n"
+"beqz $2, .L8017E190\n"
+"nop\n"
+"jal func_80010A08\n"
+"addiu $4, $zero, 8\n"
+"addiu $3, $zero, 1\n"
+"sb $3, 3($2)\n"
+"sll $3, $16, 5\n"
+"andi $3, $3, 2559\n"
+"lui $4, 57600\n"
+"or $3, $3, $4\n"
+"sll $4, $17, 2\n"
+"lw $5, 0($2)\n"
+"addu $4, $4, $30\n"
+"sw $3, 4($2)\n"
+"lw $3, 0($4)\n"
+"and $5, $5, $23\n"
+"and $3, $3, $19\n"
+"or $5, $5, $3\n"
+"sw $5, 0($2)\n"
+"lw $3, 0($4)\n"
+"and $2, $2, $19\n"
+"and $3, $3, $23\n"
+"or $3, $3, $2\n"
+"sw $3, 0($4)\n"
+".L8017E190:\n"
+"addiu $18, $18, 56\n"
+"addiu $21, $21, 56\n"
+"addiu $22, $22, 56\n"
+"lw $6, 48($sp)\n"
+"addiu $20, $20, 56\n"
+"addiu $6, $6, 1\n"
+"slti $2, $6, 192\n"
+"bnez $2, .L8017DCF4\n"
+"sw $6, 48($sp)\n"
+"lw $ra, 108($sp)\n"
+"lw $fp, 104($sp)\n"
+"lw $23, 100($sp)\n"
+"lw $22, 96($sp)\n"
+"lw $21, 92($sp)\n"
+"lw $20, 88($sp)\n"
+"lw $19, 84($sp)\n"
+"lw $18, 80($sp)\n"
+"lw $17, 76($sp)\n"
+"lw $16, 72($sp)\n"
+"addiu $sp, $sp, 112\n"
+"jr $ra\n"
+"nop\n"
+".set\treorder\n.end\tfunc_8017DC80\n");
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017E1E8);
 
@@ -3809,7 +4193,32 @@ void func_8017F31C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017F39C);
+extern void func_801817E0(s32 a0);
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8017FB48(void *a0);
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+
+void func_8017F39C(void)
+{
+    func_801817E0(1);
+    D_80126954 = 0x190;
+    D_8012695C = 0x190;
+    D_80126968 = 0x38;
+    D_8012696A = 0;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -1;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017FB48, 0);
+}
+
 
 extern s32 func_80029504(void);
 extern void func_8017F45C(void);
@@ -5161,7 +5570,20 @@ void func_80182FE4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80183078);
+extern void func_801292C8(u8 *a0);
+extern void func_8012931C(struct vec *a0);
+
+void func_80183078(int param_1)
+{
+    if (*(int *)(param_1 + 0x1c) != 0) {
+        *(int *)(param_1 + 0x1c) = *(int *)(param_1 + 0x1c) - 1;
+        func_8012931C((struct vec *)param_1);
+        *(short *)(*(int *)(param_1 + 0x20) + 0x14) = *(short *)(*(int *)(param_1 + 0x20) + 0x14) + 0x40;
+    } else {
+        func_801292C8((u8 *)param_1);
+    }
+}
+
 
 typedef struct { s32 a[14]; } Blk38;
 extern Blk38 D_8018A4F0;
@@ -7179,7 +7601,21 @@ void func_80185E48(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80185E90);
+extern void func_80019064(void *a0);
+extern u8 D_80198818[];
+extern void (*D_80198988[])(void *);
+extern s16 D_8011DB0C;
+
+void func_80185E90(s32 param_1)
+{
+    if (*(u16 *)((s32)param_1 + 2) < 3) {
+        func_80019064(D_80198818);
+    }
+
+    D_80198988[*(u16 *)((s32)param_1 + 2)](param_1);
+    D_8011DB0C = 0;
+}
+
 
 extern void func_8014E934(s32 a0);
 extern void func_8014CC28(s32 a0);

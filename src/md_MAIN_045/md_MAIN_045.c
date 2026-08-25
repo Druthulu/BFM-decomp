@@ -64,7 +64,32 @@ void func_800CCD2C(s32 s1) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_045/nonmatchings/md_MAIN_045", func_800CCDD8);
+extern void func_800CCE80(void *);
+
+void func_800CCDD8(s32 a0) {
+    s16 flag;
+    u8 *v1;
+    u16 w;
+
+    flag = *(s16 *)(a0 + 0x60);
+    v1 = *(u8 **)(a0 + 0x20);
+    if (flag != 0) {
+        *(u16 *)(v1 + 0x18) = w = *(u16 *)(v1 + 0x18) + 0x100;
+        if ((s16)w >= 0x1001) {
+            *(u16 *)(v1 + 0x18) = 0x1000;
+        }
+    } else {
+        *(u16 *)(v1 + 0x18) = w = *(u16 *)(v1 + 0x18) - 0x100;
+        if ((s16)w < 0) {
+            *(u16 *)(v1 + 0x18) = 0;
+        }
+    }
+    w = *(u16 *)(v1 + 0x18);
+    *(u16 *)(v1 + 0x1C) = w;
+    *(u16 *)(v1 + 0x1A) = w;
+    func_800CCE80((void *)a0);
+}
+
 
 extern void func_80162CCC(void);
 void func_800CCE60(void) {

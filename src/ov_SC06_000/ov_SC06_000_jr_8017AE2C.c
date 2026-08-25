@@ -9583,7 +9583,17 @@ void func_801868C4(u16 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801868E0);
+
+s32 func_80186A0C(void);
+extern void func_80186938(s32 arg0, Rec_8018A6A4_8018677C *arg1, s32 arg2, s32 arg3);
+
+void func_801868E0(s32 a0, s32 a1, s32 a2) {
+    s32 v0 = func_80186A0C();
+    if (v0 >= 0) {
+        func_80186938(v0, (Rec_8018A6A4_8018677C *)a0, a1, a2);
+    }
+}
+
 
 
 /* func_80186938 — SPLICE RECONCILE (bytes unchanged from the s6h draft).

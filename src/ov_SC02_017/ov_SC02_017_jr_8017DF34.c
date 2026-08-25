@@ -4149,7 +4149,21 @@ s32 func_801805D4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80180610);
+extern s32 func_800291B4(s32);
+extern s32 D_8018E204[];
+
+s32 func_80180610(void) {
+    s32 count = 0;
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        if ((func_800291B4(D_8018E204[i]) & 0xFF) == 3) {
+            count++;
+        }
+    }
+    return count;
+}
+
 
 
 extern void (*D_8018E368[])(void);
@@ -5855,7 +5869,46 @@ void func_80183B9C(u8 *arg0) {
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80183C30);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80183C6C);
+extern s32 func_80029504(void);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32, s32);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012E8E0(s32 a0, s32 a1);
+extern s32 func_801788B8(s32 arg0, s32 arg1);
+
+/* Not declared anywhere in this TU -- typed by access width (law 2 fallback). */
+extern u8 D_80192280[];
+extern s32 *D_8018ECA8[];
+extern void (*D_8018EAF0[])(void);
+
+extern s32 func_80184084();
+
+void func_80183C6C(s32 a0) {
+    s32 s0;
+    s32 s1;
+    s32 v0;
+    s32 v1;
+
+    s1 = a0;
+    v0 = func_80029504();
+    if (((u32)v0 >= 0x50) ||
+        ((v0 = ((s32 (*)(void))func_8012C1B8)()), (*(s32 *)(s1 + 0x20) = v0), v0 == 0)) {
+        func_8012CAE4((void *)s1);
+        return;
+    }
+
+    func_8001C214(v0, (s32)D_80192280);
+    s0 = (s32)&D_8018EAF0;
+    v1 = *(s32 *)(s1 + 0x68);
+    *(u16 *)(v1 + 0xC) = 0x7FFF;
+    func_8012A828(s1, (void *)s0);
+    *(s32 *)(s1 + 0xD4) = func_801788B8(s1, (s32)func_80184084);
+    *(u16 *)(s1 + 2) = 1;
+    func_8012E8E0(s1, (s32)&D_8018ECA8);
+    func_8012A828(s1, (void *)s0);
+}
+
 
 extern s32 func_8012BEE8(s32);
     extern void func_8018372C();

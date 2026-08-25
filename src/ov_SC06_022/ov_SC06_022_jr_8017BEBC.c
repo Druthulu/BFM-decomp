@@ -3453,7 +3453,46 @@ void func_8017D5D8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017D6E0);
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D6E0;
+
+void func_8017D6E0(s32 a0) {
+    extern s32 D_80126B58;
+    extern s16 D_80190E34[];
+    extern Blk8_80126940_8017D6E0 D_80126940;
+    Blk8_80126940_8017D6E0 sp10;
+    u8 t;
+    s16 v0, v1;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80190E34[t];
+    }
+    sp10 = D_80126940;
+
+    v1 = sp10.v[0];
+    if (v1 < -0xC0) {
+        sp10.v[0] = -0xC0;
+    } else if (v1 < 0xC1) {
+        ;
+    } else {
+        sp10.v[0] = 0xC0;
+    }
+
+    v0 = sp10.v[2];
+    if (v0 < -0x580) {
+        sp10.v[2] = -0x580;
+    } else if (v0 < 0x701) {
+        ;
+    } else {
+        sp10.v[2] = 0x700;
+    }
+
+    func_8017D9C0(a0, sp10.v);
+}
+
 
 typedef struct {
     s16 v[4];

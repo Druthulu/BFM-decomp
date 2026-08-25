@@ -625,7 +625,27 @@ PktGT4_800CBE28 *func_800CBE28(FaceGT4_800CBE28 *face, SVEC8_800CBE28 *vtx,
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC0A0);
+extern s16 D_800CC9E8;
+extern s16 D_800CC9EA;
+extern s16 D_800CC9F0;
+extern s16 D_800CC9F2;
+
+s32 func_800CC0A0(void *prim)
+{
+    s32 val;
+
+    val = *(u8 *)((s32)prim + 0xA);
+    if (D_800CC9E8 < val && val < D_800CC9EA) {
+        goto ret1;
+    }
+    if (D_800CC9F0 < val && val < D_800CC9F2) {
+        goto ret1;
+    }
+    return 0;
+ret1:
+    return 1;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CC110);
 
