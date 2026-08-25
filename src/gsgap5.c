@@ -30,7 +30,15 @@ void SetRGBfifo(void* r0, void* r1, void* r2)
         : "memory" );
 }
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetIR123);
+void SetIR123(long r0, long r1, long r2)
+{
+    __asm__ __volatile__(
+        "mtc2 %0, $9\n"
+        "mtc2 %1, $10\n"
+        "mtc2 %2, $11"
+        :
+        : "r"(r0), "r"(r1), "r"(r2));
+}
 
 INCLUDE_ASM("asm/nonmatchings/gsgap5", SetIR0);
 

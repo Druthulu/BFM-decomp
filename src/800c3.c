@@ -1087,7 +1087,24 @@ s32 func_8005FB70(void *arg0) {
 
 __asm__(".nop\n.nop\n.nop");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005FBA8);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005FBA8\n"
+    ".ent\tfunc_8005FBA8\n"
+    "func_8005FBA8:\n"
+    ".set\tnoreorder\n"
+    "lui   $v0, 0x1F80\n"
+    "ori   $v0, $v0, 0x1120\n"
+    "lhu   $v0, 0($v0)\n"
+    "lui   $at, %hi(D_800C5320)\n"
+    "sw    $a0, %lo(D_800C5320)($at)\n"
+    "lui   $at, %hi(D_80078F24)\n"
+    "jr    $ra\n"
+    "sw    $v0, %lo(D_80078F24)($at)\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005FBA8\n"
+);
 
 
 extern volatile s32 D_80078F24;

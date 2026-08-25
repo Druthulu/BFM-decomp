@@ -1,3 +1,18 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/gsgap4", func_800538BC);
+void func_800538BC(void *m) {
+    __asm__ volatile (
+        "lw $8, 0( %0 );"
+        "lw $9, 4( %0 );"
+        "lw $10, 8( %0 );"
+        "lw $11, 12( %0 );"
+        "lw $12, 16( %0 );"
+        "ctc2 $8, $16;"
+        "ctc2 $9, $17;"
+        "ctc2 $10, $18;"
+        "ctc2 $11, $19;"
+        "ctc2 $12, $20"
+        :
+        : "r"( m )
+        : "$8", "$9", "$10", "$11", "$12" );
+}
