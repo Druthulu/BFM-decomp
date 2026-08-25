@@ -163,23 +163,46 @@ PY
       say "nothing banked this pass"
     fi
   fi
-  # PERIODIC FLEET CHECK (P31 S59). Two binaries sat RED for hours — ov_SC07_010 from a commit whose
-  # tree state was never built, ov_SC07_002 from a stale 2-table jtbl pad spec — and NOTHING noticed,
-  # because every lane only ever checks the binary it is currently touching. A byte-gate is a
-  # correctness oracle with a null coverage model: it is silent about everything it did not build.
-  # So sweep the whole fleet on a slow cadence, report REDs loudly, and FIX NOTHING automatically —
-  # a wrong repair to a pad spec or a config is exactly how a silent byte shift gets committed.
-  # Every 4th pass (~3 h). Skipped while any gate is in flight: check-all rebuilds stale objects and
-  # must not race a gate's build for the same binary.
-  FC=$(cat .run/maint_fleet_count 2>/dev/null || echo 0); FC=$((FC+1)); echo "$FC" > .run/maint_fleet_count
-  if [ $((FC % 4)) -eq 0 ] && ! pgrep -f 'tools/sweep_parallel|tools/gate_stage|tools/gate_main' >/dev/null; then
-    say "fleet R22 sweep (every 4th pass) — this checks binaries no lane has touched"
+  # PERIODIC FLEET CHECK (P31 S59, cadence tightened S60). Two binaries sat RED for hours — every
+  # lane only ever checks the binary it is currently touching, and a byte gate is a correctness
+  # oracle with a null coverage model: it is silent about everything it did not build. So sweep the
+  # whole fleet and report REDs loudly.
+  #
+  # EVERY PASS, not every 4th (S60). Detection latency is the real cost of a RED: the binary fails
+  # at BUILD, so every draft gated against it is rejected regardless of quality, and the wave reads
+  # as a drafting failure. Five REDs in one day, each burning drafts until the ~3 h sweep noticed.
+  # Gates now finish in ~35 min instead of 60, so the check is affordable at every pass.
+  if ! pgrep -f 'tools/sweep_parallel|tools/gate_stage|tools/gate_main' >/dev/null; then
+    say "fleet R22 sweep — this checks binaries no lane has touched"
     make check-all JOBS=12 >.run/fleet_check.log 2>&1 || true
     grep -E "^\[FAIL\]" .run/check-all.txt 2>/dev/null | awk '{print $2}' > .run/fleet_red.txt || true
     NRED=$(grep -c . .run/fleet_red.txt 2>/dev/null || echo 0)
     if [ "$NRED" -gt 0 ]; then
-      say "*** $NRED BINARY/BINARIES ARE RED — see .run/fleet_red.txt (NOT auto-fixed, by design) ***"
+      say "*** $NRED BINARY/BINARIES ARE RED — see .run/fleet_red.txt ***"
       head -8 .run/fleet_red.txt | sed 's/^/      RED: /'
+      # THE ONE AUTO-REPAIR, AND ONLY BECAUSE IT PROVES ITSELF (S60). Everything else here still
+      # fixes NOTHING by design — a guessed pad spec or config edit is how a silent byte shift gets
+      # committed. jtbl_pads_fix is different in kind: it does not derive or guess, it ENUMERATES
+      # the 2^(N-1) candidate specs and accepts one only if it is the UNIQUE spec that rebuilds the
+      # binary byte-identical to config/check.<bin>.sha, restoring the original otherwise. Three of
+      # the five REDs on 08-25 were this one class: JTBL_PADS stores a DERIVED property (how many
+      # jump tables an object emits) that every bank carrying a `switch` can change under it.
+      while read -r RB; do
+        [ -n "$RB" ] || continue
+        .venv/bin/python tools/jtbl_pads_fix.py "$RB" --apply 2>&1 | sed 's/^/      /'
+      done < .run/fleet_red.txt
+      if [ -n "$(git status --porcelain -- config/overlays.mk)" ]; then
+        make check-all JOBS=12 >.run/fleet_check.log 2>&1 || true
+        grep -E "^\[FAIL\]" .run/check-all.txt 2>/dev/null | awk '{print $2}' > .run/fleet_red2.txt || true
+        N2=$(grep -c . .run/fleet_red2.txt 2>/dev/null || echo 0)
+        if [ "$N2" -lt "$NRED" ]; then
+          git add config/overlays.mk
+          git commit -q -m "fix(jtbl): byte-proven pad-spec repair ($((NRED-N2)) binary/binaries) — maintenance lane"
+          say "pad-spec repair: $NRED RED -> $N2 RED, committed $(git rev-parse --short HEAD)"
+        else
+          say "pad-spec repair changed nothing measurable — left for a human"
+        fi
+      fi
     else
       say "fleet R22: all binaries byte-identical ($(grep -c '^\[ OK \]' .run/check-all.txt 2>/dev/null || echo 0) checked)"
     fi
