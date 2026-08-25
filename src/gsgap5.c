@@ -19,7 +19,16 @@ void SetVertexTri(long *r0, long *r1, long *r2)
         : "r"(r0), "r"(r1), "r"(r2));
 }
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetRGBfifo);
+void SetRGBfifo(void* r0, void* r1, void* r2)
+{
+    __asm__ __volatile__ (
+        "lwc2 $20, 0( %0 );"
+        "lwc2 $21, 0( %1 );"
+        "lwc2 $22, 0( %2 )"
+        :
+        : "r"( r0 ), "r"( r1 ), "r"( r2 )
+        : "memory" );
+}
 
 INCLUDE_ASM("asm/nonmatchings/gsgap5", SetIR123);
 
@@ -57,7 +66,15 @@ void SetSZfifo4()
 
 INCLUDE_ASM("asm/nonmatchings/gsgap5", SetSXSYfifo);
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetRii);
+void SetRii()
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "ctc2 $4, $0\n"
+        "ctc2 $5, $2\n"
+        "ctc2 $6, $4\n"
+        ".set\treorder\n");
+}
 
 INCLUDE_ASM("asm/nonmatchings/gsgap5", SetMAC123);
 

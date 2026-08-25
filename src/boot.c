@@ -40,7 +40,39 @@ void GameModeDispatch(void) {
     gameModeHandlerTable[*(u16 *)(p + 0xA3AE)]();
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010BB4);
+extern u8 D_800AF630[];
+extern void func_8001C044(void);
+extern void func_80015310(void);
+extern void func_80029690(void);
+extern void func_80018FC8(void);
+extern void func_8001903C(void);
+extern void func_80029274(void);
+extern void func_8002941C(void);
+extern void func_80010AE0(s32);
+extern void func_80011B7C(s32);
+extern void func_80011778(void);
+extern s16 D_801150D4;
+extern s32 D_80074784;
+
+void func_80010BB4(void) {
+    register u8 *p = D_800AF630;
+
+    *(p + 0xA3E0) = 0;
+    *(p + 0xA3E1) = 1;
+    *(p + 0xA434) = 0;
+    func_8001C044();
+    func_80015310();
+    func_80029690();
+    D_801150D4 = 0;
+    D_80074784 = 0;
+    func_80018FC8();
+    func_8001903C();
+    func_80029274();
+    func_8002941C();
+    func_80010AE0(0x3E0);
+    func_80011B7C(0);
+    func_80011778();
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80010C7C);
 
