@@ -4436,7 +4436,34 @@ DEFINE_func_80188990()  /* dedup: shared engine-core @0x80188990 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_801863CC", func_80188C8C);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_801863CC", func_80188DE4);
+void func_80188DE4(void *a0) {
+    extern u16 D_80126B62;
+    extern u8 D_801D093C[];
+    extern u8 D_801D094C[];
+    extern void (*D_801D0A3C[])(void *);
+    register s32 t __asm__("$2");
+
+    if (*(s16 *)((s32)a0 + 0xFC) != 0) {
+        *(s16 *)((s32)a0 + 0xFC) = *(s16 *)((s32)a0 + 0xFC) - 1;
+        *(u32 *)(*(s32 *)((s32)a0 + 0x20) + 4) ^= 0x80000000;
+    }
+
+    t = *(s16 *)((s32)a0 + 0xA);
+    t -= 0x30;
+    if ((*(s16 *)&D_80126B62) < t) {
+        t = (s32)D_801D094C;
+    } else {
+        t = (s32)D_801D093C;
+    }
+    t |= 0x40000000;
+    t |= 0x20000000;
+    *(u32 *)((s32)a0 + 0x58) = t;
+
+    t = *(u16 *)((s32)a0 + 2);
+    __asm__("" : "=r"(t) : "0"(t));
+    D_801D0A3C[t](a0);
+}
+
 
 void func_80188E8C(s32 arg0) {
     *(u16 *)(arg0 + 0x5C) = 0x8E10;
