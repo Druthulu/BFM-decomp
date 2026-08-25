@@ -3938,7 +3938,26 @@ void func_801A93B8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A93F4);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern s32 rand(void);
+
+/* §200 DEF-side alias: the TU prototypes this symbol `void func_801A93F4(void *)`
+ * (md_SC07_004.c:5645, written for caller func_801ABEE0), but the body provably
+ * returns s0 (beqz delay slot holds `addu $v0,$s0,$zero`, §162f1) — a void
+ * definition loses that slot (near 9 / 23 ins). Private C name, same symbol. */
+s32 aF801A93F4(void *a0) __asm__("func_801A93F4");
+
+s32 aF801A93F4(void *a0) {
+    s32 s0;
+
+    s0 = func_80132EF4(a0, 0x2D);
+    if (s0 != 0) {
+        *(s32 *)(s0 + 0x14) = *(s32 *)(a0 + 0x14) >> 1;
+        *(u16 *)(s0 + 0x2C) = rand() & 1;
+    }
+    return s0;
+}
+
 
 s32 func_801A9454(s32 self, s32 amount) {
     s32 obj;
@@ -5552,7 +5571,22 @@ void func_801ABA74(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801ABBA4);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8017E5D4(void *a0);
+extern void func_8012C218(void *a0);
+extern void func_8012AD80(s32 a0);
+
+void func_801ABBA4(void *arg0) {
+    if (func_8012BEE8((s32)arg0) != 0) {
+        if (*(void **)((u8 *)arg0 + 0xCC) != NULL) {
+            func_8017E5D4(*(void **)((u8 *)arg0 + 0xCC));
+        }
+        func_8012C218(arg0);
+    } else {
+        func_8012AD80(arg0);
+    }
+}
+
 
 #include "common.h"
 

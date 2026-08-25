@@ -2963,7 +2963,139 @@ void func_8017FEE4(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017F83C", func_8017FFD0);
+#include "common.h"
+
+void func_8017FFD0(s32 param_1)
+{
+    extern void func_801808B4(void *a0);
+    extern s32 func_8012CC64(s32 a0, void *a1);
+    extern s32 func_8012CC1C(s32 a0, void *a1);
+    extern void func_8012B23C(s32 a0);
+    extern void func_80131C78(s32 a0);
+    extern s32 func_80143B6C(s32 a0, s32 a1);
+    extern void func_80131E00(s32 a0, s32 a1);
+    extern s32 func_801809A0(s32 a0);
+    extern s32 D_8019E704;
+
+    s32 iVar1;
+
+    if (*(s16 *)(param_1 + 0xa) >= 0x10) {
+        func_801808B4((void *)param_1);
+        return;
+    }
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) -= 0x100;
+        iVar1 = func_8012CC64(param_1, &D_8019E704);
+        if ((iVar1 & 0xff) == 0x1a) {
+            goto EXIT_808B4;
+        }
+        if ((iVar1 & 0x2000) != 0) {
+            *(u16 *)(param_1 + 0x34) += 1;
+            *(s32 *)(param_1 + 0x1c) = 0;
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
+            goto TAIL;
+        }
+        if ((iVar1 & 0x4000) == 0) {
+            goto L_B0;
+        }
+        *(u16 *)(param_1 + 0x34) = 4;
+        *(s32 *)(param_1 + 0x1c) = 0;
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
+        func_8012B23C(param_1);
+        goto TAIL;
+
+    L_B0:
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (*(s32 *)(param_1 + 0x1c) < 0x3c) {
+            goto TAIL;
+        }
+        *(u16 *)(param_1 + 0x34) = 2;
+        goto TAIL;
+
+    case 1:
+        *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 0x10) * 15 / 16;
+        *(s32 *)(param_1 + 0x18) = *(s32 *)(param_1 + 0x18) * 15 / 16;
+        iVar1 = func_8012CC1C(param_1, &D_8019E704);
+        if ((iVar1 & 0xff) == 0x1a) {
+            goto EXIT_808B4;
+        }
+        if ((iVar1 & 0x6000) != 0) {
+            goto L_160;
+        }
+        *(s32 *)(param_1 + 0x1c) = 0;
+        *(u16 *)(param_1 + 0x34) += 1;
+        func_8012B23C(param_1);
+        goto TAIL;
+
+    L_160:
+        if ((*(s32 *)(param_1 + 0x1c) & 3) == 0) {
+            func_80143B6C(param_1, 1);
+        }
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (*(s32 *)(param_1 + 0x1c) < 0x10) {
+            goto TAIL;
+        }
+        goto L_25C;
+
+    case 2:
+        iVar1 = func_8012CC64(param_1, &D_8019E704);
+        if ((iVar1 & 0x2000) != 0) {
+            func_80143B6C(param_1, 1);
+            goto L_25C;
+        }
+        if ((iVar1 & 0x4000) == 0) {
+            goto L_288;
+        }
+        *(u16 *)(param_1 + 0x34) = 4;
+        func_80143B6C(param_1, 1);
+        func_8012B23C(param_1);
+        goto TAIL;
+
+    case 3:
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (*(s32 *)(param_1 + 0x1c) >= 0x10) {
+            goto L_25C;
+        }
+        goto TAIL;
+
+    case 4:
+        iVar1 = func_8012CC1C(param_1, &D_8019E704);
+        if ((iVar1 & 0xff) != 0x1a) {
+            goto L_254;
+        }
+    EXIT_808B4:
+        func_801808B4((void *)param_1);
+        return;
+    L_254:
+        if ((iVar1 & 0x2000) == 0) {
+            goto L_26C;
+        }
+        goto L_25C;
+
+    L_25C:
+        func_80131C78(param_1);
+        goto TAIL;
+
+    L_26C:
+        if ((*(s32 *)(param_1 + 0x1c) & 3) == 0) {
+            func_80143B6C(param_1, 1);
+        }
+    L_288:
+        *(s32 *)(param_1 + 0x1c) += 1;
+        if (*(s32 *)(param_1 + 0x1c) < 0x3c) {
+            goto TAIL;
+        }
+        func_80131E00(param_1, 0xd);
+    }
+TAIL:
+    func_801809A0(param_1);
+    if (0x100000 < *(s32 *)(param_1 + 0x14)) {
+        *(s32 *)(param_1 + 0x14) = 0x100000;
+    }
+}
+
 
 
 extern void func_80180764(s32 *a0);
