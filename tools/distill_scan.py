@@ -46,6 +46,17 @@ def main():
             else:
                 mined[tag] = 0                     # nothing to mine; close it out at zero
 
+    # ONE PENDING MARKER AT A TIME. Each pass re-offers everything not yet mined, so without this
+    # the lane wrote a fresh, overlapping marker every five minutes — eight batches queued
+    # (`bobq`, `bebobq`, `bebjbobq`, …), each a superset of the last, and a reviewer cannot tell
+    # which one is the work. The next pass will re-offer whatever is still unmined anyway.
+    already = glob.glob(os.path.join(ready_dir, "*.json"))
+    if already:
+        print("  a batch is already pending review (%s) — not raising another"
+              % ", ".join(os.path.basename(x) for x in already[:3]))
+        json.dump(st, open(state_p, "w"), indent=1)
+        return
+
     tot = sum(n for _t, n, _p in pend)
     if pend and (tot >= min_novel or len(pend) >= min_waves):
         batch = "".join(t for t, _n, _p in pend)[:24]

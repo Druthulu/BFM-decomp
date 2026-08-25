@@ -23,6 +23,13 @@ cd /home/musashi/bfm-decomp
 # (1200 s). 420 was itself a deliberate choice after 1800 parked a hung agent for THIRTY minutes;
 # this keeps that concern (a hang costs <12 min) without strangling legitimate deep reasoning.
 export HTTP_TIMEOUT=700
+# STRAGGLER_GRACE = ONE FULL TURN (P31 S59). collect_drafts queues a wave once 95% of shards are
+# done, then waits this long for the rest. At 120 s that was shorter than a single turn — at ~30
+# tok/s a 16k generation runs ~530 s — so raising the token budget converted truncated turns into
+# agents guillotined mid-thought with NO draft at all: overlay draft completion fell from 84-89%
+# (8k) to 41% on wave bt and 69% on bu. A grace shorter than one turn guarantees that loss, so it
+# is tied to HTTP_TIMEOUT rather than set independently.
+export STRAGGLER_GRACE=700
 while [ ! -e .run/ox_campaign.stop ]; do
   .venv/bin/python tools/main_lane.py --workers 150 --batch 40 --cards 200 --max-ins 200 --maxtok 16000 2>&1
   echo "[$(date +%H:%M:%S)] [main-lane] exited; restarting in 20s"
