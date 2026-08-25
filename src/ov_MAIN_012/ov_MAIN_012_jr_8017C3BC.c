@@ -198,7 +198,7 @@ extern void func_800190AC(void);
 extern void func_8012956C(void);
 extern s32 func_8016E95C();
 extern void func_801754A8(void);
-extern void func_8013BC7C(void);
+extern void func_8013BC7C();
 extern void func_8013BCDC(void);
 extern void func_801379FC(void);
 extern void func_8001212C(void);
