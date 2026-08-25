@@ -341,7 +341,18 @@ void DebugMenuHandler(void) {
     (void)iVar1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_800111BC);
+extern u8 D_800AF630[];
+extern void func_800CEE74(void);
+extern void func_80011818(s32);
+
+void func_800111BC(void) {
+    register u8 *p = D_800AF630;
+
+    func_800CEE74();
+    if (*(u16 *)(p + 0xA3B6) != 0) {
+        func_80011818(0xA);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011220);
 
