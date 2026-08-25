@@ -3242,7 +3242,19 @@ s32 func_80181380(void) {
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_8018144C);
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181600);
+void func_80181600(void)
+{
+    extern s16 func_801816FC(s32);
+
+    if (func_801816FC(0xD) >= 3 && func_801816FC(0x12) >= 3 && func_801816FC(0x1B) >= 3) {
+        u32 dist;
+        dist = func_80029504();
+        if (dist < 0x28A) {
+            func_80029514(0x28A);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8018057C", func_80181688);
 

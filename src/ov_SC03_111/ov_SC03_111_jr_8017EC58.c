@@ -3656,7 +3656,26 @@ INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80180B8
 
 INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80180D4C);
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80180FB4);
+extern void (*D_80188B10[8])(int *);
+
+void func_80180FB4(s32 param_1) {
+    u16 *s0;
+    u16 *p;
+
+    s0 = (u16 *)param_1;
+    D_80188B10[s0[1]]((int *)param_1);
+
+    if (*(s16 *)((s16 *)s0 + 0x85) == 0) {
+        p = *(u16 **)(s0 + 0x66);
+        p[4] = s0[3];
+        p[5] = s0[5];
+        p[6] = s0[7];
+        p[4] += 8;
+        p[5] += 0x88;
+        p[6] += 8;
+    }
+}
+
 
 
 extern void (*D_80188B60[])(void);
@@ -3749,7 +3768,14 @@ void func_801814D0(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_8018151C);
+extern s32 func_8012AD50(void *a0);
+
+void func_8018151C(u8 *a0) {
+    *(u16 *)(a0 + 0xFC) = 1;
+    *(u16 *)(a0 + 0x72) |= 0x1000;
+    ((void (*)(void))func_8012AD50)();
+}
+
 
 extern void func_80181574(s32 a0, s32 a1, s32 a2);
     void func_8018154C(void * arg0) {
@@ -5071,7 +5097,25 @@ void func_80183624(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80183710);
+extern s32 func_8004787C(s32 a0);
+extern void func_8012E688(s32, s32, s32);
+
+void func_80183710(s32 a0)
+{
+    s32 val;
+
+    *(u16 *)(a0 + 0xFC) += 0x20;
+    *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0x100);
+    val = func_8004787C(*(s16 *)(a0 + 0xFC));
+    *(s32 *)(a0 + 0x8) -= val << 10;
+
+    if (*(s16 *)(a0 + 0xFC) >= 0x400) {
+        *(s16 *)(a0 + 2) = 5;
+        *(s16 *)(a0 + 0xFE) = 4;
+        func_8012E688(a0, 0x98F, 0);
+    }
+}
+
 
 extern s32 D_801B1C70;
 extern s32 D_801B1C78;
@@ -5176,7 +5220,31 @@ void func_80183B40(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80183BC0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 rand(void);
+
+void func_80183BC0(void *a0)
+{
+    extern s32 func_8012BE54(s32 a0);
+    s32 s0 = (s32)a0;
+    s32 v0;
+    s32 v1;
+    s32 s1;
+
+    v0 = func_8012BE54(s0);
+    if (v0 <= 0x23FFFF) {
+        v0 = *(s32 *)(s0 + 0x1C) - 1;
+        *(s32 *)(s0 + 0x1C) = v0;
+        if (v0 == 0) {
+            s1 = func_8012C658(0x1EA, 0xF, s0);
+            *(s32 *)(s0 + 0x1C) = (rand() & 0x1F) + 0x2D;
+            if ((*(s16 *)(s0 + 0x70) == 0x18) && (s1 != 0)) {
+                *(u16 *)(*(s32 *)(s1 + 0x20) + 0x12) = 0x400;
+            }
+        }
+    }
+}
+
 
 
 extern int func_8012C658(int arg0, int arg1, int arg2);

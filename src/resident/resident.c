@@ -1337,7 +1337,38 @@ s32 func_800D0D7C(s32 arg0, s32 arg1) {
 }
 
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0E30);
+s16 func_800D0E30(u8 *p) {
+    extern u8 D_80078EB0;
+    extern u8 D_80078EB1;
+    register s32 zr __asm__("$0");
+    u8 dummy[16];
+    u32 hi;
+    u32 lo;
+    register u32 b __asm__("$5");
+    register u32 t2 __asm__("$2");
+    register u32 t3 __asm__("$3");
+    register u32 h __asm__("$3");
+
+    hi = (u8)(p[1] - D_80078EB1);
+    lo = (u8)(p[0] - D_80078EB0);
+    p = (u8 *)((hi << 8) | lo);
+
+    b = (u32)p + zr;
+    if ((b & 0xFF) >= 0x3C) {
+        t3 = (b + 0x3C) & 0xFF;
+        t2 = ((u32)p & 0xFF00) - 0x100;
+        b = t2 | t3;
+    }
+    t2 = b & 0xFFFF;
+    h = t2 >> 8;
+    if (h >= 0x18) {
+        t2 = (h + 0x18) << 8;
+        t3 = b & 0xFF;
+        b = t2 | t3;
+    }
+    return (s16)b;
+}
+
 
 // func_800D0EC4 — scan func_800291B4(i) over i in [0x2F, 0x3A]; return first i whose
 //   (result & 0xFF) == 0, else 0.

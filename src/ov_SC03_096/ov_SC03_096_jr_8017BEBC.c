@@ -4554,7 +4554,26 @@ void func_8017F23C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_8017F2A4);
+// @class: plumbing
+// scan 0x60 entity records (stride 0x10C) at D_801202A0; flag the one whose u16
+// id matches arg0 by setting 0x80000000 in the word at +4 of its +0x20 pointer
+void func_8017F2A4(s32 arg0) {
+    extern u8 D_801202A0[];
+    u8 *rec;
+    s32 ptr;
+
+    rec = D_801202A0;
+    if (rec < D_801202A0 + 0x6480) {
+        do {
+            if (*(u16 *)rec == (arg0 & 0xFFFF)) {
+                ptr = *(s32 *)(rec + 0x20);
+                *(s32 *)(ptr + 4) |= 0x80000000;
+            }
+            rec += 0x10C;
+        } while (rec < D_801202A0 + 0x6480);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_8017F308);
 
@@ -4981,7 +5000,16 @@ INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_801800D
 
 INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_80180148);
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_801801D4);
+extern void (*D_80193AA4[10])(struct Entry_8016E95C *);
+void func_801801D4(s32 arg0, s32 arg1) {
+    u16 *src;
+    if (arg0 != 0) {
+        src = (u16 *)&D_80193AA4[arg1];
+        *(u16 *)(arg0 + 0x28) = src[0];
+        *(u16 *)(arg0 + 0x2A) = src[1];
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_80180208);
 

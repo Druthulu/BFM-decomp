@@ -5765,7 +5765,50 @@ void func_8017C0DC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_801789AC", func_8017C120);
+void func_8017C120(void) {
+
+    extern s32 D_80185AD4;
+    extern u8 D_80185AE4[];
+    extern s16 D_801857EC;
+    extern s16 D_801857E8;
+    extern s16 D_801857F4;
+    extern u16 D_80115118;
+    extern s16 D_8011512C;
+    extern s32 D_80182638;
+    extern s32 D_801825A0;
+    extern s16 D_80115126;
+    extern s32 D_80115130;
+    extern s32 D_80115134;
+    extern u8 D_80115138[];
+    extern s32 D_801826E4[];
+    s16 i;
+    s32 *p;
+
+    D_80185AD4 = 0;
+    for (i = 0; i < 8; i++) {
+        D_80185AE4[i] = 0xFF;
+    }
+    D_801857E8 = 0;
+    D_801857F4 = 0;
+    D_80115118 = 0;
+    if (D_801857EC == 0) {
+        D_8011512C = 0;
+        D_80182638 = D_801825A0;
+    } else {
+        D_8011512C = 9;
+        D_80182638 = 0x1A;
+    }
+    p = &D_80115130;
+    *p = 0;
+    D_80115134 = D_801826E4[D_80115126];
+    for (i = 0; i < 6; i++) {
+        s16 *q = (s16 *)p + 20;
+
+        D_80115138[i] = *(u16 *)(D_80115134 + i * 32);
+        q[i] = *(u16 *)(D_80115134 + i * 32 + 2);
+    }
+}
+
 
 /* func_8017C24C @ 0x8017C24C -- ov_MAIN_012 (7 ins).
  *

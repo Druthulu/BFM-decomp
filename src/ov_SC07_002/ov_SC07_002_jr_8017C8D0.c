@@ -3602,7 +3602,60 @@ __asm__(".text\n.align 2\n.globl func_8017DC80\n.ent\tfunc_8017DC80\n"
 ".set\treorder\n.end\tfunc_8017DC80\n");
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017E1E8);
+extern s32 D_8019B7B8;
+extern void func_8017E37C(u8*, u8*, u8*, u8*);
+
+void func_8017E1E8(s32 arg0, s32 arg1, s32 arg2)
+{
+    register s32 zr __asm__("$0");
+    register s32 off __asm__("$4");
+    register s32 cnt __asm__("$5");
+    s32 ent = arg0;
+    s32 p1 = arg1;
+    s32 p2 = arg2;
+    s32 slot;
+    s32 cur;
+
+    if (*(u8 *)ent == 1) {
+        cnt = 0;
+        off = 0;
+        do {
+            cur = off + zr;
+            if (*(u8 *)((s32)&D_8019B7B8 + cur) == 0) {
+                slot = (s32)&D_8019B7B8 + off;
+                goto found;
+            }
+            cnt = cnt + 1;
+            off = cur + 0x38;
+        } while (cnt < 0xC0);
+        slot = 0;
+    found:
+        if (slot != 0) {
+            ((void (*)(s32, s32, s32, s32))func_8017E37C)(slot, ent, p1, p2);
+            *(u16 *)(ent + 4) = *(u16 *)p1;
+            *(u16 *)(ent + 6) = *(u16 *)(p1 + 2);
+            *(u16 *)(ent + 8) = *(u16 *)(p1 + 4);
+            if ((*(u16 *)(ent + 0xA) & 0x1000) == 0 && p2 != 0) {
+                *(u16 *)(ent + 0xC) = *(u16 *)p2;
+                *(u16 *)(ent + 0xE) = *(u16 *)(p2 + 2);
+                *(u16 *)(ent + 0x10) = *(u16 *)(p2 + 4);
+            }
+            *(s32 *)(ent + 0x34) = slot;
+        } else {
+            if (*(s32 *)(ent + 0x34) != 0) {
+                *(u16 *)(*(s32 *)(ent + 0x34) + 4) = *(u16 *)p1;
+                *(u16 *)(*(s32 *)(ent + 0x34) + 6) = *(u16 *)(p1 + 2);
+                *(u16 *)(*(s32 *)(ent + 0x34) + 8) = *(u16 *)(p1 + 4);
+                if ((*(u16 *)(ent + 0xA) & 0x1000) == 0 && p2 != 0) {
+                    *(u16 *)(*(s32 *)(ent + 0x34) + 0xC) = *(u16 *)p2;
+                    *(u16 *)(*(s32 *)(ent + 0x34) + 0xE) = *(u16 *)(p2 + 2);
+                    *(u16 *)(*(s32 *)(ent + 0x34) + 0x10) = *(u16 *)(p2 + 4);
+                }
+            }
+        }
+    }
+}
+
 
 void func_8017E37C(u8 *dst, u8 *src1, u8 *src2, u8 *src3)
 {
