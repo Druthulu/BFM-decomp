@@ -126,7 +126,55 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_16C);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SetGraphReverse);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_210);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_210\n"
+    ".ent\tSYS_OBJ_210\n"
+    "SYS_OBJ_210:\n"
+    ".frame\t$sp,32,$31\n"
+    ".mask\t0x80070000,-4\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "or    $a0, $a0, $v0\n"
+    "lui   $v0, %hi(D_80072780)\n"
+    "lw    $v0, %lo(D_80072780)($v0)\n"
+    "nop\n"
+    "lw    $v0, 16($v0)\n"
+    "nop\n"
+    "jalr  $v0\n"
+    "nop\n"
+    "lui   $v1, %hi(D_80072788)\n"
+    "lbu   $v1, %lo(D_80072788)($v1)\n"
+    "addiu $v0, $zero, 0x2\n"
+    "bne   $v1, $v0, .L800594B0\n"
+    "addu  $v0, $s2, $zero\n"
+    "lui   $a0, (0x20000504 >> 16)\n"
+    "lui   $v0, %hi(D_8007278B)\n"
+    "lbu   $v0, %lo(D_8007278B)($v0)\n"
+    "lui   $v1, %hi(D_80072780)\n"
+    "lw    $v1, %lo(D_80072780)($v1)\n"
+    "beqz  $v0, .L8005949C\n"
+    "ori   $a0, $a0, (0x20000504 & 0xFFFF)\n"
+    "lui   $a0, (0x20000501 >> 16)\n"
+    "ori   $a0, $a0, (0x20000501 & 0xFFFF)\n"
+    ".L8005949C:\n"
+    "lw    $v0, 16($v1)\n"
+    "nop\n"
+    "jalr  $v0\n"
+    "nop\n"
+    "addu  $v0, $s2, $zero\n"
+    ".L800594B0:\n"
+    "lw    $ra, 28($sp)\n"
+    "lw    $s2, 24($sp)\n"
+    "lw    $s1, 20($sp)\n"
+    "lw    $s0, 16($sp)\n"
+    "addiu $sp, $sp, 0x20\n"
+    "jr    $ra\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_210\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_800594CC);
 
@@ -844,7 +892,48 @@ INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_FD8);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1034);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_11C0);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_11C0\n"
+    ".ent\tSYS_OBJ_11C0\n"
+    "SYS_OBJ_11C0:\n"
+    ".set\tnoreorder\n"
+    "lbu   $2, 18($16)\n"
+    "lh    $3, 6($16)\n"
+    "bnez  $2, .L8005A408\n"
+    " slti $2, $3, 289\n"
+    "slti  $2, $3, 257\n"
+    ".L8005A408:\n"
+    "bnez  $2, .L8005A414\n"
+    " nop\n"
+    "ori   $19, $19, 36\n"
+    ".L8005A414:\n"
+    "lui   $2, %hi(D_80072780)\n"
+    "lw    $2, %lo(D_80072780)($2)\n"
+    "nop\n"
+    "lw    $2, 16($2)\n"
+    "nop\n"
+    "jalr  $2\n"
+    " addu $4, $19, $0\n"
+    ".L8005A430:\n"
+    "lui   $4, %hi(D_800727F4)\n"
+    "addiu $4, $4, %lo(D_800727F4)\n"
+    "addu  $5, $16, $0\n"
+    "jal   func_8005C324\n"
+    " addiu $6, $0, 20\n"
+    "addu  $2, $16, $0\n"
+    "lw    $31, 32($29)\n"
+    "lw    $19, 28($29)\n"
+    "lw    $18, 24($29)\n"
+    "lw    $17, 20($29)\n"
+    "lw    $16, 16($29)\n"
+    "addiu $29, $29, 40\n"
+    "jr    $31\n"
+    " nop\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_11C0\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", GetDispEnv);
 
@@ -1741,4 +1830,17 @@ INCLUDE_ASM("asm/nonmatchings/800c", func_8005C1C0);
 void SYS_OBJ_3060(void) {
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005C29C);
+void func_8005C29C(void *arg0, s32 arg1, s32 arg2)
+{
+    s32 i;
+    s32 frame_pad[2];
+
+    (void)&frame_pad;
+    i = arg2 - 1;
+    if (arg2 != 0) {
+        do {
+            *(u8 *)arg0 = (u8)arg1;
+            arg0 = (u8 *)arg0 + 1;
+        } while (--i != -1);
+    }
+}
