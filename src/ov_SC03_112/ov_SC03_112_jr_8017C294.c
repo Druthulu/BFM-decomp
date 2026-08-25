@@ -4506,7 +4506,7 @@ extern s32 func_8012C354(s32 a0, s32 a1);
 extern void func_8012A828(s32*, s32);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
-extern void func_8017F4D8(void);
+extern s32 func_8017F4D8();
 
 void func_8017F3F4(s32 a0) {
 
@@ -4546,7 +4546,21 @@ void func_8017F498(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_8017F4D8);
+extern void func_8012BD14(s32);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+s32 func_8017F4D8(a0)
+void *a0;
+{
+    if (((s32 (*)(s32))func_8012BD14)(*(s32 *)((s32)a0 + 0x64)) > 0x1000) {
+        return 0;
+    }
+    *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 2;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 
 /* func_8017F534 — tiny matrix wrapper.

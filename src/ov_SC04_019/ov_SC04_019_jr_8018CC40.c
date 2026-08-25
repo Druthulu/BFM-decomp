@@ -3144,7 +3144,7 @@ extern void func_8018C5AC(void * arg0);
 extern void (*D_801E3AF4[])(void);
 extern void func_8018C5FC(void *a0);
 extern s32 func_8012C354(s32 a0, s32 a1);
-extern void func_8018C730(void);
+extern s32 func_8018C730();
 extern void func_8018C638(s32 a0);
 extern void func_8018C69C(void);
 extern void func_8018C6A4(s32 *a0);

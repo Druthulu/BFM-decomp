@@ -3350,7 +3350,27 @@ void func_801835C8(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_801835F8);
+
+
+void func_801835F8(arg0)
+void *arg0;
+{
+    s32 temp_v0;
+
+    M2C_FIELD(arg0, s16 *, 0x132) = 0x800;
+    if ((M2C_FIELD(arg0, s32 *, 0x204) & 0xF) == 0) {
+        M2C_FIELD(arg0, s16 *, 0xAC) = 0x40;
+        M2C_FIELD(arg0, s16 *, 0xAA) = 0x40;
+    }
+    temp_v0 = M2C_FIELD(arg0, s32 *, 0x204) - 1;
+    M2C_FIELD(arg0, s32 *, 0x204) = temp_v0;
+    if (temp_v0 == -1) {
+        func_80185F58();
+        M2C_FIELD(arg0, s32 *, 0x204) = 0x10;
+        M2C_FIELD(arg0, u8 *, 0x214) = (u8) (M2C_FIELD(arg0, u8 *, 0x214) + 1);
+    }
+}
+
 
 void func_8018366C(void *arg0) {
     s32 temp_v0;

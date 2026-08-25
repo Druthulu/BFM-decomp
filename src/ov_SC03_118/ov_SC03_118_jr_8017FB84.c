@@ -4621,7 +4621,7 @@ extern void func_800D0C48(s32 a0);                         /* TU:1469 */
 extern s32 func_8014CB2C(void);                            /* TU:560 */
 extern void func_8012A018(s32 a, s32 b);                   /* TU:2412 */
 extern void func_801842DC(s32 a0);                         /* TU:4023 INCLUDE_ASM (no decl) */
-extern s32 func_80183830();                            /* TU:3930 INCLUDE_ASM (no decl) */
+extern s32 func_80183830(void);                            /* TU:3930 INCLUDE_ASM (no decl) */
 extern void func_80029124(s32, s32);                       /* TU:50 */
 extern s32 func_8016F0AC();                                /* TU:1945 */
 extern void func_8012C588(s32 a0, s32 a1);                 /* not in TU */

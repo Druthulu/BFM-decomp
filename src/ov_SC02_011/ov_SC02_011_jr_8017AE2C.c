@@ -14632,7 +14632,7 @@ void func_8018DF44(void *a0)
 #include "common.h"
 
 extern u16 D_801270C0;
-extern void func_8018E0AC(void);
+extern s32 func_8018E0AC();
 extern void func_801292C8(u8 *a0);
 
 struct vec;
@@ -14672,7 +14672,66 @@ void func_8018E014(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018E0AC);
+extern s32 D_80126B58;
+extern s32 func_8014CAFC(void);
+extern s32 func_8018E208(void *a0);
+extern u8 D_80078E78[];
+extern u8 D_80078EAE;
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+s32 func_8018E0AC(arg0)
+void *arg0;
+{
+    
+    extern u8 D_80078EAE;
+    u8 *base;
+    u8 *p;
+    s32 flag;
+    s16 diff[3];
+    s16 pointA[3];
+    s32 v0;
+    void *ptr;
+
+    base = (u8 *)&D_80126B58;
+    p = D_80078E78;
+    flag = 0;
+
+    if (func_8014CAFC() != 0) {
+        if (D_80078EAE != 0) {
+            return 0;
+        }
+        flag = 1;
+    }
+
+    if (func_8018E208(arg0) == 0) {
+        return 0;
+    }
+
+    pointA[0] = *(u16 *)(base + 0x6);
+    pointA[1] = *(u16 *)(base + 0xA);
+    pointA[2] = *(u16 *)(base + 0xE);
+
+    diff[0] = pointA[0] - *(u16 *)((u8 *)arg0 + 0x6);
+    diff[1] = pointA[1] - *(u16 *)((u8 *)arg0 + 0xA);
+    diff[2] = pointA[2] - *(u16 *)((u8 *)arg0 + 0xE);
+
+    VectorNormalSS(diff, diff);
+
+    pointA[1] -= 0x20;
+
+    if (!flag) {
+        v0 = p[0x36];
+        func_8012F568(1, 0x5001, 0, (v0 ^ 1) * 10, (s32)pointA, (s32)diff);
+    } else {
+        func_8012F568(1, 0x4001, 0, 0xA, (s32)pointA, (s32)diff);
+    }
+
+    ptr = *(void **)((u8 *)arg0 + 0x20);
+    *(u16 *)(base + 0x42) = *(u16 *)((u8 *)ptr + 0x12);
+
+    return 1;
+}
+
 
 #include "common.h"
 
