@@ -12640,7 +12640,11 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80028E00);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028E24);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028E44);
+extern void func_80029124(s32, s32);
+
+void func_80028E44(s32 a0) {
+    func_80029124(0xE, a0 & 0xFF);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80028E68);
 

@@ -6,7 +6,103 @@ INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_01_OBJ_64);
 
 INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_01_OBJ_CC);
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_01_OBJ_160);
+/* FGO_01_OBJ_160 (0x800498EC) is NOT a callable function: it is the tail FRAGMENT of one
+ * larger routine. FGO_01_OBJ_CC (0x80049858) computes $t2/$t5 from D_8006DF1C and tail-jumps
+ * straight into it (`j FGO_01_OBJ_160`, no jal anywhere in asm/); the live inputs arrive in
+ * $t0-$t5 with the destination pointer in $a1 -- none of which any C calling convention
+ * expresses. Banked as a file-scope inline asm blob per the SYS_OBJ_1DC0 idiom (src/800c.c):
+ * the literal ".ent\t"/".end\t" pair (tab-separated) makes maspsx emit a fresh
+ * ".set\tnoreorder", keeping every hand-placed delay-slot nop in place; store offsets are
+ * DECIMAL because maspsx int()-parses them and a hex "0x0($a1)" crashes it
+ * ("invalid literal for int() with base 10") -- the exact defect that made the previous
+ * attempt's whole-binary gate reject a COMPILE error, not a byte mismatch. Body transcribed
+ * 1:1 from asm/nonmatchings/800b_5/FGO_01_OBJ_160.s (oracle MATCH 76/76; the region contains
+ * ZERO relocations -- no jal/j/lui -- so relocation masking hides nothing). The trailing
+ * __asm__(".word 0") reproduces the padding nop at 0x80049A18 before RotMatrixYXZ
+ * (0x80049A1C), matching the banked FGO_02/03_OBJ_160 siblings whose own .s tails carry the
+ * same post-endlabel pad (0x80049CA8 / 0x80049F38) and whose blobs use this identical form,
+ * gate-proven twice in this very TU.
+ */
+__asm__(".text\n.align 2\n.globl FGO_01_OBJ_160\n.ent\tFGO_01_OBJ_160\n"
+        "FGO_01_OBJ_160:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "multu $t2, $t1\n"
+        "nop\n"
+        "nop\n"
+        "mflo $t7\n"
+        "sra $t6, $t7, 12\n"
+        "sh $t6, 0($a1)\n"
+        "multu $t5, $t1\n"
+        "nop\n"
+        "nop\n"
+        "mflo $t7\n"
+        "negu $t6, $t7\n"
+        "sra $t7, $t6, 12\n"
+        "multu $t2, $t4\n"
+        "sh $t7, 2($a1)\n"
+        "nop\n"
+        "mflo $t7\n"
+        "sra $t8, $t7, 12\n"
+        "nop\n"
+        "multu $t8, $t3\n"
+        "nop\n"
+        "nop\n"
+        "mflo $t7\n"
+        "sra $t6, $t7, 12\n"
+        "nop\n"
+        "multu $t5, $t0\n"
+        "nop\n"
+        "nop\n"
+        "mflo $t7\n"
+        "sra $t9, $t7, 12\n"
+        "subu $t7, $t9, $t6\n"
+        "multu $t8, $t0\n"
+        "sh $t7, 6($a1)\n"
+        "nop\n"
+        "mflo $t6\n"
+        "sra $t7, $t6, 12\n"
+        "nop\n"
+        "multu $t5, $t3\n"
+        "nop\n"
+        "nop\n"
+        "mflo $t6\n"
+        "sra $t9, $t6, 12\n"
+        "addu $t6, $t9, $t7\n"
+        "multu $t5, $t4\n"
+        "sh $t6, 12($a1)\n"
+        "nop\n"
+        "mflo $t7\n"
+        "sra $t8, $t7, 12\n"
+        "nop\n"
+        "multu $t8, $t3\n"
+        "nop\n"
+        "nop\n"
+        "mflo $t7\n"
+        "sra $t6, $t7, 12\n"
+        "nop\n"
+        "multu $t2, $t0\n"
+        "nop\n"
+        "nop\n"
+        "mflo $t7\n"
+        "sra $t9, $t7, 12\n"
+        "addu $t7, $t9, $t6\n"
+        "multu $t8, $t0\n"
+        "sh $t7, 8($a1)\n"
+        "nop\n"
+        "mflo $t6\n"
+        "sra $t7, $t6, 12\n"
+        "nop\n"
+        "multu $t2, $t3\n"
+        "nop\n"
+        "nop\n"
+        "mflo $t6\n"
+        "sra $t9, $t6, 12\n"
+        "subu $t6, $t9, $t7\n"
+        "sh $t6, 14($a1)\n"
+        "jr $ra\n"
+        "nop\n"
+        ".set\treorder\n.end\tFGO_01_OBJ_160\n");
+__asm__(".word 0");
 
 INCLUDE_ASM("asm/nonmatchings/800b_5", RotMatrixYXZ);
 

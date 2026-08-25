@@ -84,7 +84,15 @@ void SetRii()
         ".set\treorder\n");
 }
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetMAC123);
+void SetMAC123(long r0, long r1, long r2)
+{
+    __asm__ __volatile__(
+        "mtc2 %0, $25\n"
+        "mtc2 %1, $26\n"
+        "mtc2 %2, $27"
+        :
+        : "r"(r0), "r"(r1), "r"(r2));
+}
 
 INCLUDE_ASM("asm/nonmatchings/gsgap5", SetData32);
 
