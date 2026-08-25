@@ -122,7 +122,38 @@ void func_800CB180(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_025/nonmatchings/md_MAIN_025", func_800CB1A0);
+#include "common.h"
+
+extern u8 D_80078EC1;
+extern void (*D_800CBEBC[])(void);
+extern s32 func_800CB7B0(s32 a0);
+extern void func_80147364(u16 a0, s32 a1);
+extern void func_800CB6CC(void*);
+
+void func_800CB1A0(s32 a0) {
+    s32 pad[2];
+    u16 index;
+    s16 value;
+    s32 self = a0;
+
+    if (D_80078EC1 != 0xF) {
+        ((void (*)(s32))func_800CB6CC)(a0);
+        return;
+    }
+    index = *(u16 *)(self + 2);
+    ((void (*)(s32))D_800CBEBC[index])(self);
+
+    if (*(u16 *)self != 0 && func_800CB7B0(self) != 0) {
+        func_80147364(4, 0x649);
+    }
+
+    value = *(s16 *)(self + 0xA);
+    if (value < 0x401) {
+        return;
+    }
+    ((void (*)(s32))func_800CB6CC)(self);
+}
+
 
 void func_800CB23C(void *a0) {
     extern u8 D_800CBE98[];
