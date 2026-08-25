@@ -119,14 +119,43 @@ def main():
         fixed = json.load(open(".run/aprop_symfix_slate.json"))
     except Exception:
         pass
-    staged = 0
+    # VALIDATE THE BINARY BEFORE STAGING (R43). aprop_symfix emits REBASE VARIANTS and tags the
+    # variant into the row's `binary` — `ov_MAIN_012-cn`, `-cn-cast`, `-cn-cast-rc`, `-s2in`,
+    # `-s2in-uni`. Staged verbatim, each variant became its own directory and sweep_parallel was
+    # handed 273 directories naming binaries THAT DO NOT EXIST: 553 drafts that could never be
+    # gated against anything, silently, while the sweep reported "over 331 binaries". Strip the
+    # variant tag back to the real binary, keep ONE variant per function (they are alternate
+    # spellings of the same target, and same-named files would overwrite each other anyway), and
+    # count what could not be resolved instead of letting it vanish.
+    def real_binary(b):
+        if not b:
+            return None
+        if b == "main" or os.path.exists(f"config/splat.{b}.yaml"):
+            return b
+        stem = b
+        while "-" in stem:
+            stem = stem.rsplit("-", 1)[0]
+            if stem == "main" or os.path.exists(f"config/splat.{stem}.yaml"):
+                return stem
+        return None
+
+    staged, unresolved, dup = 0, 0, set()
     for r in fixed:
-        b, fn, d = r.get("binary"), r.get("fn"), r.get("draft")
-        if not (b and fn and d and os.path.exists(d)):
+        b, fn, d = real_binary(r.get("binary")), r.get("fn"), r.get("draft")
+        if not (fn and d and os.path.exists(d)):
             continue
+        if b is None:
+            unresolved += 1
+            continue
+        if (b, fn) in dup:                      # one variant per target
+            continue
+        dup.add((b, fn))
         os.makedirs(f"{STAGE}/{b}", exist_ok=True)
         shutil.copy(d, f"{STAGE}/{b}/{fn}.c")
         staged += 1
+    if unresolved:
+        print(f"recover_rejects: {unresolved} rebased draft(s) named a binary that does not exist "
+              f"and were NOT staged (R43 — a directory sweep_parallel cannot resolve is not a gate)")
 
     seen |= {r["fn"] for r in keep}                     # tried once is tried; do not loop on it
     json.dump(sorted(seen), open(SEEN, "w"), indent=1)

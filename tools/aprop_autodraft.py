@@ -121,13 +121,28 @@ def data_def_for(sym, new_sym, seed_text, data):
     return f"{m.group(1).strip()} {new_sym}{m.group(2) or ''} = {init};".replace("static ", "")
 
 
-def decl_for(sym, seed_text):
-    """A file-scope declaration for `sym` taken from the SEED's own TU, normalised to an `extern`.
+def decl_for(sym, seed_text, dest_text=""):
+    """A file-scope declaration for `sym`, preferring the DESTINATION TU's own spelling.
+
+    WHY THE DESTINATION WINS (P31 S59, measured). This used to read the SEED's TU only, and the
+    seed's spelling of a shared callee is frequently not the destination's: 45 of 188 staged A-prop
+    drafts (24%) declared an extern whose type conflicted with the destination binary's own — e.g.
+    `extern void func_8014E98C(u8 *a0)` in the draft against `extern s32 func_8014E98C(void *a0)`
+    in twelve sibling files. C then rejects the whole translation unit, so one conflicting draft
+    sinks every innocent draft gated with it: the maintenance lane staged 117 byte-correct bodies
+    and banked ZERO, twice, on exactly this. The destination's declaration is authoritative (wave
+    law 2) and it is free to read, so take it verbatim when it exists and fall back to the seed's
+    only when the destination is silent.
 
     A definition (`const Blk8 D_801EF6C0 = {...}`) must become a DECLARATION in the member — the
     member's own TU already emits those bytes (as `INCLUDE_RODATA`, or inside the function's own
     `.s`). Emitting the definition instead would either duplicate the data or fight splat for the
     address."""
+    # the destination's own spelling, verbatim, before anything else
+    if dest_text:
+        m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(sym)}\b[^\n;]*;', dest_text, re.M)
+        if m:
+            return m.group(0).strip()
     m = re.search(rf'^[ \t]*extern[^\n;]*\b{re.escape(sym)}\b[^\n;]*;', seed_text, re.M)
     if m:
         return m.group(0).strip()
@@ -216,6 +231,16 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
     if not re.search(rf'^[^\n=;]*\b{re.escape(member_name)}\s*\([^;]*\)\s*\{{', new_body, re.M):
         return None, "no definition of the member after rename (seed-name misidentified?)"
 
+    # NO VERBATIM-ASM BODIES (Drew, P31 S59). A seed whose body is a raw `__asm__(".set noreorder"…)`
+    # block (§265) transcribes instructions rather than decompiling them. Remapping one produces a
+    # draft that trivially "MATCHes" the local oracle — it IS the target's bytes — and, if it banks,
+    # counts as a matched function in every progress number we quote while nothing was decompiled.
+    # 26 of 188 staged drafts (14%) were this shape. §265 is a deliberate escape hatch for
+    # hand-written asm, used by a human who knows what it costs; it must not be a thing an
+    # unattended lane propagates across a family.
+    if re.search(r'__asm__\s*(__volatile__\s*)?\(', new_body) and '.set' in new_body:
+        return None, "seed body is a verbatim __asm__ block (§265) — not decompiled C, refusing to propagate"
+
     if already_self_contained:
         # A de-macroized body already carries its own externs; synthesizing a second set would
         # re-declare every one of them.
@@ -233,7 +258,7 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
                 return None, f"data lives in the member's own .s and its initializer is not a flat byte list: {s}"
             decls.append(d)
             continue
-        d = decl_for(old, seed_text)
+        d = decl_for(old, seed_text, dest_text)
         if d is None:
             # No decl in the seed — but if the DESTINATION already declares it, none is needed.
             # Refusing here cost 55 macro-seeded members whose definition references a symbol the
