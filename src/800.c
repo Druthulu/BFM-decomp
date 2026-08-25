@@ -178,7 +178,27 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80012558);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800126C4);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001282C);
+
+extern void func_800128B4(void* a0);
+extern void func_80013FE0(void* a0, void* a1);
+extern void func_80013FBC(void* a0, void* a1);
+extern void func_80013F98(void* a0, void* a1);
+extern void func_80013ED0(void* a0, void* a1, void* a2, void* a3);
+
+void func_8001282C(void *a0)
+{
+    s16 b10[4];
+    s16 b18[4];
+    s16 b20[4];
+
+    func_80013FE0(a0, b20);
+    func_800128B4(b20);
+    func_80013FBC(a0, b18);
+    func_800128B4(b18);
+    func_80013F98(a0, b10);
+    func_800128B4(b10);
+    func_80013ED0(a0, b10, b18, b20);
+}
 
 
 extern void func_80014070(void* a0, void* a1);
@@ -3819,7 +3839,45 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80018384);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800183E0);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80018450);
+s32 func_80018450(void *a0, s32 a1)
+{
+    typedef struct {
+        s16 flag;
+        s16 pad02;
+        s32 id;
+        u16 x;
+        u16 y;
+        u8 c;
+        u8 d;
+        u16 pad0E;
+    } Rec;
+    typedef struct {
+        u8 pad[0xA1A8];
+        Rec rec[0x20];
+    } Base;
+    extern u8 D_800AF630[];
+    Base *b = (Base *)D_800AF630;
+    s32 i;
+    s32 ret;
+
+    ret = 0;
+    i = 0;
+    do {
+        if (b->rec[i].flag != 0) {
+            i++;
+        } else {
+            b->rec[i].flag = 1;
+            b->rec[i].id = a1;
+            b->rec[i].d = 0;
+            b->rec[i].x = *(u16 *)((u8 *)a0 + 0x28);
+            b->rec[i].y = *(u16 *)((u8 *)a0 + 0x2A);
+            b->rec[i].c = *(u8 *)((u8 *)a0 + 0x27);
+            ret = 1;
+            break;
+        }
+    } while (i < 0x20);
+    return ret;
+}
 
 
 typedef struct {
@@ -4287,7 +4345,29 @@ void func_80018CE8(u8 *p) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80018E78);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80018E9C);
+extern u8 D_80078D98;
+extern u8 D_80078DCA;
+extern s32 func_800291B4(s32);
+extern void func_800291A0(s32, s32);
+extern void func_80028D78(s32);
+
+void func_80018E9C(s32 a0)
+{
+    s32 s0;
+
+    if (a0 == (s32)&D_80078D98) {
+        if (*(u16 *)&D_80078DCA & 0x100) {
+            s0 = func_800291B4(0xE2) + 1;
+            if ((u32)(s0 & 0xFF) >= 0x5A) {
+                s0 = 0;
+                func_80028D78(1);
+            }
+            func_800291A0(0xE2, s0 & 0xFF);
+        } else {
+            func_800291A0(0xE2, 0);
+        }
+    }
+}
 
 void func_80018F20(s32 param_1) {
     u32 uVar3;
@@ -6137,7 +6217,33 @@ INCLUDE_ASM("asm/nonmatchings/800", func_8001BC6C);
 
 INCLUDE_ASM("asm/nonmatchings/800", SsGetMute);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001BDA0);
+extern void func_8002CCD8(void);
+extern void func_800596F4(s32);
+extern void DrawSyncCallback(s32);
+extern void func_80059234(s32);
+extern void func_80059658(s32);
+extern int VSync(int mode);
+extern void func_8005D118(void);
+extern void StopRCnt(void);
+extern void func_80043300(void);
+extern void ResetCallback(void);
+extern void StopCallback(void);
+
+void func_8001BDA0(void) {
+    func_8002CCD8();
+    func_800596F4(0);
+    DrawSyncCallback(0);
+    func_80059234(0);
+    func_80059658(0);
+    VSync(0);
+    func_800596F4(0);
+    func_80059234(3);
+    func_8005D118();
+    StopRCnt();
+    func_80043300();
+    ResetCallback();
+    StopCallback();
+}
 
 extern s32 D_800747EC;
 void func_8001BE20(void) {
@@ -7777,7 +7883,21 @@ void func_80021050(void) {
     func_80028620(2, s0 + 0x20);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002109C);
+extern void func_800491FC(s32 a0, s32 a1, s32 a2);
+
+void func_8002109C(s32 a0, s16 **a1)
+{
+    s16 *v1 = *a1;
+
+    if (v1[3] == -2) {
+        func_800491FC(v1[0], v1[1], v1[2]);
+        return;
+    }
+    if (a0 == v1[3]) {
+        func_800491FC(v1[0], v1[1], v1[2]);
+        *a1 += 4;
+    }
+}
 
 
 extern s16 D_800AE7E0;
@@ -7946,7 +8066,25 @@ void func_800233CC(Poly12Obj *a0, u16 a1) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800234E4);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+
+void func_800234E4(void *a0, u16 a1, u16 a2) {
+    s32 k = 0;
+    s32 rad = a1;
+
+    /* Struct-free spelling of the func_800233CC sibling: the only dependencies
+     * are common.h types and the two callee externs, so the body survives any
+     * splice model (whole-snippet or function-only extraction).  Addresses are
+     * written as a0 + k*4 + 0x10/0x12 so LSR keeps the incoming pointer as the
+     * IV base (addu s1,a0,zero) and folds the member offset into the sh
+     * displacements, exactly as the struct form did. */
+    while (k < 12) {
+        *(u16 *)((u8 *)a0 + k * 4 + 0x10) = (func_8004787C(a2 + k * 0x155) * rad) >> 12;
+        *(u16 *)((u8 *)a0 + k * 4 + 0x12) = (func_80047948(a2 + k * 0x155) * rad) >> 12;
+        k++;
+    }
+}
 
 
 typedef struct { u32 addr : 24; u32 len : 8; } PTag_80023570;
@@ -8063,7 +8201,145 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800243EC);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80024448);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800249F0);
+extern s32 D_800A2B78;
+
+/* func_800249F0 — HANDWRITTEN assembly (splat marks it "Handwritten function").
+ * Loop-carried state lives in $t1/$t2/$t5/$t6/$t8/$t9 with hand-placed latency
+ * nops -- not reachable from gcc-2.7.2 codegen -- so the body is reproduced
+ * verbatim as one .set noreorder asm block (same idiom as func_80027200 above);
+ * gcc supplies only jr $ra + delay nop.
+ *
+ * Semantics: TMD F3 mesh emitter. Per face: RTPT 3 verts -> GTE flag cull ->
+ * NCLIP cull -> store SXY0..2 -> AVSZ3 depth -> NCCS colour from normal p[0]
+ * -> OT insert (tag code 0x04) -> if D_800A2B78 != 0 and the rgb word just
+ * written has bit 1 set, append a 2-word semi-transparency primitive
+ * (0xE100000A | ((D_800A2B78 & 3) << 5)) into the OT (tag code 0x01).
+ * Returns the advanced packet pointer. */
+long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count,
+                    s32 shift, s32 ot)
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "addiu $sp, $sp, -8\n"
+        "lw    $t5, 24($sp)\n"
+        "lw    $t9, 28($sp)\n"
+        "lw    $t8, 32($sp)\n"
+        "beq   $t5, $zero, 3f\n"
+        "addu  $t6, $a0, $zero\n"
+        "addiu $t7, $sp, 4\n"
+        "lui   $t3, 0xFF\n"
+        "ori   $t3, $t3, 0xFFFF\n"
+        "addiu $t2, $a0, 8\n"
+        "addiu $t1, $a3, 4\n"
+        "1:\n"
+        "lhu   $a0, 2($t2)\n"
+        "lhu   $v1, 4($t2)\n"
+        "lhu   $v0, 6($t2)\n"
+        "sll   $a0, $a0, 3\n"
+        "addu  $a0, $a1, $a0\n"
+        "sll   $v1, $v1, 3\n"
+        "addu  $v1, $a1, $v1\n"
+        "sll   $v0, $v0, 3\n"
+        "addu  $v0, $a1, $v0\n"
+        "lwc2  $0, 0($a0)\n"
+        "lwc2  $1, 4($a0)\n"
+        "lwc2  $2, 0($v1)\n"
+        "lwc2  $3, 4($v1)\n"
+        "lwc2  $4, 0($v0)\n"
+        "lwc2  $5, 4($v0)\n"
+        "nop\n"
+        "nop\n"
+        "rtpt\n"
+        "cfc2  $t4, $31\n"
+        "nop\n"
+        "sw    $t4, 0($sp)\n"
+        "lw    $v0, 0($sp)\n"
+        "addiu $v1, $zero, -0x1001\n"
+        "and   $v0, $v0, $v1\n"
+        "bne   $v0, $zero, 2f\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nclip\n"
+        "swc2  $24, 0($t7)\n"
+        "lw    $v0, 4($sp)\n"
+        "nop\n"
+        "blez  $v0, 2f\n"
+        "nop\n"
+        "swc2  $12, 8($a3)\n"
+        "swc2  $13, 12($a3)\n"
+        "swc2  $14, 16($a3)\n"
+        "nop\n"
+        "nop\n"
+        "avsz3\n"
+        "swc2  $7, 0($t7)\n"
+        "addiu $v0, $t6, 4\n"
+        "lwc2  $6, 0($v0)\n"
+        "lhu   $v0, 0($t2)\n"
+        "nop\n"
+        "sll   $v0, $v0, 3\n"
+        "addu  $v0, $a2, $v0\n"
+        "lwc2  $0, 0($v0)\n"
+        "lwc2  $1, 4($v0)\n"
+        "nop\n"
+        "nop\n"
+        "nccs\n"
+        "swc2  $22, 0($t1)\n"
+        "lw    $v0, 4($sp)\n"
+        "addiu $t1, $t1, 20\n"
+        "srav  $v0, $v0, $t9\n"
+        "sll   $v0, $v0, 2\n"
+        "addu  $t0, $t8, $v0\n"
+        "lw    $v1, 0($t0)\n"
+        "lui   $v0, 0x400\n"
+        "and   $v1, $v1, $t3\n"
+        "or    $v1, $v1, $v0\n"
+        "and   $v0, $a3, $t3\n"
+        "sw    $v1, 0($a3)\n"
+        "sw    $v0, 0($t0)\n"
+        "lui   $v0, %hi(D_800A2B78)\n"
+        "lw    $v0, %lo(D_800A2B78)($v0)\n"
+        "nop\n"
+        "beq   $v0, $zero, 2f\n"
+        "addiu $a3, $a3, 20\n"
+        "lbu   $v0, -17($t1)\n"
+        "nop\n"
+        "andi  $v0, $v0, 0x2\n"
+        "beq   $v0, $zero, 2f\n"
+        "lui   $a0, 0xE100\n"
+        "ori   $a0, $a0, 0xA\n"
+        "lw    $v1, 4($sp)\n"
+        "addiu $v0, $zero, 1\n"
+        "sb    $v0, -1($t1)\n"
+        "lui   $v0, %hi(D_800A2B78)\n"
+        "lw    $v0, %lo(D_800A2B78)($v0)\n"
+        "srav  $v1, $v1, $t9\n"
+        "sll   $v1, $v1, 2\n"
+        "addu  $t0, $t8, $v1\n"
+        "andi  $v0, $v0, 0x3\n"
+        "sll   $v0, $v0, 5\n"
+        "or    $v0, $v0, $a0\n"
+        "sw    $v0, 0($t1)\n"
+        "addiu $t1, $t1, 8\n"
+        "lw    $v1, 0($t0)\n"
+        "lui   $v0, 0x100\n"
+        "and   $v1, $v1, $t3\n"
+        "or    $v1, $v1, $v0\n"
+        "and   $v0, $a3, $t3\n"
+        "sw    $v1, 0($a3)\n"
+        "addiu $a3, $a3, 8\n"
+        "sw    $v0, 0($t0)\n"
+        "2:\n"
+        "addiu $t5, $t5, -1\n"
+        "addiu $t2, $t2, 16\n"
+        "bne   $t5, $zero, 1b\n"
+        "addiu $t6, $t6, 16\n"
+        "3:\n"
+        "addu  $v0, $a3, $zero\n"
+        "addiu $sp, $sp, 8\n"
+        ".set\treorder\n"
+    );
+}
 
 
 /* ---- PsyQ GTE inline macros (the subset this routine uses) --------------- */
@@ -9517,7 +9793,137 @@ u32 *func_80025EB8(Prim20 *prim, SVEC8_80025EB8 *verts, SVEC8_80025EB8 *norms, F
     return (u32 *)pkt;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80026128);
+typedef struct { s16 vx, vy, vz, pad; } SVEC8_80026128;
+
+typedef struct {                                        /* 0x1C */
+    u32 unk00;
+    u32 uv0;
+    u32 uv1;
+    u32 uv2;
+    u16 n0, v0;
+    u16 n1, v1;
+    u16 n2, v2;
+} FaceGT3;
+
+typedef struct {                                        /* 0x28 */
+    u32 tag;
+    u32 rgb0, xy0, uv0;
+    u32 rgb1, xy1, uv1;
+    u32 rgb2, xy2, uv2;
+} PktGT3;
+
+extern u32 D_80063884;
+
+#define gte_ldrgb(r0) __asm__ volatile (          \
+    "lwc2 $6, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 );"                           \
+    "lwc2 $2, 0( %1 );"                           \
+    "lwc2 $3, 4( %1 );"                           \
+    "lwc2 $4, 0( %2 );"                           \
+    "lwc2 $5, 4( %2 )"                            \
+    :                                             \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+#define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+
+#define gte_stflg(r0) __asm__ volatile (          \
+    "cfc2 $12, $31;"                              \
+    "nop;"                                        \
+    "sw $12, 0( %0 )"                             \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (          \
+    "swc2 $24, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (          \
+    "swc2 $7, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_strgb3_gt3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $20, 0( %0 );"                          \
+    "swc2 $21, 0( %1 );"                          \
+    "swc2 $22, 0( %2 )"                           \
+    :                                             \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )             \
+    : "memory" )
+
+/* func_80026128 — main/800 — textured-GT3 (POLY_GT3) triangle emitter with per-vertex
+ * normal-colour lighting. Sibling of the matched func_800262D8 in this TU (same loop
+ * shape, same pkt->uvN = face->uvN copy); NOT a twin of the Gouraud-only func_800CBC2C.
+ * Vertex type carries the function suffix per TU convention (cf. SVEC8_800262D8) since
+ * gcc-2.7.2 rejects typedef redefinition and SVEC2 already exists at line 93. The SXY
+ * store trio is written inline rather than as gte_stsxy3_gt3 because the TU already
+ * binds that name to the 8/16/24 G3-shape macro further down (func_800277DC block);
+ * offsets here are the true GT3 slot xy words 8/20/32. Splice: replace INCLUDE_ASM at
+ * src/800.c:8983. Base macros above are byte-identical to the in-scope func_8002528C
+ * block (lines 8001-8063); drop this duplicate set when pasting into the TU.
+ *
+ * NOTE: the target .s carries splat's "/* Handwritten function * /" marker (and marks
+ * the bare `cfc2 $t4,$31` as a handwritten instruction). That label is a spimdisasm
+ * heuristic firing on the raw cop2 discipline — the pinned cc1 REACHES all 108 words
+ * from this C (oracle MATCH, repeatedly reproduced), unlike func_80027200 where the
+ * same marker was genuine. If the whole-binary gate still refuses this byte-perfect
+ * body, suspect the extract/prune layer special-casing Handwritten-marked .s files
+ * (duplicate-symbol link), not this function's codegen. */
+PktGT3 *func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, PktGT3 *arg3,
+                      s32 count, s32 shift, u32 *ot)
+{
+    long flag;
+    long otz;
+    u32 *otp;
+    PktGT3 *pkt = arg3;
+
+    gte_ldrgb(&D_80063884);
+
+    while (count != 0) {
+        gte_ldv3(&vtx[face->v0], &vtx[face->v1], &vtx[face->v2]);
+        gte_rtpt();
+        pkt->uv0 = face->uv0;
+        pkt->uv1 = face->uv1;
+        pkt->uv2 = face->uv2;
+        gte_stflg(&flag);
+        if (!(flag & ~0x1000)) {
+            gte_nclip();
+            gte_stopz(&otz);
+            if (otz > 0) {
+                __asm__ volatile (
+                    "swc2 $12, 8( %0 );"
+                    "swc2 $13, 20( %0 );"
+                    "swc2 $14, 32( %0 )"
+                    :
+                    : "r"( pkt )
+                    : "memory" );
+                gte_avsz3();
+                gte_stotz(&otz);
+                gte_ldv3(&nrm[face->n0], &nrm[face->n1], &nrm[face->n2]);
+                gte_ncct();
+                otp = &ot[otz >> shift];
+                pkt->tag = (*otp & 0x00FFFFFF) | 0x09000000;
+                gte_strgb3_gt3(&pkt->rgb0, &pkt->rgb1, &pkt->rgb2);
+                *otp = (u32)pkt & 0x00FFFFFF;
+                pkt++;
+            }
+        }
+        face++;
+        count--;
+    }
+    return pkt;
+}
 
 
 /* func_800262D8 — main/800 — GT4 quad emitter with per-vertex normal-colour lighting.
@@ -12399,7 +12805,33 @@ void func_8002D240(s32 a0) {
     func_8003B45C(p);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002D29C);
+extern s32 D_800A46B4;
+extern u16 D_800A46B8;
+extern u16 D_800A4EF4;
+extern u8 D_800A46BA;
+
+extern int func_8003EDE8(int a0, int a1, int a2);
+extern void func_8002EE90(void);
+
+void func_8002D29C(void) {
+    s32 *s1;
+    s32 s0;
+    s16 v0;
+    s16 v1;
+
+    s1 = &D_800A46B4;
+    s0 = *s1;
+    v0 = D_800A4EF4;
+    func_8003EDE8(0, (s0 * v0) >> 16, (s0 * v0) >> 16);
+    v1 = D_800A46B8;
+    s0 -= v1;
+    if (s0 <= 0) {
+        D_800A46BA = 0;
+        func_8002EE90();
+        s0 = 0;
+    }
+    *s1 = s0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002D320);
 

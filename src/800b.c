@@ -4,7 +4,15 @@ INCLUDE_ASM("asm/nonmatchings/800b", func_80047D3C);
 
 INCLUDE_ASM("asm/nonmatchings/800b", InvSquareRoot);
 
-INCLUDE_ASM("asm/nonmatchings/800b", func_80047E58);
+__asm__(".text\n.align 2\n.globl func_80047E58\n.ent\tfunc_80047E58\n"
+        "func_80047E58:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0x00000000,0\n"
+        ".set\tnoreorder\n"
+        "lw $t0, 0($a0)\n"
+        "lw $t1, 4($a0)\n"
+        "lw $t2, 8($a0)\n"
+        "b .L80047EAC\n"
+        "addu $a3, $ra, $zero\n"
+        ".set\treorder\n.end\tfunc_80047E58\n");
 
 
 /* VectorNormal @ 0x80047E6C -- HANDWRITTEN PsyQ libgte-style wrapper (cookbook §179-B/§179-C,

@@ -222,7 +222,21 @@ __asm__(
     ".end\tSYS_OBJ_210\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_800594CC);
+extern u8 D_8007278A;
+extern u32 D_80072784;
+extern u8 D_80072788;
+extern u8 D_8007278B;
+extern u8 D_800740D0;
+
+s32 func_800594CC(s32 a0) {
+    u8 *p = &D_8007278A;
+    u8 old = *p;
+    *p = a0;
+    if (a0 & 0xFF) {
+        ((void (*)(void *, s32, u8, u8))D_80072784)(&D_800740D0, a0 & 0xFF, D_80072788, D_8007278B);
+    }
+    return old;
+}
 
 
 extern u8 D_8007278A;
@@ -289,7 +303,17 @@ void func_80059658(s32 a0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_800596F4);
+extern u8 D_8007278A;
+extern u32 D_80072784;
+extern void *D_80072780;
+extern u8 D_80074140;
+
+void func_800596F4(s32 a0) {
+    if (D_8007278A >= 2) {
+        ((void (*)(void *, s32))D_80072784)(&D_80074140, a0);
+    }
+    (*(void (**)(void *))((u8 *)D_80072780 + 0x3C))(a0);
+}
 
 
 /* func_80059760 ("checkRECT" per Ghidra) is NOT independently C-compilable: the target's own
@@ -1241,7 +1265,33 @@ s32 SYS_OBJ_1AA4(s32 a0, s32 a1, s32 a2, s32 a3) {
     return v0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005ACF0);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005ACF0\n"
+    ".ent\tfunc_8005ACF0\n"
+    "func_8005ACF0:\n"
+    ".frame\t$sp,0,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "lui   $2, %hi(D_80072788)\n"
+    "lbu   $2, %lo(D_80072788)($2)\n"
+    "nop\n"
+    "addiu $2, $2, -1\n"
+    "sltiu $2, $2, 2\n"
+    "bnez  $2, 1f\n"
+    " andi $3, $5, 0xfff\n"
+    "andi  $3, $5, 0x7ff\n"
+    "sll   $3, $3, 11\n"
+    "j     SYS_OBJ_1AF0\n"
+    " andi $2, $4, 0x7ff\n"
+    "1:\n"
+    "sll   $3, $3, 12\n"
+    "andi  $2, $4, 0xfff\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005ACF0\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1AF0);
 
@@ -1359,7 +1409,32 @@ s32 func_8005AE80(s32 *a0, s32 a1) {
 
 INCLUDE_ASM("asm/nonmatchings/800c", _clr);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1D84);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1D84\n"
+    ".ent\tSYS_OBJ_1D84\n"
+    "SYS_OBJ_1D84:\n"
+        ".set\tnoreorder\n"
+        "lh    $a1, 6($t0)\n"
+        "sh    $v0, 4($t0)\n"
+        "bltz  $a1, .L8005AFF0\n"
+        "addu  $a0, $a1, $zero\n"
+        "lui   $v0, %hi(D_8007278E)\n"
+        "lh    $v0, %lo(D_8007278E)($v0)\n"
+        "nop\n"
+        "addu  $v1, $v0, $zero\n"
+        "addiu $v0, $v0, -1\n"
+        "slt   $v0, $v0, $a1\n"
+        "bnez  $v0, SYS_OBJ_1DC0\n"
+        "addiu $v1, $v1, -1\n"
+        "j     SYS_OBJ_1DC0\n"
+        "addu  $v1, $a0, $zero\n"
+        ".L8005AFF0:\n"
+        "addu  $v1, $zero, $zero\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_1D84\n"
+);
 
 
 /* SYS_OBJ_1DC0 (0x8005AFF4) is NOT a callable function: it is the third code FRAGMENT of one
