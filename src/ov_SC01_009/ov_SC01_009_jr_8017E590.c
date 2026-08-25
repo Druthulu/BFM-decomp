@@ -3111,7 +3111,43 @@ void func_8017F360(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017F39C);
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+struct Rec8017F39C {
+    s16 f00;
+    s16 f02;
+    s16 f04;
+    s16 f06;
+    s16 f08;
+    s16 f0A;
+    s16 f0C;
+    s16 f0E;
+    s32 f10;
+};
+
+void func_8017F39C(s32 arg0)
+{
+    struct Rec8017F39C rec;
+
+    rec.f06 = 0x1AB;
+    rec.f08 = *(u16 *)(arg0 + 0x10A);
+    rec.f0A = 0;
+    rec.f0C = -0x400;
+    rec.f0E = 0;
+    rec.f10 = 0;
+    if (*(s16 *)(arg0 + 0x10A) < 0x28) {
+        rec.f00 = -0x1C0;
+        rec.f02 = -0xB2;
+        rec.f04 = 0x188;
+        *(u16 *)(arg0 + 0x108) = 1;
+    } else {
+        rec.f00 = -0x18;
+        rec.f02 = -0x82;
+        rec.f04 = -0x200;
+    }
+    *(s32 *)(arg0 + 0xD4) = func_8012C51C(&rec, arg0);
+}
+
 
 extern void func_8017D2E0(s32 arg0, s32 arg1);
     void func_8017F440(void) {

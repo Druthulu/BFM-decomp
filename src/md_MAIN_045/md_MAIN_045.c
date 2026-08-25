@@ -32,7 +32,37 @@ void func_800CCC54(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_045/nonmatchings/md_MAIN_045", func_800CCD2C);
+#include "common.h"
+
+extern void func_8014659C(void);
+extern void func_8001C810(s32 a0, s32 a1);
+extern void func_800CCE80(void*);
+extern void func_80146CA0(void *a0);
+extern void func_800CCE60();
+extern s32 D_800CE048;
+extern s16 D_800CE050;
+
+void func_800CCD2C(s32 s1) {
+    s32 s2;
+    s32 s0;
+
+    s2 = *(s32 *)(s1 + 0x4C);
+    s0 = ((s32 (*)())func_8014659C)();
+    *(s32 *)(s1 + 0x20) = s0;
+    if (s0 != 0) {
+        func_8001C810(s0, &D_800CE048);
+        *(u32 *)(s0 + 4) |= 0x50020000;
+        *(u16 *)(s0 + 0x1C) = 0;
+        *(u16 *)(s0 + 0x1A) = 0;
+        *(u16 *)(s0 + 0x18) = 0;
+        ((void (*)(s32))func_800CCE80)(s1);
+        D_800CE050 = *(u16 *)(*(s32 *)(s2 + 0x20) + 0x12);
+        func_80146CA0((void *)s1);
+    } else {
+        ((void (*)(s32))func_800CCE60)(s1);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_045/nonmatchings/md_MAIN_045", func_800CCDD8);
 
@@ -101,7 +131,38 @@ void func_800CCFA8(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_045/nonmatchings/md_MAIN_045", func_800CD010);
+extern void func_80146578(void);
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80146CA0(void *a0);
+extern void func_800CD204(void);
+extern void func_800CD1A8(void);
+
+extern u8 D_800CD66C;
+
+void func_800CD010(s32 param_1)
+{
+    register s32 p1 __asm__("$17");  /* $s1 */
+    register s32 iVar1 __asm__("$16");  /* $s0 */
+
+    p1 = param_1;
+    iVar1 = ((s32 (*)(void))func_80146578)();
+    *(s32 *)(p1 + 0x20) = iVar1;
+    if (iVar1 != 0) {
+        func_8001CC3C(iVar1, (s32)&D_800CD66C, 0x220, 0x168);
+        *(u8 *)(iVar1 + 0x27) = 0x24;
+        *(u8 *)(iVar1 + 0x24) = 0xFF;
+        *(u8 *)(iVar1 + 0x25) = 0x40;
+        *(u8 *)(iVar1 + 0x26) = 0x40;
+        *(u32 *)(iVar1 + 4) = *(u32 *)(iVar1 + 4) | 0x50000000;
+        *(s16 *)(iVar1 + 0x10) = *(s32 *)(p1 + 0x50) << 10;
+        *(s16 *)(p1 + 0x60) = *(s32 *)(p1 + 0x50) << 10;
+        ((void (*)(s32))func_800CD204)(p1);
+        ((void (*)(void *))func_80146CA0)((void *)p1);
+    } else {
+        ((void (*)(s32))func_800CD1A8)(p1);
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_045/nonmatchings/md_MAIN_045", func_800CD0CC);
 

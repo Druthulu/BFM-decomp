@@ -3689,7 +3689,47 @@ void func_8017FACC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8017FB08);
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8017FBFC);
+extern s32 func_800291B4(s32 arg);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C2C4(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+extern void (*D_80188108[])(void *);
+
+void func_8017FBFC(void *a0)
+{
+    register void *s0 __asm__("$16") = a0;
+    s32 v0;
+    s32 sp10[3];
+
+    if ((func_800291B4(0xCD) & 0xFF) != 0) {
+        goto shared;
+    }
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((u8 *)s0 + 0x20) = v0;
+    if (v0 != 0) {
+        goto big;
+    }
+shared:
+    func_8012CAE4(s0);
+    return;
+big:
+    func_8001C2C4(v0);
+    *(s16 *)(*(s32 *)((u8 *)s0 + 0x20) + 0x10) = 0x400;
+    func_8012B2CC((s32)s0);
+
+    sp10[1] = 0;
+    sp10[0] = 0;
+    sp10[2] = 0xC0000;
+    func_8012B14C((s32)s0, (s32)sp10);
+
+    *(s32 *)((u8 *)s0 + 0x58) = (s32)D_80188108 | 0x40000000;
+    *(s16 *)((u8 *)s0 + 0x5C) = 0x800;
+    func_8012AD50(s0);
+}
+
 
 extern s32 D_801C44B4;
 extern void func_8013CB84(void);

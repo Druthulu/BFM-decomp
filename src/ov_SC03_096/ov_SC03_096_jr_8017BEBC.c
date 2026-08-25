@@ -5025,7 +5025,45 @@ s32 func_80180350(s32 a0, s16 a1) {
 
 INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_801803D0);
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_80180474);
+extern s32 func_8004787C(s32 a0);
+extern void func_801292C8(u8 *a0);
+
+void func_80180474(s32 a0) {
+    s32 *prim;
+    u32 q;
+    u32 prod;
+    s32 sn;
+
+    prim = *(s32 **)(a0 + 0x20);
+    if (*(u16 *)(a0 + 2) == 0) {
+        q = func_8004787C(*(s32 *)(a0 + 0x1C) << 6) * 3;
+        q += q >> 31;
+        q >>= 1;
+        *(s16 *)((s32)prim + 0x18) = q;
+        *(s16 *)((s32)prim + 0x1A) = q;
+        *(s32 *)(a0 + 0x1C) += 1;
+        if (*(s32 *)(a0 + 0x1C) >= 0x10) {
+            *(u16 *)(a0 + 2) += 1;
+            *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) * 2 - 1;
+        }
+    } else {
+        sn = (s16)func_8004787C(*(s32 *)(a0 + 0x1C) << 5);
+        prod = *(s32 *)(a0 + 0x2C) * sn;
+        q = sn * 3;
+        q += q >> 31;
+        q >>= 1;
+        *(s16 *)((s32)prim + 0x18) = q;
+        *(s16 *)((s32)prim + 0x1A) = q;
+        *(u8 *)((s32)prim + 0x24) = prod >> 12;
+        *(u8 *)((s32)prim + 0x25) = prod >> 12;
+        *(u8 *)((s32)prim + 0x26) = prod >> 12;
+        *(s32 *)(a0 + 0x1C) -= 1;
+        if (*(s32 *)(a0 + 0x1C) == 0) {
+            func_801292C8((u8 *)a0);
+        }
+    }
+}
+
 
 
 extern void (*D_80197D98[])(void);
