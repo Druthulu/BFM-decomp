@@ -1,6 +1,19 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/gsgap3", func_800525DC);
+extern void func_80053CF8(void);
+extern void func_80052D00(void);
+extern void func_80052BEC(void);
+extern s16 D_800C7C74;
+
+void func_800525DC(u16 w, u16 h, u16 intmode, u16 dither, u16 varh)
+{
+    func_80052654(w, h, intmode, dither, varh);
+    func_80053CF8();
+    D_800C7C74 = 0;
+    func_8005283C(w, h);
+    func_80052D00();
+    func_80052BEC();
+}
 
 
 extern void func_80059234(s32 a0);
