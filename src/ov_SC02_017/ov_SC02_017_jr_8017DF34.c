@@ -7480,7 +7480,79 @@ s32 func_80185D10(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80185EE4);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80185F88);
+#include "common.h"
+
+/* func_80185F88 — neighbour push-away over the 0x60-entry / 0x10C-stride entity
+ * table D_801202A0. Banked twin ov_SC06_018:func_80187320 minus its 0x2F4 clamp
+ * case; same-function copy banked as ov_SC02_011:func_80188250.
+ *
+ * Load-bearing constructs (do NOT "clean up"):
+ *  1. NO SECOND WALKED POINTER: +0x6/+0xA/+0xE all off the single biv `p`
+ *     (gcc makes $s3 = $s0 + 0xE in the prologue, walks it with 0x10C).
+ *  2. `self4`/`sc` are REAL pre-loop locals, decl order p,i,self4,sc ->
+ *     $s2/$s4/$s5/$s6 in the target's prologue emission order.
+ *  3. do-while with `i++` BEFORE `p += 0x10C`.
+ *  4. guard operand order: `*(u16 *)a0 == *(u16 *)p` FIRST (loads $s2 before
+ *     $s0), then `(u8 *)a0 != p` ($s2/$s0 compare) — swapping the operands
+ *     swaps both lhu's registers.
+ *  5. §5a cross-jump barrier before the second `return 1`: the target keeps
+ *     TWO [j .epi][addiu $v0,$zero,1] tails; without the barrier gcc merges
+ *     them into one shared li (93 ins, all forward branch offsets off by 1).
+ */
+
+extern s32  func_8012BC60(s16 *a0, s16 *a1);
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern void func_8012B0B4(u32 *param_1, s32 param_2, s32 param_3);
+extern void func_8012ADE4(u8 *a0);
+
+s32 aF80185F88(s32 a0) __asm__("func_80185F88");
+
+s32 aF80185F88(s32 a0) {
+    extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+    extern u8  D_801202A0[];
+    u8 *p;
+    s16 *self4;
+    u32 *sc;
+    s32 i;
+    s32 ang;
+    s16 v10[4];  /* sp+0x10 */
+    s16 v18[4];  /* sp+0x18 */
+    s32 sp20[2]; /* sp+0x20 - func_8012B0B4 output */
+
+    p = D_801202A0;
+    i = 0;
+    self4 = (s16 *)(a0 + 4);
+    sc = (u32 *)sp20;
+    do {
+        if (*(u16 *)a0 == *(u16 *)p && (u8 *)a0 != p) {
+            if (func_8012BC60(self4, (s16 *)(p + 4)) < 0x1000) {
+                ang = func_8012B6D4(self4, (s16 *)(p + 4));
+                func_8012B0B4(sc, ang, 0x41);
+                v18[0] = *(u16 *)(p + 6);
+                v18[1] = *(u16 *)(p + 0xA);
+                v18[2] = *(u16 *)(p + 0xE);
+                v18[0] += sp20[0];
+                v18[2] += sp20[0] >> 16;
+                v10[0] = *(u16 *)(a0 + 0x3A);
+                v10[1] = *(u16 *)(a0 + 0x3E);
+                v10[2] = *(u16 *)(a0 + 0x42);
+                if ((func_8012CEB0((s32)&v10[0], (s32)&v18[0], 0) & 0x2000) == 0) {
+                    func_8012ADE4((u8 *)a0);
+                    return 1;
+                }
+                *(u16 *)(a0 + 6) = v18[0];
+                *(u16 *)(a0 + 0xA) = v18[1];
+                *(u16 *)(a0 + 0xE) = v18[2];
+                __asm__ __volatile__("" ::: "memory");   /* zero-byte cross-jump barrier (§5a) */
+                return 1;
+            }
+        }
+        i++;
+        p += 0x10C;
+    } while (i < 0x60);
+    return 0;
+}
+
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
     void func_80186100(void) {

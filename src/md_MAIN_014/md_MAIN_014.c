@@ -25,7 +25,20 @@ void func_800CAE78(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_014/nonmatchings/md_MAIN_014", func_800CAEB0);
+extern s32 func_80165910();
+extern void func_801655E4(s32 a0);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_80147324(s32 arg0);
+
+void func_800CAEB0(void *a0) {
+    if (func_80165910(a0) == 0) {
+        func_801655E4((s32)a0);
+    }
+    func_80146A6C(0xA, a0, 0, 0, 0, 0, 0);
+    func_80147324(0x475);
+    *(u8 *)((s32)a0 + 0x197) += 1;
+}
+
 
 #include "common.h"
 

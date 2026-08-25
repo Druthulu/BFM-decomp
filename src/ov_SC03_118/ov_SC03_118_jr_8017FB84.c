@@ -5151,7 +5151,43 @@ void func_80184DD8(int param_1)
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184E24);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184E78);
+extern u8 D_80078EB1;
+extern s16 func_800130D0(s32 a0, s32 a1, s32 a2);
+extern void func_80184F18(s32 *a0, s32 a1, s32 a2);
+
+void func_80184E78(s32 *param_1)
+{
+    register s16 sp18 __asm__("$5");
+    register s16 col __asm__("$2");
+    register s32 w __asm__("$3");
+    register s32 ec __asm__("$5");
+    register s32 t1 __asm__("$4");
+    register s32 packed __asm__("$4");
+    register s32 *p __asm__("$4");
+    u16 cnt;
+
+    sp18 = 0x10;
+    if (D_80078EB1 - 7U < 0xC) {
+        sp18 = 0x40;
+    }
+    col = func_800130D0(*(s16 *)((u8 *)param_1 + 0xFE), sp18, 1);
+    w = col << 16;
+    ec = w >> 16;
+    t1 = ec << 16;
+    packed = t1 | ec << 8;
+    asm volatile("" ::: "memory");
+    cnt = *(u16 *)((u8 *)param_1 + 0xFC);
+    *(s16 *)((u8 *)param_1 + 0xFE) = col;
+    *(u16 *)((u8 *)param_1 + 0xFC) = cnt + 1;
+    ec = ec | packed;
+    if ((s16)(cnt + 1) >= 0x7F) {
+        *(u16 *)((u8 *)param_1 + 0xFC) = 0;
+    }
+    p = param_1;
+    func_80184F18(p, ec,
+                  *(s16 *)((u8 *)p + 0xFC));
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184F18);
 
