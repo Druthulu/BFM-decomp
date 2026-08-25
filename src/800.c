@@ -7760,7 +7760,32 @@ void func_8001CFB8(void) {
     func_8001CFDC(0, 4);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001CFDC);
+extern u8 D_800AF630[];
+
+void *func_8001CFDC_impl(s32 start, s32 end) __asm__("func_8001CFDC");
+
+void *func_8001CFDC_impl(s32 start, s32 end) {
+    u8 *base = D_800AF630;
+    u8 *p;
+    s32 off;
+    s32 i;
+
+    if ((u32)start >= 0xC0)
+        return 0;
+    if ((u32)end >= 0xC1)
+        return 0;
+    if (start < end) {
+        p = base + start * 0x84;
+        off = start * 0x84;
+        for (i = start; i < end; i++) {
+            if (*(u16 *)(p + 0x2A8) == 0)
+                return base + (off + 0x2A8);
+            p += 0x84;
+            off += 0x84;
+        }
+    }
+    return 0;
+}
 
 extern void func_8001D074(s32 a, s32 b);
 
