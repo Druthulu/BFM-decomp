@@ -663,7 +663,33 @@ void func_80014444(void) {
     func_800538EC(0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800144D4);
+extern void func_80053308(s32);
+extern void func_80053F6C();
+extern s32 D_80126984;
+extern s32 D_80126988;
+extern s32 D_8012698C;
+extern s32 D_80126990;
+extern s32 D_80126994;
+extern s32 D_80126998;
+extern s32 D_8012699C;
+extern s32 D_801269A0;
+
+void func_800144D4(void)
+{
+    extern s32 D_80126950;
+
+    D_80126950 = 300;
+    func_80053308(300);
+    D_80126984 = 0;
+    D_80126988 = 0;
+    D_8012698C = -300;
+    D_80126990 = 0;
+    D_80126994 = 0;
+    D_80126998 = 0;
+    D_8012699C = 0;
+    D_801269A0 = 0;
+    func_80053F6C(&D_80126984);
+}
 
 void func_80014554(void) {
 }

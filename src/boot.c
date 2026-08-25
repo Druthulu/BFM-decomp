@@ -1,6 +1,71 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/boot", start);
+
+/* start (0x80010000) -- crt0 entry, HANDWRITTEN assembly (splat marks it
+ * "Handwritten function"; the body's `addi` is flagged "handwritten instruction"
+ * -- gcc-2.7.2 never emits the trapping add -- and the 8-byte alignment is done
+ * with an sll/srl roundabout). Semantics: zero the bss (D_80074750..D_800C7F08),
+ * build the initial stack pointer from heap-top D_800629BC - 8 forced into
+ * kseg0 via or 0x80000000, 8-align the bss end D_800C7F08, subtract the game
+ * footprint D_800629C0, publish the bounds to D_800629A0/D_8006299C, park $ra,
+ * load $gp, call main(). Return from main traps (break 1).
+ * Reproduced verbatim per cookbook §261 lane 2 (file-scope __asm__); immediates
+ * decimal because maspsx rejects hex literals inside __asm__ strings, the trap
+ * is spelled `break 1` because maspsx cannot parse the two-operand form, and
+ * sltu is written with bare commas because maspsx mis-parses ", " operands.
+ * This artifact REPLACES the single INCLUDE_ASM("asm/nonmatchings/boot", start)
+ * stub in src/boot.c -- nothing else in the TU changes. */
+__asm__(".text\n"
+        ".align 2\n"
+        ".globl start\n"
+        ".ent\tstart\n"
+        "start:\n"
+        ".set\tnoreorder\n"
+        "lui $v0, %hi(D_80074750)\n"
+        "addiu $v0, $v0, %lo(D_80074750)\n"
+        "lui $v1, %hi(D_800C7F08)\n"
+        "addiu $v1, $v1, %lo(D_800C7F08)\n"
+        ".L80010010:\n"
+        "sw $zero, 0($v0)\n"
+        "addiu $v0, $v0, 4\n"
+        "sltu $at,$v0,$v1\n"
+        "bnez $at, .L80010010\n"
+        "nop\n"
+        "lui $v0, %hi(D_800629BC)\n"
+        "lw $v0, %lo(D_800629BC)($v0)\n"
+        "nop\n"
+        "addi $v0, $v0, -8\n"
+        "lui $t0, 32768\n"
+        "or $sp, $v0, $t0\n"
+        "lui $a0, %hi(D_800C7F08)\n"
+        "addiu $a0, $a0, %lo(D_800C7F08)\n"
+        "sll $a0, $a0, 3\n"
+        "srl $a0, $a0, 3\n"
+        "lui $v1, %hi(D_800629C0)\n"
+        "lw $v1, %lo(D_800629C0)($v1)\n"
+        "nop\n"
+        "subu $a1, $v0, $v1\n"
+        "subu $a1, $a1, $a0\n"
+        "lui $at, %hi(D_800629A0)\n"
+        "sw $a1, %lo(D_800629A0)($at)\n"
+        "or $a0, $a0, $t0\n"
+        "lui $at, %hi(D_8006299C)\n"
+        "sw $a0, %lo(D_8006299C)($at)\n"
+        "lui $at, %hi(D_80074750)\n"
+        "sw $ra, %lo(D_80074750)($at)\n"
+        "lui $gp, %hi(_gp)\n"
+        "addiu $gp, $gp, %lo(_gp)\n"
+        "addu $fp, $sp, $zero\n"
+        "lui $ra, %hi(D_80074750)\n"
+        "lw $ra, %lo(D_80074750)($ra)\n"
+        "nop\n"
+        "jal main\n"
+        "nop\n"
+        "break 1\n"
+        ".set\treorder\n"
+        ".end\tstart\n");
+
+void start(void);
 
 INCLUDE_ASM("asm/nonmatchings/boot", __main);
 
@@ -24,7 +89,10 @@ INCLUDE_ASM("asm/nonmatchings/boot", func_80010A08);
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80010A98);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010AE0);
+void func_80010AE0(s32 arg0) {
+    extern s32 D_80074778;
+    D_80074778 = arg0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80010B10);
 

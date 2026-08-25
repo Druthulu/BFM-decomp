@@ -1,6 +1,21 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/800b_2", LightColor);
+
+void LightColor(void)
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "lwc2   $9, 0($4)\n"
+        "lwc2   $10, 4($4)\n"
+        "lwc2   $11, 8($4)\n"
+        "nop\n"
+        "mvmva  1, 2, 3, 1, 1\n"
+        "swc2   $9, 0($5)\n"
+        "swc2   $10, 4($5)\n"
+        "swc2   $11, 8($5)\n"
+        ".set\treorder\n"
+        : : : "memory");
+}
 
 INCLUDE_ASM("asm/nonmatchings/800b_2", DpqColorLight);
 
@@ -129,7 +144,32 @@ __asm__(".text\n.align 2\n.globl OuterProduct12\n.ent\tOuterProduct12\n"
 "nop\n"
 ".set\treorder\n.end\tOuterProduct12\n");
 
-INCLUDE_ASM("asm/nonmatchings/800b_2", OuterProduct0);
+__asm__(".text\n.align 2\n.globl OuterProduct0\n.ent\tOuterProduct0\n"
+"OuterProduct0:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"cfc2 $t5, $0\n"
+"cfc2 $t6, $2\n"
+"cfc2 $t7, $4\n"
+"lw $t0, 0($a0)\n"
+"lw $t1, 4($a0)\n"
+"lw $t2, 8($a0)\n"
+"ctc2 $t0, $0\n"
+"ctc2 $t1, $2\n"
+"ctc2 $t2, $4\n"
+"lwc2 $11, 8($a1)\n"
+"lwc2 $9, 0($a1)\n"
+"lwc2 $10, 4($a1)\n"
+"nop\n"
+"op 0\n"
+"swc2 $25, 0($a2)\n"
+"swc2 $26, 4($a2)\n"
+"swc2 $27, 8($a2)\n"
+"ctc2 $t5, $0\n"
+"ctc2 $t6, $2\n"
+"ctc2 $t7, $4\n"
+"jr $ra\n"
+"nop\n"
+".set\treorder\n.end\tOuterProduct0\n");
 
 __asm__(".text\n.align 2\n.globl func_80049440\n.ent\tfunc_80049440\n"
         "func_80049440:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0,0\n"
