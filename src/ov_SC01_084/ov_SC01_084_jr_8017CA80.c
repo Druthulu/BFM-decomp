@@ -4267,7 +4267,28 @@ s32 func_801801F8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8018028C);
+extern s16 D_801C7748;
+
+s32 func_8018028C(s32 a0) {
+    s32 val;
+    s32 temp;
+
+    temp = D_801C7748;
+    val = *(s16 *) (a0 + 0xA);
+    if (val >= -0x60) {
+        val = 0;
+    } else if (val < -0x601) {
+        val = 0x3000;
+    } else {
+        val = (val + 0x20) * 0x3000 / -0x600;
+    }
+    temp -= val;
+    if (temp < 0x100) {
+        return temp < -0xBFF;
+    }
+    return 1;
+}
+
 
 #include "common.h"
 

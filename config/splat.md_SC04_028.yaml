@@ -94,7 +94,9 @@ segments:
       # 0x801E7B28 ahead of the code, a 1-word analogue of main's rodata-island (no ld_interleave).
       # - [0x0, rodata, head]
       - [0x0, .rodata, md_SC04_028]      # module-id header (+jtbl/ptr table) — §154-A
+      - [0x14, .rodata, md_SC04_028_jr_801E8238]   # §154-A island split (jtbl_carve --island-split)
       - [0x28, c, md_SC04_028]
+      - [0x710, c, md_SC04_028_jr_801E8238]
       - [0xC14, data, tail] # data tail: pointer tables + packed data (split iterated)
   - [0x7FF0]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes

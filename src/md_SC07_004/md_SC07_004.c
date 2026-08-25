@@ -3453,7 +3453,19 @@ s32 func_801A85A8_body(s32 a0, s32 a1, s32 a2, s32 a3) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A861C);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+
+s32 func_801A861C(s32 a0, s16 a1) {
+    s32 var;
+
+    var = func_80132EF4(a0, 0x30);
+    if (var != 0) {
+        *(u16 *)(var + 0x2E) = (a1 & 1) + 4;
+        *(s32 *)(var + 0x34) = a0;
+    }
+    return var;
+}
+
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 
@@ -7449,7 +7461,17 @@ void func_801AE82C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AE8B0);
+extern void func_801ADA10();
+
+void func_801AE8B0(s32 a0) {
+    if (--*(s32 *)(a0 + 0x1C) == 0) {
+        *(u16 *)(a0 + 2) += 1;
+    }
+    if (*(s32 *)(a0 + 0x1C) & 1) {
+        func_801ADA10(a0);
+    }
+}
+
 
 extern void func_801ADA10();
 extern void func_801AEAE4();

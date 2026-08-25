@@ -4336,7 +4336,23 @@ void func_80182B18(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80182BC4);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+void func_801823F8(void *arg0);
+extern int func_80178970(void);
+
+void func_80182BC4(s32 *a0) {
+    if (func_8012BEE8((s32)a0) == 0) {
+        if ((*(s32 *)((s32)a0 + 0x1C) & 3) == 0) {
+            func_8012C658(0x18D, 1, (s32)a0);
+        }
+    }
+    if (*(s16 *)((s32)a0 + 0x98) == 0) {
+        func_801823F8(a0);
+    }
+    ((void (*)(s32))func_80178970)((s32)a0);
+}
+
 
 extern int func_80178970(void);
 extern s32 func_8012BEE8(s32 a0);
@@ -4526,7 +4542,34 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018391
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801839F4);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80183A60);
+void func_80183A60(void *a0)
+{
+    extern s32 func_80029504(void);
+    extern s32 D_8018E210;
+    extern s32 D_8018E850;
+
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern void func_80143994(s32 a0, s32 a1);
+
+    u32 t;
+
+    t = ((u32 (*)(void))func_80029504)();
+    if (t >= 0x276 ||
+        (*(s32 *)((s32)a0 + 0x20) = ((s32 (*)(void))func_8012C1B8)()) == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    func_8001C214(*(s32 *)((s32)a0 + 0x20), (s32)&D_8018E850);
+    *(u16 *)((s32)a0 + 0x2) = 1;
+    *(s16 *)((s32)a0 + 0x5C) = 0x40;
+    *(s32 *)((s32)a0 + 0x58) =
+        *(s16 *)((s32)a0 + 0x70) * 16 + (s32)&D_8018E210;
+    func_80143994((s32)a0, 0x1000);
+}
+
 
 DEFINE_func_80183AF8()  /* dedup: shared engine-core @0x80183AF8 (src/shared) */
 
@@ -4874,7 +4917,11 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018469
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801846CC);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184718);
+void func_80184718(int arg0) {
+    *(u32 *)(*(int *)(arg0 + 0xCC) + 0xE0) &= 0xBFFFFFFF;
+    *(u32 *)(*(int *)(arg0 + 0xD0) + 0xE0) &= 0xBFFFFFFF;
+}
+
 
 
 extern s32 func_8012A828(void *a0, void *a1);
@@ -5087,7 +5134,29 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_80184F1
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018517C);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_801851C8);
+#include "common.h"
+
+
+
+extern Rec8_8018A390_8018523C D_801C5894[];
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+
+void func_801851C8(s32 a0)
+{
+    s32 i;
+    s32 off;
+
+    i = 0;
+    if (*(s16 *)((s32)D_801C5894) != 0) {
+        off = 0;
+        do {
+            func_8012C658(0x10D, i, a0);
+            i++;
+            off += 8;
+        } while (*(s16 *)((s32)D_801C5894 + off) != 0);
+    }
+}
+
 
 
 /* func_8018523C — allocates a GTE-projection slot, seeds a random spread

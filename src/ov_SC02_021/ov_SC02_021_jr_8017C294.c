@@ -3517,7 +3517,58 @@ INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017DC1
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017E410);
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017E4DC);
+s32 func_8017E4DC(s32 arg0, s32 arg1, s32 *arg2)
+{
+    s16 r;
+    s32 x;
+    s32 i1;
+    s32 i2;
+    s32 mx;
+    s32 d;
+
+    x = *(u16 *)((s32)arg2 + 0x10);
+    r = x - *(u16 *)((s32)arg2 + 0x12);
+    if ((r << 16) < 0) {
+        r = -r;
+    }
+    *(u16 *)(arg1 + 6) = r;
+    i1 = arg2[1];
+    if (i1 <= arg2[2]) {
+        mx = arg2[0];
+        d = arg2[3];
+        if (mx < d) {
+            mx = d;
+            i2 = d;
+        } else {
+            if (arg2[7] != 0) {
+                mx = arg2[2];
+            }
+            if (d > i1) {
+                i2 = d;
+            } else {
+                i2 = i1;
+            }
+        }
+    } else {
+        i2 = arg2[2];
+        mx = i2;
+    }
+    *(u16 *)(arg1 + 8) = i2 - *(s32 *)(*(s32 *)(arg0 + 0x20) + 0x4C);
+    *(u16 *)(arg1 + 0xA) = mx - *(s32 *)(*(s32 *)(arg0 + 0x20) + 0x4C);
+    if (func_8017E608(arg0, arg1, *(s16 *)((s32)arg1 + 0xC))) {
+        return 1;
+    }
+    if ((*(u16 *)((s32)arg1 + 0xC) << 16) != 0) {
+        if (func_8017E608(arg0, arg1, (*(u16 *)((s32)arg1 + 0xC) << 16) >> 17)) {
+            return 1;
+        }
+        if (func_8017E608(arg0, arg1, *(s16 *)((s32)arg1 + 0xE))) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 

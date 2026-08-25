@@ -4210,7 +4210,26 @@ void func_801806A0(Work *work, s32 arg1)
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_80180854);
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_80180AA0);
+extern void (*D_80192770[])(void);
+extern s16 D_80192734;
+extern void func_8012DFD4(u8 *a0);
+
+void func_80180AA0(short *param_1) {
+    s32 pad[4];
+    s32 val;
+    D_80192770[*(u16 *)((s32)param_1 + 2)]();
+    if (*(u16 *)param_1 != 0) {
+        u8 *arg = (u8 *)param_1;
+        __asm__("" ::: "$4");
+        val = (s32)*(s16 *)(*(s32 *)(*(s32 *)((s32)arg + 0x64) + 0x20) + 0x1A) * (s32)D_80192734;
+        if (val < 0) {
+            val += 0xFFF;
+        }
+        *(s16 *)(arg + 0xA) = (s16)(*(u16 *)(arg + 0x8A) + (val >> 12) - D_80192734);
+        func_8012DFD4(arg);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_80180B44);
 

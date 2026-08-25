@@ -314,7 +314,22 @@ s32 func_801E2DB8(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E2DC8);
+extern s32 func_80029178(s32 arg);
+extern void func_80029124(s32, s32);
+extern s32 func_80029504(void);
+
+s32 func_801E2DC8(void) {
+    if ((func_80029178(0xF5) & 0xFF) != 0) {
+        return 0;
+    }
+    if ((u32)(func_80029504() - 0xC8) < 0x190) {
+        func_80029124(0xF5, 1);
+        func_80029124(0x10F, 1);
+        return 1;
+    }
+    return 0;
+}
+
 
 
 
@@ -552,19 +567,69 @@ void func_801E33E8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E3424);
+void func_801E3424(s32 param_1) {
+    extern s32 D_801E9E38;
+    extern s32 D_801E9E3C;
+    struct S_801E3424 { u8 pad[0xFC]; s16 f; } *a, *b;
+    a = (struct S_801E3424 *) D_801E9E38;
+    b = (struct S_801E3424 *) D_801E9E3C;
+    *(s16 *)(param_1 + 0xFC) = 1;
+    a->f = 0;
+    b->f = 0;
+}
+
 
 INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E3448);
 
 INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E346C);
 
-INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E3490);
+void func_801E3490(s32 arg0) {
+    extern s32 D_801E9E38;
+    extern s32 D_801E9E3C;
+    s32 ptr1 = D_801E9E38;
+    s32 ptr2 = D_801E9E3C;
+    *(s16 *)(arg0 + 0xFC) = 0;
+    *(s16 *)(ptr1 + 0xFC) = 0;
+    *(s16 *)(ptr2 + 0xFC) = 1;
+}
 
-INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E34B4);
 
-INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E34D4);
+void func_801E34B4(s32 param_1) {
+    extern s32 D_801E9E38;
+    extern s32 D_801E9E3C;
+    s32 ptr1 = D_801E9E38;
+    s32 ptr2 = D_801E9E3C;
 
-INCLUDE_ASM("asm/md_SC03_134/nonmatchings/md_SC03_134", func_801E34FC);
+    *(s16 *)(param_1 + 0xFC) = 0;
+    *(s16 *)(ptr1 + 0xFC) = 0;
+    *(s16 *)(ptr2 + 0xFC) = 0;
+}
+
+
+void func_801E34D4(s32 arg0) {
+    extern s32 D_801E9E38;
+    extern s32 D_801E9E3C;
+    register s32 p __asm__("$3") = D_801E9E38;
+    *(s16 *)(arg0 + 0xFC) = 1;
+    {
+        register s32 q __asm__("$4") = D_801E9E3C;
+        *(s16 *)(p + 0xFC) = 3;
+        *(s16 *)(q + 0xFC) = 3;
+    }
+}
+
+
+void func_801E34FC(void) {
+    extern void func_80029514(s32 a0);
+    extern void func_80029124(s32 a0, s32 a1);
+    extern void func_80174438(s32 a0);
+    extern u8 *D_80126B10;
+
+    func_80029514(0x12C);
+    func_80174438((s32)D_80126B10);
+    func_80029124(0x10F, 1);
+}
+
 
 
 
