@@ -3688,7 +3688,10 @@ void func_8001739C(void *arg0)
     func_800173DC(arg0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800173BC);
+void func_800173BC(void)
+{
+    func_800173DC();
+}
 
 
 /* SVECTOR-shaped vertex: vx/vy packed as one word (xy), then z, then pad.
