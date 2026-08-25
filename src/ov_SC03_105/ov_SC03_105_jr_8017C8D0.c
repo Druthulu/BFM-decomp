@@ -4327,7 +4327,45 @@ void func_80180100(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801801F8);
+extern void func_8012C1B8(void);              /* TU:4202 house style -- return taken via a cast */
+extern void func_8012CAE4(void *a0);          /* TU:4203 */
+extern s32 func_8012C354(s32 a0, s32 a1);     /* fleet modal x1657 */
+extern void func_8001C214(s32 a0, s32 a1);    /* TU-authoritative */
+extern void func_80184458(void);              /* defined later in this TU (:4915) */
+extern s32 D_8018E2C8;                        /* address-only at this site; fleet modal s32 scalar */
+extern s32 D_8018E610;                        /* lw-width read -> s32 */
+extern u8 D_801BA6B0;                         /* TU:5613 */
+
+void func_801801F8(s32 a0) {
+    s32 obj;
+
+    if (func_8012C354(a0, (s32)&D_8018E2C8) == 0) {
+        return;
+    }
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    /* LOAD-BEARING: store written BEFORE the test so it dominates both paths;
+     * reorg sinks it into the bnez delay slot (§194-M). */
+    *(s32 *)(a0 + 0x20) = obj;
+    if (obj == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+    func_8001C214(obj, 0);
+    *(s32 *)(a0 + 0x4) = 0xFFF80000;
+    *(s32 *)(a0 + 0x8) = 0xFE5E0000;
+    *(s32 *)(a0 + 0xC) = 0xFF360000;
+    /* LOAD-BEARING: +0x20 re-read FRESH (not a cached local) so cse emits the
+     * separate `lw $v1,0x20($s0)` feeding the lhu/ori/sh (§172a addendum family). */
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) |= 0x10;
+    *(s16 *)(a0 + 0x2) = 1;
+    *(s16 *)(a0 + 0xAE) = -9;
+    /* LOAD-BEARING: this sb must precede the 0xCC store in the source; sched2 then
+     * hoists the D_8018E610 load pair above it and the sw rides the jal's slot (§201-C). */
+    D_801BA6B0 = 0;
+    *(s32 *)(a0 + 0xCC) = D_8018E610;
+    func_80184458();
+}
+
 
 extern void func_801824CC(s32, s32, s32, s32, s32);
 

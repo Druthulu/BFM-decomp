@@ -4310,7 +4310,12 @@ extern void func_8012B200(u8 *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017EEC0);
+void func_8017EEC0(void) {
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    register s32 a0v __asm__("$4");
+    func_8012AD44((s32 *)a0v, 3);
+}
+
 
 extern void func_8012A828(s32, void*);
 extern void func_8012AD80(s32 a0);

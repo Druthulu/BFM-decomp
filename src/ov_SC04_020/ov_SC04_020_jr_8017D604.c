@@ -3554,7 +3554,50 @@ void func_8017F1D4(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_8017F24C);
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern s32 func_801810B8(void);
+
+s32 aF8017F24C(void *a0) __asm__("func_8017F24C");
+
+s32 aF8017F24C(void *a0)
+{
+    void *p;
+    u16 st;
+
+    p = *(void **)((s32)a0 + 0x64);
+    st = *(u16 *)((s32)p + 0x2);
+    switch (st) {
+    case 2:
+        if (((s32 (*)(void *))func_801810B8)(a0) == 0) {
+            return 0;
+        }
+        p = *(void **)((s32)a0 + 0x64);
+        if (*(u16 *)((s32)p + 0x34) != 0) {
+            return 0;
+        }
+        *(u16 *)((s32)p + 0x34) = *(u16 *)((s32)p + 0x34) + 1;
+        goto hit;
+    case 3:
+        if (func_8012BD14((s32)p) >= 0x4001) {
+            return 0;
+        }
+        p = *(void **)((s32)a0 + 0x64);
+        if (*(u16 *)((s32)p + 0x34) != 2) {
+            return 0;
+        }
+        *(u16 *)((s32)p + 0x34) = 5;
+        goto hit;
+    default:
+        return 0;
+    }
+
+hit:
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 extern s32 func_80029504(void);
 extern u8 D_80078EAE;

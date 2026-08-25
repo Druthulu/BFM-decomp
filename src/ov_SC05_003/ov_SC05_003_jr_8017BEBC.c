@@ -5588,7 +5588,38 @@ void func_80181540(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_801815A0);
+extern u8 D_801A479C[];
+
+void func_801815A0(void *arg0) {
+    u8 *work;
+    s16 val;
+
+    work = *(u8 **)((s32)arg0 + 0x20);
+    *(u8 *)(work + 0x26) = 0x80;
+    *(u8 *)(work + 0x25) = 0x80;
+    *(u8 *)(work + 0x24) = 0x80;
+    *(s16 *)(work + 0x00) = 2;
+    *(s16 *)(work + 0x02) = 2;
+    *(s16 *)(work + 0x28) = 0x2F0;
+    *(s16 *)(work + 0x2A) = 0x100;
+    *(s32 *)(work + 0x20) = (s32)D_801A479C;
+    *(volatile s16 *)(work + 0x2C) = 0;
+    *(u16 *)(work + 0x2C) = 0xC006;
+    *(u8 *)(work + 0x27) = 0x51;
+    val = 0xC00;
+    *(s16 *)(work + 0x08) = 0;
+    *(s16 *)(work + 0x0A) = 0;
+    *(s16 *)(work + 0x0C) = 0;
+    *(s16 *)(work + 0x2E) = 0;
+    *(s16 *)(work + 0x30) = 0;
+    *(s16 *)(work + 0x32) = 0;
+    *(s32 *)(work + 0x34) = 0;
+    *(s32 *)(work + 0x04) = 0xC000040;
+    *(s16 *)(work + 0x1A) = val;
+    *(s16 *)(work + 0x18) = val;
+    (*(s16 *)((s32)arg0 + 2))++;
+}
+
 
 void func_80181638(void *arg0) {
     register int zr __asm__("$0");

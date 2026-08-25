@@ -4537,7 +4537,44 @@ void func_801810D4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80181118);
+/* Declarations conform to the TU's existing spellings
+ * (src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c lines 3754-3759, 65). */
+extern void func_8012C1B8(void);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012CAE4(void *a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_80029178(s32 arg);
+
+/* Not declared anywhere in this TU -- typed by access width / fleet spelling. */
+extern u8 D_801CAAA8[];
+extern void (*D_8018E3E8[])(void);
+/* DATA-SYMBOL ALIAS (§37/§124): TU spells D_8018A800 as scalar extern s32; bind own name. */
+extern u8 aD8018A800[] __asm__("D_8018A800");
+
+void func_80181118(s32 a0) {
+    s32 v0;
+
+    *(u16 *)(a0 + 0x5C) = 0xCC00;
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+
+    func_8001C214(v0, (s32)D_801CAAA8);
+    /* §162c: keep BOTH ors -- never fold to a single literal. */
+    *(s32 *)(a0 + 0x58) = (s32)D_8018E3E8 | 0x40000000 | 0x20000000;
+    *(u8 *)(a0 + 0x75) = 1;
+    if ((func_80029178(0xA0) & 0xFF) == 0) {
+        *(u16 *)(a0 + 0x2) = 1;
+    } else {
+        *(u16 *)(a0 + 0x2) = 3;
+        *(s16 *)(a0 + 0xA) = -0xB73;
+    }
+    func_8012A828(a0, aD8018A800);
+}
+
 
 extern s32 func_8012E778(s32 a0, s32 a1);
 extern void (*D_8018E410[])(void);
@@ -5867,7 +5904,17 @@ void func_80183B9C(u8 *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80183C30);
+void func_80183C30(void)
+{
+    extern s32 D_801270C8;
+    extern void func_8012BD14(s32 a0);
+
+    D_801270C8 = 0;
+    if (((s32 (*)(void))func_8012BD14)() < 0x5100) {
+        func_8014CB68();
+    }
+}
+
 
 extern s32 func_80029504(void);
 extern void func_8012C1B8(void);

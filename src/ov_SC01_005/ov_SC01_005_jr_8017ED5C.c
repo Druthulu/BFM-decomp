@@ -3371,7 +3371,30 @@ INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_8018080
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180908);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180974);
+extern void func_8017FBCC(void);
+extern void func_8017FD50(s32 a0);
+extern s32 func_801789AC(s32 arg0);
+extern void func_80178D18(void);
+extern void func_801746A4(void);
+
+void func_80180974(s32 a0)
+{
+    s32 v0;
+
+    if (*(s16 *)(a0 + 0x100) == 0) {
+        func_8017FBCC();
+    } else {
+        func_8017FD50(a0);
+    }
+    v0 = func_801789AC(a0);
+    if (v0 != 0) {
+        ((void (*)(s32))func_80178D18)(a0);
+        func_801746A4();
+        *(s32 *)(a0 + 0x1c) = 0x10;
+        *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_801809F4);
 
@@ -3476,9 +3499,43 @@ extern void func_8012A828(s32 a0, void *a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180F28);
+extern void *D_801BC798[];
+extern void func_8012A828(s32 a0, void *a1);
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180FB0);
+void func_80180F28(s32 a0) {
+    s16 temp;
+
+    if (*(s16 *)(a0 + 0xFC) == 0) {
+        return;
+    }
+    temp = *(s16 *)(a0 + 0xFE);
+    if (temp == 0) {
+        *(s16 *)(a0 + 0xFE) = 8;
+        return;
+    }
+    temp = temp - 1;
+    *(s16 *)(a0 + 0xFE) = temp;
+    if ((temp << 16) != 0) {
+        return;
+    }
+    func_8012A828(a0, D_801BC798[*(s16 *)(a0 + 0xFC)]);
+    *(s16 *)(a0 + 0xFC) = 0;
+}
+
+
+void func_80180FB0(s32 param_1)
+{
+    extern u8 D_801BC578[];
+    extern u8 D_801BC764[];
+    s32 v1;
+
+    func_8012A828(param_1, D_801BC578);
+    v1 = *(u16 *)(param_1 + 2);
+    *(s32 *)(param_1 + 0xCC) = (s32)D_801BC764;
+    *(s32 *)(param_1 + 0x1C) = 0;
+    *(u16 *)(param_1 + 2) = v1 + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180FFC);
 

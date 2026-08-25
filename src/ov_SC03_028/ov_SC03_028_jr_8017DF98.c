@@ -6918,7 +6918,25 @@ void func_8018726C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_801873A8);
+#include "common.h"
+
+extern s32 func_801789AC(s32 arg0);
+extern s16 D_801EC590;
+extern void func_80178D18(void);
+extern void func_8012C218(void *);
+extern s32 D_801EC450;
+
+void func_801873A8(s32 param_1) {
+    *(s32 *)((s32)D_801EC450 + 0xF8) = *(s32 *)(param_1 + 0xF8);
+    *(s32 *)(param_1 + 0xF8) = 0;
+    if (func_801789AC(param_1) != 0) {
+        if (D_801EC590 == 0) {
+            ((void (*)(s32))func_80178D18)(param_1);
+            func_8012C218((void *)param_1);
+        }
+    }
+}
+
 
 void func_80187414(void) {
 }
@@ -8162,7 +8180,51 @@ void func_80189A54(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80189AF4);
+void func_80189AF4(void *a0)
+{
+    register void *s0 __asm__("$16");
+    s32 v0;
+
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001CA1C(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern u8 D_80190800;
+    extern u8 D_8019080C;
+    extern u8 D_80190898;
+    extern u8 D_801907C4;
+
+    s0 = a0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)s0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(s0);
+    } else {
+        register s32 t __asm__("$2");
+
+        func_8001CA1C(v0, (s32)&D_80190800);
+        func_8012A828((s32)s0, (void *)&D_8019080C);
+        *(s16 *)((s32)s0 + 0x2) = 1;
+        *(s8 *)((s32)s0 + 0xC0) = 1;
+        *(s32 *)((s32)s0 + 0xBC) = (s32)&D_80190898;
+        *(u16 *)((s32)s0 + 0x5C) = 0x8000;
+        __asm__("" ::: "memory");
+        t = *(s32 *)((s32)s0 + 0xC4);
+        *(s32 *)((s32)s0 + 0x58) = (s32)&D_801907C4;
+        *(s32 *)((s32)s0 + 0xC4) = t | 0x2;
+        *(s8 *)((s32)s0 + 0xC1) = 0;
+        *(s32 *)((s32)s0 + 0xB4) = 0;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x18) = 0x4000;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1A) = 0x4000;
+        *(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1C) = 0x4000;
+        *(u16 *)(*(s32 *)((s32)s0 + 0x20) + 0x2C) |= 0x10;
+        *(s32 *)(*(s32 *)((s32)s0 + 0x20) + 0x4) = 0x01000000;
+        *(s32 *)((s32)s0 + 0x1C) = 0x20;
+        *(s16 *)((s32)s0 + 0x10A) = 0x5;
+    }
+}
+
 
 void func_80189BF0(s32 arg0) {
     s16 var;

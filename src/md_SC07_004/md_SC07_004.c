@@ -846,7 +846,17 @@ INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A3B18);
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A3D60);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A3EA8);
+void func_801A3EA8(s32 param_1) {
+    extern u16 D_80126B96;
+    extern s16 D_80126B98;
+    extern s32 func_801A54F0();
+
+    if (func_801A54F0(param_1, 0x20)) {
+        D_80126B98 = 0x60;
+        D_80126B96 |= 0x4000;
+    }
+}
+
 
 extern u16 D_8019FF8A;
 extern s16 D_801F8860;

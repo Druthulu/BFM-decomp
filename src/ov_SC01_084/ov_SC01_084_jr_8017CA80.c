@@ -6398,7 +6398,48 @@ void func_801855EC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_801856D8);
+extern void func_80184138(u16 *a0);
+extern void func_80183DA4();
+extern s16 D_8018A914;
+extern s16 D_8018A91A;
+extern s32 D_801270C8;
+extern s32 D_801270CC;
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+void func_801856D8(int param_1)
+{
+    u16 sp10[3];   /* sp+0x10 */
+    u16 sp18[10];  /* sp+0x18 .. 0x2B */
+    s16 *p;
+
+    if (func_8012BEE8((s32)param_1) != 0) {
+        sp10[0] = *(u16 *)(param_1 + 6);
+        sp10[1] = *(u16 *)(param_1 + 0xA);
+        sp10[2] = *(u16 *)(param_1 + 0xE);
+        func_80184138(sp10);
+        p = &D_8018A91A;
+        if (*p == 0) {
+            func_80183DA4((s32)p - 6);
+        }
+    }
+    if (D_801270C8 != 0) {
+        register void *a0pin __asm__("$4") = sp18;
+        __asm__ __volatile__("" : : "r"(a0pin));
+        if (D_801270CC == 0) {
+            D_801270CC = 1;
+            sp18[0] = *(u16 *)(param_1 + 6);
+            sp18[1] = *(u16 *)(param_1 + 0xA);
+            sp18[2] = *(u16 *)(param_1 + 0xE);
+            sp18[3] = 0x1E;
+            sp18[5] = 0;
+            sp18[4] = 0;
+            *(s32 *)&sp18[8] = 0;
+            sp18[7] = 0;
+            func_8012C51C(a0pin, (s32)param_1);
+        }
+    }
+}
+
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
