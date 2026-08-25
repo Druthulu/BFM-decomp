@@ -4223,7 +4223,30 @@ u32 func_8017DC48(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8017CF3C", func_8017DCB0);
+extern unsigned short *D_80182540[];
+
+void func_8017DCB0(s32 val, s32 n, void *dst, s32 flag) {
+    register u32 d __asm__("$3");
+    s32 idx;
+    s16 i;
+
+    n = (s16)n;
+    for (i = 0; i < n; i++) {
+        d = (u32)val >> 28;
+        idx = d;
+        if ((flag << 16) != 0) {
+            if (d != 0) {
+                flag = 0;
+            } else {
+                idx = 10;
+            }
+        }
+        val <<= 4;
+        *(u16 *)dst = *D_80182540[idx];
+        dst = (u16 *)dst + 1;
+    }
+}
+
 
 #include "common.h"
 

@@ -4276,7 +4276,17 @@ void func_801817C4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181800);
+extern void func_8013B7AC(s32 a0);
+
+void func_80181800(s32 a0) {
+    s32 i;
+    for (i = 0; i < 3; i++) {
+        func_8013B7AC(i);
+    }
+    *(u16 *)(a0 + 2) += 1;
+    *(s32 *)(a0 + 0xCC) = 0;
+}
+
 
 typedef struct { short vx, vy, vz, pad; } SV_801851A8_80181858;
 typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_80181858;

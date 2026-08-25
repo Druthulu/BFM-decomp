@@ -4557,7 +4557,23 @@ void func_80189630(void *param_1) {
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_80189680);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_801848E4", func_8018973C);
+extern u8 D_801EAC94;
+extern u8 D_801EAC95;
+extern u8 D_801EAC96;
+
+void func_8018973C(void) {
+    u8 *p = &D_801EAC94;
+    if (*p < 0xC0) {
+        *p += 4;
+    }
+    if (D_801EAC95 < 0x40) {
+        D_801EAC95 += 4;
+    }
+    if (D_801EAC96 < 0x40) {
+        D_801EAC96 += 4;
+    }
+}
+
 
 extern void func_80189110(void);
 void func_801897A4(void) {

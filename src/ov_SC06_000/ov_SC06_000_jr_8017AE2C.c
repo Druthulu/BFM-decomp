@@ -6661,7 +6661,31 @@ void func_80180D5C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80180D98);
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80180DD4);
+extern s32 func_80171990(u8 *a0);
+extern s16 D_801274EA;
+
+void func_80180DD4(u8 *a0) {
+    s16 *p;
+    s32 d;
+    s32 t;
+    s32 w;
+    s32 lim;
+
+    p = &D_801274EA;
+    d = *(u16 *)(a0 + 0xA) - 0x300;
+    t = *(u16 *)p - d;
+    w = *(s32 *)(a0 + 0x204) + 0x4000;
+    *(s32 *)(a0 + 0x204) = w;
+    lim = 0x600000;
+    if (w > lim) {
+        *(s32 *)(a0 + 0x204) = lim;
+    }
+    *(u16 *)p = *(u16 *)p - *(u16 *)(a0 + 0x206);
+    if ((s16)t < 0x200) {
+        func_80171990(a0);
+    }
+}
+
 
 extern s32 func_80171990(u8 *a0);
 extern s16 D_801274EA;
