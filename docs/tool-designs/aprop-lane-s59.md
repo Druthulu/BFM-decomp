@@ -5,10 +5,9 @@
 three consecutive passes**. Get the population banking, or name the ceiling with the residual
 sized. Everything below is measured; every rate carries its denominator (R41/R32).
 
-**Headline: 64+ functions banked this session, all byte-proven (whole-binary SHA green), zero
-model tokens** — from a lane that had banked 0 in its last three passes. Sweep-by-sweep and
-class-by-class accounting below; the final sweep's count is in the session log
-(`.run/s59_aprop2/`).
+**Headline: 64 functions banked this session, all byte-proven (whole-binary SHA green), zero
+model tokens** — from a lane that had banked 0/117, 0/117, 0/118 in its three preceding passes.
+Sweep-by-sweep and class-by-class accounting below; session scratch: `.run/s59_aprop2/`.
 
 ## 1. Baseline — what the 0-bank passes actually were
 
@@ -120,8 +119,8 @@ Population at run time: **325 families / 973 open members** (the pool refills as
 | sweep 1 (AGREE ∧ MATCH) | **38 banked** / 80 staged | — |
 | sweep 2 (rtu-rescue + UNRESOLVED/MATCH + repairs + K&R'd leftovers) | **12 banked** / 33 staged | — |
 | TU-retype pass (fresh near-0 rejects) | **14 banked** / 30 tried | — |
-| sweep 3 (decl-layer refixes of the 12 stranded void-def members) | see `.run/s59_aprop2/sweep3.log` | 9 staged |
-| **session total** | **64+ banked, byte-proven, zero model tokens** | |
+| sweep 3 (decl-layer refixes of the 12 stranded void-def members) | **0 banked** / 9 staged | — |
+| **session total** | **64 banked, byte-proven, zero model tokens** | |
 
 Sweep-1 attribution against the baseline classes: 29 ordinal-cluster, 4 near-0/K&R, 5 new.
 Sweep-2 attribution: 6 rtu-second-chance (of 7), 6 UNRESOLVED/MATCH (of 15).
@@ -163,9 +162,13 @@ pass sees. After all S59 fixes, the evidence supports:
     (multi-target / non-imm-op / not-in-C — includes the 16 branch-offset "op=0x4" members that
     are STRUCT in disguise) + **6 verbatim-asm seeds** (§265 — deliberately refused: propagating
     a transcribed-instructions body would count as "matched" while decompiling nothing).
-* Residuals still open inside the gate-worthy slice: 12 MISMATCH?/UNRESOLVED-not-banked +
-  4 repaired-but-refused + ~8 near-0s the retype pass could not cure (freshly-spliced `(void)`
-  preambles suspected — the same mechanism as the SC07_010 incident below).
+* Residuals still open inside the gate-worthy slice: 14 MISMATCH?/UNRESOLVED-not-banked +
+  4 repaired-but-refused + the 12 void-returning near-0s — sweep 3 re-tried those with every
+  decl-layer fix (file-scope mask, target-name lookup, block-extern adoption) and banked **0/9**:
+  their TU walls are deeper than the declaration layer this session could name (freshly-spliced
+  `(void)` preambles and reconcile_tu's macro-decl blind spot are the two live hypotheses — the
+  same mechanism family as the SC07_010 incident below). They remain byte-correct bodies and are
+  the first candidates for a gate_stage-internals session.
 
 **Ceiling verdict:** with the S59 fixes the mechanically-reachable slice of the A-prop
 population is roughly **⅛ of the open members per pass (~120 of 973), banking at ~50–60%**, and
