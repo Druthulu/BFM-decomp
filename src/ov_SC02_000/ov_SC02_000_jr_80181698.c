@@ -2713,7 +2713,7 @@ extern void func_80143CD4(s32 a0);
 extern int func_800CB0E8(int param);
 extern void func_801801EC(int param_1);
 extern void func_80180394(void *a0);
-extern void func_801803D0(void);
+extern void func_801803D0();
 extern void func_801803B0(void);
 extern unsigned char D_801A73BC[];
 extern void func_80180428(int param_1);

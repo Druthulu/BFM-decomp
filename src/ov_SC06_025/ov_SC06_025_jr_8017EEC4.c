@@ -4456,7 +4456,13 @@ void func_80182850(s32 *a0) {
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_801828A0);
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80182938);
+s32 func_80182938(u8 *param_1)
+{
+    *(u16 *)(*(u8 **)(param_1 + 0x20) + 0x10) = 0;
+    *(u32 *)(param_1 + 0x1C) = 0xFF;
+    return 0xFF;
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80182950);
 

@@ -5129,7 +5129,38 @@ void func_80184FC4(int param_1)
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_8018500C);
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80185080);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_80047D3C(s32 a0);
+extern s32 func_801807D8(s16 *a0);
+extern s32 D_801A1A10;
+extern void func_8012CBA4(s32 a0);
+
+void func_80185080(s32 param_1)
+{
+    s16 tmp[3];
+    s32 sq;
+
+    func_8012CBA4(param_1);
+    if (func_8012BEE8(param_1) != 0) {
+        *(u16 *)(param_1 + 0xFC) = 0;
+        *(u8 *)(param_1 + 0xC1) = 0;
+        *(s16 *)(param_1 + 0x2) = 1;
+        *(s16 *)(param_1 + 0x34) = 0;
+        func_8012A828(param_1, &D_801A1A10);
+        *(s32 *)(param_1 + 0x1C) = 0xA;
+        *(u16 *)(param_1 + 0x5C) |= 0x8000;
+        *(u16 *)(param_1 + 0x5E) = 0;
+        *(u16 *)(param_1 + 0xFC) ^= 1;
+        tmp[0] = *(s16 *)(param_1 + 0x6);
+        tmp[1] = *(s16 *)(param_1 + 0xA);
+        tmp[2] = *(s16 *)(param_1 + 0xE);
+        sq = (tmp[0] * tmp[0]) + (tmp[2] * tmp[2]);
+        *(s16 *)(param_1 + 0xDE) = func_80047D3C(sq);
+        *(s16 *)(param_1 + 0xDC) = func_801807D8(tmp);
+    }
+}
+
 
 extern s32 D_801270D4;
 extern s32 D_801270E4;
@@ -5181,7 +5212,38 @@ void func_801851EC(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_8018528C);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80183630(s32 a0);
+extern void func_80183790(s32 a0);
+
+void func_8018528C(void *a0) {
+    void *s0;
+    register unsigned short state __asm__("$4");
+
+    s0 = a0;
+    state = *(u16 *)((u8 *)s0 + 0x34);
+
+    switch (state) {
+    case 0:
+        ((struct { unsigned short h; } *)((u8 *)s0 + 0x34))->h = state + 1;
+        ((struct { s32 f; } *)((u8 *)s0 + 0x1C))->f = 0;
+        func_8002D4C8(0x4AA, 0);
+        break;
+    case 1:
+        func_80183630((s32)s0);
+        break;
+    case 2:
+        func_80183790((s32)s0);
+        break;
+    case 3:
+        if (func_8012BEE8((s32)s0) != 0) {
+            *(u16 *)((u8 *)s0 + 0x34) = 0;
+        }
+        break;
+    }
+}
+
 
 #include "common.h"
 

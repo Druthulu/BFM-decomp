@@ -6211,7 +6211,19 @@ extern s32 func_8012AD50(void *a0);
 
 INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80183054);
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_801831A0);
+extern void func_80183278();
+extern void func_8012C098(void *a0);
+
+void func_801831A0(s32 a0) {
+    s32 s0;
+
+    s0 = a0;
+    func_80183278();
+    if ((*(s32 *)(s0 + 0x1C) != 0) && (--*(s32 *)(s0 + 0x1C) == 0)) {
+        func_8012C098((void *) s0);
+    }
+}
+
 
 extern u16 D_800B99DA;
 extern u32 D_801C7594;

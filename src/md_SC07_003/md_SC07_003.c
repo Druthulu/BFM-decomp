@@ -2219,7 +2219,41 @@ void func_801A3BCC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A419C);
+#include "common.h"
+
+/* §37 asm-label alias: the TU canon (md_SC07_003.c:620) declares this symbol
+   `extern s32 D_80126B78[];`, but the target reads its VALUE twice
+   (lui/lw rematerialised per call site), which requires the pointer-variable
+   reading. Distinct C identifier + asm label = no conflicting-types clash,
+   emitted relocations still spell D_80126B78. */
+extern s32 *aD_80126B78 __asm__("D_80126B78");
+extern u8 D_800D3918[];
+extern u8 D_801A68F4[];
+extern u8 D_801152A8[];
+extern s32 D_80127078;
+
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void func_8012B2CC(s32 a0);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+s32 func_801A419C(s32 arg0) {
+    s32 buf[2];   /* 0x18(sp): projected point A */
+    s32 out[2];   /* 0x20(sp): projected point B */
+
+    func_8012F14C((s32)aD_80126B78 + 0x34, (s32)D_800D3918, (s32)buf);
+    func_8012F14C((s32)aD_80126B78 + 0x34, (s32)D_801A68F4, (s32)out);
+    func_8012B2CC(arg0);
+    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf, (s32)out) != 0) {
+        func_8012F568(1, 0x1C,
+                      *(u16 *)(*(s32 *)(*(s32 *)(arg0 + 0x64) + 0x20) + 0x12) & 0xFFF,
+                      0x1E, (s32)out, (s32)D_801152A8);
+        D_80127078 = arg0;
+        return 1;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A4268);
 

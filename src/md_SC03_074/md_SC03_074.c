@@ -207,7 +207,22 @@ void func_801EFB84(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_074/nonmatchings/md_SC03_074", func_801EFBC0);
+void func_801EFBC0(void) {
+
+    extern u8 D_80078EB1;
+    extern s32 D_801EF3EC;
+    extern s32 D_801F5F04;
+    extern s32 D_801F0234[];
+    extern s32 D_801F0204[];
+
+    D_801F5F04 = 0;
+    if ((u32)D_80078EB1 >= 0x12) {
+        *(s32 *)(D_801EF3EC + 4) = (s32)D_801F0234;
+    } else {
+        *(s32 *)(D_801EF3EC + 4) = (s32)D_801F0204;
+    }
+}
+
 
 
 

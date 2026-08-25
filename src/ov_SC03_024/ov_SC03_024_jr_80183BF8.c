@@ -3854,7 +3854,19 @@ extern void func_800D0694(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_80183BF8", func_801856BC);
+void func_801856BC(s32 a0, s32 a1)
+{
+    typedef struct { short x, y, z, w; } Rec8T;
+    extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+    extern Rec8T D_801B9330[];
+
+    s32 i;
+
+    for (i = 0; D_801B9330[i].x != 0; i++) {
+        func_8012C658(0x10D, i, a0);
+    }
+}
+
 
 
 /* func_80185730 — allocates a GTE-projection slot, seeds a random spread

@@ -3256,7 +3256,26 @@ void func_80185E28(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_801855D0", func_80186028);
+extern s32 func_801860B0(s32 a0);
+
+void func_80186028(s32 a0)
+{
+    s32 v;
+
+    v = *(s16 *)((s32)a0 + 0x70);
+    switch (v) {
+    case 0:
+        func_8002D4C8(0x6D5, 0);
+        break;
+    case 1:
+        func_8002D4C8(0x856, (func_801860B0(a0) | 0x2000) & 0xFFFF);
+        break;
+    case 2:
+        func_8002D4C8(0x857, (func_801860B0(a0) | 0x2000) & 0xFFFF);
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_801855D0", func_801860B0);
 

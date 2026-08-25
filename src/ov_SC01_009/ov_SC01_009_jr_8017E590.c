@@ -3161,7 +3161,19 @@ extern void func_8017D2E0(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017F488);
+extern s16 func_8017D2D0(void);
+
+s32 func_8017F488(s32 arg0) {
+    s16 var;
+
+    var = func_8017D2D0();
+    if (var == 0) {
+        return 0;
+    }
+    *(s16 *)(arg0 + 0x10A) = var - 1;
+    return 1;
+}
+
 
 extern s32 func_800291B4(s32 arg);
 

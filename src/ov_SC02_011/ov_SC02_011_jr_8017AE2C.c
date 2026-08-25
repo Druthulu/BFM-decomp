@@ -6449,7 +6449,27 @@ extern void func_80171A1C(u8 *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018015C);
+extern s16 D_80126B3A;
+extern s16 D_80126B3C;
+extern void func_8017EAC0(void *a0, s32 a1, s32 a2);
+extern void func_80171A1C(u8 *a0);
+
+void func_8018015C(u8 *a0) {
+    s32 v;
+    if (*(u16 *)(a0 + 0xB8) & 0x8000) {
+        switch ((s16)(*(u16 *)&D_80126B3A - 2)) {
+        case 0: v = 0; break;
+        case 1: v = 1; break;
+        case 2: v = 2; break;
+        case 3: v = 3; break;
+        case 4: v = 4; break;
+        }
+        D_80126B3C = v;
+        func_8017EAC0(a0, -0x60, v);
+        func_80171A1C(a0);
+    }
+}
+
 
 DEFINE_func_80180210()  /* dedup: shared engine-core @0x80180210 (src/shared) */
 
@@ -7420,7 +7440,22 @@ void func_80182268(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_801822F4);
+extern s32 func_80172658(s32 *a0);
+extern s32 func_801399F0(s32 a0);
+extern void func_801823B8(void);
+
+void func_801822F4(s32 param_1) {
+    s32 s0;
+
+    if (func_80172658((s32 *)param_1) != 0) {
+        s0 = param_1;
+        if (func_801399F0(*(s32 *)(s0 + 0x198)) != 0) {
+            func_801823B8();
+            *(u8 *)(s0 + 0x216) = 0;
+        }
+    }
+}
+
 
 extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
 
@@ -8672,7 +8707,15 @@ INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018526
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_801852B0);
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80185388);
+extern s32 func_80029178(s32 arg);
+
+void func_80185388(void *a0) {
+    *(s16 *)((char *)a0 + 2) = 4;
+    if ((func_80029178(0x9E) & 0xFF) != 0) {
+        *(s16 *)((char *)a0 + 0xFC) = 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_801853CC);
 
@@ -10508,7 +10551,97 @@ void func_8018823C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80188250);
+#include "common.h"
+
+/* func_80188250 -- same-class neighbour push-away over the 0x60-entry /
+ * 0x10C-stride entity table D_801202A0. Banked twin: ov_SC06_018:func_80187320
+ * (§193-A), minus its second switch case (no 0x2F4 clamp here) and with a
+ * self-id equality guard instead of constant class ids.
+ *
+ * §37/§124 DEF-SIDE ESCAPE (_body spelling, cf. func_801810CC_body,
+ * ov_SC07_007_jr_8017BEBC.c:6600): this TU already declares
+ * `extern void func_80188250(s32 a0);` at file scope (the func_80188654 block),
+ * while the target tail (`addiu $v0,$zero,1` / `addu $v0,$zero,$zero`) proves
+ * an s32 return. A same-name s32 definition is a hard `conflicting types`;
+ * a void definition cannot emit the $v0 constants. Define under a private C
+ * identifier carrying an __asm__ label: emitted symbol unchanged, no collision,
+ * the existing extern keeps compiling the caller at func_80188654.
+ *
+ * §8d: func_8012CEB0 is declared ONLY at block scope in this TU (the
+ * func_80187844 block) -- its extern rides INSIDE the body, not at file scope.
+ *
+ * Load-bearing constructs (do NOT "clean up"):
+ *  1. NO SECOND WALKED POINTER. All of +0x6/+0xA/+0xE written off the single
+ *     biv `p` (twin note 1): an explicit q = p + 0xE excludes the bare *q from
+ *     givs and yields THREE IVs / wrong anchor.
+ *  2. `self4` and `sc` are REAL pre-loop locals, in that order (twin note 4):
+ *     written inline at the calls they fold into the argument moves and the
+ *     $s5/$s6 hoists never happen. Declaration ORDER (p, i, self4, sc) gives
+ *     $s2/$s4/$s5/$s6 in the target's prologue emission order.
+ *  3. do-while with `i++` BEFORE `p += 0x10C` (twin note 3): strength_reduce
+ *     emits the giv addiu immediately before ITS biv increment =>
+ *     addiu $s4,1 / addiu $s3,0x10C / (delay) addiu $s0,0x10C.
+ *  4. NO `s16 y` scalar: the twin's short-local/dead-slot pair belongs to its
+ *     second switch case, absent here. Frame is exactly 0x48 with no dead slot.
+ *  5. §5a cross-jump barrier before the second `return 1`: the target keeps TWO
+ *     [j .epi][addiu $v0,$zero,1] tails; without the barrier gcc merges them
+ *     into one shared li (93 ins).
+ */
+
+extern u8   D_801202A0[];
+
+extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern void func_8012ADE4(u8 *a0);
+
+s32 func_80188250_body(s32 a0) __asm__("func_80188250");
+
+s32 func_80188250_body(s32 a0) {
+    extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+    u8 *p;
+    s16 *self4;
+    unsigned int *sc;
+    s32 i;
+    s32 ang;
+    s16 v10[4];  /* sp+0x10 */
+    s16 v18[4];  /* sp+0x18 */
+    s32 sp20[2]; /* sp+0x20 - func_8012B0B4 output */
+
+    p = D_801202A0;
+    i = 0;
+    self4 = (s16 *)(a0 + 4);
+    sc = (unsigned int *)sp20;
+    do {
+        if (*(u16 *)a0 == *(u16 *)p && (u8 *)a0 != p) {
+            if (func_8012BC60(self4, (struct Vec *)(p + 4)) < 0x1000) {
+                ang = func_8012B6D4(self4, (s16 *)(p + 4));
+                func_8012B0B4(sc, ang, 0x41);
+                v18[0] = *(u16 *)(p + 6);
+                v18[1] = *(u16 *)(p + 0xA);
+                v18[2] = *(u16 *)(p + 0xE);
+                v18[0] += sp20[0];
+                v18[2] += sp20[0] >> 16;
+                v10[0] = *(u16 *)(a0 + 0x3A);
+                v10[1] = *(u16 *)(a0 + 0x3E);
+                v10[2] = *(u16 *)(a0 + 0x42);
+                if ((func_8012CEB0((s32)&v10[0], (s32)&v18[0], 0) & 0x2000) == 0) {
+                    func_8012ADE4((u8 *)a0);
+                    return 1;
+                }
+                *(u16 *)(a0 + 6) = v18[0];
+                *(u16 *)(a0 + 0xA) = v18[1];
+                *(u16 *)(a0 + 0xE) = v18[2];
+                __asm__ __volatile__("" ::: "memory");   /* zero-byte cross-jump barrier (§5a) */
+                return 1;
+            }
+        }
+        i++;
+        p += 0x10C;
+    } while (i < 0x60);
+    return 0;
+}
+
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
     void func_801883C8(void) {

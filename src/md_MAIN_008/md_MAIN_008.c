@@ -12,7 +12,22 @@ void func_800CEDFC(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_008/nonmatchings/md_MAIN_008", func_800CEE44);
+extern void func_8001C044(void);
+extern void func_80015310(void);
+extern u8 D_800B9A11;
+extern s32 D_800CF13C;
+extern void func_800167B8(s32);
+extern void func_800118AC(void);
+
+void func_800CEE44(void) {
+    func_8001C044();
+    func_80015310();
+    D_800B9A11 = 0;
+    D_800CF13C = 0;
+    func_800167B8(0);
+    func_800118AC();
+}
+
 
 void func_800CEE8C(void) {
     extern s32 func_800167F0(s32 a0);

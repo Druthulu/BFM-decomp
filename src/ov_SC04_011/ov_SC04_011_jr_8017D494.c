@@ -8713,7 +8713,20 @@ special:
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80187574);
+#include "common.h"
+
+extern void (*D_801947E4[])(void);
+extern void func_80187618(s32 *a0, u16 a1, u16 a2);
+extern void func_801876A0(s32 a0);
+extern u8 D_801EFD50;
+
+void func_80187574(void *param_1)
+{
+    D_801947E4[*(unsigned short *)((char *)param_1 + 2)]();
+    func_80187618((s32 *)&D_801EFD50, 0x160, 0x18F);
+    func_801876A0((s32)param_1);
+}
+
 
 
 

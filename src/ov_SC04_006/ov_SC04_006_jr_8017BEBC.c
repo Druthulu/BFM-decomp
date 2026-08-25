@@ -4635,7 +4635,64 @@ INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017EF7
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017EFF4);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017F180);
+void func_8017F180(s32 param_1, s32 param_2) {
+    typedef struct { s32 w[8]; } Blk32;
+    extern u8 D_80078EAE;
+    extern u8 D_80078E78[];
+    extern u8 D_800D3918[];
+    extern s16 D_801152B0;
+    extern Blk32 D_800AE620;
+    extern s32 rand(void);
+    extern s32 func_8012B864(s32 a0);
+    extern s32 func_8012B70C(s16 *a0, s16 *a1);
+    extern void RotMatrixY(s32 a0, void *a1);
+    u8 *pb;
+    s32 pd;
+    s32 stack[6];
+    Blk32 m;
+    s32 q;
+    s32 r;
+
+    pb = D_80078E78;
+    stack[1] = 0;
+    stack[0] = 0;
+    if (D_80078EAE != 0) {
+        stack[2] = -0x60000;
+    } else {
+        stack[2] = -0x80000;
+    }
+    switch (param_2) {
+    case 0:
+        if (pb[0x36] != 0 && (rand() & 1) != 0) {
+            break;
+        }
+    case 1:
+        *(s16 *)(param_1 + 0xDC) = func_8012B864(param_1);
+        break;
+    case 2:
+        *(u16 *)(param_1 + 0xDC) += 0x800;
+        break;
+    case 3:
+        do {
+            r = rand() % 4096;
+        } while (*(s16 *)(param_1 + 0xDC) == (s16)r);
+        break;
+    case 4:
+        *(s16 *)(param_1 + 0xDC) = (func_8012B864(param_1) + 0x800) & 0xFFF;
+        break;
+    case 5:
+        pd = (s32)D_800D3918;
+        *(s16 *)&stack[4] = *(s32 *)(param_1 + 0x10) >> 8;
+        *(s16 *)&stack[5] = *(s32 *)(param_1 + 0x18) >> 8;
+        q = func_8012B70C((s16 *)pd, &D_801152B0);
+        *(s16 *)(param_1 + 0xDC) = (q * 2 - func_8012B70C((s16 *)&stack[4], (s16 *)pd)) & 0xFFF;
+        break;
+    }
+    m = *(Blk32 *)&D_800AE620;
+    RotMatrixY(*(s16 *)(param_1 + 0xDC), &m);
+    func_800484EC(&m, stack, param_1 + 0x10);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017F354);
 

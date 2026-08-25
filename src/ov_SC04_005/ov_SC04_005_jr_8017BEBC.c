@@ -8641,7 +8641,21 @@ void func_8018480C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_801849F0);
+#include "common.h"
+
+extern void func_8012A828(s32, s32);
+extern void func_8012B200(u8 *a0);
+
+extern u8 D_801BE52C[];
+
+void func_801849F0(void *arg0) {
+    func_8012A828((s32)arg0, (s32)&D_801BE52C);
+    *(s16 *)((char *)arg0 + 0x2) = 6;
+    *(s16 *)((char *)arg0 + 0x34) = 0;
+    *(s32 *)((char *)arg0 + 0xD0) = 0;
+    func_8012B200((u8 *)arg0);
+}
+
 
 
 /* func_80184A38 — ov_SC02_041 / ov_SC02_041_jr_8017BEBC.c   MATCH (142 ins)

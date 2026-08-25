@@ -3398,7 +3398,24 @@ void func_8017BEF8(void *a0) {
 
 DEFINE_func_8017C090()  /* dedup: shared engine-core @0x8017C090 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017AE2C", func_8017C0A4);
+extern void func_800D22E4(s32 a0);
+
+void func_8017C0A4(s32 param_1) {
+    s32 var_v0;
+
+    *(s32 *)(param_1 + 0x14) = *(s32 *)(param_1 + 0x14) + 0xC000;
+    ((void (*)(void))func_800D22E4)();
+    var_v0 = *(s32 *)(param_1 + 0x1C) - 1;
+    *(s32 *)(param_1 + 0x1C) = var_v0;
+    if (var_v0 == -1) {
+        *(s32 *)(param_1 + 0x2C) = 0;
+        *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 4);
+        *(s32 *)(param_1 + 0x18) = *(s32 *)(param_1 + 0xC);
+        func_80146E90(param_1, 0x14);
+        *(u16 *)(param_1 + 2) += 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017AE2C", func_8017C120);
 

@@ -7178,7 +7178,28 @@ extern void func_8012B21C(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80181BD4);
+typedef struct { s32 w[8]; } MTX8L_80181BD4;
+
+void func_80181BD4(s32 a0)
+{
+    extern MTX8L_80181BD4 aD800AE620 __asm__("D_800AE620");
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    MTX8L_80181BD4 m;
+    s32 vel[3];
+
+    m = aD800AE620;
+    vel[1] = 0;
+    vel[0] = 0;
+    vel[2] = 0xFFF20000;
+    RotMatrixY(*(s16 *)(*(s32 *)(*(s32 *)(a0 + 0x64) + 0x20) + 0x12), &m);
+    func_800484EC((s32)&m, (s32)&vel[0], a0 + 0x10);
+    func_8002D4C8(0xB3F, 0);
+    func_8012AD44((s32 *)a0, 3);
+}
+
 
 extern s32 D_80192E94;
 extern void (*D_80192EA4[])(void);

@@ -3456,7 +3456,43 @@ void func_80189BA0(void) {
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80188B1C", func_80189DB4);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80188B1C", func_80189E68);
+void func_80189E68(s32 a0, s32 a1)
+{
+    extern s32 D_801ED7E4;
+    register s32 rv __asm__("$2");
+    s32 x = D_801ED7E4;
+    s32 y = a1;
+    s32 d;
+
+    if (y < a0) {
+        if (x < y) {
+            x = x + 0x5A0;
+        }
+        y = y + 0x5A0;
+    }
+    if (a0 >= x) {
+        rv = -1;
+        goto done;
+    }
+    if (x >= y) {
+        rv = -1;
+        goto done;
+    }
+    d = x - a0;
+    if (d < 16) {
+        rv = d * 2;
+        goto done;
+    }
+    d = y - x;
+    if (d < 16) {
+        rv = d * 2;
+        goto done;
+    }
+    rv = 31;
+done:
+    __asm__("" :: "r"(rv));
+}
+
 
 extern s32 (*D_801E6758[])();
 extern s32 D_801ED7E0;
@@ -4460,7 +4496,23 @@ void func_8018B430(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80188B1C", func_8018B498);
+extern s32 func_801848AC(s32 arg0, s32 arg1);
+extern u8 D_80078EBA;
+
+void func_8018B498(void *a0) {
+    s32 v0;
+    *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2;
+    if (D_80078EBA == 3) {
+        v0 = 0;
+    } else {
+        v0 = func_801848AC(0x7, 0x13);
+        v0 = (0U < (u32)v0) ? 1 : 0;
+    }
+    if (v0 != 0) {
+        *(s16 *)((char *)a0 + 0x2) = 1;
+    }
+}
+
 
 extern s32 func_8012E57C(s32 a0, s32 a1);
 extern s32 func_801848AC(s32 arg0, s32 arg1);
@@ -4745,7 +4797,24 @@ extern void func_80178CBC(s32, s32);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80188B1C", func_8018BC64);
+extern s32 func_801848AC(s32 arg0, s32 arg1);
+
+void func_8018BC64(void *arg0) {
+    register s32 *s0 asm("$16") = arg0;
+    s32 v0, v1;
+    *(s32 *)((u8 *)(*(s32 **)((u8 *)s0 + 0xCC)) + 0xB0) = 2;
+    v0 = func_801848AC(6, 0x12);
+    if (v0 != 0) {
+        v1 = 1;
+    } else {
+        v0 = func_801848AC(0x12, 0x15);
+        v1 = (v0 != 0) ? 2 : 0;
+    }
+    if (v1 != 0) {
+        func_8018BAE0(s0);
+    }
+}
+
 
 extern s32 func_801848AC(s32 arg0, s32 arg1);
 

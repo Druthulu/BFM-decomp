@@ -4785,7 +4785,36 @@ void func_8017EFDC(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017F01C);
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017F080);
+extern s16 D_80126CAC;
+extern s32 D_801274D8;
+extern s32 D_801274DC;
+extern s32 func_800132BC(s32 a0, s32 a1);
+
+s32 func_8017F080(u16 *param_1) {
+    s32 x = *(u16 *)((s32)param_1 + 6);
+    if ((u32)(x - 0x31) < 2) {
+        return 1;
+    }
+    if ((x & 0xFFFF) == 0x33 || (x & 0xFFFF) == 0x27B) {
+        return 1;
+    }
+    {
+        register s32 ret __asm__("$4");
+        register s32 lim __asm__("$3");
+        s32 res;
+        s32 hi;
+        ret = func_800132BC((s32)&D_80126CAC, (s32)param_1);
+        __asm__ __volatile__("" : : "r"(ret));
+        lim = D_801274D8;
+        res = 0;
+        if (lim < ret) {
+            hi = D_801274DC;
+            res = ret < hi;
+        }
+        return res;
+    }
+}
+
 
 
 extern void (*D_80189860[])(void);

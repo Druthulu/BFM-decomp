@@ -4639,7 +4639,40 @@ void func_80188F80(void* arg0)
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80188FB4);
+int func_80188FB4(int a0, void* a1)
+{
+    s16 stack_buf[8];
+    register u16 *s0 __asm__("$16") = (u16 *)a1;
+    u16 v0;
+    s32 result;
+
+    v0 = s0[2];
+    stack_buf[0] = v0;
+    v0 = s0[3];
+    stack_buf[4] = v0;
+    v0 = s0[5];
+    stack_buf[5] = v0;
+    stack_buf[1] = v0;
+    v0 = s0[6];
+    stack_buf[6] = v0;
+    stack_buf[2] = v0;
+
+    result = func_80189050((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);
+    if (result != 0) {
+        return 1;
+    }
+
+    v0 = s0[7];
+    stack_buf[6] = v0;
+    stack_buf[2] = v0;
+
+    result = func_80189050((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);
+    if (result != 0) {
+        return 1;
+    }
+    return 0;
+}
+
 
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;

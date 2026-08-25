@@ -4069,7 +4069,23 @@ extern u16 D_80126B66;
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_004/nonmatchings/ov_SC02_004_jr_8017AE2C", func_8017D9C4);
+extern u8 *func_8012913C(s32 arg);
+
+void func_8017D9C4(void *a0)
+{
+    u8 *var_s0;
+    u8 *var_s1;
+
+    var_s1 = a0;
+    var_s0 = func_8012913C(5);
+    if (var_s0 != NULL) {
+        *(u16 *)(var_s0 + 6) = *(u16 *)(var_s1 + 6);
+        *(u16 *)(var_s0 + 0xA) = *(u16 *)(var_s1 + 0xA);
+        *(u16 *)(var_s0 + 0xE) = *(u16 *)(var_s1 + 0xE);
+        *(u16 *)(var_s0 + 0x2E) = rand() & 3;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_004/nonmatchings/ov_SC02_004_jr_8017AE2C", func_8017DA30);
 

@@ -2924,7 +2924,46 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018203
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80182098);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_801820E4);
+#include "common.h"
+
+extern u16 D_801E43B4;
+extern s32 D_801270C8;
+extern u8 D_80195AFA[];
+extern u8 D_8019103C;
+extern void func_8018A1D8(s32 a0);
+extern void func_8012B23C(s32 a0);
+extern void func_8013C9C4(void *a0);
+extern void func_80186304();
+extern s32 func_801873FC(s32 a0);
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+s32 func_801820E4(void *arg0)
+{
+    s16 idx;
+    register u16 cnt asm("v0");
+
+    idx = *(s16 *)((u8 *)arg0 + 0xE0);
+    if (idx >= 0) {
+        cnt = D_801E43B4;
+        D_801270C8 = *(s16 *)((u8 *)D_80195AFA + idx * 8);
+        D_801E43B4 = cnt + 1;
+        *(u32 *)((u8 *)arg0 + 0xE8) = (*(u32 *)((u8 *)arg0 + 0xE8) & ~0x400) | 0x800;
+    }
+    func_8018A1D8((s32)arg0);
+    func_8012B23C((s32)arg0);
+    func_8013C9C4(&D_8019103C);
+    func_80186304(arg0, 0x12, 0);
+    *(s16 *)((u8 *)arg0 + 0x34) = 6;
+    *(u32 *)((u8 *)arg0 + 0xE8) |= 0x20;
+    if (func_801873FC((s32)arg0) != 0) {
+        D_80126B96 = 0x4002;
+        D_80126B98 = 10;
+    }
+    func_8002D4C8(0x501, 0);
+}
+
 
 void func_801821C8(s32 *arg0) {
     u16 t;
@@ -2975,7 +3014,14 @@ extern void func_801862F0(void * arg0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_801822B4);
+extern void func_8012B23C(s32 a0);
+
+void func_801822B4(s32 arg0) {
+    func_8012B23C(arg0);
+    func_8017DF50();
+    func_801838A8((u8 *)arg0);
+}
+
 
 #include "common.h"
 
@@ -3318,7 +3364,14 @@ INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80182A8
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80182D80);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80182DCC);
+extern void func_8018622C();
+
+void func_80182DCC(void *a0) {
+    func_8018622C(a0);
+    *(u32 *)((s32)a0 + 0x14) = 0x100000;
+    *(u16 *)((s32)a0 + 0x34) = 1;
+}
+
 
 #include "common.h"
 
@@ -9632,7 +9685,36 @@ extern void func_8012C218(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018CC28);
+#include "common.h"
+
+typedef struct { u8 b[4]; } Blk4_8018CC28;
+
+/* ---- externs ------------------------------------------------------------ */
+extern void func_8001CD50(s32 a0, s32 a1);
+extern void func_800233CC(void *a0, unsigned short a1);
+
+extern u8 D_801E4958[];
+extern u8 D_801E495C;
+extern u8 D_801E2F58;
+extern u8 D_801E2F5C;
+
+void func_8018CC28(s32 param_1)
+{
+    func_8001CD50(*(s32 *)(param_1 + 0x20), (s32)&D_801E4958);
+
+    *(u16 *)(param_1 + 0xA) -= 0x100;
+    *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x50000000;
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0x400;
+    *(s16 *)(param_1 + 0x2C) = 0x8;
+
+    func_800233CC(&D_801E4958, 0x8);
+
+    *(Blk4_8018CC28 *)&D_801E4958 = *(Blk4_8018CC28 *)&D_801E2F58;
+    *(Blk4_8018CC28 *)&D_801E495C = *(Blk4_8018CC28 *)&D_801E2F5C;
+
+    *(u16 *)(param_1 + 2) += 1;
+}
+
 
 #include "common.h"
 
@@ -10272,7 +10354,16 @@ void func_8018D9A4(void *a0)
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018DA40);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018DA8C);
+extern void func_8018F704(void);
+extern s32 D_801270C8;
+
+void func_8018DA8C(void *a0) {
+    if (D_801270C8 == 0x21) {
+        func_8018F704();
+        *(u16 *)((s32)a0 + 2) += 1;
+    }
+}
+
 
 void func_8018DAD8(void) {
 }
@@ -11731,7 +11822,17 @@ void func_80190074(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_801900B0);
+extern s32 func_800CF854(void);
+
+s32 func_801900B0(void) {
+    register s32 r __asm__("$2");
+    s32 v;
+
+    v = ((s32 (*)(void))func_800CF854)();
+    r = v ? 9 : 8;
+    return r;
+}
+
 
 
 extern s32 D_801E4C40;

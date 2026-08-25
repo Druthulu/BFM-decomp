@@ -6883,7 +6883,27 @@ void func_801826C8(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_801827A0);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+
+/* TU declares `extern void func_801827A0(s32);` at :6372 (caller discards the
+ * result), but the bytes return s32 (both early exits fill $v0 with 0, success
+ * falls through addiu $v0,$zero,1).  §138: asm-label alias on the DEFINITION,
+ * so the existing caller-side decl stays untouched. */
+s32 aF801827A0(s32 a0) __asm__("func_801827A0");
+
+s32 aF801827A0(s32 a0) {
+    extern u8 D_801A8FA8[];
+
+    if ((*(s32 *)(a0 + 0xDC) & 1) != 0) {
+        return 0;
+    }
+    if (func_8012D5E4(a0, (s32)D_801A8FA8, (s32)(D_801A8FA8 + 8), 0x13) != 1) {
+        return 0;
+    }
+    *(s32 *)(a0 + 0xDC) |= 1;
+    return 1;
+}
+
 
 #include "common.h"
 

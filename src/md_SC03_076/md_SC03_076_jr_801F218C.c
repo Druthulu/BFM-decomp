@@ -253,7 +253,39 @@ join:
 }
 
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076_jr_801F218C", func_801F2458);
+extern s32 func_80029504(void);
+extern s32 func_80029178(s32);
+extern void func_80029124(s32, s32);
+
+s32 func_801F2458(void) {
+    s32 x;
+    s32 t;
+
+    x = func_80029504();
+    if ((u32)(x - 200) < 100) {
+        t = 0;
+        goto join;
+    }
+    __asm__("");
+    if (x < 300) {
+        t = 1;
+        goto join;
+    }
+    __asm__("");
+    if (func_80029178(250) & 0xFF) {
+        t = 0;
+        goto join;
+    }
+    __asm__("");
+    t = 1;
+join:
+    if (t != 0 && (func_80029178(276) & 0xFF) == 0) {
+        func_80029124(276, 1);
+        return 1;
+    }
+    return 0;
+}
+
 
 void func_801F24DC(s32 a0) {
     extern s32 func_80029504(void);
@@ -451,7 +483,22 @@ void func_801F28B0(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_076/nonmatchings/md_SC03_076_jr_801F218C", func_801F28E0);
+void func_801F28E0(void)
+{
+    typedef struct { s32 next; u8 pad[0xC]; } Node_801F28E0;
+    extern s32 D_801F9DD4;
+    extern s32 D_801F9F54;
+    Node_801F28E0 *p;
+    s32 i;
+
+    p = (Node_801F28E0 *)&D_801F9DD4;
+    for (i = 0; i < D_801F9F54 - 1; ) {
+        p->next = (s32)(p + 1);
+        i++;
+        p = p + 1;
+    }
+}
+
 
 extern s32 func_80029504(void);
 extern void func_80029514(s32 arg0);

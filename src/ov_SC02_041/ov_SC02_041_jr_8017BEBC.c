@@ -5375,7 +5375,59 @@ void func_8017FC70(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017FD14);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B200(u8 *a0);
+extern s32 func_8012B8E4(s32 arg0, s32 arg1);
+extern void func_8012CBCC(s32 a0);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8017F690(s32 a0, s32 a1);
+
+extern u8 D_801A3560[];
+extern u8 D_801A3710[];
+extern u8 D_801A3608[];
+
+void func_8017FD14(s32 a0)
+{
+    s32 v0;
+    unsigned short *p;
+    s16 t;
+
+    if (*(s16 *)(a0 + 0x98) == 0) {
+        func_8012A828(a0, D_801A3560);
+    }
+
+    if (((s32 (*)(s32))func_8012CBCC)(a0) != 0) {
+        func_8012B200((u8 *)a0);
+    }
+
+    v0 = func_8012B8E4(a0, 8);
+    p = (unsigned short *)(*(int *)(a0 + 0x20) + 0x12);
+    *p = (unsigned short)(*p + v0);
+
+    p = (unsigned short *)(*(int *)(a0 + 0x20) + 0x12);
+    *p = (unsigned short)(*p & 0xFFF);
+
+    t = *(s16 *)(a0 + 0xFC);
+    if (t != 0) {
+        *(s16 *)(a0 + 0xFC) = t - 1;
+        return;
+    }
+
+    if (func_8012BCCC(a0) < 0x2401) {
+        *(s16 *)(a0 + 0x2) = 3;
+        func_8012A828(a0, D_801A3710);
+    } else {
+        if (func_8017F690(a0, 0x48) != 0) {
+            return;
+        }
+        if (0x40000 < func_8012BCCC(a0)) {
+            return;
+        }
+        *(s16 *)(a0 + 0x2) = 2;
+        func_8012A828(a0, D_801A3608);
+    }
+}
+
 
 extern s16 D_80126B98;
 extern s16 D_80126B9A;
@@ -6659,7 +6711,40 @@ s32 aF8018A224(param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_80181B04);
+void func_80181B04(s32 param_1) {
+    extern void (*D_801AD318[])(void);
+    extern void func_80183014(s32 a0);
+    extern s32 func_8012C0EC(s32 a0);
+    extern s32 rand(void);
+    s32 v1;
+    s32 v0;
+    s32 rem;
+
+    D_801AD318[*(u16 *)(param_1 + 2)]();
+    if (*(u16 *)(param_1) != 0) {
+        func_80182B38(param_1);
+        func_80182CCC(param_1);
+        func_80183014(param_1);
+
+        v1 = *(s32 *)(param_1 + 0xEC) + 1;
+        v0 = *(s32 *)(param_1 + 0xF0);
+        rem = v1 % v0;
+        *(s32 *)(param_1 + 0xEC) = v1;
+        if (rem == 0 || (rand() & 0xFFF) == 0) {
+            func_8018317C(param_1);
+            *(s32 *)(param_1 + 0xF0) = rand() % 32 + 0x10;
+        }
+
+        if (*(s16 *)(param_1 + 0xA) >= 0x10) {
+            func_80182B08(param_1);
+        } else {
+            if (*(s16 *)(param_1 + 0x70) & 0x8000) {
+                func_8012C0EC(param_1);
+            }
+        }
+    }
+}
+
 
 void func_80181C40(s32 a0) {
     extern u8 D_801AD174[];

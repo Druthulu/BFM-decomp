@@ -4262,7 +4262,30 @@ void func_8018110C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_801811F0);
+extern void func_801292C8(u8 *a0);
+
+s32 func_801811F0(s32 a0)
+{
+    volatile s32 pad;
+    u32 *p = *(u32 **)((s32)a0 + 0x20);
+    u32 v = p[1];
+    u32 w = 0x80000000;
+
+    if ((s32)v < 0) {
+        w = 0x7fffffff;
+        w = v & w;
+    } else {
+        w = v | w;
+    }
+    p[1] = w;
+
+    if (--*(s32 *)((s32)a0 + 0x1C) == 0) {
+        func_801292C8((u8 *)a0);
+        return 1;
+    }
+    return 0;
+}
+
 
 #include "common.h"
 

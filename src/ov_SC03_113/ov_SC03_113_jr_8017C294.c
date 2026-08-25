@@ -4697,7 +4697,32 @@ void func_8017F9F4(void) {
 
 INCLUDE_ASM("asm/ov_SC03_113/nonmatchings/ov_SC03_113_jr_8017C294", func_8017F9FC);
 
-INCLUDE_ASM("asm/ov_SC03_113/nonmatchings/ov_SC03_113_jr_8017C294", func_8017FAD4);
+extern void func_8012C218(void *a0);
+extern void func_8012E014(s32 a0);
+extern u16 D_80187164[];
+extern s16 D_80187154[];
+
+void func_8017FAD4(void *a0)
+{
+    register s32 t __asm__("$3");
+    register s32 sum __asm__("$2");
+    s16 diff;
+
+    t = D_80187164[*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x70)];
+    __asm__ __volatile__("");
+    sum = *(u16 *)((s32)a0 + 0xA) + t;
+    *(u16 *)((s32)a0 + 0xA) = sum;
+    diff = sum - *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0xA);
+    if (diff < 0) {
+        diff = -diff;
+    }
+    if (diff >= D_80187154[*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0x70)]) {
+        func_8012C218(a0);
+    } else if (*(u8 *)((s32)a0 + 0x74) != 0) {
+        func_8012E014((s32)a0);
+    }
+}
+
 
 void func_8017FB88(void) {
 }

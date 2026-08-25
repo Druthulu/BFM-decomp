@@ -3518,7 +3518,27 @@ void func_8017D658(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017D698);
+#include "common.h"
+
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_8016F1AC(void);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+s32 func_8017D698_x(s32 a0) __asm__("func_8017D698");
+
+s32 func_8017D698_x(s32 a0) {
+    if (func_8012BD14(*(s32 *)(a0 + 0x64)) >= 0x1001) {
+        return 0;
+    }
+    if (func_8016F1AC() != 0) {
+        return 0;
+    }
+    *(s16 *)(*(s32 *)(a0 + 0x64) + 2) = 2;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 
 extern void (*D_80185CCC[])(void);
@@ -5113,7 +5133,57 @@ void func_8017FF18(s32 target, u16 *cur, s32 step)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017FF9C);
+extern s16 D_80190E2C;
+extern s16 D_80190E2E;
+extern s16 D_80190E30;
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8017FF9C(void *a0) {
+    struct S8017FF9C_sp {
+        u16 unk0;
+        u16 unk2;
+        u16 unk4;
+        s16 unk6;
+        s16 unk8;
+        s16 unkA;
+        s16 unkC;
+        s16 unkE;
+        s32 unk10;
+    } sp;
+    s32 vec[3];
+    s32 out[3];
+    s32 ret;
+
+    vec[0] = D_80190E2C << 8;
+    vec[1] = D_80190E2E << 8;
+    vec[2] = D_80190E30 << 8;
+
+    func_800484EC(*(s32 *)((s32)a0 + 0x20) + 0x34, (s32)vec, (s32)out);
+
+    out[0] += *(s16 *)((s32)a0 + 0x6) << 8;
+    out[1] += *(s16 *)((s32)a0 + 0xA) << 8;
+    out[2] += *(s16 *)((s32)a0 + 0xE) << 8;
+
+    sp.unk0 = out[0] / 256;
+    sp.unk2 = out[1] / 256;
+    sp.unk4 = out[2] / 256;
+    sp.unk6 = 0x20;
+    sp.unk8 = 2;
+    sp.unkA = 0;
+    sp.unk10 = 0;
+    sp.unkE = 0;
+
+    ret = func_8012C51C(&sp, (s32)a0);
+    if (ret != 0) {
+        *(u16 *)(*(s32 *)(ret + 0x20) + 0x12) = *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12);
+        func_8012B2CC(ret);
+        func_8002D4C8(0x83A, 0);
+    }
+}
+
 
 
 extern s16 D_80126B98;
@@ -5542,7 +5612,60 @@ void func_80180C40(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80180CC0);
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_80180D50);
+extern s32 func_80180E34(s32, s32, u16);
+
+s32 func_80180D50(s32 arg0) {
+    extern u8 D_801202A0[];
+    register s32 zr __asm__("$0");
+    u8 *pe;
+    u8 *ps;
+    s16 *ca;
+    s16 *cb;
+    u16 state;
+    u16 t;
+    s32 count;
+
+    pe = D_801202A0;
+    count = 0;
+    ps = pe + 4;
+    do {
+        if ((s32) pe == arg0) {
+            goto next;
+        }
+        state = *(u16 *) pe;
+        ca = (s16 *) ((s32) arg0 + zr);
+        if (state == 0x1FC) {
+            goto b1fc;
+        }
+        cb = (s16 *) ((s32) ps + zr);
+        if (state == 0x239) {
+            goto b239;
+        }
+        goto next;
+
+    b1fc:
+        cb = (s16 *) ((s32) ps + zr);
+        t = (*(s16 *) (*(s32 *) (arg0 + 0x20) + 0x18) * 9u) >> 9;
+        goto call;
+
+    b239:
+        t = (u32) (*(s16 *) (*(s32 *) (arg0 + 0x20) + 0x18) + *(s16 *) (*(s32 *) (ps + 0x1C) + 0x18)) >> 6;
+        /* fall through */
+    call:
+        if (((s32 (*)(s16 *, s16 *, s32))func_80180E34)(ca, cb, t) == 0) {
+            goto next;
+        }
+        __asm__ __volatile__("" :: "r"(pe));
+        return (s32) pe;
+
+    next:
+        count++;
+        ps += 0x10C;
+        pe += 0x10C;
+    } while (count < 0x60);
+    return 0;
+}
+
 
 s32 func_80180E34(s32 a0, s32 a1, u16 a2) {
     s32 d = *(s16 *)(a1 + 2) - *(s16 *)(a0 + 6);

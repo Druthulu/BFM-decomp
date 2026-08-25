@@ -4717,7 +4717,49 @@ void func_8017DE24(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_8017DE8C);
+extern void func_80147324(s32 a0);
+extern void func_80147060(u8 *a0);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_80029514(s32 a0);
+extern s32 func_80174650(s32 a0);
+extern void func_80171A1C(u8 *a0);
+extern s16 D_80126B3A;
+extern s16 D_8011F9C8;
+
+void func_8017DE8C(u8 *a0) {
+    u16 flags = *(u16 *)(a0 + 0xB8);
+
+    if (flags & 0x4000) {
+        func_80147324(0x445);
+        return;
+    }
+    if (!(flags & 0x8000)) {
+        return;
+    }
+    func_80147060(a0);
+    switch ((s16)(*(u16 *)&D_80126B3A - 2)) {
+    case 0:
+        func_80029124(0x16, 1);
+        func_80029514(0x85);
+        break;
+    case 1:
+        func_80029124(0x17, 1);
+        break;
+    case 2:
+        func_80029124(0x18, 1);
+        break;
+    case 3:
+        func_80029124(0x19, 1);
+        break;
+    case 4:
+        func_80029124(0x1A, 1);
+        break;
+    }
+    (*(s32 *)&D_8011F9C8) = 1;
+    func_80174650((s32)a0);
+    func_80171A1C(a0);
+}
+
 
 DEFINE_func_8017DF7C()  /* dedup: shared engine-core @0x8017DF7C (src/shared) */
 
@@ -7779,7 +7821,22 @@ void func_80182B68(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80182BB8);
+void func_80182BB8(s32 arg0)
+{
+    s32 i;
+    s32 *ptr;
+
+    i = 0;
+    ptr = (s32 *)((s32)arg0 + 0xCC);
+    do {
+        if (*ptr != 0) {
+            func_80183130((void *)*ptr);
+        }
+        i = i + 1;
+        ptr = ptr + 1;
+    } while (i < 4);
+}
+
 
 void func_80182C10(s32 a0) {
     extern s32 func_800133BC(s32 a0, s32 a1);

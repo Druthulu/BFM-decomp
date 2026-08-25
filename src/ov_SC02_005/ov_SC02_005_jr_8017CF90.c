@@ -4279,7 +4279,19 @@ void func_8017FA0C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017FA3C);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8013767C(s32 a0);
+extern s32 D_80126CF0;
+extern s32 D_801972DC;
+extern u8 D_80126D6C;
+
+void func_8017FA3C(void) {
+    func_8017E190();
+    func_8002D4C8(0x510, 0x107F);
+    D_80126CF0 = func_8013767C((s32)&D_801972DC);
+    D_80126D6C = D_80126D6C + 1;
+}
+
 
 #include "common.h"
 
