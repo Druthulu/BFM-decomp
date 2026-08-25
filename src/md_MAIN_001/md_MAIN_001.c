@@ -62,7 +62,18 @@ void func_800CEE40(void) {
 
 INCLUDE_ASM("asm/md_MAIN_001/nonmatchings/md_MAIN_001", func_800CEF04);
 
-INCLUDE_ASM("asm/md_MAIN_001/nonmatchings/md_MAIN_001", func_800CEF54);
+void func_800CEF54(void) {
+    extern u16 D_800B99EE;
+    extern void func_800CF290(void);
+    extern void func_800118AC(void);
+
+    func_800CF290();
+    D_800B99EE = D_800B99EE + 1;
+    if ((s16)D_800B99EE >= 0x105) {
+        func_800118AC();
+    }
+}
+
 
 extern s32 D_800D3C10;
 extern void func_800118AC(void);

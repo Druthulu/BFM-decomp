@@ -5008,7 +5008,25 @@ void func_8018ABD4(s32 target, u16 *cur, s32 step)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018AC58);
+extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern u8 D_801CD460[];
+
+void func_8018AC58(s32 arg0)
+{
+    s32 s0 = arg0;
+    u16 sp10[4];
+
+    sp10[0] = *(u16 *)(s0 + 6);
+    sp10[1] = *(u16 *)(s0 + 0xA) - 0x60;
+    sp10[2] = *(u16 *)(s0 + 0xE);
+    sp10[3] = 0x3800;
+    func_801437D8(s0 + 0x100, (s32)sp10, (s32)D_801CD460, 0);
+    if ((*(u16 *)(s0 + 0x100) & 3) == 0) {
+        func_8002D4C8(0xA9F, 0);
+    }
+}
+
 
 extern s32 func_8012B8A4(s16 *a0);
 extern s32 rand(void);
@@ -5031,7 +5049,51 @@ void func_8018ACD4(s32 param_1)
 
 INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018AD74);
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018AE64);
+void func_8018AE64(s32 param_1) {
+    /* decls block-scoped ([T51] house idiom, cf. func_8018AF88); spellings are the
+       TU-canonical ones from the atlas tu rows -- '?' lists stay unspecified. */
+    extern s32 rand(void);
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4();
+    extern void func_8001C214();
+    extern void func_8012B23C(void *a0);
+    extern void func_8018AF88(s32 a0);
+    extern void func_8018B1D8(s32 a0);
+    extern void func_8018B4D8(s32 a0);
+    extern s32 D_801CD478[];
+    extern s32 D_801CD47C[];
+    s32 iVar2;
+    s32 o2;
+    u16 v;
+
+    iVar2 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = iVar2;
+    if (iVar2 == 0) {
+        func_8012CAE4(param_1);
+    } else if (*(s16 *)(param_1 + 0x70) < 0x10) {
+        func_8001C214(iVar2, D_801CD478[*(s16 *)(param_1 + 0x70)]);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) | 0x10;
+        func_8012B23C(param_1);
+        if (*(s16 *)(param_1 + 0x70) == 0) {
+            func_8018AF88(param_1);
+        } else {
+            func_8018B1D8(param_1);
+        }
+    } else {
+        func_8001C214(*(s32 *)(param_1 + 0x20), D_801CD47C[rand() & 3]);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) | 0x10;
+        v = (rand() & 0x1F0) | 0x400;
+        o2 = *(s32 *)(param_1 + 0x20);
+        *(u16 *)(o2 + 0x1C) = v;
+        *(u16 *)(o2 + 0x1A) = v;
+        *(u16 *)(o2 + 0x18) = v;
+        func_8012B23C(param_1);
+        func_8018B4D8(param_1);
+    }
+}
+
 
 // @class: struct
 // @stuck: none — §136c SIBLING-FIRST. Near-twin (byte-identical template) = func_80186160 in
@@ -5900,7 +5962,17 @@ void func_8018C9B0(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018CA44);
+void func_8018CA44(s32 param_1)
+{
+    if (func_8012BEE8(param_1) != 0) {
+        func_8012C218((void *)param_1);
+    } else {
+        func_8012AD80(param_1);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0x106);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) + *(u16 *)(param_1 + 0x108);
+    }
+}
+
 
 extern void func_8018C334(s32 a0, s32 a1);
 extern void func_8018B8F8(s32 a0);

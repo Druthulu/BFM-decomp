@@ -4100,7 +4100,38 @@ void func_8017E27C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017E2B8);
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017E2B8;
+
+void func_8017E2B8(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_80188C80[];
+    extern Blk8_80126940_8017E2B8 D_80126940;
+    extern u16 func_80148800(s32 *a0);
+    extern void func_8017E414(s32 param_1, s16 *param_2);
+    Blk8_80126940_8017E2B8 sp10;
+    u8 t;
+    s32 sel;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80188C80[t];
+    }
+    sp10 = D_80126940;
+
+    sel = (sp10.v[0] < -0xC38);
+    if (sel)
+        sel = 0xA00;
+    else
+        sel = 0x600;
+    *(s16 *)(a0 + 0x22) = sel;
+
+    func_8017E414(a0, sp10.v);
+}
+
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
