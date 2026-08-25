@@ -4781,7 +4781,16 @@ void func_80184EC0(void *a0)
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80185060);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_801851E0);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_801851E0(s32 a0)
+{
+    *(s32 *)(a0 + 0xDC) = 1;
+    *(u8 *)(a0 + 0xC1) = 0;
+    *(s16 *)(a0 + 0xAE) = -1;
+    func_8012AD44((s32 *)a0, 2);
+}
+
 
 #include "common.h"
 

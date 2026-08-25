@@ -3974,7 +3974,62 @@ void func_8017EDEC(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017EE68);
+extern volatile s32 D_801C7E30;
+extern s32 D_801C7E34;
+extern s32 D_801C7E38;
+extern volatile s32 D_801C7E4C;
+extern s32 D_801C7E50;
+extern s32 D_801C7E58;
+extern s32 D_801C7E64;
+extern s32 D_801C7E74;
+extern s32 D_801C7E78;
+extern s16 D_801C7E28;
+extern s16 D_801C7E2C;
+extern s32 D_801924A0;
+extern s32 D_801A33AC;
+
+void func_8017EE68(int param_1)
+{
+    int iVar1;
+    s32 uVar2;
+    s32 *puVar3;
+    s32 *puVarX;
+
+    iVar1 = func_8012C354(param_1, &D_801924A0);
+    if (iVar1 != 0) {
+        *(u16 *)(param_1 + 2) = 10;
+        func_8012A828(param_1, &D_801A33AC);
+        *(u8 *)(param_1 + 0xc0) = 1;
+        *(s32 *)(param_1 + 0xb4) = -1;
+        func_8012B23C(param_1);
+        func_8001D0E8(*(s32 *)(param_1 + 0x20), 0x400, 0x400);
+        iVar1 = 2;
+        puVarX = &D_801C7E30;
+        *puVarX = param_1;
+        puVar3 = puVarX + 2;
+        D_801C7E34 = 0;
+        D_801C7E64 = 0;
+        do {
+            uVar2 = func_8012C658(0x25e, iVar1 + -2, param_1);
+            *puVar3 = uVar2;
+            iVar1 = iVar1 + 1;
+            puVar3 = puVar3 + 1;
+        } while (iVar1 < 7);
+        D_801C7E4C = func_8012C588(0x2b1, param_1);
+        *(s32 *)(D_801C7E4C + 0xe0) = 0x10000000;
+        *(u8 *)(param_1 + 0x75) = 3;
+        *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) = *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) & 0x7fffffff;
+        D_801C7E50 = func_8012C588(0x28c, param_1);
+        D_801C7E58 = func_8012C588(0x28e, param_1);
+        *(u16 *)(param_1 + 0x76) = 0x180;
+        D_801C7E74 = 0;
+        D_801C7E78 = 0;
+        D_801C7E28 = 0;
+        D_801C7E2C = 0;
+    }
+    return;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017EFC8);
 

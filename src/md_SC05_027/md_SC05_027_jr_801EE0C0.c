@@ -211,7 +211,26 @@ void func_801EE3C4(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_027/nonmatchings/md_SC05_027_jr_801EE0C0", func_801EE3E4);
+void func_801EE3E4(void) {
+    extern s16 D_801ED838;
+    extern s16 D_801ED90C;
+    extern u8 D_801EE878[];
+    extern u8 D_801EE8B0[];
+    extern u8 D_801EE8E4[];
+
+    switch (D_801ED838) {
+    case 0:
+        *(s32 *)(*(s32 *)&D_801ED90C + 4) = (s32)D_801EE878;
+        break;
+    case 1:
+        *(s32 *)(*(s32 *)&D_801ED90C + 4) = (s32)D_801EE8B0;
+        break;
+    case 2:
+        *(s32 *)(*(s32 *)&D_801ED90C + 4) = (s32)D_801EE8E4;
+        break;
+    }
+}
+
 
 extern s32 D_801ED90C;
 extern s32 D_801ED83C;

@@ -5863,7 +5863,7 @@ extern u16 D_801EFD20;
 
 extern void func_801863D4();
 extern void func_801863B4(s32 a0);
-extern void func_80184ABC(u16 a0);
+extern void func_80184ABC();
 /* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, s16 *). */
 extern void func_80183564(s32 a0, s16 *a1);
 
@@ -6069,7 +6069,7 @@ void func_801837C4(s32 a0, s32 a1) {
     extern u16 D_801EFD20;
     extern void func_801863D4();
     extern void func_801863B4(s32 a0);
-    extern void func_80184ABC(u16 a0);
+    extern void func_80184ABC();
     s32 v0;
     s32 s1;
 
@@ -6862,7 +6862,33 @@ s32 func_80184978(s32 arg0, s32 arg1, s32 arg2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80184ABC);
+void func_80184ABC(s32 a0)
+{
+    extern s32 D_801EFC4C;
+    extern u8 D_80194724[];
+    extern void func_80184B3C();
+
+    s32 i;
+    s32 *p;
+
+    if ((u32)a0 < 0x14) {
+        i = a0 + 1;
+        if (i < 0x15) {
+            register s32 base __asm__("$3");
+
+            base = (s32)((s32 *)&D_801EFC4C);
+            p = (s32 *)(base + i * 4);
+            do {
+                if (D_80194724[i] == 0) {
+                    func_80184B3C(*p);
+                }
+                i++;
+                p++;
+            } while (i < 0x15);
+        }
+    }
+}
+
 
 void func_80184B3C(void *a0)
 {

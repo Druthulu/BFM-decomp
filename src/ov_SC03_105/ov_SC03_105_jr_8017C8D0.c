@@ -4963,7 +4963,46 @@ void func_80184458(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80184500);
+extern void func_800599B8(u16 *a0, u16 *a1);
+extern u16 D_8018E7A0[];
+extern s32 D_8018E7E0;
+extern u16 D_801BA714[16];
+extern s16 D_801BA6B4[];
+extern s16 D_801BA6B6[];
+extern s16 D_801BA6B8[];
+
+void func_80184500(s32 arg0) {
+    u16 *src;
+    u16 *dst;
+    u16 pixel;
+    s32 i;
+    s32 off;
+    s32 scale;
+    s32 c;
+    s32 m0, m1, m2;
+    s32 b, g, h;
+
+    dst = D_801BA714;
+    src = D_8018E7A0;
+    scale = *(s32 *)(arg0 + 0xF4);
+    i = 0;
+    c = -0x8000;
+    off = 0;
+    do {
+        m0 = *(s16 *)((s32)D_801BA6B4 + off) * scale;
+        m1 = *(s16 *)((s32)D_801BA6B6 + off) * scale;
+        i = i + 1;
+        m2 = *(s16 *)((s32)D_801BA6B8 + off) * scale;
+        off = off + 6;
+        pixel = *src++;
+        b = ((pixel & 0x1F) + (m0 >> 16)) & 0x1F;
+        g = (((((pixel << 16) >> 21) & 0x1F) + (m1 >> 16)) & 0x1F);
+        h = (((((pixel << 16) >> 26) & 0x1F) + (m2 >> 16)) & 0x1F);
+        *dst++ = b | ((h << 10) | (g << 5)) | c;
+    } while (i < 0x10);
+    func_800599B8(&D_8018E7E0, D_801BA714);
+}
+
 
 extern u8 D_8018E680[];
 extern s32 D_801BA6A8;
