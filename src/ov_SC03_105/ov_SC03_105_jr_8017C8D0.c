@@ -4236,52 +4236,7 @@ void func_8017FDB8(s32 a0) {
 }
 
 
-void func_8017FEA8(void *a0) {
-    struct {
-        s16 f00;
-        s16 f02;
-        s16 f04;
-        s16 f06;
-        s16 f08;
-        s16 f0a;
-        s16 f0c;
-        s16 f0e;
-        s16 f10;
-        s16 f12;
-        s16 f14;
-        s16 f16;
-        s16 f18;
-        s16 f1a;
-        s16 f1c;
-        s16 f1e;
-        s16 f20;
-        s16 f22;
-        s16 f24;
-        s16 f26;
-        s16 f28;
-        s16 f2a;
-        s16 f2c;
-        s16 f2e;
-        s32 f30;
-        s32 f34;
-        u8  f38;
-    } prim;
-
-    prim.f30 = 0x808080;
-    prim.f34 = 0x50000000;
-    prim.f38 = 0x6E;
-
-    prim.f10 = prim.f0a = prim.f02 = prim.f00 = -0x40;
-    prim.f1a = prim.f18 = prim.f12 = prim.f08 = 0x40;
-    prim.f26 = prim.f22 = 0x100;
-    prim.f14 = prim.f1c = prim.f04 = prim.f0c = 0;
-    prim.f28 = prim.f20 = 0xF14;
-    prim.f2c = prim.f24 = 0xF53;
-    prim.f2e = prim.f2a = 0x13F;
-
-    func_80016EF8(&prim, (void *)(*(s32 *)((u8 *)a0 + 0x20) + 0x34));
-}
-
+INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017FEA8);
 
 
 extern void (*D_8018E280[])(void);
