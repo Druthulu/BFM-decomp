@@ -112,9 +112,14 @@ writes `docs/tool-designs/frontier-analysis-s60.md` — **READ THAT FIRST NEXT S
 ### THE STRATEGIC PICTURE (this is what next session must act on)
 * **3,062 open crackable.** main is **313** crackable, not 1,274 — 961 of its stubs are LINKED PsyQ
   segments and data blobs, linked byte-exact, never decompiled.
-* The drawable pool collapses to **~334 distinct skeletons, ~308 of them generation 6+** (drafted six
-  or more times, refused every time). ~3,900 open functions are SIBLINGS behind those skeletons and
-  bank by mechanical remap once an exemplar cracks.
+* **CORRECTED 19:45 by the Fable audit, and I had this wrong all session.** The atlas at commit:2911
+  measures: 3,106 open instances · 2,245 open skeletons · 1,772 groups, of which **480 are
+  multi-member holding 1,334 siblings** and **1,292 are SINGLETONS carrying 57% of the open
+  instruction mass**. My "~3,900 siblings behind ~334 skeletons" conflated two different
+  populations — the never-drafted stub count with the sibling count — and overstated remap leverage
+  by ~3x. Most remaining work is singletons that each need their own crack. The "~334 drawable,
+  308 gen6+" figure describes only the COLLAPSED wave-eligible view; whole-pool generation is 53%
+  gen0/1 and 25% gen6+, and only **292 functions are 6+ GATE-refused**.
 * **Wide waves now convert at 1-5%.** The drafting side is solved; the gate is the bottleneck (30-67
   min per gate at 1-3 concurrent builds, load 2.6 of 32 cores) and the drafter parks when its queue
   fills. **Optimise banks per GATE MINUTE, not cards per wave.**
@@ -122,8 +127,22 @@ writes `docs/tool-designs/frontier-analysis-s60.md` — **READ THAT FIRST NEXT S
   correlated with bank rate — the best waves had the MOST truncation (cx 8.7% trunc / 43.9% bank,
   dd 8.3% / 51.4%) and the dead waves the least (dl 1.3% / 0.5%, ej 0.6% / 0%). The zeros are the
   registry outages; the slide from 51% to 20% is population generation, not agent budget.
-* **5,388 backlog rows at closeness <= 2** — the grinder (tools/grinder.py, Phase 21, LLM-free,
-  decomp-permuter) had NEVER been run this campaign and is now on them.
+* **The wall is an INTEGRATION wall, not a codegen wall** (Fable's headline, and the highest-value
+  finding of the day): of the 292 functions the gate has refused 6+ times, **178 (61%) already
+  produced a closeness-0 draft** — match_one byte-equality, whole-binary gate rejection. The blocker
+  is symbols/decls/TU plumbing, and the fleet keeps re-drafting them (10,049 reject rows over 574
+  distinct functions). Its top recommendation is a ZERO-TOKEN integration-resolver lane
+  (rtu_match -> reconcile/cast/arity -> reloc_identity -> symfix -> stage to the maintenance gate).
+* **5,388 backlog rows at closeness <= 2** de-duplicate to **~543 open functions** (470 at 0, 73 at
+  1-2) — the grinder (tools/grinder.py, Phase 21, LLM-free, decomp-permuter) had NEVER been run this
+  campaign and is now on them. My own re-measure at 19:40 found 290 still-open closeness-0 functions,
+  down from Fable's 470: the re-gate and grinder are draining exactly this pool.
+* **Gate cost is proportional to FAILURES, not drafts** (measured mechanics): chunk=1 plus the 3-stage
+  ladder means ~3 whole-binary builds per FAILING draft, serial per binary — dd (51% conversion) ran
+  1.8 s/draft, eo (1.4%) 8.6 s/draft, and banks-per-gate-minute fell 17.5 -> 0.10. My "30-67 min
+  gates at 8% CPU" conflated wall_min (which includes drafting and queue time) with gate wall
+  (12-31 min healthy). tools/rtu_match.py inverted into the gate's stage 0 would make builds
+  proportional to BANKS (~20x fewer at current conversion) — shadow-run it over 2-3 gates first.
 
 ### OPEN THREADS (ranked)
 1. **Read `docs/tool-designs/frontier-analysis-s60.md`** — the Fable analyst was told we are NOT married
