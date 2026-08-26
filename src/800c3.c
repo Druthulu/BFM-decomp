@@ -54,7 +54,14 @@ __asm__(
     "nop\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c3", TestEvent);
+__asm__(".text\n.align 2\n.globl TestEvent\n.ent\tTestEvent\n"
+        "TestEvent:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 0xB0\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 0xB\n"
+        "nop\n"
+        ".set\treorder\n.end\tTestEvent\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", EnableEvent);
 
