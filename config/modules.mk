@@ -1474,3 +1474,5 @@ md_SC02_009_ASM_DIR     := asm/md_SC02_009
 md_SC02_009_SRC_DIR     := src/md_SC02_009
 md_SC02_009_UNDEF_SYMS  := build/md_SC02_009/undefined_syms_auto.txt
 md_SC02_009_UNDEF_FUNCS := build/md_SC02_009/undefined_funcs_auto.txt
+
+build/src/md_SC03_076/md_SC03_076.o: JTBL_PADS := 0t1,0  # §8e pads (S62 T3a) tables=+0x214(9+1 trailing),+0x23c(7) packed tight; C data follows

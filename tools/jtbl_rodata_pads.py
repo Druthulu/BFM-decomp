@@ -45,40 +45,68 @@ LABEL_RE = re.compile(r"^\$L\d+:$")
 WORD_RE = re.compile(r"^\.word\s+\$L\d+$")
 
 
+def parse_spec(spec):
+    """'0,4,0t1' -> [(0,0),(4,0),(0,1)]: per jump table, (leading pad bytes, trailing pad WORDS).
+    P31 S62 T3a: `t<n>` is the module-island shape (§154-A) — a matched body re-emits only the real
+    entries while the retail island carries n zero words after the table."""
+    out = []
+    for tok in spec.split(","):
+        m = re.fullmatch(r"(0|4)(?:t(\d+))?", tok.strip())
+        if not m:
+            sys.exit(f"jtbl_rodata_pads: malformed pad token {tok!r} (want 0, 4, 0t<n> or 4t<n>)")
+        out.append((int(m.group(1)), int(m.group(2) or 0)))
+    return out
+
+
 def run(pads, lines, out):
+    """Table-aware (P31 S62 T3a): only an `.align 3` that is FOLLOWED by a `$L` label is a jump
+    table (cc1's emission shape); every other rodata line — const data (`.align 2`, `D_…:`,
+    `.byte`), string pools, `.include`s — passes through untouched, so the filter now serves
+    module TUs (whose .rodata mixes tables with data) as well as the overlay carves."""
+    lines = list(lines)
     in_rodata = False
     consumed = 0
-    for line in lines:
+    in_table = False
+    saw_words = False
+    trailing = 0
+    def end_table():
+        nonlocal in_table, trailing, saw_words
+        if in_table:
+            for _ in range(trailing):
+                out.write(".word 0  # jtbl_rodata_pads: original trailing pad word (module island)\n")
+            in_table, trailing, saw_words = False, 0, False
+    for k, line in enumerate(lines):
         s = line.strip()
-        if s == ".section .rodata":
-            in_rodata = True
-            out.write(line)
-            continue
+        if s == ".section .rodata" or s == ".rdata":
+            end_table(); in_rodata = True; out.write(line); continue
         if in_rodata and (s == ".text" or s.startswith(".section")):
-            in_rodata = False
-            out.write(line)
-            continue
-        if in_rodata:
-            if s.startswith(".align"):
-                parts = s.split()
-                if len(parts) != 2 or parts[1] != "3":
-                    sys.exit(f"jtbl_rodata_pads: unexpected rodata align {s!r} "
-                             f"(cc1 emits `.align 3` per jump table — see verdict.md)")
+            end_table(); in_rodata = False; out.write(line); continue
+        if not in_rodata:
+            out.write(line); continue
+        if in_table and (WORD_RE.match(s) or (not saw_words and LABEL_RE.match(s))):
+            if WORD_RE.match(s):
+                saw_words = True
+            out.write(line); continue
+        if in_table:
+            end_table()
+        if s.startswith(".align"):
+            parts = s.split()
+            nxt = next((l.strip() for l in lines[k + 1:] if l.strip()), "")
+            if len(parts) == 2 and parts[1] == "3" and LABEL_RE.match(nxt):
                 if consumed >= len(pads):
-                    sys.exit(f"jtbl_rodata_pads: more rodata .align directives than pad specs "
+                    sys.exit(f"jtbl_rodata_pads: more rodata jump tables than pad specs "
                              f"({len(pads)}) — table-count drift vs the carve")
-                if pads[consumed] == 4:
+                lead, trailing = pads[consumed]
+                if lead == 4:
                     out.write(".word 0  # jtbl_rodata_pads: original inter-table .align 3 pad\n")
                 consumed += 1
+                in_table, saw_words = True, False
                 continue
-            if s == "" or LABEL_RE.match(s) or WORD_RE.match(s):
-                out.write(line)
-                continue
-            sys.exit(f"jtbl_rodata_pads: unexpected rodata content {s!r} — "
-                     f"the carve model covers only jump tables ($L labels + .word entries)")
+            out.write(line); continue
         out.write(line)
+    end_table()
     if consumed != len(pads):
-        sys.exit(f"jtbl_rodata_pads: consumed {consumed} rodata .align(s) but {len(pads)} pad "
+        sys.exit(f"jtbl_rodata_pads: consumed {consumed} rodata jump table(s) but {len(pads)} pad "
                  f"spec(s) given — table-count drift vs the carve")
 
 
@@ -86,18 +114,10 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--pads", required=True,
-                    help="comma list of pad BYTES before each rodata jump table, in emission "
-                         "order; pads[0] must be 0")
+                    help="comma list, one token per rodata jump table in emission order: the pad "
+                         "BYTES before the table (0|4), optionally t<n> = n trailing zero words")
     a = ap.parse_args()
-    try:
-        pads = [int(x) for x in a.pads.split(",")]
-    except ValueError:
-        sys.exit(f"jtbl_rodata_pads: malformed --pads {a.pads!r}")
-    if not pads or pads[0] != 0:
-        sys.exit(f"jtbl_rodata_pads: pads[0] must be 0 (the first table starts the section): {pads}")
-    if any(p not in (0, 4) for p in pads):
-        sys.exit(f"jtbl_rodata_pads: every pad must be 0 or 4: {pads}")
-    run(pads, sys.stdin, sys.stdout)
+    run(parse_spec(a.pads), sys.stdin, sys.stdout)
 
 
 if __name__ == "__main__":
