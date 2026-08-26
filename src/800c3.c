@@ -155,9 +155,23 @@ void func_8005CF18() {
 
 INCLUDE_ASM("asm/nonmatchings/800c3", read);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", write);
+__asm__(".text\n.align 2\n.globl write\n.ent\twrite\n"
+        "write:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 0xB0\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 0x35\n"
+        "nop\n"
+        ".set\treorder\n.end\twrite\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", ChangeClearPAD);
+__asm__(".text\n.align 2\n.globl ChangeClearPAD\n.ent\tChangeClearPAD\n"
+        "ChangeClearPAD:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $10, $0, 0xB0\n"
+        "jr $10\n"
+        "addiu $9, $0, 0x5B\n"
+        ".set\treorder\n.end\tChangeClearPAD\n"
+        "nop\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", ChangeClearRCnt);
 
