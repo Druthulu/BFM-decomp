@@ -96,6 +96,7 @@ segments:
       - [0x0, .rodata, md_SC03_135]      # module-id header (+jtbl/ptr table) — §154-A
       - [0x268, .rodata, md_SC03_135_jr_801E5358]   # §154-A island split (jtbl_carve --island-split)
       - [0x27c, c, md_SC03_135]
+      - [0xda8, c, md_SC03_135_jr_801E3390]
       - [0x2d70, c, md_SC03_135_jr_801E5358]
       - [0x3594, data, tail] # data tail: pointer tables + packed data (split iterated)
   - [0x880C]   # EOF marker = the 0.4.dec byte length

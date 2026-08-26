@@ -300,7 +300,73 @@ INCLUDE_RODATA("asm/md_SC05_026/nonmatchings/md_SC05_026", D_801EDA60);
 
 INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EE0D4);
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026", func_801EE730);
+void func_801EE730(void) {
+    typedef struct { u32 *ot; u32 pad[4]; } Env_801EFA40;   /* 0x14 stride */
+
+    extern s32 D_801151D0;
+    extern s16 D_8011512C;
+    extern s32 D_80115134;
+    extern s16 D_800B9A02;
+    extern Env_801EFA40 D_800AE7BC[];
+
+    extern s32 *func_801EFA40(s32 *out);
+    extern s32 func_801EE8E0(s32 ot, u8 *s, s16 c);
+    extern s32 func_8005A600(s32, s32, s32, s32, s32);
+
+    s32 ot;
+    u8 *s2;
+    s16 n;
+    s16 i;
+
+    ot = D_801151D0;
+    s2 = (u8 *)D_80115134;
+
+    if (D_8011512C == 1 || D_8011512C == 2) {
+        ot = (s32)func_801EFA40((s32 *)ot);
+    }
+
+    switch (D_8011512C) {
+    case 0:
+    case 5:
+    case 8:
+    case 9:
+        n = 1;
+        break;
+    case 1:
+    case 2:
+        n = 5;
+        break;
+    case 3:
+    case 4:
+    case 10:
+    case 11:
+        n = 5;
+        goto CALL;
+    case 6:
+    case 7:
+    case 12:
+        n = 1;
+    CALL:
+        ot = func_801EE8E0(ot, s2 + 0xA0, 0);
+        break;
+    }
+
+    for (i = 0; i < n; i++) {
+        ot = func_801EE8E0(ot, s2, i);
+        s2 += 0x20;
+    }
+
+    func_8005A600(ot, 0, 0, 0x15, 0);
+
+    *(s32 *)ot = 0x02000000;
+    *(s32 *)ot = (D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] & 0xFFFFFF) | 0x02000000;
+    D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] =
+        (D_800AE7BC[*(u16 *)&D_800B9A02].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+
+    ot += 0x28;
+    ((struct { s32 f; } *)&D_801151D0)->f = ot;
+}
+
 
             typedef struct { s8 c[8]; } Blk8_8012C890_8017C348_801EE8E0;
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_C974_801EE8E0;
