@@ -6681,7 +6681,73 @@ void func_80180F74(s32 target, u16 *cur, s32 step)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80180FF8);
+#include "common.h"
+
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void func_8012B2CC(s32 a0);
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+extern s16 D_80192E64;
+extern s16 D_80192E66;
+extern s16 D_80192E68;
+
+void func_80180FF8(void *param_1) {
+    s16 pkt[10];
+    s32 vec[3];
+    s32 out[3];
+    s32 x;
+    s32 y;
+    s32 z;
+    s32 ret;
+    s32 p;
+    s32 q;
+    s32 p0;
+
+    vec[0] = D_80192E64 << 8;
+    vec[1] = D_80192E66 << 8;
+    vec[2] = D_80192E68 << 8;
+    p0 = *(s32 *)(param_1 + 0x20);
+    func_800484EC(p0 + 0x34, (s32)vec, (s32)out);
+
+    out[0] += *(s16 *)(param_1 + 0x6) << 8;
+    out[1] += *(s16 *)(param_1 + 0xA) << 8;
+    out[2] += *(s16 *)(param_1 + 0xE) << 8;
+
+    x = out[0];
+    if (x < 0) {
+        x += 0xFF;
+    }
+    pkt[0] = x >> 8;
+
+    y = out[1];
+    if (y < 0) {
+        y += 0xFF;
+    }
+    pkt[1] = y >> 8;
+
+    z = out[2];
+    if (z < 0) {
+        z += 0xFF;
+    }
+    pkt[2] = z >> 8;
+
+    pkt[3] = 0x20;
+    pkt[4] = 2;
+    pkt[5] = 0;
+    *(s32 *)&pkt[8] = 0;
+    pkt[7] = 0;
+
+    ret = func_8012C51C(pkt, param_1);
+    if (ret != 0) {
+        p = *(s32 *)(param_1 + 0x20);
+        q = *(s32 *)(ret + 0x20);
+        *(u16 *)(q + 0x12) = *(u16 *)(p + 0x12);
+        func_8012B2CC(ret);
+        func_8002D4C8(0x83A, 0);
+    }
+}
+
 
 extern u8 D_80192E6C[];
 extern u8 D_80192E6E[];

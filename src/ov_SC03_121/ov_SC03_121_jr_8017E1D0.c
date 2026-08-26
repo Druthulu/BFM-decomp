@@ -3377,7 +3377,20 @@ void func_8017FBD8(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017E1D0", func_8017FC50);
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017E1D0", func_8017FCB8);
+extern void func_8012A828(s32 a0, s32 a1);
+extern u8 D_8018E3F4[];
+
+void func_8017FCB8(s32 a0)
+{
+    if (*(s32 *)(a0 + 0x1c) != 0) {
+        (*(s32 *)(a0 + 0x1c))--;
+    } else {
+        *(s16 *)(a0 + 2) = 0xB;
+        func_8012A828(a0, (s32)D_8018E3F4);
+        *(s32 *)(a0 + 0x94) = 0x2C;
+    }
+}
+
 
 /* func_8017FD14 -- ov_SC03_121, TU ov_SC03_121_jr_8017E1D0.c.  MATCH (29 ins).
  * CBCC-guarded trigger: sound(0x709); ++u16 counter at a0+2; ++global

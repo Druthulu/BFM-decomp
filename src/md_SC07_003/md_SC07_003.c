@@ -1598,7 +1598,19 @@ void func_801A310C(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A312C);
+void func_801A312C(s32 a0) {
+    extern void func_8002D4C8(s32 a1, s32 a2);
+
+    if (*(s32 *)(a0 + 0x94) == 0xA) {
+        if ((*(s32 *)(a0 + 0x1C) & 1) == 0) {
+            func_8002D4C8(0xC31, 0);
+        } else {
+            func_8002D4C8(0xC32, 0);
+        }
+        *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1;
+    }
+}
+
 
 
 

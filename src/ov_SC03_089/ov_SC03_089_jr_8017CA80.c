@@ -4401,7 +4401,33 @@ void func_8018188C(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80181A68);
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80181B14);
+typedef struct { s16 w[4]; } V4_80181B14;
+extern s32 D_80126B58;
+extern u16 func_80148800(s32 *a0);
+extern void func_80181BCC(s32 param_1, s16 *param_2);
+
+void func_80181B14(s32 param_1) {
+    extern s16 D_8018D364[];
+    extern s16 D_80126940;
+    V4_80181B14 sp10;
+    s16 *s1;
+    register int zr __asm__("$0");
+    s32 a0;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        *(u8 *)(param_1 + 5) = (*(u8 *)(param_1 + 5) + 1) & 1;
+        *(s32 *)(param_1 + 0x14) = D_8018D364[*(u8 *)(param_1 + 5)];
+    }
+    sp10 = *(V4_80181B14 *)&D_80126940;
+    s1 = &sp10.w[0];
+    sp10.w[0] = 0;
+    a0 = 0x2A0 + zr;
+    if (sp10.w[2] < 0x2A0) {
+        sp10.w[2] = a0;
+    }
+    func_80181BCC(param_1, s1);
+}
+
 
 
 // @class: schedule
