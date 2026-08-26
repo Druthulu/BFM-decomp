@@ -4305,60 +4305,7 @@ void func_8017EBE4(s32 a0)
 }
 
 
-extern u16 D_80189674[];
-
-void func_8017EE48(s32 a0)
-{
-    s32 lim;
-    s32 t;
-    s32 u;
-
-    if (*(s16 *)(a0 + 0xA) < -0xFF)
-        goto neg;
-
-    if (*(s16 *)(D_80189674 + *(s16 *)(*(s32 *)(a0 + 0x64) + 0x70)) == 0)
-        return;
-
-    lim = 0x100;
-    if (*(s16 *)(a0 + 0xFE) == 0)
-        lim = 0xA0;
-
-    *(s32 *)(a0 + 0xE0) = 0;
-
-    if (*(s16 *)(D_80189674 + *(s16 *)(*(s32 *)(a0 + 0x64) + 0x70)) > 0) {
-        if (-lim < *(s16 *)(a0 + 0xDE))
-            *(s16 *)(a0 + 0xDE) -= 8;
-    } else {
-        if (*(s16 *)(a0 + 0xDE) < lim)
-            *(s16 *)(a0 + 0xDE) += 8;
-    }
-    goto writereg;
-
-neg:
-    t = *(s16 *)(a0 + 0xDE);
-    if (t < -2) {
-        *(s32 *)(a0 + 0xE0) += 0x20000;
-    } else if (t >= 3) {
-        *(s32 *)(a0 + 0xE0) -= 0x20000;
-    }
-    t = *(s32 *)(a0 + 0xE0);
-    if (t < 0) {
-        u = t + 0x8000;
-        *(s32 *)(a0 + 0xE0) = u;
-        if (u > 0)
-            *(s32 *)(a0 + 0xE0) = 0;
-    } else if (t > 0) {
-        u = t - 0x8000;
-        *(s32 *)(a0 + 0xE0) = u;
-        if (u < 0)
-            *(s32 *)(a0 + 0xE0) = 0;
-    }
-    *(s32 *)(a0 + 0xDC) += *(s32 *)(a0 + 0xE0);
-
-writereg:
-    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) = *(u16 *)(a0 + 0xDE);
-}
-
+INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_8017EE48);
 
 #include "common.h"
 

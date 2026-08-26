@@ -5482,65 +5482,7 @@ s32 func_80182208(s32 a0, s16 a1) {
 }
 
 
-s32 func_80182288(s32 arg0, s32 arg1)
-{
-    extern void func_80184124(s32 a0, void *a1, void *a2, s32 a3);
-    extern s32 func_801840C0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
-    extern void func_8001C924(s32 a0, void *a1);
-    extern u8 D_801A65FC[];
-    extern u8 D_800D3918[];
-    extern s32 D_801A6834[];
-    register s32 y __asm__("$16");
-    register s32 x __asm__("$17");
-    register s32 state __asm__("$18");
-    register s32 z __asm__("$19");
-    register s32 flags __asm__("$4");
-    register s32 t __asm__("$2");
-    register s32 zr __asm__("$0");
-    s32 sel;
-    s16 sp18[4];
-
-    x = arg0;
-    y = arg1;
-    z = y;
-    state = *(u16 *)(x + 0x70) & 0xF;
-    flags = *(u32 *)(x + 0xE0);
-    t = flags & 4;
-    if (t != 0) {
-        return 0;
-    }
-    sel = (*(u16 *)(x + 0x70) & 0xF) + zr;
-    switch (sel) {
-    case 0:
-        t = flags & 1;
-        if (t != 0) {
-            func_80184124(x, D_801A65FC, sp18, 0xC);
-            y = ((s32 (*)(s32, void *, s32, s32, s32, s32))func_801840C0)(x, sp18, 0x27F, (s16)y, 0, 0);
-            *(u32 *)(x + 0xD0) = y;
-            *(u32 *)(x + 0xE0) &= ~1;
-            if (y != 0) {
-                *(u16 *)(x + 0xEE) = *(u16 *)(y + 0x36);
-            }
-        }
-        break;
-    case 1:
-    case 2:
-    case 3:
-        break;
-    default:
-        return 1;
-    }
-    func_80184124(x, D_800D3918, sp18, 0xB);
-    y = ((s32 (*)(s32, void *, s32, s32, s32, s32))func_801840C0)(x, sp18, 0x27F, (s16)((state + 1) | z), 0, 0);
-    *(u32 *)(x + 0xCC) = y;
-    *(u32 *)(x + 0xE0) |= 4;
-    func_8001C924(*(u32 *)(x + 0x20), D_801A6834[state]);
-    if (y != 0) {
-        *(u16 *)(x + 0xEC) = *(u16 *)(y + 0x36);
-    }
-    return 1;
-}
-
+INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_80182288);
 
 extern void func_801292C8(u8 *a0);
 

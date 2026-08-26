@@ -3493,31 +3493,7 @@ int func_8017D9D8(short *a0) {
 }
 
 
-extern s32 D_8012704C;
-
-s32 func_8017DA5C(void) {
-    s32 x;
-    s32 r;
-
-    x = D_8012704C;
-    if (x == 1) {
-        r = 0x3B;
-    } else {
-        r = x < 2;
-        if (r != 0) {
-            if (x == 0) {
-                r = 0x39;
-            }
-        } else {
-            r = 2;
-            if (x == 2) {
-                r = 0x45;
-            }
-        }
-    }
-    return r;
-}
-
+INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017DA5C);
 
     typedef struct { u8 b[8]; } Blk8_8017DAB8;
 typedef struct {

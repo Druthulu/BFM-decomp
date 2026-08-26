@@ -4829,46 +4829,7 @@ void func_801861FC(s32 a0) {
 }
 
 
-s32 func_8018632C(s32 a0) {
-    extern void func_8012BE54(s32 a0);
-    extern void func_8012F568();
-    extern volatile s16 D_80126B62;
-    extern u8 D_801A61DC[];
-    register s32 ent __asm__("$17");
-    s32 sq;
-    s32 a1;
-    s32 v1;
-    s32 lim;
-    s32 slim;
-    s32 d;
-    u16 stk[3];
-
-    ent = a0;
-    sq = *(s16 *)((u8 *)*(s32 *)(ent + 0x20) + 0x18);
-    __asm__("" : "=r"(sq) : "0"(sq));
-    if (((s32 (*)(s32))func_8012BE54)(ent) > (sq >> 8) * (sq >> 8)) {
-        return 0;
-    }
-    a1 = *(s16 *)(ent + 0xA);
-    lim = *(s16 *)((u8 *)*(s32 *)(ent + 0x20) + 0x1A);
-    v1 = D_80126B62;
-    slim = lim >> 6;
-    d = a1 - v1;
-    if (d >= 0) {
-        if (slim < d) {
-            return 0;
-        }
-    } else {
-        if (slim < v1 - a1) {
-            return 0;
-        }
-    }
-    stk[0] = *(u16 *)(ent + 0x6);
-    stk[1] = *(u16 *)(ent + 0xA);
-    stk[2] = *(u16 *)(ent + 0xE);
-    func_8012F568(1, 0x4201, 0, 0x1C, (s32)stk, (s32)D_801A61DC);
-}
-
+INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8018326C", func_8018632C);
 
 
 extern void (*D_801A61E4[])(void);

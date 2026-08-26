@@ -3596,40 +3596,7 @@ void func_8017F4A0(void *a0) {
 }
 
 
-extern s16 D_80126B62;
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern s32 func_8012AD50(void *a0);
-
-void func_8017F4DC(s32 arg0) {
-    register s32 v1 __asm__("$3");
-    register s32 s0 __asm__("$16");
-    register s32 prod __asm__("$2");
-    register s32 res __asm__("$5");
-
-    if (*(u16 *) (arg0 + 2) == 0) {
-        func_8002D4C8(0x578, 0);
-        func_8012AD50((void *) arg0);
-        return;
-    }
-    v1 = D_80126B62;
-    if (v1 < -0x480) {
-        func_8002D4C8(0x57A, 0x102F);
-        func_8002D4C8(0x579, 0x107F);
-    } else if (v1 >= -0xDF) {
-        func_8002D4C8(0x57A, 0x107F);
-        func_8002D4C8(0x579, 0x1000);
-    } else {
-        v1 += 0x480;
-        prod = v1 * 80 / -928 + 0x2F;
-        res = prod | 0x1000;
-        func_8002D4C8(0x57A, res & 0xFFFF);
-        prod = D_80126B62 + 0x480;
-        prod = prod - prod * 128;
-        res = prod / -928 + 0x7F | 0x1000;
-        func_8002D4C8(0x579, res & 0xFFFF);
-    }
-}
-
+INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017F4DC);
 
 extern void func_8017F630(void);
     void func_8017F600(s32 *param) {
