@@ -2173,3 +2173,9 @@ cross-contamination (caught in shard logs; big arms relaunched cold behind a qua
 judge's R53 false-green (caught by the production gate's disagreement — R34 working as designed);
 the stale fleet_red.txt skip-listing repaired binaries (reconciled); one hung agent killed by the
 silence rule; an R12 slip (a log aimed at scratch instead of .run/) — caught and rerun.
+
+**CORRECTION to the overnight close (R40):** the "fleet regenerated" line above quoted the STALE
+file — bare `progress.py` reports one binary; the fleet aggregation needs `--fleet` (its rc=0 with
+no rewrite was the tell, caught by the unchanged numerator + mtime). The TRUE morning numbers:
+**instr-weighted 98.4% (13,304,903 / 13,523,865) · distinct-code 96.6% (89,005 / 90,929) ·
+2,540 INCLUDE_ASM stubs remaining** — up from 98.2% / 96.4% at the S60 close.
