@@ -117,7 +117,13 @@ void func_800CCDC8(s32 *param_1)
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_046/nonmatchings/md_MAIN_046", func_800CCEB8);
+extern void func_801477E8(s32 *a0, s32 a1);
+
+void func_800CCEB8(void *arg0) {
+    func_801477E8((s32 *)arg0, 0xFFEA0000);
+    *(s16 *)((s32)arg0 + 2) = 2;
+}
+
 
 #include "common.h"
 

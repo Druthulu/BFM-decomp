@@ -3330,7 +3330,389 @@ s32 *func_8018893C(out, src, idx, w, col)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_80188C68);
+extern void func_80029124(s32, s32);
+extern void func_800291A0(s32, s32);
+extern s32 func_800291B4(s32 arg);
+extern void func_80029514(s32);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_800D0EC4(void);
+extern void func_800D0F0C(s32, s32);
+extern int func_800D0F8C(int a0);
+extern int func_800D0FE0(int a0);
+extern void func_800D128C(s32, s32);
+extern void func_80139A44(s32 a0, u16 a1);
+extern void func_80139A68(s32 a0, u16 a1);
+extern s32 func_8017ADE8(s32 a0);
+extern void func_8018654C(void);
+extern void func_8018953C(s32);
+extern s16 func_8018957C(s32 a0);
+#define REC_S16(base, idx) (*(s16 *)((u8 *)&(base) + (s32)(idx) * 0xC))
+#define REC_U16(base, idx) (*(u16 *)((u8 *)&(base) + (s32)(idx) * 0xC))
+#define REC_U8(base, idx)  (*(u8  *)((u8 *)&(base) + (s32)(idx) * 0xC))
+
+s32 func_80188C68(s32 arg0, s16 arg1)
+{
+    extern s16 D_800A6586[];
+    extern s16 D_8010EDEC;
+    extern s16 D_8010EDEE;
+    extern u8  D_8010EDF1;
+    extern u8  D_8010EDF2;
+    extern u16 D_80115112;
+    extern u16 D_8011511A;
+    extern u8  D_8011514C;
+    extern s16 D_8011514E;
+    extern s16 D_80115126;
+    extern u8  D_80115148[];
+    extern s8  D_801BCB68[];
+    extern void (*D_801DE7D8[])(void);
+    extern s32 D_801DE908[];
+    extern u8 *D_801E234C;
+    extern u8 *D_801E2354;
+    extern s32 D_801E2358;
+    extern s16 D_801E1C88;
+    extern s32 D_801E73C0;
+    extern s16 D_801E23E4;
+    extern s16 D_801E23EC;
+    extern u8  D_801E2410[];
+    extern s32 D_801E40C4;
+    extern s32 D_801E40FC;
+    extern s32 D_801E4160;
+    extern s32 D_801E4488;
+
+    /* frame knob: the target's frame is 0x38 (vars=16); ours is vars=8 without
+     * this 8-byte unreferenced local. Emits no code. */
+    s32 unused_[2];
+
+    switch ((s16)(arg0 - 1)) {
+    case 0:
+    case 1:
+    case 3:
+    case 5:
+        if (arg1 == 2) {
+            return -1;
+        }
+        func_8002D4C8(0x46F, 0);
+        D_8011511A = arg1 + 1;
+        return 0;
+
+    case 2:
+        if (arg1 == 2) {
+            return -1;
+        }
+        D_8011511A = 2;
+        func_8002D4C8(0x46F, 0);
+        return 0;
+
+    case 4:
+        if (arg1 == 1) {
+            D_801E1C88 = 1;
+            func_8002D4C8(0x474, 0);
+            return -1;
+        }
+        if (arg1 == 3) {
+            return -1;
+        }
+        func_8002D4C8(0x46F, 0);
+        if (arg1 != 0) {
+            D_8011511A = arg1;
+        } else {
+            D_8011511A = 2;
+        }
+        return 0;
+
+    case 11:
+        D_8011511A = 3;
+        D_8011514E = 0;
+        func_8002D4C8(0x46F, 0);
+        return 0;
+
+    case 12:
+    {
+        register s32 f13 __asm__("$16");
+        register s32 i13 __asm__("$17");
+        register s32 c13 __asm__("$18");
+        register u8 *q __asm__("$5");
+        s16 d;
+        i13 = D_801E2354[arg1];
+        c13 = i13 + 0x62;
+        f13 = ((u8 (*)(s32))func_800291B4)(c13);
+        if ((f13 & 0xF0) != 0x80) {
+            goto bad472;
+        }
+        if (func_8018957C(-D_800A6586[i13]) != 0) {
+        L801896C8:
+            func_8018953C(3);
+            goto bad472;
+        }
+        func_800291A0(c13, f13 | 0x40);
+        func_8018654C();
+        __asm__ __volatile__("" : "=r"(q) : "0"(&D_8011514C));
+        d = (s8)q[0] - (s8)q[-0xA];
+        if (d >= 6) {
+            q[-0xA] = q[0] - 5;
+        } else if (d < 0) {
+            q[-0xA] = q[0];
+        }
+        func_8018953C(1);
+        func_8002D4C8(0x5EE, 0);
+        return 0;
+    }
+
+    case 13:
+    {
+        register s32 f14 __asm__("$16");
+        s32 i14;
+        register s32 n14 __asm__("$17");
+        s32 t14;
+        s32 c14;
+        i14 = arg1;
+        t14 = D_801E2410[i14];
+        n14 = t14 + 1;
+        __asm__("" : "=r"(t14) : "0"(t14)); /* stales (plus t14 1) in cse; dead output -> deleted by flow */
+        c14 = n14 + 0x62;
+        f14 = ((u8 (*)(s32))func_800291B4)(c14);
+        if ((f14 & 0xF0) != 0xC0) {
+            goto bad472;
+        }
+        func_8018957C(D_800A6586[n14] * 9 / 10);
+        func_800291A0(c14, f14 & 0xBF);
+        func_8018654C();
+        D_801E2410[i14] = 0xFF;
+        func_8018953C(4);
+        func_8002D4C8(0x5EE, 0);
+        return 0;
+    }
+
+    case 9:
+    {
+        s32 b10 = D_801E234C[arg1];
+        s32 m10;
+        s32 w10;
+        __asm__ __volatile__("" : "=r"(m10) : "0"(b10));
+        if (m10 < 0x6F) {
+            register s16 slot __asm__("$16");
+            register s16 sraw __asm__("$2");
+            s16 val;
+            s16 x;
+            if (m10 == 0xA) {
+                if (func_800D0F8C(0xA) != 0) {
+                    goto bad472;
+                }
+            }
+            sraw = ((s16 (*)(void))func_800D0EC4)();
+            slot = sraw;
+            if (sraw == 0) {
+                func_8018953C(2);
+                func_8002D4C8(0x45F, 0);
+                return 0;
+            }
+            x = D_801E23E4;
+            if (x != 0) {
+                if (D_80115126 == 0) {
+                    val = REC_S16(D_8010EDEC, b10) * (100 - x) / 100;
+                } else {
+                    val = REC_U16(D_8010EDEC, b10) - x;
+                }
+            } else {
+                val = REC_U16(D_8010EDEC, b10);
+            }
+            if (func_8018957C(-val) != 0) {
+                func_8018953C(3);
+                func_8002D4C8(0x472, 3);
+                return 0;
+            }
+            func_8002D4C8(0x5EE, 0);
+            __asm__("addu %0,%1,$zero" : "=r"(w10) : "r"(b10));
+            func_800D0F0C(slot, w10);
+            if (w10 == 0xA) {
+                func_8018654C();
+            }
+        } else {
+            if (func_8018957C(-REC_S16(D_8010EDEC, m10)) != 0) {
+                goto L801896C8;
+            }
+            func_800D128C(b10, 0);
+        }
+        func_8018953C(1);
+        return 0;
+    }
+
+    case 6:
+    {
+        s32 c7;
+        s32 k7;
+        s32 a7;
+    L801899B0:
+        c7 = (s32)arg1 + 0x2F;
+        k7 = ((u8 (*)(s32))func_800291B4)(c7);
+        if (k7 == 0) {
+            goto bad472;
+        }
+        a7 = REC_S16(D_8010EDEE, k7);
+        if (a7 == 0 || D_80115126 != REC_U8(D_8010EDF2, k7)) {
+            func_8018953C(5);
+            goto bad472;
+        }
+        func_8018957C(a7);
+        ((void (*)(s32))func_800D0FE0)(c7);
+        if (k7 == 0xA) {
+            func_8018654C();
+        }
+        func_8018953C(4);
+        func_8002D4C8(0x5EE, 0);
+        return 0;
+    }
+
+    case 7:
+    {
+        s32 k8;
+        register s32 f8 __asm__("$2");
+        register s32 g8 __asm__("$16");
+        register s32 t8 __asm__("$2");
+        register s32 cv __asm__("$2");
+        s32 p8;
+        register u16 *c __asm__("$3");
+        if ((*(u8 *)D_80115148) != 0) {
+            goto L801899B0;
+        }
+        k8 = ((u8 (*)(s32))func_800291B4)((s32)arg1 + 0x2F);
+        if (k8 == 0) {
+            goto bad472;
+        }
+        f8 = REC_S16(D_8010EDEC, k8);
+        if (f8 >= 0) {
+            D_801E2358 = (s32)&D_801E4160;
+            goto bad472;
+        }
+        __asm__ __volatile__("" : "=r"(g8) : "0"(f8));
+        t8 = g8 & 0x4000;
+        if (t8 != 0) {
+            p8 = ((s32 *)D_801DE7D8)[k8];
+        } else {
+            p8 = D_801DE908[(REC_U8(D_8010EDF1, k8) - 0x14) >> 1];
+        }
+        D_801E2358 = (s32)&D_801E40FC;
+        func_80139A44(p8, 0);
+        c = &D_80115112;
+        cv = *c;
+        cv = cv + 1;
+        *c = cv;
+        return 0;
+    }
+
+    case 14:
+    {
+        register u16 f15 __asm__("$16");
+        register s32 t15 __asm__("$2");
+        s32 c15;
+        s32 k15;
+        s32 n15;
+        c15 = (s32)arg1 + 0x2F;
+        k15 = ((u8 (*)(s32))func_800291B4)(c15);
+        f15 = REC_U16(D_8010EDEC, k15);
+        n15 = REC_U8(D_8010EDF1, k15);
+        t15 = f15 & 0x4000;
+        if (t15 != 0) {
+            s32 m15;
+            __asm__ __volatile__("" : "=r"(m15) : "0"(n15));
+            func_80029124(m15, 1);
+            ((void (*)(s32))func_800D0FE0)(c15);
+            D_801E1C88 = n15 - 0x1C;
+            if (m15 != 0x1F) {
+                return 0;
+            }
+            func_80029514(0x64);
+            func_80029124(0xEB, 1);
+            func_80029124(0x91, 1);
+            func_800291A0(0xCE, 1);
+            return 0;
+        }
+        func_800D0F0C(c15, n15);
+        return 0;
+    }
+
+    case 10:
+    {
+        typedef struct Rec {
+            s32 unk0;
+            s32 unk4;
+            s32 unk8;
+            void (*unkC)(void);
+        } Rec;
+        extern Rec *D_801E23CC[];
+        Rec **pp;
+        Rec *r;
+        Rec **pp2;
+        register s32 dv __asm__("$2");
+        Rec **base;
+        Rec *r2;
+        s32 t;
+        s32 u;
+        if (D_80115126 == 4) {
+            if ((*(u8 *)D_80115148) == 0) {
+                s32 i11 = arg1;
+                if (D_801E23CC[i11] != 0) {
+                    goto bad472;
+                }
+                if (func_8018957C(D_801BCB68[i11]) != 0) {
+                    goto L801896C8;
+                }
+                D_801E2358 = (s32)&D_801E73C0;
+                D_80115112 = D_80115112 + 1;
+                ((void (*)(s32, s32))func_80139A68)((s16)(arg1 + 1), 0);
+                func_8002D4C8(0x5EE, 0);
+                return 0;
+            }
+            base = D_801E23CC;
+            pp = &base[arg1];
+            r = *pp;
+            if (r == 0) {
+                goto bad472;
+            }
+            if (r->unk4 == 0) {
+                goto bad472;
+            }
+            D_801E2358 = r->unk4;
+            if (r->unkC != 0) {
+                r->unkC();
+            }
+            ((void (*)(s32))func_8017ADE8)((*pp)->unk8);
+            goto tail45D;
+        }
+        base = D_801E23CC;
+        pp2 = &base[arg1];
+        r2 = *pp2;
+        if (r2 == 0) {
+            goto bad472;
+        }
+        t = (*(Rec * volatile *)pp2)->unk8;
+        __asm__ __volatile__("");
+        D_801E2358 = r2->unk4;
+        ((void (*)(s32))func_8017ADE8)(t);
+        u = D_801E2358;
+        D_801E23EC = 0;
+        if (u == (s32)&D_801E40C4) {
+            D_801E23EC = 1;
+        }
+        if (u == (s32)&D_801E4488) {
+            D_801E23EC = 2;
+        }
+    tail45D:
+        func_8002D4C8(0x45D, 0);
+        dv = D_80115112;
+        dv = dv + 1;
+        D_80115112 = dv;
+        return 0;
+    }
+    }
+    goto done;
+
+bad472:
+    func_8002D4C8(0x472, 0);
+done:
+    return 0;
+}
+
 
 extern s16 D_80115126;
 extern s32 D_801BCA2C[];

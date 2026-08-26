@@ -122,6 +122,7 @@ segments:
       - [0x52cd4, c, ov_SC03_001_jr_8017AE2C]
       - [0x5cc84, c, ov_SC03_001_jr_80184DDC]
       - [0x5ce0c, c, ov_SC03_001_jr_80184F64]
+      - [0x5e1c4, c, ov_SC03_001_jr_8018631C]
       - [0x5ef58, c, ov_SC03_001_jr_801870B0]
       - [0x606d8, c, ov_SC03_001_jr_80188830]
       - [0x60ed8, c, ov_SC03_001_jr_80189030]
@@ -173,6 +174,7 @@ segments:
       - [0xc4cb0, data, tail19]
       - [0xc4cb4, .rodata, ov_SC03_001_jr_80184F64]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xc4d30, data, tail20]
+      - [0xc4dc0, .rodata, ov_SC03_001_jr_8018631C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xc4dd4, .rodata, ov_SC03_001_jr_801870B0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xc4dec, .rodata, ov_SC03_001_jr_80188830]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xc4e08, data, tail21]

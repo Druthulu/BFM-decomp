@@ -3612,7 +3612,15 @@ extern void func_8012B2CC(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8018431C", func_80185000);
+extern void func_8012B2CC(s32 a0);
+
+void func_80185000(void *arg0) {
+    s32 *p = *(s32 **)((char *)arg0 + 0x20);
+    *(s16 *)((char *)arg0 + 0x2) = 4;
+    *(s16 *)((char *)p + 0x12) = 0x600;
+    func_8012B2CC((s32)arg0);
+}
+
 
 
 extern void func_8012C1B8(void);

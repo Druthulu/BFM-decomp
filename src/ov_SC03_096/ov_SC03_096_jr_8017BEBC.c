@@ -5173,7 +5173,42 @@ s32 func_80180350(s32 a0, s16 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_801803D0);
+extern u8 * func_801290DC(s32 a0, u8 *a1);
+extern u8 D_80193AAC[];
+
+void func_801803D0(s16 *param_1, s32 param_2)
+{
+    register u8 *obj __asm__("$2");
+    register s32 w   __asm__("$16");
+    register s32 chn __asm__("$3");
+    register s32 rv  __asm__("$2");
+    s32 sub;
+    s16 *uVar2;
+
+    uVar2 = param_1;
+    obj = func_801290DC(0x44, (u8 *)uVar2);
+    if (obj != 0) {
+        sub = *(s32 *)(obj + 0x20);
+        *(s32 *)((u8 *)sub + 0x20) = (s32)D_80193AAC;
+        *(u16 *)((u8 *)sub + 0x28) = 0x290;
+        *(u16 *)((u8 *)sub + 0x2A) = 0x1A0;
+        *(u8 *)((u8 *)sub + 0x27) = 0x70;
+        *(u16 *)((u8 *)sub + 0x1A) = 1;
+        *(u16 *)((u8 *)sub + 0x18) = 1;
+        *(s32 *)((u8 *)sub + 0x4) |= 0x50000000;
+        *(s32 *)(obj + 0x1C) = 1;
+        w = param_2;
+        *(s32 *)(obj + 0x2C) = w;
+        chn = w;
+        *(u8 *)((u8 *)sub + 0x26) = chn;
+        *(u8 *)((u8 *)sub + 0x25) = chn;
+        *(u8 *)((u8 *)sub + 0x24) = chn;
+    } else {
+        rv = 0;
+        __asm__ __volatile__("" :: "r"(rv));
+    }
+}
+
 
 extern s32 func_8004787C(s32 a0);
 extern void func_801292C8(u8 *a0);

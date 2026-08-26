@@ -5278,7 +5278,31 @@ s32 func_8017F6D8(s16 *a0) {
     return D_8018A904[(u16)a0[1]]();
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017F714);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B23C(s32 a0);
+
+extern M2C_UNK D_80186E48;
+extern int D_8018A928;
+
+void func_8017F714_impl(int param_1) __asm__("func_8017F714");
+
+void func_8017F714_impl(int param_1)
+{
+    int iVar1;
+
+    func_8012A828(param_1, &D_80186E48);
+    *(short *)(param_1 + 2) = 2;
+    *(short *)(param_1 + 0x34) = 0;
+    func_8012B23C(param_1);
+    *(int *)(param_1 + 0x44) = 0;
+    *(int *)(param_1 + 0x48) = 0;
+    iVar1 = D_8018A928;
+    *(short *)(param_1 + 0x5c) = 0;
+    *(int *)(param_1 + 0x1c) = 0x100;
+    *(short *)(param_1 + 0x84) = 0;
+    *(int *)(param_1 + 0x4c) = -iVar1;
+}
+
 
 // @class: struct
 // @stuck: none — MATCH (26 ins)
@@ -5299,7 +5323,121 @@ INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017F7E
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017FAAC);
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017FD14);
+#include "common.h"
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern s32 func_8017F7E8(s32 a0);
+extern void *func_80010A08(s32 a0);
+extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32 AddPrim(s32 a0, void *a1);
+
+extern u8 D_800AF648;
+extern s16 D_800B9A02;
+extern s32 D_800A651C;
+extern s32 D_80126950;
+extern u8 D_8018A9E0[];
+extern u8 D_8018AA0C[];
+extern u8 D_8018AA0D[];
+extern u8 D_8018AA0E[];
+extern u8 D_8018AA0F[];
+extern u8 D_8018A9EC[];
+extern u8 D_8018A9ED[];
+extern u8 D_8018A9EE[];
+extern u8 D_8018A9EF[];
+extern u8 D_8018A9FC[];
+extern u8 D_8018A9FD[];
+extern u8 D_8018A9FE[];
+extern u8 D_8018A9FF[];
+
+void func_8017FD14(void *a0)
+{
+    s32 tags[4];                                 /* sp+0x18 */
+    s16 vin[4];                                  /* sp+0x28 */
+    s16 xs[8];                                   /* sp+0x30 */
+    s16 ys[8];                                   /* sp+0x40 */
+    struct { u16 sxy[2]; s32 p; s32 flag; } o;   /* sp+0x50 */
+
+    s32 ret;
+    s32 d;
+    s32 x;
+    s32 y;
+    s32 ot;
+    s32 i;
+    s32 v1;
+    u32 *pal;
+    u8 *base;
+    u8 *pp;
+    register u8 *prim __asm__("$20");
+    register u8 *fp __asm__("$16");
+    register void *av __asm__("$17");
+
+    av = a0;
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+
+    vin[0] = *(s16 *)((s8 *)av + 0x6);
+    vin[1] = *(s16 *)((s8 *)av + 0xA);
+    vin[2] = *(s16 *)((s8 *)av + 0xE);
+    ret = RotTransPers((s32)vin, (s32)o.sxy, &o.p, &o.flag);
+    if ((ret > 0) && (o.flag >= 0)) {
+        ot = *(s32 *)((s8 *)&D_800A651C + (u16)D_800B9A02 * 0x14) + ret * 4;
+        d = func_8017F7E8((s32)av);
+        d = d * (D_80126950 + 0x1F4) / (ret * 4);
+
+        x = o.sxy[0];
+        y = o.sxy[1];
+        xs[2] = x;
+        ys[2] = y;
+        xs[0] = x - d;
+        xs[1] = x - ((d * 179) >> 8);
+        xs[3] = x + ((d * 179) >> 8);
+        xs[4] = x + d;
+        ys[0] = y - d;
+        ys[1] = y - ((d * 179) >> 8);
+        ys[3] = y + ((d * 179) >> 8);
+        ys[4] = y + d;
+
+        pal = (u32 *)D_8018A9E0;
+        base = (u8 *)tags;
+        i = 0;
+
+        prim = (u8 *)func_80010A08(0x9C);
+        func_8005A600((s32)prim, 0, 0, (u16)GetTPage(0, 1, 0, 0), 0);
+
+        tags[0] = (s32)(prim + 0xC);
+        pp = prim + 0xC;
+        fp = prim + 0x2E;
+        tags[1] = (s32)(prim + 0x30);
+        tags[2] = (s32)(prim + 0x54);
+        tags[3] = (s32)(prim + 0x78);
+        do {
+            *(u32 *)(fp - 0x1E) = pal[D_8018AA0C[i]];
+            *(u32 *)(fp - 0x16) = pal[D_8018AA0D[i]];
+            *(u32 *)(fp - 0x0E) = pal[D_8018AA0E[i]];
+            v1 = pal[D_8018AA0F[i]];
+            fp[-0x1F] = 8;
+            fp[-0x1B] = 0x3A;
+            *(u32 *)(fp - 0x06) = v1;
+            *(u16 *)(fp - 0x1A) = *(u16 *)(base + 0x18 + D_8018A9EC[i] * 2);
+            *(u16 *)(fp - 0x12) = *(u16 *)(base + 0x18 + D_8018A9ED[i] * 2);
+            *(u16 *)(fp - 0x0A) = *(u16 *)(base + 0x18 + D_8018A9EE[i] * 2);
+            *(u16 *)(fp - 0x02) = *(u16 *)(base + 0x18 + D_8018A9EF[i] * 2);
+            *(u16 *)(fp - 0x18) = *(u16 *)(base + 0x28 + D_8018A9FC[i] * 2);
+            *(u16 *)(fp - 0x10) = *(u16 *)(base + 0x28 + D_8018A9FD[i] * 2);
+            *(u16 *)(fp - 0x08) = *(u16 *)(base + 0x28 + D_8018A9FE[i] * 2);
+            *(u16 *)fp = *(u16 *)(base + 0x28 + D_8018A9FF[i] * 2);
+            AddPrim(ot, pp);
+            pp += 0x24;
+            fp += 0x24;
+            i += 4;
+        } while (i < 0x10);
+        AddPrim(ot, prim);
+    }
+}
+
 
 
 // @class: struct
