@@ -6532,39 +6532,7 @@ void func_80189A00(s32 param_1) {
 }
 
 
-typedef struct {
-    s16 start;
-    s16 end;
-} Range_80189A70;
-
-extern u8 D_8018F71C[];
-extern s16 D_8018F71E;
-extern u32 func_80189DB8(u32, u32);
-
-void func_80189A70(s32 *a0)
-{
-    s32 v;
-    s32 t;
-    s32 c;
-    Range_80189A70 range;
-
-    v = (s16)(*(u16 *)((s32)a0 + 0x100) -= 0x10);
-    if (v < 0) {
-        D_8018F71E = 1;
-        func_8012AD44(a0, 0);
-        return;
-    }
-    t = v << 8;
-    if (v >= 0x20) {
-        c = v | 0x202000;
-    } else {
-        c = v | ((v << 16) | t);
-    }
-    range.start = 0;
-    range.end = 0x50;
-    func_80189B1C(a0, &range, D_8018F71C, ((void * (*)(void))func_80189DB8)(a0, c));
-}
-
+INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189A70);
 
 #include "common.h"
 #include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
