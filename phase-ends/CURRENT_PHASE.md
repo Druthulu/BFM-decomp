@@ -2299,3 +2299,16 @@ HEAD commit:3078).
   targets — re-judge the 54 carve-refused under the new comparer before the carver spends builds.
 
 **NEXT: T2a** — red surgery ov_SC03_015 (Max, solo).
+
+**T2a DONE (ov_SC03_015 GREEN, red 5 → 4, +7 banks).** Two defects, one cause: the 17:43 (08-25)
+"RESTORE overlays.mk" blanket-restore resurrected the 06:58-era `_JTBL_INTERLEAVE` order (data
+`tail20` wedged BETWEEN the jr_80184F14 and jr_80185B44 carves + a phantom `tail21`) after wave de
+(11:17) had merged the carves in the yaml → `make extract` died (`tail21.data.o` not found) and no
+JTBL_PADS value could ever win the S61 search (the order was wrong, not the pads). Retail words at
+0xc1308–0xc139c read as 12 | 8 | 6 | 11 entries: jr_80184F14's table, then jr_80185B44's three
+(func_80185B44 / func_801874C0 / func_80187884) — exactly the 3 `.align 3` tables the TU now emits.
+Fix: order re-aligned to the yaml, pads `0,0,0` (`commit:3084`); R22 clean rebuild byte-identical
+(`d84b01a2`); then the 7 resolver drafts it held gated 7/7 (the gate's own §8a carve for the new
+switch fns updated yaml+mk; re-verified clean). Lesson for R59: a blanket restore of overlays.mk
+must be diffed against every yaml it describes (order ⇔ subseg sequence) — `tools/`-worthy check.
+**NEXT: T2b** — ov_SC03_024 (+4 rodata shift in jr_8017AE2C.o; Max, solo).
