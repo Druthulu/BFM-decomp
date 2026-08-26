@@ -173,7 +173,14 @@ __asm__(".text\n.align 2\n.globl ChangeClearPAD\n.ent\tChangeClearPAD\n"
         ".set\treorder\n.end\tChangeClearPAD\n"
         "nop\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", ChangeClearRCnt);
+__asm__(".text\n.align 2\n.globl ChangeClearRCnt\n.ent\tChangeClearRCnt\n"
+        "ChangeClearRCnt:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 0xC0\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 0xA\n"
+        "nop\n"
+        ".set\treorder\n.end\tChangeClearRCnt\n");
 
 
 extern u32 D_80072938;
