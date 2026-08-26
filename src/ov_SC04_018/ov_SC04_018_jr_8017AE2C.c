@@ -6043,60 +6043,7 @@ DEFINE_func_8018178C()  /* dedup: shared engine-core @0x8018178C (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_801817B8);
 
-#include "common.h"
-
-extern s32 func_80185BE0(s32 a0);
-extern s32 func_80184FA4(s32);
-extern void func_80184ED4(s32, s32, s32, s32);
-extern void func_80184CB8(s32*, s32);
-extern u8 D_801B66C0[];
-extern u8 D_801B6670[];
-extern u8 D_801B662C[];
-extern short D_80191B34;
-
-void func_80181804(void *a0)
-{
-    switch (*(u16 *)((s32)a0 + 0x34)) {
-    case 0:
-        if (func_80185BE0(0xD) == 0) {
-            return;
-        }
-        *(u16 *)((s32)a0 + 0x34) = 1;
-        func_80184ED4((s32)a0, (s32)D_801B66C0, 1, 0x80);
-        return;
-    case 1:
-        func_80185BE0(0xD);
-        if (func_80184FA4((s32)a0) == 0) {
-            return;
-        }
-        *(u16 *)((s32)a0 + 0x34) = 2;
-        func_80184ED4((s32)a0, (s32)D_801B6670, 1, 0x80);
-        return;
-    case 2:
-        if (func_80184FA4((s32)a0) == 0) {
-            return;
-        }
-        *(u16 *)((s32)a0 + 0x34) = 3;
-        *(s32 *)((s32)a0 + 0x1C) = 0x20;
-        return;
-    case 3:
-        if (func_80185BE0(3) == 0) {
-            return;
-        }
-        *(u16 *)((s32)a0 + 0x34) = 4;
-        func_80184ED4((s32)a0, (s32)D_801B662C, 1, 0x80);
-        return;
-    case 4:
-        func_80185BE0(3);
-        if (func_80184FA4((s32)a0) == 0) {
-            return;
-        }
-        *(u16 *)((s32)a0 + 0x2) = 1;
-        func_80184CB8((s32 *)a0, (s32)&D_80191B34);
-        return;
-    }
-}
-
+INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80181804);
 
 
 extern void (*D_80191BDC[])(void);
