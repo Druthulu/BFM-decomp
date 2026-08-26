@@ -189,7 +189,11 @@ void func_800CB4AC(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_039/nonmatchings/md_MAIN_039", func_800CB4CC);
+void func_800CB4CC(void *a0)
+{
+    *(s32 *)((s32)a0 + 0x54) = 0;
+}
+
 
 #include "common.h"
 

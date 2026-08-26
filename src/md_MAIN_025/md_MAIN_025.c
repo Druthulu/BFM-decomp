@@ -215,7 +215,10 @@ void func_800CB708(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_025/nonmatchings/md_MAIN_025", func_800CB758);
+void func_800CB758(void *a0) {
+    *(u16 *)((s32)a0 + 0x60) = 0;
+}
+
 
 void func_800CB760(void *a0, s16 a1) {
     if (*(s16 *)((s32)a0 + 0x60) != a1) {

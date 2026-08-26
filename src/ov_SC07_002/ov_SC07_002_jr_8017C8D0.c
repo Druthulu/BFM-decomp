@@ -5496,7 +5496,12 @@ void func_80182228(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80182264);
+void func_80182264(void *a0)
+{
+    *(u16 *)((s32)a0 + 0xE4) = 0;
+    *(u16 *)((s32)a0 + 0xE6) = 0;
+}
+
 
 void func_80182270(void *a0) {
     s16 rect[4];

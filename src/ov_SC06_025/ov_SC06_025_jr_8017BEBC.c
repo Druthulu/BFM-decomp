@@ -3821,7 +3821,13 @@ s32 aF8017E05C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8017E0F0);
+extern s32 D_801B12E0;
+
+void func_8017E0F0(s32 arg0)
+{
+    D_801B12E0 = 0;
+}
+
 
 extern u16 func_80148800(s32 *);
 extern s32 func_80180ED4(void);

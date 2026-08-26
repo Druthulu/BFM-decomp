@@ -87,9 +87,20 @@ INCLUDE_RODATA("asm/md_MAIN_011/nonmatchings/md_MAIN_011", D_800CEDF8);
 
 INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CF28C);
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CFB88);
+void func_800CFB88(void) {
+    extern s32 D_800D4C90;
+    extern void *D_800D32F8[];
+    extern void func_8001534C(int, void *, int, int, int, int);
+    func_8001534C(0x1C, D_800D32F8[D_800D4C90], 0x78, 0x82, 0, 0);
+}
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CFBF0);
+
+void func_800CFBF0(void) {
+    extern s32 D_800D4C94;
+    extern s32 D_800D3314[];
+    func_8001534C(0x1A, D_800D3314[D_800D4C94], 0x90, 0x9A, 0, 0);
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CFC58);
 
@@ -97,9 +108,18 @@ INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CFCBC);
 
 INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CFDB4);
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D03F8);
+extern u8 D_800AF630[];
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D0430);
+void func_800D03F8(void) {
+    register u8 *v0 = D_800AF630;
+
+    *(u16 *)(v0 + 0xA3B6) = 1;
+}
+
+
+void func_800D0430(void) {
+}
+
 
 
 
@@ -113,7 +133,12 @@ void func_800D0450(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D04C4);
+extern void func_80136EC4(void);
+
+void func_800D04C4(void) {
+    func_80136EC4();
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D04F4);
 

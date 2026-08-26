@@ -173,7 +173,12 @@ void func_801F0894(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_026/nonmatchings/md_SC05_026_jr_801F0748", func_801F08D0);
+void func_801F08D0(void) {
+
+    extern s32 D_801F8328;
+    D_801F8328 = 0;
+}
+
 
 
 

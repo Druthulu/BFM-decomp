@@ -124,7 +124,13 @@ void func_801E2E2C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_136/nonmatchings/md_SC03_136_jr_801E2CD0", func_801E2E68);
+#include "common.h"
+
+void func_801E2E68(void) {
+    extern s32 D_801EA5AC;
+    D_801EA5AC = 0;
+}
+
 
 
 

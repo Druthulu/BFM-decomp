@@ -8661,7 +8661,15 @@ done:
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018B344);
+void func_8018B344(void *arg0) {
+    u8 *temp_v1 = (u8 *)*(s32 *)((u8 *)arg0 + 0xCC);
+    if (temp_v1 != NULL) {
+        temp_v1[0x26] = 200;
+        temp_v1[0x25] = 200;
+        temp_v1[0x24] = 200;
+    }
+}
+
 
 #include "common.h"
 

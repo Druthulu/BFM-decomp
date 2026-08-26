@@ -355,7 +355,14 @@ void func_801EFCF0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC03_079/nonmatchings/md_SC03_079", func_801EFD2C);
+#include "common.h"
+
+extern s32 D_801F8E10;
+
+void func_801EFD2C(void) {
+    D_801F8E10 = 0;
+}
+
 
 
 
