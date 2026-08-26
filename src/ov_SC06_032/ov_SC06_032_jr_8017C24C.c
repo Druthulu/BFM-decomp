@@ -3986,7 +3986,7 @@ void func_8017E428(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
 extern void (*D_801A674C[])(void);
 extern void func_8012C0EC(void *a0);
 extern void func_80181FF4(void *a0);
-extern void func_801820C4(void *a0);
+extern void func_801820C4();
 
 void func_8017E7A4(void *a0) {
     D_801A674C[*(u16 *)((s32)a0 + 0x2)]();
@@ -5122,7 +5122,16 @@ void func_801800C4(s32 p) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_801801A4);
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_801801A4(s32 p) {
+    extern u8 D_801BD7E8[];
+
+    *(s16 *)(p + 2) = 27;
+    func_8012A828(p, D_801BD7E8);
+    *(s32 *)(p + 0x1C) = 0x20;
+}
+
 
 extern void func_8012F214(s32, s32, s32);
 extern s32  func_80184028(void *a0, s32 a1, s32 a2);
@@ -5501,7 +5510,7 @@ void func_801809D0(s32 p)
 }
 
 
-extern void func_80181DDC(void);
+extern void func_80181DDC();
     void func_80180B4C(s32 arg0) {
         if (*(s16 *)(arg0 + 0x98) == 0) {
             ((void (*)(void))func_80181DDC)();
