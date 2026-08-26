@@ -4312,7 +4312,7 @@ void func_801808CC(s32 a0, s32 a1, s32 a2, s32 a3)
 
 
 extern volatile s32 D_801EC44C;
-s32 FUNC_80180a08(s32 param_1, u16 param_2)
+s32 func_80180A08(s32 param_1, u16 param_2)
 {
     u8 *p;
     if (D_801EC44C == 0)
