@@ -107,7 +107,18 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c2_2", func_800624C4);
 
-INCLUDE_ASM("asm/nonmatchings/800c2_2", func_800624F4);
+extern void func_800626DC(void);
+extern void StopPAD2(void);
+extern s32 func_800625A4(void);
+extern s32 D_80072A24;
+
+void func_800624F4(void)
+{
+    func_800626DC();
+    StopPAD2();
+    func_800625A4();
+    D_80072A24 = 0;
+}
 
 __asm__(
     ".text\n"
