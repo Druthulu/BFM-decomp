@@ -5053,7 +5053,19 @@ void func_8017F5A4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017F6C4);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern s16 D_801897BE[];
+
+void func_8017F6C4(void)
+{
+    register s32 a0 __asm__("$4");
+    s32 p;
+
+    p = a0;
+    func_8012AD44((s32 *)p, 2);
+    *(s32 *)(p + 0x1C) = D_801897BE[*(s16 *)(p + 0x70) * 4];
+}
+
 
 #include "common.h"
 
