@@ -4443,44 +4443,7 @@ void func_80180908(s32 *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801809A8);
 
-typedef struct {
-    s16 id;
-    s16 flag;
-    s16 x;
-    s16 y;
-    s16 size;
-    s16 pad;
-    s32 param;
-    s32 ptr;
-} Sub_80180A54;
-
-u32 *func_80180A54(void *a0, s32 a1, s32 a2)
-{
-    extern u8 D_801DA130[];
-    u8 *base;
-    Sub_80180A54 *e;
-    s32 i;
-
-    base = D_801DA130;
-    for (i = 0; i < 0x40; i++) {
-        e = (Sub_80180A54 *)(base + 4);
-        if (e->flag == 0) {
-            func_80016714(base, 0x18);
-            e->flag = 1;
-            e->ptr = (s32)a0;
-            e->param = a1;
-            e->y = a2;
-            e->x = a2;
-            e->size = 0x1000;
-            *(u32 *)base |= 0x50000000;
-            e->id = rand() % 16;
-            return (u32 *)base;
-        }
-        base += 0x18;
-    }
-    return 0;
-}
-
+INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80180A54);
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80180B3C);
 
