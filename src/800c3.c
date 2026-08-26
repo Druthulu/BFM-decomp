@@ -153,7 +153,11 @@ __asm__(".word 0x00000000");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D0D8);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D0F8);
+extern void func_8005D8B4(void);
+
+void func_8005D0F8(void) {
+    func_8005D8B4();
+}
 
 extern void func_8005D980(void);
 

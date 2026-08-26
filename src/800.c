@@ -4914,7 +4914,30 @@ s32 LzssDecodeSector(u8 *src) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80018918);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800189A8);
+extern s32 func_80018A20(s32 arg0);
+extern void func_80018C64(void *a0);
+extern void func_80018CE8(u8 *p);
+extern void func_80018E9C(s32 a0);
+extern u8 D_80078D98;
+extern s32 D_800A5E78;
+
+void func_800189A8(void) {
+    u32 i;
+    u8 *p;
+
+    D_800A5E78 = 1;
+    i = 0;
+    p = &D_80078D98;
+    do {
+        if (func_80018A20((s32)i) != 0) {
+            func_80018C64(p);
+        }
+        func_80018CE8(p);
+        func_80018E9C((s32)p);
+        i++;
+        p += 0x4C;
+    } while (i < 2);
+}
 
 
 extern u8 D_80078D98;
@@ -13007,7 +13030,11 @@ void func_80028E44(s32 a0) {
     func_80029124(0xE, a0 & 0xFF);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028E68);
+extern s32 func_80029178();
+
+u8 func_80028E68(void) {
+    return func_80029178(0xF);
+}
 
 extern void func_80029124(s32, s32);
 
