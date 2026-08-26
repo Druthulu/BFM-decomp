@@ -7,6 +7,7 @@
 # sees), build the overlay, cmp against the byte-good binary, map the first diverging offsets, RESTORE.
 set -u; cd /home/musashi/bfm-decomp
 B=$1; F=$2; TU=$3; DR=$4; D=.run/diff_autopsy; GOOD=$(cut -c1-40 config/check.$B.sha)
+mkdir -p "$D" || exit 2
 cp "$TU" "$D/$B.$F.tu.orig"
 restore(){ cp "$D/$B.$F.tu.orig" "$TU"; make build BINARY=$B >/dev/null 2>&1; echo "restored: $(sha1sum build/$B/$B | cut -c1-12) vs good ${GOOD:0:12}"; }
 trap restore EXIT
@@ -21,7 +22,7 @@ assert len(pat.findall(t))==1, pat.findall(t)
 open(tu,'w').write(pat.sub(lambda m:d, t))
 PY
 make build BINARY=$B > "$D/$B.$F.build.log" 2>&1; rc=$?
-echo "build rc=$rc $(grep -ciE 'error' $D/$B.$F.build.log) error-lines"
+echo "build rc=$rc"; [ "$rc" != 0 ] && { echo "-- first build errors:"; grep -E "\.[ch]:[0-9]+: (error|.*undeclared|.*conflicting|.*parse error)|undefined reference|Error [0-9]" "$D/$B.$F.build.log" | head -4 | cut -c1-160; echo "-- (build failed: the cmp below is against a STALE binary — ignore it)"; }
 cp build/$B/$B "$D/$B.$F.bad"
 echo "sizes good=$(stat -c %s $D/$B.good) bad=$(stat -c %s $D/$B.$F.bad)"
 N=$(cmp -l "$D/$B.good" "$D/$B.$F.bad" | wc -l); echo "differing bytes: $N"
