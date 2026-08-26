@@ -2184,3 +2184,15 @@ no rewrite was the tell, caught by the unchanged numerator + mtime). The TRUE mo
 repair healed it; its list row was stale). **Verified red set = 5**: the 4 named mysteries +
 **ov_SC02_005, a fresh overnight drift** (diagnosis in .run/resolver/probe/build_ov_SC02_005.log;
 the misplaced-symbol locate above names the object). Both red files synced to the verified set.
+
+**CORRECTION + verdict on ov_SC02_005 (09:45, R40):** my "the 05:38 commit broke extract" attribution
+was WRONG — the triple-consistent revert (TU + yaml to pre-05:38; mk blocks proved identical) still
+fails extract with the same ld_interleave expectation, so the binary carries TWO STACKED defects:
+(a) an extract/ld_interleave inconsistency of UNKNOWN, older date (never surfaced because nothing
+ran a full extract for this binary between its introduction and this morning's probes — gates build
+incrementally), and (b) the 05:38 bank's +0xAE8 rodata shift on top. Five surgical attempts spent
+(token removal ×2, §81 carve, §260 island path, pair+triple revert — every one snapshot-protected
+and byte-checked; the tree is at stable HEAD red). It stays on the red list, skip-guarded, blocking
+nothing — a fresh-eyes day-session surgery. The general lesson repeats §61c with a new edge:
+INCREMENTALLY-GREEN HIDES EXTRACT ROT — a periodic `make extract` sweep per binary (not just
+check-all builds) would have dated defect (a) precisely.
