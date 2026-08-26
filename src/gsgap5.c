@@ -2,9 +2,23 @@
 
 INCLUDE_ASM("asm/nonmatchings/gsgap5", SetVertex0);
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetVertex1);
+void SetVertex1(long *r0)
+{
+    __asm__ volatile(
+        "lwc2 $2, 0( %0 );"
+        "lwc2 $3, 4( %0 )"
+        :
+        : "r"(r0));
+}
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetVertex2);
+void SetVertex2(long *r0)
+{
+    __asm__ __volatile__(
+        "lwc2 $4, 0( %0 );"
+        "lwc2 $5, 4( %0 )"
+        :
+        : "r"(r0));
+}
 
 void SetVertexTri(long *r0, long *r1, long *r2)
 {
@@ -102,11 +116,32 @@ void SetMAC123(long r0, long r1, long r2)
         : "r"(r0), "r"(r1), "r"(r2));
 }
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetData32);
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetDQA);
+void SetData32(long r0)
+{
+    __asm__ __volatile__(
+        "mtc2 %0, $30"
+        :
+        : "r"(r0));
+}
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetDQB);
+void SetDQA()
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "ctc2   $4, $27\n"
+        ".set\treorder\n"
+    );
+}
+
+void SetDQB()
+{
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "ctc2   $4, $28\n"
+        ".set\treorder\n"
+    );
+}
 
 void func_80053AD8()
 {

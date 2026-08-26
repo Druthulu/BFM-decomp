@@ -651,7 +651,11 @@ s32 func_80013028(s32 x, s32 y, s16 n, s16 d, s16 *p) {
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800130D0);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001311C);
+extern s32 func_80013154(s32 a0, s32 a1, s32 a2);
+
+s16 func_8001311C(s16 a0, s16 a1, s16 a2) {
+    return func_80013154(a0, a1, a2);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80013154);
 
@@ -5312,7 +5316,11 @@ void func_800191A8(void) {
     D_80078E30 = -1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800191BC);
+extern s32 D_80078E30;
+
+void func_800191BC(s16 arg0) {
+    D_80078E30 = arg0;
+}
 
 s32 func_800191D4(s32 a0) {
     extern s32 D_80078E30;
@@ -20057,7 +20065,9 @@ void func_80038838(void *arg0)
     *(unsigned char *)((unsigned long)arg0 + 0x1F6) = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800388E8);
+s32 func_800388E8(void *arg0, s16 arg1) {
+    return arg1 * *(s16 *)((u8 *)arg0 + 0x10) * 4 >> 16;
+}
 
 void func_80038908(unsigned char *arg0) {
     extern short D_800A4EF8;
@@ -20185,11 +20195,36 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80039C70);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80039DEC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80039F14);
+void func_80039F14(u8 *arg0, s16 arg1, u8 arg2) {
+    u8 b;
+
+    arg0 += arg1 * 26;
+    b = arg0[0x21];
+    arg0[0x20] = arg2;
+    arg0[0x22] = arg2 + 1;
+    arg0[0x21] = b | 2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80039F50);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8003A098);
+typedef struct {
+    u8 b0;
+    u8 pad[25];
+} A098Rec;
+
+typedef struct {
+    u8 *stream;
+    u8 pad04[0x16];
+    A098Rec rec[1];
+} A098Ctx;
+
+void func_8003A098(A098Ctx *arg0, s16 arg1) {
+    u8 *v1;
+
+    v1 = arg0->stream;
+    arg0->stream = v1 + 1;
+    arg0->rec[arg1].b0 = *v1;
+}
 
 void func_8003A0D0(s32 *arg0) {
     (*arg0)++;
@@ -20300,7 +20335,12 @@ u32 func_8003A3D8(u32 a) {
     return ((a & 0xFF) << 24) + (((a >> 8) & 0xFF) << 16) + (((a >> 16) & 0xFF) << 8) | (a >> 24);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8003A404);
+s32 func_8003A404(u32 arg)
+{
+    u32 h = arg >> 8;
+    u32 l = (arg & 0xFF) << 8;
+    return (s16)((h & 0xFF) + l);
+}
 
 extern void _SpuInit(s32);
 

@@ -21,7 +21,16 @@ __asm__(".text\n.align 2\n.globl FlushCache\n.ent\tFlushCache\n"
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE38);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", _96_remove);
+__asm__(".text\n.align 2\n.globl _96_remove\n.ent\t_96_remove\n"
+        "_96_remove:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 160\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 114\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        ".set\treorder\n.end\t_96_remove\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", DeliverEvent);
 
@@ -94,9 +103,21 @@ INCLUDE_ASM("asm/nonmatchings/800c3", ResetEntryInt);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", HookEntryInt);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF08);
+void func_8005CF08(void) {
+    __asm__ volatile(
+        "addiu $a0, $zero, 0x1\n\t"
+        "syscall"
+    );
+}
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CF18);
+void func_8005CF18() {
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "addiu $a0, $zero, 2\n"
+        "syscall 0\n"
+        ".set\treorder\n"
+    );
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", read);
 
@@ -704,7 +725,11 @@ INCLUDE_ASM("asm/nonmatchings/800c3", SysDeqIntRP);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E188);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E194);
+void func_8005E194(void *arg0, u8 arg1, u32 arg2, u8 arg3) {
+    *(u8 *)((u8 *)arg0 + 0x36) = arg1;
+    *(u32 *)((u8 *)arg0 + 0x2C) = arg2;
+    *(u8 *)((u8 *)arg0 + 0x35) = arg3;
+}
 
 extern void func_8005EA54();
 extern void func_8005EA68(void *arg0, s32 arg1);
@@ -1157,7 +1182,13 @@ void func_8005F228(void *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F290);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F384);
+void func_8005F384(void *arg0) {
+    u8 temp;
+
+    temp = *(u8 *)((u8 *)arg0 + 0x36);
+    *(u8 *)((u8 *)arg0 + 0x36) = 0;
+    *(u8 *)((u8 *)arg0 + 0x37) = temp;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F394);
 

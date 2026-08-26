@@ -2,7 +2,12 @@
 
 INCLUDE_ASM("asm/nonmatchings/800c2_2", func_80062388);
 
-INCLUDE_ASM("asm/nonmatchings/800c2_2", func_80062394);
+extern s32 D_80072A24;
+
+s32 func_80062394(void)
+{
+    return D_80072A24;
+}
 
 __asm__(
     ".text\n"

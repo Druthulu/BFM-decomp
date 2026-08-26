@@ -318,9 +318,18 @@ s32 SetGraphQueue(s32 a0)
     return s2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", GetGraphType);
+extern u8 D_80072788;
 
-INCLUDE_ASM("asm/nonmatchings/800c", GetGraphDebug);
+s32 GetGraphType(void)
+{
+    return D_80072788;
+}
+
+extern u8 D_8007278A;
+
+s32 GetGraphDebug(void) {
+    return D_8007278A;
+}
 
 extern u8 D_8007278A;
 extern u32 D_80072784;
@@ -1622,9 +1631,67 @@ s32 SYS_OBJ_191C(s32 a0, s32 a1, s32 a2, s32 a3) {
     return v1 | v0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005AB58);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005AB58\n"
+    ".ent\tfunc_8005AB58\n"
+    "func_8005AB58:\n"
+    ".frame\t$sp,16,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+        ".set\tnoreorder\n"
+        "addu  $a3, $a0, $zero\n"
+        "sll   $a0, $a0, 16\n"
+        "sra   $a0, $a0, 16\n"
+        "bltz  $a0, .L8005AB94\n"
+        " addiu $sp, $sp, -16\n"
+        "lui   $v0, %hi(D_8007278C)\n"
+        "lh    $v0, %lo(D_8007278C)($v0)\n"
+        "nop\n"
+        "addu  $a2, $v0, $zero\n"
+        "addiu $v0, $v0, -1\n"
+        "slt   $v0, $v0, $a0\n"
+        "bnez  $v0, SYS_OBJ_1964\n"
+        " addiu $v0, $a2, -1\n"
+        "j     SYS_OBJ_1964\n"
+        " addu $v0, $a3, $zero\n"
+        ".L8005AB94:\n"
+        "addu  $v0, $zero, $zero\n"
+        ".set\treorder\n"
+    ".end\tfunc_8005AB58\n"
+);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1964);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1964\n"
+    ".ent\tSYS_OBJ_1964\n"
+    "SYS_OBJ_1964:\n"
+    ".frame\t$sp,0,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "addu  $a3, $v0, $zero\n"
+    "sll   $v0, $a1, 16\n"
+    "sra   $a2, $v0, 16\n"
+    "bltz  $a2, .L8005ABD4\n"
+    "nop\n"
+    "lui   $v0, %hi(D_8007278E)\n"
+    "lh    $v0, %lo(D_8007278E)($v0)\n"
+    "nop\n"
+    "addu  $a0, $v0, $zero\n"
+    "addiu $v0, $v0, -0x1\n"
+    "slt   $v0, $v0, $a2\n"
+    "beqz  $v0, SYS_OBJ_19A4\n"
+    "nop\n"
+    "j     SYS_OBJ_19A4\n"
+    "addiu $a1, $a0, -0x1\n"
+    ".L8005ABD4:\n"
+    "addu  $a1, $zero, $zero\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_1964\n"
+);
 
 __asm__(
     ".text\n"
@@ -1665,9 +1732,66 @@ s32 SYS_OBJ_19D8(s32 a0, s32 a1, s32 a2, s32 a3) {
     return v0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005AC24);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005AC24\n"
+    ".ent\tfunc_8005AC24\n"
+    "func_8005AC24:\n"
+    ".frame\t$sp,16,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "addu  $a3, $a0, $zero\n"
+    "sll   $a0, $a0, 16\n"
+    "sra   $a0, $a0, 16\n"
+    "bltz  $a0, 1f\n"
+    " addiu $sp, $sp, -16\n"
+    "lui   $v0, %hi(D_8007278C)\n"
+    "lh    $v0, %lo(D_8007278C)($v0)\n"
+    "nop\n"
+    "addu  $a2, $v0, $zero\n"
+    "addiu $v0, $v0, -1\n"
+    "slt   $v0, $v0, $a0\n"
+    "bnez  $v0, SYS_OBJ_1A30\n"
+    " addiu $v0, $a2, -1\n"
+    "j     SYS_OBJ_1A30\n"
+    " addu  $v0, $a3, $zero\n"
+    "1:\n"
+    "addu  $v0, $zero, $zero\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005AC24\n"
+);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1A30);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1A30\n"
+    ".ent\tSYS_OBJ_1A30\n"
+    "SYS_OBJ_1A30:\n"
+    ".frame\t$sp,0,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "addu  $a3, $v0, $zero\n"
+    "sll   $v0, $a1, 16\n"
+    "sra   $a2, $v0, 16\n"
+    "bltz  $a2, .L8005ACA0\n"
+    " nop\n"
+    "lui   $v0, %hi(D_8007278E)\n"
+    "lh    $v0, %lo(D_8007278E)($v0)\n"
+    "addu  $a0, $v0, $zero\n"
+    "addiu $v0, $v0, -1\n"
+    "slt   $v0, $v0, $a2\n"
+    "beqz  $v0, SYS_OBJ_1A70\n"
+    " nop\n"
+    "j     SYS_OBJ_1A70\n"
+    " addiu $a1, $a0, -1\n"
+    ".L8005ACA0:\n"
+    "addu  $a1, $zero, $zero\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_1A30\n"
+);
 
 __asm__(
     ".text\n"
@@ -1736,7 +1860,12 @@ __asm__(
     ".end\tfunc_8005ACF0\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1AF0);
+s32 SYS_OBJ_1AF0(void) {
+    register s32 r_v0 __asm__("v0");
+    register s32 r_v1 __asm__("v1");
+    r_v0 |= 0xE5000000;
+    return r_v1 | r_v0;
+}
 
 __asm__(
 ".text\n"
@@ -2983,7 +3112,20 @@ __asm__(
     ".end\tfunc_8005C054\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2F7C);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_2F7C\n"
+    ".ent\tSYS_OBJ_2F7C\n"
+    "SYS_OBJ_2F7C:\n"
+    ".set\tnoreorder\n"
+    "lw    $ra, 24($sp)\n"
+    "addiu $sp, $sp, 32\n"
+    "jr    $ra\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tSYS_OBJ_2F7C\n"
+);
 
 /*
  * func_8005C1C0 -- GPU-primitive dispatch sibling (same family as func_80059FC0/SYS_OBJ_E34,

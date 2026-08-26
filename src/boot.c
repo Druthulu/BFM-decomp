@@ -177,7 +177,10 @@ __asm__(".text\n"
 
 INCLUDE_ASM("asm/nonmatchings/boot", main);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_8001096C);
+void func_8001096C(void) {
+    extern void func_8002CDD8(void);
+    func_8002CDD8();
+}
 
 
 extern s32 VSync(s32);
@@ -198,7 +201,10 @@ void func_80010AE0(s32 arg0) {
     D_80074778 = arg0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010B10);
+s32 func_80010B10(void) {
+    extern s32 D_80074778;
+    return D_80074778;
+}
 
 /* (*gameModeHandlerTable[gameMode])() — 18 handlers @0x800629F4 (entry [7] =
  * DebugMenuHandler). gameMode is a u16 at D_800AF630 + 0xA3AE (= 0x800B99DE) in the
@@ -277,7 +283,10 @@ void func_80010CEC(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010D60);
+void func_80010D60(void) {
+    func_80010AE0(0x3E0);
+    func_80011818(5);
+}
 
 extern u8 D_800AF630[];
 extern void func_80011778(void);
@@ -287,11 +296,23 @@ void func_80010DA0(void) {
     func_80011778();
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010DE0);
+extern void func_80011818(s32);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010E14);
+void func_80010DE0(void) {
+    func_80011818(5);
+}
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010E48);
+extern void func_80011818(s32);
+
+void func_80010E14(void) {
+    func_80011818(0xD);
+}
+
+extern void func_80011818(s32);
+
+void func_80010E48(void) {
+    func_80011818(0xC);
+}
 
 extern u8 D_800AF630[];
 extern void func_8002D4C8(s32, s32);
@@ -421,7 +442,13 @@ void func_800111BC(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011220);
+extern void func_80011778(void);
+extern void func_80011B7C(s32);
+
+void func_80011220(void) {
+    func_80011778();
+    func_80011B7C(0);
+}
 
 extern u8 D_800AF630[];
 extern void func_800CEDFC(void);
@@ -433,13 +460,23 @@ void func_8001125C(void) {
     func_800CEDFC();
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_800112A8);
+void func_800112A8(void) {
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_800112C8);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011320);
+extern u8 D_800AF630[];
+extern void func_800CEDFC(void);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011350);
+void func_80011320(void) {
+    func_800CEDFC();
+}
+
+extern s32 D_80074784;
+
+s32 func_80011350(void) {
+    return D_80074784;
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011380);
 
@@ -580,7 +617,11 @@ void func_80011DCC(void) {
     D_80074780 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011DF4);
+extern s32 D_80074780;
+
+s32 func_80011DF4(void) {
+    return D_80074780;
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011E24);
 
