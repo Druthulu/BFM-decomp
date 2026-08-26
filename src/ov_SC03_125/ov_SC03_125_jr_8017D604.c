@@ -3524,7 +3524,10 @@ void func_8017EFEC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_8017F00C);
+s32 func_8017F00C(void) {
+    return func_800D0F8C(0x57) == 0;
+}
+
 
 extern int func_80178970(void);
 extern s16 D_80187DD0[6];

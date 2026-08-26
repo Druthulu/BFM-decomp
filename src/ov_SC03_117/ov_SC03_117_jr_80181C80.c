@@ -4116,7 +4116,29 @@ void func_80183BFC(int a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_80181C80", func_80183CCC);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+
+void func_80183CCC(s32 a0)
+{
+    short cnt;
+    s32 v1;
+
+    *(short *)(a0 + 0x2) = 0x11;
+    cnt = *(unsigned short *)(a0 + 0x70) + 1;
+    *(unsigned short *)(a0 + 0x70) = cnt;
+    if (cnt < 0x17) {
+        v1 = func_8012C658(0x1EA, cnt, a0);
+        if (v1 != 0) {
+            *(unsigned short *)(v1 + 0xFE) = *(unsigned short *)(a0 + 0x36);
+            *(s32 *)(a0 + 0x6C) = v1;
+            *(unsigned short *)(v1 + 0x108) = (*(unsigned short *)(a0 + 0x70) - 0x11) << 9;
+        }
+    }
+    cnt = *(unsigned short *)(a0 + 0x70) - 1;
+    *(unsigned short *)(a0 + 0x70) = cnt;
+    func_80182F28(a0);
+}
+
 
 
 

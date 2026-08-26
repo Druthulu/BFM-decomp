@@ -3719,7 +3719,14 @@ void func_8017DA94(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017DB10);
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017DB58);
+extern s32 D_80188898;
+extern void func_8017DB80(s32 a0, s32 a1);
+
+void func_8017DB58(s32 a0)
+{
+    func_8017DB80(a0, &D_80188898);
+}
+
 
 /* func_8017DB80 -- ov_SC02_041, subseg ov_SC02_041_jr_8017BEBC (87 ins).
  * Zero-crack sibling family exemplar (reach x5).

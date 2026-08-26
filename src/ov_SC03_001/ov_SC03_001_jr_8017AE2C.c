@@ -6992,7 +6992,22 @@ extern void func_80178CBC(s32 *a0, s32 a1);
 
 INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_801813F0);
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80181458);
+extern s32 func_8018766C(s32 arg0, s32 arg1);
+
+void func_80181458(s32 *arg0) {
+    register s32 *s0 asm("$16") = arg0;
+    s32 v1;
+    *(s32 *)((u8 *)(*(s32 **)((u8 *)s0 + 0xCC)) + 0xB0) = 1;
+    if (func_8018766C(6, 0x12) != 0) {
+        v1 = 1;
+    } else {
+        v1 = (func_8018766C(0x12, 0x15) != 0) ? 2 : 0;
+    }
+    if (v1 != 1) {
+        func_80181298((short *)s0);
+    }
+}
+
 
 extern s32 func_8018766C(s32 arg0, s32 arg1);
 extern short D_80191B3C;

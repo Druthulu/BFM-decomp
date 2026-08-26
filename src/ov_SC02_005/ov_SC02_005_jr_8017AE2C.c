@@ -3306,7 +3306,12 @@ void func_8017BE60(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017AE2C", func_8017BE9C);
+extern void func_8017BF14(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+
+void func_8017BE9C(s32 arg0, s32 arg1) {
+    func_8017BF14(arg0, arg1, 0xC, 0);
+}
+
 
 extern void func_8017BF14(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     void func_8017BEC0(s32 arg0, s32 arg1, s16 arg2) {

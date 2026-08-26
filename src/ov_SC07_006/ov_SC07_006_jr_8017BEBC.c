@@ -4528,7 +4528,59 @@ void func_801802EC(s32 t)
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_801805D4);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80180924);
+#ifndef BFM_ENGINE_TYPES_H
+
+
+
+/* MUST be `inline` -- see L1 in ov_SC07_006_jr_8017BEBC.c. Emitted only under the
+   BFM_ENGINE_TYPES_H guard (cf. ov_SC07_006_jr_80154C24.c): present for standalone
+   match_one probes, a no-op once spliced into the real TU, which defines its own
+   static inline morph_lerp. */
+static inline void morph_lerp(Morph_8017DC1C *o, SVECTOR2 *b, SVECTOR2 *a, s32 t)
+{
+    SVECTOR2 *d;
+    SVECTOR2 *pa;
+    SVECTOR2 *pb;
+    s32 i;
+
+    if (o->mode == 1) {
+        d = (SVECTOR2 *)o->dst;
+    } else {
+        d = (SVECTOR2 *)((u32 *)&o->dst + (o->dst >> 2));
+    }
+    i = o->n;
+    pb = b;
+    pa = a;
+    for (; i != 0; i--) {
+        d->vx = pb->vx + (((pa->vx - pb->vx) * t) >> 12);
+        d->vy = pb->vy + (((pa->vy - pb->vy) * t) >> 12);
+        d->vz = pb->vz + (((pa->vz - pb->vz) * t) >> 12);
+        d++;
+        pb++;
+        pa++;
+    }
+}
+#endif
+
+void func_80180924(s32 t)
+{
+    extern Morph_8017DC1C *D_801BF56C;
+    extern Morph_8017DC1C *D_801BF570;
+    extern Morph_8017DC1C *D_801BF574;
+    extern Morph_8017DC1C *D_801BF578;
+    extern SVECTOR2 *D_801C1E80;
+    extern SVECTOR2 *D_801C1E84;
+    extern SVECTOR2 *D_801C1E88;
+    extern SVECTOR2 *D_801C1E8C;
+    extern SVECTOR2 *D_801C1E90;
+    extern SVECTOR2 *D_801C1E94;
+    extern SVECTOR2 *D_801C1E98;
+    morph_lerp(D_801BF56C, D_801C1E80, D_801C1E90, t);
+    morph_lerp(D_801BF570, D_801C1E84, D_801C1E94, t);
+    morph_lerp(D_801BF574, D_801C1E88, D_801C1E98, t);
+    morph_lerp(D_801BF578, D_801C1E8C, D_801C1E8C, t);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80180CFC);
 
@@ -4593,7 +4645,72 @@ void func_8018163C(s32 t)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80181924);
+#include "common.h"
+
+/* ==== §77 PROBE LAYER — self-erasing =========================================
+ * The real TU (src/ov_SC07_006/ov_SC07_006_jr_8017BEBC.c) includes
+ * ../shared/engine_core.h -> engine_types.h (guard below), which already defines
+ * SVECTOR2 + Morph_8017DC1C, and defines static inline morph_lerp at :4227 plus
+ * func_8004787C at :4058 — both BEFORE this function's insertion point (:4596).
+ * Inside that TU this whole block preprocesses to nothing (no redefinitions);
+ * standalone (submit-gate/match_one compile, common.h only) it supplies the
+ * minimal closure the body needs. Either way the function body below is the
+ * only thing that generates instructions. */
+#ifndef BFM_ENGINE_TYPES_H
+
+
+
+extern s32 func_8004787C(s32 a0);
+
+/* MUST be `inline` — see L1 (same helper as func_8017DC1C / func_801802EC / func_8018163C). */
+static inline void morph_lerp(Morph_8017DC1C *o, SVECTOR2 *b, SVECTOR2 *a, s32 t)
+{
+    SVECTOR2 *d;
+    SVECTOR2 *pa;
+    SVECTOR2 *pb;
+    s32 i;
+
+    if (o->mode == 1) {
+        d = (SVECTOR2 *)o->dst;
+    } else {
+        d = (SVECTOR2 *)((u32 *)&o->dst + (o->dst >> 2));
+    }
+    i = o->n;                       /* L3: before the copies */
+    pb = b;                         /* L2 */
+    pa = a;                         /* L2 */
+    for (; i != 0; i--) {
+        d->vx = pb->vx + (((pa->vx - pb->vx) * t) >> 12);
+        d->vy = pb->vy + (((pa->vy - pb->vy) * t) >> 12);
+        d->vz = pb->vz + (((pa->vz - pb->vz) * t) >> 12);
+        d++;                        /* L4: reverse of the read order */
+        pb++;
+        pa++;
+    }
+}
+#endif /* BFM_ENGINE_TYPES_H */
+
+void func_80181924(s32 t, void *a1)
+{
+    s32 x;
+    extern SVECTOR2 *D_801C1E80;
+    extern SVECTOR2 *D_801C1E84;
+    extern SVECTOR2 *D_801C1E88;
+    extern SVECTOR2 *D_801C1E90;
+    extern SVECTOR2 *D_801C1E94;
+    extern SVECTOR2 *D_801C1E98;
+    extern Morph_8017DC1C *D_801BF5B4;
+    extern Morph_8017DC1C *D_801BF5B8;
+    extern Morph_8017DC1C *D_801BF5BC;
+
+    morph_lerp(D_801BF5B4, D_801C1E80, D_801C1E90, t);
+    x = func_8004787C(*(s16 *)((u8 *)a1 + 0xFC));
+    x += func_8004787C(*(s16 *)((u8 *)a1 + 0xFE) + 0x100) >> 4;
+    morph_lerp(D_801BF5B8, D_801C1E84, D_801C1E94, x);
+    x = func_8004787C(*(s16 *)((u8 *)a1 + 0xFC));
+    x += func_8004787C(*(s16 *)((u8 *)a1 + 0xFE) + 0x200) >> 4;
+    morph_lerp(D_801BF5BC, D_801C1E88, D_801C1E98, x);
+}
+
 
 extern u8 D_801BFCCC;
 extern u16 D_8018E33C;

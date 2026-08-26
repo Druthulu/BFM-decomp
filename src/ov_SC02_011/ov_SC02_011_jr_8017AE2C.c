@@ -14359,7 +14359,17 @@ void func_8018CF04(s32 s0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018CFAC);
+extern void func_8012A828(s32 a0, void *a1);
+extern u8 D_801E2BA8[];
+
+void func_8018CFAC(s32 param_1) {
+    *(s16 *)(param_1 + 2) = 0xE;
+    func_8012A828(param_1, D_801E2BA8);
+    *(s32 *)(param_1 + 0x1C) = 0x5A;
+    *(s16 *)(param_1 + 0xDC) = 0;
+    *(s16 *)(param_1 + 0xFE) = 0;
+}
+
 
 #include "common.h"
 

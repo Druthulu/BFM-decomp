@@ -2962,7 +2962,21 @@ void func_80183E28(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_103/nonmatchings/ov_SC03_103_jr_80183C34", func_80183ED8);
+extern s32 func_8004787C(s32 a0);
+extern void func_80028620(s32 a0, void *a1);
+
+void func_80183ED8(void *a0) {
+    struct B16_80183ED8 { s32 w[4]; };
+
+    extern struct B16_80183ED8 aD800A5EA8 __asm__("D_800A5EA8");
+    extern struct B16_80183ED8 D_801C205C;
+    extern s32 D_800A5EB0;
+    aD800A5EA8 = D_801C205C;
+    D_800A5EB0 = func_8004787C(*(s16 *)((s32)a0 + 0xFE)) * 6 / 4096 - 3;
+    *(u16 *)((s32)a0 + 0xFE) = (*(u16 *)((s32)a0 + 0xFE) + 0x71) & 0xFFF;
+    func_80028620(2, &aD800A5EA8);
+}
+
 
 
 /* §71 sibling-first: func_80185634 (same TU, already MATCHed) is the exact template.

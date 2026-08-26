@@ -80,7 +80,21 @@ INCLUDE_ASM("asm/md_MAIN_016/nonmatchings/md_MAIN_016", func_800CB228);
 
 INCLUDE_ASM("asm/md_MAIN_016/nonmatchings/md_MAIN_016", func_800CB304);
 
-INCLUDE_ASM("asm/md_MAIN_016/nonmatchings/md_MAIN_016", func_800CB400);
+void func_800CB400(void *a0)
+{
+    extern void func_800CAF84(void);
+    s16 var;
+
+    var = *(u16 *)((u8 *)a0 + 0x28) - 0x100;
+    *(u16 *)((u8 *)a0 + 0x28) = var;
+    if (var > 0) {
+        *(s32 *)((u8 *)a0 + 0x50) -= 2;
+        func_800CAF84();
+    } else {
+        func_80146C3C();
+    }
+}
+
 
 void func_800CB458(s32 arg0) {
     extern void func_800CAF84(void);
