@@ -517,6 +517,34 @@ def build_draft(body, seed_name, member_name, renames, seed_text, dest_text,
             missing.append(s)
             continue
         decls.append(re.sub(rf'\b{re.escape(old)}\b', s, d))
+    if missing and member_asm:
+        # DECL-FROM-USE (P31 S61 follow-up). The seed has no decl, but the member's OWN target .s
+        # states how the symbol is accessed (widths, sign, index scale). Infer a MINIMAL C89 extern
+        # (negative-controlled at 97.4% kind-agreement over 4,702 banked triples) and place it at
+        # BLOCK SCOPE via insert_decls — file-scope decls conflict with the fleet's per-function
+        # loose-typing convention (the ov_SC04_018 lesson). Genuine refusals (STRUCT, conflicting
+        # width, function symbols, no evidence) keep the old refusal, now with the class named.
+        # Strictly additive: this branch runs only where the old code refused outright.
+        try:
+            import decl_from_use as _dfu
+            _ev = _dfu.collect(member_asm)
+            _blanked = _dfu.blank_decl_statements(new_body)
+            _got, _still = {}, []
+            for _s in missing:
+                try:
+                    _d = _dfu.infer(_s, _ev, _dfu.usage_forms(_blanked, _s))
+                    _got[_s] = _d["decl"]
+                except _dfu.Refuse as _r:
+                    _still.append("%s(%s)" % (_s, _r.cls))
+                except Exception as _e:
+                    _still.append("%s(ERR:%s)" % (_s, type(_e).__name__))
+            if _got and not _still:
+                new_body = _dfu.insert_decls(new_body, _got)
+                missing = []
+            else:
+                missing = _still or missing
+        except Exception as _e:
+            missing = ["(decl_from_use failed: %r)" % _e] + missing
     if missing:
         # R32: a draft missing a declaration is a KNOWN-BAD draft. Don't spend a build on it.
         return None, "no seed decl for " + ",".join(missing[:3])

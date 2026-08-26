@@ -79,7 +79,8 @@ REJECTS = ".run/reloc_rejects.jsonl"
 STAGE_DEFAULT = ".run/sweep_resolver"
 STAGEABLE_RELOC = ("AGREE", "UNRESOLVED", "COMPILE-FAIL")   # COMPILE-FAIL = standalone-only (§ rtu_second_chance)
 FINAL_NEG = ("DIFF", "CC1", "CPP", "MASPSX", "AS", "SYMBOL-MISMATCH", "GATE-REJECTED",
-             "NEEDS-TU-EDIT", "NO-OBJ-FN", "UNKNOWN", "RELOC-ERR", "TIMEOUT", "EDIT-FAIL")
+             "NEEDS-TU-EDIT", "NO-OBJ-FN", "UNKNOWN", "RELOC-ERR", "TIMEOUT", "EDIT-FAIL",
+             "TU-BROKEN")   # re-opened automatically when the split TU (split_sha) changes
 
 _print_lock = threading.Lock()
 _stage_lock = threading.Lock()
@@ -301,6 +302,71 @@ def stub_index(b):
 # ------------------------------------------------------------------------------------------
 # judge one item
 # ------------------------------------------------------------------------------------------
+_tu_ok_cache = {}
+
+
+def _tu_broken(binary, stub, split_sha):
+    """True + first error when the split TU fails the TU-alone compile WITH NO DRAFT SPLICED.
+    A CC1 verdict then belongs to the TREE, not the draft (S61: one broken TU was billed to 39
+    drafts as `undeclared`). Cached per (binary, split_sha)."""
+    key = (binary, split_sha)
+    if key not in _tu_ok_cache:
+        try:
+            import decl_from_use as _dfu
+            ok, errs = _dfu.tu_compiles(binary, stub.path)
+            _tu_ok_cache[key] = (not ok, (errs[0] if errs else "")[:200])
+        except Exception as e:
+            _tu_ok_cache[key] = (False, "tu-probe failed: %r" % e)
+    return _tu_ok_cache[key]
+
+
+_DATA_DEF_RE = re.compile(r"^(?P<lead>(?:const\s+|static\s+|volatile\s+)*[A-Za-z_]\w*(?:\s*\*+)?\s+)"
+                          r"(?P<sym>[A-Za-z_]\w*_8[0-9A-Fa-f]{7})(?P<arr>\s*\[[^\]]*\])?"
+                          r"\s*(?:=[^;]*)?;\s*$", re.M)
+
+
+def dup_def_demote(binary, fn, stub, body, work):
+    """The duplicate-symbol class (S61 live probe: assembler `symbol 'D_...' is already defined`):
+    the draft DEFINES data at file scope that a still-stubbed sibling .s in the SAME TU also emits.
+    rtu is blind to it (INCLUDE_ASM neutralized), so it surfaces only at the real build. Demote such
+    defs to extern (single-line defs only; the sibling .s keeps emitting the bytes; the whole-binary
+    SHA stays the sole arbiter). Returns a new candidate path, or None when nothing applies."""
+    try:
+        tu = open(stub.path, errors="replace").read()
+    except OSError:
+        return None
+    sibs = []
+    for m in re.finditer(r'INCLUDE_ASM\("([^"]+)",\s*(\w+)\)', tu):
+        if m.group(2) != fn:
+            sibs.append(os.path.join(m.group(1), m.group(2) + ".s"))
+    if not sibs:
+        return None
+    emitted = set()
+    for sp in sibs:
+        try:
+            for dm in re.finditer(r"^(?:dlabel|glabel)\s+([A-Za-z_]\w*)", open(sp, errors="replace").read(), re.M):
+                emitted.add(dm.group(1))
+        except OSError:
+            continue
+    # only lines at brace depth 0 are file-scope defs
+    out, changed, depth = [], [], 0
+    for line in body.split("\n"):
+        m = _DATA_DEF_RE.match(line) if depth == 0 else None
+        if m and m.group("sym") in emitted and not line.lstrip().startswith("extern"):
+            out.append("extern " + m.group("lead").lstrip() + m.group("sym") + (m.group("arr") or "") + ";"
+                       + "  /* dup-def demoted: a sibling .s still emits it (S61) */")
+            changed.append(m.group("sym"))
+        else:
+            out.append(line)
+        depth += line.count("{") - line.count("}")
+    if not changed:
+        return None
+    os.makedirs(work, exist_ok=True)
+    pth = os.path.join(work, fn + ".dupfix.c")
+    open(pth, "w").write("\n".join(out))
+    return pth
+
+
 def resolve(item, a, ledger, stage):
     b, fn, stub = item["binary"], item["fn"], item["stub"]
     work = os.path.join(RUN, "work", "%s__%s" % (b, fn))
@@ -311,7 +377,13 @@ def resolve(item, a, ledger, stage):
     src_file = stub.path
     rows, best = [], None
     staged = None
+    cands = list(item["candidates"])
     for kind, draft in item["candidates"]:
+        if os.path.exists(draft):
+            dd = dup_def_demote(b, fn, stub, open(draft, errors="replace").read(), os.path.join(work, "dupfix"))
+            if dd:
+                cands.append(("dupfix:" + kind, dd))
+    for kind, draft in cands:
         row = {"ts": time.strftime("%Y-%m-%d %H:%M:%S"), "run": a.run_id, "binary": b, "fn": fn,
                "kind": kind, "draft": draft, "draft_sha": sha(draft), "split_sha": split_sha,
                "stored_closeness": item.get("stored_closeness")}
@@ -365,6 +437,11 @@ def resolve(item, a, ledger, stage):
             else:
                 v = {"verdict": "RELOC-" + str(st), "nins": v["nins"], "ndiff": 0,
                      "note": str(rv.get("note") or rv.get("caveat") or "")[:200]}
+        if not staged and v["verdict"] in ("CC1", "CPP"):
+            _broken, _terr = _tu_broken(b, stub, split_sha)
+            if _broken:
+                v = {"verdict": "TU-BROKEN", "nins": v.get("nins"), "ndiff": None,
+                     "note": "the split TU fails WITHOUT the draft — a tree condition, not this draft: " + _terr}
         row.update(verdict=("STAGED" if staged else v["verdict"]), ndiff=v.get("ndiff"),
                    nins=v.get("nins"), note=v.get("note", ""), via=via, body=(staged[0] if staged else body),
                    reloc=(staged[2] if staged else None))
@@ -671,6 +748,7 @@ def main():
         n_dem = 0
         for r in final.values():
             if r["verdict"] in ("DIFF", "CC1", "CPP", "SYMBOL-MISMATCH", "NEEDS-TU-EDIT"):
+                # TU-BROKEN is deliberately absent: a tree condition must not demote the draft
                 if r["verdict"] == "DIFF" and r.get("ndiff") == r.get("stored_closeness"):
                     continue
                 backlog.append_record({
