@@ -7625,7 +7625,35 @@ void func_8001C7B0(void *arg0) {
     *(s32 *)((char *)arg0 + 0x24) = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001C810);
+extern void func_8001C9D0(void);
+extern void func_80052D90(s32 a0, void *a1);
+extern void func_80054514(s32 a0, s32 a1);
+extern void GsMapModelingData(unsigned long *p);
+extern u8 D_80063548[];
+
+void func_8001C810(s32 a0, s32 *a1) {
+    s32 local_buf[8];
+    s32 base;
+
+    func_8001C9D0();
+
+    base = a0 + 0x30;
+    *(s16 *)(a0 + 0) = 1;
+    *(s16 *)(a0 + 2) = 5;
+    func_80052D90(0, (void *)base);
+    func_80054514(base, (s32)local_buf);
+
+    *(s32 *)(a0 + 0x24) = (s32)a1;
+    if (a1 != 0) {
+        *(s32 *)(a0 + 0x20) = (s32)&D_80063548;
+        if (*a1 != 0) {
+            do {
+                GsMapModelingData((unsigned long *)((*a1 & 0x80FFFFFF) + 4));
+                a1++;
+            } while (*a1 != 0);
+        }
+    }
+}
 
 
 extern void func_8001C9D0(void);
@@ -13112,7 +13140,11 @@ void func_80028DBC(s32 a0) {
     func_80029124(0xC, a0 & 0xFF);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028DE0);
+extern s32 func_80029178();
+
+s32 func_80028DE0(void) {
+    return func_80029178(0xD) & 0xFF;
+}
 
 extern void func_80029124(s32, s32);
 
