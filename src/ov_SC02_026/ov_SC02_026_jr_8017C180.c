@@ -4300,7 +4300,47 @@ void func_8017EC78(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017ED0C);
+void func_8017ED0C(s32 a0) {
+    register s32 a3 __asm__("$7");
+    s32 e;
+    s32 e2;
+    u16 L2;
+    u16 L3;
+    u16 L1;
+    u16 a2b;
+    u16 f;
+    s16 t;
+
+    a3 = a0;
+    *(s16 *)(a3 + 0x2) = 1;
+    __asm__ __volatile__("" ::: "memory");
+    e = *(s32 *)(a3 + 0x78);
+    __asm__ __volatile__("" : "=r"(L2));
+    __asm__ __volatile__("" : "=r"(L3));
+    __asm__ __volatile__("" : "=r"(L1));
+    __asm__ __volatile__("" : "=r"(a2b));
+    L1 = *(u16 *)(a3 + 0x88);
+    L2 = *(u16 *)(a3 + 0x8A);
+    L3 = *(u16 *)(a3 + 0x8C);
+    a2b = *(u16 *)(e + 0x2);
+    f = *(u16 *)(a3 + 0x70);
+    *(s16 *)(a3 + 0x6) = L1;
+    *(s16 *)(a3 + 0xA) = L2;
+    *(s16 *)(a3 + 0xE) = L3;
+    *(s16 *)(a3 + 0x5C) = a2b;
+    if ((f & 1) != 0) {
+        e2 = *(s32 *)(a3 + 0x20);
+        *(u16 *)(e2 + 0x2C) = *(u16 *)(e2 + 0x2C) | 0x10;
+        __asm__ __volatile__("" ::: "memory");
+        e2 = *(s32 *)(a3 + 0x20);
+        t = 0x1666;
+        *(s16 *)(e2 + 0x1C) = t;
+        *(s16 *)(e2 + 0x1A) = t;
+        *(s16 *)(e2 + 0x18) = t;
+        *(s16 *)(a3 + 0x100) = t;
+    }
+}
+
 
 
 extern void (*D_801A5124[])(void);

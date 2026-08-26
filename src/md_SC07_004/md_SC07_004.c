@@ -7097,18 +7097,7 @@ void func_801AD9D4(void *a0) {
 }
 
 
-
-extern M4_801AE734 D_801B0838[];
-
-void func_801ADA10(s32 a0) {
-    s32 m;
-    m = (s16)(*(u16 *)(a0 + 0x2E) + 1) % 6;
-    *(u16 *)(a0 + 0x2E) = *(u16 *)(a0 + 0x2E) + 1;
-    a0 = *(s32 *)(a0 + 0x34);
-    *(M4_801AE734 *)(a0 + 0x14) = D_801B0838[(s16)(m * 2)];
-    *(M4_801AE734 *)(a0 + 0x18) = D_801B0838[(s16)(m * 2) + 1];
-}
-
+INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801ADA10);
 
 #include "common.h"
 

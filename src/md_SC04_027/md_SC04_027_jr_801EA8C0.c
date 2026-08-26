@@ -480,22 +480,7 @@ void func_801EAFE4(void) {
 }
 
 
-void func_801EB014(void) {
-    extern s32 D_801F2624;
-    extern u32 D_801F24A4;
-    s32 n;
-    s32 i;
-    u32 *p;
-    u32 *next;
-    p = &D_801F24A4;
-    n = D_801F2624 - 1;
-    for (i = 0; i < n; i++) {
-        next = p + 4;
-        *p = (u32)next;
-        p = next;
-    }
-}
-
+INCLUDE_ASM("asm/md_SC04_027/nonmatchings/md_SC04_027_jr_801EA8C0", func_801EB014);
 
 extern s32 func_80029504(void);
 extern void func_80029124(s32 a0, s32 a1);
