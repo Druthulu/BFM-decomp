@@ -105,7 +105,17 @@ __asm__(
     ".end\tfunc_80062434\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c2_2", func_800624C4);
+extern void StartPAD2(void);
+extern s32 ChangeClearPAD(s32 mode);
+extern void func_800626C8(void);
+
+s32 func_800624C4(void)
+{
+    StartPAD2();
+    ChangeClearPAD(0);
+    func_800626C8();
+    return 1;
+}
 
 extern void func_800626DC(void);
 extern void StopPAD2(void);
