@@ -2323,3 +2323,16 @@ byte-identical (`c2cd16c4`), then its 4 held resolver drafts gated 4/4, re-verif
 `.run/t1/interleave_check.py` (order ⇔ yaml) is ALIGNED for SC06_022/SC04_018 and shows a DRIFT on
 ov_SC02_005 (`jr_8018EA04.o` + `tail21` in the order, absent from the yaml) — T2e input.
 **NEXT: T2c** — ov_SC06_022 ('consumed 1 but 2'; Max, solo).
+
+**T2c DONE (ov_SC06_022 GREEN, red 3 → 2, +9 banks).** 'consumed 1 but 2' on TWO objects
+(jr_80184A28, jr_80180CD0): each carve holds ONE table while the pads spec described two — for
+jr_80184A28 a rival lane flip-flopped the yaml five times on 08-25 between one and two carved
+tables (func_80185B80, whose table is the second, is still a stub) and the 17:43 mk restore kept
+the two-table `0,4`. Built `.run/t1/pads_audit.py <binary>` (offline-tooling-first): compiles each
+TU with a pads line to count its tables, walks the retail bytes inside the yaml carve with those
+sizes (pad 4 ⇔ one zero word before a table), and DERIVES the spec — it reproduced all 15 correct
+specs (negative control) and flagged exactly the two drifts. Specs set (`commit:3088`), R22 clean
+rebuild byte-identical (`2a7d7d4e`), 11 held drafts gated 9/11 (2 already banked by propagation),
+re-verified clean. The same audit pre-diagnoses T2d: ov_SC04_018/jr_8017AE2C spec has 4 entries, the
+TU compiles 3, the carve holds a 4th 5-entry table (func_80181804, reverted to a stub).
+**NEXT: T2d** — ov_SC04_018 (Max, solo).
