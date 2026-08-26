@@ -5537,7 +5537,33 @@ void func_80182CA4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80182D70);
+#include "common.h"
+
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern void RotMatrixY(s32 a0, void *a1);
+
+struct Mtx32_80184008 { s32 w[8]; };
+extern struct Mtx32_80184008 D_800AE620;
+
+void func_80182D70(s32 arg) {
+    register void *s1 __asm__("$17") = (void *)arg;
+    struct Mtx32_80184008 m;
+    s32 vec[3];
+    s32 out[3];
+
+    vec[0] = *(s16 *)(s1 + 0xE0) * func_80047948(*(s32 *)(s1 + 0x1C) << 7);
+    vec[1] = *(s16 *)(s1 + 0xE0) * func_8004787C(*(s32 *)(s1 + 0x1C) << 7);
+    vec[2] = 0;
+    m = D_800AE620;
+    RotMatrixY(*(s16 *)(s1 + 0xFC), &m);
+    func_800484EC((s32)&m, (s32)vec, (s32)out);
+    *(s16 *)(s1 + 0x6) = *(u16 *)(s1 + 0x88) + (out[0] >> 12);
+    *(s16 *)(s1 + 0xA) = *(u16 *)(s1 + 0x8A) + (out[1] >> 12);
+    *(s16 *)(s1 + 0xE) = *(u16 *)(s1 + 0x8C) + (out[2] >> 12);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80182E84);
 

@@ -3517,7 +3517,39 @@ INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031_jr_8017DB5C", func_8017F42
 
 INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031_jr_8017DB5C", func_8017F6B8);
 
-INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031_jr_8017DB5C", func_8017F728);
+extern u8 * func_801290DC(s32 a0, u8 *a1);
+extern u16 D_8018609E[][4];
+
+void func_8017F728(void *a0) {
+    s16 v[3];
+    register s32 i __asm__("$19");
+    register s32 b __asm__("$17");
+    register s32 t __asm__("$2");
+    s32 r;
+
+    if (*(s32 *)((s32)a0 + 0x1C) != 0) {
+        v[1] = *(u16 *)((s32)a0 + 0xA) + D_8018609E[*(u16 *)((s32)a0 + 0x70) & 0xF][0];
+        for (i = 0; i < 10; i++) {
+            r = rand() % 160;
+            b = *(s16 *)((s32)a0 + 6);
+            if (rand() & 1)
+                t = b + r;
+            else
+                t = b - r;
+            v[0] = t;
+            r = rand() % 160;
+            b = *(s16 *)((s32)a0 + 0xE);
+            if (rand() & 1)
+                t = b + r;
+            else
+                t = b - r;
+            v[2] = t;
+            func_801290DC(0x31, v);
+        }
+        (*(s32 *)((s32)a0 + 0x1C))--;
+    }
+}
+
 
 
 extern u16 D_801860C4[];

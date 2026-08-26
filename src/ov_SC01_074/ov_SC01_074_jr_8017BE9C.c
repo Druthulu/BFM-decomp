@@ -3609,7 +3609,81 @@ void func_8017D8DC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017D918);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_800178EC(s32 a0, s32 a1);
+
+s32 func_8017D918(obj, mode, a2, a3, a4, a5)
+s32 obj;
+s32 mode;
+s32 a2;
+s32 a3;
+s32 a4;
+s32 a5;
+{
+    struct S_8017D918 {
+        u16 f00, f02, f04, f06, f08, f0A, f0C, f0E;
+        u16 f10, f12, f14, f16, f18, f1A, f1C, f1E;
+        u16 f20, f22, f24, f26, f28, f2A, f2C, f2E;
+        s32 f30, f34, f38, f3C, f40;
+        u8 f44;
+    } s;
+    register struct S_8017D918 *p __asm__("$16");
+    register s32 v __asm__("$2");
+    register s32 top __asm__("$4");
+    register s32 apv __asm__("$4");
+    register s32 bot __asm__("$5");
+    register s32 K __asm__("$5");
+    u16 h[2];
+    s32 t3;
+    s32 t4;
+
+    func_80015978(obj + 4, (s32 *)h);
+    s.f00 = h[0] + a2;
+    top = h[1] + 0x80;
+    s.f02 = top;
+    s.f08 = h[0] + a3;
+    bot = h[1] - 0x80;
+    s.f0A = bot;
+    p = &s;
+
+    switch (mode) {
+    case 0:
+        v = h[0] - 0xA0;
+        break;
+    case 1:
+        v = h[0] + 0xA0;
+        break;
+    default:
+        p->f04 = 0;
+        goto tail;
+    }
+    s.f10 = v;
+    s.f12 = top;
+    s.f18 = v;
+    s.f1A = bot;
+    p->f04 = 0;
+tail:
+    p->f34 = a4;
+    p->f30 = a4;
+    p->f3C = a5;
+    p->f38 = a5;
+    p->f20 = *(s32 *)(obj + 0xE4) + 0xC00;
+    p->f22 = 0x100;
+    K = 0x13F;
+    p->f24 = *(s32 *)(obj + 0xE4) + 0xC3F;
+    p->f26 = 0x100;
+    t3 = *(s32 *)(obj + 0xE4);
+    apv = (s32)p;
+    p->f2A = K;
+    p->f28 = t3 + 0xC00;
+    t4 = *(s32 *)(obj + 0xE4);
+    p->f44 = 0x36;
+    p->f2E = K;
+    p->f40 = 0x50000000;
+    p->f2C = t4 + 0xC3F;
+    func_800178EC(apv, K);
+}
+
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
 void func_8017D964(void) {

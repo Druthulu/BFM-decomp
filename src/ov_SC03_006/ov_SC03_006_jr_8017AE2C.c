@@ -13163,7 +13163,75 @@ void func_8018A624(s32 arg0) {
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A698);
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A6F4);
+#include "common.h"
+
+/* func_8018A6F4 -- same-kind entity scan (remap of ov_SC06_018:func_80187320).
+ *
+ * BANK PREREQ (tooling): ov_SC03_006_jr_8017AE2C.c carries a STALE prototype
+ *   extern void func_8018A6F4(s32 a0);
+ * below this point (m2c discard-inferred from caller func_8018A96C, which
+ * ignores the result). The target .s assigns $v0 on ALL THREE exits
+ * (addiu $v0,$zero,0x1 x2 in delay slots; addu $v0,$zero,$zero fall-through),
+ * so the true signature is s32. Reconcile that decl to
+ *   extern s32 func_8018A6F4(s32 a0);
+ * or cc1 fails with 'conflicting types'. Do NOT rewrite this definition to
+ * void instead: gcc dead-codes all three return-value writes in a void
+ * function (91 ins != 94) and the tail can never match.
+ */
+
+extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern void func_8012ADE4(u8 *a0);
+
+s32 func_808A6F4(s32 a0) {
+    extern u8 D_801202A0[];
+    u8 *p;
+    s16 *self4;
+    unsigned int *sc;
+    s32 i;
+    s32 ang;
+    s16 v10[4];  /* sp+0x10 */
+    s16 v18[4];  /* sp+0x18 */
+    s32 sp20[2]; /* sp+0x20 — func_8012B0B4 output */
+
+    p = D_801202A0;
+    i = 0;
+    self4 = (s16 *)(a0 + 4);
+    sc = (unsigned int *)sp20;
+    do {
+        if (*(u16 *)a0 == *(u16 *)p && (u8 *)a0 != p) {
+            if (func_8012BC60((struct Vec *)self4, (struct Vec *)(p + 4)) < 0x1000) {
+                ang = func_8012B6D4(self4, (s16 *)(p + 4));
+                func_8012B0B4(sc, ang, 0x41);
+                v18[0] = *(u16 *)(p + 6);
+                v18[1] = *(u16 *)(p + 0xA);
+                v18[2] = *(u16 *)(p + 0xE);
+                v18[0] += sp20[0];
+                v18[2] += sp20[0] >> 16;
+                v10[0] = *(u16 *)(a0 + 0x3A);
+                v10[1] = *(u16 *)(a0 + 0x3E);
+                v10[2] = *(u16 *)(a0 + 0x42);
+                if ((func_8012CEB0((s32)v10, (s32)v18, 0) & 0x2000) == 0) {
+                    func_8012ADE4((u8 *)a0);
+                    return 1;
+                } else {
+                    register s16 e3 __asm__("$2");
+                    *(u16 *)(a0 + 6) = v18[0];
+                    *(u16 *)(a0 + 0xA) = v18[1];
+                    e3 = v18[2];
+                    *(u16 *)(a0 + 0xE) = e3;
+                }
+                return 1;
+            }
+        }
+        i++;
+        p += 0x10C;
+    } while (i < 0x60);
+    return 0;
+}
+
 
 #include "common.h"
 

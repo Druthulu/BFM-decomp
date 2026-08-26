@@ -4258,7 +4258,22 @@ void func_801805EC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801806FC);
+extern void func_80013350(s32 a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern u8 D_80126B5C;
+
+s32 func_801806FC(void *a0)
+{
+    s32 v1;
+
+    v1 = ((s32 (*)(s32, void *))func_80013350)((s32)a0 + 4, &D_80126B5C);
+    if (v1 <= 0x40000) {
+        func_8002D4C8(0x674, ((u16)(v1 / 3276 + 0x2F)) | 0x1000);
+        return 1;
+    }
+    return 0;
+}
+
 
 #include "common.h"
 
