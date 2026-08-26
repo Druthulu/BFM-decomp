@@ -2144,3 +2144,32 @@ banked at the gate so far + 6 ABCD), main 196/225 drafted and PARKED for the mai
 zero-token: wave g0f (103 feedback-armed redrafts) mid-gate; the 196-draft parked slate (40/pass);
 resolver/grinder/maintenance/pads-repair lanes. Drafting anything NEW now requires a PAID model —
 S61-7's escalation question is now the only drafting question left, and it is Drew's call.
+
+## 🛑 OVERNIGHT CLOSE — S61 (2026-08-26 09:1x). Drew slept 02:00–morning; the session ran autonomously on 30-min ticks.
+
+**The night, in numbers (INCLUDE_ASM invariant, denominators attached).** Since midnight:
+**378+ net stubs removed** (3,896 → 3,518 committed, 60 commits). The gen0 campaign Drew ordered
+("all gen0 touched before the ox era ends") BEAT THE CLOSING DOOR: overlays **196/196 drafted,
+77 banked**; main **196/225 drafted (29 no-draft after two attempts), 119 banked** — 196 gen0
+banks total. The ABCD MAXTOK test ran as a paired four-arm byte-judged experiment (corrected
+verdict after its own R53 false-green was caught: 8k 6 · 16k 7 · 24k 5 · 32k 3 of 10 — bigger
+budgets are worse; the one-fn 8k/16k gap is noise). The feedback-armed redraft wave (g0f) banked
+10 more of the previously-refused. **The ox window closed at 07:55** (stealth/ox-alpha 404,
+delisted) — m0b's 29 retries lost the race by a minute. Fleet now: instr-weighted = 98.2% ·
+distinct-code = 96.4% (regenerated this morning).
+
+**What runs on, all zero-token:** gater (idle unless fed), maintenance (fleet sweep + A-prop +
+pads auto-repair), resolver lane (converging ledger stock), grinder (permuter band), main lane
+(its parked-gate half is alive; its DRAFT half 404s harmlessly each pass — quiet it or feed it
+paid models, Drew's call). Red list steady at 4 named mysteries (ov_SC03_015, ov_SC03_024,
+ov_SC04_018, ov_SC06_022).
+
+**The one drafting question left is S61-7's: paid models or not.** Everything free is either
+consumed or self-running. Candidates for a paid escalation pack: the residual true-DIFF wall,
+the 106 undrafted-or-unbanked main gen0, the g0f leftovers — all carry per-fn gate feedback now.
+
+**Overnight incident log (all diagnosed to the byte, all corrected in-line):** the ABCD warm-start
+cross-contamination (caught in shard logs; big arms relaunched cold behind a quarantine); the
+judge's R53 false-green (caught by the production gate's disagreement — R34 working as designed);
+the stale fleet_red.txt skip-listing repaired binaries (reconciled); one hung agent killed by the
+silence rule; an R12 slip (a log aimed at scratch instead of .run/) — caught and rerun.
