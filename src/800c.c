@@ -1459,7 +1459,24 @@ __asm__(
     ".end\tSYS_OBJ_1790\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_18AC);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_18AC\n"
+    ".ent\tSYS_OBJ_18AC\n"
+    "SYS_OBJ_18AC:\n"
+        ".set\tnoreorder\n"
+        "addiu $v0, $t0, -1\n"
+        "sb    $v0, 3($s1)\n"
+        "lw    $ra, 56($sp)\n"
+        "lw    $s1, 52($sp)\n"
+        "lw    $s0, 48($sp)\n"
+        "addiu $sp, $sp, 64\n"
+        "jr    $ra\n"
+        "nop\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_18AC\n"
+);
 
 __asm__(
 ".text\n"
