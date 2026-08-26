@@ -19,7 +19,24 @@ __asm__(
     ".end\tfunc_800626C8\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c2_3", func_800626DC);
+__asm__(
+    ".text\n"
+    ".align 2\n"
+    ".globl func_800626DC\n"
+    ".ent\tfunc_800626DC\n"
+    "func_800626DC:\n"
+    ".frame $sp, 0, $31\n"
+    ".mask 0x00000000, 0\n"
+    ".fmask 0x00000000, 0\n"
+    ".set\tnoreorder\n"
+    "lui   $t1, %hi(jtbl_80078D24_main)\n"
+    "lw    $t1, %lo(jtbl_80078D24_main)($t1)\n"
+    "nop\n"
+    "jr    $t1\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tfunc_800626DC\n"
+);
 
 __asm__(
     ".text\n"

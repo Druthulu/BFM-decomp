@@ -61,7 +61,13 @@ void SetIR123(long r0, long r1, long r2)
         : "r"(r0), "r"(r1), "r"(r2));
 }
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetIR0);
+void SetIR0(long r0)
+{
+    __asm__ __volatile__(
+        "mtc2 %0, $8"
+        :
+        : "r"(r0));
+}
 
 /* SetSZfifo3 (0x80053A4C) -- handwritten GTE fifo-load wrapper (splat marks it
  * "Handwritten function"): three mtc2 stores of the incoming $a0-$a2 words into

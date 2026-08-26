@@ -114,7 +114,24 @@ __asm__(
     ".end\tDisableEvent\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c3", ReturnFromException);
+
+__asm__(
+    ".text\n"
+    ".align 2\n"
+    ".globl ReturnFromException\n"
+    ".ent\tReturnFromException\n"
+    "ReturnFromException:\n"
+    ".frame $sp, 0, $31\n"
+    ".mask 0x00000000, 0\n"
+    ".fmask 0x00000000, 0\n"
+    ".set\tnoreorder\n"
+    "addiu $t2, $zero, 176\n"
+    "jr    $t2\n"
+    "addiu $t1, $zero, 23\n"
+    ".set\treorder\n"
+    ".end\tReturnFromException\n"
+    "nop\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", ResetEntryInt);
 
@@ -738,7 +755,20 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c3", SysEnqIntRP);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", SysDeqIntRP);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSysDeqIntRP\n"
+    ".ent\tSysDeqIntRP\n"
+    "SysDeqIntRP:\n"
+    ".set\tnoreorder\n"
+    "addiu $t2, $zero, 192\n"
+    "jr $t2\n"
+    "addiu $t1, $zero, 3\n"
+    ".set\treorder\n"
+    ".end\tSysDeqIntRP\n"
+    "nop\n"
+);
 
 void func_8005E188(s32 arg0, s32 arg1, s8 arg2) {
     *(s32*)(arg0 + 0x28) = arg1;
