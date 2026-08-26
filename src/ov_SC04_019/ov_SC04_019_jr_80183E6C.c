@@ -3020,7 +3020,26 @@ void func_80183E6C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80183E6C", func_80183FA8);
+extern short D_801B99A8;
+    extern void func_8012A828(s32*, s32);
+extern void func_8012E88C(s32);
+extern void func_80184C90(s32);
+
+void func_80183FA8(arg0)
+s32 *arg0;
+{
+    extern void func_8012E88C(s32 a0);
+    extern void func_8012A828(s32*, s32);
+    extern void func_80184C90(s32 a0);
+    extern short D_801B99A8;
+
+    *(s16 *)((s32)arg0 + 2) = 9;
+    *(s16 *)((s32)arg0 + 0x34) = 0;
+    func_8012E88C((s32)arg0);
+    ((void (*)(s32, s32))func_8012A828)((s32)arg0, (s32)&D_801B99A8);
+    func_80184C90((s32)arg0);
+}
+
 
 extern s32 func_80184FA4(void);
 extern s32 func_80185BE0(s32 a0);

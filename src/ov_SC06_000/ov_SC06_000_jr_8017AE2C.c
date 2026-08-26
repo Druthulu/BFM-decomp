@@ -10926,7 +10926,57 @@ void func_80187314(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801875F8);
+extern s16 D_801B2152;
+extern s32 D_801B2164[8];
+extern u16 D_800AF7BC;
+extern u16 D_800AF7BE;
+extern u8 D_801B2150[];
+
+void func_801875F8() {
+    s32 i;
+    s32 flag;
+    u16 x;
+    s16 y;
+    s32 h;
+    s16 hv;
+    s32 p0;
+    s32 p1;
+    u32 w;
+    s32 *pw;
+    s16 *ph;
+
+    flag = 0;
+    y = D_801B2152;
+    x = *(u16 *)D_801B2150;
+
+    if ((y > -((D_800AF7BE >> 1) + 0x10)) && (y < (D_800AF7BE >> 1) + 0x10)) {
+        if ((-((D_800AF7BC >> 1) + 0x10) < (s16)x)) {
+            flag = (s16)x < ((D_800AF7BC >> 1) + 0x10);
+        }
+    }
+
+    pw = ((s32 *)D_801B2164);
+    ph = (s16 *)((s32 *)D_801B2164) - 8;
+
+    for (i = 0; i < 8; i++) {
+        h = pw[i];
+        if (h != 0) {
+            if (flag) {
+                hv = ph[i];
+                p0 = (s16)x * hv;
+                p1 = y * hv;
+                w = *(u32 *)(h + 4);
+                *(u32 *)(h + 4) = w & 0x7FFFFFFF;
+                *(s16 *)(h + 8) = p0 >> 12;
+                *(s16 *)(h + 0xA) = p1 >> 12;
+            } else {
+                w = *(u32 *)(h + 4);
+                *(u32 *)(h + 4) = w | 0x80000000;
+            }
+        }
+    }
+}
+
 
 void func_80187720(u8 *a0)
 {

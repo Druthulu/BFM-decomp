@@ -3935,7 +3935,24 @@ void func_8017F970(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_093/nonmatchings/ov_SC03_093_jr_8017D898", func_8017FA00);
+
+
+void func_8017FA00(a0)
+s32 a0;
+{
+    if (*(s16 *)(*(s32 *)(a0 + 0x64) + 0xFC) != 0) {
+        s32 *ptr1 = (s32 *)((s32 *)a0)[0x20 / 4];
+        s32 field1 = ptr1[1];
+        field1 |= 0x80000000;
+        ptr1[1] = field1;
+    } else {
+        s32 *ptr2 = (s32 *)((s32 *)a0)[0x20 / 4];
+        s32 field2 = ptr2[1];
+        field2 &= 0x7FFFFFFF;
+        ptr2[1] = field2;
+    }
+}
+
 
 
 /* Declarations copied VERBATIM from the TU (ov_SC02_026_jr_8017C180.c):

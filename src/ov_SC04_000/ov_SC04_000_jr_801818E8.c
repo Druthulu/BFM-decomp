@@ -2874,7 +2874,7 @@ extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern void func_80181ABC();
 extern void func_801818E8(s32 a0, s32 a1);
 extern u8 D_801202A0[];
-extern s32 func_80181BA4(s32 a0);
+extern int func_80181BA4();
 extern s32 func_801816DC();
 /* ==== end §8b carried decl layer ==== */
 
@@ -2995,7 +2995,31 @@ void func_80181ABC(s32 a0, void* _arg1, s32 _arg2, s32 _arg3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_000/nonmatchings/ov_SC04_000_jr_801818E8", func_80181BA4);
+
+
+int func_80181BA4(a0)
+short *a0;
+{
+    int data[3];
+    data[0] = a0[3] - a0[68];
+    data[1] = 0;
+    data[2] = a0[7] - a0[70];
+    __asm__ __volatile__(
+        "lwc2 $9, 0($sp)\n"
+        "lwc2 $10, 4($sp)\n"
+        "lwc2 $11, 8($sp)\n"
+        "nop\n"
+        "nop\n"
+        "sqr 0\n"
+        : : : "$9", "$10", "$11", "memory");
+    __asm__ __volatile__(
+        "swc2 $25, 0($sp)\n"
+        "swc2 $26, 4($sp)\n"
+        "swc2 $27, 8($sp)\n"
+        : : : "memory");
+    return (data[0] + data[2]) <= 0x18FFFF;
+}
+
 
 
 extern void (*D_801A6E0C[])(void);

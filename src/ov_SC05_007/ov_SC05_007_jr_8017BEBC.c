@@ -4367,7 +4367,42 @@ void func_8017E9E8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_007/nonmatchings/ov_SC05_007_jr_8017BEBC", func_8017EAD8);
+
+
+void func_8017EAD8(arg0)
+s32 arg0;
+{
+    register s32 self __asm__("$5");
+    register s32 zr __asm__("$0");
+    register s32 mask __asm__("$4");
+    s32 flag;
+
+    self = arg0 + zr;
+    flag = *(s16 *)(self + 0xAA);
+    *(s16 *)(self + 0x5C) = 0;
+    *(s16 *)(self + 0x98) = 0;
+    *(s32 *)(self + 0x1C) = 0;
+    if (flag == 0) {
+        register s32 p __asm__("$3");
+        register s32 f __asm__("$2");
+        mask = ~0x80;
+        p = *(s32 *)(self + 0x20);
+        f = *(s32 *)(self + 0xDC);
+        p = *(u16 *)(p + 0x18);
+        *(s32 *)(self + 0xDC) = f & mask;
+        *(s16 *)(self + 0x100) = p;
+    } else {
+        register s32 q __asm__("$2");
+        register s32 g __asm__("$3");
+        q = *(s32 *)(self + 0x20);
+        g = *(s32 *)(self + 0xDC);
+        q = *(u16 *)(q + 0x18);
+        g |= 0x80;
+        *(s32 *)(self + 0xDC) = g;
+        *(s16 *)(self + 0x104) = q;
+    }
+}
+
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)

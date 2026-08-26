@@ -4377,7 +4377,39 @@ void func_8017F3D4(s32 arg0, s32 arg1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017F5D4);
+extern Morph_8017DC1C *D_801BF4F4;
+extern Morph_8017DC1C *D_801BF508;
+extern Morph_8017DC1C *D_801BF50C;
+extern Morph_8017DC1C *D_801BF510;
+extern Morph_8017DC1C *D_801BF514;
+extern SVECTOR2 *D_801C1E40;
+extern SVECTOR2 *D_801C1E44;
+extern SVECTOR2 *D_801C1E48;
+extern SVECTOR2 *D_801C1E4C;
+extern SVECTOR2 *D_801C1E50;
+extern SVECTOR2 *D_801C1E54;
+extern SVECTOR2 *D_801C1E58;
+
+void func_8017F5D4(t)
+s32 t;
+{
+    extern Morph_8017DC1C *D_801BF508;
+    extern Morph_8017DC1C *D_801BF50C;
+    extern Morph_8017DC1C *D_801BF510;
+    extern Morph_8017DC1C *D_801BF514;
+    extern SVECTOR2 *D_801C1E40;
+    extern SVECTOR2 *D_801C1E44;
+    extern SVECTOR2 *D_801C1E48;
+    extern SVECTOR2 *D_801C1E4C;
+    extern SVECTOR2 *D_801C1E50;
+    extern SVECTOR2 *D_801C1E54;
+    extern SVECTOR2 *D_801C1E58;
+    morph_lerp(D_801BF508, D_801C1E40, D_801C1E50, t);
+    morph_lerp(D_801BF50C, D_801C1E44, D_801C1E54, t);
+    morph_lerp(D_801BF510, D_801C1E48, D_801C1E58, t);
+    morph_lerp(D_801BF514, D_801C1E4C, D_801C1E4C, t);
+}
+
 
 #ifndef BFM_ENGINE_TYPES_H
 /* ---- PROBE BRANCH (standalone cc1 only): engine_types.h not in scope here, so
@@ -4639,7 +4671,42 @@ void func_801802EC(s32 t)
 
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_801805D4);
+extern Morph_8017DC1C *D_801BF4F4;
+extern Morph_8017DC1C *D_801BF554;
+extern Morph_8017DC1C *D_801BF558;
+extern Morph_8017DC1C *D_801BF55C;
+extern SVECTOR2 *D_801C1E40;
+extern SVECTOR2 *D_801C1E44;
+extern SVECTOR2 *D_801C1E48;
+extern SVECTOR2 *D_801C1E50;
+extern SVECTOR2 *D_801C1E54;
+extern SVECTOR2 *D_801C1E58;
+extern int func_8004787C(int a0);
+
+void func_801805D4(t, a1)
+s32 t;
+void *a1;
+{
+    s32 x;
+    extern SVECTOR2 *D_801C1E40;
+    extern SVECTOR2 *D_801C1E44;
+    extern SVECTOR2 *D_801C1E48;
+    extern SVECTOR2 *D_801C1E50;
+    extern SVECTOR2 *D_801C1E54;
+    extern SVECTOR2 *D_801C1E58;
+    extern Morph_8017DC1C *D_801BF554;
+    extern Morph_8017DC1C *D_801BF558;
+    extern Morph_8017DC1C *D_801BF55C;
+
+    morph_lerp(D_801BF554, D_801C1E40, D_801C1E50, t);
+    x = func_8004787C(*(s16 *)((u8 *)a1 + 0xFC));
+    x += func_8004787C(*(s16 *)((u8 *)a1 + 0xFE) + 0x100) >> 4;
+    morph_lerp(D_801BF558, D_801C1E44, D_801C1E54, x);
+    x = func_8004787C(*(s16 *)((u8 *)a1 + 0xFC));
+    x += func_8004787C(*(s16 *)((u8 *)a1 + 0xFE) + 0x200) >> 4;
+    morph_lerp(D_801BF55C, D_801C1E48, D_801C1E58, x);
+}
+
 
 #ifndef BFM_ENGINE_TYPES_H
 
@@ -4695,7 +4762,48 @@ void func_80180924(s32 t)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_80180CFC);
+extern Morph_8017DC1C *D_801BF4F4;
+extern Morph_8017DC1C *D_801BF56C;
+extern Morph_8017DC1C *D_801BF570;
+extern Morph_8017DC1C *D_801BF574;
+extern Morph_8017DC1C *D_801BF578;
+extern SVECTOR2 *D_801C1E80;
+extern SVECTOR2 *D_801C1E84;
+extern SVECTOR2 *D_801C1E88;
+extern SVECTOR2 *D_801C1E8C;
+extern SVECTOR2 *D_801C1E90;
+extern SVECTOR2 *D_801C1E94;
+extern SVECTOR2 *D_801C1E98;
+extern int func_8004787C(int a0);
+
+void func_80180CFC(t, a1)
+s32 t;
+void *a1;
+{
+    s32 x;
+    extern s32 func_8004787C(s32 a0);
+    extern SVECTOR2 *D_801C1E80;
+    extern SVECTOR2 *D_801C1E84;
+    extern SVECTOR2 *D_801C1E88;
+    extern SVECTOR2 *D_801C1E8C;
+    extern SVECTOR2 *D_801C1E90;
+    extern SVECTOR2 *D_801C1E94;
+    extern SVECTOR2 *D_801C1E98;
+    extern Morph_8017DC1C *D_801BF56C;
+    extern Morph_8017DC1C *D_801BF570;
+    extern Morph_8017DC1C *D_801BF574;
+    extern Morph_8017DC1C *D_801BF578;
+
+    morph_lerp(D_801BF56C, D_801C1E80, D_801C1E90, t);
+    x = func_8004787C(*(s16 *)((u8 *)a1 + 0xFC));
+    x += func_8004787C(*(s16 *)((u8 *)a1 + 0xFE) + 0x100) >> 4;
+    morph_lerp(D_801BF570, D_801C1E84, D_801C1E94, x);
+    x = func_8004787C(*(s16 *)((u8 *)a1 + 0xFC));
+    x += func_8004787C(*(s16 *)((u8 *)a1 + 0xFE) + 0x200) >> 4;
+    morph_lerp(D_801BF574, D_801C1E88, D_801C1E98, x);
+    morph_lerp(D_801BF578, D_801C1E8C, D_801C1E8C, t);
+}
+
 
 extern void func_800599B8(u16 *);
 

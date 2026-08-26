@@ -6218,7 +6218,7 @@ walk:
 
 
 extern s32 func_8012BCCC(s32 a0);
-extern s32 func_80181BA4(s32 a0);
+extern int func_80181BA4();
 extern void func_801818E8(s32 a0, s32 a1);
 
 s32 func_801816DC(a0)
