@@ -155,7 +155,7 @@ def _s_rodata_span(path):
             lo = a if lo is None else min(lo, a); hi = a + n if hi is None else max(hi, a + n)
     return lo, hi
 
-_DIRSIZE = {".word": 4, ".long": 4, ".half": 2, ".short": 2, ".byte": 1}
+_DIRSIZE = {".word": 4, ".long": 4, ".half": 2, ".short": 2, ".byte": 1, ".float": 4, ".double": 8}
 
 def _items(lines):
     """rodata items in emission order: ('s', path) | ('cdata', addr, size, align) | ('ctable', n)."""
@@ -218,8 +218,12 @@ def derive(binary, lines, tu=None):
     lo_code, hi_code = vram, vram + len(raw)
     word = lambda a: struct.unpack_from("<I", raw, a - vram)[0]
     items = _items(lines)
+    if not any(it[0] == "ctable" for it in items):
+        return []                       # nothing to pad -> nothing to derive, nothing to refuse
     piece = _tu_piece(binary, tu)
     pos, spec = None, []
+    def zero_gap(a, b):                 # assembler alignment padding between two blocks
+        return 0 < b - a < 4 and all(raw[x - vram] == 0 for x in range(a, b))
     def anchor_start(it):
         if it[0] == "s":
             return _s_rodata_span(it[1])[0]
@@ -233,6 +237,8 @@ def derive(binary, lines, tu=None):
                 continue
             if pos is None:
                 pos = lo
+            if lo != pos and zero_gap(pos, lo):
+                pos = lo
             if lo != pos:
                 sys.exit("jtbl_rodata_pads --derive %s: %s starts at 0x%X but the walk is at 0x%X "
                          "(%+d) — island layout drift" % (binary, os.path.basename(it[1]), lo, pos, lo - pos))
@@ -242,6 +248,8 @@ def derive(binary, lines, tu=None):
             if pos is None:
                 pos = addr
             ap = pos if al <= 1 else (pos + al - 1) // al * al
+            if ap != addr and zero_gap(ap, addr):
+                ap = addr
             if ap != addr:
                 sys.exit("jtbl_rodata_pads --derive %s: C data D_%08X expected at 0x%X (walk 0x%X, align %d)"
                          % (binary, addr, ap, pos, al))

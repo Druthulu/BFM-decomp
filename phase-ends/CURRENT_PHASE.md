@@ -2375,3 +2375,17 @@ Rule candidate for the PhaseEnd (R60): config/overlays.mk and the splat yamls ar
 plain config — a gate/lane commit may only carry its own binary's lines, and any blanket
 restore/commit of either file is followed by `interleave_check` + `pads_audit` on every binary it
 touched; the fleet's last clean sweep time is quoted with every "GREEN" claim (R58 sharpened).
+
+**T3a (module island tables) — DONE as tooling, byte-proven.** Probe (R37): splicing
+md_SC03_076/func_801F0F28 with a modules.mk `JTBL_PADS := 0` banked it (interior table, no peel);
+func_801F0A9C (9 entries + a trailing zero word) banked with `0t1,0` → the §154-A/§260 refusal
+classes (`island-pads` 16 fns, `island-blocked` 9 fns in the resolver stock; class E's md_ share)
+are a pads problem, not a peel problem. Shipped: `jtbl_rodata_pads` table-aware + trailing pads +
+**`--derive <binary> --tu <tu>`** (pads derived at BUILD time from the retail island + the emission
+stream — no stored spec, nothing to drift; cookbook §303), the Makefile runs it for every md_*
+object, `harvest_verify` hands module island walls to it. Negative control: all 70 module binaries
+rebuilt byte-identical through the derive stage (7 first failed in the deriver on blob alignment
+gaps — fixed; md_MAIN_003's blob sizing is 34 bytes short but it has no C tables, so the early
+return covers it and any future table there refuses loudly). Commits `commit:3098`, `commit:3099`,
+`commit:3100` + this one. NEXT: fleet sweep #3 (definitive GREEN count with the deriver live), then
+a fresh resolver pass to bank the 32 tail + 25 md_ island drafts through the official gate.
