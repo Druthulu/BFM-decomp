@@ -57,6 +57,113 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 - 2026-08-14 — **T9 COMPLETE.** `tools/warmstart.py` (the permuter/grinder FEEDER): `--from-banked` walks a banked exemplar's h_seq family's still-open members, builds remapped proven-body drafts (`symbol_map` + `aprop_autodraft.build_draft`, refusing on reloc-count mismatch), **stream-classifies member-vs-seed with ZERO compiles** (masked_diff-shaped dicts from ground-truth bytes → `residual_class.classify_streams`), enqueues ONLY permuter-shaped (bucket==permuter or LENGTH-DRIFT |Δ|≤2) as backlog near-records; `--lenmiss` ingests T8's 49-route. **Grinder patch NOT needed** (its candidates() deliberately keeps unclassified records — "unknown is not a reason to skip" — so pre-filtered enqueues flow as-is; documented in the feeder's docstring). Armed live: **49 + 10 enqueued, 120 refused** by the stream filter (the anti-92%-wasted-CPU discipline working). `family_cousins --weak-cards`: **954 units** (the 0.70–0.85 annotate-only band, never before consumed) as seeded-crack cards, ins-ranked, §168 laws embedded, model-routed **haiku 804 / v3 43 / sonnet 86 / opus 21** (cheap tiers dominate — the token-efficiency shape), 0 unresolved `.s`.
 
+## 🛑 SESSION CHECKPOINT — S60 FINAL (2026-08-25 19:30). Phase 31 CONTINUES. **NINE LANES RUNNING.**
+
+**~2,200 banked today · open crackable 3,062 · fleet 97.4% instr-weighted · cookbook 888 sections.**
+Lanes: drafter · gater · maintenance · stallguard · distill · main · **elastic (new)** ·
+**grinder/permuter (new)** · re-gate runner. A Fable analyst is auditing the whole strategy and
+writes `docs/tool-designs/frontier-analysis-s60.md` — **READ THAT FIRST NEXT SESSION.**
+
+### THE SESSION'S LESSON, MEASURED REPEATEDLY
+**Every throughput ceiling was a harness defect, and the guards only count when they are RUNNING.**
+1. **The straggler tail blocked the fleet** — collect_drafts() waited out the full 700s grace before
+   queueing, 11m40s of every ~44-min wave at 4-13 agents, four waves for four. Fixed with a finisher
+   thread; trough went 11m41s -> 0s.
+2. **The draw set the request rate, not the API** — `--max-bins 24` handed 196 of 699 available cards
+   to a 2,000-agent fleet. The endpoint's real envelope, from 170k logged requests: 2,755 req/min
+   peak minute, 764/min sustained 15 min at 8% 429s. The "knee at 150-250" I reported earlier was
+   ramp-burst confounding — **corrected**.
+3. **Every second wave re-drafted the wave still in flight** — `--retry-unbanked` returns still-open
+   cards and the pre-draw runs WHILE a wave drafts, so ck->cl were 239/239 identical, co->cp 238/238.
+   Yield alternated 47.6% / 3.8% / 35.3% / 3.6%. Fixed by deriving finished-ness from BOTH gate logs.
+4. **The "parallel" gate was serial** — gate_stage takes the fleet-shared lock EXCLUSIVE unless
+   GATE_NO_ARITY is set; sweep_parallel never set it, so 24 workers queued on one lock. Two-phase
+   split (parallel readers, serial arity only for COMPILE-failures): wave dd banked **217 in 39 min**.
+5. **config/overlays.mk was wiped THREE TIMES** — the 5,077-line registry committed as a ZERO-LINE
+   file. Root cause found: four `open(mk,"w").write(txt)` truncating writes (jr_isolate_all:593,
+   jtbl_carve:1077/1118/1165) that zero the file before writing, racing the carve automation that runs
+   AT THE GATE. All four now go through **tools/mk_write.py** (atomic tmp+fsync+replace, refuses a
+   rewrite below 80% of current lines, refuses to write over an already-broken registry, flock).
+   Blast radius each time: no overlay builds -> main's glob sweeps overlay .s into MAIN's OBJS -> main
+   RED -> main lane correctly refuses -> EVERY gate rejects EVERY draft. Waves dn/do/ei/ej/ek/el
+   banked 0 with 675 backlog rows reading "match_one MATCH but the whole-binary gate rejected".
+6. **A guard that is not running is not a guard** — config_sane() was added at 13:0x but the gater
+   process had run since Mon 19:32; Python loads a module once. It wiped the registry again AFTER the
+   guard existed. Restarting a long-running lane is part of shipping a fix to it.
+
+### WHAT LANDED (all committed)
+* **Throughput**: tail overlap · MAX_BINS 24->160->250 · queue-depth 4 · levers remap/needs-autopsy/
+  plumbing added · gate two-phase · --gate-jobs 32 · gate now LOGS sweep_parallel output (it was a
+  30-minute silent block). Rate went 65 -> **554 req/min peak**, 1,363 agents at peak.
+* **ONE_PER_GID=0** — draft every instance, siblings included: 627 cards vs 334 skeletons, and the gate
+  got MORE efficient per build (2.9 drafts/rebuild vs 2.6). Wave `eh` banked **129/380 (34%)**.
+* **Generational top-off** — generation is the primary ordering at both assembly levels; never-drafted
+  work goes first, no tier is filtered out, wave size unchanged.
+* **-O0 U2/U3**: whale object resolved BY CONTENT (NC 134/134) -> 4 SC07 banked; the x3 carve at
+  [0x8013B568,0x8013C98C) byte-neutral on all three, then **48/48 banked**. 52 fns, zero tokens.
+* **Cookbook §274-§292** from three distill batches (18 waves, cf, and 36 waves / 1,216 candidates
+  reviewed by five agents). Index **888 sections**.
+* **New tools**: mk_write.py · jtbl_pads_fix.py (byte-proven pad-spec repair) · elastic.sh · grinder lane.
+* **Fixed**: idiom_serial (dead at turn 0 — a FAMILY-card file fed to a per-function consumer, KeyError
+  before its first turn, which is why tells had "never been run") · match_one warns when --asm-subdir
+  is defaulted (it targets resident; names are address-derived so the same name is a different function
+  in another binary) · tell counts on the card + rendered as a checklist in the prompt.
+
+### THE STRATEGIC PICTURE (this is what next session must act on)
+* **3,062 open crackable.** main is **313** crackable, not 1,274 — 961 of its stubs are LINKED PsyQ
+  segments and data blobs, linked byte-exact, never decompiled.
+* The drawable pool collapses to **~334 distinct skeletons, ~308 of them generation 6+** (drafted six
+  or more times, refused every time). ~3,900 open functions are SIBLINGS behind those skeletons and
+  bank by mechanical remap once an exemplar cracks.
+* **Wide waves now convert at 1-5%.** The drafting side is solved; the gate is the bottleneck (30-67
+  min per gate at 1-3 concurrent builds, load 2.6 of 32 cores) and the drafter parks when its queue
+  fills. **Optimise banks per GATE MINUTE, not cards per wave.**
+* **The reasoning budget is NOT the cause of the decline** (checked): truncated-turn rate is INVERSELY
+  correlated with bank rate — the best waves had the MOST truncation (cx 8.7% trunc / 43.9% bank,
+  dd 8.3% / 51.4%) and the dead waves the least (dl 1.3% / 0.5%, ej 0.6% / 0%). The zeros are the
+  registry outages; the slide from 51% to 20% is population generation, not agent budget.
+* **5,388 backlog rows at closeness <= 2** — the grinder (tools/grinder.py, Phase 21, LLM-free,
+  decomp-permuter) had NEVER been run this campaign and is now on them.
+
+### OPEN THREADS (ranked)
+1. **Read `docs/tool-designs/frontier-analysis-s60.md`** — the Fable analyst was told we are NOT married
+   to the ox-wave model and asked for the smartest path to 100% given the measured state.
+2. **The gate.** 30-67 min at ~8% CPU with -j 32. The new sweep logging will show where the wall-clock
+   goes. A 3x gate speedup outvalues any drafting change.
+3. **Re-gate the false-verdict waves.** ei recovered **34** (original verdict: 1). ej/ek/el/em/en still
+   have ~2,300 drafts on disk, judged against a tree that could not build.
+4. **The fleet R22 never actually runs** — guarded to skip while any gate is in flight, and one always
+   is. Last real sweep 12:54. Give it a lock-aware window.
+5. **A-prop residual**: 169 STRUCT · 121 no-seed-decl (wants type INFERENCE from use sites, a tractable
+   deterministic tool nobody has built) · ~73 IMM-unresolved · 12 void-returning near-0s.
+6. **The unwritten law**: 8 cards across 4 waves independently re-derived that the whole-object gate
+   needs every sibling matched. Recorded in §283; never written as its own section.
+
+### HOW TO RESUME
+`tools/campaign_status.py` first, then `git status --porcelain -- src/ config/` — if dirty, **COMMIT,
+never revert** (R42). **Check `wc -l config/overlays.mk` is ~5,083** before trusting any gate verdict:
+a wiped registry makes every draft look wrong. Three stale `.git/index.lock` files blocked all lanes
+today; if one exists with no `git` process and `.git/index` newer, it is residue. **Verify lanes from
+`ps -o lstart`, never from `pgrep`** — pgrep matches your own shell, and `pkill` killed the gater's
+shell while its python survived, twice.
+
+### RULE CANDIDATES FOR PHASEEND (P10)
+* **R51 — A DERIVED PROPERTY STORED AS CONFIG WILL GO STALE AND TAKE A BINARY WITH IT.** JTBL_PADS
+  records how many jump tables an object emits; every bank carrying a `switch` can change it. Three
+  REDs in one day. Derive it, or give it a byte-proven self-repair.
+* **R52 — A BLANKET COMMITTER MUST NOT ADOPT A COLLAPSED FILE.** "Commit the dirty tree rather than
+  revert" is right for src/ and wrong for config.
+* **R53 — VERIFY A BUILD FROM ITS EXIT CODE, NOT ITS OUTPUT FILE.** A failed build leaves the previous
+  binary in place, so `make build; sha1sum build/<bin>/<bin>` is a FALSE GREEN. It fooled me twice.
+* **R54 — A GUARD DOWNSTREAM OF THE FAILURE IS NOT A GUARD, AND A GUARD THAT IS NOT RUNNING IS NOT A
+  GUARD.** api_agent's "wrong card file?" warning sat one line below the KeyError that killed every
+  serial-lane run; config_sane() could not stop a wipe because its process predated it.
+* **R55 — A LANE THAT RUNS UNATTENDED MUST LEAVE EVIDENCE.** The gate was a 30-minute silent block, so
+  a 31->67 min regression had nothing to diagnose from; an elastic-lane cap silently stopped existing
+  because a two-line integer made its test error and bash read the failure as false.
+
+---
+
 ## 🛑 SESSION CHECKPOINT — S60 (2026-08-25 15:35). Phase 31 CONTINUES. **ALL LANES RUNNING.**
 
 **1,947 banked today · 4,819 -> ~3,652 open crackable · fleet 97.4% instr-weighted.**
