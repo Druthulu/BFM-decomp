@@ -3401,7 +3401,144 @@ void func_80182998(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80182A8C);
+extern u16 D_801E4BBC;
+extern s16 D_80195B24[];
+extern u8 D_80195B2C[];
+extern void func_80186BB8();
+extern void func_80186304();
+extern void func_801840E8(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_801856E4(void);
+extern void func_8018415C(void *a0);
+extern void func_80182810(void *a0);
+extern void func_801828D8();
+extern void func_8012B23C(s32 a0);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_80186F14(void *a0);
+extern void func_80186C0C(void *a0);
+
+/* func_80182A8C — ov_SC02_005_jr_80181D30, 189 ins, MATCH (match_one).
+ * §81 jr family: switch *(u16*)(s0+0x34), sltiu bound 6; raw jtbl_801E2E58 at
+ * asm/ov_SC02_005/data/tail20.data.s:9 — the plain switch emits its own copy;
+ * step 2 below deletes the raw one so the emitted table lands at 0x801E2E58
+ * (splicing without it = two tables = shifted addresses = guaranteed DIFF).
+ * BANKING (operator, each step byte-gated BEFORE building the next):
+ *   1) tools/jr_isolate_all.py ov_SC02_005 --only func_80182A8C
+ *      ; make extract BINARY=ov_SC02_005 && make build BINARY=ov_SC02_005
+ *   2) tools/jtbl_carve.py ov_SC02_005 --func func_80182A8C
+ *      ; make extract BINARY=ov_SC02_005 && make build BINARY=ov_SC02_005
+ *   3) tools/harvest_verify.py --binary ov_SC02_005 --drafts <THIS wave's
+ *      output, NEVER .run/backlog_drafts/> --chunk 1 ; then FULL R22
+ *      (config changed => T2); afterwards tools/autopsy.py collect — corpus
+ *      record docs/autopsy.md:64 is the stale IMM-OFFSET/-3 near-miss.
+ * Sibling tables stay RAW (owners still stubbed): jtbl_801E2E78/:30
+ * func_80185060, jtbl_801E2ED0/:87 func_80185E80, jtbl_801E2F68/:208
+ * func_8018EA04. No existing carves in this subseg (no NON-CONTIGUOUS risk);
+ * a SECOND jr banked here triggers §8b additive regenerate-from-config.
+ * DECL LAW: func_80186BB8 and func_801828D8 MUST stay UNPROTOTYPED `()` —
+ * the TU defines them `void f(void)` (:5888 / :3304); a prototyped `(void*)`
+ * decl is a hard conflicting-types error (tooling-audit.md:1105). Calls still
+ * pass $a0=s0 identically.
+ * LOAD-BEARING SPELLINGS (do NOT clean up):
+ * - case 4 caches flags into local `a0` whose LAST USE precedes the call; the
+ *   RMW re-reads memory fresh. Collapsing to one computed-arg call site
+ *   re-joins the 0x80000 constant across the jal -> phantom $s1, frame 0x20.
+ * - case-4 join is two plain stores; a named join local moves the li's to $v1.
+ * - table compare reads the entry UNSIGNED:
+ *   (*(u16 *)&D_80195B24[D_801E4BBC]<<16)>>17 (decl stays s16[]); signed
+ *   spelling folds to one sra and loses an instruction.
+ * - *(s16 *)(s0 + 0xAE) = -1 via s16 lvalue; u16 lvalue emits ori instead of
+ *   addiu -1.
+ */
+void func_80182A8C(s32 s0) {
+    u32 a0;
+
+    switch (*(u16 *)(s0 + 0x34)) {
+    case 0:
+        if (*(s16 *)(s0 + 0x98) == 0) {
+            func_80186BB8((void *)s0);
+            *(u16 *)(s0 + 0x34) = 3;
+            if (*(u32 *)(s0 + 0xE8) & 0x40000) {
+                func_80186304((u8 *)s0, 0x16, 2);
+                *(u16 *)(s0 + 0x34) = 2;
+            }
+        }
+        break;
+    case 1:
+        if (*(s16 *)(s0 + 0x98) == 0) {
+            func_80186BB8((void *)s0);
+            *(u16 *)(s0 + 0x34) = 3;
+            if (*(u32 *)(s0 + 0xE8) & 0x20000) {
+                func_80186304((u8 *)s0, 0x18, 2);
+                *(u16 *)(s0 + 0x34) = 2;
+            }
+        }
+        break;
+    case 2:
+        if (*(s16 *)(s0 + 0x98) == 0) {
+            func_80186BB8((void *)s0);
+            *(u16 *)(s0 + 0x34) = 3;
+            *(u32 *)(s0 + 0xE8) |= 0x80000;
+        }
+        break;
+    case 3:
+        func_801840E8(*(s32 *)(s0 + 0xD4));
+        *(u32 *)(s0 + 0x1C) = 0;
+        *(u16 *)(s0 + 0x34) = 4;
+        break;
+    case 4:
+        if (func_8012BEE8(s0)) {
+            if (D_801E4BBC == 0 && *(s16 *)(s0 + 0x76) == D_80195B24[0]) {
+                func_801856E4();
+                *(u32 *)(s0 + 0x1C) = 0x180;
+            }
+        }
+        a0 = *(u32 *)(s0 + 0xE8);
+        if ((a0 & 0x80000) == 0 &&
+            *(s16 *)(s0 + 0x76) <= ((*(u16 *)&D_80195B24[D_801E4BBC] << 16) >> 17)) {
+            if ((a0 & 0x20000) != 0) {
+                func_80186304(s0, -0x15, 1);
+            } else {
+                func_80186304(s0, -0x17, 1);
+            }
+            *(u32 *)(s0 + 0xE8) = (*(u32 *)(s0 + 0xE8) & 0xFFF9FFFF) | 0x80000;
+            func_8018415C(*(void **)(s0 + 0xD4));
+            *(u16 *)(s0 + 0x34) = 5;
+        }
+        break;
+    case 5:
+        if (*(s16 *)(s0 + 0x98) == 0) {
+            if (*(u32 *)(s0 + 0xE8) & 0x1000) {
+                func_80182810((void *)s0);
+                if (*(u32 *)(s0 + 0xE8) & 0x2000) {
+                    *(u32 *)(s0 + 0x1C) = 0x18;
+                } else {
+                    *(u32 *)(s0 + 0x1C) = 0x30;
+                }
+                func_801828D8((void *)s0);
+                *(u32 *)(s0 + 0xE8) &= ~0x80;
+                *(s32 *)(s0 + 0x1C) = (s32)(s16)*(u16 *)(s0 + 0x104);
+            } else {
+                func_8012B23C(s0);
+                *(u32 *)(s0 + 0xE8) |= 1;
+                func_80186304((u8 *)s0, 0, 0);
+                if (*(u32 *)(s0 + 0xE8) & 0x2000) {
+                    *(u32 *)(s0 + 0x1C) = 0x10;
+                } else {
+                    *(u32 *)(s0 + 0x1C) = 0x20;
+                }
+                *(u32 *)(s0 + 0x58) = (s32)D_80195B2C | 0x40000000;
+                *(u16 *)(s0 + 0x5C) = 0;
+                *(s16 *)(s0 + 0xAE) = -1;
+                func_8012AD44((s32 *)s0, 1);
+                func_80186F14((void *)s0);
+            }
+            func_80186C0C((void *)s0);
+        }
+        break;
+    }
+}
+
 
 extern void func_80186178(s32 *a0);
 extern void func_8012B23C(s32 a0);

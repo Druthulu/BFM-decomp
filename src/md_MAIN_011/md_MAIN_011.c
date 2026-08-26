@@ -172,7 +172,10 @@ void func_800D04C4(void) {
 
 INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D04F4);
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800D0828);
+s32 func_800D0828(s32 arg0) {
+    return 1;
+}
+
 
 void func_800D0858(void) {
     extern s32 func_800149E0(s32 a0);
