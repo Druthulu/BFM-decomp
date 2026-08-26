@@ -568,6 +568,65 @@ def prior_transcript(t, budget=240000):
     return msgs, path, newest
 
 
+def gate_feedback(t):
+    """WHY the last attempt did not bank, from the gate's own ledgers — added S61 once the verdicts
+    became class-accurate (before that the dominant reasons were misattributed harness faults, and
+    feeding them to a retry would have taught it wrong). Two sources, both keyed by (binary, fn) --
+    never bare name (overlays share names):
+      * the latest backlog row -> verdict class + closeness + where_stuck;
+      * the latest reloc_rejects row with shape MATCH -> the EXACT symbol mismatches (mechanically
+        fixable: the instruction stream already matched; only names were wrong).
+    Harness-fault classes (BASELINE-RED / TU-BROKEN) are stated as NOT the draft's fault so the
+    retry resubmits with minimal change instead of mangling a possibly-correct body."""
+    b, fn = t.get('binary'), t['name']
+    out = []
+    try:
+        last = None
+        for src in ('.run/backlog.jsonl', '.run/auto/bulk/%s.backlog.jsonl' % b):
+            if not os.path.exists(src):
+                continue
+            for line in open(src, errors='replace'):
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                if r.get('name') == fn and r.get('binary') == b:
+                    last = r
+        if last:
+            ws = (last.get('where_stuck') or '')[:260]
+            cl = last.get('closeness')
+            if 'BASELINE-RED' in ws or 'TU-BROKEN' in ws:
+                out.append("LAST GATE VERDICT: the rejection was the HARNESS's fault (%s) -- the binary or its "
+                           "TU was broken when your predecessor was judged. The draft may be fully correct: "
+                           "verify against the .s and resubmit with MINIMAL changes." % ws)
+            else:
+                out.append('LAST GATE VERDICT: %s%s' % (('closeness %s (instructions still wrong) -- ' % cl)
+                                                        if cl is not None else '', ws))
+    except Exception:
+        pass
+    try:
+        best = None
+        if os.path.exists('.run/reloc_rejects.jsonl'):
+            for line in open('.run/reloc_rejects.jsonl', errors='replace'):
+                try:
+                    r = json.loads(line)
+                except Exception:
+                    continue
+                if r.get('fn') == fn and r.get('binary') == b and r.get('shape') == 'MATCH':
+                    best = r
+        if best and best.get('mismatches'):
+            ms = best['mismatches'][:6]
+            out.append('SYMBOL MISMATCHES from the last shape-MATCH attempt (your instruction stream already '
+                       'matched; ONLY these names were wrong -- fix the names, change nothing else):\n' +
+                       '\n'.join('  i=%s %s: draft named %s but the target references %s%s'
+                                  % (m.get('i'), m.get('kind'), m.get('draft_symbol'), m.get('target_addr'),
+                                     (' = ' + m['target_name']) if m.get('target_name') else '')
+                                  for m in ms))
+    except Exception:
+        pass
+    return ('\n\n'.join(out)) if out else None
+
+
 def prior_draft(t):
     """The best body a PREVIOUS attempt on this function reached, if one is on disk.
 
@@ -689,6 +748,10 @@ def main():
                    "against the .s, keep what matches, and fix what does not. Discard it entirely "
                    "if it is a different function's body.\n\n```c\n" + pd.strip() + "\n```\n")
             print(f'  {t["name"]}: warm start from {pdwhere}', flush=True)
+        gf = gate_feedback(t)
+        if gf:
+            um += '\n\n' + gf + '\n'
+            print(f'  {t["name"]}: gate feedback attached', flush=True)
         if a.brief:
             um = open(a.brief).read().rstrip() + '\n\n' + um
         messages = [{'role': 'system', 'content': SYS}, {'role': 'user', 'content': um}]
