@@ -1,8 +1,23 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/800c3", InitHeap);
+__asm__(".text\n.align 2\n.globl InitHeap\n.ent\tInitHeap\n"
+        "InitHeap:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 0xA0\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 0x39\n"
+        "nop\n"
+        ".set\treorder\n.end\tInitHeap\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", FlushCache);
+
+__asm__(".text\n.align 2\n.globl FlushCache\n.ent\tFlushCache\n"
+        "FlushCache:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 160\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 68\n"
+        "nop\n"
+        ".set\treorder\n.end\tFlushCache\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE38);
 

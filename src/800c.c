@@ -1515,7 +1515,13 @@ __asm__(
 ".end\tfunc_8005AB00\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_191C);
+s32 SYS_OBJ_191C(s32 a0, s32 a1, s32 a2, s32 a3) {
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+    __asm__ __volatile__("" : "=r"(v0));
+    __asm__ __volatile__("" : "=r"(v1));
+    return v1 | v0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c", func_8005AB58);
 
@@ -1707,7 +1713,17 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1BC4);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1C28);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_1C28\n"
+    ".ent\tSYS_OBJ_1C28\n"
+    "SYS_OBJ_1C28:\n"
+        ".set\tnoreorder\n"
+        "lh    $v0, 0($a0)\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_1C28\n"
+);
 
 void SYS_OBJ_1C2C(void) {
 }
