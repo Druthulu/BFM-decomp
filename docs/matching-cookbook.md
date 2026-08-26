@@ -29671,3 +29671,39 @@ function (SC04_018: offset/value swapped in one store).
 **Process rule that falls out (R59 candidate, sharpened):** a blanket restore of overlays.mk or a
 splat yaml is a carve-state edit; it must be followed by `interleave_check` on every overlay whose
 lines it touched, and `pads_audit` on every object whose spec it carried.
+
+## §303 — MODULE ISLAND TABLES: DERIVE THE PADS AT BUILD TIME, PEEL NOTHING — THE §154-A/§260 "island-pads"/"island-blocked" WALLS DISSOLVE (P31 S62 T3a; byte-proven md_SC03_076 func_801F0A9C + func_801F0F28, sha 9a165e36…)
+
+**The shape.** A module's rodata island (offset 0, `[0x0, .rodata, md_X]`) packs every switch's
+jump table in source order, each table followed by 0–n zero words; the island is bound to the main
+TU object, and every stub's `.s` carries its own table (+ its trailing pad) at the stub's position
+in the stream, while a matched body's cc1 emits `.align 3 + $L + N entries` — the real entries only.
+§260 peeled only END-adjacent tables into their own object; interior tables ("island-blocked") and
+padded tables ("island-pads") were refused: 16 + 9 fns in the S62 resolver stock alone.
+
+**The law: emission order == island order, so the object can emit the whole island in place.**
+cc1 places each table at its function's position; INCLUDE_ASM'd `.s` blocks interleave in place;
+C const data (`D_…:`) lands where the source puts it. The ONLY missing bytes are the pads a matched
+body no longer supplies — and they are computable from the retail island. `tools/jtbl_rodata_pads.py`:
+- is now table-aware: it acts only on an `.align 3` that a `$L` label follows; const data
+  (`.align 2`, `D_…:`, `.byte`), includes and string pools pass through untouched;
+- takes trailing pads: token `0t1` = no leading pad, one zero word after the table (`4t2` etc.);
+- **`--derive <binary> --tu <tu>` (modules; wired in the Makefile for every md_* object):** parses
+  the maspsx stream's rodata items in order — `.include`d `.s` blocks (span from their `/* off
+  vaddr */` comments, sized by directive when the comment carries no hex), C data objects (start =
+  the address in the `D_XXXXXXXX` name, size from the directives), C tables — then walks the retail
+  island: a `.s` span must start exactly at the running position, C data at its aligned address,
+  and a C table takes lead 4 iff the retail word at the position is zero, N in-range code words,
+  then trailing zeros up to the next anchor (or the next non-zero word); an anchorless stream (an
+  isolated §260 object) is framed by its yaml `.rodata` piece. Any anchor miss refuses with the
+  offset — a CARVE-DRIFT verdict AT BUILD TIME, attributable, never a silent shift.
+- Nothing is stored (R33): no modules.mk spec, no yaml edit, no isolation — so nothing can drift
+  (contrast §302: every S61 red was a stored carve spec drifting).
+
+**Gate side.** `harvest_verify._jtbl_prep_one`: a module island wall now just leaves the splice
+in place (`[jtbl] module island table … handled by --derive`); the build judges. The old §260
+peel stays valid for already-peeled pieces (`--tu` frames them).
+
+**Controls.** Positive: the derive reproduces the hand-proven `0t1,0` and its filtered output is
+byte-identical to the stored-spec output. Negative: every module binary rebuilt through the derive
+stage must stay byte-identical (the S62 module sweep — count quoted in the phase log).
