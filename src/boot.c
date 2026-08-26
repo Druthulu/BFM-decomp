@@ -303,7 +303,31 @@ void func_80010E7C(void) {
     *(u16 *)(p + 0xA3D4) = 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010ED4);
+extern s32 D_800C7C60;
+extern void *D_800C7C64;
+extern u8 D_800A2E20[];
+extern u8 D_800AE848[];
+extern void *loadDestPtrTable;
+extern int CdReadRequest(void *dst, void *src, int arg2, int arg3);
+extern void func_8002D4C8(s32, s32);
+extern void func_80010AE0(int);
+extern void func_80014338(void);
+extern void func_800116E0(void);
+extern void func_80011778(void);
+extern s16 D_800B99DA;
+
+void func_80010ED4(void) {
+    D_800C7C60 = 0x57;
+    D_800C7C64 = D_800A2E20;
+    if (CdReadRequest(D_800AE848, loadDestPtrTable, 0, &D_800C7C60) != 0) {
+        func_8002D4C8(2, 0);
+        func_80010AE0(0x3E0);
+        func_80014338();
+        func_800116E0();
+        D_800B99DA = 0;
+        func_80011778();
+    }
+}
 
 
 extern void func_800CEEC8(void);
@@ -433,7 +457,20 @@ void func_80011680(void) {
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_800116E0);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011778);
+extern u8 D_800AF630[];
+
+void func_80011778(void) {
+    register u8 *p = D_800AF630;
+
+    (*(u16 *)(p + 0xA3AE))++;
+    *(u16 *)(p + 0xA3B4) = 0;
+    *(u16 *)(p + 0xA3BA) = 0;
+    *(u16 *)(p + 0xA3B8) = 0;
+    *(u16 *)(p + 0xA3BE) = 0;
+    *(u16 *)(p + 0xA3B0) = 0;
+    *(u16 *)(p + 0xA3B6) = 0;
+    *(u16 *)(p + 0xA3BC) = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011818);
 
@@ -465,9 +502,38 @@ INCLUDE_ASM("asm/nonmatchings/boot", func_80011998);
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_800119F0);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011A3C);
+extern u8 D_800AF630[];
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011ADC);
+void func_80011A3C(void) {
+    register u8 *p = D_800AF630;
+    register u16 x;
+
+    x = *(u16 *)(p + 0xA3C0);
+    x = x + 1;
+    *(u16 *)(p + 0xA3C0) = x;
+    *(u16 *)(p + 0xA3C6) = 0;
+    *(u16 *)(p + 0xA3CC) = 0;
+    *(u16 *)(p + 0xA3CA) = 0;
+    *(u16 *)(p + 0xA3D0) = 0;
+    *(u16 *)(p + 0xA3C2) = 0;
+    *(u16 *)(p + 0xA3C8) = 0;
+    *(u16 *)(p + 0xA3CE) = 0;
+}
+
+extern u8 D_800AF630[];
+
+void func_80011ADC(void) {
+    register u8 *p = D_800AF630;
+
+    --*(u16 *)(p + 0xA3C0);
+    *(u16 *)(p + 0xA3C6) = 0;
+    *(u16 *)(p + 0xA3CC) = 0;
+    *(u16 *)(p + 0xA3CA) = 0;
+    *(u16 *)(p + 0xA3D0) = 0;
+    *(u16 *)(p + 0xA3C2) = 0;
+    *(u16 *)(p + 0xA3C8) = 0;
+    *(u16 *)(p + 0xA3CE) = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011B7C);
 

@@ -604,7 +604,22 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80012C6C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80012CB8);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80012D0C);
+s16 func_80012D0C(s32 x0, s32 x1, s32 d, s16 *ctr)
+{
+    s32 diff;
+    s32 q;
+
+    diff = x1 - x0;
+    if (*ctr == 0 || (s16)d == 0)
+        return (s16)diff;
+    q = (s16)((s16)diff / (s16)d);
+    if (q != 0)
+        return q;
+    *ctr = *ctr - 1;
+    return func_80012D0C((s16)x0, (s16)x1,
+                         ((s16)d + (s32)(((u32)d << 16) >> 31)) >> 1,
+                         ctr);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80012DBC);
 
@@ -616,7 +631,23 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80012F74);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80012FC8);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80013028);
+s32 func_80013028(s32 x, s32 y, s16 n, s16 d, s16 *p) {
+    s32 r;
+
+    y -= x;
+    if (*p == 0 || n == 0) {
+        r = (s16)y;
+    } else {
+        r = (s16)((s16)y * d / n);
+        if (r == 0) {
+            r = -1;
+            if ((s16)y > 0) {
+                r = 1;
+            }
+        }
+    }
+    return r;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800130D0);
 

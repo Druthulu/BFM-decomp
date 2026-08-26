@@ -27,9 +27,32 @@ INCLUDE_ASM("asm/nonmatchings/800c3", DeliverEvent);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", OpenEvent);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", CloseEvent);
+__asm__(".text\n.align 2\n.globl CloseEvent\n.ent\tCloseEvent\n"
+        "CloseEvent:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 0xB0\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 0x9\n"
+        "nop\n"
+        ".set\treorder\n.end\tCloseEvent\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", WaitEvent);
+__asm__(
+    ".text\n"
+    ".align 2\n"
+    ".globl WaitEvent\n"
+    ".ent\tWaitEvent\n"
+    "WaitEvent:\n"
+    ".frame $sp, 0, $31\n"
+    ".mask 0x00000000, 0\n"
+    ".fmask 0x00000000, 0\n"
+    ".set\tnoreorder\n"
+    "addiu $t2, $0, 176\n"
+    "jr    $t2\n"
+    "addiu $t1, $0, 10\n"
+    ".set\treorder\n"
+    ".end\tWaitEvent\n"
+    "nop\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", TestEvent);
 

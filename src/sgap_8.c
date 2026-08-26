@@ -349,4 +349,20 @@ s32 func_80041400(s32 param_1)
     return *(s16 *)(base + 0x5A);
 }
 
-INCLUDE_ASM("asm/nonmatchings/sgap_8", func_80041448);
+
+extern u8   D_800AE614;
+extern s16  D_80079596[][26];
+extern u16  D_800B9B3A;
+extern void func_80040868(s32);
+
+void func_80041448(s16 param_1)
+{
+    u8 i;
+
+    for (i = 0; i < D_800AE614; i++) {
+        if (D_80079596[i][0] == param_1) {
+            D_800B9B3A = i;
+            func_80040868(0);
+        }
+    }
+}
