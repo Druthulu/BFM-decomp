@@ -257,6 +257,12 @@ def build_new_config(ov, p):
         if nm not in p["per_obj"]:
             continue
         cuts = p["per_obj"][nm]                                # jr vrams in this object
+        # A jr function that IS the object's first function (the object is already named after it,
+        # e.g. ov_SC06_029_jr_8017C954) yields a cut at the object start -> an empty region 0 at the
+        # same offset -> "code subseg … out of order" at config time (P31 S62). Such a cut is a no-op.
+        cuts = [c for c in cuts if c != s]
+        if not cuts:
+            continue
         srcpath = os.path.join(REPO, f"src/{ov}/{nm}.c")
         header, regions = _partition(srcpath, cuts, syms)
         # region 0 (lo=None) keeps the object name; each jr-led region -> _jr_<lo>. Regions are
@@ -400,6 +406,9 @@ def _engine_types():
                 continue
             t = open(p, errors="replace").read()
             names |= set(re.findall(r'\}\s*([A-Za-z_]\w*)\s*;', t))              # typedef struct {...} X;
+            # `} __attribute__((packed, aligned(1))) X;` — the lifted Block4/Blk4_E960 shape (P31 S62): the
+            # attribute sits between the brace and the name, so the pattern above never saw them.
+            names |= set(re.findall(r'\}\s*__attribute__\s*\(\(.*?\)\)\s*([A-Za-z_]\w*)\s*;', t))
             names |= set(re.findall(r'^\s*typedef\s+[^;{}]*?\b([A-Za-z_]\w*)\s*;', t, re.M))
             names |= set(re.findall(r'^\s*(?:struct|union|enum)\s+([A-Za-z_]\w*)\s*;', t, re.M))
             # ...and the same TAGS defined WITH A BODY (`struct PW8017E6D8 { int w; };`). The

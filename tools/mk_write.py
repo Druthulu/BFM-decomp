@@ -39,6 +39,7 @@ missing line, not a wiped file — and it is caught downstream by the fleet chec
 Closing it properly means holding the lock across read-modify-write in every caller.
 """
 import re
+import sys
 import fcntl
 import os
 
@@ -67,6 +68,12 @@ def merge_blocks(cur, base, new):
     changed = {k for k in nb if nb[k] != bb.get(k)}
     if not changed:
         return cur
+    # R43: a block this caller changed whose text ALSO moved on disk since the caller's read is a
+    # conflict — applying the caller's version would resurrect its stale view of that block.
+    conflict = [k for k in changed if k in cb and k in bb and cb[k] != bb[k]]
+    if conflict:
+        sys.exit("mk_write: overlays.mk block(s) %s changed on disk since this caller read them — "
+                 "refusing to write a stale view; re-read and retry" % conflict)
     out = []
     for k, v in cb.items():
         out.append(nb[k] if k in changed else v)
