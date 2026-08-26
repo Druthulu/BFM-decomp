@@ -3832,9 +3832,54 @@ void func_801838F0(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80181D34", func_80183940);
+s32 func_80183940(s32 a0, s32 a1) {
+    extern s32 func_80132EF4(s32 a0, s32 a1);
+    extern s32 rand(void);
+    s32 s0;
+    s32 rr;
+    register s32 x1 __asm__("$3");
+    register s32 x2 __asm__("$4");
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80181D34", func_80183A28);
+    if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) >= 0x800) {
+        if (*(s16 *)(a0 + 0xE4) == 0) {
+            *(s16 *)(a0 + 0xE4) = *(u16 *)(a0 + 0xE6);
+            s0 = func_80132EF4(a0, 0x22);
+            if (s0 != 0) {
+                rr = rand();
+                x1 = *(u16 *)(s0 + 0x6);
+                x1 = x1 - 0x10;
+                *(u16 *)(s0 + 0x6) = x1 + (rr & 0x1F);
+                rr = rand();
+                *(s32 *)(s0 + 0x14) = -0x40000;
+                x2 = *(u16 *)(s0 + 0xE);
+                x2 = x2 - 0x10;
+                *(u16 *)(s0 + 0xE) = x2 + (rr & 0x1F);
+                *(s16 *)(s0 + 0x34) = a1;
+                *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = 0xC010;
+                *(u32 *)(*(s32 *)(s0 + 0x20) + 0x4) |= 0x40000000;
+            }
+            return 1;
+        }
+        *(s16 *)(a0 + 0xE4) = *(s16 *)(a0 + 0xE4) - 1;
+    }
+    return 0;
+}
+
+
+extern u16 D_80126B66;
+extern void func_80181EF4(s32 arg0);
+
+void func_80183A28(param_1)
+int param_1;
+{
+    if ((short)(*(u16 *)(param_1 + 0xE) - D_80126B66) < 0x140) {
+        void **fp = *(void **)(param_1 + 0xDC);
+        if (fp != 0 && *fp != 0)
+            (*(void (*)(void))*fp)();
+        func_80181EF4(param_1);
+    }
+}
+
 
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8001C924(s32 a0, void *a1);
@@ -4122,7 +4167,20 @@ void func_80183FDC(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80181D34", func_801841F8);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80142414(s32 a0, s16 a1);
+
+void func_801841F8(p)
+s32 p;
+{
+    if (*(s32 *)(p + 0x1C) == 0xF) {
+        func_80142414(p, -0x90);
+    }
+    if (func_8012BEE8(p) != 0) {
+        *(u16 *)(p + 2) = 2;
+    }
+}
+
 
 
 /* func_80184248 — a randomised state entry: seed the timer at 0x1C with

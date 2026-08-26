@@ -4378,7 +4378,14 @@ s32 *func_8017DD28(s32 *out) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8017CF3C", func_8017DF18);
+extern void func_80016714(void *a0, s32 a1);
+extern s8 D_801857F8;
+
+void func_8017DF18(void)
+{
+    func_80016714(&D_801857F8, 0x2DC);
+}
+
 
 #include "common.h"
 
@@ -4438,11 +4445,54 @@ void func_8017DF40(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8017CF3C", func_8017E22C);
+void func_8017E22C(s32 a0) {
+    extern void func_80016714(void *a0, s32 a1);
+    extern char D_80185B00;
+    func_80016714(&D_80185B00, 8);
+}
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8017CF3C", func_8017E254);
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8017CF3C", func_8017E298);
+s32 func_8017E254(void)
+{
+    extern s16 D_80185B00;
+    extern s16 D_80185B02;
+    extern void (*D_801827D8[])(void);
+    D_801827D8[D_80185B00]();
+    return ((u32)D_80185B02) >> 31;
+}
+
+
+extern s16 D_80185B08;
+extern s32 func_80029504(void);
+extern u16 D_80185B00;
+extern void func_8017C008(s32, s16);
+
+void func_8017E298() {
+
+    extern s16 D_80185B08;
+    extern u16 D_80185B00;
+    extern s32 func_80029504(void);
+    extern void func_8017C008(s32, s16);
+    s32 v;
+    u16 *p;
+
+    v = func_80029504();
+
+    if ((u32)(v - 5) >= 0x4B5) {
+        if (v != 0x6A4) {
+            D_80185B08 = 1;
+        } else {
+            D_80185B08 = 2;
+        }
+    } else {
+        D_80185B08 = 0;
+    }
+
+    func_8017C008(1, D_80185B08);
+    p = &D_80185B00;
+    (*p)++;
+}
+
 
 void func_8017E324(void) {
 

@@ -5350,7 +5350,27 @@ ret0:
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017F500);
+extern short D_801B99A8;
+extern u8 D_801E396C[];
+extern void func_8012A828(s32*, s32);
+extern void func_8012E88C(s32);
+extern void func_80184C90(s32);
+extern void func_80184ED4(s32, s32, s32, s32);
+
+void func_8017F500(arg0)
+void *arg0;
+{
+    extern short D_801B99A8;
+    extern u8 D_801E396C[];
+
+    *(short *)((char *)arg0 + 0x2) = 5;
+    *(short *)((char *)arg0 + 0x34) = 0;
+    func_8012E88C((s32)arg0);
+    ((void (*)(s32, s32))func_8012A828)((s32)arg0, (s32)&D_801B99A8);
+    func_80184C90((s32)arg0);
+    func_80184ED4((s32)arg0, (s32)D_801E396C, 0, 0x60);
+}
+
 
 void func_8017F564(void *a0) {
     extern short D_80191578;
@@ -5921,7 +5941,15 @@ DEFINE_func_8018042C()  /* dedup: shared engine-core @0x8018042C (src/shared) */
 DEFINE_func_8018048C()  /* dedup: shared engine-core @0x8018048C (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801804C8);
+extern void func_80178CBC(s32, s32);
+extern short D_8019195C;
+
+void func_801804C8(s32 arg0) {
+    *(short *)((char *)arg0 + 0x2) = 0x5;
+    ((void (*)(s32 *, s32))func_80178CBC)((s32 *)arg0, (s32)&D_8019195C);
+    *(short *)((char *)arg0 + 0x34) = 0;
+}
+
 
 
 extern s32 func_80184DD0(s32 a0);
@@ -5964,7 +5992,20 @@ void func_80180580(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_801805C0);
+void func_801805C0(s32 arg0) {
+    extern void func_80185F54(void*, s32, s32);
+    extern s32 func_80185BE0(s32);
+    extern s32 func_80184FA4(void);
+    extern void func_801803BC(void*);
+
+    ((void (*)(s32, s32, s32))func_80185F54)(arg0, 0xC, 1);
+    if (func_80185BE0(0xC) != 0) {
+        if (((s32 (*)(s32))func_80184FA4)(arg0) != 0) {
+            ((void (*)(s32))func_801803BC)(arg0);
+        }
+    }
+}
+
 
 void func_80180618(void *arg0) {
     extern short D_801B65C8;
@@ -6311,7 +6352,46 @@ s32 func_80180CC0(void *a0)
 DEFINE_func_80180D38()  /* dedup: shared engine-core @0x80180D38 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_80180E28);
+void func_80180E28(s32 a0) {
+    s32 s2;
+    s32 code;
+    s32 a0val;
+    s32 dd;
+    s32 sel;
+
+    s2 = a0;
+    *(s32 *)(*(s32 *)(s2 + 0xCC) + 0xB0) = 2;
+    dd = func_80184DD0(a0);
+    sel = func_80029504();
+
+    if (dd == 2 && sel < 0x276) {
+        a0val = 0xA;
+    } else {
+        if (func_80184BAC(0xA, 0x10) != 0) {
+            code = 0;
+            goto ladder_done;
+        }
+        a0val = 0x10;
+    }
+    if (func_80184BAC(a0val, 0x16) != 0) {
+        code = 1;
+    } else {
+        code = 2;
+    }
+ladder_done:
+
+    switch (code) {
+    case 0:
+        func_80180888((void *)a0);
+        break;
+    case 1:
+        func_801809DC((void *)a0);
+        break;
+    case 2:
+        break;
+    }
+}
+
 
 
 extern s32 func_80185BE0(s32 a0);

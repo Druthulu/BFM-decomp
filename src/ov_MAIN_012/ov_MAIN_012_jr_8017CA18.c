@@ -3923,5 +3923,28 @@ s32 func_8017CBC8(s32 ot, u8 *s, s16 c) {
 }
 
 
-INCLUDE_ASM("asm/ov_MAIN_012/nonmatchings/ov_MAIN_012_jr_8017CA18", func_8017CEB8);
+s32 func_8017CEB8(s32 a0, s16 a1, s16 a2, s16 a3, s32* p)
+{
+    extern u8 D_80115158[];
+    s32 t0 = 0;
+    *p = 0x808080;
+    a2 = D_80115158[(s16)a2 * 2];
+    if (a1 < 5) {
+        if (a1 > 0) {
+            if ((s16)a3 < a2) {
+                t0 = *(s32 *)(a0 + a3 * 4);
+            }
+        } else if (a1 != 0) {
+            if ((s16)a3 < a2) {
+                t0 = *(s32 *)(a0 + a3 * 4);
+            }
+        }
+    } else if (a1 != 5) {
+        if ((s16)a3 < a2) {
+            t0 = *(s32 *)(a0 + a3 * 4);
+        }
+    }
+    return t0;
+}
+
 

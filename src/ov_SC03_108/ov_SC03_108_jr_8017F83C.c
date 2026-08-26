@@ -2904,7 +2904,17 @@ TAIL:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017F83C", func_8017FBD8);
+
+
+void func_8017FBD8(param_1)
+s32 param_1;
+{
+    *(s32 *)(param_1 + 0x48) = 0x4000;
+    *(s16 *)(param_1 + 2) = 7;
+    *(s32 *)(param_1 + 0x1C) = 0x50;
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x14) = rand() % 0x1000;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017F83C", func_8017FC3C);
 
@@ -3414,7 +3424,46 @@ void func_80180A84(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017F83C", func_80180B7C);
+extern s32 func_8004787C(s32 a0);
+extern u16 D_800B99DA;
+extern u8 D_8019E682;
+extern u8 D_8019E6BC;
+extern u8 D_8019E6BD;
+extern u8 D_8019E6BE;
+
+void func_80180B7C(arg0)
+s32 arg0;
+{
+    s32 r;
+    s32 x;
+    s32 col0;
+    s32 col1;
+    s32 col2;
+    u8 *p;
+    s32 i;
+    s32 off;
+
+    r = func_8004787C((((D_800B99DA << 3) - D_800B99DA) << 3) & 0x7F8);
+    x = (((((r << 1) + r) << 3) + r) << 2) >> 12;
+    col0 = x + 100;
+    col1 = x - 126;
+    col2 = ((((((r << 3) - r) << 3) - r) << 1) >> 12) + 100;
+    i = 0;
+    p = &D_8019E682;
+    off = 0;
+    do {
+        i++;
+        p[off - 2] = col0;
+        p[off - 1] = col1;
+        p[off] = col2;
+        off += 16;
+    } while (i < 3);
+    D_8019E6BC = col0 - 50;
+    D_8019E6BD = col1 - 50;
+    D_8019E6BE = col2 - 50;
+    *(s32 *)(arg0 + 0x1C) += 1;
+}
+
 
 
 
