@@ -4619,6 +4619,17 @@ typedef struct { u32 tag; u32 w1; u32 w2; u32 w3; } Prim_1412A8;
 #define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
 #define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
 
+
+/* --- lift_types.py fleet lift --- */
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_E960;
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
+typedef struct {
+    s16 f0;
+    s16 f2;
+    s16 f4;
+} D80190448_t;
+typedef struct { short m[3][3]; long t[3]; } MATRIX_80188114;
+typedef struct Rec80182744_s Rec80182744;
 #endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the
  * Phase-29 crack-wave lift onward) were sitting OUTSIDE the guard, so any TU that
  * included this header twice re-declared them. gcc-2.7.2 rejects a repeated typedef

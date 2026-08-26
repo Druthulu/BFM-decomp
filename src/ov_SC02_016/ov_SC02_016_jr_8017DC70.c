@@ -3748,7 +3748,6 @@ void func_8017F8C0(void *a0) {
 extern void func_8001CD9C(int, void *);
 extern void func_800233CC(void *, unsigned short);
 
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
 
 extern Block4 D_801B41C8;
 extern Block4 D_801B2BCC;

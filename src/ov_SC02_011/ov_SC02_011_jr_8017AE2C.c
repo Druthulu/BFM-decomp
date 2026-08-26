@@ -10191,7 +10191,6 @@ void func_801870D0(s32 param_1) {
 extern void func_8001CD9C(s32, void *);
 extern void func_800233CC(void *, u16);
 
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
 
 extern Block4 D_801E9E30;
 extern Block4 D_801EB524;

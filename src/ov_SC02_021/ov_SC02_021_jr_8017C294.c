@@ -3724,7 +3724,6 @@ u8 *func_8017E908(void) {
 }
 
 
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
 extern Block4 D_80191968;
 extern Block4 D_8019196C;
 extern u8 *func_8017E908(void);

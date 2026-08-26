@@ -4854,7 +4854,6 @@ void func_80183F0C(void *a0) {
  * flag (s32) @0x70.  var_size = 0x40+0x20+8 = 0x68  ->  frame 0x98 w/ 7 saves.
  */
 typedef struct { s16 vx, vy, vz, pad; } SVec_80183F84;
-typedef struct { short m[3][3]; long t[3]; } MATRIX_80188114;
 typedef struct {
     SVec_80183F84 v[4];                       /* 0x00 */
     s16 u0, t0, u1, t1, u2, t2, u3, t3;       /* 0x20 */

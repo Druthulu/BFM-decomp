@@ -4422,7 +4422,6 @@ void func_80182E38(void *param_1) {
 extern void func_8001CD9C(int, void *);
 extern void func_800233CC(void *, unsigned short);
 
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
 
 void func_80182E88(s32 a0) {
     extern Block4 D_801D2E50;

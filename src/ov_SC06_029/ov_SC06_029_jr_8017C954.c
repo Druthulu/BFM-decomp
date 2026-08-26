@@ -4505,11 +4505,6 @@ extern void func_8012C218(void *a0);
 
 extern u8 D_80190348[];   /* §183 unified with func_80180FE0 */
 
-typedef struct {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-} D80190448_t;
 extern D80190448_t D_80190448;
 
 extern s32 D_801DDB2C[5]; /* §183 TYPE-adopted-TU */

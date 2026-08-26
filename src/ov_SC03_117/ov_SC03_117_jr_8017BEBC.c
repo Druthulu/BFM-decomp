@@ -4138,7 +4138,6 @@ void func_8017E9BC(s32 s0) {
 
 #include "common.h"
 
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Block4;
 
 extern Block4 D_801CE398;
 extern Block4 D_801CCEF8;

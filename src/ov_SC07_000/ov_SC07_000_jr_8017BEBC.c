@@ -4186,7 +4186,6 @@ void func_8017E830(void *arg0)
 }
 
 
-typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_E960;
 
 extern s16 D_801D05A0[];
 extern Blk4_E960 D_80186540[];

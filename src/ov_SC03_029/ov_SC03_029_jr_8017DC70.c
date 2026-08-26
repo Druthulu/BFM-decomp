@@ -5263,7 +5263,6 @@ struct Rec80182744_s {
     s32 f1;
     s32 f2;
 } __attribute__((packed, aligned(1)));
-typedef struct Rec80182744_s Rec80182744;
 
 extern Rec80182744 D_8018BCD8[];
 
