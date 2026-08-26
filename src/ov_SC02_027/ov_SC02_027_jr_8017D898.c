@@ -7945,37 +7945,7 @@ void func_80186C0C(s32 a0) {
 }
 
 
-extern s32 D_801AFBD8[];
-extern s32 D_801AFBDC[];
-extern s32 D_801AFBE0[];
-extern s32 D_801AFBE4[];
-extern s32 D_801AFBE8[];
-extern s32 func_8012C51C(int a0, int a1);
-
-void func_80186CE0(u16 *a0, s32 n)
-{
-    s32 buf[5];
-    s32 p;
-    u16 *q;
-    s32 t0, t1, t2, t3;
-
-    p = (s32)a0;
-    t0 = D_801AFBD8[n * 5];
-    t1 = D_801AFBDC[n * 5];
-    t2 = D_801AFBE0[n * 5];
-    t3 = D_801AFBE4[n * 5];
-    buf[0] = t0;
-    buf[1] = t1;
-    buf[2] = t2;
-    buf[3] = t3;
-    buf[4] = D_801AFBE8[n * 5];
-    q = (u16 *)buf;
-    q[0] += *(u16 *)(p + 6);
-    q[1] += *(u16 *)(p + 0xA);
-    q[2] += *(u16 *)(p + 0xE);
-    func_8012C51C((s32)buf, p);
-}
-
+INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80186CE0);
 
 typedef struct {
     s32 a;      /* 0x00 -> D_801D0120 */
