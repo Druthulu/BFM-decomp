@@ -1095,7 +1095,26 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D30D0);
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", D_800D3200);
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D3204);
+extern s32 D_800D3200;  /* dup-def demoted: a sibling .s still emits it (S61) */
+
+__asm__(".text\n.align 2\n.globl func_800D3204\n.ent\tfunc_800D3204\n"
+"func_800D3204:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0,0\n"
+".set\tnoreorder\n.set\tnoat\n"
+"lui $t0, %hi(D_800D3200)\n"
+"addiu $t0, $t0, %lo(D_800D3200)\n"
+"addi $at, $a0, -1\n"
+"blez $at, .L800D3224\n"
+"lw $v0, 0($t0)\n"
+"sll $at, $a0, 1\n"
+"jr $ra\n"
+"sw $at, 0($t0)\n"
+".L800D3224:\n"
+"lui $at, (0xFFFFFF >> 16)\n"
+"ori $at, $at, (0xFFFFFF & 0xFFFF)\n"
+"jr $ra\n"
+"sw $at, 0($t0)\n"
+".end func_800D3204\n");
+
 
 __asm__(
     ".set\tnoreorder\n"
