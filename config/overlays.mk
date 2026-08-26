@@ -4427,9 +4427,9 @@ build/src/ov_SC06_022/ov_SC06_022_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (
 build/src/ov_SC06_022/ov_SC06_022_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC06_022/ov_SC06_022_jr_8016AB6C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC06_022/ov_SC06_022_jr_80178D40.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x178
-build/src/ov_SC06_022/ov_SC06_022_jr_80180CD0.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
+build/src/ov_SC06_022/ov_SC06_022_jr_80180CD0.o: JTBL_PADS := 0  # §8e pads (jtbl_carve.py) tables=+0x0 (S62 T2c: derived from retail by pads_audit — one 7-entry table in the carve 0xb8998..0xb89b4)
 build/src/ov_SC06_022/ov_SC06_022_jr_80182D08.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
-build/src/ov_SC06_022/ov_SC06_022_jr_80184A28.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) — restored, repair refused
+build/src/ov_SC06_022/ov_SC06_022_jr_80184A28.o: JTBL_PADS := 0  # §8e pads (jtbl_carve.py) tables=+0x0 (S62 T2c: yaml carves ONE table 0xb8acc..0xb8ae0; func_80185B80 is still a stub, its table stays in tail20 — the 0,4 spec described the two-table state a rival lane kept flipping to)
 build/src/ov_SC06_022/ov_SC06_022_o0c.o: JTBL_PADS := 0,4,4,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x38,+0xa8,+0x118
 ov_SC06_022_CHECK_SHA  := config/check.ov_SC06_022.sha
 ov_SC06_022_SYMBOLS    := config/symbols.ov_SC06_022.txt
