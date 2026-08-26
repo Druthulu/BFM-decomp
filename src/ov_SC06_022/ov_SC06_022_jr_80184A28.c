@@ -2749,7 +2749,7 @@ extern s32  func_8012BEE8();   /* TU-canonical: an earlier call site passes zero
 extern void func_801833B4(s32 p);
 extern s32 func_8012B8E4(s32 a0, s32 a1);
 extern void func_80187414(s32 a0, void *a1, void *a2, s32 a3);
-extern void func_801873B0();
+extern void func_801873B0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_80049CAC(s32, s32);
 extern void func_800484EC(s32, s32, s32);
@@ -2759,7 +2759,7 @@ extern s32  func_8012BEE8(s32 a0);
 extern void func_8012B0B4(unsigned int *p, int a1, int a2);
 extern s32  func_8012B744(void *a0, void *a1);
 extern void func_80187414(s32, void*, void*, s32);
-extern void func_801873B0();
+extern void func_801873B0(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_80183A20(s32 param_1);
 extern void func_801850CC();
@@ -2995,7 +2995,7 @@ void func_80184F88(s32 a0)
 
 
 extern void func_801850CC();
-extern void func_80185578();
+extern void func_80185578(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
 
 void func_8018500C(s32 param_1) {
