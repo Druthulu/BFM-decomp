@@ -4788,7 +4788,44 @@ void func_80181230(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_801812C4);
+extern s32 rand(void);
+extern u16 D_800B99DA;
+extern u8 *func_801290DC(s32 arg0, u8 *arg1);
+extern u8 D_800AF630[];
+extern s32 D_801C1280;
+
+void func_801812C4(s32 param_1)
+{
+    register u8 *m __asm__("$4");
+    register s32 *cnt __asm__("$3");
+    u16 sp10[3];
+    s32 i;
+    s32 r;
+    s32 cond;
+
+    m = D_800AF630;
+    cond = D_800B99DA & 1;
+    cnt = &D_801C1280;
+    *cnt = cond ? 0xC0 : 0xB0;
+    if ((*(u16 *)(m + 0xA3AA) & 3) == 0) {
+        sp10[1] = *(u16 *)(param_1 + 0xA);
+        for (i = 0; i < 2; i++) {
+            r = rand();
+            {
+                register s32 t __asm__("$3") = *(u16 *)(param_1 + 6) - 0x10;
+                sp10[0] = t + (r & 0x1F);
+            }
+            r = rand();
+            cond = r & 0x1F;
+            {
+                register s32 u __asm__("$3") = *(u16 *)(param_1 + 0xE) - 0x10;
+                sp10[2] = u + cond;
+            }
+            func_801290DC(0x65, (u8 *)sp10);
+        }
+    }
+}
+
 
 
 extern void (*D_8018B0A4[])(void);
@@ -5671,7 +5708,41 @@ void func_801826B4(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_801826E8);
+extern s32 func_80182784(s32 arg0, s32 arg1, s32 arg2);
+
+int func_801826E8(int a0, void* a1)
+{
+    s16 stack_buf[8];
+    register s16 *s0 __asm__("$16") = (s16 *)a1;
+    s16 v0;
+    s32 result;
+    s32 ret;
+
+    v0 = s0[2];
+    stack_buf[0] = v0;
+    v0 = s0[3];
+    stack_buf[4] = v0;
+    v0 = s0[5];
+    stack_buf[5] = v0;
+    stack_buf[1] = v0;
+    v0 = s0[6];
+    stack_buf[6] = v0;
+    stack_buf[2] = v0;
+
+    result = func_80182784((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);
+
+    if (result != 0) {
+        ret = 1;
+    } else {
+        v0 = s0[7];
+        stack_buf[6] = v0;
+        stack_buf[2] = v0;
+        result = func_80182784((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);
+        ret = (result != 0);
+    }
+    return ret;
+}
+
 
 extern s32 *D_80126B78;
 extern s32 *D_80126B90;

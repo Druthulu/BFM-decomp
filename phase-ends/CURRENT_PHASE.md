@@ -2312,3 +2312,14 @@ Fix: order re-aligned to the yaml, pads `0,0,0` (`commit:3084`); R22 clean rebui
 switch fns updated yaml+mk; re-verified clean). Lesson for R59: a blanket restore of overlays.mk
 must be diffed against every yaml it describes (order ⇔ subseg sequence) — `tools/`-worthy check.
 **NEXT: T2b** — ov_SC03_024 (+4 rodata shift in jr_8017AE2C.o; Max, solo).
+
+**T2b DONE (ov_SC03_024 GREEN, red 4 → 3, +4 banks).** The "+4 rodata shift in jr_8017AE2C.o":
+the object emits two 5-entry tables that retail lays back-to-back (+0x0, +0x14); with NO
+`JTBL_PADS` line for the object (git log -S: it never existed) the pads stage never ran and the
+default `.align 3` inserted a 4-byte zero word between them → every %lo downstream +4, binary +4
+(+1 trim), 1,041 sparse diffs from 0x4B8. S61's "pads-VALUE search found no unique winner" was a
+search over a nonexistent line (R40). Spec `0,0` added (`commit:3086`), R22 clean rebuild
+byte-identical (`c2cd16c4`), then its 4 held resolver drafts gated 4/4, re-verified clean.
+`.run/t1/interleave_check.py` (order ⇔ yaml) is ALIGNED for SC06_022/SC04_018 and shows a DRIFT on
+ov_SC02_005 (`jr_8018EA04.o` + `tail21` in the order, absent from the yaml) — T2e input.
+**NEXT: T2c** — ov_SC06_022 ('consumed 1 but 2'; Max, solo).

@@ -4446,7 +4446,30 @@ void func_8017D804(s32 param) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017D890);
+extern u8 D_801C11F4;
+extern u8 D_801C11F5;
+extern u8 D_801C11F6;
+
+void func_8017D890(arg0, a1)
+void *arg0;
+void *a1;
+{
+    s16 var;
+
+    a1 = *(void **)((s32)arg0 + 0x20);
+    var = *(u16 *)((s32)a1 + 0x1A) + 0x200;
+    *(u16 *)((s32)a1 + 0x1A) = var;
+    *(u16 *)((s32)a1 + 0x18) = var;
+    if (var >= 0x1001) {
+        D_801C11F4 = 0xFF;
+        D_801C11F5 = 0xFF;
+        D_801C11F6 = 0xFF;
+        *(u16 *)((s32)a1 + 0x1A) = 0x1000;
+        *(u16 *)((s32)a1 + 0x18) = 0x1000;
+        *(u16 *)((s32)arg0 + 2) = *(u16 *)((s32)arg0 + 2) + 1;
+    }
+}
+
 
 
 /* func_8017D900 — fade the 4-byte colour quad at D_801C11F0 one step toward 0
