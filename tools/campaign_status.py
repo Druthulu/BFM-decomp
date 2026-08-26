@@ -132,7 +132,15 @@ def main():
         print("   " + line.strip()[:110])
     try:
         import corpus
-        print(f"   open main stubs: {len(corpus.stubs('main'))}")
+        # HONEST denominator (P31 S62 T5pre; frontier-s61 §1.3): corpus.stubs('main') counts the 959
+        # LINKED PsyQ objects + blobs as open. Derive the open set the way progress.py does.
+        try:
+            import progress as _P
+            _P.set_binary('main')
+            _real, _empty, _nm, _stubs, _blobs, _linked = _P.classify()
+            print(f"   open main fns: {len(_stubs)} stubs + {len(_nm)} NON_MATCHING  (LINKED {len(_linked)} + blobs {len(_blobs)} excluded; raw INCLUDE_ASM lines {len(corpus.stubs('main'))})")
+        except Exception as _e:
+            print(f"   open main stubs (raw INCLUDE_ASM lines, incl. LINKED): {len(corpus.stubs('main'))}  [honest count unavailable: {_e!r}]")
     except Exception as e:
         print(f"   (main stub count unavailable: {type(e).__name__})")
 
