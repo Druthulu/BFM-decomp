@@ -7001,6 +7001,3 @@ DEFINE_func_80154358()  /* dedup: shared engine-core @0x80154358 (src/shared) */
 
 
 DEFINE_func_80154418()  /* dedup: shared engine-core @0x80154418 (src/shared) */
-
-
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_8013F350", func_8015444C);
