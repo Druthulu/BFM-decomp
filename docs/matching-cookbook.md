@@ -29761,3 +29761,24 @@ Denominators: of the 90 drafts the S62 resolver staged, 54 banked at the gate, 2
 CARVE-REFUSED (this section), 2 DIFF, 6 CC1/PLUMBING decl conflicts. The tell that a "carve wall"
 is plumbing: `jtbl_carve --probe` says `tail` (a standard §8a carve) yet the gate refused — the
 carve was never the problem.
+
+**§305 addendum (same session, after the fixes above shipped).** Three more deterministic
+sub-classes surfaced once classes 1–3 were cleared, each a one-line tool fix:
+4. **A carried decl line that GLUES code-emitting invocations** — `extern s32 aF…(…) __asm__("");
+   DEFINE_func_8014C4AC() DEFINE_func_8014C568() …` on ONE line in the TU. `jr_isolate_all`'s decl
+   carrier copied it whole into the new region and re-instantiated the shared bodies there
+   (nameless `.globl`/`.ent` → "junk at end of line … `:`"). Carry only the `;`-terminated
+   declaration segments; carry each glued macro's implied prototype instead.
+5. **The lifted typedef the isolator could not see** — `typedef struct {…} __attribute__((packed,
+   aligned(1))) Block4;` puts the attribute between `}` and the name, so `_engine_types()` never
+   listed Block4 and every `extern Block4 D_…` was "a decl that could not be placed" even after
+   the lift. Pattern added.
+6. **A jr function that LEADS its object** (`ov_SC06_029_jr_8017C954` starts at func_8017C954):
+   the cut at its address equals the object start → an empty region 0 at the same offset →
+   "code subseg … out of order". A cut equal to the object start is a no-op; drop it.
+And the shared-file race behind §302's drifts, now closed at the root: `mk_write.write_overlays_mk`
+takes `base=` (the text the caller read) and merges only the caller's changed `# --- <ov>` blocks
+into the CURRENT file under the lock; a block that moved on disk since the caller's read is a
+conflict and is refused (R43). `harvest_verify` snapshots/restores only its binary's block. The
+gate's parallelism (`-j N`) was the amplifier: every whole-file write or restore of overlays.mk
+by one binary's gate clobbered another's.
