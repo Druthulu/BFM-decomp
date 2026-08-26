@@ -6964,7 +6964,46 @@ void func_80182190(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_801821C8);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_801821C8(arg0)
+s32 arg0;
+{
+    register s32 t __asm__("$2");
+    register s32 u __asm__("$3");
+    register u32 zr __asm__("$0");
+    u16 sp10[10];
+    u16 x;
+    u16 y;
+    u16 z;
+
+    if ((u32) *(u8 *) (arg0 + 0xC2) < 3U) {
+        t = *(s16 *) (arg0 + 0x84);
+        if (t == 0) {
+            x = *(u16 *) (arg0 + 6);
+            sp10[0] = x;
+            y = *(u16 *) (arg0 + 0xA);
+            sp10[1] = y - 0x10;
+            z = *(u16 *) (arg0 + 0xE);
+            sp10[4] = x;
+            sp10[5] = y + 0x10;
+            sp10[2] = z;
+            sp10[6] = z;
+            t = func_80133784(1, sp10, (s32) &sp10[4]);
+            if ((t & 0x6000) == 0) {
+                return;
+            }
+            func_8002D4C8(0x83C, 0);
+            t = 0x1E;
+        } else {
+            u = t + zr;
+            t = u - 1;
+        }
+        *(s16 *) (arg0 + 0x84) = t;
+    }
+}
+
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
     extern void func_8002AC00(s32 arg0);
@@ -7394,7 +7433,59 @@ void func_80182B7C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_005/nonmatchings/ov_SC04_005_jr_8017BEBC", func_80182C20);
+extern s32 func_8012B8E4(s32 arg0, s32 arg1);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8018259C(s32 a0, s32 a1);
+extern u8 D_801AD498[];
+extern u8 D_801AD540[];
+extern u8 D_801AD648[];
+extern void func_8012A828(s32, s32);
+extern void func_8012B200(u8 *a0);
+extern void func_8012CBCC(s32);
+
+void func_80182C20(a0)
+s32 a0;
+{
+    s32 v0;
+    unsigned short *p;
+    s16 t;
+
+    if (*(s16 *)(a0 + 0x98) == 0) {
+        ((void (*)(s32, void *))func_8012A828)(a0, D_801AD498);
+    }
+
+    if (((s32 (*)(s32))func_8012CBCC)(a0) != 0) {
+        func_8012B200((u8 *)a0);
+    }
+
+    v0 = func_8012B8E4(a0, 8);
+    p = (unsigned short *)(*(int *)(a0 + 0x20) + 0x12);
+    *p = (unsigned short)(*p + v0);
+
+    p = (unsigned short *)(*(int *)(a0 + 0x20) + 0x12);
+    *p = (unsigned short)(*p & 0xFFF);
+
+    t = *(s16 *)(a0 + 0xFC);
+    if (t != 0) {
+        *(s16 *)(a0 + 0xFC) = t - 1;
+        return;
+    }
+
+    if (func_8012BCCC(a0) < 0x2401) {
+        *(s16 *)(a0 + 0x2) = 3;
+        ((void (*)(s32, void *))func_8012A828)(a0, D_801AD648);
+    } else {
+        if (func_8018259C(a0, 0x48) != 0) {
+            return;
+        }
+        if (0x40000 < func_8012BCCC(a0)) {
+            return;
+        }
+        *(s16 *)(a0 + 0x2) = 2;
+        ((void (*)(s32, void *))func_8012A828)(a0, D_801AD540);
+    }
+}
+
 
 #include "common.h"
 

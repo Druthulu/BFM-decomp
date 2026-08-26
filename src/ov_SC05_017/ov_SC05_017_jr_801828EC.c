@@ -2946,5 +2946,24 @@ void func_801828EC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_801828EC", func_80182A28);
+extern short D_801B9964;
+extern void func_8012A828(s32, s32);
+extern void func_8012E88C(s32);
+extern void func_80184990(s32);
+
+void func_80182A28(arg0)
+s32 *arg0;
+{
+    extern void func_8012E88C(s32 a0);
+    extern void func_8012A828(s32 a0, s32 a1);
+    extern void func_80184990(s32 a0);
+    extern short D_801B9964;
+
+    *(s16 *)((s32)arg0 + 2) = 9;
+    *(s16 *)((s32)arg0 + 0x34) = 0;
+    func_8012E88C((s32)arg0);
+    func_8012A828((s32)arg0, (s32)&D_801B9964);
+    func_80184990((s32)arg0);
+}
+
 

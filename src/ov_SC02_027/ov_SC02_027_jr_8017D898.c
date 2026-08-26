@@ -7266,7 +7266,30 @@ void func_80185BC0(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80185C84);
+extern s32 func_80047948(s32 a0);
+
+void func_80185C84(a0)
+s32 a0;
+{
+    s32 sp18;
+    s32 ret;
+
+    sp18 = *(s32 *)(a0 + 0x20);
+    ret = func_80047948((*(s32 *)(a0 + 0x1C) << 9) >> 4);
+    *(s16 *)(sp18 + 0x18) = *(s16 *)(sp18 + 0x1A) = *(s16 *)(sp18 + 0x1C) = ret * 2;
+    if (*(s16 *)(a0 + 0x100) <= *(s16 *)(sp18 + 0x18)) {
+        *(s16 *)(sp18 + 0x18) = *(s16 *)(sp18 + 0x1A) = *(s16 *)(sp18 + 0x1C) = *(s16 *)(a0 + 0x100);
+        *(u16 *)(a0 + 2) = 1;
+        *(u16 *)(a0 + 0x5C) = *(u16 *)(*(s32 *)(a0 + 0x78) + 2);
+        *(u16 *)(a0 + 0x76) = *(u16 *)*(s32 *)(a0 + 0x78);
+        *(s32 *)(a0 + 0xE0) &= ~1;
+        if (!(*(u16 *)(a0 + 0x70) & 1)) {
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) &= ~0x10;
+        }
+    }
+    --*(s32 *)(a0 + 0x1C);
+}
+
 
 #include "common.h"
 
@@ -8014,7 +8037,41 @@ void func_80186C0C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80186CE0);
+extern s32 D_801AFBD8[];
+extern s32 D_801AFBDC[];
+extern s32 D_801AFBE0[];
+extern s32 D_801AFBE4[];
+extern s32 D_801AFBE8[];
+extern s32 func_8012C51C(s32 a0, s32 a1);
+
+void func_80186CE0(a0, a1)
+void *a0;
+s32 a1;
+{
+    s32 sp10[5];
+    s32 obj;
+    register s32 w __asm__("$7");
+    s32 x, y, z;
+    register s32 t __asm__("$3");
+
+    obj = (s32)a0;
+    x = D_801AFBD8[a1 * 5];
+    y = D_801AFBDC[a1 * 5];
+    z = D_801AFBE0[a1 * 5];
+    w = D_801AFBE4[a1 * 5];
+    sp10[0] = x;
+    sp10[1] = y;
+    sp10[2] = z;
+    sp10[3] = w;
+    t = D_801AFBE8[a1 * 5];
+    sp10[4] = t;
+    __asm__ __volatile__("" ::: "memory");
+    ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + *(u16 *)(obj + 6);
+    ((u16 *)sp10)[1] = ((u16 *)sp10)[1] + *(u16 *)(obj + 0xA);
+    ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + *(u16 *)(obj + 0xE);
+    func_8012C51C(sp10, obj);
+}
+
 
 typedef struct {
     s32 a;      /* 0x00 -> D_801D0120 */

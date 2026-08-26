@@ -5,7 +5,15 @@ void func_800CCB20(void) {
 
 INCLUDE_ASM("asm/md_MAIN_047/nonmatchings/md_MAIN_047", func_800CCB28);
 
-INCLUDE_ASM("asm/md_MAIN_047/nonmatchings/md_MAIN_047", func_800CCB78);
+
+
+s32 func_800CCB78(a0)
+void *a0;
+{
+    *(s32 *)((s32)a0 + 0x2c) = 1;
+    return 1;
+}
+
 
 
 
