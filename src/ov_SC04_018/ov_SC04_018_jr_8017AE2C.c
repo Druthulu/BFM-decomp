@@ -4821,9 +4821,10 @@ extern void func_8012A828(s32 *a0, s32 a1);
 
 void func_8017E7CC(int param_1)
 {
-    *(short *)(param_1 + 3) = 2;
+    extern short D_801B9AA8;   /* S62 T2d: was undeclared here; gcc's limbo entry then rejected every later block-scope extern */
+    *(short *)(param_1 + 2) = 3;   /* S62 T2d: retail `li v0,3; sh v0,2(s0)` — the committed text had offset and value swapped */
     *(short *)(param_1 + 0x34) = 0;
-    ((void (*)(s32, void *))func_8012A828)(param_1, &((char *)&D_801B9AA8));
+    ((void (*)(s32, void *))func_8012A828)(param_1, (char *)&D_801B9AA8);   /* S62 T2d: was `&((char *)&D_…)` — address of a cast, never valid C */
     *(int *)(param_1 + 0x1c) = 0x10;
 }
 
@@ -4909,10 +4910,10 @@ void func_8017EBA0(s32 a0) {
 
 
 
-extern void func_8017E7CC(void);
+/* S62 T2d: `extern void func_8017E7CC(void)` conflicted with the (int) definition above once it banked; the call below is cast instead (§20) */
     void func_8017EBE0(u8 *a0) {
         if (*(u16 *)((s32)a0 + 0x34) == 1) {
-            func_8017E7CC();
+            ((void (*)(void))func_8017E7CC)();
         }
     }
 
@@ -6808,7 +6809,7 @@ extern void func_8012A828(s32*, s32);
 void func_80184C90(s32 a0);
 void func_80184ED4(s32 a0, s32 a1, s32 a2, s32 a3);
 
-extern s32 D_801B9AA8;
+extern short D_801B9AA8;  /* S62 T2d: must agree with the block-scope `extern short` at 5700/6259 — gcc 2.7.2 rejects a later file-scope decl of another type ("used prior to declaration"); address-only uses, byte-neutral */
 extern s32 D_801B673C;
 
 void func_80183248(s32 a0) {
