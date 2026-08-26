@@ -8276,7 +8276,63 @@ L9F0:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_80186A34);
+typedef struct { s32 w[8]; } Mtx32_80186A34;
+
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B2CC(s32 a0);
+extern s32  func_8012B864(s32 a0);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+extern struct Mtx32_80184008 D_800AE620;
+
+void func_80186A34(s32 arg0)
+{
+    extern void func_80186F9C(s32 a0, s32 a1, s32 a2);
+    extern s32 D_801C9234;
+    extern u8 D_801C9268[];
+    extern s32 D_801C92AC[];
+    extern s32 D_801C92BC[];
+    extern s32 D_801C92CC[];
+
+    Mtx32_80186A34 m;    /* sp+0x10 */
+    s32 *p;
+
+    func_80186F9C(arg0, (s32)&D_801C9234, 0);
+    func_8012A828(arg0, D_801C9268);
+    func_8012B2CC(arg0);
+
+    m = *(Mtx32_80186A34 *)&D_800AE620;
+    RotMatrixY((func_8012B864(arg0) + 0x800) & 0xFFF, &m);
+
+    switch (*(u16 *)(arg0 + 0x5E) - 1) {   /* jtbl_801D80B8, 50 entries */
+    case 7:
+        p = D_801C92BC;
+        break;
+    case 4:
+    case 28:
+    case 31:
+        p = D_801C92CC;
+        break;
+    case 0: case 1: case 2: case 3: case 5: case 6: case 8: case 9:
+    case 10: case 11: case 12: case 13: case 14: case 15: case 16: case 17:
+    case 18: case 19: case 20: case 21: case 22: case 23: case 24: case 25:
+    case 26: case 27: case 29: case 30: case 32: case 33: case 34: case 35:
+    case 36: case 37: case 38: case 39: case 40: case 41: case 42: case 43:
+    case 44: case 45: case 46: case 47: case 48: case 49:
+        p = D_801C92AC;
+        break;
+    default:
+        p = D_801C92AC;
+        break;
+    }
+
+    func_800484EC((s32)&m, (s32)p, arg0 + 0x10);
+
+    *(u16 *)(arg0 + 0x34) = 0;
+    *(s32 *)(arg0 + 0x1C) = 0;
+}
+
 
 #include "common.h"
 
