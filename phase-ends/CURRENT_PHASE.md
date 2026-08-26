@@ -2135,3 +2135,12 @@ misses get 16k re-shots via the feedback-armed redraft pass). The four false-gre
 drafts fail the real TU (engine_core.h DEFINE conflicts) and return to the pool as gen1 with gate
 feedback. Judge lesson for the PhaseEnd: R53 candidate is now byte-proven three times — VERIFY A
 BUILD FROM ITS EXIT CODE, NOT ITS OUTPUT FILE.
+
+### THE OX WINDOW CLOSED — 2026-08-26 07:55 (probed: HTTP 404 on stealth/ox-alpha; stealth/* gone from the model list)
+The free-drafting era ended mid-m0b (its 29 agents all 404'd at turn 0 — a harness-epoch event, not
+29 model failures, R40). THE GOAL BEAT THE DOOR: overlays 196/196 gen0 drafted (waves g0a–g0e, 60
+banked at the gate so far + 6 ABCD), main 196/225 drafted and PARKED for the main lane's clean gate
+(the 29 stragglers were attempted twice, no submission — final). Still converting, all pre-paid or
+zero-token: wave g0f (103 feedback-armed redrafts) mid-gate; the 196-draft parked slate (40/pass);
+resolver/grinder/maintenance/pads-repair lanes. Drafting anything NEW now requires a PAID model —
+S61-7's escalation question is now the only drafting question left, and it is Drew's call.
