@@ -2204,3 +2204,61 @@ exceeded (total limit)") while the ACCOUNT still holds ~$10.6 credit. ds1: 1 ban
 free through the main lane regardless. Resume = raise the key's limit (or a new key in .env), then
 `.run/resolver/probe/ds2_resume.sh` (pre-flight-probed, R43). Two wrong theories were burned en
 route and are corrected in-line: resumed-turn budgets (real but minor) and a generic harness fault.
+
+---
+
+## 🛑 SESSION CHECKPOINT — S61 FINAL-2 (2026-08-26 ~13:00). MACHINE FULLY QUIESCED. Two closing agents may still be writing — see HANDOFF below. Next session: read `docs/tool-designs/frontier-analysis-s61.md` FIRST, then plan Phase 32 with Drew.
+
+**State at close.** All lanes STOPPED and verified from ps (0 lane processes, 0 drafting agents);
+stop sentinels `.run/ox_campaign.stop` + `.run/auto/STOP` are SET. Tree clean at `commit:3070`+docs
+commits. **Today: 401+ net stubs banked (3,896 → ~3,495 committed, 76+ commits)** — the resolver
+(67+), gen0 sweep (60 overlay waves + ABCD 6), main parked slates (119+ gen0 + ds2's 20), g0f
+feedback redrafts (10), repairs unlocking the rest. Fleet: **98.4% instr-weighted · 96.6%
+distinct-code · 2,540 fleet-counted stubs** (progress --fleet; the ~3,49x src-grep counter includes
+per-overlay duplicate instances — the s61 frontier doc reconciles them). Red list: 5
+(ov_SC02_005 two stacked defects incl. pre-existing extract rot; ov_SC03_015/024, ov_SC04_018,
+ov_SC06_022 — all documented, all skip-guarded).
+
+**The epoch facts.** THE OX WINDOW CLOSED 07:55 (stealth/* delisted). The DeepSeek push measured:
+ds1 (once-refused overlays) 1 bank/59 drafts ≈ $1.8; ds2 (main gen0) **20 banks/106 pool ≈ $3.5**
+— main-shaped populations are where paid drafting pays. Key had a $60 lifetime cap (hit at $60.21,
+Drew raised to $70; $63.03 used at close). **Drew's standing directive (memory
+`endgame-budget-unconstrained`): the finish to 100% is BUDGET-UNCONSTRAINED; Ultracode/Claude
+waves re-authorized (the pre-ox process, subagent ladder Haiku→Sonnet→Opus); DeepSeek + any
+sub-Opus capable OpenRouter model approved; optimize throughput, not $/bank.**
+
+**HANDOFF — two agents were writing at session close (their outputs survive on disk even if they
+outlive this session):**
+1. **The frontier analyst** (Fable, read-only) → `docs/tool-designs/frontier-analysis-s61.md`:
+   the post-ox finish-plan ground truth — honest done-denominator, class decomposition summing to
+   the WHOLE remainder (every fn in exactly one class with an engine + falsifier), post-ox
+   economics, sequenced plan. It received Drew's budget-unconstrained directive mid-run. IF the
+   file exists: read it, spot-verify 2-3 of its numbers via its Appendix A, commit it. IF absent:
+   the agent died — relaunch per the brief recorded in this session (the S60 doc is the format
+   exemplar).
+2. **The idiom distiller** (Fable) → appends verified sections at **§294+** to
+   `docs/matching-cookbook.md` from tonight's 1,411 harvested candidate lines (13 wave files;
+   m0a's 57 novel candidates the richest; m0b honestly unminable — 403-era zero-verdict shards).
+   IF cookbook sections ≥§294 exist: spot-verify 2-3 claims against src/asm, commit. Drew's
+   pending instruction: **message the frontier analyst with the count of new idioms** once the
+   distill lands (moot if the analyst already finished — then note the count in the Phase-32 plan
+   instead).
+
+**Fresh-session protocol:** compressed session-start (Drew-approved, ~100k target) → read the
+frontier-analysis-s61 doc → verify/commit the two agent outputs above → present the Phase-32
+finish plan for Drew's approval (R4 gate) → relaunch nothing until the plan is approved (the
+lanes are stopped deliberately so the new plan starts clean; delete both sentinels before any
+relaunch). Rule candidates accumulated for the PhaseEnd P10 table: R44–R58 (S59/S60 blocks) +
+S61's R56 (gate verdicts need a green baseline), R57 (an instrument's write path is part of the
+instrument), R58 (session-close "clean" must quote the fleet's GREEN count), R59 (never
+blanket-commit another lane's mid-gate tree), + candidates from tonight: a periodic per-binary
+`make extract` sweep (incremental-green hides extract rot), and pkill-pattern self-match (three
+self-kills in one session — assemble patterns at runtime, anchor on ^).
+
+**Plain-English recap (R18).** Since last night we banked over four hundred functions: we repaired
+the broken game binaries that were silently rejecting good work, drafted every never-attempted
+function before the free-AI window closed forever, settled the token-budget question with a
+controlled experiment, spent five dollars proving paid drafting works on the right populations,
+and wrote everything we learned into the project's permanent playbook. The machine is now parked,
+clean, and fully documented; the next session opens the finish plan and drives the last few
+percent to a complete, byte-perfect decompilation.
