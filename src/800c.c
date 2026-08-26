@@ -1250,7 +1250,17 @@ void SetTexWindow(void *a0, s32 a1)
     *(s32 *)(a0 + 8) = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", SetDrawArea);
+extern s32 func_8005AB58(s32, s32);
+extern s32 func_8005AC24(s32, s32);
+
+void SetDrawArea(void *a0, void *a1)
+{
+    *(u8 *)(a0 + 3) = 2;
+    *(s32 *)(a0 + 4) = func_8005AB58(*(s16 *)a1, *(s16 *)(a1 + 2));
+    *(s32 *)(a0 + 8) = func_8005AC24(
+        (s16)(*(u16 *)a1 + *(u16 *)(a1 + 4) - 1),
+        (s16)(*(u16 *)(a1 + 2) + *(u16 *)(a1 + 6) - 1));
+}
 
 extern s32 func_8005ACF0(s32 x, s32 y);
 

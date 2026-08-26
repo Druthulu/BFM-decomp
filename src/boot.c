@@ -192,7 +192,20 @@ void func_8001099C(void) {
     D_800AE810[*(u16 *)(p + 0xA3D2)] = VSync(1);
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010A08);
+extern u8 D_800AF630[];
+extern s32 D_800A5E60;
+
+s32 func_80010A08(s32 arg0) {
+    register u8 *p;
+    s32 old;
+    s32 q;
+
+    p = D_800AF630;
+    q = (arg0 + 3) / 4;
+    old = D_800A5E60;
+    D_800A5E60 += q << 2;
+    return old;
+}
 
 extern void DrawSyncCallback(void (*func)(void));
 extern void func_80042610(void (*func)(void));
@@ -509,7 +522,20 @@ void func_80011680(void) {
     func_80011818(5);
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_800116E0);
+extern s32 func_80028FBC(void);
+extern s32 func_80029000(void);
+extern s32 func_80028D9C(void);
+extern void func_8002D4C8(s32, s32);
+
+void func_800116E0(void) {
+    func_8002D4C8(0x21, (u16)func_80028FBC());
+    func_8002D4C8(0x22, (u16)func_80029000());
+    if (func_80028D9C() == 0) {
+        func_8002D4C8(0xC, 0);
+    } else {
+        func_8002D4C8(0xB, 0);
+    }
+}
 
 extern u8 D_800AF630[];
 
@@ -526,7 +552,22 @@ void func_80011778(void) {
     *(u16 *)(p + 0xA3BC) = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011818);
+extern u8 D_800AF630[];
+
+void func_80011818(param_1)
+u16 param_1;
+{
+    register u8 *p = D_800AF630;
+
+    *(u16 *)(p + 0xA3AE) = param_1;
+    *(u16 *)(p + 0xA3B4) = 0;
+    *(u16 *)(p + 0xA3BA) = 0;
+    *(u16 *)(p + 0xA3B8) = 0;
+    *(u16 *)(p + 0xA3BE) = 0;
+    *(u16 *)(p + 0xA3B0) = 0;
+    *(u16 *)(p + 0xA3B6) = 0;
+    *(u16 *)(p + 0xA3BC) = 0;
+}
 
 extern u8 D_800AF630[];
 

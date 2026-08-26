@@ -2172,7 +2172,26 @@ unsigned int func_80015A74(unsigned int param_1) {
 }
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80015AD0);
+extern s32 catan(s32 a0);
+
+s32 func_80015AD0(s16 param_1, s16 param_2) {
+    s32 quotient;
+
+    if (param_2 == 0) {
+        param_2 = 1;
+    }
+    quotient = catan((param_1 << 12) / param_2);
+    if (param_2 < 0) {
+        if (param_1 < 0) {
+            goto subtract;
+        }
+        quotient += 0x800;
+    }
+    return quotient;
+subtract:
+    quotient -= 0x800;
+    return quotient;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80015B6C);
 
@@ -5019,7 +5038,33 @@ s32 LzssDecodeSector(u8 *src) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80018918);
+extern u8 D_80078D98;
+extern u32 D_800AE610;
+extern u8 D_80078DA0;
+extern void ResetCallback(void);
+extern void func_8005F0C8(void *a0, void *a1);
+extern void func_8005D0F8(void);
+
+void func_80018918(void) {
+    u8 *p;
+    u32 i;
+    u32 w;
+
+    i = 0;
+    w = 8;
+    p = &D_80078D98;
+    D_800AE610 = 0;
+    do {
+        func_80016714(p, 0x4C);
+        *(u32 *)(p + 4) = w;
+        i++;
+        p += 0x4C;
+    } while (i < 2);
+    func_80018FC8();
+    ResetCallback();
+    func_8005F0C8(&D_80078DA0, &D_80078DA0 + 0x4C);
+    func_8005D0F8();
+}
 
 extern s32 func_80018A20(s32 arg0);
 extern void func_80018C64(void *a0);
@@ -7505,7 +7550,26 @@ void func_8001C0C8(void) {
     *(u16 *)&base[0x19C] = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001C14C);
+extern void func_80016714(void *a0, s32 a1);
+extern u8 D_800AF630[];
+
+void func_8001C14C(void) {
+    u8 *base;
+    u8 *p;
+
+    base = D_800AF630;
+    p = base + 0x65A8;
+    while (p < base + 0x6688) {
+        func_80016714(p, 0x38);
+        p += 0x38;
+    }
+
+    p = base + 0x2A8;
+    while (p < base + 0x4B8) {
+        func_80016714(p, 0x84);
+        p += 0x84;
+    }
+}
 
 
 extern void func_80054514(s32 a0, s32 a1);
@@ -13765,7 +13829,18 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80029B4C);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80029BC8);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80029C44);
+extern s32 func_80029DB4(void);
+
+s32 func_80029C44(s16 a0, s16 a1) {
+    s32 b;
+    s32 c;
+    s32 d;
+
+    b = func_80029DB4();
+    c = func_80029E30();
+    d = func_80029CD4(a1);
+    return (b + c) * (a0 + d) / 100;
+}
 
 
 extern s32 rand(void);
@@ -14353,7 +14428,26 @@ s32 func_8002AAB4(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002AB64);
+void func_8002AB64(void) {
+    extern s32 func_800291B4(s32);
+    extern void func_800291A0(s32, s32);
+    extern void func_8002AC00(s32);
+
+    u8 c;
+    s16 i;
+
+    c = func_800291B4(0x2E) + 1;
+    func_800291A0(0x2E, c);
+
+    if (c == 1) {
+        for (i = 1; i < 7; i++) {
+            func_8002AC00(i & 0xFF);
+        }
+        for (i = 0x3B; i < 0x40; i++) {
+            func_800291A0(i, 3);
+        }
+    }
+}
 
 
 extern s32 func_800291B4(s32);
@@ -19844,9 +19938,54 @@ void func_80037D98(void) {
     func_8003D424(&D_80079A68);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80037EA0);
+extern u8 D_800C6E2E[];
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80037F3C);
+void func_80037EA0(void)
+{
+    extern void func_8003D3B4(s32, s32);
+    register u8 *p __asm__("$16");
+    register s32 i __asm__("$17");
+    register u32 mask __asm__("$18");
+
+    i = 0;
+    mask = 0xFFF9FFFF;
+    p = D_800C6E2E;
+    do {
+        if (p[-4] != 0 && p[-1] == 0 && p[0] != 0) {
+            func_8003D3B4(i, 8);
+            *(u32 *)(p - 0x4A) &= mask;
+            p[0] = 0;
+        }
+        i++;
+        p += 0x60;
+    } while (i < 0x10);
+}
+
+void func_80037F3C(void)
+{
+    /* TU-absent names, block scope */
+    extern u8 D_800C6DD0[];
+    extern void func_8003B250(s32, void *);
+
+    register u8 *p __asm__("$16");
+    register s32 i __asm__("$17");
+    u8 *base;
+
+    base = D_800C6DD0;
+    i = 0;
+    p = base + 0x5E;
+    do {
+        if (p[-4] != 0 && p[-1] != 0) {
+            func_8003B250(i, base + 0x10);
+            *(u32 *)(p - 0x4A) = 0;
+            p[-1] = 0;
+            p[0] = 0;
+        }
+        i++;
+        p += 0x60;
+        base += 0x60;
+    } while (i < 0x10);
+}
 
 /* --- TU context as in src/800.c (file-scope, verbatim spellings) --- */
 extern s32 D_800A2B98;

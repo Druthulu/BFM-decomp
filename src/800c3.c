@@ -32,9 +32,26 @@ __asm__(".text\n.align 2\n.globl _96_remove\n.ent\t_96_remove\n"
         "nop\n"
         ".set\treorder\n.end\t_96_remove\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", DeliverEvent);
+asm(
+    ".section .text\n"
+    ".globl DeliverEvent\n"
+    ".set noreorder\n"
+    "DeliverEvent:\n"
+    "addiu $t2, $zero, 176\n"
+    "jr $t2\n"
+    "addiu $t1, $zero, 7\n"
+    "nop\n"
+    ".set reorder\n"
+);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", OpenEvent);
+__asm__(".text\n.align 2\n.globl OpenEvent\n.ent\tOpenEvent\n"
+        "OpenEvent:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 0xB0\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 0x8\n"
+        "nop\n"
+        ".set\treorder\n.end\tOpenEvent\n");
 
 __asm__(".text\n.align 2\n.globl CloseEvent\n.ent\tCloseEvent\n"
         "CloseEvent:\n.frame $sp,0,$31\n"
