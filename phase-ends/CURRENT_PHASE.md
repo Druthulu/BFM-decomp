@@ -2419,3 +2419,31 @@ next pass / T6. Instrument lessons of the task: a stale classification file re-l
 "CARVE-REFUSED" until re-gated (verify from the gate, not the ledger); an autopsy script without
 its scratch dir leaves TUs spliced and `corpus` then reads them as banked (R40 twice tonight);
 never read `asm/` while a sweep's extract-all runs.
+
+## 🛑 SESSION CHECKPOINT — S62 (2026-08-26 ~16:05). Plan approved; T0–T3 + T5pre DONE; paused at the R27 gate for T4 (Ultracode).
+
+**State.** Tree clean at `commit:3123`+; NO lanes running (sentinels `.run/ox_campaign.stop` +
+`.run/auto/STOP` still SET — delete both before any relaunch); OpenRouter key $63.03/$70, account
+$5.57 credit (T4's DeepSeek arm needs ~$1; ~$100 + an uncapped key recommended before T5).
+**Fleet:** 2,397 stubs · 98.5% instr · 96.8% distinct (2,517 at session start; −120 today).
+Clean sweeps today: #3 213/213 (14:52), #5 213/213 after the type lift (15:25), #6 211/213
+(15:59: ov_SC03_108 + ov_SC06_011 order drift from a failed gate attempt I blanket-committed —
+repaired, both byte-identical per-binary), #7 in flight at checkpoint time (result appended below
+when it lands). Red list: EMPTY (was 5).
+**Done this session:** T1 (falsifier fired as designed; +6; rtu/match_one internal-`j` blind spot
+fixed, §301) · T2 (5/5 reds healed, +39 held banks, §302, tools interleave_check/pads_audit) ·
+T3 (module pads derived at build time §303, self-defining rodata §304, six carve-lane defect
+classes fixed §305, type lift, +75) · T5pre (honest main queue: 147 open = 144+3 NM; 136 with
+drafts, 11 never drafted).
+**NEXT: T4** — the §3.5 calibration probe. Slate drawn: `.run/t4/sample.json` (10 K ≤50 · 5 K/L
+51–120 · 5 M extend-tell). Mechanics: identical packs from `api_agent.user_msg(t, card)` +
+`prior_draft` + `gate_feedback`; Claude arms (haiku/sonnet/opus) as subagents with the SYS
+rules and CLI equivalents of grep/read_file/match_one/submit; DeepSeek arm via
+`tools/api_agent.py` (MAXTOK 8000); judge = `sweep_parallel` with exit codes; decision rule
+= cheapest arm within ~5pp of the best per band. Requires Drew: `/effort ultracode` (R27).
+**Residue ledger for the resolver/T6:** 7 carve-lane drafts (ov_SC03_029/func_80186A34,
+ov_SC01_005+006/func_8017F2D4, ov_SC03_108/func_8016AE5C, ov_SC07_000/func_8017ECB4,
+ov_SC06_011/func_8017EEEC, ov_SC06_029 ×3) + 6 decl-conflict drafts; `.run/sweep_resolver` holds
+their bodies. Rule candidates for the PhaseEnd: R60 (carve-state files: never blanket-add/restore
+overlays.mk or a splat yaml; audit with interleave_check + pads_audit; a gate commits only its
+binary's block) + the S61 list (R56–R59, extract sweep, pkill self-match).
