@@ -68,13 +68,17 @@ def log(msg):
 
 
 def next_tag():
-    """m00, m01, … — a 3-character namespace so it can never collide with the overlay lane's
-    2-letter wave tags (its `used` set globs `.run/wave_??_cards.json`)."""
-    used = {os.path.basename(p)[5:8] for p in glob.glob(".run/wave_m??_cards.json")}
-    for i in range(100):
-        t = f"m{i:02d}"
-        if t not in used:
-            return t
+    """m00..m99 then n00..n99 — 3-character namespaces that can never collide with the overlay
+    lane's 2-letter wave tags (its `used` set globs `.run/wave_??_cards.json`). The original single
+    prefix EXHAUSTED on 2026-08-26 after the overnight campaign consumed all 100 m-tags, and the
+    lane crash-looped "out of main-lane tags" every 20 s while ~103 parked drafts waited (the R51
+    finite-namespace class: a lifetime cap nobody expected to reach)."""
+    used = {os.path.basename(q)[5:8] for pat in ("m", "n") for q in glob.glob(f".run/wave_{pat}??_cards.json")}
+    for pfx in ("m", "n"):
+        for i in range(100):
+            t = f"{pfx}{i:02d}"
+            if t not in used:
+                return t
     return None
 
 
