@@ -727,7 +727,47 @@ void func_800CF990(void) {
     }
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800CFAD0);
+typedef struct { u32 addr : 24; u32 len : 8; } P_TAG_800CFAD0;
+typedef struct { u8 b0, b1, b2, b3; } BYTES_800CFAD0;
+
+void func_800CFAD0(void)
+{
+    extern u32 D_80114E7C;
+    extern u32 D_80114E80;
+    extern u8  D_80114E84;
+    extern u8  D_80114E85;
+    extern u8  D_80114E86;
+    extern u8  D_80114E87;
+    extern s16 D_80114E88;
+    extern s16 D_80114E8A;
+    extern u8  D_80114E8C;
+    extern u8  D_80114E8D;
+    extern s16 D_80114E8E;
+    extern s16 D_80114E90;
+    extern s16 D_80114E92;
+    extern u8  D_800AA60C[];
+    extern u16 D_800B9A02;
+
+    u32 *ot;
+
+    ((BYTES_800CFAD0 *)&D_80114E7C)->b3 = 5;
+    D_80114E80 = 0xE1000085;
+    D_80114E87 = 0x64;
+    D_80114E84 = D_80114E85 = D_80114E86 = 0x80;
+    D_80114E88 = -0x80;
+    D_80114E8A = -0x48;
+    D_80114E8E = 0x7800;
+    D_80114E90 = 0x100;
+    D_80114E92 = 0x90;
+    D_80114E8C = 0;
+    D_80114E8D = 0;
+
+    ot = (u32 *)&D_800AA60C[D_800B9A02 << 14];
+
+    ((P_TAG_800CFAD0 *)&D_80114E7C)->addr = *(u32 *)ot;
+    *(u32 *)ot = (*(u32 *)ot & 0xFF000000u) | ((u32)&D_80114E7C & 0x00FFFFFFu);
+}
+
 
 extern s16 D_80114E70;
 
