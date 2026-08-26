@@ -2222,7 +2222,80 @@ __asm__(
 
 INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2264);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_242C);
+
+/* SYS_OBJ_242C (0x8005B660) -- SHARED EPILOGUE FRAGMENT, file-scope raw asm (byte-verified idiom).
+ *
+ * SPLICE LAW (cookbook §236 item 10 / ADD-3): DELETE the stub line for this symbol at
+ * src/800c.c:2225 and put this block exactly there (between the SYS_OBJ_2264 stub and
+ * `extern volatile u32 *D_8007285C;`). The stub .includes the .s and thus DEFINES the symbol
+ * too, so keeping it beside this blob double-defines .globl SYS_OBJ_242C and additionally
+ * defines the phantom global SYS_OBJ_242C.NON_MATCHING (include/labels.inc) -- whole-binary
+ * gate red with ZERO instruction diff. Banked precedents of this exact operation in this TU:
+ * SYS_OBJ_21A4 (comment at src/800c.c:2121), SYS_OBJ_1F64 (:1964), func_8005C054 (:2654).
+ *
+ * COMMENT HYGIENE LAW: the stub invocation is deliberately NOT quoted on any single line of
+ * this comment -- a textual stub-presence checker greps the spliced TU for that invocation,
+ * and a verbatim quotation inside a comment counts as a second hit, so the substitution is
+ * refused with zero instruction diff. Every banked raw-asm precedent in this TU wraps the
+ * invocation across two comment lines for exactly this reason.
+ *
+ * SYMBOL-TABLE LAW (cookbook §274 ADDENDUM to §179-C): a file-scope __asm__ transcription
+ * without an explicit ".type NAME, @function" directive assembles to an object carrying NO
+ * STT_FUNC symbol for NAME, and the harness's function-discovery / boundary-walk pass finds
+ * nothing there -- a pure ELF-symbol-table gap indistinguishable from "the transcription
+ * didn't work" and INVISIBLE to match_one's instruction diff. The stub baseline always
+ * carried the typed symbol: the glabel/endlabel macro pair (include/labels.inc) expands to
+ * .globl/.type @function/.ent and .size/.end respectively. This blob therefore spells
+ * ".type SYS_OBJ_242C, @function" and ".size SYS_OBJ_242C, . - SYS_OBJ_242C" explicitly,
+ * matching the TU's own .type-carrying exemplars (SYS_OBJ_604 at src/800c.c:469-493,
+ * SYS_OBJ_2CC4 at :2584-2601) and the banked §274 form
+ * (src/md_MAIN_003/md_MAIN_003.c:919-927). Directives emit no instruction bytes.
+ *
+ * WHY RAW ASM: this is the TAIL FRAGMENT of the routine _drs (0x8005B3EC) ->
+ * SYS_OBJ_222C -> SYS_OBJ_2264 -> SYS_OBJ_242C. It carries the ONLY epilogue of the chain,
+ * tearing down the 0x48-byte frame BUILT BY _DRS (ra@0x44, s4@0x40, s3@0x3C, s2@0x38,
+ * s1@0x34, s0@0x30) -- a frame this fragment never created. Any C body gets cc1's own
+ * prologue/epilogue appended unconditionally (proven in this TU: func_80059234, SYS_OBJ_16C,
+ * SYS_OBJ_1DC0, SYS_OBJ_21A4), so no C function can express these 9 instructions. The
+ * §179-H alternative (one C function spanning the chain, .global labels dropped mid-body)
+ * was ALREADY TRIED in this TU for the sister chain and bisect-rejected: it reported
+ * match_one MATCH but added reconstructed-prologue code and a SYS_combined/_END symbol pair
+ * that do not exist in the retail binary (see the SYS_OBJ_1DC0 history block above,
+ * src/800c.c:1807-1814). File-scope raw asm is the only surviving form.
+ *
+ * LOAD-BEARING DETAILS: the literal ".ent\t"/".end\t" pair (tab-separated) makes maspsx
+ * re-emit a fresh ".set\tnoreorder"; a bare ".set\tnoreorder" line is swallowed and GNU as
+ * would assemble in reorder mode, displacing the hand-placed delay-slot nop. Mem-operand
+ * displacements are DECIMAL because maspsx int()s them base 10 (0x44=68, 0x40=64, 0x3C=60,
+ * 0x38=56, 0x34=52, 0x30=48, 0x48=72).
+ *
+ * SYMBOL AUDIT: asm/nonmatchings/800c/SYS_OBJ_242C.s contains NO relocations -- no lui/addiu
+ * %hi/%lo, no jal, no j; the only symbol named is SYS_OBJ_242C itself (glabel/endlabel).
+ * Control transfers INTO this address come from sibling fragment SYS_OBJ_2264
+ * (`j SYS_OBJ_242C` @0x8005B4C8, `bnez $v0, SYS_OBJ_242C` @0x8005B508/@0x8005B5B4) and by
+ * bare fallthrough from its last block (.L8005B65C -> addu $v0,$zero,$zero falls in here).
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_242C\n"
+    ".type\tSYS_OBJ_242C, @function\n"
+    ".ent\tSYS_OBJ_242C\n"
+    "SYS_OBJ_242C:\n"
+        ".set\tnoreorder\n"
+        "lw    $ra, 68($sp)\n"
+        "lw    $s4, 64($sp)\n"
+        "lw    $s3, 60($sp)\n"
+        "lw    $s2, 56($sp)\n"
+        "lw    $s1, 52($sp)\n"
+        "lw    $s0, 48($sp)\n"
+        "addiu $sp, $sp, 72\n"
+        "jr    $ra\n"
+        "nop\n"
+        ".set\treorder\n"
+    ".size\tSYS_OBJ_242C, . - SYS_OBJ_242C\n"
+    ".end\tSYS_OBJ_242C\n"
+);
 
 extern volatile u32 *D_8007285C;
 extern u8 D_80078874[];
