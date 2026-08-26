@@ -643,7 +643,16 @@ s16 func_80012D0C(s32 x0, s32 x1, s32 d, s16 *ctr)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80012DBC);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80012E0C);
+extern s16 func_80012E6C(s32 a0, s32 a1, s32 a2, s32 a3, s16 *a4);
+
+s32 func_80012E0C(s16 a0, s16 a1, s32 a2, s32 a3) {
+    s16 out = 4;
+
+    if (a0 == a1) {
+        return 0;
+    }
+    return func_80012E6C(a0, a1, (s16)a2, (s16)a3, &out);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80012E6C);
 
@@ -1186,7 +1195,30 @@ void func_80014564(void *arg0) {
     func_8005C358(arg0, 0, 0x10);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80014588);
+typedef struct {
+    /* 0x00 */ s16 flag;
+    /* 0x02 */ s16 unk02;
+    /* 0x04 */ void *list;
+    /* 0x08 */ u16 unk08;
+    /* 0x0A */ u16 unk0A;
+    /* 0x0C */ u8 unk0C;
+    /* 0x0D */ u8 unk0D;
+    /* 0x0E */ u16 unk0E;
+} DispSlot_800184F0_80014588;
+
+void func_80014588(void) {
+    extern void func_8005C358(void *a0, s32 a1, s32 a2);
+    extern DispSlot_800184F0_80014588 D_800B97D8[];
+    DispSlot_800184F0_80014588 *slot;
+    s16 i;
+
+    slot = D_800B97D8;
+    for (i = 0; i < 32; i++) {
+        slot->flag = 0;
+        func_8005C358(slot, 0, 0x10);
+        slot++;
+    }
+}
 
 void func_800145EC(s32 mode) {
     extern void func_800525DC(s32 w, s32 h, s32 mode2, s32 a3, s32 st);
@@ -1934,7 +1966,13 @@ void func_800153A4(void *a0, s32 a1, s16 a2, s16 a3, u8 arg4, u8 arg5) {
     *(u8 *)(a0 + 13) = arg5;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800153CC);
+extern u8 D_800AF630[];
+
+void func_800153CC(s32 arg0, s32 arg1, s16 arg2, s16 arg3, u8 arg4, u8 arg5) {
+    u8 *base;
+    base = D_800AF630;
+    func_80015424(&base[((arg0 << 16) >> 12) + 0x9DA8], arg1, arg2, arg3, arg4, arg5);
+}
 
 
 void func_80015424(void *a0, s32 a1, s16 a2, s16 a3, s8 a4, s8 a5) {

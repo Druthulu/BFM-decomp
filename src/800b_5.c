@@ -1,8 +1,93 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", func_8004978C);
+/* func_8004978C (0x8004978C): tail FRAGMENT of the RotMatrix family dispatcher, not a
+ * standalone callable: it loads r->vx, folds |vx|&0xFFF through D_8006DF1C, and TAIL-JUMPS
+ * into FGO_01_OBJ_64 with sin in $t3 (sll/sra 16 pair on the register-held word — §172b-1)
+ * and cos in $t0 ($t9>>16); the negative-vx arm negates the sine. No jal anywhere, no $ra
+ * save, args staged in the j's own delay slot — a shape gcc-2.7.2 -O2 C cannot emit (§265:
+ * bgez whose OR-path falls through into a j chain). Banked verbatim per the FGO_01_OBJ_160
+ * idiom already gate-proven in this TU: tab-separated .ent/.end keeps maspsx's fresh
+ * ".set noreorder", immediates DECIMAL (maspsx int()-parses hex and crashes).
+ */
+__asm__(".text\n.align 2\n.globl func_8004978C\n.ent\tfunc_8004978C\n"
+        "func_8004978C:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "lh $t7, 0($a0)\n"
+        "addu $v0, $a1, $zero\n"
+        "bgez $t7, .L800497D0\n"
+        "andi $t9, $t7, 4095\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L800497A8\n"
+        "andi $t7, $t7, 4095\n"
+        ".L800497A8:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t8, $t8, 16\n"
+        "negu $t3, $t8\n"
+        "j FGO_01_OBJ_64\n"
+        "sra $t0, $t9, 16\n"
+        ".L800497D0:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t3, $t8, 16\n"
+        "sra $t0, $t9, 16\n"
+        ".set\treorder\n.end\tfunc_8004978C\n");
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_01_OBJ_64);
+/* FGO_01_OBJ_64 (0x800497F0) is NOT a callable function: it is the second code FRAGMENT of one
+ * larger routine (func_8004978C -> FGO_01_OBJ_64 -> FGO_01_OBJ_CC -> FGO_01_OBJ_160). It is
+ * entered by `j FGO_01_OBJ_64` with live values in $t registers and exits by `j FGO_01_OBJ_CC`
+ * (one arm) or by FALLING THROUGH into FGO_01_OBJ_CC (the other), handing on $t4/$t5/$t6/$t1 --
+ * none of which any C calling convention expresses, and it has ZERO trailing `jr $ra`, so per
+ * §179-C every C shape gains a phantom epilogue (+2). Banked as a file-scope inline asm blob per
+ * the SYS_OBJ_1DC0 idiom (src/800c.c), exactly like the FGO_01_OBJ_160 blob below in this TU:
+ * literal tab-separated ".ent\t"/".end\t" so maspsx emits a fresh ".set\tnoreorder" and keeps
+ * every delay-slot instruction in place; DECIMAL immediates (maspsx int()-parses offsets);
+ * single-% %hi/%lo (file-scope asm); .L local labels; no trailing pad -- FGO_01_OBJ_CC follows
+ * at +0x68 exactly. Recovered semantics: w = (s16)obj->[0x2]; idx = (w >= 0 ? w : -w) & 0xFFF;
+ * e = D_8006DF1C[idx]; outputs $t1 = e >> 16 (high halfword) and $t6/$t4 = -(s16)e (negated low
+ * halfword) -- a +/-sin/cos table lookup feeding the matrix build. Body transcribed 1:1 from
+ * asm/nonmatchings/800b_5/FGO_01_OBJ_64.s.
+ */
+__asm__(".text\n.align 2\n.globl FGO_01_OBJ_64\n.ent\tFGO_01_OBJ_64\n"
+        "FGO_01_OBJ_64:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "lh $t7, 2($a0)\n"
+        "nop\n"
+        "bgez $t7, .L80049834\n"
+        "andi $t9, $t7, 4095\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L8004980C\n"
+        "andi $t7, $t7, 4095\n"
+        ".L8004980C:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t4, $t9, 16\n"
+        "sra $t4, $t4, 16\n"
+        "negu $t6, $t4\n"
+        "j FGO_01_OBJ_CC\n"
+        "sra $t1, $t9, 16\n"
+        ".L80049834:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t6, $t9, 16\n"
+        "sra $t6, $t6, 16\n"
+        "negu $t4, $t6\n"
+        "sra $t1, $t9, 16\n"
+        ".set\treorder\n.end\tFGO_01_OBJ_64\n");
 
 INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_01_OBJ_CC);
 
@@ -104,9 +189,70 @@ __asm__(".text\n.align 2\n.globl FGO_01_OBJ_160\n.ent\tFGO_01_OBJ_160\n"
         ".set\treorder\n.end\tFGO_01_OBJ_160\n");
 __asm__(".word 0");
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", RotMatrixYXZ);
+__asm__(".text\n.align 2\n.globl RotMatrixYXZ\n.ent\tRotMatrixYXZ\n"
+        "RotMatrixYXZ:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "lh $t7, 0($a0)\n"
+        "addu $v0, $a1, $zero\n"
+        "bgez $t7, .L80049A60\n"
+        "andi $t9, $t7, 4095\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L80049A38\n"
+        "andi $t7, $t7, 4095\n"
+        ".L80049A38:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t6, $t9, 16\n"
+        "sra $t6, $t6, 16\n"
+        "negu $t3, $t6\n"
+        "j FGO_02_OBJ_68\n"
+        "sra $t0, $t9, 16\n"
+        ".L80049A60:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t3, $t8, 16\n"
+        "negu $t6, $t3\n"
+        "sra $t0, $t9, 16\n"
+        ".set\treorder\n.end\tRotMatrixYXZ\n");
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_02_OBJ_68);
+__asm__(".text\n.align 2\n.globl FGO_02_OBJ_68\n.ent\tFGO_02_OBJ_68\n"
+        "FGO_02_OBJ_68:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "lh $t7, 2($a0)\n"
+        "nop\n"
+        "bgez $t7, .L80049AC8\n"
+        "andi $t9, $t7, 4095\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L80049AA0\n"
+        "andi $t7, $t7, 4095\n"
+        ".L80049AA0:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t8, $t8, 16\n"
+        "negu $t4, $t8\n"
+        "j FGO_02_OBJ_CC\n"
+        "sra $t1, $t9, 16\n"
+        ".L80049AC8:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t4, $t8, 16\n"
+        "sra $t1, $t9, 16\n"
+        ".set\treorder\n.end\tFGO_02_OBJ_68\n");
 
 INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_02_OBJ_CC);
 
@@ -191,9 +337,94 @@ __asm__(".text\n.align 2\n.globl FGO_02_OBJ_160\n.ent\tFGO_02_OBJ_160\n"
         ".set\treorder\n.end\tFGO_02_OBJ_160\n");
 __asm__(".word 0");
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", func_80049CAC);
+/* func_80049CAC (0x80049CAC) is NOT independently C-compilable, for the same reason as
+ * FGO_01_OBJ_160 below: it is the HEAD FRAGMENT of one larger routine that this project's
+ * tooling split into four addressable chunks -- func_80049CAC (x row-setup) -> FGO_03_OBJ_64
+ * (y) -> FGO_03_OBJ_CC (z, first half) -> FGO_03_OBJ_160 (z, second half, banked as a blob
+ * beneath). Every exit of the head is a bare "j FGO_03_OBJ_64" (or fallthrough into it --
+ * FGO_03_OBJ_64's own address 0x80049D10 IS this function's fall-through address) with NO
+ * epilogue, and the fragments share ONE register allocation ($v0 = m lives across all four;
+ * $t3/$t0 carry +-sin(x)/cos(x) into the next fragment). gcc-2.7.2 has no sibcall/tail-merge
+ * (cookbook L17430), and empirically (src/800c.c, SYS_OBJ trampoline) cc1 -O2 ALWAYS
+ * synthesizes a trailing return/jump for a C function and a real cross-function jal+return
+ * grows the frame -- the target here has a ZERO-byte frame (no sw $ra, no addiu $sp) and no
+ * jr $ra anywhere, so no C body (the previous attempt's `return FGO_03_OBJ_64(...)` shape)
+ * can ever reproduce these 25 instructions. Banked as a file-scope inline asm blob per the
+ * SYS_OBJ_1DC0/FGO_n_OBJ_160 idiom already proven in this TU: the literal ".ent\t"/".end\t"
+ * pair (tab-separated) makes maspsx emit a fresh ".set\tnoreorder", keeping every
+ * hand-placed delay-slot instruction in place; all displacement/immediate offsets are
+ * DECIMAL because maspsx int()-parses operands and a hex "0x0($a0)" crashes it. Body
+ * transcribed 1:1 from asm/nonmatchings/800b_5/func_80049CAC.s (25/25 instructions, in
+ * order, including both delay-slot fills and the branch-to-next-instruction masked-andi
+ * idiom); the only relocations are `j FGO_03_OBJ_64` and the %hi/%lo pair on D_8006DF1C,
+ * both resolved exactly as the target's own relocation lines name them. No trailing pad:
+ * FGO_03_OBJ_64 abuts this function at 0x80049D10 with no gap (unlike the *_OBJ_160 blobs,
+ * whose .word 0 pads precede a differently-aligned neighbour).
+ */
+__asm__(".text\n.align 2\n.globl func_80049CAC\n.ent\tfunc_80049CAC\n"
+        "func_80049CAC:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "lh $t7, 0($a0)\n"
+        "addu $v0, $a1, $zero\n"
+        "bgez $t7, .L80049CF0\n"
+        "andi $t9, $t7, 0xFFF\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L80049CC8\n"
+        "andi $t7, $t7, 0xFFF\n"
+        ".L80049CC8:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t6, $t9, 16\n"
+        "sra $t6, $t6, 16\n"
+        "negu $t3, $t6\n"
+        "j FGO_03_OBJ_64\n"
+        "sra $t0, $t9, 16\n"
+        ".L80049CF0:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t3, $t8, 16\n"
+        "sra $t0, $t9, 16\n"
+        ".set\treorder\n.end\tfunc_80049CAC\n");
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_03_OBJ_64);
+__asm__(".text\n.align 2\n.globl FGO_03_OBJ_64\n.ent\tFGO_03_OBJ_64\n"
+        "FGO_03_OBJ_64:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "lh $t7, 2($a0)\n"
+        "nop\n"
+        "bgez $t7, .L80049D54\n"
+        "andi $t9, $t7, 4095\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L80049D2C\n"
+        "andi $t7, $t7, 4095\n"
+        ".L80049D2C:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t6, $t9, 16\n"
+        "sra $t6, $t6, 16\n"
+        "negu $t4, $t6\n"
+        "j FGO_03_OBJ_CC\n"
+        "sra $t1, $t9, 16\n"
+        ".L80049D54:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t6, $t9, 16\n"
+        "sra $t4, $t6, 16\n"
+        "negu $t6, $t4\n"
+        "sra $t1, $t9, 16\n"
+        ".set\treorder\n.end\tFGO_03_OBJ_64\n");
 
 INCLUDE_ASM("asm/nonmatchings/800b_5", FGO_03_OBJ_CC);
 
@@ -278,7 +509,37 @@ __asm__(".text\n.align 2\n.globl FGO_03_OBJ_160\n.ent\tFGO_03_OBJ_160\n"
         ".set\treorder\n.end\tFGO_03_OBJ_160\n");
 __asm__(".word 0");
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", RotMatrixX);
+__asm__(".text\n.align 2\n.globl RotMatrixX\n.ent\tRotMatrixX\n"
+        "RotMatrixX:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addu $t7, $a0, $zero\n"
+        "addu $v0, $a1, $zero\n"
+        "bgez $t7, .L80049F80\n"
+        "andi $t9, $t7, 4095\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L80049F58\n"
+        "andi $t7, $t7, 4095\n"
+        ".L80049F58:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t6, $t9, 16\n"
+        "sra $t6, $t6, 16\n"
+        "negu $t1, $t6\n"
+        "j FGO_04_OBJ_64\n"
+        "sra $t0, $t9, 16\n"
+        ".L80049F80:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t1, $t8, 16\n"
+        "sra $t0, $t9, 16\n"
+        ".set\treorder\n.end\tRotMatrixX\n");
 
 __asm__(".text\n.align 2\n.globl FGO_04_OBJ_64\n.ent\tFGO_04_OBJ_64\n"
         "FGO_04_OBJ_64:\n.frame $sp,0,$31\n"
@@ -364,7 +625,37 @@ __asm__(".text\n.align 2\n.globl FGO_04_OBJ_64\n.ent\tFGO_04_OBJ_64\n"
 __asm__(".word 0");
 __asm__(".word 0");
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", RotMatrixY);
+__asm__(".text\n.align 2\n.globl RotMatrixY\n.ent\tRotMatrixY\n"
+        "RotMatrixY:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addu $t7, $a0, $zero\n"
+        "addu $v0, $a1, $zero\n"
+        "bgez $t7, .L8004A11C\n"
+        "andi $t9, $t7, 4095\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L8004A0F8\n"
+        "andi $t7, $t7, 4095\n"
+        ".L8004A0F8:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t6, $t9, 16\n"
+        "sra $t1, $t6, 16\n"
+        "j FGO_05_OBJ_64\n"
+        "sra $t0, $t9, 16\n"
+        ".L8004A11C:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t7, $t8, 16\n"
+        "negu $t1, $t7\n"
+        "sra $t0, $t9, 16\n"
+        ".set\treorder\n.end\tRotMatrixY\n");
 
 __asm__(".text\n.align 2\n.globl FGO_05_OBJ_64\n.ent\tFGO_05_OBJ_64\n"
         "FGO_05_OBJ_64:\n.frame $sp,0,$31\n"
@@ -450,7 +741,37 @@ __asm__(".text\n.align 2\n.globl FGO_05_OBJ_64\n.ent\tFGO_05_OBJ_64\n"
 __asm__(".word 0");
 __asm__(".word 0");
 
-INCLUDE_ASM("asm/nonmatchings/800b_5", RotMatrixZ);
+__asm__(".text\n.align 2\n.globl RotMatrixZ\n.ent\tRotMatrixZ\n"
+        "RotMatrixZ:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addu $t7, $a0, $zero\n"
+        "addu $v0, $a1, $zero\n"
+        "bgez $t7, .L8004A2C0\n"
+        "andi $t9, $t7, 4095\n"
+        "negu $t7, $t7\n"
+        "bgez $t7, .L8004A298\n"
+        "andi $t7, $t7, 4095\n"
+        ".L8004A298:\n"
+        "sll $t8, $t7, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t6, $t9, 16\n"
+        "sra $t6, $t6, 16\n"
+        "negu $t1, $t6\n"
+        "j FGO_06_OBJ_64\n"
+        "sra $t0, $t9, 16\n"
+        ".L8004A2C0:\n"
+        "sll $t8, $t9, 2\n"
+        "lui $t9, %hi(D_8006DF1C)\n"
+        "addu $t9, $t9, $t8\n"
+        "lw $t9, %lo(D_8006DF1C)($t9)\n"
+        "nop\n"
+        "sll $t8, $t9, 16\n"
+        "sra $t1, $t8, 16\n"
+        "sra $t0, $t9, 16\n"
+        ".set\treorder\n.end\tRotMatrixZ\n");
 
 __asm__(".text\n.align 2\n.globl FGO_06_OBJ_64\n.ent\tFGO_06_OBJ_64\n"
         "FGO_06_OBJ_64:\n.frame $sp,0,$31\n"
