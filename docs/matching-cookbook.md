@@ -29067,3 +29067,515 @@ a two-minute derivation; (c) the object it names tells you which carve piece is 
 (yaml subsegment / interleave entry / pad spec); repair THAT, byte-prove, commit; (d) only then
 re-judge the drafts — tonight the resolver's ledger re-opened them automatically (BASELINE-RED is
 not a final verdict).
+
+## §294 — ADDENDA HARVESTED FROM THE S61 GEN0/MAXTOK/MAIN/DEEPSEEK BATCH (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2): 99 candidates, 52 covered, 15 notes → 10 addenda, 29 notes → 5 new laws (§295–§299), 3 refuted
+
+**Provenance.** The night the ox window closed: the MAXTOK ABCD arms (ab8/ab16/ab24/ab32, same 10
+functions per arm), the gen0 overlay sweep (g0a–g0e) plus its feedback-armed redraft wave (g0f), the
+main-EXE gen0 push (m0a — 57 notes, the richest ore: boot/-O0, the libapi stub cluster, and the
+splitter-fragment families), and DeepSeek's first two batches (ds1/ds2 — a NEW source; calibration in
+§300). Every claim below was verified against the banked C in `src/` and, where the stale `.s`
+survives, the target bytes; three claims died at that check and are named in §300. 52 of 99 notes
+were already owned by §§1–293 — the healthy majority, mostly honest "nothing new — §X carried it"
+self-reports.
+
+#### ADDENDUM to §127 — the -O0 constant-offset fold keys on the MEMBER-ACCESS tree shape, not on the index being constant
+
+§127's dichotomy (`p->f` folds the offset into the displacement; `p[i]` computes the address first)
+reads as constant-vs-variable. `func_800D1B00` (md_MAIN_011, MATCH, wave g0d) sharpens it: even a
+COMPILE-TIME-CONSTANT subscript through a cast-indexed form — `((s32*)p)[3]` — materializes
+`addiu $v0,$v1,12` + `sw $v1,0($v0)` at -O0, 2 instructions per statement (a 72-insn drift over the
+~49-store block, per the drafting A/B). The fold fires on the COMPONENT_REF tree shape only. The
+banked spelling (`src/md_MAIN_011/md_MAIN_011.c:552`) is a FUNCTION-LOCAL typedef with exact field
+offsets plus member stores:
+
+```c
+void func_800D1B00(void) {
+    typedef struct {
+        s32 pad00;
+        s32 f04; s32 f08; s32 f0C; /* ... exact offsets through f94 */
+    } St78;
+    St78 *p = (St78 *)D_80078E78;
+    p->f04 = 0;
+    p->f08 = 0x258;
+    ...
+}
+```
+
+At -O0 only offsets matter, so the local typedef name is free (no §236-4 risk at block scope). When a
+target's -O0 store run shows `sw rX, K(rBase)` with folded displacements, the source MUST be member
+lvalues; when it shows per-statement `addiu` + 0-displacement stores, it must be the indexed/cast
+form — §127's law, now stated for stores and for constant subscripts.
+
+#### ADDENDUM to §261a — FOUR MORE -O0 DIALS BEYOND THE RELOAD COUNT (boot.c + md_MAIN_011/003, wave m0a/g0a/g0f, byte-proven)
+
+**(a) The register-local RMW three-spelling dial.** `func_80011A3C` (boot, MATCH 40/40): banked
+`src/boot.c:671`:
+```c
+register u16 x;
+x = *(u16 *)(p + 0xA3C0);
+x = x + 1;
+*(u16 *)(p + 0xA3C0) = x;
+```
+→ target (`asm/nonmatchings/boot/func_80011A3C.s`): `lhu $v1,-0x5C40($at)` / `addiu $a0,$v1,0x1` /
+`addu $v1,$a0,$zero` / `sh $v1,-0x5C40($at)` — the PLAIN-ASSIGNMENT pair loads into the variable's
+own pseudo, adds into a FRESH pseudo, and copies back. Per the drafting A/B: compound `+=` folds the
+copy-back away (−1 ins); single-statement `x = *mem + 1` loads into a temp first (REGALLOC-PERM).
+§219 is this dial's -O2 counterpart; §261a's reload rows are the through-pointer face — this is the
+register-local face.
+
+**(b) Scale-by-4: spell the SHIFT, not the multiply.** `func_80010A08` (boot, MATCH): banked
+`src/boot.c:255`:
+```c
+q = (arg0 + 3) / 4;
+old = D_800A5E60;
+D_800A5E60 += q << 2;
+```
+`q * 4` routes through the mul-style expansion (frame reload into `$v0` + a `move`); `q << 2`'s
+ashift expansion reads the frame slot straight into the shift's operand register — the target's
+shape. One token closed a 16-mismatch residual. The compound `+=` is also load-bearing (puts the
+`sll` before the second global load; a plain `a = b + c` emits the load first). The dead
+`register u8 *p = D_800AF630;` above these lines is the §127-family unused-register-local orphan
+hi/lo pair — transcribe it, don't clean it.
+
+**(c) The `register`-pointer far-offset base lands CALLER-saved when the body has NO calls.** The
+banked boot family (`func_80011A3C`/`func_80011ADC`/`func_800119F0`/`func_80011818`/`func_800118AC`,
+all `register u8 *p = D_800AF630;`) keeps the base in `$v0`/`$v1` — NOT a callee-saved register —
+with each >0x7FFF member offset assembling to the `lui $at,(0x10000>>16)` / `addu $at,$v0,$at` /
+`sh -0x5Cxx($at)` split. The TU comment (src/boot.c:203-207) attributes callee-saved placement to
+`register`; with zero calls nothing forces a saved reg — `register`'s load-bearing effect is
+suppressing the frame SPILL (drop it → base spills, frame grows), and a bare-symbol spelling instead
+folds each far access into its own single `%hi`/`%lo` anchor (the 11-ins short form) even when
+§261a's reload grammar is silent (no reloads exist). Promoted from the source comment per §127b's
+standing rule.
+
+**(d) Routing note — the fleet's TERMINAL state for an -O0 function stranded in an -O2 TU is the
+§265 verbatim-asm block IN THAT TU,** not (yet) the §18/§261 `_o0` carve: `src/md_MAIN_003/
+md_MAIN_003.c` carries five banked instances (`func_800D0174`, `func_800D0204`, `func_800D0440`,
+`func_800D09A0`, `func_800D3204`-family). §116/§126/§261 prescribe the build-graph move; until an
+`_o0` object exists for the TU, bank via §265 form 1 with the recovered C preserved in a comment
+(waves ab16/g0f). `corpus.stubs()` counts these as matched though they are transcription, not decomp
+— §265's accounting caveat stands.
+
+#### ADDENDUM to §264-3 — the explicit entry copy's BOUND: required exactly when the RAW value must outlive the call that consumes only the PROMOTED value
+
+§264-3 warns that a `self = arg0` local emits double moves and says to use the parameter itself.
+`func_80012ABC` (main, MATCH 18/18, wave m0a) is the bound: the raw parameter feeds the RETURN sum
+while only its `(s16)` promotion feeds the call. Banked `src/800.c:613`:
+
+```c
+s32 func_80012ABC(s32 a0, s32 a1, s32 a2)
+{
+    s32 s0 = a0;
+    return (s0 + func_80012B04((s16)s0, (s16)a1, (s16)a2)) & 0xFFF;
+}
+```
+
+The explicit copy is required AND free here — it survives as the target's `addu $s0,$a0,$zero`
+because `$a0` is immediately re-consumed by the promoted first argument. Typing the parameters `s16`
+instead promotes into `$s0` and adds a `move $a0,$s0` (near-3). Single-basic-block functions obey the
+same law as §264-3's multi-path exemplar: the decider is raw-value liveness past the call, not
+control flow.
+
+#### ADDENDUM to §172b-1 (counter-type dial) — the sll's SOURCE REGISTER is the placement discriminator
+
+The §172b-1 addendum's dial 1 (declare the counter `s16`) and §264-4 (mirror a memory slot) both
+produce a naked `sll`/`sra` pair — same count, different SOURCE register. Read which register the
+`sll` consumes: `func_80014588` (main, MATCH 25/25, wave m0a) shows the pair reading `$v0` — the
+`addiu` increment RESULT — not the counter's allocated home (`$s1`), with no memory slot in sight ⇒
+dial 1: the counter itself is `s16` (banked `s16 i;` at `src/800.c:1241`), keeping gcc in HImode
+across the increment so the promotion applies to the increment pseudo. An `s32` counter with `(s16)i`
+casts emits the pair reading `$sN` — right count, wrong source register, unfixable by placement.
+Pair reads a register that mirrors a store ⇒ §264-4's multi-def variable. Pair reads a call result ⇒
+§264 recipe 1 / return-narrowing. One register read replaces a four-placement search.
+
+#### ADDENDUM to §276 — the SHARE direction: spell the second adjacent symbol RELATIVE to force ONE anchor
+
+§276's law covers the SPLIT direction (mix spellings so cse cannot unify repeated uses).
+`func_80018918` (main, MATCH 36/36, wave m0a) is the same dial's other end. The target folds two
+adjacent-symbol call arguments onto ONE `lui`/`addiu` anchor plus `addiu $a1,$a0,0x4C`; two
+independent externs (`&D_80078DA0, &D_80078DEC`) can never fold — no pass discovers that two
+SYMBOL_REFs are numerically adjacent. Banked `src/800.c:5098`:
+
+```c
+func_8005F0C8(&D_80078DA0, &D_80078DA0 + 0x4C);
+```
+
+Write the second symbol AS an offset off the first and the shared anchor is forced (this was the
+whole 5-insn residual). Target shows one anchor + register-relative `addiu` for what the seed calls
+two symbols ⇒ relative spelling; target shows independent `%hi`/`%lo` per use ⇒ §276's split rules.
+
+#### ADDENDUM to §31's density-dummy dial (L2460/L2497) — the dose is TWO refs, and the dummy must sit where the loser is live-through
+
+`func_800348A8` (main, MATCH 29/29, wave m0a): a genuine allocno tie (`i`: 6 refs / long range vs
+`q`: 5 refs / short range — either loses on density) did NOT flip with one extra ref anchored outside
+the loop. TWO operand refs of the same variable, placed as the FIRST statement of the loop body —
+inside the region where `i` is live-through — flipped the allocation (12 → 4 residual, class became
+permuter fuel). Banked `src/800.c:19141`:
+
+```c
+    do {
+        __asm__ ("" :: "r"(i), "r"(i));
+        if (p[0] == five && q[-1] == lo) {
+```
+
+L2497's one-ref lift was measured on a `floor_log2` power-of-two crossing (3/10→8/11); off such a
+boundary, budget two refs and place them in the contested live range, not at the def.
+
+#### ADDENDUM to §282 — the ADDRESS-GIV face: write the walked address INLINE so strength reduction births the induction register at loop.c's own insertion point
+
+§282's mechanism (gcc's own late loop transformation places its new register's init AFTER the hoisted
+movables — a position no source statement can reach) also governs a strength-reduced ADDRESS.
+`func_80034650` (main, MATCH 32/32, wave m0a), banked `src/800.c:19069`:
+
+```c
+    pm = (param_2 & 0xFF) << 16;
+    for (i = 0; i < 8; i++) {
+        if (*(param_1 + i + 0x3A) != 0) {
+            func_80030D80((Ent30D80 *)(D_800A4988 + i * 0x54), pm >> 16);
+        }
+    }
+```
+
+Writing the entity address INLINE as `D_800A4988 + i * 0x54` lets strength reduction create the `$s1`
+induction register itself and schedule its `%hi`/`%lo` materialization AFTER the `pm` computation,
+matching the prologue order. An explicit `e = D_800A4988;` pointer-local init is a source statement
+whose LUID precedes the movables — it always schedules first (6-mismatch plateau, unfixable by
+statement reordering). The masked product is held in a named local (`pm`) and the `>> 16` spelled at
+the call site. Same law as §282's reversed counter; the tell is a loop-carried address register whose
+init sits after other pre-loop work.
+
+#### ADDENDUM to §253 — SECOND byte-proven card (upgrade from single-observation), and the placement face: postfix-in-condition parks the RMW store in the branch delay slot
+
+§253 asked for cross-confirmation. `func_800CB168` (md_MAIN_018, 112 ins, wave ds1 — DeepSeek's
+first distilled card) supplies it, on the PLACEMENT axis: banked
+`src/md_MAIN_018/md_MAIN_018.c:128-207`:
+
+```c
+        if ((*(s32 *)(obj + 7))++ & 3) {
+            goto L288;
+        }
+```
+
+The postfix-in-condition spelling tests the OLD value and leaves the incremented word's store free to
+sink into the `bnez` delay slot — the compound/two-statement forms pin the store before the branch.
+Same card, two more tree-verified spellings: a call result needs its OWN fresh local
+(`r = rand(); ...= r & 0xFFF; ...= (r & 1) + 2;` — assigning into the live dispatch variable forces a
+`move v1,v0`), and the L288 store chain `D_80126BC8 = D_80126BCA = D_80126BCC = 0x1000;` confirms
+§145(c)'s descending store order word-for-word (stores BCC, BCA, BC8). §165-06 owns the expand face,
+§253 the allocator face, this card the reorg/placement face of one axis: postfix vs compound is a
+THREE-pass dial.
+
+#### ADDENDUM to the L1800 anchor-steer bullet — a DERIVED-POINTER local silently flips the merged giv's anchor END
+
+`func_8019131C` (ov_SC06_033, MATCH 97/97, wave g0f): carrying `q = p + 1` as its own local made
+`combine_givs` rebase the merged giv set on the LARGEST offset (base p+0x20, negative displacements
+−0x18/−0x12 — LENGTH-DRIFT/2); deleting `q` and spelling every access off `p` in ELEMENT units —
+banked `src/ov_SC06_033/ov_SC06_033_jr_8018D98C.c:5030`:
+
+```c
+            if (*p == 0x350) {
+                *(s32 *)(p + 4) = *(s32 *)(arg0 + 8);
+                *(u32 *)(*(s32 *)(p + 0x10) + 4) &= 0x7FFFFFFF;
+                *(p + 1) += 1;
+            }
+            p += 0x86;
+```
+
+— restored the target's smallest-offset base (p+2, positive displacements +6/+0x1E/0), which is what
+L1800's own anchor law (last-recorded giv in program order — the `*(p + 1)` RMW is the final access)
+predicts once there is a SINGLE base. Composition of §31-L2397 (collapse to one base pointer) with
+L1800; the new fact: the derived pointer doesn't just risk a spurious IV — when the merge still
+happens, it re-roots the anchor at the WRONG END, visible as sign-flipped displacements at the right
+instruction count.
+
+#### ADDENDUM to §31's asm→layout inference — TWO WIDTH-PAIR DISCRIMINATORS (same offset, different widths)
+
+**(a) `lw` feeding `sh` = a u16/s16 DESTINATION assigned from an s32 LVALUE.** `func_8017D3E4`
+(ov_SC04_006, MATCH, wave g0c), banked `src/ov_SC04_006/ov_SC04_006_jr_8017BEBC.c:3394`:
+`sp30[2] = *(s32 *)(self + 0x10);` — the load carries the SOURCE's width (lw), the store the
+DESTINATION's (sh). An `lh`+`sh` pair would mean an s16 source. Found by diff; no earlier section
+names the pair.
+
+**(b) `sw`-of-result + `lh`-of-argument at the SAME offset = a WORD field read through an s16 cast,
+not an s16 field.** `func_80180B80` (ov_SC03_111, MATCH 115/115, wave g0f), banked
+`src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c:3688`:
+
+```c
+    temp = func_80012C6C(*(s16*)&arg0->unk8, *(s16*)&arg0->unkC, 4);
+    *(s32*)&arg0->unk8 = temp;
+```
+
+The wide store + narrow read on one offset is what disambiguates the struct layout when either access
+alone is ambiguous — the seed's packed s16-stride layout shifted every later offset by ±2..8.
+Fields whose OTHER reads are `lhu` stay u16 with explicit `(s16)` casts at the narrow call sites.
+
+## §295 — THE KERNEL-TRAP STUB: §81's jr-DETECTOR WITHOUT A TABLE IS A PsyQ SYSCALL TRAMPOLINE — ROUTE TO §265, NEVER INTO THE CARVE CHAIN (P31 S61; wave m0a, 9 cards byte-proven; resolves §182's held cluster)
+
+§81's detector is a CONJUNCTION: a mid-function `jr` on a non-`$ra` register AND a `jtbl_<addr>` in
+the object's data. NINE m0a cards fired the `jr` half with NO table anywhere (grepped fleet-wide) and
+each independently re-derived the same resolution — the §283-class signal of a missing section. The
+shape:
+
+```
+addiu $t2, $zero, 0xA0|0xB0   # kernel A/B dispatch vector
+jr    $t2
+addiu $t1, $zero, <fn#>       # in the jr's DELAY SLOT
+(pad nops)
+```
+
+A live constant in an indirect-`jr` delay slot with no epilogue is unreachable from any C body
+(§179-C's mechanism) — the lane is §265 form 1, file-scope verbatim asm. `docs/psyq-worklist.md:72`
+names the population ("libapi 800c3 cluster — ~22 4-ins BIOS syscall stubs"); §182/§188 had already
+proven this cluster unreachable by the §177 epilogue lever (six members are prebuilt SDK objects) —
+this is the lane that finally banked it. Banked exemplar (`src/800c3.c:66`):
+
+```c
+__asm__(
+    ".text\n" ".align 2\n" ".globl WaitEvent\n" ".ent\tWaitEvent\n"
+    "WaitEvent:\n" ".frame $sp, 0, $31\n" ".mask 0x00000000, 0\n" ".fmask 0x00000000, 0\n"
+    ".set\tnoreorder\n"
+    "addiu $t2, $0, 176\n"
+    "jr    $t2\n"
+    "addiu $t1, $0, 10\n"
+    ".set\treorder\n" ".end\tWaitEvent\n"
+    "nop\n");
+```
+
+**Family facts, each byte-proven this wave:**
+1. **The pad nops are LOAD-BEARING OUTPUT.** The stubs sit at a fixed slot stride (0x10/0x18 bytes);
+   omitting the trailing nops shifts every later stub (TestEvent's first compile came back
+   LENGTH-DRIFT/−1 until an explicit `nop`; `_96_remove` carries THREE, banked). Placement relative
+   to `.end` is byte-inert — WaitEvent banks its pad AFTER `.end`, `_96_remove` INSIDE the block;
+   both green. `match_one`'s `insns_from_s` reads past `endlabel` and attributes the pad FORWARD, so
+   a "MATCH (4 ins)" verdict on a 3-ins stub is the tool counting the pad — expected, not a defect.
+2. **Spell `addiu $tN, $zero, K`, never `li`** — the retail opcode is addiu (0x24); `li` leaves the
+   expansion to the assembler (TestEvent).
+3. **The decimal rule's TRUE scope: maspsx int()-parses MEMORY DISPLACEMENTS — those must be
+   decimal; ALU immediates may stay hex.** TestEvent is BANKED with `addiu $t2, $zero, 0xB0` /
+   `addiu $t1, $zero, 0xB` (`src/800c3.c:85`) while its neighbours use 176/10 — both assemble
+   byte-identically. The blanket "maspsx rejects hex inside `__asm__` strings" repeated by several
+   cards is REFUTED (§300-R2); keep offsets decimal, immediates as you like.
+4. **Zero relocations ⇒ Law-1c's symbol walk is vacuously clean; ship NO externs** (§265 rule).
+5. **One grep rules the class in:** no `jtbl_` in the object's data + a `$t2 = 0xA0/0xB0` constant.
+   `func_800626C8` is the pointer-typed cousin (`lw $t1` from a single data slot, `jr $t1` — a slot
+   the handwritten bootstrap writes is not a switch table); same §265 verdict.
+
+Cards: WaitEvent · TestEvent · OpenEvent · DeliverEvent · DisableEvent · FlushCache · InitHeap ·
+`_96_remove` · `func_800626C8` (EnableEvent/CloseEvent banked as the same one-immediate edit).
+Remaining members of the ~22 fall to the identical template.
+
+## §296 — THE FRAME CHECK OUTRANKS THE ATLAS LEVER: READ PROLOGUE/EPILOGUE BEFORE DRAFTING ANY C — A REAL TELL CAN LIVE INSIDE AN UNREACHABLE FRAGMENT (P31 S61; wave m0a, 16 cards byte-proven; extends §179-C)
+
+SIXTEEN m0a cards carried a genuine atlas lever — mostly extend-tell, and the `sll`/`sra` pairs ARE
+in the targets — on symbols that are splitter FRAGMENTS: no prologue, no epilogue, exits by bare
+`j <sibling>` with live-out `$t` registers, or entry state arriving in registers no C calling
+convention expresses. Every C draft gains the phantom teardown (§179-C: no sibcall pass;
+`expand_function_end` always appends), so the drafts plateau at +2..+7 instructions REGARDLESS of how
+well the lever is played — the lever is real and unreachable at once.
+
+**The routing law: before spending one compile on any card's lever, read the target's FRAME.**
+Greppable in seconds: no trailing `jr $ra`; an exit `j <named sibling>`; `endlabel` abutting the next
+`glabel`; a frame adjust riding a delay slot; a `*_OBJ_NN`-suffixed symbol. Any of these ⇒ the
+§179-C/§265 file-scope blob lane, and the lever's knowledge banks as a COMMENT in the blob, not as C.
+Fragment chains bank in link order so shared-tail fallthroughs resolve
+(`func_8005AC24 → SYS_OBJ_1A30 → SYS_OBJ_1A70`; `RotMatrixYXZ → FGO_02_OBJ_68 → _CC → _160`). The
+banked comment `src/800b_5.c:44-46` states the class exactly: *"FGO_01_OBJ_64 ... is NOT a callable
+function: it is the second code FRAGMENT of one larger routine (func_8004978C -> FGO_01_OBJ_64 ->
+FGO_01_OBJ_CC -> FGO_01_OBJ_160)."*
+
+**The liveness-proof pattern** (before believing a computation trio is dead and letting DCE eat it):
+read the SIBLING fragment's opening instructions — `FGO_02_OBJ_CC` opens `multu $t4,$t0` and stores
+`$t6`, values only the upstream arms wrote; liveness crosses two fragment boundaries
+(RotMatrixYXZ card).
+
+**THE BOUNDARY, byte-proven the same night: a fragment that legitimately returns via `jr $ra` is NOT
+in this class.** `SYS_OBJ_1AF0` banked as PLAIN C with register pins (`src/800c.c:1873`):
+
+```c
+s32 SYS_OBJ_1AF0(void) {
+    register s32 r_v0 __asm__("v0");
+    register s32 r_v1 __asm__("v1");
+    r_v0 |= 0xE5000000;
+    return r_v1 | r_v0;
+}
+```
+
+— the constant-OR kept as its own statement (fusing it lets gcc commute the pair), the tail spelled
+`r_v1 | r_v0` for operand order. The frame check, not the fragment-looking label, decides the lane.
+
+Cards: RotMatrixYXZ/RotMatrixY/RotMatrixX · func_8004978C · func_80049CAC · FGO_01_OBJ_64 ·
+FGO_02_OBJ_68/_CC · FGO_03_OBJ_64 · SetDrawEnv · SYS_OBJ_1A30/1C28/2F7C · func_8005AC24 ·
+VM_NO1_OBJ_31C (all banked as §179-C/§265 blobs) + SYS_OBJ_1AF0 (the C-side boundary).
+
+## §297 — ONE GIV SERVING MIXED-WIDTH LOADS *AND* A STORE NEEDS STRUCT-MEMBER SPELLING; CAST/INDEX SPELLINGS RE-SPLIT THE PSEUDO (P31 S61; wave m0a, `func_800347C8`, main, byte-proven 31/31)
+
+**The target shape** (`asm/nonmatchings/800/func_800347C8.s`): an 0x54-stride record walk with TWO
+givs — `$a1` = base+0 (`lhu 0x0($a1)`, the state read) and `$v1` = base+0x16 with NEGATIVE
+displacements: `lhu -0x12($v1)` (id @0x04), `lhu -0x10($v1)` (group @0x06), `sb $t0,0x0($v1)`
+(active @0x16). The `$v1` giv carries two u16 LOADS and one u8 STORE.
+
+**What re-split it, measured:** a raw `u8 *q` walker made gcc spawn a THIRD giv rebased at +6 while
+the store kept its own; casting the store back through the pointer re-split it again even after the
+loads had unified. Only the MEMBER spelling held all three accesses on the single pseudo — banked
+`src/800.c:19086`:
+
+```c
+typedef struct {
+    u16 state;      /* 0x00 */
+    u16 unk02;
+    u16 id;         /* 0x04 */
+    u16 group;      /* 0x06 */
+    ...
+    u8  active;     /* 0x16 */
+    u8  pad17[0x3D];
+} Sl;               /* 0x54 */
+
+    e = (Sl *)D_800A46E8;
+    for (i = 0; i < 8; i++, e++) {
+        if (e->state == 5 && e->id == (s16)arg0 &&
+            ((arg0 >> 16) == 0 || (arg0 >> 16) == e->group)) {
+            e->active = 1;
+        }
+    }
+```
+
+**The law.** *Mixed-width accesses (loads AND a store) that must ride ONE strength-reduced induction
+register must be spelled as MEMBER SELECTS off one record pointer. Pointer-arithmetic and cast
+spellings build distinct address trees per width, and combine_givs re-splits the pseudo.*
+
+**Two companion dials on the same card, both banked:** (1) BOTH latch increments belong in the
+for-header (`i++, e++` as the comma expression) — written as the last body statement, the pointer
+bump emitted on the wrong side of the counter bump (a 2-insn SCHEDULE-REORDER the residual class
+files as permuter fuel; the header spelling fixes it for free). (2) The packed parameter's halves:
+`(s16)arg0` promoted ONCE inline in the condition; `arg0 >> 16` used RAW in two basic blocks by
+naming the parameter itself — no local, since there is no cross-bb CSE to defeat.
+
+## §298 — THE SHARED-TAIL POSITION DIAGNOSTIC: A FOLDED TAIL *BETWEEN* SWITCH ARMS MEANS PER-ARM DUPLICATED STATEMENTS, NOT A HOISTED POST-SWITCH STATEMENT (P31 S61; waves g0e/g0f, `func_80181B68`, ov_SC06_016, byte-proven 68/68)
+
+Ghidra renders arms 0–3 jumping into ONE `lhu`/`addiu`/`sh` increment tail with arm 4 skipping it —
+which seduces every drafter into a single `state++` AFTER the switch. That spelling emits 70 ins with
+the tail physically after arm 4. The target's tail sits at `.L80181C24`–C34, BETWEEN case 3 and case
+4 (case 3's arm ends `j .L80181C24`; `.L80181C38` — case 4 — follows immediately;
+`asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_801816DC/func_80181B68.s`). gcc produces that layout
+only when the SOURCE duplicates the increment per contributing arm — banked
+`src/ov_SC06_016/ov_SC06_016_jr_801816DC.c:3125`: the increment statement appears INSIDE case 0's
+guard, as case 1's LEADING statement (before falling through into case 2), at case 2's end, and
+inside case 3's guard; case 4 early-returns with no increment. Cross-jump then folds the copies into
+one block placed after the LAST CONTRIBUTING arm — which is before the non-contributing arm 4.
+
+**THE DIAGNOSTIC.** *A folded tail placed AFTER the final switch arm ⇒ a hoisted post-switch
+statement in the source. A folded tail anywhere EARLIER ⇒ the statement is duplicated inside each
+contributing arm, and the fold lands after the last arm that contributes.* Composes with §224 (write
+the duplicate — this is its switch-arm face) and bounds the §162-region merged-tail law (L11268's
+write-ONCE-at-the-last-arm form is for goto-shared tails; here every contributing arm carries its own
+copy and jump2 does the folding).
+
+Also byte-confirmed on this card: READ THE JUMP TABLE before reaching for §161a/§162a's empty-case
+constructions — all 5 entries of `jtbl_8019E2C0` are real bodies; neither edge equals the epilogue.
+The negative control generalizes: the table's own words, not the arm count, decide whether an
+empty-case construction exists.
+
+## §299 — TWO INDEPENDENT EXTRACTION CHAINS EMIT CONTIGUOUSLY INSIDE ONE EXPRESSION; ONLY A STATEMENT BOUNDARY MAKES THE SCHEDULER INTERLEAVE THEM (P31 S61; wave m0a, `func_8003A404`, main, byte-proven 8/8)
+
+**Target** (`asm/nonmatchings/800/func_8003A404.s`) INTERLEAVES the byte-swap's two chains:
+
+```
+srl  $v0, $a0, 8      # high chain, step 1
+andi $a0, $a0, 0xFF   # low chain, step 1
+sll  $a0, $a0, 8      # low chain, step 2
+andi $v0, $v0, 0xFF   # high chain, step 2 (deferred)
+addu $v0, $v0, $a0
+sll  $v0, $v0, 16
+jr   $ra
+ sra $v0, $v0, 16
+```
+
+Any single-expression spelling emits one chain COMPLETE, then the other (contiguous — 4 compiles
+measured). The banked source (`src/800.c:21027`) splits the HIGH chain across a statement boundary
+with its mask DEFERRED to the last use:
+
+```c
+s32 func_8003A404(u32 arg)
+{
+    u32 h = arg >> 8;
+    u32 l = (arg & 0xFF) << 8;
+    return (s16)((h & 0xFF) + l);
+}
+```
+
+haifa's priority-then-LUID tie-break then yields the interleave. Companion spellings, all probed
+wrong: `(arg & 0xFF00) >> 8` strength-reduces to the wrong opcodes; `|` emits `or` where the target
+has `addu`; a `u16` parameter adds `andi 0xFFFF` (keep it `u32`); the `(s16)` cast on the RETURN
+supplies the final promotion pair with the `sra` in the `jr` delay slot (§264 recipe 1's fill). Kin
+of L2425's ascending-LUID zero-dep order — a statement boundary is the ONLY source-level handle on
+within-expression chain order.
+
+## §300 — S61 DISTILL BATCH NOTES (waves ab8/ab16/ab24/ab32 · g0a–g0f · m0a · ds1/ds2 · m0b)
+
+**Counts, with denominators.** 99 candidate notes across 13 files reviewed (MAXTOK arms
+ab8/ab16/ab24/ab32 = 11, gen0 g0a–g0f = 30, main m0a = 57, DeepSeek ds1 = 1, ds2 = 0 of 42 noted
+verdicts; m0b filed 0 of 0 — an honest refusal, zero verdict lines after its 29 agents 404'd at the
+ox shutoff). Dispositions: **52/99 COVERED** by §§1–293 (the m0a "nothing new — §X carried it"
+self-reports are the healthy majority), **15/99 → the 10 ADDENDUM blocks** in §294, **29/99 → the 5
+new laws** §295–§299 (9 kernel-stub cards → §295; 16 fragment cards → §296; 2 → §298; 1 each →
+§297/§299), **3/99 REFUTED outright**, plus **1 refuted DETAIL** inside an otherwise-sound card.
+Every quoted spelling above was re-read from the banked source, not from the agents' notes.
+
+**The refutations, each settled against the tree:**
+- **R1 (g0b, `func_80180154`):** "a zero-insn `__asm__` memory clobber blocks a hoist into a
+  PRECEDING delay slot — §45-B lacks that form." The banked body
+  (`src/ov_SC02_016/ov_SC02_016_jr_8017DC70.c:4105`) contains NO asm barrier — the shipping fix is
+  the `m` pointer local (the L2425 law); the barrier belongs to a superseded intermediate draft. An
+  attempt-path narration is not a claim about the banked mechanism.
+- **R2 (m0a WaitEvent, detail):** "maspsx rejects hex inside `__asm__` strings — 0xB0 must be 176."
+  Byte-refuted by the SAME TU: TestEvent is banked green with `addiu $t2, $zero, 0xB0`
+  (`src/800c3.c:85`). The real constraint is decimal MEMORY DISPLACEMENTS; §295 fact 3 carries the
+  corrected scope.
+- **R3 (ab32, `func_80181490`):** "a short-lived arg-local (`a0 = arg0`) pins `$a0` and frees the
+  jal delay slot — not in the cookbook." The banked body
+  (`src/ov_SC05_017/ov_SC05_017_jr_801808D4.c:3521`) has NO such local — plain `arg0` throughout;
+  the delay-slot fill fell out of statement order, exactly as the ab8 sibling note reported.
+- **R4 (ab32, `func_800D09A0`):** four -O0 C-spelling dials (`(s16)x & 4` vs `(s16)(x & 4)`,
+  bare-preincrement copy, dead register local, `*(s16*)&u16var`) claimed for a function that banked
+  as §265 VERBATIM ASM — there is no C artifact in the tree to verify against. Oracle-only; recorded
+  here, not as law. If the §261 `_o0` lane ever re-banks md_MAIN_003 as real C, re-harvest.
+
+**False-novelty (claimed "not in the cookbook"; the INDEX failed, not the corpus):**
+`func_800CD288`'s frame-pad-by-address-taken-locals (covered 4× — L1833, L2921, §162i1/L11383,
+L24544; the agent grepped "frame size"/"stack size", the corpus says "frame-pad induction"/
+"frame_pad" — grep bait for next time: *frame size pad, stack size pad, grow the frame,
+address-taken pad local*); ds1's chained-assignment store order (§145(c)/L9958, word-for-word — its
+third such rediscovery); `func_8019131C`'s "no section covers giv base selection" (L1800's
+anchor-steer bullet); the constant-naming claims of `func_80018918`/`func_800348A8` (ADD-7→§229).
+
+**DeepSeek vs ox calibration (first two-source campaign).** DeepSeek's notes are far TERSER and cite
+almost no sections — ds1's single note names ZERO cookbook §s where ox notes cite 3–8 each and
+self-classify. Predicted consequence, observed: more false-novelty per claim (1 of its 3 "the
+cookbook did NOT document" items was §145(c) verbatim). But its byte-level specifics — the chain
+direction, the postfix-in-condition, the fresh rand local — were ALL present in the banked code
+exactly as stated: trustworthy on facts, weak on prior-art. ds2 parsed 51 verdicts, 42 with notes,
+and filed ZERO novel candidates — either excellent restraint or a filter mis-fire; spot-check that
+wave's banked functions at the next distill before trusting the zero. ox's systematic failure mode
+this batch is the mirror image: attempt-path narration presented as the banked mechanism (R1, R3) —
+always verify the FINAL source, never the story.
+
+**Label and citation hygiene for future distills.** Atlas lever labels `tiny-direct`, `head-crack`,
+`frame-172` are card-tracking strings with NO cookbook section behind them — multiple cards burned a
+disproving grep each (`head-crack` was already called bogus at L28955). Agents cite cookbook LINE
+numbers as §N — this batch: §3047 (=L3047's §263 material), §2425 (=L2425), §14052, §5583; treat any
+§ above ~300 as a line cite. One card misquoted §18 as "match_one is WRONG for -O0 functions" — §18
+says no such thing; the auto `--o0` oracle is §261's and is trusted, with whole-binary gating still
+the arbiter as always.
+
+**MAXTOK-arm duplication.** The four ab tags drafted the SAME 10 functions, so their candidates
+overlap: `func_8017DBA0` was independently cracked 4× (ab16/ab24/ab32/g0f), `func_80181E0C` 3×,
+`func_801854D0`/`func_800D09A0`/`func_80181B68` 2× each. The converging derivations cross-confirm
+§160a/§224/§37 but inflate the raw candidate count; a distill after any A/B test should expect one
+crack per arm and de-duplicate before counting.
+
+**Procedural keepers, not worth sections:** the -O0 store-census size oracle (nstores × 3 + 11 for a
+pure field-init body — `func_800D0964` predicted 158/158 before compiling); "diff-count ≠
+defect-count" (`func_801879B0`: ONE arity defect manifested as 2 mismatched instructions); read the
+raw STORE OFFSETS before believing a scheduling story (`func_80188620`'s off-by-one slot numbering
+was indistinguishable from a schedule residual until the offsets were diffed).
