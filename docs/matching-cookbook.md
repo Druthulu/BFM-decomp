@@ -29730,3 +29730,34 @@ block-scope extern of another type is gcc's "used prior to declaration", §302's
 resolver transform (not built yet): `rodata_from_s` — for each `undefined reference to D_x` where
 the fn's `.s` has `dlabel D_x`, emit the C definition from the block. One instance in the S62
 resolver stock; expect more as module drafting resumes.
+
+## §305 — "CARVE-REFUSED" AT GATE TIME IS THREE NAMED, DETERMINISTIC CLASSES — NONE OF THEM A CARVE (P31 S62 T3; 28 resolver drafts autopsied 28/28)
+
+The gate's `CARVE-REFUSED` verdict (harvest_verify §59(3)) is the label for "jtbl_carve declined
+after the isolate branch", and the isolate branch's own output never reached a log (the worker's
+stdout is swallowed — fixed in spirit here by naming the classes). Reproduce any instance by hand:
+splice the draft, `jr_isolate_all <ov> --only <fn> --dry-run`, then the real isolate + `make
+extract` + `jtbl_carve --func`; restore with `git checkout -- src/<ov> config/` + `git clean -f
+src/<ov>/` + re-extract. The S62 census over all 28:
+
+1. **A mangled definition in the TU** (1 TU, 7 drafts): `s32 FUNC_80180a08(...)` — a matched body
+   committed under a case-mangled name resolves to no address, so `jr_isolate_all` refuses to
+   partition the whole TU ("construct(s) with no resolvable address"). Fix: rename to the
+   canonical `func_XXXXXXXX` (byte-neutral; the sig spells IMAGE-derived names lowercase, the
+   project uppercase — both are the same address). Fleet census: exactly one instance.
+2. **A TU-local naming type the region cannot carry** (10 drafts): "carry the naming type
+   (file_scope_types) or add it to src/shared/engine_types.h" — `Block4`, `Blk4_E960`,
+   `Rec80182744`, `MATRIX_80188114`, `D80190448_t`. Fix: `tools/lift_types.py --types … --apply`
+   (dry-run first: it reports divergent per-overlay variants and keeps those local), then R22 —
+   a shared-header change recompiles the fleet.
+3. **Tables in BOTH the data asm and the fn's own .s after isolation** (9 drafts, 3 of them the
+   func_8015444C family): the fresh small c-segment makes spimdisasm migrate the table into the
+   function's new `.s` while the un-carved tail still emits it; `jtbl_carve`'s R32 guard read the
+   overlap as an unprecedented half-migrated layout. When the data side covers EVERY table the
+   function references it is the ordinary tail state: carve it, and the post-carve re-extract
+   resolves the duplicate (`jtbl_carve` now says so and proceeds; a partial overlap still refuses).
+
+Denominators: of the 90 drafts the S62 resolver staged, 54 banked at the gate, 28 were
+CARVE-REFUSED (this section), 2 DIFF, 6 CC1/PLUMBING decl conflicts. The tell that a "carve wall"
+is plumbing: `jtbl_carve --probe` says `tail` (a standard §8a carve) yet the gate refused — the
+carve was never the problem.

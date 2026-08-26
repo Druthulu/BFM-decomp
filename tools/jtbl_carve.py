@@ -1000,6 +1000,17 @@ def migrated_tables(ov, funcs):
         if in_own and not in_data:
             migrated.append(f)
         elif in_own and in_data:
+            if set(in_data) == set(js):
+                # EVERY table the fn references is still in the data asm: the own-.s copy is
+                # spimdisasm's post-ISOLATION migration (a fresh, small c-segment re-associates the
+                # table with its function) while the tail piece has not been carved yet. That is the
+                # standard tail state, not a half-migrated layout — carve the tail as usual; the
+                # re-extract after the carve resolves the duplicate. (P31 S62 T3: 9 gate-time
+                # CARVE-REFUSED drafts — ov_SC03_107/ov_SC02_037/ov_MAIN_012 func_8015444C et al. —
+                # were exactly this after jr_isolate_all.)
+                print(f"jtbl_carve: {f}: tables {in_data} in the data asm AND migrated into its own .s "
+                      f"(post-isolation) — treating as tail")
+                continue
             sys.exit(f"jtbl_carve: {f} has tables in BOTH the data asm ({in_data}) and its own .s "
                      f"({in_own}) — refusing to half-carve a layout we have no precedent for (R32)")
     return migrated
