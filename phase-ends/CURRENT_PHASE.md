@@ -59,7 +59,9 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 
 ## 🛑 SESSION CHECKPOINT — S60 FINAL (2026-08-25 19:30). Phase 31 CONTINUES. **NINE LANES RUNNING.**
 
-**~2,200 banked today · open crackable 3,062 · fleet 97.4% instr-weighted · cookbook 888 sections.**
+**SESSION CLOSE 22:50: 2,238 banked (regex count; the stub invariant is higher) · open crackable
+2,981 · fleet 98.2% instr-weighted, 96.4% distinct-code · cookbook 888 sections · registry 5,085
+lines healthy.** Fleet moved 97.4% -> 98.2% instruction-weighted and 94.6% -> 96.4% distinct today.
 Lanes: drafter · gater · maintenance · stallguard · distill · main · **elastic (new)** ·
 **grinder/permuter (new)** · re-gate runner. A Fable analyst is auditing the whole strategy and
 writes `docs/tool-designs/frontier-analysis-s60.md` — **READ THAT FIRST NEXT SESSION.**
@@ -149,8 +151,12 @@ writes `docs/tool-designs/frontier-analysis-s60.md` — **READ THAT FIRST NEXT S
    to the ox-wave model and asked for the smartest path to 100% given the measured state.
 2. **The gate.** 30-67 min at ~8% CPU with -j 32. The new sweep logging will show where the wall-clock
    goes. A 3x gate speedup outvalues any drafting change.
-3. **Re-gate the false-verdict waves.** ei recovered **34** (original verdict: 1). ej/ek/el/em/en still
-   have ~2,300 drafts on disk, judged against a tree that could not build.
+3. **Re-gate: DONE 21:42, and the result is instructive.** ei 34 · ej 0 · ek 4 · el 6 · em 3 · en 8
+   = **55 recovered** from 2,814 pre-paid drafts, zero model tokens. Only ei paid well (34/184 = 18%);
+   the rest returned 0-4% because by the time they were re-judged the live lanes had already banked
+   those functions — they come back NOT-A-STUB, not as banks. **This does NOT confirm the uncollapsed
+   thesis**: eh's 129/380 (34%) remains an outlier, and ei's 18% is the only corroboration. Do not
+   plan on sibling-drafting reproducing eh without more evidence.
 4. **The fleet R22 never actually runs** — guarded to skip while any gate is in flight, and one always
    is. Last real sweep 12:54. Give it a lock-aware window.
 5. **A-prop residual**: 169 STRUCT · 121 no-seed-decl (wants type INFERENCE from use sites, a tractable
