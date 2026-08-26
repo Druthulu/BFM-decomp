@@ -329,7 +329,31 @@ extern s32 func_80029178(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/md_SC03_133/nonmatchings/md_SC03_133", func_801E2E04);
+void func_801E2E04(s32 a0) {
+    extern s32 D_801E31FC[];
+    extern s32 D_801E37C0;
+    extern s32 D_801E3210[];
+    extern s32 D_801E322C[];
+
+    s32 v1 = func_80029504();
+
+    if (v1 < 0xC8) {
+        s32 v0 = func_80184428();
+        *(s32 *)(a0 + 0xE4) = D_801E31FC[v0];
+    } else if (v1 < 0x384) {
+        if ((u32)(v1 - 0x136) < 0x122) {
+            *(s32 *)(a0 + 0xE4) = (s32)&D_801E37C0;
+        } else {
+            s32 v0 = func_801844F8();
+            *(s32 *)(a0 + 0xE4) = D_801E3210[v0];
+        }
+    } else {
+        s32 v0 = func_8018456C();
+        *(s32 *)(a0 + 0xE4) = D_801E322C[v0];
+        func_801845C8();
+    }
+}
+
 
 #include "common.h"
 

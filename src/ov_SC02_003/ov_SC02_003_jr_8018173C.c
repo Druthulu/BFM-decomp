@@ -4005,7 +4005,34 @@ void func_801857B0(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80185840);
+extern s32 D_801E8750;
+
+void func_80185840(s32 param_1) {
+    s16 r;
+    s16 t;
+    u32 val;
+
+    func_80185C48(param_1, 0);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) += *(u16 *)(param_1 + 0xE0);
+    t = *(s16 *)(param_1 + 0xE0);
+    r = 0x80;
+    if (t < 0x80) {
+        r = t + *(u16 *)(param_1 + 0xE2);
+    }
+    *(s16 *)(param_1 + 0xE0) = r;
+    D_801E8750 += 0x27D7D;
+    val = (u32)D_801E8750 >> 16;
+    if (val >= 0x80) {
+        val = 0x7F;
+    }
+    func_8018623C(0x4DF, val + 0x1000);
+    if (*(s32 *)(param_1 + 0x18) < -0xB9999) {
+        *(s32 *)(param_1 + 0x18) = -0xB9999;
+        *(s16 *)(param_1 + 2) = 0xB;
+        func_8018623C(0x4DF, 0x107F);
+    }
+}
+
 
 
 typedef struct { u32 addr:24; u32 len:8; } PTAG_85910;

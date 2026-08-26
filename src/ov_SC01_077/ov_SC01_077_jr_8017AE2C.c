@@ -5278,7 +5278,31 @@ s32 func_8017F6D8(s16 *a0) {
     return D_8018A904[(u16)a0[1]]();
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017F714);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B23C(s32 a0);
+
+extern M2C_UNK D_80186E48;
+extern int D_8018A928;
+
+void func_8017F714(void)
+{
+    register int param_1 __asm__("$4");
+    int s0 = param_1;
+    int iVar1;
+
+    func_8012A828(param_1, &D_80186E48);
+    *(short *)(s0 + 2) = 2;
+    *(short *)(s0 + 0x34) = 0;
+    func_8012B23C(s0);
+    *(int *)(s0 + 0x44) = 0;
+    *(int *)(s0 + 0x48) = 0;
+    iVar1 = D_8018A928;
+    *(short *)(s0 + 0x5c) = 0;
+    *(int *)(s0 + 0x1c) = 0x100;
+    *(short *)(s0 + 0x84) = 0;
+    *(int *)(s0 + 0x4c) = -iVar1;
+}
+
 
 // @class: struct
 // @stuck: none — MATCH (26 ins)

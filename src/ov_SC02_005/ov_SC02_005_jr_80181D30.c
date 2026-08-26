@@ -5214,7 +5214,20 @@ void func_80185764(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80185858);
+
+
+extern s32 D_801E43C0[];
+extern F5C_S *D_801E43CC[];
+
+void func_80185858(s32 arg0, void *arg1, void *arg2) {
+    s32 *p = D_801E43C0;
+
+    if ((*p != 0) && (*(p++ + 1) != 0)) {
+        return;
+    }
+    func_8018C598(D_801E43CC[(arg0 << 16) >> 16], arg1, arg2, p, 0x20, 0x80);
+}
+
 
 #include "common.h"
 
