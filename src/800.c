@@ -1,6 +1,19 @@
 #include "common.h"
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
+typedef struct Ent30D80 {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ u8 pad04[6];
+    /* 0x0A */ u16 unk0A;
+    /* 0x0C */ u8 pad0C[0x34];
+    /* 0x40 */ void (*unk40)(s32, s32);
+    /* 0x44 */ s32 unk44;
+    /* 0x48 */ u8 pad48[6];
+    /* 0x4E */ u8 unk4E;
+    /* 0x4F */ u8 pad4F;
+    /* 0x50 */ u8 unk50;
+    /* 0x51 */ u8 unk51;
+} Ent30D80;
 typedef struct { u8  v; } W8;
 typedef struct { s32 a; s32 b[4]; } OtBlk_80016450;
 typedef struct {
@@ -188,19 +201,6 @@ typedef struct {                                     /* 0x24 */
     u32 rgb3;    /* 0x1C */
     s16 x3, y3;  /* 0x20 */
 } G4P;
-typedef struct Ent30D80 {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ u8 pad04[6];
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u8 pad0C[0x34];
-    /* 0x40 */ void (*unk40)(s32, s32);
-    /* 0x44 */ s32 unk44;
-    /* 0x48 */ u8 pad48[6];
-    /* 0x4E */ u8 unk4E;
-    /* 0x4F */ u8 pad4F;
-    /* 0x50 */ u8 unk50;
-    /* 0x51 */ u8 unk51;
-} Ent30D80;
 typedef struct Slot54 {
     /* 0x00 */ s16 unk00;
     /* 0x02 */ s16 unk02;
@@ -17756,7 +17756,38 @@ void func_80033398(u32 arg0)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8003350C);
+
+extern u16 D_800A46E8[];
+extern void func_80030D80(Ent30D80 *arg0, s16 arg1);
+
+void func_8003350C(s32 arg0, s32 arg1) {
+    register Ent30D80 *p __asm__("$16");
+    register s32 t __asm__("$19");
+    u8 *base;
+    u8 *e;
+    s32 off;
+    s32 i;
+
+    off = arg0 * 0x54;
+    base = (u8 *)D_800A46E8;
+    e = base + off;
+    i = 0;
+    t = arg1 << 16;
+    __asm__ ("" :: "r"(t));
+    p = (Ent30D80 *)(base + 0x2A0);
+    __asm__ ("" :: "r"(base));
+    for (; i < 8; i++, p++) {
+        u8 *q = e + i;
+        if (q[0xE] != 0) {
+            q[0xE] = 0;
+            p->unk40 = 0;
+            if (p->unk4E != 0) {
+                func_80030D80(p, t >> 16);
+            }
+        }
+    }
+    *(u16 *)e = 0;
+}
 
 
 /* TU decls (src/800.c): `extern u16 D_800A46E8[];`, `extern void func_800335B8(s32, s32);` */
