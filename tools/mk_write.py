@@ -38,6 +38,7 @@ read, edit, and write, and the second silently drops the first's line. That is a
 missing line, not a wiped file — and it is caught downstream by the fleet check and jtbl_pads_fix.
 Closing it properly means holding the lock across read-modify-write in every caller.
 """
+import re
 import fcntl
 import os
 
@@ -47,7 +48,35 @@ LOCK = os.path.join(REPO, ".run", "auto", "overlays_mk.lock")
 FLOOR = 100          # a healthy registry is ~5,000 lines; below this it is already broken
 
 
-def write_overlays_mk(txt, path=MK, min_ratio=0.8):
+def _blocks(txt):
+    """{name: block_text} for every `# --- <name> …` block (header through the char before the next
+    header); '' is the preamble before the first header."""
+    out, pos, name = {}, 0, ''
+    for m in re.finditer(r'^# --- (\S+)', txt, re.M):
+        out[name] = txt[pos:m.start()]; pos, name = m.start(), m.group(1)
+    out[name] = txt[pos:]
+    return out
+
+
+def merge_blocks(cur, base, new):
+    """P31 S62: the parallel-carve race. A caller reads overlays.mk (base), edits ONE binary's block
+    (new) and writes the whole file — clobbering every block another caller changed in between
+    (yaml ahead of mk: ov_SC03_029/105/MAIN_012). Merge: start from the CURRENT file and replace only
+    the blocks whose text differs between base and new (plus blocks new to `new`)."""
+    cb, bb, nb = _blocks(cur), _blocks(base), _blocks(new)
+    changed = {k for k in nb if nb[k] != bb.get(k)}
+    if not changed:
+        return cur
+    out = []
+    for k, v in cb.items():
+        out.append(nb[k] if k in changed else v)
+    for k in nb:
+        if k not in cb and k in changed:
+            out.append(nb[k])
+    return ''.join(out)
+
+
+def write_overlays_mk(txt, path=MK, min_ratio=0.8, base=None):
     # R43 (S61): refuse a text that would kill make at PARSE time — one mangled target-variable
     # line ("...o: JTBL_PADS : JTBL_PADS := ...") fails EVERY build of EVERY binary with
     # "target pattern contains no '%'", which is strictly worse than any wipe this guard's line-count
@@ -73,6 +102,13 @@ def write_overlays_mk(txt, path=MK, min_ratio=0.8):
     os.makedirs(os.path.dirname(LOCK), exist_ok=True)
     with open(LOCK, "w") as lk:
         fcntl.flock(lk, fcntl.LOCK_EX)
+        if base is not None:
+            try:
+                cur = open(path).read()
+            except OSError:
+                cur = base
+            if cur != base:
+                txt = merge_blocks(cur, base, txt)
         # AN ALREADY-EMPTY REGISTRY IS NOT A LICENCE TO WRITE (P31 S60, learned the hard way: my
         # own verification control clobbered a registry that a carve had truncated seconds
         # earlier, because the collapse check was skipped when old_lines was 0). A healthy file is

@@ -464,11 +464,30 @@ def _file_scope_decls(items):
                 continue
             if not _HOIST_RE.match(line):
                 continue
-            base = _BASE_TYPE.match(line)
-            if _SAFE_TYPE.match(line) or (base and base.group(1) in known):
-                out.append((line.rstrip(), False))
+            # A col-0 line may GLUE code-emitting macro invocations onto a declaration
+            # (`extern s32 aF…(…) __asm__(""); DEFINE_func_8014C4AC() DEFINE_func_8014C568() …`,
+            # ov_SC03_107 S62). Carrying it whole re-instantiated the shared bodies inside the new
+            # region (duplicate, name-mangled definitions -> `.globl` with no name). Carry only the
+            # `;`-terminated declaration segments; for each glued DEFINE_ invocation carry its
+            # implied prototype + macro externs instead (a dropped prototype is a silent byte-changer).
+            glued = re.findall(r'\bDEFINE_\w+\s*\(\s*\)', re.sub(r'/\*.*?\*/|//.*$', '', line))
+            if glued:
+                code = re.sub(r'/\*.*?\*/|//.*$', '', line)          # comments may hold `;` — strip first
+                decls = [x.strip() + ';' for x in code.split(';')[:-1] if x.strip() and 'DEFINE_' not in x]
+                for inv in glued:
+                    for ml in oss.macro_externs(inv):
+                        out.append((ml, False))
+                    mp = oss.macro_proto(inv)
+                    if mp:
+                        out.append((mp, False))
             else:
-                dropped.append(line.rstrip())           # REPORTED, never silently dropped (R32)
+                decls = [line.rstrip()]                 # the original whole-line behaviour
+            for d in decls:
+                base = _BASE_TYPE.match(d)
+                if _SAFE_TYPE.match(d) or (base and base.group(1) in known):
+                    out.append((d.rstrip(), False))
+                else:
+                    dropped.append(d.rstrip())          # REPORTED, never silently dropped (R32)
         proto = None
         if kind == "define":                            # (2) macro-injected file-scope externs
             for line in oss.macro_externs(text):
@@ -497,7 +516,24 @@ def _file_scope_decls(items):
             f"  base types: {dict(hist.most_common(12))}\n"
             f"  e.g. {dropped[:3]}\n"
             f"  Fix: carry the naming type (file_scope_types) or add it to src/shared/engine_types.h.")
-    return out
+    # FINAL PASS (P31 S62): NO carried line may contain a code-emitting `DEFINE_…()` invocation,
+    # whichever branch produced it (a one-line `extern …; DEFINE_func_X() DEFINE_func_Y()` item
+    # reaches here both as a col-0 decl and as a `define` item's macro_externs text). Keep the
+    # `;`-terminated declaration segments, and carry each glued macro's implied prototype instead.
+    cleaned = []
+    for line, is_block in out:
+        if is_block or not re.search(r'\bDEFINE_\w+\s*\(\s*\)', line):
+            cleaned.append((line, is_block)); continue
+        code = re.sub(r'/\*.*?\*/|//.*$', '', line)
+        for x in code.split(';')[:-1]:
+            x = x.strip()
+            if x and 'DEFINE_' not in x:
+                cleaned.append((x + ';', False))
+        for inv in re.findall(r'\bDEFINE_\w+\s*\(\s*\)', code):
+            mp = oss.macro_proto(inv)
+            if mp and (mp, False) not in cleaned:
+                cleaned.append((mp, False))
+    return cleaned
 
 
 def _render_region(header, items, old_sub, new_sub, ambient):
@@ -571,6 +607,7 @@ def repoint_overlays_mk(carve_renames, dry, ov=None, cfg_lines=None):
     unreachable; if it ever fires, the carve set is the thing to fix, not this rename)."""
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
+    _mk_base = txt
     changed = []
     for old_sub, new_sub in carve_renames.items():
         pat = rf'(--order[^#\n]*?){re.escape(old_sub)}\.o'
@@ -591,7 +628,7 @@ def repoint_overlays_mk(carve_renames, dry, ov=None, cfg_lines=None):
         txt = re.sub(pads_pat, lambda m: m.group(1) + new_sub + m.group(2), txt, count=1, flags=re.M)
         changed.append(f"JTBL_PADS {old_sub}.o -> {new_sub}.o")
     if not dry:
-        MKW.write_overlays_mk(txt, path=mk)
+        MKW.write_overlays_mk(txt, path=mk, base=_mk_base)
     return changed
 
 

@@ -1077,6 +1077,7 @@ def apply(ov, funcs):
 def set_overlays_var(ov, args):
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
+    _mk_base = txt
     var = f"{ov}_JTBL_INTERLEAVE := {args}  # Phase-26 §8 jtbl-rodata carve"
     if re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE\b", txt, re.M):
         txt = re.sub(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", var, txt, count=1, flags=re.M)
@@ -1086,7 +1087,7 @@ def set_overlays_var(ov, args):
         if anchor not in txt:
             sys.exit(f"jtbl_carve: no {anchor} anchor in overlays.mk")
         txt = txt.replace(anchor, anchor + "\n" + var, 1)
-    MKW.write_overlays_mk(txt, path=mk)
+    MKW.write_overlays_mk(txt, path=mk, base=_mk_base)
 
 
 def set_pads_vars(ov, pads_map):
@@ -1100,6 +1101,7 @@ def set_pads_vars(ov, pads_map):
     no make-prerequisite, and a padless stale object would fail the SHA gate mystifyingly."""
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
+    _mk_base = txt
     before = current_pads_specs(ov, txt)
     after = {sub: sr for sub, sr in pads_map.items() if len(sr[0]) > 1}
     # SECOND, DISAGREEING ORACLE (R34; P30 S48). The carry above is keyed by SUBSEG NAME, so a span
@@ -1127,7 +1129,7 @@ def set_pads_vars(ov, pads_map):
         if not m:
             sys.exit(f"jtbl_carve: no {ov}_JTBL_INTERLEAVE line to anchor JTBL_PADS on")
         txt = txt[:m.end()] + "\n" + block + txt[m.end():]
-    MKW.write_overlays_mk(txt, path=mk)
+    MKW.write_overlays_mk(txt, path=mk, base=_mk_base)
     for sub in set(before) | set(after):
         if before.get(sub) != after.get(sub):
             obj = os.path.join(REPO, f"build/src/{ov}/{sub}.o")
@@ -1147,6 +1149,7 @@ def revert(ov):
     subprocess.check_call(["git", "-C", REPO, "checkout", "--", cfg_path(ov)])
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
+    _mk_base = txt
     committed = subprocess.run(["git", "-C", REPO, "show", "HEAD:config/overlays.mk"],
                                capture_output=True, text=True).stdout
     m = re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", committed, re.M)
@@ -1174,7 +1177,7 @@ def revert(ov):
         if not m2:
             sys.exit(f"jtbl_carve: no {ov}_JTBL_INTERLEAVE line to anchor committed JTBL_PADS on")
         txt = txt[:m2.end()] + "\n" + "\n".join(committed_lines) + txt[m2.end():]
-    MKW.write_overlays_mk(txt, path=mk)
+    MKW.write_overlays_mk(txt, path=mk, base=_mk_base)
     for sub in set(now_pads) | set(committed_pads):
         if now_pads.get(sub) != committed_pads.get(sub):
             obj = os.path.join(REPO, f"build/src/{ov}/{sub}.o")
