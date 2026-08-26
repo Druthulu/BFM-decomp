@@ -13149,7 +13149,11 @@ void func_80028C50(void) {
     D_800A2DD8 = GsPrstTG4NL;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80028D58);
+extern s32 func_80029178();
+
+s32 func_80028D58(void) {
+    return func_80029178(0xB) & 0xFF;
+}
 
 extern void func_80029124(s32, s32);
 
