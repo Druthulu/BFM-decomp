@@ -2263,3 +2263,4 @@ and wrote everything we learned into the project's permanent playbook. The machi
 clean, and fully documented; the next session opens the finish plan and drives the last few
 percent to a complete, byte-perfect decompilation.
 HANDOFF ITEM 1 DONE 12:45 — doc verified+committed
+HANDOFF ITEM 2 DONE 12:52 — cookbook §294–§300 verified+committed; planner notified of 15 verified additions
