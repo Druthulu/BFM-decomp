@@ -2862,7 +2862,14 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_801831D0);
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_80183228);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_80183280);
+typedef struct { u8 unk0[2]; u16 unk2; } Ent_80183280;
+
+extern void (*D_8018E14C[])(Ent_80183280 *);
+
+void func_80183280(Ent_80183280 *arg) {
+    D_8018E14C[arg->unk2](arg);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_801832E0);
 
