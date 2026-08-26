@@ -3460,7 +3460,47 @@ void func_80186F78(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80186270", func_80187038);
+extern void func_80187038(void);
+void func_80187038(void) {
+    register s32 a0v __asm__("$4");
+    extern u8 D_801CCEC0[];
+    extern u8 D_801CC1E8[];
+    extern s32 D_801B51FC[];
+    extern s32 D_801B520C[];
+    s32 e = a0v;
+    s32 flags;
+
+    flags = *(s32 *)(e + 0xE0);
+    if (flags & 4) {
+        goto L_bit4;
+    }
+    if (flags & 0x800) {
+        *(u16 *)(e + 2) = 0xE;
+        func_8012A828(e, D_801CCEC0);
+        return;
+    }
+    if (flags & 1) {
+        goto L_tbl;
+    }
+    if (*(s32 *)(e + 0xD0) == 0) {
+        goto L_tbl;
+    }
+    *(u16 *)(e + 2) = 0xE;
+    *(u16 *)(e + 0x34) = 2;
+    *(s32 *)(e + 0x1C) = 0x200;
+    func_8012A828(e, D_801CC1E8);
+    return;
+
+L_tbl:
+    *(u16 *)(e + 2) = D_801B51FC[*(u16 *)(e + 0x70) & 0xF];
+    return;
+
+L_bit4:
+    *(u16 *)(e + 2) = D_801B520C[*(u16 *)(e + 0x70) & 0xF];
+    func_8012A828(e, D_801CCEC0);
+    *(s32 *)(e + 0x1C) = 0x200;
+}
+
 
 #include "common.h"
 

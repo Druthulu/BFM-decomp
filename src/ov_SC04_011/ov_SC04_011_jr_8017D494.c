@@ -5075,7 +5075,7 @@ extern u8 D_80194C14[];
 extern void func_80189188();
 extern void func_80189270();
 extern void func_801439C0();
-extern void func_80183564();
+extern void func_80183564(s32 a0, s16 *a1);
 extern void func_80186300();
 extern void func_80184CCC();
 extern void func_80184DB8(s32 a0);
@@ -5944,7 +5944,7 @@ extern void func_801863D4();
 extern void func_801863B4(s32 a0);
 extern void func_80184ABC();
 /* §183 SIGNATURE-cast-at-call: batch-wide spelling is (s32, s16 *). */
-extern void func_80183564(s32 a0, s16 *a1);
+extern void func_80183564();
 
 void func_8018332C(s32 a0, s32 a1) {
     s32 v0;

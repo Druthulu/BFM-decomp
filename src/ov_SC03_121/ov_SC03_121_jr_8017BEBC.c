@@ -3509,7 +3509,15 @@ void func_8017D460(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017D49C);
+extern s32 D_80185C5C;
+extern void func_8017D4C4(s32 param_1, s16 *param_2);
+
+void func_8017D49C(s32 param_1) {
+    s16 unused[4];
+
+    func_8017D4C4(param_1, (s16 *)&D_80185C5C);
+}
+
 
 
 // @class: schedule

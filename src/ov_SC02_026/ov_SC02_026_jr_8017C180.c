@@ -4572,7 +4572,39 @@ void func_8017F5DC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017F6B0);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern s32 D_801A5460;
+extern s32 D_801A5464;
+extern s32 D_801A5468;
+extern s32 D_801A546C;
+extern s32 D_801A5470;
+
+void func_8017F6B0(void *a0, s32 a1) {
+    s32 t0, t1, t2, t3, t4;
+    s32 sp10[5];
+    u16 *h;
+    s32 off;
+
+    off = a1 * 20;
+    t0 = *(s32 *)((char *)&D_801A5460 + off);
+    t1 = *(s32 *)((char *)&D_801A5464 + off);
+    t2 = *(s32 *)((char *)&D_801A5468 + off);
+    t3 = *(s32 *)((char *)&D_801A546C + off);
+    sp10[0] = t0;
+    sp10[1] = t1;
+    sp10[2] = t2;
+    sp10[3] = t3;
+    t4 = *(s32 *)((char *)&D_801A5470 + off);
+    sp10[4] = t4;
+    __asm__ __volatile__("" :: "r"(off));
+    h = (u16 *)sp10;
+    h[0] = h[0] + *(u16 *)((s32)a0 + 6);
+    h[1] = h[1] + *(u16 *)((s32)a0 + 0xA);
+    __asm__ __volatile__("" :: "r"(t3));
+    h[2] = h[2] + *(u16 *)((s32)a0 + 0xE);
+    func_8012C51C(sp10, (s32)a0);
+}
+
 
 #include "common.h"
 

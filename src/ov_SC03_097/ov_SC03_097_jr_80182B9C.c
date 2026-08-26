@@ -3971,7 +3971,37 @@ void func_80184AE8(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_80182B9C", func_80184BFC);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+
+/* §37/§124 def-side asm-label alias: TU:3710 declares `extern void func_80184BFC(s32 a0);`
+ * for its discarding caller (TU:3742), but the byte-true def must return s32 ($v0 = 1/0 on
+ * both exits; a void def DCEs them -> 43 ins). Neither side can move (the caller discards,
+ * so widening the shared decl is not available from the splice point), so the definition
+ * takes a private C identifier and binds the emitted symbol with a GNU asm label.
+ * Zero blast radius: the TU's declaration never meets the definition, and the emitted
+ * symbol is unchanged. */
+s32 aF80184BFC(s32 arg0) __asm__("func_80184BFC");
+
+s32 aF80184BFC(s32 arg0) {
+
+    extern s32 *D_80126B78;
+    extern u8 D_8019EABC[];
+    extern u8 D_801152A8[];
+    extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+    s32 buf1[2];
+    s32 buf2[2];
+
+    func_8012F14C((s32)D_80126B78 + 0x34, (s32)D_8019EABC, (s32)buf1);
+    func_8012F14C((s32)D_80126B78 + 0x34, (s32)(D_8019EABC + 8), (s32)buf2);
+    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf1, (s32)buf2) != 0) {
+        func_8012F568(1, 1, *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12), 9, (s32)buf2, (s32)D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+
 
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
