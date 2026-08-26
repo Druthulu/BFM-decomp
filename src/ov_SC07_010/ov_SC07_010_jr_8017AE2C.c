@@ -4689,7 +4689,57 @@ void func_8017E520(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017E5B8);
+void func_8017E5B8(s32 a0, s32 a1) {
+    register s32 self __asm__("$2") = a0;
+    register s32 tmp __asm__("$3") = a1 * 8;
+    register s32 c0 __asm__("$4") = 0x1E;
+    register s32 c1 __asm__("$5") = self;
+    register s32 off __asm__("$17");
+    register s32 k2 __asm__("$18");
+    register s32 k1 __asm__("$19");
+    register s32 i __asm__("$20");
+    register s32 base __asm__("$21");
+    register s32 p __asm__("$16");
+    extern s32 func_8012C588(s32 a0, s32 a1);
+    extern void func_80015954(s32 a0, s32 a1);
+    extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
+    extern s16 D_80185D28[];
+    extern s16 D_80185D2A[];
+    extern s16 D_80185D2C[];
+    extern s16 D_80185D2E[];
+    extern u16 D_80185D5A[];
+
+    i = 0;
+    off = tmp;
+    base = (s32) D_80185D28;
+    __asm__ __volatile__("" : : "r"(tmp));
+    k1 = -0xE3;
+    __asm__ __volatile__("" : : "r"(k1));
+    k2 = -0x155;
+    func_80146A6C(c0, (void *)c1, *(s16 *)((s32)D_80185D28 + off),
+                  *(s16 *)((s32)D_80185D2A + off),
+                  *(s16 *)((s32)D_80185D2C + off), 0, 0);
+    do {
+        p = func_8012C588(0x3A6, 0);
+        if (p != 0) {
+            func_80015954(off + base, p + 4);
+            *(s16 *)(p + 0xFC) = *(u16 *)((s32)D_80185D5A +
+                (*(s16 *)((s32)D_80185D2E + off) << 2)) + k2;
+            *(s32 *)(p + 0xDC) = 0;
+        }
+        p = func_8012C588(0x3A6, 0);
+        if (p != 0) {
+            func_80015954(off + base, p + 4);
+            *(s16 *)(p + 0xFC) = *(u16 *)((s32)D_80185D5A +
+                (*(s16 *)((s32)D_80185D2E + off) << 2)) + k1;
+            *(s32 *)(p + 0xDC) = 1;
+        }
+        k1 += 0xAA;
+        i++;
+        k2 += 0xAA;
+    } while (i < 4);
+}
+
 
 extern void func_80015954(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
