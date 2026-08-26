@@ -6467,7 +6467,7 @@ DEFINE_func_80189898()  /* dedup: shared engine-core @0x80189898 (src/shared) */
 DEFINE_func_801898C8()  /* dedup: shared engine-core @0x801898C8 (src/shared) */
 
 
-extern void func_80189C6C(void);
+extern void func_80189C6C();
 extern void func_80189D10(s32 param_1);
 extern s32 func_8012AD50(void *arg0);
 extern s16 D_8018F71E;
@@ -6609,7 +6609,45 @@ void func_80189B1C(void *a0, Range_80189B1C *a1, void *a2, void *a3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189C6C);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern u16 D_801E82A0[];
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+void func_80189C6C(void)
+{
+  int new_var;
+  s32 s2;
+  s16 *s1;
+  s32 s0;
+  s32 v0;
+  s2 = 0;
+  s1 = &((s16 *)D_801E82A0)[0];
+  while (v0 = s2 < 0x51)
+  {
+    s0 = s2;
+    s0 = (s0 << 12) / 80;
+ do { new_var = (s16) (v0 >> 3); v0 = func_8004787C(s0); if (v0 < 0) { v0 += 7; } ; s1[0] = (s16) (v0 >> 3); v0 = func_80047948(s0); if (v0 < 0) { v0 += 7; } new_var = v0; } while (0);
+    s1[2] = (s16) (new_var >> 3);
+    s1 += 4;
+    s2++;
+  }
+
+}
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189D10);
 
