@@ -4154,7 +4154,50 @@ extern s32 func_80029178(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_801808D4", func_80182318);
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+extern s32 func_80182318_def(void *a0) __asm__("func_80182318");
+
+s32 func_80182318_def(void *a0)
+{
+    void *p;
+    u16 st;
+
+    p = *(void **)((s32)a0 + 0x64);
+    st = *(u16 *)((s32)p + 0x2);
+    switch (st) {
+    case 3:
+        if (func_8012BD14((s32)p) >= 0x4001) {
+            return 0;
+        }
+        {
+            void *p2 = *(void **)((s32)a0 + 0x64);
+            u16 v = *(u16 *)((s32)p2 + 0x2);
+            v = v + 1;
+            *(u16 *)((s32)p2 + 0x2) = v;
+        }
+        break;
+    case 8:
+        if (func_8012BD14((s32)p) >= 0x4001) {
+            return 0;
+        }
+        {
+            void *p3 = *(void **)((s32)a0 + 0x64);
+            u16 w = *(u16 *)((s32)p3 + 0x34);
+            w = w + 1;
+            *(u16 *)((s32)p3 + 0x34) = w;
+        }
+        break;
+    default:
+        return 0;
+    }
+
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 
 /* func_801823D0 — guarded dispatch: ask func_801848AC(9, 0x11); if it answers

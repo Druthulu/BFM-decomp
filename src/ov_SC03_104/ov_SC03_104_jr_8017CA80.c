@@ -4458,7 +4458,19 @@ void func_80181A84(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181AD0);
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181B14);
+extern void func_8013B6A0(s32 idx, u16 *src, s32 val);
+
+void func_80181B14(void) {
+    register s32 a0v __asm__("$4");
+    register s32 a1v __asm__("$5");
+    register s32 a2v __asm__("$6");
+    u16 sp[3];
+    sp[0] = *(u16 *)(a0v + 0x2);
+    sp[1] = *(u16 *)(a0v + 0x6);
+    sp[2] = *(u16 *)(a0v + 0xA);
+    func_8013B6A0(a1v, sp, a2v);
+}
+
 
 void func_80181B58(void) {
 }

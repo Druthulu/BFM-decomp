@@ -218,7 +218,12 @@ void func_801E7FF8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC04_025/nonmatchings/md_SC04_025", func_801E8034);
+void func_801E8034(void *a0) {
+    extern void func_801E805C(s32 a0, s16 *a1);
+    extern s16 D_801274E8;
+    func_801E805C((s32)a0, &D_801274E8);
+}
+
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
