@@ -140,10 +140,14 @@ def join(w):
         ir.say(f"wave {w}: no shadow ledger at {p}")
         return
     rows = [json.loads(l) for l in open(p) if l.strip()]
-    commits = wave_commits(w)
-    if not commits:
-        ir.say(f"wave {w}: no gate commit found yet (git log has no 'ox wave {w}') — not gated")
+    # the ox ledger is the authority on whether the wave was GATED: a 0-bank wave has NO commit
+    # (ox_campaign.commit() returns None on a clean tree), so "no commit" must not read as "not gated"
+    led = [json.loads(l) for l in open(".run/ox_campaign_ledger.jsonl", errors="replace") if l.strip()]
+    gated_rows = [r for r in led if r.get("wave") == w and r.get("gated") is not None]
+    if not gated_rows:
+        ir.say(f"wave {w}: no gate row in the ox ledger — not gated yet")
         return
+    commits = [r["commit"] for r in gated_rows if r.get("commit")] or wave_commits(w)
     banked = set()
     pat = re.compile(r'^-.*INCLUDE_ASM\("(asm/[^"]+)",\s*(\w+)\)')
     for h in commits:
@@ -152,6 +156,18 @@ def join(w):
             if m:
                 parts = m.group(1).split("/")
                 banked.add((parts[1] if parts[1] != "nonmatchings" else "main", m.group(2)))
+    # RED binaries make every verdict about the BINARY, not the draft (S61 fleet audit): report them
+    # separately and exclude them from the prediction metrics (R41: say what the denominator is).
+    red = set()
+    try:
+        red = {l.strip() for l in open(".run/baseline_red.txt") if l.strip()}
+    except OSError:
+        pass
+    n_red = sum(1 for r in rows if r["binary"] in red)
+    if n_red:
+        ir.say(f"wave {w}: {n_red} of {len(rows)} shadowed drafts sit in {len(red & {r['binary'] for r in rows})} "
+               f"baseline-RED binaries — excluded from the prediction metrics below")
+        rows = [r for r in rows if r["binary"] not in red]
     outcome = collections.Counter()
     table = collections.Counter()
     for r in rows:

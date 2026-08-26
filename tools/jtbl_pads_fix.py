@@ -30,6 +30,7 @@ byte-identical to config/check.<bin>.sha. Zero matches or two matches => refuse 
 Exit 0 = repaired (or nothing to repair). Exit 1 = refused; a human should look.
 """
 import argparse
+import mk_write
 import itertools
 import os
 import re
@@ -39,7 +40,14 @@ import sys
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MK = os.path.join(REPO, "config", "overlays.mk")
 PAD_ERR = re.compile(r"consumed (\d+) rodata \.align\(s\) but (\d+) pad spec\(s\) given")
-OBJ_ERR = re.compile(r"\[(build/src/[^\]]+\.o)\]")
+# make prints "*** [Makefile:687: build/src/.../x.o] Error 1" — the bracket carries a
+# "Makefile:NNN: " prefix, and the original regex required it to START with build/src, so
+# find_drift returned None over a failing build and the tool reported "no pad-count drift"
+# for six genuinely drifted binaries (S61; the R40 instrument class this tool exists to end).
+OBJ_ERR = re.compile(r"\[(?:Makefile:\d+:\s*)?(build/src/[^\]]+\.o)\]")
+# the OTHER drift direction: a NEW table appeared (a banked `switch`), so the object emits
+# MORE .aligns than the spec has entries; jtbl_rodata_pads phrases that without the emitted count.
+PAD_ERR_MORE = re.compile(r"more rodata \.align directives than pad specs \((\d+)\)")
 
 
 def sh(cmd, **kw):
@@ -93,7 +101,8 @@ def find_drift(binary):
     """(object, emitted, declared) for the first object whose pad count drifted, else None."""
     _sha, log = build_sha(binary)
     m = PAD_ERR.search(log)
-    if not m:
+    more = PAD_ERR_MORE.search(log) if not m else None
+    if not m and not more:
         return None
     obj = None
     for line in log.splitlines():
@@ -102,7 +111,14 @@ def find_drift(binary):
         o = OBJ_ERR.search(line)
         if o:
             obj = o.group(1)
-    return (obj, int(m.group(1)), int(m.group(2))) if obj else None
+    if not obj:
+        return None
+    if m:
+        return (obj, int(m.group(1)), int(m.group(2)))
+    # "more than" carries only the spec count: the emitted count is unknown but > declared.
+    # Return emitted=None; main() searches declared+1 then declared+2 (a bank adds one table
+    # in practice; two is the safety margin) — the byte proof still arbitrates every candidate.
+    return (obj, None, int(more.group(1)))
 
 
 def pad_line_for(obj):
@@ -117,10 +133,18 @@ def pad_line_for(obj):
 
 
 def write_pads(idx, lines, pads, note):
-    lines[idx] = (f"{lines[idx].split(':')[0]}:{lines[idx].split(':')[1]}: JTBL_PADS := "
-                  f"{','.join(str(p) for p in pads)}  # {note}\n")
-    with open(MK, "w") as fh:
-        fh.writelines(lines)
+    """Rewrite ONE armed-object line, atomically, in the exact live format.
+
+    TWO defects lived here until S61 and one poisoned the whole registry (committed by the
+    gater blanket commit commit:2996 as `...o: JTBL_PADS : JTBL_PADS := 0,0` -> make dies at
+    parse with "target pattern contains no %" and EVERY build of EVERY binary fails):
+    (1) the line was split on ':' but `:=` CONTAINS a colon, so each write appended a second
+    `: JTBL_PADS`; (2) the file was written with a raw truncating open(MK,"w") - the S60 wipe
+    class all four known sites were converted away from (mk_write); this fifth site never was.
+    """
+    path = lines[idx].split(":", 1)[0]
+    lines[idx] = path + ": JTBL_PADS := " + ",".join(str(p) for p in pads) + "  # " + note + "\n"
+    mk_write.write_overlays_mk("".join(lines))
 
 
 def main():
@@ -137,19 +161,21 @@ def main():
         print(f"{a.binary}: no pad-count drift (nothing to repair)")
         return 0
     obj, emitted, declared = drift
-    print(f"{a.binary}: {obj} emits {emitted} table(s), spec declares {declared}")
+    print(f"{a.binary}: {obj} emits {emitted if emitted is not None else '>%d' % declared} table(s), "
+          f"spec declares {declared}")
     found = pad_line_for(obj)
     if not found:
         print(f"REFUSED: no JTBL_PADS line for {obj} in config/overlays.mk")
         return 1
     idx, lines, original = found
-    if emitted > a.max_tables:
-        print(f"REFUSED: {emitted} tables is above --max-tables {a.max_tables}")
-        return 1
 
     # THE CANDIDATE SPACE. pads[0] is always 0 (the first table starts the section, so it can carry
     # no inter-table pad); every other entry is 0 or 4. 2^(N-1) candidates: 1, 2, 4, 8, 16.
-    cands = [[0] + list(rest) for rest in itertools.product((0, 4), repeat=max(0, emitted - 1))]
+    counts = [emitted] if emitted is not None else [declared + 1, declared + 2]
+    if max(counts) > a.max_tables:
+        print(f"REFUSED: searching up to {max(counts)} tables is above --max-tables {a.max_tables}")
+        return 1
+    cands = [[0] + list(rest) for n in counts for rest in itertools.product((0, 4), repeat=max(0, n - 1))]
     want = good_sha(a.binary)
     winners = []
     for c in cands:

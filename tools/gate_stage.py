@@ -23,6 +23,7 @@ Usage:
 Prints a JSON summary; importable as run_gate(...)->dict.
 """
 import argparse, fcntl, glob, json, os, re, shutil, subprocess, sys, time
+import hashlib
 import glob as _glob
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import backlog
@@ -231,6 +232,43 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     if bin_stubs and not (set(draft_fns) & bin_stubs):
         print(f"[gate] WARNING: 0/{len(draft_fns)} drafts are INCLUDE_ASM stubs in {binary} — "
               f"binary/src mismatch (drafts for a different binary?); banking will be 0", file=sys.stderr)
+
+    # BASELINE-RED SKIP (P31 S61, R35/R43/R54). A gate measures the DRAFT only if the binary builds
+    # byte-identical WITHOUT it. On 2026-08-25 ~15 overlays went "incrementally valid, clean-invalid"
+    # (§61c) during the evening's incremental banking — stale JTBL_PADS / carve ordering — and every
+    # draft gated against them was recorded as its OWN failure (the resolver's 182 refusals; part of
+    # waves fa-fd). We do NOT rebuild here (that doubled every gate's builds and is the same
+    # incremental trap): we consult the fleet-red set the maintenance R22 sweep already maintains
+    # (.run/fleet_red.txt) plus a session-scoped .run/baseline_red.txt this session wrote after a
+    # clean extract+build audit. A binary on that list refuses its drafts with class BASELINE-RED —
+    # never judged, never blamed — until it is repaired and drops off the list. Escape: GATE_NO_BASELINE_CHECK.
+    if not os.environ.get("GATE_NO_BASELINE_CHECK"):
+        _red = set()
+        for _rf in (".run/baseline_red.txt", ".run/fleet_red.txt"):
+            try:
+                _red |= {l.strip() for l in open(os.path.join(REPO, _rf)) if l.strip()}
+            except OSError:
+                pass
+        if binary in _red:
+            print(f"[gate] SKIP {binary}: on the baseline-RED list (fails its locked SHA at HEAD) — "
+                  f"{len(draft_fns)} draft(s) NOT judged; repair the binary (jtbl_carve/jtbl_pads_fix) "
+                  f"and remove it from .run/baseline_red.txt", file=sys.stderr, flush=True)
+            fo = failed_out or ".run/harvest_failed.txt"
+            with open(os.path.join(REPO, fo), "a") as f:
+                f.write("".join(fn + "\n" for fn in draft_fns))
+            cfp = fo[:-4] + ".classified.txt" if fo.endswith(".txt") else fo + ".classified.txt"
+            with open(os.path.join(REPO, cfp), "a") as f:
+                f.write("".join(f"{fn}\tBASELINE-RED\n" for fn in draft_fns))
+            for fn in draft_fns:
+                try:
+                    backlog.append_record({"name": fn, "binary": binary, "status": "failed", "closeness": None,
+                                           "where_stuck": f"BASELINE-RED: {binary} fails its locked SHA at HEAD; "
+                                                          f"the draft was NOT judged — repair the binary",
+                                           "best_draft": os.path.join(drafts, fn + ".c"), "source": source_tag})
+                except Exception as e:
+                    print(f"[gate] backlog row failed for {fn}: {e!r}", file=sys.stderr)
+            return {"drafts": len(draft_fns), "banked": 0, "propagated": 0, "near": 0,
+                    "failed": len(draft_fns), "verified": [], "baseline_red": True}
 
     # STAGE 0 — gate the RAW drafts before ANY transform touches them (P30 T0a). The SESSION-22
     # reproduction of the carried "ladder destroys good drafts" defect: on one draft set the ladder

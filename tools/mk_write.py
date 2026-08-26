@@ -48,6 +48,15 @@ FLOOR = 100          # a healthy registry is ~5,000 lines; below this it is alre
 
 
 def write_overlays_mk(txt, path=MK, min_ratio=0.8):
+    # R43 (S61): refuse a text that would kill make at PARSE time — one mangled target-variable
+    # line ("...o: JTBL_PADS : JTBL_PADS := ...") fails EVERY build of EVERY binary with
+    # "target pattern contains no '%'", which is strictly worse than any wipe this guard's line-count
+    # floor was built for. A second colon before the ':=' on an armed-object line is never legal.
+    for _ln in txt.splitlines():
+        if _ln.startswith("build/") and _ln.count(":") >= 2 and ":=" in _ln:
+            _head = _ln.split(":=", 1)[0]
+            if _head.count(":") >= 2:
+                raise SystemExit("mk_write: REFUSING a parse-poisoned registry line: %r" % _ln[:120])
     """Replace overlays.mk atomically, refusing any rewrite that collapses it.
 
     Returns the number of lines written. Raises RuntimeError on a refused collapse — callers
