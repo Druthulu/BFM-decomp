@@ -133,9 +133,27 @@ __asm__(
     "nop\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c3", ResetEntryInt);
+/* §295 kernel-trap trampoline: A/B/C dispatch vector in $t2, syscall # in the jr delay slot;
+ * unreachable from C (§179-C) -> file-scope verbatim asm (§265 form 1). Pad nop is load-bearing (stride 0x10). */
+__asm__(".text\n.align 2\n.globl ResetEntryInt\n.ent\tResetEntryInt\n"
+        "ResetEntryInt:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0x00000000,0\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 176\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 24\n"
+        "nop\n"
+        ".set\treorder\n.end\tResetEntryInt\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", HookEntryInt);
+/* §295 kernel-trap trampoline: A/B/C dispatch vector in $t2, syscall # in the jr delay slot;
+ * unreachable from C (§179-C) -> file-scope verbatim asm (§265 form 1). Pad nop is load-bearing (stride 0x10). */
+__asm__(".text\n.align 2\n.globl HookEntryInt\n.ent\tHookEntryInt\n"
+        "HookEntryInt:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0x00000000,0\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 176\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 25\n"
+        "nop\n"
+        ".set\treorder\n.end\tHookEntryInt\n");
 
 void func_8005CF08(void) {
     __asm__ volatile(
@@ -153,7 +171,16 @@ void func_8005CF18() {
     );
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", read);
+/* §295 kernel-trap trampoline: A/B/C dispatch vector in $t2, syscall # in the jr delay slot;
+ * unreachable from C (§179-C) -> file-scope verbatim asm (§265 form 1). Pad nop is load-bearing (stride 0x10). */
+__asm__(".text\n.align 2\n.globl read\n.ent\tread\n"
+        "read:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0x00000000,0\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 176\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 52\n"
+        "nop\n"
+        ".set\treorder\n.end\tread\n");
 
 __asm__(".text\n.align 2\n.globl write\n.ent\twrite\n"
         "write:\n.frame $sp,0,$31\n"
@@ -836,7 +863,16 @@ __asm__(
     "nop\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c3", SysEnqIntRP);
+/* §295 kernel-trap trampoline: A/B/C dispatch vector in $t2, syscall # in the jr delay slot;
+ * unreachable from C (§179-C) -> file-scope verbatim asm (§265 form 1). Pad nop is load-bearing (stride 0x10). */
+__asm__(".text\n.align 2\n.globl SysEnqIntRP\n.ent\tSysEnqIntRP\n"
+        "SysEnqIntRP:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0x00000000,0\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 192\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 2\n"
+        "nop\n"
+        ".set\treorder\n.end\tSysEnqIntRP\n");
 
 __asm__(
     ".text\n"
