@@ -665,6 +665,14 @@ def gate(tag, keep, jobs, run_id=None):
             return 0, []
     t0 = time.time()
     r = sh(f"{PY} tools/sweep_parallel.py --drafts {d} -j {jobs}", timeout=28800, quiet=False)
+    # LOG WHAT THE GATE ACTUALLY DID (P31 S60). sweep_parallel's stdout was captured and dropped,
+    # so a gate showed `reloc_identity -> gating 216` and then THIRTY MINUTES OF SILENCE before its
+    # bank line — no per-binary progress, no phase-A/phase-B split, no worker count. When gates went
+    # from 32 to 67 minutes there was nothing to diagnose from, and I twice drew conclusions about
+    # phase B that the log could not support. A lane that runs unattended must leave evidence.
+    for _ln in (r.stdout or "").splitlines():
+        if _ln.strip() and not _ln.startswith("  ["):        # skip the per-binary chatter
+            log(f"    sweep: {_ln.strip()[:150]}")
     banked = []
     for f in glob.glob(".run/auto/bulk/*.verified.txt"):
         if os.path.getmtime(f) >= t0:

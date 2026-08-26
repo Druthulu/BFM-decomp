@@ -104,7 +104,18 @@ export STRAGGLER_GRACE=700
 # one wave draining and the next ramping. Handing off at 65% keeps 3-4 waves overlapping, so
 # the fleet is always carrying a full ramp somewhere. Stragglers still keep the full 700s
 # grace in the finisher thread — this changes WHEN THE NEXT WAVE STARTS, never what lands.
-export TAIL_DONE_FRAC=0.75
+# TAIL_DONE_FRAC 0.75 -> 0.85 (P31 S60, Drew). Deeper overlap bought concurrency and then
+# started spending it on retries: eight simultaneous waves means near-continuous ramping, and
+# ramps are where throttling bites. Measured at 0.75 with 877 agents: 429s at 26% over the
+# hour and draft completion sliding 94% -> 91% -> 73% -> 47% across eq/er/es/et, against
+# 97-99% completion earlier today at sub-10% 429s. Half of et's cards were being spent for
+# nothing. Fewer waves in flight, same ~500-card uncollapsed draws: trade peak req/min for
+# the number that actually converts.
+# 0.85 overcorrected: the fleet fell to 15 agents / 11 req/min because the drafter parks
+# between waves while the gater drains a deep queue. 0.75 was too deep (26% 429s, completion
+# sliding to 47%), 0.85 too shallow. 0.80 splits it — and the real lever is the GATE, not the
+# overlap: the drafter cannot start a wave the gater has no room for.
+export TAIL_DONE_FRAC=0.80
 # MAX_BINS 160 -> 50 (P31 S60). Wave size was the right lever at 50% conversion (wave dd:
 # 217 banked of 422 gated in 39 min). It is dead weight at 5%: dq banked 8 of 167 gated and
 # took 98 MINUTES of gate to do it, while four drafted waves queued behind it and the free-ox

@@ -8,7 +8,7 @@ while [ ! -e .run/ox_campaign.stop ]; do
   # idle. It matters now because the tells and jtbl QUOTAS deliberately pull cards from binaries
   # outside the ranked gate groups: a measured draw went from ~24 groups to 63, i.e. 63 rebuilds per
   # wave, and at 12 jobs that is five serial batches. Raise this with the quota sizes, not on its own.
-  .venv/bin/python tools/ox_campaign.py --gater --gate-jobs 24 2>&1
+  .venv/bin/python tools/ox_campaign.py --gater --gate-jobs 32 2>&1
   echo "[$(date +%H:%M:%S)] [gater] exited; restarting in 20s"
   sleep 20
 done
