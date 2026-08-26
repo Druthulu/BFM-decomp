@@ -723,7 +723,10 @@ INCLUDE_ASM("asm/nonmatchings/800c3", SysEnqIntRP);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", SysDeqIntRP);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E188);
+void func_8005E188(s32 arg0, s32 arg1, s8 arg2) {
+    *(s32*)(arg0 + 0x28) = arg1;
+    *(u8*)(arg0 + 0x34) = arg2;
+}
 
 void func_8005E194(void *arg0, u8 arg1, u32 arg2, u8 arg3) {
     *(u8 *)((u8 *)arg0 + 0x36) = arg1;
