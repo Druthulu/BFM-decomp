@@ -150,7 +150,17 @@ __asm__(
     ".end\tfunc_8006252C\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c2_2", func_800625A4);
+extern void func_8005CF08(void);
+extern void func_8005CF18(void);
+extern s32 SysDeqIntRP(s32 priority, void *intr);
+extern unsigned char D_80078D08[];
+
+s32 func_800625A4(void) {
+    func_8005CF08();
+    SysDeqIntRP(1, &D_80078D08);
+    func_8005CF18();
+    return 1;
+}
 
 extern u8 *D_80072A28;
 
