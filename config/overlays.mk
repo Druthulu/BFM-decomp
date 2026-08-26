@@ -3882,7 +3882,7 @@ build/src/ov_SC05_010/ov_SC05_010_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (
 build/src/ov_SC05_010/ov_SC05_010_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC05_010/ov_SC05_010_jr_8016AB6C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC05_010/ov_SC05_010_jr_80178D40.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x178
-build/src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.o: JTBL_PADS := 0  # §8e pads — 1 table(s), byte-proven by jtbl_pads_fix
+build/src/ov_SC05_010/ov_SC05_010_jr_8017C8D0.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC05_010/ov_SC05_010_o0c.o: JTBL_PADS := 0,4,4,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x38,+0xa8,+0x118
 ov_SC05_010_CHECK_SHA  := config/check.ov_SC05_010.sha
 ov_SC05_010_SYMBOLS    := config/symbols.ov_SC05_010.txt
