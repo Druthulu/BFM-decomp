@@ -419,3 +419,46 @@ not the belief.
   `docs/calibration.md`, `.run/baseline_red.txt` = `.run/fleet_red.txt` (5). Tools:
   `ls tools/decl_from_use.py` (exists; commit:3008); no dup-def-demotion tool matches
   `demot|dupsym|dup_def` in tools/.
+
+---
+
+## Addendum — 2026-08-26, after the S61 idiom distill landed (§294–§300)
+
+*Append-only; the body above is unmodified. The distill (15 byte-verified additions from 99
+candidates; 3+1 refuted) landed after this document was written. Two sections were checked
+against the open pool; both were verified against the tree before any number below was moved.*
+
+**§295 (kernel-trap stubs) — moves 4 fns from drafting to deterministic.** src/800c3.c still
+carries 24 INCLUDE_ASM lines; 23 are in class B-MAIN (the 24th, func_8005CE38, is one of
+main's 2 data blobs, outside matchable). By atlas nins, only **4 of the 23 are ≤6-ins
+kernel-trap-template members — ResetEntryInt, HookEntryInt, read, SysEnqIntRP (4 ins each,
+16 ins total)** — bankable by the §295 verbatim-asm template (pad-nop and addiu-spelling rules
+included) as a deterministic sweep; fold into plan step 1's zero-token batch. The other **19
+(1,660 ins, 21–223 ins each) are real libapi functions** — ordinary B-MAIN drafting work, NOT
+template food; do not let the "~22 stubs" phrasing of `docs/psyq-worklist.md:72` route them to
+the blob lane. Headline effect if all 4 bank: deterministic-first mass 1,002 → 1,006 fns
+(73,920 → 73,936 ins); drafting mass 1,518 → 1,514 (117,636 → 117,620). Class-table totals
+are otherwise unchanged.
+
+**§296 (frame check outranks the lever) — quantified over the whole open pool: the
+contamination is 11 fns / 913 ins, ALL in main; the overlay classes are clean.** A regex scan
+of every open member's target `.s` for the §296 tell (`\bjr\s+\$?ra\b` absent ⇒
+fragment-suspect) flags **11 of 2,520**: the 4 kernel traps above (they end `jr $t2` — §295
+owns them), the 4 `SYS_OBJ_*` cousins of the cards §296 already banked (SYS_OBJ_1034 /
+202C / 2264 / 2CDC), GsSortFastBg, func_8002B0B4, func_8005A870. **0 of the 2,369 non-main
+open members fire the tell** — M-DRAFT-extend-tell's 94, K's 920, H's 86 are measured clean,
+so §296 does NOT shrink the overlay drafting pool; the m0a fragment cards it describes are
+already banked and were never in this document's open set. Caveats: this grep is one of
+§296's several signals (a fallthrough-TAIL fragment that ends in `jr $ra` — the SYS_OBJ_1AF0
+boundary case — is invisible to it, and §296 says that shape is legitimately C anyway); and
+the 7 non-§295 suspects still need the per-fn frame read before routing (blob lane vs pinned
+C). Plan amendments: step 5's draw filter gains the §296 frame check as card metadata
+(seconds per card, prevents the +2..+7 phantom-teardown plateau class); step 7's main sweep
+routes the 7 suspects through the frame read FIRST. Instrument note for re-derivers (R40):
+the first scan false-flagged 2,520/2,520 because a literal `'jr $ra'` match never hits the
+padded column format (`jr         $ra`) — use the regex
+(`.run/frontier_s61/fragscan2.py`, suspects in `fragment_suspects.json`).
+
+Nothing else in §294–§300 moves a number or step here: §297–§299 are drafting idioms (they
+raise wave quality, priced in via the warm-start assumption), and the refuted §300-R2
+("maspsx rejects hex in `__asm__`") corrects a rule this document never relied on.
