@@ -683,10 +683,13 @@ CC1FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 # spans): it replaces cc1's per-table `.align 3` with the ORIGINAL's exact pad bytes, so a merged
 # span reproduces the original packing regardless of section-start parity. Unset => stage absent,
 # pipeline byte-identical to pre-§8e.
+# MODULES (P31 S62 T3a): every md_* object runs the filter in --derive mode instead — the pads are
+# derived at build time from the retail island + the maspsx stream (cookbook §303), so no spec is
+# stored and nothing can drift. A stored JTBL_PADS still wins if one is set.
 build/src/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@echo "  CC      $@"
-	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS)) | $(AS) $(ASFLAGS) -o $@
+	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS),$(if $(filter md_%,$(BINARY)),| $(VENV_PY) tools/jtbl_rodata_pads.py --derive $(BINARY) --tu $(notdir $*))) | $(AS) $(ASFLAGS) -o $@
 
 # Per-module optimization override (SETUP §5.5 — per-module compiler mixing). The boot/
 # main/game-mode-dispatch module (src/boot.c, vram 0x80010000-0x800123F0) was compiled at

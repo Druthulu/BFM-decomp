@@ -436,6 +436,16 @@ def _jtbl_prep_one(fn):
             if _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary]).returncode:
                 print('  [jtbl] extract-after-isolate FAILED %s' % fn); continue
             r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
+        elif r.returncode and any(w in out for w in _ISLAND_WALLS) and a.binary.startswith('md_'):
+            # MODULE ISLAND TABLES NEED NO CARVE AT ALL (P31 S62 T3a, cookbook §303). The Makefile
+            # runs jtbl_rodata_pads --derive for every md_* object: the pads (lead/trailing zero
+            # words) are derived at build time from the retail island + the emission stream, so a
+            # matched body's table lands in place inside the main TU object — interior tables
+            # included (the old §260 peel was END-adjacent only). Byte-proven: md_SC03_076
+            # func_801F0A9C (9 entries + trailing pad) + func_801F0F28, sha 9a165e36…. The gate's
+            # only job here is to NOT refuse: leave the splice, skip isolate/split, let the build judge.
+            print('  [jtbl] module island table %s: handled by jtbl_rodata_pads --derive at build time' % fn)
+            r = subprocess.CompletedProcess(args=[], returncode=0)
         elif r.returncode and any(w in out for w in _ISLAND_WALLS):
             # THE §260 ISLAND SPLIT, AT GATE TIME (P31 S59). An md_* module binds its rodata
             # island at offset 0 to its own code subseg; a table in that island cannot be tail-

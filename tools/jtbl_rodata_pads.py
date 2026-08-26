@@ -110,13 +110,185 @@ def run(pads, lines, out):
                  f"spec(s) given — table-count drift vs the carve")
 
 
+# ---------------------------------------------------------------------------------------------
+# --derive <binary> (P31 S62 T3a): the MODULE path. No stored spec: the pads are DERIVED at build
+# time from the retail island + the stream (R33 — nothing to drift). Items in rodata emission order:
+#   .include "….s"   a stub's/blob's block, span read from its `/* off vaddr … */` comments (anchor)
+#   D_XXXXXXXX:       C const data, start = the address in its name (anchor), size from directives
+#   .align 3 + $L     a C jump table: lead 4 iff the retail word at the position is zero, N in-range
+#                     code words, then trailing zeros up to the next anchor (or the next non-zero)
+# A walk that misses an anchor refuses with the offset — a CARVE-DRIFT verdict at build time.
+# ---------------------------------------------------------------------------------------------
+import os, struct
+
+def _module_target(binary):
+    y = open("config/splat.%s.yaml" % binary).read()
+    vram = int(re.search(r"^\s*vram:\s*(0x[0-9A-Fa-f]+)", y, re.M).group(1), 16)
+    tgt = re.search(r"^\s*(?:target_)?path:\s*(\S+)", y, re.M).group(1)
+    return vram, open(tgt, "rb").read()
+
+def _s_rodata_span(path):
+    """[lo, hi) vaddr span of everything the included .s emits into .rodata (comments carry vaddr)."""
+    lo, hi, in_ro = None, None, False
+    for ln in open(path, errors="replace"):
+        st = ln.strip()
+        if st.startswith(".section"):
+            in_ro = ".rodata" in st or ".rdata" in st
+            continue
+        if not in_ro:
+            continue
+        m = re.match(r"/\*\s*[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})(?:\s+([0-9A-Fa-f]+))?\s*\*/\s*(\S+)\s*(.*)$", st)
+        if m:
+            a = int(m.group(1), 16)
+            if m.group(2):
+                n = len(m.group(2)) // 2
+            else:
+                d, rest = m.group(3), m.group(4)
+                if d in _DIRSIZE:
+                    n = _DIRSIZE[d] * len([x for x in rest.split(",") if x.strip()])
+                elif d in (".ascii", ".asciz"):
+                    body = rest.strip()
+                    txt = body[1:-1].encode().decode("unicode_escape") if body.startswith('"') else ""
+                    n = len(txt) + (1 if d == ".asciz" else 0)
+                else:
+                    continue
+            lo = a if lo is None else min(lo, a); hi = a + n if hi is None else max(hi, a + n)
+    return lo, hi
+
+_DIRSIZE = {".word": 4, ".long": 4, ".half": 2, ".short": 2, ".byte": 1}
+
+def _items(lines):
+    """rodata items in emission order: ('s', path) | ('cdata', addr, size, align) | ('ctable', n)."""
+    items, in_ro, k = [], False, 0
+    cur = None       # current cdata: [addr, size, align]
+    pend_align = 0
+    while k < len(lines):
+        st = lines[k].strip(); k += 1
+        if st == ".section .rodata" or st == ".rdata":
+            in_ro = True; cur = None; continue
+        if in_ro and (st == ".text" or st.startswith(".section")):
+            in_ro = False; cur = None; continue
+        m = re.match(r'\.include\s+"([^"]+)"', st)
+        if m:                      # a stub's .s switches sections itself — record it in ANY context
+            if m.group(1).endswith(".s") and "/nonmatchings/" in m.group(1):
+                items.append(("s", m.group(1)))
+            cur = None; continue
+        if not in_ro or not st:
+            continue
+        if st.startswith(".align"):
+            n = int(st.split()[1])
+            nxt = next((l.strip() for l in lines[k:] if l.strip()), "")
+            if n == 3 and LABEL_RE.match(nxt):
+                cnt, j = 0, k + 1
+                while j < len(lines) and WORD_RE.match(lines[j].strip()):
+                    cnt += 1; j += 1
+                items.append(("ctable", cnt)); cur = None; k = j; continue
+            pend_align = 1 << n; cur = None; continue
+        m = re.match(r"^(D_[0-9A-Fa-f]{8}):$", st)
+        if m:
+            cur = [int(m.group(1)[2:], 16), 0, pend_align]; pend_align = 0
+            items.append(("cdata", cur)); continue
+        d = st.split()[0]
+        if cur is not None and d in _DIRSIZE:
+            cur[1] += _DIRSIZE[d] * len([x for x in st[len(d):].split(",") if x.strip()])
+        elif cur is not None and d in (".ascii", ".asciz"):
+            body = st[len(d):].strip()
+            txt = body[1:-1].encode().decode("unicode_escape") if body.startswith('"') else ""
+            cur[1] += len(txt) + (1 if d == ".asciz" else 0)
+        elif cur is not None and d in (".space", ".skip"):
+            cur[1] += int(st.split()[1])
+    return items
+
+def _tu_piece(binary, tu):
+    """(start, end) vaddr of the yaml `.rodata` piece bound to TU — the frame for a TU whose rodata
+    stream has no anchor before its first C table (an isolated §260 object)."""
+    if not tu:
+        return None
+    y = open("config/splat.%s.yaml" % binary).read()
+    vram = int(re.search(r"^\s*vram:\s*(0x[0-9A-Fa-f]+)", y, re.M).group(1), 16)
+    segs = [(int(a, 16), k, n) for a, k, n in re.findall(r"^\s*- \[0x([0-9A-Fa-f]+), (\S+), (\S+?)\]", y, re.M)]
+    for i, (a, k, n) in enumerate(segs):
+        if k == ".rodata" and n == tu:
+            end = segs[i + 1][0] if i + 1 < len(segs) else None
+            return vram + a, (vram + end) if end is not None else None
+    return None
+
+def derive(binary, lines, tu=None):
+    vram, raw = _module_target(binary)
+    lo_code, hi_code = vram, vram + len(raw)
+    word = lambda a: struct.unpack_from("<I", raw, a - vram)[0]
+    items = _items(lines)
+    piece = _tu_piece(binary, tu)
+    pos, spec = None, []
+    def anchor_start(it):
+        if it[0] == "s":
+            return _s_rodata_span(it[1])[0]
+        if it[0] == "cdata":
+            return it[1][0]
+        return None
+    for idx, it in enumerate(items):
+        if it[0] == "s":
+            lo, hi = _s_rodata_span(it[1])
+            if lo is None:
+                continue
+            if pos is None:
+                pos = lo
+            if lo != pos:
+                sys.exit("jtbl_rodata_pads --derive %s: %s starts at 0x%X but the walk is at 0x%X "
+                         "(%+d) — island layout drift" % (binary, os.path.basename(it[1]), lo, pos, lo - pos))
+            pos = hi
+        elif it[0] == "cdata":
+            addr, size, al = it[1]
+            if pos is None:
+                pos = addr
+            ap = pos if al <= 1 else (pos + al - 1) // al * al
+            if ap != addr:
+                sys.exit("jtbl_rodata_pads --derive %s: C data D_%08X expected at 0x%X (walk 0x%X, align %d)"
+                         % (binary, addr, ap, pos, al))
+            pos = addr + size
+        else:
+            n = it[1]
+            if pos is None:
+                if piece is None:
+                    sys.exit("jtbl_rodata_pads --derive %s: a C jump table precedes every anchor and "
+                             "no yaml .rodata piece is bound to TU %r — cannot place it" % (binary, tu))
+                pos = piece[0]
+            lead = 4 if word(pos) == 0 else 0
+            pos += lead
+            for e in range(n):
+                w = word(pos)
+                if not (lo_code <= w < hi_code):
+                    sys.exit("jtbl_rodata_pads --derive %s: C table entry %d at 0x%X is %08X, not a code "
+                             "address — island layout drift" % (binary, e, pos, w))
+                pos += 4
+            nxt = next((anchor_start(j) for j in items[idx + 1:] if anchor_start(j) is not None), None)
+            if piece and piece[1] is not None and (nxt is None or piece[1] < nxt):
+                nxt = piece[1]
+            trailing = 0
+            while (nxt is None or pos < nxt) and pos + 4 <= hi_code and word(pos) == 0:
+                trailing += 1; pos += 4
+            spec.append((lead, trailing))
+    sys.stderr.write("jtbl_rodata_pads --derive %s: %s\n" % (binary, ",".join(
+        "%d%s" % (l, ("t%d" % t) if t else "") for l, t in spec) or "(no C jump tables)"))
+    return spec
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--pads", required=True,
+    ap.add_argument("--derive", metavar="BINARY",
+                    help="MODULE path: derive the pads from the retail island + this stream (no stored spec)")
+    ap.add_argument("--tu", help="with --derive: the TU name (its yaml .rodata piece frames an anchorless stream)")
+    ap.add_argument("--pads", required=False,
                     help="comma list, one token per rodata jump table in emission order: the pad "
                          "BYTES before the table (0|4), optionally t<n> = n trailing zero words")
     a = ap.parse_args()
+    if a.derive:
+        lines = sys.stdin.readlines()
+        run(derive(a.derive, lines, a.tu), lines, sys.stdout)
+        return
+    if a.pads is None:
+        sys.exit("jtbl_rodata_pads: give --pads SPEC or --derive BINARY")
     run(parse_spec(a.pads), sys.stdin, sys.stdout)
 
 
