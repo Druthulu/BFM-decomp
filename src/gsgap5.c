@@ -1,6 +1,13 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/gsgap5", SetVertex0);
+void SetVertex0(long *r0)
+{
+    __asm__ volatile(
+        "lwc2 $0, 0( %0 );"
+        "lwc2 $1, 4( %0 )"
+        :
+        : "r"(r0));
+}
 
 void SetVertex1(long *r0)
 {
