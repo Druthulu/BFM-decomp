@@ -3495,7 +3495,73 @@ void func_8018CD04(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8018C694", func_8018CDB0);
+extern void func_80029124(s32 a0, s32 a1);
+extern s32 func_800291B4(s32 arg);
+extern s32 func_800D0FE0(s32 a0);
+extern void func_800D0F0C(s32 a0, s32 a1);
+
+extern s16 D_8010EDEC;
+extern u8 D_8010EDF1;
+extern s32 D_801E9B9C;
+extern s32 D_801E9BB0;
+extern s32 D_801E9CE0;
+
+extern s16 D_801ED838;
+
+void func_8018CDB0(void) {
+    s16 *p;
+    s32 *q;
+    s32 *r;
+    s16 i;
+
+    p = &D_801ED838;
+    p[0] = 0;
+    i = 0;
+    q = (s32 *)(p + 4);
+    r = (s32 *)(p + 2);
+
+    for (; i < 0xC; i++) {
+        s32 slot = i + 0x2F;
+        s32 ret;
+        register s32 tmp __asm__("$2");
+        register s32 t __asm__("$5");
+        register s32 rb __asm__("$6");
+        s16 flags;
+        s32 m;
+
+        ret = func_800291B4(slot) & 0xFF;
+        if (ret == 0) {
+            continue;
+        }
+        tmp = (ret << 1) + ret;
+        t = tmp << 2;
+        flags = *(s16 *)((u8 *)&D_8010EDEC + t);
+        if (flags < 0) {
+            rb = *(u8 *)((u8 *)&D_8010EDF1 + t);
+            m = rb & 0xFF;
+            if (flags & 0x4000) {
+                q[0] = (&D_801E9B9C)[ret];
+                q[1] = (&D_801E9BB0)[ret];
+                func_80029124(m, 1);
+                func_800D0FE0(slot);
+                ((s16 *)q)[-4] = 2;
+                return;
+            } else {
+                register s32 sc __asm__("$4");
+                register s32 d __asm__("$2");
+                sc = slot;
+                __asm__("" : "=r"(sc) : "0"(sc));
+                d = rb - 0x14;
+                __asm__("" : "=r"(d) : "0"(d));
+                *(s32 *)r = (&D_801E9CE0)[d >> 1];
+                ((void (*)(s32))func_800D0F0C)(sc);
+                ((s16 *)r)[-2] = 1;
+                return;
+            }
+        }
+    }
+}
+
 
 
 

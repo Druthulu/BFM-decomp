@@ -6065,7 +6065,18 @@ s32 impl_801833D4(s32 a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183564);
+void func_80183564(s32 a0, s16 *a1)
+{
+    extern s32 func_80183A28(u8 *a0);
+    extern void func_801835B0(s32 a0);
+
+    *(u16 *)(a0 + 0xE4) = *(u16 *)(a1 + 0);
+    *(u16 *)(a0 + 0xE6) = *(u16 *)(a1 + 1);
+    *(u16 *)(a0 + 0xE8) = *(u16 *)(a1 + 2);
+    func_80183A28((u8 *)a0);
+    func_801835B0(a0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801835B0);
 

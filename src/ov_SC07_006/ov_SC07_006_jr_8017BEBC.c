@@ -4341,7 +4341,82 @@ void func_8017F3D4(s32 arg0, s32 arg1) {
 
 INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017F5D4);
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_8017F9AC);
+#ifndef BFM_ENGINE_TYPES_H
+/* ---- PROBE BRANCH (standalone cc1 only): engine_types.h not in scope here, so
+ *      provide the shared types + helper under their real names. Inside the real
+ *      TU the guard is already defined (engine_core.h -> engine_types.h:1-2),
+ *      this branch vanishes, and the TU's own definitions serve
+ *      (engine_types.h:998/:2669-2675, morph_lerp :4227) -- no redefinition. ---- */
+
+
+
+
+static inline void morph_lerp(Morph_8017DC1C *o, SVECTOR2 *b, SVECTOR2 *a, s32 t)
+{
+    SVECTOR2 *d;
+    SVECTOR2 *pa;
+    SVECTOR2 *pb;
+    s32 i;
+
+    if (o->mode == 1) {
+        d = (SVECTOR2 *)o->dst;
+    } else {
+        d = (SVECTOR2 *)((u32 *)&o->dst + (o->dst >> 2));
+    }
+    i = o->n;
+    pb = b;
+    pa = a;
+    for (; i != 0; i--) {
+        d->vx = pb->vx + (((pa->vx - pb->vx) * t) >> 12);
+        d->vy = pb->vy + (((pa->vy - pb->vy) * t) >> 12);
+        d->vz = pb->vz + (((pa->vz - pb->vz) * t) >> 12);
+        d++;
+        pb++;
+        pa++;
+    }
+}
+#endif /* BFM_ENGINE_TYPES_H */
+
+/* Body follows the banked structural twin func_80181924 (this TU, src:4633):
+ * ALL externs at BLOCK scope (cookbook §103 -- a file-scope extern here would
+ * constrain every later function in the TU), shared type names, split blend
+ * statements. b/a pairing CALIBRATED against the twin's own banked C + asm
+ * (asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC/func_80181924.s):
+ * banked C morph_lerp(D_801BF5B4, D_801C1E80, D_801C1E90, t) assembles
+ * E80->$a3 / E90->$a2, and morph_lerp(D_801BF5B8, D_801C1E84, D_801C1E94, x)
+ * assembles E84->$a2 / E94->$a1 -- i.e. the FIRST-listed pointer (b) always
+ * occupies the HIGHER-numbered arg register of the pair, the second (a) the
+ * lower, whichever physical registers are free. This target loads the
+ * E40-family into $a2 and the E50-family into $a1 (blk1 :11-18; blk2 E44/E54
+ * :88-92; blk3 E48/E58 :162-166; blk4 cse-folded E4C :227-232), so b =
+ * E40-family, a = E50-family -- the same pairing as the matched siblings
+ * func_8017DC1C (src:4292-94) and the twin. */
+void func_8017F9AC(s32 t, void *a1)
+{
+    s32 x;
+    extern s32 func_8004787C(s32 a0);
+    extern SVECTOR2 *D_801C1E40;
+    extern SVECTOR2 *D_801C1E44;
+    extern SVECTOR2 *D_801C1E48;
+    extern SVECTOR2 *D_801C1E4C;
+    extern SVECTOR2 *D_801C1E50;
+    extern SVECTOR2 *D_801C1E54;
+    extern SVECTOR2 *D_801C1E58;
+    extern Morph_8017DC1C *D_801BF508;
+    extern Morph_8017DC1C *D_801BF50C;
+    extern Morph_8017DC1C *D_801BF510;
+    extern Morph_8017DC1C *D_801BF514;
+
+    morph_lerp(D_801BF508, D_801C1E40, D_801C1E50, t);
+    x = func_8004787C(*(s16 *)((u8 *)a1 + 0xFC));
+    x += func_8004787C(*(s16 *)((u8 *)a1 + 0xFE) + 0x100) >> 4;
+    morph_lerp(D_801BF50C, D_801C1E44, D_801C1E54, x);
+    x = func_8004787C(*(s16 *)((u8 *)a1 + 0xFC));
+    x += func_8004787C(*(s16 *)((u8 *)a1 + 0xFE) + 0x200) >> 4;
+    morph_lerp(D_801BF510, D_801C1E48, D_801C1E58, x);
+    morph_lerp(D_801BF514, D_801C1E4C, D_801C1E4C, t);
+}
+
 
 #include "common.h"
 

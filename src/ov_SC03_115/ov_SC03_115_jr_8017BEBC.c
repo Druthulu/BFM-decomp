@@ -4360,7 +4360,21 @@ void func_8017E8D0(s32 a0)
 
 INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017E998);
 
-INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017EA70);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern char D_8018ABB0;
+
+s32 aF8017EA70(s32 arg0) __asm__("func_8017EA70");
+s32 aF8017EA70(s32 arg0) {
+    if (*(s32 *)(arg0 + 0xDC) & 1) {
+        return 0;
+    }
+    if (func_8012D5E4(arg0, (s32)&D_8018ABB0, (s32)&D_8018ABB0 + 8, 0x13) != 1) {
+        return 0;
+    }
+    *(s32 *)(arg0 + 0xDC) |= 1;
+    return 1;
+}
+
 
 typedef struct {
     s32 a;
