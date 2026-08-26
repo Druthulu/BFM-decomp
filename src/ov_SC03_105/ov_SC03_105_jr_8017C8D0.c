@@ -4159,7 +4159,51 @@ s32 func_8017FA90(s32 a0, s16 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017FAE8);
+#include "common.h"
+
+extern void func_8012EFB8(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+typedef struct { s16 vx, vy, vz, pad; } SVec_8017FAE8;
+
+void func_8017FAE8(s32 a0) {
+    SVec_8017FAE8 pos;
+    SVec_8017FAE8 out;
+    register s32 base __asm__("$16");
+    s32 q;
+
+    pos.vx = *(s16 *)(a0 + 0x6);
+    pos.vy = *(s16 *)(a0 + 0xA);
+    pos.vz = *(s16 *)(a0 + 0xE);
+    ((void (*)(void *, void *))func_8012EFB8)(&pos, &out);
+
+    base = 0x40;
+
+    if (out.vx < 0) {
+        if (-out.vx >= 0xA1) {
+            return;
+        }
+    } else {
+        if (out.vx >= 0xA1) {
+            return;
+        }
+    }
+
+    if (out.vy < 0) {
+        if (-out.vy >= 0x79) {
+            return;
+        }
+    } else {
+        if (out.vy >= 0x79) {
+            return;
+        }
+    }
+
+    q = out.vx * 63 / 160;
+    q = base + q;
+    func_8002D4C8(0x72B, ((q | 0x2000) & 0xFFFF));
+}
+
 
 
 extern void (*D_8018E270[])(void);
