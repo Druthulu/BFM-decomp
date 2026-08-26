@@ -10,6 +10,7 @@ Copy back with `cp tools/lanes/*.sh .run/` before launching.
 | `gater.sh` | reloc pre-filter → gate → commit → harvest → ledger | safe to kill/restart at will |
 | `maintenance.sh` | the free A-prop sibling lane | triggers on 150+ newly banked functions, not a timer |
 | `stallguard.sh` | 60s: revive dead lane shells, kill agents silent >20min, kill gates >90min | the only thing that works at 3am |
+| `resolver_lane.sh` | **(P31 S61)** the integration-resolver lane: re-judges the ledgers' closeness-0 / shape-MATCH stock at the real TU (`tools/integration_resolver.py`), stages, gates, commits — zero tokens | holds `.run/auto/draw.lock` for judge+gate (rtu reads TUs a gate splices into); not yet in stallguard's revive list — restart by hand |
 
 Start: `setsid nohup .run/<lane>.sh >> .run/<lane>.log 2>&1 </dev/null &`
 Stop everything: `touch .run/ox_campaign.stop`
