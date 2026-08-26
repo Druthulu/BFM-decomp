@@ -2397,3 +2397,25 @@ a fresh resolver pass to bank the 32 tail + 25 md_ island drafts through the off
 module-island/plumbing, now covered. §304: md_MAIN_011/func_800D04F4 banked by defining its own
 rodata strings in the C body (the resolver's PLUMBING class). A fresh resolver pass is running to
 bank the 32 tail + 25 module-island drafts through the official gate.
+
+**T3 DONE — carve/-O0/module tooling; the resolver's whole carve-lane stock drained to a named
+residue.** Deterministic engines shipped (all byte-proven, cookbook §303–§305): module island
+pads DERIVED at build time (`jtbl_rodata_pads --derive`, Makefile-wired for every md_* object —
+island-pads/island-blocked dissolved, 70/70 modules green through it); the -O0 region `o0d` on
+ov_SC03_118/119; self-defining rodata (§304); and the gate-time CARVE-REFUSED class autopsied
+28/28 into six deterministic sub-classes with their fixes in `jr_isolate_all` (mangled name,
+glued DEFINE carrier, attribute typedefs, leading-jr cut), `jtbl_carve` (post-isolation BOTH →
+tail), `mk_write` (block-merge writes, conflict refusal) and `harvest_verify` (block-scoped mk
+restore) — the overlays.mk race between parallel gates closed at the root. Type lift: Block4,
+Blk4_E960, Rec80182744, MATRIX_80188114, D80190448_t → engine_types.h (fleet 213/213 after).
+Yield this task: resolver pass 54 banks + §304 1 + md_SC03_076 probe 2 + isolate-unblocked 9 +
+lift-unblocked 3 + family 3 + attribute-typedef 3 = **75 banks**; T2 held 39; T1 6 → session
+**2,517 → 2,397 stubs (−120), 98.5% instr / 96.8% distinct**. Fleet sweeps today: #3 213/213
+(14:52), #5 213/213 after the lift (15:25); #6 running as T3's close proof.
+Residue (each an individual diagnosis, not a class): 7 carve-lane drafts (ov_SC03_029/func_80186A34,
+ov_SC01_005+006/func_8017F2D4 table-bearing, ov_SC03_108/func_8016AE5C, ov_SC07_000/func_8017ECB4,
+ov_SC06_011/func_8017EEEC, ov_SC06_029 ×3) + 6 decl-conflict CC1/PLUMBING drafts → the resolver's
+next pass / T6. Instrument lessons of the task: a stale classification file re-labels every fn
+"CARVE-REFUSED" until re-gated (verify from the gate, not the ledger); an autopsy script without
+its scratch dir leaves TUs spliced and `corpus` then reads them as banked (R40 twice tonight);
+never read `asm/` while a sweep's extract-all runs.

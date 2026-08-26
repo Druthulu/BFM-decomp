@@ -520,3 +520,17 @@ Yield: **red list 5 → 0**; the 40 held resolver drafts gated **39/40** (7+4+9+
 already banked by propagation); the 241 held fns re-enter their natural classes; class A is
 dissolved. Commits `commit:3084 … commit:3093`. The fleet-wide R22 proof (clean → extract-all →
 check-all, GREEN count) runs next and is quoted in CURRENT_PHASE.md.
+
+## Addendum 4 — 2026-08-26 (S62), plan step 3 executed: classes E/F/J are engines now, not walls
+
+Module island tables (the md_ share of class E) need no carve at all: `jtbl_rodata_pads --derive`
+computes lead/trailing pads at build time from the retail island (§303), wired for every md_*
+object — `island-pads` (16) and `island-blocked` (9) in the resolver stock were pads, not peels.
+The -O0 island on ov_SC03_118/119 is split (`o0d`, class F's overlay members); the five md_MAIN
+"F" members were never -O0 (func_800D0C50 matches at both levels) — their rejections were the
+module-island/plumbing classes above. Class J's "CARVE-REFUSED" (28 of the 57 non-red staged)
+decomposed 28/28 into six deterministic defects (§305) — none a carve; with the fixes the
+resolver stock drained: 54 + 20 further banks from the same stage dirs, 7 left as individual
+diagnoses. Fleet: 2,397 stubs, 98.5% instr, 96.8% distinct at T3 close (sweep #6 count in the
+phase log). What this changes in §4: step 5's waves can now target md_ switch functions and
+table-bearing overlay drafts without a "carve wall" bucket; step 6's H/I/M walls are unchanged.
