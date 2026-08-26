@@ -2196,3 +2196,11 @@ and byte-checked; the tree is at stable HEAD red). It stays on the red list, ski
 nothing — a fresh-eyes day-session surgery. The general lesson repeats §61c with a new edge:
 INCREMENTALLY-GREEN HIDES EXTRACT ROT — a periodic `make extract` sweep per binary (not just
 check-all builds) would have dated defect (a) precisely.
+
+**DeepSeek push paused by a KEY CAP, not the budget (10:4x, R40-corrected):** the OpenRouter key
+carries a $60 LIFETIME limit; usage hit $60.21 mid-ds2 and every request 403s ("Key limit
+exceeded (total limit)") while the ACCOUNT still holds ~$10.6 credit. ds1: 1 banked / 29 gated /
+59 drafts (~$1.8; the hardest population). ds2: 28/106 drafted before the cap — parked and gating
+free through the main lane regardless. Resume = raise the key's limit (or a new key in .env), then
+`.run/resolver/probe/ds2_resume.sh` (pre-flight-probed, R43). Two wrong theories were burned en
+route and are corrected in-line: resumed-turn budgets (real but minor) and a generic harness fault.
