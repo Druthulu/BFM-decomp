@@ -4202,7 +4202,41 @@ void func_8017D9CC(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017DB64);
+typedef struct {
+    s16 vx, vy, vz;
+} UVec_8017DB64;
+
+void func_8017DB64(int param_1)
+{
+    extern s16 D_80193344;
+    extern s32 D_8019334C;
+
+    UVec_8017DB64 v;
+    int p;
+    s32 ptr;
+    u16 *o;
+
+    p = *(int *)(param_1 + 0x20);
+    o = (u16 *)param_1;
+    v.vy = 0;
+    v.vx = 0;
+    v.vz = o[0x16];
+    func_800139C8(*(short *)(p + 0x12) = *(unsigned short *)(p + 0x12) + o[0x17], &v, &v);
+
+    o[3] = o[9] + v.vx;
+    o[7] = o[0xD] + v.vz;
+    o[5] = o[5] + o[0xB];
+    ptr = D_8019334C;
+    o[8] = o[8] + *(unsigned short *)ptr;
+    o[9] = o[9] - o[8];
+    o[0xC] = o[0xC] + *(unsigned short *)(ptr + 2);
+    o[0xD] = o[0xD] - o[0xC];
+
+    if (D_80193344 < *(short *)(param_1 + 0xA)) {
+        o[1] = o[1] + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017DC54);
 

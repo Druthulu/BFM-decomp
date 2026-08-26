@@ -5327,7 +5327,38 @@ s32 arg0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_80181CFC);
+#include "common.h"
+
+extern s32 *D_80126B78;
+extern u8 D_8019E1F8[];
+extern u8 D_801152A8[];
+
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+/* Def-side proto escape (cookbook §124 / §37, wave-metrics func_8017EF54
+ * precedent): this TU already declares 'extern void func_80181CFC(s32,s32);'
+ * above, but both asm exits write $v0, so the byte-true definition returns
+ * s32. Define under the private C name aF80181CFC with an __asm__ label
+ * binding the real symbol -- no in-TU conflicting-types error, emitted
+ * symbol unchanged, sibling TUs unaffected. */
+s32 aF80181CFC(s32 arg0, s32 arg1) __asm__("func_80181CFC");
+s32 aF80181CFC(s32 arg0, s32 arg1) {
+    s32 buf1[2];
+    s32 buf2[2];
+
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)D_8019E1F8, (s32)buf1);
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)(D_8019E1F8 + 8), (s32)buf2);
+    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf1, (s32)buf2) != 0) {
+        s32 var = (*(u16 *)(arg0 + 0x70) & 0xF) != 0 ? 0x2001 : 1;
+
+        func_8012F568(1, var, *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12), arg1, (s32)buf2, (s32)D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+
 
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
 typedef struct {

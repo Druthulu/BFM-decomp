@@ -3410,7 +3410,49 @@ void func_80185A00(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80184CF8", func_80185AC0);
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_80185AC0(void) {
+    register s32 a0v __asm__("$4");
+
+    extern u8 D_801C6A0C[];
+    extern u8 D_801C76E4[];
+    extern s32 D_801AFA20[];
+    extern s32 D_801AFA30[];
+    s32 a0 = a0v;
+    s32 flags;
+
+    flags = *(s32 *)(a0 + 0xE0);
+    if (flags & 4) {
+        goto L_bit4;
+    }
+    if (flags & 0x800) {
+        *(u16 *)(a0 + 2) = 0xE;
+        func_8012A828(a0, D_801C76E4);
+        return;
+    }
+    if (flags & 1) {
+        goto L_tbl20;
+    }
+    if (*(s32 *)(a0 + 0xD0) == 0) {
+        goto L_tbl20;
+    }
+    *(u16 *)(a0 + 2) = 0xE;
+    *(u16 *)(a0 + 0x34) = 2;
+    *(s32 *)(a0 + 0x1C) = 0x200;
+    func_8012A828(a0, D_801C6A0C);
+    return;
+
+L_tbl20:
+    *(u16 *)(a0 + 2) = D_801AFA20[*(u16 *)(a0 + 0x70) & 0xF];
+    return;
+
+L_bit4:
+    *(u16 *)(a0 + 2) = D_801AFA30[*(u16 *)(a0 + 0x70) & 0xF];
+    func_8012A828(a0, D_801C76E4);
+    *(s32 *)(a0 + 0x1C) = 0x200;
+}
+
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
