@@ -316,6 +316,45 @@ def _reload_corpus():
     baseline = {q: open(q).read() for q in _touched}
 
 
+_MK_PATH = os.path.join(REPO, 'config/overlays.mk')
+_MK_LOCK = os.path.join(REPO, '.run', 'auto', 'overlays_mk.lock')
+
+
+def _mk_block_span(txt, binary):
+    """(start, end) char offsets of `# --- <binary> …` through the char before the next `# --- ` header."""
+    m = re.search(r'^# --- %s\b.*$' % re.escape(binary), txt, re.M)
+    if not m:
+        return None
+    nxt = re.search(r'^# --- ', txt[m.end():], re.M)
+    return m.start(), (m.end() + nxt.start()) if nxt else len(txt)
+
+
+def _mk_block(binary):
+    try:
+        txt = open(_MK_PATH).read()
+    except OSError:
+        return None
+    sp = _mk_block_span(txt, binary)
+    return txt[sp[0]:sp[1]] if sp else None
+
+
+def _mk_block_restore(binary, block):
+    """Replace this binary's block in the CURRENT overlays.mk under the shared lock (other
+    binaries' blocks are left exactly as they are now)."""
+    import fcntl
+    os.makedirs(os.path.dirname(_MK_LOCK), exist_ok=True)
+    with open(_MK_LOCK, 'w') as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        txt = open(_MK_PATH).read()
+        sp = _mk_block_span(txt, binary)
+        if sp is None:
+            print('  [jtbl] !! overlays.mk block for %s not found — block restore skipped' % binary)
+            return
+        new = txt[:sp[0]] + block + txt[sp[1]:]
+        if new != txt:
+            open(_MK_PATH, 'w').write(new)
+
+
 def _jtbl_snapshot():
     """Text of EVERY file a carve/isolation may rewrite — config AND the binary's sources.
 
@@ -334,12 +373,19 @@ def _jtbl_snapshot():
 
     So snapshot the whole source set, and undo by RESTORE, never by an inverse transform (§61)."""
     out = {}
-    for q in (os.path.join(REPO, 'config/splat.%s.yaml' % a.binary),
-              os.path.join(REPO, 'config/overlays.mk')):
+    for q in (os.path.join(REPO, 'config/splat.%s.yaml' % a.binary),):
         try:
             out[q] = open(q).read()
         except OSError:
             pass
+    # overlays.mk is SHARED by every binary's gate running in parallel (sweep_parallel -j N). A
+    # whole-file snapshot restored later resurrects other binaries' lines as they stood at snapshot
+    # time (P31 S62: ov_MAIN_012's rejected carve line came back after that binary had undone it,
+    # then gate_and_commit blanket-committed the drift). Snapshot ONLY this binary's block and
+    # restore it block-wise under the mk lock against the CURRENT file (`_mk_block`).
+    blk = _mk_block(a.binary)
+    if blk is not None:
+        out['__mk_block__'] = blk
     for q in glob.glob(os.path.join(REPO, 'src/%s/*.c' % a.binary)):
         try:
             out[q] = open(q).read()
@@ -360,6 +406,9 @@ def _jtbl_restore(snap):
     CORRECT and caught it; the defect was leaving the carve behind. One failed draft poisoned the
     whole overlay for the rest of the batch (4 isolate-FAILs downstream)."""
     for q, txt in snap.items():
+        if q == '__mk_block__':
+            _mk_block_restore(a.binary, txt)
+            continue
         open(q, 'w').write(txt)
     # Remove every source file the attempt CREATED. Derived from the snapshot (which holds the
     # exact pre-attempt file set), not from the `_jr_*` name shape — an isolation may emit a
