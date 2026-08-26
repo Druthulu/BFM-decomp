@@ -2120,3 +2120,18 @@ Gen0 sweep launched at 8000/700: 196 sweepable non-main fns in waves g0a–g0d (
 <=60 agents), each wave queued to the gater as its drafts land; main's 231 gen0 run through the
 main lane. Rule-candidate data point for the effort doctrine: MORE OUTPUT BUDGET IS NOT MORE
 QUALITY on this model/population — budget bought nothing the turn loop didn't already provide.
+
+### CORRECTION to the S61-6 verdict (03:4x) — the judge had an R53 false-green hole; corrected table flips the winner to 16k by one function
+The paired judge checked the built binary's SHA without checking the BUILD'S EXIT CODE: a draft
+that failed to compile left the previous (green) binary in place and scored BANKABLE — R53's third
+strike this campaign, caught because the production gate refused exactly the four "winners" whose
+rtu verdict was CC1 (correlation 4/4; every genuinely banked winner was rtu MATCH; fleet_red.txt
+also turned out stale-S60 and was skip-listing repaired binaries — reconciled). CORRECTED TABLE
+(true raw banks / 10): **8k 6 · 16k 7 · 24k 5 · 32k 3.** The ordering conclusion stands — bigger
+budgets are WORSE — but 16k edges 8k by ONE function (8017DBA0: 16k's draft rtu-MATCHed, 8k's
+CC1'd). At n=10 that is noise-range; the gen0 sweep ALREADY RUNS at 8000 and is NOT being churned
+for a one-function margin (coverage before the window closes outranks a marginal budget delta;
+misses get 16k re-shots via the feedback-armed redraft pass). The four false-green functions'
+drafts fail the real TU (engine_core.h DEFINE conflicts) and return to the pool as gen1 with gate
+feedback. Judge lesson for the PhaseEnd: R53 candidate is now byte-proven three times — VERIFY A
+BUILD FROM ITS EXIT CODE, NOT ITS OUTPUT FILE.
