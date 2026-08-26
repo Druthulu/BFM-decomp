@@ -4829,7 +4829,58 @@ void func_801861FC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8018326C", func_8018632C);
+/* DEF-SIDE ALIAS (§37/§124): TU:4782 already declares
+ * `extern void func_8018632C(s32 a0);` at file scope and calls it at :4828,
+ * but the target .s proves a non-void return: both guard exits write $v0
+ * (addu $v0,$zero,$zero in the branch delay slots before jumping to the
+ * epilogue). A plain `s32 func_8018632C` definition would be a
+ * conflicting-types error against TU:4782, so define under a distinct C
+ * name bound to the emitted symbol. */
+s32 aF8018632C(s32 a0) __asm__("func_8018632C");
+
+s32 aF8018632C(s32 a0) {
+    extern void func_8012BE54(s32 a0);
+    extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    extern u16 D_80126B62;
+    extern u8 D_801A61DC[];
+
+    register s32 ent __asm__("$17");
+    s32 p;
+    s32 h;
+    s32 h2;
+    s32 ret;
+    s32 s0;
+    s32 r;
+    s32 v;
+    s32 g;
+    s32 d;
+    u16 arr[3];
+
+    ent = a0;
+    p = *(s32 *)(ent + 0x20);
+    h = *(s16 *)(p + 0x18);
+    __asm__("" : "=r"(h) : "0"(h));
+    ret = ((s32 (*)(s32))func_8012BE54)(ent);
+    s0 = h >> 8;
+    if (ret > s0 * s0) {
+        return 0;
+    }
+    v = *(s16 *)(ent + 0xA);
+    h2 = *(s16 *)(*(s32 *)(ent + 0x20) + 0x1A);
+    __asm__ __volatile__("" : "=r"(h2) : "0"(h2));
+    g = *(s16 *)&D_80126B62;
+    r = h2 >> 6;
+    d = v - g;
+    if (d >= 0 ? r < d : r < g - v) {
+        return 0;
+    }
+    a0 = 1;
+    arr[0] = *(u16 *)(ent + 0x6);
+    arr[1] = *(u16 *)(ent + 0xA);
+    arr[2] = *(u16 *)(ent + 0xE);
+    func_8012F568(1, 0x4201, 0, 0x1C, (s32)arr, (s32)D_801A61DC);
+}
+
 
 
 extern void (*D_801A61E4[])(void);
