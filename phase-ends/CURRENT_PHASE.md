@@ -2048,3 +2048,58 @@ audit). R57 — AN INSTRUMENT'S OWN WRITE PATH IS PART OF THE INSTRUMENT: a repa
 corrupts what it measures voids its own search and reports the corruption as the subject's failure
 (write_pads; extends R40/R43). R58 — A SESSION-CLOSE "CLEAN" MUST QUOTE THE FLEET'S GREEN COUNT:
 tree-clean and fleet-green are different invariants (S60 closed "clean" with 15 binaries red).
+
+## 🛑 SESSION CHECKPOINT — S61 FINAL (2026-08-26 01:10). Phase 31 T10+ CONTINUES. Lanes UP: gater (idle, empty queue) · maintenance · resolver_lane. Drafter DELIBERATELY DOWN pending the S61-5 re-aim. Stop sentinels CLEAR. Tree clean; registry 5,085 lines; red list 4.
+
+**Bottom line.** The frontier analysis was right and is now measured: the wide-wave machine on this
+population is FINISHED — the five pre-paid waves plus fa, honestly gated against a repaired fleet,
+banked fa 0/211 · fc 9 · fd 5 · fe 2 · ff 1 · fb 0 ≈ **17 banks from ~5,000 pre-paid drafts** —
+while the zero-token lanes produced the night's real yield: resolver 63, maintenance 24 (+11
+fix_tu_ret earlier), and the fleet repairs that un-blocked everything else. Fleet: 3,896 → 3,854
+committed stubs since midnight-of-25th's close (net, INCLUDE_ASM invariant).
+
+**The inversion question (S61-3) is CLOSED: NO.** fb — the one wave with a PROSPECTIVE rtu shadow
+(taken 23:50) gated on the stable fleet — shows P(bank | rtu-MATCH) = 0/92; fc (partial confound)
+11/58 = 19%; fd is void for this purpose (its "refusals" cluster 21/22, 9/10 in binaries that were
+skip-listed mid-gate and repaired mid-flight — the join used today's red list, not gate-time's).
+The falsifier fired exactly as §3 designed: rtu-MATCH does not predict whole-binary banking on this
+population; the residual for byte-correct-at-the-TU drafts lives at LINK/LAYOUT level. The gate
+architecture stays; the shadow ledgers (.run/rtu_shadow/) remain for any future re-test.
+
+**What the 0-yield re-judge taught (176 re-staged, 0 banked).** The remaining stock's refusals are
+now NAMED per class, none mysterious: (a) CARVE-REFUSED — the md_ island-pads shape jtbl_carve
+declines ("is 'island-pads', not 'island-end'"); (b) assembler DUPLICATE SYMBOLS — the draft
+DEFINES data a still-stubbed sibling's .s also emits (live-probed: md_MAIN_003/func_800D3204,
+"symbol 'D_800D3200' is already defined") — wants a deterministic data-def→extern demotion;
+(c) TU decl conflicts (the ov_SC04_018 broken-TU family). Each is a small tool, not a wall.
+
+**The four still-RED binaries and their named mysteries:** ov_SC03_015 (emits MORE tables than the
+2-entry spec; +1/+2 candidate search found no byte-identical winner — needs the real carve for a
+newly-banked switch), ov_SC03_024 (+4 rodata shift in jr_8017AE2C.o; value search found no unique
+winner), ov_SC04_018 (pads drift 'consumed 3 but 4' AND a TU whose rtu-view diverges from the real
+pipeline — likely per-TU flags; two src attempts reverted), ov_SC06_022 ('consumed 1 but 2',
+byte-proof refused). All four are skip-listed so no draft is billed for them.
+
+**Record corrections (honesty over tidiness; do NOT rebuild history):** commit commit:3004
+("ox wave fc banks recovered") actually captured 10 of fd's MID-GATE splices — 6 were later
+reverted by their own judgments (verified; HEAD correct throughout). Commit commit:3006's message
+describes a repair; its content actually REVERTS commit:3005 (the TU stands at its pre-S61 state).
+Commit commit:2998 (gater chore) carries the ov_MAIN_012 interleave repair. Lesson for the rulebook:
+NEVER blanket-commit another lane's mid-gate tree — R42's "commit, don't revert" is for trees AT
+REST.
+
+**Next session (in order):** (1) wire `decl_from_use.infer()` into aprop_autodraft:522 and the
+resolver's `undeclared` classification behind `tu_compiles()` (the 39-cases-were-one-TU lesson);
+(2) the data-def→extern demotion transform for the duplicate-symbol class, then one more resolver
+pass; (3) S61-5 re-aim per the frontier doc §5.6 with tonight's measured wave ceiling (gen0
+pockets · MAIN (313 crackable, its own lane) · the 3–8 band via the grinder) and relaunch the
+drafter WITH the S61-6 8k-vs-16k A/B split on the first wave; (4) the md_ island-pads carve
+extension (jtbl_carve); (5) S61-7 escalation tier only after (1)–(2) drain. Rule candidates
+R56–R58 (interim block above) stand for the PhaseEnd P10 table; add R59 candidate: A BLANKET
+COMMIT OF ANOTHER LANE'S MID-GATE TREE IS A RACE, NOT A BACKUP.
+
+**How to resume:** campaign_status → `git status --porcelain -- src/ config/` (dirty ⇒ commit,
+never revert) → `wc -l config/overlays.mk` ≈ 5,085 → `cat .run/baseline_red.txt` (4) → lanes via
+`ps -o lstart` with patterns assembled at runtime (pgrep -f self-matches its own wrapper — it
+killed three helpers tonight). The gater idles on an empty ready queue; feed it by re-queueing
+`.run/ready/<tag>.json` markers or relaunching the drafter (S61-5 first).
