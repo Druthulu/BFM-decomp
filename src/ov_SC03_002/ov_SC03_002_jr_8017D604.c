@@ -3402,7 +3402,31 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017EBD0);
+typedef struct { short vx, vy, vz, pad; } SVEC_8017EBD0;
+
+extern SVEC_8017EBD0 D_801CA324;
+extern SVEC_8017EBD0 D_801CA32C;
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8017EC98(SVEC_8017EBD0 *p0, SVEC_8017EBD0 *p1);
+
+void func_8017EBD0(void *arg0) {
+    SVEC_8017EBD0 blk1;
+    SVEC_8017EBD0 blk2;
+    SVEC_8017EBD0 temp;
+
+    blk1 = D_801CA324;
+    blk2 = D_801CA32C;
+
+    if (*(s16 *)((u8 *)arg0 + 0xFC) == 0) {
+        func_8017EC98(&blk1, &blk2);
+        return;
+    }
+    func_80015978((s32)((u8 *)arg0 + 4), (s32 *)&temp);
+    func_8017EC98(&blk1, &temp);
+    func_8017EC98(&temp, &blk2);
+}
+
 
 // @class: struct + regalloc(local-alloc density)
 // @stuck: none — MATCH (186 ins, relocation-masked)
