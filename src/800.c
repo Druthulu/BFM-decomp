@@ -610,7 +610,19 @@ s32 func_80012ABC(s32 a0, s32 a1, s32 a2)
     return (s0 + func_80012B04((s16)s0, (s16)a1, (s16)a2)) & 0xFFF;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80012B04);
+extern s16 func_80012B58(s16 a0, s16 a1, s16 a2, s16 *a3);
+
+s32 func_80012B04(s32 a0, s32 a1, s32 a2) {
+    s16 sp10[4];
+
+    sp10[0] = 4;
+
+    if ((s16)a0 == (s16)a1) {
+        return 0;
+    }
+
+    return func_80012B58((s16)a0, (s16)a1, (s16)a2, sp10);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80012B58);
 
@@ -694,7 +706,11 @@ s32 func_80013028(s32 x, s32 y, s16 n, s16 d, s16 *p) {
     return r;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800130D0);
+extern s16 func_8001311C(s16 a0, s16 a1, s16 a2);
+
+s32 func_800130D0(s32 arg0, s32 arg1, s32 arg2) {
+    return (s16)(arg0 + ((s32 (*)(s16, s16, s16))func_8001311C)(arg0, arg1, arg2));
+}
 
 extern s32 func_80013154(s32 a0, s32 a1, s32 a2);
 
