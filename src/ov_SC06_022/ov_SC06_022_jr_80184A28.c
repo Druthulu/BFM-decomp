@@ -4399,44 +4399,7 @@ void func_80187094(s32 a0, s32 a1) {
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_80187318);
 
-extern s32 func_8012C51C(void *a0, s32 a1);
-
-typedef struct {
-    u16 f10; /* 0x10 */
-    u16 f12; /* 0x12 */
-    u16 f14; /* 0x14 */
-    s16 f16; /* 0x16 */
-    s16 f18; /* 0x18 */
-    s16 f1a; /* 0x1A */
-    s16 f1c; /* 0x1C */
-    u16 f1e; /* 0x1E */
-    s32 f20; /* 0x20 */
-} buf_801873B0;
-
-void func_801873B0(a0, a1, a2, a3, a4, a5)
-s32 a0;
-void *a1;
-s32 a2;
-s32 a3;
-u16 a4;
-s32 a5;
-{
-    buf_801873B0 sp;
-    u16 t;
-
-    sp.f10 = *(u16 *)a1;
-    sp.f12 = *(u16 *)(2 + (char *)a1);
-    t = *(u16 *)(4 + (char *)a1);
-    sp.f16 = a2;
-    sp.f18 = a3;
-    sp.f1a = 0;
-    sp.f1e = a4;
-    sp.f20 = a5;
-    sp.f1c = 0x7FFF;
-    sp.f14 = t;
-    func_8012C51C(&sp, a0);
-}
-
+INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_801873B0);
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_80187414);
 
