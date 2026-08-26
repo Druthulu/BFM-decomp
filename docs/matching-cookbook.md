@@ -29707,3 +29707,26 @@ peel stays valid for already-peeled pieces (`--tu` frames them).
 **Controls.** Positive: the derive reproduces the hand-proven `0t1,0` and its filtered output is
 byte-identical to the stored-spec output. Negative: every module binary rebuilt through the derive
 stage must stay byte-identical (the S62 module sweep — count quoted in the phase log).
+
+## §304 — SELF-DEFINING RODATA: WHEN A FUNCTION'S `.s` IS THE ONLY OWNER OF THE DATA IT REFERENCES, THE C BODY MUST DEFINE IT (P31 S62 T3; byte-proven md_MAIN_011/func_800D04F4)
+
+**The refusal.** `PLUMBING: undefined reference to D_800CEE3C` at link, for a draft that rtu
+called MATCH. The module's rodata island holds a string table (`"ON "`, `"OFF"`, `"PLAYER DMG"`, …)
+that ONLY this function references, so spimdisasm migrated those blocks into the function's own
+`.s` (§154-A). Banking the C body deletes the `.s` — and with it the only definition of the strings
+the body still `extern`s.
+
+**The fix (byte-neutral by construction).** Define the blocks in the draft at FILE scope, in
+address order, one per `dlabel` in the `.s`: `const char D_800CEE3C[] = "ON ";` (cc1 emits
+`.section .rodata / .align 2 / label / .ascii "…\000"` — the exact shape spimdisasm wrote), a
+`.word` block as `const u32 D_800CEE60[] = { … };`. The definitions land at the function's position
+in the emission stream, which is where the `.s` emitted them, so the island bytes are unchanged
+(§303's order law); keep `const` (drops it → `.data`), cast at a `void *` use if a prototype
+demands it. The block-scope `extern`s for those symbols go away (a file-scope definition after a
+block-scope extern of another type is gcc's "used prior to declaration", §302's SC04_018 lesson).
+
+**Tell + generalization.** Undefined-reference at link for a `D_` the target `.s` carries as a
+`dlabel` block = this class; the `.s` block is the literal source of the initializer. Candidate
+resolver transform (not built yet): `rodata_from_s` — for each `undefined reference to D_x` where
+the fn's `.s` has `dlabel D_x`, emit the C definition from the block. One instance in the S62
+resolver stock; expect more as module drafting resumes.

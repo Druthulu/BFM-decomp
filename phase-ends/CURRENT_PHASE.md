@@ -2389,3 +2389,11 @@ gaps — fixed; md_MAIN_003's blob sizing is 34 bytes short but it has no C tabl
 return covers it and any future table there refuses loudly). Commits `commit:3098`, `commit:3099`,
 `commit:3100` + this one. NEXT: fleet sweep #3 (definitive GREEN count with the deriver live), then
 a fresh resolver pass to bank the 32 tail + 25 md_ island drafts through the official gate.
+
+**T3 progress (S62).** Fleet sweep #3: **213/213 GREEN, extract-all 212/212** (14:52, from
+`make clean`, deriver live) — the honest R58 count for T2+T3a. T3b: ov_SC03_118/119 -O0 region
+`o0d` (0x80183178..0x80183830, 9 stubs each) carved, byte-neutral (`commit:3102`); the five md_MAIN
+"F" members are NOT -O0 (func_800D0C50's draft matches at both levels) — their rejections were
+module-island/plumbing, now covered. §304: md_MAIN_011/func_800D04F4 banked by defining its own
+rodata strings in the C body (the resolver's PLUMBING class). A fresh resolver pass is running to
+bank the 32 tail + 25 module-island drafts through the official gate.
