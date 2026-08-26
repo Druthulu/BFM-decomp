@@ -367,6 +367,33 @@ def dup_def_demote(binary, fn, stub, body, work):
     return pth
 
 
+def declfix(b, fn, body, rtu_work):
+    """decl_from_use wiring for the resolver's CC1 `undeclared` class (P31 T1; the frontier-s61
+    §2.J sub-cause (c)). Parses the rtu stderr that produced the CC1 verdict for `X' undeclared
+    lines INSIDE the spliced draft, then hands the first such symbol to decl_from_use.run_case —
+    evidence from the fn's own target .s, minimal C89 extern at block scope, candidate ladder on a
+    byte-DIFF, rtu MATCH, reloc_identity (R34). Returns (fixed_draft_path, reloc_status, note) on a
+    stageable result, else (None, None, note) with the refusal CLASS named (R32: a ledger row, never
+    a silent skip). Never gates — the whole-binary SHA stays the sole arbiter (G3/P9)."""
+    try:
+        import types
+        import decl_from_use as _dfu
+        inside, _outside = _dfu.undeclared_from_stderr(rtu_work, fn, open(body, errors="replace").read())
+        inside = list(dict.fromkeys(inside))
+        if not inside:
+            return None, None, ""
+        ns = types.SimpleNamespace(out_dir=os.path.join(RUN, "dfu"))
+        row = _dfu.run_case({"binary": b, "fn": fn, "symbol": inside[0], "draft": body}, ns)
+        cls = row.get("class") or "?"
+        st = (row.get("reloc") or {}).get("status")
+        if cls.startswith("MATCH-") and st in STAGEABLE_RELOC and row.get("fixed_draft"):
+            return row["fixed_draft"], st, "declfix %s: %s" % (cls, ", ".join(
+                "%s -> %s" % kv for kv in sorted((row.get("decls") or {}).items())))[:240]
+        return None, None, ("declfix %s: %s" % (cls, row.get("note") or ""))[:200]
+    except Exception as e:
+        return None, None, "declfix ERR %r" % (e,)
+
+
 def resolve(item, a, ledger, stage):
     b, fn, stub = item["binary"], item["fn"], item["stub"]
     work = os.path.join(RUN, "work", "%s__%s" % (b, fn))
@@ -442,6 +469,17 @@ def resolve(item, a, ledger, stage):
             if _broken:
                 v = {"verdict": "TU-BROKEN", "nins": v.get("nins"), "ndiff": None,
                      "note": "the split TU fails WITHOUT the draft — a tree condition, not this draft: " + _terr}
+            elif v["verdict"] == "CC1" and not a.no_transforms:
+                # DECL-FROM-USE (P31 T1, frontier-s61 §4 step 1b): a `X undeclared` INSIDE the draft
+                # is computable from the target .s + the draft's own use. Additive: runs only where
+                # the pass already refused; stages only on rtu MATCH + stageable reloc.
+                _rw = os.path.join(w, "rtu_x" if via == "transforms" else "rtu")
+                _fx, _st, _dnote = declfix(b, fn, body, _rw)
+                if _fx:
+                    staged = (_fx, via + "+declfix", _st)
+                    v = {"verdict": "MATCH", "nins": v.get("nins"), "ndiff": 0, "note": _dnote}
+                elif _dnote:
+                    v = dict(v, note=((v.get("note") or "") + " | " + _dnote)[:240])
         row.update(verdict=("STAGED" if staged else v["verdict"]), ndiff=v.get("ndiff"),
                    nins=v.get("nins"), note=v.get("note", ""), via=via, body=(staged[0] if staged else body),
                    reloc=(staged[2] if staged else None))

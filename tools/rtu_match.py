@@ -146,15 +146,7 @@ if p.returncode: _fail('AS', p, 1500)
 mine = masked_diff.insns_from_object('%s/t.o'%wd, a.fn)
 tgt = masked_diff.insns_from_s('%s/%s.s' % (ASM_SUBDIR, a.fn))
 if not mine: print('FAIL: object has no function', a.fn); sys.exit(1)
-n = max(len(mine), len(tgt)); diffs=[]
-for i in range(n):
-    mw = mine[i]['word'] if i < len(mine) else None
-    mask = masked_diff.mask_for(mine[i]['word'], mine[i]['reloc_kind']) if i < len(mine) else 0xFFFFFFFF
-    me = (mw & mask) if mw is not None else None
-    tg = (tgt[i]['word'] & mask) if i < len(tgt) else None
-    if me != tg:
-        diffs.append((i, ('%08x %s'%(mine[i]['word'], mine[i]['mnem'])) if i<len(mine) else '--',
-                         ('%08x %s'%(tgt[i]['word'], tgt[i]['mnem'])) if i<len(tgt) else '--'))
+diffs = masked_diff.structured_diff(mine, tgt)   # ONE comparer (R33); carries the internal-j target check
 if not diffs and len(mine) == len(tgt):
     print('MATCH (%d ins)  %s' % (len(mine), a.fn)); sys.exit(0)
 print('DIFF  %s   mine=%d ins, target=%d ins, %d mismatched' % (a.fn, len(mine), len(tgt), len(diffs)))

@@ -462,3 +462,47 @@ padded column format (`jr         $ra`) — use the regex
 Nothing else in §294–§300 moves a number or step here: §297–§299 are drafting idioms (they
 raise wave quality, priced in via the warm-start assumption), and the refuted §300-R2
 ("maspsx rejects hex in `__asm__`") corrects a rule this document never relied on.
+
+## Addendum 2 — 2026-08-26 (S62), plan step 1 executed: the falsifier FIRED; premises corrected
+
+*Append-only. Every number below was measured on the tree at `commit:3078` → `commit:3080`.*
+
+**Premise corrections (R35/R40, checked before building anything).** (a) The dup-def→extern
+demotion was NOT "not yet built": `integration_resolver.dup_def_demote()` landed at `commit:3012`
+(01:14, an ancestor of this document's HEAD) and had already BANKED its own probe case
+(md_MAIN_003/func_800D3204, ledger run 011436: `dupfix:backlog … BANKED`). (b) `decl_from_use` was
+already wired into A-prop (`aprop_autodraft.py` :522 branch, same commit); only the resolver's CC1
+`undeclared` path was unwired — now wired as `integration_resolver.declfix()` (stages only on rtu
+MATCH + stageable reloc; refusal class appended to the CC1 note). Its population measured by
+`decl_from_use --cases` over the 42 recorded cases: **TU-BROKEN 39/42** (all ov_SC04_018 — the
+split TU fails cc1 with NO draft; T2d's defect), NOT-A-STUB 1, UNKNOWN-SYMBOL 1, STRUCT 1 →
+**0 bankable today**; the wiring pays after the SC04_018 surgery. (c) The "resolver converged at
+0/pass" reading of §2.J was partly an instrument artifact: the resolver writes its `=== gate ===`
+header through a buffered handle, so each header lands AFTER the gate output it labels; the 12:10
+gate had run (34 binaries, all 0/N).
+
+**The fresh pass (13:40, `--fresh`, live gate):** 1,419 nominated → 302 judged → **98 staged → 0
+banked**. Of the 58 non-red staged: **54 CARVE-REFUSED** (the md_ island-pads shape — T3's carver,
+not a resolver transform), **2 DIFF**, **1 PLUMBING** (`D_800CEE3C` = an unlabeled string inside the
+rodata island that `func_800CFDB4.s` carries at `D_800CEE30` — a symbol-split, deterministic,
+queued with T3). Step 1's falsifier (<5 banks from the transforms) fired exactly as written → no
+further resolver transforms were built.
+
+**The 2 DIFF refusals, autopsied to bytes (`tools/diff_autopsy.sh`):** each differed from the good
+binary by ONE byte, inside the function, at a `j` word — a wrong internal jump target that
+rtu/match_one could not see because `R_MIPS_26 .text` (which the assembler DOES emit for an
+in-section `j`) was masked. Both drafts had a genuine control-flow error (goto-to-recheck vs the
+cross-jumped call; a shared post-join negation vs an else-arm `negu`); one-line fixes, gated
+through `sweep_parallel`, **banked 2/2** (`commit:3080`). The comparer is fixed (`masked_diff` `jrel`;
+`rtu_match` now shares `structured_diff`), positive-controlled (originals → DIFF 1, fixes → MATCH)
+and negative-controlled over all 3,475 stubs (`tools/stub_invariant_audit.py`: 1,097 stubs / 4,043
+internal `j` exercised, 0 new mismatches). Cookbook §301. **Consequence for this document:** every
+"byte-correct at rtu / closeness 0" claim (§2.J's 85, class J, the 54 carve-refused) was blind to
+`j` targets; re-judge under the new comparer before spending builds.
+
+**§295 sweep:** ResetEntryInt, HookEntryInt, read, SysEnqIntRP → `gate_main` clean rebuild, main
+SHA `143dbb89…` byte-identical, **banked 4/4** (`commit:3079`).
+
+**Net T1: +6 banks (2,517 → 2,511 stubs; fleet 98.4% instr / 96.7% distinct), 1 instrument defect
+closed, 2 tools promoted.** The deterministic-first mass is unchanged in shape: the resolver's
+stock is now carver-gated (T3) and red-gated (T2); nothing in class J is a drafting problem.

@@ -29579,3 +29579,51 @@ pure field-init body — `func_800D0964` predicted 158/158 before compiling); "d
 defect-count" (`func_801879B0`: ONE arity defect manifested as 2 mismatched instructions); read the
 raw STORE OFFSETS before believing a scheduling story (`func_80188620`'s off-by-one slot numbering
 was indistinguishable from a schedule residual until the offsets were diffed).
+
+## §301 — AN INTERNAL `j` CARRIES `R_MIPS_26 .text`: rtu/match_one "MATCH" COULD NOT SEE WHICH LABEL A `j` TAKES — FIXED (`jrel`), AND THE TWO DRAFT SHAPES IT HID (P31 S62 T1; byte-proven 2/2, negative-controlled over 3,297 stubs)
+
+**The instrument fact (supersedes §195's premise).** `objdump -drz` on an rtu whole-TU object shows
+`j 4604 <func_801831F4+0x88>` followed by `R_MIPS_26 .text`: the assembler does NOT resolve an
+in-section `j` — it emits a section reloc with the section-relative target in the field. §195 had
+recorded "the assembler resolves it itself, emitting NO relocation"; that was false for this
+toolchain (maspsx → GAS), so `mask_for("26")` zeroed the 26-bit field and **any `j .Lx` compared
+equal to any `j .Ly`**. Two resolver drafts sat in the ledger as `MATCH (47 ins)` / `MATCH (148
+ins)` with closeness 0 and were refused by the whole-binary gate on exactly one byte each
+(ov_SC02_027/func_801831F4 @0x80183250, ov_SC06_000/func_80182E38 @0x80182E90).
+
+**The gate-side tell.** Whole-binary DIFF, sizes equal, ONE differing byte, and the containing word's
+top six bits are `000010` (`j`) inside the function → the draft's CONTROL FLOW is wrong, not its
+codegen. (`tools/diff_autopsy.sh <binary> <fn> <tu.c> <draft.c>` reproduces the gate's splice,
+cmp's against the byte-good binary, decodes the words and restores the tree.)
+
+**Shape A — `goto` to a recheck vs a cross-jumped direct call** (func_801831F4). Retail arm:
+`ori $v0,0xCC00; j .L_jal; sh $v0,0x5C($a0)` — the store in the delay slot and the jump landing ON
+the shared `jal func_80182AA4` (the tail-merged call+epilogue). The draft wrote `goto tail;` where
+`tail:` re-tests the condition, so its `j` landed on the recheck block (`.L+0x88`, not `.L+0xA4`).
+Write the call directly in the arm; gcc's cross-jump produces the `j` to the shared jal. A `goto` to
+a label that begins with a re-test is the smell.
+
+**Shape B — a shared negation after the join vs an else-arm-only `negu`** (func_80182E38). Retail:
+`bnez .L_else; addiu $v1,$v1,0xC0 / j .L_join; addiu $v0,$zero,-0x1A0` and `.L_else: … addiu
+$v0,$v0,0x1A0; negu $v0,$v0; .L_join: sh $v0,0x34($sp)`. The if-arm's CONSTANT sits in the `j`
+delay slot and the jump lands PAST the `negu`. The draft computed `v0` in both arms and stored
+`-v0` after the join — same instruction count, `j` one word short (onto the `negu`). Rule: when one
+arm of an if/else yields a constant, retail has already folded the sign into it —
+`if (c) v = -K; else v = -(expr);` — never `v = -v` after the join.
+
+**The fix (tools/masked_diff.py).** Every object insn now carries its section offset and every `.s`
+insn its vaddr; `_annotate_jrel` stores, for a `j` whose reloc is against `.text` (object side) or
+for every `j` (.s side, already resolved), the target RELATIVE TO THE FUNCTION START —
+`(field << 2) − fn_offset` / `(field << 2) − (fn_vaddr & 0x0FFFFFFF)` — and `structured_diff`,
+`diff_object_s`, `diff_object_object` count a `jrel` disagreement as a mismatch. `rtu_match` now
+calls `structured_diff` instead of its own copy of the loop (R33). `jal` stays masked on purpose: a
+static callee's position legitimately differs under rtu's neutralized siblings. Controls: the two
+original drafts → `DIFF 1`, the fixed ones → `MATCH`; `tools/stub_invariant_audit.py` (INCLUDE_ASM
+pastes the original bytes ⇒ `diff_object_s` must be 0 for every stub) over 3,475 stubs: 1,097 carry
+internal `j` relocs (4,043 instructions exercised), **0 new mismatches** (the 181 nonzeros = 178
+red-binary NO-OBJ + main's 2 data blobs + func_80062808, all with `jrel = 0`, pre-existing).
+
+**Ledger consequence.** Every historical rtu/match_one `MATCH` and closeness-0 was blind to this
+class. The resolver's 54 CARVE-REFUSED drafts are "byte-correct at rtu" only modulo `j` targets —
+re-judge them under the new comparer before the carver spends builds on them; the whole-binary gate
+was, and remains, the sole arbiter (G3/P9).

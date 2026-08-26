@@ -32,7 +32,7 @@ import cdecl   # the C-declaration oracle — the shared typedef-strip primitive
 OBJDUMP = "mipsel-linux-gnu-objdump"
 
 _HDR_RE = re.compile(r"^[0-9a-f]+ <([^>]+)>:")
-_INS_RE = re.compile(r"\s+[0-9a-f]+:\s+([0-9a-f]{8})\s+(.*)")
+_INS_RE = re.compile(r"\s+([0-9a-f]+):\s+([0-9a-f]{8})\s+(.*)")
 _REL_RE = re.compile(r"R_MIPS_(\w+)\s+(\S+)")
 
 # scalar/M2C typedef REDEFINITIONS common.h already provides (C89 rejects the dup). match_one and the
@@ -157,8 +157,9 @@ def insns_from_object(obj, fn=None):
             continue
         mi = _INS_RE.match(line)
         if mi:
-            insns.append({"word": int(mi.group(1), 16), "mnem": mi.group(2).strip(),
-                          "reloc_kind": None, "reloc_op": None})
+            insns.append({"off": int(mi.group(1), 16), "word": int(mi.group(2), 16),
+                          "mnem": mi.group(3).strip(), "reloc_kind": None, "reloc_op": None,
+                          "jrel": None})
         elif insns:
             rm = _REL_RE.search(line)
             if rm:
@@ -167,6 +168,8 @@ def insns_from_object(obj, fn=None):
     # fn given but nothing matched (unlabeled .text) -> fall back to the whole section
     if fn is not None and not insns:
         return insns_from_object(obj, None)
+    _annotate_jrel(insns, insns[0]["off"] if insns else 0,
+                   lambda i: i["reloc_kind"] == "26" and i["reloc_op"] == ".text")
     return insns
 
 
@@ -200,12 +203,35 @@ def insns_from_s(s_path):
             continue
         if not in_text:
             continue
-        mi = re.match(r"\s*/\*\s*[0-9A-Fa-f]+\s+[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})\s*\*/\s+(.*)", line)
+        mi = re.match(r"\s*/\*\s*[0-9A-Fa-f]+\s+([0-9A-Fa-f]+)\s+([0-9A-Fa-f]{8})\s*\*/\s+(.*)", line)
         if mi:
-            insns.append({"word": struct.unpack("<I", bytes.fromhex(mi.group(1)))[0],
-                          "mnem": re.sub(r"\s+", " ", mi.group(2).strip()),
-                          "reloc_kind": None, "reloc_op": None})
+            insns.append({"off": int(mi.group(1), 16) & 0x0FFFFFFF,
+                          "word": struct.unpack("<I", bytes.fromhex(mi.group(2)))[0],
+                          "mnem": re.sub(r"\s+", " ", mi.group(3).strip()),
+                          "reloc_kind": None, "reloc_op": None, "jrel": None})
+    _annotate_jrel(insns, insns[0]["off"] if insns else 0, lambda i: True)
     return insns
+
+
+def _annotate_jrel(insns, fn_start, is_internal):
+    """THE INTERNAL-`j` TARGET (P31 T1, 2026-08-26; supersedes the §195 note below). The assembler
+    DOES emit `R_MIPS_26 .text` for a `j .L…` inside the same section (objdump: `j 4604
+    <fn+0x88>` + `R_MIPS_26 .text`), so the "26 => mask the target" rule made the comparer blind to
+    WHICH label a `j` takes — two resolver drafts scored rtu MATCH with a wrong `goto` target and
+    the whole-binary gate refused them on exactly one byte each (ov_SC02_027/func_801831F4,
+    ov_SC06_000/func_80182E38). A `j`'s target is knowable on both sides RELATIVE TO THE FUNCTION
+    START: object side = (field << 2) - fn section offset; .s side = (field << 2) - (fn vaddr &
+    0x0FFFFFFF). `jrel` carries that; the comparers require it to agree. `jal` is left masked on
+    purpose: a static callee's position legitimately differs under rtu's neutralized siblings."""
+    for i in insns:
+        if (i["word"] >> 26) == 2 and is_internal(i):
+            i["jrel"] = ((i["word"] & 0x3FFFFFF) << 2) - fn_start
+
+
+def _j_mismatch(a, b):
+    """True when both sides carry an internal-`j` target and they disagree (see _annotate_jrel)."""
+    ja, jb = a.get("jrel"), b.get("jrel")
+    return ja is not None and jb is not None and ja != jb
 
 
 def structured_diff(mine, tgt):
@@ -223,7 +249,7 @@ def structured_diff(mine, tgt):
         mask = mask_for(mine[i]['word'], mine[i]['reloc_kind']) if i < len(mine) else 0xFFFFFFFF
         me = (mw & mask) if mw is not None else None
         tg = (tgt[i]['word'] & mask) if i < len(tgt) else None
-        if me != tg:
+        if me != tg or (i < len(mine) and i < len(tgt) and _j_mismatch(mine[i], tgt[i])):
             diffs.append((i,
                           ('%08x %s' % (mine[i]['word'], mine[i]['mnem'])) if i < len(mine) else '--',
                           ('%08x %s' % (tgt[i]['word'], tgt[i]['mnem'])) if i < len(tgt) else '--'))
@@ -242,7 +268,7 @@ def diff_object_object(cand, tgt):
             continue
         c, t = cand[i], tgt[i]
         m = mask_for(t["word"], t["reloc_kind"])
-        if (c["word"] & m) != (t["word"] & m):
+        if (c["word"] & m) != (t["word"] & m) or _j_mismatch(c, t):
             diffs += 1
             continue
         if m == 0 or m == 0xFFFF0000:   # a masked reloc/jal slot -> the symbol+addend must also match
@@ -262,7 +288,7 @@ def diff_object_s(myobj, tgt_s):
             continue
         c, t = myobj[i], tgt_s[i]
         m = mask_for(c["word"], c["reloc_kind"])
-        if (c["word"] & m) != (t["word"] & m):
+        if (c["word"] & m) != (t["word"] & m) or _j_mismatch(c, t):
             diffs += 1
     return diffs
 

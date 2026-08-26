@@ -2264,3 +2264,38 @@ clean, and fully documented; the next session opens the finish plan and drives t
 percent to a complete, byte-perfect decompilation.
 HANDOFF ITEM 1 DONE 12:45 — doc verified+committed
 HANDOFF ITEM 2 DONE 12:52 — cookbook §294–§300 verified+committed; planner notified of 15 verified additions
+
+---
+
+## S62 (2026-08-26, from ~13:20) — the finish plan (frontier-analysis-s61 §4) approved by Drew; T1 executed
+
+**Gate 1 (R4):** Drew approved the §4 sequenced plan as Phase 31's amended task list (P32 = the wall
+endgame per §4 step 9), with the effort plan (xHigh tooling / Max solo for surgeries+wall+PhaseEnd /
+Ultracode for T4+T5, R27 prompts at each transition) and "Fable5 Max throughout for zero errors".
+Harness task list built (15 tasks, T0–T9, dependencies wired). Compressed session start used
+(~100k target; Drew-approved). OpenRouter at session start: key $63.03/$70, account $5.57 credit
+left — nothing needed before T4; ~$100 + an uncapped key recommended before T5's DeepSeek arm.
+
+**T0 resume ritual:** clean (src/config clean, overlays.mk 5,086, red 5, sentinels set 12:19, 0 lanes,
+HEAD commit:3078).
+
+**T1 — outcome (falsifier fired; +6 banks; 1 instrument defect closed).** Full record in
+`docs/tool-designs/frontier-analysis-s61.md` Addendum 2 and cookbook §301. In brief:
+- Premises corrected before building (R35): dup-def demotion EXISTED (commit:3012) and had banked its
+  probe case; decl_from_use was already wired in A-prop; the resolver's `undeclared` path is now
+  wired (`declfix`, additive) but its class is 39/42 TU-BROKEN in red SC04_018 → 0 bankable until T2d.
+- Fresh resolver pass + live gate: 98 staged → 0 banked = 40 red-held + 54 CARVE-REFUSED (→ T3) +
+  2 DIFF + 1 PLUMBING (`D_800CEE3C` unlabeled string in func_800CFDB4.s's rodata island → symbol
+  split, queued with T3).
+- The 2 DIFFs autopsied to bytes: ONE byte each, a wrong internal `j` target that rtu/match_one
+  masked (`R_MIPS_26 .text` IS emitted for in-section `j`; §195's premise was wrong). Fixed the
+  drafts (banked 2/2, commit:3080) AND the comparer (`masked_diff` jrel; rtu_match shares
+  structured_diff): positive controls ORIG→DIFF 1 / FIX→MATCH; negative control over all 3,475
+  stubs (1,097 with internal j, 4,043 instructions) → 0 new mismatches.
+- §295 kernel-trap sweep: 4/4 banked via gate_main clean rebuild (commit:3079).
+- Tools promoted: `tools/diff_autopsy.sh`, `tools/stub_invariant_audit.py` (SETUP.md rows, R21).
+- Fleet after T1: **2,511 stubs · 98.4% instr · 96.7% distinct**.
+- Standing consequence: every historical rtu/match_one MATCH / closeness-0 verdict was blind to `j`
+  targets — re-judge the 54 carve-refused under the new comparer before the carver spends builds.
+
+**NEXT: T2a** — red surgery ov_SC03_015 (Max, solo).
