@@ -5179,7 +5179,7 @@ void func_8018550C(void *a0)
 
 
 extern void func_801858C4();
-extern void func_80185858(s32 a0, void *a1, void *a2);
+extern void func_80185858();
 
 extern Blk8 D_801E2E9C;
 extern Blk8 D_801E2EA4;
@@ -5202,7 +5202,7 @@ void func_801856E4(void)
 
 
 extern void func_801858C4();
-extern void func_80185858(s32 a0, void *a1, void *a2);
+extern void func_80185858();
 
 extern Blk8 D_801E2EAC;
 extern Blk8 D_801E2EB4;
@@ -5296,7 +5296,7 @@ void func_8018592C(u8 *arg0) {
 }
 
 
-extern s32 func_80185A88(s32 arg0, s32 arg1);
+extern s32 func_80185A88();
 
 void func_80185A04(s32 param_1, s32 param_2, s16 param_3) {
     s32 ret;
@@ -8018,7 +8018,7 @@ void func_8018A3B4(void *a0) {
  * which is gcc's emit_block_move for align < 4. */
 
 extern Blob8_8018A47C D_801E2F28;
-extern void func_8018A6A0(s32 a0, Blob8_8018A47C *a1);
+extern void func_8018A6A0();
 
 void func_8018A47C(s32 a0) {
     Blob8_8018A47C tmp;
@@ -8101,7 +8101,7 @@ void func_8018A4C4(s32 a0)
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
  * which is gcc's emit_block_move for align < 4. */
 
-extern void func_8018A6A0(s32 a0, Blob8_8018A47C *a1);
+extern void func_8018A6A0();
 
 void func_8018A658(s32 a0) {
 
