@@ -2179,3 +2179,8 @@ file — bare `progress.py` reports one binary; the fleet aggregation needs `--f
 no rewrite was the tell, caught by the unchanged numerator + mtime). The TRUE morning numbers:
 **instr-weighted 98.4% (13,304,903 / 13,523,865) · distinct-code 96.6% (89,005 / 90,929) ·
 2,540 INCLUDE_ASM stubs remaining** — up from 98.2% / 96.4% at the S60 close.
+
+**Red-set morning verification (09:4x):** ov_SC05_010 GREEN (the maintenance lane's 09:20 pad
+repair healed it; its list row was stale). **Verified red set = 5**: the 4 named mysteries +
+**ov_SC02_005, a fresh overnight drift** (diagnosis in .run/resolver/probe/build_ov_SC02_005.log;
+the misplaced-symbol locate above names the object). Both red files synced to the verified set.
