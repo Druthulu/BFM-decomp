@@ -606,7 +606,13 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80012B04);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80012B58);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80012C6C);
+extern s32 func_80012CB8(s32 a0, s32 a1, s32 a2);
+
+s32 func_80012C6C(s32 a0, s32 a1, s32 a2)
+{
+    s32 s0 = a0;
+    return (s16)(s0 + func_80012CB8((s16)s0, (s16)a1, (s16)a2));
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80012CB8);
 
