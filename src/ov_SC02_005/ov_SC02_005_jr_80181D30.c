@@ -5300,7 +5300,32 @@ void func_80185A04(s32 param_1, s32 param_2, s16 param_3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80185A88);
+extern u16 D_801E4BBC;
+extern s16 D_80195B24[];
+
+s16 func_80185A88(int param_1, int param_2) {
+    register s32 zr __asm__("$0");
+    int t;
+    int x;
+    int m;
+    int h;
+    int d;
+    t = (u16)*(u16 *)(param_1 + 0x76) - (u16)*(u16 *)(param_1 + 0x60);
+    x = t - param_2;
+    d = t + zr;
+    m = x + zr;
+    if (D_801E4BBC == 2) {
+        if (*(u32 *)(param_1 + 0xE8) & 0x800) goto RET;
+        if ((s16)x < 0x80) m = 0x80;
+    } else {
+        if (*(u32 *)(param_1 + 0xE8) & 0x80000) goto RET;
+        h = (s16)D_80195B24[D_801E4BBC] >> 1;
+        if ((s16)x < h) m = h;
+    }
+RET:
+    return d - m;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80185B38);
 
