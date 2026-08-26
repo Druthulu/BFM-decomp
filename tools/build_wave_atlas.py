@@ -184,6 +184,28 @@ if ONLY and ONLY <= _busy_bins:
 PRIORS = [p for p in sorted(glob.glob('.run/wave_*_cards.json'))
           if os.path.abspath(p) != os.path.abspath(a.out)]
 taken = set()
+
+# THE RESOLVER HOLDS IT (P31 S61, frontier-analysis-s60 §5.6). A function whose latest
+# integration-resolver verdict is STAGED / BANKED / GATE-REJECTED already has a body that matches at
+# the real TU (rtu_match) and on symbols (reloc_identity); re-drafting it buys nothing and re-enters
+# the gate at ~3 builds per failure. DIFF / CC1 verdicts are NOT held — there a redraft can still help
+# (with the CURRENT closeness the resolver demoted it to). Keyed by (binary, fn), never bare name.
+RESOLVER_HOLD = set()
+try:
+    _last = {}
+    for _line in open('.run/resolver/verdicts.jsonl', errors='replace'):
+        try:
+            _r = json.loads(_line)
+        except Exception:
+            continue
+        if _r.get('binary') and _r.get('fn'):
+            _last[(_r['binary'], _r['fn'])] = _r.get('verdict')
+    RESOLVER_HOLD = {k for k, v in _last.items() if v in ('STAGED', 'BANKED', 'GATE-REJECTED')}
+except FileNotFoundError:
+    pass
+if RESOLVER_HOLD:
+    print(f"draw: {len(RESOLVER_HOLD)} (binary,fn) held by the integration resolver (STAGED/BANKED/GATE-REJECTED) — not drawn",
+          file=sys.stderr)
 draw_count = collections.Counter()          # {fn: how many waves have drafted it}
 for p in PRIORS:
     try:
@@ -452,6 +474,7 @@ for g in atlas['groups']:
         if fn in taken:                          skipped['already-waved'] += 1; continue
         if not (a.min_ins <= nins <= a.max_ins): skipped['out-of-band'] += 1; continue
         if not is_open(b, fn):                   skipped['already-banked'] += 1; continue
+        if (b, fn) in RESOLVER_HOLD:             skipped['resolver-holds-it'] += 1; continue
         sub = corpus.asm_path(b, fn)
         if not sub:                              skipped['no-asm'] += 1; continue
         # AN -O0 FUNCTION IN AN -O2 OBJECT CANNOT BANK, HOWEVER GOOD THE DRAFT (R43, cookbook §261).
