@@ -1909,7 +1909,9 @@ __asm__(
 ".end\tfunc_8005AD34\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_1B78);
+void SYS_OBJ_1B78(void) {
+    __asm__ __volatile__("addiu\t$sp, $sp, 0x10");
+}
 
 __asm__(
     ".text\n"

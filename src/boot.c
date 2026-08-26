@@ -194,7 +194,15 @@ void func_8001099C(void) {
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80010A08);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80010A98);
+extern void DrawSyncCallback(void (*func)(void));
+extern void func_80042610(void (*func)(void));
+extern void func_8001099C(void);
+extern void func_8001096C(void);
+
+void func_80010A98(void) {
+    DrawSyncCallback(func_8001099C);
+    func_80042610(func_8001096C);
+}
 
 void func_80010AE0(s32 arg0) {
     extern s32 D_80074778;
@@ -537,7 +545,13 @@ void func_80011928(u16 arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_80011998);
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_800119F0);
+extern u8 D_800AF630[];
+
+void func_800119F0(u16 arg0) {
+    register u8 *p = D_800AF630;
+    *(u16 *)(p + 0xA3BA) = arg0;
+    *(u16 *)(p + 0xA3BC) = 0;
+}
 
 extern u8 D_800AF630[];
 
