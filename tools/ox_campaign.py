@@ -905,6 +905,7 @@ def run_gater(a):
         t0 = meta.get("t0", time.time())
         drafts = sorted(glob.glob(f".run/wave_{tag}/shard*/*.c"))
         log(f"=== GATE {tag} · {len(drafts)} drafts ===")
+        gate_t0 = time.time()      # the GATE's own clock; wall_min below also counts drafting + queue wait
         keep, counts = reloc_filter(tag, drafts, meta["cards"])
         log(f"  reloc_identity: {counts} -> gating {len(keep)}")
         lk = _drawlock()
@@ -918,7 +919,11 @@ def run_gater(a):
         hl = (hr.stdout or "").strip().splitlines()
         log(f"  harvest: {hl[-1] if hl else 'FAILED'}")
         rs = rate_slice(t0)
+        # wall_min = since the wave STARTED DRAFTING (t0 from the ready marker) — it was read as the gate's
+        # wall and produced the "30-67 min gates" picture (frontier-analysis-s60 §2.4; real gate walls were
+        # 12-31 min). gate_min is the gate alone: reloc pre-filter + sweep + commit + harvest.
         row = {"wave": tag, "t": t0, "wall_min": round((time.time() - t0) / 60, 1),
+               "gate_min": round((time.time() - gate_t0) / 60, 1),
                "workers": meta.get("workers"), "band": meta.get("band"), "lane": meta.get("lane"),
                "targets": meta.get("targets"), "drafts": len(drafts),
                "truncated_turns": meta.get("trunc"), "reloc": counts, "gated": len(keep),
@@ -927,7 +932,8 @@ def run_gater(a):
         with open(LEDGER, "a") as fh:
             fh.write(json.dumps(row) + "\n")
         log(f"  GATE {tag}: banked {n}/{len(keep)} gated of {len(drafts)} drafts · "
-            f"{rs['requests']} req · {rs['h429']} 429 · {row['wall_min']}min · {sha}")
+            f"{rs['requests']} req · {rs['h429']} 429 · {row['wall_min']}min since draft-start "
+            f"(gate {row['gate_min']}min) · {sha}")
         os.remove(ready[0])
     log("gater: finished")
 
@@ -1001,7 +1007,11 @@ def main():
         n, banked = gate(tag, keep, a.gate_jobs)
         sha = commit(tag, n, banked)
         rs = rate_slice(t0)
+        # wall_min = since the wave STARTED DRAFTING (t0 from the ready marker) — it was read as the gate's
+        # wall and produced the "30-67 min gates" picture (frontier-analysis-s60 §2.4; real gate walls were
+        # 12-31 min). gate_min is the gate alone: reloc pre-filter + sweep + commit + harvest.
         row = {"wave": tag, "t": t0, "wall_min": round((time.time() - t0) / 60, 1),
+               "gate_min": round((time.time() - gate_t0) / 60, 1),
                "workers": 0, "targets": len(drafts), "drafts": len(drafts), "truncated_turns": None,
                "reloc": counts, "gated": len(keep), "banked": n, "commit": sha,
                "mode": "gate-only", "credit_left": credits_left(), **rs}
@@ -1084,7 +1094,11 @@ def main():
         n, banked = gate(tag, keep, a.gate_jobs)
         sha = commit(tag, n, banked)
         rs = rate_slice(t0)
+        # wall_min = since the wave STARTED DRAFTING (t0 from the ready marker) — it was read as the gate's
+        # wall and produced the "30-67 min gates" picture (frontier-analysis-s60 §2.4; real gate walls were
+        # 12-31 min). gate_min is the gate alone: reloc pre-filter + sweep + commit + harvest.
         row = {"wave": tag, "t": t0, "wall_min": round((time.time() - t0) / 60, 1),
+               "gate_min": round((time.time() - gate_t0) / 60, 1),
                "workers": workers, "targets": len(targets), "drafts": len(drafts),
                "truncated_turns": trunc, "reloc": counts, "gated": len(keep),
                "banked": n, "commit": sha, "credit_left": credits_left(),

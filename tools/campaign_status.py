@@ -31,7 +31,9 @@ def sh(cmd):
 
 
 def alive(lane):
-    return bool(sh(f"pgrep -f 'bash .run/{lane}.sh' | head -1"))
+    """Anchored: `pgrep -f 'bash .run/x.sh'` matched THIS tool's own `bash -c "pgrep ..."` wrapper, so
+    every lane read `ok` with zero processes alive (S60 shutdown; verified S61 with a clean ps)."""
+    return bool(sh(f"pgrep -f '^bash \\.run/{lane}\\.sh' | head -1"))
 
 
 def agents_by_wave():
@@ -146,9 +148,23 @@ def main():
     print(f"   distill: {mined} wave(s) mined · ready batches: [{pend}]")
 
     # ---- totals ----------------------------------------------------------------------------------
-    banked = sh("git log --since='00:00' --format='%s' | grep -oE '[—-] [0-9]{1,4} banked' "
-                "| awk '{s+=$2} END {print s+0}'")
-    print(f"\ntoday : {banked} banked · {sh('git log --since=00:00 --oneline | wc -l')} commits")
+    # BANKED TODAY IS DERIVED FROM THE INCLUDE_ASM INVARIANT, NOT FROM COMMIT SUBJECTS (S61, R33).
+    # The subject regex summed "— N banked" and missed every bank that rode in a chore/maint commit:
+    # the S60 A-prop pass put 357 banks in commit:2904 ("chore: ...") and the regex reported 2,185
+    # for a day whose stub count fell by 2,644 net (frontier-analysis-s60 §1). Stubs are counted at
+    # the last commit before midnight, at HEAD, and in the working tree (uncommitted banks — R42
+    # says commit them, the number says whether anyone did). Carves re-add stubs, so this is NET.
+    def _stubs(rev):
+        if rev == "tree":
+            return int(sh("grep -rc 'INCLUDE_ASM(' src/ --include='*.c' | awk -F: '{s+=$NF} END {print s+0}'") or 0)
+        return int(sh(f"git grep -c 'INCLUDE_ASM(' {rev} -- src/ | awk -F: '{{s+=$NF}} END {{print s+0}}'") or 0)
+    base = sh("git rev-list -1 --before='00:00' HEAD")
+    s_base, s_head, s_tree = _stubs(base), _stubs("HEAD"), _stubs("tree")
+    subj = sh("git log --since='00:00' --format='%s' | grep -oE '[—-] [0-9]{1,4} banked' "
+              "| awk '{s+=$2} END {print s+0}'")
+    print(f"\ntoday : {s_base - s_head} net stubs removed since {base[:9]} ({s_base} -> {s_head} committed"
+          f"{'' if s_tree == s_head else f', {s_head - s_tree:+d} more uncommitted in the tree'}) · "
+          f"{sh('git log --since=00:00 --oneline | wc -l')} commits · subject-regex sum {subj} (undercounts)")
     return 0
 
 

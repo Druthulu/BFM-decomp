@@ -172,9 +172,17 @@ PY
   # at BUILD, so every draft gated against it is rejected regardless of quality, and the wave reads
   # as a drafting failure. Five REDs in one day, each burning drafts until the ~3 h sweep noticed.
   # Gates now finish in ~35 min instead of 60, so the check is affordable at every pass.
-  if ! pgrep -f 'tools/sweep_parallel|tools/gate_stage|tools/gate_main' >/dev/null; then
-    say "fleet R22 sweep — this checks binaries no lane has touched"
-    make check-all JOBS=12 >.run/fleet_check.log 2>&1 || true
+  # LOCK-AWARE WINDOW (S61). The pgrep guard above this line's history ("skip while any gate is in
+  # flight") meant the sweep NEVER ran — the gater gates back-to-back, so one was always in flight
+  # (last real sweep 12:54 on 08-25, S60 open thread #4). The wave gater, the maintenance sweep and
+  # the resolver all hold .run/auto/draw.lock for exactly their gate window, so taking that lock IS
+  # the "no overlay gate in flight" condition, and blocking on it gives the sweep a turn instead of
+  # a skip. gate_main holds its own lock and is short (~1 min per batch): skip and retry next pass.
+  if pgrep -f 'tools/gate_main' >/dev/null; then
+    say "fleet R22 sweep skipped this pass: gate_main in flight (retry next pass)"
+  else
+    say "fleet R22 sweep — taking .run/auto/draw.lock (waits for the current gate), then checks every binary"
+    flock .run/auto/draw.lock make check-all JOBS=12 >.run/fleet_check.log 2>&1 || true
     grep -E "^\[FAIL\]" .run/check-all.txt 2>/dev/null | awk '{print $2}' > .run/fleet_red.txt || true
     NRED=$(grep -c . .run/fleet_red.txt 2>/dev/null || echo 0)
     if [ "$NRED" -gt 0 ]; then
