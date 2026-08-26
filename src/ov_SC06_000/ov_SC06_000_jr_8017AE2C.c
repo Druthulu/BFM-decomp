@@ -7956,7 +7956,81 @@ void func_80182CD8(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80182E38);
+void func_80182E38(int param_1)
+{
+    extern s32 D_80126B58;
+    extern s32 D_801AECB0;
+    extern unsigned char D_8018C644;
+    extern void func_8004978C(s16 *a0, void *a1);
+    extern void func_8018325C(s32 a0, void *a1, void *a2);
+    extern void func_8012E014(s32 a0);
+    extern void func_8012B2CC(s32 a0);
+
+    short *dst;
+    char mat[0x20];
+    char sv[8];
+    int v0;
+    int t1;
+    int t2;
+    unsigned int uVar2;
+    int t;
+
+    dst = (short *)&D_80126B58;
+    if (*(short *)(param_1 + 0x70) < 4) {
+        *(unsigned short *)(sv + 2) = 0;
+        *(unsigned short *)(sv + 0) = 0;
+        t1 = *(short *)(*(int *)(param_1 + 0x64) + 0x100);
+        if (t1 >= -0xd0) {
+            v0 = -0x1a0;                          /* retail: -0x1A0 in the j delay slot, jumping PAST the negu */
+        } else {
+            t = (t1 + 0xc0) * 0x3600;
+            v0 = -(((int)t >> 16) + 0x1a0);       /* the negu belongs to the else-arm only */
+        }
+        *(short *)(sv + 4) = v0;
+        func_8004978C((s16 *)(*(int *)(param_1 + 0x20) + 0x10), mat);
+        __asm__ __volatile__(
+            "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
+            "ctc2 $12, $0\n" "ctc2 $13, $1\n"
+            "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
+            "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
+            : : "r"(mat) : "$12", "$13", "$14", "memory");
+        __asm__ __volatile__("lwc2 $0, 0(%0)\n" "lwc2 $1, 4(%0)\n" : : "r"(sv) : "memory");
+        __asm__ __volatile__("nop\n" "nop\n" "mvmva 1, 0, 0, 3, 0\n" : : : "memory");
+        __asm__ __volatile__(
+            "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n"
+            "sh $12, 0(%0)\n" "sh $13, 2(%0)\n" "sh $14, 4(%0)\n"
+            : : "r"(sv) : "$12", "$13", "$14", "memory");
+        *(short *)(param_1 + 6) = *(unsigned short *)(*(int *)(param_1 + 0x64) + 6) + *(unsigned short *)(sv + 0);
+        *(short *)(param_1 + 10) = *(unsigned short *)(*(int *)(param_1 + 0x64) + 10) + *(unsigned short *)(sv + 2);
+        *(short *)(param_1 + 14) = *(unsigned short *)(*(int *)(param_1 + 0x64) + 14) + *(unsigned short *)(sv + 4);
+        t2 = *(short *)(*(int *)(param_1 + 0x64) + 0x100);
+        if (t2 != 0 && t2 >= -0x24f) {
+            uVar2 = *(unsigned int *)(param_1 + 0x1c);
+            *(unsigned int *)(param_1 + 0x1c) = uVar2 + 1;
+            if ((uVar2 & 7) == 0) {
+                *(short *)(sv + 0) = -0x48;
+                *(short *)(sv + 2) = 0;
+                *(short *)(sv + 4) = 0x58;
+                func_8018325C(param_1, mat, sv);
+                *(short *)(sv + 0) = 0x48;
+                func_8018325C(param_1, mat, sv);
+            }
+        }
+    } else {
+        *(short *)(param_1 + 6) = *(unsigned short *)(*(int *)(param_1 + 0x64) + 6);
+        *(short *)(param_1 + 10) = *(unsigned short *)(*(int *)(param_1 + 0x64) + 10);
+        *(short *)(param_1 + 14) = *(unsigned short *)(*(int *)(param_1 + 0x64) + 14);
+    }
+    if (D_801AECB0 == 0 && *(unsigned char *)(param_1 + 0x74) != 0) {
+        func_8012E014(param_1);
+        *(dst + 5) =
+            (*(unsigned short *)(param_1 + 10) +
+             *(unsigned short *)(&D_8018C644 + (*(short *)(param_1 + 0xfe) << 4))) - 1;
+    } else {
+        func_8012B2CC(param_1);
+    }
+}
+
 
 
 extern void (*D_8018C66C[])(void);
