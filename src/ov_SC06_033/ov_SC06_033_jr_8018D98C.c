@@ -4995,7 +4995,54 @@ void func_80190CE0(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018D98C", func_80190E64);
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018D98C", func_8019131C);
+extern void func_8012BE54(s32);
+extern s32 func_8012B8A4(s32);
+extern s32 func_8004787C(s32);
+extern s32 func_80047948(s32);
+extern void func_8012C218(void *);
+extern u8 D_801202A0[];
+extern u8 D_80126B5C;
+extern u8 D_80126B64;
+
+void func_8019131C(s32 arg0) {
+    s32 s0;
+    s16 t;
+    s32 i;
+    u16 *p;
+
+    switch (*(u16 *)(arg0 + 0x34)) {
+    case 0:
+        if (((s32 (*)(s32))func_8012BE54)(arg0) > 0x9000) {
+            *(u16 *)(arg0 + 0x34) = 1;
+        }
+        break;
+    case 1:
+        if (((s32 (*)(s32))func_8012BE54)(arg0) <= 0x9000) {
+            s0 = ((s32 (*)(s32))func_8012B8A4)(arg0);
+            *(s32 *)&D_80126B5C = *(s32 *)(arg0 + 4) - ((s32 (*)(s32))func_8004787C)(s0) * 0xC00;
+            *(s32 *)&D_80126B64 = *(s32 *)(arg0 + 0xC) - ((s32 (*)(s32))func_80047948)(s0) * 0xC00;
+        }
+        *(u16 *)(arg0 + 0xA) = t = *(u16 *)(arg0 + 0xA) + 4;
+        if ((s16)t - *(s16 *)(arg0 + 0x8A) < 0xC0) {
+            break;
+        }
+        p = (u16 *)D_801202A0;
+        i = 0;
+        *(u32 *)(*(s32 *)(arg0 + 0x20) + 4) |= 0x80000000;
+        do {
+            if (*p == 0x350) {
+                *(s32 *)(p + 4) = *(s32 *)(arg0 + 8);
+                *(u32 *)(*(s32 *)(p + 0x10) + 4) &= 0x7FFFFFFF;
+                *(p + 1) += 1;
+            }
+            p += 0x86;
+            i++;
+        } while (i < 0x60);
+        func_8012C218((void *)arg0);
+        break;
+    }
+}
+
 
 extern void (*D_801CB590[])(void);
 

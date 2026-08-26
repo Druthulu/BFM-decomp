@@ -3652,7 +3652,68 @@ void func_801809D4(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80180A10);
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80180B80);
+typedef struct {
+    u8 pad0[8];
+    s32 unk8;
+    s32 unkC;
+    s32 unk10;
+    s32 unk14;
+    u16 unk18;
+    u16 unk1A;
+    u16 unk1C;
+    u8 pad1E[2];
+    u16 unk20;
+    u16 unk22;
+    u16 unk24;
+    u8 pad26[2];
+    s16 unk28;
+    s16 unk2A;
+    s16 unk2C;
+    s16 unk2E;
+    s16 unk30;
+    s16 unk32;
+    u8 pad34[8];
+    s32 unk3C;
+    s32 unk40;
+    s32 unk44;
+    s32 unk48;
+    s32 unk4C;
+    s32 unk50;
+} S;
+
+void func_80180B80(S* arg0, s16* arg1, u16 arg2) {
+    s16 sp0x10[16];
+    s16 sp0x30[4];
+    u16 sp0x38[4];
+    u16 sp0x40[3];
+    s16 temp;
+
+    temp = func_80012C6C(*(s16*)&arg0->unk8, *(s16*)&arg0->unkC, 4);
+    *(s32*)&arg0->unk8 = temp;
+    temp = func_80012C6C(*(s16*)&arg0->unk10, *(s16*)&arg0->unk14, 4);
+    *(s32*)&arg0->unk10 = temp;
+    arg0->unk18 = func_80012ABC((s16)arg0->unk18, (s16)arg0->unk20, 4);
+    arg0->unk1A = func_80012ABC((s16)arg0->unk1A, (s16)arg0->unk22, 4);
+    arg0->unk1C = func_80012ABC((s16)arg0->unk1C, (s16)arg0->unk24, 4);
+    arg0->unk28 = func_80012C6C(arg0->unk28, arg0->unk2E, 0x10);
+    arg0->unk2A = func_80012C6C(arg0->unk2A, arg0->unk30, 0x10);
+    arg0->unk2C = func_80012C6C(arg0->unk2C, arg0->unk32, 0x10);
+    arg0->unk48 = arg0->unk28 + *arg1;
+    arg0->unk4C = arg0->unk2A + arg1[1];
+    arg0->unk50 = arg0->unk2C + arg1[2];
+    sp0x40[0] = arg0->unk18;
+    sp0x40[1] = arg0->unk1A + arg2;
+    sp0x40[2] = arg0->unk1C;
+    func_80181998(sp0x40, sp0x10);
+    sp0x30[0] = 0;
+    sp0x30[1] = 0;
+    sp0x30[2] = arg0->unk10;
+    ApplyMatrixSV(sp0x10, sp0x30, sp0x38);
+    arg0->unk3C = (((s16)sp0x38[0] >> 3) + arg0->unk28) + *arg1;
+    arg0->unk40 = (((s16)sp0x38[1] >> 3) + arg0->unk2A) + arg1[1];
+    arg0->unk44 = (((s16)sp0x38[2] >> 3) + arg0->unk2C) + arg1[2];
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80180D4C);
 

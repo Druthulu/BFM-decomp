@@ -9213,7 +9213,39 @@ void func_80184310(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8017AE2C", func_80184350);
+extern void func_80172710(void);
+extern s32 func_8018739C(void);
+extern s32 func_80188D1C(void *);
+extern s32 func_80178BF8(void);
+
+/* §124 asm-label alias: TU decl layer carries `extern void func_80184350(void*)`
+ * (L9106, used address-only by banked func_801840E4), so a plain-name s32
+ * definition is "conflicting types". Alias per ov_SC03_001_jr_801870B0.c L3309. */
+s32 aF80184350(void *arg0) __asm__("func_80184350");
+
+s32 aF80184350(void *arg0)
+{
+    void *s0 = arg0;
+
+    if ((*(u16 *)(*(s32 *)((char *)s0 + 0x64) + 2) != 2) &&
+        (*(u16 *)(*(s32 *)((char *)s0 + 0x64) + 2) != 8)) {
+        return 0;
+    }
+
+    if (((s32 (*)(void *))func_8018739C)(s0) == 0) {
+        return 0;
+    }
+
+    if (func_80188D1C(*(void **)((char *)s0 + 0x64)) != 0) {
+        return 0;
+    }
+
+    *(u16 *)(*(s32 *)((char *)s0 + 0x64) + 2) += 1;
+    func_80178BF8();
+
+    return (s32)func_80172710;
+}
+
 
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();

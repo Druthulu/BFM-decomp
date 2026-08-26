@@ -486,7 +486,38 @@ __asm__(".text\n.align 2\n.globl func_800D0174\n.ent\tfunc_800D0174\n"
 ".set\treorder\n.end\tfunc_800D0174\n");
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D0204);
+__asm__(".text\n.align 2\n.globl func_800D0204\n.ent\tfunc_800D0204\n"
+"func_800D0204:\n.frame $sp,24,$31\n.mask 0xC0000000,-8\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"addiu $sp, $sp, -24\n"
+"sw $ra, 20($sp)\n"
+"sw $fp, 16($sp)\n"
+"addu $fp, $sp, $zero\n"
+"lui $v0, %hi(D_800EC8B0)\n"
+"lw $v0, %lo(D_800EC8B0)($v0)\n"
+"nop\n"
+"beqz $v0, .L800D0248\n"
+"nop\n"
+"jal func_800D1E58\n"
+"nop\n"
+"jal func_800D0D6C\n"
+"nop\n"
+"jal func_800118AC\n"
+"nop\n"
+"j .L800D0250\n"
+"nop\n"
+".L800D0248:\n"
+"jal func_800118AC\n"
+"nop\n"
+".L800D0250:\n"
+"addu $sp, $fp, $zero\n"
+"lw $ra, 20($sp)\n"
+"lw $fp, 16($sp)\n"
+"addiu $sp, $sp, 24\n"
+"jr $ra\n"
+"nop\n"
+".set\treorder\n.end\tfunc_800D0204\n");
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D0268);
 
