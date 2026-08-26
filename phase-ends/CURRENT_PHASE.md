@@ -1991,3 +1991,60 @@ Every serious stall traced to **an instrument trusted without a control**, never
 
 ## (superseded) previous checkpoint (end of build arc)
 **T0–T9 ALL COMPLETE AND COMMITTED** (through `commit:2181`). Phase totals: **17 banked, 0 agent tokens**; stubs 12,059 → 12,042; R22 213/213 verified twice (post-T1, post-T6). The machine: the Atlas (5,139 groups, `make atlas`), the widened lanes (symfix STALE-DELTA, recover_integration isolation + macro-externs/tu-scope, family_align + len_tells + lenmiss routing), the armed queues (grinder: 59 warmstart records; cards: 954 weak + 192 len + 704 adapt; permuter-49). NEXT = **T10+ the campaign loop**: L3 grinder running in background (launched at checkpoint time); **card/crack WAVES need Drew's `/effort ultracode` toggle first (R27)** — prompt and WAIT. Campaign cadence + close criterion: the plan file §Leg-C. If resuming fresh: read the approved plan + this log; check `.run/auto/grinder_heartbeat.json`; run `make atlas` to refresh; continue the loop.
+
+---
+
+## 🛑 SESSION CHECKPOINT — S61 INTERIM (2026-08-26 00:5x). Phase 31 T10+ CONTINUES. Lanes: gater + maintenance + resolver_lane UP (drafter deliberately DOWN).
+
+**The session so far, in one paragraph.** Read `frontier-analysis-s60.md` and executed its sequence:
+built the INTEGRATION-RESOLVER (tools/integration_resolver.py + lanes/resolver_lane.sh) — first pass
+1,352 nominated → 424 judged in 41 s → 245 staged (57.8%) → **63 banked, zero tokens, ~10 min**
+(commit:2991; subject says 72 = gross incl. 9 carve moves). Probing why 182 doubly-verified drafts
+still refused exposed the night's real story: **15 of 214 binaries were baseline-RED at HEAD**
+(stale JTBL_PADS / missing interleave entries / half-committed carves from S60's evening), refusing
+174 of those 182 regardless of draft quality; the fleet R22 sweep had been guard-skipped since
+12:54. Repairs so far (each byte-proven, committed): ov_SC01_006 (pad spec 0,0→0), ov_MAIN_012 +
+ov_SC02_037 (missing jr_8016AB6C.o interleave entry; +0x20, 1,671/2,176 misplaced symbols). A
+background batch (`.run/resolver/probe/repair3.sh`) is running jtbl_pads_fix over 9 more +
+insertions-only interleave regeneration for 3. Casualties fixed en route: jtbl_pads_fix was broken
+three ways (stale OBJ_ERR bracket regex; only one drift phrasing; write_pads' colon-split poisoning
+the registry into a make parse error that failed EVERY build for ~9 min and was adopted by a blanket
+commit — R52 #2); mk_write now REFUSES parse-poisoned lines; gate_stage now refuses red-listed
+binaries' drafts as BASELINE-RED pre-build (negative-controlled both ways).
+
+**Measurement/tooling shipped:** campaign_status derives banked-today from the INCLUDE_ASM
+invariant (+ anchored pgrep alive()); gater ledger carries gate_min beside wall_min; maintenance
+fleet sweep is draw.lock-aware (it actually runs now); rtu_shadow.py (prospective ledgers for
+fa–fd EXIST at .run/rtu_shadow/<w>.jsonl; join handles 0-bank waves + excludes REDs);
+build_wave_atlas holds resolver-owned (binary,fn) from draws; resolver ledger re-opened 146
+refusals on RED binaries as BASELINE-RED (auto re-judged next pass). Cookbook §293 (the sibling
+law decomposed — the load-bearing part is THE BASELINE, NOT THE SIBLINGS), two decision-log
+entries, accelerators #12.
+
+**In flight right now:** gater re-gating fb honestly (third attempt — attempts 1–2 were voided by
+a NameError guard then the poisoned registry), queue fc/fd/fe/ff behind it; repair3 batch;
+a Fable agent building tools/decl_from_use.py (negative-control-first; its scratch may appear as
+src/*/.cdecl_*.c dotfiles — untracked noise, sweep after it reports). Resolver lane wakes every
+45 min and will re-judge the re-opened items against repaired binaries.
+
+**Next after the notifications:** (1) repair3 results → update .run/baseline_red.txt → commit →
+trigger a resolver pass early; (2) fb..ff gates → `tools/rtu_shadow.py --join fb --join fc ...` →
+the INVERSION decision (§3: false-negative <~2% flips the gate to rtu-first); (3) decl_from_use
+slate → resolver intake; (4) then S61-5 re-aim (gen0/main/3–8 band) + the 8k-vs-16k A/B on the
+first relaunched wave; (5) escalation tier only after the resolver stock drains.
+
+**Hazards for whoever resumes:** kill lane PYTHONS by PID and verify with `ps -o lstart` (pgrep -f
+self-matches your own wrapper — it killed two restart helpers AND the gater tonight); never let a
+script's own text contain the pattern it pkills; the gater blanket-commits src/ config/ at gate
+entry — probes that splice into src/ must hold the per-binary lock AND finish before gate entry, or
+ride into a chore commit (the ov_MAIN_012 repair did — commit commit:2998 — harmless but
+mis-attributed). Stop sentinels are CLEAR; `.run/baseline_red.txt` is live gate input — keep it
+current as repairs land.
+
+**Rule candidates added tonight (P10):** R56 — A GATE VERDICT IS A MEASUREMENT OF THE DRAFT ONLY
+WHILE THE BINARY'S BASELINE IS GREEN; check the baseline before billing the subject (extends
+R35/R40 to the subject's environment; enforcement shipped as the BASELINE-RED skip + the fleet
+audit). R57 — AN INSTRUMENT'S OWN WRITE PATH IS PART OF THE INSTRUMENT: a repair tool whose writer
+corrupts what it measures voids its own search and reports the corruption as the subject's failure
+(write_pads; extends R40/R43). R58 — A SESSION-CLOSE "CLEAN" MUST QUOTE THE FLEET'S GREEN COUNT:
+tree-clean and fleet-green are different invariants (S60 closed "clean" with 15 binaries red).

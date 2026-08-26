@@ -29017,3 +29017,53 @@ the per-candidate verdicts above:
 
 ## §292 — DECLARING A SYMBOL UPSTREAM OF AN ALREADY-BANKED SIBLING THAT RELIES ON THAT SYMBOL'S IMPLICIT (K&R) DECLARATION CAN SILENTLY REPROTOTYPE THE SIBLING'S OWN CALL SITE (P31 S60; waves #, byte-proven)
 #
+
+## §293 — THE "WHOLE-OBJECT GATE NEEDS EVERY SIBLING" LAW, WRITTEN PROPERLY: IT IS THREE LAWS, AND THE LOAD-BEARING ONE IS "THE BASELINE, NOT THE SIBLINGS" (P31 S61; byte-proven on 15 binaries in one night)
+
+Eight cards across four waves independently re-derived "the whole-object gate needs every sibling
+matched" (§283 flagged it as the strongest missing-section signal). Taken literally it is FALSE —
+`--chunk 1` gates one draft per build and a correct draft banks with every sibling still a stub —
+but the agents were observing something real. It decomposes into three separable laws:
+
+**(1) The batch-revert policy artifact (historical, already ended).** §12/§14-L1144/§20: a chunked
+gate or an all-or-nothing slate reverts every co-spliced draft when ONE fails, so a byte-perfect
+body reads as refused. `--chunk 1` + stage-0-first ended the mechanism; the folklore survives in
+cards because the SYMPTOM (my perfect draft won't bank) persists via (2) and (3).
+
+**(2) The structural coupling that is real: a bank moves rodata.** A stub's `.s` carries the
+function's jump tables and migrated rodata islands at their RETAIL positions; banking the function
+makes the COMPILER emit them into the TU object's `.rodata` instead. Retail layout then survives
+only if the carve chain is complete and current: the splat yaml `.rodata` subsegment (§8), the
+object's entry at the right position in `<bin>_JTBL_INTERLEAVE` (§8b), and a correct per-object
+`JTBL_PADS` spec (§8e). ONE missing or stale piece shifts every later rodata/data/text reference —
+byte-witnessed tonight: a single absent `ov_MAIN_012_jr_8016AB6C.o` interleave entry displaced
+1,671 symbols by +0x20; a stale 2-entry pad spec (its `switch` function had been reverted, taking
+a table with it — the R51 stored-derived-property class) held ov_SC01_006 RED; ov_SC04_000's wave-
+committed carve left the order list one object short (+0x2944 from `tail19` on). None of this is
+about siblings — it is about the OBJECT's rodata bookkeeping.
+
+**(3) The load-bearing law: A GATE VERDICT IS A MEASUREMENT OF THE DRAFT ONLY WHILE THE BINARY'S
+BASELINE IS GREEN.** When (2) breaks, the BINARY fails its locked SHA with no draft spliced at all
+— and then every draft gated against it is refused regardless of quality, which reads exactly like
+"my sibling is blocking me." Measured tonight (S61 fleet audit, 214 binaries): **15 binaries were
+baseline-RED at HEAD**, and they accounted for **174 of the 182 refusals of the resolver's
+doubly-verified drafts** (245 staged; rtu-MATCH at the real TU AND reloc-AGREE on symbols). They
+went red DURING S60's evening incremental banking — §61c's "incrementally valid, clean-invalid" —
+and the fleet sweep that would have caught them had been guard-skipped since 12:54 (R54). The gate
+now refuses a red-listed binary's drafts as class BASELINE-RED before any build (gate_stage,
+`.run/baseline_red.txt` ∪ `.run/fleet_red.txt`), so a broken baseline can never again be billed to
+the drafts. Corollary, one night, same class: an INSTRUMENT'S OWN WRITE PATH IS PART OF THE
+INSTRUMENT — `jtbl_pads_fix.write_pads` split its target line on ':' (but `:=` contains one),
+poisoned the registry into a make parse error ("target pattern contains no '%'"), which failed
+EVERY build of EVERY binary, voided its own candidate search (0 winners: its writer broke the
+build it was measuring), and was adopted by a blanket pre-gate commit (R52's second instance).
+`mk_write` now refuses parse-poisoned lines.
+
+**Recipe when a "wall" function won't bank and the body is proven:** (a) `make build BINARY=<bin>`
+on a CLEAN tree first — if the baseline is red, stop blaming drafts; (b) locate the shift, don't
+guess: `cmp -l` the built image against the retail bytes and map offsets through the linker map —
+name-encoded symbols (`D_/func_/jtbl_<addr>`) make "first misplaced symbol, delta, section, object"
+a two-minute derivation; (c) the object it names tells you which carve piece is missing/stale
+(yaml subsegment / interleave entry / pad spec); repair THAT, byte-prove, commit; (d) only then
+re-judge the drafts — tonight the resolver's ledger re-opened them automatically (BASELINE-RED is
+not a final verdict).

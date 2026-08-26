@@ -2489,3 +2489,83 @@ three-quarters-hopeless numerator. The real denominator is 973 open members; the
 reachable slice is ~120/pass banking at ~50–60%; the remaining ~850 are named residuals (169
 STRUCT cracks, 121 type-inference, ~73 IMM tier-2, wrong-family cards) — work for different
 tools, not this lane. Saying so beats reporting a flattering fraction of the wrong denominator.
+
+## 2026-08-25 (P31 S61) — the wall is an integration wall: stop re-drafting solved functions, re-judge them
+
+**Context and belief.** Through S58–S60 the campaign optimised the wide wave: band, mix, card
+count, sibling-inclusive draws, straggler handling, gate parallelism. Each lever moved yield by
+single digits while first-gate conversion slid from 51% (dd) to 1–6% (en/eo/ex/ey/ez), and the
+going explanation was population exhaustion of a *codegen* frontier — the gen6+ "wall".
+
+**What the measurement said instead** (`docs/tool-designs/frontier-analysis-s60.md`, a read-only
+Fable audit at session end): of the 292 functions refused six or more times, 178 had ALREADY
+produced a closeness-0 draft — byte-equal at the object level, refused by the whole-binary gate —
+and across the open pool ~571 functions had finished drafting. The fleet kept re-drafting them
+(10,049 reject rows over 574 distinct functions), and the gate spent ~3 whole-binary builds per
+failing draft confirming failures that were never about the draft's text.
+
+**The pivot.** Build the deterministic lane the analysis asked for instead of touching the wave
+again: `tools/integration_resolver.py` treats the ledgers as an INDEX (not a promise — a July
+closeness-0 draft can CC1-fail today because the fleet's declarations moved), re-judges every
+candidate at the REAL split TU with `rtu_match`, requires `reloc_identity` to agree on symbols
+(rtu masks relocation fields, so a wrong symbol name still reads MATCH — R34's disagreeing
+oracle), rebases with `aprop_symfix` where only names are wrong, stages, gates on the whole-binary
+SHA, commits at once (R42). Refuses main by name, `//@EDIT` drafts, dirty trees, collapsed
+registries; a negative control over recently-banked functions must pass N/N before a verdict is
+read (its first form picked carve moves as banks and failed 9/12 — fixed before any stock verdict
+existed, R35).
+
+**Why, in numbers (denominators, R41).** First pass, 2026-08-25 23:38–23:48: 1,352 nominated
+(binary, fn) pairs → 901 already banked, 27 main → **424 judged in 41 s → 245 staged (57.8%) →
+63 banked** (net INCLUDE_ASM delta; the commit subject's "72" counted 9 carve moves), zero model
+tokens, ~10 minutes wall. The wave lane's best recent gate banked 13 of 222 in a ~30-minute gate.
+The falsifier (<5% survive intake) was not close.
+
+**What the refusals then taught, byte by byte.** 182 doubly-verified drafts were still refused.
+Probe 1 (`md_SC03_076/func_801EFBB4`, 407 ins): the spliced binary builds and 66 bytes differ at
+file offsets 324–2440 — the `.rodata` jump tables the stub's `.s` carried (`jtbl_801EF5AC`,
+`jtbl_801EF5E4`) move by one word when the compiler emits them itself: the §8e/§260 table-placement
+class, not codegen. Only 43 of the 182 carry rodata at all; 139 (in 16 binaries) were refused with
+no rodata coupling — that residual is the next thing to characterise (cookbook §293 records what the
+probes find).
+
+**Hindsight — the better path.** The ledgers held the evidence for weeks: `closeness: 0` rows with
+"whole-binary gate rejected — CAUSE NOT DETERMINED" as their verdict. A verdict that names no cause
+is a measurement nobody can act on; the cheap move — re-judge the stored body at the real TU and
+diff the BYTES of the built image against the good one — costs ~90 s per function and should have
+been the gate's own failure report from the day the ladder was built. Generalisable: when a
+correctness oracle says "no" without saying where, build the second instrument that says where
+before tuning anything upstream of it.
+
+## 2026-08-26 (P31 S61, small hours) — the RED fleet: the wave collapse had a third cause nobody was billing
+
+**Context.** After the resolver banked 63 zero-token functions, 182 of its doubly-verified drafts
+(rtu-MATCH at the real TU, reloc-AGREE on symbols) were still refused by the whole-binary gate, and
+the per-binary refusal counts were all-or-nothing: 23/23, 23/23, 18/18, 13/13 in single binaries.
+
+**What the probes said.** All-or-nothing per binary is not a property of drafts. A clean-tree build
+of the fully-refusing binaries: 15 of 214 fleet binaries were baseline-RED at HEAD — seven not even
+building (stale JTBL_PADS after S60's evening banks/reverts), the rest byte-shifted (a missing
+interleave entry; a wave-committed half carve). They had been red for 4–12 hours because the fleet
+R22 sweep was guard-skipped whenever any gate was in flight — i.e., always. Every wave gate and
+every resolver gate against them since was a measurement of the BINARY billed to the DRAFTS —
+part of the "1–6% conversion" story S58–S60 attributed to population exhaustion.
+
+**The pivot.** Stop diagnosing drafts; audit and repair baselines: per-binary clean audit → the
+byte-proven repairs (jtbl_pads_fix for pad drift — itself first un-broken three ways, R40;
+insertions-only interleave regeneration from the splat yaml for layout shifts) → a gate-side
+BASELINE-RED refusal so a red binary's drafts are never judged (negative-controlled both ways) →
+re-open the mislabeled refusals in the resolver ledger for automatic re-judging.
+
+**Casualties of the night, recorded because they are the pattern.** The repair tool's own writer
+poisoned the registry into a make parse error that failed every build of every binary for ~9
+minutes, voided one wave's re-gate and its own candidate search, and was adopted by a blanket
+pre-gate commit (R52 instance #2). Two gater-restart helpers killed themselves via unanchored
+pgrep self-match (the S60 hazard, from the other side). Every one of these is the same lesson:
+the instrument — including its write path, its restart path, and the baseline it measures against
+— is part of the experiment.
+
+**Hindsight.** The S60 close declared "tree clean, all lanes stopped" and was true, while 15
+binaries were silently red — "clean" and "green" are different invariants, and only one of them
+was checked. A session-close ritual (and any wave post-mortem) should quote the fleet's GREEN
+count next to the tree's cleanliness; tonight that number was 197/214 pretending to be 214/214.

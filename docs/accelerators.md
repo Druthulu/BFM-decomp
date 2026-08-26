@@ -261,3 +261,11 @@ accelerator: for ANY lane that mass-produces candidates from a template, build t
 FIRST (cheapest oracle to most expensive, every verdict consumed, every drop named), and treat "an
 oracle exists but the lane doesn't consume it" as a defect with a per-pass machine cost, not a
 nice-to-have (`docs/tool-designs/aprop-lane-s59.md`, cookbook §270–§273).
+
+## #12 — Byte-locate the residual before blaming the draft (P31 S61)
+`cmp -l built retail | map through <bin>.map` names the first misplaced symbol, its delta, section
+and OBJECT in ~2 minutes; name-encoded symbols (D_/func_/jtbl_<addr>) mean the retail address is
+already in the name. One derivation replaced days of "CAUSE NOT DETERMINED" backlog rows and
+turned 15 mystery walls into three named config repairs. Corollary: gate verdicts need a green
+baseline — audit `make build BINARY=<b>` per binary BEFORE trusting any per-draft verdict
+(gate_stage now refuses red-listed binaries' drafts as BASELINE-RED).
