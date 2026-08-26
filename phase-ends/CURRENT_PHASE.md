@@ -164,6 +164,36 @@ writes `docs/tool-designs/frontier-analysis-s60.md` — **READ THAT FIRST NEXT S
 6. **The unwritten law**: 8 cards across 4 waves independently re-derived that the whole-object gate
    needs every sibling matched. Recorded in §283; never written as its own section.
 
+### THE 8k-vs-16k QUESTION — UNRESOLVED, AND THE A/B THAT WOULD SETTLE IT
+Drew asked whether waves cracked better BEFORE the output budget was raised (MAXTOK 8000 -> 16000
+in S59). The record holds one clean measurement and one confound, and they point opposite ways.
+
+**Clean (measured, S59's own ledger).** Raising MAXTOK to 16k DID cause a real regression — overlay
+draft completion fell from **84-89% (8k) to 41% on wave bt and 69% on bu**. The cause was a harness
+interaction, not the model: at ~30 tok/s a 16k generation runs ~530 s while STRAGGLER_GRACE was
+still 120 s, so agents were guillotined mid-thought with NO draft at all. Raising the grace to 700 s
+fixed it; completion has run 97-99% since.
+
+**Confounded (cannot be resolved from existing data).** On BANKS PER DRAFT the 8k era looks better:
+S59 records the default lane at **1,335 banked of 2,996 drafts = 44.6%**, while today's best 16k
+waves ran dd **217/625 = 34.7%** and de **192/647 = 29.7%**. But the two eras drew from different
+populations — 8k waves still had never-drafted work, today's draw from skeletons that have refused
+six times each. Token budget and population exhaustion moved TOGETHER, so neither number isolates
+the other. Do not cite either as evidence about the budget.
+
+**Separately measured today, and it rules out the simple story**: truncated-turn rate is INVERSELY
+correlated with bank rate — the best waves had the MOST truncation (cx 8.7% trunc / 43.9% bank;
+dd 8.3% / 51.4%) and the dead ones the least (dl 1.3% / 0.5%; ej 0.6% / 0%). If budget exhaustion
+were driving the decline that relationship would run the other way.
+
+**THE A/B THAT SETTLES IT (do this next session — it is cheap):** draw ONE card pool and split it
+within a SINGLE wave — half the shards at MAXTOK 8000, half at 16000, everything else identical
+(same generation mix, same binaries, same gate, same tree state). Compare banks per DRAFT and per
+GATE MINUTE, not completion. Holding the population constant is the entire point; every historical
+comparison fails precisely because it does not. Keep STRAGGLER_GRACE at 700 s for both arms, or the
+8k arm wins on an artefact. If 8k matches or beats 16k on banks per draft, the cheaper budget also
+buys more agents per unit time, which compounds.
+
 ### SESSION STOPPED 22:55 — ALL LANES DOWN, TREE CLEAN
 Every campaign process was stopped deliberately at session end (0 alive, verified twice after
 settling). Stop sentinels `.run/ox_campaign.stop` and `.run/auto/STOP` are SET — **delete both
