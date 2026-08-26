@@ -2361,3 +2361,17 @@ re-enter their natural classes.** Three drift classes, all from blanket restores
 order ⇔ yaml (SC03_015, SC02_005), pads ⇔ compiled tables (SC03_024 missing spec, SC06_022 ×2,
 SC04_018), and a TU that never compiled (SC04_018). `.run/t1/interleave_check.py` +
 `.run/t1/pads_audit.py` (to be promoted) diagnose the first two offline.
+
+**T2 milestone proof — the clean fleet sweep (R22/R58) said 207/213, not 213/213.** `make clean →
+extract-all → check-all` at 14:28 (the first clean sweep since 09:20) failed SIX binaries that no
+incremental gate had flagged: ov_SC03_002, ov_SC01_077, ov_SC04_019, ov_SC01_084 (order ⇔ yaml
+DRIFT — whole-island shifts of 240k–650k bytes), ov_SC05_010 (pads `0,0` for one table — the 09:20
+maintenance repair to `0` was blanket-reverted by the 10:21 ds1 wave commit, the R59 class exactly),
+and md_SC07_003 (`[EXTRACT FAIL]` under the parallel extract-all, yet `make extract` succeeds
+serially — a suspected race, re-measured by the second sweep). `interleave_check --fix` (order
+regenerated from the yaml) + a pads_audit-derived spec healed all five overlays byte-identically
+(commit:3095). Second clean sweep launched for the definitive GREEN count.
+Rule candidate for the PhaseEnd (R60): config/overlays.mk and the splat yamls are CARVE STATE, not
+plain config — a gate/lane commit may only carry its own binary's lines, and any blanket
+restore/commit of either file is followed by `interleave_check` + `pads_audit` on every binary it
+touched; the fleet's last clean sweep time is quoted with every "GREEN" claim (R58 sharpened).
