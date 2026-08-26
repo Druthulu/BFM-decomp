@@ -589,7 +589,40 @@ void func_80011E84(s32 a0) {
     D_80074790 = a0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011EB4);
+void func_80011EB4(void) {
+    extern s32 D_800629D0;
+    extern s32 D_80074788;
+    extern s32 D_80074790;
+    extern u16 D_80074794;
+    extern u16 D_80074798;
+    extern s32 func_80014B10(s32 a0);
+    extern s32 func_800149E0(s32 a0);
+    u16 local;
+
+    switch (D_800629D0) {
+    case 0:
+        local = func_80014B10(0);
+        *(u16 *)(0x80700000 + D_80074788 * 2) = local;
+        D_80074788++;
+        local = func_800149E0(0);
+        *(u16 *)(0x80700000 + D_80074788 * 2) = local;
+        D_80074788++;
+        break;
+    case 1:
+        if (D_80074790 != 0) {
+            D_80074794 = *(u16 *)(D_80074790 + D_80074788++ * 2);
+            D_80074798 = *(u16 *)(D_80074790 + D_80074788++ * 2);
+        } else {
+            D_80074794 = 0;
+            D_80074798 = 0;
+        }
+        break;
+    case 2:
+        D_80074794 = *(u16 *)(0x80700000 + D_80074788++ * 2);
+        D_80074798 = *(u16 *)(0x80700000 + D_80074788++ * 2);
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/boot", func_800120DC);
 

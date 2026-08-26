@@ -72,7 +72,21 @@ __asm__(".text\n.align 2\n.globl EnableEvent\n.ent\tEnableEvent\n"
         "nop\n"
         ".set\treorder\n.end\tEnableEvent\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", DisableEvent);
+__asm__(
+    ".text\n"
+    ".align 2\n"
+    ".globl DisableEvent\n"
+    ".ent\tDisableEvent\n"
+    "DisableEvent:\n"
+    ".frame $sp,0,$31\n"
+    ".set\tnoreorder\n"
+    "addiu $10, $0, 176\n"
+    "jr $10\n"
+    "addiu $9, $0, 13\n"
+    "nop\n"
+    ".set\treorder\n"
+    ".end\tDisableEvent\n"
+);
 
 INCLUDE_ASM("asm/nonmatchings/800c3", ReturnFromException);
 
