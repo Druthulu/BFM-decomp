@@ -102,7 +102,17 @@ void func_800CFBF0(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_011/nonmatchings/md_MAIN_011", func_800CFC58);
+extern s32 func_800167F0(s32 a0);
+
+void func_800CFC58(void) {
+    if ((func_800167F0(4) & 0xffff) != 0) {
+        func_800118AC();
+        func_80011B7C(0);
+        func_8001C044();
+        func_80015310();
+    }
+}
+
 
 void func_800CFCBC(void) {
     extern s32 D_800D4C94;
