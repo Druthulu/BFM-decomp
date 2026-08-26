@@ -2103,3 +2103,20 @@ never revert) → `wc -l config/overlays.mk` ≈ 5,085 → `cat .run/baseline_re
 `ps -o lstart` with patterns assembled at runtime (pgrep -f self-matches its own wrapper — it
 killed three helpers tonight). The gater idles on an empty ready queue; feed it by re-queueing
 `.run/ready/<tag>.json` markers or relaunching the drafter (S61-5 first).
+
+### S61-6 VERDICT (2026-08-26 03:2x) — MAXTOK ABCD, paired, byte-judged
+Same 10 gen0 functions (22–55 ins), four budgets, identical warm-start inputs verified per arm
+(10 ghidra_c seeds + 6 old backlog drafts, same files every arm; an earlier arm-to-arm
+contamination — big arms resuming from the small arms' fresh drafts — was caught in the shard
+logs, killed, quarantined, and relaunched cold). Judge: splice → build → whole-binary SHA →
+snapshot-restore per draft under per-binary locks. **BANKABLE: 8k 10/10 · 16k 10/10 · 24k 8/10 ·
+32k 8/10** (big arms: two budget-never-converged NO-DRAFTs plus the 55-ins fn BYTE-DIFF in both).
+Truncated turns 6/1/0/0 — truncation recovers across the turn loop and does not cost banks (the
+S60 inverse-correlation, now paired-confirmed). **Decision: overlay drafting at MAXTOK=8000**
+(fastest turns, most shots/hour); the main lane keeps its own tuned 16000 (also a 10/10 arm).
+Caveat (R41): n=10 at 22–55 ins; the gen0 tail (p90 246 ins) is extrapolation. The 10 winners
+were staged and banked for real (commit:3023; 6 first-pass, remainder accounted in the ledger).
+Gen0 sweep launched at 8000/700: 196 sweepable non-main fns in waves g0a–g0d (size-ascending,
+<=60 agents), each wave queued to the gater as its drafts land; main's 231 gen0 run through the
+main lane. Rule-candidate data point for the effort doctrine: MORE OUTPUT BUDGET IS NOT MORE
+QUALITY on this model/population — budget bought nothing the turn loop didn't already provide.
