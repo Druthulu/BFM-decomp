@@ -2262,3 +2262,4 @@ controlled experiment, spent five dollars proving paid drafting works on the rig
 and wrote everything we learned into the project's permanent playbook. The machine is now parked,
 clean, and fully documented; the next session opens the finish plan and drives the last few
 percent to a complete, byte-perfect decompilation.
+HANDOFF ITEM 1 DONE 12:45 — doc verified+committed
