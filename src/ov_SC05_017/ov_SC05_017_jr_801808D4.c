@@ -3960,7 +3960,30 @@ void func_80181D50(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_801808D4", func_80181E0C);
+extern void func_80172710(void);
+extern s32 func_801845DC(void);
+extern s32 func_80185F5C(void *);
+extern s32 func_80178BF8(void);
+
+#define func_80181E0C func_80181E0C_definition
+s32 func_80181E0C(void *a0) __asm__("func_80181E0C");
+s32 func_80181E0C(void *a0)
+{
+    void *s0 = a0;
+
+    if (*(u16 *)(*(void **)(s0 + 0x64) + 2) == 2) {
+        if (func_801845DC() != 0) {
+            if (func_80185F5C(*(void **)(s0 + 0x64)) == 0) {
+                *(u16 *)(*(void **)(s0 + 0x64) + 2) += 1;
+                func_80178BF8();
+                return (s32)func_80172710;
+            }
+        }
+    }
+    return 0;
+}
+#undef func_80181E0C
+
 
 
 /* func_80181E90 — state-entry init (family exemplar, reach x11).

@@ -3622,7 +3622,34 @@ s32 func_8017D65C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017D788);
+u32 func_8017D788(s32 arg0, s16 arg1, s16 arg2) {
+    s16 vec1[3];
+    s16 vec2[3];
+    u32 ret;
+    s32 t;
+    s32 x;
+    s32 y;
+
+    t = func_8004787C(*(u16 *)(*(u32 *)(arg0 + 0x20) + 0x12) & 0xFFF);
+    x = *(u16 *)(arg0 + 6) - (t * arg1 >> 12);
+    vec1[0] = x;
+    vec1[1] = *(u16 *)(arg0 + 0xA) - 0x10;
+    t = func_80047948(*(u16 *)(*(u32 *)(arg0 + 0x20) + 0x12) & 0xFFF);
+    y = *(u16 *)(arg0 + 0xE) - (t * arg1 >> 12);
+    vec1[2] = y;
+    vec2[0] = vec1[0];
+    vec2[1] = vec1[1] + 0x20;
+    vec2[2] = y;
+    ret = func_80133784(1, vec1, vec2);
+    if (((ret & 0x6000) == 0) && (arg2 != 0)) {
+        t = func_8004787C(*(u16 *)(*(u32 *)(arg0 + 0x20) + 0x12) & 0xFFF);
+        *(u16 *)(arg0 + 6) = vec2[0] + (t * arg1 >> 12);
+        t = func_80047948(*(u16 *)(*(u32 *)(arg0 + 0x20) + 0x12) & 0xFFF);
+        *(u16 *)(arg0 + 0xE) = vec2[2] + (t * arg1 >> 12);
+    }
+    return ret;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017D8D4);
 
