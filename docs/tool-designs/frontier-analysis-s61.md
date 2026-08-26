@@ -506,3 +506,17 @@ SHA `143dbb89…` byte-identical, **banked 4/4** (`commit:3079`).
 **Net T1: +6 banks (2,517 → 2,511 stubs; fleet 98.4% instr / 96.7% distinct), 1 instrument defect
 closed, 2 tools promoted.** The deterministic-first mass is unchanged in shape: the resolver's
 stock is now carver-gated (T3) and red-gated (T2); nothing in class J is a drafting problem.
+
+## Addendum 3 — 2026-08-26 (S62), plan step 2 executed: all five red binaries GREEN in one session
+
+Order actually used: SC03_015 → SC03_024 → SC06_022 → SC02_005 → SC04_018 (SC02_005 turned out to
+be single-defect once the order/yaml drift was named, so it went before SC04_018). Every red was a
+drifted carve spec (cookbook §302), not a mystery: two order⇔yaml drifts from blanket restores
+(SC03_015, SC02_005), three pads⇔tables drifts (SC03_024 had NO spec line; SC06_022 ×2 and
+SC04_018 carried a rival lane's / a reverted function's table count), plus SC04_018's TU that had
+not compiled since an 08-13 propagation (four text defects incl. an offset/value swap). Tools built:
+`tools/interleave_check.py`, `tools/pads_audit.py` (derive, never search).
+Yield: **red list 5 → 0**; the 40 held resolver drafts gated **39/40** (7+4+9+1+18; the 40th was
+already banked by propagation); the 241 held fns re-enter their natural classes; class A is
+dissolved. Commits `commit:3084 … commit:3093`. The fleet-wide R22 proof (clean → extract-all →
+check-all, GREEN count) runs next and is quoted in CURRENT_PHASE.md.

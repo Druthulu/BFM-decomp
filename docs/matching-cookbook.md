@@ -29627,3 +29627,47 @@ red-binary NO-OBJ + main's 2 data blobs + func_80062808, all with `jrel = 0`, pr
 class. The resolver's 54 CARVE-REFUSED drafts are "byte-correct at rtu" only modulo `j` targets —
 re-judge them under the new comparer before the carver spends builds on them; the whole-binary gate
 was, and remains, the sole arbiter (G3/P9).
+
+## §302 — A RED BINARY IS A DRIFTED SPEC, NOT A MYSTERY: THE THREE CARVE-STATE INVARIANTS AND HOW TO DERIVE EACH FROM THE BYTES (P31 S62 T2; five reds healed in one session, 5/5, +39 held banks)
+
+The overlay jtbl carve (§8/§8a/§8e) keeps THREE stored descriptions of one fact — where each
+matched switch's jump table sits in the rodata island: (1) the splat yaml's `[.rodata, <TU>]`
+subsegs with the data tail split into `tailN` pieces around them; (2) the `<ov>_JTBL_INTERLEAVE
+--order` list in config/overlays.mk (the ld sandwich); (3) the per-object `JTBL_PADS` (one entry per
+`.align 3` the TU emits, 0 or 4). They are written together by `jtbl_carve` and by the gate's §8a
+carve, and they drift apart the moment ANY of them is restored, reverted or edited alone. Every one
+of the five S61 reds was such a drift; none was a codegen or tool mystery:
+
+| red | symptom | invariant broken | cause |
+|---|---|---|---|
+| ov_SC03_015 | `ld_interleave: expected 1 tail21.data.o, found 0` + "more tables than the 2-entry spec" | order ≠ yaml; pads ≠ tables | the 17:43 "RESTORE overlays.mk" resurrected a 06:58 order after wave de had merged two carves in the yaml |
+| ov_SC02_005 | `expected 1 jr_8018EA04.o(.rodata), found 0` ("+0xAE8 shift") | order ≠ yaml | a gate wrote the order for a TU split that a later yaml restore removed |
+| ov_SC03_024 | +4 rodata shift, 1,041 sparse diffs, binary +4 | pads MISSING | no `JTBL_PADS` line at all → the pads stage never ran → default `.align 3` padded between two back-to-back 5-entry tables |
+| ov_SC06_022 | `consumed 1 but 2` (two objects) | pads ≠ tables | a rival lane flip-flopped the yaml between one and two carved tables while the restored mk kept `0,4` |
+| ov_SC04_018 | `consumed 3 but 4` + a TU that never compiled | pads ≠ tables; TU text | a function reverted to a stub (its table still in the carve); plus four text defects from an 08-13 propagation |
+
+**Derive, never search (R33/R37).** Each invariant is computable from the bytes:
+- `tools/interleave_check.py <ov>` — order list vs the yaml subseg sequence, position by position.
+- `tools/pads_audit.py <ov>` — for each object with a pads line: compile the TU (cpp|cc1|maspsx,
+  pads stage removed) and count its `.align 3` tables + entries; walk the retail words inside the
+  yaml carve with those sizes: a table either follows immediately (pad 0) or after exactly one zero
+  word (pad 4), every entry must be an in-range code address, the walk must end at the carve end.
+  Result classes: `ok`, `SPEC-DRIFT` (the derived spec is the fix), `CARVE-DRIFT` (the walk misses
+  the carve end — a table was added/removed in the TU: a banked switch not yet carved, or a stub
+  whose table is still inside the carve; the fix is a carve edit, not a pad value).
+- A stub's table inside a carve is fine and self-placing: its `.s` carries the jtbl and lands AFTER
+  the C tables in the object's `.rodata` (ov_SC04_018's 4th table), so the pads spec counts only the
+  C tables.
+- S61's "value searches found no unique winner" were searches over a wrong ORDER (SC03_015) or a
+  NONEXISTENT line (SC03_024) — R40: exonerate the instrument, then derive.
+
+**The gate-side tells.** `ld_interleave: expected exactly 1 X, found 0` ⇒ order ≠ yaml. `jtbl_rodata_pads:
+consumed N but M` ⇒ pads ≠ compiled tables. A SHA mismatch with the same size and sparse diffs from
+early code onward ⇒ a data-island shift (missing/extra pad word); cmp the built binary against the
+retail file and decode the first differing words (`tools/diff_autopsy.sh` for a draft; plain `cmp -l`
++ the `.map` for a config defect). Two differing bytes inside one function ⇒ a text defect in that
+function (SC04_018: offset/value swapped in one store).
+
+**Process rule that falls out (R59 candidate, sharpened):** a blanket restore of overlays.mk or a
+splat yaml is a carve-state edit; it must be followed by `interleave_check` on every overlay whose
+lines it touched, and `pads_audit` on every object whose spec it carried.
