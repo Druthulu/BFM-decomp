@@ -2717,7 +2717,18 @@ __asm__(
     ".end\tSYS_OBJ_2DD8\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005C020);
+extern s32 VSync(s32 mode);
+extern s32 D_800728A0;
+extern s32 D_800728A4;
+
+s32 func_8005C020(void) {
+    s32 t;
+
+    t = VSync(-1);
+    D_800728A0 = t + 0xF0;
+    D_800728A4 = 0;
+    return t + 0xF0;
+}
 
 /* func_8005C054 ("get_alarm"): GPU-timeout poller -- VENDOR-COMPILED libgpu code (polls VSync),
  * NOT gcc-2.7.2 output. Measured, not assumed: the best honest-C body prices at 93 ins vs the
