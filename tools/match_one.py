@@ -25,7 +25,14 @@ import residual_class
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 ap.add_argument('fn')
 ap.add_argument('--c', help='C file (externs + the function def). Default: search .run/drafts3|2|/')
-ap.add_argument('--asm-subdir', default='asm/resident/nonmatchings/resident')
+ap.add_argument('--asm-subdir', default='asm/resident/nonmatchings/resident',
+                help='directory holding <fn>.s. THE DEFAULT IS A TRAP FOR ANY BINARY BUT RESIDENT '
+                     '(P31 S60): function names are ADDRESS-DERIVED, and overlays share the address '
+                     'space, so the same name is often a DIFFERENT function in another binary (the '
+                     '§238 homonym trap). A caller that omits this flag silently diffs against '
+                     "resident's version and gets a confident verdict about the wrong target. The "
+                     'drafting path is safe — api_draft passes dirname(card.asm) — so this warns '
+                     'rather than refuses, to avoid breaking resident-era callers that rely on it.')
 ap.add_argument('--work', default=None,
                 help='scratch dir. Default: a PRIVATE per-invocation dir (.run/match/<fn>.<pid>). '
                      'It used to default to the SHARED ".run/match", which silently broke the one '
@@ -96,6 +103,10 @@ def detect_o0(spath):
     return setup and save
 
 
+if '--asm-subdir' not in sys.argv:
+    print(f'match_one: WARNING — no --asm-subdir given, defaulting to {a.asm_subdir!r}. If '
+          f'{a.fn} belongs to another binary this verdict is about a DIFFERENT function at the '
+          f'same address (§238).', file=sys.stderr)
 _sub = os.path.basename(a.asm_subdir.rstrip('/'))
 # The BINARY, from the asm tree layout: asm/<bin>/nonmatchings/<sub> for every alias except main,
 # which splat writes at the tree root as asm/nonmatchings/<sub>.
