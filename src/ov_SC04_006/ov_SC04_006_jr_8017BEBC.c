@@ -3387,7 +3387,37 @@ void func_8017D344(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017D3E4);
+void func_8017D3E4(s32 self, s16 *pos) {
+    u16 sp10[16];
+    u16 sp30[4];
+    u16 sp38[3];
+
+    *(s32 *)(self + 0x8) = (s16)func_80012C6C(*(s16 *)(self + 0x8), *(s16 *)(self + 0xC), 4);
+    *(s32 *)(self + 0x10) = (s16)func_80012C6C(*(s16 *)(self + 0x10), *(s16 *)(self + 0x14), 4);
+    *(s16 *)(self + 0x18) = func_80012ABC(*(s16 *)(self + 0x18), *(s16 *)(self + 0x20), 4);
+    *(s16 *)(self + 0x1A) = func_80012ABC(*(s16 *)(self + 0x1A), *(s16 *)(self + 0x22), 4);
+    *(s16 *)(self + 0x1C) = func_80012ABC(*(s16 *)(self + 0x1C), *(s16 *)(self + 0x24), 4);
+    *(s16 *)(self + 0x28) = func_80012C6C(*(s16 *)(self + 0x28), *(s16 *)(self + 0x2E), 0x10);
+    *(s16 *)(self + 0x2A) = func_80012C6C(*(s16 *)(self + 0x2A), *(s16 *)(self + 0x30), 0x10);
+    *(s16 *)(self + 0x2C) = func_80012C6C(*(s16 *)(self + 0x2C), *(s16 *)(self + 0x32), 0x10);
+
+    *(s32 *)(self + 0x48) = *(s16 *)(self + 0x28) + pos[0];
+    *(s32 *)(self + 0x4C) = *(s16 *)(self + 0x2A) + pos[1];
+    *(s32 *)(self + 0x50) = *(s16 *)(self + 0x2C) + pos[2];
+
+    func_8017DD28((u16 *)(self + 0x18), (s16 *)sp10);
+
+    sp30[0] = 0;
+    sp30[1] = 0;
+    sp30[2] = *(s32 *)(self + 0x10);
+
+    ApplyMatrixSV(sp10, sp30, sp38);
+
+    *(s32 *)(self + 0x3C) = (((s32)sp38[0] << 16) >> 19) + *(s16 *)(self + 0x28) + pos[0];
+    *(s32 *)(self + 0x40) = (((s32)sp38[1] << 16) >> 19) + *(s16 *)(self + 0x2A) + pos[1];
+    *(s32 *)(self + 0x44) = (((s32)sp38[2] << 16) >> 19) + *(s16 *)(self + 0x2C) + pos[2];
+}
+
 
 
 extern void func_8013B7F4(void *a0, int a1);
@@ -4691,7 +4721,47 @@ s32 a0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017EFF4);
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s32 VectorNormalSS(void*, void*);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+s32 func_8017EFF4(void *arg0) {
+    s16 pointA[3];
+    s16 pointB[3];
+    s16 diff[3];
+    s32 addr;
+
+    pointA[0] = D_80126B5E;
+    pointA[1] = D_80126B62;
+    pointA[2] = D_80126B66;
+
+    pointB[0] = *(u16 *)((s32)arg0 + 6);
+    pointB[1] = *(u16 *)((s32)arg0 + 10);
+    pointB[2] = *(u16 *)((s32)arg0 + 14);
+    pointA[1] = D_80126B62 - 42;
+
+    addr = (*(s32 *)((s32)arg0 + 88) & 0xFFFFFFF) | 0x80000000;
+
+    if (((*(s16 *)(addr + 4) + pointB[0]) > pointA[0]) ||
+        ((*(s16 *)(addr + 6) + pointB[0]) < pointA[0]) ||
+        ((*(s16 *)(addr + 12) + pointB[2]) > pointA[2]) ||
+        ((*(s16 *)(addr + 14) + pointB[2]) < pointA[2]) ||
+        ((*(s16 *)(addr + 8) + pointB[1]) > pointA[1]) ||
+        ((*(s16 *)(addr + 10) + pointB[1]) < pointA[1])) {
+        return 0;
+    }
+
+    diff[0] = pointA[0] - pointB[0];
+    diff[1] = pointA[1] - pointB[1];
+    diff[2] = pointA[2] - pointB[2];
+
+    ((void (*)(s16 *, s16 *))VectorNormalSS)(diff, diff);
+    func_8012F568(1, 8193, *(s16 *)((s32)arg0 + 220), 14, (s32)pointA, (s32)diff);
+    return 1;
+}
+
 
 void func_8017F180(s32 param_1, s32 param_2) {
     typedef struct { s32 w[8]; } Blk32;

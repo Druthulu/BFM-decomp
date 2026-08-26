@@ -6239,4 +6239,48 @@ s32 a0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_000/nonmatchings/ov_SC04_000_jr_8017BEBC", func_8018175C);
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s32 VectorNormalSS(void *a0, void *a1);
+extern void func_8012F568(s32 a0, s32 a1, s16 a2, s32 a3, void *a4, void *a5);
+
+s32 func_8018175C(void *arg0)
+{
+    s16 pointA[3];
+    s16 pointB[3];
+    s16 diff[3];
+    s32 ret;
+
+    pointA[0] = D_80126B5E;
+    pointA[1] = D_80126B62;
+    pointA[2] = D_80126B66;
+
+    pointB[0] = *(u16 *)((s32)arg0 + 6);
+    pointB[1] = *(u16 *)((s32)arg0 + 10);
+    pointB[2] = *(u16 *)((s32)arg0 + 14);
+    pointA[1] = D_80126B62 - 42;
+
+    {
+        s32 addr = (*(s32 *)((s32)arg0 + 88) & 0xFFFFFFF) | 0x80000000;
+
+        if (*(s16 *)(addr + 4) + pointB[0] > pointA[0]) { ret = 0; goto end; }
+        if (*(s16 *)(addr + 6) + pointB[0] < pointA[0]) { ret = 0; goto end; }
+        if (*(s16 *)(addr + 12) + pointB[2] > pointA[2]) { ret = 0; goto end; }
+        if (*(s16 *)(addr + 14) + pointB[2] < pointA[2]) { ret = 0; goto end; }
+        if (*(s16 *)(addr + 8) + pointB[1] > pointA[1]) { ret = 0; goto end; }
+        if (*(s16 *)(addr + 10) + pointB[1] < pointA[1]) { ret = 0; goto end; }
+    }
+
+    diff[0] = pointA[0] - pointB[0];
+    diff[1] = pointA[1] - pointB[1];
+    diff[2] = pointA[2] - pointB[2];
+
+    VectorNormalSS(diff, diff);
+    func_8012F568(1, 8193, *(s16 *)((s32)arg0 + 220), 14, pointA, diff);
+    ret = 1;
+
+end:
+    return ret;
+}
+
