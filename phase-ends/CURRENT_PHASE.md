@@ -164,6 +164,20 @@ writes `docs/tool-designs/frontier-analysis-s60.md` — **READ THAT FIRST NEXT S
 6. **The unwritten law**: 8 cards across 4 waves independently re-derived that the whole-object gate
    needs every sibling matched. Recorded in §283; never written as its own section.
 
+### SESSION STOPPED 22:55 — ALL LANES DOWN, TREE CLEAN
+Every campaign process was stopped deliberately at session end (0 alive, verified twice after
+settling). Stop sentinels `.run/ox_campaign.stop` and `.run/auto/STOP` are SET — **delete both
+before relaunching anything**, or every lane exits immediately. Tree clean; registry 5,085 lines.
+One dirty overlay TU (`ov_SC04_019_jr_80186570.c`) left by a killed gate was BUILD-VERIFIED as an
+abandoned substitution (its binary failed to build with it) and reverted, not committed — R42's
+distinction between a proven bank and mid-gate residue, decided by the bytes rather than by the
+file merely being dirty.
+
+Two shutdown hazards for whoever restarts: `pkill` on a lane's SHELL leaves its python running
+(it happened to the drafter, the gater AND the main lane tonight — kill by PID and verify with
+`ps -o lstart`), and a bash `case "$f" in src/[a-z0-9_]*.c)` pattern MATCHES ACROSS SLASHES, so it
+silently classified an overlay TU as a main TU and nearly reverted the wrong file.
+
 ### HOW TO RESUME
 `tools/campaign_status.py` first, then `git status --porcelain -- src/ config/` — if dirty, **COMMIT,
 never revert** (R42). **Check `wc -l config/overlays.mk` is ~5,083** before trusting any gate verdict:
