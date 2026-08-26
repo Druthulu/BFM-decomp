@@ -2336,3 +2336,28 @@ rebuild byte-identical (`2a7d7d4e`), 11 held drafts gated 9/11 (2 already banked
 re-verified clean. The same audit pre-diagnoses T2d: ov_SC04_018/jr_8017AE2C spec has 4 entries, the
 TU compiles 3, the carve holds a 4th 5-entry table (func_80181804, reverted to a stub).
 **NEXT: T2d** — ov_SC04_018 (Max, solo).
+
+**T2e DONE first, out of order (ov_SC02_005 GREEN, +1 bank).** The dossier's "two stacked
+defects" collapsed into one: the 04:06 g0b gate wrote a `_JTBL_INTERLEAVE` order for a yaml state
+(a `jr_8018EA04` c-subseg + `tail21`) that a later restore removed — func_8018EA04 is a stub inside
+TU jr_80181D30; the "+0xAE8 rodata shift" was that order's consequence. Order re-aligned to the
+yaml + the stale `asm/…/jr_8018EA04/` dir dropped → 0 differing bytes (`commit:3090`). Its one held
+draft then banked and the gate's §8a carve re-split jr_8018EA04 consistently (`commit:3091`).
+
+**T2d DONE (ov_SC04_018 GREEN, RED LIST EMPTY, +18 banks).** Two real defects in one TU
+(jr_8017AE2C): the pads spec had 4 entries for 3 compiled tables (the carve's 4th table is
+func_80181804's, reverted to a stub; `pads_audit` derived `0,0,0`), and the TU had not compiled as
+committed since an 08-13 propagation: an undeclared `D_801B9AA8` whose gcc-limbo entry poisoned
+three later block-scope externs ("used prior to declaration"), an address-of-a-cast
+`&((char *)&D_…)`, a `(void)` re-declaration of func_8017E7CC after its `(int)` definition
+(caller cast per §20), and func_8017E7CC's first store with offset/value swapped (retail
+`li v0,3; sh v0,2(s0)`; the two-byte diff located it). This is the "rtu-vs-real-pipeline TU
+divergence" — rtu's neutralized view compiled where the real TU could not; decl_from_use's 39
+TU-BROKEN cases become judgeable now. `commit:3092`; R22 clean rebuild byte-identical
+(`fe9b413f`); 18 held drafts gated 18/18, re-verified clean.
+
+**T2 total: 5/5 reds healed in one session, +39 banks from held drafts (7+4+9+1+18), 241 held fns
+re-enter their natural classes.** Three drift classes, all from blanket restores / rival lanes:
+order ⇔ yaml (SC03_015, SC02_005), pads ⇔ compiled tables (SC03_024 missing spec, SC06_022 ×2,
+SC04_018), and a TU that never compiled (SC04_018). `.run/t1/interleave_check.py` +
+`.run/t1/pads_audit.py` (to be promoted) diagnose the first two offline.

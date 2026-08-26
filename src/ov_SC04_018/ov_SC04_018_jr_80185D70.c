@@ -3426,7 +3426,27 @@ extern s16 D_801E7030;
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_80185D70", func_80186460);
+extern void func_801864AC(void);
+extern u8 D_800B9A15;
+extern u8 D_800B9A13;
+extern u16 D_80115110;
+extern u16 D_80115112;
+extern s16 D_80115126;
+extern void *D_8011DB24;
+
+s32 func_80186460(s32 a0) {
+    void *func_ptr;
+
+    D_800B9A15 = 1;
+    D_800B9A13 = 4;
+    D_80115110 = 3;
+    func_ptr = func_801864AC;
+    D_80115112 = 0;
+    D_80115126 = (s16)a0;
+    D_8011DB24 = func_ptr;
+    return (s32)func_ptr;
+}
+
 
 
 extern void func_80029444(void);
