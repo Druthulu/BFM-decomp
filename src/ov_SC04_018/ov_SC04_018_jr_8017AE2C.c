@@ -4819,7 +4819,6 @@ extern void func_8012A828(s32 *a0, s32 a1);
     }
 
 
-extern s32 D_801B9AA8;
 void func_8017E7CC(int param_1)
 {
     *(short *)(param_1 + 3) = 2;
@@ -4910,6 +4909,7 @@ void func_8017EBA0(s32 a0) {
 
 
 
+extern void func_8017E7CC(void);
     void func_8017EBE0(u8 *a0) {
         if (*(u16 *)((s32)a0 + 0x34) == 1) {
             func_8017E7CC();
