@@ -4890,22 +4890,7 @@ void func_8018B730(void *a0) {
 }
 
 
-extern s32 func_80184BAC(s32 arg0, s32 arg1);
-extern u8 D_80078EBA;
-
-void func_8018B798(void *a0) {
-    s32 v0;
-    *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2;
-    if (D_80078EBA == 3) {
-        v0 = 0;
-    } else {
-        v0 = func_80184BAC(7, 0x13) != 0;
-    }
-    if (v0 != 0) {
-        *(u16 *)((char *)a0 + 2) = 1;
-    }
-}
-
+INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_80188E1C", func_8018B798);
 
 #include "common.h"
 
