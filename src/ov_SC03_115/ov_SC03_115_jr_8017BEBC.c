@@ -4095,7 +4095,27 @@ void func_8017E438(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_115/nonmatchings/ov_SC03_115_jr_8017BEBC", func_8017E528);
+// @class: structural (head-copy eqv takeover -> MATCH); sig widened to the ov_SC03_013
+// homonym-compatible (s32,s32,s16*) form - unused params are codegen-free at -O2 and the
+// fn is reached only via the tail.data pointer table, so arity is unconstrained.
+void func_8017E528(s32 param_1, s32 param_2, s16 *param_3) {
+    s32 p;
+    s32 flag;
+
+    flag = *(s16 *)(param_1 + 0xAA);
+    p = param_1;
+    *(s16 *)(p + 0x5C) = 0;
+    *(s16 *)(p + 0x98) = 0;
+    *(s32 *)(p + 0x1C) = 0;
+    if (flag == 0) {
+        *(s16 *)(p + 0x100) = *(u16 *)(*(s32 *)(p + 0x20) + 0x18);
+        *(s32 *)(p + 0xDC) &= ~0x80;
+    } else {
+        *(s16 *)(p + 0x104) = *(u16 *)(*(s32 *)(p + 0x20) + 0x18);
+        *(s32 *)(p + 0xDC) |= 0x80;
+    }
+}
+
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)

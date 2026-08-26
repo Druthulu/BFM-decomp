@@ -4336,7 +4336,43 @@ s32 aF80185B48(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_80185D3C);
+s32 aF80185D3C(void *a0, s16 a1) __asm__("func_80185D3C");
+
+s32 aF80185D3C(void *a0, s16 a1) {
+    s32 ret = 0;
+    s16 x;
+    s16 f;
+
+    x = *(s16 *)((s32)a0 + 6);
+    if (x < -381) {
+        if (a1 == 0) {
+            *(s16 *)((s32)a0 + 6) = -381;
+        }
+        ret = 1;
+    } else if (x >= 382) {
+        if (a1 == 0) {
+            *(s16 *)((s32)a0 + 6) = 381;
+        }
+        ret = 1;
+    }
+
+    f = a1;
+    x = *(s16 *)((s32)a0 + 14);
+    if (x < -1661) {
+        if (f == 0) {
+            *(s16 *)((s32)a0 + 14) = -1661;
+        }
+        ret = 1;
+    } else if (x >= -898) {
+        if (f == 0) {
+            *(s16 *)((s32)a0 + 14) = -899;
+        }
+        ret = 1;
+    }
+
+    return ret;
+}
+
 
 s32 func_80185DD8(void)
 {

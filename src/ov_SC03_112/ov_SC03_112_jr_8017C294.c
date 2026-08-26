@@ -5201,7 +5201,24 @@ void func_80180440(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_80180530);
+void func_80180530(s32 param_1) {
+    s32 cond = *(s16 *)(param_1 + 0xAA);
+    *(s16 *)(param_1 + 0x5C) = 0;
+    *(s16 *)(param_1 + 0x98) = 0;
+    *(s32 *)(param_1 + 0x1C) = 0;
+    if (cond == 0) {
+        s32 w = *(s32 *)(param_1 + 0xDC);
+        s32 h = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x18);
+        w &= ~0x80;
+        *(s32 *)(param_1 + 0xDC) = w;
+        *(s16 *)(param_1 + 0x100) = h;
+    } else {
+        s32 h = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x18);
+        *(s32 *)(param_1 + 0xDC) |= 0x80;
+        *(s16 *)(param_1 + 0x104) = h;
+    }
+}
+
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)

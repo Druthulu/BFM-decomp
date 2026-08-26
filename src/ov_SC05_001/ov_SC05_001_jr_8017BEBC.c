@@ -6693,7 +6693,23 @@ void func_80182168(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_80182258);
+void func_80182258(void *a0)
+{
+    register s32 a1 __asm__("$5");
+
+    a1 = (s32)a0;
+    *(u16 *)(a1 + 0x5C) = 0;
+    *(u16 *)(a1 + 0x98) = 0;
+    *(s32 *)(a1 + 0x1C) = 0;
+    if (*(s16 *)(a1 + 0xAA) == 0) {
+        *(u16 *)(a1 + 0x100) = *(u16 *)(*(s32 *)(a1 + 0x20) + 0x18);
+        *(s32 *)(a1 + 0xDC) &= ~0x80;
+    } else {
+        *(u16 *)(a1 + 0x104) = *(u16 *)(*(s32 *)(a1 + 0x20) + 0x18);
+        *(s32 *)(a1 + 0xDC) |= 0x80;
+    }
+}
+
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)

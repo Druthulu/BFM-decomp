@@ -4119,7 +4119,20 @@ void func_8017FD24(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017FDBC);
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_8017FE4C);
+void func_8017FE4C(s32 a0) {
+    if (*(s16 *)(*(s32 *)(a0 + 0x64) + 0xFC) != 0) {
+        s32 *ptr = (s32 *)*(s32 *)(a0 + 0x20);
+        s32 field = ptr[1];
+        field |= 0x80000000;
+        ptr[1] = field;
+    } else {
+        s32 *ptr = (s32 *)*(s32 *)(a0 + 0x20);
+        s32 field = ptr[1];
+        field &= 0x7FFFFFFF;
+        ptr[1] = field;
+    }
+}
+
 
 typedef struct {
     s32 a;      /* 0x00 -> D_801DA750 */

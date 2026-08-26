@@ -3850,7 +3850,20 @@ void func_8017CC44(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017AE2C", func_8017CCC4);
+void func_8017CCC4(int param_1)
+{
+    int addr;
+
+    addr = *(int *)(param_1 + 0x20);
+    if (*(unsigned int *)(param_1 + 0x1c) & 1) {
+        *(unsigned int *)(addr + 4) = *(unsigned int *)(addr + 4) | 0x80000000;
+    } else {
+        *(unsigned int *)(addr + 4) = *(unsigned int *)(addr + 4) & 0x7fffffff;
+    }
+    *(s16 *)((s32)param_1 + 0x24) = 3;
+    *(s32 *)((s32)param_1 + 0x1C) += 1;
+}
+
 
 
 extern void func_8017CE10(void *a0, s32 a1, s32 a2);

@@ -7664,7 +7664,36 @@ void func_801883E4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_801884AC);
+void func_801884AC(void *a0)
+{
+    s32 t0;
+    s32 t1;
+    s32 v0;
+
+    if (*(s16 *)((s32)a0 + 0x12) > 0) {
+        t0 = *(s32 *)((s32)a0 + 0xCC);
+        t1 = *(s32 *)((s32)a0 + 0xD0);
+    } else {
+        t0 = *(s32 *)((s32)a0 + 0xD4);
+        t1 = *(s32 *)((s32)a0 + 0xD8);
+    }
+
+    if (*(u16 *)(t0 + 2) != 5) {
+        if (*(u16 *)(t1 + 2) != 5) {
+            if (*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 2) != 29) {
+                *(s32 *)((s32)a0 + 0x1C) -= 1;
+            }
+        }
+    }
+
+    if (*(s32 *)((s32)a0 + 0x1C) == 0) {
+        v0 = *(s16 *)((s32)a0 + 0x12);
+        *(u16 *)((s32)a0 + 0xFE) = 0x310;
+        *(s16 *)((s32)a0 + 2) = 2;
+        *(s16 *)((s32)a0 + 0x12) = -v0;
+    }
+}
+
 
 void func_8018854C(s32 a0) {
     *(u16 *)(*(s32 *)(a0 + 0x20) + 0x1A) -= 0x200;
@@ -7674,7 +7703,41 @@ void func_8018854C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_8018858C);
+#include "common.h"
+
+void func_8018858C(s32 arg) {
+    s32 ptr1;
+    s32 ptr2;
+    s32 cnt;
+    u16 val;
+    u16 state;
+    s16 chk;
+
+    ptr1 = *(s32 *)(arg + 0x20);
+    val = *(u16 *)(ptr1 + 0x1A);
+    val = val + 0x200;
+    *(u16 *)(ptr1 + 0x1A) = val;
+
+    ptr2 = *(s32 *)(arg + 0x20);
+    chk = *(s16 *)(ptr2 + 0x1A);
+    if (chk < 0x2000) {
+        return;
+    }
+
+    state = *(u16 *)(arg + 0x34);
+    cnt = *(s16 *)(arg + 0x12);
+    *(u16 *)(arg + 0x2) = state;
+    if (cnt < 0) {
+        if (cnt != -4) {
+            *(s16 *)(arg + 0x12) = -4;
+        }
+    } else {
+        if (cnt != 4) {
+            *(s16 *)(arg + 0x12) = 4;
+        }
+    }
+}
+
 
 #include "common.h"
 

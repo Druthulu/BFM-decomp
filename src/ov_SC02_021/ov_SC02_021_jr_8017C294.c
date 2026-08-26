@@ -3515,7 +3515,39 @@ INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017D98
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017DC10);
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017E410);
+void func_8017E410(s32 param_1, u32 *param_2) {
+    switch (param_1) {
+    case 0:
+        param_2[0] = 0x850000;
+        param_2[1] = 0x79C00000;
+        param_2[2] = 0x40;
+        param_2[3] = 0xE0;
+        break;
+    case 1:
+        param_2[0] = 0x850000;
+        param_2[1] = 0x79C00000;
+        param_2[2] = 0x20;
+        param_2[3] = 0xE0;
+        break;
+    case 2:
+        param_2[0] = 0x880000;
+        param_2[1] = 0x79C00000;
+        param_2[2] = 0x60;
+        param_2[3] = 0xA0;
+        break;
+    case 3:
+        param_2[0] = 0x880000;
+        param_2[1] = 0x79C00000;
+        param_2[2] = 0x60;
+        param_2[3] = 0x80;
+        break;
+    default:
+        return;
+    }
+    param_2[4] = 0x1F;
+    param_2[5] = 0x1F;
+}
+
 
 s32 func_8017E4DC(s32 arg0, s32 arg1, s32 *arg2)
 {

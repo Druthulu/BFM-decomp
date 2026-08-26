@@ -4472,7 +4472,19 @@ void func_80184BD8(s32 p) {
 DEFINE_func_8018512C()  /* dedup: shared engine-core @0x8018512C (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_801852E4);
+void func_801852E4(s32 arg0)
+{
+    s16 x = *(s16 *)(arg0 + 0xE);
+
+    if (x >= 0x18F5) {
+        *(s16 *)(arg0 + 6) = 0;
+    } else if (x < 0x150E) {
+        *(s16 *)(arg0 + 6) = 0x35;
+    } else {
+        *(s16 *)(arg0 + 6) = (0x18F3 - x) * 53 / 998;
+    }
+}
+
 
 DEFINE_func_8018535C()  /* dedup: shared engine-core @0x8018535C (src/shared) */
 

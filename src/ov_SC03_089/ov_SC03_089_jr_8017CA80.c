@@ -5692,7 +5692,16 @@ L_E78:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_80183EBC);
+s32 func_80183EBC(s32 a0) {
+    if ((*(u16 *) a0 == 0x1E8) || (*(u16 *) a0 == 0x19E)) {
+        return 1;
+    }
+    if ((*(u16 *) a0 == 0x178) && (*(s32 *) (*(s32 *) (a0 + 0x20) + 4) >= 0)) {
+        return 1;
+    }
+    return *(u16 *) a0 == 0x1AA;
+}
+
 
 void func_80183F14(s32 a0, s32 a1) {
     u16 x = *(u16 *)a0;

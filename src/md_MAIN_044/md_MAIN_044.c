@@ -91,7 +91,14 @@ void func_800CCE88(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCF30);
+s32 func_800CCF30(void *a0) {
+    if (*(s16 *)(a0 + 0x60) != 0) {
+        *(s16 *)(a0 + 2) = 3;
+        return 1;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCF58);
 

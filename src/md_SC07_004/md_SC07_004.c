@@ -774,9 +774,74 @@ void func_801A34C4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A34FC);
+void func_801A34FC(s32 arg0, u16 *arg1) {
+    s16 *p;
+    s16 ax;
+    s16 ay;
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A3594);
+    *(u16 *)(arg0 + 0xE8) = *(u16 *)(arg1 + 0);
+    *(u16 *)(arg0 + 0xEA) = *(u16 *)(arg1 + 2);
+    p = (s16 *)(arg0 + 0xEC);
+    p[0] = *(u16 *)(arg0 + 0xE8) - *(u16 *)(arg0 + 6);
+    p[1] = *(u16 *)(arg0 + 0xEA) - *(u16 *)(arg0 + 0xE);
+    if (p[0] < 0) {
+        ax = -p[0];
+    } else {
+        ax = p[0];
+    }
+    *(s16 *)(arg0 + 0x106) = 0;
+    if (p[1] < 0) {
+        ay = -p[1];
+    } else {
+        ay = p[1];
+    }
+    if (ax < ay) {
+        *(s16 *)(arg0 + 0x106) = 1;
+    }
+}
+
+
+s32 func_801A3594(void *a0) {
+    s16 buf[12];
+    register u16 b __asm__("$3");
+    u16 a;
+    s16 diff;
+    s16 v1;
+    register s32 tw __asm__("$2");
+    register s16 t16 __asm__("$4");
+    register s16 xr __asm__("$2");
+
+    v1 = *(s16 *)((s32)a0 + 0x106);
+    switch (v1) {
+    case 0:
+        a = *(u16 *)((s32)a0 + 0xE8);
+        b = *(u16 *)((s32)a0 + 0x6);
+        diff = a - b;
+        buf[0] = diff;
+        tw = *(s16 *)((s32)a0 + 0xEC);
+        break;
+    case 1:
+        a = *(u16 *)((s32)a0 + 0xEA);
+        b = *(u16 *)((s32)a0 + 0xE);
+        diff = a - b;
+        buf[1] = diff;
+        tw = *(s16 *)((s32)a0 + 0xEE);
+        break;
+    default:
+        goto default_case;
+    }
+
+    if (tw == 0) goto ret1;
+    t16 = tw;
+    if (diff == 0) goto ret1;
+    xr = diff ^ t16;
+    if (xr >= 0) goto default_case;
+ret1:
+    return 1;
+default_case:
+    return 0;
+}
+
 
 typedef struct { s16 m[3][3]; s32 t[3]; } MTX_CF90_801A3624;
 
@@ -863,7 +928,39 @@ void func_801A3744(s32 a0) {
 
 INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A3798);
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A395C);
+#include "common.h"
+
+void func_801A395C(s32 a0, s32 a1) {
+    register s32 ret __asm__("$2");
+    s16 cur;
+    s16 t;
+    s32 overshot;
+
+    t = (s16)a1;
+    cur = *(s16 *)(a0 + 0xA);
+    if (cur == t) {
+        __asm__ __volatile__("");
+        ret = 1;
+    } else {
+        if (t < cur) {
+            cur -= 2;
+            *(s16 *)(a0 + 0xA) = cur;
+            overshot = (t < cur);
+        } else {
+            cur += 2;
+            *(s16 *)(a0 + 0xA) = cur;
+            overshot = (cur < t);
+        }
+        if (overshot) {
+            ret = 0;
+        } else {
+            *(s16 *)(a0 + 0xA) = t;
+            ret = 1;
+        }
+    }
+    __asm__ __volatile__("" :: "r"(ret));
+}
+
 
 extern void func_8004914C(void *a0);
 extern void func_800491AC(void *a0);
@@ -5645,7 +5742,24 @@ void func_801AB694(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AB748);
+void func_801AB748(s32 a0) {
+    s32 v0;
+    s32 v1;
+
+    v0 = *(s32 *)(a0 + 0x1C);
+    if (v0 != 0) {
+        v0 = v0 - 1;
+        *(s32 *)(a0 + 0x1C) = v0;
+    } else {
+        v1 = *(s32 *)(a0 + 0x20);
+        *(s16 *)(v1 + 0x1A) = 0x400;
+        *(s16 *)(v1 + 0x18) = 0x400;
+        v1 = *(s32 *)(a0 + 0x20);
+        *(u16 *)(v1 + 0x2C) = 0xC020;
+        *(s16 *)(a0 + 2) = 1;
+    }
+}
+
 
 extern void func_801292C8(u8 *a0);
 extern u8 D_801F88BA;

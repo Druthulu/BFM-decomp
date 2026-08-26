@@ -6692,7 +6692,29 @@ void func_8017E328(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017E418);
+void func_8017E418(s32 arg0, s32 arg1) {
+    s32 t;
+
+    arg1 = arg0;
+    t = *(s16 *)(arg1 + 0xAA);
+    *(s16 *)(arg1 + 0x5C) = 0;
+    *(s16 *)(arg1 + 0x98) = 0;
+    *(s32 *)(arg1 + 0x1C) = 0;
+    if (t == 0) {
+        s32 p = *(s32 *)(arg1 + 0x20);
+        s32 v = *(s32 *)(arg1 + 0xDC);
+        s32 u = *(u16 *)(p + 0x18);
+        *(s32 *)(arg1 + 0xDC) = v & ~0x80;
+        *(s16 *)(arg1 + 0x100) = u;
+    } else {
+        s32 p = *(s32 *)(arg1 + 0x20);
+        s32 v = *(s32 *)(arg1 + 0xDC);
+        s32 u = *(u16 *)(p + 0x18);
+        *(s32 *)(arg1 + 0xDC) = v | 0x80;
+        *(s16 *)(arg1 + 0x104) = u;
+    }
+}
+
 
 typedef struct {
     SVECTOR_8016E7C8 v[4];               /* 0x00 */

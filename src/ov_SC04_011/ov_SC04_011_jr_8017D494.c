@@ -8220,7 +8220,22 @@ void func_80186940(void *a0, s32 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80186A20);
+s16 func_80186A20(s32 a0, s32 a1)
+{
+    s32 d;
+    s32 t;
+
+    d = *(u16 *)(a0 + 0x76) - *(u16 *)(a0 + 0x60);
+    t = d - a1;
+    if ((s16)d <= 0) {
+        return 0;
+    }
+    if ((s16)t <= 0) {
+        return (s16)d;
+    }
+    return (s16)a1;
+}
+
 
 extern s32 aFC4C[] __asm__("D_801EFC4C");
 extern u8 D_80194350[];
@@ -9800,7 +9815,27 @@ extern void func_80181868();
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188D78);
+void func_80188D78(s32 a0)
+{
+    s32 delta;
+    s32 scaled;
+    s32 quotient;
+    s8 *ptr;
+
+    delta = *(s16 *)(a0 + 0xA) - *(s16 *)(*(s32 *)(a0 + 0x64) + 0xA);
+    ptr = *(s8 **)(a0 + 0xCC);
+    if ((u32)delta >= 0x601) {
+        *(s32 *)(ptr + 4) |= 0x80000000;
+    } else {
+        scaled = (0x600 - delta) * 0x5000;
+        quotient = scaled / 0x600;
+        *(s32 *)(ptr + 4) &= 0x7FFFFFFF;
+        *(s16 *)(ptr + 0x1C) = quotient;
+        *(s16 *)(ptr + 0x1A) = quotient;
+        *(s16 *)(ptr + 0x18) = quotient;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188E00);
 
@@ -10024,7 +10059,17 @@ void func_80189270(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801893D4);
+/* func_801893D4 - guard on obj+0x14 sign bit, then halfword compare:
+   obj+0xA >= (*(s32*)(obj+0x64))->halfword_at_0xA - 0x40 */
+s32 func_801893D4(s32 obj)
+{
+    if (*(s32 *)(obj + 0x14) < 0)
+    {
+        return 0;
+    }
+   return *(s16 *)(obj + 0xA) >= *(s16 *)(*(s32 *)(obj + 0x64) + 0xA) - 0x40;
+}
+
 
 #include "common.h"
 

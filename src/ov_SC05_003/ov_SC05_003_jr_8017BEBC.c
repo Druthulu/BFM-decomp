@@ -4186,7 +4186,31 @@ void func_8017EB44(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8017EC00);
+void func_8017EC00(s32 arg0) {
+    s32 p;
+    s32 q1;
+    s32 q2;
+    u16 t1;
+    u16 t2;
+
+    p = *(s32 *)(arg0 + 0x20);
+    *(s16 *)(arg0 + 0x5C) = 0;
+    *(s16 *)(arg0 + 0x98) = 0;
+    *(s32 *)(arg0 + 0x1C) = 0;
+    *(u16 *)(p + 0x2C) |= 0x10;
+    if (*(s16 *)(arg0 + 0xAA) == 0) {
+        q1 = *(s32 *)(arg0 + 0x20);
+        t1 = *(u16 *)(q1 + 0x18);
+        *(s16 *)(arg0 + 0x106) = 0;
+        *(s16 *)(arg0 + 0x100) = t1;
+    } else {
+        q2 = *(s32 *)(arg0 + 0x20);
+        t2 = *(u16 *)(q2 + 0x18);
+        *(s16 *)(arg0 + 0x106) = 1;
+        *(s16 *)(arg0 + 0x104) = t2;
+    }
+}
+
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)
@@ -5407,7 +5431,17 @@ void func_801805E4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8018079C);
+void func_8018079C(s32 a0) {
+    u16 flags;
+    *(s8 *)(a0 + 0xC1) = 0;
+    *(s16 *)(a0 + 0x5E) = 0;
+    *(s16 *)(a0 + 0x5C) = *(u16 *)(*(s32 *)(a0 + 0x78) + 2);
+    flags = *(u16 *)(a0 + 0x70);
+    *(s16 *)(a0 + 2) = (flags & 1)
+        ? ((flags & 0x8000) ? 6 : ((flags & 0x4000) ? 8 : ((flags & 0x2000) ? 10 : 3)))
+        : 1;
+}
+
 
 extern void func_8002AC00(s32 arg0);
 extern void func_8012C098(void *param_1);

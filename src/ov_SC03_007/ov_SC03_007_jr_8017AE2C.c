@@ -4584,7 +4584,24 @@ void func_8017E3C0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_8017E47C);
+void func_8017E47C(s32 a0)
+{
+    *(s16 *)(a0 + 0x5C) = 0;
+    *(s16 *)(a0 + 0x98) = 0;
+    *(s32 *)(a0 + 0x1C) = 0;
+    if (*(s16 *)(a0 + 0xAA) == 0) {
+        s32 t = *(s32 *)(a0 + 0x20);
+        u16 var = *(u16 *)(t + 0x18);
+        *(s16 *)(a0 + 0x104) = 0;
+        *(s16 *)(a0 + 0x100) = var;
+    } else {
+        s32 t = *(s32 *)(a0 + 0x20);
+        u16 var = *(u16 *)(t + 0x18);
+        *(s16 *)(a0 + 0x104) = 1;
+        *(s16 *)(a0 + 0x102) = var;
+    }
+}
+
 
 
 // @class: structural (STRENGTH/mflo!=lw -> MATCH)

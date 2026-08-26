@@ -5301,7 +5301,17 @@ void func_80181B48(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80181B90);
+s32 func_80181B90(s32 *a0)
+{
+    s32 **tbl;
+    s32 (*fp)(s32 *);
+
+    tbl = *(s32 ***)(*(s32 *)((s32)a0 + 0x64) + 0xDC);
+    if (tbl != 0 && tbl[1] != 0)
+        return ((s32 (*)(s32 *))tbl[1])(a0);
+    return 1;
+}
+
 
 #include "common.h"
 

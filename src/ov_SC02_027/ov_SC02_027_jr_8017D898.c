@@ -6005,7 +6005,19 @@ void func_80183A40(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80183A88);
+s32 func_80183A88(s32 a0) {
+    s32 h;
+
+    h = *(s32 *)(*(s32 *)(a0 + 0x64) + 0xDC);
+    if (h == 0) {
+        return 1;
+    }
+    if (*(s32 *)(h + 4) == 0) {
+        return 1;
+    }
+    return ((s32 (*)(void)) *(s32 *)(h + 4))();
+}
+
 
 #include "common.h"
 

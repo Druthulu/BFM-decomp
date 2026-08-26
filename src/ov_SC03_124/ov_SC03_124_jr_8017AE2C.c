@@ -4847,7 +4847,26 @@ extern s32 func_8012E544(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017E5C4);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+
+s32 aF8017E5C4(s32 param_1) __asm__("func_8017E5C4");
+
+s32 aF8017E5C4(s32 param_1)
+{
+    register s32 obj __asm__("$16") = param_1;
+
+    if (*(u16 *)(*(s32 *)((char *)obj + 0x64) + 0x2) != 3) {
+        return 0;
+    }
+    if (func_8017DEF8() != 0) {
+        *(u16 *)(*(s32 *)((char *)obj + 0x64) + 0x2) = 5;
+        func_80178BF8();
+        return (s32)func_80172710;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017E62C);
 
