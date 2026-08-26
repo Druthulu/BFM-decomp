@@ -2447,3 +2447,4 @@ ov_SC06_011/func_8017EEEC, ov_SC06_029 ×3) + 6 decl-conflict drafts; `.run/swee
 their bodies. Rule candidates for the PhaseEnd: R60 (carve-state files: never blanket-add/restore
 overlays.mk or a splat yaml; audit with interleave_check + pads_audit; a gate commits only its
 binary's block) + the S61 list (R56–R59, extract sweep, pkill self-match).
+**Sweep #7 (16:02, from `make clean`): 213/213 GREEN, extract-all 212/212 — the R58 count at T3's close and at this checkpoint.**
