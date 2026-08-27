@@ -4710,7 +4710,14 @@ void func_8017E8E4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_023/nonmatchings/ov_SC03_023_jr_8017AE2C", func_8017E948);
+extern s32 func_800291B4(s32 arg);
+
+void func_8017E948(s32 a0) {
+    if ((func_800291B4(0xCC) & 0xFF) == 0xF) {
+        *(s16 *)(a0 + 0x76) = 500;
+    }
+}
+
 
 extern s32 D_801270C8;
 extern s16 D_80193608[];
