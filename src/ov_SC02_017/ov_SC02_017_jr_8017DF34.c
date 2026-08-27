@@ -8105,7 +8105,53 @@ void func_801862B8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_801863B8);
+#include "common.h"
+
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void Square0(s32 *a0, s32 *a1);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern void func_801866C8(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012CBA4(s32 a0);
+extern void func_80131E00();
+extern void func_8012ADE4(u8 *a0);
+extern void func_80185F88(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80186500(short*);
+extern s32 D_801D6198;
+
+void func_801863B8(s32 a0) {
+    struct { s32 vx, vy, vz, pad; } vec;
+    s32 v0;
+
+    if (*(s32 *)(a0 + 0x1C) > 7) {
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) +=
+            func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12),
+                          *(s16 *)(a0 + 0xFC), 8);
+    }
+
+    vec.vx = *(s16 *)(a0 + 0x6) - *(s16 *)(a0 + 0x88);
+    vec.vy = 0;
+    vec.vz = *(s16 *)(a0 + 0xE) - *(s16 *)(a0 + 0x8C);
+    Square0(&vec.vx, &vec.vx);
+
+    if (vec.vx + vec.vz <= 0x8FFFF && func_8012BD3C(a0, 0x300, 0x24000) != 0) {
+        func_801866C8(a0);
+    } else {
+        func_8012B178(a0, D_801D6198);
+        v0 = ((s32 (*)(s32))func_8012CBA4)(a0);
+        if ((v0 & 0x1000) != 0) {
+            func_80131E00(a0, 0x12);
+        } else if (v0 != 0x2000) {
+            func_8012ADE4((u8 *)a0);
+        }
+        func_80185F88(a0);
+        if (func_8012BEE8(a0) != 0) {
+            ((void (*)(s32))func_80186500)(a0);
+        }
+    }
+}
+
 
 
 
@@ -8515,7 +8561,44 @@ void func_80187044(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80187178);
+extern s32 func_80189354(s32 a0, s32 a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern s16 D_801D61DC;
+extern s16 D_801D61DE;
+extern s16 D_801D61E0;
+
+void func_80187178(s32 param_1) {
+    struct S80190C84 sp10;
+    s32 vec[3];
+    s32 out[3];
+    s16 *p;
+
+    p = &D_801D61DC;
+    func_80189354(param_1, (s32)p);
+
+    vec[0] = *p << 8;
+    vec[1] = D_801D61DE << 8;
+    vec[2] = D_801D61E0 << 8;
+
+    func_800484EC(*(s32 *)(param_1 + 0x20) + 0x34, (s32)vec, (s32)out);
+
+    out[0] = out[0] + (*(s16 *)(param_1 + 0x6) << 8);
+    out[1] = out[1] + (*(s16 *)(param_1 + 0xA) << 8);
+    out[2] = out[2] + (*(s16 *)(param_1 + 0xE) << 8);
+
+    sp10.f0 = out[0] / 256;
+    sp10.f2 = out[1] / 256;
+    sp10.f4 = out[2] / 256;
+    sp10.f6 = 0x20;
+    sp10.f8 = 3;
+    sp10.fA = 0;
+    sp10.f10 = 0;
+    sp10.fE = 0;
+
+    func_8012C51C(&sp10, param_1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80187298);
 

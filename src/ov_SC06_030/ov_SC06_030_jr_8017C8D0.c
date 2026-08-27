@@ -3809,7 +3809,64 @@ void func_8017E120(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_8017EEF0);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32  func_8004787C(s32 a0);
+extern s32  func_80047948(s32 a0);
+extern s32  func_8012B864(s32 a0);
+extern s32  func_8012C588(s32 a0, s32 a1);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32  func_8012BA10(s32 a0, s32 a1);
+
+extern u8 D_8019EEAC;
+extern u8 D_8019EC8C;
+extern u8 D_80185D78;
+
+void func_8017EEF0(s32 a0) {
+    s16 pos[3];
+    s32 obj;
+    s32 t;
+    s32 ang;
+    s32 s2;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        func_8012A828(a0, &D_8019EEAC);
+        *(s16 *)(a0 + 0x34) = 1;
+        func_8002D4C8(0xA8C, 0);
+        break;
+
+    case 1:
+        if (*(s32 *)(a0 + 0x94) < 5) {
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+                *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + func_8012BA10(a0, 4);
+        }
+        if (*(s16 *)(a0 + 0x98) == 0) {
+            *(s16 *)(a0 + 2) = 2;
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(a0 + 0xFC) = 2;
+            func_8012A828(a0, &D_8019EC8C);
+        } else if (*(s32 *)(a0 + 0x94) == 0xA) {
+            func_8012F214(a0, (s32)&D_80185D78, (s32)pos);
+            for (s2 = -0x100; s2 < 0x200; s2 += 0x100) {
+                obj = func_8012C588(0x30C, a0);
+                if (obj != 0) {
+                    *(s16 *)(obj + 6) = pos[0];
+                    *(s16 *)(obj + 0xA) = pos[1];
+                    *(s16 *)(obj + 0xE) = pos[2];
+                    t = func_8012B864(obj);
+                    ang = (t + s2) & 0xFFF;
+                    *(s32 *)(obj + 0x10) = -func_8004787C(ang) * 0x180;
+                    *(s32 *)(obj + 0x18) = -func_80047948(ang) * 0x180;
+                    *(s16 *)(*(s32 *)(obj + 0x20) + 0x12) = ang;
+                }
+            }
+            func_8002D4C8(0x945, 0);
+        }
+        break;
+    }
+}
+
 
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
