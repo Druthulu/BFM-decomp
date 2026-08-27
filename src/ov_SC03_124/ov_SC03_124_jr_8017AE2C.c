@@ -5563,7 +5563,42 @@ void func_8017F5CC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017F63C);
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017F768);
+#include "common.h"
+
+void func_8017F768(void) {
+    extern s16 D_8018FBD4[];
+    extern s32 D_8018FBDC;
+    extern s32 D_8018FBCC;
+    extern s16 D_8018FBC0;
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern u8 *func_801290DC(s32 a0, u8 *a1);
+    /* §272/index-L15: this TU declares `extern void func_8017F768(void);` (line 5667) and calls
+     * it with no args, so the definition MUST keep the (void) signature; the real incoming
+     * argument is read off $a0 with a register pin (§42/§73 PARAMS axis) and copied into an
+     * ordinary local so it lands in $s1 across the two calls. */
+    register s32 a0v __asm__("$4");
+    s32 param_1 = a0v;
+    struct { s16 a, b, c, d; } buf;
+    s16 *p;
+    s32 term;
+
+    D_8018FBDC = D_8018FBDC + 1;
+    if (D_8018FBD4[0] != -1) {
+        term = -1;
+        p = D_8018FBD4;
+        do {
+            if (*p == D_8018FBDC) {
+                func_8012F214(param_1, (s32)&D_8018FBCC, (s32)&buf);
+                func_801290DC(0x47, (u8 *)&buf);
+            }
+            p++;
+        } while (*p != term);
+    }
+    if (D_8018FBC0 < D_8018FBDC) {
+        D_8018FBDC = 0;
+    }
+}
+
 
 void func_8017F840(void) {
 }

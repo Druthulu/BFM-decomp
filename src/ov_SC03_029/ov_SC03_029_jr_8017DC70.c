@@ -3699,7 +3699,89 @@ void func_8017F724(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017DC70", func_8017F760);
+#include "common.h"
+
+typedef struct {
+    s16 x0, x1, x2, x3;
+} UShortBlk_F760;
+
+extern s16 D_801D8028;
+extern s32 D_80126B58;
+extern u16 func_80148800(s32 *a0);
+extern s16 D_8018B62C[];
+extern s16 D_80126940;
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_80013294(void *a0, void *a1);
+extern void func_801872B4(s32 a0, void *a1, void *a2);
+extern s32 func_80012C6C(s32, s32, s32);
+extern s16 D_801274E8;
+extern s16 D_801274EA;
+extern s16 D_801274EC;
+extern void func_8017FA84(s32 a0, s16 *a1, u32 a2);
+
+void func_8017F760(s32 a0)
+{
+    UShortBlk_F760 sp10;
+    UShortBlk_F760 sp18;
+    s32 ang;
+    s16 r;
+    s16 *p;
+    register s32 d __asm__("$4");
+
+    sp18 = *(UShortBlk_F760 *)&D_801D8028;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        *(u8 *)(a0 + 5) = (*(u8 *)(a0 + 5) + 1) & 1;
+    }
+    *(s32 *)(a0 + 0x14) = D_8018B62C[*(u8 *)(a0 + 5)];
+
+    sp10 = *(UShortBlk_F760 *)&D_80126940;
+    ang = ratan2(sp10.x0, sp10.x2) & 0xFFF;
+
+    if ((sp10.x0 >= 0x601 && sp10.x0 <= 0x8FF) && (sp10.x2 >= -0x23F && sp10.x2 <= 0x11F)) {
+        *(s16 *)(a0 + 0x20) = 0x38E;
+    } else if (sp10.x0 < 0 || sp10.x2 < -0x500) {
+        *(s16 *)(a0 + 0x20) = 0x155;
+        if (sp10.x1 < -0x1C4) {
+            sp10.x1 = -0x1C4;
+        }
+        sp18.x1 = sp10.x1;
+        r = func_80013294(&sp10, &sp18);
+        __asm__("");
+        d = ang;
+        if (d < 0xA00 && r > 0xAE0) {
+            sp10.x0 = 0;
+            sp10.x2 = 0xAE0;
+            func_801872B4(d, &sp10, &sp10);
+            sp10.x0 >>= 3;
+            sp10.x1 >>= 3;
+            sp10.x2 >>= 3;
+        }
+    } else {
+        if (*(s32 *)(a0 + 0x14) == 0x2BC) {
+            *(s32 *)(a0 + 0x14) = 0x384;
+        }
+        *(s16 *)(a0 + 0x20) = 0x2D8;
+    }
+
+    sp18.x1 = sp10.x1;
+    r = func_80013294(&sp10, &sp18);
+    if (r < 0x780) {
+        sp10.x0 = 0;
+        sp10.x2 = 0x780;
+        func_801872B4(ang, &sp10, &sp10);
+        sp10.x0 >>= 3;
+        sp10.x1 >>= 3;
+        sp10.x2 >>= 3;
+    }
+
+    p = &D_801274E8;
+    *p = func_80012C6C(*p, sp10.x0, 4);
+    D_801274EA = func_80012C6C(D_801274EA, sp10.x1, 4);
+    D_801274EC = func_80012C6C(D_801274EC, sp10.x2, 4);
+    func_8017FA84(a0, p, ang);
+}
+
 
 extern void func_8017FA84(s32 a0, s16 *a1, u32 a2);
 

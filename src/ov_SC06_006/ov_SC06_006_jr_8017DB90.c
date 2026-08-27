@@ -3806,7 +3806,29 @@ void func_8017F074(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017DB90", func_8017F258);
+extern void func_80016714(void *a0, s32 a1);
+
+/* The byte-true signature takes one pointer arg ($a0 -> $s0), but this TU already
+ * carries `extern void func_8017F258(void);` (used by the banked func_80180AE8),
+ * so a prototyped `(u8 *p)` definition dies on `conflicting types` in the real TU
+ * even though it match_one-MATCHes standalone -- that is what sank the previous
+ * attempt (match_one MATCH / whole-binary gate reject).  Cookbook index line 15 ->
+ * §73 PARAMS axis + §42: keep the canon `(void)` signature and read the incoming
+ * argument through a `register __asm__("$4")` pin.  Byte-identical, and the whole
+ * spliced TU compiles clean with every other function unchanged.
+ */
+void func_8017F258(void)
+{
+    register u8 *p __asm__("$4");
+    u8 *q;
+
+    q = p;
+    if (*(void **)(q + 8) != NULL) {
+        func_80016714(*(void **)(q + 8), 0x38);
+    }
+    func_80016714(q, 0x54);
+}
+
 
 void func_8017F2A0(void) {
     extern u8 D_801F85EC[];

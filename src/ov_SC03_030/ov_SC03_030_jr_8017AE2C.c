@@ -4783,7 +4783,62 @@ void func_8017ED30(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017ED6C);
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017EDD4);
+#include "common.h"
+
+/* 8-byte, 2-byte-aligned blob: the plain struct assignment below is what emits the
+   target's lwl/lwr + swl/swr block move (cookbook §48-C2 / §160a). */
+typedef struct { u16 unk0, unk2, unk4, unk6; } Blk8_801E0764;
+
+extern Blk8_801E0764 D_801E0764;
+extern u16 D_800B99DA;
+extern u8 D_80126B5C;
+extern s32 D_80126B60;
+extern s32 D_80126B64;
+extern void (*D_8018598C)(void);
+extern void (*D_80185990)(void);
+extern void (*D_80185994)(void);
+extern u8 func_8014BF6C(void);
+extern void func_8012B23C(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+extern void func_8017F018(s32 a0);
+extern void func_8017F0E8(u8 *a0, u8 *a1);
+
+void func_8017EDD4(s32 a0) {
+    Blk8_801E0764 buf;
+    u8 *p;
+    s32 v0;
+
+    buf = D_801E0764;
+    p = (u8 *)&buf;
+    v0 = ((s32 (*)(void))func_8014BF6C)() & 0xFF;
+
+    if (*(s16 *)(a0 + 0x70) >= v0) {
+        *(s32 *)(a0 + 0x4) = *(s32 *)&D_80126B5C;
+        *(s32 *)(a0 + 0x8) = D_80126B60;
+        *(s32 *)(a0 + 0xC) = D_80126B64;
+        func_8012B23C(a0);
+        *(s32 *)(a0 + 0x10) = (s32)D_8018598C;
+        *(s32 *)(a0 + 0x14) = (s32)D_80185990;
+        *(s32 *)(a0 + 0x18) = (s32)D_80185994;
+        func_8002D4C8(0x580, 0);
+        func_8012AD50((void *)a0);
+    } else {
+        func_8017F018(a0);
+        if ((D_800B99DA & 3) == 0) {
+            func_8017F0E8((u8 *)a0, p);
+        }
+    }
+    /* Zero-byte re-tie (sched.md S2): a 2nd SET kills sched1's birthing boost so
+       `addiu $s1,$sp,0x10` stays at its source position just after the block move
+       instead of sinking past `jal func_8014BF6C`. That adjacency is what lets
+       reorg back-fill the call's own delay slot with it (§201-C / D1), which in
+       turn frees the branch slot for `addu $a0,$s0,$zero` and lets the prologue
+       keep its descending `sw $ra` / `sw $s1` order. A plain C reassignment does
+       not work here — cse/flow deletes it. */
+    __asm__ volatile("" : "=r"(p));
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017EEE0);
 
@@ -5760,7 +5815,43 @@ void func_80180E0C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180F14);
+
+
+extern s32 func_8004787C(s32 a0);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+extern void func_8012C218(void *a0);
+extern Bc8_80180E0C D_801869BC;
+extern u16 D_801869C0;
+
+void func_80180F14(void *a0) {
+    register s32 s1 __asm__("$17");
+    register s32 s0 __asm__("$16");
+    s16 v0;
+    u16 temp[3];
+
+    s1 = (s32)a0;
+    s0 = *(s32 *)(s1 + 0x20);
+    v0 = func_8004787C(*(s32 *)(s1 + 0x1C) << 6) + 1;
+    *(u16 *)(s0 + 0x1A) = v0;
+    if (*(s32 *)(s1 + 0x1C) == 0x1E) {
+        if (!(*(u16 *)(s1 + 0x70) & 1)) {
+            temp[0] = *(u16 *)(s1 + 0x6);
+            temp[1] = *(u16 *)(s1 + 0xA);
+            temp[2] = *(u16 *)(s1 + 0xE);
+            func_801290DC(0x29, (u8 *)temp);
+        }
+    }
+    if (*(u16 *)(s1 + 0x70) & 1) {
+        *(u16 *)((u8 *)&D_801869BC) -= 4;
+        *(u16 *)((u8 *)&D_801869BC + 2) -= 4;
+        D_801869C0 -= 4;
+    }
+    *(s32 *)(s1 + 0x1C) += 1;
+    if (*(s32 *)(s1 + 0x1C) >= 0x20) {
+        func_8012C218((void *)s1);
+    }
+}
+
 
 
 extern s32 func_8012C0EC(s32 a0);

@@ -5950,7 +5950,32 @@ void func_8018078C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80180834);
+extern s32 func_8017DCC8(void);
+extern void func_8012BF4C(s32 *a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+
+void func_80180834(s32 arg0) {
+    extern s32 func_80180944(s32 a0);
+    /* §176-B2: pin the SHORT-LIVED interloper out of the way, not the contested
+       pointer.  local-alloc's qty_compare gives the halfword temp (R=4, L=3 ->
+       pri 26666) priority over the 0x20 pointer (R=3, L=8 -> pri 3750), so
+       first-fit hands the halfword $v0 and the pointer $v1 -- the exact inverse
+       of the target.  Pinning the halfword to $v1 frees $v0 for the pointer. */
+    register s32 v1 __asm__("$3");
+    register s32 s0 __asm__("$16") = arg0;
+    s32 v0;
+
+    func_80180944(arg0);
+    v0 = *(s32 *)(s0 + 0x20);
+    v1 = *(u16 *)(v0 + 0x12);
+    v1 += 0x10;
+    *(u16 *)(v0 + 0x12) = v1;
+    if (func_8017DCC8() == 9) {
+        func_8012BF4C((s32 *)s0, 0x1E);
+        func_8012AD50((void *)s0);
+    }
+}
+
 
 void func_80180894(s32 arg0) {
     register s32 s0 __asm__("$16") = arg0;

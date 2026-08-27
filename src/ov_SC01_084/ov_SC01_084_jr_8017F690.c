@@ -2910,7 +2910,57 @@ void func_8017F8B8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_8017F9F4);
+extern s32 D_801270D8;
+extern u8 *func_8012913C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+extern void func_8012C218(void *a0);
+
+/* Three sin/cos particle rings.  The third loop is the only one small enough for
+   loop.c's invariant motion to reach: `threshold(29) * savings(1) * lifetime(1) >= insn_count`
+   holds at 28 real insns, so gcc hoists the `-0x4F0` constant into a preheader register.
+   That costs a 5th callee-saved slot ($s4) and one extra sw/lw pair (121 ins vs 120).
+   Two zero-byte `__asm__("")` insns (cookbook §148-A/-C, §193-F) raise the loop to
+   30 real insns -> 29 < 30 -> "not desirable" -> the constant stays inline in $v0 and
+   the $s-file collapses back to $s0..$s3.  Confirmed with `cc1 -dL` (t.i.loop):
+     Loop from 199 to 279: 30 real insns.
+     Insn 244: regno 137 (life 1), move-insn savings 1 not desirable   [const = -1264]
+   Loops 1 and 2 are 32 and 36 real insns, already above the bound, so they need no dial. */
+void func_8017F9F4(void *a0) {
+    s16 i;
+    u8 *p;
+
+    if (D_801270D8 > 5) {
+        for (i = 0x80; i < 0x1000; i += 0x200) {
+            p = func_8012913C(6);
+            if (p != NULL) {
+                *(s16 *)(p + 6) = (u32)(func_80047948(i) * 0x37) >> 8;
+                *(s16 *)(p + 0xA) = -0x220;
+                *(s16 *)(p + 0xE) = (u32)(func_8004787C(i) * 0x37) >> 8;
+            }
+        }
+        for (i = 0x180; i < 0x1000; i += 0x200) {
+            p = func_8012913C(6);
+            if (p != NULL) {
+                *(s16 *)(p + 6) = (u32)(func_80047948(i) * 0x67) >> 9;
+                *(s16 *)(p + 0xA) = -0x388;
+                *(s16 *)(p + 0xE) = (u32)(func_8004787C(i) * 0x67) >> 9;
+            }
+        }
+        for (i = 0x180; i < 0x1000; i += 0x400) {
+            __asm__("");
+            __asm__("");
+            p = func_8012913C(6);
+            if (p != NULL) {
+                *(s16 *)(p + 6) = (u32)(func_80047948(i) * 3) >> 4;
+                *(s16 *)(p + 0xA) = -0x4F0;
+                *(s16 *)(p + 0xE) = (u32)(func_8004787C(i) * 3) >> 4;
+            }
+        }
+        func_8012C218(a0);
+    }
+}
+
 
 extern void (*D_8018A8EC[])(void);
 

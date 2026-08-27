@@ -5112,7 +5112,54 @@ void func_80180BCC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80180BEC);
+/* func_80180BEC (ov_SC07_002, TU src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c)
+ *
+ * INTEGRATION LEVER — cookbook index line 15 ("conflicting types on YOUR OWN
+ * function's definition, where the fleet canon is (void)") -> §73 PARAMS axis
+ * + §42 lever 6 (register-arg capture, byte-proven on func_80168828).
+ *
+ * The previous attempt drafted this as `void func_80180BEC(s32 s1)`. That is
+ * iso-MATCH but the whole-binary gate REFUSED it: the destination TU already
+ * carries `extern void func_80180BEC(void);` (its caller stub func_80180BCC,
+ * line ~5109) BEFORE the splice point, and in gcc-2.7.2 a (void) prototype vs
+ * a one-param definition is a HARD ERROR, not a warning:
+ *     tu.c:5115: conflicting types for `func_80180BEC'
+ *     tu.c:5109: previous declaration of `func_80180BEC'
+ *   -> cc1 exit 33 (measured here on a scratch copy of the real TU).
+ * sweep_parallel's phase A runs with GATE_NO_ARITY=1, so the arity pre-pass
+ * that would relax that decl does not run for it -- the draft must not need it.
+ *
+ * FIX (draft-side, T0, no fleet edit): keep the canonical (void) signature and
+ * read the incoming $a0 through a pinned register variable, copied at once into
+ * a normal pseudo so it gets a callee-saved home (target: `addu $s1,$a0,$zero`).
+ *
+ * VERIFIED: match_one MATCH (48/48), AND a real-TU compile of the spliced
+ * ov_SC07_002_jr_8017C8D0.c is cc1 rc=0 with 0 masked diffs for this function.
+ */
+void func_80180BEC(void) {
+    typedef struct { s16 vx, vy, vz, pad; } SVfbd0;
+    extern s16 D_80126940[4];
+    extern s32 func_8012E544(s32 a0);
+    extern void func_80015978(s32 a0, s32 *a1);
+    extern s32 ratan2(s32 dx, s32 dy);
+    extern void func_80181394();
+    register s32 a0v __asm__("$4");
+
+    s32 s1 = a0v;
+    SVfbd0 base;
+    SVfbd0 target;
+    s32 ret;
+
+    base = (*(SVfbd0 *)D_80126940);
+    ret = func_8012E544(0x306);
+    if (ret != 0) {
+        func_80015978(ret + 4, (s32 *)&target);
+    } else {
+        target = (*(SVfbd0 *)D_80126940);
+    }
+    func_80181394(s1, &base, ratan2(base.vx - target.vx, base.vz - target.vz) & 0xfff);
+}
+
 
 extern void func_80180CCC();
 void func_80180CAC(void) {

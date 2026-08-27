@@ -3119,7 +3119,20 @@ end:
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017E6F0", func_8017F124);
+extern void (*D_8019F2C4[])(void);
+extern void (*D_8019F2E4[])(void);
+
+void func_8017F124(s32 a0) {
+    void (*fn)(void);
+
+    if (*(s16 *)(a0 + 0x70) == 0) {
+        fn = D_8019F2C4[*(u16 *)(a0 + 0x2)];
+    } else {
+        fn = D_8019F2E4[*(u16 *)(a0 + 0x2)];
+    }
+    fn();
+}
+
 
 extern s32 func_8016F1AC(void);
 extern s32 func_80178B18(s32 param_1, s32 param_2);
@@ -3186,7 +3199,32 @@ extern void func_8017D440(s32 arg0, s32 arg1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017E6F0", func_8017F2DC);
+extern void func_80139A44(s32 a0, u16 a1);
+extern s16 func_8017D430(void);
+extern s32 D_8019F144[];
+
+s32 func_8017F2DC(s32 param_1) {
+    s16 x;
+    s32 type;
+    s16 v;
+    s16 idx;
+    s32 ret;
+
+    x = func_8017D430();
+    *(s16 *)(param_1 + 0x10A) = x;
+    if (x != 0) {
+        type = x >> 8;
+        __asm__("" : "=r"(type) : "0"(type));
+        v = (type - 1) * 5 - 1;
+        idx = v + (x & 7);
+        func_80139A44(D_8019F144[idx], 0);
+        ret = 1;
+    } else {
+        ret = 0;
+    }
+    return ret;
+}
+
 
 void func_8017F358(s32 a0) {
     extern s32 D_8019F1A4[];
@@ -3236,7 +3274,26 @@ void func_8017F404(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017E6F0", func_8017F470);
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017E6F0", func_8017F560);
+extern s32 func_801789AC(s32 arg0);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+extern void func_8017D440(s32 arg0, s32 arg1);
+
+void func_8017F560(s32 a0)
+{
+    extern s32 D_8019F23C;
+    extern s32 D_8019F2A4;
+
+    if (func_801789AC(a0) != 0) {
+        if (*(s16 *)(a0 + 0x10A) == 0) {
+            func_80178CBC(a0, (s32)&D_8019F2A4);
+            *(s16 *)(a0 + 2) = 2;
+        } else {
+            func_8017D440(2, 2);
+            func_80178CBC(a0, (s32)&D_8019F23C);
+        }
+    }
+}
+
 
 extern s32 func_801789AC(s32 arg0);
 extern void func_80178CBC(s32 arg0, s32 arg1);

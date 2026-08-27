@@ -3068,7 +3068,19 @@ void func_80182414(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80182450);
+extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
+extern void func_800167B8(s32 a0);
+extern void func_80183718(void *a0);
+extern s32 D_801E8770;
+
+s32 func_80182450(s32 param_1) {
+    D_801E8770 = 0;
+    ((void (*)(void *, s32))func_8016EDEC)((void *)func_80183718, 0xB000000);
+    func_800167B8(0);
+    *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    return 0;
+}
+
 
 DEFINE_func_801824A8()  /* dedup: shared engine-core @0x801824A8 (src/shared) */
 
@@ -3166,7 +3178,23 @@ void func_80182700(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80182744);
+extern s32 D_801151D4;
+extern s32 func_80171B4C(s32 a0, s32 a1);
+
+void func_80182744(s32 param_1)
+{
+    s32 v0;
+    s32 v1;
+
+    v1 = D_801151D4;
+    v0 = *(s32 *)(v1 + 0xC) + 2;
+    *(s32 *)(v1 + 0xC) = v0;
+    *(s32 *)(v1 + 8) = v0;
+    if (func_80171B4C(param_1, 0x1E) != 0) {
+        *(u8 *)(param_1 + 0x214) += 1;
+    }
+}
+
 
 extern void func_8016F0E4(void);
     void func_801827A0(void) {
@@ -3320,7 +3348,22 @@ void func_80182F4C(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80182F78);
+extern s32 func_80171D78(s32 a0, s32 a1);
+extern u8 D_801E6C8C[8];
+extern u8 D_801E6C94[8];
+
+void func_80182F78(s32 arg0)
+{
+    u8 local_18[16];
+
+    __builtin_memcpy(local_18, D_801E6C8C, 8);
+    __builtin_memcpy(local_18 + 8, D_801E6C94, 8);
+
+    if (func_80171D78(arg0, (s32)local_18) != 0) {
+        (*(u8 *)(arg0 + 0x214))++;
+    }
+}
+
 
 DEFINE_func_80183010()  /* dedup: shared engine-core @0x80183010 (src/shared) */
 
@@ -3472,7 +3515,20 @@ void func_80183310(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_801834EC);
+void func_801834EC(s32 arg0)
+{
+    func_80147AD4(arg0, 0, 0, 0);
+    func_801473EC((s32 *)arg0);
+    func_80172414(arg0);
+    if (--*(s32 *)(arg0 + 0x204) == -1) {
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = 0;
+        func_80146D90(arg0);
+        *(s32 *)(arg0 + 0x204) = 0x10;
+        *(u8 *)(arg0 + 0x4D) -= 1;
+        *(u8 *)(arg0 + 0x214) += 1;
+    }
+}
+
 
 
 void func_80183574(void *arg0) {

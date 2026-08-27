@@ -3874,7 +3874,110 @@ void func_801848BC(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_80184AFC);
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_80184E8C);
+#include "common.h"
+
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012B200(u8 *a0);
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern void func_8012CBA4(s32 a0);
+extern void func_80185B48(s32 a0);
+extern void func_80185D3C(void *a0, s32 a1);
+extern s32 func_80185DD8(void);
+extern unsigned char D_8018C700[];
+extern unsigned char D_8018C750[];
+
+void func_80184E8C(s32 a0) {
+    /* LOAD-BEARING (cookbook §162i1 / §164-53): dead BLKmode local reserving the
+     * target's vars area.  vars = 0x38 - ROUND8(args 0x10) - ROUND8(4*regs 8) = 0x20. */
+    s32 pad[8];
+    s16 v;
+    s32 t;
+    s32 r;
+
+    if ((*(u16 *)(a0 + 0x5C) & 0x200) != 0) {
+        if ((s16)func_80185DD8() != 0) {
+            *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) & 0xFDFF;
+        }
+    }
+
+    v = (s16)((s32 (*)(s32))func_80185B48)(a0);
+    if (v != 0) {
+        if (v < 0) {
+            return;
+        }
+        *(s16 *)(a0 + 0xF4) = 1;
+        *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) & 0xFDFF;
+        func_8012A828(a0, (void *)D_8018C750);
+        *(s32 *)(a0 + 0x1C) = 0x10;
+        *(s16 *)(a0 + 2) = 0xA;
+        return;
+    }
+
+    if (*(s16 *)(a0 + 0x76) == 0) {
+        *(s16 *)(a0 + 0x5C) = 0;
+        *(s16 *)(a0 + 0x5E) = 0;
+        func_8012A828(a0, (void *)D_8018C700);
+        *(s32 *)(a0 + 0x1C) = 8;
+        *(s16 *)(a0 + 0xF8) = 0x14;
+        *(s16 *)(a0 + 2) = 0x11;
+        return;
+    }
+
+    t = *(s32 *)(a0 + 0x1C);
+    if (t == 0) {
+        goto zero;
+    }
+    if (t >= 0x1E) {
+        goto dec;
+    }
+    if (*(s16 *)(a0 + 0xFE) < 3) {
+        goto second;
+    }
+    if (func_8012BD3C(a0, 0x400, 0x10000) != 1) {
+        goto second;
+    }
+shared:
+    *(s16 *)(a0 + 0xF4) = 0;
+    *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) & 0xFDFF;
+    func_8012A828(a0, (void *)D_8018C700);
+    *(s32 *)(a0 + 0x1C) = 8;
+    *(s16 *)(a0 + 2) = 0xB;
+    return;
+second:
+    if (func_8012BD3C(a0, 0x2C0, 0x31000) != 1) {
+        goto turn;
+    }
+    if ((s16)((s32 (*)(void *, s32))func_80185D3C)((void *)a0, 1) != 0) {
+        goto shared;
+    }
+    *(s32 *)(a0 + 0x1C) = 8;
+    *(s16 *)(a0 + 0xF4) = 0;
+    *(s16 *)(a0 + 2) = 0xE;
+    *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) & 0xFDFF;
+    return;
+turn:
+    r = func_8012B8E4(a0, 0x10);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + r;
+dec:
+    *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) - 1;
+    return;
+zero:
+    if ((s16)((s32 (*)(void *, s32))func_80185D3C)((void *)a0, 1) == 0) {
+        func_8012B178(a0, 0xFFFD0000);
+        func_8012CBA4(a0);
+    }
+    func_8012B200((u8 *)a0);
+    *(s16 *)(a0 + 0xF4) = 0;
+    *(s32 *)(a0 + 0x1C) = 0x1D;
+    /* LOAD-BEARING (cookbook §5a): zero-byte cross-jump barrier. Without it
+     * find_cross_jump merges this block's trailing `sw $v0,0x1C($s0)` with the
+     * identical one ending the `dec:` block -> LENGTH-DRIFT -2. Do not remove. */
+    __asm__ __volatile__("");
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_801850B4);
 

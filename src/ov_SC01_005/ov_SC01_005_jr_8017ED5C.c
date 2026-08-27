@@ -3500,7 +3500,54 @@ DEFINE_func_801807E8()  /* dedup: shared engine-core @0x801807E8 (src/shared) */
 
 DEFINE_func_80180800()  /* dedup: shared engine-core @0x80180800 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180808);
+extern s32 func_8012C1B8(void);
+extern void func_8001C2C4(s32 a0);
+extern s32 func_80029504(void);
+extern s16 D_80078E92;
+extern s32 D_80126B58;
+extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
+extern void func_8014B944(s32 a0, s32 a1, s32 a2);
+extern void func_8014B034(s32 a0);
+extern void func_80029344(void);
+extern void func_8014BD24(s32 a0, s32 a1);
+extern void func_8017FD50(s32 a0);
+
+void func_80180808(s32 a0) {
+    s32 p0;
+    s32 v1;
+    s32 s0;
+    s32 addr;
+
+    p0 = func_8012C1B8();
+    *(s32 *)(a0 + 0x20) = p0;
+    addr = (s32)&D_80126B58;
+    if (p0 != 0) {
+        func_8001C2C4(p0);
+        v1 = func_80029504();
+        if (v1 >= 5 && v1 != 0x294) goto skip;
+        if (v1 < 5) goto armA;
+        goto armB;
+    armA:
+        *(s16 *)(a0 + 0x70) = 1;
+        goto common;
+    armB:
+        *(s16 *)(a0 + 0x70) = 2;
+        s0 = 0xAC8 - D_80078E92;
+        func_8014BB24(addr, 0x3E7, 1);
+        func_8014B944(addr, 0x1000000, 1);
+        func_8014B034(s0);
+        func_80029344();
+        func_8014BD24(addr, 0x3E7);
+    common:
+        *(s16 *)(a0 + 0x10A) = 0x60;
+        *(s16 *)(a0 + 0x106) = 0xFF;
+        *(s16 *)(a0 + 0x108) = 0xFF;
+        func_8017FD50(a0);
+    skip:
+        *(u16 *)(a0 + 2) += 1;
+    }
+}
+
 
 extern s32 func_8016F1AC(void);
 extern s32 func_80178B18(s32 param_1, s32 param_2);
@@ -3612,7 +3659,52 @@ void func_80180BA0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80180BDC);
+extern void func_8012AD80(s32 a0);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern void func_8012B200(u8 *a0);
+extern void func_8012B2CC(s32 a0);
+
+s32 func_80180BDC(s32 a0) {
+    s16 *p;
+    s32 v;
+
+    p = *(s16 **)(a0 + 0xCC);
+    if (p == 0) {
+        return 0;
+    }
+    if (*(s32 *)(a0 + 0x1C) == 0) {
+        v = *p++;
+        if (v == 0) {
+            /* §263: the target's `jal func_8012B200` delay slot is a bare `nop`,
+             * with NO `addu $a0,$s1,$zero` anywhere on this path -- the call takes
+             * NO argument here. Spelled through a cast so the fleet-wide
+             * `func_8012B200(u8 *)` prototype stays untouched (house idiom, cf.
+             * `((void (*)(void))func_8012AD80)();` in src/shared/engine_core.h). */
+            ((void (*)(void))func_8012B200)();
+            return 0;
+        }
+        *(s32 *)(a0 + 0x1C) = v;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = *(u16 *)p;
+        p++;
+        *(s16 *)(a0 + 0xE6) = *(u16 *)p;
+        p++;
+        func_8012B2CC(a0);
+        *(s32 *)(a0 + 0xCC) = (s32)p;
+    }
+    /* LOAD-BEARING zero-byte fence (§5a / §34 toolkit) -- do not delete.
+     * Without it reorg's `fill_eager_delay_slots` steals this join block's head
+     * insn (`addu $a0,$s1,$zero`, the func_8012B1B4 arg copy sched1 hoisted here,
+     * §193-D/§201-C) into the `bnez` delay slot above and redirects the branch
+     * past the now-redundant `lw $v0,0x1C($s1)` -- 2 mismatches (branch offset
+     * 0x16 vs 0x14 + a stolen slot the target leaves `nop`). An ASM_INPUT insn at
+     * the head of the thread makes reorg.c `stop_search_p` halt the filler. */
+    __asm__ __volatile__("");
+    *(s32 *)(a0 + 0x1C) -= 1;
+    func_8012B1B4(a0, a0 + 0xDC);
+    func_8012AD80(a0);
+    return 1;
+}
+
 
 #include "common.h"
 
