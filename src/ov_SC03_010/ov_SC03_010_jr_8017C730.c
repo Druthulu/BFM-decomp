@@ -3774,7 +3774,161 @@ void func_8017E1EC(s32 param_1, s32 param_2, s16 *param_3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017E3B8);
+#include "common.h"
+
+/* func_8017E3B8 -- ov_SC03_010 / ov_SC03_010_jr_8017C730  (170/170, match_one MATCH)
+ *
+ * TU-verbatim decls (src/ov_SC03_010/ov_SC03_010_jr_8017C730.c):
+ *   extern u16 D_80126B5E/D_80126B62/D_80126B66;   (TU:1787-1789; `lh` sites cast via *(s16*)& per TU:4373)
+ *   extern u16 D_80183C68[];                       (TU:3835)
+ *   extern s32 ratan2(s32, s32);                   (TU:240/522)
+ *   extern s32 func_800291B4(s32);                 (TU:54)
+ * func_8002D59C is declared NOWHERE in this TU (TU:3841 calls it un-prototyped);
+ * left implicit here on purpose so func_8017E848's banked bytes are untouched.
+ *
+ * K&R definition on purpose: TU:3839 calls `func_8017E3B8();` with no argument.
+ * An ANSI parameter list would make that a "too few arguments" hard error; a K&R
+ * definition supplies no prototype, so the existing call site still compiles
+ * (same pattern already used in ov_SC03_099_jr_8017BEBC.c:4548 etc.). Byte-identical.
+ *
+ * Levers that were load-bearing (all byte-measured against the .s):
+ *  - the 12-bit sign-extends need a NAMED temp (`m1`/`m2`) that the arm re-uses:
+ *    `v = m; if (x & 0x800) v = m | 0xF000;` keeps cse's copy insn that fills the
+ *    branch delay slot. Writing `v = x & 0xFFF; if (...) v |= 0xF000;` folds the
+ *    copy away (-1 ins + nop). Two temps, not one and not three: the second and
+ *    third block share m2 (both live in $a0 in the target).
+ *  - `m1` pinned to $v1: with its own pseudo local-alloc coalesces m1 into ang0's
+ *    $s0 and deletes the copy; the pin restores it (memory: try register pins).
+ *  - the sound call's `if (q<0)` MUST be a real if/ELSE, not `vol = q|0x1000;
+ *    if (q<0) vol = 0x1000;`. The one-armed form leaves a barrier-free skippable
+ *    block, -fcse-skip-blocks rides the D_80183C68[] equivalence past the join and
+ *    the target's RELOAD of both the index and the element vanishes (-5 ins,
+ *    cookbook 309 / 195-L; `-fno-cse-skip-blocks` is the ablation oracle that
+ *    named the pass). jump2 collapses the diamond back to the target's skip shape.
+ *  - the 0x5C store must sit in the `bnez` delay slot: the guard is spelled as an
+ *    explicit `goto` past the &0x20 test so the 0xFC reload lands in its own
+ *    register and reorg can steal the store.
+ *  - `s32 pad[2]`: the target frame is 0x28 with saves at 0x18..0x24, i.e. 8 bytes
+ *    of vars below a 16-byte arg area (cookbook 226 dead-local pad).
+ *  - the tail materialises &D_80126B96 once (lui+addiu, then 0($v0) for the lhu and
+ *    the sh) -- that needs the address NAMED as a local pointer (cookbook 229).
+ */
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern u16 D_80183C68[];
+extern s32 ratan2(s32 dx, s32 dy);
+extern s32 func_800291B4(s32 arg);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_80129374(s32 a0, s32 a1);
+extern s32 func_8017E69C(s32 a0);
+
+void func_8017E3B8(a0)
+s32 a0;
+{
+    s16 s2;
+    s16 s0;
+    s32 obj;
+    s32 ang0;
+    s32 ang1;
+    s32 x;
+    register s32 m1 __asm__("$3");
+    s32 m2;
+    s16 d;
+    s32 q;
+    u16 vol;
+    u16 prev;
+    s32 pad[2];
+
+    prev = *(u16 *)(a0 + 0x100);
+    *(s16 *)(a0 + 0x100) = 0;
+    *(s16 *)(a0 + 0x102) = prev;
+    *(s32 *)(a0 + 0x1C) += 1;
+
+    s2 = D_80126B62 - *(u16 *)(a0 + 0xA);
+    if (s2 < 0) {
+        s2 = -s2;
+    }
+    if (s2 > 0x180) {
+        return;
+    }
+
+    s0 = *(s16 *)(a0 + 0xFC);
+    if (s0 != 0) {
+        if ((func_800291B4(0xCE) & 0xFF) >= s0) {
+            *(s16 *)(a0 + 0x5C) = 0;
+            return;
+        }
+        *(s16 *)(a0 + 0x5C) = 0x800;
+        if (*(s16 *)(a0 + 0xFC) != 0) {
+            goto L474;
+        }
+    }
+    if ((*(s32 *)(a0 + 0x1C) & 0x20) != 0) {
+        return;
+    }
+L474:
+
+    if (*(s32 *)(a0 + 0x1C) & 1) {
+        obj = func_80132EF4(a0, 0x22);
+        if (obj != 0) {
+            func_80129374(obj, a0);
+            if (*(s16 *)(a0 + 0xFE) == 0) {
+                *(s16 *)(*(s32 *)(obj + 0x20) + 0x18) = 0x2C00;
+                *(s16 *)(*(s32 *)(obj + 0x20) + 0x1A) = 0x2000;
+            } else {
+                *(s16 *)(*(s32 *)(obj + 0x20) + 0x18) = 0x4000;
+                *(s16 *)(*(s32 *)(obj + 0x20) + 0x1A) = 0x4000;
+            }
+        }
+    }
+
+    x = ratan2(-*(s16 *)&D_80126B66, *(s16 *)&D_80126B5E) - 0x400;
+    m1 = x & 0xFFF;
+    ang0 = m1;
+    if (x & 0x800) {
+        ang0 = m1 | 0xF000;
+    }
+    x = ratan2(-*(s16 *)(a0 + 0xE), *(s16 *)(a0 + 6)) - 0x400;
+    m2 = x & 0xFFF;
+    ang1 = m2;
+    if (x & 0x800) {
+        ang1 = m2 | 0xF000;
+    }
+    x = ang1 - ang0;
+    m2 = x & 0xFFF;
+    d = m2;
+    if (x & 0x800) {
+        d = m2 | 0xF000;
+    }
+    if (d < 0) {
+        d = -d;
+    }
+    if (d < 0x200) {
+        if (D_80183C68[*(s16 *)(a0 + 0x70)] != 0) {
+            q = ((0x200 - d) >> 2) - (s2 >> 2);
+            if (q < 0) {
+                vol = 0x1000;
+            } else {
+                vol = q | 0x1000;
+            }
+            func_8002D59C(D_80183C68[*(s16 *)(a0 + 0x70)], vol,
+                          *(s16 *)(a0 + 0x70) & 0xFFFF);
+            *(s16 *)(a0 + 0x100) = 1;
+        }
+    }
+
+    if ((*(s16 *)(a0 + 0xFC) != 0 || (*(s32 *)(a0 + 0x1C) & 0x1F) >= 8) &&
+        func_8017E69C(a0) != 0) {
+        u16 *p = &D_80126B96;
+        D_80126B98 = 0xC;
+        *p |= 0x4000;
+    }
+}
+
 
 
 extern void (*D_80183C88[])(void);

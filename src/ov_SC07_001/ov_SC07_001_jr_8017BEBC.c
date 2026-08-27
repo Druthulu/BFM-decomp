@@ -5094,7 +5094,94 @@ void func_80180404(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_80180570);
+#include "common.h"
+
+// @class: cse
+// @stuck: none — MATCH (121 ins, match_one). Three levers, in the order they were needed:
+//   (1) BLOCK ORDER: the shared `return 1` must sit BETWEEN test 3 and block 4 (target's
+//       `.L801806D4: j .L80180734 / li 1` with test 3 as a `bne` skipping over it). Written as
+//       three flat `if (f()==1) return 1;` (or with an explicit `else`), gcc-2.7.2 cross-jumps all
+//       three copies into ONE block that it parks immediately before the return label, i.e. AFTER
+//       block 4 (§162: the survivor is the later copy — here the "later copy" gcc keeps is the
+//       shared thunk at the epilogue). A source-level `goto hit;` for tests 1-2 plus
+//       `if (t3 != 1) goto last;` leaves exactly one `return 1` in RTL order, so there is nothing
+//       to merge and it stays put. 35 -> 10 mismatches.
+//   (2) FRAME SIZE: target frame is 0x40 with locals at sp+0x10 and sp+0x18 only — 8 bytes of
+//       stack are allocated and never touched. A third, unused 8-byte local (p2) reproduces it;
+//       gcc-2.7.2 still gives an unused aggregate its slot. 47 -> 35 mismatches.
+//   (3) THE 0x80000000 CONSTANT ORDER: target materialises it FIRST (the delay-slot filler then
+//       lifts it into the `bgez` slot) and keeps it in $a0, which is what forces `addu $a0,$s2` to
+//       be the LAST argument set-up of call 1 instead of the first. Plain
+//       `(x & 0xFFFFFFF) | 0x80000000` schedules the 0x0FFF0000 half first (and reuses $v1 for
+//       both constants) — a plain local temp gets the order right but not the register; the $4 pin
+//       gets both. 10 -> 0.
+//   The `lui %hi(D_80000004)` / `lhu %lo(D_8000000X)($s0)` in the .s is splat symbolising the
+//   0x80000000 | offset addressing; plain literals emit the identical bytes (same idiom banked in
+//   ov_SC03_099_jr_80140608.c:func_8014477C).
+
+extern s32 D_801AAD60;
+extern s32 func_80180754(void *a0, void *a1, void *a2, void *a3);
+
+s32 func_80180570(void *arg0) {
+    typedef struct { s16 vx, vy, vz, pad; } SVec_80180570;
+
+    SVec_80180570 p0;
+    SVec_80180570 p1;
+    SVec_80180570 p2;   /* never used — holds the target's 8 spare frame bytes (0x40, not 0x38) */
+    register s32 k __asm__("$4");
+    u16 *p;
+
+    if (D_801AAD60 == 0) {
+        return 0;
+    }
+    if (*(s32 *)(*(s32 *)(D_801AAD60 + 0x20) + 4) < 0) {
+        return 0;
+    }
+
+    k = 0x80000000;
+    p = (u16 *)((*(s32 *)((s32)arg0 + 0x58) & 0x0FFFFFFF) | k);
+
+    p0.vx = p[2];
+    p0.vy = p[4];
+    p0.vz = p[6];
+    p1.vx = p[2];
+    p1.vy = p[4];
+    p1.vz = p[7];
+    if (func_80180754(arg0, (void *)D_801AAD60, &p0, &p1) == 1) {
+        goto hit;
+    }
+
+    p0.vx = p[2];
+    p0.vy = p[5];
+    p0.vz = p[6];
+    p1.vx = p[2];
+    p1.vy = p[5];
+    p1.vz = p[7];
+    if (func_80180754(arg0, (void *)D_801AAD60, &p0, &p1) == 1) {
+        goto hit;
+    }
+
+    p0.vx = p[3];
+    p0.vy = p[4];
+    p0.vz = p[6];
+    p1.vx = p[3];
+    p1.vy = p[4];
+    p1.vz = p[7];
+    if (func_80180754(arg0, (void *)D_801AAD60, &p0, &p1) != 1) {
+        goto last;
+    }
+hit:
+    return 1;
+last:
+    p0.vx = p[3];
+    p0.vy = p[5];
+    p0.vz = p[6];
+    p1.vx = p[3];
+    p1.vy = p[5];
+    p1.vz = p[7];
+    return func_80180754(arg0, (void *)D_801AAD60, &p0, &p1) == 1;
+}
+
 
 #define gte_SetRotMatrix_1(r0) __asm__ __volatile__ ( \
     "lw $12, 0( %0 );"   \

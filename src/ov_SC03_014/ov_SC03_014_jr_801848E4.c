@@ -2758,7 +2758,118 @@ DEFINE_func_801848E4()  /* dedup: shared engine-core @0x801848E4 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80184920);
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80184A08);
+#include "common.h"
+
+extern s32 func_80029178(s32 arg);
+extern s32 func_801789AC(s32 arg0);
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern void func_80178D18(void);
+extern s32 func_8014CB58(void);
+extern s32 func_8014CB2C(void);
+extern void func_8014B598(s32 a0, s32 a1);
+extern s32 func_8016F1AC(void);
+extern void func_80175454(void);
+extern void func_800D0C48(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80184DA4(s32 param_1);
+extern void func_80184DF8(s32 param_1);
+extern void func_80029124(s32, s32);
+extern void func_80175414(s32 _arg0);   /* TU-canonical (ov_SC03_014_jr_801848E4.c L1954) */
+extern u16 D_8018FE60;
+extern u16 D_8018FE70;
+extern M2C_UNK D_8018F4F8;
+
+void func_80184A08(s32 a0) {
+    extern s32 func_8012BD14();
+    extern s32 func_801842E0();
+    extern void func_8002959C();
+    u16 t34;
+
+    if (func_8012BD14() < 0x401 || *(u16 *)(a0 + 0x34) == 1 || *(u16 *)(a0 + 0x34) == 2) {
+        switch (*(u16 *)(a0 + 0x34)) {
+        case 0:
+            if ((func_80029178(0x8B) & 0xFF) == 0) {
+                func_80178B18(a0, (s32)&D_8018FE60);
+                *(u16 *)(a0 + 0x34) = 2;
+            } else {
+                func_80178B18(a0, (s32)&D_8018FE70);
+                *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+            }
+            break;
+        case 1:
+            if (func_801789AC(a0) == 1) {
+                ((void (*)(s32))func_80178D18)(a0);
+                *(u16 *)(a0 + 0x34) = 3;
+            }
+            break;
+        case 2:
+            if (func_801789AC(a0) == 1) {
+                ((void (*)(s32))func_80178D18)(a0);
+                *(u16 *)(a0 + 0x34) = 4;
+            }
+            break;
+        case 3:
+            if ((func_80029178(0xB9) & 0xFF) == 0 && func_8014CB58() == 3) {
+                func_8014B598(3, (s32)&D_8018F4F8);
+                if (func_8016F1AC() != 0 && (*(u16 *)(a0 + 0x100) & 4) == 0) {
+                    *(u16 *)(a0 + 0x100) |= 4;
+                    *(s32 *)(a0 + 0x1C) = 0;
+                    func_80175454();
+                }
+                if (*(u16 *)(a0 + 0x100) & 4) {
+                    *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1;
+                }
+                if ((*(u16 *)(a0 + 0x100) & 2) == 0 && *(s32 *)(a0 + 0x1C) == 0x5A) {
+                    *(u16 *)(a0 + 0x100) |= 2;
+                    func_800D0C48(0);
+                }
+                if ((*(u16 *)(a0 + 0x100) & 1) == 0 &&
+                    (func_8014CB2C() & 0x8000007F) == 0x80000003) {
+                    t34 = *(u16 *)(a0 + 0x34) + 1;
+                    *(u16 *)(a0 + 0x100) |= 1;
+                    *(u16 *)(a0 + 0x34) = t34;
+                    func_8002D4C8(0xBD8, 0);
+                }
+            }
+            break;
+        }
+        if ((func_80029178(0x8B) & 0xFF) == 0) {
+            return;
+        }
+        /* §165-24: func_80184DF8(a0) is written out on all three paths — gcc cross-jumps the
+           common tail but leaves the three $a0 arg-setups, which then fill the three branch
+           delay slots (a single shared call puts the move in the jal's own slot instead). */
+        if (func_8014CB58() == 3) {
+            func_80184DA4(a0);
+            func_80184DF8(a0);
+        } else {
+            *(u8 *)(*(s32 *)(a0 + 0xCC) + 0x27) = 0x88;
+            func_80184DF8(a0);
+        }
+    } else {
+        if ((func_80029178(0x8B) & 0xFF) == 0) {
+            return;
+        }
+        *(u8 *)(*(s32 *)(a0 + 0xCC) + 0x27) = 0x88;
+        func_80184DF8(a0);
+    }
+    if (*(u16 *)(a0 + 0x100) & 1) {
+        if (func_801842E0() != 0) {
+            func_80029124(0xB9, 1);
+            *(u16 *)(a0 + 0x2) = 2;
+            *(u16 *)(a0 + 0x100) &= ~1;
+            *(u16 *)(a0 + 0x34) = 0;
+            *(u8 *)(*(s32 *)(a0 + 0xCC) + 0x27) = 0x88;
+            *(u8 *)(*(s32 *)(a0 + 0xD0) + 0x27) = 0x89;
+            func_8002959C();
+            /* the TU carries `extern void func_80175414(s32 _arg0);` at file scope,
+               but the .s calls it with an EMPTY delay slot => zero arguments; call
+               through a cast so the carried decl stays untouched (house style). */
+            ((void (*)(void))func_80175414)();
+        }
+    }
+}
+
 
 extern s32 func_8001AAA0(s32 arg);
 extern s32 func_8016F0AC();

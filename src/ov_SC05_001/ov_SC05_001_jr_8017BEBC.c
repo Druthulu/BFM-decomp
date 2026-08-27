@@ -4537,7 +4537,82 @@ void func_8017EAB0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017EAEC);
+/* func_8017EAEC — ov_SC05_001 / ov_SC05_001_jr_8017BEBC   (84 ins)
+ *
+ * Per-frame update for the entity at param_1: advance a 2-phase animation index
+ * off a timer, snapshot the 8-byte block at D_80126940 onto the stack, build a
+ * target point from it minus cos/sin(D_80126B78->angle)/128, ask func_8017EE08
+ * for a facing angle, slew D_801B5E28 toward it and hand both to func_8017EC3C.
+ *
+ * INTEGRATION-CRITICAL (this is what failed the whole-binary gate before, while
+ * match_one reported a clean standalone MATCH — see match_one's own docstring:
+ * "MODULO in-TU declaration conflicts"):
+ *   struct ZnRec is DEFINED LATER IN THIS SAME TU, just below func_8017EC3C, as
+ *   the parameter type of func_8017EE08. A copy of that definition here is a
+ *   `redefinition of 'struct ZnRec'` error that kills the whole object. Only a
+ *   forward declaration may appear here; D_80189680 is declared as s16[] and
+ *   cast at the call. Decl-only => byte-neutral (cookbook §8c).
+ *
+ * The signed /128 of each trig result is written out as the explicit
+ * bgez/+0x7F/sra bias so the two calls keep their own branch shape.
+ */
+
+extern u16 func_80148800(s32 *a0);
+extern s32 D_80126B58;
+
+extern s32 *D_80126B78;
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+
+/* 8 bytes, align 2 -> the lwl/lwr + swl/swr unaligned block copy at 8017EB54 */
+typedef struct { s16 f0, f1, f2, f3; } Blk8_80126940_8017EAEC;
+extern Blk8_80126940_8017EAEC D_80126940;
+
+extern s16 D_8018970C[];
+
+struct ZnRec;                      /* DEFINED below in this TU — do not redefine */
+extern s16 D_80189680[];
+extern s32 func_8017EE08(struct ZnRec *param_1, s16 *param_2, s16 *param_3);
+
+extern s16 D_801B5E28;
+extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8017EC3C(s32 param_1, s32 param_2, s16 *param_3);
+
+void func_8017EAEC(s32 param_1)
+{
+    Blk8_80126940_8017EAEC local1;
+    s16 dest[4];
+    s32 iVar4;
+    s16 msg;
+    u8 idx;
+
+    if ((func_80148800(&D_80126B58) & 3) != 0) {
+        idx = (*(u8 *)(param_1 + 5) + 1) & 1;
+        *(u8 *)(param_1 + 5) = idx;
+        *(s32 *)(param_1 + 0x14) = D_8018970C[idx];
+    }
+
+    local1 = D_80126940;
+
+    iVar4 = func_8004787C(*(s16 *)((s32)D_80126B78 + 0x12));
+    if (iVar4 < 0) {
+        iVar4 += 0x7F;
+    }
+    dest[0] = local1.f0 - (s16)(iVar4 >> 7);
+
+    iVar4 = func_80047948(*(s16 *)((s32)D_80126B78 + 0x12));
+    if (iVar4 < 0) {
+        iVar4 += 0x7F;
+    }
+    dest[2] = local1.f2 - (s16)(iVar4 >> 7);
+    dest[1] = local1.f1;
+
+    msg = func_8017EE08((struct ZnRec *)D_80189680, (s16 *)&local1, dest);
+
+    D_801B5E28 = func_80012DBC(D_801B5E28, msg, 4, (*(s16 *)(param_1 + 0xA0) = msg, 1));
+    func_8017EC3C(param_1, D_801B5E28, (s16 *)&local1);
+}
+
 
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);

@@ -3715,7 +3715,92 @@ void func_80180B80(S* arg0, s16* arg1, u16 arg2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80180D4C);
+#include "common.h"
+
+/* Declarations copied VERBATIM from src/ov_SC03_111/ov_SC03_111_jr_8017EC58.c
+ * (func_80029504 @ 31, func_80029514 @ 52, D_80078EB1 @ 1463, func_8004787C @ 2206,
+ *  func_80174774 @ 2402, func_80178970 @ 2538, func_80178CBC @ 2545, func_80178D18 @ 2546).
+ * D_80188AB8 / D_80188AF8 are not declared in this TU; spelling taken from the
+ * ov_SC05_001 siblings (`extern char D_80188A**[];`).
+ * Type mismatches resolved by CASTING AT THE USE, house style (cf. func_80184380):
+ *   - func_80178970 / func_80178D18 are declared (void) but the .s passes $a0 = self.
+ *   - func_80174774 is declared s16; the .s tests the raw 32-bit return with `beqz`,
+ *     so the HImode truncation (`sll $v0,$v0,16`) must not be emitted -> call it s32.
+ */
+extern s32 func_80029504(void);
+extern void func_80029514(s32);
+extern u8 D_80078EB1;
+extern s32 func_8004787C(s32 a0);
+extern s16 func_80174774(void);
+extern int func_80178970(void);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+extern void func_80178D18(void);
+extern char D_80188AF8[];
+extern char D_80188AB8[];
+
+void func_80180D4C(void *a0) {
+    s32 s0 = (s32)a0;
+
+    if ((u32)func_80029504() >= 0xE6) {
+        *(s32 *)(*(s32 *)(s0 + 0x20) + 4) |= 0x80000000;
+        *(s16 *)(s0 + 6) = 0x800;
+        *(s16 *)(s0 + 2) = *(s16 *)(s0 + 2) + 1;
+        *(s16 *)(s0 + 0x10A) = 2;
+    }
+
+    if (D_80078EB1 >= 3 && D_80078EB1 <= 6) {
+        if (*(s16 *)(s0 + 0xFC) < 0x800) {
+            *(s16 *)(s0 + 0xFC) += 0x40;
+            *(s16 *)(s0 + 0x100) += 0x280;
+        }
+    } else {
+        if (*(s16 *)(s0 + 0xFC) > 0) {
+            *(s16 *)(s0 + 0xFC) -= 0x40;
+            *(s16 *)(s0 + 0x100) -= 0x280;
+        }
+    }
+
+    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) =
+        ((func_8004787C(*(s16 *)(s0 + 0xFC) - 0x400) * *(s16 *)(s0 + 0x100)) >> 14) + 0x1000;
+    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) =
+        0x1000 - (func_8004787C(*(s16 *)(s0 + 0xFC) - 0x400) >> 2);
+    *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) =
+        ((func_8004787C(*(s16 *)(s0 + 0xFC) - 0x400) * *(s16 *)(s0 + 0x100)) >> 14) + 0x1000;
+
+    switch (*(s16 *)(s0 + 0xFE)) {
+    case 1:
+        if (*(s16 *)(s0 + 0xFC) == 0x800) {
+            func_80178CBC(s0, (s32)D_80188AB8);
+            *(s16 *)(s0 + 0xFE) = 3;
+        } else {
+            func_80178CBC(s0, (s32)D_80188AF8);
+            *(s16 *)(s0 + 0xFE) = 2;
+        }
+        break;
+    case 2:
+        if (((s32 (*)(s32))func_80178970)(s0)) {
+            ((void (*)(s32))func_80178D18)(s0);
+            *(s16 *)(s0 + 0xFE) = 0;
+        }
+        break;
+    case 3:
+        if (((s32 (*)(s32))func_80178970)(s0)) {
+            ((void (*)(s32))func_80178D18)(s0);
+            *(s16 *)(s0 + 0xFE) = 0;
+            func_80029514(0xE6);
+            *(s16 *)(s0 + 2) = *(s16 *)(s0 + 2) + 1;
+        }
+        if (*(s16 *)(s0 + 0x10A) == 1) {
+            if (((s32 (*)(void))func_80174774)() != 0) {
+                *(s32 *)(*(s32 *)(s0 + 0x20) + 4) |= 0x80000000;
+                *(s16 *)(s0 + 0x10A) = 2;
+                *(s16 *)(s0 + 6) = 0x800;
+            }
+        }
+        break;
+    }
+}
+
 
 extern void (*D_80188B10[8])(int *);
 

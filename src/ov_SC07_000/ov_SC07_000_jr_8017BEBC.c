@@ -4905,7 +4905,21 @@ void func_8017FE5C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017FE9C);
+extern u8 *func_801290DC();
+
+void func_8017FE9C(void *a0) {
+    struct { s16 x; s16 y; s16 z; } sp;
+    u8 *rec;
+
+    sp.x = *(u16 *)((u8 *)a0 + 0x6);
+    sp.y = *(u16 *)((u8 *)a0 + 0xA);
+    sp.z = *(u16 *)((u8 *)a0 + 0xE);
+    rec = func_801290DC(0x77, &sp);
+    if (rec != NULL) {
+        *(s16 *)(rec + 0x2C) = 2;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017FEEC);
 

@@ -6100,7 +6100,80 @@ s32 func_80182AD4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80182B10);
+#include "common.h"
+
+/* func_80182B10 — ov_SC07_002 state tick on the 0x34 halfword state field.
+ *
+ * §199-G LEVER (the whole function): the 2-arm dispatch looks like a `switch`
+ * but is NOT one.  A 2-case switch never splits (`balance_case_nodes`' gate is
+ * `if (i > 2)`), so its list stays flat with case 0 at the ROOT and it emits
+ * `beqz→arm0 ; li 1 ; beq→arm1 ; j default`.  The target instead leads with a
+ * POSITIVE `beq $v1,1 →arm1`, then a `slti $v1,2 / beqz →default` RANGE test,
+ * then `bnez →default` and FALLS INTO arm 0 — three tests for two values, and
+ * no `j default` fall-out.  That is §199-G's nested-inverted spelling
+ * `if (x != A) { ...inner... } else { bodyA }`, whose header is all-positive up
+ * front with the LAST test inverted; the extra `slti` is the redundant `x < 2`
+ * the source spends before re-testing `x == 0`.  Writing it as a bare switch
+ * costs 4 mismatches at idx 5-8 (verified).
+ *
+ * §263 / the delay-slot tell: `jal func_80178B18` has a bare `nop` in its slot
+ * — no `move $a0,$s0`.  Passing `s0` there emits that move (idx 24 residual);
+ * passing the PARAMETER `arg0` keeps a second pseudo live in its incoming $a0
+ * from entry to the call (no intervening call), so reload deletes the no-op
+ * copy.  A `register __asm__("$16")` pin on s0 is the WRONG fix here: it forces
+ * gcc to park the parameter in $a1 first (`move $a1,$a0 ; move $s0,$a1`), +1 ins.
+ *
+ * func_80178970 / func_80178D18 carry `(void)` prototypes at TU L2538/L2546 but
+ * are called with the entity pointer, so they go through this TU's established
+ * function-pointer-cast idiom (cf. func_80182C68 L6135, func_80182DF0 L6192)
+ * rather than a conflicting redeclaration.
+ *
+ * Whole-TU compile verified: spliced over the INCLUDE_ASM the emitted asm is
+ * instruction-identical to the standalone MATCH (local label numbers only).
+ */
+
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern u8 D_8018A418;
+extern void func_80016450(s32 a0, s32 a1);
+extern void func_80184C70(void);
+extern void func_80181C18(s32 arg0);
+extern void func_80181ED8(s32 a0);
+extern void func_8012C218(void *a0);
+extern u16 D_8019FF8A;
+extern s16 D_8019F070;
+
+void func_80182B10(s32 arg0) {
+    s32 s0 = arg0;
+    s32 x = *(u16 *)(s0 + 0x34);
+
+    if (x != 1) {
+        if (x < 2) {
+            if (x == 0) {
+                if (*(s16 *)(s0 + 0x70) == 0 && D_8019F070 != 0) {
+                    func_80178B18(arg0, (s32)&D_8018A418);
+                    *(s16 *)(s0 + 0xF6) = 0xFF;
+                    func_80016450(0xFF, 1);
+                    func_80184C70();
+                    *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+                }
+            }
+        }
+    } else {
+        if (((s32 (*)(s32))func_80178970)(s0) != 0) {
+            ((void (*)(s32))func_80178D18)(s0);
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            func_80181C18(s0);
+        }
+        func_80016450(*(u8 *)(s0 + 0xF6), 1);
+    }
+    if (D_8019FF8A & 0x4000) {
+        func_80181ED8(s0);
+        func_8012C218((void *)s0);
+    }
+}
+
 
 void func_80182C18(s32 arg0) {
     register s32 s0 __asm__("$16") = arg0;

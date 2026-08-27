@@ -4052,7 +4052,22 @@ void func_8017EDA0(s32 arg0) {
 
 INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8017EE78);
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8017EEB4);
+#include "common.h"
+
+extern s32 func_8012B8A4(s16 *a0);
+
+s32 func_8017EEB4(s32 arg0)
+{
+    s32 dist;
+    s32 val;
+    s16 delta;
+
+    dist = func_8012B8A4((s16 *)arg0);
+    val = *(s32 *)(arg0 + 0x20);
+    delta = *(s16 *)(val + 0x12);
+    return ((dist - delta) & 0xFFF) >= 0x800;
+}
+
 
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern void func_8012A828(s32 *a0, s32 a1);

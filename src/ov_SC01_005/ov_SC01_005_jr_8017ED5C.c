@@ -4155,7 +4155,67 @@ void func_8018165C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C", func_80181784);
+extern void func_80181B00(s32 a0);
+extern void func_801820F8(s32 a0);
+
+void func_80181784(s32 a0)
+{
+    register s32 iVar1 __asm__("$3");
+    s32 iVar2;
+    s32 tmp;
+    s32 pad[4];
+
+    func_80181B00(a0);
+    func_801820F8(a0);
+
+    iVar1 = *(s32 *)(a0 + 0x20);
+    iVar2 = *(s16 *)(iVar1 + 0x10);
+    if (iVar2 != 0) {
+        tmp = iVar2;
+        __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp));
+        if (iVar2 < 0) {
+            tmp += 0x80;
+            *(s16 *)(iVar1 + 0x10) = (s16)tmp;
+            if (0 < tmp * 0x10000) {
+                *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            }
+        } else {
+            tmp -= 0x80;
+            *(s16 *)(iVar1 + 0x10) = (s16)tmp;
+            if (tmp * 0x10000 < 0) {
+                *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+            }
+        }
+        iVar1 = *(s32 *)(a0 + 0x20);
+    }
+
+    iVar2 = *(s16 *)(iVar1 + 0x12);
+    if (iVar2 != 0) {
+        tmp = iVar2;
+        __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp));
+        if (iVar2 < 0) {
+            tmp += 0x80;
+            *(s16 *)(iVar1 + 0x12) = (s16)tmp;
+            if (tmp * 0x10000 < 1) {
+                goto skip2;
+            }
+        } else {
+            tmp -= 0x80;
+            *(s16 *)(iVar1 + 0x12) = (s16)tmp;
+            if (-1 < tmp * 0x10000) {
+                goto skip2;
+            }
+        }
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = 0;
+    }
+skip2:
+    if (*(s32 *)(*(s32 *)(a0 + 0x20) + 0x10) == 0) {
+        *(s32 *)(a0 + 0x1C) = 0x50;
+        *(u16 *)(a0 + 0x2) += 1;
+    }
+    
+}
+
 
 extern void func_801820F8(s32 a0);
 extern s32 func_800291B4(s32 arg);

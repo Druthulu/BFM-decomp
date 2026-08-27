@@ -2827,7 +2827,14 @@ extern void func_801830C4(void *a0);
 /* ==== end §8b carried decl layer ==== */
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_o0d", func_80183178);
+    extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+    extern u8 D_800AF058;
+    s32 func_80183178(void) {
+        s32 ret;
+        ret = func_8001ABBC(0, 0, &D_800AF058, 0, 0);
+        return ret;
+    }
+
 
 INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_o0d", func_801831D0);
 

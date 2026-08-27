@@ -5636,7 +5636,41 @@ void func_8017F884(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017F90C);
+extern s16 func_80174774(void);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012E8A8(u8 *a0);
+extern void func_8012C218(void *a0);
+
+void func_8017F90C(void *a0) {
+    u16 v1;
+
+    v1 = *(u16 *)((u8 *)a0 + 0x34);
+    switch (v1) {
+    case 0:
+        if (func_8012BEE8((s32)a0) != 0) {
+            *(u16 *)((u8 *)a0 + 0x34) = *(u16 *)((u8 *)a0 + 0x34) + 1;
+        }
+        break;
+    case 1:
+        /* The TU declares func_80174774 as `s16` (jr_8017AE2C.c:2385); an s16
+         * result would truncate through `sll $v0,$v0,0x10` before the branch,
+         * which the target does not have. Cast the CALL SITE (cookbook §22),
+         * leaving the canonical decl alone — gcc-2.7.2 folds the cast to a
+         * direct `jal`. */
+        if (((s32 (*)(void))func_80174774)() != 0) {
+            *(s32 *)((u8 *)a0 + 0x1C) = 0x10;
+            *(u16 *)((u8 *)a0 + 0x34) = *(u16 *)((u8 *)a0 + 0x34) + 1;
+            func_8012E8A8((u8 *)a0);
+        }
+        break;
+    case 2:
+        if (func_8012BEE8((s32)a0) != 0) {
+            func_8012C218(a0);
+        }
+        break;
+    }
+}
+
 
 #include "common.h"
 

@@ -5953,7 +5953,25 @@ void func_801884B8(s32 arg0) {
 DEFINE_func_801884FC()  /* dedup: shared engine-core @0x801884FC (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80188680);
+#include "common.h"
+
+s32 func_80188680(void *a0, s32 a1, s32 a2)
+{
+    s16 f6 = *(s16 *)((s32)a0 + 6);
+    u16 fE = *(u16 *)((s32)a0 + 0xE);
+    register s32 ret asm("$2");
+
+    ret = 0;
+    if ((s16)a1 - 0x30 < f6) {
+        if (f6 < (s16)a1 + 0x30) {
+            if ((s16)a2 - 0x30 < (s16)fE) {
+                ret = (s16)fE < (s16)a2 + 0x30;
+            }
+        }
+    }
+    return ret;
+}
+
 
 
 extern void (*D_8018F558[])(void);

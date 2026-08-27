@@ -6349,7 +6349,83 @@ void func_8017F490(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017F578);
+#include "common.h"
+
+extern u8 D_801202A0[];
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+/* func_8017F578 — scan the 0x60-entry / 0x10C-stride D_801202A0 table for a
+ * type-0x12C entry whose y/x/z are within (+-0x30/-0x20, +-0x70) of a0's, and
+ * if one is found flag a0 (+0xFE) and both linked objects (+0xCC/+0xD0).
+ *
+ * Two non-obvious gcc-2.7.2 shapes are load-bearing here (both byte-measured):
+ *
+ *  1. `t1 = 0x12C` is an explicit LOCAL, not a literal in the compare. As a
+ *     literal, loop.c hoists the `li` into the preheader, which puts it AFTER
+ *     the source-level `t0 = 1`; the target has the 0x12C first. Keeping it a
+ *     source statement fixes the preheader order (13 -> 11 mismatches).
+ *     Likewise `a2 += 0x10C` lives in the for-increment, not the body, so the
+ *     `a3++` biv increment precedes the giv's (11 -> 9).
+ *
+ *  2. `va` is ONE variable reused by all three range tests, while the a0-side
+ *     operand stays an inline expression. local-alloc.c:1765 (combine_regs)
+ *     refuses to tie a subu's destination to operand 1 when that pseudo is not
+ *     block-local, so making the minuend a multi-block (global) allocno pushes
+ *     the tie onto operand 2 — which is exactly the target's
+ *     `subu $v0, $v1, $v0` (dest reuses the SUBTRAHEND's register) instead of
+ *     `subu $v0, $v0, $v1`. Splitting `va` into per-test temporaries, or making
+ *     BOTH operands shared variables, both give the wrong register pair (9 off).
+ */
+void func_8017F578(s32 a0)
+{
+    s32 a3;
+    u8 *a2;
+    s32 t0;
+    s32 t1;
+    s32 v1p;
+    s32 va;
+
+    if (*(s16 *)(a0 + 0xFE) != 0) {
+        return;
+    }
+
+    a3 = 0;
+    a2 = D_801202A0;
+    t1 = 0x12C;
+    t0 = 1;
+    for (; a3 < 0x60; a3++, a2 += 0x10C) {
+        if (*(u16 *)a2 == t1) {
+            va = *(s16 *)(a2 + 0xA);
+            if ((u32)(va - *(s16 *)(a0 + 0xA) + 0x30) < 0x51) {
+                va = *(s16 *)(a2 + 0x6);
+                if ((u32)(va - *(s16 *)(a0 + 0x6) + 0x70) < 0xE1) {
+                    va = *(s16 *)(a2 + 0xE);
+                    if ((u32)(va - *(s16 *)(a0 + 0xE) + 0x70) < 0xE1) {
+                        goto found;
+                    }
+                }
+            }
+        }
+    }
+    t0 = 0;
+
+found:
+    if (t0 != 1) {
+        return;
+    }
+
+    v1p = *(s32 *)(a0 + 0xCC);
+    if (v1p != 0) {
+        *(s16 *)(v1p + 0xFC) = 9;
+    }
+    v1p = *(s32 *)(a0 + 0xD0);
+    if (v1p != 0) {
+        *(s16 *)(v1p + 0xFC) = 9;
+    }
+    *(s16 *)(a0 + 0xFE) = 1;
+    func_8002D4C8(0x73A, 0);
+}
+
 
 #include "common.h"
 

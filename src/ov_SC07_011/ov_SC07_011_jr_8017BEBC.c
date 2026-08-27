@@ -4460,7 +4460,56 @@ void func_8017DFE8(s32 arg0)
 
 INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017BEBC", func_8017E01C);
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017BEBC", func_8017E078);
+void func_8017E078(void *param_1) {
+    extern u8 D_8018233C[];
+    extern void func_800159E4(s32 a0, s32 *a1);
+    s32 sp10[4];
+    u8 *p;
+    s32 n;
+    s32 r;
+    s16 w;
+
+    p = D_8018233C +
+        ((*(s32 *)((s32)param_1 + 0xDC) * 4 + *(s16 *)((s32)param_1 + 0xFE)) * 8);
+    switch (*(s32 *)((s32)param_1 + 0xE8)) {
+    case 0:
+        *(s32 *)((s32)param_1 + 0xE4) = *(s16 *)(p + 0x6);
+        *(s32 *)((s32)param_1 + 0xE8) += 1;
+        break;
+    case 1:
+        break;
+    default:
+        return;
+    }
+    func_800159E4((s32)param_1 + 4, sp10);
+    *(s16 *)((s32)param_1 + 0x6) =
+        *(u16 *)((s32)param_1 + 0x88) +
+        (*(s16 *)(p + 0x8) - *(s16 *)(p + 0x0)) * *(s32 *)((s32)param_1 + 0xE0) /
+            *(s32 *)((s32)param_1 + 0xE4);
+    *(s16 *)((s32)param_1 + 0xA) =
+        *(u16 *)((s32)param_1 + 0x8A) +
+        (*(s16 *)(p + 0xA) - *(s16 *)(p + 0x2)) * *(s32 *)((s32)param_1 + 0xE0) /
+            *(s32 *)((s32)param_1 + 0xE4);
+    *(s16 *)((s32)param_1 + 0xE) =
+        *(u16 *)((s32)param_1 + 0x8C) +
+        (*(s16 *)(p + 0xC) - *(s16 *)(p + 0x4)) * *(s32 *)((s32)param_1 + 0xE0) /
+            *(s32 *)((s32)param_1 + 0xE4);
+    r = func_8012BB3C((s32)sp10, (s32)param_1 + 4,
+                      *(s16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12), 4);
+    *(u16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12) += r;
+    n = *(s32 *)((s32)param_1 + 0xE0) + 1;
+    *(s32 *)((s32)param_1 + 0xE0) = n;
+    if (n == *(s32 *)((s32)param_1 + 0xE4)) {
+        func_80015978((s32)param_1 + 4, (s32 *)((s32)param_1 + 0x88));
+        w = *(u16 *)((s32)param_1 + 0xFE) + 2;
+        *(s16 *)((s32)param_1 + 0xFE) = w;
+        if (w == 4) {
+            *(s16 *)((s32)param_1 + 0xFE) = 0;
+        }
+        *(s32 *)((s32)param_1 + 0xE0) = 0;
+    }
+}
+
 
 void func_8017E294(void *param_1)
 {

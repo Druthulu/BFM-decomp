@@ -3320,7 +3320,13 @@ DEFINE_func_8017BEAC()  /* dedup: shared engine-core @0x8017BEAC (src/shared) */
 
 DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017AE2C", func_8017BEBC);
+extern void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+
+void func_8017BEBC(s32 arg0, s32 arg1)
+{
+    func_8017BF34(arg0, arg1, 0xC, 0);
+}
+
 
 DEFINE_func_8017BEE0()  /* dedup: shared engine-core @0x8017BEE0 (src/shared) */
 

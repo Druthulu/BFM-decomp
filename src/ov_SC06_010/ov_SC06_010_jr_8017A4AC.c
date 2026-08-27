@@ -4885,7 +4885,84 @@ void func_8017F024(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017F098);
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017F10C);
+/* func_8017F10C -- ov_SC06_010, TU ov_SC06_010_jr_8017A4AC.c (91 ins).
+ *
+ * RTP_SND positional-sound sibling of aF8017EF54 / func_80181AD8 in this same
+ * TU: project the parent entity's world position (a0+0x20 -> +0x48/+0x4C/+0x50)
+ * with RotTransPers, gate on the screen X/Y window, then play sound id `a1`
+ * with a pan taken from screen X and a volume that here falls off with DEPTH
+ * (D_80126B66 - (a0->0xE - 0x680)) rather than with |screen X| as in the twins.
+ *
+ * THREE byte-proven levers (each ablated against this .s):
+ *  1. `d` and the volume are ONE C variable.  The distance `d` ($a1 at
+ *     8017F1E0) and the divided volume ($a1 at 8017F21C) share a register:
+ *     spelling them as two locals (`s32 d` + `s32 av`) gives `d` -> $a0
+ *     (global_alloc's first free reg) AND reverses the two magic-multiply
+ *     chains, because a separate `av` dies at the end of the block while the
+ *     `bne` keeps the /0x1E chain on the critical path.  Reusing `d` extends
+ *     its allocno over the $a0-clobbering tail, which both forces $a1 and
+ *     lifts the /0x900 chain's priority -- 18 mismatched -> MATCH.
+ *     (An `__asm__("" : "=r"(av) : "0"(av))` launder buys the schedule alone,
+ *     but then leaves `d` on $a0: 4 residual.  The one-variable form is the
+ *     real shape.)
+ *  2. §164-75: `D_80126B66 - (field - 0x680)` written inline lets fold
+ *     re-associate the constant onto the LOAD's register (`addiu $v0,$v0,0x680`
+ *     + swapped subu operands).  The `t` statement boundary pins it.
+ *  3. The a1 -> $s2 parameter copy is scheduled LAST in the prologue block
+ *     (8017F15C, after `addu $a0,$s0,$zero`), not into the second lw's load
+ *     delay.  A plain `func_8002D4C8(a1 & 0xFFFF, ...)` puts that copy in the
+ *     earliest slot (6 residual, entry window); pinning the carrier to $s2 and
+ *     assigning it right before the first call reproduces the target order.
+ */
+void func_8017F10C(s32 a0, s32 a1)
+{
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+    extern u8   D_800AF648;
+    extern u16  D_80126B66;
+
+    struct {
+        s16 v[3];    /* sp+0x10 */
+        s16 pad1;    /* sp+0x16 */
+        u16 sxy[2];  /* sp+0x18 */
+        s32 z;       /* sp+0x1C */
+        s32 flag;    /* sp+0x20 */
+    } L;
+
+    register s32 sid __asm__("$18");
+    void *snd = &D_800AF648;
+
+    L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+    L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+    L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+    sid = a1;
+    func_8004914C(snd);
+    func_800491AC(snd);
+    RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+
+    if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
+                    && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
+        s32 x = (s16)L.sxy[0];
+        s32 t = *(s16 *)(a0 + 0xE) - 0x680;
+        s32 d = *(s16 *)&D_80126B66 - t;
+
+        if ((u32)d < 0x901) {
+            d = (d * 0x7F) / 0x900;
+            x = (x + 0xF0) / 0x1E;
+            if (x == 0x10) {
+                x = 0xF;
+            }
+            x = x << 8;
+            {
+                s32 flg = 0x3000;
+                func_8002D4C8(sid & 0xFFFF, ((d | flg) | x) & 0xFFFF);
+            }
+        }
+    }
+}
+
 
 void func_8017F278(void *arg0) {
     extern void func_8017F10C(s32 a0, s32 a1);

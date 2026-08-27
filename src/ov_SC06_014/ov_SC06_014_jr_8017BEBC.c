@@ -4037,7 +4037,73 @@ void func_8017E4B4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017E5C0);
+#include "common.h"
+
+extern s32 func_8012B8E4(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012B200(void *a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 rand(void);
+extern void func_8017E8D8(s32 *a0, s32 a1, s32 a2);
+extern s32 func_8017E8AC(s32 arg0);
+extern s16 D_80183D84[];
+
+void func_8017E5C0(s32 a0) {
+    s32 sp10[2];
+    s32 s0 = a0;
+    s16 lim;
+    s16 y;
+    s32 r;
+    s32 t;
+
+    switch (*(u16 *)(s0 + 0x34)) {
+    case 0:
+        lim = *(s16 *)(s0 + 0x8A);
+        y = *(s16 *)(s0 + 0xA);
+        if (y <= lim + 0x40 && y >= lim - 0x80) {
+            if (func_8012CBF4(s0) != 0 ||
+                *(s16 *)(s0 + 0xA) > *(s16 *)(s0 + 0x100)) {
+                *(s32 *)(s0 + 0x1C) = 0x1E;
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0;
+                *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            }
+            return;
+        }
+
+        break;
+    case 1:
+        r = func_8012B8E4(s0, 6);
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) + r;
+        if (func_8012BEE8(s0) != 0) {
+            if ((rand() & 1) != 0) {
+                break;
+            }
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            func_8012B200((void *)s0);
+            *(s32 *)(s0 + 0x1C) = 0x20;
+            func_8002D4C8(0x6FF, 0);
+        }
+        return;
+    case 2:
+        func_8017E8D8(sp10, s0, (s32)D_80183D84);
+        t = sp10[0];
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = t;
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) = t >> 16;
+        func_8012B178(s0, *(s32 *)(s0 + 0xE4) + 0xFFF80000);
+        func_8012CBF4(s0);
+        if (func_8017E8AC(s0) == 1) {
+            break;
+        }
+        if (func_8012BEE8(s0) == 0) {
+            return;
+        }
+        break;
+    }
+    *(s16 *)(s0 + 2) = 1;
+}
+
 
 extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012E778(s32 a0, s32 a1);

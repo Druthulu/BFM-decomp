@@ -6010,7 +6010,33 @@ void func_80183B1C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80183CB8);
+
+
+extern D80190448_t D_80190448;
+extern s16 D_8019044A;
+extern s16 D_8019044C;
+extern s32 func_8004787C(s32 a0);
+extern void func_8012C218(void *a0);
+
+void func_80183CB8(s32 param_1) {
+    s32 iVar1;
+    s16 *p0;
+
+    iVar1 = func_8004787C(*(s32 *)(param_1 + 0x1c) << 7);
+    p0 = &D_80190448.f0;
+    *p0 = ((iVar1 << 7) >> 12) + 0x80;
+    D_8019044C = -0x40;
+    D_8019044A = -0x40;
+    iVar1 = *(s32 *)(param_1 + 0x1c) - 1;
+    *(s32 *)(param_1 + 0x1c) = iVar1;
+    if (iVar1 == 0) {
+        D_8019044C = 0xc0;
+        D_8019044A = 0xc0;
+        *p0 = 0xc0;
+        func_8012C218((void *)param_1);
+    }
+}
+
 
 
 extern void (*D_80190A00[])(void);
@@ -7328,7 +7354,33 @@ void func_8018641C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80186470);
+#include "common.h"
+
+extern s32 func_8012C194(void);
+extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
+
+s32 func_80186470(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4)
+{
+    s32 obj;
+    u16 t;
+
+    obj = func_8012C194();
+    if (obj == 0) {
+        return 0;
+    }
+    func_8001CB6C((u8 *)obj, a1, a2, a3);
+    *(s16 *)(obj + 0x10) = 0xC00;
+    *(u8 *)(obj + 0x27) = a4;
+    *(s16 *)(obj + 0x1A) = 0x2D00;
+    *(s16 *)(obj + 0x18) = 0x2D00;
+    *(u16 *)(obj + 8) = *(u16 *)(a0 + 6);
+    *(u16 *)(obj + 0xA) = *(u16 *)(a0 + 0xA);
+    t = *(u16 *)(a0 + 0xE);
+    *(u16 *)(obj + 0x2C) = 0xC002;
+    *(u16 *)(obj + 0xC) = t;
+    return obj;
+}
+
 
 void func_8018653C(s32 *a0, s32 *a1) {
         *(u16 *)((s32)a1 + 0x8) = *(u16 *)((s32)a0 + 0x6);

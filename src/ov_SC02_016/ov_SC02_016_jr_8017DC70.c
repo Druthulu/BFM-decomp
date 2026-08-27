@@ -3606,7 +3606,40 @@ extern void func_8017F630(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8017F630);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C2C4(s32 a0);
+extern u8 D_80188104[];
+
+/* DEF-SIDE ALIAS (cookbook §202 + its addendum).
+ * The destination TU (src/ov_SC02_016/ov_SC02_016_jr_8017DC70.c) already carries
+ *   extern void func_8017F630(void);
+ * for the banked caller func_8017F600, which calls it through a no-argument cast.
+ * The byte-true body takes one s32 param, so defining under that identifier is a
+ * `conflicting types for func_8017F630' cc1 ERROR that a standalone match_one
+ * compile cannot see (§25 over-prediction) -- verified with cc1 directly.
+ * Defining under the private identifier aF8017F630 bound with __asm__("func_8017F630")
+ * leaves the TU's declaration and its call site untouched; the linker sees one symbol.
+ */
+void aF8017F630(s32 param_1) __asm__("func_8017F630");
+
+void aF8017F630(s32 param_1) {
+    s32 v0;
+    s32 v1;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(s32))func_8012CAE4)(param_1);
+        return;
+    }
+    func_8001C2C4(v0);
+    *(s16 *)(param_1 + 0x5C) = 0x40;
+    *(u16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
+    v1 = *(s16 *)(param_1 + 0x70);
+    *(s32 *)(param_1 + 0x58) = (s32)&D_80188104[v1 << 4];
+}
+
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);

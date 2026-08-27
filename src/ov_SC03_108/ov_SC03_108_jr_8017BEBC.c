@@ -3455,7 +3455,46 @@ u32 func_8017D5F4(s16 *param_1, s16 *param_2, s16 *param_3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017D6AC);
+extern s32 func_800495EC(s32 a0, s32 a1, s32 a2);
+
+u32 func_8017D6AC(s16 *param_1, s16 *param_2, s16 *param_3) {
+    s16 ax, ay, bx, by, cx, cy;
+    register s32 la __asm__("$8");
+    register s32 lb __asm__("$7");
+    register s32 lc __asm__("$3");
+    u32 r;
+    s32 pad[2];
+
+    cx = param_3[0];
+    bx = param_2[0];
+    if (cx < bx) {
+        return 0;
+    }
+    __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc));
+    ax = param_1[0];
+    if (ax < cx) {
+        return 1;
+    }
+    do {
+        cy = param_3[2];
+        ay = param_1[1];
+        if (cy > ay) {
+            return 0;
+        }
+        by = param_2[1];
+        if (cy >= by) {
+            la = (u16)ax;
+            lb = (u16)bx;
+            lc = (u16)cx;
+            __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx));
+            r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16),
+                              lc | ((u16)cy << 16));
+            return ~r >> 31;
+        }
+        return 1;
+    } while (0);
+}
+
 
 extern u16 D_80126CAC;
 extern u16 D_8018479C[];
@@ -3772,7 +3811,44 @@ void func_8017DB0C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017DD44);
+void func_8017DD44(s32 a0)
+{
+    s16 t;
+    s32 v0;
+    s32 v1;
+
+    t = *(s16 *)(a0 + 0xDE);
+    if (t < -2) {
+        v0 = *(s32 *)(a0 + 0xE0);
+        v1 = 0x20000;
+        v0 = v0 + v1;
+        *(s32 *)(a0 + 0xE0) = v0;
+    } else if (t >= 3) {
+        v0 = *(s32 *)(a0 + 0xE0);
+        v1 = -0x20000;
+        v0 = v0 + v1;
+        *(s32 *)(a0 + 0xE0) = v0;
+    }
+
+    v1 = *(s32 *)(a0 + 0xE0);
+    if (v1 < 0) {
+        v0 = v1 + 0x8000;
+        *(s32 *)(a0 + 0xE0) = v0;
+        if (v0 > 0) {
+            *(s32 *)(a0 + 0xE0) = 0;
+        }
+    } else if (v1 > 0) {
+        v0 = v1 - 0x8000;
+        *(s32 *)(a0 + 0xE0) = v0;
+        if (v0 < 0) {
+            *(s32 *)(a0 + 0xE0) = 0;
+        }
+    }
+
+    *(s32 *)(a0 + 0xDC) += *(s32 *)(a0 + 0xE0);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) = *(u16 *)(a0 + 0xDE);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017DDDC);
 

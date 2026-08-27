@@ -5888,7 +5888,54 @@ void func_80182C58(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_80182D04);
+#include "common.h"
+
+/* NOTE (load-bearing): D_800DE2F8 MUST be declared as an ARRAY and read as
+ * D_800DE2F8[0].  §229 declaration corollary + §20 global-RMW: the target
+ * materialises this one address ONCE (`lui/addiu %lo` -> `lw 0($r)` / `sw 0($r)`)
+ * while every other global keeps the direct `%lo` fold.  A plain `extern s32`
+ * spelling emits `lui;lw %lo` + `lui $at;sw %lo` instead and de-rails the whole
+ * block schedule (112 ins vs 107).  A pointer VARIABLE (`s32 *p = &D_800DE2F8`)
+ * is NOT equivalent -- it becomes an alias barrier and blocks the 1-statement
+ * load lookahead (114 ins).
+ * Statement order is plain ascending 2F8..30C in all three arms; sched1 does the
+ * (300,304) / (308,30C) pair swaps that the target shows. */
+extern s32 D_800DE2F8[];
+extern s32 D_800DE2FC;
+extern s32 D_800DE300;
+extern s32 D_800DE304;
+extern s32 D_800DE308;
+extern s32 D_800DE30C;
+
+void func_80182D04(s32 arg0) {
+    switch (arg0) {
+    case 0:
+        D_800DE2F8[0] |= 0x1000000;
+        D_800DE2FC |= 0x1000000;
+        D_800DE300 |= 0x1000000;
+        D_800DE304 |= 0x1000000;
+        D_800DE308 |= 0x1000000;
+        D_800DE30C |= 0x1000000;
+        break;
+    case 1:
+        D_800DE2F8[0] &= ~0x1000000;
+        D_800DE2FC &= ~0x1000000;
+        D_800DE300 &= ~0x1000000;
+        D_800DE304 |= 0x1000000;
+        D_800DE308 |= 0x1000000;
+        D_800DE30C &= ~0x1000000;
+        break;
+    case 2:
+        D_800DE2F8[0] &= ~0x1000000;
+        D_800DE2FC |= 0x1000000;
+        D_800DE300 &= ~0x1000000;
+        D_800DE304 |= 0x1000000;
+        D_800DE308 |= 0x1000000;
+        D_800DE30C &= ~0x1000000;
+        break;
+    }
+}
+
 
 #include "common.h"
 
