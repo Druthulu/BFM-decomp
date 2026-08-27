@@ -3429,7 +3429,41 @@ s32 param_1;
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017AE2C", func_8017C120);
+extern s32 func_8004787C(s32 a0);
+extern void func_800139C8(s32 a0, void *a1, void *a2);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern s16 D_80195254;
+
+void func_8017C120(param_1)
+int param_1;
+{
+    int addr;
+    int tmp;
+    int iVar1;
+    int cnt;
+    s16 *p;
+    u16 local[4];
+
+    addr = *(int *)(param_1 + 0x20);
+    tmp = *(int *)(param_1 + 0x2C) + 0xE3;
+    *(int *)(param_1 + 0x2C) = tmp;
+    iVar1 = func_8004787C(tmp);
+    p = &D_80195254;
+    if (iVar1 < 0) {
+        iVar1 = iVar1 + 0xFF;
+    }
+    *p = (s16)(iVar1 >> 8);
+    func_800139C8(*(short *)(addr + 0x14), p - 2, local);
+    *(short *)(param_1 + 6) = *(u16 *)(param_1 + 0x12) + local[0];
+    *(short *)(param_1 + 0xE) = *(u16 *)(param_1 + 0x1A) + local[2];
+    cnt = *(int *)(param_1 + 0x1C) - 1;
+    *(int *)(param_1 + 0x1C) = cnt;
+    if (cnt == -1) {
+        func_80146E90(param_1, 0x10);
+        *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+    }
+}
+
 
 extern s32 func_80146E98(s32 a0);
 extern void func_80146C3C();

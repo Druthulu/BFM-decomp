@@ -3167,9 +3167,37 @@ void func_8017D898(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8017E778);
+extern u8 D_8018F494[];
+extern u8 D_8018F570[];
+extern u8 *D_801274C8;
+extern void *D_801274CC;
+extern s32 D_8012704C;
+extern s32 func_8017FB44(s32 param_1);
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8017E7C4);
+void func_8017E778(void)
+{
+    D_801274C8 = D_8018F494;
+    D_801274CC = D_8018F570;
+    func_8017FB44(0);
+    D_8012704C = 1;
+}
+
+
+extern s32 func_8017FB44(s32 param_1);
+
+void func_8017E7C4(void)
+{
+    extern u8 D_8018F494[];
+    extern u8 D_8018F570[];
+    extern u8 *D_801274C8;
+    extern void *D_801274CC;
+    extern s32 D_8012704C;
+    D_801274C8 = D_8018F494;
+    D_801274CC = ((s16 *)D_8018F570);
+    func_8017FB44(0);
+    D_8012704C = 1;
+}
+
 
 
 extern int func_8017FB44(int param_1);
@@ -3632,7 +3660,36 @@ void func_8017F0F0(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8017F188);
+/* A-prop sibling of func_8017F054 / func_8017F0F0 in this TU (same skeleton,
+ * different per-overlay constants + func_8012A018's second arg). Symbol
+ * surface taken from asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898/func_8017F188.s. */
+extern void func_8012A018(s32 a0, s32 a1);
+extern void func_8012A094(s32 a0);
+extern void func_8017F3E4(void *a0);
+extern u8 D_80126948[];
+extern s32 D_80126954;
+extern s32 D_8012695C;
+extern s16 D_80126968;
+extern s16 D_8012696A;
+extern s16 D_8012696C;
+extern s16 D_80126976;
+extern s16 D_80126978;
+extern s16 D_8012697A;
+
+void func_8017F188(void) {
+    D_80126954 = 0x12C;
+    D_8012695C = 0x2BC;
+    D_80126968 = 0x71;
+    D_8012696A = 0;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x70;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017F3E4, 2);
+    func_8012A094((s32)D_80126948);
+    func_8017F3E4(D_80126948);
+}
+
 
 extern void func_8012A018(s32 a, s32 b);
 extern void func_8012A094(s32 a0);

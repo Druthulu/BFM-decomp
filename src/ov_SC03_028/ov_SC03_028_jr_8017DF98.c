@@ -4973,7 +4973,26 @@ skip_escape:;
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80182628);
+#include "common.h"
+
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012BA10(s32 a0, s32 a1);
+extern u8 D_801ADE54[];
+
+void func_80182628(void *a0) {
+    s32 iVar1;
+    s32 iVar2;
+
+    iVar1 = func_8012BA10((s32)a0, 4);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += iVar1;
+    iVar2 = *(s32 *)(a0 + 0x1C) - 1;
+    *(s32 *)(a0 + 0x1C) = iVar2;
+    if (iVar2 == 0) {
+        *(u16 *)(a0 + 0x2) = 0x1A;
+        func_8012A828((s32)a0, D_801ADE54);
+    }
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);

@@ -5769,7 +5769,33 @@ s32 func_8017FD58(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017FD70);
+#include "common.h"
+
+void func_8017FD70(s32 arg0) {
+    extern s32 D_80126B9C;
+    extern s32 func_80178B18(s32 param_1, s32 param_2);
+    extern void func_80029514(s32);
+    extern s16 D_8018F7C8;
+    extern int func_80178970();
+    extern void func_80178D18();
+    extern void func_8017F40C(void *arg0);
+    switch (*(u16 *)(arg0 + 0x34)) {
+    case 0:
+        if (D_80126B9C & 0x8000000) {
+            *(u16 *)(arg0 + 0x34) = 1;
+            func_80178B18(arg0, &D_8018F7C8);
+        }
+        break;
+    case 1:
+        if (((s32 (*)(s32))func_80178970)(arg0) != 0) {
+            ((void (*)(s32))func_80178D18)((s32)arg0);
+            func_80029514(0x1AE);
+            func_8017F40C((void *)arg0);
+        }
+        break;
+    }
+}
+
 
 void func_8017FE10(void) {
 }
@@ -5919,7 +5945,20 @@ void func_80180230(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8018023C);
+extern u16 D_800B99DA;
+extern u8 D_8018FC10;
+extern u8 D_8018FC11;
+extern u8 D_8018FC12;
+extern u8 D_8018FC13;
+extern s32 func_801842F8(u8 a0, u8 a1, u8 a2, u8 a3);
+extern void func_8017FF64(void *a0);
+
+void func_8018023C(void *a0) {
+    if ((D_800B99DA & 3) == 0 && func_801842F8(D_8018FC10, D_8018FC11, D_8018FC12, D_8018FC13) != 0) {
+        func_8017FF64(a0);
+    }
+}
+
 
 extern s32 func_801846CC(s32 a0);
 extern void func_801845FC(s32, s32, s32, s32);
@@ -6133,7 +6172,31 @@ extern void func_800D1724(s32 a0);
 void func_8018072C(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_80180734);
+extern s32 func_80029178(s32 arg);
+extern int func_800D0F8C(int a0);
+extern void func_80178CBC(s32 *a0, s32 a1);
+extern void func_80029124(s32, s32);
+extern void func_800D0F4C(s32 a0);
+extern u8 D_8018FD84;
+extern u8 D_8018FC54;
+extern u8 D_8018FCB4;
+
+void func_80180734(s32 a0) {
+    s32 t;
+
+    *(s16 *)(a0 + 2) = 3;
+    t = func_80029178(0x106);
+    if ((t & 0xFF) != 0) {
+        func_80178CBC((s32 *)a0, (s32)&D_8018FD84);
+    } else if (func_800D0F8C(0x58) == 0) {
+        func_80178CBC((s32 *)a0, (s32)&D_8018FC54);
+    } else {
+        func_80178CBC((s32 *)a0, (s32)&D_8018FCB4);
+        func_80029124(0x106, 1);
+        func_800D0F4C(0x58);
+    }
+}
+
 
 #include "common.h"
 

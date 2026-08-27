@@ -6083,7 +6083,22 @@ void func_801829F0(s32* a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80182AD4);
+extern u8 D_801202A0[];
+
+s32 func_80182AD4(s32 a0) {
+    s32 i;
+    u8 *v1;
+
+    v1 = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)v1 == 0x306) {
+            return (s32) v1;
+        }
+        v1 += 0x10C;
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80182B10);
 
@@ -6328,7 +6343,97 @@ void func_801830D8(s32 *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_801831FC);
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(s32 a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern void func_80132288(s32 *a0, s32 *a1, s32 a2);
+extern void GsMapModelingData(u32 *p);
+extern s16 D_8019FD68;
+extern u8 D_8019F0F0[];
+extern s32 D_8019F0E0[];
+extern u32 *D_80197DCC;
+extern s32 D_80186B14;
+extern void (*D_8018A4B4)(void *);
+
+void func_801831FC(s32 param_1)
+{
+    /* the 0x10..0x20 sub-block handed to func_8012C51C — same spelling as func_801830D8 */
+    struct {
+        u16 f0;  /* 0x10 */
+        s16 f2;  /* 0x12 */
+        u16 f4;  /* 0x14 */
+        u16 f6;  /* 0x16 */
+        u16 f8;  /* 0x18 */
+        u16 fA;  /* 0x1A */
+        u16 fC;  /* 0x1C */
+        u16 fE;  /* 0x1E */
+        s32 f10; /* 0x20 */
+    } sub;
+    s16 i;      /* ONE pseudo: the loop counter AND the 0x200/0x600 value -> $s0 in both arms */
+    s16 *pp;
+    u32 **pd;   /* &D_80197DCC held in a call-saved reg across GsMapModelingData */
+    s32 o;
+    s32 t;
+
+    if (*(s16 *)(param_1 + 0x70) < 0) {
+        sub.f6 = 0x352;
+        sub.fA = 0;
+        sub.fC = 0;
+        sub.f10 = *(s16 *)(param_1 + 0xFC);
+        sub.f0 = *(u16 *)(param_1 + 6);
+        sub.f2 = -0x208;
+        sub.f4 = *(u16 *)(param_1 + 0xE);
+        for (i = 0; i < 0x13; i++) {
+            sub.f8 = i;
+            sub.fE = D_8019FD68++;
+            func_8012C51C(&sub, param_1);
+        }
+        if (*(s16 *)(param_1 + 0x10A) == 0) {
+            pd = &D_80197DCC;
+            GsMapModelingData(*pd);
+            func_80132288(D_8019F0E0, (s32 *)&D_8018A4B4, (s32)*pd);
+        }
+        pp = (s16 *)(param_1 + 0xF0);
+        /* both stores duplicated in each arm: cross-jump merges only the last 3 ins */
+        if (*(s16 *)(param_1 + 0xFC) == 0) {
+            pp[*(s16 *)(param_1 + 0x10A) * 2 + 1] = 0x38;
+            pp[*(s16 *)(param_1 + 0x10A) * 2] = 0x600;
+        } else {
+            pp[*(s16 *)(param_1 + 0x10A) * 2 + 1] = 0x38;
+            pp[*(s16 *)(param_1 + 0x10A) * 2] = 0x200;
+        }
+        *(s16 *)(param_1 + 2) = 1;
+    } else {
+        o = func_8012C1B8();
+        *(s32 *)(param_1 + 0x20) = o;
+        if (o == 0) {
+            func_8012CAE4(param_1);
+            return;
+        }
+        func_8001C214(o, (s32)&D_80197DCC);
+        func_8001D0E8(*(s32 *)(param_1 + 0x20), 0x7FFF, 0x7FFF);
+        func_8012A828(param_1, &D_80186B14);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) |= 0xA0;
+        *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x80) =
+            (s32)&D_8019F0F0[*(s16 *)(param_1 + 0xFC) * 0x38];
+        i = 0x200;
+        if (*(s32 *)(param_1 + 0xDC) == 0) {
+            i = 0x600;
+        }
+        t = *(s32 *)(param_1 + 0x20);
+        *(s16 *)(t + 0x1C) = i;
+        *(s16 *)(t + 0x18) = i;
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x1A) = 0;
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = *(s16 *)(param_1 + 0x70) * 0xE3;
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) |= 0x10;
+        *(s32 *)(param_1 + 0x1C) = 8;
+        *(s16 *)(param_1 + 2) = 2;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80183458);
 
@@ -6525,7 +6630,50 @@ void func_80183AAC(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80183F28);
+
+
+
+
+
+
+
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012CBF4(s32 a0);
+extern void func_8012AD80(s32 a0);
+extern void func_80183FE0(s32 p);
+extern void func_8012C218(void *arg0);
+
+void func_80183F28(s32 param_1)
+{
+    s32 iVar1;
+
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0xFE);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + *(u16 *)(param_1 + 0x100);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) + *(u16 *)(param_1 + 0x102);
+
+    iVar1 = func_8012BEE8(param_1);
+    if (iVar1 != 0) {
+        goto LAB_80183FAC;
+    }
+    if (*(s16 *)(param_1 + 0x70) != 0) {
+        goto LAB_80183FBC;
+    }
+    iVar1 = func_8012CBF4(param_1);
+    if (iVar1 == 0) {
+        goto LAB_80183FC4;
+    }
+LAB_80183FAC:
+    func_8012C218((void *)param_1);
+    return;
+LAB_80183FBC:
+    func_8012AD80(param_1);
+LAB_80183FC4:
+    func_80183FE0(param_1);
+}
+
 
 #define gte_SetRotMatrix_1(r0) __asm__ __volatile__ ( \
     "lw $12, 0( %0 );"   \
