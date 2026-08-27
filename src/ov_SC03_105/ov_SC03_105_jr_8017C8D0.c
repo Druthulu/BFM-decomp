@@ -5104,7 +5104,51 @@ INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018473
 void func_801847B0(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801847B8);
+struct vec;
+extern void func_80185238(struct vec *a0);
+extern void func_80185218(void *arg0);
+extern s32  func_80185680(void *a0, void *a1);
+extern void func_8018574C(void *a0);
+extern void func_80185810(s32 a0);
+extern s32 rand(void);
+
+void func_801847B8(void *a0) {
+    s32 pad[4];
+    u16 state = *(u16 *)((u8 *)a0 + 0x2);
+
+    if (state != 0) {
+        s32 cnt = *(s32 *)((u8 *)a0 + 0x1C);
+        if (cnt != 0) {
+            *(s32 *)((u8 *)a0 + 0x1C) = cnt - 1;
+        } else {
+            void *s1 = (u8 *)a0 + 0x20;
+
+            if (func_80185680(s1, (u8 *)a0 + 0x48) == 1) {
+                if (rand() & 1) {
+                    func_8018574C(s1);
+                }
+                func_80185218(a0);
+            } else {
+                u16 v0, v1, a1;
+
+                func_80185238((struct vec *)a0);
+                v0 = *(u16 *)((u8 *)a0 + 0x6);
+                v1 = *(u16 *)((u8 *)a0 + 0xA);
+                a1 = *(u16 *)((u8 *)a0 + 0xE);
+                *(u16 *)((u8 *)a0 + 0x34) = v0;
+                *(u16 *)((u8 *)a0 + 0x36) = v1;
+                *(u16 *)((u8 *)a0 + 0x38) = a1;
+                func_80185810((s32)s1);
+            }
+        }
+    } else {
+        s32 r;
+        *(u16 *)((u8 *)a0 + 0x2) = state + 1;
+        r = rand();
+        *(s32 *)((u8 *)a0 + 0x1C) = r % 4;
+    }
+}
+
 
 #include "common.h"
 
