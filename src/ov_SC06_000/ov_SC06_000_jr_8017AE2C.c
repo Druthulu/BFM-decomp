@@ -9134,7 +9134,54 @@ void func_80184FD8(void *param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80185028);
+extern Block4 D_801AD2DC;
+extern Block4 D_801AECC8;
+extern u8 D_801AECC4;
+extern void func_8001CD9C(int, void *);
+extern void func_800233CC(void *, unsigned short);
+
+void func_80185028(a0)
+s32 a0;
+{
+    register u8 *s0 __asm__("$16");
+    register s32 *s1 __asm__("$17");
+    s32 *v1;
+    s32 *a0_ptr;
+    s8 pad[32];  
+
+    s1 = (s32 *)a0;
+    s0 = (u8 *)&D_801AECC4;
+
+    
+    func_8001CD9C(s1[8], (s32 *)s0);  
+
+    
+    func_800233CC(s0, 0x80);
+
+    
+    *(Block4 *)s0 = D_801AD2DC;
+
+    
+    D_801AECC8 = D_801AD2DC;
+
+    
+    v1 = s1[8];
+    *(s16 *)((s8 *)v1 + 0x18) = 0x800;
+
+    
+    v1 = s1[8];
+    *(s16 *)((s8 *)v1 + 0x1A) = 0x1000;
+
+    
+    a0_ptr = s1[8];
+    *(s32 *)((s8 *)a0_ptr + 0x4) |= 0x50000000;
+
+    
+    *(s16 *)((s8 *)s1 + 0x2) = 1;
+
+    (void)pad;  
+}
+
 
 extern u8 D_801AECC4;
 extern u8 D_801AECC5;

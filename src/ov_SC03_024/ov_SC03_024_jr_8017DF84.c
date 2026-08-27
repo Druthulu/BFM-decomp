@@ -6024,7 +6024,54 @@ void func_80182D54(void *param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80182DA4);
+extern Block4 D_801BFD90;
+extern Block4 D_801C1360;
+extern u8 D_801C135C;
+extern void func_8001CD9C(int, void *);
+extern void func_800233CC(void *, unsigned short);
+
+void func_80182DA4(a0)
+s32 a0;
+{
+    register u8 *s0 __asm__("$16");
+    register s32 *s1 __asm__("$17");
+    s32 *v1;
+    s32 *a0_ptr;
+    s8 pad[32];  
+
+    s1 = (s32 *)a0;
+    s0 = (u8 *)&D_801C135C;
+
+    
+    func_8001CD9C(s1[8], (s32 *)s0);  
+
+    
+    func_800233CC(s0, 0x80);
+
+    
+    *(Block4 *)s0 = D_801BFD90;
+
+    
+    D_801C1360 = D_801BFD90;
+
+    
+    v1 = s1[8];
+    *(s16 *)((s8 *)v1 + 0x18) = 0x800;
+
+    
+    v1 = s1[8];
+    *(s16 *)((s8 *)v1 + 0x1A) = 0x1000;
+
+    
+    a0_ptr = s1[8];
+    *(s32 *)((s8 *)a0_ptr + 0x4) |= 0x50000000;
+
+    
+    *(s16 *)((s8 *)s1 + 0x2) = 1;
+
+    (void)pad;  
+}
+
 
 extern u8 D_801C135C;
 extern u8 D_801C135D;

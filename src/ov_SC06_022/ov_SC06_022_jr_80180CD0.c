@@ -3182,7 +3182,44 @@ void func_80181418(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80180CD0", func_80181468);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+
+s32 func_80181468(a0, a1)
+s32 a0;
+s32 a1;
+{
+    extern s32 func_80132EF4(s32 a0, s32 a1);
+    extern s32 rand(void);
+    s32 s0;
+    s32 rr;
+    register s32 x1 __asm__("$3");
+    register s32 x2 __asm__("$4");
+
+    if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) >= 0x800) {
+        if (*(s16 *)(a0 + 0xE4) == 0) {
+            *(s16 *)(a0 + 0xE4) = *(u16 *)(a0 + 0xE6);
+            s0 = func_80132EF4(a0, 0x22);
+            if (s0 != 0) {
+                rr = rand();
+                x1 = *(u16 *)(s0 + 0x6);
+                x1 = x1 - 0x10;
+                *(u16 *)(s0 + 0x6) = x1 + (rr & 0x1F);
+                rr = rand();
+                *(s32 *)(s0 + 0x14) = -0x40000;
+                x2 = *(u16 *)(s0 + 0xE);
+                x2 = x2 - 0x10;
+                *(u16 *)(s0 + 0xE) = x2 + (rr & 0x1F);
+                *(s16 *)(s0 + 0x34) = a1;
+                *(u16 *)(*(s32 *)(s0 + 0x20) + 0x2C) = 0xC010;
+                *(u32 *)(*(s32 *)(s0 + 0x20) + 0x4) |= 0x40000000;
+            }
+            return 1;
+        }
+        *(s16 *)(a0 + 0xE4) = *(s16 *)(a0 + 0xE4) - 1;
+    }
+    return 0;
+}
+
 
 extern u16 D_80126B66;
 extern void func_8017FA1C(int);
@@ -3287,7 +3324,7 @@ void func_801818E4(s32 param_1) {
 
 
 extern void func_8012AD80(s32 a0);
-extern void func_80181468();
+extern s32 func_80181468();
 extern s32 rand(void);
 extern void func_80181394(void *a0);
 
@@ -3321,7 +3358,7 @@ void func_8018199C(s32 arg0) {
 
 
 extern s32 rand(void);
-extern void func_80181468();
+extern s32 func_80181468();
 
 void func_80181A4C(s32 arg0)
 {

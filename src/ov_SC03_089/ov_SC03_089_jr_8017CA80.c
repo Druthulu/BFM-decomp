@@ -6551,7 +6551,14 @@ extern void func_80016714(void *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_089/nonmatchings/ov_SC03_089_jr_8017CA80", func_8018517C);
+extern s32 D_801A3BA0[];
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+
+void func_8018517C(void* arg0)
+{
+    func_8012D5E4(arg0, (s32)D_801A3BA0, (s32)D_801A3BA0 + 8, 0x5);
+}
+
 
 /* func_801851A8 @ ov_SC03_089 (subseg ov_SC03_089_jr_8017CA80) — 173 ins.
  *
