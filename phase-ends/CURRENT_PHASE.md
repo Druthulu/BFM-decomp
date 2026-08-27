@@ -2496,3 +2496,35 @@ law-1c filter; the judge's corpus-cache blind spot; the serial-vs-sharded api_ag
 
 ## 🛑 SESSION CHECKPOINT (refresh) — S62, ~18:35. T0–T4 + T5pre DONE. Paused at the R27 gate: Ultracode → back to Max before T5's plan review.
 Tree clean; no lanes running (stop sentinels still SET); fleet 2,380 stubs (last clean sweep #7 213/213 at 16:02, then 17 union banks each byte-identical per clean per-binary rebuild). NEXT: T5 — relaunch drafting as Ultracode ladder waves over K+L+M with the T4 routing rule (Sonnet+DeepSeek on ≤50, Sonnet on 51–120, Opus on >120/residue), warm starts law-1c-filtered, cards with §296 frame check, main lane on the rebuilt queue; delete both sentinels at launch. Drew-side before T5: OpenRouter credit (~$5 left) — the DeepSeek arm at ~$0.03/fn needs ~$25–40 for the ≤50 band; raise the key cap accordingly.
+
+## 🛑 SESSION CHECKPOINT — S62 FINAL (2026-08-26 ~18:50). Supersedes the 18:35 refresh. T0–T4 + T5pre DONE; tree clean at `commit:3133` (55 commits this session); NO lanes running; stop sentinels `.run/ox_campaign.stop` + `.run/auto/STOP` still SET.
+
+**Read first in the fresh session:** this block → `docs/tool-designs/frontier-analysis-s61.md` (the
+plan, with Addenda 2–5 = what each executed step changed) → the S62 blocks above for detail.
+**Fleet:** 2,380 stubs · 98.5% instr · 96.8% distinct (2,517 at S62 start; −137). Red list EMPTY.
+Last clean fleet sweep: #7 213/213 at 16:02; the 17 T4 union banks after it were each clean-rebuilt
+per binary (16/16). Run one clean sweep at the next session start (R22) before any gate.
+**Drew's decisions this session:** plan approved as P31's amended task list (P32 = wall endgame);
+Fable5 Max throughout, Ultracode only for breadth (R27 prompts); **NO DeepSeek for T5** (its arm
+added 1/11 over Sonnet; cost is the subscription, not dollars) — OpenRouter stays at ≈$5, untouched.
+**NEXT: T5 — plan it at Max, run it under Ultracode.** First waves: **Sonnet on every fn ≤120 ins,
+Opus on the residue and on >120; haiku retired; M-extend-tell fns go to T6, never waves.** Harness:
+`tools/claude_wave_packs.py` (identical api_agent packs, law-1c warm starts) → Workflow
+`tools/workflows/claude_wave_draft.js` (edit REPO/WAVE paths; ~48 fns per wave; drafts only under
+`.run/<wave>/<arm>/`) → `WAVE=.run/<wave> tools/wave_judge.py sonnet --union` (whole-binary gate,
+git-diff bank detection, tree reset between arms) → clean per-binary verify → commit (R42) → atlas
+regen + `family_remap` behind cracks → R16 distill via `tools/workflows/claude_wave_distill.js`.
+Targets: class K+L+M from `.run/frontier_s61/class_members.json` (main's 11 never-drafted from
+`.run/main_nodraft.json`; main gates via `gate_main`). Delete both sentinels only if the old
+python lanes are relaunched (the Claude harness does not read them). Falsifier from the plan:
+first two waves <15% banks/draft → stop, autopsy 10 refusals to bytes.
+**Residue ledger (individual diagnoses, T6/resolver):** 7 carve-lane drafts
+(ov_SC03_029/func_80186A34, ov_SC01_005+006/func_8017F2D4, ov_SC03_108/func_8016AE5C,
+ov_SC07_000/func_8017ECB4, ov_SC06_011/func_8017EEEC, ov_SC06_029 ×3) + 6 decl-conflict drafts in
+`.run/sweep_resolver/`; the 3 T4 M-extend-tell fns (func_800CAF84, func_80181D1C, func_801A8E34).
+**PhaseEnd rule candidates:** R44–R59 (S59–S61) + R60 (carve-state files: never blanket-add or
+whole-file-restore overlays.mk/splat yamls; `interleave_check` + `pads_audit` before adding; a
+gate commits only its own block) + S62 ops: pkill self-match (hit again), never read `asm/` during
+a sweep, verify from the gate not the classification ledger, shard `api_agent` by target.
+**Housekeeping:** `ghidra/` churn in `git status` is MCP-restart noise — do not commit; Drew pushes
+(R6); no Ghidra writes happened this session (R23 n/a).
