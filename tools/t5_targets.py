@@ -62,7 +62,11 @@ def main():
     members = [m for m in members if (m[1] == 'main') == want_main]
 
     # --- residue: a prior wave's un-banked fns, escalated to opus once ---------------------------
-    residue, wall = [], []
+    # DEDUPE BY (binary, fn) ACROSS WAVES: the same function can be drawn by two waves (a fresh draw
+    # and a residue re-draw), so scanning several prior waves yields duplicates — which the
+    # name-keyed pack builder then REFUSES (R43/R48, caught for real on the t5i draw: 4 duplicate
+    # names, 2 of them the SAME function listed twice from two waves).
+    residue, wall, seen_res = [], [], set()
     for w in filter(None, a.residue.split(',')):
         tg = json.load(open(os.path.join(w, 'targets.json')))
         jd = json.load(open(os.path.join(w, 'judge.json'))) if os.path.exists(os.path.join(w, 'judge.json')) else {}
@@ -70,7 +74,10 @@ def main():
         for v in jd.get('arms', {}).values(): banked |= set(v.get('banked', []))
         for t in tg:
             if t['name'] in banked: continue
-            if any(d.get('arm') == 'opus' for d in ledger.get(key(t['binary'], t['name']), [])):
+            k = key(t['binary'], t['name'])
+            if k in seen_res: continue          # already collected from an earlier wave in this list
+            seen_res.add(k)
+            if any(d.get('arm') == 'opus' for d in ledger.get(k, [])):
                 wall.append((t['binary'], t['name'])); continue
             residue.append((t.get('cls', '?'), t['binary'], t['name'], w))
 
@@ -91,9 +98,12 @@ def main():
         nins = corpus.s_ins_count(st.asm_path)
         pool.append(dict(name=f, addr='0x%08x' % st.addr, nins=nins, binary=b, sub=st.asm_dir, asm=st.asm_path,
                          tu=st.path, cls=cls, arm=arm_for(nins), **{'from': 'fresh'}))
-    esc = []
+    esc, esc_names, deferred = [], set(), []
     for cls, b, f, w in residue:
         if b in refused or f not in stubs.get(b, {}): cnt['residue:closed-or-refused'] += 1; continue
+        if f in esc_names:      # two BINARIES' same-named fns cannot share one name-keyed wave (R48)
+            deferred.append('%s:%s' % (b, f)); continue
+        esc_names.add(f)
         st = stubs[b][f]; nins = corpus.s_ins_count(st.asm_path)
         esc.append(dict(name=f, addr='0x%08x' % st.addr, nins=nins, binary=b, sub=st.asm_dir, asm=st.asm_path,
                         tu=st.path, cls=cls, arm='opus', **{'from': 'residue:' + os.path.basename(w)}))
@@ -110,7 +120,10 @@ def main():
           len({t['binary'] for t in pool})))
     if residue or wall:
         print('residue: %d escalate to opus, %d refused-on-opus already -> T6 wall ledger: %s' % (
-              len(esc), len(wall), ' '.join('%s:%s' % w for w in wall[:20])))
+              len(esc), len(wall), ' '.join('%s:%s' % w for w in sorted(set(wall))[:20])))
+        if deferred:
+            print('residue DEFERRED to a later wave (name already taken in this wave, R48): %s'
+                  % ' '.join(deferred))
 
     # --- stratified draw ------------------------------------------------------------------------
     per_bin = collections.Counter(t['binary'] for t in pool)
