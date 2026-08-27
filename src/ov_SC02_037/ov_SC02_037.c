@@ -313,7 +313,22 @@ int func_80128940(int arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037", func_80128998);
+extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+
+s32 func_80128998(void)
+{
+    extern int D_800C7C60;
+    extern int *D_800C7C64;
+    extern int D_800A2E20;
+    extern int D_800AECB0;
+    extern s32 D_801C7200;
+
+    int *p = &D_800C7C60;
+    *p = 13;
+    D_800C7C64 = &D_800A2E20;
+    ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AECB0, D_801C7200, p);
+}
+
 
 
 

@@ -3064,7 +3064,38 @@ void func_801828E0(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_801829F0);
+#include "common.h"
+
+extern void (*D_80192990[])(void);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern u8 D_80192924[];
+extern void func_8012B370(int a0);
+
+void func_801829F0(s32 param_1) {
+    struct { s16 vx, vy, vz, pad; } pos;
+
+    D_80192990[*(u16 *)(param_1 + 2)]();
+
+    if (*(u16 *)(*(s32 *)(param_1 + 0x64)) != 0) {
+        u16 t = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0xFC) + 0x400;
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x12) - t;
+
+        ((void (*)(s32, void *, void *))func_8012F14C)(
+            *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20) + 0x34,
+            D_80192924,
+            &pos);
+
+        *(s16 *)(param_1 + 6)  = pos.vx;
+        *(s16 *)(param_1 + 0xA) = pos.vy;
+        *(s16 *)(param_1 + 0xE) = pos.vz;
+
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+            *(u16 *)(*(s32 *)(param_1 + 0x64) + 0x100);
+        func_8012B370(param_1);
+    }
+}
+
 
 #include "common.h"
 
@@ -3105,7 +3136,38 @@ void func_80182AC0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80182BD0);
+#include "common.h"
+#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+
+extern void (*D_80192A28[])(void);
+extern u8 D_80192924[];
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void func_8012B370(int a0);
+
+void func_80182BD0(Obj1CDC *obj) {
+    u16 out[3];
+
+    D_80192A28[M2C_FIELD(obj, u16 *, 0x2)]();
+
+    if (M2C_FIELD(obj->unk64, u16 *, 0x0) != 0) {
+        u16 fc = M2C_FIELD(obj->unk64, u16 *, 0xFC);
+        fc -= 0x400;
+
+        M2C_FIELD(obj->unk20, u16 *, 0x12) =
+            *(u16 *)(M2C_FIELD(obj->unk64, s32 *, 0x20) + 0x12) - fc;
+
+        func_8012F14C(M2C_FIELD(obj->unk64, s32 *, 0x20) + 0x34,
+                      (s32)D_80192924, (s32)out);
+
+        obj->x = out[0];
+        obj->y = out[1];
+        obj->z = out[2];
+
+        obj->unk20->unk14 = obj->unk64->unk100;
+        func_8012B370((int)obj);
+    }
+}
+
 
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8002D4C8(s32 a0, s32 a1);

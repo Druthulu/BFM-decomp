@@ -4473,7 +4473,15 @@ void func_8017E268(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017E2B8);
+extern void func_8017D288(void);
+
+s32 func_8017E2B8(void *arg0)
+{
+    func_8017D288();
+    M2C_FIELD(arg0, s16 *, 0x6) = 0;
+    M2C_FIELD(arg0, u16 *, 4) = (u16) (M2C_FIELD(arg0, u16 *, 4) + 1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017E2F0);
 
@@ -4634,7 +4642,18 @@ void func_8017E5D8(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017E608);
+void func_8017E608(s32 arg0) {
+    s16 t;
+
+    t = *(u16 *)(arg0 + 0x4);
+    *(s32 *)(arg0 + 0x10) = -1;
+    *(u16 *)(arg0 + 0x8) = 0;
+    *(s16 *)(arg0 + 0xA) = -1;
+    *(u16 *)(arg0 + 0xC) = 0;
+    *(u16 *)(arg0 + 0x6) = 0;
+    *(u16 *)(arg0 + 0x4) = t + 1;
+}
+
 
 extern s32 func_80181334(s32 a0, s32 a1);
 extern void func_80181120();

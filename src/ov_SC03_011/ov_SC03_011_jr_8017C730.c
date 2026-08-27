@@ -3500,7 +3500,23 @@ extern void func_8017FB78();
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017DD98);
+extern s32 func_8012E544(s32 a0);
+extern void func_8012C098(void *a0);
+extern void func_8017FB78(void);
+extern void func_80171928(void *a0);
+
+void func_8017DD98(void *arg0)
+{
+    s32 v0;
+
+    v0 = func_8012E544(0x83);
+    if (v0) {
+        func_8012C098((void *)v0);
+    }
+    func_8017FB78();
+    func_80171928(arg0);
+}
+
 
 extern void func_8017FBFC(void);
 extern void func_80171928(void*);
@@ -3611,7 +3627,21 @@ void func_8017DFE4(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017E08C);
+extern s32 D_80186068;
+extern s32 func_801399F0(s32 a0);
+extern void func_80139914(s32 a0);
+extern s32 func_8013767C(s32 a0);
+extern s32 func_80171990(u8 *a0);
+
+void func_8017E08C(s32 param_1)
+{
+    if (func_801399F0(*(s32 *)(param_1 + 0x198)) != 0) {
+        func_80139914(*(s32 *)(param_1 + 0x198));
+        *(s32 *)(param_1 + 0x198) = func_8013767C((s32)&D_80186068);
+        func_80171990((u8 *)param_1);
+    }
+}
+
 
 extern s32 func_801399F0(s32 a0);
 extern void func_80139914(s32 a0);
@@ -4549,7 +4579,22 @@ void func_8017F64C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017F6B8);
+extern void func_8017EB88(s32 arg0);
+extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s8 D_801852D0[];
+extern u8 D_80185300[];
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012AD50(void *a0);
+
+void func_8017F6B8(s32 arg0) {
+    func_8017EB88(arg0);
+    func_801437D8(arg0 + 0x102, (s32)D_801852D0, (s32)D_80185300, 0);
+    if (func_8012BEE8(arg0) != 0) {
+        *(u16 *)(arg0 + 0xFE) = 0;
+        func_8012AD50((void *)arg0);
+    }
+}
+
 
 extern void func_8017EB88(s32 arg0);
 extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -4767,7 +4812,21 @@ void func_8017FB78(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017FBFC);
+extern u8 D_801202A0[];
+
+void func_8017FBFC(void) {
+    u8 *p;
+    s16 i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0xBE) {
+            *(s16 *)(p + 2) = 3;
+        }
+        p += 0x10C;
+    }
+}
+
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 

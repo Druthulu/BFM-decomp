@@ -3164,7 +3164,113 @@ void func_8017FB50(s32 arg0, s32 arg1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8017FD28);
+#include "common.h"
+
+/* func_8017FD28 (ov_SC06_025, 137 ins) -- MATCH, relocation-masked (tools/match_one.py).
+ *
+ * BANKING NOTE (read before gating -- this draft CANNOT compile in the TU as-is):
+ *   The definition MUST return s32.  Every `return 1/2/0` is a real target instruction
+ *   (`addiu $v0,1` @8017FD7C, `addiu $v0,2` @8017FD84/8017FF1C, the shared `addu $v0,$zero,$zero`
+ *   @8017FF30).  Compiled `void` it drops to 128 ins -- byte-tested, -9.
+ *   But ov_SC06_025_jr_8017EEC4.c already carries TWO declarations of this symbol that a
+ *   `s32` definition conflicts with (cc1 exit 33, `conflicting types for func_8017FD28`):
+ *       :3107  extern void func_8017FD28();      (file scope)
+ *       :3225  extern void func_8017FD28();      (block scope, in func_801805BC)
+ *   Both call sites ALREADY cast (`((s32 (*)(...))func_8017FD28)(...)`), so the fix is the
+ *   §17a-1 same-function direction: tools/normalize_self_decls.py, or simply flip those two
+ *   `void` -> `s32`.  DO NOT let sig_unify rewrite this def to the fleet-canonical
+ *   `void func_8017FD28(s32)` -- that canon is the §238 homonym from ov_SC03_010/011 +
+ *   engine_core.h, a DIFFERENT function at the same address; it costs the match.
+ *
+ * Structure notes:
+ *   - `row` (the 8-byte D_80188CA4 pair) MUST be a local pointer: spelling the two accesses as
+ *     D_80188CA4[arg1][0/1] re-folds the global address into each MEM (lui $at/addu $at) and
+ *     costs 2 ins; the target computes the row into $a1 once.
+ *   - q[arg2] is read TWICE on purpose (lhu for the 0xDE store, lh for the *8 index): the
+ *     intervening store to (s0+0xDE) kills the cse of the halfword, but not of the ADDRESS.
+ *   - v is read straight out of an s16 array: the lhu + sll16/sra16 (rather than one `lh`) is
+ *     combine keeping the shifted temp alive because `v / 2` reuses it as the sign bit
+ *     (`srl $v0,$a3,31` @8017FDA0).  Do not "simplify" the read.
+ *   - ONE trailing `return 0;` with an else-if chain: that is what builds the shared
+ *     .L8017FF30 (`addu $v0,$zero,$zero`) the >=6 and >0 arms `j` to, and what lets the
+ *     delay-slot filler retarget the other two arms to .L8017FF34 with $v0=0 in the slot.
+ *     Per-arm `return 0;` statements cost an extra `move $v0,$zero`.
+ *   - Call-arg globals are written as the argument expression, NOT hoisted to a temp: the temp
+ *     forces `lw $v1` + `move $a1,$v1`; sched1 legally floats the arg load above the
+ *     D_801B1740/D_801B1744 store (different symbols) to reach the target's `lw $a1` form.
+ */
+s32 func_8017FD28(void *arg0, s32 arg1, s32 arg2) {
+    extern s16 *D_80188CA4[][2];
+    extern void *D_80188CBC[];
+    extern void *D_80188D0C[];
+    extern u8 D_80189054[];                        /* TU spelling, :4597 */
+    extern s16 D_801B1724;
+    extern s16 D_801B1740;
+    extern s16 D_801B1744;
+    extern void func_8012A828(s32 a0, void *a1);   /* TU spelling, :3475/:4416 */
+    extern void func_8012AD80(s32 a0);             /* TU spelling, :3393 */
+    extern s32 func_8012B744();                    /* unspecified params: the TU calls it with
+                                                    * ONE arg at :3876 */
+    extern void func_80181B90(s32 a0);             /* TU definition, :3934 */
+    extern void func_8017FF4C(s32 arg0, s16 *arg1, s32 arg2);  /* TU definition, :3069 */
+    extern s32 rand(void);                         /* TU spelling, :2854 */
+
+    s32 s0;
+    s16 **row;
+    s16 *q;
+    s16 *pp;
+    s32 v;
+    s32 diff;
+    s32 r;
+
+    row = D_80188CA4[arg1];
+    v = row[0][arg2];
+    s0 = (s32)arg0;
+    if (v <= 0) {
+        if (D_801B1724 != 0) {
+            return 2;
+        }
+        return 1;
+    }
+    q = row[1];
+    *(s16 *)(s0 + 0xDE) = q[arg2];
+    diff = v / 2 - *(s32 *)(s0 + 0x1C);
+    pp = (s16 *)&D_80189054[q[arg2] * 8];
+    if (diff >= 6) {
+        if (D_801B1744 != 1) {
+            D_801B1744 = 1;
+            func_8012A828(s0, D_80188D0C[D_801B1740]);
+        }
+        *(s16 *)(s0 + 0xA) = -0x1EE;
+        *(s16 *)(s0 + 0x8) = 0;
+    } else if (diff == 5) {
+        r = rand() % 3;
+        D_801B1740 = r;
+        func_8012A828(s0, D_80188CBC[r]);
+        D_801B1744 = 0;
+        func_8012B744((void *)(s0 + 4), pp);
+        func_8017FF4C(s0, pp, 5);
+    } else if (diff > 0) {
+        func_8012AD80(s0);
+        if (*(s16 *)(s0 + 0xA) >= -0x1ED) {
+            *(s16 *)(s0 + 0xA) = -0x1EE;
+        }
+    } else {
+        func_8012AD80(s0);
+        if (*(s16 *)(s0 + 0xA) >= -0x1ED) {
+            *(s16 *)(s0 + 0xA) = -0x1EE;
+        }
+        *(s16 *)(s0 + 0xA) = -0x1EE;
+        *(s16 *)(s0 + 0x8) = 0;
+        func_80181B90(*(s16 *)(s0 + 0xDE));
+        if (D_801B1724 != 0) {
+            return 2;
+        }
+        *(u16 *)(s0 + 0xDC) += 1;
+    }
+    return 0;
+}
+
 
 extern s32 D_80188A00;
 
@@ -3206,7 +3312,7 @@ INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8018030
 extern s32 func_801789AC(s32 arg0);
 extern void func_80181700(void *a0);
 extern s32 func_8012BEE8(s32 a0);
-extern void func_8017FD28();      /* adopt sibling draft func_801805BC's spelling; return recovered by cast at the call (§183 SIGNATURE-cast-at-call) */
+extern s32 func_8017FD28();      /* adopt sibling draft func_801805BC's spelling; return recovered by cast at the call (§183 SIGNATURE-cast-at-call) */
 extern void func_80182148(void);      /* TU's own definition later in this file: void(void) */
 extern void func_80180520(void *a0);
 
@@ -3324,7 +3430,7 @@ void func_801805BC(void *arg0) {
     extern void func_80181700(void *arg0);
     extern void func_80180808();      /* fleet is SPLIT (void* x6 / s32 x4):
                                        * unspecified params conflict with neither */
-    extern void func_8017FD28();      /* no extern exists anywhere in src/; the only
+    extern s32 func_8017FD28();      /* no extern exists anywhere in src/; the only
                                        * banked def spelling is ('void',()) -- so take
                                        * that and cast at the use, TU house style */
     extern void func_80180950(void *arg0);
@@ -3561,7 +3667,21 @@ void func_80180B7C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180D28);
+void func_80180D28(void *arg0) {
+    extern s32 D_801270C8;
+    extern void func_8012E8E0(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern u8 D_801889F8[];
+    extern s32 D_801A0FBC;
+
+    *(s16 *)((char *)arg0 + 0x2) = 7;
+    *(s16 *)((char *)arg0 + 0x34) = 0;
+    func_8012E8E0((s32)arg0, (s32)&D_801889F8);
+    func_8012A828((s32)arg0, &D_801A0FBC);
+    D_801270C8 = 0;
+    *(s32 *)((char *)arg0 + 0x1C) = 0x3C;
+}
+
 
 void func_80180D84(void *arg0) {
     /* block-scope layout type, named uniquely so it can never collide with the
