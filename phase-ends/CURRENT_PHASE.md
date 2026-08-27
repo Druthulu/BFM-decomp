@@ -2448,3 +2448,25 @@ their bodies. Rule candidates for the PhaseEnd: R60 (carve-state files: never bl
 overlays.mk or a splat yaml; audit with interleave_check + pads_audit; a gate commits only its
 binary's block) + the S61 list (R56–R59, extract sweep, pkill self-match).
 **Sweep #7 (16:02, from `make clean`): 213/213 GREEN, extract-all 212/212 — the R58 count at T3's close and at this checkpoint.**
+
+**T4 — model-ladder calibration probe (§3.5), Claude arms judged.** Slate: 20 stratified fns
+(`.run/t4/sample.json`: 11 ≤50 ins · 7 in 51–120 · 2 >120), identical packs for every arm
+(`api_agent` SYS + user_msg + warm start + gate feedback), drafted by 60 subagents (Workflow,
+6.33M tokens, 42 min), judged by `sweep_parallel` (whole-binary SHA; the judge's first
+"0/20" was a `corpus` per-process cache — R40 — the gate logs held the truth):
+
+| arm | ≤50 (11) | 51–120 (7) | >120 (2) | total |
+|---|---|---|---|---|
+| haiku (as run) | 6 | 0 | 0 | 6/20 |
+| haiku, re-run on its misses with law-1c warm starts | +1 | +1 | 0 | 8/20 |
+| sonnet | 9 | 5 | 0 | 14/20 |
+| opus | 10 | 5 | 2 | 17/20 |
+
+Self-reports vs gate: haiku 6→6, sonnet 15→14, opus 19→17 (R14). 17/20 fns banked by at least one
+Claude arm; the 3 none reached (func_800CAF84, func_80181D1C, func_801A8E34) are all M-class
+extend-tell → wall track. **Confound found and fixed:** 22/60 agents reported the warm-start body
+was a different function (drafts are stored by NAME; same name ≠ same code across overlays);
+`api_agent.prior_draft` now requires symbol overlap with the target .s (law 1c). Flywheel: 31
+byte-proven transcripts distilled (37 agents) → 6 novel claims → §306 + four §306a addenda banked.
+DeepSeek arm: serial launch was the holdup (one process, ~7 min/fn); 15/20 drafted, the last 5
+relaunched as parallel shards — its row + the union commit + the routing rule follow.
