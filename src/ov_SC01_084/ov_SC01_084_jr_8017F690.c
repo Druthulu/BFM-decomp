@@ -3016,7 +3016,46 @@ void func_8017FE1C(void *param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_8017FE64);
+#include "common.h"
+
+extern s32 D_801270D8;
+extern s16 D_80126960;
+extern u8 D_800AF648;
+extern void func_8004974C(void *a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_801292C8(void);
+
+void func_8017FE64(void *a0) {
+    u8 *s0 = (u8 *)a0;
+    s32 buf[8];
+    s16 sv[4];
+    s32 v1;
+
+    v1 = D_801270D8;
+    sv[0] = 0x100;
+    sv[1] = -0x440;
+    if (v1 == 0) {
+        if (D_80126960 == 0x60) {
+            sv[2] = 0x380;
+        } else {
+            sv[2] = 0x600;
+        }
+    } else {
+        sv[2] = 0x600;
+    }
+
+    func_8004974C((void *)&D_800AF648, (void *)buf);
+    ApplyMatrixSV((void *)buf, (void *)sv, (void *)sv);
+
+    *(s16 *)(s0 + 0x6) = sv[0];
+    *(s16 *)(s0 + 0xA) = sv[1];
+    *(s16 *)(s0 + 0xE) = sv[2];
+
+    if (D_801270D8 >= 2) {
+        ((void (*)(u8 *))func_801292C8)(s0);
+    }
+}
+
 
 
 extern void (*D_8018A904[])(void);
@@ -3877,7 +3916,20 @@ void func_80181DEC(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80181ED4);
+extern void func_80181F3C(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 D_801A1B40;
+
+void func_80181ED4(s32 a0) {
+    if ((*(u16 *)(a0 + 0x100) & 4) != 0) {
+        func_80181F3C(a0);
+    } else {
+        func_8012A828(a0, &D_801A1B40);
+        *(s16 *)(a0 + 2) = 2;
+        *(s32 *)(a0 + 0x1C) = 0x19;
+    }
+}
+
 
 extern void func_8012A828(s32 a0, void *a1);
 extern void D_801A1AB8;
@@ -4642,7 +4694,17 @@ void func_80183BD0(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80183D38);
+extern void (*D_8018ABC8[])();
+extern void (*D_8018ABD8[])();
+
+void func_80183D38(void *a0) {
+    if (*(s16 *)((u8 *)a0 + 0x70) != 1) {
+        D_8018ABC8[*(u16 *)((u8 *)a0 + 0x2)](a0);
+    } else {
+        D_8018ABD8[*(u16 *)((u8 *)a0 + 0x2)](a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80183DA4);
 

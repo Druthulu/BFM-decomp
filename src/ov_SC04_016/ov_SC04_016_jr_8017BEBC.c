@@ -3813,11 +3813,65 @@ void func_8017E26C() {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017E6A0);
+extern u8 D_801ABB40[];
+extern u8 D_801ABB44[];
+
+void func_8017E6A0(void *a0) {
+    s32 i;
+    s32 off;
+
+    i = 0;
+    off = 0;
+    do {
+        *(s32 *)(D_801ABB40 + off) = 0;
+        *(s32 *)(D_801ABB44 + off) = 0;
+        off += 0x4C;
+        i++;
+    } while (i < 0x14);
+    *(s16 *)((s8 *)a0 + 0x100) = 0;
+    *(s16 *)((s8 *)a0 + 0x102) = 0x40;
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017E6E0);
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017E960);
+#include "common.h"
+
+void func_8017E960(s32 param_1, s32 param_2, s32 *param_3)
+{
+    s32 dx, dy, dz;
+    s32 ax, az;
+    register s32 ay __asm__("$7");
+
+    dx = *(s16 *)(param_2 + 2) - *(s16 *)(param_1 + 2);
+    dy = *(s16 *)(param_2 + 6) - *(s16 *)(param_1 + 6);
+    dz = *(s16 *)(param_2 + 0xA) - *(s16 *)(param_1 + 0xA);
+
+    ax = dx;
+    if (dx < 0) {
+        ax = -dx;
+    }
+    ay = dy;
+    if (dy < 0) {
+        ay = -dy;
+    }
+    az = dz;
+    if (dz < 0) {
+        az = -dz;
+    }
+
+    if (ay < ax) {
+        ay = ax;
+    }
+    if (ay < az) {
+        ay = az;
+    }
+
+    param_3[0] = (dx << 16) / ay;
+    param_3[1] = (dy << 16) / ay;
+    param_3[2] = (dz << 16) / ay;
+}
+
 
 extern u8 D_801ABB40[];
 extern u8 D_801ABB44[];

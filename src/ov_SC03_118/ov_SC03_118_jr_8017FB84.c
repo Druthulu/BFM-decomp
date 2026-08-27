@@ -4272,7 +4272,20 @@ DEFINE_func_80182904()  /* dedup: shared engine-core @0x80182904 (src/shared) */
 DEFINE_func_80182910()  /* dedup: shared engine-core @0x80182910 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018291C);
+extern u8 D_801D4306;
+
+void func_8018291C(void) {
+    u8 *p = &D_801D4306;
+
+    asm("" : "=r"(p) : "0"(p));
+
+    if (*p < 0xF8) {
+        *p += 4;
+        p[-2] += 6;
+        p[-1] += 6;
+    }
+}
+
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
     void func_8018295C(void *a0) {
@@ -4613,7 +4626,40 @@ s32 arg0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_8017FB84", func_8018302C);
+void func_8018302C(void *a0) {
+    extern u8 D_801D4306;
+    extern u8 D_801D4304;
+    extern u8 D_801D4305;
+    register s32 v __asm__("$2");
+    register s32 c __asm__("$3");
+    register s32 z __asm__("$0");
+    register u8 *dp __asm__("$4");
+    s16 *p;
+    s32 frame_pad[3];
+
+    (void)&frame_pad;
+    p = *(s16 **)((s32)a0 + 0x20);
+    v = *(s16 *)(p + 0xC);
+    c = v + z;
+    if (v >= 0x801) {
+        v = c - 0x200;
+        *(s16 *)(p + 0xC) = v;
+    }
+    v = *(s16 *)(p + 0xD);
+    c = v + z;
+    if (v >= 0x801) {
+        v = c - 0x200;
+        *(s16 *)(p + 0xD) = v;
+    }
+
+    dp = &D_801D4306;
+    if (*dp >= 0xC1) {
+        *dp -= 4;
+        D_801D4304 -= 6;
+        D_801D4305 -= 6;
+    }
+}
+
 
 extern u8 D_801D4304;
 extern u8 D_801D4305;

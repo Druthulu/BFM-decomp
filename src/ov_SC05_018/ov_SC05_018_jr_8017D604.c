@@ -3634,9 +3634,38 @@ void func_8017F080(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_8017F0BC);
+extern void func_8014706C(void *arg0);
+extern void func_8014708C(void *arg0);
+extern s32 func_801472C8(struct S *a0);
+extern void func_8017F818(void *a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80171990(u8 *a0);
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_8017F120);
+void func_8017F0BC(void *a0) {
+    func_8014706C(a0);
+    func_8014708C(a0);
+    func_801472C8(a0);
+    *(s32 *)((u8 *)a0 + 0x200) = 100;
+    *(s16 *)((u8 *)a0 + 0x20C) = 1;
+    func_8017F818(a0, *(s16 *)((u8 *)a0 + 0x20C), *(s32 *)((u8 *)a0 + 0x200), 0);
+    func_80171990((u8 *)a0);
+}
+
+
+extern void func_8017F818(void *a0, s32 a1, s32 a2, s32 a3);
+extern void func_8017F990(s32 a0, s32 a1);
+extern s32 func_80171990(u8 *a0);
+
+void func_8017F120(s32 arg0)
+{
+    func_8017F818((void *)arg0, *(s16 *)(arg0 + 0x20C), *(s32 *)(arg0 + 0x200), 0);
+    func_8017F990(arg0, 0);
+    *(s32 *)(arg0 + 0x200) += 0xA;
+    if (*(s32 *)(arg0 + 0x200) >= 0x258) {
+        *(s32 *)(arg0 + 0x204) = 0xA0000;
+        func_80171990((u8 *)arg0);
+    }
+}
+
 
 extern void func_8017F818(void *, s32, s32, s32);
 extern void func_8017F990(s32, s32);
@@ -4257,7 +4286,13 @@ void func_8017FFD8(void *arg0) {
 
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80180014);
+extern void func_80180220(s32 arg0, s32 arg1);
+extern s16 D_80126940;
+
+void func_80180014(void *arg0) {
+    func_80180220((s32) arg0, (s32) &D_80126940);
+}
+
 
 
 
@@ -4481,7 +4516,23 @@ void func_801805E0(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80180644);
+void func_80180644(s32 arg0)
+{
+    extern void func_8017FB8C(void);
+    extern void func_80129CF8();
+    extern void func_8012E8A8(u8 *arg0);
+    extern s32 D_801E6748;
+
+    func_8017FB8C();
+    func_80129CF8();
+    *(s16 *)(arg0 + 2) = 3;
+    *(s16 *)(arg0 + 0x34) = 0;
+    *(s32 *)(arg0 + 0x1C) = 0;
+    *(s16 *)(arg0 + 0x98) = 0;
+    func_8012E8A8(arg0);
+    D_801E6748 = 1;
+}
+
 
 typedef struct {
     u8 pad0[0x18];
