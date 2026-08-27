@@ -20352,6 +20352,11 @@ I then compiled the two spellings standalone under the pinned triple (`.run/harv
 
 Plus 3 further credible join-shaped corpus hits of the same shape (func_8018214C ov_SC04_011 `sh/lh 0xE2`; func_80181A7C ov_SC01_084 `sh/lh 0xDC($s3)`; func_80182564 ov_SC04_000 `sh/lhu 0x3E($s1)`), and 2 rejected by bound 2 (mode-mismatched `sw`/`lh`).
 
+**Addendum (P31 S63 t5e-t5i, func_8017FA2C):** a `?:` **expression** assigned to the field belongs to this section's *one-store-at-the-join* class — §164-73's 4-spelling ladder already byte-measures "`?:` inline into the store" and "if/else into a shared local, then one store" as the SAME losing spelling — and §195-L is what that costs when the field is read again in the next statement: the reload dies. Second instance, and the first in **QImode at a fixed `$sp` address** (§195-L's own evidence and §193-E BOUND 1's probe are both HImode/SImode through a pointer base). `p.c[1].b = (D_800B99DA & 1) ? 0x58 : 0x48;` followed by `p.c[1].r = p.c[1].g = p.c[1].b >> 2;` sends the constant to `srl` register-to-register (`li $v1,0x58` / `srl $v0,$v1,2`) where the target executes `sb $v0,0x56($sp)` / `lbu $v0,0x56($sp)` / `srl $v0,$v0,2`; re-spelling the single ternary as an `if/else` with a **full store statement in each arm** restores the pair. `match_one`: DIFF mine=198 / target=200, 188 mismatched, class **LENGTH-DRIFT/−2** → **MATCH (200 ins)**; whole-binary byte-gate accepted the body, law-1c reloc identity 9/9.
+**RETRIEVAL NOTE — this is why the addendum exists.** The residual does not present as a store/load mismatch; every instruction after the divergence cascades, so `match_one` classes it **LENGTH-DRIFT [structural]** and an agent chases schedule/length levers instead of arriving here. Route to §195-L on: *mine is 1–2 instructions short AND the target shows a store immediately followed by a same-address, same-mode reload*. Per BOUND 4 the count is still not the law (−2 here, +2 in func_8017E8F8) — the LOAD's presence is.
+**MECHANISM CORRECTION (do not propagate the drafting agent's story).** The transcript induces "an if-conversion/CSE-across-memory effect keeps the destination register live and forwards it". That is not a pass. It is cse's same-address store re-seed (`cse.c:7577` → `:1701`) reaching the immediately following read, bounded by `cse_end_of_basic_block`'s `CODE_LABEL` stop (`cse.c:8039`) once the stores sit inside the arms — already cited in §195-L/§193-E. Nothing new about `?:` is involved beyond which class it lands in.
+
+
 ### §195-M — Frame `vars` is a SEQUENTIAL bump-allocation, not a flat sum: §193-I's CEIL(aggregate,8) term and §165-03/§167-06's 8×orphan term are the SAME frame_offset walk at two different compiler stages, and each stage re-CEILs frame_offset to 8 before it allocates
 
 **CORRECTION TO §165-03 (L13734) AND §167-06 (L15163) — `vars` IS A SEQUENTIAL BUMP ALLOCATION, NOT A SUM. WRITE IT AS A WALK.** *(merges §193-I's aggregate term into the §165-03/§167-06 equation — §193-I already flags the repair at L18806 but mis-names its target as "§165-34's L15155"; L15155 is §167-06. Fix that pointer too.)*
@@ -24949,6 +24954,9 @@ reachable by an `"0"(b)` re-tie but sits behind §172's +8-frame canonicalizatio
 `swaprepeat` siblings `func_80187E08`/`func_80182FD0` already carry the right doubled-compare
 structure — their 2-10-instruction scratch permutation is the S11 knife-edge, permuter fuel, and one
 fix banks both by remap.
+
+**Addendum (P31 S63 t5e-t5i, func_8017EDD4):** §264-2's save-order-only residual has a **second, cheaper cure that needs no control-flow surgery: inside bb0, move the def statement to the far side of the adjacent BLKmode aggregate-copy statement.** `func_8017EDD4` (ov_SC03_030, 67 ins) already carries the §30#3 boost-kill re-tie `__asm__ volatile("" : "=r"(p))` at end-of-function — bought for the §201-C addiu-sinks-past-`jal` shape — and *still* emits the inverted pair: idx3/4 `sw $s1,28($sp)` / `sw $ra,32($sp)` against the target's `sw $ra,0x20($sp)` / `sw $s1,0x1C($sp)`, `SCHEDULE-REORDER/2`, span [3,4], every other word already exact. Writing the copy first — `buf = D_801E0764;` (the §48-C2 `lwl/lwr`+`swl/swr` align-2 struct assign) **before** `p = (u8 *)&buf;` instead of after, re-tie unchanged and nothing else touched — is the whole delta from closeness 2 to **MATCH 67/67** (`.run/t5i/stage_union/ov_SC03_030/func_8017EDD4.c:27-28,54`). **TRIAGE — do not read this residual as the re-tie failing.** With the re-tie present, a clean 2-instruction prologue swap is no longer the call/branch delay-slot contention the re-tie was spent on, and re-spending §30#3 / §257-1 *placement* levers on it costs a wave: the same re-tie moved into the THEN arm regressed to closeness 33 / LENGTH-DRIFT, and replacing it with a plain second `p = (u8 *)&buf;` also gave 33 (both re-confirming that only the volatile re-tie survives cse). Move the **def**, not the re-tie. *Honest scope: n=1, one single-axis A/B pair; the agent's `sw $sN`→def anti-dependency account agrees with §264-2's mechanism but no RTL dump was taken here — the position-sensitivity is byte-proven, the attribution is not.*
+
 
 ## §265 — THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW `__asm__` BODY (P31 S59b; two banked cards, two in-tree precedents)
 
@@ -29913,3 +29921,106 @@ the §3-The/`rank_for_schedule` family, and it is the case those entries did not
 before spending a permutation sweep; §5a/§34's `__asm__("")` fence moves closeness here but does not
 close it, which is itself the discriminator between a delay-slot-filler residual (fence works) and a
 ready-list-priority residual (fence only perturbs).
+
+
+## §308 — A NAIVE FINAL `goto` DELETES THE TARGET'S `j`+`nop`: SPELL THAT EDGE AS A TAUTOLOGICAL `if` SO cse FOLDS IT TO AN UNCONDITIONAL JUMP *AFTER* jump1's WINDOW HAS CLOSED (P31 S63 t5e-t5i; byte-proven func_80180808)
+
+*(the CONSTRUCTIVE inverse of §165-03 (L13762) and §197-B (L20604): both own cse's dominated-compare fold and both prescribe how to **prevent** it — the re-tie, the front-end-opaque mask — and §165-03's own tell already records that the fold's residue in your output is "a plain `j`". Neither says that residue is a `j`+`nop` pair you can deliberately **buy**. Distinct from §194-N (L19618), whose jump1 deletion needs the label to be the *next active insn*; from §164-55 (L13048) + its S63 t5a addendum (L13070), where a missing/extra `j` is bought with arm ORDER; from §195-N (L20404), a +1 `j` owned by reorg block placement; and from §256 / ADD-7 / the §225-§256 addendum (L24052 / L25126 / L26270), which spell goto layouts but never price a goto edge that the compiler deletes.)*
+
+**THE TELL.** The target has a **lone `j .LABEL` followed by a genuine `nop`**, hopping forward over exactly ONE block that is itself self-terminating (that block ends in its own `j`/`return`), and **every structurally-plausible C spelling of that edge compiles exactly 2 instructions SHORT**. The second half of the tell is the discriminator: when you "simplify" that edge to a bare `goto`, the masked closeness **explodes rather than shrinks** — a residual that reads as a whole-function cascade, not as a 2-instruction drift. Read a `j`+real-`nop` over a single self-terminating block as **a conditional test in the source**, never as a bare `goto`.
+
+**THE MECHANISM (one half source-anchored, one half HYPOTHESIS — cite accordingly).** *Source-anchored:* the fall-through of `if (v != K) goto skip;` puts you on the `EQ` side, where `record_jump_cond` merges `v` and `K` into one class (`cse.c:5944-5990`, §165-03 / §165-43 / §167-41), so a following `if (v == K) goto body1;` is folded to a constant-true and `fold_rtx` rewrites the branch as an **unconditional** jump. And the pass order is checkable, not inferred: jump1 runs at `toplev.c:2827`, cse1 at `:2865` (already banked at L13116 / L13546). *Hypothesis, NOT read out of `jump.c` this session:* jump1 will delete/thread away an unconditional `j` whose only job is to hop over one self-terminating block, but it only ever sees such a jump when the source wrote the edge as a bare `goto`. Written as a redundant test, the edge is still a real conditional branch while jump1 runs and is only collapsed to a `j` by cse afterwards — too late for the deletion — so the `j`+`nop` survive as real bytes. **Treat the deletion half as a place to look; what is byte-proven is the C dial and its ±2.**
+
+**THE C SHAPE.** Keep the body identical and re-spell only the last edge:
+
+```c
+if (v1 < 5)       goto body0;
+if (v1 != 0x294)  goto skip;
+if (v1 == 0x294)  goto body1;   /* tautological given the line above — and that is the point:
+                                   it stays a real conditional through jump1, and cse's later
+                                   fold to an unconditional `j` lands after the deletion window */
+body0: *(s16 *)(a0 + 0x70) = 1; goto common;
+body1: …                       /* self-terminating sibling block */
+common: …
+skip:   …
+```
+
+**BYTE EVIDENCE.** `func_80180808` (ov_SC01_006, `_jr_8017ED5C`, 64 ins), banked at `src/ov_SC01_006/ov_SC01_006_jr_8017ED5C.c:3526-3560`, re-read out of the built object here: `8018085C move $a0,$s2` (the `bne $v1,$v0,.L801808DC` slot) / **`80180860 j .L80180870` / `80180864 nop`** / `80180868 j .L801808C0` + `8018086C sh $v0,0x70($s1)` (body0, self-terminating) / `80180870` = body1's first insn. Ladder, one axis per round: **v0** (prior draft) `near, closeness 2, nins 64`, residual `[[20,"beq…","bne $v1,$v0,.L801808DC"],[22,"j d4","j .L80180870"]]`, class BRANCH-POLARITY. **v1**, the textbook §3-T4 polarity flip → `near, closeness 40, nins 62` — the flip **deleted the edge**. **v2–v20** (if/else nesting, do/while(0), the §256 goto-dispatch template, a §162-shaped cross-jump goto, an explicit early-return split) plateau at 62–63, e.g. `v18 near 41 63 LENGTH-DRIFT/-1?`, `v20 near 40 62 LENGTH-DRIFT/-2?`. **v21** = v20's body with the bare `goto body1;` replaced by `if (v1 == 0x294) goto body1;` → **`match, closeness 0, nins 64`**.
+
+**⚠ THE §3-T4 TRAP, and it is the expensive part.** Closeness went 2 → 40 on a *textbook* polarity flip. **A closeness that EXPLODES after a polarity edit means the edit removed a control-flow edge, not that the polarity was wrong** — back the flip out and diff the `j`s before spending another round. (Same read-direction warning as §165-23 / §167-27 / the S63 t5a addendum at L13070; and §194-K's bound applies — nothing between the draft and the whole-binary gate can see which block an unconditional `j` targets, L19885.)
+
+**BOUNDS.** (1) The fold needs ONE cse path: per §164-52 / §197-B bound 3, a label with ≥2 jump references between the guard and the redundant test resets the table, the test survives as a real branch, and you are +2 instead of exact. (2) It needs the `EQ` channel — you must be on the fall-through of a `!=` (or the taken side of an `==`); a range/`slti` guard is §164-46 / §197-B territory and does not fold. (3) The redundant test must be **spelled against the same quantity** — mask it, launder it, or re-tie it (§165-03, §197-B) and you get a real compare+branch back, which is exactly the +2 failure. (4) One function, both directions measured; the jump1-deletion attribution is unproven (R14) — if a second instance disagrees, keep the dial and rewrite the mechanism paragraph.
+
+
+## §308a — A TWO-INSTRUCTION ARM STUB LAID *BEFORE* THE OTHER ARM AND REACHED ONLY BY A TRAILING `j` SURVIVES ONLY BEHIND A SHORT-CIRCUIT `&&` GUARD PLUS A SEPARATE RE-TEST; EVERY PLAIN if/else-if, GOTO-LADDER, NESTED-INVERTED-if AND 1-/2-NODE switch LETS jump1 INLINE IT (−2 ins) (P31 S63 t5e-t5i; byte-proven func_80180808)
+
+*(BOUNDS §256 — its flat goto-in-target-block-order dispatch is the right family and the WRONG spelling here (closeness 2, never 0); supplies the first byte-measured instance of §195-G BOUND 5's "put a surviving CODE_LABEL in the way and the two spellings are no longer guaranteed equal" — measured price **2 instructions**, where §195-G's ⚠ headline says the branch sense is free; complements §164-46/§165-03, which license the surviving RANGE re-test but never say it must be PAIRED with the guard that already decided it; sits beside §199-G, whose 2-node-switch and nested-inverted-if rows were both probed and refuted for this shape.)*
+
+**TARGET SHAPE / THE TELL.** A three-way dispatch on one call result where the target lays the SHORT arm first:
+
+    bne  $v1,$v0,.default        <- the "not the special constant" exit
+     nop
+    sh   $v0,0x70($a0)           <- armA: a 1-2 instruction self-terminating stub…
+    j    .common                 <- …ending in its own `j`
+     nop
+    j    .armB                   <- and a LONE `j` immediately before armB's own body
+
+i.e. **a 2-instruction armA block placed BEFORE armB and reached only by a trailing unconditional `j`.** On the naive draft `match_one` files this as **BRANCH-POLARITY / `beq!=bne` at closeness 2 with nins EXACT (64/64)** — a near-match. The index (L14) routes that class to §3-T4 "invert the source condition". **Do not.** Inverting that one branch's sense collapses **nins 64 → 62** and closeness **2 → 40**: gcc's jump1 deletes the stub's `j`+`nop`, inlines the block and folds the guard. A count-EXACT BRANCH-POLARITY residual sitting on a short stub is a *structure* diagnosis, not a polarity one (same trap family as §165-23, §167-27 and §164-55's S63 addendum).
+
+**THE C SHAPE THAT MATCHES** — the guard's range conjunct is written TWICE: once inside the short-circuit `&&`, once as the standalone dispatch test.
+
+    if (v1 >= 5 && v1 != 0x294) goto skip;   /* union guard: leave for the default */
+    if (v1 < 5) goto armA;                   /* re-test the SAME range the guard already decided */
+    goto armB;
+    armA:  *(s16 *)(a0 + 0x70) = 1;  goto common;
+    armB:  /* the long, call-bearing arm */ …
+    common: /* shared tail */ …
+    skip:  *(u16 *)(a0 + 2) += 1;
+
+**MECHANISM — INFERRED, NOT TRACED. Cite it as a place to look, never as a proven pass behaviour (§164z's standard).** The reading is `jump.c:1737-1747`'s invert-a-cond-jump-that-jumps-over-an-uncond-jump (`invert_jump`/`delete_jump`) plus the swapped-inequality fold at `:1540-1640`: any single-test spelling leaves the stub as a lone self-terminating block landing right after an unconditional jump, which jump1 then inlines. The `&&` form is claimed to survive because `do_jump`'s TRUTH_ANDIF codegen (`expr.c:8970-8990`, §194-M/L19957) aims the positive branch at the drop-through and thread_jumps folds the duplicated `slti` into it, leaving the `j armB` un-collapsed. **Not verified against an RTL dump — the "what" is byte-proven, the "why" is a hypothesis.**
+
+**BYTE EVIDENCE.** `func_80180808` (ov_SC01_005, 64 ins, target `asm/ov_SC01_005/nonmatchings/ov_SC01_005_jr_8017ED5C/func_80180808.s`), **banked** at `src/ov_SC01_005/ov_SC01_005_jr_8017ED5C.c:3515` (commit `commit:3162`, wave t5i, whole-binary gate green). Ladder on the pinned triple: **v0** = §256's flat goto ladder (`if(v1<5) goto body0; if(v1==0x294) goto body1; goto skip;`) → `near`, **nins 64**, closeness 2, residual = target `10620005 beq v1,v0,+0x68` vs mine `bne $v1,$v0`, and target `08000035 j +0xd4` vs mine `j .L80180870`. **v1** = §3-T4 applied literally, single-axis from v0 (second test's sense inverted, the two `goto` targets swapped — exactly §195-G ⚠'s "free" pair) → `near`, **nins 62**, closeness **40**; the `j`/`nop` pair is gone. **v2** = full if/else restructure → 63 ins, closeness 38. Nine further hand-probed spellings via direct cc1 `.s` dumps (`v4`, `v6-early`, `v8`, `sw1-sw4` switch forms, `w1-w4`, `y1-y4` with `__asm__("")` fences per §42/§73/§37/§5a/§34/§194-H, `z1`/`z4`/`z5`) all either kept the wrong `beq`/`bne` at 64 or collapsed to 62/63 — **none reached 0**. Winner = the `z1` shape above (`.run/t5i/opus/scratch_func_80180808/v6.c`, submitted verbatim as `.run/t5i/opus/func_80180808.c`): **`MATCH`, closeness 0, nins 64/64, residual `[]`**.
+
+**BOUNDS.** (1) n = 1 function. The refuted-alternative list is broad (13 spellings) but all inside one body — treat the `&&`+re-test prescription as a *first thing to try* on this tell, not a proven universal. (2) The re-test here is a RANGE compare, which §164-46 says survives free; an EQUALITY re-test in the same position would additionally need §165-03's zero-byte `__asm__("" : "=r"(t) : "0"(t))` tie, untested here. (3) §199-G's 2-node-switch tell does not fire — this header leads with a `bne` to the default, not the all-positive `beq` header — so the switch probes failing is consistent with §199-G, not evidence against it. (4) Do not read this as "always duplicate the guard": the extra conjunct costs nothing only because the guard and the dispatch test are the same range on the same value.
+
+**INDEX DELTA.** `cookbook-index.md` L14 (BRANCH-POLARITY → §3-T4) needs the exception: *count-EXACT BRANCH-POLARITY where the disputed branch is followed by a 1-2 instruction stub that ends in its own `j` ⇒ read §308a before inverting anything; the invert costs 2 instructions.*
+
+
+## §309 — A FRAME-ADDRESS EQUIVALENCE RIDES *THROUGH* A SKIPPABLE CONDITIONAL: POST-`if` STORES FOLD ONTO `$sp` UNLESS THE `if` SURVIVES jump1 AS A BARRIER-PRECEDED DIAMOND (P31 S63 t5e-t5i; byte-proven func_801812AC)
+
+*(The FRAME-ADDRESS analogue of §164-52 (L12946), whose fold law and ">=2-jump-ref label" dial are byte-scoped to a SYMBOL base and do not transfer — a frame address is a `PLUS`, never `CONSTANT_P` (`regalloc.md` [A23]), so none of §164-52/§48-C1's struct/offset escapes exist for it. RESOLVES the probe §162m files at L11525 as "**UNTRIED**, and it is the next probe" — the balanced-diamond EBB split works, and this is its first byte-proof; it also promotes `gcc-2.7.2-map/cse_expr.md` §H-1/:387 from a pass-map antidote for global/derived-pointer folds to a banked law for `&local`. SAME C EDIT as §48-A4 (L3458) for a DIFFERENT pass and a different residual — do not merge them. NOT §193-D (that re-bases a block onto `$aN` via `optimize_reg_copy_1`, and its dial is a surviving CODE_LABEL). NOT §195-L (a join whose label has NUSES>=2 always ends the cse block; this law is about the ONE-use join that does not).)*
+
+**THE TELL.** A run of `sw <reg>, <imm>($sp)` / `sw $zero, <imm>($sp)` immediately downstream of a `jal` that itself sits just after an `if`/`else` or a `?:`, where the target has the **same opcodes, same source registers and same field order** based on a callee-saved pointer register instead — `sw <reg>, <imm2>($sN)`, with `imm2 = imm − frame_offset_of_the_local`. Same shape, same values, **wrong base register and a correspondingly shifted immediate**, instruction count identical. That is not regalloc and not scheduling: nothing in your register file is wrong — the pointer variable was never materialised at all. Do not open §47/§158/§136 or a `register __asm__` pin on it.
+
+**THE MECHANISM.** `pr = &prim` enters cse's table as `pseudo == (plus (reg virtual-stack-vars) K)`, and `find_best_addr`/`fold_rtx` rewrite every downstream `(mem (plus pseudo disp))` into `(mem (plus fp K+disp))` — a legal MIPS address — so the pointer loses its last user and is deleted. Whether that fold reaches past the `if` is decided in `cse_end_of_basic_block` (`cse.c:8091-8185`), which has **two** arms, both taken only when `LABEL_NUSES (JUMP_LABEL (p)) == 1`:
+
+* the branch's target label **is** preceded by a BARRIER (`:8116`, `-fcse-follow-jumps`) — a real two-armed diamond. The scan resumes at the ELSE label and terminates at the **join** CODE_LABEL; `new_basic_block` (`:8430`) flushes the table, `pr` is re-materialised, and the stores address `$sN`. **This is the target.**
+* the branch's target label is **not** barrier-preceded (`:8146`, `-fcse-skip-blocks`) — a one-armed conditional branching *around* a block. The scan jumps to that label and **keeps going past it** to the next CODE_LABEL, carrying the whole table with it. `invalidate_skipped_block` (`:7843-7866`) then invalidates only what the skipped arm SET; the `pr == fp+K` equivalence is untouched, so every post-join store folds onto `$sp`.
+
+**⚠ CORRECTS THE ORIGINATING NOTE'S MECHANISM.** It is **not** "cse ends its per-arm scan at each arm's own call". `invalidate_skipped_block` handles `CALL_INSN` explicitly (`invalidate_for_call()` + `skipped_writes_memory = everything`, `:7856-7860`) and **keeps skipping**; a call kills hard regs and MEM entries, never a pseudo's `(plus fp K)` equivalence (`cse_expr.md` §1). The call matters only because of **what it does to jump1**: per §136d-2/§164-57/§164-74, an `if`/`else` whose arms are plain REG SETs is collapsed by `jump.c:728-760` into `t = B; if (c) t = A;` with the jump around the set **deleted** (`jump.c:821`) — leaving exactly the barrier-free skippable block. A **call** (or a MEM store) is not a simple SET, the collapse cannot fire, the `j`+BARRIER survives, and the diamond stands. **Duplicating the call is one way to buy the barrier, not the mechanism itself.**
+
+**THE C SHAPE.**
+
+```c
+// FOLDS TO $sp (wrong) — the conditional collapses to a skippable block
+Prim *pr = &prim;
+void *src = (a3 != 0) ? (void *)D_8018633C : a2;   /* or if/else assigning one shared var */
+func_80017DC4(src, &mtx);
+pr->code = 0x50000000;          /* emitted sw …($sp) */
+pr->c[0] = pr->c[1] = a4;
+
+// MATCHES — duplicate the CALL into both arms so jump1 cannot collapse the diamond
+Prim *pr = &prim;
+if (a3 != 0) { func_80017DC4((void *)D_8018633C, &mtx); }
+else         { func_80017DC4(a2, &mtx); }
+pr->code = 0x50000000;          /* now sw …($s0), matches */
+pr->c[0] = pr->c[1] = a4;
+```
+
+jump2's `cross_jump` merges the two now-identical `jal` suffixes back into one site, so the length is unchanged — **129 ins both ways**; only the store base differs. (In-tree bound on §88a: a repeated call-shaped tail *was* merged here, as in §224; §88a's "left UNMERGED" is a suffix-equality/§50-B-floor observation, not a call exclusion — `find_cross_jump` has none, §193-C.)
+
+**BYTE EVIDENCE** (`func_801812AC`, wave t5e-t5i, 129 ins). Warm-start draft: near, closeness 10, `OPCODE-MIXED`, residual `[36] afa20060 sw v0,96(sp)` vs target `ae020030 sw $v0,0x30($s0)` … `[40] afa00058 sw zero,88(sp)` vs `ae000028 sw $zero,0x28($s0)` — unchanged across a statement reorder (`v1.c`) and a register pin (`v2.c`); neither reaches the fold. `a1.c` (drop the local hdr/src copies) → closeness **5**, residual is the `[36..40]` `$sp` run alone. `b1.c` (shared `src` var written as an explicit `if`/`else`) → closeness **30**, *worse* — the §136d-2 collapse puts the skippable block straight back; this is the negative witness that the diamond, not the `if` keyword, is the lever. `b5.c` (call duplicated into both arms + TU-authoritative `void *` signature, inline casts) → **MATCH 129/129, residual []**. `b6.c` (same duplicated-call structure, hdr copy reintroduced) → closeness 5, `SCHEDULE-REORDER` — the prologue-order and `$sp`-fold defects are independent and both fixes are required.
+
+**FLAG ABLATION AS A PASS ORACLE (reusable).** Recompiling the folding source with `-fno-cse-skip-blocks` gives `nins 129 129 diffs 5`: the entire `$sp` run disappears and only the unrelated prologue arg-copy cluster remains. One recompile named the pass and separated two co-resident residual classes — cheaper than a `-da` dump read. Bank the technique, not just the law: when a residual is suspected to be a cse EBB-extension effect, ablate `-fcse-skip-blocks` / `-fcse-follow-jumps` first (both are `-O2`-only, `toplev.c:3389-3390`).
+
+**BOUND.** 1. **`-O2` only** — both flags are off at `-O1`/`-O0`, so this class cannot occur in an `-O0` file (§116/§127). 2. **Requires `LABEL_NUSES == 1` on the branch target.** A join reached by two or more jumps ends the block on its own (§195-L, §164-52) and there is nothing to fix. 3. **Scoped to a frame address whose uses are all DEREFERENCES.** §164-52 LAW 1a's clause carries over: a use of the pointer VALUE (call argument, compare, store of the pointer itself) has no absolute form to fold into and keeps the base alive on any path. 4. **The refund is TAIL-only** (§193-C) and has a floor of 2 insns in the merged block (§50-B) — duplicating a call whose arms differ *after* it buys you nothing and costs the duplicate. 5. **Not length-neutral in general**; it was here because the duplicated tail merged. Read the count before assuming. 6. **Untested:** more than two arms, a `switch` dispatch, and whether the same ride-through folds a frame address across a skipped block that itself contains a call (the source says it should — `:7856` skips on — but I did not compile it; R14 applies to that clause).
