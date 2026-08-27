@@ -57,6 +57,22 @@ if [ "${UNB:-0}" != 0 ]; then
       --drafts "$WAVE/recover" -j 4 2>&1 | tee "$WAVE/recover.log" | tail -3
   N=$(git diff -U0 -- src/ | grep -cE '^-INCLUDE_ASM' || true)
   SUMMARY="$SUMMARY, +recovery"
+  # THE OTHER DIRECTION OF THE SAME MISMATCH. fix_tu_ret_decls widens a TU's `extern void` to the
+  # draft's true value return; it SKIPs ("definition return is 'void'") when the TU instead declares
+  # a VALUE return for a genuinely void definition — which it did in EVERY wave of S63. Narrowing the
+  # TU decl there is not byte-neutral (a caller reads $v0), so fix_decl_mirror rewrites the DRAFT
+  # instead: the body is defined under a distinct identifier bound to the real symbol by __asm__().
+  # T0, draft-only. R39 negative control: 78,727 banked definitions, 0 false positives.
+  .venv/bin/python tools/fix_decl_mirror.py --pairs-file "$WAVE/ret_pairs.json" \
+      --drafts "$WAVE/recover" --out "$WAVE/mirror" 2>&1 | tail -4
+  if [ -n "$(ls "$WAVE/mirror" 2>/dev/null)" ]; then
+    MB=$(ls "$WAVE"/mirror/*/ -d 2>/dev/null | sed 's#.*/mirror/##;s#/##' | paste -sd, -)
+    say "decl-mirror: gating $(find "$WAVE/mirror" -name '*.c' | wc -l) repaired draft(s) in $MB"
+    flock .run/auto/draw.lock .venv/bin/python tools/sweep_parallel.py --drafts "$WAVE/mirror" \
+        --only "$MB" -j 4 2>&1 | tail -3
+    N=$(git diff -U0 -- src/ | grep -cE '^-INCLUDE_ASM' || true)
+    SUMMARY="$SUMMARY, +mirror"
+  fi
 fi
 if [ "$N" = 0 ]; then say "0 banked ($SUMMARY) — nothing to commit"; git status --short -- src/ config/ | head; exit 0; fi
 say "$N banked total ($SUMMARY) — R22 clean fleet sweep"
