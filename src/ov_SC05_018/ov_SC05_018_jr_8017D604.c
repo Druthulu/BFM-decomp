@@ -4728,7 +4728,98 @@ void func_80180D40(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80180DBC);
+/* func_80180DBC (ov_SC05_018) — 189 ins.
+ * Dispatch spelling: §256 goto-ladder in the target's own block order.
+ * Tell: all three arm bodies sit AFTER the whole dispatch, reached by forward
+ * branches whose delay slots hold the NEXT compare's constant
+ * (`beq $v1,$s3` / slti-in-slot, `bnez` / `li 2`-in-slot, `beq` / `li 3`-in-slot)
+ * and a trailing `j default`. A plain 3-case `switch` balances to a median tree
+ * rooted at 2 (li 2 / beq first, 192 ins) and an if/else-if chain inlines arm 1
+ * (187 ins); only the goto ladder reproduces the root-at-1 linear chain. */
+
+typedef struct {
+    s16 state; /* 0x0 */
+    s16 cnt;   /* 0x2 */
+    s16 x;     /* 0x4 */
+    s16 y;     /* 0x6 */
+    s16 lim;   /* 0x8 */
+    s16 velo;  /* 0xA */
+    s16 spd;   /* 0xC */
+    s16 flag;  /* 0xE */
+} Ent_801E650C;
+
+extern s16 D_8018A9FC;
+extern s16 D_8018A9FE;
+extern s16 D_801E650C;
+extern s32 D_801E660C;
+extern u16 D_801E662C;
+extern s16 D_801E664C;
+extern s32 rand(void);
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern s32 func_80181294(u16 a0, s16 a1);
+extern void func_8018124C(void);
+extern void func_801810B0(void *a0);
+
+void func_80180DBC(void *a0) {
+    Ent_801E650C *p;
+    s32 i;
+    s32 t;
+
+    t = *(s32 *)((s32)a0 + 0x1C) + 1;
+    *(s32 *)((s32)a0 + 0x1C) = t;
+    if (t >= D_8018A9FC) {
+        if (t == D_8018A9FC) {
+            D_801E664C = 0;
+        } else if (t < D_8018A9FC + D_8018A9FE) {
+            D_801E664C = ((t - D_8018A9FC) << 12) / D_8018A9FE;
+            for (i = 0; i < 0x10; i++) {
+                *(s16 *)((s32)&D_801E660C + i * 2) =
+                    func_80181294(*(u16 *)((s32)&D_801E662C + i * 2), D_801E664C);
+            }
+            func_8018124C();
+        } else {
+            func_80016714(&D_801E650C, 0x100);
+            func_8012C218(a0);
+            return;
+        }
+    }
+    p = (Ent_801E650C *)&D_801E650C;
+    for (i = 0; i < 0x10; i++, p++) {
+        if (p->state == 1) goto st1;
+        if (p->state < 2) goto done;
+        if (p->state == 2) goto st2;
+        if (p->state == 3) goto st3;
+        goto done;
+    st1:
+        p->cnt++;
+        if (p->cnt >= p->lim * 2) {
+            p->cnt = 0;
+            p->state++;
+            p->x = rand() % 280 - 140;
+            p->y = rand() % 200 - 100;
+            p->spd = (rand() & 0x3F) + 0x30;
+        }
+        goto done;
+    st2:
+        p->flag = 1;
+        p->cnt++;
+        p->velo = p->spd * p->cnt / 6;
+        if (p->cnt >= 6) {
+            p->cnt = 0;
+            p->state++;
+        }
+        goto done;
+    st3:
+        p->flag = 1;
+        p->cnt++;
+    done:
+        if (p->flag != 0) {
+            func_801810B0(p);
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_801810B0);
 
@@ -5468,7 +5559,42 @@ void func_80182384(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80182420);
+extern void func_80184590(s32, s32);
+extern void func_8018469C(void *a0, s32 a1);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern void func_8012E8A8(u8 *a0);
+extern void func_8012E8E0(s32, s32);
+extern s16 D_8018AD84;
+extern short D_8018ADBC;
+
+void func_80182420(void *arg0) {
+    switch (*(u16 *)((s32)arg0 + 0x34)) {
+    case 0:
+        *(s32 *)(*(s32 *)((s32)arg0 + 0xCC) + 0xB0) = 2;
+        if (((s32 (*)(s32, s32))func_80184590)(7, 0x15) == 0) {
+            *(s16 *)((s32)arg0 + 0x2) = 1;
+            *(s16 *)((s32)arg0 + 0x34) = 0;
+            func_8018469C(arg0, &D_8018AD84);
+        }
+        break;
+    case 1:
+        *(u16 *)((s32)arg0 + 0x34) = *(u16 *)((s32)arg0 + 0x34) + 1;
+        func_80178CBC((s32)arg0, (s32)&D_8018ADBC);
+        break;
+    case 2:
+        if (((s32 (*)(s32))func_80178970)((s32)arg0) != 0) {
+            ((void (*)(s32))func_80178D18)((s32)arg0);
+            *(s16 *)((s32)arg0 + 0x2) = 2;
+            *(s16 *)((s32)arg0 + 0x34) = 0;
+            func_8012E8A8((u8 *)arg0);
+            func_8012E8E0((s32)arg0, (s32)&D_8018AD84);
+        }
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_8018251C);
 

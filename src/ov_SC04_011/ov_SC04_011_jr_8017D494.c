@@ -7711,7 +7711,33 @@ void func_80185020(s32 start, s32 end)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80185214);
+#include "common.h"
+
+void func_80185214(s32 a0)
+{
+    extern s32 D_801EFC48;
+    extern u8 D_80194724[];
+    extern void func_80185A18(s32 idx, s32 val);
+    register s32 s0 __asm__("$16");
+    register s32 s1 __asm__("$17");
+    register s32 s2 __asm__("$18");
+    s32 c;
+
+    s2 = a0;
+    s0 = *(s32 *)(D_801EFC48 + 0xCC);
+    s1 = s0 + 0x28;
+    do {
+        c = *(u8 *)(s0 + 6);
+        if (c < 0x15 && D_80194724[c] == 0) {
+            func_80185A18(c, (s16)(*(u16 *)(s0 + 2) + s2));
+        }
+        if (*(s16 *)(s0 + 6) & 0x8000) {
+            break;
+        }
+        s0 += 8;
+    } while (s0 < s1);
+}
+
 
 #include "common.h"
 
@@ -8378,11 +8404,33 @@ void func_801861D4(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801862A4);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+
+void func_801862A4(s32 _arg0)
+{
+    extern s32 D_801EFC4C;
+    s32 i;
+    s32 v0;
+
+    v0 = 0;
+    for (i = 0; i < 0x15; i++) {
+        v0 = func_8012C658(0x200, i, v0);
+        aFC4C[i] = v0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80186300);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018637C);
+extern void func_8012A828();
+extern u16 D_801EFD40;
+
+void func_8018637C(s32 arg0, s32 arg1)
+{
+    func_8012A828();
+    D_801EFD40 |= 0x10;
+}
+
 
 #include "common.h"
 
@@ -8719,7 +8767,34 @@ void func_80186AB8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80186B08);
+#include "common.h"
+
+extern s32 D_801EFCF4[];
+extern s32 D_801EFCA8[];
+extern void func_8012C218(void *a0);
+extern void func_80189D38(void *a0);
+
+void func_80186B08(void *a0)
+{
+    s16 idx;
+
+    idx = *(s16 *)((s32)a0 + 0xF4);
+    if (idx != 0 && D_801EFCF4[idx] != 0) {
+        func_8012C218((void *)D_801EFCF4[idx]);
+        D_801EFCF4[idx] = 0;
+    }
+
+    if (D_801EFCA8[(s16)(idx * 2)] != 0) {
+        func_80189D38((void *)D_801EFCA8[(s16)(idx * 2)]);
+        D_801EFCA8[(s16)(idx * 2)] = 0;
+    }
+
+    if (D_801EFCA8[(s16)(idx * 2 + 1)] != 0) {
+        func_80189D38((void *)D_801EFCA8[(s16)(idx * 2 + 1)]);
+        D_801EFCA8[(s16)(idx * 2 + 1)] = 0;
+    }
+}
+
 
 extern s32 D_801EFC4C;
 extern s32 D_801EFC54;

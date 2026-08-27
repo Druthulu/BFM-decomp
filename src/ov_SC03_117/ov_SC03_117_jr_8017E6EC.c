@@ -2950,7 +2950,55 @@ void func_8017EB34(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017E6EC", func_8017EBCC);
+#include "common.h"
+
+/* §41a-4 / §203: the ambient Blk8 (engine_types) and the TU's own file-scope Blk4
+ * (below the splice point) both collide with a plain spelling -> address-suffixed. */
+typedef struct { u8 b[4]; } Blk4_8017EBCC;
+typedef struct { u8 b[8]; } Blk8_8017EBCC;
+
+extern void (*D_801885FC)(void);
+extern s16 D_801885FE[];
+extern s32 D_80188600;
+extern u8 D_8018862C[];
+extern u8 D_801CCF00[];
+extern u8 D_801CCEFC[];
+extern s16 D_801CE2D8[];
+
+/* §202 DEF-SIDE ALIAS: this TU's carried decl layer declares
+ * `extern void func_8017EBCC(void);` above the splice point (live no-arg callers in
+ * ov_SC03_117_jr_8017BEBC.c), while the body must take $a0. The alias keeps both. */
+void aF8017EBCC(s32 a0) __asm__("func_8017EBCC");
+
+void aF8017EBCC(s32 a0) {
+    u8 *p;
+    u8 *q;
+    s32 i;
+    s32 n;
+
+    q = (u8 *)&D_801CE2D8;
+    n = 0;
+    do {
+        i = n * 8;
+        p = q + 8;
+        *(u16 *)q       = *(u16 *)((s32)&D_801885FC + i) + *(u16 *)(a0 + 6);
+        *(u16 *)(p - 6) = *(u16 *)((s32)&D_801885FE + i) + *(u16 *)(a0 + 0xA);
+        *(u16 *)(p - 4) = *(u16 *)((s32)&D_80188600 + i) + *(u16 *)(a0 + 0xE);
+        *(Blk8_8017EBCC *)p        = *(Blk8_8017EBCC *)((s32)&D_8018862C + i);
+        *(Blk4_8017EBCC *)(p + 8)  = *(Blk4_8017EBCC *)D_801CCF00;
+        *(Blk4_8017EBCC *)(p + 12) = *(Blk4_8017EBCC *)D_801CCEFC;
+        *(u16 *)(p + 16) = 0;
+        *(u16 *)(p + 18) = 0;
+        *(u16 *)(q + 6)  = 0;
+        *(s32 *)(p + 20) = 0x50000000;
+        n++;
+        i = n * 8;
+        q += 0x20;
+    } while (n < 6);
+    *(u16 *)(a0 + 0xFE) = 0;
+    *(u16 *)(a0 + 0x100) = 0;
+}
+
 
 typedef void (*Fn8017ECC4)(void);
 

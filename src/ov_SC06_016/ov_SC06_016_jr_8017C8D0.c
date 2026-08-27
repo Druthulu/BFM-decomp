@@ -5113,7 +5113,95 @@ void func_801807C4(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_80180894);
+#include "common.h"
+
+/* §37/§124 asm-label alias: the TU (and the fleet canon) declares this
+ * `extern void func_8012EF70(s32 a0, s32 a1);`, but the byte-true body returns a
+ * value that this function tests.  Aliasing the C name sidesteps the return-axis
+ * conflict with no header edit and no codegen change. */
+extern s32 aF8012EF70(s32 a0, void *a1) __asm__("func_8012EF70");
+
+   /* 4 bytes -> lwl/lwr + swl/swr copy */
+typedef struct { s16 vx, vy; } DVec_80180894;
+typedef struct { s16 vx, vy, vz, pad; } SVec_80180894;
+typedef struct { s32 a; s32 b[4]; } OtBlk_80180894;   /* stride 0x14 */
+
+extern void *func_80010A08(s32 a0);
+extern s32 AddPrim(s32 a0, void *a1);
+extern void func_8012E28C(s32 a0, s32 a1);
+extern Blk4_8017FE90 D_8019E288;
+extern u8 D_8019E28C[];
+extern s16 D_800B9A02;
+extern OtBlk_80180894 D_800A651C[];
+
+void func_80180894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+{
+    SVec_80180894 unused0;   /* dead 8-byte slots the retail frame still reserves */
+    SVec_80180894 unused1;
+    SVec_80180894 r1;
+    SVec_80180894 r2;
+    DVec_80180894 xy[6];
+    u8 *p;
+    s32 dx, dy;
+    s32 z;
+
+    if ((aF8012EF70(arg0, &r1) & ~0x1000) == 0 &&
+        (aF8012EF70(arg1, &r2) & ~0x1000) == 0) {
+        dy = ((r2.vy - r1.vy) * arg2) >> 12;
+        dx = ((r2.vx - r1.vx) * arg2) >> 12;
+        z = r1.vz;
+
+        xy[0].vx = r1.vx;
+        xy[0].vy = r1.vy;
+        xy[1].vx = r2.vx;
+        xy[1].vy = r2.vy;
+        xy[2].vx = r1.vx + dy;
+        xy[2].vy = r1.vy - dx;
+        xy[3].vx = r2.vx + dy;
+        xy[3].vy = r2.vy - dx;
+        xy[4].vx = r1.vx - dy;
+        xy[4].vy = r1.vy + dx;
+        xy[5].vx = r2.vx - dy;
+        xy[5].vy = r2.vy + dx;
+
+        p = (u8 *)func_80010A08(0x24);
+        if (arg3 == 0) {
+            *(Blk4_8017FE90 *)(p + 4) = *(Blk4_8017FE90 *)D_8019E28C;
+        } else {
+            *(Blk4_8017FE90 *)(p + 4) = D_8019E288;
+        }
+        *(Blk4_8017FE90 *)(p + 0xC) = D_8019E288;
+        *(Blk4_8017FE90 *)(p + 0x14) = *(Blk4_8017FE90 *)D_8019E28C;
+        *(Blk4_8017FE90 *)(p + 0x1C) = *(Blk4_8017FE90 *)D_8019E28C;
+        *(DVec_80180894 *)(p + 8) = xy[0];
+        *(DVec_80180894 *)(p + 0x10) = xy[1];
+        *(DVec_80180894 *)(p + 0x18) = xy[2];
+        *(DVec_80180894 *)(p + 0x20) = xy[3];
+        p[7] = 0x3A;
+        *(u32 *)p = 0x8000000;
+        AddPrim(D_800A651C[(u16)D_800B9A02].a + (z << 2), p);
+        func_8012E28C(z, 1);
+
+        p = (u8 *)func_80010A08(0x24);
+        if (arg3 == 0) {
+            *(Blk4_8017FE90 *)(p + 4) = *(Blk4_8017FE90 *)D_8019E28C;
+        } else {
+            *(Blk4_8017FE90 *)(p + 4) = D_8019E288;
+        }
+        *(Blk4_8017FE90 *)(p + 0xC) = D_8019E288;
+        *(Blk4_8017FE90 *)(p + 0x14) = *(Blk4_8017FE90 *)D_8019E28C;
+        *(Blk4_8017FE90 *)(p + 0x1C) = *(Blk4_8017FE90 *)D_8019E28C;
+        *(DVec_80180894 *)(p + 8) = xy[0];
+        *(DVec_80180894 *)(p + 0x10) = xy[1];
+        *(DVec_80180894 *)(p + 0x18) = xy[4];
+        *(DVec_80180894 *)(p + 0x20) = xy[5];
+        p[7] = 0x3A;
+        *(u32 *)p = 0x8000000;
+        AddPrim(D_800A651C[(u16)D_800B9A02].a + (z << 2), p);
+        func_8012E28C(z, 1);
+    }
+}
+
 
 #include "common.h"
 

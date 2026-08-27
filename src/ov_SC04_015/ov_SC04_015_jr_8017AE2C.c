@@ -4245,7 +4245,17 @@ extern void func_800D1EBC(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017D7CC);
+s32 func_8017D7CC(s32 a0) {
+    if (--(*(s32 *)(a0 + 0x28)) == -1) {
+        func_800D1E28();
+        if ((func_800291B4(0xCE) & 0xFF) == 0) {
+            func_800D0C48(1);
+        }
+        *(u8 *)(a0 + 0x15) += 1;
+    }
+    return 0;
+}
+
 
 
 
@@ -4346,7 +4356,16 @@ void func_8017D9FC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017DA24);
+extern s32 D_800AE6B0;
+extern void func_80171928(void *a0);
+
+void func_8017DA24(void *a0)
+{
+    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) =
+        (*(u16 *)(D_800AE6B0 + 0x16) + 0x800) & 0xfff;
+    func_80171928(a0);
+}
+
 
 extern u8 D_800AE6BD;
 
@@ -4972,7 +4991,22 @@ void func_8017EA2C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017EB14);
+extern s32 D_801C8C60;
+extern void (*D_80188614[])(void);
+extern void func_8017EB78(void *arg0);
+
+void func_8017EB14(void)
+{
+    if (D_801C8C60 != 0) {
+        func_8017EB78((void *)&D_80188614);
+        func_8017EB78((void *)((s32)&D_80188614 + 0x1C));
+        func_8017EB78((void *)((s32)&D_80188614 + 0x38));
+        func_8017EB78((void *)((s32)&D_80188614 + 0x54));
+        func_8017EB78((void *)((s32)&D_80188614 + 0x70));
+        func_8017EB78((void *)((s32)&D_80188614 + 0x8C));
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017EB78);
 
@@ -5335,7 +5369,30 @@ void func_8017F708(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017F748);
+extern s32 D_801C8B78;
+extern void func_800290E0(void);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern void func_8017ED00(void);
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern void func_8017E9B0(void);
+
+void func_8017F748(s32 param_1) {
+    s32 i;
+
+    func_800290E0();
+    D_801C8B78 = 0x7FFF;
+    *(s16 *)(param_1 + 2) = 1;
+    func_8012C588(0x66, 0);
+    func_8012C588(0x65, 0);
+    func_8012C588(0x14C, 0);
+    func_8017ED00();
+    for (i = 0; i < 8; i++) {
+        func_8012C658(0x23B, i, 0);
+    }
+    func_8017E9B0();
+    D_801C8B78 = 0x7FFF;
+}
+
 
 extern void func_8012C194(void);
 extern void func_8012C1B8(void);

@@ -3314,9 +3314,26 @@ void func_80184664(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_80183830", func_80184698);
+void func_80184698(void *a0)
+{
+  unsigned int new_var;
+  s32 v1 = *((s32 *) (((s32) a0) + 0xcc));
+__asm__ __volatile__("" ::: "memory");
+  *((s32 *) (v1 + 0xe0)) |= 0x80000001;
+__asm__ __volatile__("" ::: "memory");
+  new_var = *((s32 *) (((s32) a0) + 0xd0));
+  v1 = new_var;
+  *((s32 *) (v1 + 0xe0)) |= 0x80000001;
+}
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_80183830", func_801846CC);
+
+void func_801846CC(void *a0) {
+    *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xE0) |= 0x40000000;
+    *(s32 *)(*(s32 *)((s32)a0 + 0xD0) + 0xE0) |= 0x40000000;
+    *(s16 *)(*(s32 *)((s32)a0 + 0xCC) + 0xFE) = 0x80;
+    *(s16 *)(*(s32 *)((s32)a0 + 0xD0) + 0xFE) = -0x40;
+}
+
 
 void func_80184718(int arg0) {
     *(u32 *)(*(int *)(arg0 + 0xCC) + 0xE0) &= 0xBFFFFFFF;
@@ -3468,7 +3485,20 @@ void func_80184A1C(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_80183830", func_80184B18);
+extern s32 D_8018EF54;
+extern void (*D_8018EF4C[])(void);
+extern s32 func_8012A828(void *a0, void *a1);
+
+void func_80184B18(u8 *a0)
+{
+    *(u16 *)(a0 + 0x2) = 3;
+    *(s32 *)(a0 + 0xCC) = (s32)((u8 *)&D_8018EF54
+        + ((*(s32 *)(a0 + 0xE0) & 0xF) << 4)
+        + ((*(u16 *)(a0 + 0x70) & 0xF) << 3));
+    *(s32 *)(a0 + 0xE0) &= ~0xF;
+    ((void (*)(void *, void *))func_8012A828)(a0, D_8018EF4C[*(u16 *)(a0 + 0x70) & 0xF]);
+}
+
 
 #include "common.h"
 

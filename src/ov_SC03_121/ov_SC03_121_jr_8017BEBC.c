@@ -3653,7 +3653,97 @@ u32 func_8017D788(s32 arg0, s16 arg1, s16 arg2) {
 
 INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017D8D4);
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017DC24);
+extern void func_8012CBCC(s32 a0);
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_801726AC(s32 *a0);
+extern s32 func_8012B744(void *a0, void *a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+
+extern s32 D_80126B58;
+extern s16 D_80185CAC[];
+extern u8 D_8018E3F4[];
+extern u8 D_80185D98[];
+extern u8 D_8018DB6C;
+extern s32 D_80185C94[];
+extern s32 D_8018D8AC;
+
+void func_8017DC24(s32 a0) {
+    s32 s0;
+    s16 iVar3;
+    s16 sVar1;
+    s32 v1;
+    s32 uVar2;
+
+    s0 = a0;
+    func_8012CBCC(s0);
+    if ((*(u16 *)(s0 + 0x72) & 0x4000) != 0) {
+        iVar3 = (s16)(*(u16 *)(s0 + 0xFC) + 1) % 6;
+        *(s16 *)(s0 + 0xFC) = iVar3;
+        func_8012A828(s0, D_80185C94[iVar3]);
+        if (*(s32 *)(s0 + 0x90) != (s32)&D_8018D8AC) {
+            func_8002D4C8(0x715, 0);
+        }
+    }
+
+    sVar1 = *(s16 *)(s0 + 0x10A);
+    if (sVar1 == 2) {
+        goto LAB_8017DD78;
+    }
+    if (sVar1 >= 3) {
+        goto LAB_8017DCE4;
+    }
+    if (sVar1 == 1) {
+        goto LAB_8017DD00;
+    }
+    return;
+
+LAB_8017DCE4:
+    if (sVar1 == 3) {
+        goto LAB_8017DD10;
+    }
+    if (sVar1 == 4) {
+        goto LAB_8017DD60;
+    }
+    return;
+
+LAB_8017DD00:
+    *(s16 *)(s0 + 2) = 2;
+    func_8012A828(s0, (s32)D_8018E3F4);
+    uVar2 = func_8012B744((void *)(s0 + 4), (void *)D_80185CAC);
+    v1 = *(s32 *)(s0 + 0x20);
+    *(s16 *)(v1 + 0x12) = uVar2;
+    func_8012B2CC(s0);
+    func_8012B14C(s0, (s32)D_80185D98);
+    return;
+
+LAB_8017DD10:
+    *(s16 *)(s0 + 2) = 5;
+    func_8012A828(s0, (s32)D_8018E3F4);
+    uVar2 = func_8012B744((void *)(s0 + 4), (void *)D_80185CAC);
+    v1 = *(s32 *)(s0 + 0x20);
+    *(s16 *)(v1 + 0x12) = uVar2;
+    func_8012B2CC(s0);
+    func_8012B14C(s0, (s32)D_80185D98);
+    return;
+
+LAB_8017DD60:
+    v1 = func_801726AC(&D_80126B58);
+    if (v1 == 0) {
+        goto LAB_8017DD80;
+    }
+
+LAB_8017DD78:
+    *(s16 *)(s0 + 0x10A) = 0;
+    return;
+
+LAB_8017DD80:
+    *(s16 *)(s0 + 2) = 7;
+    func_8012A828(s0, (s32)&D_8018DB6C);
+    func_8002D4C8(0x713, 0);
+}
+
 
 /* func_8017DDB4 -- ov_SC03_121, TU ov_SC03_121_jr_8017BEBC.c.   MATCH (94 ins)
  *

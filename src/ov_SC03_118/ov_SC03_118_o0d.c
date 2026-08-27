@@ -2860,7 +2860,16 @@ INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_80183178);
 
 INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_801831D0);
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_80183228);
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern u8 D_800AF060;
+
+s32 func_80183228(void) {
+    s32 ret;
+
+    ret = func_8001ABBC(0, 0, &D_800AF060, 0, 0);
+    return ret;
+}
+
 
 typedef struct { u8 unk0[2]; u16 unk2; } Ent_80183280;
 

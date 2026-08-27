@@ -5245,7 +5245,116 @@ void func_8017FB04(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017FB98);
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017FBB0);
+#include "common.h"
+
+/* Declarations copied verbatim from this TU (ov_SC05_001_jr_8017BEBC.c):
+ *   func_8001CB6C  line 1479, func_80029178  line ~68, D_80189ACC  line 5581
+ * (the neighbour func_80180874 calls func_80029178(D_80189ACC[...]) the same way). */
+extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80029178(s32 arg);
+extern s32 (*D_80189ACC[])();
+
+/* 12-byte record, stride 0xC — written by the two identical fill loops below
+ * (halfword at +0x0, byte at +0x3, halfwords at +0x6 and +0xA). */
+typedef struct {
+    s16 f0;
+    u8  f2;
+    u8  f3;
+    s16 f4;
+    s16 f6;
+    s16 f8;
+    s16 fA;
+} SC05_FBB0_Rec;
+
+void func_8017FBB0(s32 a0) {
+    /* Overlay-local data, read off this .s's own relocation lines (law 1).
+     * Declared at BLOCK scope: the cross-overlay hits for D_801899C0 /
+     * D_80189A70 / D_80189A78 elsewhere in the tree are unrelated data at a
+     * colliding virtual address with incompatible types, and a file-scope
+     * extern here would collide with a sibling draft in this same TU. */
+    extern u8 *D_801899C0[];
+    extern u8 *D_80189A70[];
+    extern u8 D_80189A78[];
+    s32 s2;
+    s32 i;
+    s32 count;
+    u16 t;
+    SC05_FBB0_Rec *e;
+
+    /* `t` must be a u16 LOCAL: the `lhu / sll 16 / sra 17` head is
+     * `(s16)t >> 1` on a zero-extended load — an `s16` field would load with
+     * `lh` and lose the sll/sra pair.  The SECOND index (`D_80189ACC[...]`)
+     * re-reads memory instead of reusing `t`, exactly as the .s does: the
+     * cached copy lives in caller-saved $a0 and dies at the first jal. */
+    t = *(u16 *)(a0 + 0x34);
+    s2 = *(s32 *)(a0 + 0x2C);
+    *(s16 *)(a0 + 0x36) = *(s16 *)(a0 + 0xA);
+
+    switch ((s16)t >> 1) {
+    case 0:
+        e = (SC05_FBB0_Rec *)D_801899C0[t & 1];
+        func_8001CB6C((u8 *)*(s32 *)(a0 + 0x20), (s32)e, 0x300, 0x100);
+        if ((func_80029178((s32)D_80189ACC[*(u16 *)(a0 + 0x34) & 1]) & 0xFF) != 0) {
+            count = 9;
+            *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+        } else {
+            count = 3;
+        }
+        for (i = 0; i < 9; i++) {
+            if (i < count) {
+                e->f0 = 0;
+            } else {
+                e->f0 = 0xFF;
+            }
+            e->f3 = 0x20;
+            e->f6 = 0;
+            e->fA = -((i + 1) * 32);
+            e++;
+        }
+        break;
+
+    case 1:
+        e = (SC05_FBB0_Rec *)D_80189A70[t & 1];
+        func_8001CB6C((u8 *)*(s32 *)(a0 + 0x20), (s32)e, 0x300, 0x100);
+        if ((func_80029178((s32)D_80189ACC[*(u16 *)(a0 + 0x34) & 1]) & 0xFF) != 0) {
+            /* §194-D (the whole match): `r` MUST be a NARROW local receiving the
+             * COMPUTED increment, with the store deferred.  Written plainly
+             * (`*(u16*)(a0+2) = *(u16*)(a0+2) + 1;`) sched1 re-plans this block
+             * and emits the two lhu/addiu chains transposed — a count-neutral
+             * SCHEDULE-REORDER/4.  `s32 r` reproduces the transposition; `u16`
+             * and `s16` both MATCH.  Swapping the two statements instead is far
+             * worse (+2 ins): the a0+2 store then blocks the s2 load. */
+            u16 r;
+            count = 0;
+            *(s16 *)(a0 + 0xA) = *(u16 *)(s2 + 0xA) - 200;
+            r = *(u16 *)(a0 + 2) + 1;
+            *(u16 *)(a0 + 2) = r;
+        } else {
+            count = 5;
+        }
+        for (i = 0; i < 6; i++) {
+            if (i < count) {
+                e->f0 = 0;
+            } else {
+                e->f0 = 0xFF;
+            }
+            e->f3 = 0x20;
+            e->f6 = 0;
+            e->fA = -((i + 1) * 32);
+            e++;
+        }
+        break;
+
+    case 2:
+        func_8001CB6C((u8 *)*(s32 *)(a0 + 0x20), (s32)D_80189A78, 0x300, 0x100);
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x14) = 0x220;
+        break;
+    }
+
+    *(u8 *)(*(s32 *)(a0 + 0x20) + 0x27) = 0x65;
+    *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017FE0C);
 
@@ -5372,7 +5481,26 @@ void func_8018029C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_80180304);
+
+
+
+
+
+
+
+extern void func_80178D18(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern s32 (*D_80189ACC[])();
+
+void func_80180304(s32 param_1) {
+    ((void (*)(s32))func_80178D18)(param_1);
+    func_8002D4C8(0x8F9, 0);
+    func_80029124((s32)D_80189ACC[*(s16 *)(param_1 + 0x70)], 1);
+    func_8012AD44((s32 *)param_1, 3);
+}
+
 
 void func_80180364(void *a0) {
     s32 v1;
@@ -5564,7 +5692,31 @@ void func_801807E8(void) {
 void func_801807F0(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_801807F8);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+extern s32 D_801A536C;
+extern void *D_80189AE8[];
+
+void func_801807F8(s32 a0) {
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+
+    func_8001C214(v0, (s32)&D_801A536C);
+
+    *(u16 *)(a0 + 0x5C) = 0xC800;
+    *(s32 *)(a0 + 0x58) = (s32)D_80189AE8;
+    *(u8 *)(a0 + 0x75) = 8;
+    func_8012AD50((void *)a0);
+}
+
 
 void func_8018086C(void) {
 }
