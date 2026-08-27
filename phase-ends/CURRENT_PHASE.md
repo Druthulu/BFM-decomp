@@ -2493,3 +2493,6 @@ fleet 2,380 stubs, 98.5% / 96.8%). Artifacts: `.run/t4/judge.json`, `claude_bank
 `distill_out.json`, `sample.json`, `targets.json`. Harness fixes shipped en route: `prior_draft`
 law-1c filter; the judge's corpus-cache blind spot; the serial-vs-sharded api_agent launch
 (shard by target; one process serialises at ~7 min/fn). DeepSeek key: $63.59/$70, account ≈$5.
+
+## 🛑 SESSION CHECKPOINT (refresh) — S62, ~18:35. T0–T4 + T5pre DONE. Paused at the R27 gate: Ultracode → back to Max before T5's plan review.
+Tree clean; no lanes running (stop sentinels still SET); fleet 2,380 stubs (last clean sweep #7 213/213 at 16:02, then 17 union banks each byte-identical per clean per-binary rebuild). NEXT: T5 — relaunch drafting as Ultracode ladder waves over K+L+M with the T4 routing rule (Sonnet+DeepSeek on ≤50, Sonnet on 51–120, Opus on >120/residue), warm starts law-1c-filtered, cards with §296 frame check, main lane on the rebuilt queue; delete both sentinels at launch. Drew-side before T5: OpenRouter credit (~$5 left) — the DeepSeek arm at ~$0.03/fn needs ~$25–40 for the ≤50 band; raise the key cap accordingly.
