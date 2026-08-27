@@ -3689,7 +3689,7 @@ int func_8017DAF0(int param_1)
 }
 
 
-extern void func_8017DD80(void *a0);
+extern void func_8017DD80();
 
 void func_8017DB20(void) {
     extern s32 D_801B21FC;
@@ -3712,7 +3712,52 @@ void func_8017DB6C(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8017DB98);
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8017DD80);
+#include "common.h"
+
+extern void func_800599B8(u16 *);
+
+void func_8017DD80(s16 *param_1)
+{
+    u16 sVar1;
+    s16 uVar2;
+    register s16 *puVar3 __asm__("$4");
+    register s16 *puVar4 __asm__("$6");
+    register s16 *puVar7 __asm__("$5");
+    register s32 iVar5 __asm__("$7");
+    register s32 iOff __asm__("$2");
+    s16 stackBuf[8];
+
+    if (param_1 != (s16 *)0x0) {
+        sVar1 = *param_1;
+        while (sVar1 != 0xFF) {
+            iVar5 = 0;
+            if (sVar1 == 9) {
+                puVar4 = *(s16 **)(param_1 + 6);
+                iOff = param_1[4] * 4;
+                puVar7 = (s16 *)((s32)puVar4 + iOff);
+                __asm__ __volatile__("");
+                if (0 < param_1[4]) {
+                    puVar3 = puVar7;
+                    do {
+                        iVar5 = iVar5 + 1;
+                        uVar2 = *puVar4;
+                        puVar4 = puVar4 + 1;
+                        *puVar3 = uVar2;
+                        puVar3 = puVar3 + 1;
+                    } while (iVar5 < param_1[4]);
+                }
+                stackBuf[0] = param_1[2];
+                stackBuf[1] = param_1[3];
+                stackBuf[2] = param_1[4];
+                stackBuf[3] = param_1[5];
+                func_800599B8((u16 *)stackBuf);
+            }
+            param_1 = param_1 + 8;
+            sVar1 = *param_1;
+        }
+    }
+}
+
 
 
 
@@ -3953,7 +3998,26 @@ s32 func_8017E2F0(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8017E3C0);
+#include "common.h"
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern u8 D_80188804[];
+extern s32 D_80188844;
+
+void func_8017E3C0(s32 a0)
+{
+    if (func_8012C354(a0, (s32)D_80188804) != 0) {
+        *(u8 *)(a0 + 0xC0) = 1;
+        *(s32 *)(a0 + 0xB4) = -1;
+        *(s16 *)(a0 + 0xAE) = -1;
+        *(s16 *)(a0 + 0x2) = 1;
+        *(u8 *)(a0 + 0x75) = 0;
+        func_8012A828(a0, &D_80188844);
+        *(s32 *)(a0 + 0x1C) = 0xA;
+    }
+}
+
 
 extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern void func_8002D4C8(s32 a0, s32 a1);

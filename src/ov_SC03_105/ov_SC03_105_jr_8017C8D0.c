@@ -3764,7 +3764,63 @@ void func_8017E7E8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017EA24);
+extern void func_8012C218(void *a0);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8012BA10(s32 a0, s32 a1);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32 func_8012CBF4(s32 a0);
+extern void func_8017F140(s32 a0);
+extern s32 func_8017EBF8(void *param_1, s32 param_2);
+
+/* §224 cross-jump: the `addu $a0,$s0,$zero` sitting in BOTH the `bnez` (idx 37)
+ * and the `beqz` (idx 44) delay slots is the merge signature of two DUPLICATE
+ * func_8017EBF8 call sites -- cross_jump keeps only the common `jal` suffix, so
+ * each arm's own `a0`/`a1` setup sinks into its own branch slot. Factoring the
+ * call out behind a shared `mode` variable (the previous draft) hoists `a0=s0`
+ * into the jal's own slot and loses one instruction (near-13).
+ * The func_8017F140 site is the opposite case: both arms are byte-identical, so
+ * it is written ONCE and reached by an explicit `goto` (§162 -- a forward branch
+ * INTO a sibling arm).
+ * NOTE: the shared value must stay the PARAMETER `a0`. Introducing `s32 s0 = a0;`
+ * with two call sites makes local-alloc split the web and copy it into `$s1`
+ * (+3 ins, frame 0x20); pinning `register __asm__("$16")` instead costs a
+ * `move v1,a0`/`move s0,v1` prologue shuffle. Using the parameter directly is
+ * the only spelling that keeps one $s0 web. */
+void func_8017EA24(s32 a0) {
+    s32 v0;
+    u32 flags;
+    u16 t;
+    s16 d;
+
+    if (*(s16 *)(a0 + 0xA) >= 0x10) {
+        func_8012C218((void *)a0);
+        return;
+    }
+    if ((*(u16 *)(a0 + 0x70) & 0xF) != 0) {
+        v0 = func_8012BEE8(a0);
+        if (v0 != 0) {
+            d = func_8012BA10(a0, (s32)*(s16 *)(a0 + 0xFE));
+            t = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = t + d;
+            func_8012B178(a0, *(s32 *)(a0 + 0xDC));
+        }
+        v0 = func_8012CBF4(a0);
+        if (v0 != 0) {
+            goto LAB_8017EAD8;
+        }
+        func_8017EBF8((void *)a0, 0x18);
+        return;
+    } else {
+        flags = func_8012CBF4(a0);
+        if ((flags & 0x2000) != 0) {
+LAB_8017EAD8:
+            func_8017F140(a0);
+            return;
+        }
+        func_8017EBF8((void *)a0, 0x20);
+    }
+}
+
 
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);

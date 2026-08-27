@@ -4459,7 +4459,23 @@ extern s32 D_8019F038;
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017F578);
+extern s32 D_8019F038;
+
+void func_8017F578(void) {
+    extern s32 func_80029504(void);
+    extern void func_8017F5C4(void);
+    extern void func_8017F680(void);
+    s32 v0;
+
+    v0 = func_80029504();
+    D_8019F038 = 0;
+    if (v0 < 0x640) {
+        func_8017F5C4();
+    } else {
+        func_8017F680();
+    }
+}
+
 
 extern void func_8012A018(s32 a, s32 b);
 extern void func_8012A094(s32 a0);
@@ -4871,7 +4887,46 @@ void func_80180044(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80180090);
+void func_80180090(s32 a0)
+{
+    typedef struct { s16 vx, vy, vz, pad; } SV180090;
+    extern SV180090 D_80126940;
+    extern s32 func_8012E544(s32 a0);
+    extern void func_80015978(s32 a0, s32 *a1);
+    extern s32 ratan2(s32 dx, s32 dy);
+    extern s32 func_8004787C(s32 a0);
+    extern void func_80181394();
+
+    SV180090 base;
+    SV180090 target;
+    s32 ret;
+    s16 clamped;
+
+    base = D_80126940;
+    ret = func_8012E544(0x322);
+    if (ret != 0) {
+        func_80015978(ret + 4, (s32 *)&target);
+    } else {
+        target = D_80126940;
+    }
+    ratan2(base.vx - target.vx, base.vz - target.vz);
+
+    clamped = func_8004787C(((*(s16 *)(a0 + 0x1a) - 0x638) * 2048) / 910) * 341 / 4096 - 0x71;
+    if (clamped < 0) {
+        clamped = 0;
+    }
+    *(s16 *)(a0 + 0x20) = 0x38 - clamped;
+
+    clamped = func_8004787C(((*(s16 *)(a0 + 0x1a) - 0x638) * 2048) / 910) * 288 / 4096 - 0x40;
+    if (clamped < 0) {
+        clamped = 0;
+    }
+    target.vy -= clamped;
+    *(s16 *)(a0 + 0x22) = (*(u16 *)(a0 + 0x1a) += 4);
+
+    func_80181394(a0, &target, 0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80180248);
 
@@ -4950,7 +5005,17 @@ s32 func_8018059C(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_801808E0);
+extern s32 D_8019F05C;
+extern void func_80016224(s32 a0, s32 a1);
+
+void func_801808E0(s32 param_1, s32 param_2)
+{
+    if (D_8019F05C < param_2) {
+        func_80016224(0xFF, 0);
+        D_8019F05C = D_8019F05C + 1;
+    }
+}
+
 
 extern s32 func_8018094C();
     void func_8018092C(void) {

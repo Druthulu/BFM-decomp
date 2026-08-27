@@ -3854,7 +3854,27 @@ End:;
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FC44);
+extern s32 D_801E9260;
+extern s32 D_801E90E0;
+extern s32 D_801E9968;
+extern s32 func_801789AC(s32 arg0);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+extern void func_8012A828(s32 a0, void *a1);
+
+void func_8017FC44(s32 a0) {
+    if (func_801789AC(a0) != 0) {
+        if (*(s16 *)(a0 + 0x108) == 0) {
+            func_80178CBC(a0, (s32)&D_801E9260);
+            *(s16 *)(a0 + 2) = 2;
+        } else {
+            *(s32 *)(a0 + 0xCC) = (s32)&D_801E9968;
+            func_8012A828(a0, &D_801E90E0);
+            *(s32 *)(a0 + 0x1C) = 0;
+            *(s16 *)(a0 + 2) = 6;
+        }
+    }
+}
+
 
 extern s32 D_801E9260;
 extern s32 func_801789AC(s32 arg0);
@@ -3903,11 +3923,46 @@ extern void func_8012A828(s32 a0, void *a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FDAC);
+void func_8017FDAC(s32 param_1) {
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 D_801E90E0;
+    extern u8 D_801E99D8[];
+
+    if (*(s16 *)(param_1 + 0x106) != 0) {
+        *(s16 *)(param_1 + 0x106) = 0;
+        *(s16 *)(param_1 + 0x108) = 0;
+        *(s32 *)(param_1 + 0x1C) = 0;
+        func_8012A828(param_1, &D_801E90E0);
+        *(s32 *)(param_1 + 0xCC) = (s32)D_801E99D8;
+        *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FE10);
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FE78);
+void func_8017FE78(s32 a0)
+{
+    extern s32 func_80029504(void);
+    extern void func_800D1724(s32 a0);
+    extern u8 D_80186364[];
+    extern u8 D_80186388[];
+
+    s32 t;
+    s32 v0;
+
+    v0 = *(s32 *)(a0 + 0x1C) - 1;
+    *(s32 *)(a0 + 0x1C) = v0;
+    if (v0 == -1) {
+        t = func_80029504();
+        if (t == 0x294) {
+            func_800D1724((s32)D_80186388);
+        } else {
+            func_800D1724((s32)D_80186364);
+        }
+    }
+}
+
 
 void func_8017FED0(void) {
 }

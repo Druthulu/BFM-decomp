@@ -2921,9 +2921,111 @@ void func_8017F664(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8017F788);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8017F894);
+/* engine_types.h:525 `OtBlk` VERBATIM (typedef struct { s32 a; s32 b[4]; } OtBlk;).  match_one's
+ * standalone -Iinclude compile cannot reach engine_types.h (only the real TU does, via
+ * engine_core.h), so restate it locally -- see func_8017FB50 / func_80181E08 in this same TU. */
+
+
+/* LINE_F2 packet, 0x10 bytes: tag(4) + rgb/code(4, code byte at +3) + xy0(4) + xy1(4). */
+typedef struct {
+    s32 tag;   /* 0x00 */
+    s32 rgb;   /* 0x04   code byte lives at +3 of this word */
+    s32 xy0;   /* 0x08 */
+    s32 xy1;   /* 0x0C */
+} LineF2;
+
+extern void *func_80010A08(s32);
+extern void func_8012E32C(void);
+extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+extern s32 func_801823D4(s32, s32);
+extern s32 AddPrim(s32, void *);
+extern void func_8012E28C(s32, s32);
+extern OtBlk D_800A651C[];
+extern short D_800B9A02;
+
+void func_8017F788(void* param_1, void* param_2, s32 param_3)
+{
+    LineF2 *obj;
+    s32 p;
+    s32 flag;
+    s32 otz;
+
+    obj = (LineF2 *)func_80010A08(0x10);
+    obj->rgb = param_3;
+    *((u8 *)obj + 7) = 0x42;
+    obj->tag = 0x03000000;
+    func_8012E32C();
+
+    otz = RotTransPers(param_1, (s32)&obj->xy0, &p, &flag);
+    if (otz > 0 && flag >= 0) {
+        if (RotTransPers(param_2, (s32)&obj->xy1, &p, &flag) > 0 && flag >= 0) {
+            otz = func_801823D4(otz, -0x1A);
+            AddPrim(D_800A651C[(u16)D_800B9A02].a + otz * 4, obj);
+            func_8012E28C(otz, 1);
+        }
+    }
+}
+
+
+#include "common.h"
+
+extern s32 func_8012E544(s32 a0);
+extern void func_8017F9D8(s32 param_1);
+extern s16 D_801B1730;
+extern s16 D_801889A8;
+extern s16 D_801889AA[];
+
+void func_8017F894(void) {
+    s32 rec;
+    u16 *p;
+    s32 off;
+    s32 i;
+    s32 idx;
+    s32 counter;
+    s32 term;
+
+    rec = func_8012E544(0x2CD);
+    if (rec == 0) {
+        return;
+    }
+    if (*(u16 *)(rec + 2) != 4) {
+        D_801B1730 = 0;
+        return;
+    }
+    if (*(u16 *)(rec + 0x34) != 2) {
+        D_801B1730 = 0;
+    }
+    D_801B1730 = D_801B1730 + 1;
+    if (D_801B1730 >= 500) {
+        D_801B1730 = 0;
+    }
+    if (D_801889A8 != -1) {
+        i = 0;
+        counter = D_801B1730;
+        term = -1;
+        p = (u16 *)&D_801889A8;
+        off = 0;
+        do {
+            if ((s16)*p / 2 == counter) {
+                func_8017F9D8((s32)*(s16 *)((u8 *)D_801889AA + off));
+                idx = i << 2;
+                goto found;
+            }
+            p += 2;
+            off += 4;
+            i++;
+        } while (*(s16 *)p != term);
+        idx = i << 2;
+found:
+        if (*(s16 *)((u8 *)&D_801889A8 + idx) != -1) {
+            return;
+        }
+    }
+    func_8017F9D8(0);
+}
+
 
 #include "common.h"
 

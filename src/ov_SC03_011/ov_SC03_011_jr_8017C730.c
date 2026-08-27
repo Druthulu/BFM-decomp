@@ -3989,7 +3989,76 @@ void func_8017E918(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_8017E92C);
+#include "common.h"
+
+/* Declarations conformed to this TU's own existing spellings
+ * (ov_SC03_011_jr_8017C730.c:3921 D_800B99DC, :3957 func_80132EF4) and to the
+ * fleet/engine_core canon for D_800B99D8 (engine_core.h:4078, u16).
+ *
+ * LEVER (§3-T2 source-order / ADD-7 "prologue init order"): the inner counter's
+ * `-0x30` seed must live INSIDE the outer loop body, not in a pre-loop statement.
+ * Seeding it before the outer do-while gives that init a source rank ahead of the
+ * frame's `sw $ra` and the scheduler emits `sw $s1 / li $s1 / sw $ra` (3 mismatched,
+ * SCHEDULE-REORDER over prologue slots 13-15 — the backlog draft's residual).
+ * Written as the loop-body seed, gcc rotates it into the preheader with no source
+ * rank of its own, `sw $ra` floats up, and the prologue lands `sw $ra / sw $s1 / li $s1`.
+ */
+extern u16 D_800B99DC;
+extern u16 D_800B99D8;
+extern s32 func_80132EF4(s32 a0, s32 a1);
+
+void func_8017E92C(void* a0)
+{
+    u32 valDC;
+    u32 valD8;
+    s32 obj0;
+    s32 outer;
+    s16 constK;
+    s32 inner;
+
+    valDC = D_800B99DC;
+    valD8 = D_800B99D8;
+    obj0 = a0;
+    outer = -0x40;
+    constK = 0x6000;
+
+    do {
+        inner = -0x30;
+        do {
+            s16 newval;
+            s32 tmp;
+
+            newval = *(u16 *)(obj0 + 0xE0) - 1;
+            *(u16 *)(obj0 + 0xE0) = newval;
+            tmp = inner + 8;
+            inner = tmp + (valDC & 0x1F);
+            if (newval == 0) {
+                s32 obj;
+                s32 ptr;
+                u16 v1;
+
+                *(u16 *)(obj0 + 0xE0) = (valDC & 0x1F) + 8;
+                obj = func_80132EF4(obj0, 0x26);
+                if (obj == 0) {
+                    return;
+                }
+                ptr = *(s32 *)(obj + 0x20);
+                *(u16 *)(ptr + 0x18) = constK;
+                *(u16 *)(ptr + 0x1A) = constK;
+                *(u16 *)(ptr + 0x18) = constK;
+                *(u16 *)(obj + 0x6) = (u16)outer;
+                *(u16 *)(obj + 0xE) = (u16)inner;
+                v1 = *(u16 *)(obj0 + 0xA);
+                *(s32 *)(obj + 0x14) = 0xFFC40000;
+                *(u16 *)(obj + 0xA) = v1;
+            }
+            valDC = valDC + valD8;
+            valD8 = valD8 + 1;
+        } while (inner < 0x30);
+        outer = outer + 5;
+    } while (outer < 0x40);
+}
+
 
 
 extern void (*D_80185290[])(void);
