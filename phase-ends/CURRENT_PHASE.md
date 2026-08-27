@@ -2727,3 +2727,40 @@ compile-time zero), func_8017EDD4 (c=33, sched1/dbr tie-break, 9 variants tried)
 (c=55, whole-function regalloc/CSE cascade), func_8017F498 (c=50), func_8017F9F4 (c=45) — plus
 main's func_8001BC6C (§307) and func_80021284 (c=25, REGALLOC-PERM). Opus-refused twice → wall:
 ov_SC06_025:func_8017EF94, ov_SC06_025:func_8017FD28, ov_SC03_028:func_8017D8B8.
+
+## 🛑 SESSION CHECKPOINT — S63 (2026-08-27 ~09:45). Phase 31 T5 CONTINUES. Tree clean at `commit:3158`. NO lanes running; stop sentinel `.run/ox_campaign.stop` SET.
+
+**Read first in a fresh session:** this block → the S63 results block above → `docs/tool-designs/frontier-analysis-s61.md` §4 (the plan; T1–T4 done in S62, T5 running).
+**FLEET: 2,068 stubs · 98.6% instr · 97.1% distinct · GREEN 213/213** (R58; last clean sweep at the
+t5h close 09:40, `make clean && extract-all && check-all` = `213 passed, 0 failed of 213`). main SHA
+`143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical. Red list EMPTY.
+**Session banked: 312** (2,380 → 2,068) across 9 waves + the free lane, 25 commits, zero regressions.
+
+**THE RECIPE, as it now stands (all of it committed and SETUP-documented):**
+```
+.venv/bin/python tools/t5_targets.py --wave .run/<w> --n 48 [--residue .run/<prev>,...]
+.venv/bin/python tools/t5_cards.py   --wave .run/<w>          # builds tu_ref + decl_prior for THIS target
+.venv/bin/python tools/claude_wave_packs.py .run/<w>/targets.json .run/<w> --cards .run/<w>/cards.json
+Workflow(scriptPath='tools/workflows/claude_wave_draft.js', args={wave, targets})   # model = target.arm
+bash tools/t5_bank.sh .run/<w> sonnet opus     # judge -> fix_tu_ret_decls recovery -> R22 sweep -> commit
+# then: integration recovery on any match_one-MATCH-but-gate-refused draft:
+Workflow(scriptPath='tools/workflows/claude_integration_recover.js', args={outdir, items})
+# then the flywheel:
+.venv/bin/python tools/t5_distill_args.py --novel-only --wave .. --wfdir .. [repeatable] --label ..
+Workflow(scriptPath='tools/workflows/claude_wave_distill.js', args=<that file>)
+```
+**Routing (T4-measured, re-confirmed at scale in S63):** ≤120 ins → Sonnet, >120 → Opus, residue →
+Opus once (16/18 in t5e), twice-refused → wall ledger. haiku retired.
+**NEXT:** `.run/t5g` is ALREADY drawn/carded/packed (48 targets) — launch it first. Then keep drawing
+48-target waves from K+L (**690 open / 39,792 ins remain**: 467 ≤50 · 160 51–120 · 63 >120, 159
+binaries) until the yield decays; distill every 2–3 waves with `--novel-only`.
+**Gates are serialized; drafting is not** — 3 waves drafted concurrently fine, but never gate while
+another gate, the maintenance lane, or an integration-recovery probe is running (`t5_bank.sh` refuses,
+and the probes read the live tree).
+**DO NOT** re-run the free A-prop lane expecting yield: it went 23 → 3 banked on MORE exemplars.
+**DO NOT** blanket-add to `config/overlays.mk`/splat yamls (R59/R60); `ghidra/` churn in `git status`
+is MCP noise — do not commit; Drew pushes (R6).
+**Open follow-ups:** build the `fix_tu_ret_decls` MIRROR (TU `extern s32` vs `void` def → the
+`__asm__("func_X")` alias fix); distill the t5e/t5f/t5h novelty notes; regenerate
+`.run/frontier_s61/class_members.json` (289 of its K+L are now banked) before any planning that
+quotes class sizes; T6 wall track has 9 diagnosed NEARs waiting (see the wall ledger above).
