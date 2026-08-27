@@ -4483,7 +4483,34 @@ s32 func_8017E2B8(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017E2F0);
+/* func_8017E2F0 — ov_SC07_007, TU src/ov_SC07_007/ov_SC07_007_jr_8017BEBC.c
+ *
+ * §28b #5: this TU gets `Blk8` from src/shared/engine_types.h (via engine_core.h), but
+ * match_one compiles standalone with only common.h. Guarding the typedef on that header's
+ * own include guard makes ONE body compile under BOTH oracles. Do NOT re-typedef `Blk8`
+ * unguarded: the previous attempt's local `typedef struct { s8 c[8]; } Blk8;` shadowed the
+ * shared one, so its `extern Blk8 D_801274F0;` collided with the TU's file-scope
+ * `extern Blk8 D_801274F0;` (line ~4236) -> cc1 "conflicting types for `D_801274F0'", which
+ * also broke func_8017E350 below it. match_one MATCHed it; the whole-binary gate could not
+ * compile the TU. That was the rejection.
+ */
+#ifndef BFM_ENGINE_TYPES_H
+
+#endif
+
+extern void func_80016714(void *a0, s32 a1);
+extern Blk8 D_801274F0;
+
+void func_8017E2F0(s32 a0) {
+    s16 t;
+
+    t = *(u16 *)&D_801274F0 + 4;
+    *(u16 *)&D_801274F0 = t;
+    if (t >= 0x81) {
+        func_80016714((void *)a0, 0x18);
+    }
+}
+
 
 s32 func_8017E33C(void * arg0)
 {

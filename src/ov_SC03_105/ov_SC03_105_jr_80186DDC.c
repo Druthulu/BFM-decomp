@@ -3940,7 +3940,40 @@ void func_801889D4(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80186DDC", func_80188A94);
+#include "common.h"
+
+extern u16 D_800B99DA;
+extern s32 func_8004787C(s32 a0);
+extern u8 D_8018F208;
+extern u8 D_8018F209;
+extern u8 D_8018F20A;
+extern s32 D_801BCA48;
+
+/* Per-frame pulse on the marker prim: sin(frame) drives the RGB triple at
+ * *(*(a0+0x20)+0x80), the 0x18/0x1A scale pair of D_801BCA48 and the
+ * D_8018F208..20A byte triple.
+ * §205 addendum: chained assignment is INNERMOST-FIRST, so the textual order
+ * is the mirror of the emission order (sh 4,2,0 / sh 1A,18 / sb 20A,209,208).
+ * The D_801BCA48 fetch must be a named local hoisted ABOVE the RGB stores —
+ * that is what puts its lui/lw ahead of the `addiu 0x80` (§208). */
+s32 func_80188A94(s32 a0) {
+    s16 *p;
+    s32 t;
+    s32 q;
+
+    p = *(s16 **)(*(s32 *)(a0 + 0x20) + 0x80);
+    t = func_8004787C((D_800B99DA << 6) & 0x7C0);
+    q = D_801BCA48;
+    p[0] = p[1] = p[2] = ((t * 128) >> 12) + 0x80;
+    if (q != 0) {
+        *(s16 *)(q + 0x18) = *(s16 *)(q + 0x1A) = ((t * 1024) >> 12) + 0x800;
+        *(u16 *)(q + 0x8) = *(u16 *)(a0 + 0x6);
+        *(u16 *)(q + 0xA) = *(u16 *)(a0 + 0xA);
+        *(u16 *)(q + 0xC) = *(u16 *)(a0 + 0xE);
+        D_8018F208 = D_8018F209 = D_8018F20A = ((t * 96) >> 12) + 0x60;
+    }
+}
+
 
 #include "common.h"
 

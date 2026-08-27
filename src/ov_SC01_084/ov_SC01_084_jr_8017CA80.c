@@ -3929,7 +3929,39 @@ void func_8017EEF4(u8 *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017EF28);
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017F198);
+/* func_8017F198 — ov_SC01_084 / ov_SC01_084_jr_8017CA80
+ * 2-case dispatch on (*(s16*)(a0+0x70) & 0xFF00), then an indirect call through
+ * one of two handler tables indexed by *(u16*)(a0+0x2).
+ *
+ * Construct: cookbook §199-G — the header is ALL-POSITIVE equality tests
+ * (`beqz $v1,.L8017F1C4` / `beq $v1,$v0,.L8017F1E4`) with the compare-constant
+ * `addiu $v0,$zero,0x100` in the first branch's delay slot, falling out to
+ * `j .L8017F208` (the epilogue = the implicit default). That is a bare `switch`,
+ * not an if/else-if chain (an if-chain would spend one INVERTED test and put a
+ * body inside the header, and would come up 2 instructions short).
+ * The shared `jalr $v0` tail sits AFTER the last arm, i.e. a post-switch
+ * statement (§298: a folded tail BETWEEN arms would mean per-arm duplication).
+ * Handler-table shape copied from the sibling func_8017F294 in this same TU.
+ */
+extern void (*D_8018A758[])(void);
+extern void (*D_8018A768[])(void);
+
+void func_8017F198(void *a0) {
+    void (*fp)(void);
+
+    switch (*(s16 *)((s32)a0 + 0x70) & 0xFF00) {
+    case 0:
+        fp = D_8018A758[*(u16 *)((s32)a0 + 0x2)];
+        break;
+    case 0x100:
+        fp = D_8018A768[*(u16 *)((s32)a0 + 0x2)];
+        break;
+    default:
+        return;
+    }
+    fp();
+}
+
 
 void func_8017F218(void *arg0) {
     extern void func_8012A828(s32 a0, void *a1);

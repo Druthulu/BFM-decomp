@@ -5259,7 +5259,66 @@ void func_80181948(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181B30);
+#include "common.h"
+
+/* func_80181B30 — cutscene teardown for this SC04 entity: close the two HUD
+ * gauges (func_80185B04 / func_80185C04), tear down the dialogue box, clear the
+ * hit-flash timer at 0xF2, recompute the 0x1C field as 6 * the s16 at 0xF6 plus
+ * 0x10, and hand the entity to the state dispatcher with mode 8.
+ *
+ * §103 / wave law 2 — EVERY callee declaration below is deliberately BLOCK-SCOPE,
+ * and that is the whole fix for the previous attempt on this function.
+ * The previous draft's BODY was already byte-correct (match_one MATCH, 28/28);
+ * it declared its callees at FILE scope and the whole-binary gate rejected it,
+ * cause undetermined.  Reproduced here against the pinned cc1 by splicing the
+ * draft over this TU's INCLUDE_ASM stub — cc1 exits 33 with four HARD errors:
+ *     :5353: conflicting types for `func_80185B04'
+ *     :5354: conflicting types for `func_80185C04'
+ *     :8038: conflicting types for `func_80185B04'
+ *     :8083: conflicting types for `func_80185C04'
+ * This TU declares both gauge calls as (s32, s32) inside OTHER function bodies
+ * (L5327/L5328 and L5643/L5644) and DEFINES both as (u16, u16) later in the same
+ * file (L8011 / L8056).  A file-scope extern of either spelling at this insertion
+ * point collides with the other; only a block-scope one is invisible to both.
+ * func_8012AD44 (file scope, L4510/L5131) and func_80186BD8 (file scope, L5130)
+ * ARE already visible here — the declarations below repeat those two spellings
+ * verbatim, and (s32, s32) for the gauges is the spelling the TU's own neighbour
+ * func_80181BA0 uses at L5643/L5644.
+ *
+ * Verified before submitting: with this text spliced over the stub the whole TU
+ * compiles with ZERO new cc1 diagnostics vs. the unspliced baseline, and every
+ * other function in the file emits byte-identical assembly (the only delta is
+ * assembler-local $L renumbering, which is byte-neutral).
+ *
+ * Struct members, not raw casts, on purpose: the target loads 0xF6 BEFORE storing
+ * to 0xF2.  Only COMPONENT_REFs of distinct members let sched.c prove the two
+ * MEMs do not alias and hoist the `lh` above the `sh`; the `*(s16 *)(a0 + off)`
+ * spelling keeps them dependent and emits the store first. */
+struct Ent_80181B30 {
+    /* 0x00 */ u8  pad00[0x1C];
+    /* 0x1C */ s32 unk1C;
+    /* 0x20 */ u8  pad20[0xD2];
+    /* 0xF2 */ s16 unkF2;
+    /* 0xF4 */ u8  padF4[0x2];
+    /* 0xF6 */ s16 unkF6;
+};
+
+void func_80181B30(struct Ent_80181B30 *a0) {
+    extern void func_80183CF4(void *);
+    extern void func_80185B04(s32, s32);
+    extern void func_80185C04(s32, s32);
+    extern void func_80186BD8(void);
+    extern void func_8012AD44(s32 *a0, s16 a1);
+
+    func_80183CF4((void *)a0);
+    func_80185B04(1, 0x20);
+    func_80185C04(3, 0x30);
+    func_80186BD8();
+    a0->unkF2 = 0;
+    a0->unk1C = a0->unkF6 * 6 + 0x10;
+    func_8012AD44((s32 *)a0, 8);
+}
+
 
 #include "common.h"
 
@@ -5412,7 +5471,50 @@ void func_80181BA0(struct Ent_80181BA0 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181EA0);
+#include "common.h"
+
+/* Entity view for this target only.  The TU already DEFINES `struct Ent_80181BA0`
+   at file scope (L5279/L5284) — redefining that tag in a spliced draft is a
+   gcc-2.7.2/C89 "redefinition of `struct ...'" plumbing error, which is what sank
+   the previous attempt (match_one MATCH, whole-binary gate reject).  A private tag
+   carries the same MEM_IN_STRUCT_P property with no collision.
+
+   The members MUST be COMPONENT_REFs: sched.c true_dependence drops the edge
+   between an (IN_STRUCT && varying) member MEM and the (!IN_STRUCT && !varying)
+   SYMBOL_REF global D_801EFD40, and that is what hoists `lhu D_801EFD40` above
+   `sh $v1, 0xF2($a0)` (this TU's own note @L5275, cookbook line 14831). */
+struct Ent_80181EA0 {
+    /* 0x00 */ u8  pad00[0x1C];
+    /* 0x1C */ s32 unk1C;
+    /* 0x20 */ u8  pad20[0xD2];
+    /* 0xF2 */ s16 unkF2;
+};
+
+/* Parameter is s32: the TU declares `extern void func_80181EA0(s32);` inside
+   func_80181BA0 (L5332) and calls it as `func_80181EA0((s32)a0)` (L5398). */
+void func_80181EA0(s32 a0) {
+    /* §T6-3/§2329 self-contained lift unit — every extern spelled exactly as the
+       destination TU spells it: func_8012AD44 L4510/L4745, D_801EFD40 L5300,
+       func_80184CCC L5203 (unprototyped, §183 cast-at-call), D_80194C3C L5652.
+       D_801F161E is undeclared in the TU — typed by access width (sh -> u16). */
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern void func_80184CCC();
+    extern u16 D_801EFD40;
+    extern u16 D_801F161E;
+    extern u8 D_80194C3C[];
+
+    struct Ent_80181EA0 *e = (struct Ent_80181EA0 *)a0;
+
+    func_80184CCC((s32)a0, (s32)D_80194C3C);
+
+    e->unk1C = 0x18;
+    e->unkF2 = 5;
+    D_801F161E = 0;
+    D_801EFD40 = (D_801EFD40 & 0xFFFE) | 2;
+
+    func_8012AD44((s32 *)a0, 9);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181F0C);
 

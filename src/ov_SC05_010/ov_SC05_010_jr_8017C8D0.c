@@ -4177,7 +4177,57 @@ INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017F15
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017F5B8);
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017F9B4);
+#include "common.h"
+
+extern s32 D_801A33AC;
+extern volatile s32 D_801C7E4C;
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern s32 rand(void);
+
+void func_8017F9B4(s32 param_1)
+{
+    s32 cnt;
+    s32 i;
+    s32 ent;
+    s32 tblptr;
+    s32 r;
+
+    cnt = *(s32 *)(param_1 + 0x1C);
+    if (cnt == 0) {
+        *(s16 *)(param_1 + 2) = 1;
+        func_8012A828(param_1, &D_801A33AC);
+        *(s32 *)(param_1 + 0x1C) = 0x5A;
+    } else {
+        /* sched.md S2: `next` must be a FRESH SINGLE-SET local. Reusing `cnt`
+         * (2 SETs) kills birthing_insn_p's boost, the addiu stays at bb-top and
+         * dbr steals IT into the bnez slot instead of the magic-constant lui. */
+        s32 next = cnt - 1;
+        *(s32 *)(param_1 + 0x1C) = next;
+        if (next % 19 == 0) {
+            func_8012C588(0x29E, param_1);
+            tblptr = *(s32 *)(D_801C7E4C + 0x20);
+            *(s16 *)(tblptr + 0x1A) = 0xC00;
+            for (i = 0; i < 8; i++) {
+                ent = func_8012C658(0x29E, 2, param_1);
+                if (ent != 0) {
+                    s32 fld;
+                    *(u16 *)(ent + 6) = *(u16 *)(ent + 6) + 0x25B;
+                    r = rand();
+                    fld = *(u16 *)(ent + 0xA);
+                    *(s16 *)(ent + 0x16) = -0x10;
+                    *(u16 *)(ent + 0xA) = fld + -0x70 + (r & 0x1F);
+                    r = rand();
+                    *(s16 *)(ent + 0x12) = (r & 7) - 4;
+                    r = rand();
+                    *(s16 *)(ent + 0x1A) = -4 - (r & 7);
+                }
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017FAF4);
 

@@ -3472,7 +3472,56 @@ DEFINE_func_801807E8()  /* dedup: shared engine-core @0x801807E8 (src/shared) */
 
 DEFINE_func_80180800()  /* dedup: shared engine-core @0x80180800 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_80180808);
+extern s32 func_8012C1B8(void);
+extern void func_8001C2C4(s32 a0);
+extern s32 func_80029504(void);
+extern s16 D_80078E92;
+extern s32 D_80126B58;
+extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
+extern void func_8014B944(s32 a0, s32 a1, s32 a2);
+extern void func_8014B034(s32 a0);
+extern void func_80029344(void);
+extern void func_8014BD24(s32 a0, s32 a1);
+extern void func_8017FD50(s32 a0);
+
+void func_80180808(s32 a0) {
+    s32 p0;
+    s32 v1;
+    s32 s0;
+    s32 addr;
+
+    p0 = func_8012C1B8();
+    *(s32 *)(a0 + 0x20) = p0;
+    addr = (s32)&D_80126B58;
+    if (p0 != 0) {
+        func_8001C2C4(p0);
+        v1 = func_80029504();
+        if (v1 < 5) goto body0;
+        if (v1 != 0x294) goto skip;
+        /* redundant guard: cse folds it to the target's `j .L80180870` after
+           jump1, which is what keeps that jump from being collapsed away */
+        if (v1 == 0x294) goto body1;
+    body0:
+        *(s16 *)(a0 + 0x70) = 1;
+        goto common;
+    body1:
+        *(s16 *)(a0 + 0x70) = 2;
+        s0 = 0xAC8 - D_80078E92;
+        func_8014BB24(addr, 0x3E7, 1);
+        func_8014B944(addr, 0x1000000, 1);
+        func_8014B034(s0);
+        func_80029344();
+        func_8014BD24(addr, 0x3E7);
+    common:
+        *(s16 *)(a0 + 0x10A) = 0x60;
+        *(s16 *)(a0 + 0x106) = 0xFF;
+        *(s16 *)(a0 + 0x108) = 0xFF;
+        func_8017FD50(a0);
+    skip:
+        *(u16 *)(a0 + 2) += 1;
+    }
+}
+
 
 extern s32 func_8016F1AC(void);
 extern s32 func_80178B18(s32 param_1, s32 param_2);

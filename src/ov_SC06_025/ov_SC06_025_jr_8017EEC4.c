@@ -3305,7 +3305,55 @@ INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8018002
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180284);
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180300);
+#include "common.h"
+
+/* Declarations are BLOCK-scope on purpose (this TU's house style, cf. the
+ * block-scope decl layers at :3210, :3437-3444, :3578-3580, :3671-3674).
+ * A file-scope prototype for func_8012A828 here would become visible to
+ * func_80181C74 (:4202), which deliberately calls `func_8012A828()` with no
+ * arguments behind a no-prototype decl — a file-scope prototype turns that
+ * call into a hard `too few arguments` error and fails the whole-binary gate
+ * even though this function itself is byte-identical.  Decls emit no code
+ * (cookbook §8c), so scoping them costs nothing. */
+void func_80180300(void *arg0)
+{
+    extern void func_8012E8E0(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 func_80178B18(s32 param_1, s32 param_2);
+    extern void func_8016F388(void);
+    extern void func_80180D84(void *arg0);
+    extern s32 D_801270C8;
+    extern s16 D_801B1708;
+    extern s16 D_801B1710;
+    extern s16 D_801B1714;
+    extern s16 D_801B1724;
+    extern s16 D_801B1744;
+    extern u8 D_801889F8[];
+    extern u8 D_80188E40[];
+    extern u8 D_801A08B4[];
+    u16 var;
+
+    *(u16 *)(arg0 + 2) = 3;
+    func_8012E8E0(arg0, (s32)&D_801889F8);
+    func_8012A828(arg0, &D_801A08B4);
+    *(s32 *)(arg0 + 0x1C) = 0x3C;
+    var = (*(u16 *)&D_801B1714);
+    *(u16 *)(arg0 + 0x34) = 0;
+    *(u16 *)(arg0 + 0xDC) = 0;
+    *(u16 *)(arg0 + 0xDE) = 0;
+    D_801B1708 = 0;
+    D_801B1724 = 0;
+    D_801B1744 = 1;
+    D_801B1710 = var + 1;
+    if (D_801B1710 >= 4) {
+        func_80180D84((void *)arg0);
+    } else {
+        func_80178B18(arg0, (s32)&D_80188E40);
+        func_8016F388();
+        D_801270C8 = 2;
+    }
+}
+
 
 #include "common.h"
 
@@ -3369,7 +3417,51 @@ void func_801803D4(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180520);
+#include "common.h"
+
+/* func_80180520  (ov_SC06_025, 39 ins)  --  MATCH.
+ *
+ * Shape adopted from this TU's already-banked siblings func_80180D28 /
+ * func_80180D84 / func_80182720, which drive the same
+ * D_801889F8 + D_801A08B4 + D_801B1724 / D_801B1744 + D_801270C8 quintet
+ * (law 2: twins give the shape, never the symbols or the literals -- every
+ * symbol below was re-read off THIS target's own relocation lines, and the
+ * store order is the target's, not the twins': the p->unk34 zero lands AFTER
+ * D_801B1744 = 1 here, not before the first call as in func_80180D28).
+ *
+ * All externs are BLOCK scope, the house style of the two adjacent banked
+ * functions -- the TU already carries file-scope decls for most of these and
+ * block scope keeps this definition byte- and namespace-neutral for the rest
+ * of the object.
+ */
+void func_80180520(void *arg0) {
+    extern s32 D_801270C8;
+    extern s16 D_801B1724;
+    extern s16 D_801B1744;
+    extern void func_8012E8E0(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 func_801789AC(s32 arg0);
+    extern void func_80178CBC(s32 arg0, s32 arg1);
+    extern void func_8016F388(void);
+    extern u8 D_801889F8[];
+    extern u8 D_801A08B4[];
+    extern void (*D_80188E84[])(void *);
+
+    *(s16 *)((char *)arg0 + 0x2) = 4;
+    func_8012E8E0((s32)arg0, (s32)&D_801889F8);
+    func_8012A828((s32)arg0, &D_801A08B4);
+    *(s32 *)((char *)arg0 + 0x1C) = 0x1E;
+    D_801B1744 = 1;
+    *(s16 *)((char *)arg0 + 0x34) = 0;
+    *(s16 *)((char *)arg0 + 0xDC) = 0;
+    *(s16 *)((char *)arg0 + 0xDE) = 0;
+    D_801B1724 = 0;
+    D_801270C8 = 1;
+    func_801789AC((s32)arg0);
+    func_80178CBC((s32)arg0, (s32)&D_80188E84);
+    func_8016F388();
+}
+
 
 #include "common.h"
 
@@ -3716,7 +3808,21 @@ void func_80180D84(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180E30);
+extern void (*D_80189020[])(void);
+
+void func_80180E30(void *a0) {
+    extern s16 D_801B1720;
+    extern void func_80182170(void *a0);
+    u16 flag;
+
+    D_80189020[*(u16 *)((s32)a0 + 0x2)]();
+    flag = *(u16 *)((s32)a0 + 0x0);
+    D_801B1720 = -1;
+    if (flag != 0) {
+        func_80182170(a0);
+    }
+}
+
 
 
 extern void (*D_8018908C[])(void);
@@ -4064,7 +4170,22 @@ void func_8018162C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80181668);
+extern s32 func_8012E57C(s32 a0, s32 a1);
+
+void func_80181668(void) {
+    s32 i;
+    s32 shift_temp;
+    s32 v0;
+
+    for (i = 0; i < 3; i++) {
+        shift_temp = (i << 16) >> 16;
+        v0 = func_8012E57C(0x327, shift_temp);
+        if (v0 != 0) {
+            *(s16 *)((char *)v0 + 0xFC) = 1;
+        }
+    }
+}
+
 
 
 extern void (*D_801894F0[])(void);
@@ -4149,7 +4270,92 @@ void func_801817A8(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_801818D8);
+#include "common.h"
+
+/* engine_types.h:525 `OtBlk` VERBATIM (typedef struct { s32 a; s32 b[4]; } OtBlk;).  The real TU
+ * reaches it through engine_core.h -> engine_types.h, so the bank driver strips this local copy;
+ * match_one's standalone -Iinclude compile cannot see that header, hence the restatement.  Spelled
+ * IDENTICALLY in every draft of this wave that touches D_800A651C (func_8017F788 / func_80181E08 in
+ * this same TU) so the merged TU ends with one declaration of the symbol. */
+
+
+extern OtBlk D_800A651C[];
+extern short D_800B9A02;
+extern void *func_80010A08(s32);
+extern void func_8012E32C(void);
+extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
+extern s32 func_8004787C(s32 a0);
+extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+extern s32 AddPrim(s32, void *);
+extern void func_8012E28C(s32, s32);
+extern s32 func_801823D4(s32, s32);
+
+void func_801818D8(u16 *pv, s32 arg1, s32 n, s32 col) {
+    typedef struct {
+        s32 tag;   /* 0x00 */
+        s32 rgb0;  /* 0x04   code byte lives at +3 of this word */
+        s32 xy0;   /* 0x08 */
+        s32 rgb1;  /* 0x0C */
+        s32 xy1;   /* 0x10 */
+        s32 rgb2;  /* 0x14 */
+        s32 xy2;   /* 0x18 */
+        s32 rgb3;  /* 0x1C */
+        s32 xy3;   /* 0x20 */
+    } G4;
+    typedef struct { s16 vx, vy, vz, pad; } V8;
+
+    V8 sv[4];   /* sp+0x10 .. 0x2F */
+    s32 v[2];   /* sp+0x30 */
+    s32 p;      /* sp+0x38 */
+    s32 flag;   /* sp+0x3C */
+    G4 *q;
+    s32 i, ang, t, r, sc, dy, otz;
+
+    if (n >= 1 && n <= 9) {
+        func_8012E32C();
+        r = func_8004787C((n << 11) / 10);
+        dy = (r * 192) >> 12;
+        sc = r + 0x1000;
+        for (i = 0, ang = 0; i < 16; i++, ang += 0x100) {
+            func_8012B0B4((u32 *)v, ang, arg1);
+            t = v[0];
+            sv[0].vx = pv[0] + t;
+            sv[0].vy = pv[1];
+            sv[0].vz = pv[2] + (t >> 16);
+            sv[2].vx = pv[0] + (((s16)t * sc) >> 12);
+            sv[2].vy = pv[1] - dy;
+            sv[2].vz = pv[2] + (((t >> 16) * sc) >> 12);
+
+            func_8012B0B4((u32 *)v, ang + 0x100, arg1);
+            t = v[0];
+            sv[1].vx = pv[0] + t;
+            sv[1].vy = pv[1];
+            sv[1].vz = pv[2] + (t >> 16);
+            sv[3].vx = pv[0] + (((s16)t * sc) >> 12);
+            sv[3].vy = pv[1] - dy;
+            sv[3].vz = pv[2] + (((t >> 16) * sc) >> 12);
+
+            q = (G4 *)func_80010A08(0x24);
+            /* chained, neighbour-verified store order (see func_80181E08 in this TU):
+             * rgb1=rgb0=col emits 0x4 then 0xC; rgb2=rgb3=0 emits 0x1C then 0x14.
+             * The two zero stores MUST follow the colour pair in source order --
+             * leading with them costs 4 insns of SCHEDULE-REORDER (the lw of the
+             * spilled `col` and the li 0x3A no longer hoist above them). */
+            q->rgb1 = q->rgb0 = col;
+            q->rgb2 = q->rgb3 = 0;
+            *((u8 *)q + 7) = 0x3A;   /* POLY_G4 | semi-transparent */
+            q->tag = 0x08000000;     /* 8 words */
+            otz = RotTransPers((s32)&sv[0], (s32)&q->xy0, &p, &flag);
+            RotTransPers((s32)&sv[1], (s32)&q->xy1, &p, &flag);
+            RotTransPers((s32)&sv[2], (s32)&q->xy2, &p, &flag);
+            RotTransPers((s32)&sv[3], (s32)&q->xy3, &p, &flag);
+            otz = func_801823D4(otz, -0x1A);
+            AddPrim(D_800A651C[(u16)D_800B9A02].a + otz * 4, q);
+            func_8012E28C(otz, 1);
+        }
+    }
+}
+
 
 extern s32 func_8012E57C(s32 a0, s32 a1);
 
@@ -4467,7 +4673,30 @@ s32 func_801822F0(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8018233C);
+extern s32 func_8012BEE8(s32 a0);
+extern s16 D_80126B66;
+extern u16 D_80126B62;
+extern u8 D_80189524[];
+extern u8 D_8018951C;
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern s16 D_80126B9A;
+
+void func_8018233C(s32 *a0)
+{
+    if (func_8012BEE8((s32)a0) == 0) {
+        return;
+    }
+    if (D_80126B66 >= -0x38) {
+        return;
+    }
+    if ((s16)D_80126B62 < -0x1B8) {
+        return;
+    }
+    func_8012F568(1, 0xC018, 0, 0x5A, &D_80189524, &D_8018951C);
+    D_80126B9A = 0;
+    a0[7] = 0x5A;
+}
+
 
 s32 func_801823D4(s32 param_1, s32 param_2)
 {
