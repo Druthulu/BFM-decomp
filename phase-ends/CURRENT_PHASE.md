@@ -2638,3 +2638,92 @@ func_8017EA24 §224 cross-jumped duplicate calls) — Sonnet-band scheduler resi
 not walls. Three agents flagged claims the cookbook does not hold (a one-local-for-two-uses global
 allocno on func_80180B44; §211's hoist being the WRONG lever when the guard-slot init copies a live
 pseudo; a bare-PARAMETER-vs-local rule for cross-jumped duplicate call sites) → next distill batch.
+
+**T5.6 continued — waves t5c/t5d/t5e/t5f/t5h + the main mini-wave, all gated and committed.**
+
+| wave | targets | banked | per-band | commit |
+|---|---|---|---|---|
+| t5a | 48 | **43** (41 gate + 2 recovery) | sonnet ≤50 32/33 · 51–120 7/11 · opus >120 2/4 | `commit:3137` `commit:3138` |
+| t5b | 52 (48 + 4 residue) | **44** | sonnet 37/43 · **opus 7/8** | `commit:3147` |
+| t5c | 48 | **39** | sonnet 36/43 · opus 2/4 | `commit:3148` |
+| t5d | 48 | **42** | sonnet 38/44 · **opus 4/4 >120** | `commit:3143` |
+| t5e | 64 (48 + 16 residue) | **53** | sonnet 37/41 · **opus 16/18** | `commit:3153` |
+| t5f | 48 | **34** of 35 drafted | sonnet 34/35 | `commit:3154` |
+| t5h | 19 (the limit-killed) | **13** | sonnet 8/14 · **opus 5/5 >120** | `commit:3156` |
+| main | 11 | **9** (`gate_main` clean rebuild) | main SHA `143dbb89` byte-identical | `commit:3150` |
+| integration recovery | 5 | **5** | all byte-correct already; TU plumbing only | `commit:3149` |
+| lane G (free) | — | **23 + 3** | zero model tokens | `commit:3136` `commit:3155` |
+
+**FLEET: 2,380 → 2,068 stubs = 312 closed this session** (derived from `corpus.stubs`, not the
+commit-subject regex, which reads 282 and undercounts — R33/R41). **98.5% → 98.6% instruction-weighted,
+96.8% → 97.1% distinct.** Fleet GREEN **213/213 after every single batch** (sweeps #8, #9, and one per
+wave close); main byte-identical throughout; tree clean; 23 commits.
+
+**THE MEASURED RESULTS THAT SHOULD DRIVE THE NEXT SESSION.**
+1. **The plan's falsifier is dead by 6×.** "First two waves <15% banks/draft → stop and autopsy" —
+   the waves ran **89.6 / 85 / 81 / 87.5 / 91 / 97 %** banks-per-*drafted*. Drafting is NOT the
+   bottleneck at this frontier.
+2. **Residue-escalation to Opus is proven, at every size.** All 4 t5a residues matched on Opus
+   (t5b); t5e's 16 escalated residues went 16/18. Opus took **6 in the 51–120 band Sonnet had
+   refused** and **5/5, 4/4, 3/4 in >120** across waves. The T4 ladder holds: Sonnet first, Opus on
+   the residue, and a *second* Opus look is worth it before anything is called a wall.
+3. **Integration, not codegen, is the dominant miss.** t5d's 6 misses were 1 codegen + **5 byte-correct
+   bodies refused by TU plumbing** (`match_one` MATCH closeness 0, CC1-FAIL with zero DIFF). All 5
+   recovered. `tools/workflows/claude_integration_recover.js` now does this per wave.
+4. **The free A-prop lane is DRAINING — record this, it changes the endgame.** Pass 1: 104 drafts →
+   **23 banked**. Pass 2, with **269 fresh exemplars** (far more refill): 78 drafts → **3 banked**.
+   More exemplars produced fewer banks, so this is not a refill problem — the mechanically-remappable
+   sibling population is thinning. Sibling remap has been the campaign's main free lever; the endgame
+   plan should stop assuming it scales with crack count.
+5. **Remaining K+L: 690 open / 39,792 ins** (467 ≤50 · 160 51–120 · 63 >120) over 159 binaries,
+   after 289 closed + 63 drawn-and-residual. At the measured ~85% that is ~590 more banks of wave work.
+
+**HARNESS DEFECTS FOUND AND FIXED (all byte-measured).**
+* **The (binary, fn) card defect (R48 again).** `claude_wave_packs` keyed cards by BARE NAME over
+  `.run/wave_*_cards.json`; overlays share names at equal addresses, so **48 of 48** t5a targets and
+  **15 of T4's 20** got ANOTHER binary's card — wrong twin, wrong TU neighbours, wrong decls. Nine
+  agents reported discarding it unprompted. t5a scored 89.6% THROUGH that handicap. Fixed: cards keyed
+  `(binary, fn)`, a foreign card DROPPED and counted (R43); **`tools/t5_cards.py`** now BUILDS the
+  target's own fuel via **`tools/wave_card_fuel.py`** (extracted verbatim from `build_wave_atlas`,
+  which parses argv at import and was never usable as a library — R33 one oracle). Measured
+  **tu_ref 74–91%, decl_prior 95–100%** on fresh slates vs **0% correct** before.
+* **R35 caught in the act:** my first card run read `decl_prior` 0/48 — I had passed the card's `sub`
+  (a directory) where `DP.for_asm` wants the `.s` path. `build_wave_atlas` was never wrong. Corrected
+  run: 98%.
+* **`fix_tu_ret_decls` has a MIRROR class it cannot fix** — it repairs `extern void` on a
+  value-returning fn, but the TU declaring `extern s32 f(s32)` for a **void** definition SKIPs
+  ("definition return is 'void'") and recurred in t5d/t5e/t5f/t5h. The agent fix is an
+  `__asm__("func_X")` alias on a renamed definition (the file's own idiom). **Worth building.**
+
+**RULE CANDIDATES FROM THIS SESSION (P10).**
+* **A wave agent WROTE to `src/` and then `git checkout`-reverted it** (SYS_OBJ_2264, self-reported).
+  It was harmless ONLY because R42 meant every bank was already committed. The prompt's "never modify
+  src/" is a request, not an enforcement — candidate: *a drafting agent must run where it cannot write
+  the tree, or the harness must detect and refuse the write*. Verified after the fact: tree clean,
+  main baseline byte-identical.
+* **A no-signal transcript is not a no-lesson transcript, but distilling all of them is waste.**
+  Measured base rate: t5a 34 distilled → 16 trivial, 5 novelty claims → **1 ADDENDUM**. `--novel-only`
+  selects on the agent's own note and PRINTS the full denominator (124 banked → 12 selected, 112 not
+  distilled). Candidate: *a sampling filter ships with its denominator, always* (R41 extension).
+
+**COOKBOOK: 888 → 914 sections** (index green). Banked this session: **§307** (the brute-force-
+statement-orders lever has a byte-evidenced BOUND — 12/12 permutations byte-identical on
+func_8001BC6C, corroborated on func_80021284; a fan-out copy's priority is `rank_for_schedule`-
+internal and unreachable from source order; recognise the all-same-closeness tell and route to the
+permuter) + a **§164-55 addendum** (a single-constant arm written FIRST collapses into the branch
+delay slot; §3-T4/§32.2 read this backwards) + **§211 addendum** (the guard-hoist INVERTS on a
+reg-reg copy — the copy is DELETED, not moved; use the §164-36a fence instead) + **§194-M** and
+**§176-B** addenda. Two verifier verdicts came back REFUTED — they stopped wrong laws entering the book.
+
+**NOT YET DISTILLED (next session's flywheel batch):** t5e/t5f/t5h novelty notes, including
+`func_801812AC`'s new lever (duplicating a call into BOTH if/else arms puts a BARRIER before the join
+label so `-fcse-skip-blocks` stops carrying `pr == $sp+0x30` across it; cross-jump merges the calls
+back so the count is unchanged) and `func_80185344`'s split-compound-statement scheduling lever.
+
+**WALL LEDGER (T6 fare, diagnosed):** t5h's 6 NEARs — func_80185344 (c=7, one boolean in `$a3` vs
+target's `$v1` at all 7 sites; 5 restructurings + 2 pin schemes rejected), func_80180728 (c=35, a
+single RTL const-prop: the loop-entry copy folds to `move $a2,zero` because the index is a
+compile-time zero), func_8017EDD4 (c=33, sched1/dbr tie-break, 9 variants tried), func_8017E830
+(c=55, whole-function regalloc/CSE cascade), func_8017F498 (c=50), func_8017F9F4 (c=45) — plus
+main's func_8001BC6C (§307) and func_80021284 (c=25, REGALLOC-PERM). Opus-refused twice → wall:
+ov_SC06_025:func_8017EF94, ov_SC06_025:func_8017FD28, ov_SC03_028:func_8017D8B8.
