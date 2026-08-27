@@ -3436,7 +3436,86 @@ extern void func_80184CB8(s32*, s32);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80181804", func_801821D4);
+extern s32 func_801847BC(void *a0, void *a1);
+extern s32 func_80184DD0(s32 a0);
+extern s32 func_80029504(void);
+extern s32 func_80184BAC(s32 a0, s32 a1);
+extern void func_8012E8E0(s32 a0, s32 a1);
+extern void func_8012E88C(s32 a0);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80184C90(s32 a0);
+extern void func_80184CB8(s32 *a0, s32 a1);
+extern s32 func_801788B8(s32 a0, s32 a1);
+extern s32 func_80182544(void *a0);
+extern s32 func_801825BC(void *a0);
+
+extern s16 D_80191C18;
+extern s16 D_80191C10;
+extern s16 D_80191C08;
+extern s16 D_801B9B50;
+
+void func_801821D4(void *a0)
+{
+    s32 state;
+    s32 hp;
+    s32 v0;
+    s32 v1;
+    register s32 arg0 __asm__("$4");
+    void *ptr;
+
+    if (func_801847BC(a0, (void *)&D_80191C18) != 0) {
+        /* func_80184DD0 takes no argument at this call site; the TU's file-scope
+         * prototype declares one, so call through a no-parameter pointer type
+         * (the TU's own idiom, cf. ((void (*)(s32, s32))func_80184CB8)(...)). */
+        state = ((s32 (*)(void))func_80184DD0)();
+        hp = func_80029504();
+
+        arg0 = 0xA;
+        if (state == 2 && hp < 0x276) {
+            goto call15;
+        }
+        v0 = func_80184BAC(arg0, 0x10);
+        if (v0 != 0) {
+            v1 = 0;
+            goto dispatch;
+        }
+        arg0 = 0x10;
+    call15:
+        v0 = func_80184BAC(arg0, 0x15);
+        if (v0 != 0) {
+            v1 = 1;
+        } else {
+            v1 = 2;
+        }
+
+    dispatch:
+        switch (v1) {
+        case 0:
+            *(s16 *)((char *)a0 + 2) = 3;
+            func_8012E8E0((s32)a0, (s32)&D_80191C10);
+            func_8012E88C((s32)a0);
+            func_8012A828((s32 *)a0, (s32)&D_801B9B50);
+            func_80184C90((s32)a0);
+            break;
+        case 1:
+            v0 = 5;
+            goto store;
+        case 2:
+            v0 = 1;
+        store:
+            *(s16 *)((char *)a0 + 2) = v0;
+            func_80184CB8((s32 *)a0, (s32)&D_80191C08);
+            break;
+        }
+
+        ptr = *(void **)((char *)a0 + 0x68);
+        *(s16 *)((char *)ptr + 0xC) = 0x7FFF;
+        *(s32 *)((char *)a0 + 0xD4) = func_801788B8((s32)a0, (s32)&func_80182544);
+        func_8012E8E0(*(s32 *)((char *)a0 + 0xD4), (s32)&D_80191C08);
+        *(s32 *)((char *)a0 + 0xD8) = func_801788B8((s32)a0, (s32)&func_801825BC);
+    }
+}
+
 
 DEFINE_func_8018233C()  /* dedup: shared engine-core @0x8018233C (src/shared) */
 

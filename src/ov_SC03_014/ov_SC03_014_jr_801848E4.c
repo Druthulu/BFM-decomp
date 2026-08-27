@@ -5044,7 +5044,45 @@ s32 func_80188CA0(s32 arg0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80188CB4);
+void func_80188CB4(s32 a0) {
+    extern void func_801439C0(u8 *a0);
+    extern void func_8012B200(u8 *a0);
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern void func_801292C8(u8 *a0);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern u16 D_80126B5E;
+    extern u16 D_80126B66;
+    register s32 self __asm__("$16") = a0;       /* $s0 */
+    u8 *ptr;
+    s32 val1;
+    s32 val2;
+    s32 t2;
+
+    func_801439C0(*(u8 **)(self + 0xCC));
+    func_8012B200((u8 *)self);
+
+    *(s32 *)(self + 0x14) = 0x80000;
+    *(u16 *)(self + 6) = D_80126B5E;
+    *(u16 *)(self + 0xE) = D_80126B66;
+
+    ptr = *(u8 **)(self + 0x20);
+    val1 = *(u16 *)(ptr + 0x18);
+    *(s16 *)(self + 0xDC) = (val1 << 16) >> 19;
+
+    ptr = *(u8 **)(self + 0x20);
+    val2 = *(u16 *)(ptr + 0x1A);
+    *(s16 *)(self + 0xDE) = (val2 << 16) >> 19;
+
+    func_8012AD44((s32 *)self, 7);
+
+    t2 = *(s32 *)(self + 0xD0);
+    if (t2 != 0) {
+        func_801292C8((u8 *)t2);
+    }
+
+    func_8002D4C8(0x87D, 0);
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_80188D64(void *arg0) {

@@ -4789,7 +4789,51 @@ extern void func_80181864(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116_jr_8017AE2C", func_80181864);
+/* func_80181864 — ov_SC03_116_jr_8017AE2C, 21 ins.
+ *
+ * COOKBOOK ESCAPE 4 (matching-cookbook L23505, indexed at cookbook-index.md:15):
+ * "(void)-PARAMETERISED DEFINITION + register __asm__("$4") CAPTURE".
+ *
+ * DO NOT 'fix' this signature back to (void *a0, void *a1).  The destination TU
+ * src/ov_SC03_116/ov_SC03_116_jr_8017AE2C.c:4785 carries a FILE-SCOPE
+ *     extern void func_80181864(void);
+ * immediately above the splice point, serving the already-banked func_80181844
+ * (:4788), which calls it with no arguments so the $a0/$a1 pass-through emits no
+ * `move` (§263).  A two-argument definition dies at
+ *     cc1: 4795: conflicting types for `func_80181864'
+ *          4785: previous declaration of `func_80181864'
+ * which is precisely why the previous MATCHing draft was refused by the
+ * whole-binary gate (bucket=integration, closeness 0).
+ *
+ * Verified this session with the pinned triple (cpp -> cc1 -O2 -> maspsx 2.56 -> as)
+ * on the REAL spliced TU: cc1 rc=0, and all 21 emitted words are byte-identical to
+ * asm/ov_SC03_116/nonmatchings/ov_SC03_116_jr_8017AE2C/func_80181864.s.
+ * The pins are safe under §74: this is a leaf (no jal), so no caller-saved pin
+ * spans a call, and neither $4 nor $5 is written after entry.
+ */
+
+extern u16 D_800B99DA;
+
+void func_80181864(void)
+{
+    register void *a0 __asm__("$4");
+    register void *a1 __asm__("$5");
+    s32 v1;
+
+    v1 = *(s16 *)((s32)a0 + 0xFC);
+    if (D_800B99DA & 1) {
+        v1 -= 4;
+    }
+    if (v1 < 0) {
+        v1 = 0;
+    } else if (v1 >= 0x100) {
+        v1 = 0xFF;
+    }
+    *(s32 *)((s32)a1 + 0) = v1;
+    *(s32 *)((s32)a1 + 4) = 0;
+    *(u16 *)((s32)a0 + 0xFC) = *(u16 *)((s32)a0 + 0xFC) + 4;
+}
+
 
 extern s32 func_801818DC();
     void func_801818B8(void *a0) {

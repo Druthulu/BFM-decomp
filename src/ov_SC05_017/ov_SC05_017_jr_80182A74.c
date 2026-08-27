@@ -3152,7 +3152,7 @@ void *arg0;
 
 
 extern s32 func_801844BC(void *a0, void *a1);
-extern void func_80183100();
+extern s32 func_80183100();
 extern short D_80191C54;
 extern short D_80191C44;
 extern s32 func_801848AC(s32 arg0, s32 arg1);
@@ -3190,7 +3190,43 @@ void func_8018305C(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80182A74", func_80183100);
+#include "common.h"
+
+extern s32 func_8012BD14(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern s32 func_801845DC(void);
+
+s32 func_80183100(void *a0)
+{
+    s32 ok;
+
+    switch (*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 2)) {
+    case 6:
+    case 0xC:
+        ok = ((s32 (*)(void *))func_801845DC)(a0);
+        break;
+    case 2:
+    case 9:
+        if (*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x34) != 2) {
+            return 0;
+        }
+        ok = func_8012BD14(*(s32 *)((s32)a0 + 0x64)) < 0x4001;
+        break;
+    default:
+        return 0;
+    }
+    if (ok == 0) {
+        return 0;
+    }
+    {
+        s32 p2 = *(s32 *)((s32)a0 + 0x64);
+        *(u16 *)(p2 + 2) = *(u16 *)(p2 + 2) + 1;
+    }
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 #include "common.h"
 

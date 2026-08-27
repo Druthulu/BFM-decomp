@@ -5533,7 +5533,33 @@ s32 param_1;
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_8017F794);
+extern s32 func_8018033C(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8017FC6C(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+
+void func_8017F794(s32 a0) {
+    register s32 s0 __asm__("$16");
+    s32 v0;
+    s32 v1;
+
+    s0 = a0;
+    __asm__ __volatile__("");
+    if (*(s32 *)(s0 + 0x1C) > 0x15) {
+        v0 = func_8018033C(s0, 8);
+        v1 = *(s32 *)(s0 + 0x20);
+        *(u16 *)(v1 + 0x12) = *(u16 *)(v1 + 0x12) + v0;
+    }
+    v0 = *(s32 *)(s0 + 0x1C);
+    if ((v0 == 0x15 && (func_8002D4C8(0x522, 0), *(s32 *)(s0 + 0x1C) == v0)) ||
+        *(s32 *)(s0 + 0x1C) == 0xB || *(s32 *)(s0 + 0x1C) == 1) {
+        func_8017FC6C(s0);
+    }
+    if (func_8012BEE8(s0) != 0) {
+        *(u16 *)(s0 + 2) = 2;
+    }
+}
+
 
 extern void func_8012B2CC(s32 a0);
 extern void func_8012B23C(s32 a0);

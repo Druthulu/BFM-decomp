@@ -3272,7 +3272,71 @@ void func_8017F404(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017E6F0", func_8017F470);
+extern s32 func_801789AC(s32 arg0);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+extern s32 func_800291B4(s32 arg);
+extern void func_800291A0(s32, s32);
+extern u8 D_8019F234[];
+extern u8 D_8019F264[];
+extern u8 D_8019F284[];
+
+void func_8017F470(s32 a0)
+{
+    /* RC-12 (cookbook §136d-1): the `$0`-add opaque copy. Without it cse.c's
+     * make_regs_eqv promotes the longer-lived copy `mode` to canonical and
+     * canon_reg rewrites the compare, giving `slti $v0,$a1,0xD` where the
+     * target reads the source register: `slti $v0,$v0,0xD`. */
+    register s32 zr __asm__("$0");
+    s16 sVar1;
+    s32 result;
+    s32 cnt;
+    s32 mode;
+
+    sVar1 = (s16)func_801789AC(a0);
+    if (sVar1 == 1) {
+        goto case1;
+    }
+    if (sVar1 < 2) {
+        goto end;
+    }
+    if (sVar1 == 2) {
+        goto case2;
+    }
+    if (sVar1 == 3) {
+        goto case3;
+    }
+    goto end;
+
+case1:
+    func_80178CBC(a0, (s32)D_8019F234);
+    result = *(u16 *)(a0 + 2) + 1;
+    goto store;
+
+case2:
+    if (*(s16 *)(a0 + 0x108) == 0) {
+        mode = func_800291B4(0xDF) & 0xFF;
+        cnt = mode + 1;
+        *(s16 *)(a0 + 0x108) = cnt;
+        mode = cnt + zr;
+        if (cnt >= 0xD) {
+            mode = 0;
+        }
+        func_800291A0(0xDF, mode & 0xFF);
+    }
+    func_80178CBC(a0, (s32)D_8019F264);
+    result = 4;
+    goto store;
+
+case3:
+    func_80178CBC(a0, (s32)D_8019F284);
+    result = 5;
+
+store:
+    *(u16 *)(a0 + 2) = result;
+end:
+    return;
+}
+
 
 extern s32 func_801789AC(s32 arg0);
 extern void func_80178CBC(s32 arg0, s32 arg1);

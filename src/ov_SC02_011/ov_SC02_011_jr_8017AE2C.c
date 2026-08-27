@@ -11386,7 +11386,21 @@ s32 func_80188114(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80188168);
+extern int D_800C7C60;
+extern int *D_800C7C64;
+extern int D_800A2E20;
+extern int D_800AEFA8;
+
+extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+
+s32 func_80188168(void)
+{
+    int *p = &D_800C7C60;
+    *p = 0x18;
+    D_800C7C64 = &D_800A2E20;
+    ((void (*)(int, int, int *, int, int *))func_8001ABBC)(0, 0, &D_800AEFA8, 0, p);
+}
+
 
 
 // @class: remat

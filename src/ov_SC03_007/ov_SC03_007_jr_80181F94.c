@@ -3189,7 +3189,27 @@ void func_80182374(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80181F94", func_801823BC);
+#include "common.h"
+
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8002AC00(s32 a0);
+
+void func_801823BC(s32 a0)
+{
+    s32 arg0;
+
+    arg0 = 0x43F;
+    if (*(u16 *)(a0 + 0x5E) == 0x1D) {
+        arg0 = 0x440;
+    }
+    func_8002D4C8(arg0, 0);
+
+    *(s32 *)(a0 + 0x1C) = 0x5A;
+    *(u16 *)(a0 + 0xDE) = 0;
+    *(s32 *)(a0 + 0xB4) = *(s32 *)(a0 + 0xB4) & ~0x2000;
+    func_8002AC00(2);
+}
+
 
 extern void func_8002A04C(s32 a0);
 extern void func_8012C098(void);
