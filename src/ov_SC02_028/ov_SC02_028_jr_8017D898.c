@@ -3767,7 +3767,77 @@ void func_8017F558(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_8017F608);
+extern u16 func_80148800(s32 *a0);
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8017F9AC(s32 param_1, s16 *param_2);
+
+typedef struct { s16 v[4]; } Blk8_80126940_8017F608;
+
+void func_8017F608(void *arg0) {
+    extern s32 D_80126B58;
+    extern s16 D_8018F22C[];
+    extern Blk8_80126940_8017F608 D_80126940;
+    Blk8_80126940_8017F608 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)((u8 *)arg0 + 5) + 1) & 1;
+        *(u8 *)((u8 *)arg0 + 5) = t;
+    }
+
+    sp10 = D_80126940;
+
+    if (sp10.v[0] < 0x700) {
+        s16 clampval = 0x600;
+        if (sp10.v[0] < clampval) {
+            sp10.v[0] = clampval;
+        }
+        t = *(u8 *)((u8 *)arg0 + 5);
+        *(s16 *)((u8 *)arg0 + 0x2E) = 0;
+        *(s32 *)((u8 *)arg0 + 0x14) = D_8018F22C[t];
+    } else {
+        if (sp10.v[2] < 0x1200) {
+            s16 thresh = 0x800;
+            if (sp10.v[0] < thresh) {
+                *(s16 *)((u8 *)arg0 + 0x2E) = thresh - sp10.v[0];
+            } else {
+                *(s16 *)((u8 *)arg0 + 0x2E) = 0;
+            }
+        } else {
+            s16 thresh = 0x7C0;
+            if (sp10.v[0] < thresh) {
+                *(s16 *)((u8 *)arg0 + 0x2E) = thresh - sp10.v[0];
+            } else {
+                *(s16 *)((u8 *)arg0 + 0x2E) = 0;
+            }
+        }
+
+        if (sp10.v[2] < 0x1040) {
+            t = *(u8 *)((u8 *)arg0 + 5);
+            *(s32 *)((u8 *)arg0 + 0x14) = D_8018F22C[t];
+        } else {
+            *(s32 *)((u8 *)arg0 + 0x14) = 0x12C;
+        }
+    }
+
+    *(s16 *)((u8 *)arg0 + 0x28) = func_80012F74((s32)*(s16 *)((u8 *)arg0 + 0x28), (s32)*(s16 *)((u8 *)arg0 + 0x2E), 4, 1);
+
+    {
+        s16 thresh = 0x940;
+        if (thresh < sp10.v[0]) {
+            sp10.v[0] = thresh;
+        }
+    }
+    {
+        s16 thresh = -0x880;
+        if (thresh < sp10.v[1]) {
+            sp10.v[1] = thresh;
+        }
+    }
+
+    func_8017F9AC((s32)arg0, sp10.v);
+}
+
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */

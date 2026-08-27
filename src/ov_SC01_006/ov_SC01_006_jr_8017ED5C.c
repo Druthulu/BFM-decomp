@@ -3094,7 +3094,36 @@ INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_8017FBC
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_8017FD50);
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_8017FF74);
+void func_8017FF74(s32 a0)
+{
+    extern void *D_801BBCAC[];
+    extern void *D_801BBCC0[];
+    extern void *D_801BBCD4[];
+    
+    s16 field_70;
+    void *func_ptr;
+    
+    field_70 = *(s16 *)(a0 + 0x70);
+    
+    if (field_70 == 1) goto case_1;
+    if (field_70 < 2) goto case_default;
+    if (field_70 == 2) goto case_2;
+    
+case_default:
+    func_ptr = D_801BBCAC[*(u16 *)(a0 + 0x2)];
+    goto end;
+    
+case_1:
+    func_ptr = D_801BBCC0[*(u16 *)(a0 + 0x2)];
+    goto end;
+    
+case_2:
+    func_ptr = D_801BBCD4[*(u16 *)(a0 + 0x2)];
+    
+end:
+    ((void (*)(void))func_ptr)();
+}
+
 
 
 extern s32 func_8016F1AC(void);

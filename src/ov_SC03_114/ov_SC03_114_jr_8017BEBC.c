@@ -3786,7 +3786,35 @@ void func_8017DF88(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC", func_8017E014);
+extern s32 func_8004787C(s32 a0);
+
+void func_8017E014(s32 a0, s32 a1)
+{
+    s32 v0;
+    s16 temp;
+
+    // Load u16 from a0 + 0xFC, add 0x2D, store back
+    temp = *(u16 *)(a0 + 0xFC) + 0x2D;
+    *(s16 *)(a0 + 0xFC) = temp;
+
+    // Sign extend and call func_8004787C
+    v0 = temp;
+    v0 = func_8004787C(v0);
+
+    // If negative, add 0x3F
+    if (v0 < 0) {
+        v0 += 0x3F;
+    }
+
+    // Right shift by 6, add 0x80, left shift by 8
+    v0 = (v0 >> 6) + 0x80;
+    v0 = v0 << 8;
+
+    // Write results to a1
+    *(s32 *)a1 = v0;
+    *(s32 *)(a1 + 4) = 0;
+}
+
 
 extern void (*D_80183284)(void);
 extern void (*D_80183280)(void);

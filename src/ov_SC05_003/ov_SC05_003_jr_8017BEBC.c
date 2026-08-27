@@ -5466,7 +5466,73 @@ void func_801807F8(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80180834);
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_801808E8);
+#include "common.h"
+#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+
+extern void func_8012AD80(struct vec *a0);
+extern s32 func_80133784(s32, void *, s32);
+struct SV3_801808E8 { u16 vx, vy, vz; u8 pad; };
+
+s32 func_801808E8(s32 a0, void *a1, s32 a2, s32 a3) {
+    struct SV3_801808E8 sp10;
+    struct SV3_801808E8 sp18;
+    s32 v0;
+
+    if (a3 == 0) {
+        sp10.vx = *(u16 *)(a0 + 0x3A);
+        sp10.vy = *(u16 *)(a0 + 0x3E);
+        sp10.vz = *(u16 *)(a0 + 0x42);
+        func_8012AD80((struct vec *)a0);
+    } else {
+        sp10.vx = *(u16 *)(a0 + 0x06);
+        sp10.vy = *(u16 *)(a0 + 0x0A);
+        sp10.vz = *(u16 *)(a0 + 0x0E);
+    }
+
+    sp18.vx = *(u16 *)(a0 + 0x06);
+    sp18.vy = *(u16 *)(a0 + 0x0A);
+    sp18.vz = *(u16 *)(a0 + 0x0E);
+    sp18.vx += *(u16 *)(a1 + 0);
+    sp18.vy += *(u16 *)(a1 + 2);
+    sp18.vz += *(u16 *)(a1 + 4);
+
+    v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)&sp10, (s32)&sp18);
+    if ((v0 & 0xE000) == 0) {
+        sp10.vx = sp18.vx;
+        sp10.vy = sp18.vy + 8;
+        sp10.vz = sp18.vz;
+        v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)&sp18, (s32)&sp10);
+        if ((v0 & 0xE000) == 0) {
+            sp18.vx = sp10.vx + *(u16 *)(a1 + 0);
+            sp18.vy = sp10.vy + *(u16 *)(a1 + 2);
+            sp18.vz = sp10.vz + *(u16 *)(a1 + 4);
+            v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)&sp10, (s32)&sp18);
+            if ((v0 & 0xE000) == 0) {
+                sp18.vx = sp10.vx - *(u16 *)(a1 + 0);
+                sp18.vy = sp10.vy - *(u16 *)(a1 + 2);
+                sp18.vz = sp10.vz - *(u16 *)(a1 + 4);
+                v0 = ((s32 (*)(s32, s32, s32))func_80133784)((s32)(s16)a2, (s32)&sp10, (s32)&sp18);
+            }
+            v0 |= *(u8 *)&sp18.pad;
+            *(s16 *)(a0 + 0x06) = sp18.vx;
+            *(s16 *)(a0 + 0x0A) = sp18.vy;
+            *(s16 *)(a0 + 0x0E) = sp18.vz;
+            goto ret;
+        }
+        v0 |= *(u8 *)&sp10.pad;
+        *(s16 *)(a0 + 0x06) = sp10.vx;
+        *(s16 *)(a0 + 0x0A) = sp10.vy;
+        *(s16 *)(a0 + 0x0E) = sp10.vz;
+        goto ret;
+    }
+    v0 |= *(u8 *)&sp18.pad;
+    *(s16 *)(a0 + 0x06) = sp18.vx;
+    *(s16 *)(a0 + 0x0A) = sp18.vy;
+    *(s16 *)(a0 + 0x0E) = sp18.vz;
+ret:
+    return v0;
+}
+
 
 #include "common.h"
 #include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
