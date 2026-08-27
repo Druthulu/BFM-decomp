@@ -640,17 +640,35 @@ def prior_draft(t):
     accepted, so it is offered as a starting point to improve or discard, never as a seed to trust.
     """
     best, where = None, None
+    # LAW 1c FOR WARM STARTS (P31 S62 T4): drafts are stored by function NAME, and the same name at
+    # the same address in a DIFFERENT overlay is usually a different function. 22 of 60 probe agents
+    # reported "the warm-start body was a different function entirely" — a strong model discards
+    # it, a weak one follows it, so the warm start was confounding the arms. Accept a candidate
+    # only when the symbols it references overlap the target .s's own relocations.
+    try:
+        tgt = set(re.findall(r'\b(?:func_|D_|jtbl_|a[A-Z0-9]+_)[0-9A-Fa-f]{8}\b', open(os.path.join(REPO, t['asm'])).read()))
+    except Exception:
+        tgt = None
+    skipped = 0
     for pat in (f".run/wave_*/shard*/{t['name']}.c", f".run/*/{t['name']}.c"):
         for p in sorted(glob.glob(pat), key=lambda x: -os.path.getmtime(x)):
             try:
                 body = open(p).read()
             except OSError:
                 continue
-            if body.strip():
-                best, where = body, p
-                break
+            if not body.strip():
+                continue
+            if tgt is not None:
+                syms = set(re.findall(r'\b(?:func_|D_|jtbl_|a[A-Z0-9]+_)[0-9A-Fa-f]{8}\b', body)) - {t['name']}
+                if len(syms) >= 2 and len(syms & tgt) * 2 < len(syms):
+                    skipped += 1
+                    continue          # another overlay's same-named function — not this body
+            best, where = body, p
+            break
         if best:
             break
+    if skipped:
+        print(f"  {t['name']}: skipped {skipped} same-named draft(s) whose symbols do not match this .s (law 1c)", flush=True)
     return best, where
 
 
