@@ -5411,7 +5411,7 @@ extern s32 func_80185628();
 extern void func_80185810(s32 a0);
 extern s32  func_80185680(void *a0, void *a1);
 extern s32 func_8017E5C8(s32 a0);
-extern void func_80185380(s32 a0, s32 a1, s32 a2);
+extern s32 func_80185380();
 extern void func_80185218(void *arg0);
 
 void func_80184CA8(s32 a0) {
@@ -5693,7 +5693,45 @@ s32 func_8018526C(s32 a0, s32 a1, s32 a2, s32 a3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80185380);
+#include "common.h"
+
+typedef struct {
+    s16 a, b, c;
+} Vec3s16_80185380;
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s32 *D_80126B90;
+extern s32  func_8013361C(s16 *a0, s16 *a1, s16 *a2, s16 *a3);
+extern s32  VectorNormalSS(void *a0, void *a1);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+s32 func_80185380(s32 a0, s16 *a1, s32 a2) {
+    Vec3s16_80185380 s;
+    Vec3s16_80185380 diff;
+    s16 *box0;
+
+    box0 = (s16 *)(((s32)D_80126B90 & 0xFFFFFFF) | 0x80000000);
+
+    s.a = D_80126B5E;
+    s.b = D_80126B62;
+    s.c = D_80126B66;
+
+    if (func_8013361C(box0, a1, (s16 *)&s, (s16 *)(a0 + 0x34)) != 0) {
+        diff.a = s.a - *(u16 *)(a0 + 0x34);
+        diff.b = s.b - *(u16 *)(a0 + 0x36);
+        diff.c = s.c - *(u16 *)(a0 + 0x38);
+
+        VectorNormalSS(&diff, &diff);
+
+        func_8012F568(1, 0x4201, 0, a2, a0 + 0x34, (s32)&diff);
+
+        return 1;
+    }
+    return 0;
+}
+
 
 typedef struct { s16 x, y, z, w; } V4_80185480;
 typedef struct { s16 m[3][3]; s32 t[3]; } Mtx32_80185480;
