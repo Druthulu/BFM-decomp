@@ -534,3 +534,12 @@ resolver stock drained: 54 + 20 further banks from the same stage dirs, 7 left a
 diagnoses. Fleet: 2,397 stubs, 98.5% instr, 96.8% distinct at T3 close (sweep #6 count in the
 phase log). What this changes in §4: step 5's waves can now target md_ switch functions and
 table-bearing overlay drafts without a "carve wall" bucket; step 6's H/I/M walls are unchanged.
+
+## Addendum 5 — 2026-08-26 (S62), plan step 4 executed: the model ladder is measured
+
+Whole-binary gate, 20 stratified fns, identical packs: haiku 8 · sonnet 14 · deepseek 11 · opus 17;
+sonnet ∪ deepseek = 15 = opus on every band except >120 (opus 2/2, all others 0). Step 5's waves
+therefore run ≤50 on Sonnet + DeepSeek in parallel with Opus on the residue, 51–120 on Sonnet with
+Opus escalation, >120 on Opus, and route M-extend-tell straight to step 6. The pre-ox "Haiku for
+≤50" doctrine is retired. The probe banked its union (17 fns) and distilled §306/§306a. Fleet at
+T4 close: 2,380 stubs, 98.5% instr, 96.8% distinct.

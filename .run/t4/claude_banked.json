@@ -1,0 +1,45 @@
+{
+ "haiku": [
+  "func_80180F5C",
+  "func_8017F590",
+  "func_8017FF74",
+  "func_80184FB4",
+  "func_8017E014",
+  "func_8017EF90"
+ ],
+ "sonnet": [
+  "func_8017FB38",
+  "func_80180F5C",
+  "func_8017F590",
+  "func_8017FF74",
+  "func_801810A4",
+  "func_8017E014",
+  "func_8017EF90",
+  "func_8017E54C",
+  "func_8017F3F8",
+  "func_80181894",
+  "func_800CAF9C",
+  "func_801804C0",
+  "func_8017E7D0",
+  "func_8017F608"
+ ],
+ "opus": [
+  "func_8017FB38",
+  "func_80180F5C",
+  "func_8017F590",
+  "func_8017FF74",
+  "func_80184FB4",
+  "func_801810A4",
+  "func_8017E014",
+  "func_8017EF90",
+  "func_8017E54C",
+  "func_8017F3F8",
+  "func_80181894",
+  "func_800CAF9C",
+  "func_801804C0",
+  "func_8017E7D0",
+  "func_8017F608",
+  "func_800CB578",
+  "func_801808E8"
+ ]
+}

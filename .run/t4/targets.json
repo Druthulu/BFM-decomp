@@ -1,0 +1,202 @@
+[
+ {
+  "name": "func_8017FB38",
+  "addr": "0x8017fb38",
+  "nins": 44,
+  "binary": "ov_SC07_000",
+  "sub": "asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC",
+  "asm": "asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC/func_8017FB38.s",
+  "tu": "src/ov_SC07_000/ov_SC07_000_jr_8017BEBC.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_80180F5C",
+  "addr": "0x80180f5c",
+  "nins": 37,
+  "binary": "ov_SC02_031",
+  "sub": "asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C",
+  "asm": "asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C/func_80180F5C.s",
+  "tu": "src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_8017FF74",
+  "addr": "0x8017ff74",
+  "nins": 39,
+  "binary": "ov_SC01_006",
+  "sub": "asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C",
+  "asm": "asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C/func_8017FF74.s",
+  "tu": "src/ov_SC01_006/ov_SC01_006_jr_8017ED5C.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_80184FB4",
+  "addr": "0x80184fb4",
+  "nins": 29,
+  "binary": "ov_SC03_028",
+  "sub": "asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_80184914",
+  "asm": "asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_80184914/func_80184FB4.s",
+  "tu": "src/ov_SC03_028/ov_SC03_028_jr_80184914.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_801810A4",
+  "addr": "0x801810a4",
+  "nins": 40,
+  "binary": "ov_SC05_017",
+  "sub": "asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_801808D4",
+  "asm": "asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_801808D4/func_801810A4.s",
+  "tu": "src/ov_SC05_017/ov_SC05_017_jr_801808D4.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_8017E014",
+  "addr": "0x8017e014",
+  "nins": 23,
+  "binary": "ov_SC03_114",
+  "sub": "asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC",
+  "asm": "asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC/func_8017E014.s",
+  "tu": "src/ov_SC03_114/ov_SC03_114_jr_8017BEBC.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_8017EF90",
+  "addr": "0x8017ef90",
+  "nins": 49,
+  "binary": "ov_SC03_124",
+  "sub": "asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C",
+  "asm": "asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C/func_8017EF90.s",
+  "tu": "src/ov_SC03_124/ov_SC03_124_jr_8017AE2C.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_8017F590",
+  "addr": "0x8017f590",
+  "nins": 9,
+  "binary": "ov_SC02_031",
+  "sub": "asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C",
+  "asm": "asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C/func_8017F590.s",
+  "tu": "src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_8017E54C",
+  "addr": "0x8017e54c",
+  "nins": 32,
+  "binary": "ov_SC06_010",
+  "sub": "asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC",
+  "asm": "asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC/func_8017E54C.s",
+  "tu": "src/ov_SC06_010/ov_SC06_010_jr_8017A4AC.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_8017F3F8",
+  "addr": "0x8017f3f8",
+  "nins": 38,
+  "binary": "ov_SC02_037",
+  "sub": "asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C",
+  "asm": "asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C/func_8017F3F8.s",
+  "tu": "src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_80181894",
+  "addr": "0x80181894",
+  "nins": 112,
+  "binary": "ov_SC02_027",
+  "sub": "asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898",
+  "asm": "asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898/func_80181894.s",
+  "tu": "src/ov_SC02_027/ov_SC02_027_jr_8017D898.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_800CAF9C",
+  "addr": "0x800caf9c",
+  "nins": 105,
+  "binary": "md_MAIN_015",
+  "sub": "asm/md_MAIN_015/nonmatchings/md_MAIN_015",
+  "asm": "asm/md_MAIN_015/nonmatchings/md_MAIN_015/func_800CAF9C.s",
+  "tu": "src/md_MAIN_015/md_MAIN_015.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_801804C0",
+  "addr": "0x801804c0",
+  "nins": 54,
+  "binary": "ov_SC03_011",
+  "sub": "asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730",
+  "asm": "asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730/func_801804C0.s",
+  "tu": "src/ov_SC03_011/ov_SC03_011_jr_8017C730.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_8017E7D0",
+  "addr": "0x8017e7d0",
+  "nins": 54,
+  "binary": "ov_SC06_016",
+  "sub": "asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0",
+  "asm": "asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0/func_8017E7D0.s",
+  "tu": "src/ov_SC06_016/ov_SC06_016_jr_8017C8D0.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_8017F608",
+  "addr": "0x8017f608",
+  "nins": 99,
+  "binary": "ov_SC02_028",
+  "sub": "asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898",
+  "asm": "asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898/func_8017F608.s",
+  "tu": "src/ov_SC02_028/ov_SC02_028_jr_8017D898.c",
+  "cls": "K-NEVER-TOUCHED"
+ },
+ {
+  "name": "func_801A8E34",
+  "addr": "0x801a8e34",
+  "nins": 118,
+  "binary": "md_SC07_004",
+  "sub": "asm/md_SC07_004/nonmatchings/md_SC07_004",
+  "asm": "asm/md_SC07_004/nonmatchings/md_SC07_004/func_801A8E34.s",
+  "tu": "src/md_SC07_004/md_SC07_004.c",
+  "cls": "M-DRAFT-extend-tell"
+ },
+ {
+  "name": "func_800CB578",
+  "addr": "0x800cb578",
+  "nins": 288,
+  "binary": "md_MAIN_019",
+  "sub": "asm/md_MAIN_019/nonmatchings/md_MAIN_019",
+  "asm": "asm/md_MAIN_019/nonmatchings/md_MAIN_019/func_800CB578.s",
+  "tu": "src/md_MAIN_019/md_MAIN_019.c",
+  "cls": "M-DRAFT-extend-tell"
+ },
+ {
+  "name": "func_80181D1C",
+  "addr": "0x80181d1c",
+  "nins": 36,
+  "binary": "ov_SC04_004",
+  "sub": "asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C",
+  "asm": "asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C/func_80181D1C.s",
+  "tu": "src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c",
+  "cls": "M-DRAFT-extend-tell"
+ },
+ {
+  "name": "func_801808E8",
+  "addr": "0x801808e8",
+  "nins": 135,
+  "binary": "ov_SC05_003",
+  "sub": "asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC",
+  "asm": "asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC/func_801808E8.s",
+  "tu": "src/ov_SC05_003/ov_SC05_003_jr_8017BEBC.c",
+  "cls": "M-DRAFT-extend-tell"
+ },
+ {
+  "name": "func_800CAF84",
+  "addr": "0x800caf84",
+  "nins": 117,
+  "binary": "md_MAIN_016",
+  "sub": "asm/md_MAIN_016/nonmatchings/md_MAIN_016",
+  "asm": "asm/md_MAIN_016/nonmatchings/md_MAIN_016/func_800CAF84.s",
+  "tu": "src/md_MAIN_016/md_MAIN_016.c",
+  "cls": "M-DRAFT-extend-tell"
+ }
+]

@@ -2470,3 +2470,26 @@ was a different function (drafts are stored by NAME; same name ≠ same code acr
 byte-proven transcripts distilled (37 agents) → 6 novel claims → §306 + four §306a addenda banked.
 DeepSeek arm: serial launch was the holdup (one process, ~7 min/fn); 15/20 drafted, the last 5
 relaunched as parallel shards — its row + the union commit + the routing rule follow.
+
+**T4 DONE — the routing rule, measured at the whole-binary gate (20 fns, identical packs):**
+
+| arm | ≤50 (11) | 51–120 (7) | >120 (2) | total | cost |
+|---|---|---|---|---|---|
+| haiku (incl. the un-confounded re-run) | 7 | 1 | 0 | 8 | subscription |
+| sonnet | 9 | 5 | 0 | 14 | subscription |
+| deepseek-v4-flash (MAXTOK 8k, 24 turns) | 9 | 2 | 0 | 11 | **$0.56 total** ($63.03→$63.59 on the key) |
+| opus | 10 | 5 | 2 | 17 | subscription |
+| **sonnet ∪ deepseek** | **10** | **5** | 0 | 15 | — |
+| all four | 10 | 5 | 2 | 17 | — |
+
+**Rule (cheapest arm within ~5pp of the best, per band):** ≤50 → Sonnet AND DeepSeek in parallel
+(their union equals opus's 10/11), Opus only on their residue · 51–120 → Sonnet (= opus 5/7),
+Opus escalation · >120 → Opus · haiku dropped from the ladder (adds 0 on top of sonnet∪deepseek;
+its value was only ever cost, and the cheap slot is DeepSeek's at ~$0.03/fn) · the three fns no
+arm banked are all M-extend-tell → T6 wall track, never waves. §3.5 falsifiers: "Haiku ≥ Sonnet on
+≤50" refuted (7 vs 9); arms disagree by band → split routing stands. Caveat (R41): n=20, one fn
+per band is 9–14pp; the union numbers are the robust ones. Union commit `commit:3128` (+17 fns;
+fleet 2,380 stubs, 98.5% / 96.8%). Artifacts: `.run/t4/judge.json`, `claude_banked.json`,
+`distill_out.json`, `sample.json`, `targets.json`. Harness fixes shipped en route: `prior_draft`
+law-1c filter; the judge's corpus-cache blind spot; the serial-vs-sharded api_agent launch
+(shard by target; one process serialises at ~7 min/fn). DeepSeek key: $63.59/$70, account ≈$5.

@@ -1,0 +1,216 @@
+{
+ "arms": {
+  "haiku": {
+   "banked": [
+    "func_8017E014",
+    "func_8017EF90",
+    "func_8017F590",
+    "func_8017FF74",
+    "func_80180F5C",
+    "func_80184FB4"
+   ],
+   "n_banked": 6,
+   "drafts": 20,
+   "note": "rc=0 46s 20 staged | banked set derived from the gate log (judge detection bug fixed after)"
+  },
+  "sonnet": {
+   "banked": [
+    "func_800CAF9C",
+    "func_8017E014",
+    "func_8017E54C",
+    "func_8017E7D0",
+    "func_8017EF90",
+    "func_8017F3F8",
+    "func_8017F590",
+    "func_8017F608",
+    "func_8017FB38",
+    "func_8017FF74",
+    "func_801804C0",
+    "func_80180F5C",
+    "func_801810A4",
+    "func_80181894"
+   ],
+   "n_banked": 14,
+   "drafts": 20,
+   "note": "rc=0 37s 20 staged | banked set derived from the gate log (judge detection bug fixed after)"
+  },
+  "opus": {
+   "banked": [
+    "func_800CAF9C",
+    "func_800CB578",
+    "func_8017E014",
+    "func_8017E54C",
+    "func_8017E7D0",
+    "func_8017EF90",
+    "func_8017F3F8",
+    "func_8017F590",
+    "func_8017F608",
+    "func_8017FB38",
+    "func_8017FF74",
+    "func_801804C0",
+    "func_801808E8",
+    "func_80180F5C",
+    "func_801810A4",
+    "func_80181894",
+    "func_80184FB4"
+   ],
+   "n_banked": 17,
+   "drafts": 20,
+   "note": "rc=0 16s 20 staged | banked set derived from the gate log (judge detection bug fixed after)"
+  },
+  "haiku2": {
+   "banked": [
+    "func_8017F3F8",
+    "func_801804C0"
+   ],
+   "n_banked": 2,
+   "drafts": 14,
+   "note": "rc=0 23s 14 staged"
+  },
+  "ds": {
+   "banked": [
+    "func_800CAF9C",
+    "func_8017E014",
+    "func_8017E7D0",
+    "func_8017EF90",
+    "func_8017F3F8",
+    "func_8017F590",
+    "func_8017FB38",
+    "func_8017FF74",
+    "func_80180F5C",
+    "func_801810A4",
+    "func_80184FB4"
+   ],
+   "n_banked": 11,
+   "drafts": 20,
+   "note": "rc=0 40s 20 staged"
+  }
+ },
+ "fns": {
+  "func_8017E014": [
+   "haiku",
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_8017EF90": [
+   "haiku",
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_8017F590": [
+   "haiku",
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_8017FF74": [
+   "haiku",
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_80180F5C": [
+   "haiku",
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_80184FB4": [
+   "haiku",
+   "opus",
+   "ds"
+  ],
+  "func_800CAF9C": [
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_8017E54C": [
+   "sonnet",
+   "opus"
+  ],
+  "func_8017E7D0": [
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_8017F3F8": [
+   "sonnet",
+   "opus",
+   "haiku2",
+   "ds"
+  ],
+  "func_8017F608": [
+   "sonnet",
+   "opus"
+  ],
+  "func_8017FB38": [
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_801804C0": [
+   "sonnet",
+   "opus",
+   "haiku2"
+  ],
+  "func_801810A4": [
+   "sonnet",
+   "opus",
+   "ds"
+  ],
+  "func_80181894": [
+   "sonnet",
+   "opus"
+  ],
+  "func_800CB578": [
+   "opus"
+  ],
+  "func_801808E8": [
+   "opus"
+  ]
+ },
+ "union": {
+  "picked": {
+   "func_8017E014": "haiku",
+   "func_8017EF90": "haiku",
+   "func_8017F590": "haiku",
+   "func_8017FF74": "haiku",
+   "func_80180F5C": "haiku",
+   "func_80184FB4": "haiku",
+   "func_800CAF9C": "sonnet",
+   "func_8017E54C": "sonnet",
+   "func_8017E7D0": "sonnet",
+   "func_8017F3F8": "sonnet",
+   "func_8017F608": "sonnet",
+   "func_8017FB38": "sonnet",
+   "func_801804C0": "sonnet",
+   "func_801810A4": "sonnet",
+   "func_80181894": "sonnet",
+   "func_800CB578": "opus",
+   "func_801808E8": "opus"
+  },
+  "banked": [
+   "func_800CAF9C",
+   "func_800CB578",
+   "func_8017E014",
+   "func_8017E54C",
+   "func_8017E7D0",
+   "func_8017EF90",
+   "func_8017F3F8",
+   "func_8017F590",
+   "func_8017F608",
+   "func_8017FB38",
+   "func_8017FF74",
+   "func_801804C0",
+   "func_801808E8",
+   "func_80180F5C",
+   "func_801810A4",
+   "func_80181894",
+   "func_80184FB4"
+  ],
+  "rc": 0
+ }
+}
