@@ -3864,7 +3864,25 @@ void func_8017E800(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017E83C);
+extern s32 ratan2(s32, s32);
+extern void func_8017E95C();
+
+void func_8017E83C(s32 a0) {
+    typedef struct { s16 v[4]; } Blk8_80126940_8017E8DC;
+    extern Blk8_80126940_8017E8DC D_80126940;
+    Blk8_80126940_8017E8DC sp10a;
+    Blk8_80126940_8017E8DC sp10b;
+    s32 v0;
+
+    sp10a = D_80126940;
+    sp10b = D_80126940;
+    v0 = ratan2(sp10a.v[0], sp10a.v[2]);
+    sp10a.v[1] = -0x380;
+    sp10b.v[0] = 0;
+    sp10b.v[2] = 0;
+    func_8017E95C(a0, sp10a.v, sp10b.v, v0 & 0xfff);
+}
+
 
 typedef struct { s16 v[4]; } Blk8_80126940_8017E8DC;
 

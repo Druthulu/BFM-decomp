@@ -4643,7 +4643,50 @@ void func_8017F958(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017BEBC", func_8017F9B4);
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_9B4;
+
+extern void func_8001CD9C(s32, void *);
+extern void func_800233CC(void *, u16);
+
+extern u16 aD_801D0630[] __asm__("D_801D0630");
+extern u16 D_801D0632[];
+extern u16 aD_801D0660[] __asm__("D_801D0660");
+extern u16 aD_801D0662[] __asm__("D_801D0662");
+
+extern u8 D_801D0620[];
+extern u8 D_801865A8[];
+extern Blk4_9B4 aD_801CE7A4[] __asm__("D_801CE7A4");
+extern Blk4_9B4 D_801D0624[];
+
+void func_8017F9B4(void *arg0) {
+    register void *s1 __asm__("$17") = arg0;
+    void *s0 = D_801D0620;
+    register s32 off1 __asm__("$3");
+    register s32 off2 __asm__("$4");
+
+    func_8001CD9C(*(s32 *)((u8 *)s1 + 0x20), s0);
+    func_800233CC(s0, 0x40);
+
+    for (off1 = 0, off2 = 0; off1 < 0x30; off1 += 8, off2 += 4) {
+        *(s16 *)((u8 *)aD_801D0660 + off2) = (s16)(*(u16 *)((u8 *)aD_801D0630 + off1)) >> 3;
+        __asm__ __volatile__("" ::: "memory");
+        *(s16 *)((u8 *)aD_801D0662 + off2) = (s16)(*(u16 *)((u8 *)D_801D0632 + off1)) >> 3;
+    }
+
+    *(Blk4_9B4 *)D_801D0620 = *(Blk4_9B4 *)D_801865A8;
+    D_801D0624[0] = aD_801CE7A4[0];
+
+    *(u32 *)(*(s32 *)((u8 *)s1 + 0x20) + 4) |= 0x50000000;
+    *(u16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x18) = 0x800;
+    *(u16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x1A) = 0x800;
+    *(u16 *)(*(s32 *)((u8 *)s1 + 0x20) + 0x2C) = 0xC040;
+
+    *(s32 *)((u8 *)s1 + 0x1C) = 4;
+    *(u16 *)((u8 *)s1 + 0x2C) = 0;
+    *(u16 *)((u8 *)s1 + 0x2E) = 0;
+    *(u16 *)((u8 *)s1 + 0x2) += 1;
+}
+
 
 
 extern void (*D_801865AC[])(void);

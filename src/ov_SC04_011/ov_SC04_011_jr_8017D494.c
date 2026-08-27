@@ -6617,7 +6617,45 @@ void func_80183BD0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80183BF0);
+extern u16 D_801EFD40;
+extern void func_80185960(s32 target, u16 *cur, s32 step);
+
+/* NOTE (band verify): the destination TU (src/ov_SC04_011/ov_SC04_011_jr_8017D494.c) has two
+   pre-existing "extern s32 func_80183BF0(s32 a0);" decls for this address (file-scope L6237,
+   and function-scope L6444 inside func_80183880), both used only as a discarded-value statement
+   "func_80183BF0(a0);". That decl's `s32` return conflicts with the real behavior: no path here
+   ever sets $v0 before the shared jr $ra, and -- per cookbook §162f1 -- a non-void return type
+   marks $v0 live-out and BLOCKS reorg from filling the second clamp-if's branch delay slot with
+   the `-0x20` constant (costs +1 insn, verified: s32 draft compiles to 34 ins vs the target's 33).
+   The TU's own extern-s32 decl of THIS function is what conflicts (self_decl_tu), so per
+   blast-radius law the fix stays in this draft: following the file's own established idiom for
+   the mirror case (see impl_801833D4 above in this same TU, same trick, opposite direction), this
+   draft defines the body under a distinct C identifier `impl_80183BF0` and binds it to the real
+   assembler symbol via __asm__(). The TU's `func_80183BF0` identifier is therefore never given a
+   body under that exact name in this file, so its pre-existing (wrong) s32 prototype never
+   collides with our void definition -- and the emitted code is still the byte-identical 33-insn
+   function (gcc: "conflicting types for 'func_80183BF0'" is what a literal `void func_80183BF0`
+   definition would hit here). */
+void impl_80183BF0(s32 a0) __asm__("func_80183BF0");
+
+void impl_80183BF0(s32 a0)
+{
+    s16 sVar1;
+
+    if (D_801EFD40 & 0x40) {
+        sVar1 = *(s16 *)(a0 + 0x102) + *(s16 *)(a0 + 0x104);
+        *(s16 *)(a0 + 0x102) = sVar1;
+        if (sVar1 < -0x17F) {
+            *(u16 *)(a0 + 0x104) = 0x20;
+        }
+        if (*(s16 *)(a0 + 0x102) >= 0x180) {
+            *(s16 *)(a0 + 0x104) = -0x20;
+        }
+    } else {
+        func_80185960(0, (u16 *)(a0 + 0x102), 0x20);
+    }
+}
+
 
 extern void func_80185960(s32 target, u16 *cur, s32 step);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
