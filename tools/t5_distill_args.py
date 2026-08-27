@@ -25,6 +25,12 @@ def main():
                     help="the drafting run's transcript dir (holds journal.jsonl + agent-*.jsonl); repeatable")
     ap.add_argument('--label', default='', help="provenance string for the cookbook header, e.g. 'P31 S63 t5a'")
     ap.add_argument('--all-arms', action='store_true')
+    ap.add_argument('--novel-only', action='store_true',
+                    help="select only transcripts whose agent NOTE carries a novelty signal (says the "
+                         "cookbook lacks the lever, or names a lever/negative result). The t5a run measured "
+                         "the base rate: 34 distilled -> 16 trivial, 5 novelty claims -> 1 ADDENDUM, so "
+                         "distilling every banked transcript spends ~30x the tokens for the same book. "
+                         "The FULL denominator is always printed (R41); this filter is reported, not hidden.")
     ap.add_argument('--out', default='')
     a = ap.parse_args()
     if len(a.wave) != len(a.wfdir):
@@ -61,8 +67,16 @@ def main():
                 if not hit or not os.path.exists(hit[0]):
                     missing.append('%s/%s/%s' % (os.path.basename(wave), arm, fn)); continue
                 out.append({'fn': fn, 'arm': arm, 'transcript': hit[0], 'note': hit[1]})
-    print('waves %d; banked %d (union-gated %d); transcripts found %d; label %r'
-          % (len(a.wave), tot_banked, tot_union, len(out), a.label))
+    NOVEL = ('not in the cookbook', 'not in cookbook', 'cookbook did not have', "cookbook does not",
+             'NEW IDIOM', 'NEW:', 'NEW fact', 'the cookbook does not cover', 'does not yet cover',
+             'negative result', 'addendum', 'Cookbook-worthy', 'no cookbook lever', 'unlocked it')
+    n_all = len(out)
+    if a.novel_only:
+        out = [r for r in out if any(k.lower() in (r['note'] or '').lower() for k in NOVEL)]
+    print('waves %d; banked %d (union-gated %d); transcripts found %d; selected %d%s; label %r'
+          % (len(a.wave), tot_banked, tot_union, n_all, len(out),
+             ' by novelty signal (%d NOT distilled — no signal in their note)' % (n_all - len(out)) if a.novel_only else '',
+             a.label))
     if missing:
         print('NO TRANSCRIPT for %d banked draft(s) — NOT distilled (R32, reported not skipped): %s'
               % (len(missing), ' '.join(missing[:20])))

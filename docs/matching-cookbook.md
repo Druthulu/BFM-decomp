@@ -29850,3 +29850,46 @@ same address in another overlay is usually unrelated code. `api_agent.prior_draf
 candidate only when the symbols it references overlap the target `.s`'s relocations (law 1c); the
 haiku arm re-run on its misses with the filtered packs banked 2 more. Read "warm start" as "a body
 whose symbols are this .s's symbols", never as "a body with this name".
+
+## §307 — THE BRUTE-FORCE-THE-STATEMENT-ORDERS LEVER HAS A BOUND: A FAN-OUT COPY'S PRIORITY IS SCHEDULER-INTERNAL, AND NO SOURCE ORDER REACHES IT (P31 S63; byte-evidenced NEGATIVE result, main wave)
+
+**Why this is here.** `docs/cookbook-index.md` L22 sends every "same instruction multiset, one contiguous
+window, loads/registers ROTATED inside it" residual to the **cheapest lever: brute-force the N independent
+statement orders** (`gcc-2.7.2-map/sched.md` §S1/§S4). That lever is real and cheap — but it is NOT
+universal, and until now nothing recorded where it stops. Two functions in the S63 main wave each
+exhausted it and stayed NEAR, which is worth more banked than re-discovered.
+
+**The shape it cannot reach.** A value in a register is (a) COPIED to preserve it across an imminent
+reuse of the same hardreg, and (b) also the source of a sibling one-shot derivation. The target computes
+the derivation directly from the original register (the two chains run parallel from `$v0`); gcc-2.7.2
+emits the *preserving copy first* and then chains the derivation through the copy.
+
+    target:   addu $t0,$v0,$zero   /  addiu $t7,$v0,-0xA0    <- both read $v0
+    gcc:      addu $t0,$v0,$zero   /  addiu $t7,$t0,-0xA0    <- second chains through the copy
+
+**Byte evidence — `func_8001BC6C` (main, 69 ins).** The agent hard-pinned every temp to its exact target
+hardreg (`$2`–`$15`), got the first 9 instructions byte-exact, then ran **all 12 permutations** of the two
+independent-statement groups through `match_one`: **every permutation produced byte-identical output**,
+closeness pinned at 61. An opaque-`__asm__` barrier around the first group moved closeness 61 → 58 but
+never removed the extra instruction. The same swap recurs at a second, independent site in the same
+function (the `D_800B9A02`/`D_800A6610` pair) — i.e. it is a rule of the scheduler, not an accident of
+one window. **Corroborating instance — `func_80021284` (main, 220 ins, closeness 25):** 7 head
+instructions where no source order wins both the `%hi`/`%lo` pair placement and the `lw` position
+(12 orders measured), plus 18 in a trailing if-block where local-alloc swaps two splice masks
+`$a0`↔`$a1` (6 statement orders AND bitfield-vs-explicit-mask all byte-identical).
+
+**THE LAW.** When the residual is a fan-out copy scheduled ahead of a sibling derivation from the same
+source register, `rank_for_schedule`'s priority — not the LUID order the C statement sequence controls —
+decides it. Statement order is then a *constant function* of the output: the permutation sweep is
+provably inert, and each permutation still costs a compile.
+
+**WHAT TO DO INSTEAD.** (1) Recognise the tell — permutations that all return the SAME closeness are the
+signature; stop after the first 2–3, not after N!. (2) Register pins do not help either: pinning fixes
+*which* register, not the scheduler's ready-list priority (both functions were already fully pinned).
+(3) Route it to the permuter/T6 wall track, which searches a space source order cannot express. This is
+the §3-The/`rank_for_schedule` family, and it is the case those entries did not yet cover.
+
+**Cross-link:** cookbook-index L22 (the brute-force lever) now has a documented BOUND — check §307
+before spending a permutation sweep; §5a/§34's `__asm__("")` fence moves closeness here but does not
+close it, which is itself the discriminator between a delay-slot-filler residual (fence works) and a
+ready-list-priority residual (fence only perturbs).
