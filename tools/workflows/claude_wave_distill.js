@@ -1,13 +1,14 @@
 export const meta = {
-  name: 't4-idiom-distill',
-  description: 'R16 flywheel: distill the unlocking lesson from each byte-proven T4 transcript, verify novelty against the cookbook, return §-formatted candidates',
+  name: 'claude-wave-idiom-distill',
+  description: 'R16 flywheel: distill the unlocking lesson from each byte-proven wave transcript, verify novelty against the cookbook, return §-formatted candidates',
   phases: [
-    { title: 'Extract', detail: '31 transcripts -> one lesson each' },
+    { title: 'Extract', detail: 'one distiller per byte-proven transcript -> one lesson each' },
     { title: 'Verify', detail: 'novel claims grepped against docs/matching-cookbook.md' },
   ],
 }
+// args: { targets: [{fn, arm, transcript, note}, ...], label: 'P31 S63 t5a' } — from tools/t5_distill_args.py
 const REPO = '/home/musashi/bfm-decomp'
-const WFDIR = '/home/musashi/.claude/projects/-home-musashi-bfm-decomp/b0026d2d-2724-4aed-813a-3deef224d210/subagents/workflows/wf_c691ef44-320/'
+const LABEL = args.label || 'P31 S63'
 const LESSON = {
   type: 'object',
   properties: {
@@ -38,7 +39,7 @@ const lessons = await pipeline(
   args.targets,
   t => agent(
 `You are distilling ONE byte-proven decompilation transcript for the project's matching cookbook (docs/matching-cookbook.md, gcc-2.7.2 MIPS idioms). Repo: ${REPO}.
-Transcript (JSONL, an agent's full tool trace): ${t.transcript.replace("WF/", WFDIR)}
+Transcript (JSONL, an agent's full tool trace): ${t.transcript}
 Function: ${t.fn} (arm ${t.arm}); the whole-binary byte-gate ACCEPTED the final draft, so the final body is ground truth. The agent's own closing note was: "${t.note}"
 
 Read the transcript. Find the moment(s) the masked diff (match_one closeness) dropped to 0 and what C change caused it. Report ONE lesson — the most generalizable one — as:
@@ -64,8 +65,8 @@ Read only; write nothing.`,
   refs the agent used: ${JSON.stringify(lesson.cookbook_refs_used)}
 Check docs/matching-cookbook.md (grep for the mechanism, the instruction pattern, the C construct; docs/cookbook-index.md is symptom-keyed) and decide:
   COVERED  — an existing § already states this law (name it in covered_by)
-  ADDENDUM — an existing § is close but this adds a byte-proven refinement (name it; entry_markdown = a 3-8 line addendum paragraph starting "**Addendum (P31 S62 T4, ${t.fn}):**")
-  NEW      — no § states it; entry_markdown = a full section in the book's style, header "## §NNN — <TITLE IN CAPS> (P31 S62 T4; byte-proven ${t.fn})" with NNN left literally as NNN, then the tell, the mechanism, the C shape, the evidence line
+  ADDENDUM — an existing § is close but this adds a byte-proven refinement (name it; entry_markdown = a 3-8 line addendum paragraph starting "**Addendum (${LABEL}, ${t.fn}):**")
+  NEW      — no § states it; entry_markdown = a full section in the book's style, header "## §NNN — <TITLE IN CAPS> (${LABEL}; byte-proven ${t.fn})" with NNN left literally as NNN, then the tell, the mechanism, the C shape, the evidence line
   REFUTED  — the claim contradicts a byte-proven § or the evidence does not support it (say why)
 Quote the § numbers you checked in why. Read only; write nothing.`,
       { label: `verify:${t.fn}`, phase: 'Verify', model: 'opus', schema: VERDICT }).then(v => ({ ...lesson, ...(v || { verdict: 'UNVERIFIED', why: 'verifier returned null' }) }))
@@ -75,4 +76,4 @@ const out = lessons.filter(Boolean)
 const tally = {}
 for (const l of out) tally[l.verdict] = (tally[l.verdict] || 0) + 1
 log('verdicts: ' + JSON.stringify(tally))
-return { lessons: out }
+return { label: LABEL, lessons: out }
