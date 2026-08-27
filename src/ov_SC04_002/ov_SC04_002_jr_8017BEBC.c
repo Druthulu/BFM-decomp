@@ -5421,7 +5421,27 @@ int func_8017FFC0(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8017FFF0);
+extern void func_8012B2CC(s32 a0);
+extern u16 D_80126B5E;
+extern void (*D_8018C560[])(s32);
+
+void func_8017FFF0(s32 a0)
+{
+    register s32 s0 __asm__("$16") = a0;
+    s16 *p;
+
+    if (*(u16 *)(s0 + 2) != 0) {
+        func_8012B2CC(a0);
+    }
+
+    p = (s16 *)&D_80126B5E;
+    if (*p < -0x57F) {
+        *p = -0x580;
+    }
+
+    D_8018C560[*(u16 *)(s0 + 2)](s0);
+}
+
 
 
 

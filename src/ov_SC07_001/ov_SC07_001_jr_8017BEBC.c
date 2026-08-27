@@ -4774,7 +4774,34 @@ void func_8017F7F8(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F834);
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017FD88);
+#include "common.h"
+
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012C218(s32 a0);
+extern void func_8012AD80(s32 a0);
+extern void func_8017FE38(s32 p);
+
+void func_8017FD88(s32 param_1)
+{
+    s32 a0;
+
+    if (((*(s16 *)(param_1 + 0x70)) & 0x8000) == 0) {
+        a0 = *(s32 *)(param_1 + 0x20);
+        *(u16 *)(a0 + 0x10) = *(u16 *)(a0 + 0x10) + *(u16 *)(param_1 + 0xFE);
+        a0 = *(s32 *)(param_1 + 0x20);
+        *(u16 *)(a0 + 0x12) = *(u16 *)(a0 + 0x12) + *(u16 *)(param_1 + 0x100);
+        a0 = *(s32 *)(param_1 + 0x20);
+        *(u16 *)(a0 + 0x14) = *(u16 *)(a0 + 0x14) + *(u16 *)(param_1 + 0x102);
+    }
+
+    if (func_8012BEE8(param_1) != 0) {
+        func_8012C218(param_1);
+    } else {
+        func_8012AD80(param_1);
+        func_8017FE38(param_1);
+    }
+}
+
 
 #include "common.h"
 
@@ -5304,7 +5331,34 @@ void func_80180B54(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_80180B90);
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+
+void func_80180B90(void *a0) {
+    extern s32 D_8019E510;
+    extern s32 D_801853EC;
+    s32 v0;
+    u16 v1;
+
+    v0 = func_8012C1B8();
+    *(s32 *)((u8 *)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+    } else {
+        func_8001C214(v0, (s32)&D_8019E510);
+        *(s32 *)((u8 *)a0 + 0x58) = (s32)&D_801853EC | 0x40000000;
+        *(u16 *)((u8 *)a0 + 0x5C) = 0xC00;
+        *(s16 *)((u8 *)a0 + 0xA) = -0x1100;
+        *(s16 *)((u8 *)a0 + 0xE) = -0x240;
+        *(s32 *)((u8 *)a0 + 0x14) = 0x60000;
+        v1 = *(u16 *)((u8 *)a0 + 0x2);
+        *(u16 *)((u8 *)a0 + 0x6) = 0;
+        *(u8 *)((u8 *)a0 + 0x75) = 2;
+        *(u16 *)((u8 *)a0 + 0x2) = v1 + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_80180C2C);
 

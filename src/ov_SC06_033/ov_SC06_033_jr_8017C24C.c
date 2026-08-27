@@ -3723,7 +3723,30 @@ void func_8017DDC4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017DE00);
+extern s32 rand(void);
+extern s32 func_8012AD50(void *a0);
+
+void func_8017DE00(s32 param_1)
+{
+    u16 v0;
+    u16 v1;
+    s32 r0;
+    s32 r1;
+
+    v0 = *(u16 *)(param_1 + 0xFC);
+    v1 = *(u16 *)(param_1 + 0x70);
+    *(u32 *)(param_1 + 0xDC) = 0;
+    *(u32 *)(param_1 + 0xE0) = 0;
+    *(u32 *)(param_1 + 0xE4) = 0;
+    *(u16 *)(param_1 + 0x100) = v0;
+    *(u16 *)(param_1 + 0x102) = v1;
+    r0 = rand();
+    r1 = rand();
+    *(u16 *)(param_1 + 0xFE) = (r0 & 0x1F) + (r1 & 0x1F) + 0x3C;
+    *(u16 *)(param_1 + 0x104) = 0;
+    func_8012AD50((void *)param_1);
+}
+
 
 extern s32 func_8004787C(s32 a0);
 extern void func_8017DFE8();
@@ -3841,12 +3864,61 @@ s32 func_8017E5F4(s32 *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017E60C);
+extern s32 func_8012C354(s32 a0, void *a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B2CC(s32 a0);
+
+void func_8017E60C(s32 param_1) {
+
+    extern u8 D_80195318[];
+    extern u8 D_80195358[];
+
+    s32 v0;
+
+    v0 = func_8012C354(param_1, D_80195318);
+    if (v0 != 0) {
+        *(u8 *)(param_1 + 0xc0) = 1;
+        *(s32 *)(param_1 + 0xb4) = -1;
+        *(s16 *)(param_1 + 0xae) = -1;
+        *(s16 *)(param_1 + 2) = 1;
+        *(u8 *)(param_1 + 0x75) = 0;
+        func_8012A828(param_1, D_80195358);
+        func_8012B2CC(param_1);
+        *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x80000000;
+    }
+}
+
 
 void func_8017E694(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8017C24C", func_8017E69C);
+extern void func_8012BE54(s32 a0);
+extern int func_80178970(void);
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern u8 D_80195360;
+
+void func_8017E69C(s32 a0) {
+    u16 state = *(u16 *)(a0 + 0x34);
+
+    switch (state) {
+    case 0:
+        if (*(s16 *)(*(s32 *)(a0 + 0xCC) + 0x36) != *(s16 *)(a0 + 0x10A) &&
+            *(s16 *)(*(s32 *)(a0 + 0xD0) + 0x36) != *(s16 *)(a0 + 0x108)) {
+            *(u16 *)(a0 + 0x34) = 1;
+        }
+        break;
+    case 1:
+        if (((s32 (*)(s32))func_8012BE54)(a0) < 0x7901 && *(u8 *)(a0 + 0x74) != 0) {
+            func_80178B18(a0, (s32)&D_80195360);
+            *(u16 *)(a0 + 0x34) = 2;
+        }
+        break;
+    case 2:
+        ((int (*)(s32))func_80178970)(a0);
+        break;
+    }
+}
+
 
 
 extern void func_80019064(void *a0);
