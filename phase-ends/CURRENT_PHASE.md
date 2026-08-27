@@ -2528,3 +2528,22 @@ gate commits only its own block) + S62 ops: pkill self-match (hit again), never 
 a sweep, verify from the gate not the classification ledger, shard `api_agent` by target.
 **Housekeeping:** `ghidra/` churn in `git status` is MCP-restart noise — do not commit; Drew pushes
 (R6); no Ghidra writes happened this session (R23 n/a).
+
+
+## S63 (2026-08-26 evening, Max) — T5 OPENED: session start compressed (~30k tokens), sweep #8, the wave tooling
+
+**Resume ritual:** tree clean at `commit:3134`, overlays.mk 5,090 lines, red list EMPTY, no lanes, both stop
+sentinels SET (Claude harness ignores them). **Fleet sweep #8 (R22, from `make clean`): 213/213 GREEN,
+extract-all 212/212, exit 0** (`.run/t5/sweep8.log`). Task list built (R28): T5.0–T5.7, T6–T9.
+**T5.1 DONE — the draw and bank halves around the promoted T4 harness** (SETUP row): `tools/t5_targets.py`
+(class members ∩ `corpus.stubs`, ledger keyed (binary,fn), ≤120→sonnet / >120→opus, residue→opus once
+then T6, band-stratified so the plan's falsifier measures the population, ≤4 per binary) and
+`tools/t5_bank.sh` (refuse-if-busy/dirty → `wave_judge --union` → R22 clean sweep parsed `N passed, 0
+failed of N` → commit `— N banked`); `claude_wave_draft.js` generalized (args.wave, per-target arm; T4
+prompt verbatim). **Defect found at first draw (R48 class):** the harness keys packs and drafts by bare
+fn NAME — 48 targets wrote 44 packs; overlays share names at equal addresses. Guarded three ways: the
+draw holds one name per wave; `claude_wave_packs.py` and `wave_judge.py` now REFUSE duplicates (R43).
+**Population (R41):** K+L = 1,042 members, 1,027 still open (15 closed since S61) = 57,435 ins; bands
+699 ≤50 / 237 51–120 / 91 >120; 159 binaries. **Wave t5a drawn:** 48 fns (33/11/4 by band; 44 sonnet +
+4 opus; 13 binaries), packs 48/48 with cards. NEXT: one free maintenance (lane G) pass, then the R27
+prompt for Ultracode and the t5a Workflow.

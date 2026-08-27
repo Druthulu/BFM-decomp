@@ -11,6 +11,9 @@ UNION = '--union' in sys.argv
 ARMS = [a for a in sys.argv[1:] if not a.startswith('--')] or ['haiku', 'sonnet', 'opus', 'ds']
 targets = json.load(open(WAVEDIR + '/targets.json'))
 T = {t['name']: t for t in targets}
+if len(T) != len(targets):   # drafts/targets are keyed by bare fn name; a same-named pair would be mis-gated (R43/R48)
+    sys.exit('REFUSED: duplicate fn names in %s/targets.json (name-keyed harness): %s' % (
+        WAVEDIR, ' '.join(n for n in T if sum(1 for t in targets if t['name'] == n) > 1)))
 def sh(cmd, timeout=3600):
     return subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
 def open_fns():

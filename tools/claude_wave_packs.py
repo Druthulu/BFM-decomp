@@ -26,6 +26,9 @@ def main():
     if len(sys.argv) < 3:
         sys.exit(__doc__)
     targets = json.load(open(sys.argv[1])); out = sys.argv[2]
+    dup = [n for n, c in __import__('collections').Counter(t['name'] for t in targets).items() if c > 1]
+    if dup:   # packs are keyed by bare fn name; two binaries' same-named fns would overwrite (R43/R48)
+        sys.exit('REFUSED: %d duplicate fn name(s) in one wave (packs are name-keyed): %s' % (len(dup), ' '.join(dup)))
     cards = {}
     if '--cards' in sys.argv:
         for c in json.load(open(sys.argv[sys.argv.index('--cards') + 1])):
