@@ -2547,3 +2547,53 @@ draw holds one name per wave; `claude_wave_packs.py` and `wave_judge.py` now REF
 699 ≤50 / 237 51–120 / 91 >120; 159 binaries. **Wave t5a drawn:** 48 fns (33/11/4 by band; 44 sonnet +
 4 opus; 13 binaries), packs 48/48 with cards. NEXT: one free maintenance (lane G) pass, then the R27
 prompt for Ultracode and the t5a Workflow.
+
+**T5.2 — lane G (free A-prop), one pass: 23 banked, zero model tokens** (`commit:3136`). 104 mechanical
+drafts → 45 staged (dropped 38 COMPILE-FAIL / 16 AGREE-but-shape-DIFF / 5 mismatch) + 4 recovered by
+`rtu_second_chance` + 1 by `fix_tu_ret_decls`; its own fleet R22 read 213/213. Zero overlap with the
+t5a slate (asserted before the wave gated).
+
+**T5.3 — WAVE t5a: 43/48 banked = 89.6%.** 48 agents (44 Sonnet ≤120 ins, 4 Opus >120), 13 binaries,
+4.48M subagent tokens, 25.7 min drafting, 0 agent errors. Gate (`t5_bank.sh` → `wave_judge --union`):
+sonnet **39/44**, opus **2/4**, union 41 banked, fleet **213 passed, 0 failed of 213** → `commit:3137`.
+Per band: sonnet ≤50 **32/33**, 51–120 **7/11**, >120 0/4; opus >120 **2/4**.
+Then the RECOVERY step (wave-closing sequence): 2 self-MATCH drafts the gate refused were both
+byte-exact in isolation (`match_one` MATCH, closeness 0, bucket `integration`) and both failed for
+ONE reason — the destination TU declared `extern void func_X(...)` for an **s32-returning** function.
+`fix_tu_ret_decls` retyped 3 decls and banked **2/2** (`commit:3138`), clean sweep #9 **213/213**.
+Self-reports vs gate (R14): 43 MATCH claimed → 41 banked at the gate → 43 after recovery.
+**Residue (5):** func_8017E92C (c=3, prologue birth-order), func_8017FC44 (c=14, §201-C eager
+delay-slot fill), func_8017EA24 (c=13, symmetric delay-slot swap §224/§263), func_8017DD80 (c=4,
+2-insn schedule+regcolor), func_8017F234 (opus, c=3, cse.c `make_regs_eqv` canonical-reg) — every
+one a *scheduler/regalloc* residual with the structure already byte-correct, i.e. permuter/T6 fare,
+not a drafting failure. func_8017F234 + func_8017EFC4 are opus-refused once → T6 wall ledger.
+
+**THE DEFECT THIS WAVE EXPOSED (R48 again, and it had been silently taxing every wave):**
+`claude_wave_packs.py` looked cards up by **bare function name** over `.run/wave_*_cards.json`.
+Overlays share function NAMES at equal addresses, and a K-class target has never been carded — so
+the lookup returns *some other overlay's* same-named function. Measured: **48 of 48** t5a targets and
+**15 of T4's 20** received another binary's card (wrong banked twin, wrong TU neighbours, wrong
+declarations). Nine agents reported discarding it unprompted ("the pack's warm-start body and
+'banked twin' were both wrong", "decl-hints belonged to a different overlay's function at the same
+address"). t5a's 89.6% was scored *through* that handicap. T4's ladder comparison still stands (all
+arms carried the same handicap) but its absolute rates were depressed.
+**Fix (`commit:3139`):** cards keyed **(binary, fn)**; a card from another binary is DROPPED and
+counted, never substituted (R43). That leaves K-class targets with no card at all — so
+**`tools/t5_cards.py`** now BUILDS the target's own fuel: `tu_ref` (already-banked neighbours in the
+target's OWN TU, ranked by shared .s relocation symbols — §194-E, the exact lever t5a's agents kept
+finding by hand) and `decl_prior` (§196 fleet signatures, killing the §195-A two-arity A/B). To keep
+ONE oracle (R33), `home_tu`/`_tu_bodies`/`tu_neighbours` were extracted VERBATIM from
+`build_wave_atlas.py` — which parses argv at import and so was never usable as a library — into
+**`tools/wave_card_fuel.py`**, and the atlas now imports them. Measured on t5b's fresh slate:
+**tu_ref 88% (46/52), decl_prior 98% (51/52)**, vs 0% correct in t5a. `seed_ref` is deliberately NOT
+built: the pack now says "no banked twin — derive from the .s", which is true, where the old card
+pointed confidently at an unrelated function.
+**Instrument check en route (R35):** my first card run read `decl_prior` 0/48 — I had passed the
+card's `sub` (a directory) where `DP.for_asm` wants the `.s` path. `build_wave_atlas` passes the
+full path and was never wrong. A 0% from a broken tool and a 0% from a working one are the same
+number and opposite facts; the corrected run read 98%.
+`t5_bank.sh` now runs the `fix_tu_ret_decls` recovery over every un-banked draft automatically.
+
+**Falsifier status (plan §4 step 5):** "first two waves <15% banks-per-draft → stop and autopsy" —
+t5a alone is **89.6%**, six times the threshold. Wave t5b (48 fresh + 4 residue escalated to Opus,
+15 binaries) is drafting with the repaired packs.
