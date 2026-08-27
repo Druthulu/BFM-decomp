@@ -2597,3 +2597,44 @@ number and opposite facts; the corrected run read 98%.
 **Falsifier status (plan §4 step 5):** "first two waves <15% banks-per-draft → stop and autopsy" —
 t5a alone is **89.6%**, six times the threshold. Wave t5b (48 fresh + 4 residue escalated to Opus,
 15 binaries) is drafting with the repaired packs.
+
+**T5.5 — R16 distill of t5a (41 byte-proven transcripts, `commit:3142`).** 39 distilled (3 lost to API
+rate limits, RECORDED not silently skipped — R32): 16 trivial, 5 novelty claims → the Opus verifier
+returned **1 ADDENDUM, 2 COVERED, 2 REFUTED**. Banked: a §164-55 addendum, byte-proven on
+`func_8017E2CC` — when one if/else arm is a SINGLE CONSTANT assignment, writing it as the TRUE arm
+stops it being a block at all (jump.c's if-then-else → conditional-overwrite collapse hoists the lone
+REG SET above the branch, dbr sinks it into that branch's own delay slot → 26/26 MATCH); written
+second it costs a spurious `j` (+1); hoisted above the `if` its live range spans the call, so it
+becomes a global allocno and pays §76's callee-saved pair (+2). It also records that **§3-T4/§32.2
+read this backwards** ("put the target's fall-through block in the `if`" names the call-bearing block
+= the +1 spelling; post-collapse polarity carries no source-order information). The 2 REFUTED verdicts
+are worth as much as the addendum — they stopped wrong laws entering the book. Cookbook **888 → 913
+sections**, index green.
+
+**T5.6 — WAVE t5d: 42/48 banked = 87.5%** (`commit:3143`; sonnet 38/44, **opus 4/4 on >120 ins**;
+fleet 213/213). Per band: sonnet ≤50 29/33, 51–120 9/11, >120 0/4; opus >120 4/4.
+**Its 6 misses decomposed, and the split is the finding:** ONE genuine codegen residual
+(func_80180808, closeness 2, branch polarity) and **FIVE byte-correct bodies blocked purely by TU
+plumbing** — every one `match_one` MATCH at closeness 0 and CC1-FAIL in its real TU with **zero DIFF**.
+`recover_integration.py --probe-only` named each blocker: `callee_decl` (ov_SC03_107), `local_type`
+×11 (ov_SC06_029), a `memcpy` prototype clash (ov_SC02_000), `data_decl` ×3 (ov_SC07_000), and
+`self_decl_tu` on ov_SC04_011 — *the TU declares `extern s32 f(s32)` for a `void` definition*, the
+exact MIRROR of the class `fix_tu_ret_decls` repairs, which is why the automatic recovery SKIPped it
+("definition return is 'void'"). This is the `matching-is-solved-integration-is-the-bottleneck` law
+measured again: **5 of 6 wave misses were integration, not codegen.**
+Since the class recurs every wave, it got a tool rather than five hand-edits:
+**`tools/workflows/claude_integration_recover.js`** (`commit:3144`) — one agent per blocked draft,
+fixing the DRAFT's own declarations only, forbidden from `src/shared/engine_core.h` or any other
+binary (§65a blast-radius law), and required to re-pass BOTH oracles (the real-TU compile AND an
+unchanged `match_one` MATCH) before writing out.
+*Staging hazard noted:* the recovery agents create `probe_in*/` and `scratch_*/` dirs INSIDE the
+output dir, so the gate must stage by an explicit binary list, never a glob (R43).
+
+**Waves t5b and t5c drafted** (t5b 51/52 agents, t5c 47/48; one rate-limited each). Self-reports
+t5b 46 MATCH / 5 NEAR, t5c 44 MATCH / 3 NEAR — the gate decides (R14). **The residue-escalation
+design is validated: all FOUR t5a residues re-drawn on Opus came back MATCH**
+(func_8017FC44 §201-C, func_8017DD80 §239.1+§5a fence, func_8017E92C §3-T2 source-order,
+func_8017EA24 §224 cross-jumped duplicate calls) — Sonnet-band scheduler residuals are Opus-crackable,
+not walls. Three agents flagged claims the cookbook does not hold (a one-local-for-two-uses global
+allocno on func_80180B44; §211's hoist being the WRONG lever when the guard-slot init copies a live
+pseudo; a bare-PARAMETER-vs-local rule for cross-jumped duplicate call sites) → next distill batch.
