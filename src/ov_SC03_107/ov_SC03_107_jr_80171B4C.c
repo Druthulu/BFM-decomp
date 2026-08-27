@@ -3902,7 +3902,15 @@ void func_801748E4(void) {
 DEFINE_func_801748EC()  /* dedup: shared engine-core @0x801748ec (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_80171B4C", func_8017496C);
+#include "common.h"
+
+extern void (*D_80185B1C[])(void);
+
+s32 func_8017496C(void *a0)
+{
+    D_80185B1C[*(u8 *)((s32)a0 + 4)]();
+}
+
 
 DEFINE_func_801749A8()  /* dedup: shared engine-core @0x801749a8 (src/shared) */
 
@@ -3966,7 +3974,13 @@ DEFINE_func_80174ED4()  /* dedup: shared engine-core @0x80174ed4 (src/shared) */
 DEFINE_func_80174EF0()  /* dedup: shared engine-core @0x80174ef0 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_80171B4C", func_80174F28);
+extern void (*D_80185B28[])(void*);
+
+s32 func_80174F28(void* a0)
+{
+    D_80185B28[*(u8*)((s32)a0 + 0x4)](a0);
+}
+
 
 DEFINE_func_80174F64()  /* dedup: shared engine-core @0x80174f64 (src/shared) */
 

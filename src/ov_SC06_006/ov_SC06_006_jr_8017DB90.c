@@ -3859,7 +3859,36 @@ void func_8017F308(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017DB90", func_8017F3E8);
+extern short D_801F85EC[];
+extern void (*D_801860E4[])(void *);
+extern short D_801F80A4;
+extern short D_801F80A0;
+extern void func_8013C9C4(void *a0);
+extern int D_801860DC;
+
+void func_8017F3E8(void)
+{
+    short *psVar1;
+    int iVar2;
+
+    psVar1 = D_801F85EC;
+    iVar2 = 0;
+    do {
+        if (*psVar1 != 0) {
+            D_801860E4[*psVar1](psVar1);
+        }
+        iVar2 = iVar2 + 1;
+        psVar1 = psVar1 + 0x2a;
+    } while (iVar2 < 0xc);
+    if (D_801F80A4 != 0) {
+        D_801F80A0 = D_801F80A0 + 1;
+        if (3 < D_801F80A0) {
+            D_801F80A0 = 0;
+            func_8013C9C4(&D_801860DC);
+        }
+    }
+}
+
 
 void func_8017F4B8(void) {
 }
@@ -4038,7 +4067,107 @@ void func_8017F934(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017DB90", func_8017FA2C);
+/* func_8017FA2C — ov_SC06_006, TU src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c
+ *
+ * Draws two 3-point strips (XY pass from D_8018636C, XZ pass from D_80186380) through
+ * func_80017758, using the matrix func_8017FD4C builds into the 32-byte sp+0x10 buffer.
+ *
+ * Key lever (the ONLY thing that separated a 198-ins near from the 200-ins match):
+ * `p.c[1].b = (D_800B99DA & 1) ? 0x58 : 0x48;` compiles to the if-converted form
+ * (`li v1,0x48` hoisted above the branch, then the >>2 taken from the REGISTER) — two
+ * instructions short. Writing it as an explicit if/else that STORES in each arm gives the
+ * target's cross-jumped shape: `beqz .L74 / j .L78 (delay: li 0x58) / .L74: li 0x48 /
+ * .L78: sb 0x56(sp)` followed by a genuine `lbu 0x56(sp)` reload. Cookbook: store-in-both-
+ * arms defeats the constant CSE that a ternary into memory enables.
+ *
+ * Other shapes read straight off the .s:
+ *  - chained assignments (`a = b = c = 0`) evaluate right-to-left, which is why every
+ *    zero-group stores its HIGHEST offset first (0x4C,0x44,0x34 / 0x5E,0x5D,0x5C ...);
+ *  - each loop body reads six bytes with `*q++` and then `q -= 2`; gcc folds the sixth
+ *    increment into the subtraction and emits the single `addiu $s0,$s0,-1`;
+ *  - `s16 i` gives the addiu/move/sll/sra/slti counter idiom on both do-whiles.
+ */
+
+typedef struct { s16 vx, vy, vz, pad; } Sv_8017FA2C;
+typedef struct { u8 r, g, b, cd; } Cv_8017FA2C;
+typedef struct {
+    Sv_8017FA2C v[4];   /* 0x00 */
+    Cv_8017FA2C c[4];   /* 0x20 */
+    u32         code;   /* 0x30 */
+} Prim_8017FA2C;
+
+extern u16 D_800B99DA;
+extern s32 D_801F8090;
+extern s8  D_8018636C[];
+extern s8  D_80186380[];
+extern s32 func_80029178(s32);
+extern s32 func_80017758(void *a0, void *a1);
+extern void func_8017FD4C(s32 param_1, s16 *param_2, s16 *param_3, void *param_4);
+
+void func_8017FA2C(s32 param_1, s16 *param_2, s16 *param_3) {
+    u8 sp10[32];
+    Prim_8017FA2C p;
+    s8 *q;
+    s16 i;
+
+    func_8017FD4C(param_1, param_2, param_3, sp10);
+    p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
+    p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
+    if (D_800B99DA & 1) {
+        p.c[1].b = 0x58;
+    } else {
+        p.c[1].b = 0x48;
+    }
+    p.c[1].r = p.c[1].g = p.c[1].b >> 2;
+    if ((u8)func_80029178(0x81)) {
+        p.c[1].g <<= 2;
+        p.c[1].b >>= 1;
+    }
+    q = D_8018636C;
+    i = 0;
+    p.c[0].r = p.c[0].g = p.c[0].b = 0;
+    p.c[2].r = p.c[2].g = p.c[2].b = 0;
+    p.c[3].r = p.c[3].g = p.c[3].b = 0;
+    p.code = 0x50000000;
+    do {
+        p.v[0].vx = (*q++ * D_801F8090) >> 12;
+        p.v[0].vy = (*q++ * D_801F8090) >> 12;
+        p.v[2].vx = (*q++ * D_801F8090) >> 12;
+        p.v[2].vy = (*q++ * D_801F8090) >> 12;
+        p.v[3].vx = (*q++ * D_801F8090) >> 12;
+        p.v[3].vy = (*q++ * D_801F8090) >> 12;
+        q -= 2;
+        func_80017758(&p, sp10);
+        i++;
+    } while (i < 4);
+    p.v[1].vz = -0x12;
+    q = D_80186380;
+    i = 0;
+    p.v[0].vy = p.v[2].vy = p.v[3].vy = 0;
+    p.v[1].vx = p.v[1].vy = 0;
+    p.c[1].b <<= 1;
+    p.c[1].r = p.c[1].g = p.c[1].g << 1;
+    do {
+        p.v[0].vx = (*q++ * D_801F8090) >> 12;
+        p.v[0].vz = (*q++ * D_801F8090) >> 12;
+        p.v[2].vx = (*q++ * D_801F8090) >> 12;
+        p.v[2].vz = (*q++ * D_801F8090) >> 12;
+        p.v[3].vx = (*q++ * D_801F8090) >> 12;
+        p.v[3].vz = (*q++ * D_801F8090) >> 12;
+        q -= 2;
+        if (i == 2) {
+            p.c[3].b = p.c[1].b;
+            p.c[3].r = p.c[3].g = p.c[1].r;
+        } else if (i == 3) {
+            p.c[3].r = p.c[3].g = p.c[3].b = 0;
+            p.c[0].b = p.c[1].b;
+            p.c[0].r = p.c[0].g = p.c[1].r;
+        }
+        func_80017758(&p, sp10);
+        i++;
+    } while (i < 4);
+}
+
 
 extern s32 D_801269A4;
 extern s32 D_801269A8;
@@ -4272,7 +4401,31 @@ void func_801802A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017DB90", func_801802E0);
+#include "common.h"
+
+extern void func_8012E8A8(u8 *a0);
+extern u8 *D_801F80AC[];
+
+void func_801802E0(s32 *arg0) {
+    s32 i;
+    u8 **p;
+    u8 *obj;
+
+    i = 0;
+    p = D_801F80AC;
+    do {
+        obj = *p;
+        p++;
+        i++;
+        func_8012E8A8(obj);
+        *(s16 *)(obj + 0x98) = 0;
+        *(s16 *)(obj + 0x34) = 0;
+        *(s32 *)(obj + 4) = 0;
+        *(s32 *)(obj + 8) = 0;
+        *(s32 *)(obj + 0xC) = 0;
+    } while (i < 0x1B);
+}
+
 
 extern void func_80180390(void);
 extern s32 D_801F8084;

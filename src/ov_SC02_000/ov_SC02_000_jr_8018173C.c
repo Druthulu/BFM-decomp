@@ -3647,7 +3647,20 @@ void func_80183274(s32 *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80183310);
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_801834EC);
+void func_801834EC(s32 arg0)
+{
+    func_80147AD4(arg0, 0, 0, 0);
+    func_801473EC((s32 *)arg0);
+    func_80172414(arg0);
+    if (--*(s32 *)(arg0 + 0x204) == -1) {
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = 0;
+        func_80146D90(arg0);
+        *(s32 *)(arg0 + 0x204) = 0x10;
+        *(u8 *)(arg0 + 0x4D) -= 1;
+        *(u8 *)(arg0 + 0x214) += 1;
+    }
+}
+
 
 
 void func_80183574(void *arg0) {
@@ -4959,7 +4972,33 @@ s32 func_80185D58(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80185E00);
+extern unsigned char D_801202A0[];
+extern void func_8012C218(void *a0);
+
+void func_80185E00(void)
+{
+    unsigned char *puVar2;
+    unsigned int uVar3;
+    unsigned int uVar4;
+    int iVar1;
+
+    uVar3 = 0;
+    uVar4 = 0x29;
+    puVar2 = D_801202A0;
+    iVar1 = 0;
+    __asm__ __volatile__("" : "=r"(uVar4) : "0"(uVar4));
+    do {
+        if ((*(unsigned short *)(D_801202A0 + iVar1) != 0) &&
+            (*(unsigned short *)(D_801202A0 + iVar1) != uVar4)) {
+            func_8012C218(puVar2);
+        }
+        puVar2 = puVar2 + 0x10c;
+        uVar3 = uVar3 + 1;
+        iVar1 = iVar1 + 0x10c;
+    } while (uVar3 < 0x60);
+    return;
+}
+
 
 extern s32 func_8012E504(s32 a0, s32 a1);
 
@@ -5091,7 +5130,63 @@ DEFINE_func_8018621C()  /* dedup: shared engine-core @0x8018621C (src/shared) */
 
 DEFINE_func_8018623C()  /* dedup: shared engine-core @0x8018623C (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_8018626C);
+#include "common.h"
+
+extern s32 D_801270D0;
+extern s32 D_801270CC;
+extern s32 D_8018F2F0;
+extern s32 D_80126D50;
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u8 D_800D3918[];
+extern u8 D_800D391C[];
+extern s32 ratan2(s32 a0, s32 a1);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+typedef struct {
+    s16 f0;
+    s16 f1;
+    s16 f2;
+    s16 f3;
+    s16 f4;
+    s16 f5;
+    s16 f6;
+    s16 f7;
+    s32 f8;
+} Pkt_8018626C;
+
+void func_8018626C(void) {
+    s32 *ctr = &D_801270D0;
+    Pkt_8018626C pkt;
+    s16 pos[3];
+    s32 buf[2];
+    s32 angle;
+
+    *ctr = *ctr + 1;
+    if (*ctr >= 0x3C && D_801270CC < D_8018F2F0 && D_80126D50 == 0) {
+        *ctr = 0;
+        pos[0] = D_80126B5E;
+        pos[1] = D_80126B62;
+        pos[2] = D_80126B66;
+        angle = ratan2(*(s16 *)D_800D391C - (s16)D_80126B66, (s16)D_80126B5E - *(s16 *)D_800D3918);
+        func_8012B0B4((unsigned int *)buf, (angle - 0x400) & 0xFFF, 0x110);
+        pkt.f1 = -0x1004;
+        pkt.f3 = 0x2F;
+        pkt.f4 = 0x400;
+        pkt.f5 = 0;
+        pkt.f6 = 0x7FFF;
+        pkt.f8 = 0;
+        pkt.f7 = 0;
+        pkt.f0 = (s16)buf[0];
+        pkt.f2 = (s16)(buf[0] >> 16);
+        if (func_8012C51C(&pkt, 0) != 0) {
+            D_801270CC = D_801270CC + 1;
+        }
+    }
+}
+
 
 
 extern void (*D_8018F2F4[])(void);

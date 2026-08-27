@@ -11167,7 +11167,117 @@ void func_8018A488(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018A4C4);
+/* func_8018A4C4 — ov_SC04_011, TU src/ov_SC04_011/ov_SC04_011_jr_8017D494.c
+ *
+ * Spawn/init dispatcher keyed on ent->0x70: below 0x10 it reads an 8-byte record
+ * out of D_80194A98 (f0/f2/f4 = s16 offsets, f6 = u16 flag word); at 0x10 and
+ * above everything is randomised. Sibling shape: func_8018A8EC (same TU, L11255)
+ * and func_8018A1B4 (L11083) — declarations copied VERBATIM from those blocks
+ * (func_8012C1B8 / func_8012CAE4 / func_8001C214 / func_8012B23C / func_8012AD50
+ * / rand / D_801948F0). D_80194A98 is new: typed u8[] and indexed by byte offset,
+ * the TU's own spelling for a strided record block (cf. `extern u8 D_801E5810[];`).
+ *
+ * TWO byte-required levers, both regalloc/schedule, neither reachable by pins:
+ *
+ * 1. §48-A2, THE LOCAL-ALLOC $s0 OCCUPANT — `tbl` is declared INSIDE the if-arm.
+ *    That makes it a single-block, call-crossing quantity, so LOCAL-alloc parks it
+ *    in $s0 before global-alloc runs. Every global allocno that is live in that
+ *    block (the ent copy, the object pointer) then conflicts with $s0 and rotates
+ *    onto $s1/$s2, while `s0` — dead in the if-arm — is free to share $s0 with it.
+ *    That is what produces `addu $s2,$v0,$zero / addu $s0,$s2,$zero` at entry and
+ *    `sll $s0,$v1,3 / addu $s0,$s0,$v0` at the table. Hoisting `tbl` to function
+ *    scope (one variable for both roles) swaps $s0<->$s2 everywhere and additionally
+ *    lets dbr steal the beqz delay slot. With `tbl` block-scoped the match is
+ *    PIN-FREE; six pin combinations over $16/$17/$18 were tried first and every one
+ *    cost 2-4 instructions (a hard-reg local cannot be the destination of a
+ *    two-operand add, so `s0 += base` always buys a temp plus a `move`).
+ *
+ * 2. §31 STATEMENT ORDER — `ent->0x1C = (s16)ent->0x70` is written LAST, after the
+ *    0x18 store, even though the target emits its `sw` BEFORE the 0x18 chain. Put it
+ *    third (its emission position) and sched2 hoists the whole statement above the
+ *    0x14 store and then has nothing left to fill the `lh 0x4($s0)` load delay: +1 nop.
+ *    Written last, its `lh`/`sw` pair is exactly the filler for the two load delays,
+ *    and the trailing 0x18 store is what cross_jump merges into the join block's
+ *    `jal rand` delay slot. Do not pre-schedule for gcc.
+ */
+
+
+extern s32 D_801948F0[];
+extern u8  D_80194A98[];
+
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012B23C(s32 a0);
+extern s32 func_8012AD50(void *a0);
+extern s32 rand(void);
+
+void func_8018A4C4(void *a0)
+{
+    s32 ent = (s32)a0;
+    s32 v0;
+    s32 s0;
+
+    v0 = func_8012C1B8();
+    s0 = v0;
+    *(s32 *)(ent + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)ent);
+        return;
+    }
+
+    if (*(s16 *)(ent + 0x70) < 0x10) {
+        s32 tbl = (s32)&D_80194A98[*(s16 *)(ent + 0x70) * 8];
+        u16 idx;
+        u16 flags;
+        u16 merged;
+
+        idx = *(u16 *)(tbl + 0x6) & 7;
+        *(u16 *)(ent + 0xFE) = idx;
+        func_8001C214(v0, D_801948F0[idx]);
+
+        flags = *(u16 *)(tbl + 0x6) & 0xFFF0;
+        merged = *(u16 *)(v0 + 0x2C) | 0x10;
+        *(u16 *)(v0 + 0x1C) = flags;
+        *(u16 *)(v0 + 0x1A) = flags;
+        *(u16 *)(v0 + 0x18) = flags;
+        *(u16 *)(v0 + 0x2C) = merged;
+
+        *(u16 *)(ent + 0x6) = *(u16 *)(*(s32 *)(ent + 0x64) + 0x6) + *(u16 *)(tbl + 0x0);
+        *(u16 *)(ent + 0xA) = *(u16 *)(*(s32 *)(ent + 0x64) + 0xA) + *(u16 *)(tbl + 0x2);
+        *(u16 *)(ent + 0xE) = *(u16 *)(*(s32 *)(ent + 0x64) + 0xE) + *(u16 *)(tbl + 0x4);
+        func_8012B23C(ent);
+
+        *(s32 *)(ent + 0x10) = *(s16 *)(tbl + 0x0) * 3 << 10;
+        *(s32 *)(ent + 0x14) = (*(s16 *)(tbl + 0x2) << 12) - 0x80000;
+        *(s32 *)(ent + 0x18) = *(s16 *)(tbl + 0x4) * 3 << 10;
+        *(s32 *)(ent + 0x1C) = *(s16 *)(ent + 0x70);
+    } else {
+        u16 merged;
+
+        func_8001C214(s0, D_801948F0[rand() & 3]);
+
+        merged = *(u16 *)(s0 + 0x2C) | 0x10;
+        *(u16 *)(s0 + 0x1C) = 0x600;
+        *(u16 *)(s0 + 0x1A) = 0x600;
+        *(u16 *)(s0 + 0x18) = 0x600;
+        *(u16 *)(s0 + 0x2C) = merged;
+
+        *(u16 *)(ent + 0x6) = *(u16 *)(*(s32 *)(ent + 0x64) + 0x6) + (rand() & 0x7F) - 0x40;
+        *(u16 *)(ent + 0xA) = *(u16 *)(*(s32 *)(ent + 0x64) + 0xA) + (rand() & 0x7F) - 0x40;
+        *(u16 *)(ent + 0xE) = *(u16 *)(*(s32 *)(ent + 0x64) + 0xE) + (rand() & 0x7F) - 0x40;
+        func_8012B23C(ent);
+
+        *(s32 *)(ent + 0x10) = *(s32 *)(*(s32 *)(ent + 0x64) + 0x10) * 4 / 3;
+        *(s32 *)(ent + 0x14) = *(s32 *)(*(s32 *)(ent + 0x64) + 0x14) * 4 / 3;
+        *(s32 *)(ent + 0x18) = *(s32 *)(*(s32 *)(ent + 0x64) + 0x18) * 4 / 3;
+    }
+
+    *(u16 *)(ent + 0x106) = rand() & 0xF0;
+    *(u16 *)(ent + 0x108) = rand() & 0xF0;
+    func_8012AD50((void *)ent);
+}
+
 
 
 extern void (*D_80194B18[])(void);

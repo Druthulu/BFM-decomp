@@ -6844,7 +6844,28 @@ void func_80181454(s32 p) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801814DC);
+extern s32 func_800291B4(s32 arg);
+extern void func_8012BD14(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern u8 D_801BAEF0[];
+
+void func_801814DC(s32 a0) {
+    if ((func_800291B4(0xCC) & 0xFF) == 1) {
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) &= 0x7FFFFFFF;
+        if (((s32 (*)(s32))func_8012BD14)(a0) <= 0x10000) {
+            *(s16 *)(a0 + 0x2) = 2;
+            func_8012A828(a0, D_801BAEF0);
+        }
+    }
+
+    if ((func_800291B4(0xCC) & 0xFF) == 0xF) {
+        *(s16 *)(a0 + 0xE) -= 0x100;
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) &= 0x7FFFFFFF;
+        *(s16 *)(a0 + 0x2) = 3;
+        func_8012A828(a0, D_801BAEF0);
+    }
+}
+
 
 extern void func_8012B14C(s32 a0, s32 a1);
 extern void func_800291A0(s32 a0, s32 a1);
@@ -7463,7 +7484,39 @@ s32 func_801827E8(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801828B0);
+#include "common.h"
+
+extern u16 D_800B99DA;
+extern s16 D_80190C40[];
+extern u8 *func_8012913C(s32 a0);
+extern void func_8012B0B4(u32 *param_1, s32 param_2, s32 param_3);
+extern s32 rand(void);
+
+void func_801828B0(s32 a0) {
+    s32 obj;
+    s16 *tbl;
+    register s32 q __asm__("$16");
+    u32 buf[2];
+    s32 v;
+
+    obj = a0;
+    if ((D_800B99DA & 3) == 0) {
+        for (tbl = D_80190C40; *tbl != -1; tbl++) {
+            q = (s32)func_8012913C(0x22);
+            if (q != 0) {
+                func_8012B0B4(buf, *tbl, rand() % 80 + 0x118);
+                v = (s32)buf[0];
+                *(u16 *)(q + 0x6) = *(u16 *)(obj + 0x6) + v;
+                *(u16 *)(q + 0xE) = *(u16 *)(obj + 0xE) + (v >> 16);
+                *(u16 *)(q + 0xA) = *(u16 *)(obj + 0xA) + 0x40;
+                *(s32 *)(q + 0x14) = (rand() % 9) * 0x10000 - 0x100000;
+                *(u16 *)(q + 0x34) = (rand() & 1) | 0x7FF0;
+                *(u16 *)(*(s32 *)(q + 0x20) + 0x2C) = 0xC008;
+            }
+        }
+    }
+}
+
 
 extern s32 D_801F782C;
 extern s32 D_801F76CC;
@@ -7482,7 +7535,147 @@ s32 func_801829FC(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80182A44);
+/* func_80182A44 — 146 ins, ov_SC03_006, TU src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c
+ *
+ * The per-frame tick of the SC03_006 sequence: pushes the current camera triple
+ * (D_80126B5E/62/66) through func_8013B598, then runs a 3-state machine on
+ * D_801F782C (0 = init, 1 = draw-only, 2 = animate+draw).
+ *
+ * ===== THE TWO LEVERS (each byte-measured with tools/match_one.py) =====
+ *
+ * (1) THE INNER 2-WAY DISPATCH IS AN if-CHAIN, NOT A `switch`.  Target:
+ *         beq $v1,$a0,.L80182B5C ; slti $v0,$v1,2 ; beqz $v0,default ; bnez $v1,default
+ *     i.e. a case-node tree rooted at 1 with a left leaf 0 and NO right child.
+ *     A `switch (D_801F76CC) { case 0: ... case 1: ... }` CANNOT produce that:
+ *     gcc-2.7.2 stmt.c:5360 `balance_case_nodes` only splits when `i > 2`, so a
+ *     TWO-node list is left LINEAR (root = case 0), and emit_case_nodes'
+ *     "right child, no left" arm then emits a bare `do_jump_if_equal` pair —
+ *     `beqz`/`beq`, two tests, no `slti` (145 ins, −1).  Writing the three tests
+ *     out longhand as nested `if`s reproduces the tree exactly.  Cf. §222-2,
+ *     which uses an EMPTY leading case to buy the median split at THREE nodes;
+ *     at two nodes there is no case-label spelling that reaches this shape.
+ *     (The OUTER switch on D_801F782C is a real 3-node switch — i == 3 takes
+ *     stmt.c's `npp = &(*npp)->right` middle-split, root = 1, hence
+ *     `beq $v1,$a0` first and the `.L80182AA8` right-subtree block.)
+ *
+ * (2) THE ±1/+2 ARMS TAKE THE ADDRESS THROUGH A POINTER.  Target:
+ *         lui $v1,%hi ; addiu $v1,%lo ; lw $v0,0($v1) ... sw $v0,0($v1)
+ *     — `&D_801F76F4` materialised into a register in BOTH arms, with cross_jump
+ *     merging the ONE-instruction `sw $v0,0($v1)` tail (§162: one side falls
+ *     through into the label ⇒ find_cross_jump's minimum is 1).  Spelling the
+ *     arms as plain `D_801F76F4 -= 1;` / `+= 2;` emits the gas-macro folded form
+ *     instead (`lw $v0,SYM` → lui/lw %lo; `sw $v0,SYM` → lui $at/sw %lo), whose
+ *     shared tail is TWO instructions — 145 ins, and that is the whole −1.
+ *     A block-local `s32 *p = &D_801F76F4;` per arm is enough; the `volatile`
+ *     of ov_SC03_006.c:220's remat lever also matches but is not needed here,
+ *     and §153's integration caution says to gate the PLAIN variant.
+ *     Note the other two D_801F76F4 references (the `= 0` at 80182B4C and the
+ *     `>= 0x71` read at 80182C10) are SINGLE-use and stay folded — do not
+ *     convert them.
+ *
+ * (3) `case 1:` and the tail of `case 2:` are the same six-instruction
+ *     func_8017F510 call; gcc cross-jumps them into the shared .L80182C44, so
+ *     write both longhand and let the compiler merge (§88a/§162).
+ *
+ * Declarations follow the destination TU: D_801F782C/D_801F76CC as `s32`
+ * (L7468-7469), D_801F76A8 as `u32` (L7491 — a differing file-scope decl would
+ * conflict on splice), func_8017F498/func_8017F510 verbatim from L5833/L5847,
+ * func_8013C9C4 from L1299, D_80126B5E/62/66 as `u16` from L1782/L2722/L2734.
+ * `(D_800B99DC & 7) + 3` is the same RNG-reseed idiom as ov_SC03_014_o0c.c:2889.
+ *
+ * MEASURED: tools/match_one.py -> MATCH (146 ins);
+ *           tools/symcheck.py  -> SYMS-OK, 23 symbols agree.
+ *           match_one is the CANDIDATE gate — finish on the whole-binary SHA1.
+ */
+
+#include "common.h"
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u16 D_800B99DC;
+
+extern s32 D_801F782C;
+extern s32 D_801F76CC;
+extern s32 D_801F76D0;
+extern s32 D_801F76D4;
+extern s32 D_801F76D8;
+extern s32 D_801F76F4;
+extern u32 D_801F76A8;
+extern s32 D_801F7848;
+extern s32 D_801BA07C;
+extern u8  D_8018CD3C[];
+
+extern void func_8013B598(s32 a0, u16 *a1);
+extern void func_8013C0F8(s32 a0);
+extern void func_8017F498(s32 a0);
+extern void func_8017F510(s32 arg0, s32 arg1, s32 arg2);
+extern s32  func_80029178(s32 arg);
+extern void func_8013C9C4(void *a0);
+extern void func_8013CB84(void);
+extern void func_80182C8C(void);
+extern void func_800D06E8(void);
+
+void func_80182A44(void) {
+    u16 sp10[3];
+
+    sp10[0] = D_80126B5E;
+    sp10[1] = D_80126B62;
+    sp10[2] = D_80126B66;
+    func_8013B598(0, sp10);
+
+    switch (D_801F782C) {
+    case 0:
+        func_8013C0F8((s32)&D_801BA07C);
+        func_8017F498((s32)&D_801F76D8);
+        D_801F782C = D_801F782C + 1;
+        if ((func_80029178(0x121) & 0xFF) != 0) {
+            D_801F782C = 3;
+        }
+        break;
+    case 1:
+        func_8017F510((s32)&D_801F7848, (s32)&D_801BA07C, (s32)&D_801F76D8);
+        break;
+    case 2:
+        if (D_801F76CC != 1) {
+            if (D_801F76CC >= 2) {
+                break;
+            }
+            if (D_801F76CC != 0) {
+                break;
+            }
+            D_801F76D0 = 0;
+            D_801F76D4 = 1;
+            D_801F76F4 = 0;
+            D_801F76CC = 1;
+        }
+        if (--D_801F76D4 == 0) {
+            func_8013C9C4(D_8018CD3C);
+            D_801F76D4 = (D_800B99DC & 7) + 3;
+        }
+        D_801F76A8 = D_801F76A8 + 0x100;
+        D_801F76D0 = D_801F76D0 + 1;
+        if (D_801F76D0 >= 0x39) {
+            if ((D_801F76D0 & 1) != 0) {
+                s32 *p = &D_801F76F4;
+                *p = *p - 1;
+            } else {
+                s32 *p = &D_801F76F4;
+                *p = *p + 2;
+            }
+            D_801F76D8 = 0;
+            if (D_801F76F4 >= 0x71) {
+                D_801F76CC = D_801F76CC + 1;
+            }
+        }
+        func_8017F510((s32)&D_801F7848, (s32)&D_801BA07C, (s32)&D_801F76D8);
+        break;
+    }
+    func_8013CB84();
+    func_80182C8C();
+    func_800D06E8();
+}
+
 
 
 // @class: regalloc-order
