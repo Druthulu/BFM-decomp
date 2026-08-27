@@ -9166,7 +9166,72 @@ void func_80181500(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_80181850);
+#include "common.h"
+
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern s32 func_80029504(void);
+extern s32 func_800291DC(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_800291C8(s32 a0, s32 a1);
+extern void func_80029514(s32 a0);
+extern void func_8012B23C(s32 a0);
+extern s32 func_80143970(s32 a0);
+extern s32 func_8012B030(u8 *a0);
+extern void func_80181A70(s32 a0);
+
+extern s16 currentLocationId;
+extern s16 D_80198B70;
+extern s32 D_80198BB8;
+extern u16 D_80198BB0;
+extern u16 D_80198BB2;
+extern u16 D_80198BB4;
+extern u8 D_800AF630[];
+
+void func_80181850(s32 a0) {
+    s32 v0, v1;
+    u8 *p = D_800AF630;
+
+    if (func_8012C354(a0, (s32)&D_80198B70) != 0) {
+        if ((u32)func_80029504() < 0x1D7) {
+            v1 = func_800291DC(0xA);
+            if ((v1 & 0x100) == 0 && (s16)v1 != currentLocationId) {
+                func_8012C218((void *)a0);
+                return;
+            }
+        } else {
+            func_8012C218((void *)a0);
+            return;
+        }
+
+        if (*(s16 *)(p + 0xA3D8) == 0x1052) {
+            func_80029514(0x1D6);
+        }
+        v0 = *(u16 *)(p + 0xA3D8);
+        *(s16 *)(a0 + 0xFE) = v0;
+        func_800291C8(0xA, (s16)v0);
+        *(u8 *)(a0 + 0xC0) = 1;
+        *(s32 *)(a0 + 0xB4) = -0x489;
+        *(s32 *)(a0 + 0xBC) = (s32)&D_80198BB8;
+        *(u8 *)(a0 + 0xC1) = 0;
+        *(s32 *)(a0 + 0xC4) = 1;
+        func_8012B23C(a0);
+        func_80143970(a0);
+        func_8012B030((u8 *)a0);
+
+        v1 = *(u16 *)(a0 + 0x6);
+        *(s16 *)(a0 + 0x2) = 1;
+        *(s16 *)(a0 + 0xAE) = -1;
+        *(u8 *)(a0 + 0x75) = 8;
+        D_80198BB0 = v1;
+        D_80198BB2 = *(u16 *)(a0 + 0xA);
+        D_80198BB4 = *(u16 *)(a0 + 0xE);
+
+        if (*(s16 *)(p + 0xA3D8) == 0x1052) {
+            func_80181A70(a0);
+        }
+    }
+}
+
 
 void func_801819C8(s32 a0) {
     s32 a1 = a0;

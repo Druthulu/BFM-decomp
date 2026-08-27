@@ -3019,7 +3019,50 @@ void func_801814A8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_801810C8", func_801815DC);
+#include "common.h"
+#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+
+extern s16 D_8018864C;
+extern s16 D_8018864E;
+extern s16 D_80188650;
+extern s32 func_80183EE0(s32 a0, s32 a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+void func_801815DC(s32 param_1) {
+    struct S80190C84 sp;
+    s32 vec[3];
+    s32 out[3];
+    s16 *p = &D_8018864C;
+
+    func_80183EE0(param_1, (s32)p);
+
+    vec[0] = *p << 8;
+    vec[1] = D_8018864E << 8;
+    vec[2] = D_80188650 << 8;
+
+    func_800484EC(*(s32 *)(param_1 + 0x20) + 0x34, (s32)vec, (s32)out);
+
+    out[0] += *(s16 *)(param_1 + 0x6) << 8;
+    out[1] += *(s16 *)(param_1 + 0xA) << 8;
+    out[2] += *(s16 *)(param_1 + 0xE) << 8;
+
+    sp.f0 = out[0] / 256;
+    sp.f2 = out[1] / 256;
+    sp.f4 = out[2] / 256;
+    sp.f6 = 0x20;
+    if ((*(u16 *)(param_1 + 0x70) & 0x1000) != 0) {
+        sp.f8 = 0x1001;
+    } else {
+        sp.f8 = 3;
+    }
+    sp.fA = 0;
+    sp.f10 = 0;
+    sp.fE = 0;
+
+    func_8012C51C(&sp, param_1);
+}
+
 
 #include "common.h"
 

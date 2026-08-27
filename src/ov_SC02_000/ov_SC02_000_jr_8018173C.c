@@ -5123,7 +5123,32 @@ void func_8018618C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_801861D8);
+typedef struct {
+    short f0;
+    short f2;
+    short f4;
+    short f6;
+    short f8;
+    short fa;
+    short fc;
+    short fe;
+    int   f10;
+} Sprite8_801861D8;
+
+extern s32 func_8012C51C(void *a0, s32 a1);
+
+void func_801861D8(s32 a0) {
+    Sprite8_801861D8 spr;
+
+    spr.f2 = -0xF70;
+    spr.f0 = 0;
+    spr.f4 = 0;
+    spr.f6 = 0x41;
+    spr.fa = 0;
+    spr.f8 = 0;
+    func_8012C51C(&spr, a0);
+}
+
 
 DEFINE_func_8018621C()  /* dedup: shared engine-core @0x8018621C (src/shared) */
 
@@ -5488,7 +5513,24 @@ void func_80186E30(void *a0) {
 DEFINE_func_80186E6C()  /* dedup: shared engine-core @0x80186E6C (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80186F44);
+#include "common.h"
+
+extern u16 D_800B99DC;
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_80186F44(s32 a0) {
+    if (*(s16 *)(*(s32 *)(a0 + 0x64) + 0xE) - 0x10 < *(s16 *)(a0 + 0xE)) {
+        *(s32 *)(a0 + 0x18) = 0xFFDBC000;
+        *(s32 *)(a0 + 0x14) = 0xFFE00000;
+        *(s32 *)(a0 + 0x48) = 0x80000;
+        *(s32 *)(a0 + 0x44) = 0;
+        *(s32 *)(a0 + 0x4C) = 0;
+        *(s16 *)(a0 + 0x12) = 0xF - (D_800B99DC & 0x1F);
+        func_8002D4C8(0x4D8, 0);
+        *(u16 *)(a0 + 2) += 1;
+    }
+}
+
 
 #include "common.h"
 
@@ -6201,7 +6243,34 @@ void func_80188D18(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80188D54);
+#include "common.h"
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+extern void func_8012A828(s32 a0, void *a1);
+extern u8 D_801AFAC8;
+extern u8 D_8018F5A4;
+
+void func_80188D54(s32 param_1) {
+    s32 v0;
+    s32 iVar1;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    iVar1 = v0;
+    *(s32 *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+    func_8001C214(iVar1, (s32)&D_801AFAC8);
+    func_8001D0E8(iVar1, 0x800, 0x800);
+    func_8012A828(param_1, &D_8018F5A4);
+    *(s32 *)(iVar1 + 4) |= 0x40;
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 DEFINE_func_80188DF0()  /* dedup: shared engine-core @0x80188DF0 (src/shared) */
 

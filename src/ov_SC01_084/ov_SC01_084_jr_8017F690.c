@@ -5549,7 +5549,31 @@ void func_80185348(s32 param_1) {
 void func_801853C4(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_801853CC);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8001D0E8(s32, s32, s32);
+extern void func_8012A828(s32 a0, void *a1);
+extern u8 D_801BB3C0[];
+extern s32 D_8018A568;
+
+void func_801853CC(s32 param_1) {
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+    func_8001C214(v0, (s32)D_801BB3C0);
+    func_8001D0E8(*(s32 *)(param_1 + 0x20), 0xAA, 0xD0);
+    func_8012A828(param_1, &D_8018A568);
+    *(u16 *)(param_1 + 2) = 2;
+    *(u16 *)(param_1 + 0x34) = 0;
+    *(s32 *)(param_1 + 0x1C) = 0;
+}
+
 
 void func_8018544C(s32 arg0)
 {
@@ -5896,7 +5920,14 @@ void func_80185AF8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80185B34);
+extern s32 rand(void);
+
+void func_80185B34(s32 param_1) {
+    *(s32 *)(param_1 + 0x14) = 0x20000;
+    *(s32 *)(param_1 + 0x1C) = rand() & 0x1F;
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 #include "common.h"
 

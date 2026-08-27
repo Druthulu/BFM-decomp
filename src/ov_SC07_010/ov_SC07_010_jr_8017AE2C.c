@@ -6448,7 +6448,168 @@ void func_80181728(void *a0) {
 void func_801817C8(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_801817D0);
+#include "common.h"
+
+/* func_801817D0 (215 ins, ov_SC07_010) -- MATCH.
+ * Builds six 24-byte "DR_MODE word + SPRT" packets (setlen 5, code 0x64, 256x256,
+ * clut 0x7800) at &D_801A92B4[arg0*0x90 + {0,0x18,0x30,0x48,0x60,0x78}], then
+ * addPrim()s all six into the OT word at &D_800A6620[arg0 << 14].
+ *
+ * Two non-obvious levers were needed (both byte-proven here):
+ *  1. sched1 LUID order (sched.md S1 / rank rule 4.iii): the target materialises each
+ *     SYMBOL ADDRESS *before* the index arithmetic (`lui/addiu D_801A92B4` then
+ *     `sll/addu/sll`). A plain `&SYM[i + K]` expands the index first, so the la gets a
+ *     HIGHER luid and sched (which runs BACKWARD) places it later. Fix: assign the bare
+ *     symbol to a pointer local FIRST (`pbase`/`obase`) and form the base pointer as
+ *     `(u8 *)(i + (s32)pbase)` -- the cast keeps the `addu $t3,$v1,$t4` operand order.
+ *     The +K siblings must stay `&D_801A92B4[i + K]` (symbol+const is a CONST rtx, which
+ *     is what produces `addiu $v0,$t4,K` + `addu`; going through the pointer local would
+ *     collapse them to a single `addiu p0,4`).
+ *  2. local-alloc qty order (regalloc.md K2/K3): the 0xFFFFFF mask lands in $t7 and the
+ *     0xE100008E constant in $t6 -- the target has them the other way round. Pinning the
+ *     mask to $14 (cookbook §17) fixes all 20 affected instructions; it is byte-clean
+ *     (constant computed straight into the hard reg, no copy, no spills in this function).
+ */
+
+extern u8 D_801A92B4[];
+extern u8 D_800A6620[];
+
+void func_801817D0(s32 arg0, s32 arg1) {
+    u8 *p0;
+    u8 *p1;
+    u8 *p2;
+    u8 *p3;
+    u8 *p4;
+    u8 *p5;
+    u32 *q0;
+    u32 *q1;
+    u32 *q2;
+    u32 *q3;
+    u32 *q4;
+    u32 *q5;
+    u32 *ot;
+    register u32 m24 __asm__("$14");
+    s32 i;
+    u8 *pbase;
+    u8 *obase;
+
+    pbase = D_801A92B4;
+    i = arg0 * 0x90;
+
+    p0 = (u8 *)(i + (s32)pbase);
+    p0[3] = 5;
+    q0 = (u32 *)&D_801A92B4[i + 0x4];
+    *q0 = 0xE100008A;
+    p0[0xB] = 100;
+    p0[0xA] = arg1;
+    p0[9] = arg1;
+    p0[8] = arg1;
+    *(s16 *)(p0 + 0xC) = -0x140;
+    *(s16 *)(p0 + 0xE) = -0xF0;
+    p0[0x10] = 0;
+    p0[0x11] = 0;
+    *(s16 *)(p0 + 0x12) = 0x7800;
+    *(s16 *)(p0 + 0x14) = 0x100;
+    *(s16 *)(p0 + 0x16) = 0x100;
+
+    p1 = &D_801A92B4[i + 0x18];
+    p1[3] = 5;
+    q1 = (u32 *)&D_801A92B4[i + 0x1C];
+    *q1 = 0xE100008C;
+    p1[0xB] = 100;
+    p1[0xA] = arg1;
+    p1[9] = arg1;
+    p1[8] = arg1;
+    *(s16 *)(p1 + 0xC) = -0x40;
+    *(s16 *)(p1 + 0xE) = -0xF0;
+    p1[0x10] = 0;
+    p1[0x11] = 0;
+    *(s16 *)(p1 + 0x12) = 0x7800;
+    *(s16 *)(p1 + 0x14) = 0x100;
+    *(s16 *)(p1 + 0x16) = 0x100;
+
+    p2 = &D_801A92B4[i + 0x30];
+    p2[3] = 5;
+    q2 = (u32 *)&D_801A92B4[i + 0x34];
+    *q2 = 0xE100008E;
+    p2[0xB] = 100;
+    p2[0xA] = arg1;
+    p2[9] = arg1;
+    p2[8] = arg1;
+    *(s16 *)(p2 + 0xC) = 0xC0;
+    *(s16 *)(p2 + 0xE) = -0xF0;
+    p2[0x10] = 0;
+    p2[0x11] = 0;
+    *(s16 *)(p2 + 0x12) = 0x7800;
+    *(s16 *)(p2 + 0x14) = 0x100;
+    *(s16 *)(p2 + 0x16) = 0x100;
+
+    p3 = &D_801A92B4[i + 0x48];
+    p3[3] = 5;
+    q3 = (u32 *)&D_801A92B4[i + 0x4C];
+    *q3 = 0xE100009A;
+    p3[0xB] = 100;
+    p3[0xA] = arg1;
+    p3[9] = arg1;
+    p3[8] = arg1;
+    *(s16 *)(p3 + 0xC) = -0x140;
+    *(s16 *)(p3 + 0xE) = 0x10;
+    p3[0x10] = 0;
+    p3[0x11] = 0;
+    *(s16 *)(p3 + 0x12) = 0x7800;
+    *(s16 *)(p3 + 0x14) = 0x100;
+    *(s16 *)(p3 + 0x16) = 0x100;
+
+    p4 = &D_801A92B4[i + 0x60];
+    p4[3] = 5;
+    q4 = (u32 *)&D_801A92B4[i + 0x64];
+    *q4 = 0xE100009C;
+    p4[0xB] = 100;
+    p4[0xA] = arg1;
+    p4[9] = arg1;
+    p4[8] = arg1;
+    *(s16 *)(p4 + 0xC) = -0x40;
+    *(s16 *)(p4 + 0xE) = 0x10;
+    p4[0x10] = 0;
+    p4[0x11] = 0;
+    *(s16 *)(p4 + 0x12) = 0x7800;
+    *(s16 *)(p4 + 0x14) = 0x100;
+    *(s16 *)(p4 + 0x16) = 0x100;
+
+    p5 = &D_801A92B4[i + 0x78];
+    p5[3] = 5;
+    q5 = (u32 *)&D_801A92B4[i + 0x7C];
+    *q5 = 0xE100009E;
+    p5[0xB] = 100;
+    p5[0xA] = arg1;
+    p5[9] = arg1;
+    p5[8] = arg1;
+    *(s16 *)(p5 + 0xC) = 0xC0;
+    *(s16 *)(p5 + 0xE) = 0x10;
+    p5[0x10] = 0;
+    p5[0x11] = 0;
+    *(s16 *)(p5 + 0x12) = 0x7800;
+    *(s16 *)(p5 + 0x14) = 0x100;
+    *(s16 *)(p5 + 0x16) = 0x100;
+
+    obase = D_800A6620;
+    ot = (u32 *)((arg0 << 14) + (s32)obase);
+    m24 = 0xFFFFFF;
+
+    *(u32 *)p0 = (*(u32 *)p0 & 0xFF000000) | (*ot & m24);
+    *ot = (*ot & 0xFF000000) | ((u32)p0 & m24);
+    *(u32 *)p1 = (*(u32 *)p1 & 0xFF000000) | (*ot & m24);
+    *ot = (*ot & 0xFF000000) | ((u32)p1 & m24);
+    *(u32 *)p2 = (*(u32 *)p2 & 0xFF000000) | (*ot & m24);
+    *ot = (*ot & 0xFF000000) | ((u32)p2 & m24);
+    *(u32 *)p3 = (*(u32 *)p3 & 0xFF000000) | (*ot & m24);
+    *ot = (*ot & 0xFF000000) | ((u32)p3 & m24);
+    *(u32 *)p4 = (*(u32 *)p4 & 0xFF000000) | (*ot & m24);
+    *ot = (*ot & 0xFF000000) | ((u32)p4 & m24);
+    *(u32 *)p5 = (*(u32 *)p5 & 0xFF000000) | (*ot & m24);
+    *ot = (*ot & 0xFF000000) | ((u32)p5 & m24);
+}
+
 
 void func_80181B2C(void *a0) {
     extern void (*D_80186070[])(void);

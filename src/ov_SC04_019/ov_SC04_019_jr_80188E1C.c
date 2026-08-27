@@ -3217,7 +3217,164 @@ s32 func_80188E1C(s32 param_1, s32 param_2) {
     return (s32)result;
 }
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_80189214);
+/* func_80189214 — ov_SC04_019 (203 ins).  STATE: MATCH (203/203).
+ *
+ * Cross-overlay twin: the SAME function is already banked byte-proven in
+ * src/ov_SC04_018/ov_SC04_018_jr_80188E1C.c:3279.  The two targets' .s are
+ * instruction-identical and — verified with tools/reloc_identity.py against
+ * asm/ov_SC04_019/.../func_80189214.s — reference the SAME 16 relocations
+ * (D_80115138/40/48/58, D_80115116, D_8011511A, D_801B8DDA, D_801B8DEE,
+ *  D_800B9A02, D_800AE7BC, func_8014168C): AGREE, no per-overlay respell.
+ *
+ * A previous t5-era attempt on this card left this exact body and the whole-
+ * binary byte-gate refused it.  Re-probed here THREE ways, all green:
+ *   1. match_one standalone            -> MATCH (203 ins)
+ *   2. match_one on the FULL host TU with this body spliced over the
+ *      INCLUDE_ASM at :3220            -> MATCH (203 ins)  (no decl conflict:
+ *      the TU's own file-scope prototype :3046 `extern s32 *func_80189214(
+ *      s32 *, void *, s32, void *, s32);` agrees with this definition, and the
+ *      block-scope Env_8018C960_80189EA0 typedef cannot collide with the
+ *      identically-named block-scope one in func_80189EA0 at :3672)
+ *   3. cc1 .s of the whole TU with vs. without this body, $L-renumbering
+ *      normalised -> ZERO other function changed.  The only new diagnostic is
+ *      a benign "type mismatch with previous external decl" on D_800AE7BC
+ *      (this body now declares it first; func_80189EA0's codegen is byte-
+ *      identical either way, and the build has no -Werror).
+ * => the earlier gate refusal was NOT this body.  It is an integration/harness
+ *    failure (R42/R43 class), not a codegen one.
+ *
+ * Levers (all inherited byte-proven from the ov_SC04_018 twin):
+ *   §20  &D_800B9A02 taken into pointer LOCALS (pb / pb2) -> the address is
+ *        force_reg'd once (lui+addiu -> $a2, copied to $t2 for the loop)
+ *        instead of a %lo per use; the second local is what keeps the loop's
+ *        base in $t2 rather than re-materialising it.
+ *   §263 `((s32 (*)(s32))func_8014168C)((s16)idx)` — the cast-call keeps the
+ *        one-argument shape whose `jal`+`nop` delay slot the target has.
+ *   ---  `idx2 = idx + zr` (zr pinned to $0) is the CSE BARRIER that stops the
+ *        two `(s16)idx` sign-extensions folding into one: the target keeps the
+ *        RAW $a2 in $s4 across the call and re-extends (sll/sra) for the
+ *        D_8011511A compare.
+ *   ---  the `__asm__ volatile("" :: "r"(pb) x5)` before the loop is a
+ *        register-pressure fence; `__asm__("" ::: "memory")` inside the loop
+ *        is the store-order barrier that puts `sw 0x4000000,0($s0)` after the
+ *        D_801B8DDA/DEE half-word store.
+ *   ---  $t3 = 8 and the 0xFFFFFF / 0xFF000000 masks are loop-invariant LOCALS
+ *        (eight/m24/mhi), which is what hoists them into the loop preheader.
+ */
+
+extern s16 func_8014168C(s16 a0);
+
+s32 *func_80189214(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
+
+    typedef struct { u32 *ot; u32 pad[4]; } Env_8018C960_80189EA0;   /* 0x14 stride */
+
+    extern u8  D_80115138[];
+    extern u8  D_80115140[];
+    extern u8  D_80115148[];
+    extern u8  D_80115158[];
+    extern u16 D_80115116;
+    extern u16 D_8011511A;
+    extern u16 D_801B8DDA;
+    extern u16 D_801B8DEE;
+    extern s16 D_800B9A02;
+    extern Env_8018C960_80189EA0 D_800AE7BC[];
+
+    register s32 zr __asm__("$0");
+    u16 *pb;
+    u16 *p;
+    s32  c;
+    register s32 tv __asm__("$3");
+    s32  idx2;
+    s16  t;
+    register u32 c0 __asm__("$3");
+
+    c = D_80115138[(s16)idx];
+    *(u32 *)ot = 0x4000000;
+    tv = tag;
+    *((u8 *)ot + 0xC) = 0x30;
+    *((u8 *)ot + 0xD) = 0x48;
+    ot[1] = tv | 0x64000000;
+    *(s16 *)((u8 *)ot + 0xE) = 0x4056;
+    idx2 = idx + zr;
+
+    if (c < 10) {
+        t = ((s32 (*)(s32))func_8014168C)((s16)idx) * 2;
+    } else {
+        t = (D_80115148[(s16)idx * 2] - D_80115140[(s16)idx]) * 2;
+    }
+
+    p = (u16 *)(t * 2 + (s32)a1p);
+    *(s16 *)((u8 *)ot + 0x8) = p[0] - 8;
+    *(s16 *)((u8 *)ot + 0xA) = p[1];
+    *(s16 *)((u8 *)ot + 0x12) = 8;
+    *(s16 *)((u8 *)ot + 0x10) = 8;
+
+    pb = (u16 *)&D_800B9A02;
+    c0 = ot[0];
+    ot[0] = (c0 & 0xFF000000) | (D_800AE7BC[*pb].ot[2] & 0xFFFFFF);
+    D_800AE7BC[*pb].ot[2] =
+        (D_800AE7BC[*pb].ot[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
+
+    ot += 5;
+
+    if (c >= 10) {
+        s32 m = D_8011511A;
+        if ((m == (s16)idx2) && ((D_80115116 & 8) != 0)) {
+            s16 j;
+            s32 k;
+            u8 *q;
+            s16 y;
+            u16 *pb2;
+            u32 m24;
+            u32 mhi;
+            s32 eight;
+
+            j = 0;
+            k = m;
+            eight = 8;
+            __asm__ volatile("" :: "r"(pb), "r"(pb), "r"(pb), "r"(pb), "r"(pb));
+            pb2 = (u16 *)&D_800B9A02;
+            m24 = 0xFFFFFF;
+            mhi = 0xFF000000;
+            q = (u8 *)ot + 0x14;
+            for (; j < 2; j++) {
+                if (j == 0) {
+                    if (D_80115140[k] == 0) {
+                        continue;
+                    }
+                    q[-7] = 0x30;
+                    y = D_801B8DDA - 2;
+                } else {
+                    s32 k2 = k * 2;
+                    if ((((s8 *)D_80115158)[k2] - ((s8 *)D_80115140)[k]) < 7) {
+                        continue;
+                    }
+                    q[-7] = 0x38;
+                    y = D_801B8DEE + 1;
+                }
+                *(s16 *)(q - 10) = y;
+                __asm__("" ::: "memory");
+                *((u32 *)ot) = 0x4000000;
+                q[-8] = 0x78;
+                *((u32 *)(q - 0x10)) = 0x64808080;
+                *(s16 *)(q - 6) = 0x4056;
+                *(s16 *)(q - 0xC) = ((s32 *)a3p)[2] + ((s32 *)a3p)[3] - 0xC;
+                *(s16 *)(q - 4) = eight;
+                *(s16 *)(q - 2) = eight;
+                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (D_800AE7BC[*pb2].ot[2] & m24);
+                {
+                    register u32 *op __asm__("$4");
+                    op = D_800AE7BC[*pb2].ot;
+                    op[2] = (op[2] & mhi) | (((u32)ot) & m24);
+                }
+                q += 0x14;
+                ot += 5;
+            }
+        }
+    }
+    return ot;
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_800291B4(s32 arg);

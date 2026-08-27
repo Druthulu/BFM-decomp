@@ -5997,7 +5997,39 @@ void func_801813BC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8018141C);
+#include "common.h"
+
+extern s32 func_80181C08(void *a0);
+extern void func_80181708(void *a0);
+extern s16 D_80186A00[];
+
+void func_8018141C(void *a0) {
+    s16 angle;
+    u16 dir;
+
+    if (func_80181C08(a0) != 1) {
+        angle = D_80186A00[*(s16 *)((s32)a0 + 0x102)] * 38 + *(u16 *)((s32)a0 + 0x100);
+        *(u16 *)((s32)a0 + 0x100) = angle;
+        if (angle >= 0xE5) {
+            angle = 0xE4;
+            dir = *(u16 *)((s32)a0 + 0x102);
+            *(u16 *)((s32)a0 + 0x100) = angle;
+            *(u16 *)((s32)a0 + 0x102) = dir ^ 1;
+        } else if (angle < -0xE4) {
+            angle = -0xE4;
+            dir = *(u16 *)((s32)a0 + 0x102);
+            *(u16 *)((s32)a0 + 0x100) = angle;
+            *(u16 *)((s32)a0 + 0x102) = dir ^ 1;
+        }
+        func_80181708(a0);
+        if (*(u16 *)(*(u32 *)((s32)a0 + 0x64) + 2) == 2) {
+            *(s32 *)((s32)a0 + 0x1C) = 0x14;
+            *(u16 *)((s32)a0 + 2) = 3;
+            *(u16 *)((s32)a0 + 0x34) = 0;
+        }
+    }
+}
+
 
 extern u16 D_80186A04[];
 extern u16 D_80186A08[];
