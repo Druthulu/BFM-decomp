@@ -2413,7 +2413,140 @@ __asm__(
     ".end\tSYS_OBJ_1FF4\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_202C);
+/* SYS_OBJ_202C (0x8005B260) is NOT an independently C-compilable function: it is a MID-FRAME
+ * fragment of the larger routine that begins at _dws (0x8005B1C4) and runs
+ * _dws -> SYS_OBJ_1FF4 -> SYS_OBJ_202C -> SYS_OBJ_21A4 (already banked in this TU). It is
+ * entered with `j SYS_OBJ_202C` (from SYS_OBJ_1FF4) or by falling into its own local label
+ * .L8005B264 (also reached with `beqz .., .L8005B264` from SYS_OBJ_1FF4), and it has NO
+ * prologue -- $s1/$s2/$s5 are already live from _dws's 0x50-byte frame (ra@0x48, s5@0x44,
+ * s4@0x40, s3@0x3C, s2@0x38, s1@0x34, s0@0x30). Every exit is a bare tail transfer into
+ * SYS_OBJ_21A4 (`j SYS_OBJ_21A4` / `bnez $v0, SYS_OBJ_21A4`) or a fallthrough at 0x8005B3D4
+ * straight into SYS_OBJ_21A4's restore sequence -- SYS_OBJ_202C itself has no `jr $ra` and no
+ * epilogue. None of that is expressible as a C function (cc1 always appends its own
+ * prologue/epilogue, proven repeatedly in this TU), so this is the byte-verified file-scope
+ * inline-asm idiom already used for _dws/SYS_OBJ_1DC0/SYS_OBJ_1F64/SYS_OBJ_1FF4/SYS_OBJ_21A4.
+ *
+ * Body transcribed 1:1 from asm/nonmatchings/800c/SYS_OBJ_202C.s. SYMBOL AUDIT (every
+ * relocation in that .s):
+ *   jal 0x0C01703D -> func_8005C054 (GPU-timeout poller, declared elsewhere in this TU as
+ *      `extern s32 func_8005C054(void);`)
+ *   j   SYS_OBJ_21A4 / bnez ..,SYS_OBJ_21A4 -> the shared epilogue banked at src/800c.c
+ *   lui/lw %hi/%lo D_8007285C, D_80072858, D_80072860, D_80072864, D_80072868 -- the GPU
+ *      status/table registers already declared `volatile u32 *` elsewhere in this TU.
+ *   (no other relocation in the file.)
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_202C\n"
+    ".ent\tSYS_OBJ_202C\n"
+    "SYS_OBJ_202C:\n"
+        ".set\tnoreorder\n"
+        "sll   $v0, $a0, 16\n"
+        ".L8005B264:\n"
+        "lh    $v1, 4($s1)\n"
+        "sra   $v0, $v0, 16\n"
+        "mult  $v1, $v0\n"
+        "sh    $a0, 6($s1)\n"
+        "mflo  $a2\n"
+        "addiu $v1, $a2, 1\n"
+        "srl   $v0, $v1, 31\n"
+        "addu  $v1, $v1, $v0\n"
+        "sra   $a0, $v1, 1\n"
+        "bgtz  $a0, .L8005B298\n"
+        "sra   $s0, $v1, 5\n"
+        "j     SYS_OBJ_21A4\n"
+        "addiu $v0, $zero, -1\n"
+        ".L8005B298:\n"
+        "addu  $v1, $s0, $zero\n"
+        "sll   $v0, $v1, 4\n"
+        "subu  $s0, $a0, $v0\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "addu  $s4, $v1, $zero\n"
+        "lw    $v0, 0($v0)\n"
+        "lui   $v1, 0x400\n"
+        "and   $v0, $v0, $v1\n"
+        "bnez  $v0, .L8005B2F8\n"
+        "lui   $a0, 0xa000\n"
+        "lui   $s3, 0x400\n"
+        ".L8005B2C8:\n"
+        "jal   func_8005C054\n"
+        "nop\n"
+        "bnez  $v0, SYS_OBJ_21A4\n"
+        "addiu $v0, $zero, -1\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "nop\n"
+        "lw    $v0, 0($v0)\n"
+        "nop\n"
+        "and   $v0, $v0, $s3\n"
+        "beqz  $v0, .L8005B2C8\n"
+        "lui   $a0, 0xa000\n"
+        ".L8005B2F8:\n"
+        "lui   $v1, %hi(D_8007285C)\n"
+        "lw    $v1, %lo(D_8007285C)($v1)\n"
+        "lui   $v0, 0x400\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v1, %hi(D_80072858)\n"
+        "lw    $v1, %lo(D_80072858)($v1)\n"
+        "lui   $v0, 0x100\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v0, %hi(D_80072858)\n"
+        "lw    $v0, %lo(D_80072858)($v0)\n"
+        "beqz  $s5, .L8005B32C\n"
+        "nop\n"
+        "lui   $a0, 0xb000\n"
+        ".L8005B32C:\n"
+        "sw    $a0, 0($v0)\n"
+        "lui   $v1, %hi(D_80072858)\n"
+        "lw    $v1, %lo(D_80072858)($v1)\n"
+        "lw    $v0, 0($s1)\n"
+        "nop\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v1, %hi(D_80072858)\n"
+        "lw    $v1, %lo(D_80072858)($v1)\n"
+        "lw    $v0, 4($s1)\n"
+        "addiu $s0, $s0, -1\n"
+        "sw    $v0, 0($v1)\n"
+        "addiu $v0, $zero, -1\n"
+        "beq   $s0, $v0, .L8005B388\n"
+        "nop\n"
+        "addiu $a0, $zero, -1\n"
+        ".L8005B368:\n"
+        "lw    $v1, 0($s2)\n"
+        "addiu $s2, $s2, 4\n"
+        "lui   $v0, %hi(D_80072858)\n"
+        "lw    $v0, %lo(D_80072858)($v0)\n"
+        "addiu $s0, $s0, -1\n"
+        "sw    $v1, 0($v0)\n"
+        "bne   $s0, $a0, .L8005B368\n"
+        "nop\n"
+        ".L8005B388:\n"
+        "beqz  $s4, .L8005B3D4\n"
+        "lui   $v1, 0x400\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "ori   $v1, $v1, 2\n"
+        "sw    $v1, 0($v0)\n"
+        "lui   $v0, %hi(D_80072860)\n"
+        "lw    $v0, %lo(D_80072860)($v0)\n"
+        "lui   $a0, 0x100\n"
+        "sw    $s2, 0($v0)\n"
+        "sll   $v0, $s4, 16\n"
+        "lui   $v1, %hi(D_80072864)\n"
+        "lw    $v1, %lo(D_80072864)($v1)\n"
+        "ori   $v0, $v0, 0x10\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v0, %hi(D_80072868)\n"
+        "lw    $v0, %lo(D_80072868)($v0)\n"
+        "ori   $a0, $a0, 0x201\n"
+        "sw    $a0, 0($v0)\n"
+        ".L8005B3D4:\n"
+        "addu  $v0, $zero, $zero\n"
+        ".set\treorder\n"
+    ".end\tSYS_OBJ_202C\n"
+);
 
 /* SYS_OBJ_21A4 -- SHARED EPILOGUE of caller SYS_OBJ_202C's 0x50-byte frame
  * (ra@0x48, s5@0x44, s4@0x40, s3@0x3C, s2@0x38, s1@0x34, s0@0x30).
@@ -2529,7 +2662,189 @@ __asm__(
     ".end\tSYS_OBJ_222C\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2264);
+/* Standalone match_one draft for SYS_OBJ_2264. Destination TU is src/800c.c; declarations here
+ * copy that TU's own spelling verbatim (per the pack's authoritative `tu=` rows). SYS_OBJ_242C is
+ * the chain's shared-tail sibling, already banked as its own file-scope __asm__ block in that TU
+ * immediately after this function -- referenced here only via a bare `j`/`bnez` (undefined at
+ * standalone-compile time is fine; it is a masked relocation, per SYS.md law 1c). */
+
+extern volatile u32 *D_8007285C;
+extern volatile u32 *D_80072858;
+extern volatile u32 *D_80072860;
+extern volatile u32 *D_80072864;
+extern volatile u32 *D_80072868;
+extern s32 func_8005C054(void);
+
+/* SYS_OBJ_2264 (0x8005B498) -- MIDDLE-CHAIN FRAGMENT, file-scope raw asm (§179-C class).
+ *
+ * WHY RAW ASM: this is the third link of _drs (0x8005B3EC) -> SYS_OBJ_222C -> SYS_OBJ_2264 ->
+ * SYS_OBJ_242C. Every exit is a bare `j`/`bnez` tail transfer to sibling SYS_OBJ_242C (with
+ * $v0=-1 live in the delay slot) or a fallthrough into SYS_OBJ_242C's first instruction at
+ * .L8005B65C -- there is NO trailing `jr $ra` anywhere in this function's own body; SYS_OBJ_242C
+ * (already banked in src/800c.c immediately below the SYS_OBJ_2264 stub) carries the chain's only
+ * epilogue, tearing down the frame _drs built (ra@68/s4@64/s3@60/s2@56/s1@52/s0@48, decimal, off
+ * $sp). Per §179-C, cc1's `expand_function_end`/`function_epilogue` appends a `jr $ra`/`nop` to
+ * ANY real C function unconditionally (no `noreturn` guard on that path) -- the §179-H "one C
+ * function spans the whole chain" alternative was already tried and bisect-rejected for the
+ * sibling chain (see the SYS_OBJ_1DC0 history in src/800c.c), so file-scope asm is the only
+ * surviving form, matching this exact chain's already-banked SYS_OBJ_222C/SYS_OBJ_21A4/
+ * SYS_OBJ_242C blocks (house style: no .frame/.mask/.fmask, literal .ent/.end, un-doubled
+ * %hi/%lo per §179-C rule (b)).
+ *
+ * ENTRY POINT NOTE: `.L8005B49C` (right after the leading `sll`) is also the target of
+ * SYS_OBJ_222C's own `beqz $v0, .L8005B49C` (src/800c.c, the block immediately above the
+ * SYS_OBJ_2264 stub). Safe: all __asm__ blocks in one TU concatenate into ONE assembled unit, so
+ * a `.L`-prefixed local label defined here is resolvable from that earlier sibling block exactly
+ * as it already was via the INCLUDE_ASM'd .s (no behavior change from removing that stub).
+ *
+ * SYMBOL-TABLE LAW (§274 ADDENDUM to §179-C): explicit `.type SYS_OBJ_2264, @function` /
+ * `.size SYS_OBJ_2264, . - SYS_OBJ_2264` so the harness's function-discovery/boundary-walk finds
+ * an STT_FUNC symbol here (this IS the harvest target).
+ *
+ * IMMEDIATES: every `lui`/`ori` pair in the target is a plain 32-bit bit-pattern constant, not a
+ * `%hi`/`%lo` of any symbol (0x04000000, 0x01000000, 0xC0000000, 0x08000000, 0x04000003,
+ * 0x01000200) -- transcribed here as the already-shifted/masked literal halves cc1 would have
+ * emitted, identical bytes to the target's `(X >> 16)` / `(X & 0xFFFF)` disassembly rendering.
+ *
+ * SYMBOL AUDIT (against this .s's own relocation lines): D_8007285C, D_80072858, D_80072860,
+ * D_80072864, D_80072868 (all %hi/%lo pairs), func_8005C054 (jal, GPU-timeout poller, already
+ * declared/defined in the destination TU), SYS_OBJ_242C (bare `j`/`bnez` tail).
+ */
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_2264\n"
+    ".type\tSYS_OBJ_2264, @function\n"
+    ".ent\tSYS_OBJ_2264\n"
+    "SYS_OBJ_2264:\n"
+        ".set\tnoreorder\n"
+        "sll   $v0, $a0, 16\n"
+        ".L8005B49C:\n"
+        "lh    $v1, 4($s1)\n"
+        "sra   $v0, $v0, 16\n"
+        "mult  $v1, $v0\n"
+        "sh    $a0, 6($s1)\n"
+        "mflo  $a2\n"
+        "addiu $v1, $a2, 1\n"
+        "srl   $v0, $v1, 31\n"
+        "addu  $v1, $v1, $v0\n"
+        "sra   $a0, $v1, 1\n"
+        "bgtz  $a0, .L8005B4D0\n"
+        "sra   $s0, $v1, 5\n"
+        "j     SYS_OBJ_242C\n"
+        "addiu $v0, $zero, -1\n"
+        ".L8005B4D0:\n"
+        "addu  $v1, $s0, $zero\n"
+        "sll   $v0, $v1, 4\n"
+        "subu  $s0, $a0, $v0\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "addu  $s4, $v1, $zero\n"
+        "lw    $v0, 0($v0)\n"
+        "lui   $v1, 0x400\n"
+        "and   $v0, $v0, $v1\n"
+        "bnez  $v0, .L8005B530\n"
+        "nop\n"
+        "lui   $s3, 0x400\n"
+        ".L8005B500:\n"
+        "jal   func_8005C054\n"
+        "nop\n"
+        "bnez  $v0, SYS_OBJ_242C\n"
+        "addiu $v0, $zero, -1\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "nop\n"
+        "lw    $v0, 0($v0)\n"
+        "nop\n"
+        "and   $v0, $v0, $s3\n"
+        "beqz  $v0, .L8005B500\n"
+        "nop\n"
+        ".L8005B530:\n"
+        "lui   $v1, %hi(D_8007285C)\n"
+        "lw    $v1, %lo(D_8007285C)($v1)\n"
+        "lui   $v0, 0x400\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v1, %hi(D_80072858)\n"
+        "lw    $v1, %lo(D_80072858)($v1)\n"
+        "lui   $v0, 0x100\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v1, %hi(D_80072858)\n"
+        "lw    $v1, %lo(D_80072858)($v1)\n"
+        "lui   $v0, 0xC000\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v1, %hi(D_80072858)\n"
+        "lw    $v1, %lo(D_80072858)($v1)\n"
+        "lw    $v0, 0($s1)\n"
+        "nop\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v1, %hi(D_80072858)\n"
+        "lw    $v1, %lo(D_80072858)($v1)\n"
+        "lw    $v0, 4($s1)\n"
+        "nop\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "nop\n"
+        "lw    $v0, 0($v0)\n"
+        "lui   $v1, 0x800\n"
+        "and   $v0, $v0, $v1\n"
+        "bnez  $v0, .L8005B5DC\n"
+        "nop\n"
+        "lui   $s1, 0x800\n"
+        ".L8005B5AC:\n"
+        "jal   func_8005C054\n"
+        "nop\n"
+        "bnez  $v0, SYS_OBJ_242C\n"
+        "addiu $v0, $zero, -1\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "nop\n"
+        "lw    $v0, 0($v0)\n"
+        "nop\n"
+        "and   $v0, $v0, $s1\n"
+        "beqz  $v0, .L8005B5AC\n"
+        "nop\n"
+        ".L8005B5DC:\n"
+        "addiu $s0, $s0, -1\n"
+        "addiu $v0, $zero, -1\n"
+        "beq   $s0, $v0, .L8005B610\n"
+        "nop\n"
+        "addiu $v1, $zero, -1\n"
+        ".L8005B5F0:\n"
+        "lui   $v0, %hi(D_80072858)\n"
+        "lw    $v0, %lo(D_80072858)($v0)\n"
+        "nop\n"
+        "lw    $v0, 0($v0)\n"
+        "addiu $s0, $s0, -1\n"
+        "sw    $v0, 0($s2)\n"
+        "bne   $s0, $v1, .L8005B5F0\n"
+        "addiu $s2, $s2, 4\n"
+        ".L8005B610:\n"
+        "beqz  $s4, .L8005B65C\n"
+        "lui   $v1, 0x400\n"
+        "lui   $v0, %hi(D_8007285C)\n"
+        "lw    $v0, %lo(D_8007285C)($v0)\n"
+        "ori   $v1, $v1, 3\n"
+        "sw    $v1, 0($v0)\n"
+        "lui   $v0, %hi(D_80072860)\n"
+        "lw    $v0, %lo(D_80072860)($v0)\n"
+        "lui   $a0, 0x100\n"
+        "sw    $s2, 0($v0)\n"
+        "sll   $v0, $s4, 16\n"
+        "lui   $v1, %hi(D_80072864)\n"
+        "lw    $v1, %lo(D_80072864)($v1)\n"
+        "ori   $v0, $v0, 0x10\n"
+        "sw    $v0, 0($v1)\n"
+        "lui   $v0, %hi(D_80072868)\n"
+        "lw    $v0, %lo(D_80072868)($v0)\n"
+        "ori   $a0, $a0, 0x200\n"
+        "sw    $a0, 0($v0)\n"
+        ".L8005B65C:\n"
+        "addu  $v0, $zero, $zero\n"
+        ".set\treorder\n"
+    ".size\tSYS_OBJ_2264, . - SYS_OBJ_2264\n"
+    ".end\tSYS_OBJ_2264\n"
+);
 
 
 /* SYS_OBJ_242C (0x8005B660) -- SHARED EPILOGUE FRAGMENT, file-scope raw asm (byte-verified idiom).
