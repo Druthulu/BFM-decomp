@@ -2764,3 +2764,59 @@ is MCP noise — do not commit; Drew pushes (R6).
 `__asm__("func_X")` alias fix); distill the t5e/t5f/t5h novelty notes; regenerate
 `.run/frontier_s61/class_members.json` (289 of its K+L are now banked) before any planning that
 quotes class sizes; T6 wall track has 9 diagnosed NEARs waiting (see the wall ledger above).
+
+## 🛑 SESSION CHECKPOINT — S63 FINAL (2026-08-27 ~11:40). Supersedes the ~09:45 block. Phase 31 T5 CONTINUES. **PAUSED at Drew's request for a PC reboot.** Machine QUIESCED: no lanes, no workflows, tree clean, stop sentinel `.run/ox_campaign.stop` SET.
+
+**FLEET: 2,380 → 1,968 stubs = 412 CLOSED THIS SESSION.** 98.5% → **98.6% instruction-weighted**,
+96.8% → **97.1% distinct** (89,437/90,929 unique fns). **GREEN 213/213 after every batch** — the last
+clean sweep ran at the t5i close (11:16, `make clean && extract-all && check-all` = `213 passed,
+0 failed of 213`). main SHA `143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical. Red list EMPTY.
+Cookbook **888 → 917 sections**, index green. ~32 commits, zero regressions, nothing uncommitted.
+
+**WAVES (banked / drafted):** t5a 43/48 · t5b 44/52 · t5c 39/48 · t5d 42/48 · t5e 53/58 · t5f 34/35 ·
+t5g 42/48 · t5h 13/19 · t5i **58/63** · main 9/11 · integration recovery 5/5 · free A-prop lane 23+3.
+
+**REMAINING K+L: 594 open / 34,752 ins** (401 ≤50 · 138 51–120 · 55 >120) over 159 binaries.
+**`.run/t5j` IS ALREADY DRAWN, CARDED (92% tu_ref / 100% decl_prior) AND PACKED — launch it first.**
+
+**RESUME IN ONE LINE:** `Workflow(scriptPath='tools/workflows/claude_wave_draft.js', args={wave:'.run/t5j', targets:<from .run/t5j/targets.json, keys name/binary/nins/sub/arm>})` → `bash tools/t5_bank.sh .run/t5j sonnet opus`. Full recipe in the ~09:45 checkpoint block above.
+
+**WHAT S63 PROVED (carry these into the P31 close / P32 plan):**
+1. **Drafting is not the bottleneck.** Nine waves ran **81–97% banks-per-drafted**; the plan's
+   "<15% → stop and autopsy" falsifier is dead by ~6×. **Integration and the wall are what remain.**
+2. **Escalate the residue to Opus — always, once.** t5b took 4/4 of t5a's residue; t5e 16/18; t5i
+   16/19 including **7 in the 51–120 band Sonnet had refused**. Opus went 4/4, 5/5, 3/4, 4/4 on >120.
+   A Sonnet NEAR is not a wall until Opus has looked at it.
+3. **Integration > codegen among misses.** t5d: 1 codegen vs **5 byte-correct bodies refused by TU
+   plumbing**, all 5 recovered. t5i's Opus agents went further and *diagnosed their own prior gate
+   refusals* (`extern void f(void)` in the TU vs a prototyped def → keep `(void)` and read `$a0` via
+   `register __asm__("$4")`, §42/§73/§272). `claude_integration_recover.js` automates the class.
+4. **The free A-prop lane is DRAINING: 23 banks → 3, on MORE exemplars (182 → 269).** Sibling remap
+   has been the campaign's main zero-cost lever; do not plan on it scaling with crack count.
+5. **`fix_tu_ret_decls` still has an unbuilt MIRROR** (TU `extern s32` vs a `void` definition — SKIPs
+   every wave). The proven manual fix is a renamed definition bound by `__asm__("func_X")`. BUILD IT.
+
+**HARNESS DEFECTS FOUND + FIXED THIS SESSION (all byte-measured):** the **(binary, fn) card defect**
+(48/48 t5a and 15/20 T4 packs carried ANOTHER binary's card — fixed, plus `t5_cards.py`/
+`wave_card_fuel.py` now BUILD the target's own fuel: 74–92% tu_ref, 95–100% decl_prior vs 0% correct
+before); **R48 in the residue collector** (t5i drew 4 duplicate names — the name-keyed pack builder
+REFUSED, exactly as designed; residues now dedupe by (binary,fn) across waves); an **R35 catch**
+(my own wrong-arg `decl_prior` read of 0/48 → 98% corrected).
+
+**RULE CANDIDATES (P10, for the PhaseEnd):** (a) *a drafting agent must not be able to write the tree*
+— one agent wrote `src/800c.c` and `git checkout`-reverted it; harmless ONLY because R42 meant every
+bank was already committed; (b) *a sampling filter ships with its denominator* — `--novel-only`
+selected 12/124 then 30/199 then 8/30, and prints what it did not distil every time.
+
+**T6 WALL LEDGER (diagnosed, ready for the wall track):** func_80185344 (c=7, one bool in `$a3` vs
+`$v1` at 7 sites; 5 restructurings + 2 pin schemes refuted) · func_8017F498 (c=2, REGALLOC-PERM on a
+rematerialised constant; **NEW BOUND**: no `$4` pin spelling can be instruction-free in a function
+that passes args in `$a0`) · func_80180728 (c=35, RTL const-prop) · func_8017EDD4 → **banked in t5i**
+· func_8017E830 → **banked in t5i** · func_8017F9F4 → **banked in t5i** · main's func_8001BC6C (§307)
+· func_80021284 (c=25). Opus-refused twice: ov_SC06_025:func_8017EF94 · ov_SC06_025:func_8017FD28 ·
+ov_SC03_028:func_8017D8B8 · ov_SC01_001:func_8017F830 · ov_SC01_001:func_8018183C ·
+ov_SC03_002:func_80180378 · ov_SC03_028:func_8018150C · ov_SC03_116:func_801812AC (last two BANKED
+later in t5h/t5i — re-derive the ledger from the drawn ledger before trusting it).
+
+**NOT YET DISTILLED:** 22 weaker-signal t5e–t5i transcripts (the 8 strong ones were banked as
+§308/§308a/§309 + 2 addenda); 169 of 199 banked transcripts carried no novelty signal at all.
