@@ -3884,7 +3884,50 @@ void func_8017E8DC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017E95C);
+extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
+extern void func_8018ABC0(u16 *r, s16 *m);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+
+typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_8017E95C;
+typedef struct { s16 vx, vy, vz, pad; } SIn_8017E95C;
+typedef struct { u16 vx, vy, vz, pad; } SOut_8017E95C;
+typedef struct { u16 vx, vy, vz, pad; } Ang_8017E95C;
+
+void func_8017E95C(s32 param_1, s16 *param_2, s16 *param_3, s32 param_4) {
+    Mtx_8017E95C mtx;
+    SIn_8017E95C svec_in;
+    SOut_8017E95C svec_out;
+    Ang_8017E95C angles;
+
+    *(s32 *)(param_1 + 0x8)  = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x8),  (s32)*(s16 *)(param_1 + 0xC),  4);
+    *(s32 *)(param_1 + 0x10) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x10), (s32)*(s16 *)(param_1 + 0x14), 4);
+    *(s16 *)(param_1 + 0x18) = func_80012ABC((s32)*(s16 *)(param_1 + 0x18), (s32)*(s16 *)(param_1 + 0x20), 4);
+    *(s16 *)(param_1 + 0x1A) = func_80012ABC((s32)*(s16 *)(param_1 + 0x1A), (s32)*(s16 *)(param_1 + 0x22), 4);
+    *(s16 *)(param_1 + 0x1C) = func_80012ABC((s32)*(s16 *)(param_1 + 0x1C), (s32)*(s16 *)(param_1 + 0x24), 4);
+    *(s16 *)(param_1 + 0x28) = func_80012C6C((s32)*(s16 *)(param_1 + 0x28), (s32)*(s16 *)(param_1 + 0x2E), 0x10);
+    *(s16 *)(param_1 + 0x2A) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2A), (s32)*(s16 *)(param_1 + 0x30), 0x10);
+    *(s16 *)(param_1 + 0x2C) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2C), (s32)*(s16 *)(param_1 + 0x32), 0x10);
+
+    *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)param_3[0];
+    *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)param_3[1];
+    *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)param_3[2];
+
+    angles.vx = *(u16 *)(param_1 + 0x18);
+    angles.vy = *(u16 *)(param_1 + 0x1A) + param_4;
+    angles.vz = *(u16 *)(param_1 + 0x1C);
+    func_8018ABC0((u16 *)&angles, (s16 *)&mtx);
+
+    svec_in.vx = 0;
+    svec_in.vy = 0;
+    svec_in.vz = *(s32 *)(param_1 + 0x10);
+    ApplyMatrixSV((void *)&mtx, (void *)&svec_in, (void *)&svec_out);
+
+    *(s32 *)(param_1 + 0x3C) = ((s16)svec_out.vx >> 3) + *(s16 *)(param_1 + 0x28);
+    *(s32 *)(param_1 + 0x40) = ((s16)svec_out.vy >> 3) + *(s16 *)(param_1 + 0x2A) + param_2[1];
+    *(s32 *)(param_1 + 0x44) = ((s16)svec_out.vz >> 3) + *(s16 *)(param_1 + 0x2C);
+}
+
 
 extern void (*D_801906C4[])(void);
 extern s32 *D_80126B78;
@@ -4572,7 +4615,35 @@ s32 func_80181268(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_801812AC);
+extern u8 D_8019072C[];
+extern s32 D_801DDB2C[5];
+
+s32 func_801812AC(s32 a0)
+{
+    u8 *p;
+    s32 i;
+    u8 idx;
+    s32 *ent;
+    u16 val;
+
+    p = &D_8019072C[a0 * 5];
+    for (i = 0; i < 5; i++, p++) {
+        idx = *p;
+        if (idx == 0xFF) {
+            break;
+        }
+        ent = (s32 *)D_801DDB2C[idx];
+        val = *(u16 *)((u8 *)ent + 2);
+        if ((u32)(val - 2) >= 2) {
+            return 0;
+        }
+        if (*(u16 *)((u8 *)ent + 0x34) != 1) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 
 extern s32 D_801DDB2C[5];
 

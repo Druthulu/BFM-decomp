@@ -5291,7 +5291,29 @@ s32 func_8017F54C(void *a0, void *a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017F5A4);
+void func_8017F5A4(void *a0, s32 a1) {
+    u8 *p = a0;
+    s32 v0;
+
+    v0 = p[0] - a1;
+    if (v0 < 0) {
+        v0 = 0;
+    }
+    p[0] = v0;
+    __asm__ __volatile__("" ::: "memory");
+    v0 = p[1] - a1;
+    if (v0 < 0) {
+        v0 = 0;
+    }
+    p[1] = v0;
+    __asm__ __volatile__("" ::: "memory");
+    v0 = p[2] - a1;
+    if (v0 < 0) {
+        v0 = 0;
+    }
+    p[2] = v0;
+}
+
 
 extern s32 func_8012C588(s32 a0, s32 a1);
 
@@ -5445,7 +5467,25 @@ void func_8017FBB8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017FBD8);
+void func_8017FBD8(void *arg0)
+{
+    extern u8 D_801A814C[];
+    extern u8 D_80185E88[];
+    extern void func_8017FD54(void *a0);
+    u8 *p;
+    s32 i;
+
+    func_80016714(D_801A814C, 0x1100);
+    func_80015954((s32)D_80185E88, (s32)arg0 + 4);
+    i = 0;
+    p = D_801A814C;
+    do {
+        func_8017FD54(p);
+        p += 0x44;
+    } while (++i < 0x40);
+    func_8012AD50(arg0);
+}
+
 
 extern void func_8017FD54(void *a0);
 extern void func_8017FED8(u8 *a0);
@@ -5695,9 +5735,40 @@ void func_80180558(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80180598);
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_801805E4);
+
+
+
+
+
+
+extern void func_80180694(s32 a0);
+extern s32 func_8017DCC8(void);
+extern void func_8012BF4C(s32 *a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+
+void func_80180598(s32 a0) {
+    func_80180694(a0);
+    if (func_8017DCC8() == 9) {
+        func_8012BF4C((s32 *)a0, 0x1E);
+        func_8012AD50((void *)a0);
+    }
+}
+
+
+void func_801805E4(s32 arg0) {
+    extern void func_80180694(s32 a0);
+    register s32 s0 __asm__("$16") = arg0;
+    s32 v0;
+
+    func_80180694(arg0);
+    v0 = func_8012BEE8(s0);
+    if (v0 != 0) {
+        func_80180A50(s0);
+        func_8012AD50((void *)s0);
+    }
+}
+
 
 extern void func_80180694(s32 a0);
 extern s32 func_80180A98(s32 a0);

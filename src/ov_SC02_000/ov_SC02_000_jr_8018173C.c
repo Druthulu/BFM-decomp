@@ -3058,7 +3058,26 @@ s32 func_80182270(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_801822BC);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8001BFD0(void);
+extern void func_800D0C48(s32 a0);
+extern void func_800167B8(s32 a0);
+
+s32 func_801822BC(void *a0) {
+    s32 v0;
+    v0 = *(s32 *)(a0 + 0x28) - 1;
+    *(s32 *)(a0 + 0x28) = v0;
+    if (v0 == -1) {
+        func_8002D4C8(0x1C, 0);
+        func_8001BFD0();
+        func_8002D4C8(0x1D, 0);
+        func_800D0C48(2);
+        func_800167B8(4);
+        *(u8 *)(a0 + 0x15) = *(u8 *)(a0 + 0x15) + 1;
+    }
+    return 0;
+}
+
 
 DEFINE_func_80182338()  /* dedup: shared engine-core @0x80182338 (src/shared) */
 
@@ -3066,7 +3085,19 @@ DEFINE_func_80182338()  /* dedup: shared engine-core @0x80182338 (src/shared) */
 DEFINE_func_8018235C()  /* dedup: shared engine-core @0x8018235C (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80182398);
+extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
+extern void func_800167B8(s32 a0);
+extern void func_80183238(void *a0);
+extern s32 D_801E8770;
+
+s32 func_80182398(s32 param_1) {
+    D_801E8770 = 0;
+    ((void (*)(void *, s32))func_8016EDEC)((void *)func_80183238, 0xB000000);
+    func_800167B8(0);
+    *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    return 0;
+}
+
 
 DEFINE_func_801823F0()  /* dedup: shared engine-core @0x801823F0 (src/shared) */
 
@@ -3194,7 +3225,25 @@ void func_80182700(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80182744);
+#include "common.h"
+
+extern s32 D_801151D4;
+extern s32 func_80171B4C(s32 a0, s32 a1);
+
+void func_80182744(s32 a0)
+{
+    s32 v1;
+    s32 v0;
+
+    v1 = D_801151D4;
+    v0 = *(s32 *)(v1 + 0xC) + 2;
+    *(s32 *)(v1 + 0xC) = v0;
+    *(s32 *)(v1 + 8) = v0;
+    if (func_80171B4C(a0, 0x1E) != 0) {
+        *(u8 *)(a0 + 0x214) += 1;
+    }
+}
+
 
 extern void func_8016F0E4(void);
     void func_801827A0(void) {

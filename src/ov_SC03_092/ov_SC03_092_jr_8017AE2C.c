@@ -4855,13 +4855,76 @@ void func_8017E2FC(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017E524);
+s32 func_8017E524(s16 *param_1, s16 *param_2) {
+    s32 result;
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017E580);
+    if (*param_1 < *param_2) {
+        result = 0;
+    } else if (param_2[1] < *param_1) {
+        result = 0;
+    } else if (param_1[2] < param_2[2]) {
+        result = 0;
+    } else {
+        result = param_1[2] <= param_2[3];
+    }
+    return result;
+}
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017E60C);
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017E6A0);
+void func_8017E580(int param_1, short *param_2, short *param_3)
+{
+    short sVar1;
+
+    if ((*(short *)(param_1 + 0xa0) != 0) && (*(short *)(param_1 + 0xa0) != 0x800)) {
+        sVar1 = *(short *)(param_1 + 0x1a);
+        sVar1 = (0x7ff < sVar1) ? (0xfff - sVar1) : sVar1;
+        if (0x400 < sVar1) {
+            *(s16 *)(param_1 + 0xa0) = 0x800;
+        } else {
+            *(s16 *)(param_1 + 0xa0) = 0;
+        }
+    }
+    *param_2 = *param_3 + (short)(((int)param_3[1] - (int)*param_3) / 2);
+}
+
+
+void func_8017E60C(s32 param_1, s32 param_2, s32 param_3) {
+    s16 uVar2;
+
+    if ((*(s16 *)(param_1 + 0xA0) != 0x400) && (*(s16 *)(param_1 + 0xA0) != 0xC00)) {
+        uVar2 = (*(s16 *)(param_1 + 0x1A) - 0x400U) & 0xFFF;
+        uVar2 = (uVar2 < 0x800) ? uVar2 : (0xFFF - uVar2);
+        *(s16 *)(param_1 + 0xA0) = (0x400 < uVar2) ? 0xC00 : 0x400;
+    }
+    *(s16 *)(param_2 + 4) = *(s16 *)(param_3 + 4) +
+        (s16)(((s32)*(s16 *)(param_3 + 6) - (s32)*(s16 *)(param_3 + 4)) / 2);
+    return;
+}
+
+
+extern u8 D_801202A0[];
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80029124(s32 a0, s32 a1);
+extern void func_800D0F4C(s32 a0);
+
+void func_8017E6A0(void)
+{
+    u8 *p;
+    s32 i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++, p += 0x10C) {
+        if (*(u16 *)p == 0x179) {
+            if ((*(u16 *)(p + 0x70) & 0xF0) != 0) {
+                *(u16 *)(p + 0xFE) = 1;
+                func_8002D4C8(0x758, 0);
+                func_80029124(0xB3, 1);
+                func_800D0F4C(0x5A);
+            }
+        }
+    }
+}
+
 
 extern s16 D_801889F0[];
 

@@ -5573,7 +5573,133 @@ void func_801823C0(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80182420);
+#include "common.h"
+
+/* func_80182420 — 3-state entity state machine (switch on the u16 at 0x34).
+ *
+ * Field layout: offsets 0x1C/0x34/0x94/0x98/0xF2/0xF6 agree with this TU's own
+ * `struct Ent_80181BA0` (L5265); 0x72 and 0xE2 come from this target's own loads.
+ * A fresh tag name is used because Ent_80181BA0 lacks those two members. */
+struct Ent_80182420 {
+    /* 0x00 */ u8  pad00[0x1C];
+    /* 0x1C */ s32 unk1C;
+    /* 0x20 */ u8  pad20[0x14];
+    /* 0x34 */ u16 unk34;
+    /* 0x36 */ u8  pad36[0x3C];
+    /* 0x72 */ u16 unk72;
+    /* 0x74 */ u8  pad74[0x20];
+    /* 0x94 */ s32 unk94;
+    /* 0x98 */ s16 unk98;
+    /* 0x9A */ u8  pad9A[0x48];
+    /* 0xE2 */ s16 unkE2;
+    /* 0xE4 */ u8  padE4[0xE];
+    /* 0xF2 */ u16 unkF2;
+    /* 0xF4 */ u8  padF4[0x2];
+    /* 0xF6 */ s16 unkF6;
+};
+
+void func_80182420(struct Ent_80182420 *a0)
+{
+    /* Every decl below is the destination TU's own spelling (wave law 2):
+     *   L4510 extern void func_8012AD44(s32 *a0, s16 a1);
+     *   L4518 extern void func_8018637C(s32 arg0, s32 arg1);
+     *   L5181 extern void func_80184CCC();          (def (s32,s32) @L7184)
+     *   L5182 extern void func_80184DB8(s32 a0);
+     *   L5183 extern s32  func_80184F4C();          (block (void) @L5313)
+     *   L5113 extern void func_80186BD8(void);
+     *   L5309 extern void func_80183CF4(void *);    (def @L6455)
+     *   L5310 extern void func_80185B04(s32, s32);  (§183 call-site cast form)
+     *   L5311 extern void func_80185C04(s32, s32);
+     *   L5316 extern s32  func_80184884(void);      (def @L6967)
+     *   L6951 extern s32  D_801EFC4C;               (scalar spelling)
+     *   L4606 extern u16  D_801EFD20;
+     *   L5172 extern u8   D_80194C14[];
+     * func_80182630 (INCLUDE_ASM @L5578) and D_80194C3C are undeclared in the
+     * TU — typed by this target's access width / argument use. */
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern void func_8018637C(s32 arg0, s32 arg1);
+    extern void func_80184CCC();
+    extern void func_80184DB8(s32 a0);
+    extern s32 func_80184F4C(void);
+    extern void func_80186BD8(void);
+    extern void func_80183CF4(void *a0);
+    extern void func_80185B04(s32, s32);
+    extern void func_80185C04(s32, s32);
+    extern s32 func_80184884(void);
+    extern void func_80182630(s32 a0);
+    extern void func_8018BD18(s32 a0);
+
+    extern s32 D_801EFC4C;
+    extern u16 D_801EFD20;
+    extern u8 D_80194C14[];
+    extern u8 D_80194C3C[];
+    /* Stride-0xC record table — the TU spells the sibling table the same way
+     * at L5566 (`struct { s32 f0; s32 f1; s32 f2; } D_801944EC[]`).  The
+     * target's own relocation names D_801944F0, so that is what is spelled
+     * here; it carries its own dlabel in asm/ov_SC04_011/data/tail.data.s. */
+    extern struct { s32 f0; s32 f1; s32 f2; } D_801944F0[];
+
+    s16 lim;
+    s16 cnt;
+
+    switch (a0->unk34) {
+    case 0:
+        /* §162: this arm's `func_80182630` tail is 2 insns over the cross-jump
+         * floor, so gcc merges it with case 1's copy — write both longhand. */
+        if ((s16)func_80184884() == 0) {
+            func_80182630((s32)a0);
+            break;
+        }
+        if (a0->unk98 != 0) {
+            break;
+        }
+        func_8018637C((s32)a0, D_801944F0[a0->unkE2].f0);
+        a0->unkF2 = 0;
+        a0->unk34 = a0->unk34 + 1;
+        break;
+    case 1:
+        if ((s16)func_80184884() == 0) {
+            func_80182630((s32)a0);
+            break;
+        }
+        if ((a0->unk72 & 0x400) && a0->unk94 == 0) {
+            /* The counter store must be SEQUENCED BEFORE the clamp `if`: it is
+             * what fills the `bgtz` delay slot.  With the clamp first the slot
+             * goes empty and the delay-slot pass duplicates the join block's
+             * `sll $v0,$a0,16` instead — +2 instructions. */
+            lim = a0->unkF6 - 1;
+            cnt = a0->unkF2 + 1;
+            a0->unkF2 = cnt;
+            if (lim <= 0) {
+                lim = 1;
+            }
+            if (cnt == lim) {
+                func_80186BD8();
+                func_80184CCC((s32)a0, (s32)D_80194C3C);
+                a0->unk34 = a0->unk34 + 1;
+                break;
+            }
+        }
+        if (a0->unk94 == 0xC) {
+            func_8018BD18(D_801EFC4C);
+        }
+        break;
+    case 2:
+        func_80184DB8(D_801EFD20);
+        if (func_80184F4C() != 0) {
+            func_80184CCC((s32)a0, (s32)D_80194C14);
+            func_80183CF4((void *)a0);
+            func_80185B04(1, 0x20);
+            func_80185C04(3, 0x30);
+            func_80186BD8();
+            a0->unkF2 = 0;
+            a0->unk1C = a0->unkF6 * 6 + 0x10;
+            func_8012AD44((s32 *)a0, 8);
+        }
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80182630);
 
@@ -5617,7 +5743,25 @@ void func_801826E4(s32 param_1)
 
 INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801827DC);
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80182AF8);
+void func_80182AF8(s32 a0) {
+    extern void func_80186EBC();
+    extern void func_80184840();
+    extern void func_80186BD8(void);
+    extern void func_8018637C(s32 a0, s32 a1);
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern s32 D_80194530[];
+
+    register s32 s0 __asm__("$16") = a0;
+    s32 idx;
+
+    func_80186EBC(a0);
+    func_80184840();
+    func_80186BD8();
+    idx = *(s16 *)(s0 + 0xE2);
+    func_8018637C(s0, D_80194530[idx]);
+    func_8012AD44((s32 *)s0, 0xD);
+}
+
 
 void func_80182B5C(void *arg0) {
     extern u8 D_80194538[];
@@ -6741,7 +6885,19 @@ void func_801840F8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80184414);
+#include "common.h"
+
+extern void func_80185FF4(void *a0);
+extern void func_8012AD44(s32 *a0, s16 a1);
+
+void func_80184414(void *a0)
+{
+    if (*(s16 *)((s32)a0 + 0x70) == 1) {
+        func_80185FF4(a0);
+    }
+    func_8012AD44((s32 *)a0, 1);
+}
+
 
 #include "common.h"
 

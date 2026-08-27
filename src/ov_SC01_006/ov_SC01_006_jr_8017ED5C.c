@@ -3318,7 +3318,56 @@ s32 param_1;
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_8018048C);
+
+
+
+
+
+
+
+extern void func_8017FD50(s32);
+extern s32 func_801789AC(s32);
+extern void func_80178D18(void);
+extern void func_801746A4(void);
+
+void func_8018048C(s32 a0)
+{
+    s16 var;
+    s16 var2;
+    u16 u0;
+    s32 v0;
+
+    var = *(s16 *)(a0 + 0x10a);
+    if (var != 0) {
+        var -= 1;
+        *(s16 *)(a0 + 0x10a) = var;
+        if ((var * 0x10000 >> 16) < 0x40) {
+            var2 = *(s16 *)(a0 + 0x106);
+            if (var2 != 0) {
+                var2 -= 8;
+                *(s16 *)(a0 + 0x106) = var2;
+                if (var2 * 0x10000 < 0) {
+                    *(u16 *)(a0 + 0x106) = 0;
+                }
+            } else {
+                u0 = *(u16 *)(a0 + 0x108) - 8;
+                *(u16 *)(a0 + 0x108) = u0;
+                if ((s16)u0 < 0) {
+                    *(u16 *)(a0 + 0x108) = 0;
+                }
+            }
+        }
+        func_8017FD50(a0);
+    }
+    v0 = func_801789AC(a0);
+    if (v0 != 0) {
+        ((void (*)(s32))func_80178D18)(a0);
+        func_801746A4();
+        *(s32 *)(a0 + 0x1c) = 0x10;
+        *(u16 *)(a0 + 2) += 1;
+    }
+}
+
 
 extern u8 D_80185E38[];
 extern void func_800D1724(s32 a0);
@@ -3395,7 +3444,19 @@ DEFINE_func_80180710()  /* dedup: shared engine-core @0x80180710 (src/shared) */
 
 INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_80180734);
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_8018078C);
+extern s16 func_8017DA9C(void);
+
+s32 func_8018078C(s32 a0) {
+    s16 v1;
+
+    v1 = func_8017DA9C();
+    if (v1 != 0) {
+        *(s16 *)(*(s32 *)(a0 + 0xD4) + 0x108) = v1 - 1;
+        return 0;
+    }
+    return 1;
+}
+
 
 extern s32 *D_80126B78;
 
@@ -3475,7 +3536,33 @@ s32 *a0;
 
 DEFINE_func_80180A30()  /* dedup: shared engine-core @0x80180A30 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_80180A38);
+extern s32 func_8012C51C(void *, s32);
+
+typedef struct { s16 f10, f12, f14, f16, f18, f1A, f1C, f1E; s32 f20; } Prim80180A38;
+
+void func_80180A38(s32 a0)
+{
+    Prim80180A38 sp;
+
+    sp.f16 = 0x1D9;
+    sp.f1C = 0x800;
+    sp.f12 = -0x82;
+    sp.f1A = 0;
+    sp.f18 = 0;
+    sp.f20 = 0;
+    sp.f1E = 0;
+    sp.f10 = 0;
+    sp.f14 = -0x140;
+    *(s32 *)(a0 + 0xCC) = func_8012C51C(&sp, a0);
+
+    sp.f16 = 0x1DA;
+    sp.f14 = -0x180;
+    *(s32 *)(a0 + 0xD0) = func_8012C51C(&sp, a0);
+
+    *(s16 *)(a0 + 0x6) = 0x88;
+    *(s16 *)(a0 + 0xE) = 0x60;
+}
+
 
 extern s32 D_801CDED4;
     s32 func_80180AD0(void) {
