@@ -5106,7 +5106,70 @@ void func_801817BC(int param_1)
 void func_80181834(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_8018183C);
+#include "common.h"
+
+/* §200 alias: this TU spells func_8001D074 `void (s32,s32)` (lines 119/124), but the target
+   stores its $v0 into D_801EDA24 — the fleet's 5 rivals declare it s32.  Bind our own
+   identifier to the same link name so the TU's spelling stays untouched. */
+extern s32 aF8001D074(s32, s32) __asm__("func_8001D074");
+extern void func_800233CC(void *, unsigned short);
+extern void func_8001CD9C(int, void *);
+
+extern s32 D_801ED9B8;
+extern s32 D_801ED9BC;
+extern s32 D_801ED9C0;
+extern s32 D_801ED9C4;
+extern s32 D_801EDA24;
+extern u8  D_80188A94;
+extern u8  D_80188A95;
+extern u8  D_80188A96;
+
+s32 func_8018183C(void) {
+    switch (D_801ED9B8) {
+    case 0:
+        D_801EDA24 = aF8001D074(0x3E, 0x7D);
+        D_801ED9C4 = 0x10;
+        if (D_801EDA24 != 0) {
+            func_800233CC(&D_80188A94, 0x10);
+            func_8001CD9C(D_801EDA24, &D_80188A94);
+            *(s32 *)(D_801EDA24 + 4) |= 0x50000040;
+        }
+        D_801ED9C0 = 0xFF;
+        D_801ED9BC = 0x10;
+        *(s16 *)(D_801EDA24 + 0xA) = -0x2E9;
+        *(s16 *)(D_801EDA24 + 0xC) = -0x2C;
+        *(s16 *)(D_801EDA24 + 0x8) = 0;
+        D_80188A94 = 0x10;
+        D_80188A95 = 0xFF;
+        D_80188A96 = 0xFF;
+        D_801ED9B8++;
+        break;
+    case 1:
+        func_800233CC(&D_80188A94, (u16)D_801ED9C4);
+        if (D_801ED9BC == 0) {
+            D_801ED9C0 -= 0x10;
+            if (D_801ED9C0 <= 0) {
+                D_801ED9C0 = 0;
+            }
+            D_80188A95 = D_801ED9C0;
+            D_80188A96 = D_801ED9C0;
+            D_801ED9C4 -= 4;
+            if (D_801ED9C4 < 0) {
+                D_801ED9C4 = 0;
+            }
+            if (D_801ED9C0 == 0) {
+                *(s16 *)(D_801EDA24 + 0x0) = 0;
+                return 1;
+            }
+        } else {
+            D_801ED9BC--;
+        }
+        *(u16 *)(D_801EDA24 + 0xA) = *(u16 *)(D_801EDA24 + 0xA) - 6;
+        break;
+    }
+    return 0;
+}
+
 
 extern s32 D_801EDA44;
     void func_80181A28(void) {

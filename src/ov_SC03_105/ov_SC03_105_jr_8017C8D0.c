@@ -3633,7 +3633,28 @@ void func_8017E67C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017E6C0);
+#include "common.h"
+
+extern void func_801292C8(void);
+
+void func_8017E6C0(s32 a0) {
+    s32 s1;
+    s32 msk;
+    s32 pad[2];
+    (void)&pad;
+
+    s1 = *(s32 *)(a0 + 0x2C);
+    if (*(u16 *)s1 == 0) {
+        ((void (*)(s32))func_801292C8)(a0);
+    }
+    msk = 0x80000000;
+    if (*(s32 *)(*(s32 *)(s1 + 0x20) + 4) < 0) {
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) |= msk;
+    } else {
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) &= 0x7FFFFFFF;
+    }
+}
+
 
 
 extern void (*D_8018DED0[])(void);

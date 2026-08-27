@@ -4494,7 +4494,73 @@ void func_8018117C(s32 a0)
 
 INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116_jr_8017AE2C", func_80181204);
 
-INCLUDE_ASM("asm/ov_SC03_116/nonmatchings/ov_SC03_116_jr_8017AE2C", func_801812AC);
+extern s32 func_80017758(void *a0, void *a1);
+extern s32 func_80017DC4(void *a0, void *a1);
+
+typedef struct { s16 vx, vy, vz, pad; } SVec8_801812AC;
+typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801812AC;
+typedef struct { s16 x, y, z; } V3_801812AC;
+typedef struct { u8 b[8]; } Blk8_801812AC;
+typedef struct {
+    SVec8_801812AC v[4];
+    s32            c[4];
+    s32            code;
+} Prim_801812AC;
+
+extern V3_801812AC D_80194EEC[];
+extern V3_801812AC D_80194FC0[];
+extern int (*D_8018633C[])(void);
+
+void func_801812AC(s32 a0, void *a1, void *a2, s32 a3, s32 a4)
+{
+    Mtx_801812AC   mtx;
+    Prim_801812AC  prim;
+    s32            pad[4];
+    Prim_801812AC *pr;
+    V3_801812AC   *p;
+    V3_801812AC   *q;
+    s32            i;
+
+    pr = &prim;
+    p = &D_80194EEC[((s16 *)a1)[0]];
+    q = &D_80194FC0[((s16 *)a1)[0]];
+    if (a3 != 0) {
+        func_80017DC4((void *)D_8018633C, &mtx);
+    } else {
+        func_80017DC4(a2, &mtx);
+    }
+    mtx.t[0] = 0;
+    mtx.t[1] = -0x100;
+    mtx.t[2] = 0x1EC0;
+    pr->code = 0x50000000;
+    pr->c[0] = pr->c[1] = a4;
+    pr->c[2] = pr->c[3] = 0;
+    for (i = ((s16 *)a1)[0]; i < ((s16 *)a1)[1]; i++) {
+        pr->v[0].vx = p[0].x;
+        pr->v[0].vy = p[0].y;
+        pr->v[0].vz = p[0].z;
+        pr->v[1].vx = p[1].x;
+        pr->v[1].vy = p[1].y;
+        pr->v[1].vz = p[1].z;
+        if (a3 == 0) {
+            pr->v[2].vx = q[0].x;
+            pr->v[2].vy = q[0].y;
+            pr->v[2].vz = q[0].z;
+            pr->v[3].vx = q[1].x;
+            pr->v[3].vy = q[1].y;
+            pr->v[3].vz = q[1].z;
+        } else {
+            *(Blk8_801812AC *)&pr->v[2] = *(Blk8_801812AC *)&pr->v[0];
+            *(Blk8_801812AC *)&pr->v[3] = *(Blk8_801812AC *)&pr->v[1];
+            pr->v[2].vz -= 8;
+            pr->v[3].vz -= 8;
+        }
+        func_80017758(pr, &mtx);
+        p++;
+        q++;
+    }
+}
+
 
 
 extern void (*D_80186344[])(void);

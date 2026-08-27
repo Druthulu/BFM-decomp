@@ -4444,7 +4444,166 @@ void func_80181414(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_8018150C);
+#include "common.h"
+
+/* Card: func_8018150C (ov_SC03_028, jr_8017DF98 TU), 209 ins, lane=t5h.
+ * Fresh crack from the target asm — the pack's warm-start body was a DIFFERENT
+ * function (a 4-line +0x98/D_801EDA08 guard) and was discarded outright.
+ *
+ * Structural twin in this same TU: func_80182494 (grid of func_8012D5E4 hit
+ * tests -> squared-distance-vs-threshold escape gate). Its L3 (const-before-load)
+ * and L4 (alias-kill ordering) levers were reused verbatim and were right first
+ * try; everything below is what THAT card did not already cover.
+ *
+ * MATCH levers (84 -> 21 -> 9 -> 5 -> 2 -> 0):
+ *  L1 (LENGTH, 210->209) gcc-2.7.2 loop.c hoists only the FIRST of two sibling
+ *     loop-invariants of equal cost. The target has `sll $s4,$s0,11` in the
+ *     preheader but `sll $v1,$s3,11` INSIDE the loop. Writing BOTH multipliers
+ *     inline as `(x << 11)` / `(vz << 11)` reproduces that asymmetry exactly.
+ *     Promoting either one to its own named variable makes the OTHER the first
+ *     movable, so it gets hoisted too -> a 210th instruction. Do not "help" gcc
+ *     by naming the shifted value.
+ *  L2 (12 ins: whole callee-saved file permuted) `&sp18` must be a POINTER LOCAL
+ *     assigned BEFORE the loop, not `(s32)&sp18` spelled at both call sites.
+ *     Spelled inline, the post-loop `func_80133784` argument gets merged with the
+ *     loop's hoisted address pseudo (`move $a2,$s7`), which stretches that
+ *     allocno across the middle of the function, lowers its global-alloc priority
+ *     (priority ~ n_refs/live_length) and shifts EVERY callee-saved assignment by
+ *     one. With the pointer local the range dies at the loop and the target
+ *     re-materializes `addiu $a2,$sp,0x18` on its own.
+ *  L3 (4 ins: preheader emission order) the preheader emits source statements
+ *     first, then loop.c's hoisted invariants in RTL first-use order. The target
+ *     order is x, i, -0x10, &sp18, 1, 4, -0x40 — so the loop-init must come
+ *     FIRST (`x = -0x50; i = 0;` hoisted out of the `for (;;)` header) and the
+ *     -0x10 constant must be a named local placed just before the pointer.
+ *     A pointer assignment written above the `for` init lands one slot early.
+ *  L4 (3 ins: $a1 vs $a0 on the escape flag) §176-B addendum — it is not WHETHER
+ *     you merge but WHICH allocno you merge into. A fresh `flag` local first-fits
+ *     onto dy's dead $a1; writing the 0/1 through `dsq` ITSELF (if/else on the
+ *     same variable) lands it in $a0, the register the target uses. gcc emits no
+ *     extra `j` for this if/else — the arms are a single move each.
+ *     A `register s32 flag __asm__("$4")` pin instead REGRESSED 5 -> 9 (it
+ *     reserved $a0 function-wide and evicted dsq), and pinning dsq gave 7:
+ *     §176-B4 / §72 confirmed again — reuse before pins.
+ *  L5 (2 ins: $v0 vs $s0 on the cos term) same donor law, callee-saved side.
+ *     `vx` as a fresh local dies before `jal func_80047948` (sched1 sinks the
+ *     hoisted `sll` above the call), so local-alloc hands it call-clobbered $v0.
+ *     Reusing the FIRST loop's induction variable `x` — already a global allocno
+ *     living in $s0 because it spans loop 1's calls — donates $s0 to it, exactly
+ *     as the target has it. `register s32 vx __asm__("$16")` instead exploded to
+ *     65 mismatches (it evicted $s1/the `a0` copy): §176-C's warning holds.
+ *
+ * Byte-proven: match_one MATCH 209/209, plus a law-1c relocation walk —
+ * all 21 relocations (12 R_MIPS_26 + 4 D_80126B96 + 2 D_801ADC24 HI16/LO16
+ * pairs, counted as emitted) identical to the target .s in order.
+ */
+
+extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012CBCC(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern s32 rand(void);
+
+extern u16 D_80126B96;
+extern u8 D_801ADC24[];
+
+typedef struct { s16 vx, vy, vz, pad; } SV_8018150C;
+
+void func_8018150C(s32 a0) {
+    s32 s1 = a0;
+    SV_8018150C sp10;
+    SV_8018150C sp18;
+    s32 i;
+    s32 x;                  /* L5: also the cos term, to donate $s0 */
+    s32 dz, dy, dsq, thresh;
+    s32 vz;
+    s32 prim;
+    SV_8018150C *q;         /* L2 */
+    s32 k;                  /* L3 */
+    s16 t;
+
+    t = *(s16 *)(s1 + 0x108);
+    if (t != 0) {
+        *(s16 *)(s1 + 0x108) = t - 1;
+    } else {
+        *(s16 *)(s1 + 0x108) = 7;
+        func_8002D4C8(0x6C1, 0);
+    }
+
+    sp10.vz = -0x40;
+    sp18.vz = -0x60;
+    x = -0x50;
+    i = 0;
+    k = -0x10;
+    q = &sp18;
+    for (; i < 6; i++, x += 0x20) {
+        sp10.vx = x;
+        sp18.vx = x;
+        sp10.vy = k;
+        sp18.vy = k;
+        if (func_8012DEB8(s1, (s32)&sp10, (s32)q) == 1) {
+            D_80126B96 = 4;
+        }
+        sp10.vy = -0x40;
+        sp18.vy = -0x40;
+        if (func_8012D5E4(s1, (s32)&sp10, (s32)q, 0x18) == 1) {
+            D_80126B96 = 4;
+        }
+    }
+
+    func_8012CBCC(s1);
+
+    thresh = 0x14400;
+    dz = *(s16 *)(s1 + 0xE) - 0x3C0;
+    dsq = dz * dz;
+    dy = (s16)*(u16 *)(s1 + 6);
+    if (dsq < 0x1901) {
+        dsq += 0x4000;
+    }
+    dsq += dy * dy;
+    if (dsq < thresh) {
+        dsq = 0;                        /* L4: the escape flag IS dsq */
+    } else {
+        dsq = 1;
+        *(s32 *)(s1 + 0x10) = 0;
+        *(s32 *)(s1 + 0x18) = 0;
+        *(u16 *)(s1 + 6) -= dy >> 5;
+        *(u16 *)(s1 + 0xE) -= dz >> 5;
+    }
+    if (dsq == 0) {
+        return;
+    }
+
+    *(s16 *)(s1 + 2) = 5;
+    func_8012A828(s1, D_801ADC24);
+    *(s32 *)(s1 + 0x1C) = 1;
+    sp10.vx = *(u16 *)(s1 + 6);
+    sp10.vz = *(u16 *)(s1 + 0xE);
+    sp18.vx = *(u16 *)(s1 + 6) - ((func_8004787C(*(s16 *)(*(s32 *)(s1 + 0x20) + 0x12)) << 7) >> 12);
+    sp18.vz = *(u16 *)(s1 + 0xE) - ((func_80047948(*(s16 *)(*(s32 *)(s1 + 0x20) + 0x12)) << 7) >> 12);
+    if ((func_80133784(0x11, &sp10, (s32)&sp18) & 0x8000) == 0) {
+        return;
+    }
+
+    x = (func_8004787C(*(s16 *)(*(s32 *)(s1 + 0x20) + 0x12)) << 6) >> 12;
+    vz = (func_80047948(*(s16 *)(*(s32 *)(s1 + 0x20) + 0x12)) << 6) >> 12;
+    for (i = 0; i < 0x10; i++) {
+        prim = func_8012C658(0xFE, 3, s1);
+        if (prim != 0) {
+            *(u16 *)(prim + 6) -= (func_8004787C(*(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) + (rand() & 0x3FF) - 0x200) << 6) >> 12;
+            *(u16 *)(prim + 0xE) -= (func_80047948(*(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) + (rand() & 0x3FF) - 0x200) << 6) >> 12;
+            *(s32 *)(prim + 0x10) = *(s32 *)(prim + 0x10) * (x << 11);
+            *(s32 *)(prim + 0x18) = *(s32 *)(prim + 0x18) * (vz << 11);
+            *(u16 *)(prim + 0xA) -= 0x7E;
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80181850);
 

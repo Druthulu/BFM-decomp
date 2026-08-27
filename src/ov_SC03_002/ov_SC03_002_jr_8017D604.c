@@ -3160,7 +3160,67 @@ void func_8017D604(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017E4E4);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern s32 D_801892A0;
+
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_80129374(s32 a0, s32 a1);
+extern s32 func_8017E708(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8017E68C(s32 a0);
+
+void func_8017E4E4(s32 arg0)
+{
+    s32 v1;
+    s16 dx, dy;
+    s32 v0;
+    s32 dist2, rem, vol;
+    u16 *p;
+    u16 t;
+
+    v1 = D_80126B5E - *(u16 *)(arg0 + 0x6);
+    dx = v1;
+    if ((s16)v1 < 0) dx = -v1;
+
+    v1 = D_80126B66 - *(u16 *)(arg0 + 0xE);
+    dy = v1;
+    if ((s16)v1 < 0) dy = -v1;
+
+    if (dx < 0x201 && dy < 0x201) {
+        v0 = *(s32 *)(arg0 + 0x1C);
+        *(s32 *)(arg0 + 0x1C) = v0 + 1;
+        if (v0 & 1) {
+            s32 s0 = func_80132EF4(arg0, 0x22);
+            if (s0 != 0) {
+                func_80129374(s0, arg0);
+                *(s16 *)(s0 + 0x34) = 0x4000;
+            }
+        }
+        if (func_8017E708(arg0, (s32) &D_801892A0) != 0) {
+            p = &D_80126B96;
+            t = *p;
+            D_80126B98 = 0xC;
+            *p = t | 0x4000;
+        }
+        if ((*(s32 *)(arg0 + 0x1C) & 3) == 0) {
+            dist2 = dx * dx + dy * dy;
+            if (dist2 <= 0x30000) {
+                rem = 0x30000 - dist2;
+                vol = rem * 127 / 0x30000;
+                func_8002D4C8(0x644, (vol | 0x1000) & 0xFFFF);
+                *(s16 *)(arg0 + 0xFC) = 1;
+            } else {
+                func_8017E68C(arg0);
+            }
+        }
+    } else {
+        func_8017E68C(arg0);
+    }
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 
@@ -3519,7 +3579,40 @@ void func_8017EF80(void *a0, void *a1, void *a2, void *a3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8017F068);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void RotMatrixYXZ(void *a0, void *a1);
+extern s32 rand(void);
+
+void func_8017F068(void *a0, void *a1, s16 a2, s16 a3)
+{
+    extern u8 *func_8012913C(s32 a0);
+    s16 i;
+    s16 rot[4];
+    s32 mtx[8];
+    u8 *ent;
+
+    i = 0;
+    if (0 < a3) {
+        do {
+            ent = func_8012913C(0x46);
+            if (ent != 0) {
+                rot[0] = (rand() & 0x7F) * 8 + 0xF00;
+                rot[1] = a2 + (s16)((rand() & 0x7F00) >> 5);
+                rot[2] = 0;
+                RotMatrixYXZ(rot, mtx);
+                ApplyMatrixSV(mtx, a1, rot);
+                *(s16 *)(ent + 6) = *(s16 *)a0 + rot[0];
+                *(s16 *)(ent + 10) = *(s16 *)((s8 *)a0 + 2) + rot[1];
+                *(s16 *)(ent + 14) = *(s16 *)((s8 *)a0 + 4) + rot[2];
+                *(s32 *)(ent + 0x10) = (s32)rot[0] << 12;
+                *(s32 *)(ent + 0x14) = (s32)rot[1] << 12;
+                *(s32 *)(ent + 0x18) = (s32)rot[2] << 12;
+            }
+            i = i + 1;
+        } while (i < a3);
+    }
+}
+
 
 
 extern void (*D_8018932C[])(void);
@@ -4288,7 +4381,91 @@ INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_8018029
 
 INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_801802F4);
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_8017D604", func_80180378);
+#include "common.h"
+
+/* func_80180378 — per-frame tick for the SC03 cutscene actor at +0x200.
+ *
+ * Counts the actor's 0x200 timer down; while it has not underflowed past 0 the
+ * frame just re-runs the two idle helpers and returns. On the frame the counter
+ * reaches -1 the burst fires: reload the handler table, re-bind the actor to its
+ * script, read the actor's world position into a local SVECTOR, then emit six
+ * particle bursts from func_8017F068, walking the local vector between them
+ * (y -0x60, y -0x60, z -0x60, y +0x60, y +0x60) and re-rolling the per-burst
+ * amplitude in D_80189828 each time. Finally kick the six 0x8017F304 effects,
+ * the 0x842 sound, and hand the actor to func_80171990.
+ *
+ * Two levers, both required (this file's house style, §194-E neighbour
+ * func_80180570 + func_801806F0):
+ *  (1) func_80147A84 IS CALLED WITH NO ARGUMENT — the jal's delay slot is `nop`,
+ *      not `move $a0,$sN` (§263: an arg-register copy in a stolen delay slot is
+ *      an ARITY fact). The TU prototypes it with one s32, so the call goes
+ *      through the TU's cast-the-function-pointer idiom to drop the parameter.
+ *  (2) D_80189828 IS ADDRESSED THROUGH A POINTER LOCAL, not by name. Written as
+ *      `D_80189828 = ...` gcc materialises a fresh `lui $at` for every one of the
+ *      six stores (+6 instructions) even though it already keeps &D_80189828 in
+ *      $s0 for the $a1 argument. A `s16 *pv = &D_80189828;` gives the store and
+ *      the argument one allocno, which is what the target's `sh $v0, 0x0($s0)`
+ *      (and the final `sh $v0, 0x0($a1)`) actually is.
+ */
+
+extern void func_80147A84(s32 arg0);
+extern void func_801473EC(s32 *a0);
+extern void func_8013C9C4(void *a0);
+extern void func_80172358(u8 *a0, u8 *a1);
+extern void func_80015978(s32 a0, s32 *a1);
+extern s32  rand(void);
+extern void func_8017F068(void*, void*, s16, s16);
+extern void func_8017F304(s32 arg0);
+extern void func_80147324(s32 a0);
+extern s32  func_80171990(u8 *a0);
+
+extern u8  D_80189804[];
+extern u8  D_801897FC[];
+extern s16 D_80189828;
+
+void func_80180378(s32 arg0) {
+    u16 pos[4];
+    s16 *pv;
+
+    if (--*(s32 *)(arg0 + 0x200) != -1) {
+        ((void (*)(void))func_80147A84)();
+        func_801473EC((s32 *)arg0);
+        return;
+    }
+
+    func_8013C9C4(D_80189804);
+    func_80172358((u8 *)arg0, D_801897FC);
+    func_80015978(arg0 + 4, (s32 *)pos);
+    pv = &D_80189828;
+
+    *pv = (rand() & 0x3F) + 0x40;
+    ((void (*)(void *, void *, s32, s32))func_8017F068)(pos, pv, 0xD50, 8);
+    pos[1] -= 0x60;
+    *pv = (rand() & 0x3F) + 0x40;
+    ((void (*)(void *, void *, s32, s32))func_8017F068)(pos, pv, 0xD50, 8);
+    pos[1] -= 0x60;
+    *pv = (rand() & 0x3F) + 0x40;
+    ((void (*)(void *, void *, s32, s32))func_8017F068)(pos, pv, 0xF00, 8);
+    pos[2] -= 0x60;
+    *pv = (rand() & 0x3F) + 0x40;
+    ((void (*)(void *, void *, s32, s32))func_8017F068)(pos, pv, 0xF00, 8);
+    pos[1] += 0x60;
+    *pv = (rand() & 0x3F) + 0x40;
+    ((void (*)(void *, void *, s32, s32))func_8017F068)(pos, pv, 0xF00, 8);
+    pos[1] += 0x60;
+    *pv = (rand() & 0x3F) + 0x40;
+    ((void (*)(void *, void *, s32, s32))func_8017F068)(pos, pv, 0xF00, 8);
+
+    func_8017F304(0);
+    func_8017F304(1);
+    func_8017F304(2);
+    func_8017F304(3);
+    func_8017F304(4);
+    func_8017F304(5);
+    func_80147324(0x842);
+    func_80171990((u8 *)arg0);
+}
+
 
 extern void func_80147060(u8*);
 extern void func_80172358(u8*, u8*);

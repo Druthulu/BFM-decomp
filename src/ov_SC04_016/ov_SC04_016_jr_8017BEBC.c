@@ -3488,7 +3488,47 @@ void func_8017DD18(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017DDA0);
+extern void func_8012B200(u8 *a0);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern void func_8012AD80(s32 a0);
+extern s32 func_8012A828(void *a0, void *a1);
+extern void func_8012B2CC(s32 a0);
+
+s32 func_8017DDA0(s32 param_1)
+{
+    short *psVar2;
+    s32 uVar1;
+
+    psVar2 = *(short **)(param_1 + 0xdc);
+    uVar1 = 0;
+    if (psVar2 != (short *)0x0) {
+        if (*(s32 *)(param_1 + 0x1c) == 0) {
+            if (*psVar2 == 0) {
+                func_8012B200((u8 *)param_1);
+                if (*(s32 *)(param_1 + 0xec) != 0) {
+                    func_8012A828((void *)param_1, *(void **)(param_1 + 0xec));
+                }
+                *(s32 *)(param_1 + 0xec) = 0;
+                *(short **)(param_1 + 0xdc) = 0;
+                return 0;
+            }
+            *(s32 *)(param_1 + 0x1c) = *psVar2;
+            psVar2 += 1;
+            *(short *)(*(s32 *)(param_1 + 0x20) + 0x12) = *psVar2;
+            psVar2 += 1;
+            *(short *)(param_1 + 0xea) = *psVar2;
+            func_8012B2CC(param_1);
+            psVar2 += 1;
+            *(short **)(param_1 + 0xdc) = psVar2;
+        }
+        *(s32 *)(param_1 + 0x1c) = *(s32 *)(param_1 + 0x1c) + -1;
+        func_8012B1B4(param_1, param_1 + 0xe0);
+        func_8012AD80(param_1);
+        uVar1 = 1;
+    }
+    return uVar1;
+}
+
 
 extern u8 D_80184C6C[];
 extern u8 D_80184C74[];
@@ -3833,7 +3873,112 @@ void func_8017E6A0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017E6E0);
+#include "common.h"
+
+extern u8 D_801ABB40[];
+extern u8 D_801ABB44[];
+extern void func_8001D074(s32, s32);
+extern void func_800233CC(void *, unsigned short);
+extern void func_8001CD9C(int, void *);
+
+s32 func_8017E6E0(void *arg0) {
+    /* [T51] scoped in from file scope: keep these decls local so a file-scope
+       decl of the same names cannot constrain the neighbours (cookbook §103). */
+    extern u8 D_801ABB4C[];
+    extern u8 D_801ABB4D[];
+    extern u8 D_801ABB4E[];
+    extern u8 D_801ABB50[];
+    extern u8 D_801ABB51[];
+    extern u8 D_801ABB52[];
+    extern u8 D_80184C88[];
+    extern u8 D_80184C8A[];
+    extern u8 D_80184C8C[];
+    s32 i;
+    s32 off;
+    s32 off2;
+    u8 *pk;
+    s32 *cnt;
+    s32 v;
+    s32 r;
+    s16 t;
+    s32 *pf;
+    s32 *pt;
+    s32 *pc;
+    u8 *q;
+
+    i = 0;
+    pk = D_801ABB4C;
+    cnt = (s32 *)(pk - 4);
+    off = 0;
+    do {
+        if (*(s32 *)(D_801ABB40 + off) != 0) {
+            v = *cnt;
+            if (v > 0x10) {
+                v -= 4;
+                *cnt = v;
+                func_800233CC(pk, v & 0xFFFF);
+            }
+        }
+        pk += 0x4C;
+        cnt = (s32 *)((u8 *)cnt + 0x4C);
+        i++;
+        off += 0x4C;
+    } while (i < 0x14);
+
+    if (*(s16 *)((u8 *)arg0 + 0x100) >= 0xC) {
+        return 1;
+    }
+    t = *(s16 *)((u8 *)arg0 + 0x102) - 1;
+    *(s16 *)((u8 *)arg0 + 0x102) = t;
+    if (t == -1) {
+        /* two explicit stores, NOT a ternary/temp: the cross-jumped tail is what
+           keeps the `sh 0x102` at the merge label instead of letting sched2 sink it */
+        if (*(s16 *)((u8 *)arg0 + 0x100) < 4) {
+            *(s16 *)((u8 *)arg0 + 0x102) = 8;
+        } else {
+            *(s16 *)((u8 *)arg0 + 0x102) = 1;
+        }
+        i = 0;
+        pt = (s32 *)D_801ABB44;
+        pc = (s32 *)(D_801ABB44 + 4);
+        pf = (s32 *)(D_801ABB44 - 4);
+        off2 = 0;
+        *(s16 *)((u8 *)arg0 + 0x104) = *(s16 *)((u8 *)arg0 + 0x104) + 4;
+        do {
+            if (*pf == 0) {
+                r = ((s32 (*)(s32, s32))func_8001D074)(0x3E, 0x7D);
+                *pt = r;
+                if (r == 0) {
+                    break;
+                }
+                *pf = 1;
+                q = D_801ABB4C + off2;
+                *pc = 0x80;
+                func_8001CD9C(*pt, q);
+                D_801ABB4D[off2] = 0xE0;
+                D_801ABB4C[off2] = 0;
+                D_801ABB4E[off2] = 0x88;
+                D_801ABB50[off2] = 0;
+                D_801ABB51[off2] = 0;
+                D_801ABB52[off2] = 0;
+                func_800233CC(q, *(u16 *)pc);
+                *(u16 *)(*pt + 8) = *(u16 *)(D_80184C88 + *(s16 *)((u8 *)arg0 + 0x100) * 8);
+                *(u16 *)(*pt + 0xA) = *(u16 *)(D_80184C8A + *(s16 *)((u8 *)arg0 + 0x100) * 8);
+                *(u16 *)(*pt + 0xC) = *(u16 *)(D_80184C8C + *(s16 *)((u8 *)arg0 + 0x100) * 8);
+                *(s32 *)(*pt + 4) |= 0x50000040;
+                *(s16 *)((u8 *)arg0 + 0x100) = *(s16 *)((u8 *)arg0 + 0x100) + 1;
+                break;
+            }
+            pt = (s32 *)((u8 *)pt + 0x4C);
+            pc = (s32 *)((u8 *)pc + 0x4C);
+            pf = (s32 *)((u8 *)pf + 0x4C);
+            i++;
+            off2 += 0x4C;
+        } while (i < 0x14);
+    }
+    return 0;
+}
+
 
 #include "common.h"
 
