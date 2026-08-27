@@ -3415,7 +3415,42 @@ void func_8017D9A0(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017C340", func_8017D9F4);
+extern int *D_800C7C64;
+extern int D_800A2E20;
+extern int D_800C7C60;
+extern s16 D_80185EFE[];
+extern s32 D_801CAE4C;
+    extern void func_8001ABBC(s32, s32, void*, s32, s32);
+extern u16 D_80185EFC[];
+
+s32 func_8017D9F4(arg0)
+s32 arg0;
+{
+    extern struct { s32 word0; s32 word4; } cdFileLocTable[];
+    extern int D_800C7C60;
+    extern s32 *D_800C7C64;
+    extern int D_800A2E20;
+    extern s32 D_801CAE4C;
+    extern void func_8001ABBC(s32, s32, void*, s32, s32);
+    extern u16 D_80185EFC[];
+    extern s16 D_80185EFE[];
+    s32 *p;
+    u16 t;
+    s32 w;
+    s32 x;
+
+    t = *(u16 *)((s8 *)D_80185EFC + arg0 * 4);
+    w = *(s16 *)((s8 *)D_80185EFE + arg0 * 4);
+    D_800C7C64 = &D_800A2E20;
+    p = &D_800C7C60;
+    *p = w;
+    x = (s16)t;
+    if (x <= 0) {
+        return 1;
+    }
+    return ((s32 (*)(s32, s32, void *, s32, s32))func_8001ABBC)(0, 0, (u8 *)&cdFileLocTable[x], D_801CAE4C, p);
+}
+
 
 DEFINE_func_8017DA84()  /* dedup: shared engine-core @0x8017DA84 (src/shared) */
 

@@ -4818,9 +4818,76 @@ void func_801872D8(int param_1) {
 
 DEFINE_func_80187354()  /* dedup: shared engine-core @0x80187354 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80187480);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern u16 D_800B99D8;
+extern u16 D_800B99DC;
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80187558);
+void func_80187480(arg0)
+s32 arg0;
+{
+    register s32 acc __asm__("$16");
+    register s32 i __asm__("$17");
+    register s32 s2 __asm__("$18");
+    register s32 s3 __asm__("$19");
+    struct sprite8 spr;
+
+    acc = D_800B99DC;
+    s3 = D_800B99D8;
+    s2 = arg0;
+    i = 0;
+
+    do {
+        spr.f0 = *(u16 *)(s2 + 6) + (acc & 0x1F) - 0x10;
+        spr.f2 = *(u16 *)(s2 + 0xA) + ((acc & 0x1F0) >> 4) - 0x10;
+        spr.f4 = *(u16 *)(s2 + 0xE);
+        spr.f6 = 0x48;
+        if (i >= 4) {
+            spr.f8 = 0;
+        } else if (i >= 2) {
+            spr.f8 = 1;
+        } else {
+            spr.f8 = 2;
+        }
+        spr.fa = acc >> 16;
+        func_8012C51C(&spr, s2);
+        s3++;
+        acc += s3;
+        i++;
+    } while (i < 8);
+}
+
+
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern u16 D_800B99D8;
+
+void func_80187558(arg0)
+s32 arg0;
+{
+    register s32 i __asm__("$16");
+    register s32 s2 __asm__("$18");
+    register u16 s3 __asm__("$19");
+    struct sprite8 spr;
+    s32 t;
+
+    s3 = D_800B99D8;
+    i = 0;
+    spr.f4 = *(u16 *)(arg0 + 0xE);
+    s2 = 0;
+
+    do {
+        t = *(s16 *)(arg0 + 6);
+        spr.f0 = (i & 1) ? (t + 0x20) : (t - 0x20);
+        spr.f2 = *(u16 *)(arg0 + 0xA) - s2;
+        spr.f6 = 0x4D;
+        spr.f8 = rand() % 3;
+        i++;
+        spr.fa = s3;
+        s3++;
+        s2 += 0xC;
+        func_8012C51C(&spr, arg0);
+    } while (i < 8);
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_8018762C);
 
