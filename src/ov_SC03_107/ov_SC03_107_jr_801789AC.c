@@ -5722,7 +5722,472 @@ void func_8017BEAC(void) {
 void func_8017BEB4(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017BEBC);
+#include "common.h"
+
+/* ============================================================================
+ * func_8017BEBC — ov_SC03_107 / TU ov_SC03_107_jr_801789AC  (741 ins)
+ *
+ * Structural sibling of the MATCHED func_8017CAD4 (ov_SC06_010_jr_8017A4AC.c,
+ * 755 ins) and func_8017BEBC (ov_SC04_005_jr_8017BEBC.c).  Deltas vs those:
+ *   - 1 param, no ctx->f0 early-out; part/nparts/vtx loaded indirectly
+ *     (part = *(arg0+0xC), model = *(arg0+8), nparts = model->8, vtx = model->0x10)
+ *   - extra light-vector prologue: ReadRotMatrix/PushMatrix/func_8004974C/
+ *     ApplyMatrixSV/PopMatrix, then outv.vy -= 0x180
+ *   - Y screen-cull limits -0x6E/0x6F (SC04_005 twin: -0x78/0x79)
+ *   - switch(code&7) handles ONLY {6,7}=POLY_FT3 and {2,3}=POLY_FT4
+ *   - opz bias +0x200 spelled `if (code != 6)` / `if (code != 2)` (beq form)
+ *   - FT3 arm carries a dead `gte_avsz3()` before the sz max
+ *   - fogged rgbc: clamp0(0x80 - (opz-0x190)/24) splatted to 3 bytes
+ *   - 0x00FFFFFF / 0xFF000000 OT masks ARE hoisted to the OUTER preheader here
+ *     ($s1/$s4), so plain literals — no §37 S2-kill re-tie needed.
+ *
+ * DECLS: the destination TU already declares D_800A5E60 (`extern s32`, line 846),
+ * D_800B9A02 (line 718 + the u16 asm-alias aD800B9A02 line 730) and
+ * ApplyMatrixSV (line 725); those spellings are used verbatim below.
+ * ========================================================================== */
+
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017BEBC;
+
+extern s32 func_800491EC(void);
+extern void func_800547D8(s32, MTX_8017BEBC *);
+extern void func_80052E38(MTX_8017BEBC *);
+extern void ReadRotMatrix(void *);
+extern void PushMatrix(void);
+extern void PopMatrix(void);
+extern void func_8004974C(void *, void *);
+/* ApplyMatrixSV: no local extern here — the TU already declares it (lines 725 / 1145,
+ * `void ApplyMatrixSV(void*, Svec_801372B0*, Svec_801372B0*)`); the call site below casts
+ * every arg to (void*), which converts silently to that prototype. Re-declaring it here as
+ * (void*, void*, void*) is a DIFFERENT (incompatible) prototype and triggers cc1's
+ * "conflicting types for `ApplyMatrixSV'" at splice time — recovery fix S64/func_8017BEBC. */
+extern s32 D_800A5E60;
+extern u8 D_800A6610[];
+extern u16 aD800B9A02 __asm__("D_800B9A02");
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_ldv3c(r0) __asm__ volatile (         \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 8( %0 );"                          \
+    "lwc2 $3, 12( %0 );"                         \
+    "lwc2 $4, 16( %0 );"                         \
+    "lwc2 $5, 20( %0 )"                          \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stsxy3c(r0) __asm__ volatile (       \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 4( %0 );"                         \
+    "swc2 $14, 8( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3_ft3(r0) __asm__ volatile (    \
+    "swc2 $12, 8( %0 );"                         \
+    "swc2 $13, 16( %0 );"                        \
+    "swc2 $14, 24( %0 )"                         \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsz3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $17, 0( %0 );"                         \
+    "swc2 $18, 0( %1 );"                         \
+    "swc2 $19, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+    "swc2 $16, 0( %0 );"                         \
+    "swc2 $17, 0( %1 );"                         \
+    "swc2 $18, 0( %2 );"                         \
+    "swc2 $19, 0( %3 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ), "r"( r3 ) \
+    : "memory" )
+
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (         \
+    "swc2 $24, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+void func_8017BEBC(s32 arg0)
+{
+    typedef struct { u16 vx, vy, vz, pad; } UV8;
+    typedef struct { s16 vx, vy; } XDV2;
+    typedef struct { s16 vx, vy, vz, pad; } XSV2;
+    typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } XPart;
+    typedef struct { u32 w0, w1, w2; } XPrim;
+    typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1;
+                     s16 x2, y2; u16 uv2, p2; } XFT3;
+    typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1;
+                     s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } XFT4;
+
+    XDV2  tmpxy[4];   /* 0x10 */
+    XSV2  box[8];     /* 0x20 */
+    XSV2  sxy[8];     /* 0x60 */
+    MTX_8017BEBC mtx;        /* 0xA0 */
+    UV8   lv;         /* 0xC0 */
+    UV8   outv;       /* 0xC8 */
+    MTX_8017BEBC m2;         /* 0xD0 */
+    MTX_8017BEBC m3;         /* 0xF0 */
+    XSV2  sv;         /* 0x110 */
+    struct { long otz, flag, opz, sz0, sz1, sz2, sz3; } g;   /* 0x118 */
+
+    s32 lim;
+    s32 nparts;
+    s32 j;
+    u32 nprim;
+    u32 i;
+    XPart *part;
+    XPrim *prim;
+    u8 *pkt;
+    u32 ot;
+    u8 *vtx;
+    u8 *vd;
+    u8 *va, *vb, *vc;
+    u32 w;
+    s32 code;
+    u32 wx, wy, wz;
+    s32 xa32, xb32, t32;
+    s32 xmn1, xmx1, xmn2, xmx2;
+    s32 mnc, mxc;
+    s16 my, mny, mx, mn;
+
+    lim = func_800491EC() + *(s32 *)(arg0 + 0x64);
+    func_800547D8(arg0 + 0x10, &mtx);
+    func_80052E38(&mtx);
+
+    {
+        /* §153 address-rematerialisation launder: &m2 / &m3 are each an argument
+         * TWICE inside this one CSE basic block, so cse unifies the pseudos and
+         * global.c hands them a callee-saved reg ($s0 + `move $aN,$s0` per site).
+         * The target rematerialises `addiu $aN,$sp,N` at every site. Each launder
+         * SETS the pseudo, emptying the address's equivalence class; non-volatile
+         * asm so sched2 may still hoist the arg setup above the sv loads. */
+        s32 _pm2 = (s32)&m2;
+        __asm__("" : "=r"(_pm2) : "0"(_pm2));
+        lv.vx = 0;
+        lv.vy = 0;
+        lv.vz = 0;
+        ReadRotMatrix((void *)_pm2);
+    }
+    PushMatrix();
+    sv.vx = lv.vx - m2.t[0];
+    sv.vy = lv.vy - m2.t[1];
+    sv.vz = lv.vz - m2.t[2];
+    {
+        s32 _a = (s32)&m2;
+        s32 _b = (s32)&m3;
+        __asm__("" : "=r"(_a) : "0"(_a));
+        __asm__("" : "=r"(_b) : "0"(_b));
+        func_8004974C((void *)_a, (void *)_b);
+    }
+    ApplyMatrixSV((void *)&m3, (void *)&sv, (void *)&outv);
+    PopMatrix();
+    outv.vy = outv.vy - 0x180;
+
+    pkt = (u8 *)D_800A5E60;
+    part = *(XPart **)(arg0 + 0xC);
+    nparts = *(s32 *)(*(s32 *)(arg0 + 8) + 8);
+    vtx = *(u8 **)(*(s32 *)(arg0 + 8) + 0x10);
+    ot = (u32)&D_800A6610[aD800B9A02 << 14];
+
+    for (j = 0; j < nparts; j++, part++) {
+        wx = part->xx;
+        mn = wx;
+        mx = wx >> 16;
+        wy = part->yy;
+        mny = wy;
+        my = wy >> 16;
+        wz = part->zz;
+        box[0].vx = mn; box[0].vy = mny;
+        box[1].vx = mx; box[1].vy = mny;
+        box[2].vx = mn; box[2].vy = mny;
+        box[3].vx = mx; box[3].vy = mny;
+        box[4].vx = mn; box[4].vy = my;
+        box[5].vx = mx; box[5].vy = my;
+        box[6].vx = mn; box[6].vy = my;
+        box[7].vx = mx; box[7].vy = my;
+        wy = wz >> 16;
+        box[0].vz = wz;
+        box[1].vz = wz;
+        box[4].vz = wz;
+        box[5].vz = wz;
+        box[2].vz = wy;
+        box[3].vz = wy;
+        box[6].vz = wy;
+        box[7].vz = wy;
+
+        gte_ldv3c(&box[0]);
+        gte_rtpt();
+        gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
+        gte_ldv0(&box[3]);
+        gte_rtps();
+        gte_stsxy(&sxy[3]);
+        gte_ldv3c(&box[4]);
+        gte_rtpt();
+        gte_stsxy3(&sxy[4], &sxy[5], &sxy[6]);
+        gte_ldv0(&box[7]);
+        gte_rtps();
+        gte_stsxy(&sxy[7]);
+        gte_stszotz(&g.otz);
+
+        if (lim >= g.otz) {
+            xa32 = sxy[0].vx;
+            xb32 = sxy[1].vx;
+            if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
+            t32 = sxy[2].vx;
+            if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+            t32 = sxy[3].vx;
+            if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+            xa32 = sxy[4].vx;
+            xb32 = sxy[5].vx;
+            if (xb32 < xa32) { xmx2 = xa32; xmn2 = xb32; } else { xmn2 = xa32; xmx2 = xb32; }
+            t32 = sxy[6].vx;
+            if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+            t32 = sxy[7].vx;
+            if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+            mnc = xmn1;
+            if (xmn2 < xmn1) mnc = xmn2;
+            mxc = xmx1;
+            if (mxc < xmx2) mxc = xmx2;
+            if ((s16)mxc >= -0xA0 && (s16)mnc < 0xA1) {
+                xa32 = sxy[0].vy;
+                xb32 = sxy[1].vy;
+                if (xb32 < xa32) { xmx1 = xa32; xmn1 = xb32; } else { xmn1 = xa32; xmx1 = xb32; }
+                t32 = sxy[2].vy;
+                if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+                t32 = sxy[3].vy;
+                if (xmx1 < t32) xmx1 = t32; else if (t32 < xmn1) xmn1 = t32;
+                xa32 = sxy[4].vy;
+                xb32 = sxy[5].vy;
+                if (xb32 < xa32) { xmx2 = xa32; xmn2 = xb32; } else { xmn2 = xa32; xmx2 = xb32; }
+                t32 = sxy[6].vy;
+                if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+                t32 = sxy[7].vy;
+                if (xmx2 < t32) xmx2 = t32; else if (t32 < xmn2) xmn2 = t32;
+                mnc = xmn1;
+                if (xmn2 < xmn1) mnc = xmn2;
+                mxc = xmx1;
+                if (mxc < xmx2) mxc = xmx2;
+                if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
+                    prim = (XPrim *)part->prim;
+                    nprim = part->nprim;
+                    for (i = 0; i < nprim; i++, prim++) {
+                        w = prim->w1;
+                        va = vtx + (w & 0xFFFF);
+                        vb = vtx + (w >> 16);
+                        w = prim->w2;
+                        vc = vtx + (w & 0xFFFF);
+                        w = w >> 16;
+                        gte_ldv3(va, vb, vc);
+                        gte_rtpt();
+                        gte_stflg(&g.flag);
+                        if (!(g.flag & 0x7F85E000)) {
+                            gte_nclip();
+                            code = w & 7;
+                            vd = vtx + (w & 0xFFF8);
+                            gte_stopz(&g.opz);
+                            if (g.opz > 0) {
+                                switch (code) {
+                                case 6:
+                                case 7:
+                                    gte_stsxy3_ft3(pkt);
+                                    gte_stsz3(&g.sz0, &g.sz1, &g.sz2);
+                                    if (((XFT3 *)pkt)->x0 > ((XFT3 *)pkt)->x1) {
+                                        mx = ((XFT3 *)pkt)->x0;
+                                        mn = ((XFT3 *)pkt)->x1;
+                                    } else {
+                                        mn = ((XFT3 *)pkt)->x0;
+                                        mx = ((XFT3 *)pkt)->x1;
+                                    }
+                                    if (((XFT3 *)pkt)->x2 > mx) mx = ((XFT3 *)pkt)->x2;
+                                    else if (((XFT3 *)pkt)->x2 < mn) mn = ((XFT3 *)pkt)->x2;
+                                    if (mx >= -0xA0 && mn < 0xA1) {
+                                        if (((XFT3 *)pkt)->y0 > ((XFT3 *)pkt)->y1) {
+                                            my = ((XFT3 *)pkt)->y0;
+                                            /* §47 live-length SLIDER x2, differential form: placed where `my` is
+                                             * LIVE and `mny` is DEAD (between the two arm assignments), so it
+                                             * lengthens ONLY `my`. A slider in the common range moves both
+                                             * equally and never reaches the plateau (probed A=0..8: my/mny
+                                             * stayed wrong at every count). +2 here lands int(K/L_my) on
+                                             * int(K/L_mny) -> exact allocno tie -> global.c allocno_compare
+                                             * falls through to creation order -> mny (created first) takes
+                                             * $a2, which is what the target has. Zero bytes (#APP/#NO_APP). */
+                                            __asm__ volatile ("");
+                                            __asm__ volatile ("");
+                                            mny = ((XFT3 *)pkt)->y1;
+                                        } else {
+                                            mny = ((XFT3 *)pkt)->y0;
+                                            my = ((XFT3 *)pkt)->y1;
+                                        }
+                                        if (((XFT3 *)pkt)->y2 > my) my = ((XFT3 *)pkt)->y2;
+                                        else if (((XFT3 *)pkt)->y2 < mny) mny = ((XFT3 *)pkt)->y2;
+                                        if (my >= -0x6E && mny < 0x6F) {
+                                            s32 za, tz, q, rgb;
+                                            u32 *otp;
+                                            u32 *tp;
+                                            gte_avsz3();
+                                            if (g.sz0 > g.sz1) {
+                                                za = g.sz0;
+                                                if (za < g.sz2) za = g.sz2;
+                                            } else {
+                                                za = g.sz1;
+                                                if (za < g.sz2) za = g.sz2;
+                                            }
+                                            g.opz = za;
+                                            if (code != 6) g.opz = za + 0x200;
+                                            tz = g.opz;
+                                            tp = (u32 *)prim->w0;
+                                            q = 0x80 - (tz - 0x190) / 24;
+                                            if (q < 0) q = 0;
+                                            rgb = q | (q << 8) | (q << 16);
+                                            ((XFT3 *)pkt)->rgbc = (tp[0] & 0xFF000000) | rgb;
+                                            ((XFT3 *)pkt)->uvc0 = tp[1];
+                                            ((XFT3 *)pkt)->uvp1 = tp[2];
+                                            ((XFT3 *)pkt)->uv2 = tp[3];
+                                            otp = (u32 *)(((tz >> 2) << 2) + ot);
+                                            *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x7000000;
+                                            *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+                                            pkt += 0x20;
+                                        }
+                                    }
+                                    break;
+                                case 2:
+                                case 3:
+                                    gte_stsxy3c(&tmpxy[0]);
+                                    gte_ldv0(vd);
+                                    gte_rtps();
+                                    if (tmpxy[0].vx > tmpxy[1].vx) {
+                                        mx = tmpxy[0].vx;
+                                        mn = tmpxy[1].vx;
+                                    } else {
+                                        mn = tmpxy[0].vx;
+                                        mx = tmpxy[1].vx;
+                                    }
+                                    if (tmpxy[2].vx > mx) mx = tmpxy[2].vx;
+                                    else if (tmpxy[2].vx < mn) mn = tmpxy[2].vx;
+                                    if (tmpxy[0].vy > tmpxy[1].vy) {
+                                        my = tmpxy[0].vy;
+                                        /* §47 slider x2 — same tie, the FT4 arm's half of it. */
+                                        __asm__ volatile ("");
+                                        __asm__ volatile ("");
+                                        mny = tmpxy[1].vy;
+                                    } else {
+                                        mny = tmpxy[0].vy;
+                                        my = tmpxy[1].vy;
+                                    }
+                                    if (tmpxy[2].vy > my) my = tmpxy[2].vy;
+                                    else if (tmpxy[2].vy < mny) mny = tmpxy[2].vy;
+                                    gte_stflg(&g.flag);
+                                    if (!(g.flag & 0x7F85E000)) {
+                                        gte_stsz4(&g.sz0, &g.sz1, &g.sz2, &g.sz3);
+                                        gte_stsxy((long *)&((XFT4 *)pkt)->x3);
+                                        if (((XFT4 *)pkt)->x3 < mn) mn = ((XFT4 *)pkt)->x3;
+                                        else if (mx < ((XFT4 *)pkt)->x3) mx = ((XFT4 *)pkt)->x3;
+                                        if (mx >= -0xA0 && mn < 0xA1) {
+                                            if (((XFT4 *)pkt)->y3 < mny) mny = ((XFT4 *)pkt)->y3;
+                                            else if (my < ((XFT4 *)pkt)->y3) my = ((XFT4 *)pkt)->y3;
+                                            if (my >= -0x6E && mny < 0x6F) {
+                                                s32 za, zb, tz, q, rgb;
+                                                u32 *otp;
+                                                u32 *tp;
+                                                u32 uvw;
+                                                zb = g.sz2;
+                                                if (zb < g.sz3) zb = g.sz3;
+                                                za = g.sz0;
+                                                if (za < g.sz1) za = g.sz1;
+                                                if (za < zb) za = zb;
+                                                g.opz = za;
+                                                if (code != 2) g.opz = za + 0x200;
+                                                *(u32 *)&((XFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
+                                                *(u32 *)&((XFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
+                                                *(u32 *)&((XFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
+                                                tz = g.opz;
+                                                tp = (u32 *)prim->w0;
+                                                q = 0x80 - (tz - 0x190) / 24;
+                                                if (q < 0) q = 0;
+                                                rgb = q | (q << 8) | (q << 16);
+                                                ((XFT4 *)pkt)->rgbc = (tp[0] & 0xFF000000) | rgb;
+                                                ((XFT4 *)pkt)->uvc0 = tp[1];
+                                                ((XFT4 *)pkt)->uvp1 = tp[2];
+                                                uvw = tp[3];
+                                                ((XFT4 *)pkt)->uv2 = uvw;
+                                                ((XFT4 *)pkt)->uv3 = uvw >> 16;
+                                                otp = (u32 *)(((tz >> 2) << 2) + ot);
+                                                *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
+                                                *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+                                                pkt += 0x28;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    D_800A5E60 = (s32)pkt;
+}
+
 
 
 
