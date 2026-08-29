@@ -5202,7 +5202,25 @@ typedef struct {
 DEFINE_func_8017D4B4()  /* dedup: shared engine-core @0x8017D4B4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_8017AE2C", func_8017D588);
+extern void func_8017D030(int);
+extern void func_80146C3C(u8*);
+void func_8017D588(void *a0)
+{
+    void *obj;
+    s16 v;
+    v = *(u16 *)((s32)a0 + 0x12) - 0x100;
+    obj = *(void **)((s32)a0 + 0x34);
+    *(s16 *)((s32)a0 + 0x12) = v;
+    if (v > 0) {
+        ((void (*)(void *))func_8017D030)(a0);
+    } else {
+        *(s16 *)((s32)obj + 0x64) = 0x1000;
+        *(s16 *)((s32)obj + 0x62) = 0x1000;
+        *(s16 *)((s32)obj + 0x60) = 0x1000;
+        ((void (*)(void))func_80146C3C)();
+    }
+}
+
 
 
 
