@@ -261,17 +261,20 @@ def main():
     fns = [fn for fn, _ in work]
     print(f"[recover] {len(fns)} candidate(s): {', '.join(fns[:8])}{'…' if len(fns) > 8 else ''}")
 
-    if a.probe_only:                  # measure, write nothing — the S0 step that re-prices the task
-        os.execv(PY, [PY, "tools/blocker_probe.py", "--binary", a.binary,
-                      "--drafts", ",".join(a.draft_dir or [dd]), "--work", f"{run_dir}/probe",
-                      "--json", f"{run_dir}/blockers.json"])
-
     # ---- stage drafts (the --draft-dir path already staged them into dd)
     if not a.draft_dir:
         shutil.rmtree(os.path.join(REPO, dd), ignore_errors=True)
         os.makedirs(os.path.join(REPO, dd))
         for fn, d in work:
             shutil.copy(os.path.join(REPO, d), os.path.join(REPO, dd, fn + ".c"))
+
+    if a.probe_only:                  # measure, write nothing — the S0 step that re-prices the task
+        # MUST come AFTER staging: --funcs/--auto/--from-file stage below this point, so the exec'd
+        # probe used to open a directory that did not exist yet and die with a FileNotFoundError
+        # traceback (P31 S65). Only --draft-dir, whose drafts stage_drafts() already copied, worked.
+        os.execv(PY, [PY, "tools/blocker_probe.py", "--binary", a.binary,
+                      "--drafts", ",".join(a.draft_dir or [dd]), "--work", f"{run_dir}/probe",
+                      "--json", f"{run_dir}/blockers.json"])
 
     # ---- snapshot the TU files (engine_core.h + the overlay's own src). Restored EXACTLY between
     # passes — `fix_arity_callers --revert` is LOSSY for --any-proto (it rewrites `()`->`(void)`, not
