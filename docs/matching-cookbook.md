@@ -209,6 +209,25 @@ as decomp-permuter candidates rather than hand-grinding.
   insight. Example: `func_80015A74` (uint→BCD). See §3.
 
 ### §5a Cross-jump tail-merge — gcc collapses two byte-identical blocks the original kept separate (FIX FOUND)
+
+**FINDABILITY ADDENDUM (P31 S65, measured — this section's law was RE-DERIVED from scratch by a
+drafting agent that never found it).** Two of three "new lever" claims distilled from the t5s/t5t
+waves were rediscoveries of laws already in this book, and the reason is the SYMPTOM WORDING, not a
+missing law. The index entry reads "*gcc stole an instruction into a branch delay slot that the
+target leaves as `nop`*" — but that is not what the agent SAW. What it saw, on `func_8017E044`, was:
+`match_one` reporting **`LENGTH-DRIFT/1?` at closeness 45**, an extra unconditional **`j` present in
+its build and absent from the target**, and a **store duplicated** at the jump's destination. The
+`nop` never appeared in its diff at all — the target's load-delay `nop` was DISPLACED, not matched
+against. So search this section for any of these instead:
+* **an extra `j` your build emits that the target does not have**, whose destination block's FIRST
+  instruction is a store shared by two converging if/else arms — reorg fills the `j`'s delay slot by
+  COPYING that store, the `j` degenerates to jump-to-next, and a later pass deletes it;
+* **`LENGTH-DRIFT` +1 with the cascade beginning exactly at a `j`/label pair**;
+* **a store that appears twice in your build and once in the target.**
+The fix is the §34 zero-byte `__asm__ __volatile__("")` placed immediately BEFORE the shared store
+(`reorg.c:675 stop_search_p` halts the eager scan on ANY asm insn) — byte-proven here: that one line,
+nothing else changed, took `func_8017E044` from `near 45` to `match 0 174 MATCH`.
+
 **Symptom:** your function is N instructions SHORTER than the target, because the original binary has two
 (or more) byte-identical tail blocks (classically a "save K globals then `return c`" epilogue reached from
 different states) but gcc **merges them into one**. asm-differ shows a big cascade; the instruction COUNT is
@@ -13812,6 +13831,13 @@ with no `goto` anywhere in the source. Mechanism: the deleted range's label keep
 **⚠ Bounds.** (a) The barrier is needed only in the block *entered* by the equality; two sibling `if (t == K)` tests at the same level are separate PATHS and neither folds the other (§164-52). (b) It buys nothing against a range-dead compare — that is §164-46, and adding an asm there is a §3-*perturbation trap*. (c) Non-volatile is enough; it must be a SET, not a barrier.
 
 *(NEW; evidence: byte-probed; from `func_8017FE38`)*
+
+**Addendum (P31 S65 t5s+t5t, func_8017EB30): the EQ-channel dial has an asm-free form — respell the re-tested OPERAND, not the operator. ⚠ UNPROVEN (no whole-binary gate pass; see the evidence caveat).**
+**Second instance of the exact target shape, register for register.** `asm/ov_SC01_004/nonmatchings/ov_SC01_004_jr_8017E5B8/func_8017EB30.s:104-108` — `8017ECAC beq $s0,$v1,.L8017ECC4` / `8017ECB0 addiu $v0,$zero,0x5` / `8017ECB4 bne $s0,$v0,.L8017ECF8` / `8017ECBC bne $s0,$v1,.L8017ECD4` (`$v1`=3 loaded at `8017EC98`) — the same 279-instruction template as §165-03's `func_8017F2D4` (ov_SC01_005) in the adjacent overlay, same constants, same `$s0`/`$v1`/`$v0`. Source shape `if (j == 3 || j == 5) { if (j == 3) … }`; the third branch is provably dead and the retail binary emits it anyway. `match_one` files the naive draft as `BRANCH-POLARITY / beq!=bne` at nins-exact 279 — §165-03's tell, verbatim; do **not** go to §3-T4.
+**THE ADDED DIAL (unproven, but zero-asm).** §165-03 prescribes only `__asm__ ("" : "=r"(t) : "0"(t))`, and its bound (c) frames the requirement as *"it must be a SET"* of that same pseudo. Two pure-C spellings reportedly do the same job with no `#APP` at all: re-derive the value at the inner test (`if ((s16)param_2 == 3)` instead of `if (j == 3)`), or test a fresh local (`s16 j2 = param_2; if (j2 == 3)`). Both took the draft from closeness 3 → 0. This widens §165-03's bound (c) — a *different quantity* suffices, a second SET of the original is not required — and it is the EQ-channel counterpart of §197-B's *"make the two compares reference DIFFERENT quantities"*, which BOUND 4 there explicitly declines to claim for the `code == EQ` arm. It also adds a fourth lever to §308 BOUND 3's list (mask / launder / re-tie / **respell**), i.e. a fourth way to accidentally *buy back* a branch §308 wants deleted.
+**TWO CONTROLS, AND THEY ARE THE VALUABLE PART.** (i) Changing the **operator** while keeping the variable — `if (!(j - 3))` — is INERT: still `near`, closeness 3, identical residual. The axis is operand identity, not expression form; do not waste rounds on `!=`/`==`/subtract respellings. (ii) Materialising the constant into a local instead (`s32 three = 3; if (j == three)`) blew the function to closeness 242 — a new local perturbs the frame and the whole allocation (§167-06/§195-M territory). Reach for re-derivation or a narrow copy; never for a constant temp.
+**MECHANISM — the transcript's attribution is REJECTED; cite §165-03's.** The agent named jump.c's `thread_jumps` matching identical comparison RTX. §165-03 already settles this channel from the source with a one-hunk A/B: cse's `record_jump_cond` (`tools/reference/gcc-2.7.2/cse.c:5944-5990`, the `code == EQ` arm at `:5951`) merges the operands of a taken `==` into one class, and `fold_rtx` then proves the re-test. Deleting *only* an asm SET — which leaves both C comparisons syntactically identical — restores the fold, which a purely syntactic jump-threading story cannot explain. **One datum is genuinely open and nobody has dumped RTL for it:** why `(s16)param_2 == 3` does *not* re-hit cse's table entry for the already-computed extension. Treat that as the thing to `-da` if this recurs; do not bank `thread_jumps`.
+**⚠ EVIDENCE CAVEAT — this addendum is NOT byte-proven, and the instrument was broken while it was measured.** The draft never passed the whole-binary SHA1 gate (G3/P9 remains the sole arbiter). Worse, both the before (3) and after (0) numbers came from `masked_diff` while its mask-from-one-side asymmetry was live: a `j` on MY side with an `R_MIPS_26` reloc returned a 0 mask and swallowed whatever the target held, so `j`-vs-`bne` at one index scored 0 (honest pre-fix residual was 4, not 3). That defect was found by this very agent and is now fixed in `tools/masked_diff.py:126-146` (the fix comment credits "a t5s drafting agent on func_8017EB30") — an §301/§195 instrument addendum in its own right. The only independent check on the "MATCH" is the agent's ad-hoc `verify.py` (both objdump streams reconstructed, HI16/LO16/R_MIPS_26 symbols compared, internal `j` targets computed by hand; its 2 "BAD" rows were the `lui/lw %hi/%lo(jtbl_8018EDA4)` pair, hand-cross-checked against `asm/ov_SC01_004/data/tail19.data.s` and confirmed a formatting artifact — all 10 table entries matched). **Re-measure both variants under the fixed comparer and gate them before promoting any of this to law.**
 
 **§165-04 — THE `andi` IMMEDIATE IN AN `andi M ; srl k` PAIR IS A VERBATIM TRANSCRIPTION OF THE SOURCE MASK — INCLUDING THE BITS THE SHIFT THROWS AWAY.** *(NEW. The file's only adjacent law is the disjoint-bits `x + CONST` -> `ori` fold (L1789-1796), a different pass and a different axis; §162k1 counts `andi`s, it never reads their immediates.)*
 
