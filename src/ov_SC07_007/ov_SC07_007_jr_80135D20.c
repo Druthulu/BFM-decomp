@@ -1193,7 +1193,18 @@ void func_80136C54(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_80135D20", func_80136C90);
+
+
+
+
+s32 func_80136C90()
+{
+    extern void func_8001534C(int, void *, int, int, int, int);
+    extern S10_80136C90 D_801C559C;
+    S10_80136C90 buf = D_801C559C;
+    func_8001534C(0, &buf, 0x78, 0x10, 0, 0);
+}
+
 
 void func_80136D00(void) {
 }

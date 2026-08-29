@@ -3677,7 +3677,21 @@ void func_8017CD9C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017CDD8);
+
+extern void func_8014BE78(void);
+extern void func_800167B8(s32 a0);
+
+extern void func_80182EBC(void);
+
+s32 func_8017CDD8(s32 a0)
+{
+    func_8014BE78();
+    func_80182EBC();
+    func_800167B8(0);
+    *(u8 *)(a0 + 0x15) += 1;
+    return 0;
+}
+
 
 DEFINE_func_8017CE24()  /* dedup: shared engine-core @0x8017ce24 (src/shared) */
 
