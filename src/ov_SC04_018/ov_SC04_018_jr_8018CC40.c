@@ -3138,7 +3138,7 @@ extern void (*D_801E0554[])(void);
 extern void func_8018AB3C(void *a0);
 extern s32 D_801E01F0;
 extern s32 D_801E7980;
-extern void func_8018A168(s32 arg0, s32 arg1);
+extern void func_8018A168();
 extern void func_8018ACD4(void);
 extern void func_8018AD08(void);
 extern s32 D_801E0260;
