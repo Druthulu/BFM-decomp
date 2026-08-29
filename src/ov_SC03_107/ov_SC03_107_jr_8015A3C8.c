@@ -6347,7 +6347,17 @@ DEFINE_func_80163328()  /* dedup: shared engine-core @0x80163328 (src/shared) */
 DEFINE_func_801633A8()  /* dedup: shared engine-core @0x801633a8 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_8015A3C8", func_80163408);
+
+
+s32 func_80163408(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
+    extern int func_8016345C(int, unsigned short, int, unsigned short, void *);
+    extern char aD8018393C_80163408[8] __asm__("D_8019A154");
+
+    unsigned char sp18[8];
+    memcpy(sp18, aD8018393C_80163408, 8);
+    return func_8016345C(((int)param_1), ((int)param_2), ((int)param_3), ((int)param_4), sp18);
+}
+
 
 DEFINE_func_8016345C()  /* dedup: shared engine-core @0x8016345c (src/shared) */
 

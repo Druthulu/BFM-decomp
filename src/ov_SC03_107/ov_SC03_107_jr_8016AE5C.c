@@ -3268,7 +3268,33 @@ s32 func_8016BBE0(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_8016AE5C", func_8016BCC0);
+
+
+extern M2C_UNK D_8019AE4C;
+extern M2C_UNK D_8019AE50;
+extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
+
+    void func_8016BCC0(void *arg0) {
+        u16 temp_a2;
+        u16 temp_v0;
+        void *temp_s0;
+        temp_s0 = M2C_FIELD(arg0, void **, 0x20);
+        func_8016BF50();
+        temp_a2 = M2C_FIELD(arg0, u16 *, 0x10) + 0x60;
+        M2C_FIELD(arg0, u16 *, 0x10) = temp_a2;
+        temp_v0 = M2C_FIELD(temp_s0, u16 *, 0x1A) + temp_a2;
+        M2C_FIELD(temp_s0, u16 *, 0x1A) = temp_v0;
+        M2C_FIELD(temp_s0, u16 *, 0x18) = temp_v0;
+        M2C_FIELD(temp_s0, u16 *, 0x12) = (u16) ((M2C_FIELD(temp_s0, u16 *, 0x12) + 0x71) & 0xFFF);
+        func_8016BFA8(arg0, &D_8019AE4C, &D_8019AE50, temp_s0 + 0x18);
+        if ((s16) M2C_FIELD(temp_s0, u16 *, 0x1A) >= 0x1001) {
+            M2C_FIELD(temp_s0, u16 *, 0x18) = 0x1000U;
+            M2C_FIELD(temp_s0, u16 *, 0x1A) = 0x1000U;
+            func_80146E90(arg0, M2C_FIELD(arg0, s32 *, 0x30));
+            M2C_FIELD(arg0, u16 *, 2) = (u16) (M2C_FIELD(arg0, u16 *, 2) + 1);
+        }
+    }
+
 
 extern s32 func_8016BF50(s32);
 extern void func_8016BFA8(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3970,7 +3996,45 @@ DEFINE_func_8016D5EC()  /* dedup: shared engine-core @0x8016d5ec (src/shared) */
 DEFINE_func_8016D64C()  /* dedup: shared engine-core @0x8016d64c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_8016AE5C", func_8016D688);
+
+
+extern void func_801465C0(void);
+extern void func_800233CC(void *, unsigned short);
+extern void func_8001CD9C(int, void *);
+
+extern unsigned char D_8019AEA9[];
+extern unsigned char D_8019AEAA;
+extern unsigned char D_8019AEAC;
+extern unsigned char D_8019AEAD;
+extern unsigned char D_8019AEAE;
+
+void func_8016D688(int param_1)
+{
+    int iVar2;
+    int iVar3;
+
+    D_8019AEA9[0] = 0xE0;
+    D_8019AEAA = 0xE0;
+    D_8019AEA9[-1] = 0xE0;
+    D_8019AEAE = 0;
+    D_8019AEAD = 0;
+    D_8019AEAC = 0;
+    iVar2 = ((int (*)(void))func_801465C0)();
+    if (iVar2 != 0) {
+        *(int *)(param_1 + 0x20) = iVar2;
+        func_800233CC(&D_8019AEA9[-1], 0x28);
+        func_8001CD9C(iVar2, &D_8019AEA9[-1]);
+        *(unsigned short *)(iVar2 + 0x1A) = 0x1400;
+        *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x50000000;
+        iVar3 = *(int *)(param_1 + 0x30);
+        *(unsigned short *)(param_1 + 0x28) = *(unsigned short *)(iVar3 + 0x36);
+        *(unsigned short *)(param_1 + 0x12) = *(unsigned short *)(iVar3 + 6);
+        *(short *)(param_1 + 0x16) = *(unsigned short *)(iVar3 + 0xA) - 0x28;
+        *(unsigned short *)(param_1 + 0x1A) = *(unsigned short *)(iVar3 + 0xE);
+        *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1;
+    }
+}
+
 
 DEFINE_func_8016D778()  /* dedup: shared engine-core @0x8016d778 (src/shared) */
 

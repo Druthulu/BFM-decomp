@@ -3421,7 +3421,106 @@ DEFINE_func_80145BF8()  /* dedup: shared engine-core @0x80145bf8 (src/shared) */
 DEFINE_func_80145C54()  /* dedup: shared engine-core @0x80145c54 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_8013F350", func_80145CEC);
+
+
+void func_80145CEC(void) {
+    extern int func_8001C320();
+    extern s32 func_80029504(void);
+    extern int func_801552F4();
+    extern int func_80147084();
+    extern int func_80147098();
+    extern int func_801470AC();
+    extern int func_80149210();
+    extern int func_8014BE9C();
+    extern int func_8016533C();
+    extern int func_801627C0();
+    extern int func_80162AF4();
+    extern int func_80165C78();
+    extern int func_801468C8();
+    extern int func_80145EE8();
+    extern int func_8014C968();
+    extern int func_8014C6D0();
+    extern int func_80165938();
+    extern int func_80153C8C();
+    extern int func_800290BC();
+    extern s32 D_800AFAE8;
+    extern s32 D_800DE2A4;
+    extern s32 D_801152C8;
+    extern s32 D_80183E58;
+    extern s32 * D_80126B78[1];
+    extern s32 * D_800AF7C8;
+    extern s32 * D_80126B90;
+    extern s16 D_80126BB8;
+    extern s16 D_80126BBA;
+    extern s16 D_80126BBC;
+    extern s16 D_80126BC0;
+    extern s16 D_80126BC2;
+    extern s16 D_80126BC4;
+    extern s16 D_80126BC8;
+    extern s16 D_80126BCA;
+    extern s16 D_80126BCC;
+    extern s16 D_80126D10;
+    extern s16 D_80126D12;
+    extern s16 D_80126C4E;
+    extern s16 currentLocationId;
+    extern s32 D_8011F9C4;
+    extern s32 D_8012707C;
+    extern s32 D_8011DB10;
+    extern s32 D_80126B58;
+
+    unsigned int uVar1;
+    s32 pad[2];
+    (void)&pad;
+
+    func_80016714(&D_80126B58, 0x254);
+    D_80126B78[0] = (s32 *)&D_800AFAE8;
+    D_800AF7C8 = (s32 *)&D_801152C8;
+    func_8001C320(&D_800AFAE8, &D_800DE2A4);
+    *(s32 *)((s32)D_80126B78[0] + 0x28) = 0x7fff7fff;
+    D_80126B90 = (s32 *)&D_80183E58;
+    *(u16 *)((s32)D_80126B78[0] + 0x18) = 0x1000;
+    D_80126BC8 = 0x1000;
+    D_80126BC0 = 0x1000;
+    D_80126BB8 = 0x1000;
+    *(u16 *)((s32)D_80126B78[0] + 0x1a) = 0x1000;
+    D_80126BCA = 0x1000;
+    D_80126BC2 = 0x1000;
+    D_80126BBA = 0x1000;
+    *(u16 *)((s32)D_80126B78[0] + 0x1c) = 0x1000;
+    D_80126BCC = 0x1000;
+    D_80126BC4 = 0x1000;
+    D_80126BBC = 0x1000;
+    D_80126D12 = 0x1000;
+    D_80126D10 = 0x1000;
+    D_80126C4E = 0x1000;
+    func_801552F4(&D_80126B58);
+    func_80147084(&D_80126B58);
+    func_80147098(&D_80126B58);
+    func_801470AC(&D_80126B58);
+    *(u16 *)((s32)D_80126B78[0] + 0x2c) = *(u16 *)((s32)D_80126B78[0] + 0x2c) | 0x50;
+    func_80149210(&D_80126B58, 8);
+    func_8014BE9C();
+    func_8016533C();
+    func_801627C0();
+    func_80162AF4();
+    func_80165C78();
+    func_801468C8(&D_80126B58, 1);
+    if (currentLocationId != 0x30a2 && currentLocationId != 0x30a5) {
+        func_80145EE8(0);
+    }
+    func_8014C968();
+    func_8014C6D0();
+    D_8011F9C4 = 0;
+    func_80165938();
+    func_80153C8C();
+    D_8012707C = 0;
+    D_8011DB10 = 0;
+    uVar1 = ((int (*)())func_80029504)();
+    if (uVar1 >= 10) {
+        func_800290BC();
+    }
+}
+
 
 
 
@@ -5727,7 +5826,34 @@ DEFINE_func_8014E790()  /* dedup: shared engine-core @0x8014e790 (src/shared) */
 DEFINE_func_8014E83C()  /* dedup: shared engine-core @0x8014e83c (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_8013F350", func_8014E934);
+
+
+void func_8014E934(s32 _arg0)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_8014E98C\n"
+        "lui   $at, %%hi(D_8019A8A0)\n"
+        "sw    $v0, %%lo(D_8019A8A0)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_8019A8A0)\n"
+        "lw    $v0, %%lo(D_8019A8A0)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_8014E98C()  /* dedup: shared engine-core @0x8014e98c (src/shared) */
 
@@ -6008,7 +6134,36 @@ DEFINE_func_801502EC()  /* dedup: shared engine-core @0x801502ec (src/shared) */
 DEFINE_func_80150460()  /* dedup: shared engine-core @0x80150460 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_8013F350", func_80150480);
+
+
+extern void func_801504D8(u16 *a0);
+
+s32 func_80150480(s32 _arg0)
+{
+    __asm__ __volatile__(
+        ".set noreorder\n"
+        "addiu $sp, $sp, -24\n"
+        "lui   $v1, 0x1f80\n"
+        "ori   $v1, $v1, 0x03fc\n"
+        "sw    $ra, 16($sp)\n"
+        "addu  $t0, $v1, $zero\n"
+        "lw    $t1, 0($t0)\n"
+        "nop\n"
+        "sw    $sp, 0($t1)\n"
+        "addiu $t1, $t1, -4\n"
+        "addu  $sp, $t1, $zero\n"
+        "jal   func_801504D8\n"
+        "lui   $at, %%hi(D_8019A8A0)\n"
+        "sw    $v0, %%lo(D_8019A8A0)($at)\n"
+        "addiu $sp, $sp, 4\n"
+        "lw    $sp, 0($sp)\n"
+        "lui   $v0, %%hi(D_8019A8A0)\n"
+        "lw    $v0, %%lo(D_8019A8A0)($v0)\n"
+        "lw    $ra, 16($sp)\n"
+        "addiu $sp, $sp, 24\n"
+        : : : "memory");
+}
+
 
 DEFINE_func_801504D8()  /* dedup: shared engine-core @0x801504d8 (src/shared) */
 
