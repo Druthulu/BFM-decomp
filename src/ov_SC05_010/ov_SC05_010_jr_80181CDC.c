@@ -3825,7 +3825,144 @@ s32 func_801849DC(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80184AA4);
+/* func_80184AA4 — SC05_010 "dust-trail / spark line" actor tick.
+ *
+ * Frame 0 (state word at +2 == 0) seeds four RNG fields and bumps the state.
+ * Otherwise it ages the +8 timer by -0x4000 and despawns past -0x4000000;
+ * else it allocates an 0x80-byte prim block, walks a swept angle (s4) and a
+ * shrinking radius (s3) and emits up to 8 LINE_F2 segments through
+ * RotTransPers, chaining them into the OT of the current double buffer.
+ *
+ * MATCH notes (P31 t5z):
+ *  - §195-C statement-order gap filling: `s4 += 0x80;` MUST precede `s3 -= 8;`
+ *    or the `lh 0x102($s1)` loses its slot and a load-delay nop appears.
+ *  - The OT base is indexed through the 20-byte OtBlk form
+ *    (`D_800A651C[i].a`), NOT `((s32*)D_800A651C)[i * 5]`: only the struct
+ *    form lets gcc fold the symbol into the load (`lw %lo(sym)($at)`); the
+ *    s32[] form materialises `la` + `addu` (2 extra instructions).
+ *  - The frame-0 `+2` bump is staged through `w` (the SAME local the 0x100
+ *    angle clamp uses further down). A fresh local there re-orders the block;
+ *    reusing the else-arm's `t` fixes the block but costs the hoisted
+ *    `lui $v1, 0xFC00` in the entry branch's delay slot.
+ */
+void func_80184AA4(s32 arg0)
+{
+    extern s32 rand(void);
+    extern void func_8012C218(void *a0);
+    extern void *func_80010A08(s32 a0);
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern s32 func_80047948(s32 a0);
+    extern s32 func_8004787C(s32 a0);
+    extern s32 func_80143C74(s32 a0, s32 a1);
+    extern void SetLineF2(void *p);
+    extern s32 RotTransPers(s32 v, s32 sxy, s32 *p, s32 *flag);
+    extern s32 AddPrim(s32 ot, void *p);
+    extern u8 D_800AF648;
+    extern s16 D_800B9A02;
+    extern struct { s32 a; s32 b[4]; } D_800A651C[];
+
+    s32 obj;
+    u8 *db;
+    u8 *prim;
+    s32 s3;
+    s32 s4;
+    s16 w;
+    s32 i;
+    s32 r;
+    s32 t;
+    s32 otz;
+    s32 ot;
+    s16 cur[3];
+    s16 nxt[3];
+    s32 pz;
+    s32 flag;
+
+    obj = arg0;
+
+    if (*(u16 *)(obj + 2) == 0) {
+        *(u16 *)(obj + 0xFC) = rand() & 0xFFF;
+        *(u16 *)(obj + 0x102) = (rand() & 0x1F) + 0x30;
+        *(u16 *)(obj + 0x104) = rand() & 0x3F;
+        w = *(u16 *)(obj + 2) + 1;
+        *(u16 *)(obj + 0xFE) = *(u16 *)(obj + 0x102) + 0x2C0;
+        *(u16 *)(obj + 2) = w;
+        return;
+    }
+
+    t = *(s32 *)(obj + 8) - 0x4000;
+    *(s32 *)(obj + 8) = t;
+    if (t < -0x4000000) {
+        func_8012C218((void *)obj);
+        return;
+    }
+
+    prim = (u8 *)func_80010A08(0x80);
+    if (prim == 0) {
+        return;
+    }
+
+    db = &D_800AF648;
+    func_8004914C(db);
+    func_800491AC(db);
+
+    s3 = *(s16 *)(obj + 0xFE);
+    s4 = *(s16 *)(obj + 0xFC);
+    w = *(u16 *)(obj + 0x100) + 0x10;
+    *(u16 *)(obj + 0x100) = w;
+    if (w >= 0x401) {
+        *(u16 *)(obj + 0x100) = 0x400;
+        *(u16 *)(obj + 0xA) = *(u16 *)(obj + 0xA) - 4;
+        *(u16 *)(obj + 0xFC) = (*(u16 *)(obj + 0xFC) + 0x200) & 0xFFF;
+    } else {
+        *(u16 *)(obj + 0xFE) = *(u16 *)(obj + 0x102) + ((func_80047948(w) * 704) >> 12);
+        *(u16 *)(obj + 0xFC) =
+            (*(u16 *)(obj + 0xFC) + (func_8004787C(*(s16 *)(obj + 0x100)) >> 4)) & 0xFFF;
+    }
+
+    cur[0] = *(u16 *)(obj + 6) + ((s3 * func_80047948(s4)) >> 12);
+    cur[1] = *(u16 *)(obj + 0xA);
+    cur[2] = *(u16 *)(obj + 0xE) + ((s3 * func_8004787C(s4)) >> 12);
+    nxt[1] = cur[1];
+
+    if (*(s16 *)(obj + 0x104) != 0) {
+        *(s16 *)(obj + 0x104) = *(s16 *)(obj + 0x104) - 1;
+    } else {
+        *(u16 *)(obj + 0x104) = rand() & 0x3F;
+        r = func_80143C74(obj, 0);
+        if (r != 0) {
+            *(u16 *)(r + 6) = cur[0];
+            *(u16 *)(r + 0xA) = cur[1];
+            *(u16 *)(r + 0xE) = cur[2];
+            *(s32 *)(r + 0x10) = -(func_8004787C(s4) << 8);
+            *(s16 *)(r + 0x16) = -2;
+            *(s32 *)(r + 0x18) = -(func_80047948(s4) << 8);
+        }
+    }
+
+    for (i = 0; i < 8; i++) {
+        *(u32 *)(prim + 4) = 0xFFFFFF;
+        SetLineF2(prim);
+        s4 += 0x80;
+        s3 -= 8;
+        if (s3 < *(s16 *)(obj + 0x102)) {
+            s3 = *(s16 *)(obj + 0x102);
+        }
+        nxt[0] = *(u16 *)(obj + 6) + ((s3 * func_80047948(s4)) >> 12);
+        nxt[2] = *(u16 *)(obj + 0xE) + ((s3 * func_8004787C(s4)) >> 12);
+        otz = RotTransPers((s32)cur, (s32)(prim + 8), &pz, &flag);
+        if (otz > 0 && flag >= 0) {
+            if (RotTransPers((s32)nxt, (s32)(prim + 0xC), &pz, &flag) > 0 && flag >= 0) {
+                ot = D_800A651C[*(u16 *)&D_800B9A02].a + (otz << 2);
+                AddPrim(ot, prim);
+                prim += 0x10;
+            }
+        }
+        cur[0] = nxt[0];
+        cur[2] = nxt[2];
+    }
+}
+
 
 #include "common.h"
 

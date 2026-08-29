@@ -3853,7 +3853,11 @@ extern s32 D_8019BD18;
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_8017DCE4);
+extern s32 D_8019BD18;
+void func_8017DCE4(void) {
+    D_8019BD18 = 0;
+}
+
 
 
 extern void (*D_80191B78[])(void);
