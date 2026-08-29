@@ -2295,7 +2295,7 @@ void func_80157788(int param_1)
 
 
 extern void func_80147078(s32 *a0, s16 a1);
-extern void func_80157808(s32 *a0);
+extern void func_80157808();
 
 void func_801577C8(s32 *a0)
 {
@@ -2309,7 +2309,21 @@ void func_801577C8(s32 *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801555F4", func_80157808);
+extern int D_8019A8D8;
+extern void (*D_801847B4[])(void);
+extern void func_801599A4(void *a0);
+extern void func_80159B3C(void *a0);
+
+    void func_80157808(void *param_1)
+    {
+        D_801847B4[*(unsigned short *)((char *)param_1 + 2)]();
+        D_8019A8D8 = D_8019A8D8 - 1;
+        if (D_8019A8D8 == -1) {
+            func_801599A4(param_1);
+            func_80159B3C(param_1);
+        }
+    }
+
 
 DEFINE_func_80157880()  /* dedup: shared engine-core @0x80157880 (src/shared) */
 

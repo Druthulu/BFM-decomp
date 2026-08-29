@@ -9639,7 +9639,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -15430,7 +15430,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -19011,7 +19011,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -24220,7 +24220,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -27730,7 +27730,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -30936,7 +30936,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -34640,7 +34640,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -38257,7 +38257,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -43035,7 +43035,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -44438,7 +44438,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -47183,7 +47183,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -48650,7 +48650,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -54703,7 +54703,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018BC74[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -58267,7 +58267,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018CF08[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -63362,7 +63362,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018CF08[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -105037,7 +105037,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -110828,7 +110828,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -114409,7 +114409,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -119618,7 +119618,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -123128,7 +123128,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -126334,7 +126334,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -130038,7 +130038,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -133655,7 +133655,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -138433,7 +138433,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -139836,7 +139836,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -142581,7 +142581,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -144048,7 +144048,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018D878[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -150101,7 +150101,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018BC74[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -153665,7 +153665,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018CF08[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
@@ -158760,7 +158760,7 @@
     extern void func_80157788(int param_1); \
     extern void func_801577C8(s32 arg0); \
     extern void (*D_8018CF08[])(void); \
-    extern void func_80157808(void *param_1); \
+    extern void func_80157808(); \
     extern void func_80157880(s32 a0); \
     extern s32 func_801725A4(u8 *a0); \
     extern u8 D_800D5128; \
