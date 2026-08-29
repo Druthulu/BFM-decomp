@@ -3687,7 +3687,31 @@ DEFINE_func_8017F154()  /* dedup: shared engine-core @0x8017F154 (src/shared) */
 
 DEFINE_func_8017F190()  /* dedup: shared engine-core @0x8017F190 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_jr_8017D5C0", func_8017F1B8);
+
+
+extern s32 func_80014C54(s32, s32, s32);
+extern s32 func_800CF8B4(void);
+extern void func_800D1724(s32 a0);
+extern s32 func_8012AD50(void *arg0);
+extern s32 D_8018FB28;
+
+void func_8017F1B8(void *arg0) {
+    s32 result;
+    s32 v0;
+    s32 a0;
+
+    result = func_80014C54(0, 0, 0x800);
+    if ((result << 16) != 0) {
+        v0 = func_800CF8B4();
+        if (v0 != 0) {
+            a0 = *(s32 *)((s32)arg0 + 0xDC);
+            D_8018FB28 = 1;
+            func_800D1724(a0);
+            func_8012AD50(arg0);
+        }
+    }
+}
+
 
 DEFINE_func_8017F224()  /* dedup: shared engine-core @0x8017F224 (src/shared) */
 
