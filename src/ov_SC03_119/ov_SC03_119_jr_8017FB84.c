@@ -3735,7 +3735,48 @@ void func_80181B08(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_80181B44);
+
+extern u16 func_80148800(s32 *a0);
+extern void func_80181C78(int param_1, short *param_2, short *param_3);
+extern s32 D_80126B58;
+extern s16 D_8018DDF4[];
+
+typedef struct { s16 v[4]; } Blk8_80126940_80181B44;
+
+void func_80181B44(s32 a0) {
+    extern Blk8_80126940_80181B44 D_80126940;
+    extern s16 D_80126942;
+    extern s16 D_80126944;
+    Blk8_80126940_80181B44 sp10a;
+    Blk8_80126940_80181B44 sp10b;
+    u8 t;
+
+    if (func_80148800((s32 *)&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018DDF4[t];
+    }
+
+    if (D_80126940.v[0] < -0x120) {
+        D_80126940.v[0] = -0x120;
+    }
+    if (D_80126942 < -0x300) {
+        D_80126942 = -0x300;
+    }
+    if (D_80126944 < -0x560) {
+        D_80126944 = -0x560;
+    }
+
+    sp10a = D_80126940;
+    sp10b = D_80126940;
+
+    if (sp10a.v[2] >= -0x2DF) {
+        sp10a.v[2] = -0x2E0;
+    }
+
+    func_80181C78(a0, sp10a.v, sp10b.v);
+}
+
 
 
    /* 8 bytes */

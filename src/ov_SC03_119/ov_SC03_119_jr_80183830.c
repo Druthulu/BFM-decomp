@@ -3385,7 +3385,20 @@ void *a0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_80183830", func_80184698);
+
+
+void func_80184698(void *a0)
+{
+  unsigned int new_var;
+  s32 v1 = *((s32 *) (((s32) a0) + 0xcc));
+__asm__ __volatile__("" ::: "memory");
+  *((s32 *) (v1 + 0xe0)) |= 0x80000001;
+__asm__ __volatile__("" ::: "memory");
+  new_var = *((s32 *) (((s32) a0) + 0xd0));
+  v1 = new_var;
+  *((s32 *) (v1 + 0xe0)) |= 0x80000001;
+}
+
 
 void func_801846CC(s32 arg0) {
     *(s32 *)((u8 *)*(s32 **)(arg0 + 0xCC) + 0xE0) |= 0x40000000;
@@ -3720,7 +3733,28 @@ s32 func_8018517C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_80183830", func_801851C8);
+
+
+
+extern Rec8_8018A390_8018523C D_801C5894[];
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+
+void func_801851C8(s32 a0)
+{
+    s32 i;
+    s32 off;
+
+    i = 0;
+    if (*(s16 *)((s32)D_801C5894) != 0) {
+        off = 0;
+        do {
+            func_8012C658(0x10D, i, a0);
+            i++;
+            off += 8;
+        } while (*(s16 *)((s32)D_801C5894 + off) != 0);
+    }
+}
+
 
 
 /* func_8018523C — allocates a GTE-projection slot, seeds a random spread
