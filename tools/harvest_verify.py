@@ -147,7 +147,15 @@ def classify_fail(got_sha):
     # useless here, splice individually and read real cc1 stderr" as a manual step. Classify on
     # NON-warning lines only, and when nothing but warnings matched, surface the real error
     # instead of guessing (R32: report the gap, do not paper over it).
-    lines = [ln for ln in _last_err.splitlines() if 'warning:' not in ln]
+    # A `note:` line is NEVER a cause — gcc emits it only as the SECOND half of a diagnostic pair,
+    # and when the first half is a benign warning the note is orphaned by the filter above and then
+    # wins the label. Measured P31 S65: a byte-perfect 246-ins draft was labelled
+    #     CC1-FAIL: …/engine_core.h:57282: note: this is the location of the previous definition
+    # whose antecedent was the fleet-wide benign `"DEFINE_func_80181538" redefined` WARNING — the
+    # draft had in fact built and banked whole-binary-identical. Same §58 red-herring family: drop
+    # the notes with their warnings, and let the real error (or the honest gap) carry the label.
+    lines = [ln for ln in _last_err.splitlines()
+             if 'warning:' not in ln and not re.search(r':\s*note:', ln)]
     for ln in lines:
         if _PLUMBING.search(ln):
             return 'PLUMBING: ' + _squeeze(ln)

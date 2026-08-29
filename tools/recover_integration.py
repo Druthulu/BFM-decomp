@@ -290,11 +290,14 @@ def main():
 
     smap = stub_map(a.binary)
 
-    def reconcile_and_gate(targets, propagate, commit):
+    def reconcile_and_gate(targets, propagate, commit, draft_rewrite=True):
         """no-proto the targets' conflicting caller decls, then gate each SPLIT-file group separately —
         harvest_verify substitutes into ONE --src/--asm-subdir per call, so _after/_a/_o0 drafts must be
         gated against their own split (§39). run_gate self-filters the drafts dir to each split's stubs;
-        its per-group propagate is idempotent (dedup_propagate skips registered addrs)."""
+        its per-group propagate is idempotent (dedup_propagate skips registered addrs).
+
+        `draft_rewrite=False` suppresses the DRAFT-TEXT stages (macro-externs) so the drafter's own
+        text is what the gate judges — see the raw-first ladder at PASS 1a (P31 S65)."""
         before = git_dirty()
         open(listf, "w").write("\n".join(targets) + "\n")
 
@@ -305,7 +308,7 @@ def main():
                 raise SystemExit(f"[recover] fix_arity_callers failed: {(r.stderr or r.stdout)[-300:]}")
             print("  " + (r.stdout.strip().splitlines()[-1] if r.stdout.strip() else "(fix_arity_callers: no output)"))
 
-        if "macro-externs" in stages:  # P31 T6 — §121: a draft's decl of a DEFINE_-defined callee
+        if "macro-externs" in stages and draft_rewrite:  # P31 T6 — §121: a draft's decl of a DEFINE_-defined callee
             # must match the macro's OWN definition head (a guessed `extern int f();` collides with
             # the macro's real `void f(s32)` — measured: ONE such draft poisoned an entire probe
             # group's whole-binary builds). Draft-text only; drafts with no DEFINE_ callee untouched.
@@ -402,11 +405,49 @@ def main():
                 "propagated": propagated, "tier": tier}
 
     # ---- PASS 1: reconcile+gate ALL candidates (no propagate) to find the bankable set.
-    print("[recover] pass 1 — find bankable set")
-    s1 = reconcile_and_gate(fns, propagate=False, commit=False)
-    banked = sorted(s1.get("verified", []))
-    print(f"[recover] pass 1 banked {len(banked)}/{len(fns)}")
-    restore()   # exact — undo pass-1's caller edits AND the substituted defs
+    #
+    # 1a gates the RAW draft text; 1b re-gates ONLY what 1a refused, with the draft-text rewrite
+    # (macro-externs) applied.  Order matters and was inverted until P31 S65: macro-externs rewrites
+    # a draft's callee decl to the `DEFINE_` macro's own head, but a same-named func_ADDR in ANOTHER
+    # overlay is a DIFFERENT function — so the "fix" can install a wrong signature (measured:
+    # `extern int func_8017C338(short*,short*,short*,int)` -> `extern void func_8017C338(void)` on a
+    # byte-perfect 246-ins draft of func_8017BEBC, which then CC1-FAILed and was reported as the
+    # DRAFT's failure; raw banked whole-binary-identical on the first try).  A stage that mutates the
+    # thing it is measuring must never be the only variant gated (R57).
+    raw_drafts = {fn: open(os.path.join(REPO, dd, fn + ".c")).read()
+                  for fn in fns if os.path.exists(os.path.join(REPO, dd, fn + ".c"))}
+
+    def put_draft(fn, text):
+        open(os.path.join(REPO, dd, fn + ".c"), "w").write(text)
+
+    print("[recover] pass 1a — gate the RAW drafts (no draft-text rewrite)")
+    s1 = reconcile_and_gate(fns, propagate=False, commit=False, draft_rewrite=False)
+    variant = {fn: "raw" for fn in sorted(s1.get("verified", []))}
+    print(f"[recover] pass 1a banked {len(variant)}/{len(fns)} raw")
+    restore()   # exact — undo pass-1a's caller edits AND the substituted defs
+
+    rest = [fn for fn in fns if fn not in variant]
+    if rest and "macro-externs" in stages:
+        for fn in rest:                       # 1a left the text untouched; be explicit anyway
+            if fn in raw_drafts:
+                put_draft(fn, raw_drafts[fn])
+        print(f"[recover] pass 1b — macro-externs rewrite, {len(rest)} draft(s) the raw gate refused")
+        s1b = reconcile_and_gate(rest, propagate=False, commit=False, draft_rewrite=True)
+        for fn in sorted(s1b.get("verified", [])):
+            variant[fn] = "macro-externs"
+        print(f"[recover] pass 1b banked "
+              f"{sum(v == 'macro-externs' for v in variant.values())}/{len(rest)} rewritten")
+        restore()
+    elif rest:
+        print(f"[recover] pass 1b skipped ({len(rest)} unbanked; macro-externs not in --stages)")
+
+    banked = sorted(variant)
+    print(f"[recover] pass 1 banked {len(banked)}/{len(fns)} "
+          f"(raw {sum(v == 'raw' for v in variant.values())}, "
+          f"macro-externs {sum(v == 'macro-externs' for v in variant.values())})")
+    for fn, how in sorted(variant.items()):   # pass 2 must re-gate each winner's OWN variant
+        if how == "raw" and fn in raw_drafts:
+            put_draft(fn, raw_drafts[fn])
 
     if not banked:
         print(json.dumps({"banked": [], "propagated": 0, "fleet": s1.get("fleet_pct")})); return
@@ -418,7 +459,8 @@ def main():
     for p in glob.glob(os.path.join(REPO, dd, "*.c")):
         if os.path.basename(p)[:-2] not in banked:
             os.remove(p)
-    s2 = reconcile_and_gate(banked, propagate=propagate, commit=a.commit)
+    # variants are already baked into dd/<fn>.c by pass 1 — never re-rewrite here.
+    s2 = reconcile_and_gate(banked, propagate=propagate, commit=a.commit, draft_rewrite=False)
     banked2 = sorted(s2.get("verified", []))
     print(f"[recover] pass 2 banked {len(banked2)}/{len(banked)}  propagated groups +{s2.get('propagated')}  "
           f"fleet {s2.get('fleet_pct')}%")
