@@ -1386,7 +1386,33 @@ DEFINE_func_8012D5E4()  /* dedup: shared engine-core @0x8012d5e4 (src/shared) */
 DEFINE_func_8012D624()  /* dedup: shared engine-core @0x8012d624 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011", func_8012D664);
+
+
+int func_8012D664(int arg0, int arg1, int arg2)
+{
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern s32 func_800132BC(s32 a0, s32 a1);
+    extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    extern u8 D_8017E9BC[];
+
+    u16 s[3];
+    int ret;
+    int t;
+
+    s[0] = (*(unsigned short *)&D_80126B5E);
+    s[1] = (*(unsigned short *)&D_80126B62) - 0x40;
+    s[2] = (*(unsigned short *)&D_80126B66);
+    ret = ((int (*)())func_800132BC)(arg0, s);
+    t = arg1 + 0x20;
+    if (ret < t * t) {
+        func_8012F568(1, 1, 0, arg2, arg0, &D_8017E9BC);
+        return 1;
+    }
+    return 0;
+}
+
 
 DEFINE_func_8012D714()  /* dedup: shared engine-core @0x8012d714 (src/shared) */
 
