@@ -4223,7 +4223,98 @@ void func_801802C8(u8 *a0, u8 *a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_8017DC70", func_8018035C);
+    
+typedef struct { s16 a, b, c; } SV3_80184C98;
+
+/* func_8018035C -- same-class neighbour push-away over the 0x60-entry /
+ * 0x10C-stride entity table D_801202A0. Banked twin: ov_SC06_018:func_80187320
+ * (§193-A), minus its second switch case (no 0x2F4 clamp here) and with a
+ * self-id equality guard instead of constant class ids.
+ *
+ * §37/§124 DEF-SIDE ESCAPE (_body spelling, cf. func_801810CC_body,
+ * ov_SC07_007_jr_8017BEBC.c:6600): this TU already declares
+ * `extern void func_8018035C(s32 a0);` at file scope (the func_80188654 block),
+ * while the target tail (`addiu $v0,$zero,1` / `addu $v0,$zero,$zero`) proves
+ * an s32 return. A same-name s32 definition is a hard `conflicting types`;
+ * a void definition cannot emit the $v0 constants. Define under a private C
+ * identifier carrying an __asm__ label: emitted symbol unchanged, no collision,
+ * the existing extern keeps compiling the caller at func_80188654.
+ *
+ * §8d: func_8012CEB0 is declared ONLY at block scope in this TU (the
+ * func_80187844 block) -- its extern rides INSIDE the body, not at file scope.
+ *
+ * Load-bearing constructs (do NOT "clean up"):
+ *  1. NO SECOND WALKED POINTER. All of +0x6/+0xA/+0xE written off the single
+ *     biv `p` (twin note 1): an explicit q = p + 0xE excludes the bare *q from
+ *     givs and yields THREE IVs / wrong anchor.
+ *  2. `self4` and `sc` are REAL pre-loop locals, in that order (twin note 4):
+ *     written inline at the calls they fold into the argument moves and the
+ *     $s5/$s6 hoists never happen. Declaration ORDER (p, i, self4, sc) gives
+ *     $s2/$s4/$s5/$s6 in the target's prologue emission order.
+ *  3. do-while with `i++` BEFORE `p += 0x10C` (twin note 3): strength_reduce
+ *     emits the giv addiu immediately before ITS biv increment =>
+ *     addiu $s4,1 / addiu $s3,0x10C / (delay) addiu $s0,0x10C.
+ *  4. NO `s16 y` scalar: the twin's short-local/dead-slot pair belongs to its
+ *     second switch case, absent here. Frame is exactly 0x48 with no dead slot.
+ *  5. §5a cross-jump barrier before the second `return 1`: the target keeps TWO
+ *     [j .epi][addiu $v0,$zero,1] tails; without the barrier gcc merges them
+ *     into one shared li (93 ins).
+ */
+
+extern u8   D_801202A0[];
+
+extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32  func_8012B6D4(s16 *a0, s16 *a1);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern void func_8012ADE4(u8 *a0);
+
+s32 func_80188250_body(s32 a0) __asm__("func_8018035C");
+
+s32 func_80188250_body(s32 a0) {
+    extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
+    u8 *p;
+    s16 *self4;
+    unsigned int *sc;
+    s32 i;
+    s32 ang;
+    s16 v10[4];  /* sp+0x10 */
+    s16 v18[4];  /* sp+0x18 */
+    s32 sp20[2]; /* sp+0x20 - func_8012B0B4 output */
+
+    p = D_801202A0;
+    i = 0;
+    self4 = (s16 *)(a0 + 4);
+    sc = (unsigned int *)sp20;
+    do {
+        if (*(u16 *)a0 == *(u16 *)p && (u8 *)a0 != p) {
+            if (func_8012BC60(self4, (struct Vec *)(p + 4)) < 0x1000) {
+                ang = func_8012B6D4(self4, (s16 *)(p + 4));
+                func_8012B0B4(sc, ang, 0x41);
+                v18[0] = *(u16 *)(p + 6);
+                v18[1] = *(u16 *)(p + 0xA);
+                v18[2] = *(u16 *)(p + 0xE);
+                v18[0] += sp20[0];
+                v18[2] += sp20[0] >> 16;
+                v10[0] = *(u16 *)(a0 + 0x3A);
+                v10[1] = *(u16 *)(a0 + 0x3E);
+                v10[2] = *(u16 *)(a0 + 0x42);
+                if ((func_8012CEB0((s32)&v10[0], (s32)&v18[0], 0) & 0x2000) == 0) {
+                    func_8012ADE4((u8 *)a0);
+                    return 1;
+                }
+                *(u16 *)(a0 + 6) = v18[0];
+                *(u16 *)(a0 + 0xA) = v18[1];
+                *(u16 *)(a0 + 0xE) = v18[2];
+                __asm__ __volatile__("" ::: "memory");   /* zero-byte cross-jump barrier (§5a) */
+                return 1;
+            }
+        }
+        i++;
+        p += 0x10C;
+    } while (i < 0x60);
+    return 0;
+}
+
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
     void func_801804D4(void) {

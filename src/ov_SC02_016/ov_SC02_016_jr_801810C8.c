@@ -4116,7 +4116,57 @@ void func_80182E34(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_016/nonmatchings/ov_SC02_016_jr_801810C8", func_80182E70);
+
+
+extern s16 D_80126940;
+extern s16 D_80126942;
+extern s16 D_80126944;
+extern void func_80182FE8(s32);
+
+void func_80182E70(s32 param_1)
+{
+    s32 iVar1;
+
+    iVar1 = *(s32 *)(param_1 + 0x9C);
+    if ((*(u16 *)(iVar1 + 0x1E) & 1) != 0) {
+        s16 *p = &D_80126940;
+        if (*(s16 *)(iVar1 + 0x18) < *p) {
+            *p = *(s16 *)(iVar1 + 0x18);
+        }
+    }
+    if ((*(u16 *)(iVar1 + 0x1E) & 2) != 0) {
+        s16 *p = &D_80126942;
+        if (*(s16 *)(iVar1 + 0x1A) < *p) {
+            *p = *(s16 *)(iVar1 + 0x1A);
+        }
+    }
+    if ((*(u16 *)(iVar1 + 0x1E) & 4) != 0) {
+        s16 *p = &D_80126944;
+        if (*(s16 *)(iVar1 + 0x1C) < *p) {
+            *p = *(s16 *)(iVar1 + 0x1C);
+        }
+    }
+    if ((*(u16 *)(iVar1 + 0x26) & 1) != 0) {
+        s16 *p = &D_80126940;
+        if (*p < *(s16 *)(iVar1 + 0x20)) {
+            *p = *(s16 *)(iVar1 + 0x20);
+        }
+    }
+    if ((*(u16 *)(iVar1 + 0x26) & 2) != 0) {
+        s16 *p = &D_80126942;
+        if (*p < *(s16 *)(iVar1 + 0x22)) {
+            *p = *(s16 *)(iVar1 + 0x22);
+        }
+    }
+    if ((*(u16 *)(iVar1 + 0x26) & 4) != 0) {
+        s16 *p = &D_80126944;
+        if (*p < *(s16 *)(iVar1 + 0x24)) {
+            *p = *(s16 *)(iVar1 + 0x24);
+        }
+    }
+    func_80182FE8(param_1);
+}
+
 
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
