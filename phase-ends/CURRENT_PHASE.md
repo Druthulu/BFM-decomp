@@ -2820,3 +2820,62 @@ later in t5h/t5i — re-derive the ledger from the drawn ledger before trusting 
 
 **NOT YET DISTILLED:** 22 weaker-signal t5e–t5i transcripts (the 8 strong ones were banked as
 §308/§308a/§309 + 2 addenda); 169 of 199 banked transcripts carried no novelty signal at all.
+
+## S64 (2026-08-27, Ultracode) — 11 waves, the decl-mirror tool, and an R14 self-correction
+
+**Waves (banked / drafted):** t5j 45/48 · t5k 47/50 · t5l 39/48 · t5m 53/61 · t5n 43/48 · t5o 36/39 ·
+t5p 30/33 · t5q 28/30 · t5r 30/47 · plus the 741-ins single-function recovery. Commits `commit:3167`,
+`commit:3168`, `commit:3170`, `commit:3171`, `commit:3173`, `commit:3175`, `commit:3176`, `commit:3177`,
+`commit:3179`, `commit:3178`. **Every wave closed with a clean-rebuild fleet sweep at 213/213.**
+
+**FLEET: 1,741 → 1,616 stubs this session; 2,380 → 1,616 across S63+S64 = 764 closed.**
+**98.7% → 98.8% instruction-weighted · 97.3% → 97.4% distinct** (89,763/90,929 unique fns).
+Cookbook **919 → 920 sections**, index green. 46 commits. Tree clean.
+
+**R14 SELF-CORRECTION — READ THIS BEFORE TRUSTING ANY WAVE SUMMARY.** I reported
+`ov_SC03_107:func_8017BEBC` (741 ins) as banked in t5n, in chat AND in commit `commit:3173`'s message.
+**It was not.** The drafting agent self-reported MATCH, its local `match_one` said closeness 0, and I
+repeated that without reading the judge — which recorded 42 union banks with that function excluded.
+It stayed an `INCLUDE_ASM` stub for three more waves. Caught only when the distill slate (banked-only
+by contract) failed to include it. **It is banked NOW** (`commit:3178`), byte-proven at the whole-binary
+gate. The body had been correct the whole time; the sole blocker was `conflicting types for
+ApplyMatrixSV` at tu:5758 — the draft re-declared a callee the TU already declares with a different
+param spelling, and deleting the draft's own extern fixed it (the call site's `(void*)` casts convert
+silently). **Lesson, restated: a self-report is not a bank; read `judge.json`, never the agent's note.**
+
+**S64.2 — `tools/fix_decl_mirror.py` (the fix_tu_ret_decls MIRROR), with an HONEST verdict.**
+Built because `SKIP … definition return is 'void'` printed in all six S63 waves. **I over-read that
+line as evidence of recoverable functions — it is not; it only means that tool has nothing to do.**
+Measured: the mirror repaired **0 of 17** un-banked drafts across t5j/t5k/t5l, and 0 in every wave
+since — in each case the TU had no conflicting value-returning decl. True ceiling: **91 of 1,579 open
+overlay stubs (5.8%)** have a file-scope value-returning decl of themselves, and it only fires when
+such a stub ALSO drafts as `void`. The tool is correct and free to leave wired into `t5_bank.sh`, but
+it is a narrow tail, not a per-wave win. **What the work was actually worth: the R39 negative control
+caught TWO defects that would each have silently rewritten banked code** — block-scope decls counted
+as conflicts (856 banked fns) and sibling-TU decls counted as conflicts (580). A block-scope
+`extern int f();` inside another function dies at that brace; a decl in `<bin>_jr_A.c` cannot conflict
+with a definition in `<bin>_after.c`. Final NC: **78,727 banked definitions, 0 false positives.**
+
+**A KILLED GATE IS RECOVERABLE — DO NOT REVERT IT.** t5n's gate was killed mid-run leaving 17 dirty
+files. Rather than revert (R42) or commit unverified bodies, the byte-gate adjudicated: a clean fleet
+sweep returned **213/213**, proving all 43 already-banked functions correct. Committed, nothing lost.
+
+**HARNESS FIX:** `t5_targets.py` residues now dedupe by (binary, fn) ACROSS waves and hold one fn NAME
+per wave — the t5i draw produced 4 duplicate names and the name-keyed pack builder correctly REFUSED
+(R43/R48). Deferred duplicates are reported, not dropped.
+
+**REMAINING K+L: 258 fns / 15,192 ins** (173 ≤50 · 61 51–120 · 24 >120) over 142 binaries; 741 of the
+original 1,042 banked, 43 drawn-and-residual.
+
+**T6 WALL LEDGER — t5r's 21 unbanked, largest first** (all diagnosed, drafts on disk under
+`.run/t5r/`): ov_MAIN_012:func_80144B9C (770, the cc1 class) · ov_SC02_021:func_8017DC10 (512;
+446→88 via 4 levers the agent says the cookbook lacks) · ov_SC01_004:func_8017EB30 (279) ·
+ov_SC04_021:func_8017C014 (246) · ov_SC03_092:func_8017E044 (174) · ov_SC04_012:func_8017D4CC (115) ·
+ov_SC04_005:func_801809B8 (109, DELAY-SLOT/permuter c=2) · ov_SC05_000:func_8017DB10 (99) ·
+ov_SC03_112:func_80181D08 (96) · ov_SC06_024:func_8018A3CC (91) · ov_SC03_012:func_8017DCB4 (89,
+SCHEDULE-REORDER c=2) · ov_SC05_008:func_80182794 (83) + 9 smaller.
+**4 targets were never drafted at all** (weekly limit, not failures): ov_SC04_021:func_8017C014,
+ov_SC04_012:func_8017D4CC, ov_SC03_092:func_8017E044, ov_SC01_004:func_8017EB30 — re-draw them first.
+
+**NOT DISTILLED:** ~124 banked t5n-t5q transcripts carried no novelty signal; `func_80185214`'s note
+asks for a cookbook-index entry on a store→opaque-load true-dependency that is unfixable from C.
