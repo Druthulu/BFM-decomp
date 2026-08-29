@@ -25,6 +25,12 @@ def main():
                     help="the drafting run's transcript dir (holds journal.jsonl + agent-*.jsonl); repeatable")
     ap.add_argument('--label', default='', help="provenance string for the cookbook header, e.g. 'P31 S63 t5a'")
     ap.add_argument('--all-arms', action='store_true')
+    ap.add_argument('--with-unbanked', action='store_true',
+                    help="ALSO consider drafts that did NOT bank. The richest idiom notes come from "
+                         "the hardest functions, which are the least likely to bank (cookbook §52: a "
+                         "model that FAILS to crack a wall still distills the idiom that cracks its "
+                         "siblings). Each such row carries banked=False so the distilling agent knows "
+                         "the lever is UNPROVEN by the byte gate (R14/G3).")
     ap.add_argument('--novel-only', action='store_true',
                     help="select only transcripts whose agent NOTE carries a novelty signal (says the "
                          "cookbook lacks the lever, or names a lever/negative result). The t5a run measured "
@@ -66,13 +72,34 @@ def main():
                 hit = tr.get((fn, arm))
                 if not hit or not os.path.exists(hit[0]):
                     missing.append('%s/%s/%s' % (os.path.basename(wave), arm, fn)); continue
-                out.append({'fn': fn, 'arm': arm, 'transcript': hit[0], 'note': hit[1]})
+                out.append({'fn': fn, 'arm': arm, 'transcript': hit[0], 'note': hit[1],
+                            'banked': True})
+        if a.with_unbanked:                # every result the journal holds that the gate refused
+            for (fn, arm), (path, note) in sorted(tr.items()):
+                if fn in banked or not os.path.exists(path):
+                    continue
+                key = (T.get(fn, {}).get('binary', '?'), fn, arm)
+                if key in seen:
+                    continue
+                seen.add(key)
+                out.append({'fn': fn, 'arm': arm, 'transcript': path, 'note': note,
+                            'banked': False})
+    # 'no cookbook lever' was REMOVED (P31 S65): it matched "…MATCH on first compile, no cookbook
+    # lever needed" — a note reporting a TRIVIAL function — and that false positive was the ONLY
+    # selection out of 24 in the t5s run, while three genuine multi-lever notes went unpicked.
+    # A selector whose single hit is the one note that says "nothing to learn here" is inverted.
     NOVEL = ('not in the cookbook', 'not in cookbook', 'cookbook did not have', "cookbook does not",
              'NEW IDIOM', 'NEW:', 'NEW fact', 'the cookbook does not cover', 'does not yet cover',
-             'negative result', 'addendum', 'Cookbook-worthy', 'no cookbook lever', 'unlocked it')
+             'negative result', 'addendum', 'Cookbook-worthy', 'unlocked it',
+             'cookbook lacks', 'new lever', 'levers not in', 'lever the cookbook',
+             'worth banking', 'not in the cookbook and')
+    # A note that explicitly says no lever was needed is NEVER novel, whatever else it matched.
+    NOT_NOVEL = ('no cookbook lever needed', 'no cookbook lookup needed', 'no cookbook lever was needed')
     n_all = len(out)
     if a.novel_only:
-        out = [r for r in out if any(k.lower() in (r['note'] or '').lower() for k in NOVEL)]
+        out = [r for r in out
+               if any(k.lower() in (r['note'] or '').lower() for k in NOVEL)
+               and not any(k in (r['note'] or '').lower() for k in NOT_NOVEL)]
     print('waves %d; banked %d (union-gated %d); transcripts found %d; selected %d%s; label %r'
           % (len(a.wave), tot_banked, tot_union, n_all, len(out),
              ' by novelty signal (%d NOT distilled — no signal in their note)' % (n_all - len(out)) if a.novel_only else '',
