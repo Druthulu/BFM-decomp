@@ -6076,7 +6076,47 @@ void func_80183A18(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_8017EB7C", func_80183A54);
+
+
+
+
+
+extern s32 D_80126B58;
+extern s16 D_8018F854[];
+extern Blk8_80126940 D_80126940;
+extern u16 func_80148800(s32 *a0);
+extern void func_80183B58(s32 a0, s16 *a1);
+
+void func_80183A54(s32 a0) {
+    Blk8_80126940 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018F854[t];
+    }
+    sp10 = D_80126940;
+
+    if (sp10.v[2] < 0x440) {
+        *(s16 *)(a0 + 0x22) = 0x800;
+    } else {
+        *(s16 *)(a0 + 0x22) = 0x600;
+    }
+
+    if (sp10.v[0] < -0x150) {
+        sp10.v[0] = -0x150;
+    }
+    if (sp10.v[0] >= 0x151) {
+        sp10.v[0] = 0x150;
+    }
+    if (sp10.v[2] < -0x440) {
+        sp10.v[2] = -0x440;
+    }
+
+    func_80183B58(a0, sp10.v);
+}
+
 
 
 // @class: schedule
