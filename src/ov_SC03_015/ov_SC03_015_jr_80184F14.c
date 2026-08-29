@@ -3044,7 +3044,55 @@ s32 func_8018558C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80184F14", func_801855A0);
+    
+
+/* TU-canonical (src/ov_SC03_014/ov_SC03_014_jr_801848E4.c) */
+extern s32 func_8012C354(s32 a0, s32 a1);          /* L2928 */
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2); /* L2929 / L2524 */
+extern void func_8012A828(s32 a0, void *a1);        /* L2930 */
+extern s32 func_80029504(void);                     /* L24 */
+extern void func_8012C218(void *a0);                /* L2712/3290 */
+extern s32 func_801788B8(s32 arg0, s32 arg1);        /* L2527 */
+extern void func_8012B2CC(s32 a0);                   /* L2526 */
+extern s32 func_801859B0(void *a0);                  /* L2902, defined earlier in this TU */
+
+extern u8 D_8018B898[];   /* L3981, TU-canonical */
+
+/* Not declared elsewhere in the TU; used only as a bare base address here. */
+extern u8 D_8018FEAC[];
+extern u8 D_8018FE9C[];
+
+void func_801855A0(s32 a0) {
+    s32 v1;
+
+    if (func_8012C354(a0, (s32)D_8018FEAC) == 0) {
+        return;
+    }
+
+    if ((u32)func_80029504() >= 0x2C6) {
+        func_8012C218((void *)a0);
+        return;
+    }
+
+    *(s16 *)(a0 + 0x2) = 1;
+    func_8012A828(a0, D_8018B898);
+    v1 = *(s32 *)(a0 + 0x20);
+    *(u16 *)(v1 + 0x2C) |= 0x10;
+
+    *(u8 *)(a0 + 0x75) = 0;
+    if (*(s16 *)(a0 + 0x70) == 0) {
+        *(s32 *)(a0 + 0xD0) = func_801788B8(a0, (s32)func_801859B0);
+        *(s32 *)(a0 + 0xCC) = func_8012C658(0x241, 1, a0);
+        return;
+    }
+
+    *(s32 *)(a0 + 0x58) = (s32)D_8018FE9C | 0x40000000 | 0x20000000;
+    *(s16 *)(a0 + 0xA) -= 0xC0;
+    *(s16 *)(a0 + 0xE) += 0x80;
+    *(u32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x80000000;
+    func_8012B2CC(a0);
+}
+
 
 DEFINE_func_801856B4()  /* dedup: shared engine-core @0x801856B4 (src/shared) */
 
@@ -3150,7 +3198,32 @@ void func_80185858(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80184F14", func_801858D4);
+
+
+extern s32 func_80184028();
+extern u16 D_80126B66;
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_801858D4(s32 a0) {
+    s32 v0 = *(s16 *)(a0 + 0x84);
+    if (v0 != 0) {
+        v0 = func_80184028();
+        if (v0 == 0x18) {
+            *(s16 *)(a0 + 0x84) = 0;
+        }
+    } else {
+        s32 a1;
+        v0 = func_80184028();
+        if (v0 == 0xF) {
+            *(s16 *)(a0 + 0x84) = 1;
+            a1 = -(s16)D_80126B66 >> 3;
+            if (a1 < 0) a1 = 0;
+            if (a1 > 0x7F) a1 = 0x7F;
+            func_8002D4C8(0xBAB, (u16)(a1 | 0x1000));
+        }
+    }
+}
+
 
 extern s32 func_80184868(s32 arg);
     void func_8018597C(void *a0) {
@@ -3178,4 +3251,76 @@ s32 func_801859B0(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80184F14", func_80185A0C);
+    
+
+extern void func_8001C2C4(s32 a0);
+extern void func_80049CAC(s32 a0, s32 a1);          /* TU L2637 verbatim */
+extern void func_8004914C(void *a0);                /* TU L2638 verbatim */
+extern void func_800491AC(void *a0);                /* TU L2639 verbatim */
+extern void RotTransSV(void *a0, void *a1, void *a2); /* TU L2640 verbatim */
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);  /* TU L323 verbatim */
+
+extern SV4 D_80190470;
+extern SV4 D_80190478;
+extern SV4 D_801EAC70;
+extern SV4 D_801EAC78;
+
+typedef struct {
+    s16 m[3][3];
+    s16 pad;
+    s32 t[3];
+} MtxLocal;
+
+/* The target's stack frame (0xC8) is bigger than the visible locals below account
+ * for on their own: two byte-ranges (sp+0x28..0x44 and sp+0x64..0x98) never surface
+ * as a load/store in the target .s, yet the surrounding fields' absolute offsets
+ * prove the space is reserved. A struct's TOTAL size is BIGGEST_ALIGNMENT(8)-rounded
+ * as ONE unit (function.c assign_stack_local), but a MEMBER's offset inside that
+ * struct follows plain C layout rules (no forced 8-byte-per-member rounding) -- so
+ * folding v0 + the dead region + mtx + the second dead region into ONE aggregate
+ * local reproduces the exact absolute offsets with a single outer rounding, instead
+ * of each dead region getting its own independent 8-round (which cannot land on
+ * mtx's true 0x44 start -- 0x44-0x20=0x24, not a multiple of 8).
+ */
+typedef struct {
+    s16 a, b, c, d;    /* sp+0x20 : func_80049CAC arg0 (SV4; only a,b,c written) */
+    u8 _gap1[28];      /* sp+0x28..0x44 : never referenced by an instruction */
+    MtxLocal mtx;      /* sp+0x44 : MATRIX out, t[] at sp+0x58 */
+    u8 _gap2[52];      /* sp+0x64..0x98 : never referenced by an instruction */
+} Frame1;
+
+void func_80185A0C(s32 arg0)
+{
+    s8 unused_buf[16];   /* sp+0x10 : func_8001C2C4 out, never re-read */
+    Frame1 f;            /* sp+0x20 */
+    SV4 buf1;             /* sp+0x98 : RotTransSV #1 out */
+    SV4 buf2;             /* sp+0xA0 : RotTransSV #2 out */
+    SV4 buf3;             /* sp+0xA8 : shared scratch a2 for both RotTransSV */
+    u8 *p;
+
+    func_8001C2C4((s32)&unused_buf[0]);
+
+    p = (u8 *)(*(s32 *)(*(s32 *)(arg0 + 0x20) + 0x20) & 0xFEFFFFFF);
+    p = p + 0x70;
+    __asm__("" : "=r"(p) : "0"(p));
+
+    f.a = *(u16 *)(p + 6);
+    f.b = p[1] | ((p[0] & 0xF) << 8);
+    f.c = p[2] | ((p[0] & 0xF0) << 4);
+
+    ((void (*)(void *, void *))func_80049CAC)(&f, &f.mtx);
+
+    f.mtx.t[0] = *(s8 *)(p + 3);
+    f.mtx.t[1] = *(s8 *)(p + 4);
+    f.mtx.t[2] = *(s8 *)(p + 5);
+
+    func_8004914C(&f.mtx);
+    func_800491AC(&f.mtx);
+
+    RotTransSV(&D_80190470, &buf1, &buf3);
+    RotTransSV(&D_80190478, &buf2, &buf3);
+
+    func_8012F14C(*(s32 *)(arg0 + 0x20) + 0x34, (s32)&buf1, (s32)&D_801EAC70);
+    func_8012F14C(*(s32 *)(arg0 + 0x20) + 0x34, (s32)&buf2, (s32)&D_801EAC78);
+}
+

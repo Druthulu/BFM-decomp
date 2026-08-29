@@ -3713,7 +3713,29 @@ void func_80187884(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80185B44", func_80187A98);
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80185B44", func_80187CA8);
+
+void func_80187CA8(s32 a0) {
+    extern void (*D_801906F8[])(void);
+    extern void (*D_80190700[])(void);
+    extern void (*D_80191848[])(void *);
+    extern s32 D_801EAC80;
+    extern void func_800599B8();
+    extern void func_8012B2CC(s32 a0);
+    extern void func_80185A0C(s32 a0);
+    s32 idx;
+
+    if ((*(s16 *)(a0 + 0x70) == 0) && (D_801EAC80 != 0)) {
+        idx = (*(u16 *)(a0 + 0x100) + 1) & 7;
+        *(u16 *)(a0 + 0x100) = idx;
+        func_800599B8(D_801906F8, D_80190700[idx]);
+    }
+    D_80191848[*(u16 *)(a0 + 2)](a0);
+    if ((*(s16 *)(a0 + 0x70) == 0) && (*(u16 *)(a0 + 2) != 0) && (*(u16 *)(a0 + 2) < 0xD)) {
+        func_8012B2CC(a0);
+        func_80185A0C(a0);
+    }
+}
+
 
 
 extern void (*D_80191890[])(void);
@@ -4250,7 +4272,16 @@ void func_80188F28(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80185B44", func_80188F80);
+
+
+void func_80188F80(void* arg0)
+{
+        s32 *p = *(s32 **)((s32)arg0 + 0xcc);
+        *(u16 *)((s32)p + 0x8) = *(u16 *)((s32)arg0 + 0x6);
+        *(s16 *)((s32)p + 0xa) = *(u16 *)((s32)arg0 + 0xa) - 0xe4;
+        *(s16 *)((s32)p + 0xc) = *(u16 *)((s32)arg0 + 0xe) - 0x8;
+    }
+
 
 
 
@@ -4421,7 +4452,31 @@ DEFINE_func_801892DC()  /* dedup: shared engine-core @0x801892DC (src/shared) */
 
 DEFINE_func_801892E4()  /* dedup: shared engine-core @0x801892E4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80185B44", func_80189310);
+
+
+extern void func_80188B94(void*);
+extern int func_80178970(void);
+
+void func_80189310(s32 *a0) {
+    if (*(u16 *)((s32)a0 + 0x34) == 0) {
+        func_8012AD80((s32)a0);
+        if (func_8012BEE8((s32)a0) != 0) {
+            *(u16 *)((s32)a0 + 0x100) = 0x80;
+            *(s32 *)((s32)a0 + 0x1C) = 0x30;
+            (*(u16 *)((s32)a0 + 0x34))++;
+            func_80188F18(a0);
+        }
+    } else {
+        if (func_8012BEE8((s32)a0) != 0) {
+            ((void (*)(s32))func_80188B94)((s32)a0);
+        } else {
+            func_80188F28((s32)a0);
+        }
+    }
+    ((int (*)(s32))func_80178970)((s32)a0);
+    func_8018B128();
+}
+
 
 extern int func_80178970(void);
 extern s32 func_8012BEE8(s32 a0);
@@ -4618,7 +4673,31 @@ void func_801897C4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80185B44", func_80189824);
+
+
+extern u8 D_801EAC94;
+extern u8 D_801EAC95;
+extern u8 D_801EAC96;
+
+void func_80189824(void *arg0) {
+    s16 *p;
+    u8 *q;
+
+    p = *(s16 **)((s32)arg0 + 0x20);
+    if (*(s16 *)((s32)p + 0x18) > 0x800) {
+        *(s16 *)((s32)p + 0x18) = *(s16 *)((s32)p + 0x18) - 0x200;
+    }
+    if (*(s16 *)((s32)p + 0x1A) > 0x800) {
+        *(s16 *)((s32)p + 0x1A) = *(s16 *)((s32)p + 0x1A) - 0x200;
+    }
+    q = &D_801EAC94;
+    if (*q >= 0xC1) {
+        *q -= 4;
+        D_801EAC95 -= 8;
+        D_801EAC96 -= 8;
+    }
+}
+
 
 DEFINE_func_801898BC()  /* dedup: shared engine-core @0x801898BC (src/shared) */
 
@@ -4679,7 +4758,25 @@ void func_801899F4(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80185B44", func_80189A60);
+
+
+
+
+extern SV4 D_80191BEC;
+extern s32 func_80029504(void);
+extern s32 func_80029178(s32 arg);
+extern void func_80029124(s32, s32);
+extern s32 func_801899AC(void *a0, s32 *p);
+
+void func_80189A60(void *a0) {
+    if (func_80029504() == 0x2DA) {
+        if ((func_80029178(0x11F) & 0xFF) == 0) {
+            func_80029124(0x11F, 1);
+            *(s32 *)((s32)a0 + 0xDC) = func_801899AC(a0, (s32 *)&D_80191BEC);
+        }
+    }
+}
+
 
 extern u8 D_80078EAF;
 s32 func_80189AC4(s32 arg) {
@@ -5114,7 +5211,20 @@ s32 aF8018A224(param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80185B44", func_8018A31C);
+
+
+typedef struct { s16 x; u16 y; u16 z; s16 w; } Rec8_8018A31C;
+void func_8018A31C(s32 a0) {
+    extern Rec8_8018A31C D_801E3990[];
+    s32 i = 0;
+    if (D_801E3990[0].x != 0) {
+        do {
+            func_8012C658(0x10D, i, a0);
+            i++;
+        } while (D_801E3990[i].x != 0);
+    }
+}
+
 
 
 /* func_8018A390 — allocates a GTE-projection slot, seeds a random spread
