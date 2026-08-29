@@ -1644,7 +1644,169 @@ DEFINE_func_8012E5CC()  /* dedup: shared engine-core @0x8012e5cc (src/shared) */
 DEFINE_func_8012E688()  /* dedup: shared engine-core @0x8012e688 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107", func_8012E778);
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_ldlv0(r0) __asm__ volatile (                 \
+    "lhu $13, 4( %0 );"                                  \
+    "lhu $12, 0( %0 );"                                  \
+    "sll $13, $13, 16;"                                  \
+    "or $12, $12, $13;"                                  \
+    "mtc2 $12, $0;"                                      \
+    "lwc2 $1, 8( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13" )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy(r0) __asm__ volatile (                 \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+    s32 func_8012E778(param_1, param_2)
+int param_1;
+int param_2;
+{
+        MATRIX_L48 *r0;
+        int iVarX;
+        int iVarY;
+        int iVar3;
+        int iVar4;
+        int sp[6];
+        sp[0] = (int)*(short *)(param_1 + 6);
+        sp[1] = (int)*(short *)(param_1 + 10);
+        sp[2] = (int)*(short *)(param_1 + 0xe);
+        r0 = (MATRIX_L48 *)&D_800AF648;
+        gte_SetRotMatrix(r0);
+        gte_SetTransMatrix(r0);
+        gte_ldlv0((VECTOR *)sp);
+        gte_rtps();
+        gte_stsxy((long *)((int)sp + 0x10));
+        iVarX = (int)*(short *)((int)sp + 0x10);
+        iVar3 = (short)param_2;
+        if (iVarX >= 0) {
+            if (iVar3 >= iVarX) goto cy;
+            return 0;
+        }
+        if (iVar3 < -iVarX) return 0;
+    cy:
+        iVarY = (int)*(short *)((int)sp + 0x12);
+        iVar4 = param_2 >> 0x10;
+        if (iVarY >= 0) {
+            if (iVar4 >= iVarY) goto c1;
+            return 0;
+        }
+        if (iVar4 < -iVarY) return 0;
+    c1:
+        return 1;
+    }
+
 
 DEFINE_func_8012E88C()  /* dedup: shared engine-core @0x8012e88c (src/shared) */
 
