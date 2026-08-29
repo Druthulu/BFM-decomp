@@ -3059,7 +3059,65 @@ void func_80180428(int param_1)
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_8018046C);
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017FCB0", func_801806E4);
+
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012AD80(s32 a0);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012C098(void);
+extern void func_8012C218(void *a0);
+extern s32  D_801270CC;
+extern unsigned char D_8018E724[];
+extern unsigned char D_801A6534[];
+
+void func_801806E4(int p)
+{
+    switch (*(unsigned short *)(p + 0x34)) {
+    case 0:
+        func_8012B178(p, 0xfff40000);
+        func_8012AD80(p);
+        if (func_8012BEE8(p) == 0) return;
+        *(unsigned short *)(p + 0x34) = 1;
+        func_8012A828(p, D_8018E724);
+        return;
+    case 1:
+        if (*(short *)(p + 0x98) != 0) return;
+        *(unsigned short *)(p + 0x34) = 2;
+        func_8012A828(p, D_801A6534);
+        *(int *)(p + 0x1c) = 4;
+        return;
+    case 2:
+        *(unsigned short *)(*(int *)(p + 0x20) + 0x12) =
+            *(unsigned short *)(*(int *)(p + 0x20) + 0x12) - 0x200;
+        if (func_8012BEE8(p) == 0) return;
+        *(int *)(p + 0x1c) = 0x3c;
+        *(unsigned short *)(p + 0x34) = 3;
+        return;
+    case 3:
+        func_8012B178(p, 0xfff40000);
+        func_8012AD80(p);
+        if (func_8012BEE8(p) == 0) return;
+        switch (((int)(*(unsigned short *)(p + 0x70) << 16)) >> 24) {
+        case 0:
+        case 1:
+        case 2:
+        case 5:
+        case 6:
+            ((void (*)(void *))func_8012C098)(p);
+            return;
+        case 3:
+        case 7:
+            func_8012C218(p);
+            return;
+        case 4:
+            D_801270CC = D_801270CC - 1;
+            func_8012C218(p);
+            return;
+        }
+        return;
+    }
+}
+
 
 
 // @class: loose-typing

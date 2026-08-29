@@ -62049,7 +62049,7 @@
     extern void func_80181934(void); \
     extern void func_8018621C(void); \
     extern s32 D_801B9230; \
-    extern void func_8018483C(s32 a0); \
+    extern void func_8018483C(); \
     void func_80184A08(s32 p) { \
         s16 t; \
         D_801E8754 -= 1; \
@@ -157447,7 +157447,7 @@
     extern void func_80181934(void); \
     extern void func_8018621C(void); \
     extern s32 D_801B9230; \
-    extern void func_8018483C(s32 a0); \
+    extern void func_8018483C(); \
     void func_80184A08(s32 p) { \
         s16 t; \
         D_801E8754 -= 1; \
