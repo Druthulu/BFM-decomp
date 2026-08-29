@@ -9113,7 +9113,52 @@ void func_80189F58(s32 param_1)
 void func_8018A07C(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8018A084);
+#include "common.h"
+#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+
+extern Blk20 D_800AE620;
+extern s32 D_801A7A34;
+extern u8 D_801B23E8[];
+
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8001D0E8(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012E8A8(u8 *a0);
+
+void func_8018A084(void *a0) {
+    Blk20 mtx;
+    register s32 v0 __asm__("$2");
+    s32 v1;
+    s32 vec[3];
+
+    mtx = D_800AE620;
+
+    v0 = func_8012C1B8();
+    *(s32 *)((u8 *)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+
+    func_8001C214(v0, (s32)&D_801A7A34);
+    func_8001D0E8(*(s32 *)((u8 *)a0 + 0x20), 0x7FFF, 0x7FFF);
+
+    v1 = *(s32 *)((u8 *)a0 + 0x20);
+    *(u16 *)(v1 + 0x2C) |= 0x10;
+    v1 = *(s32 *)((u8 *)a0 + 0x20);
+    *(u16 *)(v1 + 0x1C) = 1;
+    *(u16 *)(v1 + 0x1A) = 1;
+    *(u16 *)(v1 + 0x18) = 1;
+    func_8012A828((s32)a0, &D_801B23E8);
+    func_8012E8A8((u8 *)a0);
+
+    v0 = *(u16 *)((u8 *)a0 + 0x2);
+    *(s16 *)((u8 *)a0 + 0xA) = -0x102;
+    *(s16 *)((u8 *)a0 + 0x2) = v0 + 1;
+}
+
 
 #include "common.h"
 
