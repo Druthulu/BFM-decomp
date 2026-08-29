@@ -2709,6 +2709,21 @@ tie in `global.c`): compiles fine, wrong bytes → exactly an R17/§45-B target.
 
 ## §41 — The DEF-SIDE canonical-sig wall: mechanically banking a drafted giant past `conflicting types` (Phase 25 T5b batch-2, 2026-07-09; `tools/canon_sig_reconcile.py`, byte-proven on `func_8013B274`)
 
+**Addendum (P31 S64 t5o-t5r, func_8017BEBC @ ov_SC03_007, 246 ins) — A FINDABILITY KEY, not a new law.** §41 step 3
+("Cast each type-changed param AT ITS USES — NEVER via an intermediate local") also owns a purely **REGALLOC**
+symptom, and this section's declaration-wall title hides it: a drafter hunting a register residual greps past §41
+entirely. **The tell:** a closeness plateau that will NOT move under clamp / loop-shape / integer-width levers,
+with the instruction COUNT already exact, on a function whose C declares `T *out = (T *)paramN;` and stores through
+`out[i]`. The named alias is a fresh pseudo — gcc gives it its own register, which frees the incoming arg register
+for a competing tail temp and shifts the whole prologue schedule. Casting in place at each store
+(`((T *)paramN)[i] = …`) adds no pseudo and is byte-free. **Byte evidence:** n7 (`s16 *out = (s16 *)a1; out[i] = …`)
+= near, closeness 17, nins 246; n9 (same body, alias deleted, `((s16 *)a1)[i] = …`) = **MATCH, closeness 0, nins 246**;
+n11 re-confirms. **⚠ The decl-order control is INERT (§67):** n10 swapped the two pointer locals' declaration order,
+kept the alias, and stayed at 17 — so an unchanged closeness under reordering does NOT exonerate the alias. This is
+the FOURTH confirmation of §41 step 3 / §67's two-pseudo law, and the transcript printed only aggregate
+`status closeness nins` lines, so it sharpens findability, not the mechanism.
+
+
 **The wall (dominant for GIANTS — ~universal, vs ~35% clean-bank for small fns):** a drafter writes an
 **isolation-MATCH** giant body (`match_one` c=0) with Ghidra-derived **TYPED** params — `void func(u32 *a0, s16 *a2)`.
 Placed in the real overlay TU it fails the whole-binary gate on `conflicting types for func_X` (a *declaration*
@@ -30113,3 +30128,30 @@ else      { *(s32 *)(p + 0x14) = TBL[*(u8 *)(p + 5)]; }
 **BYTE EVIDENCE.** `func_8017D7E0` (ov_SC06_033, 166 ins, banked at `src/ov_SC06_033/ov_SC06_033_jr_8017C24C.c:3568-3572`). v3 (pointer-CSE, `val` temp present): `closeness 22 / nins 165 / LENGTH-DRIFT/-1?` at 127, `explains: partial`. v4a/b/c reordered the tail statements around the temp — **inert, still 22**, which is what rules out §176-A2's statement-move lever. v5 (temp deleted, store duplicated into both arms): **closeness 2, nins 165 → 166, the LENGTH-DRIFT class gone entirely**, leaving only an unrelated 2-insn operand-order residual at `[127,128]`. The final 2 → 0 came one step later from an ordinary source-order edit (`D_801274EA` before `D_801274EC`, inlining a `(u16)` cast condition) — §176-A / §165-14 territory, **not part of this law**. *Re-read at vet time out of the banked object:* `objdump` of the banked build shows `nop` at 0x240 and exactly **one** `sw $v0,0x14($s1)` at 0x244 — the merge is visible in the bytes, and 0x240/4 = 144 is the residual's own index.
 
 **⚠ MECHANISM BOUND (R14).** No `-dS`/`-dR` dump was taken. The step "an independent join-block insn covers the cross-block hazard" is read off the final stream plus the pass order, not off the scheduler; `-dS` on the two spellings is the cheap confirmation and has not been run. What is **measured** is: the temp spelling is −1 with the `nop` absent, the duplicated spelling restores it at the correct byte, and the object still emits only one store.
+
+
+## §312 — A BARE RELATIONAL IN AN `if` GIVES THE `slt` NO TARGET: ASSIGN THE COMPARISON INTO THE ALREADY-ALLOCATED VARIABLE TO CHOOSE ITS DESTINATION REGISTER, AT ZERO INSTRUCTION COST (P31 S64 t5o-t5r; byte-proven func_80180DCC)
+
+*(NEW axis, not a restatement. §164-38/§164-39 and §164-39's t5j-t5m addendum own the compare's **INPUT** colouring — which operand got which register — and their levers are the in-out fence on operand 0 and the relational transposition; both are the wrong door when the inputs are already correct. §197-C/§164-64 own "write it IN PLACE so the destination **is** an existing pseudo" for `*`/`+`/`|`/`&`; this extends that lever to the relational operator, where §197-C's companion note — "a pinned pseudo can never be the load's destination" — had left the impression that a pin cannot own a computed dest at all. §164-65 also names a value you were going to consume inline, but its payload is allocno REF COUNT, not `SET_DEST`. §195-E is the other naming law and is about whether a 0/1 **materialises** at a join; here naming is length-neutral, which is exactly what makes this lever free.)*
+
+**THE TELL.** The target's `slt` writes back into one of its **own two source registers** — an in-place compare, `slt $v0,$v0,$v1` — and is immediately consumed by a `bnez`/`beqz` on that same register. Your draft emits the identical pair with **every operand register already correct and only the destination one register over**: `match_one` reports `REGALLOC-PERM` with a single-register cycle (`{"$v1":"$v0"}`, `kinds:{"reg":2}`), residual exactly 2 instructions — the `slt` and its branch — and zero length drift. That is not structure and it is not input colouring; nothing but the compare's `SET_DEST` is wrong.
+
+**THE MECHANISM — INFERRED, NOT TRACED (cite as a place to look, never as proven pass behaviour; §164z / §137's bar).** A truth value used only inside an `if` reaches `do_jump`/`expand_expr` with no fixed target, so the `slt`'s destination is synthesised from whatever pseudo is cheapest at that point, tied to **neither** compared operand — which is why it can land one register away even when both operands are correctly pinned. Writing the comparison as an assignment hands `expand_expr` an explicit target pseudo and `store_expr` honours it, forcing the `slt`'s `SET_DEST` to that variable's hard register. No `-dS`/`-dg`/`-dl`/`-dg` dump was taken; `local-alloc.c combine_regs`' tie-to-a-dying-source-operand (§10 Residual A) is the other place worth dumping first if this recurs.
+
+**THE C SHAPE.**
+
+    /* wrong — dest register unpredictable */
+    if (v0 < v1) { goto TRUE1; }
+
+    /* right — forces the slt's dest into v0's pinned hard reg */
+    v0 = (v0 < v1);
+    if (v0 != 0) { goto TRUE1; }
+
+    /* v0 is `register s32 v0 __asm__("$2")`; v1 a sibling pinned s16-cast temp,
+       `register s32 v1 __asm__("$3")` */
+
+The two spellings cost the **same instruction count** — a bare relational has no join and no constant arms, so §195-E's "naming materialises a 0/1" does not fire and the naming is byte-free apart from the register it buys.
+
+**BYTE EVIDENCE.** `func_80180DCC`, 66 ins, all quotes from `match_one --json` on the pinned triple. v0 (backlog draft, `register s16 s1` pin + call-site `(s16)` casts) → closeness 9, `STRENGTH/sll!=sra`. Unpinning `s1` → closeness 6, same sig (block 2 clean, block 1's `sll/sra/slt/bnez` still wrong). v6 (pin `register s32 v1 __asm__("$3")`, hoist `v1 = (s16)s1; v0 = (s16)v0;` as statements ahead of a still-bare `if (v0 < v1)`) → **6 → 2**: `{"status":"near","closeness":2,"residual":[[34,"0043182a slt v1,v0,v1","0043102a slt $v0, $v0, $v1"],[35,"14600013 bnez v1,…","14400013 bnez $v0, .L80180EA8"]],"verdict":{"klass":"REGALLOC-PERM","sig":"REGALLOC-PERM/$v1>$v0","detail":{"map":{"$v1":"$v0"}}}}`. v7, the **only** change being `if (v0 < v1) {…}` → `v0 = (v0 < v1); if (v0 != 0) {…}` → **2 → 0**: `{"status":"match","closeness":0,"residual":[],"verdict":{"klass":"MATCH"}}`.
+
+**BOUND.** (1) n = 1. (2) Only the **v6 → v7** delta is solo-proven (§266): the pins and the cast hoist arrived in compound edits and are co-requisites of the shape, not separately ablated — the pin is what makes "the variable's hard register" a nameable thing here, and an unpinned local would only move the dest to whatever that local got. (3) Routing: on a REGALLOC-PERM whose single wrong register is the compare's **DEST**, try this first — one statement, zero bytes; go to §164-39's fence or its addendum's transposition only when the wrong register is one of the compare's **INPUTS**. (4) Says nothing about compare-against-constant shape (`slti`/`sltiu` immediate-vs-register is §194-L's 2-D lookup) or about signedness (§280).
