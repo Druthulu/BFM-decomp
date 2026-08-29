@@ -3060,7 +3060,52 @@ void func_8017F5CC(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017ECFC", func_8017F5E4);
+typedef struct {
+    u16 vx;     /* +0x0 */
+    u16 vy;     /* +0x2 */
+    u16 vz;     /* +0x4 */
+    u16 pad;    /* +0x6 */
+} Sxy_8017DC24;                     /* 0x08 */
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8017D5C8;
+typedef struct {
+    s16 x;      /* +0x0 */
+    s16 y;      /* +0x2 */
+    s16 c;      /* +0x4 */
+    s16 pad;    /* +0x6 */
+} Vtx_8017DC24;                     /* 0x08 */
+typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8017D5C8;
+
+
+extern void func_8017F6A8(s32);
+extern void func_8012931C(void *a0, s32 a1);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+extern s32 D_8018394C;
+
+void func_8017F5E4(void *a0) {
+    register s8 *s0 __asm__("$16");
+    s32 t;
+    u8 *p;
+    s32 x;
+
+    s0 = (s8 *)a0;
+    ((void (*)(void))func_8017F6A8)();
+    *(s32 *)(s0 + 0x10) = *(volatile s32 *)(s0 + 0x10);
+    t = *(volatile s32 *)(s0 + 0x18);
+    *(s32 *)(s0 + 0x18) = t;
+    *(s32 *)(s0 + 0x14) = *(s32 *)(s0 + 0x14) + 0xC000;
+    func_8012931C(s0, t);
+    if (*(s16 *)(s0 + 0x2E) < *(s16 *)(s0 + 0xA)) {
+        *(s16 *)(s0 + 0xA) = *(s16 *)(s0 + 0x2E);
+        func_80015978((s32)s0 + 4, &x);
+        p = func_801290DC(0x28, (u8 *)&x);
+        if (p != 0) {
+            *(u32 *)(p + 0x2C) = D_8018394C++ & 7;
+        }
+        func_8002D4C8(0x572, 0);
+        func_801292C8((u8 *)s0);
+    }
+}
+
 
 extern void func_80015978(s32 a0, s32 *a1);
 extern s32 func_8012EF34(s32 a0, s32 a1);
