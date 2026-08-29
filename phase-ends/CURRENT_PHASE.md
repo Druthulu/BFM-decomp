@@ -2934,7 +2934,7 @@ clean fleet sweep, never reverted (R42) · **read `judge.json`, never an agent's
 *a sampling filter ships with its denominator* (`--novel-only` printed what it did not distil, every
 time: 12/124, 30/199, 8/30, 10/135, 2/47).
 
-## 🛑 SESSION CHECKPOINT — S65 (2026-08-29). Supersedes every earlier block. Phase 31 T5 CONTINUES. Machine QUIESCED: no lanes, no workflows, tree clean, `.run/ox_campaign.stop` SET.
+## (superseded mid-session — see S65 FINAL at the end of this file) SESSION CHECKPOINT — S65 interim. Phase 31 T5 CONTINUES. Machine QUIESCED: no lanes, no workflows, tree clean, `.run/ox_campaign.stop` SET.
 
 **READ FIRST:** this block → the S64 FINAL block above → `docs/tool-designs/frontier-analysis-s61.md` §4.
 
@@ -3016,3 +3016,93 @@ the tree; a sampling filter ships with its denominator; **(new, S65)** *a stage 
 artifact it is measuring must gate the original first* — and its corollary for the harness itself:
 *a `grep` over a tool's output is a filter on evidence; my own probe loop swallowed a traceback and
 the crash read as "no blockers found"* (R40 applied to me, not the tool).
+
+## 🛑 SESSION CHECKPOINT — S65 FINAL (2026-08-29). Supersedes every earlier block including the S65 interim above. Phase 31 T5 CONTINUES. Machine QUIESCED: no lanes, no workflows, tree clean, `.run/ox_campaign.stop` SET.
+
+**READ FIRST:** this block → the S64 FINAL block → `docs/tool-designs/frontier-analysis-s61.md` §4.
+
+**FLEET (R58, session-close clean rebuild):** `make clean && extract-all && check-all` =
+**213 passed, 0 failed of 213**. **98.8% instr-weighted / 97.5% distinct** (89,798 / 90,929 unique
+fns). Open INCLUDE_ASM stubs per `corpus.stubs`: **2,538 across all binaries — 1,099 main, 1,439
+elsewhere**. Cookbook **921 sections**, index green. Tree clean.
+*(The S64 headline "1,616 stubs" still does not reconcile with this denominator — S64 never stated
+which set it counted. Re-derive from `corpus.stubs` before quoting any delta against it. R41.)*
+
+### WAVE SIZE: 1 × 15 AGENTS (Drew, this session — the 5x plan, down from 20x)
+Walked down live 30 → "2×50 after banking" → 30 → **15**, unprompted each time. Treat the CURRENT
+number as the standing cap; ask before scaling. Memory `endgame-budget-unconstrained` rewritten.
+**t5t (the first 15-slate) banked 13/15 = 87% vs t5s's 24/29 = 83% — halving the wave cost
+throughput, NOT quality.** Remaining K+L population: **231 fns / 13,498 ins across 135 binaries.**
+
+### BANKED — 42 functions, each committed as it landed (R42)
+`commit:3184` func_8017F9F4 · `commit:3185` **func_8017BEBC (246 ins)** · `commit:3187` **t5s = 24** ·
+`commit:3189` func_80157808 · `commit:3193` md_MAIN_026 · `commit:3197` **t5t = 13** · `commit:3198`
+func_8018452C. **5 of the 42 came from integration recovery, and 4 of those 5 banked as RAW drafts —
+the pass that did not exist before this session.**
+
+### FIVE TOOL DEFECTS FIXED (all committed, all negative-controlled)
+1. **`recover_integration` gated only its own REWRITE** (`commit:3186`, cookbook **§313**). `macro-externs`
+   rewrites a callee `extern` to the FLEET `DEFINE_` macro's head — but `func_ADDR` is per-ADDRESS,
+   so another overlay's `extern void func_8017C338(void)` replaced this overlay's correct 4-arg decl
+   and MANUFACTURED the CC1-FAIL it reported as the draft's failure. Now **pass 1a raw → pass 1b
+   rewrite only what raw refused**, winning variant recorded per fn.
+2. **`harvest_verify.classify_fail` labelled a BUILT draft `CC1-FAIL`** from the orphaned `note:` half
+   of a benign warning. Controlled over 5 diagnostic shapes; only warning+note-only changed.
+3. **`masked_diff` compared NOTHING at `R_MIPS_26` slots** (`commit:3188`) — `mask_for` returned 0 and
+   each comparer takes its mask from ONE side, so a `j`/`jal` swallowed the other side's instruction.
+   my `j` vs `bne` → 0, vs `nop` → 0, `jal` vs `bne` → 0; mirror → 1. Fix `0xFC000000`. **R39: 2,554
+   stubs, nonzero 3 before AND after** (812 stubs / 3,164 internal-`j` instructions exercise it).
+4. **`--probe-only` crashed for `--funcs`/`--auto`/`--from-file`** (`commit:3190`) — exec'd before staging.
+5. **The distill novelty selector was INVERTED** (`commit:3194`): `'no cookbook lever'` matched "no
+   cookbook lever *needed*" (a TRIVIAL note) and was the only pick of 24, while three multi-lever
+   notes went unseen — **and it structurally could not see UNBANKED functions at all**, which is where
+   the hardest functions write their richest notes (defeating cookbook §52 with the flywheel's own
+   tool). New `--with-unbanked`; each row carries `banked=False` through to the verifier.
+
+### MY OWN ERRORS THIS SESSION (the expensive ones — do not repeat)
+* **`xargs -P 4` over `recover_integration` corrupted the tree.** Its `assert_write_set` measures a
+  GLOBAL `git status`, an abort does NOT restore stage edits, and gate_stage's commit is a
+  deliberately broad `git add -u src/` — so md_MAIN_026's +1 commit swept **696 broken lines of
+  ov_MAIN_012** into itself; `check-all` went 212/213 and the t5t bank was blocked behind it for ~1h.
+  Repaired at `commit:3195`; **single-instance flock added** (`commit:3196`). NARROWING the gate's
+  `git add` would have been the WRONG fix — that breadth is deliberate (a narrower glob once dropped
+  4 R22-verified banks). **RUN THE DRIVER SERIALLY.**
+* A `pgrep -f` wait-loop that **matched its own wrapper** (never exits) and a `pkill -f` that **killed
+  my own shell**. Never pattern-match on a string your own command line contains.
+* Two `grep` filters that **swallowed a traceback and an abort message**, either of which would have
+  read as "nothing found". Read tool output unfiltered before concluding a null.
+* I **hand-typed transcript paths** into a workflow's args instead of using the ones the tool had
+  already computed; all three were fictional. Verify a path exists before passing it.
+
+### THE DISTILL'S HONEST VERDICT (worth more than the addendum)
+3 "new lever" claims → **2 REFUTED as rediscoveries** (§5a/§34/§164-33 for the reorg delay-slot steal;
+the loop.c movable gate for the ternary/LICM effect), 1 **ADDENDUM to §165-03** (asm-free EQ-channel
+dial, filed **UNPROVEN** — its draft never passed the gate). The verifier proved the refutation by
+reading the target `.s` itself and matching §165-03 register-for-register on a sibling overlay.
+**The gap is RETRIEVAL, not content** — §5a gained a FINDABILITY addendum indexing the symptom as the
+agent EXPERIENCES it (`LENGTH-DRIFT/1`, an extra `j` absent from the target, a DUPLICATED store) vs
+how the index states it (a `nop` that never appeared in the agent's diff). Same shape as S64's §41.
+
+### NEXT, in order
+1. **Draw t5u at `--n 15`.** Seed the slate with the two probe-measured near-misses FIRST — they are
+   far better value than a cold draw: **`ov_SC03_105:func_8017F234` (202 ins, DIFF only 3 mismatched)**
+   and **`ov_SC06_013:func_8017E7E8` (66 ins, 11)**. Then `ov_SC03_023:func_8017BEBC` (246, closeness
+   45) — try a **family remap from the ov_SC03_012 sibling banked this session** before a redraft.
+2. **Probe a wave's strandeds before re-drafting any of them** — the probe is $0 and a re-draft now
+   costs a scarce wave slot. Measured this session: 39 stranded drafts / 33 binaries → 27 gated → 5
+   banked; the rest split into named CC1-FAIL classes and genuine DIFFs.
+3. Distill every 2–3 waves, now with `--with-unbanked`.
+4. The §8e **JTBL_PADS** pair (`ov_SC01_005:func_8017F2D4` 279 ins, `ov_SC06_011:func_8017EEEC` 108) —
+   `blocker_probe` MATCH but whole-binary DIFF; the residual is rodata jump-table PLACEMENT, not the
+   body. Discrete carve task; R59/R60 applies (audit, never blanket-add).
+
+**STANDING HAZARDS:** never blanket-add to `config/overlays.mk`/splat yamls (R59/R60) · `ghidra/`
+churn is MCP noise, do not commit · Drew pushes (R6) · a KILLED gate is adjudicated by a clean fleet
+sweep, never reverted (R42) · read `judge.json`, never an agent's self-report (R14) · **the recovery
+driver is single-instance; the lock enforces it.**
+
+**RULE CANDIDATES for PhaseEnd:** R44–R60 + (S63/S64) a drafting agent must not write the tree; a
+sampling filter ships with its denominator; **(S65)** *a stage that REWRITES the artifact it measures
+must gate the ORIGINAL first*; *a tool that mutates shared state is single-instance until proven
+otherwise — and the proof is a lock, not a habit*; *a filter over agent notes must be able to see the
+FAILURES, or the flywheel only ever learns from the easy half*.
