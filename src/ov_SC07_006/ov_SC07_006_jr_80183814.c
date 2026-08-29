@@ -5834,7 +5834,13 @@ void func_80189FDC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_80183814", func_8018A124);
+void func_8018A124(void *param_1)
+{
+    if ((--*(s32 *)((char *)param_1 + 0x1C)) == 0) {
+        *(u16 *)((char *)param_1 + 2) += 1;
+    }
+}
+
 
 #include "common.h"
 
