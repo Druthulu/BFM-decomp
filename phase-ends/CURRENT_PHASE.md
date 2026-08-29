@@ -2933,3 +2933,86 @@ clean fleet sweep, never reverted (R42) · **read `judge.json`, never an agent's
 `git checkout`-reverted it; harmless only because R42 meant everything was already committed) and
 *a sampling filter ships with its denominator* (`--novel-only` printed what it did not distil, every
 time: 12/124, 30/199, 8/30, 10/135, 2/47).
+
+## 🛑 SESSION CHECKPOINT — S65 (2026-08-29). Supersedes every earlier block. Phase 31 T5 CONTINUES. Machine QUIESCED: no lanes, no workflows, tree clean, `.run/ox_campaign.stop` SET.
+
+**READ FIRST:** this block → the S64 FINAL block above → `docs/tool-designs/frontier-analysis-s61.md` §4.
+
+**FLEET after S65:** `make check-all` = **213 passed, 0 failed of 213**; main SHA
+`143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical; **98.8% instr-weighted / 97.4% distinct**.
+Open INCLUDE_ASM stubs per `corpus.stubs`: **2,553 across all binaries (1,099 in main, 1,454
+elsewhere)**. NOTE (R41/R32): this does NOT reconcile with S64's "1,616 stubs" headline by the 27
+banked here — S64's figure used an unstated denominator. Re-derive it before quoting a delta.
+Cookbook **921 sections**, index green.
+
+### WAVE SIZE IS NOW CAPPED (Drew, this session, walked down live)
+**1 × 15 agents, one wave at a time.** The account moved from the 20x to the **5x plan** — "we have
+to work slower". Do NOT scale back up without asking. Memory `endgame-budget-unconstrained` has been
+rewritten to say this. Consequence: fixed per-wave overheads (draw, both gate arms, the R22 sweep,
+the distill) now amortize over 15 targets, so **pull the agent-free levers first**.
+
+### BANKED THIS SESSION — 27 functions, every one committed as it landed (R42)
+* **t5s wave (29 agents, the last 29-slate):** 24 banked — sonnet 22/25, opus 2/4. Commit `commit:3187`.
+* **Integration recovery: 3**, and **2 of those were only reachable because of a fix made this
+  session** — `ov_SC03_012:func_8017BEBC` (246 ins) and `ov_SC03_107:func_80157808`, both banked as
+  RAW drafts at the pass-1a that did not exist before. Plus `ov_SC04_004:func_8017F9F4`.
+
+### FOUR TOOL DEFECTS FOUND AND FIXED (all committed, all negative-controlled)
+1. **`recover_integration` gated only its own REWRITE of a draft** (`commit:3186`, cookbook **§313**).
+   `macro-externs` rewrites a draft's callee `extern` to the FLEET `DEFINE_` macro's head — but
+   `func_ADDR` names are per-ADDRESS, not per-function, so another overlay's `extern void
+   func_8017C338(void)` replaced this overlay's correct 4-arg decl and manufactured the CC1-FAIL it
+   then reported as the DRAFT's failure. Now a ladder: **pass 1a raw → pass 1b rewrite only what raw
+   refused**, winning variant recorded per fn, pass 2 re-gates that variant.
+2. **`harvest_verify.classify_fail` labelled a BUILT draft `CC1-FAIL`** using the orphaned `note:`
+   half of a benign warning pair. Notes now drop with their warnings. Negative-controlled over 5
+   diagnostic shapes; only warning+note-only changed (to the honest `no-diagnostic` label).
+3. **`masked_diff` compared NOTHING at `R_MIPS_26` slots** (`commit:3188`) — `mask_for` returned 0, and
+   since each comparer takes its mask from ONE side, a `j`/`jal` there swallowed whatever the other
+   side held. Byte-reproduced: my `j` vs target `bne` → 0, vs `nop` → 0, my `jal` vs `bne` → 0, while
+   the mirror (my `bne` vs target `j`) → 1. Fix: mask `0xFC000000` — the 26-bit field stays masked,
+   the opcode never is. **R39 control: `tools/stub_invariant_audit.py` 2,554 stubs, nonzero 3 before
+   AND after** (the same three main length-delta survivors), over a population that exercises the
+   path (812 stubs carry internal-`j` `.text` relocs / 3,164 such instructions). Found by a t5s
+   drafting agent on func_8017EB30; verified BROADER than it reported. No bank was ever at risk (G3).
+4. **`--probe-only` crashed for `--funcs`/`--auto`/`--from-file`** (`commit:3190`) — it exec'd
+   `blocker_probe` BEFORE staging. Only `--draft-dir` worked. Staging now happens first; control =
+   the `--draft-dir` path returns its pre-edit verdict verbatim.
+
+### THE LEVER, HONESTLY SIZED (do not over-invest here)
+| source | candidates | banked |
+|---|---|---|
+| t5r wave strandeds | 21 | 2 |
+| backlog `closeness==0` records | 11 (of 40 records; only 15 re-scorable) | 1 |
+
+Recovery pays on **FRESH wave drafts the pipeline mishandled**, not on the aged backlog. But the
+probe is **$0** — so: **probe a wave's strandeds before re-drafting any of them**, always. A
+re-draft now costs a scarce wave slot; a probe costs nothing.
+
+### NAMED CLASS FOR THE WALL LEDGER (new, S65)
+`ov_SC01_005:func_8017F2D4` (279 ins) and `ov_SC06_011:func_8017EEEC` (108) are **`blocker_probe`
+MATCH but whole-binary DIFF** — the gate builds fine (jtbl carve runs; `harvest_verify._jtbl_prep_one`
+owns it), the bytes differ OUTSIDE the function's own instruction stream. That is the §8e
+**`JTBL_PADS`** rodata-placement class, NOT integration. `jtbl_carve.py <ov> --func <fn> --probe`
+says "tail — standard §8a carve at gate time" for both. Carve state is R59/R60 territory — audit
+with `interleave_check`/`pads_audit`, never blanket-add. Remaining backlog blockers: 3
+conflicting-types, 2 too-few-arguments, 1 parse error.
+
+### NEXT, in order
+1. **`t5_targets.py --wave .run/t5t --n 15`** → cards → packs → ONE 15-agent
+   `claude_wave_draft` → `t5_bank.sh .run/t5t sonnet opus`. Routing unchanged (≤120 → sonnet,
+   >120 → opus; residue → opus once).
+2. **Probe t5s's 5 unbanked** with `recover_integration --probe-only` BEFORE they are re-drafted.
+3. Distill every 2–3 waves with `t5_distill_args.py --novel-only`.
+4. The §8e JTBL_PADS pair above, as a discrete carve task with its audits.
+
+**STANDING HAZARDS (unchanged):** never blanket-add to `config/overlays.mk`/splat yamls (R59/R60) ·
+`ghidra/` churn in `git status` is MCP noise, do not commit · Drew pushes (R6) · a KILLED gate is
+adjudicated by a clean fleet sweep, never reverted (R42) · read `judge.json`, never an agent's
+self-report (R14).
+
+**RULE CANDIDATES carried forward:** R44–R60 + (S63/S64) a drafting agent must not be able to write
+the tree; a sampling filter ships with its denominator; **(new, S65)** *a stage that REWRITES the
+artifact it is measuring must gate the original first* — and its corollary for the harness itself:
+*a `grep` over a tool's output is a filter on evidence; my own probe loop swallowed a traceback and
+the crash read as "no blockers found"* (R40 applied to me, not the tool).
