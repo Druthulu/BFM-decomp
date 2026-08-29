@@ -3322,7 +3322,10 @@ DEFINE_func_8017BEAC()  /* dedup: shared engine-core @0x8017BEAC (src/shared) */
 
 DEFINE_func_8017BEB4()  /* dedup: shared engine-core @0x8017BEB4 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017AE2C", func_8017BEBC);
+void func_8017BEBC(s32 a0, s32 a1) {
+    func_80146994(0x29, 0, a0, a1);
+}
+
 
 extern s32 D_80126B58;
 extern void func_80147364(u16, s32);

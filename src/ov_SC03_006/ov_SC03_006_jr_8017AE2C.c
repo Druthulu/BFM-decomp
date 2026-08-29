@@ -13558,7 +13558,20 @@ void func_8018A624(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A698);
+#include "common.h"
+
+extern void Square0(s32 *a0, s32 *a1);
+
+s32 func_8018A698(s32 a0) {
+    s32 v[4];
+
+    v[0] = *(s16 *)(a0 + 6) - *(s16 *)(a0 + 0x88);
+    v[1] = 0;
+    v[2] = *(s16 *)(a0 + 0xE) - *(s16 *)(a0 + 0x8C);
+    Square0(&v[0], &v[0]);
+    return 0x18FFFF < v[0] + v[2];
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_8018A6F4);
 
