@@ -5231,7 +5231,7 @@ extern s32 func_801788B8(s32 arg0, s32 arg1);
 extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
 extern void MoveImage(void *a0, s32 a1, s32 a2);
-extern void func_801806B8();
+extern s32 func_801806B8();
 
 extern u8 D_801997EC[];
 extern u8 D_80199820[];
@@ -5433,7 +5433,24 @@ s32 func_8018066C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_000/nonmatchings/ov_SC04_000_jr_8017BEBC", func_801806B8);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+
+s32 func_801806B8(void *a0)
+{
+    if ((s16)*(s16 *)((s32)a0 + 0xE) - (s16)D_80126B66 >= 0x50) {
+        return 0;
+    }
+    if ((u32)((s16)D_80126B5E - *(s16 *)((s32)a0 + 6)) >= 0x101) {
+        return 0;
+    }
+    *(s16 *)(*(s32 *)((s32)a0 + 0x64) + 2) = 2;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 void func_80180730(void) {
 }

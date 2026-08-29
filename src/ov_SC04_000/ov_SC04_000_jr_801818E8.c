@@ -2791,7 +2791,7 @@ extern u8 D_8019976C[];
 extern u8 D_80199774[];
 extern s32 func_8017FD04(s32 arg0);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
-extern void func_801806B8();
+extern s32 func_801806B8();
 extern u8 D_801997EC[];
 extern u8 D_80199820[];
 extern u8 D_80199468[];
