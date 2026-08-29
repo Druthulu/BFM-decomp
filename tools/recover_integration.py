@@ -44,7 +44,7 @@ SESSION-16 (cookbook §65) added the mode this was missing and the blocker it co
 --auto pulls leaf-MATCH candidates from the backlog (status capped / near-close-0, reach>=2), filtered
 to those STILL a stub in the binary AND STILL match_one-MATCH on their best draft (drift-safe, R14).
 """
-import argparse, collections, glob, json, os, re, shutil, subprocess, sys
+import argparse, collections, fcntl, glob, json, os, re, shutil, subprocess, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import backlog, corpus, gate_stage
 
@@ -234,6 +234,25 @@ def main():
                 "would re-macroize the expanded sites and undo it (demacroize.py's stated price; "
                 "§55b bans --auto-from regardless). Use --no-propagate, then propagate a genuinely "
                 "shared bank with a targeted `dedup_propagate --addr`.")
+
+    # ---- SINGLE-INSTANCE LOCK (P31 S65). This driver is NOT parallel-safe and now says so instead
+    # of corrupting the tree: (a) assert_write_set measures a GLOBAL `git status`, so a concurrent
+    # run's writes look like THIS run's blast-radius violation and abort it; (b) an abort does NOT
+    # restore the stage edits already on disk; (c) gate_stage's commit is a deliberately broad
+    # `git add -u src/` (it must be — propagation touches many overlays, and a narrower glob once
+    # DROPPED four R22-verified banks), so a concurrent run's --commit sweeps the aborted run's
+    # half-applied edits into its own commit. Measured: `xargs -P 4` over 33 binaries put 696 broken
+    # lines of ov_MAIN_012 into md_MAIN_026's +1 bank commit and took check-all to 212/213 (R59: a
+    # gate commits only its own block). Refuse loudly rather than mishandle (R43).
+    lock_path = os.path.join(REPO, ".run/recover", ".driver.lock")
+    os.makedirs(os.path.dirname(lock_path), exist_ok=True)
+    _lock_fh = open(lock_path, "w")
+    try:
+        fcntl.flock(_lock_fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        sys.exit("REFUSED: another recover_integration.py is running (%s). This driver is NOT "
+                 "parallel-safe — run it SERIALLY. See the single-instance-lock note above." % lock_path)
+    _lock_fh.write("%d\n" % os.getpid()); _lock_fh.flush()
 
     run_dir = f".run/recover/{a.run_id}"
     dd = f"{run_dir}/drafts"
