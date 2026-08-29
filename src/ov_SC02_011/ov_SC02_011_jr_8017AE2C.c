@@ -8431,7 +8431,7 @@ void func_80183558(s32 a0) {
 }
 
 
-extern void func_8018452C(void);
+extern void func_8018452C();
     void func_8018360C(short *param) {
         param[1] = 0xB;
         func_8018452C();
@@ -8455,7 +8455,6 @@ s32 func_80183954(s32 a0) {
 
 extern s32 rand(void);
 extern u8 D_801202A0[];
-extern u8 D_801F3EFC[];
 extern u8 D_801955F4[];
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012ADE4(u8 *a0);
@@ -8464,6 +8463,10 @@ extern void func_8017C294(s32 a0, s16 *a1, s16 a2);
 extern s32 func_80183C2C();
 
 s32 func_80183994(s32 a0, s32 a1) {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern u8 D_801F3EFC[];
     s32 hit;
     u8 *p;
     s32 i;
@@ -8513,11 +8516,14 @@ ret0:
 
 
 extern void func_8012B14C(s32 a0, s32 a1);
-extern s32 D_801950D8;
 extern s32 D_801950E4;
 
 s32 func_80183B30(s32 param_1, s32 param_2)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 D_801950D8;
     unsigned short uVar2;
 
     switch (param_2) {
@@ -8767,7 +8773,25 @@ void func_8018446C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_8018452C);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012B200(u8 *a0);
+extern s32 D_801950D8;
+extern u8 D_801F3EFC[];
+
+void func_8018452C(s32 a0)
+{
+    s32 s0;
+
+    func_8012B200((u8 *)a0);
+    s0 = a0;
+    func_8012B14C(s0, (s32)&D_801950D8);
+    func_8012A828(s0, (void *)D_801F3EFC);
+    *(u16 *)(s0 + 0xFC) = rand() & 1;
+    *(s32 *)(s0 + 0x1C) = 0x2D;
+    *(u16 *)(s0 + 0x34) = 0;
+}
+
 
 void func_80184590(s32 param_1) {
     extern u8 D_80126B5C;
