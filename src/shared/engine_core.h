@@ -33446,7 +33446,7 @@
     extern s32 D_801E9630; \
     extern s32 D_801E9634; \
     extern void func_8013DBE4(int param_1); \
-    extern void func_8013DD68(); \
+    extern void func_8013DD68(void); \
     extern s32 D_801E9614; \
     extern s32 func_8013E054(void); \
     extern int SquareRoot12(int a0); \
@@ -41703,7 +41703,7 @@
     extern s32 D_801E9630; \
     extern s32 D_801E9634; \
     extern void func_8013DBE4(int param_1); \
-    extern void func_8013DD68(); \
+    extern void func_8013DD68(void); \
     extern s32 D_801E9614; \
     extern s32 func_8013E054(void); \
     extern int SquareRoot12(int a0); \
@@ -128835,7 +128835,7 @@
     extern u8 D_8018BE80[]; \
     extern u8 D_8018BD58[]; \
     extern void func_8013D53C(); \
-    extern void func_8013DD68(void); \
+    extern void func_8013DD68(); \
     extern void func_8013D8FC(void); \
     extern void func_8013CF68(void); \
     extern void func_8013D3D4(int param_1, int param_2); \
@@ -137092,7 +137092,7 @@
     extern u8 D_8018BE80[]; \
     extern u8 D_8018BD58[]; \
     extern void func_8013D53C(); \
-    extern void func_8013DD68(void); \
+    extern void func_8013DD68(); \
     extern void func_8013D8FC(void); \
     extern void func_8013CF68(void); \
     extern void func_8013D3D4(int param_1, int param_2); \
