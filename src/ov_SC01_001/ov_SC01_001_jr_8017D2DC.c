@@ -3965,13 +3965,10 @@ extern void func_80143994(s32 a0, s32 a1);
 
 extern s32 D_8019BD38;
 extern s32 D_80187898;
+extern s32 D_801EDA10;
 
 void func_8017F28C(s32 a0)
 {
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_801EDA10;
     register s32 s0 __asm__("$16");
     register s32 s1 __asm__("$17");
     s32 v0;
@@ -3999,6 +3996,7 @@ void func_8017F28C(s32 a0)
 
 extern void func_8012A828(s32 a0, s32 a1);
 extern void func_80182B60(s32 *a0, s32 a1);
+extern s32 D_801EDA10;
 extern s32 D_80187898;
 extern s32 D_80187940;
 extern s32 D_801879B8;
@@ -4030,10 +4028,6 @@ extern s32 D_801DBB40;
 
 void func_8017F328(s32 arg0)
 {
-    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
-       LATER function in this TU, which blocks a byte-true decl of a different type.
-       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern s32 D_801EDA10;
     s32 s0 = arg0;
 
     switch (D_801EDA10) {
