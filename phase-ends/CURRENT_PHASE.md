@@ -2879,3 +2879,57 @@ ov_SC04_012:func_8017D4CC, ov_SC03_092:func_8017E044, ov_SC01_004:func_8017EB30 
 
 **NOT DISTILLED:** ~124 banked t5n-t5q transcripts carried no novelty signal; `func_80185214`'s note
 asks for a cookbook-index entry on a store→opaque-load true-dependency that is unfixable from C.
+
+## 🛑 SESSION CHECKPOINT — S64 FINAL (2026-08-29 ~11:45). Supersedes every earlier block. Phase 31 T5 CONTINUES. Machine QUIESCED: no lanes, no workflows, tree clean, `.run/ox_campaign.stop` SET.
+
+**READ FIRST:** this block → the S64 results block above → the S63 FINAL block → the plan at
+`docs/tool-designs/frontier-analysis-s61.md` §4 (T1–T4 done in S62; T5 is what these sessions ran).
+
+**FLEET: 1,616 stubs · 98.8% instr-weighted · 97.4% distinct · GREEN 213/213** (R58; last clean sweep
+at the t5r close 11:35 — `make clean && extract-all && check-all` = `213 passed, 0 failed of 213`).
+main SHA `143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical. Red list EMPTY. Cookbook **920
+sections**, index green. Tree clean; nothing uncommitted. **764 stubs closed across S63+S64.**
+
+**RESUME IN ONE LINE** (everything below is committed and SETUP-documented):
+```
+.venv/bin/python tools/t5_targets.py --wave .run/t5s --n 48 [--residue .run/t5r]
+.venv/bin/python tools/t5_cards.py   --wave .run/t5s
+.venv/bin/python tools/claude_wave_packs.py .run/t5s/targets.json .run/t5s --cards .run/t5s/cards.json
+Workflow(scriptPath='tools/workflows/claude_wave_draft.js', args={wave:'.run/t5s', targets:[{name,binary,nins,sub,arm}...]})
+bash tools/t5_bank.sh .run/t5s sonnet opus      # judge -> fix_tu_ret_decls -> fix_decl_mirror -> R22 sweep -> commit
+# integration recovery for any match_one-MATCH-but-CC1-FAIL draft (this pays REPEATEDLY, incl. the 741-ins fn):
+tools/recover_integration.py --draft-dir <dir> --binary <bin> --no-propagate --probe-only   # names the blocker, $0
+Workflow(scriptPath='tools/workflows/claude_integration_recover.js', args={outdir, items:[{fn,binary,draft,sub,tu,blocker}]})
+# harvest: tools/t5_distill_args.py --novel-only --wave .. --wfdir .. [repeatable] --label ..
+Workflow(scriptPath='tools/workflows/claude_wave_distill.js', args=<that file>)
+```
+**Routing (T4-measured, held across 20 waves):** ≤120 ins → Sonnet, >120 → Opus, residue → Opus once,
+twice-Opus-refused → wall ledger. Gates are SERIALIZED; drafting is not (3 waves in parallel is fine).
+
+**NEXT, in order:**
+1. **Re-draw the 4 never-drafted t5r targets** (weekly limit killed them mid-draft, they are NOT
+   failures): ov_SC04_021:func_8017C014 (246) · ov_SC04_012:func_8017D4CC (115) ·
+   ov_SC03_092:func_8017E044 (174) · ov_SC01_004:func_8017EB30 (279).
+2. **Run integration recovery over t5r's 21 unbanked** before re-drafting any of them — the 741-ins
+   case proves a byte-perfect body can sit unbanked on ONE redundant decl line. Probe first ($0).
+3. Keep the wave cycle on the remaining **258 K+L** (173 ≤50 · 61 51–120 · 24 >120, 142 binaries).
+4. Distill every 2–3 waves with `--novel-only`.
+
+**WHAT THESE TWO SESSIONS PROVED (for the P31 close / P32 plan):**
+* **Drafting is not the bottleneck.** 20 waves ran 62–97% banks-per-DRAFTED; the plan's "<15% → stop"
+  falsifier is dead many times over. What remains is integration and the genuine compiler wall.
+* **Escalate a Sonnet residue to Opus once, always.** Opus took 4/4, 16/18, 16/19, 17/18 and 8/13 of
+  escalated residues across waves, including bands Sonnet had refused.
+* **Integration > codegen among misses**, repeatedly and at every size.
+* **The free A-prop sibling lane is DRAINING** (23 banks → 3 on MORE exemplars). Do not plan on it.
+* **`fix_decl_mirror` is a 5.8%-ceiling tail, not a per-wave win** — see the honest verdict above.
+
+**STANDING HAZARDS:** never blanket-add to `config/overlays.mk`/splat yamls (R59/R60) · `ghidra/` churn
+in `git status` is MCP noise, do not commit · Drew pushes (R6) · a KILLED gate is adjudicated by a
+clean fleet sweep, never reverted (R42) · **read `judge.json`, never an agent's self-report (R14)**.
+
+**PhaseEnd rule candidates carried forward:** R44–R60 (S59–S61) + R60 carve-state + (new, S63/S64)
+*a drafting agent must not be able to write the tree* (one agent wrote `src/800c.c` and
+`git checkout`-reverted it; harmless only because R42 meant everything was already committed) and
+*a sampling filter ships with its denominator* (`--novel-only` printed what it did not distil, every
+time: 12/124, 30/199, 8/30, 10/135, 2/47).
