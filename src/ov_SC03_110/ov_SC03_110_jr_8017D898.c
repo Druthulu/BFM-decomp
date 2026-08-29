@@ -3612,7 +3612,43 @@ extern s32 func_8017F2F8(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_110/nonmatchings/ov_SC03_110_jr_8017D898", func_8017F2F8);
+extern s32 D_801A2368;
+extern s32 D_801A236C;
+extern s32 D_801A2454;
+extern s16 D_8019BB90;
+extern s16 D_8019BC50;
+extern void func_8017F3D4(void *a0, s32 a1);
+
+s32 func_8017F2F8(void)
+{
+    s32 state;
+    s32 count;
+    s32 off;
+
+    state = D_801A2454;
+    switch (state) {
+    case 0:
+        D_801A2368 = 1;
+        D_801A236C = 0;
+        D_801A2454 = 1;
+        break;
+    case 1:
+        count = D_801A2368 - 1;
+        D_801A2368 = count;
+        if (count != 0) {
+            return count;
+        }
+        off = D_801A236C;
+        D_801A2368 = state;
+        func_8017F3D4((void *)&D_8019BB90, off * 6);
+        func_8017F3D4((void *)&D_8019BC50, off * 6);
+        off = (D_801A236C + 1) & 0xF;
+        D_801A236C = off;
+        return off;
+    }
+    return 1;
+}
+
 
 
 void func_8017F3D4(void *a0, s32 a1)

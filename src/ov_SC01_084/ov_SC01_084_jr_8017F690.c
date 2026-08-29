@@ -4867,7 +4867,197 @@ void func_80183D38(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80183DA4);
+#include "common.h"
+
+/* func_80183DA4 - ov_SC01_084 / ov_SC01_084_jr_8017F690 - MATCH (187 ins)
+ *
+ * A vertical "beam"/ribbon builder: walks a start SVECTOR downward 64 units per
+ * step, projects two consecutive rungs through RotTransPers, and while both
+ * rungs are in front of the OT window emits one textured POLY_FT4 quad per step
+ * linked into D_800A651C[D_800B9A02].a at otz*4.  The loop is a `for (;;)` -- it
+ * only ever leaves through an early return.
+ *
+ * TU-adopted spellings (law 2, grepped against this TU):
+ *   D_801270C0  u16 (TU:1125)  -> read with the TU's own (s32)(s16) idiom so the
+ *                                 compare emits `lh`, not `lhu`.
+ *   D_800B9A02  s16 (TU:2463/2465) -> indexed as (u16) to get the target's `lhu`
+ *                                 (func_801809C4 does the same via a u16* alias).
+ *   D_800A651C  OtBlk (0x14 stride, .a at +0) - block scope, exactly as
+ *               func_801809C4 declares it (engine_core.h DEFINE_ macros declare
+ *               this symbol scalar inside their own bodies).
+ *   func_8004914C/func_800491AC void(void*) (TU:2637/2638); RotTransPers
+ *   s32(s32,s32,s32*,s32*) (TU:4971); func_80010A08 void*(s32) (TU:3541);
+ *   AddPrim s32(s32,void*) (TU:3543).  D_801C74D8 is undeclared anywhere and is
+ *   typed s32 from its own lw/sw width.
+ *
+ * ---- THE THREE LEVERS (139 -> 72 -> 11 -> 4 -> 0) -----------------------
+ *
+ * 1. FRAME LAYOUT: sxy0/sxy1 are s32 SCALARS, and the 16-bit reads go through a
+ *    cast-to-struct-pointer, `((DVec *)&sxy0)->vx`.  Both halves are load-bearing
+ *    and they pull in opposite directions:
+ *      - As real DVECTOR structs the decls are BLKmode, so expand_decl gives them
+ *        a slot AT DECLARATION TIME via assign_stack_temp(...,align 0) ==
+ *        BIGGEST_ALIGNMENT (8 on this target).  That yields sxy0@0x20 sxy1@0x28
+ *        and pushes pp/flag (which only get slots later, when `&pp` first calls
+ *        mark_addressable/put_var_into_stack) to 0x30/0x34 -> frame 0x68, not
+ *        0x60.  As SImode scalars all four slots are handed out at &-time, in
+ *        &-order: sxy0 0x20, pp 0x24, flag 0x28, sxy1 0x2C -- the target exactly.
+ *      - But the LOAD must still be MEM_IN_STRUCT_P.  Written `((u16*)&sxy0)[0]`
+ *        the MEM is (not-in-struct, non-varying) and gcc-2.7.2 true_dependence
+ *        drops the dependence against the (in-struct, varying) `p->x0` store, so
+ *        cse keeps the load live across it and folds the x0/x1 (and x2/x3) pair
+ *        onto one `lhu` -- 7 instructions short, with the load-delay nops gone.
+ *        A COMPONENT_REF through the cast sets MEM_IN_STRUCT_P, the store re-kills
+ *        the value, and all eight `lhu`+nop reloads come back.
+ *        (This is the mirror image of func_801809C4's note 2 in this same TU: there
+ *        an ARRAY_REF was needed to SET MEM_IN_STRUCT_P on a global read.)
+ *
+ * 2. GUARD EVALUATION ORDER: `if ((D_801C74D8 >> 3) >= RotTransPers(...))` puts
+ *    the global read BEFORE the jal, where cse finds the previous block's
+ *    `sra` still valid, parks it in a callee-saved reg and never reloads (-4:
+ *    lui/lw/nop/sra).  Naming the call result first --
+ *      otz2 = RotTransPers(...);  d = D_801C74D8;  if ((d >> 3) >= otz2)
+ *    -- forces the reload the target has, and that single reload then also feeds
+ *    the `d << 3` dividend (the target's $a1 reuse).
+ *
+ * 3. $s7=0xF0 AND $s5=0 ARE ORDINARY PRE-LOOP VARIABLES, NOT loop.c MOVABLES.
+ *    A literal `p->v0 = 0` compiles to `sb $zero` (no register at all), so a
+ *    register holding 0 already proves a variable; and `addiu $v0,$s5,0x3F`
+ *    proves `v + 63`, not the constant 63.  The 0xF0 half is provable only from
+ *    the preheader SCHEDULE ORDER: loop.c emits its movables last, immediately
+ *    before the loop, so anything hoisted sorts after every source statement.
+ *    The target's order is s7=0xF0, s5=0, s4=&pp, s3=&flag, s6=0xF7 -- 0xF0 and 0
+ *    ahead of the two address movables -> both must be explicit source statements
+ *    (`uu = 0xF0; vv = 0;`) ahead of the loop, while 0xF7 stays a literal and is
+ *    the one true movable, landing last.  Writing only `vv = 0` gives
+ *    s5,s4,s3,s7 -- 4 mismatches that no amount of statement shuffling inside the
+ *    loop can fix.
+ *
+ * Minor: `p->tpage` is stored BEFORE `p->clut` in source; the scheduler then fills
+ * the tpage load-delay with `addu $a0,$s2` + the clut store, which is the target's
+ * lhu/addu/sh-clut/sh-tpage quartet.  The reverse source order flips that pair.
+ */
+
+typedef struct { s32 a; s32 b[4]; } OtBlk_80183DA4;        /* 0x14 stride */
+typedef struct { u16 vx, vy, vz, pad; } SVec_80183DA4;     /* 0x08 stride */
+typedef struct { u16 vx, vy; } DVec_80183DA4;              /* read through a cast */
+
+typedef struct {
+    u32 tag;                    /* 0x00 */
+    u8  r0, g0, b0, code;       /* 0x04 */
+    s16 x0, y0;                 /* 0x08 */
+    u8  u0, v0;  u16 clut;      /* 0x0C */
+    s16 x1, y1;                 /* 0x10 */
+    u8  u1, v1;  u16 tpage;     /* 0x14 */
+    s16 x2, y2;                 /* 0x18 */
+    u8  u2, v2;  u16 pad2;      /* 0x1C */
+    s16 x3, y3;                 /* 0x20 */
+    u8  u3, v3;  u16 pad3;      /* 0x24 */
+} Ft4_80183DA4;                 /* 0x28 */
+
+extern u16 D_801270C0;
+extern u8  D_800AF648;
+extern s32 D_80126950;
+extern s32 D_801C74D8;
+extern s16 D_800B9A02;
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32  GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32  GetClut(s32 a0, s32 a1);
+extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void *func_80010A08(s32 a0);
+extern void SetPolyFT4(void *a0);
+extern s32  AddPrim(s32 a0, void *a1);
+
+void func_80183DA4(SVec_80183DA4 *arg0) {
+    extern OtBlk_80183DA4 D_800A651C[];
+
+    SVec_80183DA4 tmp;      /* 0x10 */
+    SVec_80183DA4 vec;      /* 0x18 */
+    s32 sxy0;               /* 0x20 */
+    s32 pp;                 /* 0x24 */
+    s32 flag;               /* 0x28 */
+    s32 sxy1;               /* 0x2C */
+    u16 tpage;
+    u16 clut;
+    Ft4_80183DA4 *p;
+    s32 ot;
+    s32 otz;
+    s32 otz2;
+    s32 d;
+    s32 w;
+    s32 uu;
+    s32 vv;
+
+    if ((s16)D_801270C0 == 3) {
+        return;
+    }
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    D_801C74D8 = D_80126950;
+    tpage = GetTPage(0, 0, 0x300, 0x100);
+    clut = GetClut(0x160, 0x14C);
+    vec.vx = arg0->vx;
+    vec.vy = arg0->vy;
+    vec.vz = arg0->vz;
+    uu = 0xF0;
+    vv = 0;
+
+    for (;;) {
+        tmp.vx = vec.vx;
+        tmp.vy = vec.vy - 0x40;
+        tmp.vz = vec.vz;
+        otz = RotTransPers((s32)&tmp, (s32)&sxy0, &pp, &flag);
+        if ((D_801C74D8 >> 3) >= otz) {
+            return;
+        }
+        if (flag < 0) {
+            return;
+        }
+        otz2 = RotTransPers((s32)&vec, (s32)&sxy1, &pp, &flag);
+        d = D_801C74D8;
+        if ((d >> 3) >= otz2) {
+            return;
+        }
+        if (flag < 0) {
+            return;
+        }
+        ot = D_800A651C[(u16)D_800B9A02].a + otz * 4;
+        w = (d << 3) / (otz * 4);
+        if ((s16)((DVec_80183DA4 *)&sxy0)->vy < 120) {
+            if ((s16)((DVec_80183DA4 *)&sxy1)->vy < -119) {
+                return;
+            }
+            if ((s16)w >= 2) {
+                p = (Ft4_80183DA4 *)func_80010A08(0x28);
+                *(s32 *)((u8 *)p + 4) = 0x808080;
+                SetPolyFT4(p);
+                p->x0 = ((DVec_80183DA4 *)&sxy0)->vx - w;
+                p->y0 = ((DVec_80183DA4 *)&sxy0)->vy;
+                p->x1 = ((DVec_80183DA4 *)&sxy0)->vx + w;
+                p->y1 = ((DVec_80183DA4 *)&sxy0)->vy;
+                p->x2 = ((DVec_80183DA4 *)&sxy1)->vx - w;
+                p->y2 = ((DVec_80183DA4 *)&sxy1)->vy;
+                p->x3 = ((DVec_80183DA4 *)&sxy1)->vx + w;
+                p->y3 = ((DVec_80183DA4 *)&sxy1)->vy;
+                p->u0 = uu;
+                p->v0 = vv;
+                p->u1 = 0xF7;
+                p->v1 = vv;
+                p->u2 = uu;
+                p->v2 = vv + 0x3F;
+                p->u3 = 0xF7;
+                p->v3 = vv + 0x3F;
+                p->tpage = tpage;
+                p->clut = clut;
+                AddPrim(ot, p);
+            }
+        }
+        vec.vy -= 0x40;
+    }
+}
+
 
 extern void func_8012B21C(void *a0);
 extern void func_8002D4C8(s32 a0, s32 a1);

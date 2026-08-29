@@ -360,7 +360,35 @@ void func_800CB634(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_036/nonmatchings/md_MAIN_036", func_800CB708);
+#include "common.h"
+
+extern void func_80162F08(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80162FC0(s32 *a0);
+extern s32 func_80146E98(s32 a0);
+extern s32 func_80146CA0(void *a0);
+
+void func_800CB708(void *arg0) {
+    s32 v0;
+    s32 v1;
+    s32 a1;
+
+    func_80162F08((s32)arg0, 0, 0, 0);
+
+    v0 = *(s32 *)((s32)arg0 + 0x24);
+    v1 = *(s32 *)((s32)arg0 + 0x28);
+    a1 = *(s32 *)((s32)arg0 + 0x2C);
+
+    *(s32 *)((s32)arg0 + 0x10) = v0;
+    *(s32 *)((s32)arg0 + 0x14) = v1;
+    *(s32 *)((s32)arg0 + 0x18) = a1;
+
+    func_80162FC0((s32 *)arg0);
+
+    if (func_80146E98((s32)arg0) != 0) {
+        func_80146CA0(arg0);
+    }
+}
+
 
 extern void func_80162CCC(void);
 void func_800CB774(void) {

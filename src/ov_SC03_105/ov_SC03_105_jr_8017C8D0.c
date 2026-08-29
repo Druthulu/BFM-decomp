@@ -4112,7 +4112,140 @@ void func_8017F1F8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017F234);
+#include "common.h"
+
+/* func_8017F234 @ 0x8017F234 (ov_SC03_105, 202 ins) -- MATCH (match_one closeness 0, 202/202).
+ *
+ * Spawns the effect object (func_8012C1B8), attaches it at owner+0x20 and branches on
+ * the owner's 0x70 flag word:
+ *    bit 14 (0x4000)  -> state 3, obj+0x20 = &D_8018E158[((0x70 & 0xFF0) >> 4) * 12]
+ *    bit 13 (0x2000)  -> state 4 only
+ *    bit 15 (0x8000)  -> the long arm: matrix from owner+0x64 (func_8012EC04/func_8012F14C
+ *                        rotate the owner's 3 world coords in place), a child via
+ *                        func_8017FA90, a signed +/- yaw, then four rand()-masked fields
+ *    else             -> owner+0x1C = rand() % 16 and func_8012E8A8
+ *
+ * Byte-proven levers (all A/B'd with match_one):
+ *  - obj MUST be pinned to $s1 (cookbook "Register-allocation ORDER" L1384): unpinned,
+ *    global.c:allocno_compare gives obj $s2 and the rand temp $s1 -- 21 instructions of
+ *    pure s1/s2 transposition. The pin alone takes 37 -> 20 mismatched.
+ *  - the (s16) truncation of `rand() % 0x380` must go through an int temp `m` and be cast
+ *    AT THE USE (`-(s16)m` / `(s16)m`). Writing `s16 q = (s16)r % 0x380` lets
+ *    convert_to_integer narrow TRUNC_MOD_EXPR into HImode and the `sll/sra 16` pair
+ *    vanishes (201 ins).
+ *  - branch polarity is `if ((w & 1) == 0) -> negate` (the target's `bnez` sends the
+ *    ODD case to the positive store); the natural `if (w & 1)` spelling emits `beqz` (§3-T4).
+ *  - the rand() value needs TWO variables: `w` (short-lived, feeds the %0x380 and the
+ *    parity test, stays in $v0) and the call-crossing copy `r` (becomes `addu $s2,$v0,$zero`
+ *    and feeds the later `(s16)r % 4`). One variable makes cse read $s2 everywhere and the
+ *    copy hoists to the top of the block: 20 mismatched.
+ *
+ *  - THE LAST 3 INSTRUCTIONS -- §178-A, the `$0`-ADD OPAQUE COPY. A plain `r = w;` is a
+ *    (set reg reg), so cse.c:826 make_regs_eqv head-promotes the copy DESTINATION (`r`,
+ *    whose live range escapes the cse block and outlives `w`'s last mention) to
+ *    qty_first_reg, and canon_reg rewrites the later parity test to read the copy:
+ *        idx 134 sra $v1,$v1,31 / 135 addu $s2,$v0,$zero / 136 andi $v0,$s2,1
+ *    against the target's 134 addu $s2,$v0,$zero / 135 sra $v1,$v1,31 / 136 andi $v0,$v0,1.
+ *    Writing the copy as `r = w + zr` with `register s32 zr __asm__("$0")` emits the same
+ *    `addu $s2,$v0,$zero` but as a PLUS in RTL, which make_regs_eqv never merges -- the
+ *    andi keeps reading the raw $v0 and the WAR edge that pinned the schedule disappears
+ *    (3 -> 2 mismatched). The last swap is pure sched LUID tie-break (rank_for_schedule
+ *    falls through to INSN_LUID): writing the copy statement BEFORE the `% 0x380` line
+ *    takes 2 -> 0. Both halves are needed; either alone leaves 2-3.
+ *    Everything the prior attempt refuted is still refuted (declaration order x4,
+ *    `register __asm__("$2")` on w, `__asm__("$18")` on r, a named condition temp, an
+ *    in-place `w &= 1`, empty-asm fences, `w % 2`, u32 w, copy-in-both-arms, sinking the
+ *    copy past the join) -- the fix was never a pin, it was the RTL SHAPE of the copy.
+ */
+extern void func_8012C1B8(void);              /* TU:3679 house style -- return via a cast */
+extern void func_8012CAE4(void *a0);          /* TU:3680 */
+extern void func_8001C214(s32 a0, s32 a1);    /* TU:4375 (TU-authoritative) */
+extern s32  rand(void);                       /* TU:958 / TU:3187 */
+extern void func_8012B2CC(s32 a0);            /* TU:2535 */
+extern void func_8012B178(s32 a0, s32 a1);    /* TU:3685 (fleet modal x1749) */
+extern void func_8012E8A8(u8 *a0);            /* fleet modal x329 */
+extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);  /* fleet modal x300 */
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);                  /* TU:329 */
+extern s32  func_8017FA90(s32 a0, s16 a1, s32 a2);                  /* defined in this TU */
+
+extern s32 D_8018E148[];   /* 16-entry pointer table indexed by (0x70 & 0xF) */
+extern u8  D_8018E158[];   /* 12-byte-stride table indexed by ((0x70 & 0xFF0) >> 4) */
+
+/* the func_8012F14C in/out vectors are read back with `lhu`, so u16 fields (an SVECTOR's
+ * s16 vx would emit `lh` and miss by 3 instructions) */
+typedef struct { u16 vx, vy, vz, pad; } UVEC_8017F234;
+
+void func_8017F234(s32 a0) {
+    s32 m1[8];                          /* MATRIX-sized scratch at sp+0x10 */
+    UVEC_8017F234 in;                   /* sp+0x30 */
+    UVEC_8017F234 out;                  /* sp+0x38 */
+    register s32 obj __asm__("$17");    /* $s1 -- see the pin note above */
+    s32 r;
+    s32 t;
+    s32 p;
+    s32 m;
+    s32 w;
+    register s32 zr __asm__("$0");
+
+    obj = ((s32 (*)(void))func_8012C1B8)();
+    if (obj == 0) {
+        func_8012CAE4((void *)a0);
+        return;
+    }
+    func_8001C214(obj, D_8018E148[*(u16 *)(a0 + 0x70) & 0xF]);
+    *(s32 *)(a0 + 0x20) = obj;          /* delay-slot store => dominates the test (§194-M) */
+    if ((*(u16 *)(a0 + 0x70) & 0x4000) == 0) {
+        *(s32 *)(obj + 4) |= 0x40;
+        if (*(u16 *)(a0 + 0x70) & 0x2000) {
+            *(s16 *)(a0 + 2) = 4;
+            return;
+        }
+        *(u16 *)(obj + 0x2C) |= 0x10;
+        t = rand() % 0x400 + 0x200;
+        *(s16 *)(obj + 0x1C) = t;
+        *(s16 *)(obj + 0x1A) = t;
+        *(s16 *)(obj + 0x18) = t;
+        *(s32 *)(a0 + 0x48) = 0xC000;
+        *(s16 *)(a0 + 2) = 1;
+        if ((*(s16 *)(a0 + 0x70) & 0x8000) == 0) {
+            *(s32 *)(a0 + 0x1C) = rand() % 16;
+            func_8012E8A8((u8 *)a0);
+            return;
+        }
+        func_8012EC04(*(s32 *)(a0 + 0x64), 6, (s32 *)m1);
+        in.vx = *(u16 *)(a0 + 6);
+        in.vy = *(u16 *)(a0 + 0xA);
+        in.vz = *(u16 *)(a0 + 0xE);
+        func_8012F14C((s32)m1, (s32)&in, (s32)&out);
+        *(s16 *)(a0 + 6)   = out.vx;
+        *(s16 *)(a0 + 0xA) = out.vy;
+        *(s16 *)(a0 + 0xE) = out.vz;
+        p = func_8017FA90(a0, (rand() % 4 + 4) << 12, 0);
+        if (p != 0) {
+            *(s32 *)(p + 0x1C) = rand() % 5;
+        }
+        w = rand();
+        r = w + zr;
+        m = (s16)w % 0x380;
+        if ((w & 1) == 0) {
+            *(s16 *)(obj + 0x12) = -(s16)m;
+        } else {
+            *(s16 *)(obj + 0x12) = (s16)m;
+        }
+        func_8012B2CC(a0);
+        func_8012B178(a0, 0xFFF80000 - (((s16)r % 4) << 16));
+        *(s16 *)(a0 + 0x34) = 1;
+        *(s32 *)(a0 + 0x1C) = 0x40;
+        *(s16 *)(a0 + 0xFC)  = rand() & 0xF0;
+        *(s16 *)(a0 + 0xFE)  = rand() & 0x1F0;
+        *(s16 *)(a0 + 0x100) = rand() & 0x30;
+    } else {
+        *(s16 *)(a0 + 2) = 3;
+        *(s32 *)(obj + 0x20) = (s32)&D_8018E158[((*(u16 *)(a0 + 0x70) & 0xFF0) >> 4) * 12];
+        func_8012B2CC(a0);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017F55C);
 
