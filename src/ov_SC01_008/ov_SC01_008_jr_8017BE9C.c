@@ -3509,7 +3509,32 @@ void func_8017D4E4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017BE9C", func_8017D554);
+
+
+void func_8017D554(void) {
+    extern void func_800D24A0(s32 a0);
+    extern void func_8017D5DC(void);
+    extern s16 D_801A3328;
+    extern u16 D_8011511A;
+    extern u16 D_80115112;
+    extern u32 D_801A3458;
+    extern void *D_801A3460;
+    extern s32 D_80115130;
+
+    func_800D24A0(4);
+    func_8017D5DC();
+    if (D_801A3328 == 0) {
+        D_8011511A = 0;
+    } else {
+        D_8011511A = D_801A3328;
+    }
+    D_801A3460 = 0;
+    D_801A3458 = 0;
+    D_80115130 = 0;
+    D_801A3328 = 0;
+    D_80115112++;
+}
+
 
 
 /* Declarations reconciled against src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:
@@ -3777,7 +3802,73 @@ void func_8017DA80(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_008/nonmatchings/ov_SC01_008_jr_8017BE9C", func_8017DA9C);
+
+
+
+void func_8017DA9C(void) {
+
+    extern s32 D_801151D0;
+    extern s32 D_801151C8[];
+    extern u16 xf02 __asm__("D_800B9A02");
+    extern s16 xa __asm__("D_8011511A");
+    extern u16 xb __asm__("D_8011511A");
+    extern s32 xf168c(s32 a0) __asm__("func_8014168C");
+    extern s16 D_80115126;
+    extern u8  D_80115138[];
+    extern u32 D_801A3458;
+    extern s32 D_80115130;
+    extern s32 D_801A345C;
+    extern u8  D_800B9A15;
+    extern u16 D_80115112;
+    extern void (*D_8019F018[])(void);
+
+    extern s32 func_8017E6F0(s32 a0, s32 a1);
+    extern void func_80139954(void);
+    extern s32 func_801376E8(s32 a0, s32 a1);
+    extern void func_80137B80(void);
+
+    s32 pad[2];
+    s32 v;
+    s32 r2;
+    s32 ret;
+    s16 rn;
+    register s32 b __asm__("$6");
+    s32 *p30;
+    u16 *p12;
+
+    D_801151D0 = ((s32 *)D_801151C8)[xf02];
+    ret = func_8017DD70();
+    func_8017E050();
+    r2 = xf168c(xa);
+    b = D_80115138[xb];
+    if (D_80115126 != 4) {
+        if (D_801A3458 == 0) {
+            v = func_8017E6F0(b, (s16)r2);
+        } else {
+            v = D_801A3458;
+        }
+        if (v != 0) {
+            p30 = &D_80115130;
+            if (v != *p30) {
+                *p30 = v;
+                func_80139954();
+                D_801A345C = func_801376E8(v, (s32)D_8019F018);
+            }
+        }
+        func_80137B80();
+    }
+    rn = ret;
+    if (rn < 0) {
+        func_80139954();
+        D_800B9A15 = 0;
+        if (rn == -1) {
+            func_8002D4C8(0x474, 0);
+        }
+        p12 = &D_80115112;
+        *p12 += 2;
+    }
+}
+
 
 void func_8017DBEC(void) {
     extern s16 D_800B9A02;
