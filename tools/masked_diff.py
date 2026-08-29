@@ -134,8 +134,19 @@ def mask_for(word, reloc_kind):
     # scorer, family_cousins.tok and the atlas tiers at once -- nothing between a draft and the
     # whole-binary gate could see it. Now: mask the 26-bit field only when the assembler left it for
     # the LINKER (reloc_kind "26"); an unrelocated `j`/`jal` word is compared in full.
+    # KEEP THE OPCODE EVEN WHEN THE TARGET IS LINK-TIME (P31 S65). Returning a 0 mask here meant
+    # "compare NOTHING at this position" — and because both comparers pick the mask from ONE side
+    # (diff_object_s from MINE, diff_object_object from the TARGET's), a masked `j`/`jal` on that
+    # side swallowed WHATEVER the other side held. Byte-witnessed on synthetic pairs built from real
+    # encodings: my `j 8017e248` (0805f892) vs a target `bne v0,v1` (14430002), vs a `nop`
+    # (00000000), and my `jal` vs a target `bne` all scored 0 — while the mirror case (my `bne` vs a
+    # target `j`) scored 1, because then the full-word mask came from my side. That asymmetry is how
+    # a draft reported a false match at one index (reported by a t5s drafting agent on func_8017EB30,
+    # then reproduced here). `_j_mismatch` cannot cover it: it fires only when BOTH sides carry an
+    # internal-`j` target, which a `j`-vs-`bne` pair by definition does not.
+    # The 26-bit field stays masked (it IS link-time); the 6-bit opcode never is.
     if reloc_kind == "26":            # jal / j to an EXTERNAL symbol — the target is link-time
-        return 0
+        return 0xFC000000
     if reloc_kind in ("HI16", "LO16", "PC16"):
         return 0xFFFF0000             # keep opcode+regs, drop the linker-filled immediate/displacement
     return 0xFFFFFFFF
@@ -271,7 +282,7 @@ def diff_object_object(cand, tgt):
         if (c["word"] & m) != (t["word"] & m) or _j_mismatch(c, t):
             diffs += 1
             continue
-        if m == 0 or m == 0xFFFF0000:   # a masked reloc/jal slot -> the symbol+addend must also match
+        if m == 0xFC000000 or m == 0xFFFF0000:   # a masked reloc/jal slot -> symbol+addend must match too
             if (c["reloc_op"] or "") != (t["reloc_op"] or ""):
                 diffs += 1
     return diffs
