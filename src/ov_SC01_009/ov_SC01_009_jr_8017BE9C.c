@@ -3396,7 +3396,31 @@ s32 func_8017D2E0(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017BE9C", func_8017D334);
+
+
+s32 func_8017D334(s32 a0) {
+    extern void func_8013E5E8(void);
+    extern u8 D_800B9A15;
+    extern unsigned char D_800B9A13;
+    extern u16 D_80115110;
+    extern u16 D_80115112;
+    extern s16 D_80115126;
+    extern s16 D_801F3188;
+    extern void *D_8011DB24;
+
+    void *func_ptr;
+
+    D_800B9A15 = 1;
+    D_80115112 = 7;
+    D_800B9A13 = 1;
+    func_ptr = func_8013E5E8;
+    D_80115110 = 0;
+    D_80115126 = (s16)a0;
+    D_801F3188 = 0;
+    D_8011DB24 = func_ptr;
+    return (s32)func_ptr;
+}
+
 
 
 extern void func_80029444(void);
@@ -3783,7 +3807,56 @@ void func_8017D93C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017BE9C", func_8017DA8C);
+
+
+void func_8017DA8C(void) {
+    extern s16 D_800B9A02;
+    extern s16 D_801F3180;
+    extern u8  D_800B9A15;
+    extern s32 D_801151C8[];
+    extern s32 D_801151D0;
+    extern u32 D_801F32B8;
+    extern u32 D_801F32BC;
+    extern u16 D_8011511A;
+    extern u8  D_80115138[];
+    extern u16 D_80115112;
+    extern s32 func_80014ED4(s32 a0);
+    extern void func_80139954(void);
+    extern s16 func_8014168C(s16 a0);
+    extern s32 func_8017EB08(s32 a0, s32 a1);
+    extern void func_8017DEF0(void);
+    extern void func_80137B80(void);
+
+    u16 idx;
+    volatile s32 pad[2];
+
+    D_801151D0 = *(s32 *)&((u8 *)D_801151C8)[(*(u16 *)&D_800B9A02) * 4];
+
+    if (D_801F32B8 != 0) {
+        if (func_801399F0((*(s32 *)&D_801F32BC)) != 0) {
+            D_801F32B8 = 0;
+        }
+    } else {
+        if ((func_80014ED4(0) & 0x50) != 0) {
+            idx = *(u16 *)&D_8011511A;
+            if (D_80115138[idx] == 8) {
+                func_8017EB08(0xF, func_8014168C(idx));
+            }
+            if (D_801F3180 != 0) {
+                func_80139954();
+                D_800B9A15 = 0;
+                func_8002D4C8(0x474, 0);
+                D_80115112 = D_80115112 + 1;
+            } else {
+                D_80115112 = D_80115112 - 1;
+            }
+        }
+    }
+
+    func_8017DEF0();
+    func_80137B80();
+}
+
 
 
 
