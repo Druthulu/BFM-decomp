@@ -9792,7 +9792,36 @@ void func_80185734(s32 *a0)
   *((s32 *) (((s32) a0) + 0x18)) = new_var;
 }
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80185764);
+#include "common.h"
+
+extern void func_80017D98(void *a0);
+extern void func_80017DF8(void *a0, void *a1);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern void func_801858E8(void *arg0);
+extern s32 rand(void);
+
+typedef struct {
+    s16 m[10];
+    s32 x;
+    s32 y;
+    s32 z;
+} MB_80185764;
+
+void func_80185764(s32 a0, s32 *a1)
+{
+    MB_80185764 mb;
+    s16 buf[4];
+
+    func_80017D98(mb.m);
+    func_80017DF8(a1, mb.m);
+    mb.x = *(s16 *)(a0 + 6);
+    mb.y = *(s16 *)(a0 + 0xA) - (rand() & 0x1F) * 0x10 - (rand() & 0x1F) * 4 - 0x100;
+    mb.z = *(s16 *)(a0 + 0xE);
+    func_8012F14C(mb.m, (s8 *)a1 + 8, buf);
+    buf[3] = 0xA;
+    func_801858E8(buf);
+}
+
 
 extern void func_800139C8(s32 a0, void *a1, void *a2);
 extern void func_8001382C(s32 a0, void *a1, void *a2);

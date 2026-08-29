@@ -4799,7 +4799,89 @@ void func_8017E008(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017E044);
+
+
+extern Blk8 D_80126940;
+extern Blk8 D_801274E8;
+extern s16 D_801274EA;
+extern s16 D_801274EC;
+extern u8 D_801889B8[];
+extern s32 D_80126B58;
+
+extern s32 func_8017E524(s16 *a0, s16 *a1);
+extern void func_8017E580(int a0, short *a1, short *a2);
+extern void func_8017E60C(s32 a0, s32 a1, s32 a2);
+extern void func_8017E2FC(s32 a0, s16 *a1);
+extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8016F1AC(void);
+extern s32 func_80161A30(s32 a0);
+extern s32 func_80012A60(s32 a0, s32 a1);
+
+void func_8017E044(s32 param_1) {
+    Blk8 sp10;
+    s32 *g = &D_80126B58;
+    s32 flag;
+    s32 v;
+    s32 x;
+
+    sp10 = D_80126940;
+    if (((s16 *)&sp10)[1] >= -0xBF) {
+        ((s16 *)&sp10)[1] = -0xC0;
+    }
+    flag = 0;
+    if (func_8017E524((s16 *)&sp10, (s16 *)&D_801889B8[0])) {
+        func_8017E580(param_1, (short *)&sp10, (short *)&D_801889B8[0]);
+        flag = 1;
+    } else if (func_8017E524((s16 *)&sp10, (s16 *)&D_801889B8[8])) {
+        func_8017E580(param_1, (short *)&sp10, (short *)&D_801889B8[8]);
+        flag = 1;
+    } else if (func_8017E524((s16 *)&sp10, (s16 *)&D_801889B8[0x10])) {
+        func_8017E60C(param_1, (s32)&sp10, (s32)&D_801889B8[0x10]);
+        flag = 1;
+    } else if (func_8017E524((s16 *)&sp10, (s16 *)&D_801889B8[0x18])) {
+        func_8017E60C(param_1, (s32)&sp10, (s32)&D_801889B8[0x18]);
+        flag = 1;
+    } else if (func_8017E524((s16 *)&sp10, (s16 *)&D_801889B8[0x20])) {
+        func_8017E60C(param_1, (s32)&sp10, (s32)&D_801889B8[0x20]);
+        flag = 1;
+    } else if (func_8017E524((s16 *)&sp10, (s16 *)&D_801889B8[0x28])) {
+        func_8017E60C(param_1, (s32)&sp10, (s32)&D_801889B8[0x28]);
+        flag = 1;
+    }
+    if ((flag << 16) != 0) {
+        v = func_80012DBC((s32)*(s16 *)(param_1 + 0x1A), (s32)*(s16 *)(param_1 + 0xA0), 4, 1);
+        *(s16 *)(param_1 + 0x22) = v;
+        *(s16 *)(param_1 + 0x1A) = v;
+    } else {
+        if (((s16 *)&sp10)[2] < 0x601) {
+            if (func_8016F1AC() != 0) goto L250;
+            if (func_80161A30((s32)g) != 0) goto L250;
+            if (*(u16 *)g == 0x11) goto L250;
+            if ((s16)func_80012A60((s32)*(s16 *)(g[8] + 0x12),
+                                   (*(u16 *)(param_1 + 0x1A) + 0x800) & 0xFFF) < 0xE4) goto L250;
+            x = *(u16 *)(g[8] + 0x12);
+        } else {
+            x = 0x800;
+        }
+        /* Zero-byte reorg fence: without it, gcc fills the then-arm's `j` with a stolen
+           copy of the shared `sh` (+1 ins). A volatile asm at the join blocks the steal,
+           the `j` becomes a jump-to-next and is deleted, leaving the load-delay nop the
+           target has at .L8017E248 (byte-gate). */
+        __asm__ __volatile__("");
+        *(s16 *)(param_1 + 0xA0) = x;
+    L250:
+        v = func_80012ABC((s32)*(s16 *)(param_1 + 0x1A), (s32)*(s16 *)(param_1 + 0xA0), 0x14);
+        *(s16 *)(param_1 + 0x22) = v;
+        *(s16 *)(param_1 + 0x1A) = v;
+    }
+    *(s16 *)&D_801274E8 = func_80012F74((s32)*(s16 *)&D_801274E8, (s32)((s16 *)&sp10)[0], 0xA, 1);
+    D_801274EA = func_80012F74((s32)D_801274EA, (s32)((s16 *)&sp10)[1], 0xA, 1);
+    D_801274EC = func_80012F74((s32)D_801274EC, (s32)((s16 *)&sp10)[2], 0xA, 1);
+    func_8017E2FC(param_1, (s16 *)&D_801274E8);
+}
+
 
 
 
