@@ -4617,7 +4617,45 @@ void func_8017EC60(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017BEBC", func_8017ECC4);
+extern void Square0(s32 *a0, s32 *a1);
+extern s32 D_80126B58;
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s32 D_80126B8C;
+
+void func_8017ECC4(s16 *a0) {
+    s32 in[3];
+    s32 out[3];
+    s32 *p = &D_80126B58;
+    s32 v1;
+
+    if (a0[0x7E] == 0) {
+        return;
+    }
+    in[0] = a0[3] - *(s16 *)&D_80126B5E;
+    in[1] = 0;
+    in[2] = a0[7] - *(s16 *)&D_80126B66;
+    Square0(in, out);
+    if (0x3C100 < out[0] + out[2]) {
+        return;
+    }
+    out[1] = a0[5] - *(s16 *)&D_80126B62;
+    if ((u32)(out[1] + 8) >= 0x1C9) {
+        return;
+    }
+    if ((u32)*(u16 *)p - 2 >= 2) {
+        D_80126B8C = 0;
+        D_80126B62 = *(s16 *)&D_80126B62 - 4;
+    }
+    if (a0[0x7E] >= 0x81) {
+        v1 = -0x40000;
+    } else {
+        v1 = -(a0[0x7E] << 11);
+    }
+    p[13] += v1;
+}
+
 
 
 extern void (*D_80198728[])(void);

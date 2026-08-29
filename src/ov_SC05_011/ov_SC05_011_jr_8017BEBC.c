@@ -3319,7 +3319,37 @@ void func_8017D0EC(s32 param_1, s16 *param_2) {
 
 INCLUDE_ASM("asm/ov_SC05_011/nonmatchings/ov_SC05_011_jr_8017BEBC", func_8017D118);
 
-INCLUDE_ASM("asm/ov_SC05_011/nonmatchings/ov_SC05_011_jr_8017BEBC", func_8017D174);
+void func_8017D174(void)
+{
+    extern s32 D_8019D068;
+    s16 sp10[4];
+    s16 sp18[4];
+    s32 temp;
+
+    if (*(u8 *)&D_8019D068 == 0) {
+        sp10[0] = 0x300;
+        sp10[1] = 0x180;
+        sp10[2] = 0x100;
+        sp10[3] = 0x80;
+        MoveImage(sp10, 0x300, 0x100);
+    } else {
+        temp = *(u8 *)&D_8019D068;
+        sp10[0] = temp + 0x300;
+        sp10[1] = 0x180;
+        sp10[2] = 0x100 - temp;
+        sp10[3] = 0x80;
+        MoveImage(sp10, 0x300, 0x100);
+
+        sp18[0] = 0x300;
+        sp18[1] = 0x180;
+        sp18[2] = temp;
+        sp18[3] = 0x80;
+        MoveImage(sp18, 0x400 - temp, 0x100);
+    }
+
+    D_8019D068 -= 1;
+}
+
 
 typedef struct {
     s16 unk00;

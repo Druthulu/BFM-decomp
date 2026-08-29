@@ -5319,7 +5319,34 @@ void func_8017F780(s32 *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017F7E8);
+// @class: arith
+// @stuck: none — MATCH (177 ins)
+// ABS macro expanded THREE times (test + both ternary arms): func_80047948 is not
+// pure, so gcc cannot CSE across the calls and re-emits the whole expression in
+// each arm. `-(X - 0x800)` folds to `0x800 - X` in the negative arm.
+// D_8018A9D0 is read into a local BEFORE the first call — that is what parks it in
+// $s4 (callee-saved) and lets the scheduler drop its lui/lh into the mult hazard
+// slots at 8017F84C. `i` is a real local (live in $s1 across all six calls);
+// D_8018A9D2 is re-read at every use (6 lui/lh pairs), CSE merging only the two
+// uses in the first basic block.
+
+extern s32 func_80047948(s32 a0);
+
+s32 func_8017F7E8(s32 a0) {
+    extern s16 D_8018A9D0;
+    extern s16 D_8018A9D2;
+    s32 m = D_8018A9D0;
+    s32 i = *(s16 *)(a0 + 0xFC) & (D_8018A9D2 - 1);
+
+    return (((func_80047948((0x2000 / D_8018A9D2) * i) / 2
+              + func_80047948((0x4000 / D_8018A9D2) * i) * 3 / 8 - 0x800) < 0
+               ? -(func_80047948((0x2000 / D_8018A9D2) * i) / 2
+                   + func_80047948((0x4000 / D_8018A9D2) * i) * 3 / 8 - 0x800)
+               : (func_80047948((0x2000 / D_8018A9D2) * i) / 2
+                  + func_80047948((0x4000 / D_8018A9D2) * i) * 3 / 8 - 0x800))
+            * m >> 12) + 8;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017FAAC);
 

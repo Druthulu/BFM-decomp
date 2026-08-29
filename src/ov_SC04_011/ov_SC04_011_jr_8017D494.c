@@ -9550,7 +9550,63 @@ s32 func_80187940(s32 arg0, s32 arg1, s32 arg2, s16 arg3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80187A04);
+#include "common.h"
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32 func_8012B70C(s16 *a0, s16 *a1);
+extern void func_80188B78(u8 *a0);
+extern u8 D_801202A0[];
+
+typedef struct { s16 vx, vy, vz, pad; } SV_80187A04;
+
+void func_80187A04(void *a0)
+{
+    SV_80187A04 self;
+    SV_80187A04 probe;
+    s32 unused;
+    u16 *p;
+    s32 i;
+    s32 dist0;
+    s32 dist;
+    s16 diff;
+
+    func_8004914C((void *)(*(s32 *)((s32)a0 + 0x20) + 0x54));
+    func_800491AC((void *)(*(s32 *)((s32)a0 + 0x20) + 0x54));
+
+    self.vx = *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x68);
+    self.vy = *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x6C);
+    self.vz = *(s32 *)(*(s32 *)((s32)a0 + 0x20) + 0x70);
+
+    probe.vx = 0;
+    probe.vy = 0;
+    probe.vz = -0x280;
+    RotTransSV(&probe, &probe, &unused);
+
+    dist0 = func_8012B70C((s16 *)&self, (s16 *)&probe);
+
+    p = (u16 *)D_801202A0;
+    i = 0;
+    do {
+        if (*p == 0x2A9) {
+            probe.vx = p[3];
+            probe.vy = p[5];
+            probe.vz = p[7];
+            dist = func_8012B70C((s16 *)&self, (s16 *)&probe);
+            diff = dist - dist0;
+            if (diff < 0) {
+                diff = -diff;
+            }
+            if (diff < 0x80) {
+                func_80188B78((u8 *)p);
+            }
+        }
+        i = i + 1;
+        p = (u16 *)((u8 *)p + 0x10C);
+    } while (i < 0x60);
+}
+
 
 #include "common.h"
 

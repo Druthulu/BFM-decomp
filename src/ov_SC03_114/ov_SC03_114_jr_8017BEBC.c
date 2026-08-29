@@ -3468,7 +3468,72 @@ void func_8017D110(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC", func_8017D518);
+/* func_8017D518 (ov_SC03_114, jr_8017BEBC).
+ * Structure copied from the banked twins func_8017DB54 (ov_SC05_011_jr_8017BEBC.c:3604)
+ * and func_8017D588 (ov_SC04_016_jr_8017BEBC.c:3337): same `(pad & 0x840) || !func_800CF8B4()`
+ * guard, same `func_80029178(id) & 0xFF` cascade, same shared `+2` increment tail.
+ * Arity mismatches vs the TU's file-scope decls (func_8017B368 / func_8017B490 declared with one
+ * parameter, func_80178D18 declared (void)) are resolved by CASTING AT THE USE — the idiom this
+ * TU family already banks — so nothing here conflicts with the decls at lines 2536/2546/2623. */
+
+void func_8017D518(void *a0)
+{
+    extern s32 func_800149E0(s32 a0);
+    extern s32 func_800CF8B4();
+    extern s32 func_80029178(s32 arg);
+    extern void func_80029124(s32, s32);
+    extern s32 func_8017B368(s32 param);
+    extern s32 func_8017B490(s32 param);
+    extern void func_800183E0(s32 a0);
+    extern s32 func_801789AC(s32 arg0);
+    extern void func_80178D18(void);
+    extern u8 D_801830F0[];
+    extern u8 D_80183110[];
+    extern u8 D_80183120[];
+    extern s32 D_80182AB0;
+    extern s32 D_80182B60;
+    extern void (*D_80182F88[])(void);
+    extern s32 D_8019A6CC;
+    s32 ent;
+
+    if ((func_800149E0(0) & 0x840) == 0 || func_800CF8B4() == 0) {
+        ent = *(s32 *)((s32)a0 + 0xCC);
+        if ((u8)func_80029178(0x125) != 0) {
+            func_80029124(0x125, 0);
+            ((void (*)(s32, void *))func_8017B368)(*(s32 *)((s32)a0 + 0xCC), D_801830F0);
+        }
+        if ((u8)func_80029178(0x126) != 0) {
+            func_80029124(0x126, 0);
+            ((void (*)(s32, void *))func_8017B368)(*(s32 *)((s32)a0 + 0xCC), D_80183110);
+        }
+        if ((u8)func_80029178(0x127) != 0) {
+            func_80029124(0x127, 0);
+            ((void (*)(s32, void *))func_8017B490)(*(s32 *)((s32)a0 + 0xCC), D_80183120);
+        }
+        if ((u8)func_80029178(0x128) != 0) {
+            func_80029124(0x128, 0);
+            *(s32 *)(*(s32 *)(*(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0x64) + 0xD8) + 0xF8) = (s32)D_80182F88;
+        }
+        if ((u8)func_80029178(0x129) != 0) {
+            func_80029124(0x129, 0);
+            *(s32 *)(*(s32 *)(*(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0x64) + 0xD4) + 0xF8) = (s32)&D_80182AB0;
+        }
+        if ((u8)func_80029178(0x12A) != 0) {
+            func_80029124(0x12A, 0);
+            *(s32 *)(*(s32 *)(*(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0x64) + 0xD4) + 0xF8) = (s32)&D_80182B60;
+        }
+        if ((u8)func_80029178(0x12B) != 0) {
+            func_80029124(0x12B, 0);
+            func_800183E0((s32)&D_8019A6CC);
+        }
+        if (func_801789AC(ent) == 0) {
+            return;
+        }
+        ((void (*)(s32))func_80178D18)(ent);
+    }
+    *(u16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+}
+
 
 
 extern void (*D_80183228[])(void);

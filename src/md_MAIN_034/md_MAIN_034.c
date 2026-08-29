@@ -146,7 +146,163 @@ F3P_800CB1F8 *func_800CB1F8(Face10_800CB1F8 *f, SVEC8_800CB1F8 *verts,
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CB3C0);
+#include "common.h"
+
+/* func_800CB3C0 — md_MAIN_034 — flat-quad (POLY_F4 / OT tag 0x05000000)
+ * emitter with flat NCCS lighting.  Structural twin of func_800CB7BC in this
+ * same TU (the GT4 emitter): identical control flow, but a 0x18 flat packet
+ * with ONE colour word and a single NCCS instead of the NCCT+NCCS pair.
+ *
+ * Register map read off the target .s:
+ *   $s5 = face                 $s0 = &face->n0 giv (a0+8, stride 0x14)
+ *   $s3 = vtx                  a2 (nrm) spilled to 0x20(sp), reloaded in the
+ *                              NCCS arm only
+ *   $s1 = pkt (a3 + D_800C7C74*0x18, stride 0x30 = 2 packets)
+ *   $s2 = &pkt->rgb0 giv (pkt+4)
+ *   $s4 = loop counter (stack arg 4)
+ *   $s7 = &g.flag (sp+0x18)    $s6 = &g.opz (sp+0x1C)
+ *   $fp = ~0x1000, hoisted (used by both flag tests)
+ */
+
+/* ---- PsyQ inline_c.h GTE macros (same spellings as the matched siblings) -- */
+#define gte_ldv0(r0) __asm__ volatile (           \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (   \
+    "lwc2 $0, 0( %0 );"                           \
+    "lwc2 $1, 4( %0 );"                           \
+    "lwc2 $2, 0( %1 );"                           \
+    "lwc2 $3, 4( %1 );"                           \
+    "lwc2 $4, 0( %2 );"                           \
+    "lwc2 $5, 4( %2 )"                            \
+    :                                             \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_ldrgb(r0) __asm__ volatile (          \
+    "lwc2 $6, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 ) )
+
+#define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+#define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+#define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+
+#define gte_stflg(r0) __asm__ volatile (          \
+    "cfc2 $12, $31;"                              \
+    "nop;"                                        \
+    "sw $12, 0( %0 )"                             \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "$12", "memory" )
+
+#define gte_stopz(r0) __asm__ volatile (          \
+    "swc2 $24, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (          \
+    "swc2 $7, 0( %0 )"                            \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy(r0) __asm__ volatile (          \
+    "swc2 $14, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_stsxy3_f4(r0) __asm__ volatile (      \
+    "swc2 $12, 8( %0 );"                          \
+    "swc2 $13, 12( %0 );"                         \
+    "swc2 $14, 16( %0 )"                          \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+#define gte_strgb(r0) __asm__ volatile (          \
+    "swc2 $22, 0( %0 )"                           \
+    :                                             \
+    : "r"( r0 )                                   \
+    : "memory" )
+
+/* ---- types ------------------------------------------------------------- */
+typedef struct { s16 vx, vy, vz, pad; } SVEC8_800CB3C0;   /* 0x08 */
+
+typedef struct {          /* face record, 0x14 bytes */
+    /* 0x00 */ u32 unk00;
+    /* 0x04 */ u32 rgb;
+    /* 0x08 */ u16 n0;
+    /* 0x0A */ u16 v0;
+    /* 0x0C */ u16 v1;
+    /* 0x0E */ u16 v2;
+    /* 0x10 */ u16 v3;
+    /* 0x12 */ u16 pad12;
+} FaceF4_800CB3C0;                                        /* 0x14 */
+
+typedef struct {          /* flat quad packet, 0x18 bytes */
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ u32 rgb0;
+    /* 0x08 */ u32 xy0;
+    /* 0x0C */ u32 xy1;
+    /* 0x10 */ u32 xy2;
+    /* 0x14 */ u32 xy3;
+} PktF4_800CB3C0;                                         /* 0x18 */
+
+extern s16 D_800C7C74;      /* double-buffer parity index */
+extern u32 D_800CC9FC;      /* flat colour used when func_800CC0A0() says so */
+
+extern s32 func_800CC0A0(void *prim);
+extern void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code);
+
+PktF4_800CB3C0 *func_800CB3C0(FaceF4_800CB3C0 *face, SVEC8_800CB3C0 *vtx,
+                              SVEC8_800CB3C0 *nrm, PktF4_800CB3C0 *prims,
+                              s32 count, s32 shift, s32 ot)
+{
+    struct { s32 flag, opz; } g;
+    PktF4_800CB3C0 *pkt;
+
+    pkt = &prims[D_800C7C74];
+
+    for (; count != 0; count--, face++, pkt += 2) {
+        gte_ldv3(&vtx[face->v0], &vtx[face->v1], &vtx[face->v2]);
+        gte_rtpt();
+        gte_stflg(&g.flag);
+        if (!(g.flag & ~0x1000)) {
+            gte_nclip();
+            gte_stopz(&g.opz);
+            if (g.opz > 0) {
+                gte_stsxy3_f4(pkt);
+                gte_ldv0(&vtx[face->v3]);
+                gte_rtps();
+                gte_stflg(&g.flag);
+                if (!(g.flag & ~0x1000)) {
+                    gte_stsxy(&pkt->xy3);
+                    gte_avsz4();
+                    gte_stotz(&g.opz);
+                    if (func_800CC0A0(pkt) != 0) {
+                        pkt->rgb0 = D_800CC9FC;
+                    } else {
+                        gte_ldrgb(&face->rgb);
+                        gte_ldv0(&nrm[face->n0]);
+                        gte_nccs();
+                        gte_strgb(&pkt->rgb0);
+                    }
+                    func_800CC110(ot, g.opz, shift, pkt, 0x05000000);
+                }
+            }
+        }
+    }
+
+    return pkt;
+}
+
 
 #include "common.h"
 

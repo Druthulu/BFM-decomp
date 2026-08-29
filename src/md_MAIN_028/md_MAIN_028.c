@@ -19,7 +19,28 @@ void func_800CAE88(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_028/nonmatchings/md_MAIN_028", func_800CAEC0);
+#include "common.h"
+
+extern s32 rand(void);
+extern void func_801466F0(s32, s32, s32, s32, s32, s32, s32, s32);
+extern void func_80147324(s32);
+extern s32 func_80146994(s32, s32, s32, s32);
+extern void func_801655E4(s32);
+extern s32 func_80165910(void);
+
+void func_800CAEC0(s32 a0) {
+    if (func_80165910() == 0) {
+        func_801655E4(a0);
+    }
+    func_80146994(0x35, a0, 0, 0);
+    func_80147324(0x838);
+    func_801466F0(0xE, a0, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
+    func_801466F0(0xE, a0, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 0, 1);
+    func_801466F0(0xE, a0, 0, 0, 0, ((((rand() % 16) + 0x10) << 12) / 360), 1, 1);
+    func_801466F0(0xE, a0, 0, 0, 0, -((((rand() % 16) + 0x10) << 12) / 360), 1, 1);
+    *(u8 *)(a0 + 0x197) += 1;
+}
+
 
 void func_800CB0D8(s32 a0) {
     typedef struct { u8 pad[0x50]; s32 f50; } Struct80078E78;

@@ -4328,7 +4328,48 @@ void func_8017DE74(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017DED4);
+extern s32 rand(void);
+extern void func_800139C8(s32 a0, void *a1, void *a2);
+extern s32 D_801930C8;
+
+typedef struct {
+    s16 vx, vy, vz, pad;
+} UVec_8017DED4;
+
+void func_8017DED4(s32 param_1)
+{
+    UVec_8017DED4 v;
+    s16 lim;
+
+    v.vx = ((rand() & 1) << 8) + ((rand() & 0x1F) << 3) + (rand() & 0x1F);
+    v.vz = 0;
+    v.vy = 0;
+
+    func_800139C8(((rand() & 3) << 10) + ((rand() & 0x1F) << 5) + ((rand() & 3) << 8) + (rand() & 0xFF), &v, &v);
+
+    if (v.vx > *(s16 *)D_801930C8) {
+        lim = *(s16 *)D_801930C8;
+        v.vx = v.vx - lim;
+    } else if (v.vx < -*(s16 *)D_801930C8) {
+        lim = *(s16 *)D_801930C8;
+        v.vx = lim + v.vx;
+    }
+
+    if (v.vz > *(s16 *)(D_801930C8 + 2)) {
+        lim = *(s16 *)(D_801930C8 + 2);
+        v.vz = v.vz - lim;
+    } else if (v.vz < -*(s16 *)(D_801930C8 + 2)) {
+        lim = *(s16 *)(D_801930C8 + 2);
+        v.vz = lim + v.vz;
+    }
+
+    *(u16 *)(param_1 + 6) += v.vx;
+    *(u16 *)(param_1 + 0xA) += v.vy;
+    *(u16 *)(param_1 + 0xE) += v.vz;
+
+    *(u16 *)(param_1 + 0x16) = (rand() & 7) + 8;
+}
+
 
 
 

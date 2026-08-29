@@ -4340,7 +4340,29 @@ void func_8017DB54(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017BEBC", func_8017DB90);
+void func_8017DB90(void *param_1) {
+    extern s32 func_80014C54(s32 a0, s32 a1, s32 a2);
+    extern s32 func_800CF8B4();
+    extern s32 D_80182314[];
+    extern void func_800D1724(s32 a0);
+    extern void func_80029514(s32);
+    extern void func_8002AC00(s32 a0);
+    extern s32 func_8012AD50(void *a0);
+
+    if (((s16)func_80014C54(0, 0, 0x800) != 0 ||
+         (s16)func_80014C54(0, 0, 0x40) != 0) &&
+        func_800CF8B4() != 0) {
+        func_800D1724(D_80182314[*(s16 *)((s32)param_1 + 0x70)]);
+        if (*(s16 *)((s32)param_1 + 0x70) != 1 &&
+            *(s16 *)((s32)param_1 + 0x70) >= 2 &&
+            *(s16 *)((s32)param_1 + 0x70) == 2) {
+            func_80029514(0x398);
+            func_8002AC00(0x1D);
+        }
+        func_8012AD50(param_1);
+    }
+}
+
 
 void func_8017DC50(void) {
 }
@@ -4395,7 +4417,61 @@ void func_8017DD78(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_011/nonmatchings/ov_SC07_011_jr_8017BEBC", func_8017DDB4);
+extern void func_8012C1B8(void);
+extern void func_8001C2C4(s32 a0);
+extern void func_8017DF70(void *a0, void *a1, s32 a2);
+extern void func_8017E294(void *param_1);
+extern s32 func_8012AD50(void *a0);
+extern s32 rand(void);
+
+extern u8 D_8018D244;
+extern s32 D_8018D51C;
+extern s32 D_8018D7F4;
+
+void func_8017DDB4(void *param_1) {
+    s32 iVar2;
+
+    *(s32 *)((s32)param_1 + 0x20) = 0;
+    *(s32 *)((s32)param_1 + 0xCC) = 0;
+    *(s32 *)((s32)param_1 + 0xD0) = 0;
+
+    iVar2 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)param_1 + 0x20) = iVar2;
+    if (iVar2 == 0) {
+        goto fail;
+    }
+    func_8001C2C4(iVar2);
+
+    iVar2 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)param_1 + 0xCC) = iVar2;
+    if (iVar2 == 0) {
+        goto fail;
+    }
+    func_8001C2C4(iVar2);
+
+    iVar2 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)param_1 + 0xD0) = iVar2;
+    if (iVar2 == 0) {
+        goto fail;
+    }
+    func_8001C2C4(iVar2);
+
+    goto body;
+
+fail:
+    func_8017E294(param_1);
+    return;
+
+body:
+    func_8017DF70(param_1, *(void **)((s32)param_1 + 0x20), (s32)&D_8018D244);
+    func_8017DF70(param_1, *(void **)((s32)param_1 + 0xCC), (s32)&D_8018D51C);
+    func_8017DF70(param_1, *(void **)((s32)param_1 + 0xD0), (s32)&D_8018D7F4);
+
+    *(u16 *)((s32)param_1 + 0xFC) = (rand() & 3) << 10;
+    *(u16 *)((s32)param_1 + 0xFE) = 0;
+    func_8012AD50(param_1);
+}
+
 
 void func_8017DE9C(void *param_1) {
     extern void func_8017DFE8();

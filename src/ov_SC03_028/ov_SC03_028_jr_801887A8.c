@@ -3500,7 +3500,27 @@ void func_80188F4C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_801887A8", func_80188FF0);
+extern volatile s32 D_801EC44C;
+
+void func_80188FF0(s32 a0)
+{
+    s16 *a2;
+
+    if (D_801EC44C != 0) {
+        a2 = (s16 *)D_801EC44C;
+        if ((*(s16 *)(a0 + 0xA) > a2[5] - 0x10) &&
+            (*(s16 *)(a0 + 0xA) < a2[5] + 0x10) &&
+            (*(s16 *)(a0 + 0x6) < a2[3] + 0x80) &&
+            (a2[3] - 0x80 < *(s16 *)(a0 + 0x6)) &&
+            (*(s16 *)(a0 + 0xE) < a2[7] + 0x80) &&
+            (a2[7] - 0x80 < *(s16 *)(a0 + 0xE)))
+        {
+            *(u16 *)(a0 + 0x5E) = 0x1D;
+            *(u16 *)(a0 + 0x5C) |= 1;
+        }
+    }
+}
+
 
 extern void func_8012C218(void *a0);
 

@@ -3938,13 +3938,119 @@ void func_8018151C(u8 *a0) {
 }
 
 
-extern void func_80181574(s32 a0, s32 a1, s32 a2);
+extern void func_80181574();
     void func_8018154C(void * arg0) {
         func_80181574(arg0, *(s16 *)((char *)arg0 + 0xfc), 0x406040);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80181574);
+#include "common.h"
+
+#ifndef gte_ldv3
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+#endif
+#ifndef gte_rtpt
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#endif
+#ifndef gte_stsxy3
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+#endif
+
+typedef struct { s16 vx, vy, vz, pad; } SV_80181574;
+typedef struct { u16 vx, vy, vz, pad; } SXY_80181574;
+typedef struct { u16 u, v; } UV_80181574;
+typedef struct {
+    SV_80181574 v[4];  /* 0x00 */
+    UV_80181574 uv[4]; /* 0x20 */
+    u32 rgb[4];        /* 0x30 */
+    u32 flags;         /* 0x40 */
+    u8  clut;          /* 0x44 */
+} Desc_80181574;       /* 0x48 */
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_80181574;  /* 0x20 */
+typedef struct { u16 f0, f1, f2, f3; } Tbl_80181574;
+
+extern void func_80017D98(void *a0);
+extern void func_80017E8C(s32 a0);
+extern void func_800178EC(s32 a0);
+extern u8 D_80188B70[];
+extern u8 D_80188B78[];
+extern u8 D_80188B80[];
+extern Tbl_80181574 D_80188B88[];
+
+void func_80181574(s16 *arg0, s32 arg1, s32 arg2)
+{
+    SXY_80181574 sxy[6];
+    MTX_80181574 mtx;
+    Desc_80181574 desc;
+    Desc_80181574 *d;
+    Tbl_80181574 *p;
+    s32 t;
+    s32 i;
+
+    desc.v[0].vz = 3;
+    desc.rgb[0] = 0x00100101;
+    desc.clut = 0x31;
+    desc.rgb[1] = arg2;
+    desc.rgb[2] = 0;
+    desc.rgb[3] = 0x00101010;
+    desc.flags = 0x50000000;
+
+    func_80017D98(&mtx);
+    mtx.t[0] = arg0[3];
+    mtx.t[1] = arg0[5];
+    mtx.t[2] = arg0[7];
+    func_80017E8C((s32)&mtx);
+
+    t = arg1;
+    d = &desc;
+    gte_ldv3(D_80188B78, D_80188B80, D_80188B70);
+    gte_rtpt();
+    gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
+
+    i = 0;
+    arg1 += 0xC40;
+    desc.v[0].vz = 3;
+    for (; i < 4; i++) {
+        p = &D_80188B88[i];
+        d->v[0].vx = sxy[1].vx;
+        d->v[0].vy = sxy[1].vy + p->f2;
+        d->v[1].vx = sxy[0].vx;
+        d->v[1].vy = sxy[0].vy;
+        d->v[2].vx = sxy[1].vx + p->f1;
+        d->v[2].vy = sxy[1].vy + p->f3;
+        d->v[3].vx = sxy[0].vx + p->f0;
+        d->v[3].vy = sxy[0].vy;
+        d->uv[0].u = arg1;
+        d->uv[0].v = 0x1FF;
+        d->uv[1].u = t + 0xC20;
+        d->uv[1].v = 0x100;
+        d->uv[2].u = p->f1 + arg1;
+        d->uv[2].v = 0x1FF;
+        d->uv[3].u = p->f0 + arg1;
+        d->uv[3].v = 0x100;
+        func_800178EC((s32)d);
+        d->v[2].vx = sxy[1].vx - p->f1;
+        d->v[3].vx = sxy[0].vx - p->f0;
+        d->uv[2].u = arg1 - p->f1;
+        d->uv[3].u = arg1 - p->f0;
+        func_800178EC((s32)d);
+    }
+}
+
 
 s32 func_801817CC(void) {
         return 0x4A;

@@ -3998,7 +3998,118 @@ INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_801822A
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80182328);
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_801826C4);
+extern void func_8012DBD0(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012A828(s32 a0, void *a1);
+/* TU declares func_8012CBA4 / func_8012CBF4 `void` (lines 5136 / 6513); these call
+ * sites need the s32 return, so they cast at the use site — the TU's own idiom
+ * (see lines 5202, 5254, 6530). */
+extern void func_8012CBA4(s32 a0);
+extern void func_8012CBF4(s32 a0);
+extern s32  func_8012CC64(s32 a0, void *a1);
+extern s32  func_80143B6C(s32 arg0, s32 arg1);
+extern s32  func_80047D3C(s32 a0);
+extern s32  func_801807D8(s16 *a0);
+extern void func_80182DB4();
+extern void func_80182DF8(void *a0);
+extern s32  D_8018AAB4;
+extern s32  D_801A1A10;
+
+void func_801826C4(s32 param_1) {
+    s16 sp10[3];
+    s32 r;
+    s32 saved;
+    s32 t;
+    u16 m, y, f, g;
+
+    func_8012DBD0(param_1, 0x50,
+                  *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + 0x800, 0x1D);
+
+    switch (*(u8 *)(param_1 + 0xC2)) {
+    case 0:
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) -= 0x100;
+        if (++*(s32 *)(param_1 + 0x1C) < 0x29) {
+            if (*(s32 *)(param_1 + 0x14) <= 0) {
+                r = ((s32 (*)(s32))func_8012CBF4)(param_1);
+            } else {
+                r = func_8012CC64(param_1, &D_8018AAB4);
+            }
+            if (r & 0x2000) {
+                *(u8 *)(param_1 + 0xC2) = 1;
+                func_80143B6C(param_1, 1);
+                *(s32 *)(param_1 + 0x14) = 0xFFF30000;
+                *(s32 *)(param_1 + 0x1C) = 0;
+            }
+        } else {
+            func_80182DB4(param_1);
+        }
+        break;
+    case 1:
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) -= 0x100;
+        if (++*(s32 *)(param_1 + 0x1C) < 0x29) {
+            saved = *(s32 *)(param_1 + 0x14);
+            if (func_8012CC64(param_1, &D_8018AAB4) & 0x2000) {
+                func_80143B6C(param_1, 1);
+                *(s32 *)(param_1 + 0x14) = saved;
+                *(u8 *)(param_1 + 0xC2) = 2;
+                *(s32 *)(param_1 + 0x1C) = 0;
+                *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) = 0;
+            }
+        } else {
+            func_80182DB4(param_1);
+        }
+        break;
+    case 2:
+        *(s32 *)(param_1 + 0x10) = *(s32 *)(param_1 + 0x10) * 15 / 16;
+        *(s32 *)(param_1 + 0x18) = *(s32 *)(param_1 + 0x18) * 15 / 16;
+        if ((*(u8 *)(param_1 + 0xC3) & 1) != 0) {
+            r = ((s32 (*)(s32))func_8012CBA4)(param_1);
+            if ((r & 0x2000) == 0) {
+                func_80182DB4(param_1);
+                break;
+            }
+        } else {
+            r = ((s32 (*)(s32))func_8012CBF4)(param_1);
+            if ((r & 0x2000) != 0) {
+                *(u8 *)(param_1 + 0xC3) |= 1;
+            }
+        }
+        if ((*(s32 *)(param_1 + 0x1C) & 3) == 3) {
+            func_80143B6C(param_1, 1);
+        }
+        if (++*(s32 *)(param_1 + 0x1C) >= 0x11) {
+            if ((r & 0x2000) == 0) {
+                func_80182DB4(param_1);
+            } else {
+                if (*(s16 *)(param_1 + 0x76) > 0 && *(s16 *)(param_1 + 0xA) < -0x28) {
+                    *(s16 *)(param_1 + 0xFC) = 0;
+                    *(u8 *)(param_1 + 0xC1) = 0;
+                    *(s16 *)(param_1 + 2) = 1;
+                    *(s16 *)(param_1 + 0x34) = 0;
+                    func_8012A828(param_1, &D_801A1A10);
+                    m = *(u16 *)(param_1 + 0x5C);
+                    y = *(u16 *)(param_1 + 6);
+                    f = *(u16 *)(param_1 + 0xFC);
+                    *(s32 *)(param_1 + 0x1C) = 0xA;
+                    t = (s32)(s16)y * (s32)(s16)y;
+                    *(u16 *)(param_1 + 0x5E) = 0;
+                    g = m | 0x8000;
+                    *(u16 *)(param_1 + 0x5C) = g;
+                    *(u16 *)(param_1 + 0xFC) = f ^ 1;
+                    sp10[0] = y;
+                    sp10[1] = *(u16 *)(param_1 + 0xA);
+                    sp10[2] = *(u16 *)(param_1 + 0xE);
+                    t += (s32)(s16)sp10[2] * (s32)(s16)sp10[2];
+                    *(s16 *)(param_1 + 0xDE) = func_80047D3C(t);
+                    *(s16 *)(param_1 + 0xDC) = func_801807D8(sp10);
+                } else {
+                    func_80182DF8((void *)param_1);
+                }
+            }
+        }
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80182A00);
 

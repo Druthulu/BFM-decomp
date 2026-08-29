@@ -3641,7 +3641,60 @@ s32 func_8017F860(void* a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031_jr_8017DB5C", func_8017F95C);
+
+
+extern s32 RotMatrixX(s32 a0, void *a1);
+extern s32 D_800AE620[];
+extern s32 D_8018618C;
+
+void func_8017F95C(s32 a0) {
+    Mat32 mat;
+    u16 buf[3];
+
+    mat = *(Mat32 *)&D_800AE620;
+    RotMatrixX(-0x300, &mat);
+    __asm__ __volatile__(
+        "lw $12, 0(%0)\n"
+        "lw $13, 4(%0)\n"
+        "ctc2 $12, $0\n"
+        "ctc2 $13, $1\n"
+        "lw $12, 8(%0)\n"
+        "lw $13, 12(%0)\n"
+        "lw $14, 16(%0)\n"
+        "ctc2 $12, $2\n"
+        "ctc2 $13, $3\n"
+        "ctc2 $14, $4\n"
+        :
+        : "r"(&mat)
+        : "$12", "$13", "$14", "memory"
+    );
+    __asm__ __volatile__(
+        "lwc2 $0, 0(%0)\n"
+        "lwc2 $1, 4(%0)\n"
+        "nop\n"
+        "nop\n"
+        "mvmva 1, 0, 0, 3, 0\n"
+        :
+        : "r"(&D_8018618C)
+        : "memory"
+    );
+    __asm__ __volatile__(
+        "mfc2 $12, $9\n"
+        "mfc2 $13, $10\n"
+        "mfc2 $14, $11\n"
+        "sh $12, 0(%0)\n"
+        "sh $13, 2(%0)\n"
+        "sh $14, 4(%0)\n"
+        :
+        : "r"(buf)
+        : "$12", "$13", "$14", "memory"
+    );
+
+    *(u16 *)(a0 + 6)  += buf[0];
+    *(u16 *)(a0 + 0xA) += buf[1];
+    *(u16 *)(a0 + 0xE) += buf[2];
+}
+
 
 
 extern void (*D_801861E0[])(void);

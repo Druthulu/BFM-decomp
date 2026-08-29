@@ -4206,7 +4206,80 @@ extern s32 rand(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80180A38);
+void func_80180A38(s32 param_1)
+{
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern void func_8012BE98(s32 a0, u16 *a1);
+    extern s32 func_80181260(s32 param_1, s16 param_2);
+
+    typedef struct { s16 v[4]; } Blk8_80180A38;
+
+    Blk8_80180A38 pos;
+    u16 buf[3];
+    s32 d;
+    s32 timer;
+
+    buf[0] = D_80126B5E;
+    buf[1] = D_80126B62;
+    buf[2] = D_80126B66;
+
+    if (((s32 (*)(s32, u16 *))func_8012BE98)(param_1, buf) > 0x9C400) {
+        goto TAIL;
+    }
+
+    d = *(s16 *)(param_1 + 0xA) - *(s16 *)&buf[1];
+    if (d >= 0) {
+        if (d > 0x200) goto TAIL;
+    } else {
+        d = *(s16 *)&buf[1] - *(s16 *)(param_1 + 0xA);
+        if (d > 0x200) goto TAIL;
+        /* §5a zero-byte cross-jump barrier: keeps this arm's slti/beqz test
+         * a separate RTL block from the sibling arm's identical-looking test
+         * below, so gcc's cross-jump pass does not re-merge the two tails
+         * into one (which drops 2 instructions and swaps which arm is the
+         * branch target vs. the fallthrough). LOAD-BEARING — do not remove. */
+        __asm__ __volatile__("" ::: "memory");
+    }
+
+    timer = *(s32 *)(param_1 + 0xE0);
+    if (timer != 0) {
+        timer -= 1;
+        *(s32 *)(param_1 + 0xE0) = timer;
+        goto INCR;
+    }
+
+    if (*(s32 *)(param_1 + 0x1C) % *(s16 *)(param_1 + 0xFC) == 0) {
+        pos = *(Blk8_80180A38 *)(param_1 + 0x88);
+
+        func_80181260((s32)&pos, *(s16 *)(*(s32 *)(param_1 + 0x68) + 0xC));
+        pos.v[0] += 0x28;
+
+        func_80181260((s32)&pos, *(s16 *)(*(s32 *)(param_1 + 0x68) + 0xC));
+        pos.v[0] += -0x50;
+
+        func_80181260((s32)&pos, *(s16 *)(*(s32 *)(param_1 + 0x68) + 0xC));
+
+        *(s16 *)(param_1 + 0xFE) += 1;
+    }
+
+    if (*(s16 *)(param_1 + 0xFE) >= 3) {
+        *(s32 *)(param_1 + 0xE0) = 0x1E;
+        *(s16 *)(param_1 + 0xFE) = 0;
+    }
+
+TAIL:
+    timer = *(s32 *)(param_1 + 0xE0);
+    if (timer != 0) {
+        timer -= 1;
+        *(s32 *)(param_1 + 0xE0) = timer;
+    }
+
+INCR:
+    *(s32 *)(param_1 + 0x1C) += 1;
+}
+
 
 
 extern void (*D_80189C04[])(void);
@@ -4218,7 +4291,52 @@ void func_80180BFC(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80180C38);
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80181030);
+#include "common.h"
+
+struct vec;
+
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR_80181030;
+
+extern void func_8012931C(struct vec *a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern s32 func_801811F0(s32 a0);
+
+void func_80181030(s32 a0)
+{
+    SVECTOR_80181030 sv1, sv2;
+    s32 v0;
+
+    if (*(s32 *)(a0 + 0x2C) == 0) {
+        sv1.vx = *(u16 *)(a0 + 0x6);
+        sv1.vy = *(u16 *)(a0 + 0xA);
+        sv1.vz = *(u16 *)(a0 + 0xE);
+        *(s32 *)(a0 + 0x14) = *(s32 *)(a0 + 0x14) + 0x18000;
+        func_8012931C((struct vec *)a0);
+
+        sv2.vx = *(u16 *)(a0 + 0x6);
+        sv2.vy = *(u16 *)(a0 + 0xA);
+        sv2.vz = *(u16 *)(a0 + 0xE);
+        v0 = func_80133784(1, &sv1, (s32)&sv2);
+        if (v0 != 0) {
+            register s32 rv0 __asm__("$2");
+            register s16 rv1 __asm__("$3");
+
+            *(u16 *)(a0 + 0x6) = sv2.vx;
+            *(u16 *)(a0 + 0xA) = sv2.vy;
+            __asm__ __volatile__("" ::: "memory");
+            rv0 = *(s32 *)(a0 + 0x2C);
+            rv1 = sv2.vz;
+            rv0 = rv0 + 1;
+            *(s32 *)(a0 + 0x2C) = rv0;
+            rv0 = 0x1E;
+            *(s32 *)(a0 + 0x1C) = rv0;
+            *(u16 *)(a0 + 0xE) = rv1;
+        }
+    } else {
+        func_801811F0(a0);
+    }
+}
+
 
 
 
