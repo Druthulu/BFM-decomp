@@ -3107,7 +3107,7 @@ must gate the ORIGINAL first*; *a tool that mutates shared state is single-insta
 otherwise — and the proof is a lock, not a habit*; *a filter over agent notes must be able to see the
 FAILURES, or the flywheel only ever learns from the easy half*.
 
-## 🛑 SESSION CHECKPOINT — S65 FINAL-2 (2026-08-29 ~19:00). Supersedes EVERY earlier block. Phase 31 T5 CONTINUES.
+## (superseded — see S65 FINAL-3 at the end) SESSION CHECKPOINT — S65 FINAL-2 (~19:00).
 
 **READ FIRST:** this block → `docs/tool-designs/frontier-analysis-s61.md` §4. The S64 block and the
 earlier S65 blocks are superseded; their headline stub counts used unstated denominators (R41).
@@ -3189,3 +3189,67 @@ t5s 24/29 · t5t 13/15 · t5v 14/15 · t5u 12/15 · t5w 5/5 · t5y 5/5 · t5x 3/
    `ov_SC06_013:func_8017E7E8` (4), `ov_SC03_099:func_8017D2AC` (7), `ov_SC03_094:func_8017E254` (12,
    §195-L REFUTED class), `ov_SC03_013:func_8017E6F4` (3), `ov_SC05_001:func_8017FE0C` (24).
 5. **main is untouched: 1,099 stubs, the largest remaining body.** Today's % gains are overlay-only.
+
+## 🛑 SESSION CHECKPOINT — S65 FINAL-3 (2026-08-29 ~20:15). Supersedes EVERY earlier block. Phase 31 T5 CONTINUES.
+
+### FLEET — `check-all` 213 passed / 0 failed of 213 after every gate today
+Open stubs **1,906** (main 1,099 · overlays **807**). Session start 2,553 (main 1,099 · overlays 1,454).
+**647 closed — ALL overlays — 44% of the overlay frontier in one session.** main untouched.
+**98.9% instr-weighted · 97.6% distinct.**
+
+### THE TIER MAP — the finding that should drive every future draw
+| tier | bank rate | mints new twins? | status |
+|---|---|---|---|
+| twin-remappable (`h_exact`/`h_norm`) | 88.5% → 76% → 43% → 1% | n/a | **DRAINED** (ledger: 95 known-refusers) |
+| leveraged no-twin reps (engine fns) | **40–55%** (t7a 8/20, t7b 11/20) | **YES** — 19 banks minted 19 free siblings | ~44 undrawn remain |
+| cheap singletons (3–17 ins) | **98%** (t8a 20/20, t8b 19/20) | **NO** | 557 remain — the bulk |
+| ordinary mid-size no-twin | 80–93% (t5s–t5z) | rarely | consumed today |
+
+**The no-twin tier is 626 fns in 583 families — 557 are SINGLETONS (89%).** So the remap flywheel is
+finished for this generation: only leveraged reps refill it, and they are nearly gone. Plan for
+one-at-a-time drafting, ranked CHEAPEST-FIRST (t8a/t8b banked 39/40 in ~10 min of drafting; t7a/t7b
+banked 19/40 in ~45 min). Defer engine fns / permuter walls / JTBL_PADS to targeted work.
+
+### TOOLS BUILT TODAY (all committed, all negative-controlled)
+* **`tools/parallel_gate.py`** — per-binary gates in isolated git worktrees, merge only gate-ACCEPTED
+  drafts (baseline-checked, never clobbering), ONE commit + ONE R22. **178 banked / 85 binaries in
+  12m19s wall for 127m40s CPU = 10.4×.** NEVER `xargs -P` over `gate_stage`. A fresh worktree lacks 5
+  things (generated `include/*.inc`, the EMPTY `tools/maspsx` submodule, gitignored `tools/bin`+`psyq`,
+  `build/{<bin>,assets/<bin>}`, `extracted/retail`) — **negative-control an UNMODIFIED binary first**.
+* **`tools/twin_sweep.py`** — enumerate open stubs with a banked twin, remap, gate. Refusal ledger
+  keyed (target, EXEMPLAR) so a new exemplar retries automatically. **389 banked this session.**
+* **`claude_wave_packs.py`** now MEASURES a prior draft into the pack (residual rows + how to read
+  them; a MATCH-in-isolation draft is routed to `recover_integration --probe-only`, not to an agent).
+  Byte-proven: `func_8017F234` (202 ins, stranded at closeness 3) banked once the pack carried its
+  residual.
+
+### SEVEN TOOL DEFECTS FIXED
+1. `recover_integration` gated only its own REWRITE (cookbook §313) 2. `classify_fail` labelled a BUILT
+draft `CC1-FAIL` from a warning's orphan `note:` 3. `masked_diff` compared NOTHING at `R_MIPS_26`
+slots 4. `--probe-only` crashed for `--funcs` 5. the distill selector was INVERTED and blind to
+UNBANKED fns 6. the driver is now single-instance… 7. …but `--probe-only` is EXEMPT (my own over-broad
+lock cost a t7b agent its \$0 diagnostic).
+
+### MY ERRORS — all repaired, all accounted
+* `xargs -P 4` over the recovery driver swept **696 broken lines of ov_MAIN_012** into another
+  binary's commit → fleet 212/213, ~1h of banking blocked. Repaired `commit:3195`. **Blast radius fully
+  measured: exactly ONE draft was falsely rejected (`ov_MAIN_012:func_80174888`) and it has since
+  banked UNCHANGED.**
+* 3 × `pkill -f`/`pgrep -f` matched my own wrapper (twice killed my shell; once made `t5_bank` refuse
+  "another gate is running" = my own waiter). **Monitor by ARTIFACT, never the process table.**
+* 4 × `grep -E` filters swallowed a traceback, an abort, a BUSY listing and a draw failure — each read
+  as a clean null. **Read tool output with `tail`.**
+* Hand-typed 3 workflow transcript paths that did not exist instead of using the tool's own output.
+
+### NEXT
+1. Waves at the CURRENT cap (**2 × 20**, Drew retunes live — obey the latest) against **cheap
+   singletons**, ranked by nins ascending. `.run/t5/drawn.json` has 944 keys; filter every draw
+   against the twin list (`twin_sweep.py --plan-only`) so no agent redoes a remappable function.
+2. Run `twin_sweep.py` after any wave that includes LEVERAGED targets (singletons mint nothing).
+3. Wire the twin join into `t5_cards.py` as `seed_ref` — cards still say "no banked twin" unconditionally.
+4. Distill (`--with-unbanked`): FIVE cookbook gaps flagged with RTL evidence — sched1 birthing-priority
+   (split a reused scratch var into singly-assigned temps); "an extra label inside an if-arm blocks the
+   gas delay-slot swap" (CFG lever, §226 has no entry); a single-arm pre-set default that genuinely
+   INTERFERES with the compare's register; `movstrsi` dest-pseudo cse-propagating into a sibling call's
+   delay slot; §246 constant-offset-cast variant for do-while zero-fill loops.
+5. **main: 1,099 stubs, untouched, now the largest remaining body.**
