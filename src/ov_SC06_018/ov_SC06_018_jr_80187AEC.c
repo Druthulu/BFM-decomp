@@ -5453,7 +5453,50 @@ void func_8018B330(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018B4D8);
+#include "common.h"
+
+
+
+
+extern Blk20_8018AF88 D_800AE620;
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern s32 rand(void);
+
+void func_8018B4D8(s32 param_1)
+{
+    Blk20_8018AF88 local_38;
+    Blk20_8018AF88 *m;
+    SVECTOR out;
+    s32 c;
+    s32 b;
+
+    local_38 = D_800AE620;
+    out.vx = 0;
+    out.vy = -((rand() & 0x3F) + 0x50);
+    out.vz = -0x40;
+    m = &local_38;
+    c = rand() & 0x3F0;
+    b = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0x10A);
+    b -= 0x200;
+    RotMatrixY((s16)(((*(u16 *)(param_1 + 0x70) & 3) * 0x400) + c + b), m);
+    ApplyMatrixSV(m, &out, &out);
+
+    *(u16 *)(param_1 + 6) += out.vx;
+    *(u16 *)(param_1 + 0xA) += out.vy;
+    *(u16 *)(param_1 + 0xE) += out.vz;
+
+    *(s32 *)(param_1 + 0x10) = out.vx << 13;
+    *(s32 *)(param_1 + 0x18) = out.vz << 13;
+    *(s32 *)(param_1 + 0x14) = -(((rand() & 0xF) << 15) + 0x80000);
+
+    *(u16 *)(param_1 + 0x106) = rand() & 0xF0;
+    *(u16 *)(param_1 + 0x108) = rand() & 0xF0;
+    *(s32 *)(param_1 + 0x1C) = 0x20;
+    func_8012AD44((s32 *)param_1, 3);
+}
+
 
 
 extern void (*D_801CD4B0[])(void);

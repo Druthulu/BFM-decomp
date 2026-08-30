@@ -3765,7 +3765,55 @@ void func_8017E04C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017E088);
+
+
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern SVECTOR_8016E7C8 D_8019EBC4;
+extern SVECTOR_8016E7C8 D_80126940;
+extern u16 D_80126942;
+
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_80013294(void *a0, void *a1);
+extern void func_8017F1B0(s32 a0, void *a1, void *a2);
+extern void func_8017E1EC(s32 param_1, s32 param_2, s16 *param_3);
+
+void func_8017E088(s32 arg0) {
+    SVECTOR_8016E7C8 sp10;
+    SVECTOR_8016E7C8 sp18;
+    s32 angle;
+    s32 finalAngle;
+    s16 temp;
+    register s32 zr __asm__("$0");
+
+    sp18 = D_8019EBC4;
+    angle = ratan2(*(s16 *) &D_80126B5E, *(s16 *) &D_80126B66) & 0xFFF;
+    sp10 = D_80126940;
+    sp18.vy = D_80126942;
+    temp = func_80013294(&sp10, &sp18);
+    finalAngle = angle + zr;
+    if (temp >= 0x281) {
+        sp10.vx = 0;
+        sp10.vy = D_80126942;
+        sp10.vz = 0x280;
+        func_8017F1B0(angle, &sp10, &sp10);
+        sp10.vx >>= 3;
+        sp10.vy >>= 3;
+        sp10.vz >>= 3;
+    } else {
+        if (temp < 0x1C0) {
+            sp10.vx = 0;
+            sp10.vy = D_80126942;
+            sp10.vz = 0x1C0;
+            func_8017F1B0(angle, &sp10, &sp10);
+            sp10.vx >>= 3;
+            sp10.vy >>= 3;
+            sp10.vz >>= 3;
+        }
+    }
+    func_8017E1EC(arg0, finalAngle, (s16 *) &sp10);
+}
+
 
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);

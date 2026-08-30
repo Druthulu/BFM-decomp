@@ -2927,7 +2927,41 @@ void func_801833C4(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_801834DC);
+void func_801834DC(s32 arg0)
+{
+    extern u8 D_801D47E0[];
+    extern u8 D_801B5D38[];
+    extern u8 D_801B86B4[];
+    extern s32 (*D_8018A0C4[])(void *);
+    extern u16 D_800B99DC;
+
+    typedef struct {
+        u8 pad0[2];
+        union { s16 s; u16 u; } f02;
+        u8 pad1[0xD8];
+        union { s16 s; u16 u; } fDC;
+        u8 pad2[4];
+        s16 fE2;
+        u8 pad3[2];
+        s16 fE6;
+        u8 pad4[4];
+        s16 fEC;
+        s16 fEE;
+    } St;
+
+#define P ((St *)arg0)
+
+    func_80180A64(D_801D47E0, D_801B5D38, P->fDC.s, P->fE2);
+    func_80180A64(D_801D47E0, D_801B86B4, P->fDC.s, P->fE6);
+    if (--P->fEC == 0) {
+        func_8013C9C4(D_8018A0C4);
+        P->fEC = (D_800B99DC & 7) + 3;
+    }
+    if (--P->fEE == 0) {
+        P->f02.u++;
+    }
+}
+
 
 
 extern s32 D_801D47E0;

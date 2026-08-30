@@ -4232,7 +4232,46 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_015/nonmatchings/ov_SC02_015_jr_8017AE2C", func_8017D9E4);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80015978(s32 a0, s32 *a1);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+extern void func_8012BF4C(s32 *a0, s32 a1);
+extern s32 rand(void);
+
+void func_8017D9E4(s32 param_1) {
+    u16 delta[4];
+    register s32 t __asm__("$3");
+    s32 t2;
+    s16 d;
+    s32 obj;
+
+    if (func_8012BEE8(param_1) == 0) {
+        return;
+    }
+    func_80015978(param_1 + 4, (s32 *)delta);
+    if (*(s32 *)(param_1 + 0xDC) != 0) {
+        t = rand() % 352;
+        d = t;
+        if (t & 1) {
+            d = -t;
+        }
+        delta[0] += d;
+        t2 = rand();
+        t2 = t2 % 256;
+        d = t2;
+        if (t2 & 1) {
+            d = -t2;
+        }
+        delta[2] += d;
+    }
+    obj = (s32)func_801290DC(0x27, (u8 *)delta);
+    if (obj == 0) {
+        return;
+    }
+    func_8012BF4C((s32 *)param_1, (rand() & 0x7F) + 0x60);
+    *(u16 *)(obj + 0x2E) = *(u16 *)(param_1 + 0xFC);
+}
+
 
 
 extern void (*D_80181D94[])(void);

@@ -2756,7 +2756,46 @@ extern void func_80184440(void);
 DEFINE_func_801848E4()  /* dedup: shared engine-core @0x801848E4 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_014/nonmatchings/ov_SC03_014_jr_801848E4", func_80184920);
+extern s32 func_80184E4C(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4);
+extern void func_80016714(void *a0, s32 a1);
+extern s32 func_80029178(s32 arg);
+extern void func_8012CAE4(void *a0);
+extern u16 D_8018FB40[];
+
+void func_80184920(void *param_1) {
+    s32 v0;
+
+    v0 = func_80184E4C((s32)param_1, (s32)D_8018FB40, 0x300, 0x140, 0x88);
+    *(s32 *)((s32)param_1 + 0xCC) = v0;
+    if (v0 == 0) {
+        goto L8018498C;
+    }
+    v0 = func_80184E4C((s32)param_1, (s32)D_8018FB40, 0x310, 0x140, 0x89);
+    *(s32 *)((s32)param_1 + 0xD0) = v0;
+    if (v0 != 0) {
+        goto L8018499C;
+    }
+    func_80016714(*(void **)((s32)param_1 + 0xCC), 0x38);
+L8018498C:
+    func_8012CAE4(param_1);
+    return;
+L8018499C:
+    *(s16 *)(*(s32 *)((s32)param_1 + 0xCC) + 0x12) =
+        *(s16 *)(*(s32 *)((s32)param_1 + 0x68) + 0xC);
+    *(s16 *)(*(s32 *)((s32)param_1 + 0xD0) + 0x12) =
+        *(s16 *)(*(s32 *)((s32)param_1 + 0x68) + 0xC);
+    *(s16 *)((s32)param_1 + 0x100) = 0;
+    v0 = func_80029178(0xB9) & 0xFF;
+    if (v0 == 0) {
+        *(s16 *)((s32)param_1 + 2) = 1;
+        *(s16 *)((s32)param_1 + 0x34) = 0;
+        return;
+    }
+    *(s16 *)((s32)param_1 + 2) = 2;
+    *(s16 *)((s32)param_1 + 0x34) = 2;
+    return;
+}
+
 
 #include "common.h"
 

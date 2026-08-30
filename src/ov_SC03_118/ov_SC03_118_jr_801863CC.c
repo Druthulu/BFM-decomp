@@ -4463,7 +4463,81 @@ s32 func_801887DC(s32 a0, s16 a1, s16 a2) {
 DEFINE_func_80188990()  /* dedup: shared engine-core @0x80188990 (src/shared) */
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_jr_801863CC", func_80188C8C);
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern s32 func_80029504(void);
+extern s32 func_800291DC(s32 a0);
+extern void func_800291C8(s32 a0, s32 a1);
+extern void func_8012B23C(s32 a0);
+extern s32 func_80143970(void *a0);
+extern s32 func_8012B030(u8 *a0);
+extern u8 D_800AF630[];
+extern u16 D_801D099C;
+extern u16 D_801D099E;
+extern u16 D_801D09A0;
+extern u8 D_801D095C[];
+extern u8 D_801D09A4[];
+
+void func_80188C8C(s32 arg0)
+{
+    register s32 s0 __asm__("$16");
+    register u8 *s1 __asm__("$17");
+    s32 w;
+    u16 t;
+
+    s1 = D_800AF630;
+    if (func_8012C354(arg0, (s32)D_801D095C) == 0) {
+        return;
+    }
+    s0 = arg0;
+
+    if ((u32)func_80029504() >= 0x1D7u) {
+        goto close;
+    }
+
+    *(u16 *)(s0 + 0x10A) = 1;
+    w = func_800291DC(10);
+    if (w & 0x100) {
+        goto fieldset;
+    }
+
+    if ((s16)w == 0x3043) {
+        goto close;
+    }
+    if ((s16)w != 0x1052) {
+        goto join;
+    }
+
+close:
+    func_8012C218((void *)s0);
+    return;
+
+fieldset:
+    *(u16 *)(s0 + 6) = 0x10BD;
+    *(s16 *)(s0 + 0xA) = -0x282;
+    *(s16 *)(s0 + 0xE) = -0x374;
+    *(u16 *)(s0 + 0x10A) = 0;
+
+join:
+    t = *(u16 *)(s1 + 0xA3D8);
+    *(u16 *)(s0 + 0xFE) = t;
+    func_800291C8(10, (s16)t);
+    *(u8 *)(s0 + 0xC0) = 1;
+    *(s32 *)(s0 + 0xB4) = -0x489;
+    *(s32 *)(s0 + 0xBC) = (s32)D_801D09A4;
+    *(u8 *)(s0 + 0xC1) = 0;
+    *(s32 *)(s0 + 0xC4) = 1;
+    func_8012B23C(s0);
+    func_80143970((void *)s0);
+    func_8012B030((u8 *)s0);
+    *(u16 *)(s0 + 2) = 1;
+    *(s16 *)(s0 + 0xAE) = -1;
+    *(u8 *)(s0 + 0x75) = 8;
+    D_801D099C = *(u16 *)(s0 + 6);
+    D_801D099E = *(u16 *)(s0 + 0xA);
+    D_801D09A0 = *(u16 *)(s0 + 0xE);
+}
+
 
 void func_80188DE4(void *a0) {
     extern u16 D_80126B62;
