@@ -4003,7 +4003,19 @@ void func_80183EB8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80183F0C);
+extern void func_80162FF4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80162FC0(s32 *a0);
+extern s32 func_80146E98(s32 a0);
+extern void func_80162CCC();
+
+void func_80183F0C(void *a0) {
+    func_80162FF4((s32)a0, 0, 0x1C000, 0);
+    func_80162FC0((s32 *)a0);
+    if (func_80146E98((s32)a0) != 0) {
+        ((void (*)(void *))func_80162CCC)(a0);
+    }
+}
+
 
 extern void (*D_8018F1B4[])(void);
 extern void func_8013D064(void);
@@ -7089,7 +7101,32 @@ void func_80189C6C(void)
 
 }
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80189D10);
+extern u16 D_801E82A0[];
+extern s32 func_8004787C(s32 a0);
+
+void func_80189D10(s32 _arg0)
+{
+    s32 i;
+    s32 v;
+    s32 dead;
+    s32 p;
+
+    for (i = 0; i < 0x51; i++) {
+        dead = i * 7 + 3;
+        dead = dead * 9 + 1;
+        dead = dead * 9 + 1;
+        dead = dead * 9 + 1;
+        dead = dead * 9 + 1;
+        dead = dead * 9 + 1;
+        p = (s32)&D_801E82A0[i * 4];
+        v = -(func_8004787C((i << 15) / 0x50) * 0x110 / 4096 + 0x100);
+        *(s16 *)(p + 2) = v;
+        if ((s16)v > 0) {
+            *(s16 *)(p + 2) = 0;
+        }
+    }
+}
+
 
 extern u16 D_800B99DA;
 u32 func_80189DB8(u32 param_1, u32 param_2)
