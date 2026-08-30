@@ -4863,7 +4863,24 @@ void func_8017DE3C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_8017E008);
+
+
+void func_8017E008(void) {
+    extern u16 D_801888FC;
+    extern s16 D_801888FA;
+    extern s16 D_801888F8;
+    extern void func_80146CA0(void *a0);
+    s16 sVar1;
+
+    sVar1 = D_801888FC + 8;
+    D_801888FC = sVar1;
+    D_801888FA = sVar1;
+    D_801888F8 = sVar1;
+    if (sVar1 >= 0x101) {
+        ((void (*)(void))func_80146CA0)();
+    }
+}
+
 
 extern s16 D_801888F8;
 extern s16 D_801888FA;
@@ -8724,7 +8741,31 @@ s32 aF8018A224(param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80184B94);
+
+extern s32 D_801274D8;
+extern s32 D_801274DC;
+extern s16 D_80126CAC;
+extern s32 func_800132BC(s32 a0, s32 a1);
+
+s32 func_80184B94(s32 param_1)
+{
+    s32 iVar1;
+    register s32 uVar2 __asm__("$2");
+
+    if (*(u16 *) (param_1 + 6) == 0x31 || *(u16 *) (param_1 + 6) == 0x32) {
+        return 1;
+    }
+    if (*(u16 *) (param_1 + 6) == 0x33 || *(u16 *) (param_1 + 6) == 0x27B) {
+        return 1;
+    }
+    iVar1 = func_800132BC((s32)&D_80126CAC, param_1);
+    uVar2 = 0;
+    if (D_801274D8 < iVar1) {
+        uVar2 = (iVar1 < D_801274DC);
+    }
+    return uVar2;
+}
+
 
 
 
