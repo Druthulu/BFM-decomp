@@ -5085,7 +5085,42 @@ s32 arg0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8017FEC0);
+#include "common.h"
+
+extern s32 D_801A9620;
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void *D_801A4524;
+extern u8 D_801A45DC[];
+
+void func_8017FEC0(s32 a0) {
+    s32 ptr;
+    u16 v0;
+    u16 f70;
+
+    func_8012A828(a0, (s32)&D_801A9620);
+
+    ptr = *(s32 *)(a0 + 0x20);
+    v0 = *(u16 *)(a0 + 0xDC);
+    *(u16 *)(ptr + 0x10) = v0;
+
+    ptr = *(s32 *)(a0 + 0x20);
+    v0 = *(u16 *)(a0 + 0xDE);
+    *(u16 *)(ptr + 0x12) = v0;
+
+    *(s32 *)(a0 + 0x58) = (s32)&D_801A4524 | 0x40000000 | 0x20000000;
+
+    f70 = *(u16 *)(a0 + 0x70);
+    *(s32 *)(a0 + 0xCC) = (s32)D_801A45DC + ((f70 & 0xF0) << 1);
+    func_8012B2CC(a0);
+
+    func_8012B178(a0, 0xFFF80000);
+
+    *(u16 *)(a0 + 0x2) = 0xB;
+    *(u16 *)(a0 + 0x34) = 0;
+}
+
 
 #include "common.h"
 #include "/home/musashi/bfm-decomp/src/shared/engine_core.h"

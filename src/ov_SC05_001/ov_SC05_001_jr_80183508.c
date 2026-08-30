@@ -3555,7 +3555,15 @@ void func_80184920(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_80183508", func_8018495C);
+extern s32 rand(void);
+
+void func_8018495C(s32 param_1)
+{
+    *(s32 *)(param_1 + 0x1C) = rand();
+    *(u16 *)(param_1 + 0x2) += 1;
+    *(u16 *)(param_1 + 0xFE) = *(u16 *)(param_1 + 0xFC) + (rand() % 16) + 0x10;
+}
+
 
 extern s32 func_8012BE54(void*);
 extern void func_80184AF8(s32 arg0);

@@ -3314,7 +3314,35 @@ void func_8017D384(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_109/nonmatchings/ov_SC03_109_jr_8017C180", func_8017D3C0);
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D3C0;
+
+extern Blk8_80126940_8017D3C0 D_80126940;
+extern void func_8017D48C(s32 param_1, s16 *param_2);
+
+void func_8017D3C0(s32 param_1) {
+    Blk8_80126940_8017D3C0 sp10;
+
+    sp10 = D_80126940;
+    if (sp10.v[1] < -0x680) {
+        if (sp10.v[0] < -0x2E0) {
+            sp10.v[0] = -0x2E0;
+        }
+        if (sp10.v[0] > 0x2C0) {
+            sp10.v[0] = 0x2C0;
+        }
+    } else {
+        if (sp10.v[0] < -0x240) {
+            sp10.v[0] = -0x240;
+        }
+        if (sp10.v[0] > 0x240) {
+            sp10.v[0] = 0x240;
+        }
+    }
+    func_8017D48C(param_1, &sp10.v[0]);
+}
+
 
 
 // @class: schedule
