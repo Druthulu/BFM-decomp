@@ -3421,7 +3421,18 @@ u8 func_801829C4(u32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_002/nonmatchings/ov_SC03_002_jr_80181D78", func_80182A30);
+
+
+extern void func_80182A78(s32 param_1, s32 param_2);
+
+void func_80182A30(void *arg0, s32 arg1) {
+    u16 sp10[3];
+    sp10[0] = ((u16 *)arg0)[3];
+    sp10[1] = ((u16 *)arg0)[5];
+    sp10[2] = ((u16 *)arg0)[7];
+    func_80182A78(sp10, ((s32 *)arg0)[7]);
+}
+
 
 #include "common.h"
 
