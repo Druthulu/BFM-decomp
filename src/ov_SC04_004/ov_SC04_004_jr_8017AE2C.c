@@ -7347,7 +7347,38 @@ void func_80181C9C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80181D1C);
+typedef struct { s32 m[5]; s32 t[3]; } MtxW;
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C_8018259C; /* 0x20 bytes, align 4 */
+
+
+s32 func_80181D1C(s32 arg0) {
+    extern s32 D_80126B58;
+    extern u16 D_80126B62;
+    s32 *base = &D_80126B58;
+    s32 t;
+    s32 r;
+    register s32 rr asm("$3");
+    register s32 z asm("$2");
+
+    if (*(u8 *)(arg0 + 0x74) != 0) {
+        asm volatile("");
+        return 0;
+    }
+    t = D_80126B62 - 0x20;
+    r = func_80181E90((s16 *)arg0, (s16 *)(base + 1), 0x48);
+    rr = r;
+    asm("" :: "r"(rr));
+    if (rr == 0) {
+        return 0;
+    }
+    z = 0;
+    asm("" :: "r"(z));
+    if (*(s16 *)(arg0 + 0xA) < (s16)t) {
+        return z;
+    }
+    return *(s16 *)(arg0 + 0xA) - 0x48 <= (s16)t;
+}
+
 
 extern s32 func_80181E90();
 

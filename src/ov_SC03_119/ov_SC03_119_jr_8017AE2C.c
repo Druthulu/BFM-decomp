@@ -3351,7 +3351,14 @@ void func_8017BF58(void *a0) {
 
 DEFINE_func_8017BF98()  /* dedup: shared engine-core @0x8017BF98 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017AE2C", func_8017BFA0);
+
+extern void func_80174684(void *);
+extern void func_8017BFC8(void *);
+
+void func_8017BFA0(void) {
+    func_80174684((void *)func_8017BFC8);
+}
+
 
 
 extern void (*D_8018D360[])(void);

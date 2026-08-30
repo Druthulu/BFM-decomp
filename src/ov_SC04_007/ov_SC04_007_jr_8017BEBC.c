@@ -5214,7 +5214,78 @@ void func_8017F7F0(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8017F86C);
+
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8017FA90(void *a0, s32 a1);
+extern void func_8017FA20(void);
+extern void func_8017FF08(void *a0, void *a1);
+extern void func_8018084C();
+extern int func_80178970(void);           /* TU decl copied verbatim (line 2515/3980) */
+extern u8 D_80197F58[];
+
+void func_8017F86C(void *arg0) {
+    u8 *s2 = D_80197F58;
+    void *s1 = *(void **)((s32)arg0 + 0xCC);
+    register u16 state __asm__("$4") = *(u16 *)((s32)arg0 + 0x34);
+    s16 v0;
+
+    switch (state) {
+    case 0:
+        if (*(s16 *)((s32)arg0 + 0x10A) != 0) {
+            *(u16 *)((s32)arg0 + 0x34) = state + 1;
+            *(s32 *)((s32)arg0 + 0x1C) = 0x30;
+            func_8002D4C8(0x7F5, 0);
+        }
+        break;
+    case 1: {
+        s16 ang = *(s16 *)((s32)s1 + 0x18);
+        if (ang < 0x800) {
+            s16 na = ang + 0x80;
+            u16 nb = *(u16 *)((s32)s1 + 0x1A) + 0x80;
+            *(s16 *)((s32)s1 + 0x18) = na;
+            *(u16 *)((s32)s1 + 0x1A) = nb;
+        } else {
+            ((void (*)(void *))func_8018084C)(arg0);
+            if (func_8012BEE8((s32)arg0) != 0) {
+                *(u16 *)((s32)arg0 + 0x34) = *(u16 *)((s32)arg0 + 0x34) + 1;
+                func_8017FA90(arg0, 0);
+            } else if (*(s32 *)((s32)arg0 + 0x1C) == 0x20) {
+                func_8002D4C8(0x7F6, 0);
+            }
+        }
+        break;
+    }
+    case 2: {
+        s16 ang = *(s16 *)((s32)s1 + 0x18);
+        if (ang > 0) {
+            s16 na = ang - 0x80;
+            u16 nb = *(u16 *)((s32)s1 + 0x1A) - 0x80;
+            *(s16 *)((s32)s1 + 0x18) = na;
+            *(u16 *)((s32)s1 + 0x1A) = nb;
+        } else {
+            ((void (*)(void *))func_8017FA20)(arg0);
+            return;
+        }
+        break;
+    }
+    }
+
+    *(u16 *)((s32)s1 + 0x14) = *(u16 *)((s32)s1 + 0x14) + 4;
+
+    v0 = *(u16 *)(s2 + 4) - 1;
+    *(u16 *)(s2 + 4) = v0;
+    if (v0 < 0x11) {
+        v0 = 0x30;
+        *(u16 *)(s2 + 4) = v0;
+    }
+
+    func_8017FF08(s1, s2);
+    func_8012B2CC((s32)arg0);
+    ((void (*)(void *))func_80178970)(arg0);
+}
+
 
 
 
