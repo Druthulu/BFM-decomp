@@ -5605,7 +5605,37 @@ s32 func_801809E4(s32 a0, s32 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_80180B38);
+typedef struct { s32 w[8]; } Blk20_80180B38;
+
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern Blk20_80180B38 D_800AE620;
+
+s32 func_80180B38(s32 a0, s32 a1)
+{
+    s32 partner;
+    s32 pad[4];
+    Blk20_80180B38 mat;
+    s32 ang;
+    s32 trailing[4];
+
+    partner = *(s32 *)(a0 + 0x2C);
+    if (*(u16 *)partner == 0) {
+        return 0;
+    }
+
+    mat = D_800AE620;
+    ang = func_8012B6D4((s16 *)(a0 + 4), (s16 *)(partner + 4));
+    RotMatrixY(ang, &mat);
+
+    trailing[1] = 0;
+    trailing[0] = 0;
+    trailing[2] = a1;
+    func_800484EC((s32) &mat, (s32) trailing, a0 + 0x10);
+    return 1;
+}
+
 
 void func_80180C10(s32 param)
 {

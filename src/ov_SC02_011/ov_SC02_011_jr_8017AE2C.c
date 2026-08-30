@@ -9951,7 +9951,7 @@ extern void func_8013CABC(void);
 extern void func_80186728(void *a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_80186070(s32 a0);
-extern s32 func_80185FA0(s32 a0);
+extern s32 func_80185FA0();
 extern int func_80178970(void);
 extern s32 func_80188114(void);
 extern s32 D_801EB520;
@@ -10001,7 +10001,38 @@ void func_80185E20(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80185FA0);
+extern u16 D_800B99D8;
+extern s32 func_80132EF4(s32 a0, s32 a1);
+
+s32 func_80185FA0(s32 param_1)
+{
+    s32 q;
+    s32 iVar5;
+    s32 iVar4;
+    s16 sVar1;
+
+    iVar5 = 0;
+    do {
+        q = func_80132EF4(param_1, 0x22);
+        if (q != 0) {
+            iVar4 = iVar5 + (D_800B99D8 & 4) * 3 - 0x2A;
+            *(s16 *)(q + 6) = *(u16 *)(q + 6) + iVar4;
+            *(s16 *)(q + 0xA) = *(u16 *)(q + 0xA) - 0x20;
+            *(s16 *)(q + 0xE) = *(u16 *)(q + 0xE) - 0x28;
+            iVar4 = iVar4 << 16;
+            if ((iVar4 >> 16) >= 0) {
+                sVar1 = (s16)((iVar4 >> 16) << 7);
+            } else {
+                sVar1 = (s16)(-((iVar4 >> 16) << 7));
+            }
+            *(s16 *)(q + 0x34) = sVar1 + 0x1000;
+            *(s32 *)(q + 0x14) = 0xFFFE0000;
+            *(s32 *)(q + 0x18) = 0xFFFD0000;
+        }
+        iVar5 += 0x18;
+    } while (iVar5 < 0x49);
+}
+
 
 
 extern void func_8001CA1C(s32 a0, s32 a1);

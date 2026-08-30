@@ -9007,7 +9007,49 @@ void func_80184AA8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80184B30);
+#include "common.h"
+
+extern void func_8012C1B8(void);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012C194(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
+extern void func_80143994(s32 a0, s32 a1);
+extern u8 D_801A960C[];
+
+void func_80184B30(s32 param_1) {
+    s32 v0;
+    s32 s0;
+    u16 tmp;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+    func_8001C214(v0, 0);
+    v0 = *(s32 *)(param_1 + 0x20);
+    *(s16 *)(v0 + 0x1A) = 0x1800;
+    *(s16 *)(v0 + 0x18) = 0x1800;
+    s0 = ((s32 (*)(void))func_8012C194)();
+    if (s0 == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+    *(s32 *)(param_1 + 0xCC) = s0;
+    func_8001CB6C((u8 *)s0, D_801A960C, 0x2E0, 0x100);
+    *(u8 *)(s0 + 0x27) = 0x37;
+    *(u16 *)(s0 + 0x10) = 0x400;
+    *(s32 *)(s0 + 0x4) |= 0x50000000;
+    tmp = *(u16 *)(param_1 + 0xFC);
+    *(s16 *)(s0 + 0x1A) = 0x1800;
+    *(s16 *)(s0 + 0x18) = 0x1800;
+    *(u16 *)(s0 + 0x14) = tmp;
+    *(s16 *)(param_1 + 2) = 1;
+    func_80143994(param_1, 0x1000);
+}
+
 
 
 extern void func_8012B2CC(s32 a0);

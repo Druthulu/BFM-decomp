@@ -5742,7 +5742,33 @@ s32 func_80182574(s32 a0, s32 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_098/nonmatchings/ov_SC03_098_jr_8017D898", func_801826C8);
+
+
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern void RotMatrixY(s32 a0, void *a1);
+extern Blk20 D_800AE620;
+
+s32 func_801826C8(s32 arg0, s32 arg1)
+{
+    s32 pad[4];
+    Blk20 mat;
+    s32 vec[4];
+    s16 *ptr;
+
+    ptr = *(s16 **)(arg0 + 0x2C);
+    if (*(u16 *)ptr == 0) {
+        return 0;
+    }
+    mat = D_800AE620;
+    RotMatrixY(func_8012B6D4((s16 *)(arg0 + 4), ptr + 2), &mat);
+    vec[1] = 0;
+    vec[0] = 0;
+    vec[2] = arg1;
+    func_800484EC((s32)&mat, (s32)vec, arg0 + 0x10);
+    return 1;
+}
+
 
 extern s32 func_8004787C(s32 a0);
 

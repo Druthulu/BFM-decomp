@@ -3741,7 +3741,38 @@ void func_801816C8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80181708);
+void func_80181708(void *a0) {
+    extern s32 *D_80126B78;
+    extern s32 *D_8018B9A4[];
+    extern u8 func_8014BF6C(void);
+    extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+    extern void func_8012B260(u8 *a0);
+
+    typedef struct { s32 w[8]; } Blk32_80181708;
+
+    Blk32_80181708 *dst;
+    Blk32_80181708 *src;
+    u8 result;
+    s16 field70;
+    u16 sp10[3];
+
+    dst = (Blk32_80181708 *)((u8 *)*(s32 **)((u8 *)a0 + 0x20) + 0x34);
+    src = (Blk32_80181708 *)((u8 *)D_80126B78 + 0x34);
+    *dst = *src;
+
+    result = func_8014BF6C();
+    field70 = *(s16 *)((u8 *)a0 + 0x70);
+    func_8012F214((s32)a0,
+                  (s32)D_8018B9A4[result & 0xFF] + (field70 << 3),
+                  (s32)sp10);
+
+    *(s16 *)((u8 *)a0 + 0x6) = sp10[0];
+    *(s16 *)((u8 *)a0 + 0xA) = sp10[1];
+    *(s16 *)((u8 *)a0 + 0xE) = sp10[2];
+
+    func_8012B260((u8 *)a0);
+}
+
 
 void func_801817D8(u8 *a0, u8 *a1) {
     u16 sp0[3];
