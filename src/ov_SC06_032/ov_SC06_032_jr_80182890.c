@@ -4999,7 +4999,7 @@ extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012B23C();
 extern void func_80186160(s32 a0);
 extern void func_801863B0(s32 a0);
-extern void func_801866B0(s32 *a0);
+extern void func_801866B0();
 extern s32 rand(void);
 extern s32 D_801BEF2C[];
 extern s32 D_801BEF30[];
@@ -5156,7 +5156,6 @@ void func_80186238(s32 param_1)
  * unrelated to the scalar u8 D_801BEEC0 seen in ov_SC03_104 (different overlay, same address).
  */
 
-extern Blk20_8018AF88_80186160 D_800AE620;
 extern SVECTOR D_801BEEC0[];
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
@@ -5165,6 +5164,10 @@ extern s32 rand(void);
 
 void func_801863B0(s32 param_1)
 {
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern Blk20_8018AF88_80186160 D_800AE620;
     Blk20_8018AF88_80186160 local_38;
     Blk20_8018AF88_80186160 *m;
     SVECTOR out;
@@ -5250,7 +5253,67 @@ void func_80186508(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_801866B0);
+#include "common.h"
+
+// @class: struct
+// @stuck: none — §194-E neighbour-in-TU. Template = the banked func_801863B0 in this same TU
+//   (whole-struct `local = D_800AE620;` copy, matrix address cached in a POINTER LOCAL so it is
+//   live in $s1 across RotMatrixY and reused as ApplyMatrixSV's a0, the u16 += out.vN triple, the
+//   `func_8012AD44((s32 *)param_1, N)` tail).  The only lever this target needed beyond that
+//   template: the `- 0x200` on the 0x10A field must be SPLIT INTO ITS OWN STATEMENT.  Written as
+//   one expression, `A + B + (lhu - 0x200)`, gcc-2.7.2's fold() `associate` path splits each
+//   operand into var+con and re-sinks the constant onto the accumulator, emitting
+//   `addu a0,a0,v0 / lhu v0 / addiu a0,a0,-512 / addu a0,a0,v0`.  The target instead keeps the
+//   constant on the LOADED value (`lhu v1 / addu a0,a0,v0 / addiu v1,v1,-0x200 / addu a0,a0,v1`),
+//   which only happens when the subtraction is a separate tree: fold cannot reassociate across
+//   statement boundaries, and combine will not merge `t = x - 512` into `a + t` because
+//   `a + (x - 512)` is not one MIPS insn.  4-instruction residual -> MATCH.
+//   `(s16)(angle + t)` supplies the sll 16 / sra 16 on RotMatrixY's s32 first argument.
+
+/* Local standins for the shared types (src/shared/engine_types.h) that the real TU pulls in via
+ * "../shared/engine_core.h" -- match_one's -Iinclude can't reach src/shared/, so these are typed
+ * identically for the standalone compile only; the real TU already has both. */
+
+
+
+extern Blk20_8018AF88_80186160 D_800AE620;
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern s32 rand(void);
+
+void func_801866B0(s32 param_1)
+{
+    Blk20_8018AF88_80186160 local_38;
+    Blk20_8018AF88_80186160 *m;
+    SVECTOR out;
+    s32 angle;
+    s32 t;
+
+    local_38 = D_800AE620;
+    out.vx = 0;
+    out.vy = -((rand() & 0x3F) + 0x50);
+    out.vz = -0x40;
+    m = &local_38;
+    angle = ((*(u16 *)(param_1 + 0x70) & 3) << 10) + (rand() & 0x3F0);
+    t = *(u16 *)(*(s32 *)(param_1 + 0x64) + 0x10A) - 0x200;
+    RotMatrixY((s16)(angle + t), m);
+    ApplyMatrixSV(m, &out, &out);
+
+    *(u16 *)(param_1 + 6) = *(u16 *)(param_1 + 6) + (u16)out.vx;
+    *(u16 *)(param_1 + 0xA) = *(u16 *)(param_1 + 0xA) + (u16)out.vy;
+    *(u16 *)(param_1 + 0xE) = *(u16 *)(param_1 + 0xE) + (u16)out.vz;
+
+    *(s32 *)(param_1 + 0x10) = (s32)out.vx << 13;
+    *(s32 *)(param_1 + 0x18) = (s32)out.vz << 13;
+    *(s32 *)(param_1 + 0x14) = -(((rand() & 0xF) << 15) + 0x80000);
+    *(u16 *)(param_1 + 0x106) = rand() & 0xF0;
+    *(u16 *)(param_1 + 0x108) = rand() & 0xF0;
+
+    *(s32 *)(param_1 + 0x1C) = 0x20;
+    func_8012AD44((s32 *)param_1, 3);
+}
+
 
 
 extern void (*D_801BEF64[])(void);
