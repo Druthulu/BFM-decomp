@@ -14355,7 +14355,44 @@ s32 func_800296F8(s32 arg0) {
     return D_800A5E5C = 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80029774);
+
+typedef struct {
+    char c[4];
+} Blk4_80029774;
+
+extern Blk98_80029274 D_80078E78;
+extern u8 D_80078F28[];
+extern u16 D_800A6588[];
+extern u8 D_800AE648[];
+extern u8 D_800BA1B8[];
+extern u8 D_800BA2B8[];
+extern s32 D_800A5E58[];
+
+void func_80029774(s32 a0) {
+    u8 *dst;
+    s32 i;
+
+    dst = D_80078F28 + a0 * 0x2DC;
+    *(Blk98_80029274 *)(dst + 0x24) = D_80078E78;
+
+    for (i = 0; i < 0x40; i++) {
+        *(u16 *)(dst + 0xBC + i * 2) = D_800A6588[i];
+    }
+
+    for (i = 0; i < 0x40; i++) {
+        *(u8 *)(i + dst + 0x13C) = D_800AE648[i];
+    }
+
+    for (i = 0; i < 0x100; i++) {
+        *(u8 *)(i + dst + 0x17C) = D_800BA1B8[i];
+    }
+
+    for (i = 0; i < 0x18; i++) {
+        *(Blk4_80029774 *)(dst + 0x27C + i * 4) = *(Blk4_80029774 *)(D_800BA2B8 + i * 4);
+    }
+
+    D_800A5E58[a0] = 1;
+}
 
 
 extern Blk36_800296F8 D_80079204;
