@@ -20,6 +20,7 @@ and REFUSES to emit anything if a single target fails — a partly-correct args 
 mode this tool exists to delete.
 """
 import argparse, json, os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FIELDS = ('name', 'binary', 'nins', 'sub', 'arm')
@@ -35,6 +36,40 @@ def main():
     if not os.path.exists(tgt_path):
         sys.exit('REFUSED: no %s' % tgt_path)
     targets = json.load(open(tgt_path))
+
+    # OPENNESS IS AN ASSERTION, NOT A CONVENTION (P31 S66, measured — see F14).
+    # A wave drawn at T and launched at T+2h is stale by construction: gates land continuously, and
+    # sibling propagation banks targets nobody drafted. Measured on this session's own waves,
+    # against corpus.stubs at gate time: w2 80 drawn / 12 still open (85% wasted), w3 80/39 (51%),
+    # x1 80/71 (11%). ~109 of 240 agents in w2+w3 re-derived already-banked functions; they detected
+    # it themselves only AFTER reading the pack and burning their budget. So refuse a closed target
+    # here, where it costs nothing.
+    import importlib
+    corpus = importlib.import_module('corpus')
+    closed, open_cache = [], {}
+    for t in targets:
+        b = t.get('binary')
+        if not b:
+            continue
+        if b not in open_cache:
+            try:
+                open_cache[b] = {v.symbol for v in corpus.stubs(b).values()}
+            except Exception as e:            # a refusing oracle is reported, never silently trusted
+                print('WARN: stub oracle refused %s (%s) — openness unchecked for it'
+                      % (b, str(e)[:80]), file=sys.stderr)
+                open_cache[b] = None
+        live = open_cache[b]
+        if live is not None and t['name'] not in live:
+            closed.append('%s:%s' % (b, t['name']))
+    if closed:
+        print('SKIPPING %d of %d target(s) already banked since the draw: %s%s'
+              % (len(closed), len(targets), ', '.join(closed[:8]),
+                 ' …' if len(closed) > 8 else ''), file=sys.stderr)
+        targets = [t for t in targets
+                   if open_cache.get(t.get('binary')) is None
+                   or t['name'] in open_cache[t['binary']]]
+    if not targets:
+        sys.exit('REFUSED: every target in %s is already banked — nothing to draft.' % wave)
 
     bad = []
     for t in targets:
