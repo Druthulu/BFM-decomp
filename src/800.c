@@ -567,7 +567,37 @@ void func_800128B4(void* a0)
     func_800128EC(local_buffer, a0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800128EC);
+typedef struct {
+    s32 x, y, z, w;
+} Vec4_800128EC;
+
+extern s32 func_80049440(s32 arg0);
+extern void func_80047E58(void *arg0, void *arg1);
+
+void func_800128EC(void *a0, void *a1)
+{
+    Vec4_800128EC vec;
+    s32 mn;
+    s32 t;
+
+    vec = *(Vec4_800128EC *)a0;
+    mn = func_80049440(vec.x);
+    t = func_80049440(vec.y);
+    if (t < mn) {
+        mn = t;
+    }
+    t = func_80049440(vec.z);
+    if (t < mn) {
+        mn = t;
+    }
+    if (mn < 0x12) {
+        mn = 0x12 - mn;
+        vec.x >>= mn;
+        vec.y >>= mn;
+        vec.z >>= mn;
+    }
+    func_80047E58(&vec, a1);
+}
 
 
 extern s32 ratan2(s32 a0, s32 a1);
@@ -682,7 +712,35 @@ s32 func_80012E0C(s16 a0, s16 a1, s32 a2, s32 a3) {
     return func_80012E6C(a0, a1, (s16)a2, (s16)a3, &out);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80012E6C);
+s16 func_80012E6C(s32 a, s32 b, s32 c, s32 d, s16 *f)
+{
+    s32 z;
+    s32 x;
+    s32 y;
+    s32 q;
+    register s32 zr __asm__("$0");
+
+    z = b - a;
+    y = z + zr;
+    x = y;
+    if (*f == 0 || (s16)c == 0) {
+        if ((s16)z > 0x800)
+            x = z - 0x1000;
+        if ((s16)x < -0x800)
+            x = x + 0x1000;
+        return (s16)x;
+    }
+    if ((s16)z > 0x800)
+        y = z - 0x1000;
+    if ((s16)y < -0x800)
+        y = y + 0x1000;
+    q = (s16)((s16)y * (s16)d / (s16)c);
+    if (q != 0)
+        return q;
+    if ((s16)z <= 0)
+        return -1;
+    return 1;
+}
 
 extern s32 func_80012FC8(s32 a0, s32 a1, s32 a2, s32 a3);
 
@@ -14105,7 +14163,48 @@ void func_8002931C(s32 a0) {
     func_80029344();
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80029344);
+extern u16 D_80078E92;
+extern u8 D_80078EAE;
+extern Blk98_80029274 D_80078E78;
+
+void func_80029344(void) {
+    s32 val;
+    u8* blk;
+
+    val = D_80078E92;
+    blk = (u8*)&D_80078E78;
+
+    if ((u32)(val - 0x1A4) >= 0x2D0) {
+        D_80078EAE = 0;
+    } else {
+        D_80078EAE = 1;
+    }
+
+    if ((s16)val < 0x528) {
+        if ((s16)val >= 0x474) {
+            blk[0x37] = 3;
+        } else {
+            if ((s16)val >= 0x3C0) {
+                blk[0x37] = 2;
+            } else {
+                if ((s16)val >= 0x1A4) {
+                    blk[0x37] = 1;
+                } else {
+                    if ((s16)val < 0x12C) {
+                        blk[0x37] = 4;
+                    } else {
+                        blk[0x37] = 0;
+                    }
+                }
+            }
+        }
+    } else {
+        blk[0x37] = 4;
+    }
+
+    blk[0x39] = (s16)val / 60;
+    blk[0x38] = (s16)val % 60;
+}
 
 
 extern void func_80016714(void *a0, s32 a1);
