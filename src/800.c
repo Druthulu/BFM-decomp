@@ -15307,6 +15307,20 @@ u16 func_8002B08C(s32 a0) {
  * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
  * express this as normal control flow against either. Kept as the verbatim target instructions,
  * same as its sibling. */
+/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
+ * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
+ *
+ * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
+ * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
+ * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
+ * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
+ * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
+ * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
+ * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
+ * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
+ * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
+ * express this as normal control flow against either. Kept as the verbatim target instructions,
+ * same as its sibling. */
 INCLUDE_ASM("asm/nonmatchings/800", func_8002B0B4);
 
 /* DEFERRED: SaveLoadRoutine (0x8002B154) — Phase 7 (session G), per Drew, to Q#5.
@@ -17907,7 +17921,44 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800316F8);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80031988);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80031A98);
+/* TU decls (src/800.c): `typedef struct Ent30D80 { ... } Ent30D80;`
+ * already exists above this function's INCLUDE_ASM line — reproduced here
+ * verbatim (field-for-field identical) for standalone compilation; do not
+ * duplicate in the TU when banking (see func_8003324C's banking note). */
+
+extern s16 D_800C5328[];
+extern s16 D_800C532A[];
+extern u8  D_800A4988[];
+extern u8  D_800A46B0;
+extern void func_80030D80(Ent30D80 *arg0, s16 arg1);
+
+void func_80031A98(void)
+{
+    u8 *p;
+    s32 i;
+    s32 w;
+    u16 h;
+
+    for (p = D_800A4988, i = 0; i < 8; i++, p += 0x54) {
+        if (p[0x4E] != 0) {
+            if (p[0x36] != 0) {
+                w = *(s16 *)((u8 *)D_800C532A + (*(u16 *)(p + 0xE) << 2));
+                goto chk;
+            }
+            h = *(u16 *)(p + 0xE);
+            if (h & 0x80) {
+                if (D_800A46B0 != 0)
+                    func_80030D80((Ent30D80 *)p, 1);
+            } else {
+                w = *(s16 *)((u8 *)D_800C5328 + (h << 2));
+            chk:
+                if (w >= 0)
+                    continue;
+                func_80030D80((Ent30D80 *)p, 1);
+            }
+        }
+    }
+}
 
 
 extern u8 D_800A49D2[];
@@ -19412,7 +19463,55 @@ void func_80034650(u8 *param_1, s32 param_2)
     *(u16 *)param_1 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800346D0);
+/* TU decls (src/800.c): `typedef struct Ent30D80 {...} Ent30D80;` and
+ * `extern void func_80030D80(Ent30D80 *arg0, s16 arg1);` already exist
+ * above this function's INCLUDE_ASM line (see func_8003324C / func_80033398
+ * banking notes) — reproduced here verbatim for standalone compilation.
+ * Do not duplicate in the TU when banking. */
+
+typedef struct {
+    u8 pad[0x3A];
+    u8 flg[8];
+    u8 tail[0x12];
+} S54;
+
+extern u16 D_800A46E8[];
+extern void func_80030D80(Ent30D80 *arg0, s16 arg1);
+
+void func_800346D0(s32 arg0) {
+    S54 *p;
+    S54 *q;
+    Ent30D80 *e;
+    Ent30D80 *ebase;
+    s32 i;
+    s32 j;
+    s32 lo;
+    s32 hi;
+
+    p = (S54 *)D_800A46E8;
+    i = 0;
+    lo = (arg0 << 16) >> 16;
+    hi = arg0 >> 16;
+    ebase = (Ent30D80 *)((u8 *)D_800A46E8 + 0x2A0);
+    q = (S54 *)((u8 *)D_800A46E8 + 6);
+    do {
+        if (*(u16 *)p == 5 && *((u16 *)q - 1) == lo && (hi == 0 || hi == *(u16 *)q)) {
+            j = 0;
+            e = ebase;
+            do {
+                if (p->flg[j] != 0) {
+                    func_80030D80(e, 0);
+                }
+                j++;
+                e++;
+            } while (j < 8);
+            *(u16 *)p = 0;
+        }
+        i++;
+        q++;
+        p++;
+    } while (i < 8);
+}
 
 typedef struct {
     u16 state;      /* 0x00 */
