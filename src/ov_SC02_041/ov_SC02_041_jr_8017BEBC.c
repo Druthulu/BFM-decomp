@@ -3424,7 +3424,47 @@ void func_8017D294(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017D2D0);
+typedef struct { s16 vx, vy, vz, pad; } SV_8017D7C0_8017F19C;   /*  8 bytes, align 2 */
+
+
+extern s32 func_800D21C4(s32 a0, void *a1, s32 a2);
+extern void func_8017D728(s32 *a0);
+extern void func_8017D744(s32 *a0);
+extern void func_80146E90(s32 *a0, s32 a1);
+extern void func_80146C3C();
+extern s32 D_8018888C;
+
+void func_8017D2D0(s32 a0) {
+    s32 a1;
+    volatile s32 pad[12];
+
+    a1 = func_800D21C4(a0, (s32)&D_8018888C, 0x2B);
+    *(s32 *)(a0 + 0x20) = a1;
+
+    if (a1 != 0) {
+        *(s16 *)(a1 + 0x28) = 0x224;
+        *(s16 *)(a1 + 0x2A) = 0x1A8;
+        *(s16 *)(a1 + 0x1A) = 0x3000;
+        *(s16 *)(a1 + 0x18) = 0x3000;
+        *(s16 *)(a1 + 0x14) = -0x400;
+
+        *(s32 *)(a1 + 0x04) |= 0x48000000;
+        *(u16 *)(a1 + 0x2C) = 0xC080;
+
+        func_8017D728((s32 *)a0);
+        func_8017D744((s32 *)a0);
+
+        *(s32 *)(a0 + 0x2C) = 0;
+        *(s32 *)(a0 + 0x30) = 0;
+
+        func_80146E90((s32 *)a0, 0x5A);
+
+        *(u16 *)(a0 + 0x02) += 1;
+    } else {
+        ((void (*)(s32))func_80146C3C)(a0);
+    }
+}
+
 
 #include "common.h"
 
@@ -5507,7 +5547,27 @@ after_switch:
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8017FF48);
+
+
+extern void func_8002A04C(s32 a0);
+extern void func_8012C098(void);
+extern void func_8012E8A8(u8 *a0);
+
+void func_8017FF48(void *a0) {
+    *(s16 *)((s32)a0 + 0x76) = 0;
+    if (*(s16 *)((s32)a0 + 0x100) == 0) {
+        func_8002A04C((s32)a0);
+    }
+    if (*(s16 *)((s32)a0 + 0xFE) == 0) {
+        ((void (*)(void *))func_8012C098)(a0);
+    } else {
+        *(s16 *)((s32)a0 + 2) = 6;
+        func_8012E8A8((u8 *)a0);
+        *(s16 *)((s32)a0 + 0x5C) = 0;
+        *(u8 *)((s32)a0 + 0xC1) = 0;
+    }
+}
+
 
 
 // @class: plumbing
@@ -5919,7 +5979,28 @@ extern void func_80016714(void *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_041/nonmatchings/ov_SC02_041_jr_8017BEBC", func_8018083C);
+
+
+extern s32 func_8012BCCC(s32 a0);
+
+void func_8018083C(s32 a0) {
+    register s32 result __asm__("$2");
+    register s32 threshold __asm__("$3");
+
+    if (*(s16 *)(a0 + 0x70) & 0x8000) {
+        result = func_8012BCCC(a0);
+        threshold = 0x90000;
+    } else {
+        result = func_8012BCCC(a0);
+        threshold = 0x24000;
+    }
+    threshold = (threshold < result);
+    if (threshold) {
+        return;
+    }
+    func_8018008C(a0);
+}
+
 
 extern s32 func_8012BEE8(s32 arg);
     extern void func_801800CC(s32 arg);
