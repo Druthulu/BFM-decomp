@@ -3626,7 +3626,46 @@ void func_80184278(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_80184410);
+typedef struct { s16 vx, vy, vz, pad; } SVEC2_C59C_8017D9CC;
+typedef struct { s16 vx, vy; } DVEC2_C59C_8017D9CC;
+
+
+
+typedef struct {
+    s16 vx, vy, vz;
+} UVec_8017DB64;
+
+void func_80184410(int param_1)
+{
+    extern s16 D_801EB134;
+    extern s32 D_801EB13C;
+
+    UVec_8017DB64 v;
+    int p;
+    s32 ptr;
+    u16 *o;
+
+    p = *(int *)(param_1 + 0x20);
+    o = (u16 *)param_1;
+    v.vy = 0;
+    v.vx = 0;
+    v.vz = o[0x16];
+    func_800139C8(*(short *)(p + 0x12) = *(unsigned short *)(p + 0x12) + o[0x17], &v, &v);
+
+    o[3] = o[9] + v.vx;
+    o[7] = o[0xD] + v.vz;
+    o[5] = o[5] + o[0xB];
+    ptr = D_801EB13C;
+    o[8] = o[8] + *(unsigned short *)ptr;
+    o[9] = o[9] - o[8];
+    o[0xC] = o[0xC] + *(unsigned short *)(ptr + 2);
+    o[0xD] = o[0xD] - o[0xC];
+
+    if (D_801EB134 < *(short *)(param_1 + 0xA)) {
+        o[1] = o[1] + 1;
+    }
+}
+
 
 extern void func_801846EC(s32 *param_1);
 extern u8 D_801E9D30[];
@@ -3651,7 +3690,52 @@ join:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_80184560);
+typedef struct { s16 vx, vy; } DVEC2_C59C_8017DBEC;
+
+
+
+extern s32 rand(void);
+extern void func_800139C8(s32 a0, void *a1, void *a2);
+extern s32 D_801EB138;
+
+typedef struct {
+    s16 vx, vy, vz, pad;
+} UVec_8017DED4;
+
+void func_80184560(s32 param_1)
+{
+    UVec_8017DED4 v;
+    s16 lim;
+
+    v.vx = ((rand() & 1) << 8) + ((rand() & 0x1F) << 3) + (rand() & 0x1F);
+    v.vz = 0;
+    v.vy = 0;
+
+    func_800139C8(((rand() & 3) << 10) + ((rand() & 0x1F) << 5) + ((rand() & 3) << 8) + (rand() & 0xFF), &v, &v);
+
+    if (v.vx > *(s16 *)D_801EB138) {
+        lim = *(s16 *)D_801EB138;
+        v.vx = v.vx - lim;
+    } else if (v.vx < -*(s16 *)D_801EB138) {
+        lim = *(s16 *)D_801EB138;
+        v.vx = lim + v.vx;
+    }
+
+    if (v.vz > *(s16 *)(D_801EB138 + 2)) {
+        lim = *(s16 *)(D_801EB138 + 2);
+        v.vz = v.vz - lim;
+    } else if (v.vz < -*(s16 *)(D_801EB138 + 2)) {
+        lim = *(s16 *)(D_801EB138 + 2);
+        v.vz = lim + v.vz;
+    }
+
+    *(u16 *)(param_1 + 6) += v.vx;
+    *(u16 *)(param_1 + 0xA) += v.vy;
+    *(u16 *)(param_1 + 0xE) += v.vz;
+
+    *(u16 *)(param_1 + 0x16) = (rand() & 7) + 8;
+}
+
 
 
 
