@@ -5782,7 +5782,11 @@ void func_8017FF7C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017FF90);
+extern s32 D_801B2E70;
+void func_8017FF90(void) {
+    D_801B2E70 = 0;
+}
+
 
 
 extern s32 D_801B2E70;
