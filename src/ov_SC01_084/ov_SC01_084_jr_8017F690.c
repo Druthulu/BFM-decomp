@@ -3045,7 +3045,17 @@ void *param_1;
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_8017FDB0);
+#include "common.h"
+
+extern s32 D_801270D8;
+extern void func_801292C8(void);
+
+void func_8017FDB0(void) {
+    if (D_801270D8 > 5) {
+        func_801292C8();
+    }
+}
+
 
 extern void (*D_8018A8FC[])(void);
 

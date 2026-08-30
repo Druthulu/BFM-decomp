@@ -3453,7 +3453,14 @@ void func_8017E348(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017E424);
+extern s32 D_80126FA8[];
+extern void func_8017E97C(void *a0);
+extern void func_8012A048(void *a0, s32 a1, u8 a2);
+
+void func_8017E424(void) {
+    func_8012A048(D_80126FA8, (s32)func_8017E97C, 0x6);
+}
+
 
 #include "common.h"
 

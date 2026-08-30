@@ -4335,7 +4335,15 @@ void func_8017EB34(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017EB78);
+#include "common.h"
+
+void func_8017EB78(s32 a0) {
+    s32 v0 = *(s32 *)(a0 + 0xCC);
+    if (*(s16 *)(v0 + 0xFC) >= 2) {
+        *(s16 *)(a0 + 2) = 1;
+    }
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 

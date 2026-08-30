@@ -3986,7 +3986,12 @@ void func_8017FF68(s32 param_1, s16 *param_2) {
 
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80180100);
+extern volatile s32 D_801EC44C;
+
+s32 func_80180100(void) {
+    return *(u16 *)(D_801EC44C + 2) == 0x1D;
+}
+
 
 #include "common.h"
 

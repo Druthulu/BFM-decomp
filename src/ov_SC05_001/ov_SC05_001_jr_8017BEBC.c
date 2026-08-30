@@ -5318,7 +5318,13 @@ void func_8017FB04(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017FB98);
+void func_8017FB98(void *a0) {
+    s32 v1 = *(s32 *)((s32)a0 + 0x2C);
+    *(s32 *)((s32)a0 + 0x10) = 0;
+    *(s32 *)((s32)a0 + 0x18) = 0xFFFE0000;
+    *(s32 *)((s32)a0 + 0x14) = v1;
+}
+
 
 #include "common.h"
 

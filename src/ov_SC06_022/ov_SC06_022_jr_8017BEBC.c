@@ -4450,7 +4450,12 @@ void func_8017F598(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017F5F8);
+#include "common.h"
+
+s32 func_8017F5F8(void *a0) {
+    return *(s16 *)((s32)a0 + 0xfc) != 0;
+}
+
 
 #include "common.h"
 
