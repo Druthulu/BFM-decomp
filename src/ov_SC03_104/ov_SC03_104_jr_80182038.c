@@ -3125,7 +3125,21 @@ void func_8018271C(s32 out, s32 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_80182038", func_801827EC);
+
+
+extern s32 func_80134510(s32 arg);
+
+s32 func_801827EC(s32 a0)
+{
+    u16 sp[3];
+    s32 result;
+    sp[0] = *(u16 *)(a0 + 0x6);
+    sp[1] = *(u16 *)(a0 + 0xA);
+    sp[2] = *(u16 *)(a0 + 0xE);
+    result = func_80134510((s32)sp);
+    return ((u32)result > 0) ? 1 : 0;
+}
+
 
 
 extern s32 func_8012BD14(s32 a0);

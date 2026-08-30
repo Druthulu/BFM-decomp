@@ -5082,7 +5082,13 @@ void func_801807B8(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801807F4);
+
+
+extern void func_8012AD44(s32 *a0, s16 a1);
+    void func_801807F4(void *arg0) {
+        ((void (*)(void *, int))func_8012AD44)(arg0, 0x6);
+    }
+
 
 
 // @class: struct
@@ -5581,7 +5587,22 @@ s32 func_801812B4(void *arg0, s32 arg1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80181374);
+
+
+void func_80181374(void) {
+
+    extern u8 D_801202A0[];
+    u8 *p;
+    s32 i;
+
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++, p += 0x10C) {
+        if (*(u16 *)p == 0x1E1) {
+            *(u16 *)(p + 0x70) |= 0x1000;
+        }
+    }
+}
+
 
 
 extern void func_8002D4C8(s32 a0, s32 a1);

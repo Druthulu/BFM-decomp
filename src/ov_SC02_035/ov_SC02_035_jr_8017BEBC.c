@@ -5253,7 +5253,26 @@ void func_8018023C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_035/nonmatchings/ov_SC02_035_jr_8017BEBC", func_801803A4);
+
+
+extern u8 D_801202A0[];
+
+s32 func_801803A4(void) {
+    s32 count = 0;
+    s32 i = 0;
+    u8 *p = D_801202A0;
+
+    do {
+        if (*(u16 *)p == 0x17F && (*(u16 *)(p + 0x70) & 0xF) == 0) {
+            count++;
+        }
+        i++;
+        p += 0x10C;
+    } while (i < 0x60);
+
+    return count < 0xB;
+}
+
 
 
 extern u8 *func_801290DC(s32 a0, u8 *a1);

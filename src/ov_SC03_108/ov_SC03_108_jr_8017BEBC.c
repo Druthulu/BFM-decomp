@@ -4981,4 +4981,45 @@ end:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017F788);
+typedef struct {
+    u8 r;   /* 0x00 */
+    u8 g;   /* 0x01 */
+    u8 b;   /* 0x02 */
+    u8 cd;  /* 0x03 (never written; the block move copies it anyway) */
+} Col4_80181574;
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B200(u8 *a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32 func_8012B77C(s32 out, s32 from, s32 to);
+
+void func_8017F788(s32 a0) {
+    s16 sp10[8]; /* 0x10 */
+    s32 sp20[2]; /* 0x20 */
+    s16 t;
+    s32 r;
+
+    sp10[1] = D_80126B5E;
+    t = D_80126B62;
+    sp10[3] = t - 0x30;
+    sp10[5] = D_80126B66;
+
+    func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
+
+    r = sp20[0];
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = r;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = r >> 16;
+    func_8012B2CC(a0);
+
+    func_8012B200((u8 *)a0);
+    func_8012B178(a0, 0xFFF00000);
+
+    *(u16 *)(a0 + 2) = 5;
+    *(u16 *)(a0 + 0x34) = 0;
+    *(s32 *)(a0 + 0x1C) = 0;
+    *(u16 *)(a0 + 0xFE) = D_80126B62 - 96;
+}
+

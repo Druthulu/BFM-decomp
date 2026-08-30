@@ -4325,7 +4325,27 @@ void func_8017ECD4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_8017EDAC);
+
+
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+
+void func_8017EDAC(a0, a1, a2)
+void *a0;
+void *a1;
+s32 a2;
+{
+    s32 i;
+
+    for (i = 0; *(s16 *)((s32)a1 + i) != 0; i += 6) {
+        s32 v1 = func_8012C658(0x167, (s16)a2, (s32)a0);
+        if (v1 != 0) {
+            *(u16 *)(v1 + 0x6) = *(u16 *)((s32)a1 + i + 0);
+            *(u16 *)(v1 + 0xA) = *(u16 *)((s32)a1 + i + 2);
+            *(u16 *)(v1 + 0xE) = *(u16 *)((s32)a1 + i + 4);
+        }
+    }
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8017EE48(s32 a0) {
@@ -4575,7 +4595,27 @@ void func_8017F2A4(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_096/nonmatchings/ov_SC03_096_jr_8017BEBC", func_8017F308);
+
+
+extern u8 D_801202A0[];
+
+void func_8017F308(s32 param_1) {
+    u8 *ptr = D_801202A0;
+    u8 *end = ptr + 0x6480;
+
+    if (ptr < end) {
+        s32 want = param_1 & 0xFFFF;
+        s32 mask = 0x7FFFFFFF;
+        u8 *lim = end;
+        do {
+            if (*(u16 *)ptr == want) {
+                (*(s32 **)(ptr + 0x20))[1] &= mask;
+            }
+            ptr += 0x10C;
+        } while (ptr < lim);
+    }
+}
+
 
 
 extern void (*D_80192A64[])(void);
@@ -4588,7 +4628,7 @@ void func_8017F370(void *a0) {
 extern s32 D_80192A34[];
 extern s32 D_80192A04[];
 extern void (*D_80192A18[])(void);
-extern void func_8017EDAC(s32, void *, s32);
+extern void func_8017EDAC();
 extern s32 D_8019A7D0;
 
 void func_8017F3AC(s32 a0) {

@@ -3543,7 +3543,27 @@ void func_8017D704(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_114/nonmatchings/ov_SC03_114_jr_8017BEBC", func_8017D740);
+
+
+extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
+extern void func_8012A828(s32, void*);
+
+void func_8017D740(void *arg0) {
+    s16 hval;
+    s32 temp;
+
+    hval = *(s16 *)((char *)arg0 + 0x10A);
+    if (hval & 0x8000) {
+        *(s16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x12) =
+            func_80012ABC(*(s16 *)(*(s32 *)((char *)arg0 + 0x20) + 0x12), hval & 0xFFF, 4);
+    }
+    temp = *(s32 *)((char *)arg0 + 0xF8);
+    if (temp != 0 && *(s32 *)((char *)arg0 + 0x90) != temp) {
+        ((void (*)(s32, s32))func_8012A828)((s32)arg0, temp);
+        *(s32 *)((char *)arg0 + 0xF8) = 0;
+    }
+}
+
 
 extern s32 D_80182BD0;
 
@@ -3646,7 +3666,7 @@ void func_8017DA28(void) {
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_800183E0(s32 a0);
 extern s32 rand(void);
-extern void func_8017D740(s32 a0);
+extern void func_8017D740();
 extern void (*D_80182908[])(s32);
 extern s32 D_80182A60;
 extern s32 D_80182BD0;
@@ -3697,7 +3717,7 @@ e58_chk:
 
 
 extern void func_8012A828(s32 a0, void *a1);
-extern void func_8017D740(s32 a0);
+extern void func_8017D740();
 extern void (*D_80182F88[])(void);
 extern void (*D_80183050[])(void);
 extern u8 D_801A5EFC[];

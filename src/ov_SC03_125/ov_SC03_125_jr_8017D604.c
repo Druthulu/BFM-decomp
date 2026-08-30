@@ -4311,7 +4311,42 @@ void func_80180148(void *a0, void *a1, void *a2, void *a3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_125/nonmatchings/ov_SC03_125_jr_8017D604", func_80180230);
+
+
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void RotMatrixYXZ(void *a0, void *a1);
+extern s32 rand(void);
+
+void func_80180230(void *a0, void *a1, s16 a2, s16 a3)
+{
+    extern u8 *func_8012913C(s32 a0);
+    s16 i;
+    s16 rot[4];
+    s32 mtx[8];
+    u8 *ent;
+
+    i = 0;
+    if (0 < a3) {
+        do {
+            ent = func_8012913C(0x46);
+            if (ent != 0) {
+                rot[0] = (rand() & 0x7F) * 8 + 0xF00;
+                rot[1] = a2 + (s16)((rand() & 0x7F00) >> 5);
+                rot[2] = 0;
+                RotMatrixYXZ(rot, mtx);
+                ApplyMatrixSV(mtx, a1, rot);
+                *(s16 *)(ent + 6) = *(s16 *)a0 + rot[0];
+                *(s16 *)(ent + 10) = *(s16 *)((s8 *)a0 + 2) + rot[1];
+                *(s16 *)(ent + 14) = *(s16 *)((s8 *)a0 + 4) + rot[2];
+                *(s32 *)(ent + 0x10) = (s32)rot[0] << 12;
+                *(s32 *)(ent + 0x14) = (s32)rot[1] << 12;
+                *(s32 *)(ent + 0x18) = (s32)rot[2] << 12;
+            }
+            i = i + 1;
+        } while (i < a3);
+    }
+}
+
 
 
 extern void (*D_80188138[])(void);

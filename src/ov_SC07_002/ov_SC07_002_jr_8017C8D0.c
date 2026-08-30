@@ -8847,7 +8847,13 @@ void aF801866D4(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8018672C);
+
+
+extern s32 func_80146994(s32 a0, s32 a1, s32 a2, s32 a3);
+    void func_8018672C(void *arg0) {
+        ((void (*)(s32, s32, s32, s32))func_80146994)(0x28, 0, arg0, 0);
+    }
+
 
 
 extern s32 func_8014C050(s32 a0, s32 a1);

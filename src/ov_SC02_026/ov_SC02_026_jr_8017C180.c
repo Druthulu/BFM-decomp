@@ -4666,7 +4666,28 @@ void func_8017F17C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017F390);
+
+
+extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
+extern u16 D_80126B96;
+extern s16 D_80126B9A;
+
+s32 aF801869C0(s32 param_1) __asm__("func_8017F390");
+
+s32 aF801869C0(s32 param_1) {
+    s32 p;
+    u16 val;
+
+    if (func_8012D624(param_1, (*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x18) * 3) >> 9, 0x21) == 1) {
+        p = *(s32 *)(param_1 + 0x20);
+        val = *(u16 *)(p + 0x12);
+        D_80126B96 = 0x4002;
+        D_80126B9A = val;
+        return 1;
+    }
+    return 0;
+}
+
 
 extern void func_8017F440();
 
@@ -4722,7 +4743,24 @@ void func_8017F47C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017F538);
+
+
+void func_8017F538(s32 a0, s32 a1)
+{
+    typedef struct { s32 w[8]; } Blk32_8017F76C_80186D9C;
+    extern Blk32_8017F76C_80186D9C D_800AE620;
+
+    Blk32_8017F76C_80186D9C mtx;
+    s32 vel[3];
+
+    mtx = D_800AE620;
+    vel[1] = 0;
+    vel[0] = 0;
+    vel[2] = a1;
+    RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12), &mtx);
+    func_800484EC((s32)&mtx, (s32)&vel[0], a0 + 0x10);
+}
+
 
 extern s32 func_8012BD14(s32 a0);
 extern void func_8002D59C(s32 a0, u16 a1, s32 a2);

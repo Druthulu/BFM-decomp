@@ -4569,7 +4569,13 @@ s32 func_8017F830(s16 *a0) {
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017F85C);
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017F9FC);
+
+
+extern void func_8012AD44(s32 *a0, s16 a1);
+    void func_8017F9FC(void *arg0) {
+        ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 1);
+    }
+
 
 extern void func_801800CC(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -5147,7 +5153,32 @@ void func_80180838(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_801809D4);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_8012AD44(s32 *a0, s16 a1);
+void func_801809D4(void)
+{
+  int new_var;
+  ((void (*)(s32, s32)) func_8012AD44)(new_var, 3);
+  new_var = 0x51AB;
+}
+
 
 
 /* ---- callees (TU canon: src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c L3514/3515) ---- */

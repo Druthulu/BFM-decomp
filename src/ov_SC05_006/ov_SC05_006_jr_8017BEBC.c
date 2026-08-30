@@ -4873,7 +4873,71 @@ void func_8017F130(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_006/nonmatchings/ov_SC05_006_jr_8017BEBC", func_8017F16C);
+typedef struct { u8 b[0x6C]; } Blk6C_80184CB0;
+
+/* §193-A banked twin: ov_SC06_018:func_8018AF88 (sim 0.708) establishes the
+ * `local = D_800AE620;` whole-struct-copy idiom for this exact symbol, with
+ * the address cached in a pointer local (forced into $s1, callee-saved,
+ * live across the RotMatrixY + follow-up calls). Same-TU sibling
+ * func_80185730 (src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c ~L5479) is an
+ * even closer structural relative: `m = D_800AE620;` on an 8-word Mat32_*
+ * typedef (§48 struct-assign -> 3+3+2 lw/sw grouping), RotMatrixY's angle
+ * arg read as `*(s16*)(*(s32*)((s32)a0 + 0x20) + 0x12)` mirrors this
+ * target's own `lw v0,0x20($s0); lh a0,0x12($v0)` chain almost verbatim
+ * (that sibling has one extra outer +0x64 hop this target does not).
+ * RotTransSV / func_8004914C / func_800491AC already carry file-scope
+ * `void *` decls in the destination TU (~L2639-2641) -- reused verbatim.
+ * SV4 {s16 a,b,c,d;} (src/shared/engine_types.h:598) is already used
+ * alongside RotTransSV/D_801C112C in the same TU and is the exact 8-byte
+ * shape both local vectors need (frame math: 16B implicit arg-spill +
+ * 32B Mat32 m + 8B sv + 8B out = 64B locals, + 12B saves + 4B pad = 0x50,
+ * matching the target's `addiu $sp,$sp,-0x50` exactly -- no 12-byte VECTOR
+ * fits, ruling that guess out).
+ */
+
+typedef struct { s32 w[8]; } Mat32_80186C20;
+typedef struct { s16 a, b, c, d; } SV4_80186C20;
+
+void func_8017F16C(void *a0)
+{
+    /* §183 STRUCT-view-cast. The destination TU declares this symbol four
+     * different ways at block scope; the reconciler flattens scope and reads
+     * the LAST one (`extern s32 D_800AE620;`, L6403) as the TU's spelling, so
+     * adopt that verbatim and take the struct view at the USE site -- exactly
+     * the idiom the TU itself already uses at L6420. */
+    extern s32 D_800AE620;
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void RotTransSV(void *a0, void *a1, void *a2);
+
+    Mat32_80186C20 m;
+    SV4_80186C20 sv;
+    SV4_80186C20 out;
+    void *mp;
+
+    m = *(Mat32_80186C20 *)&D_800AE620;
+    mp = &m;
+
+    RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12), mp);
+
+    m.w[5] = *(s16 *)((s32)a0 + 0xFE);
+    m.w[6] = *(s16 *)((s32)a0 + 0xA);
+    m.w[7] = *(s16 *)((s32)a0 + 0x100);
+
+    func_8004914C(mp);
+    func_800491AC(mp);
+
+    sv.a = 0;
+    sv.b = 0;
+    sv.c = *(u16 *)((s32)a0 + 0xE2);
+
+    RotTransSV(&sv, &sv, &out);
+
+    *(s16 *)((s32)a0 + 0x6) = sv.a;
+    *(s16 *)((s32)a0 + 0xE) = sv.c;
+}
+
 
 extern s32 func_8012AD50(void *a0);
 extern u8 D_80183090[];

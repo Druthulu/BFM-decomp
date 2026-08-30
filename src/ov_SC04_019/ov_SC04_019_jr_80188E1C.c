@@ -4649,7 +4649,33 @@ void func_8018B19C(u8 *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B2B8);
+
+
+extern void func_8012AD80(s32 a0);
+extern s32 func_80128ED8(s32 a0, s32 *a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+
+void func_8018B2B8(void *arg0) {
+    s32 temp_s1;
+    s32 temp_v1;
+
+    temp_s1 = *(s32 *)((s32)arg0 + 0xCC);
+    func_8012AD80((s32)arg0);
+    temp_v1 = *(s32 *)((s32)arg0 + 0xCC);
+    *(u16 *)(temp_v1 + 8) = *(u16 *)((s32)arg0 + 6);
+    *(u16 *)(temp_v1 + 0xA) = *(u16 *)((s32)arg0 + 0xA);
+    *(u16 *)(temp_v1 + 0xC) = *(u16 *)((s32)arg0 + 0xE);
+    if ((*(s32 *)((s32)arg0 + 0x1C) & 7) == 0) {
+        func_80128ED8(temp_s1, (s32 *)((s32)arg0 + 0xD0));
+    }
+    if (func_8012BEE8((s32)arg0) != 0) {
+        func_80016714((void *)temp_s1, 0x38);
+        func_8012C218(arg0);
+    }
+}
+
 
 
 extern void func_8012B414(int a0);
@@ -4662,7 +4688,20 @@ extern void func_8012B414(int a0);
 
 DEFINE_func_8018B388()  /* dedup: shared engine-core @0x8018B388 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018B400);
+
+
+extern u16 D_800B99DA;
+extern s32 func_8004787C(s32);
+
+void func_8018B400(void *arg0) {
+    u32 ret;
+    u8 *v1;
+
+    ret = func_8004787C(D_800B99DA * 48);
+    v1 = *(u8 **)((char *)arg0 + 0x20);
+    *(u16 *)(v1 + 0x10) = ret >> 5;
+}
+
 
 extern s32 D_801B60B0[];
 extern s32 D_801E053C[];

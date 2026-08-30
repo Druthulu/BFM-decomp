@@ -4439,7 +4439,13 @@ extern void func_80178B18(s32 a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_80180294);
+
+
+extern void func_8012AD44(s32 *a0, s16 a1);
+    void func_80180294(void *arg0) {
+        ((void (*)(void *, int))func_8012AD44)(arg0, 0x6);
+    }
+
 
 
 // @class: struct
@@ -4497,7 +4503,21 @@ void func_801803B8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_801803FC);
+
+extern void func_801330E0(void *, s16 *, s32);
+
+s32 func_801803FC(s32 a0) {
+    s32 v1;
+
+    v1 = *(s32 *)(a0 + 0xCC);
+    if (v1 != 0) {
+        *(u16 *)(v1 + 0x8) = *(u16 *)(a0 + 0x6);
+        *(u16 *)(v1 + 0xA) = *(u16 *)(a0 + 0xA);
+        *(u16 *)(v1 + 0xC) = *(u16 *)(a0 + 0xE);
+        func_801330E0((void *)(v1 + 0x8), (s16 *)(v1 + 0x8), -0x100);
+    }
+}
+
 
 typedef struct {
     u16 x, y, z;

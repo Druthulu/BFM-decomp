@@ -4501,7 +4501,18 @@ void func_80181A84(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181AD0);
+
+
+extern void func_8013B598(s32 a0, u16 *a1);
+
+void func_80181AD0(s32 a0, s32 a1) {
+    u16 sp[3];
+    sp[0] = *(u16 *)(a0 + 0x2);
+    sp[1] = *(u16 *)(a0 + 0x6);
+    sp[2] = *(u16 *)(a0 + 0xA);
+    func_8013B598(a1, sp);
+}
+
 
 extern void func_8013B6A0(s32 idx, u16 *src, s32 val);
 
@@ -4563,7 +4574,27 @@ void func_80181BDC(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181CA8);
+
+
+void func_80181CA8(s32 arg0)
+{
+    extern s32 rand(void);
+    extern void func_8012B200(u8 *a0);
+
+    register s32 rec __asm__("$17");
+    s32 r;
+    s32 n;
+
+    rec = arg0;
+    r = rand();
+    *(u16 *)(rec + 0x104) = *(u16 *)(rec + 0xFC);
+    func_8012B200((u8 *)rec);
+    n = rand();
+    *(s32 *)(rec + 0x1C) = n % 60 + 0x78;
+    *(s16 *)(rec + 0xFE) = (s16)r % 32 + 0xA;
+    *(s16 *)(rec + 0x2) = 2;
+}
+
 
 typedef struct { s16 a, b, c; } SV3x_80184B30_80181D58;
 typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80181D58;
@@ -4648,7 +4679,19 @@ void func_80181D58(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_104/nonmatchings/ov_SC03_104_jr_8017CA80", func_80181EA0);
+
+
+extern void func_8012CBF4(s32 a0);
+extern s32 func_80013478(s32 a0, s32 a1);
+
+void func_80181EA0(s32 arg0) {
+    func_8012CBF4(arg0);
+    if (func_80013478(arg0 + 4, arg0 + 0x88) < 0x101) {
+        *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x10) = 0;
+        *(s16 *)(arg0 + 2) = 4;
+    }
+}
+
 
 
 

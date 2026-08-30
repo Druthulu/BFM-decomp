@@ -3432,7 +3432,61 @@ void func_8017DC70(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_8017DE08);
+
+
+extern void *func_80010A08(s32 a0);
+extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8005A600(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32 AddPrim(s32 a0, void *a1);
+extern s32 D_800A651C;
+extern s16 D_800B9A02;
+
+s32 func_8017DE08(s32 a0)
+{
+    u8 *p;
+    s32 ot;
+    s32 tp;
+    register s32 c1 __asm__("$3");
+
+    ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14));
+
+    p = (u8 *)func_80010A08(0x30);
+    if (p != 0) {
+        tp = GetTPage(0, 1, 0, 0);
+        func_8005A600((s32)p, 0, 0, (u16)tp, 0);
+
+        /* r0,r1,r2,r3 then g0..g3 then b0..b3 -- one load each */
+        *(u8 *)(p + 0x10) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x18) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x20) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x28) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x11) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x19) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x21) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x29) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x12) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x1A) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x22) = *(s32 *)((u8 *)a0 + 0x1C);
+        *(u8 *)(p + 0x2A) = *(s32 *)((u8 *)a0 + 0x1C);
+
+        *(u8 *)(p + 0xF) = 8;      /* tag len  */
+        *(u8 *)(p + 0x13) = 0x3A;  /* code     */
+
+        *(s16 *)(p + 0x1C) = 0xA0;   /* x1 */
+        *(s16 *)(p + 0x2C) = 0xA0;   /* x3 */
+        *(s16 *)(p + 0x16) = -0x78;  /* y0 */
+        *(s16 *)(p + 0x1E) = -0x78;  /* y1 */
+        c1 = -0xA0;
+        *(s16 *)(p + 0x14) = c1;     /* x0 */
+        *(s16 *)(p + 0x24) = c1;     /* x2 */
+        *(s16 *)(p + 0x26) = 0x78;   /* y2 */
+        *(s16 *)(p + 0x2E) = 0x78;   /* y3 */
+
+        AddPrim(ot, p + 0xC);
+        AddPrim(ot, p);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_8017DF70);
 

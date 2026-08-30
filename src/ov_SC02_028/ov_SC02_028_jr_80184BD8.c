@@ -4476,7 +4476,24 @@ void func_80187490(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_80184BD8", func_8018754C);
+
+
+void func_8018754C(s32 a0, s32 a1)
+{
+    typedef struct { s32 w[8]; } Blk32_8017F76C_80186D9C;
+    extern Blk32_8017F76C_80186D9C D_800AE620;
+
+    Blk32_8017F76C_80186D9C mtx;
+    s32 vel[3];
+
+    mtx = D_800AE620;
+    vel[1] = 0;
+    vel[0] = 0;
+    vel[2] = a1;
+    RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12), &mtx);
+    func_800484EC((s32)&mtx, (s32)&vel[0], a0 + 0x10);
+}
+
 
 extern s32 func_8012BD14(s32 a0);
 extern void func_8002D59C(s32 a0, u16 a1, s32 a2);

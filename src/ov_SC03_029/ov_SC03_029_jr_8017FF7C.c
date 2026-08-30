@@ -7143,7 +7143,7 @@ extern s32  func_80186DD4(s32 a0);
 extern void func_80186ECC(s32 a0, s32 a1);
 extern void func_80186F60(s32 a0);
 extern s32  func_801870B8(s32 a0);
-extern s32  func_80187118(s32 a0, s32 a1);
+extern s32  func_80187118();
 
 void func_801860C0(s32 obj) {
     s32 d;
@@ -7823,7 +7823,58 @@ s32 func_801870B8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80187118);
+    typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017F67C_801869CC;
+    
+
+/* match_one's standalone common.h does not reach src/shared/engine_types.h, where the
+ * real TU's Blk20 { s32 w[8]; } and Vec32 { s32 vx, vy, vz, pad; } live. Local copies here;
+ * integrator may drop these and reuse the TU's own (engine_types.h:472, :1098). */
+typedef struct { s32 w[8]; } Blk20_80188AF4;
+typedef struct { s32 vx, vy, vz, pad; } Vec32_80188AF4;
+
+s32 func_80187118(s32 a0, s32 a1)
+{
+    extern s32  func_8012B864(s32 a0);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+    extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+    extern struct Mtx32_80184008 D_800AE620;
+
+    u32 pos[3];
+    Vec32_80188AF4 out;
+    u8 rotIn[8];
+    u8 rotOut[8];
+    Blk20_80188AF4 m;
+
+    m = (*(Blk20_80188AF4 *)&(*(Mtx8_8017DE10_8017E710 *)&D_800AE620));
+    RotMatrixY(func_8012B864(a0), &m);
+    func_800484EC((s32)&m, a1, (s32)&out);
+
+    pos[0] = *(s32 *)(a0 + 0x4) + out.vx;
+    pos[1] = *(s32 *)(a0 + 0x8) + out.vy;
+    pos[2] = *(s32 *)(a0 + 0xC) + out.vz;
+
+    {
+        register u16 rix __asm__("$2");
+        register u16 roy __asm__("$3");
+        register u16 roz __asm__("$7");
+        register u16 riz __asm__("$8");
+
+        rix = *(u16 *)(a0 + 0x3A);
+        roy = *((u16 *)&pos[1] + 1);
+        roz = *((u16 *)&pos[2] + 1);
+        *(u16 *)(rotIn + 0) = rix;
+        *(u16 *)(rotIn + 2) = *(u16 *)(a0 + 0x3E);
+        riz = *(u16 *)(a0 + 0x42);
+        *(u16 *)(rotOut + 0) = *((u16 *)&pos[0] + 1);
+        *(u16 *)(rotOut + 2) = roy;
+        *(u16 *)(rotOut + 4) = roz;
+        *(u16 *)(rotIn + 4) = riz;
+    }
+
+    func_8012CEB0((s32)&rotIn[0], (s32)&rotOut[0], 0);
+}
+
 
 s32 func_8018723C(void *a0) {
     short a[4];
