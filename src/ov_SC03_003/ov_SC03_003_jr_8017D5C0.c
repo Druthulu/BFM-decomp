@@ -3399,7 +3399,20 @@ register void *s0 __asm__("$16");
   func_80171990((u8 *) s0);
 }
 
-INCLUDE_ASM("asm/ov_SC03_003/nonmatchings/ov_SC03_003_jr_8017D5C0", func_8017E9CC);
+
+extern s32 func_8017EC64(s32 a0);
+extern s32 func_80171990(u8 *a0);
+
+void func_8017E9CC(u8 *a0) {
+    s32 v0;
+    func_8017EC64((s32)a0);
+    v0 = *(s32 *)(a0 + 0x200) - 1;
+    *(s32 *)(a0 + 0x200) = v0;
+    if (v0 == -1) {
+        func_80171990(a0);
+    }
+}
+
 
 extern s32 D_8018FB78;
 extern u8 D_801830B0;
