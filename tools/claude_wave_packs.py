@@ -78,10 +78,55 @@ def _residual_block(t, where):
                 "placement — the §8e JTBL_PADS class), which no C edit reaches.\n"
                 "================================================================================\n"
                 % t['binary'])
+    # RETRIEVAL IS PUSHED, NOT PULLED (P31 S66 — measured).
+    # SYS.md already says "START AT docs/cookbook-index.md — it is symptom-keyed"; agents skip it and
+    # grind instead. Round-3 harvest caught two transcripts (func_800CDBA8, func_800CB00C) that
+    # RE-DERIVED banked laws — the §165-19/§162d1/§30#3 birthing-boost dial and the §135-1/§165-28
+    # unsigned-switch-selector rule — with an EMPTY cookbook_refs_used. That is a retrieval defect,
+    # not missing knowledge, and the book's own guidance says fix RETRIEVAL rather than write more
+    # prose. So when we have already MEASURED the residual and know its klass, paste the matching
+    # symptom bucket into the pack instead of hoping the agent greps for it.
+    def _index_bucket(klass):
+        buckets = {
+            'REGALLOC-PERM': 'register allocation & pins', 'REGALLOC-LOCAL': 'register allocation & pins',
+            'SCHEDULE-REORDER': 'instruction scheduling', 'OPCODE-MIXED': 'instruction scheduling',
+            'DELAY-SLOT': 'delay slots & branches', 'BRANCH-POLARITY': 'delay slots & branches',
+            'WIDTH': 'types, signedness & load/store width', 'IMM-VALUE': 'types, signedness & load/store width',
+            'IMM-OFFSET': 'types, signedness & load/store width', 'ADDRESSING': 'CSE / redundancy / rematerialization',
+            'LENGTH-DRIFT': 'instruction scheduling', 'CC1-FAIL': 'declarations, prototypes & K&R',
+        }
+        name = buckets.get((klass or '').split('/')[0].upper())
+        if not name:
+            return ''
+        try:
+            idx = open(os.path.join(REPO, 'docs/cookbook-index.md'), errors='replace').read().splitlines()
+        except Exception:
+            return ''
+        out, on = [], False
+        for line in idx:
+            if line.startswith('### '):
+                if on:
+                    break
+                on = name in line
+                if on:
+                    out.append(line)
+                continue
+            if on and line.strip():
+                out.append(line)
+        if len(out) < 2:
+            return ''
+        head, rows = out[0], out[1:]
+        shown = rows[:40]
+        more = ('\n  … %d more in docs/cookbook-index.md under "%s"' % (len(rows) - len(shown), name)) if len(rows) > len(shown) else ''
+        return ("\n\nTHE COOKBOOK BUCKET FOR THIS RESIDUAL CLASS (pasted so you do not have to find it;\n"
+                "these are the laws that already exist for what your diff shows — READ BEFORE GRINDING):\n%s\n%s%s\n"
+                % (head, "\n".join(shown), more))
+
     resid = j.get('residual') or []
     if st != 'near' or not resid:
         return ""
     sig = (j.get('verdict') or {}).get('sig') or ''
+    klass = (j.get('verdict') or {}).get('klass') or sig
     rows = "\n".join("  idx %-4s mine %-32s tgt %s" % (e[0], e[1], e[2]) for e in resid[:16])
     more = "\n  … %d more" % (len(resid) - 16) if len(resid) > 16 else ""
     return ("\n\n================================================================================\n"
@@ -94,9 +139,9 @@ def _residual_block(t, where):
             "is the register says the value came from the wrong PLACE (often: the copy instead of the\n"
             "pre-copy value); a beqz/bnez row means INVERT the test and swap the arms (their constants\n"
             "swap with them). Fix the smallest cause, then re-run match_one before submitting.\n"
-            "================================================================================\n"
+            "================================================================================\n%s"
             % (cl, cl, j.get('nins'), sig,
-               "Note:" if j.get('nins') else "", rows, more))
+               "Note:" if j.get('nins') else "", rows, more, _index_bucket(klass)))
 
 
 def main():
