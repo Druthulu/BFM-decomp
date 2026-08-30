@@ -40,7 +40,9 @@ const lessons = await pipeline(
   t => agent(
 `You are distilling ONE byte-proven decompilation transcript for the project's matching cookbook (docs/matching-cookbook.md, gcc-2.7.2 MIPS idioms). Repo: ${REPO}.
 Transcript (JSONL, an agent's full tool trace): ${t.transcript}
-Function: ${t.fn} (arm ${t.arm}); the whole-binary byte-gate ACCEPTED the final draft, so the final body is ground truth. The agent's own closing note was: "${t.note}"
+Function: ${t.fn} (arm ${t.arm}). ${t.banked === false
+  ? 'PROVENANCE WARNING: the whole-binary byte-gate REFUSED this draft (or it was never gated). The body is NOT ground truth. Distil the lever anyway — a lever found while FAILING still cracks siblings (cookbook §52) — but every claim must be marked UNPROVEN, cite the closeness numbers the transcript actually shows, and NEVER assert byte-equality. If the lesson only holds if the body were correct, say so.'
+  : 'The whole-binary byte-gate ACCEPTED the final draft, so the final body is ground truth.'} The agent's own closing note was: "${t.note}"
 
 Read the transcript. Find the moment(s) the masked diff (match_one closeness) dropped to 0 and what C change caused it. Report ONE lesson — the most generalizable one — as:
   title: <=12 words, symptom-keyed (what you see in the diff)
@@ -56,7 +58,7 @@ Read only; write nothing.`,
   (lesson, t) => {
     if (!lesson || lesson.trivial || !lesson.novel_claim) return lesson ? { ...lesson, verdict: lesson.trivial ? 'TRIVIAL' : 'APPLIED-EXISTING' } : null
     return agent(
-`You are the cookbook verifier for the Brave Fencer Musashi decompilation (repo ${REPO}). A distiller claims a NEW gcc-2.7.2 idiom from a byte-proven transcript:
+`You are the cookbook verifier for the Brave Fencer Musashi decompilation (repo ${REPO}). A distiller claims a NEW gcc-2.7.2 idiom from a transcript${t.banked === false ? ' whose draft the BYTE-GATE REFUSED (the lever is UNPROVEN — weigh it accordingly and say so in why; an UNPROVEN lever may still be NEW or ADDENDUM, but the entry_markdown MUST label it unproven)' : ' that is byte-proven'}:
   fn: ${t.fn}   title: ${lesson.title}
   mechanism: ${lesson.mechanism}
   asm_tell: ${lesson.asm_tell}
