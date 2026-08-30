@@ -7453,7 +7453,37 @@ s32 a2;
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80181EE8);
+typedef struct { s32 w[8]; } Blk20_80181EE8;
+typedef struct { s16 vx, vy, vz, pad; } Svec_80181EE8;
+
+extern Blk20_80181EE8 D_800AE620;
+extern s32 func_8012B8A4(s16 *a0);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern u8 D_801152A8[];
+
+void func_80181EE8(s32 param_1)
+{
+    Svec_80181EE8 out;
+    Svec_80181EE8 sv;
+    Blk20_80181EE8 m;
+    s16 r;
+    s32 t;
+
+    m = D_800AE620;
+    t = (*(s16 *)(*(u32 *)(param_1 + 0x20) + 0x18) * 9) >> 9;
+    sv.vx = sv.vy = 0;
+    sv.vz = -t;
+    r = func_8012B8A4((s16 *)param_1);
+    RotMatrixY(r, &m);
+    ApplyMatrixSV(&m, &sv, &out);
+    out.vx += *(u16 *)(param_1 + 6);
+    out.vy += *(u16 *)(param_1 + 0xA) - t;
+    out.vz += *(u16 *)(param_1 + 0xE);
+    func_8012F568(1, 0x4002, 0, 0x14, (s32)&out, (s32)D_801152A8);
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_004/nonmatchings/ov_SC04_004_jr_8017AE2C", func_80182014);
 
@@ -7566,7 +7596,7 @@ extern void func_8012C218(void *a0);
 extern void func_801439C0(void*);
 extern void func_801821E0();
 extern s32 func_80181D1C(s32 a0);
-extern void func_80181EE8(void*);
+extern void func_80181EE8();
 
 void func_801823F4(s32 param_1) {
     s32 flag;
@@ -7606,7 +7636,7 @@ void func_801824A8(void) {
 extern void func_8012CBF4(s32);
 extern s32 func_80181D1C(s32);
 extern s32 func_80181DAC(s32);
-extern void func_80181EE8(void *);
+extern void func_80181EE8();
 extern void func_80182170(s32, s32);
 extern void func_801439C0(void *);
 extern void func_8012C218(void *);

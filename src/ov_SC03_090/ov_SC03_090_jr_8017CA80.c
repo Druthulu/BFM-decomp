@@ -4558,7 +4558,69 @@ void func_80181AA0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_090/nonmatchings/ov_SC03_090_jr_8017CA80", func_80181B50);
+#include "common.h"
+
+
+
+extern u16 func_80148800(s32 *a0);
+extern void func_80181D30(s32 param_1, s16 *param_2);
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+
+void func_80181B50(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_8018F780[];
+    extern Blk8_80126940_8017D6D0_80181C80 D_80126940;
+    Blk8_80126940_8017D6D0_80181C80 sp10;
+    u8 t;
+    s16 v1;
+    register s16 c __asm__("$4"); /* clamp store value — target stores every bound from $a0 */
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018F780[t];
+    }
+    sp10 = D_80126940;
+
+    v1 = sp10.v[0];
+    if (v1 < -0x43F) {
+        if (v1 < -0x4FF) {
+            *(s16 *)(a0 + 0x2E) = 0;
+        } else {
+            *(s16 *)(a0 + 0x2E) = -0x500 - v1;
+        }
+    } else {
+        *(s16 *)(a0 + 0x2E) = 0;
+    }
+
+    *(s16 *)(a0 + 0x28) = (s16)func_80012F74(*(s16 *)(a0 + 0x28), *(s16 *)(a0 + 0x2E), 4, 1);
+
+    {
+        s16 lo = -0x580;
+        if (sp10.v[0] < lo) {
+            c = -0x580;
+            sp10.v[0] = c;
+        }
+    }
+    {
+        s16 lim = -0x380;
+        if (lim < sp10.v[0]) {
+            c = -0x380;
+            sp10.v[0] = c;
+        }
+    }
+    {
+        s16 lo2 = 0xC0;
+        if (sp10.v[2] < lo2) {
+            c = 0xC0;
+            sp10.v[2] = c;
+        }
+    }
+
+    func_80181D30(a0, sp10.v);
+}
+
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */

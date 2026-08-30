@@ -4022,7 +4022,46 @@ void func_8017FE78(s32 a0)
 void func_8017FED0(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FED8);
+extern s16 D_801F32D8;
+extern u8 D_801202A0[];
+
+s32 func_8017FED8(s32 a0) {
+    s16 i;
+    u8 *e;
+    u8 *p;
+    s16 cur;
+
+    if (--*(s16 *)(a0 + 0x102) == -1) {
+        i = 0;
+        e = D_801202A0;
+        for (;;) {
+            p = e + 0x102;
+            __asm__ __volatile__("" :: "r"(p));
+            if (*(u16 *)(e + 0) != 0x1AB) goto next;
+            if (*(s16 *)(p - 0x92) != 0x2B) goto next;
+            cur = D_801F32D8;
+            if (*(s16 *)(p - 0x6) != cur - 1) goto next;
+            if (*(s32 *)(p - 0x36)) {
+                *(s16 *)(a0 + 0x102) = 0;
+                return 0;
+            }
+            D_801F32D8 = cur - 1;
+            *(s16 *)p = 1;
+            if (D_801F32D8 & 1) {
+                *(s16 *)(a0 + 0x102) = 9;
+            } else {
+                *(s16 *)(a0 + 0x102) = 4;
+            }
+            break;
+        next:
+            ++i;
+            e += 0x10C;
+            if ((s16)i >= 0x60) break;
+        }
+    }
+    return D_801F32D8 < 2;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FFD0);
 

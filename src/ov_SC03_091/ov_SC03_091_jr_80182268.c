@@ -2923,7 +2923,67 @@ void func_801826C8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_80182268", func_80182788);
+#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+
+extern u16 func_80148800(s32 *a0);
+extern void func_80182B48(s32 param_1, s16 *param_2);
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+
+void func_80182788(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_80190714[];
+    extern Blk8_80126940_8017D6D0_80182A98 D_80126940;
+    Blk8_80126940_8017D6D0_80182A98 sp10;
+    u8 t;
+    s16 v1;
+    register s16 c __asm__("$4");
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80190714[t];
+    }
+    sp10 = D_80126940;
+
+    v1 = sp10.v[0];
+    if (v1 >= 0x700) {
+        if (v1 < 0x7C0) {
+            *(s16 *)(a0 + 0x2E) = 0x7C0 - v1;
+        } else {
+            *(s16 *)(a0 + 0x2E) = 0;
+        }
+    } else {
+        *(s16 *)(a0 + 0x2E) = 0;
+    }
+
+    *(s16 *)(a0 + 0x28) = (s16)func_80012F74(*(s16 *)(a0 + 0x28), *(s16 *)(a0 + 0x2E), 4, 1);
+
+    {
+        s16 lo = 0x540;
+        if (sp10.v[0] < lo) {
+            c = lo;
+            sp10.v[0] = c;
+        }
+    }
+    {
+        s16 lim = 0x800;
+        if (lim < sp10.v[0]) {
+            c = lim;
+            sp10.v[0] = c;
+        }
+    }
+    {
+        s16 lo2 = -0x3C0;
+        if (sp10.v[2] < lo2) {
+            c = lo2;
+            sp10.v[2] = c;
+        }
+    }
+
+    func_80182B48(a0, sp10.v);
+}
+
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */

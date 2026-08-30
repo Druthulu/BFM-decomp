@@ -3850,7 +3850,48 @@ void func_8017DD44(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017DDDC);
+
+
+extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
+
+s32 func_8017DDDC(s32 a0, s32 a1) {
+    V4_8017FAC0_8017D708 p2;
+    V4_8017FAC0_8017D708 p1;
+    register s32 rp1 __asm__("$17");
+    s32 mid;
+
+    rp1 = (s32)&p1;
+
+    p2.x = p1.x = *(u16 *)(a1 + 4);
+    p2.y = p1.y = *(u16 *)(a1 + 8) - 0x10;
+    p2.z = *(u16 *)(a1 + 0xC);
+    p1.z = *(u16 *)(a1 + 0xE);
+    if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
+        return 1;
+    }
+
+    p2.x = p1.x = mid = (*(s16 *)(a1 + 4) + *(s16 *)(a1 + 6)) >> 1;
+    if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
+        return 1;
+    }
+
+    p2.x = p1.x = (u32)(*(s16 *)(a1 + 4) + mid) >> 1;
+    if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
+        return 1;
+    }
+
+    p2.x = p1.x = (u32)(*(s16 *)(a1 + 6) + mid) >> 1;
+    if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
+        return 1;
+    }
+
+    p2.x = p1.x = *(u16 *)(a1 + 6);
+    if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -4052,7 +4093,51 @@ void func_8017E27C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017E3F8);
+typedef struct { s32 w[8]; } Blk20_8017E3F8;
+
+void func_8017E3F8(void *a0)
+{
+    extern Blk20_8017E3F8 D_800AE620;
+    extern s32 D_801847E0;
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void RotTransSV(void *a0, void *a1, void *a2);
+    extern void func_8012E32C(void);
+    extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+
+    s32 s0 = (s32)a0;
+    s16 v[4];
+    Blk20_8017E3F8 mtx = D_800AE620;
+    s32 flag;
+    s32 sxy;
+    s32 z;
+    s32 ent;
+    u16 t;
+    s32 f;
+
+    mtx.w[5] = *(s16 *)(s0 + 0x6);
+    mtx.w[6] = *(s16 *)(s0 + 0xA);
+    mtx.w[7] = *(s16 *)(s0 + 0xE);
+
+    ent = *(s32 *)(s0 + 0x20);
+    RotMatrixY(*(s16 *)(ent + 0x12), &mtx);
+    func_8004914C(&mtx);
+    func_800491AC(&mtx);
+
+    RotTransSV(&D_801847E0, v, &flag);
+    func_8012E32C();
+
+    *(s32 *)(s0 + 0xE0) = RotTransPers((s32)v, (s32)&sxy, &z, &flag);
+
+    t = *(u16 *)&sxy;
+    f = flag;
+    *(s16 *)(s0 + 0x100) = t;
+    if (f < 0) {
+        *(s16 *)(s0 + 0x100) = -0x3E7;
+    }
+}
+
 
 typedef struct { s32 flag; u16 xy[2]; s32 sp1c; } Out_8017E910_8017E508;
 typedef struct { s16 a, b, c, d; } SV4_8017E910_8017E508;

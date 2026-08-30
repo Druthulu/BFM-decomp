@@ -5038,7 +5038,63 @@ void func_8018162C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_80181668);
+extern s32 D_8018B0BC;
+extern u8 D_800D387C[];
+extern u8 D_800D3888[];
+
+void func_80181668(s32 param_1)
+{
+    s32 p;
+    register s32 r1 __asm__("$16");
+    register s32 r2 __asm__("$17");
+    s32 r3;
+    s32 r4;
+    s16 v;
+    s32 buf[3];
+    s32 *pAddr;
+
+    p = *(s32 *)(param_1 + 0x20);
+    *(u8 **)(p + 0x20) = D_800D387C;
+    *(u8 *)(p + 0x27) = 0x9c;
+    *(u16 *)(p + 0x1a) = 0x4000;
+    *(u16 *)(p + 0x18) = 0x4000;
+    *(u8 *)(p + 0x24) = 0x40;
+    *(u8 *)(p + 0x25) = 0x30;
+    *(u8 *)(p + 0x26) = 0x30;
+    *(u32 *)(p + 4) = *(u32 *)(p + 4) | 0x50000000;
+
+    func_80128EA8(*(s32 *)(param_1 + 0x20), param_1 + 0x24, (s32)D_800D3888);
+
+    r1 = rand();
+    r2 = rand();
+    r3 = rand();
+    v = (r1 & 3) * 1024;
+    v += (r2 & 3) * 250;
+    v += (r3 & 3) * 68;
+
+    r4 = rand();
+    pAddr = &D_8018B0BC;
+    *pAddr = 0xFFFC0000 - ((r4 & 0xF) << 14);
+
+    func_8001382C(v, (void *)((s32)pAddr - 8), buf);
+
+    {
+        s32 b0, b1, b2;
+        s32 cnt;
+
+        b0 = buf[0];
+        cnt = *(u16 *)(param_1 + 2);
+        *(s32 *)(param_1 + 0x10) = b0;
+        b1 = buf[1];
+        cnt = cnt + 1;
+        *(s32 *)(param_1 + 0x14) = b1;
+        b2 = buf[2];
+        *(s32 *)(param_1 + 0x1c) = 0x1e;
+        *(u16 *)(param_1 + 2) = cnt;
+        *(s32 *)(param_1 + 0x18) = b2;
+    }
+}
+
 
 extern void func_8012931C(struct vec *a0);
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);

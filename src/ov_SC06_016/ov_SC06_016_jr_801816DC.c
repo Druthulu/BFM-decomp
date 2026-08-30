@@ -3981,7 +3981,46 @@ void func_80182CE0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_801816DC", func_80182D1C);
+void func_80182D1C(void *a0)
+{
+    extern u32 D_8019FF00;
+    void *s3 = a0;
+    void *s2;
+    u32 p;
+    u32 q;
+    s32 y;
+    s32 r1;
+    u16 h;
+
+    s2 = *(void **)((s32)s3 + 0x20);
+    func_80182F44(s3);
+    p = D_8019FF00;
+    if (p != 0) {
+        h = *(u16 *)((s32)s2 + 0x12) + 0x800;
+        q = *(u32 *)((s32)p + 0x20);
+        y = h & 0xFFF;
+        if (*(u16 *)((s32)q + 0x12) & 0x400) {
+            r1 = func_80012A60(y, 0x400);
+            __asm__ __volatile__("" ::: "memory");
+            __asm__ __volatile__("" ::: "memory");
+            if (!((s16)r1 > (s16)func_80012A60(y, 0xC00))) {
+                *(s16 *)((s32)s2 + 0x12) = 0x400;
+            } else {
+                *(s16 *)((s32)s2 + 0x12) = 0xC00;
+            }
+        } else {
+            r1 = func_80012A60(y, 0);
+            if (!((s16)r1 > (s16)func_80012A60(y, 0x800))) {
+                *(s16 *)((s32)s2 + 0x12) = 0;
+                goto done;
+            }
+            *(s16 *)((s32)s2 + 0x12) = 0x800;
+        }
+    }
+done:
+    func_80171990((u8 *)s3);
+}
+
 
 
 extern s32 func_80183020();

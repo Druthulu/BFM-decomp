@@ -5793,7 +5793,48 @@ s16 param_3;
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80186424);
+extern u8 D_80126B5C;
+extern s32 D_80126B60;
+extern u16 D_80126B62;
+extern s32 D_80126B64;
+extern u16 D_80126B66;
+extern s32 *D_80126B78;
+extern void func_8012F0BC(s32 *a0, s32 *a1, s32 *a2);
+extern void func_8012F1A4(s32 *a0, s32 a1, s32 *a2);
+extern void func_80132784(s32 a0, s32 a1, u32 a2);
+
+void func_80186424(s32 arg0)
+{
+    if (*(u8 *)(arg0 + 0x74) != 0) {
+        extern s32 gVecX __asm__("D_80126B5C");
+        s32 in[4];
+        s32 out[4];
+        s32 tmp[4];
+        u16 h;
+
+        in[0] = gVecX;
+        in[1] = D_80126B60;
+        in[2] = D_80126B64;
+        func_8012F0BC((s32 *)(*(s32 *)(arg0 + 0x20) + 0x34), in, tmp);
+        func_80132784(arg0, *(s32 *)(arg0 + 0x64), *(u16 *)(arg0 + 0xFC));
+        func_8012F1A4((s32 *)(*(s32 *)(arg0 + 0x20) + 0x34), (s32)tmp, out);
+        gVecX = out[0];
+        D_80126B60 = out[1];
+        D_80126B64 = out[2];
+        h = *((u16 *)&gVecX + 1);
+        *(u16 *)((s32)D_80126B78 + 8) = h;
+        *(s32 *)((s32)D_80126B78 + 0x48) = (s32)(s16)h;
+        __asm__ __volatile__("" ::: "memory");
+        *(u16 *)((s32)D_80126B78 + 0xA) = D_80126B62;
+        *(s32 *)((s32)D_80126B78 + 0x4C) = (s32)(s16)D_80126B62;
+        __asm__ __volatile__("" ::: "memory");
+        *(u16 *)((s32)D_80126B78 + 0xC) = D_80126B66;
+        *(s32 *)((s32)D_80126B78 + 0x50) = (s32)(s16)D_80126B66;
+    } else {
+        func_80132784(arg0, *(s32 *)(arg0 + 0x64), *(u16 *)(arg0 + 0xFC));
+    }
+}
+
 
 #include "common.h"
 
@@ -5895,7 +5936,52 @@ void func_80186600(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018675C);
+extern u16 D_801E4BBC;
+extern u16 D_801E43B4;
+extern s32 D_801270C8;
+extern u8 D_80195AC4[];
+extern s16 D_80195ACE;
+
+
+extern D_80195AF4_t D_80195AF4[];
+
+s32 func_8018675C(void *a0)
+{
+    s32 flags = *(s32 *)((u8 *)a0 + 0xE8);
+
+    if (flags & 0x800) {
+        s16 t = *(s16 *)((u8 *)a0 + 0xE0);
+        if (t >= 0) {
+            if (*(s16 *)((u8 *)a0 + 6) < *(s16 *)((u8 *)D_80195AF4 + t * 8)) {
+                u16 old = D_801E43B4;
+                s32 f6 = *(s16 *)((u8 *)D_80195AF4 + t * 8 + 6);
+                D_801E43B4 = old + 1;
+                D_801270C8 = f6;
+                *(s16 *)((u8 *)a0 + 0xE0) = -1;
+            }
+        }
+        if (*(s32 *)((u8 *)a0 + 0x10) >= 0) {
+            return 0;
+        }
+        if (*(s16 *)((u8 *)a0 + 6) < D_80195ACE) {
+            *(s16 *)((u8 *)a0 + 0xFE) = 0;
+            *(s32 *)((u8 *)a0 + 0xE8) |= 8;
+            return 1;
+        }
+        return 0;
+    } else {
+        if (*(s32 *)((u8 *)a0 + 0x18) > 0) {
+            s32 phase = D_801E4BBC;
+            if (*(s16 *)((u8 *)D_80195AC4 + phase * 4) < *(s16 *)((u8 *)a0 + 0xE)) {
+                *(s32 *)((u8 *)a0 + 0xE8) = flags | ((phase == 2) ? 0x400 : 8);
+                *(s16 *)((u8 *)a0 + 0xFE) = 0;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 
 extern u16 D_801E4BBC;
 extern s32 D_80195AD0[];
@@ -8267,7 +8353,7 @@ void func_8018A3B4(void *a0) {
  * which is gcc's emit_block_move for align < 4. */
 
 extern Blob8_8018A47C D_801E2F28;
-extern void func_8018A6A0(s32 a0, Blob8_8018A47C *a1);
+extern void func_8018A6A0();
 
 void func_8018A47C(s32 a0) {
     Blob8_8018A47C tmp;
@@ -8350,7 +8436,7 @@ void func_8018A4C4(s32 a0)
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
  * which is gcc's emit_block_move for align < 4. */
 
-extern void func_8018A6A0(s32 a0, Blob8_8018A47C *a1);
+extern void func_8018A6A0();
 
 void func_8018A658(s32 a0) {
 
@@ -8362,7 +8448,77 @@ void func_8018A658(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_8018A6A0);
+void func_8018A6A0(s32 a0, u16 *a1)
+{
+    u8 *s0 = (u8 *)a0;
+    u16 *s1 = a1;
+    u16 vec0[4];
+    register u16 counter __asm__("$2");
+    s32 res[3];
+    s32 flags;
+    u8 *puVar;
+
+    func_8012B2CC(a0);
+
+    __asm__ __volatile__(
+        "lw $12, 0(%0)\n"
+        "lw $13, 4(%0)\n"
+        "ctc2 $12, $0\n"
+        "ctc2 $13, $1\n"
+        "lw $12, 8(%0)\n"
+        "lw $13, 12(%0)\n"
+        "lw $14, 16(%0)\n"
+        "ctc2 $12, $2\n"
+        "ctc2 $13, $3\n"
+        "ctc2 $14, $4\n"
+        "lw $12, 20(%0)\n"
+        "lw $13, 24(%0)\n"
+        "ctc2 $12, $5\n"
+        "lw $14, 28(%0)\n"
+        "ctc2 $13, $6\n"
+        "ctc2 $14, $7\n"
+        : : "r"((u8 *)*(s32 *)(s0 + 0x20) + 0x34) : "$12", "$13", "$14");
+
+    vec0[2] = 0;
+    vec0[0] = 0;
+    vec0[1] = counter = *s1;
+
+    goto test;
+body:
+    puVar = func_8012913C(0xC);
+    if (puVar != 0) {
+        __asm__ __volatile__(
+            "lwc2 $0, 0(%0)\n"
+            "lwc2 $1, 4(%0)\n"
+            "nop\n"
+            "nop\n"
+            "mvmva 1, 0, 0, 0, 0\n"
+            : : "r"(vec0) : "memory");
+        __asm__ __volatile__(
+            "swc2 $25, 0(%0)\n"
+            "swc2 $26, 4(%0)\n"
+            "swc2 $27, 8(%0)\n"
+            : : "r"(res) : "memory");
+        __asm__ __volatile__(
+            "cfc2 $12, $31\n"
+            "nop\n"
+            "sw $12, 0(%0)\n"
+            : : "r"(&flags) : "$12", "memory");
+        *(u16 *)(puVar + 6) = (u16)res[0];
+        *(u16 *)(puVar + 0xA) = (u16)res[1];
+        *(u16 *)(puVar + 0xE) = (u16)(res[2] - 8);
+    }
+    {
+        register u16 tmp __asm__("$3");
+        counter = vec0[1];
+        tmp = *(u16 *)(s1 + 2);
+        counter += tmp;
+        vec0[1] = counter;
+    }
+test:
+    if ((s16)counter < *(s16 *)(s1 + 1)) goto body;
+}
+
 
 void func_8018A7D0(void) {
 }

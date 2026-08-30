@@ -3456,7 +3456,49 @@ void func_8017D6D8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017D924);
+extern void func_800D20C0();
+extern unsigned char D_801A6B00;
+extern unsigned char D_801A6B01;
+extern unsigned char D_801A6B02;
+
+void func_8017D924(s32 arg0) {
+    short sp10[3];
+    short sp18[3];
+    s32 temp;
+    register s32 color __asm__("$2");
+    u16 cnt;
+
+    sp10[0] = -0x100;
+    sp10[1] = -0x252;
+    sp10[2] = 0x60;
+    func_800D20C0(sp10, sp18, 5);
+    *(u16 *)(arg0 + 6) = sp10[0];
+    *(u16 *)(arg0 + 0xA) = sp10[1];
+    *(u16 *)(arg0 + 0xE) = sp10[2];
+    temp = *(s32 *)(arg0 + 0x1C);
+    if (temp < 0x20) {
+        color = temp * 2 - 0x80;
+    } else {
+        color = (0x20 - temp) * 2 - 0x40;
+    }
+    D_801A6B01 = color;
+    D_801A6B00 = D_801A6B02 = (u8)color >> 2;
+    *(s32 *)(arg0 + 0x1C) += 1;
+    if (*(s32 *)(arg0 + 0x1C) >= 0x40) {
+        *(s32 *)(arg0 + 0x1C) = 0;
+    }
+    if (*(s16 *)(arg0 + 0xFC) != 0) {
+        D_801A6B02 = 0xE0;
+        D_801A6B00 = 0xE0;
+        D_801A6B01 = 0xFF;
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x18) = 0x1800;
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = 0x2000;
+        cnt = *(u16 *)(arg0 + 2);
+        *(s32 *)(arg0 + 0x1C) = 0x20;
+        *(u16 *)(arg0 + 2) = cnt + 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017DA50);
 
