@@ -3190,7 +3190,7 @@ t5s 24/29 · t5t 13/15 · t5v 14/15 · t5u 12/15 · t5w 5/5 · t5y 5/5 · t5x 3/
    §195-L REFUTED class), `ov_SC03_013:func_8017E6F4` (3), `ov_SC05_001:func_8017FE0C` (24).
 5. **main is untouched: 1,099 stubs, the largest remaining body.** Today's % gains are overlay-only.
 
-## 🛑 SESSION CHECKPOINT — S65 FINAL-3 (2026-08-29 ~20:15). Supersedes EVERY earlier block. Phase 31 T5 CONTINUES.
+## (superseded — see S65 FINAL-4 at the end of this file) SESSION CHECKPOINT — S65 FINAL-3 (~20:15).
 
 ### FLEET — `check-all` 213 passed / 0 failed of 213 after every gate today
 Open stubs **1,906** (main 1,099 · overlays **807**). Session start 2,553 (main 1,099 · overlays 1,454).
@@ -3253,3 +3253,116 @@ lock cost a t7b agent its \$0 diagnostic).
    INTERFERES with the compare's register; `movstrsi` dest-pseudo cse-propagating into a sibling call's
    delay slot; §246 constant-offset-cast variant for do-while zero-fill loops.
 5. **main: 1,099 stubs, untouched, now the largest remaining body.**
+
+## 🛑 SESSION CHECKPOINT — S65 FINAL-4 (2026-08-29, end of session). Supersedes EVERY earlier block in this file. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
+
+**Machine QUIESCED:** no lanes, no workflows, no background jobs. `src/`, `config/`, `include/` CLEAN.
+HEAD `commit:3291`. 108 commits this session (Drew pushes — R6). `ghidra/` churn in `git status` is MCP
+noise, do not commit. `.run/ox_campaign.stop` remains SET.
+
+### STATE (measured from `corpus.stubs`, not summed from reports)
+* `make check-all` = **213 passed, 0 failed of 213** — verified after every gate today.
+* **98.9% instruction-weighted · 97.6% distinct** (89,948 / 90,929 unique fns).
+* Open `INCLUDE_ASM` stubs **1,906** = **1,099 main** + **807 overlays**.
+* Session start was 2,553 (1,099 main / 1,454 overlays) ⇒ **647 closed, ALL overlays, 44% of the
+  overlay frontier in one session. `main` was not touched at all today.**
+* Cookbook **922 index entries**, index green.
+
+### READ THESE FIRST, IN THIS ORDER
+1. `docs/recovery-queue-s65.md` — **69 queued items** (Drew: build it, run it NEXT session). This is
+   the highest-value work waiting and it is already classified.
+2. This block's TIER MAP (below) — it decides what a wave should even target.
+3. `docs/tool-designs/frontier-analysis-s61.md` §4 — the standing T5 plan.
+
+### THE TIER MAP — what a draw should target, with measured rates
+| tier | bank rate | mints new twins? | remaining |
+|---|---|---|---|
+| twin-remappable (`h_exact`/`h_norm`) | 88.5% → 76% → 43% → 1% across 4 rounds | n/a | **DRAINED** — `twin_sweep` returns 0; ledger holds 95 known-refusers |
+| leveraged no-twin reps (engine fns) | **40–55%** (t7a 8/20, t7b 11/20) | **YES** — 19 banks minted 19 free siblings | ~44 fns still in multi-member families |
+| cheap singletons (3–17 ins) | **98%** (t8a 20/20, t8b 19/20, ~2 min/wave) | **NO** | ~557 — the bulk |
+
+**The no-twin tier is 626 fns in 583 families and 557 are SINGLETONS (89%)**, so the remap flywheel is
+finished for this generation: only leveraged reps refill it and they are nearly gone. **Default to
+CHEAPEST-FIRST.** t8a/t8b banked 39/40 in ~10 min of drafting; t7a/t7b banked 19/40 in ~45 min.
+
+### THE LOOP (all three parts validated today)
+```
+tools/twin_sweep.py --workers 10 --commit --r22      # free banks; run BEFORE any draw and after any wave
+  ↳ filter every draw against it — a slot spent on a remappable fn is pure waste
+draw a wave (CURRENT CAP: 2 × 20 — Drew retunes live, obey the LATEST, apply from the next draw)
+  ↳ .run/t5/drawn.json is the ledger (944 keys)
+bash tools/t5_bank.sh .run/<wave> sonnet opus        # judge → recovery → R22 → commit
+```
+`tools/parallel_gate.py --plan p.json --workers 10 --commit --r22` gates MANY binaries at once in
+isolated git worktrees (**178 banked / 85 binaries in 12m19s wall for 127m40s CPU = 10.4×**). **NEVER
+`xargs -P` over `gate_stage`** — that corrupted the tree today. A fresh worktree lacks five things
+(generated `include/*.inc`, the EMPTY `tools/maspsx` submodule, gitignored `tools/bin`+`psyq`,
+`build/{<bin>,assets/<bin>}`, `extracted/retail`) — the tool repairs all five, and **the negative
+control is that an UNMODIFIED binary must build BYTE-IDENTICAL in the worktree** (before that control
+existed the first parallel run reported a clean, plausible `0 banked` that was pure environment
+artifact).
+
+### PROCESS DEBT — I SKIPPED TWO STEPS OF THE WAVE-CLOSING SEQUENCE ALL SESSION
+`wave-harvest-is-a-pipeline-step` says a wave closes: gate → **RECOVER the failure set** → gate →
+siblings → R22 → **harvest** → next-wave cards → checkpoint. I ran gate → R22 → next wave, twelve
+times. Consequences, both now addressed but only because Drew asked:
+* **Step 2 never ran** ⇒ the recovery backlog grew to **69 items** instead of ~5. Classified into
+  `docs/recovery-queue-s65.md`: **14 GATE-DROPS** (`match_one` MATCH, gate refused — integration or
+  §8e JTBL_PADS; probe first, it is $0; includes `ov_MAIN_012:func_80144B9C` at **770 ins**),
+  **33 NEAR-MISSES** (closest are closeness 1, 2, 2, 2, 2, 2, 3, 4, 4, 5), **22 ERRORED** (no draft
+  ever written — rate limits — so not failures at all).
+* **Step 6 ran once, for t5s+t5t only.** The catch-up harvest (commit `commit:3291`) distilled 14
+  novelty-flagged transcripts from the other 12 waves: **7 COVERED (rediscoveries), 6 ADDENDUM, 1 NEW
+  (§314)**. Four are marked ⚠ UNPROVEN — they came from gate-REFUSED drafts.
+* **A checkpoint written before the harvest is stale by construction.** I wrote FINAL-3 before
+  harvesting; this block replaces it. The checkpoint is ALWAYS the last thing written.
+
+### TOOLS BUILT TODAY (committed, negative-controlled)
+* **`tools/parallel_gate.py`** — worktree-isolated concurrent gating, merge only gate-ACCEPTED drafts
+  (baseline-checked, REFUSED rather than clobbered if the main tree moved), ONE commit + ONE R22.
+* **`tools/twin_sweep.py`** — enumerate open stubs with a banked twin, remap, gate. **389 banked this
+  session.** Refusal ledger keyed (target, EXEMPLAR) so a NEW exemplar retries automatically.
+* **`claude_wave_packs.py` now MEASURES a prior draft into the pack** — residual rows plus how to read
+  them; a draft that measures MATCH-in-isolation is routed to `recover_integration --probe-only`
+  instead of to an agent. Byte-proven: `func_8017F234` (202 ins, stranded at closeness 3) banked once
+  its pack carried the residual.
+
+### SEVEN TOOL DEFECTS FIXED (each with a negative control)
+1. `recover_integration` gated only its own REWRITE of a draft (cookbook **§313**) → raw-first ladder.
+2. `harvest_verify.classify_fail` labelled a BUILT draft `CC1-FAIL` from a benign warning's orphan `note:`.
+3. `masked_diff` compared **NOTHING** at `R_MIPS_26` slots — a `j`/`jal` swallowed the other side's
+   instruction (R39 control: 2,554 stubs, nonzero 3 before AND after).
+4. `--probe-only` crashed for `--funcs`/`--auto` (exec'd before staging).
+5. The distill novelty selector was **INVERTED** (its only pick of 24 was a "nothing to learn here"
+   note) and structurally blind to UNBANKED fns → `--with-unbanked`.
+6. `recover_integration` is now single-instance (flock) — it is NOT parallel-safe.
+7. …but `--probe-only` is **EXEMPT** from that lock: my first fix was over-broad and cost a t7b agent
+   the $0 diagnostic its own pack told it to run.
+
+### PERMUTER QUEUE (agent-confirmed C-unreachable, with RTL evidence in their transcripts)
+`ov_SC02_031:func_801831B4` (10) · `ov_SC06_013:func_8017E7E8` (4) · `ov_SC03_099:func_8017D2AC` (7) ·
+`ov_SC03_094:func_8017E254` (12, §195-L REFUTED class) · `ov_SC03_013:func_8017E6F4` (3) ·
+`ov_SC05_001:func_8017FE0C` (24) · `ov_SC04_002:func_80183790` (§10 Residual-B, independently
+reproduced incl. the same +1 barrier overshoot) · `ov_SC06_018:func_8018AD74` (movstrsi cse, §314-adjacent).
+
+### MY OWN ERRORS (all repaired; listed so a fresh session does not repeat them)
+* **`xargs -P 4` over the recovery driver corrupted the tree** — an aborted run's stage edits were
+  swept into a concurrent run's commit (696 broken lines into `ov_MAIN_012`), fleet went 212/213 and
+  the t5t bank was blocked ~1h. Repaired `commit:3195`. **Blast radius fully measured: exactly ONE draft
+  was falsely rejected (`ov_MAIN_012:func_80174888`) and it has since banked UNCHANGED.**
+* **3 × `pkill -f`/`pgrep -f` matched my own wrapper shell** (twice killed my own shell; once made
+  `t5_bank` refuse with "another gate is running" — that was my own waiter). **Monitor by ARTIFACT
+  (git log, file counts, output files), never by pattern-matching the process table.**
+* **4 × `grep -E` filters swallowed** a traceback, an abort message, a BUSY listing and a draw failure
+  — each read as a clean null. **Read tool output with `tail`, never a keyword filter.**
+* I hand-typed three workflow transcript paths that did not exist instead of using the tool's own
+  output. Verify a path exists before passing it.
+
+### NEXT, IN ORDER
+1. **Run the recovery queue** (`docs/recovery-queue-s65.md`) — Lane A gate-drops first (probe is $0
+   and `func_80144B9C` alone is 770 ins), then Lane B near-misses closest-first, then Lane C re-draws.
+2. `twin_sweep.py` after ANY of that banks — recovery banks mint exemplars exactly like waves do.
+3. Waves at the current cap against **cheap singletons**, ranked by `nins` ascending.
+4. Wire the twin join into `t5_cards.py` as `seed_ref`; cards still say "no banked twin" unconditionally.
+5. **`main`: 1,099 stubs, untouched, now the largest single body of remaining work.** Its lane is
+   `gate_main` (T5.7) and nothing today touched it.
