@@ -5444,7 +5444,90 @@ void func_8018B714(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018B774);
+typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C;   /* 8 bytes, align 2 -> lwl/lwr block move */
+typedef struct { u8 b[4]; } Blk4_80185D4C;
+typedef struct { s32 a; s32 b[4]; } OtBlk_80185B4C;   /* == engine_types.h OtBlk (0x14) */
+typedef struct {
+    u16 f0;                     /* 0x00  entity kind; 0x282 is the one we want */
+    s16 f2;                     /* 0x02  state -> 9 on a hit                   */
+    u8  p04[0x20 - 0x04];
+    s32 f20;                    /* 0x20  collision volume A                    */
+    u8  p24[0x58 - 0x24];
+    s32 f58;                    /* 0x58  collision volume B                    */
+    u8  p5C[0x70 - 0x5C];
+    s16 f70;                    /* 0x70  sub-kind / owner tag                  */
+    u8  p72[0x10C - 0x72];      /* stride 0x10C, 0x60 entries (0x6480)         */
+} Ent_80188E10_80183BB4;
+
+
+
+extern u8 D_801CD4C8[];
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(s32 a0);
+extern void func_8001C2C4(s32 a0);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32 func_8018BFA8(s32 a0, s32 a1, s32 a2);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012F038(s32 a0, s16 *a1, s16 *a2);
+extern void func_8018B8B0();
+
+void func_8018B774(void *a0)
+{
+    register void *s1 __asm__("$17") = a0;
+    register s32 s0 __asm__("$16");
+    s16 v[4];
+    u16 out[4];
+    s32 flg[4];
+    s32 v0;
+    s32 v1;
+    s32 v2;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)((s32)s1 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((s32)s1);
+        return;
+    }
+
+    func_8001C2C4(v0);
+
+    *(u16 *)((s32)s1 + 0x100) = *(u16 *)(*(s32 *)((s32)s1 + 0x64) + 0x36);
+
+    func_8004914C((void *)(*(s32 *)(*(s32 *)((s32)s1 + 0x64) + 0x20) + 0x34));
+    func_800491AC((void *)(*(s32 *)(*(s32 *)((s32)s1 + 0x64) + 0x20) + 0x34));
+
+    RotTransSV(D_801CD4C8, v, flg);
+
+    *(s16 *)((s32)s1 + 0x6) = v[0];
+    *(s16 *)((s32)s1 + 0xA) = v[1];
+    *(s16 *)((s32)s1 + 0xE) = v[2];
+    *(s32 *)((s32)s1 + 0xE0) = *(s32 *)(*(s32 *)((s32)s1 + 0x64) + 0xE0);
+    *(s32 *)((s32)s1 + 0xE4) = *(s32 *)(*(s32 *)((s32)s1 + 0x64) + 0xE4);
+
+    s0 = (s32)s1 + 0xE0;
+    func_8018BFA8((s32)&flg[2], (s32)v, s0);
+
+    v0 = flg[2];
+    v1 = *(s32 *)((s32)s1 + 0x20);
+    *(s16 *)(v1 + 0x10) = v0;
+    v1 = *(s32 *)((s32)s1 + 0x20);
+    *(s16 *)(v1 + 0x12) = v0 >> 16;
+
+    v2 = *(s32 *)((s32)s1 + 0x20);
+    *(s16 *)(v2 + 0x14) = 0;
+    func_8012B2CC((s32)s1);
+
+    *(s16 *)((s32)s1 + 0xE8) = 0;
+    *(s16 *)((s32)s1 + 0xEA) = 0;
+    func_8012F038(*(s32 *)((s32)s1 + 0x20) + 0x34, (s16 *)s0, out);
+
+    v0 = out[2];
+    *(s16 *)((s32)s1 + 0xFE) = -v0;
+    func_8018B8B0(s1);
+}
+
 
 #include "common.h"
 

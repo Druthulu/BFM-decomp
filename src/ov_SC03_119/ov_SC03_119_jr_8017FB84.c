@@ -4012,7 +4012,18 @@ void func_801823F8(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_8017FB84", func_8018244C);
+
+
+void func_8018244C(s32 arg0) {
+    extern void func_80182704(s32 *a0);
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern s8 D_8018DE60[];
+
+    *(s32 *)((s32)arg0 + 0x58) = (s32)&D_8018DE60;
+    func_80182704((s32 *)arg0);
+    func_8012AD44((s32 *)arg0, 6);
+}
+
 
 DEFINE_func_8018248C()  /* dedup: shared engine-core @0x8018248C (src/shared) */
 

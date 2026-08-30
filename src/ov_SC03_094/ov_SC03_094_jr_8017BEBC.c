@@ -6978,7 +6978,7 @@ void func_80182DB0(void *a0) {
 
 extern void (*D_801AE924[])(void);
 extern u8 D_801AE8C4[];
-extern void func_80183A3C(void *arg0);
+extern void func_80183A3C();
 
 void func_80182E1C(void *arg0) {
     s32 a2;
@@ -7453,7 +7453,47 @@ void func_801839C4(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_80183A3C);
+
+
+void func_80183A3C(s32 a0)
+{
+    register s32 v0 __asm__("$2");
+    s32 v1;
+    s32 a1;
+
+    v0 = *(s32 *)(a0 + 0xE0);
+    if (v0 == 0) {
+        v0 = 1;
+        goto END;
+    }
+    v0 = v0 - 1;
+    *(s32 *)(a0 + 0xE0) = v0;
+    if (v0 > 0) {
+        goto SET0;
+    }
+
+    v1 = *(s32 *)(a0 + 0xD0);
+    v1 = v1 + 8;
+    a1 = *(s32 *)v1;
+    if ((a1 & 0x40000000) != 0) {
+        v1 = *(s32 *)(a0 + 0xCC);
+    } else if (a1 < 0) {
+        v0 = 1;
+        *(s32 *)(a0 + 0xE0) = 0;
+        goto END;
+    }
+
+    v0 = *(s32 *)v1;
+    *(s32 *)(a0 + 0xD0) = v1;
+    *(s32 *)(a0 + 0xE0) = v0;
+    func_800183E0(*(s32 *)(v1 + 4));
+
+SET0:
+    v0 = 0;
+END:
+    __asm__ volatile("" : : "r"(v0));
+}
+
 
 void func_80183AC8(void *a0, s32 a1) {
     extern u16 D_801AE950[][2];

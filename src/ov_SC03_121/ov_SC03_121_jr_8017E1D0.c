@@ -3396,7 +3396,21 @@ void func_8017FA64(void)
   new_var2 = 0x80C70000;
 }
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017E1D0", func_8017FA84);
+
+
+extern void func_8012CBCC(s32);
+extern void func_80131C78(s32 a0);
+
+void func_8017FA84(s32 a0) {
+    s32 s0;
+
+    s0 = a0;
+    ((void (*)(s32))func_8012CBCC)(a0);
+    if (*(u16 *)(s0 + 0x72) & 0x4000) {
+        func_80131C78(s0);
+    }
+}
+
 
 extern void func_80131B14();
 extern void func_8012A828(s32 a0, s32 a1);

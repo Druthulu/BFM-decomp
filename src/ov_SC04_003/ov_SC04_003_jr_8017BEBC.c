@@ -5051,7 +5051,36 @@ s32 func_8017FC18(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_003/nonmatchings/ov_SC04_003_jr_8017BEBC", func_8017FD38);
+typedef struct { s32 m[5]; s32 t[3]; } MtxW;
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0_8017F19C; /* 0x20 bytes, align 4 */
+
+
+extern s32 func_80132E6C(s16 *a0);
+extern s32 func_8012B864(s32 a0);
+
+s32 func_8017FD38(s32 a0) {
+    s32 t;
+    s16 r;
+    s16 sd;
+
+    if (func_80132E6C((s16 *)a0) > 0x23FFF) {
+        return 0;
+    }
+    t = func_8012B864(a0);
+    r = t;
+    sd = t - (*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF);
+    if (sd < 0) {
+        sd = -sd;
+    }
+    if (sd < 0x180) {
+        if ((t << 16) == 0) {
+            r = t + 1;
+        }
+        return r;
+    }
+    return 0;
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);

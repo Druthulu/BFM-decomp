@@ -7117,7 +7117,18 @@ extern s16 D_8019FE82;
     }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8018471C);
+
+
+extern s32 func_80184848(void);
+extern void func_80184774();
+
+void func_8018471C(s32 a0, s32 a1, s32 a2) {
+    s32 v0 = func_80184848();
+    if (v0 >= 0) {
+        func_80184774(v0, (void *)a0, a1, a2);
+    }
+}
+
 
 
 /* func_80184774 — SPLICE RECONCILE (bytes unchanged from the s6h draft).

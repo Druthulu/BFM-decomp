@@ -3266,7 +3266,23 @@ void func_80181490(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80181654);
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_801817CC);
+
+s32 func_801817CC(s32 a0) {
+    s32 s1;
+    s32 s0;
+    s32 r;
+
+    s1 = a0;
+    s0 = func_8012CBA4(a0);
+    func_8018182C(s1, s0);
+    if (s0 & 0x2000) {
+        r = s0 & 0x8000;
+        return r == 0;
+    }
+    func_8012ADE4((u8 *)s1);
+    return 0;
+}
+
 
 
 /* Family exemplar (S48 wave-4). Two compiler-shape levers used, both already
@@ -3315,7 +3331,19 @@ void func_8018182C(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_80180B04", func_80181954);
+
+
+void func_80181954(s32 a0) {
+    s32 s0 = a0;
+
+    if (func_801819B4(s0, 2) == 0) {
+        *(s32 *)(s0 + 0xE8) += 0x40;
+    } else {
+        *(s32 *)(s0 + 0xE8) -= 0x40;
+    }
+    *(s32 *)(s0 + 0xE0) |= 0x40;
+}
+
 
 
 /* func_801819B4 — line-of-sight / collision probe.

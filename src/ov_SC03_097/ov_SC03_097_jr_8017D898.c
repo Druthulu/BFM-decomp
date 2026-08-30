@@ -4386,7 +4386,7 @@ typedef struct { s16 a, b, c, d; } P16;
 extern Blk4 D_801A94C4;
 extern Blk4 D_801A94C8;
 extern s32 rand(void);
-extern void func_80181A64(void *, void *, void *);
+extern void func_80181A64();
 
 void func_80180158(s32 a0) {
     register s32 s0 __asm__("$16");
@@ -5466,7 +5466,18 @@ void func_801819D0(s32 a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_097/nonmatchings/ov_SC03_097_jr_8017D898", func_80181A64);
+
+
+extern s32 func_80181B90(void);
+extern void func_80181ABC();
+
+void func_80181A64(s32 a0, s32 a1, s32 a2) {
+    s32 v0 = func_80181B90();
+    if (v0 >= 0) {
+        func_80181ABC(v0, (void *)a0, a1, a2);
+    }
+}
+
 
 
 /* func_80181ABC — SPLICE RECONCILE (bytes unchanged from the s6h draft).

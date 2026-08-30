@@ -3478,7 +3478,37 @@ void func_8017D4A0(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017D4C8);
+
+
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8012A094(s32 a0);
+extern void func_8017D5F8(void *a0);
+
+void func_8017D4C8(void) {
+
+    extern u8 D_80126948[];
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+
+    D_80126954 = 0x190;
+    D_8012695C = 0x384;
+    D_8012696A = 0x800;
+    D_80126968 = 0;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x90;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017D5F8, 0);
+    func_8012A094((s32)D_80126948);
+    func_8017D5F8(D_80126948);
+}
+
 
 extern void func_8012A018(s32 a, s32 b);
 extern void func_8012A094(s32 a0);
@@ -4949,7 +4979,67 @@ void func_8017FB10(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017FB4C);
+
+extern s32 func_80012A60(s32 a0, s32 a1);
+extern s32 func_80171990(u8 *a0);
+extern s32 D_801A14A8;
+
+void func_8017FB4C(void *a0)
+{
+    register void *s3 __asm__("$19") = a0;
+    void *s2;
+    register void *p __asm__("$3");
+    register s32 v1 __asm__("$3");
+    register s32 v0 __asm__("$2");
+    s32 bits;
+    register s32 s0 __asm__("$16");
+    s32 s1;
+
+    s2 = *(void **)((s32)s3 + 0x20);
+    func_8017FD74(s3);
+    p = (*(void * *)&D_801A14A8);
+    if (p == 0) {
+        goto END;
+    }
+    v0 = *(u16 *)((s32)s2 + 0x12) + 0x800;
+    p = *(void **)((s32)p + 0x20);
+    bits = *(u16 *)((s32)p + 0x12) & 0x400;
+    s0 = v0 & 0xFFF;
+    if (bits == 0) {
+        goto ELSE;
+    }
+    s1 = func_80012A60(s0, 0x400);
+    v0 = func_80012A60(s0, 0xC00);
+    v1 = (s16)s1;
+    v0 = (s16)v0;
+    v0 = (v0 < v1);
+    if (v0 != 0) {
+        goto TRUE1;
+    }
+    v0 = 0x400;
+    goto STORE;
+TRUE1:
+    v0 = 0xC00;
+    goto STORE;
+ELSE:
+    s1 = func_80012A60(s0, 0);
+    v0 = func_80012A60(s0, 0x800);
+    v1 = (s16)s1;
+    v0 = (s16)v0;
+    v0 = (v0 < v1);
+    if (v0 != 0) {
+        goto TRUE2;
+    }
+    *(u16 *)((s32)s2 + 0x12) = 0;
+    goto END;
+TRUE2:
+    v0 = 0x800;
+STORE:
+    *(u16 *)((s32)s2 + 0x12) = v0;
+END:
+    func_80171990((u8 *)s3);
+}
+
 
 
 extern s32 func_8017FE50();

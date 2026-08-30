@@ -4945,7 +4945,7 @@ void func_80180400(s32 s1)
  * derivation of the sched.c alias-oracle lever on the triple-counter block.
  */
 
-extern void func_801806B8(void *a0);
+extern void func_801806B8();
 extern void func_80180918(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_80180754(void *a0);
@@ -5022,7 +5022,32 @@ void func_80180584(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_801806B8);
+
+
+extern s32 rand(void);
+extern void func_80181FC4(s32, s32, s32);
+
+typedef struct { u8 b[4]; } Blk4_80182194;
+typedef struct { u16 f00, f02, f04, f06; } Args_80182194;
+
+extern Blk4_80182194 D_8019C980;
+extern Blk4_80182194 D_8019C984;
+
+void func_801806B8(s32 a0) {
+    Blk4_80182194 sp10;
+    Blk4_80182194 sp18;
+    Args_80182194 arg;
+
+    sp10 = D_8019C980;
+    sp18 = D_8019C984;
+    *(s8 *)((u8 *)&sp10 + 2) = (rand() & 0x3F) - 0x80;
+    arg.f00 = 0x100;
+    arg.f04 = 0x80;
+    arg.f02 = a0;
+    arg.f06 = 1;
+    ((void (*)(void *, void *, void *))func_80181FC4)((void *)&arg, (void *)&sp10, (void *)&sp18);
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 
@@ -5212,7 +5237,55 @@ void *a0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180BAC);
+
+
+extern void func_8018212C(s32 a0, s32 a1);
+extern void func_801809B0(s32 a0, s32 a1);
+extern void func_80180790(void *a0);
+extern void func_80180918(s32 a0);
+
+extern u8 D_8019DCF8;
+extern u8 D_8019DCF9;
+extern u8 D_8019DCFA;
+
+void func_80180BAC(void *arg0) {
+    s16 v;
+    void *s1;
+    u8 *p;
+
+    v = *(s16 *)((u8 *)arg0 + 0xFC);
+    s1 = *(void **)((u8 *)arg0 + 0xCC);
+
+    if (v < 0x10) {
+        func_8018212C(v, 1);
+        *(u16 *)((u8 *)arg0 + 0xFC) = *(u16 *)((u8 *)arg0 + 0xFC) + 1;
+    }
+
+    if (*(s16 *)((u8 *)arg0 + 0xFC) >= 9) {
+        if (s1 != NULL) {
+            s16 h = *(s16 *)((u8 *)s1 + 0x18);
+            if (h > 0) {
+                *(s16 *)((u8 *)s1 + 0x18) = h - 0x100;
+                *(u16 *)((u8 *)s1 + 0x1A) = *(u16 *)((u8 *)s1 + 0x1A) - 0x100;
+            }
+        }
+
+        p = &D_8019DCF8;
+        if (*p >= 17) {
+            *p -= 0x10;
+            D_8019DCF9 -= 0x10;
+            D_8019DCFA -= 0x10;
+        } else {
+            *(s16 *)((u8 *)s1 + 0x0) = 0;
+            *(s32 *)((u8 *)arg0 + 0xCC) = 0;
+            func_801809B0((s32)arg0, 0x4000);
+            func_80180790(arg0);
+        }
+    }
+
+    func_80180918((s32)arg0);
+}
+
 
 extern s32 D_8019A9E8[];
 extern s32 func_80029178(s32 arg);
@@ -5283,7 +5356,33 @@ void func_80180E04(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_101/nonmatchings/ov_SC03_101_jr_8017CA80", func_80180E50);
+
+void func_80180E50(void *a0)
+{
+    extern void func_8012C1B8(void);
+    extern void func_8012CAE4(void *a0);
+    extern void func_8001C2C4(s32 a0);
+    extern s32 func_8012AD50(void *a0);
+    extern u8 D_8019AA28;
+    extern s32 D_8019A9DC;
+
+    register void *s0 __asm__("$16") = a0;
+    s32 v0 = ((s32 (*)(void))func_8012C1B8)();
+
+    *(s32 *)((u8 *)s0 + 0x20) = v0;
+
+    if (!v0) {
+        func_8012CAE4(s0);
+    } else {
+        func_8001C2C4(v0);
+        *(s32 *)((u8 *)s0 + 0x58) = (s32)&D_8019AA28 | 0x40000000;
+        *(s16 *)((u8 *)s0 + 0x5C) = 0x800;
+        *(u16 *)((u8 *)s0 + 0x72) |= 0x1000;
+        D_8019A9DC = *(s32 *)((u8 *)s0 + 0xDC);
+        func_8012AD50(s0);
+    }
+}
+
 
 void func_80180ED8(void) {
 }

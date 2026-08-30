@@ -4665,7 +4665,7 @@ end:;
 extern s32 func_8012BEE8(s32 a0);
 extern s32 rand(void);
 extern void func_80130D48(s32 a0);
-extern void func_8017F354(s32 a0);
+extern void func_8017F354();
 
 void func_8017ED40(s32 a0) {
     if (*(s32 *)(a0 + 0x1C) < 0xC) {
@@ -4695,9 +4695,81 @@ s32 arg0;
 void func_8017EDEC(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017EDF4);
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017EE34);
+void func_8017EDF4(s32 param_1) {
+    s16 buf[3];
+    if (*(u16 *)(param_1 + 0x5e) == 0x24) {
+        buf[2] = 0;
+        buf[0] = 0;
+        buf[1] = -8;
+        func_8017FB28(param_1, buf, 0xb);
+    }
+}
+
+
+
+
+extern s32 func_8012CBA4(s32 a0);
+extern void func_80131E00();
+extern void func_8012ADE4(u8 *a0);
+extern s32 func_8012AF0C(s32 a0, s32 a1);
+extern void func_8017F354();
+extern void func_8017F180(s32 a0, s32 a1);
+extern u8 D_801202A0[];
+
+s32 func_8017EE34(s32 a0) {
+    s32 obj;
+    s32 state;
+    s32 flags;
+    u8 *p;
+    s32 i;
+
+    obj = a0;
+    state = 1;
+
+    flags = ((s32 (*)(s32))func_8012CBA4)(a0);
+
+    if (flags == 0) {
+        goto call_ade4;
+    }
+    if ((flags & 0xFF) == 2) {
+        ((void (*)(s32, s32))func_80131E00)(obj, 0x12);
+        return -1;
+    }
+    if ((flags & 0xFF) == 0x1A) {
+        ((void (*)(s32))func_8017F354)(obj);
+        return -1;
+    }
+    if ((flags & 0x8000) != 0) {
+        if ((flags & 0x2000) == 0) {
+            func_8012ADE4((u8 *)obj);
+        }
+        ((void (*)(s32, s32))func_8017F180)(obj, 5);
+    } else {
+        if ((flags & 0x4000) == 0) {
+            goto walk;
+        }
+    call_ade4:
+        func_8012ADE4((u8 *)obj);
+        ((void (*)(s32, s32))func_8017F180)(obj, 2);
+    }
+    state = 0;
+
+walk:
+    p = D_801202A0;
+    for (i = 0; i < 0x60; i++, p += 0x10C) {
+        if (*(u16 *)p != 0 && *(u16 *)obj == *(u16 *)p && obj != (s32)p) {
+            if (((s32 (*)(s32, s32))func_8012AF0C)(obj, (s32)p) != 0) {
+                if (state != 0) {
+                    ((void (*)(s32, s32))func_8017F180)(obj, 2);
+                }
+                return state;
+            }
+        }
+    }
+    return state;
+}
+
 
 extern s32 func_8012BCCC(s32 a0);
 extern int func_8017F43C(short*);
@@ -4822,7 +4894,65 @@ void func_8017F180(s32 param_1, s32 param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_006/nonmatchings/ov_SC04_006_jr_8017BEBC", func_8017F354);
+
+
+extern void func_8012A828(s32, s32);
+extern void func_8012B2CC(s32);
+extern void func_8002A04C();
+extern void func_801439C0(u8 *a0);
+extern void func_8012C098(void *a0);
+extern short D_8019ADFC;
+
+void func_8017F354(s32 a0, void* _arg1, s32 _arg2, s32 _arg3)
+{
+    s32 s0 = (s32)a0;
+    s32 p20a;
+
+    *(s16 *)(s0 + 0x76) = 0;
+
+    if (*(s32 *)(s0 + 0xE4) == 0) {
+        p20a = *(s32 *)(s0 + 0x20);
+        *(u8 *)(s0 + 0xC1) = 0;
+        *(s16 *)(s0 + 0x2) = 1;
+        *(s32 *)(p20a + 0x4) |= 0x80000000;
+
+        {
+            s32 p20b = *(s32 *)(s0 + 0x20);
+            *(s16 *)(s0 + 0x5E) = 0;
+            *(s16 *)(s0 + 0x5C) = 0;
+            *(s16 *)(p20b + 0x14) = 0;
+            *(s16 *)(p20b + 0x12) = 0;
+            *(s16 *)(p20b + 0x10) = 0;
+        }
+
+        {
+            s32 p20c = *(s32 *)(s0 + 0x20);
+            *(u16 *)(p20c + 0x1C) = 0x1000;
+            *(u16 *)(p20c + 0x1A) = 0x1000;
+            *(u16 *)(p20c + 0x18) = 0x1000;
+        }
+
+        {
+            register u16 t88 __asm__("$2") = *(u16 *)(s0 + 0x88);
+            register u16 t8A __asm__("$3") = *(u16 *)(s0 + 0x8A);
+            *(s16 *)(s0 + 0xDE) = 0;
+            *(s16 *)(s0 + 0xAA) = 0;
+            *(u16 *)(s0 + 0xE) = *(u16 *)(s0 + 0x8C);
+            *(u16 *)(s0 + 0x6) = t88;
+            *(u16 *)(s0 + 0xA) = t8A;
+            func_8012A828(s0, (s32)&D_8019ADFC);
+        }
+        func_8012B2CC(s0);
+        func_8002A04C(s0);
+
+        if (*(s32 *)(s0 + 0xCC) != 0) {
+            func_801439C0(*(u8 **)(s0 + 0xCC));
+        }
+    } else {
+        func_8012C098(a0);
+    }
+}
+
 
 int func_8017F43C(short *a0) {
     int data[3];

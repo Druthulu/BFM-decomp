@@ -5775,7 +5775,71 @@ void func_8017FF68(s32 a0, void *a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017FFB4);
+
+/* Local layout typedefs for standalone match_one compilation.
+ * SVECTOR: {s16 vx,vy,vz,pad;} 8 bytes, align 2.
+ * MATRIX_L: {s16 m[3][3]; s32 t[3];} 0x20 bytes, align 4.
+ * Prim_L:  {SVECTOR v[4]; s16 k30..k3e (8 shorts); u32 bcast; s32 tag; u8 code; u8 pad[7];} 0x40 bytes.
+ * Byte-identical sibling of func_8018DA64 (ov_SC04_011, banked): only the
+ * D_* data-symbol addresses differ (D_80194DD0/DD8/DE0/DE8 -> D_80185EB8/
+ * ED4/EDC/EE4).
+ */
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR_80182800;
+typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_80182800;
+typedef struct {
+    SVECTOR_80182800 v[4];             /* 0x00 */
+    s32 k30, k34, k38, k3c;            /* 0x20 */
+    u32 bcast;                         /* 0x30 */
+    s32 tag;                           /* 0x34 */
+    u8  code;                          /* 0x38 */
+    u8  pad39[7];                      /* -> 0x40 */
+} Prim_80182800;
+
+extern SVECTOR_80182800 D_80185EB8;
+extern SVECTOR_80182800 D_80185EC0;
+extern SVECTOR_80182800 D_80185EC8;
+extern SVECTOR_80182800 D_80185ED0;
+
+extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_80017E30(void*, void*);
+extern void func_80016EF8(void *a0, void *a1);
+
+void func_8017FFB4(void *a0, void *a1, SVECTOR_80182800 *a2, s32 *a3, SVECTOR_80182800 *a4) {
+    Prim_80182800 prim;
+    MATRIX_80182800 mtx;
+
+    prim.tag = 0x50000000;
+    prim.code = 0x9B;
+
+    prim.v[0] = D_80185EB8;
+    prim.v[1] = D_80185EC0;
+    prim.v[2] = D_80185EC8;
+    prim.v[3] = D_80185ED0;
+
+    {
+        register s32 rK30 __asm__("$9") = 0x010009C0;   /* $t1 */
+        register s32 rK34 __asm__("$8") = 0x010009DF;   /* $t0 */
+        register s32 rK38 __asm__("$6") = 0x011F09C0;   /* $a2 */
+        register s32 rK3c __asm__("$3") = 0x011F09DF;   /* $v1 */
+
+        prim.bcast = *(u32 *)a3;
+
+        prim.k30 = rK30;
+        prim.k34 = rK34;
+        prim.k38 = rK38;
+        prim.k3c = rK3c;
+    }
+
+    func_80017DC4(a0, &mtx);
+    ((s32 (*)(void *, void *))func_80017E30)(a1, &mtx);
+
+    mtx.t[0] = a2->vx + a4->vx;
+    mtx.t[1] = a2->vy + a4->vy;
+    mtx.t[2] = a2->vz + a4->vz;
+
+    func_80016EF8(&prim, &mtx);
+}
+
 
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80180138);
 

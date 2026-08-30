@@ -5779,7 +5779,18 @@ void func_80180324(void *ent, void *spr, u32 *q, u32 *ot)
 void func_80180844(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_8018084C);
+
+
+extern void func_80180894(s32 param_1, s32 param_2);
+
+void func_8018084C(void *arg0, s32 arg1) {
+    u16 sp10[3];
+    sp10[0] = ((u16 *)arg0)[3];
+    sp10[1] = ((u16 *)arg0)[5];
+    sp10[2] = ((u16 *)arg0)[7];
+    func_80180894(sp10, ((s32 *)arg0)[7]);
+}
+
 
 
 
@@ -5962,7 +5973,27 @@ void *a0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80180D98);
+
+
+void func_80180D98(s32 a0) {
+    extern void func_8012CBA4(s32 a0);
+    extern s32 func_8012BCCC(s32 a0);
+    extern s32 func_80181F80(s32 a0);
+    extern s32 D_80126B68;
+    extern s32 D_80126B70;
+    if (*(s32 *)(a0 + 0x14) == 0) {
+        *(s32 *)(a0 + 0x14) = 0x100000;
+    }
+    func_8012CBA4(a0);
+    if (func_8012BCCC(a0) > 0x24000) {
+        *(s16 *)(a0 + 2) = 3;
+    } else if (func_80181F80(a0) != 1) {
+        if (D_80126B68 != 0 || D_80126B70 != 0) {
+            *(s16 *)(a0 + 2) = 5;
+        }
+    }
+}
+
 
 extern M2C_UNK D_801A0B2C;
 extern void func_8012A828(s32, s32);
@@ -6593,7 +6624,26 @@ extern void func_8002A04C(s32 arg0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_007/nonmatchings/ov_SC04_007_jr_8017BEBC", func_80181B98);
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0; /* 0x20 bytes, align 4 */
+
+
+extern void func_80182DD8(s32 a0, void *a1, s32 a2);
+extern void func_80183040(s32 a0, s32 a1, s32 a2);
+extern u8 D_80198078[];
+extern u8 D_80198098[];
+
+void func_80181B98(s32 a0) {
+    s32 t = *(s32 *)(a0 + 0xF4);
+    if (t != 0) {
+        *(s32 *)(a0 + 0xF4) = t - 1;
+        return;
+    }
+    if ((*(u32 *)(a0 + 0xE0) & 1) == 0) {
+        func_80182DD8(a0, (void *)D_80198078, 7);
+    }
+    func_80183040(a0, (s32)D_80198098, 6);
+}
+
 
 
 /* Local twin used as the shape reference: func_801862F0 (this very TU, already MATCHED,

@@ -5558,7 +5558,33 @@ void func_801839EC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80183A7C);
+    
+typedef struct { s16 vx, vy, vz, pad; } SVEC2_C974_8017BA3C;
+typedef struct {
+    SVECTOR v[4];               /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+    u8  f6;                     /* 0x38 */
+    u8  pad[7];                 /* -> 0x40 */
+} Prim_8016E7C8_8016B6BC;
+
+
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80183280(s32);
+
+void func_80183A7C(void *a0) {
+    s16 v = *(u16 *)((s32)a0 + 0xFC) - 1;
+    *(u16 *)((s32)a0 + 0xFC) = v;
+    if (v == 0) {
+        *(u16 *)((s32)a0 + 2) = 0xB;
+    }
+    if (*(s16 *)((s32)a0 + 0xFC) == 6) {
+        func_8012C658(0x1EA, 0xE, (s32)a0);
+        func_8002D4C8(0xC5D, 0);
+    }
+    ((void (*)(void *))func_80183280)(a0);
+}
+
 
 void func_80183AF0(void *a0) {
     u16 w;

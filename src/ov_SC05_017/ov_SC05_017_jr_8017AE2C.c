@@ -4478,7 +4478,23 @@ s32 func_8017DCE8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_8017AE2C", func_8017DD0C);
+
+
+extern void func_8017E0D8(void *a0);
+extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
+extern s32 D_80126B9C;
+extern u16 D_801270C0;
+
+s32 func_8017DD0C(s32 param_1)
+{
+    ((void (*)(void *, s32))func_8016EDEC)(func_8017E0D8, 0x1000000);
+    D_801270C0 = 2;
+    D_80126B9C = D_80126B9C | 0x4000000;
+    *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    *(s32 *)(param_1 + 0x28) = 0xA;
+    return 0;
+}
+
 
 
 DEFINE_func_8017DD7C()  /* dedup: shared engine-core @0x8017DD7C (src/shared) */

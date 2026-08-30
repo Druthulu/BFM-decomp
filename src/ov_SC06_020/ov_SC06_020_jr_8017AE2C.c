@@ -3429,7 +3429,36 @@ s32 param_1;
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017AE2C", func_8017C120);
+
+
+extern s16 D_80188A7C;
+
+void func_8017C120(s32 param_1) {
+    s32 node;
+    s32 val;
+    s16 *p;
+    u16 vec[3];
+    s32 val2;
+
+    node = *(s32 *)(param_1 + 0x20);
+    *(s32 *)(param_1 + 0x2c) += 0xE3;
+    val = func_8004787C(*(s32 *)(param_1 + 0x2c));
+    p = &D_80188A7C;
+    if (val < 0) {
+        val += 0xFF;
+    }
+    *p = val >> 8;
+    func_800139C8(*(s16 *)(node + 0x14), p - 2, vec);
+    *(s16 *)(param_1 + 6) = *(u16 *)(param_1 + 0x12) + vec[0];
+    *(s16 *)(param_1 + 0xe) = *(u16 *)(param_1 + 0x1a) + vec[2];
+    val2 = *(s32 *)(param_1 + 0x1c) - 1;
+    *(s32 *)(param_1 + 0x1c) = val2;
+    if (val2 == -1) {
+        func_80146E90(param_1, 0x10);
+        *(u16 *)(param_1 + 2) += 1;
+    }
+}
+
 
 extern s32 func_80146E98(s32 a0);
 extern void func_80146C3C();

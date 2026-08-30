@@ -7386,7 +7386,36 @@ void func_80183580(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_103/nonmatchings/ov_SC03_103_jr_8017C294", func_801835F8);
+typedef struct { s32 w[8]; } Mtx32_80180088;
+
+
+extern s32 rand(void);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_801836A8();
+extern s16 D_801C1FA8;
+extern s16 D_801C1FAA;
+extern s16 D_801C1FAC;
+
+void func_801835F8(s32 a0)
+{
+    s16 *p;
+    s32 r;
+    s32 w;
+    s32 t;
+
+    if (func_8012BEE8(a0) != 0) {
+        r = rand();
+        w = *(u16 *)((s32)a0 + 0xFC);
+        p = &D_801C1FA8;
+        t = ((s16)w / 2 - (r & (w - 1))) * 2;
+        *p = *(u16 *)((s32)a0 + 6) + t;
+        D_801C1FAA = *(u16 *)((s32)a0 + 0xA);
+        D_801C1FAC = *(u16 *)((s32)a0 + 0xE) + t;
+        func_801836A8(a0, p);
+        *(s32 *)((s32)a0 + 0x1C) = (rand() & 0x7F) + 0x40;
+    }
+}
+
 
 
 

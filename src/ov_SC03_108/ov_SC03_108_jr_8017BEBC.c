@@ -3984,7 +3984,73 @@ void func_8017E240(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017E27C);
+
+
+extern u8 D_801202A0[];
+extern void func_8017E3F8(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8017E27C(void *a0)
+{
+    s32 i;
+    u8 *p;
+    u8 *best;
+    s16 min_abs;
+    s16 best_val;
+    u16 counter;
+
+    min_abs = 0x7FFF;
+    best_val = 0x7FFF;
+    best = 0;
+    p = D_801202A0;
+
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)(p) == 0x1A8) {
+            s16 absdelta;
+
+            func_8017E3F8(p);
+            absdelta = *(s16 *)(p + 0x100);
+            if (absdelta < 0) {
+                absdelta = -absdelta;
+            }
+            if (min_abs > absdelta) {
+                best_val = *(u16 *)(p + 0x100);
+                min_abs = absdelta;
+                best = p;
+            }
+        }
+        p += 0x10C;
+    }
+
+    counter = *(u16 *)((u8 *)a0 + 0x84);
+    counter = counter + 1;
+    *(u16 *)((u8 *)a0 + 0x84) = counter;
+
+    if (min_abs < 0xA0) {
+        if (*(s32 *)(best + 0xE0) < 0x150) {
+            if ((counter & 3) == 0) {
+                s32 quotient;
+                s32 qc;
+                s32 pan;
+
+                quotient = (best_val + 0xA0) / 20;
+                pan = 0x7F - (min_abs >> 1);
+                qc = (quotient << 8) | 0x3000;
+                func_8002D4C8(0x6DA, (pan | qc) & 0xFFFF);
+                *(s16 *)((u8 *)a0 + 0x102) = 1;
+                return;
+            } else {
+                return;
+            }
+        }
+    }
+
+    if (*(s16 *)((u8 *)a0 + 0x102) == 1) {
+        func_8002D4C8(4, 0x6DA);
+        *(s16 *)((u8 *)a0 + 0x102) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017E3F8);
 
@@ -4216,7 +4282,49 @@ void func_8017E9C0(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_108/nonmatchings/ov_SC03_108_jr_8017BEBC", func_8017EA44);
+typedef struct { s32 w[8]; } Mat32_8017E910;
+typedef struct {
+    u16 x; /* 0x0 */
+    u16 y; /* 0x2 */
+    u16 z; /* 0x4 */
+    u16 w; /* 0x6 */
+} Vec4h_8017E2F4;
+
+/* func_8012DEB8: shared engine-core collision-probe routine, verified sig at
+ * src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:3492 (also used TU:375,6408,6479). */
+extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
+
+/* a1 is a "hit-list" record: u16 count @0x0, u16 half-width @0x2, u16
+ * arr[count] @0x8 (fields @0x4/@0x6 exist per the caller in
+ * asm/ov_SC02_039/nonmatchings/ov_SC02_039_jr_8017BEBC/func_8017EED8.s but
+ * are untouched here, so left un-named / raw-offset). */
+s32 func_8017EA44(s32 a0, s32 a1) {
+    s16 half;
+    V4_8017FAC0_8017D708 p1;
+    V4_8017FAC0_8017D708 p2;
+    s32 i, j;
+    s32 val;
+
+    half = *(u16 *)(a1 + 0x2) >> 1;
+    p2.x = half;
+    p1.x = -half;
+
+    for (i = 0; i < *(u16 *)a1; i++) {
+        val = *(u16 *)(a1 + 0x8 + i * 2);
+        p2.y = val;
+        p1.y = val;
+        for (j = 0; j < *(u16 *)a1; j++) {
+            val = *(u16 *)(a1 + 0x8 + j * 2);
+            p2.z = val;
+            p1.z = val;
+            if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 
 extern s32 func_8012AD50(void *arg0);
 extern void func_8001C2C4(s32 a0);
@@ -4511,7 +4619,7 @@ s32 func_8017F004(u32 a0v)
 
 #include "common.h"
 
-extern void func_801809A0(void *);
+extern void func_801809A0();
 extern s32 func_8012C044(void *);
 extern void func_80180968(void *);
 extern void (*D_8019E7AC[])(void);
@@ -4634,7 +4742,7 @@ void func_8017F29C(s32 param_1)
 
 void func_8017F2E8(s32 param_1)
 {
-    extern void func_801808B4(void *a0);
+    extern void func_801808B4();
     extern void func_8012B178(s32 a0, s32 a1);
     extern s32 func_8012CBA4(s32 a0);
     extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
@@ -4818,7 +4926,7 @@ extern s32 func_8012B8E4(s32 a0, s32 a1);
 
 void func_8017F640(s32 param_1)
 {
-    extern void func_801808B4(s32 a0);
+    extern void func_801808B4();
     extern s32 func_8012BDBC(s32 a0, s32 a1);
     extern void func_8012B178(s32 a0, s32 a1);
     extern s32 func_8012CBA4(s32 a0);

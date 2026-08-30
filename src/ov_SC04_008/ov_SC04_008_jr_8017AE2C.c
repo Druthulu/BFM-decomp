@@ -4264,9 +4264,77 @@ void func_8017DB64(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017DC54);
 
-INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017DCB4);
+
+extern void func_8017DE40(s32 *param_1);
+extern u8 D_80191F40[];
+
+void func_8017DC54(s32 param_1) {
+    s32 rec;
+    s32 val;
+
+    rec = (s32)(D_80191F40 + *(s32 *)(param_1 + 0x34) * 0x40);
+    val = *(u8 *)rec;
+    val = val - 8;
+    if (val > 0) {
+        goto join;
+    }
+    func_8017DE40(param_1);
+join:
+    if (val <= 0) {
+        return;
+    }
+    val = (val << 16 | val << 8) | val;
+    *(s32 *)rec = val;
+}
+
+
+typedef struct { s16 vx, vy; } DVEC2_C59C_8017DBEC;
+
+
+
+extern s32 rand(void);
+extern void func_800139C8(s32 a0, void *a1, void *a2);
+extern s32 D_80193348;
+
+typedef struct {
+    s16 vx, vy, vz, pad;
+} UVec_8017DED4;
+
+void func_8017DCB4(s32 param_1)
+{
+    UVec_8017DED4 v;
+    s16 lim;
+
+    v.vx = ((rand() & 1) << 8) + ((rand() & 0x1F) << 3) + (rand() & 0x1F);
+    v.vz = 0;
+    v.vy = 0;
+
+    func_800139C8(((rand() & 3) << 10) + ((rand() & 0x1F) << 5) + ((rand() & 3) << 8) + (rand() & 0xFF), &v, &v);
+
+    if (v.vx > *(s16 *)D_80193348) {
+        lim = *(s16 *)D_80193348;
+        v.vx = v.vx - lim;
+    } else if (v.vx < -*(s16 *)D_80193348) {
+        lim = *(s16 *)D_80193348;
+        v.vx = lim + v.vx;
+    }
+
+    if (v.vz > *(s16 *)(D_80193348 + 2)) {
+        lim = *(s16 *)(D_80193348 + 2);
+        v.vz = v.vz - lim;
+    } else if (v.vz < -*(s16 *)(D_80193348 + 2)) {
+        lim = *(s16 *)(D_80193348 + 2);
+        v.vz = lim + v.vz;
+    }
+
+    *(u16 *)(param_1 + 6) += v.vx;
+    *(u16 *)(param_1 + 0xA) += v.vy;
+    *(u16 *)(param_1 + 0xE) += v.vz;
+
+    *(u16 *)(param_1 + 0x16) = (rand() & 7) + 8;
+}
+
 
 
 

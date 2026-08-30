@@ -9060,7 +9060,21 @@ extern s32 func_8012BEE8(s32 arg);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80184DC8);
+
+
+extern s32 func_8012BEE8(s32 a0);
+
+void func_80184DC8(s32 param_1)
+{
+    if (func_8012BEE8(param_1) == 1) {
+        if (*(s16 *)(param_1 + 0x70) & 0x8000) {
+            func_80184604(param_1, 0x40000, 0xC4000);
+        } else {
+            func_80184604(param_1, 0x9000, 0x24000);
+        }
+    }
+}
+
 
 
 // @class: plumbing
@@ -9935,7 +9949,26 @@ extern void func_8002A04C(s32 a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8018615C);
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8017D7C0; /* 0x20 bytes, align 4 */
+
+
+extern void func_8018739C(s32 a0, void *a1, s32 a2);
+extern void func_80187604(s32 a0, s32 a1, s32 a2);
+extern u8 D_801B4F44[];
+extern u8 D_801B4F64[];
+
+void func_8018615C(s32 a0) {
+    s32 t = *(s32 *)(a0 + 0xF4);
+    if (t != 0) {
+        *(s32 *)(a0 + 0xF4) = t - 1;
+        return;
+    }
+    if ((*(u32 *)(a0 + 0xE0) & 1) == 0) {
+        func_8018739C(a0, (void *)D_801B4F44, 7);
+    }
+    func_80187604(a0, (s32)D_801B4F64, 6);
+}
+
 
 #include "common.h"
 

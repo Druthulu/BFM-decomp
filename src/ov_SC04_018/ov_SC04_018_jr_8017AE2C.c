@@ -4474,7 +4474,23 @@ s32 func_8017DCE8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017DD0C);
+
+
+extern void func_8017E0C0(void *a0);
+extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
+extern s32 D_80126B9C;
+extern u16 D_801270C0;
+
+s32 func_8017DD0C(s32 param_1)
+{
+    ((void (*)(void *, s32))func_8016EDEC)(func_8017E0C0, 0x1000000);
+    D_801270C0 = 2;
+    D_80126B9C = D_80126B9C | 0x4000000;
+    *(u8 *)(param_1 + 0x15) = *(u8 *)(param_1 + 0x15) + 1;
+    *(s32 *)(param_1 + 0x28) = 0xA;
+    return 0;
+}
+
 
 
 DEFINE_func_8017DD7C()  /* dedup: shared engine-core @0x8017DD7C (src/shared) */
@@ -8281,7 +8297,41 @@ void func_80183538(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80183578);
+
+
+extern void func_80172710(void);
+extern s32 func_801848DC(void);
+extern s32 func_8018625C(void *);
+extern s32 func_80178BF8(void);
+
+/* §124 asm-label alias: TU decl layer carries `extern void func_80183578(void*)`
+ * (L9106, used address-only by banked func_801840E4), so a plain-name s32
+ * definition is "conflicting types". Alias per ov_SC03_001_jr_801870B0.c L3309. */
+s32 aF80184350(void *arg0) __asm__("func_80183578");
+
+s32 aF80184350(void *arg0)
+{
+    void *s0 = arg0;
+
+    if ((*(u16 *)(*(s32 *)((char *)s0 + 0x64) + 2) != 2) &&
+        (*(u16 *)(*(s32 *)((char *)s0 + 0x64) + 2) != 8)) {
+        return 0;
+    }
+
+    if (((s32 (*)(void *))func_801848DC)(s0) == 0) {
+        return 0;
+    }
+
+    if (func_8018625C(*(void **)((char *)s0 + 0x64)) != 0) {
+        return 0;
+    }
+
+    *(u16 *)(*(s32 *)((char *)s0 + 0x64) + 2) += 1;
+    func_80178BF8();
+
+    return (s32)func_80172710;
+}
+
 
 #include "common.h"
 
@@ -8511,7 +8561,26 @@ void func_80183B8C(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80183BC4);
+
+
+
+
+void func_80183BC4(void *arg0) {
+    extern s32 D_801B67DC;
+    extern s32 func_80184FA4(s32);
+    extern s32 func_80184BAC(s32 arg0, s32 arg1);
+    extern void func_80183A08(s32 a0);
+    extern void func_80184ED4(s32, s32, s32, s32);
+
+    if (((s32 (*)(void))func_80184FA4)() != 0) {
+        if (func_80184BAC(9, 0x11) == 0) {
+            func_80183A08(arg0);
+        } else {
+            func_80184ED4((s32)arg0, (s32)&(*(short *)&D_801B67DC), 0, 0x40);
+        }
+    }
+}
+
 
 extern int func_80178970(void);
 extern s32 D_801B9C50;

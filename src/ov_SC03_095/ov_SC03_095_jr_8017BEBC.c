@@ -5181,7 +5181,7 @@ void func_8017FEB8(s32 a0) {
 void func_8018014C(void) {
 }
 
-extern void func_80180654(s32, s32);
+extern void func_80180654();
 
 void func_80180154(void *arg0) {
     void *temp_a0;
@@ -5271,7 +5271,7 @@ void func_801802CC(s32 a0) {
 }
 
 
-extern void func_80180654(s32, s32);
+extern void func_80180654();
 extern void func_801806EC(s32);
 
 void func_80180328(void *arg0) {
@@ -5296,7 +5296,7 @@ extern void func_8002A04C(s32 a0);
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C098(void *a0);
 extern void func_8012E8A8(u8 *a0);
-extern void func_80180654(s32 a0, s32 a1);
+extern void func_80180654();
 extern void func_8012B260(u8 *a0);
 
 void func_80180388(void *arg0) {
@@ -5428,7 +5428,19 @@ s32 func_801805C8(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_80180654);
+
+
+extern u16 D_80194FF0[][2];
+
+void func_80180654(void *arg0, s32 arg1)
+{
+    if (arg0 != 0) {
+        u16 *p = D_80194FF0[arg1];
+        *(u16 *)((s32)arg0 + 0x28) = p[0];
+        *(u16 *)((s32)arg0 + 0x2A) = p[1];
+    }
+}
+
 
 extern s32 func_8012C194(void);
 extern void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3);
@@ -5513,7 +5525,43 @@ s32 func_801807D0(s32 a0, s16 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_095/nonmatchings/ov_SC03_095_jr_8017BEBC", func_80180850);
+
+
+extern s16 D_80194FF8;
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+
+void func_80180850(a0, a1)
+s16 *a0;
+s32 a1;
+{
+    u8 *sub;
+    register u8 *v0 __asm__("$2");
+    register s32 s0 __asm__("$16");
+    register s32 v1 __asm__("$3");
+
+    v0 = func_801290DC(0x44, (u8 *)a0);
+    if (v0 != NULL) {
+        sub = *(u8 **)((s32)v0 + 0x20);
+        *(u32 *)((s32)sub + 0x20) = (u32)&D_80194FF8;
+        *(u16 *)((s32)sub + 0x28) = 0x290;
+        *(u16 *)((s32)sub + 0x2A) = 0x1A0;
+        *(u8 *)((s32)sub + 0x27) = 0x70;
+        *(u16 *)((s32)sub + 0x1A) = 1;
+        *(u16 *)((s32)sub + 0x18) = 1;
+        *(u32 *)((s32)sub + 0x4) |= 0x50000000;
+        *(u32 *)((s32)v0 + 0x1C) = 1;
+        s0 = a1;
+        v1 = s0;
+        *(u32 *)((s32)v0 + 0x2C) = s0;
+        *(u8 *)((s32)sub + 0x26) = v1;
+        *(u8 *)((s32)sub + 0x25) = v1;
+        *(u8 *)((s32)sub + 0x24) = v1;
+    } else {
+        v0 = NULL;
+    }
+    __asm__ volatile("" : : "r"(v0));
+}
+
 
 void func_801808F4(s32 a0)
 {

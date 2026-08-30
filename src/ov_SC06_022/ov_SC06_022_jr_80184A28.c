@@ -4166,7 +4166,25 @@ void func_80186DE8(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_80186E24);
+
+
+void func_80186E24(s32 a0)
+{
+    extern s32 func_8012D624(s32 a0, s32 a1, s32 a2);
+    extern s32 func_801874E0(s32 a0, s32 a1, s32 a2);
+    extern void func_8012C218(void *a0);
+    extern u16 D_80126B96;
+
+    if (*(u16 *)(a0 + 0x70) & 1) {
+        if (func_8012D624(a0, 0x60, *(s16 *)(a0 + 0x104)) == 1) {
+            D_80126B96 = 0x4001;
+        }
+    }
+    if (func_801874E0(a0, 0x60, *(s16 *)(a0 + 0x104)) == 1) {
+        func_8012C218((void *)a0);
+    }
+}
+
 
 
 /* func_80186EA4 @ ov_SC06_018 (subseg ov_SC06_018_jr_8017C24C) — 124 ins. MATCH.
@@ -4397,7 +4415,28 @@ void func_80187094(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_80187318);
+typedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) B4_8018C334;
+
+
+s32 func_80187318(void *a0, s32 a1, s32 a2) {
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern s32 func_8012B70C(s16 *a0, s16 *a1);
+    u16 buf[3];
+    s32 d;
+
+    buf[0] = D_80126B5E;
+    buf[1] = D_80126B62;
+    buf[2] = D_80126B66;
+    d = (func_8012B70C((s16 *)a0, (s16 *)buf) - (s16)a1) & 0xFFF;
+    if (d < 0x800) {
+        return d < (s16)a2;
+    } else {
+        return (0x1000 - d) < (s16)a2;
+    }
+}
+
 
 extern s32 func_8012C51C(void *a0, s32 a1);
 

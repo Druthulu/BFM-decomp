@@ -3287,7 +3287,71 @@ void func_80181780(s32 param_1)
 void func_801817D0(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80180CD0", func_801817D8);
+
+/* MATRIX / VECTOR: match_one only has -Iinclude, so these local typedefs mirror
+ * src/shared/engine_types.h's layouts (MATRIX 32B: short m[3][3] + s32 t[3];
+ * VECTOR 12B: s32 vx,vy,vz) for standalone compile. NOTE FOR BANKING (step 6):
+ * the destination TU (src/ov_SC06_024/ov_SC06_024_jr_8017BEBC.c) already
+ * #includes "../shared/engine_core.h", which pulls in engine_types.h and
+ * therefore already defines MATRIX/VECTOR — DROP these two typedefs when
+ * copying this draft into the TU, or they collide with the real ones. */
+
+
+
+/* Only func_8012CAE4 and func_800484EC are already declared elsewhere in the
+ * destination TU (both verbatim-matching what's used here) — but func_801817D8's
+ * INCLUDE_ASM site sits BEFORE either of those declarations in file order, so
+ * none of them are in scope yet at this point; all externs below are declared
+ * fresh, following this TU's per-function local-extern convention (e.g. the
+ * DEFINE_func_80142DC4 idiom in engine_core.h, which this function's shape
+ * mirrors closely for its opening branch). */
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void*);
+extern void func_8001CA1C(s32 a0, s32 a1);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012AD50(void *a0);
+extern s32 D_801AD438;
+
+void func_801817D8(s32 a0) {
+    s32 v0;
+    s32 obj;
+    s32 objData;
+    s32 matSrc;
+    MATRIX m;
+    VECTOR vec;
+    s16 tmp;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(a0 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(s32))func_8012CAE4)(a0);
+    } else {
+        ((void (*)(s32, s32))func_8001CA1C)(v0, (s32)&D_801AD438);
+
+        obj = *(s32 *)(a0 + 0x20);
+        *(u32 *)(obj + 4) |= 0x50000000;
+
+        /* facing-direction delta -> RotMatrixY angle: (angle-3)*7, then *32,
+         * narrowed to s16 as ONE expression (matches the target's fused
+         * sll21/sra16 shift pair — see the wave-P31V index_gap note). */
+        tmp = ((*(s16 *)(a0 + 0x70) - 3) * 7) << 5;
+        objData = *(s32 *)(a0 + 0x64);
+        matSrc = *(s32 *)(objData + 0x20);
+        m = *(MATRIX *)(matSrc + 0x54);
+        RotMatrixY(tmp, &m);
+
+        /* store order (vy, vx, vz) matches the target's schedule. */
+        vec.vy = 0;
+        vec.vx = 0;
+        vec.vz = 0xFFF60000;
+        func_800484EC((s32)&m, (s32)&vec, a0 + 0x10);
+
+        *(s32 *)(a0 + 0x1C) = 0x80;
+        ((void (*)(void *))func_8012AD50)((void *)a0);
+    }
+}
+
 
 extern void func_8012CBCC(s32 a0);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3848,7 +3912,25 @@ void func_80182554(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80180CD0", func_80182594);
+
+
+extern s32  func_8012BEE8();
+extern void func_8012F214(s32, s32, s32);
+extern s32  func_80187318(void *a0, s32 a1, s32 a2);
+extern s32 D_80126B9C;
+extern u8 D_801BD0BC[];
+
+void func_80182594(s32 p) {
+    s32 buf10[2];
+
+    func_8012F214(p, D_801BD0BC, buf10);
+    if (func_8012BEE8(p) != 0 && !(D_80126B9C & 2)) {
+        *(u16 *)(p + 2) = 4;
+    } else if (func_80187318(buf10, *(s16 *)(*(s32 *)(p + 0x20) + 0x12), 0x400) == 0) {
+        *(u16 *)(p + 2) = 4;
+    }
+}
+
 
 
 extern void func_8012C218(void *a0);

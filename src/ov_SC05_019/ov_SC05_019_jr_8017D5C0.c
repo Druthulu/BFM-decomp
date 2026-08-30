@@ -3202,7 +3202,19 @@ s32 func_8017E4E4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_jr_8017D5C0", func_8017E508);
+
+
+extern void func_8012A110(void);
+extern void func_8017ED90(void);
+
+s32 func_8017E508(s32 a0) {
+    ((void (*)(s32))func_8012A110)(a0);
+    func_8017ED90();
+    *(s32 *)(a0 + 0x28) = 10;
+    *(u8 *)(a0 + 0x15) += 1;
+    return 0;
+}
+
 
 
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -3385,7 +3397,42 @@ void func_8017E950(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_jr_8017D5C0", func_8017E98C);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+extern void func_8017EE68(s32);
+extern s32 func_80171990(u8 *a0);
+void func_8017E98C(void *a0)
+{
+  char *new_var;
+  s32 v0;
+register void *s0 __asm__("$16");
+ do { } while (0);
+  s0 = a0;
+  ((void (*)(void *))func_8017EE68)(a0);
+  new_var = (char *) s0;
+  v0 = 0x8;
+  *((s32 *) (((char *) s0) + 0x200)) = v0;
+  v0 = 0x100000;
+  *((s32 *) (new_var + 0x204)) = v0;
+  func_80171990((u8 *) s0);
+}
+
 
 extern s32 func_8017EC2C(s32 a0);
 extern s32 func_80171990(u8 *a0);
@@ -3569,7 +3616,36 @@ void func_8017ED90(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_019/nonmatchings/ov_SC05_019_jr_8017D5C0", func_8017EDB8);
+
+
+void func_8017EDB8(void) {
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern u8 D_80126948[];
+    extern void func_8017EF10(void *);
+    extern void func_8012A018(s32, s32);
+    extern void func_8012A094(s32);
+
+    D_80126954 = 0x1F4;
+    D_8012695C = 0x384;
+    D_80126968 = 0x238;
+    D_8012696A = 0x600;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = 0;
+    D_8012697A = 0;
+    func_8012A094((s32)D_80126948);
+    func_8012A018((s32)func_8017EF10, 0);
+    func_8017EF10((void *)D_80126948);
+    func_8012A018((s32)func_8017EF10, 1);
+}
+
 
 extern s16 D_80126E80;
 extern s16 D_80126E82;

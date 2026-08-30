@@ -4722,7 +4722,27 @@ void func_80186124(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_801861D0);
+
+
+void func_801861D0(s32 a0) {
+    extern s32 func_8012C354(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+    extern u8 D_8019294C;
+    extern u8 D_801AB1A8[];
+    s32 s0 = a0;
+
+    if (func_8012C354(a0, (s32)&D_8019294C)) {
+        *(u16 *)(s0 + 2) = 1;
+        func_8012A828((s32)s0, D_801AB1A8);
+        *(u8 *)(s0 + 0x75) = 3;
+        *(u8 *)(s0 + 0xC0) = 1;
+        *(s32 *)(s0 + 0xB4) = -1;
+        *(s16 *)(s0 + 0xAE) = -1;
+        func_8001D0E8(*(s32 *)(s0 + 0x20), 0x400, 0x400);
+    }
+}
+
 
 extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
 extern u16 D_80126B96;
@@ -5190,7 +5210,48 @@ void func_80186E1C(void *param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80186E94);
+
+
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C810(s32 a0, s32 a1);
+
+extern u8 D_801B5C84;
+extern u8 D_801B6434;
+
+void func_80186E94(s32 param_1)
+{
+    s32 v0;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(s32))func_8012CAE4)(param_1);
+        return;
+    }
+
+    ((void (*)(s32, s32))func_8001C810)(v0, (s32)&D_801B5C84);
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0xCC) = v0;
+    if (v0 == 0) {
+        ((void (*)(s32))func_8012CAE4)(param_1);
+        v0 = *(s32 *)(param_1 + 0x20);
+        *(s16 *)v0 = 0;
+        return;
+    }
+
+    ((void (*)(s32, s32))func_8001C810)(v0, (s32)&D_801B6434);
+
+    *(u8 *)(param_1 + 0xC0) = 0;
+    *(u32 *)(*(s32 *)(param_1 + 0x20) + 4) |= 0x50000000;
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x2C) |= 0x10;
+    *(u32 *)(*(s32 *)(param_1 + 0xCC) + 4) |= 0x50000000;
+    *(u16 *)(*(s32 *)(param_1 + 0xCC) + 0x2C) |= 0x10;
+
+    func_801841E4((s32 *)param_1);
+}
+
 
 #include "common.h"
 
