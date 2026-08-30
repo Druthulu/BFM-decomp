@@ -5658,7 +5658,11 @@ extern s32 D_801A2284;
 
 INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_80180EF4);
 
-INCLUDE_ASM("asm/ov_SC03_011/nonmatchings/ov_SC03_011_jr_8017C730", func_80180F08);
+extern s32 D_801A2288;
+void func_80180F08(void) {
+    D_801A2288 = 0;
+}
+
 
 extern s32 D_801A2288;
 extern s16 D_80185BD8;
