@@ -5372,9 +5372,130 @@ L80183C5C:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80183C7C);
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80183CC4);
+
+void func_80183C7C(void *a0) {
+    extern short D_801C4840;
+    s32 v0;
+
+    v0 = *(s32 *)((char *)a0 + 0x20);
+    *(s16 *)((char *)a0 + 0x5C) = 0;
+    *(s16 *)((char *)v0 + 0x10) = 0;
+    *(s16 *)((char *)a0 + 0x34) = 0;
+    func_8012E8A8((u8 *)a0);
+    func_8012A828((s32)a0, (s32)&D_801C4840);
+}
+
+
+    
+typedef struct { s16 a, b, c; } SV3_80184C98;
+
+/* func_80183CC4 — ov_SC02_011 (TU: src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c)
+ *
+ * Second-pass repair of a SCHEDULE-REORDER/2 residual (`addiu $a0,$sp,0x10`
+ * vs `addiu $s2,$s2,1` swapped at the ternary merge block).  Root cause, from
+ * the cc1 `-dS` sched1 dump (bb9, both insns priority 1, unboosted):
+ * `rank_for_schedule` (sched.c:2385) fell all the way through to the LUID
+ * tie-break, so forward order = RTL birth order.  The `$a0` insn is born at
+ * call-expansion time, so `i++` had to move BELOW the call to lose the tie.
+ *
+ * That alone is not enough: with `i` pinned to a hard reg, gcc-2.7.2's
+ * sched_analyze_1 (sched.c:1704) hits its own bug — `call_used_regs[i]` uses
+ * the HARD_REGNO_NREGS sub-word index instead of `regno + i`, so it always
+ * reads `call_used_regs[0]` ($zero, always call-used) and hangs a
+ * REG_DEP_ANTI on the preceding call for EVERY hard-reg set.  That lifted
+ * `i++` to priority 2 and stranded it after the call.  A pseudo takes the
+ * other arm (sched.c:1732), which is guarded by `reg_n_calls_crossed == 0`;
+ * `i` is live across rand(), so it escapes the anti-dep entirely.
+ * => drop the `$18` pin on `i` AND sink `i++` below func_80143BDC.
+ *
+ * Other levers (kept from pass 1): the two divide blocks are genuine r%48 /
+ * r%24; the r1%4096 is hand-expanded as ternary-round + shift (writing `%`
+ * makes gcc insert a spurious v0->v1 copy); pins hold $s3/$s4/$s0/$a3/$v1;
+ * the func_8012B0B4 stack result is cached into a plain local so it stays in
+ * a callee-saved reg instead of being reloaded each use.
+ *
+ * Decls copied verbatim from the destination TU's file-scope declarations
+ * (func_80143BDC returns s32 there, TU L11414 — not void).
+ */
+
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8002AC00(s32 arg0);
+extern void func_80130D48(s32 arg0);
+extern void func_80184344(s32);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern s32 func_80143BDC(u16 *a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 rand(void);
+
+void func_80183CC4(s32 a0) {
+    register s32 obj __asm__("$19");
+    s32 i;
+    register s32 t4 __asm__("$20");
+    register s32 tmp __asm__("$16");
+    register s32 q1 __asm__("$7");
+    unsigned int *pbuf;
+    s32 r1, r2, r4;
+    s32 ang1, dist;
+    s32 base, v3;
+    s32 buf;
+    u16 pos[3];
+
+    obj = a0;
+
+    if (*(u16 *)(obj + 0x34) != 0) {
+        if (func_8012BEE8(a0) != 0) {
+            func_8002AC00(0xA);
+            func_80130D48(obj);
+            func_80184344(obj);
+        }
+        return;
+    }
+
+    i = 0;
+    pbuf = (unsigned int *)&buf;
+    for (; i < 10;) {
+        r1 = rand();
+        tmp = (r1 >= 0) ? r1 : (r1 + 0xFFF);
+        tmp = (tmp >> 12) << 12;
+        ang1 = r1 - tmp;
+
+        r2 = rand();
+        q1 = r2 / 48;
+        dist = r2 - q1 * 48;
+
+        func_8012B0B4(pbuf, ang1, dist);
+        t4 = buf;
+
+        pos[0] = *(u16 *)(obj + 0x6) + t4;
+
+        v3 = rand() % 24;
+
+        base = *(s16 *)(obj + 0xA) - 0x34;
+
+        r4 = rand();
+        {
+            s32 t1 = (r4 & 1) ? (base + v3) : (base - v3);
+            pos[1] = t1;
+
+            {
+                register s32 hi4 __asm__("$3");
+                hi4 = t4 >> 16;
+                pos[2] = *(u16 *)(obj + 0xE) + hi4;
+            }
+            func_80143BDC(pos);
+            i++;
+        }
+    }
+
+    *(s32 *)(obj + 0x1C) = 0x10;
+    *(u16 *)(obj + 0x34) += 1;
+
+    for (i = 0; i < 3; i++) {
+        func_8012C658(0x240, i, obj);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80183E70);
 
