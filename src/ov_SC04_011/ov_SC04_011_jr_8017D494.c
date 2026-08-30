@@ -10409,7 +10409,37 @@ void func_80188D78(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80188E00);
+#include "common.h"
+
+extern s32 func_80143970(s32 a0);
+
+s32 func_80188E00(s32 a0, void *a1)
+{
+    s16 *src = (s16 *)a1;
+    s32 obj;
+    s8 *v1;
+    s16 t0, t1, t2;
+
+    obj = func_80143970(a0);
+    if (obj != 0) {
+        v1 = *(s8 **)(obj + 0xCC);
+        *(s16 *)(obj + 0) = 0x278;
+        t0 = *src;
+        *(s16 *)(v1 + 8) = t0;
+        *(s16 *)(obj + 6) = t0;
+        t1 = src[1] - 0x10;
+        *(s16 *)(v1 + 0xA) = t1;
+        *(s16 *)(obj + 0xA) = t1;
+        t2 = src[2];
+        *(s16 *)(v1 + 0xC) = t2;
+        *(s16 *)(obj + 0xE) = t2;
+        *(s16 *)(v1 + 0x10) = 0x400;
+        *(s16 *)(v1 + 0x12) = 0;
+        *(s16 *)(v1 + 0x14) = 0x200;
+    }
+    return obj;
+}
+
 
 #include "common.h"
 
