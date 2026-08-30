@@ -6398,7 +6398,41 @@ void func_80180DC4(A801593E4 *a0) {
 
 INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80180E68);
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_801810F8);
+extern s32 func_8017DCC8(void);
+extern void func_8012C098(void *a0);
+extern short D_800B9A02;
+extern u8 D_801A9284[];
+extern u8 D_800A6620[];
+
+void func_801810F8(void *a0) {
+    s32 pad[2];
+    u32 *node;
+    u32 *ot;
+    u32 tmp;
+    register u8 *pbase __asm__("$8");
+    register u32 lomask __asm__("$6");
+    u8 *obase;
+
+    if (func_8017DCC8() == 0xC) {
+        func_8012C098(a0);
+        return;
+    }
+
+    pbase = D_801A9284;
+    lomask = 0xFFFFFF;
+
+    node = (u32 *)(((*(u16 *)&D_800B9A02) * 24) + (s32)pbase);
+    tmp = (*node & 0xFF000000) |
+          (*(u32 *)&D_800A6620[(*(u16 *)&D_800B9A02) << 14] & lomask);
+    obase = D_800A6620;
+    __asm__ __volatile__("" :: "r"(obase));
+    *node = tmp;
+
+    ot = (u32 *)(((*(u16 *)&D_800B9A02) << 14) + (s32)obase);
+    *ot = (*ot & 0xFF000000) |
+          ((((*(u16 *)&D_800B9A02) * 24) + (s32)pbase) & lomask);
+}
+
 
 void func_801811C8(s32 arg0) {
     u16 temp;
