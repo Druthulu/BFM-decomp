@@ -3504,7 +3504,23 @@ void func_8017DAAC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017DAD4);
+
+
+typedef struct {
+    s32 unk00;
+    s32 unk04;
+} Struct_80184C18;
+
+extern Struct_80184C18 D_80183B84[];
+extern s32 func_80171CC4(void *a0, void *a1);
+extern void func_80171928(void *a0);
+
+void func_8017DAD4(s32 arg0) {
+    if (func_80171CC4((void *)arg0, &D_80183B84[*(u8 *)(arg0 + 0x218)]) != 0) {
+        func_80171928((void *)arg0);
+    }
+}
+
 
 extern s32 func_800291B4(s32 arg);
 extern u8 D_80183BC5[];
@@ -3683,7 +3699,15 @@ void func_8017DED8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017DF14);
+
+
+void func_8017DF14(u8 *a0)
+{
+    func_8002D4C8(0x540, 0);
+    func_80171990(a0);
+    func_8017DF54(a0);
+}
+
 
 extern u16 D_800B99DA;
 extern s32 D_80183BEC;
@@ -4026,7 +4050,51 @@ void func_8017E8B0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017E934);
+
+
+typedef struct { u8 c[4]; } Blk4_80180518;
+
+extern u8 D_8019FFA0;
+extern Blk4_80180518 D_8019FFA4[1];
+extern u8 D_8019FFE0;
+extern Blk4_80180518 D_8019FFE4[1];
+extern Blk4_80180518 D_8019EBCC[1];
+extern Blk4_80180518 D_8019EBD0[1];
+extern Blk4_80180518 D_8019EBD4[1];
+extern u8 D_80183C90[];
+
+extern void func_800233CC(void *, unsigned short);
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+
+void func_8017E934(s32 a0) {
+    s32 s2 = a0;
+    s32 i;
+    u8 *p;
+    u8 *hit;
+    u16 cnt;
+    u16 flg;
+
+    func_800233CC((void *)((Blk4_80180518 *)&D_8019FFA0), 0x20);
+    ((Blk4_80180518 *)&D_8019FFA0)[0] = D_8019EBCC[0];
+    D_8019FFA4[0] = D_8019EBD0[0];
+
+    func_800233CC((void *)((Blk4_80180518 *)&D_8019FFE0), 0x20);
+    ((Blk4_80180518 *)&D_8019FFE0)[0] = D_8019EBD4[0];
+    D_8019FFE4[0] = D_8019EBD0[0];
+
+    for (i = 0, p = D_80183C90; i < 8; i++, p += 8) {
+        hit = func_801290DC(0x20, p);
+        if (hit != 0) {
+            *(u16 *)(hit + 0x34) = i + 2;
+        }
+    }
+
+    cnt = *(u16 *)(s2 + 2) + 1;
+    flg = *(u16 *)(s2 + 0x72) | 0x1000;
+    *(u16 *)(s2 + 0x72) = flg;
+    *(u16 *)(s2 + 2) = cnt;
+}
+
 
 extern u8 D_8019FFA0;
 extern u8 D_8019FFE0;
