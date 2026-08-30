@@ -1,5 +1,11 @@
 # CURRENT PHASE — Phase 31: The Frontier Atlas & Wide-Tolerance Campaign
 
+> **⚠ READ THE LAST BLOCK FIRST — `## 🛑 SESSION CHECKPOINT — S65 FINAL-4` at the END of this file.**
+> This log holds **27** `🛑` checkpoint blocks written across many sessions, and several older ones
+> also say "supersedes every earlier block" — true when written, false now. **The LAST 🛑 block is
+> always the live one**; everything above it is history. (S65: added after noticing a fresh session
+> could anchor on the S64 FINAL block ~370 lines above the real one.)
+
 **Started:** 2026-08-14 · **Plan approved:** 2026-08-14 (gate 1; Drew) · **Effort doctrine:** xHigh default / Max deep (T5, T7, synthesis) / Ultracode waves (R26/R27 prompts) / Fable-tier only for new wall classes.
 **Approved plan:** `/home/musashi/.claude/plans/fable-5-set-max-goofy-seahorse.md` (the full design; this file is the crash-recovery log).
 **Approval also ratified R37 (probe before costing), R38 (read recorded failure verdicts first), R39 (negative-control new refusal-checks) — now binding.**
