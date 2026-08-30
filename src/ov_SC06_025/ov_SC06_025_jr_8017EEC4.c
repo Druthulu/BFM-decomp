@@ -3482,7 +3482,39 @@ void func_8017FF4C(s32 arg0, s16 *arg1, s32 arg2) {
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180020);
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180284);
+/* Declarations are BLOCK-scope on purpose (this TU's house style, cf. the
+ * block-scope decl layers at func_80180300 and neighbours in this file).
+ * A file-scope prototype for func_8012A828 here would become visible to
+ * func_80181C74, which deliberately calls `func_8012A828()` with no
+ * arguments behind a no-prototype decl -- a file-scope prototype turns that
+ * call into a hard `too few arguments` error and fails the whole-binary gate
+ * even though this function itself is byte-identical. */
+s32 func_80180284(void)
+{
+    extern void func_8012E8E0(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern void func_80029124(s32 a0, s32 a1);
+    extern s32 D_801270CC;
+    extern s16 D_801B1710;
+    extern s16 D_801B1714;
+    extern u8 D_801889F8[];
+    extern u8 D_801A01A4[];
+
+    register void *arg0 __asm__("$4");
+    void *s0;
+
+    s0 = arg0;
+    *(u16 *)((s32)s0 + 0x2) = 2;
+    *(u16 *)((s32)s0 + 0x34) = 0;
+    func_8012E8E0((s32)s0, (s32)&D_801889F8);
+    func_8012A828((s32)s0, &D_801A01A4);
+    *(s32 *)((s32)s0 + 0x1C) = 5;
+    D_801270CC = 1;
+    D_801B1710 = 0;
+    D_801B1714 = 0;
+    func_80029124(0x11E, 0);
+}
+
 
 #include "common.h"
 

@@ -4999,7 +4999,24 @@ void func_80180C64(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_80180CA0);
+
+extern void func_8017E6FC(void);
+extern s16 D_800B9AAC[];
+extern s16 D_801E4C50;
+extern Blk8 D_80194554;
+
+void func_80180CA0(s32 a0) {
+    register Blk8 *s __asm__("$5");
+    register Blk8 *d __asm__("$4");
+
+    s = &D_80194554;
+    d = &D_801E4C50;
+    *(Blk8 *)d = *(Blk8 *)s;
+    D_800B9AAC[0] = 0xFFE;
+    func_8017E6FC();
+    *(u8 *)(a0 + 0x214) += 1;
+}
+
 
 void func_80180D18(s32 a0) {
     s32 s0 = a0;

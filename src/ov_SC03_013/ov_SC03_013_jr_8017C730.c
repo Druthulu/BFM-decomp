@@ -4018,7 +4018,29 @@ s32 func_8017EE28(s32 a0, s32 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017C730", func_8017EEA4);
+extern s32 func_80135888(s32, s32, s32, s32);
+extern void func_8012F568(s32, s32, s32, s32, s32, s32);
+extern s32 D_80126B58;
+extern u8 D_801152A8[];
+
+s32 func_8017EEA4(s32 a0, s32 a1, s32 a2)
+{
+    register s32 t __asm__("$16");
+    s32 *base;
+
+    t = a2;
+    base = &D_80126B58;
+    if (a0 != 0 && *(s16 *)(a0 + 0xAA) != 0)
+        return 0;
+
+    if (func_80135888(base[8], base[14] | 0x10000000, a1, t) != 0)
+    {
+        func_8012F568(1, 1, 0, 10, t, (s32)&D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+
 
 extern void func_8017E6F4(s32 a0);
 extern void func_8002D59C(s32 a0, u16 a1, s32 a2);

@@ -8466,7 +8466,23 @@ void func_801862A4(s32 _arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80186300);
+#include "common.h"
+
+extern u16 D_801EFD40;
+extern void func_80186470(void *a0);
+extern void func_8018637C(s32 arg0, s32 arg1);
+
+void func_80186300(s32 a0, void *a1, s32 a2) {
+    register s32 s1 __asm__("$17") = a2;
+
+    D_801EFD40 = D_801EFD40 & 0xFFFB;
+    func_80186470((void *)a0);
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = (u16)s1;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) = 0;
+    func_8018637C(a0, (s32)a1);
+}
+
 
 extern void func_8012A828();
 extern u16 D_801EFD40;

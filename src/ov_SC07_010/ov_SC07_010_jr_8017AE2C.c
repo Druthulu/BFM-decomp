@@ -6838,7 +6838,37 @@ void func_80181B98(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_80181C54);
+void func_80181C54(void *a0)
+{
+    extern s32 D_80186088;
+    extern void func_800134FC(s32, void *, void *);
+    extern void func_8001382C(s32, void *, void *);
+    s32 *s = (s32 *)a0;
+    s32 *tbl = &D_80186088;
+    s16 sp10[8];
+    register s32 v0 __asm__("$2");
+    register s32 vT3 __asm__("$4");
+    u16 v1;
+
+    *tbl = -(*(s32 *)(s + 0xB) << 18);
+    func_800134FC(*(s16 *)((s8 *)a0 + 0x30), tbl - 2, sp10);
+    func_8001382C(*(s16 *)((s8 *)a0 + 0x32), sp10, sp10);
+
+    v0 = *(s32 *)&sp10[0];
+    v1 = *(u16 *)((s8 *)a0 + 2);
+    *(s32 *)(s + 4) = v0;
+    v0 = *(s32 *)&sp10[2];
+    v1 = v1 + 1;
+    *(s32 *)(s + 5) = v0;
+    __asm__ __volatile__("" ::: "memory");
+    vT3 = *(s32 *)&sp10[4];
+    v0 = 8;
+    *(s32 *)(s + 7) = v0;
+    __asm__ __volatile__("" ::: "memory");
+    *(u16 *)((s8 *)a0 + 2) = v1;
+    *(s32 *)(s + 6) = vT3;
+}
+
 
 void func_80181CDC(void *a0) {
     extern void func_8012931C(void *a0);

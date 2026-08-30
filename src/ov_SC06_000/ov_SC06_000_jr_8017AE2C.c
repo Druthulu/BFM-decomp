@@ -8340,7 +8340,28 @@ void func_80183574(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_801835B0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s16 D_801AECB4;
+
+void func_801835B0(void *a0, s32 a1)
+{
+    s32 end;
+    s32 ret;
+    s16 v1;
+
+    end = a1 + 8;
+    do {
+        __asm__("");__asm__("");__asm__("");__asm__("");__asm__("");__asm__("");__asm__("");
+        *(u16 *)((s32)a0 + 0xFC) = *(u16 *)(a1 + 2);
+        ret = func_8012C658(0x268, *(s16 *)(a1 + 0), (s32)a0);
+        v1 = *(s16 *)((s32)a0 + 0x70);
+        if (v1 == 0 && a1 == end) {
+            *(s32 *)&D_801AECB4 = ret;
+        }
+        a1 += 4;
+    } while (*(s16 *)(a1 + 0) != -1);
+}
+
 
 
 extern void (*D_8018C7FC[])(void);
