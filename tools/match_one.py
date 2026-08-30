@@ -163,14 +163,31 @@ def pipe(cmd, data=None):
     return subprocess.run(cmd, input=data, capture_output=True)
 
 
+def toolchain_fail(stage, err):
+    """A toolchain failure must still answer in the REQUESTED format (R43 / R35).
+
+    `--json` used to print bare `CC1 FAIL\n<gcc stderr>` and exit 1, so every programmatic caller
+    got `json.loads` of a non-JSON line. Measured P31 S66: claude_wave_packs' residual measurement
+    swallowed 4 of 19 prior drafts as "residual not measured: Expecting value" — the instrument
+    reported nothing where the true answer ("the prior draft does not COMPILE, here is the error")
+    is the most actionable datum a pack can carry. Emit it as JSON; keep the human text on stderr.\n"""
+    txt = err.decode(errors='replace')[-1800:] if isinstance(err, bytes) else str(err)[-1800:]
+    if a.json:
+        print(json.dumps({"status": stage.lower().replace(' ', '-'), "closeness": None,
+                          "nins": None, "residual": [], "error": txt}))
+    else:
+        print('%s\n%s' % (stage, txt))
+    sys.exit(1)
+
+
 p = pipe([CPP] + CPPFLAGS + ['%s/t.c' % wd])
-if p.returncode: print('CPP FAIL\n' + p.stderr.decode()[-1500:]); sys.exit(1)
+if p.returncode: toolchain_fail('CPP FAIL', p.stderr)
 p = pipe([CC1] + CC1FLAGS, p.stdout)
-if p.returncode: print('CC1 FAIL\n' + p.stderr.decode()[-1800:]); sys.exit(1)
+if p.returncode: toolchain_fail('CC1 FAIL', p.stderr)
 p = pipe([PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
-if p.returncode: print('MASPSX FAIL\n' + p.stderr.decode()[-1500:]); sys.exit(1)
+if p.returncode: toolchain_fail('MASPSX FAIL', p.stderr)
 p = pipe([AS] + ASFLAGS + ['-o', '%s/t.o' % wd], p.stdout)
-if p.returncode: print('AS FAIL\n' + p.stderr.decode()[-1500:]); sys.exit(1)
+if p.returncode: toolchain_fail('AS FAIL', p.stderr)
 
 # masked compare: my compiled object vs the resolved splat .s (mask driven by my object's relocs)
 mine = masked_diff.insns_from_object('%s/t.o' % wd, a.fn)

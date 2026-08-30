@@ -56,6 +56,17 @@ def _residual_block(t, where):
     except Exception as e:                 # never let the measurement break pack generation
         return "\n\n(residual not measured: %s)\n" % str(e)[:120]
     st, cl = j.get('status'), j.get('closeness')
+    if st and st.endswith('-fail'):        # P31 S66: the prior draft does not even BUILD in isolation
+        # `match_one --json` now answers in JSON for a toolchain failure too (it used to print bare
+        # `CC1 FAIL\n<stderr>`, which json.loads swallowed as "residual not measured"). The compiler's
+        # own message IS the lever — 3 of the 4 swallowed t5/r1 drafts were a decl conflict the
+        # card's `decl_prior` block already answers.
+        return ("\n\n================================================================================\n"
+                "MEASURED: this prior draft **does not compile** (%s). The compiler said:\n\n%s\n"
+                "Fix THAT first — it is usually a declaration disagreement (see the decl_prior block\n"
+                "above), not a codegen problem. Re-run match_one before submitting.\n"
+                "================================================================================\n"
+                % (st, (j.get('error') or '').strip()[-1200:]))
     if st == 'match':
         return ("\n\n================================================================================\n"
                 "MEASURED: this prior draft is **MATCH (closeness 0) in isolation** — its body is\n"
