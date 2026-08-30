@@ -5109,7 +5109,39 @@ void func_80181264(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_801812FC);
+
+
+extern u16 D_80126B5E;
+
+void func_801812FC(s32 arg)
+{
+    register s32 a0 __asm__("$4");
+
+    a0 = arg;
+    switch (*(s16 *)((s32)a0 + 0x70)) {
+    case 1:
+        if (*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0xFE) == *(s16 *)((s32)a0 + 0x70)) {
+            s32 *base = (s32 *)(*(s32 *)((s32)a0 + 0x20));
+            s32 r = *(base + 1) & 0x7FFFFFFF;
+            *(base + 1) = r;
+            __asm__("" :: "r"(base), "r"(r));
+            *(u16 *)((s32)a0 + 0x5C) = 0xCC00;
+            func_80180BAC((void *)a0);   /* direct call: the retail bytes `j .L80183298` land on the shared jal (cross-jump), not on the recheck */
+        }
+        break;
+    case 3:
+        if (*(s16 *)&D_80126B5E >= 0x281) {
+            *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) = 0;
+        }
+        /* fall through */
+    default:
+        if (*(s16 *)(*(s32 *)((s32)a0 + 0x64) + 0xFE) == *(s16 *)((s32)a0 + 0x70)) {
+            func_80180BAC((void *)a0);
+        }
+        break;
+    }
+}
+
 
 extern void func_80180E54(u8 *a0, u8 *a1, s32 a2);
 
