@@ -4003,7 +4003,12 @@ void func_801804DC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017E6EC", func_80180518);
+void func_80180518(void *a0) {
+    if ((func_80029178(0xBB) & 0xFF) != 0) {
+        func_8012AD50((s32)a0);
+    }
+}
+
 
 extern s32 rand(void);
 extern u16 D_800B99DA;

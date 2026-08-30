@@ -4050,7 +4050,15 @@ void func_8017EDA0(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8017EE78);
+extern s32 D_80126D50;
+extern u16 D_80126B66;
+
+void func_8017EE78(void) {
+    if (D_80126D50 == 0 && (s16)D_80126B66 < 0x80) {
+        D_80126B66 = 0x80;
+    }
+}
+
 
 #include "common.h"
 

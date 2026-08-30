@@ -3804,7 +3804,16 @@ extern void func_80178CBC(s32 arg0, s32 arg1);
 
 INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80182A74", func_80183D54);
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80182A74", func_80183DB8);
+#include "common.h"
+
+extern void func_80029124(s32, s32);
+extern s32 D_801ED800;
+
+s32 func_80183DB8(void) {
+    func_80029124(0x12D, 1);
+    return D_801ED800 == 1;
+}
+
 
 extern void func_8014AD7C(s32 arg);
     void func_80183DEC(void) {

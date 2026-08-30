@@ -7789,7 +7789,20 @@ void func_80182AD4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80182B10);
+extern void func_80147060(u8 *a0);
+extern void func_80180F94(s32 a0);
+extern s32 func_80171990(u8 *a0);
+extern void func_80182B50(s32 a0);
+
+void func_80182B10(u8 *a0) {
+    u8 *s0 = a0;
+
+    func_80147060(s0);
+    func_80180F94(0x16);
+    func_80171990(s0);
+    func_80182B50((s32)s0);
+}
+
 
 extern s32 func_80180F84(void);
 extern void func_80171A80(s32 *a0, s32 a1);

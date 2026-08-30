@@ -3521,7 +3521,13 @@ void func_8017D73C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017DA00);
+extern void (*D_801893E8[])(void);
+
+void func_8017DA00(void *a0) {
+    s32 pad[4]; /* load-bearing dead local: reserves 16B var_size (§162i1) matching target's 0x28 frame */
+    D_801893E8[*(u16 *)((s32)a0 + 0x2)]();
+}
+
 
 void func_8017DA3C(s32 param_1)
 {
