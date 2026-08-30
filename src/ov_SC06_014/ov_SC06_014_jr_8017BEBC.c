@@ -3866,7 +3866,46 @@ void func_8017DDE0(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_014/nonmatchings/ov_SC06_014_jr_8017BEBC", func_8017DF08);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012E778(s32 a0, s32 a1);
+
+void func_8017DF08(void *param)
+{
+    u8 *s0 = param;
+    s16 var;
+    s32 flag;
+
+    if (*(s16 *)(s0 + 0xFC) <= 0) {
+        var = *(u16 *)(s0 + 0xE) + 8;
+        *(u16 *)(s0 + 0xE) = var;
+        if ((s16)var < -0xBF)
+            goto L_AC;
+        var = -0xC0;
+        flag = *(s16 *)(s0 + 0x84);
+        __asm__ __volatile__("");   /* zero-byte cross-jump barrier */
+    } else {
+        var = *(u16 *)(s0 + 0xE) - 8;
+        *(u16 *)(s0 + 0xE) = var;
+        if ((s16)var >= -0x1C0)
+            goto L_AC;
+        var = -0x1C0;
+        flag = *(s16 *)(s0 + 0x84);
+    }
+    *(u16 *)(s0 + 0xE) = var;
+    if (flag != 0) {
+        func_8002D4C8(0x977, 0);
+        func_8002D4C8(4, 0x976);
+        *(u16 *)(s0 + 0x84) = 0;
+    }
+    return;
+
+L_AC:
+    if (*(s16 *)(s0 + 0x84) == 0 && func_8012E778((s32)s0, 0xAA00C8) == 1) {
+        func_8002D4C8(0x976, 0);
+        *(u16 *)(s0 + 0x84) = 1;
+    }
+}
+
 
 
 extern void (*D_80183BAC[])(void);

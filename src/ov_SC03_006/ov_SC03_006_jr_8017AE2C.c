@@ -9992,7 +9992,122 @@ u8 * func_8018594C(s32 a0, s32 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801859E4);
+#include "common.h"
+
+void func_801859E4(s32 a0) {
+    /* [T51] Declarations scoped INTO the function, exactly as sibling
+     * func_8018450C in this TU does: a file-scope decl of these symbols would
+     * constrain every LATER function here (func_80186070 / func_80188410
+     * re-declare D_800AE620 and RotMatrixY at file scope themselves).
+     * Declaration-only move => byte-neutral (cookbook §103).
+     * The two typedefs are local standalone-compile clones of
+     * src/shared/engine_types.h -- match_one's isolated compile only has
+     * -Iinclude and cannot resolve ../shared/engine_types.h, while the host TU
+     * already pulls both in via engine_core.h. Same-shape clones, so they
+     * merely shadow the real ones; block scope means they can never collide.
+     * func_80185F5C is declared with an UNSPECIFIED parameter list on purpose:
+     * its real definition later in this TU takes the file-scope SVECTOR*, and
+     * an empty list is compatible with any prototype in C89 (pack §195-A). */
+    typedef struct { s32 w[8]; } Mtx8_8017DE10_8017E710;
+    typedef struct { short vx, vy, vz, pad; } SVECTOR;
+
+    extern void func_8012B23C(s32 a0);
+    extern s32  func_80185EFC(s32 a0);
+    extern s32  func_80185F5C();
+    extern void func_8012ADE4(u8 *a0);
+    extern s32  func_8012B864(s32 a0);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+    extern Mtx8_8017DE10_8017E710 D_800AE620;
+    extern s16 D_80126CB4;
+    extern s16 D_80126CB6;
+    extern s16 D_80126CB8;
+    extern s32 *D_80126B78;
+
+    /* Frame is 0x80 and every slot below is pinned by the target's offsets.
+     * Declaration order == ascending sp offset, and any aggregate >= 8 bytes
+     * is rounded up to an 8-byte boundary, which is what puts `mtx` on 0x48:
+     *   vec 0x10  out 0x20  from 0x30  to 0x38  tmp 0x40  mtx 0x48  pos 0x68
+     * `tmp` is never read.  The target reserves 0x40..0x47 all the same, so the
+     * original declared a third SVECTOR here whose uses the optimiser removed;
+     * dropping it shrinks the frame to 0x78 and moves five other slots. */
+    s32 vec[3];
+    s32 out[3];
+    SVECTOR from;
+    SVECTOR to;
+    SVECTOR tmp;
+    Mtx8_8017DE10_8017E710 mtx;
+    s32 pos[3];
+    s32 obj;
+
+    obj = a0;
+    func_8012B23C(a0);
+
+    /* obj+0x38/0x3C/0x40 are the 16.16 position; these are their integer
+     * halves (cookbook §194-G), i.e. where the entity is standing now. */
+    from.vx = *(u16 *)(obj + 0x3A);
+    from.vy = *(u16 *)(obj + 0x3E);
+    from.vz = *(u16 *)(obj + 0x42);
+
+    if (func_80185EFC(obj) == 0) {
+        *(u16 *)(obj + 0x6) = *(u16 *)(obj + 0x88);
+        *(u16 *)(obj + 0xA) = *(u16 *)(obj + 0x8A);
+        *(u16 *)(obj + 0xE) = *(u16 *)(obj + 0x8C);
+        return;
+    }
+
+    *(s16 *)(obj + 0x6) = D_80126CB4;
+    *(s16 *)(obj + 0xA) = D_80126CB6;
+    *(s16 *)(obj + 0xE) = D_80126CB8;
+
+    vec[2] = (s32)0xFF600000;
+    vec[1] = 0;
+    vec[0] = 0;
+
+    mtx = D_800AE620;
+    RotMatrixY(*(s16 *)((s32)D_80126B78 + 0x12), &mtx);
+
+    /* Hoisted out of the loop by hand: the target's `lw 0x8($s0)` / `sw
+     * 0x6C($sp)` pair sits above .L80185B18, and pos[1] is never accumulated
+     * into.  Written inside the loop, gcc cannot prove *(s32*)(obj+8) survives
+     * the two calls and re-loads it every iteration (+2 instructions). */
+    pos[1] = *(s32 *)(obj + 0x8);
+
+    do {
+        pos[0] = *(s32 *)(obj + 0x4);
+        pos[2] = *(s32 *)(obj + 0xC);
+        func_800484EC((s32)&mtx, (s32)vec, (s32)out);
+        pos[0] += out[0];
+        pos[2] += out[2];
+
+        /* Cookbook §194-G -- the integer half of a 16.16 stack aggregate.
+         * pos[0] and pos[2] were just stored in THIS basic block, so cse hands
+         * any `>> 16` spelling back the live pseudo and emits `sra`; only a
+         * narrow-typed lvalue at +2 can produce the target's `lhu`.  Same
+         * spelling as the sibling func_80188AF4 in this TU.  (pos[1] is the
+         * off-block case and would take `lh` from `>> 16`, so it is punned
+         * too -- one spelling, three words, uniform bytes.) */
+        to.vx = *((u16 *)&pos[0] + 1);
+        to.vy = *((u16 *)&pos[1] + 1);
+        to.vz = *((u16 *)&pos[2] + 1);
+
+        if (func_80185F5C(&from, &to) == 1) {
+            *(u16 *)(obj + 0x6) = to.vx;
+            *(u16 *)(obj + 0xA) = to.vy;
+            *(u16 *)(obj + 0xE) = to.vz;
+            *(s32 *)(obj + 0x14) = 0;
+            goto sync;
+        }
+
+        vec[2] >>= 1;
+    } while (0xFFFF < -vec[2]);
+
+    func_8012ADE4((u8 *)obj);
+
+sync:
+    *(s16 *)(*(s32 *)(obj + 0x20) + 0x12) = func_8012B864(obj);
+}
+
 
 #include "common.h"
 

@@ -6410,7 +6410,72 @@ void func_80181FAC(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_801820AC);
+#include "common.h"
+
+extern s32 D_8018A2AC;
+extern s32 D_8018A2B0[];
+extern s32 D_8018A2BC[];
+extern u16 D_8018A2A4[];
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern s16 D_80126B9A;
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern void func_8012BD14(s32 a0);
+extern s32 func_8012D714(s32 a0, u32 a1);
+extern void func_80181FAC(s32 a0);
+extern void func_80182290(u8 *a0);
+
+void func_801820AC(s32 arg0) {
+    u16 buf[3];
+    s32 t, yaw, sn, cs, base, len, rot, sum, ang, d, q;
+    s16 mode;
+    register s32 am __asm__("$4");
+
+    d = D_8018A2AC;
+    sum = *(u16 *)(arg0 + 0xFC) + d;
+    *(u16 *)(arg0 + 0xFC) = sum;
+    ang = (s16)sum;
+    base = D_8018A2B0[*(s16 *)(arg0 + 0x70)];
+    yaw = (-(ang << 10)) / 8192 - 0x202;
+    q = ang * -371;
+    if (q < 0) {
+        q += 0x1FFF;
+    }
+    ang &= 0xFFF;
+    am = ang;
+    t = q >> 13;
+    len = base + 0x328;
+    t += len;
+    sn = (func_80047948(am) * t) >> 12;
+    am = ang;
+    cs = (func_8004787C(am) * t) >> 12;
+    buf[0] = sn;
+    buf[1] = yaw;
+    buf[2] = cs;
+    buf[1] += D_8018A2BC[*(s16 *)(arg0 + 0x70)];
+    *(s16 *)(arg0 + 6) = buf[0];
+    *(u16 *)(arg0 + 0xA) = buf[1];
+    *(s16 *)(arg0 + 0xE) = buf[2];
+    rot = *(s16 *)(arg0 + 0xFC);
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = (-rot) & 0xFFF;
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) =
+        *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x10) + D_8018A2A4[*(s16 *)(arg0 + 0x70)];
+    if (((s32 (*)(s32))func_8012BD14)(arg0) <= 0x10000 && func_8012D714(arg0, 1) != 0) {
+        D_80126B98 = 10;
+        D_80126B9A = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
+        mode = 2;
+        if (*(s16 *)(arg0 + 0x70) == 2) {
+            mode = 4;
+        }
+        D_80126B96 = mode | 0x4000;
+    }
+    func_80181FAC(arg0);
+    if (*(s16 *)(arg0 + 0xFC) <= 0) {
+        func_80182290((u8 *)arg0);
+    }
+}
+
 
 #include "common.h"
 
