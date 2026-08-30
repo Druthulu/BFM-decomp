@@ -221,7 +221,12 @@ void func_801EDE70(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_025/nonmatchings/md_SC05_025", func_801EDEAC);
+void func_801EDEAC(s32 a0) {
+    extern s16 D_801274E8;
+    extern void func_801EDED4(s32 a0, s16 *a1);
+    func_801EDED4(a0, &D_801274E8);
+}
+
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
@@ -307,7 +312,21 @@ void func_801EE10C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_025/nonmatchings/md_SC05_025", func_801EE148);
+extern u8 D_80078EBA;
+extern s32 D_801ED90C;
+extern s32 D_801F51FC;
+extern u8 D_801EED7C[];
+extern u8 D_801EEDBC[];
+
+void func_801EE148(void) {
+    D_801F51FC = 0;
+    if (D_80078EBA == 4) {
+        *(s32 *)(D_801ED90C + 4) = (s32)D_801EEDBC;
+    } else {
+        *(s32 *)(D_801ED90C + 4) = (s32)D_801EED7C;
+    }
+}
+
 
 
 

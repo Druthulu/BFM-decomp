@@ -22,7 +22,16 @@ void func_800CAE88(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_040/nonmatchings/md_MAIN_040", func_800CAED0);
+extern void func_80154274(s32 *a0, s32 a1);
+extern void func_801655E4(void *a0);
+extern M2C_UNK D_800D57F4;
+
+void func_800CAED0(u8 *a0) {
+    func_80154274((s32 *)a0, (s32)&D_800D57F4);
+    func_801655E4(a0);
+    *(u8 *)(a0 + 0x197) = *(u8 *)(a0 + 0x197) + 1;
+}
+
 
 #include "common.h"
 

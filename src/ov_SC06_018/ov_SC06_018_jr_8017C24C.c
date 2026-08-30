@@ -3495,7 +3495,88 @@ void func_8017D9A4(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017DB20);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_800178EC(s32 a0);
+
+typedef struct {
+    s16 vx0, vy0, vz0, pad0;
+    s16 vx1, vy1, vz1, pad1;
+    s16 vx2, vy2, vz2, pad2;
+    s16 vx3, vy3, vz3, pad3;
+    s16 u0, v0;
+    s16 u1, v1;
+    s16 u2, v2;
+    s16 u3, v3;
+    s32 rgb0, rgb1, rgb2, rgb3;
+    s32 flags;
+    u8  clut;
+} Quad_8017DB20;
+
+void func_8017DB20(s32 param_1, s32 param_2, s16 param_3, s16 param_4, s32 param_5, s32 param_6)
+{
+    Quad_8017DB20 q;
+    register Quad_8017DB20 *p asm("$16");
+    s32 buf[2];
+    u16 v1val;
+    u16 v0val;
+    s16 yhi;
+    s16 ylo;
+    s16 xsel;
+    s16 t_vx0;
+    s16 t_vx1;
+
+    func_80015978(param_1 + 4, buf);
+    v1val = *(u16 *)buf;
+    v0val = *((u16 *)buf + 1);
+
+    t_vx0 = v1val + param_3;
+    p = &q;
+    yhi = v0val + 0x80;
+    t_vx1 = v1val + param_4;
+    ylo = v0val - 0x80;
+    q.vx0 = t_vx0;
+    q.vy0 = yhi;
+    q.vx1 = t_vx1;
+    q.vy1 = ylo;
+
+    switch (param_2) {
+    case 0:
+        xsel = v1val - 0xA0;
+        break;
+    case 1:
+        xsel = v1val + 0xA0;
+        break;
+    default:
+        goto skip_store;
+    }
+    q.vx2 = xsel;
+    q.vy2 = yhi;
+    q.vx3 = xsel;
+    q.vy3 = ylo;
+skip_store:
+    p->vz0 = 0;
+    __asm__ __volatile__("");
+
+    p->rgb0 = p->rgb1 = param_5;
+    p->rgb2 = p->rgb3 = param_6;
+    __asm__ __volatile__("");
+    p->u0 = *(s32 *)(param_1 + 0xE4) + 0xC00;
+    p->v0 = 0x100;
+
+    p->u1 = *(s32 *)(param_1 + 0xE4) + 0xC3F;
+    p->v1 = 0x100;
+
+    p->u2 = *(s32 *)(param_1 + 0xE4) + 0xC00;
+    p->v2 = 0x13F;
+
+    p->u3 = *(s32 *)(param_1 + 0xE4) + 0xC3F;
+    p->v3 = 0x13F;
+    p->clut = 0x36;
+    p->flags = 0x50000000;
+
+    func_800178EC((s32)p);
+}
+
 
 extern s32 func_8017DC58(void);
 

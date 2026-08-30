@@ -4673,7 +4673,35 @@ void func_80182CA4(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80182D70);
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80182E84);
+extern s32 D_801C48F0[];
+extern s32 func_8012C044(s32 a0);
+extern void func_80184344(s32);
+
+void func_80182E84(s32 a0) {
+    s32 *s0 = (s32 *)a0;
+    u32 v0;
+    u32 (*func_ptr)(void);
+
+    v0 = *(u16 *)((u8 *)s0 + 2);
+    v0 = v0 * 4;
+    func_ptr = (u32 (*)(void))D_801C48F0[v0 / 4];
+    func_ptr();
+
+    v0 = *(u16 *)s0;
+    if (v0 == 0) {
+        return;
+    }
+
+    v0 = *(u16 *)((u8 *)s0 + 0xFE) + 0x80;
+    *(u16 *)((u8 *)s0 + 0xFE) = v0;
+    v0 = func_8012C044((s32)s0);
+    if (v0 != 1) {
+        return;
+    }
+    *(u16 *)((u8 *)s0 + 0x100) = 1;
+    func_80184344((s32)s0);
+}
+
 
 extern s32 D_801C473C;
 extern s32 D_801C4850;
@@ -5102,7 +5130,7 @@ extern s32 func_8012B8E4(s32 arg0, s32 arg1);
 extern s32 func_8012BCCC(s32 a0);
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_80183E70(s32 a0);
+extern void func_80183E70();
 
 void func_80183744(void *a0)
 {
@@ -5509,7 +5537,65 @@ void func_80183CC4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80183E70);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern u8 D_801C4830[];
+extern u8 D_801C4838[];
+extern u8 *func_80183F70(s32 a0, s32 a1, s32 a2);
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+void func_80183E70(void *param_1)
+{
+    s32 *m;
+    s32 sv0[2];
+    s32 sv1[2];
+    s32 flag;
+    u16 cnt;
+
+    m = (s32 *)(*(s32 *)((s32)param_1 + 0x20) + 0x34);
+
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    RotTransSV(D_801C4830, sv0, &flag);
+    RotTransSV(D_801C4838, sv1, &flag);
+
+    func_80183F70(*(s16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12), (s32)sv0,
+                  *(s16 *)((s32)param_1 + 0xDC));
+    func_80183F70(*(s16 *)(*(s32 *)((s32)param_1 + 0x20) + 0x12), (s32)sv1,
+                  *(s16 *)((s32)param_1 + 0xDC));
+
+    cnt = *(u16 *)((s32)param_1 + 0xDC);
+    cnt = cnt + 1;
+    *(u16 *)((s32)param_1 + 0xDC) = cnt;
+    if ((s16)cnt >= 3) {
+        *(u16 *)((s32)param_1 + 0xDC) = 2;
+    }
+}
+
 
 extern u32 D_801C4770[];
 extern u8 *func_801290DC(s32 a0, u8 *a1);

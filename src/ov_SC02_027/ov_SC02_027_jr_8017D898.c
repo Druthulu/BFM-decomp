@@ -3759,7 +3759,87 @@ void func_8017F3E8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017F498);
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct { s16 v[4]; } Blk8_80126940_8017D6D0_8017F498;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017F918(s32 param_1, s16 *param_2);
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 D_80126B58;
+
+/* @class: regalloc — MATCH (99 ins). Three coupled levers, all cookbook:
+ *  1. §156 MERGE pole: ONE `s16 lim` scratch carries -0x540 AND both tail clamps.
+ *     A literal `x > -0x180` folds to `slti x,-0x17F`; the reused s16 variable is what
+ *     yields the target's `addiu $v0,$zero,-0x180 / slt $v0,$v0,$v1` register form
+ *     (same idiom as this TU's already-banked func_8017F780).
+ *  2. A SECOND scratch `mid` for the two middle limits is what makes gcc emit the
+ *     constant into a register per arm, so the post-reload cross-jump merges the
+ *     `subu/sh/j` tails (target .L8017F574) and leaves BOTH `sh $zero,0x2E` copies —
+ *     with plain literals gcc instead merges the two zero-stores and splits the subu.
+ *  3. §17 pin `$5`: unpinned, `mid` (global allocno, priority ~log2(refs)*refs/len)
+ *     outranks the compiler-made `addu $a0,$v1,$zero` copy of v[0] and takes $a0,
+ *     giving a whole-function $a0/$a1 swap C cannot otherwise reach.
+ * @stuck-was: with the pin, `mid` DIES at the subu, so reload reuses its $a1 for the
+ *     output (`subu $a1,$a1,$a0`) — 2 off, the plateau the previous attempt hit. The
+ *     zero-byte `asm("" :: "r"(mid))` at the join keeps it live one insn longer, so the
+ *     output takes a fresh reg = the target's `subu $v0,$a1,$a0`. */
+
+void func_8017F498(s32 a0) {
+
+    extern s16 D_8018F0B0[];
+    extern Blk8_80126940_8017D6D0_8017F498 D_80126940;
+    Blk8_80126940_8017D6D0_8017F498 sp10;
+    u8 t;
+    s16 lim;
+    register s16 mid __asm__("$5");
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+    }
+    sp10 = D_80126940;
+    if (sp10.v[0] < -0x3C0) {
+        lim = -0x540;
+        if (sp10.v[0] < -0x540) {
+            sp10.v[0] = lim;
+        }
+        *(s16 *)(a0 + 0x2E) = 0;
+        *(s32 *)(a0 + 0x14) = D_8018F0B0[*(u8 *)(a0 + 5)];
+    } else {
+        if (sp10.v[2] >= 0x1081) {
+            mid = -0x300;
+            if (sp10.v[0] < mid) {
+                *(s16 *)(a0 + 0x2E) = mid - sp10.v[0];
+            } else {
+                *(s16 *)(a0 + 0x2E) = 0;
+            }
+        } else {
+            mid = -0x340;
+            if (sp10.v[0] < mid) {
+                *(s16 *)(a0 + 0x2E) = mid - sp10.v[0];
+            } else {
+                *(s16 *)(a0 + 0x2E) = 0;
+            }
+        }
+        __asm__ __volatile__("" :: "r"(mid));   /* zero-byte: keep $a1 live past the subu */
+        if (sp10.v[2] >= 0x1241) {
+            *(s32 *)(a0 + 0x14) = D_8018F0B0[*(u8 *)(a0 + 5)];
+        } else {
+            *(s32 *)(a0 + 0x14) = 0x12C;
+        }
+    }
+    *(s16 *)(a0 + 0x28) = func_80012F74(*(s16 *)(a0 + 0x28), *(s16 *)(a0 + 0x2E), 4, 1);
+    lim = -0x180;
+    if (lim < sp10.v[0]) {
+        sp10.v[0] = lim;
+    }
+    lim = -0x380;
+    if (lim < sp10.v[1]) {
+        sp10.v[1] = lim;
+    }
+    func_8017F918(a0, sp10.v);
+}
+
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */

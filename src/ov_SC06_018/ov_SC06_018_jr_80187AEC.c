@@ -4858,7 +4858,20 @@ void func_8018A5D8(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018A61C);
+extern void (*D_801CD444[])(void);
+extern void func_8018C3F8(void);
+extern void func_8018AB74(void);
+
+void func_8018A61C(s32 arg0)
+{
+    D_801CD444[*(u16 *)(arg0 + 2)]();
+
+    if ((*(u16 *)(arg0 + 0x104) & 0x100) != 0) {
+        func_8018C3F8();
+        func_8018AB74();
+    }
+}
+
 
 extern s32 D_801CD3B8;
 
@@ -4942,7 +4955,60 @@ void func_8018A7C8(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018A86C);
+s32 func_8018A86C(s32 param_1)
+{
+    extern void func_8012BE54(s32 a0);                 /* canonical void -> cast at use */
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void RotTransSV(void *a0, void *a1, void *a2);
+    extern void func_8018A974(s32 arg0, s32 arg1, s32 arg2);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern u16 D_800B99D8;
+    extern u8 D_801CD458[];
+
+    typedef struct { s16 a, b, c, d; } SV4_8018A86C;
+
+    s32 diff;
+    s16 sdiff;
+    SV4_8018A86C buf1;
+    SV4_8018A86C buf2;
+    s32 color;
+    u16 cnt;
+
+    if (0x24000 < ((s32 (*)(s32))func_8012BE54)(param_1)) {
+        goto reset;
+    }
+    diff = (*(u16 *)(param_1 + 0x106) & 0xFFF) -
+           (*(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) & 0xFFF);
+    sdiff = diff;
+    if (diff << 16 < 0) {
+        sdiff = -sdiff;
+    }
+    if (sdiff < 0x181) {
+        goto main_body;
+    }
+
+reset:
+    *(u16 *)(param_1 + 0x108) = 0;
+    return 0;
+
+main_body:
+    func_8004914C((void *)(*(s32 *)(param_1 + 0x20) + 0x34));
+    func_800491AC((void *)(*(s32 *)(param_1 + 0x20) + 0x34));
+    RotTransSV(D_801CD458, &buf1, &buf2);
+    color = 0x202080;
+    if ((D_800B99D8 & 1) != 0) {
+        color = 0xE0;
+    }
+    func_8018A974((s32)&buf1, param_1 + 0xE0, color);
+    if (*(s16 *)(param_1 + 0x108) == 0) {
+        func_8002D4C8(0xAE3, 0);
+    }
+    cnt = *(u16 *)(param_1 + 0x108) + 1;
+    *(u16 *)(param_1 + 0x108) = cnt;
+    return 0x270000 < (s32)((u32)cnt << 16);
+}
+
 
 /* func_8018A974 — allocates a semi-trans LineF2 GPU packet, projects two
  * world-space points via RotTransPers, and (if both are on-screen with

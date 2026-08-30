@@ -3161,7 +3161,27 @@ void func_8017BEBC(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017CD9C);
+#include "common.h"
+
+extern void func_8002931C(s32 a0);
+extern void func_8017DB74(int param_1);
+
+extern u8 D_801911DC[];
+extern u8 D_801912F4[];
+
+extern u8 *D_801274C8;
+extern void *D_801274CC;
+
+void func_8017CD9C(void)
+{
+    func_8002931C(0x3C00000);
+
+    D_801274C8 = D_801911DC;
+    D_801274CC = D_801912F4;
+
+    func_8017DB74(0);
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017CDE4);
 
@@ -3320,7 +3340,35 @@ void func_8017D274(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017D29C);
+void func_8017D29C(void) {
+    extern u8 D_80126948[];
+    extern s32 D_80126954;
+    extern s32 D_8012695C;
+    extern s16 D_80126968;
+    extern s16 D_8012696A;
+    extern s16 D_8012696C;
+    extern s16 D_80126976;
+    extern s16 D_80126978;
+    extern s16 D_8012697A;
+    extern void func_8017D59C(void *a0);
+    extern void func_8012A018(s32 a, s32 b);
+    extern void func_8012A094(s32 a0);
+
+    D_80126954 = 400;
+    D_8012695C = 1200;
+    D_80126968 = 0x238;
+    D_8012696A = 0x800;
+    D_8012696C = 0;
+    D_80126976 = 0;
+    D_80126978 = -0x20;
+    D_8012697A = 0;
+    func_8012A018((s32)func_8017D59C, 0);
+    func_8012A094((s32)D_80126948);
+    func_8017D59C((void *)D_80126948);
+    func_8012A094((s32)D_80126948);
+    func_8017D59C((void *)D_80126948);
+}
+
 
 typedef struct {
     s16 v[4];
@@ -3853,7 +3901,26 @@ void func_8017E2F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC", func_8017E330);
+void func_8017E330(s32 param_1)
+{
+    extern u8 D_80190F30;
+    extern u8 D_80190F3C;
+    s32 p;
+
+    p = *(s32 *)(param_1 + 0x20);
+    func_8001CB6C((u8 *)p, (s32)&D_80190F30, 0x2E0, 0x100);
+
+    *(u8 *)(p + 0x27) = 0x4F;
+    *(s16 *)(p + 0x1A) = -0x8000;
+    *(s16 *)(p + 0x18) = -0x8000;
+    *(s16 *)(p + 0x10) = 0x400;
+    *(u32 *)(p + 4) = *(u32 *)(p + 4) | 0x50000000;
+
+    func_80128EA8(p, param_1 + 0x24, (s32)&D_80190F3C);
+
+    *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+}
+
 
 extern void func_801292C8(u8 *a0);
 

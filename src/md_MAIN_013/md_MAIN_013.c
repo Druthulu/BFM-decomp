@@ -59,7 +59,31 @@ void func_800CAEE0(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_013/nonmatchings/md_MAIN_013", func_800CAF68);
+extern s32 func_80161208();
+extern void func_800CB05C(s32 a0, s32 a1);
+extern void func_801599A4(void *a0);
+extern void func_80159B3C(void *a0);
+extern s32 func_80155FD4(s32 a0, s32 a1);
+
+void func_800CAF68(s32 a0) {
+    *(u32 *)(a0 + 0x44) |= 2;
+    if (func_80161208() != 0) {
+        return;
+    }
+    if (*(u16 *)(a0 + 0xB8) & 0x2000) {
+        *(u8 *)(a0 + 0xBF) += 1;
+    }
+    if (*(u8 *)(a0 + 0xBF) != 0) {
+        func_800CB05C(a0, *(u8 *)(a0 + 0xBF));
+    }
+    if (*(u16 *)(a0 + 0xB8) == 0x8000) {
+        func_801599A4((void *)a0);
+        func_80159B3C((void *)a0);
+        return;
+    }
+    func_80155FD4(a0, *(u8 *)(a0 + 0x1AA));
+}
+
 
 void func_800CB018(s32 a0) {
     extern void func_80154A74(s32 a0, s32 a1);
@@ -189,7 +213,32 @@ void func_800CB510(void *arg0) {
 
 INCLUDE_ASM("asm/md_MAIN_013/nonmatchings/md_MAIN_013", func_800CB56C);
 
-INCLUDE_ASM("asm/md_MAIN_013/nonmatchings/md_MAIN_013", func_800CB6E4);
+void func_800CB6E4(void *arg0) {
+    extern s32 func_80146A6C(s32, void *, s32, s32, s32, s32, s32);
+    extern void func_80146C3C();
+    u8 *a0 = *(u8 **)((s32)arg0 + 0x34);
+    if (*(s32 *)((s32)arg0 + 0x30) == *(s16 *)(a0 + 0x36)) {
+        s16 var;
+        if (*(s32 *)(a0 + 0x58) < 0) {
+            u8 *p = (u8 *)(*(s32 *)(a0 + 0x58) & (s32)0x8FFFFFFF);
+            var = ((*(s16 *)(p + 8) + *(s16 *)(p + 0xA)) >> 1) - 0x10;
+        } else {
+            var = -0x30;
+        }
+        *(s32 *)((s32)arg0 + 0x4C) = *(s16 *)(a0 + 6);
+        *(s32 *)((s32)arg0 + 0x50) = *(s16 *)(a0 + 0xA) + (s16)var;
+        *(s32 *)((s32)arg0 + 0x54) = *(s16 *)(a0 + 0xE);
+    }
+    if (*(s32 *)((s32)arg0 + 0x1C) < 0x18 && *(u16 *)a0 != 0) {
+        if (*(s32 *)((s32)arg0 + 0x1C) < 0xE) {
+            func_80146A6C(0x15, arg0, 0, 0, 0, 0x8000, *(s32 *)((s32)arg0 + 0x1C));
+        }
+        *(s32 *)((s32)arg0 + 0x1C) = *(s32 *)((s32)arg0 + 0x1C) + 1;
+    } else {
+        ((void (*)(void *))func_80146C3C)(arg0);
+    }
+}
+
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_80146C3C();

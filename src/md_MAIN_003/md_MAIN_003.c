@@ -631,7 +631,60 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D05B4);
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D0664);
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D06BC);
+/* func_800D06BC - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
+ * -O0 body (addu $fp,$sp,$zero prologue) stranded inside md_MAIN_003's -O2 object
+ * (sec 261/6 -- nothing under src/md_ globs -O0 yet). Recovered C semantics for the
+ * eventual real decomp:
+ *
+ *     D_800EC890 += 4;
+ *     if (D_800EC890 >= 128) {
+ *         D_800EC890 = 128;
+ *         func_800118AC();
+ *     }
+ *
+ * Sibling func_800D09A0 (same TU, few lines below) is the same shape banked the same
+ * way; frame/mask (32/0xC0010000,-16) copied from it. All immediates decimal
+ * (maspsx rejects hex in __asm__ strings). No C externs shipped (link-time resolution).
+ */
+__asm__(".text\n.align 2\n.globl func_800D06BC\n.ent\tfunc_800D06BC\n"
+"func_800D06BC:\n.frame $sp,32,$31\n.mask 0xC0010000,-16\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"addiu $sp, $sp, -32\n"
+"sw $ra, 24($sp)\n"
+"sw $fp, 20($sp)\n"
+"sw $s0, 16($sp)\n"
+"addu $fp, $sp, $zero\n"
+"lui $s0, %hi(D_800AF630)\n"
+"addiu $s0, $s0, %lo(D_800AF630)\n"
+"jal func_800D12D0\n"
+"nop\n"
+"lui $v0, %hi(D_800EC890)\n"
+"lw $v0, %lo(D_800EC890)($v0)\n"
+"nop\n"
+"addiu $v1, $v0, 4\n"
+"lui $at, %hi(D_800EC890)\n"
+"sw $v1, %lo(D_800EC890)($at)\n"
+"lui $v0, %hi(D_800EC890)\n"
+"lw $v0, %lo(D_800EC890)($v0)\n"
+"nop\n"
+"slti $v1, $v0, 128\n"
+"bnez $v1, .L800D0724\n"
+"nop\n"
+"addiu $v0, $zero, 128\n"
+"lui $at, %hi(D_800EC890)\n"
+"sw $v0, %lo(D_800EC890)($at)\n"
+"jal func_800118AC\n"
+"nop\n"
+".L800D0724:\n"
+"addu $sp, $fp, $zero\n"
+"lw $ra, 24($sp)\n"
+"lw $fp, 20($sp)\n"
+"lw $s0, 16($sp)\n"
+"addiu $sp, $sp, 32\n"
+"jr $ra\n"
+"nop\n"
+".set\treorder\n.end\tfunc_800D06BC\n");
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D0740);
 

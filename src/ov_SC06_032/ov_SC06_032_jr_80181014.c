@@ -2753,7 +2753,7 @@ extern void func_80184124(s32, void*, void*, s32);
 extern void func_801840C0(s32, void*, s32, s32, s32, s32);
 extern s32  func_80013478(s32 a0, s32 a1);
 extern void func_80180730(s32 param_1);
-extern void func_80181DDC(void);
+extern void func_80181DDC();
 extern void func_80180B4C(s32 arg0);
 /* ==== end §8b carried decl layer ==== */
 
@@ -3296,7 +3296,7 @@ void func_80181C98(s32 a0) {
 
 
 
-extern void func_80181DDC(void);
+extern void func_80181DDC();
 extern void func_80182288(s32 a0, s32 a1);
 extern void func_8012A828(s32 a0, void *a1);
 
@@ -3328,7 +3328,46 @@ void func_80181D1C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80181014", func_80181DDC);
+void func_80181DDC(s32 a0) {
+
+    extern void func_8012A828(s32 a0, void *a1);
+    extern u8 D_801BE350[];
+    extern u8 D_801BD678[];
+    extern s8 D_801A668C[];
+    extern s8 D_801A669C[];
+    s32 flags;
+
+    flags = *(s32 *)(a0 + 0xE0);
+    if (flags & 4) {
+        goto L_bit4;
+    }
+    if (flags & 0x800) {
+        *(u16 *)(a0 + 2) = 0xE;
+        func_8012A828(a0, D_801BE350);
+        return;
+    }
+    if (flags & 1) {
+        goto L_tbl154;
+    }
+    if (*(s32 *)(a0 + 0xD0) == 0) {
+        goto L_tbl154;
+    }
+    *(u16 *)(a0 + 2) = 0xE;
+    *(u16 *)(a0 + 0x34) = 2;
+    *(s32 *)(a0 + 0x1C) = 0x200;
+    func_8012A828(a0, D_801BD678);
+    return;
+
+L_tbl154:
+    *(u16 *)(a0 + 2) = *(s32 *)(D_801A668C + (*(u16 *)(a0 + 0x70) & 0xF) * 4);
+    return;
+
+L_bit4:
+    *(u16 *)(a0 + 2) = *(s32 *)(D_801A669C + (*(u16 *)(a0 + 0x70) & 0xF) * 4);
+    func_8012A828(a0, D_801BE350);
+    *(s32 *)(a0 + 0x1C) = 0x200;
+}
+
 
 extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);

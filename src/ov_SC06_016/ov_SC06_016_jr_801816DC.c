@@ -3728,7 +3728,35 @@ tail:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_801816DC", func_80182810);
+extern s32 func_8012C1B8(void);
+extern void func_8012CAE4(s32);
+extern void func_8001C214(s32 a0, s32 a1);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_80143994(s32 a0, s32 a1);
+
+void func_80182810(int param_1)
+{
+    int v0;
+    int v1;
+
+    v0 = ((int (*)(void))func_8012C1B8)();
+    *(int *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        ((void (*)(int))func_8012CAE4)(param_1);
+    } else {
+        func_8001C214(v0, 0);
+        v1 = func_80132EF4(param_1, 0x5E);
+        if (v1 != 0) {
+            *(int *)(v1 + 0x2C) = param_1;
+            *(unsigned short *)(v1 + 0x30) = *(unsigned short *)(param_1 + 0x36);
+        }
+        *(short *)(param_1 + 2) = 1;
+        *(int *)(param_1 + 0x1C) = 0x16;
+        *(short *)(param_1 + 0x84) = 0;
+        func_80143994(param_1, 0x1800);
+    }
+}
+
 
 #include "common.h"
 

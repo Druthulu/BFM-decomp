@@ -4020,7 +4020,34 @@ void func_8017E660(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017C730", func_8017E69C);
+#include "common.h"
+
+
+
+extern s32 func_8012DEB8(s32 a0, s32 a1, s32 a2);
+extern u8 D_80183C2C[];
+
+s32 func_8017E69C(s32 a0) {
+    u8 *s0;
+    SVECTOR_8016E7C8 sp10;
+    SVECTOR_8016E7C8 sp18;
+
+    s0 = D_80183C2C + (*(s16 *)(a0 + 0xFE) << 4);
+    sp10.vz = *(u16 *)(s0 + 0xC);
+    sp18.vz = *(u16 *)(s0 + 0xE);
+    sp18.vy = 0;
+    sp10.vy = 0;
+    sp10.vx = sp18.vx = *(u16 *)(s0 + 0x4);
+    if (func_8012DEB8(a0, (s32)&sp10, (s32)&sp18) != 0) {
+        return 1;
+    }
+    sp10.vx = sp18.vx = *(u16 *)(s0 + 0x6);
+    if (func_8012DEB8(a0, (s32)&sp10, (s32)&sp18) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);

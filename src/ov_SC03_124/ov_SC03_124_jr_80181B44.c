@@ -3301,7 +3301,20 @@ done:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80181B44", func_80182488);
+extern s32 (*D_80190624[])(void);
+extern void *D_801E1BC8;
+extern void func_801824DC(s32 a0, s32 a1);
+
+void func_80182488(s32 arg0)
+{
+    s32 v0;
+
+    v0 = D_80190624[arg0]();
+    if (v0 != -1) {
+        func_801824DC((s32)D_801E1BC8, v0);
+    }
+}
+
 
 void func_801824DC(s32 a0, s32 a1)
 {

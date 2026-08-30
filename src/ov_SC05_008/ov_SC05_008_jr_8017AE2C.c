@@ -6599,7 +6599,58 @@ void func_8018227C(void *a0, void *a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80182334);
+extern u8 D_80126948[];
+
+/* Fleet canon declares this `(void)`; the incoming pointer is read off $a0 (§42/§73).
+ * The entry `addu $a1,$a0,$zero` is the RC-12 `+ zr` opaque copy (§249 point 3) with
+ * BOTH ends pinned (the §249 addendum: an unopposed destination-only pin lets
+ * copy-preference drag the source onto the same register).
+ * The else-arm re-load of 0xD0 is a genuine second `lh`: cse's memory table reaches
+ * into the not-taken arm, so a plain re-read there is folded onto the entry load —
+ * the zero-byte `"memory"` clobber invalidates it without volatile's lhu+sll/sra cost.
+ * `cpy = d0 + zr` is the same §249 opaque copy that keeps the load in $a0 and the
+ * `addiu` operand in $v1 (the func_801AB54C `lh`->copy->cmp-on-load->add-on-copy shape).
+ * frame_pad brings the frame from 8 to the target's 0x10 (func_801AB54C's trick).
+ */
+s32 func_80182334(void)
+{
+    register s32 a0v __asm__("$4");
+    register s32 a1 __asm__("$5");
+    register s32 zr __asm__("$0");
+    u8 *a2 = D_80126948;
+    s16 v0;
+    s16 v1;
+    s32 d0;
+    s32 cpy;
+    s32 result;
+    s32 frame_pad[2];
+
+    a1 = a0v + zr;
+
+    if (*(s16 *)(a1 + 0xD0) < 0x28) {
+        v0 = *(s16 *)(a1 + 0xD0) + 8;
+    } else {
+        __asm__ __volatile__("" ::: "memory");
+        v1 = *(s16 *)(a1 + 0xCE) + 2;
+        d0 = *(s16 *)(a1 + 0xD0);
+        cpy = d0 + zr;
+        *(s16 *)(a1 + 0xCE) = v1;
+        *(s16 *)(a1 + 0xCC) = v1;
+        if (v1 <= d0) {
+            goto skip;
+        }
+        v0 = cpy + 2;
+    }
+    *(s16 *)(a1 + 0xD0) = v0;
+skip:
+    (void)&frame_pad;
+    result = *(s32 *)(a1 + 0xDC) - *(u16 *)(a2 + 0x38);
+    if (result < 1) {
+        result = 0;
+    }
+    return result;
+}
+
 
 extern s32 func_8012E544(s32 arg0);
 extern void func_8013C9C4(void *a0);
@@ -6738,7 +6789,61 @@ void func_80182758(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_80182794);
+extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8001C214();
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 rand(void);
+extern u8 D_800D387C[];
+extern u8 D_800D3888[];
+extern s32 D_8019BEF8;
+extern s32 D_8019BCF8;
+extern s32 D_8019C188;
+extern s32 D_8019C388;
+
+void func_80182794(s32 param_1, s32 param_2) {
+    s32 obj;
+    s32 t;
+
+    obj = *(s32 *)(param_1 + 0x20);
+    switch (*(s32 *)(param_1 + 0x2C)) {
+    case 0:
+    case 1:
+        func_8001CC3C(obj, (s32)D_800D387C, 0, 0);
+        *(u8 *)(obj + 0x27) = 0x9C;
+        *(s32 *)(obj + 4) |= 0x50000000;
+        t = (rand() & 3) << 12;
+        /* cookbook §205 / §167-13-ADDENDUM: the CHAINED store is a scheduling
+         * dial -- it keeps the `andi/sll` at the top of the block instead of
+         * letting the birthing boost sink it next to its consumer. */
+        *(s16 *)(obj + 0x18) = *(s16 *)(obj + 0x1A) = t;
+        *(u8 *)(obj + 0x24) = 0x40;
+        *(u8 *)(obj + 0x25) = 0x30;
+        *(u8 *)(obj + 0x26) = 0x30;
+        func_80128EA8(obj, param_1 + 0x24, (s32)D_800D3888);
+        func_80128ED8(obj, (s32 *)(param_1 + 0x24));
+        *(s16 *)(param_1 + 2) = 1;
+        break;
+    case 2:
+        if (param_2 & 1) {
+            func_8001C214(obj, &D_8019BCF8);
+        } else {
+            func_8001C214(obj, &D_8019BEF8);
+        }
+        *(s16 *)(param_1 + 2) = 2;
+        break;
+    case 3:
+        if (param_2 & 1) {
+            func_8001C214(obj, &D_8019C188);
+        } else {
+            func_8001C214(obj, &D_8019C388);
+        }
+        *(s16 *)(param_1 + 2) = 2;
+        break;
+    }
+    *(s32 *)(param_1 + 0x1C) = 0x10;
+}
+
 
 extern s32 func_80128ED8(s32 param_1, s32 *param_2);
 extern void func_801292C8(void *a0);

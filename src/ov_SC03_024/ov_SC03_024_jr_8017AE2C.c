@@ -3369,7 +3369,13 @@ void func_8017BF58(void *a0) {
 
 DEFINE_func_8017BF98()  /* dedup: shared engine-core @0x8017BF98 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017BFA0);
+extern void func_80174684(void *);
+extern void func_8017BFC8(void *);
+
+void func_8017BFA0(void) {
+    func_80174684((void *)func_8017BFC8);
+}
+
 
 
 extern void (*D_8018A904[])(void);
@@ -4643,7 +4649,23 @@ void func_8017D9C8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017AE2C", func_8017DA98);
+extern s16 D_80126B30;
+extern s16 D_80126B3A;
+extern s32 D_8012750C;
+extern s16 D_8011F9C8;
+extern void func_80174684(void *);
+extern void func_8017DB00(void *a0);
+
+struct S8_8017DA98 { s16 m[4]; };
+
+void func_8017DA98(s16 a0, void *a1, s32 a2) {
+    *(struct S8_8017DA98 *)&D_80126B30 = *(struct S8_8017DA98 *)a1;
+    D_80126B3A = a0;
+    D_8012750C = a2;
+    func_80174684((void *)func_8017DB00);
+    (*(s32 *)&D_8011F9C8) = 0;
+}
+
 
 
 extern void (*D_8018ABC4[])(void);

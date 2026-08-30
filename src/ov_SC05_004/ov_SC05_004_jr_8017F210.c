@@ -3691,7 +3691,29 @@ s32 a0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017F210", func_80180930);
+extern s32 D_801151D4;
+extern s32 func_8012B77C(s32 out, s32 from, s32 to);
+extern void (*D_8019AF60[])(void *);
+
+void func_80180930(void *a0)
+{
+    struct { u16 k; u16 v; } trio[3];
+    s32 xy;
+    s32 hi;
+
+    trio[0].v = *(s32 *)(D_801151D4 + 0x5C);
+    trio[1].v = *(s32 *)(D_801151D4 + 0x60);
+    trio[2].v = *(s32 *)(D_801151D4 + 0x64);
+
+    func_8012B77C((s32)&xy, (s32)a0 + 4, (s32)trio);
+
+    hi = xy >> 16;
+    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) = xy;
+    *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) = hi;
+
+    D_8019AF60[*(u16 *)((s32)a0 + 2)]((void *)a0);
+}
+
 
 
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);

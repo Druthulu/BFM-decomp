@@ -2823,7 +2823,7 @@ extern void func_80128EA8(s32, s32, s32);
 extern void func_8017FBE8(void *arg0);
 extern void (*D_8018E278[])(void);
 extern void func_8017FCF0(void *a0);
-extern s32 func_8017FEA8(void *a0);
+extern s32 func_8017FEA8();
 extern void func_8017FDB8(s32 a0);
 extern void (*D_8018E280[])(void);
 extern void func_8017FF54(void *a0);

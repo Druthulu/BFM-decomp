@@ -2978,7 +2978,34 @@ void func_8017F228(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017ECFC", func_8017F264);
+extern s32 func_8012C194(void);
+extern void func_8001CEC0(s32 a0, s32 a1);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_8017F2FC(s32 a0);
+extern s32 func_8012AD50(void *a0);
+extern s32 D_80183938[];
+
+void func_8017F264(s32 a0)
+{
+    s32 idx;
+    s32 s2;
+    s32 s0;
+
+    idx = *(s16 *)(a0 + 0x70);
+    s2 = D_80183938[idx];
+    s0 = func_8012C194();
+    if (s0 != 0) {
+        *(s32 *)(a0 + 0x20) = s0;
+        func_8001CEC0(s0, s2);
+        *(s16 *)(s0 + 0x2E) = 0;
+        *(s16 *)(s0 + 0x30) = 0;
+        *(s16 *)(s0 + 0x2C) = 1;
+        func_80015978(a0 + 4, (s32 *)(a0 + 0xFC));
+        func_8017F2FC(a0);
+        func_8012AD50((void *)a0);
+    }
+}
+
 
 typedef struct {
     u8 r;   /* 0x00 */

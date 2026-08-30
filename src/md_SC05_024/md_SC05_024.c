@@ -222,7 +222,12 @@ void func_801EDE70(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_024/nonmatchings/md_SC05_024", func_801EDEAC);
+void func_801EDEAC(s32 a0) {
+    extern s16 D_801274E8;
+    extern void func_801EDED4(s32 a0, s16 *a1);
+    func_801EDED4(a0, &D_801274E8);
+}
+
 
 
 /* MATRIX 0x20: short m[3][3] @0x00 (18B) + 2B pad, long t[3] @0x14  (PsyQ layout) */
@@ -435,4 +440,39 @@ void func_801EE2B0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC05_024/nonmatchings/md_SC05_024", func_801EE3E4);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+
+extern s16 D_801EE544;
+extern s16 D_801EE546;
+extern s16 D_801EE548;
+extern s16 D_801B9B0C;
+extern s32 D_801F443C[];
+extern s32 D_801EE574[];
+
+void func_801EE3E4(s32 param_1)
+{
+    s32 v0;
+    s32 v1;
+
+    v0 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4((void *)param_1);
+    } else {
+        func_8001C214(v0, (s32)D_801F443C);
+        *(s16 *)(param_1 + 0x6) = D_801EE544;
+        v1 = *(s32 *)(param_1 + 0x68);
+        *(s16 *)(param_1 + 0xA) = D_801EE546;
+        *(s16 *)(param_1 + 0xE) = D_801EE548;
+        *(s16 *)(v1 + 0xC) = 0x7FFF;
+        *(s16 *)(param_1 + 0x2) = 1;
+        func_8012A828(param_1, &D_801B9B0C);
+        *(s16 *)(param_1 + 0x34) = 0;
+        func_80178B18(param_1, (s32)D_801EE574);
+    }
+}
+

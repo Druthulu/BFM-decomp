@@ -4951,7 +4951,41 @@ void func_8017EDD4(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017EEE0);
+#include "common.h"
+
+typedef struct { u16 unk0, unk2, unk4, unk6; } Blk8_801E076C;
+
+extern Blk8_801E076C D_801E076C;
+extern s32 func_8012CBCC(s32 a0);
+extern void func_8017F0E8(u8 *a0, u8 *a1);
+extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_8012B21C(void *a0);
+extern void func_8012BF4C(s32 *a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+
+void func_8017EEE0(s32 a0)
+{
+    Blk8_801E076C local_20;
+    Blk8_801E076C local_18;
+    s32 p;
+
+    local_20 = D_801E076C;
+    local_18 = D_801E076C;
+
+    p = *(s32 *)(a0 + 0x20);
+    *(u16 *)(p + 0x10) = (*(u16 *)(p + 0x10) + 0xE3) & 0xFFF;
+    *(u16 *)(p + 0x14) = (*(u16 *)(p + 0x14) + 0x71) & 0xFFF;
+
+    if ((func_8012CBCC(a0) & 0x6000) != 0) {
+        func_8017F0E8((u8 *)a0, (u8 *)&local_20);
+        func_8017F0E8((u8 *)a0, (u8 *)&local_18);
+        func_80131E00((struct S80131E00 *)a0, 0x12);
+        func_8012B21C((void *)a0);
+        func_8012BF4C((s32 *)a0, 0x20);
+        func_8012AD50((void *)a0);
+    }
+}
+
 
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);

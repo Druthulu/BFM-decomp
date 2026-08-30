@@ -3513,7 +3513,310 @@ void func_8017D81C(void *a0)
 
 INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017D980);
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017DC10);
+/* func_8017DC10 - ov_SC02_021, TU src/ov_SC02_021/ov_SC02_021_jr_8017C294.c
+ * MATCH: match_one 512/512, closeness 0 (reloc_identity AGREE, 9 relocs).
+ *
+ * Shape: a[0]=top a[1]=bot a[2]=y a[3]=stop a[4..7 halves]=x0/x1/z0/z1
+ *        a[7]=state a[8]=flag.  One PEELED partial POLY_FT4 quad (stride 0x28)
+ *        then a for(;;) ladder of full quads: func_8017E410(mode, buf[6]) ->
+ *        RTPT/RTPS -> x/y min-max screen cull -> stszotz -> OT insert.
+ *
+ * SIX BYTE-MEASURED LEVERS (this went 89 -> 0; each number is the closeness
+ * after applying that one change on top of the previous):
+ *
+ *  1. A DEAD MULTIPLY IS REAL CODE (kept from the prior attempt, cookbook
+ *     RC-11 / §164-33): the target's `lw a[2]; lw buf[5]; subu; mult; mflo $t1`
+ *     with $t1 never read only survives as an operand of a zero-byte
+ *     `__asm__ __volatile__ ("" :: "r"(...))`.  __volatile__ is load-bearing:
+ *     it is also the scheduling barrier that keeps the following
+ *     `addiu $v0,$sp,0x10` out of the mult->mflo window.
+ *
+ *  2. THE OT-LINK MASK MUST BE BORN BEFORE THE ADDRESS ARITHMETIC, BUT THE
+ *     `and w,$s1,mask` MUST NOT BE (89 -> 65).  Only ONE of the two link
+ *     constants gets hoisted to a callee-saved reg ($s4), and loop.c picks the
+ *     one whose def comes FIRST in the loop's pre-sched RTL.  The prior draft
+ *     bought the right hoist with `w = (u32)p & 0xFFFFFF;` before `idx *= 4`,
+ *     but that also put the `and` at the top of the join block, where dbr
+ *     stole it into the `beqz` delay slot the target leaves as a nop (-1 ins).
+ *     FIX, loop only: birth the constant with a named local + a zero-byte asm
+ *         msk = 0xFFFFFF;  __asm__ __volatile__ ("" :: "r"(msk));
+ *     which materialises `lui/ori` early (so 0xFFFFFF wins $s4) while the
+ *     `and` stays at its source position, after the first `sw`.  The pre-block
+ *     is NOT in a loop, so it keeps the plain `w = (u32)p & 0xFFFFFF;` form.
+ *
+ *  3. VERTEX SETUP: THE 0x16 LOAD GOES BEFORE THE z STATEMENTS (65 -> 51 pre,
+ *     51 -> 31 loop).  Source order vx0, vx1, vz0, *vz1*, z, vy... .  With the
+ *     0x16 statement last (the "natural" order) the scheduler fills the 0x14
+ *     load-delay slot with the z arithmetic instead of leaving the target's
+ *     nop, and the whole store block transposes.  Emitting the second lhu
+ *     early gives the scheduler the load it actually hoisted.
+ *
+ *  4. ARM 2 OF THE PRE-BLOCK LADDER IS A PLAIN else-if, NOT THE HOISTED FORM
+ *     (51 -> 45).  `mode1 = 1; if (!C) {...}` puts `set mode,1` BEFORE the slt
+ *     that reads y, so mode1 and y conflict in global.c and cannot share $a0
+ *     (verified in the -dg dump: `80 conflicts: ... 75 76`).  Written as
+ *     `if (C) mode1 = 1; else {...}` the set lands after the compare, y is
+ *     already dead, reorg still emits the 2-slot inverted `bnez/li`, and the
+ *     allocation collapses onto the target's y=$a0 / bot=$a2 / mode=$a0.
+ *     (The INNER 2-vs-3 test keeps the hoisted spelling - jump.c produces it.)
+ *
+ *  5. THE OT INDEX AND THE OT POINTER ARE PINNED TO $a0 (45 -> 19 -> 5).
+ *     Local-alloc runs before global-alloc and hands the two link constants
+ *     $a0/$a1 in both blocks, so the (global) idx/otp allocnos get pushed to
+ *     $v1/$a2 and every register in the 18-insn addPrim tail shifts by one.
+ *     `register s32 idx __asm__("$4"); register u32 *otp __asm__("$4");`
+ *     reserves $a0 for them, the constants slide up to $a1/$a2, and both
+ *     addPrim blocks fall into place.  (Two variables, same pin: idx dies in
+ *     the `addu` that defines otp, exactly as in the target.)
+ *
+ *  6. THE LOOP'S `top` IS A SEPARATE LOCAL FROM THE PRE-BLOCK'S (5 -> 2).
+ *     Reusing one `top` gives it $a1; the target reloads a[0] into the plain
+ *     temp $v1 each iteration, which only happens with its own variable.
+ *
+ *  7. `otp = (u32 *)(idx * 4 + ot);` AS ONE STATEMENT, NOT `idx *= 4;` FIRST
+ *     (2 -> 0).  The last residual was the adjacent pair
+ *     `addiu $s0,$s0,0x28` / `sll $a0,$a0,2` in the loop's join block: the
+ *     second induction variable's bump is a scheduling TIE with the shift
+ *     (both depth 0), broken by RTL order, and loop.c inserts the bump right
+ *     after the standalone `idx *= 4` insn.  Folding the shift into the
+ *     address expression moves the shift behind the bump and the tie resolves
+ *     the target's way.
+ */
+#include "common.h"
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void func_8017E410(s32 param_1, u32 *param_2);
+extern u8 D_800AF648;
+extern u8 D_800A6610[];
+extern short D_800B9A02;
+extern u8 *D_800A5E60;
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_ldv3c(r0) __asm__ volatile (         \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 8( %0 );"                          \
+    "lwc2 $3, 12( %0 );"                         \
+    "lwc2 $4, 16( %0 );"                         \
+    "lwc2 $5, 20( %0 )"                          \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stszotz(r0) __asm__ volatile (       \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+s32 func_8017DC10(s32 *a)
+{
+    typedef struct { s16 vx, vy, vz, pad; } SVEC8;
+    typedef struct {
+        u32 tag;
+        u32 rgbc;
+        s16 x0, y0; u32 uv0;
+        s16 x1, y1; u32 uv1;
+        s16 x2, y2; u32 uv2;
+        s16 x3, y3; u32 uv3;
+    } FT4;
+
+    SVEC8 v[4];
+    u32 buf[6];
+    s32 otz;
+
+    s32 z;
+    s32 y, bot;
+    s32 zb;
+    s32 top;
+    s32 top2;
+    s32 mode;
+    s32 mode1;
+    s32 cull;
+    s32 xa, xb, t;
+    s32 mx, mn, my, mny;
+    register s32 idx __asm__("$4");
+    register u32 *otp __asm__("$4");
+    u32 w;
+    u32 msk;
+    u32 ot;
+    FT4 *p;
+
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+
+    p = (FT4 *)D_800A5E60;
+    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+
+    bot = a[1];
+    y = a[2];
+    if (y < bot) {
+        a[7] = 0;
+        return 1;
+    }
+
+    top = a[0];
+    if (y < top) {
+        z = y + (top - y) % 128;
+        if (top + 0x80 < y) {
+            mode1 = 0;
+        } else {
+            if (y < bot - 0x80) {
+                mode1 = 1;
+            } else {
+                zb = z + 0x80;
+                if ((top - zb) / 128 == 0) mode1 = 2; else mode1 = 3;
+            }
+        }
+        v[0].vx = v[2].vx = *(u16 *)((s32)a + 0x10);
+        v[1].vx = v[3].vx = *(u16 *)((s32)a + 0x12);
+        v[0].vz = v[2].vz = *(u16 *)((s32)a + 0x14);
+        v[1].vz = v[3].vz = *(u16 *)((s32)a + 0x16);
+        z -= 0x80;
+        v[0].vy = v[1].vy = z;
+        v[2].vy = v[3].vy = *(u16 *)((s32)a + 0x8);
+        func_8017E410(mode1, buf);
+        __asm__ __volatile__ ("" :: "r"((a[2] - z) * buf[5]));
+
+        gte_ldv3c(&v[0]);
+        gte_rtpt();
+        gte_stsxy3(&p->x0, &p->x1, &p->x2);
+        gte_ldv0(&v[3]);
+        gte_rtps();
+        gte_stsxy(&p->x3);
+
+        xa = p->x0; xb = p->x1;
+        if (xb < xa) { mx = xa; mn = xb; } else { mn = xa; mx = xb; }
+        t = p->x2;
+        if (mx < t) mx = t; else if (t < mn) mn = t;
+        t = p->x3;
+        if (mx < t) mx = t; else if (t < mn) mn = t;
+        xa = p->y0; xb = p->y1;
+        if (xb < xa) { my = xa; mny = xb; } else { mny = xa; my = xb; }
+        t = p->y2;
+        if (my < t) my = t; else if (t < mny) mny = t;
+        t = p->y3;
+        if (my < t) my = t; else if (t < mny) mny = t;
+        cull = 0;
+        if (mx < -0xA0 || !(mn < 0xA1)) cull = 1;
+        if (my < -0x78 || !(mny < 0x79)) cull = 1;
+        gte_stszotz(&otz);
+        if (otz > 0 && cull == 0) {
+            p->rgbc = 0x808080;
+            ((u8 *)p)[3] = 9;
+            ((u8 *)p)[7] = 0x2E;
+            p->uv0 = buf[1] | (buf[3] << 8) | buf[2];
+            p->uv1 = buf[0] | (buf[3] << 8) | (buf[2] + buf[4]);
+            p->uv2 = ((buf[3] + buf[5]) << 8) | buf[2];
+            p->uv3 = ((buf[3] + buf[5]) << 8) | (buf[2] + buf[4]);
+            idx = otz;
+            if (a[8]) idx -= 0x40;
+            if (idx < 0) idx = 0;
+            w = (u32)p & 0xFFFFFF;
+            idx *= 4;
+            otp = (u32 *)(idx + ot);
+            p->tag = (p->tag & 0xFF000000) | (*otp & 0xFFFFFF);
+            *otp = (*otp & 0xFF000000) | w;
+            p++;
+        }
+        if (a[7] == 0) a[7] = 1;
+        else if (a[7] == 1) a[7] = 2;
+    } else {
+        z = top;
+    }
+
+    for (;;) {
+        mode = 0;
+        top2 = a[0];
+        if (!(top2 - 0x80 < z)) {
+            mode = 1;
+            if (!(z < a[1] + 0x80)) {
+                zb = z + 0x80;
+                if ((((top2 - zb) / 128) & 1) == 0) mode = 2; else mode = 3;
+            }
+        }
+        func_8017E410(mode, buf);
+        if (z < a[3]) break;
+        if (z < a[1]) break;
+        v[0].vx = v[2].vx = *(u16 *)((s32)a + 0x10);
+        v[1].vx = v[3].vx = *(u16 *)((s32)a + 0x12);
+        v[0].vz = v[2].vz = *(u16 *)((s32)a + 0x14);
+        v[1].vz = v[3].vz = *(u16 *)((s32)a + 0x16);
+        v[0].vy = v[1].vy = z - 0x80;
+        v[2].vy = v[3].vy = z;
+
+        gte_ldv3c(&v[0]);
+        gte_rtpt();
+        gte_stsxy3(&p->x0, &p->x1, &p->x2);
+        gte_ldv0(&v[3]);
+        gte_rtps();
+        gte_stsxy(&p->x3);
+
+        xa = p->x0; xb = p->x1;
+        if (xb < xa) { mx = xa; mn = xb; } else { mn = xa; mx = xb; }
+        t = p->x2;
+        if (mx < t) mx = t; else if (t < mn) mn = t;
+        t = p->x3;
+        if (mx < t) mx = t; else if (t < mn) mn = t;
+        xa = p->y0; xb = p->y1;
+        if (xb < xa) { my = xa; mny = xb; } else { mny = xa; my = xb; }
+        t = p->y2;
+        if (my < t) my = t; else if (t < mny) mny = t;
+        t = p->y3;
+        if (my < t) my = t; else if (t < mny) mny = t;
+        cull = 0;
+        if (mx < -0xA0 || !(mn < 0xA1)) cull = 1;
+        if (my < -0x78 || !(mny < 0x79)) cull = 1;
+        gte_stszotz(&otz);
+        if (otz > 0 && cull == 0) {
+            p->rgbc = 0x808080;
+            ((u8 *)p)[3] = 9;
+            ((u8 *)p)[7] = 0x2E;
+            p->uv0 = buf[1] | (buf[3] << 8) | buf[2];
+            p->uv1 = buf[0] | (buf[3] << 8) | (buf[2] + buf[4]);
+            p->uv2 = ((buf[3] + buf[5]) << 8) | buf[2];
+            p->uv3 = ((buf[3] + buf[5]) << 8) | (buf[2] + buf[4]);
+            idx = otz;
+            if (a[8]) idx -= 0x40;
+            msk = 0xFFFFFF;
+            __asm__ __volatile__ ("" :: "r"(msk));
+            otp = (u32 *)(idx * 4 + ot);
+            p->tag = (p->tag & 0xFF000000) | (*otp & msk);
+            *otp = (*otp & 0xFF000000) | ((u32)p & msk);
+            p++;
+        }
+        z -= 0x80;
+    }
+
+    D_800A5E60 = (u8 *)p;
+    return 0;
+}
+
 
 void func_8017E410(s32 param_1, u32 *param_2) {
     switch (param_1) {

@@ -2846,7 +2846,13 @@ lab_e958:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017E6EC", func_8017E99C);
+extern void func_8012AD44(s32 *param_1, s16 param_2);
+
+void func_8017E99C(s32 a0)
+{
+    func_8012AD44((s32 *)a0, 3);
+}
+
 
 extern s32 D_801886FC[];
 extern void func_8017EE78(s32);

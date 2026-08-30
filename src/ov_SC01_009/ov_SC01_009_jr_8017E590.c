@@ -3939,7 +3939,26 @@ void func_8017FDAC(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FE10);
+extern s32 func_8017F2A0(s32 a0);
+extern u8 D_801E9088[];
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+extern u8 D_801E9178[];
+
+void func_8017FE10(s32 param_1) {
+    s32 v0;
+    v0 = func_8017F2A0(param_1);
+    if ((v0 << 16) != 0) {
+        return;
+    }
+    *(s16 *)(param_1 + 6) = 0;
+    *(s16 *)(param_1 + 0xE) = 0x100;
+    *(s16 *)(param_1 + 0x108) = 0;
+    func_8012A828(param_1, &D_801E9088);
+    func_80178CBC(param_1, (s32)&D_801E9178);
+    *(s16 *)(param_1 + 2) = 3;
+}
+
 
 void func_8017FE78(s32 a0)
 {

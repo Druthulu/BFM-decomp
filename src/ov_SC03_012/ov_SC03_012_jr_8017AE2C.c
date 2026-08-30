@@ -4320,7 +4320,86 @@ void func_8017DBE4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_012/nonmatchings/ov_SC03_012_jr_8017AE2C", func_8017DCB4);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+void func_8017DCB4(s32 a0) {
+    extern u16 D_800B99DC;
+    extern u16 D_800B99D8;
+    s32 s1;
+    s32 s0;
+    s32 s2;
+    s32 s4;
+    s32 s5;
+    s32 s6;
+    s32 s7;
+    s32 rnd;
+    s32 result;
+    s32 ptr;
+    s32 adj;
+    s32 t28;
+    s32 magw;
+    u16 magv;
+    s16 val2c;
+    s16 counter;
+
+    s1 = D_800B99DC;
+    s5 = *(s16 *)(a0 + 0xDE);
+    s6 = D_800B99D8;
+    if (s5 < 0x10) {
+        s5 = 0x10;
+    }
+    if (s5 > 0xB0) {
+        s5 = 0xB0;
+    }
+    rnd = s5;
+    if (s5 < 0) {
+        rnd = s5 + 0xF;
+    }
+    s4 = -s5;
+    s7 = rnd >> 4;
+    while (s4 < s5) {
+        s2 = -0xE0;
+        do {
+            t28 = s2 + 0x28;
+            s0 = s1 & 0x1F;
+            s2 = t28 + s0;
+            counter = *(s16 *)(a0 + 0xE4) - 1;
+            *(s16 *)(a0 + 0xE4) = counter;
+            if (counter == 0) {
+                *(s16 *)(a0 + 0xE4) = (s16)(s0 + 8);
+                result = func_80132EF4(a0, 0x21);
+                if (result == 0) {
+                    return;
+                }
+                if (s0 < 0x11) {
+                    goto full_calc;
+                }
+                magw = 0x8000;
+                val2c = 7;
+                goto store_vals;
+            full_calc:
+                magw = ((s1 & 3) + 5) << 12;
+                adj = s1;
+                if (s1 < 0) {
+                    adj = s1 + 3;
+                }
+                val2c = (s16)((adj >> 2) + 3);
+            store_vals:
+                *(volatile s16 *)(result + 0x2C) = val2c;
+                ptr = *(volatile s32 *)(result + 0x20);
+                magv = magw;
+                *(u16 *)(ptr + 0x1C) = magv;
+                *(u16 *)(ptr + 0x1A) = magv;
+                *(u16 *)(ptr + 0x18) = magv;
+                *(s16 *)(result + 6) = (s16)s4;
+                *(s16 *)(result + 0xE) = (s16)s2;
+            }
+            s1 = s1 + s6;
+            s6 = s6 + 1;
+        } while (s2 < 0xE0);
+        s4 = s4 + s7;
+    }
+}
+
 
 extern u16 D_800B99DC;
 extern u8 D_8017E8A4[];

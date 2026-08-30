@@ -3497,7 +3497,42 @@ s32 func_8017DA50(s16 *arg) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017DAE4);
+#include "common.h"
+
+extern s16 D_80126CAC;
+extern s16 D_80126CB0;
+
+s32 func_8017DAE4(s16 *arg) {
+    s32 sp[3];
+
+    {
+        s32 t = D_80126CAC;
+        s32 u = arg[3];
+        sp[1] = 0;
+        sp[0] = t - u;
+    }
+    {
+        s32 t = D_80126CB0;
+        s32 u = arg[7];
+        sp[2] = t - u;
+    }
+    __asm__ __volatile__(
+        "lwc2 $9, 0(%0)\n"
+        "lwc2 $10, 4(%0)\n"
+        "lwc2 $11, 8(%0)\n"
+        "nop\n"
+        "nop\n"
+        "sqr 0\n"
+        : : "r"(sp) : "$9", "$10", "$11", "memory");
+    __asm__ __volatile__(
+        "swc2 $25, 0(%0)\n"
+        "swc2 $26, 4(%0)\n"
+        "swc2 $27, 8(%0)\n"
+        : : "r"(sp) : "memory");
+
+    return sp[0] + sp[1] + sp[2] > 0xC3FFF;
+}
+
 
 extern s32 func_8017DB68(void);
 

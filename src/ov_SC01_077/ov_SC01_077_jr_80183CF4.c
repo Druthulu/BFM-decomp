@@ -3654,7 +3654,32 @@ void func_80184A00(s32 param_1) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80184A68);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012C044(s32 a0);
+extern void func_8012C098(void);
+
+void func_80184A68(s32 param_1)
+{
+    register s32 iVar __asm__("$2");
+    s32 threshold;
+    register s32 cond __asm__("$3");
+
+    if (*(s16 *)(param_1 + 0x70) & 0x8000) {
+        iVar = func_8012BCCC(param_1);
+        threshold = 0x90000;
+    } else {
+        iVar = func_8012BCCC(param_1);
+        threshold = 0x24000;
+    }
+    cond = threshold < iVar;
+    if (!cond) {
+        func_80184554(param_1);
+    }
+    if (func_8012C044(param_1) != 0) {
+        ((void (*)(s32))func_8012C098)(param_1);
+    }
+}
+
 
 extern s32 func_8012BEE8(s32);
 extern void func_80184594(s32);

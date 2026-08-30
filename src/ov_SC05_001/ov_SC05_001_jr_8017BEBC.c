@@ -4864,7 +4864,32 @@ int func_8017F150(short *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017F1E4);
+#include "common.h"
+
+extern s16 D_80126CAC;
+extern s16 D_80126CB0;
+
+int func_8017F1E4(short *a0) {
+    int data[3];
+    data[0] = D_80126CAC - a0[3];
+    data[1] = 0;
+    data[2] = D_80126CB0 - a0[7];
+    __asm__ __volatile__(
+        "lwc2 $9, 0($sp)\n"
+        "lwc2 $10, 4($sp)\n"
+        "lwc2 $11, 8($sp)\n"
+        "nop\n"
+        "nop\n"
+        "sqr 0\n"
+        : : : "$9", "$10", "$11", "memory");
+    __asm__ __volatile__(
+        "swc2 $25, 0($sp)\n"
+        "swc2 $26, 4($sp)\n"
+        "swc2 $27, 8($sp)\n"
+        : : : "memory");
+    return 0x143FFF < (data[0] + data[1] + data[2]);
+}
+
 
 #include "common.h"
 

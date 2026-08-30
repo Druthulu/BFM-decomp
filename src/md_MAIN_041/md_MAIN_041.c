@@ -28,9 +28,40 @@ void func_800CAE78(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_041/nonmatchings/md_MAIN_041", func_800CAEC0);
+extern void func_80154274(s32 *a0, s32 a1);
+extern void func_801655E4(s32 a0);
 
-INCLUDE_ASM("asm/md_MAIN_041/nonmatchings/md_MAIN_041", func_800CAF08);
+void func_800CAEC0(u8 *a0) {
+    extern M2C_UNK D_800D57F4;
+
+    func_80154274((s32 *)a0, &D_800D57F4);
+    func_801655E4((s32)a0);
+    *(u8 *)(a0 + 0x197) = *(u8 *)(a0 + 0x197) + 1;
+}
+
+
+#include "common.h"
+
+extern void func_801599A4(void *a0);
+extern void func_80159B3C(void *a0);
+extern void func_801466F0(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
+extern s32 func_80161208();
+
+void func_800CAF08(void *a0) {
+    u16 flags;
+
+    flags = *(u16 *)((s32)a0 + 0xB8);
+    if (flags == 0x8000) {
+        func_801599A4(a0);
+        func_80159B3C(a0);
+    } else {
+        if (flags & 0x4000) {
+            func_801466F0(0x26, (s32)a0, 0, -0x40, 0, 0, 0, 0);
+        }
+        func_80161208(a0);
+    }
+}
+
 
 void func_800CAF88(void *a0) {
     *(u32 *)((s32)a0 + 0x44) &= ~2;

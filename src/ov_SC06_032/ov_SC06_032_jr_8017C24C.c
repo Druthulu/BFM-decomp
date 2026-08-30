@@ -3311,7 +3311,69 @@ void func_8017D464(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8017D4A0);
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D4A0;
+
+extern s32 D_80126B58;
+extern s16 D_80196DDC[];
+extern Blk8_80126940_8017D4A0 D_80126940;
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D5E4(s32 param_1, s16 *param_2);
+
+void func_8017D4A0(s32 a0) {
+    Blk8_80126940_8017D4A0 sp10;
+    u8 t;
+    s16 lo, hi;
+    register s16 v2E __asm__("$5");
+    register s32 y __asm__("$3");
+    register s32 cond __asm__("$2");
+    register s16 v32 __asm__("$3");
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80196DDC[t];
+    }
+    sp10 = D_80126940;
+
+    if (sp10.v[1] < -0x150) {
+        sp10.v[1] = -0x150;
+    }
+    if (sp10.v[2] >= 0x8B1) {
+        sp10.v[2] = 0x8B0;
+    }
+
+    y = sp10.v[2];
+    lo = -0x1C0;
+    cond = (y < -0x280);
+    if (cond) {
+        hi = 0xAC0;
+        if (sp10.v[0] < 0x201) {
+            v2E = 0;
+            v32 = 0xA0;
+        } else {
+            v2E = -0xA0;
+            v32 = 0;
+        }
+    } else {
+        hi = 0x1C0;
+        v2E = 0;
+        v32 = 0xA0;
+    }
+
+    if (sp10.v[0] < lo) {
+        sp10.v[0] = lo;
+    } else if (sp10.v[0] > hi) {
+        sp10.v[0] = hi;
+    }
+
+    *(s16 *)(a0 + 0x2E) = v2E;
+    *(s16 *)(a0 + 0x32) = v32;
+
+    func_8017D5E4(a0, sp10.v);
+}
+
 
 
 // @class: schedule
@@ -5663,7 +5725,7 @@ void func_801809D0(s32 p)
 }
 
 
-extern void func_80181DDC(void);
+extern void func_80181DDC();
     void func_80180B4C(s32 arg0) {
         if (*(s16 *)(arg0 + 0x98) == 0) {
             ((void (*)(void))func_80181DDC)();

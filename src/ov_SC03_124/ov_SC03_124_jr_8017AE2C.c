@@ -5771,7 +5771,21 @@ succ:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017FB04);
+void func_8017FB04(s32 arg0)
+{
+    extern u16 D_800B99DA;
+    extern s32 func_80029504(void);
+    extern void func_8017F3BC(s32 a0);
+
+    if ((D_800B99DA & 3) != 0) {
+        return;
+    }
+    if (func_80029504() < 0x182) {
+        return;
+    }
+    func_8017F3BC(arg0);
+}
+
 
 extern void func_8017F768(void);
 void func_8017FB54(void) {
@@ -6515,7 +6529,57 @@ s32 aF80180CC8(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_80180D48);
+#include "common.h"
+
+typedef struct { s16 vx, vy, vz, pad; } SV3_80180D48;
+
+void func_80180D48(void)
+{
+    extern s32 D_801E1A28;
+    extern s32 D_801E256C;
+    extern u16 D_80126B5E;
+    extern u16 D_80126B62;
+    extern u16 D_80126B66;
+    extern void func_8012F40C(void *, void *);
+
+    SV3_80180D48 in1, in2;
+    s32 out[2];
+    s16 a, b;
+    s32 p, t;
+
+    *(s32 *)(*(s32 *)&D_801E256C + 4) =
+        *(u16 *)(*(s32 *)&D_801E1A28 + 6) | ((s32)*(s16 *)(*(s32 *)&D_801E1A28 + 0xE) << 16);
+
+    in1.vx = *(u16 *)(*(s32 *)&D_801E1A28 + 6);
+    in1.vy = *(u16 *)(*(s32 *)&D_801E1A28 + 0xA);
+    in1.vz = *(u16 *)(*(s32 *)&D_801E1A28 + 0xE);
+
+    in2.vx = D_80126B5E;
+    in2.vy = D_80126B62;
+    in2.vz = D_80126B66;
+
+    func_8012F40C(out, &in1);
+    a = out[0];
+    func_8012F40C(out, &in2);
+    b = out[0];
+    /* §194-A: zero-byte sched1 fence AFTER the defining statement so `b = out[0]`
+       emits FIRST in its block, ahead of the D_801E256C lui/lw pair. */
+    __asm__ __volatile__("");
+
+    p = *(s32 *)&D_801E256C;
+    t = a & 0xFFFF;
+    *(u32 *)(p + 0xC) = t;
+    if (a >= b) {
+        *(u32 *)(p + 0xC) = t | 0x10000;
+    }
+    p = *(s32 *)&D_801E256C;
+    t = b & 0xFFFF;
+    *(u32 *)(p + 0x14) = t;
+    if (a < b) {
+        *(u32 *)(p + 0x14) = t | 0x10000;
+    }
+}
+
 
 void func_80180E40(void *param_1) {
     extern u8 D_80078E78[];

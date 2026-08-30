@@ -4110,7 +4110,29 @@ void func_8017E950(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_8017E9A0);
+extern u16 D_80189644[];
+
+void func_8017E9A0(void *arg)
+{
+    register int s0 __asm__("$16");
+    register void *s1 __asm__("$17");
+    register void *s2 __asm__("$18");
+    register int h __asm__("$3");
+    s32 t;
+    s32 a;
+
+    s1 = arg;
+    s0 = 0;
+    s2 = D_80189644;
+    do {
+        a = s0 << 9;
+        t = s0 << 1;
+        h = *(s16 *)((u8 *)s1 + 0x70);
+        s0 = s0 + 1;
+        func_8012C658(0x19B, (s16)(*(u16 *)(t + ((h << 4) + (s32)s2)) + a), (s32)s1);
+    } while (s0 < 8);
+}
+
 
 #include "common.h"
 
@@ -4454,7 +4476,7 @@ extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
 extern void func_8001C214(s32 a0, s32 a1);
-extern void func_8017E9A0(s32 a0);
+extern void func_8017E9A0();
 extern s32 func_8012AD50(void *arg0);
 extern u8 D_801A1D6C[];
 extern u8 D_801A25EC[];

@@ -2844,7 +2844,186 @@ s32 func_8017EEC4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8017EF94);
+/* func_8017EF94 (ov_SC06_025, 292 ins) -- MATCH, 0 mismatched (match_one, masked).
+ *
+ * Split-quad billboard draw: project 4 corners of D_8018890C[arg1][], then emit either one
+ * quad, or two quads split at screen y == 0x100 with the shared edge interpolated.
+ *
+ * TWO residuals remained on the carried backlog draft; both are now closed, and both are
+ * SOURCE-SHAPE facts, not scheduling:
+ *
+ *  (1) idx 59-62 -- the `lui/addiu $fp` symbol pair must emit BEFORE the `lw 0x5C($sp)` flag
+ *      load (whose shadow the target fills with the maspsx hazard `nop`, because the delay-slot
+ *      filler steals the `li $s5,0x28` that used to fill it).  The fix is NOT a fence (§194-A's
+ *      AFTER-placement asm was tried: 294 ins) -- it is STATEMENT POSITION (§176-A / §3-T2):
+ *      `h = 0x28;` belongs in the POST-call-1 block, after `q = &D_801B1B58;`.  With `h = 0x28`
+ *      in the pre-call block the `li` still lands in the delay slot but the la pair sinks below
+ *      the load, and sy/h swap $s4/$s5.
+ *
+ *  (2) idx 251-252 -- `li $v0,0x28 / subu $v0,$v0,$s0` where the target has `subu $v0,$s5,$s0`.
+ *      NEW LAW (see note below): `D_801B1B58.h = h - n;` with an s16 field narrows in the FRONT
+ *      END -- convert.c:269-317 `convert_to_integer` distributes the SI->HI truncation into the
+ *      operands of a PLUS/MINUS/AND/IOR/XOR, so the RTL is
+ *          (set (reg:HI A) (subreg:HI (reg h)))          <- a HImode COPY of h
+ *          (set (reg:HI B) (subreg:HI (reg n)))
+ *          (set (reg:SI C) (minus (subreg:SI A) (subreg:SI B)))
+ *      and cse then rewrites that COPY's source to the constant, because COST(const_int)=0 <
+ *      COST(pseudo)=1 (cse.c:481 COST / 5222-5250 fold_rtx's cheapest-operand replacement).
+ *      A copy cannot be coalesced once it is a `li`, so the store costs 2 insns.
+ *      Assigning through an s32 temp (`hh = h - n; D_801B1B58.h = hh;`) leaves the subtraction
+ *      SImode: cse then tries to fold the constant into the `minus` itself, and validate_change
+ *      REJECTS it (mips.md subsi3 wants reg_or_0_operand), so `h` survives in $s5.  The extra
+ *      reference also lifts h's allocno rank back over sy's, restoring $s4/$s5.
+ *
+ * Cookbook sections that unlocked the rest: §167-10 (signed-narrow lvalue compared then re-read
+ * = one `move` + 8 bytes of frame -- the two x-guards must read sp30.x directly, not a hoisted
+ * s32), §195-M (the frame walk: 32-byte dead leading aggregate `pre[8]` + 5 orphans = vars 120),
+ * §229 (naming the address births the $fp pseudo), §L22980 (lhu vs lh per access, u16-vs-s16),
+ * §3-I4 (the variable divisor's break 7 / break 6 guards).
+ *
+ * V_8017EEC4 is the TU's own typedef (already at file scope above func_8017EEC4); it is spelled
+ * here verbatim for the standalone compile and harvest_verify strips it at splice time.
+ */
+#include "common.h"
+extern void func_8012EF70(s32 a0, s32 a1);
+
+
+typedef struct { s16 vx, vy; } DV_8017EF94;
+typedef struct { s16 vx, vy, vz, pad; } SV_8017EF94;
+typedef struct {
+    s16 x, y, w, h;
+    union { DV_8017EF94 d; s32 w32; } v[4];
+} Quad_8017EF94;
+
+extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+extern s32 func_8017F424(s16 *);
+extern short D_800B9A02;
+extern SV_8017EF94 D_8018890C[][4];
+extern Quad_8017EF94 D_801B1B58;
+extern s32 D_801B1B74;
+
+void func_8017EF94(V_8017EEC4 *arg0, s32 arg1) {
+    s32 pre[8];
+    V_8017EEC4 sp30;
+    SV_8017EF94 out[4];
+    s32 p;
+    s32 flag;
+    s32 t;
+    s32 r, total;
+    s32 sx, sy;
+    s32 n, h, w, hh;
+    Quad_8017EF94 *q;
+
+    func_8012EF70((s32)arg0, (s32)&sp30);
+    if ((u32)(sp30.x + 0x77) >= 0x13F) {
+        return;
+    }
+    if ((u32)(sp30.x + 0xC7) >= 0x13F) {
+        return;
+    }
+    if ((u32)(sp30.y + 0x63) >= 0xEF) {
+        return;
+    }
+    if ((u32)(sp30.y + 0x8B) >= 0xEF) {
+        return;
+    }
+    sp30.x = sp30.x + 0x78;
+    if (*(u16 *)&D_800B9A02 != 0) {
+        t = sp30.y + 0x64;
+    } else {
+        t = sp30.y + 0x154;
+    }
+    sp30.y = t;
+    if (sp30.y <= 0) {
+        sp30.y = 0;
+    }
+    w = 0x50;
+    sx = sp30.x;
+    sy = sp30.y;
+
+    r = RotTransPers((s32)&D_8018890C[arg1][0], (s32)&out[0], &p, &flag);
+    total = r;
+    q = &D_801B1B58;
+    h = 0x28;
+    if (flag < 0) {
+        return;
+    }
+    if (r <= 0) {
+        return;
+    }
+    r = RotTransPers((s32)&D_8018890C[arg1][1], (s32)&out[1], &p, &flag);
+    total += r;
+    if (flag < 0) {
+        return;
+    }
+    if (r <= 0) {
+        return;
+    }
+    r = RotTransPers((s32)&D_8018890C[arg1][2], (s32)&out[2], &p, &flag);
+    total += r;
+    if (flag < 0) {
+        return;
+    }
+    if (r <= 0) {
+        return;
+    }
+    r = RotTransPers((s32)&D_8018890C[arg1][3], (s32)&out[3], &p, &flag);
+    total += r;
+    if (flag < 0) {
+        return;
+    }
+    if (r <= 0) {
+        return;
+    }
+    D_801B1B74 = total / 4;
+    if (sy < 0x100 && sy + 0x28 >= 0x100) {
+        n = 0xFF - sy;
+        if (n > 0) {
+            q->x = sx;
+            D_801B1B58.y = sy;
+            D_801B1B58.w = w;
+            D_801B1B58.h = n;
+            D_801B1B58.v[0].d.vx = out[0].vx;
+            D_801B1B58.v[1].d.vx = out[1].vx;
+            D_801B1B58.v[2].d.vx = out[2].vx;
+            D_801B1B58.v[3].d.vx = out[3].vx;
+            D_801B1B58.v[0].d.vy = out[0].vy;
+            D_801B1B58.v[1].d.vy = out[1].vy;
+            D_801B1B58.v[2].d.vy = out[0].vy + (out[2].vy - out[0].vy) * n / h;
+            D_801B1B58.v[3].d.vy = out[1].vy + (out[3].vy - out[1].vy) * n / h;
+            func_8017F424((s16 *)q);
+        }
+        {
+        Quad_8017EF94 *d2 = q;
+        d2->x = sx;
+        D_801B1B58.y = 0x100;
+        D_801B1B58.w = w;
+        hh = h - n;
+        D_801B1B58.h = hh;
+        D_801B1B58.v[0].d.vx = out[0].vx;
+        D_801B1B58.v[1].d.vx = out[1].vx;
+        D_801B1B58.v[2].d.vx = out[2].vx;
+        D_801B1B58.v[3].d.vx = out[3].vx;
+        D_801B1B58.v[0].d.vy = out[0].vy + (out[2].vy - out[0].vy) * n / h;
+        D_801B1B58.v[1].d.vy = out[1].vy + (out[3].vy - out[1].vy) * n / h;
+        D_801B1B58.v[2].d.vy = out[2].vy;
+        D_801B1B58.v[3].d.vy = out[3].vy;
+        func_8017F424((s16 *)d2);
+        }
+    } else {
+        Quad_8017EF94 *d1 = q;
+        d1->x = sx;
+        d1->y = sy;
+        d1->w = w;
+        d1->h = h;
+        d1->v[0].w32 = *(s32 *)&out[0];
+        d1->v[1].w32 = *(s32 *)&out[1];
+        d1->v[2].w32 = *(s32 *)&out[2];
+        d1->v[3].w32 = *(s32 *)&out[3];
+        func_8017F424((s16 *)d1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8017F424);
 

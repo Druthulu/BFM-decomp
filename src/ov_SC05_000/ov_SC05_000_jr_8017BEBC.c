@@ -3724,7 +3724,68 @@ void func_8017D918(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_000/nonmatchings/ov_SC05_000_jr_8017BEBC", func_8017DB10);
+#include "common.h"
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u8 D_801152A8[];
+extern s32 *D_80126B78;
+extern s32 *D_80126B90;
+
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_800CF8B4();
+extern s32 func_8014CB8C(void);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012C218(void *a0);
+extern void func_8012F568(s32 p1, s32 p2, s32 p3, s32 p4, s32 p5, s32 p6);
+
+/* §310 — the two `subu` triads' destinations. `t` is ONE variable reused across
+ * BOTH nested `if` blocks, so its pseudo is multi-block (reg_qty == -1) and is
+ * tie-INELIGIBLE in local-alloc's combine_regs; the destination therefore falls
+ * to the other, block-local operand of each subtraction by elimination:
+ *   cond 1  dest ties the MINUEND   (D_80126B62)      -> subu $v0,$v0,$v1
+ *   cond 2  dest ties the SUBTRAHEND (D_80126B5E)     -> subu $v0,$v1,$v0
+ * Inlining either side (both operands block-local) ties both destinations to the
+ * minuend and returns closeness 4, a clean $v0<->$v1 cycle on the second triad.
+ * LOAD-BEARING: exactly one shared operand, and it must be the a0-side one. */
+void func_8017DB10(s32 a0) {
+    u16 *pB62;
+    s32 t;
+    s16 sp18[4];
+    s16 sp20[4];
+
+    *(u16 *)(a0 + 0xFC) += *(u16 *)(a0 + 0xFE);
+    *(u16 *)(a0 + 6) = *(u16 *)(a0 + 0x88) + (func_8004787C(*(s16 *)(a0 + 0xFC)) >> 8);
+    *(u16 *)(a0 + 0xA) = *(u16 *)(a0 + 0x8A) + (func_80047948(*(s16 *)(a0 + 0xFC)) >> 8);
+    pB62 = &D_80126B62;
+    t = *(s16 *)(a0 + 0xA);
+    if ((u32)((*(s16 *)pB62 - t) + 0xF) < 0x7F) {
+        t = *(s16 *)(a0 + 6);
+        if ((u32)((t - *(s16 *)&D_80126B5E) + 0x1F) < 0x3F) {
+            if (func_8014CB8C() != 0) {
+                func_8012C218((void *)a0);
+            } else if (func_800CF8B4() == 1) {
+                if (*(s16 *)(a0 + 0x100) != 0) {
+                    func_8012F568(1, 0x201D, 0x400, 0x10, (s32)sp20, (s32)D_801152A8);
+                    *(u16 *)(a0 + 0x100) = 0;
+                } else {
+                    sp20[0] = D_80126B5E;
+                    sp18[0] = D_80126B5E;
+                    sp18[1] = *pB62 - 0x10;
+                    sp20[1] = *pB62 + 0x10;
+                    sp20[2] = D_80126B66;
+                    sp18[2] = D_80126B66;
+                    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)sp18, (s32)sp20) != 0) {
+                        *(u16 *)(a0 + 0x100) = 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 
 extern void (*D_80181F54[])(void);

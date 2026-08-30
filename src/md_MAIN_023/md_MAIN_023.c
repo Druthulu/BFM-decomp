@@ -28,7 +28,16 @@ void func_800CAE78(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_023/nonmatchings/md_MAIN_023", func_800CAEC0);
+extern void func_801655E4(s32 a0);
+
+void func_800CAEC0(u8 *a0) {
+    u8 *s0;
+
+    func_801655E4((s32)a0);
+    s0 = a0;
+    s0[0x197]++;
+}
+
 
 extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
 extern void func_801599A4(void *a0);

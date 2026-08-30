@@ -3,7 +3,21 @@
 void func_800CCB20(void) {
 }
 
-INCLUDE_ASM("asm/md_MAIN_046/nonmatchings/md_MAIN_046", func_800CCB28);
+#include "common.h"
+
+extern void func_80149020(s32 *a0);
+extern void (*D_800CE040[])(s32 *);
+
+void func_800CCB28(s32 *param_1) {
+    s32 *s0;
+    s32 idx;
+
+    func_80149020(param_1);
+    s0 = param_1;
+    idx = *(u16 *)((s32) s0 + 2) - 2;
+    D_800CE040[idx](s0);
+}
+
 
 extern void func_80147324(s32 a0);
 extern void func_8014B5C4(s32 *a0, s32 a1, s32 a2);
