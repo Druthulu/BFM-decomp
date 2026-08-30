@@ -99,9 +99,28 @@ def main():
     ap.add_argument("--commit", action="store_true")
     ap.add_argument("--r22", action="store_true")
     ap.add_argument("--root", default=".run/twin_stage")
+    ap.add_argument("--retry-refused", action="store_true",
+                    help="also re-gate candidates a previous sweep already tried and the gate REFUSED. "
+                         "Off by default: the yield decays hard as a seam is worked out (measured "
+                         "2026-08-29: 88.5%% -> 76%% -> 43%% -> 1%% across four rounds), so by the last "
+                         "round nearly every candidate is a known-refuser and re-gating them costs ~7 "
+                         "minutes to bank ~1. A refusal is only worth retrying once the EXEMPLAR "
+                         "changes, which the ledger keys on.")
     a = ap.parse_args()
 
     cands = candidates(a.tier)
+    # REFUSAL LEDGER, keyed (target, exemplar): the same exemplar will remap to the same text and the
+    # gate will refuse it again. A NEW exemplar for the same target is a different question, so the
+    # key includes it and such a candidate is retried automatically.
+    led_path = ".run/twin_refused.json"
+    led = json.load(open(led_path)) if os.path.exists(led_path) else {}
+    if not a.retry_refused:
+        n0 = len(cands)
+        cands = [r for r in cands
+                 if "%s:%s<-%s:%s" % (r["to"], r["to_addr"], r["from"], r["addr"]) not in led]
+        if n0 != len(cands):
+            print("[twin] skipped %d known-refused (same target, same exemplar); --retry-refused overrides"
+                  % (n0 - len(cands)), flush=True)
     by = collections.defaultdict(list)
     for r in cands:
         by[r["to"]].append(r)
@@ -128,7 +147,21 @@ def main():
         cmd.append("--commit")
     if a.r22:
         cmd.append("--r22")
-    sys.exit(subprocess.call(cmd))
+    rc = subprocess.call(cmd)
+
+    # record what the gate refused, so the next sweep spends its builds on new ground
+    try:
+        res = json.load(open(".run/pgate_results.json"))
+        banked = {(r["binary"], f) for r in res for f in r.get("banked", [])}
+        for r in cands:
+            fn = "func_%s" % r["to_addr"][2:].upper()
+            if (r["to"], fn) not in banked:
+                led["%s:%s<-%s:%s" % (r["to"], r["to_addr"], r["from"], r["addr"])] = r["tier"]
+        json.dump(led, open(led_path, "w"), indent=1)
+        print("[twin] refusal ledger: %d entr(ies)" % len(led), flush=True)
+    except Exception as e:
+        print("[twin] could not update the refusal ledger: %s" % e, flush=True)
+    sys.exit(rc)
 
 
 if __name__ == "__main__":
