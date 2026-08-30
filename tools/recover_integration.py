@@ -244,15 +244,21 @@ def main():
     # half-applied edits into its own commit. Measured: `xargs -P 4` over 33 binaries put 696 broken
     # lines of ov_MAIN_012 into md_MAIN_026's +1 bank commit and took check-all to 212/213 (R59: a
     # gate commits only its own block). Refuse loudly rather than mishandle (R43).
-    lock_path = os.path.join(REPO, ".run/recover", ".driver.lock")
-    os.makedirs(os.path.dirname(lock_path), exist_ok=True)
-    _lock_fh = open(lock_path, "w")
-    try:
-        fcntl.flock(_lock_fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except OSError:
-        sys.exit("REFUSED: another recover_integration.py is running (%s). This driver is NOT "
-                 "parallel-safe — run it SERIALLY. See the single-instance-lock note above." % lock_path)
-    _lock_fh.write("%d\n" % os.getpid()); _lock_fh.flush()
+    # --probe-only is EXEMPT: it writes nothing to the tree (it execs blocker_probe, which compiles in
+    # its own scratch dir), so excluding it buys no safety and costs a free diagnostic. Measured
+    # 2026-08-29: a t7b drafting agent was refused the probe TWICE by this lock while an unrelated
+    # sweep held it, and had to submit with its blocker unconfirmed. Guard the MUTATING path only.
+    if not a.probe_only:
+        lock_path = os.path.join(REPO, ".run/recover", ".driver.lock")
+        os.makedirs(os.path.dirname(lock_path), exist_ok=True)
+        _lock_fh = open(lock_path, "w")
+        try:
+            fcntl.flock(_lock_fh, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError:
+            sys.exit("REFUSED: another recover_integration.py is running (%s). This driver is NOT "
+                     "parallel-safe — run it SERIALLY. (--probe-only is exempt: it writes nothing.)"
+                     % lock_path)
+        _lock_fh.write("%d\n" % os.getpid()); _lock_fh.flush()
 
     run_dir = f".run/recover/{a.run_id}"
     dd = f"{run_dir}/drafts"
