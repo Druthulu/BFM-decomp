@@ -3422,7 +3422,43 @@ ret0:
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017F2A0);
+extern void func_8012AD80(s32 a0);
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern void func_8012B200(u8 *a0);
+extern void func_8012B2CC(s32 a0);
+
+s32 func_8017F2A0(a0)
+s32 a0;
+{
+    s32 cmd;
+    s32 v;
+
+    cmd = *(s32 *)(a0 + 0xCC);
+    if (cmd == 0) {
+        return 0;
+    }
+    if (*(s32 *)(a0 + 0x1C) == 0) {
+        v = *(s16 *)cmd;
+        cmd += 2;
+        if (v == 0) {
+            func_8012B200((u8 *)a0);
+            *(s32 *)(a0 + 0xCC) = 0;
+            return 0;
+        }
+        *(s32 *)(a0 + 0x1C) = v;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = *(u16 *)cmd;
+        cmd += 2;
+        *(u16 *)(a0 + 0xE6) = *(u16 *)cmd;
+        cmd += 2;
+        func_8012B2CC(a0);
+        *(s32 *)(a0 + 0xCC) = cmd;
+    }
+    *(s32 *)(a0 + 0x1C) -= 1;
+    func_8012B1B4(a0, a0 + 0xDC);
+    func_8012AD80(a0);
+    return 1;
+}
+
 
 
 extern void (*D_801E9A18[])(void);

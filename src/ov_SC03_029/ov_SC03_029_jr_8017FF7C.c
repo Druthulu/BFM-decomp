@@ -3687,7 +3687,48 @@ void func_80181598(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_029/nonmatchings/ov_SC03_029_jr_8017FF7C", func_80181600);
+#include "common.h"
+
+extern u8 func_8014BF6C(void);
+extern void func_8012B23C(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012BF4C(s32 *a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+extern void func_80181708(void *a0);
+extern void func_801817D8(u8 *a0, u8 *a1);
+extern u16 D_800B99DA;
+
+/* Packed struct to trigger lwl/lwr unaligned block copy (same idiom as the
+ * banked twin ov_SC02_011:func_8018754C's BlockData). */
+typedef struct {
+    u32 w0;
+    u32 w1;
+} __attribute__((packed, aligned(1))) Block8_80181600;
+
+extern Block8_80181600 D_801D80B0;
+
+void func_80181600(void *a0)
+{
+    u8 result;
+    Block8_80181600 buffer;
+
+    buffer = D_801D80B0;
+
+    result = func_8014BF6C();
+
+    if (!(*(s16 *)((u8 *)a0 + 0x70) < (result & 0xFF))) {
+        func_8012B23C((s32)a0);
+        func_8002D4C8(0x580, 0);
+        func_8012BF4C((s32 *)a0, 0x10);
+        func_8012AD50(a0);
+    } else {
+        func_80181708(a0);
+        if ((D_800B99DA & 0x3) == 0) {
+            func_801817D8((u8 *)a0, (u8 *)&buffer);
+        }
+    }
+}
+
 
 extern void func_8012AD80(s32 a0);
 extern s32 func_8012BEE8(s32 a0);

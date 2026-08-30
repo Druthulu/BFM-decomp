@@ -627,7 +627,77 @@ __asm__(".text\n.align 2\n.globl func_800D0440\n.ent\tfunc_800D0440\n"
 ".set\treorder\n.end\tfunc_800D0440\n");
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D05B4);
+/* func_800D05B4 - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
+ * -O0 body (addu $fp,$sp,$zero prologue) stranded inside md_MAIN_003's -O2 object
+ * (sec 261/6 -- nothing under src/md_ globs -O0 yet). Recovered C semantics for the
+ * eventual real decomp (register u8 *s0 = D_800AF630):
+ *
+ *     func_8001C044();
+ *     func_80015310();
+ *     s0[0xA3E1] = 0;
+ *     D_800EC890 = 0;
+ *     D_800EC8A0 = 1;
+ *     func_800183E0((s32)&D_800D4E6C);
+ *     func_800183E0((s32)&D_800D52BC);
+ *     D_800EC894 = 0;
+ *     D_800EC88C = -1;
+ *     *(u16 *)(s0 + 0xA3B8) = 0;
+ *     func_800118AC();
+ *
+ * Siblings func_800D0440/func_800D06BC/func_800D09A0 (same TU) are the same shape
+ * banked the same way; frame/mask (48/0xC0010000,-16) matches the ra/fp/s0 save set
+ * used throughout this file's verbatim-asm blocks. No C externs shipped (link-time
+ * resolution).
+ */
+__asm__(".text\n.align 2\n.globl func_800D05B4\n.ent\tfunc_800D05B4\n"
+"func_800D05B4:\n.frame $sp,48,$31\n.mask 0xC0010000,-16\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"addiu $sp, $sp, -48\n"
+"sw $ra, 40($sp)\n"
+"sw $fp, 36($sp)\n"
+"sw $s0, 32($sp)\n"
+"addu $fp, $sp, $zero\n"
+"lui $s0, %hi(D_800AF630)\n"
+"addiu $s0, $s0, %lo(D_800AF630)\n"
+"jal func_8001C044\n"
+"nop\n"
+"jal func_80015310\n"
+"nop\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sb $zero, -23583($at)\n"
+"lui $at, %hi(D_800EC890)\n"
+"sw $zero, %lo(D_800EC890)($at)\n"
+"addiu $v0, $zero, 1\n"
+"lui $at, %hi(D_800EC8A0)\n"
+"sw $v0, %lo(D_800EC8A0)($at)\n"
+"lui $a0, %hi(D_800D4E6C)\n"
+"addiu $a0, $a0, %lo(D_800D4E6C)\n"
+"jal func_800183E0\n"
+"nop\n"
+"lui $a0, %hi(D_800D52BC)\n"
+"addiu $a0, $a0, %lo(D_800D52BC)\n"
+"jal func_800183E0\n"
+"nop\n"
+"lui $at, %hi(D_800EC894)\n"
+"sh $zero, %lo(D_800EC894)($at)\n"
+"addiu $v0, $zero, -1\n"
+"lui $at, %hi(D_800EC88C)\n"
+"sw $v0, %lo(D_800EC88C)($at)\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $zero, -23624($at)\n"
+"jal func_800118AC\n"
+"nop\n"
+"addu $sp, $fp, $zero\n"
+"lw $ra, 40($sp)\n"
+"lw $fp, 36($sp)\n"
+"lw $s0, 32($sp)\n"
+"addiu $sp, $sp, 48\n"
+"jr $ra\n"
+"nop\n"
+".set\treorder\n.end\tfunc_800D05B4\n");
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D0664);
 

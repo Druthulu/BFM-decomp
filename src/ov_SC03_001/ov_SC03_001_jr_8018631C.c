@@ -3423,7 +3423,34 @@ void func_80186A7C(void) {
 void func_80186A84(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_8018631C", func_80186A8C);
+void func_80186A8C(void *arg0) {
+    extern s32 D_80192A6C;
+    extern s32 D_80192A64;
+    extern s32 D_801C3C90;
+    extern s32 D_801EB318;
+    extern void func_80186C54(void);
+    if (func_8018727C(arg0, &D_80192A6C) != 0) {
+        s32 v0;
+        s32 v1 = func_80029504();
+        if (v1 < 0x1E) {
+            v0 = 1;
+        } else if (v1 < 0x46) {
+            v0 = 4;
+        } else {
+            func_8012CAE4(arg0);
+            return;
+        }
+        *(s16 *)((char *)arg0 + 2) = v0;
+        __asm__ __volatile__("" ::: "memory");
+        func_8012E8E0((s32)arg0, (s32)&D_80192A64);
+        func_80187750((s32)arg0);
+        func_8012A828((s32)arg0, (s32)&D_801C3C90);
+        func_8001C97C(&D_801EB318);
+        *(s16 *)(*(s32 *)((char *)arg0 + 0x68) + 0xC) = 0x7FFF;
+        *(s32 *)((char *)arg0 + 0xD4) = func_801788B8((s32)arg0, (s32)func_80186C54);
+    }
+}
+
 
 extern void func_8012C218(void *a0);
 

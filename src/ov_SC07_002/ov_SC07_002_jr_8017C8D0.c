@@ -4930,7 +4930,35 @@ void func_80180090(s32 a0)
 
 INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80180248);
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_801804D4);
+typedef struct { u16 w[4]; } __attribute__((aligned(2))) DBlock_8019F04C;
+
+extern s16 D_8019F048;
+extern s16 D_8019F04A;
+extern s16 D_8019F04C;
+extern s16 D_8019F054;
+extern s16 D_8019F056;
+extern s16 D_8019F058;
+extern s32 D_8019F03C;
+extern s32 D_8019F05C;
+extern s32 *D_8019F040;
+extern s32 D_8018A31C[];
+extern s32 func_8018059C(s32 arg0);
+
+void func_801804D4(void *a0, s32 a1) {
+    D_8019F048 = *(s32 *)((s32)a0 + 8);
+    D_8019F04A = *(s32 *)((s32)a0 + 0x10);
+    *(DBlock_8019F04C *)(void *)&D_8019F04C = *(DBlock_8019F04C *)(void *)((s32)a0 + 0x18);
+    D_8019F054 = *(u16 *)((s32)a0 + 0x28);
+    D_8019F056 = *(u16 *)((s32)a0 + 0x2A);
+    D_8019F03C = 0;
+    D_8019F05C = 0;
+    D_8019F058 = *(u16 *)((s32)a0 + 0x2C);
+    D_8019F040 = (s32 *)((u8 *)D_8018A31C + a1 * 0x18);
+    if (*D_8019F040 == 1) {
+        func_8018059C((s32)a0);
+    }
+}
+
 
 extern s32 *D_8019F040;
 extern s32 D_8019F03C;

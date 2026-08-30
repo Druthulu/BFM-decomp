@@ -6173,7 +6173,29 @@ void func_801817CC(s32 *a0) {
 
 INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80181854);
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80181918);
+extern s32 rand(void);
+extern u16 D_80126B6A;
+extern u16 D_80126B72;
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+
+void func_80181918(s32 arg0) {
+    s32 pad[12];
+    u16 t;
+    register u16 cnt __asm__("$6");
+
+    t = rand();
+    *(u16 *)(arg0 + 6) = D_80126B5E + D_80126B6A * 32 + (t & 0x1FF) - 0xFF;
+    *(u16 *)(arg0 + 0xA) = D_80126B62 - 0x120;
+    cnt = *(u16 *)(arg0 + 2);
+    *(u16 *)(arg0 + 0xE) = D_80126B66 + D_80126B72 * 32 + (t >> 7) - 0xFF;
+    *(s32 *)(arg0 + 0x14) += 0x50000;
+    *(u16 *)(arg0 + 2) = cnt + 1;
+    *(s32 *)(arg0 + 0x1C) = 0x60;
+    *(s32 *)(arg0 + 0x30) = 0x88;
+}
+
 
 extern void func_800D20C0(void *a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);

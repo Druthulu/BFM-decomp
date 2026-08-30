@@ -74,7 +74,38 @@ void func_800CAF28(void *arg0) {
 
 INCLUDE_ASM("asm/md_MAIN_016/nonmatchings/md_MAIN_016", func_800CAF84);
 
-INCLUDE_ASM("asm/md_MAIN_016/nonmatchings/md_MAIN_016", func_800CB158);
+extern void func_800CAF84();
+
+void func_800CB158(s32 arg0) {
+    typedef struct { s32 w[4]; } Struct16;
+    s32 a0;
+    s32 v0;
+
+    s32 cnt;
+
+    a0 = *(s32 *)(arg0 + 0x34);
+
+    if ((*(s32 *)(arg0 + 0x2C) & 0x8000) == 0) {
+        cnt = *(s32 *)(arg0 + 0x1C);
+        *(s32 *)(arg0 + 0x1C) = cnt + 1;
+
+        if (cnt < 8) {
+            *(u16 *)(arg0 + 0x28) += 0x120;
+        } else {
+            *(s32 *)(arg0 + 0x1C) = 0;
+            *(u16 *)(arg0 + 0x2) = 4;
+        }
+
+        v0 = *(s32 *)(a0 + 0x20);
+        *(Struct16 *)(arg0 + 0x38) = *(Struct16 *)(v0 + 0x34);
+        *(Struct16 *)(arg0 + 0x48) = *(Struct16 *)(v0 + 0x44);
+
+        func_800CAF84(arg0);
+    } else {
+        *(u16 *)(arg0 + 0x2) += 1;
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_016/nonmatchings/md_MAIN_016", func_800CB228);
 

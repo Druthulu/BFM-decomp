@@ -3862,7 +3862,40 @@ s32 func_80180808() {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_801808AC);
+void func_801808AC(void *arg0)
+{
+    /* Declarations kept BLOCK-scope on purpose, matching this TU's house style
+     * (see the comment above func_80180300 in the same file): a file-scope
+     * prototype for func_8012A828 here would become visible to func_80181C74,
+     * which deliberately calls `func_8012A828()` with no arguments behind a
+     * no-prototype decl -- a file-scope prototype turns that into a hard
+     * "too few arguments" error and fails the whole-binary gate even though
+     * this function's own body is byte-identical. */
+    extern void func_8012E8E0(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 func_80137614(s32 a0, s32 a1, s32 a2);
+    extern void func_80029124(s32 a0, s32 a1);
+    extern void func_801746A4(void);
+
+    extern u8 D_801889F8[];
+    extern u8 D_801A1FDC[];
+    extern void (*D_80189BE4[])(void);
+    extern s32 D_801270C8;
+    extern s32 D_801B1B54;
+    extern s16 D_801B1714;
+
+    *(u16 *)((s32)arg0 + 2) = 5;
+    *(u16 *)((s32)arg0 + 0x34) = 0;
+    func_8012E8E0((s32)arg0, (s32)&D_801889F8);
+    func_8012A828((s32)arg0, &D_801A1FDC);
+    *(s32 *)((s32)arg0 + 0x1C) = 0;
+    D_801270C8 = 2;
+    D_801B1B54 = func_80137614((s32)D_80189BE4, 0, 0xC0);
+    func_80029124(0x120, 0);
+    func_801746A4();
+    D_801B1714++;
+}
+
 
 void func_80180950(void *arg0) {
 

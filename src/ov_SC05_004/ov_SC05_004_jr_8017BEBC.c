@@ -4771,7 +4771,42 @@ void func_8017EEBC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_004/nonmatchings/ov_SC05_004_jr_8017BEBC", func_8017EF0C);
+extern void func_8017EBA0(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+void func_8017EF0C(s32 a0)
+{
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+    s32 pad;
+
+    if (func_8012BEE8() != 0) {
+        *(u16 *)(a0 + 0xFC) = *(u16 *)(a0 + 0xFC) + 4;
+        if ((s16)*(u16 *)(a0 + 0xFC) >= 0x11) {
+            func_8017EBA0((void *)a0);
+        }
+    } else {
+        v0 = *(s16 *)(a0 + 0xFC);
+        if (v0 != 0) {
+            v1 = v0;
+            __asm__ volatile("" : "=r"(v0) : "0"(v0), "m"(pad));
+            if (v0 < 3) {
+                v0 = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+                v0 = (v0 + 2) & 0x3FF;
+                if (v0 < 4) {
+                    *(s16 *)(a0 + 0xFC) = 0;
+                }
+            } else {
+                v0 = v1 - 2;
+                *(s16 *)(a0 + 0xFC) = v0;
+            }
+        }
+        if (*(s32 *)(a0 + 0x1C) == 1) {
+            func_8002D4C8(0x720, 0);
+        }
+    }
+}
+
 
 
 void func_8017EFD4(s32 *a0) {

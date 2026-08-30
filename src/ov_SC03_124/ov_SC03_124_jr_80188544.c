@@ -4400,7 +4400,34 @@ void func_8018A250(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_80188544", func_8018A3C8);
+extern s16 D_80126B62;
+extern s32 D_801DE434;
+extern s32 D_801DE444;
+extern void (*D_801DE4DC[])(s32);
+
+void func_8018A3C8(s32 arg0) {
+    register s32 v0 __asm__("$2");
+    register s32 v1 __asm__("$3");
+
+    if (*(s16 *)(arg0 + 0xFC) != 0) {
+        *(s16 *)(arg0 + 0xFC) -= 1;
+        *(s32 *)(*(s32 *)(arg0 + 0x20) + 4) ^= 0x80000000;
+    }
+    v0 = *(s16 *)(arg0 + 0xA) - 0x30;
+    v1 = D_80126B62 < v0;
+    v0 = (s32)&D_801DE434;
+    if (v1) {
+        v0 = (s32)&D_801DE444;
+    }
+    v1 = 0x40000000;
+    v0 |= v1;
+    v1 = 0x20000000;
+    v0 |= v1;
+    *(s32 *)(arg0 + 0x58) = v0;
+    __asm__ __volatile__("" ::: "memory");
+    D_801DE4DC[*(u16 *)(arg0 + 0x2)](arg0);
+}
+
 
 
 extern void func_8012E8E0(s32 a0, s32 a1);

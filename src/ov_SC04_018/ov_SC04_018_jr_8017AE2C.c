@@ -6050,7 +6050,7 @@ DEFINE_func_80180190()  /* dedup: shared engine-core @0x80180190 (src/shared) */
 
 extern s32 func_80029504(void);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
-extern s32 func_80180284(void);
+extern s32 func_80180284();
 extern short D_8019181C;
 extern void func_8001C214(s32, s32);
 extern void func_8012C1B8(void);
@@ -6084,7 +6084,47 @@ void *arg0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80180284);
+extern s32 func_800133E4(s16 *a0, s16 *a1);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern s32 D_80126B58;
+extern s32 D_80126B9C;
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+
+s32 func_80180284(void *a0)
+{
+    extern s16 D_8019181C;
+    s16 *p;
+    s32 r;
+
+    if (*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) != 1) {
+        return 0;
+    }
+    p = (s16 *)&D_80126B58;
+    if ((D_80126B9C & 0x8000000) == 0) {
+        r = 0;
+        goto chain_fail;
+    }
+    p += 2;
+    if (func_800133E4((s16 *)&D_8019181C, p) >= 0x6401) {
+        r = 0;
+        goto chain_fail;
+    }
+    if (*(s16 *)&D_80126B5E >= 0x281) {
+        r = 0;
+        goto chain_fail;
+    }
+    r = *(s16 *)&D_80126B66 >= -0x380;
+chain_fail:
+    if (r) {
+        *(u16 *)(*(s32 *)((s32)a0 + 0x64) + 0x2) = 2;
+        func_80178BF8();
+        return (s32)func_80172710;
+    }
+    return 0;
+}
+
 
 #include "common.h"
 

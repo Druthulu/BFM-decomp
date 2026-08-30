@@ -5718,7 +5718,54 @@ void func_80181290(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_801813B0);
+extern void *D_801937DC;
+extern s16 D_8019FD70[];
+extern s32 D_8019FEF8;
+extern u8 D_8019FB68[];
+
+typedef struct { u8 c[8]; } Blk8_801813B0;
+
+void func_801813B0(s32 param_1) {
+    u8 *dst;
+    u8 *src;
+    s16 *idx;
+    s32 i;
+    s32 v;
+
+    dst = D_8019FB68;
+    D_8019FEF8 = 0;
+    src = *(u8 **)((u8 *)D_801937DC + 0xC);
+    idx = D_8019FD70;
+
+    for (i = 0; i < 65; i++) {
+        *(Blk8_801813B0 *)(dst + i * 8) = *(Blk8_801813B0 *)(src + i * 8);
+        v = *(s16 *)((u8 *)src + i * 8 + 2);
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        __asm__("" : "=r"(v) : "0"(v));
+        if (v == -150) {
+            idx[i] = 4;
+        } else if (v == -139) {
+            idx[i] = 3;
+        } else if (v == -106) {
+            idx[i] = 2;
+        } else if (v == -57) {
+            idx[i] = 1;
+        } else {
+            idx[i] = 0;
+        }
+    }
+}
+
 
 #include "common.h"
 
