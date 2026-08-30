@@ -1,6 +1,9 @@
 #include "common.h"
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
+typedef struct {
+    s32 words[38];
+} Blk98_80029274;
 typedef struct Ent30D80 {
     /* 0x00 */ s32 unk00;
     /* 0x04 */ u8 pad04[6];
@@ -634,7 +637,17 @@ s32 func_80012C6C(s32 a0, s32 a1, s32 a2)
     return (s16)(s0 + func_80012CB8((s16)s0, (s16)a1, (s16)a2));
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80012CB8);
+extern s16 func_80012D0C(s32 x0, s32 x1, s32 d, s16 *ctr);
+
+s32 func_80012CB8(s32 a0, s32 a1, s32 a2)
+{
+    s16 out = 4;
+
+    if ((s16)a0 == (s16)a1) {
+        return 0;
+    }
+    return func_80012D0C((s16)a0, (s16)a1, (s16)a2, &out);
+}
 
 s16 func_80012D0C(s32 x0, s32 x1, s32 d, s16 *ctr)
 {
@@ -2113,7 +2126,24 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80015608);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80015760);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80015908);
+extern s16 D_80062A78[];
+extern s16 D_80062AF8[];
+
+s16 *func_80015908(s32 a0, s32 a1)
+{
+    switch (a1 & 0x80) {
+    case 0:
+    {
+        s32 idx0 = (a0 & 0xFF) - 0x20;
+        return &D_80062A78[idx0];
+    }
+    case 0x80:
+    {
+        s32 idx1 = (a0 & 0xFF) - 0x20;
+        return &D_80062AF8[idx1];
+    }
+    }
+}
 
 void func_80015954(s32 a0, s32 a1) {
     *(u16 *)(a1 + 0x2) = *(u16 *)(a0 + 0x0);
@@ -14055,9 +14085,6 @@ s32 func_80029264(void) {
 }
 
 
-typedef struct {
-    s32 words[38];
-} Blk98_80029274;
 
 extern Blk98_80029274 D_80072C84;
 extern Blk98_80029274 D_80078E78;
@@ -14088,7 +14115,30 @@ void func_8002941C(void) {
     func_80016714(D_800A6588, 0x2);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80029444);
+extern u8 D_80078E7C __asm__("D_80078E7C");
+extern u8 D_80078E7C_1 __asm__("D_80078E7C+1");
+extern u8 D_80078E7C_2 __asm__("D_80078E7C+2");
+extern u8 D_80078E7C_3 __asm__("D_80078E7C+3");
+extern u32 D_80078E7C_w __asm__("D_80078E7C");
+
+void func_80029444(void) {
+    if ((u8)(++D_80078E7C) < 30) {
+        return;
+    }
+    D_80078E7C = 0;
+    if ((u8)(++D_80078E7C_1) < 60) {
+        return;
+    }
+    D_80078E7C_1 = 0;
+    if ((u8)(++D_80078E7C_2) < 60) {
+        return;
+    }
+    D_80078E7C_2 = 0;
+    if ((u8)(++D_80078E7C_3) < 100) {
+        return;
+    }
+    D_80078E7C_w = 0x633B3B00;
+}
 
 extern s32 D_80078E80;
 s32 func_80029504(void) {
@@ -14217,7 +14267,38 @@ void func_800298BC(Blk36_800296F8 *arg0) {
     *arg0 = D_80079204;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002992C);
+
+typedef struct {
+    u8 b[4];
+} Blk4;
+
+extern Blk98_80029274 D_80078E78;
+extern u16 D_800A6588[];
+extern u8 D_800BA2B8[];
+extern u8 D_80078F28[];
+extern u8 D_800AE648[];
+extern u8 D_800BA1B8[];
+
+void func_8002992C(s32 arg0) {
+    u8* base;
+    s32 i;
+
+    base = D_80078F28 + arg0 * 0x2DC;
+    D_80078E78 = *(Blk98_80029274*)(base + 0x24);
+
+    for (i = 0; i < 0x40; i++) {
+        D_800A6588[i] = *(u16*)(base + 0xBC + i * 2);
+    }
+    for (i = 0; i < 0x40; i++) {
+        D_800AE648[i] = *(i + base + 0x13C);
+    }
+    for (i = 0; i < 0x100; i++) {
+        D_800BA1B8[i] = *(i + base + 0x17C);
+    }
+    for (i = 0; i < 0x18; i++) {
+        *(Blk4*)(D_800BA2B8 + i * 4) = *(Blk4*)(base + 0x27C + i * 4);
+    }
+}
 
 extern u8 D_80078F28[];
 
@@ -14794,7 +14875,37 @@ void func_8002A790(u8 *a0)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002A7B4);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002A834);
+extern s32 D_80078EF8;
+
+s32 func_8002A834(s32 a0) {
+    s32 s0;
+
+    s0 = func_8002AA00(func_8002A998() + 1);
+
+    if (func_8002A9B8() == 0) {
+        goto ret0;
+    }
+    if (s0 < 0) {
+        return 0;
+    }
+
+    D_80078EF8 = D_80078EF8 + a0;
+
+    if (func_8002A92C() == 0) {
+        goto ret0;
+    }
+
+    if (s0 != 0) {
+        D_80078EF8 = func_8002A9B8();
+        return 0;
+    }
+
+    func_8002A960();
+    return 1;
+
+ret0:
+    return 0;
+}
 
 
 extern s32 func_8002A998(void);
@@ -15182,6 +15293,20 @@ u16 func_8002B08C(s32 a0) {
     return v1 & 0xFFFF;
 }
 
+/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
+ * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
+ *
+ * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
+ * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
+ * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
+ * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
+ * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
+ * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
+ * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
+ * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
+ * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
+ * express this as normal control flow against either. Kept as the verbatim target instructions,
+ * same as its sibling. */
 INCLUDE_ASM("asm/nonmatchings/800", func_8002B0B4);
 
 /* DEFERRED: SaveLoadRoutine (0x8002B154) — Phase 7 (session G), per Drew, to Q#5.
@@ -15249,7 +15374,26 @@ u32 func_8002C320(void) {
     return result;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002C3B0);
+s32 func_8002C3B0(s32 count, u8 *arr) {
+    s32 i;
+    s32 total = 0;
+    for (i = 0; i < count; i++, arr += 0x28) {
+        s32 v = *(s32 *)(arr + 0x18);
+        s32 t;
+        if (v >= 0) {
+            t = v;
+        } else {
+            t = v + 0x1FFF;
+        }
+        t >>= 13;
+        if (v & 0x1FFF) {
+            total += t + 1;
+        } else {
+            total += t;
+        }
+    }
+    return total;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8002C410);
 
@@ -15520,7 +15664,41 @@ void func_8002CCB4(void) {
     func_8002D4C8(2, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002CCD8);
+extern s32 D_800A4EA4;
+
+void func_8002CCD8(void)
+{
+    s16 buf[4];
+    s32 i;
+    s32 depth;
+    s32 mode;
+    s32 *p;
+
+    func_80042610(0);
+    VSync(0);
+    for (i = 0; i < 0x18; i++) {
+        func_8003D3B4(i, 8);
+    }
+    func_8003C23C(0, 0xFFFFFF);
+    func_8003D434(&buf[0], &buf[1]);
+    i = 15;
+    p = &D_800A4EA4;
+    mode = 3;
+    depth = 0x3BF1;
+    while (i != 0) {
+        VSync(0);
+        buf[1] = buf[0] * i >> 4;
+        SpuSetReverbModeDepth(buf[1], buf[1]);
+        *p = mode;
+        *(s16 *)((s16 *)p + 3) = *(s16 *)((s16 *)p + 2) = depth;
+        func_8003C598(p);
+        depth -= 0x3FF;
+        i--;
+    }
+    SsEnd();
+    func_8003D630();
+    SpuQuit();
+}
 
 
 extern s32 D_800A4638;
