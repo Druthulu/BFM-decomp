@@ -3017,7 +3017,7 @@ artifact it is measuring must gate the original first* — and its corollary for
 *a `grep` over a tool's output is a filter on evidence; my own probe loop swallowed a traceback and
 the crash read as "no blockers found"* (R40 applied to me, not the tool).
 
-## 🛑 SESSION CHECKPOINT — S65 FINAL (2026-08-29). Supersedes every earlier block including the S65 interim above. Phase 31 T5 CONTINUES. Machine QUIESCED: no lanes, no workflows, tree clean, `.run/ox_campaign.stop` SET.
+## (superseded — see S65 FINAL-2 at the end) SESSION CHECKPOINT — S65 mid-session. Supersedes every earlier block including the S65 interim above. Phase 31 T5 CONTINUES. Machine QUIESCED: no lanes, no workflows, tree clean, `.run/ox_campaign.stop` SET.
 
 **READ FIRST:** this block → the S64 FINAL block → `docs/tool-designs/frontier-analysis-s61.md` §4.
 
@@ -3106,3 +3106,86 @@ sampling filter ships with its denominator; **(S65)** *a stage that REWRITES the
 must gate the ORIGINAL first*; *a tool that mutates shared state is single-instance until proven
 otherwise — and the proof is a lock, not a habit*; *a filter over agent notes must be able to see the
 FAILURES, or the flywheel only ever learns from the easy half*.
+
+## 🛑 SESSION CHECKPOINT — S65 FINAL-2 (2026-08-29 ~19:00). Supersedes EVERY earlier block. Phase 31 T5 CONTINUES.
+
+**READ FIRST:** this block → `docs/tool-designs/frontier-analysis-s61.md` §4. The S64 block and the
+earlier S65 blocks are superseded; their headline stub counts used unstated denominators (R41).
+
+### FLEET (measured from `corpus.stubs`, not summed from reports)
+`check-all` = **213 passed, 0 failed of 213** after every gate. **98.9% instr-weighted / 97.6%
+distinct** (89,948 / 90,929 unique fns). Open `INCLUDE_ASM` stubs: **1,991 — 1,099 main, 892
+overlays**. Session start was 2,553 (1,099 main / 1,454 overlays), so **562 closed, all overlays =
+39% of the entire overlay frontier in one session.** main was NOT touched today.
+
+### THE FINDING THAT CHANGED THE ENDGAME — enumerate the banked TWINS before drafting anything
+For each open stub, ask whether any ALREADY-BANKED fn fleet-wide shares its signature hash (a dict
+join on `family_sweep.load_sigs()`, seconds). If yes, `family_remap` rewrites the exemplar's C to
+this overlay's symbols and the byte gate decides. **Measured today:**
+
+| tier | meaning | yield |
+|---|---|---|
+| `h_exact` | identical bytes modulo reloc fields | **139/157 = 88.5%** |
+| `h_norm` | identical after masking reloc fields | 36/45, then **178/234 = 76%** |
+| `h_seq` | mnemonic skeleton, immediates differ | **0% — Phase-26 stands; NOT USED** |
+
+**The Phase-26 "families are SPENT" verdict was `h_seq`-ONLY.** It was never wrong; it was never
+re-measured at the stricter tiers, because nobody had ENUMERATED the twins. `tools/twin_sweep.py` now
+does it in one command. **THE POOL REFILLS**: every bank becomes an exemplar for its siblings — a
+second sweep immediately after the first banked **71 more** from 165 candidates that had not existed
+minutes earlier. Conversion decays per round (76% → 43%) as same-address exact twins are consumed.
+
+**THE LOOP for the rest of P31:** `twin_sweep.py` → draft a small wave against the **no-twin** tier
+only (673 fns) → bank it (which MINTS exemplars) → `twin_sweep.py` again. A wave slot spent on a
+function that has a banked twin is pure waste, and `t5_cards.py` does NOT build `seed_ref`, so cards
+actively say "no banked twin — derive from the .s" for them. Measured cost: a t5u **Opus** slot ground
+`ov_SC03_023:func_8017BEBC` to closeness 45 while `ov_SC02_004` held a byte-identical banked copy;
+`family_remap` produced it exactly, in one command. **Filter every draw against the twin list.**
+
+### PARALLEL GATING — `tools/parallel_gate.py` (NEW, committed `commit:3275`)
+The per-binary gate was serial BY HARNESS, not by nature (each binary has its own `build/`, `.ld`,
+SHA). One `git worktree` per worker; workers gate and NEVER commit; the orchestrator adopts only
+gate-ACCEPTED drafts and only where the main tree still equals the pinned baseline (else REFUSED, not
+clobbered); then ONE commit + ONE R22. **Measured: 178 banked / 85 binaries in 12m19s wall for
+127m40s CPU = 10.4× parallelism (~7× end-to-end).** NEVER `xargs -P` over `gate_stage` — that
+corrupted the tree earlier today. Five things a fresh worktree lacks (each first appears as "the
+draft failed"): generated `include/*.inc`; the EMPTY `tools/maspsx` submodule; gitignored
+`tools/bin`(cc1)+`tools/psyq`; `build/{<bin>,assets/<bin>}`; `extracted/retail`. **ALWAYS negative-control
+first: an UNMODIFIED binary must build BYTE-IDENTICAL in the worktree** — before that control the
+first parallel run reported a clean, plausible `0 banked` that was pure environment artifact.
+
+### WAVES — 10 run, bank rate is INDEPENDENT of wave size
+t5s 24/29 · t5t 13/15 · t5v 14/15 · t5u 12/15 · t5w 5/5 · t5y 5/5 · t5x 3/5 · t5z 5/5 · t6a 4/5 · t6b (gating).
+**Wave shape is Drew's call and he retunes it live** — 1×30 → 2×50 → 1×30 → 1×15 → 2×15 → 4×5 → **2×5
+(CURRENT)**, seven changes in one session. Obey the latest, apply from the NEXT draw, never creep up.
+
+### SIX TOOL DEFECTS FIXED (all committed, all negative-controlled)
+1. `recover_integration` gated only its own REWRITE of a draft (cookbook **§313**) — now raw-first ladder.
+2. `harvest_verify.classify_fail` labelled a BUILT draft `CC1-FAIL` from a benign warning's orphan `note:`.
+3. `masked_diff` compared NOTHING at `R_MIPS_26` slots (mask 0) — a `j`/`jal` swallowed the other side.
+4. `--probe-only` crashed for `--funcs`/`--auto` (exec'd before staging).
+5. The distill novelty selector was INVERTED (its only pick of 24 was a "nothing to learn here" note)
+   and could not see UNBANKED fns at all — where the hardest functions write their richest notes.
+6. `recover_integration` is now single-instance (flock); it is NOT parallel-safe.
+
+### MY OWN ERRORS (do not repeat)
+* `xargs -P 4` over the recovery driver put **696 broken lines of ov_MAIN_012 into another binary's
+  commit**; fleet went 212/213 and the t5t bank was blocked ~1h. Repaired at `commit:3195`.
+* THREE `pkill -f` / `pgrep -f` calls matched **my own wrapper shell** — twice killing my shell, once
+  making `t5_bank` refuse ("another gate is running" = my own waiter). **Monitor by ARTIFACT (git log,
+  file counts, output files), never by pattern-matching the process table.**
+* FOUR `grep -E` filters swallowed a traceback, an abort message, a BUSY listing and a draw failure —
+  each read as a clean null. **Read tool output with `tail`, never a keyword filter.**
+* I hand-typed three workflow transcript paths that did not exist instead of using the tool's own output.
+
+### NEXT, in order
+1. `twin_sweep.py` again after t6b banks (the pool will have refilled).
+2. Wire the twin join INTO `t5_cards.py` as `seed_ref` so a card can never again say "no banked twin"
+   when one exists — and filter every draw against it.
+3. Distill: t6a flagged TWO cookbook gaps — a sched1 birthing-priority lever (split a reused scratch
+   var into singly-assigned temps) and **"an extra label inside an if-arm blocks the gas delay-slot
+   swap"** (a CFG lever; §226's frame catalogue has no entry). Use `--with-unbanked`.
+4. Permuter queue (C-unreachable, agent-confirmed): `ov_SC02_031:func_801831B4` (10),
+   `ov_SC06_013:func_8017E7E8` (4), `ov_SC03_099:func_8017D2AC` (7), `ov_SC03_094:func_8017E254` (12,
+   §195-L REFUTED class), `ov_SC03_013:func_8017E6F4` (3), `ov_SC05_001:func_8017FE0C` (24).
+5. **main is untouched: 1,099 stubs, the largest remaining body.** Today's % gains are overlay-only.
