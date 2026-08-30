@@ -2667,7 +2667,7 @@ extern void func_8017BEAC(void);
 extern void func_8017BEB4(void);
 extern void (*D_80184D78[])(void);
 extern void func_8017BFC8(void *a0);
-extern void func_8017C234(void);
+extern void func_8017C234();
 extern void func_8017C214(void);
 /* ==== end §8b carried decl layer ==== */
 

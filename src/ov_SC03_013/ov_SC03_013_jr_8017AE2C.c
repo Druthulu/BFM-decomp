@@ -3390,14 +3390,14 @@ void func_8017BFC8(void *a0) {
  *
  * Integration surface (§52b/§161c): the host TU already declares
  *   line 130  extern void func_801465C0(void);
- *   line 3339 extern void func_8017C234(void);
+ *   line 3339 extern void func_8017C234();
  * Both texts are reproduced VERBATIM here and the calls go through §17a-1
  * casts, so nothing in the host has to change.
  */
 
 /* --- host-TU-exact declarations (do not re-spell) ----------------------- */
 extern void func_801465C0(void);
-extern void func_8017C234(void);
+extern void func_8017C234();
 
 /* --- callees the host TU does not declare ------------------------------ */
 extern void func_8001CEC0(s32 a0, void *a1);
@@ -3489,13 +3489,92 @@ void func_8017C004(s32 arg0) {
 }
 
 
-extern void func_8017C234(void);
+extern void func_8017C234();
 void func_8017C214(void) {
     func_8017C234();
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017AE2C", func_8017C234);
+
+
+extern s16 D_801AD2C0;
+extern u16 D_8019FF38_u __asm__("D_801AD2C0");
+extern s16 D_801AD2C4;
+extern s16 D_801AD2C8;
+extern u16 D_80184922;
+extern u16 D_80184926;
+extern u16 D_80184992;
+extern u16 D_80184996;
+extern u8 D_80184998;
+extern u8 D_80184999;
+extern u8 D_8018499C;
+extern u8 D_8018499D;
+extern u16 D_800B99DA;
+extern void func_80147324(s32 a0);
+extern void func_80147364(u16 a0, s32 a1);
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_8004787C(s32 a0);
+
+void func_8017C234(s32 arg0) {
+    u16 w1;
+    u16 w2;
+    s16 t;
+    s32 v1;
+    s32 cur;
+    s32 r;
+    u16 m;
+    u16 fld1;
+    u16 fld2;
+    u8 c;
+
+    w1 = **(u16 **)(arg0 + 0x2C);
+    t = w1 - (*(u16 *)&D_801AD2C4);
+    v1 = D_801AD2C8;
+    w2 = **(u16 **)(arg0 + 0x30);
+    if (v1 == 0) {
+        if ((s16)t != 0) {
+            if ((s16)t > 0) {
+                func_80147324(0x542);
+            } else {
+                func_80147324(0x543);
+            }
+        }
+    } else {
+        if ((s16)t == 0) {
+            func_80147364(4, 0x542);
+            func_80147364(4, 0x543);
+        }
+    }
+    if (D_801AD2C0 == 0) {
+        func_80147324(0x541);
+    }
+    if ((s16)w2 == D_801AD2C0) {
+        func_80147364(4, 0x541);
+    }
+    cur = *(s16 *)(arg0 + 0x28);
+    D_801AD2C8 = t;
+    D_801AD2C0 = w2;
+    r = func_80012F74(cur, (s16)w1, 4, 1);
+    *(u16 *)(arg0 + 0x28) = r;
+    m = D_800B99DA;
+    (*(u16 *)&D_801AD2C4) = r;
+    fld1 = *(u16 *)(arg0 + 0x28);
+    D_80184922 = 0x61 - fld1;
+    fld2 = *(u16 *)(arg0 + 0x28);
+    D_80184992 = 0x61 - D_8019FF38_u;
+    D_80184996 = D_8019FF38_u;
+    D_80184926 = fld2;
+    r = func_8004787C((m & 0xF) << 8);
+    if (r < 0) {
+        r += 0x3F;
+    }
+    c = (r >> 6) + 0x40;
+    D_80184999 = c;
+    D_8018499D = c;
+    D_80184998 = c + (u8)D_801AD2C0;
+    D_8018499C = c + (u8)D_801AD2C0;
+}
+
 
 extern void (*D_80184A48[])(void);
 extern void func_80148634(void *a0);

@@ -4576,7 +4576,53 @@ void func_80182000(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_8018203C);
+
+
+
+
+
+extern u8 D_801CDA10[];
+extern s32 D_801C36F8[];
+extern s32 D_801CDD30;
+extern u8 D_811CDE20[];
+
+void func_8018203C(s32 a0, s32 a1) {
+    register u32 *d __asm__("$5");
+    register s32 *p __asm__("$6");
+    register u16 *dh __asm__("$3");
+    register u16 *sh __asm__("$4");
+    register s32 mask __asm__("$9");
+    register s32 *elseVal __asm__("$8");
+    register u8 *ifVal __asm__("$7");
+
+    *(s16 *)(a0 + 0xFE) = a1;
+    p = *(s32 **)(D_801C36F8[(s16)a1] + (*(s16 *)(a0 + 0x70)) * 4);
+    d = (u32 *)D_801CDA10;
+    if (*p != 0) {
+        mask = 0x1000000;
+        elseVal = &D_801CDD30;
+        ifVal = D_811CDE20;
+        sh = (u16 *)((u8 *)p + 6);
+        dh = (u16 *)((u8 *)d + 6);
+        do {
+            if (!(*p & mask)) {
+                *d = (u32)elseVal;
+            } else {
+                *d = (u32)ifVal;
+            }
+            d += 2;
+            dh[-1] = sh[-1];
+            p += 2;
+            dh[0] = sh[0];
+            sh += 4;
+            dh += 4;
+        } while (*p != 0);
+    }
+    *d = 0;
+    *(s16 *)((u8 *)d + 4) = -1;
+    *(s16 *)((u8 *)d + 6) = 0;
+}
+
 
 typedef struct { u8 b[12]; } Blk12_820F8;
 typedef struct { u8 b[8]; } Blk8_820F8;

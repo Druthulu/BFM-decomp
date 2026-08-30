@@ -3988,7 +3988,45 @@ s32 func_8018A1D0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_80188E1C", func_8018A224);
+
+
+extern u16 D_800B99DA;
+extern u8 D_801E04E0[];
+extern void func_8018A2E0(u16 *a0, s32 a1);
+
+typedef struct {
+    u16 f0;
+    u16 f1;
+    u16 f2;
+    s16 f3;
+} Ent_8018A224;
+
+s32 func_8018A224(Ent_8018A224 *arg0, s32 arg1)
+{
+    u8 rect[4];
+    s32 step;
+    register s32 q __asm__("$3");
+    register s32 half __asm__("$2");
+
+    step = 0x50;
+    if (D_801E04E0[D_800B99DA & 0xF] == 0) {
+        step = 0x60;
+    }
+    arg1 += 1;
+    q = (step * arg1) / 32;
+    half = q / 2;
+    rect[0] = q;
+    rect[1] = q;
+    rect[2] = half;
+    rect[3] = 0;
+    if (arg0->f3 != -1) {
+        do {
+            func_8018A2E0(&arg0->f0, *(s32 *)rect);
+            arg0++;
+        } while (arg0->f3 != -1);
+    }
+}
+
 
 
 /* func_8018A2E0 (ov_SC04_018, ov_SC04_018_jr_8017AE2C) — MATCH (250 ins)
