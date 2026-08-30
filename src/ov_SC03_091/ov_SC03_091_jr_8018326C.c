@@ -6730,11 +6730,35 @@ void func_80188B0C(s32 a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8018326C", func_80188B64);
+
+extern s32 *D_80126B78;
+extern u8 D_801AC098[];
+extern u8 D_801152A8[];
+
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+void func_80188B64(s32 arg0) {
+    register s32 rv __asm__("$2");
+    s32 buf1[2];
+    s32 buf2[2];
+
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)D_801AC098, (s32)buf1);
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)(D_801AC098 + 8), (s32)buf2);
+    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf1, (s32)buf2) == 0) {
+        rv = 0;
+    } else {
+        func_8012F568(1, 0x201, *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12), 0x23, (s32)buf2, (s32)D_801152A8);
+        rv = 1;
+    }
+    __asm__ __volatile__("" : "=r"(rv) : "0"(rv));
+}
+
 
 extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 extern void func_80049CAC(s32 a0, s32 a1);
-extern void *func_80188E80(void *a0);
+extern void *func_80188E80();
 typedef struct { s16 a, b, c; } SV3x_80184B30_80188C18;
 typedef struct { short m[3][3]; long t[3]; } MTX_801851A8_801839C4_80188C18;
 void func_80188C18(s32 a0) {
@@ -6853,7 +6877,35 @@ END:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_091/nonmatchings/ov_SC03_091_jr_8018326C", func_80188E80);
+
+
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+
+void * func_80188E80(s32 a0)
+{
+
+    extern u8 D_801AC0B8[];
+    extern s32 D_801AC0C4[];
+    u8 *obj;
+    s32 sub;
+    s32 arg;
+
+    obj = func_801290DC(0x43, (u8 *)a0);
+    if (obj == 0) {
+        return 0;
+    }
+    arg = (s32)obj + 0x24;
+    sub = *(s32 *)(obj + 0x20);
+    *(s32 *)(sub + 0x20) = (s32)D_801AC0B8;
+    *(u8 *)(sub + 0x27) = 0x66;
+    *(u16 *)(sub + 0x1A) = 0x2000;
+    *(u16 *)(sub + 0x18) = 0x2000;
+    *(s32 *)(sub + 4) |= 0xD8000000;
+    func_80128EA8(sub, arg, (s32)D_801AC0C4);
+    return (s32)obj;
+}
+
 
 void func_80188F04(s32 a0)
 {
