@@ -2862,7 +2862,7 @@ extern void func_80180134(void);
 extern void func_8018015C(void);
 extern void func_80180164(void * arg0);
 extern void func_80180190(void * arg0);
-extern s32 func_80180284(void);
+extern s32 func_80180284();
 extern void func_801801E0(void *arg0);
 extern void func_8012A828(s32 *a0, s32 a1);  /* fleet-canonical sig (TU L3775) */
 extern void func_8018034C(void *arg0);
