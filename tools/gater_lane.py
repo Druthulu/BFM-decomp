@@ -80,10 +80,20 @@ def completed():
                 except ValueError:
                     continue
                 if r.get("binary") and r.get("fn"):
-                    out.add((r["binary"], r["fn"]))
+                    # KEYED BY ARM. A (binary, fn) can be drafted by several tiers, and an
+                    # ESCALATION is by definition launched while the lower tier's verdict already
+                    # exists. Keying by (binary, fn) alone lets the fable draft be staged on the
+                    # strength of the OPUS verdict while the fable agent is still iterating —
+                    # exactly the in-flight bug this function exists to prevent, one level up.
+                    # An arm-less row (a hand-written backfill) counts for every arm.
+                    out.add((r["binary"], r["fn"], r.get("arm")))
     except OSError:
         pass
     return out
+
+
+def has_verdict(done, binary, fn, arm):
+    return (binary, fn, arm) in done or (binary, fn, None) in done
 
 
 def load_ledger():
@@ -147,7 +157,12 @@ def collect(waves, require_verdict=True):
                 if binary is None:                    # R43: refuse, never guess the TU
                     skipped["UNRESOLVED"].append("%s/%s/%s" % (wave, arm, name))
                     continue
-                key = "%s:%s" % (binary, fn)
+                # THE LEDGER KEY CARRIES THE ARM. Gating the opus draft of a function that is
+                # currently being escalated must NOT ledger away the fable draft that follows it —
+                # the escalation exists precisely because the lower tier did not bank. The
+                # already-banked check below is what stops a genuine duplicate: once a function
+                # banks, its stub is gone and every arm's draft is skipped as banked-elsewhere.
+                key = "%s:%s:%s" % (binary, fn, arm)
                 if key in led:
                     skipped["already-gated"].append(key)
                     continue
@@ -159,8 +174,8 @@ def collect(waves, require_verdict=True):
                     skipped["already-banked"].append(key)
                     led[key] = "banked-elsewhere"
                     continue
-                if require_verdict and (binary, fn) not in done:
-                    skipped["IN-FLIGHT (no verdict yet)"].append(key)
+                if require_verdict and not has_verdict(done, binary, fn, arm):
+                    skipped["IN-FLIGHT (no verdict yet)"].append("%s[%s]" % (key, arm))
                     continue
                 cand = (ARM_RANK.get(arm, 0), arm, binary, fn, os.path.join(adir, name))
                 cur = best.get(key)
@@ -192,7 +207,7 @@ def collect_extra(pairs, skipped):
         if not os.path.exists(path):
             sys.exit("[gater] --extra path does not exist: %s" % path)
         fn = os.path.basename(path)[:-2] if path.endswith(".c") else os.path.basename(path)
-        key = "%s:%s" % (binary, fn)
+        key = "%s:%s:%s" % (binary, fn, os.path.basename(os.path.dirname(path)))
         if key in led:
             skipped["already-gated"].append(key); continue
         st = open_stub(binary, fn)
@@ -216,6 +231,15 @@ def main():
     ap.add_argument("--min-drafts", type=int, default=3,
                     help="do nothing unless at least this many ungated drafts exist (default 3)")
     ap.add_argument("--drain", action="store_true", help="gate whatever is there, ignoring --min-drafts")
+    ap.add_argument("--skip-binary", default="",
+                    help="comma-separated binaries to leave alone this pass. USE THIS when another "
+                         "lane may be writing that binary's src/ — an investigation agent permitted "
+                         "to splice-and-restore, a carve, a recovery run. A gate that races such a "
+                         "lane produces a FALSE verdict on a draft that is fine (measured S68: a "
+                         "clean-fleet R22 raced an authorised src/800.c splice and reported "
+                         "'212 passed, 1 failed' on a tree that rebuilt byte-identical minutes "
+                         "later). Being clean RIGHT NOW is not the test; nothing being able to "
+                         "dirty it during the run is.")
     ap.add_argument("--any-draft", action="store_true",
                     help="gate drafts that have no recorded verdict yet (see completed(); this gates "
                          "work an agent may still be iterating on and will ledger the result)")
@@ -228,6 +252,12 @@ def main():
     if not waves and not a.extra:
         sys.exit("[gater] nothing to do — give --waves and/or --extra")
     ready, skipped = collect(waves, require_verdict=not a.any_draft)
+    skipb = {x.strip() for x in a.skip_binary.split(",") if x.strip()}
+    if skipb:
+        held = [r for r in ready if r[0] in skipb]
+        ready = [r for r in ready if r[0] not in skipb]
+        print("[gater] HOLDING %d draft(s) for %s — another lane may be writing them: %s"
+              % (len(held), ",".join(sorted(skipb)), " ".join("%s:%s" % (b, f) for b, f, _ in held[:8])))
     ready.extend(collect_extra(a.extra, skipped))
     for why, items in skipped.items():
         if items:
@@ -279,8 +309,9 @@ def main():
     # Ledger the ATTEMPT, not the outcome: a refused draft must not be re-gated unchanged on the
     # next tick (that is the 0/23 stored-re-gate law from T1 — a fresh verdict needs a fresh fix).
     led = load_ledger()
-    for binary, fn, _ in ready:
-        led["%s:%s" % (binary, fn)] = "gated:rc%d" % rc
+    for binary, fn, path in ready:
+        arm = os.path.basename(os.path.dirname(path))
+        led["%s:%s:%s" % (binary, fn, arm)] = "gated:rc%d" % rc
     save_ledger(led)
     return rc
 
