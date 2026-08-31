@@ -3974,3 +3974,101 @@ OpenRouter era under the title "as it actually runs").
   entries / 14 buckets. §363 (the overlay-layout bug class) staged in `.run/S68_harvest/notes.md`
   pending the main-lane verdict. Note §360's third lever is marked **REFUTED** rather than deleted,
   so nobody re-derives it.
+
+## 🛑 SESSION CHECKPOINT — S68 FINAL (2026-08-31, end of session). SUPERSEDES every earlier block in this file. Phase 31 T5 CONTINUES.
+
+**STATE:** fleet **213 passed / 0 failed of 213** from a clean `make clean && extract-all &&
+check-all` (the last of five full R22s this session, run by `parallel_gate --r22` before it would
+commit). Tree clean, 25 commits. Drew pushes (R6). `ghidra/` churn is MCP noise — never commit it.
+**FRONTIER 453 → 430 · 23 CLOSED.** 106 of 213 binaries are at ZERO open stubs, two of them closed
+today (`ov_MAIN_012`, `ov_SC02_037`).
+
+### THE HEADLINE: `main` COULD NOT BANK, FOR TWO STACKED REASONS, AND NEITHER WAS THE DRAFTS
+A Fable investigation proved three main drafts **byte-perfect in the real link** while the gate
+reported `{"banked":0,"near":3}`. The whole image differed from retail by **2 of 413,696 bytes**, and
+both were a pre-existing baseline defect. Then:
+1. **`gate_stage` compared main against `ov_SC01_077`'s SHA.** It synthesised `--out
+   build/main/main` (never exists — main's image is `build/us/SLUS_007.26`) and
+   `config/check.main.sha` (never exists — it is `check.us.sha`), so `good_sha` fell through to
+   `DEF_SHA`. `harvest_verify` already owned the correct map and refuses loudly; the synthesised
+   flags bypassed it. **NC: across all 213 binaries the `(out, good_sha)` pair is UNCHANGED for 212;
+   main is the only one that moves.**
+2. **`psyq_integrate` dropped `firstfile = 0x80061FA8;` on every INCREMENTAL relink**, so main's
+   BASELINE was already 2 bytes red before any draft was spliced. It derives each `*_externals.ld`
+   from a trial against the CURRENT `.ld`, so the answer depended on how much had already been
+   rewritten. **This is the true identity of the long-standing 2026-08-15 "main link defect": the
+   extra C function never broke the link, the RELINK it forced did.** Fixed by making the externals
+   file monotonic; verified fresh-extract GREEN, incremental GREEN (was RED), third relink GREEN.
+**Result: main banks again — 3 functions, `main 1048 → 1045`.**
+
+### STILL OPEN — FIRST THINGS NEXT SESSION
+* **`parallel_gate`'s WORKTREE still cannot gate `main`** (its staging carries the three
+  Makefile-named generated files; main's link additionally runs the psyq_integrate chain). Already
+  handled: `gater_lane` routes main IN-TREE through `harvest_verify`. main is one binary, so nothing
+  is lost — but do not "fix" it by gating main in a worktree.
+* **`md_MAIN_003` holds 9 of the 12 remaining -O0-needs-carve functions** behind
+  `jr_isolate_all: unaddressable content in src/md_MAIN_003/md_MAIN_003.c` (the module binaries are
+  ONE `c` subseg). **One tool fix unlocks 9 functions**, including the byte-correct 345-instruction
+  `func_800D0D6C` an opus agent already produced, which today has nowhere to go. Ledger
+  `.run/S68_o0_needs_carve.json`.
+* **`recover_integration --auto` is still fleet-blind** — `--binary` defaults to the literal
+  `ov_SC01_077` and its backlog map is keyed by BARE FUNCTION NAME (R48). Drive it with
+  `--draft-dir` per binary until fixed.
+* **PARKED, byte-correct:** `ov_SC03_105/func_80187A30` (339 ins, fable MATCH) blocked by
+  `self_decl_tu` — the TU declares `(void*, s32, s32)`, the def is `(s32, s16, s16)`. The recovery
+  stages and a hand no-proto both failed; next lever is conforming the DEFINITION (§343).
+
+### WHAT WORKED, MEASURED
+* **Drafting at concurrency 5, streaming: 13 MATCH / 3 NEAR.** Gating is not the constraint —
+  5 fns / 5 binaries / **71 s wall**, then a full clean R22 before the commit.
+* **FABLE ESCALATION IS 2 FOR 2, AND CHEAPER THAN THE ATTEMPT IT RESCUES.** `func_800241C0`: sonnet
+  229k tokens → closeness 19, fable 74k → MATCH. `func_80187A30`: opus 294k → closeness 8, fable
+  152k → MATCH in ONE edit. **Both times fable also OVERTURNED the cheaper tier's DIAGNOSIS.** The
+  pattern is now measured twice: when a strong model reports a compiler-internal wall, the prior is
+  that its FRAMING is wrong, not that the wall is real. Use `tools/workflows/escalate_fable.js` —
+  warm-start from the prior draft, forbid re-trying its ruled-out levers, demand a `new_idiom`.
+* **Zero-agent-token banks: 11 of the 23.** The -O0 whale carve (6 fns / 2,547 ins across 3
+  overlays), the stranded-boundary pair (2), propagation (2), a twin remap (1).
+
+### KNOWLEDGE BANKED — cookbook **383 → 399** sections (index 1020 entries)
+§354 giv worth-while test as a dial · §355 a remapped sibling's source bias ≠ its emitted bias ·
+§356 measure a draft in the TU it will live in (39 of 43 "undeclared" cc1-fails were the probe's
+environment) · §357 one struct pointer not two · §358 an UNREFERENCED aggregate local is
+load-bearing · §359 the two-step sign-widen · §360 the "compiler found a shorter equivalent" pair,
+**with its third lever marked REFUTED rather than deleted** · **§361** a "scheduling tie" may be an
+artifact of your own earlier lever · §362 two traps when a carve moves a stub into the -O0 TU ·
+**§363** the overlay-layout bug class · **§364** the P_TAG bitfield is OPT-LEVEL DEPENDENT ·
+§365 pin both masks or neither · **§366** `group_case_nodes` merges stacked case labels ·
+§367 reconciling a decl conflict between two drafts · **§368 ★★★ the RELOAD-REMAT CONSTANT** ·
+§369 the compare-constant variable + the frame-ORDERING dial.
+
+### NEW / CHANGED TOOLING
+* **`tools/gater_lane.py`** (new) — the continuous gater. Accumulates to `--min-drafts`, groups by
+  binary, `--r22` by default, routes **main in-tree**. Ledger AND verdicts keyed `binary:fn:arm`.
+  `--extra BINARY:PATH` for non-wave drafts, `--skip-binary` for lanes that may be writing.
+* **`tools/workflows/escalate_fable.js`** (new) — the warm-started escalation.
+* **`tools/o0_boundary.py`** (new) — the stranded-boundary -O0 sweep. **141 binaries, 288
+  boundaries, 0 candidates: THE CLASS IS EXHAUSTED**, and that null is negative-controlled (the 288
+  boundaries do include the five addresses it banked today).
+* Fixed: `dedup_propagate` (could not even IMPORT), `seed_ref` (offered main's LINKED dead text as
+  bankable — 43 of its 82 hits), `parallel_gate`, `rtu_match`, `blocker_probe`, `gate_stage`,
+  `psyq_integrate`.
+
+### MISTAKES WORTH NOT REPEATING (mine)
+* **I ran a clean-fleet R22 while a subagent I had AUTHORISED to splice `src/800.c` was
+  mid-experiment.** It reported `212 passed, 1 failed` — a FALSE red on a tree that rebuilt
+  byte-identical minutes later. **Before an R22, enumerate every lane that MAY write `src/`,
+  `config/` or `include/` — subagents included. "Clean right now" is not the test.**
+* **Five gater defects, every one found by its own ZERO rather than by reading it** — and two of
+  those were INTERACTIONS between fixes 4 and 5, caught only because I re-ran the `--dry` path after
+  fixing. **After fixing a defect in a pipeline, re-run the dry path and read what it now selects.**
+* I sank ~40 minutes into a serial `recover_integration` batch that banked 0/3 before checking
+  whether its candidates were even bankable — two of the three were -O0 functions in -O2 TUs, which
+  cannot bank by construction.
+
+### LEDGERS
+`.run/S68_harvest/notes.md` (the full harvest incl. entries not yet promoted) ·
+`.run/S68_frontier_partition.json` · `.run/S68_seed_refs.json` (guarded) · `.run/S68_twin_fresh.json`
+· `.run/S68_twin_refused.json` (36 non-main twins with a banked body = agent fuel) ·
+`.run/S68_recover_drift.json` · `.run/S68_o0_needs_carve.json` · `.run/S68_queue.json` (53-target
+wave queue, ~30 still undrawn) · `.run/gate_lane/{ledger.json,verdicts.jsonl}`.
