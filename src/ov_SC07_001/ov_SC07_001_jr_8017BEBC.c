@@ -4772,7 +4772,94 @@ void func_8017F7F8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017F834);
+#include "common.h"
+
+extern s32  func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B178(s32 a0, s32 a1);
+extern s32  rand();
+
+void func_8017F834(void *param_1) {
+    s32 v0;
+    s16 dir;
+    s32 r;
+    s32 n;
+    s32 w;
+    s32 m;
+    s16 *p;
+    s32 pad[2];
+
+    v0 = func_8012C1B8();
+    if (v0 == 0) {
+        func_8012CAE4(param_1);
+        return;
+    }
+    *(s32 *)((s32)param_1 + 0x20) = v0;
+    func_8001C214(v0, 0);
+
+    *(u16 *)(v0 + 0x2C) = *(u16 *)(v0 + 0x2C) | 0x10;
+    *(s16 *)(v0 + 0x1C) = dir % 384 + 0x400;
+    *(s16 *)(v0 + 0x1A) = dir % 384 + 0x400;
+    *(s16 *)(v0 + 0x18) = dir % 384 + 0x400;
+
+    r = rand();
+    *(s16 *)((s32)param_1 + 0x70) = (s16)(r & 1) << 15;
+    if (((s16)(r & 1) << 15) == 0) {
+        dir = (r & 1) ? 1 : -1;
+        *(s16 *)(v0 + 0x10) = dir * ((s16)r % 128) - 0x200;
+        w = dir * (rand() % 768) + 0x800;
+        *(s16 *)(v0 + 0x12) =
+            *(u16 *)(*(s32 *)(*(s32 *)((s32)param_1 + 0x64) + 0x20) + 0x12) + w;
+        *(s32 *)((s32)param_1 + 0x48) = 0xC000;
+        func_8012B2CC((s32)param_1);
+        func_8012B178((s32)param_1, 0xFFF80000 - (((s16)r % 9) << 16));
+        *(s16 *)((s32)param_1 + 0xFE) = rand() & 0xF0;
+        *(s16 *)((s32)param_1 + 0x100) = rand() & 0x1F0;
+        *(s16 *)((s32)param_1 + 0x102) = rand() & 0x30;
+    } else {
+        *(s16 *)(v0 + 0x10) = rand() % 4096;
+        *(s16 *)(v0 + 0x12) = rand() % 4096;
+        *(s32 *)((s32)param_1 + 0x48) = 0xC000;
+    }
+
+    *(s32 *)((s32)param_1 + 0x1C) = 0x3C;
+    p = (s16 *)((s32)param_1 + 0xDC);
+
+    n = rand() % 12;
+    p[0] = ((rand() & 1) ? n : -n) - 0x18;
+    p[1] = 0;
+    n = rand() % 12;
+    p[2] = ((rand() & 1) ? n : -n) - 0x18;
+    p += 4;
+
+    n = rand() % 12;
+    p[0] = ((rand() & 1) ? n : -n) + 0x18;
+    p[1] = 0;
+    n = rand() % 12;
+    p[2] = ((rand() & 1) ? n : -n) - 0x18;
+    p += 4;
+
+    n = rand() % 12;
+    p[0] = ((rand() & 1) ? n : -n) - 0x18;
+    p[1] = 0;
+    n = rand() % 12;
+    p[2] = ((rand() & 1) ? n : -n) + 0x18;
+    p += 4;
+
+    n = rand() % 12;
+    p[0] = ((rand() & 1) ? n : -n) + 0x18;
+    p[1] = 0;
+    n = rand() % 12;
+    p[2] = ((rand() & 1) ? n : -n) + 0x18;
+
+    *(s16 *)((s32)param_1 + 0x104) = rand() % 8 * 32;
+    m = rand();
+    *(u16 *)((s32)param_1 + 2) = *(u16 *)((s32)param_1 + 2) + 1;
+    *(s16 *)((s32)param_1 + 0x106) = m % 6 * 32;
+}
+
 
 #include "common.h"
 
