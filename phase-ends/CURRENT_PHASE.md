@@ -3899,3 +3899,78 @@ OpenRouter era under the title "as it actually runs").
   interleaved, cheapest-first. **`ov_SC02_037:func_80144B9C` (770 ins) was pulled from the wave** —
   its real answer is the -O0 whale carve, not a fresh opus draft.
   - Opened drafting at **concurrency 5** streaming single-function workflows per the S67 agreement.
+
+- **S68 T4 — the wave, and what the plumbing found.** Drafting ran at concurrency 5 streaming
+  single-function workflows. **8 MATCH + 1 NEAR-escalated-to-MATCH + 1 NEAR** at the time of writing.
+  Every MATCH is self-reported until the whole-binary gate says otherwise (R14) — 5 have banked.
+  - **Gate throughput is no longer a constraint:** 5 fns / 5 binaries / **71 s wall** at 6 workers,
+    then a full clean-fleet R22 (213/213) before the commit. `tools/gater_lane.py` is the new
+    continuous gater; it accumulates to `--min-drafts`, groups by binary, and passes `--r22` by
+    default because 2.5 minutes of verification is cheaper than one red binary.
+  - **Fable escalation works, and is CHEAPER than the attempt it rescues.** `main/func_800241C0`:
+    sonnet spent 229,121 tokens and stopped at closeness 19 reporting "a genuine sched1 PRIORITY
+    tie"; fable, warm-started with that draft AND its ruled-out list, closed 19 → 0 in 3 iterations
+    for 74,036 tokens. **It also refuted the diagnosis**: there was no tie — sonnet's own earlier
+    hack (a decrement duplicated into both if/else arms to bait `cross_jump`) had polluted that
+    arm's ready list, and the disturbance surfaced at a DIFFERENT instruction. Cookbook **§361**.
+    `tools/workflows/escalate_fable.js` encodes the pattern (warm start, forbid re-trying the ruled-
+    out levers, demand a reusable `new_idiom`, and stop-and-report if the prior closeness cannot be
+    reproduced — R40).
+
+- **S68 T5 — the -O0 WHALE CARVE: 6 functions / 2,547 instructions, zero agent tokens.**
+  `func_80144B9C` (770 ins) is banked in 138 overlays via `src/shared/func_80144B9C.h`; three
+  overlays still held it open because they had no `_o0` region for it. `o0_subsplit --lo 0x80144B9C
+  --hi 0x801458E0` planned identically in all three (2 unmatched stubs, 0 interleaved matched
+  bodies, `carve repoints: (none)`, `config/overlays.mk` UNTOUCHED). Carves byte-NEUTRAL in all
+  three (sha == `check.<ov>.sha`, `interleave_check` ALIGNED 37/37 · 33/33 · 30/30); banks
+  byte-identical in all three. **`ov_MAIN_012` and `ov_SC02_037` are now at ZERO open stubs.**
+  Two traps, both measured, both in cookbook **§362**: `rollout_o0` is structurally blind here (it
+  skips any `_o0` basename and the carve moves the stubs INTO that TU), and the generated §8b
+  carried decl layer conflicts with the shared header on 7 symbols so the TU must be replaced
+  wholesale. Post-carve R22 **213 passed / 0 failed of 213**.
+
+- **S68 T6 — THE SESSION'S REAL FINDING: `main` is the exception that every fleet tool encodes away.**
+  Four independent instances, in one session, each of which presented as "the model wrote bad drafts":
+  1. `parallel_gate.stage_generated` hard-coded `build/<bin>/{<bin>.ld,undefined_*_auto.txt}` — main's
+     Makefile puts the linker script at `build/us/SLUS_007.26.ld` and BOTH `undefined_*_auto.txt` at
+     the REPO ROOT, so a worktree could not link and **main banked 0 of 3**. The tell was already
+     being recorded as `missing_generated` in `.run/pgate_results.json` and consumed by nobody —
+     R32's corrected form exactly.
+  2. `rtu_match` built the TU as `src/<source>/<split>.c`; main's sources are LOOSE FILES in `src/`.
+  3. Same tool one layer down: asm dir as `asm/<source>/nonmatchings/<split>`; main's is
+     `asm/nonmatchings/800`. Symptom: `ERR` with an EMPTY detail, 4 of 4 — indistinguishable from a
+     bad draft. After fixing (2)+(3) the SAME four drafts probe **MATCH 69 / DIFF 69-36 / MATCH 68 /
+     MATCH 71**.
+  4. `recover_integration --auto` returns "no candidates" FLEET-WIDE: `--binary` defaults to the
+     literal `ov_SC01_077` and its backlog map is `seen[r["name"]] = r`, keyed by BARE FUNCTION NAME
+     (R48).
+  **The rule (cookbook §363, staged):** a fleet tool that composes a path from a binary NAME is
+  encoding the overlay layout. `corpus.Stub` already carries `.path` and `.asm_dir`; the Makefile
+  already declares `<b>_LD_SCRIPT`/`<b>_UNDEF_SYMS`/`<b>_UNDEF_FUNCS`. **Pass the fact you have;
+  never reconstruct it** — and when you must, assert it EXISTS and refuse with the reason (R43).
+  All fixes negative-controlled (R39): `parallel_gate`'s resolves + existence-checks across all 213
+  binaries with **0** false refusals.
+  STILL OPEN: main's three real-TU MATCHes are still rejected by the whole-binary SHA gate, so two
+  independent oracles disagree (R34). A Fable agent is running the decisive splice-and-build.
+
+- **S68 T7 — two more gater defects found by its own zeros** (both fixed, both committed):
+  (a) a `(binary, fn)` drafted by several arms was staged in ALPHABETICAL arm order, so a sonnet NEAR
+  would have overwritten the fable MATCH escalated to rescue it — now ranked fable > opus > sonnet >
+  v3 > haiku and the collision is PRINTED, never resolved silently; (b) the gater collected drafts
+  whose workflow had not returned, spending a build on unfinished work, recording a false rejection
+  and LEDGERING it so the finished draft would be skipped as "already-gated". Completion is now an
+  explicit `.run/gate_lane/verdicts.jsonl` signal — a quiet file mtime is deliberately not accepted
+  as one.
+
+- **S68 T8 — the -O0 population, scoped honestly.** 19 open stubs have an -O0 TARGET (the prologue
+  tell): **7 already sit in an -O0 TU and are draftable today**; **12 sit in an -O2 TU and need a
+  carve** (1,868 ins) — md_MAIN_003 ×9, main ×1, ov_SC03_118 ×1, ov_SC03_119 ×1. md_MAIN_003 alone
+  holds 9 of the 12 and is exactly where the carve REFUSES: `jr_isolate_all: unaddressable content in
+  src/md_MAIN_003/md_MAIN_003.c` (the module binaries are ONE `c` subseg). **One tool fix there
+  unlocks 9 functions**, including the byte-correct 345-instruction `func_800D0D6C` an opus agent
+  already produced. Ledger `.run/S68_o0_needs_carve.json`.
+
+- **S68 knowledge banked.** Cookbook **383 → 392** sections (§354–§362), index regenerated to 1,013
+  entries / 14 buckets. §363 (the overlay-layout bug class) staged in `.run/S68_harvest/notes.md`
+  pending the main-lane verdict. Note §360's third lever is marked **REFUTED** rather than deleted,
+  so nobody re-derives it.
