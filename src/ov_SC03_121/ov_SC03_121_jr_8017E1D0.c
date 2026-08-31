@@ -4168,7 +4168,113 @@ void func_80180B1C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017E1D0", func_80180E64);
+/* ---- decls copied verbatim from the destination TU (wave law 2) ---------- */
+extern u8 D_80078E78[];                                   /* TU line 390  */
+extern s32 D_801151FC;                                    /* TU line 735  */
+extern s32 D_80126B58;                                    /* TU line 53   */
+extern s32 rand(void);                                    /* TU line 954  */
+extern void func_800D0C48(s32 a0);                        /* TU line 1466 */
+extern s32 func_801726AC(s32 *a0);                        /* TU line 2221 */
+extern int func_80178970(void);                           /* TU line 2533 */
+extern s32 func_80178B18(s32 param_1, s32 param_2);       /* TU line 2534 */
+extern void func_80178D18(void);                          /* TU line 2541 */
+extern int func_8001AAA0(void);                           /* TU line 2586 */
+
+void func_80180E64(s32 a0) {
+    extern s32 D_801AECD8[];   /* 5 entity pointers, stride 4 */
+    extern s32 D_801AECF0;     /* single entity pointer */
+    extern s16 D_8019BBF8;     /* param block passed to func_80178B18 */
+
+    u8 *p = D_80078E78;
+    s16 c0;
+    register s32 f __asm__("$3");
+    s32 i0;
+    s32 i1;
+    s32 i2;
+    s32 i3;
+    s32 r;
+    s32 d;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if ((rand() & 0x3F) == 0) {
+            r = rand() % 5;
+            if (*(u16 *)(D_801AECD8[r] + 2) == 1) {
+                *(s16 *)(D_801AECD8[r] + 0x10A) = 4;
+            }
+        }
+        if (*(s32 *)(a0 + 0x1C) != 0) {
+            *(s32 *)(a0 + 0x1C) -= 1;
+        } else {
+            c0 = 0;
+            for (i0 = 0; i0 < 5; i0++) {
+                if (*(s16 *)(D_801AECD8[i0] + 0x10A) != 0 && *(u8 *)(D_801AECD8[i0] + 0xC1) != 3) {
+                    c0++;
+                }
+            }
+            if (c0 < 3) {
+                r = rand() % 5;
+                if (*(u16 *)(D_801AECD8[r] + 2) == 1) {
+                    *(s16 *)(D_801AECD8[r] + 0x10A) = 1;
+                    d = 0x1A4 - *(s16 *)(p + 0x1A);
+                    *(s32 *)(a0 + 0x1C) = d;
+                    if (d < 1) {
+                        *(s32 *)(a0 + 0x1C) = 1;
+                    }
+                }
+            }
+        }
+        if (*(s16 *)(p + 0x1A) > 0x1A2) {
+            func_800D0C48(1);
+        }
+        if (*(s16 *)(p + 0x1A) > 0x1A3 && func_801726AC(&D_80126B58) == 0) {
+            *(u16 *)(a0 + 0x34) += 1;
+        }
+        break;
+
+    case 1:
+        f = 0;
+        /* §NNN: the zero-byte `"r"(i1)` keepalive adds the 5th reference to the
+           loop counter, which lifts its global_alloc priority above the
+           strength-reduced pointer giv's -- that is what puts the counter in
+           $a0 and the giv in $a1 (without it they swap).  Emits no bytes. */
+        for (i1 = 0; i1 < 5; i1++) {
+            __asm__ __volatile__("" :: "r"(i1));
+            if (*(u16 *)(D_801AECD8[i1] + 2) == 5) {
+                f = 1;
+            }
+        }
+        if (D_801151FC == 0 && f != 1) {
+            func_80178B18(a0, (s32)&D_8019BBF8);
+            for (i2 = 0; i2 < 5; i2++) {
+                *(s16 *)(D_801AECD8[i2] + 0x10A) = 5;
+                *(s16 *)(D_801AECD8[i2] + 0x5C) = 0;
+                *(u8 *)(D_801AECD8[i2] + 0xC1) = 0;
+            }
+            *(u16 *)(a0 + 0x34) += 1;
+            *(s16 *)(D_801AECF0 + 2) = 6;
+            *(s16 *)(a0 + 0x100) = 1;
+            ((void (*)(s32))func_8001AAA0)(0x42);
+        }
+        break;
+
+    case 2:
+        D_801151FC = 0;
+        if (((s32 (*)(s32))func_80178970)(a0) != 0) {
+            ((void (*)(s32))func_80178D18)(a0);
+            *(u16 *)(a0 + 0x34) = 0;
+            *(u16 *)(a0 + 2) += 1;
+        }
+        break;
+    }
+
+    if (D_801151FC != 0) {
+        for (i3 = 0; i3 < 5; i3++) {
+            *(s16 *)(D_801AECD8[i3] + 0x10A) = 3;
+        }
+    }
+}
+
 
 
 extern void (*D_8019BC80[])(void);

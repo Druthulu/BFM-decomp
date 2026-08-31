@@ -3669,7 +3669,173 @@ u32 func_8017D788(s32 arg0, s16 arg1, s16 arg2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_121/nonmatchings/ov_SC03_121_jr_8017BEBC", func_8017D8D4);
+/* func_8017D8D4 -- ov_SC03_121, TU ov_SC03_121_jr_8017BEBC.c.   MATCH (212 ins)
+ *
+ * Per-frame state machine for an entity: a 5-arm `switch` on the u8 substate at
+ * +0xC2, dispatched through jtbl_801AD92C (`sltiu $v0,$v1,5` == the entry count,
+ * §206).  Arms 0/1 fall through; arms 1 and 2 end in a byte-identical
+ * `if (D_801AECD0 & 0x8000)` tail that the source DUPLICATES and gcc's cross_jump
+ * merges back down to .L8017DAD8 (§298/§5a) -- writing it once with a `goto`
+ * is unnecessary, the duplicate reproduces the `j .L8017DAD8` exactly.
+ *
+ * a0 (bound to s0)   : entity pointer.
+ *   +0x02 : s16 state code            +0x34  : s16 timer
+ *   +0x06 : s16 pos X                 +0x3A  : s16 home/anchor X
+ *   +0x0A : s16 pos Y                 +0x3E  : s16 home/anchor Y
+ *   +0x0E : s16 pos Z                 +0x42  : s16 home/anchor Z
+ *   +0x08 : s32 spawn/init flag       +0xC2  : u8  substate (switch selector)
+ *   +0x10 : s32 velocity X            +0x10A : s16 flag cleared on init
+ *   +0x14 : s32 velocity Y            +0x18  : s32 velocity Z
+ *   +0x1C : s32 arm-4 frame counter   +0x20  : s32* sub-object (+0x12 = u16 angle)
+ *
+ * THREE things the .s forced that the Ghidra seed got wrong:
+ *
+ * 1. FRAME SIZE (6 of the 13 first-pass residuals).  The target frame is 0x38:
+ *    16 outgoing-arg bytes + 32 bytes of locals + s0/ra.  Three SVECTORs at
+ *    sp+0x10 / +0x18 / +0x20 only account for 24, so a FOURTH 8-byte aggregate
+ *    is declared last (sv3) and never referenced -- gcc-2.7.2 gives every
+ *    aggregate local a frame slot whether or not it is used, and MIPS allocates
+ *    them in declaration order upward from STARTING_FRAME_OFFSET, so a trailing
+ *    dead vector is the only thing that lands 8 unused bytes at sp+0x28.
+ *
+ * 2. THE lwl/lwr + swl/swr BLOCK IS A PLAIN STRUCT ASSIGNMENT.  `sv2 = sv1` on
+ *    an SVECTOR (4x s16 => size 8, ALIGN 2) cannot use lw/sw, so gcc expands the
+ *    inline unaligned move.  Ghidra rendered it as hand-written byte arithmetic
+ *    on `auStack_16 + 1`; that whole block is one `=`.
+ *
+ * 3. STATEMENT ORDER IN ARM 0 (the last 7 residuals, one contiguous window with
+ *    an identical multiset == pure sched1, cookbook symptom index L29).
+ *    `*(u8 *)(s0 + 0xC2) = 1;` must come FIRST, before the three vector loads --
+ *    the seed put it between vx and vy, which costs 7.  Brute-forcing the four
+ *    legal positions of that one statement through match_one found it in 4 runs.
+ *
+ * Decls (law 2): func_8012A828 is copied verbatim from this TU (lines 3675/3808)
+ * and D_8018D8AC from line 3688 (`extern s32`, addressed as `(s32)&D_8018D8AC`,
+ * exactly as line 3703 does).  The rest are absent from this TU above the splice
+ * point, so the fleet-consensus spelling is used; where the consensus return type
+ * is `void` but the .s consumes $v0 (func_8012CC64, func_8012CBF4), the value is
+ * read through the established cast-the-pointer idiom rather than by contradicting
+ * the fleet prototype.  func_8012B23C is called with NO argument: the .s sets up
+ * no $a0 for it (no `move $a0,$s0` anywhere before that jal, unlike every other
+ * call here), so an unspecified-parameter-list decl is required -- §SYS law 4.
+ * D_801AECD0 has no fleet spelling at all; typed raw from its sw/lw width.
+ * SVECTOR is typedef'd locally with engine_types.h's exact body so the draft
+ * compiles standalone; harvest_verify strips it on splice (the TU provides it).
+ */
+
+#include "common.h"
+
+
+
+extern void func_8012B23C();
+extern s32  func_8012DBD0(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
+extern void func_8012CC64(s32 a0, s32 a1);
+extern s32  func_80143B6C(s32 a0, s32 a1);
+extern void func_8012CBF4(s32 a0);
+extern void func_80131C78(s32 a0);
+extern void func_8012A828(s32 a0, s32 a1);
+
+extern s32 D_801AECD0;
+extern s32 D_8018D8AC;
+
+void func_8017D8D4(s32 a0) {
+    s32 s0;
+    SVECTOR sv0;
+    SVECTOR sv1;
+    SVECTOR sv2;
+    SVECTOR sv3;
+    s32 iVar1;
+
+    s0 = a0;
+    if (*(s32 *)(s0 + 0x8) > 0) {
+        *(s16 *)(s0 + 0x6) = -0x103;
+        *(s16 *)(s0 + 0xA) = -0x182;
+        *(s16 *)(s0 + 0xE) = 0xE8;
+        *(s16 *)(s0 + 0x2) = 6;
+        *(s16 *)(s0 + 0x34) = 0;
+        *(s16 *)(s0 + 0x10A) = 0;
+        func_8012B23C();
+    }
+
+    sv0.vx = 0;
+    sv0.vy = 0x30;
+    sv0.vz = 0;
+
+    func_8012DBD0(s0, 0xA, *(s16 *)(*(s32 *)(s0 + 0x20) + 0x12) + 0x800, 0x1D);
+
+    switch (*(u8 *)(s0 + 0xC2)) {
+    case 0:
+        *(u8 *)(s0 + 0xC2) = 1;
+        sv1.vx = *(s16 *)(s0 + 0x3A);
+        sv1.vy = *(s16 *)(s0 + 0x3E);
+        sv1.vz = *(s16 *)(s0 + 0x42);
+        sv2 = sv1;
+        sv2.vx += sv0.vx;
+        sv2.vy += sv0.vy;
+        sv2.vz += sv0.vz;
+        func_8012CEB0((s32)&sv1, (s32)&sv2, 1);
+        sv2.vx -= sv0.vx;
+        sv2.vy -= sv0.vy;
+        sv2.vz -= sv0.vz;
+        *(s16 *)(s0 + 0x3A) = sv2.vx;
+        *(s16 *)(s0 + 0x3E) = sv2.vy;
+        *(s16 *)(s0 + 0x42) = sv2.vz;
+        *(s16 *)(s0 + 0x6) = sv2.vx;
+        *(s16 *)(s0 + 0xA) = sv2.vy;
+        *(s16 *)(s0 + 0xE) = sv2.vz;
+        /* fallthrough */
+    case 1:
+        D_801AECD0 = ((s32 (*)(s32, SVECTOR *))func_8012CC64)(s0, &sv0);
+        if ((D_801AECD0 & 0x2000) != 0) {
+            *(u8 *)(s0 + 0xC2) = 2;
+            func_80143B6C(s0, 1);
+            *(s32 *)(s0 + 0x14) = 0xFFF30000;
+        }
+        if ((D_801AECD0 & 0x8000) != 0) {
+            *(u8 *)(s0 + 0xC2) = 3;
+            func_8012A828(s0, (s32)&D_8018D8AC);
+        }
+        break;
+    case 2:
+        D_801AECD0 = ((s32 (*)(s32, SVECTOR *))func_8012CC64)(s0, &sv0);
+        if ((D_801AECD0 & 0x2000) != 0) {
+            func_80143B6C(s0, 1);
+            *(s32 *)(s0 + 0x14) = 0xFFF60000;
+            *(u8 *)(s0 + 0xC2) = 3;
+        }
+        if ((D_801AECD0 & 0x8000) != 0) {
+            *(u8 *)(s0 + 0xC2) = 3;
+            func_8012A828(s0, (s32)&D_8018D8AC);
+        }
+        break;
+    case 3:
+        *(s32 *)(s0 + 0x10) = *(s32 *)(s0 + 0x10) * 0xF / 0x10;
+        *(s32 *)(s0 + 0x18) = *(s32 *)(s0 + 0x18) * 0xF / 0x10;
+        D_801AECD0 = ((s32 (*)(s32))func_8012CBF4)(s0);
+        if ((D_801AECD0 & 0x2000) != 0) {
+            *(u8 *)(s0 + 0xC2) = 4;
+            *(s32 *)(s0 + 0x14) = 0;
+            *(s32 *)(s0 + 0x1C) = 0;
+            func_80143B6C(s0, 1);
+        }
+        break;
+    case 4:
+        *(s32 *)(s0 + 0x10) = *(s32 *)(s0 + 0x10) * 0xF / 0x10;
+        *(s32 *)(s0 + 0x18) = *(s32 *)(s0 + 0x18) * 0xF / 0x10;
+        func_8012CBF4(s0);
+        if ((*(s32 *)(s0 + 0x1C) & 3) == 3) {
+            func_80143B6C(s0, 1);
+        }
+        iVar1 = *(s32 *)(s0 + 0x1C) + 1;
+        *(s32 *)(s0 + 0x1C) = iVar1;
+        if (iVar1 > 0x10) {
+            func_80131C78(s0);
+        }
+        break;
+    }
+}
+
 
 extern void func_8012CBCC(s32 a0);
 extern void func_8012A828(s32 a0, s32 a1);

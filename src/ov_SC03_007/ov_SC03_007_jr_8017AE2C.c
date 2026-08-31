@@ -6871,7 +6871,95 @@ void func_80180F4C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_8017AE2C", func_801810E4);
+#include "common.h"
+
+extern void func_8012B1B4(s32 a0, s32 a1);
+extern s32  func_8012CBCC(s32 a0);
+extern s32  func_8012B744(void *a0, void *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32  func_800291B4(s32 arg);
+extern void func_800291A0(s32, s32);
+extern u8   D_8018C03C[];
+extern u16  D_8018C054[];
+extern u16  D_8018C05C[];
+extern u16  D_8018C064[];
+extern u16  D_8018C06C[];
+extern u8   D_801B0DD4[];
+extern u8   D_801B101C[];
+extern s16  D_80126CB4;
+extern s16  D_80126CB6;
+extern s16  D_80126CB8;
+
+void func_801810E4(s32 a0) {
+    s32 s0;
+    s32 v0;
+    s32 v1;
+    s32 dx;
+    s32 dz;
+    s32 ret;
+    struct { s16 vx, vy, vz, pad; } vec;
+
+    s0 = a0;
+    func_8012B1B4(s0, (s32)D_8018C03C);
+    v1 = func_8012CBCC(s0);
+    if (v1 & 0x6000) {
+        *(s16 *)(s0 + 0x16) = -4;
+    }
+    if (v1 & 0x8000) {
+        v0 = (*(u16 *)(s0 + 0x104) + 1) & 0x3F;
+        *(u16 *)(s0 + 0x104) = v0;
+        if (v0 < 0x1F) {
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) + 0x200;
+        } else {
+            *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) - 0x200;
+        }
+    }
+
+    if (*(s16 *)(s0 + 0xFC)) {
+        vec.vx = D_8018C064[*(u8 *)(s0 + 0xFE)] + *(u16 *)(s0 + 0xDC);
+        vec.vy = 0;
+        vec.vz = D_8018C06C[*(u8 *)(s0 + 0xFE)] + *(u16 *)(s0 + 0xDE);
+    } else {
+        vec.vx = D_8018C054[*(u8 *)(s0 + 0xFE)] + *(u16 *)(s0 + 0xDC);
+        vec.vy = 0;
+        vec.vz = D_8018C05C[*(u8 *)(s0 + 0xFE)] + *(u16 *)(s0 + 0xDE);
+    }
+
+    ret = func_8012B744((void *)(s0 + 4), &vec);
+    ret = func_8012B608(*(s16 *)(*(s32 *)(s0 + 0x20) + 0x12), ret, 4);
+    *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x12) + ret;
+
+    dx = *(s16 *)(s0 + 6) - vec.vx;
+    dz = *(s16 *)(s0 + 0xE) - vec.vz;
+    if (dx * dx + dz * dz < 0x400) {
+        if (*(s16 *)(s0 + 0xFC) != 0) {
+            if (*(u8 *)(s0 + 0xFF) != 0) {
+                *(s16 *)(s0 + 2) = 4;
+                func_8012A828(s0, D_801B0DD4);
+                *(s32 *)(s0 + 0x1C) = 0xF;
+                switch (func_800291B4(0xCC) & 0xFF) {
+                case 2:  func_800291A0(0xCC, 3);   break;
+                case 4:  func_800291A0(0xCC, 5);   break;
+                case 6:  func_800291A0(0xCC, 7);   break;
+                case 8:  func_800291A0(0xCC, 9);   break;
+                case 10: func_800291A0(0xCC, 0xB); break;
+                case 12: func_800291A0(0xCC, 0xD); break;
+                }
+            } else {
+                *(s16 *)(s0 + 2) = 1;
+                func_8012A828(s0, D_801B101C);
+            }
+        } else {
+            *(s16 *)(s0 + 0xFC) = *(s16 *)(s0 + 0xFC) + 1;
+        }
+    }
+
+    D_80126CB4 = *(u16 *)(s0 + 6);
+    D_80126CB6 = *(u16 *)(s0 + 0xA);
+    D_80126CB8 = *(u16 *)(s0 + 0xE);
+}
+
 
 #include "common.h"
 

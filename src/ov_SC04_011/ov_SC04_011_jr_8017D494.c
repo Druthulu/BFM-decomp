@@ -6034,7 +6034,128 @@ void func_801826E4(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801827DC);
+void func_801827DC(s32 param_1)
+{
+    extern void func_80186C1C(void);
+    extern void func_80183F10(void);
+    extern void func_8018BA9C(void);
+    extern void func_80183EA8(void);
+    extern void func_8018BAC4(void);
+    extern void func_80182D34(s32 a0);
+    extern void func_8018AC00(void *a0);
+    extern void func_8012BEE8(u8 *a0);
+    extern void func_8013C9C4(void *a0);
+    extern void func_8018637C(s32 arg0, s32 arg1);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void func_8018B9D4();
+    extern void func_80182AF8();
+    /* §183: the TU spells D_80194500 as a flat void*[] elsewhere; reach the
+       row-of-3 view through an __asm__ label alias -- the TU's own idiom. */
+    extern void *a4500[][3] __asm__("D_80194500");
+    extern s32 aFC4C[] __asm__("D_801EFC4C");
+    extern s32 D_801EFC54;
+    extern s32 D_801EFC5C;
+    extern s32 D_801EFC60;
+    extern s32 D_801EFC64[];
+    extern s32 D_801EFC68;
+    extern s32 D_801EFD28;
+    extern u16 D_801EFD40;
+    extern u8 D_80190B88[];
+    s32 r;
+    s32 obj;
+    u16 t;
+    u16 f;
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+    case 1:
+        if (*(s16 *)(param_1 + 0x98) == 0) {
+            func_8018637C(param_1, (s32)a4500[*(s16 *)(param_1 + 0xE2)][*(u16 *)(param_1 + 0x34) + 1]);
+            goto incr;
+        }
+        goto draw;
+    case 2:
+        if (*(s32 *)(param_1 + 0x94) != 0xB) {
+            goto draw;
+        }
+        func_80186C1C();
+        *(s16 *)(param_1 + 0x76) = 0x64;
+        *(s32 *)(param_1 + 0x1C) = 0x80;
+        *(s16 *)(param_1 + 0xF2) = 1;
+        *(s16 *)(param_1 + 0xE2) = (s16)*(u16 *)(param_1 + 0xE2) >> 1;
+        func_8013C9C4(D_80190B88);
+        func_8018AC00((void *)aFC4C[0]);
+        func_8018AC00((void *)D_801EFC54);
+        func_8018AC00((void *)D_801EFC5C);
+        func_8018AC00((void *)D_801EFC60);
+        func_8018AC00((void *)D_801EFC64[0]);
+        func_8018AC00((void *)D_801EFC68);
+        func_8002D4C8(0x907, 0);
+incr:
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+draw:
+        func_8018B9D4(D_801EFC54, *(s32 *)(param_1 + 0xD0));
+        return;
+    case 3:
+        if (*(s16 *)(param_1 + 0x76) == 0) {
+            t = *(u16 *)(param_1 + 0xF6) - 1;
+            *(u16 *)(param_1 + 0xF6) = t;
+            *(s16 *)&D_801EFD28 = (s16)t * 100;
+            func_80183F10();
+            obj = *(s32 *)(param_1 + 0xD0);
+            if (obj != 0) {
+                *(u16 *)(obj + 0x1A) = 0x800;
+                *(u16 *)(obj + 0x18) = 0x800;
+            }
+            func_8018BA9C();
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            if (*(s16 *)(param_1 + 0xF6) == 0) {
+                f = D_801EFD40;
+                *(s32 *)(param_1 + 0x1C) = 8;
+                D_801EFD40 = f | 0x100;
+                return;
+            }
+            *(s32 *)(param_1 + 0x1C) = 0x10;
+            return;
+        }
+        r = ((s32 (*)(s32))func_8012BEE8)((s32)param_1);
+        if (r == 0) {
+            if (((*(s32 *)(param_1 + 0x1C) & 0xF) == 0) && (*(s16 *)(param_1 + 0xF2) != 0)) {
+                *(s16 *)(param_1 + 0xF2) = *(s16 *)(param_1 + 0xF2) - 1;
+                func_8013C9C4(D_80190B88);
+            }
+            func_8018B9D4(D_801EFC54, *(s32 *)(param_1 + 0xD0));
+            if ((*(s32 *)(param_1 + 0x1C) & 1) != 0) {
+                return;
+            }
+            func_80183EA8();
+            return;
+        }
+        goto L_af8;
+    case 4:
+        r = ((s32 (*)(s32))func_8012BEE8)((s32)param_1);
+        if (r != 0) {
+            if (*(s16 *)(param_1 + 0xF6) == 0) {
+                func_80182D34(param_1);
+                return;
+            }
+L_af8:
+            func_80182AF8(param_1);
+            return;
+        }
+        obj = *(s32 *)(param_1 + 0xD0);
+        if (obj != 0) {
+            t = *(u16 *)(obj + 0x18) + 0x600;
+            *(u16 *)(obj + 0x18) = t;
+            *(u16 *)(obj + 0x1A) = t;
+        }
+        func_8018BAC4();
+        return;
+    default:
+        return;
+    }
+}
+
 
 void func_80182AF8(s32 a0) {
     extern void func_80186EBC();

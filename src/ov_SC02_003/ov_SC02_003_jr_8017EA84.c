@@ -3271,6 +3271,144 @@ void func_8017F5E4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017EA84", func_8017F62C);
+// @class: jtbl-carve + switch binary-tree
+// @stuck: none — remapped from the byte-proven twin ov_SC02_000:func_8017F62C (§193-A);
+//   the two .s bodies are instruction-identical (only the jtbl rodata block differs in
+//   extraction). All 16 symbols re-verified against THIS target's own relocation lines.
+//   jtbl_801E69EC = [F7D0, F830, F904, F858, F8B8]; entry 2 aims at the switch-end label,
+//   which is ALSO the out-of-range (sltiu 5) target => `case 2: break;` literally and NO
+//   `default:` clause (cookbook §206.2/§206.3). The 0x70 byte test is the neighbour
+//   func_8017EA84's own spelling ((s32)((u32)*(u16*)(a0+0x70) << 0x10) >> 0x18).
+//   `t == 0 || (t >= 3 && t <= 4)` folds to beqz + addiu -3 + sltiu 2 (build_range_check).
+//   Case 0/case 2 of the first switch are written out identically; gcc cross-jumps their
+//   tails to .L8017F68C by itself (§206.5). The func_8012C51C request block is spelled as
+//   a local anonymous struct so no engine_types.h definition can collide.
+
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern void func_8012B2CC(s32 a0);
+extern s32 func_8012B8E4(s32 arg0, s32 arg1);
+extern s32 func_8012BCCC(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8018A660(s32 a0, s32 a1);
+
+extern u16 D_8018E66C[];
+extern void (*D_8018E6D4[])(void);
+extern u8 D_801A629C;
+extern char D_801A6534[];
+extern char D_801A6754[];
+extern s32 D_801A72C4;
+extern unsigned char D_801A73BC[];
+
+void func_8017F62C(s32 a0)
+{
+    struct {
+        s16 f0, f2, f4, f6, f8, fA, fC, fE;
+        s32 f10;
+    } sp;
+    s16 vec[4];
+    s32 t;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (*(s32 *)(a0 + 0x1C) == 7) {
+            func_8012D5E4(a0, (s32) D_8018E6D4, (s32) &D_8018E6D4[2], 0xB);
+        }
+        break;
+    case 2:
+        if (*(s32 *)(a0 + 0x1C) == 0xA) {
+            func_8012D5E4(a0, (s32) D_8018E6D4, (s32) &D_8018E6D4[2], 0xB);
+        }
+        break;
+    case 3:
+    {
+        s32 p;
+        if (*(s32 *)(a0 + 0x1C) >= 0x19) {
+            s32 r = func_8012B8E4(a0, 4);
+            p = *(s32 *)(a0 + 0x20);
+            *(u16 *)(p + 0x12) = *(u16 *)(p + 0x12) + r;
+        }
+        if (*(s32 *)(a0 + 0x1C) == 0xC) {
+            s32 o;
+            func_8012F214(a0, (s32) D_8018E66C, (s32) &vec[0]);
+            sp.f6 = 0x20;
+            sp.f8 = 2;
+            sp.fA = 0;
+            sp.f10 = 0;
+            sp.fE = 0;
+            sp.f0 = vec[0];
+            sp.f2 = vec[1];
+            sp.f4 = vec[2];
+            sp.fC = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+            o = func_8012C51C(&sp, a0);
+            if (o != 0) {
+                *(u16 *)(*(s32 *)(o + 0x20) + 0x12) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12);
+                func_8012B2CC(o);
+            }
+        } else if (*(s32 *)(a0 + 0x1C) == 0xF) {
+            func_8018A660(a0, (s32) D_8018E66C);
+        }
+        break;
+    }
+    }
+
+    if (func_8012BEE8(a0) != 0) {
+        switch (*(u16 *)(a0 + 0x34)) {
+        case 0:
+            t = (s32) ((u32) *(u16 *)(a0 + 0x70) << 0x10) >> 0x18;
+            if (t == 0 || (t >= 3 && t <= 4)) {
+                if (func_8012BCCC(a0) <= 0x4000) {
+                    *(u16 *)(a0 + 2) = 2;
+                    *(u16 *)(a0 + 0x34) = 1;
+                    func_8012A828(a0, &D_801A629C);
+                    *(s32 *)(a0 + 0x1C) = 0xA;
+                    return;
+                }
+            }
+            break;
+        case 1:
+            *(u16 *)(a0 + 2) = 2;
+            *(u16 *)(a0 + 0x34) = 2;
+            func_8012A828(a0, &D_801A6754);
+            *(s32 *)(a0 + 0x1C) = 0x18;
+            return;
+        case 2:
+            break;
+        case 3:
+            if (++*(u8 *)(a0 + 0x102) >= 3) {
+                *(u8 *)(a0 + 0x102) = 0;
+                *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+                func_8012A828(a0, &D_801A73BC);
+            } else {
+                *(u16 *)(a0 + 2) = 2;
+                *(u16 *)(a0 + 0x34) = 3;
+                func_8012A828(a0, &D_801A72C4);
+            }
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            return;
+        case 4:
+            if (func_8012BEE8(a0) != 0) {
+                if (func_8012BCCC(a0) <= 0x40000) {
+                    *(u16 *)(a0 + 2) = 2;
+                    *(u16 *)(a0 + 0x34) = 3;
+                    func_8012A828(a0, &D_801A72C4);
+                    *(s32 *)(a0 + 0x1C) = 0x1E;
+                }
+            }
+            break;
+        }
+
+        *(u16 *)(a0 + 0x5C) = 0xAA10;
+        *(u16 *)(a0 + 2) = 1;
+        *(u16 *)(a0 + 0x34) = 2;
+        *(u16 *)(a0 + 0x5E) = 0;
+        *(s32 *)(a0 + 0x1C) = 0x1E;
+        func_8012A828(a0, &D_801A6534);
+        *(u16 *)(a0 + 0xFC) = 0;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017EA84", func_8017F950);
