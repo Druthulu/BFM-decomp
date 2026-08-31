@@ -1,0 +1,195 @@
+#!/usr/bin/env python3
+"""gater_lane.py — the CONTINUOUS GATER: drain a drafting wave's finished drafts into
+`parallel_gate`, grouped by binary, while the drafting lane keeps streaming. (P31 S68)
+
+WHY THIS EXISTS (measured S67, and the reason it is finally worth building):
+gating used to be the constraint, so the shape was "draft the whole wave, then gate it". Three S67
+fixes removed that: `-j` on every per-binary build (7.18 s -> 1.18 s, 6.1x), `parallel_gate`'s
+worktree isolation as the DEFAULT (13 fns / 13 binaries in 139 s at 12 workers), and the jtbl
+unlock (`isolate_asm` + splicing the carve state, 19 fns / 14 binaries in 166 s against 58 minutes
+for ONE binary serially). Consumption is now ~5 fns/min against a production rate of roughly one
+draft every 30-90 s — 3-5x headroom — so banking can run continuously alongside drafting.
+
+WHY NOT GATE STRICTLY PER COMPLETION — three measured reasons, all from S67:
+  1. SAME-BINARY DRAFTS MUST SHARE A BUILD. One S67 batch held `ov_SC05_010` x3 and `ov_SC03_105`
+     x2; gating each alone triples that binary's build cost for nothing. So this tool ACCUMULATES:
+     it fires when `--min-drafts` have landed (or when `--drain` says take whatever is there).
+  2. PROPAGATION IS CROSS-BINARY and still a build-per-candidate loop. It stays BATCHED and is NOT
+     run from here (`parallel_gate` workers gate with --no-propagate by design).
+  3. `twin_sweep` AND HARVEST NEED AGGREGATE. `twin_sweep` is a fleet-wide scan; harvest is worse —
+     cookbook §330 existed only because four independent instances appeared in ONE wave. Both stay
+     periodic, driven by the operator, not by this loop.
+
+WHAT IT ASSERTS
+  * a draft is gated at most once — the ledger `.run/gate_lane/ledger.json` is keyed
+    "binary:fn" (R48: NEVER key by bare function name; the same `func_8017BEBC` is a different
+    function in different overlays and a name-keyed ledger silently drops the second one);
+  * a draft whose function is no longer an OPEN stub is dropped with a reason, not gated (it banked
+    by another route — propagation, a twin sweep, a sibling's gate);
+  * a draft whose (binary, fn) cannot be resolved from the wave's own `targets.json` is REFUSED
+    LOUDLY rather than guessed at (R43) — `wave_args.py` already asserted those pairs, so an
+    unresolvable draft means the wave dir and the drafts disagree and a guess would gate the wrong TU;
+  * every count printed carries its denominator (R41).
+
+`--r22` is passed to `parallel_gate` by DEFAULT here. It re-verifies the whole fleet from
+`make clean` after the merge and ABORTS instead of committing a red binary — the guard that would
+have caught S67's "13 of 213 red, every one a jtbl binary" at once. It costs ~2.5 minutes; a red
+binary costs a revert and a re-run. Pass --no-r22 only when you are gating into a tree you have
+another reason to trust.
+
+  tools/gater_lane.py --waves .run/S68o1,.run/S68m1 --min-drafts 3 [--drain] [--workers 12] [--dry]
+"""
+import argparse
+import json
+import os
+import shutil
+import subprocess
+import sys
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(REPO, "tools"))
+import corpus  # noqa: E402
+
+LEDGER = os.path.join(REPO, ".run/gate_lane/ledger.json")
+STAGE = os.path.join(REPO, ".run/gate_lane")
+
+
+def load_ledger():
+    try:
+        with open(LEDGER) as fh:
+            return json.load(fh)
+    except (OSError, ValueError):
+        return {}
+
+
+def save_ledger(d):
+    os.makedirs(os.path.dirname(LEDGER), exist_ok=True)
+    with open(LEDGER, "w") as fh:
+        json.dump(d, fh, indent=1, sort_keys=True)
+
+
+def wave_targets(wave):
+    """{fn: binary} for one wave, from the file wave_args.py already asserted."""
+    with open(os.path.join(REPO, wave, "targets.json")) as fh:
+        return {t["name"]: t["binary"] for t in json.load(fh)}
+
+
+def open_stub(binary, fn, cache={}):
+    if binary not in cache:
+        try:
+            cache[binary] = {s.symbol for s in corpus.stubs(binary).values()}
+        except Exception as e:                       # a refusing oracle is loud, never a silent skip
+            print("  [oracle refused] %s: %r" % (binary, e), file=sys.stderr)
+            cache[binary] = None
+    known = cache[binary]
+    return None if known is None else (fn in known)
+
+
+def collect(waves):
+    """[(binary, fn, path)] for every draft file not yet gated. Refuses unresolvable drafts."""
+    led = load_ledger()
+    out, skipped = [], {"already-gated": [], "already-banked": [], "UNRESOLVED": [], "oracle": []}
+    for wave in waves:
+        tgts = wave_targets(wave)
+        wdir = os.path.join(REPO, wave)
+        for arm in sorted(os.listdir(wdir)):
+            adir = os.path.join(wdir, arm)
+            if not os.path.isdir(adir) or arm in ("packs", "scratch"):
+                continue
+            for name in sorted(os.listdir(adir)):
+                if not name.endswith(".c"):
+                    continue
+                fn = name[:-2]
+                binary = tgts.get(fn)
+                if binary is None:                    # R43: refuse, never guess the TU
+                    skipped["UNRESOLVED"].append("%s/%s/%s" % (wave, arm, name))
+                    continue
+                key = "%s:%s" % (binary, fn)
+                if key in led:
+                    skipped["already-gated"].append(key)
+                    continue
+                st = open_stub(binary, fn)
+                if st is None:
+                    skipped["oracle"].append(key)
+                    continue
+                if not st:
+                    skipped["already-banked"].append(key)
+                    led[key] = "banked-elsewhere"
+                    continue
+                out.append((binary, fn, os.path.join(adir, name)))
+    save_ledger(led)
+    return out, skipped
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--waves", required=True, help="comma-separated wave dirs (repo-relative)")
+    ap.add_argument("--min-drafts", type=int, default=3,
+                    help="do nothing unless at least this many ungated drafts exist (default 3)")
+    ap.add_argument("--drain", action="store_true", help="gate whatever is there, ignoring --min-drafts")
+    ap.add_argument("--workers", type=int, default=12)
+    ap.add_argument("--no-r22", action="store_true", help="skip the post-merge clean-fleet verify (see docstring)")
+    ap.add_argument("--dry", action="store_true", help="print the plan, stage nothing, gate nothing")
+    a = ap.parse_args()
+
+    waves = [w.strip() for w in a.waves.split(",") if w.strip()]
+    ready, skipped = collect(waves)
+    for why, items in skipped.items():
+        if items:
+            print("[gater] skipped %d (%s): %s" % (len(items), why, " ".join(items[:6])))
+    if skipped["UNRESOLVED"]:
+        sys.exit("[gater] ABORT — %d draft(s) do not appear in their wave's targets.json; the wave "
+                 "dir and the drafts disagree and guessing the TU would gate the wrong file (R43)"
+                 % len(skipped["UNRESOLVED"]))
+
+    total_seen = len(ready) + sum(len(v) for v in skipped.values())
+    print("[gater] %d ungated draft(s) of %d seen across %d wave(s)" % (len(ready), total_seen, len(waves)))
+    if not ready:
+        return 0
+    if len(ready) < a.min_drafts and not a.drain:
+        print("[gater] holding — %d < --min-drafts %d (same-binary drafts must share a build)"
+              % (len(ready), a.min_drafts))
+        return 0
+
+    bybin = {}
+    for binary, fn, path in ready:
+        bybin.setdefault(binary, []).append((fn, path))
+    print("[gater] %d fn(s) across %d binaries: %s"
+          % (len(ready), len(bybin), " ".join("%s×%d" % (b, len(v)) for b, v in sorted(bybin.items()))))
+    if a.dry:
+        return 0
+
+    stamp = "%08x" % (abs(hash(tuple(sorted(k for k in bybin)))) & 0xFFFFFFFF)
+    root = os.path.join(STAGE, "batch_%s" % stamp)
+    shutil.rmtree(root, ignore_errors=True)
+    plan = []
+    for binary, items in sorted(bybin.items()):
+        d = os.path.join(root, binary)
+        os.makedirs(d)
+        for fn, path in items:
+            shutil.copyfile(path, os.path.join(d, fn + ".c"))
+        plan.append({"binary": binary, "drafts": d})
+    planp = os.path.join(root, "plan.json")
+    with open(planp, "w") as fh:
+        json.dump(plan, fh, indent=1)
+
+    cmd = [sys.executable, "tools/parallel_gate.py", "--plan", planp,
+           "--workers", str(min(a.workers, len(plan))), "--commit"]
+    if not a.no_r22:
+        cmd.append("--r22")
+    print("[gater] %s" % " ".join(cmd), flush=True)
+    rc = subprocess.run(cmd, cwd=REPO).returncode
+    print("[gater] parallel_gate rc=%d" % rc, flush=True)
+
+    # Ledger the ATTEMPT, not the outcome: a refused draft must not be re-gated unchanged on the
+    # next tick (that is the 0/23 stored-re-gate law from T1 — a fresh verdict needs a fresh fix).
+    led = load_ledger()
+    for binary, fn, _ in ready:
+        led["%s:%s" % (binary, fn)] = "gated:rc%d" % rc
+    save_ledger(led)
+    return rc
+
+
+if __name__ == "__main__":
+    sys.exit(main())
