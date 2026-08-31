@@ -3943,7 +3943,166 @@ s32 param_1;
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017F65C", func_80181164);
+#include "common.h"
+
+#define gte_SetRotMatrix_80181164(r0) __asm__ volatile (  \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix_80181164(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+/* §202 DEF-SIDE ALIAS: this TU declares `extern void func_80181164(void);`
+ * at :4223 for its live caller func_80181DD4 (:4226).  The target's asm
+ * proves an incoming $a0 (`lw $v0, 0x20($a0)` at 0x80181188), so a
+ * `(void)` definition is a `conflicting types` cc1 error.  Define under the
+ * C identifier aF80181164 with __asm__("func_80181164"): the identifiers
+ * never collide, the emitted symbol is unchanged, and the body stays the
+ * byte-verified one (match_one MATCH, 265/265). */
+void aF80181164(void *a0) __asm__("func_80181164");
+
+void aF80181164(void *a0)
+{
+    extern u8   D_801B4CA4[];
+    extern u32  D_801B4CAC[];
+    extern u8   D_801B4CB8[];
+    extern u8   D_801B4CB9[];
+    extern u8   D_801B4CBA[];
+    extern u8   D_801B4CBB[];
+    extern u8   D_801B4CC8[];
+    extern u8   D_801B4CC9[];
+    extern u8   D_801B4CCA[];
+    extern u8   D_801B4CCB[];
+    extern u8   D_801B4CD8[];
+    extern u8   D_801B4CD9[];
+    extern u8   D_801B4CDA[];
+    extern u8   D_801B4CDB[];
+    extern void *func_80010A08(s32);
+    extern s32  func_8005A600(s32, s32, s32, s32, s32);
+    extern s32  GetTPage(s32, s32, s32, s32);
+    extern s32  AddPrim(s32, void *);
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern void RotTransSV(void *a0, void *a1, void *a2);
+    extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+    extern s32  D_800A651C;
+    extern s16  D_800B9A02;
+    extern u8   D_800AF648;
+    extern s32  D_80126950;
+
+    s32 tags[4];      /* sp+0x18 */
+    s16 sv[4];        /* sp+0x28 */
+    s16 xs[8];        /* sp+0x30 */
+    s16 ys[8];        /* sp+0x40 */
+    struct {
+        s32 flag;     /* sp+0x50 */
+        u16 sxy[2];   /* sp+0x54 */
+        s32 pz;       /* sp+0x58 */
+    } o;
+
+    s32 m;
+    void *pv;
+    s32 *pflag;
+    s32 ret;
+    s32 d;
+    s32 e;
+    s32 x;
+    s32 y;
+    s32 ot;
+    u8 *prim;
+    u8 *pp;
+    u8 *base;
+    u32 *pal;
+    s32 i;
+    s32 k;
+
+    m = *(s32 *)((s32)a0 + 0x20) + 0x34;
+    gte_SetRotMatrix_80181164(m);
+    gte_SetTransMatrix_80181164(m);
+
+    pv = (void *)sv;
+    pflag = &o.flag;
+    RotTransSV(D_801B4CA4, pv, pflag);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    ret = RotTransPers((s32)pv, (s32)o.sxy, &o.pz, pflag);
+    if ((ret > 0) && (o.flag >= 0)) {
+        ret = ret * 4;
+        d = ((D_80126950 + 0x1F4) * 48) / ret;
+        x = o.sxy[0];
+        y = o.sxy[1];
+        ot = *(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + ret;
+        e = (d * 179) >> 8;
+
+        xs[2] = x;
+        ys[2] = y;
+        xs[0] = x - d;
+        xs[1] = x - e;
+        xs[3] = x + e;
+        xs[4] = x + d;
+        ys[0] = y - d;
+        ys[1] = y - e;
+        ys[3] = y + e;
+        ys[4] = y + d;
+
+        prim = (u8 *)func_80010A08(0x9C);
+        if (prim != 0) {
+            s32 tp;
+            tp = GetTPage(0, 1, 0, 0);
+            func_8005A600((s32)prim, 0, 0, (u16)tp, 0);
+
+            tags[0] = (s32)(prim + 0xC);
+            pp = prim + 0xC;
+            pal = D_801B4CAC;
+            base = (u8 *)tags;
+            k = 0;
+            tags[1] = (s32)(prim + 0x30);
+            tags[2] = (s32)(prim + 0x54);
+            tags[3] = (s32)(prim + 0x78);
+            do {
+                i = k * 4;
+                *(u32 *)(pp + 0x04) = pal[D_801B4CD8[i]];
+                *(u32 *)(pp + 0x0C) = pal[D_801B4CD9[i]];
+                *(u32 *)(pp + 0x14) = pal[D_801B4CDA[i]];
+                *(u32 *)(pp + 0x1C) = pal[D_801B4CDB[i]];
+                *(u8  *)(pp + 0x03) = 8;
+                *(u8  *)(pp + 0x07) = 0x3A;
+                *(u16 *)(pp + 0x08) = *(u16 *)(base + 0x18 + D_801B4CB8[i] * 2);
+                *(u16 *)(pp + 0x10) = *(u16 *)(base + 0x18 + D_801B4CB9[i] * 2);
+                *(u16 *)(pp + 0x18) = *(u16 *)(base + 0x18 + D_801B4CBA[i] * 2);
+                *(u16 *)(pp + 0x20) = *(u16 *)(base + 0x18 + D_801B4CBB[i] * 2);
+                *(u16 *)(pp + 0x0A) = *(u16 *)(base + 0x28 + D_801B4CC8[i] * 2);
+                *(u16 *)(pp + 0x12) = *(u16 *)(base + 0x28 + D_801B4CC9[i] * 2);
+                *(u16 *)(pp + 0x1A) = *(u16 *)(base + 0x28 + D_801B4CCA[i] * 2);
+                *(u16 *)(pp + 0x22) = *(u16 *)(base + 0x28 + D_801B4CCB[i] * 2);
+                AddPrim(ot, pp);
+                k += 1;
+                pp += 0x24;
+            } while (k < 4);
+            AddPrim(ot, prim);
+        }
+    }
+}
+
 
 
 

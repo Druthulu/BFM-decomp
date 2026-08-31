@@ -3327,7 +3327,199 @@ void func_8017D0EC(s32 *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017D118);
+#include "common.h"
+
+extern void func_8012C1B8(void);
+extern void func_8001C2C4(s32);
+extern s32  func_8012C51C(void *arg0, s32 arg1);
+extern void func_8001C810(s32 a0, s32 a1);
+extern s32  func_8001CA88(s32 a0, void *a1);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_80143994(s32 a0, s32 a1);
+extern s32  func_8012A828(void *a0, void *a1);
+extern void func_800233CC(void *, unsigned short);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8017DF68(void);
+extern void func_8017E6A0(void *a0);
+
+extern s32 D_80190580;
+extern u8  D_8018490C;
+extern s16 D_80198108;
+extern s32 D_801840EC;
+extern s32 D_8019E610;
+extern s32 D_8018445C;
+extern s32 D_801A1CA0;
+extern s32 D_80184724;
+extern s32 D_801A33C0;
+extern s32 D_80180328;
+extern unsigned char D_801A6B00;
+extern unsigned char D_801A6B01;
+extern unsigned char D_801A6B02;
+extern unsigned char D_801A6B04;
+extern unsigned char D_801A6B05;
+extern unsigned char D_801A6B06;
+
+typedef struct {
+    s16 f0;
+    s16 f1;
+    s16 f2;
+    s16 f3;
+    s16 f4;
+    s16 f5;
+    s16 f6;
+    s16 f7;
+    s32 f8;
+} St_8017D118;
+
+void func_8017D118(s32 a0) {
+    St_8017D118 st;
+    s32 state;
+    s32 p2;
+    s32 p3;
+    s32 val;
+    s32 t;
+    unsigned char *pk;
+
+    if (*(s16 *)(a0 + 0x70) & 0x8000) {
+        t = ((s32 (*)(void))func_8012C1B8)();
+        *(s32 *)(a0 + 0x20) = t;
+        if (t == 0) {
+            return;
+        }
+        func_8001C2C4(t);
+        st.f3 = 0x337;
+        st.f5 = 0;
+        st.f6 = 0;
+        st.f7 = 0;
+        st.f8 = 0;
+        if (*(s32 *)(a0 + 0xCC) == 0) {
+            st.f4 = 0;
+            st.f0 = -0x100;
+            st.f1 = -0x202;
+            st.f2 = 0;
+            *(s32 *)(a0 + 0xCC) = func_8012C51C(&st, a0);
+        }
+        if (*(s32 *)(a0 + 0xD4) == 0) {
+            st.f4 = 2;
+            st.f0 = -0xF8;
+            st.f1 = -0x502;
+            st.f2 = 0x60;
+            *(s32 *)(a0 + 0xD4) = func_8012C51C(&st, a0);
+        }
+        if (*(s32 *)(a0 + 0xD0) == 0) {
+            st.f4 = 1;
+            st.f0 = 0x1C0;
+            st.f1 = -0x202;
+            st.f2 = 0x160;
+            *(s32 *)(a0 + 0xD0) = func_8012C51C(&st, a0);
+        }
+        if (*(s32 *)(a0 + 0xD8) == 0) {
+            st.f4 = 3;
+            st.f0 = -0x100;
+            st.f1 = -0x202;
+            st.f2 = 0x60;
+            *(s32 *)(a0 + 0xD8) = func_8012C51C(&st, a0);
+        }
+        if (*(s32 *)(a0 + 0xF8) == 0) {
+            st.f4 = 4;
+            st.f0 = -0x100;
+            st.f1 = -0x202;
+            st.f2 = 0x60;
+            *(s32 *)(a0 + 0xF8) = func_8012C51C(&st, a0);
+        }
+        if (*(s32 *)(a0 + 0xF4) == 0) {
+            st.f4 = 5;
+            st.f0 = -0x100;
+            st.f1 = -0x252;
+            st.f2 = 0x60;
+            *(s32 *)(a0 + 0xF4) = func_8012C51C(&st, a0);
+        }
+        if (*(s32 *)(a0 + 0xCC) != 0 && *(s32 *)(a0 + 0xD0) != 0 &&
+            *(s32 *)(a0 + 0xD4) != 0 && *(s32 *)(a0 + 0xD8) != 0 &&
+            *(s32 *)(a0 + 0xF8) != 0 && *(s32 *)(a0 + 0xF4) != 0) {
+            *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
+        }
+    } else {
+        t = ((s32 (*)(void))func_8012C1B8)();
+        *(s32 *)(a0 + 0x20) = t;
+        if (t == 0) {
+            return;
+        }
+        switch (*(s16 *)(a0 + 0x70)) {
+        case 0:
+            p3 = (s32)&D_80190580;
+            p2 = (s32)&D_8018490C;
+            val = 0xC80;
+            state = 5;
+            break;
+        case 1:
+            p3 = (s32)&D_80198108;
+            p2 = (s32)&D_801840EC;
+            val = 0;
+            state = 6;
+            break;
+        case 2:
+            p3 = (s32)&D_8019E610;
+            p2 = (s32)&D_8018445C;
+            val = 0;
+            state = 7;
+            break;
+        case 3:
+            p3 = (s32)&D_801A1CA0;
+            p2 = (s32)&D_80184724;
+            val = 0;
+            func_8001C810(*(s32 *)(a0 + 0x20), p3);
+            *(s32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x50000000;
+            state = 8;
+            break;
+        case 4:
+            p3 = (s32)&D_801A33C0;
+            p2 = (s32)&D_80180328;
+            val = 0xC00;
+            func_8001C810(*(s32 *)(a0 + 0x20), p3);
+            *(s32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x70000000;
+            state = 9;
+            break;
+        case 5:
+            pk = &D_801A6B00;
+            D_801A6B02 = 0x20;
+            *pk = 0x20;
+            D_801A6B01 = 0x80;
+            D_801A6B04 = D_801A6B05 = D_801A6B06 = 0;
+            func_800233CC(pk, 0x30);
+            func_8001CA88(*(s32 *)(a0 + 0x20), pk);
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = 0x2000;
+            *(s32 *)(*(s32 *)(a0 + 0x20) + 4) |= 0x50000000;
+            val = 0;
+            p2 = 0;
+            state = 0xA;
+            break;
+        case 6:
+            func_8017DF68();
+            func_8017E6A0((void *)a0);
+            func_8002D4C8(0xB90, 0);
+            state = 0xC;
+            break;
+        case 7:
+            func_8001C2C4(*(s32 *)(a0 + 0x20));
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = 0xC00;
+            state = 0xD;
+            break;
+        }
+        if (*(s16 *)(a0 + 0x70) < 6) {
+            if (*(s16 *)(a0 + 0x70) < 3) {
+                func_8001C214(*(s32 *)(a0 + 0x20), p3);
+                func_80143994(a0, 0x3000);
+            }
+            if (p2 != 0) {
+                func_8012A828((void *)a0, (void *)p2);
+            }
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = val;
+        }
+        *(s16 *)(a0 + 2) = state;
+    }
+}
+
 
 void func_8017D588(void *a0) {
     extern s32 func_800149E0(s32);

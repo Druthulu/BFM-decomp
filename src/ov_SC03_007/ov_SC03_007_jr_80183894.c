@@ -3956,7 +3956,171 @@ void func_801848BC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_80184AFC);
+#include "common.h"
+
+extern void func_8012A828(s32 a0, void * a1);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+extern void func_801858D4(s32 a0, s16 a1, s16 a2);
+extern void func_80185948(s16 *a0);
+extern s32 func_8012BB3C(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
+extern s32 func_80185DD8(void);
+extern s32 func_8012BC60(void *a0, void *a1);
+extern s32 func_8012B864(s32 a0);
+extern s32 func_8012BD14(s32 a0);
+extern void func_8012B200(u8 *a0);
+extern void func_80185B48(s32 a0);
+extern s32 func_8012BDBC(s32 a0, s32 a1);
+extern s32 func_80185A24(s32 a0);
+extern unsigned char D_8018C750[];
+extern void (*D_8018C588[])(void);
+extern void (*D_8018C610[])(void);
+extern s32 D_801EB14C;
+
+/*
+ * Three load-bearing details (byte-proven, single-axis A/B, pinned triple):
+ *
+ *  1. `s32 dead[4];`  -- cookbook §162i1/§164-53 dead BLKmode local reserving the
+ *     target's vars area (frame 0x48).  Same device as func_80184E8C above.
+ *
+ *  2. `fire = ret + zr;` with `register s32 zr __asm__("$0");` -- cookbook RC-12's
+ *     pin-free zero-register add.  The target keeps a REAL `addu $v0,$s2,$zero`
+ *     copy of the flag at the join before `beqz $v0` (reorg then steals it into the
+ *     two `bnez`/`beqz` delay slots that branch there, so it is worth +2 ins and
+ *     shifts every branch offset in the tail).  A plain `if (ret != 0)` -- and a
+ *     plain `fire = ret;` temp -- both lose the copy to cse's canon_reg: 226 ins,
+ *     LENGTH-DRIFT/-2, closeness 69.  The `+ zr` add is a real RTL insn cse cannot
+ *     fold away.  Pinning `ret` itself to `$18` instead REGRESSES (closeness 77).
+ *
+ *  3. `ang = -0xE - spd;` hoisted ABOVE the `*(s16 *)(a0 + 0x104) == 0` guard --
+ *     that source position is what makes gcc emit `addiu $v0,$zero,-0xE` early,
+ *     fill the guard's delay slot with `subu $a1,$v0,$s1`, and re-home the
+ *     func_8012B864 result into $a0 (`addu $a0,$v0,$zero`).  Computing it inline at
+ *     the call site instead: OPCODE-MIXED, closeness 12.
+ *     Note the two constants really are different: the 0x12 store takes t - 0x800,
+ *     the func_801858D4 argument takes -0xE - spd.
+ */
+void func_80184AFC(s32 a0) {
+    s32 dead[4];
+    s32 ret;
+    s32 v;
+    s32 spd;
+    s32 t;
+    s16 rc;
+    register s32 zr __asm__("$0");
+    s32 fire;
+
+    ret = 0;
+    if ((*(u16 *)(a0 + 0x5C) & 0x200) != 0) {
+        if ((s16)func_80185DD8() != 0) {
+            *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) & 0xFDFF;
+        }
+    }
+
+    func_80185A24(a0);
+
+    v = *(s32 *)(a0 + 0x1C) - 1;
+    *(s32 *)(a0 + 0x1C) = v;
+    if (v != 0) {
+        if ((v & 3) == 0) {
+            if (func_8012BC60((void *)(a0 + 4), (void *)&D_801EB14C) < 0x900) {
+                *(s32 *)(a0 + 0x1C) = 1;
+            }
+        }
+        if (*(s16 *)(a0 + 0x106) == 0) {
+            s32 r;
+            s32 p;
+            s32 ang;
+            r = func_8012BB3C(a0 + 4, (s32)&D_801EB14C,
+                              *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), 8);
+            p = *(s32 *)(a0 + 0x20);
+            *(u16 *)(p + 0x12) = *(u16 *)(p + 0x12) + r;
+            ang = -6 - *(u16 *)(a0 + 0x104);
+            func_801858D4(a0, (s16)ang, 0);
+        }
+        if (*(s16 *)(a0 + 0x104) != 0) {
+            if (*(s32 *)(a0 + 0x90) == (s32)&D_8018C610 &&
+                (u32)*(s32 *)(a0 + 0x94) < 0xB) {
+                *(s32 *)(a0 + 0x94) = *(s32 *)(a0 + 0x94) + 1;
+            }
+            if ((*(s32 *)(a0 + 0x1C) & 3) == 0) {
+                ret = 1;
+            }
+        }
+    } else {
+        s16 u;
+        func_8012B200((u8 *)a0);
+        func_8012A828(a0, (void *)&D_8018C588);
+        *(s32 *)(a0 + 0x1C) = 0x14 - (*(s16 *)(a0 + 0x104) << 1);
+        if (func_8012BD14(a0) <= 0x23FFF) {
+            *(s16 *)(a0 + 0x102) = 0xA - *(u16 *)(a0 + 0x104);
+        } else {
+            *(s16 *)(a0 + 0x102) = 0;
+        }
+        u = *(s16 *)(a0 + 0x104);
+        if (u != 0) {
+            u = u - 4;
+            *(s16 *)(a0 + 0x104) = u;
+            if (u < 0) {
+                *(s16 *)(a0 + 0x104) = 0;
+            }
+        }
+        *(s16 *)(a0 + 2) = 3;
+    }
+
+    rc = (s16)((s32 (*)(s32))func_80185B48)(a0);
+    if (rc != 0) {
+        if (rc < 0) {
+            return;
+        }
+        if (*(s16 *)(a0 + 0xFE) == 0) {
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = -*(u16 *)(a0 + 0x62);
+            func_801858D4(a0, -0x1E, 0);
+            func_80185948((s16 *)a0);
+            *(s16 *)(a0 + 0x104) = 0xA;
+            ret = 1;
+        } else {
+            *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) & 0xFDFF;
+            func_8012B200((u8 *)a0);
+            func_8012A828(a0, (void *)D_8018C750);
+            *(s32 *)(a0 + 0x1C) = 0x10;
+            *(s16 *)(a0 + 2) = 0xA;
+            return;
+        }
+    } else {
+        s32 d = func_8012BD14(a0);
+        if (d < 0x10000) {
+            spd = 0;
+            if (d >= 0x6400) {
+                spd = (func_8012BDBC(a0, 0x500) != 0) << 2;
+            } else if (d >= 0x2400) {
+                if (func_8012BDBC(a0, 0x680) != 0) {
+                    spd = 7;
+                }
+            } else {
+                spd = 0xA;
+            }
+            if (spd != 0) {
+                s32 ang;
+                func_80185948((s16 *)a0);
+                t = func_8012B864(a0);
+                ang = -0xE - spd;
+                if (*(s16 *)(a0 + 0x104) == 0) {
+                    ret = 1;
+                    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = t - 0x800;
+                }
+                *(s16 *)(a0 + 0x104) = spd;
+                func_801858D4(a0, ang, 0);
+            }
+        }
+    }
+
+    fire = ret + zr;
+    if (fire != 0) {
+        func_80146A6C(2, (void *)a0, 0, 0, 0, 3,
+                      ((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) + 0x800) & 0xFFF) | 0x30009000);
+    }
+}
+
 
 #include "common.h"
 
