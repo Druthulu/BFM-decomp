@@ -1329,7 +1329,83 @@ __asm__(
         ".set\treorder\n"
     ".end\tfunc_8005EAE8\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EB28);
+/*
+ * func_8005EB28 -- the target's epilogue restores TWO callee-saved registers
+ * ($ra and $s0) yet still ends in a bare `jr $ra` / `addiu $sp,$sp,0x18`
+ * delay-slot pair. Per cookbook §188 (gcc-2.7.2 mips.c:5081/5174/5204,
+ * mips_epilogue_delay_slots): cc1 offers the epilogue a delay slot ONLY when
+ * mask == RA_MASK && fmask == 0 (i.e. only $ra saved) -- with $s0 also saved,
+ * that branch is structurally unreachable, so NO C source can make cc1 emit
+ * this tail under the project's pinned `as -O1` (confirmed here with
+ * tools/oracle_reorder.py: bypass+`as -O2` on the ordinary-C draft gives 0
+ * diffs, i.e. the C was already right and only the assembler's schedule pass
+ * was missing). This is the §265 "no -O2 C can ever match" class, form 1:
+ * the whole body is transcribed verbatim as a raw __asm__ block so gcc passes
+ * it through untouched. See src/md_MAIN_003/md_MAIN_003.c:524 (func_800D0440)
+ * for the precedent this follows.
+ */
+__asm__(".text\n.align 2\n.globl func_8005EB28\n.ent\tfunc_8005EB28\n"
+"func_8005EB28:\n.frame $sp,24,$31\n.mask 0x80010000,-4\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"lui   $v1, %hi(D_8007299C)\n"
+"lw    $v1, %lo(D_8007299C)($v1)\n"
+"lui   $v0, %hi(D_800729AC)\n"
+"lw    $v0, %lo(D_800729AC)($v0)\n"
+"addiu $sp, $sp, -24\n"
+"sw    $s0, 16($sp)\n"
+"addu  $s0, $a0, $zero\n"
+"bne   $v1, $v0, .L8005EB88\n"
+" sw   $ra, 20($sp)\n"
+"lui   $v0, %hi(D_80072998)\n"
+"lw    $v0, %lo(D_80072998)($v0)\n"
+"nop\n"
+"beqz  $v0, .L8005EB88\n"
+" nop\n"
+"lui   $v0, %hi(D_8007298C)\n"
+"lw    $v0, %lo(D_8007298C)($v0)\n"
+"nop\n"
+"jalr  $v0\n"
+" nop\n"
+"lui   $v0, %hi(D_80072988)\n"
+"lw    $v0, %lo(D_80072988)($v0)\n"
+"nop\n"
+"jalr  $v0\n"
+" nop\n"
+".L8005EB88:\n"
+"lui   $v0, %hi(D_800729DC)\n"
+"lw    $v0, %lo(D_800729DC)($v0)\n"
+"nop\n"
+"beqz  $v0, .L8005EBCC\n"
+" nop\n"
+"lw    $a0, 12($s0)\n"
+"lui   $v0, %hi(D_80072974)\n"
+"lw    $v0, %lo(D_80072974)($v0)\n"
+"nop\n"
+"jalr  $v0\n"
+" nop\n"
+"lw    $a0, 12($s0)\n"
+"lui   $v0, %hi(D_80072974)\n"
+"lw    $v0, %lo(D_80072974)($v0)\n"
+"nop\n"
+"jalr  $v0\n"
+" addiu $a0, $a0, 240\n"
+".L8005EBCC:\n"
+"lbu   $v0, 54($s0)\n"
+"nop\n"
+"bnez  $v0, .L8005EBE4\n"
+" addu $a0, $s0, $zero\n"
+"j     .L8005EBE8\n"
+" addiu $a1, $zero, 66\n"
+".L8005EBE4:\n"
+"lbu   $a1, 54($s0)\n"
+".L8005EBE8:\n"
+"jal   func_8005DE78\n"
+" nop\n"
+"lw    $ra, 20($sp)\n"
+"lw    $s0, 16($sp)\n"
+"jr    $ra\n"
+" addiu $sp, $sp, 24\n"
+".set\treorder\n.end\tfunc_8005EB28\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EC00);
 
