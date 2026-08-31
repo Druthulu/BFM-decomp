@@ -170,15 +170,34 @@ Stale is worse than absent. Write it for a session that has none of your context
 
 ## Waiting on background work — one trap that costs 40 minutes
 
+`pgrep -f` matches against **every process's full command line, including the waiter's own.**
+
 ```
-until ! pgrep -f "parallel_[g]ate.py" >/dev/null; do sleep 20; done     # RIGHT
-until ! pgrep -f "parallel_gate.py"   >/dev/null; do sleep 20; done     # WRONG — matches itself
+until ! pgrep -f "parallel_gate.py"   >/dev/null; do sleep 20; done   # WRONG — matches itself
+until ! pgrep -f "parallel_[g]ate.py" >/dev/null; do sleep 20; done   # better, but NOT sufficient
 ```
 
-`pgrep -f` matches the waiter's OWN command line. In S67 a waiter spun for 40 minutes waiting for
-itself and the gate never started. **The tell: an empty log plus zero `ps` hits means NEVER STARTED,
-not "buffered".** The bracket makes the pattern match the target but not the literal text in the
-waiter. Same hazard, from the other side, killed two lane helpers in S60.
+**THE BRACKET IS NOT ENOUGH IF YOU LAUNCH AND WAIT IN ONE SHELL.** Measured twice in S67:
+
+1. A waiter using the bare pattern matched its own shell and spun **40 minutes** while
+   `parallel_gate` never started.
+2. A waiter using the *bracketed* pattern ALSO spun — for **1 h 35 m** — because the same shell
+   command had launched the job, so its command line contained the UNBRACKETED text too:
+   `nohup … tools/gate_stage.py --binary ov_SC07_007 … ; until ! pgrep -f "gate_[s]tage.py --binary ov_SC07_007"`
+   The regex `gate_[s]tage.py` does not match the literal `gate_[s]tage.py`, but it matches the
+   `gate_stage.py` sitting in the launch half of the very same line.
+
+**THE RULE: launch and wait in SEPARATE shell invocations.** Launch in one call, return, then wait
+in another whose command line never names the target unbracketed. Better still, wait on a
+CONDITION the job itself produces — a completion marker in its log — rather than on process
+liveness:
+
+```
+until grep -q "R22 rc=" .run/<job>.log 2>/dev/null; do sleep 30; done
+```
+
+**The tell for both failures: an empty log plus zero `ps` hits means NEVER STARTED, not "buffered".**
+Same hazard, from the other side, killed two lane helpers in S60.
 
 Any long-running tool you write must **stream** its progress (R55). `gate_wave.py` initially captured
 both lanes and printed at the end, leaving a zero-byte log for the whole run — indistinguishable from
