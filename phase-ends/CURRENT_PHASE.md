@@ -3754,3 +3754,97 @@ single compile. Read the banked function 20 lines away BEFORE reasoning about co
 ### LEDGERS
 `.run/S67_findings.md` (F1-F11, with the three claims I withdrew), `.run/S67_strand.json`,
 `.run/S67_verdicts.json`, `.run/S67_jtbl_probe.json`, `.run/S67_gate_cc1.log`, `.run/S67_pgate.log`.
+
+## 🛑 SESSION CHECKPOINT — S67 FINAL-3 (2026-08-31, end of session). SUPERSEDES every earlier block in this file, including S67 FINAL-2 (which stopped at 29 closed / 526 — the burst and the parallel gates came after it). Phase 31 T5 CONTINUES.
+
+**STATE:** `make clean && extract-all && check-all` = **213 passed, 0 failed of 213** (run by
+`parallel_gate --r22` itself before it would commit). Tree clean, all lanes stopped, 48 commits this
+session. Drew pushes (R6). `ghidra/` churn is MCP noise — never commit it.
+**FRONTIER 530 -> 453 · 77 CLOSED**, measured from `corpus.stubs`.
+
+### THE HEADLINE: BANKING WAS THE BOTTLENECK, AND IT IS FIXED
+Drafting was never the problem — ~60 single-function opus workflows returned **36 MATCH + 1 NEAR,
+zero agent errors**, on 187-297-instruction targets. Banking took the whole session. Three fixes,
+all measured:
+
+1. **`-j` ON EVERY `make build` — 6.1x.** A per-binary build is ~35 objects and was SINGLE-THREADED
+   (7.18 s -> 1.18 s, byte-identical). `JOBS ?= 16` in the Makefile is parallelism ACROSS binaries
+   (`xargs -P`) — a DIFFERENT knob, which is why this hid: the code *looked* parallel.
+   Patched `harvest_verify` (runs once PER DRAFT), `dedup_propagate.byte_gate`, `family_sweep`
+   (so `twin_sweep` gets it), `rollout_o0`, `restore_dropped_decls`. **0 sites remain without `-j`.**
+2. **`parallel_gate` IS THE DEFAULT.** 13 fns/13 binaries in **139 s** (12 workers). I wasted ~1 hour
+   hand-rolling a serial loop over 16 binaries to protect ONE jtbl draft.
+3. **jtbl NOW PARALLELISES — and it took TWO fixes, not one.** 19 fns / 14 binaries / **166 s**,
+   0 refusals, R22-verified. Against **58 minutes for a SINGLE jtbl binary** serially earlier.
+
+### THE jtbl FIX, IN FULL (do not repeat the half-version)
+The codebase said a carve could not run in a worktree. Both halves are required:
+* **(a) `isolate_asm()`** — `harvest_verify`'s carve runs `make extract` and a worktree's `asm/` is a
+  SYMLINK to the main tree. `asm/` is 448 MB but ONE binary's subtree is **3.6-5.0 MB**, so give a
+  carving job per-binary symlinks plus a real COPY of the single binary it carves. Applied PER JOB
+  (worker slots are reused), gated by the same jtbl predicate `harvest_verify` carves on.
+* **(b) MERGE THE CARVE STATE.** A carve writes THREE outputs and the merge must carry all three:
+
+    | output | scope | handling |
+    |---|---|---|
+    | `src/<bin>/*.c` | per-binary | adopted like any bank |
+    | `config/splat.<bin>.yaml` | per-binary | adopt whole, baseline-checked |
+    | `config/overlays.mk` | **SHARED** | splice ONLY this binary's block |
+
+  **I shipped (a) alone and declared victory. R22 then failed 13 of 213 — every one a jtbl binary
+  from that run.** The bodies merged and the carve config did not, so the C referenced a carve the
+  config never described. Reverted `commit:3396`, fixed with `ovl_block()`/`splice_ovl_block()` (cut on
+  the `# --- <binary> (...) ---` headers so two workers edit DISJOINT regions), rerun clean.
+  The tell that it worked: **32 files merged instead of 18.**
+* **ALWAYS run a jtbl gate with `--r22`** — it aborts on a non-green fleet instead of committing red
+  binaries. That flag is what turned this from a recurring risk into a proven fix.
+
+### OPEN — FIRST THING NEXT SESSION
+**DEDUP PROPAGATION HAS NOT RUN FOR TODAY'S 32 PARALLEL-GATE BANKS.** `parallel_gate` workers gate
+with `--no-propagate` by design, so any banked body shared across sibling overlays has NOT spread.
+Deferred, not lost. Batch it, then R22.
+
+### AGREED PLAN FOR NEXT SESSION (Drew)
+* **OPEN AT CONCURRENCY 5** single-function workflows; Drew monitors usage and raises from there.
+  Do NOT resume at the high-water mark (S67 ran 12 -> 5 -> 20 -> 12 -> 20 -> a 30 burst).
+* **CONTINUOUS GATER LANE.** Drafting streams; a gater drains the queue, groups by binary, fires
+  `parallel_gate`. Measured headroom: production ~1 draft/30-90 s vs consumption ~5 fns/min = 3-5x.
+  Accumulate 3-5 drafts or ~60 s before firing (same-binary drafts must share a build).
+  `twin_sweep` every ~10 banks; harvest every ~10 fns; propagation BATCHED; R22 after any propagating
+  run. Details in the `continuous-gater-lane-plan` memory.
+
+### KNOWLEDGE BANKED
+**Cookbook 354 -> 383 sections (+29).** The ones that change how functions get cracked:
+§322 (a probe answering a necessary-not-sufficient question prices blocked work as free — 96 of 159
+open jtbl fns are plan-refused), §330 (the NEIGHBOUR-SHAPE lever, 4 instances in one wave),
+§333 (frame size is set by DECLARED aggregates — an unused trailing local is a dial),
+§340 (a "scheduler" residual can be sched.c's ALIAS ORACLE inventing a false edge — reverse it, don't
+fight it), §343 (the fleet decl MAJORITY can be wrong; read the rivals — void×1374 vs the true
+s32×163), §347+§350 (loop/regalloc/sched are driven by COUNTS: one variable per purpose; a second
+assignment or reference is a first-class dial), **§352 (two identical zero-byte barriers MERGE WITH
+EACH OTHER — spell the second differently)**, §353 (`-fno-thread-jumps` as a pass-identification
+oracle).
+**New tools:** `seed_ref.py` (validated on a live A/B: the same body cost 102k tokens / 476 s without
+the twin hint and 72k / 135 s with it), `strand_census.py`, `gate_wave.py`, `restore_dropped_decls.py`,
+`o0_detect.py`, honest `jtbl_carve --probe`.
+**New docs:** `docs/wave-playbook.md` (the CURRENT procedure, each guard paired with the measurement
+that produced it); `docs/automation-runbook.md` retitled HISTORICAL (it documented the retired
+OpenRouter era under the title "as it actually runs").
+
+### MISTAKES WORTH NOT REPEATING (all mine, all measured)
+* Hand-typed a streaming refill target -> invented `func_80184F60`, the 2nd instruction of an
+  already-matched function. **58k tokens.** Every payload comes from `<wave>/wf_args.json`.
+* A `pgrep -f` waiter matched its own shell and spun **40 minutes**; the bracket fix was then
+  insufficient because the same shell had LAUNCHED the job. Launch and wait in SEPARATE invocations,
+  `setsid nohup ... & disown`.
+* A `sleep 120` in the launching call hit the 2-minute tool timeout and **discarded 8 completed jtbl
+  carves** (shared process group).
+* Extrapolated "9 x 30 min" from ONE 33-minute propagation sample. One slow binary is not a rate.
+* Claimed "the gate was pointed at the wrong TU" and killed a running loop on it — `--src` is never
+  defaulted and `harvest_verify` derives each draft's TU. The code said so in comments I had not read.
+
+### LEDGERS
+`.run/S67_findings.md` (F1-F11 incl. 3 withdrawn claims), `.run/S67_strand.json`,
+`.run/S67_verdicts.json`, `.run/S67_jtbl_probe.json`, `.run/S67_walls.txt` (6 toolchain-wall fns),
+`.run/S67_seed_refs.json` (87 open stubs with a banked twin; 41 in the refusal ledger),
+`.run/S67_jtbl_fixed.log`.
