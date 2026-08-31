@@ -3327,10 +3327,7 @@ DEFINE_func_8017BEE0()  /* dedup: shared engine-core @0x8017BEE0 (src/shared) */
 
 
 
-extern void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-    void func_8017BF08(void *a0, void *a1, s32 a2, s32 a3) {
-        ((void (*)(void *, void *, s32, s32))func_8017BF34)(a0, a1, (s16)a2, (s16)a3);
-    }
+DEFINE_func_8017BF08()  /* dedup: shared engine-core @0x8017BF08 (src/shared) */
 
 
 #include "common.h"
@@ -3360,65 +3357,13 @@ void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 
-void func_8017BFBC(s32 a0, s32 a1) {
-    extern u8 D_801202A0[];
-    u8 *p;
-    s16 i;
-
-    p = D_801202A0;
-    for (i = 0; i < 0x60; i++) {
-        if (*(u16 *)p == 0x6B) {
-            *(s32 *)(p + 0xD4) = a0;
-            *(s32 *)(p + 0xD8) = a1;
-            return;
-        }
-        p += 0x10C;
-    }
-}
+DEFINE_func_8017BFBC()  /* dedup: shared engine-core @0x8017BFBC (src/shared) */
 
 
-void func_8017C010(s32 a0, s32 a1, s32 a2) {
-
-    extern u8 D_801202A0[];
-    u8 *p;
-    short i;
-
-    p = D_801202A0;
-    for (i = 0; i < 0x60; i++) {
-        if (*(u16 *)p == 0x6B) {
-            *(s16 *)(p + 0x70) = a2;
-            *(s32 *)(p + 0xD4) = a0;
-            *(s32 *)(p + 0xD8) = a1;
-            return;
-        }
-        p += 0x10C;
-    }
-}
+DEFINE_func_8017C010()  /* dedup: shared engine-core @0x8017C010 (src/shared) */
 
 
-void func_8017C068(void) {
-
-    extern u8 D_801202A0[];
-    extern void func_80016714(void *a0, s32 a1);
-    extern void func_8012C218(void *a0);
-    u8 *p;
-    short i;
-
-    p = D_801202A0;
-    for (i = 0; i < 0x60; i++) {
-        if (*(u16 *)p == 0x6B) {
-            if (*(s32 *)(p + 0xCC) != 0) {
-                func_80016714(*(void **)(p + 0xCC), 0x38);
-            }
-            if (*(s32 *)(p + 0xD0) != 0) {
-                func_80016714(*(void **)(p + 0xD0), 0x38);
-            }
-            func_8012C218(p);
-            return;
-        }
-        p += 0x10C;
-    }
-}
+DEFINE_func_8017C068()  /* dedup: shared engine-core @0x8017C068 (src/shared) */
 
 
 

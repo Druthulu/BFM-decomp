@@ -83408,6 +83408,68 @@
         } \
     }
 
+#define DEFINE_func_8017BF08() \
+    extern void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
+        void func_8017BF08(void *a0, void *a1, s32 a2, s32 a3) { \
+            ((void (*)(void *, void *, s32, s32))func_8017BF34)(a0, a1, (s16)a2, (s16)a3); \
+        }
+
+#define DEFINE_func_8017BFBC() \
+    void func_8017BFBC(s32 a0, s32 a1) { \
+        extern u8 D_801202A0[]; \
+        u8 *p; \
+        s16 i; \
+        p = D_801202A0; \
+        for (i = 0; i < 0x60; i++) { \
+            if (*(u16 *)p == 0x6B) { \
+                *(s32 *)(p + 0xD4) = a0; \
+                *(s32 *)(p + 0xD8) = a1; \
+                return; \
+            } \
+            p += 0x10C; \
+        } \
+    }
+
+#define DEFINE_func_8017C010() \
+    void func_8017C010(s32 a0, s32 a1, s32 a2) { \
+        extern u8 D_801202A0[]; \
+        u8 *p; \
+        short i; \
+        p = D_801202A0; \
+        for (i = 0; i < 0x60; i++) { \
+            if (*(u16 *)p == 0x6B) { \
+                *(s16 *)(p + 0x70) = a2; \
+                *(s32 *)(p + 0xD4) = a0; \
+                *(s32 *)(p + 0xD8) = a1; \
+                return; \
+            } \
+            p += 0x10C; \
+        } \
+    }
+
+#define DEFINE_func_8017C068() \
+    void func_8017C068(void) { \
+        extern u8 D_801202A0[]; \
+        extern void func_80016714(void *a0, s32 a1); \
+        extern void func_8012C218(void *a0); \
+        u8 *p; \
+        short i; \
+        p = D_801202A0; \
+        for (i = 0; i < 0x60; i++) { \
+            if (*(u16 *)p == 0x6B) { \
+                if (*(s32 *)(p + 0xCC) != 0) { \
+                    func_80016714(*(void **)(p + 0xCC), 0x38); \
+                } \
+                if (*(s32 *)(p + 0xD0) != 0) { \
+                    func_80016714(*(void **)(p + 0xD0), 0x38); \
+                } \
+                func_8012C218(p); \
+                return; \
+            } \
+            p += 0x10C; \
+        } \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -196218,6 +196280,68 @@
         if (func_80146E98(param) != 0) { \
             v0 = *(u16 *)(param + 0x2); \
             *(s16 *)(param + 0x2) = v0 + 1; \
+        } \
+    }
+
+#define DEFINE_func_8017BF08() \
+    extern void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3); \
+        void func_8017BF08(void *a0, void *a1, s32 a2, s32 a3) { \
+            ((void (*)(void *, void *, s32, s32))func_8017BF34)(a0, a1, (s16)a2, (s16)a3); \
+        }
+
+#define DEFINE_func_8017BFBC() \
+    void func_8017BFBC(s32 a0, s32 a1) { \
+        extern u8 D_801202A0[]; \
+        u8 *p; \
+        s16 i; \
+        p = D_801202A0; \
+        for (i = 0; i < 0x60; i++) { \
+            if (*(u16 *)p == 0x6B) { \
+                *(s32 *)(p + 0xD4) = a0; \
+                *(s32 *)(p + 0xD8) = a1; \
+                return; \
+            } \
+            p += 0x10C; \
+        } \
+    }
+
+#define DEFINE_func_8017C010() \
+    void func_8017C010(s32 a0, s32 a1, s32 a2) { \
+        extern u8 D_801202A0[]; \
+        u8 *p; \
+        short i; \
+        p = D_801202A0; \
+        for (i = 0; i < 0x60; i++) { \
+            if (*(u16 *)p == 0x6B) { \
+                *(s16 *)(p + 0x70) = a2; \
+                *(s32 *)(p + 0xD4) = a0; \
+                *(s32 *)(p + 0xD8) = a1; \
+                return; \
+            } \
+            p += 0x10C; \
+        } \
+    }
+
+#define DEFINE_func_8017C068() \
+    void func_8017C068(void) { \
+        extern u8 D_801202A0[]; \
+        extern void func_80016714(void *a0, s32 a1); \
+        extern void func_8012C218(void *a0); \
+        u8 *p; \
+        short i; \
+        p = D_801202A0; \
+        for (i = 0; i < 0x60; i++) { \
+            if (*(u16 *)p == 0x6B) { \
+                if (*(s32 *)(p + 0xCC) != 0) { \
+                    func_80016714(*(void **)(p + 0xCC), 0x38); \
+                } \
+                if (*(s32 *)(p + 0xD0) != 0) { \
+                    func_80016714(*(void **)(p + 0xD0), 0x38); \
+                } \
+                func_8012C218(p); \
+                return; \
+            } \
+            p += 0x10C; \
         } \
     }
 

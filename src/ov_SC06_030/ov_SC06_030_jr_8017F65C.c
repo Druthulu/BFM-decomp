@@ -2845,7 +2845,97 @@ void func_8017F65C(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017F65C", func_8017F98C);
+#include "common.h"
+
+/* Local, uniquely-suffixed spellings of the shared PsyQ layouts so this draft
+ * compiles standalone AND cannot collide with engine_types.h's MATRIX/SVECTOR
+ * when it is banked into src/ov_SC06_030/ov_SC06_030_jr_8017F65C.c
+ * (that TU pulls ../shared/engine_core.h -> engine_types.h). Layouts identical:
+ *   MATRIX  0x20: m@0x00 (3x3 shorts), pad@0x12, t@0x14 (3 longs)
+ *   SVECTOR 0x08: vx,vy,vz,pad                                            */
+typedef struct { short m[3][3]; long t[3]; } MATRIX_8017F98C;
+typedef struct { short vx, vy, vz, pad; } SVECTOR_8017F98C;
+
+extern void func_8001C2C4(s32 a0);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32  func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+
+void func_8017F98C(s32 a0) {
+
+    extern void (*D_80185D80[])(void);
+    extern u8  D_80185D60;
+    extern u8  D_80185D68;
+    extern u16 D_801B9F00;
+    extern u16 D_801B9F08;
+    extern u16 D_80126B96;
+    extern s16 D_80126B66;
+    /* One aggregate = the whole 0xA0 locals region (sp+0x10 .. sp+0xB0), so the
+     * unread holes survive -O2 (they are frame slots the target reserves). */
+    struct {
+        u8                buf[0x10];   /* sp+0x10  func_8001C2C4 scratch */
+        SVECTOR_8017F98C  ang;         /* sp+0x20 */
+        u8                pad0[0x1C];  /* -> sp+0x44 */
+        MATRIX_8017F98C   m;           /* sp+0x44 */
+        u8                pad1[0x34];  /* -> sp+0x98 */
+        SVECTOR_8017F98C  v1;          /* sp+0x98 */
+        SVECTOR_8017F98C  v2;          /* sp+0xA0 */
+        SVECTOR_8017F98C  out;         /* sp+0xA8 */
+    } L;
+    s32 p;
+    u16 *q;
+    s16 *r;
+
+    D_80185D80[*(u16 *)(a0 + 2)]();
+    if (*(u16 *)a0 != 0) {
+        if (*(u16 *)(a0 + 2) < 7) {
+            func_8001C2C4((s32)L.buf);
+            /* §195-I: the in-place bump is a SECOND SET of p, which is what stops
+             * cse's find_best_addr folding 0x84 into every following displacement
+             * and deleting the `addiu $s0,$s0,0x84`. (`p = ... + 0x84;` is -1 ins.) */
+            p = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x20);
+            p += 0x84;
+            L.ang.vx = *(u16 *)(p + 6);
+            L.ang.vy = *(u16 *)(p + 8);
+            L.ang.vz = *(u16 *)(p + 0xA);
+            func_80049CAC((s32)&L.ang, (s32)&L.m);
+            L.m.t[0] = *(s16 *)(p + 0);
+            L.m.t[1] = *(s16 *)(p + 2);
+            L.m.t[2] = *(s16 *)(p + 4);
+            func_8004914C(&L.m);
+            func_800491AC(&L.m);
+            RotTransSV(&D_80185D60, &L.v1, &L.out);
+            RotTransSV(&D_80185D68, &L.v2, &L.out);
+            func_8012F14C(*(s32 *)(a0 + 0x20) + 0x34, (s32)&L.v1, (s32)&D_801B9F00);
+            func_8012F14C(*(s32 *)(a0 + 0x20) + 0x34, (s32)&L.v2, (s32)&D_801B9F08);
+            if (func_8012D5E4(a0, (s32)&L.v1, (s32)&L.v2, 0x96) != 0) {
+                q = &D_80126B96;
+                *q |= 0x4000;
+            }
+            if (*(u16 *)(a0 + 2) >= 2) {
+                r = &D_80126B66;
+                if (*r < -0x1FD) {
+                    *r = -0x1FD;
+                }
+            }
+        }
+        if (*(s16 *)(a0 + 0xE) < -0x1FD) {
+            *(s16 *)(a0 + 0xE) = -0x1FD;
+        }
+        if (*(s16 *)(a0 + 0xE) >= 0x1FE) {
+            *(s16 *)(a0 + 0xE) = 0x1FD;
+        }
+        if (*(u8 *)(a0 + 0xC2) != 0) {
+            if (--*(u8 *)(a0 + 0xC2) == 0) {
+                *(u16 *)(a0 + 0x5C) = 0x8800;
+            }
+        }
+    }
+}
+
 
 extern u8 * func_8012913C(s32 a0);
 extern s32 rand(void);
