@@ -100,7 +100,32 @@ still open **at draw time**.
 Streaming **burns the 5-hour window faster** (it removes the idle gaps), so slots are the budget
 dial. Model routing: ≤50 ins Sonnet · 51–120 Sonnet · >120 Opus. Never Haiku→Opus directly.
 
-## 6. Gate — split on jtbl, run both lanes at once
+## 6. Gate — EVERYTHING PARALLEL. There is no serial lane.
+
+```
+python3 tools/parallel_gate.py --plan plan.json --workers 12 --commit
+      # plan.json: [{"binary": "...", "drafts": "/abs/path"}, ...]
+```
+
+**MEASURED S67, and this is the bar:**
+
+| lane | result |
+|---|---|
+| non-jtbl | **13 banked / 13 binaries / 139 s** (12 workers) |
+| jtbl | **19 banked / 14 binaries / 188 s** (8 workers), 0 refusals |
+| the same jtbl work, serially, earlier that day | **58 minutes for ONE binary** |
+
+**jtbl used to be serial-only** because `harvest_verify`'s carve runs `make extract` and a worktree's
+`asm/` is a symlink to the main tree — a carving worker would rewrite shared asm. `isolate_asm()`
+fixes it: `asm/` is 448 MB but ONE binary's subtree is **3.6-5.0 MB**, so a carving job gets
+per-binary symlinks plus a real copy of the single binary it carves (~5 MB/worker). It is applied
+PER JOB because worker slots are reused, and gated by the same jtbl predicate `harvest_verify`
+carves on.
+
+**If you are writing `for b in binaries: gate_stage ...`, STOP.** That loop is the hour-long mistake
+this section exists to prevent.
+
+### 6b. (historical) split on jtbl, run both lanes at once
 
 ```
 python3 tools/gate_wave.py --drafts <dir> --workers 8 --commit [--r22]
@@ -116,7 +141,8 @@ python3 tools/gate_wave.py --drafts <dir> --workers 8 --commit [--r22]
   through the symlink and writes the MAIN tree while other workers read it. "Run everything parallel
   and re-run the failures" can poison the whole batch.
 * Measured cost of getting this wrong: I gated **16 binaries serially to protect ONE jtbl draft** —
-  about an hour for what should have taken minutes.
+  about an hour for what should have taken minutes. **`gate_wave.py`'s split is now an optimisation
+  (same-binary drafts share a build), NOT a safety requirement.**
 
 ## 7. After ANY bank
 
@@ -186,6 +212,10 @@ until ! pgrep -f "parallel_[g]ate.py" >/dev/null; do sleep 20; done   # better, 
    `nohup … tools/gate_stage.py --binary ov_SC07_007 … ; until ! pgrep -f "gate_[s]tage.py --binary ov_SC07_007"`
    The regex `gate_[s]tage.py` does not match the literal `gate_[s]tage.py`, but it matches the
    `gate_stage.py` sitting in the launch half of the very same line.
+
+**LAUNCH DETACHED:** `setsid nohup <cmd> > log 2>&1 < /dev/null & disown`. A plain `nohup` child
+shares the launching shell's PROCESS GROUP, so the harness killing that shell on its timeout kills
+the job too — measured S67: a `sleep 120` in the launching call discarded **8 completed jtbl carves**.
 
 **THE RULE: launch and wait in SEPARATE shell invocations.** Launch in one call, return, then wait
 in another whose command line never names the target unbracketed. Better still, wait on a
