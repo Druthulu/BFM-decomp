@@ -68,6 +68,14 @@ def save_ledger(d):
         json.dump(d, fh, indent=1, sort_keys=True)
 
 
+# Escalation supersedes: a function drafted by several arms is staged from the HIGHEST tier that
+# produced a draft. Without this the arm dirs are walked alphabetically ("fable" < "opus" <
+# "sonnet") and the staging copy silently OVERWRITES, so a sonnet NEAR would replace the fable MATCH
+# that was escalated to rescue it — the escalation's whole product, lost to a directory listing
+# order. Measured live in S68 on main/func_800241C0 (sonnet closeness 19, fable MATCH).
+ARM_RANK = {"fable": 40, "opus": 30, "sonnet": 20, "v3": 15, "haiku": 10}
+
+
 def wave_targets(wave):
     """{fn: binary} for one wave, from the file wave_args.py already asserted."""
     with open(os.path.join(REPO, wave, "targets.json")) as fh:
@@ -89,6 +97,7 @@ def collect(waves):
     """[(binary, fn, path)] for every draft file not yet gated. Refuses unresolvable drafts."""
     led = load_ledger()
     out, skipped = [], {"already-gated": [], "already-banked": [], "UNRESOLVED": [], "oracle": []}
+    best, seen_arms = {}, {}
     for wave in waves:
         tgts = wave_targets(wave)
         wdir = os.path.join(REPO, wave)
@@ -116,15 +125,57 @@ def collect(waves):
                     skipped["already-banked"].append(key)
                     led[key] = "banked-elsewhere"
                     continue
-                out.append((binary, fn, os.path.join(adir, name)))
+                cand = (ARM_RANK.get(arm, 0), arm, binary, fn, os.path.join(adir, name))
+                cur = best.get(key)
+                if cur is None or cand[0] > cur[0]:
+                    best[key] = cand
+                seen_arms.setdefault(key, []).append(arm)
+    for key, (_, arm, binary, fn, path) in sorted(best.items()):
+        arms = seen_arms.get(key, [])
+        if len(arms) > 1:                       # never resolve a collision silently (R43)
+            print("[gater] %s drafted by %s — staging the %s draft (highest tier wins)"
+                  % (key, "/".join(sorted(arms)), arm))
+        out.append((binary, fn, path))
     save_ledger(led)
     return out, skipped
+
+
+def collect_extra(pairs, skipped):
+    """[(binary, fn, path)] for drafts that do not come from a wave (twin remaps, recovery output).
+
+    The binary must be stated, never inferred: a draft file is named `func_XXXXXXXX.c` and that name
+    is ambiguous across the fleet (R48), so there is nothing in the path to infer it from safely.
+    """
+    led = load_ledger()
+    out = []
+    for spec in pairs:
+        if ":" not in spec:
+            sys.exit("[gater] --extra wants BINARY:PATH, got %r" % spec)
+        binary, path = spec.split(":", 1)
+        if not os.path.exists(path):
+            sys.exit("[gater] --extra path does not exist: %s" % path)
+        fn = os.path.basename(path)[:-2] if path.endswith(".c") else os.path.basename(path)
+        key = "%s:%s" % (binary, fn)
+        if key in led:
+            skipped["already-gated"].append(key); continue
+        st = open_stub(binary, fn)
+        if st is None:
+            skipped["oracle"].append(key); continue
+        if not st:
+            skipped["already-banked"].append(key); led[key] = "banked-elsewhere"; continue
+        out.append((binary, fn, path))
+    save_ledger(led)
+    return out
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--waves", required=True, help="comma-separated wave dirs (repo-relative)")
+    ap.add_argument("--waves", default="", help="comma-separated wave dirs (repo-relative)")
+    ap.add_argument("--extra", action="append", default=[], metavar="BINARY:PATH",
+                    help="a draft from OUTSIDE a wave: 'ov_SC06_032:.run/S68_twin/drafts/ov_SC06_032/func_X.c'. "
+                         "Repeatable. The binary is given EXPLICITLY because there is no targets.json to "
+                         "assert it against, and a guessed binary gates the wrong TU (R43/R48).")
     ap.add_argument("--min-drafts", type=int, default=3,
                     help="do nothing unless at least this many ungated drafts exist (default 3)")
     ap.add_argument("--drain", action="store_true", help="gate whatever is there, ignoring --min-drafts")
@@ -134,7 +185,10 @@ def main():
     a = ap.parse_args()
 
     waves = [w.strip() for w in a.waves.split(",") if w.strip()]
+    if not waves and not a.extra:
+        sys.exit("[gater] nothing to do — give --waves and/or --extra")
     ready, skipped = collect(waves)
+    ready.extend(collect_extra(a.extra, skipped))
     for why, items in skipped.items():
         if items:
             print("[gater] skipped %d (%s): %s" % (len(items), why, " ".join(items[:6])))
