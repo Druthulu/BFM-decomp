@@ -27,6 +27,8 @@ import re
 import subprocess
 import sys
 
+_BJOBS = int(os.environ.get('BFM_BUILD_JOBS') or (os.cpu_count() or 8))   # -j: a per-binary build is ~35 objects and was SERIAL (6.1x measured, S67)
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UNDECL = re.compile(r"^(src/\S+\.c):(\d+): `(\w+)' undeclared")
 
@@ -78,7 +80,7 @@ def main():
     total = 0
     prev_want = None
     for rnd in range(1, a.max_rounds + 1):
-        r = sh(["make", "build", "BINARY=" + a.binary], timeout=3600)
+        r = sh(["make", "-j%d" % _BJOBS, "build", "BINARY=" + a.binary], timeout=3600)
         out = (r.stdout or "") + (r.stderr or "")
         if r.returncode == 0:
             print("build GREEN after %d round(s), %d declaration(s) restored" % (rnd - 1, total))

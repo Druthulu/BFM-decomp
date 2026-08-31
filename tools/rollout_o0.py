@@ -48,6 +48,8 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "tools"))
 import family_remap as FR  # noqa: E402
 
+_BJOBS = int(os.environ.get('BFM_BUILD_JOBS') or (os.cpu_count() or 8))   # -j: a per-binary build is ~35 objects and was SERIAL (6.1x measured, S67)
+
 EX_OV = "ov_SC01_077"
 WHALE_HDR = "shared/func_80144B9C.h"
 
@@ -79,7 +81,7 @@ def build_ok(ov):
     with open(lock_path, "w") as lk:
         import fcntl
         fcntl.flock(lk, fcntl.LOCK_EX)
-        r = subprocess.run(["make", "build", f"BINARY={ov}"], cwd=REPO,
+        r = subprocess.run(["make", "-j%d" % _BJOBS, "build", f"BINARY={ov}"], cwd=REPO,
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         out = os.path.join(REPO, f"build/{ov}/{ov}")
         return r.returncode == 0 and os.path.exists(out) and sha1(out) == good_sha(ov)

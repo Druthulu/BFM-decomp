@@ -1,3 +1,4 @@
+import os
 #!/usr/bin/env python3
 """Phase-25 T7 — the MECHANICAL family sweep (the endgame's economic engine).
 
@@ -33,6 +34,8 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
 import corpus   # the derived corpus oracle (Phase 26-A)
 import cdecl    # the coverage-asserting C-declaration parser (Phase 26-A) — used by _merge_sig
+
+_BJOBS = int(os.environ.get('BFM_BUILD_JOBS') or (os.cpu_count() or 8))   # -j: a per-binary build is ~35 objects and was SERIAL (6.1x measured, S67)
 PY = ".venv/bin/python"
 _OV_LOCKS = __import__("collections").defaultdict(_th.Lock)   # two splits of ONE overlay build the same binary
 SWEEP = ".run/sweep"
@@ -839,7 +842,7 @@ def hseq_sweep(a):
         # so byte-identity is recovered; count the members failed. The whole-binary gate stays the arbiter.
         if "MISMATCH" in (r.stdout or "") and src_rel in tu_snapshots:
             open(os.path.join(REPO, src_rel), "w").write(tu_snapshots[src_rel])
-            sh(["make", "build", f"BINARY={ov}"], timeout=1200)
+            sh(["make", "-j%d" % _BJOBS, "build", f"BINARY={ov}"], timeout=1200)
             print(f"  {ov} [{os.path.basename(src_rel)}]: ⚠ self-decl edit NON-NEUTRAL — reverted TU, 0/{len(fns)} banked")
             failed[ov] += len(fns)
             continue
