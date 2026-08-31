@@ -31,6 +31,12 @@ ap.add_argument('fn')
 ap.add_argument('--split', required=True, help='split basename, e.g. ov_SC01_077_after')
 ap.add_argument('--c', required=True, help='candidate C (the function def; may lead with //@EDIT lines)')
 ap.add_argument('--source', default='ov_SC01_077')
+ap.add_argument('--tu', default=None,
+                help="the split's real TU path (e.g. a corpus Stub.path). PREFER THIS over "
+                     "--source/--split: main's sources are LOOSE FILES in src/ (src/800.c), not "
+                     "src/<binary>/<split>.c, so the reconstruction below is overlay-only and "
+                     "silently builds a nonsense path for main (measured S68: src/800.c/800.c). "
+                     "Pass the path you already have and nothing has to be reconstructed.")
 ap.add_argument('--asm-subdir', default=None)
 ap.add_argument('--work', default='.run/crack3/rtu')
 ap.add_argument('--o0', action='store_true')
@@ -53,7 +59,17 @@ def _flush_errlog():
             f.write('### %s\n%s\n' % (stage, err))
 atexit.register(_flush_errlog)
 
-SPLIT_SRC = 'src/%s/%s.c' % (a.source, a.split)
+# THE TU PATH. --tu wins when given (see its help); otherwise reconstruct the OVERLAY layout.
+# A reconstruction that names a path which does not exist is REFUSED here rather than handed to cpp,
+# because cpp's "No such file" surfaces as a CPP FAIL and reads as a broken draft (R43/R40).
+SPLIT_SRC = a.tu or ('src/%s/%s.c' % (a.source, a.split))
+if not os.path.exists(SPLIT_SRC):
+    sys.exit('rtu_match: TU %r does not exist (from %s). main keeps its sources as LOOSE FILES in '
+             'src/, so --source/--split cannot address them — pass --tu <path> instead.'
+             % (SPLIT_SRC, 'the --tu you passed' if a.tu else '--source/--split reconstruction'))
+# -I for the split's relative `#include "../shared/..."`: the TU's own directory, which is src/ for
+# main and src/<binary>/ for an overlay.
+SRC_INCDIR = os.path.dirname(SPLIT_SRC) or 'src'
 ASM_SUBDIR = a.asm_subdir or ('asm/%s/nonmatchings/%s' % (a.source, a.split))
 CPP='mipsel-linux-gnu-cpp'; CC1='tools/bin/gcc-2.7.2-psx/cc1'
 MASPSX='tools/maspsx/maspsx.py'; AS='mipsel-linux-gnu-as'; PY='.venv/bin/python'
@@ -134,7 +150,7 @@ def _fail(stage, p, tail):
     _flush_errlog()
     sys.exit(1)
 # -Isrc/<source> so the split's relative `#include "../shared/..."` resolves from the temp dir
-p = pipe('CPP', [CPP]+CPPFLAGS+['-Isrc/%s'%a.source, '-DINCLUDE_ASM(a,b)=', '%s/t.c'%wd])
+p = pipe('CPP', [CPP]+CPPFLAGS+['-I'+SRC_INCDIR, '-DINCLUDE_ASM(a,b)=', '%s/t.c'%wd])
 if p.returncode: _fail('CPP', p, 1500)
 p = pipe('CC1', [CC1]+CC1FLAGS, p.stdout)
 if p.returncode: _fail('CC1', p, 2000)

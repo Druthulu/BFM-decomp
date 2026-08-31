@@ -192,8 +192,16 @@ def cc1_verdict(fn, stub, draft_path, work):
     split = os.path.splitext(os.path.basename(stub.path))[0]
     wd = os.path.join(work, fn)
     err = os.path.join(wd, 'err.txt')
+    # PASS THE TU PATH **AND THE ASM SUBDIR**, do not reconstruct either. `stub.path.split('/')[1]` is the overlay layout
+    # (src/<binary>/<split>.c); for main the sources are LOOSE FILES in src/, so that expression
+    # yields '800.c' as the "source dir" and rtu_match built src/800.c/800.c. Every main draft came
+    # back ERR with an empty detail — indistinguishable from a bad draft (measured S68, 4 of 4).
+    # The asm subdir has the SAME defect one layer down: rtu_match derives
+    # `asm/<source>/nonmatchings/<split>` and produced `asm/src/nonmatchings/800`, while main's real
+    # subdir is `asm/nonmatchings/800`. The Stub already carries both facts; reconstruct neither.
     cmd = [PY, os.path.join(HERE, 'rtu_match.py'), fn,
-           '--split', split, '--source', stub.path.split('/')[1],
+           '--split', split, '--source', stub.path.split('/')[1], '--tu', stub.path,
+           '--asm-subdir', stub.asm_dir,
            '--c', draft_path, '--work', wd, '--stderr-out', err, '--maxdiff', '4']
     if corpus.is_o0(stub.path):
         cmd.append('--o0')
