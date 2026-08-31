@@ -3060,7 +3060,139 @@ void func_80180428(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8017FCB0", func_8018046C);
+// @class: struct
+// @stuck: none — MATCH (158/158). Structural twin of the banked ov_SC01_077 func_80182A24
+//   (src/ov_SC01_077/ov_SC01_077_jr_80182268.c:3365), remapped symbol-for-symbol against THIS .s:
+//   func_8018301C->func_80180A64, func_80182988->func_801803D0, func_801829E0->func_80180428,
+//   func_80184ED8->func_8018A660, D_8018AA6C->D_8018E66C, D_801AFDD0->D_801A6344. The only reason
+//   the prior stranded draft was cc1-FAIL is that it inherited the twin's *enclosing TU* decl
+//   environment implicitly: `struct Prim`, rand, func_801803D0, func_80180428 were undeclared.
+//   Levers carried from the twin's note: (1) switch(s32 st34) {0,1,2} -> beq==1/slti<2/beq==2
+//   decision tree; (2) struct Prim {s16 f0..fE; s32 f10} + s16 buf[4] gives prim@sp+0x10,
+//   buf@sp+0x28 byte-exact, store order f6,f8,fA,f10,fE,f0,f2,f4,fC; (3) the uninitialised $s0
+//   flag CFG needs the explicit compute/flag_zero goto labels (p==0 leaves flag live-undefined);
+//   (4) `d=-d; flag=d<0x20` written twice so bgez keeps slti in its delay slot and retargets past
+//   the copy; (5) 0xAA10 stored through u16 -> ori (an s16 store gives addiu -22000);
+//   (6) the zero-byte __asm__ memory barrier after the 0x102 store forces `c & 0xff` (not the sb)
+//   into the `jal rand` delay slot.
+#include "common.h"
+
+struct Prim { s16 f0, f2, f4, f6, f8, fA, fC, fE; s32 f10; };
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32  func_8012C51C(void *a0, s32 a1);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32  rand(void);
+extern void func_801803D0(int param_1);
+extern void func_80180428(int param_1);
+
+void func_8018046C(s32 arg0) {
+    extern s32 func_8012E544(s32 a0);
+    extern void func_80180A64(s32 param_1);
+    extern s32 func_8018A660(s32 a0, s32 a1);
+    extern s32 D_8018E66C[];
+    extern s32 D_801A6344;
+
+    s32 cond;
+    s32 flag;
+    s32 d;
+    u16 mode;
+    s32 st34;
+
+    mode = *(u16 *)(arg0 + 0x70);
+    cond = 1;
+    if ((u32)(mode - 0x505) >= 2) {
+        cond = ((mode & 0xff00) == 0x700);
+    }
+    if (cond == 0) {
+        goto flag_zero;
+    }
+    cond = func_8012E544(0x298);
+    if (cond == 0) {
+        goto lab_ab0;
+    }
+    if (*(u16 *)(cond + 2) == 2) {
+        goto compute;
+    }
+flag_zero:
+    flag = 0;
+    goto lab_ab0;
+compute:
+    d = *(s16 *)(cond + 0xe) - *(s16 *)(arg0 + 0xe);
+    flag = (d < 0x20);
+    if (d < 0) {
+        d = -d;
+        flag = (d < 0x20);
+    }
+lab_ab0:
+    if (flag != 0) {
+        func_80180A64(arg0);
+        return;
+    }
+
+    st34 = *(u16 *)(arg0 + 0x34);
+    switch (st34) {
+    case 0:
+        if (*(u16 *)(arg0 + 0x72) & 0x4000) {
+            s32 c = *(u8 *)(arg0 + 0x102) + 1;
+            *(u8 *)(arg0 + 0x102) = c;
+            __asm__ __volatile__("" ::: "memory");
+            if ((((s32(*)())rand)() & 1) < (c & 0xff)) {
+                ((void(*)(s32))func_801803D0)(arg0);
+            }
+        }
+        break;
+    case 1: {
+        s32 s1c = *(s32 *)(arg0 + 0x1c);
+        if (s1c == 0xc) {
+            struct Prim sp;
+            s16 buf[4];
+            s32 tv0;
+            func_8012F214(arg0, (s32)&(*(s32 *)&D_8018E66C), (s32)buf);
+            sp.f6 = 0x20;
+            sp.f8 = 2;
+            sp.fA = 0;
+            sp.f10 = 0;
+            sp.fE = 0;
+            sp.f0 = buf[0];
+            sp.f2 = buf[1];
+            sp.f4 = buf[2];
+            sp.fC = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
+            tv0 = func_8012C51C(&sp, arg0);
+            if (tv0 != 0) {
+                *(u16 *)(*(s32 *)(tv0 + 0x20) + 0x12) = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
+                func_8012B2CC(tv0);
+            }
+        } else if (s1c == 0xf) {
+            func_8018A660(arg0, (s32)&(*(s32 *)&D_8018E66C));
+        }
+        if (func_8012BEE8(arg0) != 0) {
+            s32 c = *(u8 *)(arg0 + 0x102) + 1;
+            *(u8 *)(arg0 + 0x102) = c;
+            if ((u32)(c & 0xff) >= 3) {
+                ((void(*)(s32))func_80180428)(arg0);
+                return;
+            }
+            *(s32 *)(arg0 + 0x1c) = 0x1e;
+            return;
+        }
+        break;
+    }
+    case 2:
+        if (*(u16 *)(arg0 + 0x72) & 0x4000) {
+            *(s16 *)(arg0 + 2) = 0xb;
+            *(u16 *)(arg0 + 0x34) = 0;
+            *(s16 *)(arg0 + 0x5e) = 0;
+            *(u16 *)(arg0 + 0x5c) = 0xaa10;
+            func_8012A828(arg0, &D_801A6344);
+            *(u8 *)(arg0 + 0x102) = 0;
+        }
+        break;
+    }
+}
+
 
 extern void func_8012B178(s32 a0, s32 a1);
 extern void func_8012AD80(s32 a0);
