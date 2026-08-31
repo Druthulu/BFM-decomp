@@ -101,7 +101,23 @@ def _gate1(binary, src, asm, out, good_sha, d, verified_out=None, failed_out=Non
     cmd = [PY, "tools/harvest_verify.py", "--binary", binary]
     if src:
         cmd += ["--src", src]
-    sh(cmd + ["--out", out, "--good-sha", good_sha, "--drafts", d, "--chunk", "1",
+    # --out / --good-sha ONLY when a caller explicitly set them. harvest_verify already holds the
+    # authoritative per-binary map (its own comment: "the Makefile and config/check.<bin>.sha
+    # already state these facts; do not keep a second copy") AND refuses loudly when it cannot
+    # derive them. Synthesising `build/<bin>/<bin>` + `config/check.<bin>.sha` here bypassed both:
+    # for main those are `build/main/main` (never exists) and `config/check.main.sha` (never
+    # exists), so sha1(out) was None and good_sha silently fell back to DEF_SHA — ov_SC01_077's
+    # hash. EVERY main draft was therefore compared against a DIFFERENT BINARY'S SHA, auto-failed
+    # and reverted regardless of the build, and reported as "near": indistinguishable from a real
+    # codegen residual. Measured S68: 3 main drafts proven byte-perfect in the real link
+    # (2 of 413,696 bytes differ, both a pre-existing baseline defect) reported {"banked":0,
+    # "near":3}. This is the same defect the 2026-07-22 comment below fixed on the CLI path and
+    # left alive here (R33: derive it once, in the tool that owns the fact).
+    if out:
+        cmd += ["--out", out]
+    if good_sha:
+        cmd += ["--good-sha", good_sha]
+    sh(cmd + ["--drafts", d, "--chunk", "1",
               "--verified-out", vo, "--failed-out", fo], timeout=7200)
     vp = os.path.join(REPO, vo)
     return [w for w in (open(vp).read().split() if os.path.exists(vp) else []) if w.startswith("func_")]
@@ -215,8 +231,10 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # grinder's own 1,298 queued functions UNBANKABLE however good the permuter's output was.
     # Note the negative control below already globs every split .c: this function knew the right
     # answer and then handed the gate the wrong file. Pass src ONLY to deliberately restrict to one TU.
-    out = out or f"build/{binary}/{binary}"
-    good_sha = (good_sha or _check_sha(binary) or DEF_SHA).split()[0]
+    # NO SYNTHESIS HERE — see _gate1. Both defaults were WRONG for main and the DEF_SHA fallback
+    # gated it against ov_SC01_077's hash. Pass whatever the caller set (normalised) and let
+    # harvest_verify derive the rest or refuse.
+    good_sha = good_sha.split()[0] if good_sha else None
     draft_fns = sorted(os.path.basename(p)[:-2] for p in
                        glob.glob(os.path.join(REPO, drafts, "*.c")))
     if not draft_fns:
@@ -628,7 +646,10 @@ def main():
     summary = run_gate(a.drafts, binary=b,
                        src=a.src,
                        asm=a.asm_subdir or f"asm/{b}/nonmatchings/{b}",
-                       out=a.out or f"build/{b}/{b}",
+                       out=a.out,   # NOT `or f"build/{b}/{b}"` — main's image is
+                                    # build/us/SLUS_007.26 (Makefile main_OUT), so the synthesised
+                                    # path never existed and sha1() of it was None. Same class as
+                                    # the DEF_SHA bug noted just below, one argument over.
                        # NOT `a.good_sha or DEF_SHA` (fixed 2026-07-22). DEF_SHA is ov_SC01_077's
                        # hash, and passing it as a TRUTHY default made run_gate's per-binary
                        # `good_sha or _check_sha(binary)` lookup DEAD CODE on every CLI invocation:
