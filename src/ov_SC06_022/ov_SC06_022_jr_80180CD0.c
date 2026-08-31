@@ -3257,7 +3257,52 @@ void func_801815CC(s32 param_1) {
 void func_8018165C(void) {
 }
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80180CD0", func_80181664);
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_80180CB0(s32 arg0);
+
+void func_80181664(s32 param_1)
+{
+    s32 v1;
+
+    v1 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = v1;
+    if (v1 == 0) {
+        ((void (*)(s32))func_8012CAE4)(param_1);
+        return;
+    }
+
+    *(u16 *)v1 = 1;
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 2) = 9;
+
+    switch (*(s16 *)(param_1 + 0x70)) {
+    case 0:
+        *(s32 *)(param_1 + 0x6C) = func_8012C658(0x2F9, 2, *(s32 *)(param_1 + 0x64));
+        break;
+
+    case 1:
+        *(s32 *)(param_1 + 0x6C) = func_8012C658(0x2F9, 3, *(s32 *)(param_1 + 0x64));
+        break;
+
+    case 2:
+    case 3:
+        *(s32 *)(param_1 + 0x6C) =
+            func_8012C658(0x2F9, *(s16 *)(param_1 + 0x70) + 2, param_1);
+        break;
+
+    case 4:
+    case 5:
+        *(s32 *)(param_1 + 0xD0) = func_8012C658(0x2F9, 6, param_1);
+        break;
+
+    case 6:
+    default:
+        break;
+    }
+    func_80180CB0(param_1);
+}
+
 
 extern void func_801809D4();
 
