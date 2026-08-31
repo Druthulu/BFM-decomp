@@ -83593,6 +83593,16 @@
         } \
     }
 
+#define DEFINE_func_800CAE78() \
+    extern s32 func_80161104(void); \
+    extern void func_800CAEC0(u8 *a0); \
+    void func_800CAE78(u8 *a0) { \
+        if (func_80161104()) { \
+            func_800CAEC0(a0); \
+            *(u8 *)(a0 + 0x197) = *(u8 *)(a0 + 0x197) + 1; \
+        } \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -196588,6 +196598,16 @@
                 AddPrim(D_800A651C[(u16)D_800B9A02].a + (iVar2 * 4), iVar1); \
                 iVar1 = (u8 *)iVar1 + 0x14; \
             } while (iVar6 < 0x1000); \
+        } \
+    }
+
+#define DEFINE_func_800CAE78() \
+    extern s32 func_80161104(void); \
+    extern void func_800CAEC0(u8 *a0); \
+    void func_800CAE78(u8 *a0) { \
+        if (func_80161104()) { \
+            func_800CAEC0(a0); \
+            *(u8 *)(a0 + 0x197) = *(u8 *)(a0 + 0x197) + 1; \
         } \
     }
 

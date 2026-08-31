@@ -1,4 +1,5 @@
 #include "common.h"
+#include "../shared/engine_core.h"
 
 extern s32 func_800183E0(s32 *a0);
 void func_800CAE0C(void) {
@@ -18,14 +19,7 @@ void func_800CAE34(void *a0) {
 }
 
 
-extern s32 func_80161104(void);
-extern void func_800CAEC0(u8 *a0);
-void func_800CAE78(u8 *a0) {
-    if (func_80161104()) {
-        func_800CAEC0(a0);
-        *(u8 *)(a0 + 0x197) = *(u8 *)(a0 + 0x197) + 1;
-    }
-}
+DEFINE_func_800CAE78()  /* dedup: shared engine-core @0x800CAE78 (src/shared) */
 
 
 extern s32 D_800CBAC0[];
