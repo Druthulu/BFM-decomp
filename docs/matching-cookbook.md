@@ -31452,3 +31452,33 @@ not a `break` (it jumps to the epilogue); the else arm must store `0xE0` in BOTH
 merges the `sh` at the join, using an `s16` local, which yields the un-coalesced `addu $v1,$v0,$zero`
 and stops `reorg` stealing the decrement; struct-member spelling (`MEM_IN_STRUCT_P`) defeats a false
 alias against an unrelated store; `s16 buf[3]` gives the 0x38 frame (§333).
+
+## §351 — `/s` (MEM_IN_STRUCT_P) IS A DIAL YOU CHOOSE PER ACCESS: A COMPONENT_REF GRANTS IT AND LETS cse KEEP AN INDEX ACROSS THE STORE; A PLAIN CAST DENIES IT (P31 S67; ov_SC01_000/func_8017DD04, 186 -> 5)
+
+Two accesses to the same packet, opposite requirements — and the spelling is what decides:
+* the **tag word** must be a plain cast, `*(u32*)pkt = (*(u32*)pkt & 0xFF000000) | ot->addr;`.
+  Spelling it as a `P_TAG` COMPONENT_REF grants `/s`, which lets cse keep an unrelated index live
+  across the store — **−13 instructions**.
+* the **OT side** must STAY a `P_TAG` bitfield, or the trailing `D_800A5E60 = pkt` stops floating.
+
+So `/s` is not a property of the object, it is a property of **how you wrote that one access**. Cf.
+§340, where `/s` was the escape that was *unreachable*; here it is the thing to avoid on one line and
+keep on the next.
+
+**Two more spellings from the same function:**
+* `(u16)D_800B9A02` — NOT `*(u16*)&D_800B9A02`. The ADDR_EXPR form makes cse hold the base in a
+  register: 8 × `lui/lhu` collapses to 1 × `lui/addiu` + 4 × `lhu`.
+* **The base-split (byte-proven, previously undocumented):** spell the FIRST read off the raw symbol
+  (`(s32)D_800AA60C + idx` → `lui $at / addu / lw %lo`), then assign `ob = D_800AA60C;` and route
+  every later reference through `ob` (→ `addu $x,$idx,$t2 / lw 0($x)`). Exactly the 3-instruction
+  shape §348 describes, applied deliberately per-reference.
+
+**OPEN, with the door named (do not re-grind blindly):** the last 5 are a prologue `li`-block
+SCHEDULE-REORDER *caused by the pins that fixed the registers*. Pinning `0x80` makes `(set (reg 7)
+128)` a HARD-REG set, which `sched1` ranks by successor count (12 `sb` uses) and hoists to idx 10;
+the target has all pseudos at sched1 and emits them in source/first-use order (`li $a3,0x80` at idx
+14). Refuted: pinning the other 4 prologue constants (still 5), hand-writing the mask via a pinned
+var (+3), a non-bitfield COMPONENT_REF (+3 and an `$s0` spill), an m24/mFF pin pair (+3).
+**The only remaining door is the allocno-priority route** — make `0xFFFFFF` outrank `0x80` with NO
+pin (lreg: refs 9/len 173 vs refs 13/len 320), which needs a zero-byte ref/live-length edit. That is
+a §344-shaped problem and the next attempt should start there, not at the pins.
