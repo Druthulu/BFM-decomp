@@ -6461,7 +6461,275 @@ done:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80184564);
+#include "common.h"
+
+/* func_80184564 -- ov_SC06_029 / ov_SC06_029_jr_8017C954
+ *
+ * BANK NOTE: this TU already declares Blk8_801828E4 / D_801DDB48 (func_801828E4),
+ * Vec8_80183D84 / D_801DFE94 (func_80183D84), D_801DFD38, D_800AF648, D_800D3918,
+ * D_801152A8, RotTransSV, func_8012EA90/8012B70C/8012F568/80135888 and the whole
+ * gte_* macro block above func_80181DF8 -- drop the duplicated spellings when banking.
+ *
+ * FRAME (sp 0xB8): 0x00..0x18 outgoing args -- func_8012F568 takes SIX s32s, and it is
+ * that 0x18-byte (not 0x10) arg area that fixes m at sp+0x18 and sv at sp+0x38.  `flag`
+ * lands at sp+0x60, i.e. 0x28 past sv, so sv is FIVE SVECTORs even though only sv[0..3]
+ * are ever touched (gcc-2.7.2 expand_decl gives every fixed-size aggregate a slot -- the
+ * same `s32 pad_m[8]` effect noted on func_80181DF8 in this TU).
+ */
+
+
+
+typedef struct { s16 vx, vy, vz, pad; } SVec_80184564;
+
+/* (entity->0x58 & 0xFFFFFFF) | 0x80000000 -- see func_80182BC8's Box_80182BC8:
+ * the %lo(D_8000000N) tokens in the .s are plain byte offsets, not real symbols. */
+typedef struct {
+    s16 unused0;  /* 0x0 */
+    s16 unused2;  /* 0x2 */
+    s16 min_x;    /* 0x4 */
+    s16 max_x;    /* 0x6 */
+    s16 min_y;    /* 0x8 */
+    s16 max_y;    /* 0xA */
+    s16 min_z;    /* 0xC */
+    s16 max_z;    /* 0xE */
+} Box_80184564;
+
+extern Blk8_801828E4 D_801DDB48;
+extern Vec8_80183D84 D_801DFE94[];
+extern u8  D_800D3918[];
+extern u8  D_801152A8[];
+extern u8  D_800AF648;
+extern s32 D_801DFD38[];
+
+extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32  func_8012B70C(s16 *a0, s16 *a1);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void func_80184C68(u8 *v, s32 idx);
+extern void func_80184E6C(s32 *a0, s32 *a1);
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (          \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_ldclmv(r0) __asm__ volatile (                \
+    "lhu $12, 0( %0 );"                                  \
+    "lhu $13, 6( %0 );"                                  \
+    "lhu $14, 12( %0 );"                                 \
+    "mtc2 $12, $9;"                                      \
+    "mtc2 $13, $10;"                                     \
+    "mtc2 $14, $11"                                      \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_rtir() __asm__ volatile ("nop;nop;mvmva 1, 0, 3, 3, 0")
+#define gte_stclmv(r0) __asm__ volatile (                \
+    "mfc2 $12, $9;"                                      \
+    "mfc2 $13, $10;"                                     \
+    "mfc2 $14, $11;"                                     \
+    "sh $12, 0( %0 );"                                   \
+    "sh $13, 6( %0 );"                                   \
+    "sh $14, 12( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14", "memory" )
+#define gte_ldlv0(r0) __asm__ volatile (                 \
+    "lhu $13, 4( %0 );"                                  \
+    "lhu $12, 0( %0 );"                                  \
+    "sll $13, $13, 16;"                                  \
+    "or $12, $12, $13;"                                  \
+    "mtc2 $12, $0;"                                      \
+    "lwc2 $1, 8( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13" )
+#define gte_rt() __asm__ volatile ("nop;nop;mvmva 1, 0, 0, 0, 0")
+#define gte_stlvnl(r0) __asm__ volatile (                \
+    "swc2 $25, 0( %0 );"                                 \
+    "swc2 $26, 4( %0 );"                                 \
+    "swc2 $27, 8( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+
+void func_80184564(s32 param_1)
+{
+    s32 m[8];               /* sp+0x18 -- MATRIX: s16 rot[3][3] @0x00, s32 t[3] @0x14 */
+    SVec_80184564 sv[5];    /* sp+0x38 -- only [0..3] used; see FRAME note above */
+    s32 flag;               /* sp+0x60 */
+    Box_80184564 *box;
+    SVec_80184564 *p;
+    SVec_80184564 *q;
+    Vec8_80183D84 *r;
+    s32 t, tt, tz;
+    s32 d, w, z;
+    s32 i, j, off;
+
+    func_8012EA90(param_1, 0, m);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    t = *(u32 *)(param_1 + 0x58) & 0xFFFFFFF;
+    sv[0].vx = -0x28;
+    sv[0].vy = -0x28;
+    tt = *(s32 *)(param_1 + 0xE0);
+    sv[1].vx = 0x28;
+    sv[1].vy = 0x28;
+    sv[0].vz = tt - 0x177;
+    sv[1].vz = *(s32 *)(param_1 + 0xE4) - 0x177;
+    box = (Box_80184564 *)(t | 0x80000000);
+    RotTransSV(&sv[0], &sv[0], &flag);
+    RotTransSV(&sv[1], &sv[1], &flag);
+
+    if (sv[0].vx > sv[1].vx) {
+        box->max_x = sv[0].vx;
+        box->min_x = sv[1].vx;
+    } else {
+        box->max_x = sv[1].vx;
+        box->min_x = sv[0].vx;
+    }
+    if (sv[0].vy > sv[1].vy) {
+        box->max_y = sv[0].vy;
+        box->min_y = sv[1].vy;
+    } else {
+        box->max_y = sv[1].vy;
+        box->min_y = sv[0].vy;
+    }
+    if (sv[0].vz > sv[1].vz) {
+        box->max_z = sv[0].vz;
+        box->min_z = sv[1].vz;
+    } else {
+        box->max_z = sv[1].vz;
+        box->min_z = sv[0].vz;
+    }
+
+    *(Blk8_801828E4 *)&sv[0] = D_801DDB48;
+    p = &sv[0];
+    if (func_80135888(*(s32 *)(param_1 + 0x20), *(s32 *)(param_1 + 0x58),
+                      (s32)((char *)&D_801DDB48 - 8), (s32)p) != 0) {
+        func_8012F568(1, 0x4001,
+                      func_8012B70C((s16 *)D_800D3918, (s16 *)D_801152A8),
+                      0x78, (s32)p, (s32)D_801152A8);
+    }
+
+    gte_SetRotMatrix(*(s32 *)(param_1 + 0x20) + 0x34);
+    gte_ldclmv((s16 *)m);
+    gte_rtir();
+    gte_stclmv((s16 *)m);
+    gte_ldclmv((s16 *)m + 1);
+    gte_rtir();
+    gte_stclmv((s16 *)m + 1);
+    gte_ldclmv((s16 *)m + 2);
+    gte_rtir();
+    gte_stclmv((s16 *)m + 2);
+    gte_SetTransMatrix(*(s32 *)(param_1 + 0x20) + 0x34);
+    gte_ldlv0(&m[5]);
+    gte_rt();
+    gte_stlvnl(&m[5]);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    /* Four evenly-spaced points up the entity's height.  INDEXING BY `i` (not by a
+     * walking SVec pointer) is what puts vx/vy/vz on ONE address register: with `i` as
+     * the biv every one of &sv[i], +2, +4 is a mult-8 giv and combine_givs folds them
+     * into a single reg (offsets 0/2/4).  A pointer biv instead leaves +0 on the biv and
+     * builds a SECOND register for {+2,+4} -- one extra insn and a whole-loop reshuffle. */
+    i = 0;
+    d = *(s32 *)(param_1 + 0xE0) - *(s32 *)(param_1 + 0xE4);
+    w = d >> 2;
+    z = d >> 3;
+    do {
+        sv[i].vy = 0;
+        sv[i].vx = 0;
+        tz = *(s32 *)(param_1 + 0xE4) - 0x177;
+        sv[i].vz = z + tz;
+        RotTransSV(&sv[i], &sv[i], &flag);
+        z += w;
+        i++;
+    } while (i < 4);
+
+    q = &sv[0];
+    func_80184E6C(*(s32 **)(param_1 + 0xCC), (s32 *)q);
+    func_80184E6C(*(s32 **)(param_1 + 0xD0), (s32 *)&sv[1]);
+    func_80184E6C(*(s32 **)(param_1 + 0xD4), (s32 *)&sv[2]);
+    func_80184E6C(*(s32 **)(param_1 + 0xD8), (s32 *)&sv[3]);
+    if (*(s16 *)(param_1 + 0xFE) != -1) {
+        sv[0].vy = 0;
+        sv[0].vx = 0;
+        sv[0].vz = *(s32 *)(param_1 + 0xE0) - 0x177;
+        RotTransSV(q, (void *)(D_801DFD38[*(s16 *)(param_1 + 0xFE)] + 8), &flag);
+    }
+
+    gte_SetRotMatrix(&D_800AF648);
+    gte_ldclmv((s16 *)m);
+    gte_rtir();
+    gte_stclmv((s16 *)m);
+    gte_ldclmv((s16 *)m + 1);
+    gte_rtir();
+    gte_stclmv((s16 *)m + 1);
+    gte_ldclmv((s16 *)m + 2);
+    gte_rtir();
+    gte_stclmv((s16 *)m + 2);
+    gte_SetTransMatrix(&D_800AF648);
+    gte_ldlv0(&m[5]);
+    gte_rt();
+    gte_stlvnl(&m[5]);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    /* Two 8-quad strips off D_801DFE94 (0x48 = 9 vertices per strip).  Here the walking
+     * POINTER is right: `r` is a biv bumped mid-body, so r->vx stays on the biv and
+     * {r->vy, r->vz} share one giv reg addressed -0x2/0x0 -- the target's two-register
+     * shape.  `j++` must sit AFTER the call: before it, its zero-priority insn is
+     * scheduled ahead of the two argument set-ups instead of between them. */
+    i = 0;
+    off = 0;
+    do {
+        r = (Vec8_80183D84 *)((s32)D_801DFE94 + off);
+        j = 0;
+        do {
+            sv[0].vx = r->vx;
+            sv[0].vy = r->vy;
+            sv[0].vz = r->vz + *(s32 *)(param_1 + 0xE4);
+            sv[1].vx = r->vx;
+            sv[1].vy = r->vy;
+            sv[1].vz = r->vz + *(s32 *)(param_1 + 0xE0);
+            r++;
+            sv[2].vx = r->vx;
+            sv[2].vy = r->vy;
+            sv[2].vz = r->vz + *(s32 *)(param_1 + 0xE4);
+            sv[3].vx = r->vx;
+            sv[3].vy = r->vy;
+            sv[3].vz = r->vz + *(s32 *)(param_1 + 0xE0);
+            func_80184C68((u8 *)sv, i);
+            j++;
+        } while (j < 8);
+        i++;
+        off += 0x48;
+    } while (i < 2);
+}
+
 
 #include "common.h"
 
