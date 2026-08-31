@@ -925,13 +925,292 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800134FC);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80013694);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001382C);
+extern void func_80013F3C();
+extern s32 func_8004787C(s32 angle);
+extern s32 func_80047948(s32 angle);
+extern void func_8001282C();
+extern void func_800484EC();
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800139C8);
+void func_8001382C(s16 angle, void *a1, void *a2)
+{
+    s16 matrix[16];
+    s16 rot[16];
+    s32 cos_val;
+    s16 sin_val;
+    s32 v1;
+    void *rotp;
+
+    func_80013F3C(matrix);
+    sin_val = func_8004787C(angle);
+    cos_val = func_80047948(angle);
+
+    v1 = 0x1000;
+    *(s16 *)((s32)rot + 0x04) = sin_val;
+    *(s16 *)((s32)rot + 0x00) = cos_val;
+    rotp = &rot[0];
+    *(s16 *)((s32)rot + 0x02) = 0;
+    *(s16 *)((s32)rot + 0x06) = 0;
+    *(s16 *)((s32)rot + 0x08) = v1;
+    *(s16 *)((s32)rot + 0x0A) = 0;
+    *(s16 *)((s32)rot + 0x0C) = -sin_val;
+    *(s16 *)((s32)rot + 0x0E) = 0;
+    *(s16 *)((s32)rot + 0x10) = cos_val;
+
+    __asm__ __volatile__(
+        "lw $12, 0(%0);"
+        "lw $13, 4(%0);"
+        "ctc2 $12, $0;"
+        "ctc2 $13, $1;"
+        "lw $12, 8(%0);"
+        "lw $13, 12(%0);"
+        "lw $14, 16(%0);"
+        "ctc2 $12, $2;"
+        "ctc2 $13, $3;"
+        "ctc2 $14, $4;"
+        :
+        : "r"(matrix)
+        : "$12", "$13", "$14");
+
+    __asm__ __volatile__(
+        "lhu $12, 0(%0);"
+        "lhu $13, 6(%0);"
+        "lhu $14, 12(%0);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        :
+        : "r"(rotp)
+        : "$12", "$13", "$14", "memory");
+
+    __asm__ __volatile__("nop;nop;mvmva 1, 0, 3, 3, 0");
+
+    __asm__ __volatile__(
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0(%0);"
+        "sh $13, 6(%0);"
+        "sh $14, 12(%0);"
+        :
+        : "r"(&matrix[0])
+        : "$12", "$13", "$14", "memory");
+
+    __asm__ __volatile__(
+        "lhu $12, 0(%0);"
+        "lhu $13, 6(%0);"
+        "lhu $14, 12(%0);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        :
+        : "r"(&rot[1])
+        : "$12", "$13", "$14", "memory");
+
+    __asm__ __volatile__("nop;nop;mvmva 1, 0, 3, 3, 0");
+
+    __asm__ __volatile__(
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0(%0);"
+        "sh $13, 6(%0);"
+        "sh $14, 12(%0);"
+        :
+        : "r"(&matrix[1])
+        : "$12", "$13", "$14", "memory");
+
+    __asm__ __volatile__(
+        "lhu $12, 0(%0);"
+        "lhu $13, 6(%0);"
+        "lhu $14, 12(%0);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        :
+        : "r"(&rot[2])
+        : "$12", "$13", "$14", "memory");
+
+    __asm__ __volatile__("nop;nop;mvmva 1, 0, 3, 3, 0");
+
+    __asm__ __volatile__(
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0(%0);"
+        "sh $13, 6(%0);"
+        "sh $14, 12(%0);"
+        :
+        : "r"(&matrix[2])
+        : "$12", "$13", "$14", "memory");
+
+    func_8001282C(matrix);
+    func_800484EC(matrix, a1, a2);
+}
+
+#define gte_SetRotMatrix_139C8(r0) __asm__ volatile (    \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_ldclmv_139C8(r0) __asm__ volatile (          \
+    "lhu $12, 0( %0 );"                                  \
+    "lhu $13, 6( %0 );"                                  \
+    "lhu $14, 12( %0 );"                                 \
+    "mtc2 $12, $9;"                                      \
+    "mtc2 $13, $10;"                                     \
+    "mtc2 $14, $11"                                      \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_rtir_139C8() __asm__ volatile ("nop;nop;mvmva 1, 0, 3, 3, 0")
+
+#define gte_stclmv_139C8(r0) __asm__ volatile (          \
+    "mfc2 $12, $9;"                                      \
+    "mfc2 $13, $10;"                                     \
+    "mfc2 $14, $11;"                                     \
+    "sh $12, 0( %0 );"                                   \
+    "sh $13, 6( %0 );"                                   \
+    "sh $14, 12( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14", "memory" )
+
+typedef struct {
+    s16 m[3][3];
+    s16 pad;
+    s32 t[3];
+} MTX_139C8;
+
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+void func_80013F3C(void *ptr);
+
+void func_800139C8(s16 param_1, void *param_2, void *param_3)
+{
+    s16 sin_val;
+    s32 cos_val;
+    s16 *ip;
+    s16 *rp;
+    MTX_139C8 ident;
+    MTX_139C8 rotm;
+
+    func_80013F3C(&ident);
+    sin_val = func_8004787C(param_1);
+    cos_val = func_80047948(param_1);
+
+    rotm.m[0][2] = sin_val;
+    rotm.m[1][0] = rotm.m[0][1] = 0;
+    rotm.m[1][1] = 0x1000;
+    rotm.m[0][0] = cos_val;
+    rotm.m[2][2] = cos_val;
+    rp = &rotm.m[0][0];
+    rotm.m[2][0] = -sin_val;
+    ip = &ident.m[0][0];
+    rotm.m[1][2] = 0;
+    rotm.m[2][1] = 0;
+
+    gte_SetRotMatrix_139C8(ip);
+    gte_ldclmv_139C8(rp);
+    gte_rtir_139C8();
+    gte_stclmv_139C8(ip);
+    gte_ldclmv_139C8(rp + 1);
+    gte_rtir_139C8();
+    gte_stclmv_139C8(ip + 1);
+    gte_ldclmv_139C8(rp + 2);
+    gte_rtir_139C8();
+    gte_stclmv_139C8(ip + 2);
+
+    func_8001282C(ip);
+    ApplyMatrixSV(ip, param_2, param_3);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80013B64);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80013CFC);
+#define gte_SetRotMatrixX(r0) __asm__ __volatile__ ( \
+    "lw $12, 0(%0);" \
+    "lw $13, 4(%0);" \
+    "ctc2 $12, $0;" \
+    "ctc2 $13, $1;" \
+    "lw $12, 8(%0);" \
+    "lw $13, 12(%0);" \
+    "lw $14, 16(%0);" \
+    "ctc2 $12, $2;" \
+    "ctc2 $13, $3;" \
+    "ctc2 $14, $4" \
+    : : "r"(r0) : "$12", "$13", "$14")
+
+#define gte_ldclmvX(r0) __asm__ __volatile__ ( \
+    "lhu $12, 0(%0);" \
+    "lhu $13, 6(%0);" \
+    "lhu $14, 12(%0);" \
+    "mtc2 $12, $9;" \
+    "mtc2 $13, $10;" \
+    "mtc2 $14, $11" \
+    : : "r"(r0) : "$12", "$13", "$14")
+
+#define gte_rtirX() __asm__ __volatile__ ("nop; nop; mvmva 1, 0, 3, 3, 0")
+
+#define gte_stclmvX(r0) __asm__ __volatile__ ( \
+    "mfc2 $12, $9;" \
+    "mfc2 $13, $10;" \
+    "mfc2 $14, $11;" \
+    "sh $12, 0(%0);" \
+    "sh $13, 6(%0);" \
+    "sh $14, 12(%0)" \
+    : : "r"(r0) : "$12", "$13", "$14")
+
+void func_80013CFC(short param_1, void *param_2, void *param_3)
+{
+    s16 matrix[16];
+    s16 rot[16];
+    s32 sin_val;
+    s32 cos_val;
+    register s32 v1 __asm__("$3");
+    s16 *rotp;
+    s16 *matp;
+
+    func_80013F3C(matrix);
+    sin_val = func_8004787C(param_1);
+    cos_val = func_80047948(param_1);
+
+    v1 = -sin_val;
+    __asm__ __volatile__("" ::: "memory");
+    *(s16 *)((s32)rot + 0x00) = cos_val;
+    *(s16 *)((s32)rot + 0x08) = cos_val;
+    *(s16 *)((s32)rot + 0x10) = 0x1000;
+    rotp = rot;
+    *(s16 *)((s32)rot + 0x06) = sin_val;
+    matp = matrix;
+    *(s16 *)((s32)rot + 0x02) = v1;
+    *(s16 *)((s32)rot + 0x04) = 0;
+    *(s16 *)((s32)rot + 0x0A) = 0;
+    *(s16 *)((s32)rot + 0x0C) = 0;
+    *(s16 *)((s32)rot + 0x0E) = 0;
+
+    gte_SetRotMatrixX(matp);
+    gte_ldclmvX(rotp);
+    gte_rtirX();
+    gte_stclmvX(matp);
+    gte_ldclmvX(rotp + 1);
+    gte_rtirX();
+    gte_stclmvX(matp + 1);
+    gte_ldclmvX(rotp + 2);
+    gte_rtirX();
+    gte_stclmvX(matp + 2);
+
+    func_8001282C(matp);
+    ApplyMatrixSV(matp, param_2, param_3);
+}
 
 void func_80013E94(u16 *src, u32 *dst) {
     *dst = ((((u32)src[0] << 19) >> 22) << 20)
