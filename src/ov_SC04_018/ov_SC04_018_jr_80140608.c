@@ -905,98 +905,7 @@ extern s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2);
 
 #include "common.h"
 
-extern u8 D_80115148[];
-extern u16 D_8011511E;
-extern u8 D_80062BDC;
-
-extern s32 func_80028D58(void);
-extern void func_80028D78(s32 a0);
-extern void func_80019064(void *a0);
-extern s32 func_80028DE0(void);
-extern void func_80028E00(s32 a0);
-extern s32 func_80028FBC(void);
-extern void func_80028FDC(s32 a0);
-extern s32 func_80029000(void);
-extern void func_80029020(s32 a0);
-extern s32 func_80028D9C(void);
-extern void func_80028DBC(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
-
-s32 func_80140608(s32 a0) {
-    s16 t;
-    register s32 iVar2 __asm__("$2");
-    register s32 zr __asm__("$0");
-    s32 uVar3;
-    u32 uVar4;
-    s32 uVar5 = 1;
-
-    switch (D_80115148[(s16)a0 * 2]) {
-    case 0:
-        t = func_80028D58() ^ 1;
-        func_80028D78(t);
-        if (t != 0) {
-            return uVar5;
-        }
-        func_80019064(&D_80062BDC);
-        return uVar5;
-    case 1:
-        func_80028E00((s16)(func_80028DE0() ^ 1));
-        return uVar5;
-    case 2:
-        iVar2 = func_80028FBC();
-        if (D_8011511E & 0x8000) {
-            iVar2 = iVar2 - 1;
-            uVar4 = iVar2 + zr;
-            if ((s16)iVar2 < 0) {
-                uVar4 = 0;
-                uVar5 = 0;
-            }
-        } else {
-            iVar2 = iVar2 + 1;
-            uVar4 = iVar2 + zr;
-            if ((s16)iVar2 >= 8) {
-                uVar4 = 7;
-                uVar5 = 0;
-            }
-        }
-        func_80028FDC((s16)uVar4);
-        func_8002D4C8(0x21, uVar4 & 0xFFFF);
-        goto ret;
-    case 3:
-        iVar2 = func_80029000();
-        if (D_8011511E & 0x8000) {
-            iVar2 = iVar2 - 1;
-            uVar4 = iVar2 + zr;
-            if ((s16)iVar2 < 0) {
-                uVar4 = 0;
-                uVar5 = 0;
-            }
-        } else {
-            iVar2 = iVar2 + 1;
-            uVar4 = iVar2 + zr;
-            if ((s16)iVar2 >= 8) {
-                uVar4 = 7;
-                uVar5 = 0;
-            }
-        }
-        func_80029020((s16)uVar4);
-        func_8002D4C8(0x22, uVar4 & 0xFFFF);
-        goto ret;
-    case 4:
-        t = func_80028D9C() ^ 1;
-        func_80028DBC(t);
-        uVar3 = 0xB;
-        if (t == 0) {
-            uVar3 = 0xC;
-        }
-        func_8002D4C8(uVar3, 0);
-        goto ret;
-    default:
-        goto ret;
-    }
-ret:
-    return uVar5;
-}
+DEFINE_func_80140608()  /* dedup: shared engine-core @0x80140608 (src/shared) */
 
 
 
@@ -1006,56 +915,7 @@ ret:
 //         the pointer, so use post-increment `*p++` for EVERY field (gcc drops the dead
 //         final increment, yielding the "increment N-2 then offset 0/2" tail).
 
-extern u8 *D_8018E26C;
-extern u8 *D_8018E270;
-extern u8 *D_8018E274;
-extern u8 *D_8018E278;
-extern u8 *D_8018E27C;
-extern u16 *D_8018E280[];
-extern u16 *D_8018E288[];
-extern u16 *D_8018E2A8[];
-
-extern s32 func_80028D58(void);
-extern s32 func_80028DE0(void);
-extern s32 func_80028FBC(void);
-extern s32 func_80029000(void);
-extern s32 func_80028D9C(void);
-
-void func_801407F4(void)
-{
-    u8 *puVar1;
-    s32 iVar2;
-    u16 *puVar3;
-
-    puVar1 = D_8018E26C;
-    iVar2 = func_80028D58();
-    puVar3 = D_8018E280[iVar2];
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
-
-    puVar1 = D_8018E270;
-    iVar2 = func_80028DE0();
-    puVar3 = D_8018E280[iVar2];
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
-
-    iVar2 = func_80028FBC();
-    *(s16 *)(D_8018E274 + 0x18) = *D_8018E288[iVar2];
-    iVar2 = func_80029000();
-    *(s16 *)(D_8018E278 + 0x18) = *D_8018E288[iVar2];
-
-    puVar1 = D_8018E27C;
-    iVar2 = func_80028D9C();
-    puVar3 = D_8018E2A8[iVar2];
-    *(s16 *)(puVar1 + 0x12) = *puVar3++;
-    *(s16 *)(puVar1 + 0x14) = *puVar3++;
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1c) = *puVar3++;
-}
+DEFINE_func_801407F4()  /* dedup: shared engine-core @0x801407F4 (src/shared) */
 
 
 
@@ -1311,113 +1171,14 @@ void func_80140E6C(void) {
 // @class: plumbing
 // @stuck: none — MATCH (128/128 ins, match_one confirmed)
 
-extern short D_80115128;
-extern u8 D_8018E1B8;
-extern char *D_8018E1D8;
-extern char *D_8018E1DC;
-extern char *D_8018E1E0;
-extern char *D_8018E1E4;
-extern char *D_8018E1E8;
-
-extern int func_80029FE4(void);
-extern int func_800D2CA8(int, int);
-extern void func_800D2D10(int, int, void *, int);
-extern char *func_8002AAB4(void);
-extern char *strcpy(char *, const char *);
-extern int func_8002A26C(void);
-extern int func_8002A2B0(void);
-extern int func_8002A4B8(void);
-extern s32 func_8002A4FC(s32 a0);
-extern int func_8002A998(void);
-extern int func_8002A9DC(void);
-extern int func_8002A728(void);
-extern int func_8002A76C(void);
-extern int func_80029FD4(void);
-
-void func_80140F00(void) {
-    char *p;
-    int r;
-
-    if (D_80115128 == 0) {
-        p = (*(char * *)&D_8018E1B8);
-        r = func_800D2CA8(func_80029FE4() + 1, 0x18);
-        func_800D2D10(r, 2, p + 4, 1);
-        strcpy(p + 0xA, func_8002AAB4());
-
-        p = D_8018E1D8;
-        r = func_800D2CA8(func_8002A26C() + 1, 0x18);
-        func_800D2D10(r, 2, p + 0x12, 1);
-        r = func_800D2CA8(func_8002A2B0(), 0x18);
-        func_800D2D10(r, 2, p + 0x22, -1);
-
-        p = D_8018E1DC;
-        r = func_800D2CA8(func_8002A4B8() + 1, 0x18);
-        func_800D2D10(r, 2, p + 0x12, 1);
-        r = func_800D2CA8(((int (*)(void))func_8002A4FC)(), 0x18);
-        func_800D2D10(r, 2, p + 0x22, -1);
-
-        p = D_8018E1E0;
-        r = func_800D2CA8(func_8002A998() + 1, 0x18);
-        func_800D2D10(r, 2, p + 0x12, 1);
-        r = func_800D2CA8(func_8002A9DC(), 0x18);
-        func_800D2D10(r, 2, p + 0x22, -1);
-
-        p = D_8018E1E4;
-        r = func_800D2CA8(func_8002A728() + 1, 0x18);
-        func_800D2D10(r, 2, p + 0x12, 1);
-        r = func_800D2CA8(func_8002A76C(), 0x18);
-        func_800D2D10(r, 2, p + 0x22, -1);
-
-        p = D_8018E1E8;
-        r = func_800D2CA8(func_80029FD4(), 4);
-        func_800D2D10(r, 7, p + 0x18, -1);
-    }
-}
+DEFINE_func_80140F00()  /* dedup: shared engine-core @0x80140F00 (src/shared) */
 
 
 
 // @class: other
 // @stuck: none — MATCH
 
-extern short D_80115128;
-extern unsigned short D_80115172;
-extern unsigned short D_8018E072;
-extern unsigned short D_8018E076;
-extern unsigned short D_8018E07A;
-extern unsigned short D_8018E07E;
-
-extern s32 func_8002A1B4(void);
-extern short func_8002A28C(void);
-extern short func_8002A27C(void);
-extern s32 func_8002A400(void);
-extern short func_8002A4D8(void);
-extern short func_8002A4C8(void);
-extern s32 func_8002A8E0(void);
-extern short func_8002A9B8(void);
-extern short func_8002A9A8(void);
-extern s32 func_8002A670(void);
-extern short func_8002A748(void);
-extern short func_8002A738(void);
-extern int func_801412A8(int, int, int, int, int, int);
-
-int func_80141100(int param_1)
-{
-    short sVar1;
-    int iVar7;
-
-    if (D_80115128 == 0) {
-        iVar7 = D_80115172 + 0x31;
-        sVar1 = D_8018E072;
-        param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A1B4)(), func_8002A28C(), func_8002A27C(), (short)iVar7, (int)sVar1);
-        sVar1 = D_8018E076;
-        param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A400)(), func_8002A4D8(), func_8002A4C8(), (short)iVar7, (int)sVar1);
-        sVar1 = D_8018E07A;
-        param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A8E0)(), func_8002A9B8(), func_8002A9A8(), (short)iVar7, (int)sVar1);
-        sVar1 = D_8018E07E;
-        param_1 = func_801412A8(param_1, ((short (*)(void))func_8002A670)(), func_8002A748(), func_8002A738(), (short)iVar7, (int)sVar1);
-    }
-    return param_1;
-}
+DEFINE_func_80141100()  /* dedup: shared engine-core @0x80141100 (src/shared) */
 
 
 #define addPrim_1412A8(ot, p) (setaddr_1412A8(p, getaddr_1412A8(ot)), setaddr_1412A8(ot, p))
@@ -1486,71 +1247,7 @@ void func_80141874(void) {
 
 
 
-extern u16 D_80115110;
-extern u16 D_80115112;
-extern unsigned short D_80115118;
-extern volatile u16 D_8011511A;
-extern s16 D_80115128;
-extern s32 D_80115130;
-extern s16 D_8018E58C;
-extern s16 D_8018E58E;
-
-extern void func_800D24A0(s32 a0);
-extern s32  func_80029178(s32 a0);
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_80141C0C(s32 a0);
-
-void func_801418F8(void)
-{
-
-    extern s16 D_8011512E;
-    extern u8 D_80115158[];
-    extern s16 D_8011515A;
-    extern u8 D_8011515C;
-    extern s16 D_8011515E;
-    extern s16 D_80115162;
-    extern s16 D_80115166;
-    extern u8  D_8018E22C;
-    extern u8  D_8018E244;
-    extern u8  D_8018E2B8;
-    extern u8  D_8018E2C0;
-    extern void *D_801E5B58;
-    extern void *D_801E5B5C;
-    u16 t;
-
-    func_800D24A0(1);
-    D_8011511A = 2;
-    t = D_8011511A;
-    (*(s16 *)&D_80115118) = 0;
-    D_80115130 = 0;
-    if (t >= 4) {
-        D_8011511A = t - 3;
-    }
-    (*(s16 *)D_80115158) = 0x106;
-    if ((func_80029178(0x1C) & 0xFF) == 0) {
-        D_801E5B58 = &D_8018E22C;
-        D_801E5B5C = &D_8018E2B8;
-    } else {
-        D_801E5B58 = &D_8018E244;
-        D_801E5B5C = &D_8018E2C0;
-    }
-    D_8011515A = 0x104;
-    (*(s16 *)&D_8011515C) = 0x104;
-    D_8011515E = 0x129;
-    D_80115162 = 0x103;
-    D_80115166 = 0x105;
-    D_80115128 = 0;
-    D_8011512E = 0;
-    if (D_80115110 == 3) {
-        func_8002D4C8(0x46E, 0);
-    } else {
-        func_80141C0C(0);
-    }
-    D_80115128 = 1;
-    D_8018E58C = 0xE;
-    D_8018E58E = 3;
-    D_80115112 = D_80115112 + 1;
-}
+DEFINE_func_801418F8()  /* dedup: shared engine-core @0x801418F8 (src/shared) */
 
 
 /* func_80141A60 @ 0x80141A60 (0x130, 76 ins) -- ov_SC01_000 shared engine fn.
