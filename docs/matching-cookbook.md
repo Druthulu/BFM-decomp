@@ -31177,3 +31177,144 @@ gate then refused to clamp, leaving `jtbl_801E0C3C` spanning 7 words against 6 e
 `.rodata` under-fill. Two stale card facts were corrected in passing (the table is in `tail19`, not
 `tail20`; the carve is a 2-table span needing `JTBL_PADS := 0,4`), and per §322 `build_carve` returns
 PLAN OK — so this is a distinct defect from the plan-refusal class.
+
+## §339 — A 2-CASE SWITCH OMITS THE LOW-BOUND RANGE TEST, SO THE PRESENCE OF `slti/bnez` BETWEEN THE `beq`s IS A **COUNT TELL** FOR A THIRD CASE NODE (P31 S67; byte-proven ov_SC02_005/func_80190538, 197 ins)
+
+`stmt.c`'s `emit_case_nodes` carries the rule in its own comment — *"omit the conditional branch to
+default if we avoid only one right child"* — so a switch with TWO case nodes emits no low-bound
+check, while THREE emits one. That makes the range test a **structural count you can read off the
+target**, not a detail to reproduce by luck:
+
+    beq  $v1, 1, ...        <- case 1
+    slti $v0, $v1, 2        <- THIS PAIR ONLY EXISTS IF THERE ARE >=3 CASE NODES
+    bnez $v0, default
+    beq  $v1, 2, ...        <- case 2
+
+Seeing `slti/bnez` sitting BETWEEN two `beq`s means a case node is missing from your draft. Adding
+`case 0: return;` supplied exactly the missing 2 instructions here. **Read the case count off the
+range test before you start rewriting arms.**
+
+Three more dials byte-proven on the same function, all reusable:
+* **A frame's "holes" can be struct padding, not scalars.** Slots 0x20/0x24/0x28 + 0x30/0x38 with
+  gaps at 0x2C/0x34/0x3C are TWO 16-byte VECTOR-shaped structs whose `pad` members are the holes —
+  not five independent scalars. Cf. §333: frame arithmetic is evidence about DECLARATIONS.
+* **`A - (B + C)` tree-folds to `(A - C) - B`**, which flips an `addiu` sign. An explicit temp for
+  `B + C` blocks the fold.
+* **Declaring temps INSIDE each if-arm instead of at function scope is a REGISTER dial.** A
+  function-scope pseudo spans both arms (ptr=$a2 / dx=$a1 / dz=$a0); block-scope gives the target's
+  ptr=$a1, first-computed=$a0, second=$v1. Paired lever: putting `v.vy = 0;` at the END of each arm
+  rather than after the join keeps the join block's `lw $a2,0x24($sp)` a REAL load instead of letting
+  cse turn it into `move $a2,$zero`.
+
+## §340 — §194-K COROLLARY: **FLIP THE FALSE EDGE YOU CANNOT DELETE.** A "scheduler" residual can be sched.c's ALIAS ORACLE emitting a FALSE true-dependence; source order chooses its DIRECTION (P31 S67; byte-proven ov_SC03_107/func_8017CF48, 10 -> 0 in one compile, zero bytes)
+
+**THE MISDIAGNOSIS THIS FIXES.** A `SCHEDULE-REORDER/10` residual was not the scheduler's priority
+heuristic at all — it was `memrefs_conflict_p` returning a dependence that does not exist.
+
+**THE MECHANISM, traced.** The §194-K re-tie `__asm__("" : "=r"(tp) : "0"(tp))` is MANDATORY here
+(without it `reg_n_sets == 1` lets `update_equiv_regs` rematerialize the address and the function is
+212 ins, not 206 — §194-K bound 3's coupling, measured at exactly ±6). But that second SET has a
+side effect: `reg_known_value[tp]` falls back to `(reg tp)`, so `canon_rtx` becomes a no-op, and
+`memrefs_conflict_p` (`sched.c:614`) walks PAST its frame-pointer arm (`:640-664`, where
+`CONSTANT_P(y)` would have returned 0) to the terminal `return 1`. Result: a FALSE true-dependence
+between `(plus (reg tp) -8)` and `(plus (reg sp) 0x12)`, pinning `sh $v0,-8($s0)` ahead of
+`lh $a1,0x12($sp)`.
+
+**THE LEVER.** §194-K's own bound 7 says the edge's DIRECTION is whatever the source order wrote. So
+do not fight the false edge — **reverse it into an anti-dependence** by hoisting the load above the
+store:
+
+    t0 = f(p[-4], buf[0], 4, 1);   u1 = buf[1];   p[-4] = t0;
+    t1 = f(p[-3], u1,     4, 1);   ...
+
+The store then sinks past all four argument setups and `reorg` steals it into the call's delay slot.
+**Zero bytes added, 10 residual rows to 0 in one compile.**
+
+**REFUTED EN ROUTE (do not re-try these):**
+* the symbol-base spelling — fixes the ORDER but costs +6 instructions of rematerialisation;
+* the `MEM_IN_STRUCT_P` route — `true_dependence`'s `/s` escape is UNREACHABLE here, because a stack
+  `ARRAY_REF` is always `/s` (`expr.c:4888`);
+* the pointer-local load spelling.
+
+**GENERALISE:** when a residual looks like scheduling, ask whether the dependence is REAL before
+reaching for priority dials. If the alias oracle invented it, the cheapest fix is not to remove the
+edge but to make the source write it in the direction you want.
+
+## §341 — AN HImode STORE TEMP REWEIGHTS A sched2 TIE-BREAK THAT NO STATEMENT ORDER CAN REACH (P31 S67; byte-proven ov_SC03_006/func_801823B8, last 4 ins)
+
+After §224 cross-jump duplication closed 29 instructions, the final 4-instruction residual was a
+sched2 tie-break, and **no statement-order or `s32`-temp spelling moved it**. The lever was the MODE
+of the temp: declaring the 0x34 increment's temp as `u16` produces a genuine HImode store (rather
+than a `subreg:HI` of an SImode pseudo), which reweights that chain's ALU→store edge — the 0x34 load
+then leads while the stores stay 0x100-first.
+
+**The general shape:** when statement order is exhausted on a schedule tie, the remaining dials are
+the ones that change the RTL's *shape* rather than its order — operand mode (§341), a widening temp
+that forces one named sign-extend (§329), or an in-place operator that reuses the hard register
+(§327's §194-H). A tie that no ordering reaches is usually asking for a different mode, not a
+different sequence.
+
+## §342 — A `void *` PARAMETER CAST TO ITS REAL TYPE IN A LOCAL IS **NOT** BYTE-NEUTRAL WHEN A LATER PARAMETER ALSO NEEDS A CALLEE-SAVED REGISTER (P31 S67; byte-proven ov_SC07_002/func_80181394, NEW LAW)
+
+The banked twin's house spelling — `void *a1` in the signature, then a local
+`s16 *param_2 = (s16 *)a1;` — reads as a pure retype and is usually free. It is not free here: it
+**sinks a1's entry copy below a2's**, inverting the prologue's copy/save order. Declaring the
+parameter as `s16 *param_2` directly restores the target's a1-then-a2 order.
+
+**Copy a twin's spelling, but re-derive its PARAMETER TYPES against your own signature** — the twin's
+`void *` may be load-bearing for ITS register pressure and actively wrong for yours (cf. §330: the
+neighbour lever is about structure and idiom, not a blind transcription).
+
+Companion from the same function, worth its own line because it inverts §333:
+**do NOT hand-add an apparent 8-byte `vars` gap** — gcc had already padded it, and adding a dead
+local produced frame 0x70 against the target's 0x68. §333 says a frame LARGER than your live locals
+explain means a missing declared aggregate; the converse does not hold. Compute what gcc pads before
+you add anything.
+
+## §343 — `decl_prior`'s FLEET MAJORITY CAN BE WRONG ABOUT THE TRUE SIGNATURE — READ THE RIVALS, NOT JUST THE WINNER (P31 S67; measured on func_8012BD14 / func_8012D624 / func_80143C74)
+
+The card's `decl_prior` reports what the FLEET DECLARES, ranked, with rivals. That is not the same as
+what the function IS. Measured this wave:
+
+| symbol | card's fleet winner | n | rival | truth per the asm |
+|---|---|---|---|---|
+| `func_8012BD14` | `void (s32)` | 1374 | `s32 (s32)` ×163 | returns **s32** |
+| `func_8012D624` | `void (s32)` | 1322 | `s32 (void*,s32,s32)` ×74 | **3 args, returns s32** |
+| `func_80143C74` | `void (s32,s32)` | 90 | `s32 (s32,s32)` ×42 | returns **s32** |
+
+Verified independently: `void func_8012BD14(s32 a0)` really does appear ~1427× in `src/`. **The tool
+is honest; the CORPUS is wrong.** A loosely-typed engine propagated a `void` spelling into a thousand
+call sites, and a majority vote over those call sites reproduces the error at high confidence.
+
+**HOW TO USE THE FIELD:** treat the winner as the *house spelling* (what the destination TU probably
+writes), and the RIVALS as evidence about the true signature — a rival with a materially different
+return type or arity, backed by dozens of sites, usually means the majority is a propagated mistake.
+The `.s` decides: a `jal` whose result is consumed returns a value however many TUs say `void`.
+Cf. §43/§99/§320 (adopt the TU's decl) — the TU's spelling is what must COMPILE; the asm is what must
+MATCH, and when they disagree you need the alias/no-proto escapes, not a corrected majority.
+
+## §344 — RAISE A BIV'S global_alloc PRIORITY WITH A ZERO-BYTE REFERENCE INSTEAD OF PINNING IT; PINNING THE COUNTER KILLS LSR ENTIRELY (P31 S67; byte-proven ov_SC03_121/func_80180E64, 222 ins)
+
+Writing the loop in INDEX form makes the pointer an LSR giv, so `strength_reduce` emits its init
+AFTER `move_movables`' hoisted constant — which is the order the target has. That leaves a
+counter-vs-giv register swap ($a0/$a1), and the obvious fix is wrong:
+
+* **`register` pin on the counter → kills LSR entirely** (the biv stops being a biv).
+* **Zero-byte `__asm__ __volatile__("" :: "r"(i))` in the loop body → correct.** It adds a FIFTH
+  reference to the biv, lifting its `global_alloc` priority (`floor_log2(n_refs)*n_refs/live_length`)
+  above the giv's, and costs no instructions.
+
+**The general move:** when two quantities are competing for a register and one is loop-structural,
+change its REFERENCE COUNT rather than its assignment. A pin overrides the allocator; an extra
+reference persuades it, and only the second leaves the loop optimizations intact. Cf. §334, where the
+same priority formula was moved by changing which pseudo got spilled.
+
+## §345 — A VOLATILE **STORE** EVICTS THE MEM FROM cse AND KEEPS `sh`; A VOLATILE **LOAD** BLOCKS combine AND DEGRADES `lh` INTO `lhu+sll+sra` (P31 S67; byte-proven ov_SC01_084/func_80181A7C)
+
+For a store→reload pair at the same address, the volatile qualifier is not symmetric and the two
+placements give different instruction streams:
+* **volatile STORE** — keeps the `sh`, evicts the MEM from cse so the reload is real. Wanted.
+* **volatile LOAD** — blocks `combine`, so the sign-extending `lh` degrades into `lhu + sll + sra`
+  (+2 instructions). Not wanted.
+Then the ordinary ladder finished it: splitting reused C variables into distinct pseudos moved the
+allocno priority (`refs*log/live_length` again) 59 → 4, and §219's in-place `h += 4` closed 4 → 0.
