@@ -6028,7 +6028,65 @@ void func_8018004C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8018009C);
+extern s32 D_801BEAF8;
+extern s32 D_801D3BC4;
+extern void func_8012A828(s32, s32);
+extern s32 func_8012B608(s32, s32, s32);
+
+void func_8018009C(s32 param_1)
+{
+    s32 v0;
+    s32 a1;
+    s32 t0;
+    s32 t1;
+    s32 r;
+
+    switch ((s16)(*(u16 *)(param_1 + 0xFC) - 1)) {
+    case 1:
+        if (*(s32 *)(param_1 + 0x90) != (s32)&D_801D3BC4) {
+            func_8012A828(param_1, (s32)&D_801D3BC4);
+        }
+        v0 = *(s32 *)(param_1 + 0x20);
+        __asm__ __volatile__(""); /* §5a cross-jump barrier, placed between the two tail
+                                      stores (not immediately before the jump) so reorg can
+                                      still fill the branch delay slot with `a1 = 0xC00`;
+                                      keeps this arm's tail distinct from case 0's identical
+                                      one so gcc does not fold the two duplicate tails */
+        a1 = 0xC00;
+        goto common;
+    case 0:
+        if (*(s32 *)(param_1 + 0x90) != (s32)&D_801BEAF8) {
+            func_8012A828(param_1, (s32)&D_801BEAF8);
+        }
+        v0 = *(s32 *)(param_1 + 0x20);
+        a1 = 0xC00;
+        goto common;
+    case 3:
+        t0 = *(s32 *)(param_1 + 0x90);
+        t1 = (s32)&D_801D3BC4;
+        goto LAB_80180154;
+    case 2:
+        t0 = *(s32 *)(param_1 + 0x90);
+        t1 = (s32)&D_801BEAF8;
+    LAB_80180154:
+        if (t0 != t1) {
+            func_8012A828(param_1, t1);
+        }
+        v0 = *(s32 *)(param_1 + 0x20);
+        a1 = 0xE00;
+    common:
+        r = func_8012B608((s32)*(s16 *)(v0 + 0x12), a1, 8);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + r;
+        return;
+    case 4:
+        func_801801B0(param_1);
+        return;
+    default:
+        return;
+    }
+}
+
 
 extern short D_801BEA50;
 extern void func_8012A828(s32, s32);
@@ -6733,7 +6791,84 @@ s32 func_8018107C()
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_801810E4);
+void func_801810E4(void *a0)
+{
+    extern s32 func_801846CC(s32 a0);
+    extern void func_801845FC(s32, s32, s32, s32);
+    extern s32 func_801842D4(s32 a0, s32 a1);
+    extern void func_8012A828(s32, s32);
+    extern s32 func_8012BEE8(s32 a0);
+    extern s32 func_8012C588(s32 a0, s32 a1);
+    extern void func_8012E8A8(u8 *a0);
+    extern void func_8012C218(void *a0);
+    extern s32 func_80132EF4(s32 a0, s32 a1);
+    extern u8 D_80190020;
+    extern s32 D_80190024[];
+    extern s16 D_8018FF68;
+    extern s16 D_8018FEE4;
+    extern s16 D_8018FEE8;
+    extern s32 D_801E1A24;
+
+    s32 i;
+    s32 t;
+    s32 t2;
+    s32 a3v;
+
+    switch (*(u16 *)((s32)a0 + 0x34)) {
+    case 0:
+        if (func_801846CC((s32)a0) != 0) {
+            a3v = D_80190020;
+            *(s16 *)((s32)a0 + 0x34) = 1;
+            func_801845FC((s32)a0, D_80190024[*(s16 *)((s32)a0 + 0x70)], 0, a3v);
+        }
+        if (func_801842D4(7, 0x17) != 0) {
+            *(s16 *)((s32)a0 + 0x34) = 2;
+        }
+        break;
+    case 1:
+        if (func_801846CC((s32)a0) != 0) {
+            a3v = D_80190020;
+            *(s16 *)((s32)a0 + 0x34) = 0;
+            func_801845FC((s32)a0, D_80190024[*(s16 *)((s32)a0 + 0x70)], 1, a3v);
+        }
+        if (func_801842D4(7, 0x17) != 0) {
+            *(s16 *)((s32)a0 + 0x34) = 2;
+        }
+        break;
+    case 2:
+        *(s16 *)((s32)a0 + 0x34) = 3;
+        func_8012A828((s32)a0, (s32)&D_8018FF68);
+        *(s32 *)((s32)a0 + 0x1C) = 0x14;
+        break;
+    case 3:
+        if (func_8012BEE8((s32)a0) != 0) {
+            if (D_8018FEE8 + 4 >= D_801E1A24) {
+                t2 = D_801E1A24 + 2;
+                D_801E1A24 = t2 + D_8018FEE8;
+                for (i = 0; i < D_8018FEE4; i++) {
+                    func_8012C588(0x25F, (s32)a0);
+                }
+                func_8012E8A8((u8 *)a0);
+                *(s32 *)((s32)a0 + 0x1C) = 0xA;
+                *(u16 *)((s32)a0 + 0x34) = *(u16 *)((s32)a0 + 0x34) + 1;
+            }
+        }
+        break;
+    case 4:
+        if ((*(s32 *)((s32)a0 + 0x1C) & 1) == 0) {
+            t = func_80132EF4((s32)a0, 0x22);
+            if (t != 0) {
+                *(s16 *)(t + 0x34) = 0x5001;
+                *(s32 *)(t + 0x14) = 0xFFFA0000;
+            }
+        }
+        if (func_8012BEE8((s32)a0) != 0) {
+            func_8012C218(a0);
+        }
+        break;
+    }
+}
+
 
 
 extern void (*D_8019003C[])(void);
