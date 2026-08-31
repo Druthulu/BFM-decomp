@@ -3586,7 +3586,75 @@ void func_8017F394(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031_jr_8017DB5C", func_8017F428);
+typedef struct { s16 x, y, z, p; } V3_F428;
+
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32, s32, s32, s32, s32, s32);
+extern void func_8012F214(s32, s32, s32);
+extern void func_8002D4C8(s32, s32);
+extern void func_8017F95C(s32);
+extern void func_8012B260(s32);
+extern void func_80029124(s32, s32);
+extern u8 *func_801290DC(s32, u8 *);
+extern s32 rand(void);
+
+void func_8017F428(s32 self) {
+
+    extern u8 D_80186184[];
+    extern u8 D_80185FF0[];
+    extern s32 D_801860F4;
+    extern void (*D_801860AC[])(void);
+    V3_F428 sp18;
+    V3_F428 sp20;
+    s32 *temp;
+    s32 w;
+    s32 b;
+    s32 b2;
+    s32 d;
+    s32 d2;
+    s32 v;
+    s32 i;
+
+    *(s32 *)(self + 0xDC) += 0x40000;
+    temp = *(s32 **)(self + 0x20);
+    w = *(u16 *)(temp + 4) + *(u16 *)(self + 0xDE);
+    *(u16 *)(temp + 4) = w;
+    if ((s16)w >= 0x500) {
+        *(u16 *)&sp18.x = D_80126B5E;
+        *(u16 *)&sp18.y = D_80126B62;
+        *(u16 *)&sp18.z = D_80126B66;
+        sp20 = sp18;
+        sp20.y -= 0x50;
+        if (func_80135888(*(s32 **)(self + 0x20), *(s32 *)(self + 0x58), (s32)&sp18, (s32)&sp20) != 0) {
+            func_8012F568(1, 0x4002, 0, 0xA, (s32)&sp20, (s32)D_801152A8);
+        }
+        *(u16 *)(temp + 4) = 0x500;
+        *(s32 *)(self + 0xDC) = -(*(s32 *)(self + 0xDC) >> 2);
+        func_8012F214(self, (s32)D_80186184, (s32)&sp18);
+        sp20 = sp18;
+        for (i = 0; i < 5; i++) {
+            d = rand() % 96;
+            b = sp18.x;
+            sp20.x = (rand() & 1) ? b + d : b - d;
+            d2 = rand() % 5;
+            b2 = sp18.z;
+            sp20.z = (rand() & 1) ? b2 + d2 : b2 - d2;
+            func_801290DC(0x31, (u8 *)&sp20);
+        }
+        func_8002D4C8(0x651, 0);
+        v = *(s32 *)(self + 0x1C) - 1;
+        *(s32 *)(self + 0x1C) = v;
+        if (v == 0) {
+            *(u16 *)(self + 2) = 8;
+            *(s32 *)(self + 0x58) = (s32)&(*(char *)D_80185FF0) | 0x40000000 | 0x20000000;
+            *(s32 *)(*(s32 *)(self + 0x20) + 0x20) = (s32)&(*(char *)&D_801860F4);
+            func_8017F95C(self);
+            func_8012B260(self);
+            func_80029124((s32)D_801860AC[*(u16 *)(self + 0x70) >> 12], 1);
+        }
+    }
+}
+
 
 #include "common.h"
 
