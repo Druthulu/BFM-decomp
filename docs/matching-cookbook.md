@@ -31111,3 +31111,69 @@ population is spent, and what remains is enriched in toolchain walls. A draw tha
 `oracle_reorder`-proven §188 functions, the §332 maspsx set, and SDK-object addresses will spend an
 increasing share of its slots on functions no model can bank. **Filter before drafting, and expect
 main's apparent "match rate" to be an artifact of that contamination rather than a model signal.**
+
+## §333 — FRAME SIZE IS SET BY *DECLARED* AGGREGATES, NOT USED ONES: AN UNREFERENCED TRAILING LOCAL IS A REAL DIAL (P31 S67; three independent byte-proven instances in one wave)
+
+gcc-2.7.2 slots **every aggregate local in declaration order regardless of whether it is used**, so a
+frame larger than the live locals explain is a DEAD trailing aggregate in the original source. This
+is a dial you set, not a residual you chase:
+* `ov_SC03_121/func_8017D8D4` — three SVECTORs (sp+0x10/0x18/0x20) gave 0x30, target was 0x38.
+  Declaring an unreferenced FOURTH SVECTOR last fixed **6 of 13** residuals.
+* `ov_SC04_016/func_8017DF8C` — an unused `s32 pad[2]` raised var_size 16 -> 24 and reproduced the
+  target's 0x50 frame: worth **30 of 32** residual rows, because gcc allocates that slot before
+  caller-save's and shifts all four spill offsets 0x10 -> 0x18.
+* `ov_SC05_008/func_8017DF68` — needed 16 bytes of unreferenced aggregate locals at 0x28-0x37.
+**Read it off the frame arithmetic first**: if `.frame` exceeds what your declared live locals
+require, add the missing bytes as a trailing unused aggregate before touching anything else.
+
+## §334 — A RELOAD SPILL SLOT IS ROUNDED TO `BIGGEST_ALIGNMENT` (8B), SO ONE SPILLED 4-BYTE PSEUDO CAN GROW THE FRAME BY 16 (P31 S67; byte-proven ov_SC05_008/func_8017DF68, 82 -> 53 residual)
+
+`sw $a1,0x60($sp)` looked like a volatile-parameter home; it is a RELOAD SPILL. `alter_reg` calls
+`assign_stack_local(mode, size, -1)`, and the `-1` means BIGGEST_ALIGNMENT — 8 bytes on MIPS — used
+for **both the alignment AND the size rounding**. So a single spilled 4-byte pseudo took 68 bytes of
+locals to `var_size` 80 and the frame from 0x88 to 0x90.
+Companion lever from the same function: **two-temp field updates**
+(`tx = v.vx + 8; ty = v.vy - 8; v.vx = tx; v.vy = ty;`) emit `lhu/lhu/addiu/addiu/sh/sh` instead of
+serial `lhu/addiu/sh`, and that reshuffles `global.c`'s `log2(n_refs)*n_refs/live_length` priority
+enough to change WHICH pseudo is the spill victim — closing the remaining 53 rows for free.
+
+## §335 — AN `extern u16 A[]` READ AT A VARIABLE SUBSCRIPT ALLOCATES DEAD STACK TEMPS (~8B PER ACCESS) THAT INFLATE THE FRAME WHILE EMITTING ZERO EXTRA INSTRUCTIONS (P31 S67; byte-proven ov_SC06_025/func_8017EA74, closeness 141 -> 20)
+
+The instruction stream is identical either way, so this is invisible in a diff of the body — it
+shows up only as `.frame vars` being too large, which then moves `addiu $sp` and EVERY saved-register
+offset. Spelling the same table as an 8-byte-stride struct array
+(`extern struct { u16 a, b, c, d; } A[];`) costs zero temps and is what the original wrote.
+**One spelling change moved 121 of 141 residual rows.** After it, the frame closed exactly at 0x68
+with a plain `s32 buf[6]`.
+
+## §336 — THE §5a CROSS-JUMP BARRIER GOES AT THE *BOTTOM* OF THE TWIN, NOT THE TOP: `find_cross_jump` WALKS BACKWARD FROM THE CONVERGING JUMP (P31 S67; byte-proven ov_SC05_001/func_80183C9C)
+
+A zero-byte `__asm__ __volatile__("")` placed at the TOP of the duplicated block is simply walked
+past — the seven instructions below it still merge. `find_cross_jump` compares BACKWARD from the
+point where the two paths converge, so the barrier must sit **just before the shared `goto TAIL`**,
+at the bottom of the twin. Same wave, `ov_SC01_084/func_80181F80`: the barrier bought −4 instructions
+once placed correctly.
+
+## §337 — THE CC1-ONLY BLOCKER CLASS: `blocker_probe`'s STATIC ORACLE REPORTS "none" AND THE WHOLE-TU COMPILE STILL FAILS (P31 S67; ov_SC04_011/func_801827DC, md_MAIN_027/func_800CB4A4)
+
+Two byte-correct bodies this wave were rejected for declaration conflicts the STATIC analyzer could
+not see, and it said so — `blocker "none"` — while real cc1 died:
+* `func_801827DC` — the TU declares `extern void *D_80194500[]` at file scope (line 6005) and the
+  draft redeclared it `[][3]`. Fixed with the TU's own §183 `__asm__`-label alias
+  (`extern void *a4500[][3] __asm__("D_80194500");`), preserving the 2-D index shape.
+* `func_800CB4A4` — the draft's `typedef ... Blk8;` collides with one at `md_MAIN_027.c:314`, which
+  sits **AFTER** the INCLUDE_ASM site. Fixed by dropping the typedef and adopting the TU's house
+  spelling (`memcpy((void*)(s3+0x154), &D_800CC298[0], 8)`).
+**The lesson is about the oracle, not the drafts:** a "none" from the static analyzer is not
+evidence of no blocker — it is evidence the analyzer is blind here (R34). Always finish on the real
+whole-TU compile.
+
+## §338 — `jtbl_carve._sltiu_bounds` MISREADS A NON-SWITCH `sltiu` AS A BOUNDS CHECK, OVER-SPANNING THE TABLE (P31 S67; ov_SC06_022/func_80185B80, byte-diagnosed)
+
+The body was MATCH 185/185 with the real-cc1 probe reporting blocker "none"; the gate still refused
+it. Cause: `_sltiu_bounds` returned `{6, 2049}` because **case 0's own `sltiu 0x801` comparison** —
+ordinary program logic, not a switch bound — was read as a second bound. The `len(bounds) == 1` clamp
+gate then refused to clamp, leaving `jtbl_801E0C3C` spanning 7 words against 6 emitted, a 4-byte
+`.rodata` under-fill. Two stale card facts were corrected in passing (the table is in `tail19`, not
+`tail20`; the carve is a 2-table span needing `JTBL_PADS := 0,4`), and per §322 `build_carve` returns
+PLAN OK — so this is a distinct defect from the plan-refusal class.

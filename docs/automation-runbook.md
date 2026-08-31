@@ -1,4 +1,21 @@
-# Automation runbook — the autonomous campaign, as it actually runs
+# Automation runbook — HISTORICAL: the OpenRouter / ox-alpha autonomous campaign
+
+> ## ⛔ THIS IS NOT THE CURRENT PIPELINE. See `docs/wave-playbook.md`.
+>
+> **Superseded 2026-08-31 (P31 S67).** This file documents the **OpenRouter (ox-alpha) era**
+> automation, built to sustain a free-window API quota. Its drafting toolchain (§2) is OpenRouter,
+> and its lanes — `drafter` / `gater` / `maintenance` / `stallguard` / `distill` / `main` — are
+> **all DEAD, deliberately.** `tools/campaign_status.py` will confirm that.
+>
+> The project returned to the **Claude agent wave** system on purpose. Running a wave today means
+> `draw_waves` → `t5_cards` → `claude_wave_packs` → `wave_args` → `claude_wave_draft.js` →
+> `gate_wave.py` → `twin_sweep` → harvest → R22, which is written up start-to-finish, with the
+> measured failure behind each guard, in **`docs/wave-playbook.md`**.
+>
+> Kept because its mechanism notes are still accurate for the parts that survived — the banking
+> toolchain by binary class (§4), the main lane's batch cadence (§5), the distill flywheel (§6), and
+> the recovery procedures (§8) — and because the rate-limit measurements (§7) are the record of why
+> that era ended.
 
 **Rewritten 2026-08-24 (P31 S59).** The previous version described the June reach-1 grinder pivot and
 was two months stale: it named no lane that exists today. If this file and the lane scripts ever

@@ -120,33 +120,39 @@ def main():
         json.dump(plan, fh, indent=1)
 
     def run_parallel():
+        # STREAM, DO NOT CAPTURE (R55: a lane that runs unattended must leave evidence). Capturing
+        # both lanes and printing at the end left the log at ZERO BYTES for the whole run, so there
+        # was no way to tell "working" from "hung" — the same ambiguity that cost 40 minutes to a
+        # self-matching pgrep waiter earlier in this session.
         if not plan:
-            return "(no parallel lane)"
-        cmd = [PY, "tools/parallel_gate.py", "--plan", ".run/gate_wave_plan.json",
+            print("[gate_wave] (no parallel lane)", flush=True)
+            return
+        cmd = [PY, "-u", "tools/parallel_gate.py", "--plan", ".run/gate_wave_plan.json",
                "--workers", str(a.workers)]
         if a.commit:
             cmd.append("--commit")
-        r = sh(cmd, timeout=14400)
-        return (r.stdout or "") + (r.stderr or "")
+        with subprocess.Popen(cmd, cwd=REPO, stdout=subprocess.PIPE,
+                              stderr=subprocess.STDOUT, text=True, bufsize=1) as p:
+            for line in p.stdout:
+                print("[par] " + line.rstrip(), flush=True)
 
     def run_serial():
-        out = []
-        for b, _, _ in ser:
+        for i, (b, _, _) in enumerate(ser, 1):
+            print("[ser] %d/%d %s ..." % (i, len(ser), b), flush=True)
             cmd = [PY, "tools/gate_stage.py", "--binary", b,
                    "--drafts", os.path.join(a.drafts, b), "--source-tag", a.source_tag]
             if a.commit:
                 cmd.append("--commit")
             r = sh(cmd, timeout=7200)
-            out.append("[serial] %s rc=%d %s" % (b, r.returncode, (r.stdout or "").strip()[-200:]))
-        return "\n".join(out)
+            print("[ser] %d/%d %s rc=%d %s"
+                  % (i, len(ser), b, r.returncode, (r.stdout or "").strip()[-200:]), flush=True)
 
     # BOTH LANES AT ONCE (Drew, S67: no lane should idle). They are safe together — parallel_gate's
     # workers are isolated by construction and it adopts a file only if the main tree's copy still
     # matches the pinned baseline, REFUSING rather than clobbering if the serial lane moved it.
     with cf.ThreadPoolExecutor(max_workers=2) as ex:
         fp, fs = ex.submit(run_parallel), ex.submit(run_serial)
-        print(fp.result())
-        print(fs.result())
+        fp.result(); fs.result()          # both stream as they go; nothing to print here
 
     if a.r22:
         print("[gate_wave] R22 clean-fleet ...")

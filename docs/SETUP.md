@@ -615,6 +615,13 @@ Full how-to in `docs/matching-cookbook.md` §11. Command crib:
 - **PsyQ provenance (R24)**: the resident is PsyQ **4.7** (`tools/psyq/conv47/`, sha-recorded in
   `tools/psyq/CHECKSUMS.sha256`) — Phase 12 links its embedded SDK code from 4.7, not the EXE's 4.0 libs.
 
+## §6.9 Running a matching wave — see `docs/wave-playbook.md`
+
+The start-to-finish operational sequence (draw → cards → packs → validate → draft → split-gate →
+twin_sweep → harvest → R22 → checkpoint), with the measured failure that justifies each guard.
+The tooling-inventory rows below are the per-tool REFERENCE; the playbook is the PROCEDURE.
+`docs/automation-runbook.md` is the retired OpenRouter-era campaign — not the current pipeline.
+
 ## §7 Session-start ritual
 
 Order is load-bearing — MCP tools fail (sometimes silently) without an open program.
