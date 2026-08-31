@@ -31393,3 +31393,20 @@ The switch bound is `sltiu`, so `func_801633A8` must return **u32** — while th
 fleet row says `s32`. Same shape as §343: the corpus majority is a propagated spelling, and the
 INSTRUCTION decides. An unsigned compare on the return value is direct evidence of an unsigned
 return type.
+
+## §348 — THE BASE SPELLING PICKS THE ADDRESSING MODE: A SYMBOL GIVES THE 3-INSN `lui/%lo` FORM, A POINTER VARIABLE GIVES THE 2-INSN `addu/lw` FORM (P31 S67; byte-proven ov_SC07_007/func_80182184, 264 -> 30 on this row alone)
+
+For a repeated read off a base (an OT base here), how you SPELL the base decides the addressing mode
+gcc emits, and the two differ in length:
+
+    read via the SYMBOL         ->  lui / %lo / load        (3 insns, the FIRST read)
+    read via a POINTER VARIABLE ->  addu / lw               (2 insns, every read after)
+
+So the target's mix of forms is telling you which reads went through the symbol and which through a
+held pointer. Matching that mix is a LENGTH fix, not a register fix — here it was the entire drift,
+264 → 30 in one change. Then ordinary §17/§325 pins closed the rest (30 → 15 → 0).
+
+**REFUTED on the same function, worth recording:** §137's zero-byte `"r"(K)` reference dial **does
+not work on constants** — cse will not fold the extra reference onto the existing constant pseudo,
+so every probe cost +1/+2 instructions. The §344 "add a reference to raise priority" trick applies to
+a biv or a live variable, NOT to a materialised constant.
