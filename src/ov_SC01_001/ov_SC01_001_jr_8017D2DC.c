@@ -3927,7 +3927,274 @@ extern s32 D_801EDA20;
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_8017EC28);
+extern s32 D_801EDA08;
+extern s32 D_801EDA0C;
+extern s32 D_801EDA10;
+extern s32 D_801EDA14;
+extern s32 D_801EDA18;
+extern s32 D_801EDA1C;
+
+void func_8017EC28(s32 param_1) {
+    switch (param_1) {
+    case 0:
+        break;
+    case 0x5151B:
+        D_801EDA14 = param_1;
+        break;
+    case 1:
+        D_801EDA10 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA14 = param_1;
+        break;
+    case 0x2424:
+        D_801EDA14 = param_1;
+        break;
+    case 3:
+        D_801EDA10 = param_1;
+        D_801EDA14 = 4;
+        D_801EDA18 = 2;
+        D_801EDA1C = 2;
+        D_801EDA0C = param_1;
+        break;
+    case 4:
+        D_801EDA10 = param_1;
+        D_801EDA14 = 5;
+        D_801EDA1C = 3;
+        D_801EDA18 = 3;
+        D_801EDA0C = param_1;
+        break;
+    case 0xB:
+        D_801EDA10 = 0xA;
+        break;
+    case 0x3031:
+        D_801EDA10 = 8;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    case 0x30B:
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA10 = param_1;
+        break;
+    case 2:
+        D_801EDA10 = param_1;
+        break;
+    case 5:
+        D_801EDA10 = param_1;
+        break;
+    case 6:
+        D_801EDA10 = param_1;
+        break;
+    case 7:
+        D_801EDA10 = param_1;
+        break;
+    case 9:
+        D_801EDA10 = param_1;
+        break;
+    case 0x37B:
+        D_801EDA10 = param_1;
+        break;
+    case 0x3131:
+        D_801EDA10 = param_1;
+        break;
+    case 0x35C:
+        D_801EDA08 = 0x35C;
+        break;
+    case 0x38A:
+        D_801EDA10 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    case 0x3737:
+        D_801EDA10 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    case 0x5858:
+        D_801EDA10 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    case 0x5151:
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    case 0x4141:
+        D_801EDA08 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    case 0x4242:
+        D_801EDA08 = param_1;
+        D_801EDA10 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    case 0xD:
+        D_801EDA10 = 0xC;
+        break;
+    case 0x4747:
+        D_801EDA18 = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x54B:
+        D_801EDA08 = param_1;
+        break;
+    case 0x35B:
+        D_801EDA08 = param_1;
+        break;
+    case 0x35D:
+        D_801EDA08 = param_1;
+        break;
+    case 0x3636:
+        D_801EDA08 = param_1;
+        break;
+    case 0x4848:
+        D_801EDA08 = param_1;
+        break;
+    case 0x4949:
+        D_801EDA08 = param_1;
+        break;
+    case 0x5151C:
+        D_801EDA08 = 0x51C;
+        break;
+    case 0x53C:
+        D_801EDA08 = 0x5252;
+        break;
+    case 0x55B:
+        D_801EDA10 = 0x5555;
+        break;
+    case 0x38B:
+        D_801EDA10 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x57A:
+        D_801EDA10 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x57B:
+        D_801EDA10 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x3939:
+        D_801EDA10 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x5656:
+        D_801EDA10 = param_1;
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x53A:
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x53B:
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x4040:
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x5050:
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x5252:
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x5454:
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x5555:
+        D_801EDA14 = param_1;
+        D_801EDA1C = param_1;
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x5959:
+        D_801EDA10 = param_1;
+        D_801EDA08 = param_1;
+        break;
+    case 0x6060:
+        D_801EDA10 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    case 0xF:
+        D_801EDA18 = 6;
+        D_801EDA1C = 6;
+        break;
+    case 0x10:
+        D_801EDA08 = 1;
+        break;
+    case 0x11:
+        D_801EDA08 = 2;
+        D_801EDA10 = 0x3333;
+        break;
+    case 0x12:
+        D_801EDA10 = 0xE;
+        D_801EDA14 = 8;
+        D_801EDA18 = 7;
+        D_801EDA1C = 7;
+        D_801EDA0C = 7;
+        break;
+    case 0x100:
+        D_801EDA18 = param_1;
+        D_801EDA0C = param_1;
+        break;
+    }
+}
+
 
 extern void func_80174E9C(s32 a0);
 extern s32 D_801ED9DC;
