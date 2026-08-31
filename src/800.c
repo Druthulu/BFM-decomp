@@ -2,6 +2,10 @@
 #include "psyq/libcd.h"
 #include "shared/clearTbl40.h"  /* dedup group I0: func_80037004 / func_80037334 share one body */
 typedef struct {
+    u16 unk00;
+    u8  pad[14];
+} T16;  /* 0x10 */
+typedef struct {
     s32 words[38];
 } Blk98_80029274;
 typedef struct Ent30D80 {
@@ -15258,7 +15262,28 @@ s32 func_8002A04C(s32 a0) {
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002A088);
+extern s32 func_8002A108();
+extern s32 func_8002A26C(void);
+extern void func_8016E918(s16 a0, s16 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8002AAAC(void);
+extern u8 D_800638FA[];
+
+s32 func_8002A088(s32 arg0) {
+    s32 i;
+    s32 off;
+
+    if (func_8002A108() != 0) {
+        i = func_8002A26C();
+        off = i * 16;
+        i = (i - 1) * 16;
+        func_8016E918(0, *(u16 *)(D_800638FA + off) - *(u16 *)(D_800638FA + i));
+        func_8002D4C8(0xB2C, 0);
+        func_8002AAAC();
+        return 1;
+    }
+    return 0;
+}
 
 extern s32 func_8002A26C(void);
 extern s32 func_8002AA00(s32 a0);
@@ -15621,7 +15646,27 @@ void func_8002A790(u8 *a0)
     func_8002A7B4(a0[0xC9]);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002A7B4);
+extern s32 func_8002A834(s32 a0);
+extern s32 func_8002A998(void);
+extern void func_8016E918(s16 a0, s16 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8002AAAC(void);
+
+
+extern T16 D_80063906[];
+
+s32 func_8002A7B4(s32 a0) {
+    s32 id;
+
+    if (func_8002A834(a0) != 0) {
+        id = func_8002A998();
+        func_8016E918(2, (s16) (D_80063906[id].unk00 - D_80063906[id - 1].unk00));
+        func_8002D4C8(0xB2C, 0);
+        func_8002AAAC();
+        return 1;
+    }
+    return 0;
+}
 
 extern s32 D_80078EF8;
 
@@ -15717,10 +15762,6 @@ s32 func_8002A9B8(void) {
     return D_80063904[D_80078EF4][0];
 }
 
-typedef struct {
-    u16 unk00;
-    u8  pad[14];
-} T16;  /* 0x10 */
 
 extern T16 D_80063906[];
 extern s32 D_80078EF4;

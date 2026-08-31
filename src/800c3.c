@@ -19,7 +19,17 @@ __asm__(".text\n.align 2\n.globl FlushCache\n.ent\tFlushCache\n"
         "nop\n"
         ".set\treorder\n.end\tFlushCache\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005CE38);
+
+__asm__(".text\n.align 2\n.globl func_8005CE38\n.ent\tfunc_8005CE38\n"
+        "func_8005CE38:\n.frame $sp,0,$31\n"
+        ".set\tnoreorder\n"
+        "addiu $t2, $zero, 0xA0\n"
+        "jr $t2\n"
+        "addiu $t1, $zero, 0x49\n"
+        "nop\n"
+        ".word 0x21007350\n"
+        ".word 0x004236AD\n"
+        ".set\treorder\n.end\tfunc_8005CE38\n");
 
 __asm__(".text\n.align 2\n.globl _96_remove\n.ent\t_96_remove\n"
         "_96_remove:\n.frame $sp,0,$31\n"
@@ -1214,7 +1224,52 @@ s32 func_8005E820(void *a0)
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E8E8);
+__asm__(
+    "\t.set\tnoreorder\n"
+    ".set noreorder\n"
+    "\t.globl\tfunc_8005E8E8\n"
+    "func_8005E8E8:\n"
+    "addiu $sp, $sp, -40\n"
+    "sw $s0, 16($sp)\n"
+    "addu $s0, $a0, $zero\n"
+    "sw $s1, 20($sp)\n"
+    "addu $s1, $a1, $zero\n"
+    "sw $s2, 24($sp)\n"
+    "addu $s2, $a2, $zero\n"
+    "sw $s3, 28($sp)\n"
+    "lui $v0, %hi(D_80072978)\n"
+    "lw $v0, %lo(D_80072978)($v0)\n"
+    "sw $ra, 32($sp)\n"
+    "jalr $v0\n"
+    "addu $s3, $s1, $zero\n"
+    "bnez $v0, 1f\n"
+    "addu $v0, $zero, $zero\n"
+    "addiu $v0, $zero, 1\n"
+    "lbu $a0, 228($s0)\n"
+    "addiu $v1, $zero, 1\n"
+    "sb $v1, 70($s0)\n"
+    "lui $v1, %hi(func_8005E980)\n"
+    "addiu $v1, $v1, %lo(func_8005E980)\n"
+    "sw $v1, 20($s0)\n"
+    "lui $v1, %hi(func_8005E9D4)\n"
+    "addiu $v1, $v1, %lo(func_8005E9D4)\n"
+    "sw $v1, 24($s0)\n"
+    "andi $v1, $s3, 0xFF\n"
+    "sb $s1, 81($s0)\n"
+    "sb $s2, 82($s0)\n"
+    "xor $v1, $v1, $a0\n"
+    "sltiu $v1, $v1, 1\n"
+    "sb $v1, 83($s0)\n"
+    "1:\n"
+    "lw $ra, 32($sp)\n"
+    "lw $s3, 28($sp)\n"
+    "lw $s2, 24($sp)\n"
+    "lw $s1, 20($sp)\n"
+    "lw $s0, 16($sp)\n"
+    "jr $ra\n"
+    "addiu $sp, $sp, 40\n"
+    ".set reorder\n"
+);
 
 void func_8005E980(void)
 {
@@ -1407,7 +1462,101 @@ __asm__(".text\n.align 2\n.globl func_8005EB28\n.ent\tfunc_8005EB28\n"
 " addiu $sp, $sp, 24\n"
 ".set\treorder\n.end\tfunc_8005EB28\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EC00);
+/*
+ * func_8005EC00 -- same wall as func_8005EB28 (src/800c3.c:1338): the target
+ * restores TWO callee-saved registers ($ra and $s0) yet the epilogue still
+ * ends in a bare `jr $ra` / `addiu $sp,$sp,0x18` delay-slot pair. Per
+ * cookbook §188 (gcc-2.7.2 mips.c:5081/5174/5204, mips_epilogue_delay_slots):
+ * cc1 offers the epilogue a delay slot ONLY when mask == RA_MASK && fmask==0
+ * (only $ra saved) -- with $s0 also saved that branch is structurally
+ * unreachable, so no C source can make cc1 emit this tail under the
+ * project's pinned `as -O1`. Banked verbatim per §265 (file-scope raw
+ * __asm__ form; decimal immediates -- maspsx rejects hex inside the string).
+ *
+ * Recovered C semantics (for the eventual real decomp; NOT compiled here --
+ * §265 says ship no C externs with the file-scope form):
+ *   s32 func_8005EC00(void *arg0) {
+ *       s32 v1, v0, a1;
+ *       if (D_800729DC != 0) {
+ *           (*D_80072974)((void *)(*(s32 *)((char *)arg0 + 0xC) + 0x1E0));
+ *           (*D_80072974)((void *)(*(s32 *)((char *)arg0 + 0xC) + 0x2D0));
+ *       }
+ *       a1 = 0;
+ *       if (*(u8 *)((char *)arg0 + 0x36) == 0) {
+ *           a1 = D_800729A8;
+ *       }
+ *       v1 = func_8005DE78(arg0, a1);
+ *       if (v1 < 0) {
+ *           return v1;
+ *       }
+ *       v0 = v1 & 0xF0;
+ *       if (v0 == 0) {
+ *           return -9;
+ *       }
+ *       v0 = (v1 & 0xF) * 2;
+ *       D_800729D4 = v0;
+ *       if (v0 == 0) {
+ *           D_800729D4 = 0x20;
+ *       }
+ *       return 0;
+ *   }
+ */
+__asm__(".text\n.align 2\n.globl func_8005EC00\n.ent\tfunc_8005EC00\n"
+"func_8005EC00:\n.frame $sp,24,$31\n.mask 0x80010000,-4\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"lui   $v0, %hi(D_800729DC)\n"
+"lw    $v0, %lo(D_800729DC)($v0)\n"
+"addiu $sp, $sp, -24\n"
+"sw    $s0, 16($sp)\n"
+"addu  $s0, $a0, $zero\n"
+"beqz  $v0, .L8005EC4C\n"
+" sw   $ra, 20($sp)\n"
+"lw    $a0, 12($s0)\n"
+"lui   $v0, %hi(D_80072974)\n"
+"lw    $v0, %lo(D_80072974)($v0)\n"
+"nop\n"
+"jalr  $v0\n"
+" addiu $a0, $a0, 480\n"
+"lw    $a0, 12($s0)\n"
+"lui   $v0, %hi(D_80072974)\n"
+"lw    $v0, %lo(D_80072974)($v0)\n"
+"nop\n"
+"jalr  $v0\n"
+" addiu $a0, $a0, 720\n"
+".L8005EC4C:\n"
+"lbu   $v0, 54($s0)\n"
+"nop\n"
+"bnez  $v0, .L8005EC64\n"
+" addu $a1, $zero, $zero\n"
+"lui   $a1, %hi(D_800729A8)\n"
+"lw    $a1, %lo(D_800729A8)($a1)\n"
+".L8005EC64:\n"
+"jal   func_8005DE78\n"
+" addu $a0, $s0, $zero\n"
+"addu  $v1, $v0, $zero\n"
+"bltz  $v1, .L8005ECB0\n"
+" nop\n"
+"andi  $v0, $v1, 240\n"
+"bnez  $v0, .L8005EC8C\n"
+" andi $v0, $v1, 15\n"
+"j     .L8005ECB0\n"
+" addiu $v0, $zero, -9\n"
+".L8005EC8C:\n"
+"sll   $v0, $v0, 1\n"
+"lui   $at, %hi(D_800729D4)\n"
+"sw    $v0, %lo(D_800729D4)($at)\n"
+"bnez  $v0, .L8005ECB0\n"
+" addu $v0, $zero, $zero\n"
+"addiu $v0, $zero, 32\n"
+"lui   $at, %hi(D_800729D4)\n"
+"sw    $v0, %lo(D_800729D4)($at)\n"
+"addu  $v0, $zero, $zero\n"
+".L8005ECB0:\n"
+"lw    $ra, 20($sp)\n"
+"lw    $s0, 16($sp)\n"
+"jr    $ra\n"
+" addiu $sp, $sp, 24\n"
+".set\treorder\n.end\tfunc_8005EC00\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005ECC0);
 
