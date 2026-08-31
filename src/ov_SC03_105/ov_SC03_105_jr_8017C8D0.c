@@ -4984,7 +4984,104 @@ s32 func_8018233C(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801824CC);
+typedef struct { u8 b[20]; } Stk;
+
+/* f1 is SIGNED: `vec.f1 = -4` / `-0x10` must materialise as `addiu $v0,$zero,-K`.
+ * A u16 field converts the constant to 0xFFFC/0xFFF0 and emits `ori` instead. */
+typedef struct {
+    u16 f0;
+    s16 f1;
+    u16 f2;
+} Vec3x16;
+
+extern s32 rand(void);
+extern u16 D_800B99DA;
+extern s32 func_8004787C(s32 a0);
+extern s32 D_8018E59C[];
+extern u8 D_801B822C[];
+extern s32 func_801850D8();
+
+/* LOAD-BEARING: K&R definition with s16 a1/a2/a3. The `s16` parameter type is what
+ * produces the per-use `sll/sra 16` pairs; s32 params + explicit (s16) casts give a
+ * different allocation (measured 189/322). The K&R form (not an ANSI prototype) is
+ * also what keeps this compatible with the TU's earlier
+ * `extern void func_801824CC(s32, s32, s32, s32, s32);` — an ANSI s16 prototype is a
+ * hard "conflicting types" error there. */
+void func_801824CC(a0, a1, a2, a3, mask)
+    s32 a0;
+    s16 a1;
+    s16 a2;
+    s16 a3;
+    s32 mask;
+{
+    Stk stk;
+    Vec3x16 vec;
+    s32 base;
+    s32 i;
+    s32 r;
+    u16 *p;
+
+    stk = *(Stk *)D_801B822C;
+    base = (func_8004787C((D_800B99DA << 6) & 0x7C0) << 4) >> 12;
+    if (D_800B99DA % 6 == 0) {
+        vec.f2 = 0;
+        for (i = 0; i < 5; i++) {
+            /* LOAD-BEARING: the explicit pointer temp. Writing the two loads as
+             * `*(u16 *)&stk.b[i * 4]` / `[i * 4 + 2]` inline permutes $v0/$v1 on the
+             * `sll`/`addiu $sp` pair that feeds the addu. */
+            p = (u16 *)&stk.b[i * 4];
+            vec.f0 = base + p[0];
+            vec.f1 = p[1];
+            r = func_801850D8(1, (s16)(a1 + rand() % ((a1 << 16) >> 17)), a2, a3, &vec, a0,
+                              D_8018E59C[rand() & 1], 0);
+            if (r != 0) {
+                *(s32 *)(r + 0x20) |= mask;
+            }
+        }
+    }
+    if ((D_800B99DA & 3) == 0) {
+        vec.f0 = base;
+        vec.f1 = 0;
+        vec.f2 = 0;
+        r = func_801850D8(1, (s16)(a1 + rand() % ((a1 << 16) >> 17)), a2, a3, &vec, a0,
+                          D_8018E59C[rand() & 1], -0x80000);
+        if (r != 0) {
+            *(s32 *)(r + 0x20) |= mask;
+        }
+    }
+    if (D_800B99DA % 5 == 0) {
+        vec.f1 = -4;
+        vec.f2 = 0;
+        for (i = 0; i < 2; i++) {
+            /* LOAD-BEARING association: `(i << 5) + (base - 0x10)`, NOT
+             * `base + (i << 5) - 0x10`. The latter makes `base + i*32` a giv of
+             * benefit 4 (> 2*biv_count), so strength_reduce reduces it to an extra
+             * induction pseudo — which also steals the last callee-saved register and
+             * pushes `mask` out of $fp into memory. Splitting the invariant off leaves
+             * a bare `i<<5` giv (benefit 2 - 2 = 0 => "not worth while"), and
+             * `base - 0x10` stays unhoisted inside the loop. */
+            vec.f0 = (i << 5) + (base - 0x10);
+            r = func_801850D8(1, (s16)(a1 + rand() % ((a1 << 16) >> 17)), a2, a3, &vec, a0,
+                              D_8018E59C[rand() & 1], -0x60000);
+            if (r != 0) {
+                *(s32 *)(r + 0x20) |= mask;
+            }
+        }
+    }
+    if (D_800B99DA % 6 == 0) {
+        vec.f1 = -0x10;
+        vec.f2 = 0;
+        for (i = 0; i < 2; i++) {
+            vec.f0 = (i << 6) + (base - 0x20);
+            r = func_801850D8(1, (s16)(a1 + rand() % ((a1 << 16) >> 17)), a2, a3, &vec, a0,
+                              D_8018E59C[rand() & 1], -0x60000);
+            if (r != 0) {
+                *(s32 *)(r + 0x20) |= mask;
+            }
+        }
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801829CC);
 

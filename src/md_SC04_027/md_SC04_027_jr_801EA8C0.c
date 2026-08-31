@@ -486,7 +486,25 @@ void func_801EAFE4(void) {
 }
 
 
-INCLUDE_ASM("asm/md_SC04_027/nonmatchings/md_SC04_027_jr_801EA8C0", func_801EB014);
+typedef struct { short vx, vy, vz, pad; } SVECTOR_801EDED4_801F1F94;
+
+
+void func_801EB014(void)
+{
+    typedef struct { s32 next; u8 pad[0xC]; } Node_801F28E0;
+    extern s32 D_801F24A4;
+    extern s32 D_801F2624;
+    Node_801F28E0 *p;
+    s32 i;
+
+    p = (Node_801F28E0 *)&D_801F24A4;
+    for (i = 0; i < D_801F2624 - 1; ) {
+        p->next = (s32)(p + 1);
+        i++;
+        p = p + 1;
+    }
+}
+
 
 extern s32 func_80029504(void);
 extern void func_80029124(s32 a0, s32 a1);
