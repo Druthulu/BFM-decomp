@@ -31515,3 +31515,26 @@ Two ordinary fixes worth the pattern: a clamp must be `if/else` plus a SEPARATE 
 because a `?:` const-folds `0x14*25` to 500; and the definition needed `(s32 arg0, s32 arg1)` with
 `(u8)`/`(s16)` casts INSIDE, because `resident.c:1693` already declares the prototype at file scope
 (gcc-2.7.2 rejects `+` asm constraints).
+
+## §353 — USE `-fno-thread-jumps` AS AN **ORACLE** TO PROVE A RESIDUAL IS thread_jumps, THEN LAUNDER THE *VALUE* TO KEEP A DEAD RE-TEST (P31 S67; byte-proven ov_SC01_008/func_8017EC68, 279 ins)
+
+A surviving "dead" `bne $s0,$v1` re-test in the target looks impossible to reproduce: `thread_jumps`
+deletes the label, and cse then folds the comparison away. §308 read in REVERSE gives the lever —
+**launder the VALUE, not the control flow**:
+
+    __asm__("" : "=r"(w) : "0"(w));      /* in place, on an s32 w */
+
+With the value laundered, cse can no longer prove the comparison redundant and the re-test survives.
+
+**THE DIAGNOSTIC IS THE REUSABLE PART:** compile once with **`-fno-thread-jumps`**. If the residual
+disappears, the pass is identified and you are looking for a value/label-liveness dial, not a
+scheduling or allocation one — here it took the count 4 → 1 immediately and named the target. Add it
+to the same toolbox as `oracle_reorder.py` (proves an `as -O1` epilogue wall) and `cc1 -dS`/`-dL`
+(prove a sched1 priority or a loop.c threshold): **a per-pass disable flag is a cheap oracle for
+"which pass is doing this".**
+
+Also from this function, and it is the §347/§162 pattern again: the shared
+`D_801A3458 = p; beep; return 0;` tail must be a source-level `goto` placed in case 0's LAST arm —
+leaving it to cross-jumping gives **341 instructions against the target's 279**. Cross-jumping
+re-merges what you duplicate (§347 lever 1), but it will not INVENT the jump structure a source
+`goto` expresses.
