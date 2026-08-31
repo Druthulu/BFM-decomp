@@ -5049,7 +5049,38 @@ s32 aF8017EBB8(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017EC6C);
+extern void (*D_80185DE4[])(void *);
+extern void (*D_80185DF0[])(void *);
+extern void (*D_80185DFC[])(void *);
+extern void (*D_80185E08[])(void *);
+extern void (*D_80185E1C[])(void *);
+
+void func_8017EC6C(s32 arg0)
+{
+    void (*pfn)(void *);
+
+    switch (*(s16 *)(arg0 + 0xFC)) {
+    case 0:
+        pfn = D_80185DE4[*(u16 *)((s32)arg0 + 2)];
+        break;
+    case 1:
+        pfn = D_80185DF0[*(u16 *)((s32)arg0 + 2)];
+        break;
+    case 2:
+        pfn = D_80185DFC[*(u16 *)((s32)arg0 + 2)];
+        break;
+    case 3:
+        pfn = D_80185E08[*(u16 *)((s32)arg0 + 2)];
+        break;
+    case 4:
+        pfn = D_80185E1C[*(u16 *)((s32)arg0 + 2)];
+        break;
+    default:
+        return;
+    }
+    pfn((void *)arg0);
+}
+
 
 extern s32 func_8012AD50(void*);
 void func_8017ED54(void) {
