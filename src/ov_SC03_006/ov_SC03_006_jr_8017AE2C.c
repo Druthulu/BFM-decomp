@@ -7497,7 +7497,121 @@ fail:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_801823B8);
+#include "common.h"
+
+extern void func_8012BD14(s32 a0);
+extern s32 func_80029178(s32 a0);
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern s32 func_801789AC(s32 arg0);
+extern void func_80178D18(void);
+extern s32 func_8014CB58(void);
+extern void func_8014B598(s32 a0, s32 a1);
+extern s32 func_8016F1AC(void);
+extern void func_80175454(void);
+extern void func_800D0CA0(s32 arg0);
+extern s32 func_8014CB2C(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80182740(s32 param_1);
+extern void func_80182794(s32 param_1);
+extern void func_801828B0(s32 a0);
+extern s32 func_801829FC(void);
+extern void func_80029124(s32 a0, s32 a1);
+extern s32 func_8016F0AC();
+extern void func_8002959C(void);
+extern void func_80175414(s32 _arg0);
+
+void func_801823B8(s32 param_1) {
+
+    extern u8 D_80190C14[];
+    extern s32 D_80190C24[];
+    extern s32 D_8019052C;
+
+    if (((s32 (*)(void))func_8012BD14)() <= 0x400 ||
+        (*(u16 *)(param_1 + 0x34) == 1 || *(u16 *)(param_1 + 0x34) == 2)) {
+        switch (*(u16 *)(param_1 + 0x34)) {
+        case 0:
+            if ((func_80029178(0x8B) & 0xFF) == 0) {
+                func_80178B18(param_1, (s32)D_80190C14);
+                *(u16 *)(param_1 + 0x34) = 2;
+            } else {
+                func_80178B18(param_1, (s32)D_80190C24);
+                *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            }
+            break;
+        case 1:
+            if (func_801789AC(param_1) == 1) {
+                ((void (*)(s32))func_80178D18)(param_1);
+                *(u16 *)(param_1 + 0x34) = 3;
+            }
+            break;
+        case 2:
+            if (func_801789AC(param_1) == 1) {
+                ((void (*)(s32))func_80178D18)(param_1);
+                *(u16 *)(param_1 + 0x34) = 4;
+            }
+            break;
+        case 3:
+            if ((func_80029178(0x121) & 0xFF) == 0 && func_8014CB58() == 3) {
+                func_8014B598(3, (s32)&D_8019052C);
+                if (func_8016F1AC() != 0) {
+                    if ((*(u16 *)(param_1 + 0x100) & 4) == 0) {
+                        *(u16 *)(param_1 + 0x100) |= 4;
+                        *(s32 *)(param_1 + 0x1C) = 0;
+                        func_80175454();
+                    }
+                }
+                if (*(u16 *)(param_1 + 0x100) & 4) {
+                    *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) + 1;
+                }
+                if ((*(u16 *)(param_1 + 0x100) & 2) == 0 &&
+                    *(s32 *)(param_1 + 0x1C) == 0x5A) {
+                    *(u16 *)(param_1 + 0x100) |= 2;
+                    func_800D0CA0(1);
+                }
+                if ((*(u16 *)(param_1 + 0x100) & 1) == 0) {
+                    if ((func_8014CB2C() & 0x8000007F) == 0x80000003) {
+                        { u16 n = *(u16 *)(param_1 + 0x34) + 1;
+                        *(u16 *)(param_1 + 0x100) |= 1;
+                        *(u16 *)(param_1 + 0x34) = n; }
+                        func_8002D4C8(0xB11, 0);
+                    }
+                }
+            }
+            break;
+        }
+        if (func_80029178(0x8B) & 0xFF) {
+            if (func_8014CB58() == 3) {
+                func_80182740(param_1);
+                func_80182794(param_1);
+                goto join;
+            }
+            goto setflag;
+        }
+    } else {
+        if (func_80029178(0x8B) & 0xFF) {
+setflag:
+            *(u8 *)(*(s32 *)(param_1 + 0xCC) + 0x27) = 0x88;
+            func_80182794(param_1);
+join:
+            if (*(u16 *)(param_1 + 0x100) & 1) {
+                func_801828B0(param_1);
+                if (func_801829FC() == 1) {
+                    func_80029124(0x121, 1);
+                    *(u16 *)(param_1 + 0x100) &= ~1;
+                    func_8016F0AC();
+                    *(u16 *)(param_1 + 0x2) = 2;
+                    *(u16 *)(param_1 + 0x34) = 0;
+                    *(u8 *)(*(s32 *)(param_1 + 0xCC) + 0x27) = 0x88;
+                    *(u8 *)(*(s32 *)(param_1 + 0xD0) + 0x27) = 0x89;
+                    func_8002959C();
+                    func_8002D4C8(4, 0xB11);
+                    ((void (*)(void))func_80175414)();
+                }
+            }
+        }
+    }
+}
+
 
 extern s16 func_800D0CE0(void);
 

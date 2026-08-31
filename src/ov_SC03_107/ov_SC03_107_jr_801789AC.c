@@ -6397,7 +6397,98 @@ void func_8017CF0C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017CF48);
+#include "common.h"
+
+/* 8 bytes, align 1 -> both copies lower through gcc-2.7.2's UNALIGNED
+   lwl/lwr + swl/swr pair (cookbook §48-C2 / §160a).  Struct assignment, not
+   memcpy: this TU declares `extern void *memcpy(...)` (and an asm-labelled
+   `memcpy` at :656), which turns a memcpy call into a real CALL at TU scope
+   (see the TU's own note at :5134).  Uniquely named so engine_types.h's
+   file-scope `Blk8` typedef is not redefined (C89 rejects a duplicate). */
+typedef struct { u8 b[8]; } Blk8_8017CF48;
+
+extern s16 D_80126940;
+/* §37 asm-label alias: the destination TU already carries `extern Blk8 D_801274F0;`
+   at file scope, so a second file-scope decl of that identifier at another type
+   would be a hard error.  Same symbol, own C name. */
+extern u8 D_801274F0_8017CF48[8] __asm__("D_801274F0");
+extern void (*D_80185FF0[8])(void);
+extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
+extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8017D280(s32 a0, s16 *a1);
+extern s32 func_8017D418(s16 *arg0, s16 *arg1);
+extern void func_8017D474(s32 a0, s32 a1, s32 a2);
+extern void func_8017D4C8(s32 a0, s32 a1, s32 a2);
+extern void func_8017D51C(s32 *a0, s32 *a1, s32 *a2);
+
+void func_8017CF48(s32 a0) {
+    register s32 tp __asm__("$16");
+    register s32 base __asm__("$18");
+    register void *ap __asm__("$4");
+    s16 buf[4];
+    s32 flag, t;
+    s32 t0, t1, u1, u2;
+
+    *(Blk8_8017CF48 *)buf = *(Blk8_8017CF48 *)&D_80126940;
+    if (buf[2] < 0x101) goto B;
+    if (buf[0] < -0x740) buf[0] = -0x740;
+    if (buf[0] < 0xA41) { flag = 0; goto L00C; }
+    buf[0] = 0xA40;
+    flag = 0;
+    goto L00C;
+B:
+    if (buf[0] < -0x640) buf[0] = -0x640;
+    if (buf[0] < 0x581) { flag = 0; goto L00C; }
+    buf[0] = 0x580;
+    flag = 0;
+L00C:
+    ap = buf;
+    __asm__("" : "=r"(ap) : "0"(ap));
+    base = (s32)&D_80185FF0;
+    if (func_8017D418((s16 *)ap, (s16 *)base)) goto L164;
+    if (func_8017D418(buf, (s16 *)(base + 0x10))) { func_8017D51C((s32 *)a0, (s32 *)buf, (s32 *)(base + 0x10)); flag = 1; goto L174; }
+    if (func_8017D418(buf, (s16 *)(base + 0x20))) { func_8017D474(a0, (s32)buf, base + 0x20); flag = 1; goto L174; }
+    if (func_8017D418(buf, (s16 *)(base + 0x30))) { func_8017D51C((s32 *)a0, (s32 *)buf, (s32 *)(base + 0x30)); flag = 1; goto L174; }
+    if (func_8017D418(buf, (s16 *)(base + 0x40))) { func_8017D4C8(a0, (s32)buf, base + 0x40); flag = 1; goto L174; }
+    if (func_8017D418(buf, (s16 *)(base + 0x50))) { func_8017D4C8(a0, (s32)buf, base + 0x50); flag = 1; goto L174; }
+    if (func_8017D418(buf, (s16 *)(base + 0x60))) { func_8017D474(a0, (s32)buf, base + 0x60); flag = 1; goto L174; }
+    if (func_8017D418(buf, (s16 *)(base + 0x70))) { func_8017D51C((s32 *)a0, (s32 *)buf, (s32 *)(base + 0x70)); flag = 1; goto L174; }
+    ap = buf;
+    __asm__("" : "=r"(ap) : "0"(ap));
+    base = base + 0x80;
+    if (func_8017D418((s16 *)ap, (s16 *)base)) goto L164;
+    goto L174;
+L164:
+    func_8017D4C8(a0, (s32)buf, base);
+    flag = 1;
+L174:
+    t = flag;
+    if (t == 0) goto LAB;
+    t = func_80012DBC(*(s16 *)(a0 + 0x18), *(s16 *)(a0 + 0xA0), 0xA, 1);
+    *(s16 *)(a0 + 0x20) = t;
+    *(s16 *)(a0 + 0x18) = t;
+    *(s16 *)(a0 + 0x1A) = *(s16 *)(a0 + 0x22) = func_80012DBC(*(s16 *)(a0 + 0x1A), *(s16 *)(a0 + 0xA2), 0xA, 1);
+    goto LEND;
+LAB:
+    t = func_80012ABC(*(s16 *)(a0 + 0x18), *(s16 *)(a0 + 0xA0), 0xA);
+    *(s16 *)(a0 + 0x20) = t;
+    *(s16 *)(a0 + 0x18) = t;
+    *(s16 *)(a0 + 0x1A) = *(s16 *)(a0 + 0x22) = func_80012ABC(*(s16 *)(a0 + 0x1A), *(s16 *)(a0 + 0xA2), 0xA);
+LEND:
+    tp = (s32)D_801274F0_8017CF48;
+    __asm__("" : "=r"(tp) : "0"(tp));
+    *(Blk8_8017CF48 *)tp = *(Blk8_8017CF48 *)buf;
+    t0 = func_80012F74(*(s16 *)(tp - 8), buf[0], 4, 1);
+    u1 = buf[1];
+    *(s16 *)(tp - 8) = t0;
+    t1 = func_80012F74(*(s16 *)(tp - 6), u1, 4, 1);
+    u2 = buf[2];
+    *(s16 *)(tp - 6) = t1;
+    *(s16 *)(tp - 4) = func_80012F74(*(s16 *)(tp - 4), u2, 4, 1);
+    func_8017D280(a0, (s16 *)(tp - 8));
+}
+
 
 
 

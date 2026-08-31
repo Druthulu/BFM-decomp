@@ -4289,7 +4289,183 @@ void func_80180BFC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_80180C38);
+#include "common.h"
+
+/* func_80180C38 (ov_SC03_102, 254 ins).
+ *
+ * Two idioms carry this function:
+ *
+ * (1) LHS-ADDRESS-FIRST.  gcc-2.7.2's expand_assignment expands the destination
+ *     MEM (to_rtx) BEFORE the RHS, so `p = *(s32 *)(a0 + 0x20);` written as its
+ *     own statement, followed by an rand()-bearing RHS that RE-READS the same
+ *     word, reproduces the two separate `lw ...,0x20($s2)` per group: the call
+ *     kills the memory CSE, so the second read is a genuine reload.
+ *
+ * (2) 🔴 THE COND_EXPR "SINGLETON" REWRITE.  For `c ? X : -X` (and `c ? X : X op B`
+ *     / `c ? X op B : X`), expand_expr's singleton/unary_op path copies X into the
+ *     target FIRST and then applies the operator IN PLACE on the target — emitting
+ *     `subu $a0,$0,$a0` (reads the copy), not `subu $a0,$0,$s0` (reads the source).
+ *     The target here wants the two-arm form, so that one select is written as an
+ *     `if/else` STATEMENT, which never enters the singleton path.  Note the three
+ *     selects in the first arm KEEP the ternary: `c ? base+r : base-r` has neither
+ *     arm equal to an operand of the other, so no singleton fires and the two-arm
+ *     expansion is already what the target has.
+ */
+
+struct vec;
+
+typedef struct { s16 vx, vy, vz, pad; } SVec_80180C38;   /* 0x8 */
+typedef struct { s32 w[8]; } Mtx_80180C38;               /* 0x20 */
+
+extern u16 D_801270C0;
+extern u8 D_801152A8[];
+extern s32 D_80126B58;
+extern s32 *D_80126B78;
+extern s32 *D_80126B90;
+extern u8 D_80189C10[];
+
+extern void func_8012931C(struct vec *a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+extern s32 rand(void);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern s32 func_8014A454(s32 a0);
+extern void func_8012F038(int param_1, short *param_2, short *param_3);
+extern void func_801292C8(u8 *a0);
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+void func_80180C38(void *a0)
+{
+    /* block-scope like func_80181260's own `extern Blk20_80181260 D_800AE620;`
+     * (line ~4421): the two spellings are distinct types, so gcc-2.7.2 emits a
+     * "type mismatch with previous external decl" WARNING on the later one.
+     * Byte-neutral, cc1 exit 0, verified by compiling both bodies in one TU. */
+    extern Mtx_80180C38 D_800AE620;
+
+    SVec_80180C38 sv_a;              /* sp+0x18 */
+    SVec_80180C38 sv_b;              /* sp+0x20 */
+    Mtx_80180C38 m;                  /* sp+0x28 */
+    s32 flag[2];                     /* sp+0x48 */
+    s32 p, r, base, d, t;
+
+    if (*(s16 *)&D_801270C0 != 2) {  /* `lh`: the u16 global is READ SIGNED here */
+        sv_a.vx = *(u16 *)((s32)a0 + 0x6);
+        sv_a.vy = *(u16 *)((s32)a0 + 0xA);
+        sv_a.vz = *(u16 *)((s32)a0 + 0xE);
+        func_8012931C((struct vec *)a0);
+
+        sv_b.vx = *(u16 *)((s32)a0 + 0x6);
+        sv_b.vy = *(u16 *)((s32)a0 + 0xA);
+        sv_b.vz = *(u16 *)((s32)a0 + 0xE);
+        if (func_80133784(1, &sv_a, (s32)&sv_b) != 0) {
+            *(s16 *)((s32)a0 + 0x2) = 1;
+            *(s16 *)((s32)a0 + 0x6) = sv_b.vx;
+            *(s16 *)((s32)a0 + 0xA) = sv_b.vy;
+            *(s16 *)((s32)a0 + 0xE) = sv_b.vz;
+            *(s32 *)((s32)a0 + 0x10) = 0;
+            *(s32 *)((s32)a0 + 0x14) = 0;
+            *(s32 *)((s32)a0 + 0x18) = 0;
+
+            /* (1) above: the `p = ...` statement is the to_rtx, the `base = ...`
+             * statement is the post-call reload.  Both reads are written out. */
+            p = *(s32 *)((s32)a0 + 0x20);
+            r = rand() % 256;
+            base = *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10);
+            *(s16 *)(p + 0x10) = (rand() & 1) ? base + r : base - r;
+
+            p = *(s32 *)((s32)a0 + 0x20);
+            r = rand() % 256;
+            base = *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12);
+            *(s16 *)(p + 0x12) = (rand() & 1) ? base + r : base - r;
+
+            p = *(s32 *)((s32)a0 + 0x20);
+            r = rand() % 256;
+            base = *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14);
+            *(s16 *)(p + 0x14) = (rand() & 1) ? base + r : base - r;
+            return;
+        }
+    }
+
+    m = D_800AE620;
+    m.w[5] = *(s16 *)((s32)a0 + 0x6);
+    m.w[6] = *(s16 *)((s32)a0 + 0xA);
+    m.w[7] = *(s16 *)((s32)a0 + 0xE);
+
+    RotMatrixY(*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14), &m);
+    gte_SetRotMatrix(&m);
+    gte_SetTransMatrix(&m);
+
+    RotTransSV(&D_80189C10[0], &sv_a, flag);
+    RotTransSV(&D_80189C10[8], &sv_b, flag);
+
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&sv_a, (s32)&sv_b) != 0) {
+        func_8012F568(1, 1, *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14) + 0x800, 30,
+                      (s32)&sv_b, (s32)D_801152A8);
+        if (func_8014A454((s32)&D_80126B58) != 0) {
+            goto kill;
+        }
+        func_8012F038((s32)D_80126B78 + 0x34, (short *)&sv_b, (short *)&sv_a);
+
+        *(s16 *)((s32)a0 + 0x12) = sv_a.vx;
+        *(s16 *)((s32)a0 + 0x16) = sv_a.vy;
+        *(s16 *)((s32)a0 + 0x1A) = sv_a.vz;
+        *(s32 *)((s32)a0 + 0x1C) = 60;
+        *(s16 *)((s32)a0 + 0x2) = 2;
+        *(s16 *)((s32)a0 + 0x2A) = *(u16 *)((u8 *)D_80126B78 + 0x12);
+
+        r = rand() % 256;
+        /* (2) above: an if/else STATEMENT, not `(rand() & 1) ? r : -r` — the
+         * ternary takes expand_expr's singleton path and emits `negu $a0,$a0`. */
+        if (rand() & 1) {
+            d = r;
+        } else {
+            d = -r;
+        }
+
+        *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x10) + d;
+        *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x12) + d;
+        *(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14) =
+            *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14) + d;
+        return;
+    }
+
+    t = *(s32 *)((s32)a0 + 0x1C) - 1;
+    *(s32 *)((s32)a0 + 0x1C) = t;
+    if (t != 0) {
+        return;
+    }
+kill:
+    func_801292C8((u8 *)a0);
+}
+
 
 #include "common.h"
 

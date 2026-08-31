@@ -5380,7 +5380,102 @@ void func_80180F7C(s32 a0, void *a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80181394);
+/* func_80181394 (ov_SC07_002, 275 ins) — the §250/§195-H address-materialisation
+ * card again.  Head + switch are structurally IDENTICAL to the banked neighbour
+ * func_80180F7C in this same TU (same `extern u8 D[];` + `(s16 *)` cast for
+ * D_8019F060/D_8019F064, same plain `extern s16 D_8019F062` scalar, same §252
+ * guarded pre-decrement, same "assign p60 AFTER the if" lever).  Only the tail
+ * differs: func_80185848 + ApplyMatrixSV, and the results are `<< 16 >> 19`.
+ */
+
+typedef struct { s16 vx, vy, vz, pad; } SV_80181394;
+typedef struct { u16 vx, vy, vz, pad; } UV_80181394;
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_80181394;   /* 0x20 */
+
+void func_80181394(s32 a0, s16 *param_2, s32 a2)
+{
+    extern s32  func_80012ABC(s32 a0, s32 a1, s32 a2);
+    extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
+    extern s32  func_800130D0(s32 a0, s32 a1, s32 a2);
+    extern s32  func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32  func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_801817E0(s32 a0);
+    extern void func_80185848(u16 *a0, s16 *a1);
+    extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+    extern u8   D_8019F060[];
+    extern s16  D_8019F062;
+    extern u8   D_8019F064[];
+    extern u16  D_8019F066;
+
+    MTX_80181394 m1;            /* sp+0x10 */
+    SV_80181394  svec_in;       /* sp+0x30 */
+    UV_80181394  svec_out;      /* sp+0x38 */
+    UV_80181394  rot;           /* sp+0x40 */
+    s16 *p60;
+    s16 t;
+
+    if (*(s16 *)D_8019F064 != 0) {
+        t = *(s16 *)D_8019F064 - 1;
+        *(s16 *)D_8019F064 = t;
+        if (t == 0) {
+            func_801817E0((D_8019F066 >> 4) & 0xF);
+        }
+    }
+
+    p60 = (s16 *)D_8019F060;
+
+    switch (D_8019F066 & 0xF) {
+    case 0:
+        *(s32 *)(a0 + 0x8)  = (s16)func_80012C6C((s32)*(s16 *)(a0 + 0x8),  (s32)*(s16 *)(a0 + 0xC),  (s32)*p60);
+        *(s32 *)(a0 + 0x10) = (s16)func_80012C6C((s32)*(s16 *)(a0 + 0x10), (s32)*(s16 *)(a0 + 0x14), (s32)*p60);
+        *(s16 *)(a0 + 0x18) = func_80012ABC((s32)*(s16 *)(a0 + 0x18), (s32)*(s16 *)(a0 + 0x20), (s32)*p60);
+        *(s16 *)(a0 + 0x1A) = func_80012ABC((s32)*(s16 *)(a0 + 0x1A), (s32)*(s16 *)(a0 + 0x22), (s32)*p60);
+        *(s16 *)(a0 + 0x1C) = func_80012ABC((s32)*(s16 *)(a0 + 0x1C), (s32)*(s16 *)(a0 + 0x24), (s32)*p60);
+        *(s16 *)(a0 + 0x28) = func_80012C6C((s32)*(s16 *)(a0 + 0x28), (s32)*(s16 *)(a0 + 0x2E), (s32)D_8019F062);
+        *(s16 *)(a0 + 0x2A) = func_80012C6C((s32)*(s16 *)(a0 + 0x2A), (s32)*(s16 *)(a0 + 0x30), (s32)D_8019F062);
+        *(s16 *)(a0 + 0x2C) = func_80012C6C((s32)*(s16 *)(a0 + 0x2C), (s32)*(s16 *)(a0 + 0x32), (s32)D_8019F062);
+        break;
+    case 1:
+        *(s32 *)(a0 + 0x8)  = (s16)func_80012F74((s32)*(s16 *)(a0 + 0x8),  (s32)*(s16 *)(a0 + 0xC),  (s32)*p60, 1);
+        *(s32 *)(a0 + 0x10) = (s16)func_80012F74((s32)*(s16 *)(a0 + 0x10), (s32)*(s16 *)(a0 + 0x14), (s32)*p60, 1);
+        *(s16 *)(a0 + 0x18) = func_80012DBC((s32)*(s16 *)(a0 + 0x18), (s32)*(s16 *)(a0 + 0x20), (s32)D_8019F062, 1);
+        *(s16 *)(a0 + 0x1A) = func_80012DBC((s32)*(s16 *)(a0 + 0x1A), (s32)*(s16 *)(a0 + 0x22), (s32)D_8019F062, 1);
+        *(s16 *)(a0 + 0x1C) = func_80012DBC((s32)*(s16 *)(a0 + 0x1C), (s32)*(s16 *)(a0 + 0x24), (s32)D_8019F062, 1);
+        *(s16 *)(a0 + 0x28) = func_80012F74((s32)*(s16 *)(a0 + 0x28), (s32)*(s16 *)(a0 + 0x2E), (s32)*p60, 1);
+        *(s16 *)(a0 + 0x2A) = func_80012F74((s32)*(s16 *)(a0 + 0x2A), (s32)*(s16 *)(a0 + 0x30), (s32)*p60, 1);
+        *(s16 *)(a0 + 0x2C) = func_80012F74((s32)*(s16 *)(a0 + 0x2C), (s32)*(s16 *)(a0 + 0x32), (s32)*p60, 1);
+        break;
+    case 2:
+        *(s32 *)(a0 + 0x8)  = (s16)func_800130D0((s32)*(s16 *)(a0 + 0x8),  (s32)*(s16 *)(a0 + 0xC),  (s32)*p60);
+        *(s32 *)(a0 + 0x10) = (s16)func_800130D0((s32)*(s16 *)(a0 + 0x10), (s32)*(s16 *)(a0 + 0x14), (s32)*p60);
+        *(s16 *)(a0 + 0x18) = func_80012DBC((s32)*(s16 *)(a0 + 0x18), (s32)*(s16 *)(a0 + 0x20), (s32)D_8019F062, 1);
+        *(s16 *)(a0 + 0x1A) = func_80012DBC((s32)*(s16 *)(a0 + 0x1A), (s32)*(s16 *)(a0 + 0x22), (s32)D_8019F062, 1);
+        *(s16 *)(a0 + 0x1C) = func_80012DBC((s32)*(s16 *)(a0 + 0x1C), (s32)*(s16 *)(a0 + 0x24), (s32)D_8019F062, 1);
+        *(s16 *)(a0 + 0x28) = func_800130D0((s32)*(s16 *)(a0 + 0x28), (s32)*(s16 *)(a0 + 0x2E), (s32)*p60);
+        *(s16 *)(a0 + 0x2A) = func_800130D0((s32)*(s16 *)(a0 + 0x2A), (s32)*(s16 *)(a0 + 0x30), (s32)*p60);
+        *(s16 *)(a0 + 0x2C) = func_800130D0((s32)*(s16 *)(a0 + 0x2C), (s32)*(s16 *)(a0 + 0x32), (s32)*p60);
+        break;
+    }
+
+    *(s32 *)(a0 + 0x48) = (s32)*(s16 *)(a0 + 0x28) + (s32)param_2[0];
+    *(s32 *)(a0 + 0x4C) = (s32)*(s16 *)(a0 + 0x2A) + (s32)param_2[1];
+    *(s32 *)(a0 + 0x50) = (s32)*(s16 *)(a0 + 0x2C) + (s32)param_2[2];
+
+    rot.vx = *(u16 *)(a0 + 0x18);
+    rot.vy = *(u16 *)(a0 + 0x1A) + a2;
+    rot.vz = *(u16 *)(a0 + 0x1C);
+    func_80185848((u16 *)&rot, (s16 *)&m1);
+
+    svec_in.vx = 0;
+    svec_in.vy = 0;
+    svec_in.vz = *(s32 *)(a0 + 0x10);
+    ApplyMatrixSV(&m1, &svec_in, &svec_out);
+
+    *(s32 *)(a0 + 0x3C) = ((svec_out.vx << 16) >> 19) + *(s16 *)(a0 + 0x28) + param_2[0];
+    *(s32 *)(a0 + 0x40) = ((svec_out.vy << 16) >> 19) + *(s16 *)(a0 + 0x2A) + param_2[1];
+    *(s32 *)(a0 + 0x44) = ((svec_out.vz << 16) >> 19) + *(s16 *)(a0 + 0x2C) + param_2[2];
+}
+
 
 typedef struct { u16 a, b, c, d; } V8;
 

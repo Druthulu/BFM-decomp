@@ -4810,7 +4810,112 @@ void func_8017E754(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017E780);
+/* func_8017E780 (ov_SC03_092) — byte-matched.
+ *
+ * Two non-obvious levers, both byte-proven (match_one MATCH, 200/200 ins, vars=0):
+ *
+ *  1) The three "* D_80188B66[i]" multiplier loads are spelled through DIFFERENT base
+ *     symbols that resolve to the SAME address 0x80188B66:
+ *         (u8 *)D_80188B90 - 0x2A   (u8 *)D_80188BA0 - 0x3A   (u8 *)D_80188410 + 0x756
+ *     Reason (cookbook §165-03 / §167-06 / §172 orphan-slot mechanism): four references to
+ *     ONE symbol inside one basic block make cse share a single symbol-address pseudo; combine
+ *     then folds each MEM back to the `lhu $r,SYM($idx)` macro form but strands the surviving
+ *     `(plus idx sym)` pseudos as `(use (reg))` orphans (`; ST_REGS or none` in -dl), and
+ *     alter_reg charges each one 8 bytes -> vars=48, frame 72 instead of 24, with no $sp
+ *     reference to the excess. Distinct base symbols keep every address pseudo single-use, so
+ *     combine's 3->2 merge consumes it and no orphan is born. The emitted instructions and the
+ *     linked relocation values are identical either way.
+ *
+ *  2) `*(u16 *)(p + 2) = 5;` must be the LAST statement of the <=0x10000 arm (not before the
+ *     +0xE update): sched1 otherwise hoists its `addiu $r,$zero,5` into the load-delay nop at
+ *     0x8017E9EC and the block loses an instruction (LENGTH-DRIFT -1, 39 mismatches).
+ *
+ *  3) The zero-byte re-tie on `t` makes `lw $a0,0x20($s0)` emit before `addiu $a1,$zero,0x140`
+ *     at .L8017E900 (house idiom, cf. func_8017EE8C in this TU).
+ */
+extern s32  func_8012C354(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32  func_80029178(s32 a0);
+extern void MoveImage(void *a0, s32 a1, s32 a2);
+extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+extern void func_8012C218(void *a0);
+extern s32  func_801788B8(s32 a0, s32 a1);
+extern void func_8017EDDC(void);
+
+extern u8   D_80188A28[];
+extern u8   D_8018502C[];
+extern s16  D_801889F0[];
+extern u16  D_80188B60[];
+extern u16  D_80188B62[];
+extern u16  D_80188B64[];
+extern u16  D_80188B66[];
+extern u16  D_80188B90[];
+extern u16  D_80188BA0[];
+extern u16  D_80188410[];
+extern s32  D_80188C48[];
+extern u16  D_80126B5E;
+extern u16  D_80126B66;
+
+void func_8017E780(void *arg0) {
+    u8 *p;
+
+    p = (u8 *)arg0;
+    if (func_8012C354((s32)p, (s32)(D_80188A28 + (*(u16 *)(p + 0x70) & 0xF) * 0x34)) == 0) {
+        return;
+    }
+    *(u32 *)(*(u32 *)(p + 0x20) + 4) |= 0x1000000;
+    func_8012A828((s32)p, D_8018502C);
+    if ((*(u16 *)(p + 0x70) & 0xF0) != 0) {
+        *(u16 *)(p + 2) = 2;
+        if ((func_80029178(0xB3) & 0xFF) != 0) {
+            MoveImage(D_801889F0, 0x340, 0x100);
+            *(u16 *)(p + 0xFC) =
+                *(u16 *)((u8 *)D_80188B66 + (*(u16 *)(p + 0x70) & 0xF) * 8);
+            *(u16 *)(p + 6) = *(u16 *)(p + 6)
+                + *(u16 *)((u8 *)D_80188B60 + (*(u16 *)(p + 0x70) & 0xF) * 8)
+                * *(u16 *)((u8 *)D_80188B90 - 0x2A + (*(u16 *)(p + 0x70) & 0xF) * 8);
+            *(u16 *)(p + 0xA) = *(u16 *)(p + 0xA)
+                + *(u16 *)((u8 *)D_80188B62 + (*(u16 *)(p + 0x70) & 0xF) * 8)
+                * *(u16 *)((u8 *)D_80188BA0 - 0x3A + (*(u16 *)(p + 0x70) & 0xF) * 8);
+            *(u16 *)(p + 0xE) = *(u16 *)(p + 0xE)
+                + *(u16 *)((u8 *)D_80188B64 + (*(u16 *)(p + 0x70) & 0xF) * 8)
+                * *(u16 *)((u8 *)D_80188410 + 0x756 + (*(u16 *)(p + 0x70) & 0xF) * 8);
+        }
+        {
+            s32 t;
+            t = *(s32 *)(p + 0x20);
+            __asm__ __volatile__("" : "=r"(t) : "0"(t));
+            func_8001D0E8(t, 0x140, 0xF0);
+        }
+        *(u8 *)(p + 0x75) = 0;
+        return;
+    }
+    if ((func_80029178(D_80188C48[(s16)*(u16 *)(p + 0x70)]) & 0xFF) != 0) {
+        func_8012C218(p);
+        return;
+    }
+    *(u16 *)(p + 2) = 1;
+    if ((*(s16 *)(p + 6) - (s16)D_80126B5E) * (*(s16 *)(p + 6) - (s16)D_80126B5E)
+      + (*(s16 *)(p + 0xE) - (s16)D_80126B66) * (*(s16 *)(p + 0xE) - (s16)D_80126B66)
+        <= 0x10000) {
+        *(u16 *)(p + 0xFC) =
+            *(u16 *)((u8 *)D_80188B66 + *(s16 *)(p + 0x70) * 8);
+        *(u16 *)(p + 6) = *(u16 *)(p + 6)
+            + *(u16 *)((u8 *)D_80188B60 + *(s16 *)(p + 0x70) * 8)
+            * *(u16 *)((u8 *)D_80188B90 - 0x2A + *(s16 *)(p + 0x70) * 8);
+        *(u16 *)(p + 0xA) = *(u16 *)(p + 0xA)
+            + *(u16 *)((u8 *)D_80188B62 + *(s16 *)(p + 0x70) * 8)
+            * *(u16 *)((u8 *)D_80188BA0 - 0x3A + *(s16 *)(p + 0x70) * 8);
+        *(u16 *)(p + 0xE) = *(u16 *)(p + 0xE)
+            + *(u16 *)((u8 *)D_80188B64 + *(s16 *)(p + 0x70) * 8)
+            * *(u16 *)((u8 *)D_80188410 + 0x756 + *(s16 *)(p + 0x70) * 8);
+        *(u16 *)(p + 2) = 5;
+    } else {
+        func_801788B8((s32)p, (s32)func_8017EDDC);
+    }
+    *(u8 *)(p + 0x75) = 0;
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_80178970();

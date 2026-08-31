@@ -4047,7 +4047,127 @@ extern void func_8013CB84(void);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_008/nonmatchings/ov_SC04_008_jr_8017AE2C", func_8017D3F8);
+/* func_8017D3F8 — ov_SC04_008 / ov_SC04_008_jr_8017AE2C.c
+ *
+ * 8 falling "rain streak" LINE_F2 particles held in arg0[0xDC..0xFB] as an
+ * interleaved {u16 x, u16 y} pair array; +0x2 is the seeded flag/counter,
+ * +0x6/+0xA the emitter origin.  First call seeds the field (rand()%2432-0x4C0
+ * about the origin X, rand()%511 below the origin Y); every later call drops
+ * each streak 0x40, recycles it above the origin when it passes -0x4E0, and
+ * emits the 0x1C-byte packet through RotTransPers into D_800A651C[tag].a.
+ *
+ * Idioms that decided the bytes:
+ *  - §194-E TU house style: D_800A651C is OtBlk (0x14 stride, .a at 0), indexed
+ *    by (u16)D_800B9A02 (the TU spells the global `short`, unsigned at use).
+ *  - ONE pointer `p` with p[0]/p[1] + `p += 2`: loop.c strength-reduces the
+ *    second reference into its own giv, which is why the else-arm holds TWO
+ *    pointer registers while the seeding arm holds one — and why the giv init
+ *    ($s4 = arg0+0xDE) is emitted AFTER move_movables' &L.p/&L.flag hoists.
+ *  - `i = 0;` at the head of BOTH arms: reorg steals the else-arm's copy into
+ *    the `bnez` delay slot precisely because the seeding arm's own copy makes
+ *    it redundant on the fall-through.
+ *  - x/y read into locals before the L stores: `L`'s address escapes to
+ *    RotTransPers, so without the temps gcc's alias oracle reloads p[0]/p[1]
+ *    after every stack store (+5 insns).  Statement order a[0], b[0], a[1],
+ *    b[1] with the y load between a[0] and b[0] is what fills the load slots.
+ *  - The FIRST AddPrim call is placed BEFORE `p += 2; i++;` (they are dead
+ *    across it): that is what gives its `$a1` copy the low LUID that wins the
+ *    final `bltz` delay slot, with the two giv increments falling into the
+ *    slots behind it.  (§176-A statement-order sweep; a zero-byte §194-A fence
+ *    is barred here by its own BOUND 5 — never at the head of a block whose
+ *    first insn the target steals into a delay slot.)
+ */
+
+typedef struct { s32 a; s32 b[4]; } OtBlk_8017D3F8;
+
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 rand(void);
+extern void *func_80010A08(s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern s32 func_8005A600(s32, s32, s32, s32, s32);
+extern void SetLineF2(void *);
+extern void SetSemiTrans(void *, s32);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+extern s32 AddPrim(s32, void *);
+
+void func_8017D3F8(s32 param_1)
+{
+    extern OtBlk_8017D3F8 D_800A651C[];
+    extern short D_800B9A02;
+    extern u8 D_800AF648;
+
+    struct { s16 a[4]; s16 b[4]; s32 p; s32 flag; } L;
+    u16 *p;
+    s32 i;
+    s32 x;
+    s32 y;
+    s32 otz;
+    s32 prim;
+    s32 line;
+
+    if (*(u16 *)(param_1 + 2) == 0) {
+        func_8002D4C8(0x98C, 0);
+        p = (u16 *)(param_1 + 0xDC);
+        i = 0;
+        *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
+        do {
+            i++;
+            p[0] = *(u16 *)(param_1 + 6) + rand() % 2432 - 0x4C0;
+            p[1] = *(u16 *)(param_1 + 0xA) + rand() % 511;
+            p += 2;
+        } while (i < 8);
+    } else {
+        i = 0;
+        p = (u16 *)(param_1 + 0xDC);
+        L.a[2] = L.b[2] = -0x4D0;
+        do {
+            p[0] -= 0x40;
+            if ((s16)p[0] < -0x4E0) {
+                p[0] = *(u16 *)(param_1 + 6) + rand() % 2432 - 0x4C0;
+                p[1] = *(u16 *)(param_1 + 0xA);
+            } else {
+                p[1] += 0x20;
+            }
+            x = p[0];
+            L.a[0] = x;
+            y = p[1];
+            L.b[0] = x - 0x200;
+            L.a[1] = y;
+            L.b[1] = y + 0x100;
+            prim = (s32)func_80010A08(0x1C);
+            if (prim == 0) {
+                return;
+            }
+            line = prim + 0xC;
+            func_8005A600(prim, 0, 0, (u16)GetTPage(0, rand() & 1, 0, 0), 0);
+            *(s32 *)(prim + 0x10) = 0xFFFFFF;
+            SetLineF2((void *)line);
+            SetSemiTrans((void *)line, 1);
+            func_8004914C(&D_800AF648);
+            func_800491AC(&D_800AF648);
+            otz = RotTransPers((s32)L.a, prim + 0x14, &L.p, &L.flag);
+            if (otz <= 0) {
+                return;
+            }
+            if (L.flag < 0) {
+                return;
+            }
+            if (RotTransPers((s32)L.b, prim + 0x18, &L.p, &L.flag) <= 0) {
+                return;
+            }
+            if (L.flag < 0) {
+                return;
+            }
+            AddPrim(D_800A651C[(u16)D_800B9A02].a + otz * 4, (void *)line);
+            p += 2;
+            i++;
+            AddPrim(D_800A651C[(u16)D_800B9A02].a + otz * 4, (void *)prim);
+        } while (i < 8);
+    }
+}
+
 
 extern s32 func_8017D738(void);
 
