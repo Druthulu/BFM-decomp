@@ -46,7 +46,7 @@ to prevent). Adopting is per-BINARY and per-FILE, never a blanket add.
   parallel_gate.py --plan plan.json [--workers 8] [--commit] [--r22] [--keep]
       plan.json: [{"binary": "ov_SC03_099", "drafts": "/abs/path/to/dir"}, ...]
 """
-import argparse, json, os, shutil, subprocess, sys, time
+import argparse, json, os, re, shutil, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -153,12 +153,71 @@ def stubs_of(wt, binary):
     return set(r.stdout.split())
 
 
+_JTBL_RE = re.compile(r"jtbl_[0-9A-Fa-f]{8}")
+
+
+def _drafts_carry_jtbl(binary, drafts):
+    """Does any draft in this job reference a jump table? (same predicate harvest_verify carves on)"""
+    try:
+        import corpus
+        stubs = corpus.stubs(binary)
+    except Exception:
+        return False
+    try:
+        names = {os.path.basename(f)[:-2] for f in os.listdir(drafts) if f.endswith(".c")}
+    except OSError:
+        return False
+    for st in stubs.values():
+        if st.symbol in names:
+            try:
+                if _JTBL_RE.search(open(os.path.join(REPO, st.asm_path), errors="replace").read()):
+                    return True
+            except OSError:
+                continue
+    return False
+
+
+def isolate_asm(wt, binary):
+    """Give this worker a WRITABLE asm/ for ONE binary so a jtbl carve can re-extract safely.
+
+    THE PROBLEM THIS REMOVES (P31 S67). `harvest_verify`'s jtbl carve runs `make extract`, and the
+    worktree's `asm/` is a SYMLINK to the main tree — so a carving worker would rewrite the MAIN
+    tree's asm while 11 other workers read it. That is why jtbl drafts were routed to a SERIAL lane,
+    and why one 16-binary batch took ~1 hour to protect a single jtbl draft.
+
+    THE FIX IS CHEAP, and the numbers are why: `asm/` is 448 MB, but ONE binary's subtree is
+    3.6-5.0 MB. So replace the blanket symlink with a real directory that SYMLINKS every other
+    binary (read-only, free) and holds a real COPY of just this binary. `make extract BINARY=<b>`
+    then writes only inside the worktree. ~5 MB per worker; nothing serial remains.
+
+    Idempotent: a reused worker slot re-isolates for its new binary.
+    """
+    link = os.path.join(wt, "asm")
+    real = os.path.join(REPO, "asm")
+    if os.path.islink(link):
+        os.unlink(link)
+    elif os.path.isdir(link):
+        shutil.rmtree(link, ignore_errors=True)
+    os.makedirs(link, exist_ok=True)
+    for entry in os.listdir(real):
+        src, dst = os.path.join(real, entry), os.path.join(link, entry)
+        if entry == binary:
+            shutil.copytree(src, dst, symlinks=True)      # the ONE writable copy
+        elif not os.path.exists(dst):
+            os.symlink(src, dst)                          # everything else stays shared
+    return True
+
+
 def gate_one(idx, pin, job):
     binary, drafts = job["binary"], job["drafts"]
     t0 = time.time()
     wt = job.get("_wt")
     try:
         missing = stage_generated(wt, binary)
+        # A CARVING JOB NEEDS ITS OWN asm/ (see isolate_asm). Without this the job is unsafe in a
+        # worktree and had to run serially; with it, jtbl parallelises like everything else.
+        if _drafts_carry_jtbl(binary, drafts):
+            isolate_asm(wt, binary)
         before = stubs_of(wt, binary)
         if before is None:
             return {"binary": binary, "banked": [], "error": "corpus refused in worktree"}
