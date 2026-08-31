@@ -3585,3 +3585,112 @@ make to my own claims**: main's frontier, the "24 groups / 40 free" figure (ledg
 `ov_SC04_011` attribution, the `parallel_gate` accusation I published in a commit before reading its
 source, and the F18 wall retraction. The Fable free-win review is `.run/fable_freewins.md`
 (appendices A-E list every draft path).
+
+## 🛑 SESSION CHECKPOINT — S67 FINAL (2026-08-31, end of session). Supersedes EVERY earlier block in this file. Phase 31 T5 CONTINUES.
+Written for a FRESH SESSION that has none of this context.
+
+**Machine QUIESCED:** no lanes, no workflows, no background jobs. `src/`, `config/`, `include/`,
+`tools/`, `docs/` CLEAN and committed. HEAD `commit:3357`. Drew pushes (R6). `ghidra/` churn in
+`git status` is MCP noise — do not commit (verified excluded from both S67 commits).
+
+### STATE — measured from `corpus.stubs`, not summed from reports
+* `make clean && make extract-all && make check-all` = **213 passed, 0 failed of 213**.
+* **FRONTIER = 526 open: 432 non-main + 94 main.** Session start 530 → **4 closed**, byte-verified.
+* Session commits: `commit:3352` (tools), `commit:3353` / `commit:3354` / `commit:3355` / `commit:3356`
+  (gate banks), `commit:3357` (the ov_SC04_018 repair).
+* dedup-check clean: 2193 validated, 0 failed, C1 255302/255302.
+* `make tools-health` has ONE **pre-existing** cdecl defect (1 of 74,749 declarations,
+  `func_8017EE08_p55352` / `struct ZnRec`). cdecl.py and its inputs are byte-identical to HEAD, so
+  it is not from this session. It is the only thing standing between tools-health and green.
+
+### THE FOUR THINGS A FRESH SESSION MUST NOT RE-LEARN
+1. **PROPAGATION IS NOT BYTE-GATED, AND THAT COST A RED BINARY.** `gate_stage` byte-gates the
+   SOURCE binary, then `dedup_propagate` writes to N OTHER binaries and nothing re-verifies them.
+   Commit `commit:3354` replaced three bodies in `ov_SC04_018_jr_80135D20.c` with `DEFINE_func_*()`
+   and deleted the 981 lines they occupied — **including the file-scope declaration layer the two
+   surviving non-deduped bodies still used**. A duplicate of those decls survived at line 225,
+   BELOW the function using them at line 42; C89 ordering made it fatal. The per-binary gate said
+   green, the commit subject said "fleet 99.2%" (a METRIC, not a gate), and only the periodic
+   whole-fleet R22 could see it. This is exactly what R50 is for. **Run R22 after any propagating
+   gate run, not at session end.**
+2. **THE STRANDED-DRAFT POOL IS NOT A PILE OF FREE WINS.** 193 of the 530 open functions already
+   had a draft on disk (`tools/strand_census.py`). Classified in their real TUs: 37 MATCH / 67 NEAR
+   / 89 CC1-FAIL. Gating the MATCH set banked **0 of 13** before I stopped it. `rtu_match` is
+   RELOCATION-MASKED and does not link, so its MATCH is an UPPER BOUND — S66's "147 byte-correct
+   drafts stranded on integration blockers" and my own "37 MATCH" both inherit that flaw. After the
+   ladder cleared the declaration blockers, **44% of the residual (28 of 63) is real codegen DIFF.**
+3. **THE FRONTIER'S LARGEST STRUCTURAL CLASS IS CARVE PLUMBING.** 159 of 526 open functions (30%)
+   reference a jump table; **96 are plan-refused** by `build_carve` (same-subseg `.rodata` carves
+   would be non-contiguous), 75 of them non-main across 38 subsegs. Not codegen, not declarations.
+   `jtbl_carve --probe` was BLIND to this (it only ran `island_probe`, which answers "where does
+   the table live") — every blocked function probed "carveable", and the S66 audit priced 32 of
+   them as free work on that reading. FIXED: `--probe` now runs the real planner (cookbook §322).
+4. **`jr_isolate_all` DOES NOT ROUND-TRIP.** It is what the refusal message prescribes, and 20 of
+   35 blocked overlays dry-run clean — **that number means nothing.** ov_SC02_000 needed two fixes
+   just to COMPILE (carried types deduped by name; header-provided types no longer re-emitted) and
+   then still failed `make check` (3ef423b5… vs the locked 5ece4bca…). Open lead: `file_scope_types`
+   carries a block WITHOUT its enclosing `#if` guard (cookbook §323). Tree was reverted; the
+   overlay rebuilds green. **Do not scale this lane on the dry-run count.**
+
+### WHAT ACTUALLY BANKED THE 4 — the §8d rung, and it is now permanent
+`scope_data_externs.fix()` (§8d) has been byte-proven since Phase 26 and is used by `family_sweep` /
+`bank_exemplar` / `jtbl_family_bank` — but **nothing in `gate_stage`'s ladder ever called it**, so a
+draft written by a wave agent had never seen it. Built as `tools/scope_demote_drafts.py` (an
+`_xform`-contract rung) and wired LAST in stage 1. Measured effect: the `conflicting types for D_*`
+class went from **21 residuals to ZERO**. Its marquee case, `ov_SC04_018:func_80181270`, is the
+exact function S66's audit named as the byte-proven §8d instance — recovered automatically.
+(That one was then lost to the ov_SC04_018 revert; it will bank again on a re-run.)
+
+### RESIDUAL AFTER THE LADDER (63 rows, the honest work order)
+| class | n | lever |
+|---|---|---|
+| DIFF — real codegen | 28 | route by closeness: ≤3 register pins (§17), 8-20 permuter, >20 redraft |
+| ARITY (7 self + 7 callee) | 14 | **§324, and it needs BOTH halves** — see below |
+| conflicting types (callee/self) | 8 | `normalize_self_decls` — exists, NOT wired into the ladder |
+| parse error (typedef §203) | 5 | hoist the typedef above every splice point (`pregate_check` predicts these) |
+| CARVE-REFUSED | 3 | the §322/§323 lane |
+| misc | 4 | |
+
+**§324 — the arity wall needs BOTH halves, and this is why the ladder's arity pre-pass never
+clears it.** `fix_arity_callers --any-proto` no-protos the CALLER'S declaration, but the call is
+checked against the spliced DEFINITION, so nothing changes. A K&R definition alone fails too,
+because the TU's own `extern void func_X(void);` IS a prototype and C89 requires compatibility.
+Do both: draft → `void func_X(arg0) s32 arg0; {…}` AND TU decl → `extern void func_X();`. Test it
+without touching the tree with `rtu_match`'s `//@EDIT old||new` first line. Proven on
+`ov_SC01_005:func_8017FBCC`: `too few arguments` → **97 vs 97 ins, 4 mismatched** (pure regalloc).
+This explains S66's "K&R converts only 4/26" — those 22 were not a wall, they were the half-fix.
+**Price it as blocker→near-miss, NOT as 14 banks.**
+
+### TOOLS BUILT / FIXED (all committed)
+* `strand_census.py` — census + rtu classifier + draft staging. Coverage-asserted; keys `binary:fn`.
+* `o0_detect.py` — the -O0 prologue tell, extracted so it can be shared (`match_one` parses argv at
+  import and CANNOT be imported). Wiring it into the classifier turned md_MAIN_003 from 8 NEAR
+  (seven >20) into **6 MATCH** — those residuals were 100% artefact of compiling -O0 code at -O2.
+* `scope_demote_drafts.py` — the §8d rung (above).
+* `restore_dropped_decls.py` — compiler-driven recovery for defect #1. Two defects found IN IT while
+  using it: anchoring below the point of use makes it loop forever (25 rounds, 100 dead decls), and
+  it needed a no-progress guard. Anchor is now the leading `#include` block.
+* `jtbl_carve --probe` → runs the real planner. `blocker_probe.macro_scope` → LAST `#define` wins,
+  matching cpp (`engine_core.h` has 1,037 duplicate macro names, 4 with DIFFERENT bodies).
+* `jr_isolate_all` — two carry fixes, **UNVALIDATED** (see #4).
+
+### NEXT, IN ORDER
+1. **Wire `normalize_self_decls` into the ladder** (8 residuals) with the arity pre-pass's
+   journal/revert discipline — it edits the TU, not the draft. Then re-run the CC1 lane.
+2. **§324 as a rung** (14 residuals) — both halves, journal the TU-side edit.
+3. **main's 16 CC1-FAIL drafts were NEVER GATED** this session (held out of the loop for
+   `gate_main`'s batched cadence, ~8 at a time, COMMIT BETWEEN BATCHES).
+4. **Byte-gate propagation** — the fix for defect #1. At minimum, R22 immediately after any
+   propagating gate, and ideally a per-target check inside `dedup_propagate`.
+5. **The 28 DIFF drafts** — route by closeness; 14 fleet-wide sit at ≤3 (register pins, not permuter).
+6. **§323's open `#if`-guard lead** before touching the 96-function jtbl lane.
+7. `twin_sweep` after ANY bank (the pool refills).
+
+### FINDINGS LEDGER
+`.run/S67_findings.md` — F1..F11, every one measured with its denominator, **including the three
+claims I had to withdraw**: "the gate was pointed at the wrong TU" (it was not — `--src` is never
+defaulted, `harvest_verify` derives each draft's TU, and I killed a running loop on that bad read,
+costing its last 5 binaries including main's 9); "28 propagated" quoted as functions closed (it is
+sites/registry entries — the real number is 4); and a prior-verdict count contaminated by my own run
+overwriting the ledgers it read. Data: `.run/S67_strand.json`, `.run/S67_verdicts.json`,
+`.run/S67_jtbl_probe.json`, `.run/S67_gate_cc1.log`.
