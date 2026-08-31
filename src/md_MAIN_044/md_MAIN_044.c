@@ -133,7 +133,12 @@ s32 func_800CCF30(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_044/nonmatchings/md_MAIN_044", func_800CCF58);
+void func_800CCF58(arg0, arg1) void *arg0; s16 arg1; {
+    *(s16 *)((u8 *)arg0 + 0x1C) = arg1;
+    *(s16 *)((u8 *)arg0 + 0x1A) = arg1;
+    *(s16 *)((u8 *)arg0 + 0x18) = arg1;
+}
+
 
 void func_800CCF68(s32 param_1)
 {

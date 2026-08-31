@@ -4258,7 +4258,81 @@ void func_801A8DCC(s32 a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A8E34);
+#include "common.h"
+
+/* Declarations copied verbatim from this TU's existing externs
+   (md_SC07_004.c:2223-2225, :2321, :4039, :4041, :4998). */
+extern s32 D_801269A4;
+extern s32 D_801269A8;
+extern s32 D_801269AC;
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern s32 func_8012B744(void *a0, void *a1);
+extern void func_8004978C(s16 *a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+/* Local stack aggregates; suffixed names per this TU's house style
+   (cf. Struct801AD7EC_Local / Blk8_801AD914 above). */
+typedef struct { s16 m[4]; } SVec801A8E34;   /* sp+0x10 */
+typedef struct { s32 m[4]; } Vec801A8E34;    /* sp+0x18 */
+typedef struct { s16 m[16]; } Mat801A8E34;   /* sp+0x28 */
+
+/* NOTE (cookbook §167-13 bound): parameter 2 is `s16`, not `s32`.  The narrow
+   declaration is load-bearing, not cosmetic — assign_parms emits a promotion
+   insn whose SET_SRC is a PSEUDO, which terminates sched.c:3186-3213's bb0
+   parameter-copy pin run after the a0/a1 copies.  That frees the a2/a3 copies
+   and the stack-arg load, and sched1's backward birthing boost then emits them
+   last, reversed: sw $s6/lw $s6 / li $a1,0x70 / sw $s5/move $s5 / sw $s4/move
+   $s4.  Widening a2 to s32 re-pins all four copies and costs 7 mismatches. */
+void func_801A8E34(a0, a1, a2, a3, a4) s32 a0; s32 a1; s16 a2; s32 a3; s32 a4; {
+    SVec801A8E34 h;
+    Vec801A8E34 st;
+    Mat801A8E34 buf;
+    s32 s1;
+    s32 t;
+
+    s1 = func_80132EF4(a0, 0x70);
+    if (s1 == 0) {
+        return;
+    }
+
+    h.m[0] = D_801269A4;
+    h.m[1] = D_801269A8;
+    h.m[2] = D_801269AC;
+    t = func_8012B744((void *) (a0 + 4), &h);
+
+    h.m[0] = 0x200;
+    h.m[1] = t;
+    h.m[2] = a2;
+    func_8004978C((s16 *) &h, &buf);
+
+    st.m[0] = -a3;
+    st.m[2] = 0;
+    st.m[1] = 0;
+    func_800484EC((s32) &buf, (s32) &st, s1 + 0x10);
+
+    t = (s16) a4;
+    *(s32 *) (s1 + 0x1C) = t;
+    *(s32 *) (s1 + 0x4) -= *(s32 *) (s1 + 0x10) * t;
+    *(s32 *) (s1 + 0x8) -= *(s32 *) (s1 + 0x14) * t;
+    *(s32 *) (s1 + 0xC) -= *(s32 *) (s1 + 0x18) * t;
+    if (t >= 2) {
+        *(s32 *) (s1 + 0x1C) = t - 1;
+    }
+
+    *(u16 *) (s1 + 0x2C) = 1;
+    *(s32 *) (s1 + 0x34) = a0;
+
+    *(u16 *) (s1 + 0x2E) = *(u16 *) (s1 + 0x6) - *(u16 *) (a0 + 0x6);
+    *(u16 *) (s1 + 0x30) = *(u16 *) (s1 + 0xA) - *(u16 *) (a0 + 0xA);
+    *(u16 *) (s1 + 0x32) = *(u16 *) (s1 + 0xE) - *(u16 *) (a0 + 0xE);
+
+    if (a1 != 0) {
+        *(u16 *) (s1 + 0x2E) += *(u16 *) (a1 + 0x0);
+        *(u16 *) (s1 + 0x30) += *(u16 *) (a1 + 0x2);
+        *(u16 *) (s1 + 0x32) += *(u16 *) (a1 + 0x4);
+    }
+}
+
 
 extern void func_801AA91C(s32 a0, s32 a1, s32 a2);
 
