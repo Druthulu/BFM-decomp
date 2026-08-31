@@ -46,13 +46,36 @@ to prevent). Adopting is per-BINARY and per-FILE, never a blanket add.
   parallel_gate.py --plan plan.json [--workers 8] [--commit] [--r22] [--keep]
       plan.json: [{"binary": "ov_SC03_099", "drafts": "/abs/path/to/dir"}, ...]
 """
-import argparse, json, os, re, shutil, subprocess, sys, time
+import argparse, functools, json, os, re, shutil, subprocess, sys, time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = os.path.join(REPO, ".venv/bin/python")
 WT_ROOT = os.path.join(REPO, ".run/pgate")
-GEN = ("{b}.ld", "undefined_syms_auto.txt", "undefined_funcs_auto.txt")
+# The per-binary generated link inputs. DO NOT hard-code `build/<bin>/<bin>.ld` — that is the
+# OVERLAY convention and it is wrong for `main`, whose Makefile variables put the linker script at
+# `build/us/SLUS_007.26.ld` and its two undefined_*_auto.txt at the REPO ROOT. Hard-coding it made
+# every main draft fail in a worktree and report as an honest gate rejection: measured S68, main
+# banked 0 of 3 with `missing_generated: [main.ld, undefined_syms_auto.txt,
+# undefined_funcs_auto.txt]` recorded in the results JSON and acted on by nobody — R32's corrected
+# form, a loud failure that nobody counts is exactly as invisible as a silent one, and the same
+# shape as R43's `sweep_parallel accepted main and banked 0/105`.
+# Ask the Makefile, which already declares <b>_LD_SCRIPT / <b>_UNDEF_SYMS / <b>_UNDEF_FUNCS per
+# binary (R33: derive from the invariant, do not re-derive it).
+GEN_VARS = ("LD_SCRIPT", "UNDEF_SYMS", "UNDEF_FUNCS")
+
+
+@functools.lru_cache(maxsize=None)
+def generated_paths(binary):
+    """(repo-relative path, ...) of <binary>'s generated link inputs, per the Makefile itself."""
+    r = sh(["make", "--no-print-directory", "--eval=__pgate-%: ; @echo \"$($*)\""]
+           + ["__pgate-" + v for v in GEN_VARS] + ["BINARY=" + binary])
+    out = [ln.strip() for ln in r.stdout.splitlines() if ln.strip()]
+    if r.returncode or len(out) != len(GEN_VARS):
+        raise SystemExit("[pgate] cannot resolve generated paths for %r from the Makefile "
+                         "(rc=%d, got %r) — refusing to gate a binary whose link inputs are "
+                         "unknown (R43)" % (binary, r.returncode, out))
+    return tuple(out)
 
 
 def sh(cmd, cwd=REPO, timeout=None):
@@ -117,17 +140,20 @@ def link_missing(s_dir, d_dir):
 
 
 def stage_generated(wt, binary):
-    """Copy splat's untracked per-binary outputs so the worker can LINK without re-extracting."""
-    src, dst = os.path.join(REPO, "build", binary), os.path.join(wt, "build", binary)
-    os.makedirs(dst, exist_ok=True)
+    """Copy splat's untracked per-binary outputs so the worker can LINK without re-extracting.
+
+    Paths come from the Makefile (see generated_paths) and are mirrored at the SAME repo-relative
+    location inside the worktree, so main's root-level undefined_*_auto.txt land at the root and an
+    overlay's land under build/<bin>/ — without this function needing to know which is which."""
     missing = []
-    for pat in GEN:
-        f = pat.format(b=binary)
-        s = os.path.join(src, f)
+    for rel in generated_paths(binary):
+        s = os.path.join(REPO, rel)
+        d = os.path.join(wt, rel)
         if os.path.exists(s):
-            shutil.copy2(s, os.path.join(dst, f))
+            os.makedirs(os.path.dirname(d) or wt, exist_ok=True)
+            shutil.copy2(s, d)
         else:
-            missing.append(f)
+            missing.append(rel)
     # EXTRACTED ASSET OBJECTS. The link line pulls build/assets/<bin>/*.o (splat's binary-data
     # objects, e.g. trailing.o). Without them the compile succeeds and the LINK dies with
     # "cannot find build/assets/<bin>/trailing.o" — a failure that arrives late and, again, reads
@@ -245,6 +271,16 @@ def gate_one(idx, pin, job):
     wt = job.get("_wt")
     try:
         missing = stage_generated(wt, binary)
+        if missing:
+            # REFUSE, never gate anyway (R43). A worker missing its linker script or its
+            # undefined_*_auto.txt cannot LINK, so every draft comes back rejected and the batch
+            # reads as an honest wave of bad drafts. Measured S68: main banked 0 of 3 this exact
+            # way, and the `missing_generated` field that recorded it was consumed by nobody.
+            return {"binary": binary, "banked": [], "files": {}, "ovl": None,
+                    "secs": round(time.time() - t0, 1), "missing_generated": missing, "rc": None,
+                    "error": "REFUSED — generated link inputs absent from the worktree: %s "
+                             "(run `make extract BINARY=%s` in the main tree first)"
+                             % (", ".join(missing), binary)}
         # A CARVING JOB NEEDS ITS OWN asm/ (see isolate_asm). Without this the job is unsafe in a
         # worktree and had to run serially; with it, jtbl parallelises like everything else.
         if _drafts_carry_jtbl(binary, drafts):
