@@ -5318,7 +5318,76 @@ s32 func_80181E5C(void *a0) {
 
 INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80181E98);
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_8018209C);
+typedef struct { s16 vx, vy, vz, pad; } SV_8018209C;
+typedef struct { s16 x, y; s32 flag; } RES_8018209C;
+
+#define GTE_LDXY_8018209C(r) __asm__ __volatile__ ("lwc2 $0, 0(%0)\nlwc2 $1, 4(%0)" : : "r"(r))
+#define GTE_RTPS_8018209C() __asm__ __volatile__ ("nop\nnop\nrtps")
+#define GTE_STXY_8018209C(r) __asm__ __volatile__ ("swc2 $14, 0(%0)" : : "r"(r))
+#define GTE_STFLG_8018209C(r) __asm__ __volatile__ ("cfc2 $12, $31\nnop\nsw $12, 0(%0)" : : "r"(r) : "$12", "memory")
+
+extern u8 D_800AF648;
+extern u8 D_8018E56C[];
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_80013478(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern u8 D_80126B5C;
+
+void func_8018209C(void *arg0)
+{
+    SV_8018209C vin;
+    SV_8018209C w;
+    RES_8018209C res;
+    register s32 g __asm__("$7");
+    register s32 rv __asm__("$2");
+
+    func_8012F214((s32)arg0, (s32)D_8018E56C, (s32)&vin);
+
+    g = (s32)&D_800AF648;
+    __asm__ __volatile__(
+        "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"
+        "ctc2 $12, $0\n" "ctc2 $13, $1\n"
+        "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n"
+        "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"
+        : : "r"(g) : "$12", "$13", "$14", "memory");
+    __asm__ __volatile__(
+        "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"
+        "ctc2 $12, $5\n" "lw $14, 28(%0)\n"
+        "ctc2 $13, $6\n" "ctc2 $14, $7\n"
+        : : "r"(g) : "$12", "$13", "$14", "memory");
+
+    GTE_LDXY_8018209C(&vin);
+    GTE_RTPS_8018209C();
+    GTE_STXY_8018209C(&res.x);
+    GTE_STFLG_8018209C(&res.flag);
+
+    if ((res.flag & -0x1001) != 0) { rv = 0; goto out; }
+    if ((res.x < 0 ? -res.x : res.x) >= 0xAB)
+        goto L2;
+    if ((res.y < 0 ? -res.y : res.y) >= 0x83)
+        goto L2;
+    goto tail;
+
+L2:
+    w.vx = *(u16 *)((s32)arg0 + 6);
+    w.vy = *(u16 *)((s32)arg0 + 0xA);
+    w.vz = *(u16 *)((s32)arg0 + 0xE);
+    GTE_LDXY_8018209C(&w);
+    GTE_RTPS_8018209C();
+    GTE_STXY_8018209C(&res.x);
+    GTE_STFLG_8018209C(&res.flag);
+
+    if ((res.flag & -0x1001) != 0) { rv = 0; goto out; }
+    if ((res.x < 0 ? -res.x : res.x) >= 0x105) { rv = 0; goto out; }
+    if ((res.y < 0 ? -res.y : res.y) >= 0x8D) { rv = 0; goto out; }
+tail:
+    if (func_80013478((s32)&D_80126B5C, (s32)&vin) <= 0x41010)
+        func_8002D4C8(0xB67, 0);
+    rv = 1;
+out:
+    __asm__ __volatile__("" : : "r"(rv));
+}
+
 
 
 extern void (*D_8018E5C4[])(void);

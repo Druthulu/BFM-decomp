@@ -3803,7 +3803,162 @@ void func_80187EA8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_015/nonmatchings/ov_SC03_015_jr_80185B44", func_80187EE8);
+extern u8 D_800AF630[];
+
+typedef struct { s16 vx, vy, vz, pad; } SV_80187EE8;
+typedef struct { u8 r, g, b, cd; } CV_80187EE8;
+typedef struct {
+    SV_80187EE8 v[4];    /* +0x00 : sxy0..3 (v[0].vz doubles as the otz slot) */
+    CV_80187EE8 rgb[4];  /* +0x20 */
+    u32 code;            /* +0x30 */
+    u32 pad;             /* +0x34 */
+} PKT_80187EE8;
+
+#define gte_ldv0_80187EE8(r0) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_ldv3_80187EE8(r0, r1, r2) __asm__ volatile ( \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtps_80187EE8() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt_80187EE8() __asm__ volatile ("nop;nop;rtpt")
+#define gte_avsz4_80187EE8() __asm__ volatile ("nop;nop;avsz4")
+
+#define gte_stsxy_80187EE8(r0) __asm__ volatile ( \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3_80187EE8(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stotz_80187EE8(r0) __asm__ volatile ( \
+    "swc2 $7, 0( %0 )"                           \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stflg_80187EE8(r0) __asm__ volatile ( \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+#define gte_SetRotMatrix_80187EE8(r0) __asm__ volatile ( \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix_80187EE8(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+void func_80187EE8(s32 a0)
+{
+    extern void func_80017714(void *);
+    extern short D_800B9A02;
+    typedef struct { s32 a; s32 b[4]; } Ot_8018B23C;
+    extern Ot_8018B23C D_800A651C[];
+    extern u8 D_800AE610[];
+
+    PKT_80187EE8 pkt;   /* sp+0x10 .. sp+0x47 */
+    s32 flag1;          /* sp+0x48 */
+    s32 flag2;          /* sp+0x4C */
+    s32 otz;            /* sp+0x50 */
+    u8 *base;
+    s32 *m;
+    s16 c, p, q;
+    s32 d;
+
+    c = *(s32 *)(a0 + 0x1C) * 15;
+    base = D_800AF630;
+    p = c;
+    d = c >> 1;
+    q = d;
+
+    pkt.rgb[0].r = pkt.rgb[1].r = pkt.rgb[0].b = pkt.rgb[1].b = p;
+    pkt.rgb[0].g = pkt.rgb[1].g = q;
+
+    c -= 0x10;
+    p = c;
+    if (c < 0) {
+        p = 0;
+    }
+    {
+        s16 e;          /* block-scoped: one pseudo (§136/L1) */
+        e = d - 0x10;
+        q = e;
+        if (e < 0) {
+            q = 0;
+        }
+    }
+    pkt.rgb[2].r = pkt.rgb[3].r = pkt.rgb[2].b = pkt.rgb[3].b = p;
+    pkt.rgb[2].g = pkt.rgb[3].g = q;
+
+    pkt.code = 0x50000000;
+
+    m = (s32 *)(base + 0x18);
+    gte_SetRotMatrix_80187EE8(m);
+    gte_SetTransMatrix_80187EE8(m);
+
+    gte_ldv3_80187EE8((SV_80187EE8 *)(a0 + 0xFC), (SV_80187EE8 *)(a0 + 0x104),
+                      (SV_80187EE8 *)(a0 + 0xDC));
+    gte_rtpt_80187EE8();
+    gte_stflg_80187EE8(&flag1);
+    gte_stsxy3_80187EE8(&pkt.v[0], &pkt.v[1], &pkt.v[2]);
+    gte_ldv0_80187EE8((SV_80187EE8 *)(a0 + 0xE4));
+    gte_rtps_80187EE8();
+    gte_stflg_80187EE8(&flag2);
+    flag1 = flag1 | flag2;
+    gte_stsxy_80187EE8(&pkt.v[3]);
+    gte_avsz4_80187EE8();
+    gte_stotz_80187EE8(&otz);
+
+    if (otz > 0 && flag1 >= 0 &&
+        !((u32)&D_800AE610 <
+          (u32)(*(s32 *)((u8 *)&D_800A651C + (*(u16 *)&D_800B9A02) * 0x14)
+                + otz * 4)) &&
+        (flag1 & 0xFFFFEFFF) == 0) {
+        pkt.v[0].vz = (s16)otz;
+        func_80017714(&pkt.v[0]);
+    }
+}
+
 
 DEFINE_func_801880F8()  /* dedup: shared engine-core @0x801880F8 (src/shared) */
 

@@ -6432,7 +6432,103 @@ void func_80184EFC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80184FF8);
+#include "common.h"
+
+/* §160a — align-1 8-byte block: struct assignment emits lwl/lwr + swl/swr.
+ * NOTE: the destination TU already declares `Blk8_801828E4` and
+ * `extern Blk8_801828E4 D_801DDB48;` at file scope (for func_801828E4) —
+ * drop these two lines when banking, keep them for standalone compiles. */
+
+extern Blk8_801828E4 D_801DDB48;
+extern u8 D_801152A8[];
+
+extern void func_8012BEE8(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern void func_8012AD80(s32 a0);
+extern void func_80185214(s32 a0);
+extern void func_8012C218(void *a0);
+
+void func_80184FF8(s32 param_1)
+{
+    /* same packet shape func_801825D8 feeds to func_8012C51C */
+    typedef struct {
+        u16 u0;      /* 0x00 */
+        u16 u1;      /* 0x02 */
+        u16 u2;      /* 0x04 */
+        s16 s6;      /* 0x06 */
+        s16 s8;      /* 0x08 */
+        s16 sA;      /* 0x0A */
+        s16 sC;      /* 0x0C */
+        s16 sE;      /* 0x0E */
+        s32 w10;     /* 0x10 */
+    } Rec_80184FF8;
+
+    Rec_80184FF8 rec;
+    Blk8_801828E4 local;
+    s32 obj;
+    s32 n;
+    s32 st;
+
+    st = *(u16 *)(param_1 + 0x34);
+    if (st == 1) goto join;
+    if (st >= 2) goto skip;
+    if (st != 0) goto skip;
+
+    if (((s32 (*)(void))func_8012BEE8)() == 0) {
+        return;
+    }
+    *(s32 *)(param_1 + 0x1C) = 1;
+    *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+    if (*(u16 *)(param_1 + 0x70) & 0x4000) {
+        func_8002D4C8(0x9C6, 0);
+    }
+join:
+    if ((*(s32 *)(param_1 + 0x1C) & 0xF) == 0) {
+        rec.u0 = *(u16 *)(param_1 + 0x88);
+        rec.u1 = *(u16 *)(param_1 + 0x8A);
+        rec.u2 = *(u16 *)(param_1 + 0x8C);
+        rec.s6 = 0x31C;
+        rec.s8 = *(u16 *)(param_1 + 0x70) | 0x8000;
+        rec.sA = 0;
+        rec.w10 = 0;
+        rec.sE = 0;
+        rec.sC = 0x7FFF;
+        func_8012C51C(&rec, *(s32 *)(param_1 + 0x64));
+        *(u16 *)(param_1 + 0xFE) = *(u16 *)(param_1 + 0xFE) + 1;
+        if (*(s16 *)(param_1 + 0xFE) >= 2) {
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        }
+    }
+skip:
+    local = D_801DDB48;
+    if (func_80135888(*(s32 *)(param_1 + 0x20), *(s32 *)(param_1 + 0x58),
+                      (s32)((char *)&D_801DDB48 - 8), (s32)&local) != 0) {
+        func_8012F568(1, 0x4019,
+                      *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12),
+                      0x50, (s32)&local, (s32)D_801152A8);
+    }
+    obj = *(s32 *)(param_1 + 0x20);
+    *(u16 *)(obj + 0x18) = *(u16 *)(obj + 0x18) + 0x140;
+    obj = *(s32 *)(param_1 + 0x20);
+    *(u16 *)(obj + 0x1A) = *(u16 *)(obj + 0x1A) + 0x140;
+    obj = *(s32 *)(param_1 + 0x20);
+    if (*(s16 *)(obj + 0x18) >= 0x7001) {
+        *(u16 *)(obj + 0x1A) = 0x7000;
+        *(u16 *)(obj + 0x18) = 0x7000;
+    }
+    func_8012AD80(param_1);
+    n = *(s32 *)(param_1 + 0x1C) + 1;
+    *(s32 *)(param_1 + 0x1C) = n;
+    if (n >= 0x61) {
+        func_8012C218((void *)param_1);
+    } else {
+        func_80185214(param_1);
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80185214);
 

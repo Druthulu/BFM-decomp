@@ -4087,7 +4087,7 @@ void func_8017FD44(s32 a0) {
 typedef struct { s16 h[3]; } SV3L;
 extern void func_80180C0C(s16 *a0);
 extern void func_80180F3C(void *a0);
-extern s32 func_801809F0(s32 a0, void *a1, s32 a2, s32 a3);
+extern s32 func_801809F0();
 extern void func_8012C218(void *a0);
 extern void func_80180DF0(s32 a0, s32 a1, s32 a2);
 extern void func_8012B178(s32 a0, s32 a1);
@@ -4153,7 +4153,7 @@ struct vecr { int _m; };
 
 extern void func_8012AD80(struct vec*);
 extern void func_80180F3C(void *a0);
-extern s32 func_801809F0(s32 a0, void *a1, s32 a2, s32 a3);
+extern s32 func_801809F0();
 extern void func_8012C218(void *a0);
 
 void func_8017FF4C(s32 arg0) {
@@ -4225,7 +4225,7 @@ extern void func_8012C218(void *a0);
 extern s32  func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern void func_80180F3C(void*);
 
-extern s32  func_801809F0(s32 a0, void *a1, s32 a2, s32 a3);
+extern s32  func_801809F0();
 extern s32  func_80180D4C();
 
 extern void func_8012B21C(void *a0);
@@ -4662,7 +4662,70 @@ s32 func_8018093C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_801809F0);
+struct vec;
+extern void func_8012AD80(struct vec *a0);
+extern s32 func_80133784(s32 a0, void *a1, s32 a2);
+
+s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3) {
+    u16 sp10[4];
+    u16 sp18[4];
+    s32 v0;
+
+    if (a3 == 0) {
+        sp10[0] = *(u16 *)(a0 + 0x3A);
+        sp10[1] = *(u16 *)(a0 + 0x3E);
+        sp10[2] = *(u16 *)(a0 + 0x42);
+        func_8012AD80((struct vec *)a0);
+    } else {
+        sp10[0] = *(u16 *)(a0 + 0x06);
+        sp10[1] = *(u16 *)(a0 + 0x0A);
+        sp10[2] = *(u16 *)(a0 + 0x0E);
+    }
+
+    sp18[0] = *(u16 *)(a0 + 0x06);
+    sp18[1] = *(u16 *)(a0 + 0x0A);
+    sp18[2] = *(u16 *)(a0 + 0x0E);
+    sp18[0] += *(u16 *)(a1 + 0);
+    sp18[1] += *(u16 *)(a1 + 2);
+    sp18[2] += *(u16 *)(a1 + 4);
+
+    v0 = func_80133784((s32)(s16)a2, sp10, (s32)sp18);
+    if ((v0 & 0xE000) == 0) {
+        sp10[0] = sp18[0];
+        sp10[1] = sp18[1] + 8;
+        sp10[2] = sp18[2];
+        v0 = func_80133784((s32)(s16)a2, sp18, (s32)sp10);
+        if ((v0 & 0xE000) == 0) {
+            sp18[0] = sp10[0] + *(u16 *)(a1 + 0);
+            sp18[1] = sp10[1] + *(u16 *)(a1 + 2);
+            sp18[2] = sp10[2] + *(u16 *)(a1 + 4);
+            v0 = func_80133784((s32)(s16)a2, sp10, (s32)sp18);
+            if ((v0 & 0xE000) == 0) {
+                sp18[0] = sp10[0] - *(u16 *)(a1 + 0);
+                sp18[1] = sp10[1] - *(u16 *)(a1 + 2);
+                sp18[2] = sp10[2] - *(u16 *)(a1 + 4);
+                v0 = func_80133784((s32)(s16)a2, sp10, (s32)sp18);
+            }
+            v0 |= *(u8 *)((char *)sp18 + 6);
+            *(u16 *)(a0 + 0x06) = sp18[0];
+            *(u16 *)(a0 + 0x0A) = sp18[1];
+            *(u16 *)(a0 + 0x0E) = sp18[2];
+            goto done;
+        }
+        v0 |= *(u8 *)((char *)sp10 + 6);
+        *(u16 *)(a0 + 0x06) = sp10[0];
+        *(u16 *)(a0 + 0x0A) = sp10[1];
+        *(u16 *)(a0 + 0x0E) = sp10[2];
+        goto done;
+    }
+    v0 |= *(u8 *)((char *)sp18 + 6);
+    *(u16 *)(a0 + 0x06) = sp18[0];
+    *(u16 *)(a0 + 0x0A) = sp18[1];
+    *(u16 *)(a0 + 0x0E) = sp18[2];
+done:
+    return v0;
+}
+
 
 struct vec;
 extern void func_8012AD80(struct vec *a0);

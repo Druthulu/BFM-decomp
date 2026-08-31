@@ -7370,7 +7370,83 @@ void func_80181FC4(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_006/nonmatchings/ov_SC03_006_jr_8017AE2C", func_80182080);
+/* func_80182080 — build 3 textured quads from a 4-vertex table and hand each to
+   func_800178EC.  Frame layout: the primitive lives at sp+0x10; the pre-loop
+   field inits address it off $sp (`prim.`), the loop body off $s0 (`q->`).
+
+   Two scheduling levers are load-bearing here (do not "simplify" them away):
+     * cookbook ADD-7 (§229 addendum) — the literal `3` has no source position of
+       its own, so gcc materialises it at its own rank and the prologue saves
+       re-order around it.  Naming it (`vz = 3;`) gives the constant a birth
+       position that §3-T2's source-order law can then govern.
+     * cookbook §194-A — the zero-byte `__asm__ __volatile__("")` fence after the
+       last region-1 statement splits the block so that `li $v0,3` schedules with
+       the prologue (idx 5) while its `sh` stays down at idx 16, and `i = 0`
+       (`addu $s6,$zero,$zero`) sinks to idx 15.
+   Statement order `q = &prim;` then `vz = 3;` is what puts the `li` after
+   `sw $s0` / `addiu $s0,$sp,0x10`; swapping them costs 3 instructions. */
+
+typedef struct {
+    s16 v[4][4];
+    s16 t[4][2];
+    s32 f30;
+    s32 f34;
+    s32 f38;
+    s32 f3C;
+    s32 f40;
+    u8 f44;
+} Prim_80182080;
+
+extern void func_800178EC(s32 a0);
+
+void func_80182080(void *arg0)
+{
+    s32 a0 = (s32)arg0;
+    Prim_80182080 *q;
+    Prim_80182080 prim;
+    u16 *p;
+    u16 dx;
+    u16 dy;
+    s32 i;
+    s16 vz;
+
+    q = &prim;
+    vz = 3;
+    __asm__ __volatile__("");
+    p = *(u16 **)a0;
+    dx = *(u16 *)(a0 + 0x12);
+    dy = *(u16 *)(a0 + 0x14);
+    i = 0;
+    prim.v[0][2] = vz;
+    prim.f30 = prim.f34 = *(s32 *)(a0 + 4);
+    prim.f38 = *(s32 *)(a0 + 8);
+    prim.f44 = 0x36;
+    prim.f3C = 0;
+    prim.f40 = 0x50000000;
+
+    do {
+        q->v[0][0] = p[0] + dx;
+        q->v[0][1] = p[1] + dy;
+        q->v[1][0] = p[2] + dx;
+        q->v[1][1] = p[3] + dy;
+        q->v[2][0] = p[4] + dx;
+        q->v[2][1] = p[5] + dy;
+        q->v[3][0] = p[6] + dx;
+        q->v[3][1] = p[7] + dy;
+        q->t[0][0] = *(u16 *)(a0 + 0xE) + 0xA00 + (s16)p[0] / 2;
+        q->t[0][1] = *(u16 *)(a0 + 0x10) + 0x100;
+        q->t[1][0] = *(u16 *)(a0 + 0xE) + 0xA00 + (s16)p[2] / 2;
+        q->t[1][1] = *(u16 *)(a0 + 0x10) + 0x100;
+        q->t[2][0] = *(u16 *)(a0 + 0xE) + 0xA00 + (s16)p[0] / 2;
+        q->t[2][1] = *(u16 *)(a0 + 0x10) + 0x13F;
+        q->t[3][0] = *(u16 *)(a0 + 0xE) + 0xA00 + (s16)p[2] / 2;
+        q->t[3][1] = *(u16 *)(a0 + 0x10) + 0x13F;
+        func_800178EC((s32)q);
+        p += 8;
+        i++;
+    } while (i < 3);
+}
+
 
 
 extern void (*D_80190C34[])(void);

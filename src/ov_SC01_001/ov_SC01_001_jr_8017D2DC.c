@@ -5721,7 +5721,70 @@ INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_8018228
 
 INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_801824EC);
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_8018275C);
+extern u8 D_801F2A50[];
+extern u8 D_801F2A51[];
+extern u8 D_801F2A52[];
+extern void func_800233CC(void *, unsigned short);
+extern void func_80182974(u8 *, s8);
+extern void func_80182A14(s32);
+
+s32 func_8018275C(void) {
+    s32 ret = 0;
+    s32 i = 0;
+    register u8 *base __asm__("$2") = D_801F2A50;
+    s32 *st = (s32 *)(base - 0xC);
+    s32 *en = (s32 *)(base - 8);
+    s32 *ct = (s32 *)(base - 4);
+    register u8 *bytes __asm__("$17") = base;
+    s32 pos = 0;
+
+    for (; i < 0x14; i++) {
+        switch (*st) {
+        case 1:
+            if (i > 0) break;
+            if (*ct < 0x180) {
+                *ct += 0x20;
+                if (*(s16 *)(*en + 0xC) >= -0x17F) {
+                    *(s16 *)(*en + 0xC) -= 0x20;
+                }
+            }
+            func_80182974(bytes, 8);
+            func_80182974(bytes + 4, 8);
+            func_800233CC(bytes, *(u16 *)ct);
+            if (D_801F2A50[pos] == 0xFF &&
+                D_801F2A51[pos] == D_801F2A50[pos] &&
+                D_801F2A52[pos] == D_801F2A51[pos]) {
+                ret = 1;
+            }
+            break;
+        case 3:
+            *ct += 0x10;
+            func_80182974(bytes, -8);
+            func_80182974(bytes + 4, -8);
+            func_800233CC(bytes, *(u16 *)ct);
+            if (*ct >= 0x381) {
+                func_80182A14(*en);
+                *st = 0;
+            }
+            break;
+        case 2:
+            func_800233CC(bytes, (*ct += 0x28));
+            *(u16 *)(*en + 0x14) += 0x10;
+            if (*ct >= 0x201) {
+                func_80182A14(*en);
+                *st = 0;
+            }
+            break;
+        }
+        st += 19;
+        en += 19;
+        ct += 19;
+        bytes += 0x4C;
+        pos += 0x4C;
+    }
+    return ret;
+}
+
 
 void func_80182974(u8 *param_1, s8 param_2) {
     s32 iVar1;

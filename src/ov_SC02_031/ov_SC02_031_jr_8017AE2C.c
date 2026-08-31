@@ -7960,7 +7960,105 @@ INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_8018345
 
 DEFINE_func_80183808()  /* dedup: shared engine-core @0x80183808 (src/shared) */
 
-INCLUDE_ASM("asm/ov_SC02_031/nonmatchings/ov_SC02_031_jr_8017AE2C", func_80183810);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_8012EFB8(s32 a0);   /* TU spelling (line 334) — cast at use */
+extern void func_800D1724(s32 a0);
+extern s32 func_801789AC(s32 a0);
+extern void func_80178D18(void);     /* TU spelling (line 2537) — cast at use */
+
+extern u16 D_80126B5E;               /* camera X            */
+extern s32 D_80126B60;               /* camera Y, 32-bit fixed point.
+                                      * Its HIGH half is the object at 0x80126B62,
+                                      * i.e. `D_80126B62` in the target .s. It must be
+                                      * spelled as an offset off D_80126B60 (see the
+                                      * in3[1] store below), not as its own extern —
+                                      * that is what gives the sched1 alias dependence
+                                      * `sw D_80126B60` -> `lhu D_80126B60+2`, which
+                                      * lifts the addu/sw chain's priority above the
+                                      * three lui/lhu chains and puts `addu` straight
+                                      * after `lw` (the target's un-filled load delay).
+                                      * Two distinct symbol_refs do NOT conflict in
+                                      * memrefs_conflict_p, so the literal D_80126B62
+                                      * spelling reorders the whole block (-1 ins).
+                                      * Relocation is R_MIPS_{HI16,LO16} D_80126B60 with
+                                      * addend +2 => byte-identical to %hi/%lo(D_80126B62). */
+extern u16 D_80126B66;               /* camera Z            */
+extern u8 D_80188CCC[];
+extern s32 D_80189370[];
+
+void func_80183810(s32 a0) {
+    u16 in3[3];   /* 0x10 */
+    s16 out2[2];  /* 0x18 */
+    s32 ent;
+    s32 v;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (func_8012BEE8(a0) != 0) {
+            *(u16 *)(a0 + 0x34) += 1;
+            func_8002D4C8(0xC2E, 0);
+        }
+        break;
+    case 1:
+        *(s32 *)(a0 + 0x1C) += 1;
+        if (*(s32 *)(a0 + 0x1C) >= 0xB) {
+            /* cross_jump merges [addiu +1; j; sh 0x34] with case 2's tail (§162) */
+            *(s32 *)(a0 + 0x1C) = 0x20;
+            *(u16 *)(a0 + 0x34) += 1;
+            break;
+        }
+        ent = func_80132EF4(a0, 0x6B);
+        if (ent == 0) {
+            break;
+        }
+        *(u16 *)(ent + 0xA) -= *(s32 *)(a0 + 0x1C) << 6;
+        *(u16 *)(ent + 0x34) = D_80189370[*(s32 *)(a0 + 0x1C)];
+        *(u16 *)(ent + 0x36) = 0xA - *(s32 *)(a0 + 0x1C);
+        break;
+    case 2:
+        if (func_8012BEE8(a0) != 0) {
+            *(u16 *)(a0 + 0x34) += 1;
+        }
+        break;
+    case 3:
+        D_80126B60 -= 0x300000;
+        in3[0] = D_80126B5E;
+        in3[1] = *(u16 *)((s32)&D_80126B60 + 2);   /* == D_80126B62; see above */
+        in3[2] = D_80126B66;
+        ((void (*)(u16 *, s16 *))func_8012EFB8)(in3, out2);
+
+        /* |out2[0]| : the MERGED abs (bgez/negu/slti, one compare). */
+        v = out2[0];
+        if (v < 0) {
+            v = -v;
+        }
+        if (v < 0xC9) {
+            /* |out2[1]| : the SPLIT abs — the compare is duplicated into both
+             * arms. Written as `>= K -> goto fail` (not `< K -> goto tail`) so
+             * BOTH arms end in a conditional branch and only ONE unconditional
+             * `j .L801839F0` survives; with the `goto tail` spelling both arms
+             * end `j tail` and find_cross_jump's minimum=2 floor (§162) merges
+             * the 2-insn [slti; beqz] suffix back into the merged abs (-5 ins). */
+            if (out2[1] >= 0) {
+                if (out2[1] >= 0xA1) { goto fail; }
+            } else {
+                if (-out2[1] >= 0xA1) { goto fail; }
+            }
+            goto tail;
+        }
+fail:
+        func_800D1724((s32)D_80188CCC);
+        *(u16 *)(a0 + 2) = 2;
+        break;
+    }
+tail:
+    if (func_801789AC(a0) == 1) {
+        ((void (*)(s32))func_80178D18)(a0);
+    }
+}
+
 
 
 extern void func_800183E0(s32 a0);

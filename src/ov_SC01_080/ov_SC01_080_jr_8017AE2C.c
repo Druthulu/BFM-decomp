@@ -5529,7 +5529,134 @@ void func_8017FCFC(u16 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_8017FD64);
+/* func_8017FD64 — ov_SC01_080_jr_8017AE2C — sprite-billboard OT emitter (133 ins). MATCH.
+ * Walks the 0x100-entry D_801C7600 SVECTOR table; for every live entry (pad != 0) it
+ * RTPTs the vertex plus a (0x80, 0x80, vz) size vector, screen-culls the origin, then
+ * builds a POLY_FT4 (len 9 / code 0x2C) rectangle from SXY0 (corner) + SXY1 (extent)
+ * and links it into the OT at (SZ3 >> 2).
+ *
+ * Four load-bearing source shapes (each byte-proven by removing it):
+ *  1. §194-E house style from the neighbour func_8017C59C: gte_ldv3/rtpt macros, and the
+ *     `ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14]` OT-base spelling.
+ *  2. `for (i = 0; i < 0x100; i++, p++)` with THREE `continue`s. Putting `p++` in the loop
+ *     body instead gives the `continue`s a second landing pad, which costs the loop-back
+ *     delay slot a nop (+1 ins) and reorders the three IV increments (was close=53).
+ *  3. The OTZ store hard-codes $12 with a "$12" clobber — exactly func_8017C59C's gte_stflg
+ *     idiom. An "=r"/"=&r" temp instead gets tied to the address operand (sw $v0,0($v0)) or
+ *     forces reload to spill $t7; the clobber makes global.c skip $t4 so the five loop
+ *     invariants land $t2/$t3/$t5/$t6/$t7 (§48-A allocno pricing; was close=22 -> 10).
+ *  4. The OT link is a P_TAG 24-bit BITFIELD assignment, not a hand-written
+ *     `(x & 0xFF000000) | (y & 0xFFFFFF)`. The bitfield store evaluates its RHS first, so
+ *     loop.c hoists the 0xFFFFFF constant BEFORE 0xFF000000 (target order) while the ior
+ *     keeps the tag load in $v1 — the hand-written form can only get one of the two
+ *     (close=10 either way).
+ *
+ * D_801C7600 is declared with the TU's own file-scope spelling (`u16 []`, :5486) and cast;
+ * a block-scope `SVEC_FD64 []` re-declaration would be a hard C89 conflict there.
+ */
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_FD64;
+typedef struct { u16 vx, vy, vz; s16 pad; } SVEC_FD64;
+typedef struct { u32 addr : 24; u32 len : 8; } P_TAG_FD64;
+typedef struct {
+    u8  b0, b1, b2, len;
+    u8  r, g, b, code;
+    u16 x0, y0; u32 uv0;
+    u16 x1, y1; u32 uv1;
+    u16 x2, y2; u32 uv2;
+    u16 x3, y3; u32 uv3;
+} PFT4_FD64;
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+
+#define gte_stsxy0(r0) __asm__ volatile (        \
+    "swc2 $12, 0( %0 )" : : "r"( r0 ) : "memory" )
+#define gte_stsxy1(r0) __asm__ volatile (        \
+    "swc2 $13, 0( %0 )" : : "r"( r0 ) : "memory" )
+#define gte_stotz(r0) __asm__ volatile (         \
+    "mfc2 $12, $19;"                             \
+    "nop;"                                       \
+    "sra $12, $12, 2;"                           \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+void func_8017FD64(s32 arg0)
+{
+    extern void func_800547D8(s32, MTX_FD64 *);
+    extern void func_80052E38(MTX_FD64 *);
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+    extern short D_800B9A02;
+    extern u16 D_801C7600[];   /* TU file-scope spelling, ov_SC01_080_jr_8017AE2C.c:5486 */
+
+    MTX_FD64 mtx;
+    SVEC_FD64 v;
+    SVEC_FD64 sxy[3];
+    s32 opz;
+
+    SVEC_FD64 *p;
+    u8 *pkt;
+    u32 ot;
+    s32 i;
+    u32 *otp;
+    PFT4_FD64 *q;
+
+    p = (SVEC_FD64 *)D_801C7600;
+    func_800547D8(arg0 + 0x10, &mtx);
+    func_80052E38(&mtx);
+    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    pkt = D_800A5E60;
+
+    for (i = 0; i < 0x100; i++, p++) {
+        if (p->pad == 0) continue;
+        v.vx = 0x80;
+        v.vy = 0x80;
+        v.vz = p->vz;
+        gte_ldv3(p, &v, &v);
+        gte_rtpt();
+        gte_stsxy0(&sxy[0]);
+        gte_stsxy1(&sxy[1]);
+        gte_stotz(&opz);
+        if (!((u16)(sxy[0].vx + 0xA0) < 0x141)) continue;
+        if (!((u16)(sxy[0].vy + 0x78) < 0xF1)) continue;
+        q = (PFT4_FD64 *)pkt;
+        q->len = 9;
+        q->code = 0x2C;
+        *(u32 *)&q->x0 = *(u32 *)&sxy[0];
+        sxy[2].vx = sxy[0].vx + sxy[1].vx;
+        sxy[2].vy = sxy[0].vy + sxy[1].vy;
+        q->x1 = sxy[2].vx;
+        q->y1 = sxy[0].vy;
+        q->x2 = sxy[0].vx;
+        q->y2 = sxy[2].vy;
+        q->x3 = sxy[2].vx;
+        q->y3 = sxy[2].vy;
+        q->r = 0x80;
+        q->g = 0x80;
+        q->b = 0x80;
+        q->uv0 = 0x5C56F030;
+        q->uv1 = 0x19F03F;
+        q->uv2 = 0xFF30;
+        q->uv3 = 0xFF3F;
+        otp = (u32 *)((opz << 2) + ot);
+        ((P_TAG_FD64 *)pkt)->addr = ((P_TAG_FD64 *)otp)->addr;
+        ((P_TAG_FD64 *)otp)->addr = (u32)pkt;
+        pkt += 0x28;
+    }
+    D_800A5E60 = pkt;
+}
+
 
 extern void (*D_8018A1F8[])(void);
 

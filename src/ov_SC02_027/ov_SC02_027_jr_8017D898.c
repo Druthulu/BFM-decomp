@@ -4761,7 +4761,104 @@ void func_801812CC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80181328);
+extern s32 rand(void);
+extern void func_8012E9C0(int param_1);
+extern void func_8002A520(void *a0);
+extern void func_8002A790(void *a0);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32 func_8012C51C(int a0, int a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012E8A8(u8 *a0);
+
+/* §237 ESCAPE 2 / §37/§124 ASM-LABEL ALIAS — the TU declares a stale
+ * `extern void func_80181328(u8 *a0);` (written by a banked caller while this
+ * function was still an INCLUDE_ASM stub).  The target sets $v0 on both exits
+ * (`addu $v0,$zero,$zero` in the j-to-epilogue delay slot; `addiu $v0,$zero,1`),
+ * so the definition MUST return s32 and MUST take the entity as its parameter.
+ * Defining under a distinct C identifier bound to the canonical symbol keeps the
+ * emitted symbol `func_80181328` while the C identifiers never collide.
+ * Blast radius 0 — no TU / header edit (cf. the §237-escape-2 card, whose stale
+ * void self-decls were left by already-banked callers in the same way). */
+s32 aF80181328(s32 arg0) __asm__("func_80181328");
+
+s32 aF80181328(s32 arg0) {
+    struct {
+        long long head;
+        s16 v[4];
+        u16 m20;
+        u16 m22;
+        u16 m24;
+        u16 m26;
+        s32 m28;
+    } req;
+
+    s32 i;
+    s32 j;
+    s32 a3;
+
+    if ((*(u16 *)(arg0 + 0x5C) & 1) == 0) {
+        return 0;
+    }
+    *(u16 *)(arg0 + 0x5C) = *(u16 *)(arg0 + 0x5C) & 0x7FFE;
+    i = 0;
+    if (*(u16 *)(arg0 + 0x5E) != 0xC) {
+        *(u16 *)(arg0 + 0x5C) = *(u16 *)(*(s32 *)(arg0 + 0x78) + 2);
+        *(u16 *)(arg0 + 0x5E) = 0;
+        req.v[0] = *(u16 *)(arg0 + 0x7C);
+        req.v[1] = *(u16 *)(arg0 + 0x7E);
+        req.v[2] = *(u16 *)(arg0 + 0x80);
+        req.v[3] = 0x18B;
+        req.m24 = 0x7FFF;
+        req.m20 = 1;
+        req.m22 = 0;
+        req.m28 = 0;
+        req.m26 = 0x800;
+        do {
+            func_8012C51C((s32)&req.v[0], arg0);
+            i = i + 1;
+        } while (i < 6);
+        return 0;
+    } else {
+        func_8012E9C0(arg0);
+        if (*(u16 *)(arg0 + 0x5E) != 0x1D) {
+            if (*(u8 *)(arg0 + 0xC8) != 0) {
+                func_8002A520((void *)arg0);
+            }
+            if (*(u8 *)(arg0 + 0xC9) != 0) {
+                func_8002A790((void *)arg0);
+            }
+        }
+        a3 = (*(s16 *)(arg0 + 0x60) * *(s16 *)(*(s32 *)(arg0 + 0x78) + 0x30)) >> 12;
+        if (a3 <= 0) {
+            a3 = 1;
+        }
+        *(u16 *)(arg0 + 0x2) = 3;
+        *(u16 *)(arg0 + 0xFC) = 0;
+        *(s32 *)(arg0 + 0x1C) = 0x1E;
+        *(u16 *)(arg0 + 0x76) = *(u16 *)(arg0 + 0x76) - a3;
+        func_8012C658(0x1A1, 0, arg0);
+        func_8012C658(0x1A1, 1, arg0);
+        func_8012C658(0x1A1, 2, arg0);
+        req.v[0] = *(u16 *)(arg0 + 0x7C);
+        req.v[1] = *(u16 *)(arg0 + 0x7E);
+        req.v[2] = *(u16 *)(arg0 + 0x80);
+        req.v[3] = 0x18B;
+        req.m24 = 0x7FFF;
+        req.m22 = 0;
+        req.m28 = 0;
+        req.m26 = 0x800;
+        j = 0;
+        do {
+            j = j + 1;
+            req.m20 = rand() & 1;
+            func_8012C51C((s32)&req.v[0], arg0);
+        } while (j < 10);
+        func_8002D4C8(0x68C, 0);
+        func_8012E8A8((u8 *)arg0);
+    }
+    return 1;
+}
+
 
 #include "common.h"
 

@@ -2834,7 +2834,161 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 }
 
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D27DC);
+/* func_800D27DC — MATCH (135 ins).  Emit a run of textured POLY_FT4 sprites into the
+ * packet buffer at `out`, addPrim()-ing each one onto the current double-buffer's OT.
+ *
+ * Source stream `src` is a u16 record per quad:
+ *   +0 x  | +2 y  | +4 dx | +6 dy | +8 u | +0xA v
+ *   and, when (flags & 2), four more: clut, tpage, du, dv.
+ * When (flags & 2) == 0 the texture window is the fixed 8x8 cell clut=0x4056 tpage=0x15,
+ * shrunk to 7 in u or v on a repeating (i & 7) cadence.  (flags & 1) dims the flat colour
+ * from 0x808080 to 0x585858; prim code is 0x2C (POLY_FT4, len 9).
+ *
+ * DIRECT REUSE of the four levers proven on func_800D29F8 (the very next function in this
+ * same TU, src/resident/resident.c) — this card had no banked twin, but 29F8's header
+ * comment IS the crib:
+ *
+ *  1. `D_800B9A02` VOLATILE, read as `*(volatile u16 *)&D_800B9A02`.  The cast-wrapped `*&`
+ *     takes expr.c's INDIRECT_REF path => memory_address() force_regs the constant address
+ *     => `la $s1, D_800B9A02` HOISTED INTO THE LOOP PREHEADER (idx 19-20) + `lhu 0($s1)`
+ *     twice per iteration.  A bare `D_800B9A02` gives (mem (symbol_ref)) => a maspsx lui/lhu
+ *     pair inside the loop and no preheader address.
+ *
+ *  2. addPrim is the REAL libgpu bitfield macro (both halves `->addr =`), NOT hand-written
+ *     masks.  THIS WAS THE WHOLE 42-INSTRUCTION RESIDUAL of the previous attempt:
+ *     store_bit_field masks the VALUE (0xFFFFFF) before the DESTINATION (0xFF000000), so the
+ *     loop-invariant constants are BORN in the order [&D_800B9A02, 0xFFFFFF, 0xFF000000]
+ *     (idx 19-23) and the `or` takes the memory-masked temp as its FIRST operand.  The
+ *     hand-rolled `(*out & 0xFF000000) | (ot[2] & 0xFFFFFF)` spelling gets both backwards
+ *     (0xFF000000 born first), and every downstream register then walks.
+ *
+ *  3. OT_800D27DC is a MACRO and `ot` is DOUBLE-EVALUATED exactly as libgpu's addPrim does
+ *     => the two independent `lhu 0($s1)` + `lui %hi(D_800AE7BC)` index recomputations.
+ *     A named `ot` local would be one pseudo for the whole fn (no live-range splitting in
+ *     gcc-2.7.2) and collapse them.
+ *
+ *  4. `o = add` — an int alias for the u16 param.  A u16 param is a PROMOTED SUBREG, so
+ *     combine's commutative canonicalisation ("object first, non-object second") swaps
+ *     `(plus src_val add)` => `addu $t3,$s4,$v0`.  Aliasing to a plain int pseudo defeats the
+ *     swap => the target's `addu $t3,$v0,$s4` (idx 31).
+ *
+ * Two more, found here (NOT in 29F8's list — both cost 2 instructions and 30 register walks):
+ *
+ *  5. `f2 = flags & 2;` MUST BE ITS OWN STATEMENT at the top of the loop body.  Spelled
+ *     inline as `if ((flags & 2) == 0)` the andi is NOT hoisted by loop.c, so `flags` stays
+ *     live across the loop and costs a `move $t9,$a0` copy AND leaves the `bnez` delay slot
+ *     unfilled (137 ins, closeness 109).  As a statement it hoists to idx 18 — FIRST in the
+ *     preheader, ahead of the addPrim invariants, which is exactly the target's order.
+ *
+ *  6. Field stores are RAW CASTS `*(s16 *)(out + K)`, not a `p = (PolyFT4 *)(out + 4)`
+ *     struct (which is how 29F8 spells it).  Struct-member stores are MEM_IN_STRUCT_P and
+ *     gcc-2.7.2's alias code treats them as non-conflicting with the `*(u32 *)out` full-word
+ *     read inside addPrim, letting the scheduler hoist that read arbitrarily early; plain
+ *     casts keep everything on one alias footing so the `lw $v1,0($t4)` stays at idx 112
+ *     where source order puts it.  Raw casts are also what produce the target's `out + 0x1D`
+ *     biased giv ($t0, offsets -0x19..+0x8).
+ *
+ * Chained vs unchained store pairs (29F8's rule: chaining emits store_expr's SImode->narrow
+ * truncation copy, visible only when the source variable stays live afterwards):
+ *   x pair, y pair  -> UNCHAINED (no copy in the target; both stay live for x+w / y+h)
+ *   u pair, v pair  -> CHAINED   (the target's `addu $v0,$a0,$zero` / `addu $v0,$a1,$zero`)
+ *
+ * Symbols hand-checked against asm/resident/nonmatchings/resident/func_800D27DC.s: 6 relocs,
+ * same offsets/symbols/order — HI16+LO16 D_800B9A02 @0x4C/0x50, HI16+LO16 D_800AE7BC
+ * @0x18C/0x194 and @0x1D0/0x1D8; the two R_MIPS_26 are the internal j edges.  No jal.
+ *
+ * BANKING NOTE: src/resident/resident.c already defines file-scope `PTag_800D29F8` and
+ * `Env_800D29F8` (structurally identical to the two typedefs below), but it defines them
+ * AFTER this function's INCLUDE_ASM site — so the card's `tu=('Env_800D29F8','[]')` row
+ * cannot be spelled verbatim here without moving the typedefs.  The typedefs below are
+ * renamed to _800D27DC to stay redefinition-free; layout is byte-identical either way.
+ */
+
+
+
+
+
+
+
+
+typedef struct {
+    u32 addr : 24;      /* 0x00 tag */
+    u32 len  : 8;
+} PTag_800D27DC;
+
+typedef struct {
+    u32 *ot;            /* 0x00 */
+    u32 pad[4];         /* 0x04..0x13 */
+} Env_800D27DC;         /* 0x14 stride */
+
+#define OT_800D27DC             (D_800AE7BC[*(volatile u16 *)&D_800B9A02].ot)
+#define getaddr_800D27DC(t)     (((PTag_800D27DC *)(t))->addr)
+#define setaddr_800D27DC(t, v)  (((PTag_800D27DC *)(t))->addr = (u32)(v))
+#define addPrim_800D27DC(ot, p) (setaddr_800D27DC(p, getaddr_800D27DC(ot)), \
+                                 setaddr_800D27DC(ot, p))
+
+u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
+{
+    extern Env_800D27DC D_800AE7BC[];
+    extern short D_800B9A02;
+
+    s16 i;
+    u32 c;
+    int o;
+    int x, y, w, h, u, v;
+    int tw, th, k;
+    int f2;
+
+    o = add;
+    c = 0x2C808080;
+    if (flags & 1) {
+        c = 0x2C585858;
+    }
+    for (i = 0; i < count; i++) {
+        f2 = flags & 2;
+        *(u32 *)(out + 0x00) = 0x09000000;      /* setlen(out, 9) */
+        *(u32 *)(out + 0x04) = c;               /* r0,g0,b0,code = 0x2C */
+        x = *src++ + o;
+        *(s16 *)(out + 0x18) = x;               /* x2 */
+        *(s16 *)(out + 0x08) = x;               /* x0 */
+        y = *src++;
+        *(s16 *)(out + 0x12) = y;               /* y1 */
+        *(s16 *)(out + 0x0A) = y;               /* y0 */
+        w = *src++;
+        h = *src++;
+        u = *src++;
+        *(u8 *)(out + 0x0C) = *(u8 *)(out + 0x1C) = u;      /* u0 = u2 */
+        v = *src++;
+        *(u8 *)(out + 0x0D) = *(u8 *)(out + 0x15) = v;      /* v0 = v1 */
+        if (f2 == 0) {
+            th = 8;
+            *(u16 *)(out + 0x0E) = 0x4056;      /* clut  */
+            *(u16 *)(out + 0x16) = 0x15;        /* tpage */
+            tw = 8;
+            k = i & 7;
+            if (k >= 4) {
+                if (k < 6) {
+                    tw = 7;
+                } else if (k < 8) {
+                    th = 7;
+                }
+            }
+        } else {
+            *(u16 *)(out + 0x0E) = *src++;      /* clut  */
+            *(u16 *)(out + 0x16) = *src++;      /* tpage */
+            tw = *src++;
+            th = *src++;
+        }
+        *(s16 *)(out + 0x10) = *(s16 *)(out + 0x20) = x + w;    /* x1 = x3 */
+        *(s16 *)(out + 0x1A) = *(s16 *)(out + 0x22) = y + h;    /* y2 = y3 */
+        *(u8 *)(out + 0x14) = *(u8 *)(out + 0x24) = u + tw;     /* u1 = u3 */
+        *(u8 *)(out + 0x1D) = *(u8 *)(out + 0x25) = v + th;     /* v2 = v3 */
+        addPrim_800D27DC(&OT_800D27DC[2], out);
+        out += 0x28;
+    }
+    return out;
+}
+
 
 /* func_800D29F8 — MATCH (172 ins). Emit a run of POLY_G4 quads (a gouraud "ladder"/trail
  * strip) into the packet buffer at `out`, bracketed by two 1-word E1 (GP0 draw-mode) packets,
