@@ -3493,41 +3493,7 @@ DEFINE_func_80161A30()  /* dedup: shared engine-core @0x80161A30 (src/shared) */
 DEFINE_func_80161A60()  /* dedup: shared engine-core @0x80161A60 (src/shared) */
 
 
-extern void func_8014AC10();
-
-void func_80161A90(s32 a0)
-{
-    u8 *p = D_80078E78;
-    s32 t;
-
-    /* INVERTED diamond: the `t = 0` arm must be the THEN arm.
-     * (a) the balanced if/else puts `t = 0` AFTER the branch at regalloc time, so t
-     *     does not conflict with the entry `lh` temp and both land in $v0 (an
-     *     unconditional `s32 t = 0;` before the if costs $v0 -> $a1, 3 mismatches);
-     * (b) with the zero-arm as the THEN arm, reorg steals it into the beqz delay slot
-     *     and relax_delay_slots drops the `j` -> 34 ins. The other polarity
-     *     (`if (x != 0) t = cmp; else t = 0;`) leaves the `j` + an unfilled slot, +2. */
-    if (*(s16 *)(a0 + 0x1C8) == 0) {
-        t = 0;
-    } else {
-        t = ((D_80078EC0 & 0x7F) == 6);
-    }
-    if (t != 0) {
-        /* forces the `lhu 0x1C8($a0)` reload: without it cse reuses the entry `lh`
-         * value across the join and folds the reload away. */
-        __asm__ __volatile__("" ::: "memory");
-        *(u16 *)(a0 + 0x1C8) -= 1;
-        /* zero-byte 2nd set of p: kills p's qty-const in cse's skipped-block walk, so
-         * `p[0x48]` stays `lbu 0x48($v1)` off the hoisted lui/addiu instead of being
-         * folded back into a fresh %hi/%lo pair (cse_expr §H find_best_addr). */
-        __asm__("" : "=r"(p) : "0"(p));
-    }
-    if ((p[0x48] & 0x7F) == 6) {
-        if (*(s16 *)(a0 + 0x1C8) == 0) {
-            func_8014AC10(0x3B);
-        }
-    }
-}
+DEFINE_func_80161A90()  /* dedup: shared engine-core @0x80161A90 (src/shared) */
 
 
 DEFINE_func_80161B18()  /* dedup: shared engine-core @0x80161B18 (src/shared) */
