@@ -3181,23 +3181,11 @@ void func_8017D174(void *a0) {
 
 
 
-extern void func_8017D418(void);
-extern void func_800167B8(s32 a0);
-
-s32 func_8017D1B0(s32 a0) {
-    func_8017D418();
-    func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+DEFINE_func_8017D1B0()  /* dedup: shared engine-core @0x8017D1B0 (src/shared) */
 
 
 
-extern s32 func_800167F0(s32 a0);
-
-s32 func_8017D1F4(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+DEFINE_func_8017D1F4()  /* dedup: shared engine-core @0x8017D1F4 (src/shared) */
 
 
 
@@ -3210,14 +3198,7 @@ void func_8017D218(void *a0) {
 
 
 
-extern void func_8017D440(void);
-
-s32 func_8017D254(s32 a0) {
-    func_8017D440();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+DEFINE_func_8017D254()  /* dedup: shared engine-core @0x8017D254 (src/shared) */
 
 
 extern void func_8002D4C8(s32 a0, s32 a1);
@@ -3240,10 +3221,7 @@ s32 func_8017D294(u8 *a0) {
 }
 
 
-extern s32 func_800D1EBC(void);
-    void func_8017D328(void) {
-        func_800D1EBC();
-    }
+DEFINE_func_8017D328()  /* dedup: shared engine-core @0x8017D328 (src/shared) */
 
 
 
@@ -3292,33 +3270,7 @@ void func_8017D440(void) {
 
 
 
-extern void func_8012A018(s32 a0, s32 a1);
-extern void func_8012A094(s32 a0);
-extern void func_8017D500(void *a0);
-
-void func_8017D468(void) {
-
-    extern s32 D_80126954;
-    extern s32 D_8012695C;
-    extern s16 D_80126968;
-    extern s16 D_8012696A;
-    extern s16 D_8012696C;
-    extern s16 D_80126976;
-    extern s16 D_80126978;
-    extern s16 D_8012697A;
-    extern u8 D_80126948[];
-    D_80126954 = 0x12C;
-    D_8012695C = 0x384;
-    D_80126968 = 0x155;
-    D_8012696A = 0x800;
-    D_8012696C = 0;
-    D_80126976 = 0;
-    D_80126978 = 0;
-    D_8012697A = 0;
-    func_8012A018((s32)func_8017D500, 0);
-    func_8012A094((s32)D_80126948);
-    func_8017D500(D_80126948);
-}
+DEFINE_func_8017D468()  /* dedup: shared engine-core @0x8017D468 (src/shared) */
 
 
 
@@ -3329,28 +3281,7 @@ void func_8017D500(void *a0) {
 }
 
 
-void func_8017D53C(s32 param_1) {
-    extern u16 D_80126940;
-    extern s16 D_80126942;
-    extern s16 D_80126944;
-    extern void func_8017D5C8(s32, s16 *);
-    s16 buf[3];
-
-    buf[0] = D_80126940;
-    if (D_80126942 < -0x570) {
-        buf[1] = -0x570;
-    } else if (!(D_80126942 < -0x3bf)) {
-        buf[1] = -0x3c0;
-    } else {
-        buf[1] = D_80126942;
-    }
-    if (D_80126944 < -0x60) {
-        buf[2] = -0x60;
-    } else {
-        buf[2] = D_80126944;
-    }
-    func_8017D5C8(param_1, buf);
-}
+DEFINE_func_8017D53C()  /* dedup: shared engine-core @0x8017D53C (src/shared) */
 
 
 
@@ -3511,7 +3442,123 @@ void func_8017D81C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_021/nonmatchings/ov_SC02_021_jr_8017C294", func_8017D980);
+/* func_8017D980 — ov_SC02_021 / src/ov_SC02_021/ov_SC02_021_jr_8017C294.c
+ *
+ * Two identical halves, one per bar object (D_80192CE0 / D_80192D04), then a
+ * shared sound tail.  Three levers were needed:
+ *
+ * 1. ADDRESS-IN-A-REGISTER FOR THE else ARM (§153/§276 class).  The target
+ *    reads/writes D_80192CE0 as `lw/sw 0($v0)` after a lui+addiu, not as a
+ *    %lo-folded global access.  A fresh block-scope `s32 *` in the else arm
+ *    (`r = &D_80192CE0; *r += 0x20;`) is what emits that; a plain
+ *    `D_80192CE0 += 0x20;` emits the folded pair and misses 7 ins per half.
+ *
+ * 2. THE `q = &D_80126B96` POINTER IDIOM, WITH THE LOAD SPLIT OUT.  The
+ *    fleet-wide idiom (cookbook precedent: ov_SC03_006_jr_8017AE2C.c L6951,
+ *    ov_SC03_014_jr_801848E4.c L4154) gives lui+addiu then `lhu 0($v0)`.  But
+ *    the plain `*q |= 0x400;` keeps load+store fused, so the D_80126B98 store
+ *    cannot land between them and a load-use `nop` appears.  The target has
+ *    `lhu` / `lui $at` / `sh` / `ori` / `sh`, so the read is its own statement
+ *    (`t = *q;`) and the write is `t |= 0x400; *q = t;` (sharing t's register
+ *    is what produces `ori $v1,$v1,0x400` rather than a second pseudo).
+ *
+ * 3. BLOCK-SCOPE q/t = LOCAL-ALLOC, NOT GLOBAL-ALLOC.  Declared at function
+ *    scope, q and t are referenced from two basic blocks, so local_alloc skips
+ *    them and global_alloc hands out $a0/$v1 after the hoisted `li 0x14` has
+ *    already taken $v0.  Declaring them inside each if-body makes each a
+ *    single-block pseudo: local_alloc takes them first ($v0/$v1) and the 0x14
+ *    temp — born in the predecessor block, since its `li` is what fills the
+ *    beqz delay slot — falls to $a0, exactly as the target has it.  This is
+ *    the whole of the last 12-instruction residual; nothing else moved.
+ *
+ * Callee prototypes are the verbatim spellings of their definitions further
+ * down this same TU (law 2); the D_80192Cxx/D_80192Dxx externs are the
+ * verbatim block-scope spellings func_8017D81C uses above.
+ */
+
+void func_8017D980(s32 param_1) {
+    extern u16 D_80126B96;
+    extern s16 D_80126B98;
+    extern void (*D_80183574[])(void);
+    extern void (*D_80183584[])(void);
+    extern s32 D_80192CE0;
+    extern s32 D_80192CE4;
+    extern s32 D_80192CE8;
+    extern s32 D_80192CFC;
+    extern s32 D_80192D04;
+    extern s32 D_80192D08;
+    extern s32 D_80192D0C;
+    extern s32 D_80192D20;
+    extern s32 func_8017DC10(s32 *a);
+    extern s32 func_8017E4DC(s32 arg0, s32 arg1, s32 *arg2);
+    extern void func_8017E734(s32 arg0);
+    extern void func_8017E824(s32 arg0);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    s32 *pa;
+    s32 *pb;
+    s32 *pc;
+    s32 *pd;
+    s32 *ra;
+    s32 *rb;
+
+    pa = &D_80192CE0;
+    if (func_8017DC10(pa) != 0 && D_80192CE8 + 0x200 < D_80192CE4) {
+        *pa = -0x680;
+        D_80192CE4 = -0xF01;
+    } else {
+        ra = &D_80192CE0;
+        *ra += 0x20;
+        D_80192CE4 += 0x20;
+    }
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48) = 0xB;
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C) = -0x680;
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x50) = 0x36A;
+    pb = &D_80192CE0;
+    if (func_8017E4DC(param_1, (s32)D_80183574, pb) != 0) {
+        u16 *q = &D_80126B96;
+        u16 t = *q;
+        D_80126B98 = 0x14;
+        t |= 0x400;
+        *q = t;
+    }
+    if (D_80192CFC != 0) {
+        func_8017E734((s32)pb);
+        func_8017E824((s32)pb);
+    }
+
+    pc = &D_80192D04;
+    if (func_8017DC10(pc) != 0 && D_80192D0C + 0x200 < D_80192D08) {
+        *pc = -0x708;
+        D_80192D08 = -0xF89;
+    } else {
+        rb = &D_80192D04;
+        *rb += 0x20;
+        D_80192D08 += 0x20;
+    }
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x48) = 0x1F4;
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x4C) = -0x680;
+    *(s32 *)(*(s32 *)(param_1 + 0x20) + 0x50) = 0x23D;
+    pd = &D_80192D04;
+    if (func_8017E4DC(param_1, (s32)D_80183584, pd) != 0) {
+        u16 *q = &D_80126B96;
+        u16 t = *q;
+        D_80126B98 = 0x14;
+        t |= 0x400;
+        *q = t;
+    }
+    if (D_80192D20 != 0) {
+        func_8017E734((s32)pd);
+        func_8017E824((s32)pd);
+    }
+
+    if (D_80192CFC == 1 || D_80192D20 == 1) {
+        func_8002D4C8(0x574, 0);
+    }
+    if (D_80192CFC == 0 && D_80192D20 == 0) {
+        func_8002D4C8(4, 0x574);
+    }
+}
+
 
 /* func_8017DC10 - ov_SC02_021, TU src/ov_SC02_021/ov_SC02_021_jr_8017C294.c
  * MATCH: match_one 512/512, closeness 0 (reloc_identity AGREE, 9 relocs).
