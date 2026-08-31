@@ -3039,7 +3039,59 @@ TAIL:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_110/nonmatchings/ov_SC03_110_jr_8017FBC8", func_80180270);
+extern void func_80180AF0();
+extern void func_80131E00(s32 a0, s32 a1);
+extern void func_8012E9C0(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_80180D2C();
+extern s32 D_8019BFAC;
+extern u8 D_8019C0D4[];
+extern u8 D_8019C0E4[];
+extern u8 D_8019C0F4[];
+
+void func_80180270(s32 param_1) {
+    s16 hp;
+    s16 val;
+    s32 arg1;
+
+    func_80180AF0();
+
+    switch (*(u16 *)(param_1 + 0x5E)) {
+    case 1:
+        hp = *(s16 *)(param_1 + 0x60);
+        if (hp != 0) {
+            goto DEFAULT_CASE;
+        }
+        val = *(u16 *)(param_1 + 0x76) - hp;
+        *(u16 *)(param_1 + 0x76) = val;
+        if (val <= 0) {
+            func_80131E00(param_1, 0xE);
+        }
+        func_8012E9C0(param_1);
+        *(s16 *)(param_1 + 0x34) = 3;
+        return;
+    case 8:
+        arg1 = (s32)&D_8019C0E4;
+        break;
+    case 5:
+    case 29:
+    case 32:
+        arg1 = (s32)&D_8019C0F4;
+        break;
+    case 50:
+    DEFAULT_CASE:
+    default:
+        arg1 = (s32)&D_8019C0D4;
+        break;
+    }
+
+    func_8012B14C(param_1, arg1);
+    ((void (*)(s32, void *))func_8012A828)((s32)param_1, &D_8019BFAC);
+    *(s16 *)(param_1 + 0x34) = 0;
+    ((void (*)(s32))func_80180D2C)(param_1);
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_110/nonmatchings/ov_SC03_110_jr_8017FBC8", func_8018035C);
 
