@@ -51,7 +51,39 @@ sys.path.insert(0, os.path.join(REPO, "tools"))
 import corpus  # noqa: E402
 
 LEDGER = os.path.join(REPO, ".run/gate_lane/ledger.json")
+VERDICTS = os.path.join(REPO, ".run/gate_lane/verdicts.jsonl")
 STAGE = os.path.join(REPO, ".run/gate_lane")
+
+
+def completed():
+    """{(binary, fn)} whose drafting workflow has RETURNED A VERDICT.
+
+    A draft file appears in <wave>/<arm>/<fn>.c long before its agent is finished — agents iterate
+    in place, and the wave brief tells them to write the file, not to write it last. Gating one
+    mid-flight spends a build on an unfinished draft, records an honest-looking rejection, and then
+    LEDGERS it, so the finished draft is skipped as "already-gated" when it lands. Measured S68 on
+    ov_SC01_000:func_8017E594 — gated at 0 banked while its workflow was still running.
+
+    The orchestrator appends one JSON object per returned verdict; nothing else is a completion
+    signal (a quiet file mtime is not one — an agent that thinks for four minutes between edits looks
+    identical to a finished one).
+    """
+    out = set()
+    try:
+        with open(VERDICTS) as fh:
+            for ln in fh:
+                ln = ln.strip()
+                if not ln:
+                    continue
+                try:
+                    r = json.loads(ln)
+                except ValueError:
+                    continue
+                if r.get("binary") and r.get("fn"):
+                    out.add((r["binary"], r["fn"]))
+    except OSError:
+        pass
+    return out
 
 
 def load_ledger():
@@ -93,11 +125,13 @@ def open_stub(binary, fn, cache={}):
     return None if known is None else (fn in known)
 
 
-def collect(waves):
+def collect(waves, require_verdict=True):
     """[(binary, fn, path)] for every draft file not yet gated. Refuses unresolvable drafts."""
     led = load_ledger()
-    out, skipped = [], {"already-gated": [], "already-banked": [], "UNRESOLVED": [], "oracle": []}
+    out, skipped = [], {"already-gated": [], "already-banked": [], "UNRESOLVED": [], "oracle": [],
+                        "IN-FLIGHT (no verdict yet)": []}
     best, seen_arms = {}, {}
+    done = completed()
     for wave in waves:
         tgts = wave_targets(wave)
         wdir = os.path.join(REPO, wave)
@@ -124,6 +158,9 @@ def collect(waves):
                 if not st:
                     skipped["already-banked"].append(key)
                     led[key] = "banked-elsewhere"
+                    continue
+                if require_verdict and (binary, fn) not in done:
+                    skipped["IN-FLIGHT (no verdict yet)"].append(key)
                     continue
                 cand = (ARM_RANK.get(arm, 0), arm, binary, fn, os.path.join(adir, name))
                 cur = best.get(key)
@@ -179,6 +216,9 @@ def main():
     ap.add_argument("--min-drafts", type=int, default=3,
                     help="do nothing unless at least this many ungated drafts exist (default 3)")
     ap.add_argument("--drain", action="store_true", help="gate whatever is there, ignoring --min-drafts")
+    ap.add_argument("--any-draft", action="store_true",
+                    help="gate drafts that have no recorded verdict yet (see completed(); this gates "
+                         "work an agent may still be iterating on and will ledger the result)")
     ap.add_argument("--workers", type=int, default=12)
     ap.add_argument("--no-r22", action="store_true", help="skip the post-merge clean-fleet verify (see docstring)")
     ap.add_argument("--dry", action="store_true", help="print the plan, stage nothing, gate nothing")
@@ -187,7 +227,7 @@ def main():
     waves = [w.strip() for w in a.waves.split(",") if w.strip()]
     if not waves and not a.extra:
         sys.exit("[gater] nothing to do — give --waves and/or --extra")
-    ready, skipped = collect(waves)
+    ready, skipped = collect(waves, require_verdict=not a.any_draft)
     ready.extend(collect_extra(a.extra, skipped))
     for why, items in skipped.items():
         if items:
