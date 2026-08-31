@@ -99148,6 +99148,19 @@
         } while (0); \
     }
 
+#define DEFINE_func_80181B84() \
+    void func_80181B84(void) { \
+    }
+
+#define DEFINE_func_8016F0AC() \
+    extern void func_8016F0E4(void); \
+    extern void func_80165770(void); \
+    void func_8016F0AC(void) { \
+        extern u8 aD80126B58 __asm__("D_80126B58"); \
+        ((void (*)(void *))func_8016F0E4)(&aD80126B58); \
+        ((void (*)(void *))func_80165770)(&aD80126B58); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -227699,6 +227712,19 @@
             } \
             return 1; \
         } while (0); \
+    }
+
+#define DEFINE_func_80181B84() \
+    void func_80181B84(void) { \
+    }
+
+#define DEFINE_func_8016F0AC() \
+    extern void func_8016F0E4(void); \
+    extern void func_80165770(void); \
+    void func_8016F0AC(void) { \
+        extern u8 aD80126B58 __asm__("D_80126B58"); \
+        ((void (*)(void *))func_8016F0E4)(&aD80126B58); \
+        ((void (*)(void *))func_80165770)(&aD80126B58); \
     }
 
 #endif

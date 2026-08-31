@@ -7556,10 +7556,133 @@ void func_80181B28(s32 a0) {
 }
 
 
-void func_80181B84(void) {
+DEFINE_func_80181B84()  /* dedup: shared engine-core @0x80181B84 (src/shared) */
+
+#include "common.h"
+
+/* func_80181B8C — the 6-state cutscene/step machine driven by D_801C79A0.
+ *
+ * Two load-bearing levers (do NOT "clean these up"):
+ *
+ * §5a / §162 (cross-jump tail-merge).  Cases 0, 1, 3 and 4 all end with the
+ *   byte-identical 4-instruction tail
+ *       lui $v0,%hi(D_801C79A0); lw $v0,%lo(..)($v0); j .L80181DDC; addiu $v0,$v0,1
+ *   and the original keeps ALL FOUR copies, sharing only the 2-instruction store
+ *   block (.L80181DDC).  cc1 wants to collapse them, and it did so in two
+ *   different ways depending on register allocation:
+ *
+ *   (a) `register s32 t __asm__("$2")` in cases 0 and 3.  Left alone, cc1 homes
+ *       the D_801C79A0 reload of those two cases in $v1 (cases 1/4 get $v0).
+ *       With $v1 their tails no longer match case 5's `sw $v0`, so they miss the
+ *       depth-2 merge onto .L80181DDC, keep an inline `lui $at; sw $v1`, and
+ *       instead deep-merge into EACH OTHER at the shared `jal func_80181DFC`
+ *       (case 0 degenerates to `j` into case 3's body).  Pinning both to $v0
+ *       restores the target's four-copies-plus-shared-store shape.
+ *
+ *   (b) the volatile alias `vD_801C79A0` for case 3's reload ONLY.  Once case 3
+ *       is in $v0 its tail becomes an exact duplicate of case 1's and cc1
+ *       back-merges it (`beqz $v0,<case 1's lui>` + `j` — 2 instructions short).
+ *       A volatile MEM makes that tail non-equivalent and blocks the merge.
+ *       NOTE: it must be an __asm__-aliased volatile OBJECT, not
+ *       `*(volatile s32 *)&D_801C79A0` — the pointer cast materialises the
+ *       address (`lui`+`addiu %lo`+`lw 0(..)`) and costs one instruction, while
+ *       the aliased object keeps the folded `lui %hi` / `lw %lo(..)` pair.
+ *       (The TU's own idiom, cf. `aB9A02` in func_80181F4C.)
+ *
+ * §195-A: func_80181E38 is called with TWO arguments here even though the TU
+ * defines it as `void func_80181E38(s32)`; the unspecified-parameter-list
+ * declaration below is C89-compatible with that definition and is what puts
+ * D_801C79B0 in $a1 at both call sites.
+ */
+
+extern s32 D_80188710[];
+extern s32 D_801C799C;
+extern s32 D_801C79A0;
+extern volatile s32 vD_801C79A0 __asm__("D_801C79A0"); /* §5a cross-jump barrier */
+extern s32 D_801C79A4;
+extern s32 D_801C79AC;
+extern s32 D_801C79B0;
+
+extern void func_80181DFC(s32 arg0);
+extern s32 func_80181E28(void);
+extern void func_80181E38();
+extern s32 func_80181E50(s32 a0, s32 a1);
+extern s32 func_80181ED4(s32 a0, s32 a1);
+
+s32 func_80181B8C(void) {
+    s32 *p = &D_80188710[D_801C79A4 * 3];
+    s32 r0;
+    s32 r1;
+
+    switch (D_801C79A0) {
+    case 0:
+        func_80181DFC(D_801C79A4);
+        {
+            register s32 t __asm__("$2");
+            t = D_801C79A0 + 1;
+            D_801C79A0 = t;
+        }
+        return 0;
+    case 1:
+        if (func_80181E28() == 0) {
+            return 0;
+        }
+        if (p[0] <= D_801C799C) {
+            D_801C79AC = p[1];
+            func_80181E38(0, D_801C79B0);
+            func_80181E38(1, D_801C79B0);
+            D_801C79A0 = D_801C79A0 + 1;
+        }
+        return 0;
+    case 2:
+        r0 = func_80181E50(0, D_801C79B0);
+        r1 = func_80181E50(1, D_801C79B0);
+        if (r0 != 0) {
+            if (r1 != 0) {
+                D_801C79A4 = D_801C79A4 + 1;
+                D_801C79A0 = D_801C79A0 + 1;
+            }
+        }
+        return 0;
+    case 3:
+        func_80181E50(0, D_801C79B0);
+        func_80181E50(1, D_801C79B0);
+        if (D_801C79A4 < 0xD) {
+            func_80181DFC(D_801C79A4);
+        }
+        {
+            register s32 t __asm__("$2");
+            t = vD_801C79A0 + 1;
+            D_801C79A0 = t;
+        }
+        return 0;
+    case 4:
+        func_80181E50(0, D_801C79B0);
+        func_80181E50(1, D_801C79B0);
+        if (func_80181E28() == 0) {
+            return 0;
+        }
+        if (D_801C79AC <= D_801C799C) {
+            D_801C79A0 = D_801C79A0 + 1;
+        }
+        return 0;
+    case 5:
+        r0 = func_80181ED4(0, D_801C79B0);
+        r1 = func_80181ED4(1, D_801C79B0);
+        if (r0 != 0) {
+            if (r1 != 0) {
+                D_801C79B0 = D_801C79B0 ^ 1;
+                if (D_801C79A4 >= 0xD) {
+                    return 1;
+                }
+                D_801C79A0 = 1;
+            }
+        }
+        return 0;
+    }
+    return 0;
 }
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80181B8C);
 
 void func_80181DFC(s32 arg0) {
     extern s32 D_801C7868;

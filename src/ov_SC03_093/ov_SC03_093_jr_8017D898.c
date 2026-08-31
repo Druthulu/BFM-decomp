@@ -5229,8 +5229,7 @@ void func_801818F0(s32 a0) {
 }
 
 
-void func_80181B84(void) {
-}
+DEFINE_func_80181B84()  /* dedup: shared engine-core @0x80181B84 (src/shared) */
 
 extern void func_8018208C(void *a0, s32 a1);
 

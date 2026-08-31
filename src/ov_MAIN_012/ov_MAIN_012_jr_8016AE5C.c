@@ -4826,14 +4826,7 @@ DEFINE_func_8016EFC8()  /* dedup: shared engine-core @0x8016efc8 (src/shared) */
 DEFINE_func_8016F094()  /* dedup: shared engine-core @0x8016f094 (src/shared) */
 
 
-extern void func_8016F0E4(void);
-extern void func_80165770(void);
-void func_8016F0AC(void) {
-
-    extern u8 aD80126B58_8016F0AC __asm__("D_80126B58");
-    ((void (*)(void *))func_8016F0E4)(&aD80126B58_8016F0AC);
-    ((void (*)(void *))func_80165770)(&aD80126B58_8016F0AC);
-}
+DEFINE_func_8016F0AC()  /* dedup: shared engine-core @0x8016F0AC (src/shared) */
 
 
 

@@ -3843,14 +3843,7 @@ DEFINE_func_8016F094()  /* dedup: shared engine-core @0x8016F094 (src/shared) */
 // @class: plumbing
 // @stuck: none — MATCH
 
-s32 func_8016F0AC()
-{
-    extern void func_8016F0E4(void);
-
-
-    ((void (*)(void *))func_8016F0E4)(&D_80126B58);
-    ((void (*)(void *))func_80165770)(&D_80126B58);
-}
+DEFINE_func_8016F0AC()  /* dedup: shared engine-core @0x8016F0AC (src/shared) */
 
 
 
