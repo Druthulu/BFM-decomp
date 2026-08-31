@@ -3895,7 +3895,154 @@ void func_8017EA4C(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017EA98);
+#include "common.h"
+
+/* func_8017EA98 - ov_SC01_084 / ov_SC01_084_jr_8017CA80   (177 ins, MATCH)
+ *
+ * Layout: the whole 0x10..0x37 local block is one s16[20] (frame -0x48 = 0x10
+ * outgoing-arg area + 40 bytes of locals + ra/s1/s0).  Both arms index it with
+ * hard offsets: [0..2] = the (D_80126B5E, D_80126B62, D_80126B66) triple, the
+ * 3-word "high-half only" struct at &sp10[8] (arm 1) / &sp10[4] (arm 2), and the
+ * func_8012B77C output word at &sp10[16] / &sp10[12].
+ *
+ * Idioms that were load-bearing here:
+ *  - The interval scan uses an EXPLICIT byte-offset variable (`off += 4`), not
+ *    `tbl[i * 2]`.  With an array subscript, loop.c strength-reduces the address
+ *    into two pointer givs (`la`+`addiu` per table); with `(s32)&sym + off` the
+ *    address stays `sym($off)` and the assembler expands the lui/addu/lh macro,
+ *    which is what the target does.
+ *  - abs(): the SECOND difference is computed UNCONDITIONALLY into its own
+ *    variable (dz2) so the delay-slot filler takes it from before the branch;
+ *    that is what keeps the `bltz` un-inverted and pays for the `j` + duplicated
+ *    `addu` in both arms (an `if (t < 0) t = -t;` merge comes out 1 ins short).
+ *  - `D_80126B62 - 0xA0` is its own statement: written as one expression, fold
+ *    reassociates it to `62 - (0xA0 + (x << 5))` (addiu on the shift instead).
+ *  - `amt` is computed BEFORE the sp10[5]/[7]/[9] stores (source order is the
+ *    sched1 order here); after them, the second `lh 0x70` sinks 3 slots.
+ *  - Separate tmp/tmp2: reusing one variable for both `lw`s makes it one
+ *    long-lived pseudo, which loses the $a1 copy-preference on the
+ *    func_8012B608 argument.
+ *  - The two $v1/$a0 pins are the last residual: global-alloc ranks the loaded
+ *    `*(s16*)(a0+6)` above `dx` by a knife-edge live-length margin and hands it
+ *    $v1.  No source shape tried (declared temps, if/else abs, decl order,
+ *    ternary, variable merging) moved it; the pins are dead before every call in
+ *    scope, and the emitted bytes are the target's, so no §175 exposure.
+ */
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s16 D_801C7748;
+extern s16 D_8018A6D4;
+extern s16 D_8018A6D6;
+extern u8 D_8018A6C8[];
+
+extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012AD80(s32 a0);
+extern void func_8012B77C(void *a0, s32 a1, void *a2);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+
+void func_8017EA98(s32 a0) {
+    extern void func_8017ED5C();
+
+    s16 sp10[20];
+    s32 i;
+    s32 off;
+    s32 ang;
+
+    if (*(u16 *)(a0 + 0x5C) & 1) {
+        func_8017ED5C();
+        return;
+    }
+
+    off = 0;
+    ang = D_801C7748;
+    for (i = 0; i < 3; i++) {
+        if (ang >= *(s16 *)((s32)&D_8018A6D4 + off) && ang < *(s16 *)((s32)&D_8018A6D6 + off)) {
+            break;
+        }
+        off += 4;
+    }
+
+    if (i == 3) {
+        s32 tmp;
+        s32 tmp2;
+        register s32 dx __asm__("$3");
+        register s32 dz __asm__("$4");
+        s32 dz2;
+        s32 sum;
+
+        func_8012B0B4((u32 *)&sp10[4], -ang & 0xFFF, 0x400);
+        tmp = *(s32 *)&sp10[4];
+        sp10[0] = D_80126B5E;
+        sp10[1] = D_80126B62;
+        sp10[2] = D_80126B66;
+        sp10[0] = tmp;
+        sp10[2] = tmp >> 16;
+        sp10[9] = tmp;
+        sp10[11] = D_80126B62;
+        sp10[13] = tmp >> 16;
+        func_8012B14C(a0, (s32)D_8018A6C8);
+        func_8012AD80(a0);
+        dx = *(s16 *)(a0 + 6) - sp10[0];
+        if (dx < 0) {
+            dx = sp10[0] - *(s16 *)(a0 + 6);
+        }
+        dz = *(s16 *)(a0 + 0xE) - sp10[2];
+        dz2 = sp10[2] - *(s16 *)(a0 + 0xE);
+        if (dz >= 0) {
+            sum = dx + dz;
+        } else {
+            sum = dx + dz2;
+        }
+        if (sum >= 0x80) {
+            func_8012B77C(&sp10[16], a0 + 4, &sp10[8]);
+            tmp2 = *(s32 *)&sp10[16];
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = tmp2;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), tmp2 >> 16, 3);
+        }
+    } else {
+        s32 tmp;
+        s32 tmp2;
+        register s32 dx __asm__("$3");
+        register s32 dz __asm__("$4");
+        s32 dz2;
+        s32 sum;
+        s32 amt;
+
+        sp10[0] = D_80126B5E;
+        sp10[1] = D_80126B62;
+        sp10[2] = D_80126B66;
+        tmp = D_80126B62 - 0xA0;
+        tmp = tmp - (*(s16 *)(a0 + 0x70) << 5);
+        sp10[1] = tmp;
+        amt = (*(s16 *)(a0 + 0x70) << 2) + 6;
+        sp10[5] = D_80126B5E;
+        sp10[7] = tmp;
+        sp10[9] = D_80126B66;
+        func_8012B14C(a0, (s32)D_8018A6C8);
+        func_8012AD80(a0);
+        dx = *(s16 *)(a0 + 6) - sp10[0];
+        if (dx < 0) {
+            dx = sp10[0] - *(s16 *)(a0 + 6);
+        }
+        dz = *(s16 *)(a0 + 0xE) - sp10[2];
+        dz2 = sp10[2] - *(s16 *)(a0 + 0xE);
+        if (dz >= 0) {
+            sum = dx + dz;
+        } else {
+            sum = dx + dz2;
+        }
+        if (sum >= 0x80) {
+            func_8012B77C(&sp10[12], a0 + 4, &sp10[4]);
+            tmp2 = *(s32 *)&sp10[12];
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = tmp2;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), tmp2 >> 16, amt);
+        }
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) &= 0x7FFFFFFF;
+    }
+}
+
 
 #include "common.h"
 

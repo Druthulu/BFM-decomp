@@ -4002,7 +4002,133 @@ void func_80181F3C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80181F80);
+extern s32  func_80047948(s32 a0);
+extern s32  func_8004787C(s32 a0);
+extern s32  func_80047D3C(s32 a0);
+extern s32  func_801807D8(s16 *a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012C098(void *a0);
+extern s32  func_80143B6C(s32 a0, s32 a1);
+extern void func_801822A4(void *a0);
+extern s16  D_801C7748;
+extern s16  D_801C774A;
+extern s32  D_801270D4;
+extern s32  D_801270E4;
+extern s32  D_801A1A10;
+
+void func_80181F80(s32 param_1) {
+    s16 sp10[3];
+    s32 t;
+    u16 m, y, f, g;
+    s16 h;
+    s32 cur, lim;
+    s32 tt, x, angle, spd, q1, sinVal, cosVal;
+    s32 d;
+    s16 c;
+
+    h = *(u16 *)(param_1 + 0xDC) - 8;
+    *(s16 *)(param_1 + 0xDC) = h;
+    if (h < 0x400) {
+        *(s16 *)(param_1 + 0xFC) = 1;
+        *(u8 *)(param_1 + 0xC1) = 0;
+        *(s16 *)(param_1 + 2) = 1;
+        *(s16 *)(param_1 + 0x34) = 0;
+        *(u16 *)(param_1 + 0x100) |= 3;
+        func_8012A828(param_1, &D_801A1A10);
+        m = *(u16 *)(param_1 + 0x5C);
+        y = *(u16 *)(param_1 + 6);
+        f = *(u16 *)(param_1 + 0xFC);
+        *(s32 *)(param_1 + 0x1C) = 0xA;
+        t = (s32)(s16)y * (s32)(s16)y;
+        *(u16 *)(param_1 + 0x5E) = 0;
+        g = m | 0x8000;
+        *(u16 *)(param_1 + 0x5C) = g;
+        *(u16 *)(param_1 + 0xFC) = f ^ 1;
+        sp10[0] = y;
+        sp10[1] = *(u16 *)(param_1 + 0xA);
+        sp10[2] = *(u16 *)(param_1 + 0xE);
+        t += (s32)(s16)sp10[2] * (s32)(s16)sp10[2];
+        *(s16 *)(param_1 + 0xDE) = func_80047D3C(t);
+        *(s16 *)(param_1 + 0xDC) = func_801807D8(sp10);
+    }
+
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) +=
+        func_8012B608(*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12),
+                      -*(s16 *)(param_1 + 0xDC) & 0xFFF, 0x10);
+
+    cur = *(s16 *)(param_1 + 0xDE);
+    lim = D_801C774A;
+    if (lim < cur) {
+        if (cur - lim < 6) {
+            *(s16 *)(param_1 + 0xDE) = lim;
+        } else {
+            *(s16 *)(param_1 + 0xDE) -= 6;
+        }
+    } else if (cur < lim) {
+        if (lim - cur < 6) {
+            *(s16 *)(param_1 + 0xDE) = lim;
+        } else {
+            *(s16 *)(param_1 + 0xDE) += 6;
+        }
+    }
+
+    tt = *(s16 *)(param_1 + 0xDC);
+    spd = *(s16 *)(param_1 + 0xDE);
+    x = -(tt * 1536);
+    angle = tt & 0xFFF;
+    q1 = x / 12288 - 0x22;
+
+    sinVal = func_80047948(angle) * spd >> 12;
+    cosVal = func_8004787C(angle) * spd >> 12;
+
+    sp10[0] = sinVal;
+    sp10[1] = q1;
+    sp10[2] = cosVal;
+    *(u16 *)(param_1 + 6) = sp10[0];
+    *(u16 *)(param_1 + 0xA) = sp10[1];
+    *(u16 *)(param_1 + 0xE) = sp10[2];
+
+    d = *(s16 *)(param_1 + 0xDC) - D_801C7748;
+    if (d < -0xFF) {
+        if (*(s16 *)(param_1 + 0x70) == 2) {
+            D_801270E4--;
+        } else {
+            D_801270D4--;
+        }
+        func_8012C098((void *)param_1);
+        return;
+    }
+
+    if (d <= 0) {
+        *(u16 *)(param_1 + 0x100) |= 1;
+    } else if ((*(u16 *)(param_1 + 0x100) & 1) == 0) {
+        if (*(s16 *)(param_1 + 0x70) == 0) {
+            if (d >= 0x51) {
+                goto skip;
+            }
+            /* LOAD-BEARING (cookbook §5a): a zero-byte volatile-asm makes this arm's
+             * RTL tail differ from the sibling arm's, so find_cross_jump refuses to
+             * merge the two `beqz`+join tails. Removing it costs 4 instructions. */
+            __asm__ __volatile__("");
+        } else {
+            if (d >= 0x201) {
+                goto skip;
+            }
+        }
+        func_801822A4((void *)param_1);
+        return;
+    }
+
+skip:
+    c = *(u16 *)(param_1 + 0xFE) - 1;
+    *(s16 *)(param_1 + 0xFE) = c;
+    if (c <= 0) {
+        func_80143B6C(param_1, 0);
+        *(s16 *)(param_1 + 0xFE) = 8;
+    }
+}
+
 
 extern void func_8012A828(s32 a0, void *a1);
 
@@ -5225,7 +5351,142 @@ void func_801840FC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80184138);
+#include "common.h"
+
+/* func_80184138 - ov_SC01_084 / ov_SC01_084_jr_8017F690 (187 ins)
+ *
+ * Structural twin of func_80183DA4 (same TU, MATCH, 187 ins) -- the same
+ * vertical "beam"/ribbon builder with a different texture window and step:
+ *   D_801C74D8 -> D_801C74DC, GetClut y 0x14C -> 0x14D, uu 0xF0 -> 0xF8,
+ *   the u1/u3 literal 0xF7 -> 0xFF, and the tail step vec.vy -= 0x40 -> 0x3C.
+ * All three of func_80183DA4's levers carry over verbatim:
+ *   1. sxy0/sxy1 are s32 SCALARS read through a cast-to-struct-pointer, so the
+ *      four stack slots are handed out in &-order (0x20/0x24/0x28/0x2C) while
+ *      the loads stay MEM_IN_STRUCT_P and are re-killed by the p->x0 store.
+ *   2. `otz2 = RotTransPers(...); d = D_801C74DC; if ((d >> 3) >= otz2)` forces
+ *      the reload the target has, and that reload feeds the `d << 3` dividend.
+ *   3. `uu = 0xF8; vv = 0;` are ordinary pre-loop statements (they precede the
+ *      &pp/&flag address movables in the preheader); 0xFF stays a literal and is
+ *      the one true loop.c movable, landing last.
+ */
+
+typedef struct { s32 a; s32 b[4]; } OtBlk_80184138;        /* 0x14 stride */
+typedef struct { u16 vx, vy, vz, pad; } SVec_80184138;     /* 0x08 stride */
+typedef struct { u16 vx, vy; } DVec_80184138;              /* read through a cast */
+
+typedef struct {
+    u32 tag;                    /* 0x00 */
+    u8  r0, g0, b0, code;       /* 0x04 */
+    s16 x0, y0;                 /* 0x08 */
+    u8  u0, v0;  u16 clut;      /* 0x0C */
+    s16 x1, y1;                 /* 0x10 */
+    u8  u1, v1;  u16 tpage;     /* 0x14 */
+    s16 x2, y2;                 /* 0x18 */
+    u8  u2, v2;  u16 pad2;      /* 0x1C */
+    s16 x3, y3;                 /* 0x20 */
+    u8  u3, v3;  u16 pad3;      /* 0x24 */
+} Ft4_80184138;                 /* 0x28 */
+
+
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern s32  GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32  GetClut(s32 a0, s32 a1);
+extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void *func_80010A08(s32 a0);
+extern void SetPolyFT4(void *a0);
+extern s32  AddPrim(s32 a0, void *a1);
+
+void func_80184138(SVec_80184138 *arg0) {
+
+    extern s32 D_801C74DC;
+    extern OtBlk_80184138 D_800A651C[];
+
+    SVec_80184138 tmp;      /* 0x10 */
+    SVec_80184138 vec;      /* 0x18 */
+    s32 sxy0;               /* 0x20 */
+    s32 pp;                 /* 0x24 */
+    s32 flag;               /* 0x28 */
+    s32 sxy1;               /* 0x2C */
+    u16 tpage;
+    u16 clut;
+    Ft4_80184138 *p;
+    s32 ot;
+    s32 otz;
+    s32 otz2;
+    s32 d;
+    s32 w;
+    s32 uu;
+    s32 vv;
+
+    if ((s16)D_801270C0 == 3) {
+        return;
+    }
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    D_801C74DC = D_80126950;
+    tpage = GetTPage(0, 0, 0x300, 0x100);
+    clut = GetClut(0x160, 0x14D);
+    vec.vx = arg0->vx;
+    vec.vy = arg0->vy;
+    vec.vz = arg0->vz;
+    uu = 0xF8;
+    vv = 0;
+
+    for (;;) {
+        tmp.vx = vec.vx;
+        tmp.vy = vec.vy - 0x40;
+        tmp.vz = vec.vz;
+        otz = RotTransPers((s32)&tmp, (s32)&sxy0, &pp, &flag);
+        if ((D_801C74DC >> 3) >= otz) {
+            return;
+        }
+        if (flag < 0) {
+            return;
+        }
+        otz2 = RotTransPers((s32)&vec, (s32)&sxy1, &pp, &flag);
+        d = D_801C74DC;
+        if ((d >> 3) >= otz2) {
+            return;
+        }
+        if (flag < 0) {
+            return;
+        }
+        ot = D_800A651C[(u16)D_800B9A02].a + otz * 4;
+        w = (d << 3) / (otz * 4);
+        if ((s16)((DVec_80184138 *)&sxy0)->vy < 120) {
+            if ((s16)((DVec_80184138 *)&sxy1)->vy < -119) {
+                return;
+            }
+            if ((s16)w >= 2) {
+                p = (Ft4_80184138 *)func_80010A08(0x28);
+                *(s32 *)((u8 *)p + 4) = 0x808080;
+                SetPolyFT4(p);
+                p->x0 = ((DVec_80184138 *)&sxy0)->vx - w;
+                p->y0 = ((DVec_80184138 *)&sxy0)->vy;
+                p->x1 = ((DVec_80184138 *)&sxy0)->vx + w;
+                p->y1 = ((DVec_80184138 *)&sxy0)->vy;
+                p->x2 = ((DVec_80184138 *)&sxy1)->vx - w;
+                p->y2 = ((DVec_80184138 *)&sxy1)->vy;
+                p->x3 = ((DVec_80184138 *)&sxy1)->vx + w;
+                p->y3 = ((DVec_80184138 *)&sxy1)->vy;
+                p->u0 = uu;
+                p->v0 = vv;
+                p->u1 = 0xFF;
+                p->v1 = vv;
+                p->u2 = uu;
+                p->v2 = vv + 0x3F;
+                p->u3 = 0xFF;
+                p->v3 = vv + 0x3F;
+                p->tpage = tpage;
+                p->clut = clut;
+                AddPrim(ot, p);
+            }
+        }
+        vec.vy -= 0x3C;
+    }
+}
+
 
 
 extern void (*D_8018AC2C[])(void);
@@ -6137,7 +6398,7 @@ void func_801855EC(s32 param_1)
 }
 
 
-extern void func_80184138(u16 *a0);
+extern void func_80184138();
 extern void func_80183DA4();
 extern s16 D_8018A914;
 extern s16 D_8018A91A;

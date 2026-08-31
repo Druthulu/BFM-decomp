@@ -4229,7 +4229,104 @@ void func_8017F9B4(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017FAF4);
+void func_8017FAF4(s32 param_1)
+{
+    extern s32 D_801A3D5C;
+    extern u8 D_801202A0[];
+    extern volatile s32 D_801C7E4C;
+    extern s32 D_80126B60;
+    extern u16 D_80126B5E;
+    extern s32 func_8014CB8C(void);
+    extern s32 func_80172658(s32 *a0);
+    extern s32 func_801726A0(s32 *a0);
+    extern u8 D_801A3E2C[];
+    extern s32 D_801C7E78;
+    extern s32 D_801A3D94;
+    extern s32 D_801A33AC;
+    extern u8 *D_801C7E60[];
+    extern u8 D_80192480[];
+    extern u8 D_80192488[];
+    /* Second-copy aliases of the same two symbols.  cse.c hashes a SYMBOL_REF by the
+     * interned-string POINTER, so a second decl with the same __asm__ name is a distinct
+     * rtx: the two halves of case 2 no longer unify, each address stays used exactly once,
+     * local-alloc's update_equiv_regs substitutes the constant back, and gcc emits `la $a0,…`
+     * at all four call sites (nop delay slot) instead of hoisting them into $s3/$s4. */
+    extern u8 D_80192480_b[] __asm__("D_80192480");
+    extern u8 D_80192488_b[] __asm__("D_80192488");
+    extern void *D_801C39FC[];
+    extern void func_800599B8(void *a0, void *a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        if (*(s16 *)(param_1 + 0x98) == 0) {
+            u16 *ptr;
+            s32 i;
+
+            *(s16 *)(param_1 + 0x34) = 1;
+            func_8012A828(param_1, &D_801A3D5C);
+            *(s32 *)(param_1 + 0x1C) = 0x5A;
+            ptr = (u16 *)D_801202A0;
+            for (i = 0; i < 0x60; i++) {
+                if (ptr[0] == 0x2B5) {
+                    ptr[0x1A] = 1;
+                }
+                ptr += 0x86;
+            }
+            *(s32 *)(D_801C7E4C + 0xE0) = 0x78;
+        }
+        break;
+    case 1:
+        if (func_8014CB8C() == 0) {
+            s32 *p = &D_80126B60;
+
+            if (*p < 0) {
+                if (func_80172658(p - 2) != 0 || func_801726A0(p - 2) != 0) {
+                    D_80126B5E = D_80126B5E + 4;
+                } else {
+                    D_80126B5E = D_80126B5E + 0x18;
+                }
+            }
+        }
+        if (--*(s32 *)(param_1 + 0x1C) == 0) {
+            *(s16 *)(param_1 + 0x34) = 2;
+            func_8012A828(param_1, &D_801A3E2C);
+            *(u8 *)(param_1 + 0xC2) = 0;
+            func_8002D4C8(4, 0x89F);
+            *(s32 *)(param_1 + 0x1C) = 7 - D_801C7E78 * 2;
+        }
+        break;
+    case 2: {
+        u8 t;
+
+        t = (*(u8 *)(param_1 + 0xC2) + 2) & 0xF;
+        *(u8 *)(param_1 + 0xC2) = t;
+        func_800599B8(D_80192480, D_801C39FC[t]);
+        func_800599B8(D_80192488, D_801C39FC[*(u8 *)(param_1 + 0xC2) + 1]);
+        if (*(u16 *)(param_1 + 0x72) & 0x4000) {
+            if (--*(s32 *)(param_1 + 0x1C) == 0) {
+                *(s16 *)(param_1 + 0x34) = 3;
+                func_8012A828(param_1, &D_801A3D94);
+                *(u8 *)(param_1 + 0xC2) = 0;
+                func_800599B8(D_80192480_b, D_801C39FC[*(u8 *)(param_1 + 0xC2)]);
+                func_800599B8(D_80192488_b, D_801C39FC[*(u8 *)(param_1 + 0xC2) + 1]);
+            }
+        }
+        break;
+    }
+    case 3:
+        if (*(s16 *)(param_1 + 0x98) == 0) {
+            func_8012A828(param_1, &D_801A33AC);
+            *(s16 *)(param_1 + 2) = 1;
+            *(s32 *)(param_1 + 0x1C) = 0x5A;
+            *(s16 *)(D_801C7E60[0] + 0xAE) = -1;
+            *(u16 *)(param_1 + 0x70) &= 0xFFFE;
+        }
+        break;
+    }
+}
+
 
 void func_8017FDE0(s32 param_1)
 {

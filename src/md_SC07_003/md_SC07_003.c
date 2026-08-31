@@ -2053,7 +2053,185 @@ void func_801A38A8(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A38E4);
+/*
+ * func_801A38E4  (md_SC07_003, 0x801A38E4, 186 ins)  ==  MATCH, byte-exact.
+ *
+ * Rotates one of D_801A6CE8's 16-byte bounding-box records into view space and
+ * writes the six min/max halfwords at +4..+0xE of the caller's record.  a4 == 0
+ * takes the three-axis path (each axis is fed through RotTransSV as a lone
+ * non-zero component); a4 != 0 rotates the two corner SVECTORs directly.
+ *
+ * Frame 0xC8: 0x10 MATRIX m, 0x30/0x38 sv0/sv1, 0x40/0x48 o0/o1, 0x50 flag,
+ * 0x58..0xB8 = 12 combine-orphaned sign-extend slots (§147-B as CORRECTED in
+ * P30 S43 — 2 per min/max block x 6 blocks, 8 bytes each).  NO dead local is
+ * needed: writing the six blocks in the shape below produces the hole for free.
+ *
+ * LEVERS (each verified by reverting it and re-scoring with match_one):
+ *  1. NO `s16 *out` LOCAL — the six pairs index the parameter as
+ *     `((s16 *)a1)[k]`.  Binding a1 to a local makes `addu $s1,$a1,$zero` an
+ *     ordinary body insn that sched1 sinks below the D_801A6CE8 address chain
+ *     (target: sw $s1 / addu $s1 at idx 1-2, draft: idx 6-7).  As a parameter
+ *     copy it is an assign_parms insn and stays at the top.  7 -> 0.
+ *  2. The compare is spelled `o0.f > o1.f`, NOT `o1.f < o0.f`.  Both fold to
+ *     `slt $v0,$v0,$v1`, but the `>` form evaluates o0 first, so the target's
+ *     `lh 0x40 ; lh 0x48 ; nop` load-delay nop appears (the `<` form fills that
+ *     slot with the second load and loses 8 instructions across the 6 blocks).
+ *  3. Each SVECTOR is filled VALUE FIRST, then the two zeroed components in
+ *     DESCENDING field order (vz before vy before vx).  sched1 hoists the `lhu`
+ *     and sinks its dependent `sh`, so the emitted order is
+ *     lhu / zero / zero / value — source order any other way transposes the two
+ *     `sh $zero` or floats one above the `lhu`.
+ *  4. Arm B's second corner needs `q = p; p += 4;` BEFORE the first call.
+ *     `RotTransSV((s32)(p + 4), ...)` after it folds into `addiu $a0,$s2,8`
+ *     (-1 instruction); the copy-then-bump form is what emits the target's
+ *     `addu $a0,$s2,$zero` (branch delay slot) + `addiu $s2,$s2,8`.
+ *
+ * SYMBOL AUDIT (law 1c, after MATCH) — every symbol re-checked against the
+ * relocation lines of asm/md_SC07_003/nonmatchings/md_SC07_003/func_801A38E4.s:
+ *   1x jal func_8012EA90 (a0, a2, &m)   ·  8x jal RotTransSV  (6 in arm A,
+ *   2 in arm B)  ·  one %hi/%lo pair, D_801A6CE8.  No other relocation exists
+ *   in the target.
+ *
+ * BANK NOTE (law 2): src/md_SC07_003/md_SC07_003.c already prototypes
+ * `extern void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4);`
+ * (4x, all above the INCLUDE_ASM) — the definition below is spelled to match it
+ * exactly, which is what the last gate rejected.  `RotTransSV` and the two
+ * gte_Set*Matrix macros are copied VERBATIM from the same TU; D_801A6CE8 and
+ * func_8012EA90 are declared nowhere in it, so those two are free-standing
+ * (func_8012EA90 follows the fleet-modal `(void, (s32, s32, s32*))`).
+ */
+#include "common.h"
+
+typedef struct {
+    s16 vx;
+    s16 vy;
+    s16 vz;
+    s16 pad;
+} SVec801A38E4;
+
+extern void func_8012EA90(s32 a0, s32 a1, s32 *a2);
+extern void RotTransSV(s32 a0, s32 a1, void *a2);
+extern u8 D_801A6CE8[];
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4)
+{
+    s32 m[8];
+    SVec801A38E4 sv0;
+    SVec801A38E4 sv1;
+    SVec801A38E4 o0;
+    SVec801A38E4 o1;
+    s32 flag;
+    u16 *p;
+    u16 *q;
+
+    p = (u16 *)(D_801A6CE8 + (a3 << 4));
+
+    func_8012EA90((s32)a0, a2, m);
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    if (a4 == 0) {
+        sv0.vx = p[0];
+        sv0.vz = 0;
+        sv0.vy = 0;
+        sv1.vx = p[4];
+        sv1.vz = 0;
+        sv1.vy = 0;
+        RotTransSV((s32)&sv0, (s32)&o0, &flag);
+        RotTransSV((s32)&sv1, (s32)&o1, &flag);
+        if (o0.vx > o1.vx) {
+            ((s16 *)a1)[3] = o0.vx;
+            ((s16 *)a1)[2] = o1.vx;
+        } else {
+            ((s16 *)a1)[3] = o1.vx;
+            ((s16 *)a1)[2] = o0.vx;
+        }
+
+        sv0.vy = p[1];
+        sv0.vz = 0;
+        sv0.vx = 0;
+        sv1.vy = p[5];
+        sv1.vz = 0;
+        sv1.vx = 0;
+        RotTransSV((s32)&sv0, (s32)&o0, &flag);
+        RotTransSV((s32)&sv1, (s32)&o1, &flag);
+        if (o0.vy > o1.vy) {
+            ((s16 *)a1)[5] = o0.vy;
+            ((s16 *)a1)[4] = o1.vy;
+        } else {
+            ((s16 *)a1)[5] = o1.vy;
+            ((s16 *)a1)[4] = o0.vy;
+        }
+
+        sv0.vz = p[2];
+        sv0.vy = 0;
+        sv0.vx = 0;
+        sv1.vz = p[6];
+        sv1.vy = 0;
+        sv1.vx = 0;
+        RotTransSV((s32)&sv0, (s32)&o0, &flag);
+        RotTransSV((s32)&sv1, (s32)&o1, &flag);
+        if (o0.vz > o1.vz) {
+            ((s16 *)a1)[7] = o0.vz;
+            ((s16 *)a1)[6] = o1.vz;
+        } else {
+            ((s16 *)a1)[7] = o1.vz;
+            ((s16 *)a1)[6] = o0.vz;
+        }
+    } else {
+        q = p;
+        p += 4;
+        RotTransSV((s32)q, (s32)&o0, &flag);
+        RotTransSV((s32)p, (s32)&o1, &flag);
+        if (o0.vx > o1.vx) {
+            ((s16 *)a1)[3] = o0.vx;
+            ((s16 *)a1)[2] = o1.vx;
+        } else {
+            ((s16 *)a1)[3] = o1.vx;
+            ((s16 *)a1)[2] = o0.vx;
+        }
+        if (o0.vy > o1.vy) {
+            ((s16 *)a1)[5] = o0.vy;
+            ((s16 *)a1)[4] = o1.vy;
+        } else {
+            ((s16 *)a1)[5] = o1.vy;
+            ((s16 *)a1)[4] = o0.vy;
+        }
+        if (o0.vz > o1.vz) {
+            ((s16 *)a1)[7] = o0.vz;
+            ((s16 *)a1)[6] = o1.vz;
+        } else {
+            ((s16 *)a1)[7] = o1.vz;
+            ((s16 *)a1)[6] = o0.vz;
+        }
+    }
+}
+
 
 #include "common.h"
 

@@ -4375,7 +4375,104 @@ void func_8017E9B8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8017EA74);
+#include "common.h"
+
+typedef struct {
+    u16 v[4];
+} Tbl8_801AFF3C;              /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy */
+
+typedef struct {
+    u16 a, b, c, d;
+} Ent8_80188;                 /* 8-byte stride record */
+
+extern Tbl8_801AFF3C D_801AFF3C;
+extern Ent8_80188 D_801888CC[];
+extern Ent8_80188 D_801888EC[];
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s32 func_8012E544(s32 a0);
+extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
+extern s32 func_80182090(s32, s32);
+extern void func_80181CA4();
+
+void func_8017EA74(s32 a0) {
+    Tbl8_801AFF3C tbl;
+    s16 vecA[4];
+    s16 vecB[4];
+    s32 buf[6];
+    s32 rec;
+    s16 mode;
+    s32 ret;
+
+    tbl = D_801AFF3C;
+
+    rec = func_8012E544(0x2CD);
+    if (rec == 0) {
+        return;
+    }
+    if (*(u16 *)(rec + 0x2) >= 8) {
+        return;
+    }
+
+    mode = *(s16 *)(a0 + 0x2);
+    switch (mode) {
+    case 0:
+        if (*(u16 *)(rec + 0x2) == 3) {
+            *(s16 *)(a0 + 0x2) = mode + 1;
+        }
+        break;
+
+    case 1:
+        *(u16 *)(a0 + 0x16) = D_801888CC[*(s16 *)(a0 + 0x8)].a;
+        *(u16 *)(a0 + 0x1A) = D_801888CC[*(s16 *)(a0 + 0x8)].b;
+        *(u16 *)(a0 + 0x1E) = D_801888CC[*(s16 *)(a0 + 0x8)].c;
+        *(u16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
+        *(s16 *)(a0 + 0xA) = 0;
+        break;
+
+    case 2:
+        if (*(s16 *)(a0 + 0x8) < 2) {
+            vecA[0] = *(u16 *)(rec + 0x6);
+            vecA[1] = *(u16 *)(rec + 0xA);
+            vecA[2] = *(u16 *)(rec + 0xE);
+            *(s32 *)(a0 + 0xC) = 1;
+        } else {
+            vecA[0] = D_80126B5E;
+            vecA[1] = D_80126B62;
+            vecA[2] = D_80126B66;
+            if (*(u16 *)(rec + 0x2) == 4) {
+                *(s32 *)(a0 + 0xC) = 1;
+            } else {
+                *(s32 *)(a0 + 0xC) = 0;
+            }
+        }
+
+        vecA[1] = D_801888EC[*(s16 *)(a0 + 0x8)].b;
+        vecA[0] = vecA[0] + D_801888EC[*(s16 *)(a0 + 0x8)].a;
+        vecA[2] = vecA[2] + D_801888EC[*(s16 *)(a0 + 0x8)].c;
+
+        vecB[0] = *(u16 *)(a0 + 0x16);
+        vecB[1] = *(u16 *)(a0 + 0x1A);
+        vecB[2] = *(u16 *)(a0 + 0x1E);
+
+        func_8012B0B4((u32 *)buf, *(s16 *)(a0 + 0x4), 0x50);
+
+        vecA[0] = vecA[0] + ((s16)buf[0] * 2);
+        vecA[2] = vecA[2] + (buf[0] >> 16);
+
+        *(u16 *)(a0 + 0x4) = *(u16 *)(a0 + 0x4) + tbl.v[*(s16 *)(a0 + 0x8)];
+        *(u16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) + 0x200;
+        if (*(s16 *)(a0 + 0xA) >= 0x1000) {
+            *(s16 *)(a0 + 0xA) = 0x1000;
+        }
+
+        ret = func_80182090(0x105050, *(s16 *)(a0 + 0xA));
+        func_80181CA4(a0, vecA, 0x60, ret, vecB, 8, ret, 3);
+        break;
+    }
+}
+
 
 #include "common.h"
 

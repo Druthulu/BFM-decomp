@@ -3988,7 +3988,91 @@ void func_8017E1E8(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_8017E380);
+extern s32 D_80126B58;
+extern u16 D_80126B5E;
+extern s32 func_8017267C(s32 *a0);
+extern s32 func_800CF8B4();
+extern s32 func_8014CB8C(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_80143C74(s32 a0, s32 a1);
+extern s32 rand(void);
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8012C218(void *a0);
+
+void func_8017E380(s32 arg0) {
+    s32 s0;
+    s32 a1;
+    s32 s1;
+    s32 v1;
+    s32 t;
+
+    s0 = -1;
+    if (func_8017267C(&D_80126B58) != 0) goto b9;
+    if (func_800CF8B4() == 0) goto b9;
+    if (func_8014CB8C() != 0) goto b9;
+    a1 = (s16)D_80126B5E;
+    if (a1 < -0xE8E) goto after;
+    if (a1 < -0xCEC) goto arm_a;
+    if (a1 < -0x87) goto arm_m;
+    if (a1 < 0xF7) goto arm_c;
+b9:
+    if (*(s16 *)(arg0 + 0x84) != 0) {
+        func_8002D4C8(4, 0xAFA);
+        *(s16 *)(arg0 + 0x84) = 0;
+    }
+    goto after;
+arm_c:
+    s0 = (0xF6 - a1) * 10 / 382;
+    D_80126B5E = (s16)D_80126B5E - s0;
+    goto after;
+arm_m:
+    D_80126B5E = (s16)D_80126B5E - 10;
+    s0 = 10;
+    goto after;
+arm_a:
+    s0 = (a1 + 0xE8F) * 10 / 418;
+    D_80126B5E = (s16)D_80126B5E - s0;
+after:
+    if (s0 >= 0) {
+        s0 = s0 * 127 / 10;
+        func_8002D4C8(0xAFA, (u16)(s0 | 0x1000));
+        *(s16 *)(arg0 + 0x84) = 1;
+    }
+    if (*(s32 *)(arg0 + 0x1C) != 0) {
+        *(s32 *)(arg0 + 0x1C) = *(s32 *)(arg0 + 0x1C) - 1;
+    } else {
+        *(s32 *)(arg0 + 0x1C) = 3;
+        s1 = func_80143C74(arg0, 0);
+        if (s1 != 0) {
+            *(s16 *)(s1 + 0xE) = rand() % 0xC0 - 0x60;
+            t = D_80126B5E + rand() % 0x300;
+            *(s16 *)(s1 + 6) = t - 0x180;
+            if ((u16)(t + 0xD0F) >= 0xF86) {
+                *(s32 *)(arg0 + 0x1C) = 0;
+                func_80016714(*(void **)(s1 + 0xCC), 0x38);
+                func_8012C218((void *)s1);
+            } else {
+                *(s32 *)(s1 + 0x48) = -((rand() & 0x1FF) << 7);
+                a1 = *(s16 *)(s1 + 6);
+                if (a1 < -0xCEC) goto arm2_a;
+                if (a1 < -0x87) goto arm2_m;
+                v1 = (0xF6 - a1) * 20 / 382;
+                *(s16 *)(s1 + 0x12) = -v1;
+                goto done;
+            arm2_m:
+                *(u16 *)(s1 + 0x12) -= 0x14;
+                goto done;
+            arm2_a:
+                v1 = (a1 + 0xE8F) * 20 / 418;
+                *(s16 *)(s1 + 0x12) = -v1;
+                *(s16 *)(s1 + 0x16) = v1 - 0x14;
+            }
+        }
+    }
+done:
+    ;
+}
+
 
 
 s32 func_8017E67C(void) {

@@ -3405,7 +3405,152 @@ set_state6_timeout:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_801902EC", func_80190D70);
+#include "common.h"
+
+/* func_80190D70 - ov_SC06_032 / ov_SC06_032_jr_801902EC (192 ins). MATCH, closeness 0.
+ *
+ * Body verified byte-exact standalone AND against the REAL 3407-line TU prefix
+ * (every file-scope decl + engine_core.h) -- see the decl notes below.
+ *
+ * Structure straight from the .s: a "did my owner change?" reinit guard, then a
+ * 3-case state machine on *(u16 *)(a0 + 0x34) (an if/else chain, not a jump table
+ * -- the .s dispatches with beq 1 / slti 2 / beqz / beq 2).
+ *   guard : owner-stamp mismatch -> reset state, re-arm, randomise 0xFC/0xFE/0x100
+ *   case 0: countdown, then snapshot the owner's world XYZ, RotTransPers it, and if
+ *           the projected point is on-screen fire a positional SFX whose low byte is
+ *           the distance-attenuated volume ((0xA0 - |sx|) * 0x7F / 0xA0) and whose
+ *           pan nibble is (sx + 0xA0) / 0x14 clamped 0x10 -> 0xF, << 8, | 0x3000.
+ *   case 1: countdown, walking the entity back along its heading (rcos/rsin * 32).
+ *   case 2: spin the owner's 0x10 angle by 0x20 until it hits 0x380.
+ * Cases 1 and 2 share the ".L80191058: sh $v0, 0x34($s0)" tail via a cross-jump; both
+ * are written as the same `*(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;` statement,
+ * and gcc's cross-jumper re-merges them (case 1's arm reuses the $a0 copy of the
+ * switch value that the dispatch already loaded).
+ */
+
+/* ---- DECLARATION LAYER: block scope, but NOT free-form (this is what sank the
+ * previous attempt on this function -- it was byte-perfect in isolation and a hard
+ * cc1 error inside the TU, which reads as an unexplained gate rejection).
+ *
+ * §55a says a block-scope extern conflicts with nothing at file scope. That is FALSE
+ * in this direction for gcc-2.7.2: an inner redeclaration is merged with the outer one
+ * into the C89 COMPOSITE type, so
+ *   - `extern void func_8012B1B4(s32, s32);` against this TU's file-scope
+ *     `extern void func_8012B1B4(void *, void *);` (L2939)  ->  ERROR "conflicting types"
+ *   - `extern void func_8012B23C();` does NOT hide the file-scope prototype
+ *     `extern void func_8012B23C(void *);` (L2938); the composite keeps the parameter
+ *     list, so the zero-arg call  ->  ERROR "too few arguments to function"
+ * Both were reproduced by compiling the real TU prefix + this body.
+ *
+ * So: spell every redeclaration EXACTLY as the TU already spells it (law 2), and where
+ * the TU's arity is wrong for this call site, do not fight the prototype -- go through
+ * a cast function pointer, this TU's own house idiom (L3060,
+ * `((s32 (*)(s32))func_8012BE54)(param_1)`), which still emits a direct `jal`.
+ *
+ * The .s proves func_8012B23C takes ZERO arguments here: $a0 is never set up before the
+ * jal, and its delay slot holds `sh $zero, 0x34($s0)` -- an invented argument would cost
+ * an `addu $a0, $s0, $zero` and move the store out of the slot (SYS law 4).
+ *
+ * D_800AF648 is the scalar `extern u8` spelling engine_core.h uses everywhere; the two
+ * $a0-pinned scopes below are its §2 remat lever (hoisting the lui/addiu out would emit
+ * one `la` + two `move $4,$sN` instead of the target's two `la $4,...`).
+ */
+
+void func_80190D70(s32 a0) {
+    extern void func_8012B23C(void *);
+    extern void func_8012B1B4(void *a0, void *a1);
+    extern s32 rand(void);
+    extern void func_8004914C(void *a0);
+    extern void func_800491AC(void *a0);
+    extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+    extern s32 func_8004787C(s32 a0);
+    extern s32 func_80047948(s32 a0);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern u8 D_800AF648;
+    extern u8 D_801CC7D4[];
+
+    struct {
+        s16 v[3];   /* sp+0x10 */
+        s16 pad;    /* sp+0x16 */
+        u16 sxy[2]; /* sp+0x18 */
+        s32 z;      /* sp+0x1C */
+        s32 flag;   /* sp+0x20 */
+    } L;
+
+    if (*(s16 *)(a0 + 0xFC) != *(s16 *)(*(s32 *)(a0 + 0x64) + 0x36)) {
+        *(s16 *)(a0 + 2) = 5;
+        *(s16 *)(a0 + 0x34) = 0;
+        ((void (*)(void))func_8012B23C)();
+        func_8012B1B4((void *)a0, D_801CC7D4);
+        *(s16 *)(a0 + 0x16) = (rand() & 3) - 0x1B;
+        *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) - 0x38;
+        *(s16 *)(a0 + 0xFC) = (rand() & 0xFF) - 0x80;
+        *(s16 *)(a0 + 0xFE) = (rand() & 0xFF) - 0x80;
+        *(s16 *)(a0 + 0x100) = (rand() & 0xFF) - 0x80;
+        *(s32 *)(a0 + 0x1C) = 0x3C;
+        return;
+    }
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (*(s32 *)(a0 + 0x1C) != 0) {
+            *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) - 1;
+            *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xA) - 4;
+            return;
+        }
+        *(s32 *)(a0 + 0x1C) = 0x14;
+        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        L.v[0] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x48);
+        L.v[1] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x4C);
+        L.v[2] = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x50);
+        /* $a0-pinned scopes: rematerialise &D_800AF648 (lui/addiu) before EACH call */
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_8004914C(r4); }
+        { register void *r4 __asm__("$4"); r4 = &D_800AF648; func_800491AC(r4); }
+        RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
+        if (L.flag >= 0 && (u32)((L.sxy[0] + 0x9F) & 0xFFFF) < 0x13F
+                        && (u32)((L.sxy[1] + 0x77) & 0xFFFF) < 0xEF) {
+            s32 sx;                        /* screen X, then REUSED as the pan field */
+            register s32 av __asm__("$5"); /* |X| */
+            s32 vol;
+            sx = (s16)L.sxy[0];
+            av = sx;
+            if (sx < 0) {
+                av = -sx;
+            }
+            vol = ((0xA0 - av) * 0x7F) / 0xA0;
+            /* sched1 otherwise hoists the PAN multiply ahead of this one */
+            __asm__("" : "=r"(vol) : "0"(vol));
+            sx = (sx + 0xA0) / 0x14;
+            if (sx == 0x10) {
+                sx = 0xF;
+            }
+            sx = sx << 8; /* in place, so reorg can steal it into the bne delay slot */
+            func_8002D4C8(0x9E5, (vol | (0x3000 | sx)) & 0xFFFF);
+        }
+        return;
+
+    case 1:
+        if (*(s32 *)(a0 + 0x1C) != 0) {
+            *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) - 1;
+            *(s32 *)(a0 + 4) =
+                *(s32 *)(a0 + 4) - (func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) << 5);
+            *(s32 *)(a0 + 0xC) =
+                *(s32 *)(a0 + 0xC) - (func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) << 5);
+            return;
+        }
+        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        return;
+
+    case 2:
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) + 0x20;
+        if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) != 0x380) {
+            return;
+        }
+        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        return;
+    }
+}
+
 
 typedef struct {
     SVECTOR_8016E7C8 v[4];               /* 0x00 */
