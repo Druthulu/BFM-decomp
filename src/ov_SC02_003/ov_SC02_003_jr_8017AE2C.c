@@ -3340,23 +3340,7 @@ DEFINE_func_8017BF34()  /* dedup: shared engine-core @0x8017BF34 (src/shared) */
 // @class: plumbing
 // @stuck: none — signed s32 counter at 0x1C, delay-slot store is the unconditional bump
 
-extern void func_8017C218(int);
-
-void func_8017BF84(int param_1)
-{
-    int iVar1;
-
-    iVar1 = *(int *)(param_1 + 0x1c);
-    *(int *)(param_1 + 0x1c) = iVar1 + 1;
-    if (iVar1 < 0xc) {
-        *(unsigned short *)(param_1 + 0x12) = *(unsigned short *)(param_1 + 0x12) + 0xe0;
-    } else {
-        *(int *)(param_1 + 0x1c) = 0;
-        *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1;
-    }
-    func_8017C218(param_1);
-    return;
-}
+DEFINE_func_8017BF84()  /* dedup: shared engine-core @0x8017BF84 (src/shared) */
 
 
 
@@ -3368,26 +3352,7 @@ void func_8017BF84(int param_1)
  *   0x30 s32   suppress flag
  */
 
-extern void func_80147324(s32 arg0);
-extern void func_8017C218(int);
-
-void func_8017BFE0(Ent_8017BFE0_8017BFE0 *param_1)
-{
-    s32 t;
-
-    t = param_1->f1c;
-    param_1->f1c = t + 1;
-    if (t < 0x20) {
-        param_1->f2a = param_1->f2a - 0x10;
-    } else {
-        if (param_1->f30 == 0) {
-            func_80147324(param_1->f2c);
-        }
-        param_1->f1c = 0;
-        param_1->f02 = param_1->f02 + 1;
-    }
-    ((void (*)(Ent_8017BFE0_8017BFE0 *))func_8017C218)(param_1);
-}
+DEFINE_func_8017BFE0()  /* dedup: shared engine-core @0x8017BFE0 (src/shared) */
 
 
 
@@ -3403,58 +3368,7 @@ void func_8017BFE0(Ent_8017BFE0_8017BFE0 *param_1)
  * `do { func_80146A6C(0x1B, obj, ...); } while (++i < 3);` s16 loop.
  */
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_8014708C(void *arg0);
-extern s32 func_801472C8(struct S *a0);
-extern void func_8017C218(int);
-
-void func_8017C064(void *a0)
-{
-    void *obj;
-    s32 t;
-    s32 r;
-    s16 i;
-    u16 v;
-    u16 w;
-    u16 d;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    obj = *(void **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        if (*(s32 *)((s32)a0 + 0x30) == 0) {
-            v = *(u16 *)((s32)obj + 0x64) - 0x80;
-            w = *(u16 *)((s32)obj + 0x62) + 0x100;
-            *(s16 *)((s32)obj + 0x64) = v;
-            *(s16 *)((s32)obj + 0x60) = v;
-            *(s16 *)((s32)obj + 0x62) = w;
-        } else {
-            r = *(s32 *)((s32)obj + 0x20);
-            *(u16 *)(r + 0x2C) |= 0x10;
-            r = *(s32 *)((s32)obj + 0x20);
-            d = *(u16 *)(r + 0x1C) - 0x80;
-            *(s16 *)(r + 0x1C) = d;
-            *(s16 *)(r + 0x18) = d;
-            r = *(s32 *)((s32)obj + 0x20);
-            *(u16 *)(r + 0x1A) += 0x100;
-        }
-        i = 0;
-        do {
-            func_80146A6C(0x1B, obj, 0, 0, 0, 0, 0);
-            i++;
-        } while (i < 3);
-    } else {
-        if (*(s32 *)((s32)a0 + 0x30) == 0) {
-            func_8014708C(obj);
-            func_801472C8((struct S *)obj);
-        } else {
-            *(s32 *)(*(s32 *)((s32)obj + 0x20) + 0x4) |= 0x80000000;
-        }
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(s16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
-    }
-    ((void (*)(void *))func_8017C218)(a0);
-}
+DEFINE_func_8017C064()  /* dedup: shared engine-core @0x8017C064 (src/shared) */
 
 
 DEFINE_func_8017C1CC()  /* dedup: shared engine-core @0x8017C1CC (src/shared) */
@@ -3582,26 +3496,7 @@ DEFINE_func_8017C560()  /* dedup: shared engine-core @0x8017C560 (src/shared) */
  * `lw $s1, 0x34($s2)` / `lhu $v0, 0x12($s2)` — same record, same widths.
  */
 
-extern void func_8017C218(int);
-
-void func_8017C5A0(void *a0) {
-    s32 t;
-    s32 p;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    p = *(s32 *)((s32)a0 + 0x34);
-    if (t < 0xC) {
-        *(u16 *)((s32)a0 + 0x12) += 0xE0;
-    } else {
-        *(s16 *)(p + 0x64) = 0;
-        *(s16 *)(p + 0x60) = 0;
-        *(s16 *)(p + 0x62) = 0x3000;
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(u16 *)((s32)a0 + 0x2) += 1;
-    }
-    ((void (*)(void *))func_8017C218)(a0);
-}
+DEFINE_func_8017C5A0()  /* dedup: shared engine-core @0x8017C5A0 (src/shared) */
 
 
 
@@ -3610,64 +3505,11 @@ void func_8017C5A0(void *a0) {
  *   counter unconditionally (gcc puts that store in the beqz delay slot),
  *   then either slide @0x2A down by 0x10 or run the 3-call teardown. */
 
-extern void func_80147324(s32 arg0);
-extern void func_80147084(s32 *a0);
-extern void func_801472B4(void *a0);
-extern void func_8017C218(int);
-
-void func_8017C610(void *a0)
-{
-    s32 t;
-    s32 *sub;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    sub = *(s32 **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        *(u16 *)((s32)a0 + 0x2A) = *(u16 *)((s32)a0 + 0x2A) - 0x10;
-    } else {
-        func_80147324(*(u16 *)((s32)a0 + 0x2C));
-        func_80147084(sub);
-        func_801472B4(sub);
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(u16 *)((s32)a0 + 0x2) = *(u16 *)((s32)a0 + 0x2) + 1;
-    }
-    ((void (*)(void *))func_8017C218)(a0);
-}
+DEFINE_func_8017C610()  /* dedup: shared engine-core @0x8017C610 (src/shared) */
 
 
 
-extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void func_8017C218(int);
-
-void func_8017C69C(void *a0)
-{
-    void *obj;
-    s32 t;
-    s16 i;
-    u16 v;
-    u16 w;
-
-    t = *(s32 *)((s32)a0 + 0x1C);
-    obj = *(void **)((s32)a0 + 0x34);
-    *(s32 *)((s32)a0 + 0x1C) = t + 1;
-    if (t < 0x20) {
-        v = *(u16 *)((s32)obj + 0x64) + 0x80;
-        w = *(u16 *)((s32)obj + 0x62) - 0x100;
-        *(s16 *)((s32)obj + 0x64) = v;
-        *(s16 *)((s32)obj + 0x60) = v;
-        *(s16 *)((s32)obj + 0x62) = w;
-        i = 0;
-        do {
-            func_80146A6C(0x1B, obj, 0, 0, 0, 1, 0);
-            i++;
-        } while (i < 3);
-    } else {
-        *(s32 *)((s32)a0 + 0x1C) = 0;
-        *(s16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
-    }
-    ((void (*)(void *))func_8017C218)(a0);
-}
+DEFINE_func_8017C69C()  /* dedup: shared engine-core @0x8017C69C (src/shared) */
 
 
 DEFINE_func_8017C770()  /* dedup: shared engine-core @0x8017C770 (src/shared) */
@@ -3711,95 +3553,14 @@ void func_8017C7C4(void *a0) {
  *    the front of the block and swaps the two `lhu`s instead. Boost the loads, starve
  *    the arithmetic. */
 
-extern int rand(void);
-
-void func_8017C800(void *a0)
-{
-    s32 p;
-    s32 obj;
-    short r;
-    u16 t;
-    u16 t2;
-    u16 e;
-    u16 c;
-    u16 d;
-
-    p = (s32)a0;
-    obj = *(s32 *)(p + 0x34);
-    r = rand();
-    *(u16 *)(p + 0x06) = *(u16 *)(obj + 0x06) + ((r & 0x3F) - 0x20);
-    if (*(s32 *)(p + 0x2C) != 0) {
-        t = *(u16 *)(obj + 0x0A);
-        *(s16 *)(p + 0x16) = 0x20;
-        *(u16 *)(p + 0x0A) = t - 0x140;
-    } else {
-        t2 = *(u16 *)(obj + 0x0A);
-        *(s16 *)(p + 0x16) = -0x20;
-        *(u16 *)(p + 0x0A) = t2;
-    }
-    e = *(u16 *)(obj + 0x0E);
-    c = *(u16 *)(p + 0x02);
-    *(s32 *)(p + 0x30) = (r >> 12) & 3;
-    d = ((r >> 6) & 0x3F) - 0x20;
-    *(u16 *)(p + 0x0E) = e + d;
-    d = c + 1;
-    *(u16 *)(p + 0x02) = d;
-}
+DEFINE_func_8017C800()  /* dedup: shared engine-core @0x8017C800 (src/shared) */
 
 
 DEFINE_func_8017C8B4()  /* dedup: shared engine-core @0x8017C8B4 (src/shared) */
 
 
 
-void func_8017C910(void *a0)
-{
-    extern Mtx8_8017C910_8017C910 aD800AE620 __asm__("D_800AE620");
-    extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
-    Prim_8017C910_8017C910 prim;
-    Mtx8_8017C910_8017C910 mtx;
-    s32 p;
-
-    p = (s32)a0;
-    if (*(s32 *)(p + 0x2C) != 0) {
-        prim.v[0].y = *(u16 *)(p + 0xA) - 0x20;
-        prim.v[1].y = *(u16 *)(p + 0xA) + 0x20;
-    } else {
-        prim.v[0].y = *(u16 *)(p + 0xA) + 0x20;
-        prim.v[1].y = *(u16 *)(p + 0xA) - 0x20;
-    }
-    prim.v[0].x = *(u16 *)(p + 0x6);
-    prim.v[0].z = *(u16 *)(p + 0xE);
-    prim.v[1].x = *(u16 *)(p + 0x6);
-    prim.v[1].z = *(u16 *)(p + 0xE);
-    prim.col[0].b = 0;
-    prim.col[0].g = 0;
-    prim.col[0].r = 0;
-    switch (*(u32 *)(p + 0x30)) {
-    case 0:
-        prim.col[1].r = 0xFF;
-        prim.col[1].b = 0;
-        prim.col[1].g = 0;
-        break;
-    case 1:
-        prim.col[1].g = 0xFF;
-        prim.col[1].b = 0;
-        prim.col[1].r = 0;
-        break;
-    case 2:
-        prim.col[1].b = 0xFF;
-        prim.col[1].g = 0;
-        prim.col[1].r = 0;
-        break;
-    case 3:
-        prim.col[1].b = 0xFF;
-        prim.col[1].g = 0xFF;
-        prim.col[1].r = 0xFF;
-        break;
-    }
-    mtx = aD800AE620;
-    prim.tag = 0x50000000;
-    aFunc80016A5C(&prim, &mtx);
-}
+DEFINE_func_8017C910()  /* dedup: shared engine-core @0x8017C910 (src/shared) */
 
 
 

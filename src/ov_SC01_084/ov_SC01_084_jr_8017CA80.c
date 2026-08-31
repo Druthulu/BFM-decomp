@@ -3977,7 +3977,110 @@ void func_8017EEF4(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017CA80", func_8017EF28);
+#include "common.h"
+
+/* callees/globals — TU-compatible spellings (law 2: identical text to this TU's
+   existing file-scope decls; the rest are new and typed by access width). */
+extern void func_8012E9C0(s32 a0);   /* already declared in this TU with an arg;
+                                        the .s calls it with NO argument (nop delay
+                                        slot, no `move $a0,$s0`) -> cast-call, the
+                                        engine_core.h house idiom */
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 D_8018A610;
+extern void func_8018072C();
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80180720(s32 a0);
+extern s16 D_801C774A;
+extern u16 D_8018A6EC;
+extern s16 D_8018A6EE;
+extern s16 D_8018A6F0;
+extern s16 D_8018A6F2;
+extern s16 D_8018A6F4;
+extern s16 D_8018A6F6;
+extern s32 D_8018A6F8;
+extern s32 D_8018A704;
+extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012AD80(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012C218(void *a0);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 D_801270D0;
+
+void func_8017EF28(s32 a0) {
+    s16 buf[3];
+
+    if (*(u16 *)(a0 + 0x5C) & 1) {
+        ((void (*)(void))func_8012E9C0)();
+        func_8012A828(a0, &D_8018A610);
+        *(s16 *)(a0 + 0x2) = 3;
+        *(s32 *)(a0 + 0x1C) = 0x14;
+        *(s16 *)(a0 + 0x5C) = 0;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = *(s16 *)(a0 + 0x62) + 0x800U & 0xFFF;
+    } else {
+        switch (*(u16 *)(a0 + 0x34)) {
+        case 0:
+        {
+            s32 t;
+
+            *(u16 *)(a0 + 0xDC) = *(u16 *)(a0 + 0xDC) - D_8018A6EC;
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) = func_80180720(*(s16 *)(a0 + 0xDC));
+            func_8018072C(*(s16 *)(a0 + 0xDC),
+                          D_801C774A + (*(u8 *)(a0 + 0x70) - 1) * D_8018A6F4,
+                          buf);
+
+            t = D_8018A6F0 - D_8018A6F2 * *(s32 *)(a0 + 0x1C);
+            if (t < 0) {
+                t = 0;
+            }
+            buf[1] = buf[1] - t + 0x10;
+
+            *(u16 *)(a0 + 0xE2) = *(u16 *)(a0 + 0xE2) + 0x70;
+            buf[1] += func_8004787C(*(s16 *)(a0 + 0xE2)) >> 8;
+
+            *(u16 *)(a0 + 0x6) = buf[0];
+            *(u16 *)(a0 + 0xA) = buf[1];
+            *(u16 *)(a0 + 0xE) = buf[2];
+
+            if (*(s16 *)(a0 + 0xE0) == 0) {
+                if (func_8012D5E4(a0, (s32)&D_8018A704, (s32)&D_8018A704 + 8, 5)) {
+                    *(s16 *)(a0 + 0xE0) = 1;
+                }
+            }
+
+            if (*(s32 *)(a0 + 0x1C) == D_8018A6F6) {
+                func_8002D4C8(0x4B5, 0);
+            }
+            *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) + 1;
+
+            if (*(s32 *)(a0 + 0x1C) >= D_8018A6EE) {
+                *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+                func_8012B14C(a0, (s32)&D_8018A6F8);
+                *(s32 *)(a0 + 0x1C) = 0x1E;
+            }
+            break;
+        }
+        case 1:
+        {
+            s16 sVar1;
+
+            func_8012AD80(a0);
+            if (func_8012BEE8(a0)) {
+                sVar1 = *(s16 *)(a0 + 0x70);
+                if (sVar1 == 0x100) {
+                    D_801270D0 = 0;
+                } else if ((sVar1 & 0xFF00) == 0) {
+                    func_8012C588(0x26, 0);
+                }
+                func_8012C218((void *)a0);
+            }
+            break;
+        }
+        }
+    }
+}
+
 
 /* func_8017F198 — ov_SC01_084 / ov_SC01_084_jr_8017CA80
  * 2-case dispatch on (*(s16*)(a0+0x70) & 0xFF00), then an indirect call through
