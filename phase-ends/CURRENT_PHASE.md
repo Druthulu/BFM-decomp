@@ -3694,3 +3694,63 @@ costing its last 5 binaries including main's 9); "28 propagated" quoted as funct
 sites/registry entries — the real number is 4); and a prior-verdict count contaminated by my own run
 overwriting the ledgers it read. Data: `.run/S67_strand.json`, `.run/S67_verdicts.json`,
 `.run/S67_jtbl_probe.json`, `.run/S67_gate_cc1.log`.
+
+## 🛑 SESSION CHECKPOINT — S67 FINAL-2 (2026-08-31). SUPERSEDES the S67 FINAL block above (which stopped at 4 closed / 526 — the waves came after it). Phase 31 T5 CONTINUES.
+
+**STATE:** `make clean && extract-all && check-all` = **213 passed, 0 failed of 213**.
+**FRONTIER 530 -> 501 · 29 closed** (413 non-main + 89 main), measured from `corpus.stubs`.
+Tree clean, all lanes stopped. Drew pushes (R6). `ghidra/` churn is MCP noise — never commit it.
+
+### THE WAVES WORKED; THE SERIAL GATE WAS THE BOTTLENECK
+* **s67o1 (overlays, 20 agents, 19 opus / 1 sonnet, 26-177 ins): 20/20 MATCH at closeness 0,
+  0 errors, 2.34M subagent tokens. 12 BANKED.** The 20-vs-12 gap is integration, not codegen.
+* **s67m1 (main, 7 sonnet, 0-48 ins): 5/7 MATCH banked** after bisection in 9 rebuilds; the 2
+  rejects were exactly the drafts their own agents self-reported NEAR (close 12 and 6). **Agent
+  self-verdicts were accurate enough to route on** — trust them for triage.
+* `twin_sweep` after the banks: pool had refilled, +1 (`ov_SC03_118`).
+
+### THE HOUR I LOST, SO NOBODY REPEATS IT
+1. **I gated 16 binaries SERIALLY to protect ONE jtbl draft.** Measured: 4 binaries = **103 s wall**
+   through `parallel_gate` (87/87/88/102 s each) vs ~6 min serial; the full 16 serial was ~1 hour.
+   The rule ("parallel_gate cannot host a jtbl carve") is TRUE; applying it to the whole batch
+   instead of the one draft that needed it is the defect. **FIXED: `tools/gate_wave.py`** splits on
+   the per-draft predicate and runs both lanes concurrently. Use it for every wave from now on.
+2. **A `pgrep -f` waiter matched its own shell and waited 40 minutes on itself.** `until ! pgrep -f
+   "gate_stage.py --binary ov_SC03_028"` — the waiter's own cmdline contains that string, so
+   `parallel_gate` never started. The tell I misread twice: an EMPTY log plus zero `ps` hits means
+   NEVER STARTED, not "buffered". **Always bracket the pattern: `pgrep -f "parallel_[g]ate.py"`.**
+   This exact hazard is already in `docs/decision-log.md` from S60.
+3. `draw_waves.py --prefix` is a RELATIVE PATH (writes `./s67o1/`, not `.run/s67o1/`), and
+   `claude_wave_packs.py` takes POSITIONAL args and nests `packs/packs/`. Both cost a cycle.
+
+### WHAT THE WAVE TAUGHT (cookbook §325-§331, all banked)
+§325 local-alloc: a constant stored twice pre-loop steals the argument's callee-saved reg — pin the
+ARGUMENT-derived local. §326 different address spellings defeat address-CSE. §327 range tests must
+be HImode or fold-const drops the `andi`. §328 NEW LAW: the volatile alias must be an OBJECT.
+§329 fold-const narrows onto the raw HImode pseudo; a zero-byte widening temp restores the tie.
+**§330 the NEIGHBOUR-SHAPE lever — 4 instances in one wave, one dissolved 18 regalloc rows in a
+single compile. Read the banked function 20 lines away BEFORE reasoning about codegen.**
+§331 OPEN GAP (unsolved): nothing removes an unwanted DUPLICATE copy at a branch-target block head.
+
+### STILL TRUE FROM S67 FINAL (do not re-learn)
+* **Propagation is NOT byte-gated** — `gate_stage` verifies the SOURCE binary, then `dedup_propagate`
+  writes N others unverified. That cost a RED `ov_SC04_018` (fleet 212/213) earlier this session.
+  Run R22 after any propagating gate.
+* **96 of 159 open jtbl functions are PLAN-REFUSED** (non-contiguous same-subseg .rodata), 75
+  non-main across 38 subsegs — the largest structural class on the frontier, and it is carve
+  plumbing, not codegen. `jtbl_carve --probe` now runs the real planner (cookbook §322).
+* **`jr_isolate_all` does NOT round-trip** — 20 of 35 blocked overlays dry-run clean and that number
+  means nothing (§323). Open lead: `file_scope_types` carries a block without its `#if` guard.
+* `rtu_match` is relocation-masked: its MATCH is an UPPER BOUND, never a bank count.
+
+### NEXT, IN ORDER
+1. **Draw the next waves and gate them with `tools/gate_wave.py`** (not a hand-rolled serial loop).
+2. Wire `normalize_self_decls` into the gate ladder (8 residuals) + §324 as a rung (14 residuals),
+   both with the arity pre-pass's journal/revert discipline.
+3. main's 16 CC1-FAIL drafts have still NEVER been gated (held for `gate_main`'s batched cadence).
+4. Byte-gate propagation, or at minimum R22 immediately after every propagating gate.
+5. §323's `#if`-guard lead before touching the 96-function jtbl lane.
+
+### LEDGERS
+`.run/S67_findings.md` (F1-F11, with the three claims I withdrew), `.run/S67_strand.json`,
+`.run/S67_verdicts.json`, `.run/S67_jtbl_probe.json`, `.run/S67_gate_cc1.log`, `.run/S67_pgate.log`.
