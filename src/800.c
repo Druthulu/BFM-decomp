@@ -18494,7 +18494,72 @@ s32 func_80030A14(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80030CA4);
+/* TU decls (src/800.c): `extern u8 D_800A4988[];` already exists above this
+ * function's INCLUDE_ASM line (src/800.c:16205), and `typedef struct Ent30D80
+ * {...} Ent30D80;` is defined at the top of the file (src/800.c:7-19) --
+ * copied locally here so this draft compiles standalone.
+ *
+ * func_80030D80's FIRST declaration in the TU is this function's own extern
+ * (nothing declares it earlier in src/800.c), and it must be byte-identical
+ * to its later definition at src/800.c:18516: `void func_80030D80(Ent30D80
+ * *arg0, s16 arg1)`. The original draft declared it `void func_80030D80(void
+ * *, s16)`, which conflicts with that definition under real cc1
+ * (t.c:18285: conflicting types for `func_80030D80'). Fix: adopt the TU's
+ * Ent30D80 * parameter type verbatim and cast at the single call site
+ * (bestp is still plain u8 * everywhere else in this function).
+ */
+
+extern u8 D_800A4988[];
+
+extern void func_80030D80(Ent30D80 *arg0, s16 arg1);
+
+s32 func_80030CA4(u16 arg0)
+{
+    u8 *base;
+    u8 *p;
+    register s32 i __asm__("$6");
+    register s32 one __asm__("$7");
+    s32 besti;
+    u8 *bestp;
+    u16 best;
+    u8 first;
+
+    (void)&besti;
+    (void)&bestp;
+    (void)&best;
+    (void)&first;
+
+    base = D_800A4988;
+    i = 0;
+    one = 1;
+    p = base + 8;
+    first = 0;
+
+    for (; i < 8; i++, p += 0x54, base += 0x54) {
+        if (p[0x46] == 0) {
+            return i + 1;
+        }
+        if (first == 0) {
+            best = *(u16 *)p;
+            first = (u8)one;
+            besti = i;
+            bestp = base;
+        } else if (*(u16 *)p < best) {
+            best = *(u16 *)p;
+            besti = i;
+            bestp = base;
+        }
+    }
+
+    if ((u16)arg0 < best) {
+        return 0;
+    }
+
+    func_80030D80((Ent30D80 *)bestp, 1);
+    *(u8 *)(base + 0x4E) = 0;
+    besti = besti + 1;
+    return besti;
+}
 
 
 
@@ -22006,9 +22071,103 @@ s32 func_8003836C(s32 a0) {
     return D_800B9ED2[index];
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800383A4);
+extern u8 D_800B9CD8[];
+extern u8 D_800A4F1D;
+extern u8 D_800C6E2D[];
+extern s32 D_80073140[];
+extern void func_8003916C(s16 arg0);
+extern void func_8002EFF8(s32 a0, s32 a1);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800384A8);
+void func_800383A4(a0)
+    s16 a0;
+{
+    u8 *base;
+    u8 *p;
+    u8 *q;
+    u8 *r;
+    s32 *t;
+    s32 *table;
+    s32 i;
+    s32 j;
+    s32 one;
+    register s32 aa __asm__("$2");
+
+    __asm__("sll %0, %1, 7\n\tsubu %0, %0, %1\n\tsll %0, %0, 2" : "=r"(aa) : "r"(a0));
+    base = &D_800B9CD8[aa];
+    p = base + 0x1A;
+    i = 0;
+    one = 1;
+    table = D_80073140;
+    D_800A4F1D = 1;
+    base[0x1FA] = 0;
+    do {
+        q = p + 9;
+        j = 0;
+        r = D_800C6E2D;
+        t = table;
+        do {
+            if (*q++ != 0) {
+                r[1] = one;
+                r[0] = 0;
+                func_8003916C((s16)j);
+                func_8002EFF8(0, *t);
+            }
+            t++;
+            j++;
+            r += 0x60;
+        } while (j < 0x10);
+        i++;
+        p += 0x1A;
+    } while (i < 0x10);
+    D_800A4F1D = 0;
+}
+
+extern u8 D_800A4F1D;
+extern s32 D_80073140[];
+extern u8 D_800B9CD8[];
+extern u8 D_800C6E2D[];
+extern void func_8002EFF8(s32 a0, s32 a1);
+extern void func_8003916C(s16 arg);
+
+void func_800384A8(s16 arg0) {
+    register s32 raw __asm__("$4");
+    u8 *entry;
+    u8 *p;
+    u8 *q;
+    s32 j;
+    u8 *b;
+    s32 *m;
+    s32 *mb;
+    s32 i;
+    s32 one;
+
+    entry = &D_800B9CD8[raw * 0x1FC];
+    p = entry + 0x1A;
+    i = 0;
+    one = 1;
+    mb = D_80073140;
+    D_800A4F1D = 1;
+    entry[0x1FA] = 0;
+    for (; i < 0x10; i++) {
+        q = p + 9;
+        j = 0;
+        b = D_800C6E2D;
+        m = mb;
+        for (; j < 0x10; j++) {
+            if (*q++ != 0) {
+                b[1] = one;
+                b[0] = 0;
+                func_8003916C(j);
+                func_8002EFF8(0, *m);
+            }
+            m++;
+            b += 0x60;
+        }
+        p += 0x1A;
+    }
+    D_800A4F1D = 0;
+    *(s32 *)entry = *(s32 *)(entry + 4);
+}
 
 void func_800385C0(s16 a0)
 {
@@ -22291,7 +22450,51 @@ void func_80039F14(u8 *arg0, s16 arg1, u8 arg2) {
     arg0[0x21] = b | 2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80039F50);
+extern void func_80039C70(void *arg0, s16 arg1, u8 arg2);
+extern void func_80039DEC(void *arg0, s16 arg1, u8 arg2);
+
+void func_80039F50(u8 **a0, s16 a1)
+{
+    register u8 **pvVar4 __asm__("$7"); /* $a3 */
+    u8 *pbVar3;
+    register s32 bVar1 __asm__("$4"); /* $a0 */
+    u8 bVar2;
+    register u8 *pbVar5 __asm__("$2"); /* $v0 */
+    u8 bVar6;
+
+    pvVar4 = a0;
+    pbVar3 = *pvVar4;
+    *pvVar4 = pbVar3 + 1;
+    bVar1 = *pbVar3;
+    *pvVar4 = pbVar3 + 2;
+    bVar2 = pbVar3[1];
+
+    switch (bVar1) {
+    case 6:
+        func_80039C70(pvVar4, a1, bVar2);
+        break;
+    case 7:
+        pbVar5 = (u8 *)pvVar4 + a1 * 0x1A;
+        pbVar5[0x1B] = bVar2;
+        break;
+    case 8:
+        break;
+    case 0xA:
+        pbVar5 = (u8 *)pvVar4 + a1 * 0x1A;
+        pbVar5[0x1E] = bVar2;
+        break;
+    case 0x62:
+        pbVar5 = (u8 *)pvVar4 + a1 * 0x1A;
+        bVar6 = pbVar5[0x21];
+        pbVar5[0x20] = bVar2;
+        pbVar5[0x22] = bVar2 + 1;
+        pbVar5[0x21] = bVar6 | 2;
+        break;
+    case 0x63:
+        func_80039DEC(pvVar4, a1, bVar2);
+        break;
+    }
+}
 
 typedef struct {
     u8 b0;
