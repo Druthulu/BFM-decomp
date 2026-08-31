@@ -177,6 +177,12 @@ def _drafts_carry_jtbl(binary, drafts):
     return False
 
 
+# A jtbl carve writes THREE kinds of output, and the merge must carry all three or none:
+#   1. src/<bin>/*.c          per-binary, adopted like any bank
+#   2. config/splat.<bin>.yaml per-binary, adopted whole (baseline-checked)
+#   3. config/overlays.mk      SHARED — adopt ONLY this binary's block (see ovl_block)
+# Carrying 1 without 2+3 is what turned a green worker into 13 red binaries of 213 in P31 S67
+# (reverted in commit:3396): the C body referenced a carve the config never described.
 def isolate_asm(wt, binary):
     """Give this worker a WRITABLE asm/ for ONE binary so a jtbl carve can re-extract safely.
 
@@ -208,6 +214,31 @@ def isolate_asm(wt, binary):
     return True
 
 
+def ovl_block(text, binary):
+    """This binary's block of config/overlays.mk, or None.
+
+    Blocks are delimited by `# --- <binary> (...) ---` headers and run to the next such header.
+    Splicing ONE block is what makes a SHARED file safe to merge from a worker: two workers touching
+    different binaries edit disjoint regions, and a worker can never widen its blast radius to
+    another binary's carve state.
+    """
+    hdr = re.compile(r"^# --- (\S+) ", re.M)
+    marks = [(m.start(), m.group(1)) for m in hdr.finditer(text)]
+    for i, (pos, name) in enumerate(marks):
+        if name == binary:
+            end = marks[i + 1][0] if i + 1 < len(marks) else len(text)
+            return text[pos:end]
+    return None
+
+
+def splice_ovl_block(main_text, binary, block):
+    """Replace this binary's block in the main overlays.mk. Returns None if the block is absent."""
+    cur = ovl_block(main_text, binary)
+    if cur is None:
+        return None
+    return main_text.replace(cur, block, 1)
+
+
 def gate_one(idx, pin, job):
     binary, drafts = job["binary"], job["drafts"]
     t0 = time.time()
@@ -225,14 +256,29 @@ def gate_one(idx, pin, job):
                 "--no-propagate", "--source-tag", "pgate"], cwd=wt, timeout=3600)
         after = stubs_of(wt, binary)
         banked = sorted(before - after) if after is not None else []
-        files = {}
+        files, ovl = {}, None
         if banked:                       # capture the worker's resulting TU text for the merge
             for rel in sh(["git", "status", "--porcelain", "--", "src/%s/" % binary],
                           cwd=wt).stdout.splitlines():
                 p = rel[3:].strip()
                 if p:
                     files[p] = open(os.path.join(wt, p)).read()
-        return {"binary": binary, "banked": banked, "files": files, "secs": round(time.time() - t0, 1),
+            # CARVE STATE. The per-binary splat yaml is adopted whole; overlays.mk is SHARED, so we
+            # carry only this binary's BLOCK and splice it (never a blanket file adopt — the
+            # `carve-state-files-never-blanket-add` rule).
+            yml = "config/splat.%s.yaml" % binary
+            if os.path.exists(os.path.join(wt, yml)):
+                wtxt = open(os.path.join(wt, yml)).read()
+                if wtxt != sh(["git", "show", "%s:%s" % (pin, yml)]).stdout:
+                    files[yml] = wtxt
+            wov = os.path.join(wt, "config/overlays.mk")
+            if os.path.exists(wov):
+                blk = ovl_block(open(wov).read(), binary)
+                if blk is not None and blk != ovl_block(
+                        sh(["git", "show", "%s:config/overlays.mk" % pin]).stdout, binary):
+                    ovl = blk
+        return {"binary": binary, "banked": banked, "files": files, "ovl": ovl,
+                "secs": round(time.time() - t0, 1),
                 "missing_generated": missing,
                 "rc": r.returncode, "tail": (r.stdout or r.stderr)[-200:] if not banked else ""}
     except Exception as e:
@@ -308,6 +354,23 @@ def main():
                 refused.append(p); continue
             open(os.path.join(REPO, p), "w").write(text)
             adopted.append(p)
+        # CARVE STATE, per binary, on the SHARED overlays.mk: splice only this binary's block, and
+        # only if that block still equals the pinned baseline. Two workers carving different binaries
+        # therefore edit disjoint regions and can never clobber each other (the same refusal
+        # discipline as the per-file adopt above, at block granularity).
+        if r.get("ovl"):
+            b = r["binary"]
+            ovp = os.path.join(REPO, "config/overlays.mk")
+            main_text = open(ovp).read()
+            pinned_blk = ovl_block(sh(["git", "show", "%s:config/overlays.mk" % pin]).stdout, b)
+            if ovl_block(main_text, b) != pinned_blk:
+                refused.append("config/overlays.mk[%s]" % b); continue
+            spliced = splice_ovl_block(main_text, b, r["ovl"])
+            if spliced is None:
+                refused.append("config/overlays.mk[%s: block absent]" % b); continue
+            open(ovp, "w").write(spliced)
+            if "config/overlays.mk" not in adopted:
+                adopted.append("config/overlays.mk")
     print("[pgate] merged %d file(s); REFUSED %d (main tree moved under them): %s"
           % (len(adopted), len(refused), " ".join(refused[:5])), flush=True)
 
