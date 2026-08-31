@@ -160,9 +160,41 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
             externals[s] = recovered[s]
         else:
             missing.append(s)
+    # MONOTONIC MERGE — the externals file may only GROW for a given tree state.
+    #
+    # `trial_undefined` above is evaluated against the CURRENT ld_path, so its answer depends on how
+    # much of the linker script has ALREADY been rewritten. On a virgin splat .ld the apicard region
+    # is still the stub object (which defines only `firstfile2`), so at the libmcrd stage `firstfile`
+    # is undefined and gets an entry. On an ALREADY-REWRITTEN .ld, A66.o is present and defines
+    # `firstfile` at 0x80062248, the trial no longer reports it undefined, and the entry
+    # `firstfile = 0x80061FA8;` was DROPPED — after which LIBMCRD's `jal` binds to A66.o and main
+    # comes out 2 bytes different from retail (file 0x51674, VA 0x80060E74).
+    #
+    # That is why main was green only on the first build after a fresh extract and red on every
+    # incremental relink, and it is the true identity of the long-standing "main link defect"
+    # (2026-08-15): the extra C function did not break the link, the RELINK it forced did.
+    # integrate()'s own comment at the top already claimed this operation was idempotent
+    # ("a re-run on an already-rewritten .ld only redoes syms"); this makes that true.
+    #
+    # Newly-derived values WIN on a name collision (an address that legitimately moved must move);
+    # names the new derivation no longer sees are KEPT at their previous address. So the file is a
+    # function of the tree, not of the number of times this ran. Diagnosed P31 S68 (fable).
+    prior = {}
+    if os.path.exists(syms_path):
+        for ln in open(syms_path):
+            m = re.match(r"(\w+)\s*=\s*0x([0-9A-Fa-f]+)", ln)
+            if m:
+                prior[m.group(1)] = int(m.group(2), 16)
+    readded = sorted(set(prior) - set(externals))
+    merged = dict(prior)
+    merged.update(externals)          # new derivation wins where both have the name
     with open(syms_path, "w") as f:
-        for s, a in sorted(externals.items(), key=lambda kv: kv[1]):
+        for s, a in sorted(merged.items(), key=lambda kv: kv[1]):
             f.write(f"{s} = 0x{a:08X};\n")
+    if readded:
+        print(f"  (kept {len(readded)} extern(s) this re-run no longer saw as undefined: "
+              f"{readded[:8]}{'...' if len(readded) > 8 else ''})")
+    externals = merged
     print(f"integrate {os.path.basename(elf_dir)}: {len(order)} objects in {len(blocks)} block(s) "
           f"-> stubs {stubs}; {len(nol)} NOLOAD sections; {len(externals)} externals -> {syms_path}")
     if missing:
