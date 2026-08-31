@@ -8594,7 +8594,235 @@ void func_801AEB94(void)
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801AEC38);
+#include "common.h"
+
+/* MATRIX-style 0x20-byte matrix: s16 m[3][3] (18B) + 2B pad + s32 t[3] (12B).
+ * Same spelling as the TU-neighbour Mtx_801A6184 (func_801A6184). */
+typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_801AEC38;
+
+/* 8-byte SVECTOR-style GTE input vertex. */
+typedef struct { s16 x, y, z, pad; } Svec_801AEC38;
+
+/* OT/primitive tag: 24-bit next-pointer + 8-bit length, then the RGB/code word.
+ * Same spelling as the TU-neighbour P_TAG (func_801A5E60). */
+typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } PTag_801AEC38;
+
+/* File-scope spellings the TU already uses verbatim (law 2). */
+extern void RotMatrixYXZ(void *a0, void *a1);
+extern void func_80020F34(s32 a0, s32 a1);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+
+#define gte_SetRotMatrix_E38(r0) __asm__ __volatile__ (     \
+    "lw $12, 0(%0)\n" "lw $13, 4(%0)\n"                     \
+    "ctc2 $12, $0\n" "ctc2 $13, $1\n"                       \
+    "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n" \
+    "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n"      \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+#define gte_SetTransMatrix_E38(r0) __asm__ __volatile__ (   \
+    "lw $12, 20(%0)\n" "lw $13, 24(%0)\n"                   \
+    "ctc2 $12, $5\n" "lw $14, 28(%0)\n"                     \
+    "ctc2 $13, $6\n" "ctc2 $14, $7\n"                       \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+/* one column of a s16[3][3] through the rotation matrix, in place */
+#define gte_mulcol_E38(r0) __asm__ __volatile__ (               \
+    "lhu $12, 0(%0)\n" "lhu $13, 6(%0)\n" "lhu $14, 12(%0)\n"   \
+    "mtc2 $12, $9\n" "mtc2 $13, $10\n" "mtc2 $14, $11\n"        \
+    "nop\n" "nop\n" "mvmva 1, 0, 3, 3, 0\n"                     \
+    "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n"        \
+    "sh $12, 0(%0)\n" "sh $13, 6(%0)\n" "sh $14, 12(%0)\n"      \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+/* the s32 t[3] through the same matrix, in place */
+#define gte_multrans_E38(r0) __asm__ __volatile__ (                     \
+    "lhu $13, 4(%0)\n" "lhu $12, 0(%0)\n"                               \
+    "sll $13, $13, 16\n" "or $12, $12, $13\n"                           \
+    "mtc2 $12, $0\n" "lwc2 $1, 8(%0)\n"                                 \
+    "nop\n" "nop\n" "mvmva 1, 0, 0, 0, 0\n"                             \
+    "swc2 $25, 0(%0)\n" "swc2 $26, 4(%0)\n" "swc2 $27, 8(%0)\n"         \
+    : : "r"(r0) : "$12", "$13", "memory")
+
+#define gte_ldv0_E38(r0) __asm__ __volatile__ ("lwc2 $0, 0(%0)\nlwc2 $1, 4(%0)" : : "r"(r0))
+#define gte_ldv3_E38(r0, r1, r2) __asm__ __volatile__ ( \
+    "lwc2 $0, 0(%0)\n" "lwc2 $1, 4(%0)\n"               \
+    "lwc2 $2, 0(%1)\n" "lwc2 $3, 4(%1)\n"               \
+    "lwc2 $4, 0(%2)\n" "lwc2 $5, 4(%2)\n"               \
+    : : "r"(r0), "r"(r1), "r"(r2))
+#define gte_rtps_E38()  __asm__ __volatile__ ("nop\nnop\nrtps")
+#define gte_rtpt_E38()  __asm__ __volatile__ ("nop\nnop\nrtpt")
+#define gte_avsz4_E38() __asm__ __volatile__ ("nop\nnop\navsz4")
+#define gte_stsxy_E38(r0)  __asm__ __volatile__ ("swc2 $14, 0(%0)" : : "r"(r0) : "memory")
+#define gte_stsxy3_E38(r0, r1, r2) __asm__ __volatile__ (   \
+    "swc2 $12, 0(%0)\n" "swc2 $13, 0(%1)\n" "swc2 $14, 0(%2)" \
+    : : "r"(r0), "r"(r1), "r"(r2) : "memory")
+#define gte_stotz_E38(r0)  __asm__ __volatile__ ("swc2 $7, 0(%0)" : : "r"(r0) : "memory")
+#define gte_stflg_E38(r0)  __asm__ __volatile__ ("cfc2 $12, $31\nnop\nsw $12, 0(%0)" : : "r"(r0) : "$12", "memory")
+
+/* Levers that closed this one (all byte-verified with match_one):
+ *  1. Params used DIRECTLY (no `s2 = (u8 *)a1;` locals).  The explicit copy
+ *     statements make sched1 sink `sw $s1`/`addu $s1` below the RotMatrixYXZ
+ *     argument setup; letting assign_parms emit them puts the pair back at
+ *     the top of the prologue exactly as the target has it.  (-4 ins of diff)
+ *  2. `pad0[48]` / `pad1[8]`: the frame has 60 dead bytes.  Aggregates get
+ *     their slots at block entry, address-taken SCALARS only when `&x` is
+ *     expanded -- so pad0 lands before sv[] (top-level) and pad1 AFTER
+ *     flag/flag2/otz because it is declared in an inner block.  Slots are
+ *     8-byte aligned, so pad1[8] @ sp+0x90 lands the frame on -0xB0.
+ *  3. `register s32 raw __asm__("$4")`: gcc folds a plain `raw = w;` away, so
+ *     the target's `addu $a0, $v1, $zero` never appears.  The $a0 pin forces
+ *     the copy, and the in-place `w &= 0xC000` keeps the mask in the lh's reg.
+ *  4. ONE variable `d` holds BOTH the 0xC000 compare constant and the 0xFFF
+ *     mask.  Written as two separate temps the mask coalesces onto the dying
+ *     hard reg $a0; reusing the constant's pseudo puts it in $v0 (and CSE
+ *     still hoists the duplicated `raw & 0xFFF` into the bne delay slot, so
+ *     the duplication costs zero instructions). */
+void func_801AEC38(s32 a0, s32 a1, s32 a2)
+{
+    /* Block-scope, byte-identical to the spellings the TU's other functions
+     * use for these four globals + the allocator (md_SC07_004.c:8742-8745,
+     * :5723) -- a file-scope `extern u16 D_800B9A02;` would collide with the
+     * `extern short` those blocks declare. */
+    extern u8 D_800AF648;
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+    extern short D_800B9A02;
+    extern void *func_80010A08(s32);
+
+    Mtx_801AEC38 mtx;           /* sp+0x10 */
+    u8 pad0[48];                /* sp+0x30 */
+    Svec_801AEC38 sv[4];        /* sp+0x60 */
+    s32 flag;                   /* sp+0x80 */
+    s32 flag2;                  /* sp+0x84 */
+    s32 otz;                    /* sp+0x88 */
+    s32 s3;
+    s32 w;
+    u32 *pot;
+    u32 *otp;
+    u8 *pkt;
+    u8 *q;
+    s32 pz;
+    s32 w1;
+    s32 w2;
+
+    {
+        register u32 tv __asm__("$2") = *(u16 *)&D_800B9A02;
+        register u32 bv __asm__("$3") = (u32)&D_800A6610;
+        pot = (u32 *)((tv << 14) + bv);
+    }
+    s3 = *(s32 *)(((u8 *)a1) + 0x20);
+
+    RotMatrixYXZ(((u8 *)a1) + 4, &mtx);
+
+    mtx.t[2] = 0;
+    mtx.t[1] = 0;
+    mtx.t[0] = 0;
+    func_80020F34((s32)&mtx, (s32)(((u8 *)a1) + 0xC));
+
+    gte_SetRotMatrix_E38(((u8 *)a2));
+    gte_mulcol_E38((u8 *)&mtx);
+    gte_mulcol_E38((u8 *)&mtx + 2);
+    gte_mulcol_E38((u8 *)&mtx + 4);
+    gte_SetTransMatrix_E38(((u8 *)a2));
+    gte_multrans_E38((u8 *)mtx.t);
+
+    gte_SetRotMatrix_E38(&D_800AF648);
+    gte_mulcol_E38((u8 *)&mtx);
+    gte_mulcol_E38((u8 *)&mtx + 2);
+    gte_mulcol_E38((u8 *)&mtx + 4);
+    gte_SetTransMatrix_E38(&D_800AF648);
+    gte_multrans_E38((u8 *)mtx.t);
+
+    func_8004914C(&mtx);
+    func_800491AC(&mtx);
+
+    sv[0].z = 0;
+    sv[0].y = 0;
+    sv[0].x = 0;
+    w1 = *(u16 *)(((u8 *)a1) + 2) >> 5;
+    sv[1].y = 0;
+    sv[1].x = w1;
+    w2 = *(u16 *)(((u8 *)a1) + 2) * 3 >> 2;
+    sv[2].x = -w1;
+    sv[2].y = 0;
+    sv[3].y = 0;
+    sv[3].x = 0;
+    sv[1].z = w2;
+    sv[2].z = w2;
+    sv[3].z = *(u16 *)(((u8 *)a1) + 2);
+
+    pkt = func_80010A08(0x24);
+    pkt[3] = 8;
+    pkt[7] = 0x38;
+    if (s3 & 0x40000000) {
+        pkt[7] = 0x3A;
+    }
+
+    gte_ldv3_E38(&sv[0], &sv[1], &sv[2]);
+    gte_rtpt_E38();
+    gte_stflg_E38(&flag);
+    gte_stsxy3_E38(pkt + 8, pkt + 0x10, pkt + 0x18);
+    gte_ldv0_E38(&sv[3]);
+    gte_rtps_E38();
+    gte_stflg_E38(&flag2);
+    flag |= flag2;
+    gte_stsxy_E38(pkt + 0x20);
+    gte_avsz4_E38();
+    gte_stotz_E38(&otz);
+
+    if ((flag & ~0x1000) == 0) {
+        u8 pad1[8];             /* sp+0x90 */
+        register s32 raw __asm__("$4");
+        s32 d;
+
+        pz = otz + 1;
+        w = *(s16 *)(((u8 *)a1) + 0x12);
+        raw = w;
+        w &= 0xC000;
+        if (w != 0) {
+            d = 0xC000;
+            if (w == d) {
+                d = raw & 0xFFF;
+                pz -= d;
+                if (pz < 0) {
+                    pz = 0;
+                }
+            } else {
+                d = raw & 0xFFF;
+                pz += d;
+            }
+        }
+        if ((u32)pz < 0x1000) {
+            pkt[4] = ((u8 *)a1)[0x14];
+            pkt[5] = ((u8 *)a1)[0x15];
+            pkt[6] = ((u8 *)a1)[0x16];
+            pkt[0xC] = ((u8 *)a1)[0x18];
+            pkt[0xD] = ((u8 *)a1)[0x19];
+            pkt[0xE] = ((u8 *)a1)[0x1A];
+            pkt[0x14] = ((u8 *)a1)[0x18];
+            pkt[0x15] = ((u8 *)a1)[0x19];
+            pkt[0x16] = ((u8 *)a1)[0x1A];
+            pkt[0x1C] = ((u8 *)a1)[0x1C];
+            pkt[0x1D] = ((u8 *)a1)[0x1D];
+            pkt[0x1E] = ((u8 *)a1)[0x1E];
+
+            otp = (u32 *)(pz * 4 + (u32)pot);
+            ((PTag_801AEC38 *)pkt)->addr = ((PTag_801AEC38 *)otp)->addr;
+            ((PTag_801AEC38 *)otp)->addr = (u32)pkt;
+
+            if (s3 & 0x40000000) {
+                q = D_800A5E60;
+                D_800A5E60 = q + 8;
+                q[3] = 1;
+                *(u32 *)(q + 4) = (((u32)s3 >> 23) & 0x60) | 0xE1000000;
+                ((PTag_801AEC38 *)q)->addr = ((PTag_801AEC38 *)otp)->addr;
+                ((PTag_801AEC38 *)otp)->addr = (u32)q;
+            }
+        }
+    }
+}
+
 
 
 extern void func_801AF2EC(void *a0);
