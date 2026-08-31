@@ -4166,7 +4166,101 @@ void func_8017E300(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017BEBC", func_8017E498);
+#include "common.h"
+
+extern s32 D_80126B58;
+extern u8 D_8018865C[];
+extern u8 D_8018866C[];
+/* §200 alias: earlier block-scope decls in this TU spell D_80188350 as s32 / as a
+   function; the asm label keeps the relocation identical while dodging the clash. */
+extern u8 D_80188350_p[] __asm__("D_80188350");
+extern s32 func_8012BE54(s32);
+extern s32 func_80029178(s32 arg);
+extern s32 func_80178B18(s32 param_1, s32 param_2);
+extern int func_80178970(void);
+extern void func_80178D18(void);
+extern s32 func_8014CB58(void);
+extern s32 func_8014CB2C(void);
+extern void func_8014B598(s32 a0, s32 a1);
+extern s32 func_8017CF24(void);
+extern s16 func_8017CF40(void);
+extern void func_800D0C48(s32 a0);
+extern void func_80180A70(s32);
+extern void func_8017EA1C(s32);
+extern s32 func_8016F0AC();
+extern void func_8017E6A0(s32);
+
+void func_8017E498(s32 a0) {
+    u16 *mode = (u16 *)&D_80126B58;   /* §20: address force_reg'd into $s1 at entry */
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (func_8012BE54(a0) < 0x1900) {
+            if ((u32)(*mode - 2) >= 2) {
+                if ((func_80029178(0x8C) & 0xFF) == 0) {
+                    func_80178B18(a0, (s32)D_8018865C);
+                    /* LOAD-BEARING (§5a cross-jump barrier, zero bytes): without it
+                       jump2 tail-merges the two identical [set $a0][jal] arms into one
+                       shared call site and the function comes out 2 instructions short. */
+                    __asm__ __volatile__("");
+                } else {
+                    func_80178B18(a0, (s32)D_8018866C);
+                }
+                *(u16 *)(a0 + 0x34) += 1;
+            }
+        }
+        break;
+    case 1:
+        if (((s32 (*)(s32))func_80178970)(a0) != 0) {
+            ((void (*)(s32))func_80178D18)(a0);
+            *(u16 *)(a0 + 0x34) = 3;
+            if ((func_80029178(0x8C) & 0xFF) == 0) {
+                *(u16 *)(a0 + 0x34) = 2;
+            }
+        }
+        break;
+    case 3:
+        if (func_8012BE54(a0) < 0x1900) {
+            if ((u32)(*mode - 2) >= 2) {
+                if (func_8014CB58() == 4) {
+                    func_8014B598(4, (s32)D_80188350_p);
+                    if (func_8017CF24() != 0) {
+                        *(s16 *)(a0 + 0x84) = 0x5A;
+                        *(u16 *)(a0 + 0x34) += 1;
+                    }
+                }
+            }
+        }
+        break;
+    case 4: {
+        /* §167-10 — the guard read and the arm's re-read of this ONE signed-narrow
+           lvalue are what mint the `addu $v1,$v0,$zero` copy AND the orphan 8 bytes of
+           frame (0x28, not 0x20). Hoisting it into a local deletes both. */
+        if (*(s16 *)(a0 + 0x84) != 0) {
+            *(s16 *)(a0 + 0x84) = *(s16 *)(a0 + 0x84) - 1;
+            if (*(s16 *)(a0 + 0x84) == 0) {
+                func_800D0C48(0);
+            }
+        }
+        if (((s32 (*)(void))func_8017CF40)() != 0) {
+            s32 obj = *(s32 *)(a0 + 0xCC);
+            if (obj != 0) {
+                func_80180A70(obj);
+                *(s32 *)(a0 + 0xCC) = 0;
+                func_8017EA1C(a0);
+            }
+            *(u16 *)(a0 + 0x34) += 1;
+        }
+        break;
+    }
+    case 5:
+        if (func_8014CB2C() < 0) {
+            func_8016F0AC();
+            func_8017E6A0(a0);
+        }
+        break;
+    }
+}
+
 
 extern void func_8017EBCC(void);
 extern s32 func_80178B18(s32 param_1, s32 param_2);
