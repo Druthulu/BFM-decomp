@@ -1,6 +1,21 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/nonmatchings/800c2_2", func_80062388);
+__asm__(
+    ".text\n"
+    ".align 2\n"
+    ".globl func_80062388\n"
+    ".ent\tfunc_80062388\n"
+    "func_80062388:\n"
+    ".frame $sp,0,$31\n"
+    ".mask 0x00000000,0\n"
+    ".fmask 0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "lui $at, %hi(D_80072A24)\n"
+    "jr $ra\n"
+    "sw $a0, %lo(D_80072A24)($at)\n"
+    ".set\treorder\n"
+    ".end\tfunc_80062388\n"
+);
 
 extern s32 D_80072A24;
 

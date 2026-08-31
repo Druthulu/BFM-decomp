@@ -1451,7 +1451,38 @@ void func_8005F384(void *arg0) {
     *(u8 *)((u8 *)arg0 + 0x37) = temp;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F394);
+s32 func_8005F394(u8 *arg0) {
+    s32 idx = arg0[0x45] - 3;
+    s32 base;
+
+    switch (arg0[0x36]) {
+    case 0:
+        if (idx < 6 && *(arg0 + idx + 0x57) == 0) {
+            return 0;
+        }
+        if (idx >= arg0[0x34]) {
+            return 0;
+        }
+        base = *(s32 *)(arg0 + 0x28);
+    load_it:
+        return *(u8 *)(base + idx);
+    case 0x4D:
+        if (idx >= arg0[0x35]) {
+            return 0xFF;
+        }
+        base = *(s32 *)(arg0 + 0x2C);
+        goto load_it;
+    default: {
+        u8 val;
+        if (idx >= arg0[0x35]) {
+            return 0;
+        }
+        val = *(u8 *)(*(s32 *)(arg0 + 0x2C) + idx);
+        __asm__ __volatile__("" ::: "memory");
+        return val;
+    }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F450);
 
