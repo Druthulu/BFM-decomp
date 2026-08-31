@@ -13549,7 +13549,20 @@ void func_80028488(s32 a0) {
     func_80028620(a0, (void *)((s32)&D_800A5E88 + offset));
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002850C);
+extern s16 D_800AE7E0;
+extern s16 D_800AE7E2;
+extern s16 D_800AE7E4;
+
+extern void func_80053AF8(s32 a0, s32 a1, s32 a2);
+
+void func_8002850C(a0, a1, a2)
+    s16 a0, a1, a2;
+{
+    D_800AE7E0 = a0;
+    D_800AE7E2 = a1;
+    D_800AE7E4 = a2;
+    func_80053AF8(a0, a1, a2);
+}
 
 
 extern u8 D_800A5E94;
@@ -17428,7 +17441,28 @@ void func_8002F80C(void) {
     D_8006A96E = D_8006A96E & 0xEF;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002FA3C);
+void func_8002FA3C(void) {
+    extern s16 D_800760E8;
+    extern s16 D_800760E4;
+    extern s16 D_800760EC;
+    extern void (*D_800A4F24)(void);
+    extern int func_8003EDE8(int a0, int a1, int a2);
+    u16 w;
+    s16 t;
+
+    w = *(u16 *)&D_800760E8;
+    w = w + 1;
+    D_800760E8 = (s16)w;
+    if ((s16)w < 0x10) {
+        if (D_800760E4 > D_800760EC) {
+            D_800760E4 = t = D_800760E4 - D_800760EC;
+            func_8003EDE8(0, t, t);
+            return;
+        }
+    }
+    func_8003EDE8(0, 0, 0);
+    D_800A4F24 = NULL;
+}
 
 
 extern s16 D_800A46CC;
@@ -17631,7 +17665,42 @@ s32 func_800304C8(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80030538);
+extern s16 D_800A46CC;
+extern u8  D_800A4650[];
+extern s16 D_800A4642[];
+extern s16 D_800A46CE[];
+extern s32 D_800A46C0;
+extern s32 D_800A46C4;
+
+extern s16 func_80042154();
+
+s32 func_80030538(void) {
+    s32 idx;
+    s16 ret;
+
+    idx = D_800A46CE[0];
+    ret = func_80042154(D_800A46C0 + D_800A46C4, 0x8000, *(s16 *)((u8 *)D_800A4642 + idx * 24));
+    switch (ret) {
+    case -2: {
+        s16 t2 = D_800A46CC + 1;
+        s32 t1 = D_800A46C4 + 0x8000;
+        D_800A46C4 = t1;
+        D_800A46CC = t2;
+        goto L_zero;
+    }
+    case -1:
+        D_800A4650[idx * 24] = 1;
+        D_800A46CC = D_800A46CC + 2;
+        return 1;
+    default: {
+        s16 *p = &D_800A46CC;
+        *p = *p + 2;
+        goto L_zero;
+    }
+    }
+L_zero:
+    return 0;
+}
 
 extern s32 D_800A46C0;
 extern s32 D_800A46C4;

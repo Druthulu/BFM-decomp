@@ -1216,7 +1216,23 @@ s32 func_8005E820(void *a0)
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E8E8);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E980);
+void func_8005E980(void)
+{
+    register u8 *s __asm__("$4");
+    s32 v = s[0x46];
+    switch (v) {
+    case 2:
+        s[0x36] = 0x44;
+        *(u32 *)(s + 0x2C) = (u32)(s + 0x51);
+        s[0x35] = v;
+        break;
+    case 3:
+        s[0x36] = 0x4D;
+        *(u32 *)(s + 0x2C) = (u32)(s + 0x5D);
+        s[0x35] = 6;
+        break;
+    }
+}
 
 extern void (*D_80072960)(void);
 
