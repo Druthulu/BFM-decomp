@@ -31368,3 +31368,28 @@ Companion from that function, worth its own note: **`sp20[1] -= 0x20; sp20[1] -=
 SEPARATE statements on an `s32` temp.** Any single expression lets gcc associate `0x20` into the giv,
 and `loop.c` strength-reduces `0x20 + 4*i` into one register, while a bare `4*i` giv sits below the
 worth-while threshold.
+
+### §347-addendum — A THIRD INSTANCE, AND THE SHARPEST STATEMENT OF THE RULE (md_MAIN_025/func_800CB300, 243 ins)
+
+**Reusing generic `v0` / `v1` locals across UNRELATED blocks makes them GLOBAL pseudos, and
+global-alloc pins a global pseudo to one hard register FOR THE WHOLE FUNCTION.** Splitting them into
+per-use locals (`hv` / `bit` / `flags` / `st`) fixed **three separate register residuals at once**
+(idx 89-92 and 197-214) *and* was what flipped the chained-assignment block from near-8 to MATCH.
+
+That is now three independent byte-proven instances of the same law in one session
+(§347 lever 4, `ov_SC03_105/func_80182DCC`'s three `range` locals, and this):
+**a Ghidra-style reused scratch variable is a register bug waiting to happen. One variable per
+purpose, always** — it costs nothing when it does not matter and fixes whole blocks when it does.
+
+Also from this function, an ablation record worth keeping: §205's chained assignment
+`*(u16*)(s0+0x18) = *(u16*)(s0+0x1A) = hv;` is the ONLY spelling that both creates the surviving
+`addu $v1,$v0,$zero` copy AND leaves sched1 free to hoist `sll/sra/slti` above the two `sh`.
+**Six ablations refuted:** explicit copy, re-set-source per §220-4, boolean temp, `hv = (s16)hv`
+pre-sign-extend, `+=`, and the plain two-statement form (which is exactly the copy short, 242 ins).
+
+### §343-addendum — SECOND INSTANCE OF THE WRONG-MAJORITY DECL (same function)
+
+The switch bound is `sltiu`, so `func_801633A8` must return **u32** — while the card's `decl_prior`
+fleet row says `s32`. Same shape as §343: the corpus majority is a propagated spelling, and the
+INSTRUCTION decides. An unsigned compare on the return value is direct evidence of an unsigned
+return type.
