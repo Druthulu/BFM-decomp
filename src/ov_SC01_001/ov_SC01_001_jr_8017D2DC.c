@@ -5838,7 +5838,102 @@ s32 func_80182284(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_801824EC);
+#include "common.h"
+
+/* func_801824EC (ov_SC01_001, 156 ins) — MATCH.
+ *
+ * Three levers, in the order they were needed:
+ *
+ * 1. §246-1 ADDRESS-FROM-INDEX / array-index form. The target addresses
+ *    D_801F2A44/48/4C as `lui $at,%hi(sym); addu $at,$at,$s0; lw %lo(sym)($at)`
+ *    with ONE 0x4C-stride scaled-offset giv ($s0) shared by all three symbols
+ *    (§246-2). Spelling them `u8 sym[]` + `*(s32 *)(sym + off)` makes combine_givs
+ *    fuse each into its own stepped POINTER instead (-21 ins). The `[][19]`
+ *    array-index spelling is what births the scaled-index giv anchored on %hi/%lo.
+ *
+ * 2. §193-F / §148-A2 preheader ORDER, and the reason it is a giv question.
+ *    The target's preheader is [arg copy][li 2][li 0x400][lui/addiu &D_801F2A50]
+ *    [+4][copy][base][index=0]. loop.c emits hoisted MOVABLES before strength
+ *    reduction's GIV INITS, so the address chain landing AFTER the two constants
+ *    proves &D_801F2A50 + i*0x4C and +4 are GIVS, not source-initialised pointers.
+ *    Walking them as source locals (`p2 += 0x4C`) puts the chain first and costs
+ *    11 mismatched prologue insns; writing them inline as `aD801F2A50[i]` /
+ *    `aD801F2A50[i] + 4` moves them behind the movables and fixes all 11.
+ *
+ * 3. The same restructure kills the 0xC00 hoist for free. With source-walked
+ *    pointers, `-dL` reads `Loop from 25 to 357: 82 real insns` and the two
+ *    textually equal `li 0xC00` movables merge to savings 2 / life 2, so
+ *    26*2*2 = 104 >= 82 admits a third hoist the target does not have. The
+ *    index-only loop shifts insn_count over the cutoff. `2` and `0x400` stay
+ *    literals on purpose: combine_movables merges the dispatch's `case 2:`
+ *    constant with the two `D_801F2A44[i] = 2` stores (savings 3 / life 3), which
+ *    is what makes the case-2 test `beq $s1,$s5` instead of `li $v0,2; beq`.
+ *
+ * Also: the -0x2E9 / -0x292 stores must go through `s16 *`; a `u16 *` lvalue
+ * converts them to 0xFD17 / 0xFD6E and emits `ori`, not `addiu`.
+ * The 4-byte align-1 struct is the lwl/lwr + swl/swr block move.
+ * §200 aliases everywhere so the TU's own `extern u8 D_801F2A44[]` spelling and
+ * its `void func_8001D074(s32,s32)` prototype stay untouched.
+ */
+
+typedef struct { u8 d[4]; } Blk4_801EC660;
+
+extern u32 aD801F2A44[][19] __asm__("D_801F2A44");
+extern u32 aD801F2A48[][19] __asm__("D_801F2A48");
+extern u32 aD801F2A4C[][19] __asm__("D_801F2A4C");
+extern u8  aD801F2A50[][76] __asm__("D_801F2A50");
+extern Blk4_801EC660 aD801EC660 __asm__("D_801EC660");
+extern Blk4_801EC660 aD801EC664 __asm__("D_801EC664");
+extern s32 aF8001D074(s32, s32) __asm__("func_8001D074");
+extern void func_8001CD50(s32, s32);
+extern void func_800233CC(void *, unsigned short);
+
+void func_801824EC(s32 arg0) {
+    s32 i;
+    s32 h;
+
+    i = 0;
+    do {
+        if (aD801F2A44[i][0] == 0) {
+            h = aF8001D074(0x3E, 0x7D);
+            aD801F2A48[i][0] = h;
+            if (h == 0) {
+                return;
+            }
+            func_8001CD50(h, (s32)aD801F2A50[i]);
+            *(u32 *)(aD801F2A48[i][0] + 4) |= 0x50000000;
+            *(u16 *)(aD801F2A48[i][0] + 8) = 0;
+            *(s16 *)(aD801F2A48[i][0] + 0xA) = -0x2E9;
+            *(u16 *)(aD801F2A48[i][0] + 0xC) = 0;
+            switch (arg0) {
+            case 0:
+                *(u16 *)(aD801F2A48[i][0] + 0x1E) = 0xC00;
+                *(u16 *)(aD801F2A48[i][0] + 0x10) = 0x400;
+                *(u16 *)(aD801F2A48[i][0] + 0x12) = 0x180;
+                aD801F2A44[i][0] = 2;
+                break;
+            case 1:
+                *(u16 *)(aD801F2A48[i][0] + 0x1E) = 0xC00;
+                *(u16 *)(aD801F2A48[i][0] + 0x10) = 0x400;
+                *(u16 *)(aD801F2A48[i][0] + 0x12) = 0xE80;
+                aD801F2A44[i][0] = 2;
+                break;
+            case 2:
+                *(s16 *)(aD801F2A48[i][0] + 0xA) = -0x292;
+                *(u16 *)(aD801F2A48[i][0] + 0x10) = 0x400;
+                aD801F2A44[i][0] = 3;
+                break;
+            }
+            aD801F2A4C[i][0] = 0x10;
+            func_800233CC(aD801F2A50[i], 0x10);
+            *(Blk4_801EC660 *)aD801F2A50[i] = aD801EC660;
+            *(Blk4_801EC660 *)(aD801F2A50[i] + 4) = aD801EC664;
+            return;
+        }
+        i++;
+    } while (i < 20);
+}
+
 
 extern u8 D_801F2A50[];
 extern u8 D_801F2A51[];
