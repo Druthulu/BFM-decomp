@@ -3410,24 +3410,7 @@ void func_8017BEBC(void *a0, void *a1, s32 a2)
 }
 
 
-extern void ReadRotMatrix(void *a0);
-extern void PushMatrix(void);
-extern void func_8004974C(void *a0, void *a1);
-extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
-extern void PopMatrix(void);
-void func_8017C294(u16 *a0, void *a1) {
-    s32 mat[8];
-    s32 buf[8];
-    s16 sv[4];
-    ReadRotMatrix((void *)mat);
-    PushMatrix();
-    sv[0] = (s16)(a0[0] - *(s32 *)((u8 *)mat + 0x14));
-    sv[1] = (s16)(a0[1] - *(s32 *)((u8 *)mat + 0x18));
-    sv[2] = (s16)(a0[2] - *(s32 *)((u8 *)mat + 0x1C));
-    func_8004974C((void *)mat, (void *)buf);
-    ApplyMatrixSV((void *)buf, (void *)sv, a1);
-    PopMatrix();
-}
+DEFINE_func_8017C294()  /* dedup: shared engine-core @0x8017C294 (src/shared) */
 
 
 int func_8017C338(short *param_1, short *param_2, short *param_3, int param_4) {
@@ -3461,19 +3444,7 @@ int func_8017C338(short *param_1, short *param_2, short *param_3, int param_4) {
 }
 
 
-extern void ReadGeomOffset(s32 *a0, s32 *a1);
-extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
-extern void func_8004921C(s32 a0, s32 a1);
-void func_8017C530(s32 a0, s32 a1) {
-    s32 ofx;
-    s32 ofy;
-    s32 sxy;
-    s32 p;
-    ReadGeomOffset(&ofx, &ofy);
-    func_8004921C(0, 0);
-    RotTransPers(a0, a1, &sxy, &p);
-    func_8004921C(ofx, ofy);
-}
+DEFINE_func_8017C530()  /* dedup: shared engine-core @0x8017C530 (src/shared) */
 
 
 
@@ -7196,7 +7167,66 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80183054);
+void func_80183054(s32 arg0)
+{
+  typedef struct {
+    u8 raw[8];
+  } S8Blob;
+
+  typedef struct {
+    S8Blob a;
+    S8Blob b;
+  } Entry16;
+
+  extern u16 D_8018A45C[];
+  extern u32 D_801C7594;
+  extern u32 D_801C7598;
+  extern s32 func_8012C194(void);
+  extern void func_8012C098(void *);
+  extern void func_8012AD44(s32 *, s16);
+  extern void func_8012BF4C(s32 *, s32);
+  extern void func_80183258(s32 *);
+  s32 iVar1;
+  u32 *p2;
+
+  iVar1 = func_8012C194();
+  p2 = &D_801C7594;
+  *(int *)(arg0 + 0x20) = iVar1;
+  if (iVar1 != 0) {
+    switch (*(u16 *)(arg0 + 0x70) & 0x7f) {
+    case 0:
+      func_8001CC3C(iVar1, (s32)&D_8018A45C, 0, 0);
+      func_80183258((s32 *)arg0);
+      func_8012AD44((s32 *)arg0, 2);
+      break;
+    case 1:
+      func_8001CD9C(iVar1, p2);
+      *(u16 *)(iVar1 + 0x2c) = 0xc020;
+      func_800233CC(p2, 0x50);
+      *p2 = 0x80a040;
+      D_801C7598 = 0;
+      func_8012AD44((s32 *)arg0, 3);
+      break;
+    default:
+      break;
+    }
+    if ((*(u16 *)(arg0 + 0x70) & 0x80) != 0) {
+      func_8012BF4C((s32 *)arg0, 1);
+    }
+    else {
+      func_8012BF4C((s32 *)arg0, 0);
+      func_80015954(*(short *)(arg0 + 0xfc) * 0x10 + (s32)&D_8018A414, arg0 + 4);
+    }
+    *(short *)(iVar1 + 0x1a) = 0x1000;
+    *(short *)(iVar1 + 0x18) = 0x1000;
+    *(int *)(iVar1 + 4) = *(int *)(iVar1 + 4) | 0x50000000;
+  }
+  else {
+    func_8012C098((void *)arg0);
+  }
+  return;
+}
+
 
 extern void func_80183278();
 extern void func_8012C098(void *a0);
