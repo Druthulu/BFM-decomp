@@ -1218,7 +1218,57 @@ void func_800D298C(St *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D2A24);
+extern u8 D_800EC9E8[4];
+
+extern s32 func_800435CC(s32 mode, void *buf, void *param);
+extern s32 CdRead2(s32 count);
+
+/* TU (src/md_MAIN_003/md_MAIN_003.c:1085) forward-declares this K&R-style as
+ * `extern void func_800D2A24();` for its sole caller (func_800D2454, which
+ * discards the return), so the definition here must be `void` to avoid
+ * `conflicting types for 'func_800D2A24'` (cc1 exit 33). The body genuinely
+ * sets $v0 to 1 or 0 on every exit path (asm: `addiu $v0,zero,1` /
+ * `addu $v0,zero,zero`), and a plain `return <value>;` in a void function is
+ * a pedwarn gcc-2.7.2 silently DISCARDS (loses those materializations,
+ * closeness != 0 -- cookbook §43's void-return-value-drop). Absorbed at the
+ * use site instead: a hard-`$2` register local set via a read-only
+ * input-`__asm__` immediately before a bare `return;` on each exit forces
+ * the same `li $v0,K` the s32-typed body would have emitted, without
+ * widening the TU's declared return type. Putting the early-exit's v0-set
+ * behind a `goto` (rather than inline in the `if` body) keeps that branch a
+ * single instruction, matching the target's branch polarity -- inlining the
+ * register-pin + asm barrier directly in the `if` block bloats it and flips
+ * beqz/bnez (byte-verified: NEAR closeness 10 vs this MATCH closeness 0).
+ */
+void func_800D2A24(s32 a0) {
+    u8 *p;
+    s32 r;
+    register s32 v0 __asm__("$2");
+
+retry:
+    p = D_800EC9E8;
+    for (;;) {
+        r = func_800435CC(2, (void *)a0, p);
+        if (*p & 0x10) {
+            goto ret1;
+        }
+        if (r != 0) {
+            break;
+        }
+    }
+    if (CdRead2(0x1C0) == 0) {
+        goto retry;
+    }
+    v0 = 0;
+    __asm__ __volatile__("" : : "r"(v0));
+    return;
+
+ret1:
+    v0 = 1;
+    __asm__ __volatile__("" : : "r"(v0));
+    return;
+}
+
 
 void func_800D2AA0(u8 *a0) {
     if (a0 == 0) {

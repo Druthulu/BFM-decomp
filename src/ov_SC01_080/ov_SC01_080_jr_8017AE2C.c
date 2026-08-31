@@ -5974,7 +5974,138 @@ void func_801806DC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80180728);
+extern u8 D_801C5AC0[];
+extern u8 D_801C5AC1;
+extern u8 D_801C5AC2;
+extern u8 D_801C5AC4;
+extern u8 D_801C5AC5;
+extern u8 D_801C5AC6;
+
+extern u8 D_801C5B02[];
+extern u8 D_801C5B04[];
+extern u8 D_801C5B06[];
+
+extern u8 D_801C5D00[];
+extern u8 D_801C5D01;
+extern u8 D_801C5D02;
+extern u8 D_801C5D04;
+extern u8 D_801C5D05;
+extern u8 D_801C5D06;
+
+extern s16 D_801C7540;
+
+extern void func_800233CC(void *a0, u16 a1);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+
+void func_80180728(s32 a0) {
+    /* BLOCK-SCOPE typedef+extern (not file scope): the TU's OWN copy of this
+       exact type (byte-identical `typedef struct { s32 q[16]; } Str_801C5B00;`)
+       lives further down this file, for func_80181770 -- reachable only from
+       BELOW that point. Two FILE-SCOPE occurrences of an anonymous-struct
+       typedef of the same name are a hard cc1 error even when the text is
+       byte-identical (K&R/C89: each `struct {...}` with no tag is a distinct
+       type, confirmed with a minimal repro against this pinned cc1). A
+       BLOCK-SCOPE redeclaration of the same externally-linked symbol is only
+       a WARNING ("type mismatch with previous external decl") -- codegen is
+       unaffected, confirmed byte-identical both standalone and spliced. */
+    typedef struct { s32 q[16]; } Str_801C5B00;
+    extern Str_801C5B00 D_801C5B00[];
+    /* `pad` is the 16 unused frame bytes at 0x10..0x20 the target reserves
+       below the two vectors; locals are laid out in declaration order, so it
+       must be declared FIRST to push sp20/sp28 up to 0x20/0x28. */
+    s32 pad[4];
+    u16 sp20[3];
+    u16 sp28[4];
+    u16 v1;
+    u16 t;
+    s16 i;
+    Str_801C5B00 *base;
+    u16 *p0;
+    u16 *p1;
+
+    {
+        u8 *p_ac = &(*(u8 *)D_801C5AC0);
+        D_801C5AC1 = 0;
+        *p_ac = 0;
+        D_801C5AC5 = 0x10;
+        D_801C5AC4 = 0x10;
+        D_801C5AC2 = 0;
+        D_801C5AC6 = 0x30;
+        func_800233CC(p_ac, 0x140);
+    }
+
+    i = 0;
+    base = D_801C5B00;
+    {
+        s32 j;
+        for (; i < 8; ) {
+            s32 v1b;
+            Str_801C5B00 *elem;
+            s32 v0b;
+            /* §136d-1 / RC-12 opaque copy (the "0"-tie spelling): the target's
+               `addu $a2,$s0,$zero` is a plain SImode copy of the RAW `i`, so
+               the two byte-scaled products must NOT re-sign-extend it. Plain
+               `s32 j = i;` keeps the sign-extend alive (it is never dead under
+               an `sb`, measured) and cse then commons it with the index's own
+               extend, costing the copy and the folded `sra 10` (§241). */
+            __asm__("" : "=r"(j) : "0"(i));
+            v1b = j * 4 + 4;
+            /* offset-first spelling: the target is `addu $a0,$v0,$s2`, not
+               `addu $a0,$s2,$v0` that `&base[i]` produces. */
+            elem = (Str_801C5B00 *)(i * 0x40 + (s32)base);
+            /* §34 zero-byte fence: without it sched sinks the address below
+               `j * 8 + 8` (target order is v1b, address, v0b). */
+            __asm__ __volatile__("");
+            v0b = j * 8 + 8;
+
+            ((u8 *)elem)[1] = v1b;
+            *(u8 *)&D_801C5B00[i] = v1b;
+            D_801C5B02[i * 0x40] = v0b;
+            ((u8 *)elem)[5] = 0;
+            D_801C5B04[i * 0x40] = 0;
+            D_801C5B06[i * 0x40] = 0;
+            func_800233CC(elem, 0x280);
+
+            i += 1;
+        }
+    }
+
+    D_801C5D00[0] = 0xE0;
+    D_801C5D02 = 0xC0;
+    D_801C5D01 = 0xC0;
+    D_801C5D05 = 0;
+    D_801C5D04 = 0;
+    D_801C5D06 = 0;
+    func_800233CC(D_801C5D00, 0x50);
+
+    /* The target materializes `sp+0x28` TWICE (`addiu $a1` then `addiu $a0` in
+       the jal delay slot). Plain `f(sp20, sp28, 1); g(sp28);` lets cse common
+       the address into a callee-saved reg (+1 insn) — the banked neighbour
+       func_801819D0 does exactly that. Re-tying p1 kills the cse record; the
+       matching re-tie on p0 restores the target's $a0-before-$a1 emit order. */
+    p0 = sp20;
+    p1 = sp28;
+    sp20[2] = 0;
+    sp20[1] = 0;
+    sp20[0] = 0;
+    __asm__("" : "=r"(p0) : "0"(p0));
+    __asm__("" : "=r"(p1) : "0"(p1));
+    func_800D20C0(p0, p1, 1);
+    func_800D23D0(sp28);
+
+    t = sp28[1];
+    /* §34 fence: sched2 otherwise emits the `0x2($s1)` load first, which flips
+       both loads' registers ($a0/$v1) as well as their order. */
+    __asm__ __volatile__("");
+    v1 = *(u16 *)(a0 + 2);
+    *(u16 *)(a0 + 0xDC) = 0;
+    *(u16 *)(a0 + 0x84) = 8;
+    v1 = v1 + 1;
+    D_801C7540 = t - 0x400;
+    *(u16 *)(a0 + 2) = v1;
+}
+
 
 extern u8 D_801C5D40[];
 extern s32 D_80127188;

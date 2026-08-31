@@ -9297,7 +9297,43 @@ void func_80185048(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80185098);
+/* The TU (src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c) forward-declares this function FOUR
+ * times, all `extern void func_80185098(s32 a0, s32 a1);` -- and two of those call sites
+ * (func_80184C98, func_80184D50) already work around the wrong return type themselves, by
+ * calling through `((s32 (*)(s32, s32))func_80185098)(...)`. So the TU's own authors already
+ * knew the real function returns a value; `void` is simply what's on file, and we must not
+ * touch it (TU is authoritative). Defining under the C name `func_80185098` with a non-void
+ * return conflicts with those declarations (verified: real cc1 raises the exact
+ * "conflicting types for `func_80185098'" error the blocker names). Declaring the DEFINITION
+ * itself `void` is not an option either (verified): with a void return type, cc1 elides the
+ * `return 0;` / `return 1;` computation entirely as dead code, so $v0 never gets set -- the
+ * two callers that DO read the return value via the function-pointer cast would get garbage,
+ * and the compiled bytes for the body's tail no longer match the .s target at all.
+ *
+ * Fix: give the definition a DIFFERENT C-level name and use GNU C's function-scope
+ * `asm("label")` to pin its assembler symbol to the real one. The C front end's
+ * conflicting-types check is per-C-identifier, so `func_80185098_impl` never collides with
+ * the TU's `func_80185098` declarations; the linker resolves every existing call site (both
+ * the direct calls and the pointer-cast ones) to this object's `func_80185098:` label exactly
+ * as before. Byte-verified against a hand probe against the pinned cc1 before use here. */
+
+extern u8 D_801957EC[];
+
+s32 func_80185098_impl(s32 a0, s32 a1) asm("func_80185098");
+s32 func_80185098_impl(s32 a0, s32 a1) {
+    s16 val;
+
+    val = *(s16 *)(a1 + 2);
+    if (val < *(s16 *)(a0 + 0xA) || *(s16 *)(a0 + 0xFC) != 0) {
+        return 0;
+    }
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = -ratan2(*(s16 *)(a1 + 4) - *(s16 *)(a0 + 0xE),
+                                                   val - *(s16 *)(a0 + 0xA));
+    func_8012B2CC(a0);
+    func_8012B14C(a0, (s32)D_801957EC);
+    return 1;
+}
+
 
 
 extern void (*D_801958B8[])(void);

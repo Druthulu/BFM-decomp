@@ -3930,7 +3930,54 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC01_074/nonmatchings/ov_SC01_074_jr_8017BE9C", func_8017E07C);
+#include "common.h"
+
+/* own tag (this function's own address), NOT func_8017E158's SVEC_8017E158 --
+   that name is already bound, later in this TU (src/ov_SC01_074/
+   ov_SC01_074_jr_8017BE9C.c), to a DIFFERENT (though layout-identical)
+   anonymous struct typedef for func_8017E158's own locals. Two
+   `typedef struct {...} NAME;` for the same NAME are two distinct
+   anonymous-struct types to cc1 -> "conflicting types for `SVEC_8017E158'"
+   once this draft is spliced in at the INCLUDE_ASM site above that
+   declaration. func_8017E158's own draft already uses this same
+   own-address-tag convention for the identical reason (see its comment).
+   Same layout, disjoint name -> no clash either standalone (match_one) or
+   in-TU. */
+typedef struct { short vx, vy, vz, pad; } SVEC_8017E07C;
+
+extern SVEC_8017E07C D_8019A8B0;
+extern SVEC_8017E07C D_8019A8B8;
+/* K&R-style (unprototyped) extern for func_8017E158: its real definition
+   further down this TU declares `SVEC_8017E158 *` params -- a type
+   distinct from SVEC_8017E07C above, so a prototyped forward decl here
+   would itself conflict with that later definition. An unprototyped
+   decl carries no parameter types to conflict with, and the call site
+   only ever passes an address in $a0/$a1 -- byte-identical codegen
+   either way (cookbook §43/§99). */
+extern void func_8017E158();
+extern void func_80015978(s32 a0, s32 *a1);
+
+void func_8017E07C(s32 param_1) {
+    SVEC_8017E07C sv0;
+    SVEC_8017E07C sv1;
+    SVEC_8017E07C sv2;
+
+    sv0 = D_8019A8B0;
+    sv1 = D_8019A8B8;
+
+    if (*(s16 *)(param_1 + 0xFC) == 0) {
+        func_8017E158(&sv0, &sv1);
+    } else {
+        func_80015978(param_1 + 4, (s32 *)&sv2);
+        if (sv0.vz > sv2.vz) {
+            func_8017E158(&sv0, &sv1);
+        } else {
+            func_8017E158(&sv0, &sv2);
+            func_8017E158(&sv2, &sv1);
+        }
+    }
+}
+
 
 #include "common.h"
 

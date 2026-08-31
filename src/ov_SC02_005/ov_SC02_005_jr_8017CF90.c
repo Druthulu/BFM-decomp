@@ -3659,7 +3659,37 @@ void func_8017E6FC(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017E798);
+extern void func_8012A018(s32 a, s32 b);
+extern void func_8017E97C(void *a0);
+
+void func_8017E798(void *a0) {
+
+    typedef struct { s16 vx, vy, vz, pad; } Vec8_DB0;
+    extern Vec8_DB0 D_801E2DB0;
+    extern Vec8_DB0 D_801E2DB8;
+    extern u8 D_80126948[];
+    extern s32 D_80126E60[];
+    typedef struct { s32 w[41]; } Blk164;
+    u8 *base;
+    Vec8_DB0 a;
+    Vec8_DB0 b;
+
+    a = D_801E2DB0;
+    b = D_801E2DB8;
+
+    base = D_80126948;
+    *(Blk164 *)D_80126E60 = *(Blk164 *)base;
+
+    func_8012A018((s32)func_8017E97C, 4);
+
+    *(s32 *)(base + 0x3C) = a.vx;
+    *(s32 *)(base + 0x40) = a.vy;
+    *(s32 *)(base + 0x44) = a.vz;
+    *(s32 *)(base + 0x48) = b.vx;
+    *(s32 *)(base + 0x4C) = b.vy;
+    *(s32 *)(base + 0x50) = b.vz;
+}
+
 
 void func_8017E898(void)
 {

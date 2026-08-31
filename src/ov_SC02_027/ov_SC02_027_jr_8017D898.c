@@ -4469,7 +4469,23 @@ void func_801805EC(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_801806FC);
+extern void func_80013350(s32 a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern u8 D_80126B5C;
+
+s32 aF801806FC(void *a0) __asm__("func_801806FC");
+s32 aF801806FC(void *a0)
+{
+    s32 v1;
+
+    v1 = ((s32 (*)(s32, void *))func_80013350)((s32)a0 + 4, &D_80126B5C);
+    if (v1 <= 0x40000) {
+        func_8002D4C8(0x674, ((v1 / 0xCCC + 47) | 0x1000) & 0xFFFF);
+        return 1;
+    }
+    return 0;
+}
+
 
 #include "common.h"
 
@@ -4594,7 +4610,49 @@ void func_801809A8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80180A54);
+typedef struct {
+    s16 id;
+    s16 flag;
+    s16 x;
+    s16 y;
+    s16 size;
+    s16 pad;
+    s32 param;
+    s32 ptr;
+} Sub_80180A54;
+
+void func_80180A54(void *a0, s32 a1, s32 a2)
+{
+    extern u8 D_801DA130[];
+    register u32 *v0 __asm__("$2");
+    u8 *base;
+    Sub_80180A54 *e;
+    s32 i;
+
+    base = D_801DA130;
+    for (i = 0; i < 0x40; i++) {
+        e = (Sub_80180A54 *)(base + 4);
+        if (e->flag == 0) {
+            func_80016714(base, 0x18);
+            e->flag = 1;
+            e->ptr = (s32)a0;
+            e->param = a1;
+            e->y = a2;
+            e->x = a2;
+            e->size = 0x1000;
+            *(u32 *)base |= 0x50000000;
+            e->id = rand() % 16;
+            v0 = (u32 *)base;
+            goto epilogue;
+        }
+        base += 0x18;
+    }
+    v0 = 0;
+epilogue:
+    __asm__("" : : "r"(v0));
+    return;
+}
+
 
 INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_80180B3C);
 
