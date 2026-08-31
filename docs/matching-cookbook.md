@@ -30983,3 +30983,87 @@ wall ledger, 8-20 → long-budget permuter. Do not price this rung as 14 banks.
 **BLAST RADIUS.** The TU-side half edits shared-within-binary source, so it needs the same
 journal/revert discipline as the arity pre-pass: keep the no-proto only where it bought a match,
 revert it everywhere else, and let the whole-binary gate arbitrate (G3/P9).
+
+## §325 — REGALLOC: A SHARED SMALL CONSTANT STORED TWICE IN THE PRE-LOOP BLOCK IS A *local-alloc* $s-OCCUPANT THAT STEALS THE ARGUMENT ALLOCNO'S REGISTER — PIN THE ARGUMENT-DERIVED LOCAL, NOT THE CONSTANT (P31 S67; byte-proven ov_SC03_119/func_80184F18, 153 ins)
+
+The twin gave the whole shape in one compile (147 -> 24 residual); the last 24 were a pure $s2/$s3
+swap that no pin-free dial reaches. WHY: a CSE'd HImode constant written twice in block 0
+(`desc.v[0].vz = 3` ×2) is a SINGLE-BLOCK, call-crossing quantity, so **local-alloc** assigns it a
+callee-saved register BEFORE global-alloc runs, and `find_free_reg` always takes the first free one —
+pushing the argument allocno from $s2 to $s3 and cascading. There is no 4th block-0 call-crossing
+local that could die before the `$a2` copy is born, so no source-level reordering reaches it.
+
+**THE LEVER, AND ITS DIRECTION IS THE POINT:** pin the ARGUMENT-DERIVED local
+(`register s32 u __asm__("$18")` on the uv-base local), NOT the constant. Pinning the constant to
+$19 only reached closeness 15. §175's caller-saved-pin correctness trap does not apply to $s2.
+
+## §326 — DEFEATING ADDRESS-CSE: SPELL TWO READS OF THE SAME HALFWORD DIFFERENTLY AND GCC CANNOT SHARE THE ADDRESS (P31 S67; byte-proven ov_SC01_077/func_8017FAAC, 154 ins)
+
+The target keeps three separate `lui/addu/l*` $at groups where gcc wanted one shared base. Writing
+one read as `D_8018A9B2[i]` and the other as `*(s16*)(D_8018A9B0 + i*4 + 2)` yields DIFFERENT address
+rtx for the same location, so address-CSE cannot merge them and each keeps its own %hi/%lo pair.
+Same function also needed §186: moving the `0x1A +=` before the `0x16 -= 0x40` put the if-arm's last
+store in $v1 vs the else-arm's $v0, blocking the jump2 tail-merge that was costing 2 instructions
+(cross-jump runs AFTER scheduling, so only a post-schedule register difference blocks it).
+
+## §327 — A RANGE TEST MUST BE HImode: WITH `s32` + A `(u16)` CAST GCC *PROVES* THE MASK REDUNDANT AND DROPS THE `andi` (P31 S67; byte-proven ov_SC02_039/func_8017EC34, 154 ins)
+
+`s32 q` + `(u16)q` lets fold-const derive `q = 0x7F ± (s16 x >> 1)` and conclude the mask cannot
+change the value, so the `andi` never emits — a REAL −1 length drift that reads like a schedule
+difference and sends you hunting the scheduler. Declare `u16 q` and test `q >= 0x2F && q < 0x80`.
+Three more levers from the same function, all reusable:
+* **§194-H in-place AND.** `v1 &= 0x2000;` inside `if (v1 != 0)` — only the IN-PLACE form reuses the
+  hard reg, which is what lets dbr speculate it into the guard's delay slot.
+* **§3-T2 chain order.** Put the LONG chain (`p->0xA += D_8019B5E6[i]`) BEFORE the short store
+  (`p->0x34 = s1+1`); sched1 re-swaps the two `sh`s itself, and the leading `lh` forces the genuine
+  nop delay slot (`may_trap_p` on a MEM blocks dbr) while freeing $a0 for the table value.
+* **Build the 2nd argument INLINE in the call** with a `(u16)` cast. As a preceding statement
+  (`u16 code = ...; & 0xFFFF`) its sll/ori/or chain outranks `move $a0,$s1` in sched priority and
+  steals the beqz delay slot.
+
+## §328 — THE VOLATILE ALIAS MUST BE AN *OBJECT*, NOT A CAST: `*(volatile s32*)&sym` UNFOLDS %lo INTO A SEPARATE `addiu` (P31 S67; byte-proven ov_SC07_007/func_80181B8C, 156 ins, NEW LAW)
+
+Four identical `lui/lw D_801C79A0; j LDDC; addiu` tails needed TWO levers together:
+(1) `register __asm__("$2")` pins on cases 0 and 3 — cc1 otherwise homes them in $v1, missing the
+depth-2 merge onto `.L80181DDC` and deep-merging case 0 into case 3 at the shared `jal`; and
+(2) an `__asm__`-aliased **volatile OBJECT** view of `D_801C79A0` for case 3's reload only, to block
+the back-merge into case 1's identical tail.
+**THE LAW:** the volatile must be a declared aliased object (`extern volatile s32 vD_x __asm__("D_801C79A0");`).
+Spelling it `*(volatile s32*)&D_801C79A0` unfolds the %lo into a separate `addiu` and costs +1 ins.
+
+## §329 — fold-const NARROWS `(int)s16_var & 0xFFF` ONTO THE *RAW HImode PSEUDO*, BREAKING THE SIGN-EXTEND/MASK REGISTER TIE — A ZERO-BYTE WIDENING TEMP RESTORES IT (P31 S67; byte-proven ov_SC01_084/func_80183244, 157 ins)
+
+gcc-2.7.2 narrows the AND onto the raw HImode pseudo (`andi $s2,$a1`), so the sign-extended value and
+the masked value land in different registers and the difference cascades — measured 27 register rows
+plus 3 schedule rows from this one cause. FIX: `s32 e = t;` — a named SImode temp that forces ONE
+sign_extend, so local-alloc coalesces the fraction onto $s1 (`andi $s1,$s1`) while `sh $a1,0xDC`
+keeps the raw register. 30 residual rows -> 0. (The neighbour §194-E gave the TU shape first: 70->30.)
+
+## §330 — THE NEIGHBOUR-SHAPE LEVER IS THE CHEAPEST FIRST MOVE, AND IT IS UNDER-USED (P31 S67; four independent instances in one 20-function wave)
+
+Before any codegen reasoning, read an ALREADY-BANKED function in the same TU and copy its SPELLING,
+not just its structure. Measured this wave:
+* `md_MAIN_031/func_800CAE0C` — the neighbour 6 lines away contained the same 3-call body verbatim
+  (same symbols, same `(void*)` casts). Copied its call spelling -> MATCH on first compile.
+* `ov_SC01_084/func_8017EF28` — the neighbour's memory-to-memory house form
+  (`*(u16*)(p+0xE2) = *(u16*)(p+0xE2) + 0x70`) replaced a reused `int v` local and dissolved ALL 18
+  $v0/$v1 REGALLOC-PERM rows in ONE compile — no §137 arithmetic, no pins.
+* `ov_SC01_084/func_80183244` — neighbour gave the exact TU shape, 70 -> 30, nins exact.
+* `main/func_8002A088` + `func_8002A7B4` — mirroring the already-banked in-TU twin `func_8002A2D4`'s
+  local shape (separate i/off locals, subtraction inlined as the call arg) produced the correct 0x18
+  frame; the warm-start body had been 4-off on frame size alone.
+**The corollary that costs functions when ignored:** a warm-start body from ANOTHER binary is often
+worth less than the neighbour 20 lines away. `func_8017FAAC`'s warm start was a different function
+entirely and was discarded.
+
+## §331 — OPEN GAP: NO LEVER ELIMINATES AN *UNWANTED DUPLICATE* COPY AT A BRANCH-TARGET BLOCK HEAD (P31 S67; main/func_80013154, closeness 12, NOT solved)
+
+nins matches 43/43. An inline-asm-forced `sy=y` copy needed at the "ax!=ay" block head gets
+DUPLICATED by gcc into two hardregs: `$t1` in the bne's delay slot (correct) and a redundant `$t3` at
+the block's own head (wrong), cascading into idx10-16, a register-role swap with `nx` at idx25-28,
+and `$t3`-vs-`$t1` at the final subu. Tried and REFUTED: 5 sy-placement variants, register pins
+($9/$8/$10), an explicit-register asm constraint (cc1-fail), and substituting `(s16)sy` for `ay` in
+the later comparisons (regresses to 46 ins). ~16 iterations.
+§164-36/§31-lever-2 cover asm at a branch-target block head + delay-slot fill, but every listed lever
+FILLS AN EMPTY SLOT; none REMOVES A DUPLICATE. This is a genuine hole in the knowledge base — record
+it as such rather than spending another wave slot on it blind.
