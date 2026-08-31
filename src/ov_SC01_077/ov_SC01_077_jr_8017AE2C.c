@@ -5437,7 +5437,97 @@ s32 func_8017F7E8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017FAAC);
+// @class: struct
+// @stuck: none — MATCH (154 ins), verified standalone AND recompiled inside the whole
+// destination TU (0 mismatches, no new cc1 warnings).
+// Two non-obvious levers, both byte-decisive:
+//  1. THE TWO D_8018A9B2 READS MUST BE SPELLED WITH DIFFERENT SYMBOLS. The target emits three
+//     independent `lui $at,%hi(sym) / addu $at,$at,$a0 / l*  %lo(sym)($at)` groups (gas expanding
+//     one `sym($a0)` memory operand each). Writing both the `lh` (+2, signed) and the `lhu` (+2,
+//     unsigned) reads as `D_8018A9B2[...]` makes their RTL addresses identical, cse pulls the
+//     address into a pseudo (`lui/addiu/addu` once, then `l* 0($a1)`) and the arm loses an
+//     instruction. Spelling the signed read as `*(s16 *)(D_8018A9B0 + k*4 + 2)` gives a different
+//     address rtx (symbol+const vs symbol), defeats the cse, and links to the identical bytes
+//     (HI16/LO16 pair carries the +2 addend -> lui 0x8019 / 0xA9B2, same as the target).
+//  2. STATEMENT ORDER 0x1A-BEFORE-0x16 IS WHAT BLOCKS THE CROSS-JUMP. With the natural order
+//     (0x12, 0x16, 0x1A) both arms end in `sh $v0,0x1A($sp)` after a load-delay nop, gcc's jump2
+//     tail-merges them and the function comes out 2 instructions SHORT (§186: the merge is decided
+//     after scheduling, so no barrier reaches it). Emitting the 0x1A statement before the 0x16 one
+//     lands the 0x1A value in $v1 in the `if` arm (the else arm still uses $v0), so
+//     find_cross_jump's rtx_renumbered_equal_p fails on the very first insn and both copies stay.
+//     It also reproduces the target's schedule exactly (0x1A loaded early, 0x16 stored first).
+//  3. Frame 0x48 needs 40 bytes of locals: `s32 v[4]` (0x10, 8-aligned) + `s32 out[4]` (0x20).
+//  4. `t = out[0]` must be a real local: reading `out[0] >> 16` twice makes gcc re-load it as
+//     `lh $a1,0x22($sp)` instead of the target's `sra $a1,$a1,16`.
+
+extern s32 rand(void);
+extern u8 D_80078EC1;
+extern u8 D_80126B5C;
+extern s32 D_80126B60;
+extern s32 D_80126B64;
+extern u8 D_8018A9B0[];
+extern u8 D_8018A9B2[];
+extern u8 D_8018A940[];
+extern u8 D_8018A942[];
+extern u8 D_8018A944[];
+extern void (*D_8018A9D4[])(void);
+extern s32 func_8012BC60();
+extern s32 func_8012B77C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012B608(s32 a0, s32 a1, s32 a2);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012AD80(s32 a0);
+extern s32 func_8012C0EC(s32 a0);
+extern void func_8017FD14(void *a0);
+
+void func_8017FAAC(void *arg0)
+{
+    s32 a0 = (s32)arg0;
+    s32 v[4];
+    s32 out[4];
+
+    if ((*(u16 *)(a0 + 0xFC) & 1) == 0) {
+        *(s16 *)(a0 + 0x50) = (rand() & 0xF) - 7;
+        *(s16 *)(a0 + 0x52) = (rand() & 0xF) - 7;
+        *(s16 *)(a0 + 0x54) = (rand() & 0xF) - 7;
+    }
+
+    if ((D_80078EC1 & 0x7F) == 5) {
+        s32 k = *(u8 *)(a0 + 0x70);
+        v[0] = *(s32 *)&D_80126B5C;
+        v[1] = D_80126B60;
+        v[2] = D_80126B64 + *(s16 *)(D_8018A9B0 + k * 4 + 2);
+        ((u16 *)v)[1] += *(u16 *)(D_8018A9B0 + k * 4);
+        ((u16 *)v)[5] += *(u16 *)(D_8018A9B2 + k * 4);
+        ((u16 *)v)[3] -= 0x40;
+    } else {
+        ((u16 *)v)[1] = *(u16 *)(D_8018A940 + (s8)(*(u16 *)(a0 + 0x70) >> 8) * 16 + *(u8 *)(a0 + 0x100) * 8);
+        ((u16 *)v)[3] = *(u16 *)(D_8018A942 + (s8)(*(u16 *)(a0 + 0x70) >> 8) * 16 + *(u8 *)(a0 + 0x100) * 8);
+        ((u16 *)v)[5] = *(u16 *)(D_8018A944 + (s8)(*(u16 *)(a0 + 0x70) >> 8) * 16 + *(u8 *)(a0 + 0x100) * 8);
+    }
+
+    if (func_8012BC60(a0 + 4, (s32)v) >= 0x401) {
+        s32 t;
+        func_8012B77C((s32)out, a0 + 4, (s32)v);
+        t = out[0];
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = t;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) +=
+            func_8012B608(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), t >> 16, 0x17);
+        func_8012B2CC(a0);
+    } else {
+        *(u8 *)(a0 + 0x100) += 1;
+        if (*(u8 *)(a0 + 0x100) >= 2) {
+            *(u8 *)(a0 + 0x100) = 0;
+        }
+    }
+
+    func_8012B14C(a0, (s32)D_8018A9D4);
+    *(u16 *)(a0 + 0xFC) += 1;
+    func_8017FD14((void *)a0);
+    func_8012AD80(a0);
+    func_8012C0EC(a0);
+}
+
 
 #include "common.h"
 

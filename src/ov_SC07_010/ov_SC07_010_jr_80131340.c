@@ -1291,51 +1291,7 @@ DEFINE_func_80132EF4()  /* dedup: shared engine-core @0x80132ef4 (src/shared) */
  * Canonical decls (wave22_targets.json sig_hints) verbatim; D_80126BE0 is
  * declared exactly as the 20+ sibling TUs already declare it.
  */
-extern void func_8012F038(int param_1, short *param_2, short *param_3);
-extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
-extern s32 func_80135888(s32, s32, s32, s32);
-
-void func_80132F40(s32 arg0)
-{
-
-    extern u8 D_80126BE0[];
-
-    Svec_80132F40 v[4];
-    register Svec_80132F40 *q __asm__("$17");
-    register s16 *p __asm__("$2");
-    register s32 h __asm__("$2");
-    register s32 c __asm__("$2");
-    register s32 hh __asm__("$4");
-    s32 w;
-    s32 m;
-
-    q = &v[1];
-    v[0].vx = D_80126B5E;
-    v[0].vy = D_80126B62;
-    v[0].vz = D_80126B66;
-    v[1] = v[0];
-
-    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58),
-                      (s32)D_80126BE0, (s32)q) != 0) {
-        /* zero-instruction NOTE_INSN_LOOP_END: cuts cse1's extended basic block
-         * so the block-move address pseudo cannot reach the two &v[0] args. */
-        do { } while (0);
-
-        p = (s16 *)((*(s32 *)(arg0 + 0x58) & 0x0FFFFFFF) | 0x80000000);
-        w = p[4];
-        h = p[5];
-        hh = h;
-        c = (h < w);
-        if (c) { m = hh; } else { m = w; }
-
-        func_8012F038(*(s32 *)(arg0 + 0x20) + 0x34, &v[0], q);
-        v[1].vy = m;
-        func_8012F14C(*(s32 *)(arg0 + 0x20) + 0x34, q, &v[0]);
-        D_80126B5E = v[0].vx;
-        D_80126B62 = v[0].vy;
-        D_80126B66 = v[0].vz;
-    }
-}
+DEFINE_func_80132F40()  /* dedup: shared engine-core @0x80132F40 (src/shared) */
 
 
 DEFINE_func_80133060()  /* dedup: shared engine-core @0x80133060 (src/shared) */

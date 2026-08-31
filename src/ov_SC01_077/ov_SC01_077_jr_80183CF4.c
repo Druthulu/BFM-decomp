@@ -4341,7 +4341,78 @@ void func_80185B5C(u8 *a0) {
     }
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80185BA4);
+/* Declarations conformed to this TU's own existing spellings
+ * (ov_SC01_077_jr_80183CF4.c:2328 func_8004787C, :2615 D_800B9A02, :2826 RotTransPers,
+ * :3006 func_8012B0B4). func_8012B0B4 is spelled with an UNSPECIFIED parameter list so
+ * it cannot conflict with the TU's own `extern void func_8012B0B4(SVEC *, s32, s32);`
+ * (SVEC lives in ../shared/engine_core.h, unreachable from a standalone compile).
+ * The vertex struct is BLOCK-scope on purpose. */
+extern void func_8012E32C(void);
+extern s32 func_8004787C(s32 a0);
+extern void func_8012B0B4();
+extern void *func_80010A08(s32);
+extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern s32 AddPrim(s32, void *);
+extern void func_8012E28C(s32 arg0, s32 arg1);
+extern u32 D_801D55F4[];
+extern s32 D_800A651C;
+extern s16 D_800B9A02;
+
+void func_80185BA4(void* p)
+{
+    struct { s16 vx, vy, vz, pad; } v[4];
+    u16 base[3];
+    s32 buf[2];
+    s32 sp40;
+    s32 sp44;
+    s32 A;
+    s32 rs, i, ang, k, d, r;
+    u32 *prim;
+
+    func_8012E32C();
+    rs = func_8004787C((*(s32 *)(p + 0x1C) * 0x800) / 30);
+    base[0] = *(u16 *)(p + 6);
+    base[1] = *(u16 *)(p + 0xA);
+    A = (rs << 8) >> 12;
+    base[2] = *(u16 *)(p + 0xE);
+    ang = *(s32 *)(p + 0x1C) << 4;
+    i = 0;
+    do {
+        func_8012B0B4((unsigned int *)buf, ang, 0x20);
+        k = rs * 3 + 0x1000;
+        d = buf[0];
+        v[0].vx = base[0] + d;
+        v[0].vy = base[1];
+        v[0].vz = base[2] + (d >> 16);
+        v[2].vx = base[0] + (((s16)d * k) >> 12);
+        v[2].vy = base[1] - A;
+        v[2].vz = base[2] + (((d >> 16) * k) >> 12);
+        func_8012B0B4((unsigned int *)buf, ang + 0x2AA, 0x20);
+        d = buf[0];
+        v[1].vx = base[0] + d;
+        v[1].vy = base[1];
+        v[1].vz = base[2] + (d >> 16);
+        v[3].vx = base[0] + (((s16)d * k) >> 12);
+        v[3].vy = base[1] - A;
+        v[3].vz = base[2] + (((d >> 16) * k) >> 12);
+        prim = (u32 *)func_80010A08(0x24);
+        prim[1] = D_801D55F4[i];
+        prim[3] = D_801D55F4[i + 1];
+        *((u8 *)prim + 7) = 0x3A;
+        prim[7] = 0;
+        prim[5] = 0;
+        prim[0] = 0x8000000;
+        r = RotTransPers((s32)&v[0], (s32)(prim + 2), &sp40, &sp44);
+        RotTransPers((s32)&v[1], (s32)(prim + 4), &sp40, &sp44);
+        RotTransPers((s32)&v[2], (s32)(prim + 6), &sp40, &sp44);
+        RotTransPers((s32)&v[3], (s32)(prim + 8), &sp40, &sp44);
+        AddPrim(*(s32 *)((s8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + r * 4, prim);
+        func_8012E28C(r, 1);
+        i++;
+        ang = ang + 0x2AA;
+    } while (i < 6);
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80185E68);
 
