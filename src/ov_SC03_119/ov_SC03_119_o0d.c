@@ -3006,3 +3006,24 @@ void func_801837B0(s32 arg0)
     ((Rmw_801837B0 *)arg0)->fDC += 7;
 }
 
+
+
+/* func_80183830 @ 0x80183830 — an -O0 function stranded at the _o0d region's END boundary: it is
+ * the FIRST function of the -O2 ov_SC03_119_jr_80183830 object, but its target carries the -O0
+ * prologue tell, so it can only bank in an -O0 object. _o0d is -O0-compiled and its .text ends
+ * exactly here, so this def lands at its true address with NO splat change — the edit is ATOMIC
+ * ACROSS TWO FILES (append here, drop the INCLUDE_ASM there) so the object sizes cancel and no
+ * address moves. Mechanically remapped from the banked twin ov_SC03_014:0x801842E0 (2 per-overlay
+ * symbols substituted). P31 S68; same shape as func_801457A4 at the whale's end boundary (§362). */
+
+
+extern s32 D_801270C8;
+
+s32 func_80183830(void) {
+    if (D_801270C8 == 0) {
+        D_801270C8 = 1;
+    } else if (D_801270C8 == 2) {
+        return 1;
+    }
+    return 0;
+}

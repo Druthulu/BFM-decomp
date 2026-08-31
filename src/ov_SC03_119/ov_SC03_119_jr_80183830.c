@@ -2826,7 +2826,6 @@ extern u8 D_801D4306;
 extern void func_801830C4(void *a0);
 /* ==== end §8b carried decl layer ==== */
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_jr_80183830", func_80183830);
 
 DEFINE_func_801838A4()  /* dedup: shared engine-core @0x801838A4 (src/shared) */
 
