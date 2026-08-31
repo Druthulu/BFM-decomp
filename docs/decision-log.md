@@ -2569,3 +2569,53 @@ the instrument — including its write path, its restart path, and the baseline 
 binaries were silently red — "clean" and "green" are different invariants, and only one of them
 was checked. A session-close ritual (and any wave post-mortem) should quote the fleet's GREEN
 count next to the tree's cleanliness; tonight that number was 197/214 pretending to be 214/214.
+
+---
+
+## 2026-08-31 (P31 S67) — The frontier's largest single class is CARVE PLUMBING, not codegen; and an optimistic probe is how it stayed invisible
+
+**Context.** S66 closed with 530 open functions and a free-wins audit naming four "zero-drafting"
+lanes. S67 opened by measuring what is actually on disk: `tools/strand_census.py` finds **193 of the
+530 open functions already have a draft**, classified in their real TUs as 37 MATCH · 67 NEAR ·
+89 CC1-FAIL (219 draft files; 1,885 wave targets seen, 1,521 already banked, 166 open functions
+never drawn at all).
+
+**What the probes said.** Gating the 37 MATCH drafts banked **0 of 13** before I stopped the run —
+and the reason was not codegen. Probing the whole jtbl class with the REAL planner instead of the
+cheap probe: **159 of the 530 open functions (30%) reference a jump table, and 96 of them cannot be
+carved at all** — `build_carve` refuses a plan whose same-subseg `.rodata` carves would be
+non-contiguous (one object cannot leave a hole for an uncarved neighbour's table). 75 of those are
+non-main, across 38 subsegs. Not a compiler wall, not a declaration wall: carve plumbing.
+
+**Why it was invisible.** `jtbl_carve --probe` called only `island_probe`, which answers *where does
+this table live* — necessary, not sufficient. Every one of the 96 probes "carveable". The S66 audit
+priced 32 of them as free on exactly that reading, and `ov_SC02_000:func_8017F950` — named on that
+free list — refuses. The planner is a PURE function, so the probe can just call it; it now does
+(cookbook §322). The generalisable rule: when a cheap probe and an expensive applier disagree about
+feasibility, check whether the applier's DECISION half is separable from its MUTATION half — if it
+is, the probe must call it, because an optimistic probe does not merely lose opportunities, it
+manufactures work plans.
+
+**The pivot.** Stop treating the stranded-draft pool as a gating backlog. Two lanes, in this order:
+(1) the **89 CC1-FAIL drafts**, where two of the five levers their errors call for
+(`scope_data_externs` §8d and `normalize_self_decls`) exist but are wired ONLY into the family
+lanes — a draft written by a wave agent has never seen either, and 43 of the 89 sit on exactly
+those two; (2) the **jtbl unblock**, which is the bigger prize but is gated on `jr_isolate_all`
+round-tripping, which it currently does not.
+
+**What the attempt at (2) proved, and cost.** ov_SC02_000 took three defects to reach the byte gate
+and still fails it: the carried-decl layer emitted `struct sprite8` four times (dedupe added), then
+re-emitted a type `engine_types.h` already defines (header-skip added), then compiled and linked
+and diverged (`#if` guards do not travel with a carried block — open, cookbook §323). 20 of 35
+blocked overlays dry-run clean, and that number means nothing until one round-trips.
+
+**Casualty, recorded because it is the pattern.** I diagnosed the 13 `near` verdicts as my own
+mis-invocation and killed a running gate loop on it. Wrong: `--src` is never defaulted,
+`harvest_verify` derives each draft's TU, and `match_one_closeness` re-derives the asm subdir per
+function — all three documented in comments I had not read. Cost: the last five binaries of that
+pass, main's nine included. The correct reading was available in the code before the pkill.
+
+**Hindsight.** Two of this session's three real findings came from distrusting a green-looking
+signal: R53 caught a failed build whose stale binary still hashed to the locked SHA (twice), and
+§322 caught a probe that had never been asked the blocking question. The one thing I did NOT
+distrust in time — my own first diagnosis — is the one that cost work.

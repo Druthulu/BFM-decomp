@@ -77,10 +77,18 @@ def macro_scope(tu_text, header_path=ENGINE_CORE):
         return {}
     text = open(header_path, errors='replace').read()
     out = {}
+    # ONE DEFINITION PER MACRO NAME — THE LAST, BECAUSE THAT IS THE ONE CPP EXPANDS.
+    # `src/shared/engine_core.h` holds 1,037 duplicate `DEFINE_func_*` definitions, and FOUR of them
+    # have DIFFERENT bodies (DEFINE_func_8013FFD8 / _8013F350 / _80181538 / _801808C4).  cpp uses
+    # the last definition of a redefined macro; reading them all in header order made the DEAD first
+    # copy the attributed one, so this oracle named a declaration the compiler never expanded — and
+    # pointed any fix at a copy where editing silently no-ops.  An oracle that disagrees with the
+    # compiler is not a stricter oracle, it is a wrong one (R34).
+    last_def = {}
     for m in re.finditer(r'^#define\s+(DEFINE_func_[0-9A-Fa-f]+)\s*\(', text, re.M):
-        name = m.group(1)
-        if name not in inst:
-            continue
+        if m.group(1) in inst:
+            last_def[m.group(1)] = m
+    for name, m in last_def.items():
         i, body = m.end(), []                            # gather the \-continued logical line
         while i < len(text):
             nl = text.find('\n', i)
@@ -94,6 +102,9 @@ def macro_scope(tu_text, header_path=ENGINE_CORE):
         for stmt in re.findall(r'\bextern\b[^;{}]*;', '\n'.join(body)):
             try:
                 for d in cdecl.parse(stmt):
+                    # first-wins ACROSS distinct macros is unchanged: several macros a TU
+                    # instantiates may each declare the same symbol, and all those declarations
+                    # really are in the TU.  Only the REDEFINED-macro selection above changed.
                     out.setdefault(d.name, (d, name))
             except cdecl.CDeclError:
                 continue                                 # a macro body line cdecl cannot read

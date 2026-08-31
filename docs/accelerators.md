@@ -269,3 +269,26 @@ already in the name. One derivation replaced days of "CAUSE NOT DETERMINED" back
 turned 15 mystery walls into three named config repairs. Corollary: gate verdicts need a green
 baseline — audit `make build BINARY=<b>` per binary BEFORE trusting any per-draft verdict
 (gate_stage now refuses red-listed binaries' drafts as BASELINE-RED).
+
+## #13 — Census what is ALREADY DRAFTED before drawing anything (P31 S67)
+`tools/strand_census.py` joins the wave manifests × the filesystem × `corpus.stubs` and answers
+"is there already a draft for this open function?" in seconds, for zero tokens. First run:
+**193 of the 530 open functions already had a draft** — 37 of them byte-correct in their real TU.
+S66 measured the same shape from the other side: ~56 of its 416 banks came from ZERO drafting
+agents, and ~109 of 240 agents in two waves re-derived work already on disk or already banked.
+The census is worth running *before every draw*, and its verdict classifier (`--classify`, one
+`rtu_match` per draft in its real TU) is what turns the pile into lanes: MATCH → gate,
+CC1-FAIL → the recovery ladder, NEAR≤3 → register pins, NEAR 8-20 → permuter, NEAR>20 → redraft.
+Corollary that paid immediately: the classifier must compile each target the way the game SHIPPED
+it — wiring the -O0 prologue tell in turned one binary's verdicts from 8 NEAR (seven >20 mismatches)
+into 6 MATCH. A verdict produced at the wrong optimization level is 100% artefact.
+
+## #14 — Make the cheap probe call the real planner (P31 S67)
+If a lane is scoped by a cheap feasibility probe, check whether the expensive applier's DECISION
+half is separable from its MUTATION half. `jtbl_carve`'s `build_carve` is a pure planner (reads
+config + payload, writes nothing, refuses via `sys.exit`), while `--probe` called only
+`island_probe` — which answers *where does this table live*, not *can it be carved*. Every blocked
+function probed "carveable". Re-probed with the planner: **96 of 159 open jtbl functions are
+plan-refused**, and a previous session had priced 32 of them as free work on the blind reading.
+Cost of the fix: eight lines. An optimistic probe does not merely lose opportunities — it
+manufactures work plans, which is the expensive direction of the error.

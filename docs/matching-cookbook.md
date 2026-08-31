@@ -30862,3 +30862,86 @@ duplicate is fatal.
 
 **Do not reach for a cast-at-use here** — the shape already matches; the conflict is type IDENTITY,
 not type WIDTH.
+
+## §322 — A PROBE THAT ANSWERS A *NECESSARY BUT NOT SUFFICIENT* QUESTION WILL PRICE BLOCKED WORK AS FREE: RUN THE REAL PLANNER WHEN THE PLANNER IS PURE (P31 S67; measured, 96 of 159 open jtbl functions)
+
+**THE SHAPE.** `jtbl_carve --probe` called only `island_probe`, which answers *where does this
+table live* — a table in the data tail returns `tail — standard §8a carve at gate time`, and that
+reads as "carveable". It is necessary and not sufficient: `build_carve`, the real planner, ALSO
+refuses a plan whose two same-subseg `.rodata` carves would be **non-contiguous**, because one
+object cannot leave a hole for an uncarved neighbour's table. `island_probe` cannot see that — it
+looks at one function, and the refusal is a property of the SUBSEG's whole carve set.
+
+**WHAT IT COST.** The S66 free-wins audit priced 32 jtbl functions as "free now, run them through
+the serial gate" on this probe. Re-probed with the planner: `ov_SC03_010:func_8017F6C0` probes a
+clean `tail` and the gate books `CARVE-REFUSED`; `ov_SC02_000:func_8017F950`, explicitly on that
+free list, refuses too. Fleet-wide the honest numbers are **159 open functions reference a jtbl
+(30% of the 530 frontier, 57 binaries, 72 (binary,subseg) hosts) → 96 plan-refused · 43 carveable ·
+16 main curated-name ERR · 4 main-manual**, with 75 of the refusals non-main across 38 subsegs.
+A whole session's lane was scoped off a probe that had never been asked the blocking question.
+
+**THE FIX, AND WHEN IT IS AVAILABLE.** `build_carve` is a PURE planner — it reads the config and
+the payload and writes nothing (verified: no `open(...,'w')`, no `subprocess`, no `os.rename` in
+its body), and it signals refusal by `sys.exit(msg)`. So the probe can simply CALL it inside
+`try/except SystemExit` and report the message as `plan-refused`. Cost: nothing. Blast radius: none.
+**Generalise:** whenever a cheap probe and an expensive applier disagree about feasibility, check
+whether the applier's DECISION half is separable from its MUTATION half. If it is, the probe must
+call it. A probe that models the applier loosely is a second oracle that silently disagrees (R34),
+and the direction of its error — optimistic — is the expensive one, because optimistic probes
+create work plans, and pessimistic ones only lose opportunities.
+
+**THE TELL THAT YOU HAVE ONE.** A batch whose verdicts are uniform (13 of 13 `near`) is a harness
+smell, not a subject signal. Real codegen residuals scatter.
+
+## §323 — CARRYING FILE-SCOPE TYPES BETWEEN SPLIT TUs: DEDUPE BY NAME, SKIP HEADER-PROVIDED, AND THE GUARD TRAVELS WITH THE BLOCK (P31 S67; ov_SC02_000, two defects fixed, one open)
+
+When a TU is cut into regions (`jr_isolate_all`, `o0_subsplit`), each region becomes its own
+translation unit and needs the file-scope types its carried prototypes name. `overlay_src_split.
+file_scope_types()` returns those blocks per ITEM, and the carried layer unions over every item
+feeding the region. Three ways that goes wrong, all measured on one overlay:
+
+1. **N copies of one definition.** Several items each define the same tag at file scope — legal
+   while they were separate TUs, fatal in one. Measured: `struct sprite8` emitted FOUR times into
+   `ov_SC02_000_jr_80187B40.c` → `redefinition of struct sprite8`, the whole overlay's build down.
+   FIX: dedupe by declared NAME with bodies normalised of comments and whitespace (the copies here
+   differed only in hand-written field comments). Two DIFFERENT bodies under one name are a real
+   conflict a rename must resolve — **refuse loudly (R43), never merge**: emitting either one
+   silently decides what the region compiles against. Anonymous typedefs are exempt — §321 says two
+   identically-spelled anonymous structs are DISTINCT types, so there is nothing to dedupe against.
+2. **Re-emitting a type the shared headers already define.** Every region `#include`s
+   engine_core.h → engine_types.h at its top, so carrying a definition of a type that lives there
+   is an unconditional redefinition. `struct sprite8` is engine_types.h:417, and `_engine_types()`
+   has recognised body-defined tags since the SESSION-19 `PW8017E6D8` fix — nothing on the carry
+   path was consulting it. FIX: skip a block whose names are all header-provided.
+3. **OPEN — the preprocessor guard does not travel.** With 1+2 fixed the overlay compiles and links
+   and then fails `make check` (3ef423b5… vs the locked 5ece4bca…). `file_scope_types` extracts the
+   block by brace-scanning from a col-0 type keyword, so a definition sitting inside `#if …/#endif`
+   is carried WITHOUT its guard — the original `struct sprite8` in `ov_SC02_000_jr_8018173C.c` has
+   its `#endif` on the following line. Unresolved; start here before scaling this lane.
+
+**STATUS: the isolation lane is NOT byte-validated.** 20 of 35 blocked overlays dry-run clean and
+the tool advertises byte-neutrality by construction, but the one overlay actually taken to the byte
+gate needed two fixes to compile and still diverges. Do not scale on the dry-run count.
+
+## §323a — R53, TWICE IN ONE HOUR: A FAILED BUILD LEAVES THE PREVIOUS BINARY, AND `sha1sum` READS GREEN (P31 S67)
+
+`make build BINARY=ov_SC02_000` returned rc=2 and `sha1sum build/ov_SC02_000/ov_SC02_000` printed
+the LOCKED hash both times — because the failing object was deleted and the previous link survived.
+Trusting the output file over the exit code would have certified a resegmentation that does not
+compile as byte-neutral, and scaled it to 38 subsegs. Read the exit code; then read the errors, and
+filter warnings out first — gcc-2.7.2's hard errors carry no `error:` prefix and the one line that
+killed cc1 sits mid-stream (the tail of the log was pure warnings in both cases).
+
+## §323b — A SCRIPT THAT PARSES argv AT IMPORT CANNOT BE SHARED; EXTRACT THE PREDICATE, DO NOT COPY IT (P31 S67)
+
+`match_one.py` builds its `ArgumentParser` and calls `parse_args()` at module level, so
+`import match_one` from any other tool exits with that tool's own argv as an error. The -O0
+prologue tell (`detect_o0`) lives there and is the oracle every drafting agent's feedback loop
+steers by. Re-implementing it in the caller would be a second oracle that can drift from the first
+(R33) — the exact defect class §322 describes. FIX: extract to `tools/o0_detect.py` verbatim and
+re-export from `match_one`, so there is still ONE definition. Negative-control BOTH directions
+after the move: an -O0 target must still auto-fire (md_MAIN_003/func_800CFEB4, 78-vs-78 regalloc
+diff) and an -O2 target must still MATCH (ov_SC04_018/func_80181804, 72 ins).
+**Why it was worth doing:** wiring that one predicate into the stranded-draft classifier turned
+md_MAIN_003's verdicts from 8 NEAR (seven of them >20 mismatches) into **6 MATCH** — seven residuals
+that were 100% artefact of compiling -O0 code at -O2.

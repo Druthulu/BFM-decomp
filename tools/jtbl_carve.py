@@ -1221,6 +1221,21 @@ def main():
         if len(a.func) != 1:
             ap.error("--probe takes exactly one --func")
         kind, detail = island_probe(a.ov, a.func[0])
+        # RUN THE REAL PLANNER TOO (P31 S67, R35).  `island_probe` answers "where does this table
+        # live", which is necessary but NOT sufficient: `build_carve` additionally refuses a plan
+        # whose same-subseg .rodata carves are NON-CONTIGUOUS (one object cannot leave a hole for
+        # an uncarved neighbour's table), and that refusal is invisible to island_probe.  Measured:
+        # ov_SC03_010/func_8017F6C0 probes clean `tail` and the gate then books CARVE-REFUSED — and
+        # the S66 free-wins audit priced 32 functions as free on exactly this blind probe.
+        # build_carve is a pure planner (it reads config + payload and writes nothing), so calling
+        # it here costs nothing and cannot mutate the tree; its refusals are `sys.exit(msg)`.
+        try:
+            build_carve(a.ov, [a.func[0]])
+        except SystemExit as e:
+            msg = str(e) if not isinstance(e.code, int) else ""
+            if msg:
+                kind = "plan-refused"
+                detail = msg.replace("\n", " ")
         print(f"jtbl_carve --probe {a.ov} {a.func[0]}: {kind} — {detail}")
     elif a.island_split:
         if len(a.func) != 1:

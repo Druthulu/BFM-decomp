@@ -463,9 +463,52 @@ def _file_scope_decls(items):
     known = carried | _engine_types()
 
     out, dropped = [], []
+    # A CARRIED TYPE MAY BE EMITTED ONCE PER REGION, NOT ONCE PER ITEM (P31 S67, cookbook §321).
+    # `file_scope_types` is called per item and the carried layer is the union over every item that
+    # feeds this region, so a tag several of them each define at file scope — legal while they were
+    # separate TUs — arrives here as N copies of one definition. At file scope in ONE TU that is
+    # fatal: measured on ov_SC02_000, the isolation emitted `struct sprite8` FOUR times into
+    # `ov_SC02_000_jr_80187B40.c` and cc1 rejected the region with `redefinition of struct sprite8`,
+    # taking the whole overlay's build down (and, because the previous object was still on disk, the
+    # SHA1 read GREEN afterwards — R53).
+    # Dedupe by NAME, comparing bodies with comments and whitespace normalised away, because the
+    # copies differ only in their hand-written field comments. Two DIFFERENT bodies under one name
+    # are a real conflict that a rename must resolve, so those are refused loudly (R43), never
+    # silently merged — picking either one would change what the region compiles to.
+    seen_types, type_conflicts = {}, []
+
+    def _type_names(block):
+        names = {a or b for a, b in
+                 re.findall(r'\}\s*([A-Za-z_]\w*)\s*;|\b(?:struct|union|enum)\s+([A-Za-z_]\w*)', block)}
+        names |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', block))
+        return {n for n in names if n}
+
+    def _norm_body(block):
+        return re.sub(r'\s+', ' ', re.sub(r'/\*.*?\*/|//[^\n]*', '', block, flags=re.S)).strip()
+
     for _, _, kind, text in items:
         for block in oss.file_scope_types(text):        # (4) types first-class
-            out.append((block, True))
+            names = _type_names(block)
+            if not names:
+                # Anonymous — §321: two identically-spelled anonymous struct typedefs are DISTINCT
+                # types, so there is nothing safe to dedupe against. Emit as-is.
+                out.append((block, True))
+                continue
+            # ...AND NEVER RE-EMIT ONE THE SHARED HEADERS ALREADY DEFINE. Every region `#include`s
+            # engine_core.h -> engine_types.h at its top, so carrying a definition of a type that
+            # lives there is an unconditional `redefinition of struct X`. Measured on ov_SC02_000:
+            # `struct sprite8` is engine_types.h:417, and the carry emitted it again into
+            # ov_SC02_000_jr_80187B40.c. _engine_types() already recognises body-defined tags (the
+            # SESSION-19 PW8017E6D8 fix); nothing was ever consulting it on this path.
+            if names <= _engine_types():
+                continue
+            key = tuple(sorted(names))
+            body = _norm_body(block)
+            if key not in seen_types:
+                seen_types[key] = body
+                out.append((block, True))
+            elif seen_types[key] != body:
+                type_conflicts.append((key, seen_types[key], body))
         for line in text.split("\n"):
             if not line or line[0].isspace():           # col-0 only (block-scope stays put)
                 continue
@@ -506,6 +549,15 @@ def _file_scope_decls(items):
             proto = oss.def_proto(text)
         if proto:                                       # (3) the definition's implied declaration
             out.append((proto, False))
+
+    # A NAME CARRYING TWO DIFFERENT BODIES IS NOT DEDUPABLE (R43). Emitting either one silently
+    # decides which definition the region compiles against; refuse and name the tag instead.
+    if type_conflicts:
+        sys.exit("[jr_isolate_all] %d carried type name(s) have CONFLICTING bodies — a rename is "
+                 "needed, not a dedupe (R43):\n%s" % (
+                     len(type_conflicts),
+                     "\n".join("  %s\n    A: %s\n    B: %s" % ("/".join(k), a[:150], b[:150])
+                               for k, a, b in type_conflicts[:5])))
 
     # COVERAGE ASSERTION (R32). A line _HOIST_RE recognised as hoistable but that we could not place is
     # a BUG, never a silent no-op. Print the base-type histogram so the cause is named, not guessed —
