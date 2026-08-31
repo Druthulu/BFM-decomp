@@ -30733,3 +30733,132 @@ The target (`asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C/func_8017D72C.
 **BYTE EVIDENCE — `func_8018275C` (ov_SC01_001, 134 ins).** v4c with `s32 i;` + `for (i = 0; …)`: `DIFF mine=134 / target=134, 14 mismatched, SHIFT-DRIFT [structural] sig=SHIFT-DRIFT/+2`, target idx3-4 = `sw $s5,0x2C($sp)` / `addu $s5,$zero,$zero`. Single-axis edit — `s32 i;`→`s32 i = 0;` and `for (i = 0; …)`→`for (; …)`, nothing else — → **MATCH 134/134, closeness 0, residual `[]`**. Shipped shape banked at `src/ov_SC01_001/ov_SC01_001_jr_8017D2DC.c:5731` (`s32 ret = 0; s32 i = 0; … for (; i < 0x14; i++)`, with the `$2`/`$17` pins unchanged across the A/B).
 
 **SCOPE.** This is the **second** witness for item 4 (which was n=1 on `func_801AAA6C`, md_SC07_004) and the position-only face of item 3 — on `func_801824E4` the same edit bought a *register* change (`$s1` vs `$s0`); here the colours were already right and only the emission slot moved. Item 5's negative still stands and does not conflict: an initialiser-list `i = 0` was measured **inert** on `func_801ACD4C` where the problem was a constant floating above an address materialisation, not a decl-order slot.
+
+
+---
+
+# S66 HARVEST, ROUND 5 (P31, 2026-08-30) — M3 (main) + O41 (overlay) lanes
+*4 ADDENDUM, 3 COVERED from 12 mechanism-advertising transcripts of 26.*
+
+### Addendum — The dying-pinned-register reuse on a sign-extend chain: route every later read through a s (func_80186868)
+
+**Addendum (P31 S66 round5, func_80186868):** §164-62's tell fires on a **sign-extend chain**, and this body pays it off with a **third cure beside §80-R7's keepalive: pin the CONSUMER and route every later read through it.** Draft `sll $a0,$a0,0x10 / sra $a0,$a0,0x10 / slti $a0,513 / beqz $a0` against target `sll $v0,$a0,16 / sra $v0,$v0,16 / slti $v0,0x201 / beqz $v0` — `match_one` `REGALLOC-PERM/$a0>$v0`, map `{"$a0":"$v0"}`, zero length drift — is exactly §164-62's `andi $a0,$a0,0x1 ; beqz $a0` / §167-12's `sll $s1,$s1,16` picture with an `sll/sra` pair as the consuming insn: the abs result is pinned (`register s32 dx __asm__("$19")`, §40's abs-pin, needed so cse keeps `negu $19,$v1`), its inline `(s16)dx` read is its LAST, and local-alloc hands that about-to-die hard register straight back out as the extend's own scratch. **The lever used here is neither the keepalive nor another abs pin: it is `register s32 v0 __asm__("$2");` plus rewriting EVERY later read as `v0 = (s16)dx;` ahead of its use (`v0 = (s16)dx; p = v0*v0;`, never `p = (s16)dx * (s16)dx;`) — and the pin and the routing are ONE lever, because a pin whose read stays inline REGRESSES.** Byte path, all at nins = 142 on the pinned triple: d7 closeness 3 (three `negu` regalloc residuals) → d8, pinning all three abs results (`dx=$19, dy=$4, dz=$18`) with their range/square reads left inline, **regressed to 15**, klass REGALLOC-LOCAL, residual `[52,"sll a0,a0,0x10","sll $v0, $a0, 16"]` → d9 (unpin `dy`) 12 → d10 (route only the dx/dz square-multiply reads through `v0`) **1**, residual `[[38,"negu a0,a0","negu $a0, $v1"]]`, i.e. the one still-unpinned `dy` → d11 (re-pin `dy`, range-check read still inline) **regressed to 4**, `sig REGALLOC-PERM/$a0>$v0`, residual exactly the `sll/sra/slti/beqz` block at lines 52-55 → d12 (route the dx/dy/dz range checks through `v0` as well) `{"status":"match","closeness":0,"residual":[]}`. Read this as §165-47's composition law applied at the **read site** rather than at a three-address insn, and let it **bound the S66 `func_8017F498` addendum's routing note** (L30470): that card measured "pin the destination instead" as a 2 → 72 regression and routes this residual to the volatile keepalive — the discriminator is the CONSUMER, not the symptom. A 3-operand `subu` plus its dependent `sh`, with one consuming site, takes §167-12's keepalive; a sign-extend/compare chain off a pinned value that is read at *several* later sites takes the pinned-temp routing, applied at every one of them (leave one inline and you are back at d11's 4). ⚠ **Mechanism un-dumped.** The transcript's `combine_regs`-ties-the-dying-input story is §80's own law re-derived from the emitted registers, not a new trace: no `-dl`/`-da`/`-dr` was taken here (unlike the §195-H bullet the same agent cited), §164-62's two free confirmations (`';; Register N in H.'` in `.lreg`, `REG_DEAD` on the consuming insn) were not run, and the two cures were never A/B'd against each other on this body — so ship the recipe, not the attribution.
+
+### Addendum — Volatile zero-byte asm slider scrambles the prologue schedule (func_801814B0)
+
+**Addendum (P31 S66 round5, func_801814B0):** §47's *Placement rule* offers exactly ONE escape from the barrier — "next to an existing volatile asm (GTE-heavy functions are full of them). A bare `asm("")` elsewhere is a cse table-flush + sched barrier + a maspsx `#APP` hop-killer (§42) — the classic perturbation trap." That escape does not exist in a call-bearing, GTE-free function with no volatile asm to hide beside. **There is a second escape: spell the slider as the register-tied NON-volatile re-tie `__asm__ ("" : "=r" (x) : "0" (x));`.** It is still one extra static insn inside the live range (the §47 denominator dial), but it is a non-volatile `ASM_OPERANDS`, so by §194-A's predicate table (`sched.c:1953`) it is **not** a scheduling barrier — §164-62 already says the quiet part ("a bare `asm("")` with no colons is `ASM_INPUT` … and IS a barrier — that is why §47/§153's barrier language does not carry over"); this card supplies the constructive use.
+
+**THE TELL THAT YOU REACHED FOR THE WRONG SPELLING — the fix for the REGISTERS visibly breaks the ORDER.** Inserting the volatile/colon-less form flips the residual from a small saved-register pair swap (`verdict.klass="MIXED"`, `$s3`↔`$s4` over 7-9 lines) into a whole-prologue `SCHEDULE-REORDER` — `sw $ra`, `sw $s2`, `sw $s1`, `sw $s0` and the counter `addiu $sN,$a1,-1` all land in the wrong relative order (`span [3,9]`) — and the numeric closeness *drops* (9 → 6) while the residual class gets strictly worse. Read the class, not the number: a slider that changes the *class* from register-assignment to instruction-order has fenced sched2, not mis-slid the priority.
+
+**Byte evidence.** `func_801814B0` (ov_SC06_029, banked at `src/ov_SC06_029/ov_SC06_029_jr_8017C954.c:4764`): `param_1`'s and `i`'s pseudos tie exactly in `global.c:594` at `pri = 14·10000/120 = 1166`, so creation order gives `param_1` the `$s3` the target wants for `i`; the re-tie makes it `14·10000/121 = 1157` and splits the tie the right way — `{"status":"match","closeness":0}`, the only point closeness reached 0. Controls: v1 straight port = 9 (MIXED, `$s3`/`$s4`); v2 bare `__asm__ __volatile__("")` at the same point = 6 (SCHEDULE-REORDER); v3/v4 the `p = param_1;` copy dial in both statement orders = 7 (`ADDRESSING/addiu!=addu`) — i.e. §211/§208's "second named local" lever does **not** reach this fork, and the `$s3`/`$s4` problem resurfaces under it.
+
+**⚠ Honest scope.** The re-tie is also a second RTL `SET` of the pseudo, so §34's `reg_n_sets==2` birthing-boost kill (L2409 — itself a documented cure for a wrong prologue/init ORDER) is **not** separated from the +1-live-length story by this evidence; the operational rule holds under either attribution, but do not cite the arithmetic as proven mechanism without a `-dl` dump read. Composes with §257-8 / §269 ADD-1: the `volatile`-ness of an interposed asm is a per-shape ~20-second A/B, never a rule carried between functions — this is one more card where the non-volatile polarity wins, on the same prologue-save-order symptom.
+
+### Addendum — Register-pinned helper pointer local regresses closeness; use plain local (func_80013CFC)
+
+**Addendum (P31 S66 round5, func_80013CFC):** Item 6's A/B now has a **numeric tell and a placement half**. The tell: your draft's `nins` is **exactly +1** over the target's and the extra insn is an unexplained register copy (`move $aX,$vY`) sitting inside a SHIFT-DRIFT/regalloc residual — that is a *function-scope pin colliding with another value's natural occupancy*, not a missing or extra statement, so re-read the pin before re-reading the C. Measured, solo-ablated: closeness 19 (`nins` 102 = target, after a §194-A zero-byte fence) → add `register s16 *rotp __asm__("$2"); register s16 *matp __asm__("$16");` → **80, `nins` 103**, residual led by `[17,"00402021 move a0,v0"]` — `cos_val`/`sin_val` naturally want `$v0`/`$s0`, and per §215-add-5 the pin's whole-function scope (§72: a *preference*, not a reservation, but priced function-wide via §80's unconditional `qty_phys_sugg`) shoves one of them out through an extra copy; **reverting the pin alone returned it to 19**. The placement half: replacing the pins with **plain unpinned `s16 *rotp; s16 *matp;`** and passing *those* — never `rot`/`matrix` — to every `gte_SetRotMatrixX`/`gte_ldclmvX` site closed it to `{"status":"match","closeness":0,"nins":102,"residual":[]}`, because the local's **assignment statement is itself the scheduling anchor**: putting `rotp = rot;` and `matp = matrix;` at the source positions where the target hoists `addiu $v0,$sp,0x30` and `addiu $s0,$sp,0x10` reproduces the target's register choice *and* its position for free. This is §162e2's "the local exists only to order the hoist" (L11199) and §162o2's statement-distance law (L11716) read in a **straight-line, non-loop** body, on an sp-frame address handed to inline-asm GTE macros — neither parent covers that. **BOUND:** the pin regression is a clean one-axis A/B; the winning edit is compound (two locals + call-site rewrites + placement, 19 → 0) and was **not** solo-ablated per §266, so "the assignment position is the anchor" is inferred from the target's hoist sites, not isolated.
+
+### Addendum — §194-A addendum — the bare/colon-less fence measured NULL and only the "memory"-clobber fo (func_8017E464)
+
+**Addendum (P31 S66 round5, func_8017E464): the "prefer the bare fence" default has a measured counter-instance — ⚠ UNPROVEN (byte-gate refused the draft; `match_one` masked closeness only, floor 3/144, MATCH never reached; no `-dS`/`-dR` taken, so no gcc-source cause is owned for the differential).** At §194-A's own AFTER position (immediately below `nn = (s32)buf;`) the two spellings this section tells you to prefer measured **byte-identical to no fence at all**: v7 fence-free, v9 `__asm__("");` and v13 `__asm__ __volatile__("");` all returned closeness **10/144, `ADDRESSING/andi!=addiu`**, the same residual list. Only v14 `__asm__ __volatile__("" ::: "memory");` moved it — closeness **4/144**, class flipping to `REGALLOC-PERM/$a0>$a1>$a2`. This does **not** refute the predicate table: I re-read `sched.c:1943-1985` and it is exactly right — `ASM_INPUT` takes the barrier path because `code != ASM_OPERANDS`, so all three forms fence *identically in `sched_analyze_2`*. **The equivalence is a sched-dependence-graph equivalence and nothing more.** The clobber form additionally emits `(clobber (mem:BLK (scratch)))` (`stmt.c:1656-1663`), which is live in every pass *before* sched — cse's memory-table flush (§21 L1835-1845, §193-E L20377) and §189-C's write-memory pin path (`sched.c:2035-2042` → `:1736-1790`). So BOUND 4's list of what the clobber "drags in" is not only a cost: on a residual whose cause sits **outside** sched's dependence graph it is the entire lever. **Operational rule: a NULL from the bare/colon-less form at a correct after-position is not evidence the fence class is dead — sweep the `"memory"` form before filing the card barrier-inert.** This is the direct counter-measurement to the S66 func_80182D1C addendum's prediction at L30527 ("the `"memory"` clobber is almost certainly *not* the ingredient"), which was itself unproven. **Why this card still did not close, and where to go next:** the steered value is a **call argument** (`func_80015978(aa, nn)`, target `addiu $a0,$sN,K` / `addiu $a1,$sp,K`), which is §190-C's case, and §190-C already says the fence is **"both halves together — arg registers pinned *above* a `__volatile__` memory clobber"**, because plain `s32` locals get folded into the call's own arg setup and sink below a lone fence. The missing pins are the leading explanation for the stall at 3/144 (`SCHEDULE-REORDER/3`). Run §190-C's `-fno-schedule-insns2` attribution and add the arg pins before spending anything else here — and note §190-C never A/B'd bare-vs-clobber, so this instance is also the first evidence that its clobber spelling is load-bearing rather than incidental.
+
+### RETRIEVAL FAILURES this round
+
+* **match_one MATCH but gate rejects: self K&R decl conflict** — `func_8017D8C8`. Covered by: §174 Law 4 (L16706/L16748, "the DEF-side prototype is a wave-prompt law too") — with the K&R/default-promotion half owned by §14e (L1319) and §99 (L7201), and the same fix stated as the PARAMS axis of
+* **Chained-assignment direction sets which same-value store emits first** — `func_800139C8`. Covered by: §145(c) — "Chained assignment emits stores RIGHT-TO-LEFT" (docs/matching-cookbook.md L9990); reinforced by §205 — "THE CHAINED ASSIGNMENT IS ITS OWN SCHEDULING DIAL" (L22098) and its §205 addendum (P3
+* **Struct field needs opposite alias regime per switch-case, not per-struct** — `func_80181F0C`. Covered by: §162q1 (L11758) — "THE `/s` GRANT IS A PER-SITE EDIT, NOT A SHAPE REWRITE (bounds §30 / §135-2)"; supported by §30 #1 (L2405, both grant AND deny directions), §30a-1 (L2415, the flag is set by the ACC
+
+**§145(c) has now been rediscovered FOUR times** (func_800CBE28 at L21953, the ds1 note at
+L29636, and now func_800139C8). The verifier checked and cleared the index — §205 is indexed
+three times and its title spells `*b = *a = v;`. The gap is VOCABULARY: agents grep the
+symptom ("stores in the wrong order", "SCHEDULE-REORDER") and the owning sections are titled
+in mechanism language. Grep bait added below.
+
+
+---
+
+# S66 HARVEST, ROUND 6 (P31, 2026-08-30) — the CAST-AT-USE RECONCILE lanes
+
+*27 agents over two lanes (7 main + 20 overlay) on drafts the gate had DROPPED for in-TU
+declaration conflicts — not codegen failures. 24 reconciled to MATCH; 19 banked. Distilled from the
+agents' own byte-evidenced notes.*
+
+## §320 — THE §43 "RETURN-TYPE FLIP PAIR" IS **NOT** TU-EDIT-REQUIRED: THREE DRAFT-ONLY ESCAPES (P31 S66; byte-proven func_800CCBC0, func_800D30D0, func_800D2A24)
+
+*(BOUNDS §43 and §183 item 4, which both record this shape as an immovable needing a TU edit. It is
+not. Three independent agents broke it three different ways in one lane, each byte-proven.)*
+
+**THE SHAPE.** The destination TU declares `extern void f(...)` — often through a `DEFINE_` macro in
+`engine_core.h`, often with the sole caller discarding the value — while the target's own asm
+plainly materialises a result in `$v0` on every exit (`addu $v0,$zero,$zero` in a branch-delay slot,
+`addiu $v0,$zero,1` before the epilogue). Compile the byte-true `s32` body and cc1 rejects the TU
+with `conflicting types`. Compile it as a true `void` and gcc-2.7.2 **dead-codes exactly those two
+materialisations** — you lose 1-2 instructions and the diff is all downstream of them. §43 called
+this a pair with no draft-side move. It has three.
+
+**ESCAPE 1 — the §202 DEF-SIDE-RETURN alias (cleanest; prefer this).** Bind the byte-correct `s32`
+definition to the real link symbol and leave every TU declaration untouched:
+```c
+s32 aF800CCBC0(void) __asm__("func_800CCBC0");
+s32 aF800CCBC0(void) { ... }          /* the byte-true body, unchanged */
+```
+Byte-proven twice: `func_800CCBC0` (md_MAIN_047, MATCH 138/138 first try) and `func_800D30D0`
+(md_MAIN_003, MATCH 76/76 — which ALSO needed the TU's old-style `extern void func_8005C604();`
+adopted verbatim, because a varargs prototype is incompatible with a no-prototype declaration under
+C89 6.5.4.3).
+
+**ESCAPE 2 — hold `$v0` live across a bare `return;` (when the alias is unavailable).** Keep the
+`void` signature the TU demands, and materialise the return value into a pinned `$v0` that an
+input-only asm barrier keeps alive:
+```c
+void func_800D2A24(...) {
+    register s32 v0 __asm__("$2");
+    ...
+    if (early) { v0 = 1; goto ret; }      /* NOT inline in the if body — see the bound */
+    v0 = 0;
+ret:
+    __asm__ __volatile__("" :: "r"(v0));  /* zero bytes; stops the dead-code elimination */
+    return;
+}
+```
+**BOUND, measured:** the early-exit's `v0 =` must sit behind a `goto` to a SHARED exit label. Setting
+it inline inside the `if` body bloats that block and flips the branch polarity — `NEAR closeness 10`
+inline vs `MATCH closeness 0` via the shared exit.
+
+**ESCAPE 3 — adopt the TU's old-style declaration.** Where the TU's own forward decl is K&R
+(`extern void func_800CB428();`), match THAT rather than writing a full prototype: MIPS passes
+word-sized args in `$a0-$a2` identically, so no cast-at-use is needed (`func_800CB1CC`, MATCH 47/47;
+sibling callers in the same TU already call it with 3 args under that same decl).
+
+**WHEN A TU EDIT IS STILL THE RIGHT ANSWER** — and how to prove it safe. If every call site discards
+the result, widening the declaration `void` -> `s32` is byte-neutral, and you must MEASURE that, not
+argue it: apply the edit with NO draft substituted and rebuild — `main` must still produce
+`143dbb89f34491258bbc27810d0a12ec8b43a8dd`. Done twice for `func_8002A544`/`func_8002A2D4`/
+`func_8002A7B4` in src/800.c; 2 of the 3 then banked. **Prefer escapes 1-3 where the TU is shared —
+the alias has the smaller blast radius.**
+
+**PROCESS TRAP THAT COST A PASS.** `gate_main` SNAPSHOTS AND RESTORES the destination TU between
+passes, so an UNCOMMITTED TU edit is reverted before the gate ever sees it. Measured: the first
+attempt banked 4 of 7 and left all three return-type targets as stubs; committing the (proven
+neutral) decl change first and re-gating banked 2 of 3.
+
+## §321 — FILE-SCOPE DUPLICATE ANONYMOUS-STRUCT TYPEDEFS ARE A HARD ERROR; THE SAME TEXT AT BLOCK SCOPE IS A WARNING (P31 S66; byte-proven func_80180728, func_8017F9F8, func_8017E07C)
+
+**THE TELL.** `conflicting types for 'D_xxxxxxxx'` or a redefinition error naming a struct typedef,
+where your draft's declaration is TEXTUALLY IDENTICAL to one already in the TU. Two anonymous struct
+definitions are two DISTINCT types to gcc-2.7.2 even when spelled the same, so a file-scope
+duplicate is fatal.
+
+**THE DIALS, all three byte-proven in one lane:**
+1. **Move the duplicate to BLOCK scope.** A block-scope redeclaration of the same extern symbol is
+   only a warning here, and is codegen-neutral (`func_80180728`, MATCH; verified both standalone and
+   spliced via `rtu_match`).
+2. **Or hoist to file scope and delete the local copy** — the mirror move, when the TU's own
+   declaration already sits at file scope right before your INCLUDE_ASM slot (`func_8017F9F8`,
+   MATCH 117 ins, valid against BOTH ov_SC01_005 and its ov_SC01_006 twin).
+3. **Name a local typedef for its OWN address, never a neighbour's.** `SVEC_8017E158` belongs to
+   `func_8017E158`; reusing that tag inside `func_8017E07C`'s draft is a real two-anonymous-structs
+   conflict once spliced. Use `SVEC_<own addr>` (`func_8017E07C`, MATCH).
+
+**Do not reach for a cast-at-use here** — the shape already matches; the conflict is type IDENTITY,
+not type WIDTH.
