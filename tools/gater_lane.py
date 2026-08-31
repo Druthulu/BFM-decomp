@@ -284,6 +284,36 @@ def main():
     if a.dry:
         return 0
 
+    # MAIN IS GATED IN THE MAIN TREE, NOT IN A WORKTREE.
+    # parallel_gate's worktree staging copies the three generated files the Makefile NAMES
+    # (<b>_LD_SCRIPT / <b>_UNDEF_SYMS / <b>_UNDEF_FUNCS), which is enough for every overlay. main's
+    # link additionally runs the psyq_integrate chain, which needs inputs that staging does not
+    # carry, so a worktree gate of main returns 0 banked with no error — measured S68, repeatedly,
+    # while the SAME drafts banked byte-identical through harvest_verify in the main tree.
+    # main is ONE binary, so there is no parallelism to lose by gating it here (R43: handle the
+    # input correctly rather than processing it wrongly).
+    main_items = bybin.pop("main", None)
+    if main_items:
+        d = os.path.join(STAGE, "main_intree")
+        shutil.rmtree(d, ignore_errors=True)
+        os.makedirs(d)
+        for fn, path in main_items:
+            shutil.copyfile(path, os.path.join(d, fn + ".c"))
+        cmd = [os.path.join(REPO, ".venv/bin/python"), "tools/harvest_verify.py", "--binary", "main",
+               "--drafts", d, "--chunk", "1",
+               "--verified-out", ".run/gate_lane/main.verified",
+               "--failed-out", ".run/gate_lane/main.failed"]
+        print("[gater] main: %d draft(s) IN-TREE via harvest_verify (not a worktree): %s"
+              % (len(main_items), " ".join(fn for fn, _ in main_items)), flush=True)
+        rc_main = subprocess.run(cmd, cwd=REPO).returncode
+        print("[gater] main harvest_verify rc=%d" % rc_main, flush=True)
+        led = load_ledger()
+        for fn, path in main_items:
+            led["main:%s:%s" % (fn, os.path.basename(os.path.dirname(path)))] = "gated-intree:rc%d" % rc_main
+        save_ledger(led)
+        if not bybin:
+            return rc_main
+
     stamp = "%08x" % (abs(hash(tuple(sorted(k for k in bybin)))) & 0xFFFFFFFF)
     root = os.path.join(STAGE, "batch_%s" % stamp)
     shutil.rmtree(root, ignore_errors=True)
