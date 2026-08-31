@@ -6379,7 +6379,48 @@ void func_80188BAC(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80188C0C);
+
+
+/* Reconciled: the TU (src/ov_SC02_000/ov_SC02_000_jr_8018173C.c) carries an in-scope
+ * `extern void func_80188C0C();` from DEFINE_func_80187354() (src/shared/engine_core.h),
+ * expanded at line 5719 -- BEFORE this function's own INCLUDE_ASM site (line 6382). The
+ * byte-true body returns a load-bearing value in $v0 on both exits, so a same-named
+ * `s32 func_80188C0C(...)` definition is a hard `conflicting types` cc1 error against
+ * that void declaration (verified: return-axis conflicts are FATAL in gcc-2.7.2, not a
+ * warning -- confirmed by replaying the real TU substitution standalone).
+ *
+ * Per cookbook §37/§124/§73: a return-axis conflict's proper fix is normally a fleet-wide
+ * `extern void`->`extern s32` widen (T2, touches src/ across every spelling) -- off limits
+ * here. The T0 draft-only escape is the asm-label alias: define the body under a DIFFERENT
+ * C identifier (`aF80188C0C`) and bind the emitted assembler symbol to `func_80188C0C` via
+ * `__asm__(...)`. The two C identifiers never collide, so cc1 never runs the conflicting-
+ * types check at all, and the emitted symbol/instructions are unaffected. */
+
+extern u8 *func_801290DC(s32 a0, u8 *a1);
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern u8 D_800D387C[];
+extern u8 D_800D3888[];
+
+s32 aF80188C0C(s32 a0, s16 a1) __asm__("func_80188C0C");
+
+s32 aF80188C0C(s32 a0, s16 a1) {
+    u8 *obj;
+    u8 *prim;
+
+    obj = func_801290DC(0x10, (u8 *)a0);
+    if (obj == 0) {
+        return 0;
+    }
+    prim = *(u8 **)(obj + 0x20);
+    *(u32 *)(prim + 0x20) = (s32)D_800D387C;
+    *(u8 *)(prim + 0x27) = 0x9C;
+    *(u16 *)(prim + 0x1A) = a1;
+    *(u16 *)(prim + 0x18) = a1;
+    *(u32 *)(prim + 4) |= 0x50000000;
+    func_80128EA8((s32)prim, (s32)obj + 0x24, (s32)D_800D3888);
+    return (s32)obj;
+}
+
 
 
 extern void (*D_8018F5A0[])(void);
