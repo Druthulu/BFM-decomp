@@ -3480,7 +3480,76 @@ void func_8017FF4C(s32 arg0, s16 *arg1, s32 arg2) {
 
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80180020);
+typedef struct { u8 b[16]; } Blk16A1;
+
+extern s16 D_801B1B8C;
+extern s16 D_801B1B88;
+extern s16 D_801B1B82;
+extern s16 D_801B1B7A;
+extern s16 D_801B1B7C;
+extern Blk16A1 D_801B1B78;
+extern Blk16A1 D_80188D30;
+extern Blk16A1 D_80188D40;
+
+void func_80180020(void) {
+    s16 st;
+    s16 next;
+    u8 pad8[8];
+
+    st = D_801B1B8C;
+    switch (st) {
+    case 0:
+        next = D_801B1B88 + 1;
+        D_801B1B88 = next;
+        if (next < 0x46) return;
+        {
+            s16 v0 = st + 1;
+            D_801B1B88 = 0;
+            D_801B1B8C = v0;
+        }
+        return;
+    case 1:
+        {
+            s32 a1 = D_801B1B88;
+            D_801B1B82 = 0x380 - ((a1 * 0x200) / 90);
+            D_801B1B7A = 0x20 - ((a1 * 96) / 90);
+            D_801B1B7C = ((a1 * 0x80) / 90) - 0x80;
+            next = a1 + 1;
+        }
+        D_801B1B88 = next;
+        if (next < 0x5A) return;
+        {
+            s16 v1 = st + 1;
+            D_801B1B88 = 0;
+            D_801B1B8C = v1;
+        }
+        return;
+    case 2:
+        next = D_801B1B88 + 1;
+        D_801B1B88 = next;
+        if (next < 0x46) return;
+        {
+            s16 v2 = st + 1;
+            D_801B1B78 = D_80188D30;
+            D_801B1B88 = 0;
+            D_801B1B8C = v2;
+        }
+        return;
+    case 3:
+        next = D_801B1B88 + 1;
+        D_801B1B88 = next;
+        if (next < 0x46) return;
+        {
+            s16 v3;
+            D_801B1B78 = D_80188D40;
+            v3 = 2;
+            D_801B1B88 = 0;
+            D_801B1B8C = v3;
+        }
+        return;
+    }
+}
+
 
 /* Declarations are BLOCK-scope on purpose (this TU's house style, cf. the
  * block-scope decl layers at func_80180300 and neighbours in this file).

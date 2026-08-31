@@ -5717,7 +5717,126 @@ void func_80182238(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_80182284);
+#include "common.h"
+
+/* §200 alias: this TU spells func_8001D074 `void (s32,s32)` (lines 119/124), but the target
+   stores its $v0 into the slot pointer.  Bind our own identifier to the same link name so the
+   TU's spelling stays untouched (same trick already used for func_8018183C at line 5156). */
+extern s32 aF8001D074(s32, s32) __asm__("func_8001D074");
+extern void func_800233CC(void *, unsigned short);
+extern void func_8001CD9C(int, void *);
+
+extern u8 D_801F2A44[];
+extern u8 D_801F2A48[];
+extern u8 D_801F2A50[];
+extern u8 D_801F2A51[];
+extern u8 D_801F2A52[];
+extern u8 D_801F2A54[];
+extern u8 D_801F2A55[];
+extern u8 D_801F2A56[];
+extern u8 D_80188B74[];
+extern u8 D_80188B76[];
+extern u8 D_80188B78[];
+extern s32 D_801F3044;
+extern s32 D_801F3048;
+/* Scalar alias for D_801EDA34: the TU spells it `s32 []`, and `D_801EDA34[0] += 4` makes gcc
+   CSE the array base into a register (`la $v1,sym; lw 0($v1); sw 0($v1)`).  The target uses the
+   plain global form (`lui/lw %lo`, then a fresh `lui/sw %lo`), which only a SCALAR ref emits. */
+extern s32 aD_801EDA34 __asm__("D_801EDA34");
+
+/* The object func_8001D074 hands back.  It is spelled as a struct (not `*(u16 *)(p + 8)`) on
+   purpose: gcc-2.7.2's alias oracle (alias.c true_/output_dependence) disambiguates a
+   MEM_IN_STRUCT_P + varying-address reference against a fixed-address non-struct global, which
+   is what lets the `D_801F3044` store schedule up into the `lhu` shadow, ahead of the `sh 0xC`. */
+typedef struct {
+    s32 unk0;   /* 0x0 */
+    u32 unk4;   /* 0x4 */
+    u16 unk8;   /* 0x8 */
+    u16 unkA;   /* 0xA */
+    u16 unkC;   /* 0xC */
+} Obj_80182284;
+
+s32 func_80182284(void) {
+    s32 i;
+    u8 *bytes;
+    s32 *ct;
+    s32 off;
+    s32 *en;
+    s32 *ct2;
+    s32 *st;
+    s32 off2;
+    s32 n;
+    u8 *p;
+
+    i = 0;
+    bytes = D_801F2A50;
+    ct = (s32 *)(bytes - 4);
+    off = 0;
+    do {
+        if (*(s32 *)(D_801F2A44 + off) != 0 && *ct >= 0x11) {
+            func_800233CC(bytes, (*ct -= 4));
+        }
+        bytes += 0x4C;
+        ct += 0x13;
+        i++;
+        off += 0x4C;
+    } while (i < 0x14);
+
+    if (D_801F3044 >= 0xC) {
+        return 1;
+    }
+    if (--D_801F3048 == -1) {
+        /* if/else, NOT `?:` — the two stores cross_jump into one merged tail block, which is why
+           the `sw %lo(D_801F3048)` lands first at .L80182358 instead of being scheduled down. */
+        if (D_801F3044 >= 4) {
+            D_801F3048 = 1;
+        } else {
+            D_801F3048 = 8;
+        }
+        i = 0;
+        en = (s32 *)D_801F2A48;
+        ct2 = en + 1;
+        st = en - 1;
+        off2 = 0;
+        aD_801EDA34 += 4;
+        for (; i < 0x14; i++) {
+            if (*st == 0) {
+                *en = aF8001D074(0x3E, 0x7D);
+                if (*en == 0) break;
+                *st = 1;
+                *ct2 = 0x80;
+                p = D_801F2A50 + off2;
+                func_8001CD9C(*en, p);
+                D_801F2A51[off2] = 0xE0;
+                D_801F2A50[off2] = 0;
+                D_801F2A52[off2] = 0x88;
+                D_801F2A54[off2] = 0;
+                D_801F2A55[off2] = 0;
+                D_801F2A56[off2] = 0;
+                func_800233CC(p, *(u16 *)ct2);
+                n = D_801F3044;
+                ((Obj_80182284 *)*en)->unk8 = *(u16 *)(D_80188B74 + n * 8);
+                ((Obj_80182284 *)*en)->unkA = *(u16 *)(D_80188B76 + n * 8);
+                ((Obj_80182284 *)*en)->unkC = *(u16 *)(D_80188B78 + n * 8);
+                D_801F3044 = n + 1;
+                {
+                    /* $3 pin: without it local-alloc hands $v1 to the 0x50000040 constant and
+                       $a0 to this pointer — the exact inverse of the target (closeness 6). */
+                    register Obj_80182284 *o __asm__("$3");
+                    o = (Obj_80182284 *)*en;
+                    o->unk4 |= 0x50000040;
+                }
+                break;
+            }
+            en += 0x13;
+            ct2 += 0x13;
+            st += 0x13;
+            off2 += 0x4C;
+        }
+    }
+    return 0;
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_801824EC);
 

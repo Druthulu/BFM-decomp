@@ -4736,7 +4736,68 @@ void func_80181378(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_801814B0);
+#include "common.h"
+
+extern u8 *func_8012913C(s32 a0);
+extern s32 rand(void);
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+
+void func_801814B0(u16 *param_1, s32 param_2)
+{
+    s32 buf[4];   /* sp+0x10 (16 bytes of locals -> frame -0x38) */
+    s32 i;
+    u8 *ent;
+    u8 *sub;
+    s16 sign;
+    s32 t;
+
+    /* §47 live-length SLIDER, non-barrier form.  param_1's pseudo and i's
+     * pseudo tie EXACTLY in global.c:594 allocno priority (both 7 refs / 120
+     * insns => 1166), so the tie-break is creation order and param_1 (the
+     * lower pseudo) takes $s3.  The target wants i in $s3.  This zero-byte,
+     * register-tied ("0") asm is ONE extra insn inside param_1's live range
+     * but before i's def: 14/121 = 1157 < 14/120 = 1166, splitting the tie
+     * the right way.  It must NOT be `volatile`/colon-less (§194-A): a bare
+     * `__asm__ __volatile__("")` here fixes the registers but fences sched2
+     * out of the prologue and the `addiu $s3,$a1,-1` falls into the guard's
+     * delay slot (closeness 6). */
+    __asm__ ("" : "=r" (param_2) : "0" (param_2));
+
+    i = param_2 - 1;
+    if (param_2 != 0) {
+        do {
+            ent = func_8012913C(0x23);
+            if (ent != 0) {
+                sign = -1;
+                if (rand() & 1) {
+                    sign = 1;
+                }
+                func_8012B0B4((unsigned int *)buf, sign * (rand() % 1024), 0x180);
+                t = buf[0];
+                *(s16 *)(ent + 0x6) = param_1[0] + t;
+                *(s16 *)(ent + 0xA) = param_1[1] + sign * (rand() % 128);
+                *(s16 *)(ent + 0xE) = param_1[2] + (t >> 16);
+                *(s16 *)(ent + 0x34) =
+                    (((rand() % 12287) + 0x5000) & 0x7FF0) | (rand() & 1);
+                *(u16 *)(*(s32 *)(ent + 0x20) + 0x2C) = 0xC010;
+                sub = func_8012913C(0x22);
+                if (sub != 0) {
+                    *(s16 *)(sub + 0x6) = *(u16 *)(ent + 0x6);
+                    *(s16 *)(sub + 0xA) = *(u16 *)(ent + 0xA);
+                    *(s16 *)(sub + 0xE) = *(u16 *)(ent + 0xE);
+                    *(s32 *)(sub + 0x14) = -0x80000 - ((rand() % 9) << 16);
+                    *(s16 *)(sub + 0x34) =
+                        (((rand() % 4) << 12) + 0x2000) | (rand() & 1);
+                    *(u16 *)(*(s32 *)(sub + 0x20) + 0x2C) =
+                        *(u16 *)(*(s32 *)(ent + 0x20) + 0x2C);
+                    *(s32 *)(*(s32 *)(sub + 0x20) + 0x4) |= 0x40000000;
+                }
+            }
+            i--;
+        } while (i != -1);
+    }
+}
+
 
 #include "common.h"
 

@@ -6947,7 +6947,79 @@ void func_80182B90(void *a0, s32 a1, s16 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80182CB8);
+// @class: struct + if/else-arm placement (delay-slot fill) + global-base pointer hoist
+// @stuck: none — MATCH 144/144 via tools/rtu_match.py (real TU). NOTE: this draft is NOT
+//   standalone-compilable for match_one, ON PURPOSE: this TU already declares
+//   `extern void func_80182CB8(void *a0, S8Blob *a1, S8Blob *a2, s16 a3, s16 a4);` (line 6924,
+//   used by the banked caller func_80182B90), and S8Blob is a file-scope typedef of the TU
+//   (line 6915). Copying that declaration EXACTLY (SYS law "copy the TU's declaration") means
+//   the S8Blob typedef cannot be repeated here (C89: duplicate typedef = hard error), so
+//   match_one alone reports cc1-fail. A byte-identical standalone twin (4-arg, s16* params,
+//   local typedefs) is match_one MATCH 144/144: .run/O41/opus/scratch_func_80182CB8/v3.c
+//
+// func_80182CB8 — the segmented "bolt" drawer.
+//   Builds a local matrix at sp+0x10 (func_80017D98 + t[] = a1's xyz), walks 16 segments from
+//   a1 toward a2, jitters each joint's height by (rand()&0x1F)+(rand()&0x1F)+8 scaled through
+//   func_8004787C(angle<<9) / 4096, and pushes the previous/current joint pair into the global
+//   prim D_801C7560 as two quads (±10 in y) through func_80017758. a4 is passed by
+//   func_80182B90 but never read.
+typedef struct { s16 vx, vy, vz, pad; } SV_80182CB8;
+typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX_80182CB8;
+
+extern void func_80017D98(void *a0);
+extern s32 rand(void);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80017758(void *a0, void *a1);
+extern s32 D_801C7560[];
+
+void func_80182CB8(void *a0, S8Blob *a1, S8Blob *a2, s16 a3, s16 a4)
+{
+    MTX_80182CB8 m;
+    SV_80182CB8 delta;
+    SV_80182CB8 b;
+    SV_80182CB8 c;
+    SV_80182CB8 tmp[3];
+    SV_80182CB8 *q;
+    s32 i;
+    s32 r;
+
+    func_80017D98(&m);
+    m.t[0] = ((s16 *)a1)[0];
+    m.t[1] = ((s16 *)a1)[1];
+    m.t[2] = ((s16 *)a1)[2];
+    delta.vx = ((s16 *)a2)[0] - ((s16 *)a1)[0];
+    delta.vz = ((s16 *)a2)[2] - ((s16 *)a1)[2];
+    q = (SV_80182CB8 *)D_801C7560;
+    c.vz = 0;
+    c.vy = 0;
+    c.vx = 0;
+    i = 1;
+    do {
+        b = c;
+        r = 8;
+        if (i != 16) {
+            r = (rand() & 0x1F) + (rand() & 0x1F) + 8;
+        }
+        a3 = a3 + 1;
+        r = r * func_8004787C(a3 << 9) / 4096;
+        tmp[1].vy = r;
+        c.vx = delta.vx * i / 16;
+        c.vy = r;
+        c.vz = delta.vz * i / 16;
+        q[0] = b;
+        q[1] = c;
+        q[2] = b;
+        q[3] = c;
+        q[2].vy -= 10;
+        q[3].vy -= 10;
+        func_80017758(q, &m);
+        q[2].vy += 20;
+        q[3].vy += 20;
+        func_80017758(q, &m);
+        i = i + 1;
+    } while (i < 17);
+}
+
 
 extern u8 D_801202A0[];
 extern s32 D_801C7550[];

@@ -3633,7 +3633,101 @@ void func_8017E1D8(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_016/nonmatchings/ov_SC06_016_jr_8017C8D0", func_8017E26C);
+extern s16 D_8019F6FC;
+extern s32 D_8019F700;
+extern s16 D_8019F702;
+extern s16 D_8019F704;
+extern s16 D_80188A22[];
+extern s32 D_80126B58;
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_80013328(s32 a0, s32 a1);
+extern s32 func_8012BEE8(s32 a0);
+extern s32 func_8017EEB4(s32 arg0);
+extern void func_8017E4AC(s32 a0);
+
+void func_8017E26C(s32 arg0) {
+    volatile s32 pad[2];
+    s32 s0;
+    s32 *ptr;
+    s32 s1;
+    s32 v0;
+    s32 v1;
+    s32 a0;
+    s32 a1;
+
+    s0 = arg0;
+    ptr = &D_80126B58;
+
+    v0 = *(u16 *)(s0 + 0x84);
+    *(u16 *)(s0 + 0x84) = v0 + 1;
+    if ((s16)(v0 + 1) == 0x1E) {
+        func_8002D4C8(0x97F, 0);
+    }
+
+    v1 = *(u16 *)(s0 + 0x34);
+    switch (v1) {
+    case 0:
+        v0 = *(u16 *)&D_8019F6FC + 1;
+        D_8019F6FC = v0;
+        if ((s16)v0 < D_80188A22[0]) {
+            break;
+        }
+        *(u16 *)(s0 + 0x34) = 1;
+        D_8019F6FC = 0x10;
+        break;
+    case 1:
+        s1 = func_8017EEB4(s0);
+        a0 = func_80013328(s0 + 4, (s32)(ptr + 1));
+        if (a0 < 0) {
+            a0 = 0x80;
+            v1 = 0x60000;
+        } else if (a0 >= 0x181) {
+            a0 = 0x180;
+            v1 = 0x60000;
+        } else {
+            v1 = 0x60000;
+        }
+        v1 = v1 / a0;
+        a1 = v1 * 1303;
+        a0 = a1 / 16;
+        if (s1 != 0) {
+            a0 = -a0;
+        }
+        v0 = D_8019F704;
+        if (s1 == v0) {
+            v1 = D_8019F700;
+            D_8019F6FC = 4;
+            v0 = v1 + a0;
+            D_8019F700 = v0;
+            if (s1 == 0) {
+                if (a1 < v0) {
+                    D_8019F700 = a1;
+                }
+            } else {
+                v1 = -a1;
+                if (v0 < v1) {
+                    D_8019F700 = v1;
+                }
+            }
+        } else {
+            v0 = *(u16 *)&D_8019F6FC - 1;
+            D_8019F6FC = v0;
+            if ((s16)v0 <= 0) {
+                D_8019F704 = (s16)s1;
+            }
+        }
+        a0 = *(s32 *)(s0 + 0x20);
+        v1 = D_8019F702;
+        v0 = *(u16 *)(a0 + 0x12);
+        *(u16 *)(a0 + 0x12) = v0 + v1;
+        break;
+    }
+
+    if (func_8012BEE8(s0)) {
+        func_8017E4AC(s0);
+    }
+}
+
 
 #include "common.h"
 

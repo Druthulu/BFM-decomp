@@ -3332,5 +3332,62 @@ void func_80184568(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_80183A74", func_801845A4);
+extern volatile s32 D_801EC44C;
+extern s32 func_8012E544(s32 a0);
+extern s32 D_80190430[];
+
+void func_801845A4(s32 param_1) {
+    register s32 s1;
+    s32 base;
+    s32 lvl;
+
+    if (*(s16 *)(param_1 + 0x12) < 0) {
+        *(u16 *)(param_1 + 0xFE) += *(s16 *)(param_1 + 0x12);
+    } else {
+        *(u16 *)(param_1 + 0xFE) -= *(s16 *)(param_1 + 0x12);
+    }
+    if (*(s16 *)(param_1 + 0xFE) > 0) {
+        *(u16 *)(param_1 + 6) += *(u16 *)(param_1 + 0x12);
+    } else {
+        if (*(s16 *)(param_1 + 0xFE) < 0) {
+            if (*(s16 *)(param_1 + 0x12) < 0) {
+                *(u16 *)(param_1 + 6) -= *(s16 *)(param_1 + 0xFE);
+            } else {
+                *(u16 *)(param_1 + 6) += *(s16 *)(param_1 + 0xFE);
+            }
+        }
+        if ((*(s16 *)(param_1 + 0xFC) != 0) || (*(u16 *)(*(s32 *)(param_1 + 0x64) + 2) == 0x1D)) {
+            *(s32 *)(param_1 + 0x1C) = 0xA;
+        } else {
+            *(s32 *)(param_1 + 0x1C) = 0x3C;
+            base = D_801EC44C;
+            lvl = *(s16 *)(base + 0x76);
+            if (lvl >= 0x51) {
+                s1 = (s16)*(u16 *)(param_1 + 0x102) % 3;
+            } else if (lvl >= 0x29) {
+                s1 = *(s16 *)(param_1 + 0x102) % 4 + 3;
+            } else {
+                s1 = (s16)*(u16 *)(param_1 + 0x102) % 5 + 7;
+            }
+            *(u16 *)(param_1 + 0x102) = (*(u16 *)(param_1 + 0x102) + 1) & 7;
+            s1 = D_80190430[s1];
+            if (s1 == 4) {
+                if (func_8012E544(0xCB) == 0) {
+                    *(s16 *)(param_1 + 0x12) >>= 1;
+                } else {
+                    s1 = 3;
+                }
+            }
+            if (*(s16 *)(param_1 + 0x12) < 0) {
+                *(s32 *)(param_1 + 0xE4) = s1;
+                *(s32 *)(param_1 + 0xE8) = s1;
+            } else {
+                *(s32 *)(param_1 + 0xDC) = s1;
+                *(s32 *)(param_1 + 0xE0) = s1;
+            }
+        }
+        *(s16 *)(param_1 + 2) = 1;
+    }
+}
+
 

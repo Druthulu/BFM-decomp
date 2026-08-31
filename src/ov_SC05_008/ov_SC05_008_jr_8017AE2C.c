@@ -4538,7 +4538,87 @@ void func_8017E840(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017E850);
+void func_8017E850(s32 arg0, s32 arg1) {
+    extern s32 D_80126B58;
+    extern u16 D_80126980;
+    extern s32 D_8012697C;
+    extern u8 D_80126C01;
+    extern s32 D_801A12E4;
+    extern u16 func_80148800(s32 *a0);
+    extern u8 func_8014880C(s32 *a0);
+    extern u16 func_80148818(s32 *a0);
+    extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32 ratan2(s32 a0, s32 a1);
+
+    s32 self = arg0;
+    s32 *q;
+    s32 obj;
+    s16 *rec;
+    s16 *rec2;
+    s16 oldx;
+    s16 oldy;
+    s32 newx;
+    s32 newy;
+    s32 t;
+    s32 flags = arg1;
+
+    q = &D_80126B58;
+    obj = *(s32 *)(self + 0x20);
+    rec = (s16 *)(D_8012697C + (D_80126980 + 8) * 6);
+    rec2 = rec + 3;
+
+    switch (D_80126C01) {
+    case 0x41:
+        flags = ((s32 (*)(s32 *))func_80148800)(q);
+        break;
+    case 0x53:
+    case 0x73:
+        oldx = *(u16 *)(self + 0xE0);
+        oldy = *(u16 *)(self + 0xE2);
+        newx = func_80148818(q) & 0xFF;
+        *(s16 *)(self + 0xE0) = newx;
+        newy = *(s16 *)(self + 0xE2) = func_8014880C(q) & 0xFF;
+        flags = 0;
+        if (oldx == 0x80) {
+            t = newx;
+            if (t != 0x80) {
+                if (t < 0x80) {
+                    flags |= 0x1000;
+                } else {
+                    flags |= 0x4000;
+                }
+            }
+        }
+        if (oldy == 0x80) {
+            t = newy;
+            if (t != 0x80) {
+                if (t < 0x80) {
+                    flags |= 0x8000;
+                } else {
+                    flags |= 0x2000;
+                }
+            }
+        }
+        break;
+    }
+
+    if (flags & 0x8000) {
+        D_801A12E4++;
+    }
+    if (flags & 0x2000) {
+        D_801A12E4--;
+    }
+    if (D_801A12E4 < -2) {
+        D_801A12E4 = -2;
+    }
+    if (D_801A12E4 >= 3) {
+        D_801A12E4 = 2;
+    }
+    *(s16 *)(obj + 0x14) = func_80012DBC(*(s16 *)(obj + 0x14), (s16)(D_801A12E4 * 455), 4, 1);
+    *(s16 *)(obj + 0x10) = ratan2(rec[1] - rec2[1], rec2[2] - rec[2]);
+    *(s16 *)(obj + 0x12) = ratan2(rec2[0] - rec[0], rec2[2] - rec[2]);
+}
+
 
 extern u16 D_800B99DA;
 extern void func_80015978(s32 a0, s32 *a1);

@@ -8775,7 +8775,96 @@ void func_80187178(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80187298);
+#include "common.h"
+
+extern void func_8012CBCC(s32 a0);
+extern s32 func_80143B6C(s32 a0, s32 a1);
+extern s32 func_8012E778(s32 a0, s32 a1);
+extern void func_8012B23C(s32 a0);
+extern s32 func_80143970(s32 a0);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern void Square0(s32 *a0, s32 *a1);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern s16 D_801E1264;
+extern s16 D_801E1AFC;
+extern s16 D_801E11DC;
+
+typedef struct {
+    u16 x;
+    u16 pad0;
+    u16 z;
+    u16 pad1;
+    s32 vx;
+    s32 vy;
+    s32 vz;
+} D_87298;
+
+void func_80187298(s32 a0) {
+    D_87298 d;
+    s32 t;
+    s32 v1;
+    s32 p;
+    s32 sc;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        d.x = (u16)D_80126B5E;
+        d.z = (u16)D_80126B66;
+        d.vx = *(s16 *)(a0 + 6) - (s32)(s16)D_80126B5E;
+        d.vy = 0;
+        d.vz = *(s16 *)(a0 + 0xE) - (s32)(s16)D_80126B66;
+        Square0(&d.vx, &d.vx);
+        if (0x10000 < d.vx + d.vz) return;
+        if (func_8012E778(a0, 0xA000C8) != 0) return;
+        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        func_8012B23C(a0);
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 4) = *(s32 *)(*(s32 *)(a0 + 0x20) + 4) & 0x7FFFFFFF;
+        func_80143970(a0);
+        return;
+    case 1:
+        if ((((s32 (*)(s32))func_8012CBCC)(a0) & 0x2000) == 0) return;
+        func_80143B6C(a0, 1);
+        *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x2C) | 0x10;
+        *(s32 *)(a0 + 0x1C) = 0x10;
+        /* fall through */
+    case 2:
+        t = func_8004787C((*(u32 *)(a0 + 0x1C) << 7) & 0x780);
+        sc = ((t << 9) >> 12) + 0x1000;
+        __asm__ __volatile__("");
+        p = *(s32 *)(a0 + 0x20);
+        *(s16 *)(p + 0x1C) = sc;
+        *(s16 *)(p + 0x18) = sc;
+        *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1A) = 0x1000 - ((t << 10) >> 12);
+        if (func_8012BEE8(a0) != 0) {
+            *(u16 *)(a0 + 2) = 3;
+            if (*(u16 *)(a0 + 0x86) & 2) {
+                *(u16 *)(a0 + 0x34) = 1;
+                *(s32 *)(a0 + 0x1C) = 0x28;
+                if (*(u16 *)(a0 + 0x70) & 0x200) {
+                    func_8012A828(a0, &D_801E1AFC);
+                } else {
+                    func_8012A828(a0, &D_801E11DC);
+                }
+                *(u16 *)(a0 + 0xFE) = 0;
+            } else {
+                *(u16 *)(a0 + 0x34) = 0;
+                func_8012A828(a0, &D_801E1264);
+                *(s32 *)(a0 + 0x1C) = 0x19;
+                *(u16 *)(a0 + 0x86) |= 2;
+            }
+            v1 = *(s32 *)(a0 + 0x20);
+            *(u16 *)(v1 + 0x2C) &= 0xFFEF;
+        }
+        break;
+    default:
+        return;
+    }
+}
+
 
 /* func_801874E8 (ov_SC02_017) -- fresh crack, mass lane.
  *

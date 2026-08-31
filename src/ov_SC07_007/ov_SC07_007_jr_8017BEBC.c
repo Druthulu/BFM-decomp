@@ -7647,7 +7647,81 @@ s32 func_80181ED4(s32 a0, s32 a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80181F4C);
+#include "common.h"
+
+/* func_80181F4C — links one 0x18-byte double-buffered sprite packet
+   (D_801C7874[arg1 & 0xFF][D_800B9A02]) into OT bank D_800A661C[D_800B9A02].
+
+   Levers that make this byte-exact (all four symbols spelled from the target .s):
+
+   §195-H  D_800B9A02 must be the ARRAY spelling + a constant index — that is the
+           MEM_IN_STRUCT_P (/s) reload dial that produces the 13 per-statement
+           `lhu 0($t1)` reloads.  The scalar spelling collapses them (measured:
+           142 -> 115 ins).  The TU already declares `extern s16 D_800B9A02;` at
+           file scope, so the array view is reached through this TU's own
+           __asm__-alias idiom (cf. `aD800B9A02` @L564) — no C-level conflict.
+
+   §238-ish The +3 store MUST name D_801C7877 (its own symbol, exactly as the .s
+           spells it).  Written as D_801C7874[idx+3] the constant `D_801C7874+3`
+           becomes cse's related-value ANCHOR: the held base register turns into
+           sym+3 and every later access pays an extra `addiu` (+22 ins), plus a
+           stray `addiu $t0,$t0,-3` where the target has a nop.
+
+   §17     `register u8 *p __asm__("$8")` — local_alloc ranks the D_800B9A02
+           pointer (14 refs) above the D_801C7874 pointer (13 refs), so without
+           the pin the two land in $t1/$t0 swapped (26 residual instructions).
+
+   §186b/§226  vars=16 with no saved registers: the dead addressed `pad` array.
+           The scheduler drops the resulting `addiu $sp,$sp,-0x10` into the
+           load-delay slot after the 6th `lhu`, exactly as the target does.
+
+   Address shapes: `p4 = p + 4` first (a pointer VALUE) is what yields
+   `addiu $a2,$t0,4` + `addu` + `sw 0(..)`; every other access is written
+   `p + idx + K` so K stays in the memory operand (`addu` + `sb K(..)`).
+   The clut is `(x >> 4) & 0x3F` on x = n*0x100 — combine folds it to
+   `sll 4; andi 0x3F` only AFTER cse, which is why it does not share the
+   `sll $v0,$a1,4` of the tpage word (the target emits both). */
+
+#define F4C_IDX (aB9A02[0] * 0x18 + n * 0x30)
+
+void func_80181F4C(s32 arg0, s32 arg1) {
+    extern u16 aB9A02[1] __asm__("D_800B9A02");
+    extern u8 D_801C7874[];
+    extern u8 D_801C7877[];
+    extern u32 D_800A661C[];
+
+    s32 n = arg1 & 0xFF;
+    register u8 *p __asm__("$8") = D_801C7874;
+    u8 *p4 = p + 4;
+    u8 *q;
+    u32 *ot;
+    s32 pad[4];
+
+    (void)&pad;
+    *(u8 *)(D_801C7877 + F4C_IDX) = 5;
+    *(u32 *)(p4 + F4C_IDX) = ((n * 0x10 + 0x8E) & 0x9FF) | 0xE1000000;
+    *(u8 *)(p + F4C_IDX + 0xB) = 0x64;
+    q = p + (n * 0x30 + aB9A02[0] * 0x18);
+    q[0xA] = arg0;
+    q[0x9] = arg0;
+    q[0x8] = arg0;
+    *(s16 *)(p + F4C_IDX + 0xC) = 0;
+    *(s16 *)(p + F4C_IDX + 0xE) = -0x70;
+    *(u8 *)(p + F4C_IDX + 0x10) = 0;
+    *(u8 *)(p + F4C_IDX + 0x11) = 0;
+    *(u16 *)(p + F4C_IDX + 0x12) = (((n * 0x100) >> 4) & 0x3F) | 0x7800;
+    *(s16 *)(p + F4C_IDX + 0x14) = 0x100;
+    *(s16 *)(p + F4C_IDX + 0x16) = 0xC0;
+
+    *(u32 *)(p + F4C_IDX) = (*(u32 *)(p + F4C_IDX) & 0xFF000000) |
+                            (*(u32 *)((u8 *)D_800A661C + (aB9A02[0] << 14)) & 0xFFFFFF);
+
+    ot = (u32 *)((u8 *)D_800A661C + (aB9A02[0] << 14));
+    *ot = (*ot & 0xFF000000) | ((n * 0x30 + (aB9A02[0] * 0x18 + (u32)p)) & 0xFFFFFF);
+}
+
+#undef F4C_IDX
+
 
 INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80182184);
 

@@ -3673,7 +3673,61 @@ void func_8017D730(s32 param_1, s16 *param_2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8017D8C8);
+// @class: integration / self_decl_tu
+// @lever: NOT a codegen problem. The body was already byte-correct; the whole-binary gate
+//   died on `conflicting types for func_8017D8C8' at the definition site. This TU
+//   forward-declares the target K&R-style at ov_SC06_025_jr_8017BEBC.c:3526
+//   (`extern void func_8017D8C8();`, used by the four call sites in func_8017D4F0),
+//   so the definition must be compatible with the default argument promotions:
+//   a `s16 param_3` parameter is promotable and therefore conflicts. Declaring
+//   param_3 as s32 and sign-extending inside (`s32 ang = (s16)param_3;`) reproduces
+//   the entry `sll $s1,$a2,16 / sra $s1,$s1,16` pair identically and makes the
+//   definition promotion-compatible. Verified with recover_integration --probe-only:
+//   blocker class self_decl_tu -> none, real-TU cc1 MATCH 138 ins.
+// @shape: twin of the banked neighbour func_8017D730 in this same TU (same MATRIX(0x20:
+//   m@0,t@0x14)+SVECTOR stack frame, same source order: m1.t[2] before svec_in.vx/vy so
+//   the two `sh zero` stores schedule into the t[2] load-delay slot). Differences: this
+//   one takes the angle as a parameter instead of the literals 4/0x10, and it routes
+//   0x48/0x4C/0x50 and 0x3C/0x40/0x44 through func_80012C6C instead of storing directly.
+extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s32 func_80012ABC(s32 a0, s32 a1, int a2);
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_8012F14C();
+
+void func_8017D8C8(s32 param_1, s16 *param_2, s32 param_3) {
+    s32 ang = (s16)param_3;
+    struct { short m[3][3]; int t[3]; } m1;
+    struct { short vx, vy, vz; } svec_in;
+    struct { short vx, vy, vz; } svec_out;
+
+    *(s32 *)(param_1 + 0x8)  = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x8),  (s32)*(s16 *)(param_1 + 0xC),  ang);
+    *(s32 *)(param_1 + 0x10) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x10), (s32)*(s16 *)(param_1 + 0x14), ang);
+    *(s16 *)(param_1 + 0x18) = func_80012ABC((s32)*(s16 *)(param_1 + 0x18), (s32)*(s16 *)(param_1 + 0x20), ang);
+    *(s16 *)(param_1 + 0x1A) = func_80012ABC((s32)*(s16 *)(param_1 + 0x1A), (s32)*(s16 *)(param_1 + 0x22), ang);
+    *(s16 *)(param_1 + 0x1C) = func_80012ABC((s32)*(s16 *)(param_1 + 0x1C), (s32)*(s16 *)(param_1 + 0x24), ang);
+    *(s16 *)(param_1 + 0x28) = func_80012C6C((s32)*(s16 *)(param_1 + 0x28), (s32)*(s16 *)(param_1 + 0x2E), ang);
+    *(s16 *)(param_1 + 0x2A) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2A), (s32)*(s16 *)(param_1 + 0x30), ang);
+    *(s16 *)(param_1 + 0x2C) = func_80012C6C((s32)*(s16 *)(param_1 + 0x2C), (s32)*(s16 *)(param_1 + 0x32), ang);
+
+    *(s32 *)(param_1 + 0x48) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x48), (s16)(*(s16 *)(param_1 + 0x28) + param_2[0]), ang);
+    *(s32 *)(param_1 + 0x4C) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x4C), (s16)(*(s16 *)(param_1 + 0x2A) + param_2[1]), ang);
+    *(s32 *)(param_1 + 0x50) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x50), (s16)(*(s16 *)(param_1 + 0x2C) + param_2[2]), ang);
+
+    func_80049CAC(param_1 + 0x18, (s32)&m1);
+
+    m1.t[0] = *(s16 *)(param_1 + 0x28) + param_2[0];
+    m1.t[1] = *(s16 *)(param_1 + 0x2A) + param_2[1];
+    m1.t[2] = *(s16 *)(param_1 + 0x2C) + param_2[2];
+    svec_in.vx = 0;
+    svec_in.vy = 0;
+    svec_in.vz = (s16)*(s32 *)(param_1 + 0x10);
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
+
+    *(s32 *)(param_1 + 0x3C) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x3C), svec_out.vx, ang);
+    *(s32 *)(param_1 + 0x40) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x40), svec_out.vy, ang);
+    *(s32 *)(param_1 + 0x44) = (s16)func_80012C6C((s32)*(s16 *)(param_1 + 0x44), svec_out.vz, ang);
+}
+
 
 
 extern void func_8013B7F4(void *a0, int a1);

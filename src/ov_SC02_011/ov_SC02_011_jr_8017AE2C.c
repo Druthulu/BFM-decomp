@@ -10452,7 +10452,86 @@ void func_80186818(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80186868);
+#include "common.h"
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern u8 D_80195D30[];
+extern s32 func_800291B4(s32 arg);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_80129374(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+void func_80186AA0(s32 a0);
+s32 func_80186B1C(void *a0, void *a1);
+
+void func_80186868(s32 a0)
+{
+    register s32 self __asm__("$17") = a0;
+    s32 flags;
+    s32 v1;
+    register s32 v0 __asm__("$2");
+    register s32 dx __asm__("$19");
+    register s32 dy __asm__("$4");
+    register s32 dz __asm__("$18");
+    s32 t;
+    s32 p, q;
+    s32 sum;
+
+    *(s32 *)(self + 0x1C) = *(s32 *)(self + 0x1C) + 1;
+    if ((u8)func_800291B4(0xCE) == 1) {
+        flags = *(s32 *)(self + 0x1C);
+        if (flags & 0x20) {
+            func_80186AA0(self);
+            return;
+        }
+        v0 = D_80126B5E; v1 = *(u16 *)(self + 6); v1 = v0 - v1;
+        v0 = v1 << 16;
+        dx = v1; if (v0 < 0) { dx = -v1; }
+        v0 = D_80126B62; v1 = *(u16 *)(self + 0xA); v1 = v0 - v1;
+        v0 = v1 << 16;
+        dy = v1; if (v0 < 0) { dy = -v1; }
+        v0 = D_80126B66; v1 = *(u16 *)(self + 0xE); v1 = v0 - v1;
+        v0 = v1 << 16;
+        dz = v1; if (v0 < 0) { dz = -v1; }
+        v0 = (s16)dx;
+        if (v0 >= 0x201) { func_80186AA0(self); return; }
+        v0 = (s16)dy;
+        if (v0 >= 0x201) { func_80186AA0(self); return; }
+        v0 = (s16)dz;
+        if (v0 >= 0x201) { func_80186AA0(self); return; }
+        if (flags & 1) {
+            t = func_80132EF4(self, 0x22);
+            if (t != 0) {
+                func_80129374(t, self);
+                *(s16 *)(*(s32 *)(t + 0x20) + 0x18) = 0x5000;
+                *(s16 *)(*(s32 *)(t + 0x20) + 0x1A) = 0x5000;
+            }
+        }
+        if ((*(s32 *)(self + 0x1C) & 3) == 0) {
+            v0 = (s16)dx;
+            p = v0 * v0;
+            v0 = (s16)dz;
+            q = v0 * v0;
+            sum = p + q;
+            if (sum <= 0x30000) {
+                func_8002D4C8(0x646, (u16)((((0x30000 - sum) * 127) / 0x30000) | 0x1000));
+                *(s16 *)(self + 0xFC) = 1;
+            } else {
+                func_80186AA0(self);
+            }
+        }
+        if ((*(s32 *)(self + 0x1C) & 0x1F) >= 8) {
+            if (func_80186B1C((void *)self, D_80195D30) != 0) {
+                ((struct { u16 w; } *)&D_80126B96)->w |= 0x4000;
+                D_80126B98 = 0xC;
+            }
+        }
+    }
+}
+
 
 extern void func_8002D4C8(s32 a0, s32 a1);
 
