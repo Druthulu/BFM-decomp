@@ -31067,3 +31067,47 @@ the later comparisons (regresses to 46 ins). ~16 iterations.
 §164-36/§31-lever-2 cover asm at a branch-target block head + delay-slot fill, but every listed lever
 FILLS AN EMPTY SLOT; none REMOVES A DUPLICATE. This is a genuine hole in the knowledge base — record
 it as such rather than spending another wave slot on it blind.
+
+## §332 — THE maspsx `la`-IN-A-DELAY-SLOT GAP: gcc EMITS A SYMBOLIC ADDRESS LOAD AS ONE ATOMIC length-2 INSN, SO IT CAN NEVER FILL A JUMP DELAY SLOT — 6 FUNCTIONS FLEET-WIDE, NONE BANKABLE FROM C (P31 S67; byte-traced main/func_80062144, func_8005DBD8)
+
+**THE MECHANISM, traced to the compiler sources, not inferred.** The target fills `jal func_X`'s
+delay slot with `addiu $a1,$a1,%lo(D_80078CE0)` — the second half of a `la`. gcc-2.7.2's
+`movsi_internal` emits a symbolic address load as ONE atomic RTL insn of **length 2** (the lui+addiu
+macro pair; NO `HIGH`/`LO_SUM` define_split exists in this MIPS backend — verified in
+`tools/reference/gcc-2.7.2/mips.md`, `mips.c`, `reorg.c`, and mips.md's own comment says so).
+`eligible_for_delay` requires **length == 1**, so the define_delay gate categorically REFUSES it as a
+filler. cc1 therefore leaves it under `.set reorder/macro`, and maspsx
+(`tools/maspsx/__init__.py:1054-1057`) unconditionally emits a real `nop` after every branch/jump in
+reorder mode. The retail split is genuine **ASPSX macro-hopping** — the assembler moving the `la`'s
+low half into the jal slot — which maspsx does not replicate.
+
+**BYTE-VERIFIED:** running `maspsx.py --aspsx-version=2.56 --expand-div` over cc1's raw `-dS` output
+reproduces the extra `nop` exactly. The C is not the problem.
+
+**THE COST OF NOT KNOWING THIS:** `func_80062144` reads closeness **29** and every one of those 29
+mismatches is a single length-drift consequence of this one `nop`. A closeness-29 verdict looks like
+a badly wrong draft and invites a redraft; it is a one-instruction toolchain gap.
+
+**POPULATION: 6 occurrences fleet-wide, NONE banked** — `asm/nonmatchings/800c2/func_80061FA8.s` ×2,
+libgte3 `PopMatrix`/`PushMatrix`, `md_MAIN_034/func_800CB00C`, `main/func_80062144`. They are
+source-unreachable pending a NARROW maspsx patch (hop a length-2 macro's low half into an otherwise
+empty delay slot). Until that patch exists: **ledger them, never draft them.**
+
+## §332a — MAIN'S RESIDUAL FRONTIER IS CONTAMINATED WITH TOOLCHAIN WALLS: 4 OF 7 IN ONE WAVE (P31 S67, measured)
+
+Wave `s67m2_1` (7 main functions, 50-68 ins) returned 1 MATCH and 6 NEAR — but the NEAR verdicts
+were not drafting failures:
+* `func_8005FA94` — §188 epilogue wall. `oracle_reorder.py` bypass + `as -O2` gives **0/55 diffs**:
+  the C is byte-correct and the pinned `as -O1` can never emit it.
+* `func_8005D244` — same, **0/62 diffs**. AND §188 Law 3 already names this exact address as libpad
+  `pdent3.o` — **an SDK object that belongs to `psyq_integrate.py`, not to hand-matching.** It should
+  never have been in a draw at all.
+* `func_80062144`, `func_8005DBD8` — the §332 maspsx gap above.
+Only `func_80021174` (closeness 14, a scheduler/cross-jump tie) and `func_8005F290`'s idx50 are
+genuine open matching problems.
+
+**THE LESSON FOR DRAW POLICY (R45 — never draw a card the pipeline cannot bank):** main's cheap
+population is spent, and what remains is enriched in toolchain walls. A draw that does not filter
+`oracle_reorder`-proven §188 functions, the §332 maspsx set, and SDK-object addresses will spend an
+increasing share of its slots on functions no model can bank. **Filter before drafting, and expect
+main's apparent "match rate" to be an artifact of that contamination rather than a model signal.**
