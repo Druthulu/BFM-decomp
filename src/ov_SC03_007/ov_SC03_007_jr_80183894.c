@@ -4065,7 +4065,98 @@ zero:
 
 INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_801850B4);
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_80185230);
+extern u8 D_80126B5C;
+extern s32 D_80126B64;
+extern void (*D_8018C728)(s32);
+extern unsigned char D_8018C700[];
+extern unsigned char D_8018C7DC[];
+extern void func_80185B48(s32 a0);
+extern void func_80185E68(s32 a0);
+extern void func_80185E3C(void *a0);
+extern void func_8012AD80(s32 a0);
+extern s32 func_8012B864(s32 a0);
+extern void func_8012B200(u8 *a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8013C9C4(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+
+/* §42c-6 / cookbook-index L15: this TU declares `extern s32 func_80185230(void);`
+ * and calls it `func_80185230();`.  An ANSI `void func_80185230(s32)` definition
+ * hard-errors twice (conflicting types, then too-few-arguments), so the incoming
+ * $a0 is captured into a normal pseudo instead — the copy gets a callee-saved
+ * home ($s0), which is exactly what the target prologue does. */
+s32 func_80185230(void) {
+    register s32 a0v __asm__("$4");
+    s32 arg0 = a0v;
+    s32 g1;
+    s32 g2;
+    s32 t;
+    s16 h;
+    s32 c1;
+    s32 c2;
+    s16 i;
+
+    if (*(u16 *)(arg0 + 2) == 0xC) {
+        g1 = *(s32 *)&D_80126B5C;
+        g2 = D_80126B64;
+    } else {
+        g1 = 0;
+        g2 = -0x5000000;
+    }
+
+    func_80185B48(arg0);
+    func_8012AD80(arg0);
+
+    if (*(s16 *)(arg0 + 0x16) > 0) {
+        func_80185E68(arg0);
+    }
+
+    if (*(s16 *)(arg0 + 0xA) < -2) {
+        t = *(s32 *)(arg0 + 0x1C);
+        if (t == 0) {
+            func_80146A6C(2, (void *)arg0, 0, 0, 0, 3, 0x30000000);
+            h = *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A);
+            if (h != 0x3800) {
+                *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x1A) = h - 0x400;
+            }
+            if (*(s16 *)(arg0 + 0x16) > 0) {
+                *(s32 *)(arg0 + 0x1C) = 1;
+                func_8012A828(arg0, &D_8018C728);
+            }
+            *(s32 *)(arg0 + 0x10) = (g1 - *(s32 *)(arg0 + 4)) >> 5;
+            *(s32 *)(arg0 + 0x18) = (g2 - *(s32 *)(arg0 + 0xC)) >> 5;
+        } else {
+            if (t < 0xD) {
+                h = func_8012B864(arg0);
+                *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) = h;
+                *(s32 *)(arg0 + 0x10) = (g1 - *(s32 *)(arg0 + 4)) / 0xB;
+                *(s32 *)(arg0 + 0x18) = (g2 - *(s32 *)(arg0 + 0xC)) / 0xB;
+            }
+            *(s32 *)(arg0 + 0x1C) = *(s32 *)(arg0 + 0x1C) + 1;
+        }
+    } else {
+        func_8002D4C8(0xB2D, 0);
+        i = 0;
+        func_8013C9C4(&D_8018C7DC);
+        c2 = 3;
+        c1 = 0x3000A000;
+        g1 = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
+        do {
+            func_80146A6C(2, (void *)arg0, 0, 0, 0, c2, (g1 & 0xFFF) | c1);
+            g1 = g1 + 0x200;
+            i = i + 1;
+        } while (i < 8);
+        *(s16 *)(arg0 + 0xA) = -2;
+        func_8012B200((u8 *)arg0);
+        func_8012A828(arg0, D_8018C700);
+        *(s32 *)(arg0 + 0x1C) = 8;
+        *(u16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
+    }
+
+    func_80185E3C((void *)arg0);
+}
+
 
 #include "common.h"
 
