@@ -3848,3 +3848,54 @@ OpenRouter era under the title "as it actually runs").
 `.run/S67_verdicts.json`, `.run/S67_jtbl_probe.json`, `.run/S67_walls.txt` (6 toolchain-wall fns),
 `.run/S67_seed_refs.json` (87 open stubs with a banked twin; 41 in the refusal ledger),
 `.run/S67_jtbl_fixed.log`.
+
+---
+
+## S68 progress log (2026-08-31, session in progress — the live 🛑 block for S68 is written at session close)
+
+- **S68 T1 — the deferred propagation, honestly scoped.** S67 FINAL-3's OPEN item said "dedup
+  propagation has not run for today's 32 parallel-gate banks". Two findings before any work:
+  1. **`tools/dedup_propagate.py` could not run at all.** S67's `-j` patch wrote
+     `_BJOBS = int(os.environ.get(...))` at module level in the one module that imports `os as _os`,
+     so every invocation died with `NameError: name 'os' is not defined` **before doing anything**.
+     Propagation was not merely deferred, it was impossible. Fixed; import-checked the other seven
+     `-j`-patched tools (only `harvest_verify` refuses import, by design).
+  2. **The real closable set is 11, not 32**, derived two independent ways that agree (R34):
+     `seed_ref` exact-tier + same-address = 11, and a direct `corpus.matched`/`corpus.stubs`
+     derivation over the 141 overlays = the same 11. The `--auto-from` plan is far bigger
+     (3,161 entries / 983 distinct addresses over 53 overlays swept in parallel) but it is **dedup
+     hygiene over already-matched code** — it closes almost no open stub. Counting plan entries as
+     pending work would have priced ~3,000 builds for ~11 functions of value (R37/R41).
+  - **Applied: 2 banked byte-green** — `ov_SC04_018:func_80181270`, `ov_SC04_018:func_80182AF8`.
+    3 were gate-refused and cleanly reverted (`0x80181804`, `0x80181CB8`, `0x801831D0` — the
+    fail-closed search isolated each culprit). 6 are blocked and now have named blockers:
+    3× CARRY-FIXABLE (missing file-scope extern) and 3× `func_80144B9C` not-inline-def.
+  - **R22 clean fleet after: `make clean && extract-all && check-all` → extract 212/212, check
+    213 passed / 0 failed of 213, exit codes 0/0/0** (R53 — read from the exit code, not the file).
+  - Frontier **453 → 451**.
+
+- **S68 T2 — `seed_ref.py` was offering DEAD TEXT as bankable (R45), fixed.** The wave playbook §7
+  names `seed_ref --all` "the fleet-wide answer", and it reported **82 open stubs with a banked
+  twin**. **43 of those 82 are `main` stubs in LINKED subsegs** — the 49 subsegs whose TUs the linker
+  script never references because the bytes come from linked PsyQ SDK objects. `Makefile:595` still
+  globs every `src/*.c` into OBJS, so any C written into one of those TUs compiles, links and leaves
+  the SHA1 **green whether or not it is correct**. A mechanical twin-remap lane fed from that list
+  would have minted up to 43 gate-green FALSE matches, and the whole-binary byte gate is
+  structurally unable to catch them (R34). `draw_waves.py` has refused LINKED subsegs since S66;
+  this oracle did not — the hole lived in the tool the playbook trusts most.
+  - Fixed with `_linked_segs()` / `is_linked_stub()` + a `--include-linked` escape, and the refusal
+    is **counted and printed**, never silent (R32).
+  - **Negative control (R39): guarded 39 ⊂ raw 82, all 43 dropped are `main`, the non-main
+    population is byte-identical between the two runs.**
+  - Honest twin ledger now: **3 never-tried mechanical** + **36 mechanically-refused, all non-main**
+    (banked body available = agent fuel with a head start), including `func_80144B9C` ×2 at 770 ins
+    and `func_8013DD68` ×3 at 187 ins.
+
+- **S68 T3 — the wave, drawn and validated.** Undrawn frontier is nearly exhausted: of 453 open
+  stubs, **only 27 non-main + 55 main are undrawn**; 263 non-main are drawn-but-still-open (the
+  redraft mass) and 75 are excluded. Drew `.run/S68o1` (24 opus, 187–770 ins) and `.run/S68m1`
+  (30 main: 24 sonnet / 6 opus); cards carry `seed_ref` 3/24 and 1/30; packs flattened; `wave_args`
+  asserted 24/24 and 30/30. Queue `.run/S68_queue.json` = 53 targets, 3 non-main : 2 main
+  interleaved, cheapest-first. **`ov_SC02_037:func_80144B9C` (770 ins) was pulled from the wave** —
+  its real answer is the -O0 whale carve, not a fresh opus draft.
+  - Opened drafting at **concurrency 5** streaming single-function workflows per the S67 agreement.

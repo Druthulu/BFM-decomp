@@ -6850,7 +6850,7 @@ extern void func_80178CBC(s32*, s32);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80181270);
+DEFINE_func_80181270()  /* dedup: shared engine-core @0x80181270 (src/shared) */
 
 
 extern void func_80184CB8(s32*, s32);
@@ -7983,7 +7983,7 @@ extern void func_80178CBC(s32 *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_80182AF8);
+DEFINE_func_80182AF8()  /* dedup: shared engine-core @0x80182AF8 (src/shared) */
 
 
 

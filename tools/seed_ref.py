@@ -52,6 +52,40 @@ REFUSED_LEDGER = os.path.join(REPO, ".run/twin_refused.json")
 
 
 @functools.lru_cache(maxsize=1)
+def _linked_segs():
+    """{binary: {subseg, ...}} whose INCLUDE_ASM is DEAD TEXT — a draft there banks a FALSE match.
+
+    Measured P31 S68 (R45 — never offer a target the pipeline cannot honestly bank). `--all` used to
+    report "87 open stubs have a banked twin"; **43 of them were main stubs in LINKED subsegs**, i.e.
+    the 49 subsegs whose TUs the linker script never references because the bytes come from linked
+    PsyQ SDK objects. `Makefile:595` still globs every `src/*.c` into OBJS, so ANY C written into one
+    of those TUs compiles, links, and leaves the SHA1 green **whether or not it is correct**. A
+    mechanical twin-remap lane fed from that list would have minted up to 43 gate-green FALSE matches
+    that the whole-binary byte gate is structurally unable to catch (R34).
+
+    `draw_waves.py` has refused these since S66; this oracle did not, and the wave playbook cites
+    THIS tool as "the fleet-wide answer" — so the hole lived in the tool the playbook trusts most.
+    Fleet-wide today only `main` has any (49); computed per binary anyway, because a newly onboarded
+    binary must be seen by every consumer (R36). ~0.4 s for all 213.
+    """
+    out = {}
+    for b in progress.BINARIES:
+        try:
+            progress.set_binary(b)
+            segs = set(progress.LINKED_SEGS or ())
+        except Exception:
+            segs = set()
+        if segs:
+            out[b] = segs
+    return out
+
+
+def is_linked_stub(binary, stub):
+    """True when this open stub's INCLUDE_ASM is dead text (see _linked_segs)."""
+    return getattr(stub, "region", None) in _linked_segs().get(binary, ())
+
+
+@functools.lru_cache(maxsize=1)
 def _refused():
     """{(to_bin, to_addr, from_bin, from_addr)} the mechanical remap already failed on.
 
@@ -93,7 +127,7 @@ def _banked_index():
     return ex, no
 
 
-def for_stub(binary, fn):
+def for_stub(binary, fn, include_linked=False):
     """The best banked twin for one open stub, or None.
 
     Prefers h_exact over h_norm (a stricter twin is a safer remap) and, within a tier, a
@@ -106,6 +140,11 @@ def for_stub(binary, fn):
     except Exception:
         return None
     if st is None:
+        return None
+    if not include_linked and is_linked_stub(binary, st):
+        # DEAD TEXT (R45): a draft here gates GREEN while wrong, so this is not a bankable target
+        # and offering its twin is worse than offering nothing. Callers that want the raw join
+        # anyway pass include_linked=True and get the row tagged, never silently.
         return None
     row = sig.get(st.addr)
     if not row:
@@ -144,10 +183,13 @@ def main():
     ap.add_argument("--fn")
     ap.add_argument("--all", action="store_true", help="every open stub fleet-wide")
     ap.add_argument("--json")
+    ap.add_argument("--include-linked", action="store_true",
+                    help="do NOT refuse targets in LINKED subsegs (dead text; see _linked_segs)")
     a = ap.parse_args()
 
     if a.all:
-        out, scanned = [], 0
+        out, scanned, dead = [], 0, 0
+        dead_by_bin = {}
         for b in progress.BINARIES:
             try:
                 stubs = corpus.stubs(b)
@@ -156,7 +198,13 @@ def main():
                 continue
             for s in stubs.values():
                 scanned += 1
-                sr = for_stub(b, s.symbol)
+                if not a.include_linked and is_linked_stub(b, s):
+                    # counted, never silent: a skipped population nobody counts is invisible (R32)
+                    if for_stub(b, s.symbol, include_linked=True):
+                        dead += 1
+                        dead_by_bin[b] = dead_by_bin.get(b, 0) + 1
+                    continue
+                sr = for_stub(b, s.symbol, include_linked=a.include_linked)
                 if sr:
                     out.append(sr)
         ref = sum(1 for x in out if x["mechanical_remap_refused"])
@@ -165,6 +213,10 @@ def main():
               % (scanned, len(out),
                  sum(1 for x in out if x["tier"] == "exact"),
                  sum(1 for x in out if x["tier"] == "norm"), ref))
+        if dead:
+            print("REFUSED %d twin(s) whose TARGET is a LINKED subseg — dead text, a draft there "
+                  "gates GREEN while wrong (%s). Pass --include-linked to see them anyway."
+                  % (dead, ", ".join("%s:%d" % kv for kv in sorted(dead_by_bin.items()))))
         if a.json:
             with open(a.json, "w") as fh:
                 json.dump(out, fh, indent=1)

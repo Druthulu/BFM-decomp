@@ -6810,23 +6810,7 @@ extern void func_80178CBC(s32 arg0, s32 arg1);
     }
 
 
-extern int func_80178970(void);
-extern s16 D_801E7010;
-extern s16 D_801E7012;
-extern short D_801B9AA8;
-extern void func_8012A828(s32*, s32);
-extern void func_80178D18(void);
-
-void func_80181270(arg0)
-void *arg0;
-{
-    if (func_80178970() != 0) {
-        ((void (*)(s32))func_80178D18)((s32)arg0);
-        *(u16 *)((char *)arg0 + 0x2) = D_801E7010;
-        *(u16 *)((char *)arg0 + 0x34) = D_801E7012;
-        ((void (*)(s32 *, s32))func_8012A828)((s32 *)arg0, (s32)&D_801B9AA8);
-    }
-}
+DEFINE_func_80181270()  /* dedup: shared engine-core @0x80181270 (src/shared) */
 
 
 extern void func_80184CB8(s32 *a0, s32 a1);
