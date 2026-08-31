@@ -72,6 +72,9 @@ if not a.good_sha:
 # mismatch. Strip exactly the names the TARGET TU provides, per-TU (cdecl.typedef_names + the T4
 # primitive). The old `_TD` here was scalar-only (no M2C_UNK, no struct typedefs) and dropped 39
 # still-open functions this way; the strip-set is now derived from the tree, not hand-listed.
+_JOBS = int(os.environ.get('BFM_BUILD_JOBS') or (os.cpu_count() or 8))
+
+
 def sha1(path):
     return hashlib.sha1(open(path, 'rb').read()).hexdigest() if os.path.exists(path) else None
 
@@ -101,7 +104,16 @@ def build():
     global _last_err, _last_sha
     if os.path.exists(a.out):
         os.remove(a.out)
-    p = subprocess.run(['make', 'build', 'BINARY=' + a.binary], capture_output=True, text=True)
+    # -j: THE INNER LOOP OF EVERY GATE. A binary is ~35 objects and the build was SERIAL — measured
+    # 7.18 s serial vs 1.18 s at -j16 on ov_SC03_010, byte-identical and equal to the locked SHA
+    # (6.1x). `JOBS` in the Makefile is parallelism ACROSS binaries (xargs -P); this is parallelism
+    # WITHIN one binary and was simply never passed. docs/SETUP.md:416 already documents
+    # `make -j$(nproc) build` as the sanctioned form.
+    # SAFE BY CONSTRUCTION: this build feeds a locked-SHA comparison, so a bad parallel build FAILS
+    # the gate rather than banking wrong bytes — the error direction is a false NEGATIVE, never a
+    # false bank (G3/P9 remains the sole arbiter).
+    p = subprocess.run(['make', '-j%d' % _JOBS, 'build', 'BINARY=' + a.binary],
+                       capture_output=True, text=True)
     _last_err = (p.stderr or '') + (p.stdout or '')
     _last_sha = sha1(a.out)
     return _last_sha

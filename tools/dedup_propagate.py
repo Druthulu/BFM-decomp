@@ -341,9 +341,14 @@ def append_groups(groups):
     return len(blocks)
 
 
+_BJOBS = int(os.environ.get('BFM_BUILD_JOBS') or (os.cpu_count() or 8))
+
+
 # ---------------------------------------------------------------- byte gate
 def byte_gate(ov):
-    r = subprocess.run(["make", "build", f"BINARY={ov}"], cwd=ROOT,
+    # -j — see harvest_verify's note: ~6x on a per-binary build, and this gate runs once per
+    # propagation candidate, which is why a wide propagation dominated a 33-minute gate in P31 S67.
+    r = subprocess.run(["make", "-j%d" % _BJOBS, "build", f"BINARY={ov}"], cwd=ROOT,
                        capture_output=True, text=True)
     return r.returncode == 0, r.stdout + r.stderr
 
