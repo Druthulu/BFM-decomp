@@ -31482,3 +31482,36 @@ var (+3), a non-bitfield COMPONENT_REF (+3 and an `$s0` spill), an m24/mFF pin p
 **The only remaining door is the allocno-priority route** — make `0xFFFFFF` outrank `0x80` with NO
 pin (lreg: refs 9/len 173 vs refs 13/len 320), which needs a zero-byte ref/live-length edit. That is
 a §344-shaped problem and the next attempt should start there, not at the pins.
+
+## §352 — ⚠ TWO IDENTICAL `__asm__ __volatile__("")` BARRIERS **MERGE WITH EACH OTHER** — SPELL THE SECOND ONE DIFFERENTLY (P31 S67; byte-proven resident/func_800D128C, measured closeness 105 when they merged)
+
+**This corrects how §5a/§336 barriers must be USED.** Identical `ASM_INPUT` rtx are
+`rtx_renumbered_equal_p`, so `find_cross_jump` matches the two barriers *to each other* and folds
+the very arms they were placed to separate. Measured: closeness **105** with two identical `("")`
+barriers. Spell the second one differently — `__asm__ __volatile__("" ::: "memory")` — and they stop
+matching.
+
+**Two more placement laws from the same function:**
+
+* **THE BARRIER GOES BETWEEN THE CALL AND THE `val =`, NOT AFTER IT.** Placed after, `reorg`
+  (`stop_search_p`) can no longer steal `li $s0,K` into the `j`'s delay slot and you get a `nop`.
+* **A ONE-INSTRUCTION TAIL CAN MERGE.** `jump.c:2402`'s CODE_LABEL clause (`--minimum; break`) drops
+  the usual 2-insn floor to 1, so even a bare `case N: val = K; break;` arm merges — it needs a
+  barrier too. Do not assume a single-instruction arm is safe.
+
+**NEW LEVER — resurrect a switch-index copy** (`addu $v1,$s1,$zero` before the `sltiu`):
+`switch (ret)` never emits one (`expand_end_case` folds `ret - 0`), and a plain `sel = ret;` is
+canonicalised away by CSE. This works:
+
+    sel = ret;
+    __asm__ __volatile__("" : "=r"(sel) : "0"(sel));   /* re-DEFINE so CSE cannot fold it back */
+    switch (sel)
+
+local-alloc then gives the single-block `sel` a caller-saved register while global-alloc must give
+`ret` a call-saved one — reproducing the target's copy. (A fourth pass steered by the re-tie; cf.
+§350's list.)
+
+Two ordinary fixes worth the pattern: a clamp must be `if/else` plus a SEPARATE `val = val * 25;`
+because a `?:` const-folds `0x14*25` to 500; and the definition needed `(s32 arg0, s32 arg1)` with
+`(u8)`/`(s16)` casts INSIDE, because `resident.c:1693` already declares the prototype at file scope
+(gcc-2.7.2 rejects `+` asm constraints).
