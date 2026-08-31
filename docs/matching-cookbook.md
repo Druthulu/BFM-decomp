@@ -30945,3 +30945,41 @@ diff) and an -O2 target must still MATCH (ov_SC04_018/func_80181804, 72 ins).
 **Why it was worth doing:** wiring that one predicate into the stranded-draft classifier turned
 md_MAIN_003's verdicts from 8 NEAR (seven of them >20 mismatches) into **6 MATCH** — seven residuals
 that were 100% artefact of compiling -O0 code at -O2.
+
+## §324 — THE ARITY-SELF WALL NEEDS *BOTH* HALVES: A K&R DEFINITION **AND** A NO-PROTO TU DECL; EITHER ALONE STILL FAILS (P31 S67; rtu-proven ov_SC01_005/func_8017FBCC, 14 instances measured)
+
+**THE SHAPE.** The draft defines `void func_X(s32 arg0)`. The TU declares `extern void func_X(void);`
+and calls `func_X();`. The definition splices in ABOVE both, so cc1 checks the call against the
+DEFINITION's prototype and says `too few arguments to function func_X`. Measured on the S67 stranded
+population: **14 of 63 residuals are this class** (7 naming the function itself, 7 a callee) — the
+largest MECHANICAL class left after §8d clears the data-decl conflicts.
+
+**WHY EACH HALF ALONE FAILS.**
+* `fix_arity_callers --any-proto` (already in the gate ladder) no-protos the *caller's declaration* —
+  but the call is checked against the visible DEFINITION, not that declaration, so nothing changes.
+  This is why the ladder's arity pre-pass does not clear this class despite being aimed at it.
+* A K&R definition alone (`void func_X(arg0) s32 arg0; {…}`) removes the definition's prototype, but
+  the TU's `extern void func_X(void);` IS a prototype, and C89 requires a K&R definition to be
+  compatible with any visible prototype — `(void)` vs one promoted `s32` is not. Result:
+  `conflicting types`. This is exactly the S66 measurement "mechanical K&R converts only 4/26 —
+  many TUs declare a real PROTOTYPE, which a K&R definition cannot match". The 22 it could not
+  convert were not a wall; they were the half-fix.
+
+**THE RECIPE (both edits, together).**
+    draft:  void func_X(s32 arg0) {          ->  void func_X(arg0) s32 arg0; {
+    TU:     extern void func_X(void);        ->  extern void func_X();
+Now the definition carries no prototype, the declaration carries no prototype, they are compatible,
+and the 0-argument call is unchecked. Test it without touching the tree using `rtu_match`'s own
+pre-edit directive — that is what it is for:
+    //@EDIT extern void func_X(void);||extern void func_X();
+as the first line of the candidate, then `rtu_match <fn> --split <TU stem> --source <bin> --c <cand>`.
+
+**WHAT IT BUYS, HONESTLY.** It converts "cannot compile" into "measurable codegen residual", not
+into a bank. `func_8017FBCC` lands at **97 vs 97 instructions, 4 mismatched**, and the residual is
+pure register allocation (`move $a0,$v0` where the target has `addu $v1,$v0,$zero`) — i.e. it hands
+the function to the §17 register-pin lever at closeness 4. Route accordingly (F20): ≤3 → pins or the
+wall ledger, 8-20 → long-budget permuter. Do not price this rung as 14 banks.
+
+**BLAST RADIUS.** The TU-side half edits shared-within-binary source, so it needs the same
+journal/revert discipline as the arity pre-pass: keep the no-proto only where it bought a match,
+revert it everywhere else, and let the whole-binary gate arbitrate (G3/P9).

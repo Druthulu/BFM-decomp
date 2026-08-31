@@ -324,6 +324,19 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     # call-through `D_x[i]()` into `((u8 *)D_x)[i]()`.
     d1 = _xform("reconcile_tu.py", binary, d1, "-rc", extra=cast_extra) if remaining_fns else d1
 
+    # §8d SCOPE-DEMOTE (P31 S67) — the rung the wave lane never had. `scope_data_externs.fix()` is
+    # byte-proven and used by family_sweep / bank_exemplar / jtbl_family_bank, but nothing in THIS
+    # ladder called it, so a draft written by a wave agent had never seen it. Measured on the S67
+    # stranded census: of 89 drafts that die in cc1, 21 die on `conflicting types for D_XXXX` —
+    # exactly the conflict §8d removes (the draft carries a data extern at FILE scope that the
+    # loosely-typed TU declares incompatibly, which C rejects at file scope and tolerates at block
+    # scope). Placed LAST in stage 1 so it operates on the fully reconciled draft: the earlier rungs
+    # rewrite decls, and a decl this rung must demote may not exist until they have run.
+    # Safe by construction: it either demotes a conflicting global or leaves the draft byte-identical,
+    # stage 0 has already banked anything that was correct as written, and the whole-binary gate is
+    # still the sole arbiter (G3/P9).
+    d1 = _xform("scope_demote_drafts.py", binary, d1, "-sd", extra=cast_extra) if remaining_fns else d1
+
     # ARITY PRE-PASS (Phase-29 Task-14). The three transforms above all rewrite the DRAFT. The
     # dominant residual blocker does not live in the draft at all: an already-banked SHARED caller
     # macro in src/shared/engine_core.h declares the function being banked with FEWER parameters
