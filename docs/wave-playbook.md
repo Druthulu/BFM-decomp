@@ -122,6 +122,15 @@ per-binary symlinks plus a real copy of the single binary it carves (~5 MB/worke
 PER JOB because worker slots are reused, and gated by the same jtbl predicate `harvest_verify`
 carves on.
 
+**A CARVE WRITES THREE THINGS AND THE MERGE MUST CARRY ALL THREE** — `src/<bin>/*.c`,
+`config/splat.<bin>.yaml`, and this binary's BLOCK of the shared `config/overlays.mk`. Carrying only
+the first gives a green worker and a red fleet: measured S67, 13 of 213 red, every one a jtbl binary
+from that run (reverted, then fixed with `ovl_block()`/`splice_ovl_block()`). Never blanket-adopt
+`overlays.mk` — splice the one block, with the same pinned-baseline refusal as a file adopt.
+
+**RUN A jtbl GATE WITH `--r22`.** It aborts on a non-green fleet and leaves the files in the tree for
+inspection instead of committing red binaries — the guard that would have caught the above at once.
+
 **If you are writing `for b in binaries: gate_stage ...`, STOP.** That loop is the hour-long mistake
 this section exists to prevent.
 
