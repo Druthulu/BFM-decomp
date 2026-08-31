@@ -31338,3 +31338,33 @@ Also recorded because it saves a compile: the TU declares `D_800AE620` one way a
 later declares it as `Blk20_80181260`. A two-body compile confirmed cc1 only WARNS (exit 0) and the
 bytes are unchanged — there is no `-Werror` in the Makefile or `gate_stage`. A warning is not a
 blocker; check the exit code before rewriting a declaration to silence one.
+
+## §347 — LOOP REGISTER ASSIGNMENT IS A **DECLARATION-ORDER + LIVE-RANGE** DIAL: FIVE COMPOSABLE LEVERS, 178 -> 0 (P31 S67; byte-proven ov_SC06_029/func_8017EF34, 243 ins)
+
+One function exercised five independent loop/branch dials in sequence. Each is reusable on its own,
+and the ORDER they were applied in is the ladder:
+
+1. **DUPLICATE shared tails per-case and let cross-jumping re-merge them (178 -> 53).** Writing a
+   hand `goto` to a shared label mislays the blocks and leaves the argument setup in the wrong basic
+   block. Write the tail out in each arm; gcc merges it back correctly. (Cf. §224/§5a — this is the
+   same law seen from the authoring side.)
+2. **Sequential guarded `if`s, NOT `if/else if` (53 -> 34)** — gcc-2.7.2 swaps the else-if chain.
+3. **Initialise the POINTER before the counter, and order the body `p++; i++` (34 -> 14).** Loop
+   register allocation follows LIVE-RANGE-LENGTH priority, so setting `i` first pushes it to `$a1`.
+4. **ONE shared counter + a DISTINCT pointer variable per loop (14 -> 6)** — that makes the counter
+   the top allocno, so it takes `$a0` while still being written first, reproducing the target's
+   preheader order.
+5. **Assign an AND mask to an explicit local between `i = 0` and the pointer init (6 -> 0)** — so
+   `addiu $a2,-3` precedes the `la` instead of being appended by loop-invariant motion.
+
+**THE UNIFYING RULE:** gcc-2.7.2 has **no live-range splitting** — one C variable is one hard
+register for its whole life. So the register assignment in a loop is chosen by (a) how many distinct
+variables you declare, (b) their declaration/initialisation ORDER, and (c) their live-range lengths.
+Splitting one reused variable into several, or merging several into one, is the primary register dial
+— not pins. Same session, `ov_SC03_105/func_80182DCC`: **three separate `range` locals fixed all 39
+register mismatches at once**, for exactly this reason.
+
+Companion from that function, worth its own note: **`sp20[1] -= 0x20; sp20[1] -= i*4;` must be
+SEPARATE statements on an `s32` temp.** Any single expression lets gcc associate `0x20` into the giv,
+and `loop.c` strength-reduces `0x20 + 4*i` into one register, while a bare `4*i` giv sits below the
+worth-while threshold.
