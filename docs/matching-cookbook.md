@@ -31410,3 +31410,24 @@ held pointer. Matching that mix is a LENGTH fix, not a register fix — here it 
 not work on constants** — cse will not fold the extra reference onto the existing constant pseudo,
 so every probe cost +1/+2 instructions. The §344 "add a reference to raise priority" trick applies to
 a biv or a live variable, NOT to a materialised constant.
+
+## §349 — RE-ASSIGN A BASE POINTER AT THE END OF THE LOOP BODY TO MAKE `n_times_set > 1` — THAT KILLS BOTH loop.c's INVARIANT HOIST **AND** THE ADDRESS GIV, REPRODUCING A REMATERIALISED `addiu $aN,$sp,K` (P31 S67; byte-proven ov_SC06_029/func_801804C8, 255 ins)
+
+When the target rematerialises a stack-array base inside the loop (`addiu $a0,$sp,0x10` appearing per
+iteration rather than hoisted once), the lever is to make the base pointer **set more than once**:
+assign it AGAIN at the END of the inner loop body. `loop.c` treats a pseudo with `n_times_set > 1`
+as non-invariant, so it declines BOTH the invariant hoist and the address-giv formation, and the
+address is recomputed exactly where the target recomputes it.
+
+This is the mirror of §347 lever 3-4 (declaration order and variable count steering allocation) and
+of §344 (reference count steering priority): the loop optimizers are driven by **counts and
+positions of assignments**, so an extra assignment is as much a dial as an extra reference.
+
+Supporting fixes from the same function, all ordinary once the base was right: `(u8)` casts on the
+`/5` quotient and `%5` remainder (they produce the `andi 0xFF`), a temp `n = tbl[i][0]` so the `lh`
+precedes `jal rand`, a `row` pointer temp for the inner address, and increment order
+`off += 10, i++, q++`.
+
+**Housekeeping caught by the same agent:** `.run/<wave>/SYS.md` does not exist for pool-style waves
+(only `packs/` and `cards.json`), so a pack that references `SYS.md` sends the agent to a missing
+file. Harmless but wasteful — the brief should name only what the wave dir actually contains.
