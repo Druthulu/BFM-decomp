@@ -31318,3 +31318,23 @@ placements give different instruction streams:
   (+2 instructions). Not wanted.
 Then the ordinary ladder finished it: splitting reused C variables into distinct pseudos moved the
 allocno priority (`refs*log/live_length` again) 59 → 4, and §219's in-place `h += 4` closed 4 → 0.
+
+## §346 — `c ? X : -X` TAKES expand_expr's COND_EXPR **SINGLETON** PATH (copy, then negate IN PLACE) — AN if/else STATEMENT GIVES THE TWO-ARM FORM (P31 S67; byte-proven ov_SC03_102/func_80180C38, closed the last instruction)
+
+gcc-2.7.2's `expand_expr` recognises a conditional whose arms differ only by negation and rewrites it
+as *"copy X to the target, then negate the target in place"*:
+
+    c ? X : -X        ->   negu $a0, $a0      (singleton path, one register)
+    if (c) a = X; else a = -X;   ->   negu $a0, $s0   (two-arm, separate source)
+
+So the ternary and the if/else are **not interchangeable** here — the register operands differ. Pick
+the spelling that matches the target's `negu` form.
+
+Companion from the same function: **`expand_assignment` expands the LHS address BEFORE the RHS**, so
+`p = *(s32*)(a0+0x20);` followed by a re-read inside a `rand()`-bearing RHS produces the target's two
+separate `lw 0x20($s2)` per group rather than one CSE'd load.
+
+Also recorded because it saves a compile: the TU declares `D_800AE620` one way and `func_80181260`
+later declares it as `Blk20_80181260`. A two-body compile confirmed cc1 only WARNS (exit 0) and the
+bytes are unchanged — there is no `-Werror` in the Makefile or `gate_stage`. A warning is not a
+blocker; check the exit code before rewriting a declaration to silence one.
