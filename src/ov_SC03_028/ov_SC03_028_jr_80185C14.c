@@ -3398,7 +3398,86 @@ void func_80186368(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_80185C14", func_801864A8);
+#include "common.h"
+
+extern s32  func_8012C658(s32 a0, s32 a1, s32 a2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80180B44(s32);
+extern u8  *D_801E6214;
+
+void func_801864A8(s32 a0) {
+    s32 s0;
+    s32 rnd;
+    s32 h;
+    u8 *p;
+    u8 *q;
+
+    s0 = func_8012C658(0xFE, 0x2, a0);
+    if (s0 != 0) {
+        rnd = rand();
+        h = *(u16 *)(s0 + 0x6) - 0x40;
+        *(u16 *)(s0 + 0xA) = 0;
+        *(u16 *)(s0 + 0x6) = h + (rnd & 0x7F);
+        ((void (*)(s32, s32))func_80180B44)(s0, 0x6);
+    }
+
+    *(u16 *)(a0 + 0xA) -= 0x10;
+    if ((s16)*(u16 *)(a0 + 0xA) < -1) {
+        *(u16 *)(a0 + 0x2) = 2;
+        func_8002D4C8(0xB22, 0);
+    }
+    *(u16 *)(a0 + 0x6) ^= 8;
+    *(u16 *)(a0 + 0xE) ^= 8;
+
+    p = D_801E6214;
+    q = p;
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        p += 0xFA;
+        *(u16 *)p += 0x10;
+        q += 0x31;
+        *q = ((*(s16 *)p + 0x360) * 0x45) / 0x60;
+        if (*(s16 *)p >= -0x300) {
+            *(u16 *)(a0 + 0x34) += 1;
+            *(s16 *)p = -0x300;
+            p += 0x10;
+            *q = 0x45;
+            *(s16 *)p = -0x300;
+            p -= 0x10;
+        }
+        break;
+    case 1:
+        p += 0x10A;
+        *(u16 *)p += 0x10;
+        q += 0x51;
+        *q = ((*(s16 *)p + 0x300) * 0x5C) / 0x80 + 0x45;
+        if (*(s16 *)p >= -0x280) {
+            *(u16 *)(a0 + 0x34) += 1;
+            *(s16 *)p = -0x280;
+            p += 0x10;
+            *q = 0xA2;
+            *(s16 *)p = -0x280;
+            p -= 0x10;
+        }
+        break;
+    case 2:
+        p += 0x11A;
+        *(u16 *)(q + 0x11A) += 0x10;
+        q += 0x71;
+        *q = ((*(s16 *)p + 0x280) * 0x4D) / 0x80 - 0x5E;
+        if (*(s16 *)p >= -0x200) {
+            *(u16 *)(a0 + 0x34) += 1;
+            *(s16 *)p = -0x200;
+            *q = 0xFF;
+        }
+        break;
+    default:
+        return;
+    }
+    q[8] = q[0];
+    *(u16 *)(p + 8) = *(u16 *)p;
+}
+
 
 
 extern void (*D_80190C78[])(void);
