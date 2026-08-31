@@ -5562,7 +5562,108 @@ void func_80181EA0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80181F0C);
+#include "common.h"
+
+/* Private, single-member view used ONLY for the 0xF2 access in case 3: the member must be
+   a COMPONENT_REF so sched.c true_dependence drops the edge against the (!IN_STRUCT,
+   !varying) SYMBOL_REF global D_801EFD40 -- that is what hoists `lh 0xF2($s0)` ABOVE
+   `sh %lo(D_801EFD40)` (this TU's own note @L5275, cookbook line 14831).  Every OTHER
+   entity access stays a raw cast, because cases 0/1 need the OPPOSITE: the D_801EFD40
+   load must stay BELOW `sw 0x1C($s0)`. */
+struct EntF2_80181F0C {
+    /* 0x00 */ u8  pad00[0xF2];
+    /* 0xF2 */ s16 unkF2;
+};
+
+void func_80181F0C(s32 a0) {
+    extern void func_8012BEE8(u8 *a0);
+    extern void func_8012AD44(s32 *a0, s16 a1);
+    extern void func_80184CCC();
+    extern void func_80183DF8(void);
+    extern void func_80183C74(s32, u16);
+    extern void func_80183D00(s32);
+    extern void func_80184DB8(s32);
+    extern s16 func_80185A30(s32);
+    extern void func_80185B04(u16, u16);
+    extern void func_80185C04(u16, u16);
+    extern void func_8018214C(s32, s32);
+    extern u16 D_801EFD20;
+    extern u16 D_801EFD40;
+    extern u16 D_801F161E;
+    extern u8 D_80194C14[];
+    extern u8 D_80194C64[];
+    extern u8 D_80194C8C[];
+    extern s32 aFC4C[] __asm__("D_801EFC4C");
+    extern s32 aB58[] __asm__("D_80126B58");
+
+    /* Hoisted base pointer -- this is what puts the lui/addiu %hi/%lo(D_80126B58) pair in a
+       callee-saved reg at function ENTRY, above the switch (the TU's own idiom: func_80185A30
+       L8144 `p58 = (s16 *)aB58;`, func_80184978 L7428 `outp = D_80126B58;`). */
+    s16 *p58 = (s16 *)aB58;
+    u16 t;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        if (((s32 (*)(s32))func_8012BEE8)(a0) != 0) {
+            func_80184CCC(a0, (s32)D_80194C64);
+            t = *(u16 *)(a0 + 0x34) + 1;
+            *(s32 *)(a0 + 0x1C) = 8;
+            D_801EFD40 = D_801EFD40 & 0xFFFD;
+            *(u16 *)(a0 + 0x34) = t;
+        }
+        break;
+    case 1:
+        if (((s32 (*)(s32))func_8012BEE8)(a0) != 0) {
+            func_80184CCC(a0, (s32)D_80194C8C);
+            t = *(u16 *)(a0 + 0x34) + 1;
+            *(s32 *)(a0 + 0x1C) = 3;
+            D_801EFD40 = D_801EFD40 | 1;
+            *(u16 *)(a0 + 0x34) = t;
+        }
+        break;
+    case 2:
+        if (((s32 (*)(s32))func_8012BEE8)(a0) != 0) {
+            func_80183DF8();
+            t = *(u16 *)(a0 + 0x34) + 1;
+            *(s32 *)(a0 + 0x1C) = (*(s16 *)(a0 + 0xF6) - 1) * 2 + 1;
+            *(u16 *)(a0 + 0x34) = t;
+        }
+        break;
+    case 3:
+        if (((s32 (*)(s32))func_8012BEE8)(a0) != 0) {
+            struct EntF2_80181F0C *e = (struct EntF2_80181F0C *)a0;
+            D_801EFD40 = D_801EFD40 & 0xFFFE;
+            if (e->unkF2 != 0) {
+                e->unkF2 = e->unkF2 - 1;
+                *(s32 *)(a0 + 0x1C) = 3;
+                *(u16 *)(a0 + 0x34) = 0;
+            } else {
+                u16 n = *(u16 *)(a0 + 0x34);
+                *(s32 *)(a0 + 0x1C) = 0x10;
+                *(u16 *)(a0 + 0x34) = n + 1;
+            }
+        }
+        break;
+    case 4:
+        if (((s32 (*)(s32))func_8012BEE8)(a0) != 0) {
+            if (D_801F161E < 2) {
+                func_8018214C(a0, p58[3] >= 0x509);
+                return;
+            }
+            func_80184CCC(a0, (s32)D_80194C14);
+            ((void (*)(s32, s32))func_80185B04)(1, 0x20);
+            ((void (*)(s32, s32))func_80185C04)(3, 0x30);
+            func_8012AD44((s32 *)a0, 8);
+        }
+        break;
+    }
+
+    ((void (*)(s32, s32))func_80183C74)(aFC4C[D_801EFD20], 8);
+    func_80183D00(a0);
+    func_80184DB8(D_801EFD20);
+    ((void (*)(s32))func_80185A30)(0);
+}
+
 
 #include "common.h"
 
