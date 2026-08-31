@@ -31834,3 +31834,55 @@ That moved the `andi` from `$a0` to `$v0` at ZERO length cost — cse still hois
 scalars only get one when `&x` is expanded, and slots are 8-byte aligned. So an INNER-BLOCK
 `u8 pad1[8]` lands BEFORE later address-taken scalars — block placement of a pad is a frame
 **ordering** dial, not only a size dial. (Here it was what hit `-0xB0`.)
+
+## §370 ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)
+
+**This entry is a NEGATIVE result, and that is why it is worth its space:** it tells you when to
+stop. A fable escalation drove this function to 28 and did not close it. What it PROVED is reusable.
+
+**THE HARD BOUND.** `sched.c schedule_select` **always fronts a ready load over an equal-priority ALU
+leaf** (`potential_hazard`). Therefore **no C spelling can emit an ALU chain before loads that are
+simultaneously-ready, same-priority leaves.** If the target shows that order, the cause is NOT your
+source order — look for `reorg` slot-steals, hard-register dependency walls, or late in-block
+consumers *before* burning compiles on statement permutations.
+
+**THE SLOT-STEAL DIAGNOSTIC.** A dying-operand ALU op sitting in a conditional branch's delay slot
+(`or $a1,$a2,$a1`) whose registers are untouched by the compare/address tail is
+`reorg fill_simple_delay_slots` stealing the FIRST ELIGIBLE insn scanning back from the branch
+(eligible = shares no register with anything between it and the branch).
+
+**THE PRECONDITION FOR REPRODUCING IT.** The value must accumulate OUTSIDE the `$v0`-heavy tail, so
+spell the or-tree **SPLIT**, not fused:
+
+    hi  = c << 16;                 /* early */
+    hi |= (c << 8) | tag;          /* mid   */
+    color = hi | c;                /* late  */
+
+The accumulator is then `$a2` and is eligible. The fused one-statement form accumulates in `$v0`, is
+INELIGIBLE, and `reorg` steals a different insn instead.
+
+**Three supporting levers that each moved bytes:** (1) pin the first-loaded field to `$2`
+(`register short f0 __asm__("$2")`) — every consumer then reads `$v0`, creating post-reload
+anti-dependencies against all later `$v0` writers; (2) two source reads of the same cell get **two
+single-set temps**, never one reused multi-set `tmp` (alloc then reuses `$v0` for both loads);
+(3) fuse the colour expression into ONE late statement to fix a `t5/t6` allocation swap.
+
+**REFUTED here, with measurements — do not re-derive:**
+* a dead-init `f0 = 0;` as a boost-kill: `cse delete_dead_from_cse` removes it **before** the final
+  `reg_scan` (toplev.c:2925), so `reg_n_sets` stays 1 and it is a NO-OP;
+* §350 re-ties on loads in a DENSE block: each re-tie is a real stream insn that **re-anchors its
+  load** and delays the consumers — measured **+4 to +9**;
+* the `-fno-schedule-insns` oracle: BOTH scheduling passes actively build the target here, so
+  neither ablation approaches it. §353's pass-identification oracle does not discriminate when the
+  residual is a multi-pass composition.
+
+**AND THE FRAMING LESSON (with §361).** The residual is **not** a single `sched1` tie, which is what
+the cheaper tier reported. Read off `-dS`/`-dR` dumps plus `sched.c`, it is a **four-pass
+composition**: sched1 birthing-boost layout → local-alloc birth order → sched2 hard-register
+anti/output webs (`ADJUST_COST` zeroes anti/output costs) → reorg slot-steal. A split+§350-re-tie
+variant (37) reproduces the target's slot, or-tree and `sll 16`-at-top EXACTLY, so the target is the
+union of one variant's load block and another's chain block — and no single spelling produced both.
+**Per §361 the escalation first REMOVED the prior agent's pin and re-measured: the pin is exonerated
+for the head (identical head residual unpinned) and load-bearing only for the tail.** That is the
+§361 procedure applied correctly, and it is why this diagnosis can be trusted where the previous
+one could not.

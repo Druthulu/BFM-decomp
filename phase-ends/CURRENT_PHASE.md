@@ -4014,6 +4014,9 @@ both were a pre-existing baseline defect. Then:
 * **`recover_integration --auto` is still fleet-blind** — `--binary` defaults to the literal
   `ov_SC01_077` and its backlog map is keyed by BARE FUNCTION NAME (R48). Drive it with
   `--draft-dir` per binary until fixed.
+* **PARKED, NEAR:** `main/func_8001BC6C` at closeness 28 (fable). §370 records the bound and the
+  ruled-out levers; the target is the union of two variants' blocks and needs a spelling that
+  produces both. Not worth more compiles without a new idea.
 * **PARKED, byte-correct:** `ov_SC03_105/func_80187A30` (339 ins, fable MATCH) blocked by
   `self_decl_tu` — the TU declares `(void*, s32, s32)`, the def is `(s32, s16, s16)`. The recovery
   stages and a hand no-proto both failed; next lever is conforming the DEFINITION (§343).
@@ -4021,12 +4024,20 @@ both were a pre-existing baseline defect. Then:
 ### WHAT WORKED, MEASURED
 * **Drafting at concurrency 5, streaming: 13 MATCH / 3 NEAR.** Gating is not the constraint —
   5 fns / 5 binaries / **71 s wall**, then a full clean R22 before the commit.
-* **FABLE ESCALATION IS 2 FOR 2, AND CHEAPER THAN THE ATTEMPT IT RESCUES.** `func_800241C0`: sonnet
-  229k tokens → closeness 19, fable 74k → MATCH. `func_80187A30`: opus 294k → closeness 8, fable
-  152k → MATCH in ONE edit. **Both times fable also OVERTURNED the cheaper tier's DIAGNOSIS.** The
-  pattern is now measured twice: when a strong model reports a compiler-internal wall, the prior is
-  that its FRAMING is wrong, not that the wall is real. Use `tools/workflows/escalate_fable.js` —
-  warm-start from the prior draft, forbid re-trying its ruled-out levers, demand a `new_idiom`.
+* **FABLE ESCALATION: 2 CLOSED OF 3, and when it closes it is CHEAPER than the attempt it rescues.**
+  `func_800241C0`: sonnet 229k tokens → closeness 19, fable 74k → MATCH. `func_80187A30`: opus 294k
+  → closeness 8, fable 152k → MATCH in ONE edit. **Both times fable also OVERTURNED the cheaper
+  tier's DIAGNOSIS** — the reported compiler-internal wall was a mis-framing, not a wall.
+  **The third did NOT close** (`main/func_8001BC6C`, 33 → 28, 294k tokens over ~45 measured
+  compiles) — and it is the most instructive of the three, because it applied §361 CORRECTLY
+  (removed the prior agent's pin first and exonerated it for the head) and then proved the residual
+  is a genuine FOUR-PASS composition, not a single tie. It also returned a **hard unreachability
+  bound** now banked as **§370**: `sched.c schedule_select` always fronts a ready load over an
+  equal-priority ALU leaf, so no C spelling can put an ALU chain before simultaneously-ready
+  same-priority loads. **A negative result that tells future agents when to STOP is worth its
+  tokens.** Use `tools/workflows/escalate_fable.js` — warm-start from the prior draft, forbid
+  re-trying its ruled-out levers, demand a `new_idiom` (this run's is the reorg slot-steal
+  diagnostic and its split-tree precondition).
 * **Zero-agent-token banks: 11 of the 23.** The -O0 whale carve (6 fns / 2,547 ins across 3
   overlays), the stranded-boundary pair (2), propagation (2), a twin remap (1).
 
@@ -4040,7 +4051,9 @@ artifact of your own earlier lever · §362 two traps when a carve moves a stub 
 **§363** the overlay-layout bug class · **§364** the P_TAG bitfield is OPT-LEVEL DEPENDENT ·
 §365 pin both masks or neither · **§366** `group_case_nodes` merges stacked case labels ·
 §367 reconciling a decl conflict between two drafts · **§368 ★★★ the RELOAD-REMAT CONSTANT** ·
-§369 the compare-constant variable + the frame-ORDERING dial.
+§369 the compare-constant variable + the frame-ORDERING dial · **§370 ★★ a HARD BOUND from sched.c
+(a ready load always beats an equal-priority ALU leaf) + the reorg slot-steal diagnostic — a
+NEGATIVE result, banked so nobody re-derives the 45 compiles that produced it**.
 
 ### NEW / CHANGED TOOLING
 * **`tools/gater_lane.py`** (new) — the continuous gater. Accumulates to `--min-drafts`, groups by
