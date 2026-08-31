@@ -31701,3 +31701,136 @@ Both carve and bank are byte-gated: the carve must be **byte-NEUTRAL** (`sha1 ==
 Derive AND carve under `.run/auto/gate.<ov>.lock` — a plan derived outside the lock can describe a
 tree state that never existed (the `commit:2791` rule; a concurrent recovery lane was observed editing
 the very TU this carve splits, mid-analysis).
+
+## §363 ★★ — THE OVERLAY-LAYOUT ASSUMPTION IS A SYSTEMIC BUG CLASS, AND `main` IS THE EXCEPTION THAT FINDS IT (P31 S68; six instances, four of them in one session)
+
+Every fleet tool that composes a path from a binary NAME is encoding the OVERLAY layout
+(`src/<binary>/…`, `build/<binary>/<binary>`, `config/check.<binary>.sha`). **`main` matches none of
+it**: its sources are LOOSE FILES in `src/`, its asm is `asm/nonmatchings/<region>`, its image is
+`build/us/SLUS_007.26`, its locked hash is `config/check.us.sha`, and its `undefined_*_auto.txt` sit
+at the REPO ROOT. Measured instances, each of which presented as *"the model wrote bad drafts"*:
+
+| tool | wrong assumption | symptom |
+|---|---|---|
+| `parallel_gate.stage_generated` | `build/<b>/<b>.ld` + `build/<b>/undefined_*` | worktree cannot link; main banked 0/3 |
+| `rtu_match` | TU is `src/<source>/<split>.c` | `ERR`, empty detail |
+| `rtu_match` (again) | asm is `asm/<source>/nonmatchings/<split>` | `ERR`, empty detail — *identical symptom*, which is what makes a one-layer fix feel complete |
+| `gate_stage` | `build/<b>/<b>` + `config/check.<b>.sha`, then `DEF_SHA` | **main gated against ov_SC01_077's hash**, every draft "near" |
+| `recover_integration --auto` | `--binary` defaults to the literal `ov_SC01_077`; backlog keyed by BARE NAME (R48) | "no candidates" fleet-wide |
+| `twin_sweep` | `family_sweep.load_sigs` covers 141 of 213 | main/resident/`md_MAIN_*` structurally invisible |
+
+**THE RULE. Pass the fact you already have; never reconstruct it.** `corpus.Stub` carries `.path`
+and `.asm_dir`. The Makefile declares `<b>_OUT`, `<b>_CHECK_SHA`, `<b>_LD_SCRIPT`, `<b>_UNDEF_SYMS`,
+`<b>_UNDEF_FUNCS` — ask it (`make --eval='__p-%: ; @echo "$($*)"' __p-OUT BINARY=<b>`). When you
+genuinely must reconstruct, **assert the result EXISTS and refuse with the reason** (R43): a
+reconstructed path handed to `cpp` surfaces as a compile failure and reads as a bad draft.
+
+**THE DIAGNOSTIC HABIT.** When ONE binary's lane banks far below the rest, the prior is harness, not
+model. The cheapest test is to run the SAME draft through a SECOND, INDEPENDENT oracle and see
+whether they disagree (R34/R40) — here `rtu_match`'s real-TU compile said MATCH ×3 while the
+whole-binary gate said "near" ×3, and the gate was the one that was wrong. And **do not stop at the
+first layer**: two of the six were the same tool, one call deeper, with an identical symptom.
+
+## §364 ★ — THE libgpu `P_TAG` BITFIELD SPELLING IS **OPT-LEVEL DEPENDENT** (P31 S68; two functions, opposite verdicts, same session)
+
+* **At `-O0` the bitfield is REQUIRED.** md_MAIN_003/func_800D0D6C (345 ins): the `unsigned addr:24`
+  read-modify-write is what makes `store_fixed_bit_field` expand the VALUE first and then the dest
+  read, which fixes the final `or`'s operand order. The hand-written
+  `(X & 0xFF000000) | (Y & 0xFFFFFF)` gets the operands BACKWARDS.
+* **At `-O2` the bitfield is BYTE-WRONG.** ov_SC01_000/func_8017E594 (357 ins): the bitfield sets
+  `MEM_IN_STRUCT_P`, so the alias oracle CSEs the second `D_800B9A02` load across the tag store —
+  **-4 instructions per block, 357 → 325**. The manual mask/or form is required.
+
+Same struct, same field, opposite correct spellings, decided by the TU's opt level. This is §351's
+`/s` dial with a concrete high-frequency victim, and the first case where the RIGHT answer FLIPS
+between `-O0` and `-O2`. Check the TU's opt level before choosing the spelling.
+
+## §365 — PIN **BOTH** MASKS OR NEITHER (P31 S68; ov_SC01_000/func_8017E594, 357 ins)
+
+§137's tell (a residual invariant under every source permutation) resolved by pinning
+`register u32 mlo __asm__("$10")` **and** `mhi __asm__("$12")`. Pinning only one does NOT work
+(36/34 residual) because `$t2` is legitimately reused for the last block's temp after `mlo` dies.
+Companions: a sibling's `frame_pad[2] + (void)&` for the +8 stack pad (cf. §358); BLOCK-scoping the
+link temporaries (one reused C variable = one long pseudo that stole `$s8`, +8 ins); and splitting
+the array-symbol read from the q-pointer read into two locals (+7).
+
+## §366 ★★ — `group_case_nodes` MERGES **STACKED CONSECUTIVE** CASE LABELS: GIVE EVERY CASE ITS OWN BODY (P31 S68; ov_SC01_001/func_8017EC28, **first-try MATCH 360/360**, 96/96 relocs audited)
+
+gcc-2.7.2 `group_case_nodes` (stmt.c:5281, from `expand_end_case`:4752) merges CONSECUTIVE case
+values into ONE range node whenever `next_real_insn(label_rtx(code_label))` is identical — i.e.
+whenever labels are STACKED:
+
+    case 5: case 6: case 7:  body;        /* -> ONE node, shrinking the balanced tree */
+
+Three stacked consecutive runs ({5,6,7}, {0x53A,0x53B}, {0x57A,0x57B}) = 4 fewer case nodes, which
+was **exactly** the observed -25 LENGTH-DRIFT.
+
+**The fix:** give EVERY case its own DUPLICATED body + `break` so no two labels share a
+`next_real_insn`, then let `cross_jump` fold them back — ordering arms so each family's fold lands
+after its LAST contributing arm (§298). That reproduced the target's `.L…000 -> .L…010`,
+`.L…090 -> .L…098` and `.L…0DC -> .L…0E4` fall-throughs.
+
+**Diagnostic:** an unexplained LENGTH drift on a switch, equal to a small number of case nodes,
+points at `group_case_nodes` before anything else. Same "spell it long, let a later pass re-merge"
+family as §360/§361 — but here `cross_jump` is the intended merger, not an accident.
+
+## §367 — RECONCILING A DECL CONFLICT BETWEEN TWO DRAFTS FOR THE SAME TU (P31 S68; main)
+
+main/func_800242D0 declared `extern u16 D_80063870`; the just-banked main/func_800241C0 declares
+`extern s16 D_80063870[]` at file scope. gcc-2.7.2 rejects the conflicting redeclaration **at file
+scope AND at block scope** — the block-scope shadow was tried and also rejected. (That lever DOES
+work for a conflicting *typedef*, cf. resident/func_800D06E8's `Struct80078E78`; it does not extend
+to objects.)
+
+**The fix that banks:** match the ALREADY-BANKED spelling and adapt the USE SITE — here
+`t4 = D_80063870;` (array decay) instead of `t4 = &D_80063870;`. Safe because only the ADDRESS is
+consumed (`t4` is a `register s16 *`), so the decl's element type never reaches codegen — and the
+whole-binary SHA proves it. **Order matters for a chunked gate:** the first draft to bank fixes the
+file-scope spelling for every later one, so a two-draft conflict is not symmetric. `--chunk 1` makes
+this visible one draft at a time instead of sinking the pair.
+
+## §368 ★★★ — THE **RELOAD-REMAT CONSTANT**: REACH A REGISTER NO PIN CAN REACH (P31 S68; ov_SC03_105/func_80187A30, 339 ins, fable escalation closed 8 → 0 in ONE edit)
+
+**THE TELL, and check it FIRST on any REGALLOC-LOCAL residual:** the wrong-register rows ALSO have
+**swapped operands on a commutative op** — target `mult $a3,$v0`, yours `mult $v0,$a3`. A
+wrong-register row with swapped commutative operands is THIS idiom. It is not a pin case and not a
+scheduling tie. Reading the operand order IS the diagnostic.
+
+**Why a pin cannot work, and why an in-block constant cannot either.** `cse.c fold_rtx` (~5284)
+forcibly swaps any operand with a known constant equivalent into position 2 — the reg-reg swap
+always validates — so an **in-block** `r = K` can NEVER be operand 1. And `register __asm__` pins
+fight local-alloc instead of rerouting around it (measured WORSE here: 18 and 14, vs 8 unpinned).
+
+**The lever** — a FUNCTION-SCOPE single-set local, assigned once at entry, used constant-first:
+
+    s32 cK;              /* function scope */
+    cK = K;              /* ONCE, at entry — a different basic block from the uses */
+    ...
+    prod = cK * x;       /* constant FIRST */
+
+**Preconditions:** `cK`'s live range must cross calls and every callee-saved register must already be
+occupied, so global-alloc leaves it UNCOLORED. Reload then records `reg_equiv_constant`, **DELETES
+the init insn** (instruction-count-neutral — the extra statement is free) and **REMATERIALIZES
+`addiu <reload-reg>,$zero,K` immediately before each use**, picking the register by
+`reload1.c order_regs_for_reload` preference rather than local-alloc's ascending scan. That is how it
+reaches `$a3` while `$v1` is free.
+
+**Bonus, and why ONE edit fixed two things:** the cross-block def blinds cse to the value, so the
+source operand order SURVIVES into the emitted instruction. Register and operand order are fixed
+together; adjacent product/`mfhi` pseudos follow into the same register.
+
+## §369 — REUSE THE **COMPARE CONSTANT'S OWN VARIABLE** FOR A MASK THAT KEEPS COALESCING (P31 S68; md_SC07_004/func_801AEC38, 365 ins)
+
+When a mask result keeps coalescing onto a dying hard-pinned register, assign it into the variable
+that held the COMPARE CONSTANT:
+
+    d = 0xC000;
+    if (w == d) { d = raw & 0xFFF; ... } else { d = raw & 0xFFF; ... }
+
+That moved the `andi` from `$a0` to `$v0` at ZERO length cost — cse still hoists the duplicated
+`andi` into the `bne` delay slot.
+
+**A frame rule this sharpens (with §333/§358):** aggregates get their stack slot at BLOCK ENTRY;
+scalars only get one when `&x` is expanded, and slots are 8-byte aligned. So an INNER-BLOCK
+`u8 pad1[8]` lands BEFORE later address-taken scalars — block placement of a pad is a frame
+**ordering** dial, not only a size dial. (Here it was what hit `-0xB0`.)
