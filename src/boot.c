@@ -693,7 +693,21 @@ void func_80011ADC(void) {
     *(u16 *)(p + 0xA3CE) = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011B7C);
+extern u8 D_800AF630[];
+
+void func_80011B7C(arg0)
+    u16 arg0;
+{
+    register u8 *p = D_800AF630;
+    *(u16 *)(p + 0xA3C0) = arg0;
+    *(u16 *)(p + 0xA3C6) = 0;
+    *(u16 *)(p + 0xA3CC) = 0;
+    *(u16 *)(p + 0xA3CA) = 0;
+    *(u16 *)(p + 0xA3D0) = 0;
+    *(u16 *)(p + 0xA3C2) = 0;
+    *(u16 *)(p + 0xA3C8) = 0;
+    *(u16 *)(p + 0xA3CE) = 0;
+}
 
 extern u8 D_800AF630[];
 
@@ -758,7 +772,23 @@ s32 func_80011DF4(void) {
     return D_80074780;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_80011E24);
+extern u8 D_800AF630[];
+
+void func_80011E24(void) {
+    extern s32 D_80074788;
+    extern s32 D_800629D0;
+    extern u16 D_80074794;
+    extern u16 D_80074798;
+    register u8 *p = D_800AF630;
+    long long pad;
+
+    D_80074788 = 0;
+    if (D_800629D0 == 0) {
+        *(p + 0xA434) = 0;
+    }
+    D_80074794 = 0;
+    D_80074798 = 0;
+}
 
 void func_80011E84(s32 a0) {
     extern s32 D_80074790;
@@ -808,4 +838,90 @@ void func_800120DC(u16 *arg0, u16 *arg1) {
     *arg1 = D_80074798;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot", func_8001212C);
+/* func_8001212C -- boot (-O0). Builds two 0x18-byte SPRT-with-own-tpage prims at
+ * the D_800A5E60 prim-buffer cursor and addPrim()s each onto OT word [1] of the
+ * frame's ordering table (D_800A6610 + gameFrame*0x4000), then republishes the
+ * advanced cursor.
+ *
+ * -O0 spellings that are load-bearing (all byte-proven here):
+ *  - `register u8 *base = D_800AF630;` far-offset base: cookbook ADDENDUM(c) to
+ *    §261a -- lands caller-saved ($v0) with no calls, and the >0x7FFF member
+ *    access assembles to lui $at,1 / addu $at,$v0,$at / lhu -0x5C2E($at).
+ *  - `* 0x4000` (the MULTIPLY, not `<< 14`): the mul-style expansion emits the
+ *    `addu $a0,$v1,$zero` copy of the index before the sll -- ADDENDUM(b) to
+ *    §261a, read in the mirror direction (there `q << 2` was wanted, here the
+ *    multiply is).
+ *  - offset 4 is `((u32 *)p)[1]`, every other field is a member lvalue: §127 /
+ *    its ADDENDUM -- the constant-offset fold keys on the COMPONENT_REF tree
+ *    shape, so the ARRAY_REF form is what materialises `addiu $v1,$a0,0x4` +
+ *    a 0-displacement `sw`, which is exactly what the target shows there.
+ *  - `p++` and NOT `p = p + 1`: the increment expands add-into-fresh-pseudo +
+ *    `addu $a0,$v1,$zero` copy-back before the spill store (§261a's copy row).
+ *    `p = p + 1` / `p += 1` / `&p[1]` / the (u8*) cast all fold that copy away
+ *    (-1 ins each). This was the whole residual: 175 ins vs 177.
+ *  - the 24-bit `addr` bitfield reproduces libgpu's setaddr()/getaddr() RMW:
+ *    and 0xFFFFFF (extract) + and 0xFFFFFF (store mask) + and 0xFF000000 + or.
+ */
+
+extern u8 D_800AF630[];
+extern s32 D_800A5E60;
+extern u8 D_800A6610[];
+
+void func_8001212C(void) {
+    typedef struct {
+        unsigned int addr : 24;
+        unsigned int len : 8;
+    } PrimTag;
+    typedef struct {
+        u8 pad0, pad1, pad2, len;
+        u32 tpage;
+        u8 r0, g0, b0, code;
+        s16 x0, y0;
+        u8 u0, v0;
+        u16 clut;
+        s16 w, h;
+    } Sprt24;
+
+    register u8 *base = D_800AF630;
+    Sprt24 *p;
+    u32 *ot;
+
+    p = (Sprt24 *)D_800A5E60;
+    ot = (u32 *)(D_800A6610 + *(u16 *)(base + 0xA3D2) * 0x4000);
+
+    p->len = 5;
+    ((u32 *)p)[1] = 0xE1000018;
+    p->code = 0x66;
+    p->clut = 0x77D6;
+    p->r0 = 0x80;
+    p->g0 = 0x80;
+    p->b0 = 0x80;
+    p->x0 = 0x30;
+    p->y0 = 0x2E;
+    p->u0 = 0x40;
+    p->v0 = 0xE0;
+    p->w = 0x60;
+    p->h = 0x18;
+    ((PrimTag *)p)->addr = ((PrimTag *)(ot + 1))->addr;
+    ((PrimTag *)(ot + 1))->addr = (u32)p;
+    p++;
+
+    p->len = 5;
+    ((u32 *)p)[1] = 0xE1000018;
+    p->code = 0x66;
+    p->clut = 0x77D6;
+    p->r0 = 0x80;
+    p->g0 = 0x80;
+    p->b0 = 0x80;
+    p->x0 = 0x30;
+    p->y0 = 0x46;
+    p->u0 = 0xA0;
+    p->v0 = 0xE0;
+    p->w = 0x60;
+    p->h = 0x18;
+    ((PrimTag *)p)->addr = ((PrimTag *)(ot + 1))->addr;
+    ((PrimTag *)(ot + 1))->addr = (u32)p;
+    p++;
+
+    D_800A5E60 = (s32)p;
+}

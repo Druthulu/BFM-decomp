@@ -921,9 +921,211 @@ s32 func_80013478(void) {
     return result[0] + result[1] + result[2];
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800134FC);
+extern void func_80013F3C(void *ptr);
+extern s32 func_8004787C(s32 angle);
+extern s32 func_80047948(s32 angle);
+extern void func_8001282C();
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80013694);
+void func_800134FC(s16 param_1, s32 param_2, s32 param_3)
+{
+    s16 m0[16];
+    s16 m1[16];
+    s32 sin_val;
+    s32 cos_val;
+    register s32 v1 __asm__("$3");
+
+    func_80013F3C(m0);
+
+    sin_val = func_8004787C(param_1);
+    cos_val = func_80047948(param_1);
+
+    v1 = 0x1000;
+    *(s16 *)((s32)m1 + 0x00) = v1;
+    v1 = -sin_val;
+    *(s16 *)((s32)m1 + 0x08) = cos_val;
+    *(s16 *)((s32)m1 + 0x10) = cos_val;
+    *(s16 *)((s32)m1 + 0x0E) = sin_val;
+    *(s16 *)((s32)m1 + 0x02) = 0;
+    *(s16 *)((s32)m1 + 0x04) = 0;
+    *(s16 *)((s32)m1 + 0x06) = 0;
+    *(s16 *)((s32)m1 + 0x0A) = v1;
+    *(s16 *)((s32)m1 + 0x0C) = 0;
+
+    __asm__ __volatile__ (
+        "lw $12, 0(%0);"
+        "lw $13, 4(%0);"
+        "ctc2 $12, $0;"
+        "ctc2 $13, $1;"
+        "lw $12, 8(%0);"
+        "lw $13, 12(%0);"
+        "lw $14, 16(%0);"
+        "ctc2 $12, $2;"
+        "ctc2 $13, $3;"
+        "ctc2 $14, $4;"
+        "lhu $12, 0(%1);"
+        "lhu $13, 6(%1);"
+        "lhu $14, 12(%1);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0(%0);"
+        "sh $13, 6(%0);"
+        "sh $14, 12(%0);"
+        "addiu $2, $sp, 50;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "addiu $2, $sp, 18;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0($2);"
+        "sh $13, 6($2);"
+        "sh $14, 12($2);"
+        "addiu $2, $sp, 52;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "addiu $2, $sp, 20;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0($2);"
+        "sh $13, 6($2);"
+        "sh $14, 12($2)"
+        :
+        : "r"(m0), "r"(m1)
+        : "$12", "$13", "$14"
+    );
+
+    func_8001282C(m0);
+    func_800484EC(m0, param_2, param_3);
+}
+
+extern void func_80013F3C(void *a0);
+extern s32 func_8004787C(s32 angle);
+extern s32 func_80047948(s32 angle);
+extern void func_8001282C(void *a0);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+
+void func_80013694(s16 angle, void *a1, void *a2)
+{
+    s16 matrix[16];
+    s16 vec0[9];
+    s16 pad[4];
+    s32 sin_val;
+    s32 cos_val;
+    register s32 v1 __asm__("$3");
+    register s16 *v0p __asm__("$2");
+    s16 *m0p;
+
+    func_80013F3C(matrix);
+    sin_val = func_8004787C((s32)angle);
+    cos_val = func_80047948((s32)angle);
+
+    v1 = 0x1000;
+    vec0[0] = (s16)v1;
+    v1 = -sin_val;
+    vec0[4] = (s16)cos_val;
+    vec0[8] = (s16)cos_val;
+    __asm__ __volatile__("");
+    v0p = vec0;
+    vec0[7] = (s16)sin_val;
+    m0p = matrix;
+    vec0[1] = 0;
+    vec0[2] = 0;
+    vec0[3] = 0;
+    __asm__ __volatile__("");
+    vec0[5] = (s16)v1;
+    vec0[6] = 0;
+
+    __asm__ __volatile__ (
+        "lw $12, 0(%1);"
+        "lw $13, 4(%1);"
+        "ctc2 $12, $0;"
+        "ctc2 $13, $1;"
+        "lw $12, 8(%1);"
+        "lw $13, 12(%1);"
+        "lw $14, 16(%1);"
+        "ctc2 $12, $2;"
+        "ctc2 $13, $3;"
+        "ctc2 $14, $4;"
+        "lhu $12, 0(%0);"
+        "lhu $13, 6(%0);"
+        "lhu $14, 12(%0);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0(%1);"
+        "sh $13, 6(%1);"
+        "sh $14, 12(%1);"
+        "addiu $2, $sp, 50;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "addiu $2, $sp, 18;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0($2);"
+        "sh $13, 6($2);"
+        "sh $14, 12($2);"
+        "addiu $2, $sp, 52;"
+        "lhu $12, 0($2);"
+        "lhu $13, 6($2);"
+        "lhu $14, 12($2);"
+        "mtc2 $12, $9;"
+        "mtc2 $13, $10;"
+        "mtc2 $14, $11;"
+        "nop;"
+        "nop;"
+        "mvmva 1, 0, 3, 3, 0;"
+        "addiu $2, $sp, 20;"
+        "mfc2 $12, $9;"
+        "mfc2 $13, $10;"
+        "mfc2 $14, $11;"
+        "sh $12, 0($2);"
+        "sh $13, 6($2);"
+        "sh $14, 12($2)"
+        :
+        : "r"(v0p), "r"(m0p)
+        : "$12", "$13", "$14", "$2"
+    );
+
+    func_8001282C(matrix);
+    ApplyMatrixSV(matrix, a1, a2);
+}
 
 extern void func_80013F3C();
 extern s32 func_8004787C(s32 angle);
