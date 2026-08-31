@@ -31431,3 +31431,24 @@ precedes `jal rand`, a `row` pointer temp for the inner address, and increment o
 **Housekeeping caught by the same agent:** `.run/<wave>/SYS.md` does not exist for pool-style waves
 (only `packs/` and `cards.json`), so a pack that references `SYS.md` sends the agent to a missing
 file. Harmless but wasteful — the brief should name only what the wave dir actually contains.
+
+## §350 — A ZERO-BYTE RE-TIE SETS `reg_n_sets=2`, WHICH KILLS sched1's `birthing_insn_p` LAUNCH_PRIORITY BOOST — THE MECHANISM BEHIND "MY ADDS ARE GLUED TO THEIR STORES" (P31 S67; byte-proven ov_SC04_011/func_80180B24, 215 ins)
+
+Symptom: each `add` is welded to its own `store` instead of the target's `load×3 / add×3 / store×3`
+interleave. Cause, read straight off a `-dS` trace (the insns carried priority `7f000001`):
+`sched1` gives a LAUNCH_PRIORITY boost via `birthing_insn_p` to an insn that BIRTHS a pseudo with
+`reg_n_sets == 1`. The zero-byte re-tie `__asm__("" : "=r"(x) : "0"(x))` gives the pseudo a SECOND
+set, so it is no longer "birthing", the boost disappears, and the block un-interleaves on its own.
+
+This is the third distinct pass steered by the same re-tie — §194-K (alias oracle, via
+`reg_known_value` falling back), §344 (`global_alloc` priority, via reference count), and now
+`sched1` (LAUNCH_PRIORITY, via `reg_n_sets`). **When a zero-byte re-tie changes something, identify
+WHICH pass it moved**; they have different bounds and the wrong attribution sends the next agent to
+the wrong dial. Together with §349 (`n_times_set > 1` defeating `loop.c`), the pattern is: *a second
+assignment to a pseudo is a first-class dial across loop.c, global.c and sched.c alike.*
+
+Four supporting fixes from the same function, ordinary but worth the pattern: `case 3` is a `return`
+not a `break` (it jumps to the epilogue); the else arm must store `0xE0` in BOTH arms so cross_jump
+merges the `sh` at the join, using an `s16` local, which yields the un-coalesced `addu $v1,$v0,$zero`
+and stops `reorg` stealing the decrement; struct-member spelling (`MEM_IN_STRUCT_P`) defeats a false
+alias against an unrelated store; `s16 buf[3]` gives the 0x38 frame (§333).
