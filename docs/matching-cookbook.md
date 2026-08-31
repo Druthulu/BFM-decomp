@@ -31538,3 +31538,166 @@ Also from this function, and it is the §347/§162 pattern again: the shared
 leaving it to cross-jumping gives **341 instructions against the target's 279**. Cross-jumping
 re-merges what you duplicate (§347 lever 1), but it will not INVENT the jump structure a source
 `goto` expresses.
+
+## §354 — THE giv **WORTH-WHILE TEST** IS A DIAL: RE-ASSOCIATE THE ADDEND INTO THE INDEX TERM AND `strength_reduce` DECLINES (P31 S68; byte-proven ov_SC03_105/func_801824CC, 320 ins, 201 → 5 → 0)
+
+Write
+
+    (i << 5) + (base - 0x10)          /* NOT  base + (i << 5) - 0x10 */
+
+and the giv's computed benefit drops to 2, so `strength_reduce` declines to reduce it — which in
+turn **frees `$fp`** for another variable. The two spellings are arithmetically identical; only the
+association differs, and the benefit heuristic reads the association.
+
+`docs/gcc-2.7.2-map/loop.md` §L0 documents the worth-while test itself; this is the usable spelling,
+which is the part an agent cannot re-derive from the pass source in reasonable time.
+
+Two companions on the same function: a **signed** `s16 f1` picks `addiu` over `ori` for the
+constants, and an explicit `u16 *p` temp for the stack walk. And a collision worth knowing —
+**K&R `s16` params were load-bearing AND required**: an ANSI `s16` prototype conflicts with the TU's
+existing extern (lines 4828/4837), so the K&R form is not a style choice there.
+
+## §355 — A REMAPPED SIBLING'S **SOURCE BIAS IS NOT ITS EMITTED BIAS** — DO NOT HAND-SHIFT OFFSETS TO MATCH THE ASM (P31 S68; byte-proven ov_SC07_007/func_8013DD68, 187/187 in 2 iterations)
+
+Remapping a banked exemplar onto a sibling, the exemplar's C writes `p + 0x18` / `puVar16 + 8` while
+the TARGET emits `$s0 + 0x16` / `$s1 + 0xE`. Both are correct. gcc-2.7.2 **re-anchors reduced givs**,
+so the emitted displacement need not equal the source displacement.
+
+The trap: seeing the mismatch and "fixing" the source offsets to match the disassembly. That breaks
+a remap that was already right. When a remapped body differs only in displacement, suspect the
+anchor, not the arithmetic.
+
+Also from this function: guard a draft's local typedefs with `#ifndef BFM_ENGINE_TYPES_H` to make it
+**dual-safe** — emitted in `match_one`'s standalone probe, skipped in the real TU where
+`engine_core.h` already provides them.
+
+## §356 — MEASURE A DRAFT IN THE TU IT WILL LIVE IN, NOT IN THE STANDALONE PROBE (P31 S68; measured over 47 stored drafts)
+
+`match_one` compiles a draft against `common.h` **only**. A real TU carries a whole file-scope
+declaration environment. Sizing a lane by the standalone verdict undercounts it badly:
+
+> Of 47 backlog drafts reported `cc1-fail`, 43 failed with `` `D_XXXXXXXX' undeclared ``.
+> **39 of those 43 name symbols that ARE present in the draft's own target TU.** The failure was the
+> probe's environment, not the draft. Only 4 were genuinely missing.
+
+The honest instrument is `recover_integration --probe-only`, which compiles in the REAL TU and
+reports `MATCH` / `DIFF` / `CC1-FAIL` separately from the static guess. Here the standalone verdict
+said 22 candidates; the real-TU population is up to 61. Extends **R35** — fix the instrument before
+trusting the measurement — to the specific case where the instrument is *narrower* than reality
+rather than broken.
+
+## §357 — ONE STRUCT POINTER, NOT TWO: A SECOND SOURCE VARIABLE BUILDS A THIRD IV (P31 S68; byte-proven ov_SC06_029/func_80181DF8, 335 ins, 330 → 13)
+
+Dropping an explicit `cur = base + 4` pointer lets `combine_givs` produce the single `+4` address
+giv. Keeping `cur` as its own source variable makes gcc build a **third** induction variable at `+6`.
+
+Same family as §347 (loop regalloc is a declaration-order / live-range dial) and §349
+(`n_times_set > 1` on a base pointer), but the opposite direction: here the lever is to **remove** a
+variable, not add one.
+
+## §358 (sharpens §333) — AN **UNREFERENCED** FIXED-SIZE AGGREGATE LOCAL IS LOAD-BEARING (P31 S68; same function)
+
+A 32-byte aggregate local declared before `pos` and **never referenced anywhere in the body** is what
+makes the frame `-0x58` and places `pos` at `sp+0x30`. `expand_decl` slots every fixed-size aggregate
+whether or not it is used.
+
+§333 says frame size is set by DECLARED aggregates. This adds that the aggregate need not be
+referenced at all — which turns it from a constraint you work around into a **knob you can turn**.
+(The remaining 13 on that function were §3-T2 statement order: call → `i=0` → mtx → colp.)
+
+## §359 (§43-adjacent) — SPELL A SIGN-WIDEN AS AN EXPLICIT TWO-STEP, FUNCTION-SCOPED TEMP (P31 S68; byte-proven main/func_80012B58, 69 ins, 58 → 3 → 0)
+
+To keep the shift IN PLACE on `$a2` instead of routing it through `$v0`:
+
+    s32 t = a2;  t <<= 16;  dv = t >> 16;
+
+with `t` declared at **function** scope (it is reused later by `(u32)t >> 31`). Measured on this
+function: a single-statement `(s16)` cast **failed**, and a register pin **failed**. Only the
+two-step shared temp reproduced the tell.
+
+The polarity fix that got 58 → 3 first: goto-invert `if (dv != 0)` so the fallback clamp is the
+fallthrough and the division block is the branch target.
+
+## §360 — THE "COMPILER FOUND A SHORTER EQUIVALENT THAN THE TARGET" PAIR (P31 S68; main/func_800241C0, 68 ins, 68 → 19)
+
+Use when the TARGET is longer than your draft and its extra instructions look redundant: gcc found a
+shorter equivalent and you must spell the source so it cannot.
+
+1. **`$0` opaque-copy** — write `x + zr` with `register s32 zr __asm__("$0")` to force a real
+   `addu $vN,$aN,$zero` where gcc would fuse the copy into the next instruction. It also splits an
+   `i = arg2` into the target's two-step instead of gcc's one-instruction `addiu` fusion.
+2. **Hoist the narrowing cast to its own statement** — `srem = (s16)rem;` standalone, pinned to the
+   same register as a non-overlapping-lifetime neighbour, reproduces the target's early rem-shift
+   scheduling.
+
+⚠ **A third lever was tried here and is REFUTED — see §361.** Duplicating `i = i - 1;` into both
+if/else arms to bait `cross_jump` *appeared* to work (it is part of how 68 → 19 was reached) and was
+in fact the cause of the residual that remained. It is recorded here only so nobody re-derives it.
+
+## §361 ★ — A LOOP-TAIL BYTE SIGNATURE THAT NAMES ITS SOURCE SHAPE — AND THE LAW THAT A "SCHEDULING TIE" MAY BE YOUR OWN EARLIER LEVER (P31 S68; byte-proven main/func_800241C0, fable escalation, 19 → 0 in 3 iterations)
+
+**THE LAW FIRST, because it generalises past this function.** A residual you have diagnosed as a
+`sched1` / regalloc *tie* may be an **artifact of your own most recent structural hack**. An added
+instruction changes the ready list, and the disturbance surfaces at a **different** instruction than
+the one you added — which is exactly what makes it read as an unrelated, unreachable compiler tie.
+**Before escalating a "compiler-internal tie", remove your most recent structural lever and
+re-measure.**
+
+Here the previous agent reported *"a genuine `sched1` PRIORITY tie: gcc schedules the
+zero-dependency `cnt++` right after the `mult`, the target defers it until just before the `sh`"* and
+listed three levers it had ruled out. The tie did not exist. It was §360's arm-duplication polluting
+that arm's ready list.
+
+**THE SIGNATURE.** When the target's loop tail reads
+
+    addiu $vX,$rI,-1 ; addu $rI,$vX,$zero ; sll $vX,$vX,16 ; bgez/bltz $vX
+
+— a surviving COPY, with the loop test reading the **temp** and not the loop variable — the source
+decremented ONCE at the join, through a temp:
+
+    register s32 zr __asm__("$0");
+    ...
+    t = i - 1;  i = t + zr;   } while ((t << 16) >= 0);
+
+The `+ zr` opaque-PLUS is what stops cse/local-alloc folding `i = t` back into an in-place `addiu`.
+
+**TWO CONFIRMING TELLS.**
+* A preceding conditional branch whose **delay slot holds a COPY of that `addiu`**, with the branch
+  retargeted past the join head, is `dbr_schedule` fill-from-target. It is legal ONLY because
+  `t = i - 1` is idempotent. An in-place `i = i - 1` there is self-modifying, cannot be duplicated
+  into the slot, and shows up as an **unfillable nop**. So a filled slot is positive evidence for the
+  temp form.
+* Do NOT fake the join by duplicating the decrement into both arms (§360's refuted lever). Re-derive
+  the join/copy structure from the **branch-target shape** before blaming `rank_for_schedule`.
+
+**Minor second lever:** a store of the constant `-1` through a `u16 *` emits `ori $v,$0,0xffff`;
+through an `s16 *` it emits `addiu $v,$0,-1`. The front end folds the constant by the **store
+lvalue's signedness**, so pick the lvalue sign to match the target's `li` encoding.
+
+**Escalation economics (R41):** sonnet spent 229,121 tokens and did not bank; fable spent 74,036,
+banked in 9 tool uses and 6.8 minutes, warm-started from sonnet's draft plus its ruled-out list.
+**The escalation was cheaper than the attempt it rescued** — which is an argument for escalating
+earlier, not for drafting less.
+
+## §362 — TWO TRAPS WHEN A CARVE MOVES A STUB INTO THE `-O0` TU (P31 S68; byte-proven, 6 fns / 2,547 ins across ov_MAIN_012 / ov_SC02_037 / ov_SC03_107)
+
+Banking an `-O0` function that sits inside an `-O2` object needs `o0_subsplit` to cut it into its own
+region (§116: opt level is per FILE). Two things then bite, both measured:
+
+**Trap A — `rollout_o0.py` goes BLIND to exactly the stubs you just carved.** Its `stub_file_of()`
+skips any file whose basename contains `_o0`, because its design assumes stub-in-`-O2`-TU plus
+def-appended-to-`-O0`-TU. A carve that moves the stub INTO the `-O0` TU makes both the same file, so
+the driver reports `no-stub / already banked?` and banks nothing. **Edit `<ov>_o0d.c` directly.**
+
+**Trap B — do not keep the generated §8b carried decl layer.** The carve emits
+`#include "../shared/engine_core.h"` plus ~1,100 carried decls, which conflict with the shared `-O0`
+header on 7 symbols (`func_80015978` `void*`/`s32`, `func_800CF854` `void`/`s32`, `func_801336E8`,
+`D_801274C8`/`CC`/`D0`). **Replace the TU wholesale with the minimal fleet-standard form** — legitimate
+precisely when the carved region holds only the functions the shared header defines (here
+0xD44 = 0xC08 + 0x13C, exact).
+
+Both carve and bank are byte-gated: the carve must be **byte-NEUTRAL** (`sha1 == check.<ov>.sha`,
+`interleave_check` ALIGNED, `config/overlays.mk` unchanged), and only then does the bank get gated.
+Derive AND carve under `.run/auto/gate.<ov>.lock` — a plan derived outside the lock can describe a
+tree state that never existed (the `commit:2791` rule; a concurrent recovery lane was observed editing
+the very TU this carve splits, mid-analysis).
