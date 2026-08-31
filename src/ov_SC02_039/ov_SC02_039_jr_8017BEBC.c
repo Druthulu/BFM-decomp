@@ -3179,54 +3179,20 @@ void func_8017CD9C(void *a0) {
 }
 
 
-extern void func_8017CFCC(void);
-extern void func_800167B8(s32 a0);
-
-s32 func_8017CDD8(s32 a0) {
-    func_8017CFCC();
-    func_800167B8(0);
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+DEFINE_func_8017CDD8()  /* dedup: shared engine-core @0x8017CDD8 (src/shared) */
 
 
 
-extern s32 func_800167F0(s32 a0);
-
-s32 func_8017CE1C(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+DEFINE_func_8017CE1C()  /* dedup: shared engine-core @0x8017CE1C (src/shared) */
 
 
 
 
-extern void func_8017CFF4(void);
-
-s32 func_8017CE40(s32 a0) {
-    func_8017CFF4();
-    *(s32 *)(a0 + 0x28) = 10;
-    *(u8 *)(a0 + 0x15) += 1;
-    return 0;
-}
+DEFINE_func_8017CE40()  /* dedup: shared engine-core @0x8017CE40 (src/shared) */
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8001BFD0(void);
-extern void func_800D0C48(s32 a0);
-extern void func_800D1E28(void);
-
-s32 func_8017CE80(u8 *a0) {
-    if (--(*(s32 *)(a0 + 0x28)) == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D0C48(1);
-        func_800D1E28();
-        *(u8 *)(a0 + 0x15) += 1;
-    }
-    return 0;
-}
+DEFINE_func_8017CE80()  /* dedup: shared engine-core @0x8017CE80 (src/shared) */
 
 
 extern void func_800D1EBC(void);
@@ -3245,23 +3211,7 @@ void func_8017CF1C(void *a0) {
 
 
 
-extern void func_8002D4C8(s32 a0, s32 a1);
-extern void func_8001BFD0(void);
-extern void func_800D1E28(void);
-
-s32 func_8017CF58(s32 a0) {
-    s32 t = *(s32 *)(a0 + 0x28) - 1;
-
-    *(s32 *)(a0 + 0x28) = t;
-    if (t == -1) {
-        func_8002D4C8(0x1C, 0);
-        func_8001BFD0();
-        func_8002D4C8(0x1D, 0);
-        func_800D1E28();
-        *(u8 *)(a0 + 0x15) += 1;
-    }
-    return 0;
-}
+DEFINE_func_8017CF58()  /* dedup: shared engine-core @0x8017CF58 (src/shared) */
 
 
 extern void func_8016EE40(s32 a0, s32 a1, s32 a2);
@@ -3461,45 +3411,7 @@ DEFINE_func_8017D484()  /* dedup: shared engine-core @0x8017D484 (src/shared) */
  *  - `s32 pad[2]`: dead locals for the target's 0x50 frame (vars=56).
  */
 
-extern s32 func_800495EC(s32 a0, s32 a1, s32 a2);
-
-u32 func_8017D5F4(s16 *param_1, s16 *param_2, s16 *param_3) {
-    s16 ax, ay, bx, by, cx, cy;
-    register s32 la __asm__("$8");
-    register s32 lb __asm__("$7");
-    register s32 lc __asm__("$3");
-    u32 r;
-    s32 pad[2];
-
-    ax = param_1[0];
-    cx = param_3[0];
-    if (cx < ax) {
-        return 0;
-    }
-    __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc));
-    bx = param_2[0];
-    if (bx < cx) {
-        return 1;
-    }
-    by = param_2[1];
-    do {
-        cy = param_3[2];
-        if (cy < by) {
-            return 0;
-        }
-        ay = param_1[1];
-        if (ay >= cy) {
-            la = (u16)ax;
-            lb = (u16)bx;
-            lc = (u16)cx;
-            __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx));
-            r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16),
-                              lc | ((u16)cy << 16));
-            return ~r >> 31;
-        }
-        return 1;
-    } while (0);
-}
+DEFINE_func_8017D5F4()  /* dedup: shared engine-core @0x8017D5F4 (src/shared) */
 
 
 
@@ -3509,45 +3421,7 @@ u32 func_8017D5F4(s16 *param_1, s16 *param_2, s16 *param_3) {
 
 
 
-extern s32 func_800495EC(s32 a0, s32 a1, s32 a2);
-
-u32 func_8017D6AC(s16 *param_1, s16 *param_2, s16 *param_3) {
-    s16 ax, ay, bx, by, cx, cy;
-    register s32 la __asm__("$8");
-    register s32 lb __asm__("$7");
-    register s32 lc __asm__("$3");
-    u32 r;
-    s32 pad[2];
-
-    cx = param_3[0];
-    bx = param_2[0];
-    if (cx < bx) {
-        return 0;
-    }
-    __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc));
-    ax = param_1[0];
-    if (ax < cx) {
-        return 1;
-    }
-    do {
-        cy = param_3[2];
-        ay = param_1[1];
-        if (cy > ay) {
-            return 0;
-        }
-        by = param_2[1];
-        if (by <= cy) {
-            la = (u16)ax;
-            lb = (u16)bx;
-            lc = (u16)cx;
-            __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx));
-            r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16),
-                              lc | ((u16)cy << 16));
-            return ~r >> 31;
-        }
-        return 1;
-    } while (0);
-}
+DEFINE_func_8017D6AC()  /* dedup: shared engine-core @0x8017D6AC (src/shared) */
 
 
 extern s32 func_8017D764(void);
@@ -4616,7 +4490,147 @@ void func_8017EA20(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_039/nonmatchings/ov_SC02_039_jr_8017BEBC", func_8017EC34);
+#include "common.h"
+
+/* func_8017EC34 (ov_SC02_039, 154 ins) — byte-MATCH.
+ *
+ * Levers that closed it (all four were the residual, in order of discovery):
+ *
+ *  1. §194-H in-place `v &= K`: the guard is `if (v1 != 0) { v1 &= 0x2000; ... }`,
+ *     NOT `if (v1 & 0x2000)`. The in-place AND reuses v1's hard reg and is the
+ *     only form dbr will speculate into the guard's delay slot
+ *     (`beqz $v1,.L8017EE68 / andi $v1,$v1,0x2000`); the out-of-place form lands
+ *     in a fresh reg, dbr emits a nop, and everything after shifts by one.
+ *
+ *  2. §3-T2 statement order at `p`: the LONG dependency chain (`p->0xA +=
+ *     D_8019B5E6[..]`) must come FIRST in the source, before the 1-cycle
+ *     `p->0x34 = s1 + 1`. sched1 is free to swap the two `sh`s (distinct
+ *     constant offsets off one base => no memref conflict), and putting the
+ *     long chain first is what (a) gives the `beqz $a1` a genuine nop delay
+ *     slot — dbr will not speculate the leading `lh` because `may_trap_p` is
+ *     true for a MEM — and (b) frees $a0 for the table value so the load-use
+ *     nop before `addu $v1,$v1,$a0` disappears.
+ *
+ *  3. The range test must live in HImode: `q` is declared `u16` and tested as
+ *     `q >= 0x2F && q < 0x80` (fold => `(u16)(q - 0x2F) < 0x51`), which emits
+ *     addiu/andi/sltiu. With `s32 q` and an explicit `(u16)` cast gcc PROVES
+ *     the mask redundant from q's derivable range (q = 0x7F +/- (s16 x >> 1))
+ *     and drops the `andi` — a real -1 length drift, not a schedule.
+ *
+ *  4. The second argument is built INLINE in the call, not in a preceding
+ *     `u16 code = ...;` statement. As a separate statement its sll/ori/or
+ *     chain outranks the `move $a0,$s1` in sched priority and steals the
+ *     `beqz` delay slot; inlined, expand_call emits the $a0 copy first and
+ *     dbr takes it for the slot. (The `(u16)` cast, not `& 0xFFFF`, keeps the
+ *     truncation to the single `andi $a1` that fills the jal delay slot.)
+ */
+
+extern void func_8012CC64(s32 a0, s32 a1);
+extern void func_8012CC40(s32 a0, s32 a1);
+extern void func_8012C218(void *a0);
+extern s32  func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern s32  func_80132EF4(s32 a0, s32 a1);
+extern void func_8012E32C(void);
+extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8017EED8(s32 a0);
+extern s32  rand(void);
+
+extern u8   D_8019B5E4[];      /* address only: stride-8 record base          */
+extern s16  D_8019B5E6[][4];   /* stride 0x8 halfword table (TU spelling)     */
+extern u16  D_8019B5EA[][4];   /* == D_8019B5E4 + 6 : lhu, stride 0x8         */
+
+/* field ORDER (not the call-arg order) reproduces sp+0x18/0x1C/0x20, exactly
+ * as in the func_8017E910 sibling two definitions up in this TU. */
+typedef struct { u16 xy[2]; s32 sp1c; s32 flag; } Out_8017EC34;
+
+void func_8017EC34(s32 param_1)
+{
+    s32 v1;
+    s32 s1;
+
+    if (*(s16 *)(param_1 + 0x102) == 0) {
+        v1 = ((s32 (*)(s32, s32))func_8012CC64)(param_1, (s32)D_8019B5E4);
+    } else {
+        v1 = ((s32 (*)(s32, s32))func_8012CC40)(
+                 param_1, (s32)&D_8019B5E4[*(s16 *)(param_1 + 0x102) * 8]);
+    }
+
+    if (*(s16 *)(param_1 + 0xA) >= -0x200) {
+        func_8012C218((void *)param_1);
+        return;
+    }
+
+    if (v1 != 0) {
+        v1 &= 0x2000;                                   /* lever 1 */
+        s1 = D_8019B5EA[*(s16 *)(param_1 + 0x102)][0];
+
+        if (v1 != 0) {
+            *(s16 *)(param_1 + 0x16) = -*(u16 *)(param_1 + 0x16);
+            if (*(s16 *)(param_1 + 0xFE) == 0) {
+                *(s16 *)(param_1 + 0xFE) = *(s16 *)(param_1 + 0xFE) + 1;
+                *(s16 *)(param_1 + 0x16) = *(u16 *)(param_1 + 0x16) - 8;
+            }
+        } else {
+            *(s16 *)(param_1 + 0xFE) = 0;
+            *(s16 *)(param_1 + 0x16) = -4;
+            if (*(s16 *)(param_1 + 0x102) < 2) {
+                if ((rand() & 0x7FFF) < (s16)s1) {
+                    func_8012C658(0x1A9, 2, param_1);
+                }
+            }
+        }
+
+        if (s1 != 0) {
+            s32 p = func_80132EF4(param_1, 0x22);
+            if (p != 0) {
+                /* lever 2: long chain first; sched1 restores the 0x34/0xA
+                 * store order on its own. */
+                *(s16 *)(p + 0xA) = *(u16 *)(p + 0xA) +
+                    *(u16 *)&D_8019B5E6[*(s16 *)(param_1 + 0x102)][0];
+                *(s16 *)(p + 0x34) = s1 + 1;
+            }
+        }
+
+        s1 = (*(u16 *)(param_1 + 0x70) & 0x80) ? 0x6DC : 0;
+        if (*(u16 *)(param_1 + 0x70) & 0x40) {
+            s1 = 0x6DB;
+        }
+
+        if (s1 != 0) {
+            u16 input[3];
+            Out_8017EC34 out;
+            s16 x;
+            s32 r;
+            u16 q;                                      /* lever 3 */
+
+            input[0] = *(u16 *)(param_1 + 0x6);
+            input[1] = *(u16 *)(param_1 + 0xA);
+            input[2] = *(u16 *)(param_1 + 0xE);
+
+            func_8012E32C();
+            RotTransPers((s32)input, (s32)out.xy, &out.sp1c, &out.flag);
+
+            x = out.xy[0];
+            r = (x + 0xA0) / 20;
+            if (x < 0) {
+                q = (x >> 1) + 0x7F;
+            } else {
+                q = 0x7F - (x >> 1);
+            }
+            if ((u16)r < 0x10 && q >= 0x2F && q < 0x80) {
+                /* lever 4: the arg word is built INLINE, and truncated with a
+                 * (u16) cast rather than `& 0xFFFF`. */
+                func_8002D4C8(s1, (u16)(((r << 8) | 0x3000) | q));
+            }
+        }
+    }
+
+    *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0x100);
+    func_8017EED8(param_1);
+}
+
 
 extern void (*D_8019B634[])(void);
 

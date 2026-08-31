@@ -3189,11 +3189,7 @@ s32 func_8017CDD8(s32 a0) {
 
 
 
-extern s32 func_800167F0(s32 a0);
-
-s32 func_8017CE1C(void) {
-    return (func_800167F0(0) & 0xffff) != 0;
-}
+DEFINE_func_8017CE1C()  /* dedup: shared engine-core @0x8017CE1C (src/shared) */
 
 
 

@@ -99011,6 +99011,143 @@
         func_8017D500(D_80126948); \
     }
 
+#define DEFINE_func_8017CE1C() \
+    extern s32 func_800167F0(s32 a0); \
+    s32 func_8017CE1C(void) { \
+        return (func_800167F0(0) & 0xffff) != 0; \
+    }
+
+#define DEFINE_func_8017CE40() \
+    extern void func_8017CFF4(void); \
+    s32 func_8017CE40(s32 a0) { \
+        func_8017CFF4(); \
+        *(s32 *)(a0 + 0x28) = 10; \
+        *(u8 *)(a0 + 0x15) += 1; \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CDD8() \
+    extern void func_8017CFCC(void); \
+    extern void func_800167B8(s32 a0); \
+    s32 func_8017CDD8(s32 a0) { \
+        func_8017CFCC(); \
+        func_800167B8(0); \
+        *(u8 *)(a0 + 0x15) += 1; \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CF58() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8001BFD0(void); \
+    extern void func_800D1E28(void); \
+    s32 func_8017CF58(s32 a0) { \
+        s32 t = *(s32 *)(a0 + 0x28) - 1; \
+        *(s32 *)(a0 + 0x28) = t; \
+        if (t == -1) { \
+            func_8002D4C8(0x1C, 0); \
+            func_8001BFD0(); \
+            func_8002D4C8(0x1D, 0); \
+            func_800D1E28(); \
+            *(u8 *)(a0 + 0x15) += 1; \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CE80() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8001BFD0(void); \
+    extern void func_800D0C48(s32 a0); \
+    extern void func_800D1E28(void); \
+    s32 func_8017CE80(u8 *a0) { \
+        if (--(*(s32 *)(a0 + 0x28)) == -1) { \
+            func_8002D4C8(0x1C, 0); \
+            func_8001BFD0(); \
+            func_8002D4C8(0x1D, 0); \
+            func_800D0C48(1); \
+            func_800D1E28(); \
+            *(u8 *)(a0 + 0x15) += 1; \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8017D5F4() \
+    extern s32 func_800495EC(s32 a0, s32 a1, s32 a2); \
+    u32 func_8017D5F4(s16 *param_1, s16 *param_2, s16 *param_3) { \
+        s16 ax, ay, bx, by, cx, cy; \
+        register s32 la __asm__("$8"); \
+        register s32 lb __asm__("$7"); \
+        register s32 lc __asm__("$3"); \
+        u32 r; \
+        s32 pad[2]; \
+        ax = param_1[0]; \
+        cx = param_3[0]; \
+        if (cx < ax) { \
+            return 0; \
+        } \
+        __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc)); \
+        bx = param_2[0]; \
+        if (bx < cx) { \
+            return 1; \
+        } \
+        by = param_2[1]; \
+        do { \
+            cy = param_3[2]; \
+            if (cy < by) { \
+                return 0; \
+            } \
+            ay = param_1[1]; \
+            if (ay >= cy) { \
+                la = (u16)ax; \
+                lb = (u16)bx; \
+                lc = (u16)cx; \
+                __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx)); \
+                r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16), \
+                                  lc | ((u16)cy << 16)); \
+                return ~r >> 31; \
+            } \
+            return 1; \
+        } while (0); \
+    }
+
+#define DEFINE_func_8017D6AC() \
+    extern s32 func_800495EC(s32 a0, s32 a1, s32 a2); \
+    u32 func_8017D6AC(s16 *param_1, s16 *param_2, s16 *param_3) { \
+        s16 ax, ay, bx, by, cx, cy; \
+        register s32 la __asm__("$8"); \
+        register s32 lb __asm__("$7"); \
+        register s32 lc __asm__("$3"); \
+        u32 r; \
+        s32 pad[2]; \
+        cx = param_3[0]; \
+        bx = param_2[0]; \
+        if (cx < bx) { \
+            return 0; \
+        } \
+        __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc)); \
+        ax = param_1[0]; \
+        if (ax < cx) { \
+            return 1; \
+        } \
+        do { \
+            cy = param_3[2]; \
+            ay = param_1[1]; \
+            if (cy > ay) { \
+                return 0; \
+            } \
+            by = param_2[1]; \
+            if (by <= cy) { \
+                la = (u16)ax; \
+                lb = (u16)bx; \
+                lc = (u16)cx; \
+                __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx)); \
+                r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16), \
+                                  lc | ((u16)cy << 16)); \
+                return ~r >> 31; \
+            } \
+            return 1; \
+        } while (0); \
+    }
+
 #endif
 
 #define DEFINE_func_80128EA8() \
@@ -227425,6 +227562,143 @@
         func_8012A018((s32)func_8017D500, 0); \
         func_8012A094((s32)D_80126948); \
         func_8017D500(D_80126948); \
+    }
+
+#define DEFINE_func_8017CE1C() \
+    extern s32 func_800167F0(s32 a0); \
+    s32 func_8017CE1C(void) { \
+        return (func_800167F0(0) & 0xffff) != 0; \
+    }
+
+#define DEFINE_func_8017CE40() \
+    extern void func_8017CFF4(void); \
+    s32 func_8017CE40(s32 a0) { \
+        func_8017CFF4(); \
+        *(s32 *)(a0 + 0x28) = 10; \
+        *(u8 *)(a0 + 0x15) += 1; \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CDD8() \
+    extern void func_8017CFCC(void); \
+    extern void func_800167B8(s32 a0); \
+    s32 func_8017CDD8(s32 a0) { \
+        func_8017CFCC(); \
+        func_800167B8(0); \
+        *(u8 *)(a0 + 0x15) += 1; \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CF58() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8001BFD0(void); \
+    extern void func_800D1E28(void); \
+    s32 func_8017CF58(s32 a0) { \
+        s32 t = *(s32 *)(a0 + 0x28) - 1; \
+        *(s32 *)(a0 + 0x28) = t; \
+        if (t == -1) { \
+            func_8002D4C8(0x1C, 0); \
+            func_8001BFD0(); \
+            func_8002D4C8(0x1D, 0); \
+            func_800D1E28(); \
+            *(u8 *)(a0 + 0x15) += 1; \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8017CE80() \
+    extern void func_8002D4C8(s32 a0, s32 a1); \
+    extern void func_8001BFD0(void); \
+    extern void func_800D0C48(s32 a0); \
+    extern void func_800D1E28(void); \
+    s32 func_8017CE80(u8 *a0) { \
+        if (--(*(s32 *)(a0 + 0x28)) == -1) { \
+            func_8002D4C8(0x1C, 0); \
+            func_8001BFD0(); \
+            func_8002D4C8(0x1D, 0); \
+            func_800D0C48(1); \
+            func_800D1E28(); \
+            *(u8 *)(a0 + 0x15) += 1; \
+        } \
+        return 0; \
+    }
+
+#define DEFINE_func_8017D5F4() \
+    extern s32 func_800495EC(s32 a0, s32 a1, s32 a2); \
+    u32 func_8017D5F4(s16 *param_1, s16 *param_2, s16 *param_3) { \
+        s16 ax, ay, bx, by, cx, cy; \
+        register s32 la __asm__("$8"); \
+        register s32 lb __asm__("$7"); \
+        register s32 lc __asm__("$3"); \
+        u32 r; \
+        s32 pad[2]; \
+        ax = param_1[0]; \
+        cx = param_3[0]; \
+        if (cx < ax) { \
+            return 0; \
+        } \
+        __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc)); \
+        bx = param_2[0]; \
+        if (bx < cx) { \
+            return 1; \
+        } \
+        by = param_2[1]; \
+        do { \
+            cy = param_3[2]; \
+            if (cy < by) { \
+                return 0; \
+            } \
+            ay = param_1[1]; \
+            if (ay >= cy) { \
+                la = (u16)ax; \
+                lb = (u16)bx; \
+                lc = (u16)cx; \
+                __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx)); \
+                r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16), \
+                                  lc | ((u16)cy << 16)); \
+                return ~r >> 31; \
+            } \
+            return 1; \
+        } while (0); \
+    }
+
+#define DEFINE_func_8017D6AC() \
+    extern s32 func_800495EC(s32 a0, s32 a1, s32 a2); \
+    u32 func_8017D6AC(s16 *param_1, s16 *param_2, s16 *param_3) { \
+        s16 ax, ay, bx, by, cx, cy; \
+        register s32 la __asm__("$8"); \
+        register s32 lb __asm__("$7"); \
+        register s32 lc __asm__("$3"); \
+        u32 r; \
+        s32 pad[2]; \
+        cx = param_3[0]; \
+        bx = param_2[0]; \
+        if (cx < bx) { \
+            return 0; \
+        } \
+        __asm__ __volatile__("" : : "r"(la), "r"(lb), "r"(lc)); \
+        ax = param_1[0]; \
+        if (ax < cx) { \
+            return 1; \
+        } \
+        do { \
+            cy = param_3[2]; \
+            ay = param_1[1]; \
+            if (cy > ay) { \
+                return 0; \
+            } \
+            by = param_2[1]; \
+            if (by <= cy) { \
+                la = (u16)ax; \
+                lb = (u16)bx; \
+                lc = (u16)cx; \
+                __asm__ __volatile__("" : : "r"(ax), "r"(bx), "r"(cx)); \
+                r = func_800495EC(la | ((u16)ay << 16), lb | ((u16)by << 16), \
+                                  lc | ((u16)cy << 16)); \
+                return ~r >> 31; \
+            } \
+            return 1; \
+        } while (0); \
     }
 
 #endif
