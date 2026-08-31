@@ -46,6 +46,7 @@ def main():
     ap.add_argument('--min-nins', type=int, default=0)
     ap.add_argument('--max-nins', type=int, default=10 ** 9)
     ap.add_argument('--main', action='store_true', help='draw from main (default: excluded — main has its own lane, R43)')
+    ap.add_argument('--only-main', action='store_true', help='draw ONLY main (the main lane; implies --main)')
     ap.add_argument('--ledger', default=LEDGER)
     ap.add_argument('--exclude', default='', help='comma-separated binary:fn to skip')
     ap.add_argument('--dry', action='store_true')
@@ -56,7 +57,29 @@ def main():
     skip = {tuple(x.split(':', 1)) for x in a.exclude.split(',') if ':' in x}
 
     bins = sorted(os.path.basename(p) for p in glob.glob('src/*') if os.path.isdir(p))
+    if a.only_main:
+        a.main = True
     bins = [b for b in bins if b != 'shared' and (a.main or b != 'main')]
+    if a.only_main:
+        bins = ['main']
+
+    # LINKED SUBSEGS ARE REFUSED, NOT MERELY AVOIDED (P31 S66 — R43/R34).
+    # 960 of main's 1,099 INCLUDE_ASM lines live in the 49 subsegs whose TUs the linker script never
+    # references; the bytes come from linked PsyQ SDK objects and are already byte-identical. But
+    # Makefile:595 globs every src/*.c into OBJS, so those TUs ARE still compiled -- as unplaced
+    # inputs. Therefore ANY C written into one of them compiles, links, and leaves the SHA1 green
+    # WHETHER OR NOT IT IS CORRECT: a wave drawn from the raw 1,099 would mint up to 960 gate-green
+    # FALSE MATCHES, and the whole-binary byte gate -- our sole arbiter (G3/P9) -- is structurally
+    # blind to it. progress.linked_subsegs() derives the set from the Makefile's own psyq_integrate
+    # calls, so it tracks the live link, not a hardcoded list (the reduction is machine-local:
+    # .run/obj40 is gitignored, and on a fresh clone those stubs really ARE the link path).
+    linked = set()
+    if a.main:
+        import progress
+        progress.set_binary('main')
+        linked = set(progress.LINKED_SEGS)
+        print('main: refusing %d LINKED subseg(s) — their INCLUDE_ASM is dead text and a draft there '
+              'would gate GREEN while wrong' % len(linked), file=sys.stderr)
 
     pool, refused = [], []
     for b in bins:
@@ -65,6 +88,8 @@ def main():
         except Exception as e:                      # a refusing oracle is EXCLUDED LOUDLY (R32)
             refused.append((b, str(e)[:80])); continue
         for _, s in st.items():
+            if b == 'main' and s.region in linked:
+                continue
             n = corpus.s_ins_count(s.asm_path)
             if not (a.min_nins <= n <= a.max_nins):
                 continue
