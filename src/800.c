@@ -661,7 +661,52 @@ s32 func_80012B04(s32 a0, s32 a1, s32 a2) {
     return func_80012B58((s16)a0, (s16)a1, (s16)a2, sp10);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80012B58);
+s16 func_80012B58(s16 a0, s16 a1, s16 a2, s16 *a3)
+{
+    s16 diff = a1 - a0;
+    s16 h = *a3;
+    s32 t;
+    s16 dv;
+
+    if (h != 0) {
+        t = a2;
+        t <<= 16;
+        dv = t >> 16;
+        if (dv != 0) {
+            goto block2;
+        }
+    }
+
+    {
+        s16 out = diff;
+        if (diff >= 0x801) {
+            out = diff - 0x1000;
+        }
+        if (out < -0x800) {
+            out += 0x1000;
+        }
+        return out;
+    }
+
+block2:
+    {
+        s16 out = diff;
+        s16 q;
+        if (diff >= 0x801) {
+            out = diff - 0x1000;
+        }
+        if (out < -0x800) {
+            out += 0x1000;
+        }
+        q = out / dv;
+        if (q != 0) {
+            return q;
+        }
+        *a3 = h - 1;
+        return func_80012B58(a0, a1, (dv + ((u32)t >> 31)) >> 1, a3);
+    }
+}
+
 
 extern s32 func_80012CB8(s32 a0, s32 a1, s32 a2);
 
@@ -10619,9 +10664,126 @@ INCLUDE_ASM("asm/nonmatchings/800", func_80023BF0);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80024054);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800241C0);
+extern u16 D_800636D8[];
+extern u16 D_80063818[];
+extern s16 D_80063870[];
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800242D0);
+void func_800241C0(s32 arg0, u16 *arg1, s32 arg2)
+{
+    s32 pad[2];
+    s32 rem;
+    register s32 i __asm__("$7");
+    s32 cnt;
+    register s32 d __asm__("$4");
+    register s32 q __asm__("$6");
+    register s32 zr __asm__("$0");
+    register s32 dd __asm__("$3");
+    register s32 srem __asm__("$3");
+    s32 i2;
+    u16 *pA;
+    u16 *pB;
+    s16 *pC;
+
+    rem = arg0;
+    cnt = 0;
+    arg2--;
+    i = arg2 + zr;
+    if ((arg2 << 16) < 0) goto tail;
+    pA = D_80063818;
+    pB = D_800636D8;
+    pC = D_80063870;
+    do {
+        if ((i << 16) != 0) {
+            *arg1 = pA[0];
+        } else {
+            *arg1 = pB[0];
+        }
+        srem = (s16)rem;
+        d = pC[(s16)i];
+        q = srem / d;
+        dd = d + zr;
+        if ((s16)q != 0) {
+            *arg1 = pB[(s16)q];
+            cnt++;
+            rem -= q * dd;
+        } else if (cnt != 0) {
+            *arg1 = pB[0];
+        }
+        i2 = i - 1;
+        i = i2 + zr;
+        arg1++;
+    } while ((i2 << 16) >= 0);
+tail:
+    *(s16 *)arg1 = -1;
+}
+
+
+extern u16 D_80063858;
+extern u16 D_8006386C;
+/* SAME spelling as the already-banked func_800241C0 uses at file scope: gcc-2.7.2
+ * rejects a conflicting redeclaration at file scope AND at block scope, so match it.
+ * Only the ADDRESS is taken here (t4 is a `register s16 *`), so the element type of
+ * the decl does not reach codegen. */
+extern s16 D_80063870[];
+
+void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
+    s32 frame_pad[1];
+    register s32 t0 __asm__("$8");
+    register s32 t1 __asm__("$9");
+    s32 v0;
+    register s32 v1 __asm__("$3");
+    register s32 a3 __asm__("$7");
+    register s16* t4 __asm__("$12");
+    register u16* t2 __asm__("$10");
+    register s32 t3 __asm__("$11");
+    register s32 divisor __asm__("$4");
+    (void)&frame_pad;
+
+    t0 = arg2 & 0xFFAF;
+    arg2 = arg2 & 0x80;
+    t1 = arg0;
+    if (arg2 != 0) {
+        t0 = 4;
+    }
+    v0 = t0 - 1;
+    t0 = v0;
+    __asm__ __volatile__("" : "=r"(t0) : "0"(t0));
+    if ((v0 << 16) >= 0) {
+        t4 = D_80063870;
+        t2 = &D_80063858;
+        t3 = 2;
+        v1 = t1 << 16;
+        do {
+            v0 = (t0 << 16) >> 15;
+            divisor = *(s16*)(v0 + (s32)t4);
+            v1 = v1 >> 16;
+            v0 = v1 / divisor;
+            a3 = v0;
+            if (((a3 << 16) >> 16) != 0) {
+                v1 = divisor;
+                __asm__ __volatile__("" : "=r"(v1) : "0"(v1));
+                *(u16*)arg1 = *(u16*)((((a3 << 16) >> 16) << 1) + (s32)t2);
+                t1 -= a3 * v1;
+            } else {
+                *(u16*)arg1 = *(u16*)t2;
+            }
+            arg1 += 1;
+            if (arg2 != 0) {
+                v0 = (t0 << 16) >> 16;
+                if (v0 == t3) {
+                    *(u16*)arg1 = D_8006386C;
+                    arg1 += 1;
+                }
+            }
+            v0 = t0 - 1;
+            t0 = v0;
+            __asm__ __volatile__("" : "=r"(t0) : "0"(t0));
+            v1 = t1 << 16;
+        } while ((v0 << 16) >= 0);
+    }
+    *(s16*)arg1 = -1;
+}
+
 
 extern s32 D_80078D88[];
 extern s32 D_800A2B78;
