@@ -2765,7 +2765,99 @@ void func_80158880(s32 *param) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_037/nonmatchings/ov_SC02_037_jr_801555F4", func_801588CC);
+// @class: plumbing
+// @stuck: none — MATCH (122 ins). switch (D_801C8580) over jtbl_801C7CC4, 9 arms, arm 0 empty.
+//
+// Integration note (§8b, the lesson recorded above func_80158638 in this same file):
+// a previous attempt was already byte-correct in isolation but carried a file-local
+// re-declaration of the s32 type, which collides with the one common.h already gives this
+// TU — recover_integration's probe named it as the sole blocker. It is dropped here and the
+// body is spelled in the TU's own types instead. Callee decls use the fleet-canonical
+// spellings and every call site carries an explicit cast, so the body stays independent of
+// whichever decl reconcile_tu leaves standing.
+//
+// (s16) on the func_80159464 return is what reproduces the target's `sll 16; beqz` at
+// 0x801589A0 — gcc-2.7.2 folds the sra away for a bare !=0 test. Same trick the banked
+// neighbour func_80158FA4 uses on this exact callee.
+//
+// Arms 2 and 7 are the same source; the differing codegen (beqz-to-SsGetMute vs
+// bnez-to-the-store) is purely block placement, and both fall out at closeness 0.
+
+extern s32 func_800D0CA0(s32);
+extern s32 func_8001AAA0(void);
+extern s32 SsGetMute(void);
+extern s32 func_80159464(void);
+
+void func_801588CC(s32 param_1) {
+
+    extern void (*D_80185FAC[])(void);
+    extern s32 D_801C8580;
+    extern s32 D_801C8584;
+    extern s32 D_801C8588;
+    extern s32 D_801C858C;
+    extern s32 D_801C8590;
+    s16 sVar1;
+
+    D_80185FAC[*(u16 *)(param_1 + 2)]();
+    switch (D_801C8580) {
+    case 0:
+        break;
+    case 1:
+        ((void (*)(s32))func_800D0CA0)(2);
+        D_801C8588 = 0;
+        D_801C8584 = 0x46;
+        D_801C8580 += 1;
+        break;
+    case 2:
+        if (D_801C8584 == 0) {
+            if (SsGetMute() == 0) {
+                D_801C8580 += 1;
+            }
+        } else {
+            D_801C8584 -= 1;
+        }
+        break;
+    case 3:
+        if (((s32 (*)(s32))func_8001AAA0)(0x83) != 0) {
+            D_801C8580 += 1;
+        }
+        break;
+    case 4:
+        D_801C858C = 0;
+        sVar1 = ((s32 (*)(s32))func_80159464)(param_1);
+        if (sVar1 != 0) {
+            D_801C8584 = 0xd2;
+        } else {
+            D_801C8584 = 1;
+        }
+        break;
+    case 5:
+        D_801C8584 -= 1;
+        if (D_801C8584 == -1 || D_801C8590 != 0) {
+            D_801C8584 = 0;
+            D_801C8580 += 1;
+        }
+        break;
+    case 6:
+        ((void (*)(s32))func_800D0CA0)(1);
+        D_801C8584 = 0x28;
+        D_801C8580 += 1;
+        break;
+    case 7:
+        if (D_801C8584 == 0) {
+            if (SsGetMute() == 0) {
+                D_801C8580 += 1;
+            }
+        } else {
+            D_801C8584 -= 1;
+        }
+        break;
+    case 8:
+        D_801C8588 = 1;
+        break;
+    }
+}
+
 
 DEFINE_func_80158AB4()  /* dedup: shared engine-core @0x80158ab4 (src/shared) */
 
