@@ -6413,7 +6413,98 @@ void func_80183890(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_024/nonmatchings/ov_SC03_024_jr_8017DF84", func_801838CC);
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+extern void (*D_8018B758)(void);
+extern u8 D_800AF648;
+extern s32 D_800A651C;
+extern short D_800B9A02;
+extern void *func_80010A08(s32);
+extern s32 func_8005A600(s32, s32, s32, s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern void func_8004914C(void *a0);
+extern void func_800491AC(void *a0);
+extern void RotTransSV(void *a0, void *a1, void *a2);
+extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+extern s32 AddPrim(s32, void *);
+
+void func_801838CC(s32 a0)
+{
+    s32 v[2];
+    s32 flg;
+    s32 sxy;
+    s32 otz;
+    s32 m;
+    s8 *pr;
+    s32 otp;
+    u16 *q;
+    s32 bidx;
+    s16 w;
+    s32 t2;
+    s32 t;
+
+    m = *(s32 *)(a0 + 0x20) + 0x34;
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+    RotTransSV(&D_8018B758, v, &flg);
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    if (RotTransPers((s32)v, (s32)&sxy, &otz, &flg) > 0 && flg >= 0) {
+        bidx = (*(u16 *)&D_800B9A02 << 2) + *(u16 *)&D_800B9A02;
+        otp = *(s32 *)((u8 *)&D_800A651C + (bidx << 2)) + 4;
+        pr = (s8 *)func_80010A08(0x20);
+        if (pr != NULL) {
+            t = GetTPage(0, 1, 0, 0);
+            func_8005A600((s32)pr, 0, 0, t & 0xFFFF, 0);
+            *(u32 *)(pr + 0x10) = 0xFF00;
+            *(u8 *)(pr + 0xF) = 4;
+            *(u8 *)(pr + 0x13) = 0x22;
+            *(u16 *)(pr + 0x14) = *(u16 *)&sxy;
+            *(u16 *)(pr + 0x16) = *((u16 *)&sxy + 1);
+            __asm__ ("");
+            t2 = *(u16 *)(pr + 0x14) + (*(s32 *)(a0 + 0x1C) << 4);
+            *(u16 *)(pr + 0x18) = t2;
+            w = t2;
+            __asm__ ("");
+            q = (u16 *)(pr + 0xC);
+            if ((s16)t2 >= 0xB1) {
+                *(u16 *)(pr + 0x18) = 0xA1;
+                *(u16 *)(pr + 0x1C) = 0xA1;
+                *(s32 *)(a0 + 0x1C) -= 1;
+            } else {
+                *(u16 *)(pr + 0x1C) = w;
+            }
+            q[7] = q[5] - *(s32 *)(a0 + 0x1C);
+            q[9] = q[5] + ((((*(s32 *)(a0 + 0x1C) << 2) + *(s32 *)(a0 + 0x1C)) << 1));
+            AddPrim(otp, q);
+            AddPrim(otp, pr);
+        }
+    }
+}
+
 
 void func_80183ACC(s32 a0)
 {
