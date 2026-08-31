@@ -256,7 +256,7 @@ build/src/ov_SC02_000/ov_SC02_000_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (
 build/src/ov_SC02_000/ov_SC02_000_jr_8016AB6C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_000/ov_SC02_000_jr_80178D40.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x178
 build/src/ov_SC02_000/ov_SC02_000_jr_8017AE2C.o: JTBL_PADS := 0,0,0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14,+0x34,+0x54,+0x74
-build/src/ov_SC02_000/ov_SC02_000_jr_8017EA84.o: JTBL_PADS := 0,4,0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18,+0x38,+0x58,+0x78
+build/src/ov_SC02_000/ov_SC02_000_jr_8017EA84.o: JTBL_PADS := 0,4,0,0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18,+0x38,+0x58,+0x78,+0x98
 build/src/ov_SC02_000/ov_SC02_000_jr_8017FCB0.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x40
 build/src/ov_SC02_000/ov_SC02_000_jr_801808C4.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC02_000/ov_SC02_000_jr_80180D6C.o: JTBL_PADS := 0,0,0,0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20,+0x40,+0x60,+0x80,+0xa0
