@@ -3372,3 +3372,98 @@ reproduced incl. the same +1 barrier overshoot) · `ov_SC06_018:func_8018AD74` (
 4. Wire the twin join into `t5_cards.py` as `seed_ref`; cards still say "no banked twin" unconditionally.
 5. **`main`: 1,099 stubs, untouched, now the largest single body of remaining work.** Its lane is
    `gate_main` (T5.7) and nothing today touched it.
+
+## 🛑 SESSION CHECKPOINT — S66 (2026-08-30). Supersedes EVERY earlier block. Phase 31 T5 CONTINUES.
+Written for a FRESH SESSION with none of this context. **Lanes were still running when this was
+written — REFRESH IT before pausing** (a checkpoint outrun by later work is stale, and stale is
+worse than absent).
+
+### STATE (measured from corpus.stubs + progress.LINKED_SEGS, not summed from reports)
+* `make check-all` = **213 passed, 0 failed of 213**, verified from a FULL CLEAN rebuild after the
+  last gate. Fleet **99.2% instruction-weighted · 98.1% distinct** (90,503 / 90,929 unique fns).
+* **FRONTIER = 556** open functions: **456 non-main + 100 main**. Session start was 946.
+  **390 closed this session** (~41% of the frontier), every one byte-verified.
+* Drew pushes (R6). Wave shape ended the session at **2 lanes: main <=7 agents, overlays <=20**.
+
+### THE ONE CORRECTION A FRESH SESSION MUST NOT RE-LEARN
+**`main` is NOT 1,099 open functions — it is ~100.** 960 of `corpus.stubs('main')` live in the 49
+`progress.LINKED_SEGS` subsegs, where the `INCLUDE_ASM` line is a fresh-clone FALLBACK and the
+shipped bytes come from linked PsyQ SDK objects. Worse, `Makefile:595` globs every `src/*.c` into
+OBJS, so those TUs still COMPILE as unplaced inputs: **C written into one of them links and leaves
+the SHA1 green whether or not it is correct** — up to 960 potential gate-green FALSE matches, and
+the byte gate is structurally blind to them. `tools/draw_waves.py --main` now REFUSES LINKED
+addresses (commit in this session); never draw main without that filter.
+`tools/progress.py:484-489` already documented this trap in July; the S65 checkpoint regressed to
+the LINKED-blind oracle. DO NOT REGRESS AGAIN.
+
+### THE ERA CHANGED: families are spent, INTEGRATION is the whole game
+* Over the 405 sig-visible open fns: **h_exact 376 singletons (93%), h_norm 341 (84%)**. Only 64
+  fns sit in 24 multi-member h_norm groups, biggest 6. `twin_sweep` ran 8x today: 12, 4, 2, 1, then
+  0, 0, 0, 0. **The banked-twin pool is DRY** — but re-run it after ANY banking step, it refills.
+* Conversion is now structural, not model-driven: overlays self-report ~85-100% MATCH (≈134
+  near-copies of one engine, so most targets have an in-TU twin already banked); `src/800.c` is
+  single-copy game code and self-reports ~27%. **Budget main at ~1/3 the overlay rate.**
+* **147 of 591 open fns already had a byte-correct draft on disk** (Fable review, `.run/fable_freewins.md`).
+  None needed a drafting agent; each was stranded on ONE of four INTEGRATION blockers. Measured
+  conversions this session: RTU-MATCH 19/25 (18/18 main — they had never been gated at all, the
+  m1/m2/m3 waves died to a budget limit before their gate ran); JTBL 16/32; K&R-mechanical 4/26.
+
+### THE INSTRUMENT LESSON THAT COST THE MOST (F18 RETRACTED -> F23)
+`parallel_gate` **cannot host a jtbl carve**: its worktree `asm/` is a symlink to the main tree and
+the carve runs `make extract` (`gate_stage.py:349-355` deleted its own batch carve because "the carve
+MUST FOLLOW THE SPLICE ... harvest_verify owns it", `_jtbl_prep_one`). I ledgered
+`ov_SC06_022:func_80181664` as a WALL after "two independent gate refusals" — **both came from the
+one gate that cannot carve.** Running the class through the SERIAL gate banked 16/32, including
+functions parallel_gate had refused.
+**"Independent" means a DIFFERENT INSTRUMENT, not a different input.** Two runs of one tool on two
+drafts is one test repeated. R40, sharpened.
+
+### THE PROCESS RULE DREW SET THIS SESSION (binding)
+**HARVEST BEFORE THE NEXT WAVE — no exceptions.** New idioms make the next exemplars cheaper and
+mint free banks; skipping it is the one move that defeats the method. I ran gate -> R22 -> next wave
+EIGHT times before he caught it. Then: **after harvesting, ask of each idiom "is this MECHANICAL?"
+— if so build the sweep and bank the free functions BEFORE drafting again.**
+A harvest/distill workflow COUNTS AS ONE OF THE TWO LANES. The cap is a BUDGET, not a concurrency
+number — I blew a session limit running 3 workflows / ~112 agents while reasoning about concurrency.
+5 harvest rounds ran: cookbook 30,262 -> ~31,000 lines, **§315-§319 + 26 addenda + 3 refutations**,
+index regenerated (965 sections). Best result: a POLARITY SCOPE on §167-05 and a SCOPE CORRECTION to
+§186 (a zero-byte `asm volatile("")` cannot STEER cross-jumping but DOES BLOCK a suffix merge —
+traced to `jump.c`'s `find_cross_jump` walking backwards and failing `rtx_renumbered_equal_p` at
+compare #0). Also §164-26's "only spelling that reaches it" is now bounded: integer-space address
+arithmetic `*(s32*)((s32)SYM + (j<<2))` is a THIRD no-movable spelling needing no retype.
+
+### TOOLS BUILT/FIXED (each negative-controlled, all committed)
+* `wave_args.py` — emits the wave's Workflow args, asserting the .s exists, `sub` == its parent dir,
+  and the pack exists. **Written because I hand-typed a `sub` and would have failed all 19 agents'
+  oracles identically** (it would have read as a model failure). Now ALSO refuses targets banked
+  since the draw: w2 was 85% stale, w3 51% — ~109 of 240 agents re-derived banked work.
+* `draw_waves.py` — frontier draws, cheapest-first, ledger-filtered, name-collision deferral,
+  **LINKED refusal for main**.
+* `claude_wave_packs.py` — pastes the residual class's cookbook bucket INTO the pack (retrieval was
+  the leak: two agents re-derived banked laws with an empty `cookbook_refs_used`; §145(c) has now
+  been rediscovered FOUR times).
+* `match_one.py --json` — answers in JSON on a toolchain failure (it printed bare text and exited 1,
+  so callers got `json.loads` of a non-JSON line and silently lost the most actionable datum).
+
+### NEXT, IN ORDER
+1. **Finish the CC1-FAIL class** (~55 left of 63). Mechanical K&R converts only 4/26 — many TUs
+   declare a real PROTOTYPE, which a K&R definition cannot match. The AGENT recipe (adopt the TU
+   decl, absorb at the use site, asm-label alias) ran 6/10. Lanes for this were RUNNING at
+   checkpoint time: `.run/reconcile_ov.js` (20) + `.run/reconcile_main.js` (7).
+2. **W4 — the -O0-in-an--O2-TU class**: 18 fns in 4 clusters (md_MAIN_003 x9, jr_8013F350 x3 across
+   2 overlays, jr_80183830 x2, 800.c x1), 10 with MATCH drafts in hand; needs the o0 carve.
+3. **Fix two defects**: `parallel_gate` must REFUSE a jtbl-bearing draft and route it to the serial
+   gate (R43) instead of failing it silently; `engine_core.h` has **1,037 duplicate DEFINE_ macros,
+   4 with DIFFERENT bodies** (`DEFINE_func_8013FFD8/_8013F350/_80181538/_801808C4`) — cpp takes the
+   LAST, `blocker_probe` reads the FIRST.
+4. `twin_sweep` after ANY of the above banks. Then draw fresh waves at 7/20.
+5. Permuter routing (F20, measured): closeness <=3 REGALLOC/SCHEDULE -> register pins/keepalive or
+   the wall ledger, NOT the permuter (it never beat base at 2-3); closeness ~8-20 -> permuter with a
+   LONG budget. It descended 10->6, 13->7, 16->10 and then PLATEAUED; no score-0.
+6. §188 assembler walls (`jr $ra`+`addiu $sp` under the pinned `as -O1`) are proven unreachable from
+   C by `oracle_reorder.py` — ledger them, do not spend drafting slots.
+
+### SESSION FINDINGS LEDGER
+`.run/S66_findings.md` — F1..F23, every one byte-measured, including the corrections I had to make
+to my own claims (main's frontier, the "24 groups", the ov_SC04_011 attribution, the parallel_gate
+accusation I published before reading its source, and the F18 wall retraction).
