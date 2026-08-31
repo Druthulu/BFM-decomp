@@ -3997,7 +3997,109 @@ void func_80180950(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8018098C);
+#include "common.h"
+
+/* func_8018098C  (ov_SC06_025) -- 5-way actor state dispatcher on p->unk34.
+ *
+ * Declarations kept BLOCK-scope on purpose, matching this TU's house style
+ * (see the comment above func_801808AC in the same file): a file-scope
+ * prototype for func_8012A828 here would become visible to func_80181C74,
+ * which deliberately calls `func_8012A828()` with no arguments behind a
+ * no-prototype decl. */
+void func_8018098C(void *arg0) {
+
+    typedef struct {
+        u8  pad_0[0x1C];
+        s32 unk1C;      /* 0x1C */
+        u8  pad_20[0x14];
+        u16 unk34;      /* 0x34 */
+    } Obj8018098C;
+
+    extern void func_80180B7C(s32 a0);
+    extern void func_80181700(void *a0);
+    extern s32  func_8012BEE8(s32 a0);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32  func_80137614(s32 a0, s32 a1, s32 a2);
+    extern s32  func_801399F0(s32 a0);
+    extern void func_801823FC(s32 a0);
+    extern void func_8016F374(void);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void func_80181668(void);
+    extern s32  func_801822F0(void);
+    extern void func_80180D28(void *a0);
+
+    extern void (*D_801897FC[])(void);
+    extern s32 D_801A0FBC;
+    extern s32 D_801A249C;
+    extern s32 D_801270C8;
+    extern s32 D_801B1B54;
+    extern s16 D_801B1708;
+    extern s16 D_801B170C;
+
+    Obj8018098C *p = (Obj8018098C *)arg0;
+
+    switch (p->unk34) {
+    case 0:
+        func_80180B7C((s32)p);
+        if (func_8012BEE8((s32)p) != 0) {
+            func_8012A828((s32)p, &D_801A0FBC);
+            p->unk1C = 0x3C;
+            p->unk34 += 1;
+            D_801B1B54 = func_80137614((s32)D_801897FC, 0, 0xC0);
+        }
+        break;
+
+    case 1:
+        func_80181700(p);
+        if (func_8012BEE8((s32)p) != 0) {
+            if (func_801399F0(D_801B1B54) != 0) {
+                func_801823FC(D_801B1B54);
+                p->unk34 += 1;
+            }
+        }
+        break;
+
+    case 2:
+        func_80181700(p);
+        if (D_801B170C == D_801B1708) {
+            p->unk1C = 0x1E;
+            p->unk34 += 1;
+            /* §3-F: a plain scalar store at a FIXED address loses its dependence on
+             * the varying /s p->unk34 store and hoists above it (sched.c:817).  The
+             * COMPONENT_REF spelling -- this TU's own idiom, see func_80180950 --
+             * sets MEM_IN_STRUCT_P and keeps the store in source order. */
+            ((struct { s32 f; } *)&D_801270C8)->f = 0;
+        }
+        break;
+
+    case 3:
+        func_80181700(p);
+        if (func_8012BEE8((s32)p) != 0) {
+            func_8016F374();
+            func_8012A828((s32)p, &D_801A249C);
+            p->unk1C = 0x78;
+            p->unk34 += 1;
+        }
+        break;
+
+    case 4:
+        func_80181700(p);
+        p->unk1C -= 1;
+        if (p->unk1C == 0x6C) {
+            func_8002D4C8(0x9DB, 0);
+            func_80181668();
+        }
+        if (p->unk1C == 0x3C) {
+            func_801822F0();
+        }
+        if (p->unk1C <= 0) {
+            func_8002D4C8(4, 0x9DB);
+            func_80180D28(p);
+        }
+        break;
+    }
+}
+
 
 #include "common.h"
 
