@@ -5363,7 +5363,7 @@ extern s32 func_801847BC(void *a0, void *a1);
 extern s32 func_80184BAC(s32 arg0, s32 arg1);
 extern short D_801912D8;
 extern u8 D_801912E0;
-extern void func_8017F35C();
+extern s32 func_8017F35C(void *a0);
 extern void func_80184CB8(s32 *a0, s32 a1);
 
 void func_8017F2DC(a0)
