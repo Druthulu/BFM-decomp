@@ -32928,3 +32928,38 @@ This is the third distinct use of the zero-byte re-tie in one session — §380 
 `move_movables` invariant), §393 (kill the scheduler's birthing boost), and now §399d (deny a biv).
 **One line, three passes: when a single-set pseudo is being treated specially, give it a second set.**
 (byte-proven `ov_SC07_001/func_8017E4DC`, 92 ins)
+
+## §400 ★★ — A BASELINE CHECK THAT CONFLATES "ABSENT EVERYWHERE" WITH "CHANGED UNDER US" SILENTLY DROPS NEW FILES (P31 S69; 8 files, one session)
+
+`parallel_gate` refuses to adopt a worker's file when the main tree's copy no longer matches the
+pinned baseline — the guard the whole tool exists for. It compared:
+
+```python
+base = sh(["git","show", "%s:%s" % (pin, path)]).stdout   # "" when the path is NOT at the pin
+cur  = open(path).read() if os.path.exists(path) else None # None when absent from the main tree
+if cur != base: REFUSE
+```
+
+A **jtbl carve splits a TU**, creating `src/<bin>/<bin>_jr_<addr>.c` that exists at neither the pin
+nor the main tree. That is `None != ""` → **refused as "main tree moved under them", and never
+added.** Eight accumulated in one session.
+
+**Why it stayed invisible — this is the instructive part.** Nothing failed locally: the file is on
+disk, the build finds it, `check-all` goes green. But `config/splat.<bin>.yaml` names the subseg and
+IS committed, and 31 sibling `_jr_` files in that binary are tracked — so **a fresh clone gets the
+config without the source.** The defect only surfaced when a later run's dirty-tree guard refused to
+start and listed them.
+
+**The fix:** distinguish *not present at the pin* from *empty at the pin* using `git show`'s RETURN
+CODE, so absent-in-both compares equal and the file adopts. Report new adoptions explicitly — adding
+a brand-new source file must never be silent (R32).
+
+**The general law: when a comparison uses two different sentinels for "nothing" (`""` from a failed
+command, `None` from a missing file), it will report a difference that does not exist** — and in a
+guard, a phantom difference becomes a refusal, which looks exactly like the guard working correctly.
+Check what your "absent" value IS on both sides before trusting an inequality.
+
+**Corollary for carve state:** the standing rule is *never blanket-add* `config/overlays.mk` or the
+splat yamls (they are shared state). That rule does NOT extend to a carve's own new source file —
+that file is per-binary, is named by a committed yaml, and MUST be adopted with the bank that
+created it.

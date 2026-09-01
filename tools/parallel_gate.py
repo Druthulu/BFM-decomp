@@ -11,8 +11,12 @@ serializes them is SHARED MUTABLE STATE, all of it in the working tree:
   * the splice writes `src/<bin>/*.c` in the one checkout;
   * `assert_write_set` measures a GLOBAL `git status`, so a concurrent run's writes read as this
     run's blast-radius violation;
-  * the commit is a deliberately broad `git add -u src/` (it must be — propagation legitimately
-    touches many overlays, and a narrower glob once DROPPED four R22-verified banks).
+  * the commit is broad BY NECESSITY (propagation legitimately touches many overlays, and a
+    narrower glob once DROPPED four R22-verified banks). NOTE, corrected P31 S69: THIS TOOL does
+    NOT use `git add -u src/` — that is `gate_stage`'s form. Here the orchestrator adds exactly the
+    ADOPTED paths (`git add -- <adopted>`), which is why the merge-safety check decides what gets
+    committed. A stale reading of this very line sent the first diagnosis of the untracked-carve-file
+    bug in the wrong direction; the cause was the baseline comparison, not the add.
 
 Measured cost of that serialization on 2026-08-29: a 109-binary h_norm sweep ran ~1 min/binary on a
 32-core box at load 1.4 — about 4% utilisation — while an `xargs -P 4` attempt over the SAME tree
