@@ -2719,7 +2719,7 @@ extern void func_8012B370(int a0);
 extern void func_801839E0(void);
 extern void func_80187038(void);
 extern void func_80185DA8(s32 arg0);
-extern void func_80189E60(s32 arg0, s32 arg1);
+extern s32 func_80189E60(s32 arg0, u16 arg1);
 extern void func_80186ED4(s32 arg0);
 extern void (*D_801B53F4[])(void);
 extern void func_80187924(void *a0);

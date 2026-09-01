@@ -2872,7 +2872,7 @@ extern s32  func_8012E778(int param_1, int param_2);
 extern s32  func_8012BCCC(s32 a0);
 extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8018931C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern void func_80189E60(s32 a0, s32 a1);
+extern s32 func_80189E60(s32 arg0, u16 arg1);
 extern u8 D_801B4F5C[];
 extern u8 D_801B5174[];
 extern u8 D_801CC530[];
@@ -2928,7 +2928,7 @@ extern s32  func_8012CBF4(s32 a0);
 extern s32  func_8012CBA4(s32 a0);
 extern void func_8012B23C();
 extern s32  func_80143B6C(s32 a0, s32 a1);
-extern void func_80189E60(s32 a0, s32 a1);
+extern s32 func_80189E60(s32 arg0, u16 arg1);
 extern void func_80131E00();
 extern void func_80131C78(s32 a0);
 
@@ -2959,7 +2959,7 @@ void func_80186270(s32 a0) {
         if (s1 & 0x2000) {
             *(u16 *)(a0 + 0x34) += 1;
             if (*(u8 **)(a0 + 0x90) == D_801CCD68) {
-                func_80189E60(a0, 0x9B8);
+                ((s32 (*)())func_80189E60)(a0, 0x9B8);
             }
             return;
         }
@@ -3005,7 +3005,7 @@ void func_80186270(s32 a0) {
             return;
         }
         if (*(u8 **)(a0 + 0x90) == D_801CCD68) {
-            func_80189E60(a0, 0x9B8);
+            ((s32 (*)())func_80189E60)(a0, 0x9B8);
         }
         if (*(s16 *)(a0 + 0x76) <= 0) {
             func_80131E00(a0, 6);
@@ -3223,7 +3223,7 @@ extern s32  func_8012CBF4(s32 a0);
 extern void func_8012B23C(s32 a0);
 extern void func_80131C78(s32 a0);
 extern void func_80131E00();
-extern void func_80189E60(s32 a0, s32 a1);
+extern s32 func_80189E60(s32 arg0, u16 arg1);
 
 
 void func_80186994(s32 a0) {
@@ -3266,7 +3266,7 @@ void func_80186994(s32 a0) {
             func_80143B6C(a0, 1);
             *(s32 *)(a0 + 0x14) = 0xFFF30000;
             *(s32 *)(a0 + 0x1C) = 0;
-            func_80189E60(a0, 0x9B8);
+            ((s32 (*)())func_80189E60)(a0, 0x9B8);
         }
         break;
 
@@ -3324,7 +3324,7 @@ void func_80186994(s32 a0) {
                 break;
             } else if (s1 & 0x2000) {
                 *(u8 *)(a0 + 0xC3) |= 1;
-                func_80189E60(a0, 0x9B8);
+                ((s32 (*)())func_80189E60)(a0, 0x9B8);
             }
         }
         if ((*(s32 *)(a0 + 0x1C) & 3) == 3) {
@@ -3412,9 +3412,9 @@ void func_80186D80(s32 a0, s32 a1)
 }
 
 
-extern void func_80189E60(s32 arg0, s32 arg1);
+extern s32 func_80189E60(s32 arg0, u16 arg1);
     void func_80186ED4(s32 arg0) {
-        func_80189E60(arg0, 0x9B7);
+        ((s32 (*)())func_80189E60)(arg0, 0x9B7);
     }
 
 
