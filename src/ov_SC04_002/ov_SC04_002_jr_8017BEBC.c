@@ -10496,7 +10496,80 @@ s32 func_801867A0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_8018691C);
+#include "common.h"
+
+// @class: schedule
+// @stuck: none — MATCH (111/111 ins).  Four levers, all needed:
+//  (1) §393 BIRTHING BOOST — the zero-byte re-tie `__asm__("" : "=r"(pan) : "0"(pan));` gives `pan`
+//      an extra set.  Without it gcc births `li $s2,0x7F` AFTER the first jal instead of pairing it
+//      with its own `sw $s2,0x38($sp)` at prologue index 4/5, and the $v0/$v1 pair for the arg0 copy
+//      comes out swapped.  Statement order is completely inert here (§199-A): 24 head permutations,
+//      4x4x4 slot placements and every a0-pointer spelling all sat at closeness 17.
+//  (2) The Y range guard must be a COND_EXPR — `y >= 0 ? y >= 0x78 : -y >= 0x78`.  do_jump's
+//      COND_EXPR case emits `bltz -> label1` + a SEPARATE compare per arm, which is the target's
+//      out-of-line negative arm.  Every `if (y<0) y=-y;` / if-else / goto spelling cross-jumps the
+//      two `slti $v0,$v0,0x78` into ONE (that is §314's "inert" set, and this is its missing lever).
+//      The X guard genuinely IS the merged abs form (`bgez`/`negu`/one `slti`), so the two range
+//      checks are spelled differently in the original source.
+//  (3) §20 — `p` holds &D_80126B58 and is assigned BEFORE the first call, so its range crosses the
+//      call, it gets a callee-saved reg ($s3), and the lui/addiu sink into the `lh` load-delay slot.
+//      One base register with three offsets instead of three lui/%lo pairs.
+//  (4) `u16 a1` — the `andi $a0,$s4,0xFFFF` is a HImode parameter truncated at its USE, not at entry;
+//      an `s32` param with an explicit `(u16)` cast plateaus at 8.
+//  DECL NOTE for the gate (§378b variant 2): this TU declares `extern void func_8018691C(s32, s32);`
+//  at :10425 and calls it at :10494.  Return type (void vs s32) AND param 2 (s32 vs u16) conflict —
+//  run cast_self_callers --sync-decls before building.
+extern void func_8012EFB8(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_800132BC(s32 a0, s32 a1);
+extern s32 D_80126B58;
+
+s32 func_8018691C(s32 a0, u16 a1) {
+    s16 sp10[4];
+    s16 sp18[4];
+    s16 sp20[4];
+    s16 sp28[4];
+    s16 pan;
+    s16 vol;
+    s32 v;
+    s32 d;
+    u16 *p;
+
+    p = (u16 *)&D_80126B58;
+    pan = 7;
+    vol = 0x7F;
+    sp10[0] = *(u16 *)(a0 + 0x6);
+    sp10[1] = *(u16 *)(a0 + 0xA);
+    sp10[2] = *(u16 *)(a0 + 0xE);
+    ((void (*)(s16 *, s16 *))func_8012EFB8)(sp10, sp18);
+    sp18[2] = 0;
+    __asm__("" : "=r"(pan) : "0"(pan));
+
+    v = sp18[0];
+    if (v < 0) v = -v;
+    if (v >= 0xA0) return 0;
+
+    if (sp18[1] >= 0 ? sp18[1] >= 0x78 : -sp18[1] >= 0x78) return 0;
+
+    pan += sp18[0] / 20;
+    if (pan < 0) pan = 0;
+    else if (pan >= 0x10) pan = 0xF;
+
+    sp20[0] = p[3];
+    sp20[1] = p[5];
+    sp20[2] = p[7];
+    ((void (*)(s16 *, s16 *))func_8012EFB8)(sp20, sp28);
+    sp28[2] = 0;
+
+    d = ((s32 (*)(s16 *, s16 *))func_800132BC)(sp18, sp28) - 0x100;
+    if (d > 0) {
+        vol -= (d * 127) / 25600;
+        if (vol < 0) vol = 0;
+    }
+    func_8002D4C8(a1, (u16)(vol | ((pan << 8) | 0x3000)));
+    return 1;
+}
+
 
 
 extern void (*D_801B5108[])(void);
