@@ -16234,7 +16234,7 @@
     extern void func_8016AB30(void *a0); \
     extern s32 func_8016AB6C(s32 arg0); \
     extern void func_8016B234(); \
-    extern void func_8016AE5C(s32 param_1); \
+    extern void func_8016AE5C(); \
     extern void func_8016AFB0(s32 a0); \
     extern void func_8016B114(void *arg0); \
     extern void func_8004914C(void *a0); \
@@ -21960,7 +21960,7 @@
     extern s16 D_8018C8E6; \
     extern s16 D_8018C8E4; \
     extern void func_8013FAF8(s16 a0, s16 a1); \
-    extern s32  func_800D0488(s16 a0); \
+    extern s32  func_800D0488(); \
     extern void func_800D2624(void); \
     void func_8013EF88(void) \
     { \
@@ -56499,7 +56499,7 @@
     extern void func_80184778(void *arg0); \
     extern void func_801847A4(void *arg0); \
     extern void func_801847D0(void *arg0); \
-    extern void func_801847FC(void *arg0); \
+    extern void func_801847FC(); \
     extern void func_80184828(); \
     extern void func_80184854(void *arg0); \
     extern void func_80184880(void *arg0); \
@@ -75306,7 +75306,7 @@
     extern s32 func_8012BEE8(s32 a0); \
     extern void func_8017E79C(short*); \
     extern void func_8017EBA0(s32 a0); \
-    extern void func_8017E7CC(void); \
+    extern void func_8017E7CC(); \
     extern void func_8017EBE0(u8 *a0); \
     extern void func_8017F02C(void * arg0); \
     extern void (*D_8019155C[])(void); \
@@ -79471,7 +79471,7 @@
     extern s32 func_8012BEE8(s32 a0); \
     extern void func_8017E79C(short*); \
     extern void func_8017EBA0(s32 a0); \
-    extern void func_8017E7CC(void); \
+    extern void func_8017E7CC(); \
     extern void func_8017EBE0(u8 *a0); \
     extern void func_8017F02C(void * arg0); \
     extern void (*D_8019155C[])(void); \
@@ -82756,7 +82756,7 @@
     extern s32 func_8012BEE8(s32 a0); \
     extern void func_8017E79C(short*); \
     extern void func_8017EBA0(s32 a0); \
-    extern void func_8017E7CC(void); \
+    extern void func_8017E7CC(); \
     extern void func_8017EBE0(u8 *a0); \
     extern void func_8017F02C(void * arg0); \
     extern void (*D_8019155C[])(void); \
@@ -144800,7 +144800,7 @@
     extern void func_8016AB30(void *a0); \
     extern s32 func_8016AB6C(s32 arg0); \
     extern void func_8016B234(); \
-    extern void func_8016AE5C(s32 param_1); \
+    extern void func_8016AE5C(); \
     extern void func_8016AFB0(s32 a0); \
     extern void func_8016B114(void *arg0); \
     extern void func_8004914C(void *a0); \
@@ -150526,7 +150526,7 @@
     extern s16 D_8018C8E6; \
     extern s16 D_8018C8E4; \
     extern void func_8013FAF8(s16 a0, s16 a1); \
-    extern s32  func_800D0488(s16 a0); \
+    extern s32  func_800D0488(); \
     extern void func_800D2624(void); \
     void func_8013EF88(void) \
     { \
@@ -185065,7 +185065,7 @@
     extern void func_80184778(void *arg0); \
     extern void func_801847A4(void *arg0); \
     extern void func_801847D0(void *arg0); \
-    extern void func_801847FC(void *arg0); \
+    extern void func_801847FC(); \
     extern void func_80184828(); \
     extern void func_80184854(void *arg0); \
     extern void func_80184880(void *arg0); \
@@ -203872,7 +203872,7 @@
     extern s32 func_8012BEE8(s32 a0); \
     extern void func_8017E79C(short*); \
     extern void func_8017EBA0(s32 a0); \
-    extern void func_8017E7CC(void); \
+    extern void func_8017E7CC(); \
     extern void func_8017EBE0(u8 *a0); \
     extern void func_8017F02C(void * arg0); \
     extern void (*D_8019155C[])(void); \
@@ -208037,7 +208037,7 @@
     extern s32 func_8012BEE8(s32 a0); \
     extern void func_8017E79C(short*); \
     extern void func_8017EBA0(s32 a0); \
-    extern void func_8017E7CC(void); \
+    extern void func_8017E7CC(); \
     extern void func_8017EBE0(u8 *a0); \
     extern void func_8017F02C(void * arg0); \
     extern void (*D_8019155C[])(void); \
@@ -211322,7 +211322,7 @@
     extern s32 func_8012BEE8(s32 a0); \
     extern void func_8017E79C(short*); \
     extern void func_8017EBA0(s32 a0); \
-    extern void func_8017E7CC(void); \
+    extern void func_8017E7CC(); \
     extern void func_8017EBE0(u8 *a0); \
     extern void func_8017F02C(void * arg0); \
     extern void (*D_8019155C[])(void); \

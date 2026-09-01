@@ -3857,7 +3857,7 @@ void func_8017DAB4(void) {
     extern s32 func_80014ED4(s32 a0);
     extern void func_80139954(void);
     extern s16 func_8014168C(s16 a0);
-    extern s32 func_8017EB30(s32 a0, s32 a1);
+    extern s32 func_8017EB30();
     extern void func_8017DF18(void);
     extern void func_80137B80(void);
 
@@ -3924,7 +3924,7 @@ extern u8  D_80115142;
 extern s32 func_80014ED4(s32 a0);
 extern s32 func_80015018(s32 a0);
 extern s16 func_8014168C(s16 a0);
-extern s32 func_8017EB30(s32 a0, s32 a1);
+extern s32 func_8017EB30();
 extern void func_8017D758(void);
 
 s32 func_8017DC38(void) {

@@ -3690,7 +3690,7 @@ void func_8017DA58(s32 a0) {
 }
 
 
-extern void func_8017D6CC(void);
+extern void func_8017D6CC();
     void func_8017DB20(void) {
         func_8017D6CC();
     }

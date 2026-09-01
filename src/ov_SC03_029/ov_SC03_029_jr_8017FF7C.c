@@ -6130,7 +6130,7 @@ void func_80184694(void *a0)
 extern u16 D_801270C0;
 extern void func_801292C8(u8 *a0);
 extern void func_8012931C(struct vec*);
-extern void func_801847FC(void);
+extern void func_801847FC();
 
 void func_80184764(void *a0) {
     register s32 s0 __asm__("$16") = (s32)a0;

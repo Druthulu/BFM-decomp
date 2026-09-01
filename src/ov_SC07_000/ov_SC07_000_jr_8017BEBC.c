@@ -5266,7 +5266,7 @@ void func_80180AA4(void *a0) {
 void func_80180B3C(s32 a0)
 {
     extern s16 D_801D0B7C;
-    extern void func_8017F098(void);
+    extern void func_8017F098();
     extern s32 func_8012B8A4(s16 *a0);
     extern void func_8017F464();
 
@@ -5599,7 +5599,7 @@ extern u16 D_80126B66;
 extern u16 D_801D0BB8;
 extern s32 func_8012BEE8(s32 a0);
 extern void func_8012E014(s32 a0);
-extern void func_8018000C(s32 a0);
+extern void func_8018000C();
 
 void func_801813D4(s32 a0)
 {

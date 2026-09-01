@@ -54,7 +54,7 @@ void func_800CEE84(void) {
     func_80011C10();
 }
 
-extern s32 func_800D0488(s32);
+extern s32 func_800D0488();
 extern void func_80011A3C(void);
 
 void func_800CEF04(void) {
@@ -429,7 +429,7 @@ void func_800CF584(void) {
  */
 extern s32 D_80127084;
 extern u8 D_80078EC0;
-extern s32 func_800D0488(s32 arg0);
+extern s32 func_800D0488();
 extern void func_80011CFC(void);
 
 void func_800CF5D4(void) {

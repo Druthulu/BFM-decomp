@@ -5041,7 +5041,7 @@ void func_8017EBA0(s32 a0) {
 }
 
 
-extern void func_8017E7CC(void);
+extern void func_8017E7CC();
     void func_8017EBE0(u8 *a0) {
         if (*(u16 *)((s32)a0 + 0x34) == 1) {
             func_8017E7CC();

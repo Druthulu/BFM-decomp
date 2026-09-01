@@ -4227,7 +4227,7 @@ extern void (*D_80189020[])(void);
 
 void func_80180E30(void *a0) {
     extern s16 D_801B1720;
-    extern void func_80182170(void *a0);
+    extern void func_80182170();
     u16 flag;
 
     D_80189020[*(u16 *)((s32)a0 + 0x2)]();
