@@ -4021,7 +4021,100 @@ void func_8017D468(void* p)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_8017D72C);
+#include "common.h"
+
+extern void func_80019064(void *a0);
+extern s32 func_8016B428(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B21C(void *a0);
+extern s32 rand(void);
+
+
+/* §160a: the lwl/lwr + swl/swr 12-byte block move is an ALIGN-1 struct
+ * assignment.  A u32/u16 copy loop gives aligned lw/sw and is wrong. */
+typedef struct { char c[12]; } Blk12_801C5A30;
+
+void func_8017D72C(s32 arg0) {
+
+    extern u8 D_80062BDC;
+    extern u8 D_80186F7C;
+    extern u8 D_80186F8C[];      /* indexed u8 table -> lui $at / addu $at / lbu %lo (§250) */
+    extern s32 D_80186FB0[];
+    extern u16 D_80188990[];     /* stride-12 record table; read through a materialised base */
+    extern s16 D_801C5AAA[];
+    extern s16 D_801C5AAE[];
+    extern s16 D_801C5AB2[];
+    extern Blk12_801C5A30 D_801C5A30[];
+    s32 i;
+    s32 n;
+    /* The lbu result must stay in a CALLER-saved reg while `n` lives across
+     * func_8012A828, so the target's `addu $s0,$v0,$zero` copy survives.
+     * Without the pin gcc coalesces the two pseudos (`lbu $s0` / `sh $s0`)
+     * and the copy disappears -- one instruction short. */
+    register s32 t __asm__("$2");
+    s32 v;
+    u16 t5c;
+    s32 t5e;
+    u16 *p;
+
+    /* Head block is pure schedule.  Three things are load-bearing:
+     *  - the 0x34 store FIRST (lowest LUID): it is the sched tie-break that
+     *    keeps it out of the bne delay slot, which is a `nop` in the target;
+     *  - the 0x5C read/write SPLIT across a temp (an in-place `&= 0xFFFE`
+     *    keeps lhu/andi/sh adjacent and the whole block re-orders);
+     *  - t5e as s32, not u8 (a u8 temp adds a redundant `andi $v1,0xff`). */
+    *(s16 *)(arg0 + 0x34) = 0;
+    *(s16 *)(arg0 + 2) = 2;
+    t5c = *(u16 *)(arg0 + 0x5C);
+    *(s32 *)(arg0 + 0x1C) = 0x15;
+    t5e = *(u8 *)(arg0 + 0x5E);
+    *(u16 *)(arg0 + 0x5C) = t5c & 0xFFFE;
+    if (t5e == 5) {
+        func_80019064(&D_80062BDC);
+    }
+    if ((*(u16 *)(arg0 + 0x82) & 1) != 0) {
+        func_8016B428(arg0);
+        func_80019064(D_80062C04);
+    }
+    /* SIGNED field: `--*(s16*)` gives the target's `sll $v0,$v0,16` + bnez
+     * (combine drops the sra for an ==0 test).  A u16 field gives
+     * `andi $v0,0xffff` instead -- the load itself is lhu either way. */
+    if (--*(s16 *)(arg0 + 0x76) == 0) {
+        *(u16 *)(arg0 + 0x5C) &= 0x7FFF;
+        func_8002D4C8(0x4A8, 0);
+    } else {
+        func_8002D4C8(0x4A9, 0);
+    }
+    t = D_80186F8C[*(s16 *)(arg0 + 0x76)];
+    n = t;
+    *(s16 *)(arg0 + 0xFC) = t;
+    for (i = 0; i < 10; i++) {
+        D_801C5A30[i] = *(Blk12_801C5A30 *)(i * 12 + *(s32 *)D_80186FB0[*(s16 *)(arg0 + 0x76)]);
+    }
+    func_8012A828(arg0, &D_80186F7C);
+    /* §250: the POINTER form materialises one lui/addiu/addu base.  Writing
+     * D_80188990[n*6 + k] directly folds %lo into each access -- 3 extra
+     * instructions AND 16 bytes of phantom stack frame (0x30 vs 0x20). */
+    p = &D_80188990[n * 6];
+    D_801C5AAA[0] = p[0];
+    D_801C5AAE[0] = p[1];
+    D_801C5AB2[0] = p[2];
+    func_8012B21C((void *)arg0);
+    *(s32 *)(arg0 + 0x48) = 0x18000;
+    v = rand() << 4;
+    if ((rand() & 1) == 0) {
+        v = -v;
+    }
+    *(s32 *)(arg0 + 0x10) = v;
+    v = rand() << 4;
+    if ((rand() & 1) == 0) {
+        v = -v;
+    }
+    *(s32 *)(arg0 + 0x18) = v;
+    *(s32 *)(arg0 + 0x14) = -0xC0000;
+}
+
 
 #include "common.h"
 

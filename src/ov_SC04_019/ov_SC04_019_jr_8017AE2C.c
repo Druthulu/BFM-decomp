@@ -4864,7 +4864,17 @@ extern void func_8012A828(s32 *a0, s32 a1);
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017E7CC);
+void func_8017E7CC(int param_1)
+{
+    extern short D_801B9AA8;
+    extern void func_8012A828(s32 *a0, s32 a1);
+
+    *(short *)(param_1 + 2) = 3;
+    *(short *)(param_1 + 0x34) = 0;
+    func_8012A828((s32 *)param_1, (s32)&D_801B9AA8);
+    *(int *)(param_1 + 0x1c) = 0x10;
+}
+
 
 
 extern void (*D_801912C8[])(void);
