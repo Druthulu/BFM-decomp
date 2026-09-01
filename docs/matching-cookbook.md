@@ -32255,3 +32255,53 @@ expression", never "add a cast":
    `(s16)` `sll`/`sra` pair**. Only an `s16` local assigned in one block and consumed in a distant
    one does — and the copy must sit ABOVE the guard, or it coalesces away against the target's
    `addu $a1,$v0,$zero` (`func_8002D904`).
+
+## §384 ★★★ — A CARVE-CONFIG BANK IS RED UNTIL YOU RE-EXTRACT, AND THAT LOOKS EXACTLY LIKE A FALSE BANK (P31 S69; measured twice, cost one destroyed match)
+
+**The symptom.** A gate banks a jtbl function, commits, and reports green. You then verify the
+binary in the main tree with `make build BINARY=<b>` and get a SHA mismatch:
+
+```
+[FAIL] build/ov_SC04_011/ov_SC04_011
+       got  9c94d36a2cb5d8b56073d859c6e58cf396a5e750
+       want 8bc09c422de2c28b3d71cf382cb6241c1e39d5db
+```
+
+Every instinct says false bank. **It is not.** Both times it happened in S69, the bank was
+byte-perfect:
+
+```
+make extract BINARY=ov_SC06_025 && make build BINARY=ov_SC06_025   ->  BYTE-IDENTICAL
+make extract BINARY=ov_SC04_011 && make build BINARY=ov_SC04_011   ->  BYTE-IDENTICAL
+```
+
+**The mechanism.** Banking a jtbl function changes CARVE CONFIG — `JTBL_PADS` in
+`config/overlays.mk` and the binary's splat yaml (`tables=+0x0,+0x20,+0x40,+0x58` gaining a fifth
+entry). Those files are splat **inputs**: `asm/` and the linker script are *generated from them*. A
+worker gates inside a worktree that regenerated its own state, so it is right. The main tree, after
+the merge, holds NEW carve config against OLD extracted state — and links the newly-carved C against
+a stale `.ld`. The SHA that comes out is meaningless.
+
+**The trap inside the trap.** Reverting the C alone makes it worse and *changes* the error, which
+reads like progress:
+
+```
+jtbl_rodata_pads: consumed 4 rodata jump table(s) but 5 pad spec(s) given — table-count drift vs the carve
+```
+
+That is the src and the carve state disagreeing — you reverted half a commit. A carve revert must
+carry `config/` too (see the `carve-state-files-never-blanket-add` discipline).
+
+**The law.** *Verification after a gate must regenerate whatever that gate changed the inputs to.*
+Concretely:
+
+| the gate touched | the valid per-binary check |
+|---|---|
+| `src/` only | `make build BINARY=<b>` |
+| anything under `config/` | **`make extract BINARY=<b> && make build BINARY=<b>`** |
+
+This is the R22 corollary aimed the other way. R22 says a *reverted* config needs a re-extract; a
+*landed* config change needs one just as much. It is also R40 in its purest form — the instrument
+(a build over stale extract state) was broken, and I attributed the failure to the subject, reverted
+a legitimate 96-line match, and wrote a checkpoint calling it a false bank. The give-away I ignored:
+the commit's own diffstat showed `config/overlays.mk` and a splat yaml right next to the `.c`.

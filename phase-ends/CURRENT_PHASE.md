@@ -4334,11 +4334,14 @@ cast_self_callers --sync-decls  # 3: narrow-param, C89-illegal for no-proto (§3
 It generalises to the CALLEE named in the diagnostic (banked `main:func_80021D38` that way).
 
 ### FOUR OF MY OWN DEFECTS, ALL MEASURED, ALL FIXED
-1. **A FALSE BANK reached the tree** (`ov_SC04_011`, sha 9c94d36a vs 8bc09c42). The gate that made it
-   ran `--no-r22` because agents were live. Reverting needed the CARVE STATE too (JTBL_PADS 4->5 pads
-   + splat yaml); a src-only revert gave "table-count drift vs the carve". **It may not even be
-   false** — the bank changed splat config, and the R22 corollary says a config change needs
-   `make extract`, not just a rebuild. RETEST with an extract; the draft is preserved.
+1. **~~A FALSE BANK reached the tree~~ — CORRECTED: it was never false, MY CHECK WAS BROKEN (§384).**
+   `ov_SC04_011` and later `ov_SC06_025` both read as SHA mismatches in the main tree. Both are
+   byte-perfect: `make extract BINARY=<b> && make build` -> BYTE-IDENTICAL, proven on both. A jtbl
+   bank changes CARVE CONFIG (JTBL_PADS + splat yaml), which are splat INPUTS — so a build-only check
+   links newly-carved C against STALE extracted state. I reverted a legitimate 96-line match on that
+   reading (restored in commit:3481) after writing "it may not even be false" and not testing it.
+   **STANDING FIX: if a gate touched `config/`, the per-binary verify is `make extract && make build`,
+   never build alone.** Build-only is valid only when nothing under config/ changed.
 2. **`cast_self_callers` left casts behind for drafts that did not bank**, and one of them made
    `ov_SC07_000` fail to COMPILE at HEAD — so every later gate verdict on it measured a broken
    baseline. Found because TWO drafting agents reported BASELINE-RED and I checked their claim.
