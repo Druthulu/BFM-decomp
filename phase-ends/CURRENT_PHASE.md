@@ -4085,3 +4085,43 @@ NEGATIVE result, banked so nobody re-derives the 45 compiles that produced it**.
 · `.run/S68_twin_refused.json` (36 non-main twins with a banked body = agent fuel) ·
 `.run/S68_recover_drift.json` · `.run/S68_o0_needs_carve.json` · `.run/S68_queue.json` (53-target
 wave queue, ~30 still undrawn) · `.run/gate_lane/{ledger.json,verdicts.jsonl}`.
+
+- **S68 T9 (post-reset) — THE MODULE-BINARY -O0 ROUTE IS OPEN.** `md_MAIN_003` is a single `c`
+  subseg and every carve died at `jr_isolate_all: unaddressable content`, blocking **9 of the 12**
+  remaining -O0-in--O2-TU functions. It was **three stacked causes**, which is why it read as one
+  wall: (1) an interior YAML comment terminated `load_ov_syms`' symbol-file list, so one symbol
+  resolved to `None`; (2) a trailing verbatim-asm chunk after the last addressable anchor had
+  nowhere to attach — it now joins the LAST region when every symbol it defines resolves at/after
+  the last cut; (3) bare tag forward decls tripped the `_file_scope_decls` dedupe refusal.
+  **Then the carve CAUSED a link failure worth knowing:** spimdisasm migrates single-referenced
+  rodata into a function's `.s` **only within the same subseg**, so moving `func_800D30D0` to the new
+  subseg while the `.rodata` island stayed behind **silently dropped three string blocks**
+  (`undefined reference to D_800CEE58/D_800CEE80`) — and `INCLUDE_RODATA` does NOT resurrect them
+  (splat marks them migrated segment-wide and emits nothing). Fix: rename the `.rodata` subseg to
+  follow its emitters; the regenerated `func_800D30D0.s` came back byte-identical to the pre-carve one.
+  **The Makefile hunk had to land in the SAME commit:** the -O0 glob covered only `src/ov_*/`, so the
+  new region file would compile -O2 — byte-neutral while stub-only, but every -O0 draft banked into
+  it would mystery-fail the gate (§362's trap class), and a fresh clone would hit exactly that.
+  **Verified independently of the agent:** rebuild by hand → sha1
+  `dd1b32ecf1103c6f7cf1943d25546a3046e17b14` == `check.md_MAIN_003.sha`; stubs 13 → 12;
+  `func_800D0D6C` (345 ins) absent from `corpus.stubs`. **R22 after: 213 passed / 0 failed of 213** —
+  which doubles as the negative control for the `jr_isolate_all` / `overlay_src_split` changes, since
+  every binary's split path runs through them. `interleave_check`'s DRIFT on this binary is
+  **PRE-EXISTING, not carve-caused** (identical on a clean tree, verified before any change):
+  md_MAIN_003 has no `_JTBL_INTERLEAVE` block and must not get one — forcing ALIGNED moves the
+  leading rodata island after `.text` and shifts every address by 0xD8. `config/overlays.mk`
+  untouched (R59/R60). **8 of the 9 md_MAIN_003 -O0 stubs remain — they now have a working route and
+  need drafts.**
+
+- **S68 T10 — the twin flywheel closed on `func_8013DD68`.** Banked in `ov_SC07_007` by an opus
+  agent earlier in the session; `family_remap` then moved that body to its two open siblings
+  `ov_SC07_010` / `ov_SC07_011` for **zero agent tokens** (2 × 187 ins). The only gap was two
+  file-scope `#define`s (`IDVAL`, `OTE`) sitting above the body that the remap does not carry — the
+  TYPEDEFS needed no carry at all, they already live in `src/shared/engine_types.h` and reach every
+  TU via `engine_core.h`. `match_one` called both `cc1-fail` (its standalone probe lacks
+  engine_types.h — §356 again); the real-TU probe called both MATCH, and both banked byte-identical.
+
+- **A rate-limit note for the record (R40):** five drafts returned `NO-DRAFT` purely because the
+  weekly limit hit mid-flight. That is a HARNESS verdict, not a verdict on the targets, so all five
+  were returned to the FRONT of the queue rather than counted as attempted — the same principle as
+  clearing the gate ledger when `gate_stage` was comparing main against the wrong binary's hash.
