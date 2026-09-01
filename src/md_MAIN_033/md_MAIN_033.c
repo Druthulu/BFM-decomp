@@ -262,7 +262,7 @@ s32 func_800CB3D8(s32 arg0, s32 arg1) {
     extern void func_8012F14C(s32, s32, s32);
     extern void func_80015978(s32, s32 *);
     extern void func_80015954(s32, s32);
-    extern s32 func_800CB4EC(s32);
+    extern s32 func_800CB4EC(s32 a0);
 
     struct S { s32 f[8]; };
     struct S st;
@@ -281,7 +281,7 @@ s32 func_800CB3D8(s32 arg0, s32 arg1) {
     *(u16 *)(arg0 + 6) += out2[0];
     *(u16 *)(arg0 + 0xA) += out2[1];
     *(u16 *)(arg0 + 0xE) += out2[2];
-    ret = func_800CB4EC(arg0);
+    ret = ((s32 (*)())func_800CB4EC)(arg0);
     func_80015954((s32)out1, arg0 + 4);
     return ret;
 }

@@ -2987,7 +2987,7 @@ void func_80180D6C(s32 param_1) {
 }
 
 
-extern void func_8017F950(void);
+extern void func_8017F950(s32 a0);
 extern s32 D_801270D8;
 extern s16 D_8018E6CC;
 extern s16 D_8018E6D0;
@@ -3011,7 +3011,7 @@ void func_8018127C(s32 param_1) {
     u16 t;
 
     if ((*(u16 *)(param_1 + 0x5C) & 1) != 0) {
-        func_8017F950();
+        ((void (*)())func_8017F950)();
     }
     if ((*(u16 *)(param_1 + 0x70) & 0x400) != 0 && D_801270D8 != 0 &&
         *(u16 *)(param_1 + 0x2) != 0xA) {

@@ -92250,7 +92250,7 @@
     }
 
 #define DEFINE_func_8018127C() \
-    extern void func_8017F950(void); \
+    extern void func_8017F950(); \
     extern s32 D_801270D8; \
     extern s16 D_8018E6CC; \
     extern s16 D_8018E6D0; \
@@ -220816,7 +220816,7 @@
     }
 
 #define DEFINE_func_8018127C() \
-    extern void func_8017F950(void); \
+    extern void func_8017F950(); \
     extern s32 D_801270D8; \
     extern s16 D_8018E6CC; \
     extern s16 D_8018E6D0; \
