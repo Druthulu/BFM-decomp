@@ -3244,7 +3244,83 @@ void func_8017D7EC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017D994);
+/* func_8017D994 (ov_SC03_105, ov_SC03_105_jr_8017C8D0.c) — the D_801B9708 particle-group tick.
+ *
+ * §193-A twin: ov_SC03_028:func_8017F278 (line-for-line relative, same 101 ins). Levers carried
+ * over from it verbatim:
+ *   - `register s32 sym __asm__("$2")` pins the %hi/%lo symbol materialisation to $v0 and keeps it
+ *     INSIDE the outer loop (gcc would otherwise hoist/realloc it);
+ *   - `register s32 base __asm__("$5")` pins the group pointer to $a1, which is what lets the
+ *     one-argument call to func_8017DB28 (declared unprototyped, §17a-1) leave $a1 already holding
+ *     the group — the callee's second parameter is supplied by that live register, not by a move.
+ *   - func_80146C3C keeps the fleet-canonical no-prototype decl with the signature applied at the
+ *     call site (a concrete prototype collides with engine_core.h:192 and this TU's line 1702).
+ * D_801B9708 is spelled u8[] here so the draft compiles standalone; func_8017D7EC's block-scope
+ * `extern GroupRec_801EB5C8_8017D7EC D_801B9708[8]` is a different block, so this is a warning
+ * only (verified against cc1 2.7.2), never an error.
+ */
+
+void func_8017D994(void *arg0) {
+    extern u8 D_801B9708[];
+    extern void func_8017DB28();
+    extern void func_80146C3C();
+    s32 cnt2;
+    s32 i;
+    s32 j;
+    register s32 base __asm__("$5");
+    s32 p;
+    s32 vel;
+    s32 pos;
+    u16 life;
+    s32 f18;
+
+    cnt2 = 0;
+    for (i = 0; i < 8; i++) {
+        {
+            register s32 sym __asm__("$2") = (s32)((u8 *)D_801B9708);
+            base = sym + i * 0x1D0;
+        }
+        if (*(s16 *)(base) == 0) {
+            *(s32 *)(base + 0xC) = *(s32 *)(base + 0xC) + 0x10000;
+        }
+        for (j = 0; j < 16; j++) {
+            p = base + 0x10 + j * 0x1C;
+            switch (*(s16 *)(p)) {
+            case 0:
+                vel = *(s32 *)(p + 0xC) + *(s32 *)(p + 0x10);
+                pos = *(s32 *)(p + 0x14);
+                life = *(u16 *)(p + 2) - 1;
+                pos = pos + vel;
+                *(s32 *)(p + 0x14) = pos;
+                *(s32 *)(p + 0xC) = vel;
+                *(u16 *)(p + 2) = life;
+                if ((s16)life == -1) {
+                    *(u16 *)(p) = *(u16 *)(p) + 1;
+                }
+                *(u16 *)(p + 4) = *(u16 *)(p + 4) + *(u16 *)(p + 6);
+                *(u16 *)(p + 0xA) = *(u16 *)(p + 0xA) + 0x10;
+                break;
+            case 1:
+                *(u16 *)(p + 4) = *(u16 *)(p + 4) + 0x80;
+                f18 = *(s32 *)(p + 0x18) - 8;
+                *(s32 *)(p + 0x18) = f18;
+                if (f18 < 0) {
+                    *(s32 *)(p + 0x18) = 0;
+                    *(u16 *)(p) = *(u16 *)(p) + 1;
+                }
+                break;
+            case 2:
+                cnt2 = cnt2 + 1;
+                break;
+            }
+        }
+        func_8017DB28(arg0);
+    }
+    if (cnt2 == 0x80) {
+        ((void (*)(void *))func_80146C3C)(arg0);
+    }
+}
+
 
 
 extern void func_80015978(s32 a0, s32 *a1);
