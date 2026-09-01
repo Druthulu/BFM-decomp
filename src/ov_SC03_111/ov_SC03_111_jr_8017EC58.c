@@ -3676,7 +3676,84 @@ void func_801809D4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_111/nonmatchings/ov_SC03_111_jr_8017EC58", func_80180A10);
+/* func_80180A10 -- ov_SC03_111 / ov_SC03_111_jr_8017EC58  (92/92 MATCH)
+ *
+ * Prelude is the byte-proven near-twin func_8017D20C (src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c):
+ * the func_80148800(&D_80126B58)&3 toggle on *(u8*)(a0+5), the `u8 t` index, and the align-2
+ * `Blk8_80126940_*` 8-byte record whose whole-struct assign is the lwl/lwr + swl/swr copy (§48-C2).
+ * Symbol surface re-read off THIS target's own .s (D_80188A54 / D_80188A4C, not the twin's
+ * D_80186EDC), literals re-read too (-0x332 / -0x620 / 0x621 / 0x38E / 0xE3, 683/1568 whose
+ * signed-magic is the target's 0x5397829D >> 9).
+ *
+ * @class: schedule
+ * @stuck: none -- MATCH. The only residual (8 ins, ADDRESSING/lui!=andi) was the `andi $s1,$v0,0xFFF`
+ *   scheduling AFTER the two `lhu`s instead of before them, which then cost $v0/$v1 to $v1/$a2 in
+ *   the argument block. Statement order is INVARIANT here: all 24 permutations of the four
+ *   statements in that window were brute-forced (cookbook-index L25) and every A-first order gave
+ *   the same 8 -- a §307 bound. The unlock is *cookbook §393, THE BIRTHING BOOST*: `s1` is a
+ *   single-set local, which gets gcc-2.7.2's maximum scheduling priority and therefore (sched2
+ *   running BACKWARD) lands LATE. The zero-byte re-tie gives the pseudo a second set and kills the
+ *   boost. NOTE: the plain-C form of the same idea (`s1 = ratan2(...); s1 &= 0xFFF;`) does NOT work
+ *   -- it made s1/s0 swap in the allocator and went 8 -> 18. The asm re-tie is the one that lands.
+ *
+ * Decl note (§376/§378): func_80180B80 is DEFINED later in this TU as (S*, s16*, u16). Declaring it
+ * no-proto at BLOCK scope is compatible in gcc-2.7.2 -- verified by compiling this body in a file
+ * that also carries the TU's `S` typedef and that exact prototype: still MATCH (92 ins). Every other
+ * extern here is copied verbatim from the TU (ratan2 :246, func_80148800 :266, func_80013294 :497,
+ * D_80126B58 :55).
+ */
+
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_80180A10;
+
+extern s32 ratan2(s32 a0, s32 a1);
+extern u16 func_80148800(s32 *a0);
+extern s32 func_80013294(void *a0, void *a1);
+
+void func_80180A10(s32 a0) {
+    extern void func_80180B80();
+    extern s32 D_80126B58;
+    extern s16 D_80188A54[];
+    extern s32 D_80188A4C;
+    extern Blk8_80126940_80180A10 D_80126940;
+    Blk8_80126940_80180A10 sp10;
+    u16 sp18[3];
+    s32 s1;
+    s32 v;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80188A54[t];
+    }
+
+    sp10 = D_80126940;
+    if (sp10.v[1] < -0x332) {
+        sp10.v[1] = -0x332;
+    }
+    if (sp10.v[2] < -0x620) {
+        sp10.v[2] = -0x620;
+    }
+
+    s1 = ratan2(sp10.v[0], sp10.v[2]) & 0xFFF;
+    __asm__("" : "=r"(s1) : "0"(s1));   /* §393 birthing boost: 2-set s1 -> the andi schedules first */
+    sp18[0] = (u16)sp10.v[0];
+    sp18[1] = 0;
+    sp18[2] = (u16)sp10.v[2];
+
+    v = (s16)func_80013294(&D_80188A4C, sp18);
+
+    if (v >= 0x621) {
+        *(u16 *)(a0 + 0x20) = 0x38E;
+    } else {
+        *(u16 *)(a0 + 0x20) = v * 683 / 1568 + 0xE3;
+    }
+
+    func_80180B80(a0, sp10.v, s1);
+}
+
 
 typedef struct {
     u8 pad0[8];
