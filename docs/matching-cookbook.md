@@ -31973,3 +31973,52 @@ through reload. Here the rows are pure shift/`slti` with no commutative operands
 hold, and the RTL dumps named copy-capture instead. **The escalation was told to CHECK whether §368's
 tell applied rather than assume it, reported that it did not, and found the real cause** — which is
 the procedure §361 asks for, working as intended.
+
+## §373 ★★★ — THE **DEAD-RESET CSE-BREAKER**, THE PIN THAT BREAKS A sched2 ANTI-DEP, AND WHY AN `asm` CAN NEVER RAISE PRIORITY (P31 S68; byte-proven ov_SC06_010/func_8017E764, 438 ins, fable escalation closed 8 → 0)
+
+### 1. DEAD-RESET CSE-BREAKER — the zero-footprint replacement for a §195-I asm re-tie
+To stop cse merging two computations of the same address/expression (the classic case: `&local`
+passed to two calls) **without** an asm's scheduling footprint:
+
+    p = expr;        /* name it            */
+    f(..., p);       /* use it             */
+    p = 0;           /* DEAD-RESET, immediately after */
+
+cse's forward scan invalidates the equivalence at the second set, and `flow` deletes the dead set
+**before sched1** — so it costs **zero bytes and zero LUID/priority disturbance**.
+
+**Why this beats the asm re-tie:** an empty-asm re-tie is a REAL pre-call insn whose
+`def -> asm -> arg` chain has an early LUID and therefore FRONTS that argument's `addiu` over its
+siblings. That is a scheduling side effect, and on this function it *was* the second residual
+cluster — §361 confirmed, the lever caused the bug it was later blamed on.
+Proof the dead-reset is load-bearing rather than cosmetic: removing it costs **+2 instructions and
++8 frame bytes**.
+
+### 2. A REGISTER PIN THAT DELETES A sched2 ANTI-DEPENDENCE
+**Symptom:** the target interleaves an address materialization (an `la` pair) between an unrelated
+load and its store; yours emits load / store / `la` serially **in the same register**.
+**Cause chain, in order:** sched1's birthing boost sinks the single-set `la` to its consumer →
+local-alloc reuses the just-freed scratch (`$v0`) → **sched2 is then walled by the
+store-reads-`$v0` → `la`-writes-`$v0` ANTI-dependence**.
+**Fix:** a `register __asm__` pin on the address pointer to the TARGET's register deletes that
+anti-dep, and sched2 reproduces the interleave. Pair it with splitting the deref from its `+K`
+consumer around the neighbouring statement to set LUID fill order.
+Note this is a case where a pin is exactly right — contrast §368, where pins were measured WORSE.
+The discriminator is WHAT the pin is for: breaking a false anti-dependence (works) versus trying to
+out-argue local-alloc about an allocation (fails).
+
+### 3. HARD FACT FOR THE SCHEDULING MAP — an `asm` ALWAYS has priority 1
+`gcc-2.7.2 insn_cost` (**sched.c:1363**) sets `LINK_COST_FREE` on any dependence whose CONSUMER is
+unrecognizable — `INSN_CODE < 0`, which is **every inline asm**. So an asm can never inherit a load's
+latency-2 into its priority: **`pri(asm) = 1`, always.**
+**Do not try to raise an instruction's priority by feeding a load through an asm.** That closes off a
+whole family of plausible-looking levers, which is why it is worth its space next to §370's
+`schedule_select` bound.
+
+### CROSS-REFERENCE TO §370 — checked and found INAPPLICABLE here, which is the point
+This escalation was briefed to test §370's bound (a ready load always beats an equal-priority ALU
+leaf) against cluster 1 FIRST. It reported that the bound did **not** explain this residual — the
+cause was the birthing-boost → local-alloc → anti-dep chain above — and then found the real one.
+§370's claim is unchanged and still narrow: it applies to *simultaneously-ready same-priority leaves*.
+The habit is the transferable part: check whether a recorded bound actually covers your case before
+concluding the residual is unreachable.
