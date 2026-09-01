@@ -32861,3 +32861,30 @@ environment — the information exists (`decl_prior` already computes it for car
 `cast_self_callers`/`fix_arity_callers` already edit it). Until it does, the remap lane's realistic
 yield is ~15% straight-through and ~50% after integration, not the 76–88% the PURE-class rate
 suggests. **Quote the straight-through number when planning, not the class rate.**
+
+## §398b ★★ — NAMING A SUB-EXPRESSION IN A LOCAL CHANGES WHICH PSEUDO SURVIVES; INLINE IT AT BOTH USE SITES (P31 S69; byte-proven ov_SC03_028/func_80183264, 93 ins)
+
+Writing a repeated computation **inline at both use sites** and writing it **once into a named local**
+are not equivalent, and the difference is visible in the register file:
+
+```c
+    f(  (v1 * 104) / 1024,  ... );        /* inline at BOTH sites — cse builds the CSE itself   */
+    s32 t = (v1 * 104) / 1024;            /* named — expmed.c:2986 copy_to_mode_reg's temp      */
+```
+
+Naming it lets `expmed.c`'s `copy_to_mode_reg` temp **coalesce with the product** (an in-place
+`addiu`/`sra`) and moves the surviving divide-copy onto the `/16`. Letting cse construct the common
+subexpression itself keeps the temp a **separate pseudo** — which is what the target shows.
+
+**Two companions from the same crack:**
+* **An `s16` local's cse quantity differs from an `s32` one**, and that difference alone is why an
+  `addu $s3,$s2,$zero` copy survives. Rewriting as `s32 t` + an `(s16)` cast lets `t.i.cse` fold
+  three regs into one and the function loses two saved registers and two copies. **The declared width
+  is a cse-quantity dial, not just a codegen one** (compare §392b).
+* **The §136d-1 `zr` trick needs to be applied to BOTH copies, not one.** `arg = ang;` alone is
+  `canon_reg`'d away; `arg = ang + zr;` on both copies lets cse merge the two identical `ang+$0`
+  expressions into one, reproducing the target's pair.
+
+**Banking caveat:** a `register … __asm__("$0")` pin fails `dedup_propagate.compiles_standalone`
+(§37), so a function cracked this way banks ×1 and never propagates to siblings. Prefer a
+width/inlining lever over a `$0` pin when the function has cousins.
