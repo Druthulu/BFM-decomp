@@ -3875,7 +3875,32 @@ void func_8017EB8C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017ECAC);
+#include "common.h"
+
+
+
+extern s32 func_8014C168(s32 *a0, s32 a1);
+extern void func_8017EDF8();
+extern s32 D_80126B58;
+extern Blk8 D_801274E8;
+extern s16 D_801274EA;
+extern s16 D_801274EC;
+
+void func_8017ECAC(void *param_1)
+{
+    s32 ptr;
+    u16 v;
+
+    v = (*(u16 *)((u8 *)param_1 + 0x1A) + *(u16 *)((u8 *)param_1 + 0xA0)) & 0xFFF;
+    *(u16 *)((u8 *)param_1 + 0x1A) = v;
+    *(u16 *)((u8 *)param_1 + 0x22) = v;
+    ptr = func_8014C168(&D_80126B58, 0x3D);
+    *(s16 *)&D_801274E8 = *(u16 *)(ptr + 6);
+    D_801274EA = *(u16 *)(ptr + 0xA);
+    D_801274EC = *(u16 *)(ptr + 0xE);
+    func_8017EDF8(param_1, &D_801274E8);
+}
+
 
 #include "common.h"
 

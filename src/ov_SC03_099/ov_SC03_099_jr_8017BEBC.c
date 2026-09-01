@@ -3394,7 +3394,37 @@ void func_8017D20C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_099/nonmatchings/ov_SC03_099_jr_8017BEBC", func_8017D2AC);
+#include "common.h"
+
+
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D364(s32 param_1, s16 *param_2);
+
+void func_8017D2AC(s32 a0) {
+
+    extern s32 D_80126B58;
+    extern s16 D_80186EE0[];
+    extern Blk8_80126940_8017D20C D_80126940;
+    Blk8_80126940_8017D20C sp10;
+    u8 t;
+    s32 lim;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80186EE0[t];
+    }
+    sp10 = D_80126940;
+    __asm__ volatile("" ::: "memory");
+    lim = -0x180;
+    if (sp10.v[1] > lim) {
+        register s32 v4 asm("$4") = -0x180;
+        sp10.v[1] = v4;
+    }
+    func_8017D364(a0, sp10.v);
+}
+
 
 
 // @class: schedule
