@@ -33052,3 +33052,26 @@ journal that caused the corruption: it refuses and leaves the tree untouched. Th
 why guessing was hopeless — `extern void func_8012A828();` maps back to **four** distinct originals
 (`(int a0, void *a1)`, `(int, void *)`, `(s32 *, s32)`, `(s32 *a0, s32 a1)`). **A loud refusal costs
 one `git checkout`; a silent swap costs a corrupted fleet-shared header nobody notices.**
+
+## §404
+**`harvest_verify` invoked DIRECTLY verifies but does not BANK — `gate_stage` is the entrypoint that persists.**
+
+`harvest_verify.py --binary <b> --drafts <dir>` substitutes each draft, rebuilds, and reports
+`verified N / VERIFIED: <fns>` with the final SHA. That output means the draft **passed the whole-binary
+byte gate**. It does NOT mean the function is banked: run alone, the splice does not survive, and the
+tree is left with the `INCLUDE_ASM` stub still in place.
+
+Byte-witnessed (P31 S70): `verified 1 / VERIFIED: func_8002B0B4`, final SHA BYTE-IDENTICAL — and
+`INCLUDE_ASM("asm/nonmatchings/800", func_8002B0B4);` still at `src/800.c:18341`. The commit made
+straight afterwards captured only an unrelated comment, so a bank was REPORTED that never existed.
+
+**Use `gate_stage.py --drafts <dir> --binary <b> [--commit]`**, which wraps harvest_verify with the
+persistence, propagation and commit steps. Reach for `harvest_verify` directly only as a diagnostic —
+for instance to A/B whether the `canon -> cast_call_sites -> sig_unify` pipeline is what breaks a draft
+(§401), which is exactly what it is good for.
+
+**The check that would have caught it, and the general rule:** confirm a bank against
+`corpus.stubs(<binary>)` — the address must be GONE from the stub set — never against the tool's own
+success line (R40). A frontier count that does not move after a reported bank is the tell; here
+`355 -> 314 = 41` reconciled exactly as `15+3+3+20` with main contributing zero, which is how the
+phantom surfaced.
