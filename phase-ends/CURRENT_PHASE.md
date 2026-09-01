@@ -4670,3 +4670,27 @@ integration. `decl_prior` already computes the destination's environment.
      self-describing — `corpus`'s own docstring says "nothing to guess and no dict to rot" (R33).
   The pattern in all four: **a wrong instrument returns a plausible number, not an error.** Only a
   case whose answer was already known exposed it.
+
+- **S70 — SCOPE CALL (Drew, mid-session): the future-decomp generalization is DEFERRED to a later
+  phase; the classifier work aims at OUR remaining needs.** The banked-corpus mechanism survives the
+  narrowing — it is simply the cheapest source of the rules our own 123 real UNKNOWNs need, minus the
+  portability constraint. **Label source measured (R37) before designing anything:**
+  ```
+  distinct banked ADDRESSES              : 16,301
+    with >=1 draft on disk               : 12,383  (76.0%)
+    with >=2 drafts (an attempt history) : 10,579
+  total draft files for banked addrs     : 200,427
+  ```
+  That is **35x the 355-function open frontier**, and it inverts the usual economics: the answer
+  corpus GROWS as the frontier shrinks. For any banked function we hold a failed draft (`.run/`) AND
+  the known-good final C (`src/`), so the residual is recomputable and the fix that actually worked is
+  derivable from the draft->final diff instead of guessed.
+  **Targeted design (not a general learned system):** for each residual signature that dominates our
+  real UNKNOWNs — `LENGTH-DRIFT/±N`, `OPCODE-MIXED/addressing,width` (×10), `SCHEDULE-REORDER/N`,
+  `ADDRESSING/move!=jal`, `ADDRESSING/lui!=addu`, `WIDTH/lhu!=lh` — mine banked functions carrying the
+  SAME sig and report the distribution of fixes that resolved it. The rule text falls out
+  evidence-backed rather than hand-authored from 1,062 prose sections. Held-out validation; R39
+  negative control across the banked corpus.
+  *(Instrument note, R14: `corpus.matched()` returns per-BINARY instances — 362,414 across the fleet —
+  not distinct functions. Overlays share bodies heavily. The distinct figure is 16,301; I nearly
+  reported the instance count as a function count.)*
