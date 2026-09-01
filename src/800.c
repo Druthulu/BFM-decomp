@@ -9462,7 +9462,265 @@ void func_8001D8C4(s32 a0, u8 * a1_p, u8 * a2_p) {
     *(s16 *)(a2 + 0x22) = out[1];
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001DA34);
+#include "common.h"
+
+/* func_8001DA34 (main, 408 ins) -- POLY_FT4 sprite-list emitter.
+ *
+ * LEVERS (all byte-witnessed; match_one MATCH 408/408):
+ *  - §193-F loop.c move_movables: the 0xFF000000 / 0x00FFFFFF OT masks are
+ *    life-9/life-6 movables in a 203-insn loop, so 29*1*9 >= 203 hoisted the
+ *    first one into a callee-saved reg, spilling `ot` and growing the frame
+ *    0xB8 -> 0xC8.  HARD-REGISTER PINS ($a1/$a2) take them out of the movable
+ *    list entirely (loop.c never considers hard regs) -- cheaper than trying to
+ *    push insn_count past 261.
+ *  - ONE record pointer (RecDA34 *rec), not rec + rec+3: two source pointers made
+ *    loop.c synthesise a THIRD biv at rec+2 and rebase 3 of the 4 field reads
+ *    onto it.  The target's $s2 = rec+3 is a giv gcc builds by itself.
+ *  - fold DOES associate BIT_IOR: `tp7 | 0x20 | Y1 | ...` folds to
+ *    `(tp7|Y1)|0x20`.  The abr=1 arm needs the constant nested in its own
+ *    statement (`tb`) to reproduce `ori v0,Y1,0x20; or v0,s6,v0`.
+ *  - §205 chained assignment `ua = ub = E;` is what keeps the `move $a0,$v1`
+ *    alive: a plain `ua = E; ub = ua + w - 1;` lets cse copy-propagate ua away.
+ *  - §199-F / §164-36b target-head fence: without the empty asm at the head of
+ *    the else arm, dbr STEALS `move $a0,$v1` into the beqz delay slot and jump2
+ *    then deletes the arm's `j` -- one instruction short, diamond collapsed.
+ *  - §194-A / §3-B scheduling fences + the $a0 pin on pxv: a pinned hard-reg SET
+ *    is placed FIRST in its block, so the fences pick which block it heads and
+ *    thereby the loop-head load order (id, dx, px, py, dy) and the $a0/$a1 pair.
+ *  - Frame 0xB8 needs 0x7C of locals in declaration order: mtx[3] (0x10, only
+ *    mtx[1] used), cin[2] (0x70), cout[2] (0x78), nrm (0x80), flag (0x88).
+ */
+
+typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MtxDA34;  /* 0x20 */
+typedef struct { s16 vx, vy, vz, pad; } SVecDA34;            /* 0x08 */
+typedef struct { u8 r, g, b, cd; } CVecDA34;                 /* 0x04 */
+typedef struct {
+    u16 id;   /* 0x00 */
+    u8  w;    /* 0x02 */
+    u8  h;    /* 0x03 */
+    s16 dx;   /* 0x04 */
+    u16 dy;   /* 0x06 */
+    u16 px;   /* 0x08 */
+    u16 py;   /* 0x0A */
+} RecDA34;    /* 0x0C */
+
+extern MtxDA34 D_800A63F0;
+extern u16 D_800B9A02;
+extern u8 D_800A6610[];
+extern u8 *D_800A5E60;
+extern void func_8004978C(s16 *a0, void *a1);
+extern void func_8004917C();
+void func_8001E094(s32 arg0);
+void func_8001E378(s32 param_1);
+s32 func_8001E668();
+
+#define SETROT_DA34(r0) __asm__ volatile (               \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+
+#define LDCLMV_DA34(r0) __asm__ volatile (               \
+    "lhu $12, 0( %0 );"                                  \
+    "lhu $13, 6( %0 );"                                  \
+    "lhu $14, 12( %0 );"                                 \
+    "mtc2 $12, $9;"                                      \
+    "mtc2 $13, $10;"                                     \
+    "mtc2 $14, $11"                                      \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+
+#define RTIR_DA34() __asm__ volatile ("nop;nop;mvmva 1, 0, 3, 3, 0")
+
+#define STCLMV_DA34(r0) __asm__ volatile (               \
+    "mfc2 $12, $9;"                                      \
+    "mfc2 $13, $10;"                                     \
+    "mfc2 $14, $11;"                                     \
+    "sh $12, 0( %0 );"                                   \
+    "sh $13, 6( %0 );"                                   \
+    "sh $14, 12( %0 )"                                   \
+    : : "r"( r0 ) : "$12", "$13", "$14", "memory" )
+
+#define LDV0_DA34(r0)  __asm__ volatile ("lwc2 $0, 0( %0 );lwc2 $1, 4( %0 )" : : "r"( r0 ) : "memory")
+#define LDRGB_DA34(r0) __asm__ volatile ("lwc2 $6, 0( %0 )" : : "r"( r0 ) : "memory")
+#define NCCS_DA34()    __asm__ volatile ("nop;nop;nccs")
+#define STRGB_DA34(r0) __asm__ volatile ("swc2 $22, 0( %0 )" : : "r"( r0 ) : "memory")
+
+void func_8001DA34(s32 param_1)
+{
+    MtxDA34 mtx[3];
+    CVecDA34 cin[2];
+    CVecDA34 cout[2];
+    SVecDA34 nrm;
+    s32 flag;
+
+    RecDA34 *rec;
+    u8 *prim;
+    MtxDA34 *src;
+    s16 *pa;
+    s16 *pb;
+    u32 *ot;
+    u32 attr;
+    s32 mode, sh, tp7;
+    u16 id;
+    u32 x, y;
+    register u32 pxv __asm__("$4");
+    u16 sx, sy;
+    s32 tpage;
+    s32 tb;
+    s32 tc;
+    s32 dxv;
+    s32 ua, ub;
+    u32 *ott;
+    u32 cc;
+    s32 ct;
+    s32 idx;
+    u16 pp;
+    register u32 m24 __asm__("$5");
+    register u32 mFF __asm__("$6");
+
+    rec = *(RecDA34 **)(param_1 + 0x20);
+    attr = *(u32 *)(param_1 + 4);
+    nrm.vx = nrm.vy = 0;
+    nrm.vz = -0x1000;
+    mode = (attr >> 24) & 3;
+    sh = 2 - mode;
+    ot = (u32 *)(D_800A6610 + ((u32)D_800B9A02 << 14));
+
+    if (!(attr & 0x1040)) {
+        src = *(MtxDA34 **)(param_1 + 0x34);
+        if (src != 0) {
+            mtx[1] = *src;
+            pa = &mtx[1].m[0][0];
+            SETROT_DA34(&D_800A63F0);
+            LDCLMV_DA34(pa);     RTIR_DA34(); STCLMV_DA34(pa);
+            LDCLMV_DA34(pa + 1); RTIR_DA34(); STCLMV_DA34(pa + 1);
+            LDCLMV_DA34(pa + 2); RTIR_DA34(); STCLMV_DA34(pa + 2);
+            func_8004917C(pa);
+        } else {
+            pb = &mtx[1].m[0][0];
+            func_8004978C((s16 *)(param_1 + 0x10), pb);
+            SETROT_DA34(&D_800A63F0);
+            LDCLMV_DA34(pb);     RTIR_DA34(); STCLMV_DA34(pb);
+            LDCLMV_DA34(pb + 1); RTIR_DA34(); STCLMV_DA34(pb + 1);
+            LDCLMV_DA34(pb + 2); RTIR_DA34(); STCLMV_DA34(pb + 2);
+            func_8004917C(pb);
+        }
+    }
+
+    if (*(s32 *)(param_1 + 0x34) != 0)
+        func_8001E094(param_1);
+    else
+        func_8001E378(param_1);
+
+    tp7 = mode << 7;
+    do {
+        prim = D_800A5E60;
+        id = rec->id;
+        __asm__ __volatile__("");
+        dxv = rec->dx;
+        __asm__ __volatile__("");
+        pxv = *(u16 *)(param_1 + 0x28);
+        x = pxv + (dxv >> sh);
+        sx = x;
+        y = *(u16 *)(param_1 + 0x2A) + rec->dy;
+        sy = y;
+        D_800A5E60 = prim + 0x28;
+        prim[3] = 9;
+        prim[7] = 0x2C;
+        if (attr & 0x40000000) {
+            prim[7] = 0x2E;
+            tpage = tp7 | (((attr >> 28) & 3) << 5) | ((y & 0x100) >> 4) |
+                    ((x & 0x3C0) >> 6) | ((y & 0x200) << 2);
+        } else {
+            tb = ((y & 0x100) >> 4) | 0x20;
+            tpage = tp7 | tb | ((x & 0x3C0) >> 6) | ((y & 0x200) << 2);
+        }
+        *(s16 *)(prim + 0x16) = tpage;
+        prim[7] |= (attr & 0x40) >> 6;
+        __asm__ __volatile__("");
+        ua = ub = (sx - ((tpage & 0xF) << 6)) << sh;
+        ub += rec->w;
+        ub -= 1;
+        if ((u16)ub >= 0x100) ub = 0xFF;
+        if (id & 0x100) {
+            prim[0x14] = prim[0x24] = ua;
+            prim[0x0C] = prim[0x1C] = ub;
+        } else {
+            prim[0x0C] = prim[0x1C] = ua;
+            prim[0x14] = prim[0x24] = ub;
+        }
+
+        tc = tpage & 0x10;
+        __asm__ __volatile__("");
+        ub = sy;
+        if (tc) {
+            ua = ub - 0x100;
+        } else {
+            __asm__ __volatile__("");
+            ua = ub;
+        }
+        ub = ua + rec->h - 1;
+        if ((u16)ub >= 0x100) ub = 0xFF;
+        if (id & 0x200) {
+            prim[0x1D] = prim[0x25] = ua;
+            prim[0x0D] = prim[0x15] = ub;
+        } else {
+            prim[0x0D] = prim[0x15] = ua;
+            prim[0x1D] = prim[0x25] = ub;
+        }
+
+        cc = *(u8 *)(param_1 + 0x27);
+        ct = (cc + 0x100) << 6;
+        *(s16 *)(prim + 0xE) = (cc < 0xE0) ? (ct | 0x16) : (ct | 0x10);
+
+        if (attr & 0x1040) {
+            prim[4] = *(u8 *)(param_1 + 0x24);
+            prim[5] = *(u8 *)(param_1 + 0x25);
+            prim[6] = *(u8 *)(param_1 + 0x26);
+        } else {
+            cin[0].r = *(u8 *)(param_1 + 0x24);
+            cin[0].g = *(u8 *)(param_1 + 0x25);
+            cin[0].b = *(u8 *)(param_1 + 0x26);
+            LDV0_DA34(&nrm);
+            LDRGB_DA34(&cin[0]);
+            NCCS_DA34();
+            STRGB_DA34(&cout[0]);
+            prim[4] = cout[0].r;
+            prim[5] = cout[0].g;
+            prim[6] = cout[0].b;
+        }
+
+        idx = func_8001E668(param_1, (s32)rec, prim, &flag);
+        if ((flag & ~0x1000) == 0) {
+            idx = idx + 1;
+            pp = *(u16 *)(param_1 + 0x2C);
+            if (pp & 0xC000) {
+                if ((pp & 0xC000) == 0xC000) {
+                    idx -= pp & 0xFFF;
+                    if (idx < 0) idx = 0;
+                } else {
+                    idx += pp & 0xFFF;
+                }
+            }
+            if ((u32)idx >= 0x1000) return;
+            m24 = 0xFFFFFF;
+            ott = (u32 *)(idx * 4 + (s32)ot);
+            __asm__ __volatile__("");
+            mFF = 0xFF000000;
+            *(u32 *)prim = (*(u32 *)prim & mFF) | (*ott & m24);
+            *ott = (*ott & mFF) | ((u32)prim & m24);
+        }
+        rec++;
+    } while ((id & 0xFF) != 0xFF);
+}
+
 
 
 extern u8 D_800AF648;
@@ -10882,7 +11140,308 @@ void func_80021284(s32 arg0)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_800215F4);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80021D38);
+/* func_80021D38 — main / src/800.c — 284 ins.  Splat marks it "Handwritten
+ * function" only because of the cop2 opcodes: it is ordinary gcc-2.7.2 -O2 C
+ * over PsyQ inline-GTE macros (same spelling family as func_80016C28,
+ * func_8001D8C4 and func_8001D70C already in this TU).
+ *
+ * WHAT IT DOES.  Projects a 12-point (4 groups of 3) sprite/billboard cage for
+ * object `p`, writing DVECTORs into out[0..12] (out[0] = the projected origin,
+ * out[1..12] = the cage), then hands the object + its point table + the screen
+ * coords to func_800226C0 with the OT slot &ot[d] for the current frame buffer
+ * (ot = D_800A6610 + (D_800B9A02 << 14), the §-standard double-buffered OT).
+ * p->flags & 0x40000 selects a pre-projected path (out[0] copied straight out
+ * of p, otz taken from p->pos.vz) over the RTPS/RTPT GTE path, and the same bit
+ * inside the loop selects 3× MVMVA(sf=1,rot,V0,TR)+stlvnl over one RTPT+stsxy3.
+ *
+ * FRAME PROOF (why the local declaration ORDER is load-bearing): outgoing args
+ * 0x00..0x0F, then locals in declaration order, each BLKmode aggregate 8-byte
+ * aligned — sv[3] 0x10, out[14] 0x28 (52 bytes used, 0..12), mtx 0x60,
+ * vec[4] 0x80, flag 0x90, otz 0x94, sz 0x98, saved s0/s1/s2/ra 0xA0..0xAF,
+ * total 0xB0.  out[] is sized 14 (not 13) so the mtx slot lands on 0x60 whether
+ * or not the 8-byte rule is applied.
+ *
+ * THE FOUR LEVERS (284 → 268 → 13 → 3 → 0):
+ *  1. §242 (`*k` vs `<<n` owns the codegen) CLOSED IT.  `pts + (i * 4) + 0x10`
+ *     and `pts + (j * 4) + 0x10` emit `addu $v1,$a2,$t7` — index operand FIRST.
+ *     `pts + (i << 2) + 0x10` emits `addu $v1,$t7,$a2` — base first, the target.
+ *     Neither §239-2's operand-order dial, an `(u32)` integer-space cast, nor
+ *     §240's constant-in-the-middle spelling moved it; only the shift spelling
+ *     did.  (A byte-offset temp `n = i * 4; pts + n + 0x10` also matches.)
+ *  2. THE INDEX TEMPS j = i+1 / k = i+2 ARE MANDATORY.  Written inline,
+ *     `(i + 1) * 4 + 0x10` folds to `i*4 + 0x14` and the three point loads all
+ *     hang off ONE base — 6 instructions short, and the freed register pressure
+ *     also costs $s1/$s2 (the frame shrinks to 0xA8 with only $s0 saved).  With
+ *     the temps, `(j << 2)` has TWO uses (the pts load and out[j]) so combine
+ *     cannot distribute the shift, $t1/$t2 stay live, and the extra pressure is
+ *     exactly what forces the target's three callee-saved registers.
+ *  3. THE `depth` CHAIN IS SPELLED INVERTED.  The target's `beqz $a0,.L80021E94`
+ *     with the `d = t & 0xFFF` arm placed LAST means the source tests
+ *     `if ((t & 0xC000) != 0) {…} else { d = t & 0xFFF; }`, not the natural
+ *     `== 0` first.  Spelling it `== 0` first gives bnez + swapped arms.
+ *  4. out[] indexing differs per arm ON PURPOSE: the MVMVA arm reuses the
+ *     j/k scaled temps (`out[j]`, one `addu`), the RTPT arm re-derives from
+ *     `&out[i+1]` (`addiu $a0,$a2,4`) because cse starts a fresh table at the
+ *     jump target.  Do not "unify" them.
+ *
+ * Other notes: the two `lh 0xC($t3)` loads in the 0x40000 arm are NOT a CSE
+ * failure to fix — writing `otz = p->pos.vz; sz = p->pos.vz << 2;` in that order
+ * reproduces both loads and the 0x94-before-0x98 store order.  `out[0] =
+ * *(DVec *)&p->pos` is a 2-aligned 4-byte struct assignment, which is what emits
+ * the lwl/lwr + swl/swr pair.  `mtx.t[0] = mtx.t[1] = mtx.t[2] = 0` (chained)
+ * gives the target's descending 0x7C/0x78/0x74 store order.
+ *
+ * Symbols verified against this .s's own relocation lines (SYS law 1c):
+ * D_800AF630, D_800B9A02, D_800A6610 (hi/lo) and jal func_800226C0 — and all
+ * four internal `j` destinations (0x118, 0x160, 0x160, 0x398) checked by hand
+ * because masked_diff.mask_for zeroes them (§195-D).
+ * Declarations copied from the card's authoritative `tu` rows; they are the
+ * spelling src/800.c already uses everywhere, so no §376/§378 conflict.
+ */
+#include "common.h"
+
+typedef struct { u16 vx, vy; } DVec_80021D38;              /* 4 bytes, align 2 */
+typedef struct { s16 vx, vy, vz, pad; } SVec_80021D38;     /* 8 bytes */
+typedef struct { s16 m[3][3]; s32 t[3]; } Mtx_80021D38;    /* 32 bytes */
+
+typedef struct {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ u32 flags;
+    /* 0x08 */ SVec_80021D38 pos;
+    /* 0x10 */ s32 unk10;
+    /* 0x14 */ s32 unk14;
+    /* 0x18 */ u16 sx;
+    /* 0x1A */ u16 sy;
+    /* 0x1C */ s32 unk1C;
+    /* 0x20 */ u8 *pts;
+    /* 0x24 */ s32 unk24;
+    /* 0x28 */ s32 unk28;
+    /* 0x2C */ u16 depth;
+    /* 0x2E */ u16 unk2E;
+} Obj_80021D38;
+
+extern u8  D_800AF630[];
+extern u8  D_800A6610[];
+extern u16 D_800B9A02;
+extern void func_800226C0(Obj_80021D38 *, u8 *, DVec_80021D38 *, u8 *);
+
+#define gte_SetRotMatrix_21D38(r0) __asm__ volatile (   \
+    "lw $12, 0( %0 );"                                  \
+    "lw $13, 4( %0 );"                                  \
+    "ctc2 $12, $0;"                                     \
+    "ctc2 $13, $1;"                                     \
+    "lw $12, 8( %0 );"                                  \
+    "lw $13, 12( %0 );"                                 \
+    "lw $14, 16( %0 );"                                 \
+    "ctc2 $12, $2;"                                     \
+    "ctc2 $13, $3;"                                     \
+    "ctc2 $14, $4"                                      \
+    :                                                   \
+    : "r"( r0 )                                         \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix_21D38(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                                 \
+    "lw $13, 24( %0 );"                                 \
+    "ctc2 $12, $5;"                                     \
+    "lw $14, 28( %0 );"                                 \
+    "ctc2 $13, $6;"                                     \
+    "ctc2 $14, $7"                                      \
+    :                                                   \
+    : "r"( r0 )                                         \
+    : "$12", "$13", "$14" )
+
+#define gte_ldv0_21D38(r0) __asm__ volatile (           \
+    "lwc2 $0, 0( %0 );"                                 \
+    "lwc2 $1, 4( %0 )"                                  \
+    :                                                   \
+    : "r"( r0 ) )
+
+#define gte_ldv3_21D38(r0, r1, r2) __asm__ volatile (   \
+    "lwc2 $0, 0( %0 );"                                 \
+    "lwc2 $1, 4( %0 );"                                 \
+    "lwc2 $2, 0( %1 );"                                 \
+    "lwc2 $3, 4( %1 );"                                 \
+    "lwc2 $4, 0( %2 );"                                 \
+    "lwc2 $5, 4( %2 )"                                  \
+    :                                                   \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtps_21D38() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt_21D38() __asm__ volatile ("nop;nop;rtpt")
+#define gte_rt_21D38()   __asm__ volatile ("nop;nop;mvmva 1, 0, 0, 0, 0")
+
+#define gte_stsxy_21D38(r0) __asm__ volatile (          \
+    "swc2 $14, 0( %0 )"                                 \
+    :                                                   \
+    : "r"( r0 )                                         \
+    : "memory" )
+
+#define gte_stsxy3_21D38(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                                \
+    "swc2 $13, 0( %1 );"                                \
+    "swc2 $14, 0( %2 )"                                 \
+    :                                                   \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )                   \
+    : "memory" )
+
+#define gte_stlvnl_21D38(r0) __asm__ volatile (         \
+    "swc2 $25, 0( %0 );"                                \
+    "swc2 $26, 4( %0 );"                                \
+    "swc2 $27, 8( %0 )"                                 \
+    :                                                   \
+    : "r"( r0 )                                         \
+    : "memory" )
+
+#define gte_stflg_21D38(r0) __asm__ volatile (          \
+    "cfc2 $12, $31;"                                    \
+    "nop;"                                              \
+    "sw $12, 0( %0 )"                                   \
+    :                                                   \
+    : "r"( r0 )                                         \
+    : "$12", "memory" )
+
+#define gte_stsz_21D38(r0) __asm__ volatile (           \
+    "swc2 $19, 0( %0 )"                                 \
+    :                                                   \
+    : "r"( r0 )                                         \
+    : "memory" )
+
+#define gte_stszotz_21D38(r0) __asm__ volatile (        \
+    "mfc2 $12, $19;"                                    \
+    "nop;"                                              \
+    "sra $12, $12, 2;"                                  \
+    "sw $12, 0( %0 )"                                   \
+    :                                                   \
+    : "r"( r0 )                                         \
+    : "$12", "memory" )
+
+void func_80021D38(Obj_80021D38 *p)
+{
+    SVec_80021D38 sv[3];       /* sp+0x10 */
+    DVec_80021D38 out[14];     /* sp+0x28 */
+    Mtx_80021D38  mtx;         /* sp+0x60 */
+    s32           vec[4];      /* sp+0x80 */
+    s32           flag;        /* sp+0x90 */
+    s32           otz;         /* sp+0x94 */
+    s32           sz;          /* sp+0x98 */
+    u8           *base;
+    u8           *ot;
+    u32           flags;
+    u8           *pts;
+    s32           i;
+    s32           j;
+    s32           k;
+    s32           d;
+    u32           t;
+
+    base  = D_800AF630;
+    ot    = (u8 *)((D_800B9A02 << 14) + (u32)D_800A6610);
+    flags = p->flags;
+    pts   = p->pts;
+
+    if (flags & 0x40000) {
+        out[0] = *(DVec_80021D38 *)&p->pos;
+        otz = p->pos.vz;
+        sz  = p->pos.vz << 2;
+    } else {
+        gte_SetRotMatrix_21D38(base + 0x18);
+        gte_SetTransMatrix_21D38(base + 0x18);
+        gte_ldv0_21D38(&p->pos);
+        gte_rtps_21D38();
+        gte_stsxy_21D38(&out[0]);
+        gte_stflg_21D38(&flag);
+        gte_stszotz_21D38(&otz);
+        if (flag & ~0x1000) {
+            return;
+        }
+        gte_stsz_21D38(&sz);
+    }
+
+    d = otz + 1;
+    t = p->depth;
+    if (t != 0) {
+        if ((t & 0xC000) != 0) {
+            if ((t & 0xC000) == 0xC000) {
+                d -= (t & 0xFFF);
+                if (d < 0) {
+                    d = 0;
+                }
+            } else {
+                d += (t & 0xFFF);
+            }
+        } else {
+            d = t & 0xFFF;
+        }
+    }
+    if ((u32)d >= 0x1000) {
+        return;
+    }
+
+    mtx.m[0][0] = p->sx;
+    mtx.m[0][1] = 0;
+    mtx.m[0][2] = 0;
+    mtx.m[1][0] = 0;
+    mtx.m[1][1] = p->sy;
+    mtx.m[1][2] = 0;
+    mtx.m[2][0] = 0;
+    mtx.m[2][1] = 0;
+    mtx.m[2][2] = 0x1000;
+    mtx.t[0] = mtx.t[1] = mtx.t[2] = 0;
+    gte_SetRotMatrix_21D38(&mtx);
+    gte_SetTransMatrix_21D38(&mtx);
+
+    for (i = 0; i < 12; i += 3) {
+        sv[0].vx = *(u16 *)(pts + (i << 2) + 0x10);
+        sv[0].vy = *(u16 *)(pts + (i << 2) + 0x12);
+        sv[0].vz = sz;
+        j = i + 1;
+        sv[1].vx = *(u16 *)(pts + (j << 2) + 0x10);
+        sv[1].vy = *(u16 *)(pts + (j << 2) + 0x12);
+        sv[1].vz = sz;
+        k = i + 2;
+        sv[2].vx = *(u16 *)(pts + (k << 2) + 0x10);
+        sv[2].vy = *(u16 *)(pts + (k << 2) + 0x12);
+        sv[2].vz = sz;
+
+        if (flags & 0x40000) {
+            gte_ldv0_21D38(&sv[0]);
+            gte_rt_21D38();
+            gte_stlvnl_21D38(vec);
+            gte_stflg_21D38(&flag);
+            out[j].vx = vec[0];
+            out[j].vy = vec[1];
+
+            gte_ldv0_21D38(&sv[1]);
+            gte_rt_21D38();
+            gte_stlvnl_21D38(vec);
+            gte_stflg_21D38(&flag);
+            out[k].vx = vec[0];
+            out[k].vy = vec[1];
+
+            gte_ldv0_21D38(&sv[2]);
+            gte_rt_21D38();
+            gte_stlvnl_21D38(vec);
+            gte_stflg_21D38(&flag);
+            out[i + 3].vx = vec[0];
+            out[i + 3].vy = vec[1];
+        } else {
+            gte_ldv3_21D38(&sv[0], &sv[1], &sv[2]);
+            gte_rtpt_21D38();
+            gte_stsxy3_21D38(&out[i + 1], &out[i + 2], &out[i + 3]);
+        }
+
+        out[i + 1].vx += out[0].vx;
+        out[i + 1].vy += out[0].vy;
+        out[i + 2].vx += out[0].vx;
+        out[i + 2].vy += out[0].vy;
+        out[i + 3].vx += out[0].vx;
+        out[i + 3].vy += out[0].vy;
+    }
+
+    func_800226C0(p, pts, out, ot + (d << 2));
+}
+
 
 /* func_800221A8 (src/800.c, main, 326 ins) -- byte-proven MATCH.
  *
@@ -11006,7 +11565,7 @@ extern void func_80049CAC(s32 a0, s32 a1);
 extern void func_8004901C(void *a0, void *a1);
 extern void func_800547D8(s32 a0, void *a1);
 extern s32 func_80021174(s32 a0, s32 a1);
-extern void func_800226C0(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_800226C0();
 
 void func_800221A8(Obj221A8 *o) {
     SV221A8 sv0;
