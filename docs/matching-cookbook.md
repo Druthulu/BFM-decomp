@@ -32022,3 +32022,32 @@ cause was the birthing-boost → local-alloc → anti-dep chain above — and th
 §370's claim is unchanged and still narrow: it applies to *simultaneously-ready same-priority leaves*.
 The habit is the transferable part: check whether a recorded bound actually covers your case before
 concluding the residual is unreachable.
+
+## §374 — A `register … __asm__("$30")` RESERVATION IS **NOT HONOURED** BY `move_movables` (P31 S68; main/func_80015608, 86 ins)
+
+Under ~9-way register pressure at -O2, gcc-2.7.2 **free-registers something into `$30`/`$fp` AFTER
+the pin's own assignment**, silently corrupting whichever variable loses that fight (observed as
+y / flags / size / tag / mode2 across configurations). Reproducible. `move_movables`' invariant-hoist
+register SELECTION does not consult local register-asm reservations.
+
+**THE CORRUPTION IS SILENT** — the build succeeds. Audit the raw objdump register uses by hand before
+trusting a pinned build that "compiles fine".
+
+**This is the fourth bound on the pin lever, and together they are a usable rule:**
+* **§368** — a pin FIGHTS local-alloc when you want a different ALLOCATION (measured worse than none)
+* **§373** — a pin WORKS to break a false sched2 ANTI-DEPENDENCE
+* **§374** — a pin on `$30`/`$fp` is NOT HONOURED at all against `move_movables` under pressure
+* **§375** — a pin on `$a0`-`$a3` has NON-LOCAL effects, backwards, through earlier calls
+
+## §375 — AN `$a0`-`$a3` PIN USED LATE RELOCATES AN **EARLIER** OUTGOING-CALL USE OF THAT REGISTER (P31 S68; main/func_8005F0C8, 88 ins)
+
+The loop body is oracle-proven byte-exact once the base is fenced and `p` is pinned to `$4`. But that
+pin **hoists the earlier `func_8005C2C8` argument copy ~26 slots early**, identically across three
+structural variants — block scope and declaration order make no difference.
+
+**The rule:** a hard-register pin on an ARGUMENT register used LATE relocates any EARLIER outgoing-call
+use of that same register to the earliest legal point. Argument-register pins are not local the way
+`$s`-register pins are; they reach backwards past unrelated calls.
+
+(The other residual on that function is §188's epilogue and is toolchain-unfixable — it is now in the
+walls ledger. See the playbook §1b: check `wall_sweep` BEFORE escalating anything.)
