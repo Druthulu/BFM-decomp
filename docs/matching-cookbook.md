@@ -31886,3 +31886,52 @@ union of one variant's load block and another's chain block — and no single sp
 for the head (identical head residual unpinned) and load-bearing only for the tail.** That is the
 §361 procedure applied correctly, and it is why this diagnosis can be trusted where the previous
 one could not.
+
+## §371 ★★ — CARVING A **SINGLE-OBJECT MODULE BINARY**, AND THE spimdisasm RODATA-MIGRATION TRAP THAT FOLLOWS (P31 S68; byte-proven md_MAIN_003, func_800D0D6C 345 ins)
+
+The overlays arrive pre-split into many `jr_*` objects; the `md_*` module binaries are **ONE `c`
+subseg**. Every attempt to carve an -O0 range out of one died at
+`jr_isolate_all: unaddressable content`. That single message was **three stacked causes**, which is
+exactly why it read as one impassable wall — fix one and the message does not change:
+
+1. **`overlay_src_split.load_ov_syms` stopped at an interior YAML comment.** md_MAIN_003's yaml
+   annotates the body of its symbol-file list, so only `symbols.us.txt` loaded and `D_800D3200`
+   resolved to `None`.
+2. **A trailing content chunk had nowhere to go.** The verbatim-asm pair after the last addressable
+   anchor now attaches to the LAST region when every symbol it defines resolves at/after the last
+   cut, instead of hard-refusing.
+3. **Bare tag forward decls** (`struct S_D2394;`) tripped the `_file_scope_decls` dedupe refusal.
+
+**THEN THE CARVE CAUSES A LINK FAILURE, and this is the reusable part.**
+**spimdisasm migrates rodata referenced by exactly one function into that function's `.s` ONLY
+within the same subseg.** A carve that moves the function to a new subseg while the `.rodata` island
+stays behind makes splat **silently drop** those blocks:
+
+    undefined reference to `D_800CEE58' / `D_800CEE80'   (from the post object's .text)
+
+**`INCLUDE_RODATA` does NOT resurrect them** — splat marks them migrated segment-wide and emits
+nothing (`can't open ... D_800CEE58.s`). **The fix is to rename the `.rodata` subseg to the object
+where its emitters now live.** Verification that you got it right: the regenerated `.s` for the moved
+function comes back **byte-identical to the pre-carve one**.
+
+**THE MAKEFILE HUNK IS PART OF THE CARVE, NOT A FOLLOW-UP.** The -O0 wildcard covered only
+`src/ov_*/ov_*_o0?.c`. A module region file compiles at **-O2** without widening it to
+`src/md_*/md_*_o0?.c` — byte-neutral while the region holds only stubs (INCLUDE_ASM is verbatim
+asm), but **every -O0 draft banked into it then mystery-fails the gate** (§362's trap class), and a
+fresh clone reintroduces it. Commit the Makefile, the tool fixes and the carve TOGETHER.
+
+**DO NOT chase `interleave_check` ALIGNED here.** md_MAIN_003 reports DRIFT on a CLEAN tree —
+pre-existing, not carve-caused (verify before changing anything). It has no `_JTBL_INTERLEAVE` block
+and must not get one: forcing ALIGNED moves the leading rodata island after `.text` and shifts every
+address by 0xD8. The honest criterion is *"the carve does not change interleave_check's output"*.
+
+**KNOWN, STILL OPEN:** a second carve on the same binary now refuses with
+`jr_inventory(md_MAIN_003): committed .rodata carve ownership is not 1:1 (R32/R33) — a
+stranded/duplicated carve: [('UNOWNED', '0x800cedf8')]`. The first carve's rodata rename left that
+island unowned by the inventory's 1:1 check. Solve that before carving the remaining 7 -O0 stubs in
+this binary's pre-TU.
+
+**PLANNING THE REST (§126 applied):** of md_MAIN_003's 12 open stubs, **8 are -O0** (1,166 ins).
+`func_800D0A7C` / `func_800D0B1C` / `func_800D0C50` are ADJACENT (gap 0) so ONE region covers all
+three; the other five have matched bodies between them and need their own regions — K interleaved
+matched bodies ⇒ K+1 regions, which `o0_subsplit` derives for you from a single `--lo/--hi` span.
