@@ -4635,7 +4635,86 @@ s32 func_80181260(s32 param_1, s16 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_8018139C);
+/* func_8018139C (ov_SC03_102 / ov_SC03_102_jr_8017BEBC, 89 ins).
+ *
+ * Warm start was REGALLOC-PERM/5 ($v1>$a1, $a3>$v1).  Both residual pairs were the
+ * SAME defect: local-alloc TIED each `subu` dest to its dying first source, so
+ * `subu $a1,$v1,$v0` came out `subu $v1,$v1,$v0` and `subu $a3,$v1,$v0` came out
+ * `subu $v1,$v1,$v0`.  The lever is §76 (allocno CLASS: local vs global — reachable
+ * from C only through declaration scope and VARIABLE REUSE), not a pin:
+ *
+ *   1. `val = (8 - q) << 8;`  -> two pseudos, the first block-local and therefore
+ *      tie-able.  Split into `val = 8 - q; val = val << 8;` so ONE pseudo carries
+ *      both sets; it spans the `if (t < 0)` branch, becomes a GLOBAL allocno that
+ *      local-alloc never ties, and global.c hands it $a1 from the call-arg
+ *      preference.  (Pinning `val` to $5 instead does NOT work — it materialises
+ *      the 8 into $a1 and drags `li a1,8` above the mfhi: closeness 7.)
+ *   2. `t` must stay the destination of the second division (`t = t * 127 / 640`)
+ *      AND must be an ordinary local, not a `register __asm__("$7")` pin.  A hard-reg
+ *      dest gives the divide's `hi >> 8` temp a copy-suggestion of $a3, so the temp
+ *      steals $a3 (`sra $a3,$t0,8`); as a plain multi-block local, `t` is a global
+ *      allocno, the temp stays local in $v1, and global.c still awards `t` $a3.
+ *      A separate `r` for the quotient re-breaks it (t drifts to $a0, closeness 22).
+ *   3. `q` must ALSO be unpinned — with `q` pinned to $2 the first division's
+ *      sign/hi temps come out $v0/$v1 swapped (closeness 3).  `cv`/`fv` pins stay.
+ *
+ * Byte-verified: match_one 89/89 closeness 0, and a full-TU splice compile
+ * (cpp/cc1-2.7.2/maspsx/as on a scratch copy of the .c) is also 0 diffs, so the
+ * signature is accepted in context (§376/§378).
+ */
+void func_8018139C(s32 param_1)
+{
+    extern s32 D_80126B58;
+    extern u16 D_80126B62;
+    extern s32 rand(void);
+    extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
+
+    s32 t;
+    register s32 cv __asm__("$3");
+    register s32 fv __asm__("$2");
+    s32 q;
+    s16 *cam;
+    s32 c;
+    s32 val;
+
+    cam = (s16 *)&D_80126B58;
+
+    if (*(u16 *)(param_1 + 2) == 0) {
+        *(u16 *)(param_1 + 2) = 1;
+        if (*(s16 *)&D_80126B62 < -0x7EF) {
+            func_8002D4C8(0xA20, 0);
+        }
+    }
+
+    if (*(s32 *)(param_1 + 0x1C) == 0) {
+        *(s32 *)(param_1 + 0x1C) = (rand() & 3) + 2;
+        cv = cam[5];
+        fv = *(s16 *)(param_1 + 0xA);
+        t = cv - fv;
+        c = t + 0x47F;
+        if ((u32)c >= 0x4FF ||
+            (u32)((cv = cam[7], fv = *(s16 *)(param_1 + 0xE), t = cv - fv, c = t + 0x27F)) >= 0x4FF) {
+            if (*(s16 *)(param_1 + 0x84) != 0) {
+                func_8002D59C(4, 0x76E, *(u16 *)(param_1 + 0x36));
+                *(s16 *)(param_1 + 0x84) = 0;
+            }
+        } else {
+            q = t / 80;
+            val = 8 - q;
+            val = val << 8;
+            if (t < 0) {
+                t = -t;
+            }
+            t = t * 127 / 640;
+            func_8002D59C(0x76E, val | 0x3000 | (0x7F - t),
+                          *(u16 *)(param_1 + 0x36));
+            *(s16 *)(param_1 + 0x84) = 1;
+        }
+    } else {
+        *(s32 *)(param_1 + 0x1C) = *(s32 *)(param_1 + 0x1C) - 1;
+    }
+}
+
 
 
 extern void (*D_80189CBC[])(void);

@@ -5945,7 +5945,52 @@ void func_80182BF4(void *a0, void *a1, void *a2, void *a3)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80182CDC);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void RotMatrixYXZ(void *a0, void *a1);
+extern s32 rand(void);
+
+/* Old-style (K&R) definition on purpose: this TU already prototypes
+ * `extern void func_80182CDC(void*, void*, s32, s32);` (twice, above), and the
+ * asm truncates both a2 and a3 to 16 bits.  A prototyped `s16` definition is a
+ * conflicting type (§376/§378); the K&R form's default argument promotions make
+ * `s16` compatible with the declared `s32` while still emitting the entry
+ * sll/sra sign-extension of a3.  Shape from the banked twin ov_SC03_002:
+ * func_8017F068 (§193-A) — params used DIRECTLY, no local copies: any local
+ * `base/src/ctr = argN;` copy reorders the four prologue sw/addu pairs. */
+void func_80182CDC(a0, a1, a2, a3)
+void *a0;
+void *a1;
+s16 a2;
+s16 a3;
+{
+    extern u8 *func_8012913C(s32 a0);
+    s16 i;
+    s16 rot[4];
+    s32 mtx[8];
+    u8 *ent;
+
+    i = 0;
+    if (0 < a3) {
+        do {
+            ent = func_8012913C(0x46);
+            if (ent != 0) {
+                rot[0] = (rand() & 0x7F) * 8 + 0xF00;
+                rot[1] = a2 + ((rand() & 0x7F00) >> 5);
+                rot[2] = 0;
+                RotMatrixYXZ(rot, mtx);
+                ApplyMatrixSV(mtx, a1, rot);
+                *(u16 *)(ent + 6) = *(u16 *)a0 + rot[0];
+                *(u16 *)(ent + 10) = *(u16 *)((u8 *)a0 + 2) + rot[1];
+                *(u16 *)(ent + 14) = *(u16 *)((u8 *)a0 + 4) + rot[2];
+                *(s32 *)(ent + 0x10) = rot[0] << 12;
+                *(s32 *)(ent + 0x14) = rot[1] << 12;
+                *(s32 *)(ent + 0x18) = rot[2] << 12;
+            }
+            i = i + 1;
+        } while (i < a3);
+    }
+}
+
 
 
 extern void (*D_8018B0C4[])(void);

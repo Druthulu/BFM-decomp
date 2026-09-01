@@ -3025,7 +3025,97 @@ void func_8017EF94(V_8017EEC4 *arg0, s32 arg1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_8017F424);
+#include "common.h"
+
+/* func_8017F424 (ov_SC06_025, 87 ins) -- MATCH, relocation-masked (tools/match_one.py).
+ *
+ * Builds one POLY_FT4 (0x28) from an 0x20-byte sprite descriptor and hangs it on the OT:
+ *   src+0x00 u16 : tpage-x source; low 6 bits are u0/u2, &0xFFC0 -> GetTPage arg2
+ *   src+0x02 u16 : tpage-y source; low byte is v0/v1,   &0xFF00 -> GetTPage arg3
+ *   src+0x04/0x06 u8 : the u/v spans added onto u0/v0 for the far corners
+ *   src+0x08..0x17   : the four already-projected xy words -> p+8/0x10/0x18/0x20
+ *   src+0x1C   s32   : otz handed to func_801823D4(otz, -0x1A)
+ *
+ * BANKING NOTE (§376/§378): the TU already carries `extern s32 func_8017F424(s16 *);` (:2899)
+ *   and the definition here agrees with it verbatim -- do NOT let sig_unify widen the parameter.
+ *   The `s32` return is real: the function falls out of AddPrim with $v0 live and the TU's decl
+ *   says s32; there is no explicit `return`, and adding one costs nothing but is not what the
+ *   original wrote.  Every extern below is already declared IDENTICALLY in the TU
+ *   (:2755 GetTPage, :2759 D_800A651C, :4936 func_80010A08, :4939 AddPrim, :4942 func_801823D4,
+ *   :2467/:4944 D_800B9A02) except GetClut, which the TU does not declare at all -- the spelling
+ *   used here is the fleet canon `extern s32 GetClut(s32, s32);` (src/800.c:4195/:4349/:4686).
+ *   The local `OtBlk` typedef is the standard strip-on-bank copy: see the identical note on
+ *   func_8017F788 / func_8017FB50 in this same TU.
+ *
+ * Structure notes:
+ *   - The frame is 0x48 (= 0x10 outgoing args + 0x10 rounded gp saves + 40 vars) but NOTHING in
+ *     the body touches $sp.  Those 40 bytes are a DECLARED-but-unreferenced aggregate -- cookbook
+ *     §333.  Read straight off the frame arithmetic before drafting; without `dead[40]` the
+ *     prologue/epilogue and every save offset are wrong.
+ *   - u0/v0 live in temps because the target loads src+0 and src+2 ONCE (`lbu $v1` / `lbu $a0`
+ *     held across every store), while src+4 and src+6 are RE-LOADED for the 0x24/0x25 corner:
+ *     gcc-2.7.2 has no type-based aliasing, so the u8 stores through `p` kill the cse of any
+ *     src read that is spelled inline.  Spelling all four inline costs 2 extra loads; hoisting
+ *     src+4/src+6 into temps costs 2 loads the other way.
+ *   - src+0 is read BOTH as u16 (`lhu`, for the GetTPage &0xFFC0 arg) and as u8 (`lbu`, for
+ *     the &0x3F u-coordinate).  Two widths at one address = two differently-cast reads in C;
+ *     a single u16 read + `(u8)` cast gives `lhu`+`andi 0xFF` instead of `lbu`.
+ *   - uv store order is the natural u0,v0,u1,v1,u2,v2,u3,v3; sched1 floats the two independent
+ *     stores (p+0x15, p+0x1C) up to fill the `lbu $v0,4($s1)` load-use delay.
+ */
+
+/* engine_types.h:525 `OtBlk` VERBATIM (typedef struct { s32 a; s32 b[4]; } OtBlk;).  match_one's
+ * standalone -Iinclude compile cannot reach engine_types.h (only the real TU does, via
+ * engine_core.h), so restate it locally -- see func_8017F788 / func_8017FB50 in this same TU. */
+
+
+extern void *func_80010A08(s32);
+extern s32 GetClut(s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern s32 func_801823D4(s32, s32);
+extern s32 AddPrim(s32, void *);
+extern OtBlk D_800A651C[];
+extern short D_800B9A02;
+
+s32 func_8017F424(s16 *param_1)
+{
+    u8 *p;
+    u8 *s;
+    u8 u0;
+    u8 v0;
+    s32 otz;
+    u8 dead[40];   /* §333: .frame is 0x48 = 0x10 args + 0x10 saves + 40 vars */
+
+    s = (u8 *)param_1;
+    p = (u8 *)func_80010A08(0x28);
+    *(u16 *)(p + 0x0E) = GetClut(0, 0x1F0);
+    *(u16 *)(p + 0x16) = GetTPage(2, 0,
+                                  (s16)(*(u16 *)(s + 0) & 0xFFC0),
+                                  (s16)(*(u16 *)(s + 2) & 0xFF00));
+    *(p + 3) = 9;
+    *(s32 *)(p + 4) = 0x606060;
+    *(p + 7) = 0x2C;
+
+    u0 = s[0] & 0x3F;
+    v0 = s[2];
+    p[0x0C] = u0;
+    p[0x0D] = v0;
+    p[0x14] = u0 + s[4];
+    p[0x15] = v0;
+    p[0x1C] = u0;
+    p[0x1D] = v0 + s[6];
+    p[0x24] = u0 + s[4];
+    p[0x25] = v0 + s[6];
+
+    *(s32 *)(p + 0x08) = *(s32 *)(s + 0x08);
+    *(s32 *)(p + 0x10) = *(s32 *)(s + 0x0C);
+    *(s32 *)(p + 0x18) = *(s32 *)(s + 0x10);
+    *(s32 *)(p + 0x20) = *(s32 *)(s + 0x14);
+
+    otz = func_801823D4(*(s32 *)(s + 0x1C), -0x1A);
+    AddPrim(D_800A651C[(u16)D_800B9A02].a + otz * 4, p);
+}
+
 
 #include "common.h"
 

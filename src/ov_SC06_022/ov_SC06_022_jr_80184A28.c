@@ -4971,7 +4971,52 @@ void func_80187DF8(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_80187EF4);
+extern s32 D_80126B58;
+extern void func_8012EFB8(s32 a0);
+extern s32 func_800132BC(void *a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+s32 func_80187EF4(s32 arg0, u16 arg1) {
+    s16 sp10[3];
+    s16 sp18[3];
+    s16 sp20[3];
+    s16 sp28[3];
+    s32 x;
+    s32 var;
+    s32 q;
+    s16 b;
+    s32 base;
+
+    base = (s32)&D_80126B58;
+    sp10[0] = *(u16 *)(arg0 + 6);
+    sp10[1] = *(u16 *)(arg0 + 0xA);
+    sp10[2] = *(u16 *)(arg0 + 0xE);
+    ((void (*)(s32, s32))func_8012EFB8)((s32)sp10, (s32)sp18);
+    x = 0x7F;
+    q = sp18[0];
+    b = q / 25 + 7;
+    sp18[2] = 0;
+    if (b < 0) {
+        b = 0;
+    } else if (b >= 0x10) {
+        b = 0xF;
+    }
+    sp20[0] = *(u16 *)(base + 6);
+    sp20[1] = *(u16 *)(base + 0xA);
+    sp20[2] = *(u16 *)(base + 0xE);
+    ((void (*)(s32, s32))func_8012EFB8)((s32)sp20, (s32)sp28);
+    sp28[2] = 0;
+    if ((var = func_800132BC(sp18, sp28) - 0x400) > 0) {
+        if (var < 0x6E40) {
+            x -= var * 95 / 28224;
+        } else {
+            x = 0x2F;
+        }
+    }
+    func_8002D4C8(arg1, (u16)(x | ((b << 8) | 0x3000)));
+    return 1;
+}
+
 
 
 extern void (*D_801BD504[])(void);

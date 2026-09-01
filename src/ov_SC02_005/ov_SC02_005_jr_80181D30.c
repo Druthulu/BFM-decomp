@@ -8482,7 +8482,53 @@ void func_80189AF4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80181D30", func_80189B30);
+extern u16 D_80126B62;
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern u8 D_80126C38;
+extern u8 D_80126C40;
+extern u16 D_80126B96;
+extern s16 D_80126B9A;
+extern s16 D_80126B98;
+extern u16 D_80126B94;
+
+/* D_801E2F00 is an 8-byte, alignment-1 blob copied with lwl/lwr (gcc's
+ * emit_block_move for align < 4).  Both its shape declaration and its
+ * `extern` live in BLOCK scope on purpose (cookbook §100 / §65g): this TU
+ * already introduces its own anonymous 8-byte shape for the same global
+ * further down the file, and a file-scope copy here collides with it --
+ * while merely renaming the shape at file scope only trades that collision
+ * for a conflicting-types error on the global itself.  Block scope keeps
+ * both declarations draft-local and is byte-neutral. */
+void func_80189B30(s32 arg0)
+{
+    typedef struct { char b[8]; } Blob8_80189B30;
+    extern Blob8_80189B30 D_801E2F00;
+    Blob8_80189B30 blob;
+    s32 sub;
+    s32 lim;
+    s32 dx;
+    s32 dy;
+
+    blob = D_801E2F00;
+    sub = *(s32 *)(arg0 + 0x20);
+    if ((s16)((u16)D_80126B62 - *(s32 *)(sub + 0x4C)) >= -0x20) {
+        lim = *(s16 *)(arg0 + 0x104) * 8 + 0x10;
+        dx = (s16)((u16)D_80126B5E - *(s32 *)(sub + 0x48));
+        if (dx >= -(s16)lim && dx <= (s16)lim) {
+            dy = (s16)((u16)D_80126B66 - *(s32 *)(sub + 0x50));
+            if (dy >= -(s16)lim && dy <= (s16)lim) {
+                *(Blob8_80189B30 *)&D_80126C38 = blob;
+                *(Blob8_80189B30 *)&D_80126C40 = blob;
+                D_80126B96 = 0x4005;
+                D_80126B9A = 0;
+                D_80126B98 = 5;
+                D_80126B94 |= 1;
+            }
+        }
+    }
+}
+
 
 
 extern void (*D_801966A0[])(void);
