@@ -5984,7 +5984,35 @@ void func_80181448(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_094/nonmatchings/ov_SC03_094_jr_8017BEBC", func_801814F4);
+#include "common.h"
+
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern u8 D_801152A8[];
+
+s32 aF801814F4(s32 arg0, s32 arg1) __asm__("func_801814F4");
+s32 aF801814F4(s32 arg0, s32 arg1)
+{
+    extern s32 *D_80126B78;
+    extern u8 D_801A8D8C[];
+    s32 buf1[2];
+    s32 buf2[2];
+    s32 flag;
+
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)D_801A8D8C, (s32)buf1);
+    ((void (*)(s32, s32, s32))func_8012F14C)((s32)D_80126B78 + 0x34, (s32)(D_801A8D8C + 8), (s32)buf2);
+    if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf1, (s32)buf2) != 0) {
+        flag = 1;
+        if ((*(u16 *)(arg0 + 0x70) & 0xF) != 0) {
+            flag = 0x2001;
+        }
+        func_8012F568(1, flag, *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12), arg1, (s32)buf2, (s32)D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+
 
 extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
 typedef struct {

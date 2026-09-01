@@ -2889,7 +2889,45 @@ void func_80183280(Ent_80183280 *arg) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_801832E0);
+extern void func_8013C0F8(s32 arg0);
+extern s32 func_80029178(s32 arg0);
+extern void func_8013373C(s32 a0);
+
+typedef struct {
+    u8  pad0[2];
+    u16 f002;
+    u8  pad1[0xD8];
+    struct {
+        s16 f0DC;
+        u16 f0DE;
+        union {
+            struct { s32 f0E0; s32 f0E4; } l;
+            struct { u8 p[2]; s16 f0E2; u8 q[2]; s16 f0E6; } h;
+        } u;
+        u16 f0E8;
+    } f;
+} Work_801832E0;
+
+void func_801832E0(Work_801832E0 *work)
+{
+
+    extern s32 D_801B5D38;
+    extern s32 D_801B86B4;
+    func_8013C0F8((s32)&D_801B5D38);
+    func_8013C0F8((s32)&D_801B86B4);
+    work->f.f0DC = 0;
+    work->f.u.l.f0E0 = 0;
+    work->f.u.l.f0E4 = 0;
+    work->f.f0E8 = 0;
+    if ((func_80029178(0xB8) & 0xFF) == 0) {
+        work->f002++;
+    } else {
+        func_8013373C(0);
+        work->f.u.h.f0E2 = -0xF7;
+        work->f002 = 4;
+    }
+}
+
 
 
 void func_801833C4(s32 arg0)

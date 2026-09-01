@@ -5053,7 +5053,54 @@ void func_80182148(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017EEC4", func_80182170);
+extern void func_8017DB6C(s32 a0);
+extern void func_80182268(s32 a0, s32 a1, s32 a2, s32 a3);
+
+void func_80182170(void *a0)
+{
+    void *s0;
+    s32 v1;
+
+    s0 = a0;
+    v1 = *(u16 *)((u8 *)s0 + 0x2);
+
+    switch (v1) {
+    case 0:
+    case 1:
+    case 2:
+        return;
+
+    case 3:
+        func_8017DB6C(0);
+        if (*(u16 *)((u8 *)s0 + 0x34) < 2) {
+            func_80182268(-0x7000, 0x7000, -0x39, 0x230);
+        } else {
+            func_80182268(-0x10, 0x10, 0x1B0, 0x1CA);
+        }
+        return;
+
+    case 4:
+        func_80182268(-0x7000, 0x7000, 0x140, 0x230);
+        return;
+
+    case 5:
+        func_80182268(-0x7000, 0x7000, 0x140, 0x230);
+        return;
+
+    case 6:
+        func_80182268(-0x7000, 0x7000, -0x39, 0x230);
+        return;
+
+    case 7:
+        func_80182268(-0x7000, 0x7000, -0x39, 0x230);
+        return;
+
+    case 8:
+        func_80182268(-0x7000, 0x7000, -0x39, 0x3D0);
+        return;
+    }
+}
+
 
 #include "common.h"
 

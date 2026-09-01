@@ -4260,7 +4260,7 @@ extern void func_8012EC04(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32  func_80047948(s32 a0);
 extern s32  func_8017FA90(s32 a0, s16 a1, s32 a2);
-extern void func_8017FAE8(void *a0);
+extern void func_8017FAE8();
 
 typedef struct { u16 vx, vy, vz, pad; } UVEC_8017F55C;
 
@@ -4472,7 +4472,53 @@ s32 func_8017FA90(s32 a0, s16 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017FAE8);
+#include "common.h"
+
+extern void func_8012EFB8(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+typedef struct { s16 vx, vy, vz, pad; } SVec_8017FAE8;
+
+void func_8017FAE8(s32 a0) {
+    SVec_8017FAE8 pos;
+    SVec_8017FAE8 out;
+    register s32 base __asm__("$16");
+    s32 q;
+
+    pos.vx = *(s16 *)(a0 + 0x6);
+    pos.vy = *(s16 *)(a0 + 0xA);
+    pos.vz = *(s16 *)(a0 + 0xE);
+    ((void (*)(void *, void *))func_8012EFB8)(&pos, &out);
+
+    base = 0x40;
+
+    if (out.vx < 0) {
+        if (-out.vx >= 0xA1) {
+            return;
+        }
+    } else {
+        if (out.vx >= 0xA1) {
+            return;
+        }
+    }
+
+    if (out.vy < 0) {
+        if (-out.vy >= 0x79) {
+            return;
+        }
+    } else {
+        if (out.vy >= 0x79) {
+            return;
+        }
+    }
+
+    q = out.vx * 63 / 160;
+    {
+        register s32 r __asm__("$5") = base + q;
+        func_8002D4C8(0x72B, ((r | 0x2000) & 0xFFFF));
+    }
+}
+
 
 
 extern void (*D_8018E270[])(void);
@@ -6537,7 +6583,47 @@ void func_80185660(s32 *a0, s32 *a1, s32 a2) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80185680);
+s32 func_80185680(void *a0, void *a1) {
+    s32 frame_pad[1];
+    s32 base;
+    s16 cnt;
+    s32 ret;
+    register s32 idx __asm__("$2");
+    register s32 idc __asm__("$6");
+    u8 val;
+    (void)&frame_pad;
+
+    cnt = *(s16 *)((u8 *)a1 + 6);
+    base = *(s32 *)a1;
+    if (cnt == 0) {
+        return 1;
+    }
+    cnt = cnt - 1;
+    *(s16 *)((u8 *)a1 + 6) = cnt;
+    ret = 0;
+    if (cnt <= 0) {
+        idx = *(s16 *)((u8 *)a1 + 4);
+        val = *(u8 *)(base + idx * 12);
+        idc = idx;
+        if ((val & 0x40) != 0) {
+            *(s16 *)((u8 *)a1 + 6) = 0;
+            return 1;
+        }
+        if ((val & 0x80) != 0) {
+            *(s16 *)((u8 *)a1 + 4) = 0;
+            ret = 1;
+        } else {
+            idx = idc + 1;
+            *(s16 *)((u8 *)a1 + 4) = idx;
+        }
+        *(s16 *)((u8 *)a1 + 6) =
+            *(u8 *)(base + (*(s16 *)((u8 *)a1 + 4)) * 12) & 0x3F;
+        *(s32 *)((u8 *)a0 + 0x24) =
+            base + (*(s16 *)((u8 *)a1 + 4)) * 12;
+    }
+    return ret;
+}
+
 
 extern s32 rand(void);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
