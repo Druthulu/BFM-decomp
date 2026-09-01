@@ -32607,3 +32607,37 @@ byte-risk edit that must be build-verified per binary BEFORE the gate, not after
 
 **Standing order for any decl blocker:** read the diagnostic, name the variant, and apply only that
 variant's lever. The chain is not a sequence to run blindly; it is a decision table.
+
+## §395 ★★★ — FIVE NARROWING/PLACEMENT LEVERS FROM ONE 91-INSTRUCTION CRACK (P31 S69; byte-proven ov_SC06_018/func_80189E60, warm start 32 off → MATCH 91/91)
+
+All five are TYPE or STATEMENT-POSITION changes. None is a register pin or a barrier, and four of
+them are invisible in the diff until you know to look for them.
+
+**(a) `shorten_binary_op` narrows a division to HImode, and a CAST DOES NOT STOP IT.** Writing
+`short / 25` makes gcc-2.7.2 do the divide in HImode. **An `(s32)` cast on the dividend does not
+defeat it** — `get_narrower` sees straight through the `NOP_EXPR`. The only lever that works is to
+route the dividend through a real `s32` TEMP, assigned in its own statement.
+
+**(b) A clamp local must be `s16` to produce the target's plain MOVE.** A HImode pseudo makes
+`b = <int expr>` a plain move — which IS the target's `addu $s3,$v0,$zero` — and the subsequent
+compare's sign-extend then reads the **pre-copy** `$v0`. All four `s32` spellings coalesce that copy
+away; a register pin restores the copy but cse then canonicalises the `sll` onto `b`'s register and
+the residual plateaus at 1. **The type is the lever; the pin is a trap.**
+
+**(c) Narrow the argument INSIDE the expression, not around it.** `(u16)(x | ((b << 8) | 0x3000))`
+makes `convert_to_integer` distribute the narrowing INTO the shift, emitting `sll $a1,$s3,8`. Casting
+outside gives the `sll 16`/`sra 8` pair instead. The trailing `andi` is then just the u16→int
+promotion, not a mistake to chase.
+
+**(d) `base = &D_XXXXXXXX` must be the FIRST statement in the function.** Anywhere else and
+`REG_ALLOC_ORDER` hands it `$a1` — costing two callee-saved registers and 50 mismatches. Note sched1
+still sinks the `lui`/`addiu` into the multiply shadow afterwards, so the source position and the
+emitted position differ: do not "fix" what looks like a misplaced address load.
+
+**(e) A parameter's declared width is a sched1 dial.** `u16 arg1` vs `s32 arg1` + a mask moved
+`addu $s4,$a1,$zero` by **three slots**. When a prologue copy sits a few instructions off and nothing
+in the body explains it, try narrowing a parameter before touching the body.
+
+**Meta-lesson for the reach lanes:** this function is a REACH EXEMPLAR (its cluster has six members).
+Five levers bought one crack — and the other five members inherit them for free via remap or a seeded
+card. Spend the deep effort on the exemplar, never on the sibling.
