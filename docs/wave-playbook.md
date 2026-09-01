@@ -100,6 +100,39 @@ target**, joined on the corpus signature hashes (`tools/seed_ref.py`).
 > neither tool could see them. A `mechanical_remap_refused` flag now tells the agent: copy the BODY,
 > expect a declaration blocker.
 
+### 2b. RUN `neighbor_ref` FOR EVERY CARD — the biggest measured cost lever in the wave
+
+```
+python3 tools/neighbor_ref.py --binary <bin> --fn <fn> --top 5
+```
+
+`seed_ref` (step 2) answers *"is there a byte-identical twin?"*. This answers the weaker and far
+more common question: **"which already-MATCHED function should this agent READ first?"**
+
+**The measurement, S68.** Every one of the cheapest large matches came from an agent finding a
+matched neighbour; the expensive ones had none:
+
+| function | ins | tokens | what unlocked it |
+|---|---|---|---|
+| `func_800D1254` | 555 | **72k** | an `-O0` sibling in the same binary |
+| `func_800D12D0` | 657 | **122k** | the `-O0` sibling, FIRST COMPILE |
+| `func_8018AD9C` | 397 | **87k** | a banked twin, §193-A one-shot |
+| `func_8017BEBC` | 753 | **177k** | a near-twin IN THE SAME FILE |
+| `main` fns with no neighbour | ~80 | **200–350k** | — |
+
+That is a ~20× swing on the one variable the card controls.
+
+**The failure it exists to prevent:** `func_8017BEBC`'s card asserted **"no banked twin"** while a
+matched 755-instruction near-twin sat 3,700 lines up in its own destination file, its header comment
+listing the four levers the target needed. `seed_ref` joins on signature hashes and could not see it.
+Three other S68 agents found their unlock the same way, unprompted — so this is a supplied habit now,
+not an accidental one.
+
+**Read the ranking honestly:** SAME-TU beats everything (same decl environment, same carve, and its
+header usually records the levers). An opt-level mismatch is PENALISED, not ranked low — an `-O2`
+example actively misleads an `-O0` target (§116). And a neighbour is a **worked example to read**,
+never a body to copy: §168 law 1 measured cousin-remap at 0/26.
+
 ## 3. Packs
 
 ```
