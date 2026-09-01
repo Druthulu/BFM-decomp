@@ -4382,3 +4382,61 @@ accelerators **#16** · memory `standalone-match-is-not-bankable`.
 `.run/S69{m1,m2,o1,o2,o3,o4}_verdicts.json` · `.run/S69/findings.md` · `.run/S69_esc2.json`
 (15 escalation/permuter candidates) · `.run/gate_lane/*.pgate.classified.txt` · `.run/S69_gate*.log`
 
+
+## 🛑 SESSION CHECKPOINT — S69 FINAL-2 (2026-09-01). SUPERSEDES the S69 FINAL block above (which stopped at 8 banked, before the reach/singleton waves and all three Fable audits). Phase 31 T5 CONTINUES.
+
+**STATE:** ~93 banked this session. **Reachable frontier 348 → 320** (main-real 67 · non-main 253).
+Fleet was 213/213 at the last R22; **an R22 is owed** — the recent gates ran `--no-r22` with agents live.
+Drew pushes (R6). `ghidra/` churn is MCP noise.
+
+### THE THREE FABLE AUDITS — the session's structural results
+1. **The near-twin band (Fable-1).** `h_norm` drops its pending lui-hi on an intervening R-type, so
+   indexed-global reloc twins hash differently and vanish from EVERY hash-keyed consumer (§389).
+   Widened `seed_ref --near`: banked-twin coverage **22/352 → 75/352 (6% → 21%)**. 8 banked same day.
+2. **No second mechanical class (Fable-2).** Three fleet-wide probes: skeleton join **0 new**,
+   contained/block-indel **9**, past-the-cap cousins **2/178**. Built `seed_ref --contained`; banked
+   the one-line-deletion case. **The scanner well is dry — spend integration effort (§390).**
+3. **Nothing is permanently blocked (Fable-3).** `.run/sig.<b>.jsonl` is gitignored, so no worktree
+   had it → every carve read UNOWNED → **every worktree CARVE-REFUSED was an instrument verdict**
+   (§322b). Fixed in `parallel_gate.stage_generated`; **13 of 23 carve twins banked in 400 s, 0 tokens.**
+   And the §332 walls are a **per-OBJECT assembler mode** — a 3-line maspsx reorder-passthrough is
+   byte-inert on 800c3/800c2 and gives **0 diffs for 6 walls with existing drafts** (§332b), retiring
+   `oracle_reorder.py`. New `tools/asm_verbatim.py` (MATCH 12/NEAR 1/REFUSED 2).
+
+### THE WAVES — 24 single-function workflows, reach-first then singletons
+**Every drafted target MATCHED** except one permuter plateau. The pattern all day: **the bodies were
+never the problem — the gate blocker is a declaration**, closed by the §376/§378 chain.
+Cost signal: exemplar 203k → siblings ~60k → **remap ~0**.
+
+### §397 — THE MOST EXPENSIVE LESSON, WORTH IT
+An open-open cluster reports "no banked twin" for ALL members, correctly. **Bank one and the rest
+become remaps.** I cracked the reach-6 exemplar (203k) then DRAFTED four siblings at ~60k each — they
+were EXACT clones ("label-stripped .s diff is EMPTY"). One had already burned **257k plateauing at
+permuter-class NEAR** before the remap closed it in seconds. **RE-RUN `seed_ref` AFTER EVERY EXEMPLAR
+BANK** (playbook §2a-3), and never draft two members of one cluster in parallel.
+
+### MY OWN DEFECTS THIS SESSION (all measured, all corrected)
+* **§384 caught me THREE times** — declared a binary red on a build-only check after a carve-bearing
+  gate; `make extract && make build` was BYTE-IDENTICAL every time. Once I reverted 23 legitimate
+  edits on that false reading. **After any carve-touching gate, always re-extract before verifying.**
+* **A false "already-banked" skip from my own staging dir name** (`ov_SC02_005b-p` → binary
+  `ov_SC02_005b`, which does not exist). The worst failure mode in the pipeline, self-inflicted.
+* **Hand-typed `sub` into two Workflow launches** instead of pasting `wf_args.json`; both agents
+  caught it because their packs disagreed with their prompts. Third instance: a hand-built wave that
+  never registered in the redraw ledger offered an already-drafted function again.
+* **The 24 "free re-gates" banked 0** — a repaired baseline does not unlock integration blockers;
+  each needs its §378b variant identified.
+* **`--any-proto` on a CALLEE with 60 call sites turned a binary RED** (§378b variant 4 — the
+  refutation of guidance I had written hours earlier).
+
+### FIRST THINGS NEXT SESSION
+1. **`tools/r22_verify.sh`** — clear the R22 debt.
+2. **The carve isolation route** — 18 `overlay_src_split` plumbing defects (≤30 lines each) unlock
+   ~50 ov_ functions; 21 are 0-token twins. Highest leverage on the board (§322b).
+3. **The maspsx reorder switch** — 6 wall banks for 0 tokens (§332b).
+4. **The §378b fifth variant** (§378c): the DRAFT redeclares what the TU owns — needs a gate rung for
+   type tags and callee prototypes.
+
+### LEDGERS
+`.run/S69_fable{,2,3}/report.md` (the three audits) · `.run/S69_near_d25.json` (the band) ·
+`.run/S69_carve_twins.json` · `.run/S69_reach_plan.json` · `.run/S69*_verdicts.json` · `.run/S69_gate*.log`
