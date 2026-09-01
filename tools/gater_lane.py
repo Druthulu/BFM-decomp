@@ -50,6 +50,10 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "tools"))
 import corpus  # noqa: E402
 
+def sh(cmd, cwd=REPO):
+    return subprocess.run(cmd, capture_output=True, text=True, cwd=cwd)
+
+
 LEDGER = os.path.join(REPO, ".run/gate_lane/ledger.json")
 VERDICTS = os.path.join(REPO, ".run/gate_lane/verdicts.jsonl")
 STAGE = os.path.join(REPO, ".run/gate_lane")
@@ -311,6 +315,21 @@ def main():
         for fn, path in main_items:
             led["main:%s:%s" % (fn, os.path.basename(os.path.dirname(path)))] = "gated-intree:rc%d" % rc_main
         save_ledger(led)
+        # COMMIT WHAT BANKED. The worktree path commits via parallel_gate; this one runs
+        # harvest_verify directly in the main tree, so without this a banked function sits
+        # UNCOMMITTED and the next tool to see a dirty src/ either refuses (parallel_gate does) or
+        # sweeps it into an unrelated commit. R42: commit banked work the moment it exists.
+        dirty = sh(["git", "status", "--porcelain", "--", "src"]).stdout.strip()
+        if dirty:
+            banked_now = [fn for fn, _ in main_items
+                          if open_stub("main", fn, cache={}) is False]
+            sh(["git", "add", "--", "src"])
+            msg = ("feat(decomp): main in-tree gate — %d fn(s)\n\n%s"
+                   % (len(banked_now), "\n".join("  main  %s" % f for f in banked_now))[:2000])
+            sh(["git", "-c", "user.name=Drew T", "-c", "user.email=50529377+Druthulu@users.noreply.github.com",
+                "commit", "-q", "-m", msg])
+            print("[gater] main: committed %s" % sh(["git", "rev-parse", "HEAD"]).stdout.strip()[:9],
+                  flush=True)
         if not bybin:
             return rc_main
 
