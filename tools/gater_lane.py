@@ -321,8 +321,16 @@ def main():
         # sweeps it into an unrelated commit. R42: commit banked work the moment it exists.
         dirty = sh(["git", "status", "--porcelain", "--", "src"]).stdout.strip()
         if dirty:
-            banked_now = [fn for fn, _ in main_items
-                          if open_stub("main", fn, cache={}) is False]
+            # DERIVE the banked list from harvest_verify's OWN verified-out file, not from
+            # corpus.stubs — corpus memoizes, so a fresh query right after the bank returns the
+            # STALE pre-bank set and the message reads "0 fn(s)" for a commit that contains work.
+            # Measured on the func_8003A0E4 bank (R33: derive from the invariant the tool wrote).
+            try:
+                with open(os.path.join(REPO, ".run/gate_lane/main.verified")) as fh:
+                    verified = {w for w in fh.read().split() if w.startswith("func_")}
+            except OSError:
+                verified = set()
+            banked_now = sorted(verified & {fn for fn, _ in main_items})
             sh(["git", "add", "--", "src"])
             msg = ("feat(decomp): main in-tree gate — %d fn(s)\n\n%s"
                    % (len(banked_now), "\n".join("  main  %s" % f for f in banked_now))[:2000])

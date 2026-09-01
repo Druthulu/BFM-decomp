@@ -31935,3 +31935,41 @@ this binary's pre-TU.
 `func_800D0A7C` / `func_800D0B1C` / `func_800D0C50` are ADJACENT (gap 0) so ONE region covers all
 three; the other five have matched bodies between them and need their own regions — K interleaved
 matched bodies ⇒ K+1 regions, which `o0_subsplit` derives for you from a single `--lo/--hi` span.
+
+## §372 ★★★ — THE **COPY-CAPTURE PAIR**, AND THE ONE ZERO-BYTE EDIT THAT DEFEATS BOTH (P31 S68; byte-proven main/func_8003491C, 78 ins, fable escalation closed 5 → 0)
+
+**THE TELL.** A REGALLOC-PERM residual whose wrong-register rows **read the destination of a nearby
+MATCHING copy insn** (map `$dst > $src`) — e.g. your narrow/compare reads `$a2` where the target
+reads `$v0`, **while the `addu $a2,$v0,$zero` copy itself matches**. This is NOT an allocation tie,
+and pins make it worse.
+
+**TWO SEPARATE PASSES re-base uses of a value onto a copy's DESTINATION:**
+1. **`cse.c make_regs_eqv`** — after `(set P X)`, `P` becomes the quantity's CANONICAL register
+   whenever `X` is a non-fixed hard reg ("prefer pseudo to hard") or `P` outlives the basic block
+   with a later last-use. `canon_reg` then rewrites every LATER same-EBB use of the value to `P`.
+2. **`local-alloc.c optimize_reg_copy_1`** (live at -O2 via `flag_expensive_optimizations`) — a
+   `single_set` REG-REG copy whose source does NOT die in the copy (e.g. after sched1 hoists the copy
+   above the source's last use) forward-substitutes dest for src up to src's death.
+
+**BOTH DIE TO THE SAME EDIT.** Spell the copy as a PLUS:
+
+    register s32 zr __asm__("$0");
+    P = X + zr;
+
+`SET_SRC` is no longer a reg-reg copy (kills #2) and cse records no register equivalence (kills #1) —
+and it emits the **byte-identical canonical move encoding** `addu $rd,$rs,$zero`, so it is zero-cost
+and safe to leave in the banked source.
+
+**ORDERING COROLLARY.** Uses that must read the SOURCE register (a narrow, a compare) must precede
+the copy in SOURCE order — `canon_reg` walks source order — and sched1 will still hoist the
+dependence-free copy above them to match a copy-first target schedule.
+
+**AND WHERE THE TARGET KEEPS A LIVE COPY OF AN INCOMING ARGUMENT** (`addu $aN,$a0,$zero` at entry),
+the same `+ zr` on the ENTRY def is what keeps that copy insn alive at all.
+
+**Relationship to §368 — read both, they are different animals.** §368's tell is a wrong-register row
+whose COMMUTATIVE OPERANDS are also swapped, and its lever is an uncolorable single-set local routed
+through reload. Here the rows are pure shift/`slti` with no commutative operands, the tell did not
+hold, and the RTL dumps named copy-capture instead. **The escalation was told to CHECK whether §368's
+tell applied rather than assume it, reported that it did not, and found the real cause** — which is
+the procedure §361 asks for, working as intended.
