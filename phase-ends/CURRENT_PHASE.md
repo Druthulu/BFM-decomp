@@ -4295,3 +4295,87 @@ draft's own spelling is byte-neutral. That banked `main/func_80036D58` — main,
 `.run/S69_class376_ledger.json` (the 28, banked + open with per-function verdicts and lanes) ·
 `.run/S69/findings.md` (live findings incl. the ones not promoted) · `.run/gate_lane/*.pgate.classified.txt`
 (per-function verdicts, now surviving worktree teardown) · `.run/S69_gate{1,3,4,5,6,7}.log`
+
+## 🛑 SESSION CHECKPOINT — S69 FINAL (2026-09-01). SUPERSEDES the S69 block above (which stopped at 8 banked, before the waves). Phase 31 T5 CONTINUES.
+
+**STATE:** 29+ banked this session. Tree clean. Drew pushes (R6). `ghidra/` churn is MCP noise.
+**R22 DEBT OUTSTANDING** (`.run/R22_DEBT`): gates 8-12 ran `--no-r22` because agents were live.
+Every touched binary was verified with a per-binary `make build` instead — that check CAUGHT a false
+bank (below) — but a clean-fleet sweep is still owed. **RUN `tools/r22_verify.sh` FIRST NEXT SESSION.**
+
+### THE WAVES — 6 drafting waves + 1 escalation, 84 agents, ZERO agent errors
+| wave | ins band | MATCH | tokens |
+|---|---|---|---|
+| m1 (main) | 191-347 | **10/15** | 3.37M |
+| m2 (main) | 347-670 | **1/9** | 2.92M |
+| o1 | 19-29 | **11/15** | 1.31M |
+| o2 | 31-49 | **8/15** | 1.66M |
+| o3 | 47-57 | **7/15** | 2.36M |
+| o4 | 52-67 | **7/15** | 1.82M |
+
+**44 MATCH of 84.** The size cliff is the session's clearest measurement and it CONTRADICTS S68's
+"cost tracks difficulty, not size": **10/15 at 191-347 ins vs 1/9 at 347-670 ins**, same binary, same
+model, same packs. Above ~350 instructions the first-pass rate collapses.
+
+**`neighbor_ref` on every card is the visible cause of the main-lane improvement** — agent after
+agent names a SAME-TU neighbour as the unlock. main went from S68's 2,861 tok/ins to ~865 in m1.
+
+### THE §376/§378 ARC — the session's biggest lever
+S68 advertised "32 FREE BANKS"; 4 had already banked and the other 28 gated **0/28**. Every failure
+was a declaration conflict in the real TU, never codegen. `match_one` compiles the draft ALONE.
+**8 banked** once the missing lever existed. The chain (each step only becomes visible once the
+previous lands — stopping at step 1 is how the class read as dead for half a session):
+```
+fix_arity_callers --any-proto   # 1: `conflicting types'
+cast_self_callers               # 2: `too few arguments'   (§378, NEW TOOL)
+cast_self_callers --sync-decls  # 3: narrow-param, C89-illegal for no-proto (§378a)
+<gate>
+```
+It generalises to the CALLEE named in the diagnostic (banked `main:func_80021D38` that way).
+
+### FOUR OF MY OWN DEFECTS, ALL MEASURED, ALL FIXED
+1. **A FALSE BANK reached the tree** (`ov_SC04_011`, sha 9c94d36a vs 8bc09c42). The gate that made it
+   ran `--no-r22` because agents were live. Reverting needed the CARVE STATE too (JTBL_PADS 4->5 pads
+   + splat yaml); a src-only revert gave "table-count drift vs the carve". **It may not even be
+   false** — the bank changed splat config, and the R22 corollary says a config change needs
+   `make extract`, not just a rebuild. RETEST with an extract; the draft is preserved.
+2. **`cast_self_callers` left casts behind for drafts that did not bank**, and one of them made
+   `ov_SC07_000` fail to COMPILE at HEAD — so every later gate verdict on it measured a broken
+   baseline. Found because TWO drafting agents reported BASELINE-RED and I checked their claim.
+   **The journal + `--undo-journal --keep <banked>` must run after EVERY gate.**
+3. **FIVE HOURS lost to my own wait loop**: `until ! pgrep -af "gater_lane|parallel_gate|harvest_verify"`
+   matches the wait loop's OWN bash argv, so it waited for itself. This is §377 defect #2 — which I
+   had diagnosed, documented, and fixed inside `triage_ladder` earlier the same session, then rebuilt
+   in a shell one-liner. **Never poll `pgrep` for a class your own command line matches; watch the log
+   or an exit file.**
+4. **I quoted "main is 76% of what's left"** (1,040 stubs) to Drew as the basis for a wave-shape
+   decision. Only **50** are drawable — ~990 are LINKED subsegs whose INCLUDE_ASM is dead text. R41 on
+   the exact number that drove the choice.
+
+### THE FRONTIER, HONESTLY
+main drawable **50** (24 drawn this session) · non-main open **326**, ALL previously drawn · the
+undrawn non-main remainder is ENTIRELY jtbl carve-refusals + walls · main LINKED ~990 = never
+draftable. Of 25 fresh closeness-0 candidates, **14 were CARVE-REFUSED** — that population is
+structural, not integration.
+
+### FIRST THINGS NEXT SESSION
+1. **`tools/r22_verify.sh`** — clear the R22 debt before anything else.
+2. **The permuter lane.** ~19 near-misses at closeness <=15, and the agents root-caused most into
+   `local-alloc.c` allocno ties / sched2 tie-breaks — permuter-bucket, NOT escalation fuel. Sending
+   those to a frontier model repeats S68's escalate-a-wall mistake.
+3. Re-test the `ov_SC04_011` bank WITH `make extract` (see #1 above).
+4. Waves p1/p2/p3 (45 targets, 57-87 ins) and the Fable escalation may still be draining — check
+   `.run/S69p*/` and `.run/S69e1/` before drawing new fuel. 190 targets left in the redraw pool.
+
+### NEW THIS SESSION
+`tools/triage_ladder.py` (acceptance-green: false-skip 0/1367, recall 426/426, wall tier exactly 10/10)
+· `tools/cast_self_callers.py` (§378 + `--sync-decls`) · `fix_arity_callers` main-scope fix (it was
+globbing `src/main/main*.c` and silently scanning ZERO files) · `parallel_gate` now carries the
+per-function verdict rows out of the worktree (R47) · cookbook **§376-§383** (index 1,038) ·
+accelerators **#16** · memory `standalone-match-is-not-bankable`.
+
+### LEDGERS
+`.run/S69_class376_ledger.json` (the 28, banked + open, per-function verdicts + lanes) ·
+`.run/S69{m1,m2,o1,o2,o3,o4}_verdicts.json` · `.run/S69/findings.md` · `.run/S69_esc2.json`
+(15 escalation/permuter candidates) · `.run/gate_lane/*.pgate.classified.txt` · `.run/S69_gate*.log`
+
