@@ -4057,7 +4057,84 @@ void func_8017E448(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8017E4DC);
+/* func_8017E4DC — ov_SC07_001 / ov_SC07_001_jr_8017BEBC, 92 ins.
+ *
+ * LEVER (§349 / §350 family): the zero-byte re-tie `__asm__("" : "=r"(q) : "0"(q))`
+ * on the halfword walker gives `q` a SECOND set, so loop.c refuses it as a basic
+ * induction variable. Without it, loop.c strength-reduces the three stores into one
+ * combined address giv whose representative is the LAST-DISCOVERED (lowest-offset,
+ * +2) giv — emitting `addiu $s0,$s0,2` with offsets 4/2/0, and sinking $s0's init
+ * BELOW `off = 0` because the init moves into loop.c's preheader. Killing biv-ness
+ * keeps the source-order init (`lui/addiu $s0, D_801AAD6C` before `addu $s3,zero,zero`)
+ * and the literal 0x6/0x4/0x2 offsets. 6 -> 0.
+ *
+ * The offset-0 store is deliberately spelled through the symbol + byte offset (§326):
+ * that is what keeps it out of `q`'s giv class and emits lui/addu $s3/%lo($at).
+ *
+ * func_8012C51C is declared with an UNSPECIFIED parameter list on purpose: the call
+ * here passes two arguments (only $a0/$a1 are set in the target), while this TU's
+ * file-scope prototype at ov_SC07_001_jr_8017BEBC.c:4408 is 3-arg. An unprototyped
+ * declaration is compatible with both and cannot conflict (§376).
+ */
+void func_8017E4DC(s32 arg0)
+{
+    extern s32 func_8012C354(s32 a0, s32 a1);
+    extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern s32 func_8012E8A8(u8 *a0);
+    extern s32 func_8012C588(s32 a0, s32 a1);
+    extern s32 func_8012C51C();
+    extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+    extern s32 D_801AAD60;
+    extern s16 D_801AAD8C;
+    extern s32 D_8019E150;
+    extern void (*D_80185000[])(void);
+    extern s16 D_801AAD6C[];
+    typedef struct { char c[0x14]; } Rec_80int;
+    extern Rec_80int D_801850BC[];
+
+    s32 i;
+    s32 off;
+    s16 *q;
+    Rec_80int *rp;
+
+    if (func_8012C354(arg0, (s32)D_80185000) == 0) {
+        D_801AAD60 = 0;
+        return;
+    }
+    func_8001D0E8(*(s32 *)(arg0 + 0x20), 0x7FFF, 0x7FFF);
+    *(s32 *)(arg0 + 0x58) = *(s32 *)(*(s32 *)(arg0 + 0x78) + 8) | 0x50000000;
+    func_8012A828(arg0, &D_8019E150);
+    func_8012E8A8((u8 *)arg0);
+    *(s16 *)(arg0 + 2) = 1;
+    *(u8 *)(arg0 + 0x75) = 2;
+    *(s16 *)(arg0 + 0xAE) = -1;
+    *(s32 *)(arg0 + 0xCC) = func_8012C588(0x3A2, arg0);
+    *(s32 *)(arg0 + 0xD4) = func_8012C588(0x3BC, arg0);
+    D_801AAD60 = arg0;
+    D_801AAD8C = 0;
+    for (i = 0; i < 0x24; i++) {
+        func_8012C658(0x386, i, arg0);
+    }
+    i = 0;
+    rp = D_801850BC;
+    q = D_801AAD6C;
+    off = 0;
+    while (i < 4) {
+        q[3] = 0;
+        q[2] = 0;
+        q[1] = 0;
+        *(s16 *)((s32)D_801AAD6C + off) = 0;
+        func_8012C51C(rp, arg0);
+        rp += 1;
+        q += 4;
+        __asm__("" : "=r"(q) : "0"(q));
+        i++;
+        off += 8;
+    }
+    func_8012C658(0x3C3, 4, arg0);
+}
+
 
 extern s32 func_800132BC(s32 a0, s32 a1);
 extern s32 func_8012E57C(s32 a0, s32 a1);
