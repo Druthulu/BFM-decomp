@@ -2835,7 +2835,7 @@ extern void func_80187DA4(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_80049CAC(s32, s32);
 extern void func_800484EC(s32, s32, s32);
-extern void func_801888E8(s32 a0, s32 a1);
+extern s32 func_801888E8(s32 arg0, u16 arg1);
 extern void func_80183F80(s32 p);
 extern s32  func_8012BEE8(s32 a0);
 extern void func_8012B0B4(unsigned int *p, int a1, int a2);

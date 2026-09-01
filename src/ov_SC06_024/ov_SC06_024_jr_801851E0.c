@@ -2795,7 +2795,7 @@ extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_8018A6DC(s32, s32);
 extern void func_80189888(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern void func_8018A3CC(s32 a0, s32 a1);
+extern s32 func_8018A3CC(s32 arg0, u16 arg1);
 
 extern u8 D_801BBFF8[];
 extern u8 D_801BC210[];
@@ -2976,7 +2976,7 @@ void func_801851E0(s32 p)
         func_80189888(p, v18, 0x282, 2, -0x120, 0);
         func_80189888(p, v18, 0x282, 2, 0, 0);
         func_80189888(p, v18, 0x282, 2, 0x120, 0);
-        func_8018A3CC(p, 0x8BD);
+        ((s32 (*)())func_8018A3CC)(p, 0x8BD);
         return;
 
     case 3:
@@ -3214,7 +3214,7 @@ extern void func_8012A828(s32 a0, void *a1);
 extern s32  func_8012B8E4(s32 a0, s32 a1);
 extern s32  func_8012BCCC(s32 a0);
 extern void func_80189888(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern void func_8018A3CC(s32 a0, s32 a1);
+extern s32 func_8018A3CC(s32 arg0, u16 arg1);
 extern s32  func_801897F0(void *a0, s32 a1, s32 a2);
 extern s32  func_8012BEE8();                   /* line 3174: NEWEST prior, unprototyped */
 extern short D_801D33F4;                       /* line 3159 */
@@ -3237,7 +3237,7 @@ extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012F214(s32 a0, s32 a1, s32 a2);
 extern void func_80189888(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern void func_801898EC(s32 a0, void *a1, void *a2, s32 a3);
-extern void func_8018A3CC(s32 a0, s32 a1);
+extern s32 func_8018A3CC(s32 arg0, u16 arg1);
 
 void func_80185A64(s32 p) {
     s32 buf58[8];
@@ -3288,7 +3288,7 @@ void func_80185A64(s32 p) {
             }
             i++;
         } while (i < 5);
-        func_8018A3CC(p, 0x8be);
+        ((s32 (*)())func_8018A3CC)(p, 0x8be);
     }
     if (*(u16 *)(p + 0x72) & 0x4000) {
         func_8012F214(p, (s32)D_801BC200, (s32)buf18);
@@ -3737,7 +3737,7 @@ extern void func_8002A520(s32 a0);
 extern void func_8002A790(s32 a0);
 extern void func_80131E00(s32 a0, s32 a1);
 extern void func_8012B2CC(s32 a0);
-extern void func_8018A3CC(s32 a0, s32 a1);
+extern s32 func_8018A3CC(s32 arg0, u16 arg1);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_80187A50(s32 a0, s32 a1);
 
@@ -3802,7 +3802,7 @@ void func_801864C4(s32 p) {
     *(s16 *)(iVar2 + 0x14) = 0;
     *(s16 *)(iVar2 + 0x10) = 0;
     func_8012B2CC(p);
-    func_8018A3CC(p, 0x9B7);
+    ((s32 (*)())func_8018A3CC)(p, 0x9B7);
 
     switch (*(u16 *)(p + 0x5E)) {
     case 1:

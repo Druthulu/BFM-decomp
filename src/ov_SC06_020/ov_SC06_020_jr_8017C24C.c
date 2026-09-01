@@ -3891,7 +3891,7 @@ void func_8017E304(s32 param_1)
 extern s32  func_801812A0(s32 a0, s32 a1);
 extern s32  func_8012BDBC(s32 a0, s32 a1);
 extern s32  func_8012BCCC(s32 a0);
-extern void func_80183FD0(s32 a0, s32 a1);
+extern s32 func_80183FD0(s32 arg0, u16 arg1);
 extern void func_8012A828(s32 a0, void *a1);
 
 void func_8017E350(s32 p)
@@ -3908,11 +3908,11 @@ void func_8017E350(s32 p)
 
     if (*(s32 *)(p + 0x90) == (s32) D_801B5AC0) {
         if (*(s32 *)(p + 0x94) == 0xB) {
-            func_80183FD0(p, 0x8C0);
+            ((s32 (*)())func_80183FD0)(p, 0x8C0);
         }
     } else {
         if (*(s32 *)(p + 0x94) == 8) {
-            func_80183FD0(p, 0x8C0);
+            ((s32 (*)())func_80183FD0)(p, 0x8C0);
         }
     }
 
@@ -3966,7 +3966,7 @@ void func_8017E48C(s32 p) {
 extern s32  func_801812A0(s32 a0, s32 a1);
 extern s32  func_801817CC(s32 a0);
 extern s32  func_80143B6C(s32 a0, s32 a1);
-extern void func_80183FD0(s32 a0, s32 a1);
+extern s32 func_80183FD0(s32 arg0, u16 arg1);
 extern s32  func_8012BEE8();
 
 void func_8017E4E0(s32 p)
@@ -3993,7 +3993,7 @@ void func_8017E4E0(s32 p)
     }
 
     if (*(s32 *)(p + 0x94) == 8) {
-        func_80183FD0(p, 0x8C0);
+        ((s32 (*)())func_80183FD0)(p, 0x8C0);
     }
 
     if (*(u16 *)(p + 0x34) == 0) {
@@ -4355,7 +4355,7 @@ extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern s32 func_801842E0(s32, s32);
 extern void func_8018348C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern void func_80183FD0(s32 a0, s32 a1);
+extern s32 func_80183FD0(s32 arg0, u16 arg1);
 
 
 void func_8017EDE4(s32 p)
@@ -4534,7 +4534,7 @@ void func_8017EDE4(s32 p)
         func_8018348C(p, v18, 0x282, 2, -0x120, 0);
         func_8018348C(p, v18, 0x282, 2, 0, 0);
         func_8018348C(p, v18, 0x282, 2, 0x120, 0);
-        func_80183FD0(p, 0x8BD);
+        ((s32 (*)())func_80183FD0)(p, 0x8BD);
         return;
 
     case 3:
@@ -4775,7 +4775,7 @@ extern void func_8018348C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_80049CAC(s32, s32);
 extern void func_800484EC(s32, s32, s32);
-extern void func_80183FD0(s32 a0, s32 a1);
+extern s32 func_80183FD0(s32 arg0, u16 arg1);
 extern void func_8012F214(s32, s32, s32);
 extern s32 func_8012BCCC(s32 a0);
 extern s32 func_801833F4(void *a0, s32 a1, s32 a2);
@@ -4837,7 +4837,7 @@ void func_8017F668(s32 p) {
             }
             i++;
         } while (i < 5);
-        func_80183FD0(p, 0x8be);
+        ((s32 (*)())func_80183FD0)(p, 0x8be);
     }
     if (*(u16 *)(p + 0x72) & 0x4000) {
         ((void (*)(s32, void *, void *))func_8012F214)(p, D_8019E994, buf18);
@@ -5288,7 +5288,7 @@ extern void func_8002A520(s32 a0);
 extern void func_8002A790(s32 a0);
 extern void func_80131E00(s32 a0, s32 a1);
 extern void func_8012B2CC(s32 a0);
-extern void func_80183FD0(s32 a0, s32 a1);
+extern s32 func_80183FD0(s32 arg0, u16 arg1);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_80181654(s32 a0, s32 a1);
 
@@ -5353,7 +5353,7 @@ void func_801800C8(s32 p) {
     *(s16 *)(iVar2 + 0x14) = 0;
     *(s16 *)(iVar2 + 0x10) = 0;
     func_8012B2CC(p);
-    func_80183FD0(p, 0x9B7);
+    ((s32 (*)())func_80183FD0)(p, 0x9B7);
 
     switch (*(u16 *)(p + 0x5E)) {
     case 1:

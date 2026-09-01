@@ -2726,7 +2726,7 @@ extern s32  func_8012BCCC(s32 a0);
 extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_80184F14(s32, s32);
 extern void func_801840C0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern void func_80184C04(s32 a0, s32 a1);
+extern s32 func_80184C04(s32 arg0, u16 arg1);
 extern u8 D_801A63EC[];
 extern u8 D_801A6604[];
 extern u8 D_801BD9C0[];
@@ -3683,7 +3683,7 @@ extern void func_8012B0B4(unsigned int *p, int a1, int a2);
 extern void func_80049CAC(s32, s32);
 extern void func_800484EC(s32, s32, s32);
 extern s32 func_8012C658(s32, s32, s32);
-extern void func_80184C04(s32 a0, s32 a1);
+extern s32 func_80184C04(s32 arg0, u16 arg1);
 extern s32 rand(void);
 
 void func_80183DA4(s32 a0, s32 a1) {
@@ -3748,7 +3748,7 @@ void func_80183DA4(s32 a0, s32 a1) {
         i++;
     } while (i < 4);
 
-    func_80184C04(a0, 0x95e);
+    ((s32 (*)())func_80184C04)(a0, 0x95e);
 }
 
 
