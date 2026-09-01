@@ -60,11 +60,28 @@ PAYING an agent to hit it. Measured twice in S68, both on `main`:
 Neither was on any list beforehand, and neither is a model failure — an agent handed a wall always
 returns a NEAR with an unexplainable tail, which is indistinguishable from a hard function.
 
-**THE FIX, NOT YET BUILT:** run the §188 epilogue-shape detector over every open stub **at draw
-time** and exclude or flag them. The detector already exists inside `oracle_reorder.py`; it has
-simply never been run as a sweep. Until then, treat "NEAR with an epilogue-shaped tail" as a
-walls-ledger candidate and CHECK IT WITH THE ORACLE before escalating — an escalation cannot beat
-the toolchain, so that spend is guaranteed waste.
+**HALF OF THIS IS NOW BUILT — USE IT.** `tools/wall_sweep.py` enumerates the §332 class (a `%lo`
+in a delay slot, i.e. the second half of an assembler macro gcc emits as ONE atomic insn, so C can
+never put it there):
+
+```
+python3 tools/wall_sweep.py                 # report, with the branch/slot pair for each hit
+python3 tools/wall_sweep.py --emit-exclude  # binary:fn lines, straight into draw_waves --exclude
+```
+
+Current answer: **10 functions, 1,027 instructions** over 1,378 open-stub `.s` files. §332 had said
+"6 fleet-wide" and named two — **a count without an enumeration cannot drive a filter**, which is
+why the draw kept spending agents on them.
+
+It repaid itself within minutes of existing: `main/func_8005D734` was in the list AND had just been
+escalated to Fable at closeness 8; its sweep site was exactly the residual the drafting agent
+described, so that escalation could never have succeeded. Filtering the live queue then dropped two
+more (`func_8005D9C4` 133 ins, `func_8005F450` 159 ins) before they were ever drafted.
+
+**STILL NOT BUILT:** the same treatment for §188's epilogue shape. The detector exists inside
+`oracle_reorder.py` and has never been run as a sweep. Until it is, treat "NEAR with an
+epilogue-shaped tail" as a walls candidate and CHECK IT WITH THE ORACLE before escalating — an
+escalation cannot beat the toolchain, so that spend is guaranteed waste.
 
 ## 2. Cards — and make sure the twin is on them
 
