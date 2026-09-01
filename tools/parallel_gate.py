@@ -417,9 +417,11 @@ def main():
         # reporting "asm/<binary> is MISSING from the tree" mid-draft, one surviving only because it
         # found an old snapshot. Putting the guard only on the standalone script left this path —
         # the one actually used most — unguarded. A guard belongs where the operation is (R54).
-        busy = sh(["bash", "-c",
-                   "find .run/S68o1 .run/S68m1 .run/*wave* -maxdepth 2 -type d -name 'scratch_*' "
-                   "-newermt '-6 minutes' 2>/dev/null | head -5"]).stdout.strip()
+        # Liveness from the RECORDED ledger, never from scratch-dir mtimes: a `.run/*wave*` glob
+        # blew past ARG_MAX and made the heuristic silently PASS on a live lane, and even fixed it
+        # could not tell a thinking agent from a finished one.
+        _lf = sh([sys.executable, "tools/lane_inflight.py", "list"])
+        busy = _lf.stdout.strip() if _lf.returncode else ""
         if busy and not os.environ.get("R22_FORCE"):
             print("[pgate] R22 SKIPPED — drafting agents are live and read asm/ (a clean would pull "
                   "it out from under them):\n%s\n[pgate] the merge IS committed; run "

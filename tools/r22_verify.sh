@@ -16,11 +16,9 @@
 set -u
 cd /home/musashi/bfm-decomp
 
-BUSY=$(find .run/S68o1 .run/S68m1 .run/*wave* -maxdepth 2 -type d -name 'scratch_*' \
-       -newermt '-6 minutes' 2>/dev/null | head -5)
-if [ -n "$BUSY" ] && [ -z "${R22_FORCE:-}" ]; then
-  echo "R22 REFUSED — drafting scratch touched in the last 6 minutes (agents are live and read asm/):"
-  echo "$BUSY" | sed 's/^/  /'
+if ! python3 tools/lane_inflight.py list > /tmp/.r22_inflight 2>&1 && [ -z "${R22_FORCE:-}" ]; then
+  echo "R22 REFUSED — drafting agents are LIVE (they read asm/, which make clean deletes):"
+  sed 's/^/  /' /tmp/.r22_inflight
   echo "Drain the lane, or set R22_FORCE=1 if you know every agent is done."
   echo "R22 DONE (refused)"
   exit 2
