@@ -383,7 +383,7 @@ extern s32 func_801A861C(s32 a0, s16 a1);
 extern void func_801A8DCC(s32 a0, s32 a1);
 extern void func_80184E20(void *a0);
 extern void func_80184E98(s32 a0, s32 a1);
-extern void func_801A3D60();
+extern void func_801A3D60(s32 a0);
 extern void func_801A3EA8(s32 a0);
 extern void func_8018503C(void);
 extern int rand(void);

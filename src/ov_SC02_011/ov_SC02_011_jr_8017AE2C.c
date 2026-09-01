@@ -8131,7 +8131,7 @@ void func_80182A08(void *a0) {
     extern s32 ratan2(s32 dx, s32 dy);
     extern void func_8012A5F8(s32 a0, s32 a1);
     extern void func_80182B88(s32 a0, s32 a1, s32 a2, s32 a3);
-    extern void func_80182564();
+    extern void func_80182564(s32 a0);
     extern s16 D_80126944;
     extern s16 D_80126940;
     extern s16 D_801274E8;
