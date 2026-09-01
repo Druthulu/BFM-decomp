@@ -8299,7 +8299,89 @@ void func_8018395C(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80183A88);
+typedef struct { short a, b, c; } SV3_801802D0;
+typedef struct { s16 a, b, c, d; } SV4x_80183E2C;       /* 8-byte, align-2 quad of s16 */
+
+
+extern s32 D_80126B58;
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+
+void func_80183A88(s32 arg0, s32 arg1) {
+    u16 w5e;
+    u16 p6;
+    u16 w66;
+    u16 pE;
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 lim;
+    s32 wide;
+    s16 t1n;
+    s16 a3n;
+    register s32 d __asm__("6");
+    register s32 t1 __asm__("9");
+    register s32 a3 __asm__("7");
+
+    if (*(u16 *)&D_80126B58 == 0x1A) {
+        return;
+    }
+    w5e = D_80126B5E;
+    p6 = *(u16 *)(arg0 + 6);
+    d = w5e - p6;
+    t1 = d;
+    if ((s16)d < 0) {
+        t1 = -d;
+    }
+    w66 = D_80126B66;
+    pE = *(u16 *)(arg0 + 0xE);
+    d = w66 - pE;
+    a3 = d;
+    if ((s16)d < 0) {
+        a3 = -d;
+    }
+    x = *(s16 *)(arg0 + 0xA);
+    y = *(s16 *)(arg1 + 8);
+    lim = *(s16 *)&D_80126B62;
+    if (lim < x + y) {
+        return;
+    }
+    z = *(s16 *)(arg1 + 0xA);
+    if (x + z < lim) {
+        return;
+    }
+    wide = t1 << 16;
+    t1 = wide >> 16;
+    if (t1 >= 0x49) {
+        return;
+    }
+    wide = a3 << 16;
+    a3 = wide >> 16;
+    if (a3 >= 0x49) {
+        return;
+    }
+    if (lim < x + ((y + z) >> 1)) {
+        D_80126B62 = x + y - 1;
+        return;
+    }
+    t1n = t1;
+    a3n = a3;
+    if (t1n < a3n) {
+        if ((s16)w66 > (s16)pE) {
+            D_80126B66 = pE + 0x49;
+        } else {
+            D_80126B66 = pE - 0x49;
+        }
+    } else {
+        if ((s16)w5e > (s16)p6) {
+            D_80126B5E = p6 + 0x49;
+        } else {
+            D_80126B5E = p6 - 0x49;
+        }
+    }
+}
+
 
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
