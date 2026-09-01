@@ -4694,3 +4694,67 @@ integration. `decl_prior` already computes the destination's environment.
   *(Instrument note, R14: `corpus.matched()` returns per-BINARY instances — 362,414 across the fleet —
   not distinct functions. Overlays share bodies heavily. The distinct figure is 16,301; I nearly
   reported the instance count as a function count.)*
+
+- **S70-T9 — THE 86 STANDALONE MATCHES, WORKED TO THE END: 22 banked, and the other 64 are EXPLAINED
+  (not deferred).** Frontier **355 -> 333**. Every failure class was probed to a named mechanism:
+  ```
+  ov_SC06_011  15/16   one pool's cluster: finished, never gated. No recovery stage needed.
+  ov_SC06_029   3/6
+  pgate x35     3/54   (after the pgate fix below; scattered singletons)
+  main          1/13   func_8002B0B4
+  ```
+  **The distribution IS the lesson: 15 of 22 banks came from ONE cluster.** "86 byte-correct drafts on
+  disk" was true and a bad forecast — I extrapolated ~45-55 banks from the first cluster I probed,
+  which was the least representative one. Routing the remaining 52 by real-TU verdict:
+  ```
+  MATCH (probe) 26   but the GATE says DIFF  -> 24 of 26 (92%) are JTBL-BEARING
+  CC1-FAIL      20   -> 8 arity-class, 8 data/type-class, 1 struct redefinition
+  DIFF           6   -> 0 jtbl; the drafts are simply wrong (G3/P9, not integration)
+  ```
+  * **NEW LAW — `recover_integration`'s "real cc1 MATCH" does not model the JTBL CARVE, and is
+    therefore optimistic for every jtbl-bearing function.** `ov_SC01_004:func_8017EB30` probes MATCH
+    at 279 ins; the gate says DIFF **both in a worktree AND in-tree**, and `harvest_verify` prints the
+    mechanism: `[jtbl] carved func_8017EB30`. The gate must split the TU to carve the table, which
+    changes codegen; the probe compiles the UNCARVED TU. 24 of the 26 disagreements are jtbl. **The
+    gate is authoritative (G3); treat a probe MATCH on a jtbl function as unproven.** (Cookbook-worthy.)
+  * **The CC1-FAIL class compiles but does not match.** `fix_arity_callers --any-proto` on the 8
+    arity-class callees applied **382 edits to the fleet-shared `engine_core.h`** and moved both
+    affected binaries CC1-FAIL -> **near**: they compile, they do not byte-match. Same on main:
+    `cast_self_callers --apply --sync-decls` fixed 4 PLUMBING self-conflicts -> all 4 **DIFF**.
+    **A declaration fix that only converts CC1-FAIL into DIFF has bought nothing**; both fleet/binary
+    edits were reverted rather than left standing as unverified risk.
+
+- **S70 — `parallel_gate` WAS GATING NOTHING, AND SAID SO WITH rc=0.** It runs `gate_stage` with
+  `cwd=<worktree>`, and passed `--drafts` through **verbatim** — so a RELATIVE path resolved INSIDE the
+  worktree. `.run/` is deliberately not linked into a worktree (the file's own comment says so), and
+  R12 puts ALL scratch under `.run/`, so any plan following the project's own convention pointed at a
+  nonexistent directory: `gate_stage` found **0 drafts**, banked 0, exited **rc=0**. 35 binaries / 57
+  drafts all "banked 0" **in 1-2 seconds each** while the SAME drafts gated in-tree banked 15/16 and
+  3/6. Fixed at `commit:3536` (resolve against REPO + refuse an unreadable drafts dir, R32/R43); the
+  same job now takes 100s instead of 1s. **The 1-2s runtime was the only tell** — I nearly recorded
+  "57 drafts failed" as a fact about the drafts (R40: exonerate the instrument first).
+  **⚠ UNAUDITED BLAST RADIUS:** any earlier wave that pointed `parallel_gate` at a `.run/` drafts dir
+  would have produced honest-looking zeros, and those functions may sit in the backlog as `failed`
+  **without ever having been gated**. Historical "gated and failed" verdicts are suspect until audited.
+
+- **S70 — BOTH UNDO-JOURNALS CORRUPT ON A DUPLICATE DECL, AND REPORT SUCCESS (R57/R48).**
+  `fix_arity_callers --undo-journal` printed `restored 382, kept 0, missing 0` and left
+  `engine_core.h` with **97 insertions / 97 deletions**: it restored the saved originals into the
+  WRONG OCCURRENCES (`func_8012A828()` <-> `(int a0, void *a1)` <-> `(s32 a0, void *a1)`).
+  `cast_self_callers --undo-journal` printed `reverted 10 edit(s)` and swapped the two decls of
+  `func_80031988` in `src/800.c`. **Both journals key their restore by function NAME, not by
+  occurrence** — R48 in a new guise. Caught ONLY by `git diff` after each tool claimed success; the
+  tool's own report is not evidence. `fix_arity_callers` writes the FLEET-SHARED header, so this
+  silently corrupts fleet state. Both files restored from HEAD (single named files, never a blanket
+  `git checkout -- src/`, R42). **Fix owed: journal file+occurrence index, and hash-verify the
+  restored file, failing loud on mismatch.**
+
+- **S70 — twin_rescan after the banks (§397): 64 of 334 open stubs now have a banked twin at d<=5**
+  (was 37 at the S69 snapshot): **40 at d=0**, 13 at d=1, 11 at d=2-5 -> `.run/S70_free_twins.json`.
+  53 mechanical candidates = 16% of the frontier. Forecast tempered by §398 (a remap is a DRAFT:
+  ~15% straight-through, ~50% after integration => expect ~8-26, not 53); the `family_remap`
+  decl-environment fix should land FIRST as the multiplier. *Tool note: twin_rescan's "NEWLY FREE"
+  delta is CONSUMED by the run that writes the snapshot — capture its full output, not the tail.*
+  **Propagation: an honest zero** — `dedup_propagate --auto-from` on both bank sources reports
+  "nothing to propagate" (the CARRY-FIXABLE list it prints is a pre-existing global candidate set,
+  identical from either source, not S70's banks).
