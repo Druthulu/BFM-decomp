@@ -5387,7 +5387,67 @@ void *a0;
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_018/nonmatchings/ov_SC04_018_jr_8017AE2C", func_8017F35C);
+/* func_8017F35C — ov_SC04_018 / src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c  (47 ins)
+ *
+ * Body: MATCH standalone (match_one closeness 0). Structure and declarations are
+ * copied from the two same-TU neighbours func_8017EDA4 (:5135) and func_8017F418
+ * (:5397), which are the same callback shape.
+ *
+ * §378 self-caller cast: the TU declares `extern s32 func_801848DC(void);` (:5132),
+ * so the one-argument call goes through a no-proto-style typed function-pointer cast
+ * exactly as both neighbours do — gcc-2.7.2 folds it back to a direct `jal`, byte-neutral.
+ *
+ * §376 INTEGRATION BLOCKER (outside this file, one token):
+ *   src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.c:5366
+ *       extern void func_8017F35C();      ->  extern s32 func_8017F35C();
+ *   Without it the TU rejects this definition with `conflicting types for
+ *   func_8017F35C'. fix_arity_callers --any-proto is a NO-OP here (the decl is
+ *   already `()`; the conflict is the RETURN TYPE) and cast_self_callers does not
+ *   fire either (the only site, :5385, is address-taken `(s32)&func_8017F35C`,
+ *   not a call). The sync is byte-neutral: a declaration emits no code and `&fn`
+ *   is independent of the return type.
+ */
+
+extern s32 func_8012E544(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern s32 func_801848DC(void);
+extern s32 func_8018625C(void *);
+
+s32 func_8017F35C(void *a0)
+{
+    s32 t;
+    s32 ok;
+
+    if (*(u16 *)((s32)*(void **)((s32)a0 + 0x64) + 2) != 2) {
+        return 0;
+    }
+
+    t = func_8012E544(0x22A);
+    if (t == 0) {
+        ok = 1;
+    } else {
+        ok = 1;
+        if (*(u16 *)(t + 2) == 5) {
+            ok = (*(u16 *)(t + 0x34) == 2);
+        }
+    }
+    if (ok == 0) {
+        return 0;
+    }
+
+    if (((s32 (*)(void *))func_801848DC)(a0) == 0) {
+        return 0;
+    }
+    if (func_8018625C(*(void **)((s32)a0 + 0x64)) != 0) {
+        return 0;
+    }
+
+    *(u16 *)((s32)*(void **)((s32)a0 + 0x64) + 2) = 3;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();
