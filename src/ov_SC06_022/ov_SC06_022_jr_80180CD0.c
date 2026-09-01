@@ -3826,7 +3826,7 @@ void func_80182228(s32 p)
 extern s32  func_801851C4(s32 a0, s32 a1);
 extern s32  func_8012BDBC(s32 a0, s32 a1);
 extern s32  func_8012BCCC(s32 a0);
-extern void func_80187EF4(s32 a0, s32 a1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
 extern void func_8012A828(s32 a0, void *a1);
 
 void func_80182274(s32 p)
@@ -3843,11 +3843,11 @@ void func_80182274(s32 p)
 
     if (*(s32 *)(p + 0x90) == (s32) D_801D41E8) {
         if (*(s32 *)(p + 0x94) == 0xB) {
-            func_80187EF4(p, 0x8C0);
+            ((s32 (*)())func_80187EF4)(p, 0x8C0);
         }
     } else {
         if (*(s32 *)(p + 0x94) == 8) {
-            func_80187EF4(p, 0x8C0);
+            ((s32 (*)())func_80187EF4)(p, 0x8C0);
         }
     }
 
@@ -3900,7 +3900,7 @@ void func_801823B0(s32 p)
 extern s32  func_801851C4(s32 a0, s32 a1);
 extern s32  func_801856F0(s32 a0);
 extern s32  func_80143B6C(s32 a0, s32 a1);
-extern void func_80187EF4(s32 a0, s32 a1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
 extern s32  func_8012BEE8();
 
 void func_80182404(s32 p)
@@ -3927,7 +3927,7 @@ void func_80182404(s32 p)
     }
 
     if (*(s32 *)(p + 0x94) == 8) {
-        func_80187EF4(p, 0x8C0);
+        ((s32 (*)())func_80187EF4)(p, 0x8C0);
     }
 
     if (*(u16 *)(p + 0x34) == 0) {

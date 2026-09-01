@@ -2753,7 +2753,7 @@ extern void func_801873B0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_80049CAC(s32, s32);
 extern void func_800484EC(s32, s32, s32);
-extern void func_80187EF4(s32 a0, s32 a1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
 extern void func_8018358C(s32 p);
 extern s32  func_8012BEE8(s32 a0);
 extern void func_8012B0B4(unsigned int *p, int a1, int a2);
@@ -2777,7 +2777,7 @@ extern s32  func_8012CBF4(s32 a0);
 extern void func_8012B23C(s32 a0);
 extern void func_80131C78(s32 a0);
 extern void func_80131E00();
-extern void func_80187EF4(s32 a0, s32 a1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
 
 
 void func_80184A28(s32 a0) {
@@ -2820,7 +2820,7 @@ void func_80184A28(s32 a0) {
             func_80143B6C(a0, 1);
             *(s32 *)(a0 + 0x14) = 0xFFF30000;
             *(s32 *)(a0 + 0x1C) = 0;
-            func_80187EF4(a0, 0x9B8);
+            ((s32 (*)())func_80187EF4)(a0, 0x9B8);
         }
         break;
 
@@ -2878,7 +2878,7 @@ void func_80184A28(s32 a0) {
                 break;
             } else if (s1 & 0x2000) {
                 *(u8 *)(a0 + 0xC3) |= 1;
-                func_80187EF4(a0, 0x9B8);
+                ((s32 (*)())func_80187EF4)(a0, 0x9B8);
             }
         }
         if ((*(s32 *)(a0 + 0x1C) & 3) == 3) {
@@ -2965,9 +2965,9 @@ void func_80184E14(s32 a0, s32 a1)
 }
 
 
-extern void func_80187EF4(s32 arg0, s32 arg1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
     void func_80184F68(s32 arg0) {
-        func_80187EF4(arg0, 0x9B7);
+        ((s32 (*)())func_80187EF4)(arg0, 0x9B7);
     }
 
 
@@ -4406,7 +4406,7 @@ extern void func_8012B0B4(unsigned int *p, int a1, int a2);
 extern void func_80049CAC(s32, s32);
 extern void func_800484EC(s32, s32, s32);
 extern s32 func_8012C658(s32, s32, s32);
-extern void func_80187EF4(s32 a0, s32 a1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
 extern s32 rand(void);
 
 void func_80187094(s32 a0, s32 a1) {
@@ -4471,7 +4471,7 @@ void func_80187094(s32 a0, s32 a1) {
         i++;
     } while (i < 4);
 
-    func_80187EF4(a0, 0x95e);
+    ((s32 (*)())func_80187EF4)(a0, 0x95e);
 }
 
 

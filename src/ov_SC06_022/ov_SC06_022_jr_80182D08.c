@@ -2755,7 +2755,7 @@ extern void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3);
 extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
 extern void func_80188204(s32, s32);
 extern void func_801873B0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern void func_80187EF4(s32 a0, s32 a1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
 
 extern u8 D_801BCEB4[];
 extern u8 D_801BD0CC[];
@@ -2936,7 +2936,7 @@ void func_80182D08(s32 p)
         func_801873B0(p, v18, 0x282, 2, -0x120, 0);
         func_801873B0(p, v18, 0x282, 2, 0, 0);
         func_801873B0(p, v18, 0x282, 2, 0x120, 0);
-        func_80187EF4(p, 0x8BD);
+        ((s32 (*)())func_80187EF4)(p, 0x8BD);
         return;
 
     case 3:
@@ -3178,7 +3178,7 @@ extern void func_801873B0(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5);
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void func_80049CAC(s32, s32);
 extern void func_800484EC(s32, s32, s32);
-extern void func_80187EF4(s32 a0, s32 a1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
 extern void func_8012F214(s32, s32, s32);
 extern s32 func_8012BCCC(s32 a0);
 extern s32 func_80187318(void *a0, s32 a1, s32 a2);
@@ -3240,7 +3240,7 @@ void func_8018358C(s32 p) {
             }
             i++;
         } while (i < 5);
-        func_80187EF4(p, 0x8be);
+        ((s32 (*)())func_80187EF4)(p, 0x8be);
     }
     if (*(u16 *)(p + 0x72) & 0x4000) {
         ((void (*)(s32, void *, void *))func_8012F214)(p, D_801BD0BC, buf18);
@@ -3692,7 +3692,7 @@ extern void func_8002A520(s32 a0);
 extern void func_8002A790(s32 a0);
 extern void func_80131E00(s32 a0, s32 a1);
 extern void func_8012B2CC(s32 a0);
-extern void func_80187EF4(s32 a0, s32 a1);
+extern s32 func_80187EF4(s32 arg0, u16 arg1);
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_80185578(s32 a0, s32 a1);
 
@@ -3757,7 +3757,7 @@ void func_80183FEC(s32 p) {
     *(s16 *)(iVar2 + 0x14) = 0;
     *(s16 *)(iVar2 + 0x10) = 0;
     func_8012B2CC(p);
-    func_80187EF4(p, 0x9B7);
+    ((s32 (*)())func_80187EF4)(p, 0x9B7);
 
     switch (*(u16 *)(p + 0x5E)) {
     case 1:
