@@ -3110,7 +3110,112 @@ void func_80184C54(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_80184914", func_80184C90);
+/*
+ * func_80184C90 — proximity/collision trigger (ov_SC03_028_jr_80184914, 92 ins).
+ *
+ * Checks the entity against the global actor D_801EC44C in a 6-way AABB ladder
+ * (Y: -0x60..+0x10, X and Z: +/-0x80); on a hit it ORs bit 0 into the actor's
+ * +0x5C flags, stamps 0x1D into +0x5E, latches the entity's own X/Y/Z into
+ * +0x7C/+0x7E/+0x80, decrements D_801EC448 and calls func_8016AA50(a0, 0xA).
+ * Then, if the trigger fired OR func_8012CBCC/func_8012D624 says so, it swaps the
+ * anim pointer at [a0->0x20]+0x20 to D_801904C4, retargets via func_8012A828 and
+ * fires SFX 0x598.
+ *
+ * PRELUDE — the byte-proven SAME-TU near-twins func_80185158 (:3306) and
+ * func_80185344 (:3388) in this very file.  They supply the whole collision idiom
+ * verbatim and it transfers unchanged:
+ *   - `p = (u8 *)D_801EC44C;` reads the *volatile* global ONCE into a local, so the
+ *     six compares CSE onto one `lw`; the final `*(u16 *)(D_801EC44C + 0x5E) = wval`
+ *     names the global DIRECTLY, and that second volatile read is what emits the
+ *     lui/lw reload at 0x80184D30 after the `sh` store.
+ *   - `register s32 wval __asm__("$6")` pins the 0x1D stamp into $a2, which is what
+ *     hoists `addiu $a2,$zero,0x1D` to insn 5, above the `sw $ra` (§17 register pin).
+ *   - the `flag = 0; goto check;` ladder (no `hit = 0` initialiser!) is what puts the
+ *     `addu $s1,$zero,$zero` in a DELAY SLOT and duplicated at .L80184D40 — an early
+ *     `flag = 0;` before the `if` costs one instruction and shifts the whole body.
+ *
+ * THE ONE DEVIATION FROM THE TWINS (the only thing that was not free — the warm
+ * start and the literal twin transcription both stalled here, 7 mismatches at
+ * idx 27-33):
+ *   The twins write the LAST pair as `flag = *(s16 *)(a0 + 0xE); if (flag < ...)`,
+ *   reusing the flag pseudo as the compare temp.  This target does NOT: it wants the
+ *   Z pair in the same throwaway $a0/$v1 registers as the X and Y pairs, and it wants
+ *   the Z-low branch redirected to .L80184D44 (past the `flag = 0` block) rather than
+ *   to .L80184D40.  Both facts have ONE cause: reorg.c's `redundant_insn` will skip a
+ *   branch-target insn that is already provably executed — the `addu $s1,$zero,$zero`
+ *   sitting unconditionally in the delay slot at 0x80184CD4 — and retarget the branch
+ *   past it, but ONLY while nothing in between writes $s1.  Assigning `flag = a0->E`
+ *   writes $s1, kills the redundancy, and drags the branch back to .L80184D40.
+ *   => Write EVERY rung of a flag ladder in the symmetric `if (X >= Y) { flag = 0;
+ *      goto check; }` form and keep the flag pseudo untouched until `flag = 1`.
+ *      The twin's temp-reuse spelling is a per-function accident, not the idiom.
+ *
+ * match_one: MATCH (92 ins).  All 92 words compared raw against the .s: identical
+ * outside the relocated fields; every %hi/%lo and jal verified against the target's
+ * own relocation lines (law 1c), and the masked internal `j` (§195-D) lands on
+ * 0xB4 == .L80184D44.
+ */
+extern void func_8012CBCC(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_8012D624(s32 a0, s32 a1, s32 a2);
+extern void func_8016AA50(s32 param_1, s32 param_2);
+extern void func_8012A828(s32 a0, void *a1);
+
+extern u8 D_801904C4[];
+extern s16 D_8019053C[];
+extern s32 D_801EC448;
+extern volatile s32 D_801EC44C;
+
+void func_80184C90(s32 a0)
+{
+    s32 flag;
+    s32 tmp;
+    s32 t;
+    u16 x, y, z;
+    register s32 wval __asm__("$6");
+    u8 *p;
+
+    p = (u8 *)D_801EC44C;
+    wval = 0x1D;
+    if (p != 0) {
+        if (*(s16 *)(a0 + 0xA) > *(s16 *)(p + 0xA) - 0x60) {
+            if (*(s16 *)(a0 + 0xA) >= *(s16 *)(p + 0xA) + 0x10) { flag = 0; goto check; }
+            if (*(s16 *)(a0 + 6) < *(s16 *)(p + 6) + 0x80) {
+                if (*(s16 *)(a0 + 6) <= *(s16 *)(p + 6) - 0x80) { flag = 0; goto check; }
+                if (*(s16 *)(a0 + 0xE) >= *(s16 *)(p + 0xE) + 0x80) { flag = 0; goto check; }
+                tmp = (*(s16 *)(p + 0xE) - 0x80 < *(s16 *)(a0 + 0xE));
+                flag = 1;
+                if (tmp) {
+                    *(u16 *)(p + 0x5C) |= 1;
+                    *(u16 *)(D_801EC44C + 0x5E) = wval;
+                    goto check;
+                }
+            }
+        }
+    }
+    flag = 0;
+check:
+    if (flag) {
+        t = D_801EC448;
+        x = *(u16 *)(a0 + 6);
+        y = *(u16 *)(a0 + 0xA);
+        z = *(u16 *)(a0 + 0xE);
+        D_801EC448 = t - 1;
+        *(u16 *)(a0 + 0x7C) = x;
+        *(u16 *)(a0 + 0x7E) = y;
+        *(u16 *)(a0 + 0x80) = z;
+        func_8016AA50(a0, 0xA);
+    }
+    if ((((s32 (*)(s32))func_8012CBCC)(a0) != 0) || (flag != 0) ||
+        (func_8012D624(a0, 0x30, 0xA) != 0)) {
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x20) = (s32)D_801904C4;
+        func_8012A828(a0, D_8019053C);
+        *(s16 *)(a0 + 2) = 2;
+        *(s32 *)(a0 + 0x1C) = 0xA;
+        func_8002D4C8(0x598, 0);
+    }
+}
+
 
 
 extern void (*D_80190594[])(void);
