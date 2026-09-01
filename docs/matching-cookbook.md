@@ -32641,3 +32641,95 @@ in the body explains it, try narrowing a parameter before touching the body.
 **Meta-lesson for the reach lanes:** this function is a REACH EXEMPLAR (its cluster has six members).
 Five levers bought one crack — and the other five members inherit them for free via remap or a seeded
 card. Spend the deep effort on the exemplar, never on the sibling.
+
+## §314b ★★ — TWO ABS-RANGE GUARDS IN ONE FUNCTION NEED **DIFFERENT SPELLINGS** (P31 S69; byte-proven ov_SC04_002/func_8018691C, 111 ins)
+
+A function bounds-checks X and Y the same way in source, and the target emits them DIFFERENTLY: one
+as a merged abs compare, the other with an out-of-line negative arm. Do not "fix" the asymmetry —
+reproduce it.
+
+* **The merged form** (X here) is what every ordinary spelling produces: `if (x >= 0x78 || x <= -0x78)`
+  cross-jumps the two `slti` into one.
+* **The out-of-line form** (Y here) requires a **`COND_EXPR`**:
+
+```c
+    y >= 0 ? y >= 0x78 : -y >= 0x78
+```
+
+`do_jump`'s `COND_EXPR` case emits the target's separate negative arm. **Every `if`/`else`/`goto`
+spelling cross-jumps the two `slti` into one** and cannot reach it — the ternary is not a style
+choice here, it is the only construct that survives.
+
+**Diff tell:** two structurally identical range guards where yours emits one `slti` pair and the
+target emits two, with a branch to a tail arm. Reach for the ternary on the one that differs, and
+leave the other alone.
+
+## §322b ★★★ — THE CARVE CLASS IS COMPLETABLE, AND EVERY WORKTREE `CARVE-REFUSED` WAS AN INSTRUMENT VERDICT (P31 S69, Fable-3 audit; byte-proven end-to-end)
+
+**The artifact, first — it invalidates a whole verdict class.** `jr_isolate_all.jr_inventory`
+resolves each committed `.rodata` carve's owner via `family_remap.reloc_targets`, whose `nins_of`
+reads **`.run/sig.<binary>.jsonl` — which is gitignored, so no `parallel_gate` worktree has it.**
+Inside a worker every carve therefore reads UNOWNED, `jr_inventory` R32-aborts, `harvest_verify`
+prints `isolate FAILED`, and the draft is booked **CARVE-REFUSED**.
+
+That verdict describes the WORKTREE, not the function. Measured on `ov_SC02_000/func_8017F950`
+(a RELOC-ONLY twin whose body rtu-MATCHes 117/117): dry-run isolation **passes in the main tree and
+aborts in the worktree with 30 phantom UNOWNED carves.** Fixed by symlinking the registry in
+`parallel_gate.stage_generated`, which now also reports it in `missing_generated` when absent.
+**Re-check any CARVE-REFUSED row recorded before this fix — it is probably not one.**
+
+**The refusal itself is EXACT, not conservative.** One object emits one contiguous `.rodata`, so two
+same-subseg carves with a raw table between them are genuinely unsatisfiable — `build_carve` is right
+to refuse. The real fix already exists and `harvest_verify` already runs it: **isolate the function
+into its own subseg.** Live census over all 123 jtbl-carrying reachable stubs: **71 NON-CONTIGUOUS**
+(main 21, ov_ 50) + 5 span-starts + 2 not-in-data-asm + 4 main curated-name parse errors. The 15
+md_* "island-below-tail" rows are **not blocked at all** — §303 derives them at build time and the
+probe label is stale.
+
+**End-to-end, byte-proven, zero tokens:** `family_remap` draft → isolate → extract → carve → extract
+→ build ⇒ **BYTE-IDENTICAL in 23 seconds** (`ov_SC02_000/func_8017F950`, a new `.rodata` piece with
+25 relocated entries; the stub oracle drops the function).
+
+**What still blocks the automatic route:** a dry run over all 57 non-main refusals passes 39 and fails
+18 — 9 × unaddressed helper definitions, 8 × a file-local type not carried (§323), 1 × a
+typedef-forward misread as a conflicting body. All are `overlay_src_split` plumbing, ≤30 lines each.
+main's 25 additionally need a `jr_isolate_all` port (`src/800.c` parses except for four
+`#ifdef NON_MATCHING` blocks; `Makefile:642` hardcodes main's interleave; `gate_main` lacks the carve).
+
+**Reach: 21 of the 71 are RELOC-ONLY/HASH twins of ALREADY-BANKED bodies — 3,852 instructions, free
+at ~25 s each.** Carve work is not matching work; do not send these to a drafting agent.
+
+## §332b ★★★ — THE §332 "WALLS" ARE A PER-OBJECT ASSEMBLER MODE, NOT A C LIMIT — 6 CLOSE AS REAL C (P31 S69, Fable-3)
+
+§332 recorded the `la`-in-a-delay-slot class as **unemittable from C at any closeness**, and
+`oracle_reorder.py` exists to prove a draft byte-correct-but-unemittable. **The root cause is
+narrower than that:** the `800c3` / `800c2` band was assembled with **reorder-mode slot filling** —
+a property of how those OBJECTS were built, not of the C.
+
+**Measured:** a maspsx **reorder-passthrough (3 lines)** plus `as -O2` is **byte-INERT across the
+whole `800c3` and `800c2` objects** (P1 vs P2 `.text` identical) and yields **0 diffs for six walls
+whose drafts already exist** — `func_80061FA8`, `func_8005FA94`, `func_8005D244`, `func_8005DBD8`,
+`func_8005D734`, `func_80062144` — plus one at closeness 1. The other five never had correct drafts.
+
+**Implication:** a per-object Makefile switch converts six "permanently unbankable" functions into
+ordinary C banks, and **retires `oracle_reorder.py`**. Of the 15 previously-listed walls only 13 are
+reachable at all (PopMatrix/PushMatrix are LINKED dead text).
+
+**The general lesson:** when a class is declared unreachable by the toolchain, ask whether the
+property belongs to the TOOLCHAIN or to the OBJECT it produced. A per-object assembler mode looks
+exactly like a compiler limit from the diff.
+
+## §378c ★★ — THE FIFTH DECL-BLOCKER VARIANT: THE DRAFT REDECLARES WHAT THE TU ALREADY OWNS (P31 S69)
+
+§378b's table has four variants, all about the TU's declaration of the function being banked or of a
+callee. A fifth exists and the table does not cover it: **the DRAFT redeclares a type, data symbol or
+callee that the TU — or a header the TU includes — already owns.** Measured instances: `struct B16`,
+`Blk8` + `D_80126970`, `SVECTOR`, callee arity (`func_801811C8`), callee promotion (`func_8012AD44`).
+
+**Fix direction is the mirror of §378:** edit the DRAFT to adopt the TU's spelling (§367
+banked-spelling rule), never the TU to match the draft. The levers exist; what is missing is a gate
+rung that applies them to **type tags and callee prototypes** rather than to the function's own decl.
+
+**Also measured: two "integration-blocked" rows were phantoms** — one a blind worktree (§322b), one
+where a `fix_arity_callers --any-proto` pre-pass broke a SIBLING TU (§378b variant 4 biting a second
+time). Re-compile a stalled row in its real TU before believing its recorded verdict.

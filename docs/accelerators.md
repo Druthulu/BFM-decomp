@@ -457,3 +457,35 @@ rather than passing it along, and asked for the file and the literal command. Th
 self-corrected AND diagnosed the reader's failed repro to the instruction (an invented byte-aligned
 type, §391). Non-reproduction is a finding; treat it as one instead of assuming your own setup is at
 fault.
+
+## #19 — A VERDICT RECORDED INSIDE AN ISOLATED ENVIRONMENT DESCRIBES THE ENVIRONMENT (P31 S69)
+
+**What happened.** Gating runs in per-worker `git worktree`s for parallelism. One input the carve
+step needs — a signature registry — is **gitignored**, so it exists in the main tree and in no
+worktree. Every jtbl draft gated in a worker therefore failed its isolation step and was recorded as
+**`CARVE-REFUSED`**, a per-function verdict that got written into ledgers, quoted in a census, and
+used to classify ~a third of a project's remaining frontier as blocked. It described the worktree.
+
+**Why isolation makes this the DEFAULT failure, not a freak one.** Isolation is introduced for
+correctness (no shared mutable state) and its whole point is that the worker sees LESS. Every
+gitignored input, every generated file, every symlink you forgot is a difference between "works here"
+and "works there" — and the worker cannot tell a genuine rejection from its own missing input. Left
+alone, the environment's shortcomings are silently attributed to the SUBJECT, one per function, in
+writing.
+
+**The rule: a verdict produced in an isolated environment is provisional until that environment is
+proven complete for the class of work it judged.** Concretely, three cheap habits:
+1. **Negative-control the environment itself.** Run one KNOWN-GOOD item through the isolated path.
+   If it fails there and passes in the main tree, the environment is the defect — this is R40 applied
+   to a place, not a model.
+2. **Enumerate what the worker needs and ASSERT it**, don't discover it by failure. This project's
+   worktree setup already listed five non-obvious pieces (asm/, .venv/, generated headers, submodule
+   contents, extract outputs); the registry was the sixth and cost a whole verdict class.
+3. **Report a missing input as MISSING, never as a verdict.** The fix here adds the registry to a
+   `missing_generated` field that already existed for exactly this purpose — and which, in an earlier
+   incident, was populated correctly and *read by nobody* (R32's corrected form: a loud failure nobody
+   counts is as invisible as a silent one).
+
+**Cost when skipped:** here, a class recorded as structurally blocked was mostly free work — 21
+functions with already-banked twins, ~25 seconds each, zero tokens. The census that said otherwise
+was arithmetic on artifacts.
