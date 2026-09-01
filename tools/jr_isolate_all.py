@@ -69,16 +69,24 @@ def rodata_carves(cfg_lines, ov=None):
     owner, so jr_inventory's "every carve resolves to exactly one banked function" check (R32)
     aborted on it and md_* could not be isolated at all.
 
-    The discriminator is structural and was verified across all 213 splat configs: a `.rodata`
-    piece at offset 0 whose subseg is the binary's own alias exists in exactly the 42 md_* configs
-    and in none of the others, so passing `ov` is a no-op for every ov_*/main config."""
+    The discriminator is structural: a carve is a table LIFTED OUT OF THE DATA TAIL, so it can
+    never sit at the segment's own offset 0 — offset 0 is where the module-id header (md_*) or the
+    first function (ov_*) lives. Verified across all 213 splat configs: every `.rodata` piece at
+    offset 0 is an md_* leading island; ov_*/main configs have none, so passing `ov` is a no-op
+    for them. The discriminator used to ALSO require the subseg to be the binary's own alias, but
+    that conjunct broke the moment a leading island was legitimately RENAMED to the code subseg
+    where its emitters live (S68 md_MAIN_003 → md_MAIN_003_jr_800D12D0: spimdisasm rodata-migration
+    is same-subseg-only, cookbook §371), which made jr_inventory read the island as an UNOWNED
+    carve and R32-abort every further carve on the binary. Offset 0 alone is the honest key;
+    negative-controlled over all 184 configs with `.rodata` pieces (only md_MAIN_003's verdict
+    moved, abort → OK)."""
     out = []
     for i, ln in enumerate(cfg_lines):
         m = re.match(r'^\s*- \[(0x[0-9A-Fa-f]+),\s*\.rodata,\s*(\w+)\]', ln)
         if m:
             off, sub = int(m.group(1), 16), m.group(2)
-            if ov is not None and off == 0 and sub == ov:
-                continue                                   # the leading island, not a carve
+            if ov is not None and off == 0:
+                continue                                   # the leading island (possibly renamed), not a carve
             out.append((i, off, sub))
     return out
 

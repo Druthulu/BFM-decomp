@@ -95,10 +95,11 @@ segments:
       # shift the code start. Mark it `rodata` (section_order places .rodata first) so it lands at
       # 0x800CEDF8 ahead of the code, a 1-word analogue of main's rodata-island (no ld_interleave).
       # - [0x0, rodata, head]
-      - [0x0, .rodata, md_MAIN_003_jr_800D12D0]      # module-id header (+jtbl/ptr table) — §154-A; renamed to the jr TU by the S68 o0 carve: ALL island emitters (D_800CEDF8 include, D_800CEE1C asm, MDEC literals, func_800D30D0 with its migrated strings) live there, and spimdisasm rodata-migration is same-subseg-only
+      - [0x0, .rodata, md_MAIN_003_jr_800D1E18]      # module-id header (+jtbl/ptr table) — §154-A; named for the TU holding ALL island emitters (D_800CEDF8 include, D_800CEE1C asm, MDEC literals, func_800D30D0 with its migrated strings): spimdisasm rodata-migration is same-subseg-only. Renamed _jr_800D12D0 -> _jr_800D1E18 by the S68 func_800D12D0 o0 carve (region0 became md_MAIN_003_o0d; the emitters live in the post region)
       - [0xd8, c, md_MAIN_003]
       - [0x1f74, c, md_MAIN_003_o0c]
-      - [0x24d8, c, md_MAIN_003_jr_800D12D0]
+      - [0x24d8, c, md_MAIN_003_o0d]
+      - [0x3020, c, md_MAIN_003_jr_800D1E18]
       - [0x477C, data, tail] # data tail: pointer tables + packed data (split iterated)
   - [0x1DC1C]   # EOF marker = the 0.4.dec byte length
 # @TRAILING@ (above) is replaced by tools/new_overlay.sh: for a non-4-aligned overlay it becomes

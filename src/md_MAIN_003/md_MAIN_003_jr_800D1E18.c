@@ -71,79 +71,6 @@ extern u8 D_800AF6DC;
 extern u8 D_800AF680;
 /* ==== end §8b carried decl layer ==== */
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D12D0", func_800D12D0);
-
-__asm__(".text\n.align 2\n.globl func_800D1D14\n.ent\tfunc_800D1D14\n"
-"func_800D1D14:\n.frame $sp,32,$31\n.mask 0xC0010000,-16\n.fmask 0,0\n"
-".set\tnoreorder\n"
-"addiu $sp, $sp, -32\n"
-"sw $ra, 28($sp)\n"
-"sw $fp, 24($sp)\n"
-"addu $fp, $sp, $zero\n"
-"sw $a0, 32($fp)\n"
-"sw $a1, 36($fp)\n"
-"lw $v0, 36($fp)\n"
-"nop\n"
-"bnez $v0, .L800D1D88\n"
-"nop\n"
-"lw $v0, 32($fp)\n"
-"nop\n"
-"addu $v1, $v0, $zero\n"
-"sll $v0, $v1, 2\n"
-"lui $a0, %hi(D_800D3630)\n"
-"addiu $a0, $a0, %lo(D_800D3630)\n"
-"addu $v1, $v0, $a0\n"
-"lh $v0, 0($v1)\n"
-"sw $zero, 16($sp)\n"
-"sw $zero, 20($sp)\n"
-"addu $a0, $v0, $zero\n"
-"lui $a1, %hi(D_800D3618)\n"
-"addiu $a1, $a1, %lo(D_800D3618)\n"
-"addu $a2, $zero, $zero\n"
-"addu $a3, $zero, $zero\n"
-"jal func_8001534C\n"
-"nop\n"
-"j .L800D1E00\n"
-"nop\n"
-".L800D1D88:\n"
-"lw $v0, 32($fp)\n"
-"nop\n"
-"addu $v1, $v0, $zero\n"
-"sll $v0, $v1, 2\n"
-"lui $a0, %hi(D_800D3630)\n"
-"addiu $a0, $a0, %lo(D_800D3630)\n"
-"addu $v1, $v0, $a0\n"
-"lh $v0, 0($v1)\n"
-"lw $v1, 32($fp)\n"
-"nop\n"
-"addu $a0, $v1, $zero\n"
-"sll $v1, $a0, 2\n"
-"lui $a0, %hi(D_800D3624)\n"
-"addiu $a0, $a0, %lo(D_800D3624)\n"
-"addu $v1, $v1, $a0\n"
-"lw $a0, 32($fp)\n"
-"lui $a1, %hi(D_800D3620)\n"
-"addiu $a1, $a1, %lo(D_800D3620)\n"
-"addu $a0, $a0, $a1\n"
-"lbu $a1, 0($a0)\n"
-"nop\n"
-"sll $a0, $a1, 16\n"
-"sra $a3, $a0, 16\n"
-"sw $zero, 16($sp)\n"
-"sw $zero, 20($sp)\n"
-"addu $a0, $v0, $zero\n"
-"lw $a1, 0($v1)\n"
-"addiu $a2, $zero, 80\n"
-"jal func_8001534C\n"
-"nop\n"
-".L800D1E00:\n"
-"addu $sp, $fp, $zero\n"
-"lw $ra, 28($sp)\n"
-"lw $fp, 24($sp)\n"
-"addiu $sp, $sp, 32\n"
-"jr $ra\n"
-"nop\n"
-".set\treorder\n.end\tfunc_800D1D14\n");
 
 
 typedef struct {
@@ -419,7 +346,7 @@ void func_800D2454(s32 a0, s32 a1, s32 *a2) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D12D0", func_800D24D0);
+INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", func_800D24D0);
 
 extern s32 func_800D27A0();
 extern void func_800D3234(s32 a0, s32 a1);
@@ -735,7 +662,7 @@ void func_800D2D44(s32 arg0) {
 }
 
 
-INCLUDE_RODATA("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D12D0", D_800CEDF8);
+INCLUDE_RODATA("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", D_800CEDF8);
 
 __asm__(
     ".section .rodata\n"
@@ -863,9 +790,9 @@ s32 func_800D30B8(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D12D0", func_800D30D0);
+INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", func_800D30D0);
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D12D0", D_800D3200);
+INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", D_800D3200);
 
 extern s32 D_800D3200;  /* dup-def demoted: a sibling .s still emits it (S61) */
 
@@ -1132,5 +1059,6 @@ __asm__(
     ".end\tfunc_800D3234\n"
     ".size\tfunc_800D3234, .-func_800D3234\n"
 );
+
 
 
