@@ -112,6 +112,29 @@ bodies hash differently and read as singletons. A `RELOC-ONLY` row is mechanical
 banked exemplar onto the open address, then gate — **8 of 10 banked at ~0 agent tokens on first use**,
 one 94-ins exemplar serving five open copies. Never send a RELOC-ONLY row to a drafting agent.
 
+### 2a-2. THE TWIN LADDER — take the CHEAPEST tier available, never the closest number (S69)
+
+Distance is a FILTER, not the ranking key: a deletion is free and a substitution is thought (§390).
+Work down this ladder and stop at the first tier that has a row; only widen when the tier above is
+empty. We never "go straight to d25" — widening only lets tiers 2-3 SEE candidates that a d=0-only
+tool called singletons.
+
+| tier | detector | cost | measured S69 |
+|---|---|---|---|
+| 1 exact twin (d=0) | `seed_ref` hash | free — copy the body verbatim | 22 rows |
+| 2 RELOC-ONLY (any d) | `seed_ref --near` + `family_remap.classify_member` | mechanical — remap, gate | 31 rows, **8 banked, ~0 tokens** |
+| 3 CONTAINED (± whole block) | `seed_ref --contained` | near-mechanical — delete/add statements | 9 usable, **1 banked** |
+| 4 true cousin (few substitutions) | `--near`, ratio `r = d/min(nins) <= 0.27` | seeded crack — a cheap agent holding the twin's C | 13 rows |
+| 5 no match | — | cold draft, full price | 277 of 352 |
+
+**Filter lookalikes before handing anything to an agent.** At `r >= ~0.37` the "twin" is two
+different functions sharing boilerplate — 17 of 30 NEAR-COUSIN rows were exactly that. A wrong twin
+is worse than no twin, because the agent believes it.
+
+**And do not build more scanners.** Three fleet-wide probes past RELOC-ONLY returned 0 new / 9 / 2
+(§390). The scanner well is dry; the integration levers (§376/§378) out-earned it by an order of
+magnitude in the same session.
+
 ### 2b. RUN `neighbor_ref` FOR EVERY CARD — the biggest measured cost lever in the wave
 
 ```

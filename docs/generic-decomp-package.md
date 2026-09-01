@@ -63,6 +63,19 @@ against random pairs for the base rate (R39: 1.17% here).
 **And audit every hash you own for BOTH questions.** Dedup wants under-matching; a frontier join
 wants over-matching. One hash cannot serve both error directions, and the failure is silent.
 
+**Rank the band by WORK, not by distance, and stop building scanners once it is dry.** Two findings
+that cost a session here and are free to inherit:
+
+* *A deletion is free, a substitution is thought* (§390). Edit distance ranked a 5-substitution twin
+  above a pair that was the same C minus one trailing statement — the second banked at closeness 0.
+  Order candidates by (substitutions + regions, coverage); use distance only as a filter. And filter
+  LOOKALIKES at `r = d/min(nins) >= ~0.3`: 17 of 30 "cousins" here were two different functions
+  sharing boilerplate, and a wrong twin is worse than no twin because the agent believes it.
+* *Know when to stop.* After the reloc-only class, three fleet-wide probes returned **0 new / 9 / 2**.
+  The similarity well runs dry fast. In the same session the INTEGRATION levers — making an
+  already-correct body compile inside its real translation unit (§376/§378) — banked an order of
+  magnitude more. **Budget accordingly: scanners early, integration forever.**
+
 **3. The differential-oracle harness (accelerators #15) — the one that works at 0%.**
 Two independent paths per question, disagreement fails loudly, on a schedule.
 

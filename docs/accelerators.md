@@ -422,3 +422,38 @@ every function you crack becomes an exemplar for everything within a few instruc
 immediately. Build it late and you accumulate invisible-singleton debt that costs a whole session to
 recover — and you will never know how much you left on the floor, because the tool reports a
 confident, true, useless number.
+
+## #18 — A CLAIM DERIVED FROM BYTES IS NOT A CLAIM VERIFIED BY A COMPILER (P31 S69)
+
+**What happened.** A tooling agent reported an open function as "= banked twin minus its final
+statement — **resid 0**", listed under "mechanically bankable". Read naturally, `resid 0` means *it
+compiles to the target*. It did not: the agent had aligned the two BYTE STREAMS, observed one
+contiguous 6-instruction block absent and zero other token differences, and **had compiled nothing**.
+Challenged, it said so immediately and cleanly: *"my 'resid 0' was a byte-stream containment fact, not
+a compiled draft."* It then produced the draft and the real verification — `{"status": "match",
+"closeness": 0, "nins": 98}`. The prediction was correct. **The claim's TYPE was not.**
+
+**Why this is its own accelerator and not just a wording nit.** Every decomp pipeline mixes claim
+types that read identically in a report:
+
+| claim type | what it proves | what it does not |
+|---|---|---|
+| stream/hash containment | the bytes relate | that any C produces them |
+| compiled standalone (`match_one`) | the BODY is right | that the TU accepts the signature (§376) |
+| whole-binary gate green | this binary is byte-identical | anything about the other 212 |
+| clean-fleet R22 | the fleet is green NOW | that a config change was re-extracted (§384) |
+
+A report that says "resid 0" or "verified" without naming which tier it reached invites the reader to
+assume the strongest one. Downstream that becomes a bank attempt against a draft that does not exist,
+or — worse — a "free win" ledger entry nobody re-checks.
+
+**The standing rule: every similarity or correctness claim names the tier it reached.** "Contained at
+d=6 (bytes, uncompiled)" and "MATCH closeness 0 (compiled standalone)" are different sentences and
+should look different. Ask any agent that reports a match: *what command produced that number?* If the
+answer is a stream comparison, the work is a PREDICTION — valuable, rankable, not bankable.
+
+**The corollary that saved this one:** the reader could not reproduce the number, said so plainly
+rather than passing it along, and asked for the file and the literal command. The agent then
+self-corrected AND diagnosed the reader's failed repro to the instruction (an invented byte-aligned
+type, §391). Non-reproduction is a finding; treat it as one instead of assuming your own setup is at
+fault.

@@ -32446,3 +32446,55 @@ error directions.
 **Diff tell:** an open stub your card calls "no banked twin — derive from the .s", whose body is a
 per-location copy of engine code that exists in a sibling overlay. Run the near tier before believing
 a singleton verdict.
+
+## §390 ★★★ — MINIMUM DISTANCE IS NOT MINIMUM WORK; RANK TWIN CANDIDATES BY EFFORT, AND FILTER LOOKALIKES BY RATIO (P31 S69; byte-proven ov_SC01_077/func_80184D50, banked)
+
+**The measurement.** The near tier offered two banked candidates for one open stub:
+
+| candidate | distance | what it costs a human |
+|---|---|---|
+| `ov_SC03_006:0x8018b868` | **d=5** — 5 scattered SUBSTITUTIONS | rewrite an expression: real thought |
+| `ov_SC03_007:func_8018283C` | **d≈6** — ONE contiguous block absent | copy the C, **delete one statement** |
+
+Edit distance ranked the *substitution* twin first, because 5 < 6. The deletion twin was the strictly
+cheaper answer and it banked: copy `func_8018283C`'s body, drop its trailing
+`*(s32 *)(...) &= 0x7FFFFFFF;`, rename, `match_one` -> **MATCH, closeness 0, 98/98 ins**.
+
+**The law.** *A deletion is free and a substitution is thought.* Distance counts moved instructions;
+it does not count the reasoning needed to convert one body into another. Rank by
+**(substitutions + regions, coverage)**, never by raw `d` — `seed_ref --contained` does; `--near` does
+not, by design (it is the recall tier).
+
+**The companion filter — LOOKALIKES.** A widened band promotes coincidence. Of 30 NEAR-COUSIN rows,
+only **13 were true cousins**; the other **17 were boilerplate lookalikes**. They separate cleanly on
+
+    r = d / min(nins)      true cousins r <= 0.27      lookalikes r >= 0.37
+
+Anything at r >= ~0.3 is two functions that merely share prologue/epilogue/dispatch shape. Never
+send one to an agent as a "twin" — a wrong twin is worse than no twin, because the agent trusts it.
+
+**THE MECHANICAL FRONTIER PAST RELOC-ONLY IS SINGLE DIGITS — three fleet-wide nulls, all controlled:**
+
+| probe | scope | result |
+|---|---|---|
+| skeleton join (opcodes+registers, immediates dropped) | 91,638 banked × 352 open | **0 new** — hits are exactly the 46 known same-length twins. The "same shape, different constants" class DOES NOT EXIST in this corpus |
+| contained / block-indel (± whole blocks, any gap) | fleet | **9 usable**, 4 previously invisible; 89% of raw hits were prologue/epilogue vacuity until a min-side-25 floor was applied |
+| past-the-cap cousins (d26-45, ≤30% drift, ≥100 ins) | 178 pairs | **2** — both replace-heavy seeded cracks |
+
+**Conclusion, and it is a spending decision:** after RELOC-ONLY (§389) the scanner well is dry.
+Further similarity tooling buys single digits; the integration levers (§376/§378) bought dozens in
+the same session. **Spend integration effort, not scanner effort, from here.**
+
+## §391 ★★ — A BYTE-ALIGNED STRUCT COPIES IN FOUR INSTRUCTIONS, A WORD-ALIGNED ONE IN TWO (P31 S69)
+
+`typedef struct { u8 b[8]; } Blk8;` (`src/shared/engine_types.h:497`) is BYTE-aligned, so gcc-2.7.2
+cannot assume word alignment and emits the unaligned quartet **`lwl / lwr / swl / swr`** per copy.
+A word-aligned aggregate of the same size (`struct { int a, b; }`) emits **`lw / sw`**.
+
+**Diff tell: an exact multiple of 2 instructions missing, scaling with the number of struct
+assignments.** Measured while reproducing a twin: substituting an invented word-aligned `Blk8` for
+the real byte-aligned one lost exactly 8 instructions across two copies (90 vs the target's 98) and
+read as a plausible "near, closeness 70" — a wrong TYPE masquerading as a codegen residual.
+
+**So: never invent an aggregate type to make a draft compile.** Resolve it from
+`src/shared/engine_types.h`. An invented type does not fail loudly; it fails as a believable diff.
