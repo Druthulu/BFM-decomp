@@ -32814,3 +32814,20 @@ agent is pure waste, and it was.
 This is the `crack-wave-sweep-map-regen` rule ("regen the map after banking") applied one level down:
 the FAMILY map is not the only stale artifact — **the twin oracle is stale too, and it is the one the
 cards read.**
+
+## §396g ★★ — A GUARD LADDER'S RUNGS MUST STAY SYMMETRIC OR `reorg.c` LOSES ITS BRANCH REDIRECT (P31 S69; byte-proven ov_SC03_028/func_80184C90, 92 ins)
+
+A chain of range checks that all jump to one shared tail (`flag = 0; goto check;`) only emits the
+target's shape if **every rung is spelled identically**:
+
+```c
+    if (X >= Y) { flag = 0; goto check; }      /* every rung, same form */
+```
+
+Reusing a temp across rungs — e.g. `flag = a0->E` as a scratch — writes `$s1` and **kills
+`reorg.c`'s `redundant_insn` branch redirect past the shared `flag = 0`**, so the merged tail stops
+forming and the diff blooms far from the edit.
+
+**Diff tell:** a guard ladder where the target redirects several branches to one tail and yours
+re-emits the tail per arm, with register noise around a temp you thought was free. Make the rungs
+symmetric before chasing the registers.
