@@ -4701,7 +4701,7 @@ integration. `decl_prior` already computes the destination's environment.
   ov_SC06_011  15/16   one pool's cluster: finished, never gated. No recovery stage needed.
   ov_SC06_029   3/6
   pgate x35     3/54   (after the pgate fix below; scattered singletons)
-  main          1/13   func_8002B0B4
+  main          0/13   (func_8002B0B4 passed the byte gate but was never persisted — see FINAL-2)
   ```
   **The distribution IS the lesson: 15 of 22 banks came from ONE cluster.** "86 byte-correct drafts on
   disk" was true and a bad forecast — I extrapolated ~45-55 banks from the first cluster I probed,
@@ -4761,7 +4761,10 @@ integration. `decl_prior` already computes the destination's environment.
 
 ## 🛑 SESSION CHECKPOINT — S70 FINAL (2026-09-01). SUPERSEDES every earlier block in this file, including S69 FINAL-4. Phase 31 T5 CONTINUES.
 
-**STATE:** tree clean, no lanes running, **22 banked**. **R22 GREEN — `check-all: 213 passed, 0 failed
+**STATE:** tree clean, no lanes running, **21 banked** *(corrected later in S70 — see the S70 FINAL-2
+block: the "main +1" reported here NEVER LANDED. `harvest_verify` invoked directly reports `verified 1`
+but does not PERSIST the splice — `gate_stage` wraps it with that step. Commit `commit:3538` carries only
+a comment; `INCLUDE_ASM(..., func_8002B0B4)` is still at src/800.c:18341.)* **R22 GREEN — `check-all: 213 passed, 0 failed
 of 213` from a clean rebuild at 17:21:36** (a second green; the session also opened with one at 15:55,
 clearing S69's `--no-r22` debt). No `.run/R22_DEBT` standing. Drew pushes (R6). `ghidra/` churn is MCP noise.
 
@@ -4776,7 +4779,9 @@ MAIN game-code weighted   :     39,105 / 79,510     = 49.2%
 ```
 **THE FRONTIER, WITH THE PsyQ LIBRARIES EXCLUDED (Drew, this session — do NOT report the libs):**
 ```
-355 -> 333 real open functions   =  main game-code 66  +  non-main 267
+355 -> 334 real open functions   =  main game-code 67  +  non-main 267
+(the "333 / main 66" first written here was INFERRED BY SUBTRACTION from the phantom main bank,
+ not measured; corpus.stubs measures main at 67 throughout S70 — main banked NOTHING this session)
 main's other 960 open stubs are PsyQ LINKED library code and are NOT matching targets.
 Partition with progress.linked_subsegs() (49 subsegs), never a hand-rolled name filter.
 ```
