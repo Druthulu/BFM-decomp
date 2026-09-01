@@ -43,6 +43,29 @@ python3 tools/draw_waves.py --only-main --prefix .run/<name>m_ --waves 1 --per-w
 * Main draws refuse LINKED subsegs automatically — those stubs are dead text and a draft there
   **gates GREEN while wrong**.
 
+### 1b. THE WALLS LEDGER IS ALWAYS INCOMPLETE, AND THAT COSTS A FULL AGENT RUN EACH TIME
+
+`.run/S6*_walls.txt` lists functions the pinned triple **cannot emit at all** — mostly §177/§188's
+-O1-vs-O2 epilogue (`jr $ra` with `addiu $sp` in its delay slot), which `oracle_reorder.py` proves
+byte-correct-but-unemittable. Excluding them at draw time is in step 1 for a reason.
+
+**But a wall nobody has met yet is invisible to that filter**, so each new one is discovered by
+PAYING an agent to hit it. Measured twice in S68, both on `main`:
+
+| function | what it cost | outcome |
+|---|---|---|
+| `func_8005E228` | a full sonnet run | wall found, then banked the §265 verbatim-asm way |
+| `func_8005F0C8` | **289k tokens** | drafted to closeness 36, residual confirmed §188 by the oracle |
+
+Neither was on any list beforehand, and neither is a model failure — an agent handed a wall always
+returns a NEAR with an unexplainable tail, which is indistinguishable from a hard function.
+
+**THE FIX, NOT YET BUILT:** run the §188 epilogue-shape detector over every open stub **at draw
+time** and exclude or flag them. The detector already exists inside `oracle_reorder.py`; it has
+simply never been run as a sweep. Until then, treat "NEAR with an epilogue-shaped tail" as a
+walls-ledger candidate and CHECK IT WITH THE ORACLE before escalating — an escalation cannot beat
+the toolchain, so that spend is guaranteed waste.
+
 ## 2. Cards — and make sure the twin is on them
 
 ```
