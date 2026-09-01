@@ -35,7 +35,38 @@ LEDGER = '.run/t5/drawn.json'
 
 
 def arm_for(n):
-    return 'sonnet' if n <= 120 else 'opus'
+    """Model tier for a target of n instructions.
+
+    RAISED AFTER P31 S69's MEASUREMENT (Drew, 2026-09-01) — the old `sonnet if n <= 120` rule was
+    costing MORE, not less, because a cheaper agent that fails 53% of the time is billed for every
+    failure. Measured over 129 drafting agents in one session, per MATCHED instruction:
+
+        sonnet   105 agents, 57 MATCH   4,289 tokens / matched instruction
+        opus      24 agents, 11 MATCH   2,083   (m1 band alone: 1,291)
+
+    Opus is 2.1x cheaper per banked instruction overall, 3.3x on its own band, while handling
+    functions 3-4x larger. Sonnet's per-agent price is not the cost that matters; cost per BANK is.
+    Sonnet held a flat ~47% above 30 instructions, so the band where it pays is genuinely small.
+
+    Do NOT re-derive a cheap-tier argument from per-agent price. It was tested (S68 A/B) and
+    re-measured (S69); escalating SOONER to a higher tier is the standing finding.
+
+    The TOP of the ladder was wrong too (Drew, 2026-09-01). S69 sent the 347-670 band to opus and it
+    returned the session's worst number by a wide margin:
+
+        m1  opus  191-347 ins   10/15 MATCH   1,291 tokens / matched instruction
+        m2  opus  347-670 ins    1/9  MATCH   7,158   <-- 5.5x worse, 2.92M tokens for ONE bank
+
+    Above ~350 instructions opus falls off a cliff; that band is Fable's, and Fable measured 3/4 on
+    the escalation lane the same session (plus S68's cold-start 85k/93k vs a sonnet median ~271k).
+    ESCALATE SOONER: the expensive mistake is running a cheaper tier into a wall, not paying the
+    higher tier up front.
+
+    DREW'S RULING, 2026-09-01, after reading the S69 numbers: NO MORE SONNET AT ALL, and anything
+    over 150 instructions goes to FABLE. Not a threshold to re-tune from per-agent price — sonnet's
+    53% failure rate is billed in full, and opus fell off a cliff above ~350. Two tiers only.
+    """
+    return 'opus' if n <= 150 else 'fable'
 
 
 def main():
