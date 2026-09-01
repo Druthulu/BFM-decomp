@@ -292,3 +292,68 @@ function probed "carveable". Re-probed with the planner: **96 of 159 open jtbl f
 plan-refused**, and a previous session had priced 32 of them as free work on the blind reading.
 Cost of the fix: eight lines. An optimistic probe does not merely lose opportunities — it
 manufactures work plans, which is the expensive direction of the error.
+
+## #15 — THE DIFFERENTIAL-ORACLE HARNESS: run every question down TWO paths and fail on disagreement (P31 S68)
+
+**The pattern, counted in ONE session.** Ten-plus blockers, every one the same shape: *a tool
+computed a TRUE number about a NARROWER WORLD than the one we believed it covered.* Not bugs —
+correctly-scoped tools whose population widened underneath them as new idioms landed.
+
+* `gate_stage` compared `main` against **another binary's SHA** (`build/main/main` and
+  `config/check.main.sha` do not exist, so `DEF_SHA` = ov_SC01_077 took over). Every main draft read
+  "near" — for weeks.
+* `psyq_integrate` dropped `firstfile` on every INCREMENTAL relink, so main was 2 bytes red before
+  any draft was spliced. This is the true identity of the long-standing "main link defect".
+* `match_one`'s standalone probe called 39 of 43 drafts `cc1-fail` for symbols that ARE in their
+  real TU.
+* `seed_ref` offered 43 `main` LINKED-subseg stubs as bankable twins — dead text where a draft gates
+  GREEN while wrong.
+* `wall_sweep` (written that same day) returned a confident **0 across 1,378 files**: the `.s` lines
+  carry a `/* … */` prefix and the regex anchored at line start.
+* `corpus.stubs` passed while **106 of 213** binaries had no `.s` on disk after a restore that
+  printed `212 extracted, 0 failed`.
+* Four agents returned `NO-DRAFT` after a rate limit while one sat **3 instructions** from a match,
+  its full candidate history on disk.
+* §332 stated "6 functions fleet-wide" and named TWO. **A count without an enumeration cannot drive
+  a filter**, so the draw kept paying agents to rediscover the class (92k and 289k tokens, twice).
+
+**What caught every single one: two independent measurements disagreeing.** `rtu_match` vs the
+whole-binary gate. The standalone probe vs the real TU. A sweep's zero vs a member already known. A
+clean rebuild vs an incremental one. An agent's verdict vs its own scratch dir.
+
+**Why the RULES were not enough.** R32 (assert your coverage), R34 (a second DISAGREEING oracle) and
+R40 (exonerate the instrument) all existed and are correct. They are *rules applied by whoever
+writes the tool* — and in S68 the author wrote R34's warning into one tool's docstring and then
+**rebuilt the exact defect it warns about, in a different file, an hour later** (an mtime liveness
+heuristic, after documenting that "a quiet file mtime is not a completion signal").
+
+**THE TOOL: a standing harness that runs the same question down two independent paths on a schedule
+and fails loudly on divergence.** The pairs exist in any decomp from day one:
+
+| question | path A | path B |
+|---|---|---|
+| is it matched? | `corpus.stubs` | the built binary / dedup registry |
+| does it compile? | standalone probe | the real TU |
+| is the fleet green? | incremental build | from `make clean` |
+| what does this scanner cover? | its own count | an over-approximating candidate set |
+| did the agent produce work? | its returned verdict | its scratch dir |
+| is this function bankable? | the draw filter | the toolchain-wall oracle |
+
+**Why build it FIRST, before the cookbook has a single entry.** It is the only accelerator on this
+list that works at 0% and compounds. Retrieval needs a matched corpus; triage needs drafts; the
+cookbook needs matches. But *two ways to measure the same thing* exist from the first function — and
+the value grows with every tool added, because every new tool is a fresh chance to be confidently
+wrong about scope.
+
+**Cost asymmetry that makes it obvious in hindsight.** Each of the diagnoses above cost 90k–290k
+tokens as a one-off agent investigation. A nightly disagreement report is minutes of compute. Rough
+estimate for S68: **about half the session went to harness defects wearing model-failure costumes**,
+and that ratio has probably held, invisibly, for most of the project — because a plausible number
+never asks to be checked.
+
+**The scheduling half, and it is not optional (Drew, S68):** the widening is PERIODIC, not one-off.
+Tooling was correct when written and went stale as new idioms revealed populations it could not see.
+So at every session/phase close, review the tooling against the idioms learned that phase and ask
+*which scanner's denominator just got wider?* — the answer converts new knowledge into free banks.
+S68's own §332 sweep is the worked example: one idiom review, ten functions / 1,027 instructions
+reclassified from "hard" to "not bankable at all", and one in-flight escalation stopped mid-spend.
