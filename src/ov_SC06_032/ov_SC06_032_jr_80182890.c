@@ -4262,7 +4262,100 @@ void func_80184B08(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_80184C04);
+/*
+ * func_80184C04 — positional SFX trigger (ov_SC06_032_jr_80182890, 91 ins).
+ *
+ * INSTRUCTION-IDENTICAL TWIN of func_80189E60 in
+ * src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:4658 (§193-A).  A label-stripped
+ * diff of the two .s files is EMPTY apart from the glabel/branch-label names:
+ * same four stack vectors, same two func_8012EFB8 rotations, same /25 + 7 pan
+ * ladder, same `- 0x400` / `< 0x6E40` distance ladder with the *95/28224
+ * volume slope, same `(u16)(x | ((b << 8) | 0x3000))` packing, same `return 1`.
+ * The relocation lines of THIS .s were re-walked: func_8012EFB8, D_80126B58,
+ * func_800132BC, func_8002D4C8 — identical set, no per-location symbols to
+ * carry over (law 1/1c), and there are no literals that differ.
+ *
+ * The twin's five levers all still apply verbatim — see its header for the
+ * measurements.  In short:
+ *   L1  the dividend goes through an s32 temp (`q = sp18[0]; b = q / 25 + 7;`)
+ *       or c-typeck's shorten_binary_op narrows the quotient to HImode (+2).
+ *   L2  `b` is s16 — that HImode local is the ONLY thing that produces the
+ *       target's `addu $s3,$v0,$zero` copy before the sll/sra 16 clamp test.
+ *   L3  the second argument is narrowed INSIDE the expression, `(u16)(…)`, so
+ *       convert_to_integer distributes the narrowing into the shift and `b` is
+ *       used raw (`sll $a1,$s3,8`); masking after the OR chain costs +1.
+ *   L4  `base` is assigned in the FIRST statement, so it crosses the opening
+ *       jal and REG_ALLOC_ORDER gives it $s1 instead of a call-clobbered reg.
+ *   L5  `u16 arg1` is a scheduling dial: `s32 arg1` + a call-site mask hoists
+ *       `addu $s4,$a1,$zero` above `addiu $a0,$sp,0x10` (2 mismatches).
+ *   L6  func_8012EFB8 really takes two arguments; it is declared `(s32)` both
+ *       fleet-wide and in THIS TU (L325), so call it through a cast — no decl
+ *       edit, no §163a conflict.
+ *
+ * @class: twin-remap
+ * @stuck: none — MATCH on iteration 1 from the banked twin.
+ *
+ * ------------------------------------------------------------ integration
+ * Every extern below is already spelled IDENTICALLY at file scope in the
+ * destination TU src/ov_SC06_032/ov_SC06_032_jr_80182890.c:
+ *     extern void func_8002D4C8(s32 a0, s32 a1);            (L50)
+ *     extern void func_8012EFB8(s32 a0);                    (L325)
+ *     extern s32  func_800132BC(void *a0, void *a1);        (L2772)
+ *     extern s32  D_80126B58;                               (L9903)
+ * BUT the TU's own forward decls of THIS function (L2729 and L3686,
+ * `extern void func_80184C04(s32 a0, s32 a1);`, plus the call site at L3751)
+ * are STALE — the body returns s32 and needs u16 for a1 — so run the §378
+ * chain (fix_arity_callers -> cast_self_callers -> --sync-decls) before the
+ * whole-binary byte-gate, exactly as the twin needed (§376: a standalone
+ * MATCH is not a bank).
+ */
+
+extern s32 D_80126B58;
+extern void func_8012EFB8(s32 a0);
+extern s32 func_800132BC(void *a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+s32 func_80184C04(s32 arg0, u16 arg1) {
+    s16 sp10[3];
+    s16 sp18[3];
+    s16 sp20[3];
+    s16 sp28[3];
+    s32 x;
+    s32 var;
+    s32 q;
+    s16 b;
+    s32 base;
+
+    base = (s32)&D_80126B58;
+    sp10[0] = *(u16 *)(arg0 + 6);
+    sp10[1] = *(u16 *)(arg0 + 0xA);
+    sp10[2] = *(u16 *)(arg0 + 0xE);
+    ((void (*)(s32, s32))func_8012EFB8)((s32)sp10, (s32)sp18);
+    x = 0x7F;
+    q = sp18[0];
+    b = q / 25 + 7;
+    sp18[2] = 0;
+    if (b < 0) {
+        b = 0;
+    } else if (b >= 0x10) {
+        b = 0xF;
+    }
+    sp20[0] = *(u16 *)(base + 6);
+    sp20[1] = *(u16 *)(base + 0xA);
+    sp20[2] = *(u16 *)(base + 0xE);
+    ((void (*)(s32, s32))func_8012EFB8)((s32)sp20, (s32)sp28);
+    sp28[2] = 0;
+    if ((var = func_800132BC(sp18, sp28) - 0x400) > 0) {
+        if (var < 0x6E40) {
+            x -= var * 95 / 28224;
+        } else {
+            x = 0x2F;
+        }
+    }
+    func_8002D4C8(arg1, (u16)(x | ((b << 8) | 0x3000)));
+    return 1;
+}
+
 
 
 extern void (*D_801A6A3C[])(void);

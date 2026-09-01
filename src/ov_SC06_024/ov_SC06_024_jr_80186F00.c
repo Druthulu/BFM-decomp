@@ -5150,7 +5150,93 @@ void func_8018A2D0(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_80186F00", func_8018A3CC);
+/* func_8018A3CC — exact structural twin of ov_SC06_018:func_80189E60
+ * (asm diff = labels + glabel only; every relocation symbol is identical:
+ *  D_80126B58, func_8012EFB8 x2, func_800132BC, func_8002D4C8).
+ * Levers carried over verbatim from that function's worked header (§193-A):
+ *
+ * L1  THE DIVIDEND GOES THROUGH AN s32 TEMP (`q = sp18[0]; b = q / 25 + 7;`).
+ *     Written inline, `sp18[0] / 25` is narrowed by c-typeck's
+ *     shorten_binary_op, so the quotient comes back HImode and gcc pays an
+ *     extra `sll/sra 16` before the `+ 7` (+2 insns). An `(s32)` cast does NOT
+ *     defeat it (get_narrower looks through the NOP_EXPR); only landing the
+ *     load in an int VAR_DECL does.
+ * L2  `b` IS `s16`, AND THAT IS THE WHOLE REASON `addu $s3,$v0,$zero` EXISTS.
+ *     gcc keeps a short local in a HImode pseudo, so `b = <int expr>` is a
+ *     plain register MOVE and the clamp's sign extension is computed from the
+ *     PRE-copy value still in $v0. Every s32 spelling coalesces the copy away.
+ * L3  THE SECOND ARGUMENT IS NARROWED **INSIDE** THE EXPRESSION, `(u16)(…)`,
+ *     NOT MASKED AFTER IT. `(x | ((b << 8) | 0x3000)) & 0xFFFF` keeps the shift
+ *     in SImode, forcing `sll $a1,$s3,16; sra $a1,$a1,8` (+1). Casting the whole
+ *     expression lets convert_to_integer distribute the narrowing into the
+ *     shift, giving `sll $a1,$s3,8; ori; or $a1,$s2,$a1` with the trailing
+ *     `andi $a1,$a1,0xFFFF` as the u16->int promotion of the argument itself.
+ * L4  `base` IS ASSIGNED IN THE **FIRST** STATEMENT so REG_ALLOC_ORDER gives it
+ *     $s1 (a base first written after the opening `jal` lands in $a1 and the
+ *     whole function renames). sched1 still sinks the lui/addiu into the mult
+ *     shadow after the call, so its printed position is unchanged.
+ * L5  `u16 arg1` IS A SCHEDULING DIAL: with `s32 arg1` + `& 0xFFFF` at the call
+ *     the `addu $s4,$a1,$zero` hoists above `addiu $a0,$sp,0x10` (2 mismatches).
+ * L6  func_8012EFB8 TAKES TWO ARGUMENTS HERE but is declared `(s32)` fleet-wide
+ *     and in this TU (L326) — call it through the cast, no decl edit (§163a).
+ *
+ * INTEGRATION: the destination TU src/ov_SC06_024/ov_SC06_024_jr_80186F00.c
+ * already spells every extern below identically (D_80126B58, func_8002D4C8 L51,
+ * func_8012EFB8 L326, func_800132BC L3486). Its own forward decls of THIS
+ * function (L2813 / L3001 / L4597, `extern void func_8018A3CC(s32, s32)`) are
+ * STALE — the body returns 1 and takes u16 for a1 — so the §378 chain
+ * (fix_arity_callers -> cast_self_callers -> --sync-decls) must run before the
+ * byte-gate. That stale `void` decl is what sank the previous attempt: gcc
+ * dropped the `return 1` (`addiu $v0,$zero,1`) on the floor.
+ */
+#include "common.h"
+
+extern s32 D_80126B58;
+extern void func_8012EFB8(s32 a0);
+extern s32 func_800132BC(void *a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+s32 func_8018A3CC(s32 arg0, u16 arg1) {
+    s16 sp10[3];
+    s16 sp18[3];
+    s16 sp20[3];
+    s16 sp28[3];
+    s32 x;
+    s32 var;
+    s32 q;
+    s16 b;
+    s32 base;
+
+    base = (s32)&D_80126B58;
+    sp10[0] = *(u16 *)(arg0 + 6);
+    sp10[1] = *(u16 *)(arg0 + 0xA);
+    sp10[2] = *(u16 *)(arg0 + 0xE);
+    ((void (*)(s32, s32))func_8012EFB8)((s32)sp10, (s32)sp18);
+    x = 0x7F;
+    q = sp18[0];
+    b = q / 25 + 7;
+    sp18[2] = 0;
+    if (b < 0) {
+        b = 0;
+    } else if (b >= 0x10) {
+        b = 0xF;
+    }
+    sp20[0] = *(u16 *)(base + 6);
+    sp20[1] = *(u16 *)(base + 0xA);
+    sp20[2] = *(u16 *)(base + 0xE);
+    ((void (*)(s32, s32))func_8012EFB8)((s32)sp20, (s32)sp28);
+    sp28[2] = 0;
+    if ((var = func_800132BC(sp18, sp28) - 0x400) > 0) {
+        if (var < 0x6E40) {
+            x -= var * 95 / 28224;
+        } else {
+            x = 0x2F;
+        }
+    }
+    func_8002D4C8(arg1, (u16)(x | ((b << 8) | 0x3000)));
+    return 1;
+}
+
 
 
 extern void (*D_801BC648[])(void);

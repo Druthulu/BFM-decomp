@@ -4419,7 +4419,120 @@ void func_801887EC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_80186574", func_801888E8);
+/*
+ * func_801888E8 — positional SFX trigger (ov_SC06_033_jr_80186574, 91 ins).
+ * Rotates the entity position and the global listener position (D_80126B58+6/
+ * +0xA/+0xE) into view space, turns the entity's view-space X into a 0..15 pan
+ * nibble and the listener distance into a 0x7F..0x2F volume, then fires
+ * func_8002D4C8(sfx_id, 0x3000 | pan<<8 | vol).
+ *
+ * EXACT TWIN of the banked func_80189E60 (ov_SC06_018_jr_80187AEC): the two
+ * .s files are word-for-word identical apart from the glabel and the internal
+ * branch labels, so its levers transfer verbatim.  Symbols re-read from THIS
+ * target's own relocation lines (func_8012EFB8, D_80126B58, func_800132BC,
+ * func_8002D4C8 — identical set) and every literal re-derived from this .s
+ * (0x51EB851F/sra3 => /25, +7, clamp 0/0xF, 0x7F, -0x400, 0x6E40,
+ * 0x4A4DC96F/sra13 with sll1+addu+sll5+subu => *95/28224, 0x2F, 0x3000).
+ *
+ * ------------------------------------------------------------------ levers
+ * L1  THE DIVIDEND GOES THROUGH AN s32 TEMP (`q = sp18[0]; b = q / 25 + 7;`).
+ *     Inline, `sp18[0] / 25` is narrowed by c-typeck's shorten_binary_op (for
+ *     TRUNC_DIV_EXPR `shorten` is set when the divisor is an INTEGER_CST != -1
+ *     and both operands fit in `short`), so the quotient returns HImode and
+ *     gcc pays an extra `sll/sra 16` before the `+ 7` (+2 insns).  An `(s32)`
+ *     cast does NOT defeat it (get_narrower looks through the NOP_EXPR); only
+ *     landing the load in an int VAR_DECL does.
+ *
+ * L2  `b` IS `s16`, and that is the whole reason `addu $s3,$v0,$zero` exists.
+ *     A short local lives in a HImode pseudo, so `b = <int expr>` is a plain
+ *     register move and the clamp's sign extension is computed from the
+ *     PRE-copy value still in $v0 (`addiu $v0,$v0,7 / addu $s3,$v0,$zero /
+ *     sll $v0,$v0,16 / sra $v0,$v0,16 / bgez $v0`).  Any s32 spelling
+ *     coalesces the copy away (-1 insn).
+ *
+ * L3  THE SECOND ARGUMENT IS NARROWED **INSIDE** THE EXPRESSION, `(u16)(…)`,
+ *     not masked after it.  Casting the whole expression lets
+ *     convert_to_integer distribute the narrowing over both IORs and into the
+ *     shift, so `b` is used raw — `sll $a1,$s3,8; ori $a1,$a1,0x3000;
+ *     or $a1,$s2,$a1` — and the trailing `andi $a1,$a1,0xFFFF` is the u16->int
+ *     promotion of the argument itself.
+ *
+ * L4  `base` IS ASSIGNED IN THE **FIRST** STATEMENT.  REG_ALLOC_ORDER hands an
+ *     allocno that crosses no call a call-clobbered register, so a base first
+ *     written after the opening `jal` lands in $a1 and the whole frame renames
+ *     (-2 insns, ~50 mismatches).  Written first it gets $s1 and pushes
+ *     x/b/arg1 onto $s2/$s3/$s4; sched1 still sinks the `lui/addiu` pair into
+ *     the `mult` shadow, so its position in the output is unchanged.
+ *
+ * L5  `u16 arg1` IS A SCHEDULING DIAL.  With `s32 arg1` plus a `& 0xFFFF` at
+ *     the call site the `addu $s4,$a1,$zero` hoists above
+ *     `addiu $a0,$sp,0x10` — that is exactly the 50-mismatch residual the
+ *     previous attempt on this function left behind.
+ *
+ * L6  func_8012EFB8 takes two arguments here but is declared `(s32)` fleet-wide
+ *     and in this TU (L325).  Call it through a cast — no decl edit, no §163a
+ *     conflict.
+ *
+ * ------------------------------------------------------------ integration
+ * Every extern below is already spelled IDENTICALLY in the destination TU
+ * src/ov_SC06_033/ov_SC06_033_jr_80186574.c:
+ *     extern void func_8002D4C8(s32 a0, s32 a1);   (L50)
+ *     extern void func_8012EFB8(s32 a0);           (L325)
+ *     extern s32  func_800132BC(void *a0, void *a1);(L2860)
+ *     extern s32  D_80126B58;                      (L4852)
+ * The TU's own forward decls of THIS function (L2820 / L3856,
+ * `extern void func_801888E8(s32 a0, s32 a1);`) are STALE — the body returns
+ * s32 and needs `u16` for a1 — so run the §378 chain (fix_arity_callers ->
+ * cast_self_callers -> --sync-decls) before the byte-gate.  The single caller
+ * is L3921 `func_801888E8(a0, 0x95e);`, which is value-safe under u16.
+ */
+
+extern s32 D_80126B58;
+extern void func_8012EFB8(s32 a0);
+extern s32 func_800132BC(void *a0, void *a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+s32 func_801888E8(s32 arg0, u16 arg1) {
+    s16 sp10[3];
+    s16 sp18[3];
+    s16 sp20[3];
+    s16 sp28[3];
+    s32 x;
+    s32 var;
+    s32 q;
+    s16 b;
+    s32 base;
+
+    base = (s32)&D_80126B58;
+    sp10[0] = *(u16 *)(arg0 + 6);
+    sp10[1] = *(u16 *)(arg0 + 0xA);
+    sp10[2] = *(u16 *)(arg0 + 0xE);
+    ((void (*)(s32, s32))func_8012EFB8)((s32)sp10, (s32)sp18);
+    x = 0x7F;
+    q = sp18[0];
+    b = q / 25 + 7;
+    sp18[2] = 0;
+    if (b < 0) {
+        b = 0;
+    } else if (b >= 0x10) {
+        b = 0xF;
+    }
+    sp20[0] = *(u16 *)(base + 6);
+    sp20[1] = *(u16 *)(base + 0xA);
+    sp20[2] = *(u16 *)(base + 0xE);
+    ((void (*)(s32, s32))func_8012EFB8)((s32)sp20, (s32)sp28);
+    sp28[2] = 0;
+    if ((var = func_800132BC(sp18, sp28) - 0x400) > 0) {
+        if (var < 0x6E40) {
+            x -= var * 95 / 28224;
+        } else {
+            x = 0x2F;
+        }
+    }
+    func_8002D4C8(arg1, (u16)(x | ((b << 8) | 0x3000)));
+    return 1;
+}
+
 
 extern void (*D_801AFDD0[])(void);
 

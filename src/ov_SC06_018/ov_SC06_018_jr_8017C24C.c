@@ -3319,7 +3319,63 @@ void func_8017D4A0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_8017C24C", func_8017D4DC);
+typedef struct {
+    s16 v[4];
+} Blk8_80126940_8017D4DC;
+
+extern s32 D_80126B58;
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D648(s32 param_1, s16 *param_2);
+
+void func_8017D4DC(s32 arg0) {
+    extern s16 D_80197084[];
+    extern Blk8_80126940_8017D4DC D_80126940;
+    Blk8_80126940_8017D4DC sp10;
+    s16 lo;
+    s16 hi;
+    s16 p;
+    s16 q;
+    s16 v;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = *(u8 *)(arg0 + 5);
+        t = (t + 1) & 1;
+        *(u8 *)(arg0 + 5) = t;
+        *(s32 *)(arg0 + 0x14) = D_80197084[t];
+    }
+    sp10 = D_80126940;
+    if (sp10.v[1] < -0x150) {
+        sp10.v[1] = -0x150;
+    }
+    if (sp10.v[2] >= 0x5B1) {
+        sp10.v[2] = 0x5B0;
+    }
+    v = sp10.v[2];
+    if (v < -0x880) {
+        lo = -0xC0; hi = 0xC0; p = 0; q = 0xA0;
+    } else if (v < 0x280) {
+        lo = -0xC0; hi = 0xC0; p = 0; q = 0xA0;
+    } else {
+        v = sp10.v[0];
+        if (v < 0x700) {
+            lo = -0xC0; hi = 0xA70;
+            if (v < 0) { p = 0; q = 0; }
+            else { p = 0xA0; q = 0; }
+        } else {
+            lo = -0xC0; hi = 0xA70; p = 0; q = 0xA0;
+        }
+    }
+    if (sp10.v[0] < lo) {
+        sp10.v[0] = lo;
+    } else if (hi < sp10.v[0]) {
+        sp10.v[0] = hi;
+    }
+    *(s16 *)(arg0 + 0x2E) = p;
+    *(s16 *)(arg0 + 0x32) = q;
+    func_8017D648(arg0, sp10.v);
+}
+
 
 // @class: schedule
 // @stuck: none — MATCH (102 ins). MATRIX(0x20:m@0,t@0x14)+SVECTOR in/out stack layout; the only
