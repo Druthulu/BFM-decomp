@@ -432,7 +432,7 @@ def main():
           % (total, sum(1 for r in results if r["banked"]), time.time() - t0, nw), flush=True)
 
     # ---- MERGE: adopt only files whose main-tree copy is still the pinned version (never clobber)
-    adopted, refused = [], []
+    adopted, refused, new_files = [], [], []
     if a.no_merge:
         print("[pgate] --no-merge: main tree untouched; %d file(s) held in .run/pgate_results.json"
               % sum(len(r.get("files") or {}) for r in results), flush=True)
@@ -440,10 +440,24 @@ def main():
         return
     for r in results:
         for p, text in (r.get("files") or {}).items():
-            base = sh(["git", "show", "%s:%s" % (pin, p)]).stdout
+            # BASELINE CHECK — and a NEW file is not a moved one (P31 S69).
+            # A jtbl carve SPLITS a TU, so the worker legitimately creates
+            # `src/<bin>/<bin>_jr_<addr>.c` that exists neither at the pin nor in the main tree.
+            # The original form compared `git show`'s stdout (EMPTY STRING when the path is not at
+            # the pin) against `None` (absent from the main tree) — and `None != ""`, so EVERY
+            # carve-created file was refused as "main tree moved under them" and left UNTRACKED.
+            # Nothing failed locally (the file is on disk, R22 passes), but the yaml naming its
+            # subseg IS committed, so a fresh clone got the config without the source. Eight files
+            # accumulated that way in one session and only surfaced because the dirty-tree guard
+            # refused a later run. Distinguish "not at the pin" from "empty at the pin" via the
+            # RETURN CODE, so absent-in-both compares equal and adopts.
+            shown = sh(["git", "show", "%s:%s" % (pin, p)])
+            base = shown.stdout if shown.returncode == 0 else None
             cur = open(os.path.join(REPO, p)).read() if os.path.exists(os.path.join(REPO, p)) else None
             if cur != base:
                 refused.append(p); continue
+            if base is None:
+                new_files.append(p)
             open(os.path.join(REPO, p), "w").write(text)
             adopted.append(p)
         # CARVE STATE, per binary, on the SHARED overlays.mk: splice only this binary's block, and
@@ -463,6 +477,9 @@ def main():
             open(ovp, "w").write(spliced)
             if "config/overlays.mk" not in adopted:
                 adopted.append("config/overlays.mk")
+    if new_files:
+        print("[pgate] %d NEW file(s) created by a carve, now tracked: %s"
+              % (len(new_files), " ".join(new_files)), flush=True)
     print("[pgate] merged %d file(s); REFUSED %d (main tree moved under them): %s"
           % (len(adopted), len(refused), " ".join(refused[:5])), flush=True)
 
