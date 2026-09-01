@@ -281,7 +281,8 @@ def build_new_config(ov, p):
             sub = nm if lo is None else subseg_name(ov, lo)
             off = (s if lo is None else lo) - base
             cfg_block.append(f"{ind}- [{hex(off)}, c, {sub}]")
-            body = _render_region(header, items, old_sub=nm, new_sub=sub, ambient=ambient)
+            body = _render_region(header, items, old_sub=nm, new_sub=sub, ambient=ambient,
+                                  syms=syms, obj_start=s)
             new_files[os.path.join(REPO, f"src/{ov}/{sub}.c")] = body
             ambient = ambient + _file_scope_decls(items)      # context for later regions
             # EVERY already-banked jr that now falls in this region must have its `.rodata` carve
@@ -324,8 +325,34 @@ def build_new_config(ov, p):
 def _partition(srcpath, cuts, syms):
     """overlay_src_split.partition but taking a preloaded syms dict."""
     header, items = oss.parse_overlay_c(open(srcpath).read(), syms)
-    if any(it[0] is None and it[2] == "tail" for it in items):
-        sys.exit(f"jr_isolate_all: unaddressable content in {srcpath}")
+    # A trailing chunk with real content (kind="tail") is unaddressable only POSITIONALLY —
+    # no anchor follows it for the parser to attach it to. Its content still HAS addresses:
+    # a §265 verbatim `__asm__` body names its symbol in `.globl`/`.ent`, and
+    # INCLUDE_ASM/INCLUDE_RODATA name theirs. When every symbol the chunk DEFINES resolves
+    # at/after the LAST cut, the chunk belongs — in file order and address order alike — at
+    # the end of the LAST region, exactly where the split leaves it; attaching it there
+    # preserves per-region file order and is byte-neutral by the same argument as the split
+    # itself. Anything else keeps the hard refusal (R32 spirit: never rewrite a TU minus
+    # content you cannot place). First hit: md_MAIN_003's trailing verbatim-asm pair
+    # func_800D3204/func_800D3234 blocking the 0x800D0D6C -O0 carve (P31 S68).
+    tail = [it for it in items if it[0] is None and it[2] == "tail"]
+    if tail:
+        last_cut = max(cuts) if cuts else None
+        for it in tail:
+            # .globl/.ent live inside C string literals, so the separator can be a literal
+            # two-char escape (`\t`, `\n`) or a quote boundary, not just whitespace.
+            defined = set(re.findall(
+                r'\.(?:globl|ent)(?:\s|\\[nt]|")+([A-Za-z_]\w*)', it[3])) | \
+                set(re.findall(r'INCLUDE_(?:ASM|RODATA)\("[^"]*",\s*(\w+)\)', it[3]))
+            addrs = {nm: oss.addr_of(nm, syms) for nm in defined}
+            bad = sorted(nm for nm, a in addrs.items()
+                         if a is None or last_cut is None or a < last_cut)
+            if not defined or bad:
+                sys.exit(f"jr_isolate_all: unaddressable content in {srcpath} — trailing "
+                         f"chunk defines {bad if defined else '(nothing resolvable)'} "
+                         f"which does not resolve at/after the last cut "
+                         f"({hex(last_cut) if last_cut is not None else None}); refusing "
+                         f"to attach it to the last region (R32)")
     footer = [it for it in items if it[2] == "footer"]
     # R32 COVERAGE — the same guard as overlay_src_split.partition, and for the same reason:
     # `addressed` silently discards any construct whose vram did not resolve, so this function
@@ -347,9 +374,9 @@ def _partition(srcpath, cuts, syms):
                       if (lo is None or it[0] >= lo) and (hi is None or it[0] < hi)),
                      key=lambda it: it[0])
         regions.append((lo, hi, sel))
-    if footer:
-        lo, hi, sel = regions[-1]
-        regions[-1] = (lo, hi, sel + footer)
+    if tail or footer:                  # tail = guarded last-region content (see above);
+        lo, hi, sel = regions[-1]       # footer = comment/blank-only trailing chunk
+        regions[-1] = (lo, hi, sel + tail + footer)
     return header, regions
 
 
@@ -504,6 +531,17 @@ def _file_scope_decls(items):
                 continue
             key = tuple(sorted(names))
             body = _norm_body(block)
+            # A BARE TAG FORWARD DECL (`struct X;` — no typedef, no body) is not a body at
+            # all: C89 lets it repeat and coexist with the later definition in one TU, so it
+            # must neither register as the tag's body nor conflict with one. Emit it in
+            # place, in original order. (P31 S68: md_MAIN_003 carries `struct S_D2394;`
+            # ahead of pointer uses and the full `typedef struct S_D2394 {...}` later; the
+            # body-compare refused that legal pair as R43-conflicting.) Typedef forward
+            # forms (`typedef struct X X;`) stay on the dedupe path — repeating a typedef
+            # IS a C89 redefinition error, so those must still collapse or refuse.
+            if re.match(r'^(?:struct|union|enum)\s+\w+\s*;$', body):
+                out.append((block, True))
+                continue
             if key not in seen_types:
                 seen_types[key] = body
                 out.append((block, True))
@@ -597,7 +635,34 @@ def _file_scope_decls(items):
     return cleaned
 
 
-def _render_region(header, items, old_sub, new_sub, ambient):
+def _rewrite_includes(text, old_sub, new_sub, syms, obj_start):
+    """Address-aware INCLUDE_ASM/INCLUDE_RODATA path repoint (P31 S68).
+
+    `rewrite_asm_subseg` repointed EVERY `/nonmatchings/<old_sub>"` occurrence in the item
+    text — including a glued §154-A LEADING-ISLAND reference. But splat regenerates a
+    piece-owned rodata symbol's `.s` under the subseg that owns its ADDRESS: after the
+    md_MAIN_003 3-way carve, `D_800CEDF8.s` (island, vram 0x800CEDF8 < the object's code
+    start 0x800CEED0) stayed at `nonmatchings/md_MAIN_003/` while the repointed include
+    named `nonmatchings/md_MAIN_003_jr_800D12D0/` — `can't open ... for reading` at
+    assembly (loud, thankfully). A symbol BELOW the object's code start is exactly the
+    leading-island case, so its include keeps its original path; everything else — function
+    stubs, in-code data words (D_800D3200), migrated tail tables (addr beyond the object)
+    — keeps the proven blanket-rewrite behavior, unresolvable names included."""
+    out = []
+    inc_re = re.compile(r'\s*INCLUDE_(?:ASM|RODATA)\("[^"]*/nonmatchings/'
+                        + re.escape(old_sub) + r'",\s*(\w+)\)')
+    for line in text.split("\n"):
+        m = inc_re.match(line)
+        if m:
+            a = oss.addr_of(m.group(1), syms)
+            if a is not None and obj_start is not None and a < obj_start:
+                out.append(line)                    # piece-owned island content: path unchanged
+                continue
+        out.append(oss.rewrite_asm_subseg(line, old_sub, new_sub))
+    return "\n".join(out)
+
+
+def _render_region(header, items, old_sub, new_sub, ambient, syms=None, obj_start=None):
     """Region .c = header + AMBIENT file-scope decls (from earlier regions of this object, in
     original order, deduped by symbol) + the region's items unchanged.
 
@@ -613,7 +678,8 @@ def _render_region(header, items, old_sub, new_sub, ambient):
     naive "declare every used symbol" completion would. `make build` (SHA1) remains the sole
     arbiter (G3/P9/R22)."""
     if new_sub != old_sub:
-        items = [(a, n, k, oss.rewrite_asm_subseg(t, old_sub, new_sub)) for a, n, k, t in items]
+        items = [(a, n, k, _rewrite_includes(t, old_sub, new_sub, syms, obj_start))
+                 for a, n, k, t in items]
     # Dedup by EXACT decl text, not by symbol: this codebase is loosely typed, so one symbol can
     # legally carry several distinct (even mutually-warning) file-scope decls — the baseline build
     # emits 87 `type mismatch with previous external decl` warnings and is still byte-identical.

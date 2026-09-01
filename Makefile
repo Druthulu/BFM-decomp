@@ -716,7 +716,12 @@ build/src/ov_SC01_077/ov_SC01_077_o0.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=
 # need its own hand-added rule, and a MISSED rule is silent: the region compiles at -O2 and every
 # residual it produces is a pure artifact (§116 — opt level is a property of the FILE).
 # corpus.o0_sources() parses this rule and resolves `?` via glob, so the -O0 oracle stays correct.
-WHALE_O0B_OBJS := $(patsubst src/%.c,build/src/%.o,$(wildcard src/ov_*/ov_*_o0?.c))
+# P31 S68: glob widened to src/md_*/ too — module binaries now get -O0 sub-splits
+# (md_MAIN_003_o0c, the 9-stub o0 carve, is the first). Without this a `src/md_*` region
+# file silently compiled -O2: byte-neutral while stub-only (INCLUDE_ASM is verbatim asm),
+# but every -O0 draft banked into it would mystery-fail the gate (§362's trap class).
+# corpus.o0_sources() splits multi-glob $(wildcard ...) specs, so the -O0 oracle follows.
+WHALE_O0B_OBJS := $(patsubst src/%.c,build/src/%.o,$(wildcard src/ov_*/ov_*_o0?.c src/md_*/md_*_o0?.c))
 $(WHALE_O0B_OBJS): CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
 # Phase-29 T2 Arm A: the -O0 cluster (0x8013B568..0x8013C98C) carved per single-file overlay into

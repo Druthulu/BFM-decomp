@@ -153,6 +153,14 @@ def addr_of(name, syms, aliases=None):
         return syms[name]
     if aliases and name in aliases:            # resolve through the EMITTED symbol, not the C name
         return addr_of(aliases[name], syms)
+    # D_<hex8> names encode their address exactly like func_<hex8> (splat mints both from the
+    # vram). LAST so an explicit symbol-file entry or alias always wins. Without this, a
+    # piece-owned island symbol absent from every symbols file (md_MAIN_003's D_800CEDF8 —
+    # in no symbols.*.txt) resolved None and the S68 island-vs-object discrimination in
+    # jr_isolate_all._rewrite_includes fell through to the blanket repoint (P31 S68).
+    m = re.match(r'D_([0-9A-Fa-f]{8})$', name)
+    if m:
+        return int(m.group(1), 16)
     return None
 
 
@@ -705,6 +713,14 @@ def load_ov_syms(ov):
             in_list = True
             continue
         if in_list:
+            # An interior YAML comment is NOT the end of the list. Five configs annotate the
+            # list body (md_MAIN_001/003/008/011 note WHY symbols.resident.txt is omitted —
+            # the A4 law, S45 — and us.exe similarly), and breaking on the comment silently
+            # dropped every entry after it: md_MAIN_003 loaded only symbols.us.txt, so
+            # D_800D3200 (in symbols.md_MAIN_003.txt) resolved to None and the o0 carve
+            # refused with "unaddressable content" (P31 S68).
+            if re.match(r'\s*#', ln):
+                continue
             m = re.match(r'\s*-\s*(\S+)', ln)
             if m and m.group(1).endswith(".txt"):
                 syms.update(load_syms(os.path.join(REPO, m.group(1))))
