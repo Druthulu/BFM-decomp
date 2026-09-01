@@ -318,13 +318,43 @@ def gate_one(idx, pin, job):
         # printed EARLIER by harvest_verify, never survived. gater_lane's in-tree retry therefore
         # could not tell "the worktree was blind" from "cc1 emitted a real diagnostic naming the
         # function", and retried all 22 binaries serially for nothing (measured S69: ~20 min).
-        cls = ""
-        for ln in (r.stdout or "").splitlines():
-            if "failed by class:" in ln:
-                cls = ln.split("failed by class:", 1)[1].strip()
+        # THE VERDICT LAYER LIVES IN THE WORKTREE'S OWN .run/ AND DIES WITH IT (P31 S69, R47).
+        # `harvest_verify` writes `<stem>.classified.txt` — ONE ROW PER FUNCTION with the exact cc1
+        # diagnostic. `.run/` is not symlinked into a worktree, so those rows were lost and survived
+        # only because gater_lane re-ran the whole binary IN-TREE afterwards, purely as a side effect.
+        # Copy them out, and derive the class summary FROM THEM.
+        #
+        # THE FIRST ATTEMPT AT THIS PARSED `failed by class:` OUT OF THE WORKER'S STDOUT AND WAS
+        # INERT: the worker is `gate_stage`, which does not print that line — harvest_verify does,
+        # one level down. `classes` came back empty for all 17 binaries of the batch and the retry
+        # gate that consumed it never fired once. A field that is always empty makes its consumer a
+        # no-op, silently (R54); reading the artifact the tool actually writes cannot drift that way.
+        verdicts, cls = [], ""
+        wrun = os.path.join(wt, ".run")
+        if os.path.isdir(wrun):
+            for name in sorted(os.listdir(wrun)):
+                if name.startswith("harvest_failed") and name.endswith(".classified.txt"):
+                    try:
+                        rows = [ln.rstrip("\n") for ln in open(os.path.join(wrun, name)) if ln.strip()]
+                    except OSError:
+                        continue
+                    verdicts.extend(rows)
+                    try:
+                        shutil.copy(os.path.join(wrun, name),
+                                    os.path.join(REPO, ".run/gate_lane/%s.pgate.classified.txt" % binary))
+                    except OSError:
+                        pass
+        # A row is `<fn>\t<CLASS>: <diagnostic>`. The CLASS alone is not enough to decide whether the
+        # worktree was blind — `CC1-FAIL(no-diagnostic)` is the blind signature, `CC1-FAIL: <file>:<line>:
+        # <message>` is a real compile error — so keep the whole row and let the consumer judge.
+        classes = []
+        for row in verdicts:
+            part = row.split("\t", 1)[-1]
+            classes.append(part.split(":", 1)[0].strip())
+        cls = " ".join(sorted(set(classes)))
         return {"binary": binary, "banked": banked, "files": files, "ovl": ovl,
                 "secs": round(time.time() - t0, 1),
-                "missing_generated": missing, "classes": cls,
+                "missing_generated": missing, "classes": cls, "verdicts": verdicts,
                 "rc": r.returncode, "tail": (r.stdout or r.stderr)[-200:] if not banked else ""}
     except Exception as e:
         return {"binary": binary, "banked": [], "error": "%s: %s" % (type(e).__name__, str(e)[:160])}

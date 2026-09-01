@@ -399,9 +399,14 @@ def main():
         # worktree was not blind: the draft genuinely does not compile in its TU, and the in-tree
         # retry is a serial full-binary build that reproduces the same error. S69 ran 22 of those
         # back-to-back and banked 0 — ~20 minutes of a lane whose whole design goal is parallelism.
+        # Judge on the VERDICT ROWS the worker actually wrote, not on a summary string. A row reads
+        # `<fn>\t<CLASS>: <file>:<line>: <message>`; the blind-worktree signature is a class with NO
+        # per-function diagnostic (`CC1-FAIL(no-diagnostic)`), which is precisely what a missing
+        # generated header or an unstageable link input produces. Anything cc1 named is real.
+        rows = r.get("verdicts") or []
+        real = [row for row in rows if "no-diagnostic" not in row and ":" in row.split("\t", 1)[-1]]
         cls = (r.get("classes") or "")
-        real = [c for c in cls.split() if c and "no-diagnostic" not in c]
-        if real:
+        if rows and real:
             print("[gater] %s: worktree FAILED %d/%d with real cc1 diagnostics (%s) — NOT retrying "
                   "in-tree; the worktree was not blind, the drafts do not compile in their TU"
                   % (b, tail["failed"], tail.get("drafts", 0), cls), flush=True)
