@@ -8222,6 +8222,3 @@ void func_8016AB30(void *a0) {
     extern void (*D_8018D578[])(void);
     D_8018D578[*(u16 *)((s32)a0 + 0x2)]();
 }
-
-
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8015C32C", func_8016AB6C);

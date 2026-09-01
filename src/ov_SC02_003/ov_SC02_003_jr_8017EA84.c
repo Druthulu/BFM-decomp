@@ -3409,6 +3409,3 @@ void func_8017F62C(s32 a0)
         *(u16 *)(a0 + 0xFC) = 0;
     }
 }
-
-
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8017EA84", func_8017F950);
