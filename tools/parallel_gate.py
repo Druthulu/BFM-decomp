@@ -411,6 +411,29 @@ def main():
           % (len(adopted), len(refused), " ".join(refused[:5])), flush=True)
 
     if a.r22 and adopted:
+        # THE SAME EXCLUSIVITY GUARD AS tools/r22_verify.sh, because the destructive operation is
+        # HERE too. `make clean` deletes asm/ and build/, and drafting agents READ asm/ — they never
+        # write src/, so a dirty-tree check does not see them. Measured FOUR times in S68: agents
+        # reporting "asm/<binary> is MISSING from the tree" mid-draft, one surviving only because it
+        # found an old snapshot. Putting the guard only on the standalone script left this path —
+        # the one actually used most — unguarded. A guard belongs where the operation is (R54).
+        busy = sh(["bash", "-c",
+                   "find .run/S68o1 .run/S68m1 .run/*wave* -maxdepth 2 -type d -name 'scratch_*' "
+                   "-newermt '-6 minutes' 2>/dev/null | head -5"]).stdout.strip()
+        if busy and not os.environ.get("R22_FORCE"):
+            print("[pgate] R22 SKIPPED — drafting agents are live and read asm/ (a clean would pull "
+                  "it out from under them):\n%s\n[pgate] the merge IS committed; run "
+                  "tools/r22_verify.sh once the lane drains, or set R22_FORCE=1."
+                  % "\n".join("    " + l for l in busy.splitlines()), flush=True)
+            # RECORD THE DEBT. A skipped fleet check that nobody tracks is the same failure mode as
+            # a loud error nobody counts (R32): it reads as "verified" at session close. This file
+            # is the countable form — the session checkpoint must quote it, and it is deleted only
+            # by an R22 that actually runs green.
+            with open(os.path.join(REPO, ".run/R22_DEBT"), "a") as fh:
+                fh.write("%s deferred after commit of %s (%d file(s))\n"
+                         % (time.strftime("%H:%M:%S"), head_commit()[:9], len(adopted)))
+            a.r22 = False
+    if a.r22 and adopted:
         print("[pgate] R22 clean-fleet verify …", flush=True)
         sh(["make", "clean"], timeout=1800)
         sh(["make", "extract-all", "JOBS=32"], timeout=7200)
@@ -419,6 +442,12 @@ def main():
         print("[pgate] %s" % (line[-1] if line else "check-all produced no summary"), flush=True)
         if not line or "0 failed" not in line[-1]:
             sys.exit("[pgate] ABORT — fleet NOT green after merge; files left in tree for inspection (R42)")
+        # a green fleet clears every deferred check — that is what the debt file was waiting for
+        try:
+            os.remove(os.path.join(REPO, ".run/R22_DEBT"))
+            print("[pgate] cleared .run/R22_DEBT (fleet verified green)", flush=True)
+        except OSError:
+            pass
 
     if a.commit and adopted:
         sh(["git", "add", "--"] + adopted)
