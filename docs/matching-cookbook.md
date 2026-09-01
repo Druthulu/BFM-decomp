@@ -33041,5 +33041,14 @@ header, and a rebuild only differs if some binary's codegen happens to depend on
 
 **Rules.** A journal records **file + occurrence index (or byte offset)**, never just a name; and an undo
 **hash-verifies** the restored file against the recorded pre-edit content and FAILS LOUD on mismatch.
-Until that lands: after ANY undo-journal, run `git diff` on the touched files and restore the specific
-named file from HEAD if it is not clean — never a blanket `git checkout -- src/` (R42).
+After ANY undo-journal, run `git diff` on the touched files and restore the specific named file from
+HEAD if it is not clean — never a blanket `git checkout -- src/` (R42).
+
+**SHIPPED (S70).** The occurrence->original mapping is **not recoverable** from either journal format,
+so both tools now **REFUSE** (rc=2) when one `(file, after)` group maps back to differing `before`
+texts — naming the file and the rival originals, and writing nothing. Journals additionally record
+per-file `sha_before`, and a clean undo hash-verifies its own result. Negative-controlled against the
+journal that caused the corruption: it refuses and leaves the tree untouched. The refusal also showed
+why guessing was hopeless — `extern void func_8012A828();` maps back to **four** distinct originals
+(`(int a0, void *a1)`, `(int, void *)`, `(s32 *, s32)`, `(s32 *a0, s32 a1)`). **A loud refusal costs
+one `git checkout`; a silent swap costs a corrupted fleet-shared header nobody notices.**
