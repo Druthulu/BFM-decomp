@@ -4440,3 +4440,45 @@ BANK** (playbook §2a-3), and never draft two members of one cluster in parallel
 ### LEDGERS
 `.run/S69_fable{,2,3}/report.md` (the three audits) · `.run/S69_near_d25.json` (the band) ·
 `.run/S69_carve_twins.json` · `.run/S69_reach_plan.json` · `.run/S69*_verdicts.json` · `.run/S69_gate*.log`
+
+## 🛑 SESSION CHECKPOINT — S69 FINAL-3 (2026-09-01, session close). SUPERSEDES S69 FINAL-2. Phase 31 T5 CONTINUES.
+
+**STATE: R22 GREEN — `check-all: 213 passed, 0 failed of 213` from a clean rebuild at 15:04.**
+Tree clean, ~100 banked this session, no lanes running. Drew pushes (R6).
+
+**CANONICAL PROGRESS (`make report` — quote THESE, not an ad-hoc stub count):**
+```
+REAL / matchable          :    850 / 1919      = 44.29%
+FLEET instr-weighted      : 13,445,082 / 13,523,865 = 99.4%   (the decomp.dev DISPLAY number)
+FLEET distinct-code(uniq) :  5,774,699 / 5,851,972  = 98.7%   (the DISTINCT-RE number)
+MAIN game-code weighted   :     39,105 / 79,510     = 49.2%
+dedup-check 2220 validated / 0 failed · C1 coverage 255708/255708
+```
+**A caution for the next session: my own "reachable open stubs" tally is NOT a stable metric.** It
+read 348 → 320 → 357 across the session because carve isolation splits TUs and redistributes
+INCLUDE_ASM lines, so a clean re-extract moves it. Use `make report`.
+
+### WHAT THIS SESSION ACTUALLY CHANGED
+* **Three Fable audits** (`.run/S69_fable{,2,3}/report.md`): the h_norm twin hole (6%→21% twin
+  coverage), a controlled NULL on further similarity scanners, and **"nothing is permanently
+  blocked"** — the whole CARVE-REFUSED class was an instrument verdict from a gitignored file missing
+  in worktrees; 13 twins banked in 400 s once fixed.
+* **The integration thesis, confirmed all day:** nearly every drafted target MATCHED; nearly every
+  gate failure was a DECLARATION. §376/§378/§378a/§378b/§378c is now a five-variant decision table.
+* **Cost curve, measured:** exemplar 203k → sibling ~60k → **remap ~0**. And §398: a remap is a
+  DRAFT, not a bank — 3 banked of 22 straight through, ~50% after integration.
+* **Cookbook 1,032 → 1,060 sections.** New tools: `triage_ladder`, `cast_self_callers`,
+  `asm_verbatim`, `verify_binary`, `twin_rescan`, `seed_ref --near/--contained`. Fixes:
+  `parallel_gate` ×2, `gater_lane`, `fix_arity_callers`, `wave_args`, `recover_integration`,
+  `draw_waves` (NO SONNET: opus ≤150, fable >150).
+
+### FIRST THINGS NEXT SESSION
+1. **The carve isolation route** — 18 `overlay_src_split` plumbing defects (≤30 lines each) unlock
+   ~50 ov_ functions, 21 of them 0-token twins (§322b). Highest leverage on the board.
+2. **The maspsx reorder-passthrough** — 3 lines, byte-inert on 800c3/800c2, **6 wall banks** (§332b);
+   retires `oracle_reorder.py`.
+3. **`family_remap` decl-environment fix** (§398) — it carries the SOURCE TU's decls; `decl_prior`
+   already computes the destination's. This is what caps the remap lane at ~15% straight-through.
+4. **Run `tools/twin_rescan.py` after every gate that banks** (§397) and
+   **`tools/verify_binary.py`** instead of bare `make build` (§384) — both were written because the
+   documented rule was violated anyway.
