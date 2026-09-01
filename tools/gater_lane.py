@@ -363,6 +363,50 @@ def main():
     rc = subprocess.run(cmd, cwd=REPO).returncode
     print("[gater] parallel_gate rc=%d" % rc, flush=True)
 
+    # WORKTREE-FAILED -> RETRY IN-TREE. The worktree gate is silently unable to build some binaries
+    # and reports it as `failed`, which is indistinguishable from bad drafts. Measured twice in S68:
+    # `main` (its psyq_integrate link inputs are not staged) and `ov_SC06_010` (root cause still
+    # unknown) each reported "banked 0" while the SAME drafts banked byte-identical through
+    # harvest_verify in the main tree — 1,191 instructions in the ov_SC06_010 case, which I nearly
+    # wrote off as three bad drafts.
+    # So: any binary whose worker FAILED every draft and banked none gets one in-tree retry. A
+    # genuinely bad draft fails there too and costs one build; a harness-blind binary banks. The
+    # whole-binary SHA is still the sole arbiter either way (G3/P9), so this cannot launder a wrong
+    # draft into the tree.
+    try:
+        with open(os.path.join(REPO, ".run/pgate_results.json")) as fh:
+            results = json.load(fh)
+    except (OSError, ValueError):
+        results = []
+    for r in results:
+        b = r.get("binary")
+        if b == "main" or r.get("banked"):
+            continue
+        try:
+            tail = json.loads((r.get("tail") or "{}").strip().splitlines()[-1])
+        except (ValueError, IndexError):
+            continue
+        if not (tail.get("failed") and not tail.get("banked")):
+            continue          # a genuine NEAR is a real verdict; only all-FAILED is suspicious
+        d = dict((j["binary"], j["drafts"]) for j in plan).get(b)
+        if not d:
+            continue
+        print("[gater] %s: worktree FAILED %d/%d and banked none — retrying IN-TREE (the worktree "
+              "is blind to some binaries and its symptom points at the drafts)"
+              % (b, tail["failed"], tail.get("drafts", 0)), flush=True)
+        rr = sh([os.path.join(REPO, ".venv/bin/python"), "tools/harvest_verify.py", "--binary", b,
+                 "--drafts", d, "--chunk", "1",
+                 "--verified-out", ".run/gate_lane/%s.verified" % b,
+                 "--failed-out", ".run/gate_lane/%s.failed" % b])
+        print((rr.stdout or "").strip().splitlines()[-4:] and
+              "\n".join((rr.stdout or "").strip().splitlines()[-4:]), flush=True)
+        if sh(["git", "status", "--porcelain", "--", "src/%s" % b]).stdout.strip():
+            sh(["git", "add", "--", "src/%s" % b])
+            sh(["git", "-c", "user.name=Drew T", "-c", "user.email=50529377+Druthulu@users.noreply.github.com",
+                "commit", "-q", "-m",
+                "feat(decomp): %s in-tree retry after a blind worktree gate" % b])
+            print("[gater] %s: committed the in-tree retry" % b, flush=True)
+
     # Ledger the ATTEMPT, not the outcome: a refused draft must not be re-gated unchanged on the
     # next tick (that is the 0/23 stored-re-gate law from T1 — a fresh verdict needs a fresh fix).
     led = load_ledger()
