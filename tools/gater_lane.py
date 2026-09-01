@@ -391,8 +391,23 @@ def main():
         d = dict((j["binary"], j["drafts"]) for j in plan).get(b)
         if not d:
             continue
-        print("[gater] %s: worktree FAILED %d/%d and banked none — retrying IN-TREE (the worktree "
-              "is blind to some binaries and its symptom points at the drafts)"
+        # RETRY ONLY THE BLIND-WORKTREE SIGNATURE (P31 S69, measured).
+        # The retry exists because a worktree can fail for reasons that have nothing to do with the
+        # draft (main's psyq_integrate link inputs; the generated include/ headers). That failure is
+        # DIAGNOSTIC-FREE — every draft dies identically with no cc1 message naming the function.
+        # When cc1 DID name the function ("conflicting types for func_X", "too few arguments"), the
+        # worktree was not blind: the draft genuinely does not compile in its TU, and the in-tree
+        # retry is a serial full-binary build that reproduces the same error. S69 ran 22 of those
+        # back-to-back and banked 0 — ~20 minutes of a lane whose whole design goal is parallelism.
+        cls = (r.get("classes") or "")
+        real = [c for c in cls.split() if c and "no-diagnostic" not in c]
+        if real:
+            print("[gater] %s: worktree FAILED %d/%d with real cc1 diagnostics (%s) — NOT retrying "
+                  "in-tree; the worktree was not blind, the drafts do not compile in their TU"
+                  % (b, tail["failed"], tail.get("drafts", 0), cls), flush=True)
+            continue
+        print("[gater] %s: worktree FAILED %d/%d and banked none, no per-function diagnostic — "
+              "retrying IN-TREE (the blind-worktree signature)"
               % (b, tail["failed"], tail.get("drafts", 0)), flush=True)
         rr = sh([os.path.join(REPO, ".venv/bin/python"), "tools/harvest_verify.py", "--binary", b,
                  "--drafts", d, "--chunk", "1",

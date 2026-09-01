@@ -313,9 +313,18 @@ def gate_one(idx, pin, job):
                 if blk is not None and blk != ovl_block(
                         sh(["git", "show", "%s:config/overlays.mk" % pin]).stdout, binary):
                     ovl = blk
+        # THE FAILURE CLASSES ARE PART OF THE RESULT, NOT DEBRIS IN A TRUNCATED TAIL (P31 S69).
+        # `tail` is the last 200 chars — the JSON summary line — so `failed by class: PLUMBING=1`,
+        # printed EARLIER by harvest_verify, never survived. gater_lane's in-tree retry therefore
+        # could not tell "the worktree was blind" from "cc1 emitted a real diagnostic naming the
+        # function", and retried all 22 binaries serially for nothing (measured S69: ~20 min).
+        cls = ""
+        for ln in (r.stdout or "").splitlines():
+            if "failed by class:" in ln:
+                cls = ln.split("failed by class:", 1)[1].strip()
         return {"binary": binary, "banked": banked, "files": files, "ovl": ovl,
                 "secs": round(time.time() - t0, 1),
-                "missing_generated": missing,
+                "missing_generated": missing, "classes": cls,
                 "rc": r.returncode, "tail": (r.stdout or r.stderr)[-200:] if not banked else ""}
     except Exception as e:
         return {"binary": binary, "banked": [], "error": "%s: %s" % (type(e).__name__, str(e)[:160])}

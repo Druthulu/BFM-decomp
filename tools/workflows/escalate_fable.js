@@ -19,6 +19,20 @@ const VERDICT = {
   },
   required: ['fn', 'arm', 'status', 'closeness', 'compiles', 'draft_path', 'note', 'new_idiom'],
 }
+// THE TRIAGE PRECHECK IS STRUCTURAL, NOT REMEMBERED (P31 S69).
+// S68 escalated `main/func_8005D734` to Fable at closeness 8. It is a §332 maspsx delay-slot wall:
+// the pinned triple cannot emit it from C at ANY closeness, so the escalation could never have
+// succeeded. That was a MISSING CHECK, not a judgement failure — `tools/triage_ladder.py --escalate
+// <binary>:<fn>` refuses it in under a second. A workflow script cannot shell out, so the check runs
+// orchestrator-side and its RESULT is required here: every target must carry triage:'DRAFT'.
+const untriaged = args.targets.filter(t => t.triage !== 'DRAFT')
+if (untriaged.length) {
+  throw new Error(
+    `REFUSED: ${untriaged.length} of ${args.targets.length} target(s) carry no triage:'DRAFT' verdict ` +
+    `(${untriaged.slice(0, 6).map(t => `${t.binary}:${t.name}=${t.triage || 'unset'}`).join(', ')}). ` +
+    `Run: tools/triage_ladder.py --escalate <binary>:<fn> for each, and stamp triage on the target. ` +
+    `A walled or already-banked function cannot be rescued by a better model.`)
+}
 phase('Escalate')
 log(`escalating ${args.targets.length} stuck function(s) to fable`)
 const results = await parallel(args.targets.map(t => () => agent(

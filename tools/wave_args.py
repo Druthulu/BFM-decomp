@@ -71,6 +71,36 @@ def main():
     if not targets:
         sys.exit('REFUSED: every target in %s is already banked — nothing to draft.' % wave)
 
+    # THE TRIAGE LADDER'S TARGET-SIDE TIERS (P31 S69). The openness check above is one tier of a
+    # ladder; the others are just as draft-independent and just as cheap. A §332 delay-slot wall
+    # cannot be produced from C by the pinned triple, so an agent spending its whole budget on one
+    # is pure waste — S68 paid 92,684 tokens to rediscover that, then escalated a SECOND wall to a
+    # frontier model at closeness 8. `triage_ladder.pre_classify` is the single implementation of
+    # those tiers (R33); this is its draw-time consumer. Quiescence is NOT asserted here: the wall
+    # and parked tiers read only the .s and a ledger, and the banked tier is handled above.
+    ladder = importlib.import_module('triage_ladder')
+    parked = ladder.load_parked()
+    refused = []
+    for t in list(targets):
+        b = t.get('binary')
+        if not b:
+            continue
+        try:
+            v = ladder.pre_classify(b, t['name'], parked, t.get('asm'))
+        except Exception as e:                # a refusing tier is reported, never silently trusted
+            print('WARN: triage tier refused %s:%s (%s) — target kept'
+                  % (b, t['name'], str(e)[:80]), file=sys.stderr)
+            continue
+        if v['verdict'] in ('WALL-332', 'PARKED'):
+            refused.append((b, t['name'], v['verdict'], v['evidence']))
+            targets.remove(t)
+    if refused:
+        print('TRIAGE dropped %d target(s) no agent can bank:' % len(refused), file=sys.stderr)
+        for b, fn, verdict, ev in refused:
+            print('  %s:%s  %s — %s' % (b, fn, verdict, ev), file=sys.stderr)
+    if not targets:
+        sys.exit('REFUSED: every target in %s is banked, walled or parked — nothing to draft.' % wave)
+
     bad = []
     for t in targets:
         miss = [f for f in FIELDS if not t.get(f) and t.get(f) != 0]

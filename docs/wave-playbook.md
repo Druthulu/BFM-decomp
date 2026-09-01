@@ -158,6 +158,29 @@ still open **at draw time**.
 > already-matched function, and a `D_` data label in sibling overlays. 58k tokens to prove my typo
 > wrong. `wave_args.py` exists because of an earlier instance of exactly this.
 
+### 4b. THE TRIAGE LADDER RUNS HERE (S69) — and again before any escalation
+
+`wave_args` now calls `triage_ladder.pre_classify` and DROPS every target that is walled or parked,
+printing each one (never a silent cap). Nothing extra to run at draw time; read what it dropped.
+
+Before escalating a stuck draft to a better model, run the check that S68 did not have:
+
+```
+python3 tools/triage_ladder.py --escalate <binary>:<fn>     # exit 2 = do not escalate
+```
+
+S68 escalated `main/func_8005D734` to Fable at closeness 8. It is a §332 delay-slot wall — no model
+can emit it under the pinned triple. `escalate_fable.js` now REFUSES any target that does not carry
+`triage:'DRAFT'`, so the check is structural rather than remembered.
+
+**The ladder never runs on a moving tree.** It refuses while a gate or drafting lane is live, because
+a merging gate makes the stub oracle wrong in both directions (§377). If it refuses, wait — do not
+`--force` to save a minute.
+
+**And do not treat its `INTEG-STANDALONE-MATCH` / `NOCOMPILE-UNDECLARED-*` output as banks.** That is
+the §376 correction: standalone closeness 0 proves the BODY, not that the TU accepts the SIGNATURE.
+Measured S69: **0 of 28** of that class banked raw. Route them `fix_arity_callers --any-proto` → gate.
+
 ## 5. Draft
 
 `tools/workflows/claude_wave_draft.js`, `args = {wave, targets}`. One agent per target,

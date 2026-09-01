@@ -32051,3 +32051,112 @@ use of that same register to the earliest legal point. Argument-register pins ar
 
 (The other residual on that function is §188's epilogue and is toolchain-unfixable — it is now in the
 walls ledger. See the playbook §1b: check `wall_sweep` BEFORE escalating anything.)
+
+## §376 ★★★ — A STANDALONE `match_one` CLOSENESS OF 0 IS A CLAIM ABOUT THE **BODY**, NEVER ABOUT THE **TU** (P31 S69; measured 0/28)
+
+**The claim.** S68 closed with "32 FREE BANKS ARE WAITING", 10 of them personally verified with
+`match_one` at closeness 0 (`NOCOMPILE-UNDECLARED-FIXED`), the other 22 classified
+`INTEG-STANDALONE-MATCH` — "they already match standalone and were misfiled as failures".
+
+**The measurement.** 4 had banked since the checkpoint was written. The remaining **28 gated 0/28**,
+and not one failure was a codegen miss:
+
+```
+CC1-FAIL : ov_SC01_080_jr_8017AE2C.c:4365: too few arguments to function `func_8017D72C'
+PLUMBING : ov_SC04_010_jr_8017BEBC.c:3714: conflicting types for `func_8017D6CC'
+PLUMBING : ov_SC07_000_jr_8017BEBC.c:4406: conflicting types for `func_8012AD44'
+```
+
+**The mechanism.** `match_one` compiles the draft ALONE. The TU it must actually live in already
+carries a forward declaration written for a call site — `extern void func_8017D6CC(void);` — while
+the draft's true signature is `void func_8017D6CC(void *a0)`. C rejects the pair. The body was
+right the whole time; the TU would not accept the signature.
+
+**The autodecl trap.** The `NOCOMPILE-UNDECLARED-FIXED` tier adds an `extern` derived from the
+target's own `.s` so the STANDALONE probe compiles. In the real TU that `extern` is a SECOND
+conflicting declaration, so the patched arm is strictly WORSE in-tree than the raw draft. Gate the
+raw draft, never the autodecl arm.
+
+**The recipe** (byte-neutral: a declaration emits no code, so the gate stays the sole arbiter):
+
+```
+tools/fix_arity_callers.py --funcs <FN[,FN…]> --binary <B> --any-proto --apply \
+    --drafts <dir> --journal .run/<id>/<B>.json      # no-protos every conflicting caller decl
+<gate>                                               # then, and only then, the byte gate
+tools/fix_arity_callers.py --undo-journal … --keep <banked>   # revert what did not buy a match
+```
+
+S69: 32 caller decls no-proto'd across 10 binaries, plus 12 in `src/shared/engine_core.h` — that
+second set makes the edit **fleet-tier**, so R22 is mandatory, not optional (§65a).
+
+**The law.** *An oracle that compiles a function in isolation cannot see the declarations that
+surround it.* Every "already matches, just bank it" claim must state WHICH compilation it survived.
+This is the `silently-narrowed-tool-scope` class (accelerators #15) applied to a banking claim:
+a TRUE number — closeness 0 — about a NARROWER world than the reader believes.
+
+## §377 — THREE HARNESS DEFECTS FOUND IN ONE GATING SESSION, ALL "A CONFIDENT NUMBER ABOUT A SMALLER WORLD" (P31 S69)
+
+1. **`gater_lane`'s ledger arm is the draft's PARENT-DIRECTORY BASENAME.** Re-staging the same
+   `(binary, fn)` under a different root with the same directory name reads as `already-gated`:
+   28 of 28 drafts skipped, exit 0, no gate ran. The arm must be explicit or the full relative
+   path — a basename is not a key (R48).
+2. **`pgrep -c` returned a FALSE ZERO twice** for a process `pgrep -af` listed seconds later.
+   Acting on it, I removed a live run's worktrees and started a second concurrent gate. **Never
+   trust a pgrep COUNT; read the rows.** Filter the rows too: the naive `-af` pattern counted 34
+   "gate processes" on a tree running 2, because the harness's own `bash -c` wrapper carries the
+   pattern in its argv — a guard that can never pass is as bad as one that never fires (R54).
+3. **A live gate makes the stub oracle transiently wrong in BOTH directions.** A second gate read
+   `ov_SC01_004:func_8017EB30` as `already-banked` from the first gate's working tree, then the
+   first gate was killed mid-merge and the bank was lost — leaving a phantom `banked-elsewhere`
+   ledger entry on a function that is still an INCLUDE_ASM stub. **Classify only on a quiescent
+   tree** (`triage_ladder.py` refuses otherwise), and never blind-kill a merging gate (R42).
+
+## §378 ★★★ — THE **SELF-CALLER CAST**: LET A TU KEEP CALLING THE FUNCTION IT IS ABOUT TO DEFINE (P31 S69; byte-proven ov_SC04_010/func_8017D6CC)
+
+**The mirror image of §20.** `cast_call_sites` fixes the DRAFT calling a conflicting CALLEE. Nothing
+handled the opposite direction — the TU's own already-banked code calling the function the draft is
+about to DEFINE — and that is the terminal blocker of the entire §376 "it already matches
+standalone" pile.
+
+**The three-step failure, and why fixing step 1 only reveals step 2:**
+
+```c
+/* step 1 — the TU carries a forward decl written for its own call site            */
+extern void func_8017D6CC(void);          /* draft defines void func_8017D6CC(void *a0) */
+        => conflicting types for `func_8017D6CC'
+
+/* step 2 — fix_arity_callers --any-proto no-protos it … and now the DRAFT'S
+   DEFINITION is the prototype in scope, so the SAME call site fails differently  */
+extern void func_8017D6CC();
+    void func_8017DB20(void) { func_8017D6CC(); }
+        => too few arguments to function `func_8017D6CC'
+
+/* step 3 — cast the call site to a NO-PROTO function pointer: byte-neutral       */
+    void func_8017DB20(void) { ((void (*)())func_8017D6CC)(); }
+        => VERIFIED, final SHA BYTE-IDENTICAL
+```
+
+**Why a no-proto cast and not a typed one.** The call site's ARGUMENT LIST must survive; its argument
+TYPES are not knowable from the call text. A no-proto pointer accepts any list and applies the
+default promotions — exactly what the site did before the draft arrived, when it called through a
+no-proto extern. Inventing types is how every cheaper §20 lever produced a byte MISS instead of a
+compile error. gcc-2.7.2 folds a cast of a KNOWN function symbol back to a direct `jal`, so the
+caller's bytes do not move.
+
+**The standing recipe for the whole class** (each step reveals the next; do not stop at the first):
+
+```
+tools/fix_arity_callers.py  --binary B --funcs FN --any-proto --apply --journal …   # conflicting types
+tools/cast_self_callers.py  --binary B --funcs FN --drafts D   --apply --journal …   # too few arguments
+<gate>                                                                               # the sole arbiter
+```
+
+`cast_self_callers.py` reads the return type off the DRAFT (never guesses it — a guessed return type
+changes the call's value category, so it REFUSES instead, R43), skips declarations, definitions,
+`INCLUDE_ASM` lines and already-cast sites, and journals every edit for an exact `--undo-journal
+--keep <banked>` revert of whatever did not buy a match.
+
+**The generalizable law.** *When you move a function's body INTO a TU, you change what every existing
+call site in that TU is checked against.* A draft is not just a body — it is a new prototype imposed
+on code that already compiled. Expect to fix the callers, and expect the fix to be a cast, because a
+cast is the only edit that changes typing without changing codegen.

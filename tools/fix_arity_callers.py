@@ -133,7 +133,18 @@ def main():
     # target files: engine_core.h always; + the overlay's own src (inline callers) when --binary given.
     files = [EC]
     if a.binary:
-        files += sorted(glob.glob(os.path.join(REPO, f'src/{a.binary}/{a.binary}*.c')))
+        # MAIN'S SOURCES DO NOT LIVE IN src/main/ (P31 S69). They are src/*.c — src/800.c, … — so the
+        # overlay-shaped glob matched NOTHING for --binary main and the tool reported success over an
+        # empty file set: `main:func_80036D58` kept failing `conflicting types` through three gates
+        # while this scan silently covered zero of its two offending decls. The R32 silent-narrowing
+        # class, in the tool that exists to fix exactly this blocker.
+        if a.binary == 'main':
+            files += sorted(glob.glob(os.path.join(REPO, 'src/*.c')))
+        else:
+            files += sorted(glob.glob(os.path.join(REPO, f'src/{a.binary}/{a.binary}*.c')))
+        if len(files) == 1:
+            sys.exit('REFUSED: --binary %s selected NO source files to scan (R32: a true "0 edits" '
+                     'over an empty denominator is not a result)' % a.binary)
     texts = {f: open(f).read() for f in files}
     applied = skipped = reverted = notfound = 0
     journal = []
