@@ -955,7 +955,7 @@ s32 func_800CFE60(void) {
     extern s32 func_80029504(void);
     extern s32 func_80029178(s32);
     extern s32 func_8002F658(void);
-    extern void func_800D00E4(s32 arg0);
+    extern void func_800D00E4();
     extern s32 CdReadRequest(void *, void *, s32, s32);
 
     register u8 *base __asm__("$20");
@@ -1020,7 +1020,7 @@ s32 func_800CFE60(void) {
     }
 
     if (mode == 0 && (res & 1)) {
-        ((void (*)())func_800D00E4)((((u32)D_800D34AC[*(s16 *)(base + 0xA3D8) & 0xFFFF0FFF]) >> 12) & 0xF);
+        func_800D00E4((((u32)D_800D34AC[*(s16 *)(base + 0xA3D8) & 0xFFFF0FFF]) >> 12) & 0xF);
     }
     return res;
 }

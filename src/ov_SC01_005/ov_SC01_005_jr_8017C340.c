@@ -3893,7 +3893,7 @@ void func_8017E258(void) {
     extern s32 func_801399F0(s32);
     extern s32 func_80014ED4(s32);
     extern s16 func_8014168C(s16);
-    extern s32 func_8017F2D4(s32 a0, s32 a1);
+    extern s32 func_8017F2D4();
     extern void func_80139954(void);
     extern void func_8002D4C8(s32, s32);
     extern void func_8017E6BC(void);
@@ -3914,7 +3914,7 @@ void func_8017E258(void) {
             u16 t;
             t = D_8011511A;
             if (D_80115138[t] == 8) {
-                ((s32 (*)())func_8017F2D4)(0xF, func_8014168C(t));
+                func_8017F2D4(0xF, func_8014168C(t));
             }
             if (D_801CD870 != 0) {
                 func_80139954();
@@ -3958,7 +3958,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_80014ED4(s32 a0);
 extern s32 func_80015018(s32 a0);
 extern s16 func_8014168C(s16 a0);
-extern s32 func_8017F2D4(s32 a0, s32 a1);
+extern s32 func_8017F2D4();
 extern void func_8017DEFC(void);
 
 s32 func_8017E3DC(void) {
@@ -3994,7 +3994,7 @@ s32 func_8017E3DC(void) {
     c = D_80115138[*p11a];
 
     if ((flags & 0x40) != 0) {
-        ret = ((s32 (*)())func_8017F2D4)(c, ret);
+        ret = func_8017F2D4(c, ret);
         nz = ret != 0;
         return ret & -nz;
     }

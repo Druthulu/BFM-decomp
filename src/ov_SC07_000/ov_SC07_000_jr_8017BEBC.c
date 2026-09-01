@@ -5382,7 +5382,7 @@ void func_80180CEC(s32 a0) {
     if (*(u16 *)&D_801D0B7C == 4) {
         func_8017F554(s0);
     }
-    ((void (*)())func_8017F8B8)(s0);
+    func_8017F8B8(s0);
 }
 
 

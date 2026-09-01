@@ -2712,7 +2712,7 @@ extern void func_8017E384(void);
 extern s32 func_80014ED4(s32 a0);
 extern s32 func_80015018(s32 a0);
 extern s16 func_8014168C(s16 a0);
-extern s32 func_8017F2D4(s32 a0, s32 a1);
+extern s32 func_8017F2D4();
 extern s32 func_8017E3DC(void);
 extern void func_8017E6BC(void);
 extern void  func_80024054(void *a0, void *a1);
