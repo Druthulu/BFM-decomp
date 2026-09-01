@@ -4213,3 +4213,85 @@ paths on a schedule. `docs/generic-decomp-package.md` records what a NEW decomp 
 (the 32 free banks) · `.run/S68_warmstarts/` + `.run/S68_salvaged_warmstarts.json` ·
 `.run/S68_rules_eval_set.json` (the held-out 113) · `.run/gate_lane/{ledger.json,verdicts.jsonl}` ·
 `.run/S68_never_drafted.json` (5 drawn-but-never-drafted).
+
+## 🛑 SESSION CHECKPOINT — S69 (2026-09-01). SUPERSEDES every earlier block in this file, including S68 FINAL-2. Phase 31 T5 CONTINUES.
+
+**STATE:** fleet **213 passed / 0 failed of 213** (R22 clean-fleet, after the last bank). Tree clean.
+Drew pushes (R6). `ghidra/` churn is MCP noise — never commit it.
+**8 banked this session, 0 agent tokens spent.** All from the class S68 called "32 FREE BANKS".
+
+### THE HEADLINE: "32 free banks" was 0/28, then 8 — and the difference is ONE MISSING LEVER
+S68's checkpoint advertised 32 free banks, 10 of them personally verified with `match_one` at
+closeness 0. Measured today:
+* **4 had already banked** since the checkpoint was written (stale by construction).
+* The other **28 gated 0/28.** Every failure was a DECLARATION conflict inside the real TU —
+  `conflicting types for X`, `too few arguments to X` — never a codegen miss.
+* `match_one` compiles the draft ALONE. **A standalone closeness of 0 proves the BODY and says
+  nothing about the TU accepting the SIGNATURE** (cookbook **§376**).
+* The autodecl arm is WORSE in-tree: the `extern` added to satisfy the standalone probe is a second
+  conflicting declaration. Gate the raw draft, never the autodecl arm.
+
+**The chain that banks the class — each step only becomes visible once the previous one lands:**
+```
+fix_arity_callers  --any-proto --binary B --funcs FN      # 1: `conflicting types'
+cast_self_callers  --binary B --funcs FN --drafts D       # 2: `too few arguments'  (§378, NEW TOOL)
+cast_self_callers  … --sync-decls                         # 3: narrow-param case    (§378a)
+<gate>                                                     # the byte-gate is the sole arbiter
+```
+Stopping at step 1 is how this class read as dead for half a session. Banked:
+`ov_SC04_010:func_8017D6CC` `ov_SC04_019` `ov_SC01_080` `ov_SC01_077` `ov_SC05_011` `ov_SC07_000`
+`ov_SC03_029:func_801847FC` `main:func_80036D58`.
+
+**Step 3 exists because C89 forbids step 2 outright for a promotion-affected parameter**: a no-proto
+decl is illegal against `void f(s16)`, which is exactly why `fix_arity_callers` skips those as
+"narrow-param". Once the call sites are cast a declaration emits no code, so syncing it to the
+draft's own spelling is byte-neutral. That banked `main/func_80036D58` — main, at 0 agent tokens.
+
+### THE REMAINING 20 ARE ON A NAMED LEDGER: `.run/S69_class376_ledger.json`
+| lane | n | what it needs |
+|---|---|---|
+| CALLEE-CHAIN | 9 | the SAME §378 chain, applied to the symbol the diagnostic NAMES (a callee like `func_8012AD44`), not to the function being banked. **This is the next deterministic lane and it is mechanical.** |
+| DIFF (real byte miss) | 5 | genuine matching work |
+| DRAFT-TEXT-DEFECT | 4 | the draft duplicates types the TU already has (`redefinition of struct B16`, `syntax error before D_…`) |
+| CARVE-REFUSED | 1 | `resident:func_800D0488` |
+| OTHER | 1 | `ov_SC04_018` cross-TU CC1-FAIL |
+
+### THE TRIAGE LADDER IS BUILT, WIRED AND ACCEPTANCE-GREEN (`tools/triage_ladder.py`)
+* **PRE** (no draft, no build, ms): BANKED · WALL-332 · PARKED. **POST**: full `residual_rules_b`.
+  S68's spec conflated them; only the PRE tiers can fire at DRAW time, and they are the ones that
+  save a whole agent rather than one iteration.
+* `--escalate B:FN` exits 2 on a walled/banked target — the check S68 lacked when it escalated a
+  §332 wall to Fable at closeness 8. `escalate_fable.js` now REFUSES a target without `triage:'DRAFT'`.
+* `wave_args` drops walled/parked targets at draw time via `pre_classify` (one implementation, R33).
+* **It refuses on a non-quiescent tree.** A merging gate makes the stub oracle wrong in BOTH
+  directions (§377).
+* **Acceptance (R39/R32), whole corpus:** false-skip **0/1367** open stubs · recall **426/426**
+  matched · wall tier fires on **exactly the 10** enumerated walls (0 extra, 0 missing).
+
+### FOUR HARNESS DEFECTS, ALL THE SAME SHAPE: A CONFIDENT NUMBER ABOUT A SMALLER WORLD
+1. **`fix_arity_callers` was blind to `main`** — globbed `src/main/main*.c`; main is `src/*.c`. It
+   reported success over an EMPTY file set through three gates. Now refuses when `--binary` selects
+   no files.
+2. **`pgrep -c` returned a false ZERO twice** for a live process. Acting on it, I tore down a running
+   gate's worktrees and started a second concurrent gate. **Read the rows, never the count.**
+3. **The verdict layer died with the worktree.** `harvest_verify` writes its per-function
+   `.classified.txt` into the worktree's own `.run/`, which is not symlinked; those rows survived
+   only as a side effect of gater_lane re-running the binary in-tree. `parallel_gate` now copies them
+   out (R47).
+4. **My own first fix for #3 was INERT and I reported it as landed.** I parsed `failed by class:`
+   from the worker's stdout, but the worker is `gate_stage`, which never prints it. `classes` was
+   empty for all 17 binaries and the retry gate fired zero times. Now derived from the artifact the
+   tool actually writes, and **verified live** before claiming it again.
+
+### FIRST THING NEXT SESSION
+1. **The CALLEE-CHAIN lane, 9 functions, mechanical**: parse the symbol out of each verdict in
+   `.run/S69_class376_ledger.json`, run `fix_arity_callers --any-proto` + `cast_self_callers` on THAT
+   symbol, re-gate. Worth a small driver — the parse is one regex over rows the gate already writes.
+2. The 4 salvaged S68 warm starts in `.run/S68_warmstarts/` (`func_8005DCA0` at closeness 3,
+   `func_8005DE78` at 13). **Run `triage_ladder --escalate` first** — that is what it is for.
+3. Waves. The ladder now sits between `wave_args` and the draft launch automatically.
+
+### LEDGERS
+`.run/S69_class376_ledger.json` (the 28, banked + open with per-function verdicts and lanes) ·
+`.run/S69/findings.md` (live findings incl. the ones not promoted) · `.run/gate_lane/*.pgate.classified.txt`
+(per-function verdicts, now surviving worktree teardown) · `.run/S69_gate{1,3,4,5,6,7}.log`
