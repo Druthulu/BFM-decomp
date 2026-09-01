@@ -4758,3 +4758,83 @@ integration. `decl_prior` already computes the destination's environment.
   **Propagation: an honest zero** — `dedup_propagate --auto-from` on both bank sources reports
   "nothing to propagate" (the CARRY-FIXABLE list it prints is a pre-existing global candidate set,
   identical from either source, not S70's banks).
+
+## 🛑 SESSION CHECKPOINT — S70 FINAL (2026-09-01). SUPERSEDES every earlier block in this file, including S69 FINAL-4. Phase 31 T5 CONTINUES.
+
+**STATE:** tree clean, no lanes running, **22 banked**. **R22 GREEN — `check-all: 213 passed, 0 failed
+of 213` from a clean rebuild at 17:21:36** (a second green; the session also opened with one at 15:55,
+clearing S69's `--no-r22` debt). No `.run/R22_DEBT` standing. Drew pushes (R6). `ghidra/` churn is MCP noise.
+
+**CANONICAL PROGRESS (`make report` — quote THESE).** ⚠ Run it as
+`make -s report | grep -E "^(REAL / matchable|FLEET|MAIN game)"` — the bare target prints the entire
+850-name match list and buries the summary.
+```
+REAL / matchable          :    850 / 1,919        = 44.29%
+FLEET instr-weighted      : 13,447,277 / 13,523,865 = 99.4%    (S69: 13,445,268  -> +2,009 ins)
+FLEET distinct-code(uniq) :  5,776,838 / 5,851,972  = 98.7%    (S69:  5,774,885  -> +1,953 ins)
+MAIN game-code weighted   :     39,105 / 79,510     = 49.2%
+```
+**THE FRONTIER, WITH THE PsyQ LIBRARIES EXCLUDED (Drew, this session — do NOT report the libs):**
+```
+355 -> 333 real open functions   =  main game-code 66  +  non-main 267
+main's other 960 open stubs are PsyQ LINKED library code and are NOT matching targets.
+Partition with progress.linked_subsegs() (49 subsegs), never a hand-rolled name filter.
+```
+
+## START HERE NEXT SESSION — in this order
+
+**1. `family_remap` DECL-ENVIRONMENT FIX (§398) — now the multiplier, do it FIRST.** It carries the
+SOURCE TU's decls into a destination that already owns those names, capping the remap lane at ~15%
+straight-through / ~50% after integration. `decl_prior` already computes the destination's environment.
+
+**2. THE 53 FREE-TWIN REMAPS** (`.run/S70_free_twins.json`). `twin_rescan` after S70's banks: **64 of
+334 open stubs have a banked twin at d<=5 (was 37 at S69) — 40 at d=0**, 13 at d=1. That is 16% of the
+frontier. Temper the forecast per §398: a remap is a DRAFT, expect ~8-26 banks, not 53. Item 1 first.
+*twin_rescan's "NEWLY FREE" delta is CONSUMED by the run that writes the snapshot — capture full output.*
+
+**3. FIX BOTH UNDO-JOURNALS (§403) — correctness, not yield.** `fix_arity_callers --undo-journal` and
+`cast_self_callers --undo-journal` restore by function NAME, so a symbol declared twice gets its
+prototypes SWAPPED, and both print full success. Byte-witnessed twice this session; one of them writes
+the FLEET-SHARED `engine_core.h`. Journal file+occurrence, hash-verify the restore, fail loud.
+
+**4. AUDIT THE `parallel_gate` BLAST RADIUS (§402).** It was gating NOTHING at rc=0 for any plan whose
+drafts lived under `.run/` (fixed at `commit:3536`). Earlier waves using that shape produced honest-looking
+zeros — backlog rows marked `failed` from such a run **may never have been gated**. Until audited, do not
+trust a historical "gated and failed" verdict (this is R38's lesson with a harness cause).
+
+**5. THE RESIDUAL-RULE BUILD — gate CLEARED, fuel ready** (S70-T2). Verdict was BUILD, on corrected
+denominators: 123 UNKNOWN of 233 real near rows (52.8%), and **57% of the cleanest <=8-diff band**.
+Ranked missing-rule fuel in `.run/S70_sigs.txt`; 4/4 hand-labels mapped to existing cookbook buckets;
+`WIDTH/lhu!=lh` already has its discriminating sig COMPUTED and still returns `top=None`.
+Label source measured: **16,301 banked addrs, 12,383 with a draft on disk, 10,579 with >=2 drafts** —
+mine (residual sig -> the fix that actually worked) from known answers instead of authoring from prose.
+**Scope (Drew): the generalize-for-future-decomps goal is DEFERRED to a later phase.**
+
+**Also open, unchanged from S69:** the carve isolation route (§322b, 18 defects / ~50 fns / 21 0-token
+twins) · the maspsx reorder-passthrough (§332b, 3 lines / 6 wall banks) · `gater_lane` ledgers a draft
+as gated when it STAGES it, not when the gate COMPLETES.
+
+## WHAT S70 ACTUALLY CHANGED
+* **22 banks** (355 -> 333) from the standalone-MATCH sweep; **15 came from ONE cluster** (ov_SC06_011).
+* **Three tool defects found, one fixed:** `parallel_gate` gating nothing at rc=0 (FIXED, `commit:3536`);
+  both undo-journals corrupting on duplicate decls (open, task 3 above); `make report` burying its own
+  summary under the match list.
+* **Cookbook 1,062 -> 1,065 sections:** **§401** the jtbl-carve probe blind spot (a probe that does not
+  model the gate's carve is optimistic — 24 of 26 disagreements were jtbl; the gate is authoritative)
+  · **§402** a path resolved in another cwd sees an empty world and calls it success · **§403** an
+  undo-journal keyed by name corrupts duplicate decls and reports success.
+* **A measured NULL worth keeping:** the CC1-FAIL class is not plumbing-only. `fix_arity_callers
+  --any-proto` (382 fleet-shared edits) and `cast_self_callers --sync-decls` both converted CC1-FAIL ->
+  DIFF and banked **0**. A declaration fix that only changes the ERROR CLASS has bought nothing; revert
+  it rather than leave unverified shared state standing.
+* **Propagation: an honest zero** — `dedup_propagate --auto-from` finds nothing to propagate from S70's
+  bank sources.
+
+## THE HABIT THIS SESSION KEPT PROVING
+**Four of my own instruments returned plausible WRONG numbers before any of them errored** — a glob that
+silently excluded `main` (78% of the population); comparing names against `corpus.stubs`, which returns
+ADDRESSES (this produced a wrong answer I REPORTED to Drew: "all 10 autodecl drafts are banked" — the
+truth was 6, and **4 were still open**); fabricating `func_%08X` names when 58% of stubs carry a real
+symbol; and a jtbl detector matching `jr $ra`, which every function ends with. Each was caught ONLY by
+testing against a case whose answer was already known. **A wrong instrument returns a plausible number,
+not an error** — and the 1-2s `parallel_gate` runtime is the same lesson from the outside.
