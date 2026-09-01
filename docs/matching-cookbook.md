@@ -32733,3 +32733,51 @@ rung that applies them to **type tags and callee prototypes** rather than to the
 **Also measured: two "integration-blocked" rows were phantoms** — one a blind worktree (§322b), one
 where a `fix_arity_callers --any-proto` pre-pass broke a SIBLING TU (§378b variant 4 biting a second
 time). Re-compile a stalled row in its real TU before believing its recorded verdict.
+
+## §396 ★★★ — SIX LEVERS FROM THE S69 SINGLETON ROUND, INCLUDING ONE THAT ONLY A `COND_EXPR` REACHES (P31 S69)
+
+**(a) A cross-jump tail-merge whose identical suffix is only `slti; beqz` CANNOT be fenced.**
+`__asm__("")` does not stop it, and neither `if/else` nor `&&`/`||` avoids it — all three merge and
+lose 5 instructions. The abs guard must be a **ternary inside the `if` condition**:
+
+```c
+    if (d >= 0 ? d < 0x80 : -d < 0x80)      /* emits bltz/slti/beqz/j-join/negu/slti/beqz, unmerged */
+```
+
+This is the SECOND independent discovery of the `do_jump` `COND_EXPR` mechanism in one session
+(§314b found it on a different function, in a different binary, from a different warm start). Treat
+it as a first-class lever, not a curiosity: **when a guard's two arms share a two-instruction tail,
+the ternary is the only construct that survives cross-jump.**
+(byte-proven `ov_SC02_005/func_8018074C`; §314b `ov_SC04_002/func_8018691C`)
+
+**(b) Let gcc cross-jump the arms — do not hand-merge them.** A warm start with a hand-written
+shared tail (`goto done`) plateaued with 12 "register mismatches". Rewriting it as **four arms, each
+writing all four variables**, let gcc perform the merge itself and the register diffs vanished with
+it — they were a CONSEQUENCE of the join, not separate defects. §162's surviving-copy rule (the LAST
+copy survives) tells you which arm's spelling to match.
+(byte-proven `ov_SC06_018/func_8017D4DC`)
+
+**(c) Commute a comparison to change which pseudo is born first.** A `$a1`/`$a2` REGALLOC-PERM closed
+in two compiles by writing the test as `*(s16 *)(a0+0xDE) > -lim` instead of the natural order: it
+births the `0xDE` pseudo BEFORE `lim`'s last use, so the two conflict and `lim` is pushed off `$a1`.
+Same `slt` emitted; different allocation. **Operand order is a lifetime dial.**
+(byte-proven `ov_SC03_112/func_8017EE48`)
+
+**(d) UNPINNING can be the lever.** §76 allocno-class: splitting `val = (8-q) << 8` into two sets on
+ONE variable (making it a global allocno → `$a1`) **plus removing the pins on `t` and `q`** — so the
+divide's `hi>>8` temp stops stealing `$a3` — took 5 → 0. Reach for unpinning when a pinned register
+is being stolen by an unrelated temp.
+(byte-proven `ov_SC03_102/func_8018139C`)
+
+**(e) When a file-scope typedef collides, move BOTH the type and the extern to BLOCK scope.**
+Renaming the type at file scope only trades `conflicting types for <Blob>` for
+`conflicting types for <the data symbol>` (§65g). Putting the shape decl AND its
+`extern` inside the function (§100), with a unique name, clears both. Watch the §184 textual-typedef
+prescan trap — paraphrase the comment.
+(byte-proven `ov_SC02_005/func_80189B30`; this is §378c's fifth variant, solved)
+
+**(f) A K&R old-style definition is an integration lever.** When the TU's existing prototype is
+`(s32, s32)` and the body wants `s16` parameters, writing the definition K&R-style lets the `s16`
+parameters PROMOTE to the TU's prototype — no decl edit, no cast, and the gate's "conflicting types"
+disappears.
+(byte-proven `ov_SC05_018/func_80182CDC`)
