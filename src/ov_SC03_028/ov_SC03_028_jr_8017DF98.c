@@ -5438,7 +5438,67 @@ void func_80183228(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80183264);
+#include "common.h"
+
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+extern u16 D_80126B66;
+
+/* func_80183264 — ov_SC03_028, jr_8017DF98 TU, 93 ins.  Fresh crack from the .s
+ * (the pack's warm-start body was structurally right but 58 off).
+ *
+ * THE THREE LEVERS, in the order they were needed:
+ *  1. `s16 t` (NOT `s32 t` + an `(s16)` cast).  The target's `sll $v0,$s3,16 /
+ *     sra $v0,$v0,16` is a HImode->SImode promotion of a *local*, and a HImode
+ *     pseudo is a different cse quantity from the SImode `ang` — which is the only
+ *     reason the `addu $s3,$s2,$zero` copy survives at all.  With `s32 t` cse's
+ *     make_regs_eqv folds t into ang and the copy (plus 2 saved regs) vanishes.
+ *  2. RC-12 (§136d-1) for the SECOND copy: `arg = ang + zr` with
+ *     `register s32 zr __asm__("$0")`.  A plain `arg = ang;` is canon_reg'd away
+ *     (verified in `t.i.cse`: regs 73/74/75 all become reg 74).  Writing BOTH
+ *     copies as `+ zr` is also wrong — cse merges the two identical `ang + $0`
+ *     expressions into one copy.  One HImode copy + one opaque copy = the two the
+ *     target has.
+ *  3. The `(v1 * 104) / 1024` is written INLINE AT BOTH USE SITES.  Hoisting it
+ *     into a local `q` makes expmed.c:2986's `copy_to_mode_reg` temp coalesce with
+ *     the product (in-place `addiu $v0,$v0,0x3FF / sra $v0,$v0,0xa`) and pushes the
+ *     surviving divide-copy onto the `/16` instead — the target's split is the
+ *     other way round (`addu $a1,$a0,$zero` on the /1024, in-place on the /16).
+ *     Letting cse create the common subexpression itself keeps the divide temp a
+ *     separate pseudo.  Naming it in the source is what breaks it.
+ */
+void func_80183264(s32 a0) {
+    register s32 zr __asm__("$0");
+    s32 ang;
+    s16 t;
+    s32 arg;
+    s32 v1;
+
+    ang = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF;
+    t = ang;
+    arg = ang + zr;
+    *(s16 *)(a0 + 0xA) = *(u16 *)(*(s32 *)(a0 + 0x64) + 0xA) - 0x28;
+    *(s32 *)(a0 + 0xC) = *(s32 *)(*(s32 *)(a0 + 0x64) + 0xC);
+    *(s32 *)(a0 + 0xC) -= func_80047948(arg) << 9;
+    *(s32 *)(a0 + 4) = *(s32 *)(*(s32 *)(a0 + 0x64) + 4);
+    *(s32 *)(a0 + 4) -= func_8004787C(arg) << 9;
+    if (func_8004787C(arg) <= 0) {
+        *(s32 *)(a0 + 4) += (s32)0xFFF40000;
+    }
+    *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0x30;
+    if (*(s16 *)&D_80126B66 >= 0x3C1) {
+        if ((u32)(ang - 0x400) > 0x800) {
+            if (arg >= 0xC01) {
+                t = 0x1000 - ang;
+            }
+            v1 = 0x400 - t;
+            *(u16 *)(a0 + 0xA) += (v1 * 104) / 1024;
+            *(u16 *)(a0 + 0xE) += (v1 * 104) / 1024;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) -= v1 / 16;
+        }
+    }
+}
+
 
 #include "common.h"
 
