@@ -620,6 +620,59 @@ def remap_hseq_body(from_addr, from_ov, to_ov, to_addr, body):
                                       "derived_offsets": off_notes}
 
 
+def _dest_tu_path(to_ov, to_addr):
+    """The destination TU: the src file whose INCLUDE_ASM stub owns to_addr. None if not a stub."""
+    try:
+        import corpus
+        st = corpus.stubs(to_ov).get(int(to_addr))
+        return st.path if st else None
+    except Exception:
+        return None
+
+
+def _drop_conflicting_externs(externs, table, to_ov, to_addr):
+    """§398 (P31 S70): the DESTINATION TU's own declarations are authoritative (decl_prior law 2).
+
+    `gather_externs` carries file-scope externs out of the EXEMPLAR's TU. When the destination TU
+    already declares the same symbol with a DIFFERENT spelling, prepending the source's version is a
+    `conflicting types` compile error — the measured cap on this lane (~15% straight-through).
+
+    Only a genuine CONFLICT is dropped. A duplicate-IDENTICAL extern is legal C and is kept, so this
+    never removes a declaration the body still needs; and a symbol the destination does not declare
+    at all is kept, because there the carried extern is the whole point of the extern-carry.
+
+    The externs are still written in SOURCE names here, so each symbol is mapped through the rename
+    `table` before it is compared (R48: the destination is keyed by the name it will actually see).
+    """
+    if not externs:
+        return externs
+    tu = _dest_tu_path(to_ov, to_addr)
+    if not tu:
+        return externs
+    try:
+        import decl_prior
+        import gate_main as gm
+        mine = decl_prior.tu_decls(tu)
+    except Exception:
+        return externs
+    if not mine:
+        return externs
+    kept = []
+    for stmt in externs:
+        drop = False
+        for d in gm.DECL.findall(stmt):
+            s = gm.sym_of(d)
+            if not s:
+                continue
+            dst = table.get(s, s)                       # judge under the DESTINATION name
+            if dst in mine and mine[dst] != str(gm.norm_sig(gm.typesig(d))):
+                drop = True                             # law 2: the destination TU wins
+                break
+        if not drop:
+            kept.append(stmt)
+    return kept
+
+
 def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
     """h_seq family template: reloc symbol remap (§40b) + immediate substitution (T2a Tier 1) +
     cross-address self-rename (T2b) + carried file-scope externs. Returns (draft, info) or
@@ -644,13 +697,16 @@ def remap_hseq(from_addr, from_ov, to_ov, to_addr=None):
         imm_map, unresolved, unit = imm_map_tier1(unit, ex_words, sib_words)
         if unresolved:
             return None, f"unresolved immediates (Tier-2): {unresolved}"
-    externs = gather_externs(from_ov, from_addr, unit, prefer=cf)
-    if externs:
-        unit = "\n".join(externs) + "\n" + unit
+    # THE RENAME TABLE IS BUILT FIRST so the carried externs can be judged under their DESTINATION
+    # names (they are gathered under SOURCE names and only renamed by apply_remap further down).
     table = dict(m)
     if from_addr != to_addr:
         table[f"func_{from_addr:08X}"] = f"func_{to_addr:08X}"
     table.update(imm_map)
+    externs = gather_externs(from_ov, from_addr, unit, prefer=cf)
+    externs = _drop_conflicting_externs(externs, table, to_ov, to_addr)
+    if externs:
+        unit = "\n".join(externs) + "\n" + unit
     unit, off_notes = fix_derived_offsets(unit, table)      # §84, BEFORE the name substitution
     return apply_remap(unit, table), {"symbol_map": m, "imm_map": imm_map, "unresolved": unresolved,
                                       "n_externs": len(externs), "cf": cf,
