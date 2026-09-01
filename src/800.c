@@ -10616,7 +10616,270 @@ s32 func_80020248(s32 *a0, OBJ_80020248 *a1, MTX_80020248 *a2, MTX_80020248 *a3,
     return ret;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80020598);
+/* func_80020598 — per-object rotation/translation matrix builder, sibling of
+ * func_80020248 (same TU, same libgte inline-asm block set).  Walks a
+ * NULL-terminated s32 list; for each entry it builds a local MATRIX from a
+ * packed 12-bit rotation triple, then writes the concatenated matrix into
+ * D_80074818[i] (via a2) and D_80074818[i + 0x40] == D_80075018[i] (via a3),
+ * plus the RotTrans'd translation vector.
+ *
+ * Index 0 and 1 take their rotation from entry[3] (a1[3]) and their translation
+ * from entry[0]'s first / second byte triple; index >= 2 takes both from the
+ * entry the walking pointer is on.  Indices 0x19 / 0x16 / 8 get an extra
+ * uniform ScaleMatrix by D_80126C4E / D_80126D10 / D_80126D12.
+ *
+ * Levers this one needed (all byte-measured against asm/nonmatchings/800):
+ *  - §168/§194-E  the SAME-TU neighbour func_80020248 supplies the eight
+ *                 gte_* macro bodies verbatim; nothing else reproduces them.
+ *  - the 3-way index dispatch is a `switch`, NOT `if / else if`: the target
+ *    branches to all three arms (beqz / beq / j) instead of falling through
+ *    into arm 0.  That alone was 30+ rows.
+ *  - only ONE pointer variable (a1) is written; `p = a1 + 5` is loop.c's own
+ *    combined address giv ($s0, preheader `addiu $s0,$a1,0x5`).  Writing that
+ *    second pointer in C costs 8 instructions and a whole different regalloc.
+ *  - §3-T2 statement order: `i = 0;` must precede `rm = D_80074818;` or the
+ *    lui/addiu pair schedules ahead of the `lw $v0,0($s5)` guard and leaves a
+ *    load-delay nop (LENGTH-DRIFT +1, and it swaps the $s1/$s2 save order).
+ *  - §333/§334 frame arithmetic: .frame is 0x88 with only 0x28 of live locals.
+ *    The a2/a3 homes are 8-byte-aligned/8-byte-rounded slots at 0x38/0x40 and
+ *    24 further bytes sit ABOVE them at 0x48-0x5F.  A trailing dead aggregate
+ *    alone cannot reproduce that (declared locals are slotted BEFORE the
+ *    reload spills, so it pushes 0x38/0x40 to 0x50/0x58); modelling the two
+ *    pointer homes as declared 8-byte aggregates and putting the dead 24 bytes
+ *    after them lands every offset exactly.
+ *  - §17 register pin: the a3 home must be read once into $t0 and survive the
+ *    "memory"-clobbering RTIR/STCLMV blocks so STM can reuse it.  Unpinned,
+ *    gcc picks $v1 (9 rows); `register ... __asm__("$8")` on one variable that
+ *    carries BOTH homes in turn closes them all.
+ *
+ *  - the last instruction (default arm `lbu $v1,0x1($s3)` — biv-based while
+ *    arm 0's identical byte is giv-based) is NOT a combine_givs split: it is a
+ *    pass-ordering fact.  Spell the byte as `(w >> 8) & 0xFF` off the bare word
+ *    load (the same-TU func_80020A28 precedent), NOT as a byte deref.  A byte
+ *    deref is a DEST_ADDR giv that loop.c unconditionally folds onto the
+ *    reduced register; the shift-mask defers the load's BIRTH to the post-loop
+ *    combine pass, which narrows it into `lbu 1(base)` off the ORIGINAL base.
+ *    (Temp-pointer spellings cannot reach it: cse1's find_best_addr folds any
+ *    same-ebb temp back into (plus base k) before loop — the equal-ADDRESS_COST
+ *    tie-break prefers the complex address to free a register.)  The narrowed
+ *    spelling shifts spill demand: pad[6] -> pad[4] keeps the frame at 0x88.
+ *
+ * MATCH: 292/292, closeness 0 (S69e1 fable escalation).  Relocs walked: 3x
+ * func_80020DA4, func_80012558, func_80020F34 (cross-jumped shared tail),
+ * D_80074818, D_80126C4E/D10/D12 — all verified against the target's own lines.
+ */
+
+
+
+
+
+
+
+ /* 0x20 */
+
+typedef struct { MTX_80020248 *p; s32 unused; } MH;
+
+typedef struct {
+    /* 0x0 */ u8  b0;
+    /* 0x1 */ u8  b1;
+    /* 0x2 */ u8  b2;
+    /* 0x3 */ s8  t[3];
+    /* 0x6 */ u16 h;
+} OBJ598; /* 0x8 */
+
+extern MTX_80020248 D_80074818[];
+
+extern u16 D_80126C4E;
+extern u16 D_80126D10;
+extern u16 D_80126D12;
+
+extern void func_80020DA4(s32 a0, s32 a1);
+extern void func_80012558(s32 a0, s32 a1);
+extern void func_80020F34(s32 a0, s32 a1);
+
+#define SRM_80020598(r0) __asm__ volatile (              \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define STM_80020598(r0) __asm__ volatile (              \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define LDCLMV_80020598(r0) __asm__ volatile (           \
+    "lhu $12, 0( %0 );"                                  \
+    "lhu $13, 6( %0 );"                                  \
+    "lhu $14, 12( %0 );"                                 \
+    "mtc2 $12, $9;"                                      \
+    "mtc2 $13, $10;"                                     \
+    "mtc2 $14, $11"                                      \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define RTIR_80020598() __asm__ volatile (               \
+    "nop;"                                               \
+    "nop;"                                               \
+    "mvmva 1, 0, 3, 3, 0"                                \
+    : : : "memory" )
+
+#define STCLMV_80020598(r0) __asm__ volatile (           \
+    "mfc2 $12, $9;"                                      \
+    "mfc2 $13, $10;"                                     \
+    "mfc2 $14, $11;"                                     \
+    "sh $12, 0( %0 );"                                   \
+    "sh $13, 6( %0 );"                                   \
+    "sh $14, 12( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14", "memory" )
+
+#define LDLVL_80020598(r0) __asm__ volatile (            \
+    "lhu $13, 4( %0 );"                                  \
+    "lhu $12, 0( %0 );"                                  \
+    "sll $13, $13, 16;"                                  \
+    "or $12, $12, $13;"                                  \
+    "mtc2 $12, $0;"                                      \
+    "lwc2 $1, 8( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13" )
+
+#define RT_80020598() __asm__ volatile (                 \
+    "nop;"                                               \
+    "nop;"                                               \
+    "mvmva 1, 0, 0, 0, 0"                                \
+    : : : "memory" )
+
+#define STLVNL_80020598(r0) __asm__ volatile (           \
+    "swc2 $25, 0( %0 );"                                 \
+    "swc2 $26, 4( %0 );"                                 \
+    "swc2 $27, 8( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+
+void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3)
+{
+    MTX_80020248 lm;
+    s16 local[3];
+    MTX_80020248 *rm;
+    s32 i;
+    u32 w;
+    s16 v;
+    MH h2;
+    MH h3;
+    register MTX_80020248 *m3 __asm__("$8");
+    s32 pad[4];
+
+    h2.p = a2;
+    h3.p = a3;
+    i = 0;
+    rm = D_80074818;
+    while (*a0 != 0) {
+        switch (i) {
+        case 0:
+            local[0] = a1[3].h;
+            w = *(u32 *)&a1[3];
+            local[1] = a1[3].b1 | ((w & 0xF) << 8);
+            local[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
+            func_80020DA4((s32)local, (s32)&lm);
+            func_80012558((s32)&lm, 0x800);
+            lm.t[0] = (s8)a1->b0;
+            lm.t[1] = (s8)a1->b1;
+            lm.t[2] = (s8)a1->b2;
+            break;
+        case 1:
+            local[0] = a1[3].h;
+            w = *(u32 *)&a1[3];
+            local[1] = a1[3].b1 | ((w & 0xF) << 8);
+            local[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
+            func_80020DA4((s32)local, (s32)&lm);
+            lm.t[0] = a1->t[0];
+            lm.t[1] = a1->t[1];
+            lm.t[2] = a1->t[2];
+            a1++;
+            break;
+        default:
+            local[0] = a1->h;
+            w = *(u32 *)a1;
+            local[1] = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
+            local[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
+            func_80020DA4((s32)local, (s32)&lm);
+            lm.t[0] = a1->t[0];
+            lm.t[1] = a1->t[1];
+            lm.t[2] = a1->t[2];
+            a1++;
+            if (i == 0x19) {
+                v = D_80126C4E;
+                local[2] = v;
+                local[1] = v;
+                local[0] = v;
+                func_80020F34((s32)&lm, (s32)local);
+            } else if (i == 0x16) {
+                v = D_80126D10;
+                local[2] = v;
+                local[1] = v;
+                local[0] = v;
+                func_80020F34((s32)&lm, (s32)local);
+            } else if (i == 8) {
+                v = D_80126D12;
+                local[2] = v;
+                local[1] = v;
+                local[0] = v;
+                func_80020F34((s32)&lm, (s32)local);
+            }
+            break;
+        }
+        m3 = h2.p;
+        SRM_80020598(m3);
+        LDCLMV_80020598(&lm.m[0][0]);
+        RTIR_80020598();
+        STCLMV_80020598(&rm->m[0][0]);
+        LDCLMV_80020598(&lm.m[0][1]);
+        RTIR_80020598();
+        STCLMV_80020598(&rm->m[0][1]);
+        LDCLMV_80020598(&lm.m[0][2]);
+        RTIR_80020598();
+        STCLMV_80020598(&rm->m[0][2]);
+        m3 = h3.p;
+        SRM_80020598(m3);
+        LDCLMV_80020598(&lm.m[0][0]);
+        RTIR_80020598();
+        STCLMV_80020598(&rm[0x40].m[0][0]);
+        LDCLMV_80020598(&lm.m[0][1]);
+        RTIR_80020598();
+        STCLMV_80020598(&rm[0x40].m[0][1]);
+        LDCLMV_80020598(&lm.m[0][2]);
+        RTIR_80020598();
+        STCLMV_80020598(&rm[0x40].m[0][2]);
+        STM_80020598(m3);
+        LDLVL_80020598(&lm.t[0]);
+        RT_80020598();
+        STLVNL_80020598(&rm[0x40].t[0]);
+        rm++;
+        a0++;
+        i++;
+    }
+}
+
 
 /* func_80020A28 -- the 12-bit-packed-euler sibling of func_80020248 (same 5-arg shape).
  * Walks a NULL-terminated object list, builds each object's rotation matrix with
@@ -20827,7 +21090,308 @@ void func_80030D80(Ent30D80 *arg0, s16 arg1) {
     *(u8 *)&D_800A4F17 = old;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80030F80);
+#include "common.h"
+
+/* func_80030F80 -- MATCH, 343/343 (Fable escalation S69e1; was NEAR closeness 3).
+ * All j destinations, jal order, and HI16/LO16 symbol order verified with
+ * objdump -r against the .s (law 1c: match_one masks relocs).
+ *
+ * TU decls already in src/800.c (do NOT duplicate at bank time):
+ *   extern u8 D_800A4988[]; extern u8 D_800A4F19; extern s32 D_80073140[];
+ *   extern u16 D_8006AA30[]; extern const u16 D_8007319E[]; extern u16 D_8007321E;
+ *   extern u8 D_800A4C6D[]; extern s32 D_800C7D2C;
+ *   extern void func_8002EFF8(s32 a0, s32 a1);  (file scope, src/800.c:18923)
+ *   extern void func_80031988(Ent30D80 *arg0);  (file scope, src/800.c:18924)
+ *   `typedef struct Obj {...} Obj;` is defined AFTER this function (src/800.c:18968)
+ *   and func_800314DC is defined at :19003 as `void func_800314DC(Obj *p)`, so this
+ *   draft forward-declares the TAG at file scope (`struct Obj;`) and prototypes
+ *   `func_800314DC(struct Obj *)` -- compatible with the later definition (Sec 376/378).
+ *   Same trick for `struct Ent30D80` (complete at src/800.c:11).
+ *   NEW to the TU: `extern const u16 D_800731A0[];` (real dlabel, asm/data/6324C.data.s:699).
+ *
+ * THE LEVERS (each byte-load-bearing; measured 316 -> 3):
+ *  1. ONE ANCHOR SYMBOL. Every address in this function is spelled as an offset from
+ *     D_800A4988, so cse.c's use_related_value/get_related_value can express each one
+ *     as `addiu $reg,$s6,K` off the FIRST materialised address. That is why the target
+ *     shows `lui $s6,%hi(D_800A4EFE)` (= D_800A4988+0x576) with $s2/$s7/$s0 derived from
+ *     it, but keeps D_80073140 / D_800731A0 / D_8007319E as full lui/addiu pairs:
+ *     get_related_value only relates `(const (plus SYMBOL int))` to the SAME symbol, never
+ *     two different symbols. Spelling D_800A4EFE / D_800A4EFA / D_800A4C28 / D_800A4F19 as
+ *     their own externs costs +1 insn each and loses the whole derived chain.
+ *  2. POINTER LOCALS, NOT ARRAY SUBSCRIPTS, for the loop-invariant bases (sv/w/q/r/tbl).
+ *     `D_800A4EFE[u]` compiles to the 3-insn split address (lui $at; addu $at,$at,$u;
+ *     lbu %lo(sym)($at)); a pointer local puts the base in a pseudo and gives the target's
+ *     2-insn `addu $v0,$s6,$a0; lbu $v1,0($v0)`.
+ *  3. THE PRE-LOOP STATEMENT ORDER *IS* THE PREHEADER ORDER (sv, p, i=0, tbl, w, q, r):
+ *     sched1 keeps ties in LUID order, so this reproduces $s6,$s2,$s5,$s4,$s7,$fp exactly.
+ *     `r = D_8007319E` is the 7th and last invariant: global.c runs out of callee-saved
+ *     registers, local-alloc's REG_EQUIV note survives, and reload REMATERIALISES it inline
+ *     as `lui $t0/addiu $t0` -- exactly the target's un-hoisted pair at 0x80031344.
+ *  4. ONE `w` POINTER SERVES THREE THINGS (master volume `*(s16*)w`, the stereo flag
+ *     `w[0x1F]`, and the voice-slot base `(s32)w - 0x2D2`), which is what makes it worth a
+ *     callee-saved register ($s7) and what produces `addiu $v1,$s7,-0x2D2` in-loop.
+ *     `vb` must be s32 (not u8*) so `k + vb` keeps the target's `addu $a0,$s3,$v1`
+ *     operand order -- pointer arithmetic gets canonicalised to pointer-first.
+ *  5. `i * 0x48` (a GIV), not a `k` biv: a biv's `k = 0` is pre-loop code and lands BEFORE
+ *     the address-giv init; as a giv both inits are emitted by strength_reduce and come out
+ *     in the target's `addiu $s0,$s6,-0x56C` / `addu $s3,$zero,$zero` order.
+ *  6. ONE `p` BIV WITH BYTE OFFSETS. Two source pointers (base and base+0xA) make loop.c
+ *     invent a third giv at +0x40; one biv + `p[K]` lets combine_givs settle on the +0xA
+ *     group ($s0) while the biv itself ($s2) keeps the offset-0 loads and the call args.
+ *  7. `m = (m * X) >> 7;` as ONE expression (not `m = m * X; m = m >> 7;`): the product
+ *     needs its own pseudo to get the target's `mflo $t0` / `srl $a1,$t0,7` pair.
+ *  8. `mask = tbl[...]; p[0x50] = 0; func_8002EFF8(0, mask);` at 0x80031400 -- with the
+ *     store AFTER the loads it can no longer fill the lhu's load-delay slot and dbr takes it
+ *     for the jal's. At `case 3` the same rewrite instead lets cse reuse the switch's own
+ *     `lhu $a0` (-2 insns), so that site keeps `p[0x50] = 0;` FIRST: the store's varying
+ *     address makes cse invalidate_memory and forces the target's reload.
+ *  9. The switch is a real `switch` on cases 3 / 0 / 2 IN THAT SOURCE ORDER with 3 falling
+ *     through into 0 -- expand_end_case reorder_insns puts the balanced compare tree
+ *     (beq 2 / slti 3 / beqz 0 / bne 3) ahead of the bodies, which is the target's layout.
+ * 10. `flag = 1;` sits OUTSIDE the inner `if` in the 0x4C and 0x37&2 blocks (its constant
+ *     is what `sb $s1,0x46($s0)` and `D_800A4C6D[k] = 1` reuse) but INSIDE the 0x4F one --
+ *     that is exactly which branches get the `addiu $s1,$zero,1` delay slot and which a nop.
+ * 11. `if ((s16)h <= 0)` on the u16 0x4A field (sll 16 + bgtz), and the 0x1C sign test
+ *     written `>= 0` with the ADD arm first, so the target's `bltz` picks the sub arm.
+ *
+ * 12. THE DISPATCH-BLOCK MEMORY CLOBBER (closed the old case-3 residual, 3 -> 0).
+ *     The target needs case 3's u16 index RELOADED (cse invalidation) while the sb
+ *     stays AFTER the lw (mask idiom order), and needs case 2 to keep FOLDING the
+ *     dispatch-loaded index into its call arg. Ruled out by reading the pinned gcc:
+ *      - volatile-cast index load: forces the reload but loop.c:339
+ *        init_recog_no_volatile makes every DEST_ADDR giv rewrite of a volatile mem
+ *        fail recog -- the address stays biv-based (`lhu 10($s2)`, not `0($s0)`).
+ *        A volatile mem can NEVER join a giv group. (find_mem_givs does record it.)
+ *      - asm clobber at the case-3 head: reload+giv fine, but reorg.c stop_search_p
+ *        halts fill_slots_from_thread at ANY asm insn (asm_noperands>=0), so the
+ *        `addu $a0,$zero,$zero` never hoists into the bne's delay slot (+1 len).
+ *     THE FIX (all three pieces load-bearing):
+ *        idx = *(u16 *)(p + 0xA);          <- named local; case 2 passes idx (the
+ *        dsp = sv[idx];                       fold, done by hand; matches the target's
+ *        __asm__("" : : : "memory");          $a0 live range).  dsp MUST be s32 (u8
+ *        switch (dsp) { ... }                 costs an `andi 0xff`).
+ *     The NON-volatile clobber invalidates cse's memory table at zero bytes, sits in
+ *     the DISPATCH block (outside every case's delay-slot thread), and goes AFTER the
+ *     lbu (between lhu and its first use it would eat the load-delay nop at final).
+ *     Case 3 then re-reads memory -> real reload; mask idiom keeps the sb by the jal.
+ * 13. THE q/r HOIST FLIP: the two new pseudos flipped the razor-thin global-alloc tie
+ *     between the 6th/7th pre-loop invariants -- $fp took r and q rematerialised,
+ *     INVISIBLE under match_one (HI16/LO16 masked; shapes shift only at the remat
+ *     site, seen as a bogus 7-row 'schedule' diff at the q/r lookups). Caught with
+ *     objdump -r. Swapping the init order (r 6th, q 7th) flips it back. Lever 3's
+ *     preheader-order law still holds: the emitted preheader shows only the WINNERS.
+ */
+
+struct Obj;
+struct Ent30D80;
+
+extern u8  D_800A4988[];
+extern u8  D_800A4F19;
+extern s32 D_80073140[];
+extern u16 D_8006AA30[];
+extern const u16 D_8007319E[];
+extern const u16 D_800731A0[];
+extern u16 D_8007321E;
+extern u8  D_800A4C6D[];
+extern s32 D_800C7D2C;
+
+extern void func_8002EFF8(s32 a0, s32 a1);
+extern void func_8003D3B4(s32, s32);
+extern void func_800314DC(struct Obj *);
+extern void func_800316F8(void *);
+extern void func_80031988(struct Ent30D80 *);
+
+typedef struct VoiceF80 {
+    /* 0x00 */ s32 unk00;
+    /* 0x04 */ s32 unk04;
+    /* 0x08 */ s16 unk08;
+    /* 0x0A */ s16 unk0A;
+    /* 0x0C */ u8  pad0C[0x34];
+    /* 0x40 */ s32 unk40;
+    /* 0x44 */ u8  unk44;
+    /* 0x45 */ u8  pad45[3];
+} VoiceF80; /* 0x48 */
+
+void func_80030F80(void)
+{
+    u8 *p;
+    u8 *sv;
+    u8 *w;
+    const u16 *q;
+    const u16 *r;
+    s32 *tbl;
+    s32 vb;
+    s32 mask;
+    VoiceF80 *e;
+    u32 m;
+    u32 v;
+    s16 n;
+    s16 t;
+    u8 flag;
+    u8 st;
+    s32 dsp;
+    u16 idx;
+    u16 h;
+    s32 i;
+
+    sv = D_800A4988 + 0x576;
+    p = D_800A4988;
+    i = 0;
+    tbl = D_80073140;
+    w = D_800A4988 + 0x572;
+    r = D_8007319E;
+    q = D_800731A0;
+    for (; i < 8; i++, p += 0x54) {
+        flag = 0;
+        p[0x4E] &= 0x7F;
+        if (p[0x4E] != 0) {
+            *(s32 *)(p + 0x4) += 1;
+            if (*(s32 *)p != 0) {
+                *(s32 *)p -= 1;
+                if (*(s32 *)p == 0) {
+                    func_8002EFF8(1, tbl[*(u16 *)(p + 0xA)]);
+                    func_800316F8(p);
+                }
+            } else {
+                if (p[0x4E] >= 2) {
+                    p[0x4E] -= 1;
+                } else {
+                    idx = *(u16 *)(p + 0xA);
+                    dsp = sv[idx];
+                    __asm__("" : : : "memory");
+                    switch (dsp) {
+                    case 3:
+                        mask = tbl[*(u16 *)(p + 0xA)];
+                        p[0x50] = 0;
+                        func_8002EFF8(0, mask);
+                        /* fallthrough */
+                    case 0:
+                        p[0x4E] = 0;
+                        if (*(s32 *)(p + 0x40) != 0) {
+                            (*(void (**)(s32, s32))(p + 0x40))(p[0x51], *(s32 *)(p + 0x44));
+                        }
+                        *(s32 *)(p + 0x40) = 0;
+                        break;
+                    case 2:
+                        if (p[0x50] != 0) {
+                            func_8003D3B4(idx, 1);
+                            p[0x50] = 0;
+                        }
+                        break;
+                    }
+                }
+                if (p[0x4C] != 0) {
+                    h = *(u16 *)(p + 0x4A) - 0x220;
+                    *(u16 *)(p + 0x4A) = h;
+                    flag = 1;
+                    if ((s16)h <= 0) {
+                        *(u16 *)(p + 0x4A) = 0;
+                        p[0x4C] = 0;
+                        p[0x50] = 1;
+                        D_800A4C6D[i * 0x48] = 1;
+                        func_8002EFF8(0, tbl[*(u16 *)(p + 0xA)]);
+                    }
+                }
+                if (p[0x4F] != 0) {
+                    flag = 1;
+                    p[0x4F] = 0;
+                }
+                if (p[0x37] & 2) {
+                    if (*(s32 *)(p + 0x1C) >= 0) {
+                        *(s32 *)(p + 0x18) += *(u16 *)(p + 0x32);
+                        if (*(s32 *)(p + 0x18) >= *(s32 *)(p + 0x1C)) {
+                            *(s32 *)(p + 0x18) = *(s32 *)(p + 0x1C);
+                            p[0x37] &= 0xFD;
+                        }
+                    } else {
+                        *(s32 *)(p + 0x18) -= *(u16 *)(p + 0x32);
+                        if (*(s32 *)(p + 0x18) <= *(s32 *)(p + 0x1C)) {
+                            *(s32 *)(p + 0x18) = *(s32 *)(p + 0x1C);
+                            p[0x37] &= 0xFD;
+                        }
+                    }
+                    flag = 1;
+                }
+                if ((D_800A4F19 != 0 && p[0x53] != 0) || flag) {
+                    n = p[0x35];
+                    if (n != 0) {
+                        t = n + (*(s32 *)(p + 0x18) >> 8);
+                        n = t;
+                        if (p[0x53] != 0) {
+                            t = p[0x53] + t;
+                            if (t < 0x42) {
+                                n = 1;
+                            } else {
+                                t -= 0x40;
+                                n = t;
+                                if (t >= 0x80) {
+                                    n = 0x7F;
+                                }
+                            }
+                        }
+                    }
+                    if (flag || n != p[0x52]) {
+                        m = D_8006AA30[p[0x34]];
+                        m = (m * *(s16 *)w) >> 7;
+                        m = (m * *(s16 *)(p + 0x48)) >> 7;
+                        if (flag) {
+                            m = (m * ((s16)*(u16 *)(p + 0x4A) >> 7)) >> 8;
+                        }
+                        vb = (s32)w - 0x2D2;
+                        e = (VoiceF80 *)(i * 0x48 + vb);
+                        e->unk00 = tbl[*(u16 *)(p + 0xA)];
+                        if (n != 0) {
+                            if (w[0x1F] != 0) {
+                                v = (m * q[0x7F - n]) >> 14;
+                                e->unk08 = v;
+                                v = (m * r[n]) >> 14;
+                                e->unk0A = v;
+                            } else {
+                                v = (m * D_8007321E) >> 14;
+                                e->unk0A = v;
+                                e->unk08 = v;
+                            }
+                        } else {
+                            v = m;
+                            e->unk0A = v;
+                            e->unk08 = v;
+                        }
+                        e->unk40 = *(u16 *)(p + 0xA);
+                        if (e->unk44 != 0) {
+                            e->unk04 |= 3;
+                        } else {
+                            e->unk44 = 1;
+                            e->unk04 = 3;
+                        }
+                        p[0x52] = n;
+                    }
+                }
+                func_800314DC((struct Obj *)p);
+                h = *(u16 *)(p + 0x12);
+                if (h != 0) {
+                    h -= 1;
+                    *(u16 *)(p + 0x12) = h;
+                    if (h == 0) {
+                        func_80031988((struct Ent30D80 *)p);
+                        mask = tbl[*(u16 *)(p + 0xA)];
+                        p[0x50] = 0;
+                        func_8002EFF8(0, mask);
+                        if (*(s32 *)(p + 0x40) != 0) {
+                            (*(void (**)(s32, s32))(p + 0x40))(p[0x51], *(s32 *)(p + 0x44));
+                        }
+                        *(s32 *)(p + 0x40) = 0;
+                    }
+                }
+            }
+        } else {
+            st = sv[*(u16 *)(p + 0xA)];
+            if (st == 0 || st == 3) {
+                D_800C7D2C &= ~tbl[*(u16 *)(p + 0xA)];
+            }
+        }
+    }
+}
+
 
 
 typedef struct Obj {
@@ -24955,7 +25519,313 @@ s32 func_80038A00(void) {
     return -1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80038A58);
+/* func_80038A58 (main, 347 ins) -- MATCH 347/347 (Fable escalation, S69e1).
+ * Levers (from the S69m1 opus draft, kept verbatim):
+ *  - Shape: loop 2 is func_80038958's body verbatim (same TU, same pinned regs);
+ *    the two accumulator loops are func_80038908's body inlined ($s1 == base+0x10).
+ *  - S5a/S336 cross-jump barrier: zero-byte asm at the bottom of the first ramp arm.
+ *  - 4-pin div block (cur/quot $v1/$a1 + loop copies c/r $a0/$s0 hoisted above the
+ *    `cur != 0` test); both `-` results through a $v0-pinned temp.
+ *  - ONE shared counter k ($t1) for the C68/D80/E30 loops; block B's own ($a2).
+ * THE ESCALATION FIX (closed the last 2, idx 178/179 — block-A acc preheader):
+ *  target = `mult; addu $v1,0,0; addiu $a1,$s3,0x12; mflo`; every C spelling emits
+ *  the pair swapped. ROOT CAUSE (read from tools/reference/gcc-2.7.2/sched.c
+ *  priority():1425 + rank_for_schedule():2385, confirmed in the -dR bb trace):
+ *  sched2 runs BACKWARD; the c2-init's ANTI-dep on `mult $a0,$v1` propagates the
+ *  mult's priority 2 into it (anti cost clamps to 1, +cost-1 = +0), while the
+ *  dep-free addiu stays at priority 1 -- and priority beats the LUID tie-break, so
+ *  NO statement order / pin / barrier can flip it (matches the opus invariance).
+ *  FIX = raise the addiu to priority 2: emit the pointer init as a non-volatile
+ *  asm carrying a DEAD extra read of c2 (a priority donor):
+ *      c2 = 0;
+ *      __asm__("addiu %0,%1,18" : "=r"(hp2) : "r"(base), "r"(c2));
+ *  The true dep on the c2-init gives it pri 2 AND blocks its release until the
+ *  c2-init is placed; backward picks then land mult,addu,addiu,mflo = target.
+ *  (A volatile asm CANNOT do this -- volatile = full barrier, pri 13, glues the
+ *  tail behind the mflo. Non-volatile survives because its output is live.)
+ *  Block B needs nothing: there the POINTER holds $v1, so the anti-dep sinks the
+ *  pointer-init -- which is already the target order.
+ */
+extern u8 *D_800762B0;
+extern u8 D_800762B4[];
+extern u8 D_800B9CD8[];
+extern u8 D_800C6DD0[];
+extern u8 D_800C6E2A[];
+extern s16 D_800A4EF8;
+extern u16 D_800A4EE0;
+extern u8 D_800A4F16;
+extern s32 func_80038FC4(u8 **);
+extern void func_80038FFC(u8 **);
+
+void func_80038A58(void)
+{
+    register u8 *base __asm__("$19");
+    register u8 *p __asm__("$17");
+    register s32 i __asm__("$18");
+    register s32 one __asm__("$20");
+
+    base = D_800B9CD8;
+
+    {
+        register u8 *q __asm__("$2");
+        q = D_800762B4;
+        i = 0xF;
+        do {
+            *q = 0;
+            i--;
+            q++;
+        } while (i >= 0);
+    }
+
+    {
+        register u8 *a3 __asm__("$7");
+        register u8 *a2 __asm__("$6");
+        register s32 a1 __asm__("$5");
+        register u8 *a0 __asm__("$4");
+        register s32 t0 __asm__("$8");
+        register s32 v0 __asm__("$2");
+        register s32 v1 __asm__("$3");
+
+        a3 = D_800762B0;
+        a2 = D_800762B4;
+        a1 = 0;
+        t0 = 3;
+        a0 = D_800C6E2A;
+
+        while (a1 < 0x10) {
+            v0 = *a3;
+            if (v0 == 0 || v0 == t0) {
+                if (*a2 == 0) {
+                    v0 = *a0;
+                    a0[1] = 0;
+                    if (v0 != 0) {
+                        v0 = *(s16 *)(a0 - 0x54);
+                        v1 = v0 << 1;
+                        v1 = v1 + v0;
+                        v1 = v1 << 2;
+                        v1 = v1 + v0;
+                        v0 = *(s32 *)(a0 - 0xA);
+                        v1 = v1 << 1;
+                        v0 = v0 + v1;
+                        v0 = v0 + a1;
+                        *(u8 *)(v0 + 0x23) = 0;
+                        a0[0] = 0;
+                    }
+                }
+            }
+            a1++;
+            a0 += 0x60;
+            a3++;
+            a2++;
+        }
+    }
+
+    i = 0;
+    one = 1;
+    p = base + 0x10;
+    do {
+        if (p[0x1EB] != 0 && p[0x1EA] != 0) {
+            s32 sum = *(s32 *)(p + 0x1BC) + *(s32 *)(p + 0x1C0);
+            s32 lim = *(s32 *)(p + 0x1C4);
+            s32 k;
+            u8 flag;
+
+            *(s32 *)(p + 0x1BC) = sum;
+            if (sum >= lim) {
+                register s32 cur __asm__("$3");
+                register s32 quot __asm__("$5");
+                register s32 c __asm__("$4");
+                register s32 r __asm__("$16");
+                register s32 v __asm__("$3");
+
+                quot = sum / lim;
+                cur = *(s32 *)(p - 8);
+                *(s32 *)(p + 0x1BC) = sum % lim;
+                c = cur;
+                r = quot;
+                if (cur != 0) {
+                    if (quot >= cur) {
+                        do {
+                            if (c == r) {
+                                r = 0;
+                            } else {
+                                r = r - c;
+                            }
+                            *(s32 *)(p - 8) = 0;
+                            do {
+                                if (p[0x1E8] != 0) {
+                                    func_80038FFC((u8 **)base);
+                                    if (p[0x1E9] != 0) {
+                                        p[0x1EA] = 0;
+                                        p[0x1E8] = 0;
+                                        goto next;
+                                    }
+                                }
+                                v = func_80038FC4((u8 **)base);
+                                p[0x1E8] = one;
+                            } while (v == 0);
+                            *(s32 *)(p - 8) = v;
+                            c = v;
+                        } while (r >= v);
+                        {
+                            register s32 d __asm__("$2");
+                            d = v - r;
+                            *(s32 *)(p - 8) = d;
+                        }
+                    } else {
+                        register s32 d2 __asm__("$2");
+                        d2 = cur - quot;
+                        *(s32 *)(p - 8) = d2;
+                    }
+                } else {
+                    p[0x1EA] = 0;
+                    p[0x1E8] = 0;
+                }
+            }
+
+            flag = 0;
+            if (p[0x1E4] != 0) {
+                register u16 *hp __asm__("$8");
+                register u8 *sq __asm__("$5");
+
+                hp = (u16 *)(base + 0x12);
+                k = 0;
+                sq = base + 0x18;
+                do {
+                    if (*sq != 0) {
+                        u16 cur16 = *hp;
+                        flag = 1;
+                        if (cur16 < *(u16 *)(sq - 2)) {
+                            *hp = cur16 + *(u16 *)(sq - 4);
+                            if (*hp < *(u16 *)(sq - 2)) {
+                                goto cont1;
+                            }
+                            __asm__ __volatile__("");
+                            *hp = *(u16 *)(sq - 2);
+                        } else if (*(u16 *)(sq - 4) < cur16) {
+                            *hp = cur16 - *(u16 *)(sq - 4);
+                            if (*(u16 *)(sq - 2) < *hp) {
+                                goto cont1;
+                            }
+                            *hp = *(u16 *)(sq - 2);
+                        } else {
+                            *hp = *(u16 *)(sq - 2);
+                        }
+                        *sq = 0;
+                    }
+                cont1:
+                    k++;
+                    sq += 8;
+                    hp += 4;
+                } while (k <= 0);
+
+                {
+                    register u16 *hp2 __asm__("$5");
+                    register s32 c2 __asm__("$3");
+                    s32 acc2;
+                    acc2 = D_800A4EF8 << 7;
+                    acc2 *= D_800A4EE0;
+                    c2 = 0;
+                    __asm__("addiu %0,%1,18" : "=r"(hp2) : "r"(base), "r"(c2));
+                    acc2 >>= 14;
+                    do {
+                        acc2 *= *hp2;
+                        acc2 >>= 14;
+                        c2--;
+                        hp2 += 4;
+                    } while (c2 >= 0);
+                    *(s16 *)p = acc2;
+                }
+
+                if (flag != 0 || D_800A4F16 != 0) {
+                    register u8 *b __asm__("$5");
+                    register u8 *e __asm__("$4");
+                    b = D_800C6DD0;
+                    k = 0;
+                    e = b + 0x5A;
+                    do {
+                        if (*e == one) {
+                            if (*(s16 *)(*(s32 *)(e - 0xA) + 0x1F0) == i) {
+                                *(s16 *)(e - 0x42) = (u32)(*(s16 *)b * *(s16 *)p) >> 14;
+                                *(s16 *)(e - 0x40) = (u32)(*(s16 *)(e - 0x58) * *(s16 *)p) >> 14;
+                                e[3] = one;
+                                *(u32 *)(e - 0x46) |= 3;
+                            }
+                        } else if (*e != 0) {
+                            *e = one;
+                        }
+                        k++;
+                        e += 0x60;
+                        b += 0x60;
+                    } while (k < 0x10);
+                } else {
+                    register u8 *c __asm__("$3");
+                    register s32 two __asm__("$5");
+                    register s32 uno __asm__("$4");
+
+                    p[0x1E4] = 0;
+                    k = 0;
+                    two = 2;
+                    uno = 1;
+                    c = D_800C6E2A;
+                    do {
+                        if (*c == two && *(s16 *)(*(s32 *)(c - 0xA) + 0x1F0) == i) {
+                            *c = uno;
+                        }
+                        k++;
+                        c += 0x60;
+                    } while (k < 0x10);
+                }
+            } else if (D_800A4F16 != 0) {
+                register u16 *hp3 __asm__("$3");
+                register s32 c3 __asm__("$5");
+                register u8 *b2 __asm__("$5");
+                register u8 *e2 __asm__("$4");
+                register s32 k2 __asm__("$6");
+
+                s32 acc3;
+                acc3 = D_800A4EF8 << 7;
+                acc3 *= D_800A4EE0;
+                hp3 = (u16 *)(base + 0x12);
+                c3 = 0;
+                acc3 >>= 14;
+                do {
+                    acc3 *= *hp3;
+                    acc3 >>= 14;
+                    c3--;
+                    hp3 += 4;
+                } while (c3 >= 0);
+                *(s16 *)p = acc3;
+
+                b2 = D_800C6DD0;
+                k2 = 0;
+                e2 = b2 + 0x5A;
+                do {
+                    if (*e2 == one) {
+                        if (*(s16 *)(*(s32 *)(e2 - 0xA) + 0x1F0) == i) {
+                            *(s16 *)(e2 - 0x42) = (u32)(*(s16 *)b2 * *(s16 *)p) >> 14;
+                            *(s16 *)(e2 - 0x40) = (u32)(*(s16 *)(e2 - 0x58) * *(s16 *)p) >> 14;
+                            e2[3] = one;
+                            *(u32 *)(e2 - 0x46) |= 3;
+                        }
+                    } else if (*e2 != 0) {
+                        *e2 = one;
+                    }
+                    k2++;
+                    e2 += 0x60;
+                    b2 += 0x60;
+                } while (k2 < 0x10);
+            }
+        }
+    next:
+        i++;
+        p += 0x1FC;
+        base += 0x1FC;
+    } while (i < 2);
+
+    D_800A4F16 = 0;
+}
+
 
 s32 func_80038FC4(u8 **a0) {
     s32 result = 0;
