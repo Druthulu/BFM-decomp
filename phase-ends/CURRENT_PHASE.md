@@ -4541,3 +4541,48 @@ integration. `decl_prior` already computes the destination's environment.
 `.run/S69_fable{,2,3}/report.md` — the three audits (twin band · scanner null · nothing-permanently-blocked)
 `.run/twin_rescan.snapshot.json` — twin baseline (318 stubs, 37 with a banked twin at d<=5)
 `.run/S69_near_d25.json` · `.run/S69_carve_twins.json` · `.run/S69_reach_plan.json` · `.run/S69*_verdicts.json`
+
+## S70 progress log (2026-09-01, session in progress — the live 🛑 block for S70 is written at session close)
+
+- **S70-T1 — R22 CLEAN-FLEET VERIFY: GREEN.** The debt S69 FINAL-4 recorded ("~10 banks landed
+  after the 15:04 green under `--no-r22`") is now cleared by measurement, not assertion.
+  `tools/r22_verify.sh` from a clean tree, 15:53:00 → 15:55:49 (2m49s):
+  ```
+  CLEAN rc=0
+  extract-all: 212 extracted, 0 failed of 212 (+ main, serial)   EXTRACT rc=0
+  check-all:   213 passed,   0 failed of 213                     CHECK   rc=0
+  ```
+  `lane_inflight` was `{}` (no drain needed); no `.run/R22_DEBT` file was standing, so nothing to
+  clear. **Fleet green count = 213/213** (R58: a session-close "clean" quotes this, not tree-clean).
+
+- **S70 — R38 PAYS BEFORE THE PROBE IS DESIGNED, AND THE PROBE AS WRITTEN CANNOT BE RUN.**
+  Before sampling anything for the queued residual-classifier coverage probe, I read the recorded
+  measurement the "~1-2% ceiling" came from — it was already on disk: `.run/S68_rules_eval_set.json`
+  (113 cases) + `.run/rules_b/eval_results.jsonl` (113 results, 2026-08-31 21:12). Three corrections
+  fall out, and they change the experiment:
+  * **Citation fix (R14).** S69 FINAL-4 attributes the probe design to "Fable-2 report §7.7". It is
+    **Fable-1**: `.run/S69_fable/report.md:93` (item 7 of §7), with the F6 row at line 54 naming its
+    own design "§7.7". `.run/S69_fable2/report.md` §7 is the seed_ref/containment law — a different
+    subject entirely. Cite `.run/S69_fable/report.md`.
+  * **The denominator was never 113 (R41).** A SHAPE rule can only fire on a row that compiled and
+    produced a residual. Of the 113: 28 `banked` (ALREADY-BANKED), 32 `match` (22 of them
+    INTEG-STANDALONE-MATCH — the C is right, the blocker is TU plumbing), 14 `cc1-fail` (no residual
+    exists), leaving **39 `near` rows as the only population a shape rule could ever address.**
+    On those 39: 20 `NOCOMPILE-UNDECLARED-MEASURED` (declaration, not shape) · 5 real rule fires
+    (REDRAFT-SIZE-MISMATCH ×2, RPOL-KLASS, W332-MASPSX-WALL, R372-COPY-CAPTURE) · **14 UNKNOWN.**
+    So shape rules fire on **3/39 = 7.7%** (5/39 = 12.8% counting REDRAFT), not 1–2% of "residuals";
+    the 1–2% figure was a true number against a denominator that included rows no rule can serve.
+  * **The probe's sample size does not exist.** "Sample 50 UNKNOWN/near-miss residuals from the
+    backlog" cannot be executed: `.run/backlog.jsonl` holds **125 rows, only 20 of which carry
+    residual text**, and the recorded eval's UNKNOWN pile is **14**. Sampling 50 backlog rows would
+    have produced a true number about a much narrower world — the exact defect the
+    `silently-narrowed-tool-scope` memory names. At n=14 the 20% decision gate turns on a single
+    function (2/14 = 14% vs 3/14 = 21%), which is not decision-grade.
+  * **First substantive observation, free, from the recorded rows.** The 14 UNKNOWNs are 10× `main`,
+    klass LENGTH-DRIFT 7 / OPCODE-MIXED 6 / STRENGTH 1, and their residuals are *large*
+    (closeness 377, 292, 86, 73, 67, 65, 60, 49, 37, 36, 35, 33, 16, 15). A 65–377-diff residual is
+    not an unrecognised idiom, it is "the draft is not the function" — REDRAFT territory. Also
+    `bypass_diffs ≈ ndiffs` on 13 of 14, so none of these is a §188 assembler-reorder wall; the lone
+    exception `ov_SC06_024:func_8017EC4C` (ndiffs 16, **bypass 266**) is an anomaly worth its own look.
+    Working hypothesis to test, not to assert: the UNKNOWN pile is dominated by wrong-draft cases, so
+    the lever is widening the REDRAFT class, not authoring 50 cookbook-derived shape rules.
