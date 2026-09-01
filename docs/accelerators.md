@@ -357,3 +357,29 @@ So at every session/phase close, review the tooling against the idioms learned t
 *which scanner's denominator just got wider?* — the answer converts new knowledge into free banks.
 S68's own §332 sweep is the worked example: one idiom review, ten functions / 1,027 instructions
 reclassified from "hard" to "not bankable at all", and one in-flight escalation stopped mid-spend.
+
+## #16 — A "VERIFIED, JUST BANK IT" CLAIM MUST NAME THE COMPILATION IT SURVIVED (P31 S69)
+
+**What happened.** A session closed with "32 FREE BANKS ARE WAITING", 10 of them personally verified
+with `match_one` at closeness 0. The next session gated them: **0 of 28**. Not one failure was a
+codegen miss — every one was a declaration conflict inside the real translation unit.
+
+**Why the claim looked true.** `match_one` compiles the draft ALONE, with its own externs. The TU the
+function must actually live in already carries a forward declaration written for a call site, and the
+draft's real signature conflicts with it. **Closeness 0 is a statement about the BODY. Banking is a
+statement about the TU.** They are different oracles and only one of them was consulted.
+
+**Why this belongs in a NEW decomp's day-one kit.** The trap is structural, not local to this project:
+any per-function matching oracle compiles in isolation, and every real bank compiles in context. So:
+
+* every "already matches" claim ships with **which compilation it survived** (isolated / whole-TU /
+  whole-binary), the way every rate ships with its denominator (R41);
+* the isolated oracle's output is a **GATE-FIRST candidate**, never a bank;
+* budget for the integration lever, because it is the one that actually pays: 8 of those 28 banked the
+  moment the missing lever existed (the self-caller cast, cookbook §378), including one in `main` —
+  the project's most expensive binary — for **zero agent tokens**.
+
+**The corollary that cost the most time.** Fixing the first declaration error only REVEALS the second:
+no-proto the conflicting decl and the draft's own definition becomes the prototype in scope, so the
+same call site now fails with `too few arguments`. A class can look dead after one fix and be three
+mechanical steps from banking. Drive the chain to a byte verdict before writing anything off.

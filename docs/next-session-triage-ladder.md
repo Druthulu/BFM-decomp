@@ -1,4 +1,32 @@
-# NEXT SESSION — build the TRIAGE LADDER (spec, written S68 with full context)
+# THE TRIAGE LADDER — **BUILT AND SHIPPED (P31 S69)**
+
+> **Status: DONE.** The tool is `tools/triage_ladder.py`. It is wired into `wave_args.py` (draw time)
+> and `tools/workflows/escalate_fable.js` (escalation time), documented in `docs/SETUP.md` and
+> `docs/wave-playbook.md` §4b, and its acceptance harness is green over the whole corpus:
+> **false-skip 0/1367 open stubs · recall 426/426 matched · wall tier fires on exactly the 10
+> enumerated walls (0 extra, 0 missing)**. Run `tools/triage_ladder.py --acceptance` to re-verify.
+>
+> **Three things in the spec below were WRONG, and the corrections are the valuable part:**
+>
+> 1. **"32 FREE BANKS ARE WAITING" was not free.** 4 had already banked; the other 28 gated **0/28**.
+>    Every failure was a declaration conflict inside the real TU. `match_one` compiles the draft
+>    ALONE — a standalone closeness of 0 proves the BODY and says nothing about the TU accepting the
+>    SIGNATURE (cookbook **§376**). 8 of the 28 banked once the missing lever existed (**§378**, the
+>    self-caller cast, `tools/cast_self_callers.py`); the remaining 20 are on a named ledger at
+>    `.run/S69_class376_ledger.json`.
+> 2. **The autodecl arm is WORSE in-tree than the raw draft** — the `extern` it adds to satisfy the
+>    standalone probe is a second conflicting declaration. Gate the raw draft.
+> 3. **The spec conflated PRE and POST.** `residual_rules_b` needs a draft and runs `match_one`, so
+>    it cannot run at DRAW time. Only the target-side tiers (BANKED · WALL-332 · PARKED) can — and
+>    those are the ones that save a whole agent rather than one iteration. The tool splits them.
+>
+> One more, added by building it: **the ladder must not classify on a moving tree.** A merging gate
+> makes the stub oracle wrong in BOTH directions (§377), which manufactures the exact false skip the
+> ladder exists to prevent. It refuses unless the tree is quiescent.
+
+---
+
+## The original spec, kept as written (S68)
 
 > Written deliberately so a session with NONE of S68's context can build this. The companion tool,
 > `tools/neighbor_ref.py` (retrieval), is already BUILT and committed — this is the other half.
