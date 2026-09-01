@@ -7512,7 +7512,7 @@ s32 func_8001B394(s32 a0) {
 extern int func_8001A114(void);
 extern void func_8001B710(void);
 extern void func_8002D4C8(int arg0, int arg1);
-extern void func_80036D58(int arg0);
+extern void func_80036D58(s16);
 extern int StreamLoadStateMachine(int arg0, void *loc, int n);
 extern s32 CdQueueBusy(void);          /* defined later in this file */
 extern s32 ResourceGetCdLoc(s16 arg0); /* defined later in this file */
@@ -7616,7 +7616,7 @@ done:
 extern int func_8001A114(void);
 extern void func_8001B710(void);
 extern void func_8002D4C8(int arg0, int arg1);
-extern void func_80036D58(int arg0);
+extern void func_80036D58(s16);
 extern int StreamLoadStateMachine(int arg0, void *loc, int n);
 extern s32 CdQueueBusy(void);
 extern s32 ResourceGetCdLoc(s16 arg0);
@@ -17701,7 +17701,7 @@ void func_8002EB10(void) {
 }
 
 
-extern void func_80036D58(int arg0);
+extern void func_80036D58(s16);
 extern void func_80038308(s16 arg0);
 extern u16 D_800A4E8E;
 extern s16 D_800A4E86;
@@ -21690,7 +21690,76 @@ void func_80036D24(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80036D58);
+
+
+
+
+
+
+
+
+
+extern s32 D_8006AEE8;
+extern s32 D_80078F10;
+extern s32 D_800C6D28;
+extern u8 D_800A46BA;
+extern u8 D_800A4F1A;
+extern s16 D_800A4EF8;
+
+extern s32 func_80034CF0(u8 *);
+extern void func_80034DFC(s16);
+extern s32 func_8003EDE8(s32, s32, s32);
+extern void func_80035C4C(void);
+extern void func_80036F98(void);
+extern void func_8003602C(void);
+extern void func_80036FB0(s32, s32);
+
+void func_80036D58(s16 arg0)
+{
+    CdReq req;
+    s32 pad[2];
+    s32 i;
+    s16 *p;
+    s32 r;
+    s32 n;
+    s32 cnt;
+
+    if (arg0 != 0 || D_800C6D28 != 0) {
+        D_800A46BA = 0;
+        if (D_8006AEE8 != 0) {
+            i = 0;
+            if (D_8006AEE8 > 0) {
+                p = (s16 *)&D_80078F10;
+                do {
+                    func_80034DFC(*p);
+                    i++;
+                    cnt = D_8006AEE8;
+                    *(s32 *)p = 0;
+                    p += 2;
+                } while (i < cnt);
+            }
+            D_8006AEE8 = 0;
+        }
+        req.f08 = (s32)func_80035C4C;
+        req.f0c = arg0;
+        req.f1c = (s32)func_80036F98;
+        req.f20 = 0;
+        req.f24 = (s32)func_8003602C;
+        req.f28 = (s32)func_80036FB0;
+        r = func_80034CF0((u8 *)&req);
+        n = D_8006AEE8;
+        (&D_80078F10)[n] = r;
+        if (r != 0) {
+            D_8006AEE8 = n + 1;
+        }
+        D_800A4F1A = 0;
+        if (arg0 != 0) {
+            D_800C6D28 = 0;
+        }
+        func_8003EDE8(0, ((u32)D_800A4EF8 * 97) >> 7 & 0xFF, ((u32)D_800A4EF8 * 97) >> 7 & 0xFF);
+    }
+}
+
 
 
 extern u8 D_800A4F1A;
