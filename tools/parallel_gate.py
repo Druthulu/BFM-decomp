@@ -165,6 +165,23 @@ def stage_generated(wt, binary):
             sp = os.path.join(a_src, f)
             if os.path.isfile(sp):
                 shutil.copy2(sp, os.path.join(a_dst, f))
+    # THE SIGNATURE REGISTRY (P31 S69, Fable-3). `jr_isolate_all.jr_inventory` resolves every
+    # committed `.rodata` carve's owner through `family_remap.reloc_targets`, whose `nins_of`
+    # reads the gitignored `.run/sig.<binary>.jsonl`. A fresh worktree has no `.run/sig.*`, so
+    # inside a worker EVERY carve reads UNOWNED, jr_inventory R32-aborts, harvest_verify prints
+    # `isolate FAILED`, and the draft is booked CARVE-REFUSED — an instrument verdict about the
+    # worktree, not the function. Measured on ov_SC02_000/func_8017F950 (a RELOC-ONLY twin whose
+    # body rtu-MATCHes 117/117): dry-run isolation passes in the main tree and aborts in the
+    # worktree with 30 phantom UNOWNED carves; linking this one file is the difference. Read-only
+    # input, so a symlink is correct (the registry is regenerated only by the main tree).
+    sig = os.path.join(REPO, ".run", "sig.%s.jsonl" % binary)
+    if os.path.exists(sig):
+        os.makedirs(os.path.join(wt, ".run"), exist_ok=True)
+        dst = os.path.join(wt, ".run", "sig.%s.jsonl" % binary)
+        if not os.path.lexists(dst):
+            os.symlink(sig, dst)
+    else:
+        missing.append(".run/sig.%s.jsonl (jtbl isolation cannot resolve carve owners without it)" % binary)
     return missing
 
 
