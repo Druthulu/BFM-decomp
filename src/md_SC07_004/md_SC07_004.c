@@ -442,7 +442,7 @@ void func_801A19C0(s32 a0) {
                 func_801A8DCC(a0, 0);
                 func_80184E20((void *)(a0 + 4));
                 func_80184E98(rand() & 0xFF8, 0x60);
-                func_801A3D60(a0);
+                ((void (*)())func_801A3D60)(a0);
             }
             *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += 0x80;
             func_801A3EA8(a0);

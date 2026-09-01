@@ -6145,7 +6145,7 @@ void func_80184764(void *a0) {
         return;
     }
 
-    func_801847FC();
+    ((s32 (*)())func_801847FC)();
 
     v0 = *(u16 *)(s0 + 0x2C);
     decremented = v0 - 1;

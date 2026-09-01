@@ -3874,7 +3874,7 @@ void func_8017DAB4(void) {
         if ((func_80014ED4(0) & 0x50) != 0) {
             idx = *(u16 *)&D_8011511A;
             if (D_80115138[idx] == 8) {
-                func_8017EB30(0xF, func_8014168C(idx));
+                ((s32 (*)())func_8017EB30)(0xF, func_8014168C(idx));
             }
             if (D_80190110 != 0) {
                 func_80139954();
@@ -3952,7 +3952,7 @@ s32 func_8017DC38(void) {
     c = D_80115138[*p11a];
 
     if ((flags & 0x40) != 0) {
-        ret = func_8017EB30(c, ret);
+        ret = ((s32 (*)())func_8017EB30)(c, ret);
         nz = ret != 0;
         return ret & -nz;
     }

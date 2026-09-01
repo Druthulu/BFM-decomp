@@ -7570,7 +7570,7 @@ void ResourceLoadStateMachine(void) {
             goto done;
         }
         if (*(s16 *)(resourceIdMap + resLoad_curId * 6) < 0) {
-            func_80036D58(*(s16 *)(&D_8006313A + resLoad_curId * 6));
+            ((void (*)())func_80036D58)(*(s16 *)(&D_8006313A + resLoad_curId * 6));
             resLoad_result = 1;
             return;
         }
@@ -7695,7 +7695,7 @@ void ResourceLoadStateMachine(void) {
             break;
         }
         if (RES_FILE[resLoad_curId].v < 0) {
-            func_80036D58(RES_ARG[resLoad_curId].v);
+            ((void (*)())func_80036D58)(RES_ARG[resLoad_curId].v);
             resLoad_result = 1;
             return;
         }
@@ -17709,7 +17709,7 @@ extern s16 D_800A4E86;
 void func_8002EBAC(void) {
     u16 v0;
 
-    func_80036D58(0);
+    ((void (*)())func_80036D58)(0);
 
     if (D_800A4E8E & 0x10) {
         func_80038308(D_800A4E86);

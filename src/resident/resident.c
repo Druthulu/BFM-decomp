@@ -58,7 +58,7 @@ extern s32 func_800D0488();
 extern void func_80011A3C(void);
 
 void func_800CEF04(void) {
-    if (func_800D0488(1)) {
+    if (((s32 (*)())func_800D0488)(1)) {
         func_80011A3C();
     }
 }
@@ -394,7 +394,7 @@ void func_800CF510(void) {
  *
  * KEY FIX vs prior draft: func_800D02D0 TAKES the byte as its argument (its body does
  * `addiu a0,a0,-1` then a jump-table on it — see func_800D02D0.s). The byte therefore
- * lives in $a0 (not $v0), exactly like func_800CF5D4's func_800D0488(m). It returns s32
+ * lives in $a0 (not $v0), exactly like func_800CF5D4's ((s32 (*)())func_800D0488)(m). It returns s32
  * (the plain `beqz v0` needs a wider-than-bool return). D_80078EC1 is u8 (lbu, no mask).
  */
 extern s32 D_80127084;
@@ -414,17 +414,17 @@ void func_800CF584(void) {
 }
 
 /* func_800CF5D4
- * BUG IN PRIOR DRAFT: func_800D0488() was called with NO argument. The asm keeps
+ * BUG IN PRIOR DRAFT: ((s32 (*)())func_800D0488)() was called with NO argument. The asm keeps
  * the masked value (D_80078EC0 & 0x7F) in $a0 across the `beqz a0` test and the
  * `jal func_800D0488` (nop delay slot leaves a0 untouched), so it IS the argument.
- * func_800D0488 is `s32 func_800D0488(s32)` (it does `addiu a0,a0,-1` — see the
+ * func_800D0488 is `s32 ((s32 (*)())func_800D0488)(s32)` (it does `addiu a0,a0,-1` — see the
  * already-matched callers func_800CEF04 / func_800CEF34).
  *
  * asm trace:
  *   lw v0, D_80127084 ; beqz v0 -> exit            => if (D_80127084 != 0) {
  *   lbu v0, D_80078EC0 ; andi a0, v0, 0x7F
  *   beqz a0 -> .L800CF610 (the call)               =>   if (m == 0 ||
- *   jal func_800D0488 ; beqz v0 -> exit            =>       func_800D0488(m) != 0)
+ *   jal func_800D0488 ; beqz v0 -> exit            =>       ((s32 (*)())func_800D0488)(m) != 0)
  *   .L800CF610: jal func_80011CFC                  =>     func_80011CFC();   }
  */
 extern s32 D_80127084;
@@ -437,7 +437,7 @@ void func_800CF5D4(void) {
 
     if (D_80127084 != 0) {
         m = D_80078EC0 & 0x7F;
-        if (m == 0 || func_800D0488(m) != 0) {
+        if (m == 0 || ((s32 (*)())func_800D0488)(m) != 0) {
             func_80011CFC();
         }
     }

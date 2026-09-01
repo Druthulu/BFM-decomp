@@ -4629,7 +4629,7 @@ void func_80186574(int param_1)
 {
     if (((unsigned int)(*(unsigned short *)(param_1 + 2) - 1) < 2) &&
         ((*(unsigned short *)(param_1 + 0x5c) & 1) != 0)) {
-        func_80185E68();
+        ((void (*)())func_80185E68)();
     } else {
         D_801D5624[*(unsigned short *)(param_1 + 2)]();
     }

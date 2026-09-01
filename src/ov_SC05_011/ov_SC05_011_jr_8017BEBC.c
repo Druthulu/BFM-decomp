@@ -3710,7 +3710,7 @@ void func_8017DCA4(void) {
 
 extern void func_8017D818();
     void func_8017DCAC(void) {
-        func_8017D818();
+        ((void (*)())func_8017D818)();
     }
 
 

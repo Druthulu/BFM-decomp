@@ -5271,7 +5271,7 @@ void func_80180B3C(s32 a0)
     extern void func_8017F464();
 
     if ((*(u16 *)&D_801D0B7C) == 4) {
-        func_8017F098();
+        ((void (*)())func_8017F098)();
     }
     *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = func_8012B8A4((s16 *)a0);
     func_8017F464(a0);
@@ -5613,13 +5613,13 @@ void func_801813D4(s32 a0)
                 *(s16 *)((s32)s0 + 0x104) = 1;
             }
         } else if (func_8012BEE8(s0) != 0) {
-            func_8018000C(s0);
+            ((void (*)())func_8018000C)(s0);
         }
         break;
     case 0x100:
         if ((D_801D0BB8 & 2) != 0) {
             if (func_8012BEE8(s0) != 0) {
-                func_8018000C(s0);
+                ((void (*)())func_8018000C)(s0);
             }
         }
         break;
