@@ -135,6 +135,23 @@ is worse than no twin, because the agent believes it.
 (§390). The scanner well is dry; the integration levers (§376/§378) out-earned it by an order of
 magnitude in the same session.
 
+### 2a-3. AFTER EVERY EXEMPLAR BANK, RE-RUN THE TWIN SCAN BEFORE DRAFTING ITS SIBLINGS (S69)
+
+An open-open cluster reports "no banked twin" for ALL members — correctly, because none is banked.
+**Bank one and every sibling may become a remap job.** Measured S69: a reach-6 cluster's exemplar
+cost 203k tokens to crack, then four siblings were drafted at ~60k each when `seed_ref` would have
+returned the freshly-banked exemplar as their twin and `family_remap` would have banked them for ~0
+(the agents' own diffs read "label-stripped .s diff is EMPTY" and "an EXACT clone"). One of them had
+already burned 257k plateauing at permuter-class NEAR before the remap closed it.
+
+```
+crack ONE exemplar -> gate -> BANK -> re-run seed_ref/--near for the rest of the cluster
+                                   -> remap what now has a twin; draft only what does not
+```
+
+**And never draft two members of the same cluster in parallel** — if either cracks, the other is
+free, so the second agent is pure waste (§397).
+
 ### 2b. RUN `neighbor_ref` FOR EVERY CARD — the biggest measured cost lever in the wave
 
 ```

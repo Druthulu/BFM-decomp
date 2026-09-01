@@ -32781,3 +32781,36 @@ prescan trap — paraphrase the comment.
 parameters PROMOTE to the TU's prototype — no decl edit, no cast, and the gate's "conflicting types"
 disappears.
 (byte-proven `ov_SC05_018/func_80182CDC`)
+
+## §397 ★★★ — RE-RUN THE TWIN SCAN AFTER EVERY EXEMPLAR BANK; A CLUSTER SIBLING IS FREE THE MOMENT ITS EXEMPLAR LANDS (P31 S69; ~250k tokens spent proving it the expensive way)
+
+**The mistake, measured.** A reach-6 cluster (`ov_SC06_018/020/022/024/032/033`) showed as
+**open-open** in the family map: six members, none banked, so `seed_ref` reported **"no banked twin"**
+for every one of them. I cracked the exemplar `ov_SC06_018/func_80189E60` (203k tokens, five new
+levers → §395), then **drafted four siblings at ~60k each**.
+
+They did not need drafting. The moment the exemplar banked, `seed_ref` returned it as a **banked twin
+for all of them** — and the agents' own diffs said why: *"label-stripped `.s` diff vs the twin is
+EMPTY"*, *"an EXACT clone (asm diff = labels only, same relocation symbols)"*. `family_remap` +
+the §378 chain banks those for **~0 tokens**. The waste included `ov_SC06_020/func_80183FD0`, which
+burned **257k tokens plateauing at permuter-class NEAR 4** and then remapped cleanly from the twin
+that had banked in the meantime.
+
+**The law: a bank CHANGES THE TWIN GRAPH, and every open-open cluster is one bank away from being a
+remap job.** The twin oracle answers "is there a BANKED body like this?" — so its answer for every
+sibling is stale the instant the exemplar lands.
+
+**The procedure, in order:**
+
+1. Crack ONE exemplar per cluster (never two — see below).
+2. Gate it. **Bank it.**
+3. **RE-RUN `seed_ref` (and `--near`) for every remaining member of that cluster.**
+4. Remap what now has a twin (`family_remap` → §378 chain → gate). Draft only what does not.
+
+**And never draft two members of the same cluster in parallel.** I drew `func_80189E60` and
+`func_80183FD0` — same cluster — in the same round: if either cracks the other is free, so the second
+agent is pure waste, and it was.
+
+This is the `crack-wave-sweep-map-regen` rule ("regen the map after banking") applied one level down:
+the FAMILY map is not the only stale artifact — **the twin oracle is stale too, and it is the one the
+cards read.**
