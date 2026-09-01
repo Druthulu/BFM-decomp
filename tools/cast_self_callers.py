@@ -37,6 +37,7 @@ the draft, because guessing it changes the call's value category.
         --journal .run/<id>/<binary>.json
     cast_self_callers.py --undo-journal .run/<id>/<binary>.json --keep func_A,func_B
 """
+import hashlib
 import argparse
 import glob
 import json
@@ -174,6 +175,33 @@ def undo(journal_path, keep):
         if e["fn"] in kept:
             continue
         by_file.setdefault(e["file"], []).append(e)
+    # AMBIGUITY REFUSAL (P31 S70, §403) — same defect as fix_arity_callers. `replace(after, before, 1)`
+    # hits the FIRST occurrence, so when one (file, after) group maps back to DIFFERENT `before`
+    # texts the originals land on the wrong occurrences and the file is silently corrupted while
+    # this reports success. Byte-witnessed: src/800.c left with the two decls of func_80031988
+    # swapped after "reverted 10 edit(s)". The occurrence->original mapping is not recoverable from
+    # this journal, so REFUSE rather than guess (R43).
+    ambiguous = []
+    for f, es in by_file.items():
+        groups = {}
+        for e in es:
+            groups.setdefault(e["after"], set()).add(e["before"])
+        for after, befores in groups.items():
+            if len(befores) > 1:
+                ambiguous.append((f, after, sorted(befores)))
+    if ambiguous:
+        print("undo-journal: REFUSED — %d ambiguous restore group(s): the same edited text maps back "
+              "to DIFFERENT originals and this journal does not record which occurrence is which. "
+              "Restoring would SWAP them (§403)." % len(ambiguous), file=sys.stderr)
+        for f, after, befores in ambiguous[:5]:
+            print("  %s: %s" % (f, after.strip()[:70]), file=sys.stderr)
+            for b in befores[:4]:
+                print("      <- %s" % b.strip()[:70], file=sys.stderr)
+        print("  Fix: restore the named file(s) from git instead — `git checkout -- %s`"
+              % ambiguous[0][0], file=sys.stderr)
+        return 2
+
+    bad = []
     for f, es in by_file.items():
         path = os.path.join(REPO, f)
         text = open(path).read()
@@ -182,9 +210,16 @@ def undo(journal_path, keep):
                 text = text.replace(e["after"], e["before"], 1)
                 reverted += 1
         open(path, "w").write(text)
-    print("reverted %d edit(s) across %d file(s); kept %d fn(s)"
-          % (reverted, len(by_file), len(kept)))
-    return 0
+        # HASH BACKSTOP: with nothing kept, a correct undo reproduces the pre-edit file exactly.
+        want = (j.get("sha_before") or {}).get(f)
+        if want and not kept and hashlib.sha1(text.encode()).hexdigest() != want:
+            bad.append(f)
+    for f in bad:
+        print("  [CORRUPT] %s does not match its pre-edit hash after undo — restore it from git (§403)"
+              % f, file=sys.stderr)
+    print("reverted %d edit(s) across %d file(s); kept %d fn(s)%s"
+          % (reverted, len(by_file), len(kept), ("; HASH-MISMATCH %d" % len(bad)) if bad else ""))
+    return 1 if bad else 0
 
 
 def main():
@@ -230,7 +265,20 @@ def main():
             print("  " + r, file=sys.stderr)
     if a.journal:
         os.makedirs(os.path.dirname(os.path.join(REPO, a.journal)) or ".", exist_ok=True)
-        json.dump({"binary": a.binary, "edits": all_edits},
+        # §403: record pre-edit file hashes so --undo-journal can VERIFY its own result.
+        _pre = {}
+        for _e in all_edits:
+            _f = _e["file"]
+            if _f not in _pre:
+                try:
+                    _cur = open(os.path.join(REPO, _f)).read()
+                except OSError:
+                    continue
+                # reconstruct the pre-edit text by undoing this file's edits in memory
+                for _e2 in [x for x in all_edits if x["file"] == _f]:
+                    _cur = _cur.replace(_e2["after"], _e2["before"], 1)
+                _pre[_f] = hashlib.sha1(_cur.encode()).hexdigest()
+        json.dump({"binary": a.binary, "edits": all_edits, "sha_before": _pre},
                   open(os.path.join(REPO, a.journal), "w"), indent=1)
         print("journal: %d edit(s) -> %s" % (len(all_edits), a.journal))
     print("%s %d call-site cast(s) for %d function(s); %d refused. Re-run the byte-gate now."

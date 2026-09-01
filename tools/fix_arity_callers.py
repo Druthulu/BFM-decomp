@@ -33,7 +33,7 @@ by construction: it cannot invent a signature, and it is immune to interleaved s
 draft landing in the same file between apply and undo — the Task-14 hazard the gate_stage snapshot
 had to special-case). --keep names the fns whose edits stay (the banked set).
 """
-import argparse, json, os, re, glob, sys
+import argparse, hashlib, json, os, re, glob, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import shared_lock  # Stage 1: --apply/--undo-journal write the fleet-shared header
 
@@ -73,7 +73,39 @@ def undo_journal(path, keep):
     `after` text back to the recorded `before` text (one occurrence). Reports restored/kept/missing
     loudly (R32) — a missing `after` means someone else edited that decl since; it is NOT silently
     skipped."""
-    entries = json.load(open(os.path.join(REPO, path)))
+    raw = json.load(open(os.path.join(REPO, path)))
+    entries = raw['edits'] if isinstance(raw, dict) else raw
+    shas = raw.get('sha_before', {}) if isinstance(raw, dict) else {}
+
+    # AMBIGUITY REFUSAL (P31 S70, §403). `--any-proto` collapses DISTINCT declarations of the same
+    # function to the SAME `after` text. The restore below is `replace(after, before, 1)` — first
+    # occurrence — so when one (file, after) group holds entries with DIFFERENT `before` values, the
+    # originals get written back to the WRONG occurrences and the file is silently corrupted while
+    # this function reports full success. Byte-witnessed: engine_core.h left with 97 insertions /
+    # 97 deletions after `restored 382, kept 0, missing 0` (func_8012A828 rotated between three
+    # declaration sites). The occurrence->original mapping is NOT recoverable from this journal
+    # format, so REFUSE rather than guess (R43): a loud refusal costs one `git checkout`, a silent
+    # swap costs a corrupted FLEET-SHARED header nobody notices.
+    groups, ambiguous = {}, []
+    for e in entries:
+        if e['fn'] in keep:
+            continue
+        groups.setdefault((e['file'], e['after']), set()).add(e['before'])
+    for (f, after), befores in sorted(groups.items()):
+        if len(befores) > 1:
+            ambiguous.append((f, after, sorted(befores)))
+    if ambiguous:
+        print(f'undo-journal: REFUSED — {len(ambiguous)} ambiguous restore group(s): the same edited '
+              f'text maps back to DIFFERENT originals, and this journal does not record which '
+              f'occurrence is which. Restoring would SWAP them (§403).', file=sys.stderr)
+        for f, after, befores in ambiguous[:5]:
+            print(f'  {os.path.relpath(f, REPO)}: {after.strip()[:70]}', file=sys.stderr)
+            for b in befores[:4]:
+                print(f'      <- {b.strip()[:70]}', file=sys.stderr)
+        print(f'  Fix: restore the named file(s) from git instead — '
+              f'`git checkout -- {os.path.relpath(ambiguous[0][0], REPO)}`', file=sys.stderr)
+        return 2
+
     restored = kept = missing = 0
     texts = {}
     for e in entries:
@@ -92,8 +124,22 @@ def undo_journal(path, keep):
                   f"no longer present (later edit?); NOT restored", file=sys.stderr)
     for f, t in texts.items():
         open(f, 'w').write(t)
-    print(f'undo-journal: restored {restored}, kept {kept}, missing {missing}')
-    return 1 if missing else 0
+    # HASH BACKSTOP: when nothing was kept and nothing was missing, a correct undo must reproduce the
+    # pre-edit file EXACTLY. Verify it instead of trusting the counters (R40 — the tool's own report
+    # is not evidence; this whole class was caught by `git diff`, not by the success line).
+    bad = []
+    if not kept and not missing:
+        for f in texts:
+            want = shas.get(f)
+            if want and hashlib.sha1(texts[f].encode()).hexdigest() != want:
+                bad.append(f)
+    if bad:
+        for f in bad:
+            print(f'  [CORRUPT] {os.path.relpath(f, REPO)} does not match its pre-edit hash after '
+                  f'undo — restore it from git (§403)', file=sys.stderr)
+    print(f'undo-journal: restored {restored}, kept {kept}, missing {missing}'
+          + (f', HASH-MISMATCH {len(bad)}' if bad else ''))
+    return 1 if (missing or bad) else 0
 
 
 def main():
@@ -146,6 +192,7 @@ def main():
             sys.exit('REFUSED: --binary %s selected NO source files to scan (R32: a true "0 edits" '
                      'over an empty denominator is not a result)' % a.binary)
     texts = {f: open(f).read() for f in files}
+    orig_texts = dict(texts)   # §403: pre-edit content, hashed into the journal for undo verification
     applied = skipped = reverted = notfound = 0
     journal = []
     for fn in fns:
@@ -186,7 +233,11 @@ def main():
         jp = os.path.join(REPO, a.journal)
         os.makedirs(os.path.dirname(jp), exist_ok=True)
         with open(jp, 'w') as jf:
-            json.dump(journal, jf, indent=1)
+            # NEW FORMAT (§403): {edits, sha_before} so --undo-journal can VERIFY its own result.
+            # The list form is still accepted on read for journals written before this change.
+            json.dump({'edits': journal,
+                       'sha_before': {f: hashlib.sha1(t.encode()).hexdigest()
+                                      for f, t in orig_texts.items()}}, jf, indent=1)
         print(f'journal: {len(journal)} edit(s) -> {a.journal}')
     if a.apply:
         print(f'\napplied no-proto to {applied} caller decl(s); skipped {skipped} narrow-param; '
