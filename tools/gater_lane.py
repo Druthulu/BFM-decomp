@@ -429,8 +429,35 @@ def main():
 
     # Ledger the ATTEMPT, not the outcome: a refused draft must not be re-gated unchanged on the
     # next tick (that is the 0/23 stored-re-gate law from T1 — a fresh verdict needs a fresh fix).
+    #
+    # BUT ONLY FOR A BINARY THE GATE ACTUALLY EXAMINED (P31 S70). This block used to ledger every
+    # entry in `ready` on any rc. When the gate REFUSES to start — `parallel_gate` on a dirty tree,
+    # a worker missing its link inputs — it examines NOTHING, yet both functions of S69's Gate37
+    # (rc=1, nothing gated) were recorded as `gated` and silently skipped on the retry; the phantom
+    # entries had to be cleared by hand. "Attempted" and "never looked at" are different facts, and
+    # only the first justifies suppressing a re-gate. A binary counts as EXAMINED when the worker
+    # banked something, wrote per-function verdict rows, or reported a draft count — i.e. it got far
+    # enough to have an opinion about the drafts (R32: assert what you actually covered).
+    examined = set()
+    for r in results:
+        if r.get("error"):
+            continue
+        try:
+            t = json.loads((r.get("tail") or "{}").strip().splitlines()[-1])
+        except Exception:
+            t = {}
+        if r.get("banked") or r.get("verdicts") or t.get("drafts"):
+            examined.add(r.get("binary"))
+    skipped = [x for x in ready if x[0] not in examined]
+    if skipped:
+        print("[gater] NOT ledgering %d draft(s) across %d binary(ies) the gate never examined "
+              "(refused/blind) — they stay eligible for the next tick: %s"
+              % (len(skipped), len({x[0] for x in skipped}),
+                 ", ".join(sorted({x[0] for x in skipped}))), flush=True)
     led = load_ledger()
     for binary, fn, path in ready:
+        if binary not in examined:
+            continue
         arm = os.path.basename(os.path.dirname(path))
         led["%s:%s:%s" % (binary, fn, arm)] = "gated:rc%d" % rc
     save_ledger(led)
