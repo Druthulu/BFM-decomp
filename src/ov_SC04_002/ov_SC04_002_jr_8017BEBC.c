@@ -10422,7 +10422,7 @@ extern s32 rand(void);
  * func_801867A0's).  Its own .s takes TWO args ($a0 = entity-owner, $a1 = id):
  * do NOT adopt the 1-arg `void f(void*)` spelling that the *unrelated* overlay
  * ov_SC03_001 uses for its own different function at the same address. */
-extern void func_8018691C(s32 a0, s32 a1);
+extern s32 func_8018691C(s32 a0, u16 a1);
 
 /* Spawn a 0x4F entity for `a0`, then jitter its three s16 fields at +0x6/+0xA/+0xE
  * by a random amount (mod 28 / 32 / 28, sign picked by a second rand()), flip the
@@ -10491,7 +10491,7 @@ s32 func_801867A0(s32 a0) {
      * not reproduce the target order -- only both together do, hence a real
      * barrier rather than a statement reorder. */
     __asm__ __volatile__("" ::: "memory");
-    func_8018691C(a0, 0x7F3);
+    ((s32 (*)())func_8018691C)(a0, 0x7F3);
     return s2;
 }
 
