@@ -4482,3 +4482,62 @@ INCLUDE_ASM lines, so a clean re-extract moves it. Use `make report`.
 4. **Run `tools/twin_rescan.py` after every gate that banks** (§397) and
    **`tools/verify_binary.py`** instead of bare `make build` (§384) — both were written because the
    documented rule was violated anyway.
+
+## 🛑 SESSION CHECKPOINT — S69 FINAL-4 (2026-09-01, TRUE session close). SUPERSEDES S69 FINAL-3 and every earlier block. Phase 31 T5 CONTINUES.
+
+**STATE:** tree clean, no lanes running, ~102 banked this session.
+R22 was GREEN (213/213) at 15:04; **a fresh R22 is owed** — ~10 banks landed after it under `--no-r22`.
+Drew pushes (R6). `ghidra/` churn is MCP noise.
+
+**CANONICAL PROGRESS (`make report` — quote THESE; my ad-hoc stub tallies are NOT stable across a
+re-extract, they read 348 → 320 → 357 in one session because carve isolation splits TUs):**
+```
+REAL / matchable          :    850 / 1,919        = 44.29%
+FLEET instr-weighted      : 13,445,268 / 13,523,865 = 99.4%
+FLEET distinct-code(uniq) :  5,774,885 / 5,851,972  = 98.7%
+MAIN game-code weighted   :     39,105 / 79,510     = 49.2%
+```
+
+## START HERE NEXT SESSION — in this order
+
+**0. `tools/r22_verify.sh`** (drain `lane_inflight` first; it refuses on stale entries, correctly).
+
+**1. RESIDUAL-CLASSIFIER COVERAGE PROBE — Drew queued this explicitly.**
+`residual_rules_b` has ~10 hand-written shape rules against **1,062** cookbook sections and fires
+certain/high on **~1-2%** of residuals. I called that a POPULATION ceiling; it is more likely a RULE
+COVERAGE ceiling. **Measure before building** (Fable-2 report §7.7):
+> Sample 50 UNKNOWN/near-miss residuals from the backlog, hand-label each against
+> `docs/cookbook-index.md` section titles, and count how many WOULD have been classified by a rule
+> that exists in prose but not in code. **If ≥20% → build the rules. If <20% → the ceiling is real
+> and stop.**
+`docs/cookbook-index.md` already holds the hand-curated symptom→section mapping a generator consumes.
+
+**2. THE CARVE ISOLATION ROUTE** (§322b) — 18 `overlay_src_split` plumbing defects, ≤30 lines each,
+unlock ~50 ov_ functions; **21 are 0-token twins**. Highest leverage on the board.
+
+**3. THE MASPSX REORDER-PASSTHROUGH** (§332b) — 3 lines, byte-inert on the whole 800c3/800c2 objects,
+**6 wall banks for 0 tokens**; retires `oracle_reorder.py`.
+
+**4. `family_remap` DECL-ENVIRONMENT FIX** (§398) — it carries the SOURCE TU's decls into a
+destination that owns those names, capping the remap lane at ~15% straight-through / ~50% after
+integration. `decl_prior` already computes the destination's environment.
+
+## TWO TOOL DEFECTS FOUND AT THE VERY END — not yet fixed
+* **`gater_lane` ledgers a draft as gated when it STAGES it, not when the gate COMPLETES.** Gate37
+  refused with `rc=1` and gated nothing, yet both its functions were recorded as gated and were
+  silently skipped on the retry. I cleared the phantom entries by hand. **Fix: ledger on completion.**
+* **`parallel_gate` refuses to start on a dirty tree (correct) but that refusal still consumed the
+  ledger write above** — the two interact badly.
+
+## THE HABITS THIS SESSION PRODUCED (now enforced in tooling, not prose)
+* **`tools/verify_binary.py`** — ALWAYS re-extracts before building (§384). I violated the written
+  rule THREE times by reflex; two false reds cost legitimate work that had to be restored.
+* **`tools/twin_rescan.py`** — run after EVERY gate that banks (§397). A bank changes the twin graph;
+  an open-open cluster is one crack from free remaps. Cost ~250k tokens to learn.
+* **NEVER poll `pgrep`/`ps` for a pattern your own command line contains.** THREE self-waiting loops
+  today, one burning 5 hours. Use `awk '/pat/ && !/awk/'`, or watch the log, or an exit file.
+
+## LEDGERS / ARTIFACTS
+`.run/S69_fable{,2,3}/report.md` — the three audits (twin band · scanner null · nothing-permanently-blocked)
+`.run/twin_rescan.snapshot.json` — twin baseline (318 stubs, 37 with a banked twin at d<=5)
+`.run/S69_near_d25.json` · `.run/S69_carve_twins.json` · `.run/S69_reach_plan.json` · `.run/S69*_verdicts.json`
