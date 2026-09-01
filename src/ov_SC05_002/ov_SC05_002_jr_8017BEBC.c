@@ -4602,7 +4602,127 @@ void func_8017F30C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_002/nonmatchings/ov_SC05_002_jr_8017BEBC", func_8017F348);
+
+
+extern u8 D_801202A0[];
+extern s32 D_80126B58;
+extern u16 D_8019C7F0[];
+extern s16 D_8019C7F4[];
+extern u16 D_8019C7F8[];
+extern s16 D_8019C7FC[];
+extern s16 D_8019C7C4[];
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+/* Three levers, all byte-proven on this body:
+ *
+ * 1. `ang`/`camAng` are s16 with BOTH promoted (int compare) and HImode
+ *    (s16 arithmetic) uses -> combine rewrites the HImode load as a single
+ *    `lh` into an SImode pseudo plus `(set (reg:HI) (subreg (reg:SI)))`, which
+ *    is the `addu $a0,$v0,$zero` / `addu $a2,$t0,$zero` copy pair the target
+ *    carries (cookbook 172a/172, "lh = promotion"). The same rewrite is what
+ *    orphans the reload slots that make the frame -0x28 instead of -0x18: an
+ *    s32 spelling here compiles to the right instructions with the WRONG frame.
+ *
+ * 2. `best > ad` and `ang > camAng` are written with the operands in THAT
+ *    order (not `ad < best` / `camAng < ang`). gcc canonicalises `b > a` into
+ *    the same `slt`, but the operand EVALUATION order survives (cookbook
+ *    172b-2): it decides which of the two extends / which of the two `lh`s is
+ *    emitted first, and here it is the whole difference between the target
+ *    schedule and a +1-instruction one with a stalled load.
+ *
+ * 3. `snd` is pinned to $a1. Unpinned it lands in $t2, which pushes byteoff
+ *    onto $a1 and cascades every later allocation down one register (near 31).
+ *
+ * The tail call really does pass ONE argument -- the target sets only $a0=4
+ * before the second `jal func_8002D4C8` -- so it is made through a cast, the
+ * same idiom this TU already uses, to stay compatible with the file-scope
+ * two-parameter prototype.
+ */
+void func_8017F348(s32 arg0) {
+    u8 *p;
+    u8 *cam;
+    u8 *found;
+    s32 i;
+    s16 best;
+    s16 d;
+    s16 ad;
+    u16 *tbl1;
+    s16 *tbl2;
+    register s32 snd __asm__("$5");
+    s16 st;
+    s32 idx;
+    s16 dist;
+    s16 t;
+    s16 ang;
+    s16 camAng;
+    s16 diff;
+    s32 total;
+
+    p = D_801202A0;
+    found = 0;
+    cam = (u8 *)&D_80126B58;
+    best = 0x7FFF;
+    for (i = 0; i < 0x60; i++) {
+        if (*(u16 *)p == 0x1A3) {
+            d = *(u16 *)(p + 6) - *(u16 *)(cam + 6);
+            ad = d;
+            if (d < 0) {
+                ad = -d;
+            }
+            if (best > ad) {
+                best = ad;
+                found = p;
+            }
+        }
+        p += 0x10C;
+    }
+    if (*(s16 *)(arg0 + 0xFE) != 0) {
+        snd = 0xBAA;
+        tbl1 = D_8019C7F8;
+        tbl2 = D_8019C7FC;
+    } else {
+        snd = 0x704;
+        tbl1 = D_8019C7F0;
+        tbl2 = D_8019C7F4;
+    }
+    if (found != 0) {
+        st = *(u16 *)(found + 0x70);
+        idx = st >> 1;
+        t = tbl1[idx] - *(u16 *)(cam + 6);
+        dist = t;
+        if (t < 0) {
+            dist = -t;
+        }
+        t = dist - 0x80;
+        dist = t;
+        diff = 0;
+        if (t < 0) {
+            dist = 0;
+        }
+        camAng = *(s16 *)(cam + 0xA);
+        ang = tbl2[idx];
+
+        if (ang > camAng) {
+            diff = ang - camAng;
+        } else {
+            ang = ang + *(u16 *)&D_8019C7C4[st];
+            if (ang < camAng) {
+                diff = camAng - ang;
+            }
+        }
+        total = dist + diff;
+        if (total < 0x200) {
+            func_8002D4C8(snd, ((0x7F - (total >> 2)) | 0x1000) & 0xFFFF);
+            *(s16 *)(arg0 + 0x84) = 1;
+            return;
+        }
+    }
+    if (*(s16 *)(arg0 + 0x84) != 0) {
+        ((void (*)(s32))func_8002D4C8)(4);
+        *(s16 *)(arg0 + 0x84) = 0;
+    }
+}
+
 
 extern s32 func_80029178(s32 arg);
 extern s32 func_8012C588(s32 a0, s32 a1);
