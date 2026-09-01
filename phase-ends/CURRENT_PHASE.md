@@ -4586,3 +4586,87 @@ integration. `decl_prior` already computes the destination's environment.
     exception `ov_SC06_024:func_8017EC4C` (ndiffs 16, **bypass 266**) is an anomaly worth its own look.
     Working hypothesis to test, not to assert: the UNKNOWN pile is dominated by wrong-draft cases, so
     the lever is widening the REDRAFT class, not authoring 50 cookbook-derived shape rules.
+
+- **S70-T2 — RESIDUAL-CLASSIFIER COVERAGE PROBE: VERDICT = BUILD THE RULES.** Ran the classifier over
+  the WHOLE open frontier rather than a 50-row sample, so there is no sampling error to argue about:
+  `.run/S70_eval_full.json` → `tools/residual_rules_b.py --eval --jobs 16`, **1,312 cases, 0 errored,
+  100% processed**, ~2 min, $0. Artifacts: `.run/S70_eval_full.log`, `.run/rules_b/eval_results.jsonl`,
+  `.run/S70_unknowns.json`, `.run/S70_unknown_le8.json`, `.run/S70_sigs.txt`.
+
+  **DENOMINATOR, corrected by Drew mid-probe (R41, and I should have caught it — I watched
+  `LIBMCRD_OBJ_2E4` and `ISO9660_OBJ_8F4` scroll past and only noted them).** `corpus.stubs` counts
+  main's PsyQ library stubs as open. Partitioned with the project's OWN definition
+  (`progress.linked_subsegs()`, 49 subsegs — not a hand-rolled name filter, R33):
+  ```
+  fleet open stubs 1,315  =  main LINKED (PsyQ libs) 960   <- NOT matching targets
+                          +  main REAL game code      67
+                          +  non-main                288
+                          => TRUE FRONTIER           355   (Drew's "~320"; the checkpoint's 348->357)
+  ```
+  The library half is also junk as drafting fuel: of its 959 cases **829 are cc1-fail**, vs 34/353 on
+  the real frontier. Every number below is REAL-frontier only.
+
+  **THE DISCRIMINATING TEST.** `docs/next-session-triage-ladder.md` argued the ~1-2% shape-rule rate is
+  a POPULATION ceiling ("surgical single-mechanism residuals live at the END of escalations, not in
+  first-pass wave output"); Fable-1 F6 argued RULE COVERAGE. These predict opposite things about fire
+  rate vs residual size, which is measurable, so I measured it instead of hand-labeling blind:
+  ```
+  band     n   shape  UNKNOWN   fire%        REAL near rows = 233
+  <=8     51      18       29   35.3%        shape fired  35 (15.0%)
+  9-16    22       5       12   22.7%        UNKNOWN     123 (52.8%)
+  17-32   21       4       11   19.0%        other        75 (REDRAFT-SIZE-MISMATCH etc.)
+  33-64   24       1       16    4.2%
+  >64    115       7       55    6.1%
+  ```
+  **Both were partly right, and the doc's conclusion was still wrong.** Fire rate DOES climb as
+  residuals get clean (35.3% at <=8 vs 6.1% at >64) — the population effect is real. But **57% of the
+  cleanest band (29 of 51) is still UNKNOWN**, so coverage is the binding constraint exactly where a
+  rule is worth writing. The 1-2% figure itself was never the shape tier's rate: it divided by 113
+  cases including banked rows, standalone matches and cc1-fails that no shape rule can serve.
+
+  **HAND-LABEL, 4 of 4 labelable** (the gate needed >=20%). Every sampled <=8-band UNKNOWN is a clean
+  single-mechanism residual that maps to an existing cookbook symptom bucket:
+  * `ov_SC01_001:func_80183748` SCHEDULE-REORDER/4 — prologue `sw` order swapped AND which local gets
+    `$s0` vs `$s1` swapped. Callee-saved assignment order; regalloc bucket (127 sections) + the
+    `dont-conclude-unsteerable-try-register-pins` memory describes the exact fix.
+  * `ov_SC05_018:func_80181294` REGALLOC-LOCAL/4 — a temp chain allocated one register off.
+  * `ov_SC07_000:func_8017E658` **WIDTH/lhu!=lh** — `lhu` vs `lh` on the same field: a one-word
+    `u16`->`s16` signedness fix. **`residual_class` already computes the exact discriminating
+    signature and `residual_rules_b` still returns `top=None`.** The information is present; nobody
+    wrote the mapping. This single case is the whole argument.
+  * `ov_SC04_011:func_8018489C` OPCODE-MIXED/4 — `negu` scheduled early vs late; scheduling bucket (85).
+
+  **THE ASYMMETRY, quantified: 1,062 cookbook sections vs ~13 coded rules**, and the symptom buckets
+  holding the most prose are exactly where the UNKNOWNs sit — scheduling 85 / regalloc 127 /
+  types-signedness-width 93 / structs 86. `.run/S70_sigs.txt` has the ranked missing-rule fuel
+  (`residual_class` sig for all 205 raw UNKNOWNs): LENGTH-DRIFT/±N dominates, then
+  OPCODE-MIXED/addressing,width ×10, SCHEDULE-REORDER/N, ADDRESSING/move!=jal, ADDRESSING/lui!=addu.
+
+- **S70 — THE BIGGEST NUMBER ON THE BOARD IS NOT THE CLASSIFIER: 86 REAL standalone MATCHES.**
+  The same sweep found **86 REAL-frontier drafts that byte-match standalone at closeness 0** (plus 19
+  in the library half) — **24% of the entire 355-function frontier already has byte-correct C on
+  disk**, blocked only by TU plumbing. Per `standalone-match-is-not-bankable` a closeness-0 is NOT a
+  bank (it proves the BODY, not that the TU accepts the SIGNATURE), so these need the §376/§378 chain
+  (`fix_arity_callers` -> `cast_self_callers` -> `--sync-decls` -> gate), historically ~50%.
+  List: `.run/S70_standalone_matches.json`. This is the integration thesis restated by measurement,
+  and it outranks the rule-building.
+
+- **S70 — MY OWN INSTRUMENT WAS WRONG THREE TIMES IN ONE PROBE; each was caught by
+  `check-against-a-known-true-case`, and one had already been REPORTED to Drew before the check.**
+  Logged because the postgame deliverable is the METHOD, and this is the method working:
+  1. Built the open map from a `ls asm/*/` glob after `make -s print-binaries` failed — the target
+     does not exist, so the fallback silently used 214 dirs that **excluded `main`** (78% of the
+     population) and swallowed two failures in a bare `except: pass`. Caught by a 214-vs-213 diff I
+     could not explain.
+  2. Compared `corpus.stubs()` output to function NAMES. It returns **addresses**. Every comparison
+     was silently False. This produced a plausible, wrong answer — "all 10 of S68's verified autodecl
+     MATCH drafts are already banked" — **which I stated to Drew before checking**. The truth is
+     **6 banked, 4 still open** (`ov_SC07_010:func_80180E68`, `ov_SC03_105:func_801829CC`,
+     `ov_SC03_105:func_80182BD8`, `ov_SC06_022:func_8017CDE4`) — 4 candidate banks I had written off.
+  3. Then fabricated names as `func_%08X` from those addresses: **765 of 1,315 open stubs (58%) carry
+     a REAL symbol** (`CdReadStateMachine`, `SaveLoadRoutine`, `open`, `_bu_init`, ...), so the first
+     eval errored 19/40 on main. Fixed by reading `Stub.symbol`.
+  4. (Fourth, minor) guessed `asm/<bin>/nonmatchings/<bin>` for the asm dir when `Stub.asm_dir` is
+     self-describing — `corpus`'s own docstring says "nothing to guess and no dict to rot" (R33).
+  The pattern in all four: **a wrong instrument returns a plausible number, not an error.** Only a
+  case whose answer was already known exposed it.
