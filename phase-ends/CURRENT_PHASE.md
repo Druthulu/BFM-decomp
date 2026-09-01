@@ -4843,3 +4843,76 @@ truth was 6, and **4 were still open**); fabricating `func_%08X` names when 58% 
 symbol; and a jtbl detector matching `jr $ra`, which every function ends with. Each was caught ONLY by
 testing against a case whose answer was already known. **A wrong instrument returns a plausible number,
 not an error** — and the 1-2s `parallel_gate` runtime is the same lesson from the outside.
+
+## 🛑 SESSION CHECKPOINT — S70 FINAL-2 (2026-09-01, true session close). SUPERSEDES the S70 FINAL block above (which stopped at 21 banked, before the twin remaps, and carried a phantom main bank). Phase 31 T5 CONTINUES.
+
+**STATE:** tree clean, no lanes running, **41 banked**. **R22 GREEN — `check-all: 213 passed, 0 failed
+of 213` from a clean rebuild at 17:43:47** (the third green of the session). No `.run/R22_DEBT`.
+Drew pushes (R6). `ghidra/` churn is MCP noise.
+
+**CANONICAL PROGRESS.** ⚠ `make -s report | grep -E "^(REAL / matchable|FLEET|MAIN game)"` — the bare
+target prints all 850 match names and buries the summary.
+```
+REAL / matchable          :    850 / 1,919        = 44.29%
+FLEET instr-weighted      : 13,447,744 / 13,523,865 = 99.4%   (S69: 13,445,268 -> +2,476 ins)
+FLEET distinct-code(uniq) :  5,777,218 / 5,851,972  = 98.7%   (S69:  5,774,885 -> +2,333 ins)
+MAIN game-code weighted   :     39,105 / 79,510     = 49.2%   (UNCHANGED — main banked NOTHING)
+REAL FRONTIER (libs excluded): 355 -> 314   = main game-code 67 + non-main 247
+```
+**41 banked, reconciled against `corpus.stubs` (never a tool's success line):**
+`15 ov_SC06_011 standalone` + `3 ov_SC06_029` + `3 pgate x35` + **`20 twin remaps`** = 41, main 0.
+
+## THE TWIN LANE WORKED — AND NOT FOR THE REASON WE EXPECTED
+**20 of 52 twin remaps banked (38%)**, well above §398's ~15% straight-through — and **all 20 in
+`ov_SC06_011`**, the same binary that carried 15 of the 21 standalone banks. Two lanes, same
+concentration: `ov_SC06_011` is simply a binary whose open tail is highly twinned/finished, and the
+fleet's remaining work is NOT uniformly distributed. **Draw future waves per-binary, not fleet-wide.**
+Critically, the `family_remap` decl fix (task 5) is byte-provably NOT the cause: its A/B over all 53
+candidates produced **52/52 IDENTICAL drafts, 0 changed**. Whatever made these bank, the decl
+environment was not the blocker. Re-run `twin_rescan` — 20 banks just changed the twin graph again (§397).
+
+## FOUR TOOL DEFECTS FOUND, THREE FIXED — the session's real yield
+1. **`parallel_gate` gated NOTHING at rc=0** (FIXED `commit:3536`). It ran `gate_stage` with
+   `cwd=<worktree>` and passed a RELATIVE `--drafts` through, so any plan under `.run/` (R12's own
+   convention) resolved to nothing: 0 drafts, banked 0, **rc=0**, 1-2s per binary. Same drafts in-tree
+   banked 15/16. **⚠ UNAUDITED: earlier waves using that shape produced honest-looking zeros — backlog
+   rows marked `failed` from such a run may never have been gated.** Cookbook §402.
+2. **Both undo-journals corrupted files and reported success** (FIXED `commit:3544`). `replace(after,
+   before, 1)` hits the FIRST occurrence; `--any-proto` collapses distinct decls to identical `after`
+   text, so originals land on the wrong occurrences. Witnessed: `engine_core.h` 97+/97- after
+   "restored 382, kept 0, missing 0"; `src/800.c` decls of `func_80031988` swapped. Now REFUSES (rc=2)
+   on an ambiguous group + records `sha_before` + hash-verifies. NC'd against the very journal that
+   broke it: refuses, writes nothing. The refusal showed why guessing was hopeless — one `after` maps
+   back to **four** distinct originals. Cookbook §403.
+3. **`gater_lane` ledgered drafts the gate never examined** (FIXED `commit:3545`). Now only ledgers a
+   binary whose worker banked, wrote verdict rows, or reported a draft count; refused/blind binaries
+   stay eligible and are named loudly (R55).
+4. **`harvest_verify` VERIFIES but does not BANK** (OPEN — task queued). It reported
+   `verified 1 / VERIFIED: func_8002B0B4`, SHA byte-identical, and left the `INCLUDE_ASM` stub at
+   `src/800.c:18341`. **I reported that bank to Drew; it never existed.** `gate_stage` is the
+   entrypoint that persists. Caught because 355->314 = 41 reconciled exactly as 15+3+3+20, leaving no
+   room for it. Cookbook §404.
+
+## START HERE NEXT SESSION — in this order
+1. **`tools/twin_rescan.py`** — 20 banks changed the graph (§397); the previous run's "newly free"
+   delta is consumed by the run that writes the snapshot, so capture FULL output.
+2. **Re-bank `main/func_8002B0B4` via `gate_stage`** (draft `.run/S70_sm/main/func_8002B0B4.c`, already
+   byte-gate-proven). Verify with `corpus.stubs('main')`, not the success line. Main runs in-tree.
+3. **maspsx reorder-passthrough (§332b)** — 3 lines + `as -O2`, byte-inert on the whole 800c3/800c2
+   objects, **6 wall banks for 0 tokens**, retires `oracle_reorder.py`. NOT started here deliberately:
+   the 3 lines land in the **maspsx SUBMODULE** and it changes main's build path — prefer our own
+   per-object filter + Makefile switch over a submodule edit, on a fresh context.
+4. **Audit the `parallel_gate` blast radius** (§402) — re-gate backlog `failed` rows whose verdict came
+   from a `.run/`-rooted plan; they may never have been gated.
+5. **Carve isolation route (§322b)** — 18 defects, ~50 ov_ fns, 21 0-token twins. Still untouched.
+6. **The residual-rule build** — gate CLEARED (S70-T2): 123 UNKNOWN of 233 real near rows, 57% of the
+   cleanest <=8 band. Fuel `.run/S70_sigs.txt`; label source 16,301 banked / 12,383 with drafts.
+   Generalize-for-future-decomps is DEFERRED (Drew).
+
+## THE LESSON THIS SESSION KEPT TEACHING
+**Every one of the four defects reported SUCCESS while doing nothing or doing harm**, and four of my own
+probe instruments did the same (a glob that dropped `main`; comparing names to `corpus.stubs`, which
+returns ADDRESSES — this produced a wrong answer I reported; fabricating `func_%08X` when 58% of stubs
+carry real symbols; a jtbl detector matching `jr $ra`). **A wrong instrument returns a plausible number,
+not an error.** The two things that actually caught them: a case whose answer was already known, and an
+arithmetic reconciliation that refused to close.
