@@ -3802,7 +3802,74 @@ void func_80184CCC(int param_1)
     return;
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_80183CF4", func_80184D50);
+/* func_80184D50 (ov_SC01_077, 98 ins) — the S69_fable2 contained-tier deletion draft.
+ *
+ * = banked func_8018283C (src/ov_SC03_007/ov_SC03_007_jr_80181F94.c:3416, 104 ins)
+ *   minus its FINAL statement `...->f4 &= 0x7FFFFFFF;` (the 6-ins block at twin[92:98]).
+ * Byte evidence: branch-masked norm-token lcp=92 lcs=6, resid 0 (seed_ref --contained,
+ * .run/S69_fable2/contained.json — k=1 gap=6 sub=0 cover=1.00 side=twin).
+ *
+ * Types are the PROVEN shapes, not guesses:
+ *   SV3  = src/shared/engine_types.h:612  (short a, b, c)
+ *   Blk8 = src/shared/engine_types.h:497  (u8 b[8] — byte-aligned, so the struct copy emits
+ *          lwl/lwr/swl/swr; an int-pair Blk8 emits lw/sw and loses 8 ins — the 90-vs-98 gap
+ *          in the coordinator's repro).
+ * Extern data renamed to SC01_077's TRUE addresses (resolved from the open bytes' hi/lo pairs):
+ *   twin D_801CB130 -> D_80197514 ; twin D_8018C374 -> D_8018AFB0
+ * (masked for standalone match_one; REQUIRED for the TU bank). jal targets are the shared
+ * engine pair func_8012C218/func_8012F214 — identical addresses in both overlays.
+ * Callee decls copied verbatim from the twin TU (lines 2668/2899). */
+#include "common.h"
+
+
+extern u8 D_80197514[];
+extern u8 D_8018AFB0[];
+
+void func_80184D50(s32 *self)
+{
+    s32 *tgt = (s32 *)*(s32 *)((s32)self + 0x64);
+    SV3 out;
+
+    if (*(s16 *)((s32)self + 0xFE) == 0x7FFF) {
+        *(s16 *)((s32)self + 0xFE) =
+            *(u16 *)(*(s32 *)((s32)self + 0x20) + 0x12);
+    }
+
+    if (*(s16 *)((s32)self + 0xFC) !=
+        *(s16 *)(*(s32 *)((s32)self + 0x64) + 0x36)) {
+        func_8012C218(self);
+        return;
+    }
+
+    *(Blk8 *)(*(s32 *)((s32)self + 0x20) + 0x10) =
+        *(Blk8 *)(*(s32 *)((s32)tgt + 0x20) + 0x10);
+
+    if (*(s32 *)(*(s32 *)((s32)self + 0x64) + 0x90) != (s32)D_80197514) {
+        *(s16 *)(*(s32 *)((s32)self + 0x20) + 0x12) =
+            *(u16 *)((s32)self + 0xFE);
+        *(s32 *)((s32)self + 0x4) =
+            *(s32 *)(*(s32 *)((s32)self + 0x64) + 0x4);
+        *(s32 *)((s32)self + 0x8) =
+            *(s32 *)(*(s32 *)((s32)self + 0x64) + 0x8);
+        *(s32 *)((s32)self + 0xC) =
+            *(s32 *)(*(s32 *)((s32)self + 0x64) + 0xC);
+    } else {
+        func_8012F214(*(s32 *)((s32)self + 0x64), (s32)D_8018AFB0, (s32)&out);
+        *(s16 *)((s32)self + 0x6) = out.a;
+        *(s16 *)((s32)self + 0xA) = out.b;
+        *(s16 *)((s32)self + 0xE) = out.c;
+    }
+
+    *(Blk8 *)(*(s32 *)((s32)self + 0x20) + 0x18) =
+        *(Blk8 *)(*(s32 *)((s32)tgt + 0x20) + 0x18);
+
+    *(u16 *)(*(s32 *)((s32)self + 0x20) + 0x2C) =
+        *(u16 *)(*(s32 *)((s32)tgt + 0x20) + 0x2C);
+
+    *(s32 *)(*(s32 *)((s32)self + 0x20) + 0x4) =
+        *(s32 *)(*(s32 *)((s32)tgt + 0x20) + 0x4);
+}
+
 
 extern s32 D_801DA908;
 extern s32 func_8012C588(s32 a0, s32 a1);
