@@ -179,7 +179,28 @@ a merging gate makes the stub oracle wrong in both directions (§377). If it ref
 
 **And do not treat its `INTEG-STANDALONE-MATCH` / `NOCOMPILE-UNDECLARED-*` output as banks.** That is
 the §376 correction: standalone closeness 0 proves the BODY, not that the TU accepts the SIGNATURE.
-Measured S69: **0 of 28** of that class banked raw. Route them `fix_arity_callers --any-proto` → gate.
+Measured S69: **0 of 28** of that class banked raw — then **8 banked** once the missing lever
+existed. Run the full §378 chain, IN ORDER; each step only reveals the next, and stopping at step 1
+is how the class read as dead for half a session:
+
+```
+tools/fix_arity_callers.py --binary B --funcs FN --any-proto --apply --journal J1   # `conflicting types'
+tools/cast_self_callers.py --binary B --funcs FN --drafts D --apply --journal J2    # `too few arguments'
+tools/cast_self_callers.py … --sync-decls        # narrow-param: C89 forbids no-proto vs `void f(s16)'
+<gate>                                            # the byte-gate is the sole arbiter
+tools/cast_self_callers.py --undo-journal J2 --keep <banked>    # MANDATORY — see below
+```
+
+Or in one driver: `recover_integration.py --binary B --stages arity,self-cast --max-tier fleet --r22`.
+
+> **THE UNDO IS NOT OPTIONAL.** The casts go in BEFORE the gate, in preparation. A cast left behind
+> for a draft that did not bank made `ov_SC07_000` fail to COMPILE at HEAD, so every later gate
+> verdict on that binary measured a broken baseline rather than a draft (found only because two
+> drafting agents reported BASELINE-RED and I checked their claim). Run `--undo-journal --keep
+> <banked>` after EVERY gate.
+
+If the diagnostic names a DIFFERENT symbol (`conflicting types for func_8012AD44`), run the same
+chain on THAT symbol — it is a callee, not your target. That banked `main:func_80021D38`.
 
 ## 5. Draft
 

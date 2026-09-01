@@ -32160,3 +32160,98 @@ changes the call's value category, so it REFUSES instead, R43), skips declaratio
 call site in that TU is checked against.* A draft is not just a body — it is a new prototype imposed
 on code that already compiled. Expect to fix the callers, and expect the fix to be a cast, because a
 cast is the only edit that changes typing without changing codegen.
+
+## §379 ★★★ — **MEM_IN_STRUCT_P**: THE SAME LOAD, WRITTEN AS A STRUCT MEMBER, SCHEDULES WHERE A CAST CANNOT (P31 S69; byte-proven main/func_80021284 220 ins and main/func_8002D904 217 ins, found INDEPENDENTLY by two agents)
+
+**The symptom.** A load sits below a store to a scalar global in your output and above it in the
+target (or vice versa), and no statement permutation moves it. `func_80021284` sat at closeness 7
+across a **120-order statement-permutation plateau**; the fix took it straight to 0.
+
+**The mechanism.** gcc-2.7.2's alias machinery asks `true_dependence`/`anti_dependence` whether a
+load may cross a store. Its answer turns on `MEM_IN_STRUCT_P` — the `/s` flag `expand_expr` sets on
+a MEM. A raw `*(u32 *)(arg0 + N)` load is a plain MEM: it may alias the scalar global, so the
+scheduler will not move it across that store. The **same address read through a struct pointer**
+(`p->field`) is `/s`, declared non-aliasing against a fixed scalar store, and floats freely.
+
+    *(u32 *)(arg0 + 0x18)   /* plain MEM  — pinned below the store to D_800xxxxx */
+    p->attr                 /* MEM_IN_STRUCT_P — free to hoist to the block top  */
+
+**The complement, same pass, opposite direction** (`func_8002D904`, worth **26 of its 41 residuals**):
+assigning an indexed table address to a **pointer variable first** makes the resulting `INDIRECT_REF`
+*non*-`MEM_IN_STRUCT_P` — gcc sets `/s` whenever "the address was computed by addition", so every
+array/cast spelling comes out `/s`+varying, and the load floats to the block top. Take the address
+into a local pointer when you need the load to STAY.
+
+**So the dial has two ends and both are zero-byte:**
+
+| you want | write it as |
+|---|---|
+| the load to FLOAT (cross a scalar store) | a struct-member access through a pointer |
+| the load to STAY | take the address into a local pointer variable first |
+
+Related store-side note at `src/800.c:21942` (W16). This is the alias-analysis sibling of §41b's
+"global load hoisted above the RTL prologue" wall — that one is unreachable; this one is a spelling.
+
+## §380 ★★★ — **A SECOND SET OF A PSEUDO DISQUALIFIES IT FROM `move_movables`** (P31 S69; main/func_800215F4, 465 ins, closeness 106 → 59 → 39)
+
+`move_movables` hoists a loop invariant only while the pseudo has **exactly one set**. Give it a
+second, and the hoist does not happen — a lever no register pin can reach, because a pin changes
+*which* register, never *whether* the value is hoisted.
+
+    pz = &otz;              /* first set  */
+    …
+    pz = &dzp[i >> 1];      /* second set — pz is now ineligible for hoisting */
+
+    k = 0xC000;
+    …
+    k = 0xFFF;              /* same trick on a constant */
+
+Two loop invariants that a `$v0` pin could not un-hoist came down this way. Reach for it whenever
+the target computes something INSIDE the loop that your draft computes in the preheader.
+
+**The related pin form** (`func_8001EFE0`, 468 ins): a **call-used hard-reg pin** makes `invariant_p`
+return 0 when the loop contains a call, which is what stops `move_movables` hoisting an addPrim
+address. Pin to `$a3` — a call-clobbered register — precisely *because* it is call-clobbered.
+
+## §381 — THE `insn_count` HOIST THRESHOLD IS A DIAL YOU CAN READ WITH `cc1 -dL` (P31 S69; four independent uses in one wave)
+
+`move_movables`' willingness to hoist scales with the loop's `insn_count`, and the edge is sharp
+enough to sit on. Read the count from the `-dL` (loop) dump, then move ONE statement across it:
+
+* `func_80040DE8` — insn_count **232** hoisted `(s16)param_1` at the exact `58×2×2 = 232` edge; a
+  `key = param_1;` copy inside the loop lifted it to 233 and **un-hoisted** it.
+* `func_80023BF0` — loop 2's insn_count is **39** and needs **≥41**: below the threshold gcc admits
+  one constant hoist too many (`li 0xFFFF` at threshold 40), which costs a fourth callee-saved
+  register and shifts the whole register file. Still open at 269 for exactly this reason.
+* `func_8001DA34` — `29×1×9 ≥ 203` hoisted the `0xFF000000` OT mask and spilled `ot` (frame
+  0xB8→0xC8); fixed with `$a1`/`$a2` pins. **BANKED, 408 ins.**
+
+**Read the dump before you theorise.** Three of these four were found by reading `-dL`, not by
+guessing, and the fourth is documented as an open threshold miss rather than a mystery.
+
+## §382 — TWO FOLD REASSOCIATIONS THAT NEED THEIR OWN STATEMENT (P31 S69)
+
+gcc-2.7.2's `fold` rewrites these before you ever see RTL, so the fix is always "split the
+expression", never "add a cast":
+
+* `A * (X / 0x7F * 0x3FFF)` folds to `(A * 0x3FFF) * X` — the 0x3FFF scaling needs its own statement
+  (`func_80040DE8`).
+* `A + (B + C)` reassociates to `(A + C) + B` — an address split into two statements blocks it
+  (`func_80021284`).
+* `(x << 9) | CONST | var` reassociates so that only the shift gets hoisted — the four `getTPage`
+  bases must be explicit pre-loop variables (`func_8001EFE0`).
+
+## §383 — TWO TOOLCHAIN FACTS THE PACKS DID NOT CARRY (P31 S69)
+
+1. **maspsx requires DECIMAL memory-operand offsets in verbatim asm.** `0x40($sp)` dies with
+   `invalid literal for int() with base 10`; write `64($sp)`. Hex is fine for plain immediates.
+   Found while banking `main/func_80026514` (239 ins) the §265 verbatim-asm way — that function is
+   genuinely HANDWRITTEN: its `D_800B99DA` fetch is a gas macro expansion of `lbu $v1,0xA3AA($t2)`
+   into `lui $at,1 / addu $at,$t2,$at / lbu $v1,-0x5C56($at)`, which gcc cannot emit.
+2. **A 4-byte struct local is BLKmode**, so `assign_stack_local` gives it 8-byte
+   `BIGGEST_ALIGNMENT`. Declaring `xy0`/`xy1` as `s32` instead of a 4-byte struct is the difference
+   between frame 0x130 and 0x138 (`func_8001EFE0`).
+3. **`convert_modes` returns x unchanged when `oldmode == GET_MODE(x)`**, so **no cast can emit the
+   `(s16)` `sll`/`sra` pair**. Only an `s16` local assigned in one block and consumed in a distant
+   one does — and the copy must sit ABOVE the guard, or it coalesces away against the target's
+   `addu $a1,$v0,$zero` (`func_8002D904`).

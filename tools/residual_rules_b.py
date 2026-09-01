@@ -836,8 +836,12 @@ def classify(binary, fn, draft, tag=None):
                           "the ONLY defect was %d missing extern(s) (%s); with decls COMPUTED "
                           "from the target .s access widths the body byte-matches standalone"
                           % (len(undecl), ", ".join(note["decls"].values())),
-                          "add the computed extern(s) and route to integration — the matching "
-                          "work is already done.")
+                          "GATE-FIRST, NOT A BANK (§376, measured 0/28 raw in P31 S69). Do NOT "
+                          "gate the autodecl arm: the extern that satisfies the STANDALONE probe is "
+                          "a SECOND conflicting declaration in the real TU. Gate the RAW draft after "
+                          "the §378 chain, in this order: fix_arity_callers --any-proto --binary "
+                          "<B> --funcs <FN>  ->  cast_self_callers --binary <B> --funcs <FN> "
+                          "--drafts <D> [--sync-decls]  ->  gate. Each step only reveals the next.")
                     return _finish(out)
                 if res2.get("status") in ("near", "fail") and st2 is not None:
                     out["status"] = res2["status"]
@@ -874,8 +878,12 @@ def classify(binary, fn, draft, tag=None):
     if out["status"] == "match":
         _fire(rules, "INTEG-STANDALONE-MATCH", "certain", "§58/§59/§367",
               "closeness 0: the draft is byte-correct standalone",
-              "the blocker is TU integration (decl reconcile ladder, §367 banked-spelling rule); "
-              "matching is done — budget for banking.")
+              "matching is done; BANKING IS NOT. A standalone closeness of 0 proves the BODY and "
+              "says nothing about the TU accepting the SIGNATURE (§376 — this class gated 0/28 raw "
+              "in P31 S69, then 8 banked once the chain existed). Route: fix_arity_callers "
+              "--any-proto  ->  cast_self_callers [--sync-decls] (§378/§378a)  ->  gate; or "
+              "recover_integration --stages arity,self-cast. If the diagnostic names a DIFFERENT "
+              "symbol, run the same chain on THAT symbol.")
         return _finish(out)
 
     if st is None:

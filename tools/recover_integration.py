@@ -60,8 +60,16 @@ STAGE_TIER = {"arity": "fleet",        # fix_arity_callers writes src/shared/eng
               "tu-scope": "binary",    # §103 STU: moves a contested TU decl into its consumers
                                        # (P31 T6 — the sweep-only lever the recovery path lacked;
                                        # writes src/<binary>/*.c, covered by the TU snapshot)
-              "macro-externs": "draft"}  # §121: rewrite draft decls of DEFINE_-defined callees to
+              "macro-externs": "draft",  # §121: rewrite draft decls of DEFINE_-defined callees to
                                          # the macro's own signature (draft text only)
+              "self-cast": "binary"}     # §378 (P31 S69): cast the TU's OWN call sites of the
+                                         # function being defined. Writes src/<binary>/*.c only.
+                                         # THE STAGE ORDER MATTERS AND IS NOT ARBITRARY: `arity`
+                                         # no-protos the conflicting forward decl, which makes the
+                                         # DRAFT'S DEFINITION the prototype in scope, so the TU's own
+                                         # call fails anew with `too few arguments'. self-cast is the
+                                         # answer to the error `arity` CREATES, so it must run AFTER
+                                         # it, never instead of it.
 
 
 def tier_ok(stage, max_tier):
@@ -193,7 +201,7 @@ def main():
     ap.add_argument("--no-propagate", action="store_true")
     ap.add_argument("--run-id", default="r1", help="run-local scratch under .run/recover/<id>/ (§55b trap 4)")
     ap.add_argument("--stages", default="demacroize",
-                    help="comma-separated: demacroize,arity (default: demacroize — the measured blocker)")
+                    help="comma-separated: demacroize,arity,self-cast,tu-scope,macro-externs (default: demacroize). §378 chain = arity,self-cast — in that order.")
     ap.add_argument("--max-tier", default="binary", choices=("draft", "binary", "fleet"),
                     help="refuse any stage whose blast radius exceeds this (default binary = no shared-state edits)")
     ap.add_argument("--r22", action="store_true", help="clean-fleet verify after banking (REQUIRED for fleet tier)")
@@ -335,6 +343,21 @@ def main():
             if r.returncode:          # §61: a pre-pass that quietly no-ops is indistinguishable from
                 raise SystemExit(f"[recover] fix_arity_callers failed: {(r.stderr or r.stdout)[-300:]}")
             print("  " + (r.stdout.strip().splitlines()[-1] if r.stdout.strip() else "(fix_arity_callers: no output)"))
+
+        if "self-cast" in stages:      # P31 S69 — §378: the TU's own call sites of the fn being
+            # DEFINED. `arity` fixes `conflicting types'; this fixes the `too few arguments' that
+            # fixing it produces, because the draft's definition is now the prototype in scope.
+            # Byte-neutral: gcc-2.7.2 folds a cast of a known function symbol back to a direct jal.
+            # --sync-decls additionally handles the narrow-param case (a promotion-affected parameter
+            # like s16 makes a no-proto decl ILLEGAL in C89, which is exactly why fix_arity_callers
+            # skips it), and is safe ONLY because the call sites are cast first.
+            jr = f"{run_dir}/selfcast.json"
+            r = sh([PY, "tools/cast_self_callers.py", "--apply", "--sync-decls", "--binary", a.binary,
+                    "--funcs", ",".join(targets), "--drafts", dd,
+                    "--journal", jr])
+            if r.returncode:
+                raise SystemExit(f"[recover] cast_self_callers failed: {(r.stderr or r.stdout)[-300:]}")
+            print("  " + (r.stdout.strip().splitlines()[-1] if r.stdout.strip() else "(self-cast: no output)"))
 
         if "macro-externs" in stages and draft_rewrite:  # P31 T6 — §121: a draft's decl of a DEFINE_-defined callee
             # must match the macro's OWN definition head (a guessed `extern int f();` collides with
