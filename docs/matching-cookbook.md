@@ -32498,3 +32498,73 @@ read as a plausible "near, closeness 70" — a wrong TYPE masquerading as a code
 
 **So: never invent an aggregate type to make a draft compile.** Resolve it from
 `src/shared/engine_types.h`. An invented type does not fail loudly; it fails as a believable diff.
+
+## §392 ★★★ — THE SONNET-WAVE HARVEST (P31 S69): SEVEN TYPE/ORDER LEVERS THAT EACH CLOSED A MATCH
+
+Seven overlay waves (105 agents, 57 MATCHes) produced these. Each is byte-proven by the named
+function and each is a SPELLING change, not a pin or a barrier.
+
+**(a) A same-address DUAL-SIGN read is fixed by ORDER, not by casts** (`ov_SC03_094/func_8017E254`).
+When one address is read both `lh` (signed, loop-invariant) and `lhu` (unsigned, store source),
+gcc-2.7.2's cse merges both into `lhu + sll + sra` for EVERY spelling tried (volatile load, volatile
+store, struct component-ref, asm re-tie — all identical output). **The lever is source order: emit the
+UNSIGNED store-source read BEFORE the signed assignment**, so the intervening store consumes the cse
+quantity first and forces a genuine separate `lh`.
+
+**(b) A narrow temp picks the narrow load** (`ov_SC03_028/func_8018568C`,
+`ov_SC05_001/func_801809B8`). Declaring a temp `s16` vs `s32` decides `lh` vs `lhu`: a 16-bit-ONLY
+use needs no sign-extension, so gcc picks `lhu`. Widen the temp to `s32` and it must sign-extend →
+`lh`. The mirror case: a post-decrement zero-test temp declared **signed** yields the bare `sll 16`
+zero-test; **unsigned** yields `andi 0xFFFF` — while the memory access stays `lhu`/`sh` either way.
+
+**(c) Fold the index, or force the subtract — the subscript decides** (`md_MAIN_045/func_800CCB28`).
+Writing `tbl[idx - 2]` lets gcc fold `-2*4 = -8` into the `lw` offset (no runtime subtract). Hoisting
+it — `i = idx - 2; tbl[i]` — forces the real `addiu`. The target's standalone `addiu` is the tell.
+
+**(d) Identical switch arms must be SEPARATE case blocks** (`ov_SC06_025/func_80182170`). Cases with
+identical bodies written comma-grouped (`case 4: case 5:`) merge too much (52 of 62 ins). The target
+DUPLICATES the argument setup per case and cross-jump-merges only the shared `jal`+epilogue tail —
+so write each case as its own block with its own call and return.
+
+**(e) Distinct pseudos per repeated copy** (`ov_SC03_031/func_8017F728`). Two identical inline copies
+(here `rand()%160` + a field load) sharing ONE pseudo pair biases sched1's tie-break for the FIRST
+copy only — copy 2 matches, copy 1 emits `sra`/`lh` swapped. Give each copy its own locals
+(`b1/r1`, `b2/r2`) to remove the cross-copy WAW/anti-dependence.
+
+**(f) Split the widen to move it off a pinned register** (`ov_SC04_004/func_80182014`). A sign-extend
+chain will reuse a DYING pinned register as its own scratch. Writing `wide = x << 16; x = wide >> 16;`
+as two statements forces the `sll`'s target off the pinned register.
+
+**(g) The RETURN TYPE alone can close a schedule residual** (`ov_SC04_002/func_80182CBC`). A
+warm-start plateaued at SCHEDULE-REORDER/7 (arg-eval order + a delay-slot constant hoist). Changing
+**only** `s32` → `void` — matching the same-TU twin's declaration, parameters untouched — closed all
+seven. Check the TU's own forward declaration before assuming the warm-start's return type.
+
+## §393 ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P31 S69; byte-proven ov_SC02_017/func_8017FCFC)
+
+A pointer local assigned exactly once (`p = D_8018E204;`) receives gcc-2.7.2's maximum scheduling
+priority, and because sched2 works BACKWARD that pushes it LATE — emitting `lui/addiu $s1` after the
+`jal` where the target has it before. Five instructions of residual, invariant under statement order.
+
+**The lever:** a zero-byte re-tie in a later block gives the pseudo a SECOND set and kills the boost:
+
+```c
+__asm__("" : "=r"(p) : "0"(p));     /* non-volatile, zero bytes, p is now 2-set */
+```
+
+**This is the scheduler-side sibling of §380** (a second set disqualifies a pseudo from
+`move_movables`). Same one-line trick, two different passes, opposite symptoms: §380 un-hoists a loop
+invariant, §393 un-delays a preheader constant. If a single-assignment local lands on the wrong side
+of a call, try the re-tie before reaching for a register pin.
+
+## §394 ★★ — TWO ALIGN-1 ACCESSES IN ONE FUNCTION RESERVE A PHANTOM STACK SLOT (P31 S69; ov_SC02_005/func_80180610)
+
+Using **two** align-1-typed accesses (the §160a `Blk8` byte-aligned struct-assign family) in one
+function, with a real store between them, makes gcc-2.7.2 reserve a DUPLICATE, never-referenced
+temp slot: `vars=8` in the frame with no instruction touching it. Declaring the second access as a
+plain scalar with a `u8 *` offset cast — instead of routing it through the same align-1 record type —
+removes the second align-1 access and the 8-byte bloat with it.
+
+**Diff tell: a frame 8 bytes larger than the target with no spill or save to account for it, in a
+function that copies a byte-aligned aggregate more than once.** Related: §391 (a byte-aligned struct
+copies in four instructions, a word-aligned one in two).
