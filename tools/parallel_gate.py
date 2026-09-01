@@ -290,7 +290,26 @@ def gate_one(idx, pin, job):
     binary, drafts = job["binary"], job["drafts"]
     t0 = time.time()
     wt = job.get("_wt")
+    # THE DRAFTS PATH IS RESOLVED AGAINST THE MAIN REPO, NEVER THE WORKTREE (P31 S70).
+    # gate_stage runs with `cwd=wt`, so a RELATIVE --drafts resolved inside the worktree. `.run/` is
+    # deliberately not linked into a worktree (see the verdict-layer note below), so every plan
+    # pointing at the project's own scratch convention (R12: all scratch lives under .run/) landed on
+    # a path that does not exist there. gate_stage then found 0 drafts, banked 0, and exited rc=0 —
+    # a clean success reporting a TRUE number about an EMPTY world. Measured: 35 binaries / 57 drafts
+    # "banked 0" in 1-2s each, while the SAME drafts gated in-tree banked 15/16 and 3/6.
+    drafts = drafts if os.path.isabs(drafts) else os.path.join(REPO, drafts)
     try:
+        # ...and assert the input actually exists before spending a worktree on it (R32/R43): a job
+        # whose drafts are unreadable is a DEFECT, not a zero-yield result.
+        try:
+            ndrafts = len([f for f in os.listdir(drafts) if f.endswith(".c")])
+        except OSError as e:
+            ndrafts, e_ls = 0, e
+        if not ndrafts:
+            return {"binary": binary, "banked": [], "files": {}, "ovl": None,
+                    "secs": round(time.time() - t0, 1), "missing_generated": [], "rc": None,
+                    "error": "REFUSED — no .c drafts readable at %s (a 0-draft job would report "
+                             "'banked 0' as if the drafts had failed)" % drafts}
         missing = stage_generated(wt, binary)
         if missing:
             # REFUSE, never gate anyway (R43). A worker missing its linker script or its
