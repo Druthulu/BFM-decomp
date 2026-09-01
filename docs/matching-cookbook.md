@@ -32888,3 +32888,43 @@ subexpression itself keeps the temp a **separate pseudo** — which is what the 
 **Banking caveat:** a `register … __asm__("$0")` pin fails `dedup_propagate.compiles_standalone`
 (§37), so a function cracked this way banks ×1 and never propagates to siblings. Prefer a
 width/inlining lever over a `$0` pin when the function has cousins.
+
+## §399 ★★★ — FOUR LEVERS FROM THE FINAL S69 ROUND (P31 S69; each byte-proven, none previously in the cookbook)
+
+**(a) A fence BETWEEN two prologue loads, where source order does nothing.** Two loads at the top of
+a function emitted in the wrong order, and reordering the C statements had **no effect** — the order
+is fixed before statement order matters. A `__asm__ __volatile__("")` placed **between the two
+loads** (§194-A) swapped them and closed the last 2 instructions.
+(byte-proven `md_MAIN_013/func_800CB56C`, 94 ins)
+
+**(b) SINK A CALL INTO BOTH ARMS and let cross_jump keep only the `jal` suffix.** A warm start sat at
+88 ins / closeness 86. Sinking `func_8017E3E8` into **both** arms of a `>= 0x400` test (so
+`cross_jump` merges only the shared `jal` tail, §193-C) took it to 92 ins / closeness 13; then §3-T2
+field-order on the two zero-stores — deliberately NOT the neighbour's order — let **each `sh $zero`
+fill an `lhu` load-delay slot** and closed it. Note the direction: *duplicate* the call in source so
+the compiler merges it, rather than writing the merged form yourself.
+(byte-proven `ov_SC07_001/func_8017EDC0`, 92 ins)
+
+**(c) A `$v0 → $a0 → $s3` DOUBLE COPY IS A TWO-PSEUDO TELL.** Not a scheduling artifact — it means
+the source has two distinct variables: an SImode temp holding the call result (living in a
+caller-saved register for the first compare) and a separate HImode variable for the tail:
+
+```c
+    s32 t = call();        /* SImode, caller-saved, feeds the compare */
+    s16 ret = t;           /* HImode, $s3, survives to the tail       */
+```
+
+That split alone took 70 → 37. **And §195-N precondition 5:** nesting `return 1` inside the if-chain
+with exactly ONE trailing `return 0;` blocks `jump.c`'s store-flag transform (killing
+`sltiu $v0,$v0,1`), so `reorg` fills both delay slots with `addu $v0,$zero,$zero` — 18 → 0.
+(byte-proven `ov_SC02_017/func_8018347C`, 94 ins)
+
+**(d) THE RE-TIE AS A BIV KILLER.** `__asm__("" : "=r"(q) : "0"(q))` on a halfword walker gives `q` a
+second set, so `n_times_set > 1` and **`loop.c` refuses it as a biv** — which kills the combined
+address giv that had biased the base to `+2` and had sunk `$s0`'s init into the preheader.
+`combine_givs` picks the last-discovered / lowest-offset giv, so denying it the biv is the whole
+lever. Measured alternatives: a `volatile` q was WORSE (8), a dead `q[0]` read stayed at 6.
+This is the third distinct use of the zero-byte re-tie in one session — §380 (un-hoist a
+`move_movables` invariant), §393 (kill the scheduler's birthing boost), and now §399d (deny a biv).
+**One line, three passes: when a single-set pseudo is being treated specially, give it a second set.**
+(byte-proven `ov_SC07_001/func_8017E4DC`, 92 ins)
