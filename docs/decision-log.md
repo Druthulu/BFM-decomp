@@ -2619,3 +2619,45 @@ pass, main's nine included. The correct reading was available in the code before
 signal: R53 caught a failed build whose stale binary still hashed to the locked SHA (twice), and
 §322 caught a probe that had never been asked the blocking question. The one thing I did NOT
 distrust in time — my own first diagnosis — is the one that cost work.
+
+## 2026-09-01 (S70) — The postgame reframe: tools must work over the CRACKED corpus, not just the frontier
+
+**Context + belief.** Phase 31's whole apparatus — waves, cards, gates, the residual classifier — was
+built to consume the *remaining* work. Every tool's population is "open stubs". The frontier is now
+355 real functions (67 main game-code + 288 non-main; main's other 960 open stubs are PsyQ library
+code that is not a matching target at all), so tools scoped to the frontier are scoped to a shrinking
+and unrepresentative slice.
+
+**What prompted the pivot.** Drew, mid-probe: *"this tool should work for all previously cracked funcs,
+not just the remaining work. we are focusing on the postgame now, this project being used for all
+future decomps, the tools/cookbook, everything."*
+
+**The measurement underneath it.** The S70 coverage probe found `residual_rules_b` returns UNKNOWN on
+**52.8% of real near residuals, and 57% of the cleanest (<=8-diff) band** — the band where a rule is
+worth writing. Hand-labeling 4 of 4 sampled UNKNOWNs mapped them to existing cookbook buckets; one
+(`WIDTH/lhu!=lh`, a one-word `u16`->`s16` fix) already has its discriminating signature COMPUTED by
+`residual_class` and still returns `top=None`. The asymmetry is 1,062 cookbook sections vs ~13 coded
+rules, concentrated in the buckets with the most prose (regalloc 127, types/width 93, structs 86,
+scheduling 85). So the rules are worth building — but hand-authoring 100 rules from prose is exactly
+the slow path this project keeps learning to avoid.
+
+**The pivot.** The ~850 MATCHED functions are a **labeled ground-truth corpus** and were never used as
+one. For any banked function we hold both the earlier failed drafts (on disk under `.run/`) and the
+known-good final C (in `src/`): the residual is recomputable and the correct label — *the fix that
+actually worked* — is derivable from the draft->final diff rather than guessed. That converts rule
+authoring from prose-reading into mining known answers, supplies a real precision/recall validation
+set, and makes R39 negative control free (a candidate rule must not misfire anywhere in the banked
+corpus).
+
+**Why it matters beyond BFM.** A classifier that learns from *a project's own matched corpus* is
+portable: any decomp with a byte-gate and a growing `src/` can bootstrap it. That is the postgame
+deliverable — the reusable method (tools + cookbook), not this one binary. It also inverts the
+economics recorded all phase: the matched corpus GROWS while the frontier shrinks, so a
+corpus-trained tool gets stronger exactly as the frontier gets harder.
+
+**Hindsight / better path.** The signal was available much earlier. The byte-gate has been a perfect
+correctness oracle and a null coverage oracle since Phase 5 (R34), and every banked function since
+has carried its own answer. We measured tools against the frontier for ~20 phases because that is
+where the *work* was, never noticing that the *answers* were accumulating on the other side. The
+generalizable lesson: **when a project accumulates verified outcomes, that archive is training data
+for its own tooling — scope a tool to the answers, not only to the open questions.**
