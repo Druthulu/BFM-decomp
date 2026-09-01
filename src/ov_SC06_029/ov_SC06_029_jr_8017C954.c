@@ -4334,7 +4334,80 @@ void func_80180198(s32 a0) {
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_801801D8);
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_801804C8);
+#include "common.h"
+
+extern void *func_80185C6C(); /* §183 SIGNATURE-adopted-TU;
+   calls go through a (s32,s32) function-pointer cast, the TU's own idiom */
+extern void func_801856A4(s32 *a0, s32 a1); /* §183 SIGNATURE-adopted-TU */
+extern s32 rand(void);
+
+extern s32 D_801DDB2C[5];  /* §183 TYPE-adopted-TU */
+extern u8 D_80190240[];
+extern u8 D_80190728[];
+
+void func_801804C8(s32 a0) {
+    s16 tbl[5][5];
+    s16 ord[5];
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 left;
+    s32 n;
+    s32 off;
+    u8 *bp;
+    s16 *row;
+    u8 *p;
+    s32 *q;
+
+    for (i = 0; i < 5; i++) {
+        tbl[i][0] = 4;
+        ord[i] = i;
+        for (j = 1; j < 5; j++) {
+            tbl[i][j] = j - 1;
+        }
+    }
+
+    for (i = 0; i < (u8)(D_80190728[*(s16 *)(a0 + 0x100)] / 5) * 5; i++) {
+        n = tbl[i][0];
+        for (j = rand() % n + 1; j < 4; j++) {
+            tbl[i][j] = tbl[i][j + 1];
+        }
+        tbl[i][0]--;
+    }
+
+    left = 5;
+    for (i = 0; i < (u8)(D_80190728[*(s16 *)(a0 + 0x100)] % 5); i++) {
+        k = ord[rand() % left];
+        n = tbl[k][0];
+        for (j = rand() % n + 1; j < 4; j++) {
+            tbl[k][j] = tbl[k][j + 1];
+        }
+        for (j = k; j < 4; j++) {
+            ord[j] = ord[j + 1];
+        }
+        tbl[k][0]--;
+        left--;
+        if (left == 0) {
+            break;
+        }
+    }
+
+    for (i = 0, off = 0, q = D_801DDB2C; i < 5; off += 10, i++, q++) {
+        bp = (u8 *)tbl;
+        *(s32 *)(*q + 0xE0) |= 0x400;
+        for (j = 0; j < *(s16 *)(bp + off); j++) {
+            row = (s16 *)(off + (s32)bp);
+            p = ((u8 *(*)(s32, s32))func_80185C6C)(i, row[j + 1]);
+            func_801856A4((s32 *)p, (s32)D_80190240);
+            p[6] |= 0x80;
+            if ((i == 0) && (j == 0)) {
+                p[6] |= 0xA0;
+            }
+            bp = (u8 *)tbl;
+        }
+    }
+}
+
 
 #include "common.h"
 
@@ -9422,7 +9495,144 @@ void func_80188D54(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80188D90);
+// @class: inlined-helper (cookbook §82.1)
+// @stuck: none — MATCH (238/238 ins, match_one confirmed, symbol order verified)
+// Key: region 1 re-materialises `addiu $aN,$sp,0x88` / `...,0x90` at call sites SEPARATED BY A
+//   `jal`. Per §82.1 (`&X` for any non-first local always makes a pseudo and CSE always merges
+//   two of them; expr.c:6260 ADDR_EXPR -> force_operand(...,NULL)), that duplication is only
+//   reachable if those sites are NOT in the same function body => the setup block was a
+//   `static inline` helper. Probed: at -O2 a flat body hoists &buf2/&vec into $s0/$s1 (+$s2 for
+//   the param) — 241/242 ins, +3/+4 — and NO barrier reaches it (empty asm, "memory" clobber,
+//   volatile array, real BB splits were all ablated and all still hoisted).
+// Corollary that falls out of the same law: `mtx` is the caller's FIRST local (virtual-stack-vars
+//   offset 0), so `&mtx` is a bare reg and re-materialises as `addiu $a1,$sp,0x10` in the loops;
+//   it only lands in $s0 for region 1 because it crosses the inline boundary AS A POINTER PARAM.
+#include "common.h"
+
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_80017E68(void *a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_800D23D0(void *a0);
+extern void RotMatrixYXZ(void *a0, void *a1);
+extern void ApplyTransposeMatrixLV(void *a0, void *a1, void *a2);
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_80017758(void *a0, void *a1);
+extern u16 D_800B99DA;
+extern s32 D_801269A4;
+extern s32 D_801269A8;
+extern s32 D_801269AC;
+extern u16 D_801922AC;
+extern u16 D_801922AE;
+extern u16 D_801922B0;
+extern u16 D_801922B4;
+extern u16 D_801922B6;
+extern u16 D_801922B8;
+extern u8 D_801922BC[];
+extern signed char D_8018F650[];
+extern signed char D_8018F664[];
+
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SV_80188D90;
+
+typedef struct {
+    SV_80188D90 v[4];       /* 0x00 */
+    u8          c[4][4];    /* 0x20 */
+    u32         code;       /* 0x30 */
+    u8          tail[0x24]; /* 0x34 */
+} Prim_80188D90;            /* 0x58 */
+
+static inline void setup_80188D90(s32 a0, void *mtx) {
+    s16 buf2[4];
+    s16 vec[4];
+    s32 diff[3];
+
+    func_8012F214(a0, (s32)D_801922BC, (s32)buf2);
+    func_800D20C0(buf2, vec, 8);
+    func_80017E68(buf2, mtx);
+
+    vec[0] = D_801922AC - D_801922B4;
+    vec[1] = D_801922AE - D_801922B6;
+    vec[2] = D_801922B0 - D_801922B8;
+    ApplyMatrixSV((void *)(*(s32 *)(a0 + 0x20) + 0x34), vec, vec);
+    func_800D23D0(vec);
+    RotMatrixYXZ(vec, mtx);
+
+    diff[0] = D_801269A4 - buf2[0];
+    diff[1] = D_801269A8 - buf2[1];
+    diff[2] = D_801269AC - buf2[2];
+    ApplyTransposeMatrixLV(mtx, diff, diff);
+    vec[2] = -ratan2(diff[0], diff[1]);
+    RotMatrixYXZ(vec, mtx);
+}
+
+void func_80188D90(s32 a0) {
+    u8 mtx[0x20];
+    Prim_80188D90 p;
+    signed char *q;
+    s32 i;
+
+    setup_80188D90(a0, mtx);
+
+    p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
+    p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
+    if (D_800B99DA & 1) {
+        p.c[1][0] = 0xA0;
+    } else if (D_800B99DA & 2) {
+        p.c[1][0] = 0xC0;
+    } else {
+        p.c[1][0] = 0x80;
+    }
+    p.c[0][0] = p.c[0][1] = p.c[0][2] = 0;
+    p.c[2][0] = p.c[2][1] = p.c[2][2] = 0;
+    p.c[3][0] = p.c[3][1] = p.c[3][2] = 0;
+    p.code = 0x50000000;
+    p.c[1][1] = p.c[1][2] = p.c[1][0] >> 2;
+
+    q = D_8018F650;
+    for (i = 0; i < 4; i++) {
+        p.v[0].vx = *q++;
+        p.v[0].vy = *q++;
+        p.v[2].vx = *q++;
+        p.v[2].vy = *q++;
+        p.v[3].vx = *q++;
+        p.v[3].vy = *q--;
+        func_80017758(&p, mtx);
+    }
+
+    q = D_8018F664;
+    p.v[0].vy = p.v[2].vy = p.v[3].vy = 0;
+    p.v[1].vx = p.v[1].vy = 0;
+    p.v[1].vz = -0x20;
+    for (i = 0; i < 4; i++) {
+        p.v[0].vx = *q++;
+        p.v[0].vz = *q++;
+        p.v[2].vx = *q++;
+        p.v[2].vz = *q++;
+        p.v[3].vx = *q++;
+        p.v[3].vz = *q--;
+        func_80017758(&p, mtx);
+        if (i == 1) {
+            p.v[1].vz = 0x20;
+            q += 2;
+        }
+    }
+    q += 2;
+
+    p.v[0].vx = 0;
+    p.v[0].vz = -0x20;
+    p.c[0][0] = p.c[1][0];
+    p.c[0][1] = p.c[0][2] = p.c[1][1];
+    for (i = 0; i < 2; i++) {
+        p.v[2].vx = *q++;
+        p.v[2].vz = *q++;
+        p.v[3].vx = *q++;
+        p.v[3].vz = *q++;
+        func_80017758(&p, mtx);
+    }
+}
+
 
 extern void (*D_801922C4[])(void);
 extern void func_80188D90();
@@ -9511,7 +9721,235 @@ void func_80189244(Obj_80189244 *p) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80189440);
+#include "common.h"
+
+/* func_80189440 - ov_SC06_029 - "25-quad ribbon/trail emitter".
+ *
+ * Shifts the x coordinate of a 52-entry SVECTOR strip down by one pair, feeds a
+ * new head pair from a sine table (func_80047948), builds a local MATRIX from
+ * D_800AE620 + RotMatrixZ, composes it with the camera matrix D_800AF648 by
+ * hand (three rtir column rotations + one rt on the translation vector), then
+ * emits 25 gouraud quads (POLY_G4, code 0x3A) into the double-buffered OT
+ * D_800A6610[D_800B9A02 << 14], each followed by an 8-byte DR_MODE packet
+ * (0xE100004A), exactly like this TU's func_80184C68.
+ */
+
+typedef struct { s16 vx, vy, vz, pad; } SV_189440;
+
+extern s32 func_80047948(s32 a0);
+extern void RotMatrixZ(s32 r, void *m);
+
+#define gte_ldv0(r0) __asm__ volatile ("lwc2 $0, 0( %0 );" "lwc2 $1, 4( %0 )" : : "r"(r0))
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+#define gte_rt() __asm__ volatile ("nop;nop;mvmva 1, 0, 0, 0, 0")
+#define gte_rtir() __asm__ volatile ("nop;nop;mvmva 1, 0, 3, 3, 0")
+
+#define gte_stsxy(r0) __asm__ volatile ("swc2 $14, 0( %0 )" : : "r"(r0) : "memory")
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile ("swc2 $7, 0( %0 )" : : "r"(r0) : "memory")
+
+#define gte_stflg(r0) __asm__ volatile ("cfc2 $12, $31;" "nop;" "sw $12, 0( %0 )" : : "r"(r0) : "$12", "memory")
+
+#define gte_SetRotMatrix(r0) __asm__ volatile ( \
+    "lw $12, 0( %0 );"                          \
+    "lw $13, 4( %0 );"                          \
+    "ctc2 $12, $0;"                             \
+    "ctc2 $13, $1;"                             \
+    "lw $12, 8( %0 );"                          \
+    "lw $13, 12( %0 );"                         \
+    "lw $14, 16( %0 );"                         \
+    "ctc2 $12, $2;"                             \
+    "ctc2 $13, $3;"                             \
+    "ctc2 $14, $4"                              \
+    : : "r"(r0) : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                           \
+    "lw $13, 24( %0 );"                           \
+    "ctc2 $12, $5;"                               \
+    "lw $14, 28( %0 );"                           \
+    "ctc2 $13, $6;"                               \
+    "ctc2 $14, $7"                                \
+    : : "r"(r0) : "$12", "$13", "$14" )
+
+#define gte_ldclmv(r0) __asm__ volatile (        \
+    "lhu $12, 0( %0 );"                          \
+    "lhu $13, 6( %0 );"                          \
+    "lhu $14, 12( %0 );"                         \
+    "mtc2 $12, $9;"                              \
+    "mtc2 $13, $10;"                             \
+    "mtc2 $14, $11"                              \
+    : : "r"(r0) : "$12", "$13", "$14" )
+
+#define gte_stclmv(r0) __asm__ volatile (        \
+    "mfc2 $12, $9;"                              \
+    "mfc2 $13, $10;"                             \
+    "mfc2 $14, $11;"                             \
+    "sh $12, 0( %0 );"                           \
+    "sh $13, 6( %0 );"                           \
+    "sh $14, 12( %0 )"                           \
+    : : "r"(r0) : "$12", "$13", "$14", "memory" )
+
+#define gte_ldlvnl(r0) __asm__ volatile (        \
+    "lhu $13, 4( %0 );"                          \
+    "lhu $12, 0( %0 );"                          \
+    "sll $13, $13, 16;"                          \
+    "or $12, $12, $13;"                          \
+    "mtc2 $12, $0;"                              \
+    "lwc2 $1, 8( %0 )"                           \
+    : : "r"(r0) : "$12", "$13" )
+
+#define gte_stlvnl(r0) __asm__ volatile (        \
+    "swc2 $25, 0( %0 );"                         \
+    "swc2 $26, 4( %0 );"                         \
+    "swc2 $27, 8( %0 )"                          \
+    : : "r"(r0) : "memory" )
+
+void func_80189440(s32 arg0, SV_189440 *v)
+{
+    /* block-scope copies so the draft compiles standalone under match_one; the
+     * TU's ../shared/engine_core.h already provides both -- delete when banking. */
+    typedef struct { u32 addr : 24; u32 len : 8; u8 r0, g0, b0, code; } P_TAG;
+    typedef struct { s16 m[3][3]; s16 pad; s32 t[3]; } MTX;
+    typedef struct { s32 w[8]; } Blk20;
+
+    extern u8 *D_800A5E60;
+    extern u8 D_800A6610[];
+
+    MTX m;
+    s32 flag, flag2, otz;
+    SV_189440 *p;
+    u32 *ot;
+    u32 *otp;
+    u8 *pkt;
+    u8 *q;
+    s32 col;
+    u32 dr;
+    s32 i, j, x, z;
+
+    for (i = 0x32, p = &v[0x32]; i >= 2; i -= 2) {
+        *(u16 *)&p[0].vx = *(u16 *)&p[-2].vx;
+        *(u16 *)&p[1].vx = *(u16 *)&p[-1].vx;
+        p -= 2;
+    }
+
+    j = func_80047948(v[0x34].vy);
+    x = (v[0x34].vx * j) >> 12;
+    *(u16 *)&v[0x34].vy = *(u16 *)&v[0x34].vy + *(s32 *)&v[0x35].vz;
+    v[0].vx = x - *(u16 *)&v[0x35].vy;
+    v[1].vx = *(u16 *)&v[0x35].vy + x;
+
+    col = *(s32 *)(arg0 + 0xE0);
+    m = *(MTX *)&D_800AE620;
+    ot = (u32 *)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    RotMatrixZ(v[0x35].vx, &m);
+    m.t[0] = v[0x34].vz;
+    m.t[1] = -0xF2;
+    m.t[2] = v[0x34].pad;
+
+    gte_SetRotMatrix(&D_800AF648);
+    gte_ldclmv(&m.m[0][0]);
+    gte_rtir();
+    gte_stclmv(&m.m[0][0]);
+    gte_ldclmv(&m.m[0][1]);
+    gte_rtir();
+    gte_stclmv(&m.m[0][1]);
+    gte_ldclmv(&m.m[0][2]);
+    gte_rtir();
+    gte_stclmv(&m.m[0][2]);
+    gte_SetTransMatrix(&D_800AF648);
+    gte_ldlvnl(&m.t[0]);
+    gte_rt();
+    gte_stlvnl(&m.t[0]);
+    gte_SetRotMatrix(&m);
+    gte_SetTransMatrix(&m);
+
+    for (i = 0, p = v; i < 0x19; ) {
+        pkt = D_800A5E60;
+        D_800A5E60 = pkt + 0x24;
+        pkt[3] = 8;
+        *(u32 *)(pkt + 4) = col;
+        pkt[7] = 0x3A;
+        *(u32 *)(pkt + 0xC) = col;
+        *(u32 *)(pkt + 0x14) = col;
+        *(u32 *)(pkt + 0x1C) = col;
+
+        gte_ldv3(p, p + 1, p + 2);
+        gte_rtpt();
+        gte_stflg(&flag);
+        gte_stsxy3(pkt + 8, pkt + 0x10, pkt + 0x18);
+        gte_ldv0(p + 3);
+        gte_rtps();
+        gte_stflg(&flag2);
+        flag |= flag2;
+        gte_stsxy(pkt + 0x20);
+        gte_avsz4();
+        gte_stotz(&otz);
+
+        if ((flag & ~0x1000) == 0) {
+            z = otz + 1;
+            if (z >= 0x1000) {
+                z = 0xFFF;
+            }
+            otp = (u32 *)(z * 4 + (u32)ot);
+            q = D_800A5E60;
+            ((P_TAG *)pkt)->addr = ((P_TAG *)otp)->addr;
+            /* LEVER 1 (cookbook §193-F / §148-A2, the loop.c hoist arithmetic).
+             * The target hoists ALL THREE loop constants into the preheader
+             * ($t0=0xFFFFFF, $t2=0xFF000000, $t3=0xE100004A).  Written inline at
+             * its store, 0xE100004A is a movable of `life 1, savings 1`, and
+             * `-dL` reads `Loop from 202 to 420: 85 real insns` with the
+             * threshold already decayed to 52 by the two mask hoists:
+             * 52*1*1 = 52 < 85  ->  "not desirable", so it stayed in the body and
+             * the whole $a3/$t0../$t3 file shifted down one register.
+             * Materialising it HERE and consuming it at the store below widens
+             * `lifetime` to >=2 (52*1*2 = 104 >= 85) and loop.c moves it -- and
+             * because loop.c emits its hoists immediately before loop_start, in
+             * movable order, it lands AFTER the two masks, exactly as in the
+             * target.  A source-level `dr = 0xE100004A;` in the PREHEADER does
+             * not work: it would emit BEFORE the i/p inits and the hoists. */
+            dr = 0xE100004A;
+            D_800A5E60 = q + 8;
+            ((P_TAG *)otp)->addr = (u32)pkt;
+            q[3] = 1;
+            *(u32 *)(q + 4) = dr;
+            ((P_TAG *)q)->addr = ((P_TAG *)otp)->addr;
+            ((P_TAG *)otp)->addr = (u32)q;
+        }
+        /* LEVER 2: `i++` must be written HERE, ahead of the colour step, not
+         * left to the `for` increment.  The tail block ties on priority --
+         * lw->addu and addiu->slti->bnez are both chains of 3 -- so
+         * `rank_for_schedule` falls through to INSN_LUID (source order).  With
+         * the increment last, sched1 issues the `lw` first and fills the load
+         * delay with it; the target issues `addiu $t1,$t1,1` first and leaves a
+         * real `nop` in the load-delay slot (the -1 instruction). */
+        i++;
+        col += *(s32 *)(arg0 + 0xE0);
+        p += 2;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_801898CC);
 
@@ -10217,7 +10655,7 @@ void func_8018A7C4(s32 a0)
 extern s16 D_801DFFDC;
 extern u8 D_801E0040;
 extern void func_8012C218(void *a0);
-extern void func_80189440(void *a0, void *a1);
+extern void func_80189440();
 
 void func_8018A8D4(s32 param_1)
 {
