@@ -234,8 +234,17 @@ Or in one driver: `recover_integration.py --binary B --stages arity,self-cast --
 > drafting agents reported BASELINE-RED and I checked their claim). Run `--undo-journal --keep
 > <banked>` after EVERY gate.
 
-If the diagnostic names a DIFFERENT symbol (`conflicting types for func_8012AD44`), run the same
-chain on THAT symbol — it is a callee, not your target. That banked `main:func_80021D38`.
+**CORRECTED S69 — the callee variant is NOT the same chain.** If the diagnostic names a DIFFERENT
+symbol (`conflicting types for func_8012AD44`), that is a CALLEE and §378 does **not** transfer:
+`cast_self_callers` cannot cast it (it reads the return type off the draft), so `--any-proto` runs
+UNPROTECTED and changes argument conversion at every call site. Measured: 60 decls no-protoed,
+binary RED, reverted. It banked `main:func_80021D38` only because that callee had ONE decl.
+**Count the sites first; never no-proto a symbol whose call sites you are not also casting.**
+
+See §378b for the full decision table — there are FOUR variants and two of them break the chain.
+Notably variant 3 (`conflicting types`, RETURN type only, decl already `()`, symbol ADDRESS-TAKEN)
+is fixed by `--sync-decls` ALONE: both other levers no-op, and the sync is safe precisely because an
+address-taken site has no arguments to convert.
 
 ## 5. Draft
 

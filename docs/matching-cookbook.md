@@ -32568,3 +32568,42 @@ removes the second align-1 access and the 8-byte bloat with it.
 **Diff tell: a frame 8 bytes larger than the target with no spill or save to account for it, in a
 function that copies a byte-aligned aggregate more than once.** Related: §391 (a byte-aligned struct
 copies in four instructions, a word-aligned one in two).
+
+## §378b ★★★ — THE FOUR VARIANTS OF THE DECL BLOCKER, AND THE TWO PLACES §378 DOES **NOT** APPLY (P31 S69, all four measured the same day)
+
+§378 gave the SELF-CALLER chain. Three more variants appeared within hours, and **two of them break
+the chain rather than extend it.** Identify the variant from the diagnostic before applying anything.
+
+| # | diagnostic | who conflicts | fix | status |
+|---|---|---|---|---|
+| 1 | `conflicting types for func_X` | the TU's forward decl of the fn being DEFINED | `fix_arity_callers --any-proto` → `cast_self_callers` | §378, byte-proven ×8 |
+| 2 | `conflicting types` on a promotion-affected param (`s16`) | same, but C89 forbids no-proto | `cast_self_callers --sync-decls` | §378a, byte-proven main/func_80036D58 |
+| 3 | `conflicting types` — RETURN type only, decl ALREADY `()` | same, and the symbol is **ADDRESS-TAKEN, not called** | **`--sync-decls` ALONE** | NEW, byte-proven ov_SC04_018/func_8017F35C |
+| 4 | `conflicting types for <SOME OTHER SYMBOL>` | a CALLEE the draft shares with the TU | **NOT the §378 chain — see the refutation** | **DO NOT no-proto it blindly** |
+
+**Variant 3 — the two levers that BOTH no-op.** `ov_SC04_018/func_8017F35C` matched 0/47 and still
+would not gate. The TU's decl at `:5366` was `extern void func_8017F35C();` — already no-proto, so
+`--any-proto` has nothing to relax; and the use at `:5385` is
+`func_801788B8((s32)a0, (s32)&func_8017F35C)` — the symbol's ADDRESS is taken, so there is no call
+site for `cast_self_callers` to cast. The only conflict is the RETURN type (`void` vs `s32`), and a
+one-token decl sync fixes it. **A decl sync is safe here precisely BECAUSE the site is address-taken:
+there are no arguments to convert, so nothing can move.**
+
+**Variant 4 — the refutation. I documented "run the same chain on the callee the diagnostic names"
+and that is WRONG at scale.** Applied to `func_8012AD44` in `ov_SC07_000`, `--any-proto` no-protoed
+**60** caller decls and the binary went RED (`265b24bb` vs `9dbe4241`), reverted via journal.
+
+*Why the self case is safe and the callee case is not:* in the self case, step 2 CASTS the call
+sites, so the decl change cannot alter argument conversion. For a callee, `cast_self_callers`
+correctly REFUSES (it reads the return type off the draft, and the callee is not the draft), so the
+decl change runs **unprotected** — and a no-proto decl applies the default promotions instead of
+converting to the declared parameter types. With 60 call sites, some argument narrowing changed and
+the codegen moved. It banked `main/func_80021D38` earlier only because that callee had **one** decl,
+not sixty.
+
+**The rule:** never `--any-proto` a symbol whose call sites you are not also casting. Count the sites
+first — `fix_arity_callers` prints the count — and if it is more than a couple, treat the callee as a
+byte-risk edit that must be build-verified per binary BEFORE the gate, not after.
+
+**Standing order for any decl blocker:** read the diagnostic, name the variant, and apply only that
+variant's lever. The chain is not a sequence to run blindly; it is a decision table.
