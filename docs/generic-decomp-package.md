@@ -30,10 +30,38 @@ tool existed — and that were invisible until an idiom taught us to look.
 **2. The structural tooling, before the first crack.**
 The families/twins/dedup layer is what converts one crack into N banks. In BFM this arrived late and
 retroactively harvested thousands of instructions. Port it first:
-`corpus` (the coverage oracle) · `seed_ref` / twin join on signature hashes · `family_remap` /
+`corpus` (the coverage oracle) · `seed_ref` (exact-hash twin join **AND its `--near` edit-distance
+band — see 2b**) · `family_remap` /
 `family_sweep` · `dedup_propagate` (position-locked overlay sharing) · the `-O0`/opt-level carve
 chain (`o0_detect`, `o0_subsplit`, `o0_boundary`) · `wall_sweep` (toolchain walls) · the draw
 filter · the byte-gate + clean-fleet verifier.
+
+**2b. THE SIMILARITY JOIN MUST BE A BAND, NOT A POINT (P31 S69 — port this, it is cheap and it
+compounds).** A twin oracle keyed on an exact signature hash answers only *"is there a byte-identical
+copy?"*. That is the wrong question for a frontier. The right one is *"is there anything CLOSE?"*, and
+the difference is not marginal:
+
+| tier | reachable open stubs with a banked match |
+|---|---|
+| exact hash (d=0) — where this project sat for 60+ sessions | **22 of 352 (6%)** |
+| edit-distance band to d<=25 (`seed_ref --near`) | **75 of 352 (21%)** |
+
+**A 3.4x widening, found in one agent-run, on a corpus we thought was fully mined.** 31 of the new
+rows were PURE reloc-only twins of already-banked bodies — free work that had been sitting invisible;
+8 banked the same day at ~0 agent tokens. The root cause was a normalizer that under-matched by
+design (§389): safe for dedup, silently lossy as a frontier join.
+
+For a NEW decomp this matters *more* than it did here, because the band pays from the very first
+banks: every function you crack immediately becomes a potential exemplar for everything within a few
+instructions of it, and you never accumulate the invisible-singleton debt this project spent a
+session recovering. Build the near tier at the same time as the exact tier — not sixty sessions
+later. Concretely: normalize relocations out of the instruction stream, prefilter soundly on
+length/opcode-histogram so no true pair can be lost, then edit-distance the survivors; assert the
+population (R32), cross-check that the band reproduces every exact-hash pair (R34), and control
+against random pairs for the base rate (R39: 1.17% here).
+
+**And audit every hash you own for BOTH questions.** Dedup wants under-matching; a frontier join
+wants over-matching. One hash cannot serve both error directions, and the failure is silent.
 
 **3. The differential-oracle harness (accelerators #15) — the one that works at 0%.**
 Two independent paths per question, disagreement fails loudly, on a schedule.

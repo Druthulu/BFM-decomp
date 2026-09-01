@@ -383,3 +383,42 @@ any per-function matching oracle compiles in isolation, and every real bank comp
 no-proto the conflicting decl and the draft's own definition becomes the prototype in scope, so the
 same call site now fails with `too few arguments`. A class can look dead after one fix and be three
 mechanical steps from banking. Drive the chain to a byte verdict before writing anything off.
+
+## #17 — YOUR SIMILARITY JOIN IS PROBABLY A POINT WHEN IT SHOULD BE A BAND (P31 S69)
+
+**What happened.** This project's twin oracle keyed on an exact signature hash for sixty-plus
+sessions. It found **22 of 352** reachable open stubs with a banked twin — 6% — and everything else
+read as a singleton. One agent-run added an edit-distance tier over reloc-normalized streams and the
+number went to **75 of 352 — 21%, a 3.4x widening on a corpus we believed was fully mined.** Thirty-one
+of the new rows were PURE twins of already-banked bodies differing only in relocation slots; ten were
+clean, and **eight banked the same day for ~0 agent tokens**. One 94-instruction exemplar served five
+open copies.
+
+**Why the hash missed them.** The normalizer under-matched by design: it dropped a pending `lui`-hi
+whenever an R-type intervened, so the indexed-global triad kept its `%lo` in the hash (§389). Two
+per-overlay copies of one function differing only in a data symbol's ADDRESS hashed differently.
+
+**The generalisable law — and it is about ERROR DIRECTION, not accuracy.**
+
+| the question | wants | a wrong answer costs |
+|---|---|---|
+| **dedup**: "are these certainly the same?" | under-matching | a duplicated bank; cheap, visible |
+| **frontier join**: "is anything close to this?" | over-matching | free work becomes an invisible singleton; expensive, silent |
+
+**One hash cannot serve both.** If you built your similarity layer for dedup — almost everyone does,
+because dedup is the first use — then your frontier join is silently lossy, and the loss looks exactly
+like "this function is unique", which nobody ever investigates.
+
+**What to do, in any decomp:** build the near tier at the SAME time as the exact tier, not later.
+Normalize relocations out of the stream; prefilter soundly on length and opcode histogram so no true
+pair can be lost; edit-distance the survivors. Then verify it three ways: assert the population it
+scanned (R32), require the band to reproduce every exact-hash pair on every run (R34), and control
+against random pairs to get the base rate (1.17% here, so the signal is real). Do NOT retrofit the
+normalizer itself — every stored map, ledger and calibration keys on it; read *through* the hole with
+a new tier instead.
+
+**Why it matters more for a NEW project than it did for us.** The band pays from the very first bank:
+every function you crack becomes an exemplar for everything within a few instructions of it,
+immediately. Build it late and you accumulate invisible-singleton debt that costs a whole session to
+recover — and you will never know how much you left on the floor, because the tool reports a
+confident, true, useless number.

@@ -100,6 +100,18 @@ target**, joined on the corpus signature hashes (`tools/seed_ref.py`).
 > neither tool could see them. A `mechanical_remap_refused` flag now tells the agent: copy the BODY,
 > expect a declaration blocker.
 
+### 2a. RUN `seed_ref --near` BEFORE BELIEVING ANY "NO TWIN" VERDICT (S69)
+
+```
+.venv/bin/python tools/seed_ref.py --near --max-d 25 --json .run/<wave>/near.json
+```
+
+The exact-hash tier finds 22 of 352 reachable open stubs; the near band finds **75 of 352 (21%)** —
+3.4x. `h_norm` is blind to indexed-global relocs (§389), so true reloc-only twins of ALREADY-BANKED
+bodies hash differently and read as singletons. A `RELOC-ONLY` row is mechanical: `family_remap` the
+banked exemplar onto the open address, then gate — **8 of 10 banked at ~0 agent tokens on first use**,
+one 94-ins exemplar serving five open copies. Never send a RELOC-ONLY row to a drafting agent.
+
 ### 2b. RUN `neighbor_ref` FOR EVERY CARD — the biggest measured cost lever in the wave
 
 ```

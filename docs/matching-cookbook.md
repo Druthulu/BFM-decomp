@@ -32305,3 +32305,144 @@ This is the R22 corollary aimed the other way. R22 says a *reverted* config need
 (a build over stale extract state) was broken, and I attributed the failure to the subject, reverted
 a legitimate 96-line match, and wrote a checkpoint calling it a false bank. The give-away I ignored:
 the commit's own diffstat showed `config/overlays.mk` and a splat yaml right next to the `.c`.
+
+## §385 ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)
+
+**Closes cookbook §5's open class.** Symptom: two independent one-instruction inits after a mult (or
+any latency chain) emit in swapped order, and the swap is invariant under source order, register
+pins, and zero-byte barriers.
+
+**Root cause, read out of the pinned compiler** (`sched.c` `priority()`:1425 + `rank_for_schedule()`:2385):
+sched2 schedules BACKWARD. The init that writes a register the mult READS carries an anti-dependence
+that inherits the mult's priority (anti cost clamps to 1, so `+cost-1 = +0`), while the dependence-free
+init stays at priority 1. **Priority beats the LUID tie-break**, so no C-level reordering can flip it.
+
+**The fix — donate priority to the loser** via a NON-volatile single-instruction asm with a dead
+extra input reading the winner's destination:
+
+```c
+c2 = 0;
+__asm__("addiu %0,%1,18" : "=r"(ptr) : "r"(base), "r"(c2));
+```
+
+The true dep on the `c2` init donates priority 2 AND delays the asm's backward release until the
+donor is placed — target order, identical bytes.
+
+**Two traps.** A **volatile** asm cannot be used: volatile is a full scheduling barrier, so it
+inherits the whole chain's priority and glues itself behind the `mflo`. And a bare ghost asm whose
+output is immediately overwritten gets deleted.
+
+## §386 ★★★ — A BYTE LOAD ON THE **BIV** BASE WAS BORN IN THE COMBINE PASS: SPELL IT AS A SHIFT-MASK, NEVER A DEREF (P31 S69; byte-proven main/func_80020598, 292 ins, escalation 1 → 0)
+
+**Diff tell:** a one-row `reg+imm` residual where yours reads offset-from-**giv** and the target reads
+offset-from-**biv** *at the same address* — and the twin expression in another arm IS giv-based in the
+target.
+
+**Why no deref spelling works.** A byte deref is a `DEST_ADDR` giv, and `loop.c`'s `combine_givs`
+folds it onto the reduced register **unconditionally**: identity or `express_from`, then
+`memory_address_p` and equal MIPS `ADDRESS_COST`. There is no per-instance guard, so no temp, no
+ordering and no spelling can split two identical `(mult, add)` givs.
+
+**The lever — defer the load's birth past `loop.c`:**
+
+```c
+b1 = (w >> 8) & 0xFF;      /* NOT ((u8 *)p)[1] */
+```
+
+Post-loop `combine` then narrows `zero_extend(lshiftrt(mem))` into an `lbu` at base+k off the
+ORIGINAL register.
+
+**Two corollaries.** (1) Temp-pointer escapes are impossible: `cse1`'s `find_best_addr` tie-break at
+equal `ADDRESS_COST` prefers the MORE complex address (it frees a register) and folds any same-ebb
+temp back into `(plus base k)` before loop — and anything opaque enough to survive cse1 is equally
+opaque to cse2/combine. (2) The narrowed spelling changes spill demand, so expect the §333/§334
+dead-aggregate pad to need retuning (here `pad[6]` → `pad[4]` at frame 0x88).
+
+## §387 ★★ — **SPLIT-FOLD DISPATCH CLOBBER**: one switch case needs a reload, another must keep the fold (P31 S69; byte-proven main/func_80030F80, 343 ins, escalation 3 → 0)
+
+When one case needs a cse-forced RELOAD of the switch-index load while another must keep FOLDING that
+same value into a call argument:
+
+* **Do NOT put the invalidator in the case body** — `reorg.c`'s `stop_search_p` halts
+  `fill_slots_from_thread` at ANY asm insn (`asm_noperands >= 0`), so branch-delay-slot hoists into
+  that thread die (+1 length).
+* **Do NOT volatile-cast the load** — `loop.c:339` `init_recog_no_volatile` fails `recog` on every
+  `DEST_ADDR` giv rewrite of a volatile mem, so its address stays biv-based forever.
+
+**Instead:** name the index in a local; load the dispatch byte into an `s32` local (a `u8` costs an
+`andi`); place a **non-volatile** `__asm__("" ::: "memory")` AFTER that `lbu` and BEFORE the switch —
+zero bytes, invalidates cse's memory table on every path, and sits outside every case's delay-slot
+thread. Never between a load and its first use: it eats the final-pass load-delay nop. Fold-cases
+then pass the named local; reload-cases re-read memory.
+
+**Side-effect law, and it is general:** adding or removing pseudos flips razor-thin global-alloc ties
+among pre-loop invariant pointers — which one loses its callee-saved register and gets reload-
+rematerialised as inline `lui`/`addiu`. **This is INVISIBLE under `match_one`'s HI16/LO16 mask** and
+surfaces as a bogus "schedule" diff at the remat site. Audit with `objdump -r`, and flip it back by
+swapping the two invariants' init order.
+
+## §388 ★★★ — THE **-O0 COLOURING ORACLE**: simulate `stupid.c` instead of grinding spellings (P31 S69; main/func_80011380 proved a C-level WALL at 6)
+
+At `-O0` gcc-2.7.2 allocates with **`stupid.c`**, not local/global-alloc. It is simple enough to
+simulate exactly, so predict the colours instead of guessing at spellings:
+
+* every insn **including NOTES** gets a sequential `suid`;
+* a pseudo set at suid `s` dies at `max(last_use, s+2)` and occupies `[born, dead-1]`;
+* pseudos are allocated **longest-first**, then **fewer-refs-first**, then lowest regno, first-fit
+  `$v0,$v1,$a0,$a1,…`;
+* a `register` declaration emits a zero-byte head-(use) insn making that var ONE convex interval.
+
+**Two consequences you can diagnose by inspection.** (1) An `-O0` `copy;sll` multiply chain
+2-colours ping-pong *because* the `+2` rule makes each link conflict with the next — so a NOTE inside
+the chain (any statement-expression's `BLOCK_BEG`/`BLOCK_END`) lapses the slack, one copy becomes a
+same-register move, and `final.c` deletes it: **a length −1 next to a `({...})` is THIS, not
+scheduling.** (2) A `register` decl recolours the whole chain via its head-use interval, so
+exact-length REGALLOC rotations in `-O0` code are decl-lifetime artifacts. `cc1 -dr` suid arithmetic
+predicts the colours before you compile.
+
+**Also from the same run — the SYMBOL-ADDEND SHIELD.** In a pointer index, `(s32)(idx + K)`: the
+same-mode cast hides the `PLUS` from `pointer_int_sum`'s distributive rewrite, yet `EXPAND_SUM` still
+absorbs `K` into the relocation, emitting `la SYM+K*size` with the scale applied to `idx` alone. Use
+it when the target shows a symbol+constant base feeding a scaled index — no plain spelling
+reproduces it, because the frontend otherwise distributes `K` into the pointer before scaling.
+
+## §389 ★★★ — `h_norm` IS BLIND TO INDEXED-GLOBAL RELOCS, SO FREE WORK BECOMES AN INVISIBLE SINGLETON (P31 S69; 31 stubs / 4,811 ins recovered, 8 banked same day)
+
+**The hole.** `sig_image.norm_stream` tracks a pending `lui`-hi so it can neutralise `%hi`/`%lo`
+pairs — but it DROPS that pending hi the moment an R-type intervenes. The indexed-global triad is
+exactly that shape:
+
+```
+lui   $at, %hi(arr)
+addu  $at, $at, idx      <-- R-type; the pending hi is dropped here
+lw    r,   %lo(arr)($at)  <-- %lo survives into the hash
+```
+
+So two per-overlay copies of ONE function that differ only in a data symbol's ADDRESS hash to
+**different** `h_norm`. They are byte-identical modulo relocation and they are invisible to every
+hash-keyed consumer at once: `seed_ref` (d=0 tier), `twin_sweep`, `dup_report`,
+`config/dedup.us.yaml`, and the family maps' structural tier.
+
+**Measured consequence (2026-09-01).** Beyond the 22 stubs with a d=0 hash twin, **31 more reachable
+open stubs (4,811 ins) were PURE twins of already-banked bodies at instruction edit distance 1–5** —
+`family_remap.classify_member` seconds all 31 as PURE. Ten were clean of jtbl carve blockers;
+remapping them and gating banked **8**, at ~0 agent tokens. One exemplar (`ov_SC06_033:0x80185f6c`,
+94 ins) served **five** open copies; `ov_MAIN_012:0x8016ab6c` (188 ins) serves five more.
+
+**The fix is a NEW TIER, NOT A NEW NORMALIZER.** Do **not** change `h_norm`: every stored map,
+ledger and calibration in the project keys on it, and a re-hash invalidates all of them. Instead read
+*through* the hole with an edit-distance tier over reloc-normalized streams —
+`tools/seed_ref.py --near [--max-d N]`, which scans all 213 binaries, reproduces all 22 hash twins as
+an R34 cross-check on every run, and ships R39 controls (positive 200/200 at d=0; random-pair base
+rate 1.17%).
+
+**THE LAW, and it generalises past this project.** *A conservative normalizer is SAFE for a DEDUP
+claim and UNSAFE as a FRONTIER JOIN.* Dedup asks "are these certainly the same?" — under-matching
+there is harmless. A frontier join asks "is there anything close to this?" — and there, every missed
+match silently converts free mechanical work into an apparent singleton that a future session will
+pay an agent to re-derive from scratch. Audit any hash you use for BOTH questions; they want opposite
+error directions.
+
+**Diff tell:** an open stub your card calls "no banked twin — derive from the .s", whose body is a
+per-location copy of engine code that exists in a sibling overlay. Run the near tier before believing
+a singleton verdict.
