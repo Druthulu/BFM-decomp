@@ -4125,3 +4125,91 @@ wave queue, ~30 still undrawn) · `.run/gate_lane/{ledger.json,verdicts.jsonl}`.
   weekly limit hit mid-flight. That is a HARNESS verdict, not a verdict on the targets, so all five
   were returned to the FRONT of the queue rather than counted as attempted — the same principle as
   clearing the gate ledger when `gate_stage` was comparing main against the wrong binary's hash.
+
+## 🛑 SESSION CHECKPOINT — S68 FINAL-2 (2026-08-31). SUPERSEDES the S68 FINAL block above (which stopped at 23 closed / 430 — the whole second half came after it). Phase 31 T5 CONTINUES.
+
+**STATE:** fleet **213 passed / 0 failed of 213** from a clean `make clean && extract-all &&
+check-all` with the drafting lane DRAINED (rc 0/0/0). Tree clean, **58 commits**, 21 of them banks.
+Drew pushes (R6). `ghidra/` churn is MCP noise — never commit it.
+**FRONTIER 453 → 414 · 39 CLOSED · 107 of 213 binaries at ZERO open stubs** (two closed today:
+`ov_MAIN_012`, `ov_SC02_037`).
+
+### HARVEST IS COMPLETE — the free-work classes are DRAINED, verified at close
+* twin pool: **23 with a banked twin, 22 already mechanically refused → 1 never-tried**
+* stranded-boundary -O0 (`o0_boundary`): **0 candidates** — class exhausted
+* propagation-closable: **6**, all previously-documented blockers (CARRY-FIXABLE / not-inline-def)
+* cookbook **383 → 401 sections**, index **1,030 entries**
+
+### FIRST THING NEXT SESSION — 32 FREE BANKS ARE WAITING
+`docs/next-session-triage-ladder.md` has the full spec. The immediate payoff, **verified by me with
+`match_one`, 10 of 10 at closeness 0**: ten drafts become byte-MATCHES once an `extern` derived from
+the target's own `.s` is added — patched drafts already sit at `.run/rules_b/<case>/autodecl.c`:
+
+    ov_SC01_080:func_8017D72C  ov_SC04_010:func_8017D6CC  ov_SC07_010:func_80180E68
+    md_SC07_004:func_801A3D60  ov_SC01_077:func_80185E68  ov_SC03_105:func_801829CC
+    ov_SC03_105:func_80182BD8  ov_SC06_022:func_8017CDE4  ov_SC07_000:func_8017E1BC
+    ov_SC07_002:func_80185FB0
+
+Plus **22 more** classified INTEG-STANDALONE-MATCH (they already match standalone and were misfiled
+as failures). Gate with `gater_lane --extra BINARY:PATH`; main routes IN-TREE.
+**Also waiting:** 4 salvaged warm starts in `.run/S68_warmstarts/` from rate-limit-killed agents —
+`func_8005DCA0` at **closeness 3**, `func_8005DE78` at 13, plus two above the park threshold.
+
+### NEW TOOLING THIS SESSION (all committed, all in SETUP.md + the playbook)
+* **`tools/neighbor_ref.py`** — retrieval: the MATCHED functions worth READING for an open stub,
+  SAME-TU first. **Run for every card** (playbook §2b). Answers what `seed_ref` structurally cannot.
+* **`tools/wall_sweep.py`** — enumerates the §332 delay-slot macro walls (10 fns / 1,027 ins).
+  **Run before every draw AND before every escalation.**
+* **`tools/gater_lane.py`** — the continuous gater; `--r22` by default, main routed IN-TREE,
+  ledger+verdicts keyed `binary:fn:arm`, and **an automatic IN-TREE RETRY when a worktree fails every
+  draft** (that retry banked `ov_SC03_121:func_8017E880`, 479 ins, on its first live outing).
+* **`tools/lane_inflight.py` + `tools/r22_verify.sh`** — recorded liveness, and an R22 that REFUSES
+  while agents are live.
+* **`tools/residual_rules.py` / `_b.py`** — the classifier head-to-head (see below).
+* **`tools/o0_boundary.py`**, **`tools/workflows/escalate_fable.js`**.
+
+### THE MEASUREMENTS THAT SHOULD DRIVE NEXT SESSION
+* **Cost tracks DIFFICULTY, not size.** ≥180-ins targets: **414 tokens/instruction**. <180-ins
+  (mostly `main`): **2,861**. A 753-ins overlay fn cost 235/ins; a 78-ins main fn cost 4,458.
+* **A neighbour is worth ~20×.** Every cheapest large match came from one (555 ins/72k, 657 ins/122k
+  FIRST COMPILE, 397 ins/87k, 753 ins/177k) vs 200–350k for ~80 neighbour-less main instructions.
+  **This is why `neighbor_ref` exists and why it belongs on every card.**
+* **Escalation: 5 closed of 6**, each win ~⅓ the cost of the attempt it rescued. Threshold
+  **≲20 escalate, ≳30 park** — the one loss came in at 33 and was the most expensive run of the day.
+  **Check `wall_sweep` FIRST**: S68 escalated a §332 wall at closeness 8, which could never succeed.
+* **Fable cold-start on `main`: 85k and 93k** vs a sonnet median of ~271k, n=2 — promising, not
+  settled; a fair test needs matched difficulty, not matched instruction counts.
+* **Residual-shape classification has a POPULATION ceiling.** Two independent implementations
+  converged at **~1–2%** certain/high on pure cookbook-shape rules. Surgical single-mechanism
+  residuals live at the END of escalations, not in first-pass wave output — put the shape tier in
+  escalation loops, and let the ladder's value be everything above it.
+
+### THE SESSION'S ONE BIG LESSON (now `docs/accelerators.md` #15)
+**Ten-plus blockers, one shape: a tool computing a TRUE number about a NARROWER world than we
+believed it covered** — `gate_stage` comparing main against another binary's SHA; `psyq_integrate`
+dropping a symbol on every incremental relink; `match_one`'s standalone probe rejecting 39 of 43
+drafts its real TU accepts; `seed_ref` offering dead text; my own `wall_sweep` returning a confident
+0 across 1,378 files; `corpus.stubs` passing while 106 binaries had no `.s`; four agents reporting
+`NO-DRAFT` while one sat 3 instructions from a match; §332 stating a count with no enumeration.
+**Every one was caught by two independent measurements disagreeing — never by review.** R32/R34/R40
+say this already and were not enough: I wrote R34's warning into one docstring and rebuilt the exact
+defect an hour later in another file. Hence #15: a standing harness that runs each question down two
+paths on a schedule. `docs/generic-decomp-package.md` records what a NEW decomp inherits day one.
+
+### MISTAKES WORTH NOT REPEATING (mine)
+* **I ran `make clean` on a live lane twice.** The first guard I wrote inferred liveness from scratch
+  mtimes; it failed BOTH ways (a `.run/*wave*` glob blew past ARG_MAX so it silently passed, and a
+  thinking agent is indistinguishable from a finished one). Four agents lost their `asm/` mid-draft.
+  Liveness is now RECORDED (`lane_inflight`), never inferred.
+* **The restore lied.** `make extract-all` printed `212 extracted, 0 failed` while **106 of 213**
+  binaries had no `.s`. Verify a restore against its CONSUMER (`corpus.stubs` sweep), not its summary.
+* **I let the drafting lane drain to 1–2** while doing serial work that never needed the slots idle.
+  Refill the moment a verdict lands, BEFORE processing the result.
+* **I escalated a toolchain wall** at closeness 8. `wall_sweep` refuses it in a second.
+
+### LEDGERS
+`.run/S68_harvest/notes.md` (full harvest incl. unpromoted process lessons) · `.run/S68_walls_332.txt`
+· `.run/S68_frontier_classes.json` (the 414 by evidence class) · `.run/rules_b/eval_results.jsonl`
+(the 32 free banks) · `.run/S68_warmstarts/` + `.run/S68_salvaged_warmstarts.json` ·
+`.run/S68_rules_eval_set.json` (the held-out 113) · `.run/gate_lane/{ledger.json,verdicts.jsonl}` ·
+`.run/S68_never_drafted.json` (5 drawn-but-never-drafted).
