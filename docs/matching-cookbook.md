@@ -32831,3 +32831,33 @@ forming and the diff blooms far from the edit.
 **Diff tell:** a guard ladder where the target redirects several branches to one tail and yours
 re-emits the tail per arm, with register noise around a temp you thought was free. Make the rungs
 symmetric before chasing the registers.
+
+## §398 ★★★ — `family_remap` CARRIES THE **SOURCE** TU's DECL ENVIRONMENT INTO A DESTINATION THAT ALREADY OWNS THOSE NAMES (P31 S69; measured 3 banked of 22)
+
+**The measurement.** 22 open stubs with a banked twin at d≤5 (no jtbl blocker) were remapped with
+`family_remap` and gated as a batch. Outcome:
+
+| result | n | what it means |
+|---|---|---|
+| banked | **3** | |
+| CC1-FAIL / PLUMBING | **11** | the BODY is fine; the destination TU rejects the carried declarations |
+| DIFF | **8** | genuinely not byte-identical — these were `h_norm` twins, an 80% class, not 100% |
+
+The eleven integration failures are not subtle: `syntax error before …`, `'D_801A6964' undeclared`,
+`conflicting types for …`, `parse error before ')'`, `invalid lvalue in unary …`. Those are the
+signature of a decl block written for ANOTHER translation unit.
+
+**The mechanism.** `family_remap` correctly rewrites the BODY (per-overlay symbol addresses, reloc
+targets). It does **not** reconcile the DECL ENVIRONMENT: the source TU's typedefs, `extern`s and
+callee prototypes come along verbatim, and the destination TU frequently already owns those names
+with different spellings — §378c's fifth variant, at scale and by construction.
+
+**So a remap is a DRAFT, not a bank.** Expect roughly half to need the integration pass, and budget
+for it: after remapping, run the §378b decision table per failure, and adopt the DESTINATION TU's
+spelling (§367) rather than the source's.
+
+**The tooling gap, named:** `family_remap` should emit the body with the destination TU's decl
+environment — the information exists (`decl_prior` already computes it for cards, and
+`cast_self_callers`/`fix_arity_callers` already edit it). Until it does, the remap lane's realistic
+yield is ~15% straight-through and ~50% after integration, not the 76–88% the PURE-class rate
+suggests. **Quote the straight-through number when planning, not the class rate.**
