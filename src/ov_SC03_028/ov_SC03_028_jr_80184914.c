@@ -3506,7 +3506,56 @@ void func_8018561C(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_80184914", func_8018568C);
+extern void func_800183E0(s32 a0);
+extern u8 D_801CF87C[];
+extern s32 D_80190760[];
+
+void func_8018568C(s32 arg0) {
+    u16 var;
+    s32 ptr;
+    s32 val;
+
+    switch (*(s32 *)(*(s32 *)(arg0 + 0x64) + 0xDC)) {
+    case 0:
+        func_800183E0((s32)&D_801CF87C);
+        break;
+    case 1:
+        var = *(u16 *)(arg0 + 0xFC);
+        func_800183E0(D_80190760[((s16)var >> 1) % 8]);
+        break;
+    case 2:
+        *(u16 *)(arg0 + 0xFC) = 0;
+        *(u16 *)(arg0 + 2) = 4;
+        break;
+    case 3:
+        *(u16 *)(arg0 + 0xFE) = 0xC3;
+        *(u16 *)(arg0 + 2) = 3;
+        *(u16 *)(arg0 + 0xFC) = 0;
+        break;
+    case 4:
+        *(u16 *)(arg0 + 0xFE) = 0xCB;
+        *(u16 *)(arg0 + 2) = 3;
+        *(u16 *)(arg0 + 0xFC) = 0;
+        break;
+    case 5:
+        *(u16 *)(arg0 + 0xFE) = 0xC5;
+        *(u16 *)(arg0 + 2) = 3;
+        *(u16 *)(arg0 + 0xFC) = 0;
+        break;
+    case 6:
+        ptr = *(s32 *)(arg0 + 0x20);
+        val = *(s16 *)(ptr + 0x18);
+        *(s16 *)(ptr + 0x18) = -val;
+        *(s32 *)(arg0 + 0x1C) = 0x20;
+        *(u16 *)(arg0 + 2) = 6;
+        break;
+    case 7:
+    case 8:
+        *(s32 *)(*(s32 *)(arg0 + 0x64) + 0xDC) = 0;
+        break;
+    }
+}
+
 
 extern void (*D_801907E4[])(void);
 

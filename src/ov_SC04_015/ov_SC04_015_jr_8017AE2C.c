@@ -5161,7 +5161,81 @@ void func_8017ED00(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017ED28);
+#include "common.h"
+
+
+
+extern void func_8017F018(s32 a0);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern s32 D_801C8C64;
+
+void func_8017ED28(void) {
+    register s16 *p __asm__("$18");
+    register s16 *q __asm__("$16");
+    register s32 i __asm__("$19");
+    register s32 c2 __asm__("$20");
+    register s16 *s1 __asm__("$17");
+    register s32 v1 __asm__("$3");
+    register s32 v0 __asm__("$2");
+    Blk8 buf;
+
+    p = (s16 *)&D_801C8C64;
+    i = 0;
+    c2 = 2;
+    q = p + 10;
+    do {
+        v1 = *p;
+        if (v1 != 0) {
+            v0 = 1;
+            s1 = (s16 *)*(s32 *)((u8 *)q - 8);
+            if (v1 == v0) {
+                goto L_case1;
+            }
+            v0 = (v1 < 2);
+            if (v0 == 0) {
+                goto L_check2;
+            }
+            if (v1 != 0) {
+                goto L_common;
+            }
+            i++;
+            goto L_bottom;
+        L_check2:
+            if (v1 == c2) {
+                goto L_case2;
+            }
+            goto L_common;
+        L_case1:
+            *(Blk8 *)&buf = *(Blk8 *)((u8 *)q - 0x10);
+            func_8017F018((s32)&buf);
+            v0 = *(s16 *)(*(s32 *)((u8 *)q - 4) + 0x76);
+            if (v0 == 0) {
+                *(s16 *)((u8 *)q - 0x12) = 0x20;
+                *p = c2;
+                goto L_common;
+            } else {
+                s32 tmp = *(s32 *)((u8 *)q - 8);
+                v1 = (v0 << 13) / 100;
+                *(s16 *)(tmp + 0x1A) = v1;
+                *(s16 *)(tmp + 0x18) = v1;
+                goto L_common;
+            }
+        L_case2:
+            s1[13] = 0;
+            s1[12] = 0;
+        L_common:
+            s1[4] = *(u16 *)((u8 *)q - 0x10);
+            s1[5] = *(u16 *)((u8 *)q - 0xE);
+            s1[6] = *(u16 *)((u8 *)q - 0xC);
+            func_80128ED8((s32)s1, (s32 *)q);
+        }
+        i++;
+    L_bottom:
+        q += 14;
+        p += 14;
+    } while (i < 0x20);
+}
+
 
 extern void func_8012C194(void);
 extern void func_80128EA8(s32 a0, s32 a1, s32 a2);

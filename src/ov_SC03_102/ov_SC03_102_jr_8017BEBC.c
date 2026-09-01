@@ -4672,7 +4672,57 @@ void func_8018153C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_102/nonmatchings/ov_SC03_102_jr_8017BEBC", func_801815D4);
+
+
+
+
+
+
+typedef struct { u8 b0, b1, b2, b3; } Blk4_801815D4;
+
+void func_801815D4(void *a0)
+{
+    extern void func_8012EF70(s32 a0, s32 a1);
+    extern void func_80015954(s32 a0, s32 a1);
+    extern u16 D_800B99DA;
+    extern Blk4_801815D4 D_80189C3C;
+    extern Blk4_801815D4 D_80189C58;
+    extern Blk4_801815D4 D_80189C74;
+    extern Blk4_801815D4 D_80189C90;
+
+    u8 *s0;
+    s16 buf[4];
+    Blk4_801815D4 col;
+    s32 flags;
+    u32 v;
+    u32 val;
+
+    s0 = *(u8 **)((u8 *)a0 + 0x20);
+    flags = ((s32 (*)(s32, s32))func_8012EF70)((s32)((u8 *)a0 + 0xFC), (s32)buf);
+
+    if (flags & 0xFFFFEFFF) {
+        register u32 loaded __asm__("$2");
+        loaded = *(u32 *)(s0 + 4);
+        val = loaded | 0x80000000;
+    } else {
+        val = *(u32 *)(s0 + 4) & 0x7FFFFFFF;
+    }
+    *(u32 *)(s0 + 4) = val;
+    __asm__ __volatile__("");
+
+    func_80015954((s32)buf, (s32)((u8 *)a0 + 4));
+
+    col.b2 = 0;
+    v = -(D_800B99DA & 1) & 0xF;
+    col.b0 = v + 0xF0;
+    col.b1 = v + 0x40;
+
+    D_80189C3C = col;
+    D_80189C58 = col;
+    D_80189C74 = col;
+    D_80189C90 = col;
+}
+
 
 
 

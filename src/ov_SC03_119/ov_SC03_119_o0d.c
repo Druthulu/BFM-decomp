@@ -2870,7 +2870,44 @@ void func_80183280(Ent_80183280 *arg) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_119/nonmatchings/ov_SC03_119_o0d", func_801832E0);
+extern void func_8013C0F8(s32 a0);
+extern s32 func_80029178(s32 arg);
+extern void func_8013373C(s32 a0);
+
+typedef struct {
+    u8 pad0[2];
+    u16 f2;
+    u8 pad1[0xD8];
+    u16 fDC;
+    u16 mid;
+    union {
+        u32 w;
+        s16 h[2];
+    } uE0;
+    u32 fE4;
+    u16 fE8;
+} Ent_832E0;
+
+void func_801832E0(Ent_832E0 *param_1)
+{
+
+    extern s32 D_801B5D38;
+    extern s32 D_801B86B4;
+    func_8013C0F8((s32)&D_801B5D38);
+    func_8013C0F8((s32)&D_801B86B4);
+    param_1->fDC = 0;
+    param_1->uE0.w = 0;
+    param_1->fE4 = 0;
+    param_1->fE8 = 0;
+    if ((func_80029178(0xB8) & 0xFF) == 0) {
+        param_1->f2++;
+    } else {
+        func_8013373C(0);
+        param_1->uE0.h[1] = -0xF7;
+        param_1->f2 = 4;
+    }
+}
+
 
 void func_801833C4(s32 arg0)
 {

@@ -5398,7 +5398,7 @@ extern void (*D_80186694[])(void);
 extern void func_8012C194(void);
 extern void func_8001CEC0(s32 a0, void *a1);
 extern void func_80015978(s32 a0, s32 *a1);
-extern void func_8017FB04(void *a0);
+extern void func_8017FB04();
 extern s32 func_8012AD50(void *a0);
 
 void func_8017FA6C(void *a0)
@@ -5421,7 +5421,93 @@ void func_8017FA6C(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_8017FB04);
+
+
+extern void func_8012C098(s32 a0);
+extern s32 func_80013294(void *a0, void *a1);
+extern void func_80015954(s32 a0, s32 a1);
+
+void func_8017FB04(s32 s1)
+{
+
+    extern s16 D_80126CB0;
+    extern Blk8 D_80126CAC;
+    register s32 s3 asm("$19");
+    register s32 s2 asm("$18");
+    volatile s32 stack[6];
+    register s32 t4 asm("$12");
+    register s32 t5 asm("$13");
+    register s32 t6 asm("$14");
+    register s32 v0 asm("$2");
+    register s32 v1 asm("$3");
+    register s32 a0 asm("$4");
+    register s32 s0 asm("$16");
+
+    s3 = (s32)D_800AF630;
+    s0 = *(s32 *)(s1 + 0x20);
+
+    if ((s32)D_80126CB0 + 0x300 < (s32)*(s16 *)(s1 + 0x100)) {
+        func_8012C098(s1);
+        return;
+    }
+
+    if (func_80013294(&D_80126CAC, (void *)(s1 + 0xFC)) >= 0x500) {
+        goto setbit;
+    }
+
+    s2 = s1 + 0xFC;
+    v0 = s3 + 0x18;
+
+    __asm__ volatile(
+        "lw %0, 0(%3);"
+        "lw %1, 4(%3);"
+        "ctc2 %0, $0;"
+        "ctc2 %1, $1;"
+        "lw %0, 8(%3);"
+        "lw %1, 12(%3);"
+        "lw %2, 16(%3);"
+        "ctc2 %0, $2;"
+        "ctc2 %1, $3;"
+        "ctc2 %2, $4;"
+        "lw %0, 20(%3);"
+        "lw %1, 24(%3);"
+        "ctc2 %0, $5;"
+        "lw %2, 28(%3);"
+        "ctc2 %1, $6;"
+        "ctc2 %2, $7"
+        : "=&r"(t4), "=&r"(t5), "=&r"(t6)
+        : "r"(v0));
+
+    __asm__ volatile(
+        "lwc2 $0, 0(%0);"
+        "lwc2 $1, 4(%0);"
+        "nop;"
+        "nop;"
+        "rtps"
+        : : "r"(s2) : "memory");
+
+    a0 = (s32)&stack[0];
+    __asm__ volatile("swc2 $14, 0(%0)" : : "r"(a0) : "memory");
+
+    v0 = (s32)&stack[2];
+    __asm__ volatile("cfc2 %0, $31; nop; sw %0, 0(%1)"
+                     : "=&r"(t4) : "r"(v0) : "memory");
+
+    v1 = 0x80000000;
+    if ((s32)stack[2] < 0) {
+        v0 = *(u32 *)(s0 + 4);
+        v0 |= v1;
+        *(u32 *)(s0 + 4) = v0;
+        return;
+    }
+    *(u32 *)(s0 + 4) &= 0x7fffffff;
+    func_80015954((s32)&stack[0], s1 + 4);
+    return;
+
+setbit:
+    *(u32 *)(s0 + 4) |= 0x80000000;
+}
+
 
 
 extern void (*D_8018686C[])(void);

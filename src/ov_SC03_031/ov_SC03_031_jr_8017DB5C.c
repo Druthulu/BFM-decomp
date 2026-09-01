@@ -3673,7 +3673,40 @@ void func_8017F6B8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_031/nonmatchings/ov_SC03_031_jr_8017DB5C", func_8017F728);
+extern u8 * func_801290DC(s32 a0, u8 *a1);
+extern u16 D_8018609E[][4];
+extern s32 rand(void);
+
+void func_8017F728(void *a0) {
+    s16 v[3];
+    register s32 i __asm__("$19");
+    s32 b1, b2;
+    s32 r1, r2;
+    register s32 t __asm__("$2");
+
+    if (*(s32 *)((s32)a0 + 0x1C) != 0) {
+        v[1] = *(u16 *)((s32)a0 + 0xA) + D_8018609E[*(u16 *)((s32)a0 + 0x70) & 0xF][0];
+        for (i = 0; i < 10; i++) {
+            r1 = rand() % 160;
+            b1 = *(s16 *)((s32)a0 + 6);
+            if (rand() & 1)
+                t = b1 + r1;
+            else
+                t = b1 - r1;
+            v[0] = t;
+            r2 = rand() % 160;
+            b2 = *(s16 *)((s32)a0 + 0xE);
+            if (rand() & 1)
+                t = b2 + r2;
+            else
+                t = b2 - r2;
+            v[2] = t;
+            func_801290DC(0x31, v);
+        }
+        (*(s32 *)((s32)a0 + 0x1C))--;
+    }
+}
+
 
 
 extern u16 D_801860C4[];
