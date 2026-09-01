@@ -32963,3 +32963,83 @@ Check what your "absent" value IS on both sides before trusting an inequality.
 splat yamls (they are shared state). That rule does NOT extend to a carve's own new source file —
 that file is per-binary, is named by a committed yaml, and MUST be adopted with the bank that
 created it.
+
+## §401
+**A probe that does not model the GATE's carve is optimistic, and for jtbl functions it is wrong 92% of the time.**
+
+`recover_integration --probe-only` reports a per-function `real cc1` verdict by compiling the draft in
+its real TU and comparing that function's bytes. For an ordinary function this is an excellent
+predictor. For a **jump-table-bearing** function it is systematically wrong, because the byte-gate does
+something the probe does not: `harvest_verify` **carves** the function into its own object so the jump
+table can be emitted (`[jtbl] carved func_X` in its log). The carve changes the translation-unit
+boundary, and therefore the codegen — so a draft can match in the uncarved TU and DIFF once carved.
+
+Measured (P31 S70), on 52 leftover standalone-MATCH drafts:
+
+| probe verdict | n | jtbl-bearing |
+|---|---|---|
+| MATCH (gate says DIFF) | 26 | **24 (92%)** |
+| CC1-FAIL | 20 | 5 (25%) |
+| DIFF | 6 | 0 |
+
+Worked case: `ov_SC01_004:func_8017EB30` probes `MATCH 279 ins`; the gate says DIFF **in a worktree and
+in-tree and via `harvest_verify` directly** — three independent runs, so it is not a worktree artifact
+and not the `canon -> cast_call_sites -> sig_unify` pipeline either.
+
+**Rule.** The whole-binary byte-gate is the arbiter (G3). Before believing a probe MATCH, ask whether
+the target's `.s` contains `jtbl_[0-9A-Fa-f]{8}` (the same predicate `harvest_verify` carves on, and
+`parallel_gate._JTBL_RE`). If it does, the probe has not modelled the work the gate must do — treat the
+verdict as UNPROVEN and do not use it to size a batch. This is the R34 shape: two oracles that disagree
+because one is structurally blind, fixed by knowing WHICH is blind, not by trusting the friendlier one.
+
+**Corollary — a declaration fix that only turns CC1-FAIL into DIFF has bought nothing.** `fix_arity_callers
+--any-proto` (382 edits to the fleet-shared `engine_core.h`) and `cast_self_callers --apply --sync-decls`
+(main's 4 self-conflicts) both did exactly that in S70: every target compiled afterwards and none matched.
+Revert such an edit rather than leave unverified shared-state risk standing for zero banks.
+
+## §402
+**A tool that resolves an input path in a DIFFERENT working directory sees an empty world and calls it success.**
+
+`parallel_gate` runs its worker as `gate_stage ... --drafts <path>` with `cwd=<git worktree>`. It passed
+`--drafts` through verbatim, so a **relative** path resolved inside the worktree. `.run/` is deliberately
+not linked into a worktree, and R12 puts ALL project scratch under `.run/` — so every plan following the
+project's own convention pointed at a directory that does not exist there. `gate_stage` found **0 drafts**,
+banked 0, and exited **rc=0**.
+
+Signature: **35 binaries / 57 drafts, all "banked 0", each in 1-2 seconds**, while the same drafts gated
+in-tree banked 15/16 and 3/6. After the fix the same job takes **100s**.
+
+**The only tell was the runtime.** Every other signal — exit code, per-binary summary line, the absence of
+any error — said success. A wall-clock far below the cost of the work the tool claims to have done is
+evidence the work did not happen; a gate that "verifies" a binary faster than a compile is not a fast gate.
+
+**Rules.** (1) Resolve every caller-supplied path against the REPO before handing it to a subprocess with a
+different `cwd`. (2) Assert the input is non-empty and REFUSE otherwise (R32/R43) — a 0-input job must never
+report a 0-yield result, because the two are indistinguishable downstream. (3) When a batch returns all
+zeros, exonerate the harness before recording a fact about the subject (R40).
+
+**Unaudited blast radius:** any earlier wave that pointed `parallel_gate` at a `.run/` drafts dir produced
+honest-looking zeros. Backlog rows marked `failed` from such a run may never have been gated at all.
+
+## §403
+**An undo-journal that restores by NAME corrupts any file whose symbol is declared twice — and reports success.**
+
+Both `fix_arity_callers --undo-journal` and `cast_self_callers --undo-journal` record the original text of
+each edit and restore it keyed by **function name**. When a symbol has more than one declaration in the file,
+the originals are restored into the **wrong occurrences**, silently swapping distinct prototypes.
+
+Byte-witnessed twice in one session (P31 S70):
+* `fix_arity_callers` printed `restored 382, kept 0, missing 0`; `git diff` showed **97 insertions / 97
+  deletions** in the FLEET-SHARED `src/shared/engine_core.h` — `func_8012A828()` <-> `(int a0, void *a1)`
+  <-> `(s32 a0, void *a1)` rotated between three declaration sites.
+* `cast_self_callers` printed `reverted 10 edit(s) across 1 file(s)`; `src/800.c` was left with the two
+  declarations of `func_80031988` swapped (`(Ent30D80 *arg0)` <-> `(struct Ent30D80 *)`).
+
+This is **R48** (never key by bare function name) applied to a journal, and **R57** (an instrument's own
+write path is part of the instrument). The byte-gate does not necessarily catch it: the corruption is in a
+header, and a rebuild only differs if some binary's codegen happens to depend on the swapped prototype.
+
+**Rules.** A journal records **file + occurrence index (or byte offset)**, never just a name; and an undo
+**hash-verifies** the restored file against the recorded pre-edit content and FAILS LOUD on mismatch.
+Until that lands: after ANY undo-journal, run `git diff` on the touched files and restore the specific
+named file from HEAD if it is not clean — never a blanket `git checkout -- src/` (R42).
