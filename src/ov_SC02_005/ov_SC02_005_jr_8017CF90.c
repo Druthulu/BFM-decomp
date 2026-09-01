@@ -4912,7 +4912,85 @@ void func_80180574(u8 *a0)
 
 INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_80180610);
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8018074C);
+/* func_8018074C — "aim check": read the current heading table entry for the
+ * actor's sub-state (0x20C), compare it against the live angle from the
+ * func_8014C168(actor, 0x3D) record, and only act when |delta| < 0x80.
+ *
+ * Levers that were load-bearing here (all byte-tested):
+ *  - §5a CROSS-JUMP: the natural `if (d >= 0) { if (d >= 0x80) return; }
+ *    else { if (-d >= 0x80) return; }` is tail-merged by gcc-2.7.2 into a single
+ *    `bgez/negu/slti` conditional-negate — 5 instructions SHORT (LENGTH-DRIFT/-5).
+ *    The target keeps BOTH `slti $v0,$v0,0x80 / beqz` copies. `do_jump`'s
+ *    COND_EXPR case is what emits that shape: put the ternary in the `if`
+ *    condition (`if (d >= 0 ? d < 0x80 : -d < 0x80)`) and gcc emits
+ *    bltz -> arm / slti / beqz / j join / negu / slti / beqz, never merged.
+ *    A `__asm__("")` fence cannot help here — the identical suffix is only
+ *    `slti;beqz` and there is no C statement boundary inside it.
+ *  - `diff` is deliberately left UNINITIALISED (the switch has no default).
+ *    That is what makes it live-in at function entry, hence live across the
+ *    func_8014C168 call, hence allocated to callee-saved $s1 with the
+ *    `sw $s1,0x14($sp)` in the jal delay slot. Initialising it loses $s1.
+ *  - 20-byte table stride: house spelling from func_80180574 in this TU
+ *    (`extern s16 D_801944F0[][10];`) — `[][10]` on a u16 / `[][20]` on a u8
+ *    gives the `sll 2 / addu / sll 2` x20 strength reduction the target has.
+ *  - §20: &D_80126948 is taken ONCE into a pointer that is live across the
+ *    call, which is what parks it in $s2; four bare D_801269xx globals would
+ *    emit four lui/%lo pairs instead.
+ *  - Store order 0x14 before 0x10 is source order, not scheduling (the
+ *    swapped order is the only residual, SCHEDULE-REORDER/2).
+ */
+void func_8018074C(s32 arg0)
+{
+    /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
+       LATER function in this TU, which blocks a byte-true decl of a different type.
+       Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
+    extern s32 func_8014C168(s32 *a0, s32 a1);
+    extern void func_8014C6C0(void);
+    extern void func_8016F0E4(void);
+    extern void func_8018DEB8(s16 param_1);
+    extern void func_80180C3C(void);
+    extern u8 D_80126948[];
+    extern u8 D_801944F2[][20];
+    extern u16 D_801944F8[][10];
+    extern u16 D_8019451C;
+    s32 s0 = arg0;
+    u8 *p = D_80126948;
+    s32 v;
+    s16 diff;
+    s32 t;
+    s32 d;
+    s32 tmp;
+
+    v = func_8014C168((s32 *)s0, 0x3D);
+    t = *(s16 *)(s0 + 0x20C);
+    switch (t) {
+    case 0:
+    case 1:
+        diff = D_801944F8[t][0] - *(u16 *)(v + 0xE);
+        break;
+    case 2:
+        diff = D_8019451C - *(u16 *)(v + 6);
+        break;
+    }
+    d = diff;
+    if (d >= 0 ? d < 0x80 : -d < 0x80) {
+        func_8018DEB8(D_801944F2[*(s16 *)(s0 + 0x20C)][0]);
+        if (*(s16 *)(s0 + 0x20C) == 2) {
+            func_8014C6C0();
+            ((void (*)(s32))func_8016F0E4)(s0);
+            func_80180C3C();
+        } else {
+            *(s32 *)(p + 0x14) = 0x640;
+            *(s32 *)(p + 0x10) = 0x640;
+            tmp = (*(u16 *)(p + 0x1A) - 0x6AA) & 0xFFF;
+            *(s16 *)(p + 0x1A) = tmp;
+            *(s16 *)(p + 0x22) = tmp;
+            *(s32 *)(s0 + 0x204) = 0x20;
+            *(u8 *)(s0 + 0x214) += 1;
+        }
+    }
+}
+
 
 extern u16 D_801944FC[][10];
 extern u16 D_801944FE[][10];
