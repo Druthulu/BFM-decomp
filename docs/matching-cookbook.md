@@ -33756,3 +33756,50 @@ had moved it.
 register belongs to REGALLOC at all.* `$t`-register appearances next to a `la` are the signature of
 reload scratch, and reload runs after every dial C gives you — the only reach is an asm that puts the
 instruction there directly.
+
+## §422 ★★ — QImode ARITHMETIC VIA `(u8)(x - K)`, AND `flag ^ 1` NEEDS ITS OWN TEMP (P31 S71; byte-proven `resident/func_800D06E8`, 344 ins)
+
+**1. A raw-`$a0` `addiu` on a byte value comes from doing the arithmetic in QImode.**
+mips.h defines no `PROMOTE_MODE`, so a `u8` local really is QImode. Write the range test in QImode —
+`(u8)(c - 3) < 2` — and `widen_operand` hands the subtraction a **paradoxical subreg** (the raw
+`$a0`), after which `combine.c:9246`'s `A - C1` vs `C2` rule drops the truncation before the `sltiu`.
+Every earlier probe on this function used `(u32)(c - 3)`, which **re-widens** and loses it. The cast
+is not cosmetic: it selects the mode the arithmetic happens in.
+
+**2. `s1 = (cmp) ^ 1` puts the comparison in the DESTINATION pseudo.** That is expand-time subtarget
+reuse, and it produces a `$s1`/`$v0` pair the target does not have. Give the flag its own temp:
+
+```c
+t  = (u32)(r - 0x64) < 0x1E;
+s1 = t ^ 1;
+```
+
+**Both are one-line respellings that no permuter reaches**, because both change which RTL the
+expander builds rather than the order of anything.
+
+## §423 ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)
+
+**The signature.** `match_one` closeness 0, the whole-binary gate rejects, and the classifier records
+`CAUSE NOT DETERMINED`. That combination has a specific, checkable cause.
+
+**The mechanism.** `harvest_verify.py:490` splices by `txt.replace(stub, draft, 1)` — the draft lands
+exactly where the `INCLUDE_ASM` stub was. If the draft carries a FILE-SCOPE typedef that the TU also
+defines (here `typedef struct { s32 unk00; s32 unk04; } Tbl8_8017FC44;`, defined **five lines below**
+the stub), gcc-2.7.2 exits **33** on a C89 typedef redefinition. The whole TU fails, the gate reverts,
+and nothing in the verdict names the typedef — hence "cause not determined".
+
+**The check, and the fix.** Grep the destination TU for every file-scope `typedef`/`struct`/`union`
+name the draft declares. Move the draft's copy to **BLOCK scope**; it is codegen-neutral (a
+label-normalised diff proves the declaration context changes nothing). Proven three ways here:
+spliced TU with the old draft = exit 33 `conflicting types for 'Tbl8_8017FC44'`, with the new draft =
+exit 0, and an unmodified-TU negative control = exit 0.
+
+**This is the mirror of §409 law 2.** There the collision was with a typedef defined LATER in the TU
+and the fix was also block scope; here it is with one just below the splice point. Same rule, and
+between them they cover both directions: **a draft's file-scope type declaration is a hazard wherever
+the TU defines that name.**
+
+**TOOL TRAP recorded by the same agent.** A scratch copy of a TU needs `-Isrc/<overlay>` or `cpp`
+exits 1 on its relative `"../shared/engine_core.h"` — and then **every variant "passes" identically**,
+which is a silent all-green instrument. Negative-control any TU-splice harness against an unmodified
+copy before believing a single verdict from it.
