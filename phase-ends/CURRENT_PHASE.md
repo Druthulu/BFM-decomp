@@ -5256,3 +5256,34 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
    historical ones were ever harvested. Pairs with the deferred banked-corpus task: the answers have
    been accumulating on disk while we kept looking at the open questions.
 5. Carve route blocker 2 (§323 file-local type, 2 binaries) — blockers 1 and 3 fell this session.
+
+- **S70 POST-CHECKPOINT — CARD DEFECT 4 FIXED (`commit:3581`); DEFECT 5 REFUSED BY ITS OWN REVIEW.**
+  A 4-agent diagnose→adversarially-verify workflow produced one patch per defect. **Opposite verdicts,
+  and the review is what made this safe:**
+  * **#4 SYMBOL MISMATCHES — sound=True, SHIPPED.** `gate_feedback` gated on `shape=='MATCH'` when
+    reloc_identity's binding condition is **`aligned`** (shape AND equal reloc-stream lengths). Below
+    that bar reloc_identity itself downgrades status to `MISMATCH?` and stamps the row **ADVISORY** —
+    and gate_feedback republished it as a binding per-index instruction. When streams are not
+    index-aligned, draft index i is compared to target index i of a DIFFERENT stream, so every "the
+    target references 0x…" line is arithmetic on the wrong word.
+    **Measured: 15 of 130 S70 targets got the block; 15 of 15 aligned=False; 55 of 66 printed lines
+    (83%) name a value that is not an address; of the 4 with a .s on disk, 4 of 4 named symbols the
+    target never relocates.** Whole index: 149 of 182 servable rows aligned=False, 140 of which print
+    a non-address, vs 1 of 33 aligned=True. Both S70 agent reports reproduced verbatim.
+    **Second half of the root cause, STILL OPEN upstream:** `ox_campaign.reloc_filter` stamps the row's
+    binary from `binof = {c["fn"]: c["binary"]}` — a BARE-NAME dict (R48). Wave `el` had 44 names in
+    ≥2 binaries; `func_8017D918`'s row was stamped ov_SC06_020 while the draft it checked was
+    ov_SC01_074's. **A correct read key cannot repair a wrong write-side stamp** — which is exactly why
+    the shipped fix validates against the TARGET'S OWN BYTES rather than trusting the label.
+    Controls run here: known-true aligned=True `ov_SC07_011:func_8016AB6C` STILL SERVED;
+    `ov_SC02_035:func_8017D3F4` withheld with a loud reason.
+  * **#5 BASELINE-RED — sound=FALSE, NOT SHIPPED.** The reviewer measured it **over-rejecting on the
+    very wave it was validated against**: the proposal sorts by recency, so a later, different probe
+    can silently DISCARD an earlier real measurement (BASELINE-RED→REAL 159 pairs moved). Its
+    staleness half is right; the correction is to keep the ts sort but **emit the best measured
+    residual alongside the newest verdict**, so no measurement is overwritten. Left unshipped
+    deliberately — a filter that discards good fuel silently is worse than the bug (R39).
+  **The lesson the pair teaches:** both patches were fluent, evidence-dense and confident. One was
+  right. Without the adversarial second agent I would have shipped both, and #5 would have quietly
+  suppressed 159 real verdicts — the same "plausible number from a wrong instrument" family this whole
+  session kept finding, one level up in the tooling that FIXES the tooling.
