@@ -3437,7 +3437,260 @@ void func_80187928(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80186DDC", func_80187A30);
+/* func_80187A30 (ov_SC03_105, 339 ins) — match_one MATCH 339/339.
+ *
+ * INTEGRATION (S71b): the destination TU already declares this function at
+ * ov_SC03_105_jr_80186DDC.c:3404 as
+ *     extern void func_80187A30(void *a0, s32 a1, s32 a2);
+ * (a banked caller at :3410 uses that prototype). The earlier MATCH body was
+ * defined `(s32, s16, s16)` -> C89 prototype conflict -> the TU would not
+ * compile. This body adopts the TU prototype VERBATIM and keeps the target's
+ * `sll/sra 16` sign-extensions with explicit `(s16)` casts at the three compare
+ * sites (the s16-param form got them from HI->SI promotion; the casts produce
+ * the same RTL). Byte-identical to the s16-param body.
+ *
+ * THE CLOSER (the 8 REGALLOC-LOCAL rows Opus left: `*30` multiplier + product on
+ * $v1 vs target $a3, AND mult operand order (q,r) vs target (r,q)):
+ *  - `mul30` is a SINGLE-SET FUNCTION-SCOPE local assigned 30 ONCE at function
+ *    entry, and the products are written `r = mul30 * q` (mul30 source-FIRST).
+ *    LOAD-BEARING, do not "simplify" to a literal or an in-block `r = 30`:
+ *    (1) the def is in another basic block, so cse.c fold_rtx never learns the
+ *        operand == 30 and its commutative canonicalization never fires -> the
+ *        source operand order survives into `mult $a3,$v0`;
+ *    (2) mul30's live range crosses calls and every callee-saved reg is
+ *        occupied, so global-alloc leaves it UNCOLORED; reload's
+ *        reg_equiv_constant DELETES the init and REMATERIALIZES
+ *        `addiu $a3,$zero,30` before each mult (reload's own reg order reaches
+ *        $a3 while $v1 is free). $a3 register pins and split multiplier locals
+ *        were measured WORSE (18/14).
+ *
+ * Idioms retained (all byte-measured, still load-bearing):
+ *  - §46 L1  `for(;;){ if(..) goto out; }` keeps the top test + `j` back-edge
+ *            (a `break` fires duplicate_loop_exit_test => rotated loop, +5).
+ *  - §150    the two `func_80132EF4` result pointers are DIFFERENT variables
+ *            (`p` strip / `w` tail) so they get $s0/$s1.
+ *  - the matrix address is a NAMED POINTER LOCAL (`m = (MATRIX*)&D_800AF648`)
+ *            assigned after the prim initialisers -- as a bare macro argument
+ *            the `la` schedules ahead of the four `sh` and takes $a3 (19 rows).
+ *  - the +-sign store is a TERNARY, not `u=t; if(..) u=-t;` (the if-form
+ *            coalesces to `negu $s0,$s0`).
+ *  - `>> 12` / `>> 8` / `>> 1`, never `/4096` `/256` `/2` (no sign-fix in .s).
+ *
+ * Frame 0xA8: prim@sp+0x10 (0x40), vt[4]@sp+0x50, flag@0x70, flag2@0x74, otz@0x78;
+ * saves $s0-$s7/$fp/$ra @0x80..0xA7. The 8 uv/t fields at prim+0x20 are u16;
+ * vt[].vy is u16 (`lhu 0x52($sp)`), vt[].vx / vt[].vz are s16.
+ *
+ * ON BANKING: the gte_* macro bodies are TOKEN-IDENTICAL to the ones this TU
+ * already defines for func_80188114 (line ~3495) plus gte_ldv3/gte_rtpt/
+ * gte_stsxy3/gte_avsz4/gte_stotz copied verbatim from src/800.c:3908-3947, so
+ * the redefinitions are legal C and the banker may delete the duplicates.
+ * Every extern below is spelled exactly as the TU already spells it.
+ */
+
+#include "common.h"
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_ldv0(r0) __asm__ volatile (          \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 )"                           \
+    :                                            \
+    : "r"( r0 ) )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtps() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+#define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+
+#define gte_stsxy(r0) __asm__ volatile (         \
+    "swc2 $14, 0( %0 )"                          \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+#define gte_stotz(r0) __asm__ volatile (         \
+    "swc2 $7, 0( %0 )"                           \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "memory" )
+
+#define gte_stflg(r0) __asm__ volatile (         \
+    "cfc2 $12, $31;"                             \
+    "nop;"                                       \
+    "sw $12, 0( %0 )"                            \
+    :                                            \
+    : "r"( r0 )                                  \
+    : "$12", "memory" )
+
+typedef struct { s16 vx; u16 vy; s16 vz; s16 pad; } SV_80187A30;
+
+typedef struct {
+    SV_80187A30 v[4];                       /* 0x00 */
+    u16 u0, t0, u1, t1, u2, t2, u3, t3;     /* 0x20 */
+    u8  r, g, b, cd;                        /* 0x30 */
+    s32 tag;                                /* 0x34 */
+    u8  code;                               /* 0x38 */
+    u8  pad39[7];                           /* 0x39 -> 0x40 */
+} Prim_80187A30;
+
+typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_80187A30;
+extern u8 D_800AF648;
+extern u16 D_800B99DA;
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_80016ED4(void *a0);
+extern s32 rand(void);
+
+void func_80187A30(void *arg0, s32 yy, s32 zz)
+{
+    Prim_80187A30 prim;      /* sp+0x10 */
+    SV_80187A30 vt[4];       /* sp+0x50 */
+    s32 flag;                /* sp+0x70 */
+    s32 flag2;               /* sp+0x74 */
+    s32 otz;                 /* sp+0x78 */
+    s32 i, k, p, w, t;
+    s32 q, r;
+    s32 mul30;
+    MATRIX_80187A30 *m;
+    s32 c16 = 0x10;
+    s32 c8 = 0x8;
+
+    mul30 = 30;
+    prim.r = prim.g = 0x80;
+    prim.b = 0x80;
+    prim.tag = 0x40000000;
+    prim.code = 0x6B;
+    prim.t0 = prim.t1 = 0x100;
+    prim.t2 = prim.t3 = 0x100;
+
+    m = (MATRIX_80187A30 *)&D_800AF648;
+    gte_SetRotMatrix(m);
+    gte_SetTransMatrix(m);
+
+    for (;;) {
+        if ((s16)yy >= *(s16 *)((s32)arg0 + 0x102)) {
+            goto out;
+        }
+        if ((s16)zz >= *(s16 *)((s32)arg0 + 0x104)) {
+            goto out;
+        }
+        vt[0].vy = yy;
+        yy += 8;
+        vt[1].vy = zz;
+        zz += 8;
+        prim.u0 = prim.u2 = 0xF54;
+        prim.u1 = prim.u3 = 0xF54 + c16;
+        vt[2].vy = yy;
+        vt[3].vy = zz;
+        prim.t2 += c8;
+        prim.t3 += c8;
+        i = 0;
+        for (k = 0; k < 8; k++) {
+            q = func_80047948(i);
+            r = mul30 * q;
+            vt[0].vx = vt[2].vx = (r >> 12) - 5;
+            vt[0].vz = vt[2].vz = (func_8004787C(i) >> 8) - 150;
+            i += 0x100;
+            q = func_80047948(i);
+            r = mul30 * q;
+            vt[1].vx = vt[3].vx = (r >> 12) - 5;
+            vt[1].vz = vt[3].vz = (func_8004787C(i) >> 8) - 150;
+            gte_ldv3(&vt[0], &vt[1], &vt[2]);
+            gte_rtpt();
+            gte_stflg(&flag);
+            gte_stsxy3(&prim.v[0], &prim.v[1], &prim.v[2]);
+            gte_ldv0(&vt[3]);
+            gte_rtps();
+            gte_stflg(&flag2);
+            flag |= flag2;
+            gte_stsxy(&prim.v[3]);
+            gte_avsz4();
+            gte_stotz(&otz);
+            if ((flag & ~0x1000) == 0) {
+                prim.v[0].vz = otz - 0x20;
+                func_80016ED4(&prim);
+            }
+            if ((s16)yy - 8 == -428) {
+                if ((rand() & 0xF) == 0) {
+                    p = func_80132EF4((s32)arg0, 0x4D);
+                    if (p != 0) {
+                        *(s16 *)(p + 0x6) = (vt[0].vx + vt[1].vx) >> 1;
+                        *(u16 *)(p + 0xA) = vt[0].vy;
+                        *(s16 *)(p + 0xE) = (vt[0].vz + vt[1].vz) >> 1;
+                        *(s32 *)(p + 0x14) = 0x100000;
+                        *(s16 *)(*(s32 *)(p + 0x20) + 0x18) = *(s16 *)(*(s32 *)(p + 0x20) + 0x1A) = ((rand() % 2) + 2) << 12;
+                        *(u16 *)(*(s32 *)(p + 0x20) + 0x2C) = 0xC010;
+                        *(s32 *)(p + 0x1C) = rand() % 5;
+                    }
+                }
+            }
+            prim.u0 += c16;
+            prim.u1 += c16;
+            prim.u2 += c16;
+            prim.u3 += c16;
+        }
+        prim.t0 += c8;
+        prim.t1 += c8;
+    }
+out:
+    if (*(s16 *)((s32)arg0 + 0x102) >= -188 && (D_800B99DA & 7) == 0) {
+        for (k = 0; k < 4; k++) {
+            w = func_80132EF4((s32)arg0, 0x4D);
+            if (w != 0) {
+                *(s32 *)(w + 0x14) = -0x80000 - ((rand() % 5) << 16);
+                *(s16 *)(*(s32 *)(w + 0x20) + 0x18) = *(s16 *)(*(s32 *)(w + 0x20) + 0x1A) = ((rand() % 4) + 2) << 12;
+                t = rand() % 30;
+                *(s16 *)(w + 0x6) = ((rand() & 1) == 0) ? -t : t;
+                *(s16 *)(w + 0xA) = -188;
+                *(s16 *)(w + 0xE) = -150;
+                *(s32 *)(w + 0x1C) = rand() % 3;
+            }
+        }
+    }
+}
+
 
 extern u16 D_800B99DA;
 extern u16 D_8018F154[];

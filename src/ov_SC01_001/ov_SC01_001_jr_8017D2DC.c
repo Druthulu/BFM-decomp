@@ -4731,7 +4731,180 @@ void func_8017FE44(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_8017FEE0);
+/* func_8017FEE0 — 305 ins, ov_SC01_001. Same idiom as the in-TU neighbour
+ * func_8017F328: a 28-node balanced switch on D_801EDA0C whose arms call
+ * func_8012A828 / func_80182B60 and then either set *(u16*)(s0+2) = 3 or
+ * bump it by 1; post-switch `if (D != 0) D = 0;`.
+ *
+ * Case set was derived from the balance_case_nodes split arithmetic
+ * (root 0x57B needs 13 low / 14 high nodes): `case 0: break;` and `case 3`
+ * are REAL nodes (the earlier backlog draft lacked both). Arm order below is
+ * the target's emission order (§222: source arm order IS emission order);
+ * the trailing 0x100 / 2 arms let cross_jump fold the `+= 1` tail exactly
+ * as the .s shows (.L8018035C shared jal, .L80180364 shared lhu/addiu/sh).
+ *
+ * Declarations: D_801EDA0C, D_801884A8, func_8012A828, func_80182B60 are
+ * copied verbatim from this TU; every other D_ symbol is undeclared in the
+ * TU and only ever has its address taken, so it follows the neighbour's
+ * `extern s32` house style.
+ */
+
+extern void func_8012A828(s32 a0, s32 a1);
+extern void func_80182B60(s32 *a0, s32 a1);
+extern s32 D_801EDA0C;
+extern s32 D_801884A8;
+extern s32 D_80188500;
+extern s32 D_80188568;
+extern s32 D_801E6A44;
+extern s32 D_801E7D08;
+extern s32 D_801E81BC;
+extern s32 D_801E81E4;
+extern s32 D_801E8260;
+extern s32 D_801E8BC4;
+extern s32 D_801E8BD8;
+extern s32 D_801E8F9C;
+extern s32 D_801E8FB0;
+extern s32 D_801E8FC4;
+extern s32 D_801E94F8;
+extern s32 D_801E9CFC;
+extern s32 D_801E9D10;
+extern s32 D_801EA42C;
+extern s32 D_801EA440;
+extern s32 D_801EA454;
+extern s32 D_801EA468;
+extern s32 D_801EA47C;
+extern s32 D_801EA490;
+extern s32 D_801EA4A4;
+extern s32 D_801EA4B8;
+extern s32 D_801EA4CC;
+extern s32 D_801EA7F8;
+extern s32 D_801EA80C;
+
+void func_8017FEE0(s32 arg0)
+{
+    s32 s0 = arg0;
+
+    switch (D_801EDA0C) {
+    case 0:
+        break;
+    case 1:
+        func_8012A828(s0, (s32)&D_80188500);
+        func_80182B60((s32 *)s0, (s32)&D_801E6A44);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 3:
+        func_8012A828(s0, (s32)&D_80188500);
+        func_80182B60((s32 *)s0, (s32)&D_801E7D08);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 4:
+        func_8012A828(s0, (s32)&D_801884A8);
+        func_80182B60((s32 *)s0, (s32)&D_801E81E4);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x3031:
+        func_80182B60((s32 *)s0, (s32)&D_801E8260);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x30B:
+        func_8012A828(s0, (s32)&D_80188568);
+        *(u16 *)(s0 + 2) = *(u16 *)(s0 + 2) + 1;
+        break;
+    case 0x3737:
+        func_80182B60((s32 *)s0, (s32)&D_801E8BC4);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x38A:
+        func_80182B60((s32 *)s0, (s32)&D_801E8BD8);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x38B:
+        func_80182B60((s32 *)s0, (s32)&D_801E8F9C);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x3939:
+        func_80182B60((s32 *)s0, (s32)&D_801E8FB0);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x4040:
+        func_80182B60((s32 *)s0, (s32)&D_801E8FC4);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x4141:
+        func_80182B60((s32 *)s0, (s32)&D_801E94F8);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x4242:
+        func_80182B60((s32 *)s0, (s32)&D_801E9CFC);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x5050:
+        func_80182B60((s32 *)s0, (s32)&D_801E9D10);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x5151:
+        func_80182B60((s32 *)s0, (s32)&D_801EA42C);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x5252:
+        func_80182B60((s32 *)s0, (s32)&D_801EA440);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x53A:
+        func_80182B60((s32 *)s0, (s32)&D_801EA454);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x53B:
+        func_80182B60((s32 *)s0, (s32)&D_801EA468);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x5454:
+        func_80182B60((s32 *)s0, (s32)&D_801EA47C);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x5555:
+        func_80182B60((s32 *)s0, (s32)&D_801EA490);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x5656:
+        func_80182B60((s32 *)s0, (s32)&D_801EA4A4);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x57A:
+        func_80182B60((s32 *)s0, (s32)&D_801EA4B8);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x57B:
+        func_80182B60((s32 *)s0, (s32)&D_801EA4CC);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x5858:
+        func_80182B60((s32 *)s0, (s32)&D_801EA7F8);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x6060:
+        func_80182B60((s32 *)s0, (s32)&D_801EA80C);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 7:
+        func_8012A828(s0, (s32)&D_80188500);
+        func_80182B60((s32 *)s0, (s32)&D_801E81BC);
+        *(u16 *)(s0 + 2) = 3;
+        break;
+    case 0x100:
+        func_8012A828(s0, (s32)&D_801884A8);
+        *(u16 *)(s0 + 2) = *(u16 *)(s0 + 2) + 1;
+        break;
+    case 2:
+        *(u16 *)(s0 + 2) = *(u16 *)(s0 + 2) + 1;
+        break;
+    }
+
+    if (D_801EDA0C != 0) {
+        D_801EDA0C = 0;
+    }
+}
+
 
 
 extern s32 D_801EDA0C;
