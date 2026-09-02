@@ -918,7 +918,7 @@ same day — the only difference was whether the scope was asserted.
 
 ### WSL2 memory reclaim (2026-09-02)
 
-`C:\Users\user\.wslconfig` sets `memory=48GB` / `swap=16GB`. **`autoMemoryReclaim=gradual` was
+`C:\Users\user\.wslconfig` sets `memory=32GB` / `swap=16GB` (lowered from 48GB on 2026-09-02 at Drew's request, leaving 32GB to Windows). **`autoMemoryReclaim=gradual` was
 added 2026-09-02** and takes effect only after `wsl --shutdown` from Windows.
 
 Without it WSL2 grows `vmmemWSL` to cover Linux's page cache and never returns it to the host:
