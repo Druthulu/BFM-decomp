@@ -34019,3 +34019,41 @@ shared tail is free.
 
 **Verification (§405-A):** all 3 jump tables and 20 relocs byte-verified past `match_one`'s masking
 before the MATCH was reported.
+
+## §430 ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS ONE CAN INVALIDATE A LOOP (P31 S72; `main/CdReadSectorReadyCB`, 422/424 ins, verified with `cc1 -dL`)
+
+**Read this together with §3-B, which says the opposite thing for a different reason.** §3-B folds
+many `return <const>;` into one `goto` tail and that is how `func_8001B0D4` matched. This section is
+the case where the same edit is WRONG, and the discriminator is precise.
+
+**The law.** When a target shows two arms converging on a shared block, that block is usually a
+**late `cross_jump` merge of PER-ARM DUPLICATED statements** (§298) — the source had the statements
+written out in each arm. Spelling it as a real `goto` to a shared label is not equivalent when the
+label sits **inside a loop**: the `goto` becomes a jump INTO the loop body, `jump.c`'s
+`mark_loop_jump` marks it `loop_invalid`, and `cc1 -dL` prints
+
+```
+Loop at N ignored due to multiple entry points
+```
+
+after which **loop.c silently drops its invariant hoisting**. Measured here: the `1`/`0x80` constant
+hoist into `$a0`/`$a1` disappeared, costing 2 instructions plus a spurious `andi`.
+
+**The discriminator — ask where the shared label LIVES.**
+* Shared tail is **outside every loop** (a function epilogue, a `return 0;` collector) → §3-B: fold
+  it, and you may free a hard-ABI register as a bonus.
+* Shared tail is **inside a loop body** → duplicate the statements per arm and let `cross_jump` merge
+  them; a source `goto` there costs you the whole loop optimisation pass.
+
+**A `-dL` line is a free oracle.** "Loop at N ignored due to multiple entry points" names the defect
+exactly, and nothing about the emitted `.text` says why 2 instructions went missing. Dump it before
+theorising about a loop-shaped residual.
+
+**Other levers this function confirmed** (all four byte-verified): `$s1` base from a source pointer
+local `CdReq *p = (CdReq *)&cdReq_state` (§32-1) while the pre-switch accesses stay separate globals ·
+frame `0x38` vs `0x30` from an 8-byte DEAD local aggregate (§32-5) · inner-switch source body order
+`6,0/5,7,1,8,2,3,4` · `p->bit` needs an int temp inside the case-1 loop to kill an `andi`.
+
+**And one honest wall.** `find_cross_jump` accepts a **1-instruction** match on the
+`sw $zero,0x8($s1)` before the post label, so it keeps inner-case-6's tail copy rather than the one
+inside case-1's loop. That choice is not reachable from C — permuter fuel, not respelling.
