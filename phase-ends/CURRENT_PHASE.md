@@ -5287,3 +5287,170 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   right. Without the adversarial second agent I would have shipped both, and #5 would have quietly
   suppressed 159 real verdicts — the same "plausible number from a wrong instrument" family this whole
   session kept finding, one level up in the tooling that FIXES the tooling.
+
+## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
+
+**STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**
+**R22 GREEN — `check-all: 213 passed, 0 failed of 213`**, verified before every one of the five gate
+commits. Drew pushes (R6). `ghidra/` churn in `git status` is MCP noise — never stage it.
+
+**CANONICAL PROGRESS.** ⚠ Always run it as
+`make -s report | grep -E "^(REAL / matchable|FLEET|MAIN game)"` — the bare target prints all 853
+match names and buries the summary.
+```
+REAL / matchable          :    853 / 1,919        = 44.45%
+FLEET instr-weighted      : 13,456,476 / 13,523,865 = 99.5%
+FLEET distinct-code(uniq) :  5,785,422 / 5,851,972  = 98.9%
+MAIN game-code weighted   :     39,320 / 79,510     = 49.5%
+REAL FRONTIER             : 210  (main game-code 64 + non-main 146)   [was 355 at session start]
+```
+**THE FRONTIER NUMBER, and how to reproduce it.** `corpus.stubs` counts main's **960 PsyQ LINKED
+library stubs** as open; they are NOT matching targets and Drew does not want them reported. Partition
+with the project's own oracle, never a hand-rolled name filter:
+```python
+import sys, json; sys.path.insert(0,'tools'); import corpus, progress
+progress.set_binary('main'); linked = progress.linked_subsegs()      # 49 subsegs
+main_real = sum(1 for s in corpus.stubs('main').values() if s.region not in linked)
+```
+(`.run/S70_main_linked.json` caches the LINKED symbol names; `.run/S70_bins_sorted.txt` is the true
+213-binary list — `ls asm/*/` is NOT, it yields 214 and omits `main`.)
+
+---
+
+# 1. START HERE — THE §406 PROLOGUE-WEAVE SWEEP (zero drafting, 134 targets, one known lever)
+
+**This is the single biggest measured lever on the board and it needs no agents.** Read cookbook §406.
+
+**The class.** 134 of 1,237 open stubs (11%) carry `sw $s0` / `move $s0,$a0` / `sw $ra` in the prologue
+window. The residual is ALWAYS the `sw $ra` slot. Re-census with:
+```python
+import re, sys; sys.path.insert(0,'tools'); import corpus
+bins = open('.run/S70_bins_sorted.txt').read().split()
+for b in bins:
+    for s in corpus.stubs(b).values():
+        head = "\n".join(open(s.asm_path, errors='replace').read().split("\n")[:24])
+        if (re.search(r'sw\s+\$s0', head) and re.search(r'(move|addu)\s+\$s0,\s*\$a0', head)
+                and re.search(r'sw\s+\$ra', head)):
+            ...   # a member
+```
+**The cause** (traced in cc1's own `.i.sched2` dump on `ov_SC02_005/func_8017F898`): bb0 is all
+constant-address MEMs, so `memrefs_conflict_p` (sched.c:614 — "frame-pointer addresses cannot conflict
+with static variables") finds NO dependence; `sw $ra` is ready at T-2 and `schedule_select`'s
+`potential_hazard` (memory unit beats ALU, sched.c:2616) picks it early, sinking it above the `bne`.
+
+**The lever:** a **NON-volatile** `__asm__("" : : : "memory")` immediately after the parameter copy.
+The BLK clobber gives `sw $ra` a successor so it is only ready after the load is picked, landing back
+at index 3.
+
+**TWELVE VARIANTS ARE ALREADY MEASURED INERT — do not re-try them:** volatile locals, arrays, structs,
+`/s`-defeating casts, address-taken scalars, statement order, cached-global, volatile-global.
+
+**How to run it (the project thesis: build the sweep, don't draft the class).**
+1. R37 PROBE FIRST on ~5 members before building anything — apply the lever to an existing draft (or a
+   fresh `family_remap`/neighbour-derived body) and check `match_one`. Quote the hit rate with its
+   denominator (R41).
+2. If the probe holds, script the lever application over the class and gate in batches with
+   `parallel_gate --plan ... --workers 10 --commit`.
+3. **Do NOT pass `--r22` while any drafting agent is live** (see HAZARDS below). Run one R22 at the end.
+4. `tools/twin_rescan.py` after every gate that banks (§397) — a bank changes the twin graph.
+
+---
+
+# 2. THEN, IN ORDER
+
+**2a. Finish card defect #5 (stale BASELINE-RED).** A patch exists and was **REFUSED by its own
+adversarial reviewer (sound=False)**: it sorts by recency, so a later probe silently DISCARDS an
+earlier real measurement — measured, it moved **159 BASELINE-RED→REAL pairs**. The staleness half is
+correct. **The correction: keep the ts sort, but emit the best measured residual ALONGSIDE the newest
+verdict**, so no measurement is overwritten. Full patch + review in the workflow journal at
+`subagents/workflows/wf_2ea3cce1-2ee/journal.jsonl`. Read it before re-deriving anything.
+
+**2b. Fix `ox_campaign.reloc_filter`'s bare-name stamp (R48, upstream half of defect #4).** It builds
+`binof = {c["fn"]: c["binary"] for c in cards}` — last writer wins. Wave `el` carried **44 names in ≥2
+binaries**, so `func_8017D918`'s reloc row was stamped `ov_SC06_020` while the draft it checked
+belonged to `ov_SC01_074`. `subof` and `det` have the same shape. The read side is now defended (it
+validates against the target's own bytes), but the rows themselves are still mis-stamped at birth.
+
+**2c. `parallel_gate --r22` must REFUSE on live drafting lanes.** `tools/r22_verify.sh` already does
+this (it checks `lane_inflight` and exits 2). `parallel_gate --r22` has no such guard, and `make clean`
+deletes `asm/` AND `build/`. **I ran it three times with 40+ agents live this session and one agent
+lost its oracle mid-run.**
+
+**2d. Mine the agent journals — an unmined corpus already on disk.** Every wave's
+`subagents/workflows/wf_*/journal.jsonl` holds one note per agent at the quality of §405/§406/§407
+(new laws, controls, ablations, refutations). **None of the historical ones were ever harvested.**
+Pairs with the deferred banked-corpus task (#8): the ANSWERS have been accumulating while we kept
+looking at the open questions.
+
+**2e. Carve route blocker 2 (§323).** Blockers 1 and 3 fell this session; blocker 2 is the file-local
+type class on exactly 2 binaries (`ov_SC02_017` typedef `Rec801806C8_s`, `ov_SC03_029` "carry the
+naming type (file_scope_types) or add it to src/shared/engine_types.h").
+
+**2f. The 53 free-twin remaps** (`.run/S70_free_twins.json`) — re-run `twin_rescan` first, the graph
+moved by 145 banks.
+
+---
+
+# 3. WHAT CHANGED THIS SESSION THAT A FRESH SESSION MUST KNOW
+
+**Tool fixes shipped (all committed, all negative-controlled):**
+* `parallel_gate` — `--drafts` is now resolved against the REPO, not the worktree cwd. It was gating
+  **NOTHING at rc=0** for any plan rooted under `.run/` (which is R12's own convention): 35 binaries /
+  57 drafts "banked 0" in 1-2s each while the same drafts gated in-tree banked 15/16. §402.
+* `jr_inventory` — ownership has THREE sources, not one: the `<ov>_jr_<ADDR>` subseg NAME is an
+  ownership record (32 of 36 cases), and a carve for a still-STUBBED function is PENDING not stranded.
+  Dry run 7/17 → 15/17. §322b.
+* `jtbl_carve` — consult `island_probe` before the LEADING-ISLAND refusal; a `'tail'` function belongs
+  in the standard §8a carve. Its refusal named the right branch all along. First carve bank followed.
+* `harvest_verify` — falls back to the standard carve when island-split says TAIL; and now states that
+  **"verified" is not "banked"** (§404: it leaves banks UNCOMMITTED, so a later `git checkout` of that
+  file destroys them — bank via `gate_stage --commit`).
+* Both **undo-journals** (`fix_arity_callers`, `cast_self_callers`) — they restored by function NAME
+  and SWAPPED prototypes on any symbol declared twice, while printing full success. They now REFUSE an
+  ambiguous restore and hash-verify. §403.
+* **Card fuel**, four faces of one R48/R51 root: warm-start homonym body (any foreign symbol
+  disqualifies); `SYS.md` written where no agent reads it (**the playbook's own invocation was wrong —
+  every agent in every wave had been drafting without its laws file**); false "NO banked twin" (**68% of
+  110 such claims were wrong** — the function was banked at the same address in a sibling overlay);
+  SYMBOL MISMATCHES gated on `shape` instead of `aligned`.
+* `tools/work_evidence.py` — NEW. `assert_inputs` / `assert_floor` / `assert_effect`, negative-controlled
+  11/11 both directions, wired into `parallel_gate`, `gate_stage` and `make tools-health`.
+* `make tools-health` — was UNRUNNABLE (>15 min, never once completed). `audit-cdecl` was a full-corpus
+  regression test in a health target (~787s of pure-Python collection before the first cc1 call). Now
+  sampled (`CDECL_AUDIT_TUS ?= 60`, 61s); `audit-cdecl-full` keeps the exhaustive form. **333s green.**
+
+**Cookbook 1,062 → 1,074.** New: §401 jtbl-carve probe blind spot · §402 path-resolved-in-another-cwd ·
+§403 undo-journal keyed by name · §404 verify-vs-bank · **§405 the wave harvest** · **§406 the sweep** ·
+§407 late addenda.
+
+**THE BIGGEST SINGLE FINDING — §405-A.** `match_one` compares **`.text` only**, so a switch's `.rodata`
+jump table is INVISIBLE to it. gcc emits case BODIES in source order while entry *i* points at case
+*i*, so case-value and case-order are independent and `.text` pins only the order. A draft scored a
+perfect **110/110 while emitting an IDENTITY table where the real one is PERMUTED**
+(`resident/func_800D02D0`, byte-witnessed). **A MATCH on a switch function is not evidence about its
+table**, and some historical "MATCH but the gate rejected it" verdicts were the ORACLE being wrong.
+
+---
+
+# 4. HAZARDS THIS SESSION PROVED (do not relearn these)
+
+* **Never run `--r22` / `make clean` while drafting agents are live.** It deletes `asm/` and `build/`.
+* **Never blanket `git checkout -- src/ config/`** (R42). I did it once as a tidy-up; no-op by luck.
+* **Never kill a running workflow to relaunch it differently** — add alongside it instead. I discarded
+  a group's in-flight work doing this.
+* **A scan over `asm/` is a scan over UNMATCHED code only** — a banked function has no `.s` there, so
+  "no banked function ever does X" is unanswerable and returns a confident empty-world answer.
+* **Check every scan/census against a case whose answer you already know.** Four of my own probe
+  instruments returned plausible WRONG numbers this session before any of them errored — a glob that
+  silently excluded `main` (78% of the population); comparing names against `corpus.stubs`, which
+  returns ADDRESSES (this produced a wrong answer I reported to Drew); fabricating `func_%08X` names
+  when 58% of stubs carry a real symbol; a jtbl detector matching `jr $ra`, which ends every function.
+* **Adversarially verify a tooling patch before shipping it.** Two patches this session, both fluent and
+  evidence-dense; one was right. The reviewer caught the other over-rejecting on the very wave it was
+  validated against.
+
+# 5. WAVE MECHANICS THAT WORKED (130 agents, 115 MATCH / 3 NEAR, 0 errors)
+Follow `docs/wave-playbook.md` (now corrected). Draw needed a FRESH LEDGER (`--ledger <new>`): the
+standing one holds 1,700 keys and leaves ~1 undrawn target fleet-wide. Launch shape that worked: many
+INDEPENDENT top-level Workflow invocations of `tools/workflows/claude_wave_draft.js` (a single workflow
+caps concurrency at 16). Every payload comes from `wave_args.py`; never hand-type a target.
