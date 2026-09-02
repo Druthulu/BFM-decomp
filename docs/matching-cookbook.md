@@ -33803,3 +33803,25 @@ the TU defines that name.**
 exits 1 on its relative `"../shared/engine_core.h"` — and then **every variant "passes" identically**,
 which is a silent all-green instrument. Negative-control any TU-splice harness against an unmodified
 copy before believing a single verdict from it.
+
+## §424 ★★★ — EQUAL-PRIORITY STORES COME OUT **REVERSED**: sched1's LUID tie picks the LAST statement first (P31 S71; byte-proven `ov_SC07_006/func_801890FC`, 387 ins)
+
+**The symptom.** A run of same-shape halfword stores appears in the asm in an order that looks
+scrambled relative to any source order you try — and statement reordering seems to do nothing useful,
+because every order you try is wrong in the same way.
+
+**The mechanism, read off `-dS`/`-dR` against `docs/gcc-2.7.2-map/sched.md`.** For a pair of stores at
+EQUAL priority, sched1's LUID tie picks the **last statement's** store first. Regalloc then hands the
+OTHER load `$v0` — where it is stuck behind its own `$v0` predecessors — and sched2 pins that chain
+last. Net effect: **each equal-priority pair appears reversed in the output.** Measured here, source
+order `FE ; E-=0x40 ; A-=0xEE ; 0x88= ; 0x8A= ; 0x8C=` emits as `E, 88, A, 8C, 8A`.
+
+**So write the source in the order that INVERTS pairwise**, rather than the order you want to read in
+the asm. This is why "statement order is inert" is such a common (and wrong) conclusion on these
+functions: the mapping is not identity, so trying orders at random explores the wrong space. Compute
+the intended emission order, then invert each equal-priority pair.
+
+**The companion defect on the same function (§193-E).** The prior draft's temps left **no
+different-address store between `sh 0xA` and its re-read**, so cse forwarded the value and emitted
+`andi 0xffff` instead of the reload. A store to a different address between the two is what re-seeds
+cse — the same lever as §416's "re-read the store", seen from the failure side.
