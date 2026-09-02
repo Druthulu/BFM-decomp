@@ -33382,3 +33382,41 @@ lesson applied): register pins on `$18`/`$s2` (they force `$s4` live, +2 drift) 
 `u = …` (§3-T2 / §49 LUID — `sll` priority is scheduler-internal, §307) · every `__asm__("")` fence
 placement · folding `u` into `X`. Frame came out at 0x50 via `s32 pad[10]` (§164-53), and the
 two-`u8`-copy locals were read off the TU neighbour `func_8017E830` (§194-E).
+
+## §411 ★★★ — THE PACK MUST CARRY THAT FUNCTION'S OWN HISTORY (P31 S71; measured 38/39 vs 124/131)
+
+**The defect, stated as a pipeline fact.** Every drafting agent ends its run by writing a note — what
+it tried, what it measured INERT, which lever moved the residual, where its draft sits on disk — into
+`subagents/workflows/wf_*/journal.jsonl`. For ~30 phases nothing read them back. A function that
+refused a wave went straight back into the pool, and the next wave's agent met it with no idea that
+three predecessors had already burned the same four levers, or that one had left a MATCHing body on
+disk. **The write side felt complete because the notes were being saved.**
+
+**The fix is one pack step.** `tools/journal_notes.py` mines the journals per `(binary, fn)` and
+appends `PAST ATTEMPTS ON THIS EXACT FUNCTION`; `claude_wave_packs.py` calls it at the end of pack
+generation, so it is the default and not a step to remember. Idempotent (never appends twice) and
+R48-safe: a note stamped with a DIFFERENT binary is never served, because the same name is another
+function in another overlay (§238).
+
+**Measured on S71 wave 1** — 50 one-agent workflows over the 210-function real frontier, where every
+target had already refused at least one earlier wave:
+
+| | with notes (S71) | without (S70) |
+|---|---|---|
+| MATCH at closeness 0 | **38 / 39 (97.4%)** | 124 / 131 (94.7%) |
+| pool | the hardest residue | strictly easier |
+| cite a prior attempt as what they used | **29 / 39 (74%)** | n/a |
+| banked by RECOVERING an existing MATCH body | **4 / 39 (10%)** | 0 |
+| matched on the FIRST compile | 11 / 39 (28%) | n/a |
+
+**The two failure modes it removes are the expensive ones.**
+1. **Re-testing a measured-inert lever.** §406 lists twelve, §407 fifteen, §410 four — every one of
+   those lists was paid for by an agent, and is worthless to the next agent who never sees it.
+2. **Re-deriving a body that already exists.** `ov_SC05_003/func_80181720`'s pack shipped a FAILED
+   warm-start while attempt 3's MATCH sat under `.run/S70x_1/opus`. The agent found it *because the
+   note named the path*.
+
+**The general law, past decomp.** *If your agents produce a per-item report, the next agent on that
+item must be handed it.* An archive of your own verified outcomes is training data for your own
+tooling — and a corpus you write but never read is indistinguishable, from the outside, from one you
+never wrote.

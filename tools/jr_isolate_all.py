@@ -403,10 +403,28 @@ def _partition(srcpath, cuts, syms):
     # C identifiers are aF*, which matched neither `func_<hex>` nor `syms`), and the overlay then
     # failed to link. Six wave-6 drafts were written off against that. Fail loud instead.
     lost = [it for it in items if it[0] is None and it[2] not in ("tail", "footer")]
-    if lost:
-        sys.exit(f"jr_isolate_all: {srcpath} has {len(lost)} construct(s) with no resolvable "
+    # FILE-LOCAL `static` DEFINITIONS HAVE NO ADDRESS BY CONSTRUCTION, AND THAT IS NOT A DEFECT
+    # (P31 S71). A `static inline` helper (§82.1) emits NOTHING of its own — it exists to shape the
+    # code of the function that calls it — so it carries no symbol and `addr_of` cannot resolve it.
+    # The R32 guard above is right to refuse an UNPLACEABLE construct, but it was refusing these
+    # too, which blocked the isolate on 4 of the 6 overlays whose CARVE-REFUSED functions the
+    # isolate is the named remedy for (`bandsetup` on ov_SC03_010/013/092, `setup_80188D90` on
+    # ov_SC06_029). Place them instead: a file-local definition belongs with the region that USES
+    # it, and if two regions use it we REFUSE rather than duplicate (two copies of a used static
+    # are two different objects' code — a byte change, R43).
+    local_defs, unplaceable = [], []
+    for it in lost:
+        if (it[2] == "def" and it[1]
+                and re.search(r'^\s*static\b[^;{]*\b%s\b' % re.escape(it[1]),
+                              it[3] or '', re.M)):
+            local_defs.append(it)
+        else:
+            unplaceable.append(it)
+    if unplaceable:
+        sys.exit(f"jr_isolate_all: {srcpath} has {len(unplaceable)} construct(s) with no resolvable "
                  f"address — refusing to rewrite the file without them (R32):\n" +
-                 "\n".join(f"  kind={it[2]} name={it[1]} :: {it[3].strip()[:110]}" for it in lost[:6]))
+                 "\n".join(f"  kind={it[2]} name={it[1]} :: {it[3].strip()[:110]}"
+                            for it in unplaceable[:6]))
     addressed = [it for it in items if it[0] is not None]
     cuts = sorted(set(cuts))
     bounds = [None] + cuts + [None]
@@ -419,6 +437,21 @@ def _partition(srcpath, cuts, syms):
     if tail or footer:                  # tail = guarded last-region content (see above);
         lo, hi, sel = regions[-1]       # footer = comment/blank-only trailing chunk
         regions[-1] = (lo, hi, sel + tail + footer)
+    # Place each file-local `static` definition with the ONE region that references it.
+    for it in local_defs:
+        name = it[1]
+        users = [i for i, (lo, hi, sel) in enumerate(regions)
+                 if any(re.search(r'\b%s\b' % re.escape(name), o[3] or '') for o in sel
+                        if o is not it)]
+        if len(users) > 1:
+            sys.exit(f"jr_isolate_all: file-local {name!r} is used by {len(users)} of the new "
+                     f"regions; carrying it into each would emit two copies of the same static "
+                     f"(a byte change). Isolate a different jr-function, or hoist {name!r} to a "
+                     f"shared header first (R43).")
+        idx = users[0] if users else 0
+        lo, hi, sel = regions[idx]
+        # the definition must precede its callers inside the region (C89 needs the declaration)
+        regions[idx] = (lo, hi, [it] + sel)
     return header, regions
 
 

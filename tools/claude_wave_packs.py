@@ -189,6 +189,33 @@ def main():
         open(os.path.join(out, 'packs', t['name'] + '.md'), 'w').write(um); n += 1
     hit = sum(1 for t in targets if (t['binary'], t['name']) in cards)
     byname = sum(1 for t in targets if any(k[1] == t['name'] for k in cards))
+    # PAST-ATTEMPT FUEL (P31 S71, cookbook §409/§411). Every drafting agent already wrote a
+    # note per target into its workflow journal; until S71 nothing read them back, so each
+    # wave re-derived the dead ends the last one paid for. Measured on the S71 wave: 38/39
+    # MATCH (vs S70's 124/131 on an easier pool), 29/39 agents citing a prior attempt, and
+    # 4/39 banking by RECOVERING a body that already matched. It is a pack step, not an audit.
+    try:
+        import journal_notes as _jn
+        _idx = _jn.load()
+        _hit = _add = 0
+        for _t in targets:
+            _fn = _t.get('name') or _t.get('fn')
+            _p = os.path.join(out, "packs", "%s.md" % _fn)
+            if not os.path.exists(_p):
+                continue
+            _rows = _jn.notes_for(_idx, _t.get('binary'), _fn)
+            if not _rows:
+                continue
+            _hit += 1
+            if _jn.HEADING in open(_p, errors='replace').read():
+                continue
+            open(_p, 'a').write(_jn.render(_rows))
+            _add += 1
+        print('past-attempt notes: %d/%d target(s) have journal history; appended to %d pack(s)'
+              % (_hit, len(targets), _add))
+    except Exception as _e:            # fuel is additive — never fail a wave over it
+        print('past-attempt notes SKIPPED: %s: %s' % (type(_e).__name__, _e))
+
     print('packs: %d written to %s' % (n, out))
     print('cards: %d/%d matched on (binary, fn); %d target(s) have a same-named card in ANOTHER binary '
           '(DROPPED, not substituted — R48); %d card(s) skipped for carrying no binary'

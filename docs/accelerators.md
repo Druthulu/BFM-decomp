@@ -489,3 +489,37 @@ proven complete for the class of work it judged.** Concretely, three cheap habit
 **Cost when skipped:** here, a class recorded as structurally blocked was mostly free work — 21
 functions with already-banked twins, ~25 seconds each, zero tokens. The census that said otherwise
 was arithmetic on artifacts.
+
+## The agent journals were a labelled corpus we wrote for 30 phases and never read (P31 S71)
+
+**What we did for ~30 phases.** Every drafting agent ends its run with a note: what it tried, what it
+measured INERT, which lever moved the residual, where its draft sits on disk. Those notes were written
+to `subagents/workflows/wf_*/journal.jsonl` and never read back. When a function refused a wave it went
+back in the pool, and the NEXT wave's agent started from the pack — with no idea that three agents had
+already burned through the same four levers, or that one of them had left a MATCHing body on disk.
+
+**What it cost.** By S71 the unread corpus was **400 journals / 6,658 result records / 4,853
+substantive notes (5.4 MB)**, of which 707 explicitly claim something new/undocumented/refuting, plus
+**896 distinct `index_gap` reports** — each one an agent telling us a symptom the cookbook index does
+not cover. The functions still open at that point were, almost by definition, the ones that had
+generated the most of these notes.
+
+**What it took to fix: one afternoon's tool.** `tools/journal_notes.py` mines the journals per
+(binary, fn) and appends a `PAST ATTEMPTS ON THIS EXACT FUNCTION` section to that function's pack;
+`claude_wave_packs.py` now calls it automatically, so it is the default rather than a step to remember.
+
+**The measured effect** (S71 wave 1: 50 one-agent workflows over the 210-function real frontier, every
+target having already refused at least one earlier wave):
+
+| | with journal notes (S71) | without (S70) |
+|---|---|---|
+| MATCH at closeness 0 | **38 / 39 (97.4%)** | 124 / 131 (94.7%) |
+| pool | the hardest residue | strictly easier |
+| agents citing a prior attempt | **29 / 39 (74%)** | n/a |
+| banked by RECOVERING an existing MATCH body | **4 / 39 (10%)** | 0 |
+
+**Do this sooner on the next project.** The moment agents write structured notes, wire the read side
+in the same change. The rule generalises past decomp: **if your agents produce a per-item report, the
+next agent on that item must be handed it.** An archive of your own verified outcomes is training data
+for your own tooling (see also `docs/decision-log.md` on the banked-corpus pivot) — and the specific
+trap here is that the write side felt complete on its own, because the notes were being *saved*.

@@ -204,6 +204,27 @@ Positional args, not flags. **The second arg is the WAVE dir, not `<wave>/packs`
 > ("NOTE: .run/S70y_1/SYS.md does not exist — worked from the pack alone"); the rest never mentioned
 > it. Pass the wave dir and the mv disappears with the bug.
 
+### 3b. PAST-ATTEMPT FUEL — automatic since S71, but CHECK ITS COVERAGE LINE
+
+`claude_wave_packs.py` now ends by calling `tools/journal_notes.py`, which mines every agent journal
+for notes about each target and appends `PAST ATTEMPTS ON THIS EXACT FUNCTION` to its pack. Read the
+line it prints:
+
+```
+past-attempt notes: 16/27 target(s) have journal history; appended to 16 pack(s)
+```
+
+A **0/N** on a wave drawn from the frontier is a DEFECT, not a fact — those functions have refused
+waves before, so they have history. Check the journal glob in `journal_notes.JOURNALS` resolves
+(`~/.claude/projects/-home-musashi-bfm-decomp/*/subagents/workflows/*/journal.jsonl`) before believing
+it. Back-fill a wave built another way with `tools/journal_notes.py --wave <dir>` (idempotent).
+
+**Why it is worth a step of its own (§411).** S71 wave 1, over the hardest 210-function frontier where
+every target had already refused a wave: **38/39 MATCH (97.4%)** vs S70's 124/131 (94.7%) on an easier
+pool, **29/39 agents citing a prior attempt**, and **4/39 banking by recovering a MATCHing body the
+notes told them was already on disk**. The two costs it removes are re-testing a measured-inert lever
+and re-deriving a body that exists.
+
 ## 4. Validate — never hand-type a target
 
 ```
