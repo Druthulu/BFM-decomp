@@ -33725,3 +33725,34 @@ and are not data symbols.
 **Result: 4 banked in 57 seconds of gate time, zero drafting** — and all four had been sitting at
 closeness 0 behind a symbol rename. **Verify after rewriting** (`match_one` again, all four still
 MATCH) before gating; a rebase that changes the body is a rebase you got wrong.
+
+## §421 ★★★ — A `la $tN` + `addiu` PAIR CAN BE A **RELOAD** ARTIFACT THAT NO C SPELLING REACHES (P31 S71; byte-proven `md_SC07_003/func_801A293C`, 313 ins, 6 → 0)
+
+**The tell.** The target contains `la $t0, SYM` immediately followed by `addiu $s4,$t0,0x18`. Every
+attempt to produce it from C fails, and the reason is that **`$t0` is not a register allocation at
+all** — it is reload's scratch. `regalloc.md` L80: reload takes the *first wholly-unused
+call-clobbered register*. A launder's OUTPUT can never land there (local-alloc gives K8 `$v0`), and
+any `$8` pin evicts every `mfhi`/reload to `$t1` instead — measured three times.
+
+**The lever: a single-instruction NON-volatile asm with the bare symbol as an INPUT** (§385):
+
+```c
+__asm__("addiu %0,%1,0x18" : "=r"(m) : "r"(D_800AF630));
+```
+
+The bare-symbol input is what makes the assembler materialise the `la` into a scratch register; the
+non-volatile form keeps it schedulable. That closed the last instruction (1 → 0) after nothing in C
+had moved it.
+
+**Two more from the same crack, both worth their own reach:**
+* **Spell an addPrim RMW as a libgpu `P_TAG` 24-bit `addr` bitfield** (the `boot.c` house spelling).
+  `store_fixed_bit_field` masks the VALUE first, so `0xFFFFFF` hoists *before* `0xFF000000` (§162e2,
+  body-first-mention) and `*p` loads before the base reload — that one respelling closed both the
+  `lui`/`ori` and the `lw`-swap clusters, 6 → 3.
+* An in-place `and $s0` wants the assignment written out: `s0 = s0 & 0xFFFFFF` (3 → 1). The compound
+  form does not produce it.
+
+**The general law.** *Before spending iterations on a register you cannot get, ask whether that
+register belongs to REGALLOC at all.* `$t`-register appearances next to a `la` are the signature of
+reload scratch, and reload runs after every dial C gives you — the only reach is an asm that puts the
+instruction there directly.
