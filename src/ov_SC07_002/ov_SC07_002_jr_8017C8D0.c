@@ -6861,7 +6861,183 @@ void func_801831FC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_80183458);
+#include "common.h"
+
+/* func_80183458 -- 3-slot particle/spark spawner with a 0x70-frame countdown
+ * (297 ins, ov_SC07_002, match_one MATCH closeness 0, S71b).  The same-address
+ * function banked in ov_SC02_031 is a DIFFERENT body (0x401-guard switch) -- ignore it.
+ *
+ * Source-form facts the bytes pin down (all measured, each one a real residual):
+ *  - if (cnt < 0x70) { body } else { func_8012C218 } : the kill call sits after the
+ *    loop's `j` at the tail, so it is the ELSE arm, not an early return.
+ *  - `*(s16*)(a0+0x10A) += 1` spelled as a narrow RMW: the `addu $v1,$v0` copy before
+ *    `slti` is the HImode-plus tell (an s32 temp loses the copy).
+ *  - the 24 palette stores are three CHAINED assignments (one per value): that is what
+ *    keeps t, t+0x40, t+0x20 live in three regs and sinks the D_80197DCC load chain below
+ *    the `t` arithmetic (the `nop` before the first sb).  Separate statements schedule
+ *    the load chain first and recompute each offset at first use (-1 ins).
+ *  - tp = &tm[i + 1]; ap = (u16 *)&tm[i]; as POINTER VARIABLES: the +2 stays in the index
+ *    (`addiu $v1,$v0,2; addu $a0,$s6,$v1`) instead of folding into the load offset, and
+ *    ap survives the arm join + the rand() call in $s1 (cross-jumped `sh` in the delay slot).
+ *  - s16 x, z (and s16 dx, dz): the raw u16+u16 sum is sign-extended for the mult while
+ *    the untruncated value is COPIED into $s1/$s3 for the later `sh`.  Fresh names for
+ *    every later quantity (c, dx, dz) -- reusing t/x/z lengthened pseudos and swapped
+ *    $s1/$s2/$s3 and turned dx into `sra $s2`.
+ *  - store order == source order for the matrix init (descending chains) and for the
+ *    n[]<<k blocks (0x10, 0x18, then the constants): the n[2] read must precede the
+ *    constant stores because sp-based loads and pointer stores are assumed to alias.
+ *  - frame 0x70 with v/n/m = 48 bytes of aggregates: the missing 16 bytes are dead temps
+ *    gcc already allocates for this body -- a pad[4] OVERSHOOTS to 0x80 (cookbook S226-1).
+ */
+extern void func_801831FC(s32 param_1);
+extern void func_8013C9C4(void *a0);
+extern void func_8013240C(s32 a0);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8012B2CC(s32 param_1);
+extern s32 func_8012B864(s32 a0);
+extern void func_8012C218(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32 func_80047D3C(s32 a0);
+extern s32 rand(void);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern s32 VectorNormalSS(void *a0, void *a1);
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u16 D_80126B94;
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern s16 D_80126B9A;
+extern u32 *D_80197DCC;
+extern s32 D_8019F0E0[];
+extern s32 D_8018A4DC;
+
+void func_80183458(s32 a0) {
+    u16 v[4];   /* sp+0x10: SVECTOR, transformed offset */
+    u16 n[4];   /* sp+0x18: SVECTOR, normalised copy */
+    s16 m[16];  /* sp+0x20: MATRIX */
+    s32 cnt;
+    s32 t;
+    u8 *row;
+    s16 *tm;
+    s16 *tp;
+    u16 *ap;
+    s16 i;
+    s16 r;
+    u16 ang;
+    s16 x;
+    s16 z;
+    s16 dx;
+    s16 dz;
+    s32 p;
+    s32 q;
+    s32 d;
+    s32 e;
+    s32 c;
+    s32 v1;
+
+    cnt = *(s32 *)(a0 + 0x1C) + 1;
+    *(s32 *)(a0 + 0x1C) = cnt;
+    if (cnt < 0x70) {
+        if (cnt == 0x1C || cnt == 0x38) {
+            if (*(s16 *)(a0 + 0x10A) < 2) {
+                *(s16 *)(a0 + 0x10A) += 1;
+                func_801831FC(a0);
+                func_8013C9C4(&D_8018A4DC);
+                if (*(s16 *)(a0 + 0xFC) == 0) {
+                    *(u16 *)(a0 + 0x10A) += 1;
+                    func_8002D4C8(0xBA8, 0);
+                } else {
+                    func_8002D4C8(0xBD0, 0);
+                }
+            }
+        }
+        func_8013240C((s32)D_8019F0E0);
+        t = 0x38 - ((*(s32 *)(a0 + 0x1C) & 7) << 3);
+        row = (u8 *)D_80197DCC[7];
+        row[0x4] = row[0x8] = row[0x24] = row[0x2C] = row[0x84] = row[0x8C] = t + 0x40;
+        row[0xC] = row[0x10] = row[0x28] = row[0x30] = row[0x44] = row[0x48] = row[0x64] = row[0x6C] = row[0x88] = row[0x90] = row[0xA4] = row[0xAC] = t + 0x20;
+        row[0x4C] = row[0x50] = row[0x68] = row[0x70] = row[0xA8] = row[0xB0] = t;
+        tm = (s16 *)(a0 + 0xF0);
+        i = 0;
+        do {
+            tp = &tm[i + 1];
+            ap = (u16 *)&tm[i];
+            if (*tp != 0) {
+                *tp -= 1;
+                if (*tp >= 0x30) {
+                    *ap += 0x20;
+                } else {
+                    *ap += 0x80;
+                }
+                r = rand();
+                ang = *ap;
+                m[4] = 0x1000;
+                v[0] = 0x9C;
+                m[1] = m[2] = m[3] = m[5] = m[6] = m[7] = 0;
+                v[1] = 0;
+                v[2] = 0x372;
+                m[0] = m[8] = ang;
+                RotMatrixY(r & 0xFFF, m);
+                ApplyMatrixSV(m, v, v);
+                x = v[0] + *(u16 *)(a0 + 6);
+                z = v[2] + *(u16 *)(a0 + 0xE);
+                if (x * x + z * z <= 0xE0FFF) {
+                    VectorNormalSS(v, n);
+                    p = func_80132EF4(a0, 0x22);
+                    if (p != 0) {
+                        v1 = *(s32 *)(p + 0x20);
+                        *(s16 *)(p + 0xA) = -0x220;
+                        *(s16 *)(p + 6) = x;
+                        *(s16 *)(p + 0xE) = z;
+                        *(s16 *)(v1 + 0x1C) = 0x5000;
+                        *(s16 *)(v1 + 0x1A) = 0x5000;
+                        *(s16 *)(v1 + 0x18) = 0x5000;
+                        *(s32 *)(p + 0x10) = (s16)n[0] << 7;
+                        *(s32 *)(p + 0x18) = (s16)n[2] << 7;
+                        *(s32 *)(p + 0x14) = -0x70000;
+                    }
+                    q = func_8012C658(0x376, 1, a0);
+                    if (q != 0) {
+                        *(s16 *)(q + 6) = x;
+                        *(s16 *)(q + 0xA) = -0x202;
+                        *(s16 *)(q + 0xE) = z;
+                        func_8012B2CC(q);
+                        v1 = *(s32 *)(q + 0x20);
+                        c = (r >> 4) + 0xC00;
+                        *(s16 *)(v1 + 0x1C) = c;
+                        *(s16 *)(v1 + 0x1A) = c;
+                        *(s16 *)(v1 + 0x18) = c;
+                        *(s32 *)(q + 0x10) = (s16)n[0] << 8;
+                        *(s32 *)(q + 0x18) = (s16)n[2] << 8;
+                        *(s32 *)(q + 0x48) = -0x20000;
+                        *(s32 *)(q + 0x1C) = 0xF;
+                    }
+                }
+                d = (s16)v[0] * (s16)v[0] + (s16)v[2] * (s16)v[2];
+                dx = D_80126B5E - *(u16 *)(a0 + 6);
+                dz = D_80126B66 - *(u16 *)(a0 + 0xE);
+                e = dx * dx + dz * dz;
+                if (e < d) {
+                    d = func_80047D3C(d);
+                    e = func_80047D3C(e);
+                    if (d - 0x60 < e && (s16)D_80126B62 >= -0x23F) {
+                        D_80126B96 = 0x401B;
+                        D_80126B94 |= 1;
+                        D_80126B9A = func_8012B864(a0);
+                        D_80126B98 = 0x64;
+                    }
+                }
+            }
+            i += 2;
+        } while (i < 6);
+    } else {
+        func_8012C218((void *)a0);
+    }
+}
+
 
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_8012C218(void *a0);
