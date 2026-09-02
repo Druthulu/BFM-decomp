@@ -1018,6 +1018,19 @@ def migrated_tables(ov, funcs):
 
 def apply(ov, funcs):
     mig = migrated_tables(ov, funcs)
+    # THE PROBE OVERRIDES THE CLASSIFIER FOR 'tail' (P31 S70). `migrated_tables` can flag a function
+    # whose table is actually in the DATA TAIL, and the island branch below then refuses the whole
+    # batch — even though `island_probe` classifies it 'tail' and its own detail says "standard §8a
+    # carve at gate time", i.e. it names the ordinary lane as the owner (R43: each kind names its
+    # lane). That refusal reads as a permanent wall while the function is simply in the wrong branch:
+    # measured on ov_SC02_000/func_8017F950, which is 'tail' yet died on the LEADING-ISLAND exit.
+    # Consult the probe FIRST and let a tail function fall through to build_carve below.
+    if mig:
+        _tail = [f for f in mig if island_probe(ov, f)[0] == "tail"]
+        if _tail:
+            print(f"jtbl_carve {ov}: {sorted(_tail)} probe as 'tail' (data-tail table) — routing to "
+                  f"the standard §8a carve, not the §154-A island branch")
+            mig = [f for f in mig if f not in _tail]
     if mig:
         # §154-A migrated tables. Two states, byte-distinguished by island_probe:
         #   * 'covered' — the §260 island split is IN PLACE (the fn is isolated into its own
