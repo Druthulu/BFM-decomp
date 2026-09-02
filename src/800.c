@@ -6694,7 +6694,7 @@ extern int   CdControl(u8 com, u8 *param, u8 *result);
 extern int   CdSync(int mode, u8 *result);
 extern void  CdFlush(void);
 extern void *CdReadyCallback(void *func);
-extern void  CdReadSectorReadyCB(char);        /* the CdlReadN data-ready callback @0x8001A338 */
+extern void CdReadSectorReadyCB(u8);   /* §376: def takes u8; only ever passed BY ADDRESS */
 extern void  start(void);                       /* EXE entry — used as the idle "sink" sentinel */
 extern int   func_8002FD14(int buf, int len);   /* per-sector consumer (drains the queued list) */
 extern void  func_8001A0FC(void);
@@ -6924,7 +6924,7 @@ extern s32   func_800435CC(s32 mode, void *buf, void *param);  /* CdControl     
 extern s32   func_8004355C(s32 mode, u8 *result);             /* CdSync           */
 extern void *func_800435B4(void *func);                       /* CdReadyCallback  */
 extern void  func_800434BC(void);                             /* CdFlush          */
-extern void  CdReadSectorReadyCB(s8);
+extern void CdReadSectorReadyCB(u8);   /* §376: def takes u8; only ever passed BY ADDRESS */
 extern s32   func_8002FD14(s32, s32);
 extern void  func_8001A0FC(void);
 extern s32   func_8001A114(void);

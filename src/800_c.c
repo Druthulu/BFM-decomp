@@ -458,8 +458,8 @@ extern u8  D_800A46BA;
 extern u8  D_800A4F1A;
 extern s32 func_80034CF0(u8 *);
 extern void func_80034DFC(short);
-extern void func_80035270(void);
-extern void func_800359B0(void);
+extern s32 func_80035270();    /* §376: def returns s32 and takes (s32) */
+extern void func_800359B0();   /* §376: def takes (s32) */
 extern void func_80036D24(void);
 extern void func_80036FB0(s32, s32);
 
@@ -591,7 +591,7 @@ extern s16 D_800A4EF8;
 extern s32 func_80034CF0(u8 *);
 extern void func_80034DFC(s16);
 extern s32 func_8003EDE8(s32, s32, s32);
-extern void func_80035C4C(void);
+extern s32 func_80035C4C();    /* §376: def returns s32 and takes (s32) */
 extern void func_80036F98(void);
 extern void func_8003602C(s32);   /* §376: the definition takes s32 (the use is address-taken and already cast) */
 extern void func_80036FB0(s32, s32);

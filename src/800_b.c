@@ -848,7 +848,7 @@ extern s8 D_800A4F17;
 extern u8 D_800A4F18;
 extern s16 D_800A4EFC;
 extern void func_8002D904(s32);
-extern void func_8002DC68(s32 a0, s32 a1);
+extern s32 func_8002DC68();    /* §376: def returns s32 and takes (u32, u32) */
 extern void func_8002E138(s32 a0, s32 a1, s32 a2);
 extern void func_80030F80(void);
 extern void func_8002D320(void);
@@ -925,7 +925,7 @@ void func_8002D59C(s32 arg0, s32 arg1, s32 arg2) {
 extern s8 D_800A4F17;
 
 s32 func_8002D678(s32 a0, s32 a1) {
-    extern void func_8002DC68(s32 a0, s32 a1);
+    extern s32 func_8002DC68();    /* §376: def returns s32 and takes (u32, u32) */
 
     u32 id;
     s32 ret;
@@ -1246,7 +1246,7 @@ extern s8 D_800A4F17;
 extern u8 D_800A4F18;
 extern s16 D_800A4EFC;
 
-extern void func_8002DC68(s32 a0, s32 a1);
+extern s32 func_8002DC68();    /* §376: def returns s32 and takes (u32, u32) */
 extern void func_8002E138(s32 a0, s32 a1, s32 a2);
 extern void func_80030F80(void);
 extern void func_8002D320(void);
@@ -1921,7 +1921,7 @@ void *func_8002F0F4(void) {
 }
 
 void func_8002F12C(s32 a0) {
-    extern void func_8002DC68(s32 a0, s32 a1);
+    extern s32 func_8002DC68();    /* §376: def returns s32 and takes (u32, u32) */
     func_8002DC68(*(s32 *)(a0 + 4), 0);
 }
 
@@ -2005,7 +2005,7 @@ void func_8002F248(s32 arg0, s32 arg1) {
     extern s32 D_800A4EEC;
     extern u8 D_8006A9F8[];
     extern u8 D_800A4694[];
-    extern void func_8002DC68(s32 a0, s32 a1);
+    extern s32 func_8002DC68();    /* §376: def returns s32 and takes (u32, u32) */
     extern s32 func_800331D4(s32);
     s32 i;
     s32 idx;
@@ -2320,7 +2320,7 @@ extern u8 D_800A4F18;
 extern s16 D_800A4EFC;
 extern void (*D_800A4F24)(void);
 
-extern void func_8002DC68(s32 a0, s32 a1);
+extern s32 func_8002DC68();    /* §376: def returns s32 and takes (u32, u32) */
 extern void func_8002E138(s32 a0, s32 a1, s32 a2);
 extern void func_80030F80(void);
 extern void func_8002D320(void);
@@ -3595,7 +3595,7 @@ extern s8 D_800A4F17;
 extern u16 D_800A2BB0[];
 extern u16 D_800BA108[];
 
-extern void func_8003388C(void *a0, s32 a1);
+extern void func_8003388C();   /* §376: def is (Ent388C *, s32); no-proto keeps the typedef out of scope here */
 
 void func_80031BE0(void)
 {
