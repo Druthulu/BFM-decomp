@@ -45,6 +45,7 @@ print = functools.partial(print, flush=True)
 GOOD = '143dbb89f34491258bbc27810d0a12ec8b43a8dd'
 TYPES = {'void','char','short','int','long','unsigned','signed','float','double','const',
          'volatile','s8','u8','s16','u16','s32','u32','f32','s64','u64','struct','union'}
+_TAG_KW = {'struct', 'union', 'enum'}   # see typesig: a tag keyword is not a type this model can see
 # Same trailing-comment blindness as the typedef patterns had: `;\s*$` misses
 # `extern u8 D_800A4640[];   /* the flag table */`, so the destination TU's own declaration went
 # UNSEEN and a contradicting draft reached the compiler. Seventh instance of one root cause in
@@ -158,7 +159,17 @@ def typesig(d):
         tail = d.split(sym, 1)[1].strip() if sym and sym in d else ''
         tail = '[]' if tail.startswith('[') else tail
         return (ret, tail)
-    params = tuple(_alias(' '.join(t for t in re.findall(r'[A-Za-z_]\w*|\*', p) if t in TYPES or t == '*'))
+    # A TAG KEYWORD IS NOT A TYPE THIS MODEL CAN SEE (P31 S72). The filter keeps only tokens in
+    # TYPES, which DISCARDS every typedef name -- so `Ent30D80 *` and `Rec14 *` both reduce to
+    # '*', and the model has always been blind to what a pointer points at. But `struct` IS in
+    # TYPES, so `struct Ent30D80 *` reduced to 'struct*' and "conflicted" with `Ent30D80 *`, its
+    # own typedef. Measured: src/800.c declares func_80031988 BOTH ways and compiles today (gcc is
+    # the arbiter and it agrees they are one type), yet this checker DROPPED the byte-verified
+    # draft -- an R39 over-refusal, and one of the six that S71 then recorded as a "proven
+    # gate-reject". Dropping the tag keywords loosens NOTHING the typedef path had not already
+    # loosened: it makes the two spellings of one type compare equal, which is the whole point.
+    params = tuple(_alias(' '.join(t for t in re.findall(r'[A-Za-z_]\w*|\*', p)
+                                   if (t in TYPES and t not in _TAG_KW) or t == '*'))
                    for p in m.group(1).split(','))
     return (ret, params)
 
