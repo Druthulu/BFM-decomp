@@ -46,4 +46,3 @@ ov_SC03_105:func_8018624C  # CARVE-BLOCKED: ov_SC03_105_jr_8017C8D0 owns >1 raw 
 ov_SC03_105:func_801867D0  # CARVE-BLOCKED: ov_SC03_105_jr_8017C8D0 owns >1 raw jtbl span — needs a split
 ov_SC06_022:func_8017DF28  # WALL: expand_block_move copy_addr_to_reg pseudo + cse reuse, closeness 2 (S71)
 main:func_8002B0B4  # WALL: §179-C no epilogue — every exit is a raw j/jr into labels inside SaveLoadRoutine's body, so gcc-2.7.2 (no sibcall/tail-merge pass) always synthesizes an epilogue the target lacks. src/800_b.c states this above the stub; an S73 agent spent 70k tokens re-deriving it and returned the stub verbatim.
-main:func_8005C1C0  # WALL: §179-C same class, documented above its stub in src/800c.c
