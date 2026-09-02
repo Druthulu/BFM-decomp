@@ -2836,3 +2836,38 @@ switch double-emits its table. Extending the carve to the contiguous game-jtbl s
 Generalised (and it is the same shape as S71's exclude-list finding): *a recorded impossibility should
 name the instrument that produced it, so the next session knows what to re-probe when the instrument
 changes.*
+
+### S72 addendum — the decision to split `src/800.c`, and the estimate I got wrong
+
+**The question Drew asked** was whether the split was worth doing and at what effort, framed as
+*"if the devs did it in 1998 let's do it also."*
+
+**The premise needed correcting before it could be leaned on.** The jtbl spans prove there were **at
+least** three TU boundaries in that address range — tables pack tight within a compilation unit and
+are separated by other data across units. They do **not** prove the devs' files were exactly these
+three: a TU containing no `switch` emits no jump table and is completely invisible to this signal.
+What we recover is a LOWER BOUND on the original structure, not a reconstruction of it. Happily this
+changed nothing about the plan — we need exactly enough objects to give each span its own contiguous
+`.rodata` run, three is the minimum that works, and splitting anywhere else would have been
+speculation. Evidence-driven and engineering-optimal coincided.
+
+**The estimate I got wrong, and how.** I told Drew the split would be expensive and quoted it as
+*measured, not guessed*: "26,543 lines with 2,318 scattered `extern` lines and 175 typedefs — the
+exact shape `split_src_region.py` was blocked on for overlays." The measurement was real and it
+measured **the wrong quantity**. 2,318 is the TOTAL number of externs; what the split actually costs
+is how many declarations are used OUTSIDE the region that declares them, and that is **57 of 1,247
+(4.6%)** — 19 typedefs, one definition each, zero shape conflicts, zero file-local statics. The split
+took one afternoon and was byte-identical on the first clean build after the typedefs moved.
+
+**The grounded why.** This is the denominator discipline (R41) applied to an *effort* estimate rather
+than a cost or yield figure. A number with no denominator attached — "2,318 externs" — reads as
+authority because it is precise and true. The question was never "how many declarations are there",
+it was "how many are shared", and nothing in the first measurement was pointed at that. **Quoting a
+real measurement of the wrong quantity is more dangerous than admitting you have not measured**,
+because it forecloses the cheap probe: had Drew accepted the estimate, the 39% of main behind this
+would have been deferred to a later phase on the strength of a number I never should have quoted.
+
+**Hindsight / better path.** Before quoting an effort estimate, state the quantity the estimate is a
+function of and check that you measured THAT. Here one grep — declarations used outside their region
+— was 20 minutes and would have replaced "expensive, needs a shared header, not a naive partition"
+with "57 crossing names, mostly typedefs, one afternoon."
