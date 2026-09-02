@@ -5072,3 +5072,46 @@ the sig targets, the gcc probes) — **every one refuted by a measurement I coul
 Nothing here was found by reading code. What found them: a case whose answer was already known, an
 arithmetic reconciliation that refused to close, and an impossible wall-clock. That is now partly
 mechanised in `work_evidence`, which is the session's most durable output.
+
+- **S70-T3 — CARVE ISOLATION ROUTE (§322b): 0 BANKED, AND THE BLOCKER IS NOW NAMED.** 18 of S69's 23
+  carve-twins are still open (16 RELOC-ONLY + 2 HASH-TWIN, 3,086 ins); all 18 remapped cleanly
+  (`family_remap` 18/18). Two full `parallel_gate` passes banked **0** — with 94-220s per binary and
+  **no BLIND SUSPECT flags**, so the new floor guard confirms real work ran and these are genuine
+  refusals, not a blind harness.
+  **The dry run localises it (`jr_isolate_all --dry-run`, 17 binaries): 7 PASS / 10 FAIL, and 7 of
+  the 10 fail IDENTICALLY:**
+  ```
+  jr_inventory(<bin>): committed .rodata carve ownership is not 1:1 (R32/R33)
+                       — a stranded/duplicated carve (§8b func_801734BC class)
+  ov_SC07_010 -> [('UNOWNED', '0x801a6460')]
+  ```
+  **This is the MAIN TREE**, so it is NOT §322b's documented cause (a worktree missing the gitignored
+  `.run/sig.<bin>.jsonl` — that fix is present in `parallel_gate.stage_generated` and did not fire).
+  It is **stale committed carve STATE** — R51 exactly ("a derived property stored as config will go
+  stale and take a binary with it"), and plausibly moved by this session's own 44 banks, since banking
+  changes carve ownership resolution. **The binaries are BYTE-GREEN throughout (R22 213/213): the
+  build is fine, it is the carve tool's ownership assertion that cannot resolve.** The remaining 3
+  failures are the §323 file-local-type class §322b predicted (`ov_SC02_017` typedef,
+  `ov_SC03_029` "carry the naming type").
+  **Shipped:** `harvest_verify` now FALLS BACK to the standard §8a carve when island-split refuses
+  with "is 'tail', not 'island-end' … standard §8a carve at gate time" — that refusal NAMES the right
+  branch, and booking it CARVE-REFUSED recorded a verdict about the route we chose, not the function.
+  On `ov_SC02_000/func_8017F950` the fallback reaches the terminal reason — *"jump tables only, not an
+  island of mixed included data"* — so it fixes the DIAGNOSIS there rather than unlocking it.
+  **VERDICT: the carve route is real development work, not a harvest.** Next step is the carve-state
+  reconciliation (find the owner of each UNOWNED carve, or drop the stranded entry), which unblocks 7
+  binaries at once — NOT more gating.
+
+- **S70 — THE "44 FREE TWINS" ARE NOT A SEPARATE LANE.** Of the 33 at d<=1 in the fresh snapshot,
+  **32 were already gated THIS session and rejected**; exactly 1 is untried (and its remap fails "no
+  matched unit"). Several of the 32 (`ov_SC02_000:func_8017F950`, `ov_SC04_018:func_80181804`, …)
+  **are the carve set** — they failed the plain twin gate precisely because they need the carve. So
+  §322b's "21 of the 71 are twins of already-banked bodies, free at ~25s" is confirmed in SHAPE, but
+  the carve-state blocker above stands between us and it. Do not re-draw a "free twin" wave expecting
+  yield; fix the carve state first.
+
+- **S70 — MY OWN R42 SLIP, recorded because I cited that rule all session.** I ran a blanket
+  `git checkout -- src config` as a tidy-up before re-gating. It was a NO-OP (harvest_verify had
+  already un-spliced; frontier still 311, all 44 banks and the 3 §332b banks verified intact), but it
+  is precisely the reflex R42 forbids and that destroyed 61 banks in S58. The correct form is to
+  commit, or to restore ONE named file.
