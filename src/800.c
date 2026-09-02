@@ -6757,7 +6757,7 @@ extern void  CdReadSectorReadyCB(char);        /* the CdlReadN data-ready callba
 extern void  start(void);                       /* EXE entry — used as the idle "sink" sentinel */
 extern int   func_8002FD14(int buf, int len);   /* per-sector consumer (drains the queued list) */
 extern void  func_8001A0FC(void);
-extern int   func_8001A114(void);
+extern int   func_8001A114();
 
 /* cdReq_* async-read control block (Phase 3 T2); the D_800AE* are its unnamed members. */
 extern int     cdReq_state;
@@ -6988,7 +6988,123 @@ void func_8001A0FC(void) {
     D_800AE70C = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001A114);
+#include "common.h"
+#include "psyq/libcd.h"
+
+/* CD error-recovery state machine (0x8001A114), stepped from CdReadStateMachine's state 10.
+ * One step per call; returns 1 only when the path table has been re-resolved (recovery done).
+ *   0: CdFlush-ish reset + CdlNop -> 1     1: CdSync poll (2 -> advance, 0x10 -> restart)
+ *   2: CdlSetmode(0x80)                    3: burn 3 frames                4: CdSync poll
+ *   5: re-run CdSearchFile on the path entry (up to 16 tries) -> done / restart
+ *
+ * §ADD-8 (re-tie barrier): the two constant arguments of the state-0 CdControl must issue
+ * BEFORE the `la $s0,cdReq_cdResult`; sched1 otherwise ranks the address load first (it feeds
+ * $a2 and so has the longer chain). The zero-byte `__volatile__` re-ties pin them to source
+ * order.  §20/§243 (held-pointer): cdReq_retry in state 3 and D_800AE6F4 on the shared
+ * "advance" tail are spelled through a named pointer — that is what turns their %hi/%lo pairs
+ * into a single base register, and keeping the two tails textually distinct is what stops
+ * cross-jumping from merging .L8001A260 with .L8001A2AC. */
+
+extern void func_800434BC(void);
+extern int  func_80043830(int com, u8 *param, u8 *result);
+extern int  func_80046630(int mode);
+extern int  func_8004674C(void);
+
+extern s32     D_800AE6F4;        /* recovery state */
+extern u8      cdReq_cdResult;    /* CdControl status byte (bit 0x10 = error) */
+extern u8      D_800AE740;        /* CdlSetmode mode-byte buffer; cdReq_cdResult is at -8 */
+extern int     cdReq_retry;
+extern CdlFILE D_80063028;        /* CdPathTable entry; its name string sits at -0x14 */
+
+int func_8001A114(void) {
+    int ret;
+    u8 *p;
+    int r;
+    int i;
+    CdlFILE *fp;
+    int *rp;
+    s32 *sp;
+    int c0;
+    int c1;
+
+    ret = 0;
+    switch (D_800AE6F4) {
+    case 0:
+        func_800434BC();
+        c0 = 1;
+        __asm__ __volatile__("" : "=r"(c0) : "0"(c0));
+        c1 = 0;
+        __asm__ __volatile__("" : "=r"(c1) : "0"(c1));
+        p = &cdReq_cdResult;
+        func_80043830(c0, (u8 *)c1, p);
+        if ((*p & 0x10) != 0) {
+            break;
+        }
+        D_800AE6F4 = D_800AE6F4 + 1;
+        /* fallthrough */
+    case 1:
+        r = func_80046630(0);
+        if (r == 2) {
+            goto bump;
+        }
+        if (r != 0x10) {
+            break;
+        }
+    reset:
+        D_800AE6F4 = 0;
+        break;
+    case 2:
+        p = &D_800AE740;
+        *p = 0x80;
+        if (func_80043830(0xE, p, p - 8) == 0) {
+            break;
+        }
+        if ((p[-8] & 0x10) != 0) {
+            goto reset;
+        }
+        cdReq_retry = 0;
+        D_800AE6F4 = D_800AE6F4 + 1;
+        break;
+    case 3:
+        rp = &cdReq_retry;
+        *rp = *rp + 1;
+        if (*rp < 3) {
+            break;
+        }
+        *rp = 0;
+        D_800AE6F4 = D_800AE6F4 + 1;
+        break;
+    case 4:
+        r = func_8004674C();
+        if ((r == 1) || (r == 0x10) || (r == 0)) {
+            D_800AE6F4 = 0;
+        }
+        if (r != 2) {
+            break;
+        }
+    bump:
+        sp = &D_800AE6F4;
+        *sp = *sp + 1;
+        break;
+    case 5:
+        i = 0;
+        fp = &D_80063028;
+        do {
+            r = (int)CdSearchFile(fp, (char *)fp - 0x14);
+            if (r != -1) {
+                break;
+            }
+            i = i + 1;
+        } while (i < 0x10);
+        if ((u32)(r + 1) < 2) {
+            goto reset;
+        }
+        ret = 1;
+        break;
+    }
+    return ret;
+}
+
 
 #ifdef NON_MATCHING
 typedef struct { short x, y, w, h; } RECT;          /* libgpu RECT (VRAM rectangle) */
@@ -7246,7 +7362,62 @@ void func_8001AAA0(s32 arg0) {
     func_8001ABBC(1, arg0, 0, 0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001AAD0);
+extern s32 D_800BA1B4;
+extern u8 D_80062C38;
+extern s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+
+void func_8001AAD0(s32 arg0, s32 arg1) {
+    s32 idx;
+
+    switch (arg0) {
+    case 0:
+        idx = 9;
+        break;
+    case 1:
+        idx = 10;
+        break;
+    case 2:
+        idx = 11;
+        break;
+    case 3:
+        idx = 12;
+        break;
+    case 4:
+        idx = 13;
+        break;
+    case 5:
+        idx = 14;
+        break;
+    case 6:
+        idx = 15;
+        break;
+    case 7:
+        idx = 16;
+        break;
+    case 8:
+        idx = 17;
+        break;
+    case 9:
+        idx = 18;
+        break;
+    case 10:
+        idx = 19;
+        break;
+    case 11:
+        idx = 20;
+        break;
+    default:
+        idx = 0;
+        break;
+    }
+
+    if (D_800BA1B4 == 5) {
+        D_800BA1B4 = 0;
+    }
+
+    func_8001ABBC(3, arg1, (s32)(&D_80062C38 + idx * 0x30), 0, 0);
+}
+
 
 void func_8001ABB4(void) {
 }
@@ -7397,7 +7568,99 @@ s32 func_8001AF04(void) {
     return 2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001AF34);
+extern s32 D_800BA1B4;
+extern s32 D_800AE6E4;
+extern s32 D_800BA318;
+extern s32 D_800C6D2C;
+extern s32 D_800A6550;
+extern s32 cdReq_curSector;
+extern void *cdReq_dest;
+extern s32 cdReq_size;
+extern void *cdReq_cdlFile;
+extern s32 D_800AE724;
+extern s32 D_800AE720;
+extern s32 cdReq_result;
+extern s32 D_800AE640;
+extern s32 D_800A6430;
+extern s16 D_800A6430_h __asm__("D_800A6430");
+extern s32 D_800747E4;
+extern s32 CdQueueBusy(void);
+extern void CdReadStateMachine(int);
+extern s32 func_8001B394(s32);
+extern s32 func_8001B7C4(void *);
+extern s32 func_8001B0D4(void *, s32);
+
+void func_8001AF34(void) {
+    s32 *cdlFile;
+    s32 dest;
+    s32 size;
+    s32 mode;
+    s32 sector;
+    s32 ret;
+
+    CdQueueBusy();
+    switch (D_800BA1B4) {
+    case 0:
+        return;
+    case 1:
+        cdlFile = (s32 *)D_800AE6E4;
+        dest = D_800BA318;
+        size = D_800C6D2C;
+        mode = D_800A6550;
+        if (CdQueueBusy() != 0) {
+            ret = 0;
+            goto chk;
+        }
+        if (cdReq_curSector == 0) {
+            sector = *cdlFile;
+        } else {
+            sector = *cdlFile;
+            if (sector != cdReq_curSector) {
+                ret = 0;
+                goto chk;
+            }
+        }
+        cdReq_dest = (void *)dest;
+        cdReq_size = size;
+        cdReq_cdlFile = (void *)cdlFile;
+        D_800AE724 = mode;
+        D_800AE720 = 0;
+        cdReq_curSector = sector;
+        if (mode == 0) {
+            D_800AE720 = 1;
+        }
+        CdReadStateMachine(0);
+        ret = cdReq_result;
+    chk:
+        if (ret == 0) {
+            return;
+        }
+        D_800BA1B4 = 3;
+        return;
+    case 2:
+        if (func_8001B394(D_800AE640) == 0) {
+            return;
+        }
+        D_800BA1B4 = 3;
+        return;
+    case 3:
+        return;
+    case 4:
+        if (func_8001B7C4((void *)D_800AE6E4) == 0) {
+            return;
+        }
+        D_800BA1B4 = 3;
+        return;
+    case 5:
+        if (func_8001B0D4((void *)D_800AE6E4, D_800A6430_h) == 0) {
+            return;
+        }
+        D_800747E4 = 0;
+        D_800BA1B4 = 3;
+        return;
+    }
+}
+
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001B0D4);
 
@@ -7509,7 +7772,7 @@ s32 func_8001B394(s32 a0) {
 }
 
 #ifdef NON_MATCHING
-extern int func_8001A114(void);
+extern int func_8001A114();
 extern void func_8001B710(void);
 extern void func_8002D4C8(int arg0, int arg1);
 extern void func_80036D58(s16);
@@ -7613,7 +7876,7 @@ done:
  * other functions (func_8001ACF0, ResourceGetCdLoc) — a second, differently-typed file-scope
  * extern of the same symbols is a hard C constraint violation, so those exact declarations are
  * adopted verbatim below. See the use-site comment for how the byte match is kept despite that. */
-extern int func_8001A114(void);
+extern int func_8001A114();
 extern void func_8001B710(void);
 extern void func_8002D4C8(int arg0, int arg1);
 extern void func_80036D58(s16);
@@ -18394,7 +18657,22 @@ u16 func_8002B08C(s32 a0) {
  * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
  * express this as normal control flow against either. Kept as the verbatim target instructions,
  * same as its sibling. */
+/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
+ * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
+ *
+ * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
+ * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
+ * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
+ * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
+ * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
+ * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
+ * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
+ * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
+ * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
+ * express this as normal control flow against either. Kept as the verbatim target instructions,
+ * same as its sibling. */
 INCLUDE_ASM("asm/nonmatchings/800", func_8002B0B4);
+
 
 
 
@@ -20043,7 +20321,62 @@ void func_8002EEB8(void) {
     func_80036EE8();
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002EED8);
+extern u8 D_8006451C[];
+extern s8 D_800A4F17;
+
+extern s32 func_8002F4E4(u8 *);
+extern void func_80033398(u32);
+extern void func_800346D0(s32);
+extern void func_8002F714(s32, s32);
+
+void func_8002EED8(s32 a0)
+{
+    u8 *rec;
+    s16 ret;
+    u8 old;
+
+    if ((s16)a0 < 0x100) {
+        return;
+    }
+
+    rec = &D_8006451C[(s16)a0 * 4];
+    if ((*rec & 0x7F) == 6) {
+        ret = func_8002F4E4(rec);
+        if (ret == 0) {
+            return;
+        }
+        rec = &D_8006451C[ret * 4];
+    }
+
+    old = *(u8 *)&D_800A4F17;
+    *(u8 *)&D_800A4F17 = 1;
+
+    switch (*rec & 0x3F) {
+    case 5:
+        func_800346D0(a0);
+        break;
+    case 1:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 18:
+        func_80033398(a0);
+        break;
+    case 17:
+        func_8002F714(rec[3], 0x1000);
+        break;
+    }
+
+    *(u8 *)&D_800A4F17 = old;
+}
+
 
 
 extern void func_80034844(void);
@@ -20223,7 +20556,121 @@ void func_8002F1CC(s32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8002F248);
+#include "common.h"
+
+void func_8002F248(s32 arg0, s32 arg1) {
+    typedef struct F1ccRec {
+        u8 pad[0x0E];
+        u8 flg[8];
+        u8 tail[0x3E];
+    } F1ccRec;
+    typedef struct F1ccSlot {
+        u8 pad[0x20];
+        u32 u20;
+        u32 u24;
+        u32 u28;
+        u32 u2C;
+        u16 u30;
+        u8 mid[5];
+        u8 u37;
+        u8 u38;
+        u8 tail[0x1B];
+    } F1ccSlot;
+    extern s32 D_800A4EEC;
+    extern u8 D_8006A9F8[];
+    extern u8 D_800A4694[];
+    extern void func_8002DC68(s32 a0, s32 a1);
+    extern s32 func_800331D4(s32);
+    s32 i;
+    s32 idx;
+    F1ccRec *rec;
+    F1ccSlot *slots;
+
+    switch (*(u8 *)(arg0 + 3)) {
+    case 0:
+        D_800A4EEC = D_800A4EEC * 0x41C64E6D + 0x3039;
+        switch (((u32)D_800A4EEC >> 16) & 0x7) {
+        case 0:
+        case 3:
+            func_8002DC68(0x67C, 0);
+            break;
+        case 1:
+        case 2:
+            func_8002DC68(0x689, 0);
+            break;
+        case 4:
+        case 5:
+            func_8002DC68(0x67B, 0);
+            break;
+        }
+        break;
+    case 1:
+        func_8002DC68((u16)arg1, 0);
+        break;
+    case 2:
+        idx = func_800331D4(0x95C);
+        if (idx) {
+            rec = (F1ccRec *)D_800A4694 + idx;
+            slots = (F1ccSlot *)(D_800A4694 + 0x2F4);
+            for (i = 0; i < 8; i++) {
+                if (rec->flg[i]) {
+                    slots[i].u30 = 0;
+                    slots[i].u38 = 0;
+                    slots[i].u2C = -0x18;
+                    slots[i].u28 = slots[i].u20 - 0x100;
+                    slots[i].u37 |= 1;
+                }
+            }
+        }
+        break;
+    case 3:
+        idx = func_800331D4(0x95C);
+        if (idx) {
+            rec = (F1ccRec *)D_800A4694 + idx;
+            slots = (F1ccSlot *)(D_800A4694 + 0x2F4);
+            for (i = 0; i < 8; i++) {
+                if (rec->flg[i]) {
+                    slots[i].u30 = 0;
+                    slots[i].u38 = 0;
+                    slots[i].u2C = 0x18;
+                    slots[i].u28 = slots[i].u20 + 0x100;
+                    slots[i].u37 |= 1;
+                }
+            }
+        }
+        break;
+    case 4:
+        D_800A4EEC = D_800A4EEC * 0x41C64E6D + 0x3039;
+        switch (((u32)D_800A4EEC >> 16) & 0x7) {
+        case 0:
+        case 3:
+            func_8002DC68(0xAFD, 0);
+            break;
+        case 1:
+        case 2:
+        case 5:
+            func_8002DC68(0xAFF, 0);
+            break;
+        case 4:
+            func_8002DC68(0xAFE, 0);
+            break;
+        }
+        break;
+    case 5:
+        func_8002DC68(0xB06, 0);
+        func_8002DC68(0xB07, 0);
+        break;
+    case 6:
+        func_8002DC68(0xB06, 0);
+        func_8002DC68(0xC60, 0);
+        break;
+    case 7:
+        D_800A4EEC = D_800A4EEC * 0x41C64E6D + 0x3039;
+        func_8002DC68(*(u16 *)(D_8006A9F8 + (((u32)D_800A4EEC >> 15) & 0x1E)), 0);
+        break;
+    }
+}
+
 
 
 /* func_8002F4E4 -- 6-level gauntlet lookup into the D_800A4EE8 owner block.
@@ -21122,7 +21569,7 @@ extern s32 D_80073140[];
 extern Blk48_30D80 D_800A4C2C[];
 
 extern void func_8002EFF8(s32 a0, s32 a1);
-extern void func_80031988(Ent30D80 *arg0);
+extern void func_80031988();
 
 void func_80030D80(Ent30D80 *arg0, s16 arg1) {
     u8 old;
@@ -21176,7 +21623,7 @@ void func_80030D80(Ent30D80 *arg0, s16 arg1) {
  *   extern u16 D_8006AA30[]; extern const u16 D_8007319E[]; extern u16 D_8007321E;
  *   extern u8 D_800A4C6D[]; extern s32 D_800C7D2C;
  *   extern void func_8002EFF8(s32 a0, s32 a1);  (file scope, src/800.c:18923)
- *   extern void func_80031988(Ent30D80 *arg0);  (file scope, src/800.c:18924)
+ *   extern void func_80031988();  (file scope, src/800.c:18924)
  *   `typedef struct Obj {...} Obj;` is defined AFTER this function (src/800.c:18968)
  *   and func_800314DC is defined at :19003 as `void func_800314DC(Obj *p)`, so this
  *   draft forward-declares the TAG at file scope (`struct Obj;`) and prototypes
@@ -21273,8 +21720,8 @@ extern s32 D_800C7D2C;
 extern void func_8002EFF8(s32 a0, s32 a1);
 extern void func_8003D3B4(s32, s32);
 extern void func_800314DC(struct Obj *);
-extern void func_800316F8(void *);
-extern void func_80031988(struct Ent30D80 *);
+extern void func_800316F8();
+extern void func_80031988();
 
 typedef struct VoiceF80 {
     /* 0x00 */ s32 unk00;
@@ -21594,9 +22041,193 @@ void func_800314DC(Obj *p) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_800316F8);
+void func_800316F8(s32 arg0)
+{
+    s32 base;
+    u16 *ptr;
+    u16 speed;
+    u16 delta;
+    s32 tmp;
+    s32 tmp1;
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80031988);
+    base = arg0;
+    delta = 0;
+    ptr = *(u16 **)(base + 0x14);
+    speed = 0;
+    *(u8 *)(base + 0x37) = 0;
+    *(u32 *)(base + 0x18) = 0;
+    *(u32 *)(base + 0x20) = *(u32 *)(base + 0x24);
+    if (ptr == NULL) {
+        return;
+    }
+    switch (*ptr) {
+    case 0:
+        speed = ptr[1];
+        delta = ptr[2];
+        *(u16 *)(base + 0x30) = 0;
+        *(u8 *)(base + 0x38) = 1;
+        *(u16 *)(base + 0x3A) = ptr[3];
+        *(u16 *)(base + 0x3C) = ptr[4];
+        *(u16 *)(base + 0x12) = ptr[7];
+        break;
+    case 1:
+        speed = ptr[1];
+        tmp1 = ptr[2];
+        *(u16 *)(base + 0x30) = 0;
+        *(u8 *)(base + 0x38) = 1;
+        *(u16 *)(base + 0x3A) = ptr[3];
+        *(u16 *)(base + 0x3C) = ptr[4] + *(u32 *)(base + 0x20);
+        delta = tmp1 + *(u32 *)(base + 0x20);
+        *(u16 *)(base + 0x12) = ptr[7];
+        break;
+    case 2:
+        speed = ptr[2];
+        delta = ptr[3];
+        *(u16 *)(base + 0x30) = 0;
+        *(u8 *)(base + 0x38) = 1;
+        *(u16 *)(base + 0x3A) = ptr[4];
+        *(u16 *)(base + 0x3C) = ptr[5];
+        *(u16 *)(base + 0x12) = ptr[8];
+        goto L188c;
+    case 3:
+        speed = ptr[2];
+        tmp = ptr[3];
+        *(u16 *)(base + 0x30) = 0;
+        *(u8 *)(base + 0x38) = 1;
+        *(u16 *)(base + 0x3A) = ptr[4];
+        *(u16 *)(base + 0x3C) = ptr[5] + *(u32 *)(base + 0x20);
+        *(u16 *)(base + 0x12) = ptr[8];
+        goto L18ac;
+    case 4:
+        *(u8 *)(base + 0x38) = 0;
+        speed = ptr[1];
+        delta = ptr[2];
+        *(u16 *)(base + 0x12) = ptr[5];
+        *(u16 *)(base + 0x30) = 0;
+        break;
+    case 5:
+        *(u8 *)(base + 0x38) = 0;
+        speed = ptr[1];
+        delta = ptr[2] + *(u32 *)(base + 0x20);
+        *(u16 *)(base + 0x12) = ptr[5];
+        *(u16 *)(base + 0x30) = 0;
+        break;
+    case 6:
+        *(u8 *)(base + 0x38) = 0;
+        speed = ptr[2];
+        delta = ptr[3];
+        *(u16 *)(base + 0x12) = ptr[6];
+    L188c:
+        *(u16 *)(base + 0x30) = ptr[1];
+        break;
+    case 7:
+        *(u8 *)(base + 0x38) = 0;
+        speed = ptr[2];
+        tmp = ptr[3];
+        *(u16 *)(base + 0x12) = ptr[6];
+    L18ac:
+        delta = tmp + *(u32 *)(base + 0x20);
+        *(u16 *)(base + 0x30) = ptr[1];
+        break;
+    case 8:
+        *(u8 *)(base + 0x38) = 0;
+        goto L18f4;
+    case 9:
+        *(u8 *)(base + 0x37) |= 2;
+        *(u32 *)(base + 0x1C) = (s32)(s16)ptr[2] << 8;
+        *(u16 *)(base + 0x32) = ptr[3];
+        *(u8 *)(base + 0x38) = 0;
+    L18f4:
+        *(u16 *)(base + 0x12) = ptr[1];
+        *(u16 *)(base + 0x30) = 0;
+        return;
+    case 10:
+        *(u8 *)(base + 0x37) |= 2;
+        *(u32 *)(base + 0x1C) = (s32)(s16)ptr[1] << 8;
+        *(u16 *)(base + 0x32) = ptr[2];
+        *(u8 *)(base + 0x38) = 0;
+        *(u16 *)(base + 0x30) = 0;
+        return;
+    }
+    if (speed == 0) {
+        return;
+    }
+    if (*(s32 *)(base + 0x24) == delta) {
+        return;
+    }
+    *(u32 *)(base + 0x28) = delta;
+    *(u8 *)(base + 0x37) |= 1;
+    if (delta < *(s32 *)(base + 0x24)) {
+        *(u32 *)(base + 0x2C) = -speed;
+    } else {
+        *(u32 *)(base + 0x2C) = speed;
+    }
+}
+
+
+
+
+void func_80031988(Ent30D80 *arg0) {
+    u16 *rec;
+    s32 n;
+    s32 base;
+
+    rec = *(u16 **)((u8 *)arg0 + 0x14);
+    if (rec != NULL) {
+        n = *rec;
+        switch (n) {
+        case 0:
+            n = rec[3];
+            rec = (u16 *)rec[4];
+            break;
+        case 7:
+            base = *(s32 *)((u8 *)arg0 + 0x20);
+            n = rec[3] + base;
+            rec = (u16 *)rec[4];
+            break;
+        case 5:
+            n = rec[4];
+            rec = (u16 *)rec[5];
+            break;
+        case 8:
+            base = *(s32 *)((u8 *)arg0 + 0x20);
+            n = rec[4] + base;
+            rec = (u16 *)rec[5];
+            break;
+        case 1:
+            n = rec[5];
+            rec = (u16 *)rec[6];
+            break;
+        case 9:
+            base = *(s32 *)((u8 *)arg0 + 0x20);
+            n = rec[5] + base;
+            rec = (u16 *)rec[6];
+            break;
+        case 6:
+            n = rec[6];
+            rec = (u16 *)rec[7];
+            break;
+        case 10:
+            base = *(s32 *)((u8 *)arg0 + 0x20);
+            n = rec[6] + base;
+            rec = (u16 *)rec[7];
+            break;
+        default:
+            return;
+        }
+        if (*(s32 *)((u8 *)arg0 + 0x24) != (n & 0xFFFF)) {
+            *(u8 *)((u8 *)arg0 + 0x38) = 0;
+            *(s32 *)((u8 *)arg0 + 0x28) = n & 0xFFFF;
+            *(u8 *)((u8 *)arg0 + 0x37) |= 1;
+            if (*(s32 *)((u8 *)arg0 + 0x24) > (n & 0xFFFF)) {
+                *(s32 *)((u8 *)arg0 + 0x2C) = -(s32)rec;
+            } else {
+                *(s32 *)((u8 *)arg0 + 0x2C) = (s32)rec;
+            }
+        }
+    }
+}
+
 
 /* TU decls (src/800.c): `typedef struct Ent30D80 { ... } Ent30D80;`
  * already exists above this function's INCLUDE_ASM line — reproduced here
@@ -23760,7 +24391,53 @@ INCLUDE_ASM("asm/nonmatchings/800", func_800359B0);
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80035C4C);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8003602C);
+extern u8 D_80076214;
+extern void func_800434BC(void);
+extern s32 func_8004355C(s32 mode, u8 *result);
+extern s32 func_80043704(u8 com, u8 *param);
+
+void func_8003602C(s32 arg0) {
+    u8 result[8];
+    u8 state;
+    s32 sync;
+
+    switch (*(u8 *)(arg0 + 3)) {
+    case 0:
+    case 1:
+    default:
+        *(u8 *)(arg0 + 2) = 0;
+        break;
+    case 2:
+        *(u8 *)(arg0 + 2) = 1;
+        func_800434BC();
+        *(u8 *)(arg0 + 3) += 2;
+        break;
+    case 3:
+        *(u8 *)(arg0 + 2) = 1;
+        func_800434BC();
+        *(u8 *)(arg0 + 3) += 1;
+        /* fall through */
+    case 4:
+        func_80043704(9, 0);
+        func_8003621C();
+        state = *(u8 *)(arg0 + 3);
+        *(u8 *)(arg0 + 2) = 1;
+        *(u8 *)(arg0 + 3) = state + 1;
+        break;
+    case 5:
+        sync = func_8004355C(1, result);
+        if (sync == 0) {
+            *(u8 *)(arg0 + 2) = 1;
+            return;
+        }
+        if (sync == 5 && (result[0] & 0x10)) {
+            D_80076214 = 1;
+        }
+        *(u8 *)(arg0 + 2) = 0;
+        break;
+    }
+}
+
 
 
 extern u8 D_800A63E4;
@@ -23835,7 +24512,92 @@ void func_8003621C(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80036260);
+extern void func_80037334(void);
+extern void func_800434BC(void);
+extern void func_800435B4(void *);
+extern int  func_800435CC(s32, void *, void *);
+extern int  func_8004355C(s32, void *);
+extern void func_800415A8(s32);
+
+extern u8   D_8006AEF4;
+extern u16  D_800A4E8E;
+extern int  streamLoad_state;
+extern void *streamLoad_savedReadyCB;
+extern u8   streamLoad_cbActive;
+extern int  D_800A6544;
+extern s16  D_800A46A2;
+extern u8   D_800A46B0;
+
+int func_80036260(void) {
+    u8 result[8];
+    u16 *flags;
+    s16 *vabp;
+    s32 t;
+    int sync;
+
+    func_80037334();
+    D_8006AEF4 &= 0xFD;
+    flags = &D_800A4E8E;
+    *flags &= 0xFFDF;
+
+    if (streamLoad_state != 0) {
+        switch (streamLoad_state) {
+        case 0:
+        case 1:
+        case 2:
+            break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 15:
+        case 16:
+        case 17:
+            func_800434BC();
+            break;
+        case 12:
+            if (streamLoad_cbActive != 0) {
+                func_800435B4(streamLoad_savedReadyCB);
+                streamLoad_savedReadyCB = 0;
+                streamLoad_cbActive = 0;
+            }
+            /* fall through */
+        case 13:
+        case 14:
+            func_800435CC(9, 0, 0);
+            streamLoad_state = 0;
+            D_800A6544 = 0x3C;
+            break;
+        }
+    }
+
+    if (D_800A6544 != 0) {
+        D_800A6544--;
+        if (D_800A6544 != 0) {
+            sync = func_8004355C(1, result);
+            if (sync != 5 && sync != 2) {
+                return 0;
+            }
+        }
+    }
+
+    vabp = &D_800A46A2;
+    t = *vabp;
+    streamLoad_state = 0;
+    D_800A6544 = 0;
+    if (t >= 0) {
+        func_800415A8(t);
+        *vabp = -1;
+        D_800A46B0 = 1;
+    }
+    return 1;
+}
+
 
 #ifdef NON_MATCHING
 extern int   CdControl(u8 com, u8 *param, u8 *result);
@@ -23844,7 +24606,7 @@ extern u32   CdMode(void);
 extern void  CdFlush(void);
 extern void *CdReadyCallback(void *func);
 extern void  func_800377D8(void);   /* this loader's CdlReadN ready-callback */
-extern void  func_80036260(void);   /* sub-handler passed to func_80037CD8 */
+extern void  func_80036260();   /* sub-handler passed to func_80037CD8 */
 extern void  func_8002EC10(void);
 extern void  func_80037334(void);
 extern void  func_80037358(int posInt);
@@ -24213,7 +24975,7 @@ extern void func_80034DFC(s16);
 extern s32 func_8003EDE8(s32, s32, s32);
 extern void func_80035C4C(void);
 extern void func_80036F98(void);
-extern void func_8003602C(void);
+extern void func_8003602C();
 extern void func_80036FB0(s32, s32);
 
 void func_80036D58(s16 arg0)
@@ -25630,7 +26392,7 @@ extern s16 D_800A4EF8;
 extern u16 D_800A4EE0;
 extern u8 D_800A4F16;
 extern s32 func_80038FC4(u8 **);
-extern void func_80038FFC(u8 **);
+extern void func_80038FFC();
 
 void func_80038A58(void)
 {
@@ -25920,7 +26682,87 @@ s32 func_80038FC4(u8 **a0) {
     return result;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80038FFC);
+s32 func_80038FFC(s32 *param_1) {
+    extern void func_80039B20(s32 *, s32);
+    extern void func_80039308(s32 *, s32);
+    extern void func_80039C5C(s32 *, s32);
+    extern void func_80039F50(s32 *, s32);
+    extern void func_8003A098(s32 *, s32);
+    extern void func_8003A0D0(s32 *, s32);
+    extern void func_8003A0E4(s32 *, s32);
+    extern void func_8003A234(s32 *);
+
+    u8 *np;
+    u8 byte;
+    s32 acc;
+
+    acc = *(u8 *)*param_1;
+    if (acc & 0x80) {
+        *param_1 = (s32)((u8 *)*param_1 + 1);
+        *((u8 *)param_1 + 0x1F7) = (u8)acc;
+    } else {
+        acc = *((u8 *)param_1 + 0x1F7);
+    }
+
+    switch ((u32)acc >> 4) {
+    case 8:
+        func_80039B20(param_1, acc & 0xF);
+        break;
+    case 9:
+        func_80039308(param_1, acc & 0xF);
+        break;
+    case 10:
+        func_80039C5C(param_1, acc & 0xF);
+        break;
+    case 11:
+        func_80039F50(param_1, acc & 0xF);
+        break;
+    case 12:
+        func_8003A098(param_1, acc & 0xF);
+        break;
+    case 13:
+        func_8003A0D0(param_1, acc & 0xF);
+        break;
+    case 14:
+        func_8003A0E4(param_1, acc & 0xF);
+        break;
+    case 15:
+        acc &= 0xF;
+        if (acc == 7) {
+            goto set_zero;
+        }
+        if (acc < 8) {
+            if (acc == 0) {
+                goto set_zero;
+            }
+            return 0;
+        }
+        if (acc == 15) {
+            goto call_234;
+        }
+        return 0;
+    set_zero:
+        acc = 0;
+    loop_start:
+        while (1) {
+            byte = *(u8 *)*param_1;
+            np = (u8 *)*param_1 + 1;
+            *param_1 = (s32)np;
+            acc += byte & 0x7F;
+            if (!(byte & 0x80)) {
+                break;
+            }
+            acc <<= 7;
+        }
+        *param_1 = (s32)np + (s16)acc;
+        break;
+    call_234:
+        func_8003A234(param_1);
+        break;
+    }
+    return 0;
+}
+
 
 void func_8003916C(s16 arg0)
 {
@@ -25949,7 +26791,71 @@ void func_80039C5C(s32 *param_1) {
     *param_1 += 2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80039C70);
+extern void func_8003B45C(s32 *);
+extern s32 D_80079A68;
+extern s32 D_8006B008[];
+extern s32 D_800A4ECC;
+extern s32 D_800A4ED0;
+extern u16 D_8006ADD8[];
+extern u16 D_800A4ED4;
+extern u16 D_800A4ED6;
+extern u16 D_800A4F20;
+extern u16 D_800A4F22;
+
+void func_80039C70(u8 *arg0, s16 arg1, s16 arg2) {
+    u8 *rec = arg0 + (arg1 * 0x1A + 0x1A);
+
+    if ((*(u16 *)(rec + 6) & 0x300) != 0x300) {
+        arg0[0x1F9] = 1;
+    } else {
+        switch (*(u8 *)(rec + 8)) {
+        case 0x10: {
+            s32 old = D_80079A68;
+            s32 val = *(s32 *)((u8 *)D_8006B008 + ((arg2 << 16) >> 14));
+            if (old != val) {
+                s32 *p = &D_800A4ECC;
+                D_80079A68 = val;
+                *p = 1;
+                D_800A4ED0 = val;
+                func_8003B45C(p);
+            }
+            break;
+        }
+        case 0x11: {
+            s32 *p = &D_800A4ECC;
+            *p = 6;
+            D_800A4ED4 = *(u16 *)((u8 *)D_8006ADD8 + ((arg2 << 16) >> 15));
+            D_800A4ED6 = D_800A4ED4;
+            func_8003B45C(p);
+            break;
+        }
+        case 0x18:
+            *(s32 *)(arg0 + 0xC) = *(s32 *)arg0;
+            arg0[0x1F5] = arg2;
+            arg0[0x1F6] = 1;
+            break;
+        case 0x1A: {
+            u16 *p = &D_800A4F20;
+            if (*p != 0) {
+                arg0[0x1F9] = 1;
+                D_800A4F22 = *p;
+                *p = 0;
+            }
+            break;
+        }
+        case 0x12:
+        case 0x13:
+        case 0x14:
+        case 0x15:
+        case 0x16:
+        case 0x17:
+        case 0x19:
+            break;
+        }
+        rec[7] &= 0xFC;
+    }
+}
+
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80039DEC);
 
@@ -25963,7 +26869,7 @@ void func_80039F14(u8 *arg0, s16 arg1, u8 arg2) {
     arg0[0x21] = b | 2;
 }
 
-extern void func_80039C70(void *arg0, s16 arg1, u8 arg2);
+extern void func_80039C70();
 extern void func_80039DEC(void *arg0, s16 arg1, u8 arg2);
 
 void func_80039F50(u8 **a0, s16 a1)
