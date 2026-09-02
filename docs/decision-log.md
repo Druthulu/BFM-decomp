@@ -2661,3 +2661,54 @@ has carried its own answer. We measured tools against the frontier for ~20 phase
 where the *work* was, never noticing that the *answers* were accumulating on the other side. The
 generalizable lesson: **when a project accumulates verified outcomes, that archive is training data
 for its own tooling — scope a tool to the answers, not only to the open questions.**
+
+---
+
+## 2026-09-02 (P31 S71) — The §406 sweep was priced by SHAPE and refuted by RESIDUAL; the frontier's real lane is integration
+
+**Context and belief.** S70 closed with a fresh-session checkpoint whose first instruction was
+unambiguous: "**START HERE — THE §406 PROLOGUE-WEAVE SWEEP. This is the single biggest measured lever
+on the board and it needs no agents.** 134 of 1,237 open stubs (11%) carry the shape; the residual is
+ALWAYS the `sw $ra` slot; twelve alternative variants are already measured inert." The mechanism was
+real and hard-won — traced in cc1's own `.i.sched2` dump, byte-proven on the banked exemplar
+`ov_SC02_005/func_8017F898`. The belief was that one scripted edit over a known class would bank
+dozens of functions for zero agent tokens, which is the project thesis in its purest form.
+
+**What failed.** Both halves of "134 of 1,237" were wrong, and the error was in the counting, not the
+compiler work.
+
+* `corpus.stubs` counts main's **960 PsyQ LINKED library stubs** as open. The real frontier is **210**
+  (main 64 + non-main 146) — the checkpoint even records that partition three paragraphs later, and
+  the census still did not apply it. Class census 134 -> 77 after the filter.
+* The census predicate matched a **shape in the target** (`sw $s0` / `move $s0,$a0` / `sw $ra` within
+  24 lines) which is symmetric: it cannot tell a target that keeps `sw $ra` early from one that has
+  already sunk it. `main/func_8002EED8` is the second kind, where this lever pushes backwards.
+
+Re-derived from the mine-vs-target disagreement (the direction is two fields of a residual we already
+emit), the lever's addressable set is **15 of 210**, and applying it there produced **0 MATCH / 14
+applied**. The one member close enough for the lever to be decisive (closeness 8) got **worse, 8 ->
+91**: the clobber re-schedules the whole block, it is not a free nudge.
+
+**The pivot.** The same baseline pass — score every real-frontier stub's best stored draft, once —
+found **64 of 210 (30.5%) already at standalone `match_one` closeness 0**, across 33 binaries, and
+**all 210 have at least one draft on disk**. So the frontier's largest lane is not codegen at all: it
+is §376 integration (the TU rejecting a signature the body already gets right). The session redirected
+from scripting the lever to gating those 64 and running the `fix_arity_callers` / `cast_self_callers`
+/ `--sync-decls` chain on whatever the gate refuses. This is the `matching-is-solved-integration-is-
+the-bottleneck` memory arriving as a measurement instead of an impression.
+
+**The grounded why.** A shape census answers *how many functions look like this*; only a residual
+answers *how many are broken like this*, and a sweep's yield is bounded by the second number. The 15
+WEAVE-SUNK drafts have baseline closeness 8, 85, 103, 104, 112, 146, 158, 158, 158, 200, 231, 302,
+362, 400, 502 — the `sw $ra` slot is a symptom inside bodies that are wrong for a dozen other reasons,
+and a scheduling lever can only ever close the LAST diff.
+
+**Hindsight / better path.** R37 (probe before costing) was followed and it worked — five members were
+probed before anything was built, and the probe is what exposed the two counting errors. What R37 did
+NOT force is the step before it: **the checkpoint priced the class when it discovered the mechanism,
+in the same breath as the exemplar's win, and that price was never re-derived against the frontier it
+would be spent on.** The generalizable rule for the endgame: *a class discovered by cracking one
+member must be priced by the residuals of the others before it is written down as a lever* — one
+`--json` field on scores we were already running would have said "15, not 134" on the night it was
+claimed. Cost of learning it here: about one hour of deterministic compute and no agent tokens, which
+is exactly what a probe-first rule is supposed to buy.

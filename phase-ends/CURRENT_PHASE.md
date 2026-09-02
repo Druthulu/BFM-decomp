@@ -5288,6 +5288,32 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   suppressed 159 real verdicts — the same "plausible number from a wrong instrument" family this whole
   session kept finding, one level up in the tooling that FIXES the tooling.
 
+- 2026-09-02 — **S71 T10: §406 REFUTED AS A SWEEP (0 MATCH / 14 applied, 0 / 210).** R37-probed 5, then
+  8, then measured the whole frontier. Two counting errors under the checkpoint's "134 of 1,237":
+  (1) `corpus.stubs` counts main's **960 PsyQ LINKED library stubs** as open — partitioned with
+  `progress.linked_subsegs()` the REAL frontier is **210** and the class census falls 134 → 77;
+  (2) the census predicate is a SHAPE in the target and is symmetric — `main/func_8002EED8` carries it
+  with the target's `sw $ra` **already sunk**, where the clobber pushes backwards. Rebuilt the selector
+  to derive from the mine-vs-target disagreement (two fields of `match_one --json`'s residual):
+  over all 210 → no-ra-residual 89 · **baseline-MATCH 64** · ra-same-index 22 · WEAVE-EARLY 17 ·
+  **WEAVE-SUNK 15** · ra-one-sided 3. 14 of the 15 took the lever (1 already had it) for **0 MATCH**;
+  the only one close enough for it to be decisive (`main/func_8005D734`, closeness 8) went **8 → 91**.
+  New tool `tools/weave_sweep.py` (R32 coverage assert, R41 denominators, `--lever-all` ablation
+  control). Cookbook **§408** + a decision-log entry (R31) written in-session.
+- 2026-09-02 — **S71: the measurement that replaced it.** The same baseline pass shows **ALL 210 open
+  frontier stubs already have a stored draft on disk**, and **64 of 210 (30.5%) are already a
+  standalone `match_one` MATCH at closeness 0** across 33 binaries. Per §376 that is a claim about the
+  BODY, never the TU — staged all 64 and gated them (`parallel_gate --workers 12 --commit`).
+- 2026-09-02 — **S71 R48 fix: `ox_campaign.reloc_filter` no longer keys by bare function name.**
+  `binof = {c["fn"]: c["binary"]}` was last-writer-wins; `status`/`det`/`subof` had the same shape.
+  Replaced with a per-draft resolver: the SHARD'S OWN target list first
+  (`.run/wave_<tag>_targets.<i>.json`, which `shard_targets` writes as `targets[i::workers]`), a
+  unique-name card second, and a counted REFUSAL when neither can answer (R43). **R39 negative control
+  over every historical wave: 42,655 drafts, 0 regressions, and 2,317 (5.4%) were stamped with the
+  WRONG binary** by the old map — 2,107 homonym card names fleet-wide, not the 44 of one wave. Intra-
+  shard ambiguity measured at **0 of 50,684 (shard, name) pairs over 302,370 shard files**, so the
+  shard list is a clean key; the refusal guard is there for the case that never happened.
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**

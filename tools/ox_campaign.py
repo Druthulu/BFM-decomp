@@ -441,17 +441,65 @@ def finish_wave_async(tag, procs, cards, ntargets, t0, workers, band, lane,
     return t
 
 
+def _shard_owner(tag, draft_path):
+    """(binary, sub) for a draft, from the SHARD'S OWN target list — the only unambiguous source.
+
+    R48. A wave's drafts live at .run/wave_<tag>/shard<i>/<fn>.c and shard i drafted exactly the
+    targets in .run/wave_<tag>_targets.<i>.json (shard_targets writes targets[i::workers]), each
+    row carrying its own binary and asm subdir. Function names are ADDRESS-derived and overlays
+    share the address space, so a name alone does not identify a function: wave `el` carried 44
+    names present in >=2 binaries. Returns None when the shard file cannot answer.
+    """
+    m = re.search(r"/shard(\d+)/[^/]+$", draft_path)
+    if not m:
+        return None
+    fn = os.path.basename(draft_path)[:-2]
+    try:
+        rows = json.load(open(f".run/wave_{tag}_targets.{m.group(1)}.json"))
+    except Exception:
+        return None
+    hits = {(t["binary"], t.get("sub", "")) for t in rows
+            if t.get("name") == fn or t.get("fn") == fn}
+    if len(hits) == 1:
+        return hits.pop()
+    return None          # 0 = not this shard's target; >1 = one shard held the same name twice
+                         # in two binaries, which no path can disambiguate (R43: refuse, never guess.
+                         # Measured 0 of 50,684 (shard, name) pairs over 302,370 shard files).
+
+
 def reloc_filter(tag, drafts, cards_path):
     """Keep only drafts whose relocations name the SAME symbols the target .s does."""
     cards = json.load(open(cards_path))
     cards = cards if isinstance(cards, list) else cards.get("cards", [])
-    binof = {c["fn"]: c["binary"] for c in cards}
-    subof = {c["fn"]: c.get("sub", "") for c in cards}   # asm subdir — match_one's --asm-subdir
-    batch = []
+    # R48 — NEVER KEY BY BARE FUNCTION NAME. `{c["fn"]: c["binary"]}` is last-writer-wins, so a
+    # draft of a name that appears in two binaries was stamped with whichever card came last and
+    # then checked against ANOTHER binary's bytes. Resolve per-draft: the shard's own target list
+    # first, a unique-name card second, and REFUSE (counted, never silent) when neither can answer.
+    byname = collections.defaultdict(list)
+    for c in cards:
+        byname[c["fn"]].append(c)
+    subof = {}                                    # (binary, fn) -> asm subdir for match_one
+    for c in cards:
+        subof[(c["binary"], c["fn"])] = c.get("sub", "")
+    batch, ambiguous, unknown = [], 0, 0
     for d in drafts:
         fn = os.path.basename(d)[:-2]
-        if fn in binof:
-            batch.append({"fn": fn, "binary": binof[fn], "draft": d})
+        own = _shard_owner(tag, d)
+        if own is None:
+            cs = byname.get(fn, [])
+            if len(cs) == 1:
+                own = (cs[0]["binary"], cs[0].get("sub", ""))
+            elif len(cs) > 1:
+                ambiguous += 1                    # a homonym with no shard record: refuse it
+                continue
+            else:
+                unknown += 1
+                continue
+        subof.setdefault((own[0], fn), own[1])
+        batch.append({"fn": fn, "binary": own[0], "draft": d})
+    if ambiguous or unknown:
+        log(f"  reloc_filter: {ambiguous} draft(s) refused as unresolvable homonyms, "
+            f"{unknown} with no card (of {len(drafts)})")
     if not batch:
         return [], {}
     bp = f".run/wave_{tag}_reloc_in.json"
@@ -462,14 +510,14 @@ def reloc_filter(tag, drafts, cards_path):
         res = json.load(open(op))
     except Exception:
         return batch, {"(reloc_identity produced no output — gating unfiltered)": len(batch)}
-    status = {r["fn"]: r.get("status") for r in res}
+    status = {(r["binary"], r["fn"]): r.get("status") for r in res}
     counts = collections.Counter(status.values())
     # NOT-A-STUB IS NOT A PASS — it means reloc_identity found nothing to check because the
     # function is ALREADY BANKED. Gating those re-stages a draft body over source that already
     # byte-matches: pure waste at best, and at worst it perturbs a banked function inside a group
     # and takes the group's genuinely-new drafts down with it. Wave `an` carried 480 NOT-A-STUB of
     # 697 "gated" and banked 0. Only AGREE is a pass. (R43: refuse input the step cannot use.)
-    keep = [b for b in batch if status.get(b["fn"]) == "AGREE"]
+    keep = [b for b in batch if status.get((b["binary"], b["fn"])) == "AGREE"]
 
     # PICK THE BEST ATTEMPT (P31 S60). With ATTEMPTS>1 the same function arrives several times from
     # different agents. Staging would keep whichever landed last — an arbitrary choice of the one
@@ -484,7 +532,7 @@ def reloc_filter(tag, drafts, cards_path):
     if _dupes:
         def _score(b):
             try:
-                sd = subof.get(b['fn'])
+                sd = subof.get((b['binary'], b['fn']))
                 if not sd:
                     return 1 << 30          # no asm subdir on the card -> cannot rank, stay neutral
                 r = sh(f"{PY} tools/match_one.py {b['fn']} --c {b['draft']} "
@@ -511,13 +559,13 @@ def reloc_filter(tag, drafts, cards_path):
     # `aprop_symfix` stale-symbol class that banked 4 of 4 earlier this session. A rejected draft is
     # evidence, not garbage; index it so a recovery pass can find it without re-drafting.
     try:
-        det = {r["fn"]: r for r in res}
+        det = {(r["binary"], r["fn"]): r for r in res}
         with open(".run/reloc_rejects.jsonl", "a") as fh:
             for b in batch:
-                st = status.get(b["fn"])
+                st = status.get((b["binary"], b["fn"]))
                 if st in (None, "AGREE", "NOT-A-STUB"):
                     continue
-                d = det.get(b["fn"], {})
+                d = det.get((b["binary"], b["fn"]), {})
                 fh.write(json.dumps({
                     "t": time.time(), "wave": tag, "fn": b["fn"], "binary": b["binary"],
                     "draft": b["draft"], "status": st,
@@ -527,7 +575,8 @@ def reloc_filter(tag, drafts, cards_path):
                 }) + "\n")
     except Exception as e:                            # telemetry must never break a gate
         log(f"  (reject capture skipped: {type(e).__name__}: {e})")
-    n_banked_already = sum(1 for b in batch if status.get(b["fn"]) == "NOT-A-STUB")
+    n_banked_already = sum(1 for b in batch
+                           if status.get((b["binary"], b["fn"])) == "NOT-A-STUB")
     if n_banked_already:
         counts = dict(counts, _already_banked_excluded=n_banked_already)
     return keep, dict(counts)

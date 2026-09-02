@@ -33205,3 +33205,55 @@ That scan read **zero files**: a BANKED function has no `.s` under `asm/` at all
 searched was empty by construction. It caught this itself and refuted the claim with a cc1 micro-repro.
 **A scan over `asm/` is a scan over UNMATCHED code only** — any claim of the form "no banked function
 ever does X" cannot be answered there, and a 0-file scan returns a confident, empty-world answer.
+
+## §408 ★★★ — §406 REFUTED AS A SWEEP: THE SHAPE IS THE FAMILY, THE DISAGREEMENT IS THE DEFECT (P31 S71; 0 MATCH / 14 applied, 0 / 210)
+
+§406 shipped as "the single biggest measured lever on the board — 134 targets, one known lever, no
+agents needed". Measured end-to-end against the real frontier it is **a null**, and the way it fails
+is more useful than the lever was.
+
+**Two counting errors sat under the 134.**
+
+1. **The denominator held 960 non-targets.** The census scanned `corpus.stubs` over every binary, and
+   `corpus.stubs('main')` counts main's **960 PsyQ LINKED library stubs** as open. Partitioned with
+   `progress.linked_subsegs()` the real frontier is **210** (main 64 + non-main 146), and the class
+   census falls **134 → 77**. 28 of the "members" were library stubs nobody will ever match.
+2. **The shape is symmetric; the defect is not.** The census predicate — `sw $s0` / `move $s0,$a0` /
+   `sw $ra` inside the target's first 24 lines — is the shape of the whole calling family. It says
+   nothing about WHICH WAY the `sw $ra` slot disagrees. `main/func_8002EED8` carries the shape with
+   the **target's own `sw $ra` already sunk** to just above the `bnez`; there the §406 clobber pushes
+   exactly the wrong way.
+
+**Derive the class from the disagreement, not from the target** (R33/R34). `match_one --json` already
+returns the residual as `[i, mine, tgt]` triples, so the direction is a two-line read: find the index
+whose *mine* text carries `sw ra` and the index whose *tgt* text carries `sw $ra`.
+
+```
+WEAVE-SUNK    mine's sw ra index > target's   -> the lever pulls it back up   (the §406 case)
+WEAVE-EARLY   mine's sw ra index < target's   -> the lever is BACKWARDS
+```
+
+Over all **210** real-frontier stubs, scoring the best of up to 4 stored drafts each
+(`tools/weave_sweep.py`): no-ra-residual **89** · baseline-MATCH **64** · ra-same-index **22** ·
+WEAVE-EARLY **17** · **WEAVE-SUNK 15** · ra-one-sided 3. So the lever's true addressable set is
+**15 / 210, not 134 / 1,237** — and of those 15, fourteen took the clobber (one already carried it)
+for **0 MATCH**, 2 improved-but-near, and the only member close enough for the lever to be decisive
+(`main/func_8005D734`, closeness **8**) went **8 → 91**: the clobber is not free, it re-schedules the
+whole block.
+
+**Why a real exemplar-level lever generalised to nothing.** The 15 WEAVE-SUNK drafts have baseline
+closeness 8, 85, 103, 104, 112, 146, 158, 158, 158, 200, 231, 302, 362, 400, 502. The `sw $ra` slot is
+a SYMPTOM in a body that is wrong for a dozen other reasons; a scheduling lever can only ever close
+the last diff. **A lever is only sweepable where the residual is ALREADY the lever's own signature** —
+median closeness 97 over the non-matching frontier says these bodies need drafting, not dialling.
+
+**THE MEASUREMENT THAT PAID FOR THE SWEEP.** The same baseline pass found **64 of 210 real-frontier
+stubs (30.5%) whose stored draft is already a standalone `match_one` MATCH at closeness 0**, across 33
+binaries. Per §376 that is a claim about the BODY and never about the TU — but it means the frontier's
+largest single lane is *integration*, not codegen (`matching-is-solved-integration-is-the-bottleneck`).
+Every one of the 210 open stubs has at least one stored draft on disk.
+
+**The general law.** *Before pricing a class by its SHAPE, price it by its RESIDUAL.* A shape census
+over targets answers "how many functions look like this"; only a mine-vs-target diff answers "how many
+are BROKEN like this", and a sweep's yield is bounded by the second number. The instrument for it is
+one `--json` field we already emitted on every score.
