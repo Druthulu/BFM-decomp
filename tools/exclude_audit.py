@@ -55,7 +55,18 @@ def parse(path=None, text=None):
     # "entry" reading `not a tooling limit`. Caught only because this function REPORTS what it
     # cannot parse instead of dropping it (R32); a silent parser would have quietly under-excluded.
     for line in src.splitlines():
-        body = line.split('#', 1)[0]
+        body, _, note = line.partition('#')
+        # AN EXPLICIT CLASS ANNOTATION IS AN INPUT, NOT DECORATION (P31 S72). A curated WALL is a
+        # per-function compiler fact that this tool CANNOT re-derive — it has no jump table, so the
+        # derived logic would happily call it RE-PROBE and drop it. Merging the seven historical
+        # walls ledgers in without honouring `# WALL` would have silently discarded two
+        # byte-measured walls and spent agents re-proving them (playbook §1b: that costs a full
+        # agent run each time).
+        pinned = 'WALL' if re.match(r'\s*WALL\b', note) else None
+        # Carry the ORIGINAL note. A wall entry's value is its refutation list — what was measured
+        # and found inert — so a later idea can be checked against it cheaply. Replacing that with
+        # boilerplate turns a piece of evidence into a bare "do not try".
+        why = re.sub(r'^\s*WALL\s*:?\s*', '', note).strip() or None
         for chunk in body.split(','):
             s = chunk.strip()
             if not s:
@@ -63,7 +74,7 @@ def parse(path=None, text=None):
             if ':' not in s:
                 bad.append(s); continue
             b, _, f = s.partition(':')
-            rows.append((b.strip(), f.strip()))
+            rows.append((b.strip(), f.strip(), pinned, why))
     return rows, bad
 
 
@@ -75,8 +86,9 @@ def classify(path=None, rows=None):
     else:
         bad = []
 
+    rows = [(tuple(r) + (None, None))[:4] for r in rows]   # tolerate older 2/3-tuples
     by = collections.defaultdict(list)
-    for b, f in rows:
+    for b, f, _p, _w in rows:
         by[b].append(f)
 
     blocked, linked_of, stubs_of = {}, {}, {}
@@ -97,13 +109,18 @@ def classify(path=None, rows=None):
             stubs_of[b] = None
 
     out = []
-    for b, f in rows:
+    for b, f, pinned, why in rows:
         stubs = stubs_of.get(b)
         if stubs is None:
             out.append((b, f, 'WALL', 'binary not readable — kept, unverified')); continue
         st = stubs.get(f)
         if st is None:
             out.append((b, f, 'BANKED', 'no INCLUDE_ASM stub in the source')); continue
+        if pinned == 'WALL':
+            # BANKED still wins above -- a wall that got matched is simply no longer a wall.
+            out.append((b, f, 'WALL',
+                        why or 'curated compiler fact (pinned in the list; not re-derivable)'))
+            continue
         sub = os.path.basename(os.path.dirname(st.asm_path))
         if sub in linked_of.get(b, ()):
             out.append((b, f, 'LINKED', f'subseg {sub} is linked PsyQ — never a target')); continue
@@ -149,7 +166,7 @@ def main():
                      f"# An exclude list records what the TOOLING could not do — regenerate it as\n"
                      f"# part of every tool fix, or it becomes a list of work you decided not to do.\n")
             for b, f, k, note in keep:
-                fh.write(f"{b}:{f}  # {k}: {note}\n")
+                fh.write(f"{b}:{f}  # {k}: {note}\n")   # `# WALL:` is re-read as a pin by parse()
         print(f"\nwrote {a.write}: {len(keep)} kept, {len(stale)} dropped")
 
     if a.assert_fresh and stale:
