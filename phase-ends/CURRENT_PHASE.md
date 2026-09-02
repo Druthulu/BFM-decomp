@@ -1,10 +1,10 @@
 # CURRENT PHASE — Phase 31: The Frontier Atlas & Wide-Tolerance Campaign
 
-> **⚠ READ THE LAST BLOCK FIRST — `## 🛑 SESSION CHECKPOINT — S65 FINAL-4` at the END of this file.**
-> This log holds **27** `🛑` checkpoint blocks written across many sessions, and several older ones
-> also say "supersedes every earlier block" — true when written, false now. **The LAST 🛑 block is
-> always the live one**; everything above it is history. (S65: added after noticing a fresh session
-> could anchor on the S64 FINAL block ~370 lines above the real one.)
+> **⚠ READ THE LAST BLOCK FIRST — `## 🛑 SESSION CHECKPOINT — S73 CLOSE` at the END of this file.**
+> This log holds **37** `🛑` checkpoint blocks written across many sessions, and several older
+> ones also say "supersedes every earlier block" — true when written, false now. **The LAST 🛑 block
+> is always the live one**; everything above it is history. (S72 note: that rule was itself BROKEN
+> for a while — S70 FINAL-5 sat below the newer S71 CLOSE in file order. Always append.)
 
 **Started:** 2026-08-14 · **Plan approved:** 2026-08-14 (gate 1; Drew) · **Effort doctrine:** xHigh default / Max deep (T5, T7, synthesis) / Ultracode waves (R26/R27 prompts) / Fable-tier only for new wall classes.
 **Approved plan:** `/home/musashi/.claude/plans/fable-5-set-max-goofy-seahorse.md` (the full design; this file is the crash-recovery log).
@@ -6266,14 +6266,15 @@ main frontier jtbl fns    :      2                            [was 25]
 
 # 1. THE HEADLINE — THE JUMP-TABLE CLASS ON main IS RESOLVED, 25 -> 2
 
-And the two survivors are **provably** not matchable as separate C functions: `SaveLoadRoutine`
-(1165) and `func_8002B0B4` (76) are ONE 0x40 frame split across two symbols (§434, byte-verified —
-`func_8002B0B4`'s `jtbl_80072E44` points at `SaveLoadRoutine` AND at labels inside its body;
-`SaveLoadRoutine` has no prologue and owns the epilogue). Both are on the exclude list. **The fix
-for them is a RESEGMENTATION merging the two symbols, not a draft.**
+And the two survivors are one problem, not two: `SaveLoadRoutine` (1165) and `func_8002B0B4`
+(76) share ONE 0x40 frame across two symbols (§434, byte-verified). **They are NOT unmatchable** —
+corrected S73: the **§265 verbatim-asm lane** transcribes `SaveLoadRoutine` BYTE-IDENTICAL, and the
+whole-binary gate rejects it only because substituting one half alone moves 3,989 bytes across 262
+symbols of the shared frame. **The route is to transcribe/resegment the PAIR TOGETHER via §265**;
+they are excluded from DRAWS, not written off.
 
 **23 main functions banked this session** — 14 in S72 (the carve + the `src/800.c` split), 9 in S73
-(wave S73m_1, 9 of 9 drafts, 2,413 instructions). Every one verified from the SOURCE, never from a
+(wave S73m_1, 9 of 9 drafts, 3,076 instructions). Every one verified from the SOURCE, never from a
 tool's report.
 
 # 2. WAVE S73m_1 — 9 OF 9, AND THE FLYWHEEL VISIBLY CLOSED
@@ -6344,3 +6345,48 @@ does.* Rank them accordingly and record the provenance in the entry.
   as structure, dead preprocessor branches as live. **Five instances, three in my own edits.**
 * **Count banks from the SOURCE.** Every claim in this block was verified by the `INCLUDE_ASM`
   stub's absence, not by a tool's report.
+
+---
+
+## 🛑 S73 CLOSE — ADDENDUM (corrections found after the block above was written)
+
+**Three defects I introduced, all corrected; read these before trusting the block above.**
+
+1. **§429 had been SILENTLY DELETED from the cookbook.** My §428a rewrite wrote
+   `t[:start] + new` instead of `t[:start] + new + t[end:]`, truncating everything below it. §429
+   ("every held pointer needs its own local") was gone for the rest of the session. Restored from
+   `commit:3658`; §426–§434 all present; index 1103 sections. **When editing a doc by index slicing,
+   re-read the tail.**
+2. **§434 accused an agent of inventing its §265 citation. §265 EXISTS** — *"THE VERBATIM-ASM BANK
+   LANE"*, four named byte-banked precedents. I ran `cookbook_index --resolve 265`, which resolves a
+   LINE number, not a section, and believed it. Retracted in §434.
+3. **The `SaveLoadRoutine` verdict was too strong.** Gated, the §265 transcription is
+   **BYTE-IDENTICAL for the function itself**; it fails the whole-binary gate only because
+   substituting one half of the shared frame moves 3,989 bytes across 262 symbols. **Route: the §265
+   PAIR transcription/resegmentation**, not a per-function draft. The exclude entries now say
+   "excluded from DRAWS only" and name that route.
+
+**Also corrected:** the wave total is **3,076** instructions (not 2,413); this file's own header
+warning named S65 FINAL-4 and 27 blocks (now S73 CLOSE, 37).
+
+**`docs/SETUP.md` §6.6 was the real documentation gap** — it still told a human to put main bodies in
+`src/800.c`. Since S72 that is THREE TUs and the choice is load-bearing for any switch function.
+Fixed, with the vram→TU→asm-path→span table, plus the missing 4th `main_diff_locate` verdict
+(TABLE REJECT), the `config/wave_exclude.txt` row, and `ld_interleave --order`.
+
+**KNOWN-REMAINING, NOT YET FIXED** (from the same audit, verified but deprioritised — fix on contact):
+* `tools/jr_isolate.py:22-27` docstring still declares the tool BLOCKED; 5 defects were fixed this
+  session and it now runs to completion, though `ov_SC02_005` still fails to assemble.
+* `tools/jtbl_rodata_pads.py:20-38` docstring describes a stored-spec-only filter and advertises
+  fail-loud guards that no longer all exist; `--derive` now serves `main` too.
+* `tools/draw_waves.py:5-6` Usage line documents a `--no-main` flag that does not exist.
+* `docs/wave-playbook.md` carries several pre-session census numbers (25 of 59 main jtbl fns, a
+  19-entry exclude list, `.run/S67_walls.txt` pointers, a Sonnet/Opus routing ladder) and its step-1
+  copy-paste command still passes a superseded `.run` snapshot instead of `config/wave_exclude.txt`.
+* `docs/memory-map.md:309` mis-attributes the first 12 bytes of the span-B carve.
+* `Makefile:680` and `tools/ld_interleave.py:11-14` describe the pre-S72 `--front/--tail` layout.
+
+**PROCESS RULE ADDED (Drew, this session):** every tool create/update ships **in the same change**
+with (a) the sibling tools wired to know how/when to use it and (b) the docs updated — **and no
+end-of-session documentation audits**. This addendum exists because I did (a) and the tool-inventory
+half of (b), but not the human-facing procedure half.
