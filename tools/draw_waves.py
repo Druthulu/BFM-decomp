@@ -25,6 +25,7 @@ Then, per wave: t5_cards.py -> claude_wave_packs.py -> wave_args.py, and launch
 tools/workflows/claude_wave_draft.js with the args wave_args.py printed (never hand-typed).
 """
 import argparse, collections, glob, json, os, sys
+import re
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(REPO)
@@ -67,6 +68,51 @@ def arm_for(n):
     53% failure rate is billed in full, and opus fell off a cliff above ~350. Two tiers only.
     """
     return 'opus' if n <= 150 else 'fable'
+
+
+# THE RESIDUAL CLASS PREDICTS DIFFICULTY BETTER THAN `nins` DOES (Drew, 2026-09-02, S71).
+# Measured over the S71 wave's own agent runs: wall-clock and iteration count track the RESIDUAL,
+# not the size. A 26-instruction function took 18 minutes and 31 tool calls (`func_80181294`,
+# still NEAR); a 122-instruction one took 80 seconds and 10 (`func_8017DB98`). The 20-30 minute
+# runs were all compiler-internal residuals — scheduling ties, birthing boost, register colouring —
+# where each hypothesis costs a compile-and-measure cycle:
+#
+#     func_80185D44   47 ins  opus  21 min  48 tool calls   (LUID contradiction, read cc1 -dS)
+#     func_80185F4C   60 ins  opus  22 min  33
+#     func_800D24D0  141 ins  opus  33 min  51
+#
+# `arm_for` keys on size alone, so a 47-instruction regalloc wall was STRUCTURALLY unable to be
+# drawn at the higher tier, and nothing escalates mid-run. Now that every pack carries the
+# function's own history (§411), the prior residual class is known AT DRAW TIME — and 1,352 of the
+# 3,147 functions with history (43%) have a note naming one of these classes.
+_WALL_RE = re.compile(
+    r'permuter|regalloc|register (?:alloc|colou?ring|pressure)|schedule[- ]reorder|SCHEDULE-'
+    r'|birthing|LUID|sched1|sched2|scheduler-internal|cross_?jump|delay[- ]slot|colou?ring',
+    re.I)
+
+
+def arm_from_history(binary, fn, n, _cache={}):
+    """`fable` when this function's own journal history names a compiler-internal residual.
+
+    Escalating SOONER is the standing finding (see arm_for); this applies it to the axis that
+    actually predicts cost. Falls back to the size ladder when there is no history, and never
+    DOWNGRADES what the size ladder chose."""
+    if not _cache:
+        try:
+            sys.path.insert(0, os.path.join(REPO, 'tools'))
+            import journal_notes
+            _cache['idx'] = journal_notes.load()
+            _cache['mod'] = journal_notes
+        except Exception:
+            _cache['idx'] = None
+    base = arm_for(n)
+    idx = _cache.get('idx')
+    if not idx or base == 'fable':
+        return base
+    rows = _cache['mod'].notes_for(idx, binary, fn)
+    if rows and _WALL_RE.search(" ".join(r.get('note') or '' for r in rows)):
+        return 'fable'
+    return base
 
 
 def main():
@@ -128,7 +174,7 @@ def main():
                 continue
             pool.append(dict(name=s.symbol, addr='0x%08x' % s.addr, nins=n, binary=b,
                              sub=s.asm_dir, asm=s.asm_path, tu=s.path,
-                             cls='FRONTIER', arm=arm_for(n), **{'from': 'draw_waves'}))
+                             cls='FRONTIER', arm=arm_from_history(b, s.symbol, n), **{'from': 'draw_waves'}))
     pool.sort(key=lambda t: (t['nins'], t['binary'], t['name']))
 
     print('population: %d open stub(s) in [%d,%d] ins, undrawn, over %d binaries (%d oracle refusals: %s)'

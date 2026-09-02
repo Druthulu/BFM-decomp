@@ -33469,3 +33469,40 @@ position relative to a brace or a keyword must strip `__attribute__((…))` firs
 appear between `}` and the name, after the name, and after the parameter list. This is the §134 class
 (a scanner that cannot start where the C grammar actually puts things), and it is now the seventh tool
 in this project to hit it.
+
+## §413 ★★★ — DIFFICULTY IS THE RESIDUAL CLASS, NOT `nins` — ROUTE THE MODEL TIER OFF HISTORY (P31 S71, Drew)
+
+**The observation.** S71's wave ran one agent per function and logged wall-clock and tool-call counts.
+Duration tracks **iteration count**, and iteration count tracks the **residual class** — not size:
+
+| function | ins | arm | wall | tool calls | what it was |
+|---|---|---|---|---|---|
+| `func_80181294` | **26** | opus | 18 min | 31 | REGALLOC-PERM, finished NEAR/2 |
+| `func_80185D44` | **47** | opus | 21 min | 48 | LUID contradiction (read cc1's `-dS` trace) |
+| `func_80185F4C` | **60** | opus | 22 min | 33 | sched1 birthing-boost tie |
+| `func_800D24D0` | 141 | opus | 33 min | 51 | `memrefs_conflict_p` PLUS-vs-LO_SUM |
+| `func_8017DB98` | 122 | opus | **80 s** | 10 | body recovered from a prior attempt |
+| `func_80182CBC` | 28 | opus | 115 s | 12 | §193-A twin remap |
+
+A 26-instruction function took 18 minutes; a 122-instruction one took 80 seconds. **Size predicted
+neither.** What separates the two groups is whether the residual is a compiler-internal one
+(scheduling ties, birthing boost, register colouring, LUID order) where every hypothesis costs a
+compile-and-measure cycle — or an ordinary body question that a twin or a neighbour answers at once.
+
+**Why they never escalated.** `draw_waves.arm_for` keys the model tier on `nins` alone, so a
+47-instruction regalloc wall is STRUCTURALLY unable to be drawn at the higher tier, and nothing
+escalates mid-run: each agent runs to its own budget and no watcher re-hands the target.
+
+**The fix, available only because the packs now carry history (§411).** `arm_from_history()` reads the
+function's own journal notes at draw time and returns `fable` when they name a compiler-internal
+residual; it never downgrades what the size ladder chose. Negative-controlled over all 3,147 functions
+with history × 3 size bands = 9,441 decisions: **4,020 upgrades (43%), 0 downgrades.**
+
+**A defect the control caught, worth as much as the lever.** The first negative control iterated only
+journal keys carrying a binary and reported `0 decisions / 0 downgrades` — a clean pass over an EMPTY
+set. The agent verdict schema never had a `binary` field, so **every historical note is name-keyed**,
+and the same name is a different function in another overlay (§238). Two consequences: the S71
+past-attempt fuel can serve one overlay's history to another's target, and any future join on these
+rows inherits it. `claude_wave_draft.js`'s `VERDICT` schema now requires `binary`, so new rows are
+exact; the historical corpus stays name-keyed and should be read with that caveat.
+`check-against-a-known-true-case`, again: the instrument passed because it measured nothing.

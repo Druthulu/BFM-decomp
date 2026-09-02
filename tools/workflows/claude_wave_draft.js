@@ -14,6 +14,11 @@ const VERDICT = {
   type: 'object',
   properties: {
     fn: { type: 'string' },
+    // BINARY IS PART OF A FUNCTION'S IDENTITY (R48/§238). Without it every journal note is
+    // name-keyed, and the same name is a DIFFERENT function in another overlay — so the S71
+    // past-attempt fuel (§411) could serve one overlay's history to another's target. Every
+    // historical journal row lacks this; stamping it now makes future ones exact.
+    binary: { type: 'string' },
     arm: { type: 'string' },
     status: { type: 'string', enum: ['MATCH', 'NEAR', 'FAIL', 'NO-DRAFT'] },
     closeness: { type: ['integer', 'null'] },
@@ -21,7 +26,7 @@ const VERDICT = {
     draft_path: { type: 'string' },
     note: { type: 'string' },
   },
-  required: ['fn', 'arm', 'status', 'closeness', 'compiles', 'draft_path', 'note'],
+  required: ['fn', 'binary', 'arm', 'status', 'closeness', 'compiles', 'draft_path', 'note'],
 }
 phase('Draft')
 log(`wave ${WAVE}: ${TARGETS.length} targets (${TARGETS.filter(t => t.arm === 'sonnet').length} sonnet / ${TARGETS.filter(t => t.arm === 'opus').length} opus)`)
@@ -41,10 +46,10 @@ CLI equivalents (run from ${REPO}):
   submit     -> write your FINAL draft to ${REPO}/${WAVE}/${t.arm}/${t.name}.c (mkdir -p the dir) and return the JSON verdict.
 
 HARD RULES: never modify anything under src/, config/, include/, asm/, build/ or run make; never touch other agents' files; write only to ${WAVE}/${t.arm}/${t.name}.c and scratch under ${WAVE}/${t.arm}/scratch_${t.name}/. Budget: up to ~24 compile/match_one iterations, then stop honestly.
-Your final answer is the JSON verdict only: fn, arm="${t.arm}", status (MATCH if match_one says MATCH; NEAR if it compiles with closeness>0; FAIL if it never compiled; NO-DRAFT if you wrote nothing), closeness (integer or null), compiles, draft_path, note (one line: what blocked you, or which cookbook § unlocked it).`,
+Your final answer is the JSON verdict only: fn, binary="${t.binary}", arm="${t.arm}", status (MATCH if match_one says MATCH; NEAR if it compiles with closeness>0; FAIL if it never compiled; NO-DRAFT if you wrote nothing), closeness (integer or null), compiles, draft_path, note (one line: what blocked you, or which cookbook § unlocked it).`,
   { label: `${t.arm}:${t.name}`, phase: 'Draft', model: t.arm, schema: VERDICT }
-).then(v => v || { fn: t.name, arm: t.arm, status: 'NO-DRAFT', closeness: null, compiles: false, draft_path: '', note: 'agent returned null' })
- .catch(e => ({ fn: t.name, arm: t.arm, status: 'NO-DRAFT', closeness: null, compiles: false, draft_path: '', note: 'agent error: ' + String(e).slice(0, 120) }))))
+).then(v => v || { fn: t.name, binary: t.binary, arm: t.arm, status: 'NO-DRAFT', closeness: null, compiles: false, draft_path: '', note: 'agent returned null' })
+ .catch(e => ({ fn: t.name, binary: t.binary, arm: t.arm, status: 'NO-DRAFT', closeness: null, compiles: false, draft_path: '', note: 'agent error: ' + String(e).slice(0, 120) }))))
 const byArm = {}
 for (const r of results.filter(Boolean)) { (byArm[r.arm] = byArm[r.arm] || []).push(r) }
 for (const arm of Object.keys(byArm)) {
