@@ -33628,3 +33628,29 @@ residual is a DIFFERENT PASS — attribute it before re-adding the lever.* "Remo
 almost always "removing X unblocked pass A, and pass B now fires"; re-adding X re-blocks A and hides
 B again, which is how a function plateaus for three attempts. The instrument is the pass dump
 (`-dL`, `-dj`, `-dS`), not another guess.
+
+## §418 ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNFOLDED (P31 S71; byte-proven `ov_SC04_016/func_8017DF8C`, 184 ins, 32 → 0 in seven compiles)
+
+**1. A second biv and a giv of the first are different CODE, not different style.**
+Writing the stride variable as its own induction variable gives one shape; writing it as
+`off = j * 0x50` at the top of the body — a **giv of biv `j`** — gives another. loop.c chains givs
+**LIFO** (`loop.c:4421`), so with `j = 0` spelled BEFORE `idx`/`tp` the `move $s0,$zero` emits LAST
+and the arg-3 giv lands in its natural record slot. That single respelling fixed **14 preheader rows
+and 8 latch rows at once**. When the preheader ORDER is wrong, look at which variables are bivs and
+which are givs before touching anything else.
+
+**2. To keep `la` + `addu` + `lh 0(reg)` unfolded, hoist the table pointer OUT of the loop — once.**
+A loop body that must emit `la $t6` / `addu $v0,$a1,$t6` / `lh 0($v0)` (rather than a folded
+`%hi/%lo(sym+K)`) gets it from a **function-scope pointer local set once outside both loops**:
+`s16 *tbl = &D_80184D0A;`. Two mechanisms combine — there is no LOG_LINK across basic blocks, so
+combine cannot fold it; and with every `$s` register taken, reload **rematerialises it from
+`reg_equiv_constant` at the use and deletes the initialisation**, which is why the hoist costs
+nothing. Spell the sum `idx + (s32)tbl` to get `(plus a1 t6)`; `(s32)tbl + idx` costs exactly one
+instruction (operand swap).
+
+**MEASURED INERT here:** §328's volatile cast, for a reg+sym address — it splits the extend into
+`lhu`/`sll`/`sra` and still folds.
+
+**Relation to §20/§42d-2.** Those cover keeping reads on one `la` via an opaque launder inside a
+block; this is the cross-block form, and the lever is placement (outside the loop) rather than a
+launder. The reload-rematerialisation is what makes the two look identical in the output.
