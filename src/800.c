@@ -7044,7 +7044,268 @@ setDefault:
     return;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/800", CdReadStateMachine);
+
+extern s32   func_800435CC(s32 mode, void *buf, void *param);  /* CdControl        */
+extern s32   func_8004355C(s32 mode, u8 *result);             /* CdSync           */
+extern void *func_800435B4(void *func);                       /* CdReadyCallback  */
+extern void  func_800434BC(void);                             /* CdFlush          */
+extern void  CdReadSectorReadyCB(s8);
+extern s32   func_8002FD14(s32, s32);
+extern void  func_8001A0FC(void);
+extern s32   func_8001A114(void);
+
+extern s32   cdReq_state;
+extern s32   cdReq_retry;
+extern s32   cdReq_result;
+extern u8    cdReq_cdResult;
+extern void *cdReq_cdlFile;
+extern s32   cdReq_posInt;
+extern s32   cdReq_timeout;
+extern s32   cdReq_size;
+extern void *cdReq_dest;
+extern s32   cdReq_sink;
+extern s32   cdReq_wordsRemaining;
+extern s32   cdReq_drainPhase;
+extern void *cdReq_savedReadyCB;
+extern s32   cdReq_curSector;
+extern s32   D_800AE6E8;
+extern s32   D_800AE6F8;
+extern s32   D_800AE6FC;
+extern s32   D_800AE700;
+extern s32   D_800AE70C;
+extern s32   D_800AE71C;
+extern s32   D_800AE724;
+extern u8    D_800AE798;
+extern u8    D_800AE799;
+
+/* Hand-rolled polled async CD reader: one state step per call, switch(cdReq_state) over 11 states.
+ * Sequence: CdlSetmode(0xA0) -> CdlSeekL(+CdPosToInt) -> CdlReadN (+CdReadSectorReadyCB sector
+ * drain) -> CdlPause/Flush, with a recovery arm (states 9/10) driving func_8001A0FC/func_8001A114.
+ * Progress is returned via cdReq_result (0 busy / 1 done); pauseAfterSeek != 0 stops after the seek.
+ *
+ * MATCHING NOTES (byte-proven 385/385):
+ *  - the cdReq_ block members reached at a NEGATIVE displacement from a held base
+ *    (D_800AE740 = retry[-0x10], cdReq_cdResult = retry[-0x18] / cdlFile[-0x6C] /
+ *    savedReadyCB[+4] / drainPhase[-0x14]) must be spelled through a pointer VARIABLE, and the
+ *    byte store needs its OWN variable (`q`): `*(p - 0x10) = 0xA0` folds back to
+ *    `lui $at,%hi(sym-0x10)` and costs +1 instruction, `q = p - 0x10; *q = 0xA0` does not.
+ *  - EVERY held pointer gets a DISTINCT local. A local assigned in two arms stops being a
+ *    single-set pseudo, so alias.c can no longer canonicalise `(mem (reg))` to its symbol and the
+ *    scheduler refuses to hoist an unrelated global load past it (a stray load-delay `nop`, +1).
+ *  - `s32 pad[2]` is the §333 frame dial: the target's 0x28 frame needs 8 bytes of declared-but-
+ *    unused locals. Without it the frame is 0x20 and every $sp displacement shifts.
+ *  - `setStateNine:` / `resetState:` are real labels, not cross-jump artefacts: they pin the
+ *    merged tails to case 0 and case 10 respectively (gcc's own merge picks the other end).
+ *  - case 10 assigns the callee's result straight to D_800AE6E8; a temp there buys a dead
+ *    `addu $v1,$v0,$zero` (the other three CdSync arms DO need the temp, since $v0 is reused for
+ *    the comparison constants).
+ * Provenance: full byte-match against asm/nonmatchings/800/CdReadStateMachine.s (S72). */
+void CdReadStateMachine(s32 pauseAfterSeek) {
+    s32 *rp;
+    s32 *dp;
+    s32 *sp7;
+    s32 *sp9;
+    u8 *p;
+    u8 *q;
+    u8 *p2;
+    u8 *p3;
+    u8 *p8;
+    void **fpp;
+    s32 r;
+    s32 st;
+    s32 n;
+    s32 i;
+    s32 off;
+    s32 pad[2];
+
+    switch (cdReq_state) {
+    case 0:
+        p = (u8 *)&cdReq_retry;
+        *(s32 *)p = 0;
+        D_800AE71C = 0;
+        D_800AE70C = 0;
+        q = p - 0x10;
+        *q = 0xA0;
+        func_800435CC(0xE, q, p - 0x18);
+        if ((p[-0x18] & 0x10) != 0) {
+        setStateNine:
+            cdReq_state = 9;
+            break;
+        }
+        cdReq_state++;
+        /* fallthrough */
+    case 1:
+        r = func_8004355C(1, &cdReq_cdResult);
+        D_800AE6E8 = r;
+        if (r == 0) {
+            break;
+        }
+        if (r == 5) {
+            goto resetState;
+        }
+        if (r != 2) {
+            break;
+        }
+        cdReq_retry = 0;
+        cdReq_state++;
+        /* fallthrough */
+    case 2:
+        rp = &cdReq_retry;
+        *rp = *rp + 1;
+        if (*rp < 3) {
+            break;
+        }
+        *rp = 0;
+        cdReq_state++;
+        break;
+    case 3:
+        fpp = &cdReq_cdlFile;
+        func_800435CC(0x15, (u8 *)*fpp, (u8 *)fpp - 0x6C);
+        if ((*((u8 *)fpp - 0x6C) & 0x10) != 0) {
+            goto setStateNine;
+        }
+        cdReq_timeout = 0;
+        cdReq_posInt = CdPosToInt((CdlLOC *)*fpp);
+        cdReq_state++;
+        /* fallthrough */
+    case 4:
+        p2 = &cdReq_cdResult;
+        r = func_8004355C(1, p2);
+        D_800AE6E8 = r;
+        if (r == 5) {
+            cdReq_retry++;
+        flushRetry:
+            func_800434BC();
+            cdReq_state = 3;
+            break;
+        }
+        if (r == 0) {
+            break;
+        }
+        if (r != 2) {
+            cdReq_result = 0;
+            cdReq_timeout++;
+            if (cdReq_timeout < 0xB5) {
+                return;
+            }
+            goto flushRetry;
+        }
+        if (pauseAfterSeek != 0) {
+            func_800435CC(9, 0, p2);
+            if ((*p2 & 0x10) != 0) {
+                goto setStateNine;
+            }
+            cdReq_state = 8;
+            D_800AE70C = *(s32 *)cdReq_cdlFile;
+            break;
+        }
+        cdReq_state++;
+        /* fallthrough */
+    case 5:
+        cdReq_drainPhase = 0;
+        if (cdReq_size < 1) {
+            D_800AE6F8 = 0;
+        } else {
+            D_800AE6F8 = 3;
+            cdReq_wordsRemaining = (cdReq_size + 3) / 4;
+            D_800AE798 = 1;
+            cdReq_sink = (s32)cdReq_dest;
+        }
+        p3 = (u8 *)&cdReq_savedReadyCB;
+        *(void **)p3 = func_800435B4(CdReadSectorReadyCB);
+        func_800435CC(6, 0, p3 + 4);
+        if ((p3[4] & 0x10) != 0) {
+            goto setStateNine;
+        }
+        cdReq_retry = 0;
+        cdReq_state++;
+        /* fallthrough */
+    case 6:
+        dp = &cdReq_drainPhase;
+        if (*dp == 1) {
+            func_800435B4(cdReq_savedReadyCB);
+            func_800435CC(9, 0, (u8 *)dp - 0x14);
+            if ((*((u8 *)dp - 0x14) & 0x10) != 0) {
+                goto setStateNine;
+            }
+            st = cdReq_state;
+            n = D_800AE71C;
+            cdReq_state = st + 1;
+            if (n == 0) {
+                cdReq_state = st + 2;
+            }
+            break;
+        }
+        if (*dp == 2) {
+            func_800435B4(cdReq_savedReadyCB);
+            goto resetState;
+        }
+        cdReq_retry++;
+        if (cdReq_retry < 0x12C) {
+            break;
+        }
+        func_800435B4(cdReq_savedReadyCB);
+        cdReq_state = 0;
+        func_800434BC();
+        break;
+    case 7:
+        i = 0;
+        if (D_800AE71C > 0) {
+            do {
+                off = i * 8;
+                do {
+                    r = func_8002FD14(*(s32 *)(off + D_800AE724), *(s32 *)(off + D_800AE724 + 4));
+                } while (r == 0);
+                i++;
+            } while (i < D_800AE71C);
+        }
+        sp7 = &cdReq_state;
+        *sp7 = *sp7 + 1;
+        break;
+    case 8:
+        p8 = &cdReq_cdResult;
+        r = func_8004355C(1, p8);
+        D_800AE6E8 = r;
+        if (r == 2) {
+            cdReq_sink = 0x80010000;
+            cdReq_state = 0;
+            D_800AE6F8 = 0;
+            D_800AE6FC = 0;
+            D_800AE700 = 0;
+            cdReq_wordsRemaining = 1;
+            cdReq_drainPhase = 0;
+            D_800AE798 = 0;
+            D_800AE799 = 0;
+            D_800AE70C = 0;
+            cdReq_result = 1;
+            cdReq_curSector = 0;
+            return;
+        }
+        if (r != 5) {
+            break;
+        }
+        func_800434BC();
+        func_800435CC(9, 0, p8);
+        if ((*p8 & 0x10) == 0) {
+            break;
+        }
+        goto setStateNine;
+    case 9:
+        func_8001A0FC();
+        sp9 = &cdReq_state;
+        *sp9 = *sp9 + 1;
+        /* fallthrough */
+    case 10:
+        D_800AE6E8 = func_8001A114();
+        if (D_800AE6E8 == 0) {
+            break;
+        }
+    resetState:
+        cdReq_state = 0;
+        break;
+    }
+    cdReq_result = 0;
+}
 #endif
 
 extern s32 D_800AE6F4;
@@ -7723,7 +7984,69 @@ void func_8001AF34(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001B0D4);
+extern s32 D_800747E0;
+extern s32 D_800747E4;
+extern s32 D_800747E8;
+extern void func_80036AF8(CdlLOC *loc, s32 flags);
+extern s32 CdQueueBusy(void);
+extern int func_8001A114(void);
+
+s32 func_8001B0D4(void *arg0, s32 arg1) {
+    s32 t;
+
+    switch (D_800747E4) {
+    case 0:
+        func_80036AF8((CdlLOC *)arg0, (s16)arg1);
+        D_800747E8 = 1;
+        D_800747E4 = D_800747E4 + 1;
+        goto L_ret0;
+    case 1:
+        t = CdQueueBusy();
+        switch (t) {
+        case 0:
+            D_800747E0 = 1;
+            goto L_ret0;
+        case 8:
+            D_800747E8 = 4;
+            D_800747E4 = 4;
+            goto L_ret0;
+        case 2:
+        case 4:
+            D_800747E8 = t;
+            D_800747E4 = D_800747E4 + 1;
+            goto L_ret0;
+        case 1:
+            D_800747E8 = t;
+            goto L_ret0;
+        }
+        goto L_ret0;
+    case 2:
+        t = CdQueueBusy();
+        switch (t) {
+        case 1:
+        case 2:
+        case 4:
+            D_800747E8 = t;
+            goto L_ret0;
+        case 0:
+        case 8:
+            D_800747E8 = 0;
+            return 1;
+        }
+        goto L_ret0;
+    case 3:
+        if (func_8001A114() == 0) {
+            goto L_ret0;
+        }
+        D_800747E4 = 0;
+        goto L_ret0;
+    case 4:
+        D_800747E8 = 0;
+        return 1;
+    }
+L_ret0:
+    return 0;
+}
 
 extern s32 D_800747E8;
 s32 func_8001B22C(void) {
@@ -12909,7 +13232,154 @@ void func_800243EC(s32 *a0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80024448);
+/* func_80024448 (main / src/800.c) -- TMD mesh dispatcher: walks the primitive list at
+ * hdr->prims (hdr = *(a0+8): [0]=verts [2]=norms [4]=prims [5]=count) and, per run of
+ * primitives, dispatches on (word>>24)&0xFC (0x20..0x3C, jump table jtbl_80072B88) and the
+ * gradation bit (word>>16)&4 to the matching emitter, which bumps the D_800A5E60 packet
+ * pointer. Each arm then subtracts the run length (u16 at +0) from the remaining count and
+ * advances by run_len * stride (16/20/24/28/32/36 bytes). The D_80078D88 tests select the
+ * handwritten shaded variants (func_80026514 / func_800268D0) with an 8th argument.
+ *   [MATCH 362/362, S72m_1]  Shape facts: every arm carries its OWN `count -= n; p += n*stride`
+ * tail (gcc-2.7.2 cross-jumps only the suffix shared with the fall-through predecessor, so the
+ * three-way D_80078D88 chains keep three copies); case bodies are in source order
+ * 0x20,0x28,0x24,0x2C,0x30,0x38,0x34,0x3C to reproduce the target's body layout while the
+ * jump table indexes by value. */
+extern u8 *D_800A5E60;
+extern s32 D_80078D88[];
+
+/* Callees: every one is DEFINED later in src/800.c; these are spelled to be compatible with
+ * those definitions (verbatim where the types are spellable here, no-proto otherwise). */
+extern long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot);
+extern u8 *func_80024DE8();
+extern u8 *func_8002528C();
+extern void *func_80025504();
+extern u8 *func_80025A30(u8 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
+extern void *func_80025CBC(void *prims, void *scr, void *cols, void *packets, s32 count, s32 otshift, u32 *ot);
+extern u32 *func_80025EB8();
+/* Handwritten-asm stubs, defined `void f()` in the TU; the packet pointer they leave in $v0
+ * is consumed here through a no-proto function-pointer cast (§378: folds to a direct jal). */
+extern void func_80026514();
+extern void func_800268D0();
+
+#define CNT (*(u16 *)s0)
+#define OT  (*(u32 **)(param_2 + 4))
+
+void func_80024448(int param_1, int param_2, u32 param_3)
+{
+    u32 *s0;
+    u32 *v0;
+    s32 iVar;
+    u32 flag;
+    u32 vtx;
+    u32 nrm;
+    /* These five return TU-local untagged struct type names (POLY_F4, PG4, PG3, PktGT3,
+     * PktGT4) that src/800.c introduces only AFTER this function, so no file-scope forward
+     * decl can spell them (a file-scope `extern u8 *f();` is a hard "conflicting types" error
+     * at the later definition). Block-scope externs live in gcc-2.7.2's limbo instead: the
+     * later definition draws only a "type mismatch with previous external decl" warning,
+     * and the emitted bytes are identical (measured on a synthetic TU, S72m_1). */
+    extern u8 *func_80024BC0();
+    extern u8 *func_80025000();
+    extern u8 *func_80025818();
+    extern u8 *func_80026128();
+    extern u8 *func_800262D8();
+
+    v0 = *(u32 **)(param_1 + 8);
+    s0 = (u32 *)v0[4];
+    iVar = v0[5];
+    vtx = v0[0];
+    nrm = v0[2];
+
+    if (iVar == 0) return;
+
+    do {
+        flag = (*s0 >> 16) & 4;
+        switch ((*s0 >> 24) & 0xFC) {
+        case 0x20:
+            if (flag) {
+                D_800A5E60 = (u8 *)func_80024DE8(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 24);
+            } else {
+                D_800A5E60 = (u8 *)func_800249F0((char *)s0, vtx, nrm, (long *)D_800A5E60, CNT, param_3, (s32)OT);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 16);
+            }
+            break;
+        case 0x28:
+            if (flag) {
+                D_800A5E60 = (u8 *)func_80025000(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 32);
+            } else {
+                D_800A5E60 = (u8 *)func_80024BC0(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 20);
+            }
+            break;
+        case 0x24:
+            D_800A5E60 = (u8 *)func_80025CBC(s0, (void *)vtx, (void *)nrm, D_800A5E60, CNT, param_3, OT);
+            iVar -= CNT;
+            s0 = (u32 *)((u8 *)s0 + CNT * 24);
+            break;
+        case 0x2C:
+            D_800A5E60 = (u8 *)func_80025EB8(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+            iVar -= CNT;
+            s0 = (u32 *)((u8 *)s0 + CNT * 32);
+            break;
+        case 0x30:
+            if (flag) {
+                D_800A5E60 = (u8 *)func_80025818(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 28);
+            } else {
+                if (D_80078D88[0] & 0x10000) {
+                    D_800A5E60 = ((u8 *(*)())func_80026514)(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT, 0);
+                    iVar -= CNT;
+                    s0 = (u32 *)((u8 *)s0 + CNT * 20);
+                } else if (D_80078D88[0] & 0x20000) {
+                    D_800A5E60 = ((u8 *(*)())func_80026514)(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT, 1);
+                    iVar -= CNT;
+                    s0 = (u32 *)((u8 *)s0 + CNT * 20);
+                } else {
+                    D_800A5E60 = (u8 *)func_8002528C(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+                    iVar -= CNT;
+                    s0 = (u32 *)((u8 *)s0 + CNT * 20);
+                }
+            }
+            break;
+        case 0x38:
+            if (flag) {
+                D_800A5E60 = (u8 *)func_80025A30((u8 *)s0, (u8 *)vtx, (u8 *)nrm, D_800A5E60, CNT, param_3, OT);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 36);
+            } else if (D_80078D88[0] & 0x10000) {
+                D_800A5E60 = ((u8 *(*)())func_800268D0)(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT, 0);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 24);
+            } else if (D_80078D88[0] & 0x20000) {
+                D_800A5E60 = ((u8 *(*)())func_800268D0)(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT, 1);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 24);
+            } else {
+                D_800A5E60 = (u8 *)func_80025504(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+                iVar -= CNT;
+                s0 = (u32 *)((u8 *)s0 + CNT * 24);
+            }
+            break;
+        case 0x34:
+            D_800A5E60 = (u8 *)func_80026128(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+            iVar -= CNT;
+            s0 = (u32 *)((u8 *)s0 + CNT * 28);
+            break;
+        case 0x3C:
+            D_800A5E60 = (u8 *)func_800262D8(s0, vtx, nrm, D_800A5E60, CNT, param_3, OT);
+            iVar -= CNT;
+            s0 = (u32 *)((u8 *)s0 + CNT * 36);
+            break;
+        }
+    } while (iVar != 0);
+}
 
 extern s32 D_800A2B78;
 
@@ -15366,7 +15836,120 @@ void func_800268D0()
     );
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80026D64);
+
+extern u8 *D_800A5E60;
+
+/* The five packet emitters live LATER in this TU with return types this function
+ * cannot spell here (func_80027058/func_80027200 are `void` asm-block wrappers and
+ * func_800279AC returns `LineG4 *`, a typedef declared below the INCLUDE_ASM site).
+ * The §183 __asm__-label alias binds a locally-typed name to the real symbol, so the
+ * call site keeps its `u8 *` result with no declaration conflict at the definitions. */
+extern u8 *func_800273F4();
+extern void *func_800275BC();
+extern void *func_800277DC();
+extern u8 *aF80027058() __asm__("func_80027058");
+extern u8 *aF80027200() __asm__("func_80027200");
+extern u8 *aF800279AC() __asm__("func_800279AC");
+
+/* The per-case `p += count * K` (rather than one shared `adv` temp assigned in every
+ * arm) is LOAD-BEARING, not style.  With a shared temp the switch end-label is a real
+ * source label, so jump.c:1993's jump_chain path (`find_cross_jump(..., minimum=2)`)
+ * pairs every `j` to it with every other and tail-merges five block groups that the
+ * target keeps separate (-23 instructions).  Advancing `p` inside each arm makes the
+ * shared `addu $s0,$s0,$v0` a CROSS-JUMP-CREATED label (`get_label_before`), whose
+ * INSN_UID is >= max_uid — and jump.c:1988 guards the jump-to-jump search with
+ * `INSN_UID (JUMP_LABEL (insn)) < max_uid`, so it never runs.  Only the minimum=1
+ * "code before my own target label" path survives, which is exactly the one merge the
+ * target does have: .L8002700C, the 0x28-flag arm folded into the 0x2D/0x2C tail. */
+void func_80026D64(s32 arg0, s32 arg1, s32 arg2)
+{
+    u32 *hdr;
+    u8 *p;
+    s32 n;
+    u8 *vtx;
+    u8 *nrm;
+    u32 w;
+    s32 flg;
+    s32 code;
+
+    hdr = *(u32 **)(arg0 + 8);
+    p = (u8 *)hdr[4];
+    n = hdr[5];
+    vtx = (u8 *)hdr[0];
+    nrm = (u8 *)hdr[2];
+    if (n == 0) {
+        return;
+    }
+    do {
+        w = *(u32 *)p;
+        flg = (w >> 16) & 4;
+        code = (w >> 24) & 0xFD;
+        switch (code) {
+        case 0x20:
+            if (flg != 0) {
+                D_800A5E60 = func_800273F4(p, vtx, nrm, D_800A5E60, *(u16 *)p, arg2,
+                                           *(u32 **)(arg1 + 4));
+                n -= *(u16 *)p;
+                p += *(u16 *)p * 0x18;
+            } else {
+                D_800A5E60 = aF80027058(p, vtx, nrm, D_800A5E60, *(u16 *)p, arg2,
+                                        *(u32 **)(arg1 + 4));
+                n -= *(u16 *)p;
+                p += *(u16 *)p * 0x10;
+            }
+            break;
+        case 0x28:
+            if (flg != 0) {
+                D_800A5E60 = (u8 *)func_800275BC(p, vtx, nrm, D_800A5E60, *(u16 *)p, arg2,
+                                                 *(u32 **)(arg1 + 4));
+                n -= *(u16 *)p;
+                p += *(u16 *)p * 0x20;
+            } else {
+                D_800A5E60 = aF80027200(p, vtx, nrm, D_800A5E60, *(u16 *)p, arg2,
+                                        *(u32 **)(arg1 + 4));
+                n -= *(u16 *)p;
+                p += *(u16 *)p * 0x14;
+            }
+            break;
+        case 0x24:
+            n -= *(u16 *)p;
+            p += *(u16 *)p * 0x18;
+            break;
+        case 0x30:
+            n -= *(u16 *)p;
+            p += *(u16 *)p * 0x14;
+            break;
+        case 0x38:
+            n -= *(u16 *)p;
+            p += *(u16 *)p * 0x18;
+            break;
+        case 0x34:
+            n -= *(u16 *)p;
+            p += *(u16 *)p * 0x1C;
+            break;
+        case 0x3C:
+            n -= *(u16 *)p;
+            p += *(u16 *)p * 0x24;
+            break;
+        case 0x25:
+            D_800A5E60 = (u8 *)func_800277DC(p, vtx, nrm, D_800A5E60, *(u16 *)p, arg2,
+                                             *(u32 **)(arg1 + 4));
+            n -= *(u16 *)p;
+            p += *(u16 *)p * 0x1C;
+            break;
+        case 0x2D:
+            D_800A5E60 = aF800279AC(p, vtx, nrm, D_800A5E60, *(u16 *)p, arg2,
+                                    *(u32 **)(arg1 + 4));
+            n -= *(u16 *)p;
+            p += *(u16 *)p * 0x20;
+            break;
+        case 0x2C:
+            n -= *(u16 *)p;
+            p += *(u16 *)p * 0x20;
+            break;
+        }
+    } while (n != 0);
+}
 
 extern s32 D_800A2B78;
 
