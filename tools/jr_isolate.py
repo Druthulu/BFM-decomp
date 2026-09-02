@@ -70,6 +70,19 @@ def main():
 
     jr_name = f"{ov}_jr_{faddr_hex}"
     after_name = f"{ov}_after_{faddr_hex}"
+    # IDEMPOTENCY MUST CHECK THE LAST STEP, NOT THE FIRST (P31 S72). This tool writes the CONFIG
+    # split, then splits the SOURCE, then re-extracts. Keying "already isolated" on the config
+    # alone means any failure in between leaves a half-applied tree in which the tool believes it
+    # is finished and short-circuits forever — measured here: the first run died in
+    # split_src_region, and the retry (after that bug was fixed) printed "already isolated" over a
+    # source file that had never been split. Require the SOURCE to exist too, and say which half
+    # is missing so the state is recoverable instead of mysterious.
+    src_c = os.path.join(REPO, "src", ov, f"{jr_name}.c")
+    if f", c, {jr_name}]" in txt and not os.path.exists(src_c):
+        sys.exit(f"jr_isolate {ov}: HALF-APPLIED — config/{os.path.basename(cfg)} already names "
+                 f"`{jr_name}` but {os.path.relpath(src_c, REPO)} does not exist. Revert the config "
+                 f"(git checkout -- {os.path.relpath(cfg, REPO)}) and re-run, or finish the source "
+                 f"split by hand. Refusing rather than reporting success over a broken tree (R43).")
     if f", c, {jr_name}]" in txt:
         print(f"jr_isolate {ov}: {func} already isolated ({jr_name})")
         return

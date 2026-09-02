@@ -34,12 +34,47 @@ def load_syms():
     return s
 
 
+_COMMENT = re.compile(r"/\*.*?\*/", re.S)
+# A declarator keyword is never the symbol (mirrors gate_main._NOT_A_SYMBOL).
+_NOT_A_SYMBOL = {"void", "char", "short", "int", "long", "float", "double", "signed", "unsigned",
+                 "const", "volatile", "struct", "union", "enum", "static", "extern", "register",
+                 "typedef", "s8", "u8", "s16", "u16", "s32", "u32", "s64", "u64", "f32", "f64",
+                 "if", "for", "while", "switch", "return", "else", "do"}
+
+
 def item_name(text):
+    """The declared name of a top-level item, read from CODE only.
+
+    COMMENTS ARE STRIPPED FIRST (P31 S72). The definition regex runs with re.M over the WHOLE item,
+    and an item begins with its leading comment block — so a comment containing any parenthesised
+    token (`harvest_verify(...)`, `func_x()`, even prose with brackets) matched BEFORE the real
+    definition below it. The name then failed to resolve to an address, `coalesce` treated a real
+    FUNCTION as an address-less preamble and merged it into its neighbour, and `inject` reported
+    9 functions whose stubs it could not find — while their bodies sat in the file, carried inside
+    another item. Two bugs with one cause: a pattern that scans prose as if it were code."""
     m = re.search(r"INCLUDE_ASM\([^,]+,\s*(\w+)\)", text)
     if m:
         return m.group(1)
-    m = re.search(r"^\s*(?:static\s+)?[\w\*]+[\s\*]+(\w+)\s*\(", text, re.M)
-    return m.group(1) if m else None
+    code = _COMMENT.sub("", text)
+    code = re.sub(r"^\s*//[^\n]*$", "", code, flags=re.M)
+    # MATCH THE DEFINITION, NOT A DECLARATION ABOVE IT (P31 S72; the §192 class, which
+    # `gate_main.sym_of` fixed for itself and this tool never got). `parse` folds a run of leading
+    # `extern` lines into the following function's item, and the old pattern matched the FIRST
+    # line: `extern void (*D_80196184[])(void);` returned the name "void", which resolves to no
+    # address, so `coalesce` treated a REAL FUNCTION as a preamble and merged it into its
+    # neighbour. The body then landed inside another item while its own stub survived — 26
+    # functions in one overlay with BOTH a definition and a stub, i.e. duplicate symbols at
+    # assembly time. A definition ends in `{`; a declaration ends in `;`. Anchor on that, and
+    # never accept a type keyword as the name.
+    # LEADING WHITESPACE IS ALLOWED: agent-written bodies are sometimes indented at top level, and
+    # a column-0 anchor made `    void func_8018B410(u8 *a0) {` invisible — the item then had no
+    # name, no address, and was merged into its neighbour as if it were a preamble. Indented
+    # CONTROL FLOW cannot be mistaken for a definition because `_NOT_A_SYMBOL` excludes
+    # if/for/while/switch/do, and a call statement ends in `;` rather than `{`.
+    for m in re.finditer(r"^[ \t]*[A-Za-z_][\w \t\*]*?\b(\w+)\s*\([^;{]*\)\s*\{", code, re.M):
+        if m.group(1) not in _NOT_A_SYMBOL:
+            return m.group(1)
+    return None
 
 
 def item_addr(text, syms):
@@ -97,25 +132,77 @@ def parse(src):
     return header, items
 
 
+def _norm_ws(s):
+    return re.sub(r"\s+", " ", s).strip()
+
+
 def is_real_c(text):
     return "INCLUDE_ASM" not in text or text.startswith("#ifdef NON_MATCHING")
+
+
+def coalesce(items, syms):
+    """Merge address-LESS top-level items into the item that follows them. -> ([item], n_merged).
+
+    WHY (P31 S72). `parse` yields one item per top-level construct, and `trim` demanded an address
+    for every one. But an overlay `.c` is full of constructs that HAVE no address — a hoisted
+    typedef block, a per-function `extern` run, a `/* HOISTED (P31 S54) ... */` banner — so `trim`
+    exited with "cannot resolve address of item" and `jr_isolate` has been BLOCKED on it since
+    Phase 26, which is why the overlays that need a subseg split never got one.
+
+    The fix is the model, not the regex: those constructs are a PREAMBLE belonging to the function
+    BELOW them (that is where the author put them, and it is what makes a leading `extern` block
+    travel with the body that uses it). So they are not separate items at all — merge each run
+    forward into the next addressed item, and the "one item = one address" invariant holds again.
+    A trailing run at EOF has nothing below it and attaches to the previous item instead.
+
+    NOT PERFECT, AND DELIBERATELY SO: a declaration used by functions on BOTH sides of the cut
+    follows the first one and the other side loses it. That is the same 57-crossing-declarations
+    problem main's split hit, and the answer there is the answer here — let the COMPILER enumerate
+    what is missing and lift those few into a shared header (cookbook §431). This function reports
+    how many preambles it moved so that risk is visible rather than silent.
+
+    RETURNS (addr, name, text) TRIPLES, not text. The address and name are captured from the
+    ADDRESSED item BEFORE the merge and carried; re-deriving them from the merged text is wrong,
+    because `item_name` scans from the top and would match the preamble's prose instead of the
+    function below it — which is exactly how the first version of this failed, on the very
+    `/* HOISTED ... */` banner it was written to handle.
+    """
+    out, buf, merged = [], [], 0
+    for it in items:
+        a = item_addr(it, syms)
+        if a is None:
+            buf.append(it); continue
+        text = "\n\n".join(buf + [it]) if buf else it
+        merged += len(buf); buf = []
+        out.append((a, item_name(it), text))          # name from the ITEM, not the merged text
+    if buf:                       # trailing preamble: nothing below it, so it stays with the last item
+        if out:
+            a, nm, text = out[-1]
+            out[-1] = (a, nm, "\n\n".join([text] + buf)); merged += len(buf)
+        else:
+            return [], 0          # a file with NO addressed item at all -> caller refuses
+    return out, merged
 
 
 def trim(srcpath, lo, hi, movepath):
     syms = load_syms()
     header, items = parse(open(srcpath).read())
+    triples, merged = coalesce(items, syms)
+    if not triples:
+        sys.exit(f"trim: {srcpath} has no address-bearing top-level item — refusing (R43).")
+    if merged:
+        print(f"trim: attached {merged} address-less preamble item(s) (comments / extern / typedef "
+              f"runs) to the function below them — see coalesce(); if the build then reports a "
+              f"missing declaration, lift that one into a shared header (§431).")
     keep, drop, move = [], 0, []
-    for it in items:
-        a = item_addr(it, syms)
-        if a is None:
-            sys.exit(f"trim: cannot resolve address of item:\n{it[:80]}")
+    for a, nm, it in triples:
         if a < lo:
             keep.append(it)
         elif a < hi:
             drop += 1
         else:
             if is_real_c(it):
-                move.append((a, item_name(it), it))
+                move.append((a, nm, it))
     open(srcpath, "w").write(header + "\n\n" + "\n\n".join(keep) + "\n")
     move.sort()
     with open(movepath, "w") as f:
@@ -128,7 +215,8 @@ def trim(srcpath, lo, hi, movepath):
 
 def inject(dstpath, movepath):
     _, moved = parse(open(movepath).read())
-    by_name = {item_name(it): it for it in moved}
+    triples, _ = coalesce(moved, load_syms())    # same model on the way back in
+    by_name = {nm: it for _a, nm, it in triples if nm}
     dst = open(dstpath).read()
     done = []
     for name, body in by_name.items():
@@ -137,11 +225,31 @@ def inject(dstpath, movepath):
         if pat.search(dst):
             dst = pat.sub(lambda m: body, dst, count=1)
             done.append(name)
+    # A TRIVIAL FUNCTION HAS NO STUB TO REPLACE, AND THAT IS NOT A FAILURE (P31 S72).
+    # splat emits an EMPTY function (`jr $ra; nop`) as real C directly rather than as an
+    # INCLUDE_ASM stub, so the freshly-generated destination already DEFINES it — measured here:
+    # 251 stubs and 9 real-C definitions, and inject hard-exited on all 9 while the bodies it
+    # wanted to write were already present and textually identical. Accept that case, but only
+    # after PROVING equivalence: a destination definition that DIFFERS from the moved one is a
+    # genuine conflict and still fails, because silently keeping the wrong body is how a split
+    # produces a binary that builds and is not byte-identical.
+    already, conflict = [], []
+    for name in [n for n in by_name if n not in done]:
+        dm = re.search(r"^[A-Za-z_][^\n]*\b%s\s*\([^)]*\)\s*\{[^}]*\}" % re.escape(name),
+                       dst, re.M)
+        if not dm:
+            conflict.append((name, "no stub and no definition in the destination"))
+        elif _norm_ws(dm.group(0)) == _norm_ws(by_name[name]):
+            already.append(name)
+        else:
+            conflict.append((name, "destination defines it DIFFERENTLY"))
     open(dstpath, "w").write(dst)
     print(f"inject {dstpath}: replaced {len(done)} stubs with matched C: {done}")
-    missing = [n for n in by_name if n not in done]
-    if missing:
-        sys.exit(f"inject: stubs not found for {missing}")
+    if already:
+        print(f"inject: {len(already)} function(s) already present in the destination and textually "
+              f"IDENTICAL (splat emits trivial/empty functions as C, not as a stub): {already}")
+    if conflict:
+        sys.exit("inject: " + "; ".join(f"{n} — {why}" for n, why in conflict))
 
 
 def main():
