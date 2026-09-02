@@ -137,12 +137,49 @@ def main():
     ap.add_argument('--only-main', action='store_true', help='draw ONLY main (the main lane; implies --main)')
     ap.add_argument('--ledger', default=LEDGER)
     ap.add_argument('--exclude', default='', help='comma-separated binary:fn to skip')
+    ap.add_argument('--exclude-file', help='file of binary:fn to skip (# comments allowed); '
+                                          'audited for freshness before the draw')
+    ap.add_argument('--exclude-stale-ok', action='store_true',
+                    help='draw anyway against a STALE exclude list (prints what it ignores)')
     ap.add_argument('--dry', action='store_true')
     a = ap.parse_args()
 
     ledger = json.load(open(a.ledger)) if os.path.exists(a.ledger) else {}
     drawn = {tuple(k.split(':', 1)) for k in ledger}
-    skip = {tuple(x.split(':', 1)) for x in a.exclude.split(',') if ':' in x}
+    # THE EXCLUDE LIST IS A PREREQUISITE, NOT A PARAMETER (P31 S72).
+    # An exclude list records what the TOOLING could not do at the moment it was written, and is
+    # then treated as a property of the FUNCTIONS. Nothing re-examined it, so every tool fix left
+    # behind a population that is now tractable and still marked impossible -- invisible, because
+    # the draw filters it out before anything measures it. Measured the day after `.run/
+    # S71_exclude.txt` was written: 88 of its 107 entries were stale (28 already banked, 14 linked
+    # PsyQ symbols that were never targets, 46 whose blocker had since been fixed) -- including
+    # SaveLoadRoutine, the single largest function left in main.
+    # So the draw AUDITS whatever exclusions it is handed and REFUSES on staleness. Skipping is
+    # still possible (--exclude-stale-ok) but can no longer be silent.
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import exclude_audit as EA
+    ex_rows, ex_bad = EA.parse(text=a.exclude)
+    if a.exclude_file:
+        r2, b2 = EA.parse(path=a.exclude_file)
+        ex_rows += r2; ex_bad += b2
+    if ex_bad:
+        sys.exit(f"draw_waves: {len(ex_bad)} unparseable exclude entr(ies) — refusing rather than "
+                 f"under-excluding (R43): {ex_bad[:4]}")
+    if ex_rows:
+        classified, _ = EA.classify(rows=ex_rows)
+        stale = [(b, f, k) for b, f, k, _ in classified if k in EA.STALE]
+        if stale:
+            by = collections.Counter(k for _, _, k in stale)
+            msg = (f"\n*** EXCLUDE LIST IS STALE — {len(stale)} of {len(classified)} entries no "
+                   f"longer describe reality ({dict(by)}).\n"
+                   f"    e.g. " + ", ".join(f"{b}:{f}" for b, f, _ in stale[:6]) + "\n"
+                   f"    Regenerate:  tools/exclude_audit.py <list> --write <new>\n"
+                   f"    Drawing against it silently filters out work that is now doable.")
+            if not a.exclude_stale_ok:
+                sys.exit(msg + "\n    (--exclude-stale-ok to draw anyway)")
+            print(msg + "\n    --exclude-stale-ok given: proceeding, and ignoring those entries.")
+            ex_rows = [(b, f) for b, f, k, _ in classified if k not in EA.STALE]
+    skip = set(ex_rows)
 
     bins = sorted(os.path.basename(p) for p in glob.glob('src/*') if os.path.isdir(p))
     if a.only_main:

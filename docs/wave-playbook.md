@@ -33,6 +33,18 @@ python3 tools/draw_waves.py --only-main --prefix .run/<name>m_ --waves 1 --per-w
 
 * **`--prefix` IS A RELATIVE PATH.** `--prefix s67o` writes `./s67o1/` into the repo root, not
   `.run/`. Always pass `.run/<name>_`.
+* **THE EXCLUDE LIST IS AUDITED BEFORE THE DRAW, AND A STALE ONE IS REFUSED (P31 S72).** Pass it as
+  `--exclude-file .run/<name>_exclude.txt`; `draw_waves` classifies every entry against the CURRENT
+  tooling and **exits non-zero** if any is stale, naming the count and the regenerate command.
+  `--exclude-stale-ok` still draws, but prints what it is ignoring — skipping is possible, never
+  silent. Regenerate with `tools/exclude_audit.py <old> --write <new>`.
+
+  > **Measured the day after `.run/S71_exclude.txt` was written: 88 of its 107 entries were stale**
+  > — 28 already banked, 14 linked PsyQ symbols that were never targets, and **46 whose blocker had
+  > since been fixed**. Those 46 are **12,750 instructions of open, drawable work**, including
+  > `main:SaveLoadRoutine` (1,165), the largest function left in main. A list that filters them out
+  > costs more than it saves. Current list: **`.run/S72_exclude.txt` (19 entries)**.
+
 * **The exclude list is not optional.** It carries two populations that no model can bank:
   * **96 jtbl functions whose carve plan `build_carve` REFUSES** (non-contiguous same-subseg
     `.rodata`). Cookbook §322. Before the S67 probe fix these all read "carveable".
