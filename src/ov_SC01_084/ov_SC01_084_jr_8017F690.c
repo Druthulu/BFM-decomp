@@ -3833,7 +3833,63 @@ void func_801812F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80181310);
+extern s16 D_801C7748;
+extern s16 D_801C774C;
+extern s32 D_801270C8;
+extern s32 D_801270D0;
+extern s16 D_8018A9EC[];
+extern s32 D_8018A9F0;
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+
+void func_80181310(void) {
+    s16 *p;
+    s32 *r;
+    s32 *u;
+    s32 t;
+
+    if (D_801C774C == 1) {
+        p = D_8018A9EC;
+        r = &D_801270C8;
+        *r = 0;
+        t = D_801C7748;
+        if (D_8018A9F0 != -1) {
+            do {
+                if (p[0] <= t && t < p[1]) {
+                    switch (*(s32 *)(p + 2)) {
+                    case 1:
+                        u = &D_801270D0;
+                        if (*u == 0) {
+                            *u = 1;
+                            func_8012C658(0x26, 0x100, 0);
+                            func_8012C658(0x26, 0x101, 0);
+                            func_8012C658(0x26, 0x102, 0);
+                        }
+                        break;
+                    case 2:
+                        /* (&D_801270C8)[3] == D_801270D4; written as an offset from the
+                           D_801270C8 base so gcc reuses the base register ($a0 + 0xC). */
+                        if ((&D_801270C8)[3] == 0 && D_801C7748 < 0x2501) {
+                            func_8012C658(0x1D, 0, 0);
+                            (&D_801270C8)[3]++;
+                        }
+                        break;
+                    case 3:
+                        if ((&D_801270C8)[3] == 0 && D_801C7748 < 0x2501) {
+                            func_8012C658(0x1D, 1, 0);
+                            (&D_801270C8)[3]++;
+                        }
+                        break;
+                    case 4:
+                        D_801270C8 = 1;
+                        break;
+                    }
+                }
+                p += 4;
+            } while (*(s32 *)(p + 2) != -1);
+        }
+    }
+}
+
 
 extern void (*D_8018AA2C[])(void);
 extern s16 D_801C774C;

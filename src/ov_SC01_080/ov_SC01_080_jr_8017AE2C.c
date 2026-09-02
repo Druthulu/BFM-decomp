@@ -6433,7 +6433,124 @@ void func_801809E4(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80180D54);
+/* func_80180D54 — MATCH (match_one closeness 0, 119/119).
+ *
+ * Provenance / declarations (all copied from this same TU,
+ * src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c, cookbook §135-8):
+ *   D_800B99DA  (u16)   — TU col-0 decl, line 615 / 6703
+ *   D_801C7540  (s16)   — TU col-0 decl, line 6158 / 6507 / 6704
+ *   D_801C5D40  (u8[])  — TU col-0 decl, line 6273 / 6319 / 6705
+ *   D_80127188  (s32)   — TU col-0 decl, line 5477 / 6274 / 6320
+ *   func_800D20C0(void*,void*,s32), func_800D23D0(void*) — line 1711/1713, 6161/6162
+ *   func_8012913C(s32)->u8*, func_801291C0(void)->u8*    — line 6317/6318
+ * Every symbol re-checked against this .s's own relocation lines (law 1c);
+ * jal order in the .s is 800D20C0, 800D23D0, 801291C0, 801291C0, 8012913C, 8012913C,
+ * which is the source order below.
+ *
+ * NOT the same function as the same-address func_80180D54 banked in ov_SC02_035 /
+ * ov_SC03_097 — those overlays hold different code at 0x80180D54; discarded.
+ *
+ * Codegen notes (each closed a residual; twin of func_801815D4 at line 6711 of this TU):
+ *  - The two `__asm__("" : "=r"(pN) : "0"(pN))` pins are LOAD-BEARING (house idiom, taken
+ *    verbatim from func_801815D4). Without them gcc CSEs `sp10+4` into one pseudo that is
+ *    live across func_800D20C0, so it takes a callee-saved register: the arg lands in $s1
+ *    instead of $s0, an extra `move $a1,$s0` appears in the prologue, and the second call's
+ *    delay slot holds `move $a0,$s0` instead of `addiu $a0,$sp,0x18`. Measured: removing
+ *    them costs +1 insn and 118 mismatches.
+ *  - `cnt` is loaded BEFORE the D_801C7540 store in SOURCE order. The store aliases the
+ *    load for true_dependence(), so with the natural order sched1 cannot hoist the
+ *    `lw 0x1C($s0)` into the load-delay nop after `lhu 0x1A($sp)` (costs a nop, §3-T2).
+ *  - `mask` is pinned to $s3 (§17/§148-C register pin). 0x3FF and 0x19 are both invariants
+ *    of the do/while; only ONE of the pair gets hoisted by move_movables at this loop's
+ *    insn_count (§148-A), and whichever is written as an explicit pre-loop local wins the
+ *    allocno tiebreak and takes the LOWER hard reg. The target wants the opposite pairing
+ *    ($s2=0x19 hoisted, $s3=0x3FF explicit). Making 0x19 the explicit local instead flips
+ *    the registers correctly but frees a movable slot, so `&D_801C5D40` then hoists into
+ *    $s4 as well (+4 insns, frame 0x40). The pin gets the register order with no side
+ *    effect on the hoist budget. Measured: close 11 -> 3.
+ *  - `q` must be a SEPARATE local from `p`: sharing one pointer variable makes the
+ *    func_8012913C result inherit $a0 (the register `p` needs inside the loops), where the
+ *    target uses $v1 because 1 is being materialized into $v0 for the delay slot.
+ *    Measured: close 3 -> 0.
+ *  - The `sll/sra` before the `slti 0xC0` is CSE store-forwarding: the `+= 1` keeps the
+ *    HImode value, so the signed compare must sign-extend the just-stored register.
+ */
+
+extern u16 D_800B99DA;
+extern s16 D_801C7540;
+extern u8 D_801C5D40[];
+extern s32 D_80127188;
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+extern u8 *func_8012913C(s32 a0);
+extern u8 *func_801291C0(void);
+
+void func_80180D54(s32 param_1) {
+    u16 sp10[6];
+    u16 *p0;
+    u16 *p1;
+    register s16 mask __asm__("$19");
+    s16 i;
+    u8 *p;
+    u8 *q;
+    s32 cnt;
+
+    sp10[2] = 0;
+    sp10[1] = 0;
+    sp10[0] = 0;
+    p0 = sp10;
+    p1 = sp10 + 4;
+    __asm__("" : "=r"(p0) : "0"(p0));
+    __asm__("" : "=r"(p1) : "0"(p1));
+    func_800D20C0(p0, p1, 1);
+    func_800D23D0(sp10 + 4);
+    cnt = *(s32 *)(param_1 + 0x1C);
+    D_801C7540 = sp10[5] - 0x400;
+    if (cnt != 0) {
+        *(s32 *)(param_1 + 0x1C) = cnt - 1;
+        mask = 0x3FF;
+        i = 0;
+        do {
+            p = func_801291C0();
+            if (p != 0) {
+                *(u16 *)p = 0x19;
+                *(u16 *)(p + 0x2C) = mask;
+                *(s32 *)(p + 0x34) = (s32)&D_801C5D40 + (*(s16 *)(param_1 + 0xDC) << 5);
+                *(u16 *)(param_1 + 0xDC) = *(u16 *)(param_1 + 0xDC) + 1;
+                if (*(s16 *)(param_1 + 0xDC) >= 0xC0) {
+                    *(s16 *)(param_1 + 0xDC) = 0;
+                }
+            }
+            i = i + 1;
+        } while (i <= 0);
+    } else if (D_80127188 < 4) {
+        if ((D_800B99DA & 1) == 0) {
+            mask = 0x3FF;
+            i = 0;
+            do {
+                p = func_801291C0();
+                if (p != 0) {
+                    *(u16 *)p = 0x19;
+                    *(u16 *)(p + 0x2C) = mask;
+                    *(s32 *)(p + 0x34) = (s32)&D_801C5D40 + (*(s16 *)(param_1 + 0xDC) << 5);
+                    *(u16 *)(param_1 + 0xDC) = *(u16 *)(param_1 + 0xDC) + 1;
+                    if (*(s16 *)(param_1 + 0xDC) >= 0xC0) {
+                        *(s16 *)(param_1 + 0xDC) = 0;
+                    }
+                }
+                i = i + 1;
+            } while (i <= 0);
+        }
+    } else {
+        func_8012913C(0x1C);
+        q = func_8012913C(0x1C);
+        if (q != 0) {
+            *(u16 *)(q + 0x2C) = 1;
+        }
+        *(u16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
+    }
+}
+
 
 extern void (*D_8018A22C[])(void);
 

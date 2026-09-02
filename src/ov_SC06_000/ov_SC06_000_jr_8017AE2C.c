@@ -8135,7 +8135,63 @@ void func_80183338(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_000/nonmatchings/ov_SC06_000_jr_8017AE2C", func_80183398);
+void func_80183398(s32 a0) {
+    extern s32 D_801AECB0;
+    extern s16 func_801825D8(void);
+    extern s32 func_8012BEE8(s32 a0);
+    extern void func_8012B2CC(s32 a0);
+    extern void func_801823BC();
+    extern void func_80182464(s32 a0, s32 a1);
+    s32 ptr;
+    s32 t;
+    u16 v;
+    s32 pad[2];
+
+    if (*(s16 *)(a0 + 0x70) != 0) {
+        if (D_801AECB0 != 0) {
+            if (*(u16 *)(a0 + 0x34) == 0) {
+                v = *(u16 *)(a0 + 0x100) - 4;
+                *(u16 *)(a0 + 0x100) = v;
+                if ((s16)v < -0x27F) {
+                    *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+                }
+            } else {
+                v = *(u16 *)(a0 + 0x100) + 4;
+                *(u16 *)(a0 + 0x100) = v;
+                if ((s16)v >= 0) {
+                    *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) - 1;
+                }
+            }
+        }
+        ptr = *(s32 *)(a0 + 0x20);
+        *(u16 *)(ptr + 0x12) = *(u16 *)(ptr + 0x12) - 4;
+        t = ((s32 (*)(void)) func_801825D8)();
+        *(s16 *)(a0 + 0xA) = (*(u16 *)(a0 + 0xFE) + *(u16 *)(a0 + 0x100)) + t - 0x131;
+        func_80182464(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), *(s16 *)(a0 + 0xA));
+    } else {
+        if (D_801AECB0 != 0 && func_8012BEE8(a0) != 0) {
+            if (*(u16 *)(a0 + 0x34) == 0) {
+                v = *(u16 *)(a0 + 0x100) - 6;
+                *(u16 *)(a0 + 0x100) = v;
+                if ((s16)v < -0x3BF) {
+                    *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) + 1;
+                }
+            } else {
+                v = *(u16 *)(a0 + 0x100) + 6;
+                *(u16 *)(a0 + 0x100) = v;
+                if ((s16)v >= 0) {
+                    *(u16 *)(a0 + 0x34) = *(u16 *)(a0 + 0x34) - 1;
+                }
+            }
+        }
+        ptr = *(s32 *)(a0 + 0x20);
+        *(u16 *)(ptr + 0x12) = *(u16 *)(ptr + 0x12) + 4;
+        *(s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xFE) + *(u16 *)(a0 + 0x100);
+        func_801823BC(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12), *(s16 *)(a0 + 0xA));
+    }
+    func_8012B2CC(a0);
+}
+
 
 
 extern void (*D_8018C734[])(void);

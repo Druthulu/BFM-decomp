@@ -6597,7 +6597,7 @@ void func_801814F4(s32 param_1) {
 extern s32 func_80181824();
 extern void RotTransSV(void *a0, void *a1, void *a2);
 extern void RotMatrixZ(s32 a0, void *a1);
-extern void func_80181A60(void *a0);
+extern void func_80181A60();
 extern u8 D_801869E0[];
 extern u8 D_801869E8[];
 
@@ -6761,7 +6761,178 @@ s32 func_80181824(s32 param_1, s32 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80181A60);
+/* func_80181A60 — ov_SC03_030 / ov_SC03_030_jr_8017AE2C (106 ins).
+ *
+ * Build one 0x10-byte white LINE_F2 GPU packet, project the caller's two
+ * SVECTORs through the GTE with the D_800AF648 rot/trans matrix, write the two
+ * screen (x,y) pairs into the packet, and — only when BOTH rtps calls come back
+ * with no flag bits other than 0x1000 — link the packet into the current OT
+ * (D_800A651C[D_800B9A02].a) at depth otz>>2 with the open-coded PSY-Q addPrim
+ * RMW pair.  Sibling idiom: src/800.c func_80015D4C / func_80015F04 (both
+ * MATCHED) — same allocator + same addPrim asymmetry (first half inlines the
+ * OT-slot address, second half self-accumulates it into the otz*4 register).
+ *
+ * STATUS: match_one MATCH, 106/106 (S71 fable redraw, recovered from the opus
+ * closeness-2 body at .run/S71a_1/opus/scratch_func_80181A60/base.c).
+ *
+ * THREE ZERO-BYTE LEVERS:
+ *  1. `register u32 tag0 __asm__("$5")` — the packet tag word read into its own
+ *     pinned local (cf. src/800.c func_80015D4C's "$4" pin). Unpinned, tag0
+ *     steals $v1 and the whole packet/mask/matrix register set shifts by one.
+ *  2. `register u32 mFF __asm__("$6")` — mFF and the CSE'd &D_800B9A02 base tie
+ *     in global-alloc and land swapped ($a3/$a2) without the pin.
+ *  3. THE LAST 2 (a sched2 LUID tie): the target block reads lhu(ix), then
+ *     lw tag0, then lw otz.  At sched2 all three loads are priority 1 and the
+ *     tie falls to LUID = sched1's OUTPUT order.  sched1's birthing boost
+ *     (single-set dest) sinks a boosted load to just before its consumer, so:
+ *       - tag0 single-set  -> boosted -> sinks below the otz load (LUID too high);
+ *       - tag0 2-set, lhu single-set -> tag0 starves to the block TOP, above the
+ *         still-boosted lhu (the "overshoot": lw before lhu);
+ *       - BOTH 2-set -> both priority 1, the final tie is source order, and
+ *         `ix = lhu; tag0 = lw;` gives exactly lhu < tag0 < otz.
+ *     The lhu's dest gets its 2nd set from a VOLATILE dead re-tie
+ *     `__asm__ volatile("" : "=r"(ix) : "0"(ix));` placed AFTER the first
+ *     addPrim store:
+ *       - volatile, because a non-volatile re-tie whose output is dead is deleted
+ *         (vJ1: boost back, 2 off);
+ *       - after the store, because a re-tie right after the lhu is a reorg
+ *         stop_search_p wall in the bnez fall-through thread -> nop delay slot
+ *         (A1: 39 off);
+ *       - NOT a plain second `ix = *(u16 *)&D_800B9A02;` in the 2nd half: the
+ *         long-lived 2-set pseudo swaps ix/base ($a3/$v1) in local-alloc (8 off).
+ *     `u16 ix` cannot work (combine folds lhu+zext into fresh single-set SI
+ *     temps) and a `register ... __asm__("$3")` ix cannot either (cse
+ *     forward-substitutes the zero-extend temp past the hard-reg copy).
+ *
+ * Symbol audit (law 1c — match_one masks jal/HI16/LO16): the .s names exactly
+ * four relocated symbols and this draft names those four and no others —
+ * `jal func_80010A08` ($a0 = 0x10), `%hi/%lo(D_800AF648)` (address-of, GTE
+ * matrix base), `%hi/%lo(D_800B9A02)` (address-of, then `lhu` => u16 read),
+ * `%lo(D_800A651C)($at)` x2 (lw, index scaled *20 = sizeof{s32 a; s32 b[4]}).
+ * Both bnez targets are .L80181BF4 (the shared epilogue).
+ *
+ * TU CHECK vs src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c:
+ *   - `extern s16 D_800B9A02;` (TU:2469) copied verbatim; `lhu` forced with
+ *     `*(u16 *)&`, the idiom this TU already uses at line 3708.
+ *   - `extern u8 D_800AF648[];` (TU:5292) copied verbatim.
+ *   - `func_80010A08` has no file-scope decl in the TU; fleet decl (void *, (s32)).
+ *   - D_800A651C declared at BLOCK scope (engine_core.h's DEFINE_ macros declare
+ *     it scalar in their own bodies) — the src/800.c func_80015D4C dodge.
+ *   - GTE macro names carry an _A60 suffix (the TU defines unsuffixed
+ *     gte_SetRotMatrix/gte_stszotz etc. elsewhere).
+ *   - BANK NOTE: TU:6600 forward-declares `extern void func_80181A60(void *a0);`
+ *     -> §378 variant 1 (fix_arity_callers/cast_self_callers).  Defining the
+ *     function as `(void *arg0)` with a local `v = arg0` copy is NOT
+ *     byte-equivalent (+$s1, 109 off) — keep the typed pointer parameter.
+ */
+#include "common.h"
+
+typedef struct { s16 vx, vy, vz, pad; } SVec_80181A60;
+typedef struct { s32 a; s32 b[4]; } OtBlk_80181A60;
+typedef struct {
+    u8  addr[3];
+    u8  len;
+    u8  r0, g0, b0, code;
+    s16 x0, y0;
+    s16 x1, y1;
+} LineF2_80181A60;
+
+/* PSY-Q GTE macros — same forms already used in this TU (func_80181708/func_80181824). */
+#define gte_SetRotTransMatrix_A60(r0) __asm__ volatile (  \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4;"                                      \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+#define gte_ldv0_A60(r0) __asm__ volatile (              \
+    "lwc2 $0, 0( %0 );"                                  \
+    "lwc2 $1, 4( %0 )"                                   \
+    :                                                    \
+    : "r"( r0 ) )
+#define gte_rtps_A60() __asm__ volatile ("nop;nop;rtps")
+#define gte_stsxy_A60(r0) __asm__ volatile (             \
+    "swc2 $14, 0( %0 )"                                  \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "memory" )
+#define gte_stflg_A60(r0) __asm__ volatile (             \
+    "cfc2 $12, $31;"                                     \
+    "nop;"                                               \
+    "sw $12, 0( %0 )"                                    \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "memory" )
+#define gte_stszotz_A60(r0) __asm__ volatile (           \
+    "mfc2 $12, $19;"                                     \
+    "nop;"                                               \
+    "sra $12, $12, 2;"                                   \
+    "sw $12, 0( %0 )"                                    \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "memory" )
+
+extern void *func_80010A08(s32);
+
+void func_80181A60(SVec_80181A60 *v)
+{
+    extern OtBlk_80181A60 D_800A651C[];
+    LineF2_80181A60 *p;
+    u8 *mx;
+    u32 m24;
+    register u32 mFF __asm__("$6");
+    s32 flag;
+    s32 otz;
+    s32 sh;
+    register u32 tag0 __asm__("$5");
+    u32 ix;
+
+    p = (LineF2_80181A60 *)func_80010A08(0x10);
+    m24 = 0x00FFFFFF;
+    p->len = 3;
+    mx = D_800AF648;
+    *(u32 *)&p->r0 = m24;
+    p->code = 0x40;
+
+    gte_SetRotTransMatrix_A60(mx);
+    gte_ldv0_A60(v);
+    gte_rtps_A60();
+    gte_stsxy_A60(&p->x0);
+    gte_stflg_A60(&flag);
+    gte_stszotz_A60(&otz);
+    if ((flag & ~0x1000) == 0) {
+        v++;
+        gte_ldv0_A60(v);
+        gte_rtps_A60();
+        gte_stsxy_A60(&p->x1);
+        gte_stflg_A60(&flag);
+        if ((flag & ~0x1000) == 0) {
+            mFF = 0xFF000000;
+            ix = *(u16 *)&D_800B9A02;
+            tag0 = *(u32 *)p;
+            tag0 = tag0 & mFF;
+            sh = otz * 4;
+            *(u32 *)p = tag0 | (*(u32 *)(sh + D_800A651C[ix].a) & m24);
+            __asm__ volatile("" : "=r"(ix) : "0"(ix));
+            sh = sh + D_800A651C[*(u16 *)&D_800B9A02].a;
+            *(u32 *)sh = (*(u32 *)sh & mFF) | ((u32)p & m24);
+        }
+    }
+}
+
 
 extern void func_8012C218(void *a0);
 
