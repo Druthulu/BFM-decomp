@@ -4965,3 +4965,53 @@ Controls: empty dir -> loud + `refused`; a real 2-draft dir still gates normally
 already ran the big audits (28 findings -> one derived oracle), and this class surfaces from use, not
 inspection. The standing bet is that `assert_floor` + `assert_inputs` catch the recurrence cheaply and
 the next defect arrives via a wave, where it is now instrumented.
+
+- **S70-T4 — §332b REORDER ISLAND SHIPPED: +3 main banks, frontier 314 -> 311 (44 this session).**
+  `800c2`/`800c3` were originally assembled in **reorder mode** (the assembler filled the delay
+  slots); maspsx force-emits `.set noreorder`, which makes that unreachable and made the class read
+  as a permanent compiler wall (§332) when the property belongs to the **object**, not the toolchain.
+  Shipped `tools/reorder_passthrough.py` (cc1's `move` -> `addu rd,rs,$0`) + `ASFLAGS_REORDER` with
+  `as -O2`, selected per-TU via `REORDER_TUS`. **Deliberately NOT a maspsx submodule patch** — a
+  per-object Makefile switch is smaller and reversible, and §332b describes it that way.
+  Verifications: branch selection BOTH ways (`800c3`->reorder, `800.c`->maspsx) · selftest with a
+  negative control (`jal remove_thing` must not be rewritten) · **BYTE-INERT: main rebuilt
+  BYTE-IDENTICAL** via `verify_binary` (§384). Then **3 of the 6 walls banked**
+  (`func_8005D244`, `func_8005DBD8`, `func_80061FA8`); the other 3 are DIFF=1 + PLUMBING=2, i.e.
+  ordinary work now, not walls. **`oracle_reorder.py` can be retired once those 3 are resolved.**
+  *Make gotcha worth keeping: my first patch used `ifeq ($(filter $*,...))`, which make evaluates at
+  PARSE time when `$*` is empty — it would have silently always taken the maspsx branch and the
+  "byte-inert" result would have been vacuous. `$(if ...)` expands per-target; the rule already used
+  that form for JTBL_PADS.*
+
+- **S70 — §404 CORRECTED IN THE SAME SESSION (and it was my error, not the tool's).** I wrote that
+  `harvest_verify` "verifies but does not bank". The §332b run REFUTES it: the same call spliced 3
+  functions into `src/` and `corpus.stubs` confirms them banked. What is certain is only the
+  observable — `verified 1 / VERIFIED: func_8002B0B4` followed by a tree still holding the stub — and
+  the likely cause is that **my own `git checkout -- src/800.c`** (undoing the §403 corruption)
+  destroyed it. The durable rule that survives: **harvest_verify leaves banks UNCOMMITTED, so any
+  later `git checkout` of that file silently destroys them (R42)** — bank via
+  `gate_stage --commit`, and expect gate_stage to then report those fns as `failed` because they are
+  no longer stubs. Cookbook §404 rewritten to say this rather than assert a mechanism I disproved.
+
+- **S70 — `main/func_8002B0B4` is NOT a free bank after all.** Re-attempted via gate_stage (near 1)
+  and raw (`[jtbl] isolate FAILED` -> **CARVE-REFUSED**, §59(3) plumbing). The earlier verification
+  was true when observed; the R22 clean rebuilds since regenerated `asm/` and moved the carve state.
+  It belongs to the **§322b carve-isolation class** and should be worked WITH that route, not alone.
+
+- **S70 — `make tools-health` WAS UNRUNNABLE AND IS NOW 333s GREEN.** Drew: *"this is a tools health
+  test, not a full regression test."* Correct — `audit-cdecl` re-parsed **every declaration in all
+  4,168 TUs** and handed each to real gcc: **~787s of pure-Python collection before the first cc1
+  call**, which is the whole of its >9min share. `--limit` already existed, its own help calls it
+  "a fast smoke run", and nothing used it. Now sampled (`CDECL_AUDIT_TUS ?= 60`, **61s**, 4,777
+  declarations, 0 rejected) with the exhaustive form kept as `audit-cdecl-full`.
+  **tools-health: never completed -> 333s rc=0, all green.**
+  Also parallelised `sig-overlays`/`sig-modules` (`xargs -P$(JOBS)`): **52s -> 3.9s, 141/141 outputs
+  BYTE-IDENTICAL**, plus the failure detection the serial loops never had (a `sig_image` crash used
+  to vanish, R32). And fixed a **latent race**: `cdecl._gcc_probe` used one fixed `probe_{tag}.c`
+  filename, safe only while serial — now unique per call, so the new threaded `_sift` cannot have
+  probes overwrite each other's source and return a verdict about another chunk (A/B: identical
+  verdicts, 829/829).
+  **Two wrong calls of mine on the way, both now recorded in the code:** I blamed the sig targets
+  without measuring (52s of a 30-min run), then parallelised the *gcc probes* on the strength of a
+  docstring when the collection pass was the cost. A ProcessPool over collection was tried and
+  REVERTED — 12 TUs yield 32,352 statements, so the full pass ships ~11M strings through IPC.
