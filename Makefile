@@ -184,7 +184,16 @@ audit-corpus:
 # so the candidate set is every depth-0 statement, and there is no hand-maintained candidate regex
 # to rot. The real cross-gcc then adjudicates BOTH the parse and the residue (R34): it compiles each
 # declaration beside this parser's reconstruction of it, and a statement gcc also rejects is not C.
+# SAMPLED BY DEFAULT (P31 S70). This is a HEALTH check, not a regression suite. The full pass
+# re-parses every declaration in all 4,168 TUs and hands each to real gcc: ~787s of pure-Python
+# collection before the first cc1 call, and it made `make tools-health` unrunnable (>15 min, killed
+# twice). The exhaustive form still exists as `audit-cdecl-full` — run it when cdecl.py itself
+# changes, not on every health check.
+CDECL_AUDIT_TUS ?= 60
 audit-cdecl:
+	$(VENV_PY) tools/cdecl.py --audit --gcc --limit $(CDECL_AUDIT_TUS)
+
+audit-cdecl-full:
 	$(VENV_PY) tools/cdecl.py --audit --gcc
 
 # Binary-citizenship gate (Phase-28 T7, R36 via R32). Asserts every onboarded binary
