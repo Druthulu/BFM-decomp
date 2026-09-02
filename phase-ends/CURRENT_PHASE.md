@@ -5889,3 +5889,58 @@ Follow `docs/wave-playbook.md` (now corrected). Draw needed a FRESH LEDGER (`--l
 standing one holds 1,700 keys and leaves ~1 undrawn target fleet-wide. Launch shape that worked: many
 INDEPENDENT top-level Workflow invocations of `tools/workflows/claude_wave_draft.js` (a single workflow
 caps concurrency at 16). Every payload comes from `wave_args.py`; never hand-type a target.
+
+---
+
+## S72 progress log (2026-09-02) — main's gate: debugged, fixed, verified
+
+**Task 1 — the missing instrument.** `tools/main_diff_locate.py` (new). A main gate's whole output
+was two SHA1s; this attributes the differing bytes to symbols via the linker map (per byte, so a run
+straddling two symbols is split correctly) and prints a routing verdict. Negative-controlled both
+directions: a 1-byte flip at a known address names the containing symbol (and its exclusive end names
+the NEXT symbol), an identical pair reports zero. `git commit:3650`.
+
+**Task 2 — the 11 "PROVEN gate-rejects" re-adjudicated. NONE is a body reject.**
+The S71 verdict came from an ad-hoc script (`.run/S71_main_bisect.py`), not `gate_main.py`, so the
+project's own decl pre-check never ran. Run on the same 11 drafts it names 6 as declaration
+conflicts; 4 of those never compiled at all. And **all 11 are switch functions** — a fact no
+instrument could see. Every draft that did compile came back the same shape: 1–4 bytes inside the
+function, ~5,200 bytes across ~332 symbols outside, one uniform delta (+28/+52/+76/+84), first mover
+always `jtbl_80072A4C`.
+
+**Root cause.** `config/splat.us.exe.yaml` has carried exactly ONE `.rodata` carve since **Phase 7**
+(LZSS's `jtbl_80072A38`). Every other main jump table stayed raw in the tail data, so a drafted
+switch DOUBLE-EMITS its table and the image grows. Cookbook **§426**; the instrument law is **§427**.
+
+**Task 3 — the fix, in four parts, each probed before the next.**
+1. Carve extended to the contiguous game-jtbl span `0x80072A38-0x80072C70` — **byte-neutral with no
+   draft substituted** (R37 probe first).
+2. Residual was the §8e `.align 3` pad. `jtbl_rodata_pads --derive` taught main via ONE expression
+   (`_file0_vram` = code `vram - start`), which fixes both address→bytes and yaml-piece→address for
+   the EXE's 0x800 header and leaves flat overlays byte-identical. R39 control: main builds
+   byte-identical with `--derive` armed and nothing substituted.
+3. `gate_main` now PRESERVES the red image + map under `.run/gate_main_fail/` **before** the R40
+   baseline control rebuilds over them, auto-localizes, and prints BODY / PLUMBING / MIXED. Plus
+   `-j` on the build and `.run/gate_main_dropped.json` carrying the §376/§378 chain.
+4. `gate_main.typesig` struct-tag false conflict fixed (`struct Ent30D80 *` vs its own typedef
+   `Ent30D80 *`). R39 control over the already-succeeded population — 452 drafts, 54 binaries:
+   **0 new refusals, exactly 1 removed** (`main:func_80031988`). `git commit:3653`.
+
+**Result — BANKED BYTE-IDENTICAL:** `func_8001A114`, `func_8001AAD0`, `func_8001AF34` (14 s for the
+batch). `git commit:3650`. **The span model is predictive:** exactly the three span-A members of the 11
+banked, and the other eight are all span B/C.
+
+**THE NEXT LEVER (task #5).** 25 of main's 59 frontier functions (6,215 of 12,912 instructions, 48%)
+are switch functions. Spans B (`0x80072E44-0x80073140`, 14 tables, ~10 owners incl. `SaveLoadRoutine`
+1139 ins and `func_8003388C` 663) and C (`0x800732A0-0x8007344C`, 8 tables, ~8 owners) each need
+their OWN code object — one object contributes exactly ONE contiguous `.rodata` run and `800.o`'s is
+now span A. The owners' address ranges are **disjoint and ordered**, so `src/800.c` splits at
+~`0x8002B0B4` and ~`0x80035270`: the jtbl spans ARE the original TUs' rodata. Cost estimate: the file
+is 26,543 lines with **2,318 scattered `extern` lines and 175 typedefs**, the exact shape
+`split_src_region.py` was blocked on for overlays — so the declaration layer needs a shared header,
+not a naive partition. **Never run it while drafting agents are live** (it moves
+`asm/nonmatchings/800/*.s`).
+
+**Wave S72m_1 (in flight).** 5 span-A frontier targets, one agent per workflow, 5 concurrent (Drew's
+cap): `CdReadStateMachine` 397/fable · `CdReadSectorReadyCB` 442/fable · `func_80024448` 391/fable ·
+`func_80026D64` 218/opus · `func_8001B0D4` 111/sonnet. Packs carry the carve unlock as journal fuel.
