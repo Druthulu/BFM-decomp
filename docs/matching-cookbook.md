@@ -33654,3 +33654,37 @@ instruction (operand swap).
 **Relation to §20/§42d-2.** Those cover keeping reads on one `la` via an opaque launder inside a
 block; this is the cross-block form, and the lever is placement (outside the loop) rather than a
 launder. The reload-rematerialisation is what makes the two look identical in the output.
+
+## §419 ★★★ — WHEN A PIN IS IMPOSSIBLE, WIN THE local-alloc DENSITY CONTEST INSTEAD (P31 S71; byte-proven `ov_SC01_000/func_8017DD04`, 297 ins)
+
+**Why the pin could not work.** The obvious lever — pin the `0x80` constant to `$7` — LOSES its
+sched1 birthing boost, because `$a3` (and `$a2`) are ALSO set by this function's own call-argument
+copies, so `reg_n_sets == 2`. A hard-register pin on an argument register is unavailable to any
+function that passes arguments in it. `$6`/`$7` therefore have to come out of **local-alloc
+density**, unpinned.
+
+**The density arithmetic, which is computable before you try anything.** local-alloc ranks by
+`refs / live_length`:
+
+| pseudo | refs | live length | density |
+|---|---|---|---|
+| `0x80` | 13 | 319 | **4890** |
+| `0xFFFFFF` | 9 | 345 | 3130 |
+
+`0x80` out-densities its rival and takes `$6` — a pure `$a2`↔`$a3` swap, 24 instructions wrong.
+
+**The lever: buy references, not a register.** One SIX-INPUT zero-byte asm at the blk3/blk4 boundary —
+`__asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo))` — adds 6 references to
+`mlo` and nothing to the output. Density becomes **5217 > 4890**, so `mlo` takes `$6`, `0x80` falls to
+`$7`, and its boost survives because it was never pinned. The boundary matters: pick the ONE cut no
+hoisted constant crosses, or you change the live lengths you are trying to exploit.
+
+**MEASURED INERT on this function:** pinning `mlo = $6` (cse never substitutes a hard register for a
+bitfield constant) or it explodes (+3, `$s0`); and a dead hard-register copy as a "register
+suggestion" is simply deleted by flow.
+
+**The general law.** *A register assignment you cannot pin, you can still win — by changing the
+density ranking rather than the register.* Reference count is a dial (zero-byte asm inputs) and live
+length is a dial (where you place the barrier); local-alloc's ordering is arithmetic on the two, so
+compute it from the `-df`/`-dl` dumps and aim, instead of trying pins that a call-argument register
+structurally forbids.
