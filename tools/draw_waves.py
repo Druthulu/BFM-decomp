@@ -63,11 +63,22 @@ def arm_for(n):
     ESCALATE SOONER: the expensive mistake is running a cheaper tier into a wall, not paying the
     higher tier up front.
 
-    DREW'S RULING, 2026-09-01, after reading the S69 numbers: NO MORE SONNET AT ALL, and anything
-    over 150 instructions goes to FABLE. Not a threshold to re-tune from per-agent price — sonnet's
-    53% failure rate is billed in full, and opus fell off a cliff above ~350. Two tiers only.
+    DREW'S RULING, 2026-09-01, after reading the S69 numbers: NO MORE SONNET AT ALL. Two tiers only.
+    Not a threshold to re-tune from per-agent price — sonnet's 53% failure rate is billed in full.
+
+    THRESHOLD RAISED 150 -> 340 (Drew, 2026-09-02): "use opus mainly and only escalate the difficult
+    ones to fable". The S69 table above is the evidence, and it puts opus's cliff at ~350, NOT at 150:
+
+        m1  opus  191-347 ins   10/15 MATCH   1,291 tokens / matched instruction  <-- BEST measured
+        m2  opus  347-670 ins    1/9  MATCH   7,158                               <-- the cliff
+
+    So 150 was leaving opus's STRONGEST band to Fable. Fable is now reserved for the two things that
+    actually predict difficulty: >340 instructions, and `arm_from_history`'s compiler-internal
+    residual signal (§413) at any size. A function that FAILS on opus is re-drawn on opus by default —
+    a single failure is not evidence of a wall, and the history escalation will lift it if the notes
+    say the residual is compiler-internal.
     """
-    return 'opus' if n <= 150 else 'fable'
+    return 'opus' if n <= 340 else 'fable'
 
 
 # THE RESIDUAL CLASS PREDICTS DIFFICULTY BETTER THAN `nins` DOES (Drew, 2026-09-02, S71).
