@@ -712,6 +712,16 @@ if _klass:
     print('  failed by class:', ' '.join('%s=%d' % (k, n) for k, n in sorted(_klass.items())))
 print('VERIFIED:', ' '.join(verified) or '(none)')
 print('FAILED  :', ' '.join(fn for fn, _ in failed) or '(none)')
+if verified:
+    # §404 (P31 S70): "verified" means THE BYTE-GATE ACCEPTED IT, not that it is banked. Run standalone
+    # this tool leaves the INCLUDE_ASM stub in place; `gate_stage.py` is the entrypoint that persists,
+    # propagates and commits. S70 read `verified 1 / VERIFIED: func_8002B0B4` here, committed straight
+    # afterwards, and banked NOTHING — the stub is still at src/800.c:18341 and a bank was reported to
+    # the owner that never existed. Say it at the point of confusion, not in a doc nobody re-reads.
+    print('  NOTE: "verified" = the byte-gate ACCEPTED these drafts. If you invoked harvest_verify\n'
+          '        directly, they are NOT banked — re-run through `tools/gate_stage.py --drafts <dir>\n'
+          '        --binary %s [--commit]` to persist. Confirm with corpus.stubs(), not this line.'
+          % a.binary)
 # R32 — assert the gate LEFT THE TREE where it found it (plus whatever it banked). `_write(baseline)`
 # above restores the files render() manages; a carve/isolation can touch files it does not. At 0
 # verified the tracked diff must be EMPTY, and any residue is a failed draft still spliced in — which

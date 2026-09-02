@@ -23,6 +23,7 @@ Usage:
 Prints a JSON summary; importable as run_gate(...)->dict.
 """
 import argparse, fcntl, glob, json, os, re, shutil, subprocess, sys, time
+import work_evidence
 import hashlib
 import glob as _glob
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -238,7 +239,17 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
     draft_fns = sorted(os.path.basename(p)[:-2] for p in
                        glob.glob(os.path.join(REPO, drafts, "*.c")))
     if not draft_fns:
-        return {"drafts": 0, "banked": 0, "propagated": 0, "near": 0, "failed": 0, "verified": []}
+        # LOUD REFUSAL, NOT A ZERO-YIELD RESULT (P31 S70, §402). This return used to be silent, and
+        # it is the exact point the pgate defect flowed through: a worktree-relative --drafts path
+        # resolved to nothing, so 35 binaries reported "banked 0" with rc=0 in 1-2s each and the run
+        # read as 57 failed drafts. "0 of 0" is a fact about the HARNESS; "0 of 57" is a fact about
+        # the SUBJECT, and reporting the first as the second costs a whole batch (R32/R43).
+        work_evidence.assert_inputs(
+            "gate_stage/%s" % binary, 0, os.path.join(REPO, drafts),
+            hint="a 0-draft gate would otherwise report 'banked 0' as if the drafts had failed.",
+            strict=False)
+        return {"drafts": 0, "banked": 0, "propagated": 0, "near": 0, "failed": 0, "verified": [],
+                "refused": "no .c drafts readable at %s" % os.path.join(REPO, drafts)}
     # Negative control (P9 / Phase-9): the drafts MUST be INCLUDE_ASM stubs SOMEWHERE in this
     # binary's sources (main + any _a/_o0 split — a split-only batch is legitimately gated by the
     # per-split run_gate call, so check the UNION, mirroring lora_grind.open_stubs' glob). If a

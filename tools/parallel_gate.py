@@ -51,6 +51,7 @@ to prevent). Adopting is per-BINARY and per-FILE, never a blanket add.
       plan.json: [{"binary": "ov_SC03_099", "drafts": "/abs/path/to/dir"}, ...]
 """
 import argparse, functools, json, os, re, shutil, subprocess, sys, time
+import work_evidence
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -330,6 +331,14 @@ def gate_one(idx, pin, job):
             return {"binary": binary, "banked": [], "error": "corpus refused in worktree"}
         r = sh([PY, "tools/gate_stage.py", "--drafts", drafts, "--binary", binary,
                 "--no-propagate", "--source-tag", "pgate"], cwd=wt, timeout=3600)
+        # WALL-CLOCK FLOOR (P31 S70, §402). A worker that reached gate_stage is committed to a full
+        # per-binary build+check; that cannot finish in a couple of seconds. When the drafts path was
+        # unreachable inside the worktree this returned "banked 0" in 1-2s with rc=0 and EVERY other
+        # signal said success — the runtime was the only tell. Non-strict so one odd worker cannot
+        # abort the batch, but the flag rides in the result and the summary prints it (R55).
+        blind = not work_evidence.assert_floor(
+            "pgate/%s" % binary, time.time() - t0, claimed="a full binary build + sha1 check",
+            strict=False)
         after = stubs_of(wt, binary)
         banked = sorted(before - after) if after is not None else []
         files, ovl = {}, None
@@ -393,6 +402,7 @@ def gate_one(idx, pin, job):
             classes.append(part.split(":", 1)[0].strip())
         cls = " ".join(sorted(set(classes)))
         return {"binary": binary, "banked": banked, "files": files, "ovl": ovl,
+                "blind_suspect": blind,
                 "secs": round(time.time() - t0, 1),
                 "missing_generated": missing, "classes": cls, "verdicts": verdicts,
                 "rc": r.returncode, "tail": (r.stdout or r.stderr)[-200:] if not banked else ""}
@@ -443,8 +453,10 @@ def main():
                 futs[ex.submit(run, job, i % nw)] = job["binary"]
             for f in as_completed(futs):
                 r = f.result(); results.append(r)
-                print("[pgate] %-14s banked %-3d %s" % (r["binary"], len(r["banked"]),
-                      r.get("error") or ("%.0fs" % r.get("secs", 0))), flush=True)
+                print("[pgate] %-14s banked %-3d %s%s" % (r["binary"], len(r["banked"]),
+                      r.get("error") or ("%.0fs" % r.get("secs", 0)),
+                      "  <-- BLIND SUSPECT: finished below the build floor (§402)"
+                      if r.get("blind_suspect") else ""), flush=True)
     finally:
         if not a.keep:
             for wt in wts:
