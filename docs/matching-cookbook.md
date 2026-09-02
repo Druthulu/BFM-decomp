@@ -33601,3 +33601,30 @@ the width cost two instructions per COMPARE, here it changes the LOAD itself.)
 `ov_SC06_000` (an unrelated 11-ins function), on `ov_SC01_080` (two different functions), and on
 `ov_SC03_030`. In every case the real fuel was a **same-TU neighbour** (§194-E). The address-twin
 lead is worth checking and never worth trusting — law 1c exists for this.
+
+## §417 ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `cse` SKIP-BLOCKS MERGE (P31 S71; byte-proven `ov_SC03_013/func_8017E6F4`, 182 ins)
+
+**Two compiler passes in a chain, and the first agent misattributed the second to the first.** The
+prior attempt sat at a 3-instruction residual with a `$3` pin on a select's result and concluded that
+"unpinning costs +2". Both halves were wrong in an instructive way.
+
+**1. The pin blocked `jump.c`.** A PINNED select arm expands as `ior` + a copy — TWO insns — so
+`jump.c:728`'s `x = b; if (c) x = a;` collapse cannot fire, and reorg emits `bne`/`ori`/`move`.
+Removing the pin lets the collapse happen. **A hard-register pin is not neutral to the RTL
+optimisers: it changes the INSN COUNT of the pattern they pattern-match on.**
+
+**2. Unpinning then exposed a different pass.** With every select collapsed, `cse`'s
+`cse_end_of_basic_block` **skip_blocks** path now walks from the first `D_80184D2C[idx]` read all the
+way to the second and CSEs the `symbol_ref` into `$s3` — the +2 the earlier agent blamed on the
+unpinning. The residual moved; it did not grow.
+
+**The fix is to end the cse block, not to restore the pin:** put a REAL diamond between the two uses
+(a `vol` clamp written as `if`/`else`, whose IOR arm is uncollapsible), keep `register vol
+__asm__("$5")` so both arms land in `$a1`, and spell the absolute value as
+`if ((s16)w < 0) w = -w; e = w;`. Four compiles from there.
+
+**The general law.** *When removing a lever moves the residual instead of shrinking it, the new
+residual is a DIFFERENT PASS — attribute it before re-adding the lever.* "Removing X costs +2" is
+almost always "removing X unblocked pass A, and pass B now fires"; re-adding X re-blocks A and hides
+B again, which is how a function plateaus for three attempts. The instrument is the pass dump
+(`-dL`, `-dj`, `-dS`), not another guess.
