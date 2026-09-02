@@ -5437,6 +5437,89 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   served to a homonym in another overlay (§238). `claude_wave_draft.js`'s VERDICT now requires `binary`;
   the historical corpus keeps that caveat. Cookbook 1081.
 
+## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
+
+**STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
+(`.run/S71_r22b.log`, 01:47). `.run/R22_DEBT` cleared. Tree clean at `commit:3609`. No agents live, no
+lanes in flight (`lane_inflight list` → 0). Drew pushes (R6).
+
+**HONEST FRONTIER: 187 (main 64 + non-main 123), from 210 at session start = 23 banked.**
+Earlier in this session I reported 34 banked and a frontier of 176. **Both were wrong** — see the
+main incident below. Every number here is post-R22.
+```
+REAL / matchable          :   853 / 1,919      = 44.45%
+FLEET instr-weighted      : 13,459,294 / 13,523,865 = 99.5%
+MAIN game-code weighted   :    39,320 / 79,510     = 49.5%
+```
+
+---
+
+# 1. THE MAIN INCIDENT — READ THIS BEFORE GATING ANYTHING
+
+`parallel_gate` was run on **main**, reported **11 banked**, and the merge was committed
+(`commit:3586`). R22 then returned **212/213**: main did not compile from clean (two `conflicting
+types` errors), and once both declarations were reconciled it built and was **still not
+byte-identical**. All 11 were re-gated one at a time against a clean build — **11 of 11 REJECT**.
+Reverted in `commit:3607`; the bodies are kept at `.run/S71_main_suspect/800.c.banked11`.
+
+**The rule already existed** in `ox_campaign.gate_main_batch`: *main is gated by ONE CLEAN REBUILD,
+never incrementally — its extract rewrites the linker script.* `parallel_gate`'s worker IS
+`gate_stage`, so it inherited that; S58 recorded the false-DIFF direction, this was the false-PASS
+one. **Now a hard refusal** (`commit:3608`): `parallel_gate` returns REFUSED for `binary == 'main'` and
+names `tools/gate_main.py`. Cookbook **§414**.
+
+**Use `tools/gate_main.py` for every main draft. Never `parallel_gate`, never `gate_stage`.**
+
+---
+
+# 2. WHAT LANDED, AND IT IS A LOT
+
+**The wave (50 one-agent workflows, journal-fuelled packs): ~97% first-pass MATCH on the hardest
+frontier we have.** 45 of 50 landed, 45 self-reported MATCH at closeness 0, 1 NEAR. Non-main gates
+banked 2 + 9 (`commit:3591`) + 6 (`commit:3594`) + 5 (`commit:3604`); the integration pile earlier banked 1
+(`ov_SC07_006`). **23 net, all R22-verified.**
+
+**Journal notes are now permanent** (`tools/journal_notes.py`, auto-called by `claude_wave_packs.py`;
+memory `journal-notes-are-pack-fuel`; cookbook **§411**; playbook step 3b; accelerators entry).
+Measured 38/39 MATCH vs S70's 124/131 on an easier pool · 29/39 agents cite a prior attempt · 4/39
+banked by RECOVERING a body already on disk. It also reads `.run/journal_notes_local.jsonl` so
+hand-recorded evidence reaches a pack the same way.
+
+**Model routing now keys on the RESIDUAL CLASS, not `nins`** (`draw_waves.arm_from_history`, cookbook
+**§413**). Measured: a 26-ins function took 18 min / 31 tool calls; a 122-ins one took 80 s / 10.
+R39 control: 9,441 decisions, 4,020 upgrades to Fable, **0 downgrades**.
+
+**Carve lane: 5 of 6 CARVE-REFUSED overlays cleared, byte-identical** — ov_SC03_010, ov_SC03_013,
+ov_SC03_092, ov_SC07_000, ov_SC03_029; every `jtbl_carve --probe` moved `plan-refused` → `tail`.
+Two tool defects behind them: `jr_isolate_all` now places file-local `static` definitions, and
+**§323 blocker 2 was one regex** that read `__attribute__` as a type name (cookbook **§412**).
+`ov_SC06_029` alone builds NOT byte-identical after isolation — a real resegmentation question.
+
+**Cookbook 1074 → 1082.** §408 (§406 refuted) · §409 (the wave's nine laws) · §410 · §411 · §412 ·
+§413 · §414. **§409 law 1 is the one to remember:** a draft can sit at `match_one` closeness 0 with
+its RELOCATION STREAM TRANSPOSED — HI16/LO16 masking hides it from match_one, the permuter scorer and
+every similarity tier.
+
+---
+
+# 3. NEXT, IN ORDER
+
+1. **Redraw the 6 stopped functions** — `ov_SC03_030:func_80181A60`, `ov_SC03_105:func_801834A4`,
+   `ov_SC03_013:func_8017E6F4`, `ov_SC04_016:func_8017DF8C`, `ov_SC04_011:func_80180B24`,
+   `md_SC07_004:func_801A94A0`. They were stopped at 36+ min to free slots, are back in the pool, and
+   each has a local note naming its scratch dir (19–53 compiled candidates). They draw at FABLE now.
+2. **Wave 2** (`.run/S71b_1`, 27 targets, packed, 18 with history) — 23 unlaunched.
+3. **The 5 newly-carveable functions** are drawable now that their overlays are isolated.
+4. **`ov_SC06_029`** — why its isolate is not byte-neutral.
+5. **The §376 lanes from gate triage** — CARVE 10 · undefined-reference 4 · DIFF 3 · PARSE 1, plus
+   gate 1's 7 func-decl / 4 data-decl / 6 type-decl conflicts.
+6. **`recover_integration --stages arity`** is fleet-tier and needs `--r22`; it can only run with the
+   drafting lane fully drained.
+
+**WSL:** `.wslconfig` now `memory=32GB` + `autoMemoryReclaim=gradual` — both apply on the next
+`wsl --shutdown`. `.run/memkeeper.sh` drops page cache above 12GB meanwhile (SETUP.md).
+
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**
