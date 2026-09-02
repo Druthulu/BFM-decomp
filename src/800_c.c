@@ -95,7 +95,7 @@ extern u32   CdMode(void);
 extern void  CdFlush(void);
 extern void *CdReadyCallback(void *func);
 extern void  func_800377D8(void);   /* this loader's CdlReadN ready-callback */
-extern void  func_80036260(void);   /* sub-handler passed to func_80037CD8 */
+extern int func_80036260(void);   /* sub-handler passed to func_80037CD8; §376: the definition returns int */
 extern void  func_8002EC10(void);
 extern void  func_80037334(void);
 extern void  func_80037358(int posInt);
@@ -464,7 +464,7 @@ extern void func_80034DFC(s16);
 extern s32 func_8003EDE8(s32, s32, s32);
 extern void func_80035C4C(void);
 extern void func_80036F98(void);
-extern void func_8003602C(void);
+extern void func_8003602C(s32);   /* §376: the definition takes s32 (the use is address-taken and already cast) */
 extern void func_80036FB0(s32, s32);
 
 void func_80036D58(s16 arg0)
@@ -1876,7 +1876,7 @@ extern s16 D_800A4EF8;
 extern u16 D_800A4EE0;
 extern u8 D_800A4F16;
 extern s32 func_80038FC4(u8 **);
-extern void func_80038FFC(u8 **);
+extern s32 func_80038FFC(s32 *);   /* §376: the definition returns s32 and takes s32* */
 
 void func_80038A58(void)
 {
@@ -1975,7 +1975,7 @@ void func_80038A58(void)
                             *(s32 *)(p - 8) = 0;
                             do {
                                 if (p[0x1E8] != 0) {
-                                    func_80038FFC((u8 **)base);
+                                    func_80038FFC((s32 *)base);
                                     if (p[0x1E9] != 0) {
                                         p[0x1EA] = 0;
                                         p[0x1E8] = 0;
@@ -2209,7 +2209,7 @@ void func_80039F14(u8 *arg0, s16 arg1, u8 arg2) {
     arg0[0x21] = b | 2;
 }
 
-extern void func_80039C70(void *arg0, s16 arg1, u8 arg2);
+extern void func_80039C70(u8 *arg0, s16 arg1, s16 arg2);   /* §376: matches the definition */
 extern void func_80039DEC(void *arg0, s16 arg1, u8 arg2);
 
 void func_80039F50(u8 **a0, s16 a1)

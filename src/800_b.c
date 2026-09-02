@@ -2996,7 +2996,7 @@ extern s32 D_800C7D2C;
 extern void func_8002EFF8(s32 a0, s32 a1);
 extern void func_8003D3B4(s32, s32);
 extern void func_800314DC(struct Obj *);
-extern void func_800316F8(void *);
+extern void func_800316F8(s32);   /* §376: the definition takes s32; cast at the use site */
 extern void func_80031988(struct Ent30D80 *);
 
 typedef struct VoiceF80 {
@@ -3048,7 +3048,7 @@ void func_80030F80(void)
                 *(s32 *)p -= 1;
                 if (*(s32 *)p == 0) {
                     func_8002EFF8(1, tbl[*(u16 *)(p + 0xA)]);
-                    func_800316F8(p);
+                    func_800316F8((s32)p);
                 }
             } else {
                 if (p[0x4E] >= 2) {
