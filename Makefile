@@ -706,10 +706,19 @@ CC1FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 # MODULES (P31 S62 T3a): every md_* object runs the filter in --derive mode instead — the pads are
 # derived at build time from the retail island + the maspsx stream (cookbook §303), so no spec is
 # stored and nothing can drift. A stored JTBL_PADS still wins if one is set.
+# §332b — THE REORDER ISLAND. `800c2` / `800c3` were originally assembled in REORDER mode (the
+# assembler filled the delay slots). maspsx force-emits `.set noreorder`, which makes that
+# unreachable and made a whole class there look like a permanent compiler wall (§332). For these
+# TUs only, swap maspsx for tools/reorder_passthrough.py + `as -O2` — the pipeline
+# tools/oracle_reorder.py proved byte-exact (0 diffs on func_80061FA8 vs 57 on the pinned path).
+# The whole-binary SHA1 gate is the arbiter: if this were wrong the build simply fails.
+REORDER_TUS   := 800c2 800c3
+ASFLAGS_REORDER := -Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O2 -G0
+
 build/src/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@echo "  CC      $@"
-	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS),$(if $(filter md_%,$(BINARY)),| $(VENV_PY) tools/jtbl_rodata_pads.py --derive $(BINARY) --tu $(notdir $*))) | $(AS) $(ASFLAGS) -o $@
+	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(if $(filter $*,$(REORDER_TUS)),$(VENV_PY) tools/reorder_passthrough.py | $(AS) $(ASFLAGS_REORDER) -o $@,$(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS),$(if $(filter md_%,$(BINARY)),| $(VENV_PY) tools/jtbl_rodata_pads.py --derive $(BINARY) --tu $(notdir $*))) | $(AS) $(ASFLAGS) -o $@)
 
 # Per-module optimization override (SETUP §5.5 — per-module compiler mixing). The boot/
 # main/game-mode-dispatch module (src/boot.c, vram 0x80010000-0x800123F0) was compiled at
