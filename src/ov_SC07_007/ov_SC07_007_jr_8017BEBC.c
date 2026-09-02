@@ -4430,7 +4430,112 @@ s32 func_8017DF74(s32 a0, s32 a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_8017DFB8);
+// @class: schedule
+// @stuck: none — MATCH (110 ins)
+//
+// func_8017DFB8 — per-frame entity tick: bail out through func_800D1724 when the
+// pad/state guard passes, otherwise dispatch through the D_801882B8 handler table and
+// rebuild the three 16-byte light records at D_800A5E88[0..2] from three rotated copies
+// of the D_80187C60 source vectors (func_800139C8 = "rotate SVECTOR by angle").
+//
+// Guard shape copied verbatim from the already-banked twin func_8017D3EC
+// (src/ov_SC07_009/ov_SC07_009_jr_8017AE2C.c:4092-4102) — same five tests, same
+// literals; ours differs only in setting D_801C79CC and RETURNING from the arm.
+//
+// FOUR LOAD-BEARING LEVERS (do NOT "clean these up" — each was byte-measured):
+//
+//  (1) §249 asm-INITIALISATION of the record base.  `__asm__("la %0, D_800A5E88" : "=r"(p))`
+//      gives one pseudo whose single SET is ASM_OPERANDS, so it is never CONSTANT_P: no
+//      REG_EQUIV, update_equiv_regs' absolute fold stays blocked, and the three first-field
+//      stores keep the target's base-relative `sw $v0,0/0x10/0x20($s0)` form.  A plain
+//      `s32 *p = &D_800A5E88;` const-folds the +0x10/+0x20 stores back to
+//      `lui $at; sw %lo(D_800A5E98)($at)` (+2 ins each) — measured, closeness 45.
+//
+//  (2) §385 PRIORITY-DONOR inputs on that same asm.  The `la` insn is dependence-free, so
+//      sched1 hoists it to the top of the block (it landed before the `jalr`, closeness 66).
+//      The dead `"r"(x0),"r"(y0),"r"(z0)` inputs release it only after the three `lh`s, and
+//      the dead `"r"(ab)` input additionally releases it after the next call's $a1 setup —
+//      which is what pulls `addu $a0,$s1,$zero` / `addiu $a1,$s2,0x8` ahead of the loads
+//      (target idx 59-60).  Dropping just `"r"(ab)` costs 8 instructions of rotation.
+//
+//  (3) $a0/$a1 PINS (aa/ab) give the second func_800139C8 call's argument copies a source
+//      statement — hence an early LUID and an addressable name for lever (2).  The call's
+//      own copies degenerate to self-moves and are deleted, so this is zero bytes.
+//
+//  (4) §385 donor asm for the pointer bump.  `p += 0x20; func_80028620(2, p);` is folded by
+//      combine into a single `addiu $a1,$s0,0x20` (-1 ins); spelling the bump as a one-
+//      instruction asm keeps `addiu $s0,$s0,0x20` + `addu $a1,$s0,$zero`, and its dead
+//      `"r"(aa)` input orders it AFTER `addiu $a0,$zero,0x2` (target idx 99-100).
+//      The trailing zero-byte use-barrier keeps p live so the bump cannot be dead-coded.
+#include "common.h"
+
+extern s32 func_80029178(s32 arg);
+extern s32 func_8002AE60(void);
+extern s32 func_80014C54(s32 a0, s32 a1, s32 a2);
+extern s32 func_800CF8B4();
+extern void func_800D1724(s32 a0);
+extern s16 func_8012A758(void);
+extern void func_800139C8(s32 a0, void *a1, void *a2);
+extern void func_80028620(s32, void *);
+extern u8 D_80186964[];
+extern u8 D_80187C60[];
+extern void (*D_801882B8[])(void *);
+extern s32 D_801C79CC;
+extern s32 D_800A5E8C;
+extern s32 D_800A5E90;
+extern s32 D_800A5E9C;
+extern s32 D_800A5EA0;
+extern s32 D_800A5EAC;
+extern s32 D_800A5EB0;
+
+void func_8017DFB8(void *a0) {
+    register u8 *p __asm__("$16");
+    register u8 *tbl __asm__("$18");
+    register s32 aa __asm__("$4");
+    register u8 *ab __asm__("$5");
+    s32 idx;
+    s16 v[3];
+    s32 x0, y0, z0;
+    s32 x1, y1, z1;
+    s32 x2, y2, z2;
+
+    p = (u8 *)a0;
+    if ((u8)func_80029178(0x123) != 0 && (s16)func_8002AE60() == 0 &&
+        ((s16)func_80014C54(0, 0, 0x800) != 0 || (s16)func_80014C54(0, 0, 0x40) != 0) &&
+        func_800CF8B4() != 0) {
+        D_801C79CC = 1;
+        func_800D1724((s32)D_80186964);
+        return;
+    }
+    D_801882B8[*(u16 *)(p + 2)](p);
+    idx = func_8012A758();
+    tbl = D_80187C60;
+    func_800139C8(idx, tbl, v);
+    aa = idx;
+    ab = tbl + 8;
+    x0 = v[0]; y0 = v[1]; z0 = v[2];
+    __asm__("la %0, D_800A5E88" : "=r"(p) : "r"(x0), "r"(y0), "r"(z0), "r"(ab));
+    *(s32 *)p = x0;
+    D_800A5E8C = y0;
+    D_800A5E90 = z0;
+    func_800139C8(aa, ab, v);
+    x1 = v[0]; y1 = v[1]; z1 = v[2];
+    *(s32 *)(p + 0x10) = x1;
+    D_800A5E9C = y1;
+    D_800A5EA0 = z1;
+    func_800139C8(idx, tbl + 0x10, v);
+    x2 = v[0]; y2 = v[1]; z2 = v[2];
+    *(s32 *)(p + 0x20) = x2;
+    D_800A5EAC = y2;
+    D_800A5EB0 = z2;
+    func_80028620(0, p);
+    func_80028620(1, p + 0x10);
+    aa = 2;
+    __asm__("addiu %0,%1,0x20" : "=r"(p) : "0"(p), "r"(aa));
+    func_80028620(aa, p);
+    __asm__("" : : "r"(p));
+}
+
 
 #include "common.h"
 
