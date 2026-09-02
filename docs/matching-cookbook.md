@@ -33065,10 +33065,23 @@ Byte-witnessed (P31 S70): `verified 1 / VERIFIED: func_8002B0B4`, final SHA BYTE
 `INCLUDE_ASM("asm/nonmatchings/800", func_8002B0B4);` still at `src/800.c:18341`. The commit made
 straight afterwards captured only an unrelated comment, so a bank was REPORTED that never existed.
 
-**Use `gate_stage.py --drafts <dir> --binary <b> [--commit]`**, which wraps harvest_verify with the
-persistence, propagation and commit steps. Reach for `harvest_verify` directly only as a diagnostic —
-for instance to A/B whether the `canon -> cast_call_sites -> sig_unify` pipeline is what breaks a draft
-(§401), which is exactly what it is good for.
+**CORRECTED, SAME SESSION — the stated mechanism is NOT established.** Later in S70 the §332b wall
+drafts were gated the same way and `harvest_verify` **did** persist: three functions
+(`func_8005D244`, `func_8005DBD8`, `func_80061FA8`) were spliced into `src/` and confirmed banked
+against `corpus.stubs`. So "harvest_verify never persists" is refuted by counter-example. What is
+CERTAIN is only the observable: `verified 1 / VERIFIED: func_8002B0B4` was followed by a tree whose
+stub was still present. The most likely explanation is that the bank was destroyed downstream by my
+own `git checkout -- src/800.c` while undoing the §403 corruption — i.e. the loss was MINE, not the
+tool's. Recorded as unresolved rather than left as a confident wrong claim.
+
+**What survives regardless, and is the actually useful rule:** `harvest_verify` leaves banks
+UNCOMMITTED in the working tree, so any later `git checkout` of that file silently destroys them
+(R42). `gate_stage.py --drafts <dir> --binary <b> --commit` wraps it with the persistence,
+propagation and COMMIT steps — use it to bank. Note gate_stage will then report those functions as
+`failed` because they are no longer stubs; that is expected, not a regression.
+
+Reach for `harvest_verify` directly only as a diagnostic — for instance to A/B whether the
+`canon -> cast_call_sites -> sig_unify` pipeline is what breaks a draft (§401).
 
 **The check that would have caught it, and the general rule:** confirm a bank against
 `corpus.stubs(<binary>)` — the address must be GONE from the stub set — never against the tool's own
