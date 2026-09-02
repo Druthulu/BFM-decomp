@@ -3821,7 +3821,141 @@ void func_8017E528(s32 param_1, s32 param_2, s16 *param_3) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_8017C730", func_8017E6F4);
+#include "common.h"
+
+// @class: cse-extended-block / jump1-collapse
+// @stuck: none -- MATCH 182/182 (S71a fable). Three coupled levers, all byte-proven here:
+//   (1) A `register __asm__("$3")` pin on an if/else SELECT result blocks jump.c:728's
+//       `x = b; if (c) x = a;` collapse: expand emits the pinned arm as ior-into-pseudo + copy
+//       (2 insns), so prev_active_insn(x=a) is not the condjump and the diamond survives to
+//       reorg, which sinks the ori into the beq slot and inverts the branch (bne/ori/move vs the
+//       target's beq/addu/ori). Result pseudo must stay UNPINNED for the target shape.
+//   (2) With all three selects collapsed, every join is a 1-use label with no barrier, so cse's
+//       skip_blocks (AROUND) path walks from the first `D_80184D2C[idx]` read through the ratan2
+//       calls to the second and merges the two `(set reg, symbol_ref)` pseudos -> the address
+//       lives across the calls in $s3 (+2 insns, frame 0x38). A real DIAMOND between the two uses
+//       ends the cse block (TAKEN follow falls into the join label): the vol clamp spelled as
+//       if/else (its else arm `v | 0x1000` is an IOR, so jump.c cannot collapse it).
+//   (3) The diamond's arms would tie vol to v's dying $v1; pinning vol to $5 puts both arms in
+//       $a1 (the arg register) and reorg fills the bgez slot from the mostly-true target thread.
+//   The abs step must be `if ((s16)w < 0) w = -w; e = w;` (single sext after the join; reorg
+//   copies the redundant-skipped `sra` into the slot). `e = w; if (e<0) e=-e;` cross-jumps here.
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern u16 D_80126B96;
+extern s16 D_80126B98;
+extern u16 D_80184D1C[];
+extern u16 D_80184D1E[];
+extern s16 D_80184D2C[];
+extern u8  D_80184CEC;
+extern s32 ratan2(s32 a0, s32 a1);
+extern s32 func_800291B4(s32 arg);
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern void func_80129374(s32 a0, s32 a1);
+extern void func_8017EBA0(s32 a0, s32 a1);
+extern s32 func_8017EAB0(s32 a0);
+extern s32 func_8017EA08(void *a0);
+extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
+
+void func_8017E6F4(s32 a0) {
+    s32 s0 = a0;
+    short d;
+    s16 t;
+    s32 p;
+    s32 ang1, ang2;
+    short e;
+    s32 tmp;
+    register s32 lo __asm__("$4");   /* pin: splits the CSE temp from the select result */
+    register s32 vol __asm__("$5");
+    s32 w;
+    s32 v;
+    s32 r;
+    u16 *p96;
+
+    *(s16 *)(s0 + 0x104) = *(u16 *)(s0 + 0x102);
+    *(s16 *)(s0 + 0x102) = 0;
+    *(s32 *)(s0 + 0x1C) = *(s32 *)(s0 + 0x1C) + 1;
+
+    d = D_80126B62 - *(u16 *)(s0 + 0xA);
+    if (d < 0) {
+        d = -d;
+    }
+    if (d >= 0x181) {
+        return;
+    }
+
+    t = *(s16 *)(s0 + 0xFE);
+    if (t != 0) {
+        if ((func_800291B4(0xCE) & 0xFF) < t) {
+            *(s16 *)(s0 + 0x5C) = 0x800;
+            if (*(s16 *)(s0 + 0xFE) != 0) {
+                goto have_flag;
+            }
+        } else {
+            *(s16 *)(s0 + 0x5C) = 0;
+            return;
+        }
+    }
+    if (*(s32 *)(s0 + 0x1C) & 0x20) {
+        return;
+    }
+have_flag:
+
+    if (*(s32 *)(s0 + 0x1C) & 1) {
+        p = func_80132EF4(s0, 0x22);
+        if (p != 0) {
+            func_80129374(p, s0);
+            *(u16 *)(*(s32 *)(p + 0x20) + 0x18) = D_80184D1C[*(s16 *)(s0 + 0x100) * 2];
+            *(u16 *)(*(s32 *)(p + 0x20) + 0x1A) = D_80184D1E[*(s16 *)(s0 + 0x100) * 2];
+        }
+    }
+
+    if (*(s16 *)(s0 + 0x100) == 2) {
+        func_8017EBA0(s0, (s32)&D_80184CEC);
+    }
+
+    if (*(u16 *)&D_80184D2C[*(s16 *)(s0 + 0x70)] != 0) {
+        tmp = ratan2(-*(s16 *)&D_80126B66, *(s16 *)&D_80126B5E) - 0x400;
+        v = tmp & 0xFFF;
+        if (tmp & 0x800) { ang1 = v | 0xF000; } else { ang1 = v; }
+        tmp = ratan2(-*(s16 *)(s0 + 0xE), *(s16 *)(s0 + 6)) - 0x400;
+        lo = tmp & 0xFFF;
+        if (tmp & 0x800) { ang2 = lo | 0xF000; } else { ang2 = lo; }
+        tmp = ang2 - ang1;
+        lo = tmp & 0xFFF;
+        if (tmp & 0x800) { w = lo | 0xF000; } else { w = lo; }
+        if ((s16)w < 0) {
+            w = -w;
+        }
+        e = w;
+        if (e < 0x200) {
+            v = ((0x200 - e) >> 2) - (d >> 2);
+            if (v < 0) { vol = 0x1000; } else { vol = v | 0x1000; }
+            func_8002D59C(*(u16 *)&D_80184D2C[*(s16 *)(s0 + 0x70)], vol, (u16)*(s16 *)(s0 + 0x70));
+            *(s16 *)(s0 + 0x102) = 1;
+        }
+    }
+
+    t = *(s16 *)(s0 + 0xFE);
+    if (t == 0) {
+        if ((*(s32 *)(s0 + 0x1C) & 0x1F) < 8) {
+            return;
+        }
+    }
+    if (t == 2) {
+        r = func_8017EAB0(s0);
+    } else {
+        r = func_8017EA08((void *)s0);
+    }
+    if ((s16)r != 0) {
+        p96 = &D_80126B96;
+        D_80126B98 = 0xC;
+        *p96 |= 0x4000;
+    }
+}
+
 
 
 extern void (*D_80184D50[])(void);

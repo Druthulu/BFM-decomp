@@ -7951,7 +7951,122 @@ void func_80181F4C(s32 arg0, s32 arg1) {
 #undef F4C_IDX
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_80182184);
+/* func_80182184 — links TWO 0x18-byte double-buffered sprite packets
+   (D_801C78D4[n][D_800B9A02] and D_801C7934[n][D_800B9A02], n = arg1 & 0xFF)
+   into OT bank D_800A6618[D_800B9A02].  It is the two-block sibling of the
+   already-banked func_80181F4C, 20 lines up in this TU (§330 neighbour-shape).
+
+   Levers (all six symbols spelled from this function's own .s relocations):
+
+   §195-H  D_800B9A02 must be the ARRAY spelling + a constant index — that is the
+           MEM_IN_STRUCT_P (/s) reload dial that produces the 26 per-statement
+           `lhu 0($t1)` reloads.  Same __asm__-alias idiom func_80181F4C uses, so
+           the TU's own `extern s16 D_800B9A02;` is untouched (no C-level clash).
+
+   §186b/§226  `s32 pad[6]` = 24 bytes of addressed locals; with the four saved
+           registers that is the target's `addiu $sp,$sp,-0x28` frame exactly.
+
+   NEW (this function) — THE OT BASE IS TWO DIFFERENT ADDRESSING MODES, AND THE
+           SPELLING PICKS WHICH.  The FIRST read of D_800A6618 is written with the
+           SYMBOL (`(u8 *)D_800A6618 + (idx << 14)`) and keeps the `lui $at /
+           addu / lw %lo($at)` form; every later access is written through the
+           pointer VARIABLE `ob` and gets the 1-instruction-shorter `addu $x,$t5 /
+           lw 0($x)` form.  Writing the symbol in all four places is +1 instruction
+           (block 2's link read) — that single row was the whole length drift.
+
+   §17/§325 pins — three, each fixing an independent local-alloc permutation that
+           no source reordering reaches (local-alloc's qty_compare priority, and
+           find_free_reg always takes the lowest free register):
+             r  -> $6  : without it `r4` (2 refs) outranks `r` (13 refs) and takes
+                         $a2, pushing D_801C7934 to $a3  (15 residual rows).
+             mLO-> $12 : the 0xFFFFFF mask, otherwise $t7 (15 rows in a 3-cycle
+                         with 0x100 and 0xFF000000).  A §137 zero-byte `"r"(K)`
+                         ref is NOT available here — cse does not fold the extra
+                         reference onto the existing constant pseudo, so each
+                         probe cost a real +1/+2 instructions.
+             ob -> $13 : the D_800A6618 base, otherwise $t6 and 0xFF000000 $t5.
+           Pinning 0xFF000000 instead of `ob` also re-orders sched1 (the
+           `lui $t4,0xFF` moves from idx 72 to 63) — pin the POINTER, not the
+           second constant (§325's direction, replicated).
+
+   Address shapes copied from func_80181F4C: `p4 = p + 4` first (a pointer VALUE)
+   yields `addiu $a2,$t2,4` + `addu` + `sw 0(..)`; every other access is written
+   `p + F184_IDX + K` so K stays in the memory operand.  `q` gives the three 0xA/0x9/0x8
+   byte stores one shared index computation. */
+
+extern u16 aB9A02[1] __asm__("D_800B9A02");
+extern u8 D_801C78D4[];
+extern u8 D_801C78D7[];
+extern u8 D_801C7934[];
+extern u8 D_801C7937[];
+extern u32 D_800A6618[];
+
+#define F184_IDX (aB9A02[0] * 0x18 + n * 0x30)
+
+void func_80182184(s32 arg0, s32 arg1) {
+    s32 n = arg1 & 0xFF;
+    u8 *p = D_801C78D4;
+    u8 *p4 = p + 4;
+    register u8 *r __asm__("$6");
+    register u32 mLO __asm__("$12");
+    u8 *r4;
+    u8 *q;
+    u32 *ot1;
+    u32 *ot2;
+    register u8 *ob __asm__("$13");
+    s32 pad[6];
+
+    (void)&pad;
+
+    *(u8 *)(D_801C78D7 + F184_IDX) = 5;
+    *(u32 *)(p4 + F184_IDX) = ((n * 2 + 0x8A) & 0x9FF) | 0xE1000000;
+    *(u8 *)(p + F184_IDX + 0xB) = 0x64;
+    q = p + (n * 0x30 + aB9A02[0] * 0x18);
+    q[0xA] = arg0;
+    q[0x9] = arg0;
+    q[0x8] = arg0;
+    *(s16 *)(p + F184_IDX + 0xC) = -0x118;
+    *(s16 *)(p + F184_IDX + 0xE) = -0xF0;
+    *(u8 *)(p + F184_IDX + 0x10) = 0;
+    *(u8 *)(p + F184_IDX + 0x11) = 0;
+    *(u16 *)(p + F184_IDX + 0x12) = ((n << 4) & 0x3F) | 0x7880;
+    *(s16 *)(p + F184_IDX + 0x14) = 0x100;
+    *(s16 *)(p + F184_IDX + 0x16) = 0x100;
+
+    ob = (u8 *)D_800A6618;
+    mLO = 0xFFFFFF;
+    *(u32 *)(p + F184_IDX) = (*(u32 *)(p + F184_IDX) & 0xFF000000) |
+                        (*(u32 *)((u8 *)D_800A6618 + (aB9A02[0] << 14)) & mLO);
+
+    ot1 = (u32 *)(ob + (aB9A02[0] << 14));
+    *ot1 = (*ot1 & 0xFF000000) | ((n * 0x30 + (aB9A02[0] * 0x18 + (u32)p)) & mLO);
+
+    r = D_801C7934;
+    r4 = r + 4;
+    *(u8 *)(D_801C7937 + F184_IDX) = 5;
+    *(u32 *)(r4 + F184_IDX) = ((n * 2 + 0x9A) & 0x9FF) | 0xE1000000;
+    *(u8 *)(r + F184_IDX + 0xB) = 0x64;
+    q = r + (n * 0x30 + aB9A02[0] * 0x18);
+    q[0xA] = arg0;
+    q[0x9] = arg0;
+    q[0x8] = arg0;
+    *(s16 *)(r + F184_IDX + 0xC) = -0x118;
+    *(s16 *)(r + F184_IDX + 0xE) = 0x10;
+    *(u8 *)(r + F184_IDX + 0x10) = 0;
+    *(u8 *)(r + F184_IDX + 0x11) = 0;
+    *(u16 *)(r + F184_IDX + 0x12) = ((n << 4) & 0x3F) | 0x7880;
+    *(s16 *)(r + F184_IDX + 0x14) = 0x100;
+    *(s16 *)(r + F184_IDX + 0x16) = 0xE0;
+
+    *(u32 *)(r + F184_IDX) = (*(u32 *)(r + F184_IDX) & 0xFF000000) |
+                        (*(u32 *)(ob + (aB9A02[0] << 14)) & mLO);
+
+    ot2 = (u32 *)(ob + (aB9A02[0] << 14));
+    *ot2 = (*ot2 & 0xFF000000) | ((n * 0x30 + (aB9A02[0] * 0x18 + (u32)r)) & mLO);
+}
+
+#undef F184_IDX
+
 
 
 

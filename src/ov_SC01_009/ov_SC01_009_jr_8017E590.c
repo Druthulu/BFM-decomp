@@ -4063,7 +4063,193 @@ s32 func_8017FED8(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_009/nonmatchings/ov_SC01_009_jr_8017E590", func_8017FFD0);
+#include "common.h"
+
+/* func_8017FFD0 — ov_SC01_009 / ov_SC01_009_jr_8017E590, 261 ins, frame 0x38.
+ * NOT the ov_SC03_108 function of the same name (overlays share VRAM; §238 homonym trap —
+ * the earlier gate_lane batch for THIS binary carried the SC03_108 state-machine body, which is
+ * why it failed).  Body recovered from .run/pool_1/opus (S71 attempt 1) and re-verified here:
+ * match_one MATCH 261/261; 90-symbol relocation order identical to the .s (law 1c); spliced into
+ * a copy of the destination TU it compiles clean at offset 0x1A40 / 0x414 bytes with 0 masked
+ * mismatches and identical relocations.  Two law-2 points: func_80143994 is declared `void` by the
+ * neighbour func_8017FA14, so its value is taken through a cast function pointer exactly as that
+ * neighbour does for func_8012C1B8; D_801EDA4C is stored before D_801EDA6C so the D_801F32E0 /
+ * D_801F32DC loads come out in the target's symbol order (match_one's mask cannot see this). */
+s32 func_8017FFD0(s32 param_1)
+{
+    extern u8 D_801ED4B4[];
+    extern s32 D_801ED4E4[];
+    extern void func_8012CAE4(void *a0);
+    extern s32 func_8012C1B8(void);
+    extern void func_8001C214(s32 a0, s32 a1);
+    extern void func_8012A828(s32 a0, void *a1);
+    extern void func_8001C1E4(void *a0, s32 a1);
+    /* law 2: the TU (func_8017FA14) declares this void; it returns a value here, so go
+     * through a cast function pointer exactly as that neighbour does for func_8012C1B8. */
+    extern void func_80143994(s32 a0, s32 a1);
+    extern void func_80181724(s32 a0, s32 a1);
+    extern s32 func_800291B4(s32 arg);
+    extern void func_8001C2C4(s32 a0);
+    extern s32 func_8018057C(s32 a0);
+    extern void MoveImage(void *a0, s32 a1, s32 a2);
+    extern u8 D_801ECCDC[];
+    extern u8 D_801EB39C[];
+    extern u8 D_801ED25C[];
+    extern u8 D_801ED34C[];
+    extern void (*D_80182CA4[])(void *);
+    extern s16 D_801EE880;
+    extern s16 D_801EE8D8;
+    extern s32 D_801EED54[];
+    extern s32 D_801ED5EC[];
+    extern s32 D_801ED5F0[];
+    extern s32 D_801ED7F0[];
+    extern s32 D_801EDAA8;
+    extern u16 D_801EE740[];
+    extern u8 D_80183A40[];
+    extern void (*D_8018670C[])(void *);
+    extern u8 *D_801ED8D8;
+    extern u16 D_801F32D0;
+    extern u16 D_801F32D4;
+    extern s32 D_801F32DC;
+    extern s32 D_801F32E0;
+    extern s32 D_801F32E4;
+    extern s32 *D_801F32E8;
+    extern s32 D_801EDA4C;
+    extern s32 D_801EDA6C;
+
+    register s32 ret __asm__("$2");
+    s32 ptr;
+    s32 i70a;
+    s32 i70b;
+    s32 tmp1;
+    s32 tmp2;
+    s16 t;
+    u16 *q;
+    u16 buf[6];
+
+    if (D_801ED4E4[D_801ED4B4[*(s16 *)(param_1 + 0x70)]] == 0) {
+        func_8012CAE4((void *)param_1);
+        return ret;
+    }
+    ptr = func_8012C1B8();
+    *(s32 *)(param_1 + 0x20) = ptr;
+    if (ptr == 0) {
+        return ret;
+    }
+
+    if (*(s16 *)(param_1 + 0x70) >= 0x28) {
+        func_8001C214(ptr, D_801ED4E4[*(s16 *)(param_1 + 0x70)]);
+        if (*(s16 *)(param_1 + 0x70) == 0x28) {
+            func_8012A828(param_1, D_801ECCDC);
+            *(s32 *)(param_1 + 0xCC) = (s32)&D_801EE880;
+            *(s32 *)(param_1 + 0xD8) = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x3000);
+            ret = 7;
+            goto STORE;
+        }
+        if (*(s16 *)(param_1 + 0x70) == 0x29) {
+            D_801F32D4 = 0;
+            func_8012A828(param_1, D_801EB39C);
+            *(s32 *)(param_1 + 0xCC) = (s32)&D_801EE8D8;
+            *(s32 *)(param_1 + 0xD8) = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x3000);
+            ret = 0xA;
+            goto STORE;
+        }
+        if (*(s16 *)(param_1 + 0x70) == 0x2A) {
+            func_8001C1E4((void *)*(s32 *)(param_1 + 0x20),
+                          *(s32 *)(*(s32 *)(param_1 + 0x64) + 0x20));
+            func_8012A828(param_1, D_80182CA4);
+            *(s32 *)(*(s32 *)(param_1 + 0x20) + 4) = 0x80000000;
+            __asm__ volatile("");
+            ret = 0x16;
+            goto STORE;
+        }
+        __asm__ volatile("");
+        if (*(s16 *)(param_1 + 0x70) == 0x2B) {
+            func_8012A828(param_1, D_801ED25C);
+            *(s32 *)(param_1 + 0xCC) = D_801EED54[*(s16 *)(param_1 + 0xFC)];
+            *(s32 *)(param_1 + 0xD8) = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x2000);
+            ret = 0x19;
+            goto STORE;
+        }
+        __asm__ volatile("");
+        if (*(s16 *)(param_1 + 0x70) == 0x2C) {
+            func_8012A828(param_1, &D_80182CA4[0]);
+            *(s32 *)(param_1 + 0x1C) = 0x5A;
+            *(s32 *)(param_1 + 0xD8) = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x1800);
+            ret = 0x1C;
+            goto STORE;
+        }
+        __asm__ volatile("");
+        if (*(s16 *)(param_1 + 0x70) == 0x2D) {
+            func_8012A828(param_1, D_801ED34C);
+            *(s32 *)(param_1 + 0x1C) = 0x58;
+            ret = 0x1D;
+            goto STORE;
+        }
+    }
+
+    i70a = *(s16 *)(param_1 + 0x70);
+    __asm__ volatile("" ::: "memory");
+    i70b = *(s16 *)(param_1 + 0x70);
+    D_801F32D0 = 0;
+    {
+        u16 idx = D_801ED4B4[i70a];
+        *(u16 *)(param_1 + 0x10A) = idx;
+        /* §137/§158 allocno-priority lever, from the cc1 -dl dump of this block:
+         * the six pseudos here form a CONFLICT PATH idx-reload-(idx<<3)-(r<<3)-tmp1-tmp2,
+         * so first-fit local-alloc 2-colours it and the ONLY question is which class takes
+         * $v0.  All of {162,165,169,77,78} tied at pri 6666 (refs 2 / len 3), so the tie fell
+         * to qty number and the reload won -> whole path inverted ($v0<->$v1, 11 insns off).
+         * idx (reg 156) sat at 6000 (refs 3 / len 5).  Folding an "r"(idx) input INTO the
+         * existing memory barrier adds one ref for ZERO emitted bytes -> pri 16000, so idx is
+         * allocated first, takes $v0, and the rest of the path falls out as the target.
+         * It must be MERGED into the barrier, not a second asm: a separate
+         * __asm__ volatile("" : : "r"(idx)) adds an insn to the sched1 stream and stays at 11.
+         */
+        __asm__ volatile("" : : "r"(idx) : "memory");
+        tmp1 = D_801ED5F0[idx * 2];
+        tmp2 = D_801ED5EC[*(s16 *)(param_1 + 0x10A) * 2];
+    }
+    D_801F32DC = tmp1;
+    D_801F32E0 = tmp2;
+    *(u16 *)(param_1 + 0x108) =
+        (func_800291B4(D_80183A40[i70b]) & 0xFF) - 1;
+    func_8001C2C4(*(s32 *)(param_1 + 0x20));
+    if (*(s16 *)(param_1 + 0x108) == 0) {
+        D_801ED8D8 = (u8 *)D_8018670C;
+        func_80181724(*(s16 *)(param_1 + 0x70), 2);
+        *(u16 *)(param_1 + 0x108) = 1;
+        t = *(s16 *)(param_1 + 0x70);
+        if ((t == 9) || (t == 0x1B) || (t == 0x21)) {
+            D_801F32D0 = 1;
+        }
+    }
+    D_801F32E4 = D_801ED7F0[*(s16 *)(param_1 + 0x10A)];
+    D_801F32E8 = &D_801EDAA8;
+    if (D_801F32E4 == 0) {
+        D_801F32E4 = func_8018057C(param_1);
+    }
+    D_801EDA4C = D_801F32E0;
+    D_801EDA6C = D_801F32DC;
+    D_801F32E8[1] = D_801F32E4;
+    q = &D_801EE740[*(s16 *)(param_1 + 0x10A) * 4];
+    buf[0] = *q++;
+    buf[1] = *q++;
+    buf[2] = 8;
+    buf[3] = 0x28;
+    MoveImage(buf, 0x1C0, 0x1B8);
+    buf[0] = *q++;
+    buf[1] = *q++;
+    buf[2] = 0x10;
+    buf[3] = 1;
+    MoveImage(buf, 0x160, 0x1D0);
+    ret = *(u16 *)(param_1 + 2) + 1;
+
+STORE:
+    *(u16 *)(param_1 + 2) = ret;
+    return ret;
+}
+
 
 
 void func_801803E4(s32 param_1) {
