@@ -5015,3 +5015,60 @@ the next defect arrives via a wave, where it is now instrumented.
   without measuring (52s of a 30-min run), then parallelised the *gcc probes* on the strength of a
   docstring when the collection pass was the cost. A ProcessPool over collection was tried and
   REVERTED — 12 TUs yield 32,352 statements, so the full pass ships ~11M strings through IPC.
+
+## 🛑 SESSION CHECKPOINT — S70 FINAL-3 (2026-09-01, true session close). SUPERSEDES S70 FINAL-2 and every earlier block. Phase 31 T5 CONTINUES.
+
+**STATE:** tree clean, no lanes running, **44 banked**. **R22 GREEN — `check-all: 213 passed, 0 failed
+of 213` from a clean rebuild at 20:40:53** (the fourth green of the session, and the one that matters:
+it verifies the §332b BUILD-PATH change across the whole fleet, not just main). `make tools-health`
+**333s, rc=0, all green** — it had never once completed before today. Drew pushes (R6).
+
+**CANONICAL PROGRESS** (`make -s report | grep -E "^(REAL / matchable|FLEET|MAIN game)"`):
+```
+REAL / matchable          :    853 / 1,919        = 44.45%   (S69: 850 -> +3, the §332b island)
+FLEET instr-weighted      : 13,447,959 / 13,523,865 = 99.4%   (S69: 13,445,268 -> +2,691 ins)
+FLEET distinct-code(uniq) :  5,777,433 / 5,851,972  = 98.7%
+REAL FRONTIER (libs excluded): 355 -> 311  = main game-code 64 + non-main 247
+```
+**44 banked, reconciled against `corpus.stubs`:** `15 ov_SC06_011` + `3 ov_SC06_029` + `3 pgate` +
+`20 twin remaps` + `3 §332b reorder island` = 44. (main's game-code count moved 67 -> 64.)
+
+## WHAT S70 SHIPPED
+* **44 banks**, 35 of them in `ov_SC06_011` across two independent lanes -> **draw waves PER-BINARY,
+  not fleet-wide**; the remaining work is clustered, not uniform.
+* **§332b reorder island** (`tools/reorder_passthrough.py` + `REORDER_TUS` per-TU switch): a
+  per-OBJECT assembler MODE that had been read as a permanent compiler wall. Byte-inert
+  (main BYTE-IDENTICAL), **3 of 6 walls banked**, the other 3 now DIFF/PLUMBING — ordinary work.
+  `oracle_reorder.py` retires once those clear.
+* **`make tools-health` made runnable**: `audit-cdecl` was a full-corpus regression test in a health
+  target (every declaration in 4,168 TUs -> real gcc; ~787s of pure-Python collection BEFORE the
+  first cc1 call). Sampled by default (61s); `audit-cdecl-full` keeps the exhaustive form.
+  `sig-overlays`/`sig-modules` parallelised (52s -> 3.9s, 141/141 byte-identical).
+* **Five tool defects, four fixed**: `parallel_gate` gating nothing at rc=0 (§402) · both
+  undo-journals corrupting on duplicate decls (§403) · `gater_lane` ledgering unexamined drafts ·
+  `cdecl._gcc_probe`'s fixed probe filename (a latent race, fixed before it could fire) · and
+  `harvest_verify`'s uncommitted-bank trap (documented, R42).
+* **`tools/work_evidence.py`** — the behavioural guard tools-health never had: `assert_inputs` /
+  `assert_floor` / `assert_effect`, negative-controlled 11/11 both directions, wired into
+  `parallel_gate` (BLIND SUSPECT), `gate_stage` (loud `refused`) and tools-health.
+
+## START HERE NEXT SESSION
+1. **CARVE ISOLATION ROUTE (§322b)** — the biggest remaining lever: 18 `overlay_src_split` defects
+   (<=30 lines each), ~50 ov_ functions, **21 of them 0-token twins**. It now ALSO owns
+   `main/func_8002B0B4` (CARVE-REFUSED) and probably the 3 remaining §332b walls' PLUMBING pair.
+2. **The 44 remaining free twins** (`twin_rescan`: 311 scanned, 44 with a banked twin at d<=5).
+   Yield measured this session: **20 of 52 (38%)**, far above §398's ~15% — worth repeating.
+3. **A WAVE, drawn PER-BINARY** — `ov_SC06_011`'s tail is nearly exhausted; find the next cluster
+   the same way (twin density + open-stub count per binary) rather than drawing fleet-wide.
+4. **The residual-rule build** — gate cleared (123 UNKNOWN of 233 real near rows; 57% of the
+   cleanest band), fuel in `.run/S70_sigs.txt`, label source 16,301 banked / 12,383 with drafts.
+5. Randomise `audit-cdecl`'s sample (it takes the FIRST 60 TUs, so the smoke run always tests the
+   same files).
+
+## THE THROUGH-LINE
+**Five tools reported success while doing nothing or doing harm; four of my own probe instruments
+returned plausible wrong numbers; and I made three unmeasured causal claims** (the pgate blast radius,
+the sig targets, the gcc probes) — **every one refuted by a measurement I could have taken first.**
+Nothing here was found by reading code. What found them: a case whose answer was already known, an
+arithmetic reconciliation that refused to close, and an impossible wall-clock. That is now partly
+mechanised in `work_evidence`, which is the session's most durable output.
