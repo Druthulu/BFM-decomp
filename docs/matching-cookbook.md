@@ -34104,11 +34104,19 @@ for the whole project until 19 typedefs moved into a header, at which point a by
 (`func_80031988`) failed to compile for that reason only. **If your substituter strips duplicate
 typedefs, it must read the destination's includes.**
 
-**AND ONE OPERATIONAL RULE, PAID FOR TWICE.** `gate_main`'s first action is
-`git checkout -- src/*.c`. **An uncommitted declaration edit is silently discarded and the gate then
-judges your drafts against the OLD declarations** — the failure looks exactly like a real conflict.
-Prove the alignment byte-neutral with no draft substituted, COMMIT it, then gate. (R42's shape, seen
-from the tool's side rather than the user's.)
+**AND ONE OPERATIONAL RULE, PAID FOR THREE TIMES IN ONE SESSION.** `gate_main`'s first action is
+`git checkout -- src/*.c`, so **anything uncommitted in `src/` is destroyed by the NEXT gate**:
+
+* an uncommitted **declaration edit** is discarded and the gate then judges your drafts against the
+  OLD declarations — the failure looks exactly like a real conflict;
+* an uncommitted **BANK** is simply gone. Measured here: `gate_main` reported *"BANKED 2 of 3"*,
+  I left the two in the tree, ran one more gate, and its opening `git checkout` reverted both. The
+  following commit captured only the third. **I reported 14 banks; the source said 12.**
+
+So R42 is not "commit at a good stopping point" — it is **commit before the next command that can
+touch `src/`**, and the gate is such a command. And count banks from the SOURCE (the `INCLUDE_ASM`
+stub's absence), never from the tool's own report or your memory of it: that is the only oracle that
+caught this, and the project already mandates it for exactly this reason.
 
 **The payoff, measured:** the carve + split banked **14 main functions** in one session, including
 **10 of the 11** the previous session had recorded as "PROVEN gate-rejects".
