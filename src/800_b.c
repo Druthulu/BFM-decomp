@@ -1766,7 +1766,61 @@ void func_8002EEB8(void) {
     func_80036EE8();
 }
 
-INCLUDE_ASM("asm/nonmatchings/800_b", func_8002EED8);
+extern u8 D_8006451C[];
+extern s8 D_800A4F17;
+
+extern s32 func_8002F4E4(u8 *);
+extern void func_80033398(u32);
+extern void func_800346D0(s32);
+extern void func_8002F714(s32, s32);
+
+void func_8002EED8(s32 a0)
+{
+    u8 *rec;
+    s16 ret;
+    u8 old;
+
+    if ((s16)a0 < 0x100) {
+        return;
+    }
+
+    rec = &D_8006451C[(s16)a0 * 4];
+    if ((*rec & 0x7F) == 6) {
+        ret = func_8002F4E4(rec);
+        if (ret == 0) {
+            return;
+        }
+        rec = &D_8006451C[ret * 4];
+    }
+
+    old = *(u8 *)&D_800A4F17;
+    *(u8 *)&D_800A4F17 = 1;
+
+    switch (*rec & 0x3F) {
+    case 5:
+        func_800346D0(a0);
+        break;
+    case 1:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 18:
+        func_80033398(a0);
+        break;
+    case 17:
+        func_8002F714(rec[3], 0x1000);
+        break;
+    }
+
+    *(u8 *)&D_800A4F17 = old;
+}
 
 
 extern void func_80034844(void);
@@ -1946,7 +2000,102 @@ void func_8002F1CC(s32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800_b", func_8002F248);
+
+void func_8002F248(s32 arg0, s32 arg1) {
+    extern s32 D_800A4EEC;
+    extern u8 D_8006A9F8[];
+    extern u8 D_800A4694[];
+    extern void func_8002DC68(s32 a0, s32 a1);
+    extern s32 func_800331D4(s32);
+    s32 i;
+    s32 idx;
+    F1ccRec *rec;
+    F1ccSlot *slots;
+
+    switch (*(u8 *)(arg0 + 3)) {
+    case 0:
+        D_800A4EEC = D_800A4EEC * 0x41C64E6D + 0x3039;
+        switch (((u32)D_800A4EEC >> 16) & 0x7) {
+        case 0:
+        case 3:
+            func_8002DC68(0x67C, 0);
+            break;
+        case 1:
+        case 2:
+            func_8002DC68(0x689, 0);
+            break;
+        case 4:
+        case 5:
+            func_8002DC68(0x67B, 0);
+            break;
+        }
+        break;
+    case 1:
+        func_8002DC68((u16)arg1, 0);
+        break;
+    case 2:
+        idx = func_800331D4(0x95C);
+        if (idx) {
+            rec = (F1ccRec *)D_800A4694 + idx;
+            slots = (F1ccSlot *)(D_800A4694 + 0x2F4);
+            for (i = 0; i < 8; i++) {
+                if (rec->flg[i]) {
+                    slots[i].u30 = 0;
+                    slots[i].u38 = 0;
+                    slots[i].u2C = -0x18;
+                    slots[i].u28 = slots[i].u20 - 0x100;
+                    slots[i].u37 |= 1;
+                }
+            }
+        }
+        break;
+    case 3:
+        idx = func_800331D4(0x95C);
+        if (idx) {
+            rec = (F1ccRec *)D_800A4694 + idx;
+            slots = (F1ccSlot *)(D_800A4694 + 0x2F4);
+            for (i = 0; i < 8; i++) {
+                if (rec->flg[i]) {
+                    slots[i].u30 = 0;
+                    slots[i].u38 = 0;
+                    slots[i].u2C = 0x18;
+                    slots[i].u28 = slots[i].u20 + 0x100;
+                    slots[i].u37 |= 1;
+                }
+            }
+        }
+        break;
+    case 4:
+        D_800A4EEC = D_800A4EEC * 0x41C64E6D + 0x3039;
+        switch (((u32)D_800A4EEC >> 16) & 0x7) {
+        case 0:
+        case 3:
+            func_8002DC68(0xAFD, 0);
+            break;
+        case 1:
+        case 2:
+        case 5:
+            func_8002DC68(0xAFF, 0);
+            break;
+        case 4:
+            func_8002DC68(0xAFE, 0);
+            break;
+        }
+        break;
+    case 5:
+        func_8002DC68(0xB06, 0);
+        func_8002DC68(0xB07, 0);
+        break;
+    case 6:
+        func_8002DC68(0xB06, 0);
+        func_8002DC68(0xC60, 0);
+        break;
+    case 7:
+        D_800A4EEC = D_800A4EEC * 0x41C64E6D + 0x3039;
+        func_8002DC68(*(u16 *)(D_8006A9F8 + (((u32)D_800A4EEC >> 15) & 0x1E)), 0);
+        break;
+    }
+}
 
 
 /* func_8002F4E4 -- 6-level gauntlet lookup into the D_800A4EE8 owner block.
