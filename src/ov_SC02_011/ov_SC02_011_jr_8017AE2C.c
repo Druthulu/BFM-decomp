@@ -8162,7 +8162,130 @@ void func_801826D8(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80182714);
+/* func_80182714 (ov_SC02_011) — MATCH, 189 ins (match_one closeness 0).
+ *
+ * Levers (S71a, fable):
+ *   §209  `mode` and `ang` are 16-BIT locals. The target's `addu $v1,$s3` before the
+ *         mode `beq`s and `addu $v1,$s4` before the 0x800/0xB01/0x210 tests are the
+ *         deferred sign-extension copies of s16 locals; `angle` has ONE set
+ *         (`ratan2() & 0xFFF`), so combine proves the sign bit clear and each
+ *         `sign_extend` collapses to a move. `ang = angle` itself is the HImode
+ *         truncation copy ($s4 = $s0) that plain s32 copies coalesce away — no asm
+ *         tie needed (the earlier draft's "=r"/"0" trick and fence are gone).
+ *   §48-A global-alloc priority: with the copies in place ang and mode both have 5
+ *         refs, and their post-sched1 live lengths tie within one insn (107 vs 108,
+ *         ang first -> ang=$s3, mode=$s4, close=13). Writing `ang = angle;` BEFORE
+ *         the `dist = func_80013294()` call lengthens ang to 109 (zero bytes: sched1
+ *         still parks the copy in the bnez delay slot) so mode allocates first and
+ *         takes $s3, ang/q share $s4, dist $s5 — byte-exact.
+ *   §199-G/§222/§256 (carried from the s67o2 draft): mode dispatch is a `switch`;
+ *         the redundant `ang >= 0x800` re-test reproduces `beqz $a0,.L80182930`.
+ */
+#include "common.h"
+
+void func_80182714(s32 param_1) {
+    typedef struct { s16 x0, x1, x2, x3; } Blk8S16;
+    extern s32 D_801E9DA8;
+    extern s32 D_80126B58;
+    extern s16 D_80195058[];
+    extern s16 D_80126940;
+    extern s16 D_80126942;
+    extern s16 D_80126944;
+    extern u16 func_80148800(s32 *a0);
+    extern s32 ratan2(s32 dx, s32 dy);
+    extern s32 func_80013294(void *a0, void *a1);
+    extern void func_8018B5A8(s32 a0, void *a1, void *a2);
+    extern void func_80182B88(s32 a0, s32 a1, s32 a2, s32 a3);
+
+    u16 buf[8];
+    s16 *base;
+    u16 *p;
+    u16 *q;
+    s32 angle;
+    s16 ang;
+    s16 dist;
+    s16 mode;
+
+    *(Blk8S16 *)&buf[4] = *(Blk8S16 *)&D_801E9DA8;
+    q = &buf[4];
+    mode = 0;
+    if ((func_80148800(&D_80126B58) & 3) != 0) {
+        *(u8 *)(param_1 + 5) = (*(u8 *)(param_1 + 5) + 1) & 1;
+    }
+    *(s32 *)(param_1 + 0x14) = D_80195058[*(u8 *)(param_1 + 5)];
+    base = &D_80126940;
+    angle = ratan2(*base << 16, D_80126944 << 16) & 0xFFF;
+    *(Blk8S16 *)&buf[0] = *(Blk8S16 *)base;
+    p = &buf[0];
+    buf[5] = D_80126942;
+    ang = angle;
+    dist = func_80013294(p, q);
+    if (dist >= 0xA01) {
+        buf[0] = 0;
+        buf[1] = D_80126942;
+        buf[2] = 0xA00;
+        func_8018B5A8(angle, p, p);
+        buf[0] = (s32)(s16)buf[0] >> 3;
+        buf[1] = (s32)(s16)buf[1] >> 3;
+        buf[2] = (s32)(s16)buf[2] >> 3;
+    } else {
+        *(s16 *)(param_1 + 0x20) = 0x1C7;
+        *(s16 *)(param_1 + 0x22) = 0;
+        *(s16 *)(param_1 + 0x24) = 0;
+        *(s16 *)(param_1 + 0x2E) = 0;
+        *(s16 *)(param_1 + 0x30) = 0;
+        *(s16 *)(param_1 + 0x32) = 0;
+    }
+    if (ang >= 0x800) {
+        if (ang >= 0xB01) goto checks;
+        if (ang >= 0x800) goto set1c7;
+    }
+    if (ang >= 0x210) goto set1c7;
+checks:
+    if (dist < 0x3C1) goto set1c7;
+    if (*(s16 *)&buf[1] < -0x2FF) goto set1c7;
+    if (ang < 0xD01) goto arm1;
+    if (dist < 0x500) {
+        *(s16 *)(param_1 + 0x20) = 0x31C;
+        mode = 2;
+        goto after;
+    }
+    mode = 2;
+    *(s16 *)(param_1 + 0x20) = 0x38E;
+    *(s32 *)(param_1 + 0x14) = 0x4B0;
+    goto after;
+arm1:
+    mode = 1;
+    goto after;
+set1c7:
+    *(s16 *)(param_1 + 0x20) = 0x1C7;
+after:
+    if (dist < 0x200) {
+        *(s16 *)(param_1 + 0x20) = 0xE3;
+        *(s16 *)(param_1 + 0x22) = 0;
+        *(s16 *)(param_1 + 0x24) = 0;
+        *(s16 *)(param_1 + 0x2E) = 0;
+        *(s16 *)(param_1 + 0x30) = -0xC0;
+        *(s16 *)(param_1 + 0x32) = 0;
+    }
+    if (dist >= 0x981) {
+        *(s32 *)(param_1 + 0x14) = 0x384;
+    }
+    switch (mode) {
+    case 1:
+        *(s16 *)(param_1 + 0x20) = 0x2AA;
+        *(s32 *)(param_1 + 0x14) = 0x4B0;
+        break;
+    case 2:
+        *(s32 *)(param_1 + 0x14) = 0x4B0;
+        break;
+    }
+    if ((u32)(ang - 0xD01) < 0xFF && (u16)(dist - 0x481) < 0x29F) {
+        *(s16 *)(param_1 + 0x20) = 0x1C7;
+    }
+    func_80182B88(param_1, ang, (s32)&buf[0], (s32)&buf[0]);
+}
+
 
 void func_80182A08(void *a0) {
     extern s32 ratan2(s32 dx, s32 dy);
