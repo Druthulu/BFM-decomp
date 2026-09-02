@@ -6208,3 +6208,41 @@ hardcoded `src/800.c` and saw 133 of 187 typedefs after the split; playbook 1c s
 were NOT drawable; cookbook §426 still listed the split as future work; `config/dedup.us.yaml` and
 `src/shared/clearTbl40.h` both named `src/800.c` for a group now in `src/800_c.c`. **The honest gap:
 that was a grep audit, and nothing gates "every consumer knows main's TU list."**
+
+---
+
+## S72 ADDENDUM 2 — the exclude list is regenerated, and the draw now REFUSES a stale one
+
+**Done, per Drew: regenerate it, and wire the check into the draw as a prerequisite so it is never
+skipped again.**
+
+**`config/wave_exclude.txt` is now THE canonical list — tracked, regenerated, never hand-edited.**
+There had been NINE snapshot copies under gitignored `.run/` with no way to tell which was current;
+that accumulation IS the staleness problem. `CARVE-BLOCKED` entries are derived (`split_indicator`)
+and vanish when the subseg is split; `WALL` entries are curated and cannot be re-derived, which is
+why the file has to be tracked at all.
+
+**`tools/exclude_audit.py` (NEW)** classifies each entry by its CURRENT blocker:
+`BANKED` · `LINKED` · `RE-PROBE` (its blocker has since been fixed) · `CARVE-BLOCKED` · `WALL`,
+and `--write` regenerates keeping only the still-valid classes.
+
+**`draw_waves --exclude-file` runs that audit as a PREREQUISITE and exits non-zero on a stale
+list**, naming the counts and the regenerate command. `--exclude-stale-ok` still draws but prints
+what it ignores — skipping is possible, never silent. Verified in all three directions (stale
+rc=1 · fresh rc=0 · override proceeds and announces).
+
+**What it was hiding.** `.run/S71_exclude.txt`, ONE DAY after it was written:
+
+| class | n | |
+|---|---|---|
+| RE-PROBE | 46 | **12,750 instructions of open, drawable work** — incl. `main:SaveLoadRoutine` (1,165), `func_8003388C` (671), `md_MAIN_011:func_800CF28C` (588), `md_SC07_004:func_801A2400` (541) |
+| BANKED | 28 | dead entries (14 of them banked this session) |
+| LINKED | 14 | PsyQ symbols that were never matching targets |
+| CARVE-BLOCKED | 16 | still real — the 4 overlays `split_indicator` found |
+| WALL | 3 | curated compiler facts, kept |
+
+**88 of 107 entries were wrong.** The regenerated list is **19**.
+
+**Next draw:** `python3 tools/draw_waves.py --prefix .run/<name>_ --waves 1 --per-wave N
+--exclude-file config/wave_exclude.txt --ledger <FRESH>` (the standing ledger holds ~1,700 keys and
+leaves ~1 undrawn target fleet-wide — always draw with a fresh ledger).
