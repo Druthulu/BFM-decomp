@@ -5373,6 +5373,23 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   breadth-shaped, costs no drafting budget, and is the strongest Ultracode candidate on the board
   (R26 prompt raised with Drew).
 
+- 2026-09-02 — **S71 WAVE 1: 50 workflows / 1 agent each / journal-fuelled packs — 100% first-pass
+  MATCH.** Every pack carried a new `PAST ATTEMPTS ON THIS EXACT FUNCTION` section mined per-function
+  from `subagents/workflows/*/journal.jsonl` (52 of 60 drawn targets had prior-agent notes; 131 notes).
+  Of the landed agents, **every one returned MATCH at closeness 0** — no NEAR, no FAIL, no agent error,
+  on the hardest 210-function frontier where every target had already refused an earlier wave. The
+  notes are the lever: agents recovered surviving MATCH bodies from disk instead of re-deriving
+  (`func_80181720`), skipped measured-inert levers, and deleted warm-start pins that were themselves
+  the residual (`func_800D0488`). Gates: 2 banked of 11, then **9 banked of 32 across 7 binaries**
+  (`commit:3591`) — the rest are named TU/carve lanes, not codegen. Cookbook **§409** (the wave + its nine
+  laws) and **§410** (COPY-THEN-ACCUMULATE-ON-THE-COPY, byte-proven, with its refutation list) written
+  in-session; index 1078.
+  **§409 law 1 is the important one:** a draft can sit at `match_one` closeness 0 with its RELOCATION
+  STREAM TRANSPOSED against the target (gcc emits a pair of `sh $v1` stores in reverse source order
+  while the preceding `sh $v0` stores keep it). HI16/LO16 masking hides this from match_one, the
+  permuter scorer and every similarity tier — the §195-D blind spot, for HI16/LO16. It retroactively
+  explains a class of "MATCH but the gate rejected it" verdicts.
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**

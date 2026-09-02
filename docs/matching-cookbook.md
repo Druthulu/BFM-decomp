@@ -33257,3 +33257,128 @@ Every one of the 210 open stubs has at least one stored draft on disk.
 over targets answers "how many functions look like this"; only a mine-vs-target diff answers "how many
 are BROKEN like this", and a sweep's yield is bounded by the second number. The instrument for it is
 one `--json` field we already emitted on every score.
+
+## §409 ★★★ — THE S71 JOURNAL-FUELLED WAVE: 100% FIRST-PASS MATCH, AND THE NINE LAWS IT BROUGHT BACK (P31 S71)
+
+**The wave.** 50 workflows, one agent each, drawn from the 210-function real frontier — the hardest
+functions left, every one of which had already refused at least one earlier wave. Every pack carried a
+new section, **PAST ATTEMPTS ON THIS EXACT FUNCTION**, mined from the historical agent journals
+(`subagents/workflows/*/journal.jsonl`) and appended per function: 52 of 60 drawn targets had at least
+one prior agent's note, 131 notes in all. Result: **every landed agent returned MATCH at closeness 0.**
+No NEARs, no failures, no agent errors.
+
+**Why that number is not a model result.** Read the notes and the mechanism is explicit: agents were
+not solving these functions, they were *skipping the dead ends someone already paid for*.
+
+* `ov_SC05_003/func_80181720` — the pack's warm-start was a FAILED draft; the agent found attempt 3's
+  surviving MATCH body still on disk under `.run/S70x_1/opus` and recovered it instead of re-deriving.
+* `ov_SC01_009/func_80182438` — "the body was never wrong"; **four** prior MATCHes died on declaration
+  SCOPE, which `match_one` cannot see.
+* `resident/func_800D0488` — the unlock was **DELETING** the warm-start's `register s32 n __asm__("$4")`
+  pin, which was itself producing the 4-instruction residual.
+* `ov_SC03_108/func_8016AE5C` — three prior MATCH attempts left the gate cause "undetermined"; this
+  agent found it in the config (below, law 9).
+
+**The lesson for the harness:** a wave's cost is dominated by re-deriving what previous waves already
+learned, and that knowledge was sitting unread in the journals the whole time. Mining is per-function,
+cheap, deterministic, and it belongs in the pack build — not in a someday audit.
+
+---
+
+### The nine laws this wave produced
+
+**1. ★★★ A RELOCATION-STREAM TRANSPOSITION IS INVISIBLE TO EVERY SIMILARITY ORACLE WE HAVE.**
+`ov_SC02_005/func_80180610`: a body at `match_one` closeness **0** whose `objdump -drz` reloc stream was
+TRANSPOSED against the target — `D_80126962` at +0xA4 and `D_8012696A` at +0xAC where the target has 6A
+then 62. gcc-2.7.2 emits that PAIR of `sh $v1` stores in REVERSE source order while the four preceding
+`sh $v0` stores keep source order, so the source must read 62-then-6A to emit 6A-then-62. HI16/LO16
+masking hides this from `match_one`, from the permuter's scorer, and from every similarity tier.
+**Same blind-spot class as §195-D (j/jal), but for HI16/LO16** — and it is a standing explanation for
+historical "MATCH but the gate rejected it" verdicts. Audit with `objdump -drz`, by offset, not by name.
+
+**2. ★★★ A DRAFT'S FILE-SCOPE TYPEDEF CAN COLLIDE WITH ONE DEFINED *LATER* IN THE SAME TU.**
+`ov_SC03_105/func_801829CC` splices in at TU line 5267; `func_801848A4` defines
+`typedef struct {s16 vx,vy,vz,pad;} SVEC_801BA5A8;` at 6220. Two anonymous struct bodies are NEVER
+compatible types, so the second copy is `conflicting types for SVEC_801BA5A8` — which is exactly what
+killed the prior gate. **The fix is BLOCK scope, never a rename** (a rename changes nothing about the
+later definition, and the block-scoped form is codegen-neutral). The §376/§378 chain has no check for
+this direction: it looks for declarations ALREADY ABOVE the insert point.
+
+**3. ★★ gcc-2.7.2 LAYS LOCALS AT INCREASING OFFSETS IN DECLARATION ORDER.**
+`ov_SC03_105/func_80182BD8`: declaring `buf1,buf2,out1,out2,diff` in ascending-address order produced
+sp+0x20/0x40/0x60/0x68/0x70 exactly AND freed `$fp` for the hoisted `%hi/%lo(D_800D3918)`. The prior
+draft's reverse order cost that hoist — the whole +1 LENGTH-DRIFT. Frame layout is a source-order dial.
+
+**4. ★★ DECLARATION SCOPE IS RETROACTIVE: a file-scope extern at your insert point can break a call
+site far BELOW it.** `ov_SC01_009/func_80182438`: file-scope externs at line 3913 broke the
+pre-existing zero-arg call `func_8012C218()` at 3958 (`too few arguments`). Block-scoping the three
+externs took the real-cc1 probe from CC1-FAIL straight to MATCH. Invisible to `match_one` by
+construction, because `match_one` compiles the function alone.
+
+**5. ★★ AN INHERITED `register __asm__` PIN CAN *BE* THE RESIDUAL.** `resident/func_800D0488`: the
+warm-start's `$4` pin forced `move a0,zero` three slots early — the exact 4-instruction
+ADDRESSING/move-vs-sw rotation being chased. Deleting the pin (while KEEPING the §194-A `__asm__("")`
+fence) matched in one iteration. **A warm start is a hypothesis, not a floor** — ablate its levers
+before adding more (this is §17/§47's dual: the pins that win are the ones you ADD deliberately).
+
+**6. ★★ AN `s16` LOCAL COSTS `lhu` PLUS `sll`/`sra` PER COMPARE; AN `s32` LOCAL DOES NOT.**
+`ov_SC01_005/func_8017FBCC`: the +2 drift was the local's declared width, not its uses. When a loaded
+value is only ever compared, widen the LOCAL, not the load.
+
+**7. ★★ §205 CHAINED STORES KILL CSE FOR LATER READS OFF A LAUNDERED POINTER.**
+`ov_SC05_010/func_80183098`: hoist ONLY the fields re-read after a store; hoisting one more
+(`D_80126B66`) stretched its live range and bought `$t0/$t1` instead of `$v0`. Measured v1=16, v2=37,
+v3=0. §153's launder and §205's chaining are in tension — the hoist set is the dial.
+
+**8. ★★ IN gcc-2.7.2 AN OUTER FILE-SCOPE PROTOTYPE BEATS A BLOCK-SCOPE `()` REDECLARATION.**
+`ov_SC01_005/func_8017F9F8`: `extern int func_8001AAA0(void);` at TU:2585 made the direct call error
+`too many arguments` no matter what the draft declared locally. The fix is `engine_core.h`'s cast
+idiom: `((s32(*)(s32))func_8001AAA0)(0x3D)`.
+
+**9. ★★★ THE SAME FUNCTION'S `.rodata` CARVE WIDTH CAN DIFFER BETWEEN OVERLAYS — AND THE NARROW ONE
+IS A GATE FAILURE WITH NO C EXPLANATION.** `ov_SC03_108/func_8016AE5C`: `config/splat.ov_SC03_108.yaml`
+carves `ov_SC03_108_jr_8016AB6C`'s `.rodata` **0x20** wide, while EVERY other overlay carrying this
+function carves **0x40** (SC03_099, SC05_008, SC06_008, SC03_006). The missing 0x20 is this function's
+own jump table, still raw at the head of `asm/ov_SC03_108/data/tail14.data.s`, so the switch emits a
+second copy with nowhere to live. **Cross-overlay carve-width comparison is a diagnosis tool**: when
+one binary refuses a function every sibling banks, diff the yaml, not the C.
+
+**Two more, from the same wave, on the gate rather than the code.** `ov_SC06_022/func_80185B80` is
+§338 carve over-span: `jtbl_carve._sltiu_bounds` still ingests case 0's `sltiu 0x801`, so the
+`len(bounds)==1` clamp is skipped and 7 words are carved where the `sltiu 0x6` says 6. And
+`md_MAIN_003/func_800D0C50` is an -O0 function that is the LAST of an -O2 subseg, with the `_o0c`
+object starting at exactly the next address — bankable only by moving the yaml boundary
+`0x1f74 -> 0x1e58`, not by any edit a drafter is allowed to make.
+
+## §410 ★★★ — COPY THEN ACCUMULATE ON THE COPY: resolving the birthing-boost vs register-allocation dilemma (P31 S71; byte-proven `ov_SC04_015/func_8017EB78`, 98 ins)
+
+**The dilemma, stated exactly.** A value `u` must (a) end up in `$s2` as the destination of an
+`addu $s2,$s2,$v0` — which wants an IN-PLACE `u += w` — and (b) keep its sched1 LAUNCH boost, which
+requires `u`'s pseudo to have exactly ONE set (`birthing_insn_p`). Those are incompatible:
+
+* `u += s[0x14];` — right register, but a SECOND set on `u` kills the boost and hoists the
+  `andi`/`sll` four slots early (+6 SCHEDULE).
+* `t = u + s[0x14];` — right schedule, but `t` allocates `$v0`, not `$s2`.
+
+**The lever: introduce a copy and accumulate on the COPY.**
+
+```c
+u2 = u;                 /* u keeps ONE set -> birthing boost intact, sll stays at idx 29 */
+u2 += s[0x14];          /* u2 is an in-place RMW pseudo ... */
+p[0x24] = u2;           /* ... which local-alloc coalesces onto $s2 THROUGH THE DYING COPY */
+```
+
+`u` stays single-set so the scheduler still treats it as birthing; `u2` is a read-modify-write pseudo
+whose live range starts at a copy that dies immediately, and local-alloc coalesces it onto `$s2`.
+Both constraints satisfied by one extra statement. This is the **inverse of §350**: there the fix was
+to remove a copy, here it is to add one.
+
+**Its companion — the commutative-operand order dial.** A direct `p[0x14] = u + s[0x14];` emits the
+`plus` with the operands the wrong way round. A named temp fixes it: `tA = u + s[0x14]; p[0x14] = tA;`
+gives `plus(u, load)` rather than `plus(load, u)`.
+
+**MEASURED INERT on this function — do not re-try them** (the value of a refutation list, §406's
+lesson applied): register pins on `$18`/`$s2` (they force `$s4` live, +2 drift) · statement reorder of
+`u = …` (§3-T2 / §49 LUID — `sll` priority is scheduler-internal, §307) · every `__asm__("")` fence
+placement · folding `u` into `X`. Frame came out at 0x50 via `s32 pad[10]` (§164-53), and the
+two-`u8`-copy locals were read off the TU neighbour `func_8017E830` (§194-E).
