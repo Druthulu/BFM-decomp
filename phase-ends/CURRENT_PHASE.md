@@ -5146,3 +5146,35 @@ mechanised in `work_evidence`, which is the session's most durable output.
   same answer, and a fourth adds nothing until `jtbl_carve` can take a mixed-data island (or the class
   is declared genuinely unbankable, which is also a legitimate outcome and would retire 18 rows from
   the frontier ledger).
+
+- **S70-T14 — BLOCKER 3 FIXED: THE §322b CARVE ROUTE IS OPEN. +3 banks, frontier 311 -> 308 (47 this session).**
+  The terminal refusal — *"a tail carve cannot help … the carve model covers jump tables only, not an
+  island of mixed included data"* — reads as a permanent toolchain wall and is a **ROUTING error**,
+  the same shape as blockers 1 and 2. `migrated_tables()` flags a function whose table is actually in
+  the **DATA TAIL**, so the §154-A island branch refuses the whole batch — while `island_probe`
+  classifies that same function **`'tail'`** and its own detail says *"standard §8a carve at gate
+  time"*. The probe **already names the owning lane for every kind** (R43); the refusal path simply
+  never consulted it. Fix: consult the probe first, let a `'tail'` function fall through to
+  `build_carve`.
+  **Byte-proven immediately on the function three full gate passes had booked CARVE-REFUSED:**
+  `ov_SC02_000/func_8017F950` -> `[jtbl] carved func_8017F950`, `verified 1 / failed 0`,
+  BYTE-IDENTICAL, `corpus.stubs` confirms the bank. **And no config change was needed** — its carve
+  was already committed and merely PENDING an owner (the exact class found while fixing blocker 1),
+  so banking the function completed the 1:1 ownership the assertion wanted. **The two fixes met in
+  the middle.** A re-gate of the full set then banked 2 more (`ov_SC02_003`, `ov_SC06_011`).
+
+  **ALL THREE §322b BLOCKERS, CLEARED IN ONE SESSION — and all three were the same defect class:**
+  ```
+  1. jr_inventory ownership   an oracle blind to the _jr_ subseg NAME + pending carves   FIXED
+  2. §323 file-local type     2 binaries (ov_SC02_017, ov_SC03_029)                      OPEN
+  3. jtbl_carve island/tail   a routing error wearing a toolchain wall's clothes          FIXED
+  ```
+  **None was a real wall. Each was a tool describing its own confusion in the language of a limit** —
+  §401's law ("a probe that does not model the gate's carve is optimistic") generalised: *a refusal
+  names the branch you entered, not the function you asked about.*
+  **Remaining after the route opened** (verdict census over the pgate classified files): DIFF 15 ·
+  CARVE-REFUSED 12 · CC1-FAIL(no-diagnostic) 8 · PLUMBING 2. The 12 residual CARVE-REFUSED are
+  expected to be the §260 **island STACK** (`island-blocked`: peel the end-adjacent owner first and
+  the next member becomes `island-end`) — that is the next carve lever, and it is ORDER-dependent,
+  not a wall. **The 8 `CC1-FAIL(no-diagnostic)` carry the documented BLIND-WORKTREE signature and
+  should be re-run IN-TREE before being believed** (gater_lane's own comment; R40).
