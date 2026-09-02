@@ -6067,3 +6067,105 @@ exactly ONE cc1 jump table**, so no already-matched function's table is at risk.
   symbol count) is a LAYOUT signature, never N independent codegen walls.
 * My own throwaway probe script `git checkout`-ed a byte-proven bank (R42, self-inflicted, recovered
   in 25 s). A helper script is not exempt from R42.
+
+---
+
+## 🛑 SESSION CHECKPOINT — S72 FINAL (2026-09-02). SUPERSEDES every earlier block in this file, including the S72 progress log above. Phase 31 T10 CONTINUES.
+
+**FLEET VERIFIED GREEN FROM A CLEAN REBUILD — `check-all: 213 passed, 0 failed of 213`**
+(`.run/S72_r22c.log`, run AFTER the last bank; 0 `[FAIL]` lines). `gate_main --assert-baseline`
+BYTE-IDENTICAL. Tree clean apart from regenerated `docs/progress*.md` and `ghidra/` MCP noise
+(never stage it). No lanes live. Drew pushes (R6).
+
+```
+REAL / matchable          :   866 / 1,913      = 45.27%   [session start 853/1,914 = 44.57%]
+FLEET instr-weighted      : 13,469,175 / 13,523,865 = 99.6%
+MAIN game-code weighted   :    41,827 / 79,510     = 52.6%   [was 50.2% — +1,936 instructions]
+REAL FRONTIER             : 133  (main 45 + non-main 88)     [was 147: main 59 + non-main 88]
+main frontier instructions: 11,171
+```
+
+# 1. WHAT THIS SESSION WAS
+
+S71 recorded 11 main functions as **"PROVEN gate-rejects — §376 in its purest form — do not
+re-slate."** None was a body reject. All 11 are switch functions, and main had carried exactly ONE
+`.rodata` carve since **Phase 7**, so a drafted switch DOUBLE-EMITS its jump table. **14 main
+functions banked**, including **10 of the 11**.
+
+# 2. THE TWO STRUCTURAL CHANGES (both landed byte-identical BEFORE anything banked)
+
+**a. The carve extended** to the contiguous game-jtbl span `0x80072A38-0x80072C70`.
+**b. `src/800.c` SPLIT into three TUs** at `0x8002B0B4` / `0x80035270`, so spans B and C each own a
+code object (one object contributes exactly ONE contiguous `.rodata` run):
+
+```
+800    vram 0x800123F0-0x8002B0B4 -> .rodata span A 0x80072A38-0x80072C70
+800_b  vram 0x8002B0B4-0x80035270 -> .rodata span B 0x80072E44-0x80073140
+800_c  vram 0x80035270-0x8003A444 -> .rodata span C 0x800732A0-0x8007344C
+src/800_shared.h — the 19 typedefs + 2 includes that cross (of 1,247 declared names, 57 cross)
+```
+main's island is a **7-piece** sandwich now: `ld_interleave --order`, not `--front/--tail`.
+Cookbook **§426** (the carve) and **§431** (the split method). Accelerators **#20** records that the
+evidence for this was in `commit:0025` on **2026-06-15** and that a split costs a yaml edit at 0%
+matched versus a declaration refactor at 94%.
+
+# 3. BANKED (14, all verified from the SOURCE, not from a tool's report)
+
+span A: `func_8001A114` `func_8001AAD0` `func_8001AF34` `CdReadStateMachine`(385) `func_80024448`(362)
+`func_80026D64`(189) `func_8001B0D4`(86) · span B: `func_8002EED8` `func_8002F248` `func_80031988` ·
+span C: `func_8003602C` `func_80036260` `func_80038FFC` `func_80039C70`.
+**7 of the 14 were span B/C — impossible before the split.**
+
+# 4. START HERE NEXT SESSION — 11 FUNCTIONS, 4,479 INSTRUCTIONS, ALL NOW DRAWABLE
+
+Every one sits in a CARVED span. They need only DRAFTING; the pipeline can bank them today.
+
+```
+1165  SaveLoadRoutine        span B     216  func_8002DC68          span B
+ 671  func_8003388C          span B     187  func_800359B0          span C
+ 484  func_80035270          span C     176  func_800316F8          span B  <- see below
+ 477  StreamLoadStateMachine span C      76  func_8002B0B4          span B
+ 442  CdReadSectorReadyCB    span A     331  func_8002E138          span B
+ 254  func_80035C4C          span C
+```
+* `func_800316F8` is a **TABLE REJECT**, the only one of the eleven left: its `.text` is
+  BYTE-IDENTICAL and all 18 wrong bytes are its own jump table (§405-A). Fix the case VALUES/ORDER
+  against `jtbl_800730C4`'s entry order; do NOT respell the body, do NOT run the §376 chain. Its
+  draft and this note are already pack fuel.
+* `CdReadSectorReadyCB` NEAR 422/424, draft at `.run/S72m_1/opus/CdReadSectorReadyCB.c`, three
+  residual clusters recorded as pack fuel (one measured unsteerable → permuter).
+* **Fable is EXHAUSTED account-wide** — three agents died on "You've reached your Fable limit" after
+  ~10 min / ~133k tokens each. Opus covered 397- and 442-ins targets fine. `/usage-credits` before
+  routing anything to Fable.
+
+# 5. TOOLING CHANGED THIS SESSION
+
+* **`tools/main_diff_locate.py` (NEW)** — a red main image → NAMED divergent symbols, per byte, via
+  the linker map. Four verdicts: **BODY / TABLE (§405-A) / PLUMBING (§376) / MIXED**. `--self-test`
+  is the negative control. `gate_main` preserves the red image + map to `.run/gate_main_fail/`
+  **before** the R40 baseline control rebuilds over them, then classifies.
+* **`gate_main`** — `-j` on the build; header-provided typedefs now visible to the typedef stripper
+  (`header_defs`); struct-tag false conflict fixed (R39 control: 452 drafts / 54 binaries, 0 new
+  refusals, 1 removed); drops written to `.run/gate_main_dropped.json` with the recovery chain.
+* **`jtbl_rodata_pads --derive` serves main** (one `_file0_vram` expression); armed in the Makefile.
+* **`journal_notes`** — was idempotent by SKIPPING, so a pack with one old note could never receive a
+  newer one. Now idempotent by replacement.
+* **`reconcile_slate`** — hardcoded `src/800.c`, saw 133 of 187 typedefs after the split; now globs
+  `corpus.src_files('main')`.
+* **Cookbook 1,100 → 1,106:** §426 §427 §428 §428a §429 §430 §431. Playbook **1c** + **5b**.
+
+# 6. HAZARDS PROVED THIS SESSION
+
+* **`gate_main`'s first action is `git checkout -- src/*.c`, so ANYTHING uncommitted in `src/` dies
+  at the next gate — banks included.** I lost two byte-proven banks this way and reported 14 when
+  the source said 12. **R42 is "commit before the next command that can touch `src/`", not "commit
+  at a good stopping point."** Count banks from the SOURCE (absent `INCLUDE_ASM`), never from a
+  tool's report or your own memory — that is the only oracle that caught it.
+* **A verdict from a bespoke harness is a verdict about that harness.** The 11 were judged by a
+  one-off script that skipped the real gate's pre-check, which names 6 of them in ~2 seconds.
+* **A failing gate must save its artifact BEFORE any control rebuilds over it.**
+* **A uniform failure shape across independent drafts** (same delta, same first-moved symbol, same
+  symbol count) is a LAYOUT signature, never N independent codegen walls.
+* **A real measurement of the wrong quantity is worse than no measurement.** I costed the split from
+  "2,318 externs" (the total) when what matters is how many CROSS a boundary (57). It nearly
+  deferred 39% of main.
