@@ -4970,7 +4970,55 @@ void func_8017FBD0(s32 s0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017FCA8);
+void func_8017FCA8(s32 a0)
+{
+    typedef struct { s16 m0, m1, m2, m3; } PosFCA8;
+    extern s16 D_80126940[4];
+    extern s32 func_8012E544(s32 a0);
+    extern void func_80015978(s32 a0, s32 *a1);
+    extern s32 func_80013294(void *a0, void *a1);
+    extern s32 ratan2(s32 dx, s32 dy);
+    extern void func_80181394();
+
+    PosFCA8 cur;
+    PosFCA8 target;
+    s32 ret;
+    s32 dist;
+    s16 clamped;
+    register s16 va __asm__("$6");
+    register s16 vb __asm__("$5");
+    register s32 sc __asm__("$2");
+
+    cur = *(PosFCA8 *) D_80126940;
+    ret = func_8012E544(0x306);
+    if (ret != 0) {
+        func_80015978(ret + 4, (s32 *) &target);
+        if (cur.m1 > -0x200) {
+            cur.m1 = -0x200;
+        }
+        func_80015978(ret + 4, (s32 *) &target);
+        target.m1 = cur.m1;
+        dist = func_80013294(&cur, &target) - 0x100;
+        clamped = dist;
+        if (clamped < 0) {
+            clamped = 0;
+        }
+        if (clamped > 0x300) {
+            clamped = 0x300;
+        }
+        va = ((clamped * 512) / 0x300) + 0x38;
+        *(s16 *) (a0 + 0x20) = va;
+        vb = ((clamped * 111) / 0x300) - 0x70;
+        *(s16 *) (a0 + 0x30) = vb;
+        sc = ((clamped * 800) / 0x300) + 0x190;
+        *(s32 *) (a0 + 0x14) = (s16) sc;
+    } else {
+        target = *(PosFCA8 *) D_80126940;
+    }
+
+    func_80181394(a0, &cur, ratan2(cur.m0 - target.m0, cur.m2 - target.m2) & 0xfff);
+}
+
 
 extern s32 func_80029504(void);
 extern void func_8017FEC4(s32 a0);
