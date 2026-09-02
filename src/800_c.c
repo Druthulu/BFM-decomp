@@ -131,7 +131,91 @@ void func_8003621C(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800_c", func_80036260);
+extern void func_80037334(void);
+extern void func_800434BC(void);
+extern void func_800435B4(void *);
+extern int  func_800435CC(s32, void *, void *);
+extern s32 func_8004355C(s32 mode, u8 *result);   /* §376: adopt the TU's spelling verbatim */
+extern void func_800415A8(s32);
+
+extern u8   D_8006AEF4;
+extern u16  D_800A4E8E;
+extern int  streamLoad_state;
+extern void *streamLoad_savedReadyCB;
+extern u8   streamLoad_cbActive;
+extern int  D_800A6544;
+extern s16  D_800A46A2;
+extern u8   D_800A46B0;
+
+int func_80036260(void) {
+    u8 result[8];
+    u16 *flags;
+    s16 *vabp;
+    s32 t;
+    int sync;
+
+    func_80037334();
+    D_8006AEF4 &= 0xFD;
+    flags = &D_800A4E8E;
+    *flags &= 0xFFDF;
+
+    if (streamLoad_state != 0) {
+        switch (streamLoad_state) {
+        case 0:
+        case 1:
+        case 2:
+            break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 15:
+        case 16:
+        case 17:
+            func_800434BC();
+            break;
+        case 12:
+            if (streamLoad_cbActive != 0) {
+                func_800435B4(streamLoad_savedReadyCB);
+                streamLoad_savedReadyCB = 0;
+                streamLoad_cbActive = 0;
+            }
+            /* fall through */
+        case 13:
+        case 14:
+            func_800435CC(9, 0, 0);
+            streamLoad_state = 0;
+            D_800A6544 = 0x3C;
+            break;
+        }
+    }
+
+    if (D_800A6544 != 0) {
+        D_800A6544--;
+        if (D_800A6544 != 0) {
+            sync = func_8004355C(1, result);
+            if (sync != 5 && sync != 2) {
+                return 0;
+            }
+        }
+    }
+
+    vabp = &D_800A46A2;
+    t = *vabp;
+    streamLoad_state = 0;
+    D_800A6544 = 0;
+    if (t >= 0) {
+        func_800415A8(t);
+        *vabp = -1;
+        D_800A46B0 = 1;
+    }
+    return 1;
+}
 
 #ifdef NON_MATCHING
 extern int   CdControl(u8 com, u8 *param, u8 *result);
