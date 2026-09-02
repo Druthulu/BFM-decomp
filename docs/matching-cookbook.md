@@ -34125,6 +34125,38 @@ caught this, and the project already mandates it for exactly this reason.
 **The payoff, measured:** the carve + split banked **14 main functions** in one session, including
 **10 of the 11** the previous session had recorded as "PROVEN gate-rejects".
 
+## §433 ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)
+
+**Measured, one wave, main's carved-span switch functions:**
+
+| function | ins | what the residual actually was |
+|---|---|---|
+| `func_800316F8` | 164 | **case order alone** — the `.text` was ALREADY exact; the table was permuted |
+| `func_8002E138` | 289 | **case source order** off the `.s` (0,7,1,2..38,41,39,40) + §348 held pointer |
+| `func_80035C4C` | 248 | §3-B `break` vs `return` (which IS case-tail order) + 6 rodata offsets |
+| `func_8002DC68` | 198 | §432 cse/shift-pair + the 18-entry table order |
+
+**The law.** gcc emits case BODIES in source order while table entry *i* points at case *i*, so
+**case VALUE and case ORDER are independent** and only the ORDER is pinned by `.text`. `match_one`
+compares `.text` only (§405-A), so it happily returns closeness 0 on a draft whose table is a
+permutation of the real one. On `func_800316F8` that was worth exactly 18 bytes — the `.text` was
+perfect and the function still could not bank.
+
+**The method, which every agent in this wave converged on independently:**
+1. Read the target table's entry order out of the `.s` (`jtbl_XXXXXXXX`).
+2. Write the case labels in the order the BODIES appear, then set the case VALUES so that entry *i*
+   selects body *i* — often the **inverse permutation** of the table (`func_800316F8`: source order
+   1,9,6,10,0,7,5,8,2,3,4).
+3. **Verify past `match_one` before reporting**: table entries N/N, reloc symbols N/N, and internal
+   `j` destinations via the `R_MIPS_26` offsets (§195-D). The four MATCHes above checked
+   11/11+12, 42/42+34, 6 offsets, and 18+51 respectively.
+
+**Why this belongs at the top of a switch function's checklist.** It is cheap to check, it is
+invisible to the oracle you would otherwise trust, and on this population it was the whole residual
+three times out of four. If a switch draft sits at closeness 0 and the gate still rejects it, look
+at the table BEFORE touching the body — and see §427's TABLE REJECT verdict, which names this class
+from the gate side.
+
 ## §432 ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)
 
 **The shape.** The target masks the same value TWICE — a compare into `$v1` and a second `andi` into
