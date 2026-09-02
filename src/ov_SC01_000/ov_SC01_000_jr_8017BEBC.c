@@ -3715,7 +3715,167 @@ void func_8017D490(void)
 #undef D_801A5762
 
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017DD04);
+/* func_8017DD04 — emit 4 linked 0x28-byte packets (code 0x2C) into the ordering table.
+ *
+ * MATCHING NOTES (byte-proven, ov_SC01_000):
+ *  - Tag word is a PLAIN cast (§351): a P_TAG COMPONENT_REF on pkt grants /s and lets cse keep the
+ *    OT index live across the store (-13 ins). OT reads may be plain `& mlo` or bitfield (identical
+ *    bytes); the OT WRITES must stay P_TAG bitfields or the trailing `D_800A5E60 = pkt` stops floating.
+ *  - `(u16)D_800B9A02`, not `*(u16 *)&D_800B9A02` (§351): the ADDR_EXPR form cse's the base into a reg.
+ *  - Base-split (§351): block 1 reads the OT off the raw symbol (lui $at/addu/lw %lo), then
+ *    `ob = D_800AA60C` and every later reference goes through `ob` ($t2).
+ *  - 0x80 ($a3) and 0xFFFFFF ($a2) must NOT be pinned: $6/$7 are ALSO set by this function's own
+ *    call-argument copies, so a pin makes reg_n_sets==2, kills the birthing boost (§3-B) and sched1
+ *    hoists the `li` to the block top (the previous attempt's 5-ins residual). Both are left to
+ *    local-alloc's density order (QTY_CMP_PRI). Measured densities (lreg): 0x80 refs 13/L 319 = 4890,
+ *    0xFFFFFF refs 9/L 345 = 3130 -> 0x80 would take $6. The six-input asm below adds +6 zero-byte
+ *    refs to mlo (45*40000/345 = 5217 > 4890) so mlo takes $6 first and 0x80 falls to $7. It sits at
+ *    the blk3/blk4 boundary, the only cut in the target schedule that no hoisted constant crosses.
+ *  - cFF/cDF/ob pins ($8/$9/$10) are single-set registers here, so their boost survives.
+ */
+void func_8017DD04(s32 arg0, s32 arg1)
+{
+    typedef struct { u32 addr:24; u32 len:8; } P_TAG;
+    extern void func_8017E1A8();
+    extern u8 *D_800A5E60;
+    extern u8 D_800AA60C[];
+    extern s16 D_800B9A02;
+    extern u8 D_801826EC[];
+    extern s32 D_801A5734;
+    extern u16 D_801826F0, D_801826F2, D_801826F8, D_801826FA;
+    extern u16 D_80182700, D_80182702;
+    extern u16 D_80182708, D_8018270A, D_80182710, D_80182712;
+    extern u16 D_80182718, D_8018271A;
+    extern u16 D_80182720, D_80182722, D_80182728, D_8018272A;
+    extern u16 D_80182730, D_80182732;
+    u8 *pkt;
+    register u8 *ob __asm__("$10");
+    u32 mlo;
+    u32 c80;
+    register u32 cFF __asm__("$8");
+    register u32 cDF __asm__("$9");
+    u32 pad[2];
+
+    func_8017E1A8(D_801826EC, arg0, arg1, D_801A5734);
+    pkt = D_800A5E60;
+
+    *(u8 *)(pkt + 3) = 9;
+    *(u8 *)(pkt + 7) = 0x2C;
+    *(s16 *)(pkt + 0x16) = 0x8E;
+    *(s16 *)(pkt + 0xE) = 0x7DC0;
+    c80 = 0x80;
+    *(u8 *)(pkt + 6) = c80;
+    *(u8 *)(pkt + 5) = c80;
+    *(u8 *)(pkt + 4) = c80;
+    *(u8 *)(pkt + 0xC) = 0x0;
+    *(u8 *)(pkt + 0xD) = 0;
+    cFF = 0xFF;
+    *(u8 *)(pkt + 0x14) = cFF;
+    *(u8 *)(pkt + 0x15) = 0;
+    *(u8 *)(pkt + 0x1C) = 0x0;
+    *(u8 *)(pkt + 0x1D) = cFF;
+    *(u8 *)(pkt + 0x24) = cFF;
+    *(u8 *)(pkt + 0x25) = cFF;
+    *(s16 *)(pkt + 0x8) = D_801826F0;
+    *(s16 *)(pkt + 0xA) = D_801826F2;
+    *(s16 *)(pkt + 0x10) = D_801826F8;
+    *(s16 *)(pkt + 0x12) = D_801826FA;
+    *(s16 *)(pkt + 0x18) = D_80182708;
+    *(s16 *)(pkt + 0x1A) = D_8018270A;
+    *(s16 *)(pkt + 0x20) = D_80182710;
+    *(s16 *)(pkt + 0x22) = D_80182712;
+    mlo = 0xFFFFFF;
+    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)D_800AA60C + (((u16)D_800B9A02) << 14)) & mlo);
+    ob = D_800AA60C;
+    ((P_TAG *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    pkt += 0x28;
+
+    *(u8 *)(pkt + 3) = 9;
+    *(u8 *)(pkt + 7) = 0x2C;
+    *(s16 *)(pkt + 0x16) = 0x9F;
+    *(s16 *)(pkt + 0xE) = 0x7DC0;
+    *(u8 *)(pkt + 6) = c80;
+    *(u8 *)(pkt + 5) = c80;
+    *(u8 *)(pkt + 4) = c80;
+    *(u8 *)(pkt + 0xC) = 0x40;
+    *(u8 *)(pkt + 0xD) = 0;
+    *(u8 *)(pkt + 0x14) = 0x7F;
+    *(u8 *)(pkt + 0x15) = 0;
+    *(u8 *)(pkt + 0x1C) = 0x40;
+    *(u8 *)(pkt + 0x1D) = cFF;
+    *(u8 *)(pkt + 0x24) = 0x7F;
+    *(u8 *)(pkt + 0x25) = cFF;
+    *(s16 *)(pkt + 0x8) = D_801826F8;
+    *(s16 *)(pkt + 0xA) = D_801826FA;
+    *(s16 *)(pkt + 0x10) = D_80182700;
+    *(s16 *)(pkt + 0x12) = D_80182702;
+    *(s16 *)(pkt + 0x18) = D_80182710;
+    *(s16 *)(pkt + 0x1A) = D_80182712;
+    *(s16 *)(pkt + 0x20) = D_80182718;
+    *(s16 *)(pkt + 0x22) = D_8018271A;
+    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
+    ((P_TAG *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    pkt += 0x28;
+
+    *(u8 *)(pkt + 3) = 9;
+    *(u8 *)(pkt + 7) = 0x2C;
+    *(s16 *)(pkt + 0x16) = 0x8C;
+    *(s16 *)(pkt + 0xE) = 0x7DC0;
+    *(u8 *)(pkt + 6) = c80;
+    *(u8 *)(pkt + 5) = c80;
+    *(u8 *)(pkt + 4) = c80;
+    *(u8 *)(pkt + 0xC) = 0x0;
+    *(u8 *)(pkt + 0xD) = 0;
+    *(u8 *)(pkt + 0x14) = cFF;
+    *(u8 *)(pkt + 0x15) = 0;
+    *(u8 *)(pkt + 0x1C) = 0x0;
+    cDF = 0xDF;
+    *(u8 *)(pkt + 0x1D) = cDF;
+    *(u8 *)(pkt + 0x24) = cFF;
+    *(u8 *)(pkt + 0x25) = cDF;
+    *(s16 *)(pkt + 0x8) = D_80182708;
+    *(s16 *)(pkt + 0xA) = D_8018270A;
+    *(s16 *)(pkt + 0x10) = D_80182710;
+    *(s16 *)(pkt + 0x12) = D_80182712;
+    *(s16 *)(pkt + 0x18) = D_80182720;
+    *(s16 *)(pkt + 0x1A) = D_80182722;
+    *(s16 *)(pkt + 0x20) = D_80182728;
+    *(s16 *)(pkt + 0x22) = D_8018272A;
+    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
+    ((P_TAG *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    pkt += 0x28;
+    __asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo));
+
+    *(u8 *)(pkt + 3) = 9;
+    *(u8 *)(pkt + 7) = 0x2C;
+    *(s16 *)(pkt + 0x16) = 0x9F;
+    *(s16 *)(pkt + 0xE) = 0x7DC0;
+    *(u8 *)(pkt + 6) = c80;
+    *(u8 *)(pkt + 5) = c80;
+    *(u8 *)(pkt + 4) = c80;
+    *(u8 *)(pkt + 0xC) = 0x0;
+    *(u8 *)(pkt + 0xD) = 0;
+    *(u8 *)(pkt + 0x14) = 0x3F;
+    *(u8 *)(pkt + 0x15) = 0;
+    *(u8 *)(pkt + 0x1C) = 0x0;
+    *(u8 *)(pkt + 0x1D) = cDF;
+    *(u8 *)(pkt + 0x24) = 0x3F;
+    *(u8 *)(pkt + 0x25) = cDF;
+    *(s16 *)(pkt + 0x8) = D_80182710;
+    *(s16 *)(pkt + 0xA) = D_80182712;
+    *(s16 *)(pkt + 0x10) = D_80182718;
+    *(s16 *)(pkt + 0x12) = D_8018271A;
+    *(s16 *)(pkt + 0x18) = D_80182728;
+    *(s16 *)(pkt + 0x1A) = D_8018272A;
+    *(s16 *)(pkt + 0x20) = D_80182730;
+    *(s16 *)(pkt + 0x22) = D_80182732;
+    *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)D_800B9A02) << 14)) & mlo);
+    ((P_TAG *)((s32)ob + (((u16)D_800B9A02) << 14)))->addr = (u32)pkt;
+    pkt += 0x28;
+
+    D_800A5E60 = pkt;
+}
+
 
 /* func_8017E1A8 — rescale 9 screen-space points about the 320x240 centre.
  *

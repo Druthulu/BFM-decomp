@@ -4366,7 +4366,149 @@ out:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80180B44);
+/* Card: func_80180B44 (ov_SC03_028, jr_8017DF98 TU), 303 ins, jtbl_801EA01C (8 cases).
+ * Fresh crack from the target asm — the pack's warm-start body (an AABB gate) and all six
+ * same-address bodies in ov_SC01_005/006, ov_SC03_029/030, ov_SC04_003, ov_SC05_010 were
+ * DIFFERENT functions and were discarded. `switch (a1)` over 8 cases in table order (§222:
+ * source arm order IS emission order; §206.5: read the table first). The three shared
+ * store-tails (.L80180EF8/.L80180F10/.L80180F14) are cross-jump merges — each case spells
+ * its own stores.
+ *
+ * MATCH levers (216 -> 173 -> 0, 4 match_one calls):
+ *  L1 (the rand idiom, cases 3/6 — ~40 ins + the $s0/$s1 swap) target is
+ *     `lhu / andi / addiu $v1,$v1,-0x100 / addu $v1,$v1,$v0 / sh`, i.e. the constant is on the
+ *     LOADED side in SImode. Every `u16 = lhu - 0x100 + r` spelling is narrowed to HImode by
+ *     convert.c (typex goes UNSIGNED because the u16 load is an unsigned operand), the -0x100
+ *     becomes 65280 and, used twice across a call, is hoisted as `li $s0,0xff00` — a third
+ *     callee-saved pseudo that ALSO stole $s0 from the spawn pointer (the whole $s0/$s1 swap
+ *     was this one constant). The field must be **s16** so typex stays signed (-256 fits
+ *     addiu; the load is still `lhu`, cookbook-index L28), and the spelling must leave the
+ *     constant attached to the load: `*(s16 *)(p+6) -= 0x100 - (rand() & 0x1FF);` — fold
+ *     splits arg1 `(256 - r)` and rewrites `x - (256 - r)` as `(x - 256) + r`. (`s16 +=
+ *     (r&0x1FF) - 0x100` gives the same bytes.)
+ *  L2 (case 4, the angle argument) here the target puts -0x100 on the RAND register
+ *     (`addiu $v0,$v0,-0x100; addu $a0,$a0,$v0`). fold's associate rule in SImode: when only
+ *     one operand of a `+` splits off a constant, the constant migrates to the OTHER operand
+ *     (`(a-C)+b -> a+(b-C)`, `b+(a-C) -> (b-C)+a`; measured on 12 spellings). So to land it
+ *     on r, START it on the lh side: `(lh - 0x100 + (rand() & 0x1FF)) & 0xFFF`. Writing
+ *     `lh + ((rand()&0x1FF) - 0x100)` migrates it onto lh (+1 residual pair per call).
+ *
+ * Byte-proven: match_one MATCH 303/303, plus a law-1c relocation walk — the 29 jal targets
+ * in target order, both D_801EC44C HI16/LO16 reads inside case 1, and the 8-entry jump
+ * table (compiler .rdata, case bodies in address order).
+ */
+
+#include "common.h"
+
+extern s32 func_80132EF4(s32 a0, s32 a1);
+extern s32 rand(void);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+
+void func_80180B44(s32 a0, s32 a1) {
+    s32 s0;
+    s32 s1;
+
+    switch (a1) {
+    case 0:
+        for (s1 = 0; s1 < 0x1000; s1 += 0x200) {
+            s0 = func_80132EF4(a0, 0x33);
+            if (s0 != 0) {
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0x7000;
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x7000;
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x7000;
+                *(s32 *)(s0 + 0x10) = func_8004787C(s1) << 8;
+                *(s32 *)(s0 + 0x18) = func_80047948(s1) << 8;
+            }
+        }
+        break;
+    case 1:
+        for (s1 = 0; s1 < 0x1000; s1 += 0x200) {
+            s0 = func_80132EF4(a0, 0x33);
+            if (s0 != 0) {
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0x7000;
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x7000;
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x7000;
+                *(s32 *)(s0 + 0x10) = func_8004787C(s1) << 8;
+                *(s32 *)(s0 + 0x18) = func_80047948(s1) << 8;
+                *(s32 *)(s0 + 0x4) -= func_8004787C(*(s16 *)(*(s32 *)(D_801EC44C + 0x20) + 0x12)) << 10;
+                *(s32 *)(s0 + 0xC) -= func_80047948(*(s16 *)(*(s32 *)(D_801EC44C + 0x20) + 0x12)) << 10;
+            }
+        }
+        break;
+    case 2:
+        s0 = func_80132EF4(a0, 0x33);
+        if (s0 != 0) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0x7000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x7000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x7000;
+        }
+        break;
+    case 3:
+        s0 = func_80132EF4(a0, 0x33);
+        if (s0 != 0) {
+            *(s16 *)(s0 + 0x6) -= 0x100 - (rand() & 0x1FF);
+            *(s16 *)(s0 + 0xE) -= 0x100 - (rand() & 0x1FF);
+            *(s16 *)(s0 + 0x16) = -8;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0x3000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x3000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x3000;
+        }
+        break;
+    case 4:
+        s0 = func_80132EF4(a0, 0x33);
+        if (s0 != 0) {
+            *(s32 *)(s0 + 0x10) = -(func_8004787C((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) - 0x100 + (rand() & 0x1FF)) & 0xFFF) << 9);
+            *(s32 *)(s0 + 0x18) = -(func_80047948((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) - 0x100 + (rand() & 0x1FF)) & 0xFFF) << 9);
+            if (rand() & 1) {
+                *(s32 *)(s0 + 0x8) = 0xFFFC0000;
+            }
+            *(s32 *)(s0 + 0x4) -= func_8004787C(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) << 9;
+            *(s32 *)(s0 + 0xC) -= func_80047948(*(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) & 0xFFF) << 9;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0x5000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x5000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x5000;
+        }
+        break;
+    case 5:
+        s0 = func_80132EF4(a0, 0x33);
+        if (s0 != 0) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0x3000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x3000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x3000;
+            *(s32 *)(s0 + 0x8) = 0xFFFC0000;
+            *(s32 *)(s0 + 0x10) = -(func_8004787C((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) - 0x400) & 0xFFF) << 8);
+            *(s32 *)(s0 + 0x18) = -(func_80047948((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12) - 0x400) & 0xFFF) << 8);
+        }
+        break;
+    case 6:
+        s0 = func_80132EF4(a0, 0x33);
+        if (s0 != 0) {
+            *(s16 *)(s0 + 0x6) -= 0x20 - (rand() & 0x3F);
+            *(s16 *)(s0 + 0xE) -= 0x20 - (rand() & 0x3F);
+            *(s32 *)(s0 + 0x8) = 0xFFFC0000;
+            *(s16 *)(s0 + 0x16) = -8;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0x3000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x3000;
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x3000;
+        }
+        break;
+    case 7:
+        for (s1 = 0x100; s1 < 0x160; s1 += 0x20) {
+            s0 = func_80132EF4(a0, 0x33);
+            if (s0 != 0) {
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x18) = 0x3000;
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1A) = 0x3000;
+                *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x3000;
+                *(s32 *)(s0 + 0x8) = 0xFFFC0000;
+                *(s32 *)(s0 + 0x4) += (func_8004787C(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) * s1) << 4;
+                *(s32 *)(s0 + 0xC) += (func_80047948(*(s16 *)(*(s32 *)(a0 + 0x20) + 0x12)) * s1) << 4;
+            }
+        }
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_028/nonmatchings/ov_SC03_028_jr_8017DF98", func_80181000);
 
@@ -4619,7 +4761,7 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8004787C(s32 a0);
 extern s32 func_80047948(s32 a0);
 extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
-extern void func_80180B44(s32);
+extern void func_80180B44();
 extern void func_80184E9C(s32 a0, s32 a1, s32 a2);
 
 extern u16 D_80126B96;
@@ -4940,7 +5082,7 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012CBCC(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8013C9C4(void *a0);
-extern void func_80180B44(s32);
+extern void func_80180B44();
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8017F9D8(void);
 extern s32 func_8012C588(s32 a0, s32 a1);
@@ -5053,7 +5195,7 @@ extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8012CBCC(s32 a0);
 extern void func_8002D4C8(s32 a0, s32 a1);
 extern void func_8013C9C4(void *a0);
-extern void func_80180B44(s32);
+extern void func_80180B44();
 extern void func_8012A828(s32 a0, void *a1);
 
 extern u16 D_80126B96;
@@ -5169,7 +5311,7 @@ void func_80182698(s32 a0) {
 #include "common.h"
 
 extern s32 func_801789AC(s32 arg0);
-extern void func_80180B44(s32);
+extern void func_80180B44();
 extern s32 func_8004787C(s32 a0);
 extern int func_8001AAA0(void);
 
@@ -5251,7 +5393,7 @@ extern s16 func_80174774(void);
 extern s32 func_801789AC(s32 arg0);
 extern s16 D_801EC590;
 extern void func_80178D18(void);
-extern void func_80180B44(s32 a0);
+extern void func_80180B44();
 
 extern s16 D_8018FA0C;
 extern s16 D_8018FA0E;
@@ -5299,7 +5441,7 @@ extern void func_8012A828(s32 a0, void *a1);
 /* Not declared anywhere in the destination TU (defined later in the same TU
  * via INCLUDE_ASM, no prototype exists yet) — declared here from the call
  * site's own register usage (a0 = object pointer, a1 = 0). */
-extern void func_80180B44(s32);
+extern void func_80180B44();
 
 /* Data symbols with no existing TU declaration — typed by access width /
  * use (address-only use => array; s32 arrays indexed by *4). */
@@ -5404,7 +5546,7 @@ void func_80182B3C(s32 a0)
 /* TU line 2713 */ extern void func_8012CBCC(s32 a0);
 /* TU line 3771 */ extern void func_8018305C(s32 a0);
 extern void func_8017F9D8(void);
-extern void func_80180B44(s32);
+extern void func_80180B44();
 extern s32 func_8012C588(s32 a0, s32 a1);
 
 extern u8 D_8018C134[];
@@ -5694,7 +5836,7 @@ extern void func_8012B14C(s32 a0, s32 a1);
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80184E9C(s32 a0, s32 a1, s32 a2);
 extern s32 func_8012C588(s32 a0, s32 a1);
-extern void func_80180B44(s32);
+extern void func_80180B44();
 extern void func_80183264(s32 a0);
 
 extern u16 D_80126B96;
