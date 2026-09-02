@@ -660,7 +660,19 @@ def prior_draft(t):
                 continue
             if tgt is not None:
                 syms = set(re.findall(r'\b(?:func_|D_|jtbl_|a[A-Z0-9]+_)[0-9A-Fa-f]{8}\b', body)) - {t['name']}
-                if len(syms) >= 2 and len(syms & tgt) * 2 < len(syms):
+                # TIGHTENED (P31 S70). The old test was `len(syms) >= 2 and overlap*2 < len(syms)`
+                # and had TWO holes, both measured live in the S70 wave:
+                #   * `len(syms) >= 2` exempted every body referencing 0 or 1 symbols — exactly the
+                #     small-function case. func_80182438 (21 ins, ONE symbol) sailed through carrying
+                #     ov_SC02_028's body for the same address, and its agent reported that as the
+                #     reason its PRIOR attempt failed.
+                #   * needing a strict majority foreign meant a body sharing half its symbols passed.
+                # A correct draft can only reference what the target's .s actually relocates, so ANY
+                # foreign symbol disqualifies. Negative-controlled over all 50 S70 targets: admits 42,
+                # rejects 4 — and the 4 are precisely the bodies four independent agents reported as
+                # "a different function entirely" (func_80182438, func_800D0664, func_801831D0,
+                # func_80185F4C). No collateral rejections. R48: never key by bare function name.
+                if syms - tgt:
                     skipped += 1
                     continue          # another overlay's same-named function — not this body
             best, where = body, p
