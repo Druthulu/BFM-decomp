@@ -33543,3 +33543,28 @@ drafts, a false pass commits wrong bytes and reads green until the next clean fl
 **The law.** *A tool that wraps another tool inherits its refusals.* Every constraint documented on
 `gate_stage` binds `parallel_gate`, on `harvest_verify`, and on anything else that shells it — and
 the place to put that knowledge is a refusal in the wrapper, not a paragraph in the callee.
+
+## §415 ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT (P31 S71; byte-proven `ov_SC04_011/func_80180B24`, 215 ins)
+
+**The trap.** Adding a file-scope `extern` for a callee is the reflex fix when a draft's declaration
+is missing. On a TU that declares that same callee at BLOCK scope further down, it is the thing that
+breaks the build — and the error names the DEFINITION, not your decl.
+
+`ov_SC04_011_jr_8017D494.c` declares `func_80183BD0` at block scope twice (l.5019, l.5156, both
+`(u8 *)`) and DEFINES it as `void func_80183BD0(s32)` around l.7238. Put ANY file-scope declaration
+of it at l.4883 and `pushdecl`'s `different_binding_level` path merges those later block-scope
+externs into the global one; the merged global then conflicts with the definition. Declare it at
+BLOCK scope, like its neighbours, and the TU compiles.
+
+**Companion, same function:** a draft's file-scope `extern s32 D_80126B58` collides with the TU's
+block-scope `u8 D_80126B58[]` (l.7968) — resolved with the house `__asm__` alias rather than by
+changing either spelling.
+
+**The rule of thumb this makes explicit:** *match the TU's own binding LEVEL, not just its type.*
+§376/§378 are about the declaration's TYPE agreeing with the definition; this is the orthogonal axis,
+and it is invisible to `match_one` for the usual reason — it compiles the function alone.
+
+**Method note worth copying.** The agent proved both claims by splicing a scratch copy of the whole
+TU and running the Makefile's own `cpp`+`cc1` recipe on it, comparing diagnostics against an
+unmodified base — a negative control on the TU, not on the function. That is the right instrument for
+any "does my declaration break this TU" question.
