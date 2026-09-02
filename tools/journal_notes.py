@@ -112,12 +112,22 @@ def main():
         if not rows:
             continue
         hit += 1
-        if HEADING in open(p, errors='replace').read():   # idempotent: never append twice
-            continue
-        open(p, 'a').write(render(rows, a.cap))
+        # IDEMPOTENT BY REPLACEMENT, NOT BY SKIPPING (P31 S72). The old form skipped any pack that
+        # already carried the heading, so a pack that had ONE note could never receive a NEWER one
+        # — and `claude_wave_packs.py` calls this tool itself at build time, which means EVERY pack
+        # with any history was sealed against later evidence. Measured here: 4 of 5 targets took a
+        # freshly-recorded carve finding and the fifth silently did not, because it alone had a
+        # prior note. The generated block is always the tail of the file (render appends), so
+        # truncating at the heading and re-rendering the full current row set is exact.
+        txt = open(p, errors='replace').read()
+        block = render(rows, a.cap)
+        at = txt.find(HEADING)
+        if at != -1 and txt[at:] == block.lstrip('\n'):
+            continue                              # already current — leave the file untouched
+        open(p, 'w').write((txt[:at].rstrip('\n') if at != -1 else txt.rstrip('\n')) + block)
         done += 1
-    print('journal_notes: %d/%d target(s) have past-attempt notes; appended to %d pack(s) '
-          '(%d already carried them)' % (hit, len(targets), done, hit - done))
+    print('journal_notes: %d/%d target(s) have past-attempt notes; %d pack(s) written '
+          '(%d already current)' % (hit, len(targets), done, hit - done))
     return 0
 
 
