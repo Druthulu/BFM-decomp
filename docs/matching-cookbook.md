@@ -33176,3 +33176,32 @@ at index 3.
 **Why this is a SWEEP and not an idiom (the project thesis):** one known lever against 134 known
 targets is exactly the "is this MECHANICAL?" test the harvest gate asks. Build the sweep — apply the
 lever to the class, gate the batch — before drafting any of these individually.
+
+## §407 ★★ — LATE-WAVE ADDENDA TO §405 (the last agents in)
+
+* **An in-block `return 0;` can make reorg REFUSE a delay-slot steal.** On `md_SC07_004/func_801A3798`
+  a tail `return 0;` after the call left `addiu $v0,$zero,3` unable to fill the `bnez $v0` slot
+  (+1 nop, LENGTH-DRIFT/1). **15 tail respellings were probed and ALL were inert** — integer-space
+  address, pointer local, sized array, hoisted args, volatile / memory / re-tie fences. The only
+  lever that reached it is §16/§3-B's shared `goto ret0;`. The discriminator is the **bnez TARGET
+  block's head**: an indexed-global load (`lh K($s0)` / `sll` / `lw sym($v0)`) is what suppresses the
+  fill — replace that tail with anything simpler and the fill returns.
+* **`t <<= 16; v = t >> 16;` is not the same as `v = (s16)t`.** The explicit two-step forces the `sll`
+  in place on `$v0`, which stops dbr sinking a following `sh` into a branch delay slot.
+* **The §47 non-volatile re-tie as an EMISSION-ORDER dial.** Applied to a `$0`-add opaque copy it kills
+  that copy's sched1 birthing boost, so the copy emits BEFORE the call's return-value copy and dbr
+  steals the right instruction for the branch slot (105 -> 83 on one function).
+* **`cse.c find_best_addr` folds EVERY `(plus (reg) (const))` whose base has a constant equivalence
+  back to `%hi/%lo(sym+K)`** — only a BARE reg address is exempt. So `p = &SYM; p->field` can never
+  emit `lh K($s1)`; the zero-byte `__asm__("" : "=r"(p) : "0"(p))` launder kills the equivalence and
+  keeps the reads on one `la` (extends §42d-2/§20).
+* **A whole-frame 8-byte offset is read off cc1's own `.frame ... # vars=N` comment.** A plain `for`
+  allocates expand-time temps that a hand-inverted `if(...){do{}while();}` does not — the frame
+  delta IS the tell for which loop form the source used.
+
+**INSTRUMENT CAUTION, from the same agent (worth more than any of the above).** Its first fleet-wide
+scan concluded "no banked function in the fleet ever has a delay slot clobbering its branch operand".
+That scan read **zero files**: a BANKED function has no `.s` under `asm/` at all, so the corpus it
+searched was empty by construction. It caught this itself and refuted the claim with a cc1 micro-repro.
+**A scan over `asm/` is a scan over UNMATCHED code only** — any claim of the form "no banked function
+ever does X" cannot be answered there, and a 0-file scan returns a confident, empty-world answer.
