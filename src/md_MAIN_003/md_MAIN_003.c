@@ -1138,6 +1138,127 @@ __asm__(".text\n.align 2\n.globl func_800D0A7C\n.ent\tfunc_800D0A7C\n"
 ".set\treorder\n.end\tfunc_800D0A7C\n");
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D0B1C);
+/* func_800D0B1C - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
+ * -O0 body (addu $fp,$sp,$zero prologue / 21F0A003, a nop in every delay slot,
+ * per-statement li) stranded inside md_MAIN_003's -O2 object (sec 261: nothing
+ * under src/md_* globs -O0 yet). Sec 261a addendum (d) names this TU explicitly:
+ * the fleet's TERMINAL state for an -O0 function stranded in an -O2 TU is the
+ * sec 265 verbatim-asm block IN THIS TU, not (yet) the sec 18/sec 261 _o0 carve.
+ * Same family and same save set (ra/fp/s0, frame 32, mask 0xC0010000,-16) as the
+ * already-banked func_800D0174 / func_800D0204 / func_800D0440 / func_800D06BC /
+ * func_800D09A0 / func_800D0A7C in this exact file.
+ *
+ * Three prior wave agents each reported match_one MATCH 77/77 for the real C body
+ * below (match_one force-compiles -O0 on seeing the frame-pointer prologue) and
+ * each was rejected by the whole-binary gate: tools/recover_integration.py's
+ * real-cc1 probe DIFFs 49/77 because the object's own CC1FLAGS are -O2. That is
+ * exactly sec 261's "shown an -O2 compile of its own C" failure mode - no C source
+ * can bank this function while md_MAIN_003.c compiles -O2. A raw __asm__ body is
+ * opt-level-independent (cc1 passes the string through untouched), so it emits the
+ * target bytes regardless of the TU's compile flags.
+ *
+ * Recovered C semantics for the eventual real -O0-object decomp:
+ *
+ *     register u8 *s0 = D_800AF630;       // sec 127 far-base hi/lo pair
+ *     func_800183E0((s32)&D_800D4E6C);
+ *     switch (D_800EC894) {               // extern s16 D_800EC894 (lh)
+ *     case 0: *(u16 *)(s0 + 0xA3B6) = 1; *(u16 *)(s0 + 0xA3B8) = 2; break;
+ *     case 1: *(u16 *)(s0 + 0xA3B6) = 1; *(u16 *)(s0 + 0xA3B8) = 0; break;
+ *     case 2: *(u16 *)(s0 + 0xA3B6) = 1; *(u16 *)(s0 + 0xA3B8) = 1; break;
+ *     case 4: *(u16 *)(s0 + 0xA3B6) = 1; *(u16 *)(s0 + 0xA3B8) = 4; break;
+ *     }
+ *
+ * All immediates decimal (maspsx rejects hex inside __asm__ strings); -0x5C4A =
+ * -23626, -0x5C48 = -23624, lui $at,(0x10000>>16) = lui $at,1. No C externs
+ * shipped (link-time resolution, per sec 265 / sec 236-1).
+ */
+__asm__(".text\n.align 2\n.globl func_800D0B1C\n.ent\tfunc_800D0B1C\n"
+"func_800D0B1C:\n.frame $sp,32,$31\n.mask 0xC0010000,-16\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"addiu $sp, $sp, -32\n"
+"sw $ra, 24($sp)\n"
+"sw $fp, 20($sp)\n"
+"sw $s0, 16($sp)\n"
+"addu $fp, $sp, $zero\n"
+"lui $s0, %hi(D_800AF630)\n"
+"addiu $s0, $s0, %lo(D_800AF630)\n"
+"lui $a0, %hi(D_800D4E6C)\n"
+"addiu $a0, $a0, %lo(D_800D4E6C)\n"
+"jal func_800183E0\n"
+"nop\n"
+"lui $v0, %hi(D_800EC894)\n"
+"lh $v0, %lo(D_800EC894)($v0)\n"
+"addiu $v1, $zero, 1\n"
+"beq $v0, $v1, .L800D0BC0\n"
+"nop\n"
+"slti $v1, $v0, 2\n"
+"beqz $v1, .L800D0B78\n"
+"nop\n"
+"beqz $v0, .L800D0B98\n"
+"nop\n"
+"j .L800D0C34\n"
+"nop\n"
+".L800D0B78:\n"
+"addiu $v1, $zero, 2\n"
+"beq $v0, $v1, .L800D0BE4\n"
+"nop\n"
+"addiu $v1, $zero, 4\n"
+"beq $v0, $v1, .L800D0C0C\n"
+"nop\n"
+"j .L800D0C34\n"
+"nop\n"
+".L800D0B98:\n"
+"addiu $v0, $zero, 1\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $v0, -23626($at)\n"
+"addiu $v0, $zero, 2\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $v0, -23624($at)\n"
+"j .L800D0C34\n"
+"nop\n"
+".L800D0BC0:\n"
+"addiu $v0, $zero, 1\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $v0, -23626($at)\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $zero, -23624($at)\n"
+"j .L800D0C34\n"
+"nop\n"
+".L800D0BE4:\n"
+"addiu $v0, $zero, 1\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $v0, -23626($at)\n"
+"addiu $v0, $zero, 1\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $v0, -23624($at)\n"
+"j .L800D0C34\n"
+"nop\n"
+".L800D0C0C:\n"
+"addiu $v0, $zero, 1\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $v0, -23626($at)\n"
+"addiu $v0, $zero, 4\n"
+"lui $at, 1\n"
+"addu $at, $s0, $at\n"
+"sh $v0, -23624($at)\n"
+"j .L800D0C34\n"
+"nop\n"
+".L800D0C34:\n"
+"addu $sp, $fp, $zero\n"
+"lw $ra, 24($sp)\n"
+"lw $fp, 20($sp)\n"
+"lw $s0, 16($sp)\n"
+"addiu $sp, $sp, 32\n"
+"jr $ra\n"
+"nop\n"
+".set\treorder\n.end\tfunc_800D0B1C\n");
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D0C50);

@@ -3298,7 +3298,96 @@ void func_80182FD4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_80181CDC", func_80183098);
+extern u16  D_80126B5E;
+extern u16  D_80126B66;
+extern s32 *D_80126B78;
+extern s32 *D_80126B90;
+extern u8   D_801152A8[];
+extern s32  D_801C7E4C;
+extern void func_8012C218(void *a0);
+extern s32  func_8014CB8C(void);
+extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+/* The camera x/y pair at D_80126B5E / D_80126B5E+4 (== D_80126B62).  The target
+ * reads BOTH through the one `la $s1, D_80126B5E` (`lh 0x0($s1)` / `lh 0x4($s1)`),
+ * so they must be reached through a pointer — see the launder below. */
+typedef struct {
+    u16 x;      /* 0x00  D_80126B5E */
+    u16 unk2;   /* 0x02 */
+    u16 y;      /* 0x04  D_80126B62 */
+} Cam183098;
+
+void func_80183098(s32 param_1) {
+    u16 sp18[3];
+    u16 sp20[3];
+    Cam183098 *cam;
+    s32 d;
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        if (*(u16 *)(param_1 + 0x72) & 0x4000) {
+            goto free_it;
+        }
+        break;
+    case 1:
+        if (*(u16 *)(param_1 + 0x72) & 0x4000) {
+            goto free_it;
+        }
+        *(s32 *)(param_1 + 0x10) += 0xC000;
+        break;
+    default:
+        goto free_it;
+    }
+
+    /* §153 address-rematerialisation launder: without it cse's find_best_addr
+     * folds `cam->y` back to %hi/%lo(D_80126B5E+4) and emits a SECOND `la`
+     * instead of the target's `lh 0x4($s1)`.  Zero bytes. */
+    cam = (Cam183098 *)&D_80126B5E;
+    __asm__("" : "=r"(cam) : "0"(cam));
+
+    *(s32 *)(param_1 + 0x4) += *(s32 *)(param_1 + 0x10);
+    *(s32 *)(param_1 + 0x8) += *(s32 *)(param_1 + 0x14);
+
+    /* ONE local for both tail-guard differences (§176-B addendum): it is what
+     * puts the load pair on $v1/$v0 and lets sched2's WAR edge emit
+     * addu;addu;sw;sw;lh above. */
+    d = *(s16 *)(param_1 + 0x6) - (s16)cam->x;
+    if ((u32)(d + 0x1F) >= 0x3F) {
+        return;
+    }
+    d = (s16)cam->y - *(s16 *)(param_1 + 0xA);
+    if ((u32)(d + 0xF) >= 0x7F) {
+        return;
+    }
+
+    if (func_8014CB8C() != 0) {
+    free_it:
+        {
+            s32 p = D_801C7E4C;
+            *(s32 *)(p + 0xDC) -= 1;
+            func_8012C218((void *)param_1);
+        }
+    } else {
+        /* x and y must both be READ before the first store (the stores to the
+         * addressable sp arrays kill cse's equivalences for the `cam` loads);
+         * z is read late and dies immediately, so all three land in $v0/$v1.
+         * The two chained assignments (§205) give the store order
+         * 0x20,0x18 … 0x24,0x1C the target schedules. */
+        u16 x = cam->x;
+        u16 y = cam->y;
+
+        sp18[0] = sp20[0] = x;
+        sp18[1] = y - 0x10;
+        sp20[1] = y + 0x10;
+        sp18[2] = sp20[2] = D_80126B66;
+        if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)sp18, (s32)sp20) == 0) {
+            return;
+        }
+        func_8012F568(1, 0x2020, 0x400, 0x10, (s32)sp20, (s32)D_801152A8);
+    }
+}
+
 
 
 extern void (*D_80192B68[])(void);

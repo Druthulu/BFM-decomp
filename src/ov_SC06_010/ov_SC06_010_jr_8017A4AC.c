@@ -5899,7 +5899,76 @@ void func_8017F978(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_8017FAAC);
+typedef struct SubFAAC {
+    char pad0[0x4];
+    s32 f4;         /* 0x04 */
+    u16 f8;         /* 0x08 */
+    u16 fA;         /* 0x0A */
+    u16 fC;         /* 0x0C */
+    char padE[2];
+    u16 f10;        /* 0x10 */
+    u16 f12;        /* 0x12 */
+    u16 f14;        /* 0x14 */
+} SubFAAC;
+
+typedef struct EntFAAC {
+    u16 f0;         /* 0x00 */
+    char pad2[0x6 - 0x2];
+    s16 f6;         /* 0x06 */
+    char pad8[0xA - 0x8];
+    s16 fA;         /* 0x0A */
+    char padC[0xE - 0xC];
+    s16 fE;         /* 0x0E */
+    s32 f10;        /* 0x10 */
+    s32 f14;        /* 0x14 */
+    s32 f18;        /* 0x18 */
+    char pad1C[4];
+    SubFAAC *f20;       /* 0x20 */
+    char pad24[0xCC - 0x24];
+    SubFAAC *fCC;       /* 0xCC */
+    SubFAAC *fD0;       /* 0xD0 */
+    char padD4[0xFC - 0xD4];
+    u16 fFC;        /* 0xFC */
+    u16 fFE;        /* 0xFE */
+} EntFAAC;
+
+extern void func_8012ADE4(s32);
+
+#define COPY_TO_FAAC(dp, add) do { \
+    SubFAAC *d = (dp); \
+    d->f8 = s0->f6; \
+    d->fA = s0->fA; \
+    d->fC = s0->fE; \
+    d->f10 = s0->f20->f10; \
+    d->f12 = s0->f20->f12 + (add); \
+    d->f14 = s0->f20->f14; \
+    if (s0->f20->f4 < 0) { \
+        d->f4 |= (s32)0x80000000; \
+    } else { \
+        __asm__ __volatile__(""); \
+        d->f4 &= 0x7FFFFFFF; \
+    } \
+} while (0)
+
+void func_8017FAAC(EntFAAC *s0) {
+    s32 pad[4];
+    s32 q = s0->f6 * s0->f6;
+    s32 r = (s0->fA + 0x482) * (s0->fA + 0x482);
+
+    s0->f10 >>= 1;
+    s0->f18 >>= 1;
+
+    if (0x1323F < q + r) {
+        ((void (*)(void *))func_8012ADE4)(s0);
+        s0->f14 = 0;
+    }
+
+    if (s0->f0 != 0) {
+        COPY_TO_FAAC(s0->fCC, s0->fFC);
+        COPY_TO_FAAC(s0->fD0, s0->fFE);
+    }
+}
+
 
 extern void func_8012ADE4(s32 a0);
 

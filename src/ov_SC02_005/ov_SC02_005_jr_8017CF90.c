@@ -4942,7 +4942,82 @@ void func_80180574(u8 *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_80180610);
+#include "common.h"
+
+extern void func_80175454(void);
+extern void func_8017E664(void);
+extern void func_8014C6C0(void);
+extern s16 D_80126962;
+extern s16 D_8012696A;
+extern u16 D_80126970;
+extern s16 D_80126974;
+extern s16 D_80126976;
+extern s16 D_8012697A;
+extern s16 D_801E4C50;
+
+/* func_80180610 — actor state step.
+ *
+ * Levers (all byte-proven against
+ * asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90/func_80180610.s):
+ *
+ *  - §335: the 20-byte table MUST be spelled as a struct array read through a
+ *    COMPONENT_REF.  `extern u16 D_801944F0[][10]` + `*(u16 *)&A[i][5]` emits the
+ *    identical instruction stream but allocates a dead 8-byte stack temp, which
+ *    pushes `.frame vars` to 8 and moves the whole prologue/epilogue (0x18 -> 0x20).
+ *    Base the table on D_801944F4 (not D_801944F0): D_801944F4 is the symbol this
+ *    function's OWN relocations use, and the TU already has a conflicting
+ *    file-scope `extern s16 D_801944F0[][10];` above this point.  D_801944F4 is a
+ *    real `dlabel` in asm/ov_SC02_005/data/tail.data.s, so +3/+6/+7 fold to the
+ *    target's D_801944F7 / D_801944FA / D_801944FB addends after link.
+ *
+ *  - §194-A: with the COMPONENT_REF spelling sched1 then hoists the two -0x60
+ *    stores into the `lh 0x20C` load-delay slot; the zero-byte `__asm__("")` fence
+ *    placed AFTER the defining statement pins the table read + its index arithmetic
+ *    to the top of the block and restores the target's load-delay `nop`.
+ *
+ *  - The 8-byte copy is align-1 (Blk8), which is what makes it lwl/lwr + swl/swr.
+ *
+ *  - Cast the u16 LVALUE (`*(s16 *)&D_80126970 = -0x60`), not the value: assigning
+ *    -0x60 straight to the u16 folds the tree to 0xFFA0 and costs a second `li`.
+ *
+ *  - LAW 1c (this is what sank the previous attempt, which read as a clean masked
+ *    MATCH): gcc-2.7.2 emits this PAIR of `sh $v1` stores in REVERSE source order,
+ *    while the four preceding `sh $v0` stores keep source order.  Written 6A-then-62
+ *    the object relocates D_80126962 at +0xA4 and D_8012696A at +0xAC — the exact
+ *    transposition of the target.  match_one masks HI16/LO16, so the swap is
+ *    invisible to it; only `objdump -drz` on the object catches it.  Source order
+ *    must therefore be 62 then 6A to emit 6A then 62.
+ */
+void func_80180610(void *a0) {
+    typedef struct { u8 b[8]; } Blk8;
+    typedef struct {
+        s16 f0; s16 f2; s16 f4; u16 f6; s16 f8;
+        s16 fA; s16 fC; s16 fE; s16 f10; s16 f12;
+    } Row_801944F4;
+    extern Row_801944F4 D_801944F4[];
+    s32 v1;
+
+    *(u16 *)((s32)a0 + 0xAA) &= 0x90;
+    *(u16 *)((s32)a0 + 0xAE) = 0x8080;
+    *(u16 *)((s32)a0 + 0xAC) &= 0x90;
+    if (*(u16 *)a0 != 0xD) {
+        func_80175454();
+        *(s32 *)((s32)a0 + 0x1F8) |= 0x1000000;
+        func_8017E664();
+        v1 = D_801944F4[*(s16 *)((s32)a0 + 0x20C)].f6;
+        __asm__("");
+        D_80126976 = -0x60;
+        *(s16 *)&D_80126970 = -0x60;
+        D_8012697A = -0x80;
+        D_80126974 = -0x80;
+        D_80126962 = v1;
+        D_8012696A = v1;
+        *(Blk8 *)&D_801E4C50 = *(Blk8 *)&D_801944F4[*(s16 *)((s32)a0 + 0x20C)].f0;
+        func_8014C6C0();
+        *(u8 *)((s32)a0 + 0x214) += 1;
+    }
+}
+
 
 /* func_8018074C — "aim check": read the current heading table entry for the
  * actor's sub-state (0x20C), compare it against the live angle from the

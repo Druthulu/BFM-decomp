@@ -16677,7 +16677,150 @@ void func_8018FD38(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018FE20);
+#include "common.h"
+
+/* func_8018FE20 (ov_SC04_011, ov_SC04_011_jr_8017D494) — 213 ins.
+ *
+ * Lightning/beam ribbon emitter.  Builds a local MATRIX (rotation filled by
+ * func_80017D98, translation = the s16 xyz triple at arg1), takes the delta
+ * arg2-arg1 as a u16 vector, then walks 15 segments: for segment i the far
+ * endpoint `b` is (d*i)/16 with a sine wobble added to y
+ * (func_8004787C(i*0x1800/15 + ang) << 4) / 4096, and `a` is the previous
+ * segment's endpoint.  Each segment emits ONE 0x38-byte quad prim (v[0]=v[2]=a,
+ * v[1]=v[3]=b) THREE times through func_80190174 — an outer glow pair
+ * (f0/f1 = 0x78D878, or 0x80E080 when D_800B99DA is odd), a middle pass whose
+ * f2/f3 come from the walking table D_801F1500, and a core pass with f0/f1
+ * cleared — each pass nudging a different vertex pair.  f4 = 0x50000000.
+ *
+ * LEVERS (each byte-checked against asm/.../func_8018FE20.s)
+ *
+ *  - THE FRAME IS THE PROOF OF THE TYPES.  Locals are laid out in declaration
+ *    order from 0x10 (= the 16-byte outgoing-arg area), which pins every size:
+ *    prim 0x10 (0x38 = SVECTOR v[4] + s32 f0..f5), mtx 0x48 (0x20), d 0x68,
+ *    a 0x70, b 0x78, e[2] 0x80.  `prim.f4` at 0x30 IS the sp+0x40 store, and
+ *    the DEAD `sh $a2,0x8A($sp)` is e[1].vy — gcc-2.7.2 has no DSE, so a dead
+ *    store to an aggregate member survives while cse forwards the value to the
+ *    register the next statement uses (hence `h`, not `e[1].vy`, feeds b.vy).
+ *
+ *  - `<< 4`, NOT `* 16`.  fold-const rewrites `(x * 16) / 4096` to `x / 256`.
+ *    LSHIFT_EXPR is not MULT_EXPR, so the shift form survives to give the
+ *    target's `sll 4` + `addiu 0xFFF` + `sra 12`.
+ *
+ *  - PASS `&mtx` DIRECTLY at all three sites, do NOT bind it to an `mp` local
+ *    (§148-A staircase: the hoisted COPY of &mtx is the 213th instruction and
+ *    the extra movable that keeps the `(s16)arg3` sign-extend inside the loop;
+ *    with `mp` the extend hoists and the draft is 212 ins / closeness 163).
+ *
+ *  - `pp` (a pointer local bound to &prim) IS required — every prim access in
+ *    the loop is `$s0`-relative in the target; `prim.f4` stays sp-relative
+ *    precisely because it is written before `pp` exists.
+ *
+ *  - BLOCK 2's VERTEX PAIRS ARE WRITTEN LOW-INDEX-FIRST even though they ISSUE
+ *    high-first (the `sw $a3,0x2C($s0)` in the middle flips the pairing).
+ *
+ *  - arg3 IS A `short` PARAMETER, and the definition must be K&R: the TU's
+ *    file-scope `extern void func_8018FE20(s32, void*, void*, s32);` would
+ *    reject a prototyped `s16`, but a K&R `short` promotes to int and is
+ *    compatible.  `s32 arg3` + an explicit `(s16)` cast schedules the entry
+ *    block differently (6 residual prologue mismatches).
+ *
+ *  - DECLARATIONS FOLLOW THE TU (the earlier draft failed to COMPILE here):
+ *    func_80190174 is DEFINED later in this TU with a `Prim34_80190174 *`
+ *    first param whose typedef is not visible at this slot, so it is declared
+ *    with an EMPTY C89 parameter list (compatible with the later prototyped
+ *    definition: pointer/int args are self-promoting).  D_801F1500 keeps the
+ *    TU's `s8 []` spelling (the table-filler neighbour's block-scope extern) and is cast
+ *    ONCE into an s32 walker — the address is all the codegen needs.
+ *
+ * SYMBOLS (law 1c — every one re-checked against this .s's own relocations):
+ * func_80017D98, func_8004787C, func_80190174, D_800B99DA, D_801F1500.
+ */
+
+typedef struct { s16 vx, vy, vz, pad; } SV_8018FE20;        /* 8 bytes, align 2 */
+typedef struct { s16 m[3][3]; s32 t[3]; } MTX_8018FE20;     /* 0x20 */
+typedef struct {
+    SV_8018FE20 v[4];           /* 0x00 */
+    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
+} PRIM_8018FE20;                /* 0x38 */
+
+extern u16  D_800B99DA;
+extern s8   D_801F1500[];
+extern void func_80017D98(void *a0);
+extern s32  func_8004787C(s32 a0);
+extern void func_80190174();
+
+extern void func_8018FE20(s32 a0, void *a1, void *a2, s32 a3);
+
+void func_8018FE20(arg0, arg1, arg2, arg3)
+    s32 arg0;
+    void *arg1;
+    void *arg2;
+    short arg3;
+{
+    PRIM_8018FE20 prim;
+    MTX_8018FE20 mtx;
+    SV_8018FE20 d;
+    SV_8018FE20 a;
+    SV_8018FE20 b;
+    SV_8018FE20 e[2];
+    PRIM_8018FE20 *pp;
+    s32 *tbl;
+    s32 col;
+    s32 i;
+    s32 h;
+
+    prim.f4 = 0x50000000;
+    func_80017D98(&mtx);
+    mtx.t[0] = *(s16 *)((s32)arg1 + 0);
+    mtx.t[1] = *(s16 *)((s32)arg1 + 2);
+    mtx.t[2] = *(s16 *)((s32)arg1 + 4);
+    tbl = (s32 *)D_801F1500;
+    d.vx = *(u16 *)((s32)arg2 + 0) - *(u16 *)((s32)arg1 + 0);
+    d.vy = *(u16 *)((s32)arg2 + 2) - *(u16 *)((s32)arg1 + 2);
+    col = 0x78D878;
+    d.vz = *(u16 *)((s32)arg2 + 4) - *(u16 *)((s32)arg1 + 4);
+    pp = &prim;
+    b.vx = b.vy = b.vz = 0;
+    if (D_800B99DA & 1) {
+        col = 0x80E080;
+    }
+    i = 1;
+    do {
+        a = b;
+        h = (func_8004787C(i * 0x1800 / 15 + arg3) << 4) / 4096;
+        e[1].vy = h;
+        b.vx = d.vx * i / 16;
+        b.vy = h + d.vy * i / 16;
+        b.vz = d.vz * i / 16;
+        pp->v[0] = a;
+        pp->v[1] = b;
+        pp->v[2] = a;
+        pp->v[3] = b;
+        pp->f0 = pp->f1 = col;
+        pp->f2 = pp->f3 = 0;
+        pp->v[2].vy += 0x33;
+        pp->v[3].vy += 0x33;
+        pp->v[2].vx -= 0x19;
+        pp->v[3].vx -= 0x19;
+        func_80190174(pp, &mtx, i);
+        pp->f2 = tbl[0];
+        pp->f3 = tbl[1];
+        tbl++;
+        pp->v[2].vy -= 0x99;
+        pp->v[3].vy -= 0x99;
+        pp->v[2].vx += 0x4C;
+        pp->v[3].vx += 0x4C;
+        func_80190174(pp, &mtx, i);
+        pp->f0 = pp->f1 = 0;
+        pp->v[0].vy -= 0x1CC;
+        pp->v[1].vy -= 0x1CC;
+        pp->v[0].vx += 0xE6;
+        pp->v[1].vx += 0xE6;
+        func_80190174(pp, &mtx, i);
+        i++;
+    } while (i < 0x10);
+}
+
 
 #include "common.h"
 

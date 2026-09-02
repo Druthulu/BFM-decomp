@@ -5264,11 +5264,257 @@ void func_801824CC(a0, a1, a2, a3, mask)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801829CC);
+#include "common.h"
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80182BD8);
+extern s32  rand(void);
+extern s32  func_801850D8();
+extern void func_80049CAC(s32 a0, s32 a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+extern u8   D_800D3918[];
+extern u8   D_8018E4DC[];
+extern u8   D_8018E47C[];
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80182DCC);
+void func_801829CC(s32 arg0) {
+    /* SVEC_801BA5A8 / D_801BA5A8 are declared at BLOCK scope on purpose: this
+     * block sits at TU offset ~5267, ABOVE the file-scope
+     * `typedef struct { s16 vx, vy, vz, pad; } SVEC_801BA5A8;` that func_801848A4
+     * already introduces further down the same TU. A second file-scope copy is
+     * "conflicting types for `SVEC_801BA5A8'" (anonymous struct bodies are never
+     * compatible), which is what killed the previous whole-binary gate on this
+     * function. Block scope keeps the same codegen and no file-scope clash. */
+    typedef struct { s16 vx, vy, vz, pad; } SVEC_801BA5A8;
+    extern SVEC_801BA5A8 D_801BA5A8[];
+
+    s16 sp20[3];
+    s32 sp28[3];
+    s32 sp38[8];
+    s32 i, j, k;
+    s32 obj, sub;
+    s32 r;
+
+    sp20[2] = 0;
+    sp20[0] = 0;
+    sp28[1] = 0;
+    sp28[0] = 0;
+    sp28[2] = 0xFFEF0000;
+    for (i = 0; i < 6; i++) {
+        obj = func_801850D8(2, 0x4000, 0, 0, D_800D3918, arg0, D_8018E4DC, 0);
+        if (obj != 0) {
+            k = 0x1800;
+            sp20[1] = i * 0x2AA;
+            func_80049CAC((s32)sp20, (s32)sp38);
+            func_800484EC((s32)sp38, (s32)sp28, obj + 0x10);
+            *(s16 *)(obj + 0x3A) = -1;
+            *(s16 *)(obj + 0x50) = i;
+            *(s32 *)(obj + 0x20) |= 0x300000;
+            r = rand();
+            *(s16 *)(obj + 0x4C) = r % 8;
+            *(s16 *)(obj + 0xA) = -0x40;
+            for (j = 0; j < 8; j++) {
+                sub = func_801850D8(3, (s16)k, 0, 0, D_800D3918, arg0, D_8018E47C, 0);
+                if (sub != 0) {
+                    *(s32 *)(sub + 0x50) = obj + 0x34;
+                    *(s16 *)(sub + 0x54) = j;
+                    *(s16 *)(sub + 0x56) = i;
+                    *(u16 *)(sub + 0x2C) += 0x2000;
+                    *(s32 *)(sub + 0x20) |= 0x300000;
+                    r = rand();
+                    *(s16 *)(sub + 0x4C) = r % 8;
+                }
+                k += 0x400;
+            }
+        }
+        D_801BA5A8[i].vx = 0;
+        D_801BA5A8[i].vy = 0;
+        D_801BA5A8[i].vz = 0;
+    }
+}
+
+
+#include "common.h"
+
+extern void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32  VectorNormalSS(void *a0, void *a1);
+extern s32  func_80047D3C(s32 a0);
+extern s32  func_801850D8();
+extern s32  rand(void);
+extern u8   D_800D3918[];
+extern u8   D_8018E47C[];
+
+/* the func_8012F14C in/out vectors are read back with `lhu`, so u16 fields
+ * (TU:4309 house note on func_8017F234) */
+typedef struct { u16 vx, vy, vz, pad; } UVEC_80182BD8;
+
+void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
+{
+    s32 buf1[8];
+    s32 buf2[8];
+    UVEC_80182BD8 out1;
+    UVEC_80182BD8 out2;
+    UVEC_80182BD8 diff;
+    s32 base;
+    s32 ent;
+    s32 i;
+    s32 e;
+    u16 cur;
+
+    cur = a1[0];
+    base = *(s32 *)(*(s32 *)(a0 + 0x20) + 0x20);
+    if (*(s16 *)a1 != -1) {
+        do {
+            func_80184FBC(base, (s16)cur, buf1);
+            func_80184FBC(base, *(s16 *)(a1 + 1), buf2);
+            func_8012F14C((s32)buf1, (s32)D_800D3918, (s32)&out1);
+            func_8012F14C((s32)buf2, (s32)D_800D3918, (s32)&out2);
+            diff.vx = out2.vx - out1.vx;
+            diff.vy = out2.vy - out1.vy;
+            diff.vz = out2.vz - out1.vz;
+            a1[2] = out1.vx;
+            a1[3] = out1.vy;
+            a1[4] = out1.vz;
+            e = VectorNormalSS(&diff, a1 + 6);
+            if (a3 == 0) {
+                a1[9] = func_80047D3C(e);
+                for (i = 0; i < a2; i++) {
+                    ent = func_801850D8(4, 0x3000, 0, 0, &diff, a0, (s32)D_8018E47C, 0);
+                    if (ent != 0) {
+                        *(s32 *)(ent + 0x50) = (s32)a1;
+                        *(s16 *)(ent + 0x54) = i;
+                        *(s16 *)(ent + 0x56) = a2;
+                        *(s16 *)(ent + 0x4C) = rand() % 8;
+                        *(s32 *)(ent + 0x20) |= 0x800000;
+                    }
+                }
+            }
+            a1 += 10;
+            cur = a1[0];
+        } while (*(s16 *)a1 != -1);
+    }
+}
+
+
+#include "common.h"
+
+/* func_80182DCC — MATCH (234 ins). Ambient-particle spawner: on two independent
+ * frame-counter beats it fires bursts of func_801850D8 emitters at randomised Y.
+ *
+ * KEY TECHNIQUES (all four are the whole crack; see the notes in the wave report):
+ *  1. `D_800B99DA % 7` / `*(u16*)(p+0xA3AA) % 9` — a plain `u16 % const` shortens
+ *     (c-typeck `shorten` for TRUNC_MOD_EXPR with an unsigned NOP_EXPR operand), so
+ *     you get the UNSIGNED magic (0x24924925 / 0x38E38E39) + a trailing
+ *     `andi 0xFFFF`. Do NOT write `(u32)D_800B99DA % 7` — that loses the andi.
+ *  2. The SAME halfword is read twice with two different spellings: once as the bare
+ *     symbol `D_800B99DA` (lui %hi / lhu %lo) and once off a held base pointer
+ *     `u8 *p = D_800AF630;` at +0xA3AA (as expands `lui at,1; addu at,s3,at;
+ *     lhu -0x5C56(at)`) — the resident.c "single-base-register" idiom. `p` declared
+ *     at the TOP is what keeps &D_800AF630 in a callee-saved reg across block 1.
+ *  3. &D_8018E59C must RELOAD at each call (folded lui %hi / addu / lw %lo), not
+ *     hoist into a 9th callee reg: write it as a BYTE pointer + SHIFTED index
+ *     `*(s32 *)(((rand() & 1) << 2) + (s32)D_8018E59C)`, never `D_8018E59C[rand() & 1]`
+ *     (the array form costs `la` + one more saved register = +4 ins).
+ *  4. `sp20[1] -= 0x20; sp20[1] -= i*4;` must be written as SEPARATE statements on an
+ *     s32 temp. Any single expression (`x - 0x20 - i*4`, parenthesised, or via a temp
+ *     for the product) lets gcc associate the constant into the induction variable and
+ *     loop.c strength-reduces `0x20 + 4*i` to one register (`li s4,32` + `addiu 4`).
+ *     The target keeps `sll i,2` unreduced — a bare 4*i giv is below the worth-while
+ *     threshold. Writing `x - i*4 - 0x20` also avoids the giv but emits subu BEFORE
+ *     addiu; only the split statements give the target's addiu-then-subu order.
+ *
+ * BANKING NOTE (S71a, law 2): the destination TU declares `extern s32 D_8018E59C[];` at FILE
+ *  scope (TU:5181, before this function) and reads it as
+ *  `*(s32 *)(((rand() & 1) << 2) + (s32)D_8018E59C)` (TU:5347, func_801831E0). The earlier
+ *  draft's file-scope `extern u8 D_8018E59C[];` was a 'conflicting types' compile error in the
+ *  TU -- the body was already right. Spelled per the TU here; re-verified MATCH standalone AND
+ *  spliced into a scratch copy of the TU (cc1 clean, 234/234, 19/19 relocs by offset+symbol).
+ *
+ * Regalloc/schedule levers that closed the last 46 instructions:
+ *  - THREE separate `range` locals (0xA00 / 0x1000 / base>>1). gcc-2.7.2 has no
+ *    live-range splitting, so one C variable = one hard reg; the target uses s1/s7/s4,
+ *    which is only reachable with three variables. This alone fixed all 39 register
+ *    mismatches (arg0 s7->s6, p s1->s3, base s6->s5, off s4->s3, copy s5->s4).
+ *  - loop 2's per-outer-iteration offset is written INLINE as `i * 0x600` so loop.c
+ *    reduces it and emits the non-replaceable giv's `move s4,s3` at the top of the
+ *    body (loop.md L5); loop 3's is a plain `off += 0x800` biv, used directly.
+ *  - `i = 0;` hoisted out of each `for (;;)` header: sched1 wants the counter init
+ *    between `base` and `range` in all three preheaders (last 7 mismatches).
+ */
+
+extern u8 D_800AF630[];
+extern u16 D_800B99DA;
+extern s32 rand(void);
+extern s32 func_801850D8();
+extern s32 D_8018E59C[];
+
+void func_80182DCC(void *arg0) {
+    u16 sp20[3];
+    u8 *p = D_800AF630;
+    s32 i, j;
+    u32 base;
+    s32 range1;
+    s32 range2;
+    s32 range3;
+    s32 off;
+    s32 ret;
+    s32 h;
+
+    if (D_800B99DA % 7 == 0) {
+        base = 0x1400;
+        i = 0;
+        range1 = 0xA00;
+        sp20[0] = 0x30;
+        sp20[1] = 0;
+        sp20[2] = 0;
+        for (; i < 7; i++) {
+            ret = func_801850D8(1, base + rand() % range1, 0, 0, sp20, (s32)arg0,
+                                *(s32 *)(((rand() & 1) << 2) + (s32)D_8018E59C), 0);
+            if (ret != 0) {
+                *(s32 *)(ret + 0x20) |= 0xA00000;
+            }
+            sp20[0] -= 0x10;
+        }
+    }
+    if (*(u16 *)(p + 0xA3AA) % 9 == 0) {
+        base = 0x2000;
+        i = 0;
+        range2 = 0x1000;
+        sp20[1] = 8;
+        sp20[2] = 0;
+        for (; i < 5; i++) {
+            sp20[0] = 8;
+            h = sp20[1];
+            h -= 0x20;
+            h -= i * 4;
+            sp20[1] = h;
+            for (j = 0; j < 3; j++) {
+                ret = func_801850D8(1, (s16)(base + rand() % range2 + i * 0x600), 0, 0, sp20,
+                                    (s32)arg0, *(s32 *)(((rand() & 1) << 2) + (s32)D_8018E59C), 0);
+                if (ret != 0) {
+                    *(s32 *)(ret + 0x20) |= 0xA00000;
+                }
+                sp20[0] -= 8;
+            }
+        }
+        sp20[1] = 0;
+        i = 0;
+        range3 = base >> 1;
+        off = 0x800;
+        for (; i < 2; i++) {
+            sp20[0] = 8;
+            sp20[1] += 0x14;
+            for (j = 0; j < 3; j++) {
+                ret = func_801850D8(1, (s16)(base + rand() % range3 - off), 0, 0, sp20,
+                                    (s32)arg0, *(s32 *)(((rand() & 1) << 2) + (s32)D_8018E59C), 0);
+                if (ret != 0) {
+                    *(s32 *)(ret + 0x20) |= 0xA00000;
+                }
+                sp20[0] -= 8;
+            }
+            off += 0x800;
+        }
+    }
+}
+
 
 extern u16 D_801BA628;
 extern u16 D_801BA62A;
