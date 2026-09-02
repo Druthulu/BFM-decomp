@@ -228,6 +228,7 @@ def main_tus():
     return sorted(glob.glob('src/*.c'))
 
 _STUBS_BY_BIN = {}
+_HDR_DEFS = {}      # destination .c -> typedefs its #includes provide (see header_defs)
 
 
 def _stubs_for(binary):
@@ -528,6 +529,37 @@ def substitute(entries, write=True, transform=None):
         # (src/800.c defines `Rec14`/`Rsc24` hundreds of lines after the INCLUDE_ASM lines that
         # now want them). Reusing one from below yields `parse error before '*'` at the draft.
         # So the visible set is recomputed per draft against its own insertion offset.
+        # TYPEDEFS ARRIVE THROUGH `#include`, NOT ONLY FROM THE .c (P31 S72). `defs_above` scans
+        # the destination .c alone, so a typedef the TU gets from a HEADER is invisible to the
+        # stripper and every draft carrying its own copy dies with `redefinition of 'X'`. That was
+        # latent until the src/800.c split moved 19 shared typedefs into src/800_shared.h, at
+        # which point func_80031988's draft — byte-correct, and one of the eleven — failed to
+        # compile for that reason alone. Header-provided definitions are seeded exactly like
+        # in-file ones, so an IDENTICAL copy is stripped and a DIFFERENT shape is renamed.
+        def header_defs(path):
+            if path in _HDR_DEFS:
+                return _HDR_DEFS[path]
+            out, seen_h = {}, set()
+            queue = [path]
+            while queue:                       # follow quoted includes transitively
+                cur = queue.pop()
+                try:
+                    txt = open(cur, errors='replace').read()
+                except OSError:
+                    continue
+                if cur != path:
+                    for p in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
+                        for mm in p.finditer(txt):
+                            out.setdefault(mm.group(1), _norm_td(mm.group(0)))
+                for m in re.finditer(r'^\s*#\s*include\s+"([^"]+)"', txt, re.M):
+                    for cand in (os.path.join(os.path.dirname(cur), m.group(1)),
+                                 os.path.join('include', m.group(1)),
+                                 os.path.join('src', m.group(1))):
+                        if os.path.exists(cand) and cand not in seen_h:
+                            seen_h.add(cand); queue.append(cand); break
+            _HDR_DEFS[path] = out
+            return out
+
         def defs_above(text, at):
             """Typedefs defined strictly ABOVE offset `at` in the CURRENT text.
 
@@ -535,7 +567,7 @@ def substitute(entries, write=True, transform=None):
             captured once go stale and understate where a definition really sits -- which would
             mark a below-the-draft typedef as reusable, the exact bug this guards against. It also
             naturally picks up typedefs contributed by drafts already substituted above."""
-            out = {}
+            out = dict(header_defs(path))
             for p in (TYPEDEF_BLOCK, TYPEDEF_PLAIN):
                 for mm in p.finditer(text):
                     if mm.start() < at:
