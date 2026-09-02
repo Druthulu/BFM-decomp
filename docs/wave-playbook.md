@@ -188,13 +188,21 @@ never a body to copy: §168 law 1 measured cousin-remap at 0/26.
 ## 3. Packs
 
 ```
-python3 tools/claude_wave_packs.py .run/<wave>/targets.json .run/<wave>/packs \
+python3 tools/claude_wave_packs.py .run/<wave>/targets.json .run/<wave> \
         --cards .run/<wave>/cards.json
-mv .run/<wave>/packs/packs/*.md .run/<wave>/packs/ ; rmdir .run/<wave>/packs/packs
 ```
 
-Positional args, not flags. It nests `packs/packs/` — flatten it or `wave_args` reports every
-target as "no pack".
+Positional args, not flags. **The second arg is the WAVE dir, not `<wave>/packs`** — the tool writes
+`out_dir/SYS.md` + `out_dir/packs/<fn>.md`, which is exactly the layout the drafting prompt reads.
+
+> **CORRECTED P31 S70 — the old form silently cost every agent its laws file.** This step used to be
+> documented as `... .run/<wave>/packs` followed by
+> `mv .run/<wave>/packs/packs/*.md .run/<wave>/packs/`. That put the packs one level too deep (hence
+> the mv) and **SYS.md at `<wave>/packs/SYS.md`, while `claude_wave_draft.js` tells every agent to
+> read `<wave>/SYS.md`**. So SYS.md did not exist where any agent looked, in every wave, and the
+> drafting brief silently degraded to "the pack alone". Two S70 agents reported it verbatim
+> ("NOTE: .run/S70y_1/SYS.md does not exist — worked from the pack alone"); the rest never mentioned
+> it. Pass the wave dir and the mv disappears with the bug.
 
 ## 4. Validate — never hand-type a target
 
