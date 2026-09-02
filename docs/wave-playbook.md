@@ -340,6 +340,31 @@ are disjoint and ordered, because the spans ARE the original TUs' rodata. Until 
 **drawing a span-B/C/D function is an R45 violation: the pipeline cannot bank it.** Census the class
 with the `jr $rN` (N != `ra`) detector — never `jr $ra`, which ends every function (§401).
 
+### 5b. GATE THE DIRECTORY, NEVER THE VERDICT LIST (P31 S72)
+
+A wave's reported verdicts are a claim about what the AGENTS returned, not about what is **on disk**.
+`claude_wave_draft.js` cannot read the filesystem, so its `.catch()` reports `NO-DRAFT` for any agent
+that dies — including one that already wrote a finished body.
+
+**Measured, S72.** A Fable agent on `main/func_80024448` spent 133k tokens / 17 tool calls / 10 min,
+wrote `.run/S72m_1/fable/func_80024448.c`, and was then killed by
+`You've reached your Fable limit`. The workflow returned:
+
+```
+{"fn":"func_80024448","status":"NO-DRAFT","closeness":null,"compiles":false,"draft_path":""}
+```
+
+`match_one` on that same file: **`{"status":"match","closeness":0,"nins":362}`** — a complete,
+byte-perfect body reported as no work at all. Believing the verdict discards it; scanning the
+directory finds it. This is §404 seen from the other side, and R40: a provider rate limit is a
+HARNESS event, and attributing it to the target ("Fable failed on this function") is a false model
+verdict — the same class as S71's seven.
+
+**Apply:** after every wave, `find <wave> -name '*.c'` and score everything, whatever the verdicts
+said; a sibling `scratch_<fn>/` with candidates but no final draft is worth scoring too. And when a
+tier is exhausted, re-run its targets on the next tier ALONGSIDE the dying agents — never kill a
+running workflow to relaunch it differently.
+
 ## 6. Gate — EVERYTHING PARALLEL. There is no serial lane.
 
 ```
