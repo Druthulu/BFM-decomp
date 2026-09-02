@@ -27,8 +27,9 @@ A gate that starts on a dirty tree cannot tell your edits from its own. `ghidra/
 
 ```
 python3 tools/draw_waves.py --prefix .run/<name>_ --waves 1 --per-wave <N> \
-        --exclude "$(cat .run/S67_exclude2.txt)"
-python3 tools/draw_waves.py --only-main --prefix .run/<name>m_ --waves 1 --per-wave <M> --exclude ...
+        --exclude-file config/wave_exclude.txt --ledger .run/<name>_ledger.json
+python3 tools/draw_waves.py --only-main --prefix .run/<name>m_ --waves 1 --per-wave <M> \
+        --exclude-file config/wave_exclude.txt --ledger .run/<name>_ledger.json
 ```
 
 * **`--prefix` IS A RELATIVE PATH.** `--prefix s67o` writes `./s67o1/` into the repo root, not
@@ -41,14 +42,17 @@ python3 tools/draw_waves.py --only-main --prefix .run/<name>m_ --waves 1 --per-w
 
   > **Measured the day after `.run/S71_exclude.txt` was written: 88 of its 107 entries were stale**
   > — 28 already banked, 14 linked PsyQ symbols that were never targets, and **46 whose blocker had
-  > since been fixed**. Those 46 are **12,750 instructions of open, drawable work**, including
-  > `main:SaveLoadRoutine` (1,165), the largest function left in main. A list that filters them out
-  > costs more than it saves. Current list: **`config/wave_exclude.txt` (19 entries)**.
+  > since been fixed**. Those 46 are **12,750 instructions of open, drawable work**, including large main functions that S73 then banked.
+  > (Do NOT read `SaveLoadRoutine` as drawable — it is the §434 frame pair, excluded from draws.) A list that filters them out
+  > costs more than it saves. Current list: **`config/wave_exclude.txt`** — 26 entries as of S73 (16 CARVE-BLOCKED + 10 WALL); always trust `exclude_audit`, never a number written here.
 
 * **The exclude list is not optional.** It carries two populations that no model can bank:
-  * **96 jtbl functions whose carve plan `build_carve` REFUSES** (non-contiguous same-subseg
-    `.rodata`). Cookbook §322. Before the S67 probe fix these all read "carveable".
-  * **the toolchain walls** (`.run/S67_walls.txt`): §188 epilogue functions that `oracle_reorder.py`
+  * **CARVE-BLOCKED** — a subseg owning raw jtbls in >1 non-adjacent span, so only one can carve
+    (cookbook §322/§426). `tools/split_indicator.py` derives this set; as of P31 S73 it is **16
+    functions across 4 overlays** (`ov_SC01_084`, `ov_SC02_005`, `ov_SC02_011`, `ov_SC03_105`), not
+    the 96 the pre-S67 probe reported.
+  * **WALL** — curated toolchain walls, now MERGED into `config/wave_exclude.txt` and pinned
+    there with `# WALL:` (the seven `.run/S6*_walls.txt` ledgers are superseded): §188 epilogue functions that `oracle_reorder.py`
     proves byte-correct-but-unemittable, the §332 maspsx `la`-in-delay-slot set, and SDK-object
     addresses that belong to `psyq_integrate.py`. Measured: a main wave spent **4 of 7 slots**
     proving things already proven (§332a).
@@ -330,11 +334,11 @@ this session — it needs a gate, not another agent.
   no new script needed.
 
 Streaming **burns the 5-hour window faster** (it removes the idle gaps), so slots are the budget
-dial. Model routing: ≤50 ins Sonnet · 51–120 Sonnet · >120 Opus. Never Haiku→Opus directly.
+dial. Model routing (P31 S73): **≤120 ins Sonnet · >120 Opus**; Fable is the tier above Opus for >~340 ins BUT WAS EXHAUSTED account-wide in S73 (three agents died on "You've reached your Fable limit" after ~10 min / ~133k tokens each) — check `/usage-credits` before routing to it. Opus handled 424/459/464/663-ins targets fine; 1165 is beyond its measured band. Never Haiku→Opus directly.
 
 ### 1c. MAIN'S SWITCH FUNCTIONS ARE DRAWABLE ONLY INSIDE A CARVED SPAN (P31 S72, cookbook §426)
 
-25 of main's 59 frontier functions have a gcc jump table. A drafted switch emits its table into
+At S72 25 of main's 59 frontier functions had a gcc jump table; after S72+S73 it is **2 of 36**, and both are the §434 frame pair. The mechanism below is why they mattered. A drafted switch emits its table into
 `.rodata` while the raw copy is still emitted from the tail data object **unless that table's span is
 carved** — the image grows and 238 symbols shift, which reads as a codegen reject and is not one.
 `config/splat.us.exe.yaml` currently carves ONE span:
@@ -348,8 +352,9 @@ carved** — the image grows and 238 symbols shift, which reads as a codegen rej
 
 **All three game spans are carved as of S72** — `src/800.c` was split into three TUs at
 `0x8002B0B4` / `0x80035270` so each span gets its own code object (one object contributes exactly
-ONE contiguous `.rodata` run). 7 of the 14 main functions banked that session were span B/C, i.e.
-impossible the day before. **Every main jtbl function is now drawable**; the R45 refusal that used to
+ONE contiguous `.rodata` run). 7 of the 14 main functions banked in S72 were span B/C, i.e.
+impossible the day before, and S73 banked 9 more. **main's jtbl frontier is 25 -> 2**; the two
+survivors are the §434 frame pair (excluded from DRAWS, route = §265 pair transcription); the R45 refusal that used to
 apply here is gone. Census the class with the `jr $rN` (N != `ra`) detector — never `jr $ra`, which
 ends every function (§401). If a FOURTH span ever appears (a newly-matched switch whose table sits
 outside A/B/C), it needs its own object too: split again at that span's owner range (§431).
@@ -390,9 +395,12 @@ python3 tools/parallel_gate.py --plan plan.json --workers 12 --commit
 > `gate_stage`, which builds incrementally, and main's extract rewrites the linker script. Use
 > `tools/gate_main.py <slate> --apply`: baseline assert → one clean rebuild per slate (~15 s with
 > `-j`) → bisect on failure. Since S72 a red batch **preserves the failing image + map** under
-> `.run/gate_main_fail/<tag>/` and prints the attribution — **BODY REJECT** (divergence confined to
-> the drafted function) vs **PLUMBING REJECT** (the function is byte-identical, everything differs
-> elsewhere) vs **MIXED**. Read that line before recording any main verdict; a bare hash cannot tell
+> `.run/gate_main_fail/<tag>/` and prints the attribution — FOUR verdicts: **BODY REJECT**
+> (divergence confined to the drafted function) · **TABLE REJECT** (§405-A — `.text` is
+> byte-identical and ALL divergence is in `.rodata`, i.e. its own jump table: fix the case
+> VALUES/ORDER, do NOT respell the body and do NOT run the §376 chain; on main's switch
+> functions this is the DOMINANT residual, §433) · **PLUMBING REJECT** (byte-identical, differs
+> elsewhere IN CODE -> the §376/§378 chain) · **MIXED**. Read that line before recording any main verdict; a bare hash cannot tell
 > those apart, and mistaking the second for the first parked 11 functions for a session (§426/§427).
 > A single-entry slate gets the sharpest verdict; drops go to `.run/gate_main_dropped.json` with the
 > §376/§378 recovery chain spelled out.
@@ -450,7 +458,7 @@ python3 tools/gate_triage.py --plan <gate_plan.json>
 ```
 
 Routes every verdict to the lane it names and asserts the staged denominator: CARVE (probe it —
-`jr_isolate_all` is usually the unblock) · UNDEF-D (§171 `aprop_symfix`) · CONFLICT/ARITY (§376/§378)
+`jr_isolate_all` was the usual unblock; as of S73 it and `split_src_region` run to completion but the resulting object still fails to ASSEMBLE, so no overlay has been split with them — prefer cookbook §431, cut the file verbatim and let the compiler enumerate what crosses) · UNDEF-D (§171 `aprop_symfix`) · CONFLICT/ARITY (§376/§378)
 · PARSE · NO-DIAG · DIFF (real codegen). S71's census over 37 verdicts: DIFF 18 · CARVE 7 · PARSE 3 ·
 NO-DIAG 3 · CONFLICT 2 · ARITY 2 · UNDEF 2 — which corrected an impression that carve dominated.
 
