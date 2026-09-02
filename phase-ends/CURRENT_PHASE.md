@@ -6169,3 +6169,42 @@ Every one sits in a CARVED span. They need only DRAFTING; the pipeline can bank 
 * **A real measurement of the wrong quantity is worse than no measurement.** I costed the split from
   "2,318 externs" (the total) when what matters is how many CROSS a boundary (57). It nearly
   deferred 39% of main.
+
+---
+
+## S72 ADDENDUM — the split constraint is now a fleet CHECK, and it found 4 more binaries
+
+`tools/split_indicator.py` (NEW, in `make tools-health`). A code object contributes exactly ONE
+contiguous `.rodata` run, so a subseg owning raw jump tables in ≥2 non-adjacent island spans makes
+every switch function outside the one carveable span **unbankable at any effort**. That is what
+`main` was from Phase 7 to Phase 31. **It is decidable from the raw image at 0% matched** — find the
+tables, group the contiguous runs, map each run to its referencing functions' address range, check
+whether two runs land in one subseg. No attempt needed, no matching progress needed.
+
+**FIRST FLEET RUN: 209 of 213 OK, 4 flagged, 3.7 s.**
+
+| binary | subseg | open fns | ins |
+|---|---|---|---|
+| `ov_SC03_105` | `ov_SC03_105_jr_8017C8D0` | 8 | 2,205 |
+| `ov_SC02_011` | `ov_SC02_011_jr_8017AE2C` | 4 | 717 |
+| `ov_SC01_084` | `ov_SC01_084_jr_8017F690` | 2 | 438 |
+| `ov_SC02_005` | `ov_SC02_005_jr_80181D30` | 2 | 253 |
+
+**16 open functions / 3,613 instructions = 18% of the non-main frontier**, every one of them already
+sitting in `.run/S71_exclude.txt` as if unmatchable rather than as *"needs a subseg split"*. The fix
+is §431's method applied per overlay — and it is CHEAPER there than it was for main, because these
+`_jr_` subsegs are small.
+
+**Re-probe of that exclude list (the tool changed, so the list is stale — the standing rule):
+28 of its 107 entries are ALREADY BANKED**, 14 of them this session. Regenerate it before the next
+draw or it will keep filtering out work that is now doable.
+
+**The check is INFORMATIONAL in `tools-health`, not a hard failure** — 4 known violations exist, and
+a permanently-red gate trains people to ignore it (R54). It prints the details every run. If a FIFTH
+appears, that is a regression: ratchet it.
+
+**Also fixed here (R36 — a new TU is not real until every consumer knows it):** `reconcile_slate`
+hardcoded `src/800.c` and saw 133 of 187 typedefs after the split; playbook 1c still said spans B/C
+were NOT drawable; cookbook §426 still listed the split as future work; `config/dedup.us.yaml` and
+`src/shared/clearTbl40.h` both named `src/800.c` for a group now in `src/800_c.c`. **The honest gap:
+that was a grep audit, and nothing gates "every consumer knows main's TU list."**
