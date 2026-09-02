@@ -636,8 +636,73 @@ def gate_feedback(t):
                     best = r
         if best and best.get('mismatches'):
             ms = best['mismatches'][:6]
-            out.append('SYMBOL MISMATCHES from the last shape-MATCH attempt (your instruction stream already '
-                       'matched; ONLY these names were wrong -- fix the names, change nothing else):\n' +
+            # THE BLOCK MUST BE PROVABLY ABOUT *THIS* (binary, fn) OR IT IS NOT SERVED (P31 S70).
+            # This read side keys the row by (binary, fn) -- but ox_campaign.reloc_filter STAMPS that
+            # binary from `binof = {c["fn"]: c["binary"]}`, a BARE-NAME dict (R48 violation, still
+            # unfixed upstream): wave `el` carried 44 names in >=2 binaries, so func_8017D918's row
+            # was stamped ov_SC06_020 while the draft it checked was ov_SC01_074's. A read-side key
+            # is only as good as the write-side stamp, so validate the row against the TARGET'S OWN
+            # bytes before quoting it. MEASURED over .run/reloc_rejects.jsonl (14,071 rows -> 182
+            # servable (binary, fn)):
+            #   * 149 of 182 carry aligned=False / status "MISMATCH?" -- reloc_identity's own caveat
+            #     on those rows reads "streams are not index-aligned -- verdicts are ADVISORY; fix
+            #     the shape first", yet the text below asserted the exact opposite ("your instruction
+            #     stream already matched; ONLY these names were wrong"). 140 of those 149 print at
+            #     least one "the target references 0x..." that is not an address at all (0x000F2840,
+            #     0x287F8019) -- arithmetic proof that index i was read off the wrong stream.
+            #   * ALL 15 of the 15 S70 packs carrying this block were aligned=False, and 55 of their
+            #     66 printed lines (83%) named a non-address. For the 4 whose .s is on disk, 4/4
+            #     named symbols the target .s never relocates -- precisely what the
+            #     ov_SC02_035:func_8017D3F4 and ov_SC06_020:func_8017D918 agents reported as
+            #     "cross-overlay contamination ... ignore it".
+            # R39 NEGATIVE CONTROL over every block that can still reach an agent (the 14 whose
+            # function is still an open stub): 12 withheld, every one aligned=False; the 2 aligned
+            # survivors (ov_SC03_029:func_80186A34, ov_SC07_011:func_8016AB6C) pass every check --
+            # all 6 of their target addresses ARE relocated by their own .s, and both are still
+            # served verbatim. Zero false positives. Whole index: 145 withheld not-aligned, 1
+            # withheld non-address, 30 served hedged (aligned but the .s is not extracted right
+            # now, so the block never CLAIMS validation), 2 served validated, 4 unchanged.
+            # R33: `aligned` is reloc_identity's own invariant, not a new scanner. R32: withheld
+            # LOUDLY, in the pack and on stdout, never silently dropped.
+            _asm = t.get('asm')
+            try:
+                _s = open(os.path.join(REPO, _asm), errors='replace').read() if _asm else None
+            except Exception:
+                _s = None
+            _why = None
+            if not best.get('aligned'):
+                _why = ('reloc_identity marked it ADVISORY (aligned=false, status %s): the draft and '
+                        'target relocation streams are not index-aligned, so every per-index claim '
+                        'in it is void' % best.get('status'))
+            else:
+                for m in ms:
+                    try:
+                        _a = int(str(m.get('target_addr')), 16)
+                    except Exception:
+                        _why = 'it prints an unparsable target address %r' % (m.get('target_addr'),)
+                        break
+                    if not 0x80000000 <= _a < 0x80800000:
+                        _why = ('it claims the target references %s, which is not an address -- its '
+                                'index alignment is wrong' % m.get('target_addr'))
+                        break
+                    if _s is not None and ('func_%08X' % _a) not in _s and ('D_%08X' % _a) not in _s \
+                            and (m.get('target_name') or '\0') not in _s:
+                        _why = ('it claims the target references %s, which %s does NOT relocate -- '
+                                'the row was computed against a different overlay' % (m.get('target_addr'), _asm))
+                        break
+            if _why:
+                out.append('SYMBOL MISMATCH FEEDBACK WITHHELD for %s:%s -- %s. Treat the previous '
+                           'attempt as wrong in SHAPE, not merely in naming, and derive every symbol '
+                           'from %s yourself.' % (b, fn, _why, _asm or 'the target .s'))
+                print('  %s:%s: SYMBOL MISMATCHES block withheld -- %s' % (b, fn, _why), flush=True)
+            else:
+                _prov = ('validated against %s: every address below IS relocated by this target'
+                         % _asm) if _s is not None else \
+                        ('NOT validated -- %s is not on disk, so confirm each address against the asm '
+                         'before acting on it' % (_asm or 'the target .s'))
+                out.append('SYMBOL MISMATCHES from the last shape-MATCH attempt (%s). The instruction '
+                           'stream already matched; ONLY these names were wrong -- fix the names, '
+                           'change nothing else:\n' % _prov +
                        '\n'.join('  i=%s %s: draft named %s but the target references %s%s'
                                   % (m.get('i'), m.get('kind'), m.get('draft_symbol'), m.get('target_addr'),
                                      (' = ' + m['target_name']) if m.get('target_name') else '')
