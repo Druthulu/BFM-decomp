@@ -276,6 +276,9 @@ tools-health:
 	$(VENV_PY) tools/split_indicator.py --self-test
 	$(VENV_PY) tools/split_indicator.py --quiet || \
 	  echo "  ^ split_indicator: subsegs above need a TU split before their switch fns can bank (cookbook §431) — informational, not a tools-health failure"
+	# INFORMATIONAL ONLY WHILE 4 KNOWN VIOLATIONS EXIST (ov_SC01_084, ov_SC02_005, ov_SC02_011,
+	# ov_SC03_105 — 16 open fns / 3,613 ins). A permanently-red gate trains people to ignore it
+	# (R54). WHEN THE LAST ONE IS SPLIT, DROP THE `|| echo` ABOVE so a regression fails the gate.
 	echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green."
 
 report:
