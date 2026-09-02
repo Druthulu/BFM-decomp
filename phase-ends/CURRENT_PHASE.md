@@ -5314,6 +5314,26 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   shard ambiguity measured at **0 of 50,684 (shard, name) pairs over 302,370 shard files**, so the
   shard list is a clean key; the refusal guard is there for the case that never happened.
 
+- 2026-09-02 — **S71: `parallel_gate` was DISCARDING every main bank it produced.** The 64-draft
+  integration gate reported "12 banked across 2 binaries" and committed **1**. The merge captures a
+  worker's edits with `git status --porcelain -- src/<binary>/`, and **`src/main/` does not exist** —
+  main's TUs are `src/800.c`, `src/boot.c`, … — so main's `files` came back `{}` while the bank oracle
+  (a stub disappeared) still counted 11. Byte-proven work, silently dropped, and the summary printed a
+  number that included it. Fixed with `src_scope()`, which takes the scope from the binary's OWN stub
+  rows (each names its TU) and keeps the directory prefix for overlays that have one — negative-
+  controlled: main scope 0 → **54 TUs**, `ov_SC07_006` 1 → 3 (superset, no regression). Re-gated main:
+  **11 banked, committed commit:3586** (`src/800.c`, +928 lines), main's real frontier **64 → 53**.
+  Same commit: a reused worktree's stale `.run/harvest_failed*.classified.txt` was being read by the
+  NEXT job, so verdict rows appeared under the wrong binary (an `ov_SC04_011` row whose own text names
+  `src/ov_SC01_009/…`); the worker now clears them first. New `tools/gate_triage.py` routes a gate's
+  verdicts to the repair lane each one names (R47).
+- 2026-09-02 — **S71 probe (R37): the integration failures are T0 declaration conflicts, and ONE bad
+  draft was killing its binary's good ones.** `recover_integration --probe-only` over 4 binaries:
+  every blocker is `conflicting types for <D_…|SV3|SVEC_…|Blk4_…|func_…>` (data_decl / local_type /
+  callee_decl, all T0) — and **4 of 9 probed drafts compile-and-MATCH in their REAL TU** (139, 279, 72
+  ins) yet banked nothing, because a binary's drafts are staged together and one CC1-FAIL fails the
+  whole build. Staging only the real-TU MATCHes is a free recovery lane.
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**

@@ -50,7 +50,7 @@ to prevent). Adopting is per-BINARY and per-FILE, never a blanket add.
   parallel_gate.py --plan plan.json [--workers 8] [--commit] [--r22] [--keep]
       plan.json: [{"binary": "ov_SC03_099", "drafts": "/abs/path/to/dir"}, ...]
 """
-import argparse, functools, json, os, re, shutil, subprocess, sys, time
+import argparse, functools, glob, json, os, re, shutil, subprocess, sys, time
 import work_evidence
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -201,6 +201,27 @@ def stubs_of(wt, binary):
     return set(r.stdout.split())
 
 
+def src_scope(wt, binary):
+    """The paths `git status` must be asked about to find this binary's edits.
+
+    `src/<binary>/` is true for every OVERLAY and FALSE FOR main, whose TUs sit at `src/*.c`
+    (src/800.c, src/boot.c, ...). The merge asked `git status --porcelain -- src/main/`, which
+    matches nothing, so a main worker returned `files: {}` — and parallel_gate then printed
+    "12 banked across 2 binaries" and committed ONE of them. Measured P31 S71: 11 byte-proven main
+    banks discarded in a single batch, and silently, because the bank oracle (a stub disappeared)
+    and the merge scope are two different questions. So take the scope from the binary's OWN stub
+    rows, which name their TU, and keep the directory prefix for the overlays that have one.
+    """
+    r = sh([PY, "-c",
+            "import sys;sys.path.insert(0,'tools');import corpus;"
+            "print('\\n'.join(sorted({s.path for s in corpus.stubs(%r).values()})))" % binary],
+           cwd=wt)
+    paths = {p for p in r.stdout.split() if p} if not r.returncode else set()
+    if os.path.isdir(os.path.join(wt, "src", binary)):
+        paths.add("src/%s/" % binary)
+    return sorted(paths) or ["src/%s/" % binary]
+
+
 _JTBL_RE = re.compile(r"jtbl_[0-9A-Fa-f]{8}")
 
 
@@ -329,6 +350,17 @@ def gate_one(idx, pin, job):
         before = stubs_of(wt, binary)
         if before is None:
             return {"binary": binary, "banked": [], "error": "corpus refused in worktree"}
+        scope = src_scope(wt, binary)      # BEFORE the gate: a bank deletes the stub naming its TU
+        # STALE VERDICTS FROM AN EARLIER JOB IN THIS REUSED WORKTREE (P31 S71). Worktrees wt0..wtN
+        # are reused across jobs, and the verdict layer below reads every
+        # `.run/harvest_failed*.classified.txt` it finds — so a later job inherited an earlier
+        # binary's rows and reported them under its own name (ov_SC04_011 carrying a verdict whose
+        # own text names src/ov_SC01_009/...). Clear them so a verdict belongs to the job that made it.
+        for _stale in glob.glob(os.path.join(wt, ".run", "harvest_failed*.classified.txt")):
+            try:
+                os.remove(_stale)
+            except OSError:
+                pass
         r = sh([PY, "tools/gate_stage.py", "--drafts", drafts, "--binary", binary,
                 "--no-propagate", "--source-tag", "pgate"], cwd=wt, timeout=3600)
         # WALL-CLOCK FLOOR (P31 S70, §402). A worker that reached gate_stage is committed to a full
@@ -343,7 +375,7 @@ def gate_one(idx, pin, job):
         banked = sorted(before - after) if after is not None else []
         files, ovl = {}, None
         if banked:                       # capture the worker's resulting TU text for the merge
-            for rel in sh(["git", "status", "--porcelain", "--", "src/%s/" % binary],
+            for rel in sh(["git", "status", "--porcelain", "--"] + scope,
                           cwd=wt).stdout.splitlines():
                 p = rel[3:].strip()
                 if p:
