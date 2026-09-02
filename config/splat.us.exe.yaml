@@ -204,6 +204,19 @@ segments:
       # splat mis-detect it as func_80062998 (shadowing D_80062998). Carving it as the head of the
       # front-data subseg forces the data labels deterministically. (ld_interleave FRONT_DATA matches.)
       - [0x53198, data, 53198]  # data table + front data (vram 0x80062998-0x80072A38)
-      - [0x63238, .rodata, 800] # LZSS jtbl_80072A38 ONLY (vram 0x80072A38-0x80072A4C) -> migrates into LzssDecodeSector
-      - [0x6324C, data, 6324C]  # tail data: rest of island (raw) + globals (vram 0x80072A4C-0x80074800)
+      # P31 S72 — SPAN EXTENSION. The Phase-7 carve stopped at the LZSS table because a FULL
+      # island migration hits the interleaved game data and the library jtbls. But the island
+      # opens with a CONTIGUOUS run of game tables owned entirely by subseg 800:
+      #   0x80072A38 jtbl (LzssDecodeSector, matched, cc1-emitted)
+      #   0x80072A4C A7C A94 AB4 ADC B0C B24 B3C B64 B88 BFC   (11 tables, 8 stubbed owners)
+      #   0x80072C70 loadDestPtrTable  <- first non-table datum, the span's hard end
+      # One code object may contribute exactly ONE contiguous .rodata run, and this whole run is
+      # 800.o's, in address order = src/800.c source order. So the span carves as one piece and
+      # the 3-piece data->rodata->data sandwich is unchanged in SHAPE, only in where it splits.
+      # This is what blocked every main switch function: gcc emits the drafted function's table
+      # into .rodata while the raw copy stayed here, so the image GREW (measured +28/+52/+76/+84
+      # on four drafts) and all 238 symbols above 0x80072A4C shifted. 25 of main's 59 frontier
+      # functions (6,215 of 12,912 instructions) are in that class.
+      - [0x63238, .rodata, 800] # LZSS jtbl + the 11 contiguous game jtbls (vram 0x80072A38-0x80072C70)
+      - [0x63470, data, 63470]  # tail data: loadDestPtrTable onward (vram 0x80072C70-0x80074800)
   - [0x65000]

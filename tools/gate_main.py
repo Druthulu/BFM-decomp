@@ -563,7 +563,12 @@ def clean_build():
     can pass without building is worse than no verifier."""
     run("rm -f build/us/SLUS_007.26")
     run("make extract BINARY=main")
-    r = run("make build BINARY=main")
+    # `-j`. `make build BINARY=main` without it is SINGLE-THREADED on a 32-core box; the
+    # Makefile's own JOBS knob is parallelism ACROSS binaries, which a one-binary build never
+    # reaches (memory `pass-j-to-every-build`, measured 6.1x elsewhere and byte-identical). A gate
+    # is run hundreds of times a session, so this is the difference between a probe you take and a
+    # probe you talk yourself out of.
+    r = run(f"make build BINARY=main -j{os.cpu_count() or 8}")
     if r.returncode != 0:
         # `make build BINARY=main` runs the SHA check itself, so rc!=0 does NOT mean "no
         # binary": a linked-but-MISMATCHED build also exits nonzero. Returning None here routed
@@ -578,12 +583,83 @@ def clean_build():
         return None, r                      # build truly failed -> no hash, and never a pass
     return sha(), r
 
+FAILDIR = '.run/gate_main_fail'
+
+
+def _preserve_and_localize(entries, got):
+    """Snapshot the RED image + its map, then name the symbols that actually diverged.
+
+    WHY THIS EXISTS (P31 S72). Every red verdict this gate has ever produced was two hashes and
+    nothing else -- and the R40 baseline control that runs immediately after a failure REBUILDS
+    THE TREE GREEN, overwriting `build/us/SLUS_007.26` and its map. The one artifact that could
+    say WHERE the image moved was destroyed, every time, before anyone could look at it.
+
+    That is not a cosmetic gap. S71 substituted 11 main drafts one at a time, saw 7 come back with
+    a different hash, and recorded all 11 as "PROVEN gate-rejects". A hash cannot distinguish
+    "your body is wrong" from "your body is perfect and the substitution changed a CALLER" -- the
+    §376 shape, where the TU keeps a stale `extern void f(void*)` while the definition is
+    `void f(s32)`, so every call site's argument codegen moves. Six of those eleven are that
+    class, and this gate's own pre-check names them (see resolve_conflicts) -- but the four that
+    reached a build were judged with no instrument that could tell the two apart.
+
+    So: copy the image and the map aside FIRST, attribute per byte, and print the verdict. With a
+    single-entry slate the verdict is the routing decision (body reject vs plumbing reject)."""
+    try:
+        import main_diff_locate as MDL
+    except Exception as e:                                   # never let diagnostics sink a gate
+        print(f"  (diff localization unavailable: {e})")
+        return
+    tag = entries[0]['fn'] if len(entries) == 1 else f"batch{len(entries)}"
+    d = os.path.join(FAILDIR, f"{tag}_{(got or 'nobin')[:8]}")
+    os.makedirs(d, exist_ok=True)
+    for f in ('build/us/SLUS_007.26', 'build/us/SLUS_007.26.map'):
+        if os.path.exists(f):
+            run(f"cp {f} {d}/")
+    built = os.path.join(d, 'SLUS_007.26')
+    mp = os.path.join(d, 'SLUS_007.26.map')
+    if not (os.path.exists(built) and os.path.exists(mp) and os.path.exists(MDL.REF)):
+        print(f"  (red image preserved at {d}, but localization inputs are incomplete)")
+        return
+    try:
+        sections, syms = MDL.parse_map(mp)
+        per, ndiff, _sz = MDL.attribute(open(built, 'rb').read(), open(MDL.REF, 'rb').read(),
+                                        sections, syms)
+    except Exception as e:
+        print(f"  (red image preserved at {d}; localization failed: {e})")
+        return
+    rows = sorted(per.values(), key=lambda x: -x['bytes'])
+    print(f"  RED IMAGE PRESERVED -> {d}")
+    print(f"  {ndiff} differing byte(s) across {len(rows)} symbol(s):")
+    for e in rows[:12]:
+        a = f"0x{e['first_addr']:08x}" if e['first_addr'] is not None else '?'
+        print(f"      {e['bytes']:>6}  {a}  {e['symbol']}")
+    if len(rows) > 12:
+        print(f"      ... {len(rows)-12} more ({sum(x['bytes'] for x in rows[12:])} bytes)")
+    if len(entries) == 1:
+        fn = entries[0]['fn']
+        inside = per.get(fn, {}).get('bytes', 0)
+        outside = ndiff - inside
+        if inside and not outside:
+            print(f"  VERDICT {fn}: BODY REJECT — divergence confined to the function itself.")
+        elif outside and not inside:
+            print(f"  VERDICT {fn}: PLUMBING REJECT — the function is BYTE-IDENTICAL; all "
+                  f"{outside} differing bytes are elsewhere. Route to the §376/§378 chain "
+                  f"(fix_arity_callers --any-proto -> cast_self_callers -> re-gate); do NOT "
+                  f"record this as a body reject.")
+        elif inside and outside:
+            print(f"  VERDICT {fn}: MIXED — {inside} bytes inside, {outside} outside. The body "
+                  f"verdict is UNPROVEN until the outside bytes are fixed and it is re-gated.")
+
+
 def try_batch(entries):
     run("git checkout -- " + " ".join(main_tus()))
     run("make extract BINARY=main")          # regenerate .s for the reverted stubs (hazard 2)
     substitute(entries)
     got, r = clean_build()
-    return got == GOOD, got, r
+    ok = got == GOOD
+    if not ok and got is not None and entries:
+        _preserve_and_localize(entries, got)
+    return ok, got, r
 
 def main():
     ap = argparse.ArgumentParser()
@@ -694,6 +770,21 @@ def main():
     if dropped:
         print("  (dropped drafts are usually CORRECT -- recover with a cast-at-use: adopt the")
         print("   other declaration verbatim and adapt at the use site, e.g. (&D_x)[i].)")
+        # A DROP IS A ROUTE, NOT A VERDICT (P31 S72). This list is the §376 pile: the draft's
+        # definition disagrees with a forward declaration the TU already carries, which is a
+        # PLUMBING problem with a named fix chain -- not evidence about the body. Printed-only,
+        # it kept getting read as a rejection: S71 recorded six of these as "PROVEN gate-rejects,
+        # §376 in its purest form -- do not re-slate", and they were never re-slated. Writing it
+        # to disk with the chain spelled out makes the recovery the obvious next command instead
+        # of a paragraph someone has to remember.
+        json.dump(dropped, open('.run/gate_main_dropped.json', 'w'), indent=1)
+        print(f"  -> .run/gate_main_dropped.json ({len(dropped)} to reconcile). The chain is:")
+        print(f"       tools/fix_arity_callers.py --apply --any-proto --funcs "
+              f"{','.join(d['fn'] for d in dropped)} \\\n"
+              f"           --drafts <dir> --journal .run/<id>/arity.json")
+        print(f"       tools/cast_self_callers.py --binary main --funcs <same> --drafts <dir> "
+              f"--apply --journal .run/<id>/cast.json")
+        print(f"       tools/gate_main.py <slate> --apply        # the byte-gate arbitrates")
     if not a.apply:
         print("\nDRY RUN. Re-run with --apply to substitute and clean-rebuild.")
         return

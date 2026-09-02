@@ -659,7 +659,7 @@ ifeq ($(BINARY),main)
 	# 6324C.data. Idempotent; keyed off splat's exact output (re-run = no-op).
 	# EXE-only (overlays have no rodata island) — gated to BINARY=main; --front/--tail
 	# name the sandwich .data objects (cookbook §8).
-	$(PYTHON) tools/ld_interleave.py --front 53198.data.o --tail 6324C.data.o $(LD_SCRIPT)
+	$(PYTHON) tools/ld_interleave.py --front 53198.data.o --tail 63470.data.o $(LD_SCRIPT)
 endif
 	# Phase-26 §8: overlays that carve a jr-function's jtbl into a dotted .rodata subseg run
 	# ld_interleave to place the migrated .rodata between the pre/post data-tail chunks (the
@@ -718,7 +718,7 @@ ASFLAGS_REORDER := -Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O2 -G0
 build/src/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@echo "  CC      $@"
-	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(if $(filter $*,$(REORDER_TUS)),$(VENV_PY) tools/reorder_passthrough.py | $(AS) $(ASFLAGS_REORDER) -o $@,$(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS),$(if $(filter md_%,$(BINARY)),| $(VENV_PY) tools/jtbl_rodata_pads.py --derive $(BINARY) --tu $(notdir $*))) | $(AS) $(ASFLAGS) -o $@)
+	@set -o pipefail; $(CPP) $(CPPFLAGS) -MMD -MP -MT $@ -MF $(@:.o=.d) $< | $(CC1_PSX) $(CC1FLAGS) | $(if $(filter $*,$(REORDER_TUS)),$(VENV_PY) tools/reorder_passthrough.py | $(AS) $(ASFLAGS_REORDER) -o $@,$(VENV_PY) $(MASPSX) --aspsx-version=$(ASPSX_VERSION) $(MASPSX_FLAGS) $(if $(JTBL_PADS),| $(VENV_PY) tools/jtbl_rodata_pads.py --pads $(JTBL_PADS),$(if $(filter md_% main,$(BINARY)),| $(VENV_PY) tools/jtbl_rodata_pads.py --derive $(BINARY) --tu $(notdir $*))) | $(AS) $(ASFLAGS) -o $@)
 
 # Per-module optimization override (SETUP §5.5 — per-module compiler mixing). The boot/
 # main/game-mode-dispatch module (src/boot.c, vram 0x80010000-0x800123F0) was compiled at

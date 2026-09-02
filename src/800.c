@@ -7054,7 +7054,120 @@ void func_8001A0FC(void) {
     D_800AE70C = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001A114);
+
+/* CD error-recovery state machine (0x8001A114), stepped from CdReadStateMachine's state 10.
+ * One step per call; returns 1 only when the path table has been re-resolved (recovery done).
+ *   0: CdFlush-ish reset + CdlNop -> 1     1: CdSync poll (2 -> advance, 0x10 -> restart)
+ *   2: CdlSetmode(0x80)                    3: burn 3 frames                4: CdSync poll
+ *   5: re-run CdSearchFile on the path entry (up to 16 tries) -> done / restart
+ *
+ * §ADD-8 (re-tie barrier): the two constant arguments of the state-0 CdControl must issue
+ * BEFORE the `la $s0,cdReq_cdResult`; sched1 otherwise ranks the address load first (it feeds
+ * $a2 and so has the longer chain). The zero-byte `__volatile__` re-ties pin them to source
+ * order.  §20/§243 (held-pointer): cdReq_retry in state 3 and D_800AE6F4 on the shared
+ * "advance" tail are spelled through a named pointer — that is what turns their %hi/%lo pairs
+ * into a single base register, and keeping the two tails textually distinct is what stops
+ * cross-jumping from merging .L8001A260 with .L8001A2AC. */
+
+extern void func_800434BC(void);
+extern int  func_80043830(int com, u8 *param, u8 *result);
+extern int  func_80046630(int mode);
+extern int  func_8004674C(void);
+
+extern s32     D_800AE6F4;        /* recovery state */
+extern u8      cdReq_cdResult;    /* CdControl status byte (bit 0x10 = error) */
+extern u8      D_800AE740;        /* CdlSetmode mode-byte buffer; cdReq_cdResult is at -8 */
+extern int     cdReq_retry;
+extern CdlFILE D_80063028;        /* CdPathTable entry; its name string sits at -0x14 */
+
+int func_8001A114(void) {
+    int ret;
+    u8 *p;
+    int r;
+    int i;
+    CdlFILE *fp;
+    int *rp;
+    s32 *sp;
+    int c0;
+    int c1;
+
+    ret = 0;
+    switch (D_800AE6F4) {
+    case 0:
+        func_800434BC();
+        c0 = 1;
+        __asm__ __volatile__("" : "=r"(c0) : "0"(c0));
+        c1 = 0;
+        __asm__ __volatile__("" : "=r"(c1) : "0"(c1));
+        p = &cdReq_cdResult;
+        func_80043830(c0, (u8 *)c1, p);
+        if ((*p & 0x10) != 0) {
+            break;
+        }
+        D_800AE6F4 = D_800AE6F4 + 1;
+        /* fallthrough */
+    case 1:
+        r = func_80046630(0);
+        if (r == 2) {
+            goto bump;
+        }
+        if (r != 0x10) {
+            break;
+        }
+    reset:
+        D_800AE6F4 = 0;
+        break;
+    case 2:
+        p = &D_800AE740;
+        *p = 0x80;
+        if (func_80043830(0xE, p, p - 8) == 0) {
+            break;
+        }
+        if ((p[-8] & 0x10) != 0) {
+            goto reset;
+        }
+        cdReq_retry = 0;
+        D_800AE6F4 = D_800AE6F4 + 1;
+        break;
+    case 3:
+        rp = &cdReq_retry;
+        *rp = *rp + 1;
+        if (*rp < 3) {
+            break;
+        }
+        *rp = 0;
+        D_800AE6F4 = D_800AE6F4 + 1;
+        break;
+    case 4:
+        r = func_8004674C();
+        if ((r == 1) || (r == 0x10) || (r == 0)) {
+            D_800AE6F4 = 0;
+        }
+        if (r != 2) {
+            break;
+        }
+    bump:
+        sp = &D_800AE6F4;
+        *sp = *sp + 1;
+        break;
+    case 5:
+        i = 0;
+        fp = &D_80063028;
+        do {
+            r = (int)CdSearchFile(fp, (char *)fp - 0x14);
+            if (r != -1) {
+                break;
+            }
+            i = i + 1;
+        } while (i < 0x10);
+        if ((u32)(r + 1) < 2) {
+            goto reset;
+        }
+        ret = 1;
+        break;
+    }
+    return ret;
+}
 
 #ifdef NON_MATCHING
 typedef struct { short x, y, w, h; } RECT;          /* libgpu RECT (VRAM rectangle) */
@@ -7312,7 +7425,61 @@ void func_8001AAA0(s32 arg0) {
     func_8001ABBC(1, arg0, 0, 0, 0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001AAD0);
+extern s32 D_800BA1B4;
+extern u8 D_80062C38;
+extern s32 func_8001ABBC(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+
+void func_8001AAD0(s32 arg0, s32 arg1) {
+    s32 idx;
+
+    switch (arg0) {
+    case 0:
+        idx = 9;
+        break;
+    case 1:
+        idx = 10;
+        break;
+    case 2:
+        idx = 11;
+        break;
+    case 3:
+        idx = 12;
+        break;
+    case 4:
+        idx = 13;
+        break;
+    case 5:
+        idx = 14;
+        break;
+    case 6:
+        idx = 15;
+        break;
+    case 7:
+        idx = 16;
+        break;
+    case 8:
+        idx = 17;
+        break;
+    case 9:
+        idx = 18;
+        break;
+    case 10:
+        idx = 19;
+        break;
+    case 11:
+        idx = 20;
+        break;
+    default:
+        idx = 0;
+        break;
+    }
+
+    if (D_800BA1B4 == 5) {
+        D_800BA1B4 = 0;
+    }
+
+    func_8001ABBC(3, arg1, (s32)(&D_80062C38 + idx * 0x30), 0, 0);
+}
 
 void func_8001ABB4(void) {
 }
@@ -7463,7 +7630,98 @@ s32 func_8001AF04(void) {
     return 2;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001AF34);
+extern s32 D_800BA1B4;
+extern s32 D_800AE6E4;
+extern s32 D_800BA318;
+extern s32 D_800C6D2C;
+extern s32 D_800A6550;
+extern s32 cdReq_curSector;
+extern void *cdReq_dest;
+extern s32 cdReq_size;
+extern void *cdReq_cdlFile;
+extern s32 D_800AE724;
+extern s32 D_800AE720;
+extern s32 cdReq_result;
+extern s32 D_800AE640;
+extern s32 D_800A6430;
+extern s16 D_800A6430_h __asm__("D_800A6430");
+extern s32 D_800747E4;
+extern s32 CdQueueBusy(void);
+extern void CdReadStateMachine(int);
+extern s32 func_8001B394(s32);
+extern s32 func_8001B7C4(void *);
+extern s32 func_8001B0D4(void *, s32);
+
+void func_8001AF34(void) {
+    s32 *cdlFile;
+    s32 dest;
+    s32 size;
+    s32 mode;
+    s32 sector;
+    s32 ret;
+
+    CdQueueBusy();
+    switch (D_800BA1B4) {
+    case 0:
+        return;
+    case 1:
+        cdlFile = (s32 *)D_800AE6E4;
+        dest = D_800BA318;
+        size = D_800C6D2C;
+        mode = D_800A6550;
+        if (CdQueueBusy() != 0) {
+            ret = 0;
+            goto chk;
+        }
+        if (cdReq_curSector == 0) {
+            sector = *cdlFile;
+        } else {
+            sector = *cdlFile;
+            if (sector != cdReq_curSector) {
+                ret = 0;
+                goto chk;
+            }
+        }
+        cdReq_dest = (void *)dest;
+        cdReq_size = size;
+        cdReq_cdlFile = (void *)cdlFile;
+        D_800AE724 = mode;
+        D_800AE720 = 0;
+        cdReq_curSector = sector;
+        if (mode == 0) {
+            D_800AE720 = 1;
+        }
+        CdReadStateMachine(0);
+        ret = cdReq_result;
+    chk:
+        if (ret == 0) {
+            return;
+        }
+        D_800BA1B4 = 3;
+        return;
+    case 2:
+        if (func_8001B394(D_800AE640) == 0) {
+            return;
+        }
+        D_800BA1B4 = 3;
+        return;
+    case 3:
+        return;
+    case 4:
+        if (func_8001B7C4((void *)D_800AE6E4) == 0) {
+            return;
+        }
+        D_800BA1B4 = 3;
+        return;
+    case 5:
+        if (func_8001B0D4((void *)D_800AE6E4, D_800A6430_h) == 0) {
+            return;
+        }
+        D_800747E4 = 0;
+        D_800BA1B4 = 3;
+        return;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001B0D4);
 
