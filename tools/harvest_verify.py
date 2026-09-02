@@ -537,7 +537,27 @@ def _jtbl_prep_one(fn):
             spl = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--island-split', '--func', fn])
             if spl.returncode:
                 last = ((spl.stdout or '') + (spl.stderr or '')).strip().splitlines()[-1:] or ['']
-                print('  [jtbl] island-split REFUSED %s: %s' % (fn, last[0][:160])); continue
+                # §322b FALLBACK (P31 S70). The island-split probe can refuse because the function is
+                # a TAIL case rather than an island-end one — and it NAMES the right route in its own
+                # refusal: "... is 'tail', not 'island-end' — table(s) in the data tail — standard §8a
+                # carve at gate time". Booking that as CARVE-REFUSED records a verdict about the ROUTE
+                # WE CHOSE, not about the function: the first jtbl_carve refusal merely mentioned a
+                # leading island, which sent it down this branch, and no branch ever tried the carve
+                # the tool actually asked for. The isolate above has already run, so the standard
+                # route is just re-extract + re-carve — the tail of the _ISO_WALLS branch.
+                if "not 'island-end'" in last[0] or 'standard' in last[0]:
+                    print('  [jtbl] island-split says TAIL -> falling back to the standard §8a carve %s'
+                          % fn)
+                    if _sh(['make', '--no-print-directory', 'extract',
+                            'BINARY=%s' % a.binary]).returncode:
+                        print('  [jtbl] extract-after-isolate FAILED %s' % fn); continue
+                    r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
+                    if r.returncode:
+                        tail_ = ((r.stdout or '') + (r.stderr or '')).strip().splitlines()[-1:] or ['']
+                        print('  [jtbl] standard carve ALSO refused %s: %s' % (fn, tail_[0][:160]))
+                        continue
+                else:
+                    print('  [jtbl] island-split REFUSED %s: %s' % (fn, last[0][:160])); continue
             if _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary]).returncode:
                 print('  [jtbl] extract-after-island-split FAILED %s' % fn); continue
             r = _sh([PY, 'tools/jtbl_carve.py', a.binary, '--func', fn])
