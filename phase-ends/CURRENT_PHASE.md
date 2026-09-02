@@ -5334,6 +5334,21 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   ins) yet banked nothing, because a binary's drafts are staged together and one CC1-FAIL fails the
   whole build. Staging only the real-TU MATCHes is a free recovery lane.
 
+- 2026-09-02 — **S71 card defect #5 SHIPPED, in the form its own adversarial reviewer would accept.**
+  The refused S70 patch sorted the ledger rows by recency, which silently DISCARDED earlier real
+  measurements — a pair's rows are not a progression but several PROBES (sweep-parallel, S67-cc1,
+  resolver, t6-recover, S70-standalone) alternating between `closeness 4` and `won't compile
+  standalone`, so `max(ts)` hands the agent whichever probe ran last. The shipped form keeps the
+  ts-newest verdict **and emits the best measurement anyone ever took alongside it**, so no reading is
+  overwritten. The staleness half is fixed by reading the SAME live red union `gate_stage` consults
+  (`.run/baseline_red.txt` ∪ `.run/fleet_red.txt`, both empty = the fleet went green): a BASELINE-RED
+  row whose binary is no longer red is now reported EXPIRED instead of as present-tense fact.
+  **Measured over the real ledgers (2,605 pairs): 173 expired claims retired, 981 pairs GAIN a
+  best-measured residual they were previously denied, 25 selection changes.** R39 control: 3/3 cases
+  (expired-when-green · harness-line-when-red · measurement-survives) — and the control's own first
+  draft failed all three passing cases because `any(x in s for x in s)` iterates a STRING's characters
+  (R40: the instrument, again).
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**

@@ -601,7 +601,7 @@ def gate_feedback(t):
     b, fn = t.get('binary'), t['name']
     out = []
     try:
-        last = None
+        rows = []
         for src in ('.run/backlog.jsonl', '.run/auto/bulk/%s.backlog.jsonl' % b):
             if not os.path.exists(src):
                 continue
@@ -611,17 +611,54 @@ def gate_feedback(t):
                 except Exception:
                     continue
                 if r.get('name') == fn and r.get('binary') == b:
-                    last = r
+                    rows.append(r)
+        # NEWEST BY TIME, NOT BY FILE ORDER. The loop used to keep the last matching line of the
+        # last file, so the per-binary bulk ledger always won regardless of age -- 42 pairs were
+        # served a verdict older than one sitting in .run/backlog.jsonl.
+        last = max(rows, key=lambda r: str(r.get('ts') or ''), default=None)
+        # ...BUT RECENCY IS NOT AUTHORITY, AND A SORT MUST NOT DESTROY A MEASUREMENT (P31 S71).
+        # A pair's rows are not a progression: one draft accumulates rows from DIFFERENT PROBES
+        # (sweep-parallel, S67-cc1, resolver, t6-recover, S70-standalone) that alternate between
+        # `closeness 4` and `won't compile standalone`, minute by minute. Sorting by ts alone hands
+        # the agent whichever probe happened to run last, which is often the least informative one --
+        # the first draft of this fix did exactly that and its own adversarial review refused it
+        # (it moved 159 BASELINE-RED->REAL pairs while silently discarding real residuals). So keep
+        # the newest verdict AND carry the best measurement anyone ever took, side by side.
+        measured = [r for r in rows if isinstance(r.get('closeness'), (int, float))]
+        best_m = min(measured, key=lambda r: r['closeness']) if measured else None
+        # A BASELINE-RED VERDICT IS A FACT ABOUT THE BINARY AT A MOMENT, NEVER ABOUT THE DRAFT (R51).
+        # It was frozen into an append-only ledger and replayed as present tense forever: 2,676 rows,
+        # every one stamped 2026-08-26, served to 174 (binary, fn) pairs -- 4 of them inside the S70
+        # packs -- for binaries that are byte-identical today. Read the SAME live red union gate_stage
+        # consults (gate_stage.py:274-278), so a pack and the next gate run cannot disagree.
+        red = set()
+        for rf in ('.run/baseline_red.txt', '.run/fleet_red.txt'):
+            try:
+                red |= {ln.strip() for ln in open(rf) if ln.strip()}
+            except OSError:
+                pass
         if last:
             ws = (last.get('where_stuck') or '')[:260]
             cl = last.get('closeness')
-            if 'BASELINE-RED' in ws or 'TU-BROKEN' in ws:
+            harness = 'BASELINE-RED' in ws or 'TU-BROKEN' in ws
+            if harness and b in red:
                 out.append("LAST GATE VERDICT: the rejection was the HARNESS's fault (%s) -- the binary or its "
                            "TU was broken when your predecessor was judged. The draft may be fully correct: "
                            "verify against the .s and resubmit with MINIMAL changes." % ws)
+            elif harness:
+                out.append("LAST GATE VERDICT: the stored verdict (%s, %s) is EXPIRED -- %s is not on the "
+                           "current red list, so that claim is about a binary state that no longer exists. "
+                           "Treat it as no verdict at all."
+                           % (ws[:120], last.get('ts') or 'undated', b))
             else:
                 out.append('LAST GATE VERDICT: %s%s' % (('closeness %s (instructions still wrong) -- ' % cl)
                                                         if cl is not None else '', ws))
+            # The best measurement ever taken on this pair, whenever it was taken. Emitted only when
+            # the newest row is not itself that measurement, so nothing is repeated.
+            if best_m is not None and best_m is not last:
+                out.append('BEST MEASURED RESIDUAL (%s, %s): closeness %s -- %s'
+                           % (best_m.get('source') or 'unknown probe', best_m.get('ts') or 'undated',
+                              best_m['closeness'], (best_m.get('where_stuck') or '')[:180]))
     except Exception:
         pass
     try:
