@@ -320,12 +320,43 @@ this session — it needs a gate, not another agent.
 Streaming **burns the 5-hour window faster** (it removes the idle gaps), so slots are the budget
 dial. Model routing: ≤50 ins Sonnet · 51–120 Sonnet · >120 Opus. Never Haiku→Opus directly.
 
+### 1c. MAIN'S SWITCH FUNCTIONS ARE DRAWABLE ONLY INSIDE A CARVED SPAN (P31 S72, cookbook §426)
+
+25 of main's 59 frontier functions have a gcc jump table. A drafted switch emits its table into
+`.rodata` while the raw copy is still emitted from the tail data object **unless that table's span is
+carved** — the image grows and 238 symbols shift, which reads as a codegen reject and is not one.
+`config/splat.us.exe.yaml` currently carves ONE span:
+
+```
+0x80072A38-0x80072C70   span A — LZSS + 11 game tables, 8 frontier owners   CARVED, drawable
+0x80072E44-0x80073140   span B — 14 tables, ~10 owners (SaveLoadRoutine, func_8003388C)   NOT drawable
+0x800732A0-0x8007344C   span C —  8 tables, ~8 owners (StreamLoadStateMachine)            NOT drawable
+0x80073494-0x80073514   span D —  4 tables                                                NOT drawable
+```
+
+Spans B–D each need their OWN code object (one object contributes exactly ONE contiguous `.rodata`
+run, and `800.o`'s is span A), i.e. `src/800.c` split at the span owners' address boundaries — which
+are disjoint and ordered, because the spans ARE the original TUs' rodata. Until that split lands,
+**drawing a span-B/C/D function is an R45 violation: the pipeline cannot bank it.** Census the class
+with the `jr $rN` (N != `ra`) detector — never `jr $ra`, which ends every function (§401).
+
 ## 6. Gate — EVERYTHING PARALLEL. There is no serial lane.
 
 ```
 python3 tools/parallel_gate.py --plan plan.json --workers 12 --commit
       # plan.json: [{"binary": "...", "drafts": "/abs/path"}, ...]
 ```
+
+> **`main` IS NOT IN THAT LANE.** `parallel_gate` REFUSES `binary == 'main'` (§414) — its worker is
+> `gate_stage`, which builds incrementally, and main's extract rewrites the linker script. Use
+> `tools/gate_main.py <slate> --apply`: baseline assert → one clean rebuild per slate (~15 s with
+> `-j`) → bisect on failure. Since S72 a red batch **preserves the failing image + map** under
+> `.run/gate_main_fail/<tag>/` and prints the attribution — **BODY REJECT** (divergence confined to
+> the drafted function) vs **PLUMBING REJECT** (the function is byte-identical, everything differs
+> elsewhere) vs **MIXED**. Read that line before recording any main verdict; a bare hash cannot tell
+> those apart, and mistaking the second for the first parked 11 functions for a session (§426/§427).
+> A single-entry slate gets the sharpest verdict; drops go to `.run/gate_main_dropped.json` with the
+> §376/§378 recovery chain spelled out.
 
 **MEASURED S67, and this is the bar:**
 

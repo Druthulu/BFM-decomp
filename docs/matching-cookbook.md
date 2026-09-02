@@ -33851,3 +33851,98 @@ Block-scope it so the birthing boost and the LUID both land right:
 (qty priority in half-insn units). With the body otherwise byte-correct, that tie is what leaves 2
 instructions: the blk1 suffix cross-jumps into blk2 and tag `8A` in `$a0` costs an extra `lui`.
 Treat as permuter fuel or a §419-style density manoeuvre, not as more respelling.
+
+## §426 ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING SINCE PHASE 7 (P31 S72; 3 of the 11 "PROVEN gate-rejects" banked byte-identical in 14 s)
+
+**THE VERDICT THAT WAS WRONG.** S71 substituted 11 main drafts one at a time, saw the image come
+back with a different SHA1, and recorded them as *"11 main functions score `match_one` closeness 0
+and are PROVEN gate-rejects — §376 in its purest form — do not re-slate without a TU-level fix."*
+Every one of the 11 has a **gcc switch**. None of them was a body reject.
+
+**THE MECHANISM.** `config/splat.us.exe.yaml` has carried exactly ONE `.rodata` carve since Phase 7:
+`[0x63238, .rodata, 800]`, covering LZSS's `jtbl_80072A38` and nothing else. Every other main jump
+table stayed **raw** in the tail data object. So when a switch function is drafted in C, cc1 emits
+its table into `.rodata` **while the original copy is still emitted from `6324C.data.o`** — two
+copies, the image GROWS, and every data symbol above the insertion point shifts:
+
+| draft | image delta | symbols moved | first moved |
+|---|---|---|---|
+| `func_8001A114` | **+28** | 238 | `jtbl_80072A4C` |
+| `func_8001AAD0` | **+52** | 238 | `jtbl_80072A4C` |
+| `func_8002EED8` | **+76** | 238 | `jtbl_80072A4C` |
+| `func_8002F248` | **+84** | 238 | `jtbl_80072A4C` |
+
+Each delta is that function's own table (`n+1` entries) plus a `.align 3` pad. The drafted function
+itself differed by **1–4 bytes** — the `%lo(jtbl_...)` immediate pointing at the table that moved.
+
+**THE ORACLE THAT COULD HAVE SAID SO, AND DIDN'T EXIST.** A main gate's whole output was two
+hashes, and `gate_main`'s R40 baseline control **rebuilds the tree green immediately after a
+failure**, overwriting `build/us/SLUS_007.26` and its map — so the one artifact that could localize
+the divergence was destroyed every time, before anyone could look at it. `tools/main_diff_locate.py`
+(new) attributes the differing bytes to symbols via the linker map; `gate_main` now preserves the red
+image first and prints **BODY REJECT / PLUMBING REJECT / MIXED**.
+
+**THE DERIVED OVERLAY THAT NAMES A SHIFT INSTANTLY.** splat names a symbol by its address, so
+`linked_address != name_address` **is** the shift, with no reference build to diff against:
+
+```python
+m = re.fullmatch(r'(?:func_|D_|jtbl_)([0-9A-Fa-f]{8})(?:\.NON_MATCHING)?', name)
+if m and int(m.group(1), 16) != linked_addr:   # this symbol MOVED
+```
+238 moved symbols, one delta, first mover `jtbl_80072A4C` — that is a layout shift, and no amount of
+respelling the body will fix it.
+
+**THE FIX, AND WHY IT IS CHEAP.** The island opens with a run of game tables that is **contiguous**
+and owned entirely by subseg `800`:
+
+```
+0x80072A38  jtbl (LzssDecodeSector, matched, cc1-emitted)
+0x80072A4C A7C A94 AB4 ADC B0C B24 B3C B64 B88 BFC     11 tables, 8 stubbed owners
+0x80072C70  loadDestPtrTable   <- first non-table datum: the span's hard end
+```
+So the carve just **extends** to `0x80072A38-0x80072C70` and the 3-piece data→rodata→data sandwich
+keeps its shape; only the split point moves (`--tail 6324C.data.o` → `63470.data.o`). **Probe it with
+NO draft substituted first** — the extension must be byte-neutral on its own, and it was.
+
+**THE §8e RESIDUAL, AND `--derive` FOR main.** With the span carved, `func_8001A114` still came back
+**+8** with two deltas: cc1 emits `.align 3` before every table, and its table at `0x80072A7C` (≡4
+mod 8) gained a +4 pad the original does not have. That is exactly what `JTBL_PADS` /
+`jtbl_rodata_pads.py` exists for — and its `--derive` walker (which already models `.include`d `.s`
+rodata spans interleaved with cc1 tables) needed **one** change to serve main: return the **FILE-0
+vram** (`code vram - code start` = `0x80010000 - 0x800`) instead of the segment vram, which makes
+both `raw[a - vram]` and `vram + <yaml offset>` correct for the EXE's header AND leaves flat overlays
+byte-identical. Makefile arms `--derive` for `BINARY=main` alongside `md_%`.
+
+**THE PRIZE, AND THE NEXT LEVER.** **25 of main's 59 frontier functions (6,215 of 12,912
+instructions, 48%)** are switch functions. Span A unlocks 8 of them. The other three game spans —
+
+| span | tables | owning functions |
+|---|---|---|
+| `0x80072E44-0x80073140` | 14 | ~10, incl. `SaveLoadRoutine` (1139 ins) and `func_8003388C` (663) |
+| `0x800732A0-0x8007344C` | 8 | ~8, incl. `StreamLoadStateMachine` |
+| `0x80073494-0x80073514` | 4 | — |
+
+— each need their **own code object**, because one object contributes exactly ONE contiguous
+`.rodata` run and `800.o`'s is now span A. **The spans' owner address ranges are disjoint and
+ordered** (span A owners < span B owners < span C owners): the jtbl spans ARE the original
+translation units' rodata, so splitting `src/800.c` at those two boundaries is both the fix and a
+recovery of the game's real TU structure.
+
+## §427 ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFACT BEFORE ANYTHING REBUILDS OVER IT (P31 S72)
+
+`[FAIL] got <sha> want <sha>` cannot distinguish *"your body is wrong"* from *"your body is perfect
+and the substitution moved a caller/table"*. Attributing the second to the draft is R40 — blaming
+the subject for a harness effect — and it cost this project 11 functions parked as unmatchable.
+
+Three rules, each earned here:
+
+1. **A failing gate must save its artifact before the next build starts.** `gate_main`'s own R40
+   baseline control was destroying the evidence it needed; the control is right, its ORDER was wrong.
+2. **Attribute per byte, not per run.** A differing run that straddles two symbols belongs to both;
+   crediting it to the symbol its first byte lands in reports a one-byte spill as "two functions
+   diverged".
+3. **Negative-control the localizer itself, in both directions** — flip one byte at a known address
+   and assert it names the containing symbol (and its exclusive end: a flip at `next_symbol` must
+   name the NEXT symbol), then assert an identical pair reports zero. Five of S69's biggest
+   "findings" were artifacts of the instrument; a localizer that has never fingered a KNOWN
+   perturbation is not evidence about an unknown one.

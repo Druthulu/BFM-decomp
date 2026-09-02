@@ -2788,3 +2788,51 @@ at that moment. Generalised: *any list that records a tool's limitation must be 
 tool changes, or it silently becomes a list of work you have decided not to do.* The same reasoning
 applies to `.run/S71_walls_found.txt` — a wall proven against today's compiler knowledge is not a wall
 forever, and each entry should carry the refutation list that would have to be beaten.
+
+---
+
+## S72 (2026-09-02) — "11 PROVEN gate-rejects" were one missing carve, and the gate could not have told us
+
+**Context + belief.** S71 closed with `main` as the centre of gravity (59 frontier functions but ~45%
+of all remaining instructions) and a hard note in the checkpoint: *"11 main functions score
+`match_one` closeness 0 and are PROVEN gate-rejects (re-gated one at a time) … §376 in its purest
+form — do not re-slate without a TU-level fix."* The belief was that main's remaining difficulty was
+declaration plumbing on top of a hard codegen tail, and the next session's job was the §376 chain.
+
+**What failed.** The verdict was produced by an **ad-hoc script** (`.run/S71_main_bisect.py`), not by
+`gate_main.py`. It lifted each body plus a heuristic preamble into the green `src/800.c` and rebuilt.
+It never ran the project's own pre-check — which, run afterwards on the same 11 drafts, names **6 of
+them** as declaration conflicts against declarations the TU already carries. Four of those never
+compiled at all (`conflicting types`), and one of the six (`func_80031988`) is a **false** conflict in
+`gate_main`'s type comparison (`struct Ent30D80 *` vs its own typedef `Ent30D80 *`). And of the 11,
+**all 11 are switch functions** — a fact nobody had measured, because the gate's entire output is two
+SHA1s.
+
+**The pivot.** Build the missing instrument first (`tools/main_diff_locate.py`: attribute a red image
+to symbols via the linker map), then let it speak. Every one of the four drafts that compiled came
+back with the SAME shape: **1–4 bytes differing inside the drafted function, ~5,200 bytes across ~332
+symbols outside it, one uniform positive delta (+28/+52/+76/+84), first moved symbol always
+`jtbl_80072A4C`.** That is not codegen. That is a duplicated jump table growing the image.
+
+**The grounded why.** `config/splat.us.exe.yaml` has carried exactly ONE `.rodata` carve since **Phase
+7** — LZSS's `jtbl_80072A38`. Every other main jump table stayed raw in the tail data, so a drafted
+switch double-emits its table. Extending the carve to the contiguous game-jtbl span
+`0x80072A38–0x80072C70` is byte-neutral with no draft substituted (probed first, R37), and with
+`jtbl_rodata_pads --derive` taught main's file-offset base, three of the eleven banked
+**byte-identical in 14 seconds**.
+
+**Hindsight / better path.** Two rules, both cheap and both skipped:
+
+1. **A gate that can only say "different" will eventually be believed to have said "wrong".** The
+   diagnostic was not missing by accident — `gate_main`'s R40 baseline control *rebuilds the tree
+   green immediately after a failure*, destroying the red image and its map every single time. The
+   control was right and its ORDER was wrong, and that ordering bug is the whole reason 11 functions
+   sat parked. Any oracle whose verdict routes work must preserve the artifact the routing needs.
+2. **A verdict produced by a bespoke harness is a verdict about that harness.** The project already
+   had `gate_main.py` with a decl pre-check, a bisect, an R40 control and a no-op-substitution guard;
+   the one-off script had none of them and its output was written into the checkpoint as ground truth
+   for the next session. When the real tool exists, a "quick" reimplementation is not quicker.
+
+Generalised (and it is the same shape as S71's exclude-list finding): *a recorded impossibility should
+name the instrument that produced it, so the next session knows what to re-probe when the instrument
+changes.*
