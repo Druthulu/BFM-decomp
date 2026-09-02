@@ -18338,7 +18338,67 @@ u16 func_8002B08C(s32 a0) {
  * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
  * express this as normal control flow against either. Kept as the verbatim target instructions,
  * same as its sibling. */
+/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
+ * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
+ *
+ * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
+ * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
+ * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
+ * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
+ * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
+ * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
+ * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
+ * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
+ * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
+ * express this as normal control flow against either. Kept as the verbatim target instructions,
+ * same as its sibling. */
+/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
+ * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
+ *
+ * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
+ * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
+ * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
+ * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
+ * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
+ * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
+ * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
+ * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
+ * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
+ * express this as normal control flow against either. Kept as the verbatim target instructions,
+ * same as its sibling. */
+/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
+ * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
+ *
+ * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
+ * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
+ * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
+ * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
+ * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
+ * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
+ * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
+ * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
+ * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
+ * express this as normal control flow against either. Kept as the verbatim target instructions,
+ * same as its sibling. */
+/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
+ * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
+ *
+ * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
+ * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
+ * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
+ * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
+ * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
+ * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
+ * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
+ * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
+ * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
+ * express this as normal control flow against either. Kept as the verbatim target instructions,
+ * same as its sibling. */
 INCLUDE_ASM("asm/nonmatchings/800", func_8002B0B4);
+
+
+
+
 
 
 /* DEFERRED: SaveLoadRoutine (0x8002B154) — Phase 7 (session G), per Drew, to Q#5.

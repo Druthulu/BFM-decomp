@@ -408,7 +408,34 @@ return_byte:
     return *(u8*)((u8*)v0 + 0x49);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D244);
+extern void* (*D_80072970)(void);
+
+s32 func_8005D244(s32 arg0, s32 arg1, s32 arg2) {
+    void *p;
+
+    p = (*D_80072970)();
+    switch (arg1) {
+    case 1:
+        return *(u8 *)((char *)p + 0xE8);
+    case 2:
+        return *(u16 *)((char *)p + 0xE6);
+    case 3:
+        return *(u8 *)((char *)p + 0xE4);
+    case 4:
+        if (arg2 < 0) {
+            return *(u8 *)((char *)p + 0xE3);
+        }
+        if (arg2 < *(u8 *)((char *)p + 0xE3)) {
+            return *(u16 *)(*(u32 *)p + arg2 * 2);
+        }
+        return 0;
+    case 100:
+        return *(u32 *)((char *)p + 0x4C);
+    default:
+        return 0;
+    }
+}
+
 
 __asm__(
     ".set\tnoreorder\n"
@@ -812,7 +839,39 @@ void func_8005D980(void)
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D9C4);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005DBD8);
+extern s32 D_800729A0;
+extern s32 (*D_800729E0[])();
+extern s32 (*D_8007295C)();
+
+s32 func_8005E0AC(void);
+void func_8005FBA8(s32 a0);
+
+void func_8005DBD8(void) {
+    s32 (*fp)();
+    register s32 idx __asm__("$3");
+    register s32 ret __asm__("$4");
+    register s32 *p __asm__("$5");
+
+    p = &D_800729A0;
+    idx = p[0];
+    fp = D_800729E0[idx];
+    p[0] = idx + 1;
+    ret = fp();
+    if (ret >= 0) {
+        if (D_800729A0 != 0) {
+            func_8005FBA8(0x3C);
+            if (func_8005E0AC() == 0) {
+                (*D_8007295C)(-3);
+            }
+        }
+        if (D_800729A0 >= 5) {
+            D_800729A0 = D_800729A0 - 1;
+        }
+        return;
+    }
+    (*D_8007295C)(ret);
+}
+
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005DCA0);
 
