@@ -34124,3 +34124,45 @@ caught this, and the project already mandates it for exactly this reason.
 
 **The payoff, measured:** the carve + split banked **14 main functions** in one session, including
 **10 of the 11** the previous session had recorded as "PROVEN gate-rejects".
+
+## §432 ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)
+
+**The shape.** The target masks the same value TWICE — a compare into `$v1` and a second `andi` into
+`$v0` that `reorg` then steals for a `beqz` delay slot:
+
+```
+andi  $v1, $s2, 0x7F      # the compare
+andi  $v0, $s2, 0x7F      # a SECOND, identical mask -> reorg fills the branch delay slot with it
+```
+
+Written the obvious way — `param_2 & 0x7F` on both sides — **cse merges the two `(and:SI)` RTXs**,
+there is only one mask left, and the delay slot comes out EMPTY. No amount of statement reordering
+recovers it, because the two expressions really are identical and cse is right.
+
+**The lever.** Spell ONE of them as a shift pair:
+
+```c
+(param_2 << 25) >> 25        /* instead of param_2 & 0x7F */
+```
+
+cse sees `(lshiftrt (ashift ...))`, not `(and ...)`, so it does not merge — and then **combine's
+`simplify_shift_const` folds the pair straight back to `andi 0x7F`**. You get two masks in the RTL
+and one instruction each in the output. Byte-verified with the shift on EITHER side, so use whichever
+reads more naturally.
+
+**Why it generalises.** This is the inverse of the usual advice. Normally you fight gcc by making two
+expressions *identical* so cse merges them; here you must make them *textually different in RTL but
+identical after combine*. Any `x & ((1<<n)-1)` has a shift-pair twin that survives cse and folds back:
+the mask and the shift pair are the same value to `combine` and different values to `cse`, and the
+passes run in that order. Reach for it whenever a duplicated narrowing operation is missing from your
+output and the second use is a delay-slot filler.
+
+**Verification standard this one met (§405-A + §409):** the agent checked the **18-entry
+`jtbl_80072F3C` order** and **all 51 reloc symbols** by hand before reporting, because `match_one`
+sees neither.
+
+**Companion finding — a §378c declaration blocker, and it is the norm on main now.** The draft is
+`s32 func_8002DC68(u32, u32)` while `src/800_b.c` carries **five** `extern void
+func_8002DC68(s32, s32);` declarations. That is a §376 gate blocker, not a body problem: align the
+declarations to the definition, prove the alignment byte-neutral with NO draft substituted, COMMIT
+it, and only then gate (the gate reverts `src/*.c` as its first action — §431).
