@@ -1066,7 +1066,12 @@ def _gcc_probe(items, tag, with_recon):
     """Compile the originals (and optionally this parser's reconstructions) -> gcc's stderr."""
     d = os.path.join(REPO, '.run/audit/cdecl')
     os.makedirs(d, exist_ok=True)
-    src = os.path.join(d, f'probe_{tag}.c')
+    # UNIQUE PER CALL (P31 S70). This was `probe_{tag}.c` — one fixed filename per tag — which is
+    # correct only while _sift is serial. Parallel probes sharing a tag would overwrite each other's
+    # source between write and compile and return a verdict about ANOTHER chunk's declarations: a
+    # plausible wrong answer, the defect class this session kept finding. The name is per-call now,
+    # so the fan-out below cannot alias.
+    src = os.path.join(d, f'probe_{tag}_{next(_PROBE_SEQ)}.c')
     with open(src, 'w') as f:
         f.write(_PROBE_HDR)
         f.write(''.join(sorted({s for _, _, syn in items for s in syn.splitlines(True)})))
@@ -1082,17 +1087,52 @@ def _gcc_probe(items, tag, with_recon):
 
 
 def _sift(items, with_recon, tag):
-    """-> (accepted, rejected). Batch, and bisect only on failure."""
-    ok, bad, B = [], [], 200
-    for b in range(0, len(items), B):
-        chunk = items[b:b + B]
+    """-> (accepted, rejected). Batch, bisect only on failure, and run the batches CONCURRENTLY.
+
+    PARALLEL (P31 S70). Each chunk is an independent gcc invocation, and gcc is the whole cost here
+    (`--gcc` documents itself as "slow, decisive"): `make audit-cdecl` was >9 min of tools-health's
+    ~30, all of it one cc1 at a time on a 32-core box. Threads are right despite the GIL because the
+    work happens in `subprocess.run`, which releases it. Results are written back BY INDEX so the
+    accepted/rejected lists stay in input order and the run remains deterministic."""
+    B = 200
+    chunks = [items[b:b + B] for b in range(0, len(items), B)]
+    if not chunks:
+        return [], []
+    nw = max(1, min(32, (os.cpu_count() or 4)))
+    per = [None] * len(chunks)
+
+    def one_chunk(i, chunk):
         if not _gcc_probe(chunk, tag, with_recon):
-            ok.extend(chunk)
-            continue
-        for one in chunk:
-            e = _gcc_probe([one], tag + '1', with_recon)
-            (bad.append((one, e.strip().split('\n')[0])) if e else ok.append(one))
+            return i, list(chunk), []
+        # the chunk failed: bisect it, and the individual probes are independent too
+        cok, cbad = [None] * len(chunk), [None] * len(chunk)
+
+        def one_item(j, it):
+            e = _gcc_probe([it], tag + '1', with_recon)
+            if e:
+                cbad[j] = (it, e.strip().split('\n')[0])
+            else:
+                cok[j] = it
+        with cf.ThreadPoolExecutor(max_workers=nw) as ex2:
+            list(ex2.map(lambda a: one_item(*a), list(enumerate(chunk))))
+        return i, [x for x in cok if x is not None], [x for x in cbad if x is not None]
+
+    with cf.ThreadPoolExecutor(max_workers=nw) as ex:
+        for i, cok, cbad in ex.map(lambda a: one_chunk(*a), list(enumerate(chunks))):
+            per[i] = (cok, cbad)
+    ok, bad = [], []
+    for cok, cbad in per:
+        ok.extend(cok)
+        bad.extend(cbad)
     return ok, bad
+
+
+def _tu_statements_list(p):
+    """Picklable worker for the parallel collection pass (ProcessPoolExecutor needs a module-level fn)."""
+    try:
+        return list(tu_statements(p))
+    except Exception:
+        return []
 
 
 def audit_gcc(limit=None):
@@ -1106,6 +1146,14 @@ def audit_gcc(limit=None):
     (Definitions are excluded: their bodies cannot compile out of context. Declarations are what the
     fifteen scanners operate on.)"""
     seen, pairs = set(), []
+    # NOT PARALLELISED, and the measurement is the point (P31 S70). `tu_statements` over 4,168 TUs is
+    # ~787s single-core and is the WHOLE of audit-cdecl's >9min: inside a 10-minute run the
+    # `[gcc] N distinct declarations` line never printed, so not one cc1 call had happened yet.
+    # A ProcessPoolExecutor over TUs was tried and REVERTED: 12 TUs yield 32,352 statements, so the
+    # full pass ships ~11M strings back through IPC and the pickling costs more than the parse it
+    # saves. The fix is to dedupe/filter INSIDE the worker (return each TU's distinct candidate
+    # declarations, not its raw statement list) — most of those 11M are the same extern lines
+    # repeated across TUs — or to memoise per-TU results by content hash. Left measured, not guessed.
     for p in _tus()[:limit] if limit else _tus():
         for st in tu_statements(p):
             if not st.strip().strip(';') or MACRO_STMT.match(st) or st in seen:
@@ -1143,6 +1191,10 @@ def audit_gcc(limit=None):
         print(f'               gcc : {e}')
     return not bad
 
+
+import concurrent.futures as cf
+import itertools
+_PROBE_SEQ = itertools.count()
 
 CC1 = os.path.join(REPO, 'tools/bin/gcc-2.7.2-psx/cc1')
 CC1FLAGS = ['-quiet', '-O2', '-G0', '-mips1', '-mcpu=3000', '-mgas', '-msoft-float', '-fgnu-linker']

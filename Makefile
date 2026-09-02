@@ -303,14 +303,24 @@ OVERLAY_VRAM := 0x80128158
 # entry 1 (1.4.dec). `<alias>:<payload>` pairs built at Make level so every onboarded overlay signs.
 OVERLAY_SIG_JOBS := $(foreach a,$(OVERLAY_BINARIES),$(a):$($(a)_EXE))
 sig-overlays:
-	@n=0
-	for job in $(OVERLAY_SIG_JOBS); do
-		alias=$${job%%:*}; f=$${job#*:}
-		[ -f "$$f" ] || { echo "sig-overlays: WARN no payload for $$alias ($$f)"; continue; }
-		$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base $(OVERLAY_VRAM) --bootstrap --name "$$alias" >/dev/null
-		n=$$((n+1))
-	done
+	# PARALLEL (P31 S70). 211 independent per-overlay invocations that each write ONLY their own
+	# .run/sig.<alias>.jsonl (sig_image has exactly one write path, verified) — embarrassingly
+	# parallel, and it was a serial `for` loop on a 32-core box while extract-all/check-all in this
+	# same file already fan out. MEASURED, correcting my first claim: this was only ~52s of
+	# tools-health, NOT the bulk — audit-cdecl's pure-Python collection pass (~787s) is the real cost.
+	# Still worth it (52s -> 3.9s, 141/141 outputs byte-identical) and it is Drew's standing bar:
+	# a slow gate is a BUG, nothing serial.
+	@mkdir -p .run; : > .run/sig-overlays.txt
+	echo "$(OVERLAY_SIG_JOBS)" | tr ' ' '\n' | sed '/^$$/d' | xargs -P$(JOBS) -I{} sh -c '\
+	  job="{}"; alias=$${job%%:*}; f=$${job#*:}; \
+	  if [ ! -f "$$f" ]; then echo "[WARN no payload] $$alias ($$f)"; \
+	  elif $(VENV_PY) tools/sig_image.py --image "$$f" --vram-base $(OVERLAY_VRAM) --bootstrap --name "$$alias" >/dev/null 2>&1; \
+	  then echo "[ OK ] $$alias"; else echo "[SIG FAIL] $$alias"; fi' | tee .run/sig-overlays.txt
+	n=$$(grep -c "^\[ OK \]" .run/sig-overlays.txt || true)
+	bad=$$(grep -c "^\[SIG FAIL\]" .run/sig-overlays.txt || true)
 	echo "sig-overlays: signed $$n overlays -> .run/sig.ov_*.jsonl (of $(words $(OVERLAY_BINARIES)) onboarded)"
+	# The serial form had NO failure detection at all — a sig_image crash just vanished (R32).
+	if [ "$$bad" -ne 0 ]; then echo "[FAIL] sig-overlays: $$bad overlay(s) failed to sign"; exit 1; fi
 
 # sig-resident (Phase-27 T10; P31 T0 seed fix): sign the resident flat blob with sig_image — the
 # Ghidra-FREE, byte-DERIVED signer — so `make audit-corpus` gains a second boundary oracle for the
@@ -373,28 +383,26 @@ sig-main:
 # (no build yet) stays --bootstrap; the next sig-modules after a build self-heals.
 MODULE_SIG_JOBS := $(foreach a,$(MODULE_BINARIES),$(a):$($(a)_EXE):$($(a)_VRAM_BASE):$($(a)_TEXT_LO))
 sig-modules:
-	@n=0
-	for job in $(MODULE_SIG_JOBS); do
-		alias=$${job%%:*}; rest=$${job#*:}; f=$${rest%%:*}; rest=$${rest#*:}
-		vram=$${rest%%:*}; tlo=$${rest#*:}
-		[ -f "$$f" ] || { echo "sig-modules: WARN no payload for $$alias ($$f)"; continue; }
-		elf="build/$$alias/$$alias.elf"
-		if [ -f "$$elf" ]; then
-			# func_*-named, 4-aligned, at/after TEXT_LO only: the module links into ONE output
-			# section, so nm types EVERY symbol T — data labels (odd addresses) included.
-			mipsel-linux-gnu-nm "$$elf" | awk -v lo=$$(($$tlo)) \
-			  '$$2=="T" && $$3~"^func_" { a=strtonum("0x" $$1); if (a>=lo && a%4==0) printf "0x%X\n", a }' \
-			  | sort -u > ".run/seeds.$$alias.txt"
-			$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base "$$vram" \
-			  --seeds ".run/seeds.$$alias.txt" --name "$$alias" \
-			  $${tlo:+--text-lo "$$tlo"} >/dev/null
-		else
-			$(VENV_PY) tools/sig_image.py --image "$$f" --vram-base "$$vram" --bootstrap --name "$$alias" \
-			  $${tlo:+--text-lo "$$tlo"} >/dev/null
-		fi
-		n=$$((n+1))
-	done
+	# PARALLEL (P31 S70) — same rationale as sig-overlays. Each job writes only its own
+	# .run/seeds.<alias>.txt and .run/sig.<alias>.jsonl, so the fan-out is safe.
+	@mkdir -p .run; : > .run/sig-modules.txt
+	echo "$(MODULE_SIG_JOBS)" | tr ' ' '\n' | sed '/^$$/d' | xargs -P$(JOBS) -I{} sh -c '\
+	  job="{}"; alias=$${job%%:*}; rest=$${job#*:}; f=$${rest%%:*}; rest=$${rest#*:}; \
+	  vram=$${rest%%:*}; tlo=$${rest#*:}; \
+	  if [ ! -f "$$f" ]; then echo "[WARN no payload] $$alias ($$f)"; exit 0; fi; \
+	  elf="build/$$alias/$$alias.elf"; \
+	  if [ -f "$$elf" ]; then \
+	    mipsel-linux-gnu-nm "$$elf" | awk -v lo=$$(($$tlo)) '"'"'$$2=="T" && $$3~"^func_" { a=strtonum("0x" $$1); if (a>=lo && a%4==0) printf "0x%X\n", a }'"'"' | sort -u > ".run/seeds.$$alias.txt"; \
+	    $(VENV_PY) tools/sig_image.py --image "$$f" --vram-base "$$vram" --seeds ".run/seeds.$$alias.txt" --name "$$alias" $${tlo:+--text-lo "$$tlo"} >/dev/null 2>&1 \
+	      && echo "[ OK ] $$alias" || echo "[SIG FAIL] $$alias"; \
+	  else \
+	    $(VENV_PY) tools/sig_image.py --image "$$f" --vram-base "$$vram" --bootstrap --name "$$alias" $${tlo:+--text-lo "$$tlo"} >/dev/null 2>&1 \
+	      && echo "[ OK ] $$alias" || echo "[SIG FAIL] $$alias"; \
+	  fi' | tee .run/sig-modules.txt
+	n=$$(grep -c "^\[ OK \]" .run/sig-modules.txt || true)
+	bad=$$(grep -c "^\[SIG FAIL\]" .run/sig-modules.txt || true)
 	echo "sig-modules: signed $$n modules (of $(words $(MODULE_BINARIES)) onboarded)"
+	if [ "$$bad" -ne 0 ]; then echo "[FAIL] sig-modules: $$bad module(s) failed to sign"; exit 1; fi
 
 # -----------------------------------------------------------------------------
 # check-env: assert every Phase-4 toolchain component. Runs ALL checks (does not
