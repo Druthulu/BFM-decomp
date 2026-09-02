@@ -5569,6 +5569,70 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   time last night) — §376 in its purest form. Do not re-slate them without a TU-level fix.
   **No new waves from here (Drew).**
 
+## 🛑 SESSION CHECKPOINT — S71 CLOSE (2026-09-02 11:12). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES.
+
+**FLEET VERIFIED GREEN FROM A CLEAN REBUILD — `check-all: 213 passed, 0 failed of 213`**
+(`.run/S71_r22final.log`). `.run/R22_DEBT` cleared. Tree clean, no lanes live
+(`lane_inflight list` → 0). Drew pushes (R6).
+
+**FRONTIER 147 (main 59 + non-main 88), 30,080 instructions — from 210 at session start = 63 BANKED.**
+```
+REAL / matchable          :   853 / 1,914      = 44.57%
+FLEET instr-weighted      : 13,467,239 / 13,523,865 = 99.6%
+MAIN game-code weighted   :    39,891 / 79,510     = 50.2%   <-- main crossed 50%
+```
+
+# WHAT CHANGED, AND WHAT TO DO NEXT
+
+**1. `main` is now the centre of gravity.** 59 of 147 functions but **13,483 of 30,080 instructions
+(~45%)**, including the four largest (`SaveLoadRoutine` 1139 · `func_800226C0` 670 ·
+`func_8003388C` 663 · `func_80039308` 518). **Gate it ONLY with `tools/gate_main.py`** (§414) —
+baseline assert, one clean rebuild per slate, bisect on failure. `parallel_gate` now refuses main.
+**11 main functions score `match_one` closeness 0 and are PROVEN gate-rejects** (re-gated one at a
+time): `func_8001A114 8001AAD0 8001AF34 8002EED8 8002F248 800316F8 80031988 8003602C 80036260
+80038FFC 80039C70`. §376 in its purest form — do not re-slate without a TU-level fix.
+
+**2. Size bands of what is left:** ≤50 → 8 · 51-150 → 61 · 151-340 → 66 · >340 → 25. Routing is now
+**opus ≤340** (was 150 — the S69 table puts opus's cliff at ~350, and 191-347 was its BEST measured
+band at 1,291 tok/matched-ins), plus `arm_from_history` escalation to Fable at any size when the
+notes name a compiler-internal residual.
+
+**3. Three retry candidates with the answer already written down:**
+* `ov_SC02_027/func_80180B3C` NEAR/82, length EXACT — **apply §424 first** (its agent explored
+  spellings 89-141 in the wrong space; §424 landed minutes later).
+* `md_MAIN_003/func_800CF3E8` NEAR/456 at 467/469 — residual is local-alloc's pointer-vs-temp tie;
+  try §419's density manoeuvre or the permuter, NOT respelling (measured).
+* `ov_SC01_004/func_8017EB30` MATCH/279 blocked purely on carve state — exact prescription in
+  `.run/S71_carve_todo.txt` (R59/R60: audit first).
+
+**4. Two proven walls** in `.run/S71_walls_found.txt`, each with its refutation list:
+`ov_SC03_105/func_801834A4` (loop.c movable ordering, 6) and `ov_SC06_022/func_8017DF28`
+(`expand_block_move`'s `copy_addr_to_reg` pseudo reused by cse, 2, seven levers inert).
+
+# THE SESSION'S LASTING CHANGES
+
+* **Journal notes are pack fuel** — `tools/journal_notes.py`, auto-called by `claude_wave_packs.py`,
+  also reading `.run/journal_notes_local.jsonl` for hand-recorded evidence. Memory
+  `journal-notes-are-pack-fuel`, cookbook §411, playbook 3b, accelerators entry.
+* **Cookbook 1074 → 1093** (§408-§425). Highest-value: **§409 law 1** (a reloc-stream TRANSPOSITION is
+  invisible to match_one/permuter/every similarity tier) · **§419** (win local-alloc's density contest
+  when a pin is impossible) · **§421** (a `la $tN`+`addiu` pair is RELOAD scratch, unreachable from C) ·
+  **§423** ("cause not determined" = a file-scope typedef the TU also defines) · **§424** (equal-priority
+  stores emit REVERSED) · **§425** (`sb` aliases scalar globals — `true_dependence`'s QImode carve-out).
+* **Tool defects fixed:** `parallel_gate` merge scope missed main entirely (11 banks silently dropped)
+  and now refuses main · `gate_main` counted banks from the slate, not the source, and now refuses a
+  draft containing its own `INCLUDE_ASM` · **three tools with the same R48 bare-name bug**
+  (`reloc_filter.binof`, `gate_lane` homonym staging, `aprop_symfix` slate dedup — the last hid 3 of 4
+  rebases) · `jr_isolate_all` places file-local statics · **§323 blocker 2 was one regex** blind to
+  `__attribute__` · `launch_check.py` refuses an already-banked target.
+* **An exclude list goes stale the moment the tooling improves.** Re-probing the 68 "permanently
+  excluded" found **17 newly carveable**; 9 banked, 4 of them in 57 seconds with no drafting.
+
+# 🛑 STOP
+No new waves (Drew, 2026-09-02). Next session: `main` via `gate_main.py`, the three retry candidates
+above, and re-probe the exclude list after any tool change.
+
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
