@@ -5390,6 +5390,22 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   permuter scorer and every similarity tier — the §195-D blind spot, for HI16/LO16. It retroactively
   explains a class of "MATCH but the gate rejected it" verdicts.
 
+- 2026-09-02 — **S71 gate cycle 3.** Gates so far this session: 12 (integration pile) + 2 + 9 (`commit:3591`)
+  + 6 (`commit:3594`) = **29 banked**. Wave 1 is 43/50 landed at ~97% MATCH. Wave-2 (27 targets) drawn,
+  carded, packed, journal-fuelled (16/27 with history) and launching at the current cap.
+  **Journal notes made permanent this cycle** (Drew's instruction, measured first): `tools/journal_notes.py`
+  + auto-call from `claude_wave_packs.py`, memory `journal-notes-are-pack-fuel`, cookbook **§411**,
+  wave-playbook step 3b, and an accelerators entry. 38/39 MATCH vs S70's 124/131 on an easier pool;
+  29/39 agents cite a prior attempt; 4/39 banked by RECOVERING a body already on disk.
+  **`jr_isolate_all` unblocked**: it now places a file-local `static` definition with the region that
+  uses it (a `static inline` §82.1 helper has no address by construction — the R32 guard was refusing
+  the whole file, blocking the isolate on 4 of the 6 overlays whose CARVE-REFUSED functions it is the
+  named remedy for). Two regions using one static is still a hard refusal (R43). `ov_SC03_010` now
+  dry-runs clean.
+  **WSL memory**: Task Manager's 30 GB was page cache, not usage — `.wslconfig` had a cap but no
+  reclaim policy. Added `autoMemoryReclaim=gradual` (needs `wsl --shutdown`), reclaimed by hand
+  (20 GB free → 43.6 GB), and started `.run/memkeeper.sh` as the interim automatic form. SETUP.md updated (R21).
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**
