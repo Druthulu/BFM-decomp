@@ -5521,6 +5521,19 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   goes stale the moment the tooling improves. Re-probe it after every tool fix — 17 functions had been
   sitting in "permanently refused" while their blocker was one regex and one placement rule.
 
+- 2026-09-02 06:20 — **+4 in 57 seconds, zero drafting — frontier 165, 45 banked.** `func_8016AB6C` is
+  ONE body in FOUR overlays; every copy was closeness 0 and every copy failed the gate on
+  `undefined reference to D_8018D538` (§171 stale seed symbols). Two defects sat on top of it:
+  (a) **`aprop_symfix` deduped its slate by BARE NAME** — a 4-row slate reported "1 drafts audited",
+  and the three dropped rows each needed a DIFFERENT rebase. **Third tool this session with the same
+  R48/§238 root** (after `reloc_filter.binof` and `gate_lane`'s homonym staging).
+  (b) `STALE-DELTA` admits exactly ONE uniform delta; the real structure is **two clusters of two**,
+  identical in shape across all four overlays (−0x7F64/−0x5A650, −0x74DC/−0x2E898, −0x844C/−0x4E3A0,
+  −0xBD8C/−0x65D08) — one seed's two data clusters each moving as a block.
+  Rebased under the generalised rule (runs of constant delta, **every run ≥2 members**, `D_` only,
+  re-verify with `match_one` after rewriting), all four still MATCH, gate banked **4/4** (`commit:3629`).
+  Cookbook **§420**; index 1088.
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
