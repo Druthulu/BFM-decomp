@@ -680,19 +680,8 @@ def _preserve_and_localize(entries, got):
         print(f"      ... {len(rows)-12} more ({sum(x['bytes'] for x in rows[12:])} bytes)")
     if len(entries) == 1:
         fn = entries[0]['fn']
-        inside = per.get(fn, {}).get('bytes', 0)
-        outside = ndiff - inside
-        if inside and not outside:
-            print(f"  VERDICT {fn}: BODY REJECT — divergence confined to the function itself.")
-        elif outside and not inside:
-            print(f"  VERDICT {fn}: PLUMBING REJECT — the function is BYTE-IDENTICAL; all "
-                  f"{outside} differing bytes are elsewhere. Route to the §376/§378 chain "
-                  f"(fix_arity_callers --any-proto -> cast_self_callers -> re-gate); do NOT "
-                  f"record this as a body reject.")
-        elif inside and outside:
-            print(f"  VERDICT {fn}: MIXED — {inside} bytes inside, {outside} outside. The body "
-                  f"verdict is UNPROVEN until the outside bytes are fixed and it is re-gated.")
-
+        verdict, msg = MDL.classify(per, fn, ndiff)
+        print(f"  VERDICT {fn}: {verdict} — {msg}")
 
 def try_batch(entries):
     run("git checkout -- " + " ".join(main_tus()))

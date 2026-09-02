@@ -22,13 +22,16 @@ WHAT IT DOES
   name the symbol each run lands in using the linker map. The answer that matters is one line:
   is the divergence INSIDE the function you drafted, or somewhere else?
 
-    * diff inside the drafted function only  -> a real body reject (and, if `match_one` said
-      closeness 0, evidence of a match_one blind spot -- §405-A: it compares .text only, so a
-      switch's .rodata jump table is invisible to it).
-    * diff in a CALLER / elsewhere           -> a plumbing reject, not a body reject. Route to
+    * diff inside the drafted function only  -> BODY REJECT. A real one.
+    * diff only in `.rodata`                 -> TABLE REJECT (§405-A). The `.text` is perfect and
+      the JUMP TABLE is wrong. `match_one` compares .text only and cannot see this; gcc emits case
+      BODIES in source order while entry *i* points at case *i*, so case value and case order are
+      independent and only the order is pinned by .text. Fix the case values/order, never respell
+      the body. (This class was mislabelled PLUMBING until `func_800316F8` produced it.)
+    * diff elsewhere in CODE                 -> PLUMBING REJECT, not a body reject. Route to
       the §376/§378 chain (fix_arity_callers -> cast_self_callers -> --sync-decls), re-gate.
-    * diff in both                           -> report both; the body verdict is unproven until
-      the plumbing half is fixed and it is re-gated.
+    * diff in more than one of those         -> MIXED; the body verdict is unproven until the
+      others are fixed and it is re-gated.
 
 DERIVED, NOT HARDCODED (R33). The file-offset mapping comes from the map's own
 `load address 0x...` on each output section, not from the PS-X EXE's 0x800 header constant, so a
@@ -173,6 +176,48 @@ def attribute(built, ref, sections, syms, gap=64):
     return per, ndiff, size_mismatch
 
 
+def classify(per, focus, ndiff):
+    """-> (verdict, message) for a drafted function. The three ways a main draft can be red.
+
+    THE THIRD CLASS EXISTS BECAUSE THE FIRST TWO MISLABELLED IT (P31 S72). `func_800316F8`'s
+    `.text` was byte-identical and all 18 differing bytes sat in its OWN jump table, and the tool
+    called it a PLUMBING REJECT and routed it to the §376/§378 declaration chain — advice that
+    would never have fixed it. A `.rodata` divergence is §405-A: `match_one` compares `.text`
+    ONLY, so a draft sits at closeness 0 while emitting a wrong table. gcc emits case BODIES in
+    source order while entry *i* points at case *i*, so case VALUE and case ORDER are independent
+    and only the order is pinned by `.text`.
+
+    Note the attribution reads one symbol LOW for a cc1-emitted table: once a function is C its
+    table is a `$L` label, not a `jtbl_` data symbol, so the differing bytes land inside the
+    PRECEDING table's extent. The object name is what identifies it, not the symbol name."""
+    inside = per.get(focus, {}).get('bytes', 0)
+    outside = ndiff - inside
+    ro = sum(e['bytes'] for k, e in per.items()
+             if k != focus and '(.rodata)' in (e.get('obj') or ''))
+    if outside and ro == outside:
+        return ('TABLE REJECT',
+                f"{focus}'s .text is BYTE-IDENTICAL; all {outside} differing bytes are in "
+                f".rodata — its own jump table (§405-A). match_one cannot see this. Check the "
+                f"case VALUES and their ORDER against the table's entry order in the .s; do NOT "
+                f"respell the body and do NOT route this to the §376 declaration chain.")
+    if inside and not outside:
+        return ('BODY REJECT',
+                f"divergence is CONFINED TO {focus} ({inside} bytes) — a real body reject.")
+    if outside and not inside:
+        return ('PLUMBING REJECT',
+                f"{focus} is BYTE-IDENTICAL; all {outside} differing bytes are ELSEWHERE in "
+                f"CODE. The substitution perturbed other functions (§376 — a stale forward "
+                f"declaration changes caller codegen). Route to fix_arity_callers -> "
+                f"cast_self_callers -> re-gate.")
+    if inside and outside:
+        return ('MIXED',
+                f"{inside} bytes inside {focus}, {outside} elsewhere"
+                + (f" (of which {ro} in .rodata — see §405-A)" if ro else "")
+                + ". The body verdict is UNPROVEN until the outside bytes are fixed.")
+    return ('NOT FOUND',
+            f"{focus} is not among the divergent symbols — check the name against the linker map.")
+
+
 def report(focus=None, as_json=False, built_path=BUILT, ref_path=REF, map_path=MAP, gap=64):
     for p in (built_path, ref_path, map_path):
         if not os.path.exists(p):
@@ -212,25 +257,8 @@ def report(focus=None, as_json=False, built_path=BUILT, ref_path=REF, map_path=M
               f"({sum(r['bytes'] for r in rows[40:])} bytes)")
 
     if focus:
-        inside = per.get(focus, {}).get('bytes', 0)
-        outside = ndiff - inside
-        print()
-        if inside and not outside:
-            print(f"VERDICT — divergence is CONFINED TO {focus} ({inside} bytes). A real body "
-                  f"reject. If match_one said closeness 0, suspect its .text-only blind spot "
-                  f"(§405-A: a switch's .rodata jump table is invisible to it).")
-        elif outside and not inside:
-            print(f"VERDICT — {focus} is BYTE-IDENTICAL; all {outside} differing bytes are "
-                  f"ELSEWHERE. This is a PLUMBING reject, not a body reject: the substitution "
-                  f"perturbed other code (§376 -- a stale forward declaration changes caller "
-                  f"codegen). Route to fix_arity_callers -> cast_self_callers -> --sync-decls.")
-        elif inside and outside:
-            print(f"VERDICT — MIXED: {inside} bytes inside {focus}, {outside} elsewhere. The body "
-                  f"verdict is UNPROVEN until the {outside} outside bytes are fixed and it is "
-                  f"re-gated (a perturbed caller can also perturb the callee's own codegen).")
-        else:
-            print(f"VERDICT — {focus} is not among the divergent symbols and neither is anything "
-                  f"attributable to it; check the name (it must match the linker map exactly).")
+        verdict, msg = classify(per, focus, ndiff)
+        print(f"\nVERDICT — {verdict}: {msg}")
     return 1
 
 
