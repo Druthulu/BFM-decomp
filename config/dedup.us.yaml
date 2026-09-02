@@ -49,7 +49,7 @@ version: 1
 groups:
   # I0 — Phase-11 intra-binary proof: the byte-identical pair func_80037004 / func_80037334
   # (9-ins byte-clear loop) matched ONCE in src/shared/clearTbl40.h, instantiated at both sites
-  # in src/800.c. Clean rebuild of `main` stays 143dbb89 with the shared C and with INCLUDE_ASM
+  # in src/800_c.c (both vrams are above the S72 split at 0x80035270). Clean rebuild of `main` stays 143dbb89 with the shared C and with INCLUDE_ASM
   # stubs (both byte-identical). Proves the source-level share machinery + the byte-honesty gate.
   - id: I0_clearTbl40
     tier: h_exact

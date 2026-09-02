@@ -1,6 +1,6 @@
 /* src/shared/clearTbl40.h — shared body for the byte-identical pair func_80037004 / func_80037334
  * (Phase 11 dedup proof, group I0). The body is authored ONCE here as a macro and instantiated at
- * each member site in src/800.c, so the same bytes land at both vrams (0x80037004 + 0x80037334).
+ * each member site in src/800_c.c (both vrams are above the P31 S72 TU split at 0x80035270), so the same bytes land at both vrams (0x80037004 + 0x80037334).
  * Registered in config/dedup.us.yaml; byte-honesty validated by tools/dedup_integrate.py.
  *
  * Clears 5 bytes of a table: D_80076251[i] = 0 for i = 0x40,0x30,0x20,0x10,0x00 (down-counting). */

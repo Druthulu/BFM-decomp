@@ -33928,6 +33928,10 @@ ordered** (span A owners < span B owners < span C owners): the jtbl spans ARE th
 translation units' rodata, so splitting `src/800.c` at those two boundaries is both the fix and a
 recovery of the game's real TU structure.
 
+**DONE, SAME SESSION — see §431 for the method.** `src/800.c` was split at `0x8002B0B4` and
+`0x80035270`, byte-identical with nothing banked, and **7 of the session's 14 main banks were span
+B/C functions that could not have banked the day before.**
+
 ## §427 ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFACT BEFORE ANYTHING REBUILDS OVER IT (P31 S72)
 
 `[FAIL] got <sha> want <sha>` cannot distinguish *"your body is wrong"* from *"your body is perfect

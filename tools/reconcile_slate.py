@@ -219,7 +219,18 @@ def main():
     a = ap.parse_args()
 
     slate = json.load(open(a.slate))
-    tu_bodies = _bodies(open('src/800.c').read())
+    # EVERY TU OF main, NOT src/800.c ALONE (P31 S72). main's game code used to be one file, so
+    # a hardcoded `src/800.c` was the whole world; the jtbl-span split made it src/800.c +
+    # src/800_b.c + src/800_c.c + src/800_shared.h, and this read would have silently seen a THIRD
+    # of main's typedefs while reporting success — the silently-narrowed-scope shape (R32). The
+    # glob is the project's own oracle for "which files make up a binary" (corpus.src_files), so a
+    # future split is already handled; the shared header is added because typedefs MOVED there.
+    tu_bodies = {}
+    for _f in corpus.src_files('main') + [os.path.join(corpus.REPO, 'src', '800_shared.h')]:
+        try:
+            tu_bodies.update(_bodies(open(_f, errors='replace').read()))
+        except OSError:
+            pass
     refusals, fixed_total = [], []
 
     for rnd in range(1, a.max_rounds + 1):

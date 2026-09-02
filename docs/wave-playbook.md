@@ -328,17 +328,19 @@ carved** — the image grows and 238 symbols shift, which reads as a codegen rej
 `config/splat.us.exe.yaml` currently carves ONE span:
 
 ```
-0x80072A38-0x80072C70   span A — LZSS + 11 game tables, 8 frontier owners   CARVED, drawable
-0x80072E44-0x80073140   span B — 14 tables, ~10 owners (SaveLoadRoutine, func_8003388C)   NOT drawable
-0x800732A0-0x8007344C   span C —  8 tables, ~8 owners (StreamLoadStateMachine)            NOT drawable
-0x80073494-0x80073514   span D —  4 tables                                                NOT drawable
+0x80072A38-0x80072C70   span A — LZSS + 11 game tables   -> src/800.c     CARVED, drawable
+0x80072E44-0x80073140   span B — 14 tables               -> src/800_b.c   CARVED, drawable
+0x800732A0-0x8007344C   span C —  8 tables               -> src/800_c.c   CARVED, drawable
+0x80073494-0x80073514   span D —  4 tables               -> snd2, not game code
 ```
 
-Spans B–D each need their OWN code object (one object contributes exactly ONE contiguous `.rodata`
-run, and `800.o`'s is span A), i.e. `src/800.c` split at the span owners' address boundaries — which
-are disjoint and ordered, because the spans ARE the original TUs' rodata. Until that split lands,
-**drawing a span-B/C/D function is an R45 violation: the pipeline cannot bank it.** Census the class
-with the `jr $rN` (N != `ra`) detector — never `jr $ra`, which ends every function (§401).
+**All three game spans are carved as of S72** — `src/800.c` was split into three TUs at
+`0x8002B0B4` / `0x80035270` so each span gets its own code object (one object contributes exactly
+ONE contiguous `.rodata` run). 7 of the 14 main functions banked that session were span B/C, i.e.
+impossible the day before. **Every main jtbl function is now drawable**; the R45 refusal that used to
+apply here is gone. Census the class with the `jr $rN` (N != `ra`) detector — never `jr $ra`, which
+ends every function (§401). If a FOURTH span ever appears (a newly-matched switch whose table sits
+outside A/B/C), it needs its own object too: split again at that span's owner range (§431).
 
 ### 5b. GATE THE DIRECTORY, NEVER THE VERDICT LIST (P31 S72)
 
