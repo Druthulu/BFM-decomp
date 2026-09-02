@@ -33984,3 +33984,33 @@ optimizer cannot look up.
 byte-identical against `jtbl_80072BFC`, plus 6 `jal` relocs at their exact offsets and 11
 `D_800A5E60` hi/lo pairs, before calling it done. **That verification happened because the pack
 carried the §426 carve note telling it to.** Journal fuel earned its keep here.
+
+## §428a ★★ — THE FENCE↔OVER-MERGE COUPLING: WHY A CROSS-JUMP BARRIER CAN COST YOU A REGALLOC WIN (P31 S72, `main/func_8001B0D4`; AGENT-MEASURED, not yet byte-proven)
+
+**Status flag first (R14):** this is one agent's report over 12+ A/Bs at closeness 53 with length
+EXACT (86/86) and the jtbl structure byte-verified. It is a strong observation, not a byte-proof, and
+the §428 resolution below is a PREDICTION under test — do not cite it as settled.
+
+**The observation.** On a function whose residual is a gcc-2.7.2 regalloc **double-hop**
+(`$2 → $a0 → $v1`) inside two nested switch dispatchers, every lever that reliably kills the
+double-hop — scoping, inline-assign, goto-shared-tail, and **§5a `volatile __asm__` cross-jump
+barriers** — re-enables a **2-instruction cross-jump OVER-merge** elsewhere (case 0's own
+`D_800747E4` reload folds into the shared tail). The two residuals are in direct tension: each fence
+that fixes one re-creates the other, which is why ~20 variants across two attempts all landed at a
+similar closeness instead of converging.
+
+**Why this is a class, not a one-off.** A `volatile __asm__` barrier is a scheduling AND allocation
+event, not just a cross-jump one: it forces values live across the barrier and changes the merge
+depth of every tail that reaches it. So "add a fence" is never a local edit on a function whose
+remaining residual is allocation-shaped — it moves both variables at once, and a two-variable search
+driven one fence at a time does not converge.
+
+**The predicted resolution — §428.** Use the barrier that is NOT a fence: advance the cursor inside
+each switch arm so the converging insn becomes a `cross_jump`-created label with
+`INSN_UID >= max_uid`, which shuts off `jump.c:1988`'s minimum=2 search with **zero bytes and no
+liveness change**. That removes the over-merge half without touching allocation, leaving the
+double-hop lever free to act alone. **If you are reading this and the escalation landed, promote this
+section to byte-proven and say which lever finally moved `$v1`.**
+
+**The general habit:** when two residuals move in opposite directions under every lever you try, stop
+searching and ask which lever changes only ONE of them.
