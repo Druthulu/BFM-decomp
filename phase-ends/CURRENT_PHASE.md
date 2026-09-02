@@ -5534,6 +5534,18 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   re-verify with `match_one` after rewriting), all four still MATCH, gate banked **4/4** (`commit:3629`).
   Cookbook **§420**; index 1088.
 
+- 2026-09-02 05:50 — **Gate 10: +3 (`commit:3634`). FRONTIER 162 = 48 banked** (from 210).
+  Four cookbook sections harvested this stretch, all byte-proven, all one-line respellings no permuter
+  reaches: **§421** (a `la $tN` + `addiu` pair is RELOAD's scratch, not an allocation — `regalloc.md`
+  L80 takes the first wholly-unused call-clobbered reg, so no C dial reaches it; §385's
+  single-instruction non-volatile asm with the bare symbol as INPUT is the only lever) · **§422**
+  (mips.h has no `PROMOTE_MODE`, so `(u8)(x-K)` does the arithmetic in QImode and gives the raw-register
+  `addiu`, while `(u32)(x-K)` re-widens; and `flag ^ 1` needs its own temp or the compare lands in the
+  destination pseudo) · **§423** (*"MATCH in isolation + gate rejects + CAUSE NOT DETERMINED"* has one
+  checkable cause: `harvest_verify` splices at the stub, and a file-scope typedef the TU also defines
+  makes cc1 exit 33 on the C89 redefinition — grep the TU, move the draft's copy to block scope;
+  mirror of §409 law 2) · plus **§420**'s multi-cluster rebase. Index 1091.
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
