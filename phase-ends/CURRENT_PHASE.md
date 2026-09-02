@@ -4875,8 +4875,13 @@ environment was not the blocker. Re-run `twin_rescan` — 20 banks just changed 
 1. **`parallel_gate` gated NOTHING at rc=0** (FIXED `commit:3536`). It ran `gate_stage` with
    `cwd=<worktree>` and passed a RELATIVE `--drafts` through, so any plan under `.run/` (R12's own
    convention) resolved to nothing: 0 drafts, banked 0, **rc=0**, 1-2s per binary. Same drafts in-tree
-   banked 15/16. **⚠ UNAUDITED: earlier waves using that shape produced honest-looking zeros — backlog
-   rows marked `failed` from such a run may never have been gated.** Cookbook §402.
+   banked 15/16. **BLAST RADIUS AUDITED AND THE WARNING REFUTED (S70, after the fix):** every one of the
+   21 historical plan files passes ABSOLUTE drafts paths — **606 of 668 plan rows absolute, and all
+   62 `.run/`-rooted rows are S70's own three plans from today.** An absolute path resolves correctly
+   under any `cwd`, so **the defect never fired before this session and no historical verdict is
+   suspect.** My earlier "backlog rows marked `failed` may never have been gated" was a mechanism
+   generalised into a consequence without measuring it — the exact error the
+   `verify-blast-radius-not-just-defect` memory names. Cookbook §402.
 2. **Both undo-journals corrupted files and reported success** (FIXED `commit:3544`). `replace(after,
    before, 1)` hits the FIRST occurrence; `--any-proto` collapses distinct decls to identical `after`
    text, so originals land on the wrong occurrences. Witnessed: `engine_core.h` 97+/97- after
