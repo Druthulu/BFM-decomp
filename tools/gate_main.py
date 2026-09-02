@@ -481,6 +481,7 @@ def substitute(entries, write=True, transform=None):
     gate_stage -> harvest_verify strips every typedef the target TU already provides
     (`cdecl.strip_provided_typedefs`). A checker that models the wrong driver reports failures the
     real gate would never see -- pregate_check passes the overlay transform for non-main entries."""
+
     byfile = collections.defaultdict(list)
     unresolved = []
     for e in entries:
@@ -658,6 +659,33 @@ def main():
         sys.exit(3)
 
     slate = json.load(open(a.slate))
+
+    # A DRAFT THAT CONTAINS ITS OWN `INCLUDE_ASM` IS A NO-OP, AND A NO-OP PASSES FOR FREE
+
+    # (P31 S71). Substituting it puts the stub straight back: nothing changes, the clean
+
+    # build is trivially byte-identical, and the function is reported banked while its stub
+
+    # is still in src/. Measured on func_8002B0B4, whose 'draft' is a documentation wrapper
+
+    # ending in the INCLUDE_ASM line. Rare (5 of 2,749 stored drafts) but SILENT, so refuse
+
+    # at slate load — before any mode, dry run included (R43).
+
+    _noop = [e['fn'] for e in slate
+
+             if os.path.exists(e.get('draft',''))
+
+             and re.search(r'^\s*INCLUDE_ASM\(', open(e['draft'], errors='replace').read(), re.M)]
+
+    if _noop:
+
+        raise SystemExit('gate_main: REFUSED — %d draft(s) still contain their own '
+
+                         'INCLUDE_ASM, so substituting them changes nothing and the build '
+
+                         'passes for free: %s' % (len(_noop), ', '.join(_noop)))
+
     kept, dropped = resolve_conflicts(slate)
     print(f"slate {len(slate)} -> {len(kept)} compatible, {len(dropped)} dropped for in-TU decl conflict")
     for d in dropped:
