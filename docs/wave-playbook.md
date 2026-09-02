@@ -292,6 +292,19 @@ Notably variant 3 (`conflicting types`, RETURN type only, decl already `()`, sym
 is fixed by `--sync-decls` ALONE: both other levers no-op, and the sync is safe precisely because an
 address-taken site has no arguments to convert.
 
+### 4c. LAUNCH-TIME OPEN CHECK — `wave_args` asserts at DRAW time, and payloads go stale
+
+```
+python3 tools/launch_check.py --payload .run/<wave>/wf_args.json   # filters in place
+python3 tools/launch_check.py <binary> <fn>                        # exit 2 = already banked
+```
+
+A wave's payload sits on disk while gates run, so by launch time some of its targets are banked. An
+agent handed one burns a full run to report "STALE CARD — already banked today", with no `.s` left to
+score against. Measured S71: `ov_SC01_006/func_8017F9F8` did exactly that, and filtering the wave-2
+payload found **3 of 27** already banked. Also skip any target that already has a FRESH draft from
+this session — it needs a gate, not another agent.
+
 ## 5. Draft
 
 `tools/workflows/claude_wave_draft.js`, `args = {wave, targets}`. One agent per target,
@@ -359,6 +372,17 @@ python3 tools/gate_wave.py --drafts <dir> --workers 8 --commit [--r22]
 * Measured cost of getting this wrong: I gated **16 binaries serially to protect ONE jtbl draft** —
   about an hour for what should have taken minutes. **`gate_wave.py`'s split is now an optimisation
   (same-binary drafts share a build), NOT a safety requirement.**
+
+### 6b. READ THE VERDICTS — `tools/gate_triage.py`
+
+```
+python3 tools/gate_triage.py --plan <gate_plan.json>
+```
+
+Routes every verdict to the lane it names and asserts the staged denominator: CARVE (probe it —
+`jr_isolate_all` is usually the unblock) · UNDEF-D (§171 `aprop_symfix`) · CONFLICT/ARITY (§376/§378)
+· PARSE · NO-DIAG · DIFF (real codegen). S71's census over 37 verdicts: DIFF 18 · CARVE 7 · PARSE 3 ·
+NO-DIAG 3 · CONFLICT 2 · ARITY 2 · UNDEF 2 — which corrected an impression that carve dominated.
 
 ## 7. After ANY bank
 

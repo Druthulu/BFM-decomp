@@ -5569,6 +5569,13 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   time last night) — §376 in its purest form. Do not re-slate them without a TU-level fix.
   **No new waves from here (Drew).**
 
+- 2026-09-02 — **S71 gate ledger, all 14 cycles** (each `parallel_gate --commit` unless noted; every
+  bank R22-verified at close): g1 12 (integration pile, main's 11 later REVERTED — §414) · g2 0 ·
+  g3 9 · g4 6 · g5 5 · g6 2 · g7 4 · g8 3 · g9 2 · g10 2 · g11 3 · g12 2 · g13 2 · g14 4 · g15 2 ·
+  **carve gate 5** (the five jr-isolated overlays) · **§420 rebase gate 4** (one body, four overlays,
+  57 s) · **`gate_main` 4 + 1** (the only tool that may gate main).
+  Net: **210 → 147 = 63 banked**, `check-all: 213 passed, 0 failed of 213`.
+
 ## 🛑 SESSION CHECKPOINT — S71 CLOSE (2026-09-02 11:12). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES.
 
 **FLEET VERIFIED GREEN FROM A CLEAN REBUILD — `check-all: 213 passed, 0 failed of 213`**

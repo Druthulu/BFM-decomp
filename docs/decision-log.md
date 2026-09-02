@@ -2712,3 +2712,79 @@ member must be priced by the residuals of the others before it is written down a
 `--json` field on scores we were already running would have said "15, not 134" on the night it was
 claimed. Cost of learning it here: about one hour of deterministic compute and no agent tokens, which
 is exactly what a probe-first rule is supposed to buy.
+
+---
+
+## 2026-09-02 (P31 S71) — I gated `main` with a tool documented as unable to gate it, and only R22 caught it
+
+**Context and belief.** The session's integration lane was running well: `parallel_gate` in isolated
+worktrees had banked cleanly across 30-odd overlays all night. When 15 of the 64 standalone-match
+bodies turned out to be `main`'s, I put them through the same tool. It reported **11 banked**, the
+merge committed them, and every signal I was watching — worker exit codes, the bank oracle (a stub
+disappeared), the summary line — agreed.
+
+**What failed.** The R22 clean-fleet verify returned **212/213**. `main` did not compile from clean
+(two `conflicting types` errors). Reconciling both declarations made it build — and it was **still not
+byte-identical**. Re-gated one function at a time against a clean tree: **11 of 11 REJECTED.** The
+commit was reverted and `main` was verified byte-identical again before anything else proceeded.
+
+**The rule already existed, three files away.** `ox_campaign.gate_main_batch`'s docstring:
+*"main is gated by ONE CLEAN REBUILD of the whole EXE, never incrementally … main's extract rewrites
+the linker script, so an incremental main gate returns a FALSE DIFF. Measured P31 S58: wave `ab` drew
+105 main cards and banked 0 of them."* `parallel_gate`'s worker **is** `gate_stage`, so it inherits
+that constraint exactly. I had read that docstring earlier the same session, while looking at
+something else.
+
+**Why the failure direction was worse than the one on record.** S58 recorded the false-DIFF direction:
+competent drafts thrown away, loud and wasteful. This was the false-PASS direction: wrong bytes
+committed, reading green until the next clean fleet check. R53 names the mechanism — *a failed build
+leaves the previous object on disk, so a SHA1 check downstream of it reads green* — and R53 was
+written for a different tool and never applied here.
+
+**The pivot.** Fixed as a **refusal in the wrapper**, not a note in the callee: `parallel_gate` now
+returns REFUSED for `binary == 'main'` and names `tools/gate_main.py`. The main lane was then reopened
+properly the next morning and banked 5 (4 after the source-truth correction below), with a bisect
+isolating the one bad draft in 7 rebuilds.
+
+**Hindsight / better path.** Three things would each have caught it earlier, in increasing order of
+generality: (a) run R22 **before** committing a gate against a binary the lane has not gated before,
+not at session close; (b) `gate_main`'s own bank count was also derived rather than measured — it
+printed "BANKED 5 of 6" when 4 had applied, because `len(good)` is *what we decided to keep*, not
+*what was substituted* — so **count from the source in every gating tool**; (c) the general rule this
+session kept re-teaching: **a tool that wraps another tool inherits its refusals**, and the place to
+encode that is a refusal in the wrapper. Every constraint documented on `gate_stage` binds
+`parallel_gate`, `harvest_verify`, and anything else that shells it.
+
+**Cost of learning it here:** one bad commit, ~40 minutes of revert-and-bisect, and an inflated bank
+count I had already reported to Drew and had to correct. Cheap only because R22 exists and was run.
+
+---
+
+## 2026-09-02 (P31 S71) — the drafting pool ran dry, and the lever was an exclude list nobody re-probed
+
+**Context and belief.** With ~40 agents landing at near-100% MATCH, the working assumption was that
+drafting capacity was the constraint and the campaign would continue as draw → draft → gate until the
+frontier was gone.
+
+**What failed.** Wave 3 drew **1 target** and reported *"0 left in pool"*. Measured at that moment:
+174 open, of which `main` 64, and of the 110 non-main — **41 drafted this session, 68 on the exclude
+list, 2 proven walls, ZERO genuinely undrawn**. More agents would have had nothing to work on.
+
+**The pivot.** The 68 excluded functions were excluded because the TOOLING could not carve them —
+`jtbl_carve` refused their plans with *"subseg would host NON-CONTIGUOUS `.rodata` carves"*. But
+tooling had changed **that same session**: `jr_isolate_all` had been fixed twice (file-local `static`
+placement, and §323's `__attribute__`-blind regex). Re-probing all 68 found **17 now reporting `tail`
+— a standard §8a carve**. Every one already had drafts on disk; scoring them put **10 at closeness 0
+for zero drafting**, and the gate banked 9 — four of them in **57 seconds**.
+
+**The grounded why.** An exclude list is a snapshot of *what the tooling could not do at the moment it
+was written*. It is treated thereafter as a property of the FUNCTIONS. Nothing in the pipeline
+re-examines it, so every tool improvement leaves behind a population that is now tractable and still
+marked impossible — invisible, because the draw filters it out before anything measures it.
+
+**Hindsight / better path.** **Re-probe the exclude list after every tool fix, as part of the fix.**
+The probe is deterministic, costs no agents, and here it was worth more than the entire drafting lane
+at that moment. Generalised: *any list that records a tool's limitation must be regenerated when the
+tool changes, or it silently becomes a list of work you have decided not to do.* The same reasoning
+applies to `.run/S71_walls_found.txt` — a wall proven against today's compiler knowledge is not a wall
+forever, and each entry should carry the refutation list that would have to be beaten.
