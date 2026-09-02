@@ -3085,7 +3085,48 @@ void func_801870B4(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80186DDC", func_801870E8);
+extern u16 D_800B99DA;
+extern s32 func_8012C51C(void *a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+s32 func_801870E8(s32 a0) {
+    typedef struct {
+        u16 f0;
+        u16 f1;
+        u16 f2;
+        u16 f3;
+        u16 f4;
+        u16 f5;
+        u16 f6;
+        u16 f7;
+        s32 f8;
+    } Local_801870E8;
+
+    s32 s0 = a0;
+    Local_801870E8 local;
+    s32 v0;
+
+    if ((D_800B99DA & 0xF) == 0) {
+        local.f0 = *(u16 *)(s0 + 0x6) + ((*(s32 *)(s0 + 0x1C) << 7) - 0x1C0);
+        local.f1 = *(u16 *)(s0 + 0xA) - 0x80;
+        local.f2 = *(u16 *)(s0 + 0xE) - 0x100;
+        local.f3 = 0x21F;
+        local.f4 = 0;
+        local.f5 = 0;
+        local.f7 = *(s32 *)(s0 + 0x1C) * 0xC0 - 0x2A0;
+        local.f8 = 0;
+        local.f6 = 0x7FFF;
+        func_8012C51C(&local, s0);
+        func_8002D4C8(0x774, 0);
+        v0 = *(s32 *)(s0 + 0x1C) + 1;
+        *(s32 *)(s0 + 0x1C) = v0;
+        if (v0 >= 8) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 
 #include "common.h"
 #include "/home/musashi/bfm-decomp/src/shared/engine_core.h"

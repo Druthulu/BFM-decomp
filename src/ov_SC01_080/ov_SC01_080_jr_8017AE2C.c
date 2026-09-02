@@ -6661,7 +6661,65 @@ void func_801817CC(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80181854);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+extern void func_801292C8(u8 *a0);
+extern void func_801696D8(s32 a0, s32 a1);
+extern void RotMatrixYXZ(void *a0, void *a1);
+extern s32 rand(void);
+
+void func_80181854(void *a0) {
+    /* BLOCK-SCOPE typedefs, matching this TU's house style (func_801810E4 /
+       func_80180728): two file-scope anonymous-struct typedefs of one name are
+       a hard cc1 error, block scope is not. Frame: v @ sp+0x10, v2 @ sp+0x18,
+       mtx @ sp+0x20 -- declaration order IS slot order. */
+    typedef struct { s32 w[8]; } Blk20;
+    typedef struct { u16 vx, vy, vz, pad; } UVec8;
+
+    UVec8 v;
+    UVec8 v2;
+    Blk20 mtx;
+    void *p;
+
+    v.vx = *(u16 *)((u8 *)a0 + 0x6);
+    v.vy = *(u16 *)((u8 *)a0 + 0xA);
+    v.vz = *(u16 *)((u8 *)a0 + 0xE);
+
+    /* §373.1 DEAD-RESET CSE-BREAKER (zero bytes, zero LUID disturbance).
+       `&v2` feeds three calls in one cse basic block; cse unifies the three
+       argument pseudos into one 4-ref pseudo, local-alloc.c:1080's remat path
+       needs reg_n_refs == 2 so it never fires, and global.c:388 then hands it a
+       CALLEE-SAVED register -- costing an extra `sw $s1`/`lw $s1`, +8 frame
+       bytes and `move $aN,$s1` where the target rematerialises
+       `addiu $aN,$sp,0x18` at each site (measured here: 52 ins vs 49).
+       Naming the address and DEAD-RESETTING it empties the equivalence class at
+       cse's forward scan; flow deletes the dead sets before sched1.
+       (This is the same hoist the banked neighbour func_801810E4 exhibits at
+       sp+0x38 -- there it is correct, here it is not.) */
+    p = &v2;
+    func_800D20C0(&v, p, 1);
+    p = 0;
+    p = &v2;
+    func_800D23D0(p);
+    p = 0;
+
+    v2.vz = v2.vy * 2;
+    RotMatrixYXZ(&v2, &mtx);
+
+    *(s32 *)((u8 *)a0 + 0x2C) =
+        (*(s32 *)((u8 *)a0 + 0x1C) & 1) ? ((rand() & 0x7FF) + 0x600) : 0x500;
+    /* §194-A zero-byte scheduling fence (the colon-less/volatile predicate, not
+       the "memory" clobber): without it both schedulers sink this store past the
+       two argument insns below and it steals the jal's delay slot. Same lever as
+       the §5a barrier in func_801810E4. */
+    __asm__ __volatile__("");
+    func_801696D8((s32)a0, (s32)&mtx);
+
+    if (--*(s32 *)((u8 *)a0 + 0x1C) == -1) {
+        func_801292C8((u8 *)a0);
+    }
+}
+
 
 extern s32 rand(void);
 extern u16 D_80126B6A;

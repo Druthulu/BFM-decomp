@@ -5250,7 +5250,59 @@ void func_8017ED90(void *arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017EDE8);
+extern s32 func_801846CC(s32 a0);
+extern void func_801845FC(s32, s32, s32, s32);
+extern void func_8017EC50(s32 *a0);
+extern s32 func_80185308(s32 arg0);
+extern void func_8017ECA0(void *arg0);
+extern u8 D_80078EBA;
+extern s32 D_801B95B0;
+
+void func_8017EDE8(void *a0)
+{
+    u16 v1;
+
+    v1 = *(u16 *)((s32)a0 + 0x34);
+    switch (v1) {
+    case 0:
+        if (D_80078EBA == 3) {
+            func_8017EC50((s32 *)a0);
+            if (func_80185308(8) == 0) {
+                return;
+            }
+            if (func_801846CC((s32)a0) == 0) {
+                return;
+            }
+            {
+                /* $v0 pin (cookbook §72/§137): local-alloc gives the shorter-lived
+                 * `2` quantity $v0 and the 0xCC pointer $v1; the target has them the
+                 * other way round. The swap is invariant under every source
+                 * permutation tried (statement order, switch vs goto, hoisted
+                 * pointer, named constant) -- per §137 that invariance says the
+                 * lever is not in the source order, so the pointer is pinned.
+                 * The range is lw..sw inside this block and crosses no call, so
+                 * the §74 caller-saved hazard does not apply. */
+                register s32 *p __asm__("$2");
+                p = *(s32 **)((s32)a0 + 0xCC);
+                *(s32 *)((s32)p + 0xB0) = 2;
+            }
+            func_801845FC((s32)a0, (s32)&D_801B95B0, 0, 0x60);
+        } else {
+            if (func_801846CC((s32)a0) == 0) {
+                return;
+            }
+            func_801845FC((s32)a0, (s32)&D_801B95B0, 0, 0x60);
+        }
+        *(u16 *)((s32)a0 + 0x34) = 1;
+        break;
+    case 1:
+        if (func_801846CC((s32)a0) != 0) {
+            func_8017ECA0(a0);
+        }
+        break;
+    }
+}
+
 
 extern s32 func_801846CC(s32 a0);
 extern void func_801845FC(s32, s32, s32, s32);
@@ -5601,7 +5653,71 @@ void func_8017F5CC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_8017F63C);
+extern void (*D_8018FBAC)(void);
+extern void (*D_8018FBB8)(void);
+extern s32 D_8018FBC4;
+extern s16 D_8018FBC8;
+extern s16 D_8018FBC2;
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern s32 func_80128ED8(s32 param_1, s32 *param_2);
+extern void func_8012931C(void *a0);
+extern void func_801292C8(u8 *a0);
+
+void func_8017F63C(void *s1) {
+    s32 base;
+    s32 t;
+    s32 x;
+    s32 y;
+    s32 node;
+    s32 delta;
+    s32 h;
+    s32 f;
+    s32 g;
+    s32 e0;
+    s32 e1;
+    s32 cnt;
+
+    if (*(u16 *)((s32)s1 + 2) == 0) {
+        *(s32 *)(*(s32 *)((s32)s1 + 0x20) + 0x20) = (s32)&D_8018FBAC;
+        t = *(s32 *)((s32)s1 + 0x20);
+        base = (s32)s1 + 0x24;
+        *(s32 *)(t + 4) |= 0x50000000;
+        x = *(s32 *)((s32)s1 + 0x20);
+        *(u8 *)(x + 0x27) = 0x65;
+        y = *(s32 *)((s32)s1 + 0x20);
+        *(u16 *)(y + 0x1A) = 0;
+        *(u16 *)(y + 0x18) = 0;
+        func_80128EA8(*(s32 *)((s32)s1 + 0x20), base, (s32)&D_8018FBB8);
+        node = *(s32 *)((s32)s1 + 0x20);
+        __asm__("" : "=r"(node) : "0"(node));
+        delta = D_8018FBC4;
+        __asm__("" : "=r"(delta) : "0"(delta));
+        h = *(u16 *)((s32)s1 + 2);
+        *(s32 *)((s32)s1 + 0x2C) = 0x8000000;
+        f = *(s32 *)((s32)s1 + 0x14);
+        *(s32 *)((s32)s1 + 0x1C) = 0;
+        h = h + 1;
+        g = f + delta;
+        *(s32 *)((s32)s1 + 0x14) = g;
+        *(u16 *)((s32)s1 + 2) = h;
+        func_80128ED8(node, (s32 *)base);
+    } else {
+        e1 = D_8018FBC8;
+        e0 = *(s32 *)((s32)s1 + 0x2C);
+        e0 = e0 + e1;
+        *(s32 *)((s32)s1 + 0x2C) = e0;
+        e1 = *(s32 *)((s32)s1 + 0x20);
+        *(u16 *)(e1 + 0x1A) = e0;
+        *(u16 *)(e1 + 0x18) = e0;
+        func_8012931C(s1);
+        cnt = *(s32 *)((s32)s1 + 0x1C) + 1;
+        *(s32 *)((s32)s1 + 0x1C) = cnt;
+        if (D_8018FBC2 < cnt) {
+            func_801292C8((u8 *)s1);
+        }
+    }
+}
+
 
 #include "common.h"
 
@@ -7036,7 +7152,90 @@ void func_80181644(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C", func_801816C8);
+/* func_801816C8 — ov_SC03_124 / ov_SC03_124_jr_8017AE2C, 57 ins, match_one MATCH (57/57).
+ *
+ * Scans the 0x10C-stride actor table D_801202A0[0x6480] for an entry whose
+ * +0x00 == 0x1D2, +0x02 == 2 and +0x34 < 2; asks func_8012BD14() for permission
+ * (< 0x4001), publishes the entry in D_801E1A28, stamps 1 into the caller's
+ * linked object (+0x64)->+0x34, pokes func_80178BF8() and returns the address of
+ * the next callback (func_80172710).  Sibling of aF8017F1A0 / aF8017FA98 / aF8018CB18
+ * in this TU — same decl surface, same house style.
+ *
+ * DECL SURFACE (§37 / §73 / §376): the TU already carries `extern void func_801816C8(void);`
+ * (L6948, used only to take the address at L6966).  The byte-true signature disagrees on
+ * BOTH axes (void->s32, void->void*), so the definition is emitted under the C identifier
+ * `aF801816C8` with an __asm__("func_801816C8") label — the same alias form already banked
+ * three times in this file (aF8017F1A0 L5395, aF8017FA98 L5757, aF8018CB18 L7180).  Verified:
+ * MATCH with and without the alias; without it cc1 emits "type mismatch with previous
+ * external decl" (warning only, rc=0), with it, nothing.
+ * func_8012BD14 and D_801E1A28 use the TU-canonical spellings (void(s32) with a cast at use,
+ * s32) — NOT the fleet's s32(s32)/s16.
+ *
+ * THE TWO LEVERS (both byte-witnessed here; the whole residual was WHICH of the three
+ * pre-loop constants got hoisted, and in what order — see §193-F/§148-A):
+ *
+ *  1. `register s32 idA __asm__("$21")` set in the preheader.  A plain `u16 idA = 0x1D2;`
+ *     is constant-propagated into the loop compare by cse1 and then re-hoisted by
+ *     move_movables, which emits it at loop_start — i.e. AFTER every real preheader
+ *     statement.  Measured: all six source orderings of the three inits emit 0x1D2 LAST,
+ *     while the target wants it FIRST.  The hard-register pin blocks the propagation, so
+ *     the `addiu $s5,$zero,0x1D2` stays a genuine preheader insn and leads.
+ *
+ *  2. The two `__asm__ ("")` fences raise loop.c's `insn_count` from 25 to 27 at ZERO bytes
+ *     (an ASM_INPUT is a real insn to loop.c and emits nothing).  §193-F's threshold
+ *     staircase, read out of `cc1 -dL`:
+ *         Loop from 22 to 105: 27 real insns.
+ *         Insn 41: regno 80 (life 1), savings 1  moved to 123      29*1*1 = 29 >= 27  -> $s4 = 2
+ *         Insn 71: regno 87 (life 1), savings 1 not desirable      26*1*1 = 26 <  27  -> 1 stays inline
+ *     At 26 insns BOTH move: the constant 1 lands in $s6, costing an extra callee-saved
+ *     slot (+3 ins, 60 vs 57).  At 27 exactly one moves — which is the target.
+ *
+ *  q = p + 0x34 is deliberately NOT written as a variable: loop.c strength-reduces it into
+ *  its own giv ($s1) and combine_givs folds the p+2 access onto it as -0x32($s1), and the
+ *  giv init is emitted AFTER the hoisted movables — giving the target's 0x1D2 / 2 / q order.
+ *
+ * ORACLE: .venv/bin/python tools/match_one.py func_801816C8 \
+ *           --c .run/S70w_1/opus/func_801816C8.c \
+ *           --asm-subdir asm/ov_SC03_124/nonmatchings/ov_SC03_124_jr_8017AE2C  -> MATCH (57 ins)
+ */
+
+extern void func_8012BD14(s32);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern u8 D_801202A0[];
+extern s32 D_801E1A28;
+
+s32 aF801816C8(void *a0) __asm__("func_801816C8");
+
+s32 aF801816C8(void *a0) {
+    u8 *p = D_801202A0;
+    u8 *end = D_801202A0 + 0x6480;
+    register s32 idA __asm__("$21");
+
+    if (p != end) {
+        idA = 0x1D2;
+        do {
+            __asm__ ("");
+            __asm__ ("");
+            if (*(u16 *)p == idA) {
+                if (*(u16 *)(p + 2) == 2) {
+                    if (*(u16 *)(p + 0x34) < 2) {
+                        if (((s32 (*)(s32))func_8012BD14)((s32)p) < 0x4001) {
+                            s32 obj = *(s32 *)((s32)a0 + 0x64);
+                            D_801E1A28 = (s32)p;
+                            *(s16 *)(obj + 0x34) = 1;
+                            func_80178BF8();
+                            return (s32)func_80172710;
+                        }
+                    }
+                }
+            }
+            p += 0x10C;
+        } while (p != end);
+    }
+    return 0;
+}
+
 
 
 

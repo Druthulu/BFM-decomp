@@ -3732,7 +3732,56 @@ void func_8017F27C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_027/nonmatchings/ov_SC02_027_jr_8017D898", func_8017F2B8);
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct { s16 v[4]; } Blk8_80126940_8017D6D0_8017F2B8;
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017F918(s32 param_1, s16 *param_2);
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32 D_80126B58;
+
+void func_8017F2B8(s32 a0) {
+
+    extern s16 D_8018F0A8[];
+    extern Blk8_80126940_8017D6D0_8017F2B8 D_80126940;
+    Blk8_80126940_8017D6D0_8017F2B8 sp10;
+    u8 t;
+    s16 lim;
+    s16 mid;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_8018F0A8[t];
+    }
+    sp10 = D_80126940;
+    if (sp10.v[0] >= -0x62F) {
+        lim = -0x580;
+        if (lim < sp10.v[0]) {
+            sp10.v[0] = lim;
+        }
+        *(s16 *)(a0 + 0x2E) = 0;
+    } else {
+        mid = -0x740;
+        if (mid < sp10.v[0]) {
+            *(s16 *)(a0 + 0x2E) = -0x740 - sp10.v[0];
+        } else {
+            *(s16 *)(a0 + 0x2E) = 0;
+        }
+    }
+    *(s16 *)(a0 + 0x28) = func_80012F74(*(s16 *)(a0 + 0x28), *(s16 *)(a0 + 0x2E), 4, 1);
+    lim = -0x740;
+    if (sp10.v[0] < lim) {
+        sp10.v[0] = lim;
+    }
+    lim = 0x780;
+    if (sp10.v[2] < lim) {
+        sp10.v[2] = lim;
+    }
+    func_8017F918(a0, sp10.v);
+}
+
 
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */

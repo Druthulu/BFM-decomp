@@ -3717,7 +3717,42 @@ void func_8017D490(void)
 
 INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017DD04);
 
-INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017E1A8);
+/* func_8017E1A8 — rescale 9 screen-space points about the 320x240 centre.
+ *
+ * For each of 9 records: subtract the screen centre (0xA0, 0x78), scale by the
+ * 12.4 fixed-point factor arg3, then re-centre on (arg1, arg2).
+ *
+ * MATCHING NOTE: each axis MUST reuse ONE local across the subtract and the
+ * divide (`ax = p[i].x - 0xA0; ax = (ax * arg3) / 0x1000;`).  Splitting them
+ * into two locals (dx/qx) gives each pseudo reg_n_sets==1, which hands sched1
+ * the birthing_insn_p LAUNCH_PRIORITY boost (cookbook §350) — sched1 then
+ * hoists the `mult` above the y-load, `dx` dies before $v0 is rewritten and
+ * local-alloc puts it in $v0 instead of the target's $v1.  The second set is
+ * the zero-byte dial (§349/§350 "a second assignment to a pseudo is a
+ * first-class dial"), here reached by plain variable reuse — no asm re-tie.
+ */
+typedef struct {
+    s16 x;      /* 0x00 — source point */
+    s16 y;      /* 0x02 */
+    s16 sx;     /* 0x04 — scaled result */
+    s16 sy;     /* 0x06 */
+} Pt_8017E1A8;
+
+void func_8017E1A8(Pt_8017E1A8 *p, s32 arg1, s32 arg2, s32 arg3) {
+    s32 i;
+    s32 ax;
+    s32 ay;
+
+    for (i = 0; i < 9; i++) {
+        ax = p[i].x - 0xA0;
+        ay = p[i].y - 0x78;
+        ax = (ax * arg3) / 0x1000;
+        ay = (ay * arg3) / 0x1000;
+        p[i].sx = ax + arg1;
+        p[i].sy = ay + arg2;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC01_000/nonmatchings/ov_SC01_000_jr_8017BEBC", func_8017E210);
 

@@ -4115,7 +4115,61 @@ void func_80184360(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_017/nonmatchings/ov_SC05_017_jr_80182A74", func_801843E0);
+#include "common.h"
+
+extern s32 func_8012E544(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern s32 func_801845DC(void);
+extern s32 func_80185F5C(void *);
+
+/* NAME COLLISION (same shape as aF801840DC at L3970 of this TU):
+ * an EARLIER decl block in ov_SC05_017_jr_80182A74.c already carries
+ *     extern void func_801843E0(void *a0, s32 a1);        (L4097)
+ * because func_80184360 takes `&func_801843E0`.  The byte-true signature is
+ * `s32 (void *)`, so a plain definition here is "conflicting types".  Use the
+ * TU's house fix: define under an alias with an __asm__ label so the emitted
+ * symbol is still func_801843E0.  If the banking chain instead rewrites the
+ * L4097 decl, the alias can be dropped for `s32 func_801843E0(void *a0)` —
+ * both spellings are byte-identical (match_one MATCH, 47 ins). */
+s32 aF801843E0(void *a0) __asm__("func_801843E0");
+
+s32 aF801843E0(void *a0)
+{
+    void *p;
+    void *arg;
+    s32 ok;
+
+    if (*(u16 *)(*(s32 *)((s32)a0 + 0x64) + 2) != 2) {
+        return 0;
+    }
+
+    arg = (void *)func_8012E544(0x37D);
+    if (arg == 0) {
+        ok = 1;
+    } else {
+        ok = 1;
+        if (*(u16 *)((s32)arg + 2) == 5) {
+            ok = (*(u16 *)((s32)arg + 0x34) == 2);
+        }
+    }
+    if (ok == 0) {
+        return 0;
+    }
+
+    if (((s32 (*)(void *))func_801845DC)(a0) == 0) {
+        return 0;
+    }
+    p = *(void **)((s32)a0 + 0x64);
+    if (func_80185F5C(p) != 0) {
+        return 0;
+    }
+
+    *(u16 *)(*(s32 *)((char *)a0 + 0x64) + 2) = 3;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 
 void func_8018449C(void *a0) {

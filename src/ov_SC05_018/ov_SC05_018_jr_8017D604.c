@@ -4640,7 +4640,56 @@ void func_8018083C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_801808AC);
+void func_801808AC(s32 arg0)
+{
+    extern s32 D_801BBAB8[];
+    extern s32 D_801C29C4[];
+    extern s16 D_801E6508;
+    extern s16 *D_8018A9EC[];
+    extern s32 D_8018A9C4;
+    extern void func_801809B8(s32 arg0, s32 arg1, s32 arg2);
+
+    s32 *tbl;
+    s16 *p;
+    s32 i;
+    s32 j;
+    s16 pad[3];
+
+    tbl = *(s32 **)(arg0 + 0x90);
+    __asm__ __volatile__("" :: "r"(arg0));
+    i = 0;
+    if (tbl == &D_801B3DC4) {
+        goto found;
+    }
+    i = 1;
+    if (tbl == D_801BBAB8) {
+        goto found;
+    }
+    i = 2;
+    if (tbl == D_801C29C4) {
+        goto found;
+    }
+    i = 3;
+    if (tbl != &D_801CB724) {
+        return;
+    }
+found:
+    p = D_8018A9EC[i];
+    while (*p != -1) {
+        if (D_801E6508 == (s16)*(u16 *)p) {
+            if (D_8018A9C4 > 0) {
+                j = 0;
+                do {
+                    func_801809B8(arg0, i, j);
+                    j++;
+                } while (j < D_8018A9C4);
+            }
+            return;
+        }
+        p++;
+    }
+}
+
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern s32 rand(void);
@@ -4915,7 +4964,7 @@ void func_801813E8(s32 arg0) {
 
 
 void func_80181474(s32 *a0) {
-    extern void func_801808AC(void *a0);
+    extern void func_801808AC();
     extern void func_8018083C(s32);
     extern void func_801812FC(void);
     extern void func_8012E8E0(s32 a0, s32 a1);

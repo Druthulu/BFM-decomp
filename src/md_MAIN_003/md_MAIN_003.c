@@ -460,7 +460,78 @@ void func_800CFE00(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800CFEB4);
+extern void func_800599B8(u16 *, u16 *);
+
+s32 func_800CFEB4(u16 *arg0)
+{
+    register u16 *s2 __asm__("$18");
+    register u16 *s0 __asm__("$16");
+    u16 sVar1;
+    s32 ret;
+    s32 flag;
+    register s32 i __asm__("$9");
+    u16 buf[4];
+    s32 pad[2];
+
+    __asm__("" : "=r"(s2) : "0"(arg0));
+    sVar1 = *s2;
+    ret = 0;
+    if (sVar1 != 0xFF) {
+        s0 = arg0 + 5;
+        do {
+            i = 0;
+            if (sVar1 == 9) {
+                register u16 *p __asm__("$8");
+                s32 n;
+                s32 base;
+                s32 arg2;
+                register s32 b __asm__("$7");
+                register s32 g __asm__("$4");
+                register s32 r __asm__("$6");
+                register s32 x __asm__("$2");
+                register s32 v __asm__("$2");
+                register s32 y __asm__("$4");
+
+                flag = 0;
+                n = *(s16 *)(s0 - 1);
+                base = *(s32 *)(s0 + 1);
+                arg2 = base + n * 2;
+                p = (u16 *)arg2;
+                if (n > 0) {
+                    do {
+                        v = *p;
+                        b = v & 0x1F;
+                        g = v & 0x3E0;
+                        r = v & 0x7C00;
+                        if (b != 0) b -= 1;
+                        if (g != 0) g -= 0x20;
+                        x = b | g;
+                        if (r != 0) r -= 0x400;
+                        y = x | r;
+                        if ((y & 0xFFFF) != 0) flag = 1;
+                        *p = y;
+
+                        p++;
+                    } while (++i < *(s16 *)(s0 - 1));
+                }
+                if (flag != 0) {
+                    buf[0] = s0[-3];
+                    buf[1] = s0[-2];
+                    buf[2] = s0[-1];
+                    buf[3] = s0[0];
+                    func_800599B8(buf, (u16 *)arg2);
+                }
+                ret |= flag;
+            }
+            s2 += 8;
+            sVar1 = *s2;
+            s0 += 8;
+        } while (sVar1 != 0xFF);
+    }
+    (void)&pad;
+    return ret;
+}
+
 
 extern u16 D_800AF7BC;
 extern u16 D_800AF7BE;
@@ -824,7 +895,60 @@ __asm__(".text\n.align 2\n.globl func_800D05B4\n.ent\tfunc_800D05B4\n"
 ".set\treorder\n.end\tfunc_800D05B4\n");
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003", func_800D0664);
+/* func_800D0664 - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
+ * -O0 body (addu $fp,$sp,$zero prologue, nop in every delay slot) stranded inside
+ * md_MAIN_003's -O2 object (sec 261/6 -- this subseg has no -O0 glob; the _o0c/_o0d
+ * objects start at 0x1f74, past this function's 0x186c). No -O2 C can ever emit this
+ * prologue, so C drafting cannot converge here -- a prior attempt scored match_one
+ * MATCH only because the oracle auto-detected -O0, which the real object never uses.
+ * This body sidesteps that entirely: cc1 passes the string through untouched, so it is
+ * opt-level-independent -- VERIFIED, not assumed: match_one scores MATCH 22/22 both at
+ * -O0 (auto) AND under --no-auto-o0 (forced -O2, the level this object really uses).
+ * match_one still prints its 'CANNOT BANK until the function lives in an -O0 object'
+ * NOTE here, but that heuristic keys only on (target has -O0 prologue) + (subseg builds
+ * -O2) and is blind to the draft's FORM; it describes the C lane, not this one. The
+ * gated-green counterexamples are in this very file: func_800D0440, func_800D05B4 and
+ * func_800D06BC are all -O0 bodies banked verbatim inside this -O2 subseg.
+ * Recovered C semantics for the eventual real decomp:
+ *
+ *     register u8 *s0 = D_800AF630;   // hoisted base, never read (sec 6 idiom)
+ *     func_80015310();
+ *     func_800183E0((s32)&D_800D93FC);
+ *     func_800118AC();
+ *
+ * Immediate siblings func_800D05B4 (above) and func_800D06BC (below) are the same
+ * shape banked the same way; frame/mask (40/0xC0010000,-16) derived the same way they
+ * were -- frame 0x28=40, lowest saved reg $s0 at 0x18=24, 24-40 = -16; save set
+ * ra/fp/s0 = 0xC0010000. All immediates decimal (maspsx rejects hex in __asm__
+ * strings). No C externs shipped (link-time resolution, sec 265 / sec 236-1).
+ */
+__asm__(".text\n.align 2\n.globl func_800D0664\n.ent\tfunc_800D0664\n"
+"func_800D0664:\n.frame $sp,40,$31\n.mask 0xC0010000,-16\n.fmask 0,0\n"
+".set\tnoreorder\n"
+"addiu $sp, $sp, -40\n"
+"sw $ra, 32($sp)\n"
+"sw $fp, 28($sp)\n"
+"sw $s0, 24($sp)\n"
+"addu $fp, $sp, $zero\n"
+"lui $s0, %hi(D_800AF630)\n"
+"addiu $s0, $s0, %lo(D_800AF630)\n"
+"jal func_80015310\n"
+"nop\n"
+"lui $a0, %hi(D_800D93FC)\n"
+"addiu $a0, $a0, %lo(D_800D93FC)\n"
+"jal func_800183E0\n"
+"nop\n"
+"jal func_800118AC\n"
+"nop\n"
+"addu $sp, $fp, $zero\n"
+"lw $ra, 32($sp)\n"
+"lw $fp, 28($sp)\n"
+"lw $s0, 24($sp)\n"
+"addiu $sp, $sp, 40\n"
+"jr $ra\n"
+"nop\n"
+".set\treorder\n.end\tfunc_800D0664\n");
+
 
 /* func_800D06BC - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
  * -O0 body (addu $fp,$sp,$zero prologue) stranded inside md_MAIN_003's -O2 object

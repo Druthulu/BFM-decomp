@@ -5369,7 +5369,62 @@ void func_8018ACD4(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_018/nonmatchings/ov_SC06_018_jr_80187AEC", func_8018AD74);
+/* func_8018AD74 -- ov_SC06_018 / ov_SC06_018_jr_80187AEC.
+ *
+ * Keys (byte-proven, single-axis A/B on the pinned triple):
+ * (1) The return of func_8012C658 is a PLAIN s32 (`addu $s0,$v0,$zero`), NOT a u16 --
+ *     a `(u16)` cast mints the `andi $s0,$v0,0xffff` the target does not have.
+ * (2) THE SCHEDULE LEVER (cookbook §30 #3 / §350 -- sched1's `birthing_insn_p`
+ *     LAUNCH_PRIORITY boost). `obj`, `p4` and `&local_30` are all single-set pseudos, so
+ *     all three get the max-priority boost; sched1 schedules the bb BACKWARD, so all three
+ *     sink to the end of bb0 and the &local_30 `addiu` lands ABOVE the call, stealing the
+ *     jal's delay slot (closeness 5, ADDRESSING/move!=jal).  One zero-byte NON-volatile
+ *     re-tie on `obj`, placed as the FIRST statement of the if-body (a LATER basic block),
+ *     gives it reg_n_sets==2, kills its boost, and the block re-orders to the target's
+ *     `jal / move $s1,$a3` + `beqz / addiu $s2,$sp,0x10` pair.
+ *     Placement is load-bearing: the same re-tie in bb0 (before the `if`) fixes the
+ *     schedule but swaps the $s1/$s2 allocation (REGALLOC-PERM, closeness 5).
+ *     Every pure-C second-set spelling (`obj = 0;` dead-reset per §3-1, `obj = obj;`,
+ *     `obj += 0;`, `obj &= -1;`) is folded/deleted before reg_n_sets is computed and leaves
+ *     the residual at 5 -- the asm re-tie is the only lever that reaches this.
+ * (3) `m` is a POINTER LOCAL (the func_8018AF88 house idiom in this TU) so &local_30 lands
+ *     in one callee-saved reg instead of being rematerialised at each use.
+ * The typedef is guarded: the real definition is src/shared/engine_types.h (pulled in via
+ * ../shared/engine_core.h), the guard only feeds a standalone match_one compile.
+ */
+#ifndef BFM_ENGINE_TYPES_H
+
+#endif
+
+void func_8018AD74(s32 p1, s32 p2, s32 p3, s32 p4)
+{
+    /* [T51] block-scoped decls (house idiom in this TU, cf. func_8018AF88): a file-scope
+       decl of these symbols would constrain every LATER function in the object. */
+    extern Blk20_8018AF88 D_800AE620;
+    extern s32 func_8012C658(s32, s32, s32);
+    extern void RotMatrixY(s32 a0, void *a1);
+    extern void func_800484EC(s32, s32, s32);
+    extern u8 D_801CD468[];
+
+    Blk20_8018AF88 local_30;   /* sp+0x10 */
+    Blk20_8018AF88 *m;
+    s32 obj;
+    s32 out[3];                /* sp+0x30, only [0] and [2] used */
+
+    local_30 = D_800AE620;
+    obj = func_8012C658((s16)p2, (s16)p3, p1);
+    if (obj != 0) {
+        __asm__("" : "=r"(obj) : "0"(obj));   /* §350 birthing-boost kill; 0 bytes */
+        m = &local_30;
+        *(u16 *)(obj + 0xA) = *(u16 *)(obj + 0xA) - 0x80;
+        RotMatrixY((s16)p4, m);
+        func_800484EC((s32)m, (s32)&D_801CD468, (s32)out);
+        *(s32 *)(obj + 0x10) = out[0];
+        *(s32 *)(obj + 0x14) = 0xFFD80000;
+        *(s32 *)(obj + 0x18) = out[2];
+    }
+}
+
 
 void func_8018AE64(s32 param_1) {
     /* decls block-scoped ([T51] house idiom, cf. func_8018AF88); spellings are the

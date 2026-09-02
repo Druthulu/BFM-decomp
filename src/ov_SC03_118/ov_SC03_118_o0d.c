@@ -2867,7 +2867,27 @@ extern void func_801830C4(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_118/nonmatchings/ov_SC03_118_o0d", func_801831D0);
+/* §37/§124 asm-label alias: this TU's carried §8b decl layer already declares
+ * `extern void func_801831D0(void);` (ov_SC03_118_o0d.c:2793), which conflicts on
+ * §73's RETURN axis with the byte-true `s32` definition -- blocker class
+ * `self_decl_tu` (T1), and normalize_self_decls cannot reach a return-type clash.
+ * Defining under the alias identifier and binding the emitted symbol with a GNU
+ * asm label is T0/draft-only: zero src/ blast radius, byte-identical output
+ * (`nm` -> `T func_801831D0`).  In-TU-family precedent: aF8018CB18, aF801848DC.
+ * Body is the ov_SC03_119:func_801831d0 twin + this TU's own neighbours
+ * func_80183178 / func_80183228, retargeted to D_800AF068 per the target .s. */
+extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
+extern u8 D_800AF068;
+
+s32 aF801831D0(void) __asm__("func_801831D0");
+
+s32 aF801831D0(void) {
+    s32 ret;
+
+    ret = func_8001ABBC(0, 0, &D_800AF068, 0, 0);
+    return ret;
+}
+
 
 extern s32 func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern u8 D_800AF060;

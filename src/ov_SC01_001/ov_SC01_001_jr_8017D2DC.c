@@ -2787,7 +2787,7 @@ extern void func_80182C10(void);
 extern void func_80182D04(s32 a0);
 extern void func_80182EB0();
 extern void func_801831EC(void);
-extern void func_80183748(void *a0);
+extern void func_80183748();
 
 /* ---- scalars ------------------------------------------------------------------ */
 extern u16 D_800B99D8;
@@ -6983,7 +6983,61 @@ void func_801835C8(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_001/nonmatchings/ov_SC01_001_jr_8017D2DC", func_80183748);
+/* func_80183748 — copies 3 packed 10-byte source records into the 3 consecutive
+ * 16-byte records at D_800A5E88[0..2] ({s32 a,b,c; u8 d,e,f,g}) and registers
+ * each one with func_80028620(i, &rec[i]).  Sibling of func_8013CF68
+ * (ov_SC03_099/jr_8013C98C), which writes the same three records unrolled.
+ *
+ * TWO load-bearing shape facts (cookbook §164-06 + §148-A, both read off `cc1 -dL`):
+ *
+ * 1. The preheader order is  j=0 ; $s1=param_1 ; $s0=0 .  A loop.c giv-init is
+ *    ALWAYS emitted immediately before loop_start, i.e. AFTER every source-level
+ *    preheader insn, so no source ordering can put the source pointer BETWEEN the
+ *    two counters.  Both $s1 and $s0 therefore have to be giv inits, and
+ *    `strength_reduce` walks `loop_iv_list` = the REVERSE of the increment order
+ *    (loop.c:4295 prepends, :3717 walks).  Hence `j++` is written BEFORE `m += 10`
+ *    so j's class is processed LAST and its giv (k) is emitted after m's giv (the
+ *    pointer).  `k = j * 16;` must be an explicit statement: without the pseudo the
+ *    six symbol addresses are recomputed from the biv as an inline `sll` (-1 ins).
+ *
+ * 2. loop.c:1631 hoists an invariant iff `threshold * savings * lifetime >= insn_count`,
+ *    and threshold = (loop_has_call ? 1 : 2) * (1 + n_non_fixed_regs) = 29 here.
+ *    This loop is 29 RTL insns, so `&D_800A5E88` (savings 1, lifetime 1) hoists into
+ *    a callee-saved register that the target rematerializes inline — +3 instructions.
+ *    The zero-byte `__asm__("" : :)` below is ONE extra RTL insn: 29 -> 30, so
+ *    29 >= 30 is false and the address stays in the loop.  Solo-proven: deleting
+ *    that one line takes this body from MATCH to closeness 48 / 52 ins.
+ */
+
+extern void func_80028620(s32, void *);
+
+void func_80183748(u8 *param_1)
+{
+
+    extern u8 D_800A5E88;
+    extern u8 D_800A5E8C;
+    extern u8 D_800A5E90;
+    s32 j;
+    s32 m;
+    s32 k;
+
+    j = 0;
+    m = 0;
+    do {
+        k = j * 16;
+        __asm__("" : :);
+        (&D_800A5E94)[k] = param_1[m];
+        (&D_800A5E95)[k] = param_1[m + 1];
+        (&D_800A5E96)[k] = param_1[m + 2];
+        *(s32 *)(&D_800A5E88 + k) = *(s16 *)(param_1 + m + 4);
+        *(s32 *)(&D_800A5E8C + k) = *(s16 *)(param_1 + m + 6);
+        *(s32 *)(&D_800A5E90 + k) = *(s16 *)(param_1 + m + 8);
+        func_80028620(j, (void *)(&D_800A5E88 + k));
+        j++;
+        m += 10;
+    } while (j < 3);
+}
+
 
 
 

@@ -7128,7 +7128,70 @@ skip:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80185214);
+#include "common.h"
+
+extern void func_80017910(void *a0, s32 a1);
+
+typedef struct {
+    s16 vx, vy, vz, pad;
+} SVec_80185214;
+
+typedef struct {
+    s16 u, v;
+} UV_80185214;
+
+typedef struct {
+    SVec_80185214 v[4];  /* 0x00-0x1F */
+    UV_80185214 uv[4];   /* 0x20-0x2F */
+    u32 rgb[4];          /* 0x30-0x3F */
+    u32 flags;           /* 0x40 */
+    u8 clut;             /* 0x44 */
+} Prim_80185214;
+
+void func_80185214(s32 a0)
+{
+    Prim_80185214 prim;
+    s32 t;
+    u32 col;
+
+    t = *(s32 *)(a0 + 0x1C);
+    prim.flags = 0x50000000;
+
+    prim.v[2].vx = -0x40;
+    prim.v[0].vx = -0x40;
+    prim.v[3].vx = 0x40;
+    prim.v[1].vx = 0x40;
+    prim.v[3].vy = 0x40;
+    prim.v[2].vy = 0x40;
+    prim.v[1].vy = -0x40;
+    prim.v[0].vy = -0x40;
+    prim.v[3].vz = 0;
+    prim.v[2].vz = 0;
+    prim.v[1].vz = 0;
+    prim.v[0].vz = 0;
+
+    prim.clut = 0x79;
+
+    prim.uv[0].u = 0xC00;
+    prim.uv[0].v = 0x180;
+    prim.uv[1].u = 0xC7F;
+    prim.uv[1].v = 0x180;
+    prim.uv[2].u = 0xC00;
+    prim.uv[2].v = 0x1FF;
+    prim.uv[3].u = 0xC7F;
+    prim.uv[3].v = 0x1FF;
+
+    t = t | (t << 8) | (t << 16);
+    col = 0x808080 - t;
+
+    prim.rgb[0] = col;
+    prim.rgb[1] = col;
+    prim.rgb[2] = col;
+    prim.rgb[3] = col;
+
+    func_80017910(&prim, *(s32 *)(a0 + 0x20) + 0x34);
+}
+
 
 typedef struct { s16 vx, vy, vz, pad; } SV;
 

@@ -5387,7 +5387,76 @@ void func_8017F2DC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_019/nonmatchings/ov_SC04_019_jr_8017AE2C", func_8017F35C);
+/* func_8017F35C — ov_SC04_019 / src/ov_SC04_019/ov_SC04_019_jr_8017AE2C.c  (47 ins)
+ *
+ * Body: MATCH standalone (match_one closeness 0) AND verified to emit the identical
+ * instruction stream when spliced into the real destination TU (§398 decl-environment
+ * check: whole-file cpp+cc1, byte-for-byte the same 47 instructions).
+ *
+ * WHY THE PREVIOUS ATTEMPT'S GATE FAILED (§376, and it is NOT a codegen problem):
+ *   the destination TU already carries, at :5370,
+ *       extern void func_8017F35C(void *);
+ *   for the address-taken reference at :5385 `(s32)&func_8017F35C`. A definition
+ *   spelled `s32 func_8017F35C(void *a0)` is rejected by gcc-2.7.2 with
+ *       conflicting types for `func_8017F35C'
+ *   (verified: cc1 exit 33). The conflict is the RETURN TYPE, so fix_arity_callers
+ *   is a no-op and cast_self_callers does not fire (the site is `&fn`, not a call).
+ *   The prior draft therefore never compiled inside the binary — which is why the
+ *   whole-binary gate reported a residual while the isolated body was already clean.
+ *
+ * FIX, entirely inside this file, using THIS TU's own house pattern: the same
+ * situation was solved for the neighbour func_8017EDA4 at :5140 with a renamed C
+ * definition plus an assembler alias. No edit outside this draft is required, and
+ * the caller's `la $5,func_8017F35C` still resolves to this definition.
+ *
+ * §378 self-caller cast: the TU declares `extern s32 func_801848DC(void);` (:5136),
+ * so the one-argument call goes through a typed function-pointer cast exactly as both
+ * same-TU neighbours func_8017EDA4 (:5150) and func_8017F418 (:5407) do — gcc-2.7.2
+ * folds it back to a direct `jal`, byte-neutral.
+ */
+
+extern s32 func_8012E544(s32 a0);
+extern s32 func_80178BF8();
+extern void func_80172710(void);
+extern s32 func_801848DC(void);
+extern s32 func_8018625C(void *);
+
+s32 func_8017F35C_body(void *a0) __asm__("func_8017F35C");
+
+s32 func_8017F35C_body(void *a0)
+{
+    s32 t;
+    s32 ok;
+
+    if (*(u16 *)((s32)*(void **)((s32)a0 + 0x64) + 2) != 2) {
+        return 0;
+    }
+
+    t = func_8012E544(0x22A);
+    if (t == 0) {
+        ok = 1;
+    } else {
+        ok = 1;
+        if (*(u16 *)(t + 2) == 5) {
+            ok = (*(u16 *)(t + 0x34) == 2);
+        }
+    }
+    if (ok == 0) {
+        return 0;
+    }
+
+    if (((s32 (*)(void *))func_801848DC)(a0) == 0) {
+        return 0;
+    }
+    if (func_8018625C(*(void **)((s32)a0 + 0x64)) != 0) {
+        return 0;
+    }
+
+    *(u16 *)((s32)*(void **)((s32)a0 + 0x64) + 2) = 3;
+    func_80178BF8();
+    return (s32)func_80172710;
+}
+
 
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_80178BF8();

@@ -3957,7 +3957,52 @@ void func_8017D1E0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017D214);
+extern s32 D_801151D4;
+extern u16 D_800B99DA;
+extern void func_80175414(s32 _arg0);
+extern void func_8016F264(void);
+extern s32 func_80171990(u8 *a0);
+
+/* MATCHING NOTE (do not "clean up" the two constructs below):
+ *   The tail is `sh $zero, 0x20C($s0)` in the delay slot of `jal func_80171990`,
+ *   i.e. the store keeps the PARAMETER's home register ($s0) even though the
+ *   argument copy `addu $a0, $s0, $zero` is emitted before it.  Written plainly,
+ *   gcc-2.7.2 -O2 produces `sh $zero, 0x20C($a0)` instead, because
+ *     (1) sched1 hoists the argument copy above the store, and then
+ *     (2) local-alloc's optimize_reg_copy_1 rewrites the store's now-last use of
+ *         the parameter pseudo to the hard destination register $a0.
+ *   `register u8 *arg __asm__("$4")` materialises the argument copy early (so the
+ *   emitted ORDER is copy-then-store, as the target needs), and the do/while(0)
+ *   plants a NOTE_INSN_LOOP_BEG between the copy and the store, which is one of
+ *   the notes optimize_reg_copy_1 stops at -- so the store keeps $s0.
+ *   Byte-verified: match_one closeness 0, 38/38 instructions.
+ */
+void func_8017D214(void *a0)
+{
+    register u8 *arg __asm__("$4");
+    s32 wp = D_801151D4;
+    u16 t;
+
+    if (D_800B99DA & 1) {
+        *(s32 *)(wp + 0x10) -= 1;
+        *(s32 *)(wp + 0x14) = *(s32 *)(wp + 0x10);
+    }
+    t = *(u16 *)(wp + 0x1A) + 0xB;
+    *(u16 *)(wp + 0x1A) = t;
+    *(u16 *)(wp + 0x22) = t;
+    if (*(s16 *)(wp + 0x1A) >= 0x801) {
+        *(u16 *)(wp + 0x1A) = 0x800;
+        *(u16 *)(wp + 0x22) = 0x800;
+        func_80175414(wp);
+        func_8016F264();
+        arg = (u8 *)a0;
+        do {
+            *(s16 *)((u8 *)a0 + 0x20C) = 0;
+        } while (0);
+        func_80171990(arg);
+    }
+}
+
 
 void func_8017D2AC(s32 param_1) {
     extern s32 D_801151D4;

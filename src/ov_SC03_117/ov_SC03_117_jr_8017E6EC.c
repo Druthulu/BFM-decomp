@@ -3760,7 +3760,36 @@ void func_8018004C(void *a0) {
     }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017E6EC", func_80180064);
+extern void func_8018012C(s32 arg0);
+extern void func_8012931C(struct vec *a0);
+extern void func_80015978(s32 a0, s32 *a1);
+extern u8 *func_801290DC(s32 arg0, u8 *arg1);
+extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
+extern void func_801292C8(u8 *a0);
+extern s32 D_801887E4;
+
+void func_80180064(s32 arg0) {
+    u16 sp10[4];
+    u8 *p;
+
+    func_8018012C(arg0);
+    /* velocity add: (0, 0xC000, 0) -- the two zero terms still emit lw/sw */
+    *(s32 *)(arg0 + 0x10) += 0;
+    *(s32 *)(arg0 + 0x14) += 0xC000;
+    *(s32 *)(arg0 + 0x18) += 0;
+    func_8012931C((struct vec *)arg0);
+    if (*(s16 *)(arg0 + 0x2E) < *(s16 *)(arg0 + 0xA)) {
+        *(s16 *)(arg0 + 0xA) = *(s16 *)(arg0 + 0x2E);
+        func_80015978(arg0 + 4, (s32 *)sp10);
+        p = func_801290DC(0x53, (u8 *)sp10);
+        if (p != 0) {
+            *(s32 *)(p + 0x2C) = D_801887E4++ & 7;
+        }
+        func_8012E5CC((s32)sp10, 0x834, 0);
+        func_801292C8((u8 *)arg0);
+    }
+}
+
 
 /* func_8018012C — projected 4-way mirrored triangle fan (banked twin ov_SC01_084:func_80185C0C) */
 

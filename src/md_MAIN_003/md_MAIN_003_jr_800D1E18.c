@@ -790,7 +790,74 @@ s32 func_800D30B8(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", func_800D30D0);
+extern void func_8005C604();
+extern s32 *D_800DB670;
+extern s32 *D_800DB644;
+extern s32 *D_800DB650;
+extern s32 *D_800DB63C;
+extern s32 *D_800DB648;
+extern char D_800CEE58[];
+extern char D_800CEE80[];
+extern char D_800CEEB8[];
+
+/* §8-ADDENDUM: the strings migrated into func_800D30D0.s ride in on the
+ * INCLUDE_ASM stub; banking the function drops them, shifting every later
+ * .rodata symbol.  Carry them as a file-scope __asm__ blob at the exact
+ * source position the stub occupied (this TU's own D_800CEE1C house form). */
+__asm__(
+    ".section .rodata\n"
+    ".align 2\n"
+    ".globl D_800CEE58\n"
+    "D_800CEE58:\n"
+    ".asciz \"\\t DMA=(%d,%d), ADDR=(0x%08x->0x%08x)\\n\"\n"
+    ".align 2\n"
+    ".globl D_800CEE80\n"
+    "D_800CEE80:\n"
+    ".asciz \"\\t FIFO=(%d,%d),BUSY=%d,DREQ=(%d,%d),RGB24=%d,STP=%d\\n\"\n"
+    ".align 2\n"
+    ".globl D_800CEEB8\n"
+    "D_800CEEB8:\n"
+    ".asciz \"%s timeout:\\n\"\n"
+    ".align 2\n"
+    ".word 0x3C02800C\n"
+    ".word 0x944299E4\n"
+    ".section .text\n"
+);
+
+/* §37 asm-label alias: this TU already declares `extern void
+ * func_800D30D0(char *a0);` twice (its two callers).  The body really does
+ * return 0 in $v0, so define it under an alias -- the same lever the TU
+ * already uses for aF800D2F88 -- instead of fighting the void prototype. */
+s32 aF800D30D0(char *arg0) __asm__("func_800D30D0");
+
+s32 aF800D30D0(char *arg0) {
+    register s32 ret __asm__("$2");
+    s32 s0;
+
+    func_8005C604(D_800CEEB8, arg0);
+    s0 = *(volatile s32 *)D_800DB670;
+    func_8005C604(D_800CEE58,
+        (*(volatile u32 *)D_800DB644 >> 24) & 1,
+        (*(volatile u32 *)D_800DB650 >> 24) & 1,
+        *D_800DB63C,
+        *D_800DB648);
+    func_8005C604(D_800CEE80,
+        ((u32)~s0 >> 31),
+        ((u32)s0 >> 30) & 1,
+        ((u32)s0 >> 29) & 1,
+        ((u32)s0 >> 28) & 1,
+        ((u32)s0 >> 27) & 1,
+        ((u32)s0 >> 25) & 1,
+        ((u32)s0 >> 23) & 1);
+    *D_800DB670 = 0x80000000;
+    *D_800DB644 = 0;
+    *D_800DB650 = 0;
+    __asm__ volatile("" : "=r"(ret) : "0"(0));
+    (void)*(volatile s32 *)D_800DB650;
+    *D_800DB670 = 0x60000000;
+    return ret;
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", D_800D3200);
 

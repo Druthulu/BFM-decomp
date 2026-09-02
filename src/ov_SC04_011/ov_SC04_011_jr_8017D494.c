@@ -4785,7 +4785,27 @@ s32 func_80180930(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80180970);
+extern u16 D_801EFD40;
+extern void func_801863D4();
+extern void func_8018637C(s32 a0, s32 a1);
+extern s32 D_801DECA4;
+
+void func_80180970(void *a0)
+{
+    void *s0 = a0;
+
+    D_801EFD40 &= 0xFFFB;
+    func_801863D4(s0);
+    {
+        register void *t __asm__("$4");
+        __asm__ volatile("addu %0, %1, $0" : "=&r"(t) : "r"(s0));
+        *(s16 *)((u8 *)t + 0x6) = -0x40;
+        *(s16 *)((u8 *)t + 0xE) = 0x40;
+        *(s16 *)((u8 *)t + 0xA) = -0x200;
+        func_8018637C((s32)t, (s32)&D_801DECA4);
+    }
+}
+
 
 s32 func_801809D4(s32 *a0) {
     return *(s16 *)((s32)a0 + 0x98) == 0;
@@ -6907,7 +6927,80 @@ void func_80183564(s32 a0, s16 *a1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_801835B0);
+/* func_801835B0 — pick the dominant axis of (self - target) into self->0xE2.
+ *
+ * §333: the target's frame is 0x18 with NO saved register and NO stack traffic —
+ *       that is 24 bytes of DECLARED-but-unreferenced aggregate (gcc-2.7.2 slots
+ *       every aggregate local in declaration order whether it is used or not).
+ * §194-K: the zero-byte re-tie inside each negative arm gives `u` a second SET so
+ *       cse cannot fold `(neg (subreg:SI (reg:HI u)))` back onto the pre-copy
+ *       SImode load (cse.c's paradoxical-SUBREG case). Without it the three
+ *       `negu $aN,$v1` read `$v0` instead — the whole 3-instruction residual.
+ * §183: the TU spells D_801EFC4C as a scalar; reach the array view through an
+ *       __asm__-labelled alias so no declaration conflicts.
+ */
+extern u16 D_801EFD20;
+extern s32 aFC4C[] __asm__("D_801EFC4C");
+
+void func_801835B0(s32 a0)
+{
+    s32 obj;
+    s16 *p;
+    s32 t;
+    s16 u;
+    s16 m;
+    s16 c;
+    s32 pad[6];                         /* §333: sets the 0x18 frame */
+
+    obj = aFC4C[D_801EFD20];
+    p = (s16 *)(a0 + 0xEC);
+    if ((a0 + 0xE4) != 0) {
+        *(u16 *)(a0 + 0xEC) = *(u16 *)(a0 + 0xE4) - *(u16 *)(obj + 6);
+        *(u16 *)(a0 + 0xEE) = *(u16 *)(a0 + 0xE6) - *(u16 *)(obj + 0xA);
+        *(u16 *)(a0 + 0xF0) = *(u16 *)(a0 + 0xE8) - *(u16 *)(obj + 0xE);
+    } else {
+        *(u16 *)(a0 + 0xF0) = 0;
+        *(u16 *)(a0 + 0xEE) = 0;
+        *(u16 *)(a0 + 0xEC) = 0;
+    }
+    *(u16 *)(a0 + 0xEA) = 0x1E0;
+
+    t = p[0];
+    u = t;
+    if (t < 0) {
+        __asm__("" : "=r"(u) : "0"(u));
+        m = -u;
+    } else {
+        m = u;
+    }
+    *(u16 *)(a0 + 0xE2) = 0;
+
+    t = p[1];
+    u = t;
+    if (t < 0) {
+        __asm__("" : "=r"(u) : "0"(u));
+        c = -u;
+    } else {
+        c = u;
+    }
+    if (m < c) {
+        m = c;
+        *(u16 *)(a0 + 0xE2) = 1;
+    }
+
+    t = p[2];
+    u = t;
+    if (t < 0) {
+        __asm__("" : "=r"(u) : "0"(u));
+        c = -u;
+    } else {
+        c = u;
+    }
+    if (m < c) {
+        *(u16 *)(a0 + 0xE2) = 2;
+    }
+}
+
 
 #include "common.h"
 
@@ -7598,7 +7691,7 @@ extern void func_8012BEE8(u8*);
 extern void func_80185DDC(void *a0);
 extern void func_80186020(void *a0);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
-extern void func_8018489C(void *a0, s32 a1, s32 a2);
+extern void func_8018489C();
 
 extern s32 D_801EFC48;
 extern u16 D_801EFD40;
@@ -7669,7 +7762,7 @@ extern void func_8012BEE8(u8*);
 extern void func_80185DDC(void*);
 extern void func_80186020(void*);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
-extern void func_8018489C(void*, s32, s32);
+extern void func_8018489C();
 
 void func_80184728(void *a0) {
 
@@ -7748,7 +7841,76 @@ s32 func_80184884(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018489C);
+/* func_8018489C — ov_SC04_011 (split ov_SC04_011_jr_8017D494), 55 ins, match_one MATCH.
+ *
+ * Guarded "nudge the entity three ways" helper: under the D_801EFD24 / D_801EFD40&0x100
+ * gate it fills two 3-halfword stack vectors from the 16-byte D_801946AC record selected by
+ * *(s16 *)(arg0+0x102), then calls func_80184978 with dx = -arg1, then 0, then +arg1,
+ * stopping at the first call that returns non-zero.
+ *
+ * THE TWO LEVERS (both zero-byte; the naive body is `near 4`, OPCODE-MIXED):
+ *
+ *  1. `-arg1` READS THE INCOMING $a1, NOT THE $s2 PARAMETER COPY (`negu $a3,$a1`).  Spelling
+ *     it `-arg1` negates the parameter pseudo, which lives across the three calls and is
+ *     therefore in $s2 -> `negu $a3,$s2`, and with no register WAR edge the negu is free to
+ *     float: gcc's birthing boost (sched.c adjust_priority/birthing_insn_p) sinks it to just
+ *     above its two `sh` consumers, 11 slots too late.  Reading the raw argument register
+ *     through an uninitialised `register s32 a1v __asm__("$5")` gives BOTH halves at once —
+ *     the right source register AND a REG_DEP_ANTI against `addiu $a1,$sp,0x10`, which is
+ *     what pins the negu to the head of the block (where dbr then steals it into the
+ *     `bnez ...,0x100` delay slot).
+ *
+ *  2. THE SYMBOL BASE MUST BE A MULTI-SET REGISTER, ELSE ITS BIRTHING BOOST OUTRANKS THE
+ *     CALL'S ARGUMENT SETUP.  `p = D_801946AC + idx*16;` puts the `la` in a single-set pseudo,
+ *     so at sched1 it carries priority 0x7f000001 and is picked before the (priority-1)
+ *     `addiu $a1,$sp,0x10`; sched1's output order IS sched2's LUID, so at sched2 the `la`
+ *     keeps winning the tie and lands BELOW the arg setup — target has it above.  Binding the
+ *     base to $v0 with `register u8 *base __asm__("$2")` kills the boost for free, because
+ *     reg_n_sets[$v0] already counts the three `jal` return values (>1 => birthing_insn_p
+ *     returns 0) — and $v0 is exactly the register the target materialises the symbol in.
+ *     (A plain multi-set `p = D_801946AC; p += idx*16;` also kills the boost and fixes the
+ *     schedule, but then `p` owns the symbol's register too: REGALLOC-PERM $v0<->$v1, near 5.)
+ *
+ * §183 DATA asm-label alias: this TU declares D_801EFD24 `extern s32` at file scope (L9135)
+ * while the byte-true body reads it with `lhu`; bind a private identifier to the symbol, the
+ * TU's own idiom for this exact global (aF80183E20, L7272).
+ */
+
+extern s32 func_80184978(s32 a0, s32 a1, s32 a2);
+
+void func_8018489C(s32 arg0, s32 arg1, s32 arg2)
+{
+    extern u16 aEFD24 __asm__("D_801EFD24");
+
+    register s32 z __asm__("$8");        /* arg2, kept in the caller-saved $t0 */
+    register s32 a1v __asm__("$5");      /* the INCOMING $a1, i.e. arg1 pre-copy — lever 1 */
+    register u8 *base __asm__("$2");     /* multi-set home for the symbol — lever 2 */
+    s16 sp10[3];
+    s16 sp18[3];
+    u8 *p;
+
+    if (aEFD24 == 0 && !(D_801EFD40 & 0x100)) {
+        z = arg2;
+        base = D_801946AC;
+        p = base + *(s16 *)(arg0 + 0x102) * 16;
+        sp10[2] = *(u16 *)(p + 12);
+        sp18[2] = *(u16 *)(p + 14);
+        sp18[1] = z;
+        sp10[1] = z;
+        sp18[0] = -a1v;
+        sp10[0] = -a1v;
+        if (func_80184978(arg0, (s32)sp10, (s32)sp18) == 0) {
+            sp18[0] = 0;
+            sp10[0] = 0;
+            if (func_80184978(arg0, (s32)sp10, (s32)sp18) == 0) {
+                sp18[0] = arg1;
+                sp10[0] = arg1;
+                func_80184978(arg0, (s32)sp10, (s32)sp18);
+            }
+        }
+    }
+}
+
 
 #include "common.h"
 
@@ -9629,7 +9791,7 @@ void func_80187178(void *a0)
 extern void func_80185DDC(void *a0);
 extern void func_80186020(void *a0);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
-extern void func_8018489C(void *a0, s32 a1, s32 a2);
+extern void func_8018489C();
 
 extern u16 D_801EFD40;
 extern s32 D_801EFC48;

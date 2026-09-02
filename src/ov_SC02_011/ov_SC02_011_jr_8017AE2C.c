@@ -9467,7 +9467,86 @@ void func_80185268(short *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_801852B0);
+#include "common.h"
+
+/* Decl environment: func_8012BEE8 (9342), func_8012B178 (2605) and func_8012B200
+ * (8844) are already at file scope in this TU with these exact spellings; repeated
+ * identical decls are byte-neutral and match the TU's house style.
+ * func_8018567C is NOT in scope at this point and is DEFINED `s32 ...` further down
+ * (line 9635), so it is declared at BLOCK scope exactly as the neighbours
+ * func_80185480 / func_801854DC (lines 9519 / 9534) already do. */
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012B200(u8 *a0);
+extern void func_8012B178(s32 a0, s32 a1);
+
+void func_801852B0(s32 a0)
+{
+    extern void func_8018567C(s32 a0, s32 a1);
+
+    s32 s0 = a0;
+    s32 v;
+    u8 *p;
+
+    if (func_8012BEE8(a0) == 0 && *(s16 *)(s0 + 0xFC) == 0) {
+        return;
+    }
+
+    /* `p` must be a SEPARATE local live across the if/else: global.c's copy
+     * preference from the func_8012B200 arg load gives it $a0, so the copy
+     * `addu $a0,$s0,$zero` is emitted at p's definition and sched2 slides it
+     * behind the `lh` to fill the guard's load-delay -- reorg then parks it in
+     * the `beqz` delay slot (target idx 14). Spelled inline at the call it is
+     * copy-propagated away and the copy lands next to the `jal` instead (+1 ins). */
+    p = (u8 *)s0;
+
+    if (*(s16 *)(s0 + 0xFC) != 0) {
+        v = *(s32 *)(s0 + 0xDC);
+        if (v == 0) {
+            *(s16 *)(s0 + 2) = 5;
+            return;
+        }
+    } else {
+        v = *(s32 *)(s0 + 0xDC);
+    }
+
+    /* cookbook-index L22 / §5a + the §34 zero-byte fence toolkit: reorg's eager
+     * filler otherwise COPIES this `xori` out of the join thread into the
+     * `bnez` delay slot above and redirects the branch one insn further on.
+     * `stop_search_p` halts that search on an asm insn, so the target's
+     * unfilled `nop` (idx 18) survives. Emits nothing. */
+    __asm__("");
+    v ^= 1;
+    *(s32 *)(s0 + 0xDC) = v;
+    func_8012B200(p);
+    *(u16 *)(s0 + 0x5C) |= 0x400;
+
+    /* Both arms: the target sets up $a0/$a1 BEFORE the `= 7` / `= 6` store, so
+     * the store (not the `li $a1`) is what reorg pulls into the jal's delay slot.
+     * Plain source order cannot reach that -- sched2 ranks `li $v0,K` (priority 2,
+     * it feeds the `sh`) ahead of the priority-1 arg copies. The $a0/$a1 register
+     * pins place the copies, and the zero-byte re-tie on the $a1 pin (ADD-8 ->
+     * §245 addendum, "the re-tie barrier pins call-arg setup to source order")
+     * stops the constant from being rematerialised down at the call. */
+    if (*(s32 *)(s0 + 0xDC) == 0) {
+        register s32 q __asm__("$4") = s0;
+        register s32 r __asm__("$5") = 0xFFF80000;
+        __asm__ __volatile__("" : "=r"(r) : "0"(r));
+        *(s16 *)(s0 + 2) = 7;
+        func_8012B178(q, r);
+        v = 0x20;
+    } else {
+        register s32 q2 __asm__("$4") = s0;
+        register s32 r2 __asm__("$5") = 0x100000;
+        __asm__ __volatile__("" : "=r"(r2) : "0"(r2));
+        *(s16 *)(s0 + 2) = 6;
+        func_8012B178(q2, r2);
+        v = 0x10;
+    }
+
+    *(s32 *)(s0 + 0x1C) = v;
+    func_8018567C(s0, 0x61A);
+}
+
 
 extern s32 func_80029178(s32 arg);
 

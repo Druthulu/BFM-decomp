@@ -3381,9 +3381,102 @@ void func_801853B0(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8018473C", func_801854B8);
+extern u16 D_80126B5E;
+extern s32 D_801C7E38[];
+extern s32 D_801C7E78;
+extern s16 D_801924DC[];
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8018473C", func_80185570);
+void func_801854B8(s32 arg_in)
+{
+    register s32 arg0 __asm__("$5");
+    register s32 t __asm__("$4");
+    register s32 var __asm__("$2");
+    s32 p;
+    s32 i;
+
+    arg0 = arg_in;
+    var = *(s32 *)(arg0 + 0x1C);
+    if (var == 0) {
+        var = *(u16 *)(arg0 + 0xFE) - 1;
+        *(u16 *)(arg0 + 0xFE) = var;
+        if ((s16)var != 0) {
+            for (i = 0; i < 4; i++) {
+                if ((s16)D_80126B5E < D_801924DC[i]) {
+                    break;
+                }
+            }
+            p = D_801C7E38[i];
+            t = D_801C7E78;
+            *(u16 *)(p + 0x10A) = 1;
+            __asm__ __volatile__("");
+            var = 60 - t * 15;
+        } else {
+            *(s32 *)(arg0 + 0x1C) = 90;
+            *(u16 *)(arg0 + 2) = 1;
+            return;
+        }
+    } else {
+        var = var - 1;
+    }
+    *(s32 *)(arg0 + 0x1C) = var;
+}
+
+
+extern s32 D_801C7E30;
+extern s32 rand(void);
+
+/* func_80185570 (69 ins) — derivation notes:
+ *
+ * 1. `n` is a REAL variable, not `t-1`/`t+1` index arithmetic. Writing the
+ *    neighbour store as `(&D_801C7E30)[n - 1]` lets cse fold the whole address
+ *    into the already-scaled `n*4` base (`lw $v0,-4($v0)`) and loses 2 insns.
+ *    Re-assigning `n` (n = r+1; store; n = n+1;) reproduces the target's
+ *    `addiu $v1,$a1,1` / `addiu $v1,$a1,2` rematerialisation pair, with the
+ *    restore landing in the load-delay slot exactly as the target has it.
+ *    A saved-copy form (`n = r + 2` written literally) makes cse reuse the
+ *    first r+2 through a `move`, which costs the target's nop at idx 35.
+ *
+ * 2. §176-B4 / §137 class: with `r = rand() % 5;` the residual is a clean
+ *    $a0<->$a1 REGALLOC-PERM (closeness 7) — the `q*5` product has no allocno
+ *    of its own, so local-alloc coalesces it with `r` and shifts `r`/`p` down
+ *    one register each. Pinning `r` to $5 fixes r/p but then the product
+ *    coalesces onto the pin ($a1 instead of $v1) — the pin widens coalescing,
+ *    exactly B4's failure mode. Spelling the modulo out as an explicit
+ *    quotient/product/subtract chain gives the product its own allocno and the
+ *    whole allocation falls out correctly with NO pins: MATCH 69/69.
+ */
+void func_80185570(s32 arg0) {
+    s32 i;
+    s32 q;
+    s32 d;
+    s32 m;
+    s32 r;
+    s32 n;
+    s32 p;
+
+    for (i = 0; i < 20; i++) {
+        q = rand();
+        d = q / 5;
+        m = d * 5;
+        r = q - m;
+        n = r + 2;
+        p = *(s32 *)((&D_801C7E30)[n] + 0x6C);
+        if (*(s16 *)(p + 0x76) > 0) {
+            *(u16 *)(*(s32 *)(p + 0x64) + 0x10A) = 2;
+            if (n != 2) {
+                n = r + 1;
+                *(u16 *)((&D_801C7E30)[n] + 0x10A) = 3;
+                n = n + 1;
+            }
+            n++;
+            *(u16 *)((&D_801C7E30)[n] + 0x10A) = 3;
+            *(s32 *)(arg0 + 0x1C) = 0x5A;
+            *(u16 *)(arg0 + 2) = 1;
+            return;
+        }
+    }
+}
+
 
 void func_80185684(void) {
 }

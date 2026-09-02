@@ -4819,7 +4819,44 @@ void func_801857B0(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_000/nonmatchings/ov_SC02_000_jr_8018173C", func_80185840);
+#include "common.h"
+
+extern s32 D_801E8750;
+extern s32  func_80185C48(s32 a0, s32 a1);
+extern void func_8018623C(u16 arg0, u16 arg1);
+
+void func_80185840(s32 param_1) {
+    s16 r;
+    s16 t;
+    u32 val;
+
+    func_80185C48(param_1, 0);
+    *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) += *(u16 *)(param_1 + 0xE0);
+    t = *(s16 *)(param_1 + 0xE0);
+    /* if/else (NOT "r = 0x80; if (t < 0x80) r = ...;"): the else-arm shape keeps
+     * `li r,0x80` in a block AFTER the branch at register-allocation time, so r
+     * does not conflict with the slt result and gets $v0 instead of $a0. */
+    if (t >= 0x80) {
+        r = 0x80;
+    } else {
+        r = t + *(u16 *)(param_1 + 0xE2);
+    }
+    *(s16 *)(param_1 + 0xE0) = r;
+    __asm__ __volatile__("");   /* cookbook §194-A: zero-byte sched fence — emits the
+                                 * sh first in the join block, ahead of li 0x27D7D */
+    D_801E8750 += 0x27D7D;
+    val = (u32)D_801E8750 >> 16;
+    if (val >= 0x80) {
+        val = 0x7F;
+    }
+    ((void (*)(s32, s32))func_8018623C)(0x4DF, val + 0x1000);
+    if (*(s32 *)(param_1 + 0x18) < -0xB9999) {
+        *(s32 *)(param_1 + 0x18) = -0xB9999;
+        *(s16 *)(param_1 + 2) = 0xB;
+        ((void (*)(s32, s32))func_8018623C)(0x4DF, 0x107F);
+    }
+}
+
 
 
 typedef struct { u32 addr:24; u32 len:8; } PTAG_85910;
