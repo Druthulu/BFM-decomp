@@ -5593,7 +5593,98 @@ void func_8017F8D8(s32 arg0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017FA74);
+extern s32 func_8017B368(s32);
+extern s32 func_80178970();
+extern void func_80178D18(void);
+extern s32 func_80029504(void);
+
+void func_8017FA74(s32 arg0)
+{
+    /* NOTE: this typedef is deliberately BLOCK scope. The file-scope
+     * `typedef ... Tbl8_8017FC44;` lives a few lines below this function and a
+     * second file-scope copy is a C89 redefinition -- gcc-2.7.2 exits 33
+     * ("conflicting types for `Tbl8_8017FC44'"), which is what the whole-binary
+     * gate kept rejecting even though the body is byte-identical. */
+    typedef struct {
+        /* 0x00 */ s32 unk00;
+        /* 0x04 */ s32 unk04;
+    } Tbl8_8017FC44;
+
+    extern s32 D_801B2E70;
+    extern void func_8017FE04(s32 a0);
+    extern u8 D_80188EF8;
+    extern u8 D_80188F10;
+    extern u8 D_80188F30[];
+    extern u8 D_80188F40[];
+    extern u8 D_80188F50[];
+    extern u8 D_80188F70[];
+    extern Tbl8_8017FC44 D_80189380[];
+
+    s32 a0;
+    s32 v1;
+    s32 idx;
+    Tbl8_8017FC44 *rec;
+
+    switch (D_801B2E70) {
+    case 0:
+        break;
+    case 1:
+        ((s32 (*)(s32, s32))func_8017B368)(arg0, (s32)D_80188F30);
+        break;
+    case 2:
+        ((s32 (*)(s32, s32))func_8017B368)(arg0, (s32)D_80188F40);
+        break;
+    case 3:
+        ((s32 (*)(s32, s32))func_8017B368)(arg0, (s32)D_80188F50);
+        break;
+    case 4:
+        ((s32 (*)(s32, s32))func_8017B368)(arg0, (s32)D_80188F70);
+        D_801B2E70 = 0;
+        break;
+    }
+
+    if (((s32 (*)(s32))func_80178970)(arg0) != 0) {
+        ((void (*)(s32))func_80178D18)(arg0);
+        v1 = func_80029504();
+        a0 = 0;
+        if (v1 >= 0x140) {
+            if (v1 < 0x14A) {
+                a0 = 1;
+            } else if (v1 < 0x172) {
+                a0 = 2;
+            } else if (v1 < 0x17C) {
+                a0 = 3;
+            } else {
+                a0 = 4;
+            }
+        }
+        if (a0 == 4) {
+            func_8017FE04(arg0);
+        } else {
+            *(u16 *)(arg0 + 2) = 1;
+            v1 = func_80029504();
+            idx = 0;
+            if (v1 >= 0x140) {
+                if (v1 < 0x14A) {
+                    idx = 1;
+                } else if (v1 < 0x172) {
+                    idx = 2;
+                } else if (v1 < 0x17C) {
+                    idx = 3;
+                } else {
+                    idx = 4;
+                }
+            }
+            rec = &D_80189380[idx];
+            func_8012E8E0(arg0, (s32)&D_80188EF8 + rec->unk00 * 8);
+            func_8012A828(arg0, (void *)rec->unk04);
+            *(s32 *)(arg0 + 0x58) = (s32)&D_80188F10 | 0x40000000;
+            *(u16 *)(arg0 + 0x5C) = 0x800;
+            D_801B2E70 = 0;
+        }
+    }
+}
+
 
 typedef struct {
     /* 0x00 */ s32 unk00;
