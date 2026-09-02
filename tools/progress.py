@@ -595,12 +595,35 @@ def classify():
         while i < n:
             s = lines[i].strip()
             if s.startswith('#ifdef NON_MATCHING'):
-                blk = []
-                while i < n and not lines[i].strip().startswith('#endif'):
-                    blk.append(lines[i]); i += 1
-                i += 1
-                m = re.search(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)', '\n'.join(blk))
-                if m: nonmatching.append(m.group(1))
+                # THE `#else` HALF IS LIVE CODE, AND SWALLOWING IT UNDERCOUNTS REAL (P31 S73).
+                # The old form consumed from `#ifdef NON_MATCHING` all the way to `#endif`, so a
+                # function BANKED into the `#else` branch landed in NO bucket at all — not real,
+                # not a stub, invisible, exactly like the K&R and `#if 0` defects documented below
+                # and above. Measured: CdReadStateMachine, CdReadSectorReadyCB and
+                # StreamLoadStateMachine were all byte-identical in the shipped build and counted
+                # as zero, because banking replaces the `#else` INCLUDE_ASM with the real body and
+                # leaves the old attempt in the dead half.
+                # So: consume only the DEAD half, then decide from the LIVE half. If it still holds
+                # an INCLUDE_ASM the function is a NON_MATCHING stub (unchanged accounting); if it
+                # holds anything else, rewind and let the normal scan classify it.
+                dead = []
+                while i < n and not lines[i].strip().startswith(('#else', '#endif')):
+                    dead.append(lines[i]); i += 1
+                had_else = i < n and lines[i].strip().startswith('#else')
+                i += 1                                   # step over the `#else` / `#endif`
+                live_start = i
+                live = []
+                if had_else:
+                    while i < n and not lines[i].strip().startswith('#endif'):
+                        live.append(lines[i]); i += 1
+                    i += 1                               # step over the `#endif`
+                m = re.search(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)', '\n'.join(dead + live))
+                if m and (not had_else or re.search(r'INCLUDE_ASM\("[^"]+",\s*(\w+)\)',
+                                                    '\n'.join(live))):
+                    nonmatching.append(m.group(1))       # still a stub: accounting unchanged
+                    continue
+                if had_else and live:
+                    i = live_start                       # a banked body: classify it normally
                 continue
             # `#if 0` — DEAD CODE, not a match (Phase-28 T5). The scanner knew `#ifdef NON_MATCHING`
             # but not this, so a `#if 0`-preserved analysis body was read as a live definition AND its
