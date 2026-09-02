@@ -34037,43 +34037,54 @@ blocks the cross-jump over-merge.
 **Verification (§405-A):** all 3 jump tables and 20 relocs byte-verified past `match_one`'s masking
 before the MATCH was reported.
 
-## §430 ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS ONE CAN INVALIDATE A LOOP (P31 S72; `main/CdReadSectorReadyCB`, 422/424 ins, verified with `cc1 -dL`)
+## §430 ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)
 
-**Read this together with §3-B, which says the opposite thing for a different reason.** §3-B folds
-many `return <const>;` into one `goto` tail and that is how `func_8001B0D4` matched. This section is
-the case where the same edit is WRONG, and the discriminator is precise.
+**WHAT I WROTE FIRST, FROM A NEAR (S72).** A NEAR agent on `main/CdReadSectorReadyCB` reported that
+the shared `sectorDone` block was a late `cross_jump` MERGE of per-arm duplicated statements, that
+writing it as a source `goto` puts a jump INTO case-1's `do-while`, and that `loop.c` then prints
+*"Loop at N ignored due to multiple entry points"* and silently drops the invariant hoist — costing
+2 instructions plus a spurious `andi`. I turned that into a rule: *shared tail inside a loop →
+duplicate the statements per arm; a source `goto` there costs you the whole loop pass.*
 
-**The law.** When a target shows two arms converging on a shared block, that block is usually a
-**late `cross_jump` merge of PER-ARM DUPLICATED statements** (§298) — the source had the statements
-written out in each arm. Spelling it as a real `goto` to a shared label is not equivalent when the
-label sits **inside a loop**: the `goto` becomes a jump INTO the loop body, `jump.c`'s
-`mark_loop_jump` marks it `loop_invalid`, and `cc1 -dL` prints
+**WHAT THE MATCH SHOWED (S73, `CdReadSectorReadyCB` 424/424).** The `goto` is **correct** — it is
+what the original source had. Writing `goto sectorDone;` into case-1's loop took the residual from
+**318 to 28 instantly, with length exact**. The `-dL` observation was real; the CONCLUSION drawn
+from it was wrong. Losing the hoist is not a reason to avoid the `goto`; it is a **repairable side
+effect**:
 
+```c
+{ s32 k80 = 0x80; s32 one = 1; }   /* hand-hoist what loop.c would have hoisted */
 ```
-Loop at N ignored due to multiple entry points
-```
 
-after which **loop.c silently drops its invariant hoisting**. Measured here: the `1`/`0x80` constant
-hoist into `$a0`/`$a1` disappeared, costing 2 instructions plus a spurious `andi`.
+`cse` cannot fold these back, because MIPS `bne`/`sb` need the values in REGISTERS. That took 28 → 13.
+**Declaration ORDER matters:** declare `k80` before `one` or `$a0`/`$a1` come out swapped.
 
-**The discriminator — ask where the shared label LIVES.**
-* Shared tail is **outside every loop** (a function epilogue, a `return 0;` collector) → §3-B: fold
-  it, and you may free a hard-ABI register as a bonus.
-* Shared tail is **inside a loop body** → duplicate the statements per arm and let `cross_jump` merge
-  them; a source `goto` there costs you the whole loop optimisation pass.
+**THE LAW, corrected.** When a jump into a loop disables `loop.c`'s invariant hoisting, do not
+abandon the jump — **do the hoisting yourself**, in pre-loop locals, in the order the target's
+register assignment implies. A disabled optimizer pass is a job you can take over, not a wall.
 
-**A `-dL` line is a free oracle.** "Loop at N ignored due to multiple entry points" names the defect
-exactly, and nothing about the emitted `.text` says why 2 instructions went missing. Dump it before
-theorising about a loop-shaped residual.
+**Why I got it wrong, and the general lesson.** The NEAR agent measured a real mechanism and inferred
+a prohibition from it; I promoted that inference to a rule without a MATCH behind it. **A law derived
+from a NEAR is a hypothesis about why something did not work; a law derived from a MATCH is evidence
+about what does.** Rank them accordingly, and mark the provenance in the entry — §428a needed the
+same correction the same day, and both times the corrected law was more useful than the guess.
 
-**Other levers this function confirmed** (all four byte-verified): `$s1` base from a source pointer
-local `CdReq *p = (CdReq *)&cdReq_state` (§32-1) while the pre-switch accesses stay separate globals ·
-frame `0x38` vs `0x30` from an 8-byte DEAD local aggregate (§32-5) · inner-switch source body order
-`6,0/5,7,1,8,2,3,4` · `p->bit` needs an int temp inside the case-1 loop to kill an `andi`.
+**Still true from the original entry:** `cc1 -dL` printing *"Loop at N ignored due to multiple entry
+points"* is a free oracle that names this situation exactly, and nothing in the emitted `.text` says
+why two instructions went missing. Dump it — then hoist by hand.
 
-**And one honest wall.** `find_cross_jump` accepts a **1-instruction** match on the
-`sw $zero,0x8($s1)` before the post label, so it keeps inner-case-6's tail copy rather than the one
-inside case-1's loop. That choice is not reachable from C — permuter fuel, not respelling.
+**Two more laws this function paid for.**
+* **The greg dump is a free allocno-priority oracle.** `cc1 -df` prints `;; regs to allocate` with
+  exact refs and live-length per pseudo, so you can SEE why one variable stole a register instead of
+  guessing: here `q` at 10 refs / 33 live beat `i` at 7 / 24 (30/33 vs 14/24) and took `$s2`. Six
+  clean-C reshapes failed to flip it; the fix was §17 — merge case-6's `q` with case-1's pointer into
+  ONE variable so it becomes a global allocno, then pin the counter with
+  `register s32 i __asm__("$18")`.
+* **A stale `tu=` on the card can cost you the last instructions.** The card said
+  `func_80018714 -> ('void', ())`; `src/800.c:5576` actually defines it **K&R** as
+  `void func_80018714(arg0) void *arg0;`, with a comment naming this very caller. Calling it through
+  a fresh local as `func_80018714((void *)dst4)` fixed `$a0` by copy-suggestion AND the sched1
+  store/load order in one edit: 6 → 0.
 
 ## §431 ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)
 
