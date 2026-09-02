@@ -1089,7 +1089,277 @@ int StreamLoadStateMachine(int param_1, void *param_2, int param_3) {  /* param_
     return 0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/800_c", StreamLoadStateMachine);
+
+extern void func_80037334(void);
+extern void func_800434BC(void);
+extern void func_800435B4(void *);                /* CdReadyCallback; §376: keep the TU's void spelling */
+extern int  func_800435CC(s32, void *, void *);   /* CdControl  */
+extern s32  func_8004355C(s32 mode, u8 *result);  /* CdSync     */
+
+extern u8   D_8006AEF4;
+extern u16  D_800A4E8E;
+extern int  streamLoad_state;
+extern void *streamLoad_savedReadyCB;
+extern u8   streamLoad_cbActive;
+extern int  D_800A6544;
+
+extern int  func_80036260(void);   /* sub-handler passed to func_80037CD8; the definition returns int */
+
+extern s32  func_80043420(void);   /* CdMode */
+extern void func_8002EC10(void);
+extern void func_80037358(int posInt);
+extern void func_80037144(s32 idx);
+extern int  func_80037CD8(void *arg);
+extern s32  func_8003750C(void);
+extern int  func_800374CC(int *out);
+extern int  func_8003775C(void);
+extern void func_80037D74(void);
+extern void *func_80037368(int *out);
+extern void func_800377D8(u8);     /* this loader's CdlReadN ready-callback (defined below) */
+
+extern int  D_800A4F28;            /* tick / timeout counter                       */
+extern int  D_800A4F2C;            /* CdMode-derived settle budget                 */
+extern int  D_800A4F30;            /* remaining sub-stream repeat count (from n)   */
+extern int  D_800A4F34;            /* last sector position (stall detection)       */
+extern int  D_800A4F38;   /* §376: TU spelling (src/800_c.c:890); reached as a byte below */
+extern u8   D_80068B60[];          /* per-resource descriptor table (0x10 stride)  */
+
+/* Second CD loader, DISTINCT from CdReadStateMachine: an 18-state machine (streamLoad_state) with
+ * its OWN ready-callback (func_800377D8). Runs SetMode(0xA0)/SeekL/ReadN with retry + CdMode
+ * handling, looping n (D_800A4F30) times over sub-streams. Returns 0 = busy, 1 = done,
+ * 2 = error/abort. Driven by ResourceLoadStateMachine.
+ *
+ * Matching notes (P31 S73):
+ *  - `idx` MUST be its own local: written inline, `(arg0 - 0x100) * 0x10` folds at tree level into
+ *    `arg0*0x10 - 0x1000` and the -4096 disappears into the `lh` displacement (2 insns, wrong).
+ *  - `sVar1` is `int` (not `short`): a HImode local live across three calls loads with `lhu` and
+ *    pays a `sll/sra` sign-extend at the use; the int-typed read sign-extends at the load (`lh`).
+ *  - Every held global address is its own single-set pointer local (§429) — that is what turns
+ *    `lui/%lo` pairs into the `lui + addiu` base the target uses for D_800A4F28/2C/30/34/38 and
+ *    D_800A4E8E.
+ *  - `break` vs `return 0` is load-bearing and NOT interchangeable here (both mean "return 0"):
+ *    `break` funnels through the single trailing `return 0`, so cross_jump merges the arm's tail
+ *    into .L80036AD4/.L80036ADC; `return 0` keeps the `$v0 = 0` hard-reg set inside the arm, which
+ *    excludes $v0 from that block's allocation. Case 11 needs `return 0` (its state++ lands in $v1
+ *    and stays inline); every other zero-return arm needs `break`. */
+int StreamLoadStateMachine(int arg0, void *loc, int n) {
+    u8    cmd[8];
+    u8    result[8];
+    int   pos;
+    int   sync;
+    int   resKind;
+    u8   *pb;
+    int  *p28;
+    int  *p2C;
+    int  *p30;
+    int  *p34;
+    u16  *flags;
+    int   t;
+    int   idx;
+
+    idx = arg0 - 0x100;
+    resKind = *(short *)(D_80068B60 + idx * 0x10);
+    p28 = &D_800A4F28;
+    *p28 += 1;
+    switch (streamLoad_state) {
+    case 0:
+        D_800A4F30 = n;
+        *(u8 *)&D_800A4F38 = 0;
+        D_800A6544 = 0;
+        func_8002EC10();
+        flags = &D_800A4E8E;
+        *flags &= 0xFFDF;
+        streamLoad_state++;
+        break;
+    case 1:
+        func_80037334();
+        func_80037358(CdPosToInt((CdlLOC *)loc));
+        func_80037144(resKind);
+        streamLoad_state++;
+        /* fall through */
+    case 2:
+        sync = func_8004355C(1, result);
+        if (sync != 5 && sync != 2) break;
+        if ((func_80043420() & 0x80) != 0) {
+            D_800A4F2C = 0;
+        } else {
+            D_800A4F2C = 3;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 3:
+        cmd[0] = 0xA0;
+        if (func_800435CC(0x0E, cmd, result) == 0) {   /* CdlSetmode */
+            if ((result[0] & 0x10) == 0) break;
+            func_80037334();
+            streamLoad_state = 0;
+            return 2;
+        }
+        D_800A4F28 = 0;
+        streamLoad_state++;
+        /* fall through */
+    case 4:
+        sync = func_8004355C(1, result);
+        if (sync == 5) {
+            streamLoad_state = 3;
+            break;
+        }
+        if (sync != 2) {
+            if (D_800A4F28 < 0x3D) break;
+            streamLoad_state = 3;
+            break;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 5:
+        p2C = &D_800A4F2C;
+        if (*p2C != 0) {
+            *p2C -= 1;
+            break;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 6:
+        if (func_80037CD8((void *)func_80036260) == 0) break;
+        streamLoad_state = 7;
+        /* fall through */
+    case 7:
+        if (func_8003750C() == 0) break;
+        streamLoad_state++;
+        /* fall through */
+    case 8:
+        sync = func_8004355C(1, result);
+        if (sync != 5 && sync != 2) break;
+        streamLoad_state++;
+        /* fall through */
+    case 9:
+        D_800A4F28 = 0;
+        if (func_800435CC(0x15, loc, result) == 0) break;   /* CdlSeekL */
+        streamLoad_state++;
+        /* fall through */
+    case 10:
+        sync = func_8004355C(1, result);
+        if (sync == 5) {
+            if (func_800435CC(1, 0, result) == 0) {         /* CdlNop */
+                streamLoad_state = 9;
+                break;
+            }
+            if ((result[0] & 0x10) == 0) {
+                streamLoad_state = 9;
+                break;
+            }
+            func_80037334();
+            D_8006AEF4 &= 0xFD;
+            streamLoad_state = 0;
+            return 2;
+        }
+        if (sync != 2) {
+            if (D_800A4F28 < 0x12D) break;
+            func_800434BC();
+            streamLoad_state = 9;
+            return 2;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 11:
+        D_800A4F28 = 0;
+        if (func_800435CC(6, loc, result) == 0) {           /* CdlReadN */
+            if ((result[0] & 0x10) == 0) break;
+            D_8006AEF4 &= 0xFD;
+            func_80037334();
+            streamLoad_state = 0;
+            return 2;
+        }
+        if (streamLoad_cbActive == 0) {
+            streamLoad_savedReadyCB = ((void *(*)(void *))func_800435B4)((void *)func_800377D8);
+        } else {
+            func_800435B4((void *)func_800377D8);
+        }
+        streamLoad_cbActive = 1;
+        streamLoad_state++;
+        return 0;   /* NOT `break` -- see the header note */
+    case 12:
+        if (func_800374CC(&pos) == 0) {
+            p34 = &D_800A4F34;
+            if (pos != *p34) {
+                *p34 = pos;
+                D_800A4F28 = 0;
+            }
+            if (D_800A4F28 < 0x12D) break;
+            if (streamLoad_cbActive != 0) {
+                func_800435B4(streamLoad_savedReadyCB);
+                streamLoad_savedReadyCB = 0;
+                streamLoad_cbActive = 0;
+            }
+            streamLoad_state++;
+            break;
+        }
+        if (streamLoad_cbActive != 0) {
+            func_800435B4(streamLoad_savedReadyCB);
+            streamLoad_savedReadyCB = 0;
+            streamLoad_cbActive = 0;
+        }
+        streamLoad_state++;
+        /* fall through */
+    case 13:
+        if (func_8003775C() == 0) break;
+        func_80037D74();
+        streamLoad_state++;
+        break;
+    case 14:
+        pb = (u8 *)func_80037368(&sync);
+        if (sync != 1) {
+            streamLoad_state = 0x11;
+            break;
+        }
+        if (*pb == 1) {
+            streamLoad_state++;
+        } else if (*pb == 2) {
+            *(u8 *)&D_800A4F38 = 1;
+            streamLoad_state = 0x11;
+            break;
+        } else {
+            p30 = &D_800A4F30;
+            t = *p30;
+            if (t == 0) {
+                streamLoad_state = 1;
+                break;
+            }
+            t -= 1;
+            *p30 = t;
+            if (t != 0) {
+                streamLoad_state = 1;
+                break;
+            }
+            streamLoad_state = 0x11;
+            break;
+        }
+        /* fall through */
+    case 15:
+        if (func_800435CC(9, 0, result) == 0) {             /* CdlPause */
+            if ((result[0] & 0x10) == 0) break;
+            streamLoad_state = 0;
+            return 1;
+        }
+        streamLoad_state++;
+        break;
+    case 16:
+        sync = func_8004355C(1, result);
+        if (sync != 5 && sync != 2) break;
+        pb = (u8 *)&D_800A4F38;
+        t = *pb;
+        streamLoad_state = 0;
+        if (t != 0) {
+            *pb = 0;
+            return 2;
+        }
+        return 1;
+    case 17:
+        if (func_800435CC(9, 0, result) != 0) streamLoad_state = 0x10;
+        break;
+    }
+    return 0;
+}
 #endif
 
 

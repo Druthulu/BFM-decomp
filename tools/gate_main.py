@@ -250,6 +250,29 @@ def _stubs_for(binary):
     return _STUBS_BY_BIN[b]
 
 
+
+def live_text(txt):
+    """The part of a TU the compiler actually sees: drop every `#ifdef NON_MATCHING` branch.
+
+    WHY (P31 S72/S73). `resolve_conflicts` and the COMPILE-conflict analysis both scan `extern`
+    lines with no notion of the preprocessor, so a declaration parked in the DEAD half of an
+    `#ifdef NON_MATCHING` / `#else` / `#endif` pair reads as a live constraint. It is not compiled
+    and constrains nothing. Measured twice in one gate: `func_80018714` and `func_800377D8` each
+    carry a stale `(void)` declaration in a dead branch while the LIVE definition takes a pointer /
+    a u8, and both caused a byte-verified draft to be dropped or mis-blamed. R39: a refusal check
+    that discards good work is worse than one that lets a failure through."""
+    out, dead, depth = [], False, 0
+    for ln in txt.split('\n'):
+        st = ln.strip()
+        if st.startswith('#ifdef NON_MATCHING'):
+            dead, depth = True, 1; out.append(''); continue
+        if dead and st.startswith('#else') and depth == 1:
+            dead = False; out.append(''); continue
+        if dead and st.startswith('#endif') and depth == 1:
+            dead, depth = False, 0; out.append(''); continue
+        out.append('' if dead else ln)
+    return '\n'.join(out)
+
 def resolve_conflicts(slate):
     """Drop drafts whose externs contradict (a) the destination TU's OWN existing declarations,
     or (b) an earlier draft landing in the SAME file.
@@ -277,7 +300,7 @@ def resolve_conflicts(slate):
         if path not in seen_by_file:
             t = {}
             try:
-                for d in DECL.findall(open(path).read()):
+                for d in DECL.findall(live_text(open(path).read())):
                     s = sym_of(d)
                     if s: t[s] = typesig(d)
             except OSError:
