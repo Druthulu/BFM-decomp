@@ -5437,6 +5437,16 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   served to a homonym in another overlay (§238). `claude_wave_draft.js`'s VERDICT now requires `binary`;
   the historical corpus keeps that caveat. Cookbook 1081.
 
+- 2026-09-02 04:11 — **S71 resumed after the 5-hour session limit.** All five in-flight agents died at
+  ~03:5x with `You've hit your session limit · resets 4:10am` and returned `NO-DRAFT` — **that is a
+  harness kill, not a verdict about those functions** (R40); they are relaunched unchanged, not
+  demoted or parked. Gate 5 (28 still-open drafts, re-gated after the five jr-isolates) banked **2**
+  (`commit:3614`). New: `tools/launch_check.py` refuses to launch an agent at an already-banked target —
+  the wave-2 payload held 3 of 27 (`ov_SC07_002:func_8017FCA8`, `md_MAIN_028:func_800CB8A0`,
+  `ov_SC01_006:func_8017F9F8`), one of which had already burned a full agent run reporting
+  "STALE CARD". Cookbook **§415** (a file-scope decl merges the TU's later BLOCK-scope externs into it,
+  gcc-2.7.2 pushdecl) written in-session; index 1083.
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
