@@ -33088,3 +33088,91 @@ Reach for `harvest_verify` directly only as a diagnostic — for instance to A/B
 success line (R40). A frontier count that does not move after a reported bank is the tell; here
 `355 -> 314 = 41` reconciled exactly as `15+3+3+20` with main contributing zero, which is how the
 phantom surfaced.
+
+## §405 ★★★ — THE S70 WAVE HARVEST: 130 agents, 113 MATCH, and the laws they brought back
+
+One session, three waves (50 + 40 + 40 targets), **113 MATCH / 4 NEAR**, 132 functions banked across
+four R22-green gates. The per-agent notes are preserved in each run's `journal.jsonl` under
+`subagents/workflows/wf_*/`. What follows is the generalisable residue, grouped by lever family.
+
+### A. THE ORACLE HAS A HOLE: match_one cannot see a jump table (§405-A)
+`match_one` compares **`.text` only**. gcc-2.7.2 emits switch case BODIES in source order while jump
+table entry *i* points at case *i*, so **case-value and case-order are independent and `.text` pins
+only the order**. A draft can therefore score a perfect closeness 0 while emitting an IDENTITY table
+where the target's real table is PERMUTED — byte-witnessed on `resident/func_800D02D0` (110/110 with
+`jtbl_80113F14` permuted). **A MATCH on a switch function is not evidence about its table.** Recover
+the labels FROM the table (`jtbl[i]` -> block addr -> that block's delay-slot constant = `case i`),
+then emit cases sorted by block address. This is R34's shape in the project's most-trusted oracle:
+some historical "match_one MATCH but the gate rejected it" verdicts were the ORACLE being wrong.
+
+### B. THE SCHEDULER DIALS (the dominant residual family this wave)
+* **Birthing-boost kill (§49/§350/§393), now with its placement rule.** sched1 boosts a
+  single-set pseudo's def; making it **2-set** removes the boost and sinks the insn. Every pure-C
+  second-set spelling (`x = x`, `x += 0`, `x &= -1`, dead-reset) is folded before `reg_n_sets` is
+  computed, so **the zero-byte `__asm__("" : "=r"(x) : "0"(x)) re-tie is the only reachable lever** —
+  and it **must sit in a LATER basic block than the boosted insn** (same-block placement fixes the
+  schedule but rotates the registers instead).
+* **`stop_search_p` halts reorg's delay-slot scan at ANY asm.** So a laundering `__asm__` between a
+  copy and a branch BLOCKS `fill_simple_delay_slots`. Put the frame/launder asm LAST, or move it
+  into both arms, or you trade a schedule fix for a lost delay slot.
+* **Comparison operand order is a LUID dial.** `limit > sum` vs `sum < limit` decides which operand
+  is expanded first, hence which sign-extend `loop.c` hoists first (4 -> 0, `func_8018088C`). Also
+  reaches conflict-driven regalloc swaps: reversing `-lim < x` to `x > -lim` moved a last-use past a
+  copy's birth and changed `find_reg`'s answer (`func_8017EE48`) — which REFUTES §137's "source
+  levers are a dead end" for CONFLICT-driven (as opposed to priority-driven) swaps.
+
+### C. REGISTER ALLOCATION FROM C, WITHOUT PINS
+* **Variable IDENTITY picks the allocator.** A local whose live range spans two blocks goes to
+  global-alloc ($a0-class); a single-block one goes to local-alloc ($v1-class). Splitting or sharing
+  one variable is therefore a register dial (`func_8017FBCC`).
+* **A value flowing into a cross-arm join is a GLOBAL allocno and loses first-fit to block-local
+  constants.** Duplicate the whole expression into every arm and let `cross_jump` refund the size
+  (`func_8017D4CC`) — a suffix-only lever, consistent with §193-C.
+* **Pass-through parameters reserve argument registers for free.** Two extra params handed straight
+  to the callee emit ZERO instructions (self-copies deleted) but their copy-preferences hold
+  $a1/$a2 all function long, pushing a preference-less allocno to $a3 (`func_800CAE88`).
+* **A dying HARD reg becomes local-alloc's dest suggestion** — so a pin can CAUSE the swap you are
+  trying to fix; keeping the value live one insn longer with a use-only asm restores it.
+* **`rand() % K` in one statement vs two.** `expand_divmod` zeroes its target only when the
+  destination is mentioned in the dividend, so the one-statement form reuses the variable's own
+  pseudo as the quotient temp and stretches its live range into a hard-reg conflict (`func_8017FED8`).
+
+### D. INTEGRATION IS STILL THE BOTTLENECK, AND THE TU IS THE AUTHORITY
+Roughly a third of these functions had a byte-correct body already and failed only on declarations.
+The recurring shapes: adopt the TU's own spelling verbatim (law 2) · §37/§124 `__asm__("name")`
+definition-side alias when the TU's forward decl disagrees on the RETURN axis (which
+`fix_arity_callers` structurally cannot reach) · block-scope the externs and typedefs when a
+file-scope one would collide with a definition later in the TU (§183) · K&R the definition when the
+TU's decl is already no-proto and a parameter is not promotion-stable (§324/§99).
+
+### E. WHAT THE AGENTS REFUTED
+* §137's source-permutation invariance is a real law for PRIORITY-driven ties and **false for
+  CONFLICT-driven ones** (see B above).
+* §153's "cse2 puts the deleted def straight back" does **not** hold for the dead-def case: a
+  `do{}while(0)` stops cse1 at `NOTE_INSN_LOOP_END`, the reg goes dead, and
+  `delete_dead_from_cse` removes it before cse2 ever sees it.
+* §257-8 and §16x disagree on volatility polarity by SITE: dropping a `volatile` use-barrier flips a
+  prologue save pair in one function while the volatile spelling is load-bearing in another. Diagnose
+  per site; do not carry the polarity across functions.
+
+## §406 ★★ — THE PROLOGUE-WEAVE CLASS IS MECHANICAL AND LARGE (134 open stubs)
+
+`sw $s0` / `move $s0,$a0` / `sw $ra` in the prologue window. **Census: 134 of 1,237 open stubs (11%)**
+carry the shape. The residual is always the `sw $ra` SLOT.
+
+**Cause, read out of cc1's own `.i.sched2` dump** (`ov_SC02_005/func_8017F898`): bb0 is all
+constant-address MEMs, so `memrefs_conflict_p` (sched.c:614 — "frame-pointer addresses cannot
+conflict with static variables") finds NO dependence; `sw $ra` is ready at T-2 and
+`schedule_select`'s `potential_hazard` (memory unit beats ALU, sched.c:2616) picks it early, sinking
+it to just above the `bne`.
+
+**Twelve variants were measured INERT** — volatile locals, arrays, structs, `/s`-defeating casts,
+address-taken scalars, statement order, cached-global and volatile-global.
+
+**The lever:** a NON-volatile `__asm__("" : : : "memory")` immediately after the parameter copy. The
+BLK clobber gives `sw $ra` a successor, so it is only ready after the load is picked and lands back
+at index 3.
+
+**Why this is a SWEEP and not an idiom (the project thesis):** one known lever against 134 known
+targets is exactly the "is this MECHANICAL?" test the harvest gate asks. Build the sweep — apply the
+lever to the class, gate the batch — before drafting any of these individually.
