@@ -33506,3 +33506,40 @@ past-attempt fuel can serve one overlay's history to another's target, and any f
 rows inherits it. `claude_wave_draft.js`'s `VERDICT` schema now requires `binary`, so new rows are
 exact; the historical corpus stays name-keyed and should be read with that caveat.
 `check-against-a-known-true-case`, again: the instrument passed because it measured nothing.
+
+## §414 ★★★ — `parallel_gate` ON `main` IS A FALSE PASS, AND THE RULE WAS ALREADY WRITTEN DOWN (P31 S71)
+
+**What happened.** S71 ran `main` through `parallel_gate`. It reported **11 banked**, the merge
+committed them, and the run looked like every other successful gate that session. The R22 clean-fleet
+verify then came back **212 / 213**: `main` did not compile from clean (`conflicting types for
+func_8004355C`, `conflicting types for func_80038FFC`), and once both declarations were reconciled it
+built and was **still not byte-identical**. Every one of the 11 was then re-gated the honest way —
+apply ONE function to a green `src/800.c`, `make extract`, `make build`, compare SHA1 — and
+**11 of 11 REJECTED**.
+
+**The rule already existed, three files away.** `ox_campaign.gate_main_batch`'s docstring:
+
+> *"main is gated by ONE CLEAN REBUILD of the whole EXE, never incrementally. gate_stage/
+> sweep_parallel build incrementally, and main's extract rewrites the linker script, so an
+> incremental main gate returns a FALSE DIFF. Measured P31 S58: wave `ab` drew 105 main cards and
+> banked 0 of them while its non-main cards banked 82% — 105 competent drafts thrown away."*
+
+`parallel_gate`'s worker **is** `gate_stage`, so it inherits that exactly — and S58 recorded the
+false-DIFF direction while this is the false-PASS one, which is strictly worse: a false diff wastes
+drafts, a false pass commits wrong bytes and reads green until the next clean fleet check.
+
+**Fixed as a refusal, not a note** (R43): `parallel_gate` now returns `REFUSED` for
+`binary == 'main'`, naming `tools/gate_main.py`.
+
+**Two instrument lessons from the recovery, both the same shape.**
+* The per-function re-gate's FIRST form lifted each function body WITHOUT the `extern` block above
+  it, and the first three came back REJECT with `cdReq_cdResult undeclared`. That measured the
+  extractor, not the body — while investigating a gate that had measured itself. Fixed by carrying
+  the declaration preamble; the verdicts after that are real (they compile and the SHA differs).
+* The failure is R53's exact signature: **a failed build leaves the previous object on disk, so a
+  SHA1 check downstream of it reads green.** R53 was written for a different tool and never applied
+  here.
+
+**The law.** *A tool that wraps another tool inherits its refusals.* Every constraint documented on
+`gate_stage` binds `parallel_gate`, on `harvest_verify`, and on anything else that shells it — and
+the place to put that knowledge is a refusal in the wrapper, not a paragraph in the callee.

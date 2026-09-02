@@ -320,6 +320,24 @@ def gate_one(idx, pin, job):
     # a clean success reporting a TRUE number about an EMPTY world. Measured: 35 binaries / 57 drafts
     # "banked 0" in 1-2s each, while the SAME drafts gated in-tree banked 15/16 and 3/6.
     drafts = drafts if os.path.isabs(drafts) else os.path.join(REPO, drafts)
+    # MAIN IS NOT GATEABLE HERE, AND THE RULE PREDATES THIS TOOL (R43, P31 S71).
+    # `ox_campaign.gate_main_batch` already states it: "main is gated by ONE CLEAN REBUILD of the
+    # whole EXE, never incrementally. gate_stage/sweep_parallel build incrementally, and main's
+    # extract rewrites the linker script, so an incremental main gate returns a FALSE DIFF."
+    # This tool's worker IS gate_stage, so it inherits that exactly — and the failure is not a
+    # false diff but a false PASS: S71 ran main through here, got "11 banked", committed it, and
+    # the R22 clean-fleet verify then came back 212/213. The tree did not compile from clean, and
+    # once the two declaration conflicts were reconciled it was still not byte-identical. Every one
+    # of the 11 was then re-gated the honest way (substitute -> extract -> build -> compare SHA1,
+    # one function at a time) and rejected. A tool must refuse an input it cannot handle rather
+    # than process it wrongly; use tools/gate_main.py.
+    if binary == 'main':
+        return {"binary": binary, "banked": [], "files": {}, "ovl": None,
+                "secs": round(time.time() - t0, 1), "missing_generated": [], "rc": None,
+                "error": "REFUSED — main cannot be gated incrementally (its extract rewrites the "
+                         "linker script); gate_stage in a worktree reports a FALSE PASS. "
+                         "Use tools/gate_main.py, which does one clean substitute -> extract -> "
+                         "build -> SHA1 cycle for the whole batch."}
     try:
         # ...and assert the input actually exists before spending a worktree on it (R32/R43): a job
         # whose drafts are unreadable is a DEFECT, not a zero-yield result.
