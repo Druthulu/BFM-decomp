@@ -34037,6 +34037,39 @@ blocks the cross-jump over-merge.
 **Verification (§405-A):** all 3 jump tables and 20 relocs byte-verified past `match_one`'s masking
 before the MATCH was reported.
 
+## §429 ★★★ — EVERY HELD POINTER NEEDS ITS OWN LOCAL, AND A NEGATIVE-DISPLACEMENT BYTE STORE NEEDS ONE OF ITS OWN (P31 S72; `main/CdReadStateMachine`, MATCH 385/385)
+
+Two laws from one function, both about the SAME root: gcc-2.7.2 canonicalises `(mem (reg))` back to a
+symbol whenever the pseudo has a single reachable set, so *reusing* a pointer local silently changes
+the addressing mode of everything downstream.
+
+**1. A NEGATIVE-DISPLACEMENT BYTE STORE RE-FOLDS UNLESS IT HAS ITS OWN POINTER.** Writing
+`p[-0x10] = v` (or `*(u8 *)(p - 0x10) = v`) where `p` is a symbol-derived pointer lets `alias.c`
+re-fold the address to `lui %hi(sym - 0x10)` — the wrong instruction pair. Give it a local of its
+own:
+
+```c
+u8 *q = p - 0x10;      /* q is SET ONCE and used once: the reg survives as a reg */
+*q = v;
+```
+
+**2. EVERY HELD POINTER NEEDS A *DISTINCT* LOCAL.** A pseudo with MULTIPLE sets defeats the
+`(mem (reg)) -> symbol` canonicalisation for every use, and the resulting reg-form load costs a
+**load-delay nop** the target does not have. If you are carrying two or three pointers through a
+state machine, that is two or three separate locals — never one reused cursor. This is the same
+mechanism as §421 (a `la $tN`+`addiu` pair is RELOAD scratch) read from the source side: what you
+spell as reuse, the allocator spells as a multi-set qty.
+
+**3. THE FRAME DIAL AND THE MERGE-END PIN (both already known, confirmed here).** The §333 frame dial
+(an unused `s32 pad[2]` to move the frame size to `0x28`) and explicit labels on the merged tails —
+`setStateNine:` / `resetState:` — were the other two levers. **gcc's own `cross_jump` picks the OTHER
+end of a merge than you expect**; naming both tails pins which one survives, which is the cheap
+alternative to §5a's fence and complements §428's UID barrier.
+
+**Verification standard this function met (§405-A):** MATCH is `.text`-only, so the agent checked the
+**reloc-symbol sequence 180/180** and the **11-entry jump table in case order** before reporting.
+That is the bar for any switch function.
+
 ## §430 ★★★ — A GOTO INTO A LOOP IS FINE; HAND-HOIST THE CONSTANTS IT COSTS YOU (P31 S73 — **this section previously said the OPPOSITE and was wrong; the refutation is kept below**)
 
 **WHAT I WROTE FIRST, FROM A NEAR (S72).** A NEAR agent on `main/CdReadSectorReadyCB` reported that
@@ -34256,6 +34289,17 @@ was drawn and an agent spent 134k tokens and 41 tool calls to reach the same con
 whole frame as a single function. Until someone does that, both belong on the exclude list, and
 main's honest matchable frontier is 1,215 instructions smaller than the stub count suggests.
 
-**A caution on agent citations (R14).** The agent that reached this conclusion cited "§265, the
-file-scope verbatim-asm lane". §265 is inside §6, per-module optimization mixing — it says nothing
-of the kind. The conclusion was right and the citation was invented; check both.
+**CORRECTION — MY ACCUSATION WAS THE FALSE CLAIM (S73).** This section originally ended by saying
+the agent "invented" its citation of §265, "the file-scope verbatim-asm lane". **§265 exists and says
+exactly that**: *"THE VERBATIM-ASM BANK LANE: A FUNCTION NO -O2 C CAN EVER MATCH BANKS AS A RAW
+`__asm__` BODY"*, with four named byte-banked precedents (`func_800D0440`, `func_800CBA44`,
+`func_80185810`, `src/800b2.c`). I had run `cookbook_index.py --resolve 265`, which resolves a LINE
+number, not a section number, and believed the answer without opening §265. The agent was right on
+every point; I published the opposite in this cookbook, in a commit message, and to Drew.
+
+**AND THE VERDICT ITSELF NEEDED NARROWING.** Gated, the §265 transcription of `SaveLoadRoutine` comes
+back **BYTE-IDENTICAL for the function itself** — the lane works. It still fails the whole-binary gate
+because the substitution moves 3,989 bytes across 262 other symbols: the shared frame. So the true
+statement is **"neither symbol can bank SEPARATELY"**, not "neither can bank". The open route is to
+transcribe/resegment the PAIR together, and §265 is the lane for it — not a wall to be excluded and
+forgotten.
