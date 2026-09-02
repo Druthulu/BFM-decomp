@@ -4,21 +4,21 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 362648 / 362962 = 99.91%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 13447744 / 13523865 = 99.4%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5777218 / 5851972 = 98.7%   (90697/90929 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :   39105 / 79510 = 49.2%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
+FLEET fn-count byte-ident: 362651 / 362962 = 99.91%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 13447959 / 13523865 = 99.4%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5777433 / 5851972 = 98.7%   (90697/90929 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :   39320 / 79510 = 49.5%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13408639 / 13444355 = 99.7%)
 
-FLEET REAL substantive   : 360478   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
+FLEET REAL substantive   : 360481   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      3   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :    311
+FLEET INCLUDE_ASM stubs  :    308
 FLEET matchable          : 362962
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
-| main | 850 | 2 | 959 | 1852 | 1919 | 96.5% |
+| main | 853 | 2 | 959 | 1855 | 1919 | 96.7% |
 | resident | 138 | 0 | 0 | 140 | 145 | 96.6% |
 | md_MAIN_001 | 11 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_003 | 40 | 0 | 0 | 40 | 49 | 81.6% |
