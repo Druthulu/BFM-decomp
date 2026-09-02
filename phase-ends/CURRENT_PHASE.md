@@ -6246,3 +6246,101 @@ rc=1 · fresh rc=0 · override proceeds and announces).
 **Next draw:** `python3 tools/draw_waves.py --prefix .run/<name>_ --waves 1 --per-wave N
 --exclude-file config/wave_exclude.txt --ledger <FRESH>` (the standing ledger holds ~1,700 keys and
 leaves ~1 undrawn target fleet-wide — always draw with a fresh ledger).
+
+---
+
+## 🛑 SESSION CHECKPOINT — S73 CLOSE (2026-09-02). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES.
+
+**FLEET GREEN FROM A CLEAN REBUILD — `check-all: 213 passed, 0 failed of 213`** (`.run/S73_r22.log`,
+0 `[FAIL]` lines, run with all 23 banks in). `gate_main --assert-baseline` BYTE-IDENTICAL. Tree clean
+except regenerated `docs/progress*.md` and `ghidra/` MCP noise (never stage it). Drew pushes (R6).
+
+```
+REAL / matchable          :   873 / 1,911      = 45.68%   [session start 853/1,914 = 44.57%]
+FLEET instr-weighted      : 13,472,251 / 13,523,865 = 99.6%
+MAIN game-code weighted   :    44,903 / 79,510     = 56.5%   [was 50.2% — +5,012 instructions]
+REAL FRONTIER             : 124  (main 36 + non-main 88)     [was 147: main 59]
+main frontier instructions:  7,933                            [was 12,912 — down 39%]
+main frontier jtbl fns    :      2                            [was 25]
+```
+
+# 1. THE HEADLINE — THE JUMP-TABLE CLASS ON main IS RESOLVED, 25 -> 2
+
+And the two survivors are **provably** not matchable as separate C functions: `SaveLoadRoutine`
+(1165) and `func_8002B0B4` (76) are ONE 0x40 frame split across two symbols (§434, byte-verified —
+`func_8002B0B4`'s `jtbl_80072E44` points at `SaveLoadRoutine` AND at labels inside its body;
+`SaveLoadRoutine` has no prologue and owns the epilogue). Both are on the exclude list. **The fix
+for them is a RESEGMENTATION merging the two symbols, not a draft.**
+
+**23 main functions banked this session** — 14 in S72 (the carve + the `src/800.c` split), 9 in S73
+(wave S73m_1, 9 of 9 drafts, 2,413 instructions). Every one verified from the SOURCE, never from a
+tool's report.
+
+# 2. WAVE S73m_1 — 9 OF 9, AND THE FLYWHEEL VISIBLY CLOSED
+
+`func_8003388C` 663 · `func_80035270` 464 · `StreamLoadStateMachine` 459 · `CdReadSectorReadyCB` 424 ·
+`func_8002E138` 289 · `func_80035C4C` 248 · `func_8002DC68` 198 · `func_800359B0` 167 ·
+`func_800316F8` 164.
+
+**Cookbook entries written THIS MORNING cracked functions THIS AFTERNOON** — `func_80035C4C` was
+unlocked by §3-B/§430, and the packs carried §428/§428a/§429/§430 as journal fuel. Two entries were
+then REFUTED by later MATCHes and rewritten (see §4).
+
+**New/changed cookbook: §432 §433 §434, plus §428a sharpened and §430 rewritten.** Highest value:
+* **§433** — case source order is the DOMINANT residual on switch functions (4 of 5 consecutive
+  MATCHes), and `match_one` is structurally blind to it. `func_800316F8`'s `.text` was ALREADY exact
+  and it still could not bank: 18 bytes, all table.
+* **§432** — defeat cse's merge of two identical masks by spelling one `(x << 25) >> 25`; cse sees a
+  different RTX, combine folds it back to `andi`. Exploits pass order.
+* **§428a sharpened** — `break` vs `return 0` is a PER-ARM regalloc dial (`return` keeps the hard
+  `$v0` set live in that arm and excludes `$v0` there).
+
+# 3. TOOL DEFECTS FIXED (each found by a failure, each general)
+
+* **`gate_main` is now preprocessor-aware** (`live_text`). Its declaration scan treated `extern`s
+  parked in the DEAD half of `#ifdef NON_MATCHING` as live constraints. Bit TWICE in one gate:
+  mis-blamed `func_80018714`, and DROPPED a byte-verified draft over `func_800377D8`. I then
+  "fixed" that draft twice to satisfy a constraint that did not exist — its original `(u8)`
+  declaration was correct all along, because it matched the LIVE definition.
+* **`split_src_region` + `jr_isolate`** — five defects, blocked since Phase 26 (see §5).
+* **`exclude_audit` + `draw_waves --exclude-file`** — a stale exclude list is now REFUSED at draw
+  time; `config/wave_exclude.txt` is the canonical tracked list (26 entries, was 107 with 88 stale).
+* **`split_indicator`** — new, in `tools-health`: names any subseg that must be split before its
+  switch functions can bank. 209/213 OK, 4 flagged.
+
+# 4. TWO OF MY OWN COOKBOOK ENTRIES WERE REFUTED THE SAME DAY I WROTE THEM
+
+* **§428a** — I predicted §428's UID barrier would fix `func_8001B0D4`. §3-B did. Rewritten.
+* **§430** — I wrote "a goto into a loop kills the invariant hoist, so duplicate per arm" from a
+  NEAR agent's report. `CdReadSectorReadyCB`'s MATCH shows the goto is what the source HAD
+  (318 -> 28 instantly) and the lost hoist is REPAIRABLE by hand-hoisting constants into pre-loop
+  locals (28 -> 13). Rewritten.
+
+**The rule that came out of it, and it is the one to keep:** *a law derived from a NEAR is a
+hypothesis about why something did NOT work; a law derived from a MATCH is evidence about what
+does.* Rank them accordingly and record the provenance in the entry.
+
+# 5. START HERE NEXT SESSION
+
+1. **The 4 overlay splits** (`ov_SC01_084`, `ov_SC02_005`, `ov_SC02_011`, `ov_SC03_105`) — 16 open
+   fns / 3,613 ins, 18% of the non-main frontier. `jr_isolate`/`split_src_region` were blocked since
+   Phase 26; **5 defects fixed this session** and `ov_SC02_005` now runs the chain to completion, but
+   the object still fails to assemble on a remaining duplicate-definition class. **RECOMMENDED: stop
+   repairing the item model and use §431's method instead** — cut the file verbatim at line
+   boundaries, let the COMPILER enumerate what crosses, move typedefs to a shared header. That is
+   what worked first time on main and it does not depend on the tool being correct.
+2. **The non-main frontier: 88 open, 69 drawable** with a fresh ledger. Draw with
+   `--exclude-file config/wave_exclude.txt --ledger <FRESH>` (the standing ledger hides ~44 of 72).
+3. **main's remaining 36** are now non-jtbl work plus the 2 resegmentation walls.
+4. **Fable is EXHAUSTED account-wide** — `/usage-credits` before routing anything >340 ins to it.
+   Opus handled 442/464/663 fine this session but 1165 is beyond its measured band.
+
+# 6. HAZARDS RE-PROVED
+
+* **`gate_main --assert-baseline` REVERTS `src/*.c` first.** I used it to "verify" 12 declaration
+  alignments; it silently reverted them and reported GREEN for a tree that no longer contained them.
+  Verify an uncommitted source edit with a DIRECT `make extract && make build`, binary deleted first.
+* **The day's recurring defect class: a tool reading text it should not.** Comments as code, prose
+  as structure, dead preprocessor branches as live. **Five instances, three in my own edits.**
+* **Count banks from the SOURCE.** Every claim in this block was verified by the `INCLUDE_ASM`
+  stub's absence, not by a tool's report.
