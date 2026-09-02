@@ -31,10 +31,19 @@ HEADING = "## PAST ATTEMPTS ON THIS EXACT FUNCTION (mined from the agent journal
 MIN_NOTE = 120
 
 
+LOCAL = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.run/journal_notes_local.jsonl')
+
+
 def load(paths=None):
-    """-> {(binary|None, fn): [ {status, closeness, klass, note} ]}, newest journals last."""
+    """-> {(binary|None, fn): [ {status, closeness, klass, note} ]}, newest journals last.
+
+    Reads the agent journals AND `.run/journal_notes_local.jsonl`, a project-local file in the same
+    row shape. The local file is how work that never produced a journal row still reaches the next
+    pack — a stopped agent's scratch directory, a hand-measured refutation, a gate cause found
+    outside a drafting run. Same schema, same consumer, one code path."""
     out = collections.defaultdict(list)
-    for j in sorted(glob.glob(paths or JOURNALS)):
+    for j in sorted(glob.glob(paths or JOURNALS)) + ([LOCAL] if os.path.exists(LOCAL) else []):
         for line in open(j, errors='replace'):
             try:
                 r = json.loads(line)
