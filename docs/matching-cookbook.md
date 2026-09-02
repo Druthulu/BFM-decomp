@@ -33825,3 +33825,29 @@ the intended emission order, then invert each equal-priority pair.
 different-address store between `sh 0xA` and its re-read**, so cse forwarded the value and emitted
 `andi 0xffff` instead of the reload. A store to a different address between the two is what re-seeds
 cse — the same lever as §416's "re-read the store", seen from the failure side.
+
+## §425 ★★★ — `sb` ALIASES SCALAR GLOBALS WHILE `sh`/`sw` STRUCT STORES DO NOT, AND TWO MORE ALIAS/BOOST RULES (P31 S71; `md_MAIN_003/func_800CF3E8`, 467 of 469 ins, all four byte-verified from `-dS`/`-dR`/`-dl`/`-dr`)
+
+**1. THE QImode CARVE-OUT IN `true_dependence`.** `sched.c`'s `true_dependence` has a
+`GET_MODE(mem) != QImode` guard, so a **`sb` store aliases scalar global loads** while `sh`/`sw`
+stores into a struct are exempt. That is what forces the colour `lbu` to sit after `sb 0xb` **and to
+carry a mandatory filler slot** — the backward scheduler will not lift a load directly above a store
+it believes may alias. If a byte store appears to poison scheduling around it and the equivalent
+halfword store does not, this is why; it is a property of the store's MODE, not of what it points at.
+
+**2. AN OT-INDEX RE-READ MUST BE A `MEM_IN_STRUCT_P` FIXED-ADDRESS `lhu` TO DEPEND ON ITS STORE.**
+The target's `S_at ; lhu ; lw` triple in all four prims was a 468/469 wall for every prior attempt.
+Struct/array member access *is* in-struct, but `expand`'s `memory_address()` forces the constant
+address into a register and you get `la $a3 ; lhu 0($a3)` instead. **The only spelling that works is a
+whole-struct copy into a 2-byte register local** — `fr = sD800B9A02; fr.v` — which keeps the access
+in-struct AND fixed-address.
+
+**3. A `la` ABOVE AN `idx*24` CHAIN NEEDS A SINGLE-SET BASE PSEUDO EMITTED BEFORE THE MULTIPLY.**
+Block-scope it so the birthing boost and the LUID both land right:
+`{ Sprt24 *b_ = ARR; p = &b_[idx]; }`.
+
+**4. THE LAST LEVER HERE IS NOT REACHABLE FROM C (recorded so nobody spends on it again).**
+`$v1`-vs-`$a0` for the final prim pointer is decided by local-alloc's **pointer-vs-temp priority tie**
+(qty priority in half-insn units). With the body otherwise byte-correct, that tie is what leaves 2
+instructions: the blk1 suffix cross-jumps into blk2 and tag `8A` in `$a0` costs an extra `lui`.
+Treat as permuter fuel or a §419-style density manoeuvre, not as more respelling.
