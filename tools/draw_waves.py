@@ -179,7 +179,11 @@ def main():
                 sys.exit(msg + "\n    (--exclude-stale-ok to draw anyway)")
             print(msg + "\n    --exclude-stale-ok given: proceeding, and ignoring those entries.")
             ex_rows = [(b, f) for b, f, k, _ in classified if k not in EA.STALE]
-    skip = set(ex_rows)
+    # NORMALISE TO (binary, fn). `exclude_audit.parse` returns 4-tuples (it carries the WALL pin
+    # and the entry's note), and the membership tests below are 2-tuples — building `skip` from the
+    # raw rows silently matched NOTHING and excluded NOTHING while reporting success. Caught by
+    # measuring the pool instead of trusting the run: it came back 88+45 = the FULL frontier.
+    skip = {(b, f) for b, f, *_ in ex_rows}
 
     bins = sorted(os.path.basename(p) for p in glob.glob('src/*') if os.path.isdir(p))
     if a.only_main:
