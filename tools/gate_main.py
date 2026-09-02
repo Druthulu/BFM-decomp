@@ -794,11 +794,33 @@ def main():
             stack.append(chunk[:mid])
     ok, got, _ = try_batch(good)
     _banked_ok['done'] = True
-    print(f"\nBANKED {len(good)} of {len(kept)} after bisection in {steps} rebuild(s) -- {got}"
+    # COUNT THE BANKS FROM THE SOURCE, NOT FROM THE SLATE (R32/R53, P31 S71).
+    # `len(good)` is "what we decided to keep", which is NOT "what actually got substituted". A
+    # draft whose stub pattern does not match is a SILENT NO-OP: nothing changes, the build is
+    # trivially identical, the batch passes, and the function is reported banked while its
+    # INCLUDE_ASM is still sitting in src/. Measured here: the bisect said "BANKED 5 of 6" and
+    # `func_8002B0B4`'s stub was still in src/800.c — 4 real banks. The stub's ABSENCE is the bank
+    # oracle everywhere else in this project; use it here too.
+    still = []
+    for e in good:
+        pat = 'INCLUDE_ASM("asm/nonmatchings/%s", %s)' % ('', e['fn'])
+        hit = subprocess.run(['grep', '-rlF', ', %s);' % e['fn'], '--include=*.c', 'src/'],
+                             capture_output=True, text=True)
+        for f in hit.stdout.split():
+            for ln in open(f, errors='replace'):
+                if 'INCLUDE_ASM' in ln and (', %s);' % e['fn']) in ln:
+                    still.append((e['fn'], f)); break
+    applied = [e['fn'] for e in good if e['fn'] not in {f for f, _ in still}]
+    print(f"\nBANKED {len(applied)} of {len(kept)} after bisection in {steps} rebuild(s) -- {got}"
           f"{' BYTE-IDENTICAL' if ok else ' *** STILL MISMATCHED ***'}")
     if rejected:
         print(f"  rejected: {rejected}")
-    json.dump([e['fn'] for e in good], open('.run/gate_main_banked.json', 'w'))
+    if still:
+        print(f"  *** {len(still)} draft(s) in the accepted set NEVER APPLIED (stub still in src) — "
+              f"a no-op substitution passes the build for free and is NOT a bank:")
+        for fn, f in still:
+            print(f"      {fn}  ({f})")
+    json.dump(applied, open('.run/gate_main_banked.json', 'w'))
 
 if __name__ == '__main__':
     main()
