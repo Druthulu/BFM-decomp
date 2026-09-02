@@ -3932,7 +3932,84 @@ extern s32 D_801A6B40;
     }
 
 
-INCLUDE_ASM("asm/ov_SC04_016/nonmatchings/ov_SC04_016_jr_8017BEBC", func_8017DF8C);
+/* func_8017DF8C -- ov_SC04_016 (184 ins). Byte-matched S71a_1 (fable).
+ * Levers (see the wave note): (1) `off = j * 0x50` is a GIV of biv j, not a second
+ * biv -- puts `move $s0,$zero` last in the preheader and the arg3 giv in its natural
+ * record slot; (2) `j = 0` spelled before idx/tp so `move $a0,$zero` leads the
+ * preheader; (3) `tbl` is a function-scope pointer set ONCE outside the loops --
+ * every $s reg is taken, so reload rematerialises it from reg_equiv_constant at the
+ * use (`la $t6` unfolded, `addu $v0,$a1,$t6; lh 0($v0)`); operand order `idx + (s32)tbl`
+ * gives (plus a1 t6). `pad[2]` is an unused 8-byte aggregate reproducing the 0x50 frame.
+ * All D_801A6B## relocs are D_801A6B40 + K (the TU's house spelling, cf. func_8017DF68). */
+#include "common.h"
+
+extern s32 D_801A6B40;
+extern s16 D_80184D08;
+extern s16 D_80184D0A;
+extern u16 D_800B99DC;
+extern void func_8017E960(s32 param_1, s32 param_2, s32 *param_3);
+
+typedef struct { s32 x, y, z; } Vec3_8017DF8C;
+
+void func_8017DF8C(void *a0)
+{
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 off;
+    s32 idx;
+    s16 *tp;
+    s32 pad[2];
+    u16 t;
+    s16 *tbl;
+
+    tbl = (s16 *)&D_80184D0A;
+    t = *(u16 *)((s32)a0 + 0xFE) + 1;
+    *(u16 *)((s32)a0 + 0xFE) = t;
+    if ((t & 7) != 0) {
+        return;
+    }
+    k = *(s16 *)((s32)a0 + 0xFC);
+    for (i = k & 1; i < 0x10; i++) {
+        k = (k + 7) & 0xF;
+        j = 0;
+        idx = k * 4;
+        tp = (s16 *)((s32)&D_80184D08 + idx);
+        for (; j < 0x100; j++) {
+            off = j * 0x50;
+            if (*(s32 *)((s32)&D_801A6B40 + off) == 0) {
+                *(s32 *)((s32)&D_801A6B40 + off) = 1;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x14) = -0x1000000;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x18) = -0x2520000;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x1C) = 0x600000;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x08) =
+                    ((*(u16 *)((s32)a0 + 0xFC) & 0x1F) << 19) - 0x1000000;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x0C) =
+                    (*(s16 *)(idx + (s32)tbl) << 15) - 0x2520000;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x10) =
+                    (*tp << 15) + 0x600000;
+                *(Vec3_8017DF8C *)((s32)&D_801A6B40 + off + 0x2C) =
+                    *(Vec3_8017DF8C *)((s32)&D_801A6B40 + off + 0x08);
+                func_8017E960((s32)&D_801A6B40 + off + 0x08,
+                              (s32)&D_801A6B40 + off + 0x14,
+                              (s32 *)((s32)&D_801A6B40 + off + 0x20));
+                *(s32 *)((s32)&D_801A6B40 + off + 0x38) = *(s32 *)((s32)&D_801A6B40 + off + 0x20) << 1;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x3C) = *(s32 *)((s32)&D_801A6B40 + off + 0x24) << 1;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x40) = *(s32 *)((s32)&D_801A6B40 + off + 0x28) << 1;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x38) = 0;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x3C) = 0;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x40) = 0;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x44) = *(s32 *)((s32)&D_801A6B40 + off + 0x20) / 2;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x48) = *(s32 *)((s32)&D_801A6B40 + off + 0x24) / 2;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x4C) = *(s32 *)((s32)&D_801A6B40 + off + 0x28) / 2;
+                *(s32 *)((s32)&D_801A6B40 + off + 0x04) = (D_800B99DC & 3) + 8;
+                break;
+            }
+        }
+        *(u16 *)((s32)a0 + 0xFC) += 7;
+    }
+}
+
 
 void func_8017E26C() {
     __asm__ __volatile__(".set\tnoreorder\n"
