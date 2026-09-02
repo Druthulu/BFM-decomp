@@ -34198,3 +34198,40 @@ sees neither.
 func_8002DC68(s32, s32);` declarations. That is a §376 gate blocker, not a body problem: align the
 declarations to the definition, prove the alignment byte-neutral with NO draft substituted, COMMIT
 it, and only then gate (the gate reverts `src/*.c` as its first action — §431).
+
+## §434 ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)
+
+**The class.** splat names every function-shaped address, but the ORIGINAL may have had one function
+where splat sees two. When it does, **neither symbol can be a C function** and no drafting skill
+changes that:
+
+* `func_8002B0B4` (76 ins) has **no epilogue** — every exit is a raw `j` into a label inside its
+  sibling, or a computed `jr $v0` through `jtbl_80072E44` whose entries land there too.
+* `SaveLoadRoutine` (1139 ins) has **no prologue** — its first live read is `andi $v1, $s0, 7` on an
+  `$s0` it never loads — and it **owns the epilogue** of the 0x40 frame:
+  `lw $ra,0x38($sp)` / `lw $s3..$s0` / `addiu $sp,$sp,0x40` / `jr $ra`.
+
+They are one 0x40 frame split in two. gcc-2.7.2 has no sibcall or cross-function tail-merge pass, so
+any ordinary C body for either gets a synthesized prologue/epilogue the target does not contain.
+
+**THE CHECK, and it costs seconds — run it before spending an agent.** For any target, before
+drafting:
+1. Does the `.s` **start** with a stack adjustment / `sw $ra`? If not, it has no prologue.
+2. Does it **end** with `lw $ra` + `addiu $sp` + `jr $ra`? If not, it has no epilogue.
+3. Does its jump table (or any `j`) point at **another symbol's interior labels**?
+
+Any "no" on 1 or 2, or a "yes" on 3, means the symbol is a FRAGMENT. Exclude it — and record the
+PAIR, because the sibling is equally unmatchable.
+
+**Cost of not running it, measured this session:** `func_8002B0B4` was drawn and an agent spent 70k
+tokens returning the stub verbatim; `SaveLoadRoutine` — the largest function on main's frontier —
+was drawn and an agent spent 134k tokens and 41 tool calls to reach the same conclusion honestly
+("NOT a C decompile"). **1,215 instructions, 11% of main's remaining frontier, are this class.**
+
+**The real fix is a RESEGMENTATION, not a draft:** merge the two symbols into one and decompile the
+whole frame as a single function. Until someone does that, both belong on the exclude list, and
+main's honest matchable frontier is 1,215 instructions smaller than the stub count suggests.
+
+**A caution on agent citations (R14).** The agent that reached this conclusion cited "§265, the
+file-scope verbatim-asm lane". §265 is inside §6, per-module optimization mixing — it says nothing
+of the kind. The conclusion was right and the citation was invented; check both.
