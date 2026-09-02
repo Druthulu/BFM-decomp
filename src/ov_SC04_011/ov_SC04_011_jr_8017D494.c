@@ -16697,7 +16697,64 @@ void func_80190174(Prim34_80190174 *arg0, void *arg1, s32 arg2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_80190264);
+/* func_80190264 (ov_SC04_011, ov_SC04_011_jr_8017D494)
+ *
+ * Fills a 16-entry, 4-byte-stride table at D_801F1500 from an angle:
+ * per entry i the base angle is d = (i << 8) - arg1 (a s16 that is
+ * re-sign-extended at every use -> the sll/sra 16 pairs), and the three
+ * bytes written are
+ *     +0  abs(sin(d + 0x155) / 64)      (D_801F1500)
+ *     +2  abs(sin(d + 0x155) / 128)     (D_801F1502)
+ *     +1  cos(d) * 63 / 4096 - 128      (D_801F1501)
+ * arg0 is unused (signature fixed by the caller func_8018FD38 above).
+ *
+ * The abs() is written open-coded because the operand is re-evaluated in
+ * every arm: gcc-2.7.2 emits three separate `jal func_8004787C` per block
+ * (test arm + both result arms) and folds the `(x >> 6) < 0` test back onto
+ * the rounding-adjusted value, which is why the second `bgez` sits directly
+ * after the `addiu $v0, $v0, 0x3F` with no shift in between.
+ *
+ * `k` is a deliberate second index pseudo: without it the D_801F1502 store
+ * shares $s1 with the other two, the frame loses one saved register and the
+ * function comes out 2 instructions short (the sw/lw pair) with the
+ * `addu $s2, $s1, $zero` delay slot at 0x80190320 degrading to a nop.
+ */
+
+extern s32 func_80047948(s32 a0);
+extern s32 func_8004787C(s32 a0);
+
+void func_80190264(s32 arg0, s32 arg1) {
+
+    extern s8 D_801F1500[];
+    extern s8 D_801F1501[];
+    extern s8 D_801F1502[];
+
+    s32 i;
+    s32 j;
+    s32 k;
+    s16 d;
+
+    i = 0;
+    j = 0;
+    do {
+        d = (i << 8) - arg1;
+
+        D_801F1500[j] = (func_8004787C(d + 0x155) / 64) < 0
+                            ? -(func_8004787C(d + 0x155) / 64)
+                            : (func_8004787C(d + 0x155) / 64);
+
+        k = j;
+        D_801F1502[k] = (func_8004787C(d + 0x155) / 128) < 0
+                            ? -(func_8004787C(d + 0x155) / 128)
+                            : (func_8004787C(d + 0x155) / 128);
+
+        D_801F1501[j] = (func_80047948(d) * 63) / 4096 - 128;
+
+        i++;
+        j += 4;
+    } while (i < 16);
+}
+
 
 
 

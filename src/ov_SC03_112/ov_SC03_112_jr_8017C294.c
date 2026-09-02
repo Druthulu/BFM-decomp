@@ -3771,7 +3771,52 @@ void func_8017E124(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_8017E160);
+typedef struct { u16 f0, f1, f2, f3; } Unk_80126940;
+
+extern s32 D_80126B58;
+extern s32 *D_80126B78;
+extern s16 D_80189640[];
+extern u8 D_801895D0[];
+extern s16 D_801ACE50;
+extern Unk_80126940 D_80126940;
+extern u16 func_80148800(s32 *a0);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern s32 func_8017E4B4(u8 *a0, s16 *a1, s16 *a2);
+extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8017E2E8(s32 a0, s32 a1, s16 *a2);
+
+void func_8017E160(s32 param_1) {
+    Unk_80126940 pos;
+    s16 vec[3];
+    s32 h;
+    s32 cur;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        u8 t = (*(u8 *)((s32)param_1 + 5) + 1) & 1;
+        *(u8 *)((s32)param_1 + 5) = t;
+        *(s32 *)((s32)param_1 + 0x14) = D_80189640[t];
+    }
+    pos = D_80126940;
+    if ((s16)pos.f1 >= -0xFF) {
+        *(s16 *)&pos.f1 = -0x100;
+    }
+    if ((s16)pos.f2 < -0x3C0) {
+        *(s16 *)&pos.f2 = -0x3C0;
+    }
+    vec[0] = pos.f0 - func_8004787C(*(s16 *)((s32)D_80126B78 + 0x12)) / 128;
+    vec[2] = pos.f2 - func_80047948(*(s16 *)((s32)D_80126B78 + 0x12)) / 128;
+    vec[1] = pos.f1;
+    h = func_8017E4B4(D_801895D0, (s16 *)&pos, vec);
+    /* the D_801ACE50 read must precede the 0xA0 store in the RTL stream:
+       it is what puts the store last in the block, so reorg fills the
+       jal's delay slot with it instead of `addiu $a3,1` (cookbook §176-A). */
+    cur = D_801ACE50;
+    *(s16 *)((s32)param_1 + 0xA0) = h;
+    D_801ACE50 = func_80012DBC(cur, (s16)h, 4, 1);
+    func_8017E2E8(param_1, (s16)D_801ACE50, (s16 *)&pos);
+}
+
 
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
@@ -4393,7 +4438,60 @@ void func_8017EBE4(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_112/nonmatchings/ov_SC03_112_jr_8017C294", func_8017EE48);
+extern u16 D_80189674[];
+
+void func_8017EE48(s32 a0)
+{
+    s32 lim;
+    s32 t;
+    s32 u;
+
+    if (*(s16 *)(a0 + 0xA) < -0xFF)
+        goto neg;
+
+    if (*(s16 *)(D_80189674 + *(s16 *)(*(s32 *)(a0 + 0x64) + 0x70)) == 0)
+        return;
+
+    lim = 0x100;
+    if (*(s16 *)(a0 + 0xFE) == 0)
+        lim = 0xA0;
+
+    *(s32 *)(a0 + 0xE0) = 0;
+
+    if (*(s16 *)(D_80189674 + *(s16 *)(*(s32 *)(a0 + 0x64) + 0x70)) > 0) {
+        if (*(s16 *)(a0 + 0xDE) > -lim)
+            *(s16 *)(a0 + 0xDE) -= 8;
+    } else {
+        if (*(s16 *)(a0 + 0xDE) < lim)
+            *(s16 *)(a0 + 0xDE) += 8;
+    }
+    goto writereg;
+
+neg:
+    t = *(s16 *)(a0 + 0xDE);
+    if (t < -2) {
+        *(s32 *)(a0 + 0xE0) += 0x20000;
+    } else if (t >= 3) {
+        *(s32 *)(a0 + 0xE0) -= 0x20000;
+    }
+    t = *(s32 *)(a0 + 0xE0);
+    if (t < 0) {
+        u = t + 0x8000;
+        *(s32 *)(a0 + 0xE0) = u;
+        if (u > 0)
+            *(s32 *)(a0 + 0xE0) = 0;
+    } else if (t > 0) {
+        u = t - 0x8000;
+        *(s32 *)(a0 + 0xE0) = u;
+        if (u < 0)
+            *(s32 *)(a0 + 0xE0) = 0;
+    }
+    *(s32 *)(a0 + 0xDC) += *(s32 *)(a0 + 0xE0);
+
+writereg:
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x14) = *(u16 *)(a0 + 0xDE);
+}
+
 
 #include "common.h"
 

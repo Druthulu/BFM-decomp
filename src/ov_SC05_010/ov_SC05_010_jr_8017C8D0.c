@@ -4171,7 +4171,103 @@ void func_8017EE68(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017EFC8);
+/*
+ * func_8017EFC8 (101 ins, ov_SC05_010) — cracked pin-light.
+ *
+ * Two levers, both from local-alloc.c:
+ *
+ *  1. SPLIT THE SHARED TAIL VARIABLE.  The prior draft used one cross-block
+ *     `s16 t` + `goto L` for the shared `sh $vX, 0xFE($s0)` tail.  That makes
+ *     `t` a GLOBAL allocno, so local-alloc hands $v0 to the per-block constant
+ *     first and `t` is pushed onto $v1 in BOTH arms (the measured
+ *     REGALLOC-PERM/$v0>$v1>$v0, closeness 11).  Giving case 2 and case 7 their
+ *     own block-local temps and their own store makes both block-local; the
+ *     shared tail comes back for free because jump2/cross_jump runs AFTER
+ *     regalloc and re-merges the two identical `sh $v0, 0xFE($s0)` tails
+ *     (101 ins, and case 7 then allocates exactly like the target).
+ *
+ *  2. THE $v0 PIN IN CASE 2.  local-alloc.c:1579 `qty_compare` ranks by
+ *        pri = floor_log2(refs) * refs * size / (death - birth) * 10000
+ *     with birth/death on a 2*insn_number scale, evaluated on the PRE-sched2
+ *     (i.e. source) order.  Case 7 ties (temp 2*4/8, const 2/2 -> 10000 each)
+ *     and the tie breaks on qty number, so the temp wins $v0.  Case 2 carries
+ *     one extra insn (`sw $zero, 0x1C($s0)`) inside the temp's range, so the
+ *     temp scores 8000 against the constant's 10000 and LOSES $v0.  The window
+ *     is empty in integer insn counts — every legal statement permutation
+ *     keeps exactly four insns between the load and the last use (measured: 6
+ *     orderings, closeness 46/47 or a wrecked schedule) — so the tie is closed
+ *     with a zero-byte block-scope pin instead.  No call is crossed, so the
+ *     §74 caller-saved hazard does not apply.
+ */
+void func_8017EFC8(s32 param_1)
+{
+    extern s32 D_801C7E74;
+    extern s32 D_801C7E78;
+    extern s32 D_801C7E70;
+    extern u8 *D_801C7E60[];
+    extern u8 D_801924D4[];
+    extern u8 D_801A34B4[];
+    extern u8 D_801A3844[];
+    extern u8 D_801A3A2C[];
+    extern void func_8012A828(s32 a0, void *a1);
+
+    u32 idx;
+    u8 c;
+
+    if (*(s32 *)(param_1 + 0x1C) != 0) {
+        (*(s32 *)(param_1 + 0x1C))--;
+        return;
+    }
+    if ((*(u16 *)(param_1 + 0x72) & 0x4000) == 0) {
+        return;
+    }
+    idx = D_801C7E74;
+    c = D_801924D4[idx];
+    *(u16 *)(param_1 + 0x34) = 0;
+    D_801C7E74 = (idx + 1) % 6;
+    switch (c) {
+    case 0:
+        *(u16 *)(D_801C7E60[0] + 0xAE) = 0;
+        func_8012A828(param_1, &D_801A34B4);
+        *(u16 *)(param_1 + 2) = 3;
+        *(u16 *)(param_1 + 0x84) = 0x1E;
+        break;
+    case 1:
+        *(s32 *)(param_1 + 0x1C) = 0x3C;
+        *(u16 *)(param_1 + 2) = 4;
+        break;
+    case 2: {
+        register s16 t2 __asm__("$2");
+        t2 = D_801C7E78 + 7;
+        *(s32 *)(param_1 + 0x1C) = 0;
+        *(u16 *)(param_1 + 2) = 5;
+        *(s16 *)(param_1 + 0xFE) = t2;
+        break;
+    }
+    case 3:
+    case 4:
+    case 5:
+        *(s32 *)(param_1 + 0x1C) = D_801C7E78 * 18 + 0x25;
+        func_8012A828(param_1, &D_801A3844);
+        *(u16 *)(param_1 + 2) = 6;
+        break;
+    case 6:
+        *(u16 *)(param_1 + 2) = 7;
+        break;
+    case 7: {
+        s16 t3;
+        D_801C7E70 = 0;
+        func_8012A828(param_1, &D_801A3A2C);
+        t3 = D_801C7E78 + 2;
+        *(u16 *)(param_1 + 2) = 2;
+        *(s16 *)(param_1 + 0xFE) = t3;
+        break;
+    }
+    case 8:
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC05_010/nonmatchings/ov_SC05_010_jr_8017C8D0", func_8017F15C);
 

@@ -554,7 +554,91 @@ void func_8017FA30(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_011/nonmatchings/ov_SC06_011_jr_8017EEEC", func_8017FAB4);
+#include "common.h"
+
+extern s32  func_8012B8E4(s32 a0, s32 a1);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012A828(s32 *a0, s32 a1);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_8012CBA4(s32);
+extern void func_8012ADE4(u8 *a0);
+extern s32  func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80142414(s32 a0, s16 a1);
+extern s32  func_80143B6C(s32 a0, s32 a1);
+extern void func_8017F8F8();
+extern void func_8017FC7C();
+
+extern s16 D_801A8B90;
+extern s16 D_801A8C18;
+extern s32 D_801A07B8;
+
+void func_8017FAB4(s32 a0)
+{
+    s32 s0 = a0;
+    u16 st;
+    s32 v;
+    unsigned short *p;
+    s16 t;
+
+    st = *(u16 *)(s0 + 0x34);
+    switch (st) {
+    case 0:
+        v = func_8012B8E4(s0, 4);
+        p = (unsigned short *)(*(s32 *)(s0 + 0x20) + 0x12);
+        *p = *p + v;
+
+        if (*(s32 *)(s0 + 0x1C) == 0xF) {
+            func_80142414(s0, -0x78);
+            func_8002D4C8(0x6A9, 0);
+        }
+
+        if (func_8012BEE8(s0) != 0) {
+            *(u16 *)(s0 + 0x2) = 3;
+            if ((*(u16 *)(s0 + 0x86) & 0x2) != 0) {
+                *(u16 *)(s0 + 0x34) = 1;
+                *(s32 *)(s0 + 0x1C) = 0x28;
+                func_8012A828((s32 *)s0, (s32)&D_801A8B90);
+                *(u16 *)(s0 + 0xFE) = 0;
+            } else {
+                *(u16 *)(s0 + 0x34) = 0;
+                func_8012A828((s32 *)s0, (s32)&D_801A8C18);
+                *(s32 *)(s0 + 0x1C) = 0x19;
+                *(u16 *)(s0 + 0x86) = *(u16 *)(s0 + 0x86) | 0x2;
+            }
+        }
+        break;
+    case 1:
+        if (*(s32 *)(s0 + 0x1C) >= 0x16) {
+            v = func_8012B8E4(s0, 6);
+            p = (unsigned short *)(*(s32 *)(s0 + 0x20) + 0x12);
+            *p = *p + v;
+        }
+
+        func_8012B178(s0, D_801A07B8);
+
+        if (((s32 (*)(s32))func_8012CBA4)(s0) != 0x2000) {
+            func_8012ADE4((u8 *)s0);
+        }
+
+        t = *(u16 *)(s0 + 0xFE) - 1;
+        *(u16 *)(s0 + 0xFE) = t;
+        if (t <= 0) {
+            func_80143B6C(s0, 0);
+            *(u16 *)(s0 + 0xFE) = 8;
+        }
+
+        if (func_8012BEE8(s0) != 0) {
+            func_8017F8F8(s0);
+        }
+
+        if (func_8012BD3C(s0, 0x200, 0x1000) != 0) {
+            func_8017FC7C(s0);
+        }
+        break;
+    }
+}
+
 
 extern char D_801A8CE8[];
 extern void func_8012A828(s32 *a0, s32 a1);

@@ -11609,7 +11609,106 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_8017AE2C", func_80187E08);
+/* func_80187E08 -- screen-space gate + record-chain spawner.
+ * GTE ops INLINE per cookbook §195-J (target has lwc2/rtps/swc2/cfc2, no jal).
+ * Matrix macros = TU house style (L14091/L14847); stflg clobbers $12 (§179-D).
+ * Zero-byte volatile barrier pins &D_800AF648 materialization AFTER the
+ * D_80195FC0 table load; matrix base pinned $2, guard x-temp pinned $3.
+ * BOTH screen-bound guards materialize their condition through the SAME
+ * $2-pinned `ok2` temp: without it gcc reuses the x-temp's $v1 as the
+ * destination of the second `slt` in each pair (target wants $v0 both times).
+ * That single change closed the last 2-instruction REGALLOC-PERM/$v1>$v0. */
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80187FA0(u8 *a0, u8 *a1);
+extern void func_80188034(s32 a0);
+
+#define gte_SetRotMatrix_87E08(r0) __asm__ volatile (   \
+    "lw $12, 0( %0 );"                                  \
+    "lw $13, 4( %0 );"                                  \
+    "ctc2 $12, $0;"                                     \
+    "ctc2 $13, $1;"                                     \
+    "lw $12, 8( %0 );"                                  \
+    "lw $13, 12( %0 );"                                 \
+    "lw $14, 16( %0 );"                                 \
+    "ctc2 $12, $2;"                                     \
+    "ctc2 $13, $3;"                                     \
+    "ctc2 $14, $4"                                      \
+    :                                                   \
+    : "r"(r0)                                           \
+    : "$12", "$13", "$14")
+#define gte_SetTransMatrix_87E08(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                                 \
+    "lw $13, 24( %0 );"                                 \
+    "ctc2 $12, $5;"                                     \
+    "lw $14, 28( %0 );"                                 \
+    "ctc2 $13, $6;"                                     \
+    "ctc2 $14, $7"                                      \
+    :                                                   \
+    : "r"(r0)                                           \
+    : "$12", "$13", "$14")
+
+void func_80187E08(s32 param_1)
+{
+    extern u8  D_800AF648;
+    extern u16 D_800AF7BC;
+    extern u16 D_800AF7BE;
+    extern s32 *D_80195FC0[];
+
+    register s32 mtx __asm__("$2");
+    register s32 xt __asm__("$3");
+    register s32 ok2 __asm__("$2");
+    s32 *rec;
+    s16 sxy[2];     /* sp+0x10 */
+    long flag;      /* sp+0x18 */
+    s32 lim;
+    s32 v;
+    s16 first;
+
+    rec = D_80195FC0[*(s16 *)((s8 *)param_1 + 0xFC)];
+    __asm__ volatile("");
+
+    mtx = (s32)&D_800AF648;
+    gte_SetRotMatrix_87E08(mtx);
+    gte_SetTransMatrix_87E08(mtx);
+
+    func_80015978(param_1 + 4, (s32 *)sxy);
+
+    __asm__ volatile("lwc2 $0, 0(%0)\n\tlwc2 $1, 4(%0)" : : "r"(sxy) : "memory");
+    __asm__ volatile("nop\n\tnop\n\trtps" : : : "memory");
+    __asm__ volatile("swc2 $14, 0(%0)" : : "r"(sxy) : "memory");
+    __asm__ volatile("cfc2 $12, $31\n\tnop\n\tsw $12, 0(%0)" : : "r"(&flag) : "$12");
+
+    xt = sxy[0];
+    lim = ((u32)D_800AF7BC >> 1) + 0x20;
+    ok2 = -(s32)lim < xt;
+    if (ok2) {
+        ok2 = xt < lim;
+        if (ok2) {
+            xt = sxy[1];
+            lim = ((u32)D_800AF7BE >> 1) + 0x20;
+            ok2 = -(s32)lim < xt;
+            if (ok2) {
+                ok2 = xt < lim;
+                if (ok2 && flag >= 0) {
+                    v = *(s32 *)((s8 *)param_1 + 0x1C);
+                    if (v == 0) {
+                        first = *(s16 *)((s8 *)rec + 6);
+                        while (first != 0xFF) {
+                            func_80187FA0((u8 *)param_1, (u8 *)rec);
+                            rec = (s32 *)((s8 *)rec + 8);
+                            first = *(s16 *)((s8 *)rec + 6);
+                        }
+                        *(s32 *)((s8 *)param_1 + 0x1C) = *(s32 *)((s8 *)param_1 + 0xDC);
+                        v = *(volatile s32 *)((s8 *)param_1 + 0x1C);
+                    }
+                    *(s32 *)((s8 *)param_1 + 0x1C) = v - 1;
+                }
+            }
+        }
+    }
+    func_80188034(param_1);
+}
+
 
 #include "common.h"
 

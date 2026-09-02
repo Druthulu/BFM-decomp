@@ -3497,7 +3497,72 @@ void func_8017EDF4(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_020/nonmatchings/ov_SC04_020_jr_8017D604", func_8017EE50);
+extern s32 func_801823BC(s32 a0);
+extern s32 func_80181780(s32 a0);
+extern void func_801816B0(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_80181494(s32 *a0, s32 a1);
+extern void func_8018146C(s32);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+extern s32 func_801789AC(s32 arg0);
+extern void func_80178D18(void);
+extern void func_8012A828(s32, s32);
+
+void func_8017EE50(s32 obj) {
+    extern s32 D_8019BB10;
+    extern s32 D_8019BB1C;
+    extern s16 D_801871F8;
+    extern s16 D_8019C0B4;
+    extern s16 D_80187270;
+
+    switch (*(u16 *)(obj + 0x34)) {
+    case 0:
+        if (func_801823BC(1) != 0) {
+            func_801816B0(obj, (s32)&D_8019BB10, 0, 0x40);
+            *(u16 *)(obj + 0x34) = 1;
+        }
+        break;
+    case 1:
+        func_801823BC(1);
+        if (func_80181780(obj) != 0) {
+            func_801816B0(obj, (s32)&D_8019BB1C, 1, 0x40);
+            *(u16 *)(obj + 0x34) = 2;
+            *(s16 *)(*(s32 *)(obj + 0xCC) + 0x108) = 0;
+            *(s32 *)(*(s32 *)(obj + 0xCC) + 0xB0) = 2;
+        }
+        break;
+    case 2:
+        if (func_80181780(obj) != 0) {
+            *(u16 *)(obj + 0x34) = 3;
+        }
+        break;
+    case 3:
+        if (func_801823BC(1) != 0) {
+            *(u16 *)(obj + 0x34) = 4;
+            func_801816B0(obj, (s32)&D_8019BB10, 1, 0x40);
+        }
+        break;
+    case 4:
+        func_801823BC(1);
+        if (func_80181780(obj) != 0) {
+            *(u16 *)(obj + 2) = 1;
+            func_80181494((s32 *)obj, (s32)&D_801871F8);
+        }
+        break;
+    case 5:
+        *(u16 *)(obj + 0x34) = *(u16 *)(obj + 0x34) + 1;
+        ((void (*)(s32 *, s32))func_80178CBC)((s32 *)obj, (s32)&D_80187270);
+        break;
+    case 6:
+        if (func_801789AC(obj) != 0) {
+            ((void (*)(s32))func_80178D18)(obj);
+            ((void (*)(s32 *, s32))func_8012A828)((s32 *)obj, (s32)&D_8019C0B4);
+            func_8018146C(obj);
+            *(u16 *)(obj + 0x34) = 2;
+        }
+        break;
+    }
+}
+
 
 
 extern void (*D_801872A0[])(void);

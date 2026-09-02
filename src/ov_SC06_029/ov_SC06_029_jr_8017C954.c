@@ -3481,7 +3481,110 @@ void func_8017DC38(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017DDE0);
+/* func_8017DDE0 (ov_SC06_029) — particle-group tick.
+ * §193-A twin remap of the byte-matched ov_SC03_028:func_8017F278
+ * (src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c:3385), symbol-for-symbol re-spelled
+ * from THIS target's own relocation lines: D_801EB5C8->D_801DCCA8,
+ * func_8017F40C->func_8017DF74, func_80146C3C unchanged.
+ *
+ * The two register pins ($2 for the %hi/%lo symbol temp, $5 for the group base)
+ * are what make gcc-2.7.2 keep the base pointer in $a1 and reload the address
+ * each outer iteration (cookbook: register __asm__ allocation pins).
+ *
+ * NOTE FOR BANKING: SubRec_/GroupRec_801EB5C8_8017DC38 are ALREADY defined at file
+ * scope in the destination TU (ov_SC06_029_jr_8017C954.c, above func_8017DC38).
+ * They are repeated here at BLOCK scope only so this draft compiles standalone;
+ * block scope means they shadow rather than collide, so the file banks as-is.
+ * Delete the two inner typedefs if a file-scope-only form is preferred.
+ */
+void func_8017DDE0(void *arg0) {
+    typedef struct {
+        u16 f0;
+        u16 f2;
+        u16 f4;
+        u16 f6;
+        u16 f8;
+        u16 fA;
+        s32 fC;
+        s32 f10;
+        s32 f14;
+        s32 f18;
+    } SubRec_801EB5C8_8017DC38; /* 0x1C */
+
+    typedef struct {
+        u16 g0;
+        u16 g2;
+        s32 g4;
+        s32 g8;
+        s32 gC;
+        SubRec_801EB5C8_8017DC38 subs[16];
+    } GroupRec_801EB5C8_8017DC38; /* 0x1D0 */
+
+    extern GroupRec_801EB5C8_8017DC38 D_801DCCA8[8];
+    /* §17a-1: the fleet canonical for these callees is the NO-PROTOTYPE form,
+     * with the intended signature applied AT THE CALL SITE. A concrete prototype
+     * here collides with the sibling decls -> `conflicting types for ...`.
+     * func_8017DF74 is defined later in this very TU as (s32, s32) and is called
+     * here with one argument — () keeps that C89-compatible. */
+    extern void func_8017DF74();
+    extern void func_80146C3C();
+    s32 cnt2;
+    s32 i;
+    s32 j;
+    register s32 base __asm__("$5");
+    s32 p;
+    s32 vel;
+    s32 pos;
+    u16 life;
+    s32 f18;
+
+    cnt2 = 0;
+    for (i = 0; i < 8; i++) {
+        {
+            register s32 sym __asm__("$2") = (s32)((u8 *)D_801DCCA8);
+            base = sym + i * 0x1D0;
+        }
+        if (*(s16 *)(base) == 0) {
+            *(s32 *)(base + 0xC) = *(s32 *)(base + 0xC) + 0x10000;
+        }
+        for (j = 0; j < 16; j++) {
+            p = base + 0x10 + j * 0x1C;
+            switch (*(s16 *)(p)) {
+            case 0:
+                vel = *(s32 *)(p + 0xC) + *(s32 *)(p + 0x10);
+                pos = *(s32 *)(p + 0x14);
+                life = *(u16 *)(p + 2) - 1;
+                pos = pos + vel;
+                *(s32 *)(p + 0x14) = pos;
+                *(s32 *)(p + 0xC) = vel;
+                *(u16 *)(p + 2) = life;
+                if ((s16)life == -1) {
+                    *(u16 *)(p) = *(u16 *)(p) + 1;
+                }
+                *(u16 *)(p + 4) = *(u16 *)(p + 4) + *(u16 *)(p + 6);
+                *(u16 *)(p + 0xA) = *(u16 *)(p + 0xA) + 0x10;
+                break;
+            case 1:
+                *(u16 *)(p + 4) = *(u16 *)(p + 4) + 0x80;
+                f18 = *(s32 *)(p + 0x18) - 8;
+                *(s32 *)(p + 0x18) = f18;
+                if (f18 < 0) {
+                    *(s32 *)(p + 0x18) = 0;
+                    *(u16 *)(p) = *(u16 *)(p) + 1;
+                }
+                break;
+            case 2:
+                cnt2 = cnt2 + 1;
+                break;
+            }
+        }
+        func_8017DF74(arg0);
+    }
+    if (cnt2 == 0x80) {
+        ((void (*)(u8 *))func_80146C3C)(arg0);
+    }
+}
+
 
 
 extern void func_80015978(s32 a0, s32 *a1);

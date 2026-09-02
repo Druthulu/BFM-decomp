@@ -6130,7 +6130,101 @@ extern s32 func_8012AD50(void *a0);
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_017/nonmatchings/ov_SC02_017_jr_8017DF34", func_80182FD0);
+/* func_80182FD0 — ov_SC02_017 / jr_8017DF34, 102 ins, MATCH.
+ *
+ * Shape: GTE setup (SetRotMatrix/SetTransMatrix from D_800AF648), func_80015978
+ * to fetch the world vector, rtps, then a screen-bounds reject on
+ * (D_800AF7BC>>1)+0x20 / (D_800AF7BE>>1)+0x20 and the GTE flag, then the
+ * per-entry walk over D_8018E8DC[idx] terminated by *(s16*)(p+6)==0xFF.
+ *
+ * LEVER (the whole residual — REGALLOC-PERM $v1>$v0, 4 ins):
+ *   `x` must live in $v1 (a plain pseudo lands it in $a0 and swaps it with
+ *   `lim`), so it is pinned with `register int x __asm__("$3")`.  But a HARD
+ *   register that DIES in an insn becomes local-alloc's suggestion for that
+ *   insn's destination quantity, so the second `slt` of each pair — the one in
+ *   the delay slot, where x's last use is — was emitted as `slt $v1,$v1,$a0`
+ *   instead of the target's `slt $v0,$v1,$a0`.  The first `slt` was already
+ *   right precisely because x is used again there and so does not die.
+ *   Fix: keep $v1 alive one insn longer with a zero-byte `__asm__ volatile
+ *   ("" : : "r"(x))` placed after each pair.  $v1 is then not free at the slt,
+ *   the suggestion disappears, and the dest falls back to the lowest free
+ *   register, $v0.  Emits nothing (nins stays 102).  Cookbook §3-A / §72.
+ *
+ * D_800AF648 is deliberately NOT declared here: it is referenced only from the
+ * inline-asm text (the assembler emits the %hi/%lo relocation itself), and the
+ * TU already carries `extern u8 D_800AF648;` at file scope — an array/u32
+ * respelling would be a conflicting-types error inside the TU.
+ */
+
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_80183168(u8 *a0, u8 *a1);
+extern void func_801831FC(s32 a0);
+extern u8 D_8018E8DC[];
+extern u16 D_800AF7BC;
+extern u16 D_800AF7BE;
+
+void func_80182FD0(int param)
+{
+    u32 buf[3];
+    u8 *s0;
+    int v0;
+    register int x __asm__("$3");
+    int lim;
+
+    s0 = ((u8 **)D_8018E8DC)[*(s16 *)(param + 0xFC)];
+
+    /* gte_SetRotMatrix(&D_800AF648); gte_SetTransMatrix(&D_800AF648); */
+    __asm__ volatile(
+        "lui $2,%%hi(D_800AF648);addiu $2,$2,%%lo(D_800AF648);"
+        "lw $12,0($2);lw $13,4($2);ctc2 $12,$0;ctc2 $13,$1;"
+        "lw $12,8($2);lw $13,12($2);lw $14,16($2);"
+        "ctc2 $12,$2;ctc2 $13,$3;ctc2 $14,$4;"
+        "lw $12,20($2);lw $13,24($2);ctc2 $12,$5;"
+        "lw $14,28($2);ctc2 $13,$6;ctc2 $14,$7"
+        : : : "$12", "$13", "$14", "$2", "memory");
+
+    func_80015978(param + 4, (s32 *)buf);
+
+    /* gte_ldv0(buf); gte_rtps(); gte_stsxy(buf); */
+    __asm__ volatile("lwc2 $0,0(%0);lwc2 $1,4(%0);nop;nop;rtps;swc2 $14,0(%0)"
+                     : : "r"(buf) : "memory");
+    /* gte_stflg(&buf[2]); */
+    __asm__ volatile("cfc2 $12,$31;nop;sw $12,0(%0)"
+                     : : "r"(buf + 2) : "$12", "memory");
+
+    lim = (D_800AF7BC >> 1) + 0x20;
+    x = (int)(s16)buf[0];
+    if (x <= -lim) goto done;
+    if (x >= lim) goto done;
+    __asm__ volatile("" : : "r"(x));          /* keep $v1 live: see LEVER above */
+
+    lim = (D_800AF7BE >> 1) + 0x20;
+    x = (int)(s16)((s16 *)buf)[1];
+    if (x <= -lim) goto done;
+    if (x >= lim) goto done;
+    __asm__ volatile("" : : "r"(x));          /* keep $v1 live: see LEVER above */
+
+    if ((int)buf[2] < 0) goto done;
+
+    v0 = *(s32 *)(param + 0x1C);
+    if (v0 != 0) { v0--; goto store; }
+
+    if (*(s16 *)(s0 + 6) != 0xFF) {
+        do {
+            func_80183168((u8 *)param, s0);
+            s0 += 8;
+        } while (*(s16 *)(s0 + 6) != 0xFF);
+    }
+    v0 = *(s32 *)(param + 0xDC);
+    *(s32 *)(param + 0x1C) = v0;
+    v0 = *(volatile s32 *)(param + 0x1C);
+    v0--;
+store:
+    *(s32 *)(param + 0x1C) = v0;
+done:
+    func_801831FC(param);
+}
+
 
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 

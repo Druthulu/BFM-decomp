@@ -5525,7 +5525,73 @@ s32 func_8017F87C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017F8D8);
+extern s32 D_80126B58;
+extern s32 D_801B2E70;
+extern void func_8018074C(s32 a0, s32 a1);
+extern s32 func_80029504(void);
+extern s32 func_80029178(s32 a0);
+extern s32 func_8012CB64(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
+extern s32 func_80178B18(s32 a0, s32 a1);
+extern void (*D_80188FB8[])(void);
+extern void (*D_80189190[])(void);
+extern void (*D_801892E0[])(void);
+
+void func_8017F8D8(s32 arg0)
+{
+    s32 *g = &D_80126B58;
+    s16 vec[3];
+    s32 v1;
+    s32 idx;
+
+    func_8018074C(arg0, arg0 + 0x24);
+
+    v1 = func_80029504();
+    if (v1 < 0x140) {
+        idx = 0;
+    } else if (v1 < 0x14A) {
+        idx = 1;
+    } else if (v1 < 0x172) {
+        idx = 2;
+    } else if (v1 < 0x17C) {
+        idx = 3;
+    } else {
+        idx = 4;
+    }
+
+    switch (idx) {
+    case 0:
+        break;
+    case 1:
+        if ((*(s32 *)((s32)g + 0x44) & 0x8000000) != 0 &&
+            *(s16 *)((s32)g + 0xE) >= -0x16F) {
+            *(s16 *)(arg0 + 2) = 3;
+            D_801B2E70 = 0;
+            func_80178B18(arg0, (s32)&D_80188FB8);
+        }
+        break;
+    case 2:
+        break;
+    case 3:
+        vec[0] = *(u16 *)((s32)g + 6);
+        vec[1] = *(u16 *)((s32)g + 0xA);
+        vec[2] = *(u16 *)((s32)g + 0xE);
+        if ((func_80029178(0x105) & 0xFF) == 0) {
+            if (func_8012CB64((s32)vec, -0x880, -0x680, -0x100, 0x100) != 0) {
+                *(s16 *)(arg0 + 2) = 3;
+                func_80178B18(arg0, (s32)&D_801892E0);
+            }
+        } else if ((*(s32 *)((s32)g + 0x44) & 0x8000000) != 0) {
+            if (func_8012CB64((s32)vec, -0xE60, -0xDA0, -0x60, 0x60) != 0) {
+                *(s16 *)(arg0 + 2) = 3;
+                func_80178B18(arg0, (s32)&D_80189190);
+            }
+        }
+        break;
+    case 4:
+        break;
+    }
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017AE2C", func_8017FA74);
 

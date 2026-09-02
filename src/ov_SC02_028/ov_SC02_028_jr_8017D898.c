@@ -4810,7 +4810,93 @@ void func_80180BAC(void *a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_028/nonmatchings/ov_SC02_028_jr_8017D898", func_80180C04);
+/* func_80180C04 — ov_SC02_028 / ov_SC02_028_jr_8017D898
+ *
+ * The `zr` pin is §249-3 (the RC-12 `+ zr` opaque copy), needed twice here:
+ *   - `flag = 1 + zr;` keeps the SET's source non-CONSTANT_P, so local-alloc's
+ *     update_equiv_regs cannot rematerialise the 1 at the use site (a plain
+ *     `flag = 1;` folds the guard to `li $v0,1` and drops `addiu $a1,$zero,1`
+ *     out of the `beqz $v1` delay slot);
+ *   - `(flag + zr) != 0` is the retail `addu $v0,$a1,$zero` before `beqz $v0`;
+ *     a plain `if (flag)` tests `$a1` directly and length-drifts −1.
+ * Both read $0, so the guard is semantically the retail always-true test.
+ */
+extern void func_8012AD80(s32 a0);
+extern void func_8012E014(s32 arg0);
+extern void func_80180E54(u8 *a0, u8 *a1, s32 a2);
+extern s32 func_8012DB84(void);
+extern void func_80180D80(void *a0);
+
+extern s32 D_80126B58;
+extern s32 D_801A4CFC[];
+
+void func_80180C04(void *arg0)
+{
+    /* stride-8 tables, field 0 only — the TU already declares these two typedefs
+     * at file scope (above func_80180970); repeated at block scope so this
+     * function also compiles standalone. */
+    typedef struct { u16 v; u16 pad[3]; } Stride8_u16_80182868_80180970;
+    typedef struct { s16 v; s16 pad[3]; } Stride8_s16_80182868_80180970;
+
+    extern s16 D_801A4D04;
+    extern Stride8_u16_80182868_80180970 D_801A4D0C[];
+    extern Stride8_s16_80182868_80180970 D_801A4D12[];
+
+    register s32 zr __asm__("$0");
+
+    u8 *base;
+    void *s0;
+    s16 id;
+    s32 b;
+    s32 val;
+    s32 lim;
+    s32 d;
+    s32 flag;
+
+    s0 = arg0;
+    func_8012AD80((s32)s0);
+    base = (u8 *)&D_80126B58;
+
+    if (*(u8 *)((s32)s0 + 0x74) != 0) {
+        func_8012E014((s32)s0);
+        func_80180E54((u8 *)s0, (u8 *)D_801A4CFC, -1);
+    } else {
+        func_80180E54((u8 *)s0, (u8 *)D_801A4CFC,
+                      D_801A4D12[*(s16 *)((s32)s0 + 0x70)].v);
+    }
+
+    lim = 0x200;
+    id = *(s16 *)((s32)s0 + 0x70);
+    if (id == 1) {
+        lim = 0x180;
+    }
+
+    b = D_801A4D12[id].v;
+    val = D_801A4D0C[id].v;
+    flag = 1 + zr;
+
+    if (b != 0) {
+        if (*(s32 *)((s32)s0 + 0x10) < -0x80000) {
+            *(s32 *)((s32)s0 + 0x44) = 0;
+        }
+        d = val - *(u16 *)((s32)s0 + 0x6);
+    } else {
+        if (0x80000 < *(s32 *)((s32)s0 + 0x10)) {
+            *(s32 *)((s32)s0 + 0x44) = 0;
+        }
+        d = *(u16 *)((s32)s0 + 0x6) - val;
+    }
+
+    if ((s16)d >= lim - 0x18 && (flag + zr) != 0 &&
+        *(s16 *)((s32)s0 + 0xA) + D_801A4D04 <= *(s16 *)(base + 0xA)) {
+        func_8012DB84();
+    }
+
+    if ((s16)d >= lim) {
+        func_80180D80(s0);
+    }
+}
+
 
 extern void func_8013C9C4(void *a0);
 extern void func_80029124(s32 a0, s32 a1);

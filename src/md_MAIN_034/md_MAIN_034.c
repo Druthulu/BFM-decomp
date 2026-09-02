@@ -11,7 +11,76 @@ typedef struct {
     u8 f3;
 } Quad4_800CCB14;
 
-INCLUDE_ASM("asm/md_MAIN_034/nonmatchings/md_MAIN_034", func_800CAE88);
+#include "common.h"
+
+extern s16 D_800CC9E8;
+extern s16 D_800CC9EA;
+extern s16 D_800CC9F0;
+extern s16 D_800CC9F2;
+extern u16 D_800B99DA;
+extern s32 D_800CC9EC;
+extern s32 D_800CC9F4;
+extern s32 D_800CCB18;
+extern s32 D_800A2B78;
+extern void func_800CB00C();
+
+/* func_800CAE88 -- two independent "blink" oscillators, then a tail call.
+ *
+ * NOTE ON THE SIGNATURE (byte-load-bearing, do not "simplify"): p1/p2 are
+ * unmodified pass-through arguments to func_800CB00C.  They emit ZERO
+ * instructions (the outgoing `move $a1,$a1` / `move $a2,$a2` are self-copies
+ * and are deleted), but their allocnos hold copy-preferences on $a1/$a2 for
+ * the whole function, which is what pushes the D_800CC9EC/D_800CC9F4 flag
+ * allocno off $a1 and onto $a3 (greg: "74 conflicts: 72 74 2 3 29", no
+ * preference of its own -> plain ascending first-fit).  Dropping either
+ * parameter moves the flag one slot down ($a2 with 2 args, $t0 with 4) --
+ * both measured.
+ *
+ * NOTE ON v0in: the function reads $v0 on entry without ever setting it
+ * (`andi $v0,$v0,1` is the first instruction after the prologue), so the
+ * original source read an uninitialised value here.  The register pin
+ * reproduces it exactly.
+ */
+void func_800CAE88(s32 *arg0, s32 p1, s32 p2) {
+    register s32 v0in __asm__("$2");
+    s32 flag1;
+    s32 flag2;
+    s32 temp;
+
+    if (!(v0in & 1)) {
+        flag1 = D_800CC9EC;
+        if (flag1 == 0) {
+            D_800CC9E8++;
+            D_800CC9EA++;
+            if (D_800CC9EA >= 0x200)
+                D_800CC9EC = 1;
+        } else {
+            D_800CC9E8--;
+            D_800CC9EA--;
+            if (D_800CC9E8 <= 0)
+                D_800CC9EC = flag1 ^ 1;
+        }
+        if (!(D_800B99DA & 1)) {
+            flag2 = D_800CC9F4;
+            if (flag2 == 0) {
+                D_800CC9F0++;
+                D_800CC9F2++;
+                if (D_800CC9F2 >= 0x200)
+                    D_800CC9F4 = 1;
+            } else {
+                D_800CC9F0--;
+                D_800CC9F2--;
+                if (D_800CC9F0 <= 0)
+                    D_800CC9F4 = flag2 ^ 1;
+            }
+        }
+    }
+    temp = *arg0;
+    D_800CCB18 = temp;
+    D_800A2B78 = (temp >> 28) & 7;
+    func_800CB00C(arg0, p1, p2);
+}
+
 
 INCLUDE_RODATA("asm/md_MAIN_034/nonmatchings/md_MAIN_034", D_800CAE08);
 

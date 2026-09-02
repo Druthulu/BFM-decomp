@@ -3506,7 +3506,79 @@ void func_80185950(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_001/nonmatchings/ov_SC03_001_jr_80184F64", func_801859AC);
+#include "common.h"
+
+extern s32 func_801886A0(s32 a0);
+extern s32 func_80187A64(s32 a0);
+extern void func_80187994(s32, s32, s32, s32);
+extern void func_80185874(short *param_1);
+extern void func_801858A0(short *param_1);
+extern void func_801858CC(short *param_1);
+extern void func_801858F8(short *param_1);
+extern void func_80185924(short *a0);
+
+void func_801859AC(void *a0)
+{
+    extern u8 D_801B9608[];
+    extern u8 D_801B9614[];
+
+    switch (*(u16 *)((s32)a0 + 0x34)) {
+    case 0:
+        if (func_801886A0(5) == 0) {
+            return;
+        }
+        func_80187994((s32)a0, (s32)D_801B9608, 0, 0x70);
+        *(u16 *)((s32)a0 + 0x34) = 1;
+        return;
+    case 1:
+        func_801886A0(5);
+        if (func_80187A64((s32)a0) == 0) {
+            return;
+        }
+        func_80187994((s32)a0, (s32)D_801B9614, 1, 0x70);
+        *(u16 *)((s32)a0 + 0x34) = 2;
+        *(u16 *)(*(s32 *)((s32)a0 + 0xCC) + 0x108) = 0;
+        *(s32 *)(*(s32 *)((s32)a0 + 0xCC) + 0xB0) = 2;
+        return;
+    case 2:
+        if (func_80187A64((s32)a0) != 0) {
+            *(u16 *)((s32)a0 + 0x34) = 3;
+        }
+        return;
+    case 3:
+        if (func_801886A0(5) == 0) {
+            return;
+        }
+        *(u16 *)((s32)a0 + 0x34) = 4;
+        func_80187994((s32)a0, (s32)D_801B9608, 1, 0x70);
+        return;
+    case 4:
+        func_801886A0(5);
+        if (func_80187A64((s32)a0) == 0) {
+            return;
+        }
+        switch (*(u8 *)((s32)a0 + 0x105)) {
+        case 7:
+            func_801858A0((short *)a0);
+            break;
+        case 0x12:
+            func_801858CC((short *)a0);
+            break;
+        case 0x17:
+            func_801858F8((short *)a0);
+            break;
+        case 0x1F:
+            func_80185924((short *)a0);
+            break;
+        case 2:
+        default:
+            func_80185874((short *)a0);
+            break;
+        }
+        return;
+    }
+}
+
 
 extern s32 func_8018727C(void *a0, void *a1);
 extern s32 func_80029504(void);

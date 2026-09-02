@@ -5001,7 +5001,72 @@ void func_8018036C(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_80180594);
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+/* §37 aliases: the TU canon for these two is `u16` (see the identical pair at
+ * ov_SC06_024_jr_8017BEBC.c:4926-4932, declared for the sibling func_8018036C),
+ * but this function reads them SIGNED (`lh`) and stores negative results, which a
+ * u16 lvalue cannot spell. */
+extern s16 aD80126B5E __asm__("D_80126B5E");
+extern s16 aD80126B66 __asm__("D_80126B66");
+
+void func_80180594(s32 param_1)
+{
+    s16 var;
+    s32 d;
+    s16 *px;   /* &D_80126B5E held in a reg (lui+addiu %lo) — reassigned per case */
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        *(u16 *)(param_1 + 6) -= 4;
+        var = *(u16 *)(param_1 + 0xA) - 2;
+        *(u16 *)(param_1 + 0xA) = var;
+        if (var < -0x96E) {
+            *(u16 *)(param_1 + 0x34) = 1;
+        }
+        px = &aD80126B5E;
+        d = *px - *(s16 *)(param_1 + 6);
+        if (d < -0x78) {
+            *px = *(s16 *)(param_1 + 6) - 0x78;
+        }
+        if (d > 0x78) {
+            *px = *(u16 *)(param_1 + 6) + 0x78;
+        }
+        d = aD80126B66 - *(s16 *)(param_1 + 0xE);
+        if (d < -0x78) {
+            aD80126B66 = *(s16 *)(param_1 + 0xE) - 0x78;
+        }
+        if (d > 0x78) {
+            aD80126B66 = *(u16 *)(param_1 + 0xE) + 0x78;
+        }
+        return;
+    case 1:
+        px = &aD80126B5E;
+        d = *px - *(s16 *)(param_1 + 6);
+        if (d < -0x90) {
+            *(u16 *)(param_1 + 0x34) = 2;
+        }
+        if (d > 0x78) {
+            *px = *(u16 *)(param_1 + 6) + 0x78;
+        }
+        d = aD80126B66 - *(s16 *)(param_1 + 0xE);
+        if (d < -0x78) {
+            aD80126B66 = *(s16 *)(param_1 + 0xE) - 0x78;
+        }
+        if (d > 0x78) {
+            aD80126B66 = *(u16 *)(param_1 + 0xE) + 0x78;
+        }
+        return;
+    case 2:
+        px = &aD80126B5E;
+        d = *px - *(s16 *)(param_1 + 6);
+        if (d > -0x90) {
+            *px = *(s16 *)(param_1 + 6) - 0x90;
+        }
+        return;
+    }
+}
+
 
 extern s32 func_8012C588(s32 a0, s32 a1);
 

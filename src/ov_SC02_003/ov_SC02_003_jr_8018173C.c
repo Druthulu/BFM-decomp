@@ -4027,7 +4027,123 @@ void func_80183F64(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80183FC8);
+/* func_80183FC8 — ov_SC02_003 / ov_SC02_003_jr_8018173C.c
+ *
+ * Body is the byte-verified twin of ov_SC02_000:func_80183FC8 (103 ins,
+ * same TU stem).  The ONLY change vs. that twin is an INTEGRATION fix:
+ *
+ *   The destination TU src/ov_SC02_003/ov_SC02_003_jr_8018173C.c already
+ *   defines, at FILE SCOPE and *after* our insertion point (TU line 6080,
+ *   for the func_80188AEC block), an anonymous-struct typedef named
+ *   `Elem_8018F086` — identical shape, but gcc-2.7.2-psx treats two
+ *   file-scope anonymous-struct typedefs of the same name as conflicting
+ *   even when byte-identical, and that later copy is hand-written in the
+ *   TU (no header guard to hang a fix on).  Same class as the
+ *   Rec12_801888F4 / D_8018F560 collision documented in this TU's own
+ *   func_801888F4 header note.
+ *
+ *   FIX (cookbook §183, move "TYPE-shadowed-block-scope"): the typedef and
+ *   its `extern` live inside the function body.  A block-scope declaration
+ *   that a later file-scope one contradicts is at most a warning in this
+ *   compiler, never an error — and here it is not even that, since a
+ *   block-scope typedef and a later file-scope typedef of the same name
+ *   occupy different scopes.  Byte-neutral: types do not reach codegen.
+ *
+ *   Everything else below is a plain `extern`.  Repeats of an identical
+ *   extern elsewhere in the TU are legal C:
+ *     func_8012C1B8/func_8012CAE4/func_8001C214/func_8001D0E8/func_8012A828
+ *       (TU lines 3953, 4852-4854, 5295-5297, 5430-5434, 5684-5687, 6195-6199)
+ *     D_800B9A0E   (TU 6608/6624/6636)   D_801E8010 (TU 4326)
+ *     D_801B6AD0[] (TU 4136)
+ *   func_80181934 / func_80181B4C are defined earlier in the TU by
+ *   DEFINE_func_80181934()/DEFINE_func_80181B4C() as `void f(void)`; an
+ *   unspecified-parameter `extern void f();` is compatible with that in C89
+ *   (§195-A: '?' is never a conflict) — kept unspecified so no argument is
+ *   invented (§263).
+ */
+
+#include "common.h"
+
+extern void func_8012C1B8(void);
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8013C414(s32 param_1, s32 param_2);
+extern void func_80181934();
+extern void func_80181B4C();
+
+extern s16 D_800B9A0E;
+extern s32 D_801E8010;
+extern s32 D_801E8820;
+
+extern u8 D_801AF280[];
+extern u8 D_8018EDDC[];
+extern u8 D_801AFAE8[];
+extern u8 D_801B6AD0[];
+
+void func_80183FC8(s32 param_1) {
+    /* block scope — see header note: file scope collides with this TU's own
+       (later, unmodifiable) `Elem_8018F086` typedef at TU line 6080. */
+    typedef struct {
+        s16 f0;
+        s16 f1, f2, f3, f4, f5;
+    } Elem_8018F086;
+    extern Elem_8018F086 D_8018F086[];
+
+    s32 iVar1;
+    u32 i;
+    s16 v1;
+
+    iVar1 = ((s32 (*)(void))func_8012C1B8)();
+    *(s32 *)(param_1 + 0x20) = iVar1;
+    if (iVar1 == 0) {
+        func_8012CAE4((void *)param_1);
+        return;
+    }
+
+    for (i = 0; i < 0x1A; i++) {
+        D_8018F086[i].f0 = 0;
+    }
+
+    D_801E8010 = 0;
+    func_8001C214(iVar1, (s32)D_801AF280);
+    func_8001D0E8(iVar1, 0x800, 0x800);
+    func_8012A828(param_1, D_8018EDDC);
+
+    *(s16 *)(param_1 + 0xF8) = 1;
+    *(s16 *)(param_1 + 0xFA) = 0;
+
+    v1 = D_800B9A0E;
+    if (v1 == 0) {
+        func_8013C414((s32)D_801AFAE8, (s32)D_801B6AD0);
+        *(s16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
+    } else if (v1 == 1) {
+        func_80181934();
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x14) = -0x400;
+        D_801E8820 = 1000;
+        *(s16 *)(param_1 + 0xA) = -0x3F4;
+        *(s16 *)(param_1 + 0xE) = 0x3C98;
+        *(s16 *)(param_1 + 0x6) = 0;
+        *(s16 *)(param_1 + 0x2) = 9;
+    } else {
+        func_80181B4C();
+        *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x14) = -0x400;
+        D_801E8820 = 1000;
+        *(s16 *)(param_1 + 0xA) = -0x573;
+        *(s16 *)(param_1 + 0xE) = 0x1C59;
+        *(s16 *)(param_1 + 0xDC) = 0x10;
+        *(s32 *)(param_1 + 0x18) = (s32)0xFFFE0000;
+        *(s32 *)(param_1 + 0x4C) = -0x4000;
+        *(s16 *)(param_1 + 0xE2) = 2;
+        *(s16 *)(param_1 + 0x6) = 0;
+        *(s16 *)(param_1 + 0xDE) = 0;
+        *(s16 *)(param_1 + 0xE0) = 0;
+        *(s16 *)(param_1 + 0x2) = 0x15;
+    }
+    *(s32 *)(param_1 + 0x1C) = 0;
+}
+
 
 DEFINE_func_80184164()  /* dedup: shared engine-core @0x80184164 (src/shared) */
 
@@ -5370,7 +5486,66 @@ void func_80186A9C(s32 *param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_003/nonmatchings/ov_SC02_003_jr_8018173C", func_80186AE4);
+/* Symbols per this TU's existing declarations (Law 2):
+ *   D_80126B58   -> extern s32     (ov_SC02_003_jr_8018173C.c:3603)
+ *   D_801270C8   -> extern s32     (block-scope in this TU, e.g. :5206)
+ *   D_801202A0   -> extern u8[]    (ov_SC02_003_jr_8018173C.c:378, :4949)
+ *   D_80126720   -> extern u8[]    (ov_SC02_003_jr_8018173C.c:612)
+ *   D_801E8018   -> extern s32     (ov_SC02_003_jr_8018173C.c:5294)
+ *   func_8012BD14(s32) -> s32      (block-scope in this TU, :5199)
+ *   func_8012BC60(struct Vec*, struct Vec*) -> s32   (fleet spelling, n=1363)
+ * D_801E801C is a first user here -> typed by access width (lw/sw) -> s32.
+ */
+extern s32 D_80126B58;
+extern s32 D_801270C8;
+extern s32 D_801E801C;
+extern s32 D_801E8018;
+extern u8 D_801202A0[];
+extern u8 D_80126720[];
+
+struct Vec;
+extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BD14(s32 a0);
+
+/* the 0x10C-byte entity-table record type (only the two u16 fields this function
+   actually touches are named). */
+typedef struct {
+    u16 f0;
+    u16 f2;
+} Ent_80186AE4;
+
+/* the 0x254-byte block snapshot copied from D_80126B58 to D_801E801C:
+   gcc emits the unrolled 4-word chunk loop (37 x 0x10) + a 4-byte remainder. */
+typedef struct {
+    s32 w[0x95];
+} Blk254_80186AE4;
+
+void func_80186AE4(s32 self)
+{
+    s32 iVar1;
+    Ent_80186AE4 *p;
+
+    *(Blk254_80186AE4 *)&D_801E801C = *(Blk254_80186AE4 *)&D_80126B58;
+
+    iVar1 = func_8012BD14(self);
+    if (iVar1 < 0xC41) {
+        D_801270C8 = 1;
+        D_801E8018 += 1;
+        return;
+    }
+
+    D_801270C8 = 0;
+    for (p = (Ent_80186AE4 *)D_801202A0; p < (Ent_80186AE4 *)(D_801202A0 + 0x6480);
+         p = (Ent_80186AE4 *)((u8 *)p + 0x10C)) {
+        if (p->f0 == 0x2F && p->f2 != 6 && p->f2 != 4) {
+            if (func_8012BC60((struct Vec *)(self + 4), (struct Vec *)((u8 *)p + 4)) < 0xC41) {
+                D_801270C8 = 1;
+                return;
+            }
+        }
+    }
+}
+
 
 DEFINE_func_80186C44()  /* dedup: shared engine-core @0x80186C44 (src/shared) */
 
