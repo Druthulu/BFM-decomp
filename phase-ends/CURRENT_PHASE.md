@@ -5546,6 +5546,29 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   makes cc1 exit 33 on the C89 redefinition — grep the TU, move the draft's copy to block scope;
   mirror of §409 law 2) · plus **§420**'s multi-cluster rebase. Index 1091.
 
+- 2026-09-02 10:30 — **FRONTIER 150 (main 60 + non-main 90) = 60 BANKED**, 29% of the 210 we started
+  with. Gates 11-13 added +2/+2/+4; the **main lane reopened properly** and added 4.
+  **`gate_main.py` is the ONLY way to gate main** (§414) — baseline assert, one clean rebuild for the
+  whole slate, bisect on failure. Today: baseline green, batch of 6 failed, bisect isolated
+  `func_8002C410` in 7 rebuilds, 4 banked BYTE-IDENTICAL (four are §265 verbatim-asm bodies for
+  §332/§188 toolchain walls — the accepted route).
+  **Two gate_main defects found and fixed while using it:**
+  (a) it printed `BANKED 5 of 6` when 4 had applied — `len(good)` is *what we decided to keep*, not
+  *what was substituted*. Now counted from the SOURCE (stub absence, the oracle everything else uses)
+  and any accepted-but-unapplied draft is named. (b) a draft that CONTAINS ITS OWN `INCLUDE_ASM` is a
+  silent no-op — substituting it restores the stub, the build is trivially identical, and it counts as
+  a bank. Refused at slate load, negative-controlled both ways. Scope measured before generalising:
+  **5 of 2,749 stored drafts**, all one of two functions.
+  **Model routing retuned (Drew): opus ≤340 ins, not ≤150.** The S69 table that set 150 actually puts
+  opus's cliff at ~350 (191-347: 10/15 at 1,291 tok/matched-ins — the best measured; 347-670: 1/9 at
+  7,158). Fable is now for >340 and for `arm_from_history`'s compiler-internal signal at any size.
+  Remaining-frontier bands: ≤50 → 8 · 51-150 → 61 · 151-340 → 66 · >340 → 25.
+  **`main` is now the centre of gravity: 60 of 150 functions but 13,483 of 33,049 instructions (41%)**,
+  including the four largest (`SaveLoadRoutine` 1139, `func_800226C0` 670, `func_8003388C` 663).
+  **11 main functions score closeness 0 standalone and are PROVEN gate-rejects** (re-gated one at a
+  time last night) — §376 in its purest form. Do not re-slate them without a TU-level fix.
+  **No new waves from here (Drew).**
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
