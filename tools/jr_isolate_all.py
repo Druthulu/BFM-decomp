@@ -147,8 +147,42 @@ def jr_inventory(ov):
                 for off in hits:
                     owners.setdefault(off, []).append(name)
 
-    # R32: every committed carve resolves to EXACTLY ONE banked owner, or abort loud.
-    problems = [("UNOWNED", hex(base + o)) for o in sorted(carve_offs - set(owners))]
+    # R32: every committed carve resolves to EXACTLY ONE owner, or abort loud.
+    #
+    # OWNERSHIP HAS TWO MORE SOURCES THAN THE RELOC SCAN ABOVE (P31 S70). The scan finds an owner
+    # only among the overlay's OWN real-C definitions, and it was aborting on 36 carves across 8
+    # binaries — every one of which is BYTE-GREEN (R22 213/213), i.e. the config is right and the
+    # MODEL was blind (R34). The two blind spots, measured:
+    #
+    #   1. THE SUBSEG NAME IS THE OWNERSHIP RECORD (32 of 36 = 89%). The isolate convention writes
+    #      the owner into the name: a carve in `<ov>_jr_<ADDR>` belongs to `func_<ADDR>`. Several of
+    #      those owners are RESIDENT-range functions (0x80135D20, 0x8015C32C …) instantiated in the
+    #      overlay through a shared macro, so they are not overlay-local definitions and
+    #      `parse_overlay_c` cannot see them at all. Reading the name is R33 — derive from the
+    #      invariant instead of re-deriving it by scanning relocations.
+    #   2. A CARVE FOR A STILL-STUBBED FUNCTION IS PENDING, NOT STRANDED (the remaining 4). The
+    #      carve is committed and the function has simply not banked yet; `func_8016AB6C` in
+    #      ov_SC07_010 references its carve at 0x801A6460 from an INCLUDE_ASM stub.
+    #
+    # A carve with NONE of the three is still a hard abort — that is the real corruption this
+    # assertion exists to catch (§8b func_801734BC class).
+    _named = re.compile(r"^%s_jr_([0-9A-Fa-f]{8})$" % re.escape(ov))
+    named_owner = {off for _li, off, sub in rodata_carves(cfg_lines, ov)
+                   if _named.match(str(sub or ""))}
+    pending = set()
+    try:
+        import corpus as _corpus
+        _stub_addrs = list(_corpus.stubs(ov))
+    except Exception:
+        _stub_addrs = []          # the stub oracle refusing is not this assertion's business
+    for _a in _stub_addrs:
+        try:
+            _t = family_remap.reloc_targets(ov, int(_a), data=img)
+        except Exception:
+            continue
+        pending |= {x - base for k, x in _t if k == "data" and (x - base) in carve_offs}
+    accounted = set(owners) | named_owner | pending
+    problems = [("UNOWNED", hex(base + o)) for o in sorted(carve_offs - accounted)]
     problems += [("MULTI", hex(base + o), owners[o]) for o in sorted(owners) if len(owners[o]) > 1]
     if problems:
         sys.exit(f"jr_inventory({ov}): committed .rodata carve ownership is not 1:1 (R32/R33) — "
