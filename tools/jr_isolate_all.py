@@ -530,6 +530,20 @@ def _engine_types():
     return _ENGINE_TYPES
 
 
+
+# `} __attribute__((packed, aligned(1))) Blk4_9B4;` — the ATTRIBUTE SITS BETWEEN THE BRACE AND THE
+# NAME (P31 S71, §323 blocker 2). Every type-name scan here matched `\}\s*(\w+)\s*;`, which reads
+# `__attribute__` as the name, fails on the following `((`, and yields NOTHING — so a packed
+# file-local typedef never entered `carried`, every decl naming it read as "unknown type", and
+# jr_isolate_all REFUSED the whole overlay. That is the entire §323 carve blocker 2, on
+# ov_SC07_000 (`Blk4_9B4`, `Blk4`) and ov_SC03_029 (`Block8_80181600`). Strip attributes first.
+_ATTR = re.compile(r'__attribute__\s*\(\((?:[^()]|\([^()]*\))*\)\)')
+
+
+def _strip_attrs(block):
+    return _ATTR.sub(' ', block)
+
+
 def _file_scope_decls(items):
     """[(line, [syms])] for every decl that stood at FILE SCOPE in the original TU, in item
     order. TWO sources — the second is the §8b scoping-wall fix:
@@ -559,6 +573,7 @@ def _file_scope_decls(items):
     carried = set()
     for _, _, _kind, text in items:
         for block in oss.file_scope_types(text):
+            block = _strip_attrs(block)
             for a, b in re.findall(r'\}\s*([A-Za-z_]\w*)\s*;|\b(?:struct|union|enum)\s+([A-Za-z_]\w*)', block):
                 carried.add(a or b)
             carried |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', block))
@@ -580,6 +595,7 @@ def _file_scope_decls(items):
     seen_types, type_conflicts = {}, []
 
     def _type_names(block):
+        block = _strip_attrs(block)
         names = {a or b for a, b in
                  re.findall(r'\}\s*([A-Za-z_]\w*)\s*;|\b(?:struct|union|enum)\s+([A-Za-z_]\w*)', block)}
         names |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', block))
