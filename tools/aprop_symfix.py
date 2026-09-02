@@ -188,12 +188,19 @@ def main():
 
     recs = [r for r in json.load(open(a.slate)) if isinstance(r, dict) and (r.get('fn') or r.get('name'))]
     skip = set(json.load(open(a.skip))) if a.skip else set()
+    # KEY BY (binary, fn), NEVER BY NAME (R48/§238). A slate legitimately carries the SAME function
+    # name for several binaries — one shared body copied into four overlays is the common case — and
+    # a name-keyed `seen` silently audited ONE of them. Measured S71: a 4-row slate for
+    # func_8016AB6C across ov_SC03_107/ov_SC07_007/010/011 reported "1 drafts audited", and the
+    # three unexamined rows each needed a DIFFERENT rebase because each overlay's target symbols
+    # differ.
     seen, rows = set(), []
     for r in recs:
         fn = r.get('fn') or r['name']
-        if fn in skip or fn in seen:
+        key = (r['binary'], fn)
+        if fn in skip or key in seen:
             continue
-        seen.add(fn)
+        seen.add(key)
         draft = r.get('draft') or f".run/aprop1/{fn}/{fn}.c"
         st, stale, asm_only = audit_one(fn, r['binary'], draft)
         rows.append(dict(fn=fn, binary=r['binary'], draft=draft, status=st,

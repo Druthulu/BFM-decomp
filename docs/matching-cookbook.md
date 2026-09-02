@@ -33688,3 +33688,40 @@ density ranking rather than the register.* Reference count is a dial (zero-byte 
 length is a dial (where you place the barrier); local-alloc's ordering is arithmetic on the two, so
 compute it from the `-df`/`-dl` dumps and aim, instead of trying pins that a call-argument register
 structurally forbids.
+
+## §420 ★★★ — A MULTI-CLUSTER SYMBOL REBASE, AND THE BARE-NAME DEDUP THAT HID THREE QUARTERS OF IT (P31 S71; 4 banked in 57 s)
+
+**The shape.** One shared body (`func_8016AB6C`) lives in four overlays — `ov_SC03_107`,
+`ov_SC07_007`, `ov_SC07_010`, `ov_SC07_011`. Every copy scored `match_one` closeness 0 and every copy
+failed the gate with `undefined reference to D_8018D538`: the classic §171 stale-seed-symbol class, the
+draft carrying the symbols of the overlay it was written for.
+
+**Defect 1 — `aprop_symfix` deduped the slate by BARE FUNCTION NAME (R48/§238).** A four-row slate
+reported *"1 drafts audited"*. Three rows were silently dropped, and they were not redundant: **each
+overlay needs a DIFFERENT rebase**, because each has its own target symbols. Keyed by `(binary, fn)`,
+all four audit. This is the same defect class as `reloc_filter`'s `binof` (fixed earlier the same
+session) and `gate_lane`'s homonym staging — three tools, one root.
+
+**Defect 2 — the delta rule allowed exactly ONE uniform cluster.** `STALE-DELTA` requires the sorted
+zip to have a single `target − draft` delta, so it refused all four as AMBIGUOUS. The real structure
+is **two clusters of two**, and it is identical in shape across all four overlays:
+
+| overlay | run 1 | run 2 |
+|---|---|---|
+| ov_SC03_107 | −0x7F64 ×2 | −0x5A650 ×2 |
+| ov_SC07_007 | −0x74DC ×2 | −0x2E898 ×2 |
+| ov_SC07_010 | −0x844C ×2 | −0x4E3A0 ×2 |
+| ov_SC07_011 | −0xBD8C ×2 | −0x65D08 ×2 |
+
+Two data clusters, each moving as a block — exactly what one seed body copied into four overlays
+produces. The single-delta rule is the special case of one cluster.
+
+**The safe generalisation.** Sort both symbol lists, zip positionally, split into runs of constant
+delta, and **require every run to have ≥ 2 members** — a single-member run is a free guess, not a
+cluster, and that is where a wrong symbol would come from. Filter to `D_8xxxxxxx` first: the draft's
+`Ent_`/`Obj_`/`SVec_` typedef names and the target's `rand`/`jtbl_` carry the same vram-looking suffix
+and are not data symbols.
+
+**Result: 4 banked in 57 seconds of gate time, zero drafting** — and all four had been sitting at
+closeness 0 behind a symbol rename. **Verify after rewriting** (`match_one` again, all four still
+MATCH) before gating; a rebase that changes the body is a rebase you got wrong.
