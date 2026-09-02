@@ -4993,7 +4993,168 @@ void func_80190CE0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_033/nonmatchings/ov_SC06_033_jr_8018D98C", func_80190E64);
+/* func_80190E64 — ov_SC06_033 — 3-state (0/1/2 on +0x34) boss-intro/spawn driver.
+   match_one MATCH 302/302, all 53 relocations audited against the .s (law 1c).
+
+   Levers, in the order they mattered (each byte-proven on this function):
+
+   1. `first = D_801CB512;` — the 16-entry u16 rotate (house style of the already-banked
+      func_801916BC in this TU) must load `first` through the SYMBOL, not `*q1`: the target
+      has `lui/lhu %lo(D_801CB512)`, and the load must be written BEFORE `k = 0` (§3-T2).
+   2. `*(u16 *)(e + 6) = *(s16 *)(e + 6) - 0x40 + (rand() & 0x7F);` — the s16 LOAD is the
+      dial.  Read as u16 the fold+narrowing produces a u16 `0xFFC0` constant that local-alloc
+      parks in $s0 (a 1-block pseudo crossing one call), which then bars `e` from $s0 in BOTH
+      cases and cascades through the whole callee-saved file (75 residual rows).  Read as s16
+      the narrowed HImode arithmetic is signed, the negated constant sign-extends to -64 and
+      becomes `addiu $v1,$v1,-0x40` on the FIELD side, then `addu` with the rand term.
+      (Ablated 19 spellings; `(u16)(f - K)` cast and `+= (r) - K` both keep the 0xFFC0 reg.)
+   3. ONE `p` variable for `*(s32 *)(a0 + 0xCC)` in case 0 AND case 1 — a global pseudo that
+      does not cross calls gets the lowest used-so-far reg not conflicting with the local
+      RMW temps: $a0 in both blocks (a per-block temp gets $v1).
+   4. `i = rand() % 100` reuses the case-0 counter — that pseudo must cross calls to land in
+      $s1 (an 8-ref/12-insn temp takes $a1); it also lifts `i` above the D_801CB52C giv in
+      allocno order so the giv falls through to $s3 (pass 1: s0..s2 taken), and `tbl` then
+      shares $s3 with it in pass 0.
+   Free from the shape: `while (*tp <= i) tp += 3;` (duplicate_loop_exit_test + reorg's
+   delay-slot steal with the `addiu -6` undo), `-(cond) & 0x1E` (store_flag normalised to -1,
+   L9163), u16 dividend -> `multu 0xAAAAAAAB` (§201-D), state in $s0 reused for the `== 2`
+   compare via record_jump_equiv. */
+extern u8 D_80078E78[];
+extern u16 D_801CB512;
+extern u16 D_801CB514;
+extern u16 D_801CB4F4;
+extern s32 D_801CB52C[];
+extern u8 D_801CB540[];
+extern u8 D_801CB4CC[];
+extern s16 D_801CB398[];
+extern u8 D_801CD99C[];
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_800599B8();
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void func_8001C214(s32 a0, s32 a1);
+extern s32 rand(void);
+extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+extern int func_80143C74(short *, int);
+extern void func_80128EA8();
+extern void func_80016714(void *a0, s32 a1);
+extern void func_8002A04C(s32 a0);
+
+void func_80190E64(s32 a0)
+{
+    u16 *tbl = (u16 *)D_80078E78;
+    s32 e;
+    s32 i;
+    s32 child;
+    s32 off;
+    s16 *tp;
+    s32 t;
+    s32 p;
+    s16 cnt;
+    u16 *q1, *q2;
+    u16 first, v;
+    s32 k;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        func_8002D4C8(0xB33, 0);
+        q1 = &D_801CB512;
+        q2 = &D_801CB512 - 1;
+        first = D_801CB512;
+        k = 0;
+        do {
+            v = *q2;
+            q2--;
+            k++;
+            *q1 = v;
+            q1--;
+        } while (k < 0xF);
+        *q1 = first;
+        func_800599B8(&D_801CB514, &D_801CB4F4);
+        p = *(s32 *)(a0 + 0xCC);
+        *(u16 *)(p + 0x2C) |= 0x10;
+        for (i = 0; i < 5; i++) {
+            e = func_8012C658(0x33C, 1, a0);
+            if (e != 0) {
+                func_8001C214(*(s32 *)(e + 0x20), D_801CB52C[i]);
+                *(u16 *)(e + 0x12) = (rand() & 0xF) - 8;
+                *(u16 *)(e + 0x1A) = (rand() & 0xF) - 8;
+                *(u16 *)(e + 0x16) = -((rand() & 7) + 7);
+                *(u16 *)(e + 0xFC) = (rand() & 0x3F) + 4;
+                *(u16 *)(e + 0xFE) = (rand() & 0x3F) + 4;
+                *(u16 *)(e + 0x100) = (rand() & 0x3F) + 4;
+                *(u16 *)(e + 0xA) -= 0x30;
+            }
+        }
+        func_8001C214(*(s32 *)(a0 + 0x20), (s32)D_801CD99C);
+        *(s32 *)(*(s32 *)(a0 + 0x20) + 0x20) = (s32)D_801CB4CC;
+        func_8001D0E8(*(s32 *)(a0 + 0x20), 0x280, 0x1E0);
+        *(u16 *)(a0 + 0x34) += 1;
+        break;
+    case 1:
+        q1 = &D_801CB512;
+        q2 = &D_801CB512 - 1;
+        first = D_801CB512;
+        k = 0;
+        do {
+            v = *q2;
+            q2--;
+            k++;
+            *q1 = v;
+            q1--;
+        } while (k < 0xF);
+        *q1 = first;
+        func_800599B8(&D_801CB514, &D_801CB4F4);
+        e = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
+        if (e != 0) {
+            child = *(s32 *)(e + 0xCC);
+            *(u16 *)(child + 0x18) = rand() % 0x2000 + 0x3000;
+            *(u16 *)(child + 0x1A) = rand() % 0x2000 + 0x3000;
+            func_80128EA8(child, e + 0xD0, (s32)D_801CB540);
+            *(u16 *)(e + 0x6) = *(s16 *)(e + 0x6) - 0x40 + (rand() & 0x7F);
+            *(u16 *)(e + 0xE) = *(s16 *)(e + 0xE) - 0x40 + (rand() & 0x7F);
+            *(u16 *)(e + 0xA) = *(u16 *)(e + 0xA) - (rand() & 0x7F);
+        }
+        p = *(s32 *)(a0 + 0xCC);
+        *(u16 *)(p + 0x18) -= 0x88;
+        *(u16 *)(p + 0x1A) -= 0x88;
+        *(u16 *)(p + 0x1C) -= 0x88;
+        if (*(s16 *)(p + 0x18) < 0x89) {
+            *(u16 *)(a0 + 0x34) += 1;
+            func_80016714(*(void **)(a0 + 0xCC), 0x84);
+            *(s32 *)(a0 + 0xCC) = 0;
+            if (*(s16 *)(a0 + 0x70) == 1) {
+                off = -((u16)(tbl[0x1D] / 3) >= tbl[0x1E]) & 0x1E;
+                if ((u16)(tbl[0x1F] / 3) >= tbl[0x20]) {
+                    off += 0x3C;
+                }
+                tp = &D_801CB398[off];
+                i = rand() % 100;
+                while (*tp <= i) {
+                    tp += 3;
+                }
+                t = func_8012C658(tp[1], tp[2], a0);
+                if (t != 0) {
+                    *(u16 *)(t + 0xA) -= 0x40;
+                }
+            }
+        }
+        break;
+    case 2:
+        *(u16 *)(a0 + 0xFC) = cnt = *(u16 *)(a0 + 0xFC) + 1;
+        if (cnt >= 0x20) {
+            func_80016714(*(void **)(a0 + 0xD0), 0x84);
+            *(s32 *)(a0 + 0xD0) = 0;
+            *(u16 *)(a0 + 0x34) += 1;
+            if (*(s16 *)(a0 + 0x70) == 2) {
+                *(u16 *)(a0 + 0x34) = 0;
+                *(u16 *)(a0 + 2) = 4;
+            }
+            func_8002A04C(a0);
+        }
+        break;
+    }
+}
+
 
 extern void func_8012BE54(s32);
 extern s32 func_8012B8A4(s32);

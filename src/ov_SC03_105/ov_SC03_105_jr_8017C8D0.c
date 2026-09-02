@@ -5046,7 +5046,144 @@ void func_801802E0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801803A0);
+#include "common.h"
+
+extern s32 D_80126B58;                        /* TU:7037 house spelling; base taken as (u8 *)& like TU:7059 */
+extern s32 D_801BCBBC;                        /* TU:5024 */
+extern u16 D_801BA59A;                        /* sh/lhu width; no prior TU decl */
+extern u16 D_801BA59C;                        /* sh/lhu width; no prior TU decl */
+extern s32 D_8018E610;                        /* TU:4975 */
+extern s32 func_80047948(s32 a0);             /* TU:2206 */
+extern s32 func_8004787C(s32 a0);             /* TU:2207 */
+extern s32 rand(void);                        /* TU:958 */
+extern s32 func_8012BEE8(s32 a0);             /* TU:3924 */
+extern s32 func_8012CBF4(s32 a0);             /* TU:3927 */
+extern void func_8012AD80(s32 a0);            /* TU:4390 */
+extern s32 func_8018233C(s32 arg0);           /* defined later in this TU (:5121) */
+extern void func_80183768(void *a0, s32 a1, s32 a2);   /* defined later in this TU (:5669) */
+extern void func_80183D38(void *a0, s16 a1, s32 a2);   /* defined later in this TU (:5930) */
+extern s32 func_80183A64(s32 *a0, s32 a1, s32 a2);     /* defined later in this TU (:5775) */
+extern s32 func_8018388C(void *a0, s32 a1);            /* defined later in this TU (:5714) */
+extern void func_80183DA0(s32 a0);            /* defined later in this TU (:5953) */
+extern void func_801824CC(s32, s32, s32, s32, s32);    /* TU:5009 spelling; K&R s16 def at :5191 */
+
+void func_801803A0(s32 a0)
+{
+    s32 s0 = a0;
+    register s32 s3 __asm__("$19");
+    u8 *b58;
+    s32 v;
+    u32 v1;
+    /* LOAD-BEARING: ONE pointer temp per switch arm. A single temp assigned in both arms has
+     * reg_n_sets==2, which kills sched1's birthing_insn_p launch boost (§350): its `lw 0x20`
+     * floats to the block top, overlaps the `li $v1,0x40` range, and the allocno lands in $a0
+     * (measured 9 rows). Set once each, both loads sit after the sw and colour $v1. */
+    s32 pA;
+    s32 pB;
+    s32 i;
+    s32 r;
+    /* LOAD-BEARING: dead 16-byte aggregate gives the 0x40 frame (0x30 without it); gcc-2.7.2
+     * allocates an aggregate local at declaration even when unreferenced (§226/§333). */
+    s32 pad[4];
+
+    v = func_80047948((*(s32 *)(s0 + 0xEC) << 5) & 0xFE0);
+    *(u16 *)(s0 + 0x50) = ((u32)(v * 3)) >> 9;
+    v = func_8004787C((*(s32 *)(s0 + 0xEC) << 5) & 0x7E0);
+    *(u16 *)(s0 + 0x52) = ((u32)(v * 3)) >> 9;
+
+    /* LOAD-BEARING: `u8 *` base + `*(s16 *)(b58 + 6)` (the TU:7059 idiom), NOT an s16 array
+     * `tbl[3]`. The ARRAY_REF is a /s MEM and true_dependence's struct-vs-fixed-scalar escape
+     * lets the `lh 0x6($s1)` hoist above the `sh D_801BA59C` store; the cast INDIRECT_REF is
+     * not /s, so the load stays pinned after both global stores as in the target (§351; 4 rows).
+     * Keep it set ONCE — a §194-K re-tie moves the `la $s1` to the prologue top (§350). */
+    b58 = (u8 *)&D_80126B58;
+
+    switch (*(u16 *)(s0 + 0x34)) {
+    case 0:
+        v1 = *(u32 *)*(s32 *)(s0 + 0xCC);
+        s3 = 0x1800;
+        if (v1 == -2) goto lA;
+        if ((u32)v1 >= 0xFFFFFFFFu) goto lB;
+        if (v1 == -3) goto lC;
+        goto lD;
+    lA:
+        *(s32 *)(s0 + 0x1C) = 0x40;
+        pA = *(s32 *)(s0 + 0x20);
+        *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        *(u16 *)(pA + 0x1A) = 0x2000;
+        *(u16 *)(pA + 0x18) = 0x2000;
+        goto lE;
+    lC:
+        *(u16 *)(s0 + 0x34) = 4;
+        *(s32 *)(s0 + 0x1C) = 0x3C;
+        for (i = 0; i < 3; i++) {
+            r = rand();
+            func_80183D38((void *)s0, i + 1, 0xFFFC0000 - ((r % 5) << 16));
+        }
+        goto lE;
+    lB:
+        *(s32 *)(s0 + 0xCC) = *(s32 *)((s32)&D_8018E610 + D_801BCBBC * 4);
+        return;
+    lD:
+        *(u16 *)(s0 + 2) = v1;
+        *(s32 *)(s0 + 0xCC) = *(s32 *)(s0 + 0xCC) + 4;
+        return;
+    lE:
+        *(s32 *)(s0 + 0xCC) = *(s32 *)(s0 + 0xCC) + 4;
+        break;
+    case 1:
+        s3 = 0x2000;
+        if (func_8012BEE8(s0) != 0) {
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            D_801BA59A = *(u16 *)(s0 + 0xA);
+            D_801BA59C = *(u16 *)(s0 + 0xE);
+            *(s16 *)(s0 + 0xE8) = (*(s16 *)(s0 + 6) - *(s16 *)(b58 + 6)) >> 1;
+            *(s32 *)(s0 + 0x1C) = 1;
+            *(u16 *)(s0 + 0xEA) = *(u16 *)(s0 + 0xA) + 0x102;
+        }
+        break;
+    case 2:
+        func_80183768((void *)s0, *(s16 *)(s0 + 0xE8), *(s16 *)(s0 + 0xEA));
+        func_8012CBF4(s0);
+        v = *(s32 *)(s0 + 0x1C) + 1;
+        *(s32 *)(s0 + 0x1C) = v;
+        s3 = 0x2000;
+        if (v >= 0x41) {
+            pB = *(s32 *)(s0 + 0x20);
+            *(s32 *)(s0 + 0x1C) = 0x1E;
+            *(u16 *)(s0 + 0x34) = 0;
+            *(u16 *)(pB + 0x1A) = 0x1800;
+            *(u16 *)(pB + 0x18) = 0x1800;
+            *(u16 *)(s0 + 0xA) = D_801BA59A;
+            *(u16 *)(s0 + 0xE) = D_801BA59C;
+        }
+        break;
+    case 4:
+        s3 = 0x1800;
+        if (func_8012BEE8(s0) != 0) {
+            *(u16 *)(s0 + 0x34) = 0;
+            *(s32 *)(s0 + 0x1C) = 0x1E;
+        }
+        break;
+    case 5:
+        func_8012AD80(s0);
+        s3 = 0x1800;
+        if (func_8012BEE8(s0) != 0) {
+            *(s32 *)(s0 + 0x1C) = 0x1E;
+            *(u16 *)(s0 + 0x34) = 0;
+            *(s32 *)(s0 + 0xC) = 0xFE380000;
+        }
+        break;
+    }
+
+    func_80183A64((s32 *)s0, 0x1800000, 0xFE800000);
+    func_8018388C((void *)s0, 0x30);
+    func_8018233C(s0);
+    func_80183DA0(s0);
+    func_801824CC(s0, (s16)s3, 0, -0x20, 0x800000);
+    *(s32 *)(s0 + 0xEC) += 1;
+}
+
 
 INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_801806F8);
 
