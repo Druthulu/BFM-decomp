@@ -17,6 +17,10 @@ R41: every count is printed against the number of drafts staged.
 import argparse, collections, json, os, re, sys
 
 LANES = [
+    ('CARVE',    re.compile(r'CARVE-REFUSED'),                              'jtbl_carve: probe it — the '
+     'dominant sub-class is NON-CONTIGUOUS .rodata in one subseg, fixed by jr_isolate_all (§8b)'),
+    ('NO-DIAG',  re.compile(r'CC1-FAIL\(no-diagnostic\)'),                  'the cc1 error was not captured — '
+     'recompile the TU to get it'),
     ('ARITY',    re.compile(r'too (few|many) arguments to function'),        '§376 fix_arity_callers --any-proto'),
     ('CONFLICT', re.compile(r'conflicting types for'),                       '§378 cast_self_callers / fix_arity_callers'),
     ('REDECL',   re.compile(r'redeclared|previous declaration|previously declared'), '§378c draft redeclares a TU-owned decl'),

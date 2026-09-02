@@ -5349,6 +5349,30 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   draft failed all three passing cases because `any(x in s for x in s)` iterates a STRING's characters
   (R40: the instrument, again).
 
+- 2026-09-02 — **S71: the "64 free banks" priced honestly — 12 banked (18.8% of 64), and the other 52
+  are FOUR named lanes.** Gate 1 (all 64, 33 binaries): **12 banked** (main 11 + `ov_SC07_006` 1).
+  Gate 2 tested the hypothesis that a binary's good drafts were being killed by a bad sibling (a gate
+  stages all of a binary's drafts and builds ONCE): re-staged the **25** drafts that
+  `recover_integration --probe-only` said compile-and-MATCH in their REAL TU (`tools/restage_matching.py`)
+  → **0 banked, an honest null**. The reason is a THIRD oracle with its own blind spot: that probe
+  compiles and compares bytes but never LINKS and never CARVES, so it cannot see the real blockers.
+  Triage of the 52 (`tools/gate_triage.py`, 25/25 accounted): **CARVE-REFUSED 10 · undefined-reference
+  (§171) 4 · DIFF 3 · CC1-FAIL-no-diagnostic 2 · PARSE 1**, plus gate 1's conflicting-types split of
+  7 func-decl / 4 data-decl / 6 type-decl (one draft redefines `u8`).
+- 2026-09-02 — **S71 R37 probe: the CARVE-REFUSED class has ONE cause and ONE named remedy.** Probed 8
+  with `jtbl_carve --probe`: **6 of 8 are the same refusal** — *"subseg `<ov>_jr_<addr>` would host
+  NON-CONTIGUOUS .rodata carves (0x… and 0x…) — a single object can't leave a gap for the unmatched
+  jtbl between them. Isolate one matched jr-function into its own code subseg first
+  (`tools/jr_isolate_all.py`)"*. 1 is `tail` (a standard §8a carve that should just work) and 1 is a
+  stale-asm refusal. So the lane is mechanical and already tooled (§8b), and it is carve STATE — R59/R60
+  apply: audit with interleave_check/pads_audit, never blanket-add.
+- 2026-09-02 — **S71: the agent-journal corpus is far larger than the checkpoint implied.** 400
+  journals / 14,411 lines → **6,658 result records, 4,853 substantive agent notes (5.4 MB), 707 of them
+  claiming something new/undocumented/refuting, and 896 distinct `index_gap` reports** each naming a
+  symptom the cookbook index does not cover. Extracted to `.run/journal_mine/results.jsonl`. This is
+  breadth-shaped, costs no drafting budget, and is the strongest Ultracode candidate on the board
+  (R26 prompt raised with Drew).
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**
