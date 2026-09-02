@@ -523,3 +523,63 @@ in the same change. The rule generalises past decomp: **if your agents produce a
 next agent on that item must be handed it.** An archive of your own verified outcomes is training data
 for your own tooling (see also `docs/decision-log.md` on the banked-corpus pivot) — and the specific
 trap here is that the write side felt complete on its own, because the notes were being *saved*.
+
+---
+
+## #20 — SET YOUR TU BOUNDARIES AT THE RODATA ISLAND'S JUMP-TABLE SPANS, AT SEGMENTATION TIME (P31 S72)
+
+**What it is.** A compiled object contributes exactly **one contiguous `.rodata` run**. A binary whose
+switch jump tables sit in an island of several *separated* spans can therefore carve only one span
+per code object — so every switch function outside that one span **cannot ever bank**: gcc emits its
+table while the raw copy is still emitted from the data segment, the image grows, and every symbol
+above the insertion point shifts. The fix is to make the code subsegment boundaries line up with the
+spans, because a contiguous run of tables IS one translation unit's rodata (tables pack tight within
+a TU, separated by other data across TUs).
+
+**When we found it.** P31 S72, 2026-09-02.
+
+**When it COULD have been found.** **2026-06-15, Phase 7** — commit `commit:0025` wrote the island's
+contents into `config/splat.us.exe.yaml` by hand, naming the game jtbls, `loadDestPtrTable @0x80072C70`
+as the divider, and the library tables at `0x800737CC+`. Everything needed to compute the spans and
+their owner address ranges was in that comment, 2.5 months before it was used. The signal needs **no
+matching progress at all** — it is a property of the retail image, readable the day the binary is
+first split.
+
+**What it would have saved, and the number that matters is the COST CURVE, not the delay.** The price
+of a TU split is the declarations that cross the new boundary, and that grows monotonically with how
+much of the file you have matched:
+
+| moment | `src/800.c` | externs | typedefs | what the split costs |
+|---|---|---|---|---|
+| Phase 6 (file created) | 4,277 lines, 1,998 stubs | 13 | 0 | a yaml edit |
+| Phase 7 (island documented) | 2,712 lines | 101 | 0 | a yaml edit |
+| **P31 S72 (actually done)** | **27,126 lines, 94% matched** | **2,378** | **175** | 57 crossing decls, 19 typedefs moved to a new shared header, a compile-error loop, and 4 consumers left stale |
+
+It also cost a full session of wrong conclusions: 11 functions were recorded as *"PROVEN gate-rejects,
+§376 in its purest form, do not re-slate"* when 10 of them banked byte-identical the moment the carve
+existed.
+
+**PREREQ — and this is the honest part.** At Phase 7 you could have *made* the split but not *known
+why*. The binding constraint (one object, one contiguous `.rodata` run) and the carve machinery came
+out of the OVERLAY work in Phase 26 §8 / Phase 29 §8e. So this is not "we were careless in Phase 7";
+it is knowledge that arrived from a different population two phases later and was never carried back
+to `main`. **The transferable advice is therefore for segmentation time on the NEXT project, where
+you can carry it in from day one:**
+
+> Before writing the first subsegment list, dump the target's `.rodata`/data island, mark every jump
+> table, group them into contiguous spans, and map each span to the address range of the functions
+> that reference it. **Put your initial code-subsegment boundaries at those ranges.** At 0% matched
+> this is free — there are no declarations to reconcile because there is no C yet — and it removes a
+> class of wall you will otherwise hit at 90% completion, on your largest and most valuable functions.
+
+**The general principle, which is worth more than the specific recipe.** Most of this project's
+discipline is *probe before investing* — do not build tooling on speculation. **Segmentation is the
+exception.** Structural decisions get monotonically more expensive as matched work accumulates, while
+the evidence for them is available at t=0 and never improves. For that class, the cheap moment is the
+earliest moment, and deferring is what costs. When a decision is (a) evidenced from raw data, (b)
+cheap now, and (c) strictly more expensive later, make it early even though its payoff is unproven —
+that is the opposite of the default instinct, and the reason to write it down.
+
+**Companion:** the *method* for doing the split late, if you inherit a project that did not do it
+early, is cookbook §431 (cut verbatim, let the compiler enumerate what crosses, MOVE typedefs to a
+shared header, and check every consumer that hardcoded the old filename).
