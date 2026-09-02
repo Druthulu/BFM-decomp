@@ -3,3 +3,4 @@
 {"head": "commit:0831", "label": "session-9b (func_801299C8 x137; 0x8013C414 -O0-walled)", "instr_pct": 78.6, "distinct_pct": 67.9, "fn_pct": 88.1, "substantial_families": 568, "templatable_ins": 1500308, "matched_sib": 70}
 {"head": "commit:0834", "label": "session-9 CLOSE (gate_stage SHA fix; 5 families swept; 7/12 t5wave cracks banked)", "session_close": true, "instr_pct": 78.7, "distinct_pct": 67.9, "fn_pct": 88.14, "substantial_families": 568, "templatable_ins": 1486476, "matched_sib": 70}
 {"head": "commit:0866", "label": "SESSION-14 broad type-lift + 13 cores x138 + uniquify recipe", "session_close": true, "instr_pct": 79.3, "distinct_pct": 67.6, "fn_pct": 88.61, "substantial_families": 558, "templatable_ins": 1449339, "matched_sib": 74}
+{"head": "commit:3698", "label": "", "session_close": false, "instr_pct": 99.6, "distinct_pct": 99.1, "fn_pct": 99.97, "substantial_families": 104, "templatable_ins": 36965, "matched_sib": 62}
