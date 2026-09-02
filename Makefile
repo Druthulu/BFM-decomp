@@ -659,7 +659,11 @@ ifeq ($(BINARY),main)
 	# 6324C.data. Idempotent; keyed off splat's exact output (re-run = no-op).
 	# EXE-only (overlays have no rodata island) — gated to BINARY=main; --front/--tail
 	# name the sandwich .data objects (cookbook §8).
-	$(PYTHON) tools/ld_interleave.py --front 53198.data.o --tail 63470.data.o $(LD_SCRIPT)
+	# P31 S72: main's island is now a 7-PIECE sandwich (three .rodata carves, one per
+	# jtbl-span-owning code object), so --front/--tail can no longer express it. --order
+	# takes the address-ordered leaf list: a *.data.o leaf contributes its (.data), a code
+	# object leaf contributes its (.rodata) carve.
+	$(PYTHON) tools/ld_interleave.py --order 53198.data.o,800.o,63470.data.o,800_b.o,63940.data.o,800_c.o,63C4C.data.o $(LD_SCRIPT)
 endif
 	# Phase-26 §8: overlays that carve a jr-function's jtbl into a dotted .rodata subseg run
 	# ld_interleave to place the migrated .rodata between the pre/post data-tail chunks (the

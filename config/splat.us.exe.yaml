@@ -76,7 +76,16 @@ segments:
       # INCLUDE_ASM (Phase-7 regression gate) — opt level only affects matched C, not stubs.
       # Boundary = func_800123F0 (vram 0x800123F0 -> file vram-0x8000F800 = 0x2BF0).
       - [0x800, c, boot]        # -O0 boot module -> src/boot.c (vram 0x80010000-0x800123F0)
-      - [0x2BF0, c, 800]        # -O2 game code   -> src/800.c  (vram 0x800123F0-0x8003A444); name "800" kept (legacy) so the matched fns + their asm/nonmatchings/800 paths don't migrate
+      # P31 S72 — SPLIT AT THE JTBL-SPAN TU BOUNDARIES. One code object contributes exactly ONE
+      # contiguous `.rodata` run, so each jump-table span needs its own object. The span owners'
+      # address ranges are DISJOINT AND ORDERED, which is the evidence that these are (at least
+      # some of) the original translation-unit boundaries — tables pack tight WITHIN a TU and are
+      # separated by other data ACROSS TUs (§8e/§426). Splitting here is therefore both the fix
+      # and the minimum: any extra split would be speculation. `800` keeps its legacy name so the
+      # matched fns + their asm/nonmatchings/800 paths don't migrate.
+      - [0x2BF0, c, 800]        # -O2 game code -> src/800.c    (vram 0x800123F0-0x8002B0B4); owns .rodata span A
+      - [0x1B8B4, c, 800_b]     # -O2 game code -> src/800_b.c  (vram 0x8002B0B4-0x80035270); owns .rodata span B
+      - [0x25A70, c, 800_c]     # -O2 game code -> src/800_c.c  (vram 0x80035270-0x8003A444); owns .rodata span C
       # PsyQ libspu+libsnd COMBINED sound region (Phase 8): the two SDK sound libs are interleaved here,
       # so they link as one 60-object region (curated by tools/make_snd_used.py; 4 addresses excluded as
       # scattered-.bss/false-positive stubs: S_R/S_W 0x3C438, S_GRMDT* 0x3D424, S_IH/UT_RON 0x3D94C,
@@ -217,6 +226,14 @@ segments:
       # into .rodata while the raw copy stayed here, so the image GREW (measured +28/+52/+76/+84
       # on four drafts) and all 238 symbols above 0x80072A4C shifted. 25 of main's 59 frontier
       # functions (6,215 of 12,912 instructions) are in that class.
-      - [0x63238, .rodata, 800] # LZSS jtbl + the 11 contiguous game jtbls (vram 0x80072A38-0x80072C70)
-      - [0x63470, data, 63470]  # tail data: loadDestPtrTable onward (vram 0x80072C70-0x80074800)
+      # The island is data -> rodata -> data -> rodata -> data -> rodata -> data. Each `.rodata`
+      # piece is dotted onto the code subseg that OWNS those tables, so spimdisasm migrates each
+      # table into its referencing function and ld_interleave --order lays the pieces back down in
+      # address order. Span D (0x80073494-0x80073514) belongs to snd2, not to game code.
+      - [0x63238, .rodata, 800]   # span A: LZSS jtbl + 11 game jtbls  (vram 0x80072A38-0x80072C70)
+      - [0x63470, data, 63470]    # loadDestPtrTable + globals         (vram 0x80072C70-0x80072E44)
+      - [0x63644, .rodata, 800_b] # span B: 14 game jtbls              (vram 0x80072E44-0x80073140)
+      - [0x63940, data, 63940]    # globals                            (vram 0x80073140-0x800732A0)
+      - [0x63AA0, .rodata, 800_c] # span C: 8 game jtbls               (vram 0x800732A0-0x8007344C)
+      - [0x63C4C, data, 63C4C]    # tail: snd2 jtbls + globals         (vram 0x8007344C-0x80074800)
   - [0x65000]
