@@ -33880,7 +33880,7 @@ hashes, and `gate_main`'s R40 baseline control **rebuilds the tree green immedia
 failure**, overwriting `build/us/SLUS_007.26` and its map — so the one artifact that could localize
 the divergence was destroyed every time, before anyone could look at it. `tools/main_diff_locate.py`
 (new) attributes the differing bytes to symbols via the linker map; `gate_main` now preserves the red
-image first and prints **BODY REJECT / PLUMBING REJECT / MIXED**.
+image first and prints FOUR verdicts — **BODY REJECT / TABLE REJECT (§405-A, the dominant residual on main's switch functions, §433) / PLUMBING REJECT / MIXED**.
 
 **THE DERIVED OVERLAY THAT NAMES A SHIFT INSTANTLY.** splat names a symbol by its address, so
 `linked_address != name_address` **is** the shift, with no reference build to diff against:
@@ -33918,7 +33918,7 @@ instructions, 48%)** are switch functions. Span A unlocks 8 of them. The other t
 
 | span | tables | owning functions |
 |---|---|---|
-| `0x80072E44-0x80073140` | 14 | ~10, incl. `SaveLoadRoutine` (1139 ins) and `func_8003388C` (663) |
+| `0x80072E44-0x80073140` | 14 | ~10, incl. `func_8003388C` (663). `SaveLoadRoutine` (1165) is in this span but is NOT unlockable by drafting — §434 frame pair, route = §265 pair transcription |
 | `0x800732A0-0x8007344C` | 8 | ~8, incl. `StreamLoadStateMachine` |
 | `0x80073494-0x80073514` | 4 | — |
 
@@ -34264,7 +34264,7 @@ changes that:
 
 * `func_8002B0B4` (76 ins) has **no epilogue** — every exit is a raw `j` into a label inside its
   sibling, or a computed `jr $v0` through `jtbl_80072E44` whose entries land there too.
-* `SaveLoadRoutine` (1139 ins) has **no prologue** — its first live read is `andi $v1, $s0, 7` on an
+* `SaveLoadRoutine` (1165 ins) has **no prologue** — its first live read is `andi $v1, $s0, 7` on an
   `$s0` it never loads — and it **owns the epilogue** of the 0x40 frame:
   `lw $ra,0x38($sp)` / `lw $s3..$s0` / `addiu $sp,$sp,0x40` / `jr $ra`.
 

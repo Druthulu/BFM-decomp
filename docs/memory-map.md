@@ -306,7 +306,7 @@ said "≈0x80063045"; the exact string starts, including the backslash, are belo
 | Address | Symbol/Name (proposed) | Region | Source/Provenance | Confidence | Notes |
 |---|---|---|---|---|---|
 | 0x800638FA | `BodyStatLevelTable` | US | AP-world `client.py` (`0x0638FA + 16*level`) | reported | 16-byte records indexed by level; inside EXE static data — verify in Ghidra |
-| 0x80072DF0 | `saveHeaderTemplate` | US | **VERIFIED live (T6b 2026-06-14; RAM==EXE)** | **verified** | PS1 memcard save-header template: `Hero` default name (SJIS full-width) @+0; memcard **filename** `BASLUS-00726MUSASHI` @+0xC; **title** `ＢＲＡＶＥ　ＦＥＮＣＥＲ　ＭＵＳＡＳＨＩ` (SJIS) @+0x20; save/load **handler code ptrs** 0x8002B154 / 0x8002B1AC / 0x8002BEA4 @+0x54. Anchors Q#5 |
+| 0x80072DF0 | `saveHeaderTemplate` | US | **VERIFIED live (T6b 2026-06-14; RAM==EXE)** — **CORRECTED P31 S73: the row's extent is WRONG past +0x54.** 0x80072DF0+0x54 = 0x80072E44 is `jtbl_80072E44`, `func_8002B0B4`'s SaveLoadRoutine dispatch table and the first 12 bytes of the S72 span-B `.rodata` carve — not part of this template. The "handler code ptrs" it described are that jump table's entries. Treat this row as verified only up to +0x54. | **verified (extent corrected)** | PS1 memcard save-header template: `Hero` default name (SJIS full-width) @+0; memcard **filename** `BASLUS-00726MUSASHI` @+0xC; **title** `ＢＲＡＶＥ　ＦＥＮＣＥＲ　ＭＵＳＡＳＨＩ` (SJIS) @+0x20; save/load **handler code ptrs** 0x8002B154 / 0x8002B1AC / 0x8002BEA4 @+0x54. Anchors Q#5 |
 | ~EXE+0x62620 | overlay/script pointer table | **JP** | jywjyw `note.md` (JP EXE file offset) | reported (**JP-only — re-derive for US**) | EXE-side pointer table tied to the resident script blob (§4). US analogue **TBD** — Phase 3 |
 
 ---

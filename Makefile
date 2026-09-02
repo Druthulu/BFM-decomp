@@ -679,6 +679,9 @@ endif
 	# ld_interleave to place the migrated .rodata between the pre/post data-tail chunks (the
 	# data->rodata->data sandwich; cookbook §8). <bin>_JTBL_INTERLEAVE holds the --front/--tail
 	# object basenames (set per overlay in config/overlays.mk). Empty for overlays with no carve.
+	# NOTE (P31 S72): this --front/--tail form is the OVERLAY path only. main is driven by the
+	# --order call in the BINARY=main branch above — its island is 7 pieces, which --front/--tail
+	# cannot express (cookbook §426/§431).
 ifneq ($(JTBL_INTERLEAVE),)
 	$(PYTHON) tools/ld_interleave.py --section .$(BINARY) $(JTBL_INTERLEAVE) $(LD_SCRIPT)
 endif
