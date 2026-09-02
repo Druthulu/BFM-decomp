@@ -6398,3 +6398,97 @@ typos:
 with (a) the sibling tools wired to know how/when to use it and (b) the docs updated — **and no
 end-of-session documentation audits**. This addendum exists because I did (a) and the tool-inventory
 half of (b), but not the human-facing procedure half.
+
+---
+
+## 🛑 SESSION CHECKPOINT — S73 FINAL (2026-09-02). SUPERSEDES every earlier block in this file, including "S73 CLOSE" and its addendum above. Phase 31 T10 CONTINUES.
+
+Written for a FRESH SESSION with none of this context. Everything below was verified against the
+repo, not carried from memory.
+
+**STATE.** `gate_main --assert-baseline` BYTE-IDENTICAL. **R22 `check-all: 213 passed, 0 failed of
+213`** from a clean rebuild (`.run/S73_r22.log`; nothing since then touched a build input — the later
+commits are docs, docstrings, one metric tool, and a Makefile COMMENT). Tree clean apart from
+`.run/backlog.jsonl`, `p_I.o` and `scratchpad/` (the last two predate the session). No lanes live.
+Drew pushes (R6).
+
+```
+REAL / matchable          :   880 / 1,918      = 45.88%   [session start 853/1,914 = 44.57%]
+FLEET instr-weighted      : 13,472,251 / 13,523,865 = 99.6%
+MAIN game-code weighted   :    44,903 / 79,510     = 56.5%   [was 50.2%]
+REAL FRONTIER             : 124  (main 36 + non-main 88)     [was 147: main 59]
+main frontier instructions:  7,933                            [was 12,912]
+main frontier jtbl fns    :      2                            [was 25]
+```
+
+# 1. WHAT HAPPENED
+
+**23 main functions banked** (14 in S72, 9 in S73), every one verified from the SOURCE — the
+`INCLUDE_ASM` stub's absence — never from a tool's report.
+
+S71 had recorded 11 functions as *"PROVEN gate-rejects, §376 in its purest form, do not re-slate."*
+**None was a body reject.** All 11 are switch functions, and main had carried exactly ONE `.rodata`
+carve since **Phase 7**, so a drafted switch DOUBLE-EMITTED its jump table and the image grew. Two
+structural changes fixed it, each proved byte-neutral BEFORE anything banked:
+
+1. the carve extended to the contiguous span `0x80072A38-0x80072C70`;
+2. **`src/800.c` split into three TUs** at `0x8002B0B4` / `0x80035270` (+ `src/800_shared.h`), so
+   each jump-table span owns a code object — one object contributes exactly ONE contiguous `.rodata`
+   run. main's island is a 7-piece sandwich; `ld_interleave` uses `--order`, not `--front/--tail`.
+
+**Cookbook 1,093 → 1,103.** New: §426 (the carve) · §427 (a hash has zero diagnostic content) ·
+§428 (zero-byte cross-jump barrier) · §428a (per-arm regalloc dial) · §429 (every held pointer needs
+its own local) · §430 (a goto into a loop is fine — hand-hoist what it costs) · §431 (splitting a
+27k-line TU) · §432 (defeat cse's mask merge with a shift pair) · §433 (**case source order is the
+DOMINANT residual on switch functions and `match_one` is blind to it**) · §434 (two symbols, one
+frame — run the frame check before drafting anything large).
+
+# 2. START HERE
+
+1. **The 4 overlay splits** — `ov_SC01_084`, `ov_SC02_005`, `ov_SC02_011`, `ov_SC03_105`:
+   **16 open functions / 3,613 instructions, 18% of the non-main frontier.** All four are
+   CARVE-BLOCKED in `config/wave_exclude.txt` and flagged by `tools/split_indicator.py`.
+   **RECOMMENDED ROUTE: cookbook §431, NOT the tooling.** `jr_isolate`/`split_src_region` had five
+   defects fixed this session and now run to completion, but the resulting object still fails to
+   ASSEMBLE on a duplicate-definition class. §431's method — cut the file verbatim at line
+   boundaries, let the COMPILER enumerate what crosses, move typedefs to a shared header — worked
+   first time on main and does not depend on that tool being correct.
+2. **A non-main wave.** 88 open, **69 drawable**. Draw with
+   `--exclude-file config/wave_exclude.txt --ledger <FRESH>` — the standing ledger hides ~44 of 72.
+3. **main's remaining 36** are non-jtbl work plus the §434 pair.
+4. **`SaveLoadRoutine` + `func_8002B0B4`** are ONE 0x40 frame across two symbols. **NOT
+   unmatchable**: the §265 verbatim-asm lane transcribes `SaveLoadRoutine` BYTE-IDENTICAL; it fails
+   the whole-binary gate only because substituting one half alone moves 3,989 bytes across 262
+   symbols. **Route: transcribe/resegment the PAIR TOGETHER (§265).** Excluded from DRAWS only.
+5. **Fable is EXHAUSTED account-wide** (three agents died on the limit at ~133k tokens each).
+   `/usage-credits` before routing >340 ins to it. Routing today: ≤120 Sonnet, >120 Opus.
+
+# 3. TOOLING ADDED / CHANGED (all wired + documented in the same commits)
+
+* **`tools/main_diff_locate.py`** (NEW) — turns a red main image into NAMED divergent symbols. Four
+  verdicts: **BODY / TABLE (§405-A) / PLUMBING (§376) / MIXED**. `gate_main` preserves the red image
+  to `.run/gate_main_fail/` BEFORE the R40 control rebuilds over it, then classifies.
+* **`tools/split_indicator.py`** (NEW, in `make tools-health`) — names any subseg that must be split
+  before its switch functions can bank. 209/213 OK, 4 flagged.
+* **`tools/exclude_audit.py`** (NEW) + **`draw_waves --exclude-file`** — a stale exclude list is
+  REFUSED at draw time. Canonical list: **`config/wave_exclude.txt`** (tracked, regenerated).
+* **`gate_main`** — `-j`; header-provided typedefs visible; struct-tag false conflict fixed;
+  declaration scan skips dead `#ifdef NON_MATCHING` branches.
+* **`jtbl_rodata_pads --derive`** now serves main. **`journal_notes`** idempotent by replacement.
+  **`reconcile_slate`** globs `corpus.src_files('main')`.
+* **`progress.py`** — was undercounting REAL by 7: `classify()` swallowed the `#else` half of a
+  NON_MATCHING block, which is the LIVE branch, so anything banked there was invisible in BOTH
+  numerator and denominator.
+
+# 4. RULES / HABITS THIS SESSION ADDED
+
+* **Drew, binding:** every tool create/update ships **in the same change** with (a) the sibling tools
+  wired to know how/when to use it and (b) the docs updated — **and no end-of-session audits**.
+* **`gate_main` reverts `src/*.c` as its FIRST action.** Anything uncommitted there dies at the next
+  gate — banks included (I lost two that way). Verify an uncommitted source edit with a DIRECT
+  `make extract && make build`, binary deleted first; `--assert-baseline` will silently revert it.
+* **A law from a NEAR is a hypothesis; a law from a MATCH is evidence.** Two of my own cookbook
+  entries were refuted by later MATCHes the same day and rewritten.
+* **The session's dominant defect class: a tool reading text it should not** — comments as code,
+  prose as structure, dead preprocessor branches as live, a substring as an entry. **Six instances,
+  four in my own edits.**
