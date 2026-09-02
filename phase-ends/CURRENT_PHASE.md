@@ -6374,17 +6374,25 @@ warning named S65 FINAL-4 and 27 blocks (now S73 CLOSE, 37).
 Fixed, with the vram→TU→asm-path→span table, plus the missing 4th `main_diff_locate` verdict
 (TABLE REJECT), the `config/wave_exclude.txt` row, and `ld_interleave --order`.
 
-**KNOWN-REMAINING, NOT YET FIXED** (from the same audit, verified but deprioritised — fix on contact):
-* `tools/jr_isolate.py:22-27` docstring still declares the tool BLOCKED; 5 defects were fixed this
-  session and it now runs to completion, though `ov_SC02_005` still fails to assemble.
-* `tools/jtbl_rodata_pads.py:20-38` docstring describes a stored-spec-only filter and advertises
-  fail-loud guards that no longer all exist; `--derive` now serves `main` too.
-* `tools/draw_waves.py:5-6` Usage line documents a `--no-main` flag that does not exist.
-* `docs/wave-playbook.md` carries several pre-session census numbers (25 of 59 main jtbl fns, a
-  19-entry exclude list, `.run/S67_walls.txt` pointers, a Sonnet/Opus routing ladder) and its step-1
-  copy-paste command still passes a superseded `.run` snapshot instead of `config/wave_exclude.txt`.
-* `docs/memory-map.md:309` mis-attributes the first 12 bytes of the span-B carve.
-* `Makefile:680` and `tools/ld_interleave.py:11-14` describe the pre-S72 `--front/--tail` layout.
+**AUDIT FINDINGS: ALL WORKED.** The S73 audit produced 87 findings (40 actively-misleading). Every
+one of the 40 is now fixed or verified-not-a-defect. The non-obvious ones, because they were not doc
+typos:
+
+* **`progress.py` was undercounting REAL by 7** — `classify()` consumed `#ifdef NON_MATCHING`
+  through `#endif`, swallowing the `#else` half, which is the LIVE branch. Banking replaces the
+  `#else` `INCLUDE_ASM` with the real body, so every function banked that way was invisible in BOTH
+  numerator and denominator. **REAL 873 → 880, matchable 1,911 → 1,918.** Third coverage defect of
+  this shape in that one function (the K&R and `#if 0` cases are documented in its own comments).
+* **`§429` had been silently deleted** by my own §428a rewrite (index slicing that dropped the tail).
+* **`§434` accused an agent of inventing its §265 citation. §265 exists.** Retracted.
+* **`memory-map.md:309`** recorded `saveHeaderTemplate` extending to +0x54 at the ledger's HIGHEST
+  confidence; +0x54 is `jtbl_80072E44`, the first 12 bytes of the S72 span-B carve. Extent corrected.
+* **The playbook's step-1 copy-paste command** still passed a superseded `.run` snapshot through the
+  UN-AUDITED `--exclude` flag, bypassing the freshness prerequisite built this session.
+* Four tool docstrings (`draw_waves` advertised a `--no-main` that never existed; `jr_isolate` still
+  declared itself BLOCKED; `ld_interleave`'s layout diagram and `jtbl_rodata_pads`' arming text were
+  both pre-S72), `SETUP.md` §6.6/§6.7, cookbook §426/§434, the Makefile overlay comment, and two
+  memories carrying refuted claims.
 
 **PROCESS RULE ADDED (Drew, this session):** every tool create/update ships **in the same change**
 with (a) the sibling tools wired to know how/when to use it and (b) the docs updated — **and no
