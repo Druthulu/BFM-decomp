@@ -5115,3 +5115,34 @@ mechanised in `work_evidence`, which is the session's most durable output.
   already un-spliced; frontier still 311, all 44 banks and the 3 §332b banks verified intact), but it
   is precisely the reflex R42 forbids and that destroyed 61 banks in S58. The correct form is to
   commit, or to restore ONE named file.
+
+- **S70-T13 — CARVE OWNERSHIP FIXED (a MODEL bug, not corrupt config): dry run 7/17 -> 15/17. Still 0 banked.**
+  `jr_inventory` R32-aborted on **36 committed `.rodata` carves across 8 binaries**. Every one of those
+  binaries is **byte-green** (R22 213/213) — which is the tell: the config was right and the ORACLE was
+  blind (R34). Two blind spots, measured, not guessed:
+  1. **The subseg NAME is the ownership record — 32 of 36 (89%).** The isolate convention writes the
+     owner into the name (`<ov>_jr_<ADDR>` ⇒ `func_<ADDR>`). Several owners are **RESIDENT-range**
+     (`0x80135D20`, `0x8015C32C`) instantiated in the overlay through a shared macro, so they are not
+     overlay-local definitions and `parse_overlay_c` **structurally cannot see them**. Reading the name
+     is R33 — derive from the invariant instead of re-deriving it by scanning relocations.
+  2. **A carve for a still-STUBBED function is PENDING, not stranded** (the other 4):
+     `ov_SC07_010/func_8016AB6C` references its carve at `0x801A6460` from an `INCLUDE_ASM` stub.
+  A carve with none of the three still aborts loudly — the genuine §8b corruption case is preserved.
+  The three acceptance paths each require POSITIVE evidence of an owner (the `_jr_` regex is anchored
+  and exact; `pending` requires a real relocation), so this is not a blanket loosening.
+  **Result: `jr_isolate_all --dry-run` 7 PASS/10 FAIL -> 15 PASS/2 FAIL.** The 2 survivors are exactly
+  the §323 file-local-type class §322b predicted (`ov_SC02_017` typedef, `ov_SC03_029` naming type).
+
+  **BUT A THIRD LAYER SITS BELOW: `jtbl_carve` ITSELF STILL REFUSES.** With isolation unblocked, the
+  gate still banks 0 and the verdicts are still CARVE-REFUSED; the terminal reason on
+  `ov_SC02_000/func_8017F950` is *"jump tables only, not an island of mixed included data"*. So the
+  §322b route has **three** stacked blockers, and S70 cleared the first two:
+  ```
+  1. jr_inventory ownership model      FIXED (this entry)          8 binaries unblocked
+  2. §323 file-local type not carried  OPEN, 2 binaries            (as §322b predicted)
+  3. jtbl_carve: mixed-data island     OPEN, the terminal refusal  <- the REAL wall
+  ```
+  **Next session starts at (3), not by gating again** — three full gate passes have now measured the
+  same answer, and a fourth adds nothing until `jtbl_carve` can take a mixed-data island (or the class
+  is declared genuinely unbankable, which is also a legitimate outcome and would retire 18 rows from
+  the frontier ledger).
