@@ -4921,3 +4921,47 @@ returns ADDRESSES — this produced a wrong answer I reported; fabricating `func
 carry real symbols; a jtbl detector matching `jr $ra`). **A wrong instrument returns a plausible number,
 not an error.** The two things that actually caught them: a case whose answer was already known, and an
 arithmetic reconciliation that refused to close.
+
+## S70 — THE PRE-WAVE TOOL AUDIT (Drew approved the 3 scoped items; a blanket 198-tool audit was rejected)
+
+**The question was "audit everything before more waves, or are we good?" — the answer was neither, on
+measured grounds.** There are **198 tools**; reading them is unbounded, and S70's own evidence argues it
+would not work: **none of the four defects was visible in the source.** `parallel_gate` looked correct
+(a relative path means something else under a different `cwd`); `replace(x, y, 1)` is only wrong when
+duplicates exist. All four were found by RUNNING the tools and disbelieving the output. Meanwhile
+`make tools-health` runs 5 audits — `audit-binaries` / `audit-cdecl` / `audit-corpus` / `audit-digest`
+/ `audit-text` + the cookbook index — and **every one asserts DATA integrity; none asserted that a tool
+did the work it claims.** That named gap, not a general audit, was the thing to close.
+
+**ITEM 1 — the `parallel_gate` blast-radius audit: DONE, AND MY OWN WARNING IS REFUTED.**
+All 21 historical plan files were classified by how they spell `drafts`:
+```
+606 of 668 plan rows : ABSOLUTE  (/home/musashi/bfm-decomp/.run/...)  -> resolve under ANY cwd
+ 62 of 668 plan rows : .run/-rooted relative  -> ALL THREE are S70's own plans, written today
+```
+S67/S68/gate_wave/jtbl/pg all passed absolute paths. **The defect never fired before this session; no
+historical verdict is suspect and no re-gate campaign is owed.** The S70 FINAL block's "⚠ UNAUDITED:
+backlog rows marked `failed` may never have been gated" was a MECHANISM generalised into a CONSEQUENCE
+without measuring it — precisely the `verify-blast-radius-not-just-defect` error, committed by me
+hours after writing §402. Corrected in place. **Waves are not blocked by corrupted verdicts.**
+
+**ITEMS 2+3 — `tools/work_evidence.py`, wired and negative-controlled.** One module, three assertions,
+all about OBSERVABLE CONSEQUENCE rather than internal state:
+* `assert_inputs` — zero readable inputs is a DEFECT, not a zero-yield result. **"0 of 0" is a fact
+  about the HARNESS; "0 of 57" is a fact about the SUBJECT**, and reporting the first as the second
+  cost a 35-binary batch.
+* `assert_floor` — work claiming a compile/gate cannot beat physics. **This one alone would have caught
+  §402:** 1-2s per binary while a real gate takes 60-120s, with every other signal reading success.
+* `assert_effect` — N claimed successes must leave a persistent trace (§404, verification ≠ banking).
+Self-test is a negative control in BOTH directions, **11/11**: each assertion passes the
+already-succeeded case and fails the known-bad one (R39). Added to `make tools-health` so it cannot rot
+(R54). Wiring: `parallel_gate` flags a sub-floor worker **BLIND SUSPECT** instead of passing it as a
+clean zero; `gate_stage`'s silent `if not draft_fns: return {...}` — the exact line the defect flowed
+through — is now loud and marks the result `refused`; `harvest_verify` states at the point of confusion
+that "verified" is not "banked" and names `gate_stage` as the entrypoint that persists.
+Controls: empty dir -> loud + `refused`; a real 2-draft dir still gates normally (`drafts: 2`).
+
+**VERDICT: cleared for waves.** What was NOT done, deliberately: reading the other ~190 tools. P26/P27
+already ran the big audits (28 findings -> one derived oracle), and this class surfaces from use, not
+inspection. The standing bet is that `assert_floor` + `assert_inputs` catch the recurrence cheaply and
+the next defect arrives via a wave, where it is now instrumented.
