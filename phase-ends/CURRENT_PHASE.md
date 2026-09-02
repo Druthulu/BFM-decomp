@@ -5424,6 +5424,19 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   `ov_SC06_029` alone builds NOT byte-identical after isolation (auto-reverted by the lane's guard) —
   a real resegmentation question, not a scanner gap. Cookbook 1080.
 
+- 2026-09-02 — **S71 gate cycle 4 — FRONTIER 210 → 176 (34 banked this session).** Gates: 12 (integration
+  pile) + 2 + 9 (`commit:3591`) + 6 (`commit:3594`) + 5 (`commit:3604`). main 64 → 53, non-main 146 → 123.
+  Wave 1 closed at 45/50 landed with a ~97% self-reported MATCH rate; wave 2 running at the current cap.
+  **Model routing changed (Drew, measured):** difficulty is the prior RESIDUAL CLASS, not `nins` —
+  a 26-ins function took 18 min / 31 tool calls while a 122-ins one took 80 s / 10. `draw_waves.arm_from_history()`
+  now escalates to Fable at draw time when a function's own journal notes name a compiler-internal
+  residual (scheduling / birthing boost / regalloc / LUID / cross-jump / delay-slot). R39 control over
+  3,147 functions × 3 bands = 9,441 decisions: **4,020 upgrades, 0 downgrades**. Cookbook **§413**.
+  **R48 exposure found by that control:** its first form passed over an EMPTY set, because the agent
+  verdict schema never carried `binary` — so every historical journal note is NAME-keyed and could be
+  served to a homonym in another overlay (§238). `claude_wave_draft.js`'s VERDICT now requires `binary`;
+  the historical corpus keeps that caveat. Cookbook 1081.
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**
