@@ -5944,3 +5944,126 @@ not a naive partition. **Never run it while drafting agents are live** (it moves
 **Wave S72m_1 (in flight).** 5 span-A frontier targets, one agent per workflow, 5 concurrent (Drew's
 cap): `CdReadStateMachine` 397/fable · `CdReadSectorReadyCB` 442/fable · `func_80024448` 391/fable ·
 `func_80026D64` 218/opus · `func_8001B0D4` 111/sonnet. Packs carry the carve unlock as journal fuel.
+
+---
+
+## 🛑 SESSION CHECKPOINT — S72 CLOSE (2026-09-02). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES.
+
+> **The "last block is the live one" rule was BROKEN when this session started** — S70 FINAL-5 sat
+> below S71 CLOSE in file order while being a day older. This block is appended at the END, which
+> restores the rule. Keep appending.
+
+**FLEET VERIFIED GREEN FROM A CLEAN REBUILD — `check-all: 213 passed, 0 failed of 213`**
+(`.run/S72_r22.log`; `make clean && extract-all && check-all`, 0 `[FAIL]` lines). Tree clean apart
+from regenerated `docs/progress*.md` + `docs/difficulty.md` and the usual `ghidra/` MCP noise (never
+stage it). Drew pushes (R6). No lanes live, nothing in flight.
+
+```
+REAL / matchable          :   859 / 1,913      = 44.90%   [was 853/1,914 = 44.57%]
+FLEET instr-weighted      : 13,468,535 / 13,523,865 = 99.6%
+MAIN game-code weighted   :    41,187 / 79,510     = 51.8%   [was 50.2% — +1,296 instructions]
+REAL FRONTIER             : 140  (main 52 + non-main 88)     [was 147: main 59 + non-main 88]
+main frontier instructions: 11,605, of which 18 functions still carry a jump table [was 25]
+```
+
+# 1. WHAT THIS SESSION WAS, IN ONE PARAGRAPH
+
+S71 closed saying **"11 main functions score `match_one` closeness 0 and are PROVEN gate-rejects —
+§376 in its purest form — do not re-slate without a TU-level fix."** **None of them was a body
+reject.** All 11 are switch functions, and main had carried exactly ONE `.rodata` carve since
+**Phase 7**, so a drafted switch DOUBLE-EMITS its jump table, the image grows, and ~332 symbols shift.
+Nobody could see that because a main gate's entire output was two SHA1s — and `gate_main`'s own R40
+baseline control **rebuilt the tree green over the failing image every time**, destroying the only
+artifact that could localize it. **7 main functions banked byte-identical this session**, all
+previously unreachable.
+
+# 2. WHAT CHANGED (all committed, all controlled)
+
+* **`tools/main_diff_locate.py` (NEW)** — attributes a red image to symbols via the linker map, per
+  byte. `--focus <fn>` gives the routing verdict **BODY REJECT / PLUMBING REJECT / MIXED**.
+  `--self-test <addr>` flips a byte at a known address and asserts the containing symbol (and the
+  identical-pair direction). Cookbook **§427**.
+* **`gate_main.py`** — preserves the red image + map to `.run/gate_main_fail/<tag>/` **before** the
+  R40 control rebuilds; auto-localizes; `-j` on the build; drops written to
+  `.run/gate_main_dropped.json` with the §376/§378 chain; **struct-tag false conflict fixed**
+  (`struct Ent30D80 *` vs its own typedef). R39 control: **452 drafts / 54 binaries, 0 new refusals,
+  exactly 1 removed**.
+* **`config/splat.us.exe.yaml`** — the `.rodata` carve extends from the LZSS table alone to the whole
+  contiguous game-jtbl span `0x80072A38-0x80072C70`. **Byte-neutral with no draft substituted**
+  (probed first, R37). Makefile `--tail` follows to `63470.data.o`.
+* **`jtbl_rodata_pads.py --derive` now serves main** — one expression (`_file0_vram` = code
+  `vram - start`) makes both `raw[a - vram]` and `vram + <yaml offset>` correct for the EXE's 0x800
+  header and leaves flat overlays byte-identical. Armed for `BINARY=main` in the Makefile.
+* **`journal_notes.py`** — was idempotent by SKIPPING, so a pack with one old note could never
+  receive a newer one, and `claude_wave_packs` calls it at build time, so **every pack with any
+  history was sealed against later evidence**. Now idempotent by replacement. It paid for itself
+  within the hour: the §428 escalation note reached `func_8001B0D4`'s pack only because of this.
+
+**Cookbook 1,093 → 1,100.** §426 (the carve, with the span table) · §427 (a hash has zero diagnostic
+content) · **§428** (a ZERO-BYTE cross-jump barrier: advance the cursor inside each switch arm; the
+converging label is `cross_jump`-created so its UID ≥ `max_uid` and `jump.c:1988` never runs the
+minimum=2 search) · **§428a** (rewritten as a REFUTATION of my own prediction: two residuals moving in
+opposite directions share ONE starved resource — here seven `return 0;` pinning `$v0`) · **§429**
+(every held pointer needs its own local; a negative-displacement byte store needs one too) · **§430**
+(a shared tail is a late cross-jump merge, NOT a source `goto`; a `goto` into a loop body makes
+`cc1 -dL` print "Loop at N ignored due to multiple entry points" and drops the constant hoist — the
+discriminator against §3-B is whether the label sits inside a loop) · playbook **1c** + **5b**.
+
+# 3. BANKED
+
+`func_8001A114` · `func_8001AAD0` · `func_8001AF34` (three of the eleven) · `CdReadStateMachine` 385 ·
+`func_80024448` 362 · `func_80026D64` 189 · `func_8001B0D4` 86.
+
+**Wave S72m_1** — 5 targets, one agent per workflow, 5 concurrent (Drew's cap): **4 MATCH / 1 NEAR**,
+all 4 banked in ONE clean rebuild in **10.8 s**.
+
+# 4. START HERE NEXT SESSION — CARVE SPANS B AND C
+
+**This is the largest measured lever on main.** 18 of main's 52 frontier functions still carry a jump
+table and they hold most of its remaining instruction mass. They sit in two uncarved spans:
+
+| span | tables | stubbed owners | owner address range |
+|---|---|---|---|
+| B `0x80072E44-0x80073140` | 14 | 9 — incl. `SaveLoadRoutine` (1139 ins), `func_8003388C` (663) | `0x8002B0B4 .. 0x8003388C` |
+| C `0x800732A0-0x8007344C` |  8 | 8 — incl. `StreamLoadStateMachine` | `0x80035270 .. 0x80039C70` |
+
+(Span D `0x80073494-0x80073514` is `snd2`'s, not ours.)
+
+**One code object contributes exactly ONE contiguous `.rodata` run**, and `800.o`'s is now span A — so
+each span needs its own code object, i.e. `src/800.c` split at **`0x8002B0B4`** and **`0x80035270`**.
+The owner address ranges are **disjoint and ordered**: the jtbl spans ARE the original translation
+units' rodata, so the split recovers the game's real TU structure.
+
+**Cost, measured, not guessed:** `src/800.c` is 26,543 lines with **2,318 scattered `extern` lines and
+175 typedefs** — the exact shape `split_src_region.py` was blocked on for overlays, so the declaration
+layer needs a shared header, not a naive partition. The load-bearing fact that makes the split safe:
+`jtbl_rodata_pads --derive main` reported spec `0` on the pre-bank baseline, i.e. **800.o emitted
+exactly ONE cc1 jump table**, so no already-matched function's table is at risk.
+**NEVER run the split while drafting agents are live** — it moves `asm/nonmatchings/800/*.s`.
+
+# 5. ALSO WAITING
+
+* **`CdReadSectorReadyCB`** — NEAR, 422/424 ins, draft at `.run/S72m_1/opus/CdReadSectorReadyCB.c`.
+  Its three remaining residual clusters are recorded as pack fuel (§430 + the note). **Start from the
+  draft, do not re-derive**; cluster (a) is measured unsteerable from C → permuter.
+* **The 5 remaining §376 decl conflicts** (`.run/gate_main_dropped.json`) — all of them are span B/C
+  functions, so the §376/§378 chain alone will NOT bank them. Do the carve first.
+* Span-A frontier is now EMPTY of stubbed jtbl owners: all 8 are banked.
+
+# 6. HAZARDS THIS SESSION PROVED
+
+* **A verdict from a bespoke harness is a verdict about that harness.** The 11 were judged by
+  `.run/S71_main_bisect.py`, which skipped the real gate's decl pre-check — that pre-check names 6 of
+  them in ~2 seconds. Memory `verdict-names-its-instrument`.
+* **A failing gate must save its artifact BEFORE any control or cleanup rebuilds over it.** The R40
+  control was correct and its ORDER was wrong, and that alone parked 11 functions.
+* **Gate the DIRECTORY, never the verdict list.** A Fable agent wrote a byte-perfect
+  `func_80024448` (match_one closeness 0, 362 ins) and was then killed by a rate limit; the workflow
+  reported `NO-DRAFT` with an empty `draft_path`. Playbook §5b.
+* **Fable is EXHAUSTED account-wide** — three agents died on "You've reached your Fable limit" after
+  ~10 min / ~133k tokens each. Opus covered the 397- and 442-ins targets, but >340 is Fable's
+  best-measured band; `/usage-credits` before the next large wave.
+* **A uniform failure shape across independent drafts** (same delta, same first-moved symbol, same
+  symbol count) is a LAYOUT signature, never N independent codegen walls.
+* My own throwaway probe script `git checkout`-ed a byte-proven bank (R42, self-inflicted, recovered
+  in 25 s). A helper script is not exempt from R42.
