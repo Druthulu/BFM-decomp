@@ -269,6 +269,13 @@ tools-health:
 	# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
 	# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).
 	$(VENV_PY) tools/work_evidence.py --selftest
+	# P31 S72: a code subseg owning raw jump tables in >1 non-adjacent span makes every switch
+	# function outside the one carveable span UNBANKABLE — `main` sat in that state from Phase 7 to
+	# Phase 31 and eleven functions were written off as "PROVEN gate-rejects" because of it. The
+	# evidence is derivable from the raw image on day one; nothing was comparing it. 3.7s fleet-wide.
+	$(VENV_PY) tools/split_indicator.py --self-test
+	$(VENV_PY) tools/split_indicator.py --quiet || \
+	  echo "  ^ split_indicator: subsegs above need a TU split before their switch fns can bank (cookbook §431) — informational, not a tools-health failure"
 	echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green."
 
 report:

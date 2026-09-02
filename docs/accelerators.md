@@ -580,6 +580,35 @@ earliest moment, and deferring is what costs. When a decision is (a) evidenced f
 cheap now, and (c) strictly more expensive later, make it early even though its payoff is unproven —
 that is the opposite of the default instinct, and the reason to write it down.
 
+**THE RULE — WHEN TO SPLIT, AND WHEN NOT TO.** The temptation is to split wherever you think the
+original developers did. Don't: split where the **BUILD forces a boundary**, which is decidable, and
+nowhere else, which is not.
+
+* **SPLIT when the layout proves it is required** — a code subseg owns raw jump tables in two or
+  more non-adjacent island spans. Then every switch function outside the one carveable span is
+  unbankable at any effort, and no amount of drafting skill changes that. **This is decidable at 0%
+  matched, from the raw image, with no attempt needed:** find the tables, group the contiguous runs,
+  map each run to its referencing functions' address range, and check whether two runs land in one
+  subseg. You never have to try-and-fail to establish it.
+* **SPLIT AT THE SPAN-OWNER BOUNDARIES AND NOWHERE ELSE.** The minimum that satisfies the constraint
+  is the right answer. Extra splits buy nothing and cost declaration duplication across every new TU.
+* **DO NOT split on TU archaeology alone.** "The devs probably had a file boundary here" is not a
+  reason. We cannot even establish it: a TU containing no `switch` emits no table and is invisible to
+  this signal, so the spans are a LOWER BOUND on the original structure, never a reconstruction. Our
+  split is correct because the build requires it, not because we are certain about 1998 — and if the
+  real structure was finer, a coarser split is still correct, just coarser.
+* **The same reasoning generalises to every forced boundary:** interleaved library objects and
+  per-file optimisation levels also force subseg splits. Jump-table spans are simply the one that is
+  easiest to miss, because nothing fails loudly — the functions just never bank.
+
+**IT IS A TOOL NOW, NOT A PARAGRAPH.** `tools/split_indicator.py` implements exactly that check and
+runs in `make tools-health`; `--self-test` proves it fires on main's pre-S72 island, stays silent on
+main today, and does not over-fire on a one-span subseg. **First fleet run: 209 of 213 binaries OK,
+and 4 overlays flagged holding 16 open functions / 3,613 instructions** — 18% of the non-main
+frontier, all previously sitting in the exclude list as if unmatchable rather than as "needs a
+subseg split". Linked-library subsegs are excluded on principle (their code comes from a `.a`, so
+cc1 emits no table for them); leaving that filter out made main report NEEDS SPLIT on `libgs6`.
+
 **Companion:** the *method* for doing the split late, if you inherit a project that did not do it
 early, is cookbook §431 (cut verbatim, let the compiler enumerate what crosses, MOVE typedefs to a
 shared header, and check every consumer that hardcoded the old filename).
