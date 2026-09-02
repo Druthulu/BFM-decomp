@@ -34057,3 +34057,58 @@ frame `0x38` vs `0x30` from an 8-byte DEAD local aggregate (§32-5) · inner-swi
 **And one honest wall.** `find_cross_jump` accepts a **1-instruction** match on the
 `sw $zero,0x8($s1)` before the post label, so it keeps inner-case-6's tail copy rather than the one
 inside case-1's loop. That choice is not reachable from C — permuter fuel, not respelling.
+
+## §431 ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)
+
+**Why you would ever do this.** One code object contributes exactly ONE contiguous `.rodata` run,
+so a binary whose jump tables sit in several separated island spans (§426) can only carve one span
+per object. main's `800.o` owned span A; spans B and C were unreachable until `src/800.c` became
+three TUs.
+
+**WHERE TO SPLIT — the spans are the answer, and they are also the minimum.** Tables pack tight
+WITHIN a translation unit and are separated by other data ACROSS units (§8e). So a contiguous run of
+jump tables is one TU's rodata, and the run's OWNER ADDRESSES give the code boundary. Here the three
+spans' owner ranges came out **disjoint and ordered** —
+
+```
+span A owners 0x80019AF8..0x80026D64   span B 0x8002B0B4..0x8003388C   span C 0x80035270..0x80039C70
+```
+
+— so the cuts are `0x8002B0B4` and `0x80035270`, and no other cut is justified. **Do not split
+further on a hunch:** a TU containing no `switch` emits no table and is invisible to this signal, so
+what you recover is a LOWER BOUND on the original file structure, not the structure itself. Say that
+out loud when you write it up.
+
+**Two preconditions to check first, both cheap:**
+1. **Is the .c address-ordered?** (It must be, or a line cut is not an address cut.) Beware two
+   benign false inversions when you check: a forward DECLARATION at column 0, and an
+   `#ifdef NON_MATCHING` / `#else` pair defining one function twice.
+2. **Are there file-local `static`s?** Those cannot move to a shared header. Here: zero.
+
+**WHAT CROSSES — ask the compiler, not a regex (R33).** The scary number is the wrong one: `src/800.c`
+had **2,318 `extern` lines**, which reads like a rewrite. But externs in this codebase sit in
+per-function blocks, so what matters is how many are used OUTSIDE the region that declares them:
+**57 of 1,247 declared names (4.6%)**, of which **19 typedefs**, every one with exactly ONE definition
+and **zero shape conflicts**. Method that worked, in order:
+* cut the file verbatim (retargeting only the `INCLUDE_ASM("asm/nonmatchings/<subseg>", ...)` paths),
+* compile, and let gcc enumerate what is missing — a missing typedef cascades into dozens of
+  `parse error` + `undeclared` lines, so fix TYPES first and most of the list evaporates,
+* **MOVE** each crossing typedef into a shared header, never copy (a duplicate typedef is a C89
+  error), and give the header the ORIGINAL TU's `#include` set — the split scatters macro
+  instantiation sites (`CLEAR_TBL40`) and PsyQ types (`CdlLOC`) across the new files.
+
+**THE DEFECT THE SPLIT EXPOSED, AND IT IS GENERAL.** `gate_main`'s `strip_dup_typedefs` is fed by
+`defs_above`, which scanned the destination `.c` ALONE. A typedef the TU gets through `#include` was
+therefore invisible, and every draft carrying its own copy died with `redefinition of 'X'` — latent
+for the whole project until 19 typedefs moved into a header, at which point a byte-correct draft
+(`func_80031988`) failed to compile for that reason only. **If your substituter strips duplicate
+typedefs, it must read the destination's includes.**
+
+**AND ONE OPERATIONAL RULE, PAID FOR TWICE.** `gate_main`'s first action is
+`git checkout -- src/*.c`. **An uncommitted declaration edit is silently discarded and the gate then
+judges your drafts against the OLD declarations** — the failure looks exactly like a real conflict.
+Prove the alignment byte-neutral with no draft substituted, COMMIT it, then gate. (R42's shape, seen
+from the tool's side rather than the user's.)
+
+**The payoff, measured:** the carve + split banked **14 main functions** in one session, including
+**10 of the 11** the previous session had recorded as "PROVEN gate-rejects".
