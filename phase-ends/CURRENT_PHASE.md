@@ -5406,6 +5406,24 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   reclaim policy. Added `autoMemoryReclaim=gradual` (needs `wsl --shutdown`), reclaimed by hand
   (20 GB free → 43.6 GB), and started `.run/memkeeper.sh` as the interim automatic form. SETUP.md updated (R21).
 
+- 2026-09-02 — **S71 CARVE LANE: 5 of 6 CARVE-REFUSED overlays cleared, two tool defects behind them.**
+  The class's dominant refusal (§322 non-contiguous same-subseg `.rodata`) names `jr_isolate_all` as
+  its remedy, and the isolate then refused 6 of 6 for two unrelated reasons:
+  (a) **file-local `static` definitions** (`bandsetup`, `setup_80188D90` — §82.1 inlined helpers) have
+  no address BY CONSTRUCTION, and the R32 guard was refusing the whole file over them. The isolate now
+  places such a definition with the ONE region that uses it (two users = hard refusal, R43); and
+  `overlay_src_split._proto_from_lines` no longer prefixes `extern` to a decl that already carries a
+  storage class (`extern static inline …` is "multiple storage classes" to cc1).
+  (b) **§323 blocker 2 was one regex** (cookbook **§412**): every type-name scan matched
+  `}\s*(\w+)\s*;`, which reads `__attribute__` as the name and dies on the following `((`, so
+  `typedef struct {…} __attribute__((packed)) Blk4_9B4;` produced NO name, the type never entered
+  `carried`, and every decl naming it read as unknown. The tool's own error message pointed at the
+  layer that was working. Strip attributes first.
+  **Byte-gated, committed, all five BYTE-IDENTICAL:** ov_SC03_010 · ov_SC03_013 · ov_SC03_092 ·
+  ov_SC07_000 · ov_SC03_029 — and `jtbl_carve --probe` moves `plan-refused` → `tail` on every one.
+  `ov_SC06_029` alone builds NOT byte-identical after isolation (auto-reverted by the lane's guard) —
+  a real resegmentation question, not a scanner gap. Cookbook 1080.
+
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**

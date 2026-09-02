@@ -33420,3 +33420,52 @@ target had already refused at least one earlier wave:
 item must be handed it.* An archive of your own verified outcomes is training data for your own
 tooling — and a corpus you write but never read is indistinguishable, from the outside, from one you
 never wrote.
+
+## §412 ★★★ — §323 CARVE BLOCKER 2 WAS A REGEX THAT COULD NOT SEE PAST `__attribute__` (P31 S71)
+
+**The blocker as it presented.** `jr_isolate_all` — the named remedy for the dominant CARVE-REFUSED
+class (§322: *"subseg `<ov>_jr_<addr>` would host NON-CONTIGUOUS `.rodata` carves"*) — refused two
+overlays outright with a file-scope-decl coverage abort:
+
+```
+0 are function PROTOTYPES … base types: {'Blk4_9B4': 2, 'Blk4': 1}
+e.g. ['extern Blk4_9B4 aD_801CE7A4[] __asm__("D_801CE7A4");', …]
+Fix: carry the naming type (file_scope_types) or add it to src/shared/engine_types.h.
+```
+
+The advice was wrong, and the refusal was honest about the wrong thing: `file_scope_types()` **did**
+return the typedef. What failed was the NAME extraction downstream of it.
+
+**The cause, one regex.** Every type-name scan in the layer builder is
+
+```python
+re.findall(r'\}\s*([A-Za-z_]\w*)\s*;|\b(?:struct|union|enum)\s+([A-Za-z_]\w*)', block)
+```
+
+and the type is written
+
+```c
+typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_9B4;
+```
+
+The attribute sits **between the closing brace and the name**. The first alternative captures
+`__attribute__` and then fails on the following `((`; the second needs a tag after `struct`, and this
+struct is anonymous. So the scan returns NOTHING, `Blk4_9B4` never enters `carried`, every decl naming
+it reads as an unknown type, and the whole overlay is refused. Two overlays, one regex, and an error
+message that pointed at the layer that was working.
+
+**The fix** is to strip attributes before any type-name scan (`_ATTR` / `_strip_attrs` in
+`jr_isolate_all.py`), applied at BOTH extraction sites — the `carried` pre-pass and `_type_names`.
+
+**Measured result.** `ov_SC07_000` and `ov_SC03_029` both isolate, both build **BYTE-IDENTICAL**, and
+`jtbl_carve --probe` moves from `plan-refused` to `tail — standard §8a carve at gate time` on both.
+With the S71 static-placement fix (§411 companion) that is **5 of 6** CARVE-REFUSED overlays cleared:
+`ov_SC03_010`, `ov_SC03_013`, `ov_SC03_092`, `ov_SC07_000`, `ov_SC03_029`. Only `ov_SC06_029` remains,
+and it fails differently — its isolate builds NOT byte-identical, so it is a real resegmentation
+question rather than a scanner gap, and the lane's guard reverted it automatically.
+
+**The law.** *An attribute is grammar, not decoration.* Any scan that locates a declarator by its
+position relative to a brace or a keyword must strip `__attribute__((…))` first — it can legally
+appear between `}` and the name, after the name, and after the parameter list. This is the §134 class
+(a scanner that cannot start where the C grammar actually puts things), and it is now the seventh tool
+in this project to hit it.
