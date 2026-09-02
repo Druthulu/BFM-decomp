@@ -553,9 +553,16 @@ def _proto_from_lines(lines):
     if close < 0:
         return None
     ret = re.sub(r'^extern\s+', '', header[:m.start()]).strip()
+    # A FILE-LOCAL DEFINITION KEEPS ITS OWN STORAGE CLASS AND IS NEVER `extern` (P31 S71).
+    # `static inline void bandsetup(...)` implies `static inline void bandsetup(...);` — prefixing
+    # `extern` produces `extern static inline …`, which cc1 rejects with "multiple storage classes
+    # in declaration of `bandsetup'". This surfaced the moment jr_isolate_all started PLACING
+    # file-local statics instead of refusing the file, so the two changes belong together.
     params = header[open_i + 1:close].strip()
     if header[close + 1:].strip():          # K&R parameter declarations follow => unprototyped
         params = ""
+    if re.match(r'^(static|register|auto)\b', ret):
+        return " ".join(x for x in (ret, f"{name}({params});") if x)
     return " ".join(x for x in ("extern", ret, f"{name}({params});") if x)
 
 
