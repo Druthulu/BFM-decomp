@@ -33985,65 +33985,37 @@ byte-identical against `jtbl_80072BFC`, plus 6 `jal` relocs at their exact offse
 `D_800A5E60` hi/lo pairs, before calling it done. **That verification happened because the pack
 carried the §426 carve note telling it to.** Journal fuel earned its keep here.
 
-## §428a ★★ — THE FENCE↔OVER-MERGE COUPLING: WHY A CROSS-JUMP BARRIER CAN COST YOU A REGALLOC WIN (P31 S72, `main/func_8001B0D4`; AGENT-MEASURED, not yet byte-proven)
+## §428a ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE CAUSE (P31 S72; `main/func_8001B0D4`, NEAR/53 -> MATCH; **my first answer here was WRONG and is kept below as the refutation**)
 
-**Status flag first (R14):** this is one agent's report over 12+ A/Bs at closeness 53 with length
-EXACT (86/86) and the jtbl structure byte-verified. It is a strong observation, not a byte-proof, and
-the §428 resolution below is a PREDICTION under test — do not cite it as settled.
+**The observation (sonnet, attempt 3, closeness 53, length EXACT 86/86, jtbl byte-verified).** The
+residual was a gcc-2.7.2 regalloc **double-hop** (`$2 -> $a0 -> $v1`) in two nested switch
+dispatchers. Every lever that reliably killed the double-hop — scoping, inline-assign,
+goto-shared-tail, and §5a `volatile __asm__` cross-jump barriers — **re-enabled a 2-instruction
+cross-jump OVER-merge** elsewhere. ~20 variants across two attempts, all landing near the same
+closeness. The two residuals looked like they were in direct tension.
 
-**The observation.** On a function whose residual is a gcc-2.7.2 regalloc **double-hop**
-(`$2 → $a0 → $v1`) inside two nested switch dispatchers, every lever that reliably kills the
-double-hop — scoping, inline-assign, goto-shared-tail, and **§5a `volatile __asm__` cross-jump
-barriers** — re-enables a **2-instruction cross-jump OVER-merge** elsewhere (case 0's own
-`D_800747E4` reload folds into the shared tail). The two residuals are in direct tension: each fence
-that fixes one re-creates the other, which is why ~20 variants across two attempts all landed at a
-similar closeness instead of converging.
+**WHAT I PREDICTED, AND IT WAS WRONG.** I wrote that the resolution would be §428's UID-based barrier,
+on the reasoning that it changes no liveness and would therefore move the over-merge WITHOUT touching
+allocation — "when two residuals move in opposite directions, find the lever that changes only ONE of
+them." The escalation that tested it did not use §428 at all.
 
-**Why this is a class, not a one-off.** A `volatile __asm__` barrier is a scheduling AND allocation
-event, not just a cross-jump one: it forces values live across the barrier and changes the merge
-depth of every tail that reaches it. So "add a fence" is never a local edit on a function whose
-remaining residual is allocation-shaped — it moves both variables at once, and a two-variable search
-driven one fence at a time does not converge.
+**WHAT ACTUALLY UNLOCKED IT — §3-B.** Seven in-block `return 0;` statements were replaced with
+`goto L_ret0;` to a single shared tail. Those seven returns were **priority-1 hard-`$v0` sets**;
+removing them freed `$v0` for the `D_800747E4` reload and `$v1` for `CdQueueBusy`'s result — a single
+`addu`, no register pin, no double-hop — **and fired all three cross-jumps at once (92 -> 86)**. One
+edit, both residuals, opposite directions.
 
-**The predicted resolution — §428.** Use the barrier that is NOT a fence: advance the cursor inside
-each switch arm so the converging insn becomes a `cross_jump`-created label with
-`INSN_UID >= max_uid`, which shuts off `jump.c:1988`'s minimum=2 search with **zero bytes and no
-liveness change**. That removes the over-merge half without touching allocation, leaving the
-double-hop lever free to act alone. **If you are reading this and the escalation landed, promote this
-section to byte-proven and say which lever finally moved `$v1`.**
+**THE REAL LAW.** Two residuals that move in opposite directions under every lever are usually not in
+tension at all: they are **two symptoms of one starved resource**, and every lever tried so far was
+paying for one with the other because none of them released the resource. The question to ask is not
+*"which lever moves only one of these?"* — it is ***"what are they both competing for?"*** Here it
+was `$v0`, held hostage by seven hard sets that the C source spelled as an innocuous `return 0;`.
 
-**The general habit:** when two residuals move in opposite directions under every lever you try, stop
-searching and ask which lever changes only ONE of them.
+**The diagnostic habit that follows.** When A/B search stalls with two coupled residuals, stop
+generating variants and inventory the **hard register sets** the source forces — returns, division
+results, `jal` return values, anything with a fixed ABI register. A repeated `return <const>;` inside
+switch arms is the commonest source-level way to pin `$v0` many times over, and folding them to one
+shared tail is free.
 
-## §429 ★★★ — EVERY HELD POINTER NEEDS ITS OWN LOCAL, AND A NEGATIVE-DISPLACEMENT BYTE STORE NEEDS ONE OF ITS OWN (P31 S72; `main/CdReadStateMachine`, MATCH 385/385)
-
-Two laws from one function, both about the SAME root: gcc-2.7.2 canonicalises `(mem (reg))` back to a
-symbol whenever the pseudo has a single reachable set, so *reusing* a pointer local silently changes
-the addressing mode of everything downstream.
-
-**1. A NEGATIVE-DISPLACEMENT BYTE STORE RE-FOLDS UNLESS IT HAS ITS OWN POINTER.** Writing
-`p[-0x10] = v` (or `*(u8 *)(p - 0x10) = v`) where `p` is a symbol-derived pointer lets `alias.c`
-re-fold the address to `lui %hi(sym - 0x10)` — the wrong instruction pair. Give it a local of its
-own:
-
-```c
-u8 *q = p - 0x10;      /* q is SET ONCE and used once: the reg survives as a reg */
-*q = v;
-```
-
-**2. EVERY HELD POINTER NEEDS A *DISTINCT* LOCAL.** A pseudo with MULTIPLE sets defeats the
-`(mem (reg)) -> symbol` canonicalisation for every use, and the resulting reg-form load costs a
-**load-delay nop** the target does not have. If you are carrying two or three pointers through a
-state machine, that is two or three separate locals — never one reused cursor. This is the same
-mechanism as §421 (a `la $tN`+`addiu` pair is RELOAD scratch) read from the source side: what you
-spell as reuse, the allocator spells as a multi-set qty.
-
-**3. THE FRAME DIAL AND THE MERGE-END PIN (both already known, confirmed here).** The §333 frame dial
-(an unused `s32 pad[2]` to move the frame size to `0x28`) and explicit labels on the merged tails —
-`setStateNine:` / `resetState:` — were the other two levers. **gcc's own `cross_jump` picks the OTHER
-end of a merge than you expect**; naming both tails pins which one survives, which is the cheap
-alternative to §5a's fence and complements §428's UID barrier.
-
-**Verification standard this function met (§405-A):** MATCH is `.text`-only, so the agent checked the
-**reloc-symbol sequence 180/180** and the **11-entry jump table in case order** before reporting.
-That is the bar for any switch function.
+**Verification (§405-A):** all 3 jump tables and 20 relocs byte-verified past `match_one`'s masking
+before the MATCH was reported.
