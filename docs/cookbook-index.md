@@ -102,7 +102,7 @@
 - **§370** — ★★ — A **HARD BOUND** FROM sched.c, AND THE reorg SLOT-STEAL DIAGNOSTIC (P31 S68; main/func_8001BC6C, 69 ins, NOT closed — 33 → 28 over ~45 measured compiles)  <sub>L31838</sub>
 - **§396g** — ★★ — A GUARD LADDER'S RUNGS MUST STAY SYMMETRIC OR `reorg.c` LOSES ITS BRANCH REDIRECT (P31 S69; byte-proven ov_SC03_028/func_80184C90, 92 ins)  <sub>L32818</sub>
 - **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33954</sub>
-- **§430** — ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS ONE CAN INVALIDATE A LOOP (P31 S72; `main/CdReadSectorReadyCB`, 422/424 ins, verified with `cc1 -dL`)  <sub>L34027</sub>
+- **§430** — ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS ONE CAN INVALIDATE A LOOP (P31 S72; `main/CdReadSectorReadyCB`, 422/424 ins, verified with `cc1 -dL`)  <sub>L34040</sub>
 
 ### instruction scheduling  (88)
 
@@ -376,7 +376,7 @@
 - **§3-1.** — DEAD-RESET CSE-BREAKER — the zero-footprint replacement for a §195-I asm re-tie  <sub>L31979</sub>
 - **§385** — ★★★ — THE **SCHED2 PRIORITY-DONOR ASM**: closing the "hoisted-invariant vs IV-init preheader swap" class (P31 S69; byte-proven main/func_80038A58, 347 ins, fable escalation 2 → 0)  <sub>L32309</sub>
 - **§417** — ★★★ — A REGISTER PIN CAN BLOCK `jump.c`'s SELECT COLLAPSE, AND UNPINNING THEN EXPOSES A `cse` SKIP-BLOCKS MERGE (P31 S71; byte-proven `ov_SC03_013/func_8017E6F4`, 182 ins)  <sub>L33605</sub>
-- **§432** — ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)  <sub>L34160</sub>
+- **§432** — ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)  <sub>L34173</sub>
 
 ### loops & induction variables  (48)
 
@@ -427,7 +427,7 @@
 - **§386** — ★★★ — A BYTE LOAD ON THE **BIV** BASE WAS BORN IN THE COMBINE PASS: SPELL IT AS A SHIFT-MASK, NEVER A DEREF (P31 S69; byte-proven main/func_80020598, 292 ins, escalation 1 → 0)  <sub>L32335</sub>
 - **§393** — ★★ — THE **BIRTHING BOOST**: A SINGLE-SET LOCAL IS SCHEDULED LAST; GIVE IT A SECOND SET (P31 S69; byte-proven ov_SC02_017/func_8017FCFC)  <sub>L32543</sub>
 - **§418** — ★★★ — TWO LOOP-STRUCTURE LEVERS: MAKE THE SECOND INDEX A GIV, AND KEEP A TABLE ADDRESS UNFOLDED (P31 S71; byte-proven `ov_SC04_016/func_8017DF8C`, 184 ins, 32 → 0 in seven compiles)  <sub>L33632</sub>
-- **§430** — ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS ONE CAN INVALIDATE A LOOP (P31 S72; `main/CdReadSectorReadyCB`, 422/424 ins, verified with `cc1 -dL`)  <sub>L34027</sub>
+- **§430** — ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS ONE CAN INVALIDATE A LOOP (P31 S72; `main/CdReadSectorReadyCB`, 422/424 ins, verified with `cc1 -dL`)  <sub>L34040</sub>
 
 ### structs, block moves & memcpy  (88)
 
@@ -797,8 +797,8 @@
 - **§412** — ★★★ — §323 CARVE BLOCKER 2 WAS A REGEX THAT COULD NOT SEE PAST `__attribute__` (P31 S71)  <sub>L33424</sub>
 - **§426** — ★★★ — main's SWITCH FUNCTIONS WERE NEVER A CODEGEN WALL: ONE RODATA CARVE HAD BEEN MISSING SINCE PHASE 7 (P31 S72; 3 of the 11 "PROVEN gate-rejects" banked byte-identical in 14 s)  <sub>L33855</sub>
 - **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33954</sub>
-- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34065</sub>
-- **§433** — ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)  <sub>L34128</sub>
+- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34078</sub>
+- **§433** — ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)  <sub>L34141</sub>
 
 ### optimisation level (-O0/-O2)  (22)
 
@@ -1029,7 +1029,7 @@
 - **§3-D.** — INTEGRATION IS STILL THE BOTTLENECK, AND THE TU IS THE AUTHORITY  <sub>L33140</sub>
 - **§415** — ★★ — A FILE-SCOPE DECL MAKES gcc-2.7.2 MERGE THE TU'S LATER *BLOCK-SCOPE* EXTERNS INTO IT (P31 S71; byte-proven `ov_SC04_011/func_80180B24`, 215 ins)  <sub>L33547</sub>
 - **§423** — ★★★ — "MATCH IN ISOLATION + GATE REJECTS + CAUSE NOT DETERMINED" ⇒ GREP THE TU FOR A FILE-SCOPE TYPEDEF THE DRAFT ALSO CARRIES (P31 S71; byte-proven `ov_SC03_092/func_8017FA74`)  <sub>L33780</sub>
-- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34065</sub>
+- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34078</sub>
 
 ### build graph, splat & the harness  (195)
 
@@ -1692,7 +1692,7 @@
 - **§3-The** — nine laws this wave produced  <sub>L33288</sub>
 - **§413** — ★★★ — DIFFICULTY IS THE RESIDUAL CLASS, NOT `nins` — ROUTE THE MODEL TIER OFF HISTORY (P31 S71, Drew)  <sub>L33473</sub>
 - **§416** — ★★ — FOUR LEVERS FROM THE S71 OVERNIGHT LANE, none of which the cookbook held (P31 S71)  <sub>L33572</sub>
-- **§434** — ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)  <sub>L34202</sub>
+- **§434** — ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)  <sub>L34215</sub>
 
 
 ## All sections, in order
@@ -2794,11 +2794,11 @@
 - **§427** — ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFACT BEFORE ANYTHING REBUILDS OVER IT (P31 S72)  <sub>L33935</sub>
 - **§428** — ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)  <sub>L33954</sub>
 - **§428a** — ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE CAUSE (P31 S72; `main/func_8001B0D4`, NEAR/53 -> MATCH; **my first answer here was WRONG and is kept below as the refutation**)  <sub>L33992</sub>
-- **§430** — ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS ONE CAN INVALIDATE A LOOP (P31 S72; `main/CdReadSectorReadyCB`, 422/424 ins, verified with `cc1 -dL`)  <sub>L34027</sub>
-- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34065</sub>
-- **§433** — ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)  <sub>L34128</sub>
-- **§432** — ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)  <sub>L34160</sub>
-- **§434** — ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)  <sub>L34202</sub>
+- **§430** — ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS ONE CAN INVALIDATE A LOOP (P31 S72; `main/CdReadSectorReadyCB`, 422/424 ins, verified with `cc1 -dL`)  <sub>L34040</sub>
+- **§431** — ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE, AND THE COMPILER TELLS YOU WHAT CROSSES (P31 S72; `src/800.c` -> `800.c`/`800_b.c`/`800_c.c`, byte-identical with nothing banked)  <sub>L34078</sub>
+- **§433** — ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` IS BLIND TO IT (P31 S73; 4 of 5 consecutive main MATCHes)  <sub>L34141</sub>
+- **§432** — ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S73; `main/func_8002DC68`, MATCH 198/198)  <sub>L34173</sub>
+- **§434** — ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; `main/SaveLoadRoutine` + `func_8002B0B4`, byte-verified)  <sub>L34215</sub>
 
 
 ---
@@ -3908,8 +3908,8 @@ Notes routinely quote that as a section id. This table resolves it. Grep bait: `
 | L33935 | §427 | ★★ — A HASH IS A CORRECTNESS ORACLE WITH ZERO DIAGNOSTIC CONTENT; PRESERVE THE RED ARTIFAC |
 | L33954 | §428 | ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; |
 | L33992 | §428a | ★★★ — TWO RESIDUALS THAT MOVE IN OPPOSITE DIRECTIONS UNDER EVERY LEVER USUALLY SHARE ONE C |
-| L34027 | §430 | ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS O |
-| L34065 | §431 | ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE |
-| L34128 | §433 | ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` I |
-| L34160 | §432 | ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S |
-| L34202 | §434 | ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; |
+| L34040 | §430 | ★★★ — A SHARED TAIL IS A LATE CROSS-JUMP MERGE, NOT A SOURCE `goto` — AND SPELLING IT AS O |
+| L34078 | §431 | ★★★ — SPLITTING A 27,000-LINE TU AT ITS ORIGINAL BOUNDARIES: THE JTBL SPANS TELL YOU WHERE |
+| L34141 | §433 | ★★★ — ON A SWITCH FUNCTION, CASE SOURCE ORDER IS THE DOMINANT RESIDUAL — AND `match_one` I |
+| L34173 | §432 | ★★★ — DEFEAT cse's MERGE OF TWO IDENTICAL MASKS BY SPELLING ONE AS A SHIFT PAIR (P31 S72/S |
+| L34215 | §434 | ★★★ — TWO SYMBOLS, ONE FRAME: RUN THE FRAME CHECK BEFORE DRAFTING ANYTHING LARGE (P31 S73; |

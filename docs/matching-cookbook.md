@@ -34021,6 +34021,19 @@ results, `jal` return values, anything with a fixed ABI register. A repeated `re
 switch arms is the commonest source-level way to pin `$v0` many times over, and folding them to one
 shared tail is free.
 
+**SHARPENED S73 — it is not just a diagnosis, it is a PER-ARM DIAL.** `main/StreamLoadStateMachine`
+(MATCH 459/459) settled the general form: **`break` vs `return 0` is a REGALLOC control you set arm
+by arm.** `return 0` keeps the hard-`$v0` set live inside that arm, which EXCLUDES `$v0` from the
+allocator's choices there; `break` to a shared post-switch `return 0` removes it and frees the
+register. On that function case 11 needs `return 0` and every other zero-returning arm needs
+`break` — one dial, eleven positions, and the correct setting is per-arm rather than global.
+
+So the ladder is: §3-B (fold returns to a shared tail) is the DEFAULT because it frees the register;
+this section is why (the freed resource resolves coupled residuals); and the dial above is how you
+put the pin BACK where a single arm needs it. `main/func_80035C4C` is the same pattern from the other
+side — case 3 must `break` while case 4 keeps its explicit `return 0`, and that one hard set is what
+blocks the cross-jump over-merge.
+
 **Verification (§405-A):** all 3 jump tables and 20 relocs byte-verified past `match_one`'s masking
 before the MATCH was reported.
 
