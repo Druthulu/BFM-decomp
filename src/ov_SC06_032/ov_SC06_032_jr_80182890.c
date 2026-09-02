@@ -5244,7 +5244,90 @@ void func_80185EAC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_80185F4C);
+/* func_80185F4C — ov_SC06_032, 60 ins.  MATCH (match_one closeness 0, 60/60 ins);
+ * all 7 relocations verified byte-for-byte against the target .s (law 1c):
+ *   0x18/0x1C HI16/LO16 D_800AE620 · 0x74 jal func_8012C658 · 0x9C jal RotMatrixY ·
+ *   0xA8/0xAC HI16/LO16 D_801BEF1C · 0xB0 jal func_800484EC.
+ *
+ * ===== THE LEVER: §30#3 / §350 BIRTHING-BOOST KILL, APPLIED TO THE CALL-RESULT COPY =====
+ *
+ * Six earlier attempts plateaued at closeness 5/4 with the SAME residual: `addiu $s2,$sp,0x10`
+ * (= &local) sat in the *jal* delay slot instead of the *beqz* delay slot:
+ *     mine  ... move $s1,$a3 ; jal ; [slot addiu $s2,$sp,16] ; move $s0,$v0 ; beqz ; [slot sll]
+ *     tgt   ... addu $a2,$v0 ; jal ; [slot addu $s1,$a3]     ; addu $s0,$v0 ; beqz ; [slot addiu $s2]
+ * Every one of them blamed cse (expand_block_move's copy_addr_to_reg minting &local before the
+ * struct copy, then cse_end_of_basic_block carrying the table past the branch and unifying the
+ * if-body's `&local` onto it) and hunted for a zero-byte way to BREAK THE CSE BLOCK.  That whole
+ * diagnosis is a red herring: the cse unification is also what the TARGET does.  Read the sched
+ * dump (`cc1 -dS`, block 0 ready-list trace) and the residual is one rank_for_schedule tie:
+ *
+ *   ;; ready list at T-2: 23 (7f000001) 41 (7f000001), now 41 23
+ *
+ * insn 23 = `reg81 = fp+16` (&local), insn 41 = `reg80 = $v0` (the call result).  sched1 runs each
+ * bb BACKWARD, so the T-2 pick is placed second-from-last, i.e. immediately before the beqz —
+ * exactly the slot the target fills.  BOTH insns carry 0x7f000001 = LAUNCH_PRIORITY, handed out by
+ * sched.c:adjust_priority -> birthing_insn_p (pre-reload only) to any insn whose dest reg has
+ * reg_n_sets == 1.  With both boosted the tie falls to rank_for_schedule's class/LUID keys and 41
+ * (higher LUID, data-dep on the branch => class 3) wins; &local is pushed one pick earlier, lands
+ * before the jal, and reorg eats it into the CALL's slot.
+ *
+ * So the fix is not to move &local at all — it is to DEMOTE ITS RIVAL.  `__asm__("" : "=r"(e) :
+ * "0"(e));` gives the call-result local a second SET, `reg_n_sets(e) == 2` kills its birthing
+ * boost, insn 41 drops to priority 1, and &local wins T-2 unopposed:
+ *     T-2:23(&local)  T-3:41(result copy)  T-4:39(jal)  T-5:14(move $s1,$a3)
+ * which reorg then fills as jal-slot=`addu $s1,$a3` / beqz-slot=`addiu $s2,$sp,0x10`.  The re-tie
+ * is non-volatile and zero-byte (no scheduling barrier, no bytes); it must sit in the if-body so
+ * its output stays live (a re-tie after the last use of `e` is dead and gets deleted, taking
+ * reg_n_sets back to 1).  Placing it as the FIRST statement of the body and placing it just before
+ * the final store both MATCH; the head position is kept as the more obvious one.
+ *
+ * NEW vs. the cookbook (worth banking): §30#3/§350 are both written as "kill the boost ON THE
+ * VALUE THAT IS SCHEDULED WRONG".  Here the mis-scheduled value is unfixable (cse has already
+ * collapsed the named pointer onto the block-move address pseudo — six attempts proved every
+ * cse-side lever inert, and the do{}while(0) cse-break that does work costs a save/restore pair
+ * and only re-poses the same tie inside the if-body).  The boost is a RANKING between competitors:
+ * when the insn you want cannot be promoted, un-boost the insn that is beating it.  Diagnostic
+ * recipe: `cc1 -dS`, read the losing bb's `;; ready list at T-N:` line, and any 0x7f000001 on the
+ * rival is a reg_n_sets==1 that a zero-byte re-tie can delete.
+ *
+ * The declarations follow this TU's house style (sibling func_80186160, same file): block-scope
+ * externs for the per-overlay D_ symbols, the shared Blk20_8018AF88_80186160 spelling for the
+ * 32-byte D_800AE620 template, and the s32×4 signature the TU's own forward decl already carries
+ * (ov_SC06_032_jr_80182890.c:5229) with the (s16) narrowing done at the use sites.
+ */
+
+/* Local standin for the shared type (src/shared/engine_types.h:1406) that the real TU pulls in via
+ * "../shared/engine_core.h" -- match_one's -Iinclude can't reach src/shared/, so it is typed
+ * identically for the standalone compile only; DROP THIS LINE when splicing into the TU. */
+
+
+extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+extern void RotMatrixY(s32 a0, void *a1);
+extern void func_800484EC(s32 a0, s32 a1, s32 a2);
+
+void func_80185F4C(s32 a0, s32 a1, s32 a2, s32 a3)
+{
+    extern Blk20_8018AF88_80186160 D_800AE620;
+    extern s32 D_801BEF1C;
+    Blk20_8018AF88_80186160 local;
+    Blk20_8018AF88_80186160 *m;
+    s32 vec[3];
+    s32 e;
+
+    local = D_800AE620;
+    e = func_8012C658((s16)a1, (s16)a2, a0);
+    if (e != 0) {
+        __asm__("" : "=r"(e) : "0"(e));
+        m = &local;
+        *(u16 *)(e + 0xA) = *(u16 *)(e + 0xA) - 0x80;
+        RotMatrixY((s16)a3, m);
+        func_800484EC((s32)m, (s32)&D_801BEF1C, (s32)vec);
+        *(s32 *)(e + 0x10) = vec[0];
+        *(s32 *)(e + 0x14) = 0xFFD80000;
+        *(s32 *)(e + 0x18) = vec[2];
+    }
+}
+
 
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(s32 a0);

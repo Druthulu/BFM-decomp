@@ -4629,7 +4629,147 @@ void func_8017E354(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017E464);
+void func_8017E464(s32 param_1) {
+    /* [T51/§103] decls scoped into the body: this TU already declares
+       func_8017E6A4()/func_8017EAE4(s32)/D_801A10xx at file scope above the
+       INCLUDE_ASM, and defines func_8017E850(s32,s32)/func_8017EAB0(s32)
+       BELOW it -- so every spelling here is the TU's own (law 2). */
+    extern s32 D_80126B58;
+    extern s32 D_801A1080[];
+    extern s32 D_801A1084;
+    extern s32 D_801A1088;
+    extern s32 D_801A108C;
+    extern u8 func_8014BFD4(void);
+    extern void func_8014BF8C(u8 arg0);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void func_80015978(s32 a0, s32 *a1);
+    extern s32 func_8012C658(s32 arg0, s32 arg1, s32 arg2);
+    extern void func_8017E850();
+    extern void func_8017E6A4();
+    extern void func_8017EAB0();
+    extern void func_8017EAE4(s32);
+    extern void func_80182694(s32 a0, s32 a1);
+    extern s32 rand(void);
+
+    register s32 p __asm__("$17");
+    register s32 *q __asm__("$19");
+    register s32 *flag __asm__("$2");
+    register s32 aa __asm__("$4");
+    register s32 nn __asm__("$5");
+    register s32 pp __asm__("$6");
+    s32 s0;
+    s32 t;
+    s32 i;
+    s16 v;
+    /* §137/§176-B: the tail read-modify-write group is transcribed through
+       four hard-register pins.  Unpinned it schedules right but first-fits
+       $a0/$a1 (REGALLOC-PERM/$a0>$a1>$a2); two pins alone give the registers
+       but float the $a1 load to the block head.  Pinning the WHOLE group --
+       both halves reusing $2/$3 -- fixes schedule and allocation together. */
+    register u16 b0 __asm__("$2");
+    register u16 e0 __asm__("$3");
+    register u16 c1 __asm__("$5");
+    register u16 c2 __asm__("$6");
+    u16 buf[4];
+    u16 d[4];
+
+    p = param_1;
+    func_8017E850();
+    func_8017E6A4(p);
+    func_8017EAB0(p, 0);
+    func_8017EAB0(p, 1);
+    func_8017EAE4(p);
+
+    v = *(s16 *)(p + 0xFC);
+    q = &D_80126B58;
+    if (v == 0) {
+        if (*(s16 *)(p + 0xFE) != 0) {
+            s0 = func_8014BFD4();
+            switch (s0) {
+            case 4:
+                aa = 0x209;
+                nn = 0;
+                pp = p;
+                flag = D_801A1080;
+                goto tail;
+            case 3:
+                aa = 0x209;
+                nn = 1;
+                pp = p;
+                flag = &D_801A1084;
+                goto tail;
+            case 2:
+                aa = 0x209;
+                nn = 2;
+                pp = p;
+                flag = &D_801A1088;
+                goto tail;
+            case 1:
+                aa = 0x209;
+                nn = 3;
+                pp = p;
+                flag = &D_801A108C;
+            tail:
+                *flag |= 0x1000000;
+                func_8012C658(aa, nn, pp);
+                func_8002D4C8(0x8BB, 0);
+                break;
+            }
+            *(s16 *)(p + 0xFC) = 0x3C;
+            s0 = s0 - 1;
+            if (s0 < 0) {
+                s0 = 0;
+            }
+            func_8014BF8C(s0);
+        }
+    } else {
+        *(s16 *)(p + 0xFC) = v - 1;
+        i = 0;
+        do {
+            i = i + 1;
+            s0 = rand();
+            t = rand();
+            s0 &= 0xF;
+            s0 <<= 2;
+            t = (t & 0x1F) - 0x30;
+            s0 = s0 + t;
+            d[0] = s0;
+            s0 = rand();
+            t = rand();
+            s0 &= 0xF;
+            s0 <<= 2;
+            t = (t & 0x1F) - 0x30;
+            s0 = s0 + t;
+            d[1] = s0;
+            s0 = rand();
+            t = rand();
+            aa = (s32)(q + 1);
+            nn = (s32)buf;
+            __asm__ __volatile__("" ::: "memory");
+            s0 &= 0x1F;
+            s0 <<= 2;
+            t = (t & 0x1F) - 0x50;
+            s0 = s0 + t;
+            d[2] = s0;
+            func_80015978(aa, (s32 *)nn);
+            b0 = buf[0];
+            e0 = d[0];
+            c1 = d[1];
+            c2 = d[2];
+            b0 = b0 + e0;
+            buf[0] = b0;
+            b0 = buf[1];
+            e0 = buf[2];
+            b0 = b0 + c1;
+            e0 = e0 + c2;
+            buf[1] = b0;
+            buf[2] = e0;
+            func_80182694((s32)buf, *(s16 *)(p + 0x100));
+        } while (i < 0xA);
+    }
+    *(s16 *)(p + 0xFE) = 0;
+}
+
 
 // @class: align-1 block move + sched1 load-delay fence
 // The 8-byte sp+0x10 -> D_80126BE0 copy is an ALIGN-1 STRUCT ASSIGN (cookbook §160a /

@@ -4263,7 +4263,154 @@ void func_8017EF04(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017EF34);
+/* func_8017EF34 — ov_SC06_029 / ov_SC06_029_jr_8017C954 (243 ins, 13-way jtbl switch).
+ * Every symbol below is spelled from this .s's own relocation lines. Cases 8/0xA read
+ * D_801DDB30..3C, written here as D_801DDB2C[1..4] (the TU's §183 TYPE-adopted s32[5];
+ * %hi/%lo(D_801DDB2C+4k) resolve to identical bytes). Callee decls copied verbatim from
+ * the TU: func_80181170 / func_8012BEE8 are `void (void)` there, so the a0-passing calls
+ * go through the TU's own function-pointer casts.
+ * Shape levers (Attempt-1 record): duplicate the shared tails per case and let
+ * cross-jumping re-merge them; case 1 as sequential guarded ifs; init pointer before the
+ * counter with `p++; i++`; one shared counter + a distinct pointer var per loop; the AND
+ * mask in an explicit local between `i = 0` and the pointer init. */
+void func_8017EF34(s32 param_1) {
+    extern s32 D_801DDB2C[];
+    extern s32 rand(void);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void func_8012BEE8(void);
+    extern s32 func_80180FE0(s32 a0, s32 a1);
+    extern void func_80181170(void);
+    extern s32 func_801812AC(s32 a0);
+    extern s32 func_80181334(void);
+
+    s32 i;
+    s32 m;
+    s32 *p1;
+    s32 *p2;
+    s32 *p3;
+    s32 *p4;
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        i = 0;
+        p1 = D_801DDB2C;
+        do {
+            *(s32 *)(*p1 + 0xE0) |= 2;
+            p1 = p1 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(s32 *)(param_1 + 0x1C) = 0x180;
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        func_8002D4C8(0x936, 0);
+        break;
+
+    case 1:
+    case 5:
+    case 9:
+        if (func_801812AC(0) == 0) {
+            goto L2E0;
+        }
+        func_80180FE0(param_1, rand() % 5);
+        if ((*(s32 *)(param_1 + 0xE0) & 0x800) == 0) {
+            if (*(s16 *)(param_1 + 0xFE) >= 3) {
+                *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            }
+            goto L2E0;
+        }
+        if (*(s16 *)(param_1 + 0x104) != *(s16 *)(param_1 + 0xFE)) {
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            goto L2E0;
+        }
+        if (((s32 (*)(void *))func_8012BEE8)((void *)param_1) != 0) {
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            ((void (*)(s32))func_80181170)(param_1);
+        }
+        goto L2E0;
+
+    case 2:
+        i = 0;
+        m = ~2;
+        p2 = D_801DDB2C;
+        do {
+            *(s32 *)(*p2 + 0xE0) &= m;
+            p2 = p2 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        break;
+
+    case 3:
+    case 7:
+    case 0xB:
+        if (func_80181334() == 1) {
+            *(u16 *)(param_1 + 0x34) = 0xC;
+            *(s32 *)(param_1 + 0x1C) = 0x20;
+            func_8002D4C8(4, 0x936);
+            ((void (*)(s32))func_80181170)(param_1);
+        }
+        break;
+
+    case 4:
+        i = 0;
+        p3 = D_801DDB2C;
+        do {
+            *(s32 *)(*p3 + 0xE0) |= 1;
+            p3 = p3 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(s32 *)(param_1 + 0x1C) = 0x180;
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        func_8002D4C8(0x936, 0);
+        break;
+
+    case 6:
+        i = 0;
+        m = ~1;
+        p4 = D_801DDB2C;
+        do {
+            *(s32 *)(*p4 + 0xE0) &= m;
+            p4 = p4 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        break;
+
+    case 8:
+        *(s32 *)(D_801DDB2C[0] + 0xE0) |= 1;
+        *(s32 *)(D_801DDB2C[1] + 0xE0) |= 2;
+        *(s32 *)(D_801DDB2C[2] + 0xE0) |= 1;
+        *(s32 *)(D_801DDB2C[3] + 0xE0) |= 2;
+        *(s32 *)(D_801DDB2C[4] + 0xE0) |= 1;
+        *(s32 *)(param_1 + 0x1C) = 0x180;
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        func_8002D4C8(0x936, 0);
+        break;
+
+    case 0xA:
+        *(s32 *)(D_801DDB2C[0] + 0xE0) &= ~1;
+        *(s32 *)(D_801DDB2C[1] + 0xE0) &= ~2;
+        *(s32 *)(D_801DDB2C[2] + 0xE0) &= ~1;
+        *(s32 *)(D_801DDB2C[3] + 0xE0) &= ~2;
+        *(s32 *)(D_801DDB2C[4] + 0xE0) &= ~1;
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        break;
+
+    case 0xC:
+        if (((s32 (*)(void *))func_8012BEE8)((void *)param_1) != 0) {
+            if ((*(s32 *)(param_1 + 0xE0) & 0x800) == 0) {
+                *(s16 *)(param_1 + 2) = 6;
+            } else {
+                *(s16 *)(param_1 + 2) = 0xA;
+                *(u16 *)(param_1 + 0x102) = *(u16 *)(param_1 + 0x102) + 1;
+            }
+        }
+        break;
+    }
+
+L2E0:
+    *(u16 *)(param_1 + 0x104) = *(u16 *)(param_1 + 0xFE);
+}
+
 
 void func_8017F300(s32 a0) {
     *(s16 *)(a0 + 0x2) = 7;
@@ -7953,7 +8100,63 @@ void func_80185C88(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_80185D44);
+#include "common.h"
+
+extern void *D_801DDBF4;            /* §183 TYPE-adopted-TU */
+extern u8 D_801A0734[];             /* no fleet decl; spelled like the TU's D_801A0720 */
+
+extern s32 func_8012C1B8(void);     /* §183 SIGNATURE-adopted-TU */
+extern void func_8012CAE4(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);        /* §183 SIGNATURE-adopted-TU */
+
+/* The `m` split + zero-byte re-tie is a SCHEDULING lever, not semantics.
+ * sched1 is a BACKWARD list scheduler: picked-first == placed-last, and at equal
+ * INSN_PRIORITY the tie-break is INSN_LUID with the HIGHER luid picked first
+ * (sched.c rank_for_schedule:2428, ready[0] taken at :3747).  The mask's
+ * `lui`/`ori` normally arrive as ONE insn that sched1's own try_split (:4830)
+ * splits into two LUID-ADJACENT halves, so no source order can put the `lui`
+ * dead-last in the pick order (block position 0) while the `ori` still wins the
+ * contest against `t = -2` seven picks earlier — the target needs
+ * luid(lui) < luid(t=0x80) < luid(t=-2) < luid(ori), which adjacency forbids.
+ * Writing the two halves as two statements with a non-volatile re-tie between
+ * them (§30#3) keeps cse/combine from re-folding the constant, breaks the
+ * adjacency, and gives each half its own luid.  `t` is deliberately ONE 2-set
+ * s16 (§49-variant / §199-A): that kills the birthing boost on both constants,
+ * so `t = -2` is picked after the `ori` instead of the instant it is ready. */
+void func_80185D44(void *a0) {
+    s32 v0;
+    s32 v1;
+    s32 m;
+    s16 t;
+    u8 *p;
+
+    v0 = func_8012C1B8();
+    *(s32 *)((s32)a0 + 0x20) = v0;
+    if (v0 == 0) {
+        func_8012CAE4(a0);
+        return;
+    }
+    func_8001C214(v0, (s32)D_801A0734);
+    m = 0x7FFF0000;
+    __asm__("" : "=r"(m) : "0"(m));
+    t = 0x80;
+    *(s16 *)((s32)a0 + 0xE0) = t;
+    *(s16 *)((s32)a0 + 0xDE) = t;
+    *(s16 *)((s32)a0 + 0xDC) = t;
+    t = -2;
+    *(s16 *)((s32)a0 + 0xE2) = t;
+    p = (u8 *)D_801DDBF4;
+    v1 = *(s32 *)((s32)a0 + 0x20);
+    *(u16 *)(v1 + 0x2C) |= 0x80;
+    v1 = *(s32 *)((s32)a0 + 0x20);
+    *(s32 *)(v1 + 0x80) = (s32)a0 + 0xDC;
+    *(s16 *)(p + 0x1A) = 0x800;
+    *(s16 *)(p + 0x18) = 0x800;
+    m |= 0xFFFF;
+    *(s32 *)(p + 4) &= m;
+    *(u16 *)((s32)a0 + 2) = *(u16 *)((s32)a0 + 2) + 1;
+}
+
 
 #include "common.h"
 

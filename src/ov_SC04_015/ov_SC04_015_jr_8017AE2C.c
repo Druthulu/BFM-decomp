@@ -5151,7 +5151,66 @@ void func_8017EB14(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_015/nonmatchings/ov_SC04_015_jr_8017AE2C", func_8017EB78);
+extern s32 AddPrim(s32, void *);
+extern void *func_80010A08(s32);
+extern s32 GetClut(s32, s32);
+extern s32 GetTPage(s32, s32, s32, s32);
+extern s32 D_800A651C;
+extern s16 D_800B9A02;
+
+void func_8017EB78(void *arg0)
+{
+    /* frame: vars = 0x50 - ROUND8(args 0x10) - ROUND8(4*5 regs) = 0x28  (cookbook 164-53/162i1) */
+    s32 pad[10];
+    u8 *s;
+    u8 *p;
+    s32 X, Y;
+    s32 u;
+    s32 tA, tB, u2;
+    u8 u_lo, y_lo;
+
+    s = (u8 *)arg0;
+    X = *(s16 *)(s + 0x10);
+    __asm__("");
+    Y = *(s16 *)(s + 0x12);
+
+    p = (u8 *)func_80010A08(0x28);
+    *(u16 *)(p + 0xE) = GetClut(*(s16 *)(s + 0x18), *(s16 *)(s + 0x1A));
+    *(u16 *)(p + 0x16) = GetTPage(0, 0, X & -0x40, Y & -0x100);
+
+    p[3] = 9;
+    *(u32 *)(p + 4) = 0x808080;
+    p[7] = 0x2C;
+
+    u = (X & 0x3F) << 2;
+    u_lo = u;
+    y_lo = Y;
+    p[0xC] = u_lo;
+    p[0xD] = y_lo;
+    tA = u + s[0x14];
+    p[0x14] = tA;
+    p[0x15] = y_lo;
+    p[0x1C] = u_lo;
+    tB = Y + s[0x16];
+    p[0x1D] = tB;
+    u2 = u;
+    u2 += s[0x14];
+    p[0x24] = u2;
+    Y += s[0x16];
+    p[0x25] = Y;
+
+    *(s16 *)(p + 0x8) = *(u16 *)(s + 0x0);
+    *(s16 *)(p + 0xA) = *(u16 *)(s + 0x2);
+    *(s16 *)(p + 0x10) = *(u16 *)(s + 0x4);
+    *(s16 *)(p + 0x12) = *(u16 *)(s + 0x6);
+    *(s16 *)(p + 0x18) = *(u16 *)(s + 0x8);
+    *(s16 *)(p + 0x1A) = *(u16 *)(s + 0xA);
+    *(s16 *)(p + 0x20) = *(u16 *)(s + 0xC);
+    *(s16 *)(p + 0x22) = *(u16 *)(s + 0xE);
+
+    AddPrim(*(s32 *)((u8 *)&D_800A651C + ((u16)D_800B9A02 * 0x14)) + 4, p);
+}
+
 
 extern void func_80016714(void *a0, s32 a1);
 extern s32 D_801C8C64;
