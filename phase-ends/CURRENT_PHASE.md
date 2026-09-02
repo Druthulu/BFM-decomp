@@ -5488,6 +5488,20 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   8 latch rows in one respelling; and hoist a table pointer OUT of the loop so reload rematerialises
   it and combine cannot fold). Index 1086.
 
+- 2026-09-02 05:35 — **S71 gate cycle 9: +2 (`commit:3625`), frontier 174 = 36 banked.** Cookbook **§419**
+  is the night's best technique: *when a register pin is structurally impossible, win the local-alloc
+  DENSITY contest instead.* On `ov_SC01_000/func_8017DD04` (297 ins) pinning `0x80` to `$7` loses its
+  sched1 birthing boost because the function sets `$a2`/`$a3` itself for call args (`reg_n_sets==2`) —
+  so a pin on an argument register is unavailable to any function that passes arguments in it. Instead:
+  local-alloc ranks `refs/live_length`, `0x80` scored 13/319 = 4890 and stole `$6`; one SIX-INPUT
+  zero-byte asm bought `mlo` six references (5217 > 4890) at the one block boundary no hoisted constant
+  crosses, so `mlo` took `$6` and `0x80` fell to `$7` with its boost intact. Both dials (reference
+  count, barrier placement) are computable from `-df`/`-dl` before trying anything.
+  Also **§418** (second index as a GIV of the biv; hoist a table pointer out of the loop) and
+  `ov_SC03_028/func_80180B44` — a genuine COLD crack at 303 ins whose six same-address "twins" were all
+  different functions, yielding a fold rule measured over 12 spellings (HImode keeps a split constant
+  on the load; SImode migrates it to the non-split operand). Index 1087.
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
