@@ -33568,3 +33568,36 @@ and it is invisible to `match_one` for the usual reason — it compiles the func
 TU and running the Makefile's own `cpp`+`cc1` recipe on it, comparing diagnostics against an
 unmodified base — a negative control on the TU, not on the function. That is the right instrument for
 any "does my declaration break this TU" question.
+
+## §416 ★★ — FOUR LEVERS FROM THE S71 OVERNIGHT LANE, none of which the cookbook held (P31 S71)
+
+All four are byte-proven, each on the function named.
+
+**1. RE-READ THE STORE, DO NOT PASS THE VALUE — CSE store-forwarding.**
+`ov_SC06_000/func_80183398` (119 ins). The target does `sh` and then an in-place `sll/sra` on the
+same location, which is gcc forwarding its own store. Writing `f((s16)val)` keeps the pseudo live in
+`$v1` and emits `sll $a1,$v1,16` BEFORE the `sh`. Passing a RE-READ of the slot instead —
+`f(*(s16 *)(a0 + 0xA))` after the store — is what reproduces it. **When the target reads back
+something it just wrote, write that read in the source.**
+
+**2. `(&SYM)[3]` vs `p = &SYM; *p = 0;` are different ADDRESSING, not style.**
+`ov_SC01_084/func_80181310` (118 ins). `addiu $s2,$a0,0xC` proves `D_801270D4` is written as
+`(&D_801270C8)[3]`: loop.c hoists the constant address and `-frerun-cse-after-loop` re-relates it to
+the base register. Spelling it `r = &D_801270C8; *r = 0;` puts the base in a register instead, and a
+separate pointer local `u = &D_801270D0;` gives `la` + `0($v1)` rather than two `lo_sum` forms. Three
+spellings of one store, three different addressing modes.
+
+**3. ONE biv with +0/+2/+4, and a guard on the SYMBOL — not on the pointer.**
+Same function. `combine_givs` merges the +2/+4 accesses into `$s0` at `-0x2`/`0` only while there is a
+SINGLE `s16 *` induction variable; introducing an explicit second pointer variable breaks both that
+addressing and the preheader order (`li $s4,1` / `addiu $s2` / `addiu $s0` — movables, then giv
+inits). Guard on the separate symbol `D_8018A9F0`, never on `*q`.
+
+**4. A LOCAL'S WIDTH CHOOSES THE LOAD.** Same function: an `s32` local for a 16-bit global forces
+`lh`; an `s16` local emits `lhu` plus `sll`/`sra`. (This is §409 law 6 seen from the other side — there
+the width cost two instructions per COMPARE, here it changes the LOAD itself.)
+
+**And one pack-quality note that recurs all night:** the same-address "twin" hint was FALSE on
+`ov_SC06_000` (an unrelated 11-ins function), on `ov_SC01_080` (two different functions), and on
+`ov_SC03_030`. In every case the real fuel was a **same-TU neighbour** (§194-E). The address-twin
+lead is worth checking and never worth trusting — law 1c exists for this.

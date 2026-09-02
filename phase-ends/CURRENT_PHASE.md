@@ -5447,6 +5447,17 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   "STALE CARD". Cookbook **§415** (a file-scope decl merges the TU's later BLOCK-scope externs into it,
   gcc-2.7.2 pushdecl) written in-session; index 1083.
 
+- 2026-09-02 04:45 — **S71 gate cycle 6: +4 (`commit:3616`), frontier 181** (main 64 + non-main 117; from
+  210 at session start = **29 banked**, all R22-lineage). Post-limit lane is producing: `func_80181A60`,
+  `func_80180D54`, `func_80181310`, `func_80183398`, `func_800D128C` all MATCH at closeness 0.
+  **Three of those recovered a body off disk rather than re-deriving it** — the killed agents' scratch
+  dirs and never-gated `pool_1` drafts — which is the §411 mechanism paying out a sixth time.
+  `func_80181A60` took **2 minutes instead of 16** for exactly that reason.
+  Cookbook **§416** (four new levers: CSE store-forwarding read-back · `(&SYM)[3]` vs pointer-local
+  addressing · single-biv giv merging · a local's width choosing the load) — plus the recurring pack
+  defect that the same-address twin hint was FALSE three times tonight while the same-TU neighbour was
+  the real fuel every time. Index 1084.
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
