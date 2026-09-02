@@ -5473,6 +5473,21 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   Cookbook **§417** (a pin blocks `jump.c`'s select collapse; unpinning then exposes `cse` skip-blocks
   — the misattribution that plateaued that function for three attempts). Index 1085.
 
+- 2026-09-02 05:15 — **S71 gate cycle 8: +2 (`commit:3622`), frontier 176 = 34 banked.** Overnight lane
+  still ~100% MATCH on what it finishes: `func_8017DF8C` (32→0), `func_80183374` (296 ins),
+  `func_8017EC68`, `func_8017EB30`, `func_80182184`, `func_8017FFD0`.
+  **Two more proven WALLS recorded instead of redrafted** (`.run/S71_walls_found.txt` +
+  `.run/journal_notes_local.jsonl`, each with its measured-inert list):
+  `ov_SC03_105/func_801834A4` closeness 6 (loop.c movable ordering) and `ov_SC06_022/func_8017DF28`
+  closeness 2 (mips.c `expand_block_move`'s `copy_addr_to_reg` pseudo, reused by cse for both `&mtx`
+  call args, pinned above the `jal`; SEVEN levers inert).
+  **One MATCH blocked purely on carve state**, prescription queued: `ov_SC01_004/func_8017EB30` needs
+  `splat.ov_SC01_004.yaml` `.rodata` 0x66c24 → 0x66c74 with `JTBL_PADS` spec 0 on the 2nd table
+  (`.run/S71_carve_todo.txt`).
+  Cookbook **§418** (make the second index a GIV of the biv — loop.c's LIFO giv chain, 14 preheader +
+  8 latch rows in one respelling; and hoist a table pointer OUT of the loop so reload rematerialises
+  it and combine cannot fold). Index 1086.
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
