@@ -17,25 +17,25 @@ downstream data symbol shifts -> %lo relocs break image-wide. And conversely a t
 pad must appear exactly where the original HAS one. `.align` cannot express this (it is relative
 to the section start, whose vram parity varies per overlay sibling) — only explicit pad bytes can.
 
-This filter sits between maspsx and as (Makefile `build/src/%.o` recipe, armed per-object by a
-`JTBL_PADS` target-specific make var written by tools/jtbl_carve.py). It REPLACES each rodata
-`.align` with the exact pad the original has at that table boundary:
+This filter sits between maspsx and as (Makefile `build/src/%.o` recipe). It is armed two ways:
+  * a stored `JTBL_PADS` target-specific make var (written by tools/jtbl_carve.py into
+    config/overlays.mk) -> `--pads <spec>`; or
+  * `--derive <binary> --tu <tu>`, which derives the spec at BUILD TIME from the retail island plus
+    the emission stream, with no stored spec at all. The Makefile arms this for every `md_*` object
+    **and, since P31 S72, for `main`** — `_file0_vram` returns the code segment's `vram - start`, so
+    the same expression indexes the flat overlay blobs and the PS-X EXE past its 0x800 header.
+It REPLACES each rodata `.align` with the exact pad the original has at that table boundary:
 
-    --pads 0,4,0   ->  table 1: no pad (specs[0] is always 0 — the table starts the section),
+    --pads 0,4,0   ->  table 1: no pad (specs[0] is always 0 -- the table starts the section),
                        table 2: one `.word 0` pad, table 3: no pad.
 
 Pads are derived by jtbl_carve from the carve intervals (pad[K] = start[K] - end[K-1], values in
 {0,4}), so each overlay sibling gets its own spec from its own addresses. Unfiltered objects
-(no JTBL_PADS var — every single-table carve) keep today's byte-identical pipeline.
+(neither a JTBL_PADS var nor --derive) keep today's byte-identical pipeline.
 
-Fail-loud guards (R32) — each converts a silent downstream SHA1 mismatch into an immediate,
-attributable build error:
-  - spec count != rodata `.align` count      (table-count drift: a sibling's switch compiled
-                                              to a different number of tables)
-  - a rodata `.align` other than `.align 3`  (unknown emission shape)
-  - rodata content other than $L labels / `.word $L...` / blank  (strings, floats — the carve
-                                              model does not cover them)
-  - pads[0] != 0, or any pad not in {0, 4}
+Fail-loud guards (R32) -- each converts a silent downstream SHA1 mismatch into an immediate,
+attributable build error. The `--derive` path adds its own: an anchor that does not land where the
+island says fails the build with the offset, rather than padding to a guess.
 """
 import argparse
 import re

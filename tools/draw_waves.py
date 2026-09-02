@@ -3,7 +3,10 @@
 
 Usage:
   draw_waves.py --prefix .run/w --waves 2 --per-wave 110 [--max-nins 50] [--min-nins 0]
-                [--binaries ov_,md_] [--no-main] [--dry]
+                [--binaries ov_,md_] [--main | --only-main] [--dry]
+                [--exclude-file config/wave_exclude.txt] [--exclude-stale-ok]
+  NOTE: main is EXCLUDED by default (it has its own gate); --main adds it, --only-main draws
+  only it. There is no --no-main. --exclude-file AUDITS the list and REFUSES a stale one.
 
 WHY (measured, P31 S66). The S65 checkpoint's tier map said "cheap singletons (3-17 ins) ~557 — the
 bulk". 557 was the count of one-member FAMILIES, not of small functions: re-measured off

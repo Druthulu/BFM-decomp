@@ -19,12 +19,19 @@ isolated). Self-contained: does the config split, the source trim/inject, and th
 
     jr_isolate.py <ov> --func func_XXXX
 
-STATUS (Phase-26 session 4): the config split + `func_subseg`-derived carve are ready, but this is BLOCKED on
-`split_src_region.py`, which cannot partition the overlay `.c` — those files carry non-address top-level items
-(the Phase-17 global canonical-sig extern layer + per-function callee-extern blocks + `DEFINE_func_X()` dedup
-macros + `// @class` annotations) that its "one item = one address" model chokes on (~922 unresolved in
-ov_SC01_077_after.c). Finishing this needs an overlay-`.c`-aware source split (header = includes + the global
-extern layer; attach leading extern-decl blocks to the following function-block). See cookbook §8b. Stage-2 item.
+STATUS (P31 S73): the Phase-26 blocker is GONE. `split_src_region.py` could not partition an
+overlay `.c` because it demanded an address for every top-level item; five defects were fixed
+(address-less preamble runs coalesce FORWARD into the item below them; coalesce carries
+(addr, name, text) captured BEFORE the merge; `item_name` strips comments; it anchors on a
+DEFINITION, not on a leading `extern` — which used to return the name "void"; and it accepts
+an INDENTED top-level definition). This tool now runs the full chain to completion on
+`ov_SC02_005` — config split, source trim, re-extract, inject.
+
+NOT DONE: the resulting object still fails to ASSEMBLE on a remaining duplicate-definition
+class, so no overlay has been split with it yet. Before sinking more time into the item
+model, consider cookbook §431 instead — cut the file verbatim at line boundaries and let the
+COMPILER enumerate what crosses. That is what worked first time on main, and it does not
+depend on this tool being correct.
 """
 import argparse
 import os

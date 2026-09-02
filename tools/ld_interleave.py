@@ -9,9 +9,18 @@ SURGICAL LZSS carve (Phase 7), only jtbl_80072A38 is migrated to .rodata; the
 rest of the island stays raw inside the tail data object:
 
     .text            0x80010000 .. 0x800629DC
-    .data  (front)   0x800629DC .. 0x80072A38   531DC.data.o (globals, ptr tables)
-    .rodata          0x80072A38 .. 0x80072A4C   800.o (ONLY the migrated LZSS jtbl_80072A38)
-    .data  (tail)    0x80072A4C .. 0x80074800   6324C.data.o (rest of island raw + tail globals)
+    .data  (front)   0x800629DC .. 0x80072A38   53198.data.o  (globals, ptr tables)
+    .rodata          0x80072A38 .. 0x80072C70   800.o    span A: LZSS jtbl + 11 game jtbls
+    .data            0x80072C70 .. 0x80072E44   63470.data.o  (loadDestPtrTable + globals)
+    .rodata          0x80072E44 .. 0x80073140   800_b.o  span B: 14 game jtbls
+    .data            0x80073140 .. 0x800732A0   63940.data.o
+    .rodata          0x800732A0 .. 0x8007344C   800_c.o  span C: 8 game jtbls
+    .data  (tail)    0x8007344C .. 0x80074800   63C4C.data.o  (snd2 jtbls + tail globals)
+
+UPDATED P31 S72: main's island is SEVEN pieces, not three. `src/800.c` was split into three TUs so
+each jump-table span gets its own code object (one object contributes exactly ONE contiguous
+`.rodata` run), and the EXE is driven by `--order` — `--front/--tail` cannot express this and is now
+the OVERLAY form only. See cookbook §426/§431.
 
 i.e. .data appears on BOTH sides of .rodata, which a single section_order can't
 express. This script rewrites the `.main {...}` body to the interleaved order:
