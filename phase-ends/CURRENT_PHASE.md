@@ -5502,6 +5502,25 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   different functions, yielding a fold rule measured over 12 spellings (HImode keeps a split constant
   on the load; SImode migrates it to the non-split operand). Index 1087.
 
+- 2026-09-02 06:00 — **THE DRAFTING LANE RAN OUT OF ADDRESSABLE WORK, AND THE CARVE LANE REPLACED IT.**
+  Wave 3 drew **1** target ("0 left in pool"). Measured breakdown of the 174 open at that moment:
+  main 64 · non-main 110, of which **41 drafted this session · 68 on the exclude list · 2 proven walls ·
+  ZERO genuinely undrawn**. So more drafting was not the lever.
+  **Re-probing the 68 excluded-and-open with `jtbl_carve --probe` found 17 now reporting `tail`** — a
+  standard §8a carve — because tonight's `jr_isolate_all` fixes changed their overlays; a further ~14
+  `md_*` rows now name `jr_isolate_all --only <fn>` themselves. **All 17 already had drafts on disk**
+  (some with hundreds of stored variants), so this was a pure GATE opportunity: scoring the best draft
+  each put **10 of 17 at closeness 0** for zero drafting.
+  **Carve gate: +5 (`commit:3627`) — and the five are EXACTLY the five overlays jr-isolated tonight**
+  (ov_SC03_010, ov_SC03_013, ov_SC03_029, ov_SC03_092, ov_SC07_000). Causal confirmation, not
+  correlation. **Frontier 169 = 41 banked** (from 210).
+  The 4 remaining closeness-0 rows are the shared `func_8016AB6C` across ov_SC03_107/ov_SC07_007/010/011
+  — one body, four overlays, blocked on the `D_8018D538` undefined-reference class, so one fix banks
+  four.
+  **The lesson for the roadmap:** an exclude list is a snapshot of what the TOOLING could not do, and it
+  goes stale the moment the tooling improves. Re-probe it after every tool fix — 17 functions had been
+  sitting in "permanently refused" while their blocker was one regex and one placement rule.
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
