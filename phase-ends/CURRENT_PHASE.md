@@ -5178,3 +5178,81 @@ mechanised in `work_evidence`, which is the session's most durable output.
   the next member becomes `island-end`) — that is the next carve lever, and it is ORDER-dependent,
   not a wall. **The 8 `CC1-FAIL(no-diagnostic)` carry the documented BLIND-WORKTREE signature and
   should be re-run IN-TREE before being believed** (gater_lane's own comment; R40).
+
+## 🛑 SESSION CHECKPOINT — S70 FINAL-4 (2026-09-01, true session close). SUPERSEDES every earlier block in this file. Phase 31 T5 CONTINUES.
+
+**STATE:** tree clean, no lanes running, **145 banked**. **R22 GREEN — `check-all: 213 passed, 0 failed
+of 213`**, verified before EVERY one of the five gate commits. Drew pushes (R6).
+
+**CANONICAL PROGRESS** (`make -s report | grep -E "^(REAL / matchable|FLEET|MAIN game)"` — the bare
+target buries the summary under 850 match names):
+```
+REAL / matchable          :    853 / 1,919        = 44.45%
+FLEET instr-weighted      : 13,456,476 / 13,523,865 = 99.5%   (session start 13,445,268 -> +11,208 ins)
+FLEET distinct-code(uniq) :  5,785,422 / 5,851,972  = 98.9%   (session start  5,774,885 -> +10,537 ins)
+REAL FRONTIER (PsyQ libs excluded) : 355 -> 210
+```
+Gate commits, all R22-green: `commit:3571` (31) · `commit:3573` (23) · `commit:3574` (31) · `commit:3577`
+· `commit:3579` (2), plus the standalone/carve/§332b banks earlier in the session.
+
+## THE WAVE: 130 AGENTS, 115 MATCH / 3 NEAR, ~14M SUBAGENT TOKENS
+Three waves drawn/carded/packed/validated through the playbook (`.run/S70w_1` 50 · `.run/S70x_1` 40 ·
+`.run/S70y_1` 40), launched as 10 groups of 5, then 20 pairs, then 40 singles. **Zero agent errors.**
+The draw needed a FRESH LEDGER: the standing one holds 1,700 keys and left only **1 undrawn target**
+fleet-wide — justified here because three levers landed this session and 47 banks had reshaped the
+twin graph, so prior failures were materially different.
+
+## FIVE CARD-FUEL DEFECTS — one root, four faces, three fixed
+Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/R51):
+1. **warm-start homonym body** — FIXED (`commit:3570`). The law-1c guard exempted any body with 0-1
+   symbols (exactly the small-function case) and needed a strict majority foreign to reject. Now ANY
+   foreign symbol disqualifies. NC over all 50 targets: 46 -> 42 admitted, and the 4 rejected are
+   precisely the ones four agents independently called "a different function entirely".
+2. **SYS.md invisible to every agent** — FIXED (`commit:3572`). The PLAYBOOK's own documented
+   invocation passed `<wave>/packs` as out_dir, so SYS.md landed at `<wave>/packs/SYS.md` while
+   `claude_wave_draft.js` tells every agent to read `<wave>/SYS.md`. **Every agent in every wave has
+   been drafting without its laws file**; two said so verbatim, the rest never noticed.
+3. **false "NO banked twin"** — FIXED (`commit:3575`). **MEASURED: 110 of 130 cards said "no banked
+   twin" and 75 of those (68%) had that function ALREADY BANKED at the same address in a sibling
+   overlay.** seed_ref is blind to reloc-only twins (§389); overlays share code at the same VRAM, so
+   one address lookup answers it. Controls: positive returns the exact binary an agent found by hand.
+4. **stale `SYMBOL MISMATCHES` block** — cross-overlay contamination, OPEN (diagnosis workflow ran).
+5. **stale BASELINE-RED verdict** — OPEN. THREE agents reported a red baseline on binaries I verified
+   BYTE-IDENTICAL; the third revealed the source: *"the pack's last gate verdict was BASELINE-RED"* —
+   they read it off the card. Cost me two phantom-regression chases.
+
+## THE HARVEST (cookbook 1,065 -> 1,074)
+* **§405 — the wave harvest.** Five lever families + three REFUTATIONS. Headline: **`match_one`
+  compares `.text` ONLY, so a switch's jump table is invisible to it** — a draft scored 110/110 while
+  emitting an IDENTITY table where the real one is PERMUTED (`resident/func_800D02D0`, byte-witnessed).
+  R34 inside our most-trusted oracle; some historical "MATCH but gate rejected" verdicts were the
+  ORACLE being wrong. Refuted: §137's source-permutation invariance is false for CONFLICT-driven ties;
+  §153's "cse2 puts it back" fails for the dead-def case; §257-8's volatility polarity is per-site.
+* **§406 — the prologue-weave SWEEP.** 134 of 1,237 open stubs (11%) share the shape; cause traced in
+  cc1's `.i.sched2` dump; **12 variants measured inert**; ONE working lever. One lever x 134 targets is
+  a sweep, not an idiom — build it before drafting any of them individually.
+* **§407 — late addenda**, incl. the instrument caution an agent caught on itself: **a scan over
+  `asm/` is a scan over UNMATCHED code only**, so "no banked function ever does X" is unanswerable
+  there and returns a confident empty-world answer.
+
+## MY OWN ERRORS THIS SESSION, RECORDED
+* **Killed a running workflow** to relaunch it in parallel, discarding a group's in-flight work. Drew:
+  *"why did you stop it, that just wasted 300k tokens"*. The right move was to leave it and add the
+  other nine around it.
+* **Ran `parallel_gate --r22` three times with 40+ drafting agents live.** `make clean` deletes `asm/`
+  — one agent lost its oracle mid-run and had to reconstruct the `.s` privately (it validated the
+  reconstruction on two known-true controls, which is the only reason its result is trustworthy).
+  `r22_verify.sh` REFUSES on a non-empty `lane_inflight`; **`parallel_gate --r22` has no such guard —
+  that gap is real and unfixed.**
+* **A blanket `git checkout -- src config`** as a tidy-up. No-op by luck; exactly the reflex R42 bans.
+
+## START HERE NEXT SESSION
+1. **The §406 prologue-weave sweep** — 134 targets, one known lever, zero drafting. Biggest measured
+   lever on the board.
+2. **Finish card defects 4 and 5** (stale mismatch block, stale baseline verdict) — patches were being
+   diagnosed at session close; check the workflow transcript before re-deriving.
+3. **`parallel_gate --r22` must refuse on live drafting lanes**, as `r22_verify.sh` does.
+4. **Mine the agent journals.** Every wave's `journal.jsonl` holds this quality of note and NONE of the
+   historical ones were ever harvested. Pairs with the deferred banked-corpus task: the answers have
+   been accumulating on disk while we kept looking at the open questions.
+5. Carve route blocker 2 (§323 file-local type, 2 binaries) — blockers 1 and 3 fell this session.
