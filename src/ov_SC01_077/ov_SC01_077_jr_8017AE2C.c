@@ -4278,7 +4278,116 @@ s32 func_8017DACC(s32 a0) {
     return func_8017DAEC(a0);
 }
 
-INCLUDE_ASM("asm/ov_SC01_077/nonmatchings/ov_SC01_077_jr_8017AE2C", func_8017DAEC);
+#include "common.h"
+
+// @class: sched-alias — banked sibling family of DEFINE_func_801749C8 (engine_core.h).
+// @stuck: none — MATCH (113 ins). Cookbook §351: the 0x48 store is spelled as a PLAIN CAST
+//   (`*(s32 *)((s8 *)s + 0x48)`) to DENY /s (MEM_IN_STRUCT_P). With the COMPONENT_REF
+//   spelling gcc disambiguates it from the D_80126B62 load, sched1 hoists that lh 5 slots
+//   and the 0x4C/0x50 stores swap (closeness 11). Denying /s pins the global load below the
+//   store, so it lands in the load-shadow of `lh 0x2C` — exactly the target schedule.
+//   Decls are the TU canon: u16 globals (s16 would be `conflicting types`), s32
+//   func_80012C6C via the (s16 (*)()) call-site cast, s32 func_8017DAEC(s32).
+
+typedef struct {
+    s8 pad00[8];
+    s16 f08;
+    s16 pad0a;
+    s16 f0c;
+    s16 pad0e;
+    s16 f10;
+    s16 pad12;
+    s16 f14;
+    s16 pad16;
+    s16 f18;
+    s16 f1a;
+    s16 f1c;
+    s8 pad1e[2];
+    s16 f20;
+    s16 f22;
+    s16 f24;
+    s8 pad26[2];
+    s16 f28;
+    s16 f2a;
+    s16 f2c;
+    s16 f2e;
+    s16 f30;
+    s16 f32;
+    s8 pad34[8];
+    s32 f3c;
+    s32 f40;
+    s32 f44;
+    s32 f48;
+    s32 f4c;
+    s32 f50;
+} St_8017DAEC;
+
+typedef struct {
+    s8 pad00[0x14];
+    s32 t0;
+    s32 t1;
+    s32 t2;
+    s16 z0;
+    s16 z1;
+    s16 v;
+    s16 pad36;
+    s16 o0;
+    s16 o1;
+    s16 o2;
+    s16 pad3e;
+} Loc_8017DAEC;
+
+extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
+extern s16 func_80012ABC(s32 a0, s32 a1, s32 a2);
+extern void func_80013F3C(s32 a0);
+extern void func_800123F0(s32 a0, s32 a1);
+extern void func_80012558(s32 a0, s32 a1);
+extern void func_800126C4(s32 a0, s32 a1);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+
+s32 func_8017DAEC(s32 param_1)
+{
+    register St_8017DAEC *s __asm__("$16") = (St_8017DAEC *)param_1;
+    Loc_8017DAEC loc;
+    s16 b5e;
+    u16 b66;
+
+    *(s32 *)&s->f08 = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f08, s->f0c, 4);
+    *(s32 *)&s->f10 = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f10, s->f14, 4);
+    s->f18 = func_80012ABC(s->f18, s->f20, 4);
+    s->f1a = func_80012ABC(s->f1a, s->f22, 4);
+    s->f1c = func_80012ABC(s->f1c, s->f24, 4);
+    s->f28 = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f28, s->f2e, 0x10);
+    s->f2a = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f2a, s->f30, 0x10);
+    s->f2c = ((s16 (*)(s32, s32, s32))func_80012C6C)(s->f2c, s->f32, 0x10);
+
+    b5e = D_80126B5E;
+    b66 = D_80126B66;
+
+    *(s32 *)((s8 *)s + 0x48) = s->f28 + b5e;
+    s->f50 = s->f2c + (s16)b66;
+    s->f4c = s->f2a + (s16)D_80126B62;
+    func_80013F3C((s32)&loc);
+    func_800123F0((s32)&loc, s->f1c);
+    func_80012558((s32)&loc, s->f1a);
+    func_800126C4((s32)&loc, s->f18);
+
+    loc.t0 = s->f28 + b5e;
+    loc.t1 = s->f2a + (s16)D_80126B62;
+    loc.t2 = s->f2c + (s16)b66;
+    loc.z0 = 0;
+    loc.z1 = 0;
+    loc.v = *(s32 *)&s->f10;
+    func_8012F14C((s32)&loc, (s32)&loc.z0, (s32)&loc.o0);
+    s->f3c = loc.o0;
+    s->f40 = loc.o1;
+    s->f44 = loc.o2;
+}
+
 
 extern s32 (*D_8018A588[])(void *);
 

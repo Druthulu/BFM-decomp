@@ -4718,7 +4718,106 @@ void func_8017E630(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_8017E724);
+/* func_8017E724 — ov_SC01_080 / ov_SC01_080_jr_8017AE2C, 95 ins.  match_one: MATCH.
+ *
+ * Decls are the pack's authoritative `tu` rows (house style of the neighbours
+ * func_8017E5B4 / func_8017E630 in the same TU).
+ *
+ * Three non-obvious dials were needed (all zero-byte, all cookbook-documented):
+ *
+ *  1) `base` MUST stay a live pointer in $s3 (`lhu $v0,0xA($s3)`, not
+ *     `lui/lhu %lo(D_80126B62)`).  cse's find_best_addr constant-folds a
+ *     single-block `&D_80126B58` straight into the MEM (cookbook §H-1: the fold
+ *     is cost-UNGATED, no respelling defeats it).  The antidote is the §H-1
+ *     C-level one: give the two arms ONE SHARED join (`goto L858`) so the read
+ *     sits behind a label two paths reach — cse_end_of_basic_block stops dead
+ *     there (§195-L, cse.c:8039) and the table never reaches the load.  With the
+ *     fold gone, `base` is a single-SET pseudo, so adjust_priority's BIRTHING
+ *     BOOST (gcc-2.7.2-map/sched.md §7) sinks its `la` to the END of block 1 —
+ *     exactly the target's 0x8017E77C.  An `__asm__` launder also defeats the
+ *     fold but gives `base` a 2nd SET, which forfeits the boost and floats the
+ *     `la` up into the prologue (measured: closeness 85 vs 0).
+ *
+ *  2) `cur = a; ` after `ang = cur;` is a DEAD STORE, deleted by flow before
+ *     sched1 — it costs zero bytes.  Its only job is to re-seed cse: without it
+ *     cse copy-propagates `ang` back onto `cur` and the target's
+ *     `addu $s1,$s0,$zero` (0x8017E788, the bgez delay slot) disappears.
+ *     Per gcc-2.7.2-map/sched.md §7, REG_N_SETS is counted after cse/flow, so a
+ *     source-level 2nd assignment that flow deletes does NOT kill `ang`'s
+ *     birthing boost — the copy still sinks to the end of block 1, where dbr
+ *     lifts it into the bgez slot.
+ *
+ *  3) The two §17 register pins hold the allocation that the dead store would
+ *     otherwise rotate (without them: param_1 falls out of $s2, closeness 23).
+ *
+ * Branch polarity throughout is read off the target opcodes (§32-2):
+ * `bltz .L848` ⇒ the non-negative arm is the fall-through; `bnez .L864` ⇒ the
+ * -0x480 arm is the branch-taken one.  All 20 relocations verified against the
+ * target's own reloc lines (law 1c).
+ */
+extern s32 ratan2(s32 dx, s32 dy);
+extern s32 func_8004787C(s32 a0);
+extern s32 func_80047948(s32 a0);
+extern void func_8017E8A0(s32 a0, s32 a1);
+extern void func_8017EA68(s32 a0);
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern s32 *D_80126B78;
+extern s32 D_80126B58;
+
+void func_8017E724(s32 param_1)
+{
+    s16 arr[3];
+    s32 a;
+    register s32 cur __asm__("$16");
+    register s32 ang __asm__("$17");
+    s32 d;
+    s32 d2;
+    s32 t;
+    s16 rot;
+    s32 *base;
+
+    a = ratan2(*(s16 *)&D_80126B5E, *(s16 *)&D_80126B66) & 0xFFF;
+    *(s16 *)(param_1 + 0x22) = a;
+    cur = (a + 0x400) & 0xFFF;
+    base = &D_80126B58;
+    d2 = (*(u16 *)((s32)D_80126B78 + 0x12) - cur) & 0xFFF;
+    ang = cur;
+    cur = a;
+    rot = func_80047948(d2) / 32;
+    *(s16 *)(param_1 + 0x2E) = -(func_8004787C(ang) * rot) / 4096;
+    *(s16 *)(param_1 + 0x32) = -(func_80047948(ang) * rot) / 4096;
+
+    arr[0] = D_80126B5E;
+    arr[2] = D_80126B66;
+    d = -0x480 - D_80126B62;
+    if (D_80126B62 <= 0xFB7F) {
+        t = (s16)d;
+        if (t >= 0) {
+            if (t >= 0x81) {
+                goto L858;
+            }
+            t = -0x480;
+            goto L868;
+        }
+        if (-t < 0x81) {
+            goto L864;
+        }
+    L858:
+        t = *(u16 *)((s32)base + 0xA) + 0x80;
+        goto L868;
+    L864:
+        t = -0x480;
+    } else {
+        t = -0x480;
+    }
+L868:
+    arr[1] = t;
+    func_8017E8A0(param_1, (s32)arr);
+    func_8017EA68(param_1);
+}
+
 
 #include "common.h"
 
@@ -7188,7 +7287,107 @@ void func_801822D0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_8018230C);
+#include "common.h"
+
+// @class: regalloc  (final residual was REGALLOC-PERM/$v0>$v1>$v0, 6 ins, nins exact)
+// Derivation, in the order the levers had to be applied:
+//  (1) STRUCTURAL TWIN IN THIS TU — func_8017D468 (:3968) is the same "build a ring of
+//      SVECTORs from a 16.16 base position" body: `struct {s16 vx,vy,vz,pad;} v[]` +
+//      `u16 base[3]` + `s32 buf[2]` + func_8012B0B4((unsigned int*)buf, ang, r).  Frame
+//      proves the declaration ORDER: base@0x10, v@0x18, buf@0x98 (0x00..0x10 is the o32
+//      outgoing-arg area), saved regs from 0xA0, frame 0xC8.
+//  (2) The inner-loop 3rd argument is HOISTED (`w`) and `ang` is an EXPLICIT biv.  Left as
+//      `D_8018A304 + D_8018A306 * c` in the call, the mult sets hard LO so scan_loop refuses
+//      to move it and loop.c never strength-reduces `i<<8` either: -9 ins, 6 saved regs
+//      instead of 10.  Writing both as locals restores the target's $s7/$s2 and its 10-reg
+//      prologue in one edit.
+//  (3) `bp = base;` — the inner loop reads base[] through a REGISTER ($s3 = $sp+0x10) while
+//      the stores stay $sp-relative.  A plain `base[i]` read folds into the load offset, so
+//      there is no address to allocate and $s3 never appears.
+//  (4) loop 2 is `j = i + 1; ...; i = j;` (do/while), NOT `for (i...) v[(i+1)&0xF]`.  The
+//      merged spelling increments one pseudo in place and is LENGTH-DRIFT/-1; the split
+//      keeps the target's `addiu $s0,$s1,1` + `addu $s1,$s0,$zero` copy.
+//  (5) §176-B2 — PIN THE INTERLOPER.  base[2]'s value is short-lived (2 refs) and base[1]'s
+//      outlives it (3 refs, its `subu` waits on the D_8018A302 multiply), so local-alloc
+//      handed base[2] $v0 and base[1] $v1 — the mirror of the target.  `cc1 -dl -dg` on the
+//      unpinned draft: "Register 91 used 4 times across 6 insns / 92 used 6 across 9 / 93
+//      used 4 across 6", dispositions 91->2, 92->3, 93->2, i.e. an exact QTY_CMP_PRI tie
+//      (13333 each) resolved against us.  Every source-order permutation was INERT (§137:
+//      invariance under permutation says the lever is not in the source): 3 subtraction
+//      spellings, 6 load/store orders, struct-vs-array base, u16/s32 temps — all closeness 6.
+//      §393's birthing boost and §137's `__asm__ __volatile__("" :: "r"(y))` both cost a real
+//      instruction here (the block is dense with load-delay slots): 114 ins, LENGTH-DRIFT/1.
+//      Pinning the SHORT-LIVED interloper out of $v0 — `register u16 z __asm__("$3")`, scoped
+//      to its own block — is the only edit that moves it.  SOLO-ABLATED (§266): the identical
+//      file with `u16 z;` in place of the pin is closeness 6; with the pin it is MATCH 113/113.
+//      (`$2` on base[1] instead, or both pins, also MATCH — the interloper pin is the minimal one.)
+//  Law 1c re-walk: 12 relocations, symbol-for-symbol and in order, against the target .s
+//  (D_8018A306, D_8018A302, D_8018A304 hi/lo, func_8012B0B4, func_8012D3B4, D_8018A308 hi/lo,
+//  func_8012BEE8, func_801824D0).  No internal `j` (§195-D clean).
+//  DECL NOTE for the gate: this TU already declares func_8012B0B4 at :3959 with exactly the
+//  spelling used below, and DEFINES func_801824D0 at :7051 as `void func_801824D0(int)` —
+//  the forward decl here is compatible.  func_8012D3B4 / func_8012BEE8 / D_8018A302-308 are
+//  new to this TU.
+extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
+extern void func_8012D3B4(s32 arg0, s32 arg1, s32 arg2);
+extern s32 func_8012BEE8(s32);
+extern void func_801824D0(int);
+extern s16 D_8018A302;
+extern s16 D_8018A304;
+extern s16 D_8018A306;
+extern s32 D_8018A308;
+
+void func_8018230C(s32 arg0) {
+    u16 base[3];
+    struct { s16 vx, vy, vz, pad; } v[16];
+    s32 buf[2];
+    u16 *bp;
+    s32 i;
+    s32 j;
+    s32 d;
+    s32 c;
+    s32 acc;
+    s32 w;
+    s32 ang;
+
+    c = *(s32 *)(arg0 + 0x1C);
+    acc = 0;
+    for (; c >= 0; c--, acc += D_8018A308) {
+        if (c < *(s32 *)(arg0 + 0x1C) - 0x10) {
+            break;
+        }
+        w = D_8018A304 + D_8018A306 * c;
+        bp = base;
+        {
+            register u16 z __asm__("$3");
+            base[0] = *(u16 *)(arg0 + 6);
+            base[1] = *(u16 *)(arg0 + 0xA);
+            z = *(u16 *)(arg0 + 0xE);
+            base[2] = z;
+            base[1] = base[1] - D_8018A302 * c;
+        }
+        for (i = 0, ang = 0; i < 16; i++, ang += 0x100) {
+            func_8012B0B4((unsigned int *)buf, ang, w);
+            d = buf[0];
+            v[i].vx = bp[0] + d;
+            v[i].vy = bp[1];
+            v[i].vz = bp[2] + (d >> 16);
+        }
+        i = 0;
+        do {
+            j = i + 1;
+            func_8012D3B4((s32)&v[i], (s32)&v[j & 0xF], acc);
+            i = j;
+        } while (i < 16);
+    }
+    if (*(s32 *)(arg0 + 0x1C) == 0x10) {
+        *(u32 *)(*(s32 *)(arg0 + 0x20) + 4) &= 0x7FFFFFFF;
+    }
+    if (func_8012BEE8(arg0) != 0) {
+        func_801824D0(arg0);
+    }
+}
+
 
 void func_801824D0(int param_1)
 {

@@ -3220,7 +3220,62 @@ s32 func_8017D8D8(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017D920);
+/* §324/§99 — the TU already declares `extern void func_8017D920();` (no prototype).
+ * A prototyped definition whose 5th param is `u8` is NOT compatible with it (u8 is
+ * changed by the default argument promotions) => `conflicting types`. The K&R
+ * definition carries no prototype, is compatible, and is byte-neutral: the narrow
+ * param still emits `lbu 0x10($sp)`. */
+void func_8017D920(param_1, param_2, param_3, param_4, param_5)
+u16 *param_1;
+u16 *param_2;
+u16 *param_3;
+u8 *param_4;
+u8 param_5;
+{
+    u16 w;
+    s8 d = param_5;
+
+    *param_1 = param_4[3] * 0x100 + 1;
+    param_1[2] = param_2[0];
+    param_1[3] = param_2[1];
+    param_1[4] = param_2[2];
+    w = param_2[3];
+    param_1[5] = w;
+    if (param_3 != NULL) {
+        param_1[5] = w & 0xEFFF;
+        param_1[6] = param_3[0];
+        param_1[7] = param_3[1];
+        param_1[8] = param_3[2];
+    } else {
+        param_1[5] = w | 0x1000;
+    }
+    param_1[0x12] = param_4[0] * 0x100;
+    param_1[0x13] = param_4[1] * 0x100;
+    param_1[0x14] = param_4[2] * 0x100;
+    if (d < 0) {
+        d = -d;
+        param_1[0x17] = 0;
+        param_1[0x16] = 0;
+        param_1[0x15] = 0;
+    } else {
+        param_1[0x15] = param_1[0x12] / d;
+        param_1[0x16] = param_1[0x13] / d;
+        param_1[0x17] = param_1[0x14] / d;
+        if (param_1[0x15] == 0) {
+            param_1[0x15] = 1;
+        }
+        if (param_1[0x16] == 0) {
+            param_1[0x16] = 1;
+        }
+        if (param_1[0x17] == 0) {
+            param_1[0x17] = 1;
+        }
+    }
+    param_1[1] = d;
+    *(u32 *)&param_1[0x1A] = 0;
+    *(u32 *)&param_1[0x18] = 0;
+}
+
 
 extern void func_8017E5D4(s32);
 extern void func_8017DC80(void);
@@ -3890,7 +3945,112 @@ void func_8017E640(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0", func_8017E7E8);
+#include "common.h"
+
+/* func_8017E7E8 (ov_SC07_002, 101 ins) -- MATCH, relocation-masked (tools/match_one.py).
+ *
+ * Per-frame tick of the 8 x 16 particle-group table at D_8019E1B8 (8 groups of 0x1D0,
+ * each = a 0x10 header + 16 subs of 0x1C).  For every group: if header.g0 == 0 bump
+ * header.gC by 0x10000; then run each sub's 3-state machine (0 = integrate, 1 = fade,
+ * 2 = dead, counted); then call func_8017E97C(arg0, group).  When all 8*16 = 0x80 subs
+ * have reached state 2 the whole effect is torn down via func_80146C3C(arg0).
+ *
+ * TWIN (§193-A): this is a line-for-line relative of the already-banked
+ *   src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c:func_8017F278 (also 101 ins).  Same guards,
+ *   same switch, same tail.  Per law 2 only the SHAPE was carried across -- every symbol
+ *   here was re-read off THIS .s's own relocation lines: D_8019E1B8 (not D_801EB5C8),
+ *   func_8017E97C (not func_8017F40C), func_80146C3C (shared).
+ *
+ * The two register pins are the twin's and they are load-bearing (§17-family):
+ *   - `base` pinned to $5/$a1 because $a1 is ALSO the second argument of the inner call:
+ *     the group pointer is already sitting in $a1 when `jal func_8017E97C` fires, so the
+ *     delay slot only has to reload $a0 (`addu $a0,$s3,$zero`).  Without the pin gcc
+ *     schedules a `move $a1,...` into that slot and the tail drifts.
+ *   - `sym` pinned to $2/$v0 so the %hi/%lo pair materialises into $v0 and the induction
+ *     variable add lands as `addu $a1,$s1,$v0` (gcc strength-reduces i*0x1D0 into $s1).
+ *
+ * BANKING NOTES (§376/§378) -- the declarations, not the body, are what a gate rejects:
+ *   - The two typedefs above are the standard strip-on-bank copy: the destination TU
+ *     src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c ALREADY defines both at file scope
+ *     (:3838 SubRec..., :3847 GroupRec...), just above func_8017E640, which declares
+ *     D_8019E1B8 block-scope with exactly the spelling used here (:3861).  Drop the
+ *     typedefs when inserting; keep the block-scope `extern GroupRec_...[8]` verbatim.
+ *   - func_8017E97C is DEFINED later in the same TU (:3907) as `void (s32, s32)`, so the
+ *     block-scope extern here is that prototype verbatim -- it cannot conflict and
+ *     sig_unify has nothing to widen.  The call passes ONE argument through a cast,
+ *     which is this TU's house style for exactly this situation (see func_80186494 at
+ *     :8997 doing `((void (*)(void *))func_80146C3C)(s0)`), and is why $a1 is left alone.
+ *   - func_80146C3C is already declared at file scope twice (:1683 `()`, :1701 `(void)`);
+ *     the `(void)` form repeated here is the card's authoritative `tu=('void', ())` row
+ *     and is a compatible redeclaration, so it may be kept or dropped on bank.
+ */
+
+ /* 0x1C */
+
+ /* 0x1D0 */
+
+extern void func_80146C3C(void);
+
+void func_8017E7E8(void *arg0) {
+    extern GroupRec_801EB5C8_8017E640 D_8019E1B8[8];
+    extern void func_8017E97C(s32 a0, s32 a1);
+    s32 cnt2;
+    s32 i;
+    s32 j;
+    register s32 base __asm__("$5");
+    s32 p;
+    s32 vel;
+    s32 pos;
+    u16 life;
+    s32 f18;
+
+    cnt2 = 0;
+    for (i = 0; i < 8; i++) {
+        {
+            register s32 sym __asm__("$2") = (s32)((u8 *)D_8019E1B8);
+            base = sym + i * 0x1D0;
+        }
+        if (*(s16 *)(base) == 0) {
+            *(s32 *)(base + 0xC) = *(s32 *)(base + 0xC) + 0x10000;
+        }
+        for (j = 0; j < 16; j++) {
+            p = base + 0x10 + j * 0x1C;
+            switch (*(s16 *)(p)) {
+            case 0:
+                vel = *(s32 *)(p + 0xC) + *(s32 *)(p + 0x10);
+                pos = *(s32 *)(p + 0x14);
+                life = *(u16 *)(p + 2) - 1;
+                pos = pos + vel;
+                *(s32 *)(p + 0x14) = pos;
+                *(s32 *)(p + 0xC) = vel;
+                *(u16 *)(p + 2) = life;
+                if ((s16)life == -1) {
+                    *(u16 *)(p) = *(u16 *)(p) + 1;
+                }
+                *(u16 *)(p + 4) = *(u16 *)(p + 4) + *(u16 *)(p + 6);
+                *(u16 *)(p + 0xA) = *(u16 *)(p + 0xA) + 0x10;
+                break;
+            case 1:
+                *(u16 *)(p + 4) = *(u16 *)(p + 4) + 0x80;
+                f18 = *(s32 *)(p + 0x18) - 8;
+                *(s32 *)(p + 0x18) = f18;
+                if (f18 < 0) {
+                    *(s32 *)(p + 0x18) = 0;
+                    *(u16 *)(p) = *(u16 *)(p) + 1;
+                }
+                break;
+            case 2:
+                cnt2 = cnt2 + 1;
+                break;
+            }
+        }
+        ((void (*)(void *))func_8017E97C)(arg0);
+    }
+    if (cnt2 == 0x80) {
+        ((void (*)(void *))func_80146C3C)(arg0);
+    }
+}
+
 
 
 extern void func_80015978(s32 a0, s32 *a1);

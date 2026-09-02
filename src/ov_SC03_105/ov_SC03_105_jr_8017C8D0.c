@@ -5697,7 +5697,66 @@ void func_80183D38(void *a0, s16 a1, s32 a2) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_80183DA0);
+#include "common.h"
+
+extern void func_8012EFB8(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+typedef struct { s16 vx, vy, vz, pad; } SVec_80183DA0;
+
+void func_80183DA0(s32 a0) {
+    SVec_80183DA0 pos;
+    SVec_80183DA0 out;
+    s32 val;
+    register s32 lvl __asm__("$17");
+    s32 sv;
+    register s32 n __asm__("$2");
+    s32 t;
+    s32 r;
+
+    val = 0x7F;
+    pos.vx = *(s16 *)(a0 + 0x6);
+    pos.vy = *(s16 *)(a0 + 0xA);
+    pos.vz = *(s16 *)(a0 + 0xE);
+    ((void (*)(void *, void *))func_8012EFB8)(&pos, &out);
+    lvl = 7;
+
+    if (out.vx >= 0) {
+        if (out.vx >= 0x140) {
+            val = 0;
+            goto tail;
+        }
+    } else {
+        if (-out.vx >= 0x140) {
+            goto zero;
+        }
+    }
+
+    sv = (s16)val;
+    if (out.vx >= 0) {
+        val = sv - out.vx * 0x7F / 0x140;
+    } else {
+        val = sv - -out.vx * 0x7F / 0x140;
+    }
+    goto tail;
+
+zero:
+    val = 0;
+
+tail:
+    t = out.vx;
+    n = lvl + t / 0x14;
+    lvl = n;
+    __asm__ __volatile__("" : "=r"(n) : "0"(n));
+    if ((s16)n < 0) {
+        lvl = 0;
+    } else if ((s16)n >= 0x10) {
+        lvl = 0xF;
+    }
+    r = (lvl << 8) | 0x3000;
+    func_8002D4C8(0x730, (val | r) & 0xFFFF);
+}
+
 
 extern void func_8002D4C8(s32 arg0, s32 arg1);
     void func_80183EE8(void) {

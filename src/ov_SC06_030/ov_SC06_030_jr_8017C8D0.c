@@ -3488,7 +3488,74 @@ s32 func_8017DE08(s32 a0)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_030/nonmatchings/ov_SC06_030_jr_8017C8D0", func_8017DF70);
+extern void func_8016AA50(s32 param_1, s32 param_2);
+extern s32  func_8016B428(s32 a0);
+extern void func_80019064(void *a0);
+extern void func_8002A520(void *a0);
+extern void func_8002A790(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8017C010(s32 a0, s32 a1, s32 a2);
+
+extern u8 D_80185AB8[];
+extern u8 D_80185D14[];
+
+void func_8017DF70(s32 a0) {
+    s32 e = *(u8 *)(a0 + 0x5E);
+    s32 dec;
+    s32 q;
+
+    if (*(s16 *)(a0 + 0x60) != 0) {
+        if (e == 0x1D) {
+            *(s16 *)(a0 + 0x82) = 0;
+            *(s16 *)(a0 + 0x7C) = *(u16 *)(a0 + 0x06);
+            *(s16 *)(a0 + 0x7E) = *(u16 *)(a0 + 0x0A);
+            *(s16 *)(a0 + 0x80) = *(u16 *)(a0 + 0x0E);
+        }
+        q = *(s32 *)(a0 + 0x78);
+        if (q != 0 && *(s16 *)(a0 + 0x60) != 0) {
+            dec = ((s32) * (s16 *)(a0 + 0x60) * (s32) * (s16 *)(q + 0x30)) >> 12;
+            if (dec < 1) {
+                dec = 1;
+            }
+        } else {
+            dec = *(s16 *)(a0 + 0x60);
+        }
+        *(u16 *)(a0 + 0x76) = *(u16 *)(a0 + 0x76) - dec;
+        func_8016AA50(a0, dec);
+        if ((*(u16 *)(a0 + 0x82) & 1) != 0) {
+            func_8016B428(a0);
+            func_80019064(D_80185AB8);
+        }
+    }
+
+    if (e != 0x1D) {
+        if (*(u8 *)(a0 + 0xC8) != 0) {
+            func_8002A520((void *)a0);
+        }
+        if (*(u8 *)(a0 + 0xC9) != 0) {
+            func_8002A790((void *)a0);
+        }
+    }
+
+    if (*(s16 *)(a0 + 0x76) < 0) {
+        *(s16 *)(a0 + 0x02) = 7;
+        *(s16 *)(a0 + 0x34) = 0;
+        func_8002D4C8(0xA8F, 0);
+        *(s16 *)(a0 + 0x76) = 0;
+    } else if (*(u8 *)(a0 + 0xC2) == 0) {
+        func_8002D4C8(0xA8E, 0);
+    }
+    func_8017C010(a0 + 0x76, (s32)D_80185D14, 0xD2);
+    *(s16 *)(a0 + 0x5C) = 0x800;
+    *(u8 *)(a0 + 0xC2) = 0x10;
+    *(s16 *)(a0 + 0x60) = 0;
+    *(u8 *)(a0 + 0xC1) = 0;
+    *(s16 *)(a0 + 0x5E) = 0;
+    if (*(u16 *)(a0 + 0x02) == 2) {
+        *(s32 *)(a0 + 0x94) = 0x11;
+    }
+}
+
 
 /* func_8017E120 -- ov_SC06_030 / ov_SC06_030_jr_8017C8D0, 884 ins, 14-member PURE/nojr family.
  *

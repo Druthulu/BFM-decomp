@@ -5596,7 +5596,190 @@ void func_8017FCBC(void) {
 
 
 
-INCLUDE_ASM("asm/ov_SC03_030/nonmatchings/ov_SC03_030_jr_8017AE2C", func_80180054);
+/* func_80180054 (ov_SC03_030 / ov_SC03_030_jr_8017AE2C, 101 ins) — MATCH, closeness 0.
+ *
+ * Walks a list of 0x10-byte vertex PAIRS, RotTransPers3's each pair against the
+ * shared vertex D_80126CAC using the camera matrix at D_800AF648, and keeps the
+ * SMALLEST |dy| between the middle projected point (sxy[0].vy) and either
+ * neighbour (sxy[1].vy / sxy[2].vy) — returning 0 the moment the middle point is
+ * bracketed by the two neighbours, and 0xFFFF if the list is empty or nothing is
+ * in range.  `dist` widens the accept band on both sides.
+ *
+ * DECLARATIONS (from the destination TU, per the card — do NOT "fix" them):
+ *   ov_SC03_030_jr_8017AE2C.c:5292  extern u8 D_800AF648[];
+ *   ov_SC03_030_jr_8017AE2C.c:5715  extern Blk8 D_80126CAC;
+ *   ov_SC03_030_jr_8017AE2C.c:5532  extern s32 func_80180054();     <- block-scope,
+ *       in func_8017FCBC.  That empty parameter list is why the definition returns
+ *       s32 (not u16) and takes `s32 dist` (not s16): an argument type subject to a
+ *       default promotion cannot match an empty-parameter-name-list declaration
+ *       (§378b).  `dist` is instead narrowed with (s16) INSIDE the loop, which is
+ *       byte-identical — loop.c hoists the sll/sra into the preheader exactly where
+ *       the target has it (0x801800B8/BC), which a `short` parameter would NOT do
+ *       (it would sign-extend ahead of the entry guard).
+ *   §378c: `Blk8` is ALREADY OWNED by the TU (src/shared/engine_types.h:497, reached
+ *       through ../shared/engine_core.h).  The typedef below exists only so this file
+ *       compiles standalone under match_one (which prepends nothing but common.h);
+ *       DROP THAT ONE LINE when banking and keep `extern Blk8 D_80126CAC;` verbatim.
+ *
+ * THREE LOAD-BEARING LEVERS (all zero-byte; the naive body is 74 mismatches):
+ *
+ * 1. §349/§350 — the re-tie `__asm__("" : "=r"(p) : "0"(p));` after `p += 2`.
+ *    Without it `p + 1` becomes a strength-reduced address giv: loop.c hoists it,
+ *    the giv takes $a0 (§179-A: a loop-walked pointer PARAMETER hands its argument
+ *    register to the giv), the parameter is pushed into a `move $t0,$a0` copy and a
+ *    SECOND `addiu $t0,$t0,0x10` appears in the latch.  reg_n_sets == 2 makes loop.c
+ *    decline both the hoist and the giv, so `addiu $v0,$a0,0x8` is rematerialised
+ *    per iteration in the loop-top branch's delay slot, exactly as the target does.
+ *
+ * 2. The |a-b| blocks need FOUR properties at once, and each one has its own dial:
+ *      (a) cse must NOT fold the else-arm's `a - b` back onto the branch's own
+ *          difference — hence xa/xb are laundered copies (§353's value laundering);
+ *          spell the ternary `>= 0 ? a-b : b-a` so `bltz` jumps to the NEGATIVE arm
+ *          and the positive arm falls through into `j`+delay-slot.
+ *      (b) the copies must not be COALESCED away — hence xa/xb are pinned to
+ *          $a2/$a1 and a/b to $v0/$v1, so `addu $a2,$v0,$zero` cannot be a no-op.
+ *      (c) reorg must be able to REACH `addu $a1,$v1,$zero` for the bltz delay slot.
+ *          THE NEW LAW (not in the cookbook): reorg's `stop_search_p` returns 1 for
+ *          ANY asm insn, so a laundering `__asm__` placed between the copy and the
+ *          conditional branch is a HARD WALL for fill_simple_delay_slots — the
+ *          backward scan stops at the asm and never sees the copy, and the eager
+ *          pass then collapses the `j` away (-2 instructions per block).  Keeping
+ *          the launder OUT of the branch's backward path is the whole fix.
+ *      (d) so `xb = b;` is written INSIDE BOTH ARMS with the launder there: the two
+ *          identical `addu $a1,$v1,$zero` are `redundant_insn`-equal, reorg lifts the
+ *          one copy into the delay slot and deletes it from both arms.
+ *    Every asm template is spelled with a different number of spaces — identical
+ *    ASM_INPUT rtx are rtx_renumbered_equal_p and cross_jump would merge them (§352).
+ *
+ * 3. `Vtx sxy[7]` (7 * 8 = 0x38) is what gives the frame; only sxy[0..2] are used
+ *    (the §333 frame-size idiom).
+ *
+ * Symbols re-read off this .s: D_800AF648 (%hi/%lo at 0x8018005C/60), D_80126CAC
+ * (%hi/%lo at 0x801800CC/D0), no jal.  match_one masks `j` (§195-D), so the three
+ * internal jump destinations were checked by hand: +0x174 (.L801801C8, the `continue`
+ * that skips the pointer bump), +0x120 (.L80180174) and +0x144 (.L80180198).
+ *
+ * match_one: MATCH, closeness 0, 101/101 instructions.
+ */
+
+
+
+extern u8 D_800AF648[];
+extern Blk8 D_80126CAC;
+
+#define gte_SetRotMatrix(r0) __asm__ volatile (         \
+    "lw $12, 0( %0 );"                                   \
+    "lw $13, 4( %0 );"                                   \
+    "ctc2 $12, $0;"                                      \
+    "ctc2 $13, $1;"                                      \
+    "lw $12, 8( %0 );"                                   \
+    "lw $13, 12( %0 );"                                  \
+    "lw $14, 16( %0 );"                                  \
+    "ctc2 $12, $2;"                                      \
+    "ctc2 $13, $3;"                                      \
+    "ctc2 $14, $4"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix(r0) __asm__ volatile (        \
+    "lw $12, 20( %0 );"                                  \
+    "lw $13, 24( %0 );"                                  \
+    "ctc2 $12, $5;"                                      \
+    "lw $14, 28( %0 );"                                  \
+    "ctc2 $13, $6;"                                      \
+    "ctc2 $14, $7"                                       \
+    :                                                    \
+    : "r"( r0 )                                          \
+    : "$12", "$13", "$14" )
+
+#define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+    "lwc2 $0, 0( %0 );"                          \
+    "lwc2 $1, 4( %0 );"                          \
+    "lwc2 $2, 0( %1 );"                          \
+    "lwc2 $3, 4( %1 );"                          \
+    "lwc2 $4, 0( %2 );"                          \
+    "lwc2 $5, 4( %2 )"                           \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+
+#define gte_stsxy3(r0, r1, r2) __asm__ volatile ( \
+    "swc2 $12, 0( %0 );"                         \
+    "swc2 $13, 0( %1 );"                         \
+    "swc2 $14, 0( %2 )"                          \
+    :                                            \
+    : "r"( r0 ), "r"( r1 ), "r"( r2 )            \
+    : "memory" )
+
+typedef struct { s16 vx, vy, vz, pad; } SVec_80180054;
+
+s32 func_80180054(SVec_80180054 *p, s32 dist)
+{
+    SVec_80180054 sxy[7];
+    u16 best;
+    u16 d1, d2;
+    register s32 a __asm__("$2");
+    register s32 b __asm__("$3");
+    register s32 xa __asm__("$6");
+    register s32 xb __asm__("$5");
+
+    best = 0xFFFF;
+    gte_SetRotMatrix(D_800AF648);
+    gte_SetTransMatrix(D_800AF648);
+
+    while (p->pad == 0) {
+        if (best == 0) {
+            break;
+        }
+        gte_ldv3(&D_80126CAC, p, p + 1);
+        gte_rtpt();
+        gte_stsxy3(&sxy[0], &sxy[1], &sxy[2]);
+        if (sxy[1].vy - (s16)dist <= sxy[0].vy && sxy[0].vy <= sxy[2].vy + (s16)dist) {
+            if (sxy[1].vy < sxy[0].vy && sxy[0].vy < sxy[2].vy) {
+                best = 0;
+                continue;
+            }
+            a = sxy[1].vy;
+            b = sxy[0].vy;
+            xa = a;
+            __asm__("" : "=r"(xa) : "0"(xa));
+            if (a - b >= 0) {
+                xb = b;
+                __asm__(" " : "=r"(xb) : "0"(xb));
+                d1 = xa - xb;
+            } else {
+                xb = b;
+                __asm__("  " : "=r"(xb) : "0"(xb));
+                d1 = xb - xa;
+            }
+            a = sxy[2].vy;
+            b = sxy[0].vy;
+            xa = a;
+            __asm__("   " : "=r"(xa) : "0"(xa));
+            if (a - b >= 0) {
+                xb = b;
+                __asm__("    " : "=r"(xb) : "0"(xb));
+                d2 = xa - xb;
+            } else {
+                xb = b;
+                __asm__("     " : "=r"(xb) : "0"(xb));
+                d2 = xb - xa;
+            }
+            if (d1 > d2) {
+                d1 = d2;
+            }
+            if (best > d1) {
+                best = d1;
+            }
+        }
+        p += 2;
+        __asm__("" : "=r"(p) : "0"(p));
+    }
+    return best;
+}
+
 
 extern s16 D_80126CB4;
 
