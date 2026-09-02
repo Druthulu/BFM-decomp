@@ -3638,7 +3638,98 @@ u32 func_8017ED24(u32 param_1, u32 param_2)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_006/nonmatchings/ov_SC06_006_jr_8017DB90", func_8017EEA4);
+/* func_8017EEA4 — ov_SC06_006 actor step (116 ins).
+ *
+ * @class: INTEGRATION-ONLY.  The body was already byte-true (match_one MATCH); the
+ *   whole-binary gate refused it on SIX declaration conflicts with its own TU, all
+ *   of which are fixed below.  Do not redraft the body.
+ *
+ * LEVERS (each verified by removing it; only #2 is byte-visible):
+ *  1. `Blk8` is ALREADY a typedef in src/shared/engine_types.h (`struct {u8 b[8];}`),
+ *     so a file-scope `typedef ... Blk8;` is a redefinition.  Both block types are
+ *     declared at BLOCK scope instead — legal shadowing, and match_one's standalone
+ *     context has neither `Blk8` nor this TU's `Col4`.  Byte-neutral.
+ *  2. §37 asm-label alias for func_8017ED24.  The TU DEFINES `u32 func_8017ED24(u32,
+ *     u32)` above our stub, so re-declaring it `(void*, s32)` is a hard conflict —
+ *     but calling it through the u32 prototype costs a callee-saved register
+ *     (work/$s0 gets rematerialised, $s2 disappears: 113 ins, LENGTH-DRIFT/-3).
+ *     A distinct C name bound to the same asm symbol keeps the byte-true pointer
+ *     form at zero conflict.  This is the ONE edit of the six that moves bytes.
+ *  3. func_8017F4C0: adopt the TU's own spelling (def @3920 / decl @4819) whose 3rd
+ *     param is s32, and put the (u16) cast at the CALL SITE — that is what emits the
+ *     target's `andi $a2, $v0, 0xFFFF`.  Byte-identical to a u16 parameter.
+ *  4. func_8017F258 is defined below us as `void func_8017F258(void)` (it reads its
+ *     argument through a register-$4 pin, §42).  An unprototyped decl is C89-
+ *     compatible with that definition AND still passes $a0 in the delay slot.
+ *  5. §37 again for D_80185FA0: the TU declares it `Rec_80180AE8 []` AFTER our stub,
+ *     and the typedef is not in scope here (duplicating it would be a redefinition).
+ *  6. §124 DEFINITION-side alias.  The banked neighbour func_80180AE8 carries a
+ *     block-scope `extern s32 func_8017EEA4();`, which conflicts with our required
+ *     `void` return.  Returning s32 instead is NOT free: $v0 becomes live-out, gcc
+ *     can no longer sink `addiu $v0,$a0,1` into the case-0 branch delay slot, and the
+ *     function grows to 117 ins.  fix_arity_callers cannot help — it strips parameter
+ *     lists, and this conflict is on the RETURN axis.  So alias the definition.
+ *
+ * @stuck: none — match_one MATCH (116/116) AND recover_integration --probe-only
+ *   reports `static: none / real cc1 MATCH 116 ins` compiling inside the real TU.
+ */
+extern s32 rand(void);
+extern void func_8017F4C0(void *a0, u16 a1, s32 a2);
+extern void aF8017ED24(void *, s32) __asm__("func_8017ED24");
+extern void func_8017F258();
+extern u8 D_80185FA0_recs[] __asm__("D_80185FA0");
+extern u8 D_80185F94[];
+
+void aF8017EEA4(void *arg) __asm__("func_8017EEA4");
+
+void aF8017EEA4(void *arg)
+{
+    typedef struct { u8 b[4]; } Blk4;
+    typedef struct { u8 b[8]; } Blk8;
+    u8 *work = (u8 *)arg + 0xC;
+    u8 *rec;
+    Blk4 t1;
+    Blk4 t2;
+    s16 phase;
+
+    (*(u16 *)((u8 *)arg + 6))++;
+    rec = &D_80185FA0_recs[*(s16 *)((u8 *)arg + 0x4C) * 20];
+    func_8017F4C0(work, *(u16 *)(rec + 2), (u16)((rand() & 0x7F) - 0x3F));
+    aF8017ED24(&t1, *(s32 *)(rec + 0xC));
+    *(Blk4 *)((u8 *)arg + 0xC) = t1;
+    aF8017ED24(&t2, *(s32 *)(rec + 0x10));
+    *(Blk4 *)((u8 *)arg + 0x10) = t2;
+    *(Blk8 *)(*(u8 **)((u8 *)arg + 8) + 8) = *(Blk8 *)D_80185F94;
+
+    phase = *(s16 *)((u8 *)arg + 4);
+    switch (phase)
+    {
+    case 0:
+        if (*(s16 *)((u8 *)arg + 6) < *(u8 *)(rec + 1))
+            break;
+        (*(u16 *)((u8 *)arg + 4))++;
+        *(u16 *)((u8 *)arg + 6) = 0;
+        break;
+    case 1:
+        *(s32 *)(*(u8 **)((u8 *)arg + 8) + 4) &= 0x7FFFFFFF;
+        *(s16 *)(*(u8 **)((u8 *)arg + 8) + 0x18) = *(s16 *)(*(u8 **)((u8 *)arg + 8) + 0x1A) =
+            *(u16 *)((u8 *)arg + 6) * *(u16 *)(rec + 6);
+        if (*(s16 *)((u8 *)arg + 6) < *(s16 *)(rec + 4))
+            break;
+        (*(u16 *)((u8 *)arg + 4))++;
+        *(u16 *)((u8 *)arg + 6) = 0;
+        break;
+    case 2:
+        if (*(s16 *)((u8 *)arg + 6) < *(s16 *)(rec + 8))
+            break;
+        (*(u16 *)((u8 *)arg + 6) = 0, (*(u16 *)((u8 *)arg + 4))++);
+        break;
+    case 3:
+        func_8017F258(arg);
+        break;
+    }
+}
+
 
 #include "common.h"
 

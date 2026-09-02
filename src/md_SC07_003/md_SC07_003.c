@@ -334,7 +334,150 @@ void func_801A072C(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A079C);
+#include "common.h"
+
+/*
+ * func_801A079C  (md_SC07_003, 0x801A079C, 105 ins)  ==  MATCH, byte-exact.
+ *
+ * SC07 actor tick: nudge the sprite's 0x12 field, kick the two 0x94-state
+ * cutscene hooks (0xF / 0x35), run the per-frame update, then pick the next
+ * state (offset 0x2) from the 0xE8 counter and the func_8012BD14 distance.
+ *
+ * LEVERS (each verified by flipping it back and re-scoring with match_one):
+ *
+ *  1. THE `0xF` STORE FOR `s1 <= 0x10000` IS AN **EARLY BLOCK**, NOT A TRAILING
+ *     `else`.  Written as `if (s1 > 0x10000) { ...body... } else { store 0xF; }`
+ *     the else-block lands LAST, so it is the block that falls into the
+ *     epilogue.  gcc's cross_jump then merges every other `sh $v0,0x2($s0)`
+ *     into it (cookbook §5a/§193-C: the SURVIVING copy is the later one, and
+ *     `find_cross_jump` pairs a jump's block with `prev_real_insn(JUMP_LABEL)`
+ *     — i.e. whatever falls through into the epilogue).  Result: 100 ins, four
+ *     stores lost, LENGTH-DRIFT −5 at closeness 56.
+ *     With the early-return form the block that falls into the epilogue is
+ *     `sw $v0,0x1C($s0)` instead, which matches NO `sh` block, so all five
+ *     `sh $v0,0x2($s0)` survive — exactly the target.  This one edit took the
+ *     draft from 100/56 to 105/8.  No §34 asm barrier is needed: choosing the
+ *     fall-through block IS the barrier here.
+ *
+ *  2. BRANCH-SENSE / ARM ORDER is read off the target's `slt`+`beqz`/`bnez`
+ *     pairs (§3-T4): `if (s1 <= 0x24000) {BDBC arm} else {0xC4000 arm}` and
+ *     `if (s1 <= 0x64000) {store 0xF} else {store 0x80}`.  Writing either the
+ *     other way round emits the complementary branch and swaps the two blocks.
+ *
+ *  3. `unused[2]` IS LOAD-BEARING — DO NOT DELETE.  The target's frame is 0x28
+ *     with $s0/$s1/$ra at 0x18/0x1C/0x20; without an 8-byte aggregate local the
+ *     frame is 0x20 (regs at 0x10/0x14/0x18) and eight instructions carry the
+ *     wrong immediates.  gcc-2.7.2 gives an aggregate a stack slot at expand
+ *     time and never reclaims it, so an unreferenced 8-byte local costs zero
+ *     instructions and buys the frame.  (s16[4] and a 2xs32 struct match too —
+ *     only the SIZE matters.)
+ *
+ *  4. `*(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) += func_8012BA10(arg0, 0x20);`
+ *     is the TU's own house form (func_801A61C4) — the call is emitted first,
+ *     then the pointer is reloaded, then `sh` rides the next jal's delay slot.
+ *
+ *  5. func_8012BD14 and func_8012CBA4 are declared `void` (the TU's canonical
+ *     spelling, reconciled in S54) and their return values are read through the
+ *     TU's `((s32 (*)(s32))f)(x)` fn-ptr cast — byte-neutral, see the note above
+ *     func_801A1E30.
+ *
+ * SYMBOL AUDIT (law 1c, done after MATCH — match_one masks jal/HI16/LO16).
+ * Every name re-checked against the relocation lines of
+ * asm/md_SC07_003/nonmatchings/md_SC07_003/func_801A079C.s; the .s's symbol set
+ * and this draft's are identical (12 calls + 3 data):
+ *   func_8012BA10(arg0,0x20) / func_8012B178(arg0,0xFFFB0000) /
+ *   func_801A2658(arg0,&D_801A68BC) [state 0xF] and (arg0,&D_801A68C4) [0x35] /
+ *   func_8013C9C4(D_80186F68) / func_8002D4C8(0xB53,0) / func_8012CBA4(arg0) /
+ *   func_8012ADE4(arg0) / func_801A24E8(arg0) / rand /
+ *   func_8012BD14(arg0) / func_8012BDBC(arg0,0x180) / func_8012BEE8(arg0).
+ * D_801A68C4 is its OWN relocation in this .s (it is &D_801A68BC[8], which
+ * func_801A23FC spells as `D_801A68BC + 8`) — law 1 says spell it as the .s
+ * does, so it gets its own extern here.
+ *
+ * BANK NOTE (law 2): src/md_SC07_003/md_SC07_003.c already declares eleven of
+ * these; every spelling below is copied verbatim from that file (rand:93,
+ * func_8012BEE8:282, func_8012BD14:410, func_8012BA10:412, func_8002D4C8:366,
+ * func_8012B178:1001, func_8012CBA4:1029, func_8012ADE4:1028, func_801A24E8:1032,
+ * func_8013C9C4:1340, func_801A2658:1341, D_801A68BC:1345, func_8012BDBC:4025).
+ * D_80186F68 and D_801A68C4 are absent from the TU, so they are free-standing;
+ * D_80186F68 follows the TU's own precedent for a func_8013C9C4 argument
+ * (`extern u16 D_80186F44[]` at line 1344) rather than the fleet's
+ * function-pointer-array spelling, which lives in other TUs only.
+ */
+
+extern s32  rand(void);
+extern s32  func_8012BA10(s32 a0, s32 a1);
+extern void func_8012B178(s32 a0, s32 a1);
+extern void func_801A2658(s32 a0, s32 a1);
+extern void func_8013C9C4(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012CBA4(s32 a0); /* canonical void; return read via fn-ptr cast */
+extern void func_8012ADE4(u8 *a0);
+extern void func_801A24E8(s32 a0);
+extern void func_8012BD14(s32 a0); /* canonical void; return read via fn-ptr cast */
+extern s32  func_8012BDBC(s32 a0, s32 a1);
+extern s32  func_8012BEE8(s32 a0);
+
+extern u8 D_80186F68[];
+extern u8 D_801A68BC[];
+extern u8 D_801A68C4[];
+
+void func_801A079C(s32 arg0) {
+    s32 s1;
+    s32 unused[2];   /* LOAD-BEARING: buys the target's 0x28 frame (lever 3) */
+    s32 v1;
+
+    *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12) += func_8012BA10(arg0, 0x20);
+    func_8012B178(arg0, 0xFFFB0000);
+
+    v1 = *(s32 *)(arg0 + 0x94);
+    if (v1 == 0xF) {
+        func_801A2658(arg0, (s32)D_801A68BC);
+        func_8013C9C4(D_80186F68);
+        func_8002D4C8(0xB53, 0);
+    } else if (v1 == 0x35) {
+        func_801A2658(arg0, (s32)D_801A68C4);
+        func_8013C9C4(D_80186F68);
+        func_8002D4C8(0xB53, 0);
+    }
+
+    if ((((s32 (*)(s32))func_8012CBA4)(arg0) & 0x2000) == 0) {
+        func_8012ADE4((u8 *)arg0);
+    }
+    func_801A24E8(arg0);
+
+    if (*(s32 *)(arg0 + 0xE8) > 0xFFFF) {
+        if (rand() & 1) {
+            *(s16 *)(arg0 + 2) = 0xD;
+        } else {
+            *(s16 *)(arg0 + 2) = 0xB;
+        }
+        return;
+    }
+
+    s1 = ((s32 (*)(s32))func_8012BD14)(arg0);
+    if (s1 <= 0x10000) {
+        *(s16 *)(arg0 + 2) = 0xF;
+        return;
+    }
+    if (s1 <= 0x24000) {
+        if (func_8012BDBC(arg0, 0x180) != 0) {
+            *(s16 *)(arg0 + 2) = 0x11;
+            return;
+        }
+    } else if (s1 > 0xC4000 && *(s32 *)(arg0 + 0x94) == 0x4E) {
+        *(s16 *)(arg0 + 2) = 9;
+        return;
+    }
+    if (func_8012BEE8(arg0) != 0) {
+        if (s1 <= 0x64000) {
+            *(s16 *)(arg0 + 2) = 0xF;
+        } else {
+            *(s32 *)(arg0 + 0x1C) = 0x80;
+        }
+    }
+}
+
 
 extern void func_801A28AC(s32 a0);
 extern void func_8012A828(s32 a0, void *a1);

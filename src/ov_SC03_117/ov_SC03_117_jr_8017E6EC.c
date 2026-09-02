@@ -3743,7 +3743,68 @@ void func_8017FEA4(s32 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_117/nonmatchings/ov_SC03_117_jr_8017E6EC", func_8017FED8);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_80015978(s32 a0, s32 *a1);
+extern s32 rand(void);
+extern u8 *func_801290DC(s32 arg0, u8 *arg1);
+extern void func_8012BF4C(s32 *a0, s16 a1);
+
+/* func_8017FED8 — jitter the caller's world position by a random signed offset
+ * and spawn entity 0x52 there.
+ *
+ * Two byte-load-bearing spellings (both cost zero instructions):
+ *
+ * 1. `s16 adj` — NOT s32.  Cookbook §194-B/§209: an s32 second local lets
+ *    local-alloc coalesce `adj = m` away (nop in the beqz delay slot); the
+ *    HImode declaration makes it a mode-changing set that cprop cannot fold,
+ *    so the `addu $a0,$v1,$zero` copy survives in the delay slot and `negu`
+ *    writes $a0, not $v1, in place.
+ *
+ * 2. `m = rand(); m = m % K;` — NOT `m = rand() % K;`.  expmed.c:2745
+ *    (expand_divmod) zeroes `target` when `rem_flag && reg_mentioned_p(target,
+ *    op0)`, i.e. only when the destination variable also appears in the
+ *    DIVIDEND.  The one-statement form lets gcc use m's own pseudo as the
+ *    quotient temp too, stretching m's live range across the whole magic-number
+ *    expansion so it conflicts with hard $v1 and gets evicted to $a0 (and the
+ *    changed $a0 liveness then lets reorg steal `li $a0,0x52` into the
+ *    `beqz` delay slot).  Splitting the statement gives the quotient its own
+ *    block-local pseudo -> quotient in $a0, m in $v1, adj in $a0.
+ */
+void func_8017FED8(s32 a0) {
+    u16 sp10[4];
+    u8 *ent;
+    s32 m1;
+    s16 adj1;
+    s32 m2;
+    s16 adj2;
+
+    if (func_8012BEE8(a0)) {
+        func_80015978(a0 + 4, (s32 *)sp10);
+        if (*(s32 *)(a0 + 0xDC) != 0) {
+            m1 = rand();
+            m1 = m1 % 352;
+            adj1 = m1;
+            if (m1 & 1) {
+                adj1 = -m1;
+            }
+            sp10[0] = sp10[0] + adj1;
+            m2 = rand();
+            m2 = m2 % 256;
+            adj2 = m2;
+            if (m2 & 1) {
+                adj2 = -m2;
+            }
+            sp10[2] = sp10[2] + adj2;
+        }
+        ent = func_801290DC(0x52, (u8 *)sp10);
+        if (ent != 0) {
+            func_8012BF4C((s32 *)a0, (rand() & 0x3F) + 0x20);
+            *(u16 *)(ent + 0xA) -= 0x200;
+            *(u16 *)(ent + 0x2E) = *(u16 *)(a0 + 0xFC);
+        }
+    }
+}
+
 
 
 

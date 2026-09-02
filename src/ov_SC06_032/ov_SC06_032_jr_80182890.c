@@ -3493,7 +3493,167 @@ void func_801838A4(s32 p) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_80183940);
+/* func_80183940 @ ov_SC06_032 (subseg ov_SC06_032_jr_80182890) - 110 ins. MATCH.
+ *
+ * GATE: .venv/bin/python tools/match_one.py func_80183940 \
+ *         --c .run/S70y_1/opus/func_80183940.c \
+ *         --asm-subdir asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890
+ *
+ * --------------------------------------------------------------- what it is
+ * "Sweep-check the object's forward arc, then either punt or hand off."
+ *   1. Build a rotation matrix from the owner's angle pair
+ *      (*(s32*)(self+0x20))[0x10], [0x12] via func_80049CAC, load it into the
+ *      GTE, and load the owner's translation (that same object + 0x34) as the
+ *      trans matrix.
+ *   2. RotTransSV the two-entry local SVECTOR table at D_801A6964 -- this
+ *      overlay's own tail.data (asm/ov_SC06_032/data/tail.data.s:23827), 16
+ *      bytes = {0,0,-20,0} then {0,0,+20,0}, i.e. a back point and a front
+ *      point 20 units either side -- into world space (b, c).
+ *   3. func_80135888(D_80126B78, D_80126B90, &b, &c) is the fleet's global
+ *      collision probe.  Blocked -> punt to func_8012F568(1, 1, self->0xFE,
+ *      0x50, &c, D_801152A8).  Clear -> wind the owner's 0x14 angle back
+ *      0x100 and try the two handoffs (func_8012CBF4, else func_8012BEE8).
+ *   4. On the func_8012CBF4 path, re-register via func_80146A6C(6, self, ...)
+ *      and stamp 0x2000 into the func_80132EF4(self, 0x22) record's 0x34.
+ *   5. Every arm except "func_8012BEE8 returned 0" falls into the shared
+ *      func_8012C218(self) tail -- that is the `j .L80183AD0` at 80183A54 and
+ *      80183AB8, and the early-out is the beqz at 80183AC8.
+ *
+ * ------------------------------------------------------- how it was matched
+ * §193-A twin remap.  The h_norm twin in ov_SC06_018 (subseg _jr_80187AEC,
+ * 110 ins, banked) is line-for-line identical in shape; the ONLY per-overlay
+ * symbol is the two-entry SVECTOR table, re-pointed here at this overlay's
+ * D_801A6964.  Every other symbol -- func_80049CAC, RotTransSV, func_80135888,
+ * func_8012F568, func_8012CBF4, func_80146A6C, func_80132EF4, func_8012BEE8,
+ * func_8012C218, D_801152A8, D_80126B78, D_80126B90 -- is RESIDENT (fixed VA),
+ * so the remap is otherwise identity.  Symbol set re-checked instruction by
+ * instruction against this target's own relocation lines (law 1c: match_one
+ * masks jal/HI16/LO16, so a MATCH proves shape, never identity).
+ *
+ * ---------------------------------------------------------------- the levers
+ * L1  LOCAL DECL ORDER IS THE FRAME LAYOUT.  Frame 0x78; the 0x18-byte
+ *     outgoing-arg area that func_80146A6C's 7 args force ends at 0x20, so
+ *     mat lands at sp+0x20 (0x20 bytes), then sv 0x40, b 0x48, c 0x50,
+ *     flag 0x58, with NO gap.  Reordering these five shifts every sp
+ *     displacement.  `flag` is RotTransSV's shared 3rd/"flag" out-arg and is
+ *     passed to both calls, which is why it is one local and not two.
+ *
+ * L2  ZERO FILE-SCOPE FOOTPRINT.  This TU already carries, at file scope
+ *     ABOVE the L3496 INCLUDE_ASM site: func_80146A6C L133, func_80135888
+ *     L578, D_801152A8 L587/L622, func_80049CAC L2621/L2745, RotTransSV
+ *     L2624, func_8012C218 L2710, func_80132EF4 L2744, func_8012BEE8 L2748,
+ *     func_8012CBF4 L2759 -- every spelling below is that same spelling, so
+ *     the block-scope copies are composite-compatible and add nothing.
+ *     func_8012F568 (L3633) and the two s32* pointer externs (L3639-L3640,
+ *     L3848) are declared only BELOW the site and only at block scope, so
+ *     they are kept at block scope here too rather than hoisted.
+ *
+ * L3  THE GTE OPS ARE WRITTEN AS RAW INLINE ASM, NOT AS
+ *     `#define gte_SetRotMatrix` / `#define gte_SetTransMatrix`.  The
+ *     expansion is token-identical to this TU's OWN macro bodies (L6488 /
+ *     L6502) so codegen is unchanged and match_one confirms 110/110 -- but
+ *     defining those two macros here would plant a second definition ~3000
+ *     lines AHEAD of the existing pair, giving the draft a file-scope blast
+ *     radius over already-banked code for no codegen benefit.  Zero-footprint
+ *     form: the same tokens, no macro.
+ *
+ * L4  THE TYPEDEFS ARE BLOCK-SCOPE AND §120-UNIQUIFIED.  MTX_80183940 and
+ *     SVEC_80183940 are layout-identical to engine_types.h `MATRIX`
+ *     ({short m[3][3]; long t[3];}, 0x20) and `SVECTOR`
+ *     ({short vx,vy,vz,pad;}, 8).  They are written out rather than used by
+ *     name so this draft compiles standalone under match_one, whose context
+ *     does not carry engine_types.h; both names are absent from the TU
+ *     (grep: 0 hits), and at block scope they cannot collide at all.
+ */
+
+void func_80183940(s32 param_1)
+{
+    typedef struct { short vx, vy, vz, pad; } SVEC_80183940;   /* == SVECTOR */
+    typedef struct { short m[3][3]; long t[3]; } MTX_80183940; /* == MATRIX  */
+
+    extern s32 *D_80126B78;
+    extern s32 *D_80126B90;
+    extern u8   D_801152A8[];
+    extern SVEC_80183940 D_801A6964[];
+
+    extern void func_80049CAC(s32 a0, s32 a1);
+    extern void RotTransSV(void *a0, void *a1, void *a2);
+    extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    extern s32  func_8012CBF4(s32 a0);
+    extern s32  func_80146A6C(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    extern s32  func_80132EF4(s32 a0, s32 a1);
+    extern s32  func_8012BEE8(s32 a0);
+    extern void func_8012C218(void *a0);
+
+    MTX_80183940  mat;    /* sp+0x20 */
+    SVEC_80183940 sv;     /* sp+0x40 */
+    SVEC_80183940 b;      /* sp+0x48 */
+    SVEC_80183940 c;      /* sp+0x50 */
+    SVEC_80183940 flag;   /* sp+0x58 */
+    s32 iVar;
+
+    sv.vx = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10);
+    sv.vy = *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12);
+    sv.vz = 0;
+    func_80049CAC((s32)&sv, (s32)&mat);
+
+    /* gte_SetRotMatrix(&mat) -- expansion is byte-for-byte this TU's L6488 */
+    __asm__ volatile (
+        "lw $12, 0( %0 );"
+        "lw $13, 4( %0 );"
+        "ctc2 $12, $0;"
+        "ctc2 $13, $1;"
+        "lw $12, 8( %0 );"
+        "lw $13, 12( %0 );"
+        "lw $14, 16( %0 );"
+        "ctc2 $12, $2;"
+        "ctc2 $13, $3;"
+        "ctc2 $14, $4"
+        :
+        : "r"( &mat )
+        : "$12", "$13", "$14" );
+    /* gte_SetTransMatrix(*(s32 *)(param_1 + 0x20) + 0x34) -- this TU's L6502 */
+    __asm__ volatile (
+        "lw $12, 20( %0 );"
+        "lw $13, 24( %0 );"
+        "ctc2 $12, $5;"
+        "lw $14, 28( %0 );"
+        "ctc2 $13, $6;"
+        "ctc2 $14, $7"
+        :
+        : "r"( *(s32 *)(param_1 + 0x20) + 0x34 )
+        : "$12", "$13", "$14" );
+
+    RotTransSV(&D_801A6964[0], &b, &flag);
+    RotTransSV(&D_801A6964[1], &c, &flag);
+
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&b, (s32)&c) != 0) {
+        s16 sVar1 = *(s16 *)(param_1 + 0xFE);
+        func_8012F568(1, 1, sVar1, 0x50, (s32)&c, (s32)D_801152A8);
+    } else {
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) - 0x100;
+        iVar = func_8012CBF4(param_1);
+        if (iVar != 0) {
+            s16 sVar1 = *(s16 *)(param_1 + 6);
+            s16 sVar2 = *(s16 *)(param_1 + 0xA);
+            s16 sVar3 = *(s16 *)(param_1 + 0xE);
+            func_80146A6C(6, (void *)param_1, sVar1, sVar2, sVar3, 0, 0);
+            iVar = func_80132EF4(param_1, 0x22);
+            if (iVar != 0) {
+                *(u16 *)(iVar + 0x34) = 0x2000;
+            }
+        } else {
+            iVar = func_8012BEE8(param_1);
+            if (iVar == 0) {
+                return;
+            }
+        }
+    }
+    func_8012C218((void *)param_1);
+}
+
 
 
 
@@ -11427,4 +11587,52 @@ void func_8018F3E4(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_80182890", func_8018FB5C);
+void func_8018FB5C(s32 arg0, s32 arg1, s32 arg2)
+{
+    typedef struct { s32 a; s32 b[4]; } OtBlk_80182890_8018FB5C;   /* == engine_types.h OtBlk (0x14); BLOCK scope per §94 type-carry */
+    extern OtBlk_80182890_8018FB5C D_800A651C_v[] __asm__("D_800A651C");   /* §200 alias: TU spells it `extern u8 D_800A651C[]` */
+    extern void *func_80010A08(s32);
+    extern void func_8004914C(void *);
+    extern void func_800491AC(void *);
+    extern s32 RotTransPers(s32, s32, s32 *, s32 *);
+    extern u8 D_800AF648;
+    extern u8 D_800A6518[];
+    extern short D_800B9A02;
+    extern void func_80016638(void *a0, s32 a1, s32 a2);
+
+    s32 sp10;
+    s32 sp14;
+    s32 temp_v0_2;
+    void *temp_v0;
+    s32 ot;
+    s32 depth4;
+    register u16 *bidx __asm__("$8");
+    register u32 mask1 __asm__("$7");
+    register s32 rgb __asm__("$16");
+    register u32 tag0 __asm__("$4");
+
+    rgb = arg2;
+    __asm__("" : "=r"(rgb) : "0"(rgb));   /* zero-byte 2nd SET: kills the sched1 birthing boost */
+    temp_v0 = func_80010A08(0x10);
+    *(u8 *)((u8 *)temp_v0 + 3) = 3;
+    *(s32 *)((u8 *)temp_v0 + 4) = rgb;
+    *(u8 *)((u8 *)temp_v0 + 7) = 0x42;
+    func_8004914C(&D_800AF648);
+    func_800491AC(&D_800AF648);
+    temp_v0_2 = RotTransPers(arg0, temp_v0 + 8, &sp10, &sp14);
+    if ((temp_v0_2 > 0) && (sp14 >= 0) &&
+        (RotTransPers(arg1, temp_v0 + 0xC, &sp10, &sp14) > 0) && (sp14 >= 0)) {
+        /* addPrim(otp, p) == setaddr(p, getaddr(otp)), setaddr(otp, p) */
+        mask1 = 0xFFFFFF;
+        bidx = (u16 *)&D_800B9A02;
+        depth4 = temp_v0_2 * 4;
+        tag0 = *(u32 *)temp_v0;
+        *(u32 *)temp_v0 = (tag0 & 0xFF000000) |
+            (*(u32 *)(depth4 + D_800A651C_v[*bidx].a) & mask1);
+        ot = D_800A651C_v[*bidx].a;
+        *(u32 *)(depth4 + ot) =
+            (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & mask1);
+        func_80016638(&D_800A6518[*bidx * 20], temp_v0_2, 1);
+    }
+}
+

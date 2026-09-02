@@ -4056,7 +4056,107 @@ void func_8017D3E0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_012/nonmatchings/ov_SC04_012_jr_8017AE2C", func_8017D4CC);
+/* func_8017D4CC — 115 ins, MATCH.
+ *
+ * Three levers over the backlog draft (which sat at closeness 23):
+ *
+ * 1. §dbr "steal the join's first insn" — `sVar4 = 3;` belongs AFTER both inner
+ *    `if`s, ONCE. dbr fills the `bne`'s delay slot with a COPY of the join's
+ *    first insn and retargets the branch past it, leaving the original for the
+ *    fall-through: that is the duplicated `addiu $v0,$zero,3` at 8017D66C /
+ *    8017D67C. The old draft wrote it both before and inside the `if`; gcc
+ *    deleted the redundant one => exactly one instruction short (nins 114).
+ *
+ * 2. regalloc.md K3 (first-fit over the birth..death window): the else-arm's
+ *    `sVar4 = 2;` must live INSIDE the `if (uVar6 < 2)` arm, not before the
+ *    compare. Written before it, sVar4 is live across the `sltiu` temp, so the
+ *    two conflict and everything shifts up a register ($v0->$v1->$a0). Written
+ *    inside the arm it is born after the temp dies and shares $v0 with it —
+ *    which is why the target can hold uVar6 in $v1 and sVar4 in $v0.
+ *
+ * 3. regalloc.md K3 again, for the 0x60000000 flag store: the or-chain must be
+ *    written out in EACH arm, not through a shared accumulator behind a `goto`.
+ *    In one block the three values (address, 0x40000000, 0x20000000) are all
+ *    block-LOCAL qtys, so local-alloc's first-fit gives the address $v0 and the
+ *    two constants $v1 (they die immediately); cross_jump then merges the
+ *    identical `or/lui/or/sw` suffix back into one copy and dbr lifts the
+ *    surviving `lui $v1,0x4000` into the `j`'s delay slot. Held in a shared
+ *    local across the join it becomes a GLOBAL allocno instead, local-alloc
+ *    hands the constants $v0 first, and the whole chain comes out swapped.
+ */
+extern s32 func_8012C354(s32 a0, s32 a1);
+extern void func_8001C214(s32 a0, s32 a1);
+extern s32 func_80029504(void);
+extern u8 D_8018224C[];
+extern u8 D_8018F198[];
+extern u8 D_8018222C[];
+extern u8 D_8018F210[];
+extern u8 D_8018F288[];
+extern u8 D_8018223C[];
+
+void func_8017D4CC(s32 param_1) {
+    s32 iVar2;
+    u32 uVar5;
+    s16 sVar4;
+    u16 uVar6;
+
+    iVar2 = func_8012C354(param_1, (s32)D_8018224C);
+    if (iVar2 == 0) {
+        return;
+    }
+    sVar4 = *(s16 *)(param_1 + 0x70);
+    if (sVar4 == 1) goto CASE1;
+    if (sVar4 < 2) goto SKIP;
+    if (sVar4 == 2) goto CASE2;
+    if (sVar4 == 3) goto CASE3;
+    goto SKIP;
+CASE1:
+    func_8001C214(*(s32 *)(param_1 + 0x20), (s32)D_8018F198);
+    *(u32 *)(param_1 + 0x58) = (u32)D_8018222C | 0x40000000 | 0x20000000;
+    goto SKIP;
+CASE2:
+    func_8001C214(*(s32 *)(param_1 + 0x20), (s32)D_8018F210);
+    *(u32 *)(param_1 + 0x58) = (u32)D_8018223C | 0x40000000 | 0x20000000;
+    goto SKIP;
+CASE3:
+    func_8001C214(*(s32 *)(param_1 + 0x20), (s32)D_8018F288);
+    *(u32 *)(param_1 + 0x58) = (u32)D_8018223C | 0x40000000 | 0x20000000;
+SKIP:
+    *(u8 *)(param_1 + 0xc0) = 1;
+    *(u8 *)(param_1 + 0x75) = 2;
+    *(s16 *)(param_1 + 0xae) = -1;
+    *(s16 *)(param_1 + 2) = 1;
+    uVar5 = func_80029504();
+    if (uVar5 >= 0x2f0) {
+        if (*(s16 *)(param_1 + 0x70) == 0) {
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = 0xd00;
+        }
+        if (*(s16 *)(param_1 + 0x70) == 1) {
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = 0xd00;
+        }
+        if (*(s16 *)(param_1 + 0x70) == 2) {
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = 0x300;
+        }
+        if (*(s16 *)(param_1 + 0x70) == 3) {
+            *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = 0x300;
+        }
+    } else {
+        uVar6 = *(u16 *)(param_1 + 0x70);
+        if (uVar6 < 2) {
+            sVar4 = 2;
+        } else {
+            if ((s16)uVar6 == 2) {
+                *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = 0x100;
+            }
+            if (*(s16 *)(param_1 + 0x70) == 3) {
+                *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12) = 0x100;
+            }
+            sVar4 = 3;
+        }
+        *(s16 *)(param_1 + 2) = sVar4;
+    }
+}
+
 
 
 extern void (*D_80182280[])(void);

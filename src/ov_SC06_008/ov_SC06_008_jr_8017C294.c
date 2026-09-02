@@ -3908,7 +3908,76 @@ next3:
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_008/nonmatchings/ov_SC06_008_jr_8017C294", func_8017E37C);
+#include "common.h"
+
+/* ---- decls (TU house style: ratan2/func_80021174/rand copied verbatim from
+ *      the existing decls in src/ov_SC06_008/ov_SC06_008_jr_8017C294.c;
+ *      func_801290DC is left unprototyped exactly as the neighbour
+ *      func_8017EBAC uses it; func_8017EBAC matches its definition below in
+ *      the same TU. D_80189570 / D_801895B4 are new to this TU.) ---- */
+extern u16 *D_80189570[];
+extern s32 D_801895B4;
+extern s32 func_80021174(s32 a0, s32 a1);
+extern s32 ratan2(s32 dx, s32 dy);
+extern s32 rand(void);
+extern void func_8017EBAC(int param_1);
+extern s32 func_801290DC();
+
+/* 0x10-byte spawn record built on the stack at sp+0x10 */
+typedef struct {
+    s16 x;    /* 0x00 */
+    s16 y;    /* 0x02 */
+    s16 z;    /* 0x04 */
+    u16 ang;  /* 0x06 */
+    s16 f8;   /* 0x08 */
+    s16 fA;   /* 0x0A */
+    s16 fC;   /* 0x0C */
+    s16 fE;   /* 0x0E */
+} Cfg_8017E37C;
+
+/* 0x10-byte VECTOR at sp+0x20 (pad needed: it fixes s0/ra at 0x30/0x34) */
+typedef struct {
+    s32 vx, vy, vz, pad;
+} Vec_8017E37C;
+
+s32 func_8017E37C(void *a0, s32 a1, s32 a2)
+{
+    Cfg_8017E37C sp10;
+    Vec_8017E37C sp20;
+    u16 *p;
+    s32 q;
+
+    /* §219: the base load and the stride add MUST be two statements —
+     * folding them into one expression schedules the a1*6 chain first and
+     * lands the base in $v1 instead of accumulating into $s0. */
+    p = D_80189570[*(s16 *)((s32)a0 + 0x70)];
+    p += (s16)a1 * 3;
+
+    sp10.x = p[0];
+    sp20.vx = sp10.x;
+    sp10.y = p[1] + a2;
+    sp20.vy = sp10.y;
+    sp10.z = p[2];
+    sp20.vz = sp10.z;
+    sp10.f8 = p[3];
+    if (sp10.f8 == 0x7FFF) {
+        return 1;
+    }
+    if (func_80021174(D_801895B4, (s32)&sp20) != 1) {
+        return 0;
+    }
+    sp10.fC = p[5];
+    sp10.ang = ratan2(sp10.f8 - sp10.x, sp10.fC - sp10.z);
+    q = func_801290DC(0x68, &sp10);
+    if (q != 0) {
+        *(s16 *)(q + 0x2C) = sp10.ang;
+    }
+    if ((rand() & 7) == 0) {
+        func_8017EBAC((int)&sp10);
+    }
+    return 0;
+}
+
 
 
 extern void (*D_80189604[])(void);

@@ -3328,7 +3328,82 @@ void func_8017EAB0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_005/nonmatchings/ov_SC05_005_jr_8017D898", func_8017EAEC);
+#include "common.h"
+
+/* func_8017EAEC — ov_SC05_005 / ov_SC05_005_jr_8017D898   (107 ins, MATCH)
+ *
+ * Per-frame camera driver for this scene: every 4th tick (func_80148800 & 3)
+ * it flips the 1-bit phase at +5 and reloads the +0x14 field from the 2-entry
+ * table D_801860AC, then copies the 8-byte camera aggregate D_80126940 onto the
+ * stack, clamps it, offsets a second copy by sin/cos of the player angle, asks
+ * func_8017EE64 for a yaw and hands both to func_8017EC98.
+ *
+ * Levers:
+ *   §48-C2 — D_80126940 is an 8-byte, 2-BYTE-ALIGNED aggregate, so the plain
+ *     struct assign `sp10 = D_80126940;` is what emits the lwl/lwr + swl/swr
+ *     block copy (same typedef shape the rest of this family uses).
+ *   base+offset — `lw $v0, 0x20($s1)` reads D_80126B78 through the SAME $s1 that
+ *     holds &D_80126B58 for the func_80148800 call, so it must be spelled off
+ *     that base (`base[8]`), never as its own %hi(D_80126B78) fold.
+ *   /128 — `bgez / addiu 0x7F / sra 7` is a signed divide by 128, not `>> 7`.
+ *   §286 — THE ONLY RESIDUAL (closeness 4). Written as a plain statement,
+ *     `*(s16 *)(a0 + 0xA0) = r;` is emitted BEFORE the argument setup, so the
+ *     `li $a3,1` wins the jal's delay slot and the sh lands 4 insns early.
+ *     Folding the store into a comma-expression in an ARGUMENT position places
+ *     its RTL after the last arg move, and the sh takes the delay slot: 4 -> 0.
+ */
+
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+typedef struct { s16 v[4]; } Blk8_80126940_8017D6D0_8017EAEC;
+
+extern u16  func_80148800(s32 *a0);
+extern s32  func_8004787C(s32 a0);
+extern s32  func_80047948(s32 a0);
+extern s32  func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32  func_8017EE64(u8 *param_1, s16 *param_2, s16 *param_3);
+extern void func_8017EC98(s32 param_1, s32 param_2, s16 *param_3);
+extern s32  D_80126B58;
+
+void func_8017EAEC(s32 a0) {
+
+    extern s16 D_801860AC[];
+    extern u8  D_80186058[];
+    extern s16 D_801B1EB8;
+    extern Blk8_80126940_8017D6D0_8017EAEC D_80126940;
+
+    Blk8_80126940_8017D6D0_8017EAEC sp10;
+    Blk8_80126940_8017D6D0_8017EAEC sp18;
+    s32 *base;
+    u8 t;
+    s32 r;
+
+    base = &D_80126B58;
+    if (func_80148800(base) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_801860AC[t];
+    }
+    sp10 = D_80126940;
+    if (sp10.v[0] < -0x1440) {
+        sp10.v[0] = -0x1440;
+    }
+    if (sp10.v[1] > -0x200) {
+        sp10.v[1] = -0x200;
+    }
+    if (sp10.v[0] > 0x1100) {
+        if (sp10.v[2] > -0x80) {
+            sp10.v[2] = -0x80;
+        }
+    }
+    sp18.v[0] = sp10.v[0] - func_8004787C(((s16 *)base[8])[9]) / 128;
+    sp18.v[2] = sp10.v[2] - func_80047948(((s16 *)base[8])[9]) / 128;
+    sp18.v[1] = sp10.v[1];
+    r = func_8017EE64(D_80186058, sp10.v, sp18.v);
+    /* §286: the store must ride the jal's delay slot -- see header. */
+    D_801B1EB8 = func_80012DBC(D_801B1EB8, (s16)r, 4, (*(s16 *)(a0 + 0xA0) = r, 1));
+    func_8017EC98(a0, D_801B1EB8, sp10.v);
+}
+
 
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);

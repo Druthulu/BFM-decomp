@@ -4227,7 +4227,118 @@ zero:
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_007/nonmatchings/ov_SC03_007_jr_80183894", func_801850B4);
+#include "common.h"
+
+extern void func_80185B48(s32 a0);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012D624(void *a0, s32 a1, s32 a2);
+extern void func_80185E30(void *a0);
+extern void (*D_8018C588[])(void);
+
+/*
+ * Four load-bearing details (each single-axis A/B'd against match_one; the
+ * function is 95/95 byte-exact only with all four):
+ *
+ *  1. `s32 pad[4];` -- cookbook §162i1/§164-53 dead BLKmode local reserving the
+ *     target's vars area, the same device func_80184E8C uses above in this TU.
+ *     vars = 0x38 - ROUND8(args 0x10) - ROUND8(4*5 saved regs = 0x18) = 0x10.
+ *     Without it the frame is -0x30 and every sw/lw offset is wrong.
+ *
+ *  2. `__asm__ __volatile__("" : "=r"(cc) : "0"(cc));` after the first
+ *     func_8012D624 call.  It is zero bytes and does BOTH jobs the target needs:
+ *       (a) §5a cross-jump barrier -- find_cross_jump bails on a volatile asm, so
+ *           gcc keeps BOTH copies of the `func_8012D624(a0,0xC0,0x30)` tail
+ *           instead of tail-merging them (that merge costs 6 instructions);
+ *       (b) it re-SETS cc, which kills the jump equivalence cse recorded at the
+ *           `bne` above, so the deliberately-redundant `beq $s1,$s2` survives
+ *           instead of folding to an unconditional `j`.  That surviving beq is
+ *           also what keeps cc live across the call -> cc earns $s1, the saved
+ *           set grows to s0-s3+ra, and the frame reaches 0x38.
+ *     Laundering `one` instead of `cc` here emits `beq $s2,$s1` (operands
+ *     swapped, closeness 1).  Laundering at the join instead of inside the arm
+ *     loses the jump-threading (closeness 1 the other way).
+ *
+ *  3. `if (cc != one) goto second;` -- the explicit goto reproduces jump1's
+ *     thread_jumps redirect (the bne skips PAST the redundant beq to
+ *     .L8018512C).  Written as a plain `if (cc == one) { ... }` the bne lands on
+ *     the beq instead: same length, one wrong branch word.
+ *
+ *  4. `__asm__ __volatile__("");` before `one = 1;` -- zero-byte sched1 fence
+ *     (§194-A) that keeps the `addiu $s2,$zero,1` from floating above the call
+ *     and its sll/sra.  `one` is pinned to $18 because otherwise the allocator
+ *     hands cc/$s2 and one/$s1, i.e. the pair swapped.
+ *
+ *  Every read-modify-write below is written in-place (`t = load; t += K;`)
+ *  rather than `t = load + K;` -- §219: the in-place form reuses the load's
+ *  register (`addiu $v0,$v0,0x200`), the other allocates a fresh one.
+ *  q/u are separate locals from p/t on purpose: sharing them puts the head
+ *  block's pointer in $v1 and its value in $v0, the reverse of the target.
+ */
+void func_801850B4(s32 a0) {
+    s32 pad[4];
+    s32 p;
+    s32 q;
+    s32 u;
+    s32 t;
+    s32 hold;
+    register s32 one __asm__("$18");
+    s32 cc;
+
+    func_80185B48(a0);
+    if (*(s32 *)(a0 + 0x1C) != 0) {
+        q = *(s32 *)(a0 + 0x20);
+        u = *(u16 *)(q + 0x12);
+        hold = u + 0x100;
+        u -= 0x380;
+        *(u16 *)(q + 0x12) = u;
+        cc = (s16)func_8012BD3C(a0, 0x100, 0x9000);
+        __asm__ __volatile__("");
+        one = 1;
+        if (cc != one) {
+            goto second;
+        }
+        func_8012D624((void *)a0, 0xC0, 0x30);
+        __asm__ __volatile__("" : "=r"(cc) : "0"(cc));
+        if (cc == one) {
+            goto rejoin;
+        }
+    second:
+        p = *(s32 *)(a0 + 0x20);
+        *(u16 *)(p + 0x12) = *(u16 *)(p + 0x12) + 0x800;
+        if (func_8012BD3C(a0, 0x100, 0x9000) == one) {
+            func_8012D624((void *)a0, 0xC0, 0x30);
+        }
+    rejoin:
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = hold;
+        if (*(s32 *)(a0 + 0x1C) >= 5) {
+            p = *(s32 *)(a0 + 0x20);
+            t = *(u16 *)(p + 0x1C);
+            t += 0x200;
+            *(u16 *)(p + 0x1C) = t;
+            *(u16 *)(p + 0x18) = t;
+            p = *(s32 *)(a0 + 0x20);
+            t = *(u16 *)(p + 0x1A);
+            t -= 0x100;
+        } else {
+            p = *(s32 *)(a0 + 0x20);
+            t = *(u16 *)(p + 0x1C);
+            t -= 0x600;
+            *(u16 *)(p + 0x1C) = t;
+            *(u16 *)(p + 0x18) = t;
+            p = *(s32 *)(a0 + 0x20);
+            t = *(u16 *)(p + 0x1A);
+            t += 0x300;
+        }
+        *(u16 *)(p + 0x1A) = t;
+        *(s32 *)(a0 + 0x1C) = *(s32 *)(a0 + 0x1C) - 1;
+    } else {
+        func_8012A828(a0, (void *)D_8018C588);
+        *(s32 *)(a0 + 0x1C) = 0;
+        func_80185E30((void *)a0);
+    }
+}
+
 
 extern u8 D_80126B5C;
 extern s32 D_80126B64;

@@ -3534,7 +3534,73 @@ void func_8017D4A4(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_011/nonmatchings/ov_SC05_011_jr_8017BEBC", func_8017D610);
+/* Twin of the banked same-TU neighbour func_8017D4A4 (§194-E): three
+ * "if (obj->f90 == &G && obj->f98 == 0)" guards whose f90 loads CSE together,
+ * three (func_80029178(id) & 0xFF) flag drains, then the neighbours own
+ * switch ((s16)(*(u16 *)(obj + 0x108))--) with case bodies ordered 0,1,5,3/7
+ * so cross-jumping folds the three func_800183E0 tails into one. */
+extern s32 func_8012A828();
+extern void func_80029124();
+extern s32 func_80029178();
+extern void func_800183E0();
+extern s32 rand();
+
+extern s32 D_80181DE8;
+extern s32 D_80181FB8;
+extern s32 D_80182138;
+extern s32 D_80181D48;
+extern s32 D_801820B0;
+extern u8 D_80181E40[];
+extern u8 D_8019A07C[];
+extern u8 D_8019A61C[];
+extern u8 D_8019A34C[];
+extern s32 jtbl_8019BD08[];
+
+void func_8017D610(void *arg0) {
+    if (*(s32 *)((s32)arg0 + 0x90) == (s32)&D_80181DE8) {
+        if (*(s16 *)((s32)arg0 + 0x98) == 0) {
+            func_8012A828(arg0, D_80181E40);
+        }
+    }
+    if (*(s32 *)((s32)arg0 + 0x90) == (s32)&D_80181FB8) {
+        if (*(s16 *)((s32)arg0 + 0x98) == 0) {
+            func_8012A828(arg0, &D_801820B0);
+        }
+    }
+    if (*(s32 *)((s32)arg0 + 0x90) == (s32)&D_80182138) {
+        if (*(s16 *)((s32)arg0 + 0x98) == 0) {
+            func_8012A828(arg0, &D_801820B0);
+        }
+    }
+    if (func_80029178(0x128) & 0xFF) {
+        func_80029124(0x128, 0);
+        func_8012A828(arg0, &D_80181DE8);
+    }
+    if (func_80029178(0x12A) & 0xFF) {
+        func_80029124(0x12A, 0);
+        func_8012A828(arg0, &D_80181D48);
+    }
+    if (func_80029178(0x12C) & 0xFF) {
+        func_80029124(0x12C, 0);
+        func_8012A828(arg0, &D_80182138);
+    }
+    switch ((s16)(*(u16 *)((s32)arg0 + 0x108))--) {
+    case 0:
+        *(u16 *)((s32)arg0 + 0x108) = (rand() & 0x3F) + 0x3C;
+        break;
+    case 1:
+        func_800183E0((s32)D_8019A07C);
+        break;
+    case 5:
+        func_800183E0((s32)D_8019A61C);
+        break;
+    case 3:
+    case 7:
+        func_800183E0((s32)D_8019A34C);
+        break;
+    }
+}
+
 
 
 extern void (*D_801823B0[])(void);

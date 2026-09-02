@@ -4583,7 +4583,7 @@ extern s32 D_801A108C;
 extern s32 D_801A1090;
 extern s32 D_801A1094;
 extern void func_8017E840(void *a0);
-extern void func_8017E6A4(void *a0);
+extern void func_8017E6A4();
 extern void func_8017EAE4(s32);
 extern s32 func_8012AD50(void *a0);
 
@@ -4631,7 +4631,64 @@ void func_8017E354(s32 param_1) {
 
 INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017E464);
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017E6A4);
+// @class: align-1 block move + sched1 load-delay fence
+// The 8-byte sp+0x10 -> D_80126BE0 copy is an ALIGN-1 STRUCT ASSIGN (cookbook §160a /
+// §48-C2): emit_block_move lowers it to lwl/lwr + swl/swr with ZERO memcpy-symbol
+// reference, so this TU's file-scope `extern memcpy` (line 85, which disables the
+// builtin and turns a memcpy() draft into a CALL -> LENGTH-DRIFT/-5) cannot drift it.
+// Without the trailing zero-byte §194-A fence, sched1 hoists the `lhu D_80126B5E`
+// above the block move and the pair eats its load-delay nop (cookbook-index L30: an
+// lwl/lwr+swl/swr pair is a delay-slot SPONGE) -> LENGTH-DRIFT/-1. The fence keeps the
+// nop and costs no bytes.
+
+typedef struct { u8 b[8]; } Blk8_8017E6A4;
+
+extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012B370(s32);
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern void func_80015954(s32 a0, s32 a1);
+
+void func_8017E6A4(s32 param_1)
+{
+
+    extern s32 D_801A12E4;
+    extern s32 D_8012699C;
+    extern s16 D_80126C88;
+    extern s16 D_80126C8A;
+    extern void (*D_80186544[])(void);
+    u8 buf[8];
+    u16 *rec;
+    s32 *b78;
+    s32 t;
+
+    rec = (u16 *)(D_8012697C + (D_80126980 + 8) * 6);
+    b78 = D_80126B78;
+    t = D_801A12E4;
+
+    *(u16 *)(param_1 + 6) = rec[0];
+    *(u16 *)(param_1 + 0xA) = rec[1];
+    *(u16 *)(param_1 + 0xE) = rec[2];
+
+    *(s16 *)((s32)b78 + 0x14) = -*(u16 *)(*(s32 *)(param_1 + 0x20) + 0x14) & 0xFFF;
+    *(s16 *)&D_80126C88 = -*(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) & 0xFFF;
+    *(s16 *)&D_80126C8A = (*(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + 0x800) & 0xFFF;
+
+    D_8012699C = (func_80012F74((D_8012699C << 14) >> 16, (t << 29) >> 16, 10, 1) << 16) >> 14;
+
+    func_8012B370(param_1);
+    func_8012F214(param_1, (s32)D_80186544, (s32)&buf[0]);
+    func_80015954((s32)&buf[0], (s32)&D_80126B5C);
+    *(Blk8_8017E6A4 *)D_80126BE0 = *(Blk8_8017E6A4 *)&buf[0];
+    __asm__ __volatile__("");
+
+    *(s16 *)((s32)b78 + 8) = D_80126B5E;
+    *(s32 *)((s32)b78 + 0x48) = (s32)(s16)D_80126B5E;
+    *(s16 *)((s32)b78 + 0xA) = D_80126B62;
+    *(s32 *)((s32)b78 + 0x4C) = (s32)(s16)D_80126B62;
+    *(s16 *)((s32)b78 + 0xC) = D_80126B66;
+    *(s32 *)((s32)b78 + 0x50) = (s32)(s16)D_80126B66;
+}
+
 
 void func_8017E840(void *a0) {
     extern s32 D_801A12E4;
@@ -4996,7 +5053,61 @@ void func_8017F24C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_008/nonmatchings/ov_SC05_008_jr_8017AE2C", func_8017F288);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 func_8012AD50(void *a0);
+
+void func_8017F288(s32 param_1) {
+    extern s32 D_801151D4;
+    extern s32 D_801A1274;
+    extern void (*D_801865B8[])(void);
+    s32 wp;
+    s32 s1;
+    s32 v0;
+    s16 key;
+    s16 key2;
+    s16 i;
+    s16 lim;
+    void (**tbl)(void);
+
+    wp = D_801151D4;
+    s1 = D_801A1274;
+    key = *(u16 *)(*(s32 *)(wp + 0x34) + *(u16 *)(wp + 0x38) * 6 + 4);
+    if (*(s32 *)(s1 + 0xC) != 0) {
+        do {
+            if (*(s16 *)(s1 + 4) >= key) {
+                goto done1;
+            }
+            s1 += 0x10;
+        } while (*(u32 *)(s1 + 0xC) != 0);
+    }
+done1:
+    i = *(u16 *)(wp + 0x38);
+    lim = i + 0x50;
+    if (i < lim) {
+        tbl = D_801865B8;
+        do {
+            key2 = *(u16 *)(*(s32 *)(wp + 0x34) + i * 6 + 4);
+            if (*(s32 *)(s1 + 0xC) != 0) {
+                do {
+                    if (*(s16 *)(s1 + 4) >= key2) {
+                        goto next;
+                    }
+                    v0 = func_8012C588((s32)tbl[*(u32 *)(s1 + 0xC)], param_1);
+                    if (v0 != 0) {
+                        *(s32 *)(v0 + 0xCC) = s1;
+                        *(s32 *)(v0 + 0xDC) = i;
+                    }
+                    s1 += 0x10;
+                } while (*(u32 *)(s1 + 0xC) != 0);
+            }
+        next:
+            i++;
+        } while (i < lim);
+    }
+    D_801A1274 = s1;
+    func_8012AD50((void *)param_1);
+}
+
 
 extern s32 func_8012C588(s32 a0, s32 a1);
 

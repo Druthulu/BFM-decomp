@@ -3378,7 +3378,79 @@ void func_8017D4CC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_026/nonmatchings/ov_SC02_026_jr_8017C180", func_8017D508);
+/* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
+
+extern u16 func_80148800(s32 *a0);
+extern void func_8017D780(s32 param_1, s16 *param_2);
+
+// @class: schedule
+// @stuck: none -- MATCH (114 ins). Four arms written out in full (§396-b: let gcc cross-jump the
+//   0x2AA arms itself; hand-merging loses the register layout). The 0x71/0x600/-0x50 body is
+//   DUPLICATED in arms 1 and 3 and the target keeps BOTH copies, so it needs the §5a zero-byte
+//   cross-jump barrier -- but §336's "put it at the BOTTOM of the twin" is one statement too far
+//   here: below the last store it also blocks reorg's backward scan, the `j`'s delay slot steals
+//   `sh zero,0x32` from .L8017D67C instead of `sh $v0,0x30` (near 34, +1 ins). Placing it one
+//   statement HIGHER -- between the 0x2E store and the 0x30 store -- leaves a 1-instruction common
+//   suffix, which is below find_cross_jump's 2-insn minimum, so the merge still bails AND the
+//   delay slot still fills. That pins `li -0x50` below the asm (SCHEDULE-REORDER/3); birthing it
+//   as a local `k` ABOVE the barrier lets sched1 hoist it back to its target slot. All three
+//   lines (the local, the barrier, its position) are load-bearing -- do not tidy them.
+
+void func_8017D508(s32 a0) {
+
+    typedef struct { s16 v[4]; } Blk8_80126940_8017D508;
+
+    extern s32 D_80126B58;
+    extern s16 D_80189BEC[];
+    extern Blk8_80126940_8017D508 D_80126940;
+    Blk8_80126940_8017D508 sp10;
+    u8 t;
+
+    if (func_80148800(&D_80126B58) & 3) {
+        t = (*(u8 *)(a0 + 5) + 1) & 1;
+        *(u8 *)(a0 + 5) = t;
+        *(s32 *)(a0 + 0x14) = D_80189BEC[t];
+    }
+    sp10 = D_80126940;
+    if (((u32)((u16)sp10.v[0] - 0x2C1) < 0x2BF) && (sp10.v[1] >= -0x35F) &&
+        ((u32)((u16)sp10.v[2] - 0x581) < 0x77F)) {
+        *(s16 *)(a0 + 0x20) = 0x71;
+        *(s16 *)(a0 + 0x22) = 0x600;
+        *(s16 *)(a0 + 0x24) = 0;
+        *(s16 *)(a0 + 0x2E) = 0;
+        *(s16 *)(a0 + 0x30) = -0x50;
+    } else if (((u16)((u16)sp10.v[0] + 0x5FF) < 0x5FF) &&
+               ((u32)((u16)sp10.v[2] - 0x681) < 0x3FC)) {
+        *(s16 *)(a0 + 0x20) = 0x2AA;
+        *(s16 *)(a0 + 0x22) = 0x800;
+        *(s16 *)(a0 + 0x24) = 0;
+        *(s16 *)(a0 + 0x2E) = 0;
+        *(s16 *)(a0 + 0x30) = 0;
+    } else if (sp10.v[2] < 0x380) {
+        s16 k = -0x50;                  /* §5a: born ABOVE the barrier so sched1 can hoist the li */
+        *(s16 *)(a0 + 0x20) = 0x71;
+        *(s16 *)(a0 + 0x22) = 0x600;
+        *(s16 *)(a0 + 0x24) = 0;
+        *(s16 *)(a0 + 0x2E) = 0;
+        __asm__ __volatile__("");       /* §5a/§336 cross-jump barrier - LOAD-BEARING, see above */
+        *(s16 *)(a0 + 0x30) = k;
+    } else {
+        *(s16 *)(a0 + 0x20) = 0x2AA;
+        *(s16 *)(a0 + 0x22) = 0x600;
+        *(s16 *)(a0 + 0x24) = 0;
+        *(s16 *)(a0 + 0x2E) = 0;
+        *(s16 *)(a0 + 0x30) = 0;
+    }
+    *(s16 *)(a0 + 0x32) = 0;
+    if (sp10.v[0] < -0x400) {
+        sp10.v[0] = -0x400;
+    }
+    if (sp10.v[1] >= -0x101) {
+        sp10.v[1] = -0x102;
+    }
+    func_8017D780(a0, sp10.v);
+}
+
 
 /* 8 bytes, align 2 -> lwl/lwr/swl/swr copy (cookbook §48-C2) */
 

@@ -5518,7 +5518,69 @@ void func_80180850(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_001/nonmatchings/ov_SC07_001_jr_8017BEBC", func_8018088C);
+// @class: loop-invariant sign-extension order
+// @stuck: none — MATCH (104 ins, match_one).
+//   The whole residual was a 4-instruction REGALLOC-PERM in the loop preheader:
+//   the two hoisted `sll/sra 16` pairs (sign-extending `base` and `limit`) came out
+//   in the wrong order, taking $s5/$s4 with them. -dS shows BOTH sign-extensions are
+//   created by loop.c `move_movables` (insns 218-221, hoisted out of the loop), NOT by
+//   the pre-loop assignments — so `base`/`limit` stay HImode pseudos and NO statement
+//   permutation outside the loop can reorder them (verified: 5 orderings, all closeness 4;
+//   an `asm("")` fence costs a nop, register pins push the extends back INTO the loop).
+//   The order is the order `move_movables` FINDS them, i.e. the operand order of the
+//   loop's own comparison. Writing the guard as `limit > sum` instead of `sum < limit`
+//   expands `limit` first, hoists its extend first, and closes 4 -> 0. Same slt, same
+//   104 instructions. (Extends §49/§167-34: the LUID dial reached through the COMPARISON
+//   OPERAND ORDER when the movable is loop-hoisted.)
+//
+//   `base` must stay `u16` (the raw lhu is what feeds `addu $v0,$v0,$s3` at 0xA($s0));
+//   `(s16)base` in the guard is the separate $s4. `D_800B99DA % 5` uses the UNSIGNED
+//   0xCCCCCCCD magic + `andi 0xFFFF` because gcc-2.7.2 c-typeck shortens `unsigned short
+//   % const` back to unsigned short (build_binary_op's TRUNC_MOD_EXPR `shorten`).
+
+extern s32 D_80185678[];
+extern u16 D_80185688[];
+extern s16 D_801AAD6E[];
+extern u16 D_800B99DA;
+extern s32 func_8012913C(s32 a0);
+extern s32 rand(void);
+
+void func_8018088C(s32 a0)
+{
+    s32 idx;
+    s32 rec;
+    u16 base;
+    s16 limit;
+    s32 ent;
+
+    idx = *(s16 *)(a0 + 0x70);
+    rec = D_80185678[idx];
+    if (rec == 0) {
+        return;
+    }
+    if (D_800B99DA % 5 != 0) {
+        return;
+    }
+    if (*(s32 *)(a0 + 0x3C) == *(s32 *)(a0 + 8)) {
+        return;
+    }
+    base = *(u16 *)&D_801AAD6E[idx * 4];
+    limit = D_80185688[idx];
+    while (*(s16 *)(rec + 6) != -1) {
+        if (limit > *(s16 *)(rec + 2) + (s16)base) {
+            ent = func_8012913C(0x22);
+            if (ent != 0) {
+                *(u16 *)(ent + 6) = *(u16 *)rec;
+                *(u16 *)(ent + 0xA) = *(u16 *)(rec + 2) + base;
+                *(u16 *)(ent + 0xE) = *(u16 *)(rec + 4);
+                *(u16 *)(ent + 0x34) = (rand() % 4095 + 0x6000) & 0xFFF0;
+                *(u16 *)(*(s32 *)(ent + 0x20) + 0x2C) = 0xC00C;
+            }
+        }
+        rec += 8;
+    }
+}
+
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);

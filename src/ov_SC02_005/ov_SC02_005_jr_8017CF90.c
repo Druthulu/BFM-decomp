@@ -4376,7 +4376,39 @@ void func_8017F7CC(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_8017CF90", func_8017F898);
+extern s32 D_801270C8;
+extern u8 D_800D5C6C[];
+extern s32 D_80197244;
+extern void func_8017E190(void);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80154274(s32 *a0, s32 a1);
+extern void func_8014706C(void *a0);
+extern s32 func_8013767C(s32 a0);
+
+void func_8017F898(s32 arg0) {
+    s32 s0 = arg0;
+    s16 sp10[2];
+
+    /* Non-volatile memory clobber (cookbook L1835 / §31 sched S7): the two
+     * dead s16 stack stores and the D_801270C8 load are all constant-address
+     * MEMs, so sched2 finds no memory dependence and its potential_hazard rule
+     * promotes the prologue `sw $ra` over the ALU candidates, sinking it to
+     * just above the branch. The clobber gives `sw $ra` a successor, so it is
+     * only ready after the load is picked and lands back in the prologue. */
+    __asm__("" : : : "memory");
+
+    sp10[1] = -0x40;
+    sp10[0] = 0;
+    if (D_801270C8 == 0xA) {
+        func_8017E190();
+        func_8002D4C8(0x510, 0x107F);
+        func_80154274((s32 *)s0, (s32)&D_800D5C6C);
+        func_8014706C((void *)s0);
+        *(s32 *)(s0 + 0x198) = func_8013767C((s32)&D_80197244);
+        *(u8 *)(s0 + 0x214) = *(u8 *)(s0 + 0x214) + 1;
+    }
+}
+
 
 extern s32 func_801399F0(s32 a0);
 extern void func_80139914(s32 a0);

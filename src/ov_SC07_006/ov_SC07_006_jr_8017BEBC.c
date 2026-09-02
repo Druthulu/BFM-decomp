@@ -5154,7 +5154,50 @@ void func_801823F8(s32 t)
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_006/nonmatchings/ov_SC07_006_jr_8017BEBC", func_801826E0);
+#include "common.h"
+
+extern s32 D_801BFCE4;
+extern u8 D_8018E4D4[];
+extern u8 D_8018DF10;
+extern void func_8017D8A4(s32 a0, void *a1, void *a2, s32 a3, s32 a4);
+extern void func_80143C74(s32 a0, s32 a1);
+extern void func_80128EA8(s32 a0, s32 a1, s32 a2);
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+extern s32 rand(void);
+
+void func_801826E0(s32 param_1, s32 param_2) {
+    s32 *q;
+    s32 work;
+    s32 rnd;
+    s32 t;
+    s32 u;
+
+    q = &D_801BFCE4;
+    func_8017D8A4(*q + 0xC, D_8018E4D4, D_8018E4D4 + 0x24, param_2, 1);
+    func_8017D8A4(*q + 0x18, D_8018E4D4 + 0xC, D_8018E4D4 + 0x30, param_2, 1);
+    func_8017D8A4(*q + 0x84, D_8018E4D4 - 0xC, D_8018E4D4 + 0x18, param_2, 1);
+    work = ((s32 (*)())func_80143C74)(param_1, 0);
+    if (work != 0) {
+        *(u16 *)(work + 0xE) = *(u16 *)(work + 0xE) - *(u16 *)(D_801BFCE4 + 0x84);
+        rnd = rand();
+        t = *(u16 *)(D_801BFCE4 + 0x86) - 0x20;
+        *(u16 *)(work + 0xA) = *(u16 *)(work + 0xA) + (t + (rnd & 0x3F));
+        rnd = rand();
+        u = *(u16 *)(D_801BFCE4 + 0x88) - 0x20;
+        *(u16 *)(work + 6) = *(u16 *)(work + 6) + (u + (rnd & 0x3F));
+        rnd = rand() & 0xFF;
+        *(u32 *)(work + 0x10) = (rnd - 0x80) << 10;
+        rnd = rand() & 3;
+        *(u16 *)(work + 0x16) = -(rnd + 4);
+        *(u32 *)(work + 0x18) = -((rand() & 0xFF) << 11);
+        func_80128EA8(*(u32 *)(work + 0x20), (void *)(work + 0xD0), &D_8018DF10);
+        func_8012C658(0x3AC, 6, work);
+        func_8012C658(0x3AC, 6, work);
+        func_8012C658(0x3AC, 6, work);
+        func_8012C658(0x3AC, 6, work);
+    }
+}
+
 
 
 /* func_801828A4 — banked from the S40 wave-1 draft.

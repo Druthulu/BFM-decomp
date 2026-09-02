@@ -3157,7 +3157,98 @@ void func_8017FF68(s32 param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_8017F690", func_80180000);
+#include "common.h"
+
+// @class: dispatch-topology
+// @stuck: none — MATCH (111/111 ins, match_one confirmed), 2nd compile.
+//
+// Levers that carry the byte match:
+//  (1) §2 of func_8018270C / §250 — the two `func_80028620` record bases are bound by
+//      ASM-INITIALISATION, `__asm__("la %0, SYM" : "=r"(p))`. This is what makes the
+//      base-relative accesses fold into `off($reg)` while the neighbouring members stay
+//      DIRECT `lui $at; sw %lo(sym)` globals (§216: a separate `lui` per adjacent byte
+//      means DISTINCT scalar objects, which is why D_800A5E94/95/96/EA4/EA5 are spelled as
+//      independent `extern u8`s and not as one struct).
+//      - Block A anchors at D_800A5E88 (offset 0 store + `base+0x10` for the 2nd record) -> $s0.
+//      - Block B anchors at D_800A5E90 and reaches the record base as `rec - 8`, which is
+//        exactly the target's `addiu $a1, $v1, -0x8`. A plain `&D_800A5E88` there const-folds
+//        to its own lui/addiu pair and loses the -8.
+//      Two SEPARATE locals (one per arm) — sharing one would drag block B's base into $s0.
+//  (2) The guard is the short-circuit decrement `x != 0 && --x == 0`: `beqz` on the loaded
+//      value with the `addiu -1` in its delay slot, then `bnez` with the `sw` in ITS delay slot.
+//  (3) D_80126B62 is the TU's `u16` house spelling (law 2) read as `(s32)(s16)` so combine
+//      folds sign_extend(zero_extend(mem:HI)) back into a single `lh`. The three-way ladder is
+//      written with `>=` (not `<`) so do_jump emits `slti`+`bnez`-to-the-else, and cross-jumping
+//      tail-merges the 0x1E and -0x1E stores onto the shared `sw $v0, %lo(D_800A5E8C)($at)`.
+//  (4) §164-54 / §193-G DISPATCH-TOPOLOGY ORACLE — the construct, not the body density, picks
+//      the compare shape. With only `case 2/4/6` gcc emitted a 3-way compare chain (closeness
+//      22, +1 ins). Spelling the EMPTY `case 3: case 5: break;` makes 5 labels over the range
+//      2..6 and gcc builds jtbl_801C60DC, whose 3rd and 5th words are the default target.
+//  (5) §20-style address materialisation for D_801270D8: `((struct { s32 w; } *)&D_801270D8)->w`
+//      keeps the symbol address in $a0 and reloads through it (the compare load, then the
+//      switch's own reload) — copied verbatim from func_8017F690 in this same TU.
+
+extern s32 rand(void);
+extern void func_80028620(s32, void *);
+extern void func_8012C218(void *a0);
+extern u16 D_80126B62;
+extern s32 D_801270D8;
+extern s32 D_800A5E88;
+extern s32 D_800A5E8C;
+extern s32 D_800A5E90;
+extern u8 D_800A5E94;
+extern u8 D_800A5E95;
+extern u8 D_800A5E96;
+extern u8 D_800A5EA4;
+extern u8 D_800A5EA5;
+
+void func_80180000(s32 param_1) {
+    if (*(s32 *)(param_1 + 0xE0) != 0 && --*(s32 *)(param_1 + 0xE0) == 0) {
+        u8 *base;
+        __asm__("la %0, D_800A5E88" : "=r"(base));
+        *(s32 *)base = 0;
+        D_800A5E8C = 0x1E;
+        D_800A5E94 = 0x99;
+        D_800A5E90 = 0;
+        D_800A5E95 = 0xB2;
+        D_800A5E96 = 0xB2;
+        func_80028620(0, base);
+        D_800A5EA4 = 0x19;
+        D_800A5EA5 = 0x19;
+        func_80028620(1, base + 0x10);
+        func_8012C218((void *)param_1);
+    } else {
+        if (--*(s32 *)(param_1 + 0xE4) == 0) {
+            u8 *rec;
+            D_800A5E88 = (rand() - 0x4000) >> 10;
+            if ((s32)(s16)D_80126B62 >= -0x2A0) {
+                D_800A5E8C = 0x1E;
+            } else if ((s32)(s16)D_80126B62 >= -0x4A0) {
+                D_800A5E8C = 0;
+            } else {
+                D_800A5E8C = -0x1E;
+            }
+            __asm__("la %0, D_800A5E90" : "=r"(rec));
+            *(s32 *)rec = (rand() - 0x4000) >> 10;
+            func_80028620(0, rec - 8);
+            *(s32 *)(param_1 + 0xE4) = (rand() & 1) + 1;
+        }
+        if (*(s32 *)(param_1 + 0xDC) != ((struct { s32 w; } *)&D_801270D8)->w) {
+            *(s32 *)(param_1 + 0xDC) = ((struct { s32 w; } *)&D_801270D8)->w;
+            switch (((struct { s32 w; } *)&D_801270D8)->w) {
+            case 2:
+            case 4:
+            case 6:
+                *(s32 *)(param_1 + 0xE0) = 0x1E;
+                break;
+            case 3:
+            case 5:
+                break;
+            }
+        }
+    }
+}
+
 
 extern void (*D_8018A90C[])(void);
 

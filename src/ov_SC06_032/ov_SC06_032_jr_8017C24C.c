@@ -3567,7 +3567,122 @@ void func_8017D940(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8017DABC);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_800178EC(s32 a0);
+
+/* func_8017DABC — builds one POLY_FT4 (0x48 bytes) on the stack and hands it to
+ * func_800178EC.  Line-for-line relative of the banked twin ov_SC06_018:func_8017DB20
+ * (§193-A); adapted, not copied — every literal and both jal symbols were re-read
+ * off this .s.  Only two relocations exist here (func_80015978, func_800178EC);
+ * there are no %hi/%lo or data symbols.
+ *
+ * Two load-bearing deviations from the twin:
+ *
+ *  1. param_3/param_4 are s32 here, NOT the twin's s16.  This TU already carries
+ *     `extern void func_8017DABC();` at ov_SC06_032_jr_8017C24C.c:3522, and an
+ *     empty parameter-name-list declaration cannot match a definition with an
+ *     argument type that has a default promotion — cc1 rejects the s16 spelling
+ *     with "conflicting types for `func_8017DABC'" (verified: the s16 body is a
+ *     clean standalone MATCH but does not compile in this TU's decl environment,
+ *     the §376/§378 bank-failure class).  The twin's TU has NO prior declaration
+ *     at all, which is why s16 was legal there.  Widening to s32 is byte-inert:
+ *     both operands of `v1val + param_3` promote to int either way, so the
+ *     prologue keeps its plain `addu $s0,$a2,$zero` and the store still truncates.
+ *
+ *  2. `register Quad_8017DABC *p asm("$16")` pins the primitive pointer to $s0,
+ *     reproducing `addiu $s0,$sp,0x10` and the $s0-based tail; the vertex block
+ *     is written through the object `q` so those stores stay $sp-relative, which
+ *     is what the .s does (sh at 0x10/0x12/0x18/0x1A/0x20/0x22/0x28/0x2A($sp)
+ *     against sh 0x4($s0) and the whole 0x30..0x44 tail off $s0).
+ *
+ * The two zero-byte `__asm__ __volatile__("")` barriers are scheduling fences:
+ * the first keeps `p->vz0 = 0` from sinking past the rgb block, the second keeps
+ * the rgb stores ahead of the first `lw 0xE4($s2)`.  func_800178EC takes ONE
+ * argument (fleet-wide `extern void func_800178EC(s32 a0);`, 7 TUs); $a1 is live
+ * at the jal only because it still holds the 0x13F used by the v2/v3 stores.
+ *
+ * match_one: MATCH, closeness 0, 78/78 instructions.
+ */
+
+typedef struct {
+    s16 vx0, vy0, vz0, pad0;
+    s16 vx1, vy1, vz1, pad1;
+    s16 vx2, vy2, vz2, pad2;
+    s16 vx3, vy3, vz3, pad3;
+    s16 u0, v0;
+    s16 u1, v1;
+    s16 u2, v2;
+    s16 u3, v3;
+    s32 rgb0, rgb1, rgb2, rgb3;
+    s32 flags;
+    u8  clut;
+} Quad_8017DABC;
+
+void func_8017DABC(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6)
+{
+    Quad_8017DABC q;
+    register Quad_8017DABC *p asm("$16");
+    s32 buf[2];
+    u16 v1val;
+    u16 v0val;
+    s16 yhi;
+    s16 ylo;
+    s16 xsel;
+    s16 t_vx0;
+    s16 t_vx1;
+
+    func_80015978(param_1 + 4, buf);
+    v1val = *(u16 *)buf;
+    v0val = *((u16 *)buf + 1);
+
+    t_vx0 = v1val + param_3;
+    p = &q;
+    yhi = v0val + 0x80;
+    t_vx1 = v1val + param_4;
+    ylo = v0val - 0x80;
+    q.vx0 = t_vx0;
+    q.vy0 = yhi;
+    q.vx1 = t_vx1;
+    q.vy1 = ylo;
+
+    switch (param_2) {
+    case 0:
+        xsel = v1val - 0xA0;
+        break;
+    case 1:
+        xsel = v1val + 0xA0;
+        break;
+    default:
+        goto skip_store;
+    }
+    q.vx2 = xsel;
+    q.vy2 = yhi;
+    q.vx3 = xsel;
+    q.vy3 = ylo;
+skip_store:
+    p->vz0 = 0;
+    __asm__ __volatile__("");
+
+    p->rgb0 = p->rgb1 = param_5;
+    p->rgb2 = p->rgb3 = param_6;
+    __asm__ __volatile__("");
+    p->u0 = *(s32 *)(param_1 + 0xE4) + 0xC00;
+    p->v0 = 0x100;
+
+    p->u1 = *(s32 *)(param_1 + 0xE4) + 0xC3F;
+    p->v1 = 0x100;
+
+    p->u2 = *(s32 *)(param_1 + 0xE4) + 0xC00;
+    p->v2 = 0x13F;
+
+    p->u3 = *(s32 *)(param_1 + 0xE4) + 0xC3F;
+    p->v3 = 0x13F;
+    p->clut = 0x36;
+    p->flags = 0x50000000;
+
+    func_800178EC((s32)p);
+}
+
 
 
 s32 func_8017DBF4(void) {

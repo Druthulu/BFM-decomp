@@ -6522,7 +6522,70 @@ void func_801813D4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80181410);
+#include "common.h"
+
+struct vec;
+
+extern s32 rand(void);
+extern void RotMatrixYXZ(void *a0, void *a1);
+extern void func_800D20C0(void *a0, void *a1, s32 a2);
+extern void func_800D23D0(void *a0);
+extern void func_801292C8(u8 *a0);
+extern void func_8012931C(struct vec *a0);
+extern void func_801696D8(s32 a0, s32 a1);
+extern s32 func_80135168(u16 a0, u16 *a1, u16 *a2);
+
+void func_80181410(s32 param_1)
+{
+    u16 sp10[3];
+    u16 sp18[3];
+    u16 sp20[4];
+    u16 sp28[4];
+    u16 sp30[16];
+    u16 *p1;
+    u16 *p2;
+    u16 c;
+    u16 t;
+
+    sp20[0] = *(u16 *)(param_1 + 6);
+    sp20[1] = *(u16 *)(param_1 + 0xA);
+    sp20[2] = *(u16 *)(param_1 + 0xE);
+    p1 = sp28;
+    func_800D20C0(sp20, p1, 1);
+    p1 = 0;
+    p2 = sp28;
+    func_800D23D0(p2);
+    p2 = 0;
+    sp28[2] = sp28[1] * 2;
+    RotMatrixYXZ(sp28, sp30);
+    if (*(s32 *)(param_1 + 0x1C) & 1) {
+        *(s32 *)(param_1 + 0x2C) = (rand() & 0x7FF) + 0x600;
+    } else {
+        *(s32 *)(param_1 + 0x2C) = 0x500;
+    }
+    func_801696D8(param_1, (s32)sp30);
+    if (--*(s32 *)(param_1 + 0x1C) != -1) {
+        sp10[0] = *(u16 *)(param_1 + 6);
+        sp10[1] = *(u16 *)(param_1 + 0xA);
+        sp10[2] = *(u16 *)(param_1 + 0xE);
+        func_8012931C((struct vec *)param_1);
+        sp18[0] = *(u16 *)(param_1 + 6);
+        sp18[1] = *(u16 *)(param_1 + 0xA);
+        sp18[2] = *(u16 *)(param_1 + 0xE);
+        if (func_80135168(1, sp10, sp18) != 0) {
+            t = *(u16 *)(param_1 + 2);
+            *(u16 *)(param_1 + 6) = sp18[0];
+            *(u16 *)(param_1 + 0xA) = sp18[1];
+            c = sp18[2];
+            *(s32 *)(param_1 + 0x1C) = 0xC;
+            *(u16 *)(param_1 + 2) = t + 1;
+            *(u16 *)(param_1 + 0xE) = c;
+        }
+    } else {
+        func_801292C8((u8 *)param_1);
+    }
+}
+
 
 extern void (*D_8018A258[])(void);
 
@@ -6899,7 +6962,86 @@ void func_80181CA4(void)
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_080/nonmatchings/ov_SC01_080_jr_8017AE2C", func_80181D98);
+#include "common.h"
+
+/* Table at D_8018A278: {u16 dist; s16 kind;} pairs, -1-terminated (see
+ * asm/ov_SC01_080/data/tail.data.s). `dist` is read three ways -- lh for the
+ * sentinel (combine folds (s16)u16 -> lh), lhu+sll/sra for the slt against
+ * D_801270D0, and lhu again for the +0x500 store (the call kills the CSE). */
+typedef struct {
+    u16 dist;
+    s16 kind;
+} SpotDef_8018A278;
+
+extern s32 D_80126D50;
+extern u16 D_80126B66;
+extern s32 D_80126B9C;
+extern s32 D_801270CC;
+extern s32 D_801270D0;
+extern s32 D_80127188;
+extern s32 D_801C7548;
+extern s32 D_801C754C;
+extern SpotDef_8018A278 D_8018A278[];
+extern void func_80180174(void);
+extern void func_80181CA4(void);
+extern s32 func_8012C588(s32 a0, s32 a1);
+extern s32 func_8012C658(s32 a0, s32 a1, s32 a2);
+
+/* $s0/$s1 pinned (§17): the natural priority order hands `p` $s0 and `t` $s1,
+ * the target has them the other way round. `s` holds D_80126D50 so the
+ * unconditional `*p = 1` lands in the bnez delay slot. */
+void func_80181D98(void *a0) {
+    register s32 *p __asm__("$17");
+    register SpotDef_8018A278 *t __asm__("$16");
+    s32 e;
+    s32 s;
+    u16 v;
+
+    p = &D_801270CC;
+    switch (*p) {
+    case 0:
+        *p = 1;
+        D_801C7548 = 0;
+        D_801C754C = 1;
+        break;
+    case 1:
+        s = D_80126D50;
+        *p = 1;
+        if (s == 0) {
+            if (D_801C7548 == 0x34) {
+                func_80180174();
+            }
+            D_801C7548++;
+            if (D_801C7548 >= 0x3C && (s16)D_80126B66 >= -0x500 &&
+                (D_80126B9C & 0x8000000) != 0) {
+                D_801C7548 = 0;
+                func_8012C588(0x36, 0);
+            }
+        }
+        break;
+    case 2:
+        func_80181CA4();
+        p += 15;
+        t = D_8018A278;
+        if (D_80127188 == 4) {
+            while ((s16)t->dist != -1) {
+                if (*p == 0 && D_801270D0 >= (s16)t->dist) {
+                    e = func_8012C658(0x2C, t->kind, 0);
+                    if (e != 0) {
+                        v = t->dist;
+                        *(s32 *)(e + 0xCC) = (s32)p;
+                        *(s16 *)(e + 0xFC) = v + 0x500;
+                    }
+                    *p = 1;
+                }
+                t++;
+                p++;
+            }
+        }
+        break;
+    }
+}
+
 
 void func_80181F5C(void *arg0)
 {

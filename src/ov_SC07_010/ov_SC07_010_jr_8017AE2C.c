@@ -4819,7 +4819,39 @@ void func_8017E520(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017E5B8);
+void func_8017E5B8(s32 a0, s32 a1) {
+    struct P8 { s16 unk0; u8 pad[6]; };
+    struct P4 { u16 unk0; u16 pad; };
+    struct EntA { u8 pad[0xDC]; s32 unkDC; u8 pad2[0x1C]; u16 unkFC; };
+    extern struct P8 D_80185D28[];
+    extern struct P8 D_80185D2A[];
+    extern struct P8 D_80185D2C[];
+    extern struct P8 D_80185D2E[];
+    extern struct P4 D_80185D5A[];
+    extern s32 func_80146A6C(s32, void*, s32, s32, s32, s32, s32);
+    extern void func_80015954(s32 a0, s32 a1);
+    extern s32 func_8012C588(s32 a0, s32 a1);
+    struct EntA *p;
+    s32 i;
+
+    func_80146A6C(0x1E, (void *)a0, D_80185D28[a1].unk0, D_80185D2A[a1].unk0,
+                  D_80185D2C[a1].unk0, 0, 0);
+    for (i = 0; i < 4; i++) {
+        p = (struct EntA *)func_8012C588(0x3A6, 0);
+        if (p != 0) {
+            func_80015954((s32)&D_80185D28[a1], (s32)p + 4);
+            p->unkFC = D_80185D5A[D_80185D2E[a1].unk0].unk0 + (i * 170 - 341);
+            p->unkDC = 0;
+        }
+        p = (struct EntA *)func_8012C588(0x3A6, 0);
+        if (p != 0) {
+            func_80015954((s32)&D_80185D28[a1], (s32)p + 4);
+            p->unkFC = D_80185D5A[D_80185D2E[a1].unk0].unk0 + (i * 170 - 227);
+            p->unkDC = 1;
+        }
+    }
+}
+
 
 extern void func_80015954(s32 a0, s32 a1);
 extern s32 func_8012C588(s32 a0, s32 a1);
@@ -5589,7 +5621,75 @@ void func_8017F798(void *arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_010/nonmatchings/ov_SC07_010_jr_8017AE2C", func_8017F860);
+typedef struct {
+    s16 state;   /* 0x00 */
+    s16 timer;   /* 0x02 */
+    s16 unk4;    /* 0x04 */
+    s16 unk6;    /* 0x06 */
+    s16 unk8;    /* 0x08 */
+    s16 unkA;    /* 0x0A */
+    s16 unkC;    /* 0x0C */
+    s16 unkE;    /* 0x0E */
+    s16 unk10;   /* 0x10 */
+    s16 unk12;   /* 0x12 */
+    s32 unk14;   /* 0x14 */
+    u16 unk18;   /* 0x18 */
+    u16 unk1A;   /* 0x1A */
+} Blk1C;
+
+extern void func_8017FA24(void *a0);
+extern void func_8017FA50(s32 a0, void *s0);
+
+void func_8017F860(s32 arg0) {
+    extern u8 D_801A7F8C[];
+    Blk1C *rec;
+    s32 i;
+
+    for (i = 0; i < 0x10; i++) {
+        rec = &((Blk1C *)D_801A7F8C)[i];
+        rec->unk6 = (rec->unk6 - 0x2D) & 0xFFF;
+        switch (rec->state) {
+        case 0:
+            if (rec->timer != 0) {
+                rec->timer--;
+                if (rec->timer == 0) {
+                    rec->unk4 = -0x155;
+                    rec->state++;
+                }
+            }
+            break;
+        case 1:
+            rec->unkC += 0x100;
+            if (rec->unkC > 0x1000) {
+                rec->unkC = 0x1000;
+            }
+            rec->unkE = rec->unk10 = rec->unkC;
+            func_8017FA50(arg0, rec);
+            if (rec->unkC == 0x1000) {
+                rec->timer = 0x1E;
+                rec->state++;
+            }
+            break;
+        case 2:
+            func_8017FA24(rec);
+            func_8017FA50(arg0, rec);
+            rec->timer--;
+            if (rec->timer == -1) {
+                rec->state++;
+            }
+            break;
+        case 3:
+            func_8017FA24(rec);
+            func_8017FA50(arg0, rec);
+            if (rec->unkC == 0) {
+                rec->timer = 0;
+                rec->state = 0;
+            }
+            break;
+        }
+    }
+}
+
 
 void func_8017FA24(void *a0) {
     extern s32 D_80185C70[];

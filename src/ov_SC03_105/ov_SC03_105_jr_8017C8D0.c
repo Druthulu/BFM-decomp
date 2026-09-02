@@ -3580,7 +3580,66 @@ void func_8017E170(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8017E180);
+extern s32 func_8012E544(s32);
+extern void func_80015978(s32, s32*);
+extern void func_8017E33C(s32, s16*);
+
+
+extern Blk8_80126940 D_80126940;
+extern s32 D_801BA588;
+
+void func_8017E180(s32 param_1) {
+    Blk8_80126940 arr[3];
+    s32 r;
+    s32 a0;
+    s32 a1;
+    s32 v1;
+    s32 t;
+
+    arr[0] = D_80126940;
+    r = func_8012E544(0x14B);
+    if (r != 0) {
+        func_80015978(r + 4, (s32*)&arr[1]);
+        if (*(s16*)&arr[1] < -0x200) {
+            *(s16*)&arr[1] = -0x200;
+        }
+        if (*(s16*)&arr[1] > 0x200) {
+            *(s16*)&arr[1] = 0x200;
+        }
+    } else {
+        arr[1] = D_80126940;
+    }
+    if (*(s16*)&arr[0] < -0x108) {
+        *(s16*)&arr[0] = -0x108;
+    }
+    if (*(s16*)&arr[0] > 0x108) {
+        *(s16*)&arr[0] = 0x108;
+    }
+    a1 = *(s16*)&arr[0];
+    a0 = *(s16*)&arr[1];
+    *(s16*)((s32)&arr[0] + 2) = -0x102;
+    *(s16*)((s32)&arr[0] + 4) = -0x200;
+    v1 = a1 - a0;
+    if (v1 < 0) {
+        v1 = a0 - a1;
+    }
+    __asm__ __volatile__("" ::: "memory");
+    *(s32*)(param_1 + 0x14) = (v1 * 0x280) / 0x400 + 0x320;
+    t = *(s16*)&arr[0];
+    *(s16*)&arr[0] = t - t * (s16)(*(s32*)(param_1 + 0x10) - 0x320) / 640;
+    switch (D_801BA588) {
+    case 0:
+        *(s16*)(param_1 + 0x20) = 0;
+        *(s16*)(param_1 + 0x30) = -0xB0;
+        break;
+    case 1:
+        *(s16*)(param_1 + 0x20) = 0xE3;
+        *(s16*)(param_1 + 0x30) = -0x40;
+        break;
+    }
+    func_8017E33C(param_1, (s16*)arr);
+}
+
 
 
 // @class: schedule
@@ -5801,7 +5860,90 @@ void func_80183F84(void *a0, void *a1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_8017C8D0", func_8018423C);
+#include "common.h"
+
+/* 8 bytes, align 2 -> the `pos = vec` / `out = vec` assignments become the
+ * lwl/lwr/swl/swr movstrsi_internal pair (align != UNITS_PER_WORD). */
+typedef struct {
+    u16 f0;
+    s16 f1;
+    u16 f2;
+    u16 f3;
+} Vec4s16_8018423C;
+
+extern s32 rand(void);
+extern u16 D_800B99DA;
+extern s32 D_8018E59C[];
+extern s32 func_801850D8();
+extern void func_8012F214(s32 a0, s32 a1, s32 a2);
+extern s32 func_80135004(s32 a0, void *a1, s32 a2);
+
+/* Four LOAD-BEARING details, each worth 1-2 instructions (Opus, S70y):
+ *
+ * 1. `tmp` is DECLARED AND UNUSED ON PURPOSE. The locals region is 0x20..0x3F
+ *    (frame 0x58 = 0x20 outgoing args + 0x20 locals + 5 saved regs), i.e. FOUR
+ *    8-byte slots, and `out` sits at 0x38 -- so a fourth aggregate must be
+ *    declared third to consume 0x30..0x37. expand_decl assigns slots upward
+ *    from STARTING_FRAME_OFFSET in declaration order regardless of use.
+ *    Deleting `tmp` moves `out` to 0x30 and shrinks the frame to 0x50.
+ *
+ * 2. `vec.f2 = 0;` BEFORE `vec.f0 = 0;`, and both AFTER `pos.f2`. The two
+ *    `sh $zero` are the sched1 filler for the 0xE load-use gap; source order
+ *    is what puts 0x2C ahead of 0x28 (§3-T2). The reversed order was the
+ *    final 2-instruction residual.
+ *
+ * 3. `s32 r` with an EXPLICIT (s16) cast on the value, not `s16 r`. A `s16 r`
+ *    defers the sll/sra 16 pair to the USE, which lands it after the second
+ *    rand() where it coalesces straight into $a1 (-1 instruction). Casting at
+ *    the definition puts sll/sra before/in the jal delay slot, keeps the value
+ *    in the call-saved $s0 and re-materialises `addu $a1, $s0, $zero`.
+ *
+ * 4. `k++, step += 0x10` as the for-increment (k FIRST), and `j = i;` as the
+ *    last statement of a do/while, not `if (i >= 3) break; j = i;`. The latter
+ *    orders the test ahead of the copy, so reorg fills the back-branch delay
+ *    slot with `addu $v1,$s0,$zero` instead of duplicating `addiu $s0,$v1,1`
+ *    from the loop head (-1 instruction).
+ */
+void func_8018423C(s32 arg0)
+{
+    Vec4s16_8018423C pos;
+    Vec4s16_8018423C vec;
+    Vec4s16_8018423C tmp;
+    Vec4s16_8018423C out;
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 step;
+    s32 r;
+
+    pos.f0 = *(u16 *)(arg0 + 6);
+    pos.f1 = *(u16 *)(arg0 + 0xA);
+    pos.f2 = *(u16 *)(arg0 + 0xE);
+    vec.f2 = 0;
+    vec.f0 = 0;
+
+    j = 0;
+    do {
+        i = j + 1;
+        vec.f1 = -(i << 7);
+        func_8012F214(arg0, (s32)&vec, (s32)&vec);
+        if (func_80135004(1, &pos, (s32)&vec) != 0) {
+            if ((D_800B99DA & 7) == 0) {
+                step = -0x40;
+                out = vec;
+                for (k = 0; k < 8; k++, step += 0x10) {
+                    out.f0 = vec.f0 + step;
+                    r = (s16)(rand() % 0x1000 + 0x2000);
+                    func_801850D8(7, r, 0, 0, &out, 0, D_8018E59C[rand() & 1], 0);
+                }
+            }
+            return;
+        }
+        pos = vec;
+        j = i;
+    } while (i < 3);
+}
+
 
 extern u8 D_801202A0[];
 

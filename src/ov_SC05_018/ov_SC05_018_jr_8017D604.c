@@ -4823,7 +4823,7 @@ extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
 extern s32 func_80181294(u16 a0, s16 a1);
 extern void func_8018124C(void);
-extern void func_801810B0(void *a0);
+extern void func_801810B0();
 
 void func_80180DBC(void *a0) {
     Ent_801E650C *p;
@@ -4885,7 +4885,90 @@ void func_80180DBC(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_801810B0);
+/* func_801810B0 — POLY_FT4 (0x28 bytes) centred sprite emit.
+ *
+ * Levers that closed this one (previous attempt sat at closeness=47):
+ *
+ *  1. D_800A651C IS NOT `s32[]`.  The tail computes the index with
+ *     `sll 2; addu; sll 2` = *20, i.e. a 5-word record.  Declaring it
+ *     `extern struct { s32 a; s32 b[4]; } D_800A651C[];` at BLOCK scope
+ *     (the proven src/800.c:3377/:5326 form — the card's fleet type
+ *     ('s32','') is the scalar spelling engine_core.h's DEFINE_ macros use)
+ *     supplied the two missing instructions and fixed idx 67..78.
+ *
+ *  2. The tpage store lands in the `beqz` DELAY SLOT only if the flag load
+ *     PRECEDES it in source.  With `*(u16*)(prim+0x16) = tpage;` written
+ *     before the `if`, sched1 cannot prove the store does not alias the
+ *     global, so a store->load dependence pins the store first and reorg
+ *     steals `addiu 0x2E` from the arm instead.  Hoisting the read into a
+ *     local (`flag = D_801E664C;`) turns that into a load->store anti-dep:
+ *     lui/lh/nop/beqz emit first and the `sh` sinks into the slot.
+ *
+ *  3. The UV and XY blocks are plain libgpu MACRO ORDER — setUV4
+ *     (u0,v0,u1,v1,u2,v2,u3,v3) and setXY4 (x0,y0,x1,y1,x2,y2,x3,y3).
+ *     Writing the stores in the order the *target emits* them (all v's
+ *     then all u's / all y's then all x's) is the trap: that is the
+ *     SCHEDULER's output, not the source.  Source = macro order; sched1
+ *     regroups by shared constant/register on its own.  The declaration
+ *     order of x/y/half is byte-irrelevant (all 6 permutations MATCH).
+ */
+void func_801810B0(s32 arg0)
+{
+    extern void *func_80010A08(s32 arg0);
+    extern s32 GetClut(s32 a0, s32 a1);
+    extern s32 GetTPage(s32 a0, s32 a1, s32 a2, s32 a3);
+    extern s32 AddPrim(s32 a0, void *a1);
+    extern struct { s32 a; s32 b[4]; } D_800A651C[];   /* block scope: stride 0x14 (§ src/800.c:3377) */
+    s32 prim;
+    s32 clut;
+    s32 tpage;
+    s32 flag;
+    s32 x;
+    s32 y;
+    s32 half;
+
+    if (*(s16 *)(arg0 + 0xA) <= 0) {
+        return;
+    }
+
+    prim = (s32)func_80010A08(0x28);
+    clut = GetClut(0x160, 0x140);
+    *(u16 *)(prim + 0xE) = clut;
+    tpage = GetTPage(0, 1, 0x2C0, 0x100);
+    *(s32 *)(prim + 4) = 0x808080;
+    *(u8 *)(prim + 3) = 9;
+    *(u8 *)(prim + 7) = 0x2C;
+    flag = D_801E664C;
+    *(u16 *)(prim + 0x16) = tpage;
+    if (flag != 0) {
+        *(u8 *)(prim + 7) = 0x2E;
+    }
+
+    *(u8 *)(prim + 0xC) = 0x90;
+    *(u8 *)(prim + 0xD) = 0x50;
+    *(u8 *)(prim + 0x14) = 0xCF;
+    *(u8 *)(prim + 0x15) = 0x50;
+    *(u8 *)(prim + 0x1C) = 0x90;
+    *(u8 *)(prim + 0x1D) = 0x8F;
+    *(u8 *)(prim + 0x24) = 0xCF;
+    *(u8 *)(prim + 0x25) = 0x8F;
+
+    half = (s16)*(u16 *)(arg0 + 0xA) / 2;
+    x = *(s16 *)(arg0 + 4);
+    y = *(s16 *)(arg0 + 6);
+
+    *(s16 *)(prim + 8) = x - half;
+    *(s16 *)(prim + 0xA) = y - half;
+    *(s16 *)(prim + 0x10) = x + half;
+    *(s16 *)(prim + 0x12) = y - half;
+    *(s16 *)(prim + 0x18) = x - half;
+    *(s16 *)(prim + 0x1A) = y + half;
+    *(s16 *)(prim + 0x20) = x + half;
+    *(s16 *)(prim + 0x22) = y + half;
+
+    AddPrim(D_800A651C[*(u16 *)&D_800B9A02].a + 0x28, (void *)prim);
+}
+
 
 
 void func_80181204(void) {

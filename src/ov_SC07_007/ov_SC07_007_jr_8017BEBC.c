@@ -7929,7 +7929,41 @@ void func_801827A4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC07_007/nonmatchings/ov_SC07_007_jr_8017BEBC", func_801827E0);
+extern u8 D_80199AC4[];
+extern void func_8002D844(s32 a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+
+/* Copies the 0x944B-byte SEQ/MIDI blob at 0x80199D4C (== D_80199AC4 + 0x288,
+ * starts "MThd") up to the 0x801F0000 scratch buffer, then opens + plays it.
+ *
+ * Two levers were needed over the numeric warm-start body:
+ *  (1) the loop test is SIGNED (slt, not sltu): 0x801F944A is an `unsigned int`
+ *      in C89, so a bare `p <= 0x801F944A` converts p and emits sltu. Cast it.
+ *  (2) the `lui $at / addu $at,$at,$v1 / lbu %lo($at)` triple is an ASPSX
+ *      big-offset macro expansion, and its operand order is a TELL for how the
+ *      offset was spelled in the source (maspsx __init__.py, load path):
+ *          numeric  offset -> addu $at,<base>,$at
+ *          SYMBOLIC addend -> addu $at,$at,<base>
+ *      Fleet census: 26/26 numeric-`lui $at` sites use the first order, 569/569
+ *      `%hi(sym)` sites use the second. This target has a numeric-looking `lui
+ *      $at,0xFFFB` but the SECOND order — the lone outlier fleet-wide — because
+ *      the addend is a symbol MINUS a constant, which splat cannot name. So the
+ *      source indexes a real data symbol; `*(u8 *)(p - 0x562B4)` cannot emit it.
+ *      gcc folds `sym[p - K]` into `%hi(sym+(-K))`, giving 0x80199AC4 + 0x288 -
+ *      0x801F0000 = -0x562B4 -> lui 0xFFFB / lbu -0x62B4. Byte-verified with the
+ *      symbol resolved: all 23 words identical, relocations included. */
+void func_801827E0(void) {
+    s32 p = 0x801F0000;
+
+    do {
+        *(u8 *)p = D_80199AC4[(p - 0x801F0000) + 0x288];
+        p += 1;
+    } while (p <= (s32)0x801F944A);
+
+    func_8002D844(0x801F0000);
+    func_8002D4C8(0x18E, 0);
+}
+
 
 extern void func_8001ABBC(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
 extern CdFileLoc cdFileLocTable[];
