@@ -5458,6 +5458,21 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   defect that the same-address twin hint was FALSE three times tonight while the same-TU neighbour was
   the real fuel every time. Index 1084.
 
+- 2026-09-02 05:00 — **S71 gate cycle 7: +3 (`commit:3619`), frontier 178** (main 64 + non-main 114;
+  **32 banked** from 210). Post-limit MATCH run continues: `func_8017E6F4`, `func_80182184`,
+  `func_8017EB30`, `func_8017EC68`, `func_8017FFD0` — **five of the last seven recovered a body off
+  disk** rather than re-deriving (killed-agent scratch dirs, never-gated `pool_1` drafts).
+  **Blocker census, measured off the 37 gate verdicts on disk — NOT impression:**
+  `DIFF 18 · CARVE 7 · PARSE 3 · NO-DIAG 3 · CONFLICT 2 · ARITY 2 · UNDEF 2`. I had called carve the
+  dominant class mid-session; it is not. **What is left is mostly genuine codegen**, which is the
+  opposite of the §376 picture at the start of the session and should redirect effort accordingly.
+  Two findings recorded rather than redrafted: `ov_SC03_105/func_801834A4` is a **proven loop.c
+  movable-ordering wall** at closeness 6 (with two measured-inert levers, `.run/S71_walls_found.txt`),
+  and `ov_SC01_004/func_8017EB30` is MATCH-279/279 blocked purely on §8e carve state — exact
+  prescription in `.run/S71_carve_todo.txt` (R59/R60: audit before applying).
+  Cookbook **§417** (a pin blocks `jump.c`'s select collapse; unpinning then exposes `cse` skip-blocks
+  — the misattribution that plateaued that function for three attempts). Index 1085.
+
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
