@@ -2814,7 +2814,28 @@ extern void func_8017F84C(void *a0);
 /* ==== end §8b carried decl layer ==== */
 
 
-INCLUDE_ASM("asm/ov_SC07_000/nonmatchings/ov_SC07_000_jr_8017F8B8", func_8017F8B8);
+void func_8017F8B8(s32 a0)
+{
+    s32 s0 = a0;
+
+    switch ((s16)(*(u16 *)(s0 + 0xFE) - 0x2E)) {
+        case 6:
+            func_8017F958(0);
+            break;
+        case 0:
+        case 4:
+            func_8017F958(1);
+            break;
+        case 2:
+            func_8017F958(2);
+            break;
+        case 0x2A:
+            *(u16 *)(s0 + 0xFE) = 0;
+            break;
+    }
+    *(u16 *)(s0 + 0xFE) = *(u16 *)(s0 + 0xFE) + 1;
+}
+
 
 void func_8017F958(s32 a0)
 {

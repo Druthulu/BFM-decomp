@@ -2833,7 +2833,85 @@ extern s32 func_8017F614(u32 a0v);
 /* ==== end §8b carried decl layer ==== */
 
 
-INCLUDE_ASM("asm/ov_SC03_010/nonmatchings/ov_SC03_010_jr_8017F6C0", func_8017F6C0);
+extern s16 *D_801A005C;
+extern s16 D_8019C7D0[];
+
+void func_8017F6C0(void *a0)
+{
+    register void *a1 __asm__("$5");
+    register s32 dq __asm__("$4");
+    s32 v0;
+    s32 v1;
+
+    a1 = a0;
+
+    v0 = *(s32 *)((s32)a1 + 0x1C) - 1;
+    *(s32 *)((s32)a1 + 0x1C) = v0;
+    if (v0 != 0) {
+        return;
+    }
+
+    dq = (s32)D_801A005C + 1;
+    dq = dq % 6;
+    v1 = D_8019C7D0[dq];
+    D_801A005C = (s16 *)dq;
+
+    switch (v1) {
+    case 0: {
+        *(s32 *)((s32)a1 + 0x1C) = 1;
+        return;
+    }
+    case 1: {
+        s32 ret;
+        *(s16 *)((s32)a1 + 0x2) = 2;
+        *(s32 *)((s32)a1 + 0xDC) = 0;
+        ret = -0x16D;
+        *(s16 *)((s32)a1 + 0xE2) = ret;
+        return;
+    }
+    case 2: {
+        s32 ret;
+        *(s16 *)((s32)a1 + 0x2) = 3;
+        *(s32 *)((s32)a1 + 0xDC) = 0;
+        ret = -0x361;
+        *(s16 *)((s32)a1 + 0xE2) = ret;
+        return;
+    }
+    case 3: {
+        s32 ret;
+        *(s16 *)((s32)a1 + 0x2) = 4;
+        *(s32 *)((s32)a1 + 0xDC) = 0;
+        ret = -0x561;
+        *(s16 *)((s32)a1 + 0xE2) = ret;
+        return;
+    }
+    case 4: {
+        s32 ret;
+        *(s16 *)((s32)a1 + 0x2) = 7;
+        *(s32 *)((s32)a1 + 0xDC) = 0x800;
+        ret = -0x16D;
+        *(s16 *)((s32)a1 + 0xE2) = ret;
+        return;
+    }
+    case 5: {
+        s32 ret;
+        *(s16 *)((s32)a1 + 0x2) = 6;
+        *(s32 *)((s32)a1 + 0xDC) = 0x800;
+        ret = -0x361;
+        *(s16 *)((s32)a1 + 0xE2) = ret;
+        return;
+    }
+    case 6: {
+        s32 ret;
+        *(s16 *)((s32)a1 + 0x2) = 5;
+        *(s32 *)((s32)a1 + 0xDC) = 0x800;
+        ret = -0x561;
+        *(s16 *)((s32)a1 + 0xE2) = ret;
+        return;
+    }
+    }
+}
+
 
 extern u16 D_80126B62;
 extern u8 D_80126B5C;

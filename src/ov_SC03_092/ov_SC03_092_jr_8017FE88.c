@@ -2869,7 +2869,45 @@ extern void func_8017FE4C(void *a0);
 /* ==== end §8b carried decl layer ==== */
 
 
-INCLUDE_ASM("asm/ov_SC03_092/nonmatchings/ov_SC03_092_jr_8017FE88", func_8017FE88);
+#include "common.h"
+
+extern s32 D_801B2E70;
+extern s32 D_8018910C;
+extern s32 func_80029504(void);
+extern void func_80178CBC(s32 arg0, s32 arg1);
+
+void func_8017FE88(s32 a0)
+{
+    s32 v1;
+    s32 idx;
+
+    *(u16 *)(a0 + 0x2) = 3;
+    D_801B2E70 = 0;
+    v1 = func_80029504();
+    if (v1 < 0x140) {
+        idx = 0;
+    } else if (v1 < 0x14A) {
+        idx = 1;
+    } else if (v1 < 0x172) {
+        idx = 2;
+    } else if (v1 < 0x17C) {
+        idx = 3;
+    } else {
+        idx = 4;
+    }
+
+    switch (idx) {
+    case 2:
+        func_80178CBC(a0, (s32)&D_8018910C);
+        break;
+    case 0:
+    case 1:
+    case 3:
+    case 4:
+        break;
+    }
+}
+
 
 extern void func_80029514(s32 arg);
     void func_8017FF34(void) {

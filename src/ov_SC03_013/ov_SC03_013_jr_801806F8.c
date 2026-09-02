@@ -2883,7 +2883,59 @@ extern void func_8018063C(s32 arg0);
 /* ==== end §8b carried decl layer ==== */
 
 
-INCLUDE_ASM("asm/ov_SC03_013/nonmatchings/ov_SC03_013_jr_801806F8", func_801806F8);
+extern s16 D_801A52C8[];
+extern s16 *D_801AD3E4;
+
+void func_801806F8(void *a0)
+{
+    void *a1;
+    register s32 idx __asm__("$4");
+
+    __asm__ __volatile__("" : "=r"(a1) : "0"(a0));
+
+    if (--*(s32 *)((s32)a1 + 0x1C) == 0) {
+        idx = ((s32)D_801AD3E4 + 1) % 6;
+        D_801AD3E4 = (s16 *)idx;
+        switch (D_801A52C8[idx]) {
+        case 0:
+            *(s32 *)((s32)a1 + 0x1C) = 1;
+            return;
+        case 1:
+            *(s16 *)((s32)a1 + 2) = 2;
+            *(s32 *)((s32)a1 + 0xDC) = 0;
+            *(s16 *)((s32)a1 + 0xE2) = -0x16D;
+            break;
+        case 2:
+            *(s16 *)((s32)a1 + 2) = 3;
+            *(s32 *)((s32)a1 + 0xDC) = 0;
+            *(s16 *)((s32)a1 + 0xE2) = -0x361;
+            break;
+        case 3:
+            *(s16 *)((s32)a1 + 2) = 4;
+            *(s32 *)((s32)a1 + 0xDC) = 0;
+            *(s16 *)((s32)a1 + 0xE2) = -0x561;
+            break;
+        case 4:
+            *(s16 *)((s32)a1 + 2) = 7;
+            *(s32 *)((s32)a1 + 0xDC) = 0x800;
+            *(s16 *)((s32)a1 + 0xE2) = -0x16D;
+            break;
+        case 5:
+            *(s16 *)((s32)a1 + 2) = 6;
+            *(s32 *)((s32)a1 + 0xDC) = 0x800;
+            *(s16 *)((s32)a1 + 0xE2) = -0x361;
+            break;
+        case 6:
+            *(s16 *)((s32)a1 + 2) = 5;
+            *(s32 *)((s32)a1 + 0xDC) = 0x800;
+            *(s16 *)((s32)a1 + 0xE2) = -0x561;
+            break;
+        default:
+            return;
+        }
+    }
+}
+
 
 void func_80180818(void *a0)
 {
