@@ -7511,7 +7511,271 @@ endReason:
     return;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/800", CdReadSectorReadyCB);
+
+typedef struct XRECT {
+/* 0x00 */ u16 x;
+/* 0x02 */ u16 y;
+/* 0x04 */ u16 w;
+/* 0x06 */ u16 h;
+} XRECT;
+
+typedef struct CdReq {
+/* 0x00 */ s32   state;
+/* 0x04 */ s32   unk04;
+/* 0x08 */ s32   phase;
+/* 0x0C */ s32   unk0C;
+/* 0x10 */ s32   unk10;
+/* 0x14 */ s32   texIdx;
+/* 0x18 */ s32   unk18;
+/* 0x1C */ s32   unk1C;
+/* 0x20 */ XRECT rect;
+/* 0x28 */ XRECT *rectp;
+/* 0x2C */ s32   count;
+/* 0x30 */ s32   busy;
+/* 0x34 */ s32   list;
+/* 0x38 */ s32   sink;
+/* 0x3C */ s32   dest;
+/* 0x40 */ s32   unk40[6];
+/* 0x58 */ s32   words;
+/* 0x5C */ s32   drain;
+/* 0x60 */ s32   unk60[2];
+/* 0x68 */ u8    mask[0x40];
+/* 0xA8 */ u8    flags;
+/* 0xA9 */ u8    unkA9;
+/* 0xAA */ u8    bit;
+/* 0xAB */ u8    byteIdx;
+/* 0xAC */ s32   unkAC[3];
+/* 0xB8 */ s32   size;
+/* 0xBC */ s32   posInt;
+} CdReq;
+
+extern s32   cdReq_state;
+extern s32   cdReq_posInt;
+extern s32   cdReq_drainPhase;
+extern s32   D_800AE6F8;
+extern u8    cdReq_sectorHdrBuf[];
+extern u32   lzss_sectorStagingBuf[];
+extern u8    D_80079A74;
+extern u8    D_80079A75;
+extern s32   D_80079A78;
+extern s32   D_80079A7C;
+extern u32   D_8007A280[];
+extern void *D_80072C80;
+
+extern s32  func_80043994(void *buf, s32 n);
+/* func_800599B8 is declared by the TU at src/800.c:5480 (SpadRect_800184F0 *), ABOVE this
+ * insertion point, so the draft must not redeclare it with a void* first parameter. */
+extern s32  func_8002FB08(s32 a0);
+extern s32  func_8002FC64(s32 a0, u32 *a1);
+extern void func_8002FDC8(void);
+extern void func_80018714(void *);
+extern s32  LzssDecodeSector(u8 *src);
+
+void CdReadSectorReadyCB(u8 reason) {
+    CdReq *p = (CdReq *)&cdReq_state;
+    XRECT dead;
+    u32 *q;
+    XRECT *r;
+    register s32 i __asm__("$18");
+    s32 n, pos, res, b;
+    s32 tmp;
+    s32 k80;
+    s32 one;
+    s32 dst;
+    s32 cnt;
+    s32 dst4;
+
+    if (reason != 1) goto endReason;
+
+    func_80043994(cdReq_sectorHdrBuf, 3);
+    pos = CdPosToInt((CdlLOC *)cdReq_sectorHdrBuf);
+    if (pos != cdReq_posInt) {
+        if (D_800AE6F8 == 4) func_8002FDC8();
+        cdReq_drainPhase = 2;
+        return;
+    }
+    cdReq_posInt = pos + 1;
+    switch (D_800AE6F8) {
+    case 0:
+        func_80043994(lzss_sectorStagingBuf, 4);
+        if (lzss_sectorStagingBuf[0] != 0x434150) goto abortDrain;
+        p->flags = D_80079A75;
+        switch (D_80079A74) {
+        case 6:
+            func_80043994(D_8007A280, 0x1FC);
+            q = &D_8007A280[0x24];
+            n = D_80079A78;
+            i = 0;
+            p->rectp = (XRECT *)D_8007A280;
+            if (n > 0) {
+                do {
+                    func_800599B8(p->rectp, q);
+                    i++;
+                    r = p->rectp;
+                    q += (s16)r->w / 2;
+                    p->rectp = r + 1;
+                } while (i < n);
+            }
+            goto sectorDone;
+        setTwo:
+            p->phase = 2;
+            goto tilePhase;
+        case 0:
+        case 5:
+            p->texIdx = 0;
+            func_80043994(p->mask, 0x10);
+            p->rect.h = 0x20;
+            p->rect.w = 0x20;
+            p->rect.y = 0;
+            p->rect.x = 0;
+            p->bit = 1;
+            p->byteIdx = 0;
+            for (;;) {
+                if (p->byteIdx >= 0x40) {
+                    if (p->flags != 0) goto setTwo;
+                    p->phase = 0;
+                    goto tilePhase;
+                }
+                if ((p->mask[p->byteIdx] & p->bit) != 0) goto tilePhase;
+                if (p->bit == 0x80) {
+                    p->bit = 1;
+                    p->byteIdx++;
+                } else {
+                    p->bit <<= 1;
+                }
+                p->rect.x += 0x20;
+                if ((s16)p->rect.x > 0x3FF) {
+                    p->rect.x = 0;
+                    p->rect.y += 0x20;
+                }
+            }
+        tilePhase:
+            p->phase++;
+            break;
+        case 7:
+            if (p->size < 0) goto phaseDone;
+            p->phase = 3;
+            p->words = (u32)(D_80079A7C - 0x7FD) >> 2;
+            p->sink = (s32)D_80072C80;
+            break;
+        case 1:
+            p->phase = 3;
+            p->words = (u32)(D_80079A7C - 0x7FD) >> 2;
+            p->sink = p->dest;
+            break;
+        case 8:
+            p->phase = 6;
+            p->words = (u32)(D_80079A7C - 0x7FD) >> 2;
+            break;
+        case 2:
+            if (p->busy != 0) goto phaseDone;
+            p->phase = 3;
+            dst = *(s32 *)(p->count * 8 + p->list + 4);
+            tmp = D_80079A7C - 0x7FD;
+            p->words = (u32)tmp >> 2;
+            p->sink = dst;
+            break;
+        case 3:
+            if (p->busy != 0) goto phaseDone;
+            do {
+                res = func_8002FB08(*(s32 *)(p->count * 8 + p->list));
+            } while (res == 0);
+            p->phase = 4;
+            p->words = D_80079A7C - 0x800;
+            break;
+        case 4:
+            p->phase = 5;
+            p->words = (u32)(D_80079A7C - 0x7FD) >> 2;
+            dst4 = p->dest;
+            p->sink = dst4;
+            func_80018714((void *)dst4);
+            break;
+        }
+        break;
+    case 1:
+        q = &lzss_sectorStagingBuf[p->texIdx * 0x200];
+        func_80043994(q, 0x200);
+        func_800599B8(&p->rect, q);
+        p->texIdx = (p->texIdx + 1) & 3;
+        k80 = 0x80;
+        one = 1;
+        do {
+            b = p->bit;
+            if (b == k80) {
+                p->bit = one;
+                p->byteIdx++;
+            } else {
+                p->bit = b << 1;
+            }
+            if (p->byteIdx < 0x40) goto cont1;
+        sectorDone:
+            if (p->flags != 0) goto phaseDone;
+            p->phase = 0;
+            goto post;
+        cont1:
+            p->rect.x += 0x20;
+            if ((s16)p->rect.x > 0x3FF) {
+                p->rect.x = 0;
+                p->rect.y += 0x20;
+            }
+        } while ((p->mask[p->byteIdx] & p->bit) == 0);
+        break;
+    case 3:
+        if (p->words < 0x201) {
+            func_80043994((void *)p->sink, p->words);
+            goto sectorDone;
+        }
+        func_80043994((void *)p->sink, 0x200);
+        p->sink += 0x800;
+        p->words -= 0x200;
+        break;
+    case 4:
+        if (p->words < 0x801) {
+            cnt = (p->words + 3) / 4;
+            func_80043994(lzss_sectorStagingBuf, cnt);
+            if (func_8002FC64(p->words, lzss_sectorStagingBuf) == 0) goto stageFail;
+            p->count++;
+            if (p->flags != 0) goto phaseDone;
+            p->phase = 0;
+            break;
+        }
+        func_80043994(lzss_sectorStagingBuf, 0x200);
+        res = func_8002FC64(0x800, lzss_sectorStagingBuf);
+        p->sink += 0x800;
+        p->words -= 0x800;
+        if (res != 0) break;
+    stageFail:
+        func_8002FDC8();
+        p->phase = 7;
+        break;
+    case 5:
+        func_80043994(lzss_sectorStagingBuf, 0x200);
+        if (LzssDecodeSector((u8 *)lzss_sectorStagingBuf) == 0) goto sectorDone;
+        break;
+    case 6:
+        p->words -= 0x200;
+        if (p->words > 0) break;
+        if (p->flags == 0) goto setZero;
+    phaseDone:
+        p->phase = 2;
+        break;
+    setZero:
+        p->phase = 0;
+        break;
+    }
+post:
+    if (p->phase == 2) {
+        p->drain = 1;
+    } else if (p->phase == 7) {
+        p->drain = 2;
+    }
+endReason:
+    if (reason == 5) {
+        if (p->phase == 4) func_8002FDC8();
+    abortDrain:
+        p->drain = 2;
+    }
+}
 #endif
 
 extern s32 CdQueueBusy(void);
