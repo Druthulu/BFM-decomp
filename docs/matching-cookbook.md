@@ -33946,3 +33946,41 @@ Three rules, each earned here:
    name the NEXT symbol), then assert an identical pair reports zero. Five of S69's biggest
    "findings" were artifacts of the instrument; a localizer that has never fingered a KNOWN
    perturbation is not evidence about an unknown one.
+
+## §428 ★★★ — A ZERO-BYTE CROSS-JUMP BARRIER: ADVANCE THE POINTER INSIDE EACH SWITCH ARM (P31 S72; `main/func_80026D64`, 218 ins, MATCH in 2 compiles)
+
+**Sharpens §5a/§336 and supplies the missing precondition to §162.** The classic cross-jump defeat is
+a `volatile __asm__` barrier — visible, and something the original source cannot have contained. This
+one costs **zero bytes** and is ordinary C.
+
+**The shape.** A switch whose arms each advance a cursor. Written with one shared temp —
+
+```c
+switch (kind) { case A: adv = *(u16 *)p * 2; break;  case B: adv = *(u16 *)p * 4; break; ... }
+p += adv;                       /* ONE converging `addu $s0,$s0,$v0` */
+```
+
+— gcc's `cross_jump` tail-merges the arms and you get **LENGTH DRIFT** (measured −23 instructions,
+5 spurious merges). Write the advance **inside each arm** instead:
+
+```c
+case A: p += *(u16 *)p * 2; break;
+case B: p += *(u16 *)p * 4; break;
+```
+
+**Why it works (jump.c:1988).** The converging `addu` is now a label **created by `cross_jump`
+itself** via `get_label_before`, so its `INSN_UID` is `>= max_uid`. `jump.c`'s jump_chain search is
+guarded by `INSN_UID(JUMP_LABEL(insn)) < max_uid`, so for a label born during this pass **the
+minimum=2 (jump-to-jump) search never runs at all**. Only the `minimum=1` path survives — which is
+exactly the single merge the target has. The barrier is not a fence you add; it is a UID the
+optimizer cannot look up.
+
+**Reach for it when:** a switch/if-chain draft is byte-correct except that too many tails merged, and
+§5a's asm barrier would work but you want a spelling the original could plausibly have had.
+
+**The companion, and why the wave found it.** Case SOURCE order still had to be fixed independently
+(`0x38` before `0x34`, because the jtbl puts `*0x18` at `.L80026F3C` and `*0x1C` at `.L80026F58`) —
+§405-A: `match_one` compares `.text` only, so the agent verified the `.rodata` 29-word table
+byte-identical against `jtbl_80072BFC`, plus 6 `jal` relocs at their exact offsets and 11
+`D_800A5E60` hi/lo pairs, before calling it done. **That verification happened because the pack
+carried the §426 carve note telling it to.** Journal fuel earned its keep here.
