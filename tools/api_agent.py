@@ -466,7 +466,27 @@ def _fuel(t, card):
         out.append( "   line-for-line relative of your target: same guards, same block copies, same")
         out.append( "   tail. It is the highest-value 60 seconds in this task (§193-A).")
     else:
-        out.append("\nThis card has NO banked twin — derive the structure from the .s.")
+        # NEVER ASSERT "no twin" WITHOUT THE CHEAP ADDRESS CHECK FIRST (P31 S70).
+        # `seed_ref` joins on signature hashes and is blind to indexed-global relocs (§389), so a
+        # RELOC-ONLY twin of an already-banked body hashes differently and reads as a singleton.
+        # Overlays share code at the SAME VRAM, so "is this address banked in another binary?" is a
+        # one-line question the card never asked. MEASURED over the 130 S70 targets: 110 cards said
+        # "NO banked twin" and **75 of them (68%) had one at the same address in a sibling overlay** —
+        # one agent found its answer banked at src/ov_SC02_000/... and reported the card was simply
+        # wrong. That is the wave-playbook's "cross-overlay same-address grep as STEP 0", now supplied
+        # instead of hoped for.
+        same = _same_addr_banked(t.get('binary'), t.get('name'))
+        if same:
+            out.append(f"\n⭐ NO hash-twin — BUT func {t['name']} IS BANKED AT THIS ADDRESS in: "
+                       + ", ".join(same[:6]) + ".")
+            out.append( "   Overlays share code at the same VRAM, so this is very often YOUR function")
+            out.append( "   already matched. seed_ref is blind to it (§389 reloc-only twins hash apart).")
+            out.append(f"       grep(pattern='{t['name']}', path='src/{same[0]}')")
+            out.append( "   READ IT FIRST. Verify the symbols against your own .s (law 1c) — a")
+            out.append( "   same-address function in another overlay is USUALLY, not always, the same fn.")
+        else:
+            out.append("\nThis card has NO banked twin, and no same-address banked function in any "
+                       "other binary either — derive the structure from the .s.")
     tr = card.get('tu_ref') or []
     if tr:
         out.append("\n⭐ AND READ THE NEIGHBOUR IN YOUR OWN TU — the highest-yield source measured")
@@ -625,6 +645,43 @@ def gate_feedback(t):
     except Exception:
         pass
     return ('\n\n'.join(out)) if out else None
+
+
+_SAME_ADDR = None
+
+
+def _same_addr_banked(binary, fn):
+    """[binaries] where `fn`'s ADDRESS is already BANKED (real C), excluding `binary`.
+
+    Derived from the corpus invariant (R33): a function is banked iff it is in the binary's sig and
+    NOT an INCLUDE_ASM stub. Built once per process (~30 s over 213 binaries) and memoized.
+    Returns [] on any failure — this only ever ADDS fuel, so a miss degrades to today's behaviour
+    rather than withholding a card."""
+    global _SAME_ADDR
+    m = re.match(r'(?:func|jr)_([0-9A-Fa-f]{8})$', fn or '')
+    if not m:
+        return []
+    if _SAME_ADDR is None:
+        _SAME_ADDR = {}
+        try:
+            import corpus
+            import subprocess as _sp
+            names = _sp.run(['make', '-f', '.run/S70_printbins.mk', '-s', 'print-binaries'],
+                            capture_output=True, text=True, cwd=REPO).stdout.split()
+            if not names:
+                names = sorted(os.path.basename(p) for p in glob.glob(os.path.join(REPO, 'src', '*'))
+                               if os.path.isdir(p))
+            for b in names:
+                try:
+                    st = set(corpus.stubs(b))
+                    for a in corpus.sig(b):
+                        if int(a) not in st:
+                            _SAME_ADDR.setdefault(int(a), []).append(b)
+                except Exception:
+                    continue
+        except Exception:
+            _SAME_ADDR = {}
+    return [b for b in _SAME_ADDR.get(int(m.group(1), 16), []) if b != binary]
 
 
 def prior_draft(t):
