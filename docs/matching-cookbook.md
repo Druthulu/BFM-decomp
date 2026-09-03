@@ -35218,3 +35218,35 @@ has changed does not report a wall — it manufactures one.* R35 says fix the in
 trusting the measurement; this adds the corollary that a knowledge-base claim about the toolchain
 has the same shelf life as the toolchain, and a build change must sweep the docs that assert what
 the build cannot do.
+
+#### §460 — `-dS` PRINTS THE SCHEDULER'S READY LIST WITH PRIORITIES. STOP INFERRING IT FROM RTL ORDER.
+
+**Source: the S76 `ov_SC02_027:func_80180B3C` agent (297 ins, 82 → 23), and it is a general
+instrument, not a one-off.** Three prior attempts on this function tried to steer `sched1` by
+reordering source statements and by reasoning backwards from the order of insns in the `.sched` RTL
+dump. That is guesswork about a cost model. `cc1 -dS` emits the FULL verbose trace — the literal
+`;; ready list at T-N` lines with each insn's **priority** — so the scheduler's own ranking is
+readable rather than reconstructed. Read it before spending a single reorder attempt on a
+schedule-class residual.
+
+**Two findings that came out of reading it, both reusable:**
+
+1. **PINS BEAT SCHEDULE-CHASING when the residual spans a register chain.** The first half of this
+   function was closed by four `register __asm__` pins (`w=$10`, `obj=$11`, `x=$4`, `y=$7`) —
+   44 → 29 → 23, all four load-bearing. The three earlier attempts had treated the `$t2/$t3/$t7`
+   chain as *downstream* of the schedule and tried to fix the schedule; it was upstream, and the
+   allocation was the cause. This is `dont-conclude-unsteerable-try-register-pins` extended: pins
+   are not only a last resort for a stuck NEAR, they are the FIRST move when the diff walks a
+   register chain. Note also that statement order was **inert before the pins and live after** —
+   so an "order does nothing" measurement is only valid for the allocation you measured it under.
+
+2. **BIRTHING-BOOST IS THE DIAL, AND A SINGLE-SET REQUIREMENT CAN BE UNREACHABLE.** The residual is
+   `sched1`'s birthing boost (`7f000001`): a mask `v = y & 0xFFFF` is priority 3 UNBOOSTED because
+   `v` is set twice (the mask, then a conditional `-= 0x100`), so backward-scheduling sinks it to
+   block-front, while `bank << 14` IS boosted and takes the load-delay filler. The target needs the
+   inverse. The boost was PROVEN to be the dial (giving `bank << 14` a second set moved it 154 → 140)
+   — and making `v` single-set is nonetheless unreachable: every spelling that does so lets `combine`
+   fold `(subreg:QI (plus v -256))` → `(subreg:QI v)`, killing the branch and four instructions
+   (measured twice), and `vv = v` copies are copy-propagated back to two sets. **A dial you can
+   prove and cannot turn is permuter fuel, not a wall** — record the mechanism, hand it to the
+   permuter, and do not spend more agent turns on source spellings.
