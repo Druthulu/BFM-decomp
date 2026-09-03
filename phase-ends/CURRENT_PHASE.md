@@ -6492,3 +6492,134 @@ frame — run the frame check before drafting anything large).
 * **The session's dominant defect class: a tool reading text it should not** — comments as code,
   prose as structure, dead preprocessor branches as live, a substring as an entry. **Six instances,
   four in my own edits.**
+
+---
+
+## 🛑 SESSION CHECKPOINT — S74 FINAL (2026-09-02). SUPERSEDES every earlier block in this file, including S73 FINAL. Phase 31 T10 CONTINUES.
+
+Written for a FRESH SESSION with none of this context. Every number below was measured in this
+session, not carried from memory.
+
+**STATE.** **R22 `check-all: 213 passed, 0 failed of 213`** from a full `make clean` + `extract-all`
++ `check-all` (`.run/S74/r22_check.log`) — run AFTER the last bank, so it covers everything here.
+`split_indicator: 213 OK, 0 needing attention` and it is a **HARD GATE** in `make tools-health` now.
+Tree clean apart from `docs/progress.md` (a report artifact). No lanes, no agents, no worktrees in
+use (`.run/S74/wt_*` are spent and can be removed). Drew pushes (R6).
+
+```
+BANKED THIS SESSION      :  50   (INCLUDE_ASM lines in src/: 1,086 -> 1,036, measured at both commits)
+live INCLUDE_ASM stubs   :  1,034 (corpus, the stricter oracle) · 40,682 instructions
+binaries at ZERO stubs   :  184 of 213   [md_MAIN_011, md_SC07_004, ov_SC07_002 newly closed]
+main REAL / matchable    :  880 / 1,918 = 45.88%   UNCHANGED — none of the 50 are main functions
+```
+
+# 1. WHAT HAPPENED, AND THE ONE SENTENCE THAT SUMMARISES IT
+
+**Every reject class this session turned out to be an instrument defect, not a codegen wall.** Seven
+tool defects were found and fixed; 24 already-MATCHed bodies were sitting behind them. The drafting
+agents were nearly always right and the harness was nearly always what said no.
+
+**The four CARVE-BLOCKED overlay splits** (`ov_SC01_084`, `ov_SC02_005`, `ov_SC02_011`,
+`ov_SC03_105`) are done, byte-identical with nothing banked, and the CARVE-BLOCKED class is **empty
+fleet-wide**. Two of the four needed a THIRD piece the span list did not name: an existing carve run
+that could not merge with span 1, separated by rodata that is not padding. **The load-bearing test is
+"is this word a valid code address in this binary's text range", not "is it zero"** — a zero-word
+detector would have merged them into an unbuildable carve. Overlay splits are near-free (0-5 names
+crossed of 2,679-3,254) because the §8b carried decl layer re-emits externs per region, so only
+typedefs can cross; that is the OPPOSITE of main's 57-of-1,247.
+
+**Waves:** 12 workflows x 3 agents, then 11 more (the frontier ran out at 33 undrawn — `0 left in
+pool`). Self-reported MATCH was ~54 of 59. Before spending an agent, the twin ladder pulled 10 of the
+first 36 draws as mechanical, and 4 more later — but **`family_remap` on the reloc-only cluster gated
+DIFF 4/4**, so RELOC-ONLY is a hypothesis about the asm, not a guarantee about the C.
+
+# 2. THE SEVEN TOOL DEFECTS (all fixed unless marked)
+
+1. **`split_indicator` attributed a table by the stub's DIRECTORY PATH.** `make extract` does not
+   prune a re-homed subseg's `nonmatchings/<old>/`, so it printed NEEDS SPLIT for a split that was
+   already correct and byte-green. Owner now derived from the CONFIG by address; stale debris named
+   in a `note:` that prints on an OK verdict too.
+2. **`jtbl_carve --revert` did `git checkout --` on the whole splat yaml** and silently un-split an
+   overlay. Now splices only its own region. `jtbl_family_bank.revert` had the same blunt checkout
+   for code pieces and now keeps whatever pre-dated the attempt.
+3. **`jtbl_rodata_pads._s_rodata_span` ignored a trailing `.align`** (2 bytes measured where 4 are
+   emitted). Latent by construction: `derive`'s zero_gap self-corrects a 1-3 byte undershoot when the
+   next item is an anchor, and **a C jump table has no anchor** — so it fires only when someone banks
+   a switch function, and it accuses the CARVE. Two agents found it independently.
+4. **Same file: `_items` matched a rodata anchor only as `D_xxxxxxxx:`**, missing the labels.inc
+   macro form `dlabel D_xxxxxxxx` that inline `__asm__` produces — an 8-byte hole in the walk. Plus
+   an unaligned-anchor read in the ctable branch.
+5. **The TU-split chain was blind to a block comment a construct OPENS MID-LINE and WRAPS.** Every
+   peeler asked `startswith("/*")`. The comment's prose then parsed as code and one "construct"
+   swallowed a whole preamble, emitting `extern #define … extern void …();` into the carried decl
+   layer -> `parse error before '#'`, blocking five MATCHed bodies. One derived oracle
+   `comment_open_at()` now serves all four call sites. **238 occurrences across 193 files**; A/B over
+   all 4,188 sources: round-trip identity 4188/4188, 2 phantom `def`s removed, 0 refusals.
+6. **`jr_isolate_all` treated a §265 verbatim `__asm__` body as PREAMBLE**, and preamble is assumed
+   byte-neutral — it emits bytes. A cut would have moved 0x168 bytes of other functions into the new
+   object. `_region_emit_start()` now derives the boundary from the region's CONTENT, `min(cut,emit)`.
+   Also an item-less closing region emitted a duplicate yaml line.
+7. **`harvest_verify` computed the typedef strip-set UNSCOPED** (`typedef_names(path)` without
+   `above=fn`), stripping from a draft the typedef it needed — logged as PLUMBING, indistinguishable
+   from a real conflict.
+
+**NOT FIXED, AND THE MOST IMPORTANT ONE.** `reconcile_tu.py` (gate_stage's `-rc` stage)
+**manufactures declaration conflicts**: the same drafts gate 9/9 through `harvest_verify` and 7/9
+through `gate_stage`. It rewrites deliberately BLOCK-SCOPED externs to a file-scope spelling whose
+typedef is declared ~2,800 lines lower (overwriting the TU's own byte-proven house style, which three
+already-banked functions there use), and it substitutes identifiers TEXTUALLY — including inside
+comments and `&`-expressions, emitting `*(T *)&((s32 *)&D_800AE620)`. **A correct draft using the
+block-scope-extern idiom cannot survive gate_stage today.** Wanted: `--stages` able to skip it, or a
+per-draft opt-out.
+
+**ALSO NOT FIXED (harness gap):** `verify_worktree.provision` omits `.run/sig.<bin>.jsonl` (main
+clone 259 files, provisioned worktree 0) and `jr_isolate_all`'s carve-ownership scan swallows the
+resulting `FileNotFoundError` in a bare `except: continue`. Measured: **2,603 of 2,603** functions
+raised, the scan found 0 owners, and the run aborted with a confident FALSE corruption verdict. Any
+worktree-run isolation before this is fixed reports damage that is not there.
+
+# 3. NEW LAWS (cookbook §435-§439)
+
+* **§435** — overlay TU splits are near-free; the rodata-gap test is "is this a code address", not
+  "is it zero"; a speculative carve's loud refusal is R43 working, never evidence about a split.
+* **§436** — two tools that read a source of truth describing a different world (A: stale asm paths;
+  B: a blunt checkout on a file you only partly own; C: the trailing `.align`; D: a carve leaves
+  `asm/` stale and the NEXT gate dies with `corpus refused`).
+* **§437** — the wrapped mid-line block comment, and the three defects it hid.
+* **§438** — the same-address lead is now SIZE-FILTERED (§238 homonym): ~12 of ~60 cards carried a
+  wrong twin, one advertising a 72-ins namesake to a 241-ins target *with a "already MATCH" history*.
+  A lead is fuel only if it carries the cheapest fact that can refute it.
+* **§439** — the S74 lever set: `MEM_IN_STRUCT_P` as a two-way alias-oracle dial (four agents
+  converged); `goto`-into-a-shared-tail as a REGALLOC dial (gcc cross-jumps after allocation); `for`
+  -> do/while as a length dial; allocno PRIORITY via a loop-head asm, with pins measured HARMFUL for
+  that class; the -O0 global-RMW rule; why `sll 16; srl 16` survives only across a CALL; `sltiu N`
+  with no `addiu -1` proving an empty `case 0`; block-scoped temps in duplicated bodies; two
+  `register asm` vars cannot share a hard reg; `x*32` vs `x<<5` emitting lh vs lhu — **which
+  `match_one`'s `%lo` mask HIDES**.
+
+# 4. START HERE (next session)
+
+1. **`reconcile_tu.py`** — the one unfixed defect that is actively costing banks. Give `gate_stage`
+   a way to skip it, or drafts a way to opt out, then re-gate the DIFF class below.
+2. **The DIFF rejects that were never re-tried after the tool fixes** — several were gated BEFORE the
+   pads/comment/strip-set fixes landed. Re-gate before drafting anything new; the drafts are on disk
+   under `.run/S74/bank*/<binary>/`.
+3. **The frontier is genuinely small.** `draw_waves` returned `0 left in pool` at 33 undrawn
+   non-main. What remains is main's own frontier (its lane, `gate_main`), the NEAR set from this
+   session (closeness 4/10/25/49/53/369 — several root-caused to sched1 LUID seeding and
+   allocno-priority ties, i.e. permuter fuel), and one -O0-stranded stub fleet-wide
+   (`main:func_8002C410`, 299 ins, `src/800_b.c`).
+4. **`family_remap` on the ov_SC01_004/005/006/008 reloc-only cluster gated DIFF 4/4** — an exemplar
+   at `ov_SC01_009:0x8017eb08` serves four 279-ins siblings if someone works out why the remap is
+   not byte-exact. That is 1,116 instructions behind one question.
+
+# 5. HABITS THIS SESSION PAID FOR
+
+* **Run the reject to ground before respelling the body.** Two of the seven defects were found by a
+  drafting agent that refused to accept "the gate said no" as a fact about its own C.
+* **Verify a bank from the SOURCE.** A gate flagged one as BLIND SUSPECT (7.1s, under the build
+  floor); the stub's absence plus a clean rebuild cleared it — the 7 seconds were warm objects.
+* **Never adopt an agent's worktree wholesale.** One predated a bank of `func_8017F9C0`; copying its
+  TU would have destroyed it. Re-gate against HEAD with the fixed tools instead.
+* **Say the denominator.** "20 waves of 3" was impossible — the pool held 33 undrawn, 4 of them free
+  remaps. Saying so beat drafting 27 functions that already had drafts.
