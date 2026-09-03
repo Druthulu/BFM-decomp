@@ -35017,3 +35017,119 @@ gate-forbidden agent can run: (1) rerun the rtu_match pipeline by hand up to mas
 **Don't-panic fact:** without step 2 the table sits 4 bytes late (cc1's `.align 3` survives maspsx
 verbatim), so an unfiltered `rtu_match` object showing your table at `.rodata+8` where the target has
 `+4` is EXPECTED and is not a defect in your body.
+
+## §450 ★★★ — REGENERATING A TARGET `.s` FOR A FUNCTION THAT IS NO LONGER A STUB (P31 S75; 146 functions unblocked, two silent defects caught by ONE cross-check)
+
+§448 found 147 game functions carried as verbatim `__asm__` bodies. Every one was **unworkable**, and
+not for want of information: splat emits `asm/nonmatchings/<subseg>/<fn>.s` only for functions that
+are still `INCLUDE_ASM` stubs, so once a function stops being a stub its target disappears — while
+`match_one` and `rtu_match` BOTH consume a `.s`. Measured: **1 of 147 had a target on disk.** The
+information was in the wrong FORM.
+
+`tools/verbatim_target_s.py` regenerates it from the **extracted ROM image**. That source is not an
+implementation detail — it is the whole point. **Never regenerate a target from the `__asm__` block
+in our own source: the block is the thing under test.** A target derived from it agrees with the
+candidate by construction, and a "decompile" verified against it proves only that we transcribed our
+own transcription (R34: the oracle must be able to DISAGREE).
+
+**TWO DEFECTS, BOTH SILENT, BOTH CAUGHT BY ONE KNOWN-TRUE CROSS-CHECK** — regenerating a target for a
+function that still *had* a splat `.s`, and comparing word for word:
+
+* **BYTE ORDER.** splat writes the four bytes AS THEY SIT IN THE IMAGE (`C8FFBD27` for the instruction
+  `0x27BDFFC8`) and `masked_diff.insns_from_s` reads that column with
+  `struct.unpack("<I", bytes.fromhex(...))`. `objdump` prints the VALUE. Reversing to "fix" it
+  double-swaps: **91 of 1139 words agreed.** The LENGTH was perfect, so nothing but a word-level
+  comparison could have caught it — a length check would have passed it straight through.
+* **`objdump` ELIDES RUNS OF ZERO BYTES as `...`, and a MIPS `nop` IS `0x00000000`.** So every nop and
+  every nop-padded tail silently vanished: `func_80049610` (three nops) disassembled to ZERO
+  instructions, `func_80047D3C` to 31 of 36. `-z` / `--disassemble-zeroes` is load-bearing. Here the
+  length assertion DID catch it — which is why the tool refuses on a count mismatch instead of
+  emitting a short target (R32/R43): ~30 quietly-truncated targets would otherwise have shipped.
+
+Final state: 1139/1139 words identical to splat's own `.s`, 146 of 147 emitted, the single refusal
+reported by name.
+
+**And the companion move, `tools/verbatim_to_stub.py`:** to GATE one of these, do not write a parallel
+gate (R33). Convert the verbatim body back to `INCLUDE_ASM` and it becomes a first-class citizen of
+every existing tool — splat re-emits its `.s`, `gate_main`/`gate_stage`/`harvest_verify` all splice it
+normally. `INCLUDE_ASM` pastes the same assembly the block transcribes, so the bytes are unchanged;
+what changes is the ACCOUNTING, and in the honest direction — a stub counts as outstanding work while
+a verbatim body counted as banked. Two refusals guard it: the block is located by brace/paren
+MATCHING (never regex-sliced — these blocks are full of braces and parens inside string literals), and
+the new stub's asm subdir is copied from a sibling stub IN THE SAME FILE, because subsegs are per-file
+and a neighbour's spelling silently includes ANOTHER FUNCTION'S ASSEMBLY.
+
+## §451 ★★★ — YOUR EVIDENCE HAS MORE THAN ONE SOURCE, AND THE ONE YOU QUERY IS PROBABLY THE WORSE ONE (P31 S75; 37 functions reclassified, 122 ins banked from one word)
+
+`tools/frontier_classify.py` routes every open function to its BLOCKER (carve / plumbing / near /
+redraft / twin-remap). Its first version read `.run/backlog.jsonl` and took each function's **last**
+row. Three defects followed, and each was caught only by testing against a case whose answer was
+already known:
+
+**1. BEST, NOT LAST.** The backlog is APPEND-ONLY — one row per attempt, across every lane and
+session. The last row is evidence about *that lane's seed*, not about the function. Two redraft agents
+hit this within an hour: `func_80180B3C` (best 125, last 287) and `func_80181294` (best 19, last 27 —
+which moves it from *redraft* to *permuter*). Keep the draft that ACHIEVED the best score, not the
+last one written, and surface a **warm-start regression** flag when last ≫ best: from inside a wave,
+a warm-start that seeded an OLDER, WORSE shard is indistinguishable from an unsolved function.
+
+**2. THE BACKLOG IS NOT THE ONLY RECORD.** `tools/journal_notes.py` mines the AGENT JOURNALS, and they
+carry outcomes the backlog never received. On `func_8017DB98` the backlog had best == last == 115 —
+so best-vs-last could not help — while the journal held:
+
+> *Attempt 2 (MATCH · closeness 0) — MATCH 122/122 … BANK BLOCKER is TU plumbing, not the body
+> (§376/§378): the TU declares `extern void func_8017DB98(s32, s32)` but the epilogue is
+> `addu $v0,$s3,$zero` — must be `extern s32`; the caller discards the result, so byte-neutral.*
+
+The body had been byte-exact on disk since S71 and the fix was **one word, with the line number
+recorded**. Wiring the journals in as a second oracle reclassified **37 functions**: `G-DRAFTED-UNKNOWN`
+fell 47 → 10, and a `C-PLUMBING` class appeared holding **16 functions / 1,547 instructions whose
+bodies are PROVEN** and which no agent should ever be asked to re-derive.
+
+**3. A REGEX THAT CONSUMES AN UNBOUNDED BODY CANNOT ENUMERATE THE ITEMS AFTER THE FIRST.** The journal
+extractor was `re.finditer(r'\*\*Attempt \d+\*\* \(([^)]*)\)(.{0,400})', ..., re.S)`. That 400-char
+body window **swallows the next attempt's header**, so every record following another was invisible.
+On this function it hid attempts 2 AND 6 — *both* `MATCH · closeness 0` — and returned attempt 1's
+NEAR as the best. Split on the marker (`re.split(r'(?=\*\*Attempt \d+\*\*)')`); never consume past it.
+
+**THE LAW.** Before concluding a function needs work, ask **every** record that might already contain
+its answer, reduce them by BEST rather than by recency, and check your reducer against one case whose
+answer you know. A stale or partial evidence read does not merely waste an agent — it sends one to
+re-derive a body that is already byte-exact, and it does so with complete confidence.
+
+## §452 ★★★ — NOT EVERY VERBATIM BODY IS UNDECOMPILED WORK, AND §448'S HEADLINE OVERSTATED IT (P31 S75; 10-function burst, 0 banks, and the negative result is the finding)
+
+§448 counted 199 functions that are assembly posing as C and called **154 of them "GAME CODE — real
+decompilation work remaining."** A 10-agent burst against the *smallest* ten returned **0 upheld
+matches** and, in doing so, refuted that framing. The near-reports name four classes that are
+**legitimately verbatim** and must be subtracted before anyone plans against the number:
+
+* **FRAGMENTS OF A SPLIT FUNCTION — not functions at all.** `SYS_OBJ_604` / `SYS_OBJ_640` /
+  `func_80059760` share ONE 32-byte stack frame: they are the compiled output of a SINGLE original C
+  function that the tooling split into three addressable symbols. `SYS_OBJ_2DD8` is likewise "a bare
+  shared epilogue tail" — `lw ra` / `lw s0` restores with no prologue. No C function can emit a
+  restore without a matching save, so these can never be decompiled *individually*; they can only
+  disappear when their parent is decompiled as one function.
+* **HAND-WRITTEN ASSEMBLY IN THE ORIGINAL.** `func_800495EC` is a GTE wrapper — three `mtc2`s and the
+  GTE latency nops. Square wrote that in asm in 1998; there is no C to recover.
+* **COMPILER-INEXPRESSIBLE FORMS.** `func_80062388` puts a symbolic store in the delay slot after
+  `jr ra` (`lui at / jr ra / sw a0,0x2a24(at)`). gcc-2.7.2's `mips.md` `define_delay` permits only a
+  ONE-instruction delay slot, and a symbolic `sw` needs two for the `$at` synthesis — so this
+  sequence is unreachable from C with this compiler, by construction.
+* **NO-RETURN TAILS.** `func_80049610` is three `nop`s with no return; gcc cannot omit a function's
+  return path. Best C attempt is 2 instructions (`jr ra` + delay nop) — a LENGTH-DRIFT residual that
+  no shape fixes.
+
+**THE CORRECTION.** "154 game functions of remaining work" is an UPPER BOUND, not a work queue. The
+honest statement is: *199 functions are byte-identical without being decompiled; an unknown share of
+them are undecompilable in principle and must be identified before the rest are costed.* Triaging the
+class — split-fragment / hand-asm / inexpressible / genuinely-undecompiled — is the prerequisite to
+any estimate, and the four tells above are cheap to check: does it share a frame with a neighbour, does
+it touch cop2, does it use a delay slot no `define_delay` allows, does it lack a return path.
+
+**AND THE GUARD THAT EARNED ITS KEEP.** One agent submitted the *verbatim `__asm__` block itself* as
+its decompile. `match_one` printed `MATCH (4 ins)` — truthfully, because **a raw asm blob byte-matches
+its own source by construction**. The adversarial verifier refuted it on the rule that a draft
+containing `__asm__` or `INCLUDE_ASM` is a no-op that passes for free. Any burst over this class MUST
+carry that check: the trivially-passing draft is not a hypothetical here, it is the *default* thing to
+produce, and a byte gate cannot tell the difference.
