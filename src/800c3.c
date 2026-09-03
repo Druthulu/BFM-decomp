@@ -299,7 +299,16 @@ s32 StartRCnt(s32 spec) {
     return t < 3;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", StopRCnt);
+extern s32 D_80072934;
+extern s32 D_8007293C[];
+
+s32 StopRCnt(s32 spec) {
+    s32 t;
+
+    t = spec & 0xFFFF;
+    *(s32 *)(D_80072934 + 4) &= ~D_8007293C[t];
+    return 1;
+}
 
 extern u32 D_80072938;
 
@@ -427,11 +436,40 @@ extern void* (*D_80072970)(void);
 
 extern void* (*D_80072970)(void);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D410);
+extern void* (*D_80072970)(void);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D4B8);
+s32 func_8005D410(s32 arg0, s32 arg1, s32 arg2) {
+    u8 *p;
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D4F0);
+    p = (u8 *)(*D_80072970)();
+    if (arg1 < 0) {
+        return *(p + 0xEA);
+    }
+    if (arg1 >= *(p + 0xEA)) {
+        return 0;
+    }
+    p = *(u8 **)(p + 8) + (arg1 << 3);
+    if (arg2 < 0) {
+        return *p;
+    }
+    if (arg2 >= *p) {
+        return 0;
+    }
+    return *(*(u8 **)(p + 4) + arg2);
+}
+
+extern void* (*D_80072970)(void);
+extern void func_8005E79C();
+
+void func_8005D4B8(void *a0, void *a1) {
+    func_8005E79C(D_80072970(), a1);
+}
+
+extern void* (*D_80072970)(void);
+
+void func_8005D4F0(s32 arg0, s32 arg1, s32 arg2) {
+    func_8005E8E8(D_80072970(), (u8)arg1, (u8)arg2);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D538);
 

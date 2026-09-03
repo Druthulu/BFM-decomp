@@ -175,7 +175,224 @@ __asm__(".text\n"
         ".set\treorder\n"
         ".end\t__do_global_dtors\n");
 
-INCLUDE_ASM("asm/nonmatchings/boot", main);
+
+extern u8  D_800BA118;
+extern u8  D_800AF630[];
+extern s32 D_80074778;
+extern s32 D_800A2B7C;
+extern s32 D_800C7C70;
+extern s16 D_800C7C74;
+extern s32 D_800A5E60;
+extern u8  D_8007BA70[];
+extern u8  D_800A4F48[];
+extern s32 D_800A651C;
+extern u8  D_800A6528[];
+extern u8  D_800A6610[];
+extern u8  D_800AA60C[];
+extern s32 D_800AE7BC;
+extern s32 D_800AE7C8;
+extern u8  D_800BA0D8[];
+extern u8  D_800BA0E4[];
+
+extern void func_80043060(s32);
+extern void func_800141F0(void);
+extern void func_8005FC68(s32);
+extern void func_8005FCB8(void);
+extern void func_80018918(void);
+extern s32  func_80043300(void);
+extern void func_8002C8F4(void);
+extern void LoaderInitFileTable(void);
+extern void func_80014238(void);
+extern void func_80014390(void);
+extern void func_800191A8(void);
+extern void func_80010A98(void);
+extern void func_800189A8(void);
+extern void func_80015208(void);
+extern void func_80059BFC(s32, s32);
+extern void GameModeDispatch(void);
+extern void func_80015498(void);
+extern void func_8001C00C(void);
+extern void func_800D25FC(void);
+extern void func_800184F0(void);
+extern void func_800596F4(s32);
+extern s32  VSync(s32);
+extern void func_80059FC0(u8 *);
+extern void func_80059D68(u8 *);
+extern void CatPrim(s32, s32);
+extern s32  func_80059CF4(s32);
+extern void func_8003500C(void);
+extern void func_8002D034(void);
+extern void func_8001AF34(void);
+extern void func_8001513C(void);
+extern void func_80042610(void (*)(void));
+
+struct MainSlot { s32 unk0; s32 unk4; s32 unk8; };
+
+// @class: other
+// @stuck: none -- MATCH (509 ins, -O0 boot object).
+/*
+ * main (0x80010178) -- the game's outer frame loop, compiled -O0 like the rest of
+ * src/boot.c (frame-pointer prologue, every global re-loaded per use).
+ *
+ * The four gcc-2.7.2 -O0 levers this needed (all NEW, none were in the cookbook):
+ *
+ *  1. TWO `register` locals, in declaration order, hold the two bases the whole
+ *     function addresses through: $s0 = &D_800BA118 (loaded, NEVER used again --
+ *     it must still be declared or the lui/addiu pair and the $s0 save/restore
+ *     both vanish) and $s1 = D_800AF630. Same lever GameModeDispatch/func_8001099C
+ *     already use in this TU; the >0x7FFF member offsets then assemble to the
+ *     +0x10000/-0x5Cxx split.
+ *
+ *  2. `s32 pad[6];` -- 24 bytes of DECLARED-BUT-UNUSED stack. At -O0 gcc reserves a
+ *     slot for every local whether or not it is read, and the target's frame is
+ *     0x38 (16 outgoing-arg + 24 vars + 16 saved). Without it the frame is 0x20 and
+ *     every sp offset in the prologue/epilogue is wrong. The original's six words
+ *     were presumably dead locals left in the source.
+ *
+ *  3. THE SHIFT-FORM MULTIPLY. Inside a MEMORY ADDRESS, `base + i * K` with a
+ *     CONSTANT K expands (expand_expr MULT under EXPAND_SUM) to a `(mult reg K)`
+ *     rtx that force_operand emits with the INDEX FIRST: `addu d,index,base`.
+ *     Writing the same value as `base + ((i * (K>>n)) << n)` materialises the index
+ *     into a plain register first, and the address then comes out BASE-first --
+ *     `addu $v0,$s1,$a0` / `addu $at,$at,$v0` + `%lo(sym)($at)` -- which is what the
+ *     target has. Measured: `p + i*12` -> `addu $4,$3,$2` (wrong), `p + ((i*3)<<2)`
+ *     -> `addu $4,$2,$3` (right). Only address context is affected; in VALUE context
+ *     (`(s32)(D_800A6610 + i*16384)`) the plain multiply already comes out base-first.
+ *
+ *  4. The three 12-byte-strided stores go through a struct pointer, not
+ *     `*(s32 *)(p + ... + 8)`: only a COMPONENT_REF folds the member offset into the
+ *     store (`sw $v1,0x8($v0)`); the pointer-arithmetic spelling materialises it as
+ *     a separate `addiu`.
+ *
+ * Two smaller ones: `(*(u16 *)(p + 0xA3A8))++` emits the extra `addu $v0,$v1,$zero`
+ * that `+= 1` does not; and CatPrim's second argument is written
+ * `<load> + D_80074778 * 4` (NOT `D_80074778 * 4 + <load>`) -- with a MEM as operand
+ * 0 gcc emits the MEM's address first, then operand 1, then the load, and the addu
+ * comes out operand-1-first, exactly the target's interleave.
+ *
+ * The two scratchpad-stack switches around func_80015498/func_8001C00C/func_800D25FC
+ * are the §261 idiom: the $sp repointing is inline asm, the calls stay C (so -O0
+ * supplies the `jal` + delay-slot nop). $a2 here, not the overlays' $v1.
+ */
+void main(void) {
+    register u8 *q = &D_800BA118;
+    register u8 *p = D_800AF630;
+    s32 pad[6];
+
+    func_80043060(0);
+    D_80074778 = 0x3E0;
+    func_800141F0();
+    func_8005FC68(0);
+    func_8005FCB8();
+    func_80018918();
+    D_800A2B7C = func_80043300();
+    func_8002C8F4();
+    LoaderInitFileTable();
+
+    while (1) {
+        func_80014238();
+        func_80014390();
+        func_800191A8();
+        func_80010A98();
+
+        while (*(u16 *)(p + 0xA3D4) == 0) {
+            D_800C7C70++;
+            D_800C7C70 = D_800C7C70 ? D_800C7C70 : 1;
+            D_800C7C74 = !D_800C7C74;
+            *(u16 *)(p + 0xA3D2) = D_800C7C74;
+
+            D_800A5E60 = (s32)(D_8007BA70 + *(u16 *)(p + 0xA3D2) * 80000);
+            ((struct MainSlot *)(p + ((*(u16 *)(p + 0xA3D2) * 3) << 2)))->unk8 =
+                (s32)(D_800A4F48 + *(u16 *)(p + 0xA3D2) * 1600);
+            ((struct MainSlot *)(p + ((*(u16 *)(p + 0xA3D2) * 3) << 2)))->unk0 = 0x640;
+            ((struct MainSlot *)(p + ((*(u16 *)(p + 0xA3D2) * 3) << 2)))->unk4 = 0;
+
+            func_800189A8();
+            func_80015208();
+
+            if (*(u8 *)(p + 0xA3E3) == 0) {
+                (*(u16 *)(p + 0xA3A8))++;
+                *(u16 *)(p + 0xA3AC) += *(u16 *)(p + 0xA3A8);
+
+                *(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
+                    (s32)(D_800A6610 + *(u16 *)(p + 0xA3D2) * 16384);
+                *(s32 *)(D_800A6528 + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
+                    *(u16 *)(p + 0xA3D2) * 16384 + (s32)D_800AA60C;
+                func_80059BFC(*(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)), 0x1000);
+                *(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
+                    (s32)(D_800BA0D8 + *(u16 *)(p + 0xA3D2) * 16);
+                *(s32 *)((u8 *)&D_800AE7C8 + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
+                    *(u16 *)(p + 0xA3D2) * 16 + (s32)D_800BA0E4;
+                func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)), 4);
+                GameModeDispatch();
+
+                __asm__ __volatile__(
+                    "lui   $a2, 0x1f80\n"
+                    "ori   $a2, $a2, 0x03fc\n"
+                    "addu  $t0, $a2, $zero\n"
+                    "sw    $sp, 0($t0)\n"
+                    "addiu $t0, $t0, -4\n"
+                    "addu  $sp, $t0, $zero\n" : : : "memory");
+                func_80015498();
+                __asm__ __volatile__(
+                    "addiu $sp, $sp, 4\n"
+                    "lw    $sp, 0($sp)\n" : : : "memory");
+
+                __asm__ __volatile__(
+                    "lui   $a2, 0x1f80\n"
+                    "ori   $a2, $a2, 0x03fc\n"
+                    "addu  $t0, $a2, $zero\n"
+                    "sw    $sp, 0($t0)\n"
+                    "addiu $t0, $t0, -4\n"
+                    "addu  $sp, $t0, $zero\n" : : : "memory");
+                func_8001C00C();
+                __asm__ __volatile__(
+                    "addiu $sp, $sp, 4\n"
+                    "lw    $sp, 0($sp)\n" : : : "memory");
+            } else {
+                *(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
+                    (s32)(D_800BA0D8 + *(u16 *)(p + 0xA3D2) * 16);
+                *(s32 *)((u8 *)&D_800AE7C8 + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) =
+                    *(u16 *)(p + 0xA3D2) * 16 + (s32)D_800BA0E4;
+                func_80059BFC(*(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)), 4);
+
+                __asm__ __volatile__(
+                    "lui   $a2, 0x1f80\n"
+                    "ori   $a2, $a2, 0x03fc\n"
+                    "addu  $t0, $a2, $zero\n"
+                    "sw    $sp, 0($t0)\n"
+                    "addiu $t0, $t0, -4\n"
+                    "addu  $sp, $t0, $zero\n" : : : "memory");
+                func_800D25FC();
+                __asm__ __volatile__(
+                    "addiu $sp, $sp, 4\n"
+                    "lw    $sp, 0($sp)\n" : : : "memory");
+            }
+
+            func_800184F0();
+            func_800596F4(0);
+            VSync(*(s32 *)(p + 0xA3E8));
+
+            *(u16 *)(p + 0x188) = *(u16 *)(p + 0x18A);
+            (*(u16 *)(p + 0x18A))++;
+            if (*(u16 *)(p + 0x18A) > 1) {
+                *(u16 *)(p + 0x18A) = 0;
+            }
+            func_80059FC0(&p[*(u16 *)(p + 0x188) * 20 + 0x14C]);
+            func_80059D68(&p[*(u16 *)(p + 0x18A) * 92 + 0x38]);
+
+            CatPrim(*(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + 0x3FF0,
+                    *(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + D_80074778 * 4);
+            func_80059CF4(*(s32 *)((u8 *)&D_800A651C + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + 0x3FFC);
+            func_80059CF4(*(s32 *)((u8 *)&D_800AE7BC + ((*(u16 *)(p + 0xA3D2) * 5) << 2)) + 0xC);
+            func_8003500C();
+            func_8002D034();
+            func_8001AF34();
+            func_8001513C();
+        }
+        func_80042610(0);
+    }
+}
 
 void func_8001096C(void) {
     extern void func_8002CDD8(void);
