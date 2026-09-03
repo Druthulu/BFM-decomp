@@ -6855,3 +6855,49 @@ rests on one parenthetical in our cookbook, not on sotn's repo — verify before
   started (a recovery run I "waited on" had never launched).
 * **Don't sleep-poll**; 13 stale wait-shells accumulated, three of which could never exit because
   `pgrep -f "bash x.sh"` matches the shell running the check.
+
+### S75 ADDENDUM (2026-09-03) — THE FRONTIER IS BIGGER THAN 69, AND THE REPORTS NEVER SHOWED IT
+
+Written after the checkpoint above; it supersedes that block's frontier SIZE (not its contents).
+
+**`tools/asm_in_c.py` (NEW) — 199 functions in this tree are ASSEMBLY POSING AS C.** A §265 body is
+the target assembly pasted into a C string literal: byte-identical by construction, completely
+unexplained, and indistinguishable from decompiled code in every report we had. 45 are PsyQ/CRT
+routines (defensible); **154 are GAME CODE**, 171 of the 199 in `main`, the largest being
+`SaveLoadRoutine` at 1,165 ins.
+
+They sat in NO `progress.py` bucket — `classify()` matched `INCLUDE_ASM`, `INCLUDE_RODATA` and C
+definitions, and a file-scope `__asm__` block is none of those. `progress.py` now has a
+**`VERBATIM __asm__ bodies`** line: counted byte-identical, **never REAL**.
+
+```
+main REAL / matchable :  881 / 2,090 = 42.15%     (was reported 45.88% = 880/1,917)
+main VERBATIM bodies  :  173
+main INCLUDE_ASM stubs:   34
+```
+
+**Nothing regressed and no work was lost** — the denominator was missing 173 functions of real
+remaining work. So the honest shape of main is **not 36 functions**: it is ~34 stubs PLUS ~150 game
+functions that exist only as transcribed assembly.
+
+**The counting itself is the cautionary tale, and it is in cookbook §448.** Five hand counts in one
+session — **116 → 112 → 108 → 178 → 199** — each reported confidently, each wrong for the same
+reason: a pattern narrower than the claim it supported. The sources use BOTH `".ent\tNAME\n"` and
+`".ent NAME\n"`; a bare `".ent\t"` fragment yields a phantom function named **`t`** (six times, and
+noticing that absurdity is the only reason the error surfaced); `__asm__` appears in 3,182 of 4,224
+sources but is almost always the §3a barrier; `.globl NAME`+`NAME:` proves EXPORT not CODE (the first
+real run called `jtbl_80072ED4/EEC/F0C/F24` four "functions"); and a hand-written SDK list called
+`VectorNormalSS`/`SquareRoot12`/`OuterProduct12` game code because it did not know libgte.
+
+The tool answers all five: three detectors that must AGREE (disagreement = defect, R34), SDK-ness
+DERIVED from the 14 shipped PsyQ archives via `nm` (2,227 symbols, R33), coverage asserted (R32/R43),
+and `--selftest` with a known-true case of every spelling plus both regressions. **Run
+`tools/asm_in_c.py --selftest` before believing its number.**
+
+**What this means for planning.** The remaining *stub* frontier is still 69/12,657 ins as measured
+above, and `frontier_classify` still routes it correctly. But "the project is nearly done" was
+resting on a metric that could not see 154 game functions. `SaveLoadRoutine` is now the worked
+example of the whole class: banked byte-green as verbatim asm this session, and STILL NOT
+DECOMPILED — a Fable agent is attempting real C for it, with the structural question being whether
+its interior labels (reached from `saveHeaderTemplate`+0x54's three handler pointers and from
+`jtbl_80072E44`) can survive the function becoming C at all.
