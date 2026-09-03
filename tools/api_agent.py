@@ -33,6 +33,7 @@ USAGE
 import argparse, glob, http.client, json, os, re, socket, subprocess, sys, time, urllib.request, urllib.error
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import draft_prechecks as DP
 import api_draft as AD          # reuse the validated endpoint/match_one/extract plumbing
 
 REPO = AD.REPO
@@ -847,7 +848,7 @@ def prior_draft(t):
         tgt = set(re.findall(r'\b(?:func_|D_|jtbl_|a[A-Z0-9]+_)[0-9A-Fa-f]{8}\b', open(os.path.join(REPO, t['asm'])).read()))
     except Exception:
         tgt = None
-    skipped = 0
+    skipped = verbatim_skipped = 0
     for pat in (f".run/wave_*/shard*/{t['name']}.c", f".run/*/{t['name']}.c"):
         for p in sorted(glob.glob(pat), key=lambda x: -os.path.getmtime(x)):
             try:
@@ -855,6 +856,23 @@ def prior_draft(t):
             except OSError:
                 continue
             if not body.strip():
+                continue
+            # NEVER WARM-START FROM THE TARGET'S OWN ASSEMBLY (P31 S76). A §265 verbatim body is
+            # stored as `<fn>.c` like any draft, so it is an ordinary warm-start candidate — and
+            # offering it under "a previous attempt left this body behind, keep what matches" is
+            # an invitation to resubmit it. match_one then says MATCH, the gate goes green, and
+            # nothing is decompiled.
+            #
+            # THREE DOORS OF ONE DEFECT, all measured this session: gate_main banked 9 such bodies
+            # (progress.py moved by exactly zero); harvest_verify had no guard at all; and this is
+            # the third — with BOTH gates fixed, two relaunched agents (func_8005E79C,
+            # func_8005EAC8) still returned verbatim because the PACK handed it to them, and they
+            # reasonably reported "the prior draft is already MATCH closeness 0". It is, and that
+            # is exactly the problem. The agent already has the .s; a verbatim body adds no
+            # information the target file lacks, only temptation. Fixing the consumers is not the
+            # same as fixing the supply.
+            if DP.is_verbatim_asm_draft(body, t['name']):
+                verbatim_skipped += 1
                 continue
             if tgt is not None:
                 syms = set(re.findall(r'\b(?:func_|D_|jtbl_|a[A-Z0-9]+_)[0-9A-Fa-f]{8}\b', body)) - {t['name']}
@@ -877,6 +895,8 @@ def prior_draft(t):
             break
         if best:
             break
+    if verbatim_skipped:
+        print('  %s: skipped %d verbatim-asm prior draft(s) as a warm start — the target\'s own bytes, not a decompile (S76)' % (t['name'], verbatim_skipped), flush=True)
     if skipped:
         print(f"  {t['name']}: skipped {skipped} same-named draft(s) whose symbols do not match this .s (law 1c)", flush=True)
     return best, where
