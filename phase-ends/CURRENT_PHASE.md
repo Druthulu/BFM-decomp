@@ -27,6 +27,11 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
 - [x] **T8 — LEN+N lane** — DONE 2026-08-14. **Pile routed 587/587; 345 wrong-drafts reclassified; 49 permuter + 192 card fuel staged; mechanical lane = honest null.** (xHigh)
 - [x] **T9 — Warmstart + weak-cards** — DONE 2026-08-14. **Grinder queue armed (49 lenmiss + 10 seeded drafts, 120 refused by the stream filter); 954 weak-cards emitted, cheap-tier-dominated. No grinder patch needed.** (xHigh)
 - [ ] **T10+ — Campaign loop to ceiling** (repeating sessions; velocity ledger; close on measured decay). (Ultracode waves / xHigh orchestration / Fable new-walls)
+  - S75 (2026-09-02/03): **32 banked** incl. `SaveLoadRoutine`→`func_8002B0B4` (1,179 ins, the §434
+    "wall" = a splat symbol boundary) and **20 SDK-C-REORDER** in one bisection. **Nine tool defects
+    fixed, six of them mine.** Discovered and mapped the **ASSEMBLY-POSING-AS-C class** (199 bodies,
+    `config/verbatim_manifest.json` is the authoritative census); retired `asm_in_c.py` for a
+    manifest + drift guard (R33). See the S75 FINAL 🛑 block at the end of this file.
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)
@@ -6904,8 +6909,14 @@ its interior labels (reached from `saveHeaderTemplate`+0x54's three handler poin
 
 ## 🛑 SESSION CHECKPOINT — S75 FINAL (2026-09-03). SUPERSEDES the S75 block and its addendum above. Phase 31 T10 CONTINUES.
 
-Written for a FRESH SESSION with none of this context. 26 commits; tree clean apart from
-`.run/backlog.jsonl` + Ghidra hook churn; Drew pushes (R6).
+Written for a FRESH SESSION with none of this context. **25 commits**; `src/`, `config/`, `tools/`
+all CLEAN (only `.run/backlog.jsonl` + Ghidra hook churn outstanding); Drew pushes (R6).
+
+**Verified state at close** (`tools/progress.py`, main): REAL 882 · LINKED 959 · **VERBATIM 164** ·
+**INCLUDE_ASM stubs 37** · 1 UNPLACED. `make build BINARY=main` green at `143dbb89…`. HEAD carries
+the `func_8002B0B4` C (0 `INCLUDE_ASM` for SaveLoadRoutine, 1 real definition) — confirmed against
+`git show HEAD` at close, because a long bisection had left several mid-run readings that looked
+like regressions and were not.
 
 **⚠ R22 CLEAN-FLEET WAS NOT RUN THIS SESSION.** Run `make clean && make extract-all && make check-all`
 BEFORE trusting any count below. `make build BINARY=main` was green at `143dbb89…` repeatedly.
@@ -6927,6 +6938,13 @@ from writing better C.
 
 # 2. START HERE
 
+0. **A ONE-LINE FIX, ALREADY DIAGNOSED.** `progress.py` reports `UNPLACED (parse hole): 1 —
+   SaveLoadRoutine`. Cause: `config/symbols.us.txt:27` still declares
+   `SaveLoadRoutine = 0x8002B154; // func`, so splat keeps emitting
+   `asm/nonmatchings/800_b/SaveLoadRoutine.s` for a symbol that is no longer a function (it is
+   `case 0:` inside `func_8002B0B4` now). Delete that line, `make extract BINARY=main`, rebuild to
+   confirm `143dbb89…`, and the hole closes. `config/wave_exclude.txt` lines 14-15 are stale for the
+   same reason. Left undone only because a gate held main's tree at session close.
 1. **R22 clean-fleet.** Nothing tonight is fleet-verified.
 2. **The 16 remaining near-term units** (`.run/S75/nearterm40.json`): 11 GAME-O0-CARVED in
    `md_MAIN_003` (gate with `gate_stage`, NOT gate_main — different binary) + 5 GAME-C in main.
