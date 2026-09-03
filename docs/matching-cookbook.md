@@ -35397,3 +35397,16 @@ symbols, the byte oracle is blind to which is which — check the relocations, n
 bytes off `p` so `combine_givs` picks `p+0x12` itself, otherwise it mints a second anchor at `p+8`
 (+2 ins). And keep the counted `i < 0x100` loop — spelling the bound via `D_801F2A44` costs 12
 instructions, even though the relocation resolves to the same address (`D_801EDA44+0x5000`).
+
+##### ADDENDUM to §461 (third instance) — A REGISTER PIN CAN BE THE DEFECT TOO
+
+`main:func_80040DE8` went **86 → 2** when §76 variable-reuse (`a = {q1,q3,rr}` / `b = {q2,ll}` as
+reused globals, squares written back into `vl`/`vr`) pushed `o1` off `$a3` onto `$t0` — **and that
+made the §3-C pin unnecessary. The pin had been tying ~30 instructions into `$t0`.**
+
+So all three "helpful" levers in this family can each be the thing holding a match back: a volatile
+launder (§461), a temporary (§462 lever 3), and now a hard-register pin. **Before adding a lever,
+check whether an existing one is what you are fighting** — remove first, then measure.
+
+*(Residual: `REGALLOC-PERM` `$t1 > $v1` on the base load; eleven two-variable spellings all restore
+the register but flip the entry `sched1` order for +12.)*
