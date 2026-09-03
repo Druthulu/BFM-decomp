@@ -35515,3 +35515,28 @@ nothing reads is a spill or an orphan — never padding.
 
 *(Residual: `sched1` reordering the matrix-init block, A/B-proved with `-fno-schedule-insns`, plus a
 `$t0`/`$v0` allocation knock-on — see §471 on why `$t0` is not yours.)*
+
+#### §473 — 🔴 §265's "HANDWRITTEN" VERDICT FOR `ov_SC07_002:func_8017DC80` IS REFUTED (324 → 89)
+
+**Source: the S76 agent.** This file carries a §265 addendum asserting that `func_8017DC80` is a
+handwritten function no `-O2` C can match, on the strength of its interleaved `sw`/def prologue.
+**That prologue is ordinary gcc-2.7.2 MIPS RTL.** The draft went from a 20-attempt
+`LENGTH-DRIFT/-33` wall to **−2 / closeness 89**, which is not what an unmatchable function does.
+
+**What moved it:** §30's `/s`-dep lattice — plain **scalar** `sxy` stack locals combined with
+`COMPONENT_REF` packet stores through a `POLY_G4`/`LINE_G2` struct pointer — plus deliberately
+**un-cached** `*(s32*)(c+0xB)` reloads and a recomputed OT pointer.
+
+**Why it matters beyond this function.** That is the **fourth** wall refuted in one session, after
+the §182/§188 reorder oracle, §41b's prologue-hoist (§463) and the S75 nine. Three of the four were
+recorded as properties of the CODE and were actually properties of an instrument or a model. The
+standing lesson stands up better each time: **in this project a recorded wall is more often a stale
+belief than a compiler limit — re-probe before honouring one.**
+
+**Manifest consequence:** `func_8017DC80`'s `UNCERTAIN` row should resolve toward decompilable, NOT
+`PERMANENT-VERBATIM`. Converting it to a stub (S76) was correct, and it belongs in the drawable pool.
+
+*(Residual 89: the OT pointer still CSE's across `func_80010A08(8)` — only a barrier-preceded
+diamond-merge label flushes `cse2`, and every zero-byte flush tried killed either the tail cross-jump
+or the fp loop-invariant hoist; plus a 2×5-instruction mode-copy allocation in the OTZ clamp and the
+`$a0`/`$s7` prologue schedule.)*
