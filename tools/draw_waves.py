@@ -144,6 +144,8 @@ def main():
                                           'audited for freshness before the draw')
     ap.add_argument('--exclude-stale-ok', action='store_true',
                     help='draw anyway against a STALE exclude list (prints what it ignores)')
+    ap.add_argument('--redraw-open', action='store_true',
+                    help='also draw open stubs the ledger has already seen. The ledger records what was ATTEMPTED; a stub still open is still unbanked work.')
     ap.add_argument('--dry', action='store_true')
     a = ap.parse_args()
 
@@ -214,6 +216,8 @@ def main():
               'would gate GREEN while wrong' % len(linked), file=sys.stderr)
 
     pool, refused = [], []
+
+    redrawable = []
     for b in bins:
         try:
             st = corpus.stubs(b)
@@ -225,15 +229,37 @@ def main():
             n = corpus.s_ins_count(s.asm_path)
             if not (a.min_nins <= n <= a.max_nins):
                 continue
-            if (b, s.symbol) in drawn or (b, s.symbol) in skip:
+            if (b, s.symbol) in skip:
                 continue
+            if (b, s.symbol) in drawn:
+                # THE LEDGER RECORDS WHAT WAS ATTEMPTED, NOT A PROPERTY OF THE FUNCTION (P31 S76).
+                # This is the exclude-list lesson (S72) in a second place: a stub that is STILL
+                # OPEN after being drawn is, by definition, unbanked work — the draw failed, or
+                # the draft was never gated, or the blocker has since been fixed. Filtering it
+                # forever means the frontier shrinks to nothing while the work remains.
+                # Measured here: after two S76 draws the tool reported `population: 0` with 51
+                # open stubs on disk — a TRUE number about a scope far narrower than the reader
+                # believes, the session's dominant defect class (`silently-narrowed-tool-scope`).
+                redrawable.append((b, s.symbol))
+                if not a.redraw_open:
+                    continue
             pool.append(dict(name=s.symbol, addr='0x%08x' % s.addr, nins=n, binary=b,
                              sub=s.asm_dir, asm=s.asm_path, tu=s.path,
                              cls='FRONTIER', arm=arm_from_history(b, s.symbol, n), **{'from': 'draw_waves'}))
     pool.sort(key=lambda t: (t['nins'], t['binary'], t['name']))
 
-    print('population: %d open stub(s) in [%d,%d] ins, undrawn, over %d binaries (%d oracle refusals: %s)'
-          % (len(pool), a.min_nins, a.max_nins, len(bins), len(refused), refused[:2]), file=sys.stderr)
+    print('population: %d open stub(s) in [%d,%d] ins, %s, over %d binaries (%d oracle refusals: %s)'
+          % (len(pool), a.min_nins, a.max_nins,
+             'undrawn + previously-drawn' if a.redraw_open else 'undrawn',
+             len(bins), len(refused), refused[:2]), file=sys.stderr)
+    # NEVER REPORT A POPULATION WITHOUT WHAT IT EXCLUDES (R41). An empty pool beside a non-empty
+    # frontier reads as "the work is done"; it means "the ledger has seen them all".
+    if redrawable and not a.redraw_open:
+        print('  NOTE: %d further open stub(s) were filtered ONLY because the ledger has seen them '
+              'before — they are still unbanked work. Pass --redraw-open to include them.%s'
+              % (len(redrawable), '' if pool else
+                 '  <-- the pool is EMPTY for this reason alone; the frontier is NOT.'),
+              file=sys.stderr)
 
     waves, cur, used_names = [], [], set()
     deferred = []
