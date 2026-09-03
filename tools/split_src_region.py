@@ -20,7 +20,11 @@ Item vram comes from a func_XXXXXXXX name, else a name looked up in config/symbo
 Brace matching is naive (counts {}); the build's SHA1 check is the backstop if an item with
 string-literal braces is mis-split.
 """
+import os
 import re, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from overlay_src_split import comment_open_at   # ONE comment-state model for the whole split chain (R33)
 
 SYMS_PATH = "config/symbols.us.txt"
 
@@ -92,6 +96,11 @@ def parse(src):
     """Return (header, [item_text, ...]) splitting top-level items."""
     lines = src.split("\n")
     n = len(lines)
+    # SAME BLINDNESS, SAME CURE as overlay_src_split (P31 S74, cookbook §437): the comment peel
+    # below only recognises a comment that STARTS a line, so a construct whose TRAILING `/*` note
+    # WRAPS (`extern void f(); /* note` + continuation) left this loop treating the comment's prose
+    # as an item. `comment_open_at` is the one derived model of the file's comment state (R33).
+    opens = comment_open_at(lines)
     i = 0
     while i < n and (lines[i].startswith("#include") or lines[i].strip() == ""):
         i += 1
@@ -103,7 +112,8 @@ def parse(src):
             continue
         start = i
         # leading line/block comments belong to the following item
-        while i < n and (lines[i].lstrip().startswith("//") or lines[i].lstrip().startswith("/*")
+        while i < n and (opens[i] or lines[i].lstrip().startswith("//")
+                         or lines[i].lstrip().startswith("/*")
                          or lines[i].lstrip().startswith("*")):
             if lines[i].lstrip().startswith("/*") and "*/" not in lines[i]:
                 while i < n and "*/" not in lines[i]:

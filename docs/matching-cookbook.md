@@ -34417,3 +34417,109 @@ refused to accept "the gate said no" as a fact about its own work.
 current config), then ask what it READS (an asm tree, or a whole file it only partly owns). Where
 those differ, the tool will one day report a true fact about a world that no longer exists — and it
 will be believed, because it is the tool whose job is to be trusted.
+
+## §437 ★★★ — A WRAPPED TRAILING COMMENT BROKE THE TU PARSER, AND THE §8b DECL LAYER WROTE `extern #define` (P31 S74; five independently-MATCHed jr bodies unblocked, `ov_SC06_029` byte-identical)
+
+A parallel gate rejected **five** `ov_SC06_029` drafts with the identical, non-codegen verdict:
+
+```
+func_801867D0  PLUMBING: src/ov_SC06_029/ov_SC06_029_jr_801867D0.c:138: parse error before '#'
+func_801898CC  … :193 …   func_801801D8  … :73 …   func_80187660  … :141 …   func_80180A70  … :73 …
+```
+
+Those `.c` files do not exist in the repo — `jr_isolate_all.py` writes them at gate time so each
+jr's jump table can carve. Line 138 of the generated file was:
+
+```c
+extern #define CALL_80185C6C ((void *(*)(s32, s32))func_80185C6C) extern void func_8012C218();
+```
+
+**The cause is a comment, not a compiler.** The TU carries this, at file scope:
+
+```c
+extern void *func_80185C6C(); /* §183 SIGNATURE-adopted-TU;
+   calls go through a (s32,s32) function-pointer cast, the TU's own idiom */
+#define CALL_80185C6C ((void *(*)(s32, s32))func_80185C6C)
+extern void func_8012C218(void *a0);
+```
+
+Every peeler in `overlay_src_split.py` decided "is this line a comment?" with
+`line.strip().startswith("/*")` — which sees a comment that STARTS a line and is blind to one a
+construct OPENS mid-line. The declaration ends at its `;`, which is BEFORE the `/*`, so
+`scan_construct` returns and the caller resumes **on the comment's continuation line**, entered with
+`in_block=False`. It then reads comment prose as code, and the prose is hostile: `(s32,s32)` closes a
+depth-0 paren, so the scan latches `seen_header`, after which every `;` reads as a **K&R parameter
+declaration** and one "construct" swallows 15 lines up to the next real definition. Two byte-relevant
+consequences:
+
+* `parse_overlay_c` anchored a `def` item on a pure DECLARATION run, naming `func_8012C218` — a
+  resident function with no definition anywhere in this TU;
+* `def_proto` → `_proto_from_lines` then rendered that whole run as the definition's "implied
+  prototype" and prefixed `extern`, producing the line above. `_proto_from_lines` already carried a
+  D1 backstop for a chunk that OPENS inside a comment (P30 S48) — proof the shape had been met
+  before — but the backstop trims the comment tail *after* the construct scan has already over-run,
+  so it could not help.
+
+A second, quieter defect rode along: `_file_scope_decls` hoisted the col-0 line **verbatim**,
+unterminated `/*` included, so the region's carried decl layer opened a comment that ran on and
+**silently ate the next carried declarations** (measured: `extern void func_8012C218(void *a0);` and
+`extern u8 D_80190348[];` vanished into it). A dropped file-scope decl is a silent byte-changer.
+
+**The fix is one derived model of the file's comment state, not three line tests** (R33).
+`overlay_src_split.comment_open_at(lines)` returns, per line, whether that line BEGINS inside a block
+comment; `parse_overlay_c`, `def_proto`, `split_src_region.parse` and `jr_isolate_all._file_scope_decls`
+all consult it, and a col-0 decl whose trailing `/*` never closes is truncated at the `/*` before it is
+carried (comments emit no code, so that is byte-neutral). `_refuse_code_after_comment_close` refuses a
+file where such a comment CLOSES with code after the `*/`, because that construct could never anchor
+(R43; measured 0 occurrences across the 4,188 sources the parser is run on).
+
+**Building that guard immediately found a THIRD defect in the same model.** `_strip` tested for `/*`
+BEFORE stripping `//`, so a LINE comment containing `/*` —
+
+```c
+//            src/shared/engine_core.h src/*/*.c        (ov_SC07_006_jr_801457A4.c:3968)
+```
+
+— was read as opening a block comment. Everything after it stripped to `""` until some later `*/`, so
+`scan_construct` saw blank lines where real declarations stood. `_strip` now lexes left to right:
+whichever of `//` and `/*` comes first wins. (7 such lines in 5 sources.)
+
+**Scale, so nobody reads this as one overlay's quirk.** The wrapped-trailing-comment shape occurs
+**238 times across 193 of our `.c` files**, and **153 of those are col-0 hoistable declarations in
+150 files** — i.e. 150 binaries whose next isolation would have carried an unterminated comment into
+its decl layer. This class was never specific to `ov_SC06_029`; that overlay is simply where a jr
+isolation happened to cut next to one.
+
+**A/B over all 4,188 tracked sources, old parser vs new, so the blast radius is measured and not
+asserted:**
+
+| | old | new |
+|---|---|---|
+| round-trip identity (header + items == file) | 4188/4188 | 4188/4188 |
+| files whose ITEM LIST changed | — | **2** (`ov_SC02_031_jr_8017AE2C.c`, `ov_SC06_029_jr_8017C954.c`) |
+| items gained | — | 0 |
+| items lost | — | 1 per file, each a **phantom `def`** no definition backs (`func_8012C218`; an addr-less `block`) |
+| malformed implied prototypes | 999 | 984 |
+| R43 refusals | — | 0 |
+
+Nothing is gained and nothing real is lost: the only items that disappear are false anchors. **The
+984 residual malformed prototypes are a DIFFERENT, pre-existing trigger** — a col-0 line that glues
+several declarations and `DEFINE_func_*()` invocations together (`extern s32 aF…(…) __asm__("");
+DEFINE_func_8014C4AC() … s32 func_8014C5D0(…)`). `_file_scope_decls`'s final pass splits those on
+`;` and drops every segment containing a `DEFINE_`, which is why they have never blocked a bank.
+**Four of them still carry a `#`** (`… DEFINE_func_8014E5B4() #include "" extern void …`, in
+`ov_SC01_077` ×3 and `ov_SC07_006`) and survive only because the `#` happens to land inside a
+dropped `DEFINE_` segment — one edit away from being the same `parse error before '#'`. That pass
+also discards the segment holding the DEFINITION's own implied prototype, and a dropped prototype is
+a silent byte-changer, so the class deserves its own fix rather than its current luck.
+
+**The transferable law.** *A comment model that is right for the shape you had in mind is silently
+wrong for the shape in front of you, and a parser that loses comment state at a chunk boundary will
+emit that comment's PROSE as C.* When a gate rejects several independently-MATCHed bodies with the
+SAME error, at line numbers in files that do not exist in the repo, the subject is the generator —
+make the file appear on disk and read the line before touching a single draft.
+
+**Negative control (mandatory here, because the fix rewrites what the build compiles):** an
+UNMODIFIED `make extract && make build -j$(nproc) && make check` of the binary FIRST, then the gate.
+`ov_SC06_029` was byte-identical before, and byte-identical after with all five bodies banked —
+`sha1 b7b0d4ae629fdc4f76c59fa146b4fcc78078c9d1`.

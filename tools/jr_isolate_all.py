@@ -638,7 +638,25 @@ def _file_scope_decls(items):
                 out.append((block, True))
             elif seen_types[key] != body:
                 type_conflicts.append((key, seen_types[key], body))
-        for line in text.split("\n"):
+        # THE CARRIED LINE MUST NOT CARRY AN UNTERMINATED COMMENT (P31 S74, byte-witnessed).
+        # A col-0 decl whose trailing `/*` note WRAPS —
+        #     extern void *func_80185C6C(); /* §183 SIGNATURE-adopted-TU;
+        #        calls go through a (s32,s32) fn-ptr cast, the TU's own idiom */
+        # — used to be hoisted VERBATIM, opening a comment in the region's decl layer that then
+        # ran on and SILENTLY ATE the next carried decls until the next `*/` (measured in
+        # ov_SC06_029_jr_801867D0.c: `extern void func_8012C218(void *a0);` and
+        # `extern u8 D_80190348[];` vanished into it). A dropped file-scope decl is a silent
+        # byte-changer, so mask on the SAME comment-state model the parser uses (oss.comment_open_at,
+        # R33): skip a line that BEGINS inside a comment, and truncate one that OPENS a comment it
+        # does not close. Comments emit no code, so dropping the note is byte-neutral.
+        _tlines = text.split("\n")
+        _opens = oss.comment_open_at(_tlines)
+        for _li, line in enumerate(_tlines):
+            if _opens[_li]:                             # interior of a wrapped block comment
+                continue
+            _code, _still_open = oss._strip(line, False)
+            if _still_open:                             # trailing `/*` that never closes on this line
+                line = line[:line.index("/*")].rstrip()
             if not line or line[0].isspace():           # col-0 only (block-scope stays put)
                 continue
             if "{" in line or "}" in line:

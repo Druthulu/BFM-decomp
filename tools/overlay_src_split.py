@@ -209,7 +209,19 @@ def def_name(construct_lines):
 
 def _strip(line, in_block):
     """Blank out // and /* */ comments (block state carried) + string/char literals,
-    for brace/paren/semicolon token counting. Returns (code, in_block)."""
+    for brace/paren/semicolon token counting. Returns (code, in_block).
+
+    LEFT-TO-RIGHT, BECAUSE WHICHEVER MARKER COMES FIRST WINS (P31 S74). This used to test for
+    `/*` BEFORE stripping `//`, so a LINE comment containing `/*` — which our own commentary does
+    routinely, e.g.
+
+        //            src/shared/engine_core.h src/*/*.c        (ov_SC07_006_jr_801457A4.c:3968)
+
+    — was read as OPENING a block comment (`src/*` supplies the `/*`). Everything after it then
+    stripped to "" until some later `*/`, so `scan_construct` saw blank lines where real
+    declarations stood, and `comment_open_at` marked live code as comment interior. Measured: 7
+    such lines in 5 tracked sources. Same class as the wrapped-comment defect above — a comment
+    model that is right for the common shape and silently wrong for the one in front of it."""
     c = line
     if in_block:
         if "*/" in c:
@@ -217,14 +229,78 @@ def _strip(line, in_block):
             in_block = False
         else:
             return "", True
-    c = re.sub(r'/\*.*?\*/', '', c)
-    if "/*" in c:
-        c = c.split("/*", 1)[0]
-        in_block = True
-    c = re.sub(r'//.*$', '', c)
+    out, i, n = [], 0, len(c)
+    while i < n:
+        two = c[i:i + 2]
+        if two == "//":                      # rest of the line is a comment
+            break
+        if two == "/*":
+            j = c.find("*/", i + 2)
+            if j == -1:                      # opens a block comment that wraps
+                in_block = True
+                break
+            i = j + 2
+            continue
+        out.append(c[i])
+        i += 1
+    c = "".join(out)
     c = re.sub(r'"(?:\\.|[^"\\])*"', '""', c)
     c = re.sub(r"'(?:\\.|[^'\\])*'", "''", c)
     return c, in_block
+
+
+def comment_open_at(lines, start_in_block=False):
+    """[bool] per line — does this line BEGIN inside an unterminated /* block comment?
+
+    ONE derived model of the file's comment state (R33), consulted by every line-based peeler in
+    this module. They used to decide "is this line a comment?" from `line.strip().startswith("/*")`,
+    which is blind to the shape that actually occurs 238 times across 193 of our .c files:
+
+        extern void *func_80185C6C(); /* §183 SIGNATURE-adopted-TU;
+           calls go through a (s32,s32) function-pointer cast, the TU's own idiom */
+
+    The construct ENDS at its `;`, which is BEFORE the `/*`, so the peeler resumes on the comment's
+    CONTINUATION line — and `scan_construct`, entered with in_block=False, reads comment PROSE AS
+    CODE. Measured on ov_SC06_029 (P31 S74): `(s32,s32)` in the prose closed a depth-0 paren, so the
+    scan latched `seen_header`, every following `;` read as a K&R parameter declaration, and one
+    "construct" swallowed 15 lines of preamble up to the next real definition. Two consequences,
+    both byte-relevant:
+      * parse_overlay_c anchored a `def` item on a pure DECLARATION run (`func_8012C218`, whose
+        definition is in the resident, not this TU);
+      * def_proto/_proto_from_lines then rendered that run as the definition's "implied prototype",
+        emitting `extern #define CALL_80185C6C (...) extern void func_8012C218();` into the §8b
+        carried decl layer — `parse error before '#'`, which blocked five independently-MATCHed
+        jr bodies from banking in ov_SC06_029 alone.
+
+    A line that begins inside a block comment is never an anchor and never starts a construct, so
+    the peelers skip it; the text itself is sliced by line and preserved verbatim either way.
+
+    `start_in_block` is for a chunk that was CUT out of a larger file mid-comment (an item whose
+    preceding anchor line opened a wrapped comment): its first line already sits inside one."""
+    out, in_block = [], start_in_block
+    for ln in lines:
+        out.append(in_block)
+        _c, in_block = _strip(ln, in_block)
+    return out
+
+
+def _refuse_code_after_comment_close(lines, opens, where=""):
+    """R43: refuse a file where a wrapped block comment CLOSES with code after the `*/`.
+
+    Such a line begins inside the comment (so the peelers skip it, above) yet carries a construct
+    that would then never anchor — a silent loss, which is exactly the failure mode this module
+    keeps paying for. Measured 0 occurrences across the 4,188 sources this parser is run on, so
+    refusing costs nothing today and can never become silent later. Split the line if it fires."""
+    for k, ln in enumerate(lines):
+        if not opens[k] or "*/" not in ln:
+            continue
+        rest = ln.split("*/", 1)[1]
+        if re.sub(r'/\*.*?\*/|//.*$', '', rest).strip():
+            raise ValueError(
+                "overlay_src_split: %sline %d closes a wrapped block comment and then carries "
+                "code on the SAME line (%r). That construct can never anchor — put it on its own "
+                "line. (R43: refusing rather than silently dropping it.)"
+                % (where, k + 1, ln.strip()[:120]))
 
 
 _DECL_KW = ("extern", "typedef", "struct", "union", "enum")
@@ -326,6 +402,11 @@ def parse_overlay_c(src, syms):
     hdr_end = split_header(lines)
     header = "\n".join(lines[:hdr_end])
     n = len(lines)
+    # THE FILE'S COMMENT STATE IS A DERIVED MODEL, NOT A PER-LINE GUESS (P31 S74, R33). See
+    # comment_open_at: the `s.startswith("/*")` test below only ever saw a comment that starts a
+    # LINE, so a construct whose TRAILING comment wraps left every peel branch resuming inside it.
+    opens = comment_open_at(lines)
+    _refuse_code_after_comment_close(lines, opens)
     items = []
     i = hdr_end
     pre_start = i
@@ -333,6 +414,9 @@ def parse_overlay_c(src, syms):
         raw = lines[i]
         s = raw.strip()
         # ---- peel non-anchor prefix lines into the accumulating preamble ----
+        if opens[i]:                                # interior of a wrapped block comment
+            i += 1
+            continue
         if s == "":
             i += 1
             continue
@@ -686,8 +770,16 @@ def def_proto(item_text):
     """The prototype implied by a `def`-kind item's function definition (None if none)."""
     lines = item_text.split("\n")
     n = len(lines)
+    # Same derived comment-state model as parse_overlay_c (R33). An ITEM can also OPEN inside a
+    # comment — its preceding anchor line wrapped one — so seed the state from the D1 test
+    # `_proto_from_lines` already uses: a `*/` with no `/*` before it.
+    _c, _o = item_text.find("*/"), item_text.find("/*")
+    opens = comment_open_at(lines, start_in_block=(_c != -1 and (_o == -1 or _o > _c)))
     i = 0
     while i < n:                       # peel the preamble to reach the definition construct
+        if opens[i]:                   # interior of a wrapped block comment: never a construct
+            i += 1
+            continue
         s = lines[i].strip()
         if s == "" or s.startswith("//"):
             i += 1
