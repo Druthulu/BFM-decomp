@@ -24,7 +24,6 @@ ResourceLoadStateMachine         = 0x8001B3C4; // func
 ResourceGetCdLoc                 = 0x8001B788; // func
 SsGetMute                        = 0x8001BD80; // func
 SsUtReverbOff                    = 0x800285AC; // func
-SaveLoadRoutine                  = 0x8002B154; // func
 CdQueueBusy                      = 0x80034B98; // func
 StreamLoadStateMachine           = 0x800363CC; // func
 SPU_OBJ_DC                       = 0x8003A694; // func

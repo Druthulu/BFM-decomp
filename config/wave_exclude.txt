@@ -11,5 +11,3 @@ main:func_80062144  # WALL: no jump table — curated compiler fact, not a tooli
 md_MAIN_034:func_800CB00C  # WALL: compiler wall (merged from S68_walls_332.txt)
 ov_SC03_105:func_801834A4  # WALL: loop.c movable ordering, closeness 6 (S71)
 ov_SC06_022:func_8017DF28  # WALL: expand_block_move copy_addr_to_reg pseudo + cse reuse, closeness 2 (S71)
-main:func_8002B0B4  # WALL: §179-C/§434 — no epilogue; every exit is a raw j/jr into labels inside SaveLoadRoutine, with which it shares one 0x40 frame. Same route as its twin: the §265 pair transcription, not a per-function draft. Excluded from DRAWS only.
-main:SaveLoadRoutine  # WALL: §296/§434 — SaveLoadRoutine (1139) and func_8002B0B4 (76) are ONE 0x40 frame across two symbols. NOT unmatchable: the §265 verbatim-asm lane transcribes SaveLoadRoutine BYTE-IDENTICAL (measured S73); it fails the whole-binary gate only because substituting one alone moves 3,989 bytes across 262 symbols of the shared frame. Route = transcribe/resegment the PAIR TOGETHER (§265), not a per-function draft. Excluded from DRAWS only.
