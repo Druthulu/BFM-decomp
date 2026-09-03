@@ -2946,3 +2946,69 @@ known, and both were the same defect being hunted elsewhere in the session.
 The better path is not "be more careful". It is: **every scan ships with the denominator it claims to
 cover, and gets tested against one known-true case before its number is quoted to anyone.** That is
 cheap, it is mechanical, and on this evidence it is the single highest-yield habit in the project.
+
+---
+
+## S76 (2026-09-03) — EVERY WALL EXAMINED WAS THE INSTRUMENT. FIVE DEFECTS, ONE SHAPE.
+
+### Context and belief going in
+
+S75 closed with "every codegen wall examined — nine of them — was an instrument defect. Not one was
+the compiler." S76 treated that as a finished lesson and planned ordinary work: verify the fleet,
+make the main gate durable and parallel, then bank the near-term frontier. The belief was that the
+tooling was now sound and the remaining cost was drafting.
+
+That was wrong in the specific way S75 warned about, and the session found **five more** instrument
+defects — each one hiding work, each one previously reported as a property of the code.
+
+### What was found, in the order it surfaced
+
+| # | defect | what it asserted | what was true |
+|---|---|---|---|
+| 1 | verbatim drafts accepted by `gate_main` | "9 functions banked, byte-identical" | the drafts were the targets' own asm; `progress.py` moved by **zero** |
+| 2 | same gap in `harvest_verify` | (silent) | the module/overlay half of the same wave reached the tree through a gate with no guard |
+| 3 | same body offered by `api_agent.prior_draft` | "a previous attempt left this body behind" | it was raw asm; with both gates fixed, agents STILL resubmitted it because the pack supplied it |
+| 4 | `match_one` + `rtu_match` modelling `maspsx + as -O1` | a §182/§188 "IMMOVABLE epilogue wall" | those four TUs build through `reorder_passthrough + as -O2`; the wall does not exist |
+| 5 | `draw_waves --main` | `main: refusing 49 LINKED subseg(s)` | **main was never iterated at all** — no `src/main/` directory, so it was never in `bins` |
+
+### The measurements that settle each one
+
+* **#1–3.** One census: **1,099 of 704,375** `.c` files in the draft store are verbatim-asm bodies
+  under ordinary `<fn>.c` names. Negative control on the detector: **0 false positives across
+  45,898** drafts carrying both a real C definition and an inline `__asm__`.
+* **#4.** Same draft, `func_8005ECC0`: closeness **5 / 36 ins** under the old oracle, closeness
+  **2 / 35 ins** under the real build path. Seven of eleven main agents in one wave produced correct
+  C, saw the phantom tail, consulted `oracle_reorder.py` — which said *"file IMMOVABLE, stop
+  grinding, no C-level work can ever close it"* — and each submitted a §265 verbatim body instead.
+  Rescoring old drafts under the corrected oracle recovered **4 functions for zero agent tokens**.
+* **#5.** `0 -> 55` main stubs reaching the pool. Every mixed draw in the project's history
+  contributed nothing from main.
+
+### The shape they share, and why it is not "be more careful"
+
+All five are the same failure: **a tool made a TRUE statement about a scope narrower than the reader
+believed, in language that sounded like a statement about the code.** "Banked." "IMMOVABLE."
+"refusing 49 LINKED subsegs." Not one was silent; four of the five were *loud and reassuring*, which
+is worse, because a confident message is the thing nobody audits.
+
+Three of them were also **the same defect behind more than one door** — the verbatim body had to be
+refused in `gate_main`, in `harvest_verify`, AND in the pack that supplied it, and the reorder path
+had to be fixed in `match_one` AND `rtu_match`. Fixing the consumers is not the same as fixing the
+supply, and a fix made in one of two paths is a fix in neither (the §442/S74 sibling-provisioner
+lesson, now with two more instances).
+
+### Cost, and the hindsight path
+
+The direct waste is small — one wave's worth of verbatim fallbacks, four functions that were already
+solved. The real cost is **historical**: a large part of the recorded "wall" history in the 800c3
+cluster is instrument error, and several functions currently parked in `src/` as deliberate §265
+verbatim banks were parked on a false premise. Agents in S76y are now finding this on their own
+("the six journal attempts... modeled the wrong assembler"), which means the journal — our
+past-attempt fuel, measured at 38/39 MATCH when it works — has been feeding forward false walls.
+
+The better path, and it is mechanical rather than a virtue: **a tool that reports a population must
+report what it excluded from it, and a claim about the toolchain has the same shelf life as the
+toolchain.** The reorder island landed 2026-09-01; the docs asserting it was unreachable were not
+swept, and four tools kept modelling the retired path. A build change must sweep every doc and every
+oracle that asserts what the build cannot do — that sweep is now the missing step in the wave
+playbook, not a habit to remember.
