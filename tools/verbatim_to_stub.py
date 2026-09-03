@@ -43,13 +43,12 @@ def find_block(text, fn):
 
     Brace/paren matched, not regex-sliced: a block contains string literals full of braces and
     parens, and an approximate cut here would corrupt a source file that currently builds."""
-    import asm_in_c
-    for (ln0, ln1, blk, file_scope) in asm_in_c.asm_blocks(text):
+    import verbatim_check as VC
+    for (ln0, ln1, blk, file_scope) in VC.asm_blocks(text):
         if not file_scope:
             continue
         names = set()
-        for _n, det in asm_in_c.DETECTORS:
-            names |= det(blk)
+        names |= VC.defined_in(blk)
         if fn in names:
             lines = text.split('\n')
             start = sum(len(l) + 1 for l in lines[:ln0 - 1])
@@ -91,15 +90,31 @@ def main():
     if not (a.binary and a.fn):
         ap.error('--binary and --fn are required')
 
-    import asm_in_c
+    import verbatim_check as VC
+    # CASE-NORMALISE THE ADDRESS (P31 S75). splat's convention is `func_%08X` (UPPERCASE hex), but
+    # analysis artifacts routinely carry `func_8005ed4c` lowercase — the triage taxonomy did, and
+    # asking for the lowercase form found 0 of 24 blocks that were all sitting right there. An
+    # address is a NUMBER; matching it as a case-sensitive string is the R48 hazard in its
+    # case-sensitivity form. Resolve to whatever spelling the source actually uses, and say so.
+    want = a.fn
+    m = re.match(r'(func_|D_)([0-9A-Fa-f]{8})$', want)
     hit = None
-    for path, b in asm_in_c.sources(a.binary):
+    for path, b in VC.sources(a.binary):
         text = open(path, errors='ignore').read()
-        if a.fn not in text:
-            continue
-        s, e, blk = find_block(text, a.fn)
-        if s is not None:
-            hit = (path, text, s, e, blk)
+        cands = [want]
+        if m:
+            cands += [m.group(1) + m.group(2).upper(), m.group(1) + m.group(2).lower()]
+        for cand in dict.fromkeys(cands):
+            if cand not in text:
+                continue
+            s, e, blk = find_block(text, cand)
+            if s is not None:
+                if cand != want:
+                    print(f'note: {want} resolved to {cand} (address matched case-insensitively)')
+                a.fn = cand
+                hit = (path, text, s, e, blk)
+                break
+        if hit:
             break
     if not hit:
         sys.exit(f'verbatim_to_stub: no file-scope __asm__ block defining {a.fn} in {a.binary} '

@@ -27,7 +27,7 @@ any human reader get true text); the word column is the ground truth used for co
 
 Usage:
     tools/verbatim_target_s.py --binary main --fn SaveLoadRoutine
-    tools/verbatim_target_s.py --all                 # every verbatim body asm_in_c.py finds
+    tools/verbatim_target_s.py --all      # every DRAFTABLE unit in config/verbatim_manifest.json
     tools/verbatim_target_s.py --all      # default: .run/verbatim_targets/<binary>/<fn>.s
                                       # (NEVER under asm/ — the Makefile globs that tree)
 """
@@ -161,7 +161,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--binary')
     ap.add_argument('--fn')
-    ap.add_argument('--all', action='store_true', help='every verbatim body tools/asm_in_c.py finds')
+    ap.add_argument('--all', action='store_true',
+                    help='every DRAFTABLE unit in config/verbatim_manifest.json (fragments, permanent-verbatim and not-code are SKIPPED — a target for those is a trap)')
     ap.add_argument('--game-only', action='store_true', default=True)
     # NOT under asm/ — `build/asm/%.o: asm/%.s` globs that tree, so targets written there are
     # picked up as BUILD OBJECTS and the binary goes red (I did exactly that, P31 S75).
@@ -170,17 +171,28 @@ def main():
 
     targets = []
     if a.all:
-        import asm_in_c
-        rows, _ = [], None
-        for path, b in asm_in_c.sources(None):
-            r, _d = asm_in_c.scan_file(path, b)
-            rows += r
-        for r in rows:
-            if r['cls'] != 'A-FILE-SCOPE-VERBATIM':
-                continue
-            if a.game_only and r['fn'] in asm_in_c.SDK_NAMES:
-                continue
-            targets.append((r['binary'], r['fn']))
+        # TARGETS COME FROM THE MANIFEST, NEVER FROM A SCAN (P31 S75). The first version enumerated
+        # every verbatim SYMBOL, and 62 of them are NOT FUNCTIONS — fragments of a split function,
+        # bare epilogue tails, padding, trampolines. Emitting a per-symbol target for those is what
+        # sent two drafting bursts at things no C function can express: a bare epilogue tail has no
+        # prologue, so no compiler can produce it in isolation. `config/verbatim_manifest.json`
+        # carries the derived taxonomy (cookbook §452), and only these dispositions name a real,
+        # standalone function that a drafter can legitimately be pointed at.
+        DRAFTABLE = {'DECOMPILE-NOW', 'DECOMPILE-LOW-VALUE', 'UNCERTAIN'}
+        mp = os.path.join(REPO, 'config/verbatim_manifest.json')
+        if not os.path.exists(mp):
+            sys.exit('verbatim_target_s --all: config/verbatim_manifest.json is missing. This tool '
+                     'no longer derives its own target list (it emitted targets for 62 non-functions '
+                     'when it did). Run tools/verbatim_check.py first.')
+        man = json.load(open(mp))
+        skipped = 0
+        for r in man['rows']:
+            if r.get('disposition') in DRAFTABLE:
+                targets.append((r['binary'], r['fn']))
+            else:
+                skipped += 1
+        print(f"targets from the manifest: {len(targets)} draftable; {skipped} skipped "
+              f"(fragments / permanent-verbatim / not-code — a target for those is a trap)")
     elif a.binary and a.fn:
         targets = [(a.binary, a.fn)]
     else:
