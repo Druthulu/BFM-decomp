@@ -588,7 +588,7 @@ SIG = re.compile(r'^\s*[A-Za-z_][\w \t\*]*\b([A-Za-z_]\w*)\s*\(')
 KR_PARAM = re.compile(r'^\s*[A-Za-z_][\w \t\*]*\s+\**\w+\s*(?:\[[^\]]*\])?\s*;\s*$')
 
 def classify():
-    real, empty, nonmatching, stubs, blobs, linked = [], [], [], [], [], []
+    real, empty, nonmatching, stubs, blobs, linked, verbatim = [], [], [], [], [], [], []
     for src in SRCS:
         lines = src.read_text().split('\n')
         n = len(lines); i = 0
@@ -662,6 +662,42 @@ def classify():
                 if m:
                     blobs.append(m.group(1))
                 i += 1; continue
+            # §265 VERBATIM-ASM BODY — bytes, NOT a decompile, and it needs its OWN bucket (P31 S75).
+            #
+            # A file-scope `__asm__("...")` block that DEFINES a function (`.ent NAME` / `.globl NAME`
+            # + `NAME:`) matches none of the patterns above, so it landed in NO bucket and surfaced as
+            # `UNPLACED (parse hole)` — which is R32 doing its job, but leaves the operator with an
+            # error instead of a number. Counting it REAL would be worse: it is the assembly pasted
+            # into a C string, byte-identical BY CONSTRUCTION and completely unexplained.
+            #
+            # Measured fleet-wide at introduction: 116 such bodies (114 main, 1 md_MAIN_003,
+            # 1 ov_SC05_005), the largest being SaveLoadRoutine at 1,165 instructions. Several main
+            # ones are PsyQ library routines where verbatim is defensible; the point of the bucket is
+            # that the GAP between "byte-identical binary" and "decompiled source" is now visible in
+            # the headline instead of hiding inside REAL or inside a parse hole.
+            if s.startswith('__asm__') and '(' in s:
+                blk, j, depth, opened = [], i, 0, False
+                while j < n:
+                    c = lines[j]
+                    blk.append(c)
+                    depth += c.count('(') - c.count(')')
+                    if '(' in c: opened = True
+                    j += 1
+                    if opened and depth <= 0: break
+                txt = '\n'.join(blk)
+                # BOTH SPELLINGS, AND REQUIRE THE `\n` TERMINATOR (P31 S75, second cut).
+                # The sources use `".ent\tNAME\n"` AND `".ent NAME\n"`, and a bare fragment
+                # `".ent\t"` also occurs. A pattern with an OPTIONAL `\t` and no terminator matched
+                # the fragment and captured the literal name `t`, while a pattern requiring `\t`
+                # missed every space-spelled block: three of my own counts (116 / 112 / 108) were
+                # all wrong before this was validated against one known-true case of EACH spelling
+                # (SaveLoadRoutine = tab, func_80047D3C = space). True count: 178.
+                names = set(re.findall(r'\.ent(?:\\t|\s)+(\w+)\\n', txt))
+                if not names:
+                    g = set(re.findall(r'\.globl(?:\\t|\s)+(\w+)\\n', txt))
+                    names = g & set(re.findall(r'"(\w+):\\n"', txt))
+                verbatim.extend(sorted(names))
+                i = j; continue
             fm = SIG.match(lines[i])
             if fm and '(' in lines[i]:
                 # Definition ({ ... }) vs forward declaration (ends ;)? Scan to the first { or ;.
@@ -702,13 +738,13 @@ def classify():
                 (real if strip_comments(body[a+1:b]).strip() else empty).append(fm.group(1))
                 continue
             i += 1
-    return real, empty, nonmatching, stubs, blobs, linked
+    return real, empty, nonmatching, stubs, blobs, linked, verbatim
 
 def report(binary, audit=False, write=True):
     """Classify one binary; write docs/progress.<binary>.md (if write) + print; return a stats dict
     (for --fleet aggregation). Single-binary output is byte-for-byte the legacy format."""
     set_binary(binary)
-    real, empty, nonmatching, stubs, blobs, linked = classify()
+    real, empty, nonmatching, stubs, blobs, linked, verbatim = classify()
     # Code-shared functions (dedup.us.yaml) are REAL byte-identical matches whose macro-instantiated
     # form classify() doesn't parse — fold them in (dedup-safe) so the count stays honest (P9).
     #
@@ -727,7 +763,8 @@ def report(binary, audit=False, write=True):
     # how the K&R blindness above hid ~190k banked instructions for 26 phases while the byte-gate stayed
     # green (the gate compiles; this tool only reads text — they share no code, so the gate can never
     # catch a miscount). Report it LOUDLY rather than silently under-reporting progress.
-    placed = set(real) | set(empty) | set(nonmatching) | set(stubs) | set(blobs) | set(linked)
+    placed = (set(real) | set(empty) | set(nonmatching) | set(stubs) | set(blobs)
+              | set(linked) | set(verbatim))
     unplaced = sorted(set(_S_INDEX) - placed)
 
     # OVER-coverage is the DUAL defect, and the assertion above is blind to it (Phase-28 T5). `placed`
@@ -736,7 +773,8 @@ def report(binary, audit=False, write=True):
     # hole (fixed above) put func_800D00E4 in BOTH `real` and `stubs`, reporting the resident as
     # 123/146 = 85.62% when the truth is 122/145 = 85.5% — and the flag-plant target is that very
     # denominator. R32 means assert coverage in BOTH directions: nothing missing, nothing counted twice.
-    _buckets = {"real": real, "empty": empty, "nonmatching": nonmatching, "stubs": stubs, "linked": linked}
+    _buckets = {"real": real, "empty": empty, "nonmatching": nonmatching, "stubs": stubs,
+                "linked": linked, "verbatim": verbatim}
     _seen = {}
     for _name, _b in _buckets.items():
         for _fn in _b:
@@ -745,8 +783,10 @@ def report(binary, audit=False, write=True):
     assert not _multi, ("progress.py: %d function(s) landed in MULTIPLE buckets — a MISCOUNT, not a "
                         "no-op (R32): %s" % (len(_multi), dict(list(_multi.items())[:5])))
 
-    matchable = len(set(real) | set(empty) | set(nonmatching) | set(stubs) | set(linked))  # SET, not a len() sum
-    byteident = len(set(real) | set(linked) | set(empty))   # all byte-identical in the build
+    matchable = len(set(real) | set(empty) | set(nonmatching) | set(stubs) | set(linked)
+                    | set(verbatim))  # SET, not a len() sum
+    # VERBATIM counts as byte-identical (it is, by construction) but NEVER as REAL.
+    byteident = len(set(real) | set(linked) | set(empty) | set(verbatim))
 
     out = []
     out.append("# BFM matching progress  (generated by tools/progress.py — authoritative)")
@@ -755,6 +795,9 @@ def report(binary, audit=False, write=True):
     if shared:
         out.append(f"  (of which dedup-shared : {len(shared):5d}   one body -> N sites, config/dedup.us.yaml)")
     out.append(f"LINKED real PsyQ objects : {len(linked):5d}   <- byte-identical via linked SDK objects")
+    if verbatim:
+        out.append(f"VERBATIM __asm__ bodies  : {len(verbatim):5d}   <- §265: BYTES, NOT A DECOMPILE "
+                   f"(byte-identical by construction, unexplained; NOT counted in REAL)")
     out.append(f"NON_MATCHING (near-miss) : {len(nonmatching):5d}")
     out.append(f"splat-auto empty no-ops  : {len(empty):5d}")
     out.append(f"INCLUDE_ASM stubs        : {len(stubs):5d}")
@@ -767,7 +810,7 @@ def report(binary, audit=False, write=True):
     out.append("-" * 40)
     out.append(f"matchable functions      : {matchable:5d}")
     out.append(f"REAL / matchable         : {len(real)} / {matchable} = {100*len(real)/matchable:.2f}%")
-    out.append(f"byte-identical/ matchable: {byteident} / {matchable} = {100*byteident/matchable:.2f}%   (REAL+LINKED+empties)")
+    out.append(f"byte-identical/ matchable: {byteident} / {matchable} = {100*byteident/matchable:.2f}%   (REAL+LINKED+empties+VERBATIM)")
     out.append("")
     out.append("LINKED subsegs: " + " ".join(sorted(LINKED_SEGS)) + f"  ({len(linked)} fns)")
     out.append("REAL matches: " + " ".join(sorted(real)))

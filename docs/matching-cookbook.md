@@ -34894,3 +34894,46 @@ class that does not exist: it converts "I don't know" into confident, specific, 
 verdict tool names a subsystem, check that the named subsystem owns the MAJORITY OF THE BYTES before
 you act on it. Here 95% of the evidence pointed one way and the recommendation pointed the other,
 and nothing in the pipeline compared the two.
+
+## §448 ★★★ — ASSEMBLY POSING AS C: 154 GAME FUNCTIONS THE REPORTS COUNTED AS DONE (P31 S75)
+
+A `.c` file in `src/` looks decompiled. **199 functions in this tree are not**: they are the target
+assembly pasted into a C string literal (§265), byte-identical BY CONSTRUCTION and completely
+unexplained. 45 are PsyQ/CRT routines where that is defensible; **154 are game code**, 171 of the 199
+in `main` alone, the largest being `SaveLoadRoutine` at 1,165 instructions.
+
+They were invisible because `progress.py`'s `classify()` matched `INCLUDE_ASM`, `INCLUDE_RODATA` and
+C definitions — and a file-scope `__asm__` block is none of those, so each one landed in NO bucket:
+either swallowed by a surrounding construct or surfacing as the single `UNPLACED (parse hole)` line.
+Main's headline moved **45.88% → 42.15%** once they were counted; nothing regressed, the denominator
+had simply been missing 173 functions that are real work.
+
+**THE COUNTING LESSON, WHICH IS THE REUSABLE PART.** Counting them by hand went
+**116 → 112 → 108 → 178 → 199** across five attempts in one session, every intermediate number
+reported with confidence. Every error was the same shape — a pattern narrower than the claim it
+supported:
+
+* the sources use **BOTH** `".ent\tNAME\n"` (escaped tab) **and** `".ent NAME\n"` (literal space);
+  a pattern anchored on either one silently drops every instance of the other;
+* a bare fragment `".ent\t"` also occurs, and an optional-`\t` pattern captured the literal name
+  **`t`** from it, six times, which is the only reason the error was noticed at all;
+* `__asm__` appears in **3,182 files**, almost all of it the §3a zero-byte cross-jump barrier, so
+  counting files — or counting `__asm__` — measures nothing;
+* a `.globl NAME` + `NAME:` pair proves the symbol is **EXPORTED, not CODE**: the first real run
+  reported `jtbl_80072ED4/EEC/F0C/F24` as four "functions", when they are jump tables sitting in the
+  same block;
+* a hand-written SDK name list reported 170 game functions because it did not know `VectorNormalSS`,
+  `SquareRoot12` and `OuterProduct12` are libgte — an incomplete list inflates exactly the number
+  that matters.
+
+`tools/asm_in_c.py` is the answer to all five, and its design is the lesson: **three independent
+detectors that must AGREE, with disagreement reported as a defect** (R34 — that is what caught the
+jump tables); **SDK-ness derived from the 14 shipped PsyQ archives via `nm`** (2,227 symbols) rather
+than a list (R33); **coverage asserted**, so a definition-shaped block no detector claims fails loudly
+(R32/R43); and a **`--selftest` carrying a known-true case of every spelling plus the phantom `t` and
+the jump-table regression**, so the next spelling change fails loudly instead of quietly returning a
+smaller number.
+
+**The law: when a count comes from a text pattern, the pattern has a denominator too.** Validate it
+against one known-true case of every FORM the corpus contains before quoting the number — and if you
+cannot enumerate the forms, you do not yet know what you are counting.
