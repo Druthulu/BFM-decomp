@@ -182,6 +182,17 @@ def _s_rodata_span(path):
                 else:
                     continue
             lo = a if lo is None else min(lo, a); hi = a + n if hi is None else max(hi, a + n)
+        elif st.startswith(".align") and hi is not None:
+            # A TRAILING `.align` IS PART OF THE SPAN (P31 S74). The assembler emits the padding
+            # to satisfy it, so a `.s` ending in `.asciz "r"` + `.align 2` occupies 4 bytes, not 2.
+            # Measuring only the emitted DATA left `hi` short, the island walk then landed
+            # mid-object, and `--derive` aborted with `C table entry 0 at 0x801A00DA ... island
+            # layout drift` — a true statement about a span that was never the real one. Found by a
+            # drafting agent that ran its own gate reject to ground instead of respelling the body:
+            # the reject was this, not its C. Byte-neutral control: the unmodified TU's object is
+            # identical with and without this branch.
+            al = 1 << int(st.split()[1])
+            hi = (hi + al - 1) // al * al
     return lo, hi
 
 _DIRSIZE = {".word": 4, ".long": 4, ".half": 2, ".short": 2, ".byte": 1, ".float": 4, ".double": 8}

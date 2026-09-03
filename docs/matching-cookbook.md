@@ -34390,6 +34390,19 @@ attempt, naming anything it drops — it uses the `keep_regions` signal the tool
 `src/`, because an isolation region and a §431 split piece are both named `<ov>_jr_<addr>` and **no
 name test can tell them apart**.
 
+**C. `jtbl_rodata_pads._s_rodata_span` measured a `.s` span by its DATA and ignored a trailing
+`.align`.** A file ending `.asciz "r"` + `.align 2` occupies 4 bytes; the walker said 2, so the
+island walk landed mid-object and `--derive` aborted with `C table entry 0 at 0x801A00DA ... island
+layout drift` — a true statement about a span that was never the real one, and (because the Makefile
+pipes `md_*`/`main` through `--derive` without `set -o pipefail`) it could silently yield a short
+object instead of failing. Three lines: round `hi` up to the trailing align. Byte-neutral controls:
+`md_SC07_003` clean rebuild BYTE-IDENTICAL, `gate_main --assert-baseline` BASELINE GREEN.
+
+**Found the way all three of these were found: an agent ran its own GATE REJECT to ground instead of
+respelling the body.** That is the habit worth copying — a reject whose cause you have not named is
+not evidence about the C. Two of the three defects here were discovered by a drafting agent that
+refused to accept "the gate said no" as a fact about its own work.
+
 **The shared shape, worth checking in any tool you own:** ask what the tool's answer is ABOUT (the
 current config), then ask what it READS (an asm tree, or a whole file it only partly owns). Where
 those differ, the tool will one day report a true fact about a world that no longer exists — and it
