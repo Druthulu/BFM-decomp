@@ -476,15 +476,34 @@ def _fuel(t, card):
         # wrong. That is the wave-playbook's "cross-overlay same-address grep as STEP 0", now supplied
         # instead of hoped for.
         same = _same_addr_banked(t.get('binary'), t.get('name'))
-        if same:
-            out.append(f"\n⭐ NO hash-twin — BUT func {t['name']} IS BANKED AT THIS ADDRESS in: "
-                       + ", ".join(same[:6]) + ".")
+        # SIZE-FILTER THE ADDRESS LEAD (P31 S74, §238). A same-address function in a sibling overlay
+        # is very often YOUR function — and about a dozen times in one session it was a DIFFERENT
+        # function that merely lives at the same VRAM, which the agent then had to disprove itself.
+        # Instruction count settles it for free: a different length is a different function, full
+        # stop. Same length + same mnemonic skeleton (h_seq) is the strong form.
+        mine_ins = t.get('nins')
+        sized = [x for x in same if x[1] and mine_ins and x[1] == mine_ins]
+        strong = [x for x in sized if x[2] and x[2] == (t.get('h_seq') or _h_seq_of(t))]
+        wrong = [x for x in same if x not in sized]
+        if sized:
+            best = strong or sized
+            out.append(f"\n⭐ NO hash-twin — BUT func {t['name']} IS BANKED AT THIS ADDRESS, at the "
+                       f"SAME instruction count ({mine_ins}), in: "
+                       + ", ".join(f"{b} ({n} ins)" for b, n, _ in best[:6]) + ".")
+            if strong:
+                out.append( "   Same length AND same mnemonic skeleton — this is as close to a twin")
+                out.append( "   as a non-hash match gets.")
             out.append( "   Overlays share code at the same VRAM, so this is very often YOUR function")
             out.append( "   already matched. seed_ref is blind to it (§389 reloc-only twins hash apart).")
-            out.append(f"       grep(pattern='{t['name']}', path='src/{same[0]}')")
-            out.append( "   READ IT FIRST. Verify the symbols against your own .s (law 1c) — a")
-            out.append( "   same-address function in another overlay is USUALLY, not always, the same fn.")
-        else:
+            out.append(f"       grep(pattern='{t['name']}', path='src/{best[0][0]}')")
+            out.append( "   READ IT FIRST. Verify the symbols against your own .s (law 1c).")
+        if wrong:
+            out.append(f"\n⚠ IGNORE the same-address lead for {', '.join(b for b, _, _ in wrong[:6])}"
+                       f" — that address holds a DIFFERENT function there "
+                       + ", ".join(f"({n} ins)" for _, n, _ in wrong[:6])
+                       + f" against your {mine_ins}. This is the §238 homonym trap; a wrong twin is")
+            out.append( "   worse than no twin, because you would believe it. Do not read it.")
+        if not same:
             out.append("\nThis card has NO banked twin, and no same-address banked function in any "
                        "other binary either — derive the structure from the .s.")
     tr = card.get('tu_ref') or []
@@ -752,8 +771,27 @@ def gate_feedback(t):
 _SAME_ADDR = None
 
 
+def _h_seq_of(t):
+    """The target's own mnemonic-skeleton hash, or None. Used only to STRENGTHEN a size-matched
+    address lead — never to withhold one."""
+    try:
+        import corpus
+        row = corpus.sig(t.get('binary')).get(int(t['name'][len('func_'):], 16))
+        return (row or {}).get('h_seq')
+    except Exception:
+        return None
+
+
 def _same_addr_banked(binary, fn):
-    """[binaries] where `fn`'s ADDRESS is already BANKED (real C), excluding `binary`.
+    """[(binary, nins, h_seq)] where `fn`'s ADDRESS is already BANKED (real C), excluding `binary`.
+
+    THE SIZE AND SKELETON TRAVEL WITH THE LEAD (P31 S74). Overlays share code at the same VRAM, but
+    they also share ADDRESSES between functions that have nothing to do with each other — the §238
+    homonym. Measured over this session's ~60 cards: about a dozen agents were handed a
+    same-address "twin" that was a different function and had to discover it themselves, and one
+    card carried a journal history claiming "already MATCH, 72 ins" for a 241-instruction target,
+    which is worse than no lead at all. The caller now filters on instruction count, so the trap is
+    sprung by the tool instead of by the agent.
 
     Derived from the corpus invariant (R33): a function is banked iff it is in the binary's sig and
     NOT an INCLUDE_ASM stub. Built once per process (~30 s over 213 binaries) and memoized.
@@ -776,14 +814,15 @@ def _same_addr_banked(binary, fn):
             for b in names:
                 try:
                     st = set(corpus.stubs(b))
-                    for a in corpus.sig(b):
+                    for a, row in corpus.sig(b).items():
                         if int(a) not in st:
-                            _SAME_ADDR.setdefault(int(a), []).append(b)
+                            _SAME_ADDR.setdefault(int(a), []).append(
+                                (b, row.get("nins"), row.get("h_seq")))
                 except Exception:
                     continue
         except Exception:
             _SAME_ADDR = {}
-    return [b for b in _SAME_ADDR.get(int(m.group(1), 16), []) if b != binary]
+    return [t for t in _SAME_ADDR.get(int(m.group(1), 16), []) if t[0] != binary]
 
 
 def prior_draft(t):

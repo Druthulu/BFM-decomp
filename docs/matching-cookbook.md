@@ -34523,3 +34523,51 @@ make the file appear on disk and read the line before touching a single draft.
 UNMODIFIED `make extract && make build -j$(nproc) && make check` of the binary FIRST, then the gate.
 `ov_SC06_029` was byte-identical before, and byte-identical after with all five bodies banked —
 `sha1 b7b0d4ae629fdc4f76c59fa146b4fcc78078c9d1`.
+
+
+## §438 ★★★ — THE SAME-ADDRESS LEAD IS NOW SIZE-FILTERED: A HOMONYM IS WORSE THAN NO TWIN (P31 S74; ~12 of ~60 cards carried one)
+
+**The trap (§238), measured in one session.** Overlays share code at the same VRAM — and they also
+share ADDRESSES between functions that have nothing to do with each other. The card's
+`⭐ IS BANKED AT THIS ADDRESS` lead did not check that the two were the same size, so about a dozen
+agents were handed a "twin" that was a different function and had to disprove it themselves. Worst
+case: `ov_SC03_105:func_801806F8` (241 ins) was advertised against `ov_SC03_013`'s **72-instruction**
+namesake, with journal history claiming *"already MATCH closeness 0"* — a card that is confidently
+wrong costs more than a card that says nothing, because the agent believes it.
+
+**The fix is free, and it is in the tool now.** `corpus.sig` already carries `nins` and `h_seq` for
+every function, so `_same_addr_banked` returns `(binary, nins, h_seq)` and the card:
+
+* keeps a lead only when the instruction count MATCHES — a different length is a different function;
+* marks it **strong** when the mnemonic skeleton (`h_seq`) matches too;
+* and prints an explicit **`⚠ IGNORE`** line naming the binaries where that address holds something
+  else, with both sizes, so the agent does not go looking.
+
+Both directions verified against known-true cases before this was believed: the 241-vs-72 trap now
+emits `IGNORE`, and `ov_SC02_003:func_80187B40` (158) gets the strong lead to `ov_SC02_000` — banked
+this session, same size, same skeleton — **while being warned off `ov_SC04_011`'s 138-instruction
+homonym at the same address in the same card.** That is exactly the pair a wave agent had to sort
+out by hand hours earlier.
+
+**The general form:** a lead is fuel only if it carries the cheapest fact that can refute it. Size
+refutes a homonym for free; nobody had asked.
+
+## §439 ★★ — LEVER SET FROM THE S74 WAVE (each entry is one measured crack, not a hypothesis)
+
+Collected from ~60 agent runs in one session. Every row is a lever that closed a residual on a
+function that then BANKED, or (where noted) a measured-inert result worth not repeating.
+
+| lever | the law |
+|---|---|
+| **`MEM_IN_STRUCT_P` as an alias-oracle dial** | Spelling an access as a struct member (`((S*)p)->f34`) instead of a cast (`*(u16*)(p+0x34)`) sets `MEM_IN_STRUCT_P`, and `true_dependence` then declares a varying-address in-struct ref non-conflicting with a fixed-address global — so the load hoists at ZERO byte cost. **It runs both ways**: `*(u16*)(t+K)` KEEPS the flag off where the target needs the dependence edge. Four agents converged on this independently (§379/§30/§135-2/§3-F). |
+| **`goto` into a shared tail vs writing the tail longhand is a REGALLOC dial** | gcc-2.7.2 cross-jumps AFTER register allocation, so duplicating the tail lets each arm allocate in its own block and `jump.c` merges them back to the same `j`. Sharpens §176-B's "1-4 off is usually not regalloc". |
+| **`for` → `i=0; do{...}while(i<N)` is a LENGTH-CHANGING scheduling dial** | The do-while form moved a `la` two slots later to fill a load-delay slot the `for` form left as a nop. Moving the statement itself was byte-identical at four placements — the loop FORM is the lever, not statement order. |
+| **Allocno PRIORITY, not pins** | A non-volatile `__asm__("" :: "r"(x))` at a LOOP HEAD (>1 predecessor, so cse has already flushed) adds a reference, raising `floor_log2(n_refs)` and the allocno priority, at zero bytes — the way to fix a $sX/$sY inversion. **Register pins are the WRONG tool here and were measured actively harmful** (every `$2`-`$17` pin regressed 39-118 rows). Read the priorities out of `cc1 -dl -dg` first (§3-C/§137). |
+| **`-O0` global RMW** | On a GLOBAL lvalue only `x++` / `x--` emits the load/add/copy-back/store quartet; `x = x + 1` and `x += 1` both omit the copy. §261a-ADDENDUM(a)'s "plain assignment" rule holds only for REGISTER LOCALS. |
+| **`sll 16 ; srl 16` survives only across a CALL** | `mips.md`'s `zero_extendhisi2` emits `andi 0xffff` for a register, so every `(u16)`/`&0xFFFF`/bitfield spelling collapses to one `andi`. The two shifts survive only because `combine` cannot link across a `CALL_INSN` — so the `<<16` must be its own statement BEFORE the call and the `>>16` after it. |
+| **`sltiu N` with NO `addiu -1` proves minval == 0** | The switch's lowest case is 0, so an empty `case 0: break;` is MANDATORY even though it emits nothing — it owns table slot 0. Companion to §206-2/-3 (empty cases own slots). |
+| **A body duplicated N times needs BLOCK-scoped temps** | One function-scope pseudo spans several basic blocks, so `global_alloc` (not `local_alloc`) assigns it and rotates the registers. Declare the temp inside each arm. |
+| **Two `register asm` vars cannot share one hard reg** | gcc-2.7.2 hoists the pinned set to the block head and spills instead. Measured four ways on a leaf function where the target genuinely reuses `$v1` for two pointers — the lever there is a lifetime/density edit, not a second pin. |
+| **`x*32` emits `lh` where `x<<5` emits `lhu`** | `force_to_mode` narrows the `sign_extend` under the shift's mask. **`match_one`'s `%lo` mask HIDES this** — the closeness is identical either way, so verify with `objdump` (§405-A again). |
+| **Association order is observable** | `0x80 - d*32 - r%32` and `0x80 - r%32 - d*32` emit different instruction orders; read the operand order off the accumulator chain in the `.s`, not off the source you would naturally write. |
+| **One temp per switch arm** (§350, re-measured) | A temp SHARED across arms has `reg_n_sets > 1`, which suppresses `sched1`'s `birthing_insn_p` boost. Sometimes that is what you want: one crack needed arms 4+5 to SHARE deliberately while arm 6 got its own (10 rows vs 16). |
