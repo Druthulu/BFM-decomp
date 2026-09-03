@@ -6735,3 +6735,123 @@ change IS a tool change, and owes the same docs).
   propagate only deliberately, for a genuinely high-reach new match.** That permanently removes the
   30-min stall from the critical path. (Caveat recorded: the sotn claim rests on one parenthetical
   in our cookbook, not on sotn's repo — verify before making it doctrine.)
+
+## 🛑 SESSION CHECKPOINT — S75 (2026-09-02). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES.
+
+Written for a FRESH SESSION with none of this context. Every number was measured this session.
+
+**STATE.** Tree CLEAN at `commit:3735`; six commits this session; Drew pushes (R6). **R22 clean-fleet
+NOT YET RUN for S75 — run `make clean && make extract-all && make check-all` before trusting any
+banked count below.** `src/` holds **1,029 INCLUDE_ASM lines**, of which **69 stubs / 68 distinct
+functions / 12,657 instructions** are real work (the rest are LINKED PsyQ library objects).
+
+```
+BANKED THIS SESSION : 7 functions, 1,504 instructions
+  func_8017EB30 ov_SC01_004 279 · func_8017F2D4 ov_SC01_005 279 · func_8017F2D4 ov_SC01_006 279
+  func_8017EC68 ov_SC01_008 279 · func_80185B80 ov_SC06_022 185 · func_8016AE5C ov_SC03_108  85
+  func_8005DCA0 main 118
+REMAINING : main 36 / 7,933 ins  ·  non-main 33 / 4,724 ins
+```
+
+# 1. THE ONE SENTENCE
+
+**Seven "codegen walls" were examined and seven were instrument defects.** Not one was the compiler.
+The last of them is the most expensive: `SaveLoadRoutine` (1,165 ins — the largest function left,
+9.2% of the project's remaining work, carried as the §434 wall) **has a byte-identical body** and is
+blocked by a jump-table carve, which the verdict tool could not say because that verdict class was
+**unreachable by construction** on main.
+
+# 2. START HERE (in value order)
+
+1. **Carve `SaveLoadRoutine`'s four jump tables** (`jtbl_80072ED4/EEC/F0C/F24`, `src/800_b.c`,
+   `asm/nonmatchings/800_b/SaveLoadRoutine.s`). Body is PROVEN byte-identical — gated alone, twice,
+   with the §376/§378 chain already applied. Measured: 3,787 of 3,989 differing bytes (94.9%) are
+   `.data` jump tables, 202 (5.1%) perturbed `.text`, and **the built image is 4 bytes SHORTER than
+   retail** (413,692 vs 413,696) — §446's own first diagnostic. Draft: `.run/S75/chain_drafts/
+   SaveLoadRoutine.c`. Red image preserved at `.run/gate_main_fail/SaveLoadRoutine_92d3b312/`.
+   **1,165 instructions behind a carve, not a match.**
+2. **The rest of the carve class.** `tools/frontier_classify.py` says **11 functions / 3,301 ins own
+   a jump table**. Today's §446 fix cleared 5 of that class; `resident:func_800D06E8` (344 ins) did
+   NOT clear (my prediction was wrong — its blocker is still open). `.run/S75/carve_plan.json`.
+3. **The TU-conflict class.** 11 main drafts clash **with the TU itself** (not with each other):
+   `D_800A4640` as `Rsc24[]` vs `u8[]`, `func_80039308` as `(s32*,s32)` vs `(u8**,s16)`. The
+   §376/§378 chain does NOT fix these — it was run twice today and moved nothing. They need a
+   per-symbol cast-at-use. Ledger: `.run/gate_main_dropped.json`.
+4. **Redraft workflow in flight** (7 overlay functions, adversarially verified) — check
+   `.run/S75/redraft/` and the workflow transcript before re-drafting any of them.
+
+# 3. THE SEVEN DEFECTS (all fixed and committed unless marked)
+
+1. **`reconcile_tu`'s premise about cc1 was FALSE.** Its docstring says "a decl BELOW still
+   conflicts". Four probes on the real front end: block-scope extern vs a TU decl BELOW → **ACCEPT**
+   (pedwarn); vs ABOVE → reject; file-scope vs below → reject. So it rewrote a legal block-scope
+   extern into `extern Struct80078E78` whose typedef is 388 lines LOWER → `syntax error`. It was
+   also undoing its own ladder's `scope_demote_drafts` rung. Plus: it rewrote COMMENT PROSE, and
+   `&sym` emitted `&` applied to a cast (`invalid lvalue`, measured, on 3 of 4 arms). **§442**
+2. **`verify_worktree` never provisioned `.run/sig.*.jsonl`** (main 259, worktree 0) and
+   `jr_isolate_all` swallowed the resulting `FileNotFoundError` — **2,603 of 2,603 functions raised,
+   0 owners found, a confident FALSE carve-corruption verdict**. `parallel_gate` had been fixed for
+   the identical bug in S69: two provisioners, no shared list. **§443**
+3. **`harvest_verify`'s `overlays.mk` snapshot was SINGULAR.** `resident` has two `# --- resident`
+   blocks; the revert restored one, leaving a 4th `JTBL_PADS` entry and dropping `--pre
+   hdr.rodata.o` → the binary would not build, with `src/` perfectly clean. **§444**
+4. **`jtbl_carve` reserved ONE WORD TOO MANY** whenever a function had >1 `sltiu` — because `sltiu`
+   is also how gcc emits an unsigned range check, so the over-span clamp disabled itself on exactly
+   the functions needing it. 4 siblings + a 5th latent victim found by negative control. **§446**
+5. **`main_diff_locate.classify()`'s `TABLE REJECT` was UNREACHABLE for main** — it keyed on the
+   string `(.rodata)`, but main's `section_order` is `[.rodata,.text,.data,.bss]` so its tables live
+   in `.data` objects; and it demanded purity, so 5% perturbed code dropped the verdict through to
+   PLUMBING. This is what hid finding #1 for a whole phase. **§447**
+6. **`make clean BINARY=x` is FLEET-WIDE** — the variable is accepted and ignored; it deleted `asm/`
+   for all 213 binaries (mine). Guarded + documented. **§445**
+7. **NOT FIXED — `family_remap._alias_decl_for` is 43% of `dedup_propagate --check-only`** (107 s /
+   1,312 calls). I memoized `find_site`'s mask (2x on that loop, NC identical on 120 addrs) but that
+   loop is only ~2.4 min of a 30-min run. The real target is untouched. Task #8.
+
+# 4. THE FRONTIER, MEASURED (`tools/frontier_classify.py`, NEW)
+
+| class | fns | ins | what it needs |
+|---|---|---|---|
+| G-DRAFTED-UNKNOWN | 49 | 8,724 | drafted, no usable verdict — GATE them, don't redraft |
+| B-CARVE | 11 | 3,301 | §446 class |
+| A-TWIN-REMAP | 3 | 302 | mechanical remap |
+| F-FAR / D-NEAR | 5 | 329 | redraft / permuter |
+| H-VIRGIN | 1 | 1 | a DATA BLOB, not a function |
+
+**68 of 69 remaining functions already have a draft on disk.** This is a verification/integration
+problem, not a drafting one — with the caveat that main's drafts are mostly WRONG: of 20 substituted
+in one clean `gate_main` build, **1 was byte-correct** and three were confirmed BODY rejects.
+
+**The classifier lied twice before it was trustworthy, both caught only by checking a known-true
+case (R14):** (a) the sig directory is NOT the fleet — `.run/` also holds `SLUS_007.26` (a STALE
+duplicate of main under the ROM filename), `resident_image`, and two CROSS-BUILD binaries
+(`sep8_*`, `aug31_USA_DEMO.EXE`, forbidden as evidence by R13) → 38 phantom free twin-remaps, most
+"proven" in main ITSELF; (b) its draft scan globbed `.run/S7*` only, missing `S69m2`/`S68m1`/`s67m1`/
+`wave_ds2`/`gate_lane` → 32 phantom never-drafted main functions. Both now derive their scope and
+print what they ignored.
+
+# 5. DEDUP BACKLOG — DREW'S DECISION, BINDING
+
+`--auto-from <bin>` sweeps the WHOLE binary, not the function just banked. `ov_SC01_005` held
+**557** matched-but-never-shared functions, which is why a gate stalled 30+ minutes. Fleet census
+(`.run/S75/backlog_census.py`, validated against that known-true 557): **~2,073 distinct functions /
+~12,116 sweep items across 174 of 217 binaries — ALL ALREADY MATCHED.** It is duplicate-copy
+cleanup, **not remaining work**; completion % is unaffected by every item of it. Origin: the July
+mechanical family sweeps (`commit:0476` +16,512 members, `commit:0531` +17,975), which bank a private
+copy per overlay and register no dedup group.
+
+**DECISION (Drew, 2026-09-02), on the sotn precedent our own cookbook records ("sotn writes
+duplicate funcs explicitly"): DO NOT convert the ~12,000. Gate with `--no-propagate` from here;
+propagate only deliberately for a genuinely high-reach new match.** Caveat recorded: that sotn claim
+rests on one parenthetical in our cookbook, not on sotn's repo — verify before making it doctrine.
+
+# 6. HARNESS LESSONS THIS SESSION PAID FOR
+
+* **Never wrap a project tool in a shorter `timeout` than its own budget.** My `timeout 2400` beat
+  `gate_stage`'s 3600 s budget, SIGTERM'd the tree mid-propagation, and Python lost its buffered
+  stdout — three gates with NO verdict and three half-applied, never-byte-gated propagations. The
+  tool has a graceful handler for exactly this and my deadline pre-empted it.
+* **`| tail -N` on a long tool hides all progress** until it exits. Empty log + no `ps` hit = never
+  started (a recovery run I "waited on" had never launched).
+* **Don't sleep-poll**; 13 stale wait-shells accumulated, three of which could never exit because
+  `pgrep -f "bash x.sh"` matches the shell running the check.
