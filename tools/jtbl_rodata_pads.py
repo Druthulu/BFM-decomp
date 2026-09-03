@@ -45,6 +45,19 @@ LABEL_RE = re.compile(r"^\$L\d+:$")
 WORD_RE = re.compile(r"^\.word\s+\$L\d+$")
 
 
+def _is_rodata_directive(st):
+    """True for every spelling that puts `as` into the read-only data section.
+
+    P31 S75: this was two literal string compares, `".section .rodata"` and `".rdata"`. cc1 emits
+    the second and spimdisasm the first, so nothing else had ever been seen — until a §265
+    verbatim-asm body (SaveLoadRoutine) wrote `.section<TAB>.rodata`, which `as` accepts and the
+    compare did not. Its whole table block was then walked as if it were .text: an unaccounted
+    104-byte hole and a 4-byte-short image. Tokenize; never compare whitespace."""
+    toks = st.replace(",", " ").split()
+    return bool(toks) and (toks[0] == ".rdata" or
+                           (toks[0] == ".section" and len(toks) > 1 and toks[1] in (".rodata", ".rdata")))
+
+
 def parse_spec(spec):
     """'0,4,0t1' -> [(0,0),(4,0),(0,1)]: per jump table, (leading pad bytes, trailing pad WORDS).
     P31 S62 T3a: `t<n>` is the module-island shape (§154-A) — a matched body re-emits only the real
@@ -77,7 +90,7 @@ def run(pads, lines, out):
             in_table, trailing, saw_words = False, 0, False
     for k, line in enumerate(lines):
         s = line.strip()
-        if s == ".section .rodata" or s == ".rdata":
+        if _is_rodata_directive(s):
             end_table(); in_rodata = True; out.write(line); continue
         if in_rodata and (s == ".text" or s.startswith(".section")):
             end_table(); in_rodata = False; out.write(line); continue
@@ -115,6 +128,8 @@ def run(pads, lines, out):
 # time from the retail island + the stream (R33 — nothing to drift). Items in rodata emission order:
 #   .include "….s"   a stub's/blob's block, span read from its `/* off vaddr … */` comments (anchor)
 #   D_XXXXXXXX:       C const data, start = the address in its name (anchor), size from directives
+#   jtbl_XXXXXXXX:    a §265 verbatim-asm body's own switch table (`.align 3`/`.globl`/label/`.word`s):
+#                     the SAME anchor shape — the address is in the name (P31 S75, SaveLoadRoutine)
 #   .align 3 + $L     a C jump table: lead 4 iff the retail word at the position is zero, N in-range
 #                     code words, then trailing zeros up to the next anchor (or the next non-zero)
 # A walk that misses an anchor refuses with the offset — a CARVE-DRIFT verdict at build time.
@@ -209,7 +224,7 @@ def _items(lines):
     pend_align = 0
     while k < len(lines):
         st = lines[k].strip(); k += 1
-        if st == ".section .rodata" or st == ".rdata":
+        if _is_rodata_directive(st):
             in_ro = True; cur = None; continue
         if in_ro and (st == ".text" or st.startswith(".section")):
             in_ro = False; cur = None; continue
@@ -237,11 +252,29 @@ def _items(lines):
         # such block INVISIBLE to the derive walk, so its bytes were an unaccounted hole and the
         # next C jump table failed "island layout drift" with NO cc1 diagnostic (P31 S74:
         # md_SC07_004's `dlabel D_801A01B4` / 2 zero words hid 8 bytes ahead of jtbl_801A01BC).
-        m = (re.match(r"^dlabel\s+(D_[0-9A-Fa-f]{8})\s*(?:,\s*\w+)?$", st)
-             or re.match(r"^(D_[0-9A-Fa-f]{8}):$", st))
+        # ...and the PREFIX is not the anchor — the ADDRESS in the name is (P31 S75). A §265
+        # verbatim-asm body carries its switch tables as `.section .rodata` / `.align 3` /
+        # `.globl jtbl_X` / `jtbl_X:` / `.word .L…`: a `jtbl_` label, colon form, which the
+        # `D_`-only match above never saw. SaveLoadRoutine's four tables (104 bytes) were an
+        # unaccounted hole: every later C table walked 0x68 BEHIND its retail address, every word
+        # in that range happens to be a code address so the entry guard never fired, the walk
+        # never reached the island's one zero word (0x800730F0), the `t1` pad was never emitted,
+        # and the image linked 4 bytes SHORT — 3,989 differing bytes on a byte-identical body.
+        # An address-suffixed label with any OTHER prefix is refused (R43): the walk cannot place
+        # it, and an unplaced rodata block is this defect again under a new name.
+        m = (re.match(r"^dlabel\s+([A-Za-z_]\w*)\s*(?:,\s*\w+)?$", st)
+             or re.match(r"^([A-Za-z_]\w*):$", st))
         if m:
-            cur = [int(m.group(1)[2:], 16), 0, pend_align]; pend_align = 0
-            items.append(("cdata", cur)); continue
+            name = m.group(1)
+            am = re.fullmatch(r"(?:D_|jtbl_)([0-9A-Fa-f]{8})", name)
+            if am:
+                cur = [int(am.group(1), 16), 0, pend_align]; pend_align = 0
+                items.append(("cdata", cur)); continue
+            if re.fullmatch(r"[A-Za-z]\w*_[0-9A-Fa-f]{8}", name):
+                sys.exit("jtbl_rodata_pads: rodata label %r carries an address but is not a D_/jtbl_ "
+                         "anchor the derive walk can place — its bytes would be an unaccounted hole "
+                         "(R43: refusing rather than mis-padding every table after it)" % name)
+            continue               # a sub-label inside a block: no bytes of its own, keep counting
         d = st.split()[0]
         if cur is not None and d in _DIRSIZE:
             cur[1] += _DIRSIZE[d] * len([x for x in st[len(d):].split(",") if x.strip()])
@@ -276,6 +309,7 @@ def derive(binary, lines, tu=None):
         return []                       # nothing to pad -> nothing to derive, nothing to refuse
     piece = _tu_piece(binary, tu)
     pos, spec = None, []
+    origin = None                       # the section's first address: `.align` is relative to it
     def zero_gap(a, b):                 # assembler alignment padding between two blocks
         return 0 < b - a < 4 and all(raw[x - vram] == 0 for x in range(a, b))
     def anchor_start(it):
@@ -290,7 +324,7 @@ def derive(binary, lines, tu=None):
             if lo is None:
                 continue
             if pos is None:
-                pos = lo
+                pos = origin = lo
             if lo != pos and zero_gap(pos, lo):
                 pos = lo
             if lo != pos:
@@ -300,8 +334,14 @@ def derive(binary, lines, tu=None):
         elif it[0] == "cdata":
             addr, size, al = it[1]
             if pos is None:
-                pos = addr
-            ap = pos if al <= 1 else (pos + al - 1) // al * al
+                pos = origin = addr
+            # `.align N` is SECTION-RELATIVE in `as` (this docstring's whole premise), so model
+            # it from the section origin — the walk's first address — not from vram 0. Identical
+            # for `.align 2` (the linker 4-aligns every object's .rodata); different for
+            # `.align 3` whenever the section starts ≡4 mod 8: main's span B begins at
+            # 0x80072E44, so the vram model put jtbl_80072ED4 at 0x80072ED8 and refused a layout
+            # `as` places correctly (P31 S75).
+            ap = pos if al <= 1 else origin + (pos - origin + al - 1) // al * al
             if ap != addr and zero_gap(ap, addr):
                 ap = addr
             if ap != addr:
@@ -314,7 +354,7 @@ def derive(binary, lines, tu=None):
                 if piece is None:
                     sys.exit("jtbl_rodata_pads --derive %s: a C jump table precedes every anchor and "
                              "no yaml .rodata piece is bound to TU %r — cannot place it" % (binary, tu))
-                pos = piece[0]
+                pos = origin = piece[0]
             # The preceding rodata item can end UNALIGNED (a `.asciz` blob: md_SC07_004's
             # D_801A00D8 = "s" ends at 0x801A00DA).  `as` 4-aligns the table itself, so the
             # retail 1-3 zero bytes there are assembler padding, not a table pad — step over
