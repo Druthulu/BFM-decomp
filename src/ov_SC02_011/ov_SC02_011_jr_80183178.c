@@ -10,7 +10,145 @@
  * and cookbook §426/§431. Declarations shared with the sibling TUs live in
  * src/ov_SC02_011/ov_SC02_011_shared.h. */
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_80183178", func_80183178);
+extern s32 func_8012CBCC(s32 a0);
+extern s32 func_8012BEE8(s32 a0);
+extern void func_8012B23C(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012CC40(s32 arg0, s32 arg1);
+extern void func_8012B200(u8 *a0);
+extern void func_8012AD80(s32 a0);
+extern void func_8013C9C4(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_80184964(s32 a0);
+extern s32 func_80184A28(s32 *a0);
+extern s32 func_801789AC(s32 arg0);
+extern void func_80178D18(void);
+extern void func_80184918(s32 arg0, s32 arg1);
+
+
+typedef struct Sub83178 {
+    char pad0[0x10];
+    s16 unk10;
+} Sub83178;
+
+typedef struct Ent83178 {
+    char pad0[0x20];
+    Sub83178 *unk20;
+} Ent83178;
+
+void func_80183178(s32 a0) {
+
+    extern u8 D_80195184[];
+    extern u8 D_80195114[];
+    extern u8 D_801F404C[];
+    extern void *D_80195144;
+    extern s32 D_801950D8;
+    extern u8 D_801F3EFC[];
+    extern short D_801F3EA4;
+    extern s16 D_801EBA7C;
+    s32 s0 = a0;
+
+    switch (*(u16 *)(s0 + 0x34)) {
+    case 0:
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) -= 0x20;
+        if (*(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) < -0x400) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = -0x400;
+        }
+        if (func_8012CBCC(s0) & 0x2000) {
+            *(u16 *)(s0 + 0x34) = 0xA;
+            func_8013C9C4((void *)D_80195184);
+            func_80184964(s0);
+            func_8002D4C8(0x5CA, 0);
+            D_801EBA7C = 3;
+        }
+        break;
+    case 1:
+        if (func_8012BEE8(s0) != 0) {
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        }
+        break;
+    case 2:
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) += 0x80;
+        if (*(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) >= 0) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0;
+            func_8012B23C(s0);
+            func_8012B14C(s0, (s32)D_80195114);
+            func_8012A828(s0, (void *)D_801F404C);
+            *(s32 *)(s0 + 0x1C) = 0xA;
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        }
+        break;
+    case 3:
+        if (func_8012BEE8(s0) != 0) {
+            if (((s32 (*)(s32, s32))func_8012CC40)(s0, (s32)&D_80195144) & 0x8000) {
+                *(u16 *)(s0 + 0x98) = 0;
+                func_8012B200((u8 *)s0);
+                func_8012B14C(s0, (s32)&D_801950D8);
+                func_8012A828(s0, (void *)D_801F3EFC);
+                D_801EBA7C = 3;
+                *(s32 *)(s0 + 0x1C) = 0x1E;
+                *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            }
+        }
+        break;
+    case 4:
+        if (func_8012BEE8(s0) == 0) {
+            func_8012AD80(s0);
+        }
+        break;
+    case 5:
+        func_8012B23C(s0);
+        *(u16 *)(s0 + 0x98) = 0;
+        *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        break;
+    case 6:
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) -= 0x20;
+        if (*(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) < -0x400) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = -0x400;
+        }
+        if (func_8012CBCC(s0) & 0x2000) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = -0x400;
+            *(s32 *)(s0 + 0x1C) = 0x2D;
+            func_8013C9C4((void *)D_80195184);
+            func_80184964(s0);
+            func_8002D4C8(0x5CA, 0);
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        }
+        break;
+    case 7:
+        if (func_8012BEE8(s0) != 0) {
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        }
+        break;
+    case 8:
+        *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) += 0x80;
+        if (*(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) >= 0) {
+            D_801EBA7C = 3;
+            ((Ent83178 *)s0)->unk20->unk10 = 0;
+            func_8012A828(s0, (void *)&D_801F3EA4);
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        }
+        break;
+    case 9:
+        break;
+    case 10:
+        if (func_80184A28((s32 *)s0) == 1) {
+            D_801EBA7C = 3;
+            ((Ent83178 *)s0)->unk20->unk10 = -0x400;
+            *(s32 *)(s0 + 0x1C) = 0x2D;
+            *(u16 *)(s0 + 0x34) = 1;
+        }
+        break;
+    }
+
+    if (func_801789AC(s0) == 1) {
+        ((void (*)(s32))func_80178D18)(s0);
+        *(u16 *)(s0 + 2) = 8;
+        func_80184918(s0, 0x1C);
+    }
+}
+
 
 extern void func_8012B23C(s32 a0);
 extern void func_8012B14C(s32 a0, s32 a1);
