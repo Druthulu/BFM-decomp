@@ -35178,3 +35178,43 @@ with 1,099 of these in it.
 **The general law.** *A lesson that is only prose will be re-learned. If a check is decidable, the
 knowledge base is where you explain it and the pipeline is where you enforce it* — the same
 relationship R32 sets between "assert your coverage" and a scanner that actually does.
+
+#### CORRECTION to §182/§188 (P31 S76) — THE EPILOGUE "WALL" IS AN ORACLE ARTIFACT IN THE REORDER ISLAND
+
+**§188 says the `jr $ra` + `addiu $sp`-in-delay-slot epilogue is unreachable from C under the pinned
+triple. That stopped being true for four TUs on 2026-09-01 and the knowledge base did not notice.**
+
+`REORDER_TUS := 800c2 800c2_2 800c2_3 800c3` (Makefile) pipes those TUs through
+`tools/reorder_passthrough.py` into `as -O2` — the assembler mode that fills delay slots and emits
+exactly that epilogue. It is the real build path for those files, and it is how S75 banked 20
+functions in `src/800c3.c`. But `match_one`, the oracle every drafting agent scores against, still
+compiled through maspsx + `as -O1` for them.
+
+**The measurement (same draft, `func_8005ECC0`, plain C):**
+
+| oracle path | closeness | ins mine/target | verdict |
+|---|---|---|---|
+| maspsx + `as -O1` | 5 | 36 / 35 | `LENGTH-DRIFT/1` — reads as the §188 wall |
+| reorder + `as -O2` | **2** | **35 / 35** | epilogue identical; only a real `DELAY-SLOT/1` left |
+
+The entire epilogue residual, and the phantom extra instruction, were the oracle modelling a build
+path the project no longer uses for that file.
+
+**What it cost, in one wave.** Seven of eleven main agents (`func_8005D4B8`, `func_8005D4F0`,
+`func_8005EAC8`, `func_8005EAE8`, `func_8005E13C`, `func_8005E79C`, `StopRCnt`) independently
+produced a correct plain-C body, saw the phantom ±1 tail, correctly identified it as the §182/§188
+shape, consulted `oracle_reorder.py` — whose docstring read *"file IMMOVABLE, stop grinding, no
+C-level work can ever close it"* — and each fell back to submitting a §265 verbatim-asm body for a
+function whose C the build would have accepted. Every one of them reasoned correctly from a false
+premise the knowledge base handed them.
+
+**Fixed:** `match_one` derives `REORDER_TUS` from the Makefile and selects the reorder path
+automatically (`--no-reorder` forces the old path); `oracle_reorder.py`'s docstring is corrected.
+The list is DERIVED, never copied — R51, a derived property stored as config goes stale, which is
+exactly the failure being repaired here.
+
+**The general law, third instance this session.** *An oracle that models a build path the project
+has changed does not report a wall — it manufactures one.* R35 says fix the instrument before
+trusting the measurement; this adds the corollary that a knowledge-base claim about the toolchain
+has the same shelf life as the toolchain, and a build change must sweep the docs that assert what
+the build cannot do.

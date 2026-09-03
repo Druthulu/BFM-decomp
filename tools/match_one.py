@@ -41,6 +41,9 @@ ap.add_argument('--o0', action='store_true',
                 help='force -O0 (for the _o0 split subsegments: ov_SC01_077_o0.c, whale _o0b — '
                      'their target bytes are -O0; an -O2 compile can never match them, Makefile:445). '
                      'Normally unnecessary: the opt level is AUTO-DETECTED from the target .s.')
+ap.add_argument('--no-reorder', action='store_true',
+                help='force the maspsx + as -O1 path even for a TU in the Makefile '
+                     'REORDER_TUS island (diagnostic; the island IS the real build path)')
 ap.add_argument('--no-auto-o0', action='store_true',
                 help='disable the auto-detection and compile -O2 unless --o0 is given')
 ap.add_argument('--emit-streams', default=None,
@@ -105,6 +108,41 @@ CC1FLAGS = ('-quiet %s -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker'
             % ('-O0' if _o0 else '-O2')).split()
 ASFLAGS = '-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0'.split()
 
+# THE REORDER ISLAND (P31 S76). Four of main's TUs are NOT built through maspsx at all: the
+# Makefile pipes them through `tools/reorder_passthrough.py` into `as -O2` (ASFLAGS_REORDER),
+# which is the ONLY path that emits the `jr $ra` + `addiu $sp`-in-delay-slot epilogue and fills
+# branch delay slots. That island landed 2026-09-01 and banked 20 functions; this oracle never
+# learned about it, so for a function in one of those TUs it modelled the WRONG assembler and
+# reported a phantom ±1 LENGTH-DRIFT in the epilogue.
+#
+# Measured, S76: six main drafting agents in one wave hit that residual, correctly recognised it
+# as the §182/§188 epilogue shape, read `oracle_reorder.py`'s (now stale) "UNREACHABLE from any C
+# source" docstring, and each fell back to submitting a §265 verbatim-asm body — for functions
+# whose plain C the real build would have accepted. An oracle that models a build path the project
+# no longer uses does not report a wall; it MANUFACTURES one (R35, and `lane-blockers-are-harness-
+# not-model`).
+#
+# DERIVED FROM THE MAKEFILE, never a second copy of the list (R33/R51: a derived property stored
+# as config goes stale and takes a binary with it — which is precisely how this defect arose).
+def _reorder_tus():
+    try:
+        mk = open('Makefile').read()
+        m = re.search(r'^REORDER_TUS\s*:?=\s*(.*)$', mk, re.M)
+        return set(m.group(1).split()) if m else set()
+    except OSError:
+        return set()
+
+
+REORDER_PASSTHROUGH = 'tools/reorder_passthrough.py'
+ASFLAGS_REORDER = '-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O2 -G0'.split()
+_tu_stem = os.path.basename(a.asm_subdir.rstrip('/')) if a.asm_subdir else ''
+_REORDER = (_tu_stem in _reorder_tus()) and not a.no_reorder
+if _REORDER:
+    print('match_one: NOTE — %s is in the Makefile REORDER_TUS island, so this compile uses '
+          'reorder_passthrough + as -O2 (the real build path for that TU), NOT maspsx + as -O1. '
+          'A ±1 epilogue drift under the maspsx path is an artifact of the wrong oracle, not a '
+          '\u00a7188 wall. --no-reorder forces the maspsx path.' % _tu_stem, file=sys.stderr)
+
 cfile = a.c
 if not cfile:
     for d in ('.run/drafts3', '.run/drafts2', '.run/drafts'):
@@ -148,9 +186,14 @@ p = pipe([CPP] + CPPFLAGS + ['%s/t.c' % wd])
 if p.returncode: toolchain_fail('CPP FAIL', p.stderr)
 p = pipe([CC1] + CC1FLAGS, p.stdout)
 if p.returncode: toolchain_fail('CC1 FAIL', p.stderr)
-p = pipe([PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
-if p.returncode: toolchain_fail('MASPSX FAIL', p.stderr)
-p = pipe([AS] + ASFLAGS + ['-o', '%s/t.o' % wd], p.stdout)
+if _REORDER:
+    p = pipe([PY, REORDER_PASSTHROUGH], p.stdout)
+    if p.returncode: toolchain_fail('REORDER FAIL', p.stderr)
+    p = pipe([AS] + ASFLAGS_REORDER + ['-o', '%s/t.o' % wd], p.stdout)
+else:
+    p = pipe([PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
+    if p.returncode: toolchain_fail('MASPSX FAIL', p.stderr)
+    p = pipe([AS] + ASFLAGS + ['-o', '%s/t.o' % wd], p.stdout)
 if p.returncode: toolchain_fail('AS FAIL', p.stderr)
 
 # masked compare: my compiled object vs the resolved splat .s (mask driven by my object's relocs)

@@ -10,7 +10,23 @@ any C source. A draft can therefore be perfectly correct and still sit at a stub
 THE DIAGNOSTIC: re-assemble the SAME draft two ways and compare.
   maspsx + as -O1  (the pinned path)      -> the residual you already see
   bypass  + as -O2 (maspsx skipped)       -> if this is 0 diffs, THE C IS ALREADY RIGHT
-A 0 in the second cell means: file IMMOVABLE, stop grinding, no C-level work can ever close it.
+A 0 in the second cell means the C IS ALREADY RIGHT under a reorder-mode assembler.
+
+*** CORRECTED P31 S76 — READ THIS BEFORE CONCLUDING "WALL". ***
+This file used to end that sentence with "file IMMOVABLE, stop grinding, no C-level work can ever
+close it", and the header above still says the shape is "UNREACHABLE from any C source". That was
+true when it was written and is now FALSE FOR FOUR TUs. On 2026-09-01 the build gained a reorder
+island: `REORDER_TUS := 800c2 800c2_2 800c2_3 800c3` in the Makefile pipes those TUs through
+`tools/reorder_passthrough.py` into `as -O2` (ASFLAGS_REORDER) instead of maspsx + `as -O1`. For a
+function in one of them, a 0 here does NOT mean immovable — it means THE DRAFT WILL BANK, because
+the second cell IS the project's real build path for that file.
+
+Measured S76: seven main drafting agents in one wave hit the epilogue residual, ran this oracle,
+read the old wording, and each submitted a §265 verbatim-asm body instead of the plain C the build
+would have accepted. `match_one` now selects the reorder path automatically for those TUs (deriving
+the list from the Makefile), so the phantom residual no longer appears. Same draft, func_8005ECC0:
+closeness 5 / 36 ins under maspsx, closeness 2 / 35 ins under reorder — the whole epilogue drift was
+the oracle, not the compiler.
 Measured on func_80061FA8 (target 103 ins): pinned 57 diffs/106 ins; bypass+-O2 0 diffs/103 ins.
 
 Promoted verbatim from .run/wave_p31r/oracle61.py because a cookbook section may not cite evidence
