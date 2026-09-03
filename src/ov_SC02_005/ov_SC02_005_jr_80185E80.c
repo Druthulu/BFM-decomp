@@ -6121,7 +6121,115 @@ void func_8018DF88(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80185E80", func_8018DFC4);
+#include "common.h"
+
+extern void func_8018F5C4(void);
+extern void func_8018F5EC(void);
+extern void func_8018F614(void);
+extern void func_8018F6DC(void);
+extern void func_8013C9C4(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8018E7E4();
+extern void func_8012C1B8(void);
+extern void func_8012C218(void *a0);
+extern void func_8001C214(s32 a0, s32 a1);
+extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
+
+extern u8 D_80196C00[];
+extern s32 D_801E7ECC[];
+extern s32 D_801EA378[];
+extern s32 D_801EC6FC[];
+extern s32 D_801EEA80[];
+extern u8 D_801E7F24[];
+extern u8 D_801EEAAC[];
+
+void func_8018DFC4(void *a0) {
+    /* Block scope on purpose (this TU's own house style, used a few functions
+       up): the file-scope declarations of these two arrays sit BELOW this stub
+       and carry an anonymous struct typedef that cannot be forward-referenced
+       or re-spelled here.  At block scope gcc-2.7.2 downgrades the clash to a
+       warning; at file scope it is a hard "conflicting types" error. */
+    typedef struct { u32 f0; u32 f4; } Pair8;
+    extern Pair8 D_801E4998[];
+    extern Pair8 D_801E499C[];
+    struct { s16 f00, f02, f04, f06, f08, f0A, f0C, f0E; s32 f10; u8 pad14[0x14]; } sp18;
+    struct { s16 f00, f02, f04, f06, f08, f0A, f0C, f0E; s32 f10; u8 pad14[0x14]; } sp40;
+    register void *s0 __asm__("$16");
+    s32 *tbl;
+    s16 count;
+    void *vecs;
+    s16 i;
+    s32 val;
+    s32 obj;
+
+    s0 = a0;
+
+    switch (*(s16 *)((u8 *)s0 + 0x70)) {
+    case 0:
+        func_8018F5C4();
+        tbl = D_801E7ECC;
+        break;
+    case 1:
+        func_8018F5EC();
+        tbl = D_801EA378;
+        break;
+    case 2:
+        func_8018F614();
+        tbl = D_801EC6FC;
+        break;
+    case 3:
+        func_8018F6DC();
+        tbl = D_801EEA80;
+        break;
+    }
+
+    if (*(s16 *)((u8 *)s0 + 0x70) == 0) {
+        count = 0x15;
+        vecs = D_801E7F24;
+        sp40.f00 = -0x80;
+        sp40.f02 = -0xDE0;
+        sp40.f04 = -0xC50;
+    } else {
+        count = 0xA;
+        vecs = D_801EEAAC;
+        sp40.f00 = -0x64;
+        sp40.f02 = -0x884;
+        sp40.f04 = -0x8B0;
+    }
+
+    if (*(s16 *)((u8 *)s0 + 0x70) < 4) {
+        func_8013C9C4(D_80196C00);
+        func_8002D4C8(0x500, 0);
+        for (i = 0; i < count; i++) {
+            val = tbl[i];
+            D_801E499C[i].f0 = 0;
+            D_801E4998[i].f0 = val;
+        }
+        sp18.f0C = 0;
+        sp18.f0A = 0;
+        if (*(s16 *)((u8 *)s0 + 0x70) == 3) {
+            sp18.f0C = -0x400;
+        } else {
+            sp18.f0C = 0;
+        }
+        sp18.f10 = 0;
+        sp18.f06 = 0x5C;
+        sp18.f08 = *(u16 *)((u8 *)s0 + 0x70) + 4;
+        func_8018E7E4((s32)s0, &sp18, vecs, &sp40, count);
+        func_8012C218(s0);
+    } else {
+        obj = ((s32 (*)(void))func_8012C1B8)();
+        *(s32 *)((u8 *)s0 + 0x20) = obj;
+        if (obj == 0) {
+            func_8012C218(s0);
+        } else {
+            func_8001C214(obj, (s32)&D_801E4998[*(s16 *)((u8 *)s0 + 0xFC)]);
+            func_8001D0E8(*(s32 *)((u8 *)s0 + 0x20), 0x7FFF, 0x7FFF);
+            *(s16 *)((u8 *)s0 + 2) = 3;
+        }
+    }
+}
+
 
 void func_8018E22C(void) {
 }

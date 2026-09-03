@@ -102,7 +102,21 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0100);
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0174);
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0204);
+extern s32 D_800EC8B0;
+extern void func_800D1E58(void);
+extern void func_800D0D6C(void);
+extern void func_800118AC(void);
+
+void func_800D0204(void) {
+    if (D_800EC8B0) {
+        func_800D1E58();
+        func_800D0D6C();
+        func_800118AC();
+    } else {
+        func_800118AC();
+    }
+}
+
 
 
 extern s32 func_800149E0(s32 arg0);
@@ -152,7 +166,44 @@ void func_800D0268(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0440);
+extern s32 func_800167F0(s32 arg0);
+extern u8 D_800AF630[];
+extern s16 D_800EC894;
+extern void func_80059888(void *a0, s32 a1, s32 a2, s32 a3);
+extern void func_800D0D6C(void);
+
+void func_800D0440(void) {
+    register u8 *p = D_800AF630;
+    u16 rect[4];
+
+    if ((u16) func_800167F0(4) != 0) {
+        switch (D_800EC894) {
+        case 0:
+            *(u16 *) (p + 0xA3B6) = 1;
+            *(u16 *) (p + 0xA3B8) = 2;
+            break;
+        case 1:
+            *(u16 *) (p + 0xA3B6) = 1;
+            *(u16 *) (p + 0xA3B8) = 0;
+            break;
+        case 2:
+            *(u16 *) (p + 0xA3B6) = 1;
+            *(u16 *) (p + 0xA3B8) = 1;
+            break;
+        case 4:
+            *(u16 *) (p + 0xA3B6) = 1;
+            *(u16 *) (p + 0xA3B8) = 4;
+            break;
+        }
+        rect[0] = 0;
+        rect[1] = 0;
+        rect[2] = 0x140;
+        rect[3] = 0x1E0;
+        func_80059888(rect, 0, 0, 0);
+    }
+    func_800D0D6C();
+}
+
 
 
 /* func_800D05B4 - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
@@ -177,7 +228,40 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0440);
  * used throughout this file's verbatim-asm blocks. No C externs shipped (link-time
  * resolution).
  */
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D05B4);
+
+extern void func_80015310(void);
+extern void func_8001C044(void);
+extern void func_800118AC(void);
+extern void func_800183E0(s32 a0);
+
+void func_800D05B4(void) {
+
+    extern s32 D_800D4E6C;
+    extern u32 D_800EC890;
+    extern u32 D_800EC8A0;
+    extern s32 D_800EC88C;
+    int sp20;
+    int sp1c;
+    int sp18;
+    int sp14;
+    register u8 *s0 = D_800AF630;
+    (void)sp20;
+    (void)sp1c;
+    (void)sp18;
+    (void)sp14;
+    func_8001C044();
+    func_80015310();
+    *(s0 + 0xA3E1) = 0;
+    D_800EC890 = 0;
+    D_800EC8A0 = 1;
+    func_800183E0((s32)&D_800D4E6C);
+    func_800183E0((s32)&D_800D52BC);
+    (*(u16 *)&D_800EC894) = 0;
+    (*(u32 *)&D_800EC88C) = -1;
+    *(u16 *)(s0 + 0xA3B8) = 0;
+    func_800118AC();
+}
+
 
 
 /* func_800D0664 - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
@@ -207,7 +291,23 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D05B4);
  * ra/fp/s0 = 0xC0010000. All immediates decimal (maspsx rejects hex in __asm__
  * strings). No C externs shipped (link-time resolution, sec 265 / sec 236-1).
  */
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0664);
+#include "common.h"
+
+extern void func_80015310(void);
+extern void func_800183E0(s32 a0);
+extern void func_800118AC(void);
+extern u8 D_800AF630[];
+extern u8 D_800D93FC[];
+
+void func_800D0664(void) {
+    register u8 *base = D_800AF630;
+    s32 loc[2];
+
+    func_80015310();
+    func_800183E0((s32)&D_800D93FC);
+    func_800118AC();
+}
+
 
 
 /* func_800D06BC - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
@@ -225,7 +325,23 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0664);
  * way; frame/mask (32/0xC0010000,-16) copied from it. All immediates decimal
  * (maspsx rejects hex in __asm__ strings). No C externs shipped (link-time resolution).
  */
+/* func_800D06BC - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
+ * -O0 body (addu $fp,$sp,$zero prologue) stranded inside md_MAIN_003's -O2 object
+ * (sec 261/6 -- nothing under src/md_ globs -O0 yet). Recovered C semantics for the
+ * eventual real decomp:
+ *
+ *     D_800EC890 += 4;
+ *     if (D_800EC890 >= 128) {
+ *         D_800EC890 = 128;
+ *         func_800118AC();
+ *     }
+ *
+ * Sibling func_800D09A0 (same TU, few lines below) is the same shape banked the same
+ * way; frame/mask (32/0xC0010000,-16) copied from it. All immediates decimal
+ * (maspsx rejects hex in __asm__ strings). No C externs shipped (link-time resolution).
+ */
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D06BC);
+
 
 
 /* func_800D0740 - the pad-driven 3-way menu cursor tick.
@@ -323,7 +439,28 @@ void func_800D0740(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D09A0);
+extern void func_800D12D0(void);
+extern s16 D_800EC898;
+extern s16 D_800EC894;
+extern void func_800D1D14(s32, s32);
+extern void func_800118AC();
+extern u8 D_800AF630[];
+
+void func_800D09A0(void) {
+    register u8 *base = D_800AF630;
+
+    func_800D12D0();
+    D_800EC898++;
+    if ((s16)(D_800EC898 & 4)) {
+        func_800D1D14(D_800EC894, 1);
+    } else {
+        func_800D1D14(D_800EC894, 0);
+    }
+    if (D_800EC898 >= 0x21) {
+        func_800118AC();
+    }
+}
+
 
 
 /* func_800D0A7C - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
@@ -345,7 +482,25 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D09A0);
  * way; frame/mask (32/0xC0010000,-16) copied from them. All immediates decimal
  * (maspsx rejects hex in __asm__ strings). No C externs shipped (link-time resolution).
  */
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0A7C);
+void func_800D0A7C(void) {
+    extern u8 D_800AF630[];
+    extern volatile s32 D_800EC890;
+    extern void func_800146B0(s32 a0);
+    extern void func_800118AC();
+    extern void func_800D12D0(void);
+    register u8 *var_s0 = D_800AF630;
+
+    D_800EC890 = D_800EC890 - 4;
+    if (D_800EC890 < 0) {
+        D_800EC890 = 0;
+        func_800146B0(1);
+        *(s32 *) (var_s0 + 0xA3E8) = 2;
+        func_800118AC();
+    } else {
+        func_800D12D0();
+    }
+}
+
 
 
 /* func_800D0B1C - VERBATIM-ASM BANK (cookbook sec 265, file-scope form #1).
@@ -382,7 +537,35 @@ INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0A7C);
  * -23626, -0x5C48 = -23624, lui $at,(0x10000>>16) = lui $at,1. No C externs
  * shipped (link-time resolution, per sec 265 / sec 236-1).
  */
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0B1C);
+extern u8 D_800AF630[];
+extern s32 D_800D4E6C;
+extern s16 D_800EC894;
+
+extern void func_800183E0(s32 a0);
+
+void func_800D0B1C(void) {
+    register u8 *s0 = D_800AF630;
+    func_800183E0((s32)&D_800D4E6C);
+    switch (D_800EC894) {
+    case 0:
+        *(u16 *)(s0 + 0xA3B6) = 1;
+        *(u16 *)(s0 + 0xA3B8) = 2;
+        break;
+    case 1:
+        *(u16 *)(s0 + 0xA3B6) = 1;
+        *(u16 *)(s0 + 0xA3B8) = 0;
+        break;
+    case 2:
+        *(u16 *)(s0 + 0xA3B6) = 1;
+        *(u16 *)(s0 + 0xA3B8) = 1;
+        break;
+    case 4:
+        *(u16 *)(s0 + 0xA3B6) = 1;
+        *(u16 *)(s0 + 0xA3B8) = 4;
+        break;
+    }
+}
+
 
 
 extern s16 D_800EC894;
