@@ -28,7 +28,8 @@ any human reader get true text); the word column is the ground truth used for co
 Usage:
     tools/verbatim_target_s.py --binary main --fn SaveLoadRoutine
     tools/verbatim_target_s.py --all                 # every verbatim body asm_in_c.py finds
-    tools/verbatim_target_s.py --all --out asm/verbatim   # default: asm/verbatim/<binary>/<fn>.s
+    tools/verbatim_target_s.py --all      # default: .run/verbatim_targets/<binary>/<fn>.s
+                                      # (NEVER under asm/ — the Makefile globs that tree)
 """
 import argparse
 import json
@@ -162,7 +163,9 @@ def main():
     ap.add_argument('--fn')
     ap.add_argument('--all', action='store_true', help='every verbatim body tools/asm_in_c.py finds')
     ap.add_argument('--game-only', action='store_true', default=True)
-    ap.add_argument('--out', default=os.path.join(REPO, 'asm/verbatim'))
+    # NOT under asm/ — `build/asm/%.o: asm/%.s` globs that tree, so targets written there are
+    # picked up as BUILD OBJECTS and the binary goes red (I did exactly that, P31 S75).
+    ap.add_argument('--out', default=os.path.join(REPO, '.run/verbatim_targets'))
     a = ap.parse_args()
 
     targets = []
