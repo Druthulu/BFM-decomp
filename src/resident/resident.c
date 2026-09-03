@@ -1026,51 +1026,33 @@ s32 func_800CFE60(void) {
 }
 
 
-/* func_800D00E4: left as INCLUDE_ASM — genuine structural mismatch. The matched
- * binary references an EXTERNAL jump table `jtbl_80113ED8` (defined in
- * asm/resident/data/tail.data.s) via a HI16/LO16 relocation. A plain C `switch`
- * makes gcc synthesize its OWN anonymous `.rodata` jump table (R_MIPS_HI16 .rodata),
- * which diverges from the named-symbol relocation and the data layout, breaking the
- * full-binary SHA. Recovering it needs the external jtbl wired in, out of scope here.
+/* func_800D00E4 — BANKED (S74). SUPERSEDES the note that stood here, which read
+ * "left as INCLUDE_ASM — genuine structural mismatch ... Recovering it needs the
+ * external jtbl wired in, out of scope here." The body was never the problem: a plain
+ * C switch DOES synthesise cc1's own table, and that is exactly right — the fix is the
+ * §8a/§8f CARVE, which binds the tail range 0x450e0..0x451ac to build/src/resident/
+ * resident.o(.rodata) so cc1's table lands at jtbl_80113ED8's own address. The
+ * accompanying #if 0 reference copy is dropped: the live body below is the same code.
  */
-#if 0
-/* func_800D00E4 — dense jump-table switch on (arg0 - 1), 15 cases [0..14].
- *
- *   addiu a0,a0,-1                       ; n = arg0 - 1
- *   sltiu v0,a0,0xF ; beqz v0,.L0204     ; if ((u32)n >= 15) -> epilogue (void)
- *   sll a0,2 ; lw v0,jtbl_80113ED8[n] ; jr v0
- *   each case: la a0,&D_xxx ; j .L01FC
- *   .L01FC: jal func_8002F5C8(a0)
- *   .L0204: epilogue (void return)
- *
- * jtbl_80113ED8 (asm/resident/data/tail.data.s:72558) maps case k -> 0x800D0114+k*0x10,
- * i.e. case 0->D_800CA23C, 1->D_800C8448, ... 14->D_800C9140, in the order below.
- * Every case only selects a pointer and breaks; the single call sits AFTER the switch.
- *
- * VOID function: the out-of-range path needs no `move v0,zero` (B3 only bites
- * value-returning fns). `default: return;` maps straight onto `beqz v0,.L0204`.
- * func_8002F5C8 takes a u8* (each D_xxx is a data/string address taken via la).
- */
-extern u8 D_800CA23C;
-extern u8 D_800C8448;
-extern u8 D_800CA84C;
-extern u8 D_800CA3E4;
-extern u8 D_800CA344;
-extern u8 D_800C83AC;
-extern u8 D_800C9A30;
-extern u8 D_800C9158;
-extern u8 D_800C9310;
-extern u8 D_800C83A0;
-extern u8 D_800C8058;
-extern u8 D_800CADE8;
-extern u8 D_800C8500;
-extern u8 D_800C8514;
-extern u8 D_800C9140;
-extern void func_8002F5C8(u8 *arg0);
-
 void func_800D00E4(s32 arg0) {
+    extern u8 D_800CA23C;
+    extern u8 D_800C8448;
+    extern u8 D_800CA84C;
+    extern u8 D_800CA3E4;
+    extern u8 D_800CA344;
+    extern u8 D_800C83AC;
+    extern u8 D_800C9A30;
+    extern u8 D_800C9158;
+    extern u8 D_800C9310;
+    extern u8 D_800C83A0;
+    extern u8 D_800C8058;
+    extern u8 D_800CADE8;
+    extern u8 D_800C8500;
+    extern u8 D_800C8514;
+    extern u8 D_800C9140;
+    extern void func_8002F5C8(u8 *arg0);
     u8 *p;
-    switch (arg0 - 1) {
+    switch (arg0 - 1) {                                /* jtbl_80113ED8 */
     case 0:  p = &D_800CA23C; break;
     case 1:  p = &D_800C8448; break;
     case 2:  p = &D_800CA84C; break;
@@ -1090,8 +1072,7 @@ void func_800D00E4(s32 arg0) {
     }
     func_8002F5C8(p);
 }
-#endif
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D00E4);
+
 
 
 
@@ -1130,9 +1111,183 @@ void func_800D02C0(s32 arg0) {
     D_800D375C = (s32 (*)(s32))arg0;
 }
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D02D0);
+/* The draft's standalone `typedef struct { s32 word0; s32 word4; } CdFileLoc;` is
+ * STRIPPED in-TU (§321 / §8e splice-reconcile): resident.c already provides that
+ * typedef at file scope (line ~681) and a second definition is `conflicting types
+ * for CdFileLoc' + `conflicting types for cdFileLocTable'. Byte-neutral — a typedef
+ * emits no code and the struct layout is identical. */
+/* func_800D02D0 — a 30-slot jump-table remap of (arg0 - 1), then a CD file request.
+ *
+ *   addiu a0,a0,-1 ; sltiu v0,a0,0x1E ; beqz v0,.L03EC   => switch (arg0 - 1), 30 slots
+ *   sll v0,a0,2 ; lw v0,jtbl_80113F14[n] ; jr v0            (slot 13 and everything
+ *   each case: `j .L03F0` + `addiu a0,zero,K` in the         >= 30 land on the default)
+ *   delay slot ; .L03EC: addiu a0,zero,-1                => default: n = -1;
+ *
+ *   .L03F0: sll a1,a0,3   => 8-byte stride. D_800D3764 and D_800D3768 are the two words
+ *   of ONE 8-byte record but are reached through two independent HI16/LO16 pairs, so each
+ *   is declared as its own CdFileLoc[] — that is what reproduces the relocations.
+ *
+ *   lw v1,D_800D3768[n] ; la v0,D_800A2E20 ; sw v0,D_800C7C64
+ *   la v0,D_800C7C60 ; bltz a0,.L045C ; sw v1,0(v0)      => D_800C7C60 = D_800D3768[n].word0
+ *   lw a2,D_800D3764[n] ; sw v0,0x10(sp) ; la v0,cdFileLocTable ; a0=0 ; a1=0
+ *   lw a3,D_80072C78 ; sll a2,a2,3 ; jal func_8001ABBC ; addu a2,a2,v0
+ *   .L045C: s0 = 1 ; .L0460: if (s0 != 0) func_8001B384(); return s0;
+ *
+ * `&D_800C7C60` is materialised into $v0 once and used BOTH as the store base and as the
+ * 5th (stacked) argument, so it is pinned to $2; a plain `s32 *` local lets gcc
+ * re-materialise the `la` at the call site.
+ *
+ * ============================================================================
+ * WHY THE PRIOR match_one-MATCH DRAFT WAS REJECTED BY THE WHOLE-BINARY GATE.
+ * Two independent defects, both C-reachable. The pack's guess ("residual is outside the
+ * function — the §8e JTBL_PADS class, no C edit reaches it") was wrong on both counts.
+ *
+ * (1) INTEGRATION — `conflicting types for 'CdFileLoc'`. The prior draft re-declared
+ *     `typedef struct { s32 word0; s32 word4; } CdFileLoc;` at file scope, but
+ *     resident.c already defines that anonymous-struct typedef (~line 678). Two
+ *     anonymous structs are two distinct types to gcc-2.7.2, so the duplicate is a HARD
+ *     error (§321). Moving it to BLOCK scope does NOT help here (§321 dial 1 fails for
+ *     this TU): the shadowed type then makes the draft's own
+ *     `extern CdFileLoc cdFileLocTable[];` conflict with the file-scope decl at line 930
+ *     — `conflicting types for 'cdFileLocTable'`, also fatal. The only formulation that
+ *     compiles is §321 dial 2: define NO type, and lean on the TU's file-scope typedef
+ *     and its file-scope `cdFileLocTable` decl (both sit above this splice point). That
+ *     is also this file's house style (func_800D0214, func_800CFE60, func_800D0588):
+ *     externs inside the body, `u8 *` as func_8001ABBC's 3rd parameter, struct-stride
+ *     indexing rather than a hand-rolled `<< 3`.
+ *     Consequence: this draft CANNOT compile standalone under match_one, which only
+ *     prepends common.h. Verify it with the real TU instead:
+ *       tools/recover_integration.py --draft-dir <d> --binary resident --probe-only
+ *     -> `MATCH 110 ins`. (A standalone-only copy carrying the typedef is kept at
+ *     scratch_func_800D02D0/standalone.c; it reports match_one MATCH, closeness 0.)
+ *
+ * (2) THE JUMP TABLE ITSELF WAS A DIFFERENT PERMUTATION — and match_one is blind to it.
+ *     match_one/blocker_probe compare .text; a switch's table is .rodata. gcc-2.7.2
+ *     emits case BODIES in SOURCE order and the table entry for case i points at case
+ *     i's body, so the case VALUES and the case ORDER are two independent degrees of
+ *     freedom, and .text pins only the second one. The prior draft listed cases in
+ *     ascending order 0..29 with values 1,3,2,0,4,... — that reproduces the .text block
+ *     order exactly (110/110 instructions) while emitting an IDENTITY table
+ *     [1,2,3,...,13,default,14,...] where jtbl_80113F14 is permuted
+ *     [1,8,7,9,0,10,3,2,19,22,20,6,4,default,12,...]. Byte-verified both ways by
+ *     compiling each draft and mapping .rdata `.word $Lnn` back to .text label order.
+ *     The fix is to recover the labels from the TABLE, not from the block order: read
+ *     jtbl_80113F14[i] -> block address -> that block's delay-slot constant, which gives
+ *     `case i: n = K;`, then EMIT the cases sorted by block address so the bodies keep
+ *     their .text order. That is the ordering below, and it reproduces both halves.
+ * ============================================================================
+ */
+s32 func_800D02D0(s32 arg0) {
+    extern CdFileLoc cdFileLocTable[];
+    extern CdFileLoc D_800D3768[];
+    extern CdFileLoc D_800D3764[];
+    extern s32 D_800C7C60;
+    extern s32 *D_800C7C64;
+    extern s32 D_80072C78;
+    extern s32 D_800A2E20;
+    extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+    extern void func_8001B384(void);
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident", func_800D0488);
+    register s32 *p __asm__("$2");
+    s32 ret;
+
+    arg0 = arg0 - 1;
+    switch (arg0) {
+    case 4: arg0 = 1; break;
+    case 0: arg0 = 3; break;
+    case 7: arg0 = 2; break;
+    case 6: arg0 = 0; break;
+    case 12: arg0 = 4; break;
+    case 16: arg0 = 5; break;
+    case 11: arg0 = 6; break;
+    case 2: arg0 = 7; break;
+    case 1: arg0 = 9; break;
+    case 3: arg0 = 10; break;
+    case 5: arg0 = 11; break;
+    case 17: arg0 = 12; break;
+    case 14: arg0 = 8; break;
+    case 21: arg0 = 13; break;
+    case 23: arg0 = 14; break;
+    case 20: arg0 = 15; break;
+    case 19: arg0 = 16; break;
+    case 18: arg0 = 17; break;
+    case 25: arg0 = 18; break;
+    case 8: arg0 = 19; break;
+    case 10: arg0 = 20; break;
+    case 15: arg0 = 21; break;
+    case 9: arg0 = 22; break;
+    case 22: arg0 = 23; break;
+    case 24: arg0 = 24; break;
+    case 26: arg0 = 25; break;
+    case 27: arg0 = 26; break;
+    case 28: arg0 = 27; break;
+    case 29: arg0 = 28; break;
+    default: arg0 = -1; break;
+    }
+
+    p = &D_800A2E20;
+    D_800C7C64 = p;
+    p = &D_800C7C60;
+    *p = D_800D3768[arg0].word0;
+    if (arg0 >= 0) {
+        ret = func_8001ABBC(0, 0, (u8 *)&cdFileLocTable[D_800D3764[arg0].word0], D_80072C78, (s32)p);
+    } else {
+        ret = 1;
+    }
+    if (ret != 0) {
+        func_8001B384();
+    }
+    return ret;
+}
+
+
+/* draft's standalone `CdFileLoc` typedef STRIPPED in-TU (§321): resident.c already
+ * provides it at file scope; a second definition is `conflicting types'. Byte-neutral. */
+s32 func_800D0488(s32 arg0) {
+    extern s32 D_800C7C60;
+    extern s32 *D_800C7C64;
+    extern s32 D_800A2E20;
+    extern s32 D_800D3850[];
+    extern s32 D_800D384C[];
+    extern s32 D_80072C7C;
+    extern CdFileLoc cdFileLocTable[];
+    extern s32 func_8001ABBC(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
+    extern void func_8001B384(void);
+
+    s32 val;
+    s32 res;
+    s32 z = 0;
+    s32 n = arg0;
+    s32 *p;
+
+    switch (n) {
+    case 1: n = 0; break;
+    case 2: n = 1; break;
+    case 3: n = 2; break;
+    case 4: n = 3; break;
+    case 5: n = 4; break;
+    case 6: n = 5; break;
+    default: n = -1; break;
+    }
+
+    val = D_800D3850[n * 2];
+    __asm__("");
+    D_800C7C64 = &D_800A2E20;
+    p = &D_800C7C60;
+    *p = val;
+
+    if (n >= 0) {
+        res = func_8001ABBC(z, 0, (u8 *)&cdFileLocTable[D_800D384C[n * 2]], D_80072C7C, (s32)p);
+    } else {
+        res = 1;
+    }
+
+    if (res != 0) {
+        func_8001B384();
+    }
+    return res;
+}
+
 
 // ANALYSIS: no prior draft existed. Trace:
 //   a0 = currentLocationId (s16, lh -> signed); r = func_800D05E8(a0)

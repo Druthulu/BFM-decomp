@@ -581,8 +581,63 @@ def island_probe(ov, func):
         if not js:
             return ("no-jtbl", f"{func} references no jtbl_")
         base = overlay_vram_base(ov)
-        _, _, _, _, tail_start, _, _, _ = parse_config(ov)
+        _, _, _, _, tail_start, _, _, existing = parse_config(ov)
         offs = sorted(int(j, 16) - base for j in js)
+        # TAIL-COVERED (S74, byte-proven on ov_SC07_002/func_80180248, sha fad71342…).
+        # A carve piece is bound to a code SUBSEG, not to one function, so once ANY function in
+        # that subseg is banked the piece can already SPAN a sibling's table: spimdisasm migrates
+        # the sibling's still-raw table into its own stub `.s` as `.section .rodata`, the stub's
+        # INCLUDE_ASM `.include`s it into the same object in source (= address) order, and the
+        # piece is filled exactly. Banking that sibling swaps a migrated `.align 3` + table for
+        # cc1's identical `.align 3` + table at the same object offset — nothing to carve.
+        #
+        # The old code called this 'tail' (its tables' ADDRESSES are in the tail region — true)
+        # and routed it to build_carve, which resolves spans out of the RAW data asm and dies
+        # `jtbl_… not found in the raw data asm — already carved / stale asm?`. harvest_verify
+        # then books CARVE-REFUSED: a verdict about the ROUTE, on a function that needs no carve
+        # (R43). Measured: func_80180248 banks with ZERO config change, clean-rebuild SHA green.
+        #
+        # PADS ARE THE ONE WALL: if the migrated table carries a trailing `.word 0` (§8a-pad), a
+        # matched body re-emits only the real entries and the piece under-fills — same refusal the
+        # island path makes. Say so instead of routing it anywhere.
+        cov = [o for o in offs if any(s <= o < e and sub == _sub for (s, e, _sub) in existing)]
+        if cov and len(cov) == len(offs):
+            pw = sum(p for _s, _e, p in _migrated_spans(ov, func))
+            if pw:
+                return ("covered-tpad",
+                        "the fn's table already sits inside its own subseg's carve, BUT its "
+                        "retail copy carries %d trailing pad word(s) (§8a-pad) that the stub's "
+                        "migrated block supplies and a matched body will not — cc1 re-emits only "
+                        "the real entries, so the piece under-fills by %d bytes. BANKABLE, and "
+                        "byte-proven (ov_SC06_029/func_80182ED8): add this object's cc1 table to "
+                        "its JTBL_PADS spec with the trailing token `0t%d`. jtbl_carve does not "
+                        "yet DERIVE a mixed (cc1 + migrated) span's spec, so that entry is a hand "
+                        "step today — named rather than mis-routed (R43)." % (pw, 4 * pw, pw))
+            # PAD CAVEAT, stated because it is NOT always zero-config. spimdisasm emits the
+            # migrated block's `.align 3` ONLY when the table's SPAN-RELATIVE offset is 8-aligned
+            # (measured: jtbl_80113ED8 span+0x0 got one, jtbl_80113F14 span+0x3c and jtbl_80113F8C
+            # span+0xb4 got none); cc1 emits `.align 3` before EVERY table. So a covered table at a
+            # 4-mod-8 span offset GAINS 4 bytes when it banks unless the object's §8e JTBL_PADS
+            # spec pins it to 0 — and any object that already HAS a spec needs one more entry for
+            # the new cc1 table whatever its alignment (the filter consumes every cc1 `.align 3`
+            # and refuses on count drift, loudly, at build time).
+            _cs = min(s for (s, e, _x) in existing if s <= offs[0] < e)
+            _need = [o - _cs for o in offs if (o - _cs) % 8 == 4]
+            return ("covered",
+                    "table(s) already inside the existing `.rodata` carve bound to this fn's own "
+                    "subseg '%s' — the CARVE is a NO-OP; cc1 re-emits the same table where the "
+                    "stub's migrated copy sits.%s" % (
+                        sub,
+                        (" PADS: span offset(s) %s are 4 mod 8, so cc1's `.align 3` adds 4 bytes "
+                         "the stub had not — pin them with a JTBL_PADS `0` entry on this object "
+                         "(and every object that already has a spec needs one more entry per new "
+                         "cc1 table)." % ", ".join("+0x%x" % r for r in _need)) if _need else
+                        " No pad entry needed (every table is 8-aligned within the span), unless "
+                        "the object already carries a JTBL_PADS spec — then it needs one more "
+                        "entry for the new cc1 table."))
+        if cov:
+            return ("mixed", "some tables already inside this subseg's carve and some still raw "
+                             "in the data tail — no precedent (R32); refuse rather than half-carve")
         if all(o >= tail_start for o in offs):
             return ("tail", "table(s) in the data tail — standard §8a carve at gate time")
         if any(o >= tail_start for o in offs):
@@ -1020,6 +1075,20 @@ def migrated_tables(ov, funcs):
 
 
 def apply(ov, funcs):
+    # S74: a batch whose tables are ALREADY inside their own subseg's carve needs no carve at all
+    # (tail-covered or the §260 island split). Checked FIRST, because both of the routes below
+    # resolve spans out of the RAW data asm and a covered table is no longer there — they would
+    # refuse a function that is bankable as it stands (R43: name the state, do not mis-route it).
+    _cov = {f: island_probe(ov, f) for f in funcs}
+    if all(k == "covered" for k, _d in _cov.values()):
+        for f in funcs:
+            print(f"jtbl_carve {ov}: {f} — {_cov[f][1]}. Nothing to carve (no-op OK).")
+        return
+    _walls = {f: kd for f, kd in _cov.items() if kd[0] == "covered-tpad"}
+    if _walls:
+        sys.exit("jtbl_carve: %s — %s" % (sorted(_walls),
+                 "; ".join(d for _k, d in _walls.values())))
+
     mig = migrated_tables(ov, funcs)
     # THE PROBE OVERRIDES THE CLASSIFIER FOR 'tail' (P31 S70). `migrated_tables` can flag a function
     # whose table is actually in the DATA TAIL, and the island branch below then refuses the whole
@@ -1284,8 +1353,13 @@ def main():
         # the S66 free-wins audit priced 32 functions as free on exactly this blind probe.
         # build_carve is a pure planner (it reads config + payload and writes nothing), so calling
         # it here costs nothing and cannot mutate the tree; its refusals are `sys.exit(msg)`.
+        # ...but NOT for a 'covered' function (S74): there is no plan to validate — its table is
+        # already inside its own subseg's carve, so build_carve resolves nothing out of the raw
+        # data asm and reports the absence as a refusal. Probing it as `plan-refused` contradicts
+        # the byte-proven no-op (ov_SC07_002/func_80180248 banks with zero config change).
         try:
-            build_carve(a.ov, [a.func[0]])
+            if kind not in ("covered", "covered-tpad"):
+                build_carve(a.ov, [a.func[0]])
         except SystemExit as e:
             msg = str(e) if not isinstance(e.code, int) else ""
             if msg:

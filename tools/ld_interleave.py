@@ -47,6 +47,14 @@ _ap.add_argument("--order",
                       "object leaf contributes its (.rodata) carve. Overrides --front/--tail. Every "
                       "unlisted .data/.rodata line must be an empty code-object section (parked with "
                       ".text, byte-neutral). Generalises the single-jtbl 3-piece sandwich to N pieces.")
+_ap.add_argument("--pre", action="append", default=[],
+                 help="object LEAF name whose section belongs BEFORE .text (repeatable, "
+                      "--order mode only). The resident blob opens with a 1-word `.rodata` "
+                      "header piece at the segment base (`- [0x0, rodata, hdr]`), so its "
+                      "layout is rodata -> text -> data -> rodata(carve) -> data. `--order` "
+                      "alone cannot express that: every listed piece is emitted AFTER the "
+                      "text, and an unlisted non-empty piece would be parked with the text "
+                      "(silently moving the header word). Cookbook §8f.")
 _ap.add_argument("--section", default=".main",
                  help="output-section name to rewrite (default .main for the EXE; overlays "
                       "use their own, e.g. .ov_SC01_077). The linker START/END/SIZE symbol "
@@ -102,12 +110,42 @@ if _a.order:
         return hits[0]
 
     ordered = [_find_line(leaf, _sect_of(leaf)) for leaf in items]
-    selected = set(ordered)
+    pre = [_find_line(leaf, _sect_of(leaf)) for leaf in (_a.pre or [])]
+    selected = set(ordered) | set(pre)
     # Everything not placed in the island must be an EMPTY code-object .data/.rodata section
     # (non-empty ones would be a real data conflict -> the byte-gate catches it). Park with .text.
     empties = [l for l in (data_lines + rodata_lines) if l not in selected]
+    # R43 GUARD, not an assumption. The line above has always ASSERTED "empty code-object section"
+    # and never checked it. A `build/asm/**` piece is an EXTRACTED data/rodata subseg — non-empty by
+    # construction — so an unlisted one is a real layout piece about to be silently relocated to just
+    # after the text. Measured on the resident: `hdr.rodata.o(.rodata)` is the 4-byte header word at
+    # the segment base, and parking it after the text moves every byte of the image. Name it and
+    # refuse; the fix is to list it in --order (a tail piece) or --pre (a pre-text piece).
+    def _primary_of(line):
+        """The section an EXTRACTED asm piece actually carries, from its object name; None for a
+        code object (whose unlisted .data/.rodata really are the empty sections this parks)."""
+        m = re.search(r"/([^/]+)\((\.\w+)\);", line)
+        if not m or "build/asm/" not in line:
+            return None
+        leaf, sect = m.group(1), m.group(2)
+        want = (".rodata" if leaf.endswith(".rodata.o") else
+                ".data" if (leaf.endswith(".data.o") or leaf == "trailing.o") else None)
+        return sect if want == sect else None
 
-    out_lines = [f"{I}FILL(0x00000000);", f"{I}{PREFIX}_TEXT_START = .;"]
+    stray = [l for l in empties if _primary_of(l)]
+    if stray:
+        sys.exit("ld_interleave --order: %d extracted asm piece(s) are in neither --order nor "
+                 "--pre and would be parked with .text (they are never empty):\n  %s\n"
+                 "  List each in --order (after the text) or --pre (before the text)."
+                 % (len(stray), "\n  ".join(s.strip() for s in stray)))
+
+    out_lines = [f"{I}FILL(0x00000000);"]
+    if pre:
+        out_lines.append(f"{I}{PREFIX}_RODATA_START = .;")
+        out_lines += [f"{I}{l.strip()}" for l in pre]
+        out_lines += [f"{I}. = ALIGN(., 4);", f"{I}{PREFIX}_RODATA_END = .;",
+                      f"{I}{PREFIX}_RODATA_SIZE = ABSOLUTE({PREFIX}_RODATA_END - {PREFIX}_RODATA_START);"]
+    out_lines += [f"{I}{PREFIX}_TEXT_START = .;"]
     out_lines += [f"{I}{l.strip()}" for l in text_lines]
     out_lines += [f"{I}{l.strip()}" for l in empties]        # empty (0-byte) sections, byte-neutral
     out_lines += [f"{I}. = ALIGN(., 4);", f"{I}{PREFIX}_TEXT_END = .;",
@@ -126,7 +164,8 @@ if _a.order:
     out = src[:m.start()] + head + new_body + tail + src[m.end():]
     open(LD, "w").write(out)
     print(f"ld_interleave --order: {SECTION} island = {len(ordered)} pieces "
-          f"[{', '.join(items)}]; text={len(text_lines)} empties={len(empties)} bss={len(bss_lines)}")
+          f"[{', '.join(items)}]; pre={len(pre)} text={len(text_lines)} "
+          f"empties={len(empties)} bss={len(bss_lines)}")
     sys.exit(0)
 
 def is_named(line, names):

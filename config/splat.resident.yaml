@@ -84,5 +84,7 @@ segments:
       # of the code — a 1-word analogue of main's rodata-island, with no ld_interleave needed.
       - [0x0, rodata, hdr]      # the leading data word 0x00000036 (vram 0x800CEDF8)
       - [0x4, c, resident]      # code: vram 0x800CEDFC..0x800D3408 (0x4..0x4610)
-      - [0x4610, data, tail]    # data tail: vram 0x800D3408..0x80128154 (0x4610..EOF)
+      - [0x4610, data, tail]    # data tail: vram 0x800D3408..0x80113ED8 (pre-carve)
+      - [0x450e0, .rodata, resident]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0x451ac, data, tail2]  # post-carve data tail -> EOF
   - [0x5935C]   # EOF (365,404 B) -> end vram 0x80128154
