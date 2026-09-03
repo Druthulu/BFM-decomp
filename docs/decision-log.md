@@ -2871,3 +2871,78 @@ would have been deferred to a later phase on the strength of a number I never sh
 function of and check that you measured THAT. Here one grep — declarations used outside their region
 — was 20 minutes and would have replaced "expensive, needs a shared header, not a naive partition"
 with "57 crossing names, mostly typedefs, one afternoon."
+
+## S75 (2026-09-02) — Seven walls, seven instruments; and the decision NOT to tidy 12,000 functions
+
+### Context and belief going in
+
+The S74 checkpoint handed forward a frontier of ~73 functions and a named list of blockers, chief
+among them "`reconcile_tu` manufactures declaration conflicts — the one unfixed defect that is
+actively costing banks". The working belief, inherited across several phases, was that the remaining
+work was a **hard tail of genuine gcc-2.7.2 codegen walls** with some tooling friction around it.
+`SaveLoadRoutine` (1,165 ins) had been carried as §434, an unbreakable wall, since the phase opened.
+
+### What actually happened
+
+Seven separate "walls" were run to ground. **All seven were instrument defects.** Not one was the
+compiler. The list is in the S75 checkpoint (§442–§447); the shape that matters is that four of them
+were *tools reporting something TRUE about a world that was not the one they were asked about*:
+
+* `reconcile_tu` rewrote legal C into illegal C on a **false premise about cc1 written in its own
+  docstring** ("a decl BELOW still conflicts" — true at file scope, false at block scope).
+* `jtbl_carve` reserved one word too many whenever a function had **more than one `sltiu`**, because
+  `sltiu` is also how gcc emits an unsigned range check — so its guard disabled itself on exactly
+  the functions that needed it, quietly, across the whole corpus.
+* `harvest_verify`'s `overlays.mk` snapshot matched **the first of two blocks** and silently
+  half-restored, leaving a binary unbuildable while `git status src/` showed nothing wrong.
+* `main_diff_locate.classify()`'s `TABLE REJECT` verdict was **unreachable by construction on main**
+  (it keyed on the string `(.rodata)`; main's tables live in `.data` objects) — so a carve failure
+  was labelled a declaration failure and the §376 chain was run at it twice, addressing 5% of the
+  evidence.
+
+### The grounded why
+
+**A class that cannot fire is worse than a class that does not exist.** It converts "I don't know"
+into confident, specific, wrong advice, and that advice then consumes sessions. `SaveLoadRoutine` is
+the exact cost: 1,165 instructions — 9.2% of everything left in the project — sat behind a verdict
+string that named the wrong subsystem, for a whole phase, while its body was byte-identical the
+entire time. Nothing in the pipeline compared the recommendation against where the bytes actually
+were (94.9% jump tables, 5.1% code).
+
+The corollary, which is the session's reusable law: **when a verdict names a subsystem, check that
+subsystem owns the majority of the bytes before acting on it.**
+
+### The strategic decision: leave the ~12,000
+
+Gating `ov_SC01_005` stalled a gate for 30+ minutes. Cause: `dedup_propagate --auto-from <bin>`
+sweeps the WHOLE binary, not the function just banked, and that overlay held **557
+matched-but-never-shared functions**. The fleet census came to **~2,073 distinct functions /
+~12,116 sweep items across 174 of 217 binaries**, every one already matched.
+
+Origin: the July 2026 mechanical family sweeps (`commit:0476` +16,512 members, `commit:0531` +17,975
+member-matches) bank a proven body as a **private copy per overlay** and register no dedup group.
+That was a deliberate throughput trade — it moved the fleet 66%→71% in one commit — and it left
+tidying behind that nobody has done since.
+
+**Drew's decision: do not convert them.** The precedent our own cookbook records is that *sotn writes
+duplicate functions explicitly*; under that playbook the 12,000 is the normal end state, not debt.
+The sharing machinery is a BFM-specific optimisation for having 211 overlays rather than a handful.
+So: gate with `--no-propagate` from here, propagate only deliberately for a high-reach new match.
+This removes a 30-minute stall from the critical path of every gate permanently, for zero cost to
+completion — the backlog is orthogonal to the percentage.
+
+*Caveat recorded at decision time:* the sotn claim rests on **one parenthetical in our own cookbook**,
+not on sotn's repository. It is good enough to act on for an optimisation we can reverse at any time;
+verify against sotn-decomp before it becomes doctrine.
+
+### Hindsight / better path
+
+Two of the session's own instruments lied before they were trusted — the frontier classifier reported
+38 phantom free twin-remaps (it counted a stale duplicate registry and two *prototype builds* as peer
+binaries) and 32 phantom never-drafted functions (its draft scan globbed `.run/S7*` and missed five
+other draft directories). Both were caught **only** by checking a case whose answer was already
+known, and both were the same defect being hunted elsewhere in the session.
+
+The better path is not "be more careful". It is: **every scan ships with the denominator it claims to
+cover, and gets tested against one known-true case before its number is quoted to anyone.** That is
+cheap, it is mechanical, and on this evidence it is the single highest-yield habit in the project.
