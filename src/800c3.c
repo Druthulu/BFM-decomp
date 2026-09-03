@@ -987,7 +987,79 @@ void func_8005DBD8(void) {
 }
 
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005DCA0);
+extern s32 *D_800729BC;
+extern s32 *D_800729C0;
+extern volatile s32 D_80078F24;
+extern volatile s32 D_800C5320;
+
+s32 func_8005FBC8(void);
+
+s32 func_8005DCA0(s32 ctx, s32 cmd) {
+    u8 tmp;
+    s32 first;
+    u16 t;
+    s32 hw;
+    u16 status;
+    s32 c;
+    u16 *port;
+
+    if (cmd < 0) {
+        tmp = *(u8 *)D_800729C0;
+        *(u8 *)(ctx + 0x44) = 0xFF;
+        *(u8 *)(ctx + 0x45) = 1;
+        *(u8 *)*(s32 *)(ctx + 0x40) = ~cmd;
+        first = tmp;
+        if ((*(volatile u16 *)((s8 *)D_800729C0 + 0x4) & 1) == 0) {
+            do {} while ((*(volatile u16 *)((s8 *)D_800729C0 + 0x4) & 1) == 0);
+        }
+        while (func_8005FBC8() == 0) {}
+        {
+            register u8 nv __asm__("$2");
+            nv = ~cmd;
+            *(u8 *)D_800729C0 = nv;
+        }
+        return first;
+    }
+    t = 0x88;
+    c = *(u8 *)*(s32 *)(ctx + 0x3C);
+    if ((c >> 4) == 8 && *(u8 *)(ctx + 0x44) >= 9) {
+        t = 0x22;
+    }
+    port = (u16 *)0x1F801120;
+    __asm__("" : "=r"(port) : "0"(port));
+    hw = *port;
+    status = *(volatile u16 *)((s8 *)D_800729C0 + 0x4);
+    D_800C5320 = 0x1AE;
+    D_80078F24 = hw;
+    if ((status & 2) == 0) {
+        do {} while ((*(volatile u16 *)((s8 *)D_800729C0 + 0x4) & 2) == 0);
+    }
+    {
+        s32 *ptr = D_800729BC;
+        tmp = *(u8 *)D_800729C0;
+        *(u16 *)((s8 *)D_800729C0 + 0xE) = t;
+        first = tmp;
+        if ((*ptr & 0x80) == 0) {
+            do {
+                if (func_8005FBC8() != 0) {
+                    goto err;
+                }
+            } while ((*D_800729BC & 0x80) == 0);
+        }
+    }
+    *(u8 *)D_800729C0 = cmd;
+    *(u8 *)(ctx + 0x45) += 1;
+    *(u8 *)(*(s32 *)(ctx + 0x3C) + *(u8 *)(ctx + 0x44)) = first;
+    {
+        register u8 inc __asm__("$2");
+        inc = *(u8 *)(ctx + 0x44);
+        inc += 1;
+        *(u8 *)(ctx + 0x44) = inc;
+    }
+    return first;
+err:
+    return -20;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005DE78);
 
