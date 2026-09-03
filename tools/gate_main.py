@@ -635,6 +635,15 @@ def clean_build():
     # is run hundreds of times a session, so this is the difference between a probe you take and a
     # probe you talk yourself out of.
     r = run(f"make build BINARY=main -j{os.cpu_count() or 8}")
+    # A TOOL THAT REFUSES IS NOT A WARNING (P31 S75). `jtbl_rodata_pads.py` aborts via `sys.exit`
+    # with a message carrying none of the words this gate's failure analysis looks for
+    # (error/undefined/conflict/...), so a carve refusal surfaced as "only warnings" and the real
+    # cause of a rejected bank was invisible in the log. Name it explicitly.
+    _refusal = re.search(r'^(?:\S*(?:jtbl_rodata_pads|jtbl_carve|corpus|jr_isolate_all)\S*):.*$',
+                         (r.stdout or '') + (r.stderr or ''), re.M)
+    if _refusal:
+        print(f"  [gate] A TOOL REFUSED during the build — this is the cause, not a warning:\n"
+              f"         {_refusal.group(0).strip()[:300]}")
     if r.returncode != 0:
         # `make build BINARY=main` runs the SHA check itself, so rc!=0 does NOT mean "no
         # binary": a linked-but-MISMATCHED build also exits nonzero. Returning None here routed
@@ -707,6 +716,25 @@ def _preserve_and_localize(entries, got):
         print(f"  VERDICT {fn}: {verdict} — {msg}")
 
 def try_batch(entries):
+    # REFUSE TO DESTROY UNCOMMITTED WORK (P31 S75). The `git checkout` below is correct for the
+    # normal flow -- restore the stubs, re-extract, substitute the drafts -- and it is CATASTROPHIC
+    # for anything uncommitted in main's TUs, because it reverts them without asking.
+    #
+    # Measured twice this session: (1) the SaveLoadRoutine decompile (1,179 ins, byte-identical)
+    # sat uncommitted in src/800_b.c while a gate ran, and only survived because it was committed
+    # first; (2) a §265 verbatim body converted to a stub is UNCOMMITTED BY CONSTRUCTION, so this
+    # line restored the __asm__ block NEXT TO the substituted C -- the TU then carried 9 jump
+    # tables instead of 5, `jtbl_rodata_pads --derive` refused, and the gate REJECTED a
+    # byte-identical bank. gate_main could not bank anything in the verbatim class, by construction.
+    #
+    # A destructive step that cannot be undone must ASK, not assume (R42: never blind-revert a dirty
+    # src/). Commit or stash first; `--allow-dirty` is the deliberate override.
+    dirty = run("git status --porcelain -- " + " ".join(main_tus())).stdout.strip()
+    if dirty and not os.environ.get("GATE_MAIN_ALLOW_DIRTY"):
+        sys.exit("gate_main: main's TUs have UNCOMMITTED changes and this gate is about to `git\n"
+                 "checkout` them, which would DESTROY that work:\n\n" + dirty +
+                 "\n\nCommit it (R42 -- banked work is committed the moment it exists) or stash it.\n"
+                 "Pass --allow-dirty / GATE_MAIN_ALLOW_DIRTY=1 only if you intend to discard it.")
     run("git checkout -- " + " ".join(main_tus()))
     run("make extract BINARY=main")          # regenerate .s for the reverted stubs (hazard 2)
     substitute(entries)
@@ -720,10 +748,15 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('slate', nargs='?'); ap.add_argument('--apply', action='store_true')
     ap.add_argument('--no-bisect', action='store_true')
+    ap.add_argument('--allow-dirty', action='store_true',
+                    help='proceed even though main TUs have uncommitted changes THIS GATE WILL '
+                         'DESTROY (it git-checkouts them before substituting). Default is to refuse.')
     ap.add_argument('--assert-baseline', action='store_true',
                     help='no slate: clean-build the committed tree with NO draft substituted; '
                          'exit 0 green / 3 red. The lane runs this before spending tokens (S59).')
     a = ap.parse_args()
+    if getattr(a, 'allow_dirty', False):
+        os.environ["GATE_MAIN_ALLOW_DIRTY"] = "1"
     if not a.assert_baseline and not a.slate:
         ap.error('a slate file is required unless --assert-baseline')
 
