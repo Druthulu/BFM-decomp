@@ -35608,3 +35608,31 @@ accesses and costs **12 mismatches**. A fleet-consensus declaration is a strong 
 *(Also load-bearing: `q = D_800A46CE` as a real pointer local, matching the target keeping
 `&D_800A46CE` in `$s4` and deriving the `D_800A4642` store as `addiu $v1,$s4,-0x96` /
 `addu $v1,$s0,$v1` / `sh $v0,0xA($v1)`; plus two §194-A AFTER-placement fences.)*
+
+#### §476 — 🔴 A HARD-REGISTER PIN DESTROYS TWO THINGS COMBINE AND SCHED1 NEED (`func_800226C0`, 670 ins → MATCH)
+
+**Source: the S76 Fable agent on `main:func_800226C0` — at 670 instructions the largest function in
+the project, matched at closeness 0.** This completes the "a lever can be the defect" arc (§461,
+§462, §461-addendum, §471) with the mechanism that explains *why* pins so often hurt.
+
+**A pinned hard register loses NONZERO-BITS information.** The target's `228E4` chain
+(`addu $v0,$s2` / `beqz` / `addu $t2,$v0`) is **combine folding `sext(HImode t)` into a copy**, with
+`cse2` then reusing it as the loop multiplier. That fold needs `nonzero_bits` on the pseudo — and
+**hard registers do not carry nonzero-bits**. So the `$18` pin that looked like the obvious way to
+place `t` was exactly what prevented the fold. The fix was **one plain uninitialised `s16 t`**, with
+`mul` left as an unpinned pseudo.
+
+**A pin also breaks the §199-A birthing boost.** `birthing_insn_p` requires `reg_n_sets == 1`; a
+pinned `$a1` mask has `reg_n_sets != 1`, gets no boost, and is therefore **placed first** — visible
+as a whole-block schedule difference. Unpinning `o`/`col`/`sh23`/`abr` fixed the prologue order, a
+`t`/flags density tie and an `or` destination tie.
+
+**So the rule is not "pins are risky" but a specific two-part mechanism:**
+> A hard-register pin (a) strips `nonzero_bits`, disabling combine folds that depend on a value's
+> known width, and (b) makes `reg_n_sets != 1`, disabling the sched1 birthing boost.
+> **If a residual involves a sign/zero-extend fold or a first-in-block placement, remove pins before
+> adding them.**
+
+*(Also: the 850 single-prim block written as an inline `addPrim` with block-local temps, and the
+function defined with the TU's typed prototype `(Obj_80021D38*, u8*, DVec_80021D38*, u8*)` to avoid
+the §41 declaration wall.)*
