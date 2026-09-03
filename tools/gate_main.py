@@ -715,26 +715,30 @@ def _preserve_and_localize(entries, got):
         verdict, msg = MDL.classify(per, fn, ndiff)
         print(f"  VERDICT {fn}: {verdict} — {msg}")
 
-def try_batch(entries):
-    # REFUSE TO DESTROY UNCOMMITTED WORK (P31 S75). The `git checkout` below is correct for the
-    # normal flow -- restore the stubs, re-extract, substitute the drafts -- and it is CATASTROPHIC
-    # for anything uncommitted in main's TUs, because it reverts them without asking.
-    #
-    # Measured twice this session: (1) the SaveLoadRoutine decompile (1,179 ins, byte-identical)
-    # sat uncommitted in src/800_b.c while a gate ran, and only survived because it was committed
-    # first; (2) a §265 verbatim body converted to a stub is UNCOMMITTED BY CONSTRUCTION, so this
-    # line restored the __asm__ block NEXT TO the substituted C -- the TU then carried 9 jump
-    # tables instead of 5, `jtbl_rodata_pads --derive` refused, and the gate REJECTED a
-    # byte-identical bank. gate_main could not bank anything in the verbatim class, by construction.
-    #
-    # A destructive step that cannot be undone must ASK, not assume (R42: never blind-revert a dirty
-    # src/). Commit or stash first; `--allow-dirty` is the deliberate override.
+def assert_main_tus_clean():
+    """Refuse to START if main's TUs carry uncommitted work this gate would destroy.
+
+    CALLED ONCE, BEFORE ANY SUBSTITUTION — never inside try_batch. `try_batch` runs repeatedly
+    during bisection, and its OWN first substitution makes the tree dirty, so a check placed there
+    cannot distinguish the operator's unsaved work from the gate's own in-flight edit: it aborts the
+    bisection on iteration two. (P31 S75 — I put it there first and did exactly that.) A guard must
+    be able to tell the state it PROTECTS from the state it CREATES.
+
+    What it protects against, measured twice the same session: the SaveLoadRoutine decompile (1,179
+    ins, byte-identical) sat uncommitted in src/800_b.c while a gate ran; and a §265 verbatim body
+    converted to a stub is UNCOMMITTED BY CONSTRUCTION, so the checkout restored the __asm__ block
+    NEXT TO the substituted C — 9 jump tables instead of 5, jtbl_rodata_pads refused, and the gate
+    REJECTED a byte-identical bank. A destructive step that cannot be undone must ASK (R42)."""
     dirty = run("git status --porcelain -- " + " ".join(main_tus())).stdout.strip()
     if dirty and not os.environ.get("GATE_MAIN_ALLOW_DIRTY"):
-        sys.exit("gate_main: main's TUs have UNCOMMITTED changes and this gate is about to `git\n"
-                 "checkout` them, which would DESTROY that work:\n\n" + dirty +
-                 "\n\nCommit it (R42 -- banked work is committed the moment it exists) or stash it.\n"
+        sys.exit("gate_main: main's TUs have UNCOMMITTED changes and this gate will `git checkout`\n"
+                 "them before substituting, which would DESTROY that work:\n\n" + dirty +
+                 "\n\nCommit it (R42 — banked work is committed the moment it exists) or stash it.\n"
                  "Pass --allow-dirty / GATE_MAIN_ALLOW_DIRTY=1 only if you intend to discard it.")
+
+
+def try_batch(entries):
+    # (uncommitted-work guard: assert_main_tus_clean(), called once from main())
     run("git checkout -- " + " ".join(main_tus()))
     run("make extract BINARY=main")          # regenerate .s for the reverted stubs (hazard 2)
     substitute(entries)
@@ -757,6 +761,8 @@ def main():
     a = ap.parse_args()
     if getattr(a, 'allow_dirty', False):
         os.environ["GATE_MAIN_ALLOW_DIRTY"] = "1"
+    if not a.assert_baseline:
+        assert_main_tus_clean()          # ONCE, before any substitution
     if not a.assert_baseline and not a.slate:
         ap.error('a slate file is required unless --assert-baseline')
 
