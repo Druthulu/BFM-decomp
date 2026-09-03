@@ -121,6 +121,11 @@ segments:
       - [0x52354, c, ov_SC03_105_jr_8017A4AC]
       - [0x52cd4, c, ov_SC03_105_jr_8017AE2C]
       - [0x54778, c, ov_SC03_105_jr_8017C8D0]
+      # S74 split (cookbook §426/§431): jr_8017C8D0 owned raw jtbls in TWO non-adjacent
+      # .rodata spans — 0x801B814C-0x801B822C (func_801806F8/80180ABC/80180EC0/801813BC/
+      # 801818E8/80181C84) and 0x801B8240-0x801B8290 (func_8018624C/801867D0). One object =
+      # ONE contiguous .rodata run, so span 2 could never carve. Cut at vram 0x8018624C.
+      - [0x5e0f4, c, ov_SC03_105_jr_8018624C]
       - [0x5e9cc, c, ov_SC03_105_jr_80186B24]
       - [0x5ec84, c, ov_SC03_105_jr_80186DDC]
       - [0x61640, c, ov_SC03_105_jr_80189798]

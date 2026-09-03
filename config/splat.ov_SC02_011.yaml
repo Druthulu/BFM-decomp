@@ -119,7 +119,18 @@ segments:
       - [0x50854, c, ov_SC02_011_jr_801789AC]
       - [0x50be8, c, ov_SC02_011_jr_80178D40]
       - [0x52354, c, ov_SC02_011_jr_8017A4AC]
+      # P31 S74 (cookbook §426/§431): this ONE code subseg owned raw jtbls in THREE
+      # non-adjacent .rodata spans, and a compiled object contributes exactly ONE contiguous
+      # .rodata run — so its 2nd/3rd spans could never carve.  Split at the span owners'
+      # TU boundaries:
+      #   ...jr_8017AE2C  vram 0x8017AE2C-0x80183178 -> span A 0x801E9D60-0x801E9DA0 (carved)
+      #   ...jr_80183178  vram 0x80183178-0x80188E3C -> span B 0x801E9DB0-0x801E9E30
+      #   ...jr_80188E3C  vram 0x80188E3C-code end   -> span C 0x801E9E3C-0x801E9E68
+      # A and B are separated by 4 words of non-jtbl rodata (0x801E9DA0 FEBEF6AE 000002DC 0 0),
+      # B and C by 3 zero words — i.e. real cross-TU gaps, so three pieces is the MINIMUM.
       - [0x52cd4, c, ov_SC02_011_jr_8017AE2C]
+      - [0x5b020, c, ov_SC02_011_jr_80183178]
+      - [0x60ce4, c, ov_SC02_011_jr_80188E3C]
       - [0x68b8c, data, tail]
       - [0xc0ae8, .rodata, ov_SC02_011]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0xc0bc4, .rodata, ov_SC02_011_jr_8012ACE0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)

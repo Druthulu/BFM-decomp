@@ -122,7 +122,16 @@ segments:
       - [0x52cd4, c, ov_SC02_005_jr_8017AE2C]
       - [0x54e38, c, ov_SC02_005_jr_8017CF90]
       - [0x5982c, c, ov_SC02_005_jr_80181984]
-      - [0x59bd8, c, ov_SC02_005_jr_80181D30]
+      # §431 THREE-WAY SPLIT (P31 S74). This TU owned raw jtbl spans in TWO non-adjacent places
+      # (0x801e2e78-0x801e2e9c for func_80185060, 0x801e2ed0-0x801e2ef0 for func_80185E80) AND
+      # already emits a carved .rodata run at 0x801e2e38-0x801e2e70 (jtbls of func_80181D30 +
+      # func_80182A8C). One object = ONE contiguous .rodata run, so all three are unsatisfiable
+      # in one subseg: 0x801e2e70..0x801e2e78 holds 8 bytes of foreign rodata (0x0000F040,
+      # 0x00000000 — not a code pointer, and too wide for the 4-byte .align pad spec), so the
+      # existing carve and span 1 cannot merge. Hence TWO cuts, not one.
+      - [0x59bd8, c, ov_SC02_005_jr_80181D30]   # ..0x80185060; owns the 0x801e2e38 carve
+      - [0x5cf08, c, ov_SC02_005_jr_80185060]   # 0x80185060..0x80185E80; owns span 1 (0x801e2e78)
+      - [0x5dd28, c, ov_SC02_005_jr_80185E80]   # 0x80185E80..0x8018EA04; owns span 2 (0x801e2ed0)
       - [0x668ac, c, ov_SC02_005_jr_8018EA04]
       - [0x6873c, data, tail]
       - [0xb998c, .rodata, ov_SC02_005]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)

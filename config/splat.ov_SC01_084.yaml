@@ -121,7 +121,13 @@ segments:
       - [0x52354, c, ov_SC01_084_jr_8017A4AC]
       - [0x52cd4, c, ov_SC01_084_jr_8017AE2C]
       - [0x54928, c, ov_SC01_084_jr_8017CA80]
+      # P31 S74 §426/§431: this TU owned raw jtbls in TWO non-adjacent island spans —
+      # 0x801C60C8-0x801C611C (func_8017F690..func_80182328) and 0x801C6130-0x801C6194
+      # (func_80182A00), separated by 20 bytes of non-zero data at D_801C611C. One object
+      # contributes ONE contiguous .rodata run, so the second span could never carve.
+      # Split at func_80182A00 (vram 0x80182A00 = off 0x5A8A8) to give it its own object.
       - [0x57538, c, ov_SC01_084_jr_8017F690]
+      - [0x5A8A8, c, ov_SC01_084_jr_80182A00]
       - [0x5e6a8, data, tail]
       - [0x9cdf4, .rodata, ov_SC01_084]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
       - [0x9ced0, .rodata, ov_SC01_084_jr_8012ACE0]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
