@@ -35577,3 +35577,34 @@ loses `stupid_reg_compare`'s tie-break. That explains a -O0 register colour that
 **Use this section as the template for a wall claim:** name the pass, cite the file and line, show
 the measured cost of each escape, and give the byte-level fact that rules out the alternative. A wall
 asserted without that is a belief (see §473).
+
+#### §475 — THE `"memory"` FENCE AS A *CSE INVALIDATOR*, AND `(b*3)<<3` INSTEAD OF `b*24`
+
+**Source: the S76 agent on `main:func_8002FF0C` (166 ins → MATCH, verified in-TU: a spliced copy of
+`src/800_b.c` compiles rc=0, function byte-identical, all 63 relocs the target's own symbols).**
+
+**1. 🔴 `__asm__ __volatile__("" ::: "memory")` IS A CSE MEMORY-TABLE INVALIDATOR, NOT ONLY A
+SCHEDULING FENCE — AND THE COLON-LESS FORM DOES NOT DO IT.** Used here to force `D_800A46D2` to be
+**re-read** (`lui $a0` / `lh $a0`) for the `func_800419B0` argument instead of folded to
+`sign_extend(r)`. Without it the function is exactly two instructions short, and the bare
+`__asm__("")` fence does **not** substitute. Pair with §464 lever 4, which found the same two
+spellings are not interchangeable for a *register* outcome; this is the memory-table half of that
+distinction. **Pick the spelling by which table you need invalidated.**
+
+**2. 🔴 WRITE `(b * 3) << 3`, NOT `b * 24`.** `expand_mult` never honours its target, so `x = b * 24`
+leaves a `move` copy that survives into the join block — costing a **sixth callee-saved register and
+a 0x30 frame**. A top-level `LSHIFT_EXPR` expands directly into the variable's own pseudo and the
+copy vanishes. This is a general rule for any constant multiply that factors as `odd << n`.
+
+**3. INDEPENDENT CONFIRMATION OF §470.** This agent also needed a *separate* `i = b*24` for the
+pre-join region, because the `cse` EBB ends at the join and the target computes `b*24` twice —
+exactly §470's "use two distinct locals" finding, reached on a different function by a different
+agent that had not seen it. Two independent derivations; treat it as established.
+
+**4. THE HOUSE ARRAY SPELLING CAN BE THE DEFECT.** `D_800A46D2` must be declared **scalar at block
+scope**; the house style `extern s16 D_800A46D2[]` forces `la` (address into a register) for both
+accesses and costs **12 mismatches**. A fleet-consensus declaration is a strong prior, not a law.
+
+*(Also load-bearing: `q = D_800A46CE` as a real pointer local, matching the target keeping
+`&D_800A46CE` in `$s4` and deriving the `D_800A4642` store as `addiu $v1,$s4,-0x96` /
+`addu $v1,$s0,$v1` / `sh $v0,0xA($v1)`; plus two §194-A AFTER-placement fences.)*
