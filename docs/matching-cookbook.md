@@ -35352,3 +35352,27 @@ returns 1 on ANY volatil resource, so the slot stays empty. **This is how you re
 clobber lands it in `$v1` **without flipping the `addu` operand order** — and that operand order was
 the entire final 2-instruction `REGALLOC-PERM` residual. When a reload lever fixes the reload and
 breaks the register, try the other spelling before calling the residual permuter-class.
+
+#### §467 — GLOBAL-ALLOC TIES BREAK ON *DECLARATION* ORDER, AND A COPIED CLOBBER LIST IS A DEFECT
+
+**Source: the S76 agent on `main:func_8001EFE0` (468 ins, 172 → 89).** Three reusable mechanisms.
+
+**1. 🔴 WHEN SEVERAL EQUAL-PRIORITY PSEUDOS TIE IN GLOBAL-ALLOC, *DECLARATION* ORDER BREAKS THE TIE —
+NOT ASSIGNMENT ORDER.** Four `getTPage` bases all tie; reordering their **declarations** moved 36
+instructions, and it also changed CONTROL FLOW — with one base spilled, an arm's reload broke the
+tail that `jump2` had been cross-jumping. So this lever is not cosmetic and its blast radius is not
+local: re-check branch shape after using it, not just register names.
+
+**2. A CLOBBER LIST COPIED FROM A NEIGHBOUR IS A LIABILITY.** The prior draft carried a phantom
+`"$2"` in an inline-asm clobber. The real macros (proven from the matched neighbour `func_800221A8`,
+§194-E) clobber only `$12/$13/$14`. That invented `$2` evicted `abr` out of `$v0` and cost 14
+instructions. **Copy a neighbour's macro BODY if you must, but verify its clobber list against the
+target's own register usage** — an over-broad clobber is invisible in the C and expensive in the asm.
+
+**3. `convert_to_integer` SHORTENS A NARROW-LOOKING EXPRESSION TO QImode AND DROPS THE `andi`.**
+`q[0x14] = q[0xC] + ((rec >> 16) & 0xFF)` lost its mask because the result was shortened; an
+explicit `s32` temp for the sum stops the shortening and restores the `andi`.
+
+**Residual left (permuter-class):** `(sy & 0x100) >> 4` emits `srl; andi` — combine will move a shift
+inside a **single-bit** mask but not inside `0x300`/`0x3C0`, and both C spellings converge on the same
+output, so this is a combine limitation rather than a spelling choice.
