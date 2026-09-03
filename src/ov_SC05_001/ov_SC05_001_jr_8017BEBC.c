@@ -5462,7 +5462,130 @@ void func_8017FBB0(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_001/nonmatchings/ov_SC05_001_jr_8017BEBC", func_8017FE0C);
+#include "common.h"
+
+/* NOTE FOR THE BANKER: the destination TU (src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c,
+ * just above func_8017FBB0, line ~5365) ALREADY defines this typedef at file scope —
+ * DROP this copy when splicing.  It is here only so the draft compiles standalone. */
+
+
+void func_8017FE0C(s32 a0) {
+    /* Overlay-local data, read off THIS .s's own relocation lines (law 1):
+     * case 0 -> %hi/%lo(D_801899C0) @8017FEB4/FEBC, case 1 -> %hi/%lo(D_80189A70)
+     * @8017FF9C/FFA4.  Declared at BLOCK scope exactly as the matched sibling
+     * func_8017FBB0 does (cross-overlay homonyms at the colliding VA have other
+     * types, and a file-scope extern here would collide with that sibling). */
+    extern u8 *D_801899C0[];
+    extern u8 *D_80189A70[];
+    s32 p;
+    s16 dw;   /* §194-B width lever: a 16-BIT-DECLARED local is what buys the
+               * `addu $t0,$v0,$zero` raw copy in BOTH arms (the HImode pseudo is
+               * the raw difference; the sll/sra pair is the separate sign-extend).
+               * The later `dw - n*32` keeps the RAW value because force_to_mode
+               * drops the sign_extend under a QImode (`u8 x`) consumer. */
+    s32 n;    /* case 1 only */
+    s32 s2;
+    u8  x;    /* case 1 only */
+    s32 w;
+    s32 j;
+    u16 tt;
+    s32 n0;   /* §76/§208: case 0 needs its OWN allocno for n and x — the target
+               * has n in $v1 (case 0) but $a3 (case 1), and x in $a0 vs $v0, which
+               * is only possible with two pseudos per value.  Sharing one variable
+               * across the arms makes one global allocno = one hard register. */
+    u8  x0;
+    register SC05_FBB0_Rec *e __asm__("$6");
+
+    p = *(s32 *)(a0 + 0x2C);
+
+    /* THREE case nodes, the third EMPTY (§193-G/§199-G): only at i > 2 does
+     * balance_case_nodes split, giving root=1 with a left child 0 — which is what
+     * emits `beq ==1`, then the `slti ,2` bound test, then `bnez`, falling through
+     * to arm 0.  A two-case switch emits the all-positive `beqz/beq/j default`
+     * header instead and is length-drift -2 here. */
+    switch ((s16)*(u16 *)(a0 + 0x34) >> 1) {
+    case 0:
+        *(u16 *)(a0 + 6) = *(u16 *)(p + 6);
+        *(s16 *)(a0 + 0xA) = *(u16 *)(p + 0xA) - 0x70;
+        *(u16 *)(a0 + 0xE) = *(u16 *)(p + 0xE);
+        dw = *(u16 *)(p + 0xA) - *(u16 *)(a0 + 0x36);
+        n0 = dw / 32;
+        if (n0 < 5) {
+            /* Two-address `s2` (NOT `s2 = (n0 + 4) * 32;`): it makes the `n0 + 4`
+             * temp share s2's quantity, giving `addiu $a1,$v1,4 / sll $a1,$a1,5`
+             * instead of routing the intermediate through a scratch. */
+            s2 = n0 + 4;
+            s2 = s2 * 32;
+            /* Hoisting the 0x34 load with a §34 fence is what orders `lhu $v0,0x34($a0)`
+             * BEFORE `sll $a0,$v1,5`.  Left to sched1 the shift goes first, its live
+             * range then overlaps the load's, and the `n0*32` temp steals $v1 — which
+             * is the register the target gives n0 itself.  (Also forced by $a0: the
+             * target's shift writes the argument register, so the load MUST precede it.) */
+            tt = *(u16 *)(a0 + 0x34);
+            __asm__ __volatile__("");
+            x0 = dw - n0 * 32;
+            /* `e = base; e += n0 + 3;` (NOT &base[n0+3]) is what keeps the
+             * `addiu $v0,$v0,0x24` + `addiu $a2,$a2,0xC` pair. */
+            e = (SC05_FBB0_Rec *)D_801899C0[tt & 1];
+            e += n0 + 3;
+            e->f3 = 0x20;
+            e->f0 = 0;
+            e->f6 = 0;
+            e->fA = -s2;
+            e++;
+            e->f3 = x0;
+            e->f0 = 0xFF;
+            e->f6 = 0x20 - x0;
+            e->fA = -(e->f3 + s2);
+        }
+        break;
+
+    case 1:
+        *(u16 *)(a0 + 6) = *(u16 *)(p + 6);
+        *(s16 *)(a0 + 0xA) = *(u16 *)(p + 0xA) - 0xC8;
+        *(u16 *)(a0 + 0xE) = *(u16 *)(p + 0xE);
+        dw = *(u16 *)(a0 + 0x36) - *(u16 *)(p + 0xA);
+        n = dw / 32;
+        j = 5 - n;              /* hoisted above the `!= 0` test: fills its slot */
+        if (dw != 0) {
+            s2 = j;
+            if (s2 >= 0) {
+                /* §34 zero-byte fences.  Without them sched1 lifts the whole
+                 * `(n+1)*32 - dw` chain to the head of the block, which (a) steals
+                 * the `bltz` delay slot from the 0x20 constant, (b) removes the
+                 * load-delay `nop` after `lhu 0x34($a0)`, and (c) splits x and
+                 * (u8)x across two registers so `sb` and `andi` transpose. */
+                w = 0x20;
+                __asm__ __volatile__("" : "=r"(w) : "0"(w));
+                e = (SC05_FBB0_Rec *)D_80189A70[*(u16 *)(a0 + 0x34) & 1];
+                e += s2;
+                e->f0 = 0xFF;
+                __asm__ __volatile__("");
+                x = (n + 1) * 32 - dw;
+                e->f3 = x;
+                /* §3-C/§158 NUMERATOR lever — the last two registers ($a3 <-> $t0).
+                 * global.c:594  pri = floor_log2(refs)*refs/live_length*10000.
+                 * Measured from `cc1 -dl`: dw is pseudo 74 (4 refs / 43 insns ->
+                 * 1860) and this `n` is pseudo 75 (3 refs / 21 insns -> 1428), so
+                 * dw allocated first and took $a3, leaving n on $t0 — the target has
+                 * them the other way round.  This asm carries an "r"(n) operand
+                 * placed AFTER n's last use: +1 ref (3 -> 4, which also lifts
+                 * floor_log2 1 -> 2) and +the crossed gap in length -> pri(n) ~3300
+                 * > pri(dw), so n allocates first and takes $a3.  It replaces the
+                 * plain fence that was already here, so it adds NO new sched/cse
+                 * barrier (§47 placement rule) and emits only #APP/#NO_APP. */
+                __asm__ __volatile__("" :: "r"(n));
+                e->f6 = w - x;
+                e->fA = -(e->f3 + s2 * 32);
+            }
+        }
+        break;
+
+    case 2:
+        break;
+    }
+}
+
 
 
 

@@ -4866,7 +4866,67 @@ s32 func_801A9454(s32 self, s32 amount) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_004/nonmatchings/md_SC07_004", func_801A94A0);
+
+
+extern void RotMatrixY(s32 a0, void *a1);
+extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern void func_8012B21C(void *a0);
+extern s32 rand(void);
+extern s32 ratan2(s32 a0, s32 a1);
+
+void func_801A94A0(s32 *s1)
+{
+    s16 angle;
+    s32 vz;
+    s32 t;
+    s32 flag;
+    Mtx32_801A90D8 mtx;
+    SV_801A90D8 vin;
+    SV_801A90D8 vout;
+
+    func_8012B21C(s1);
+    if (*(s16 *)((s8 *)s1 + 0xFE) != 0) {
+        *(s16 *)((s8 *)s1 + 0xA) = -0x500;
+        if (*(s16 *)((s8 *)s1 + 0x70) == 0) {
+            angle = rand() & 0xFF8;
+            t = rand();
+            vz = -(t % 704);
+            flag = 1;
+        } else {
+            s16 dx = D_80126B5E;
+            s16 dz = D_80126B66;
+            if (dx * dx + dz * dz <= 0x78FFF) {
+                *(s16 *)((s8 *)s1 + 6) = dx;
+                *(u16 *)((s8 *)s1 + 0xE) = *(u16 *)&D_80126B66;
+                flag = 0;
+            } else {
+                angle = (ratan2(-dz, dx) - 0x400) & 0xFFF;
+                vz = -0x2C0;
+                flag = 1;
+            }
+        }
+        {
+            register s32 doMatrix __asm__("$2");
+            doMatrix = flag;
+        if (doMatrix != 0) {
+            mtx = D_800AE620;
+            RotMatrixY(angle, &mtx);
+            vin.vy = 0;
+            vin.vx = 0;
+            vin.vz = vz;
+            ApplyMatrixSV(&mtx, &vin, &vout);
+            *(u16 *)((s8 *)s1 + 6) = vout.vx;
+            *(u16 *)((s8 *)s1 + 0xE) = vout.vz;
+        }
+        }
+        *(s32 *)((s8 *)s1 + 0x14) = 0x80000;
+    } else {
+        *(s32 *)((s8 *)s1 + 0x48) = 0x12000;
+    }
+    func_8012AD44((s32 *)s1, 1);
+}
+
 
 #include "common.h"
 
@@ -6874,7 +6934,7 @@ extern void func_8012CAE4(void *a0);
 extern void func_8001C2C4(s32 a0);
 extern s32 func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80143994(s32 a0, s32 a1);
-extern void func_801A94A0(void *a0);
+extern void func_801A94A0();
 
 extern u8 D_801B0610[];
 

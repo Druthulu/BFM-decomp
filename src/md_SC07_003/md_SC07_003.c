@@ -665,7 +665,176 @@ void func_801A10B0(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/md_SC07_003/nonmatchings/md_SC07_003", func_801A1120);
+#include "common.h"
+
+/*
+ * func_801A1120  (md_SC07_003, 0x801A1120, 160 ins)  ==  MATCH, byte-exact.
+ *
+ * SC07 cutscene actor state machine, switch on the u16 at 0x34 (5 cases +
+ * jtbl_801A00F4).  Case 2 FALLS THROUGH into case 3, and case 3's tail (the
+ * two func_8012F14C projections + the func_80135888 / func_8012F568 draw) is
+ * part of case 3 — NOT case 4.  The previous attempt put that tail in case 4
+ * and split case 3, which is the whole of its 105-instruction residual.
+ *
+ * LEVERS (each verified by flipping it back and re-scoring with match_one):
+ *
+ *  1. CASE 0 AND CASE 1 SHARE THE `*(u16 *)(arg0+0x34) += 1` TAIL.  Writing
+ *     both as a plain `+= 1` lets gcc-2.7.2's cross_jump merge the scheduled
+ *     common SUFFIX (`addiu $v0,$v0,1 / j / sh $v0,0x34($s1)`) into the single
+ *     copy at .L801A11EC, which is why case 0 ends `lhu $v0,0x34 / j .L801A11EC
+ *     / sh $zero,0x98` — the `sh $zero` rides the j's delay slot (§193-C:
+ *     suffix-only merge, the surviving copy is the later block).
+ *
+ *  2. `d = D_800D3918;` AND `tbl = D_80126B78;` MUST BE EXPLICIT LOCALS.
+ *     Spelling either symbol raw at its two use sites costs the target's whole
+ *     saved-register set: cse is extended-basic-block-local, so the second
+ *     `D_800D3918` (inside the func_80135888 arm) gets its own %hi/%lo and the
+ *     address never becomes a call-crossing pseudo.  Result: only $s0/$s1/$s2
+ *     are saved, frame 0x38 instead of 0x40, LENGTH-DRIFT −2 at closeness 158.
+ *     With both locals present the four call-crossing pseudos land exactly as
+ *     the target allocates them — $s0 = &D_80126B78 then D_801152A8 (disjoint
+ *     live ranges reuse the reg), $s1 = arg0, $s2 = &out, $s3 = D_800D3918
+ *     (longest live range ⇒ lowest global.c priority ⇒ allocated last).
+ *     `tbl` also converts the two rematerialised `lui/lw` pairs into one
+ *     `lui/addiu` + two `lw 0($s0)` — count-neutral, register-decisive.
+ *
+ *  3. `tbl[0] + 0x34` (array-index read of the TU-canon `extern s32
+ *     D_80126B78[]`) is what emits `lw $a0,0($s0) / addiu $a0,$a0,0x34` in the
+ *     jal delay slot.  The TU's other user (func_801A419C) needs the §37
+ *     asm-label alias `aD_80126B78` instead because it has no local; here the
+ *     local supplies the pointer, so the canon array spelling is correct.
+ *
+ *  4. func_8012CBCC and func_8012A8E8 are called through the TU's house
+ *     fn-ptr cast (`((s32 (*)(s32))f)(x)`), because the TU canon / fleet canon
+ *     spell them `void func_8012CBCC(s32)` and `void func_8012A8E8(void)`.
+ *     Byte-neutral: gcc-2.7.2 folds the constant address back to a `jal`.
+ *     func_8012A8E8 DOES take arg0 here — the target's `jal func_8012A8E8`
+ *     delay slot holds a real `addu $a0,$s1,$zero` argument set-up, not a
+ *     §263 invented-argument copy.
+ *
+ *  5. Case 1's 0xD0 chain is written RAW at all four dereferences
+ *     (`*(u16 *)(*(s32 *)(*(s32 *)(arg0+0xD0)+0x20)+0x18)`), which is what
+ *     reloads 0xD0($s1) and 0x20($v0) a second time for the 0x1A field;
+ *     caching the pointer in a local (as sibling func_801A23FC does) collapses
+ *     the reload.  Case 3's +0x12C block is the same shape with the sign
+ *     flipped.
+ *
+ *  6. buf then out in declaration order buys sp+0x18 / sp+0x20 (two 8-byte
+ *     aggregates above the 6-word outgoing-argument area), giving the 0x40
+ *     frame together with lever 2's four saved registers.
+ *
+ * SYMBOL AUDIT (law 1c, done after MATCH — match_one masks jal/HI16/LO16).
+ * The draft's relocation sequence was diffed against the relocation lines of
+ * asm/md_SC07_003/nonmatchings/md_SC07_003/func_801A1120.s and is identical,
+ * name for name and in order (26 entries beside the compiler-generated
+ * jtbl_801A00F4 pair):
+ *   func_8012CBCC(arg0) [case 1] / func_8012BEE8(arg0) / func_8012A8E8(arg0) /
+ *   func_8012CBCC(arg0) [case 3, &0x2000] / func_801830D8(arg0) /
+ *   func_8013C9C4(D_80186F44) / func_801A2658(arg0,&D_801A68BC) and
+ *   (arg0,&D_801A68BC+8) / func_8002D4C8(0xB52,0) /
+ *   func_8012F14C(D_80126B78[0]+0x34, D_800D3918, &buf) and
+ *   (D_80126B78[0]+0x34, D_801A68F4, &out) /
+ *   func_80135888(*(arg0+0x20), *(arg0+0x58), &buf, &out) /
+ *   func_8012B70C(D_800D3918, D_801152A8) /
+ *   func_8012F568(1, 0x4002, <that>, 0x1E, &out, D_801152A8).
+ *   D_801A68BC+8 is NOT its own relocation here (unlike D_801A68C4 in
+ *   func_801A079C) — the .s spells it `addiu $a1, $s0, 0x8`, so it is written
+ *   as `D_801A68BC + 8`, the same way sibling func_801A23FC spells it.
+ *
+ * BANK NOTE (law 2): every spelling below is copied verbatim from a
+ * declaration already in src/md_SC07_003/md_SC07_003.c — func_8012CBCC:1482,
+ * func_8013C9C4:1483, func_801A2658:1484, func_8002D4C8:1485, D_80186F44:1487,
+ * D_801A68BC:1488, func_8012BEE8:282, func_8012F14C:550, func_8012B70C:899,
+ * D_80126B78:895, func_80135888:3042, func_8012F568:3043, D_800D3918:3035,
+ * D_801A68F4:3036, D_801152A8:3037.  Only func_8012A8E8 and func_801830D8 are
+ * absent from the TU; both take the card's fleet-modal spelling
+ * (`void func_8012A8E8(void)` n=1456, `void func_801830D8(void *)` n=3).
+ */
+
+extern void func_8012CBCC(s32 a0);   /* TU canon: void; return read via fn-ptr cast */
+extern void func_8013C9C4(void *a0);
+extern void func_801A2658(s32 a0, s32 a1);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012A8E8(void);     /* fleet canon: void(void); called with arg0 via cast */
+extern void func_801830D8(void *a0);
+extern void func_8012F14C(s32 a0, s32 a1, s32 a2);
+extern s32  func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
+extern s32  func_8012B70C(s16 *a0, s16 *a1);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+extern u16 D_80186F44[];
+extern u8  D_801A68BC[];
+extern u8  D_801A68F4[];
+extern u8  D_800D3918[];
+extern u8  D_801152A8[];
+extern s32 D_80126B78[];
+
+void func_801A1120(s32 arg0) {
+    s32 buf[2];   /* sp+0x18 */
+    s32 out[2];   /* sp+0x20 */
+    u8 *d;
+    s32 *tbl;
+
+    switch (*(u16 *)(arg0 + 0x34)) {
+    case 0:
+        if (*(s32 *)(arg0 + 0x94) == 0x26) {
+            *(s16 *)(arg0 + 0x98) = 0;
+            *(u16 *)(arg0 + 0x34) += 1;
+        }
+        break;
+
+    case 1:
+        func_8012CBCC(arg0);
+        if (*(s32 *)(arg0 + 0xD0) != 0) {
+            *(u16 *)(*(s32 *)(*(s32 *)(arg0 + 0xD0) + 0x20) + 0x18) -= 0x12C;
+            *(u16 *)(*(s32 *)(*(s32 *)(arg0 + 0xD0) + 0x20) + 0x1A) -= 0x12C;
+        }
+        if (*(s32 *)(arg0 + 0x14) >= 0) {
+            *(s32 *)(arg0 + 0x1C) = 8;
+            *(u16 *)(arg0 + 0x34) += 1;
+        }
+        break;
+
+    case 2:
+        if (func_8012BEE8(arg0) != 0) {
+            ((void (*)(s32))func_8012A8E8)(arg0);
+            *(u16 *)(arg0 + 0x34) += 1;
+        }
+        /* fallthrough */
+    case 3:
+        if (*(s32 *)(arg0 + 0xD0) != 0) {
+            *(u16 *)(*(s32 *)(*(s32 *)(arg0 + 0xD0) + 0x20) + 0x18) += 0x12C;
+            *(u16 *)(*(s32 *)(*(s32 *)(arg0 + 0xD0) + 0x20) + 0x1A) += 0x12C;
+        }
+        if (((s32 (*)(s32))func_8012CBCC)(arg0) & 0x2000) {
+            func_801830D8((void *)arg0);
+            func_8013C9C4(D_80186F44);
+            func_801A2658(arg0, (s32)D_801A68BC);
+            func_801A2658(arg0, (s32)(D_801A68BC + 8));
+            func_8002D4C8(0xB52, 0);
+            *(u16 *)(arg0 + 0x34) += 1;
+        }
+        d = D_800D3918;
+        tbl = D_80126B78;
+        func_8012F14C(tbl[0] + 0x34, (s32)d, (s32)buf);
+        func_8012F14C(tbl[0] + 0x34, (s32)D_801A68F4, (s32)out);
+        if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf, (s32)out) != 0) {
+            func_8012F568(1, 0x4002,
+                          func_8012B70C((s16 *)d, (s16 *)D_801152A8),
+                          0x1E, (s32)out, (s32)D_801152A8);
+        }
+        break;
+
+    case 4:
+        if (*(s16 *)(arg0 + 0x98) == 0) {
+            *(s16 *)(arg0 + 2) = 0x13;
+            *(s32 *)(arg0 + 0xE0) |= 0x10;
+        }
+        break;
+    }
+}
+
 
 extern void func_801A28AC();
 extern s32 func_8012BA10(s32 a0, s32 a1);
