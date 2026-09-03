@@ -973,6 +973,30 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
 | `tools/restage_matching.py` | rebuilds a gate plan from `recover_integration --probe-only` verdicts, keeping only drafts that compile-and-MATCH in their REAL TU | when a binary banks 0 and you suspect one bad draft is failing its siblings' shared build. **Caveat measured S71:** that probe compiles but never LINKS or CARVES, so its MATCH is not a bank prediction |
 | `tools/weave_sweep.py` | the §406/§408 derived-selector sweep: scores each open stub's stored drafts, classifies the `sw $ra` disagreement from the residual, applies the clobber only to WEAVE-SUNK, `--lever-all` is the ablation control | as the template for "price a class by its RESIDUAL, not its SHAPE" — the sweep itself is a measured null (§408) |
 
+### Tools added / changed 2026-09-03 (S76) — R21 record
+
+| tool | what it does | when you need it |
+|---|---|---|
+| `tools/gate_main_parallel.py` **(NEW)** | runs the REAL `gate_main` inside N git worktrees to discover which drafts pass, then hands the union to ONE authoritative `gate_main` in the real tree. Workers discover; only the final serial pass banks | a main slate large enough that serial bisection hurts. **Measured: one gate cycle is 16 s**, so MAX_STEPS=24 is ~6.4 min serial and ~90 s across four workers. Run `--negative-control` once per environment first |
+| `tools/sync_tu_decls.py` **(NEW)** | banks a draft the gate refuses by copying the TU's OWN `extern` line for whatever symbol the gate names, re-gating, and repeating | a draft that is byte-correct but rejected on a declaration conflict. Refuses `self_decl_tu` (use `cast_self_callers --sync-decls`) and refuses a NEAR up front, since syncing declarations makes a body COMPILE, never MATCH |
+
+**Oracle corrections — re-read any verdict recorded before these:**
+* `match_one` and `rtu_match` now route the Makefile's `REORDER_TUS` (`800c2 800c2_2 800c2_3 800c3`)
+  through `reorder_passthrough.py + as -O2`, the real build path. They previously modelled
+  `maspsx + as -O1` and manufactured a phantom §182/§188 epilogue wall for every function in those
+  four TUs. Same draft, `func_8005ECC0`: closeness **5 / 36 ins** before, **2 / 35** after.
+* `oracle_reorder.py`'s docstring no longer says the shape is unreachable — for those four TUs the
+  second cell of its diagnostic IS the build path, so a 0 there means the draft will bank.
+* `draw_waves --main` **drew ZERO main functions** until this session (`bins` came from `src/*`
+  DIRECTORIES and main has no `src/main/`), while printing a reassuring "refusing 49 LINKED subsegs".
+  Coverage is now asserted: `--main` yielding no main stubs exits 4. Also `--redraw-open`, because
+  the ledger records what was ATTEMPTED and a still-open stub is still work.
+* A **verbatim-asm draft** is refused at three points — `gate_main`, `harvest_verify`, and
+  `api_agent.prior_draft` (which was OFFERING them as warm starts). 1,099 of the 704,375 `.c` files
+  in the draft store are §265 bodies under ordinary `<fn>.c` names.
+* `verbatim_to_stub` refuses a **§179-C epilogue-less fragment** (no `jr $ra` of its own) — a stub
+  there is an unbankable target. Census: of main's verbatim blocks, 37 have `jr $ra` and 100 do not.
+
 **Two gating rules that are now enforced in code, not remembered:**
 * `parallel_gate` **REFUSES `main`** — main's extract rewrites the linker script, so an incremental
   gate is a false PASS (§414). Use `tools/gate_main.py`: baseline assert → one clean rebuild per

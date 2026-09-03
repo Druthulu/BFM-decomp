@@ -433,6 +433,25 @@ said; a sibling `scratch_<fn>/` with candidates but no final draft is worth scor
 tier is exhausted, re-run its targets on the next tier ALONGSIDE the dying agents — never kill a
 running workflow to relaunch it differently.
 
+### 6-S76. WHAT TO DO WHEN A GATE BANKS FAR LESS THAN IT STAGED
+
+Measured S76: the overlay gate banked **1 of 38** and main's first pass **0 of 49** — and none of it
+was drafting quality. Classify before re-drafting anything:
+
+1. **Run `recover_integration --probe-only --no-propagate`.** It compiles each stranded draft in its
+   ACTUAL TU and splits them three ways. On main's 40: **CC1-FAIL 16 / DIFF 18 / MATCH 6**. Only the
+   CC1-FAIL group is plumbing; the DIFF group is real residual and no declaration work will save it.
+   **A `CC1-FAIL` says the declaration blocked COMPILATION — never that the body underneath is right.**
+2. **For a CC1-FAIL, run `tools/sync_tu_decls.py --binary main --fn F --draft D --apply`.** It copies
+   the TU's own `extern` for whichever symbol the gate names, re-gates, repeats. Banked
+   `func_8005EB28` in one round and `func_8005EC00` in two.
+3. **If it refuses with `self_decl_tu`**, the TU declares the function being banked, so the call
+   SITES must change too — that is `cast_self_callers --sync-decls`, and the `--undo-journal --keep`
+   afterwards is mandatory.
+4. **Expect a CASCADE.** Every bank gives its TU a real definition, which then contradicts the stale
+   `extern` that every later draft in that TU still carries. A draft that was compatible before a
+   bank can be incompatible after it — re-run the sync rather than concluding the draft went bad.
+
 ## 6. Gate — EVERYTHING PARALLEL. There is no serial lane.
 
 > **P31 S74 — after a gate that CARVED, the binary's `asm/` is stale until a re-extract.** The

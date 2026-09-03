@@ -35636,3 +35636,74 @@ as a whole-block schedule difference. Unpinning `o`/`col`/`sh23`/`abr` fixed the
 *(Also: the 850 single-prim block written as an inline `addPrim` with block-local temps, and the
 function defined with the TU's typed prototype `(Obj_80021D38*, u8*, DVec_80021D38*, u8*)` to avoid
 the §41 declaration wall.)*
+
+#### §462 — FOUR LEVERS FROM `main:func_80024054` (91 ins, 74/53/32 → 4)
+
+**Source: the S76 agent on `func_80024054`.** Four independent unlocks, none previously recorded;
+the last one is the kind of rule that silently costs a whole attempt.
+
+**1. `array[var - K]` folds K into the symbol's LO16 / `lhu` displacement.** Naming an intermediate
+`idx = var - K` does NOT stop it — the fold happens at the front end / in combine, before any
+register assignment you could steer. The only thing that defeated it was a zero-byte opacity barrier
+immediately after computing the index, one per use site:
+`__asm__ __volatile__("" : "=r"(idx) : "0"(idx));`
+Reach for this whenever the target loads from `sym+0` with a computed index and your build folds the
+constant into the displacement instead.
+
+**2. The fused `sll 16; sra 15` sign-extend-and-scale wants the index declared `s16`, not `s32`.**
+This confirms §241's recipe on a fresh case — worth knowing it reproduces rather than being a
+one-off of that function.
+
+**3. A mask-then-compare LOCAL causes a cross-jump merge AND flips branch polarity.** Writing
+`bits = val & 0xC000;` then `if (bits == …) else if …` merged two case tails into one shared block
+and emitted `bne`-polarity branches where the target has `beq`. Dropping the local and switching on
+the expression directly — `switch (val & 0xC000) { case 0x8000: … case 0xC000: … default: … }` —
+fixed both at once and reproduced the target's forward-`beq` shape. **The temporary was the defect**;
+this is the same family as §461's "laundering can be the defect", from the opposite direction.
+
+**4. 🔴 A POINTER PARAMETER'S SIGNEDNESS DECIDES HOW `-1` IS MATERIALIZED.** Declaring `arg1` as
+`s16 *` rather than `u16 *` flips the fail-path constant from `ori $x, 0xffff` to `addiu $x, -1`,
+matching the target — because gcc-2.7.2 canonicalizes the RHS constant against the **lvalue's**
+signedness before choosing the load-immediate opcode. Nothing about the store's *value* changes, so
+this is invisible in the C and shows up only as a one-instruction opcode difference. If a residual is
+a lone `ori 0xffff` vs `addiu -1`, check the signedness of the pointer being written through before
+touching anything else.
+
+**Left open:** one `DELAY-SLOT` residual — `addu $a3,$zero,$zero` is insn #0 in the target and lands
+in the branch delay slot in every C variant. Two independent prior attempts hit the same wall;
+five further variants (statement reorder, register pin, barriers either side of the load) each left
+it unchanged or traded it for an equal residual elsewhere. Permuter-class, Law 3.
+
+#### §463 — 🔴 SPILL SLOTS ARE 8 BYTES, AND THE §41b "LOAD ABOVE THE PROLOGUE" WALL IS REFUTED
+
+**Source: the S76 agent on `main:func_8001FC08` (400 ins, 33 → 0 MATCH).** Three laws, and the
+second one deletes a wall this file has been asserting.
+
+**1. A 4-BYTE GAP IN AN OTHERWISE 4-PACKED FRAME IS A SPILL SLOT, NOT A PAD.** `sp+0xC8` / `sp+0xD0`
+in this target are not struct members — they are spilled pseudos. reload's `alter_reg` calls
+`assign_stack_local(mode, size, -1)`, and `align == -1` means `BIGGEST_ALIGNMENT` (8) with
+`CEIL_ROUND`, so **every 4-byte spill slot occupies EIGHT bytes**. That is exactly why the target's
+two slots sit 8 apart with `0xCC`/`0xD4` untouched. Reading those gaps as padding — or as fields of a
+struct you then invent — is a wrong model of the frame. Worth 11 instructions here, and modelling
+them as spills is also what evicts both values from local-alloc so reload picks `$t0`.
+
+**2. §41b's "a global load cannot float above the RTL prologue" IS NOT A WALL — it is an `$a0`
+ANTI-DEPENDENCE.** The parameter copy `addu $s0, $a0, $zero` *reads* `$a0`, which pins the load
+below it. Get the value out of `$a0` and make the load the first statement, and it floats to idx 0
+on its own. **Both moves are required and either alone is worthless** — statement-first by itself
+measured 33 → **50** (worse); combined with law 1 (which is what frees the register) it went
+22 → 4. Before treating a "load above the prologue" residual as unreachable, check what reads the
+argument register.
+
+**3. Which ARGUMENT POSITION a guard value is passed in decides its hard register.** Passing it as
+arg 1 — `func_80021120(&L.cnt, L.lp)` — gives that pseudo a `qty_phys_copy_sugg` toward `$a1`, which
+local-alloc's scan-from-`$v0` can never reach on its own. The sibling guards that do *not* pass it
+stay in `$v0`, which is the control proving the mechanism rather than a coincidence.
+
+**Banker caveat for this function:** its `INCLUDE_ASM` is at `src/800.c:11168`, but the TU's own
+`MTX_80020248` typedef (`:11180`) and the `D_80074818`/`D_80075018` externs (`:11191-2`) are twelve
+lines BELOW it. Hoist that block above `:11168` or drop the draft's copy, or the duplicate typedef is
+a hard C89 error at bank time.
+
+**Verified by hand (law 1c):** 26 `jal` targets and 16 HI16/LO16 relocs identical in name and order;
+the four `D_1F800020` words are the scratchpad literal, byte-identical (`3c111f80` / `26310020`).
