@@ -657,7 +657,98 @@ err:
     return -20;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005DE78);
+
+/* func_8005DE78 — libcd command issue with a root-counter-1 timeout spin.
+ * Structure is func_8005DCA0's (same TU) with func_8005FBC8's body INLINED as the
+ * loop test; the four levers that closed it:
+ *   1. `u8 tmp; s32 first; tmp = *(volatile u8 *)p; first = tmp;` — the volatile QI
+ *      load blocks combine from folding the u8->s32 promotion into the lbu, so the
+ *      zero-extend survives as its own `andi $s2,$v0,0xFF` (same idiom that produces
+ *      `andi $v1,$v0,0xFFFF` after the 0x1F801120 lhu in banked func_8005FBC8).
+ *   2. `if (A || B) {store t} else {store 0x22}` — do_jump's TRUTH_ORIF drop-through
+ *      label puts the `t` arm as the fall-through; the `&&` spelling swaps the arms.
+ *   3. The 0xE store is VOLATILE: reorg's resource_conflicts_p returns 1 whenever
+ *      either resource set is volatil, so `sh $s1,0xE($a0)` can never be stolen into
+ *      the `j`'s delay slot — that is where the target's `nop` comes from.
+ *   4. A "memory"-clobber barrier inside the `!= 0xFF` arm kills the CSE that would
+ *      otherwise reuse the compare's `lbu 0x44` for the index, forcing the reload.
+ *      (A volatile index read reloads too, but flips the addu's operand order and
+ *      lands the byte in $v0 instead of $v1.)
+ * D_80078F24/D_800C5320 are volatile, so they are read ONCE inside the `if` guard —
+ * loop.c cannot hoist a volatile MEM, and the target has them in the preheader.
+ */
+
+extern s32 *D_800729BC;
+extern s32 *D_800729C0;
+extern volatile s32 D_80078F24;
+extern volatile s32 D_800C5320;
+extern s32 D_800729A0;
+
+void func_8005FBA8(s32 a0);
+s32 func_8005FBC8(void);
+
+s32 func_8005DE78(s32 ctx, s32 cmd) {
+    u8 tmp;
+    s32 first;
+    u16 t;
+    s32 c;
+    u16 val1;
+    s32 a0;
+    u16 status;
+    s32 base;
+    s32 lim;
+
+    t = 0x88;
+    c = *(u8 *)*(s32 *)(ctx + 0x3C);
+    if ((c >> 4) == 8 && *(u8 *)(ctx + 0x44) >= 9) {
+        t = 0x22;
+    }
+    do {} while ((*(volatile u16 *)((s8 *)D_800729C0 + 0x4) & 2) == 0);
+    func_8005FBA8(0x190);
+    tmp = *(volatile u8 *)D_800729C0;
+    first = tmp;
+    if (*(u8 *)(ctx + 0x44) != 0 || (first >> 4) != 8) {
+        *(volatile u16 *)((s8 *)D_800729C0 + 0xE) = t;
+    } else {
+        *(volatile u16 *)((s8 *)D_800729C0 + 0xE) = 0x22;
+    }
+    if ((*D_800729BC & 0x80) == 0) {
+        base = D_80078F24;
+        lim = D_800C5320;
+        do {
+            val1 = *(volatile u16 *)0x1F801120;
+            a0 = val1;
+            if ((u32)a0 < (u32)base) {
+                if (*(volatile u16 *)0x1F801128 != 0) {
+                    a0 += *(volatile u16 *)0x1F801128;
+                } else {
+                    a0 += 0x10000;
+                }
+            }
+            status = *(volatile u16 *)0x1F801124;
+            if (status & 0x200) {
+                if ((u32)(a0 - base) >= (u32)lim) {
+                    return -2;
+                }
+            }
+            if (((u32)(a0 - base) >> 3) >= (u32)lim) {
+                return -2;
+            }
+        } while ((*D_800729BC & 0x80) == 0);
+    }
+    if (*(u8 *)(ctx + 0xE8) != 8 && D_800729A0 == 2) {
+        func_8005FBA8(0x3C);
+        while (func_8005FBC8() == 0) {}
+    }
+    *(u8 *)D_800729C0 = cmd;
+    *(u8 *)(ctx + 0x45) += 1;
+    if (*(u8 *)(ctx + 0x44) != 0xFF) {
+        __asm__ __volatile__("" : : : "memory");
+        *(u8 *)(*(s32 *)(ctx + 0x3C) + *(u8 *)(ctx + 0x44)) = first;
+    }
+    *(u8 *)(ctx + 0x44) += 1;
+    return first;
+}
 
 
 extern s32 *D_800729BC;
@@ -748,7 +839,65 @@ void func_8005E1A4(void *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E228);
+typedef struct {
+    /* 0x00 */ s16 *p00;
+    /* 0x04 */ u8 *p04;
+    /* 0x08 */ u8 *p08;
+    /* 0x0C */ u8 unk0C[0x3C - 0x0C];
+    /* 0x3C */ u8 *p3C;
+    /* 0x40 */ u8 unk40[0x46 - 0x40];
+    /* 0x46 */ u8 b46;
+    /* 0x47 */ u8 b47;
+    /* 0x48 */ u8 b48;
+    /* 0x49 */ u8 b49;
+    /* 0x4A */ u8 unk4A[0xE3 - 0x4A];
+    /* 0xE3 */ u8 bE3;
+    /* 0xE4 */ u8 bE4;
+    /* 0xE5 */ u8 unkE5[0xE6 - 0xE5];
+    /* 0xE6 */ u16 hE6;
+    /* 0xE8 */ u8 unkE8[0xE9 - 0xE8];
+    /* 0xE9 */ u8 bE9;
+    /* 0xEA */ u8 bEA;
+    /* 0xEB */ u8 unkEB;
+    /* 0xEC */ u32 wEC;
+} Ctx_8005E228;
+
+s32 func_8005E374();
+void func_8005E3AC();
+
+s32 func_8005E228(Ctx_8005E228 *s) {
+    u8 t;
+    switch (s->b46) {
+    case 2:
+        s->bE3 = s->p3C[3];
+        s->bE4 = s->p3C[4];
+        s->hE6 = 0;
+        s->bE9 = s->p3C[5];
+        s->bEA = s->p3C[6];
+        s->wEC = 0;
+        break;
+    case 3:
+        s->hE6 = (s->p3C[4] << 8) + s->p3C[5];
+        s->b47 = 0;
+        break;
+    case 4:
+        s->wEC += 8 + ((s->p3C[4] + 3) & 0x1FC);
+        t = ++s->b47;
+        if (t < s->bEA) {
+            return 0;
+        }
+        if (func_8005E374(s) >= 0x81) {
+            s->b46 = 0xFE;
+            s->b49 = 2;
+        } else {
+            s->b46 = 0xFF;
+            func_8005E3AC(s, (u8 *)s + 0x63);
+            s->b46 = 2;
+        }
+        return 0;
+    }
+    return 1;
+}
 
 
 s32 func_8005E374(u8 *a0) {
