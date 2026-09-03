@@ -6597,6 +6597,18 @@ worktree-run isolation before this is fixed reports damage that is not there.
   `register asm` vars cannot share a hard reg; `x*32` vs `x<<5` emitting lh vs lhu — **which
   `match_one`'s `%lo` mask HIDES**.
 
+* **§440** — a carve piece binds to a SUBSEG, not a function, so §8b's "non-adjacent => ISOLATE" is
+  over-strict: EXTEND the carve across still-stubbed material (four byte-proven corollaries), and the
+  resident's `rodata -> text -> data -> rodata -> data` layout, which needed `ld_interleave --pre`.
+* **§441** — three more instrument defects (the `dlabel` anchor form and the unaligned ctable read in
+  `jtbl_rodata_pads`; `harvest_verify`'s UNSCOPED typedef strip-set; `jr_isolate_all` treating a §265
+  verbatim body as byte-neutral preamble).
+
+**DOC STATE: current as of this checkpoint.** All twelve tool changes carry a `docs/SETUP.md` row and
+a cookbook entry (`commit:3728` closed a gap where five agent-authored fixes had shipped with only a
+commit message — see the `tool-change-updates-siblings-and-docs` memory: integrating an agent's tool
+change IS a tool change, and owes the same docs).
+
 # 4. START HERE (next session)
 
 1. **`reconcile_tu.py`** — the one unfixed defect that is actively costing banks. Give `gate_stage`
