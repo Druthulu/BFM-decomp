@@ -154,10 +154,35 @@ p = pipe('CPP', [CPP]+CPPFLAGS+['-I'+SRC_INCDIR, '-DINCLUDE_ASM(a,b)=', '%s/t.c'
 if p.returncode: _fail('CPP', p, 1500)
 p = pipe('CC1', [CC1]+CC1FLAGS, p.stdout)
 if p.returncode: _fail('CC1', p, 2000)
-p = pipe('MASPSX', [PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
-if p.returncode: _fail('MASPSX', p, 1500)
-p = pipe('AS', [AS]+ASFLAGS+['-o', '%s/t.o'%wd], p.stdout)
-if p.returncode: _fail('AS', p, 1500)
+# THE REORDER ISLAND — THE FOURTH COPY OF THIS DEFECT (P31 S76). The Makefile pipes
+# REORDER_TUS through tools/reorder_passthrough.py into `as -O2`; this tool hardcoded
+# maspsx + `as -O1` like match_one did, so for those TUs it reported a phantom +1 epilogue
+# instruction and `recover_integration --probe-only` booked it as a real DIFF. Found by a
+# drafting agent on func_8005D4B8: match_one (already fixed) said MATCH 14/14 while rtu_match
+# said 15/14, and the agent correctly identified its own oracle as the liar.
+# Derived from the Makefile, never copied (R51).
+_REORDER_TUS = set()
+try:
+    import re as _re
+    _m = _re.search(r'^REORDER_TUS\s*:?=\s*(.*)$', open('Makefile').read(), _re.M)
+    _REORDER_TUS = set(_m.group(1).split()) if _m else set()
+except OSError:
+    pass
+_stem = os.path.splitext(os.path.basename(SPLIT_SRC))[0]
+if _stem in _REORDER_TUS:
+    print('rtu_match: NOTE — %s is in the Makefile REORDER_TUS island; assembling with '
+          'reorder_passthrough + as -O2 (the real build path), not maspsx + as -O1.' % _stem,
+          file=sys.stderr)
+    p = pipe('REORDER', [PY, 'tools/reorder_passthrough.py'], p.stdout)
+    if p.returncode: _fail('REORDER', p, 1500)
+    p = pipe('AS', [AS] + '-Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O2 -G0'.split()
+             + ['-o', '%s/t.o' % wd], p.stdout)
+    if p.returncode: _fail('AS', p, 1500)
+else:
+    p = pipe('MASPSX', [PY, MASPSX, '--aspsx-version=2.56', '--expand-div'], p.stdout)
+    if p.returncode: _fail('MASPSX', p, 1500)
+    p = pipe('AS', [AS]+ASFLAGS+['-o', '%s/t.o'%wd], p.stdout)
+    if p.returncode: _fail('AS', p, 1500)
 
 mine = masked_diff.insns_from_object('%s/t.o'%wd, a.fn)
 tgt = masked_diff.insns_from_s('%s/%s.s' % (ASM_SUBDIR, a.fn))
