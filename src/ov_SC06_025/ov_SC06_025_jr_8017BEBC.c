@@ -3756,7 +3756,7 @@ void func_8017DB20(void) {
 }
 
 
-extern void func_8017DB98(s32 a0, s32 a1);
+extern s32 func_8017DB98(s32 a0, s32 a1);
 void func_8017DB6C(s32 a0) {
 
     extern s32 D_801AC714;
@@ -3764,7 +3764,186 @@ void func_8017DB6C(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_025/nonmatchings/ov_SC06_025_jr_8017BEBC", func_8017DB98);
+#include "common.h"
+
+/* --------------------------------------------------------------------------
+ * func_8017DB98 — 15-bit-RGB "creep one step toward the target palette" pass.
+ *
+ * Walks a 0x10-byte display-list record array until the 0xFF terminator.
+ * For every tag==9 record it copies the record's 4 halfwords into a stack
+ * header (sp+0x10, handed to func_800599B8) and then, for each of the n
+ * entries, nudges each of the three 5-bit channels of the LIVE word one step
+ * toward the TARGET word.  Returns 1 if anything moved (OR of every record's
+ * per-record flag), else 0.
+ *
+ * Record layout (stride 0x10):
+ *    +0x00 u16 tag      9 = process, 0xFF = end of list
+ *    +0x02 u16 unk02
+ *    +0x04 u16 x        -> hdr[0]
+ *    +0x06 u16 y        -> hdr[1]
+ *    +0x08 s16 n        -> hdr[2]   (entry count; read signed everywhere else)
+ *    +0x0A u16 h        -> hdr[3]
+ *    +0x0C u16 *base    base[0..n)   = "A" source
+ *                       base[n..2n)  = "B" source
+ *                       base[2n..3n) = live/destination
+ * a1 != 0 selects source A, a1 == 0 selects source B.
+ *
+ * ---- MATCHING NOTES (the four levers, all byte-verified) -------------------
+ * 1. THE RECORD WALKER IS THE PARAMETER ITSELF, NOT A DERIVED LOCAL.
+ *    The target's giv init reads the raw incoming argument register:
+ *        addiu $s0, $a0, 0x8
+ *    loop.c's record_initial() takes bl->initial_value from the SET_SRC of the
+ *    biv's pre-loop set.  If the source writes `rec = (Rec *)a0;` that set is
+ *    `(set rec a0pseudo)`, the two coalesce, and the giv init reads $s2 — which
+ *    is what the previous draft emitted.  Incrementing the PARAMETER makes the
+ *    biv BE the parm pseudo, whose only pre-loop set is `(set parm (reg $a0))`,
+ *    so the initial value is the HARD REG and the giv init reads $a0.
+ *    (42 -> 32 mismatches, and it also fixed the whole prologue save order and
+ *     put `tag` in $a1.)
+ *
+ * 2. THE EQUALITY GUARDS ARE WRITTEN target-FIRST.
+ *    Target: `beq $v1,$a3` = (tr, r).  `if (tr != r)`, not `if (r != tr)`.
+ *    The following slt keeps natural order, so only the beq operands move.
+ *    (-3 mismatches.)
+ *
+ * 3. THE DESTINATION BASE IS ITS OWN PSEUDO, LIVE ACROSS THE INNER LOOP.
+ *    Target:  addu $a1,$v1,$v0   /  blez $a0,...  /  addu $t3,$a1,$zero
+ *    i.e. base+n*2 lands in $a1 and is COPIED into the loop pointer $t3.
+ *    Naturally gcc ties the addu's destination to its dying first operand
+ *    (global.c:set_preference takes XEXP(plus,0)'s hard reg as a preference —
+ *    the .greg dump literally prints ";; 75 preferences: 3"), so it emitted
+ *    `addu $v1,$v1,$v0` and the whole a0..t5 file rotated one slot down.
+ *    Two source facts fix it: `dst = pal;` sits ABOVE the `if (n > 0)` guard
+ *    (that is why the target's delay slot holds the COPY and not the addu),
+ *    and `pal` is still live after the loop, which makes it conflict with the
+ *    loop pointer so the copy cannot be coalesced away.  The zero-byte
+ *    `__asm__("" :: "r"(pal))` is what states "still live" at C level.
+ *    (32 -> 9 -> 5 mismatches.)
+ *
+ * 4. THE GUARD BLOCK'S THREE SCRATCH VALUES ARE NAMED.
+ *    Because `pal` has to be pinned to $a1 (see 3), $a1 is otherwise free for
+ *    local-alloc to grab as the `n*4` scratch, which shifts n and base down to
+ *    $v1/$v0.  Naming the count-scale and the base and pinning them to $v0/$v1
+ *    reproduces the target's  lh $a0 / lw $v1 / sll $v0 / addu $a1  exactly.
+ *    (5 -> 0.)
+ *
+ * ---- REQUIRED TU EDIT (blocking, but byte-neutral) ------------------------
+ * src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:3445 currently reads
+ *     extern void func_8017DB98(s32 a0, s32 a1);
+ * The target ends `addu $v0, $s3, $zero` — it RETURNS a value — so the
+ * declaration must become
+ *     extern s32 func_8017DB98(s32 a0, s32 a1);
+ * The sole caller (:3449) discards the result, so the edit changes no bytes
+ * there.  The (s32 a0, s32 a1) parameter spelling is the TU's and is kept
+ * verbatim (§20 def-side wall); every narrowing is done inside the body.
+ *
+ * Only relocation in the target is `jal func_800599B8`; there are no data
+ * symbols, and every load/store below goes through a0 or $sp (law 1c
+ * re-walked against the .s).  func_800599B8 is spelled with the fleet-modal
+ * `void func_800599B8(u16 *)` (n=1066); the TU does not declare it.
+ * ------------------------------------------------------------------------- */
+typedef struct {
+    u16 tag;      /* 0x00 */
+    u16 unk02;    /* 0x02 */
+    u16 x;        /* 0x04 */
+    u16 y;        /* 0x06 */
+    s16 n;        /* 0x08 */
+    u16 h;        /* 0x0A */
+    u16 *base;    /* 0x0C */
+} Rec8017DB98;
+
+extern void func_800599B8(u16 *);
+
+#define REC8017DB98 ((Rec8017DB98 *)a0)
+
+s32 func_8017DB98(s32 a0, s32 a1)
+{
+    u16 buf[8];                              /* sp+0x10 header for func_800599B8 */
+    u16 *src;
+    u16 *dst;
+    register u16 *bp __asm__("$3");          /* lw   $v1, 4($s0)  — record base   */
+    register s32 kk __asm__("$2");           /* sll  $v0, $a0, 2  — n*4 bytes     */
+    register u16 *pal __asm__("$5");         /* addu $a1, $v1, $v0 — dst base     */
+    s32 i;
+    s32 flag;
+    s32 any;
+    u16 tag;
+    s32 cur;
+    s32 tgt;
+    s32 r, g, b;
+    s32 tr, tg, tb;
+    s32 result;
+
+    tag = REC8017DB98->tag;
+    any = 0;
+    if (tag != 0xff) {
+        do {
+            if (tag == 9) {
+                buf[0] = REC8017DB98->x;
+                buf[1] = REC8017DB98->y;
+                buf[2] = *(u16 *)&REC8017DB98->n;   /* lhu, unlike every other read of n */
+                buf[3] = REC8017DB98->h;
+                if (a1) {
+                    src = REC8017DB98->base;
+                } else {
+                    src = REC8017DB98->base + REC8017DB98->n;
+                }
+                i = 0;
+                flag = 0;
+                bp = REC8017DB98->base;
+                kk = REC8017DB98->n * 4;
+                pal = (u16 *)((u8 *)bp + kk);
+                dst = pal;                          /* ABOVE the guard — lever 3 */
+                if (REC8017DB98->n > 0) {
+                    do {
+                        cur = *dst;
+                        tgt = *src;
+                        r = cur & 0x1F;
+                        g = cur & 0x3E0;
+                        b = cur & 0x7C00;
+                        tr = tgt & 0x1F;
+                        tg = tgt & 0x3E0;
+                        tb = tgt & 0x7C00;
+                        if (tr != r) {
+                            flag = 1;
+                            if (r < tr) r += 1;
+                            else if (tr < r) r -= 1;
+                        }
+                        if (tg != g) {
+                            flag = 1;
+                            if (g < tg) g += 0x20;
+                            else if (tg < g) g -= 0x20;
+                        }
+                        if (tb != b) {
+                            flag = 1;
+                            if (b < tb) b += 0x400;
+                            else if (tb < b) b -= 0x400;
+                        }
+                        result = r | g | b | (tgt & 0x8000);
+                        if (result == 0 && tgt != 0) {
+                            result = 0x8000;
+                        }
+                        *dst = result;
+                        dst++;
+                        i++;
+                        src++;
+                    } while (i < REC8017DB98->n);
+                    __asm__("" :: "r"(pal));        /* zero bytes: keeps pal live */
+                }
+                if (flag) {
+                    func_800599B8(buf);
+                }
+                any |= flag;
+            }
+            a0 += 0x10;
+            tag = REC8017DB98->tag;
+        } while (tag != 0xff);
+    }
+    return any;
+}
+
+#undef REC8017DB98
+
 
 #include "common.h"
 
