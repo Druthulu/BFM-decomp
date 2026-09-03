@@ -5,125 +5,650 @@
  * This TU owns .rodata span B (0x80072E44-0x80073140); see config/splat.us.exe.yaml and cookbook §426.
  * Declarations shared with the sibling TUs live in src/800_shared.h. */
 
-/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
- * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
- *
- * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
- * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
- * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
- * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
- * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
- * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
- * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
- * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
- * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
- * express this as normal control flow against either. Kept as the verbatim target instructions,
- * same as its sibling. */
-/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
- * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
- *
- * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
- * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
- * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
- * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
- * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
- * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
- * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
- * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
- * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
- * express this as normal control flow against either. Kept as the verbatim target instructions,
- * same as its sibling. */
-/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
- * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
- *
- * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
- * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
- * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
- * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
- * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
- * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
- * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
- * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
- * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
- * express this as normal control flow against either. Kept as the verbatim target instructions,
- * same as its sibling. */
-/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
- * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
- *
- * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
- * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
- * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
- * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
- * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
- * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
- * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
- * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
- * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
- * express this as normal control flow against either. Kept as the verbatim target instructions,
- * same as its sibling. */
-/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
- * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
- *
- * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
- * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
- * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
- * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
- * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
- * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
- * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
- * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
- * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
- * express this as normal control flow against either. Kept as the verbatim target instructions,
- * same as its sibling. */
-/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
- * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
- *
- * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
- * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
- * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
- * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
- * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
- * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
- * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
- * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
- * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
- * express this as normal control flow against either. Kept as the verbatim target instructions,
- * same as its sibling. */
-/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
- * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
- *
- * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
- * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
- * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
- * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
- * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
- * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
- * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
- * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
- * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
- * express this as normal control flow against either. Kept as the verbatim target instructions,
- * same as its sibling. */
-/* func_8002B0B4 -- part of the SaveLoadRoutine state-machine dispatcher (see src/800.c around
- * INCLUDE_ASM(SaveLoadRoutine) for the deferred multi-entry save/memcard handler this falls into).
- *
- * This function has NO epilogue of its own: every exit is either a raw `j` into a label living
- * inside SaveLoadRoutine's body (.L8002C2A8 / .L8002C2AC / .L8002BFE4), or a computed `jr $v0`
- * through jtbl_80072E44 whose entries also land inside SaveLoadRoutine. gcc-2.7.2 has no
- * sibcall/cross-function tail-merge pass (mips.c has none), so any ordinary C function body here
- * would get its own compiler-synthesized prologue teardown (`lw $ra` / `addiu $sp` / `jr $ra`)
- * that the target bytes do not contain -- +2 phantom instructions no C shape can avoid
- * (cookbook §179-C: "a function with no epilogue that falls into a sibling's shared tail must
- * stay file-scope __asm__"). SaveLoadRoutine itself is deferred to Q#5 (save/memcard format
- * still TBD, PhaseEnd/Phase7 session G), so there is no C decompile of the destinations to
- * express this as normal control flow against either. Kept as the verbatim target instructions,
- * same as its sibling. */
-INCLUDE_ASM("asm/nonmatchings/800_b", func_8002B0B4);
 
+/* func_8002B0B4 -- the memory-card save/load state machine.  P31 S75: decompiled to C as ONE
+ * function.  splat's `SaveLoadRoutine` (0x8002B154) is this function's `case 0:` body, a jump-table
+ * target of jtbl_80072E44; the census of every inbound jump into 0x8002B154..0x8002C31C found only
+ * this function's own `j`/`beq`s and its own table, so the pair that was carried as an unmatchable
+ * no-epilogue / no-prologue fragment (cookbook S179-C, S434) is simply one 0x40 frame.  The body
+ * below emits all five jump tables (jtbl_80072E44 / ED4 / EEC / F0C / F24) in target order into
+ * this TU's .rodata span B.  Byte-shape notes are in the function's own header comment. */
 
+/* func_8002B0B4 -- the memory-card save/load state machine (P31 S75, decompiled to C).
+ *
+ * ONE function, not two: splat named its case-0 body `SaveLoadRoutine` (0x8002B154, a jump-table
+ * target of jtbl_80072E44), and the two "functions" were carried for 60+ sessions as an unmatchable
+ * no-epilogue / no-prologue pair (cookbook S179-C, S434).  The census of every inbound jump into
+ * 0x8002B154..0x8002C31C found exactly two sources -- func_8002B0B4's own `j`/`beq`s and its own
+ * jtbl_80072E44 -- and nothing else in the binary; the "three handler pointers" at 0x80072E44 in
+ * docs/memory-map.md are that jump table's first three entries.  So the interior labels are ordinary
+ * `case` labels / `goto` targets of this single 0x40-frame function and the C below is the whole frame.
+ *
+ * Shape notes that are load-bearing for the bytes (each one measured, see cookbook S448):
+ *   - `reset:` (0x8002B210) and `close:` (0x8002BE14) are explicit labels: gcc-2.7.2's cross-jump keeps
+ *     the LAST identical tail, but the original keeps these EARLY blocks, so they were gotos in the source.
+ *   - `ret = 2` is written AFTER the stat store in every "state = 0; stat = N; ret = 2" group, or cse
+ *     folds the stat store's constant into $s2 and the tails over-merge.
+ *   - the two zero-byte `__asm__ __volatile__` barriers in cases 21/23 stop a second-level cross-jump of
+ *     the `jal func_80060614` tails (the original keeps all three copies: cases 11, 21, 23).
+ *   - `D_80075A40` is declared as the u32 id word so `D_80075A40 = D_80076040` is a (mem sym) store the
+ *     address register of `p` cannot be cse-tied to; the two `"0"(m)` launders keep a call argument out
+ *     of the pseudo the post-call store would otherwise share (cookbook S153 / S164-68).
+ *   - block-scoped temps per case (S48-A3); `i = 0x1B` / `i = 0` initialised BEFORE the pointer they
+ *     pair with, so the shorter-lived pseudo takes $v0 (local-alloc priority).
+ *   - switch indices `res`/`D_800760C4` are unsigned so gcc's case tree tests 1 first and `0` as `bltu 1`.
+ */
 
+typedef struct { s32 stat; u32 val; } CardSlot;           /* D_8007609C[port>>4], 8 bytes */
+typedef struct { u8 b[41]; } Blk41;
+typedef struct { u8 b[32]; } Blk32u;
+typedef struct { u8 b[128]; } Blk128u;
+typedef struct { u32 w[38]; } Blk152;                      /* 0x98 bytes, word aligned */
 
+extern s32 D_800760AC;      /* state */
+extern s32 D_800760B0;      /* port (0x00 / 0x10) */
+extern s32 D_800760B4;
+extern s32 D_800760B8;
+extern u16 D_800760BC;
+extern u16 D_800760C0;
+extern u32 D_800760C4;
+extern CardSlot D_8007609C[];
+extern u8 D_80075840[];     /* memcard frame-0 header block (0x200) */
+extern u32 D_80075A40;      /* save data block (0x280); [0] = id word */
+extern u8 D_80075AC0[];     /* = D_80075A40 + 0x80: 4 x 0x80 slot records */
+extern u8 D_80075CC0[];     /* 0x300 game-state block */
+extern u8 D_80075FC0[];     /* 0x80 checksum block */
+extern u32 D_80076040;
+extern u8 D_80076044[];     /* 0x28-byte record per port */
+extern s32 D_80076094[];
+extern char D_80072DFC[];   /* "BASLUS-00726MUSASHI" */
+extern u8 D_80072E10[];     /* SJIS title, 41 bytes */
+extern char D_80072E3C[];   /* "*" */
+extern u8 D_80063AEC[];     /* icon source: clut @0, frames @0x2C / 0xEC / 0x1AC */
+extern u32 lzss_sectorStagingBuf[];
 
+extern s32 func_80061024(s32, s32 *, s32 *);
+extern void func_8005FD58(s32);
+extern s32 func_8006023C(s32 port, char *name, s32 mode);
+extern void func_80060404(void *buf, s32 off, s32 len);
+extern void func_800603BC(void);
+extern void func_80060AE0(s32 port, char *name, void *buf, s32 off, s32 len);
+extern void func_80016714(void *, s32);
+extern void func_80060614(void *buf, s32 off, s32 len);
+extern s32 func_80061114(s32 port, char *name, s32 mode);
+extern s32 func_80061524(s32);
+extern void func_8005FFB4(s32 port);
+extern s32 func_80060D9C(s32 port, char *name, void *a2, void *a3, s32 a4, s32 a5);
+extern u16 func_8002B064(u8 *a0);
+extern u16 func_8002B08C(s32 a0);
+extern u32 func_8002C320(void);
+extern s32 func_8002C3B0(s32 count, u8 *arr);
 
+s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
+    s32 kind;
+    u32 res;
+    s32 cnt;
+    s32 ret = 0;
+    s32 v;
+
+    v = func_80061024(1, &kind, &res);
+    switch (v) {
+    case -1:
+        switch (D_800760AC) {
+        case 0:
+          {
+            s32 st;
+            D_800760B8 = 0;
+            if ((sel & 7) == 0) {
+                D_800760AC++;
+                break;
+            }
+            if ((sel & 7) == 1) {
+                st = 7;
+            } else if ((sel & 7) == 2) {
+                st = 0x1E;
+            } else if ((sel & 7) == 3) {
+                st = 0x23;
+            } else {
+                break;
+            }
+            D_800760AC = st;
+            D_800760B8 = sel & 0x18;
+            break;
+          }
+        case 1:
+            D_800760B0 = 0;
+            func_8005FD58(0);
+            D_800760AC++;
+            break;
+        case 3:
+            if (D_8007609C[0].stat != 7) {
+                goto reset;
+            }
+            D_800760B0 = 0;
+            D_800760AC++;
+            break;
+        case 4:
+            res = func_8006023C(D_800760B0, D_80072DFC, 1);
+            if (res != 0) {
+            reset:
+                D_800760AC = 0;
+                break;
+            }
+            D_800760AC++;
+            /* fallthrough */
+        case 5:
+            func_80060404(&D_80075A40, 0x200, 0x280);
+            D_800760AC++;
+            break;
+        case 6:
+            switch (D_800760C4) {
+            case 0:
+                D_8007609C[D_800760B0 >> 4].stat = 8;
+                D_8007609C[D_800760B0 >> 4].val = func_8002C320();
+                goto close;
+            case 1:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                break;
+            case 3:
+                func_800603BC();
+                D_800760AC = 1;
+                break;
+            case 2:
+            default:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 0;
+                break;
+            }
+            break;
+        case 7:
+            if (D_8007609C[0].stat == 0) {
+                D_800760AC = 1;
+                break;
+            }
+            D_800760B0 = 0;
+            D_800760B4 = 0;
+            res = func_8006023C(0, D_80072DFC, 2);
+            switch (res) {
+            case 0:
+                D_800760AC = 0xB;
+                break;
+            case 1:
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                ret = 2;
+                break;
+            case 2:
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 4;
+                ret = 2;
+                break;
+            case 4:
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 3;
+                ret = 2;
+                break;
+            case 5:
+                func_800603BC();
+                D_800760AC++;
+                break;
+            }
+            break;
+        case 8:
+            res = func_80061114(D_800760B0, D_80072DFC, 1);
+            switch (res) {
+            case 0:
+                D_80075840[0] = 0x53;
+                D_80075840[1] = 0x43;
+                D_80075840[2] = 0x13;
+                D_80075840[3] = 1;
+                *(Blk41 *)&D_80075840[4] = *(Blk41 *)D_80072E10;
+              {
+                s32 i = 0x1B;
+                u8 *q;
+                q = &D_80075840[0x5F];
+                for (; i >= 0; i--) {
+                    *q-- = 0;
+                }
+              }
+                *(Blk32u *)&D_80075840[0x60] = *(Blk32u *)D_80063AEC;
+                *(Blk128u *)&D_80075840[0x80] = *(Blk128u *)&D_80063AEC[0x2C];
+                *(Blk128u *)&D_80075840[0x100] = *(Blk128u *)&D_80063AEC[0xEC];
+                *(Blk128u *)&D_80075840[0x180] = *(Blk128u *)&D_80063AEC[0x1AC];
+                func_80060AE0(D_800760B0, D_80072DFC, D_80075840, 0, 0x200);
+                func_80016714(&D_80075A40, 0x280);
+                D_800760AC++;
+                break;
+            case 1:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                ret = 2;
+                break;
+            case 2:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 4;
+                ret = 2;
+                break;
+            case 4:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 3;
+                ret = 2;
+                break;
+            case 6:
+                func_800603BC();
+                D_800760AC = 7;
+                break;
+            case 7:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 5;
+                ret = 2;
+                break;
+            }
+            break;
+        case 9:
+            func_80060AE0(D_800760B0, D_80072DFC, &D_80075A40, 0x200, 0x280);
+            D_800760AC++;
+            break;
+        case 10:
+            switch (D_800760C4) {
+            case 0:
+                D_8007609C[D_800760B0 >> 4].stat = 8;
+                D_8007609C[D_800760B0 >> 4].val = 0;
+                func_800603BC();
+                D_800760AC = 7;
+                break;
+            case 1:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                ret = 2;
+                break;
+            case 2:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 4;
+                ret = 2;
+                break;
+            case 3:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 0;
+                ret = 2;
+                break;
+            }
+            break;
+        case 11:
+          {
+            u8 *m;
+            u8 *p;
+            m = (u8 *)&D_80075A40;
+            __asm__ __volatile__("" : "=r"(m) : "0"(m));
+            func_80016714(m, 0x80);
+            p = (u8 *)&D_80075A40 + ((idx + 1) << 7);
+            D_80075A40 = D_80076040;
+            func_80016714(p, 0x80);
+            func_80060614(p, (idx + 5) << 7, 0x80);
+            D_800760AC++;
+            break;
+          }
+        case 13:
+          {
+            u8 *m;
+            u8 *p;
+            s32 cp;
+            m = D_80075FC0;
+            __asm__ __volatile__("" : "=r"(m) : "0"(m));
+            func_80016714(m, 0x80);
+            D_80075FC0[0] = 0xFF;
+            p = &D_80075FC0[0x10];
+            *(Blk152 *)p = *(Blk152 *)&D_80075CC0[0x24];
+            D_800760BC = func_8002B064(p);
+            cp = (s32)D_80075CC0;
+            __asm__ __volatile__("" : "=r"(cp) : "0"(cp));
+            D_800760C0 = func_8002B08C(cp);
+            *(u16 *)&D_80075FC0[4] = D_800760C0;
+            *(u16 *)&D_80075FC0[2] = D_800760BC;
+            func_80060614(D_80075CC0, idx * 0x300 + 0x480, 0x300);
+            D_800760AC++;
+            break;
+          }
+        case 15:
+            func_800603BC();
+            D_800760C4 = func_8006023C(D_800760B0, D_80072DFC, 1);
+            D_800760AC++;
+            break;
+        case 19:
+          {
+            s32 sum;
+            s32 cp;
+            s32 end;
+            func_800603BC();
+            sum = 0;
+            cp = (s32)D_80075CC0;
+            end = cp + 0x300;
+            do {
+                sum += *(u8 *)cp;
+                cp++;
+            } while (cp < end);
+            if ((sum & 0xFFFF) != D_800760C0) {
+                D_8007609C[D_800760B0 >> 4].stat = 8;
+                ret = 2;
+                D_8007609C[D_800760B0 >> 4].val = func_8002C320();
+                D_800760AC = 0;
+                break;
+            }
+            D_800760C4 = func_8006023C(D_800760B0, D_80072DFC, 2);
+            D_800760AC++;
+            break;
+          }
+        case 21:
+            func_80060614(&D_80075A40, 0x200, 0x80);
+            __asm__ __volatile__("");                 /* §5a zero-byte cross-jump barrier */
+            D_800760AC++;
+            break;
+        case 23:
+            func_80060614(D_80075FC0, (idx + 5) << 7, 0x80);
+            __asm__ __volatile__("" ::: "memory");    /* §5a barrier, distinct from case 21's */
+            D_800760AC++;
+            break;
+        case 25:
+            func_800603BC();
+            D_800760C4 = func_8006023C(D_800760B0, D_80072DFC, 1);
+            D_800760AC++;
+            break;
+        case 27:
+            func_80060404(D_80075FC0, (idx + 5) << 7, 0x80);
+            D_800760AC++;
+            break;
+        case 29:
+          {
+            s32 sum;
+            s32 cp;
+            s32 end;
+            func_800603BC();
+            sum = 0;
+            cp = (s32)&D_80075FC0[0x10];
+            end = cp + 0x70;
+            do {
+                sum += *(u8 *)cp;
+                cp++;
+            } while (cp < end);
+            if ((sum & 0xFFFF) == D_800760BC) {
+                s32 i = 0;
+                u8 *p = D_80075AC0;
+                p = (idx << 7) + p;
+                for (; i < 0x80; i++) {
+                    p[i] = D_80075FC0[i];
+                }
+                ret = 1;
+            } else {
+                ret = 2;
+            }
+            D_8007609C[D_800760B0 >> 4].stat = 8;
+            D_8007609C[D_800760B0 >> 4].val = func_8002C320();
+            D_800760AC = 0;
+            break;
+          }
+        case 16:
+        case 20:
+        case 26:
+        case 31:
+            switch (D_800760C4) {
+            case 0:
+                D_800760AC++;
+                break;
+            case 1:
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                ret = 2;
+                goto close;
+            case 2:
+                D_8007609C[D_800760B0 >> 4].stat = 4;
+                ret = 2;
+                goto close;
+            case 4:
+                D_8007609C[D_800760B0 >> 4].stat = 3;
+                ret = 2;
+                goto close;
+            case 5:
+                D_8007609C[D_800760B0 >> 4].stat = 6;
+                ret = 2;
+                goto close;
+            }
+            break;
+        case 12:
+        case 14:
+        case 22:
+        case 24:
+            switch (D_800760C4) {
+            case 0:
+                D_800760AC++;
+                break;
+            case 1:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                ret = 2;
+                break;
+            case 2:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 4;
+                ret = 2;
+                break;
+            case 3:
+                func_800603BC();
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 0;
+                ret = 2;
+                break;
+            }
+            break;
+        case 18:
+        case 28:
+        case 33:
+            switch (D_800760C4) {
+            case 0:
+                D_800760AC++;
+                break;
+            case 1:
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                ret = 2;
+                goto close;
+            case 3:
+                D_8007609C[D_800760B0 >> 4].stat = 0;
+                ret = 2;
+                goto close;
+            case 2:
+                D_8007609C[D_800760B0 >> 4].stat = 4;
+                ret = 2;
+            close:
+                func_800603BC();
+                goto reset;
+            }
+            break;
+        case 30:
+            if (D_8007609C[0].stat == 0) {
+                D_800760AC = 1;
+                break;
+            }
+            D_800760B0 = 0;
+            D_800760B4 = 0;
+            D_800760C4 = func_8006023C(0, D_80072DFC, 1);
+            D_800760AC++;
+            break;
+        case 17:
+        case 32:
+            func_80060404(D_80075CC0, idx * 0x300 + 0x480, 0x300);
+            D_800760AC++;
+            break;
+        case 2:
+            D_800760AC++;
+            break;
+        case 34:
+          {
+            s32 sum;
+            s32 cp;
+            s32 end;
+            func_800603BC();
+            D_800760C0 = *(u16 *)&D_80075AC0[(idx << 7) + 4];
+            sum = 0;
+            cp = (s32)D_80075CC0;
+            end = cp + 0x300;
+            do {
+                sum += *(u8 *)cp;
+                cp++;
+            } while (cp < end);
+            if ((sum & 0xFFFF) == D_800760C0) {
+                ret = 1;
+            } else {
+                ret = 2;
+            }
+            goto reset;
+          }
+        case 35:
+            if (D_8007609C[0].stat == 0) {
+                D_800760AC = 1;
+                break;
+            }
+            D_800760B0 = 0;
+            D_800760B4 = 0;
+            res = func_80061524(0);
+            switch (res) {
+            case 0:
+                ret = 1;
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 6;
+                break;
+            case 1:
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                ret = 2;
+                break;
+            case 2:
+            default:
+                D_800760AC = 0;
+                D_8007609C[D_800760B0 >> 4].stat = 0;
+                ret = 2;
+                break;
+            }
+            break;
+        }
+        break;
+    case 0:
+        break;
+    case 1:
+        switch (kind) {
+        case 1:
+            switch (res) {
+            case 0:
+              {
+                s32 port = D_800760B0;
+                if (!((u32)D_8007609C[port >> 4].stat < 3)) {
+                    break;
+                }
+                func_8005FFB4(port);
+                D_8007609C[D_800760B0 >> 4].stat = 1;
+                D_8007609C[D_800760B0 >> 4].val = 0;
+                break;
+              }
+            case 3:
+                func_8005FFB4(D_800760B0);
+                D_8007609C[D_800760B0 >> 4].stat = 1;
+                D_8007609C[D_800760B0 >> 4].val = 0;
+                break;
+            default:
+                D_8007609C[D_800760B0 >> 4].stat = 2;
+                D_8007609C[D_800760B0 >> 4].val = 0;
+                break;
+            }
+            break;
+        case 2:
+            switch (res) {
+            case 0:
+            case 3:
+              {
+                s32 port = D_800760B0;
+                res = func_80060D9C(port, D_80072DFC, &D_80076044[(port >> 4) * 0x28],
+                                    &D_80076094[port >> 4], 0, 1);
+                switch (res) {
+                case 0:
+                  {
+                    s32 i;
+                    u32 r;
+                    port = D_800760B0;
+                    i = port >> 4;
+                    if (D_80076094[i] != 0) {
+                        D_8007609C[i].stat = 7;
+                        break;
+                    }
+                    D_8007609C[i].stat = 6;
+                    r = func_80060D9C(port, D_80072E3C, lzss_sectorStagingBuf, &cnt, 0, 0xF);
+                    switch (r) {
+                    case 0:
+                        if (func_8002C3B0(cnt, (u8 *)lzss_sectorStagingBuf) < 0xF) {
+                            break;
+                        }
+                        D_8007609C[D_800760B0 >> 4].stat = 5;
+                        break;
+                    case 1:
+                        D_8007609C[D_800760B0 >> 4].stat = 2;
+                        break;
+                    default:
+                        D_8007609C[D_800760B0 >> 4].stat = 4;
+                        break;
+                    }
+                    break;
+                  }
+                case 1:
+                    D_8007609C[D_800760B0 >> 4].stat = 2;
+                    break;
+                default:
+                    D_8007609C[D_800760B0 >> 4].stat = 4;
+                    break;
+                }
+                break;
+              }
+            case 4:
+                D_8007609C[D_800760B0 >> 4].stat = 3;
+                break;
+            case 1:
+                D_8007609C[D_800760B0 >> 4].stat = 1;
+                break;
+            default:
+                D_8007609C[D_800760B0 >> 4].stat = 4;
+                break;
+            }
+            break;
+        case 3:
+            break;
+        case 4:
+        case 5:
+        case 6:
+            D_800760C4 = res;
+            break;
+        }
+        break;
+    }
+    out[0] = 0;
+    out[1] = D_8007609C[0].stat;
+    out[4] = D_8007609C[0].val;
+    out[5] = D_8007609C[0].val >> 8;
+    out[6] = *(u16 *)((u8 *)D_8007609C + 6);
+    out[7] = ((u8 *)D_8007609C)[7];
+    return ret;
+}
+
+/* RESOLVED (P31 S75): the deferral below is kept verbatim for the record.  The "three entry
+ * points" are jtbl_80072E44 entries 0/1/2 (cases 0, 1, 2 of the state switch), the "multi-entry"
+ * shape was the splat symbol boundary, and the memcard helpers stayed extern (their formats are
+ * still Q#5).  The function is decompiled as func_8002B0B4 above. */
 /* DEFERRED: SaveLoadRoutine (0x8002B154) — Phase 7 (session G), per Drew, to Q#5.
  * Original intent: the save / PS1 memory-card handler. Referenced by saveHeaderTemplate
  *   (0x80072DF0) via THREE entry-point pointers: 0x8002B154 / 0x8002B1AC / 0x8002BEA4.
@@ -144,1367 +669,8 @@ INCLUDE_ASM("asm/nonmatchings/800_b", func_8002B0B4);
  *   characterise the func_80060xxx memcard helpers, THEN draft. A wrong faithful-looking draft here
  *   would be worse than this honest stub (P9/G3). The default build is byte-identical via this stub. */
 
-/* SaveLoadRoutine (0x8002B154, asm/nonmatchings/800_b/SaveLoadRoutine.s, 0x11CC = 1139 ins).
- *
- * FRAME CHECK (cookbook SS296, which outranks every atlas lever): this symbol is a splitter
- * FRAGMENT, not a callable function.  It has NO PROLOGUE -- its first live read is
- * `andi $v1, $s0, 7` on a $s0 it never loads -- yet it OWNS the epilogue
- * (`lw $ra,56($sp)` / `lw $s3..$s0` / `addiu $sp,$sp,64` / `jr $ra`) of a 0x40 frame it never
- * creates, and it reads the caller-fragment's stack slot `0x1C($sp)` at .L8002C29C.
- *
- * The frame belongs to func_8002B0B4 (0x8002B0B4, the same TU, INCLUDE_ASM'd immediately above),
- * which builds it, parks $a0/$a1/$a2 in $s0/$s1/$s3, zeroes $s2, calls func_80061024, and then
- * enters THIS body -- never by `jal`, always by a raw `j .L8002C2A8` / `j .L8002C2AC` /
- * `j .L8002BFE4`, or by the computed `jr $v0` through jtbl_80072E44 whose 36 entries all land on
- * labels inside this body (entry 0 IS SaveLoadRoutine itself).  The two symbols are one C
- * function in the original source; the boundary at 0x8002B154 is a curated symbol
- * (config/symbols.us.txt:27), not a call boundary.
- *
- * Therefore NO C spelling can produce these bytes: gcc-2.7.2 has no sibcall / cross-function
- * tail-merge pass, and function.c:expand_function_end + mips.c:function_epilogue emit the
- * prologue/epilogue PAIR for any body cc1 compiles.  A C function with this epilogue necessarily
- * also gets `addiu $sp,$sp,-64` + five `sw` at the top -- +7 phantom instructions no shape,
- * pin, fence or permuter mutation can remove (SS179-C; SS296's routing law).
- *
- * Banked via the SS179-C / SS265 file-scope verbatim-asm lane, transcribed 1:1 from the target
- * .s: literal ".ent\t"/".end\t" text (glabel is an `as` macro maspsx never sees, which would
- * leave reorder mode on and scramble the hand-filled delay slots), ".type ... @function" so the
- * object carries an STT_FUNC symbol for the boundary walk, ".set noreorder" paired with
- * ".set noat" so the un-doubled %hi/%lo forms assemble, and DECIMAL memory displacements
- * (maspsx parses load/store offsets with base-10 int()).
- *
- * SS265 ACCOUNTING CAVEAT: this banks BYTES, not understanding.  corpus.stubs() counts a
- * verbatim-asm body as MATCHED, so 1139 instructions of transcription move the headline metric
- * without decompiling a line.  It is in scope here only because the FRAME, not the difficulty,
- * makes C impossible -- exactly the SS296 fragment class.  The real decomp of the save/memcard
- * state machine is one C function spanning func_8002B0B4 + this body, and wants the two symbols
- * merged first.
- *
- * SYMBOL SHAPE: the target .s marks this `jlabel SaveLoadRoutine` (jump-table target, .local,
- * no .type/.ent) because func_8002B0B4 reaches it through jtbl_80072E44 rather than by `jal`.
- * The blob raises it to .globl + @function so the object carries an STT_FUNC symbol (SS179-C
- * addendum: without it the boundary walk reports "my object has no function <NAME>").
- *
- * NOTE for whoever banks this: src/800_b.c:127-146 carries Drew's explicit Phase-7 DEFERRAL of
- * this function to Q#5 (save/memcard format still TBD) with the reasoning that "a wrong
- * faithful-looking draft here would be worse than this honest stub".  This body is not a draft --
- * it is the target's own instructions -- so it cannot be wrong, but it also does not answer Q#5.
- * Bank it only if the project wants the fragment class closed on bytes; otherwise the INCLUDE_ASM
- * stub is byte-equivalent and says more.
- *
- * The four jump tables this body dispatches through (jtbl_80072ED4/EEC/F0C/F24, .rodata span B,
- * 0x80072ED4-0x80072F3C) follow jtbl_80072E44 (emitted by func_8002B0B4's INCLUDE_ASM) and are
- * re-emitted below in target order.
- */
-
-__asm__(
-    ".set\tnoreorder\n"
-    ".set\tnoat\n"
-    ".section\t.text\n"
-    ".align\t2\n"
-    ".globl\tSaveLoadRoutine\n"
-    ".type\tSaveLoadRoutine, @function\n"
-    ".ent\tSaveLoadRoutine\n"
-    "SaveLoadRoutine:\n"
-        "lui    $at, %hi(D_800760B8)\n"
-        "sw     $zero, %lo(D_800760B8)($at)\n"
-        "andi   $v1, $s0, 7\n"
-        "beqz   $v1, .L8002BEA4\n"
-        "addiu  $v0, $zero, 1\n"
-        "bne    $v1, $v0, .L8002B178\n"
-        "addiu  $v0, $zero, 2\n"
-        "j      .L8002B190\n"
-        "addiu  $v0, $zero, 7\n"
-    ".L8002B178:\n"
-        "bne    $v1, $v0, .L8002B188\n"
-        "addiu  $v0, $zero, 3\n"
-        "j      .L8002B190\n"
-        "addiu  $v0, $zero, 30\n"
-    ".L8002B188:\n"
-        "bne    $v1, $v0, .L8002C2A8\n"
-        "addiu  $v0, $zero, 35\n"
-    ".L8002B190:\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $v0, %lo(D_800760AC)($at)\n"
-        "andi   $v0, $s0, 24\n"
-        "lui    $at, %hi(D_800760B8)\n"
-        "sw     $v0, %lo(D_800760B8)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002B1AC:\n"
-        "lui    $at, %hi(D_800760B0)\n"
-        "sw     $zero, %lo(D_800760B0)($at)\n"
-        "jal    func_8005FD58\n"
-        "addu   $a0, $zero, $zero\n"
-        "j      .L8002BEA4\n"
-        "nop   \n"
-    ".L8002B1C4:\n"
-        "lui    $v1, %hi(D_8007609C)\n"
-        "lw     $v1, %lo(D_8007609C)($v1)\n"
-        "addiu  $v0, $zero, 7\n"
-        "bne    $v1, $v0, .L8002B210\n"
-        "nop   \n"
-        "lui    $v0, %hi(D_800760AC)\n"
-        "lw     $v0, %lo(D_800760AC)($v0)\n"
-        "lui    $at, %hi(D_800760B0)\n"
-        "sw     $zero, %lo(D_800760B0)($at)\n"
-        "j      .L8002BEB4\n"
-        "addiu  $v0, $v0, 1\n"
-    ".L8002B1F0:\n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "jal    func_8006023C\n"
-        "addiu  $a2, $zero, 1\n"
-        "beqz   $v0, .L8002B220\n"
-        "sw     $v0, 28($sp)\n"
-    ".L8002B210:\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002B220:\n"
-        "lui    $v0, %hi(D_800760AC)\n"
-        "lw     $v0, %lo(D_800760AC)($v0)\n"
-        "nop   \n"
-        "addiu  $v0, $v0, 1\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $v0, %lo(D_800760AC)($at)\n"
-    ".L8002B238:\n"
-        "lui    $a0, %hi(D_80075A40)\n"
-        "addiu  $a0, $a0, %lo(D_80075A40)\n"
-        "addiu  $a1, $zero, 512\n"
-        "j      .L8002BE9C\n"
-        "addiu  $a2, $zero, 640\n"
-    ".L8002B24C:\n"
-        "lui    $v1, %hi(D_800760C4)\n"
-        "lw     $v1, %lo(D_800760C4)($v1)\n"
-        "addiu  $s0, $zero, 1\n"
-        "beq    $v1, $s0, .L8002B2D0\n"
-        "nop   \n"
-        "beqz   $v1, .L8002B280\n"
-        "addiu  $v0, $zero, 2\n"
-        "beq    $v1, $v0, .L8002B308\n"
-        "addiu  $v0, $zero, 3\n"
-        "beq    $v1, $v0, .L8002B2F0\n"
-        "nop   \n"
-        "j      .L8002B308\n"
-        "nop   \n"
-    ".L8002B280:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "addiu  $v1, $zero, 8\n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $v1, %lo(D_8007609C)($at)\n"
-        "jal    func_8002C320\n"
-        "nop   \n"
-        "lui    $v1, %hi(D_800760B0)\n"
-        "lw     $v1, %lo(D_800760B0)($v1)\n"
-        "nop   \n"
-        "sra    $v1, $v1, 4\n"
-        "sll    $v1, $v1, 3\n"
-        "lui    $at, %hi(D_800760A0)\n"
-        "addu   $at, $at, $v1\n"
-        "sw     $v0, %lo(D_800760A0)($at)\n"
-        "j      .L8002BE14\n"
-        "nop   \n"
-    ".L8002B2D0:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002B2F0:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $s0, %lo(D_800760AC)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002B308:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002BFC0\n"
-        "nop   \n"
-    ".L8002B320:\n"
-        "lui    $v0, %hi(D_8007609C)\n"
-        "lw     $v0, %lo(D_8007609C)($v0)\n"
-        "nop   \n"
-        "beqz   $v0, .L8002BF3C\n"
-        "addu   $a0, $zero, $zero\n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "lui    $at, %hi(D_800760B0)\n"
-        "sw     $zero, %lo(D_800760B0)($at)\n"
-        "lui    $at, %hi(D_800760B4)\n"
-        "sw     $zero, %lo(D_800760B4)($at)\n"
-        "jal    func_8006023C\n"
-        "addiu  $a2, $zero, 2\n"
-        "addu   $v1, $v0, $zero\n"
-        "sltiu  $v0, $v1, 6\n"
-        "beqz   $v0, .L8002C2A8\n"
-        "sw     $v1, 28($sp)\n"
-        "sll    $v0, $v1, 2\n"
-        "lui    $at, %hi(jtbl_80072ED4)\n"
-        "addu   $at, $at, $v0\n"
-        "lw     $v0, %lo(jtbl_80072ED4)($at)\n"
-        "nop   \n"
-        "jr     $v0\n"
-        "nop   \n"
-    ".L8002B380:\n"
-        "addiu  $v0, $zero, 11\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $v0, %lo(D_800760AC)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002B394:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002B3B0:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 4\n"
-    ".L8002B3CC:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 3\n"
-    ".L8002B3E8:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "j      .L8002BEA4\n"
-        "nop   \n"
-    ".L8002B3F8:\n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "jal    func_80061114\n"
-        "addiu  $a2, $zero, 1\n"
-        "addu   $v1, $v0, $zero\n"
-        "sltiu  $v0, $v1, 8\n"
-        "beqz   $v0, .L8002C2A8\n"
-        "sw     $v1, 28($sp)\n"
-        "sll    $v0, $v1, 2\n"
-        "lui    $at, %hi(jtbl_80072EEC)\n"
-        "addu   $at, $at, $v0\n"
-        "lw     $v0, %lo(jtbl_80072EEC)($at)\n"
-        "nop   \n"
-        "jr     $v0\n"
-        "nop   \n"
-    ".L8002B43C:\n"
-        "lui    $a0, %hi(D_80075840)\n"
-        "addiu  $a0, $a0, %lo(D_80075840)\n"
-        "addiu  $a3, $a0, 4\n"
-        "lui    $a2, %hi(D_80072E10)\n"
-        "addiu  $a2, $a2, %lo(D_80072E10)\n"
-        "or     $v1, $a2, $a3\n"
-        "andi   $v1, $v1, 3\n"
-        "addiu  $v0, $zero, 83\n"
-        "sb     $v0, 0($a0)\n"
-        "addiu  $v0, $zero, 67\n"
-        "lui    $at, %hi(D_80075841)\n"
-        "sb     $v0, %lo(D_80075841)($at)\n"
-        "addiu  $v0, $zero, 19\n"
-        "lui    $at, %hi(D_80075842)\n"
-        "sb     $v0, %lo(D_80075842)($at)\n"
-        "addiu  $v0, $zero, 1\n"
-        "lui    $at, %hi(D_80075843)\n"
-        "sb     $v0, %lo(D_80075843)($at)\n"
-        "beqz   $v1, .L8002B4E0\n"
-        "addiu  $t0, $a2, 32\n"
-    ".L8002B48C:\n"
-        "lwl    $v0, 3($a2)\n"
-        "lwr    $v0, 0($a2)\n"
-        "lwl    $v1, 7($a2)\n"
-        "lwr    $v1, 4($a2)\n"
-        "lwl    $a0, 11($a2)\n"
-        "lwr    $a0, 8($a2)\n"
-        "lwl    $a1, 15($a2)\n"
-        "lwr    $a1, 12($a2)\n"
-        "swl    $v0, 3($a3)\n"
-        "swr    $v0, 0($a3)\n"
-        "swl    $v1, 7($a3)\n"
-        "swr    $v1, 4($a3)\n"
-        "swl    $a0, 11($a3)\n"
-        "swr    $a0, 8($a3)\n"
-        "swl    $a1, 15($a3)\n"
-        "swr    $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002B48C\n"
-        "addiu  $a3, $a3, 16\n"
-        "j      .L8002B50C\n"
-        "nop   \n"
-    ".L8002B4E0:\n"
-        "lw     $v0, 0($a2)\n"
-        "lw     $v1, 4($a2)\n"
-        "lw     $a0, 8($a2)\n"
-        "lw     $a1, 12($a2)\n"
-        "sw     $v0, 0($a3)\n"
-        "sw     $v1, 4($a3)\n"
-        "sw     $a0, 8($a3)\n"
-        "sw     $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002B4E0\n"
-        "addiu  $a3, $a3, 16\n"
-    ".L8002B50C:\n"
-        "lwl    $v0, 3($a2)\n"
-        "lwr    $v0, 0($a2)\n"
-        "lwl    $v1, 7($a2)\n"
-        "lwr    $v1, 4($a2)\n"
-        "lb     $a0, 8($a2)\n"
-        "swl    $v0, 3($a3)\n"
-        "swr    $v0, 0($a3)\n"
-        "swl    $v1, 7($a3)\n"
-        "swr    $v1, 4($a3)\n"
-        "sb     $a0, 8($a3)\n"
-        "addiu  $v1, $zero, 27\n"
-        "lui    $v0, %hi(D_8007589F)\n"
-        "addiu  $v0, $v0, %lo(D_8007589F)\n"
-    ".L8002B540:\n"
-        "sb     $zero, 0($v0)\n"
-        "addiu  $v1, $v1, -1\n"
-        "bgez   $v1, .L8002B540\n"
-        "addiu  $v0, $v0, -1\n"
-        "lui    $v0, %hi(D_800758A0)\n"
-        "addiu  $v0, $v0, %lo(D_800758A0)\n"
-        "lui    $t0, %hi(D_80063AEC)\n"
-        "addiu  $t0, $t0, %lo(D_80063AEC)\n"
-        "lwl    $v1, 3($t0)\n"
-        "lwr    $v1, 0($t0)\n"
-        "lwl    $a0, 7($t0)\n"
-        "lwr    $a0, 4($t0)\n"
-        "lwl    $a1, 11($t0)\n"
-        "lwr    $a1, 8($t0)\n"
-        "lwl    $a2, 15($t0)\n"
-        "lwr    $a2, 12($t0)\n"
-        "swl    $v1, 3($v0)\n"
-        "swr    $v1, 0($v0)\n"
-        "swl    $a0, 7($v0)\n"
-        "swr    $a0, 4($v0)\n"
-        "swl    $a1, 11($v0)\n"
-        "swr    $a1, 8($v0)\n"
-        "swl    $a2, 15($v0)\n"
-        "swr    $a2, 12($v0)\n"
-        "lwl    $v1, 19($t0)\n"
-        "lwr    $v1, 16($t0)\n"
-        "lwl    $a0, 23($t0)\n"
-        "lwr    $a0, 20($t0)\n"
-        "lwl    $a1, 27($t0)\n"
-        "lwr    $a1, 24($t0)\n"
-        "lwl    $a2, 31($t0)\n"
-        "lwr    $a2, 28($t0)\n"
-        "swl    $v1, 19($v0)\n"
-        "swr    $v1, 16($v0)\n"
-        "swl    $a0, 23($v0)\n"
-        "swr    $a0, 20($v0)\n"
-        "swl    $a1, 27($v0)\n"
-        "swr    $a1, 24($v0)\n"
-        "swl    $a2, 31($v0)\n"
-        "swr    $a2, 28($v0)\n"
-        "addiu  $a3, $v0, 32\n"
-        "addiu  $a2, $t0, 44\n"
-        "or     $v0, $a2, $a3\n"
-        "andi   $v0, $v0, 3\n"
-        "beqz   $v0, .L8002B650\n"
-        "nop   \n"
-        "addiu  $t0, $t0, 172\n"
-    ".L8002B5FC:\n"
-        "lwl    $v0, 3($a2)\n"
-        "lwr    $v0, 0($a2)\n"
-        "lwl    $v1, 7($a2)\n"
-        "lwr    $v1, 4($a2)\n"
-        "lwl    $a0, 11($a2)\n"
-        "lwr    $a0, 8($a2)\n"
-        "lwl    $a1, 15($a2)\n"
-        "lwr    $a1, 12($a2)\n"
-        "swl    $v0, 3($a3)\n"
-        "swr    $v0, 0($a3)\n"
-        "swl    $v1, 7($a3)\n"
-        "swr    $v1, 4($a3)\n"
-        "swl    $a0, 11($a3)\n"
-        "swr    $a0, 8($a3)\n"
-        "swl    $a1, 15($a3)\n"
-        "swr    $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002B5FC\n"
-        "addiu  $a3, $a3, 16\n"
-        "j      .L8002B680\n"
-        "nop   \n"
-    ".L8002B650:\n"
-        "addiu  $t0, $t0, 172\n"
-    ".L8002B654:\n"
-        "lw     $v0, 0($a2)\n"
-        "lw     $v1, 4($a2)\n"
-        "lw     $a0, 8($a2)\n"
-        "lw     $a1, 12($a2)\n"
-        "sw     $v0, 0($a3)\n"
-        "sw     $v1, 4($a3)\n"
-        "sw     $a0, 8($a3)\n"
-        "sw     $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002B654\n"
-        "addiu  $a3, $a3, 16\n"
-    ".L8002B680:\n"
-        "lui    $a3, %hi(D_80075940)\n"
-        "addiu  $a3, $a3, %lo(D_80075940)\n"
-        "lui    $a2, %hi(D_80063BD8)\n"
-        "addiu  $a2, $a2, %lo(D_80063BD8)\n"
-        "or     $v0, $a2, $a3\n"
-        "andi   $v0, $v0, 3\n"
-        "beqz   $v0, .L8002B6F4\n"
-        "addiu  $t0, $a2, 128\n"
-    ".L8002B6A0:\n"
-        "lwl    $v0, 3($a2)\n"
-        "lwr    $v0, 0($a2)\n"
-        "lwl    $v1, 7($a2)\n"
-        "lwr    $v1, 4($a2)\n"
-        "lwl    $a0, 11($a2)\n"
-        "lwr    $a0, 8($a2)\n"
-        "lwl    $a1, 15($a2)\n"
-        "lwr    $a1, 12($a2)\n"
-        "swl    $v0, 3($a3)\n"
-        "swr    $v0, 0($a3)\n"
-        "swl    $v1, 7($a3)\n"
-        "swr    $v1, 4($a3)\n"
-        "swl    $a0, 11($a3)\n"
-        "swr    $a0, 8($a3)\n"
-        "swl    $a1, 15($a3)\n"
-        "swr    $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002B6A0\n"
-        "addiu  $a3, $a3, 16\n"
-        "j      .L8002B720\n"
-        "nop   \n"
-    ".L8002B6F4:\n"
-        "lw     $v0, 0($a2)\n"
-        "lw     $v1, 4($a2)\n"
-        "lw     $a0, 8($a2)\n"
-        "lw     $a1, 12($a2)\n"
-        "sw     $v0, 0($a3)\n"
-        "sw     $v1, 4($a3)\n"
-        "sw     $a0, 8($a3)\n"
-        "sw     $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002B6F4\n"
-        "addiu  $a3, $a3, 16\n"
-    ".L8002B720:\n"
-        "lui    $a3, %hi(D_800759C0)\n"
-        "addiu  $a3, $a3, %lo(D_800759C0)\n"
-        "lui    $a2, %hi(D_80063C98)\n"
-        "addiu  $a2, $a2, %lo(D_80063C98)\n"
-        "or     $v0, $a2, $a3\n"
-        "andi   $v0, $v0, 3\n"
-        "beqz   $v0, .L8002B794\n"
-        "addiu  $t0, $a2, 128\n"
-    ".L8002B740:\n"
-        "lwl    $v0, 3($a2)\n"
-        "lwr    $v0, 0($a2)\n"
-        "lwl    $v1, 7($a2)\n"
-        "lwr    $v1, 4($a2)\n"
-        "lwl    $a0, 11($a2)\n"
-        "lwr    $a0, 8($a2)\n"
-        "lwl    $a1, 15($a2)\n"
-        "lwr    $a1, 12($a2)\n"
-        "swl    $v0, 3($a3)\n"
-        "swr    $v0, 0($a3)\n"
-        "swl    $v1, 7($a3)\n"
-        "swr    $v1, 4($a3)\n"
-        "swl    $a0, 11($a3)\n"
-        "swr    $a0, 8($a3)\n"
-        "swl    $a1, 15($a3)\n"
-        "swr    $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002B740\n"
-        "addiu  $a3, $a3, 16\n"
-        "j      .L8002B7C0\n"
-        "nop   \n"
-    ".L8002B794:\n"
-        "lw     $v0, 0($a2)\n"
-        "lw     $v1, 4($a2)\n"
-        "lw     $a0, 8($a2)\n"
-        "lw     $a1, 12($a2)\n"
-        "sw     $v0, 0($a3)\n"
-        "sw     $v1, 4($a3)\n"
-        "sw     $a0, 8($a3)\n"
-        "sw     $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002B794\n"
-        "addiu  $a3, $a3, 16\n"
-    ".L8002B7C0:\n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "lui    $a2, %hi(D_80075840)\n"
-        "addiu  $a2, $a2, %lo(D_80075840)\n"
-        "addu   $a3, $zero, $zero\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "addiu  $v0, $zero, 512\n"
-        "jal    func_80060AE0\n"
-        "sw     $v0, 16($sp)\n"
-        "lui    $a0, %hi(D_80075A40)\n"
-        "addiu  $a0, $a0, %lo(D_80075A40)\n"
-        "jal    func_80016714\n"
-        "addiu  $a1, $zero, 640\n"
-        "j      .L8002BEA4\n"
-        "nop   \n"
-    ".L8002B800:\n"
-        "jal    func_800603BC\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002B820:\n"
-        "jal    func_800603BC\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 4\n"
-    ".L8002B840:\n"
-        "jal    func_800603BC\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 3\n"
-    ".L8002B860:\n"
-        "jal    func_800603BC\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 5\n"
-    ".L8002B880:\n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "lui    $a2, %hi(D_80075A40)\n"
-        "addiu  $a2, $a2, %lo(D_80075A40)\n"
-        "addiu  $a3, $zero, 512\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "addiu  $v0, $zero, 640\n"
-        "jal    func_80060AE0\n"
-        "sw     $v0, 16($sp)\n"
-        "j      .L8002BEA4\n"
-        "nop   \n"
-    ".L8002B8B0:\n"
-        "lui    $v1, %hi(D_800760C4)\n"
-        "lw     $v1, %lo(D_800760C4)($v1)\n"
-        "addiu  $v0, $zero, 1\n"
-        "beq    $v1, $v0, .L8002B92C\n"
-        "nop   \n"
-        "beqz   $v1, .L8002B8E4\n"
-        "addiu  $v0, $zero, 2\n"
-        "beq    $v1, $v0, .L8002B94C\n"
-        "addiu  $v0, $zero, 3\n"
-    ".L8002B8D4:\n"
-        "beq    $v1, $v0, .L8002B96C\n"
-        "nop   \n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002B8E4:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "addiu  $v1, $zero, 8\n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $v1, %lo(D_8007609C)($at)\n"
-        "lui    $at, %hi(D_800760A0)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $zero, %lo(D_800760A0)($at)\n"
-    ".L8002B910:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "addiu  $v0, $zero, 7\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $v0, %lo(D_800760AC)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002B92C:\n"
-        "jal    func_800603BC\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002B94C:\n"
-        "jal    func_800603BC\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 4\n"
-    ".L8002B96C:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "j      .L8002BFB4\n"
-        "nop   \n"
-    ".L8002B97C:\n"
-        "lui    $a0, %hi(D_80075A40)\n"
-        "addiu  $a0, $a0, %lo(D_80075A40)\n"
-        "jal    func_80016714\n"
-        "addiu  $a1, $zero, 128\n"
-        "addiu  $s0, $s1, 1\n"
-        "sll    $s0, $s0, 7\n"
-        "lui    $v0, %hi(D_80075A40)\n"
-        "addiu  $v0, $v0, %lo(D_80075A40)\n"
-        "addu   $s0, $s0, $v0\n"
-        "addu   $a0, $s0, $zero\n"
-        "lui    $v0, %hi(D_80076040)\n"
-        "lw     $v0, %lo(D_80076040)($v0)\n"
-        "lui    $at, %hi(D_80075A40)\n"
-        "sw     $v0, %lo(D_80075A40)($at)\n"
-        "jal    func_80016714\n"
-        "addiu  $a1, $zero, 128\n"
-        "addu   $a0, $s0, $zero\n"
-        "addiu  $a1, $s1, 5\n"
-        "sll    $a1, $a1, 7\n"
-        "jal    func_80060614\n"
-        "addiu  $a2, $zero, 128\n"
-        "j      .L8002BEA4\n"
-        "nop   \n"
-    ".L8002B9D8:\n"
-        "lui    $a0, %hi(D_80075FC0)\n"
-        "addiu  $a0, $a0, %lo(D_80075FC0)\n"
-        "jal    func_80016714\n"
-        "addiu  $a1, $zero, 128\n"
-        "lui    $v1, %hi(D_80075FC0)\n"
-        "addiu  $v1, $v1, %lo(D_80075FC0)\n"
-        "addiu  $v0, $zero, 255\n"
-        "sb     $v0, 0($v1)\n"
-        "addiu  $t1, $v1, 16\n"
-        "addu   $a3, $t1, $zero\n"
-        "lui    $a2, %hi(D_80075CE4)\n"
-        "addiu  $a2, $a2, %lo(D_80075CE4)\n"
-        "addiu  $t0, $a2, 144\n"
-    ".L8002BA0C:\n"
-        "lw     $v0, 0($a2)\n"
-        "lw     $v1, 4($a2)\n"
-        "lw     $a0, 8($a2)\n"
-        "lw     $a1, 12($a2)\n"
-        "sw     $v0, 0($a3)\n"
-        "sw     $v1, 4($a3)\n"
-        "sw     $a0, 8($a3)\n"
-        "sw     $a1, 12($a3)\n"
-        "addiu  $a2, $a2, 16\n"
-        "bne    $a2, $t0, .L8002BA0C\n"
-        "addiu  $a3, $a3, 16\n"
-        "lw     $v0, 0($a2)\n"
-        "lw     $v1, 4($a2)\n"
-        "sw     $v0, 0($a3)\n"
-        "sw     $v1, 4($a3)\n"
-        "jal    func_8002B064\n"
-        "addu   $a0, $t1, $zero\n"
-        "lui    $a0, %hi(D_80075CC0)\n"
-        "addiu  $a0, $a0, %lo(D_80075CC0)\n"
-        "lui    $at, %hi(D_800760BC)\n"
-        "sh     $v0, %lo(D_800760BC)($at)\n"
-        "jal    func_8002B08C\n"
-        "nop   \n"
-        "lui    $a0, %hi(D_80075CC0)\n"
-        "addiu  $a0, $a0, %lo(D_80075CC0)\n"
-        "sll    $a1, $s1, 1\n"
-        "addu   $a1, $a1, $s1\n"
-        "sll    $a1, $a1, 8\n"
-        "addiu  $a1, $a1, 1152\n"
-        "lui    $v1, %hi(D_800760BC)\n"
-        "lhu    $v1, %lo(D_800760BC)($v1)\n"
-        "lui    $at, %hi(D_800760C0)\n"
-        "sh     $v0, %lo(D_800760C0)($at)\n"
-        "lui    $at, %hi(D_80075FC4)\n"
-        "sh     $v0, %lo(D_80075FC4)($at)\n"
-        "lui    $at, %hi(D_80075FC2)\n"
-        "sh     $v1, %lo(D_80075FC2)($at)\n"
-        "jal    func_80060614\n"
-        "addiu  $a2, $zero, 768\n"
-        "j      .L8002BEA4\n"
-        "nop   \n"
-    ".L8002BAB0:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "j      .L8002BE54\n"
-        "addiu  $a2, $zero, 1\n"
-    ".L8002BAD0:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "addu   $a0, $zero, $zero\n"
-        "lui    $v1, %hi(D_80075CC0)\n"
-        "addiu  $v1, $v1, %lo(D_80075CC0)\n"
-        "addiu  $a1, $v1, 768\n"
-    ".L8002BAE8:\n"
-        "lbu    $v0, 0($v1)\n"
-        "addiu  $v1, $v1, 1\n"
-        "addu   $a0, $a0, $v0\n"
-        "slt    $v0, $v1, $a1\n"
-        "bnez   $v0, .L8002BAE8\n"
-        "andi   $v0, $a0, 65535\n"
-        "lui    $v1, %hi(D_800760C0)\n"
-        "lhu    $v1, %lo(D_800760C0)($v1)\n"
-        "nop   \n"
-        "beq    $v0, $v1, .L8002BB4C\n"
-        "addiu  $v1, $zero, 8\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "nop   \n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $v1, %lo(D_8007609C)($at)\n"
-        "jal    func_8002C320\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v1, %hi(D_800760B0)\n"
-        "lw     $v1, %lo(D_800760B0)($v1)\n"
-        "j      .L8002BC84\n"
-        "nop   \n"
-    ".L8002BB4C:\n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "j      .L8002BE54\n"
-        "addiu  $a2, $zero, 2\n"
-    ".L8002BB64:\n"
-        "lui    $a0, %hi(D_80075A40)\n"
-        "addiu  $a0, $a0, %lo(D_80075A40)\n"
-        "addiu  $a1, $zero, 512\n"
-        "jal    func_80060614\n"
-        "addiu  $a2, $zero, 128\n"
-        "j      .L8002BEA4\n"
-        "nop   \n"
-    ".L8002BB80:\n"
-        "lui    $a0, %hi(D_80075FC0)\n"
-        "addiu  $a0, $a0, %lo(D_80075FC0)\n"
-        "addiu  $a1, $s1, 5\n"
-        "sll    $a1, $a1, 7\n"
-        "jal    func_80060614\n"
-        "addiu  $a2, $zero, 128\n"
-        "j      .L8002BEA4\n"
-        "nop   \n"
-    ".L8002BBA0:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "j      .L8002BE54\n"
-        "addiu  $a2, $zero, 1\n"
-    ".L8002BBC0:\n"
-        "lui    $a0, %hi(D_80075FC0)\n"
-        "addiu  $a0, $a0, %lo(D_80075FC0)\n"
-        "addiu  $a1, $s1, 5\n"
-        "sll    $a1, $a1, 7\n"
-        "j      .L8002BE9C\n"
-        "addiu  $a2, $zero, 128\n"
-    ".L8002BBD8:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "addu   $a0, $zero, $zero\n"
-        "lui    $v1, %hi(D_80075FD0)\n"
-        "addiu  $v1, $v1, %lo(D_80075FD0)\n"
-        "addiu  $a1, $v1, 112\n"
-    ".L8002BBF0:\n"
-        "lbu    $v0, 0($v1)\n"
-        "addiu  $v1, $v1, 1\n"
-        "addu   $a0, $a0, $v0\n"
-        "slt    $v0, $v1, $a1\n"
-        "bnez   $v0, .L8002BBF0\n"
-        "andi   $v0, $a0, 65535\n"
-        "lui    $v1, %hi(D_800760BC)\n"
-        "lhu    $v1, %lo(D_800760BC)($v1)\n"
-        "nop   \n"
-        "bne    $v0, $v1, .L8002BC54\n"
-        "addiu  $s2, $zero, 2\n"
-        "addu   $a0, $zero, $zero\n"
-        "lui    $v1, %hi(D_80075AC0)\n"
-        "addiu  $v1, $v1, %lo(D_80075AC0)\n"
-        "sll    $v0, $s1, 7\n"
-        "addu   $v1, $v0, $v1\n"
-    ".L8002BC30:\n"
-        "lui    $at, %hi(D_80075FC0)\n"
-        "addu   $at, $at, $a0\n"
-        "lbu    $v0, %lo(D_80075FC0)($at)\n"
-        "addiu  $a0, $a0, 1\n"
-        "sb     $v0, 0($v1)\n"
-        "slti   $v0, $a0, 128\n"
-        "bnez   $v0, .L8002BC30\n"
-        "addiu  $v1, $v1, 1\n"
-        "addiu  $s2, $zero, 1\n"
-    ".L8002BC54:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "addiu  $v1, $zero, 8\n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $v1, %lo(D_8007609C)($at)\n"
-        "jal    func_8002C320\n"
-        "nop   \n"
-        "lui    $v1, %hi(D_800760B0)\n"
-        "lw     $v1, %lo(D_800760B0)($v1)\n"
-    ".L8002BC84:\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "sra    $v1, $v1, 4\n"
-        "sll    $v1, $v1, 3\n"
-        "lui    $at, %hi(D_800760A0)\n"
-        "addu   $at, $at, $v1\n"
-        "sw     $v0, %lo(D_800760A0)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002BCA8:\n"
-        "lui    $v1, %hi(D_800760C4)\n"
-        "lw     $v1, %lo(D_800760C4)($v1)\n"
-        "nop   \n"
-        "sltiu  $v0, $v1, 6\n"
-        "beqz   $v0, .L8002C2A8\n"
-        "sll    $v0, $v1, 2\n"
-        "lui    $at, %hi(jtbl_80072F0C)\n"
-        "addu   $at, $at, $v0\n"
-        "lw     $v0, %lo(jtbl_80072F0C)($at)\n"
-        "nop   \n"
-        "jr     $v0\n"
-        "nop   \n"
-    ".L8002BCD8:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002BE00\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002BCEC:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002BE00\n"
-        "addiu  $v1, $zero, 3\n"
-    ".L8002BD00:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002BE00\n"
-        "addiu  $v1, $zero, 6\n"
-    ".L8002BD14:\n"
-        "lui    $v1, %hi(D_800760C4)\n"
-        "lw     $v1, %lo(D_800760C4)($v1)\n"
-        "addiu  $v0, $zero, 1\n"
-        "beq    $v1, $v0, .L8002BD40\n"
-        "nop   \n"
-        "beqz   $v1, .L8002BEA4\n"
-        "addiu  $v0, $zero, 2\n"
-        "beq    $v1, $v0, .L8002BD60\n"
-        "addiu  $v0, $zero, 3\n"
-        "j      .L8002B8D4\n"
-        "nop   \n"
-    ".L8002BD40:\n"
-        "jal    func_800603BC\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002BD60:\n"
-        "jal    func_800603BC\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 4\n"
-    ".L8002BD80:\n"
-        "lui    $v1, %hi(D_800760C4)\n"
-        "lw     $v1, %lo(D_800760C4)($v1)\n"
-        "addiu  $v0, $zero, 1\n"
-        "beq    $v1, $v0, .L8002BDB4\n"
-        "nop   \n"
-        "beqz   $v1, .L8002BEA4\n"
-        "addiu  $v0, $zero, 2\n"
-        "beq    $v1, $v0, .L8002BDF0\n"
-        "addiu  $v0, $zero, 3\n"
-        "beq    $v1, $v0, .L8002BDC8\n"
-        "nop   \n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002BDB4:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002BE00\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002BDC8:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "nop   \n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $zero, %lo(D_8007609C)($at)\n"
-        "j      .L8002BE14\n"
-        "addiu  $s2, $zero, 2\n"
-    ".L8002BDF0:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "addiu  $v1, $zero, 4\n"
-    ".L8002BE00:\n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $v1, %lo(D_8007609C)($at)\n"
-    ".L8002BE14:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "j      .L8002B210\n"
-        "nop   \n"
-    ".L8002BE24:\n"
-        "lui    $v0, %hi(D_8007609C)\n"
-        "lw     $v0, %lo(D_8007609C)($v0)\n"
-        "nop   \n"
-        "beqz   $v0, .L8002BF3C\n"
-        "addu   $a0, $zero, $zero\n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "addiu  $a2, $zero, 1\n"
-        "lui    $at, %hi(D_800760B0)\n"
-        "sw     $zero, %lo(D_800760B0)($at)\n"
-        "lui    $at, %hi(D_800760B4)\n"
-        "sw     $zero, %lo(D_800760B4)($at)\n"
-    ".L8002BE54:\n"
-        "jal    func_8006023C\n"
-        "nop   \n"
-        "lui    $v1, %hi(D_800760AC)\n"
-        "lw     $v1, %lo(D_800760AC)($v1)\n"
-        "lui    $at, %hi(D_800760C4)\n"
-        "sw     $v0, %lo(D_800760C4)($at)\n"
-        "addiu  $v1, $v1, 1\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $v1, %lo(D_800760AC)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002BE80:\n"
-        "lui    $a0, %hi(D_80075CC0)\n"
-        "addiu  $a0, $a0, %lo(D_80075CC0)\n"
-        "sll    $a1, $s1, 1\n"
-        "addu   $a1, $a1, $s1\n"
-        "sll    $a1, $a1, 8\n"
-        "addiu  $a1, $a1, 1152\n"
-        "addiu  $a2, $zero, 768\n"
-    ".L8002BE9C:\n"
-        "jal    func_80060404\n"
-        "nop   \n"
-    ".L8002BEA4:\n"
-        "lui    $v0, %hi(D_800760AC)\n"
-        "lw     $v0, %lo(D_800760AC)($v0)\n"
-        "nop   \n"
-        "addiu  $v0, $v0, 1\n"
-    ".L8002BEB4:\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $v0, %lo(D_800760AC)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002BEC4:\n"
-        "jal    func_800603BC\n"
-        "nop   \n"
-        "addu   $a0, $zero, $zero\n"
-        "lui    $v1, %hi(D_80075CC0)\n"
-        "addiu  $v1, $v1, %lo(D_80075CC0)\n"
-        "sll    $v0, $s1, 7\n"
-        "lui    $at, %hi(D_80075AC4)\n"
-        "addu   $at, $at, $v0\n"
-        "lhu    $v0, %lo(D_80075AC4)($at)\n"
-        "addiu  $a1, $v1, 768\n"
-        "lui    $at, %hi(D_800760C0)\n"
-        "sh     $v0, %lo(D_800760C0)($at)\n"
-    ".L8002BEF4:\n"
-        "lbu    $v0, 0($v1)\n"
-        "addiu  $v1, $v1, 1\n"
-        "addu   $a0, $a0, $v0\n"
-        "slt    $v0, $v1, $a1\n"
-        "bnez   $v0, .L8002BEF4\n"
-        "andi   $v0, $a0, 65535\n"
-        "lui    $v1, %hi(D_800760C0)\n"
-        "lhu    $v1, %lo(D_800760C0)($v1)\n"
-        "nop   \n"
-        "bne    $v0, $v1, .L8002B210\n"
-        "addiu  $s2, $zero, 2\n"
-        "j      .L8002B210\n"
-        "addiu  $s2, $zero, 1\n"
-    ".L8002BF28:\n"
-        "lui    $v0, %hi(D_8007609C)\n"
-        "lw     $v0, %lo(D_8007609C)($v0)\n"
-        "nop   \n"
-        "bnez   $v0, .L8002BF50\n"
-        "nop   \n"
-    ".L8002BF3C:\n"
-        "addiu  $v0, $zero, 1\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $v0, %lo(D_800760AC)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002BF50:\n"
-        "lui    $at, %hi(D_800760B0)\n"
-        "sw     $zero, %lo(D_800760B0)($at)\n"
-        "lui    $at, %hi(D_800760B4)\n"
-        "sw     $zero, %lo(D_800760B4)($at)\n"
-        "jal    func_80061524\n"
-        "addu   $a0, $zero, $zero\n"
-        "addu   $v1, $v0, $zero\n"
-        "addiu  $v0, $zero, 1\n"
-        "beq    $v1, $v0, .L8002BF98\n"
-        "sw     $v1, 28($sp)\n"
-        "bnez   $v1, .L8002BFB4\n"
-        "addiu  $s2, $zero, 1\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 6\n"
-    ".L8002BF98:\n"
-        "addiu  $s2, $zero, 2\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002BFB4:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "addiu  $s2, $zero, 2\n"
-    ".L8002BFC0:\n"
-        "lui    $at, %hi(D_800760AC)\n"
-        "sw     $zero, %lo(D_800760AC)($at)\n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $zero, %lo(D_8007609C)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002BFE4:\n"
-        "lw     $v0, 24($sp)\n"
-        "nop   \n"
-        "addiu  $v1, $v0, -1\n"
-        "sltiu  $v0, $v1, 6\n"
-        "beqz   $v0, .L8002C2A8\n"
-        "sll    $v0, $v1, 2\n"
-        "lui    $at, %hi(jtbl_80072F24)\n"
-        "addu   $at, $at, $v0\n"
-        "lw     $v0, %lo(jtbl_80072F24)($at)\n"
-        "nop   \n"
-        "jr     $v0\n"
-        "nop   \n"
-    ".L8002C014:\n"
-        "lw     $v1, 28($sp)\n"
-        "nop   \n"
-        "beqz   $v1, .L8002C034\n"
-        "addiu  $v0, $zero, 3\n"
-        "beq    $v1, $v0, .L8002C07C\n"
-        "addiu  $v1, $zero, 2\n"
-        "j      .L8002C09C\n"
-        "nop   \n"
-    ".L8002C034:\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "nop   \n"
-        "sra    $v0, $a0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "lw     $v0, %lo(D_8007609C)($at)\n"
-        "nop   \n"
-        "sltiu  $v0, $v0, 3\n"
-        "beqz   $v0, .L8002C2A8\n"
-        "nop   \n"
-        "jal    func_8005FFB4\n"
-        "nop   \n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002C0A4\n"
-        "addiu  $v1, $zero, 1\n"
-    ".L8002C07C:\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "jal    func_8005FFB4\n"
-        "nop   \n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002C0A4\n"
-        "addiu  $v1, $zero, 1\n"
-    ".L8002C09C:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-    ".L8002C0A4:\n"
-        "nop   \n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $v1, %lo(D_8007609C)($at)\n"
-        "lui    $at, %hi(D_800760A0)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $zero, %lo(D_800760A0)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002C0D0:\n"
-        "lw     $v1, 28($sp)\n"
-        "addiu  $v0, $zero, 1\n"
-        "beq    $v1, $v0, .L8002C264\n"
-        "nop   \n"
-        "beqz   $v1, .L8002C100\n"
-        "addiu  $a0, $zero, 3\n"
-        "beq    $v1, $a0, .L8002C100\n"
-        "addiu  $v0, $zero, 4\n"
-        "beq    $v1, $v0, .L8002C23C\n"
-        "nop   \n"
-        "j      .L8002C274\n"
-        "nop   \n"
-    ".L8002C100:\n"
-        "lui    $a1, %hi(D_80072DFC)\n"
-        "addiu  $a1, $a1, %lo(D_80072DFC)\n"
-        "addiu  $s1, $zero, 1\n"
-        "lui    $a2, %hi(D_80076044)\n"
-        "addiu  $a2, $a2, %lo(D_80076044)\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "lui    $s0, %hi(D_80076094)\n"
-        "addiu  $s0, $s0, %lo(D_80076094)\n"
-        "sw     $zero, 16($sp)\n"
-        "sw     $s1, 20($sp)\n"
-        "sra    $v0, $a0, 4\n"
-        "sll    $a3, $v0, 2\n"
-        "addu   $v0, $a3, $v0\n"
-        "sll    $v0, $v0, 3\n"
-        "addu   $a2, $v0, $a2\n"
-        "jal    func_80060D9C\n"
-        "addu   $a3, $a3, $s0\n"
-        "beqz   $v0, .L8002C160\n"
-        "sw     $v0, 28($sp)\n"
-        "beq    $v0, $s1, .L8002C22C\n"
-        "nop   \n"
-        "j      .L8002C274\n"
-        "nop   \n"
-    ".L8002C160:\n"
-        "lui    $a0, %hi(D_800760B0)\n"
-        "lw     $a0, %lo(D_800760B0)($a0)\n"
-        "nop   \n"
-        "sra    $v1, $a0, 4\n"
-        "sll    $v0, $v1, 2\n"
-        "addu   $v0, $v0, $s0\n"
-        "lw     $v0, 0($v0)\n"
-        "nop   \n"
-        "beqz   $v0, .L8002C1A0\n"
-        "addiu  $v0, $zero, 7\n"
-        "sll    $v1, $v1, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v1\n"
-        "sw     $v0, %lo(D_8007609C)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002C1A0:\n"
-        "lui    $a1, %hi(D_80072E3C)\n"
-        "addiu  $a1, $a1, %lo(D_80072E3C)\n"
-        "lui    $s0, %hi(lzss_sectorStagingBuf)\n"
-        "addiu  $s0, $s0, %lo(lzss_sectorStagingBuf)\n"
-        "addu   $a2, $s0, $zero\n"
-        "addiu  $a3, $sp, 32\n"
-        "sll    $v0, $v1, 3\n"
-        "addiu  $v1, $zero, 6\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $v1, %lo(D_8007609C)($at)\n"
-        "addiu  $v0, $zero, 15\n"
-        "sw     $zero, 16($sp)\n"
-        "jal    func_80060D9C\n"
-        "sw     $v0, 20($sp)\n"
-        "beqz   $v0, .L8002C1F4\n"
-        "nop   \n"
-        "beq    $v0, $s1, .L8002C21C\n"
-        "nop   \n"
-        "j      .L8002C274\n"
-        "nop   \n"
-    ".L8002C1F4:\n"
-        "lw     $a0, 32($sp)\n"
-        "jal    func_8002C3B0\n"
-        "addu   $a1, $s0, $zero\n"
-        "slti   $v0, $v0, 15\n"
-        "bnez   $v0, .L8002C2A8\n"
-        "addiu  $v1, $zero, 5\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002C284\n"
-        "sra    $v0, $v0, 4\n"
-    ".L8002C21C:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002C22C:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002C280\n"
-        "addiu  $v1, $zero, 2\n"
-    ".L8002C23C:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "nop   \n"
-        "sra    $v0, $v0, 4\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $a0, %lo(D_8007609C)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002C264:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "j      .L8002C284\n"
-        "sra    $v0, $v0, 4\n"
-    ".L8002C274:\n"
-        "lui    $v0, %hi(D_800760B0)\n"
-        "lw     $v0, %lo(D_800760B0)($v0)\n"
-        "addiu  $v1, $zero, 4\n"
-    ".L8002C280:\n"
-        "sra    $v0, $v0, 4\n"
-    ".L8002C284:\n"
-        "sll    $v0, $v0, 3\n"
-        "lui    $at, %hi(D_8007609C)\n"
-        "addu   $at, $at, $v0\n"
-        "sw     $v1, %lo(D_8007609C)($at)\n"
-        "j      .L8002C2AC\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002C29C:\n"
-        "lw     $v0, 28($sp)\n"
-        "lui    $at, %hi(D_800760C4)\n"
-        "sw     $v0, %lo(D_800760C4)($at)\n"
-    ".L8002C2A8:\n"
-        "sb     $zero, 0($s3)\n"
-    ".L8002C2AC:\n"
-        "lui    $v0, %hi(D_8007609C)\n"
-        "lw     $v0, %lo(D_8007609C)($v0)\n"
-        "nop   \n"
-        "sb     $v0, 1($s3)\n"
-        "lui    $v0, %hi(D_800760A0)\n"
-        "lw     $v0, %lo(D_800760A0)($v0)\n"
-        "nop   \n"
-        "sb     $v0, 4($s3)\n"
-        "lui    $v0, %hi(D_800760A0)\n"
-        "lw     $v0, %lo(D_800760A0)($v0)\n"
-        "nop   \n"
-        "srl    $v0, $v0, 8\n"
-        "sb     $v0, 5($s3)\n"
-        "lui    $v0, %hi(D_800760A2)\n"
-        "lhu    $v0, %lo(D_800760A2)($v0)\n"
-        "nop   \n"
-        "sb     $v0, 6($s3)\n"
-        "lui    $v1, %hi(D_800760A3)\n"
-        "lbu    $v1, %lo(D_800760A3)($v1)\n"
-        "addu   $v0, $s2, $zero\n"
-        "sb     $v1, 7($s3)\n"
-        "lw     $ra, 56($sp)\n"
-        "lw     $s3, 52($sp)\n"
-        "lw     $s2, 48($sp)\n"
-        "lw     $s1, 44($sp)\n"
-        "lw     $s0, 40($sp)\n"
-        "addiu  $sp, $sp, 64\n"
-        "jr     $ra\n"
-        "nop   \n"
-    ".set\treorder\n"
-    ".set\tat\n"
-    ".end\tSaveLoadRoutine\n"
-    ".size\tSaveLoadRoutine, .-SaveLoadRoutine\n"
-);
-
-__asm__(
-    ".section\t.rodata\n"
-    ".align\t3\n"
-    ".globl\tjtbl_80072ED4\n"
-    "jtbl_80072ED4:\n"
-        ".word\t.L8002B380\n"
-        ".word\t.L8002B394\n"
-        ".word\t.L8002B3B0\n"
-        ".word\t.L8002C2A8\n"
-        ".word\t.L8002B3CC\n"
-        ".word\t.L8002B3E8\n"
-    ".align\t3\n"
-    ".globl\tjtbl_80072EEC\n"
-    "jtbl_80072EEC:\n"
-        ".word\t.L8002B43C\n"
-        ".word\t.L8002B800\n"
-        ".word\t.L8002B820\n"
-        ".word\t.L8002C2A8\n"
-        ".word\t.L8002B840\n"
-        ".word\t.L8002C2A8\n"
-        ".word\t.L8002B910\n"
-        ".word\t.L8002B860\n"
-    ".align\t3\n"
-    ".globl\tjtbl_80072F0C\n"
-    "jtbl_80072F0C:\n"
-        ".word\t.L8002BEA4\n"
-        ".word\t.L8002BCD8\n"
-        ".word\t.L8002BDF0\n"
-        ".word\t.L8002C2A8\n"
-        ".word\t.L8002BCEC\n"
-        ".word\t.L8002BD00\n"
-    ".align\t3\n"
-    ".globl\tjtbl_80072F24\n"
-    "jtbl_80072F24:\n"
-        ".word\t.L8002C014\n"
-        ".word\t.L8002C0D0\n"
-        ".word\t.L8002C2A8\n"
-        ".word\t.L8002C29C\n"
-        ".word\t.L8002C29C\n"
-        ".word\t.L8002C29C\n"
-    ".section\t.text\n"
-);
+/* The S73 verbatim-asm transcription of SaveLoadRoutine + its four re-emitted jump tables lived
+ * here until S75 (cookbook S265 lane; see S434/S447 for the wall history).  Superseded by the C. */
 
 
 extern u8 D_80075AC0[];
