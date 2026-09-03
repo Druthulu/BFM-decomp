@@ -35433,3 +35433,31 @@ declared local, never from spilling.
 **Residual (regalloc-only):** one whole-function s/t register permutation, one redundant
 `addu $v1,$s4,$zero` copy that no spelling survives CSE (every variant either drops it or emits
 `andi`), and gcc strength-reducing `D_80073140[i]` in the else-loop where the target does not.
+
+#### §470 — FOUR CSE/SCHED LEVERS FROM `main:func_800301C8` (170 ins, 133 → 18)
+
+**Source: the S76 agent.** Four levers that only work as a set; the second is counterintuitive.
+
+**1. A STORE-THEN-READ-BACK TURNS A REDUNDANT LOAD INTO THE TARGET'S REGISTER COPY.** Writing
+`D_800A46CE[0]` / `&D_800A46D0` and reading it back lets `cse` replace the second load with a
+register copy — which is what the target has.
+
+**2. 🔴 USE *TWO DISTINCT LOCALS* FOR THE SAME `b*24`.** `cse` resets at the `if`-join, so the
+original source recomputes the product into a **second** register. One shared local cannot reproduce
+that. And writing `b*24` inline is worse still: `cse` then hoists the `%hi`/`%lo` symbol address into
+a pseudo and changes the addressing mode. **Duplicating a subexpression can be the correct
+decompile** — the reflex to factor it into one local is wrong here.
+
+**3. A zero-byte `__asm__("")` fence (§194-A) stops `sched1` hoisting the two `= 0` stores into the
+load-delay slot.**
+
+**4. WRITE REPEATED TAILS OUT SEPARATELY AND LET `cross_jump` MERGE THEM.** Three explicit
+`D_800A46CC = N; return 0;` tails merge into the target's shared suffix; funnelling them through one
+`st` variable emits the arms **inverted**.
+
+**Residual — three allocation facts, all unreachable from C:** the `$17` pin on `k2` is *required*
+(without it `k2` splits across two callee-saved registers and costs a fourth — the local-vs-global
+allocno class choice) but it drags the `*24` shift chain into `$s1`; plus operand canonicalisation on
+`addu $s0,$s1,$s0`; plus the else-arm materialising `&D_800A46D2` into `$s1`. Law 1c verified: all 25
+symbols match the target's relocations, and the only difference is `D_800A46D2`'s **count** (4 vs 6),
+which is that residual rather than a wrong symbol.
