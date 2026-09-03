@@ -34850,3 +34850,47 @@ a table, so its start is always a known start**, whatever the line says.
 other open table-bearing stub fleet-wide, the fixed bound changed exactly one more table —
 `ov_SC06_022:func_80185B80`, a fifth victim nobody had drafted against. A guard that disables itself
 on a common idiom does not fail once; it fails quietly across the whole corpus.
+
+## §447 ★★★ — THE BIGGEST FUNCTION LEFT IS A CARVE, AND THE VERDICT TOOL SAID "DECLARATIONS" (P31 S75; SaveLoadRoutine, 1,165 ins)
+
+`SaveLoadRoutine` is 1,165 instructions — the largest open function in the project, 9.2% of all
+remaining work, carried as the **§434 wall**. Gated alone through `gate_main`, with the §376/§378
+chain already applied:
+
+> **`SaveLoadRoutine` is BYTE-IDENTICAL; all 3989 differing bytes are ELSEWHERE.**
+
+The body has been right all along. What rejects it is where its **four jump tables**
+(`jtbl_80072ED4/EEC/F0C/F24`) land. Measured split of the 3,989 bytes:
+
+| | bytes | share |
+|---|---|---|
+| `.data` / `.rodata` — jump tables | **3,787** | **94.9%** |
+| `.text` — genuinely perturbed code | 202 | 5.1% |
+
+and **the built image is 4 bytes SHORTER than retail** (413,692 vs 413,696) — §446's first
+diagnostic, firing on the function §446 was not written about.
+
+**WHY THE TOOL MISLABELLED IT, TWICE.** `main_diff_locate.classify()` already had a `TABLE REJECT`
+class, added in S72 with a docstring that opens *"THE THIRD CLASS EXISTS BECAUSE THE FIRST TWO
+MISLABELLED IT"*. It could not fire here, for two independent reasons:
+
+1. **It keyed on the literal string `(.rodata)`.** main's `section_order` is
+   `[.rodata, .text, .data, .bss]` — its rodata sits BELOW `.text` at `0x80010000-0x800123F0`, and
+   its jump tables live in `.data` objects (`build/asm/data/63C4C.data.o(.data)`). So for main,
+   `TABLE REJECT` was **unreachable by construction**. A section NAME is not a section ROLE.
+2. **It demanded purity** (`ro == outside`). 5% perturbed code was enough to defeat an all-or-
+   nothing test and drop the verdict through to `PLUMBING REJECT`, whose advice — run
+   `fix_arity_callers -> cast_self_callers` — addresses the 5% and cannot touch the 95% that is
+   data. That chain was run twice on this function and fixed nothing, exactly as the evidence
+   predicts.
+
+Fixed: table bytes are recognised in `(.data)` **or** `(.rodata)`, and the test is **dominance**
+(≥60%) rather than purity, reporting the split and naming which part is which. Negative-controlled
+over all five pre-existing verdict shapes: **5 of 6 unchanged, only the SaveLoadRoutine shape flips.**
+
+**THE LAW — this is the session's whole thesis in one function.** A classifier that partitions
+failures is only as good as its most specific class, and a class that cannot fire is worse than a
+class that does not exist: it converts "I don't know" into confident, specific, wrong advice. When a
+verdict tool names a subsystem, check that the named subsystem owns the MAJORITY OF THE BYTES before
+you act on it. Here 95% of the evidence pointed one way and the recommendation pointed the other,
+and nothing in the pipeline compared the two.

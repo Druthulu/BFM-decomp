@@ -192,8 +192,29 @@ def classify(per, focus, ndiff):
     PRECEDING table's extent. The object name is what identifies it, not the symbol name."""
     inside = per.get(focus, {}).get('bytes', 0)
     outside = ndiff - inside
-    ro = sum(e['bytes'] for k, e in per.items()
-             if k != focus and '(.rodata)' in (e.get('obj') or ''))
+    # TABLE bytes live in whatever section THIS BINARY puts its jump tables in — not always
+    # `.rodata` (P31 S75). main's `section_order` is [.rodata, .text, .data, .bss], so its rodata
+    # sits BELOW .text at 0x80010000-0x800123F0 and its jump tables land in `.data` objects
+    # (`build/asm/data/63C4C.data.o(.data)`). Keying on the literal string `(.rodata)` therefore
+    # made TABLE REJECT UNREACHABLE for main, and `SaveLoadRoutine` — 1,165 ins, the largest
+    # function left in the project — was labelled a PLUMBING REJECT and routed to the §376
+    # declaration chain. Measured split: 3,787 of 3,989 bytes (94.9%) in `.data` jump tables,
+    # 202 (5.1%) in real `.text`. The chain was run twice and fixed nothing, because it addresses
+    # the 5%.
+    tbl = sum(e['bytes'] for k, e in per.items()
+              if k != focus and any(t in (e.get('obj') or '') for t in ('(.rodata)', '(.data)')))
+    # DOMINANCE, not purity. The old test demanded `ro == outside`, so a few bytes of perturbed
+    # code defeated it entirely and the verdict silently fell through to the wrong advice. Report
+    # the SPLIT and lead with the class that owns most of the damage.
+    if outside and tbl and tbl >= 0.6 * outside and tbl != outside:
+        return ('TABLE REJECT (MIXED)',
+                f"{focus}'s .text is BYTE-IDENTICAL, and {tbl} of {outside} differing bytes "
+                f"({100.0*tbl/outside:.1f}%) are JUMP TABLES / data — a carve-extent problem "
+                f"(§446: check the built image SIZE against retail, and the carve extent against "
+                f"4 x sltiu). The remaining {outside-tbl} byte(s) are perturbed code and are the "
+                f"§376 declaration part. FIX THE TABLES FIRST — the declaration chain cannot "
+                f"touch the {100.0*tbl/outside:.0f}% that is data.")
+    ro = tbl
     if outside and ro == outside:
         return ('TABLE REJECT',
                 f"{focus}'s .text is BYTE-IDENTICAL; all {outside} differing bytes are in "
