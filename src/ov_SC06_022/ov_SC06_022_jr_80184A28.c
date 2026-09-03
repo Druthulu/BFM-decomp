@@ -3590,7 +3590,156 @@ void func_801859F4(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_80184A28", func_80185B80);
+typedef struct { u8 b[4]; } Blk4_80185D4C;
+typedef struct { s16 vx, vy, vz, pad; } SVec_80186E9C;   /* 8 bytes, align 2 -> lwl/lwr block move */
+typedef struct { s32 a; s32 b[4]; } OtBlk_8018A974_8018EB08_8018A28C;   /* == engine_types.h OtBlk (0x14) */
+
+/* ov_SC06_018 :: func_80185B80  — actor state machine, jump-table switch on the
+ * u16 state word at +0x34.  Jump table = jtbl_801D3AF0 (6 entries, 0..5), which
+ * is DEFINED in asm/ov_SC06_018/data/tail18.data.s — this .s carries no data of
+ * its own (§160c), so plain `extern`s are correct here.
+ *
+ * Family exemplar: reach x6.  Keys (all byte-forced, do NOT "clean up"):
+ *
+ * (1) §161a — the table is indexed from ZERO (`lhu 0x34 ; sltiu <6 ; sll 2`, no
+ *     `addiu -1`) and jtbl entry[0] = 0x80187B3C is a REAL body, so `case 0:`
+ *     carries the first arm.  No empty `case 0: break;` construction is needed
+ *     (that idiom is only for tables whose entry[0] is the epilogue).
+ *
+ * (2) `s32 pad[1];` is LOAD-BEARING.  The target frame is 0x20 (args 0x10 +
+ *     ra/s0 at 0x18/0x1C) but nothing else ever touches $sp — i.e. the original
+ *     had one more local that optimisation left unreferenced.  Without it the
+ *     frame compiles to 0x18 and the 6 prologue/epilogue immediates are wrong.
+ *     Size matters: 4 bytes -> 0x20 (right), 8 bytes -> 0x28 (wrong).
+ *     Same idiom as func_80187DD0 in this TU (`s32 pad[2];`).
+ *
+ * (3) Case 0's 0x102 write must be TWO separate stores in an if/else, not
+ *     `uVar = 0x400; if (...) uVar = 0xC00; store;`.  With a live temp gcc keeps
+ *     the value in $a0 and reuses it for the later `+0x400`; the target instead
+ *     re-LOADS `lhu 0x102($s0)`.  Two stores kill the temp, the cross-jumper
+ *     re-merges the single `sh`, and the reload comes back (cf. §160d).
+ *
+ * (4) Case 0's `iVar >= 4` test is written the "wrong" way round on purpose:
+ *     the >= 4 arm is the fall-through in the target, the div arm is the branch
+ *     target.  Writing `if (iVar < 4) {div} else {...}` swaps the two blocks.
+ *
+ * (5) Case 1 re-reads `*(s16 *)(param_1 + 0x70)` at BOTH tests instead of using
+ *     one local.  A local gives `andi $v0,$v1,0x8000` (dir kept in $v1, 184
+ *     ins); the two reads make cse copy the loaded value out first —
+ *     `addu $v0,$v1,$zero ; andi $v1,$v1,0x8000` — which is the 185th
+ *     instruction and also lets the delay-slot filler steal `andi $v1,$v0,0xF`.
+ *
+ * (6) func_8012CC40 is fleet-canonical `void`; its $v0 is used here, so it is
+ *     called through a cast (§17a-1) rather than being re-declared.
+ */
+
+extern void func_8012CC40(s32 arg0, s32 arg1);   /* fleet-canonical: void; $v0 used -> cast at use */
+extern s32  func_80143B6C(s32 a0, s32 a1);       /* fleet-canonical */
+extern s32  func_8012B608(s32 a0, s32 a1, s32 a2);
+extern s32  func_8012BEE8(s32 a0);
+extern void func_8012E8C4(u8 *a0);
+extern void func_8012E8A8(u8 *a0);
+extern void func_80187094(s32 a0, s32 a1);
+extern s32  func_801874E0(s32 a0, s32 a1, s32 a2);
+extern void func_8012C218(void *a0);
+
+extern u8 D_801BD358;
+
+void func_80185B80(s32 param_1)
+{
+    s32 iVar;
+    s32 t;
+    u16 st;
+    u16 uVar1;
+    s32 pad[1];   /* see key (2): forces the 0x20 frame — never referenced */
+
+    if (0xf < *(s16 *)(param_1 + 0xA)) {
+        func_8012C218((void *)param_1);
+        return;
+    }
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + *(u16 *)(param_1 + 0xFC);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x12) + *(u16 *)(param_1 + 0xFE);
+        if ((((s32 (*)(s32, s32))func_8012CC40)(
+                 param_1,
+                 ((*(u16 *)(param_1 + 0x70) & 0xF) * 8) + (s32)&D_801BD358) &
+             0x2000) == 0) {
+            return;
+        }
+        iVar = *(s32 *)(param_1 + 0x1C) + 1;
+        *(s32 *)(param_1 + 0x1C) = iVar;
+        if (iVar >= 4) {
+            if ((*(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) & 0xFFFU) > 0x800U) {
+                *(u16 *)(param_1 + 0x102) = 0xC00;
+            } else {
+                *(u16 *)(param_1 + 0x102) = 0x400;
+            }
+            t = *(u16 *)(param_1 + 0x70) & 0xF;
+            if (t < 4 && t != 0) {
+                *(u16 *)(param_1 + 0x102) = *(u16 *)(param_1 + 0x102) + 0x400;
+            }
+            *(s32 *)(param_1 + 0x1C) = 0x1E;
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        } else {
+            *(s32 *)(param_1 + 0x14) = -(0x80000 / iVar);
+            func_80143B6C(param_1, 1);
+        }
+        return;
+    case 1:
+        iVar = func_8012B608((s32)*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x10),
+                             (s32)*(s16 *)(param_1 + 0x102), 4);
+        *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) =
+            *(u16 *)(*(s32 *)(param_1 + 0x20) + 0x10) + iVar;
+        if (func_8012BEE8(param_1) == 0) {
+            return;
+        }
+        st = *(u16 *)(param_1 + 0x34);
+        *(s32 *)(param_1 + 0x1C) = 0x1E;
+        *(u16 *)(param_1 + 0x34) = st + 1;
+        if ((*(s16 *)(param_1 + 0x70) & 0x8000) != 0) {
+            *(u16 *)(param_1 + 0x34) = st + 2;
+        } else if ((*(s16 *)(param_1 + 0x70) & 0xF) == 4) {
+            *(u16 *)(param_1 + 0x34) = 4;
+            *(s32 *)(param_1 + 0x1C) = 0x1E;
+        }
+        return;
+    case 2:
+        func_8012E8C4((u8 *)param_1);
+        if (func_8012BEE8(param_1) == 1) {
+            func_8012C218((void *)param_1);
+        }
+        return;
+    case 3:
+        if (*(s16 *)(*(s32 *)(param_1 + 0x64) + 0x36) != *(s16 *)(param_1 + 0x10A) &&
+            *(s32 *)(param_1 + 0xE0) == 0) {
+            *(s32 *)(param_1 + 0x1C) = 0x1E;
+            uVar1 = 2;
+            if ((*(u16 *)(param_1 + 0x70) & 0xF) == 4) {
+                uVar1 = 4;
+            }
+            *(u16 *)(param_1 + 0x34) = uVar1;
+            *(s32 *)(param_1 + 0xE0) = 1;
+        }
+        return;
+    case 4:
+        if (func_8012BEE8(param_1) != 0) {
+            *(s32 *)(param_1 + 0x1C) = 0xA;
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            func_8012E8A8((u8 *)param_1);
+            func_80187094(param_1, 1);
+        }
+        return;
+    case 5:
+        if (func_801874E0(param_1, 0x60, 0xA0) == 1) {
+            func_8012C218((void *)param_1);
+        }
+        return;
+    }
+}
+
 
 
 extern void func_8012C218(void *a0);

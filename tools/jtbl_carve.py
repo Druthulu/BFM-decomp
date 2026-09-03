@@ -354,6 +354,42 @@ def _sltiu_bounds(ov, fn, sub):
     return out
 
 
+def _table_bound(ov, fn, sub, jtbl_hex):
+    """The entry count of ONE table: the `sltiu $x, $y, N` that guards ITS OWN dispatch.
+
+    P31 S75 (byte-proven on ov_SC01_004/func_8017EB30, ov_SC01_008/func_8017EC68,
+    ov_SC01_005+006/func_8017F2D4 — the four 279-ins reloc-only siblings of ov_SC01_009/
+    func_8017EB08 that gated DIFF 4/4 across S70-S74). `_sltiu_bounds` returns the SET of every
+    `sltiu` immediate in the function, and both the split-table repair and the over-span clamp
+    below use it only when that set is a SINGLETON — so a function with any other unsigned range
+    check (`(u32)(x - lo) < n` is `sltiu` too, cookbook I1) silently disables BOTH. Those four
+    functions carry {0xA, 0x4, 0x28, 0x32, 0xF0}; spimdisasm had run each table's dlabel one word
+    into the following non-zero data (0x696F760A / 0x000013FF / 0x62647020 — string bytes), the
+    zero-word trim could not touch it, the clamp was skipped, and the carve reserved 0x2C for a
+    0x28 table: -4 bytes, ~850 `%lo`s moved, whole-binary DIFF with a byte-identical .text.
+
+    gcc-2.7.2's dispatch is a fixed idiom — `sltiu $v0,$idx,N ; beqz $v0,default ; sll $v0,$idx,2 ;
+    lui $at,%hi(jtbl_X) ; addu $at,$at,$v0 ; lw $v0,%lo(jtbl_X)($at)` — so the `sltiu` nearest
+    ABOVE the first `%hi(jtbl_X)` is unambiguous per table, whatever else the function tests.
+    Returns None when the .s or the idiom is not found (callers fall back to the old set)."""
+    p = os.path.join(asm_dir(ov), "nonmatchings", sub, f"{fn}.s")
+    if not os.path.exists(p):
+        stale = sorted(glob.glob(os.path.join(asm_dir(ov), "nonmatchings", "*", f"{fn}.s")))
+        if not stale:
+            return None
+        p = stale[0]
+    ins = [ln for ln in open(p, errors="replace") if re.match(r"\s*/\* [0-9A-F]+ [0-9A-F]{8} ", ln)]
+    needle = f"%HI(JTBL_{jtbl_hex.upper()})"
+    hi = next((i for i, ln in enumerate(ins) if needle in ln.upper()), None)
+    if hi is None:
+        return None
+    for ln in reversed(ins[max(0, hi - 8):hi]):
+        m = re.search(r"\bsltiu\s+\$\w+,\s*\$\w+,\s*(0x[0-9A-Fa-f]+|\d+)", ln)
+        if m:
+            return int(m.group(1), 16) if m.group(1).startswith("0x") else int(m.group(1))
+    return None
+
+
 def _continuation_words(ov, vram):
     """The words of the `D_<vram>` label if they all look like jump targets, else None.
 
@@ -422,6 +458,15 @@ def jtbl_range(ov, jtbl_hex, labels, region_end_vram, fn=None, sub=None):
     # A function may own SEVERAL switches, so there is no single "the" bound — use the SET and
     # require an EXACT hit. `max()` would be a guess, and a wrong absorption corrupts the image.
     bounds = _sltiu_bounds(ov, fn, sub) if fn and sub else set()
+    # PER-TABLE BOUND FIRST (P31 S75, see _table_bound): the `sltiu` guarding THIS table's own
+    # dispatch is unambiguous even when the function has several range checks, which is exactly
+    # when the whole-function set below is >1 and the repair/clamp used to stand down silently.
+    tb = _table_bound(ov, fn, sub, jtbl_hex) if fn and sub else None
+    if tb is not None:
+        if bounds and tb not in bounds:
+            print(f"jtbl_carve: ⚠ jtbl_{jtbl_hex}: dispatch `sltiu {tb}` is not among {fn}'s sltiu "
+                  f"set {sorted(bounds)} — instrument disagreement, using the dispatch bound", file=sys.stderr)
+        bounds = {tb}
     absorbed = []                      # words pulled in from continuation labels, in order
     while bounds:
         have = (end - start) // 4
@@ -964,7 +1009,17 @@ def build_carve(ov, funcs):
         starts.update(a for a in overlay_jtbl_addrs(ov) if s_vram <= a < base + e_off)
         if prior is not None and prior[1] is not None and sub in old_span_start:
             starts.update(base + old_span_start[sub] + r for r in prior[1])
-        elif prior is None and sub in old_span_start:
+        elif sub in old_span_start:
+            # P31 S75 — WIDENED from `prior is None`: a JTBL_PADS line WITHOUT a `tables=` comment
+            # (written by jtbl_pads_fix, or predating persistence) used to fall through BOTH
+            # branches, so the existing table's start was lost and the merge refused with "first
+            # must equal the span start" — which harvest_verify then "fixed" with a needless
+            # jr_isolation (measured ov_SC01_005+006/func_8017F2D4: `JTBL_PADS := 0  # ... 1
+            # table(s), byte-proven by jtbl_pads_fix`). The invariant is the same one the
+            # validator asserts: EVERY carve span begins with a table, so its start is always a
+            # known start whatever the line says. Interior starts of a no-`tables=` multi-table
+            # span stay recoverable only by the payload zero-word rule (below), and the build-time
+            # count guard remains the loud backstop.
             # SINGLE-TABLE PREDECESSOR (Phase 29 SESSION-21). A span with no overlays.mk line was a
             # SINGLE-table carve — "Single-table carves get NO var" — and a single-table carve spans
             # exactly its one table, so ITS SPAN START *IS* THAT TABLE'S START. Adding a second table

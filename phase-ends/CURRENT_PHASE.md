@@ -6693,3 +6693,45 @@ change IS a tool change, and owes the same docs).
      MATCH (344 ins) and `rtu_match` MATCH (344 ins, only the predicted pedwarn) both pass, because
      both share a `%lo` mask and neither links. **Standalone match ≠ bankable**, again: this needs
      the §8b/§440 carve, not a better body.
+
+- **T10/S75-3 — THE ov_SC01 RELOC-ONLY CLUSTER IS BANKED: 5 functions, 1,301 instructions, and it was
+  never a codegen wall.** S74 handed this forward as "1,116 instructions behind one question"
+  (`family_remap` on ov_SC01_004/005/006/008 gating DIFF 4/4 against the banked exemplar
+  `ov_SC01_009:func_8017EB08`). A Fable agent root-caused it and I re-verified every claim against
+  the bytes. **The four bodies were byte-identical to the exemplar the whole time** — word-level
+  classification, computed independently twice (agent's script, then mine from scratch against the
+  retail images), identical both times: `nins=279 · EQ 213 · RELOC-HI16 23 · RELOC-LO16 24 ·
+  INTERNAL-J 19 · **CODEGEN 0**`. The DIFF came from `jtbl_carve` reserving ONE WORD TOO MANY per
+  table: spimdisasm runs the island's last `jtbl_` dlabel into the following non-zero string data
+  (the zero-word trim is blind to it), and the over-span clamp was guarded by
+  `len(sltiu_bounds)==1` — but **`sltiu` is also how gcc emits an unsigned range check**, so on any
+  function with a second range test the guard silently stood down. 0x2C reserved for a 0x28 table
+  ⇒ image 4 bytes short ⇒ ~850 `%lo` immediates shift ⇒ whole-binary DIFF about a perfect function.
+  Fixed with a per-table bound (the `sltiu` above that table's own `%hi(jtbl_X)`; gcc-2.7.2's
+  dispatch is a fixed idiom) plus a merge fix for spans whose `JTBL_PADS` line lacks `tables=`.
+  **The negative control is the story**: run over every other open table-bearing stub fleet-wide it
+  changed exactly one more table — `ov_SC06_022:func_80185B80` (185 ins), a fifth victim nobody had
+  ever drafted against. Banked, all five, each with its own byte-gate verdict:
+  `func_8017EB30` · `func_8017F2D4` ×2 · `func_8017EC68` (279 ins each) · `func_80185B80` (185).
+  Cookbook **§446**; SETUP rows for `jtbl_carve` + `dedup_propagate`.
+- **A GATE-HARNESS LESSON THAT COST THE EVENING, AND A POLICY DECISION.** The first batch wrapped
+  each gate in my own `timeout 2400`, BELOW `gate_stage`'s own 3600 s budget — so when
+  `dedup_propagate` ran long my wrapper SIGTERM'd the tree and Python lost its buffered stdout,
+  giving three gates with NO verdict at all and three half-applied, never-byte-gated propagations in
+  the tree. `gate_stage` has a handler for exactly this (*"the fleet is HALF-PROPAGATED and the tree
+  is DIRTY. Revert, then re-gate with --no-propagate"*) and my shorter deadline pre-empted it. Ran
+  its documented recovery: revert to HEAD, re-gate all five with `--no-propagate` — minutes each,
+  clean verdicts, 5/5.
+  **Why the propagation ran long at all:** `--auto-from <bin>` sweeps the WHOLE binary, not the
+  function just banked. `ov_SC01_005` had **557** matched-but-never-shared functions. Fleet census
+  (`.run/S75/backlog_census.py`, validated against that known-true 557): **~2,073 distinct functions
+  / ~12,116 per-binary sweep items across 174 of 217 binaries** — all ALREADY MATCHED, so it is
+  duplicate-copy cleanup and **not remaining work**; project completion is unaffected by every item
+  of it. Origin traced to the July mechanical family sweeps (`commit:0476` +16,512 members,
+  `commit:0531` +17,975 member-matches), which bank a body as a private copy per overlay and register
+  no dedup group — a deliberate throughput trade that took the fleet 66%→71% in one commit.
+  **Drew's decision (2026-09-02), on the sotn precedent our own cookbook records ("sotn writes
+  duplicate funcs explicitly"): DO NOT convert the ~12,000. Gate with `--no-propagate` from here;
+  propagate only deliberately, for a genuinely high-reach new match.** That permanently removes the
+  30-min stall from the critical path. (Caveat recorded: the sotn claim rests on one parenthetical
+  in our cookbook, not on sotn's repo — verify before making it doctrine.)

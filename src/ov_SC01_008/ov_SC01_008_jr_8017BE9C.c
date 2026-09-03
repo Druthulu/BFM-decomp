@@ -3884,7 +3884,7 @@ void func_8017DBEC(void) {
     extern s32 func_80014ED4(s32 a0);
     extern void func_80139954(void);
     extern s16 func_8014168C(s16 a0);
-    extern s32 func_8017EC68(s32 a0, s32 a1);
+    extern s32 func_8017EC68();
     extern void func_8017E050(void);
     extern void func_80137B80(void);
 
@@ -3946,7 +3946,7 @@ extern void func_8002D4C8(s32 a0, s32 a1);
 extern s32 func_80014ED4(s32 a0);
 extern s32 func_80015018(s32 a0);
 extern s16 func_8014168C(s16 a0);
-extern s32 func_8017EC68(s32 a0, s32 a1);
+extern s32 func_8017EC68();
 extern void func_8017D890(void);
 
 s32 func_8017DD70(void) {

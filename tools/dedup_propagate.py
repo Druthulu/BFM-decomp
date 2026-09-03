@@ -31,7 +31,7 @@ Options:
   --binaries a,b,c                    restrict members to these onboarded overlays (default: all that share)
   --no-gate                           skip the per-overlay build gate (CI / batch re-gate later)
 """
-import argparse, collections, json, pathlib, re, subprocess, sys
+import argparse, collections, functools, json, pathlib, re, subprocess, sys
 import os as _os
 import threading as _threading
 sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))
@@ -134,18 +134,51 @@ def stub_line(ov, addr):
 
 
 # ---------------------------------------------------------------- body extraction
-def find_site(text, ov, addr):
-    """Locate this function in ov's .c. Returns (kind, start, end, body_lines):
-       kind 'stub'   -> the INCLUDE_ASM line (start==end, body_lines None)
-       kind 'def'    -> an inline definition block (preceding contiguous externs .. closing brace)
-       kind 'macro'  -> already a DEFINE_func_<ADDR>() instantiation (already propagated)
-       None          -> not present / matched in some other form."""
+@functools.lru_cache(maxsize=8)
+def _split_masked(text):
+    """(lines, mlines) for one source text — MEMOIZED, because it does not depend on the address.
+
+    THE WHOLE COST OF THIS TOOL WAS HERE (P31 S75, measured). `find_site` re-ran `cdecl._mask`
+    (four regex passes, one with `re.S`) plus two `splitlines()` over the ENTIRE concatenated
+    source on EVERY call, and the caller loops over every function in the binary. On
+    `ov_SC01_005` (2.50 MB of source, 2,503 functions in the sig):
+
+        splitlines(text)          6.5 ms
+        cdecl._mask(text)        38.9 ms     <- 4 regex passes, one re.S
+        splitlines(mask)          4.6 ms
+        ------------------------------- 54 ms PER CALL, before a single line is searched
+
+    and `find_site` is called per-address in the `--auto-from` enumeration, again per-target while
+    building the plan, and again during propagation. Observed: **29m38s of CPU on ONE core**
+    (`nlwp=1` — the `ThreadPoolExecutor` below covers only the cpp/cc1 probe, not this), ~92% CPU,
+    no subprocesses, no writes. The mask is a pure function of the text, so every call after the
+    first recomputed an identical result: the shape was O(functions x source-bytes) where it should
+    be O(source-bytes + functions).
+
+    `lru_cache` is the right primitive here rather than a hand-rolled dict: callers already hold one
+    `txt_cache`/`ctext` string OBJECT per binary and pass it repeatedly, and CPython caches a str's
+    hash on the object, so a repeat lookup is a pointer compare. maxsize=8 covers source + members
+    in flight without pinning many megabytes.
+
+    NB this is the SECOND half of this phase's cost to be fixed; the comment on the cc probe below
+    records the first ("~5 minutes pegged at one core on a 32-core box"). Fixing the subprocess half
+    left the regex half as the dominant term."""
     lines = text.splitlines()
     # Comments blanked ONCE by the project's single masking oracle (R33). Length-preserving, so
     # index i into mlines is index i into lines. This is what makes _skippable MULTI-LINE aware.
     mlines = cdecl._mask(text).splitlines()
     if len(mlines) != len(lines):        # R32: the invariant this rests on, asserted not assumed
         mlines = lines
+    return lines, mlines
+
+
+def find_site(text, ov, addr):
+    """Locate this function in ov's .c. Returns (kind, start, end, body_lines):
+       kind 'stub'   -> the INCLUDE_ASM line (start==end, body_lines None)
+       kind 'def'    -> an inline definition block (preceding contiguous externs .. closing brace)
+       kind 'macro'  -> already a DEFINE_func_<ADDR>() instantiation (already propagated)
+       None          -> not present / matched in some other form."""
+    lines, mlines = _split_masked(text)
     s = sym(addr)
     stub = stub_line(ov, addr)
     for i, l in enumerate(lines):

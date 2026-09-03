@@ -34774,3 +34774,79 @@ everything downstream shifts (69,571 differing words, 332 of them inside the fun
 matcher links, and both share a `%lo` mask. The function's blocker is a §8b/§440 **carve**, not a
 body. When two matchers agree and the gate disagrees, ask what the gate does that they do not: it
 LINKS.
+
+## §445 ★★ — `make clean BINARY=<x>` IS FLEET-WIDE: THE VARIABLE IS ACCEPTED AND IGNORED (P31 S75)
+
+Cost me a full `make extract-all` and nearly cost a running Fable agent its verdicts. The target is
+unconditional:
+
+```make
+clean:
+	@rm -rf build expected asm assets undefined_syms_auto.txt undefined_funcs_auto.txt
+```
+
+`BINARY=` is honoured by `extract`, `build` and `check`, so it reads as scoped — and it is not. One
+`make clean BINARY=resident` deleted `asm/` for all 213 binaries. The failure then arrives somewhere
+else entirely, wearing someone else's clothes:
+
+* `corpus.CorpusError: main: 996 stub(s) have NO .s on disk — the tree and the source disagree`
+* `make: build/<bin>/<bin>.ld missing — run 'make extract' first`
+* and, for any concurrent agent, a gate that refuses for a reason that is a fact about MY shell, not
+  its functions.
+
+That is §436-D at fleet scale, and it is R43: a target that accepts a variable it silently ignores
+hands the operator a false belief about the blast radius. `clean` now says so out loud when `BINARY`
+is set. Recovery is `make extract-all` (not `make extract BINARY=<x>`, which restores exactly one
+binary and leaves the other 212 refusing).
+
+**The related trap that wasted a wait:** the recovery run was launched inside a command block that
+was killed before reaching it, so nothing was running while I watched for progress. **Empty log + no
+`ps` hit = never started** — check both before waiting on anything long, and launch detached
+(`setsid nohup … &`) so a killed foreground block cannot take the job with it.
+
+## §446 ★★★ — "RELOC-ONLY REMAP GATED DIFF" IS A CARVE VERDICT, NOT A CODEGEN VERDICT, UNTIL YOU DIFF THE `.text` (P31 S75; 4 siblings + 1 latent, ~1,300 ins)
+
+Four 279-ins siblings of a banked exemplar (`ov_SC01_004/005/006/008` ← `ov_SC01_009:func_8017EB08`)
+sat **DIFF across five sessions** and were carried as a codegen wall. Their `.text` was byte-identical
+the whole time. Word-level classification against the retail images — run twice, independently, by a
+Fable agent and then by me from scratch, with identical results:
+
+```
+nins=279   EQ 213 · RELOC-HI16 23 · RELOC-LO16 24 · INTERNAL-J 19 · CODEGEN 0
+```
+
+213 identical + 23 `lui` hi16 + 24 `%lo` + 19 internal `j` (26-bit target differs, function-relative
+offset identical) = 279. **Zero** register-allocation, instruction-selection or scheduling
+differences, on all four. RELOC-ONLY was true of the C, not merely of the asm.
+
+**THE DEFECT — AND WHY THE GUARD STOOD DOWN EXACTLY WHEN IT WAS NEEDED.** `jtbl_carve` reserved ONE
+WORD TOO MANY for each table. spimdisasm runs the island's LAST `jtbl_` dlabel one word into the
+following NON-ZERO data (string bytes `0x696F760A` / `0x000013FF` / `0x62647020`), so the zero-word
+trim cannot see it. The over-span clamp that would have caught it was guarded by
+`len(sltiu_bounds) == 1` — and **`sltiu` is also how gcc emits an unsigned range check**
+(`(u32)(x - lo) < n`, I1). These four carry five distinct `sltiu` immediates
+`{0x4, 0xA, 0x28, 0x32, 0xF0}`, so the guard silently disabled itself on precisely the functions
+that needed it. A 0x28 table got 0x2C reserved: the image comes out **4 bytes short**, ~850 `%lo`
+immediates shift, and the whole-binary gate reports DIFF about a function whose own bytes are perfect.
+
+Fix: a PER-TABLE bound. gcc-2.7.2's dispatch is a fixed idiom — `sltiu $v0,$idx,N ; beqz ; sll ;
+lui $at,%hi(jtbl_X) ; addu ; lw $v0,%lo(jtbl_X)($at)` — so the `sltiu` nearest ABOVE that table's own
+`%hi(jtbl_X)` is unambiguous whatever else the function tests.
+
+**SECOND DEFECT, STACKED BEHIND THE FIRST.** A carve span whose `JTBL_PADS` line carries no
+`tables=` comment (written by `jtbl_pads_fix`, or predating persistence) fell through both merge
+branches, lost its existing table's start, and refused with *"table starts do not fit the span"* —
+which `harvest_verify` then "repaired" with a needless `jr_isolate_all`, which walked straight back
+into defect 1. The invariant the validator already asserts settles it: **every carve span begins with
+a table, so its start is always a known start**, whatever the line says.
+
+**THE DIAGNOSTICS THAT FIND THIS IN MINUTES** (all cheaper than reading the C):
+* the built image is a few bytes SHORTER than retail;
+* the first differing word is a `%lo` immediate FAR BEFORE the function under test;
+* `git diff config/` after the gate's carve shows the `tail` piece moved by more than `4 x entries`.
+
+**THE LAW.** When a standalone-MATCH jtbl draft gates DIFF, **diff the carve extent against
+`4 x sltiu` before touching the body.** And note what the negative control bought: run over every
+other open table-bearing stub fleet-wide, the fixed bound changed exactly one more table —
+`ov_SC06_022:func_80185B80`, a fifth victim nobody had drafted against. A guard that disables itself
+on a common idiom does not fail once; it fails quietly across the whole corpus.

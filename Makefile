@@ -946,7 +946,18 @@ expected: build
 # clean: remove ALL regenerable outputs (build/ + the splat tree) so a config change
 # is followed by a stale-free `make clean && make extract && make build` (H3).
 clean:
+	@# `clean` is FLEET-WIDE and takes no BINARY scope (cookbook §445). extract/build/check all
+	@# honour BINARY=, so `make clean BINARY=<x>` reads as scoped and is not: it deletes asm/ for
+	@# all 213 binaries, and the failure then surfaces somewhere else entirely — `corpus refused:
+	@# N stub(s) have NO .s on disk`, or `<bin>.ld missing`, or a concurrent agent's gate refusing
+	@# for a reason that is a fact about your shell. Say so rather than silently ignoring the
+	@# variable (R43). Recovery is `make extract-all`, NOT `make extract BINARY=<x>`.
+	@if [ -n "$(filter-out main,$(BINARY))" ] || [ "$(origin BINARY)" = "command line" ]; then \
+	  echo "clean: NOTE — BINARY=$(BINARY) is IGNORED here; clean is fleet-wide (cookbook §445)."; \
+	  echo "clean: this removes asm/ for ALL binaries. Recover with 'make extract-all'."; \
+	fi
 	@rm -rf build expected asm assets undefined_syms_auto.txt undefined_funcs_auto.txt
 	@rm -f include/include_asm.h include/macro.inc include/labels.inc include/gte_macros.inc
 	@echo "clean: removed build/, expected/, and the regenerated splat tree (asm/, assets/, include macros, undefined_*_auto.txt)."
+
 
