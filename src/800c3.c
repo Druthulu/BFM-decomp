@@ -1307,7 +1307,44 @@ void func_8005EB28(void *param_1) {
  *       return 0;
  *   }
  */
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EC00);
+extern u32 D_800729DC;
+extern void (*D_80072974)(void *);
+extern s32 D_800729A8;
+extern s32 D_800729D4;
+
+
+s32 func_8005EC00(void *arg0) {
+    s32 v1;
+    s32 v0;
+    s32 a1;
+
+    if (D_800729DC != 0) {
+        (*D_80072974)((void *)(*(s32 *)((char *)arg0 + 0xC) + 0x1E0));
+        (*D_80072974)((void *)(*(s32 *)((char *)arg0 + 0xC) + 0x2D0));
+    }
+
+    a1 = 0;
+    if (*(u8 *)((char *)arg0 + 0x36) == 0) {
+        a1 = D_800729A8;
+    }
+
+    v1 = func_8005DE78((s32)arg0, a1);
+    if (v1 < 0) {
+        return v1;
+    }
+
+    v0 = v1 & 0xF0;
+    if (v0 == 0) {
+        return -9;
+    }
+
+    v0 = (v1 & 0xF) * 2;
+    D_800729D4 = v0;
+    if (v0 == 0) {
+        D_800729D4 = 0x20;
+    }
+    return 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005ECC0);
 
