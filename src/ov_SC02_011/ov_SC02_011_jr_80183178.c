@@ -65,7 +65,133 @@ extern void func_8018452C();
     }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_80183178", func_80183630);
+#include "common.h"
+
+extern void func_8012B23C(s32 a0);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern s32 func_8012BEE8(s32 a0);
+extern void *D_80195144;
+
+void func_80183630(s32 a0) {
+    extern s32 func_801845F4();
+    extern void func_8018487C(s32 a0);
+    extern s32 func_80183954(s32 a0);
+    extern s32 func_80183B30(s32 a0, s32 a1);
+    extern s32 func_80183994(s32 a0, s32 a1);
+    extern void func_8012B178(s32 a0, s32 a1);
+    extern void func_8012B2CC(s32 a0);
+    extern s32 func_8012CBCC(s32 a0);
+    extern void func_8012CC1C(s32 arg0, s32 arg1);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void func_8013C9C4(void *a0);
+    extern void func_8012B200(u8 *a0);
+    extern void func_8012AD80(s32 a0);
+    extern void func_8012B260(u8 *a0);
+    extern void func_8018452C();
+    extern s32 D_801955F0;
+    extern u8 D_801F3EFC[];
+    extern u8 D_801F3FA4[];
+    extern u8 D_801F41DC[];
+    extern u8 D_801F3EA4[];
+    extern u8 D_80195120[];
+    extern u8 D_80195184[];
+
+    if (func_801845F4() == 1) {
+        return;
+    }
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        func_8018487C(a0);
+        D_801955F0 = func_80183954(a0);
+        if (func_80183B30(a0, D_801955F0) == 1) {
+            *(s16 *)(a0 + 0x34) = 8;
+            return;
+        }
+        if (func_80183994(a0, D_801955F0) != 1) {
+            return;
+        }
+        *(s16 *)(a0 + 0x34) = 3;
+        return;
+    case 1:
+        *(s32 *)(a0 + 0x1C) = 0x1E;
+        *(s16 *)(a0 + 0x34) = 2;
+    case 2:
+        if (func_80183994(a0, D_801955F0) == 1) {
+            *(s16 *)(a0 + 0x34) = 3;
+            return;
+        }
+        if (func_8012BEE8(a0) != 0) {
+            *(s16 *)(a0 + 0x34) = 0;
+            func_8012A828(a0, D_801F3EFC);
+            *(s32 *)(a0 + 0x1C) = 0x2D;
+        }
+        return;
+    case 3:
+        func_8012B23C(a0);
+        func_8012B178(a0, 0xA0000);
+        *(s16 *)(a0 + 0x34) = 4;
+        return;
+    case 4:
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) -= 0x20;
+        if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) < -0x400) {
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = -0x400;
+        }
+        if (func_8012CBCC(a0) & 0x2000) {
+            *(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) = -0x400;
+            *(s32 *)(a0 + 0x1C) = 0x1E;
+            *(s16 *)(a0 + 0x34) = 5;
+            func_8002D4C8(0xB09, 0);
+            func_8013C9C4(D_80195184);
+        }
+        return;
+    case 5:
+        if (func_8012BEE8(a0) != 0) {
+            *(s16 *)(a0 + 0x34) = 6;
+        }
+        return;
+    case 6:
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) += 0x80;
+        if (*(s16 *)(*(s32 *)(a0 + 0x20) + 0x10) >= 0) {
+            func_8012B2CC(a0);
+            func_8012B23C(a0);
+            func_8012B178(a0, 0xFFFC8000);
+            func_8012A828(a0, D_801F3FA4);
+            *(s16 *)(a0 + 0x34) = 7;
+        }
+        return;
+    case 7:
+        if (((s32 (*)(s32, s32))func_8012CC1C)(a0, (s32)&D_80195144) & 0x8000) {
+            *(s16 *)(a0 + 0x34) = 0;
+            func_8018452C(a0);
+            *(s32 *)(a0 + 0xDC) &= ~0x10;
+        }
+        return;
+    case 8:
+        func_8012A828(a0, D_801F41DC);
+        *(s32 *)(a0 + 0x1C) = 0x14;
+        *(s16 *)(a0 + 0x34) = 9;
+        return;
+    case 9:
+        if (func_8012BEE8(a0) != 0) {
+            *(s16 *)(a0 + 0x34) = 0xA;
+            *(s16 *)(a0 + 0x98) = 0;
+        }
+        return;
+    case 10:
+        func_8012A828(a0, D_801F3EA4);
+        func_8012B200((u8 *)a0);
+        func_8012B14C(a0, (s32)D_80195120);
+        func_8012AD80(a0);
+        func_8012B23C(a0);
+        func_8012B260((u8 *)a0);
+        *(s16 *)(a0 + 0x34) = 0xB;
+        *(s32 *)(a0 + 0x1C) = 0x10;
+        *(s32 *)(a0 + 0xDC) = (*(s32 *)(a0 + 0xDC) & ~0x20) | 0x48;
+        return;
+    }
+}
+
 
 extern void func_8012AD80(s32 a0);
 
@@ -346,7 +472,128 @@ void func_80184134(s32 param_1) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_80183178", func_8018418C);
+/* Declarations: the five names already at file scope above (func_8012B23C L15,
+ * func_8012B14C L16, func_8012A828 L17, func_8012BEE8 L36, func_80184738 L335)
+ * are NOT redeclared.  Every new name is spelled exactly as this TU already
+ * spells it further down (func_8012CBCC L813/L862, func_8013C9C4 L2566,
+ * func_801439C0 L1885, func_80178D18 L2586, func_8001AAD0 L818/L865,
+ * func_80172658 L369/L443, D_80126B58 L371/L1271/L3304) so the duplicate
+ * declarations are identical; the rest follow the fleet canon.  The
+ * engine_core.h hits for these symbols are all inside DEFINE_ macros
+ * (block scope), so they cannot conflict at file scope.
+ *
+ * CODEGEN NOTE — the one non-obvious lever (REGALLOC-PERM/$v0>$v1>$v0, 3 ins).
+ * Case 1, case 5 and the case-2 clamp-hit arm all reach the SAME
+ * `(*(u16 *)(s0+0x34))++` tail at 0x80184304.  Writing case 2's arm as a
+ * `goto` into that shared tail compiles to the right instruction sequence but
+ * allocates the post-call block's constant/pointer pair as $v1/$v0 instead of
+ * the target's $v0/$v1.  Writing the increment out LONGHAND in case 2 instead
+ * matches: gcc-2.7.2 runs the cross-jumping `jump_optimize` pass AFTER
+ * register allocation, so the duplicated tail is allocated in its own block
+ * (giving the target's registers) and only then merged back into the shared
+ * `j 0x80184304`.  Both forms emit 162 instructions; only the duplicated form
+ * is byte-identical.  (Cookbook §176-B's law — "1-4 off is usually NOT
+ * register allocation" — with a new lever: a shared tail reached by `goto`
+ * vs. duplicated in the source is a REGALLOC dial, not just a jump dial.) */
+
+extern s32 func_8012CBCC(s32 a0);
+extern void func_8012CC1C(s32 arg0, s32 arg1);
+extern void func_8012E8C4(u8 *a0);
+extern void func_8013C9C4(void *a0);
+extern s32 func_80172658(s32 *a0);
+extern s32 func_801439C0(s32 a0);
+extern s32 func_801789AC(s32 a0);
+extern void func_80178D18(void);
+extern void func_8001AAD0(s32 a0, s32 a1);
+extern void func_8001931C(void);
+
+extern s32 D_80126B58;
+extern s32 D_80195138;
+extern u8 D_8019514C[];
+extern u8 D_80195184[];
+extern s16 D_801EBA7C;
+extern u8 D_801F4654[];
+
+void func_8018418C(s32 a0) {
+    s32 s0 = a0;
+
+    switch (*(u16 *)(s0 + 0x34)) {
+    case 0:
+        break;
+    case 1:
+        func_8012B23C(s0);
+        goto incr;
+    case 2:
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) - 0x20;
+        if (*(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) < -0x400) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = -0x400;
+        }
+        if (func_8012CBCC(s0) & 0x2000) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = -0x400;
+            *(s32 *)(s0 + 0x1C) = 0x3C;
+            func_8013C9C4(D_80195184);
+            /* longhand on purpose — see CODEGEN NOTE; cross-jumped into 0x80184304 */
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        }
+        break;
+    case 3:
+        func_8012E8C4((u8 *)s0);
+        if (func_8012BEE8(s0) != 0) {
+            D_801EBA7C = 3;
+            *(s16 *)(s0 + 0x34) = 0;
+            func_8001931C();
+            if (*(s32 *)(s0 + 0xD0) != 0) {
+                func_801439C0(*(s32 *)(s0 + 0xD0));
+            }
+        }
+        break;
+    case 4:
+        if (func_80172658(&D_80126B58) != 0) {
+            D_801EBA7C = 3;
+            *(s16 *)(s0 + 0x34) = 0;
+            func_8001931C();
+        }
+        break;
+    case 5:
+        if ((*(u16 *)(s0 + 0x5C) & 1) == 0) {
+            break;
+        }
+        *(u16 *)(s0 + 0x5C) = *(u16 *)(s0 + 0x5C) & 0xFFFE;
+        *(s16 *)(s0 + 0x98) = 0;
+        func_8012B23C(s0);
+        func_8012B14C(s0, (s32)&D_80195138);
+        func_8001AAD0(1, 0x4331);
+    incr:
+        *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+        break;
+    case 6:
+        if ((((s32 (*)(s32, s32))func_8012CC1C)(s0, (s32)D_8019514C) & 0x2000) == 0) {
+            *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
+            func_8012B23C(s0);
+            func_8012A828(s0, D_801F4654);
+        }
+        break;
+    case 7:
+        *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = *(u16 *)(*(s32 *)(s0 + 0x20) + 0x10) + 0x20;
+        if (*(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) > 0x400) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0x400;
+        }
+        if (func_8012CBCC(s0) & 0x2000) {
+            *(s16 *)(*(s32 *)(s0 + 0x20) + 0x10) = 0x400;
+            *(s32 *)(s0 + 0x1C) = 0x3C;
+            *(s16 *)(s0 + 0x34) = 3;
+            func_8013C9C4(D_80195184);
+        }
+        break;
+    }
+
+    if (func_801789AC(s0) == 1) {
+        ((void (*)(s32))func_80178D18)(s0);
+        *(s16 *)(s0 + 2) = 0xE;
+        func_80184738(0);
+    }
+}
+
 
 #include "common.h"
 

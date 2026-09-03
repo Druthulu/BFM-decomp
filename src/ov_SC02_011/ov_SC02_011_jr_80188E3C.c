@@ -9,7 +9,98 @@
  * config/splat.ov_SC02_011.yaml and cookbook §426/§431. Declarations shared with the sibling
  * TUs live in src/ov_SC02_011/ov_SC02_011_shared.h. */
 
-INCLUDE_ASM("asm/ov_SC02_011/nonmatchings/ov_SC02_011_jr_80188E3C", func_80188E3C);
+#include "common.h"
+
+extern s32  func_8012B8E4(s32 a0, s32 a1);
+extern s32  func_8012BD3C(s32 a0, s32 a1, s32 a2);
+extern s32  func_8012BEE8(s32 a0);
+extern s32  func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_801890C8(s32 a0);
+
+extern u8  D_801960A0[];
+extern u8  D_801D3ACC[];
+extern s16 D_801D3B74;
+extern s16 D_801D3F84;
+extern s16 D_801D458C;
+
+void func_80188E3C(s32 a0) {
+    s32 v0;
+    s32 v1;
+
+    switch (*(u16 *)(a0 + 0x34)) {
+    case 0:
+        v1 = *(s32 *)(a0 + 0x1C);
+        v0 = 7;
+        goto cmpA;
+    case 1:
+        v0 = func_8012B8E4(a0, 6);
+        v1 = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + v0;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = v1;
+        break;
+    case 2:
+        v1 = *(s32 *)(a0 + 0x1C);
+        v0 = 0xA;
+    cmpA:
+        if (v1 == v0) {
+            func_8012D5E4(a0, (s32)D_801960A0, (s32)(D_801960A0 + 8), 0xB);
+        }
+        break;
+    case 3:
+        if (*(s32 *)(a0 + 0x1C) == 0xB) {
+            func_8012D5E4(a0, (s32)D_801960A0, (s32)(D_801960A0 + 8), 0x11);
+        }
+        break;
+    case 4:
+        v0 = func_8012B8E4(a0, 6);
+        v1 = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) + v0;
+        *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = v1;
+        if (*(s32 *)(a0 + 0x1C) == 0xC) {
+            func_801890C8(a0);
+        }
+        break;
+    }
+
+    if (func_8012BEE8(a0) != 0) {
+        switch (*(u16 *)(a0 + 0x34)) {
+        case 0:
+            if (func_8012BD3C(a0, 0x400, 0x4000) != 0) {
+                *(u16 *)(a0 + 0x34) = 1;
+                func_8012A828(a0, D_801D3ACC);
+                *(s32 *)(a0 + 0x1C) = 0xA;
+            } else {
+                *(u16 *)(a0 + 0x2) = 2;
+                *(u16 *)(a0 + 0x34) = 0;
+                func_8012A828(a0, &D_801D3B74);
+            }
+            break;
+        case 1:
+            *(u16 *)(a0 + 0x34) = 2;
+            *(s32 *)(a0 + 0x1C) = 0x18;
+            func_8012A828(a0, &D_801D3F84);
+            break;
+        case 2:
+            *(u16 *)(a0 + 0x2) = 2;
+            *(u16 *)(a0 + 0x34) = 0;
+            func_8012A828(a0, &D_801D3B74);
+            break;
+        case 3:
+            break;
+        case 4:
+            v0 = *(u16 *)(a0 + 0x100);
+            v0 -= 1;
+            *(u16 *)(a0 + 0x100) = v0;
+            if ((v0 << 16) == 0) {
+                *(u16 *)(a0 + 0x2) = 8;
+                func_8012A828(a0, &D_801D458C);
+            } else {
+                *(s32 *)(a0 + 0x1C) = 0x1E;
+            }
+            break;
+        }
+    }
+}
+
 
 extern void func_8012A828(s32 a0, void *a1);
 extern void func_8012B200(u8 *a0);

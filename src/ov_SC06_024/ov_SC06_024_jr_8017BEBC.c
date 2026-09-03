@@ -4410,7 +4410,370 @@ void func_8017EADC(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_024/nonmatchings/ov_SC06_024_jr_8017BEBC", func_8017EC4C);
+/* func_8017EC4C  (ov_SC06_024, TU ov_SC06_024_jr_8017BEBC.c) — S68 fable escalation, MATCH 556/556.
+ *
+ * Warm-started from the opus draft (closeness 16); every opus lever preserved:
+ * func_8012EC04(param_1,..), D_80193440[1]/[2] spelling, dbase in $fp with the
+ * raw *(u16*)(dbase+0xA3AA) parity read, 16-byte stride on D_80193550/54/58/5C,
+ * the g{} frame sizing, the in-place abs #1 + zero-byte asm on n (verified
+ * load-bearing: removing it costs -2 length; its addu $a0,$s1,$zero copy is IN
+ * the target), the blez guard shape, the two-armed 0x102 write, i reuse, otp/otq.
+ *
+ * What closed the final 16 (the two addPrim merge clusters):
+ * the wrong-register rows were LOCAL-ALLOC QTY DENSITY ORDER, not a scheduling
+ * tie. gcc-2.7.2 local-alloc allocates qtys by qty_compare density
+ * (floor_log2(refs)*refs*size/life) and the FIRST qty through the scan grabs the
+ * scan-order register the next one wanted. Each addPrim RMW merge is spelled:
+ *
+ *     w = *(u32 *)prim;            // raw tag word named EARLY (its own stmt)
+ *     ...interleaving stmts...     // nextpri update / otq addr / E1 store
+ *     w &= 0xFF000000;             // in-place mask, SPLIT from the ior
+ *     *(u32 *)prim = w | (*otp & 0xFFFFFF);   // ior op1 = prim side
+ *
+ * The early def + split &= lengthens w's qty life, DROPPING its density below
+ * the competing address-chain qty, so the chain allocates first (taking $v1)
+ * and w's tied {lw,and,ior,sw} chain lands on the target's register; the ior
+ * operand order (op1 = prim word) then emits or $rP,$rP,$rV with dest tied to
+ * op1. Statement order around pk2[3]=1 is FORCED by a real dependence: the sb
+ * writes byte 3 of the same word the lw reads, so their source order IS their
+ * final order — the target's source read *pk2 AFTER pk2[3]=1 (merge-3) and
+ * *otp BEFORE D_800A5E60=pk2+8 (merge-2). Mask-hoist order (t2 before t3) pins
+ * the *value*-side and to first LUID use, which is why merge-1 splits BOTH
+ * sides (wv first, then w1 &= mask).
+ *
+ * Verified against tools/reference/gcc-2.7.2 sched.c (no birthing boost for
+ * block-dying pseudos, so sched1 load order is priority-fixed; final order is
+ * sched2 under the colors) and local-alloc.c qty_compare. Reloc audit: 1:1 with
+ * the target .s; D_80193440+2/+4 addends == D_80193442/D_80193444 (contiguous).
+ */
+#include "common.h"
+
+typedef struct { s16 vx, vy, vz, pad; } SV_8017EC4C;
+typedef struct { s16 m[3][3]; s32 t[3]; } MT_8017EC4C;
+
+extern void func_8012EC04(s32, s32, s32 *);
+extern void func_8012F14C(s32, s32, s32);
+extern s32  func_80135888(s32, s32, s32, s32);
+extern void func_8012F568(s32, s32, s32, s32, s32, s32);
+extern s32  func_80133784(s32, void *, s32);
+extern void func_8012F038(int, short *, short *);
+extern void func_800D20C0(void *, void *, s32);
+extern void func_80017E68(void *, void *);
+extern void ApplyMatrixSV(void *, void *, void *);
+extern void func_800D23D0(void *);
+extern void RotMatrixYXZ(void *, void *);
+extern void ApplyTransposeMatrixLV(void *, void *, void *);
+extern s32  ratan2(s32, s32);
+
+extern s16 D_800B9A02;
+extern u16 D_800B99DA;
+extern u8  D_800A6610[];
+extern u8  D_800AF630[];
+extern u8 *D_800A5E60;
+extern s32 D_801E1158;
+extern s32 *D_80126B78;
+extern s32 *D_80126B90;
+extern u8  D_801152A8[];
+extern s32 D_801269A4;
+extern s32 D_801269A8;
+extern s32 D_801269AC;
+extern u16 D_80193440[];
+
+
+extern u8  D_801934B0[];
+extern s32 D_801934F0[];
+extern u16 D_80193538[];
+extern s32 D_80193550[];
+extern s32 D_80193554[];
+extern s32 D_80193558[];
+extern s32 D_8019355C[];
+
+#define ec4c_SetRotMatrix(r0) __asm__ __volatile__ (  \
+    "lw $12, 0( %0 );"                                \
+    "lw $13, 4( %0 );"                                \
+    "ctc2 $12, $0;"                                   \
+    "ctc2 $13, $1;"                                   \
+    "lw $12, 8( %0 );"                                \
+    "lw $13, 12( %0 );"                               \
+    "lw $14, 16( %0 );"                               \
+    "ctc2 $12, $2;"                                   \
+    "ctc2 $13, $3;"                                   \
+    "ctc2 $14, $4"                                    \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+
+#define ec4c_SetTransMatrix(r0) __asm__ __volatile__ (\
+    "lw $12, 20( %0 );"                               \
+    "lw $13, 24( %0 );"                               \
+    "ctc2 $12, $5;"                                   \
+    "lw $14, 28( %0 );"                               \
+    "ctc2 $13, $6;"                                   \
+    "ctc2 $14, $7"                                    \
+    : : "r"( r0 ) : "$12", "$13", "$14" )
+
+#define ec4c_rotcol(r0) __asm__ __volatile__ (        \
+    "lhu $12, 0( %0 );"                               \
+    "lhu $13, 6( %0 );"                               \
+    "lhu $14, 12( %0 );"                              \
+    "mtc2 $12, $9;"                                   \
+    "mtc2 $13, $10;"                                  \
+    "mtc2 $14, $11;"                                  \
+    "nop;"                                            \
+    "nop;"                                            \
+    "mvmva 1, 0, 3, 3, 0;"                            \
+    "mfc2 $12, $9;"                                   \
+    "mfc2 $13, $10;"                                  \
+    "mfc2 $14, $11;"                                  \
+    "sh $12, 0( %0 );"                                \
+    "sh $13, 6( %0 );"                                \
+    "sh $14, 12( %0 )"                                \
+    : : "r"( r0 ) : "$12", "$13", "$14", "memory" )
+
+#define ec4c_rottrans(r0) __asm__ __volatile__ (      \
+    "lhu $13, 4( %0 );"                               \
+    "lhu $12, 0( %0 );"                               \
+    "sll $13, $13, 16;"                               \
+    "or $12, $12, $13;"                               \
+    "mtc2 $12, $0;"                                   \
+    "lwc2 $1, 8( %0 );"                               \
+    "nop;"                                            \
+    "nop;"                                            \
+    "mvmva 1, 0, 0, 0, 0;"                            \
+    "swc2 $25, 0( %0 );"                              \
+    "swc2 $26, 4( %0 );"                              \
+    "swc2 $27, 8( %0 )"                               \
+    : : "r"( r0 ) : "$12", "$13", "memory" )
+
+#define ec4c_ldv3(r0, r1, r2) __asm__ __volatile__ (  \
+    "lwc2 $0, 0( %0 );"                               \
+    "lwc2 $1, 4( %0 );"                               \
+    "lwc2 $2, 0( %1 );"                               \
+    "lwc2 $3, 4( %1 );"                               \
+    "lwc2 $4, 0( %2 );"                               \
+    "lwc2 $5, 4( %2 )"                                \
+    : : "r"( r0 ), "r"( r1 ), "r"( r2 ) )
+
+#define ec4c_ldv0(r0) __asm__ __volatile__ (          \
+    "lwc2 $0, 0( %0 );"                               \
+    "lwc2 $1, 4( %0 )"                                \
+    : : "r"( r0 ) )
+
+#define ec4c_rtpt() __asm__ __volatile__ ("nop;nop;rtpt")
+#define ec4c_rtps() __asm__ __volatile__ ("nop;nop;rtps")
+#define ec4c_avsz4() __asm__ __volatile__ ("nop;nop;avsz4")
+
+#define ec4c_stflg(r0) __asm__ __volatile__ (         \
+    "cfc2 $12, $31;"                                  \
+    "nop;"                                            \
+    "sw $12, 0( %0 )"                                 \
+    : : "r"( r0 ) : "$12", "memory" )
+
+#define ec4c_stsxy3(r0, r1, r2) __asm__ __volatile__ (\
+    "swc2 $12, 0( %0 );"                              \
+    "swc2 $13, 0( %1 );"                              \
+    "swc2 $14, 0( %2 )"                               \
+    : : "r"( r0 ), "r"( r1 ), "r"( r2 ) : "memory" )
+
+#define ec4c_stsxy(r0) __asm__ __volatile__ (         \
+    "swc2 $14, 0( %0 )"                               \
+    : : "r"( r0 ) : "memory" )
+
+#define ec4c_stotz(r0) __asm__ __volatile__ (         \
+    "swc2 $7, 0( %0 )"                                \
+    : : "r"( r0 ) : "memory" )
+
+void func_8017EC4C(s32 param_1)
+{
+    SV_8017EC4C v[4];
+    SV_8017EC4C tmp;
+    struct { s32 vx, vy, vz, pad; } vec;
+    MT_8017EC4C cmat;
+    MT_8017EC4C M;
+    struct { s32 flag, flag2, otz, x0, x1, x2, x3, x4; } g;
+
+    u8 *dbase;
+    u8 *pkt;
+    u8 *pk2;
+    u16 *tp;
+    u32 *otp;
+    u32 *otq;
+    u32 ot;
+    s32 hit;
+    s32 d, n, t, rem, i, j, k;
+    s32 aa, bb, cc, rr;
+    u32 w2;
+    u32 w1, wv;
+    u32 w3;
+
+    hit = 0;
+    ot = (u32)&D_800A6610[(*(u16 *)&D_800B9A02) << 14];
+    dbase = D_800AF630;
+    func_8012EC04(param_1, D_801E1158, (s32 *)&cmat);
+    func_8012F14C((s32)&cmat, (s32)&D_80193440[0], *(s32 *)(param_1 + 0xD4) + 8);
+
+    v[0].vx = D_80193440[0];
+    v[0].vy = D_80193440[1];
+    v[0].vz = D_80193440[2] - *(u16 *)(param_1 + 0x100);
+    v[1].vx = D_80193440[0];
+    v[1].vy = D_80193440[1];
+    v[1].vz = D_80193440[2] - *(u16 *)(param_1 + 0x102);
+    func_8012F14C((s32)&cmat, (s32)&v[0], (s32)&v[0]);
+    func_8012F14C((s32)&cmat, (s32)&v[1], (s32)&v[1]);
+    tmp = v[1];
+    if (func_80135888((s32)D_80126B78, (s32)D_80126B90, (s32)&v[0], (s32)&v[1]) != 0) {
+        func_8012F568(1, 0x4018, *(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12), 0x96,
+                      (s32)&v[1], (s32)D_801152A8);
+    }
+
+    d = *(s16 *)(param_1 + 0x102) - *(s16 *)(param_1 + 0x100);
+    t = d / 128;
+    n = t;
+    if (t < 0) {
+        t = -t;
+    }
+    rem = d - n * 128;
+    __asm__ ("" : "=r" (n) : "0" (n));
+    if ((d - n * 128) < 0) {
+        rem = -rem;
+    }
+
+    i = 0;
+    if (t > 0) {
+        do {
+            v[1].vx = D_80193440[0];
+            v[1].vy = D_80193440[1];
+            v[1].vz = D_80193440[2] - *(u16 *)(param_1 + 0x100) - ((i + 1) << 7);
+            func_8012F14C((s32)&cmat, (s32)&v[1], (s32)&v[1]);
+            hit = func_80133784(1, (void *)&v[0], (s32)&v[1]);
+            if (hit != 0) {
+                break;
+            }
+            v[0].vx = v[1].vx;
+            v[0].vy = v[1].vy;
+            v[0].vz = v[1].vz;
+            i = i + 1;
+        } while (i < t);
+    }
+
+    if (hit == 0) {
+        v[1].vx = D_80193440[0];
+        v[1].vy = D_80193440[1];
+        v[1].vz = D_80193440[2] - *(u16 *)(param_1 + 0x100) - (t << 7) - rem;
+        func_8012F14C((s32)&cmat, (s32)&v[1], (s32)&v[1]);
+        hit = func_80133784(1, (void *)&v[0], (s32)&v[1]);
+    }
+
+    if (hit != 0) {
+        *(SV_8017EC4C *)(*(s32 *)(param_1 + 0xD8) + 8) = v[1];
+        *(s32 *)(*(s32 *)(param_1 + 0xD8) + 4) &= 0x7FFFFFFF;
+        *(s32 *)D_801934B0 = D_801934F0[D_800B99DA & 1];
+        func_8012F038((s32)&cmat, (short *)&v[1], (short *)&v[1]);
+        cc = *(s16 *)(param_1 + 0x100);
+        aa = (s32)*(s16 *)&D_80193440[2] - cc;
+        bb = aa - v[1].vz;
+        if (bb < 0) {
+            rr = cc + (v[1].vz - aa);
+        } else {
+            rr = cc + bb;
+        }
+        *(s16 *)(param_1 + 0x102) = rr;
+        *(s32 *)(param_1 + 0xE4) |= 4;
+    } else {
+        *(s32 *)(*(s32 *)(param_1 + 0xD8) + 4) |= 0x80000000;
+        *(s32 *)(param_1 + 0xE4) &= ~4;
+    }
+
+    v[0].vx = 0;
+    v[0].vy = D_80193440[1];
+    v[0].vz = D_80193440[2];
+    func_8012F14C((s32)&cmat, (s32)&v[0], (s32)&v[0]);
+    func_800D20C0((void *)&v[0], (void *)&v[1], 8);
+    func_80017E68((void *)&v[0], (void *)&M);
+    v[1].vx = 0;
+    v[1].vy = 0;
+    k = *(u16 *)(param_1 + 0x100);
+    v[1].vz = *(u16 *)(param_1 + 0x102) - k;
+    ApplyMatrixSV((void *)&cmat, (void *)&v[1], (void *)&v[1]);
+    func_800D23D0((void *)&v[1]);
+    RotMatrixYXZ((void *)&v[1], (void *)&M);
+    vec.vx = D_801269A4 - v[0].vx;
+    vec.vy = D_801269A8 - v[0].vy;
+    vec.vz = D_801269AC - v[0].vz;
+    ApplyTransposeMatrixLV((void *)&M, (void *)&vec, (void *)&vec);
+    v[1].vz = -ratan2(vec.vx, vec.vy);
+    RotMatrixYXZ((void *)&v[1], (void *)&M);
+
+    ec4c_SetRotMatrix(dbase + 0x18);
+    ec4c_rotcol(&M.m[0][0]);
+    ec4c_rotcol(&M.m[0][1]);
+    ec4c_rotcol(&M.m[0][2]);
+    ec4c_SetTransMatrix(dbase + 0x18);
+    ec4c_rottrans(&M.t[0]);
+
+    ec4c_SetRotMatrix(&M);
+    ec4c_SetTransMatrix(&M);
+
+    tp = D_80193538;
+    for (i = 0; i < 3; i++) {
+        pkt = D_800A5E60;
+        k = (i * 2 + (*(u16 *)(dbase + 0xA3AA) & 1)) * 4;
+        D_800A5E60 = pkt + 0x24;
+        *(u32 *)(pkt + 4) = D_80193550[k];
+        *(u32 *)(pkt + 0xC) = D_80193554[k];
+        *(u32 *)(pkt + 0x14) = D_80193558[k];
+        *(u32 *)(pkt + 0x1C) = D_8019355C[k];
+        pkt[3] = 8;
+        pkt[7] = 0x38;
+
+        v[0].vx = D_80193440[0] + *tp++;
+        v[0].vy = 0;
+        v[0].vz = -*(u16 *)(param_1 + 0x100);
+        v[1].vx = D_80193440[0] + *tp++;
+        v[1].vy = 0;
+        v[1].vz = -*(u16 *)(param_1 + 0x102);
+        v[2].vx = D_80193440[0] - *tp++;
+        v[2].vy = 0;
+        v[2].vz = -*(u16 *)(param_1 + 0x100);
+        v[3].vx = D_80193440[0] - *tp++;
+        v[3].vy = 0;
+        v[3].vz = -*(u16 *)(param_1 + 0x102);
+
+        ec4c_ldv3(&v[0], &v[1], &v[2]);
+        ec4c_rtpt();
+        ec4c_stflg(&g.flag);
+        ec4c_stsxy3(pkt + 8, pkt + 0x10, pkt + 0x18);
+        ec4c_ldv0(&v[3]);
+        ec4c_rtps();
+        ec4c_stflg(&g.flag2);
+        g.flag |= g.flag2;
+        ec4c_stsxy(pkt + 0x20);
+        ec4c_avsz4();
+        ec4c_stotz(&g.otz);
+
+        if ((g.flag & ~0x1000) == 0) {
+            g.otz = g.otz + 1;
+            if (g.otz < 0x1000) {
+                pkt[7] |= 2;
+                w1 = *(u32 *)pkt;
+                otp = (u32 *)((g.otz << 2) + ot);
+                pk2 = D_800A5E60;
+                wv = *otp & 0xFFFFFF;
+                w1 &= 0xFF000000;
+                *(u32 *)pkt = w1 | wv;
+                w3 = *otp;
+                D_800A5E60 = pk2 + 8;
+                *otp = (w3 & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
+                pk2[3] = 1;
+                w2 = *(u32 *)pk2;
+                otq = (u32 *)((g.otz << 2) + ot);
+                *(u32 *)(pk2 + 4) = 0xE100002A;
+                w2 &= 0xFF000000;
+                *(u32 *)pk2 = w2 | (*otq & 0xFFFFFF);
+                *otq = (*otq & 0xFF000000) | ((u32)pk2 & 0xFFFFFF);
+            }
+        }
+    }
+}
+
 
 extern u16 D_800B99DA;
 extern s32 D_801E1158;

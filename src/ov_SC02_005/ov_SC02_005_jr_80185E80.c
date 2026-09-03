@@ -2,7 +2,121 @@
 #include "../shared/engine_core.h"
 #include "ov_SC02_005_shared.h"
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80185E80", func_80185E80);
+#include "common.h"
+
+extern u16 D_801E4BBC;
+extern s32 D_801959E0[];
+extern s32 D_801E43A0;
+extern s32 func_801860F4();
+extern s32 func_8018AD20(s32 a0);
+extern s32 func_8018AC48(s32 a0);
+extern s32 func_80186144(void *a0, s32 a1);
+
+s16 func_80185E80(s32 arg0) {
+    u16 *p;
+    s32 flag;
+    s32 res;
+    s32 flags;
+    u16 val;
+    u16 var;
+    s16 nxt;
+    s16 i;
+
+    p = (u16 *)D_801959E0[D_801E4BBC];
+    if (*(s16 *)(arg0 + 0x100) != 0) {
+        goto ret0;
+    }
+    if (*(s32 *)(arg0 + 0xE8) & 0x200) {
+        goto ret0;
+    }
+    var = p[*(s16 *)(arg0 + 0x102) * 2 + 1];
+    flag = var & 0x100;
+    var = var & 0xFF;
+    switch ((s16)(var - 2)) {
+    case 0:
+        if (func_801860F4(arg0, (s16)var) != 0) {
+            if (D_801E43A0 & 0x2000) {
+                var = 0;
+            }
+        } else {
+            var = 0;
+        }
+        break;
+    case 1:
+        res = func_8018AD20(arg0);
+        *(s16 *)(arg0 + 0xE0) = res;
+        if ((s16)res < 0) {
+            var = 0;
+        }
+        break;
+    case 2:
+        res = func_8018AC48(arg0);
+        *(s16 *)(arg0 + 0xE0) = res;
+        if ((s16)res < 0) {
+            var = 1;
+        }
+        break;
+    case 7:
+        res = func_80186144((void *)arg0, 9);
+        *(s16 *)(arg0 + 0xE0) = res;
+        if ((s16)res < 0) {
+            var = 1;
+        }
+        break;
+    case 3:
+        if (*(s32 *)(arg0 + 0xE8) & 0x408) {
+            var = 0;
+        }
+        break;
+    case 4:
+    case 5:
+        if ((*(s32 *)(arg0 + 0xE8) & 0x800) == 0) {
+            if (*(s16 *)(arg0 + 0x76) < 0x81) {
+                var = 0;
+            }
+        }
+        break;
+    case 6:
+        flags = *(s32 *)(arg0 + 0xE8);
+        if (flags & 0x800) {
+            var = 0;
+            break;
+        }
+        if ((flags & 0x400) == 0) {
+            if ((flags & 0xA) != 2) {
+                goto ret0;
+            }
+            *(u16 *)(arg0 + 0xFE) = *(u16 *)(arg0 + 0xFE) + 1;
+            goto ret0;
+        }
+        res = func_80186144((void *)arg0, 8);
+        *(s16 *)(arg0 + 0xE0) = res;
+        if ((s16)res < 0) {
+            var = 6;
+        }
+        break;
+    }
+    i = *(u16 *)(arg0 + 0x102) + 1;
+    *(u16 *)(arg0 + 0x102) = i;
+    nxt = ((s16 *)p)[i * 2];
+    if (nxt == -1) {
+        val = D_801E4BBC;
+        *(s16 *)(arg0 + 0x102) = 0;
+        val = *(u16 *)D_801959E0[val];
+        *(u16 *)(arg0 + 0x100) = val;
+    } else {
+        *(u16 *)(arg0 + 0x100) = nxt;
+    }
+    if (flag != 0) {
+        if ((*(s32 *)(arg0 + 0xE8) & 0xA) == 2) {
+            *(u16 *)(arg0 + 0xFE) = *(u16 *)(arg0 + 0xFE) + 1;
+        }
+    }
+    return var;
+ret0:
+    return 0;
+}
+
 
 extern s32 func_80132E6C(s16 *a0);
 extern s16 D_80126CB8;

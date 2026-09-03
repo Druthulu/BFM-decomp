@@ -2,7 +2,67 @@
 #include "../shared/engine_core.h"
 #include "ov_SC02_005_shared.h"
 
-INCLUDE_ASM("asm/ov_SC02_005/nonmatchings/ov_SC02_005_jr_80185060", func_80185060);
+#include "common.h"
+
+extern void func_80187280(s32 a0, s32 a1);
+extern void func_80189F64(void);
+extern void func_801876B0(s32 arg0);
+extern void func_80187664(s32 arg0);
+extern void func_8012AD44(s32 *a0, s16 a1);
+extern u16 D_801E4BBC;
+extern s32 D_801E43D0[];
+
+void func_80185060(s32 a0, s32 a1)
+{
+    u16 t;
+    s32 flag;
+
+    t = *(u16 *)(a0 + 0x70) + 1;
+    func_80187280(a0, t);
+    *(u8 *)(a0 + 0xC1) = 0;
+    *(s32 *)(a0 + 0xDC) = 1;
+    if (*(s16 *)(a0 + 0x104) == 0) {
+        *(s16 *)(a0 + 0x104) = (s16)a1;
+    }
+
+    flag = 0;
+    switch ((s16)(*(u16 *)(a0 + 0x70) - 3)) {
+    case 0:
+        *(u32 *)(*(s32 *)(a0 + 0xCC) + 0xE8) |= 0x2000;
+        func_80189F64();
+        flag = 1;
+        break;
+    case 5:
+    case 7:
+        *(u16 *)(D_801E43D0[*(s16 *)(a0 + 0x70)] + 0x5C) = 0x8800;
+        break;
+    case 6:
+        *(u32 *)(*(s32 *)(a0 + 0x64) + 0xE8) |= 0x20000;
+        break;
+    case 8:
+        *(u32 *)(*(s32 *)(a0 + 0x64) + 0xE8) |= 0x40000;
+        break;
+    }
+
+    if (flag) {
+        *(s16 *)(a0 + 0x100) = 0x18;
+        if (a1 != 0) {
+            func_801876B0(a0);
+        }
+    } else {
+        *(s16 *)(a0 + 0x100) = 0x10;
+        if (a1 != 0) {
+            func_80187664(a0);
+        }
+        if (D_801E4BBC == 0) {
+            *(s16 *)(*(s32 *)(a0 + 0xCC) + 0xFE) += 1;
+        }
+    }
+
+    *(s16 *)(a0 + 0xAE) = -1;
+    func_8012AD44((s32 *)a0, 2);
+}
+
 
 extern void func_8012AD44(s32 *a0, s16 a1);
 

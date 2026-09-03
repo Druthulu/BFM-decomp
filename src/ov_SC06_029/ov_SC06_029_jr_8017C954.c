@@ -4628,7 +4628,179 @@ void func_8017F984(s32 arg0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_029/nonmatchings/ov_SC06_029_jr_8017C954", func_8017F9C0);
+/* func_8017F9C0 — ov_SC06_029 / ov_SC06_029_jr_8017C954 (294 ins, 13-way jtbl switch).
+ * Structural sibling of func_8017EF34 / func_8017F330 in this same TU: same jtbl shape,
+ * same D_801DDB2C[5] flag loops, same shared "0x1C=0x180; 0x34++; func_8002D4C8(0x936,0)"
+ * tail duplicated per case so cross-jumping re-merges it (.L8017FCEC), and the same
+ * "0x34++" tail duplicated so cross-jumping re-merges it (.L8017FDC8).
+ * Every symbol spelled from THIS .s's own relocation lines. D_801DDB30..3C are written as
+ * D_801DDB2C[1..4] (the TU's §183 TYPE-adopted s32[5]; %hi/%lo(D_801DDB2C+4k) resolve to
+ * identical bytes). Callee decls copied verbatim from the TU: func_80181170 / func_8012BEE8
+ * are `void (void)` there, so the a0-passing calls go through function-pointer casts. */
+void func_8017F9C0(s32 param_1) {
+    extern s32 D_801DDB2C[];
+    extern s32 D_801DFD4C;
+    extern u16 D_800B99DA;
+    extern s32 D_80190704[];
+    extern s32 D_8019070C[];
+    extern s32 rand(void);
+    extern void func_8002D4C8(s32 a0, s32 a1);
+    extern void func_8012BEE8(void);
+    extern s32 func_8012E544(s32 arg);
+    extern void func_8017FE58(void *fp, s32 count);
+    extern s32 func_80180FE0(s32 a0, s32 a1);
+    extern void func_80181170(void);
+    extern s32 func_801812AC(s32 a0);
+    extern s32 func_80181334(void);
+
+    s32 i;
+    s32 m;
+    s32 *p1;
+    s32 *p2;
+    s32 *p3;
+    s32 *p4;
+    s32 *p5;
+    s32 *p6;
+
+    switch (*(u16 *)(param_1 + 0x34)) {
+    case 0:
+        i = 0;
+        p1 = D_801DDB2C;
+        do {
+            *(s32 *)(*p1 + 0xE0) |= 9;
+            p1 = p1 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(s32 *)(param_1 + 0x1C) = 0x180;
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        func_8002D4C8(0x936, 0);
+        goto L_end;
+
+    case 1:
+    case 5:
+    case 9:
+        if (func_801812AC(0) == 0) {
+            goto L_end;
+        }
+        func_80180FE0(param_1, rand() % 5);
+        func_8017FE58((void *)param_1, D_8019070C[*(s16 *)(param_1 + 0x106)]);
+        if ((*(s32 *)(param_1 + 0xE0) & 0x800) == 0) {
+            if (*(s16 *)(param_1 + 0xFE) >= 3) {
+                *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            }
+            goto L_end;
+        }
+        if (*(s16 *)(param_1 + 0x104) != *(s16 *)(param_1 + 0xFE)) {
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            goto L_end;
+        }
+        if (((s32 (*)(void *))func_8012BEE8)((void *)param_1) != 0) {
+            *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+            ((void (*)(s32))func_80181170)(param_1);
+        }
+        goto L_end;
+
+    case 2:
+        i = 0;
+        m = ~1;
+        p2 = D_801DDB2C;
+        do {
+            *(s32 *)(*p2 + 0xE0) &= m;
+            *(s32 *)(*p2 + 0xE0) |= 4;
+            p2 = p2 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        goto L_end;
+
+    case 3:
+    case 7:
+    case 0xB:
+        if (func_80181334() == 1) {
+            *(s32 *)(param_1 + 0x1C) = 0x20;
+            *(u16 *)(param_1 + 0x34) = 0xC;
+            func_8002D4C8(4, 0x936);
+            ((void (*)(s32))func_80181170)(param_1);
+        }
+        goto L_end;
+
+    case 4:
+        i = 0;
+        p3 = D_801DDB2C;
+        do {
+            *(s32 *)(*p3 + 0xE0) |= 0xA;
+            p3 = p3 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(s32 *)(param_1 + 0x1C) = 0x180;
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        func_8002D4C8(0x936, 0);
+        goto L_end;
+
+    case 6:
+        i = 0;
+        m = ~2;
+        p4 = D_801DDB2C;
+        do {
+            *(s32 *)(*p4 + 0xE0) &= m;
+            *(s32 *)(*p4 + 0xE0) |= 4;
+            p4 = p4 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        goto L_end;
+
+    case 8:
+        i = 0;
+        p5 = D_801DDB2C;
+        do {
+            *(s32 *)(*p5 + 0xE0) |= 8;
+            p5 = p5 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(s32 *)(D_801DDB2C[0] + 0xE0) |= 2;
+        *(s32 *)(D_801DDB2C[1] + 0xE0) |= 1;
+        *(s32 *)(D_801DDB2C[2] + 0xE0) |= 2;
+        *(s32 *)(D_801DDB2C[3] + 0xE0) |= 1;
+        *(s32 *)(D_801DDB2C[4] + 0xE0) |= 2;
+        *(s32 *)(param_1 + 0x1C) = 0x180;
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        func_8002D4C8(0x936, 0);
+        goto L_end;
+
+    case 0xA:
+        i = 0;
+        p6 = D_801DDB2C;
+        do {
+            *(s32 *)(*p6 + 0xE0) |= 4;
+            p6 = p6 + 1;
+            i = i + 1;
+        } while (i < 5);
+        *(s32 *)(D_801DDB2C[0] + 0xE0) &= ~2;
+        *(s32 *)(D_801DDB2C[1] + 0xE0) &= ~1;
+        *(s32 *)(D_801DDB2C[2] + 0xE0) &= ~2;
+        *(s32 *)(D_801DDB2C[3] + 0xE0) &= ~1;
+        *(s32 *)(D_801DDB2C[4] + 0xE0) &= ~2;
+        *(u16 *)(param_1 + 0x34) = *(u16 *)(param_1 + 0x34) + 1;
+        goto L_end;
+
+    case 0xC:
+        if (((s32 (*)(void *))func_8012BEE8)((void *)param_1) != 0) {
+            if (func_8012E544(0x2EF) == 0) {
+                if ((*(s32 *)(param_1 + 0xE0) & 0x800) != 0) {
+                    *(u16 *)(param_1 + 0x102) = 0;
+                }
+                *(s16 *)(param_1 + 2) = 0xA;
+            }
+        }
+        goto L_end;
+    }
+
+L_end:
+    D_801DFD4C = D_80190704[D_800B99DA & 1];
+    ((u16 *)param_1)[0x82] = ((u16 *)param_1)[0x7F];
+}
+
 
 #include "common.h"
 
