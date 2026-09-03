@@ -3412,7 +3412,7 @@ void func_8017D72C(s32 a0) {
 }
 
 
-extern s32 func_8017D918(s32 param_1);
+extern s32 func_8017D918();
 
 void func_8017D79C(int param_1)
 {
@@ -3460,7 +3460,88 @@ void func_8017D79C(int param_1)
 }
 
 
-INCLUDE_ASM("asm/ov_SC06_020/nonmatchings/ov_SC06_020_jr_8017C24C", func_8017D918);
+extern void func_80015978(s32 a0, s32 *a1);
+extern void func_800178EC(s32 a0);
+
+s32 func_8017D918(obj, mode, a2, a3, a4, a5)
+s32 obj;
+s32 mode;
+s32 a2;
+s32 a3;
+s32 a4;
+s32 a5;
+{
+    struct S_8017D918 {
+        u16 f00, f02, f04, f06, f08, f0A, f0C, f0E;
+        u16 f10, f12, f14, f16, f18, f1A, f1C, f1E;
+        u16 f20, f22, f24, f26, f28, f2A, f2C, f2E;
+        s32 f30, f34, f38, f3C, f40;
+        u8 f44;
+    } s;
+    register struct S_8017D918 *p __asm__("$16");
+    u16 h[2];
+    u16 v1val;
+    u16 v0val;
+    s16 t_vx0;
+    s16 yhi;
+    s16 t_vx1;
+    s16 ylo;
+    s16 xsel;
+
+    func_80015978(obj + 4, (s32 *)h);
+    v1val = h[0];
+    v0val = h[1];
+
+    t_vx0 = v1val + a2;
+    p = &s;
+    yhi = v0val + 0x80;
+    t_vx1 = v1val + a3;
+    ylo = v0val - 0x80;
+    s.f00 = t_vx0;
+    s.f02 = yhi;
+    s.f08 = t_vx1;
+    s.f0A = ylo;
+
+    switch (mode) {
+    case 0:
+        xsel = v1val - 0xA0;
+        break;
+    case 1:
+        xsel = v1val + 0xA0;
+        break;
+    default:
+        goto skip_store;
+    }
+    s.f10 = xsel;
+    s.f12 = yhi;
+    s.f18 = xsel;
+    s.f1A = ylo;
+skip_store:
+    p->f04 = 0;
+    __asm__ __volatile__("");
+
+    p->f34 = a4;
+    p->f30 = a4;
+    p->f3C = a5;
+    p->f38 = a5;
+    __asm__ __volatile__("");
+    p->f20 = *(s32 *)(obj + 0xE4) + 0xC00;
+    p->f22 = 0x100;
+
+    p->f24 = *(s32 *)(obj + 0xE4) + 0xC3F;
+    p->f26 = 0x100;
+
+    p->f28 = *(s32 *)(obj + 0xE4) + 0xC00;
+    p->f2A = 0x13F;
+
+    p->f2C = *(s32 *)(obj + 0xE4) + 0xC3F;
+    p->f2E = 0x13F;
+    p->f44 = 0x36;
+    p->f40 = 0x50000000;
+
+    func_800178EC((s32)p);
+}
+
 
 extern s16 D_80126CAC;
 extern s16 D_80126CB0;
