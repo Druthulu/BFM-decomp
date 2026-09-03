@@ -346,39 +346,81 @@ _MK_PATH = os.path.join(REPO, 'config/overlays.mk')
 _MK_LOCK = os.path.join(REPO, '.run', 'auto', 'overlays_mk.lock')
 
 
-def _mk_block_span(txt, binary):
-    """(start, end) char offsets of `# --- <binary> …` through the char before the next `# --- ` header."""
-    m = re.search(r'^# --- %s\b.*$' % re.escape(binary), txt, re.M)
-    if not m:
-        return None
-    nxt = re.search(r'^# --- ', txt[m.end():], re.M)
-    return m.start(), (m.end() + nxt.start()) if nxt else len(txt)
+def _mk_block_spans(txt, binary):
+    """EVERY (start, end) span whose `# --- <binary> …` header names this binary, in file order.
+
+    ALL of them, not the first (P31 S75). This was `_mk_block_span`, singular: it took the FIRST
+    matching header and ran to the next `# --- `, so a binary whose carve state spans more than one
+    block was HALF-snapshotted and, on revert, silently HALF-restored.
+
+    Measured: `resident` is the only such binary today (1 of 142 with a block) and it has exactly
+    two — `§8e jtbl pad spec` and `§8f leading-rodata sandwich`. A rejected gate of
+    `resident:func_800D06E8` left the file with a 4th `JTBL_PADS` entry AND without
+    `--pre hdr.rodata.o`; the revert put back block 1 and never saw block 2, so the binary would not
+    build at all (`consumed 3 rodata jump table(s) but 4 pad spec(s) given`) — with `src/` perfectly
+    clean, so `git status src/` said nothing was wrong. Shared COMMITTED carve state, damaged by a
+    gate that REJECTED the draft (R51/R52).
+
+    The singular form was also a silent narrowing in the classic shape: it returned a TRUE span for a
+    scope smaller than the caller believed, and nothing compared the two (R32)."""
+    out = []
+    for m in re.finditer(r'^# --- %s\b.*$' % re.escape(binary), txt, re.M):
+        nxt = re.search(r'^# --- ', txt[m.end():], re.M)
+        out.append((m.start(), (m.end() + nxt.start()) if nxt else len(txt)))
+    return out
 
 
 def _mk_block(binary):
+    """This binary's carve state as a LIST of block texts, or None when it has no block.
+
+    None (not []) for the no-block case, so the caller's `is not None` guard keeps its old meaning:
+    71 of the 213 binaries have no block at all and must not be snapshotted or warned about."""
     try:
         txt = open(_MK_PATH).read()
     except OSError:
         return None
-    sp = _mk_block_span(txt, binary)
-    return txt[sp[0]:sp[1]] if sp else None
+    blocks = [txt[a:b] for a, b in _mk_block_spans(txt, binary)]
+    return blocks or None
 
 
-def _mk_block_restore(binary, block):
-    """Replace this binary's block in the CURRENT overlays.mk under the shared lock (other
-    binaries' blocks are left exactly as they are now)."""
+def _mk_block_restore(binary, blocks):
+    """Restore this binary's block(s) in the CURRENT overlays.mk under the shared lock (other
+    binaries' blocks are left exactly as they are now).
+
+    Accepts the list `_mk_block` returns; a bare string is still honoured so an older snapshot
+    (or a caller that kept one) restores as a single block rather than being mis-iterated."""
     import fcntl
+    if isinstance(blocks, str):
+        blocks = [blocks]
     os.makedirs(os.path.dirname(_MK_LOCK), exist_ok=True)
     with open(_MK_LOCK, 'w') as lk:
         fcntl.flock(lk, fcntl.LOCK_EX)
         txt = open(_MK_PATH).read()
-        sp = _mk_block_span(txt, binary)
-        if sp is None:
+        spans = _mk_block_spans(txt, binary)
+        if not spans:
             print('  [jtbl] !! overlays.mk block for %s not found — block restore skipped' % binary)
             return
-        new = txt[:sp[0]] + block + txt[sp[1]:]
+        if len(spans) == len(blocks):
+            new = txt
+            for (a, b), blk in zip(reversed(spans), reversed(blocks)):   # tail-first: spans stay valid
+                new = new[:a] + blk + new[b:]
+        else:
+            # The carve added or removed a header. Collapse to the snapshot: put every snapshot block
+            # where the first one was and drop the rest, so no half-state survives.
+            print('  [jtbl] overlays.mk %s: %d block(s) now vs %d in the snapshot — collapsing to the '
+                  'snapshot' % (binary, len(spans), len(blocks)))
+            new = txt
+            for a, b in reversed(spans[1:]):
+                new = new[:a] + new[b:]
+            a, b = spans[0]
+            new = new[:a] + ''.join(blocks) + new[b:]
         if new != txt:
             open(_MK_PATH, 'w').write(new)
+        # R32 — ASSERT THE RESTORE LANDED. The defect this replaces was a reported success.
+        back = open(_MK_PATH).read()
+        if [back[a:b] for a, b in _mk_block_spans(back, binary)] != list(blocks):
+            print('  [jtbl] !! overlays.mk restore for %s did NOT reproduce the snapshot — the carve '
+                  'state is now UNKNOWN; `git diff config/overlays.mk` before building' % binary)
 
 
 def _jtbl_snapshot():

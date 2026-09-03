@@ -34725,3 +34725,52 @@ Three lessons, in order of reusability:
    CLASS ("untracked derived deps a worktree needs"), and the class had two members. Both now
    cross-reference each other; add a dependency to one and you must add it to the other. The two
    are deliberately NOT merged — `parallel_gate` provisions one binary, `verify_worktree` all 213.
+
+## §444 ★★★ — A REJECTED GATE DAMAGED COMMITTED CARVE STATE, AND `git status src/` SAID NOTHING WAS WRONG (P31 S75)
+
+Running one reject to ground (`resident:func_800D06E8`) turned up something worse than the defect
+being chased. After the gate REJECTED the draft, `config/overlays.mk` had:
+
+* a **4th** `build/src/resident/resident.o: JTBL_PADS := 0,0,0,0` entry beside the real 3-table one, and
+* `resident_JTBL_INTERLEAVE` with **`--pre hdr.rodata.o` removed** — the §440 leading-rodata sandwich.
+
+The binary then would not build at all — `jtbl_rodata_pads: consumed 3 rodata jump table(s) but 4 pad
+spec(s) given — table-count drift vs the carve` — while `src/` was **perfectly clean**. Every habit
+that says "check `git status` before you build" looks at `src/`, and the damage was in shared,
+committed, *carve* state.
+
+**ROOT CAUSE — A SILENT NARROWING, THE CLASSIC SHAPE.** `harvest_verify` deliberately snapshots only
+the gating binary's own block of `overlays.mk` (correct: the file is shared by every parallel gate,
+and a whole-file restore resurrects other binaries' lines — the S62 defect). But `_mk_block_span` was
+SINGULAR: `re.search` for the first `# --- <binary>` header, spanning to the next `# --- `. **A binary
+whose carve state occupies more than one block was therefore half-snapshotted, and the revert
+silently half-restored.** The function returned a TRUE span for a scope smaller than its caller
+believed, and nothing ever compared the two (R32).
+
+Blast radius, measured before costing (R37): **1 of the 142 binaries with a block** — `resident`, which
+has exactly two (`§8e jtbl pad spec`, `§8f leading-rodata sandwich`) and still holds 587 instructions
+of open stubs. Narrow, and a silent state-corruptor is worth fixing at any width.
+
+Fixed as `_mk_block_spans` (plural): the snapshot is a LIST of blocks, the restore rewrites them
+tail-first so earlier spans stay valid, a header count that has changed collapses to the snapshot
+rather than leaving half-state, and the result is **re-read and compared against the snapshot** —
+because the defect it replaces was a reported success. Negative-controlled three ways: snapshot →
+restore is a no-op on all **142/142** binaries; the real S75 damage is fully undone; and the old
+single-block restore **provably does not** undo it (the positive control that proves the fix is
+load-bearing rather than decorative).
+
+**TWO MORE FROM THE SAME REJECT, both about believing a verdict:**
+
+**A. The classified ledger records the LADDER'S FINAL verdict, not stage 0's.** The stored class was
+`CC1-FAIL: syntax error before 'D_80078E78'` — which came from a LATE rung (`sig_unify` hoisting the
+file-scope type into the block, exactly what the draft's own header comment warns about). The RAW
+draft compiles cleanly and fails on BYTES. So a class attributed to the draft was a fact about a
+transform, and the cheapest possible check — splice it by hand and build — said so in one command.
+
+**B. `match_one` MATCH + `rtu_match` MATCH is still not bankable.** Both returned MATCH (344 ins),
+`rtu_match` with only the predicted `type mismatch with previous external decl` pedwarn. The real
+build is 20 bytes longer and `0x800CEDFC` holds `800D01F4, 800D0204, 800D0214 …` — a **jump table**;
+everything downstream shifts (69,571 differing words, 332 of them inside the function). Neither
+matcher links, and both share a `%lo` mask. The function's blocker is a §8b/§440 **carve**, not a
+body. When two matchers agree and the gate disagrees, ask what the gate does that they do not: it
+LINKS.
