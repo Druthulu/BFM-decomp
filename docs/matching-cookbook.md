@@ -35540,3 +35540,40 @@ belief than a compiler limit — re-probe before honouring one.**
 diamond-merge label flushes `cse2`, and every zero-byte flush tried killed either the tail cross-jump
 or the fp loop-invariant hoist; plus a 2×5-instruction mode-copy allocation in the OTZ clamp and the
 `$a0`/`$s7` prologue schedule.)*
+
+#### §474 — A *PROVED* C-LEVEL FLOOR: `split_tree` + `stupid.c` (-O0), from `main:func_80011380`
+
+**Source: the S76 agent, which upgraded an empirical closeness-6 plateau to a floor PROVED from
+`tools/reference/` gcc sources.** The counterweight to §473 and friends: most recorded walls in this
+project have been stale, but **this one is real and now has a proof**, so it should never be
+re-ground.
+
+**The demand.** The target needs `MULT(MULT(i,2),2)` left **unmerged**.
+
+**Why no C spelling delivers it.** `fold-const.c:882` `split_tree` decomposes ANY `MULT` whose `op1`
+is `TREE_CONSTANT`. All 20 anonymous / identity / array spellings measured collapse to a single
+`sll 2` (190 ins), and **`STRIP_NOPS` eats `NON_LVALUE_EXPR`**, so the usual shields — `|0`, `+0`,
+`*1`, `&~0`, `^0`, `>>0` — cannot protect the inner multiply.
+
+**Why the two escapes each cost an instruction.**
+* A **statement-expression** produces the EXACT 5-instruction RTL (confirmed with `cc1 -dr`) — but
+  its `BLOCK_END` note lands between the `sll` and the next copy. `stupid.c:497-508` computes
+  `dead = max(last_use, born+2)` with `occ = [born, dead-1]`, so a copy conflicts with its source
+  **only when immediately adjacent**; the note breaks the adjacency, the copy self-coalesces, and
+  `final.c` deletes it (191).
+* `(t = i*2) * 2` with `register s32 t` is a genuine fold blocker and reaches **exact length 192 with
+  the exact instruction shape** (closeness 12, the best new construct) — but `expand_decl` /
+  `use_variable` emit zero-byte `(use)` brackets that make `t` the longest live interval, so it
+  seizes `$v0` and rotates the whole `{v0,v1,a0,a1,a2}` ring one step.
+
+**The clinching proof that the target has NO variable there:** its 4th instruction `sll $v1,$a0,1`
+reads **`$a0`**, not insn 2's destination. A variable would have to be the deleted move, and `t` can
+never be. Hard-register pins `$2..$5/$8/$9` all keep the copy (193); a stack `t` costs 194.
+
+**Bonus law, same oracle — the `la`-on-`$a0` colour.** `expand_binop` allocates the `PLUS`
+destination **before** `force_reg`'ing the symbol, so the symbol's pseudo gets the higher regno and
+loses `stupid_reg_compare`'s tie-break. That explains a -O0 register colour that looks arbitrary.
+
+**Use this section as the template for a wall claim:** name the pass, cite the file and line, show
+the measured cost of each escape, and give the byte-level fact that rules out the alternative. A wall
+asserted without that is a belief (see §473).
