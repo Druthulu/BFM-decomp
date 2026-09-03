@@ -119,6 +119,16 @@ target**, joined on the corpus signature hashes (`tools/seed_ref.py`).
 > neither tool could see them. A `mechanical_remap_refused` flag now tells the agent: copy the BODY,
 > expect a declaration blocker.
 
+### 2a-0. THE SAME-ADDRESS LEAD IS SIZE-FILTERED NOW — READ THE `⚠ IGNORE` LINE (S74)
+
+The card's `⭐ IS BANKED AT THIS ADDRESS` lead used to be name+address keyed with no size check, and
+**about a dozen of ~60 S74 cards carried a wrong twin** — one advertising a 72-instruction namesake
+to a 241-instruction target, *with journal history claiming "already MATCH closeness 0"*. `api_agent`
+now keeps a lead only at a MATCHING instruction count (marking it strong when `h_seq` matches too)
+and prints an explicit `⚠ IGNORE …` naming the binaries where that address holds a different
+function, with both sizes. Nothing to run — but if a pack still shows a bare address lead, it was
+built before S74; regenerate it rather than trusting it (cookbook §438/§238).
+
 ### 2a. RUN `seed_ref --near` BEFORE BELIEVING ANY "NO TWIN" VERDICT (S69)
 
 ```

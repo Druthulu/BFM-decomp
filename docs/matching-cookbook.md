@@ -34571,3 +34571,75 @@ function that then BANKED, or (where noted) a measured-inert result worth not re
 | **`x*32` emits `lh` where `x<<5` emits `lhu`** | `force_to_mode` narrows the `sign_extend` under the shift's mask. **`match_one`'s `%lo` mask HIDES this** — the closeness is identical either way, so verify with `objdump` (§405-A again). |
 | **Association order is observable** | `0x80 - d*32 - r%32` and `0x80 - r%32 - d*32` emit different instruction orders; read the operand order off the accumulator chain in the `.s`, not off the source you would naturally write. |
 | **One temp per switch arm** (§350, re-measured) | A temp SHARED across arms has `reg_n_sets > 1`, which suppresses `sched1`'s `birthing_insn_p` boost. Sometimes that is what you want: one crack needed arms 4+5 to SHARE deliberately while arm 6 got its own (10 rows vs 16). |
+
+
+## §440 ★★★ — A `.rodata` CARVE PIECE BINDS TO A SUBSEG, NOT TO A FUNCTION: EXTEND THE CARVE INSTEAD OF ISOLATING (P31 S74; 6 banked, resident included)
+
+**§8b's "non-adjacent tables → ISOLATE the function into its own subseg" is over-strict.** A carve
+piece attaches to a code SUBSEG, and that object's `.rodata` is the address-ordered concatenation of
+
+* cc1's tables for the functions in it that are **banked**, and
+* still-stubbed functions' **migrated** tables, `.include`d by their `INCLUDE_ASM` in source order.
+
+So a span may legitimately hold a MIX, and a carve may be EXTENDED across material that belongs to
+functions nobody has drafted yet. Measured: extending `ov_SC06_029_jr_8017C954`'s carve across an
+align-pad word and **two unrelated still-stubbed tables** was byte-identical with nothing banked, and
+then took two banks — where the tooling had demanded a jr-isolation.
+
+**Four corollaries, each byte-proven:**
+
+1. **Migrated tables self-align.** spimdisasm emits the block's `.align 3` iff the table's
+   **span-relative** offset is 8-aligned (`+0x0` got one; `+0x3c` and `+0xb4` did not; `+0xc8` got
+   one and reproduced the retail zero word at `+0xc4`). So a stubbed table needs no spec entry.
+2. **`JTBL_PADS` counts cc1 tables ONLY** (the filter keys on `.align 3` followed by `$L`), so a
+   mixed span's spec **grows as each sibling banks**: `0,0,4,4` → `0,0,4,4,0` → `0,0,4,4,0t1,0`.
+3. **The zero-word rule (§8e) is INVALID across a migrated boundary** — the word before the entry is
+   zero, but that zero is supplied by the preceding migrated block, so the lead entry is `0`, not `4`.
+4. **A covered table at a 4-mod-8 span offset gains 4 bytes when it banks**, because cc1 always emits
+   `.align 3`. That is the `covered-tpad` case: bankable, but it needs a `0t<n>` spec entry.
+
+**And the verdict that hid all of this.** A table already inside a carve bound to its own subseg
+needs no carve work at all — in stub state the migrated block fills the piece exactly, and banking
+swaps it for cc1's identical one. `island_probe` classified such a function `tail` on the table's
+ADDRESS; `apply()` sent it to `build_carve`, which resolves spans out of the RAW data asm where a
+carved table no longer is; `harvest_verify` booked **CARVE-REFUSED**. That is a verdict about the
+route we chose, not about the function (R43). `jtbl_carve` now has `covered` / `covered-tpad`
+verdicts and treats a fully-covered batch as a no-op.
+
+**THE RESIDENT CAN CARVE LIKE AN OVERLAY** — its three tables are adjacent and lead its island
+(`0x450e0..0x451ac`, one span, subseg `resident`). The new part is the layout: the resident opens
+with `- [0x0, rodata, hdr]`, a 1-word `.rodata` header BEFORE the code, so it is
+`rodata → text → data → rodata(carve) → data`. `ld_interleave --order` cannot express that — every
+listed piece is emitted after TEXT_START, so `hdr.rodata.o(.rodata)` lands in the unchecked `empties`
+bucket, is parked after the text, and moves every byte. **`--pre` places a leading-rodata piece ahead
+of the text**; `resident_JTBL_INTERLEAVE := --pre hdr.rodata.o --order tail.data.o,resident.o,tail2.data.o`.
+
+## §441 ★★ — THREE MORE INSTRUMENT DEFECTS FROM THE SAME SESSION, ALL OF WHICH BLAME THE SUBJECT (P31 S74)
+
+Companion to §436/§437. Each one produced a confident, precise, WRONG verdict about a correct draft.
+
+**A. `jtbl_rodata_pads`, two measurement bugs in the island walk.** `_items` matched a rodata anchor
+only as `D_xxxxxxxx:` and missed the `labels.inc` macro form **`dlabel D_xxxxxxxx`** that an inline
+`__asm__` block in C produces (`as` expands it; cc1/maspsx pass it verbatim) — an 8-byte hole, after
+which every C jump table died with `island layout drift`. And the `ctable` branch read `word(pos)`
+without stepping the sub-word zero gap first, so a preceding `.asciz` ending at an odd address made
+it refuse a correct layout. Both accuse the carve; neither is the carve. (The third, the trailing
+`.align`, is §436-C.)
+
+**B. `harvest_verify` computed the duplicate-typedef strip-set UNSCOPED.** `cdecl.typedef_names(path)`
+without `above=fn` — a parameter that exists for exactly this. A typedef declared BELOW the splice
+point is not in scope there, so the draft's own copy was the only one, and stripping it produced
+`parse error before '<symbol>'`, logged as **PLUMBING** and indistinguishable from a real declaration
+conflict. One function was blocked by that alone, and its "conflict" evaporated with `above=fn`.
+
+**C. `jr_isolate_all` assumed PREAMBLE is byte-neutral.** A §265 verbatim `__asm__` body is none of
+`parse_overlay_c`'s four addressed-anchor forms, so it attaches to the NEXT anchor as preamble — and
+it EMITS BYTES. Cutting at that anchor moves those bytes into the new object while the yaml says the
+region starts higher: measured 0x168 bytes of three other functions. `_region_emit_start()` now
+derives the offset from the region's CONTENT (item addresses plus every `.globl`/`.ent` its text
+names that resolves inside the object) and takes `min(cut, emit)`, so a boundary can only move DOWN;
+where no verbatim asm is in play it equals the cut and nothing changes.
+
+**The habit these three share with §436 and §437:** the tool reported something TRUE about a world
+that was not the one it was asked about, and the true-sounding message pointed at the draft. When a
+gate rejects a body you have byte-verified standalone, the first suspect is the gate.
