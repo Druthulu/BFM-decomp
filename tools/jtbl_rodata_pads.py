@@ -229,7 +229,16 @@ def _items(lines):
                     cnt += 1; j += 1
                 items.append(("ctable", cnt)); cur = None; k = j; continue
             pend_align = 1 << n; cur = None; continue
-        m = re.match(r"^(D_[0-9A-Fa-f]{8}):$", st)
+        if st.startswith("enddlabel"):
+            cur = None; continue
+        # A hand-written rodata block inside an inline `__asm__(...)` in the C TU reaches this
+        # filter as the LABELS.INC MACRO FORM `dlabel D_xxxxxxxx` (as expands it; cc1/maspsx pass
+        # it through verbatim) — not as `D_xxxxxxxx:`.  Matching only the colon form made every
+        # such block INVISIBLE to the derive walk, so its bytes were an unaccounted hole and the
+        # next C jump table failed "island layout drift" with NO cc1 diagnostic (P31 S74:
+        # md_SC07_004's `dlabel D_801A01B4` / 2 zero words hid 8 bytes ahead of jtbl_801A01BC).
+        m = (re.match(r"^dlabel\s+(D_[0-9A-Fa-f]{8})\s*(?:,\s*\w+)?$", st)
+             or re.match(r"^(D_[0-9A-Fa-f]{8}):$", st))
         if m:
             cur = [int(m.group(1)[2:], 16), 0, pend_align]; pend_align = 0
             items.append(("cdata", cur)); continue
@@ -306,6 +315,14 @@ def derive(binary, lines, tu=None):
                     sys.exit("jtbl_rodata_pads --derive %s: a C jump table precedes every anchor and "
                              "no yaml .rodata piece is bound to TU %r — cannot place it" % (binary, tu))
                 pos = piece[0]
+            # The preceding rodata item can end UNALIGNED (a `.asciz` blob: md_SC07_004's
+            # D_801A00D8 = "s" ends at 0x801A00DA).  `as` 4-aligns the table itself, so the
+            # retail 1-3 zero bytes there are assembler padding, not a table pad — step over
+            # them exactly as the anchor branches do, or `word(pos)` reads an unaligned word
+            # and the entry-0 guard refuses a layout that is in fact correct.
+            al = (pos + 3) // 4 * 4
+            if al != pos and zero_gap(pos, al):
+                pos = al
             lead = 4 if word(pos) == 0 else 0
             pos += lead
             for e in range(n):

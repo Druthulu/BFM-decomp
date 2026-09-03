@@ -241,7 +241,13 @@ for cf in sorted(glob.glob(a.drafts + '/*.c')):
             conf = w[0]
     # Strip the typedefs the DRAFT's OWN target TU already provides (per-TU strip-set, T4). Computed
     # against the baseline tree (before any splice); cdecl.typedef_names is cached per TU.
-    provided = cdecl.typedef_names(_stubs[fn].path)
+    # ABOVE= IS LOAD-BEARING (P31 S74). The strip-set must be what is in scope AT THE SPLICE
+    # POINT, not everything the TU declares anywhere: md_SC07_004 typedefs `M4_801AE734` at :10174
+    # while func_801ADA10's stub is at :9524, so the un-scoped set stripped the draft's own copy of
+    # a type the spliced body still needs -> `parse error before 'D_801B0838'`, logged as PLUMBING
+    # and indistinguishable from a real decl conflict. cdecl.typedef_names already takes `above`
+    # for exactly this; the gate simply never passed it.
+    provided = cdecl.typedef_names(_stubs[fn].path, above=fn)
     drafts[fn] = {'c': cdecl.strip_provided_typedefs(open(cf).read(), provided), 'conf': conf}
 
 order = {'high': 0, 'medium': 1, 'low': 2}
