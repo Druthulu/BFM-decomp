@@ -6901,3 +6901,114 @@ example of the whole class: banked byte-green as verbatim asm this session, and 
 DECOMPILED — a Fable agent is attempting real C for it, with the structural question being whether
 its interior labels (reached from `saveHeaderTemplate`+0x54's three handler pointers and from
 `jtbl_80072E44`) can survive the function becoming C at all.
+
+## 🛑 SESSION CHECKPOINT — S75 FINAL (2026-09-03). SUPERSEDES the S75 block and its addendum above. Phase 31 T10 CONTINUES.
+
+Written for a FRESH SESSION with none of this context. 26 commits; tree clean apart from
+`.run/backlog.jsonl` + Ghidra hook churn; Drew pushes (R6).
+
+**⚠ R22 CLEAN-FLEET WAS NOT RUN THIS SESSION.** Run `make clean && make extract-all && make check-all`
+BEFORE trusting any count below. `make build BINARY=main` was green at `143dbb89…` repeatedly.
+
+```
+BANKED THIS SESSION : 32 functions
+  ov_SC01_004/005/006/008 func_8017EB30·func_8017F2D4×2·func_8017EC68  279 ea   (§446 carve)
+  ov_SC06_022 func_80185B80 185 · ov_SC03_108 func_8016AE5C 85 · main func_8005DCA0 118
+  ov_SC03_105 func_801806F8 241 · func_80180ABC 257 · ov_SC06_025 func_8017DB98 122
+  main func_8002B0B4 (= SaveLoadRoutine + dispatcher) 1,179   <- the §434 "wall"
+  main × 20 SDK-C-REORDER in src/800c3.c              (BANKED 20 of 21, one bisection)
+```
+
+# 1. THE SESSION IN ONE LINE
+
+**Every "codegen wall" examined — nine of them — was an instrument defect. Not one was the compiler.**
+Nine tool defects were fixed (six mine), and the two largest results came from deleting a belief, not
+from writing better C.
+
+# 2. START HERE
+
+1. **R22 clean-fleet.** Nothing tonight is fleet-verified.
+2. **The 16 remaining near-term units** (`.run/S75/nearterm40.json`): 11 GAME-O0-CARVED in
+   `md_MAIN_003` (gate with `gate_stage`, NOT gate_main — different binary) + 5 GAME-C in main.
+   Same recipe that just banked 20: `verbatim_to_stub` → find the stored draft → gate.
+3. **`gate_main` writes banks only at the END.** `try_batch` is stateless — every attempt is
+   `git checkout` main's TUs → `make extract` → substitute → build — so a 34-minute bisection holds
+   its result in memory and a kill loses all of it. Writing each confirmed match immediately is the
+   single highest-value gate improvement available.
+4. **`func_800D06E8`** (resident, 344 ins) is still an open blocker; I predicted the §446 carve fix
+   would clear it and was WRONG.
+
+# 3. THE TWO BIG RESULTS
+
+**`SaveLoadRoutine` was never a wall.** A whole-binary census for its interior labels and the raw
+range `0x8002B154..0x8002C31C` found EXACTLY TWO sources, and both are `func_8002B0B4` itself — its
+own `beq`/`j` and its own `jtbl_80072E44`. So `func_8002B0B4` (40 ins, prologue+dispatch) and
+`SaveLoadRoutine` (1,139 ins) are **ONE function on one 0x40 frame**; SaveLoadRoutine is `case 0:` of
+its own state switch. The §434 note ("no epilogue of its own, must stay file-scope `__asm__`") was
+describing a **splat symbol boundary**, not a code structure. Now real C, 1,179 ins, byte-identical.
+The three "handler pointers at `saveHeaderTemplate+0x54`" are `jtbl_80072E44[0..2]`, confirmed
+against `dumps/ram_savescreen.bin`.
+
+**ASSEMBLY POSING AS C — a whole class nobody was counting.** 199 functions sit in `src/` as §265
+verbatim `__asm__` bodies: byte-identical BY CONSTRUCTION and completely undecompiled. They were in
+NO `progress.py` bucket. Main's headline was 45.88%; the honest figure is ~42%.
+**`config/verbatim_manifest.json` is now the authoritative census** (200 rows, disposition each):
+```
+PERMANENT-VERBATIM   69 rows / 57 units   hand asm — libgte, libapi trampolines, libcard, start, CRT
+DECOMPILE-AS-PARENT  57 rows / 23 units   a FRAGMENT — decompile unit_entry, NEVER the fragment
+DECOMPILE-NOW        41 rows / 41 units   (20 of these just banked)
+DECOMPILE-LOW-VALUE  20 / 4 · UNCERTAIN 5 · NOT-VERBATIM 7 · NOT-CODE 1
+```
+**My "154 game functions of work" was wrong by ~6×; the archive-derived answer is 24 game units.**
+
+# 4. THE NINE DEFECTS (all fixed unless marked)
+
+1. `reconcile_tu` — a FALSE PREMISE ABOUT cc1 IN ITS OWN DOCSTRING (§442). Block-scope extern vs a TU
+   decl BELOW is ACCEPTED (pedwarn); it rewrote legal C into `syntax error`. Plus comment-prose
+   corruption and `invalid lvalue` in 3 of 4 `&`-cast arms.
+2. `verify_worktree` never provisioned `.run/sig.*.jsonl` (259 vs 0) and `jr_isolate_all` swallowed
+   the `FileNotFoundError` — **2,603 of 2,603 raised, 0 owners, a FALSE carve-corruption verdict** (§443).
+3. `harvest_verify`'s `overlays.mk` snapshot was SINGULAR — `resident` has two blocks; the revert
+   half-restored and left the binary unbuildable with `src/` clean (§444).
+4. `jtbl_carve` reserved ONE WORD TOO MANY whenever a function had >1 `sltiu` — and `sltiu` is also
+   how gcc emits an unsigned range check, so the guard disabled itself on exactly the functions that
+   needed it. 4 siblings + a 5th found by negative control (§446).
+5. `main_diff_locate`'s `TABLE REJECT` was **UNREACHABLE ON MAIN** — it keyed on `(.rodata)`, but
+   main's tables live in `.data` objects; and it demanded purity, so 5% perturbed code dropped the
+   verdict to PLUMBING. This is what hid finding #1 for a phase (§447).
+6. `make clean BINARY=x` is FLEET-WIDE — deleted `asm/` for all 213 binaries (mine) (§445).
+7. `verbatim_target_s` wrote targets into `asm/`, which `build/asm/%.o: asm/%.s` globs — main went
+   RED as build objects (mine). Also emitted byte-ORDER-reversed hex (91/1139 words agreed) and
+   missed `objdump -z` so every `nop` vanished (§450).
+8. `gate_main` DESTROYED uncommitted main work via `git checkout` before substituting, and its error
+   filter hid `jtbl_rodata_pads` refusals — it could not bank the verbatim class at all. **Then my own
+   fix broke bisection** by sitting inside the loop where it tripped on the gate's own substitution.
+   *A guard must distinguish the state it protects from the state it creates.*
+9. **NOT FIXED:** `family_remap._alias_decl_for` = 43% of `dedup_propagate --check-only` (107 s /
+   1,312 calls). I memoized `find_site`'s mask (2×) but that loop is ~2.4 min of a 30-min run.
+
+# 5. WHAT I GOT WRONG (so a fresh session does not inherit it)
+
+* The verbatim count went **116 → 112 → 108 → 178 → 199** across five regex censuses before I
+  validated it. Both spellings (`".ent\tN\n"` and `".ent N\n"`), a bare `".ent\t"` fragment yielding a
+  phantom function named `t`, `.globl`+label proving EXPORT not CODE (it called 4 jump tables
+  functions), and a hand-written SDK list that did not know libgte. **`asm_in_c.py` is now RETIRED**
+  (R33) — the taxonomy is data, `verbatim_check.py` is a drift guard only.
+* I claimed CONTIGUITY proves fragmentation. It does not — functions are always contiguous. My
+  "runs" merged `start, __main, __do_global_dtors, main` into one function.
+* I claimed `func_80062388` was compiler-inexpressible. It is a **build-config gap**: `$(filter)` is
+  an exact stem match so `REORDER_TUS := 800c2` never covered `800c2_2` (§452 corrected, fixed).
+* Two drafting bursts (10 and 50) drew almost entirely FRAGMENTS because I sorted by size and the
+  smallest verbatim bodies ARE the fragments. **Triage before the draw**, not after.
+* A drafting agent submitted the verbatim `__asm__` block itself as its "decompile" and `match_one`
+  printed MATCH — truthfully, since a raw asm blob matches its own source. Only the adversarial
+  verifier caught it. **No byte gate can.** Any burst over this class must carry that check.
+
+# 6. STANDING DECISIONS
+
+* **Gate with `--no-propagate`.** `dedup_propagate --auto-from` sweeps the WHOLE binary; `ov_SC01_005`
+  held 557 unswept items and stalled a gate 30+ min. Fleet backlog ~2,073 fns / ~12,116 items, ALL
+  ALREADY MATCHED — orthogonal to completion %. Drew: leave it (sotn writes duplicate funcs
+  explicitly). See [[dedup-backlog-leave-it]].
+* **Count UNITS, not symbols.** main is 2,002 symbols → 1,639 units, 363 fragments.
+* Full triage: `.run/S75/triage/report.md` (330 lines, 18 tool defects in §7).
