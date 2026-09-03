@@ -35461,3 +35461,27 @@ allocno class choice) but it drags the `*24` shift chain into `$s1`; plus operan
 `addu $s0,$s1,$s0`; plus the else-arm materialising `&D_800A46D2` into `$s1`. Law 1c verified: all 25
 symbols match the target's relocations, and the only difference is `D_800A46D2`'s **count** (4 vs 6),
 which is that residual rather than a wrong symbol.
+
+#### §471 — A LAUNDER'S REAL COST IS AN ALLOCNO, AND `$t0` IS RELOAD'S (`main:func_80032A74`, 408 → 12)
+
+**Source: the S76 agent.** Three facts, two of which refine entries already here.
+
+**1. §172's combine USE-orphan buys a never-referenced stack slot.** Promoting an `s16` memory local
+to `int` **twice** after a `CODE_LABEL` is the only way to produce the target's unused 8-byte slot at
+`0x48`. Pair this with §463/§469: when a frame has a slot nothing reads, it is either a spill (8-byte
+rounded) or an orphan of this kind — both are reproducible, neither is padding.
+
+**2. 🔴 REFINEMENT OF §153: THE LAUNDER'S REAL COST IS AN ALLOCNO THAT OUTRANKS THE VALUE YOU CARE
+ABOUT.** The §153 launder was necessary here, but it created an allocno outranking `vol` on priority.
+The cure was pinning the launder to **`$10`** — and specifically *not* `$8`, which evicts reload's
+`$t0` parameter reloads. So "the launder is the defect" (§461) has a third resolution beyond
+*remove it* or *move it*: **pin the launder itself, and pick the register with reload's own needs in
+mind.**
+
+**3. `$t0` IS UNREACHABLE FROM C BECAUSE RELOAD OWNS IT.** The target's `table` / `D_800A4C28` bases
+are reload **rematerialisations** of a `reg_equiv_constant` living in `$t0`. No C spelling or pin can
+put a value there, because reload claims it for its own reloads. When a residual is "the target uses
+`$t0` and I cannot", stop — that is a reload artifact, not a spelling you have not found yet.
+
+*(Also: merging `vol` and `m` into one variable puts the volume chain in `$a0`. Residual 12 is this
+`$t0` rematerialisation plus one `lh`/`lhu` row that is the orphan's only available site.)*
