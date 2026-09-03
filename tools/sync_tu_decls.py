@@ -42,6 +42,11 @@ if not os.path.exists(PY):
 
 DROP_RE = re.compile(r"DROP \S+: (?P<sym>[A-Za-z_]\w*) clashes with (?P<side>the TU itself|an earlier draft)"
                      r" in (?P<tu>\S+)")
+# The gate reports a conflict TWO ways and this tool must read both (P31 S76): the slate-load
+# pre-check emits `DROP … clashes with …`, but a conflict only the compiler sees arrives after the
+# build as `COMPILE conflict on `SYM' at FILE:LINE`. Handling only the first left five drafts
+# looking unrecoverable when their blocker was the same class, one symbol deeper.
+COMPILE_RE = re.compile(r"COMPILE conflict on `(?P<sym>[A-Za-z_]\w*)' at (?P<tu>[^:]+):\d+")
 
 
 def tu_decl(tu_path, sym):
@@ -79,6 +84,32 @@ def main():
                  "conflicting symbol. For an overlay use gate_stage + cast_self_callers (R43: "
                  "refusing an input this tool cannot handle rather than mishandling it).")
 
+    # A DECLARATION FIX CANNOT RESCUE A BODY THAT DIFFERS (P31 S76). Five of the first sixteen
+    # candidates compiled once their declarations were synced and then failed the byte gate — they
+    # were NEARs all along (closeness 12-89), and a `CC1-FAIL` classification only says the
+    # declaration blocked COMPILATION, never that the body underneath is correct. Check the body
+    # first so a gate is not spent learning what match_one already knows (R37: probe before costing).
+    # PASS --asm-subdir OR THE ORACLE JUDGES A DIFFERENT FUNCTION (§238). match_one defaults to
+    # `asm/resident/nonmatchings/resident` and says so in a warning; without the subdir this guard
+    # scored the wrong target, returned no verdict, and let a NEAR through — the exact hazard the
+    # guard exists to catch, in the guard itself. Derive it from the stub oracle.
+    sys.path.insert(0, os.path.join(REPO, "tools"))
+    import corpus
+    _hit = [v for v in corpus.stubs(a.binary).values() if v.symbol == a.fn]
+    if not _hit:
+        sys.exit("sync_tu_decls: %s is not an open stub in %s — nothing to bank." % (a.fn, a.binary))
+    _mo = subprocess.run([PY, os.path.join(REPO, "tools/match_one.py"), a.fn, "--c", a.draft,
+                          "--json", "--asm-subdir", _hit[0].asm_dir],
+                         cwd=REPO, capture_output=True, text=True)
+    try:
+        _cl = json.loads(_mo.stdout.strip().splitlines()[-1]).get("closeness")
+    except Exception:
+        _cl = None
+    if _cl not in (0, None):
+        sys.exit("sync_tu_decls: REFUSED — %s is a NEAR (closeness %s). Syncing declarations makes "
+                 "it COMPILE, not MATCH; the byte gate would reject it anyway. Fix the body first."
+                 % (a.fn, _cl))
+
     work = os.path.join(REPO, ".run", "sync_tu_decls", a.fn)
     os.makedirs(work, exist_ok=True)
     draft = os.path.join(work, a.fn + ".c")
@@ -98,7 +129,7 @@ def main():
             print("BANKED %s after %d declaration sync(s): %s"
                   % (a.fn, len(synced), ", ".join(synced) or "none"))
             return 0
-        m = DROP_RE.search(out)
+        m = DROP_RE.search(out) or COMPILE_RE.search(out)
         if not m:
             # No conflict left to fix — the residual is a real mismatch or another class entirely.
             tail = [l for l in out.splitlines()
@@ -107,7 +138,8 @@ def main():
             for l in tail[:3]:
                 print("   ", l.strip())
             return 1
-        sym, side, tu = m.group("sym"), m.group("side"), m.group("tu")
+        sym, tu = m.group("sym"), m.group("tu")
+        side = m.groupdict().get("side") or "the TU itself"
         if sym == a.fn:
             print("REFUSED: the conflict is on %s ITSELF (self_decl_tu) — the TU declares the "
                   "function being banked, so the CALL SITES must change too. That is "
