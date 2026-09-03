@@ -34,7 +34,9 @@ Usage:
      default is a DRY RUN that reports what would be substituted and any conflicts.
      --apply performs the substitution + clean rebuild and leaves banked drafts in the tree.
 """
-import argparse, collections, fcntl, functools, glob, json, os, re, subprocess, sys
+import argparse
+import hashlib
+import time, collections, fcntl, functools, glob, json, os, re, subprocess, sys
 sys.path.insert(0, 'tools')
 import corpus
 
@@ -659,6 +661,77 @@ def clean_build():
     return sha(), r
 
 FAILDIR = '.run/gate_main_fail'
+PROGRESS = '.run/gate_main_progress.json'
+
+
+def _draft_fp(e):
+    """Fingerprint the DRAFT a verdict was measured against (R56).
+
+    A gate verdict is a measurement of ONE draft body. If that draft is re-generated between a
+    killed run and its resume, the recorded PASS says nothing about the new bytes -- so the
+    journal stores the content hash and a resume silently drops any entry whose draft moved."""
+    try:
+        return hashlib.sha256(open(e.get('draft', ''), 'rb').read()).hexdigest()[:16]
+    except OSError:
+        return ''
+
+
+def _save_progress(slate_path, good, rejected, steps):
+    """Write every proven verdict THE MOMENT IT EXISTS (P31 S75 checkpoint item 3).
+
+    try_batch is stateless and the bisect loop held `good` only in memory, writing
+    .run/gate_main_banked.json once at the very end. A 34-minute bisection that is killed --
+    timeout, Ctrl-C, a supervisor -- therefore lost every match it had already PROVEN, and each
+    of those proofs cost a full clean EXE rebuild (~2-4 min). The verdicts are the expensive
+    artifact here, not the substitution: re-substituting a known-good set costs one rebuild,
+    re-DISCOVERING it costs the whole bisection again.
+
+    Written atomically (tmp + os.replace) because the thing this protects against is being killed,
+    and a half-written journal is worse than none. R42 in the small: durable the moment it exists,
+    not at a convenient stopping point."""
+    os.makedirs(os.path.dirname(PROGRESS), exist_ok=True)
+    tmp = PROGRESS + '.tmp'
+    with open(tmp, 'w') as fh:
+        json.dump({'slate': os.path.abspath(slate_path),
+                   'ts': time.time(),
+                   'steps': steps,
+                   'good': [{'fn': e['fn'], 'draft': e.get('draft', ''), 'fp': _draft_fp(e)}
+                            for e in good],
+                   'rejected': rejected}, fh, indent=1)
+    os.replace(tmp, PROGRESS)
+
+
+def _load_progress(slate_path, kept):
+    """Reuse verdicts a killed run already paid for. Returns (good_entries, rejected_fns).
+
+    Three guards, each one a way this could silently lie:
+      * the journal must belong to THIS slate (a stale one from another run is not evidence);
+      * every entry is re-keyed against `kept` by fn, so a draft dropped by resolve_conflicts
+        since the kill cannot sneak back in;
+      * the draft's content hash must still match (R56 -- the verdict measured those bytes).
+    A resumed `good` set is re-verified as one batch by the loop's final try_batch anyway, so a
+    wrong reuse cannot bank anything: it can only cost one rebuild."""
+    if not os.path.exists(PROGRESS):
+        return [], []
+    try:
+        j = json.load(open(PROGRESS))
+    except (ValueError, OSError):
+        return [], []
+    if j.get('slate') != os.path.abspath(slate_path):
+        return [], []
+    by_fn = {e['fn']: e for e in kept}
+    good, stale = [], []
+    for rec in j.get('good', []):
+        e = by_fn.get(rec['fn'])
+        if e is None:
+            continue
+        if rec.get('fp') and rec['fp'] != _draft_fp(e):
+            stale.append(rec['fn']); continue
+        good.append(e)
+    if stale:
+        print(f"  (resume: {len(stale)} recorded pass(es) DISCARDED — the draft changed since: "
+              f"{', '.join(stale[:8])})")
+    return good, [f for f in j.get('rejected', []) if f in by_fn]
 
 
 def _preserve_and_localize(entries, got):
@@ -752,6 +825,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('slate', nargs='?'); ap.add_argument('--apply', action='store_true')
     ap.add_argument('--no-bisect', action='store_true')
+    ap.add_argument('--no-resume', action='store_true',
+                    help='ignore .run/gate_main_progress.json and re-test every draft from '
+                         'scratch (default is to reuse verdicts a killed run already paid for)')
     ap.add_argument('--allow-dirty', action='store_true',
                     help='proceed even though main TUs have uncommitted changes THIS GATE WILL '
                          'DESTROY (it git-checkouts them before substituting). Default is to refuse.')
@@ -985,7 +1061,20 @@ def main():
     # loudly instead of burning clean rebuilds in silence.
     MAX_STEPS = int(os.environ.get('GATE_MAIN_MAX_STEPS', '24'))
     good, rejected, steps = [], [], 0
-    stack = [kept]
+    # RESUME WHAT A KILLED RUN ALREADY PROVED. Each entry in `good` cost a full clean EXE rebuild;
+    # before the journal, a kill threw all of them away and the next run rediscovered them from
+    # scratch. `good` is re-verified as a batch by the final try_batch below, so resuming can
+    # never bank something unproven -- at worst it wastes one rebuild.
+    if not a.no_resume:
+        good, rejected = _load_progress(a.slate, kept)
+        if good or rejected:
+            print(f"  RESUMING from {PROGRESS}: {len(good)} already proven, "
+                  f"{len(rejected)} already rejected — not re-testing them "
+                  f"(--no-resume to start clean).")
+    _done = {e['fn'] for e in good} | set(rejected)
+    stack = [[e for e in kept if e['fn'] not in _done]] if _done else [kept]
+    if _done and not stack[0]:
+        stack = []
     while stack:
         if steps >= MAX_STEPS:
             print(f"\n*** BISECT ABORTED after {MAX_STEPS} rebuilds with {len(stack)} chunk(s) "
@@ -998,9 +1087,11 @@ def main():
         ok, got, _ = try_batch(good + chunk)
         if ok:
             good += chunk
+            _save_progress(a.slate, good, rejected, steps)   # durable the moment it is proven
         elif len(chunk) == 1:
             rejected.append(chunk[0]['fn'])
             print(f"  reject {chunk[0]['fn']}")
+            _save_progress(a.slate, good, rejected, steps)
         else:
             mid = len(chunk) // 2
             stack.append(chunk[mid:])
@@ -1034,6 +1125,15 @@ def main():
         for fn, f in still:
             print(f"      {fn}  ({f})")
     json.dump(applied, open('.run/gate_main_banked.json', 'w'))
+    # The run CONCLUDED, so the journal has served its purpose. Leaving it would make the next
+    # run over a re-drafted slate resume from verdicts about bodies that no longer exist -- the
+    # fingerprint check would catch it, but a stale file that is always ignored teaches the
+    # operator to ignore the mechanism. Keep it only when the bisect was cut short, which is
+    # exactly when a resume is worth something.
+    if steps < MAX_STEPS and not stack:
+        for _f in (PROGRESS, PROGRESS + '.tmp'):
+            if os.path.exists(_f):
+                os.remove(_f)
 
 if __name__ == '__main__':
     main()
