@@ -35133,3 +35133,48 @@ its own source by construction**. The adversarial verifier refuted it on the rul
 containing `__asm__` or `INCLUDE_ASM` is a no-op that passes for free. Any burst over this class MUST
 carry that check: the trivially-passing draft is not a hypothetical here, it is the *default* thing to
 produce, and a byte gate cannot tell the difference.
+
+#### ADDENDUM to §265 (P31 S76) — THE PROSE GUARD DID NOT HOLD. IT IS A GATE REFUSAL NOW.
+
+**The paragraph immediately above this one was written in S75 and is correct. I tripped over the
+exact trap it describes about four hours later, in the next session, having read it.** That is the
+finding worth keeping — not the trap, which was already known, but the fact that knowing it in
+prose did not prevent it.
+
+**What happened.** The 9 remaining `DECOMPILE-NOW` SDK functions in `src/800c3.c` / `src/800c2_2.c`
+were converted from §265 verbatim bodies to `INCLUDE_ASM` stubs *specifically so they could be
+decompiled*. I then searched the draft store for stored drafts, scored 195 candidates with
+`match_one`, and got **closeness 0 on all nine**. Slate, gate, `BANKED 9 main functions —
+143dbb89 BYTE-IDENTICAL`, 58 seconds. Every one of those nine "drafts" was the function's own
+assembly, emitted by `tools/asm_verbatim.py` into `<fn>.c` in the same directories as real drafts.
+I had converted verbatim → stub → verbatim. A perfect round trip that decompiled nothing.
+
+**What caught it: `progress.py` did not move.** REAL 882, VERBATIM 164, INCLUDE_ASM 37 — identical
+before and after "banking nine functions". The instrument was right and the claim was wrong
+(`check-against-a-known-true-case`: the count you already know is the cheapest oracle you own).
+
+**Why the prose could not hold.** S75's rule was addressed to a *burst over this class* — "any
+burst over this class MUST carry that check". I was not running a burst. I was hand-picking stored
+drafts one function at a time, which the rule did not name, and the conditional in a reader's head
+("does this apply to me?") is exactly where a prose guard fails. S75 also concluded "a byte gate
+cannot tell the difference", which is true and which reads as *unpreventable*. It is not: the byte
+CHECK cannot tell, but a **slate-load refusal** can, because the verbatim form is trivially
+decidable from the text.
+
+**The guard, where it can actually fire.** `draft_prechecks.is_verbatim_asm_draft(text, fn)` — a
+file-scope `__asm__` naming this fn via `.ent`/`.globl`/label, AND no C definition of it. Both
+halves matter: a real draft may carry a small inline `__asm__`, and a verbatim body may omit
+`.globl` for a static. Match BOTH spellings — `".ent\tNAME"` inside a C string is a *backslash-t*,
+not a tab; five S75/S76 censuses of this class disagreed with each other until both were handled.
+`gate_main` now refuses such a slate at load, beside its existing `INCLUDE_ASM` no-op refusal (R43).
+
+**The scale of the landmine.** A census of the draft store: **1,099 of 704,375 `.c` files are
+verbatim-asm drafts**, sitting under ordinary `<fn>.c` names in ordinary wave directories. Negative
+control: **0 false positives across 45,898** drafts that carry both a real C definition and an
+inline `__asm__` (R39). Any future "search the store for a stored draft" pass — and that pass is now
+a standard move, since S75 banked 20 functions from drafts already on disk — is drawing from a pool
+with 1,099 of these in it.
+
+**The general law.** *A lesson that is only prose will be re-learned. If a check is decidable, the
+knowledge base is where you explain it and the pipeline is where you enforce it* — the same
+relationship R32 sets between "assert your coverage" and a scanner that actually does.

@@ -39,6 +39,7 @@ import hashlib
 import time, collections, fcntl, functools, glob, json, os, re, subprocess, sys
 sys.path.insert(0, 'tools')
 import corpus
+import draft_prechecks as DP
 
 # stdout is BUFFERED when redirected to a file -- a long run then looks hung with an
 # empty log (measured: 16 min of silence during a bisect). Always flush.
@@ -931,6 +932,24 @@ def main():
                          'INCLUDE_ASM, so substituting them changes nothing and the build '
 
                          'passes for free: %s' % (len(_noop), ', '.join(_noop)))
+
+    # THE SAME NO-OP, WEARING C's CLOTHES (P31 S76). A §265 verbatim body is the function's own
+    # assembly in a file-scope `__asm__` string; `tools/asm_verbatim.py` writes them as `<fn>.c`
+    # into the same draft directories as real drafts. Substituting one assembles the bytes it was
+    # copied from, so match_one prints MATCH and this gate goes GREEN -- both truthfully -- while
+    # nothing has been decompiled. S75 saw it once from an agent and concluded "no byte gate can"
+    # catch it; that is true of the BYTE check and false of a slate-load refusal. S76 then did it
+    # at scale: 9 functions converted from verbatim bodies to stubs *so they could be decompiled*,
+    # then "banked" from stored drafts that were those same verbatim blocks. 9 of 9 MATCH, and
+    # progress.py moved by exactly zero. Refuse at load, like the INCLUDE_ASM no-op above (R43).
+    _verb = [e['fn'] for e in slate
+             if os.path.exists(e.get('draft', ''))
+             and DP.is_verbatim_asm_draft(open(e['draft'], errors='replace').read(), e['fn'])]
+    if _verb:
+        raise SystemExit("gate_main: REFUSED — %d draft(s) are the target's own assembly in a "
+                         "file-scope __asm__ (a §265 verbatim body), not a decompile. They would "
+                         "pass this gate for free and bank nothing: %s"
+                         % (len(_verb), ', '.join(_verb)))
 
     kept, dropped = resolve_conflicts(slate)
     print(f"slate {len(slate)} -> {len(kept)} compatible, {len(dropped)} dropped for in-TU decl conflict")

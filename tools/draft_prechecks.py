@@ -116,3 +116,41 @@ def undefined_data(binary, dest_text, syms, self_name=None, body=""):
             continue
         out.append(s)
     return out
+
+
+def is_verbatim_asm_draft(text, fn):
+    """True if `text` is the target's own assembly, not a decompile of it (P31 S76).
+
+    THE DEFECT THIS CATCHES, and why no byte gate can. `tools/asm_verbatim.py` emits a §265
+    verbatim body -- the function's own .s pasted into a file-scope `__asm__` string. Those files
+    sit in the same draft directories as real C drafts and are named `<fn>.c` like everything else.
+    Score one with match_one and it prints MATCH, truthfully: a raw asm blob assembles to the bytes
+    it was copied from. Substitute one and the whole-binary gate goes GREEN, also truthfully. The
+    function is then reported BANKED while nothing whatsoever has been decompiled.
+
+    S75 hit this once (an agent submitted the verbatim block as its own "decompile"; only an
+    adversarial reader caught it) and recorded "No byte gate can" catch it. That is true of the
+    BYTE check and false of a slate-load refusal, which is why this lives here: the verbatim form
+    is trivially decidable from the text (R43 -- refuse the input, never mishandle it).
+
+    S76 hit it again, from the other direction and at scale: nine functions were converted from
+    verbatim bodies to stubs precisely so they could be decompiled, then "banked" from stored
+    drafts that were the same verbatim blocks -- a round trip through the gate that moved
+    progress.py by exactly zero and read as 9 of 9 MATCH. The instrument was right and the claim
+    was wrong.
+
+    A draft is verbatim iff a file-scope `__asm__` names this function as a .ent/.globl/label AND
+    no C definition of it exists. Both halves matter: a real draft may legitimately carry a small
+    inline `__asm__`, and a verbatim body may omit .globl for a static."""
+    if '__asm__' not in text:
+        return False
+    f = re.escape(fn)
+    # The escaped forms are what the emitters write INTO a C string: `.ent\tfoo\n` is backslash-t,
+    # not a tab. Match both the escaped and the literal spellings -- five S76 censuses of this
+    # class disagreed with each other until both were handled.
+    asm_names = re.search(rf'\.(?:ent|globl)(?:\\t|[ \t])+{f}\b', text) or \
+        re.search(rf'"\s*{f}:\s*(?:\\n|$)', text)
+    if not asm_names:
+        return False
+    c_def = re.search(rf'^[A-Za-z_][\w \*]*\b{f}\s*\([^;]*\)\s*(?:/\*.*?\*/\s*)?\{{', text, re.M | re.S)
+    return not c_def
