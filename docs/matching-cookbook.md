@@ -35250,3 +35250,33 @@ schedule-class residual.
    (measured twice), and `vv = v` copies are copy-propagated back to two sets. **A dial you can
    prove and cannot turn is permuter fuel, not a wall** — record the mechanism, hand it to the
    permuter, and do not spend more agent turns on source spellings.
+
+#### §461 — LAUNDERING AN INVARIANT CAN BE THE DEFECT, AND "RESIDUAL A" DOES NOT GENERALIZE PAST ONE BINARY OP
+
+**Source: the S76 `main:func_80039B20` agent (79 ins, prior best 16 → 10).** Two findings, one of
+which is a scope correction to an entry already in this file.
+
+**1. Do not launder every loop invariant — laundering the WRONG one displaces the address chain.**
+The prior attempts wrapped `p = D_800C6DD0 + (s16)i * 0x60` in a volatile-asm launder on the theory
+that every hoistable invariant needs one. That was *actively wrong*: it displaced the address chain
+relative to the base `lui`/`addiu` and cost the entire first cluster (closeness 16 → 81 when
+present). The already-matched sibling `func_8003A0E4` in the same TU uses the plain unlaundered
+idiom, and copying it closed that whole region.
+
+Meanwhile `D_80073140` in the SAME loop genuinely does need its launder — without it, that invariant
+and `D_800C6DD4` are both `move_movables`-hoisted, because the two share one `insn_count` threshold
+(§193-F). **So the rule is per-invariant, not per-loop:** check the matched siblings before adding a
+barrier, and treat "add a launder" as a lever that can go backwards, not a free safety measure.
+
+**2. SCOPE CORRECTION — "Residual A" (combine_regs / first-dying-operand, L875) applies to a SINGLE
+binary op and does NOT transfer to a PLUS CHAIN.** The target puts `*(s32*)(p+0x50) + f6*26` in
+`$v0`; the draft gets `$v1`. Residual A says to swap the C operand order, since gcc-2.7.2 has no
+`swap_commutative_operands` and source order survives. Measured here: on a **3-term** PLUS chain,
+swapping the operands produces **byte-identical output** — `fold.c`'s associative-PLUS
+canonicalization normalizes the chain before combine ever sees it, which a single `OR` never gets.
+Forcing an explicit named accumulator instead ripples registers elsewhere (a rename plus −1 length
+drift). The lever is real for one op and a dead end for a chain; do not spend turns re-deriving that.
+
+**Still open (permuter-class, Law 3):** the `$v0`/`$v1` tie above, and a redundant `D_80073140[i]`
+re-read the target schedules early to fill a load-delay slot while cc1 schedules it at its use.
+Every C-level attempt to move it either CSE'd the two reads into one (−1 ins) or added a move (+1).
