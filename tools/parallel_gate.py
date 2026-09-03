@@ -197,7 +197,11 @@ def stubs_of(wt, binary):
             "print('\\n'.join(sorted(s.symbol for s in corpus.stubs(%r).values())))" % binary],
            cwd=wt)
     if r.returncode:
-        return None
+        # THE REASON TRAVELS WITH THE REFUSAL (P31 S74). This used to return a bare None and the
+        # caller reported "corpus refused in worktree" — a true statement that names nothing, so
+        # the actual cause (a committed isolation whose asm/ was never regenerated) took a manual
+        # re-run in a hand-built worktree to see. corpus refuses with a precise message; print it.
+        return ("REFUSED", (r.stderr or r.stdout).strip().splitlines()[-3:])
     return set(r.stdout.split())
 
 
@@ -366,8 +370,9 @@ def gate_one(idx, pin, job):
         if _drafts_carry_jtbl(binary, drafts):
             isolate_asm(wt, binary)
         before = stubs_of(wt, binary)
-        if before is None:
-            return {"binary": binary, "banked": [], "error": "corpus refused in worktree"}
+        if isinstance(before, tuple):
+            return {"binary": binary, "banked": [],
+                    "error": "corpus refused in worktree: " + " | ".join(before[1])}
         scope = src_scope(wt, binary)      # BEFORE the gate: a bank deletes the stub naming its TU
         # STALE VERDICTS FROM AN EARLIER JOB IN THIS REUSED WORKTREE (P31 S71). Worktrees wt0..wtN
         # are reused across jobs, and the verdict layer below reads every
@@ -567,6 +572,24 @@ def main():
               % (len(new_files), " ".join(new_files)), flush=True)
     print("[pgate] merged %d file(s); REFUSED %d (main tree moved under them): %s"
           % (len(adopted), len(refused), " ".join(refused[:5])), flush=True)
+
+    # A CARVE THAT LANDS IN src/ + config/ LEAVES asm/ STALE, AND THE NEXT TOOL TO READ THE CORPUS
+    # REFUSES ON THAT BINARY (P31 S74, the R22 corollary inside a gate). An isolation writes
+    # `INCLUDE_ASM(".../<new-subseg>", fn)` into a NEW TU; those .s files do not exist until a
+    # re-extract, so `corpus.stubs` correctly reports "the tree and the source disagree" — and
+    # every later gate on that binary then fails with `corpus refused`, which reads as a mystery.
+    # Measured here: ov_SC03_105 was left in exactly that state by its own successful gate and the
+    # next job could not run at all. Re-extract the binaries this run carved, and if one is STILL
+    # unreadable say so loudly rather than leaving a tree no tool can read (R32/R43).
+    for b in sorted({f.split("/")[1] for f in new_files if f.startswith("src/")}):
+        chk = [PY, "-c", "import sys;sys.path.insert(0,'tools');import corpus;corpus.stubs(%r)" % b]
+        if sh(chk, cwd=REPO).returncode:
+            print("[pgate] %s: carve left asm/ stale -> re-extracting" % b, flush=True)
+            sh(["make", "extract", "BINARY=" + b], cwd=REPO)
+            if sh(chk, cwd=REPO).returncode:
+                print("[pgate] %s: STILL UNREADABLE after re-extract — the tree and the source "
+                      "disagree and no tool can read this binary until it is fixed by hand" % b,
+                      flush=True)
 
     if a.r22 and adopted:
         # THE SAME EXCLUSIVITY GUARD AS tools/r22_verify.sh, because the destructive operation is

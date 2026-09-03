@@ -389,6 +389,13 @@ running workflow to relaunch it differently.
 
 ## 6. Gate — EVERYTHING PARALLEL. There is no serial lane.
 
+> **P31 S74 — after a gate that CARVED, the binary's `asm/` is stale until a re-extract.** The
+> isolation's new TU references `.s` files that do not exist yet, so `corpus.stubs` refuses and the
+> NEXT gate on that binary dies with `corpus refused` before doing any work. `parallel_gate` now
+> re-extracts any binary whose carve created a new source file, and a refusal carries corpus's own
+> message instead of a bare "refused" — but if you gate by hand, run `make extract BINARY=<b>`
+> yourself and confirm `corpus.stubs` is satisfiable before trusting the next verdict.
+
 ```
 python3 tools/parallel_gate.py --plan plan.json --workers 12 --commit
       # plan.json: [{"binary": "...", "drafts": "/abs/path"}, ...]

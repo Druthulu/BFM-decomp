@@ -34398,6 +34398,16 @@ pipes `md_*`/`main` through `--derive` without `set -o pipefail`) it could silen
 object instead of failing. Three lines: round `hi` up to the trailing align. Byte-neutral controls:
 `md_SC07_003` clean rebuild BYTE-IDENTICAL, `gate_main --assert-baseline` BASELINE GREEN.
 
+**D. A GATE THAT CARVES LEAVES `asm/` STALE, AND THE NEXT TOOL TO READ THE CORPUS REFUSES.** An
+isolation writes `INCLUDE_ASM(".../<new-subseg>", fn)` into a NEW TU and `parallel_gate` commits
+that TU — but those `.s` files do not exist until a re-extract, so `corpus.stubs` correctly reports
+*"the tree and the source disagree"* and **every later gate on that binary dies before it starts**.
+Measured: `ov_SC03_105` was left in exactly that state by its own SUCCESSFUL gate, and the next job
+reported only `corpus refused in worktree` — a true sentence naming nothing. Two fixes, both landed:
+the refusal now carries corpus's own message, and the merge step re-extracts any binary whose carve
+created a new source file, shouting if it is still unreadable afterwards. This is the R22 corollary
+(a config change needs a `make extract`, not just a `make check`) firing INSIDE a tool's own commit.
+
 **Found the way all three of these were found: an agent ran its own GATE REJECT to ground instead of
 respelling the body.** That is the habit worth copying — a reject whose cause you have not named is
 not evidence about the C. Two of the three defects here were discovered by a drafting agent that
