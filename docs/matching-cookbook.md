@@ -34937,3 +34937,83 @@ smaller number.
 **The law: when a count comes from a text pattern, the pattern has a denominator too.** Validate it
 against one known-true case of every FORM the corpus contains before quoting the number — and if you
 cannot enumerate the forms, you do not yet know what you are counting.
+
+## §449 ★★★ — FOUR COMPILER DIALS FROM THE S75 REDRAFT WAVE (two byte-gate CONFIRMED, and one correction to §439)
+
+Provenance matters here, so it is stated per row: **CONFIRMED** = the function banked through the
+whole-binary byte gate; **CLAIMED** = the agent's own measurement on a function that did not bank.
+
+### A. `reg_n_sets` IS A ONE-LINE SCHEDULING DIAL — `t = t + 1;` vs `*p = t + 1` (CONFIRMED: `ov_SC03_105:func_80180ABC`, 257 ins, banked from closeness 250)
+
+gcc-2.7.2's sched1 schedules each block **backward**, and an insn whose destination pseudo is set
+exactly once in the block gets the `birthing_insn_p` launch boost — it prints as
+`priority = 7f000001` in the ready-list trace of `cc1 -dS`. In the backward pass that boost makes the
+producer chosen the moment its consumer is placed, so its LOAD lands hard against the use, i.e. LATE
+in the emitted order. When the target has the load at the TOP of the block instead, give the variable
+a SECOND set in the same arm — split the RMW as `t = t + 1; *p = t;` instead of `*p = t + 1;`.
+`reg_n_sets` becomes 2, the boost is suppressed, and the load floats back to the block head.
+
+This is the block-local dual of §350/§439's "one temp per switch arm". §350 says SHARING a temp
+across arms suppresses the boost — but sharing also promotes the pseudo to a global allocno, which
+costs the in-place `addiu $vX,$vX,1` (measured: sharing fixed the schedule and broke case 0's
+register reuse, 6 rows). **Two sets of a BLOCK-LOCAL temp buys the suppression without the
+global-allocno penalty.**
+
+Three companions, each measured on the same function:
+* **DIAGNOSE, DON'T PERMUTE.** All **180** legal statement permutations of the arm scored identically
+  (7). One `cc1 -dS` dump named the cause in a single read. When a block's schedule will not move,
+  dump the ready list before touching the source.
+* **Paired-register inversion has a PIN-FREE fix:** reuse an existing function-scope scratch variable
+  for one of the two values instead of introducing a private temp. It reproduced the
+  `register __asm__("$2")` pin byte-for-byte.
+* **Frame slot order is NOT declaration order.** BLKmode aggregates get slots at `expand_decl` in
+  declaration order; an addressable SCALAR (and `int a[1]`, which gets SImode from `mode_for_size`)
+  is a pseudo first and is forced to the stack LATER, so it lands after every aggregate. To place a
+  small output slot BETWEEN two aggregates, declare it `s32 x[2]` — 8 bytes, `TYPE_ALIGN` 32 < DImode's
+  64, therefore BLKmode, therefore in-order.
+
+### B. A SINGLE-SET LOCAL'S VALUE IS VISIBLE AT A SWITCH JOIN, AND THAT ERASES A ZERO-EXTENSION (CONFIRMED: `ov_SC03_105:func_801806F8`, 241 ins, banked from closeness 235)
+
+A local assigned exactly once — a `register asm` hard-reg pin included — has combine's
+`get_last_value` bypass the `label_tick` guard (`combine.c:10035`:
+`if (value == 0 || (reg_n_sets[regno] != 1 && reg_last_set_label[regno] != label_tick)) return 0;`).
+`nonzero_bits` then proves the value fits 16 bits at the post-switch join, and **every one-expression
+narrowing spelling emits nothing**: `(u16)x`, `x & 0xFFFF`, `(u32)(x<<16)>>16`, `(s16)x`, a
+`u16`-declared pin, plain `x` — all seven measured, all `move $5,$20`.
+
+**Diagnostic:** if the target has a visible extension on a variable your build passes bare, that
+variable has MORE THAN ONE SET in the original source (or the extension is unfoldable). Verified on
+the matched sibling `func_801803A0` (`s3` set 0x1800/0x2000 in different arms ⇒ `reg_n_sets` > 1):
+there `(s16)x` → `sll 16; sra 16`, while `(u16)x` / `x&0xFFFF` / `(x<<16)>>16` all → ONE `andi 0xffff`.
+So **`andi` is the multi-set zero-extend, and `sll;srl` is NEVER reachable from a single expression.**
+
+### C. CORRECTION TO §439 — `sll 16; srl 16` LANDS *AFTER* THE CALL, AND WORKS FOR A KNOWN CONSTANT
+
+§439 says the pair survives only because combine cannot link across a `CALL_INSN`, "so the `<<16`
+must be its own statement BEFORE the call and the `>>16` after it" — which reads as though the `sll`
+therefore lands before the call. **It does not:** sched1 runs on pseudos and sinks the ashift PAST the
+call, so both shifts come out after the `jal`, adjacent, sourcing the callee-saved register directly:
+
+```c
+t = x << 16;                              /* own statement, before the call */
+func_8018388C(s0, 0x30);
+func_801824CC(s0, (u32)t >> 16, ...);     /* -> sll $a1,$s4,16 ; srl $a1,$a1,16 */
+```
+
+Second correction: it works **even when the value is a known constant** (measured with and without an
+opaque `__asm__("":"=r"(x):"0"(x))` barrier — byte-identical). Row B explains why: the split defeats
+folding *structurally*, not by hiding the value, so you never need to manufacture a second set.
+Adjacent shifts in one expression are always folded to `andi`; only the call-split form gives the pair.
+
+### D. AN OFFLINE JTBL-RODATA PLACEMENT AUDIT (CLAIMED: `md_MAIN_034:func_800CB00C` — did NOT bank, and that is the point)
+
+`match_one` and `rtu_match` compare `.text` ONLY, so **a jtbl function's MATCH proves nothing about
+its table** — this function was adversarially upheld as a MATCH and then failed the whole-binary gate.
+Three commands turn §8a/§167-19's "only the whole-binary gate can tell you" into something a
+gate-forbidden agent can run: (1) rerun the rtu_match pipeline by hand up to maspsx; (2) pipe through
+`tools/jtbl_rodata_pads.py --derive <binary> --tu <tu>` — the filter the Makefile arms for every
+`md_*`/`main` object but that `rtu_match` omits; (3) read `objdump -r -j .rodata` and convert each
+`R_MIPS_32` addend to a func-relative offset, comparing against the target's `.word .L8…` entries.
+**Don't-panic fact:** without step 2 the table sits 4 bytes late (cc1's `.align 3` survives maspsx
+verbatim), so an unfiltered `rtu_match` object showing your table at `.rodata+8` where the target has
+`+4` is EXPECTED and is not a defect in your body.

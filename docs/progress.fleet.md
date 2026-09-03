@@ -4,24 +4,24 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 363002 / 363068 = 99.98%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 13484747 / 13523865 = 99.7%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5813276 / 5851972 = 99.3%   (90902/90929 unique fns; the DISTINCT-RE number)
+FLEET fn-count byte-ident: 363092 / 363156 = 99.98%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 13485245 / 13523865 = 99.7%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5813774 / 5851972 = 99.3%   (90904/90929 unique fns; the DISTINCT-RE number)
 MAIN game-code weighted  :   45081 / 79510 = 56.7%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13439666 / 13444355 = 100.0%)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13440164 / 13444355 = 100.0%)
 
-FLEET REAL substantive   : 360722   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
+FLEET REAL substantive   : 360724   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
 FLEET LINKED PsyQ objs   :    959
 FLEET NON_MATCHING       :      0   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :     66
-FLEET matchable          : 363068
+FLEET INCLUDE_ASM stubs  :     64
+FLEET matchable          : 363156
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
-| main | 881 | 2 | 959 | 1991 | 2025 | 98.3% |
+| main | 881 | 2 | 959 | 2056 | 2090 | 98.4% |
 | resident | 141 | 0 | 0 | 143 | 145 | 98.6% |
 | md_MAIN_001 | 11 | 0 | 0 | 11 | 11 | 100.0% |
-| md_MAIN_003 | 46 | 0 | 0 | 47 | 48 | 97.9% |
+| md_MAIN_003 | 46 | 0 | 0 | 63 | 64 | 98.4% |
 | md_MAIN_008 | 6 | 0 | 0 | 6 | 6 | 100.0% |
 | md_MAIN_011 | 20 | 0 | 0 | 21 | 21 | 100.0% |
 | md_MAIN_013 | 16 | 0 | 0 | 16 | 16 | 100.0% |
@@ -31,7 +31,7 @@ FLEET matchable          : 363068
 | md_MAIN_017 | 10 | 0 | 0 | 10 | 10 | 100.0% |
 | md_MAIN_018 | 10 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_019 | 22 | 0 | 0 | 22 | 22 | 100.0% |
-| md_MAIN_020 | 12 | 0 | 0 | 13 | 13 | 100.0% |
+| md_MAIN_020 | 12 | 0 | 0 | 14 | 14 | 100.0% |
 | md_MAIN_021 | 10 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_022 | 31 | 0 | 0 | 33 | 33 | 100.0% |
 | md_MAIN_023 | 5 | 1 | 0 | 6 | 6 | 100.0% |
@@ -92,7 +92,7 @@ FLEET matchable          : 363068
 | md_SC07_004 | 315 | 0 | 0 | 315 | 315 | 100.0% |
 | ov_MAIN_012 | 2322 | 1693 | 0 | 2401 | 2401 | 100.0% |
 | ov_SC01_000 | 2403 | 1814 | 0 | 2403 | 2403 | 100.0% |
-| ov_SC01_001 | 2463 | 1816 | 0 | 2465 | 2465 | 100.0% |
+| ov_SC01_001 | 2463 | 1816 | 0 | 2466 | 2466 | 100.0% |
 | ov_SC01_004 | 2413 | 1807 | 0 | 2414 | 2414 | 100.0% |
 | ov_SC01_005 | 2502 | 1838 | 0 | 2502 | 2503 | 100.0% |
 | ov_SC01_006 | 2502 | 1838 | 0 | 2502 | 2503 | 100.0% |
@@ -152,8 +152,8 @@ FLEET matchable          : 363068
 | ov_SC03_102 | 2489 | 1811 | 0 | 2492 | 2492 | 100.0% |
 | ov_SC03_103 | 2507 | 1813 | 0 | 2510 | 2510 | 100.0% |
 | ov_SC03_104 | 2609 | 1824 | 0 | 2616 | 2616 | 100.0% |
-| ov_SC03_105 | 2584 | 1816 | 0 | 2591 | 2596 | 99.8% |
-| ov_SC03_107 | 2412 | 1693 | 0 | 2495 | 2495 | 100.0% |
+| ov_SC03_105 | 2586 | 1816 | 0 | 2594 | 2597 | 99.9% |
+| ov_SC03_107 | 2412 | 1693 | 0 | 2496 | 2496 | 100.0% |
 | ov_SC03_108 | 2443 | 1819 | 0 | 2443 | 2443 | 100.0% |
 | ov_SC03_109 | 2422 | 1812 | 0 | 2424 | 2424 | 100.0% |
 | ov_SC03_110 | 2468 | 1835 | 0 | 2468 | 2468 | 100.0% |
@@ -206,7 +206,7 @@ FLEET matchable          : 363068
 | ov_SC06_000 | 2688 | 1841 | 0 | 2691 | 2691 | 100.0% |
 | ov_SC06_006 | 2510 | 1813 | 0 | 2511 | 2511 | 100.0% |
 | ov_SC06_008 | 2536 | 1813 | 0 | 2542 | 2542 | 100.0% |
-| ov_SC06_010 | 2511 | 1811 | 0 | 2516 | 2516 | 100.0% |
+| ov_SC06_010 | 2511 | 1811 | 0 | 2517 | 2517 | 100.0% |
 | ov_SC06_011 | 2464 | 1811 | 0 | 2468 | 2468 | 100.0% |
 | ov_SC06_013 | 2424 | 1811 | 0 | 2425 | 2425 | 100.0% |
 | ov_SC06_014 | 2451 | 1811 | 0 | 2453 | 2453 | 100.0% |
@@ -220,11 +220,11 @@ FLEET matchable          : 363068
 | ov_SC06_027 | 2407 | 1811 | 0 | 2408 | 2408 | 100.0% |
 | ov_SC06_029 | 2651 | 1816 | 0 | 2663 | 2663 | 100.0% |
 | ov_SC06_030 | 2456 | 1816 | 0 | 2456 | 2456 | 100.0% |
-| ov_SC06_032 | 2650 | 1812 | 0 | 2657 | 2657 | 100.0% |
+| ov_SC06_032 | 2650 | 1812 | 0 | 2658 | 2658 | 100.0% |
 | ov_SC06_033 | 2623 | 1812 | 0 | 2630 | 2630 | 100.0% |
 | ov_SC07_000 | 2519 | 1816 | 0 | 2521 | 2521 | 100.0% |
 | ov_SC07_001 | 2452 | 1812 | 0 | 2454 | 2454 | 100.0% |
-| ov_SC07_002 | 2574 | 1816 | 0 | 2578 | 2578 | 100.0% |
+| ov_SC07_002 | 2574 | 1816 | 0 | 2579 | 2579 | 100.0% |
 | ov_SC07_006 | 2377 | 1630 | 0 | 2457 | 2457 | 100.0% |
 | ov_SC07_007 | 2529 | 1666 | 0 | 2612 | 2612 | 100.0% |
 | ov_SC07_008 | 2386 | 1812 | 0 | 2386 | 2386 | 100.0% |
