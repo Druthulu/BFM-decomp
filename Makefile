@@ -729,7 +729,13 @@ CC1FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 # TUs only, swap maspsx for tools/reorder_passthrough.py + `as -O2` — the pipeline
 # tools/oracle_reorder.py proved byte-exact (0 diffs on func_80061FA8 vs 57 on the pinned path).
 # The whole-binary SHA1 gate is the arbiter: if this were wrong the build simply fails.
-REORDER_TUS   := 800c2 800c3
+# The §332b -O2 reorder island. THE STEMS MUST BE LISTED INDIVIDUALLY: `$(filter $*,...)` is an
+# exact match, so `800c2` does NOT cover `800c2_2`/`800c2_3` — those TUs were assembled through
+# maspsx while their siblings went through reorder_passthrough, which is why func_80062388's
+# `lui at / jr ra / sw a0,lo(at)` read as COMPILER-INEXPRESSIBLE (P31 S75): a probe showed cc1 +
+# reorder_passthrough + `as -O2` emits exactly that sequence. It was a build-config gap, not a
+# gcc limit (cookbook §452 corrected).
+REORDER_TUS   := 800c2 800c2_2 800c2_3 800c3
 ASFLAGS_REORDER := -Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O2 -G0
 
 build/src/%.o: src/%.c
