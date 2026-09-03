@@ -272,6 +272,38 @@ def carve_owners(ov, banked, base, carve_offs):
     return owners
 
 
+# .globl / .ent inside a §265 verbatim `__asm__` body — the separator can be a literal two-char
+# escape (`\t`, `\n`) or a quote boundary, since the directives live inside C string literals.
+_EMIT_SYM_RE = re.compile(r'\.(?:globl|ent)(?:\s|\\[nt]|")+([A-Za-z_]\w*)')
+
+
+def _region_emit_start(items, syms, obj_lo, obj_hi):
+    """The lowest vram a region's TEXT actually EMITS — which is not always its cut vram.
+
+    P31 S74. `overlay_src_split.parse_overlay_c` recognises four ADDRESSED ANCHOR forms; a §265
+    verbatim `__asm__(".text\n.globl func_X\n…")` body is none of them, so it lands in the
+    PREAMBLE of the next anchor. Preamble is assumed byte-neutral (comments + decls) — and for a
+    verbatim asm body that assumption is false: it emits its bytes. Cutting md_MAIN_003 at
+    func_800D0268 therefore carried the verbatim bodies of func_800D0100/0174/0204 into the new
+    region while the yaml said the region starts at 0x800D0268 — a config 0x168 bytes above where
+    the object's bytes actually begin. (Only the TRAILING case was handled, in `_partition`.)
+
+    So derive the boundary from the CONTENT: the min of the region's item addresses and of every
+    `.globl`/`.ent` symbol its text names that resolves INSIDE this object. Returns None when
+    nothing resolves. Where no verbatim asm is in play this equals the cut, so every existing
+    isolate is unchanged — the whole-binary byte-gate (G3/P9) remains the arbiter."""
+    best = None
+    for it in items:
+        if it[0] is not None:
+            best = it[0] if best is None else min(best, it[0])
+        for nm in _EMIT_SYM_RE.findall(it[3] or ''):
+            a = oss.addr_of(nm, syms)
+            if a is None or a < obj_lo or (obj_hi is not None and a >= obj_hi):
+                continue
+            best = a if best is None else min(best, a)
+    return best
+
+
 def build_new_config(ov, p):
     """Return (new_cfg_lines, new_files:{path:content}, carve_renames:{old_sub:new_sub})."""
     base = p["base"]
@@ -318,10 +350,21 @@ def build_new_config(ov, p):
             # ov_SC01_000_jr_801734BC — the leader 0x801734BC is a cut too, per the banked-jr rule).
             # Emitting it would duplicate region 1's line exactly (same offset, and subseg_name(lo)
             # == nm when the object is already named _jr_<leader>) → splat "segments out of order".
-            if lo is None and not items:
+            # ...and an EMPTY CUT region likewise (P31 S74): a region with no items emits no
+            # bytes, so its config line is a zero-length subseg AT the next boundary's offset —
+            # `- [0x1f74, c, md_MAIN_003_o0e]` immediately above the existing
+            # `- [0x1f74, c, md_MAIN_003_o0c]`, which the ascending/unique validator rejects as
+            # "out of order". o0_subsplit closes every run with a cut at the next anchor (or --hi);
+            # when that lands exactly on an existing subseg boundary the closing region is empty by
+            # construction and must simply not be emitted.
+            if not items:
                 continue
             sub = nm if lo is None else subseg_name(ov, lo)
-            off = (s if lo is None else lo) - base
+            if lo is None:
+                off = s - base
+            else:
+                _emit = _region_emit_start(items, syms, s, e)
+                off = (lo if _emit is None else min(lo, _emit)) - base
             cfg_block.append(f"{ind}- [{hex(off)}, c, {sub}]")
             body = _render_region(header, items, old_sub=nm, new_sub=sub, ambient=ambient,
                                   syms=syms, obj_start=s)
@@ -434,9 +477,18 @@ def _partition(srcpath, cuts, syms):
                       if (lo is None or it[0] >= lo) and (hi is None or it[0] < hi)),
                      key=lambda it: it[0])
         regions.append((lo, hi, sel))
-    if tail or footer:                  # tail = guarded last-region content (see above);
-        lo, hi, sel = regions[-1]       # footer = comment/blank-only trailing chunk
-        regions[-1] = (lo, hi, sel + tail + footer)
+    if tail:                            # tail = guarded last-region content (see above): it HAS
+        lo, hi, sel = regions[-1]       # addresses, validated at/after the last cut, so it belongs
+        regions[-1] = (lo, hi, sel + tail)
+    if footer:
+        # footer = comment/blank-only trailing chunk: it emits NOTHING, so it must not be what
+        # makes an otherwise-empty last region look non-empty (P31 S74 — that is what kept
+        # build_new_config's empty-region skip from firing on md_MAIN_003, whose closing cut at
+        # 0x800D0D6C lands exactly on the existing md_MAIN_003_o0c boundary). Attach it to the last
+        # region that actually has content, so the text is preserved and no empty subseg is emitted.
+        idx = max((i for i, (_l, _h, sel) in enumerate(regions) if sel), default=len(regions) - 1)
+        lo, hi, sel = regions[idx]
+        regions[idx] = (lo, hi, sel + footer)
     # Place each file-local `static` definition with the ONE region that references it.
     for it in local_defs:
         name = it[1]

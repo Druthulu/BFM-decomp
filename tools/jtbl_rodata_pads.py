@@ -157,14 +157,27 @@ def _module_target(binary):
     return vram, open(tgt, "rb").read()
 
 def _s_rodata_span(path):
-    """[lo, hi) vaddr span of everything the included .s emits into .rodata (comments carry vaddr)."""
+    """[lo, hi) vaddr span of everything the included .s emits into .rodata (comments carry vaddr).
+
+    P31 S74: a TRAILING `.align N` counts. spimdisasm closes a sized symbol with the `.align` that
+    produced the original's padding (`.asciz "7"` + `.align 2` = 4 emitted bytes, not 2), and `as`
+    emits that pad — so the walk position after the include is the ROUNDED end. The under-report was
+    invisible while the next item was an anchor (`derive`'s zero_gap self-corrects an undershoot of
+    1-3 zero bytes) and fatal the moment the next item was a C jump table, which has no anchor:
+    md_MAIN_011's banked func_800CF28C refused with "C table entry 0 at 0x800CEDFA ... not a code
+    address" — the walk was 2 bytes short of the island, not the island adrift."""
     lo, hi, in_ro = None, None, False
+    pend_align = 0            # `.align N` seen with no sized item after it
     for ln in open(path, errors="replace"):
         st = ln.strip()
         if st.startswith(".section"):
             in_ro = ".rodata" in st or ".rdata" in st
             continue
         if not in_ro:
+            continue
+        if st.startswith(".align"):
+            tok = st.split()
+            pend_align = (1 << int(tok[1])) if len(tok) > 1 and tok[1].isdigit() else 0
             continue
         m = re.match(r"/\*\s*[0-9A-Fa-f]+\s+([0-9A-Fa-f]{8})(?:\s+([0-9A-Fa-f]+))?\s*\*/\s*(\S+)\s*(.*)$", st)
         if m:
@@ -182,17 +195,9 @@ def _s_rodata_span(path):
                 else:
                     continue
             lo = a if lo is None else min(lo, a); hi = a + n if hi is None else max(hi, a + n)
-        elif st.startswith(".align") and hi is not None:
-            # A TRAILING `.align` IS PART OF THE SPAN (P31 S74). The assembler emits the padding
-            # to satisfy it, so a `.s` ending in `.asciz "r"` + `.align 2` occupies 4 bytes, not 2.
-            # Measuring only the emitted DATA left `hi` short, the island walk then landed
-            # mid-object, and `--derive` aborted with `C table entry 0 at 0x801A00DA ... island
-            # layout drift` — a true statement about a span that was never the real one. Found by a
-            # drafting agent that ran its own gate reject to ground instead of respelling the body:
-            # the reject was this, not its C. Byte-neutral control: the unmodified TU's object is
-            # identical with and without this branch.
-            al = 1 << int(st.split()[1])
-            hi = (hi + al - 1) // al * al
+            pend_align = 0
+    if hi is not None and pend_align > 1:
+        hi = (hi + pend_align - 1) // pend_align * pend_align
     return lo, hi
 
 _DIRSIZE = {".word": 4, ".long": 4, ".half": 2, ".short": 2, ".byte": 1, ".float": 4, ".double": 8}

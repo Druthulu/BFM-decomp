@@ -97,6 +97,7 @@ segments:
       # - [0x0, rodata, head]
       - [0x0, .rodata, md_MAIN_003_jr_800D1E18]      # module-id header (+jtbl/ptr table) — §154-A; named for the TU holding ALL island emitters (D_800CEDF8 include, D_800CEE1C asm, MDEC literals, func_800D30D0 with its migrated strings): spimdisasm rodata-migration is same-subseg-only. Renamed _jr_800D12D0 -> _jr_800D1E18 by the S68 func_800D12D0 o0 carve (region0 became md_MAIN_003_o0d; the emitters live in the post region)
       - [0xd8, c, md_MAIN_003]
+      - [0x1308, c, md_MAIN_003_o0e]
       - [0x1f74, c, md_MAIN_003_o0c]
       - [0x24d8, c, md_MAIN_003_o0d]
       - [0x3020, c, md_MAIN_003_jr_800D1E18]
