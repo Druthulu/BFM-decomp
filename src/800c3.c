@@ -1205,7 +1205,29 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAE8);
  * it through untouched. See src/md_MAIN_003/md_MAIN_003.c:524 (func_800D0440)
  * for the precedent this follows.
  */
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EB28);
+extern u32 D_8007299C;
+extern u32 D_800729AC;
+extern u32 D_80072998;
+extern void (*D_8007298C)(void);
+extern void (*D_80072988)(void);
+extern u32 D_800729DC;
+extern void (*D_80072974)(void *);
+
+void func_8005EB28(void *param_1) {
+    if ((D_8007299C == D_800729AC) && (D_80072998 != 0)) {
+        D_8007298C();
+        D_80072988();
+    }
+    if (D_800729DC != 0) {
+        D_80072974(*(void **)((u8 *)param_1 + 0xC));
+        D_80072974((void *)(*(s32 *)((u8 *)param_1 + 0xC) + 0xF0));
+    }
+    if (*(volatile u8 *)((u8 *)param_1 + 0x36) == 0) {
+        func_8005DE78((s32)param_1, 0x42);
+    } else {
+        func_8005DE78((s32)param_1, *(u8 *)((u8 *)param_1 + 0x36));
+    }
+}
 
 /*
  * func_8005EC00 -- same wall as func_8005EB28 (src/800c3.c:1338): the target
