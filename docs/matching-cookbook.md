@@ -35376,3 +35376,24 @@ explicit `s32` temp for the sum stops the shortening and restores the `andi`.
 **Residual left (permuter-class):** `(sy & 0x100) >> 4` emits `srl; andi` — combine will move a shift
 inside a **single-bit** mask but not inside `0x300`/`0x3C0`, and both C spellings converge on the same
 output, so this is a combine limitation rather than a spelling choice.
+
+#### §468 — THE `%lo`-FOLD EXTENDS TO STORES ONLY VIA `extern Struct SYM[]`, AND MASKING HID THE OPERAND ORDER
+
+**Source: the S76 agent on `ov_SC01_001:func_80181E04` (269 ins → MATCH).**
+
+**1. §18's `%lo`-fold works for STORES only when the symbol is declared as an array of struct.**
+`SYM[i*20]` on a plain `s32[]` folds **only for read-only symbols**; declaring each symbol
+`extern Struct SYM[]` with stride `0x50` and the field at `+0` makes the fold apply to stores too.
+Measured at **13 instructions** on this function. That is a real extension of the Phase-20 §18 entry,
+which only ever exercised the read side.
+
+**2. 🔴 RELOCATION MASKING CAN HIDE A WRONG OPERAND ORDER.** The kill test needed
+`D_801EDA4C[i] > D_801EDA58[i]`; the reversed spelling scores **identically** under `match_one`,
+because §1c masks HI16/LO16 immediates and the two symbol references mask to the same bytes. It was
+caught only by reading the raw relocation list. **When a comparison's operands are two different
+symbols, the byte oracle is blind to which is which — check the relocations, not the score.**
+
+**3. Two smaller levers from the same match.** Do not introduce a biased `q` pointer: write the prim
+bytes off `p` so `combine_givs` picks `p+0x12` itself, otherwise it mints a second anchor at `p+8`
+(+2 ins). And keep the counted `i < 0x100` loop — spelling the bound via `D_801F2A44` costs 12
+instructions, even though the relocation resolves to the same address (`D_801EDA44+0x5000`).
