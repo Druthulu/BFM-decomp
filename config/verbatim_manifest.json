@@ -762,11 +762,11 @@
    "addr": "0x8005bef8",
    "nins": 6,
    "cls": "SDK-C-FRAG",
-   "disposition": "DECOMPILE-AS-PARENT",
+   "disposition": "PERMANENT-VERBATIM",
    "unit_entry": "SYS_OBJ_2CC4",
    "unit_nins": 6,
    "path": "src/800c.c",
-   "why": "inside archived SYS.o function `_sync` (+0x2ca4); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler"
+   "why": "inside archived SYS.o function `_sync` (+0x2ca4); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler | S76 CORRECTION: \u00a7179-C \u2014 no `jr $ra` of its own, falls into a sibling shared epilogue; gcc-2.7.2 appends an epilogue to every C function, so no C spelling exists. Verified by the mechanical no-jr-$ra detector AND independently by three drafting agents."
   },
   {
    "binary": "main",
@@ -1446,11 +1446,11 @@
    "addr": "0x8005ab00",
    "nins": 20,
    "cls": "SDK-C-FRAG",
-   "disposition": "DECOMPILE-AS-PARENT",
+   "disposition": "PERMANENT-VERBATIM",
    "unit_entry": "func_8005ab00",
    "unit_nins": 22,
    "path": "src/800c.c",
-   "why": "inside archived SYS.o function `get_mode` (+0x18cc); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler"
+   "why": "inside archived SYS.o function `get_mode` (+0x18cc); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler | S76 CORRECTION: \u00a7179-C \u2014 no `jr $ra` of its own, falls into a sibling shared epilogue; gcc-2.7.2 appends an epilogue to every C function, so no C spelling exists. Verified by the mechanical no-jr-$ra detector AND independently by three drafting agents."
   },
   {
    "binary": "main",
@@ -1482,11 +1482,11 @@
    "addr": "0x8005acf0",
    "nins": 13,
    "cls": "SDK-C-FRAG",
-   "disposition": "DECOMPILE-AS-PARENT",
+   "disposition": "PERMANENT-VERBATIM",
    "unit_entry": "func_8005acf0",
    "unit_nins": 17,
    "path": "src/800c.c",
-   "why": "inside archived SYS.o function `get_ofs` (+0x1abc); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler"
+   "why": "inside archived SYS.o function `get_ofs` (+0x1abc); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler | S76 CORRECTION: \u00a7179-C \u2014 no `jr $ra` of its own, falls into a sibling shared epilogue; gcc-2.7.2 appends an epilogue to every C function, so no C spelling exists. Verified by the mechanical no-jr-$ra detector AND independently by three drafting agents."
   },
   {
    "binary": "main",
@@ -1494,11 +1494,11 @@
    "addr": "0x8005ad34",
    "nins": 30,
    "cls": "SDK-C-FRAG",
-   "disposition": "DECOMPILE-AS-PARENT",
+   "disposition": "PERMANENT-VERBATIM",
    "unit_entry": "func_8005ad34",
    "unit_nins": 33,
    "path": "src/800c.c",
-   "why": "inside archived SYS.o function `get_tw` (+0x1b00); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler"
+   "why": "inside archived SYS.o function `get_tw` (+0x1b00); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler | S76 CORRECTION: \u00a7179-C \u2014 no `jr $ra` of its own, falls into a sibling shared epilogue; gcc-2.7.2 appends an epilogue to every C function, so no C spelling exists. Verified by the mechanical no-jr-$ra detector AND independently by three drafting agents."
   },
   {
    "binary": "main",
@@ -1530,11 +1530,11 @@
    "addr": "0x8005bed8",
    "nins": 8,
    "cls": "SDK-C-FRAG",
-   "disposition": "DECOMPILE-AS-PARENT",
+   "disposition": "PERMANENT-VERBATIM",
    "unit_entry": "func_8005bed8",
    "unit_nins": 8,
    "path": "src/800c.c",
-   "why": "inside archived SYS.o function `_sync` (+0x2ca4); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler"
+   "why": "inside archived SYS.o function `_sync` (+0x2ca4); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler | S76 CORRECTION: \u00a7179-C \u2014 no `jr $ra` of its own, falls into a sibling shared epilogue; gcc-2.7.2 appends an epilogue to every C function, so no C spelling exists. Verified by the mechanical no-jr-$ra detector AND independently by three drafting agents."
   },
   {
    "binary": "main",
@@ -1554,11 +1554,11 @@
    "addr": "0x8005c1c0",
    "nins": 53,
    "cls": "SDK-C-FRAG",
-   "disposition": "DECOMPILE-AS-PARENT",
+   "disposition": "PERMANENT-VERBATIM",
    "unit_entry": "func_8005c1c0",
    "unit_nins": 53,
    "path": "src/800c.c",
-   "why": "inside archived SYS.o function `_version` (+0x2f8c); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler"
+   "why": "inside archived SYS.o function `_version` (+0x2f8c); archive .text byte-identical to the game (psyq_identify 3109 ins); siblings REAL with the pinned compiler | S76 CORRECTION: \u00a7179-C \u2014 no `jr $ra` of its own, falls into a sibling shared epilogue; gcc-2.7.2 appends an epilogue to every C function, so no C spelling exists. Verified by the mechanical no-jr-$ra detector AND independently by three drafting agents."
   },
   {
    "binary": "main",
@@ -2358,11 +2358,11 @@
    "addr": "0x80181828",
    "nins": 87,
    "cls": "GAME-GTE",
-   "disposition": "UNCERTAIN",
+   "disposition": "PERMANENT-VERBATIM",
    "unit_entry": "func_80181828",
    "unit_nins": 87,
    "path": "src/ov_SC05_005/ov_SC05_005_jr_8017D898.c",
-   "why": "cop2=7 of 87 ins; splat Handwritten tag (heuristic); mult/GTE"
+   "why": "cop2=7 of 87 ins; splat Handwritten tag (heuristic); mult/GTE | S76 CORRECTION: handwritten GTE (SQR lane); the drafting agent transcribed the .s 1:1 and reported the target as hand-written, not compiler output."
   },
   {
    "binary": "ov_SC06_010",
@@ -2382,11 +2382,11 @@
    "addr": "0x8017d810",
    "nins": 33,
    "cls": "GAME-GTE",
-   "disposition": "UNCERTAIN",
+   "disposition": "PERMANENT-VERBATIM",
    "unit_entry": "func_8017D810",
    "unit_nins": 33,
    "path": "src/ov_SC06_032/ov_SC06_032_jr_8017C24C.c",
-   "why": "cop2=7 of 33 ins; GTE SQR distance check, 7 cop2"
+   "why": "cop2=7 of 33 ins; GTE SQR distance check, 7 cop2 | S76 CORRECTION: handwritten GTE (SQR lane); the drafting agent transcribed the .s 1:1 and reported the target as hand-written, not compiler output."
   },
   {
    "binary": "ov_SC07_000",

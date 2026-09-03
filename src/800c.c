@@ -1825,7 +1825,42 @@ __asm__(
     ".end\tSYS_OBJ_18AC\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005AB00);
+__asm__(
+".text\n"
+".align\t2\n"
+".globl\tfunc_8005AB00\n"
+".ent\tfunc_8005AB00\n"
+"func_8005AB00:\n"
+".frame\t$sp,0,$31\n"
+".mask\t0x00000000,0\n"
+".fmask\t0x00000000,0\n"
+".set\tnoreorder\n"
+"lui $v0, %hi(D_80072788)\n"
+"lbu $v0, %lo(D_80072788)($v0)\n"
+"nop\n"
+"addiu $v0, $v0, -1\n"
+"sltiu $v0, $v0, 2\n"
+"beqz $v0, .L8005AB38\n"
+"nop\n"
+"beqz $a1, .L8005AB28\n"
+"lui $v1, 57600\n"
+"ori $v1, $v1, 2048\n"
+".L8005AB28:\n"
+"beqz $a0, SYS_OBJ_191C\n"
+"andi $v0, $a2, 10239\n"
+"j SYS_OBJ_191C\n"
+"ori $v0, $v0, 4096\n"
+".L8005AB38:\n"
+"beqz $a1, .L8005AB44\n"
+"lui $v1, 57600\n"
+"ori $v1, $v1, 512\n"
+".L8005AB44:\n"
+"beqz $a0, SYS_OBJ_191C\n"
+"andi $v0, $a2, 2559\n"
+"ori $v0, $v0, 1024\n"
+".set\treorder\n"
+".end\tfunc_8005AB00\n"
+);
 
 s32 SYS_OBJ_191C(s32 a0, s32 a1, s32 a2, s32 a3) {
     register s32 v0 __asm__("$2");
@@ -2036,7 +2071,33 @@ s32 SYS_OBJ_1AA4(s32 a0, s32 a1, s32 a2, s32 a3) {
     return v0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005ACF0);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005ACF0\n"
+    ".ent\tfunc_8005ACF0\n"
+    "func_8005ACF0:\n"
+    ".frame\t$sp,0,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "lui   $2, %hi(D_80072788)\n"
+    "lbu   $2, %lo(D_80072788)($2)\n"
+    "nop\n"
+    "addiu $2, $2, -1\n"
+    "sltiu $2, $2, 2\n"
+    "bnez  $2, 1f\n"
+    " andi $3, $5, 0xfff\n"
+    "andi  $3, $5, 0x7ff\n"
+    "sll   $3, $3, 11\n"
+    "j     SYS_OBJ_1AF0\n"
+    " andi $2, $4, 0x7ff\n"
+    "1:\n"
+    "sll   $3, $3, 12\n"
+    "andi  $2, $4, 0xfff\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005ACF0\n"
+);
 
 s32 SYS_OBJ_1AF0(void) {
     register s32 r_v0 __asm__("v0");
@@ -2045,7 +2106,47 @@ s32 SYS_OBJ_1AF0(void) {
     return r_v1 | r_v0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005AD34);
+__asm__(
+".text\n"
+".align\t2\n"
+".globl\tfunc_8005AD34\n"
+".ent\tfunc_8005AD34\n"
+"func_8005AD34:\n"
+"    .set\tnoreorder\n"
+"    bnez $a0, .L8005AD44\n"
+"    addiu $sp, $sp, -16\n"
+"    j SYS_OBJ_1B78\n"
+"    addu $v0, $zero, $zero\n"
+".L8005AD44:\n"
+"    lbu $a1, 0($a0)\n"
+"    nop\n"
+"    srl $a1, $a1, 3\n"
+"    sw $a1, 0($sp)\n"
+"    lh $a2, 4($a0)\n"
+"    nop\n"
+"    negu $a2, $a2\n"
+"    andi $a2, $a2, 0xFF\n"
+"    sra $a2, $a2, 3\n"
+"    sw $a2, 8($sp)\n"
+"    lbu $v0, 2($a0)\n"
+"    sll $a1, $a1, 10\n"
+"    srl $v0, $v0, 3\n"
+"    sw $v0, 4($sp)\n"
+"    sll $v0, $v0, 15\n"
+"    lh $v1, 6($a0)\n"
+"    lui $a0, 0xe200\n"
+"    or $a1, $a1, $a0\n"
+"    or $v0, $v0, $a1\n"
+"    negu $v1, $v1\n"
+"    andi $v1, $v1, 0xFF\n"
+"    sra $v1, $v1, 3\n"
+"    sll $a0, $v1, 5\n"
+"    or $v0, $v0, $a0\n"
+"    or $v0, $v0, $a2\n"
+"    sw $v1, 12($sp)\n"
+".set\treorder\n"
+".end\tfunc_8005AD34\n"
+);
 
 void SYS_OBJ_1B78(void) {
     __asm__ __volatile__("addiu\t$sp, $sp, 0x10");
@@ -3384,9 +3485,46 @@ __asm__(
     ".end\tSYS_OBJ_2C6C\n"
 );
 
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005BED8);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005BED8\n"
+    ".ent\tfunc_8005BED8\n"
+    ".frame\t$sp,24,$31\n"
+    ".mask\t0x80010000,-4\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "func_8005BED8:\n"
+    "addiu $sp, $sp, -24\n"
+    "sw    $ra, 20($sp)\n"
+    "bnez  $a0, .L8005BF8C\n"
+    " sw   $s0, 16($sp)\n"
+    "jal   func_8005C020\n"
+    " nop\n"
+    "j     SYS_OBJ_2CDC\n"
+    " nop\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005BED8\n"
+);
 
-INCLUDE_ASM("asm/nonmatchings/800c", SYS_OBJ_2CC4);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tSYS_OBJ_2CC4\n"
+    ".type\tSYS_OBJ_2CC4, @function\n"
+    ".ent\tSYS_OBJ_2CC4\n"
+    "SYS_OBJ_2CC4:\n"
+    ".set\tnoreorder\n"
+    "    jal   func_8005BA90\n"
+    "    nop\n"
+    "    jal   func_8005C054\n"
+    "    nop\n"
+    "    bnez  $v0, SYS_OBJ_2DD8\n"
+    "    addiu $v0, $zero, -1\n"
+    ".set\treorder\n"
+    ".size\tSYS_OBJ_2CC4, . - SYS_OBJ_2CC4\n"
+    ".end\tSYS_OBJ_2CC4\n"
+);
 
 /* SYS_OBJ_2CDC: no epilogue (falls into the shared SYS_OBJ_2DD8 tail), and its two "exit"
  * points are raw `j` jumps into SYS_OBJ_2CC4 / SYS_OBJ_2DD8 with live values in $v0/$s0 and
@@ -3681,7 +3819,76 @@ __asm__(
  * is unchanged: func_8005C1C0 @0x8005C1C0 (0xD4 bytes) -> SYS_OBJ_3060 @0x8005C294 ->
  * func_8005C29C @0x8005C29C.
  */
-INCLUDE_ASM("asm/nonmatchings/800c", func_8005C1C0);
+__asm__(
+    ".text\n"
+    ".align\t2\n"
+    ".globl\tfunc_8005C1C0\n"
+    ".ent\tfunc_8005C1C0\n"
+    "func_8005C1C0:\n"
+    ".frame\t$sp,0,$31\n"
+    ".mask\t0x00000000,0\n"
+    ".fmask\t0x00000000,0\n"
+    ".set\tnoreorder\n"
+    "lui   $3, 0x1000\n"
+    "lui   $2, %hi(D_8007285C)\n"
+    "lw    $2, %lo(D_8007285C)($2)\n"
+    "ori   $3, $3, 7\n"
+    "sw    $3, 0($2)\n"
+    "lui   $5, %hi(D_80072858)\n"
+    "lw    $5, %lo(D_80072858)($5)\n"
+    "lui   $3, 0xff\n"
+    "lw    $2, 0($5)\n"
+    "ori   $3, $3, 0xffff\n"
+    "and   $2, $2, $3\n"
+    "addiu $3, $0, 2\n"
+    "beq   $2, $3, .L8005C268\n"
+    " lui  $3, 0xe100\n"
+    "lui   $2, %hi(D_8007285C)\n"
+    "lw    $2, %lo(D_8007285C)($2)\n"
+    "nop\n"
+    "lw    $2, 0($2)\n"
+    "ori   $3, $3, 0x1000\n"
+    "andi  $2, $2, 0x3fff\n"
+    "or    $2, $2, $3\n"
+    "sw    $2, 0($5)\n"
+    "lui   $2, %hi(D_80072858)\n"
+    "lw    $2, %lo(D_80072858)($2)\n"
+    "lui   $3, %hi(D_8007285C)\n"
+    "lw    $3, %lo(D_8007285C)($3)\n"
+    "lw    $2, 0($2)\n"
+    "lw    $2, 0($3)\n"
+    "nop\n"
+    "andi  $2, $2, 0x1000\n"
+    "bnez  $2, .L8005C248\n"
+    " andi $2, $4, 8\n"
+    "j     SYS_OBJ_3060\n"
+    " addu $2, $0, $0\n"
+    ".L8005C248:\n"
+    "bnez  $2, .L8005C258\n"
+    " lui  $2, 0x2000\n"
+    "j     SYS_OBJ_3060\n"
+    " addiu $2, $0, 1\n"
+    ".L8005C258:\n"
+    "ori   $2, $2, 0x504\n"
+    "sw    $2, 0($3)\n"
+    "j     SYS_OBJ_3060\n"
+    " addiu $2, $0, 2\n"
+    ".L8005C268:\n"
+    "andi  $2, $4, 8\n"
+    "beqz  $2, .L8005C290\n"
+    " lui  $4, 0x900\n"
+    "ori   $4, $4, 1\n"
+    "lui   $3, %hi(D_8007285C)\n"
+    "lw    $3, %lo(D_8007285C)($3)\n"
+    "addiu $2, $0, 4\n"
+    "sw    $4, 0($3)\n"
+    "j     SYS_OBJ_3060\n"
+    "nop\n"
+    ".L8005C290:\n"
+    "addiu $2, $0, 3\n"
+    ".set\treorder\n"
+    ".end\tfunc_8005C1C0\n"
+);
 
 void SYS_OBJ_3060(void) {
 }
