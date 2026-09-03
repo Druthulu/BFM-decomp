@@ -35485,3 +35485,33 @@ put a value there, because reload claims it for its own reloads. When a residual
 
 *(Also: merging `vol` and `m` into one variable puts the volume chain in `$a0`. Residual 12 is this
 `$t0` rematerialisation plus one `lh`/`lhu` row that is the orphan's only available site.)*
+
+#### §472 — 🔴 §148-A's HOIST THRESHOLD IS 29, NOT 58, WHEN THE LOOP CONTAINS A CALL
+
+**Source: the S76 agent on `main:func_8001EA14` (371 ins, 349/303 → 89, length exact), cracked with
+`cc1 -dL`.** Four findings; the first corrects a number this file has been quoting.
+
+**1. THE `loop.c` HOIST THRESHOLD IS CALL-DEPENDENT.** §148-A's rule is stated for a threshold of
+58; **when the loop CONTAINS A CALL it is 29.** And the two inputs are not what the name suggests:
+`savings` is the **count of MATCHED movables**, and `lifetime` is their **SUM**. Read them off
+`cc1 -dL` rather than estimating — this agent used the dump to arrange for `&vo` to be the only
+surviving hoist (a 2-operand `gte_ldv3` plus swapping `gte_rt`'s operands removed the others).
+**Anyone applying §148-A to a loop with a call and getting the wrong answer has been using the
+wrong constant.**
+
+**2. `MEM_IN_STRUCT_P` RUNS BOTH WAYS — see §469 for the other direction.** There, spelling a load as
+a struct member *unblocked* hoisting. Here the target's schedule is alias-**blocked**, so the fix was
+the opposite: access `prim` through **plain casts, not a struct**, to keep `MEM_IN_STRUCT_P` clear.
+One knob, two directions; decide which the target needs before reaching for either.
+
+**3. THE `COND_EXPR` SINGLETON FOLD IS ESCAPED BY MAKING THE ARMS DIFFERENT *TREES*.** gcc folds
+`X ? A op B : A` into a single operation. Changing values is not enough — the arms must be
+structurally different trees, e.g. `(uy - 0x100) : (u32)uy`.
+
+**4. SPILL SLOTS FOLLOW *DECLARATION* ORDER (mode before base).** With §463 (8-byte rounding),
+§469 (a layout only a declared local can produce) and §471 (the §172 USE-orphan), the frame model is
+now: slot **size** is `BIGGEST_ALIGNMENT`-rounded, slot **order** is declaration order, and a slot
+nothing reads is a spill or an orphan — never padding.
+
+*(Residual: `sched1` reordering the matrix-init block, A/B-proved with `-fno-schedule-insns`, plus a
+`$t0`/`$v0` allocation knock-on — see §471 on why `$t0` is not yours.)*
