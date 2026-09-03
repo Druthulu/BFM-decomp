@@ -154,3 +154,38 @@ def is_verbatim_asm_draft(text, fn):
         return False
     c_def = re.search(rf'^[A-Za-z_][\w \*]*\b{f}\s*\([^;]*\)\s*(?:/\*.*?\*/\s*)?\{{', text, re.M | re.S)
     return not c_def
+
+
+def is_epilogueless_fragment(asm_path=None, asm_text=None):
+    """True if this function has NO `jr $ra` of its own — cookbook §179-C (P31 S76).
+
+    THE CLASS. A §179-C function ends mid-basic-block, or every exit is a raw `j` into a SIBLING's
+    label, and the shared `lw $ra / addiu $sp / jr $ra` tail lives in the next symbol. gcc-2.7.2 has
+    no sibcall/cross-function tail-merge pass and `expand_function_end` appends an epilogue to every
+    C function it compiles, so NO C spelling exists: every attempt comes out +2 instructions
+    (a phantom `jr $ra` / `nop`). The only correct form is a file-scope `__asm__`.
+
+    WHY IT IS A PRECHECK AND NOT A LESSON (S76). The manifest already marks these DECOMPILE-AS-PARENT
+    ("this row is a FRAGMENT — decompile the unit_entry, NEVER the fragment") and the cookbook §179-C
+    entry NAMES several of them. I converted six of them to INCLUDE_ASM stubs anyway, on a `rows == 1`
+    filter that meant "the manifest listed one row", not "this is an independent function" — putting
+    six unbankable targets into the drawable frontier. Three separate drafting agents then rediscovered
+    §179-C from scratch, one of them citing the very cookbook line that names its target.
+
+    The symptom is one grep over the target's own `.s`, so no one should ever pay an agent to find it
+    again: a function with no `jr $ra` is not drawable and not convertible, whatever any disposition
+    field says. Verified on the S76 set: 6 of 6 main `src/800c.c` conversions flagged, 5 of 5 overlay
+    conversions cleared.
+
+    READ THE RIGHT SOURCE. Pass `asm_text` when the function is still a VERBATIM body: splat stops
+    emitting `<fn>.s` for a function that is not a stub, so a path-only check has nothing to read and
+    returns False — inert for exactly the case it exists to prevent. Measured S76: the first version
+    of this guard passed a §179-C fragment straight through for that reason, caught only by testing
+    it on a case whose answer was already known. The verbatim block IS the assembly; use it."""
+    if asm_text is None:
+        try:
+            with open(asm_path, errors='replace') as fh:
+                asm_text = fh.read()
+        except (OSError, TypeError):
+            return False      # cannot read -> not our call to make; the caller's oracle decides
+    return not any('jr' in ln and '$ra' in ln for ln in asm_text.splitlines())

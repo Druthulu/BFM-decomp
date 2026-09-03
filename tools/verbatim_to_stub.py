@@ -28,6 +28,7 @@ purpose is to enable a byte gate, so it refuses to be the one link that goes unc
     tools/verbatim_to_stub.py --restore <path.bak>                        # undo
 """
 import argparse
+import glob
 import os
 import re
 import shutil
@@ -124,6 +125,19 @@ def main():
         sys.exit(f'verbatim_to_stub: no file-scope __asm__ block defining {a.fn} in {a.binary} '
                  f'— is it already a stub, or a class-B asm-bodied C function? (R43: refusing to guess)')
     path, text, s, e, blk = hit
+
+    # REFUSE A §179-C FRAGMENT (P31 S76). A function with no `jr $ra` of its own falls into a
+    # sibling's shared epilogue; gcc-2.7.2 appends an epilogue to every C function it compiles, so
+    # no C spelling can ever match and converting it to a stub only puts an unbankable target into
+    # the drawable frontier. Measured: six of these were converted on a filter that read the
+    # manifest's row COUNT instead of its DECOMPILE-AS-PARENT disposition, and three agents then
+    # rediscovered §179-C independently. The symptom is one grep over the target's own .s.
+    import draft_prechecks as _DP
+    if _DP.is_epilogueless_fragment(asm_text=blk):
+        sys.exit('verbatim_to_stub: REFUSED — %s has NO `jr $ra` of its own (cookbook §179-C): it '
+                 'falls into a sibling\'s shared epilogue, so gcc-2.7.2 can never emit it from C '
+                 'and a stub here is an unbankable target. It belongs in the file-scope __asm__ '
+                 'block it already is.' % a.fn)
 
     # The asm subdir INCLUDE_ASM must name: take it from a sibling stub in the SAME FILE, because
     # that is the only spelling guaranteed to resolve for this TU (subsegs are per-file, and a
