@@ -6522,47 +6522,7 @@ void func_8018098C(s32 a0) {
 }
 
 
-__asm__(".text\n.align 2\n.globl func_801809E4\n.ent\tfunc_801809E4\n"
-        "func_801809E4:\n.frame $sp,16,$31\n.mask 0x00000000,0\n.fmask 0,0\n"
-        ".set\tnoreorder\n"
-        "addu $a1, $a0, $zero\n"
-        "lw $v0, 28($a1)\n"
-        "nop\n"
-        "beqz $v0, .L80180A04\n"
-        "addiu $sp, $sp, -16\n"
-        "addiu $v0, $v0, -1\n"
-        "j .L80180A5C\n"
-        "sw $v0, 28($a1)\n"
-        ".L80180A04:\n"
-        "addiu $v0, $zero, -1280\n"
-        "sh $zero, 6($a1)\n"
-        "sh $v0, 10($a1)\n"
-        "lui $v0, %hi(D_80126B66)\n"
-        "lh $v0, %lo(D_80126B66)($v0)\n"
-        "lh $v1, 140($a1)\n"
-        "addu $a2, $v0, $zero\n"
-        "slt $v0, $v0, $v1\n"
-        "bnez $v0, .L80180A34\n"
-        "addu $a0, $v1, $zero\n"
-        "j .L80180A38\n"
-        "addiu $v0, $a0, -512\n"
-        ".L80180A34:\n"
-        "addiu $v0, $a2, -512\n"
-        ".L80180A38:\n"
-        "sh $v0, 14($a1)\n"
-        "lw $a0, 32($a1)\n"
-        "lui $v1, 32767\n"
-        "lw $v0, 4($a0)\n"
-        "ori $v1, $v1, 65535\n"
-        "and $v0, $v0, $v1\n"
-        "sw $v0, 4($a0)\n"
-        "addiu $v0, $zero, 1\n"
-        "sh $v0, 2($a1)\n"
-        ".L80180A5C:\n"
-        "addiu $sp, $sp, 16\n"
-        "jr $ra\n"
-        "nop\n"
-        ".set\treorder\n.end\tfunc_801809E4\n");
+INCLUDE_ASM("asm/ov_SC06_010/nonmatchings/ov_SC06_010_jr_8017A4AC", func_801809E4);
 
 
 extern s32 func_80180A88(void);
