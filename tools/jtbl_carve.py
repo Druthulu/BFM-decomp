@@ -684,8 +684,11 @@ def island_split(ov, func):
           f"and {ov}.o's .rodata shrinks by exactly {hex(size)}.")
 
 
-def parse_config(ov):
+def parse_config(ov, lines=None):
     """Parse the flat-overlay config's tail data region.
+
+    `lines` overrides the on-disk text (used by revert() to run the SAME region derivation over the
+    COMMITTED config — one derivation, two callers; never a second regex model of the same file).
 
     Returns (lines, indent, region_lo_idx, region_hi_idx, tail_start, region_end, trailing_present,
              existing_carves) where:
@@ -696,7 +699,7 @@ def parse_config(ov):
       - trailing_present: whether a `[off, bin, trailing]` piece caps the region.
       - existing_carves: [(start_off, end_off, subseg), ...] for the `.rodata` carves already present.
     """
-    lines = open(cfg_path(ov)).read().splitlines()
+    lines = open(cfg_path(ov)).read().splitlines() if lines is None else list(lines)
     pieces = []   # (idx, indent, off, kind, name)
     eof_off = None
     for i, ln in enumerate(lines):
@@ -1151,6 +1154,45 @@ def set_pads_vars(ov, pads_map):
                 print(f"jtbl_carve: JTBL_PADS changed for {sub} — removed stale {obj}")
 
 
+def _revert_yaml_region(ov):
+    """Restore ONLY the carve's own data/rodata region in `config/splat.<ov>.yaml` from HEAD.
+
+    WHY NOT `git checkout --` THE FILE (P31 S74, paid for three times in one session). The carve
+    owns exactly the trailing `data`/`.rodata` region — the `c` pieces above it are source
+    configuration this tool never writes. A blunt checkout cannot tell "carve state I just added"
+    from "the §431 TU split someone added to the same uncommitted file", so `--revert` after a
+    carve PROBE silently un-split the overlay: three independent agents hit it in one session, and
+    each recovered only because they had backed the yaml up by hand first. This is the same
+    surgical discipline `revert()` already applies to the SHARED `config/overlays.mk`, and for the
+    same reason — the file holds more than this overlay's carve.
+
+    R43 guard: if the committed region carves a `.rodata` onto a subseg the CURRENT config no
+    longer has (a split that re-homed a carved subseg), restoring it would produce a config that
+    cannot extract — so refuse loudly and name the subseg instead of writing it.
+    """
+    cur = open(cfg_path(ov)).read().splitlines()
+    head = subprocess.run(["git", "-C", REPO, "show", f"HEAD:config/splat.{ov}.yaml"],
+                          capture_output=True, text=True)
+    if head.returncode != 0:
+        sys.exit(f"jtbl_carve: cannot read HEAD:config/splat.{ov}.yaml — {head.stderr.strip()}")
+    hl = head.stdout.splitlines()
+    _, _, clo, chi, *_ = parse_config(ov, lines=cur)
+    _, _, hlo, hhi, *_ = parse_config(ov, lines=hl)
+    cur_c = [m.group(4) for m in (PIECE_RE.match(l) for l in cur) if m and m.group(3) == "c"]
+    missing = sorted({m.group(4) for m in (PIECE_RE.match(l) for l in hl[hlo:hhi])
+                      if m and m.group(3) == ".rodata"} - set(cur_c))
+    if missing:
+        sys.exit(f"jtbl_carve: REFUSING to revert {ov} — the committed carve region attaches "
+                 f".rodata to subseg(s) {missing}, which the current config no longer defines "
+                 f"(a §431 split re-homed them). Restoring it would write a config that cannot "
+                 f"extract. Reconcile the carve lines with the new subseg names by hand.")
+    open(cfg_path(ov), "w").write("\n".join(cur[:clo] + hl[hlo:hhi] + cur[chi:]) + "\n")
+    head_c = [m.group(4) for m in (PIECE_RE.match(l) for l in hl) if m and m.group(3) == "c"]
+    if cur_c != head_c:
+        print(f"jtbl_carve {ov}: PRESERVED {len(cur_c)} uncommitted `c` piece(s) "
+              f"(committed: {len(head_c)}) — only the carve region was reverted")
+
+
 def revert(ov):
     """Restore this overlay's carve state to the COMMITTED one.
 
@@ -1159,7 +1201,7 @@ def revert(ov):
     unconditional drop would destroy a banked carve on any failed sweep. And `overlays.mk` is SHARED
     by all 134 overlays, so a blunt `git checkout` of it would wipe the OTHER siblings' in-flight
     vars mid-sweep — hence the surgical, per-overlay line splice."""
-    subprocess.check_call(["git", "-C", REPO, "checkout", "--", cfg_path(ov)])
+    _revert_yaml_region(ov)
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
     _mk_base = txt

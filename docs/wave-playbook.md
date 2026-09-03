@@ -48,9 +48,12 @@ python3 tools/draw_waves.py --only-main --prefix .run/<name>m_ --waves 1 --per-w
 
 * **The exclude list is not optional.** It carries two populations that no model can bank:
   * **CARVE-BLOCKED** — a subseg owning raw jtbls in >1 non-adjacent span, so only one can carve
-    (cookbook §322/§426). `tools/split_indicator.py` derives this set; as of P31 S73 it is **16
-    functions across 4 overlays** (`ov_SC01_084`, `ov_SC02_005`, `ov_SC02_011`, `ov_SC03_105`), not
-    the 96 the pre-S67 probe reported.
+    (cookbook §322/§426). `tools/split_indicator.py` derives this set. **As of P31 S74 it is EMPTY**:
+    the four overlays that held it (`ov_SC01_084`, `ov_SC02_005`, `ov_SC02_011`, `ov_SC03_105` — 16
+    functions) were split at their span boundaries (§431/§435), the fleet is **213 OK of 213**, and
+    `split_indicator` is a HARD gate in `make tools-health`, so a new violation fails the build
+    rather than being echoed past. Two of those four needed a THIRD piece the span list did not
+    name — read §435 before assuming the cut count.
   * **WALL** — curated toolchain walls, now MERGED into `config/wave_exclude.txt` and pinned
     there with `# WALL:` (the seven `.run/S6*_walls.txt` ledgers are superseded): §188 epilogue functions that `oracle_reorder.py`
     proves byte-correct-but-unemittable, the §332 maspsx `la`-in-delay-slot set, and SDK-object

@@ -274,11 +274,11 @@ tools-health:
 	# Phase 31 and eleven functions were written off as "PROVEN gate-rejects" because of it. The
 	# evidence is derivable from the raw image on day one; nothing was comparing it. 3.7s fleet-wide.
 	$(VENV_PY) tools/split_indicator.py --self-test
-	$(VENV_PY) tools/split_indicator.py --quiet || \
-	  echo "  ^ split_indicator: subsegs above need a TU split before their switch fns can bank (cookbook §431) — informational, not a tools-health failure"
-	# INFORMATIONAL ONLY WHILE 4 KNOWN VIOLATIONS EXIST (ov_SC01_084, ov_SC02_005, ov_SC02_011,
-	# ov_SC03_105 — 16 open fns / 3,613 ins). A permanently-red gate trains people to ignore it
-	# (R54). WHEN THE LAST ONE IS SPLIT, DROP THE `|| echo` ABOVE so a regression fails the gate.
+	# P31 S74: A HARD GATE NOW, exactly as the informational form said it would become. The four
+	# violations it was waiting on (ov_SC01_084, ov_SC02_005, ov_SC02_011, ov_SC03_105 — 16 open
+	# fns / 3,613 ins) are split, so the fleet is 213/213 OK and any NEW subseg owning raw tables
+	# in >1 non-adjacent span is a regression that must fail here rather than be echoed past.
+	$(VENV_PY) tools/split_indicator.py --quiet
 	echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green."
 
 report:

@@ -34303,3 +34303,94 @@ because the substitution moves 3,989 bytes across 262 other symbols: the shared 
 statement is **"neither symbol can bank SEPARATELY"**, not "neither can bank". The open route is to
 transcribe/resegment the PAIR together, and §265 is the lane for it — not a wall to be excluded and
 forgotten.
+
+## §435 ★★★ — AN OVERLAY TU SPLIT IS NEAR-FREE, AND THE GAP TEST IS "IS THIS WORD A CODE ADDRESS", NOT "IS IT ZERO" (P31 S74; four overlays split, all byte-identical, CARVE-BLOCKED class emptied fleet-wide)
+
+**What was done.** The last four carve-blocked subsegs — `ov_SC01_084_jr_8017F690`,
+`ov_SC02_005_jr_80181D30`, `ov_SC02_011_jr_8017AE2C`, `ov_SC03_105_jr_8017C8D0` — were split at
+their jtbl-span TU boundaries (§431), each proved BYTE-IDENTICAL with nothing banked, and
+`split_indicator` went to **213 OK of 213**. 17 open switch functions were unblocked. The
+`make tools-health` check is a HARD GATE from this session on, as its own comment promised.
+
+**1. OVERLAY SPLITS COST ALMOST NOTHING, AND THE REASON IS STRUCTURAL — the opposite of `main`.**
+Measured crossings, each with its denominator (R41):
+
+| overlay | names that crossed | typedefs that crossed | compiler errors on the first post-split build |
+|---|---|---|---|
+| `ov_SC03_105` | **0** of 3,074 | 0 of 21 | **0** |
+| `ov_SC01_084` | 1 of 2,679 | 0 of 23 | 1 |
+| `ov_SC02_011` | 2 of 3,254 | 0 of 27 | 3 |
+| `ov_SC02_005` | 5 of ~44 typedefs | 5 of 44 | 16 |
+
+`main`'s split moved 57 of 1,247. The difference is the **Phase-26 §8b carried decl layer**: an
+overlay TU re-emits each region's `extern`s locally (one of these files carries 128 separate
+`#include "common.h"` lines), so a cut inherits its declarations automatically and only **typedefs**
+— which the layer deliberately does not repeat — can cross. **Budget an overlay split at "find the
+typedefs", not "refactor the declarations".**
+
+**2. THE MINIMUM SPLIT IS NOT ALWAYS THE ONE THE SPANS NAME.** Two of the four needed THREE pieces,
+and the third cut was invisible to the span list: each already carried a carve run from previously
+banked functions, and that run could not merge with span 1 because of what sat between them.
+
+```
+ov_SC02_005   existing carve 0x801E2E38..0x801E2E70 | 0000F040 00000000 | span 1 0x801E2E78...
+ov_SC02_011   existing carve 0x801E9D60..0x801E9DA0 | FEBEF6AE 000002DC 0 0 | span 1 0x801E9DB0...
+ov_SC01_084   existing carve 0x801C60C8..0x801C6104 | 00000000 (ONE zero word) | span 1 0x801C6108...
+```
+
+The first two gaps are **real data** — `0000F040` is not a code pointer, and 8 bytes is twice the
+widest `.align 3` pad the `JTBL_PADS` spec can emit; `FEBEF6AE 000002DC` is most likely a TU's
+trailing `static const`. The third is a compiler-emitted `.align 3` pad (`0x801C6108 ≡ 0 mod 8`) and
+merges cleanly. **So the load-bearing test is "is this word a valid code address in this binary's
+text range", not "is it zero"** — a zero-word detector would have merged spans A and B on
+`ov_SC02_011` and produced an unbuildable carve. Run the test on the payload words BEFORE choosing
+the cut, and let `jtbl_carve` confirm: it refuses non-contiguous carves loudly and by name.
+
+**3. THE CARVE IS A CONSEQUENCE OF BANKING, NOT A PREDICTION OF IT — and the refusal is correct.**
+Carving a span whose owners are still `INCLUDE_ASM` writes a `JTBL_PADS` spec with no partner, and
+the build stops: `jtbl_rodata_pads: consumed 3 rodata jump table(s) but 9 pad spec(s) given —
+table-count drift vs the carve`. That is R43 working, reproduced identically on the PRISTINE
+unsplit config, so it is a property of the pads pipeline and never evidence about a split. A
+**single-table** carve has no pad spec and so probes green either way — which is why the probe in
+this session's split brief used one. Carve when the function banks.
+
+**4. THE PROBE PROTOCOL that made all four verdicts trustworthy.** Negative-control an UNMODIFIED
+build in the worktree FIRST (R35/R40 — a red baseline makes every later verdict a claim about the
+harness); split; clean `rm -rf asm/<bin>` + re-extract + `-j` build + `make check`; then
+`jtbl_carve --func <span-2 owner>` + rebuild as an unlock proof, and revert it. Provision a split
+worktree with `verify_worktree.provision()` — the canonical list of the three untracked build deps
+(`.venv`, cc1 from the committed checksum-verified tarball, `extracted/`); do not hand-roll it.
+
+## §436 ★★★ — TWO TOOLS THAT READ THE WRONG SOURCE OF TRUTH, AND THE SHAPE THEY SHARE (P31 S74; both fixed + negative-controlled)
+
+Three independent agents hit both of these in one session, on the tools that certify and undo the
+work they were doing. Neither is exotic: **each tool read a source of truth that describes a
+DIFFERENT world than the one it was asked about.**
+
+**A. `split_indicator` attributed a jump table by the STUB'S DIRECTORY PATH, and `make extract` does
+not prune a re-homed subseg's old directory.** After a correct, byte-green split, both
+`nonmatchings/<old-subseg>/func_X.s` and `nonmatchings/<new-subseg>/func_X.s` exist, so the tool
+saw one subseg owning both spans and printed **`NEEDS SPLIT` for a split that was already correct**.
+Only `rm -rf asm/<bin> && make extract` cleared it. `jtbl_carve.func_subseg` documents this exact
+hazard (a §8b isolation leaves the same debris) and defends against it by deriving the owner from
+the CONFIG, by address. `split_indicator.owners()` now does the same (R33), and any leftover stub is
+NAMED in a `note:` line — which now prints on an `OK` verdict too, because a note reports what the
+verdict does not cover and hiding it behind `st != OK` is the same defect in the other direction.
+
+**B. `jtbl_carve --revert` did `git checkout --` on the WHOLE splat yaml.** The carve owns only the
+trailing `data`/`.rodata` region; the `c` pieces above it are source configuration the tool never
+writes. A blunt checkout cannot tell "carve state I just added" from "the §431 split someone added
+to the same uncommitted file", so the revert step **silently un-split the overlay** — each agent
+recovered only because they had backed the yaml up by hand. It now splices back only its own region
+(the same surgical discipline `revert()` already applied to the SHARED `config/overlays.mk`, for the
+same reason), refuses loudly if the committed region carves onto a subseg the current config no
+longer defines, and says how many uncommitted `c` pieces it preserved. `jtbl_family_bank.revert`
+carried the same blunt checkout for the isolation's code pieces and now keeps whatever pre-dated the
+attempt, naming anything it drops — it uses the `keep_regions` signal the tool already trusted for
+`src/`, because an isolation region and a §431 split piece are both named `<ov>_jr_<addr>` and **no
+name test can tell them apart**.
+
+**The shared shape, worth checking in any tool you own:** ask what the tool's answer is ABOUT (the
+current config), then ask what it READS (an asm tree, or a whole file it only partly owns). Where
+those differ, the tool will one day report a true fact about a world that no longer exists — and it
+will be believed, because it is the tool whose job is to be trusted.

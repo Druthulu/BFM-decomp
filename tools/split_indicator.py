@@ -111,22 +111,58 @@ def spans(tables):
     return [tuple(s) for s in out]
 
 
-def owners(binary):
-    """-> {table_addr: {(subseg, fn)}} from every stub .s that references a jtbl symbol."""
+def code_owner(code, addr):
+    """The CURRENT code subseg containing `addr`, per the config. None if no piece contains it."""
+    best = None
+    for name, rng in code.items():
+        for lo, hi in rng:
+            if lo <= addr and (hi is None or addr < hi):
+                best = name
+    return best
+
+
+def owners(binary, code):
+    """-> ({table_addr: {(subseg, fn)}}, [stale note]) from every stub .s referencing a jtbl symbol.
+
+    THE SUBSEG IS DERIVED FROM THE CONFIG, BY ADDRESS — never from the .s path (P31 S74, R33).
+    `make extract` does not prune a re-homed subseg's `asm/<bin>/nonmatchings/<old>/` directory, so
+    after a §431 split BOTH the old and the new directory hold the moved function's stub. The first
+    version of this function read `os.path.basename(os.path.dirname(path))` and therefore attributed
+    the table to the STALE subseg: it printed **NEEDS SPLIT for a split that was already correct and
+    byte-green**, and three independent agents hit it in one session — on the one tool whose job is
+    to certify a split. `jtbl_carve.func_subseg` documents the identical hazard (a §8b isolation
+    leaves the same debris) and already defends against it exactly this way.
+
+    A stub whose name carries no address (a named function) still falls back to its path, but only
+    when that directory is a CURRENT subseg; otherwise it is counted as stale and skipped, and the
+    count is REPORTED rather than folded silently into the verdict (R32/R55).
+    """
     root = os.path.join(REPO, 'asm', 'nonmatchings') if binary == 'main' \
         else os.path.join(REPO, 'asm', binary, 'nonmatchings')
     out = collections.defaultdict(set)
+    stale = {}                               # path -> note, DEDUPED: one .s referencing two tables
+                                             # is one stale file, and a count is read as a count.
     if not os.path.isdir(root):
-        return out
+        return out, stale
     r = subprocess.run(['grep', '-rEo', '--include=*.s', 'jtbl_[0-9A-Fa-f]{8}', root],
                        capture_output=True, text=True)
     for line in r.stdout.splitlines():
         path, _, sym = line.rpartition(':')
         if not path:
             continue
-        out[int(sym[5:], 16)].add((os.path.basename(os.path.dirname(path)),
-                                   os.path.basename(path)[:-2]))
-    return out
+        fn = os.path.basename(path)[:-2]
+        path_sub = os.path.basename(os.path.dirname(path))
+        m = re.match(r'func_([0-9A-Fa-f]{8})$', fn)
+        sub = code_owner(code, int(m.group(1), 16)) if m else None
+        if sub is None:                      # unaddressed name (or an addr outside every piece)
+            if path_sub not in code:
+                stale['%s/%s.s' % (path_sub, fn)] = None
+                continue
+            sub = path_sub
+        elif sub != path_sub:
+            stale['%s/%s.s (current owner: %s)' % (path_sub, fn, sub)] = None
+        out[int(sym[5:], 16)].add((sub, fn))
+    return out, list(stale)
 
 
 def check(binary, remap=None, tabs_override=None, own_override=None):
@@ -161,7 +197,7 @@ def check(binary, remap=None, tabs_override=None, own_override=None):
     if not tabs:
         return 'OK', ['no raw jump tables']
     sp = spans(tabs)
-    own = owners(binary) if own_override is None else own_override
+    own, stale = (owners(binary, code) if own_override is None else (own_override, []))
     by_sub, unattributed = collections.defaultdict(set), []
     for i, (lo, hi, _n) in enumerate(sp):
         hit = False
@@ -193,6 +229,17 @@ def check(binary, remap=None, tabs_override=None, own_override=None):
                              + (f" … +{len(fns)-6}" if len(fns) > 6 else ""))
             lines.append(f"      -> split `{sub}` between those owner ranges (cookbook §431); "
                          f"until then those functions CANNOT bank.")
+    if stale:
+        # STALE ASM DEBRIS, REPORTED NOT SWALLOWED (P31 S74). `make extract` does not prune a
+        # re-homed subseg's `nonmatchings/<old>/` directory, so a split leaves the moved stubs in
+        # BOTH. The owner now comes from the config by address, so these files no longer steer the
+        # verdict — but they are named here, because the run that discovered this defect saw the
+        # tool assert NEEDS SPLIT off exactly this debris and believed it (R32/R55: silence about
+        # what you skipped is the defect, not the skipping).
+        lines.append(f"  note: {len(stale)} stale stub .s under a non-current subseg dir "
+                     f"(config-derived owner used; `rm -rf asm/{binary} && make extract` clears "
+                     f"them): " + ", ".join(stale[:4])
+                     + (f" … +{len(stale)-4}" if len(stale) > 4 else ""))
     if unattributed:
         # A raw table that NO stub references is owned by linked library code. The reasoning is a
         # derived invariant, not a guess (R33): the binary builds byte-identical, therefore every
@@ -261,9 +308,16 @@ if __name__ == '__main__':
         st, lines = check(b)
         if st != 'OK':
             bad += 1
+        # NOTES PRINT ON AN `OK` TOO (P31 S74). A `note:` line reports something the verdict does
+        # NOT cover — stale asm debris, an unattributed span — and hiding it behind `st != OK` is
+        # the same shape as the defect this run fixed: a true verdict about a narrower world than
+        # the reader believes. --quiet still suppresses everything but a failure.
+        notes = [l for l in lines if l.lstrip().startswith('note:')]
         if st != 'OK' or not a.quiet:
             print(f"{b}: {st}")
             if st != 'OK':
                 print("\n".join(lines))
+            elif notes and not a.quiet:
+                print("\n".join(notes))
     print(f"\nsplit_indicator: {len(bins)-bad} OK, {bad} needing attention, of {len(bins)} binaries")
     sys.exit(1 if bad else 0)

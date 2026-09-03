@@ -106,6 +106,55 @@ def span_tables_arg(to_ov, to_func):
     return " --span-tables %s=%s" % (sub, ",".join("0x%x" % (first + d) for d in SPAN_REL))
 
 
+def _restore_yaml_keeping(ov, keep_subs):
+    """Restore `config/splat.<ov>.yaml` to HEAD, but KEEP the code pieces that pre-date this attempt.
+
+    P31 S74. This used to be a blunt `git checkout --` on the whole config. A lazy isolation
+    rewrites the CODE-subseg lines and `jtbl_carve --revert` deliberately does not touch them (it
+    splices only its own carve region), so something had to restore them — but the blunt form also
+    destroys an UNCOMMITTED §431 TU split, whose pieces are named `<ov>_jr_<addr>`, i.e. exactly
+    like an isolation's. No name test can tell the two apart, so the tool must use the same signal
+    it already trusts for `src/`: `keep_regions` records what existed BEFORE this attempt, and what
+    pre-dates the attempt is not this attempt's to remove.
+
+    A kept piece is re-inserted in ADDRESS order (the piece list is address-ordered and splat
+    refuses "segments out of order"). Anything dropped is NAMED on stdout — a silent restore of a
+    config is indistinguishable from a correct one until the next extract fails (R32/R55).
+    """
+    cfg = f"config/splat.{ov}.yaml"
+    cur = open(cfg).read().splitlines()
+    head = subprocess.run(f"git -C . show HEAD:{cfg}", shell=True, capture_output=True, text=True)
+    if head.returncode != 0:
+        return
+    hl = head.stdout.splitlines()
+    C = re.compile(r'^(\s*)- \[(0x[0-9A-Fa-f]+),\s*c,\s*(\w+)\]')
+    head_names = {C.match(l).group(3) for l in hl if C.match(l)}
+    extra = [(int(C.match(l).group(2), 16), l) for l in cur
+             if C.match(l) and C.match(l).group(3) not in head_names]
+    kept = [(off, l) for off, l in extra if C.match(l).group(3) in keep_subs]
+    dropped = [C.match(l).group(3) for off, l in extra if C.match(l).group(3) not in keep_subs]
+    out = list(hl)
+    for off, line in sorted(kept):
+        idx = None
+        for i, l in enumerate(out):
+            m = C.match(l)
+            if m and int(m.group(2), 16) < off:
+                idx = i + 1
+        if idx is None:
+            print(f"jtbl_family_bank: cannot place kept piece {C.match(line).group(3)} in {cfg} — "
+                  f"leaving the config as it is rather than writing a broken one")
+            return
+        out.insert(idx, line)
+    open(cfg, "w").write("\n".join(out) + "\n")
+    if kept:
+        print(f"jtbl_family_bank {ov}: restored {cfg} from HEAD, KEPT "
+              f"{[C.match(l).group(3) for _, l in kept]} (pre-dated this attempt)")
+    if dropped:
+        print(f"jtbl_family_bank {ov}: restored {cfg} from HEAD, DROPPED uncommitted code piece(s) "
+              f"{dropped} — this attempt created them. If one of those was YOUR §431 split, commit "
+              f"it before running this tool (a split is source configuration, not carve state).")
+
+
 def revert(ov, cf=None, keep_regions=None, extract=True):
     """Restore the overlay to its committed state. `keep_regions` = the region files that existed
     BEFORE this bank attempt (a previously-banked core's, possibly still uncommitted) — only the
@@ -132,7 +181,7 @@ def revert(ov, cf=None, keep_regions=None, extract=True):
     # place, and the NEXT isolation walks an obj list containing the object twice (duplicate/
     # reversed subseg lines → splat "segments out of order"; byte-proven: the committed
     # ov_SC01_000 duplicate that broke the func_80178D40 sweep).
-    subprocess.run(f"git checkout -- config/splat.{ov}.yaml 2>/dev/null", shell=True)
+    _restore_yaml_keeping(ov, {os.path.basename(f)[:-2] for f in (keep_regions or set())})
     subprocess.run(f"git checkout -- src/{ov}/ 2>/dev/null", shell=True)
     if keep_regions is not None:
         for f in region_files(ov) - keep_regions:
