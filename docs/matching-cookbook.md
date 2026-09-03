@@ -35324,3 +35324,31 @@ is why this hides: the same expression is fine everywhere except under a `MEM`.
 * `(*(u16*)x)++` emits the extra `move` that `+= 1` omits.
 * `CatPrim`'s arg2 must be `<load> + D_80074778*4`: with a MEM as operand 0 the address is emitted
   first, then operand 1, then the load, so the `addu` comes out operand-1-first.
+
+#### §464 — FOUR VOLATILE/BARRIER LEVERS FROM `main:func_8005DE78` (141 ins → MATCH)
+
+*(Recorded after §465-§466: the original append was lost to a git index-lock race and the commit
+message that claimed it landed before the text did. Content is unchanged from the agent's report.)*
+
+**Source: the S76 agent on `func_8005DE78`.** Structure came from the banked in-TU neighbours
+(`func_8005DCA0`'s shape, `func_8005FBC8`'s body inlined as the loop test) — §2b "read a matched
+neighbour first" paying out again. The four levers are new, and each names its mechanism.
+
+**1. A VOLATILE QI/HI LOAD PRESERVES THE ZERO-EXTEND AS ITS OWN INSTRUCTION.** Normally combine folds
+a `u8 -> s32` promotion into the `lbu`. Make the load volatile and it cannot, so the extend survives
+as a separate `andi $s2, $v0, 0xFF` — which is what the target has. Reach for it when your build is
+one `andi` short around a byte load.
+
+**2. `if (A || B) { t } else { K }` VS `&&` SELECTS WHICH ARM IS `do_jump`'s DROP-THROUGH.** Same
+truth table, different branch layout. When the residual is "right tests, wrong order", flip the
+connective before touching registers.
+
+**3. 🔴 A VOLATILE STORE CAN NEVER BE STOLEN INTO A DELAY SLOT.** `reorg`'s `resource_conflicts_p`
+returns 1 on ANY volatil resource, so the slot stays empty. **This is how you reproduce a target
+`nop` after a `j`** — otherwise very hard to force, since every ordinary statement is a candidate.
+
+**4. A `"memory"` CLOBBER AND A VOLATILE READ ARE NOT INTERCHANGEABLE CSE-BREAKERS.** Both force the
+`lbu 0x44` index to reload. But the volatile read lands the byte in `$v0` while the `"memory"`
+clobber lands it in `$v1` **without flipping the `addu` operand order** — and that operand order was
+the entire final 2-instruction `REGALLOC-PERM` residual. When a reload lever fixes the reload and
+breaks the register, try the other spelling before calling the residual permuter-class.
