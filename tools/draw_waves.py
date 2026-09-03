@@ -190,10 +190,21 @@ def main():
     # measuring the pool instead of trusting the run: it came back 88+45 = the FULL frontier.
     skip = {(b, f) for b, f, *_ in ex_rows}
 
+    # `main` HAS NO src/main/ DIRECTORY — its TUs are TOP-LEVEL src/*.c (P31 S76).
+    # This list is built from src/* DIRECTORIES, so 'main' was never in it, and the filter below
+    # could only ever KEEP a 'main' that was already present. `--main` was therefore a NO-OP: every
+    # mixed draw in this project's history contributed ZERO main functions, while the tool printed
+    # 'main: refusing 49 LINKED subseg(s)' and looked like it was doing the work. `--only-main`
+    # worked purely because it overwrote the list. Measured: 59 open main stubs — the actual
+    # frontier, and 47 of the 50 functions the S76y wave had to be assembled by hand from
+    # corpus.stubs because the draw could not see them.
+    # A flag that changes nothing is worse than a missing flag: it answers the question you asked.
     bins = sorted(os.path.basename(p) for p in glob.glob('src/*') if os.path.isdir(p))
     if a.only_main:
         a.main = True
-    bins = [b for b in bins if b != 'shared' and (a.main or b != 'main')]
+    bins = [b for b in bins if b != 'shared' and b != 'main']
+    if a.main:
+        bins.append('main')                      # ADD it; it is never in the directory listing
     if a.only_main:
         bins = ['main']
 
@@ -248,6 +259,16 @@ def main():
                              cls='FRONTIER', arm=arm_from_history(b, s.symbol, n), **{'from': 'draw_waves'}))
     pool.sort(key=lambda t: (t['nins'], t['binary'], t['name']))
 
+    if a.main:
+        _mainpool = sum(1 for t in pool if t['binary'] == 'main')
+        _mainseen = sum(1 for b, _f in redrawable if b == 'main') + _mainpool
+        if not _mainseen:
+            print('*** draw_waves: --main was requested and main contributed ZERO stubs. That is a '
+                  'DEFECT, not a fact — main had 59 open stubs when this assertion was written. '
+                  'Do not draw against this pool.', file=sys.stderr)
+            sys.exit(4)
+        print('  main: %d stub(s) reached the pool (%d seen incl. ledgered)'
+              % (_mainpool, _mainseen), file=sys.stderr)
     print('population: %d open stub(s) in [%d,%d] ins, %s, over %d binaries (%d oracle refusals: %s)'
           % (len(pool), a.min_nins, a.max_nins,
              'undrawn + previously-drawn' if a.redraw_open else 'undrawn',
