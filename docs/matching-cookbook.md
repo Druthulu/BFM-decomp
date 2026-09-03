@@ -35410,3 +35410,26 @@ check whether an existing one is what you are fighting** — remove first, then 
 
 *(Residual: `REGALLOC-PERM` `$t1 > $v1` on the base load; eleven two-variable spellings all restore
 the register but flip the entry `sched1` order for +12.)*
+
+#### §469 — THE `MEM_IN_STRUCT_P` ALIAS UNLOCK (and §463's spill law, independently confirmed)
+
+**Source: the S76 agent on `main:func_80039308` (518 ins, 402 → 154, length exact).**
+
+**🔴 WRITE A VARYING-ADDRESS LOAD AS A STRUCT MEMBER TO BREAK A FALSE ALIAS.** Spelling the
+voice-mask load `((VMask *)q)->w` instead of `*(u32 *)q` sets `MEM_IN_STRUCT_P`, which lets
+gcc-2.7.2's `true_dependence` prove that an in-struct varying-address load **cannot alias a
+scalar-global symbol store**. Both loads then hoist above both stores and **three load-delay `nop`s
+vanish**. The C is semantically identical; only the alias information differs. Reach for this
+whenever loads refuse to hoist past unrelated global stores.
+
+**INDEPENDENT CONFIRMATION OF §463.** This agent needed a 16-byte `s16 sav[8]` *memory local* for
+arg1 because "reload rounds every spill slot to `BIGGEST_ALIGNMENT` = 8, so the target's 0x0/0x8/0x10
+layout is unreachable by spilling alone" — the same law §463 derived from `alter_reg` /
+`assign_stack_local(mode,size,-1)` on a different function, found by a different agent that had not
+seen it. Two independent derivations of the 8-byte spill slot make it one of the more solid frame
+laws in this file, and it now has a second use: it tells you when a stack layout can only come from a
+declared local, never from spilling.
+
+**Residual (regalloc-only):** one whole-function s/t register permutation, one redundant
+`addu $v1,$s4,$zero` copy that no spelling survives CSE (every variant either drops it or emits
+`andi`), and gcc strength-reducing `D_80073140[i]` in the else-loop where the target does not.
