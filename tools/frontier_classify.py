@@ -13,7 +13,7 @@ the sig registries, the backlog, the corpus. Zero tokens, no agents, no builds.
 
     tools/frontier_classify.py [--json out.json]
 """
-import argparse, collections, glob, importlib.util, json, os, re, sys
+import argparse, collections, glob, importlib.util, json, os, re, subprocess, sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, 'tools'))
@@ -87,7 +87,25 @@ def main():
     stubs = open_stubs()
 
     # ---- evidence layers, all pre-existing artifacts -------------------------------------------
-    close, verdict, draft = {}, {}, {}
+    # BEST closeness, not LAST — and keep the draft that ACHIEVED it (P31 S75).
+    #
+    # `.run/backlog.jsonl` is APPEND-ONLY: a function accumulates one row per attempt, across every
+    # lane and session. Taking the last row means taking whichever lane wrote most recently, which is
+    # evidence about THAT LANE'S SEED, not about the function. Two redraft agents caught this within
+    # an hour of each other:
+    #
+    #   func_8017DB98 — brief said "closeness 115, materially wrong, re-derive". journal_notes showed
+    #                   THREE of six recorded attempts were already MATCH; attempt #6 records that the
+    #                   pack's warm-start had been the OLDER, WORSE shard. A warm-start regression
+    #                   looks exactly like an unsolved function from inside the wave.
+    #   func_800CB00C — "the 'materially wrong 168' and a byte-exact closeness-0 body were two
+    #                   different files for the same function."
+    #
+    # So a function with a banked-quality draft in its history was being classified F-FAR (redraft)
+    # and would have been handed to an agent to re-derive work that was already done. MIN is the
+    # honest reduction; `close_last` is kept alongside so a large gap between them is itself visible
+    # as a warm-start regression signal.
+    close, close_last, verdict, draft, attempts = {}, {}, {}, {}, collections.Counter()
     bl = os.path.join(REPO, '.run/backlog.jsonl')
     if os.path.exists(bl):
         for ln in open(bl):
@@ -95,14 +113,66 @@ def main():
             except Exception: continue
             n = r.get('name')
             if not n: continue
-            if r.get('closeness') is not None: close[n] = r['closeness']
+            attempts[n] += 1
+            c = r.get('closeness')
+            if c is not None:
+                close_last[n] = c
+                if n not in close or c < close[n]:
+                    close[n] = c
+                    if r.get('best_draft'):
+                        draft[n] = r['best_draft']      # the draft that ACHIEVED the best score
             if r.get('where_stuck'): verdict[n] = r['where_stuck']
-            if r.get('best_draft'): draft[n] = r['best_draft']
+            if r.get('best_draft') and n not in draft: draft[n] = r['best_draft']
     for p in glob.glob(os.path.join(REPO, '.run/harvest_failed.*.classified.txt')):
         for ln in open(p):
             q = ln.rstrip('\n').split('\t')
             if len(q) >= 2 and q[0] not in verdict:
                 verdict[q[0]] = q[1]
+
+    # SECOND EVIDENCE SOURCE: the agent journals (R34 — a disagreeing oracle, not a better assertion).
+    #
+    # `.run/backlog.jsonl` is not the only record of what has been tried, and it is not the best one.
+    # `tools/journal_notes.py` mines the AGENT JOURNALS, which carry outcomes the backlog never
+    # received. Measured on func_8017DB98 (P31 S75): backlog best == last == 115, so best-vs-last
+    # could not help — while the journal holds "Attempt 2 (MATCH · closeness 0) … MATCH 122/122 …
+    # BANK BLOCKER is TU plumbing, not the body (§376/§378)" WITH the draft path and the exact line
+    # to change. Classified F-FAR ("redraft") on the backlog alone; it is really C-PLUMBING, and an
+    # agent would have re-derived a body that was already byte-exact.
+    #
+    # Cheap: one subprocess per function that has no closeness-0 already, and only for the functions
+    # we are about to classify.
+    def journal_best(fn):
+        """(closeness, draft_path) from the agent journals, or (None, None)."""
+        try:
+            r = subprocess.run([sys.executable, os.path.join(REPO, 'tools/journal_notes.py'),
+                                '--fn', fn], capture_output=True, text=True, timeout=60, cwd=REPO)
+        except (OSError, subprocess.SubprocessError):
+            return None, None
+        # SPLIT on the attempt marker; do NOT consume past it (P31 S75, third instance of this
+        # defect class in one session). The first cut used
+        # `re.finditer(r'\*\*Attempt \d+\*\* \(([^)]*)\)(.{0,400})', ..., re.S)` — the 400-char
+        # body window SWALLOWS THE NEXT ATTEMPT'S HEADER, so every record that follows another was
+        # invisible. On func_8017DB98 that hid attempts 2 AND 6, both `MATCH · closeness 0`, and
+        # returned 2 (attempt 1's NEAR) as the best — the exact records the oracle exists to find.
+        # A regex that consumes an unbounded body cannot enumerate the items after the first.
+        chunks = re.split(r'(?=\*\*Attempt \d+\*\*)', r.stdout)
+        best, path = None, None
+        for ch in chunks:
+            hm = re.match(r'\*\*Attempt \d+\*\* \(([^)]*)\)', ch)
+            if not hm:
+                continue
+            head = hm.group(1)
+            cm = (re.search(r'closeness\s*[=:]?\s*(\d+)', head)
+                  or re.search(r'closeness\s*[=:]?\s*(\d+)', ch))
+            # a header that says MATCH with no number IS closeness 0
+            c = int(cm.group(1)) if cm else (0 if re.match(r'\s*MATCH\b', head) else None)
+            if c is None:
+                continue
+            if best is None or c < best:
+                best = c
+                pm = re.search(r'(\.run/[\w./-]+\.c)', ch)
+                path = pm.group(1) if pm else None
+        return best, path
 
     # h_exact reach: is this function byte-identical to code in another binary? (a twin is a REMAP,
     # never a redraft -- §168) and is any twin already MATCHED (i.e. is there a proven exemplar)?
@@ -168,6 +238,13 @@ def main():
                 twins = [b for b, hh in sig[addr] if hh == h and b != binary]
         proven_twin = [b for b in twins if (addr, b) in banked_addrs]
         c = close.get(fn)
+        jc, jpath = (None, None)
+        if c is None or c > 0:                      # only ask when the backlog has no proven body
+            jc, jpath = journal_best(fn)
+            if jc is not None and (c is None or jc < c):
+                c = jc
+                if jpath:
+                    draft[fn] = jpath
         v = (verdict.get(fn) or '')
         o0 = False
         try: o0 = bool(corpus.is_o0(binary, addr)) if addr else False
@@ -190,7 +267,11 @@ def main():
             k = 'G-DRAFTED-UNKNOWN'     # tried, no usable verdict recorded
         else:
             k = 'H-VIRGIN'              # never drafted: genuine new work
+        regressed = (close_last.get(fn) is not None and c is not None
+                     and close_last[fn] > c + 10)      # a later attempt scored materially worse
         rows.append(dict(fn=fn, binary=binary, nins=nins, klass=k, closeness=c,
+                         closeness_last=close_last.get(fn), attempts=attempts.get(fn, 0),
+                         warmstart_regression=regressed, journal_closeness=jc,
                          jtbl=f.get('jtbl'), jr=f.get('jr'), jalr=f.get('jalr'), o0=o0,
                          calls=f.get('calls'), twins=len(twins), proven_twin=proven_twin[:3],
                          drafts=len(disk_drafts.get(fn, [])), verdict=v[:90], path=path))
@@ -221,7 +302,12 @@ def main():
         print(f"\n== {k} — {NAME[k]}")
         for r in by[k]:
             extra = []
-            if r['closeness'] is not None: extra.append(f"close={r['closeness']}")
+            if r['closeness'] is not None:
+                extra.append(f"close={r['closeness']}(best of {r['attempts']})")
+            if r.get('journal_closeness') is not None:
+                extra.append(f"journal={r['journal_closeness']}")
+            if r.get('warmstart_regression'):
+                extra.append(f"!!WARMSTART-REGRESSION last={r['closeness_last']}")
             if r['jtbl']: extra.append('jtbl')
             if r['jr']: extra.append('jr')
             if r['o0']: extra.append('-O0')
