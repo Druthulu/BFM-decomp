@@ -62,6 +62,42 @@ python3 tools/draw_waves.py --only-main --prefix .run/<name>m_ --waves 1 --per-w
 * Main draws refuse LINKED subsegs automatically — those stubs are dead text and a draft there
   **gates GREEN while wrong**.
 
+### 1a-S76. THREE THINGS THE DRAW GOT WRONG, ALL FIXED — AND WHAT TO CHECK NOW
+
+**`--main` drew ZERO main functions until 2026-09-03.** `bins` came from `glob.glob('src/*')`
+DIRECTORIES and main has no `src/main/` (its TUs are top-level `src/*.c`), so `main` was never in
+the list — while the tool printed `main: refusing 49 LINKED subseg(s)` and looked like it was doing
+the work. `--only-main` worked only because it overwrote the list. Every MIXED draw in the project's
+history therefore drew nothing from the binary that IS the frontier. Fixed, and now ASSERTED: a
+`--main` draw that yields zero main stubs exits 4 and calls itself a defect. **Read the
+`main: N stub(s) reached the pool` line on every mixed draw** — if it is missing, you are running an
+old copy.
+
+**The ledger hid still-open work.** A stub the ledger has seen was filtered forever, so after two
+draws the tool reported `population: 0` with 51 stubs open. The ledger records what was ATTEMPTED,
+not a property of the function — same shape as the exclude-list lesson in §1. Use `--redraw-open`,
+and read the `NOTE: N further open stub(s) were filtered ONLY because the ledger has seen them`
+line, which now always prints.
+
+**Cross-check the draw against `corpus.stubs` before believing an empty frontier.** Both defects
+above presented as "there is no more work". The corpus oracle and `progress.py` agree exactly
+(measured: 59/59 non-linked main stubs), so a draw that disagrees with them is the thing that is
+wrong. Building a wave straight from `corpus.stubs` is legitimate when the draw is suspect — S76y's
+50 targets were assembled that way — but VERIFY THE LINKED SET YOURSELF first (region must not be in
+`progress.LINKED_SEGS`), because a draft written into a linked subseg gates GREEN while wrong.
+
+### 1a-S76b. TWO ORACLE FIXES THE PACKS AND AGENTS DEPEND ON
+
+* **The reorder island.** `REORDER_TUS := 800c2 800c2_2 800c2_3 800c3` build through
+  `reorder_passthrough.py + as -O2`, not maspsx + `as -O1`. `match_one` and `rtu_match` modelled the
+  wrong path and manufactured a §182/§188 "IMMOVABLE epilogue" wall for every function in those TUs.
+  Both now derive the list from the Makefile and print a NOTE when they switch. **If an agent reports
+  an epilogue-shaped residual in one of those four TUs, the oracle is the suspect, not the draft.**
+* **Verbatim-asm drafts are refused at three points** (`gate_main`, `harvest_verify`,
+  `api_agent.prior_draft`). A §265 body is stored as `<fn>.c` like any draft, matches its own source,
+  and banks nothing; 1,099 of them sit in the draft store. The pack no longer offers one as a warm
+  start. **A deliberate §265 bank goes into `src/` via `asm_verbatim.py`, never through a gate slate.**
+
 ### 1b. THE WALLS LEDGER IS ALWAYS INCOMPLETE, AND THAT COSTS A FULL AGENT RUN EACH TIME
 
 `.run/S6*_walls.txt` lists functions the pinned triple **cannot emit at all** — mostly §177/§188's
