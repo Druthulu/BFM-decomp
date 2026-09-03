@@ -76,6 +76,10 @@ def main():
     ap.add_argument('--apply', action='store_true')
     ap.add_argument('--gate', action='store_true', help='rebuild the binary and assert the SHA is unchanged')
     ap.add_argument('--restore', help='restore a .bak written by --apply')
+    ap.add_argument('--asm-subdir',
+                    help='the asm/... path the stub should name. Only needed when the TU has no '
+                         'sibling INCLUDE_ASM AND the spelling cannot be derived from the binary\'s '
+                         'splat config; you are asserting you verified it.')
     a = ap.parse_args()
 
     if a.restore:
@@ -126,11 +130,37 @@ def main():
     # neighbouring file's spelling is a different subseg — using it would produce a stub that
     # compiles and includes the WRONG function's asm).
     sib = re.search(r'INCLUDE_ASM\("([^"]+)",\s*\w+\)', text)
-    if not sib:
-        sys.exit(f'verbatim_to_stub: {os.path.relpath(path, REPO)} has no sibling INCLUDE_ASM to copy '
-                 f'the asm subdir spelling from — REFUSING to guess it (a wrong subdir silently '
-                 f'includes another function\'s assembly)')
-    subdir = sib.group(1)
+    if sib:
+        subdir = sib.group(1)
+    elif a.asm_subdir:
+        subdir = a.asm_subdir
+        print(f'asm subdir: {subdir}  (GIVEN on the command line, not derived)')
+    else:
+        # NO SIBLING IN THIS FILE. Refusing outright is right when the alternative is a GUESS, but
+        # it stranded a whole TU: src/800c2_2.c's three remaining functions are ALL verbatim, so it
+        # can never grow the sibling this rule wants, and the tool that exists to reach unreachable
+        # functions could not reach them (P31 S76). Derive it instead, and PROVE the derivation:
+        #   * the PREFIX comes from how this binary's other TUs spell it (one distinct prefix, or
+        #     we are back to guessing);
+        #   * the LAST COMPONENT is this file's stem, which must appear as a `c` segment in the
+        #     binary's own splat config — the same file that decides where splat writes the .s.
+        # A derivation checked against the generating invariant is not a guess (R33/R32).
+        stem = os.path.basename(path)[:-2]
+        prefixes = {os.path.dirname(v) for v in asm_subdir_for(a.binary, a.fn).values()}
+        yml = (os.path.join(REPO, 'config', 'splat.us.exe.yaml') if a.binary == 'main'
+               else os.path.join(REPO, 'config', f'splat.{a.binary}.yaml'))
+        seg_ok = (os.path.exists(yml)
+                  and re.search(rf',\s*c,\s*{re.escape(stem)}\s*\]', open(yml).read()))
+        if len(prefixes) != 1 or not seg_ok:
+            sys.exit(f'verbatim_to_stub: {os.path.relpath(path, REPO)} has no sibling INCLUDE_ASM to '
+                     f'copy the asm subdir spelling from, and it could not be DERIVED either '
+                     f'(distinct prefixes in this binary: {sorted(prefixes) or "none"}; '
+                     f'`, c, {stem}]` in {os.path.relpath(yml, REPO)}: {bool(seg_ok)}). REFUSING to '
+                     f'guess it — a wrong subdir silently includes another function\'s assembly. '
+                     f'Pass --asm-subdir if you have verified the spelling yourself.')
+        subdir = os.path.join(prefixes.pop(), stem)
+        print(f'asm subdir: {subdir}  (DERIVED: prefix from this binary\'s other TUs, segment '
+              f'`{stem}` confirmed in {os.path.relpath(yml, REPO)})')
     stub = f'INCLUDE_ASM("{subdir}", {a.fn});\n'
 
     print(f'file      : {os.path.relpath(path, REPO)}')
