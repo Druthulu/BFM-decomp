@@ -58,6 +58,28 @@ def _check_sha(binary):
     return open(p).read().split()[0] if os.path.exists(p) else None
 
 
+def _skipped_stages():
+    """Ladder rungs the operator has switched OFF, by tool name (with or without `.py`).
+
+    Set `GATE_SKIP_STAGES=reconcile_tu,sig_unify` (or pass `--skip-stages`). WHY this exists (P31
+    S75): a recovery rung that REGRESSES a correct draft is indistinguishable, from the outside,
+    from a codegen wall — the gate says DIFF either way, and the verdict gets recorded against the
+    FUNCTION. S74 measured the same nine drafts gating 9/9 through `harvest_verify` and 7/9 through
+    this ladder, and the two casualties were a rung's doing. Fixing that rung is the right answer
+    and was done; this hatch is so the NEXT one costs a flag instead of a session (R43 — a stage you
+    cannot turn off is a stage you have to be right about forever).
+
+    A skip is LOUD: it prints, because a silently-disabled recovery rung is the R32 defect class."""
+    raw = os.environ.get("GATE_SKIP_STAGES", "")
+    names = {s.strip().removesuffix(".py") for s in raw.split(",") if s.strip()}
+    if names:
+        print(f"[gate] ladder rungs SKIPPED by request: {', '.join(sorted(names))}", file=sys.stderr)
+    return names
+
+
+SKIP = set()
+
+
 def _xform(tool, ov, indir, suffix, extra=None):
     """Run a draft-dir transform; return its out dir, or the in dir if the tool no-ops/fails.
 
@@ -70,6 +92,8 @@ def _xform(tool, ov, indir, suffix, extra=None):
     run banked a function it was never asked to try and would have committed it under a message
     naming a different one. A stage that silently widens its own input set is the same defect class
     as a scanner that silently narrows it (R32): in both, the report and the work diverge."""
+    if tool.removesuffix(".py") in SKIP:
+        return indir                                # switched off by --skip-stages / GATE_SKIP_STAGES
     out = indir + suffix
     shutil.rmtree(os.path.join(REPO, out), ignore_errors=True)
     cmd = [PY, f"tools/{tool}", "--overlay", ov, "--in", indir, "--out", out] + (extra or [])
@@ -197,6 +221,8 @@ def run_gate(drafts, binary=OV, src=None, asm=None, out=None, good_sha=None,
     # and sig_unify canonicalize against THAT file's decls (via --src-file; sig_unify.py:151 reads the
     # split file's stubs so split-file drafts are NOT dropped). dedup_propagate is already split-aware.
     # Default None = main .c.
+    global SKIP
+    SKIP = _skipped_stages()                     # read per RUN, not at import (env may be set late)
     os.makedirs(os.path.join(REPO, ".run/auto"), exist_ok=True)
     _lock = open(os.path.join(REPO, lock_path or ".run/auto/gate.lock"), "w")
     fcntl.flock(_lock, fcntl.LOCK_EX)
@@ -648,7 +674,14 @@ def main():
                     help="where harvest_verify writes the verified list (default: per-binary, "
                          ".run/harvest_verified.<binary>.txt — do not share across concurrent gates)")
     ap.add_argument("--failed-out", default=None)
+    ap.add_argument("--skip-stages", default=None,
+                    help="comma-separated ladder rungs to switch OFF by tool name (e.g. "
+                         "reconcile_tu,sig_unify). Also settable as GATE_SKIP_STAGES. Stage 0 gates "
+                         "the RAW drafts first either way, so skipping a rung can only cost a "
+                         "RECOVERY, never a correct draft.")
     a = ap.parse_args()
+    if a.skip_stages:
+        os.environ["GATE_SKIP_STAGES"] = a.skip_stages
     b = a.binary
     # `src` RESTRICTS the byte-gate to ONE TU. Defaulting it to the main .c silently pinned the gate
     # to 13 of 263 stubs (4.9%): A3 taught harvest_verify to derive each draft's home TU *when --src

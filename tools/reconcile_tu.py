@@ -29,6 +29,11 @@ WHAT THIS DOES INSTEAD
     load-bearing (%lo-folding, access width, alignment all key off the declared type), and
     scope_data_externs (§8d) will demote it to block scope so it establishes no global that the TU's
     own later block-scope externs would have to agree with.
+  * A visible declaration that is BELOW the splice point while the draft's is at BLOCK SCOPE ->
+    cc1 ACCEPTS that (pedwarn "type mismatch with previous external decl"), so there is nothing to
+    fix and everything to lose: the TU's declaration names the TU's TYPE, and a type declared below
+    the splice point is not in scope AT it, so "conforming" replaces a construct cc1 compiles with
+    one it cannot parse. LEAVE IT ALONE (R43). Measured on resident:func_800D06E8, P31 S75.
   * A visible, COMPATIBLE declaration -> nothing to do.
   * A visible, CONFLICTING declaration -> **the TU wins** (it is the environment; we are the guest).
     Rewrite the draft's decl to the TU's, and CAST AT EVERY USE so the access the draft intended is
@@ -97,7 +102,27 @@ def _cast_sub(d, tu):
     NOTE the fn-ptr arms. reconcile_decls' `data_access_subs` has no fn-ptr kind, so the moment its
     parser is taught to SEE `extern void (*D_x[])(void);` it would happily rewrite a call-through
     `D_x[i]()` into `((u8 *)D_x)[i]()` — a dormant transform that fixing the parser would ARM. This
-    tool handles the kind natively, which is why it supersedes that one rather than patching it."""
+    tool handles the kind natively, which is why it supersedes that one rather than patching it.
+
+    TWO FORMS, and the `&` prefix SELECTS between them (P31 S75). The leading `&` used to be
+    captured and re-emitted VERBATIM in front of the value form, which yields `&` applied to a cast
+    — and for three of the four arms that is not merely ugly, it is a hard error. Measured on the
+    real cc1:
+
+        &(*(E *)&sym)      scalar/struct/ptr  ACCEPT   (legal; the fold is cosmetic)
+        &((E *)&sym)       array              REJECT   `invalid lvalue in unary '&'`
+        &((E (*)(P))sym)   fnptr              REJECT   same
+        &((E (**)(P))&sym) fnptr_array        REJECT   same
+
+    So `&sym` now emits a POINTER form built from the symbol's address directly, which is valid for
+    every arm, is the same link-time constant, and keeps the drafted view's pointee type.
+
+    ⚠️ ONLY WHEN NO SUBSCRIPT FOLLOWS. `&sym[i]` is not `&` applied to the symbol at all — `[]`
+    binds tighter, so it is the address of ELEMENT i, and `&((E *)&sym)[i]` is both legal and
+    correct. Folding it to a pointer form silently changes what the expression MEANS. Caught by the
+    R39 negative control over the stored-draft corpus (`ov_SC02_005:func_8018DFC4`, whose
+    `(s32)&((Pair8 *)D_801E4998)[idx]` would have become `(s32)((Pair8 (*)[])D_801E4998)[idx]`) —
+    the trailing-`[` case is exactly the one the old code got RIGHT."""
     sym = d.name
     # `(?<![.\w])(?<!->)` — a MEMBER ACCESS is not this symbol. Without it, a struct field that
     # happens to share a global's name is rewritten at every use: `p->code` became
@@ -106,16 +131,29 @@ def _cast_sub(d, tu):
     rx = re.compile(rf'(&?)(?<![.\w])(?<!->){re.escape(sym)}\b(\s*\[)?')
     c_arr = tu.kind in ('array', 'fnptr_array')
     e = _elem(d)
+    p = ", ".join(d.params or [])
+    at = sym if c_arr else f'&{sym}'                        # the symbol's ADDRESS under TU storage
 
     if d.kind == 'fnptr':                                   # draft: void (*D_x)(P)
-        acc = f'(({e} (*)({", ".join(d.params or [])})){sym})'
+        val = f'(({e} (*)({p})){sym})'
+        ptr = f'(({e} (**)({p})){at})'
     elif d.kind == 'fnptr_array':                           # draft: void (*D_x[])(P)
-        acc = f'(({e} (**)({", ".join(d.params or [])})){"" if c_arr else "&"}{sym})'
+        val = f'(({e} (**)({p})){at})'
+        ptr = f'(({e} (***)({p})){at})'
     elif d.kind == 'array':                                 # draft: E D_x[]
-        acc = f'(({e} *){"" if c_arr else "&"}{sym})'
+        val = f'(({e} *){at})'
+        ptr = f'(({e} (*)[]){at})'
     else:                                                   # scalar / struct / pointer
-        acc = f'(*({e} *)&{sym})' if not c_arr else f'(*({e} *){sym})'
-    return rx, lambda m: f'{m.group(1)}{acc}{m.group(2) or ""}'
+        val = f'(*({e} *){at})'
+        ptr = f'(({e} *){at})'
+    # group(1) = a leading `&`, group(2) = a trailing `[`. The pointer form is right ONLY for a bare
+    # `&sym`; with a subscript the `&` belongs to the element, so re-emit it in front of the value
+    # form exactly as before (see the docstring's ⚠️).
+    def rep(m):
+        if m.group(1) and not m.group(2):
+            return ptr                                  # `&sym` -> pointer form, `&` consumed
+        return f'{m.group(1)}{val}{m.group(2) or ""}'   # `sym`, `sym[i]`, `&sym[i]` -> unchanged shape
+    return rx, rep
 
 
 def _draft_statements(body):
@@ -160,7 +198,10 @@ def _draft_statements(body):
 
 def fix(body, tu_path, fn):
     """Conform the draft's DATA decls to the TU. Returns (new_body, notes)."""
-    full = cdecl.tu_scope(tu_path)                  # CONFLICT domain: a decl BELOW still conflicts
+    # CONFLICT domain. A decl BELOW the splice point still conflicts — AT FILE SCOPE. At BLOCK
+    # scope cc1 accepts it with a pedwarn, which is why `above` is consulted again in the loop
+    # rather than only for argument order (P31 S75; the four-probe measurement is quoted there).
+    full = cdecl.tu_scope(tu_path)
     above = set(cdecl.tu_scope(tu_path, above=fn))  # ORDER, for cc1's no-prototype rule
 
     plan, notes = {}, []
@@ -188,6 +229,33 @@ def fix(body, tu_path, fn):
             tu = full.get(d.name)
             if tu is None:
                 continue                            # not declared here -> no conflict is possible
+            # BLOCK SCOPE + TU DECLARATION BELOW -> cc1 ACCEPTS. Do not touch it. (P31 S75)
+            #
+            # This module's own premise — "a decl BELOW still conflicts" (see `full` above) — is
+            # TRUE at file scope and FALSE at block scope, and the difference is not cosmetic. The
+            # four-probe measurement against the real cc1:
+            #
+            #   block-scope extern, TU decl BELOW  ->  ACCEPT  (warning: "type mismatch with
+            #                                          previous external decl" — a pedwarn, not an error)
+            #   block-scope extern, TU decl ABOVE  ->  REJECT  `conflicting types`
+            #   file-scope  extern, TU decl BELOW  ->  REJECT  `conflicting types`   <- the real job
+            #   the conformed output this rung emitted -> REJECT `syntax error before 'D_x'`
+            #
+            # That last line is why this is a refusal and not an optimisation. The TU's declaration
+            # names the TU's TYPE, and a type declared BELOW the splice point is not in scope AT it:
+            # conforming to it substitutes a construct cc1 accepts for one it cannot even parse.
+            # Byte-witnessed on resident:func_800D06E8 (344 ins, match_one closeness 0) — a
+            # deliberate block-scoped `extern Blk80078E78 D_80078E78;` rewritten to
+            # `extern Struct80078E78 D_80078E78;` whose typedef is declared 388 lines LOWER.
+            #
+            # The block-scope extern is not an accident to be cleaned up, either: it is what THIS
+            # LADDER'S OWN `scope_demote_drafts` (§8d) rung produces on purpose, and three already-
+            # banked functions in that TU use it. R43 — refuse the class, name it, leave the draft.
+            if inner and d.name not in above:
+                notes.append(f'-- {d.name}: block-scope extern vs a TU decl BELOW the splice point '
+                             f'-> cc1 accepts (pedwarn only); LEFT ALONE (conforming it would name '
+                             f'a type that is not yet in scope)')
+                continue
             a, b = (tu, d) if d.name in above else (d, tu)
             if cdecl.compatible(a, b):
                 continue                            # cc1 accepts both -> leave the draft's types
@@ -255,16 +323,36 @@ def fix(body, tu_path, fn):
             notes.append(f'!! {nm}: planned conform to {tu.type!r} did NOT land in the output '
                          f'(its uses would be cast against a declaration that was never rewritten)')
 
-    out = []
-    for line in conformed.split('\n'):
-        if re.match(r'\s*(extern|typedef)\b', line):
-            out.append(line)                        # never cast inside a declaration line
+    # Cast every USE to the draft's intended view — but ONLY in CODE.
+    #
+    # This pass used to run `rx.sub` over every non-declaration LINE, which is every line of the
+    # draft's doc comment too. Byte-witnessed on resident:func_800D06E8 (P31 S75): a 40-line header
+    # comment explaining the block-scope idiom had `D_80078E78` rewritten to
+    # `(*(Blk80078E78 *)&D_80078E78)` in its PROSE, eight times, including inside a quoted cc1
+    # diagnostic. Harmless to the bytes and corrosive to the only artifact that explains WHY the
+    # function is written the way it is — and it made a mechanical rewrite look like an authored one.
+    #
+    # `cdecl._mask` blanks comments and string/char literals LENGTH-PRESERVINGLY, so an offset into
+    # the mask is an offset into the original: match on the mask, splice into the source (R33 — the
+    # masker already exists and is the same one `split_statements` trusts for brace counting).
+    masked = cdecl._mask(conformed)
+    edits = []
+    for _s, (tu, d, _st) in plan.items():
+        rx, rep = _cast_sub(d, tu)
+        for m in rx.finditer(masked):
+            ls = conformed.rfind('\n', 0, m.start()) + 1
+            le = conformed.find('\n', m.start())
+            if re.match(r'\s*(extern|typedef)\b', conformed[ls:le if le >= 0 else len(conformed)]):
+                continue                            # never cast inside a declaration line
+            edits.append((m.start(), m.end(), rep(m)))
+    pieces, pos = [], 0
+    for a, b, text in sorted(edits):
+        if a < pos:
+            notes.append(f'!! overlapping cast rewrites at {a}; the later one was skipped')
             continue
-        for _s, (tu, d, _st) in plan.items():       # cast every USE to the draft's intended view
-            rx, rep = _cast_sub(d, tu)
-            line = rx.sub(rep, line)
-        out.append(line)
-    return '\n'.join(out), notes
+        pieces.append(conformed[pos:a]); pieces.append(text); pos = b
+    pieces.append(conformed[pos:])
+    return ''.join(pieces), notes
 
 
 def main():

@@ -34643,3 +34643,85 @@ where no verbatim asm is in play it equals the cut and nothing changes.
 **The habit these three share with §436 and §437:** the tool reported something TRUE about a world
 that was not the one it was asked about, and the true-sounding message pointed at the draft. When a
 gate rejects a body you have byte-verified standalone, the first suspect is the gate.
+
+## §442 ★★★ — A RECOVERY RUNG THAT REWRITES A LEGAL CONSTRUCT INTO AN ILLEGAL ONE READS EXACTLY LIKE A CODEGEN WALL (P31 S75; `reconcile_tu`, 344 ins unblocked)
+
+S74 measured the same nine drafts gating **9/9 through `harvest_verify` and 7/9 through
+`gate_stage`** and correctly named `reconcile_tu.py` (the `-rc` rung) as the difference — but the
+diagnosis stopped at "it manufactures declaration conflicts". Running it to ground gave three
+separate defects, and the load-bearing one is a **false premise about cc1 written into the tool's
+own docstring.**
+
+**THE PREMISE, AND THE MEASUREMENT THAT REFUTES IT.** `reconcile_tu` conforms a draft's data decl to
+the TU's whenever the TU declares the same name, in EITHER direction, on the stated ground that "a
+decl BELOW still conflicts". Four probes against the real `cc1` (`cdecl._cc1_accepts`, the same
+oracle `cdecl.compatible` was validated with — R33, do not build a second one):
+
+| draft's decl | TU's decl | cc1 |
+|---|---|---|
+| **block** scope `extern Blk D_x;` | file scope, **BELOW** the splice point | **ACCEPT** — *warning:* `type mismatch with previous external decl` |
+| **block** scope | file scope, **ABOVE** | REJECT `conflicting types` |
+| **file** scope | file scope, **BELOW** | REJECT `conflicting types` ← the case the rung genuinely fixes |
+| the rung's own OUTPUT | — | REJECT **`syntax error before 'D_x'`** |
+
+So the premise is true at file scope and **false at block scope** — and that is not a missed
+optimisation, it is destructive: the TU's declaration names the TU's TYPE, and a type declared below
+the splice point **is not in scope at it**, so "conforming" swaps a construct cc1 compiles for one it
+cannot parse. Byte-witnessed on `resident:func_800D06E8` (344 ins, `match_one` closeness 0): a
+deliberate block-scoped `extern Blk80078E78 D_80078E78;` rewritten to `extern Struct80078E78
+D_80078E78;` whose typedef is declared **388 lines lower**.
+
+The block-scope extern is not sloppiness to be tidied away either — **it is what this same ladder's
+`scope_demote_drafts` (§8d) rung produces on purpose**, and three already-banked functions in that TU
+use it. One rung was undoing another's work. Fix: `if inner and d.name not in above: leave it alone`,
+with a note saying so (R43 — refuse the class and name it).
+
+**TWO MORE IN THE SAME PASS.**
+
+**A. The cast pass rewrote COMMENT PROSE.** It looped over lines, skipped only ones starting with
+`extern`/`typedef`, and `re.sub`'d the rest — so a 40-line header comment explaining the block-scope
+idiom had `D_80078E78` rewritten to `(*(Blk80078E78 *)&D_80078E78)` eight times, *inside a quoted cc1
+diagnostic*. Harmless to the bytes, corrosive to the only artifact that explains why the function is
+written that way, and it makes a mechanical rewrite look authored. Fix: match on `cdecl._mask`
+(length-preserving comment/string blanking, so a mask offset is a source offset) and splice into the
+original — the masker already exists for brace counting.
+
+**B. `&sym` emitted `&` applied to a CAST.** The regex captured a leading `&` and re-emitted it
+verbatim in front of the value form. For the scalar arm `&(*(E *)&sym)` is legal and merely ugly;
+for the other three it is a hard error — measured `invalid lvalue in unary '&'` on `&((E *)&sym)`.
+Latent for as long as the array/fnptr arms have existed. Fix: `&` SELECTS a pointer form built from
+the symbol's address (`((E *)&sym)`, `((E (*)[])&sym)`, `((E (**)(P))&sym)`) and consumes itself.
+
+**THE HABIT.** Stage 0 gates raw drafts first, so a ladder rung can only cost a RECOVERY — which is
+exactly why a broken one is invisible: the function it destroys was already failing, so its DIFF is
+read as a fact about the function. `gate_stage` now takes `--skip-stages`/`GATE_SKIP_STAGES` (loud
+when used), so the next bad rung costs a flag instead of a session. **A verdict from a ladder is a
+verdict from the ladder** (R40): re-run a stubborn reject through bare `harvest_verify` before you
+believe anything about the C.
+
+## §443 ★★ — A DERIVED DEPENDENCY MUST BE PROVISIONED BY *EVERY* PROVISIONER, AND WE HAVE TWO (P31 S69 → S74, the same defect twice)
+
+`.run/sig.<bin>.jsonl` is gitignored, derived and read-only — so a git worktree never has it, and
+`family_remap.nins_of` raises `FileNotFoundError` for every function in it. S69 fixed that in
+`parallel_gate.stage_generated`, per-binary, and wrote it up (§322b). **S74 hit the identical defect
+in `verify_worktree.provision`** — the *other* worktree provisioner, which nothing linked to the
+first: main clone 259 sig files, provisioned worktree 0.
+
+The consequence is the §436 shape at full strength. `jr_isolate_all`'s carve-ownership scan wrapped
+`reloc_targets` in `try/except Exception: continue` — right for one unwalkable function, catastrophic
+when the cause is environmental, because then **every** call raises, the scan finds zero owners, and
+the R32 "every carve resolves to exactly one owner" assertion downstream fires and reports carve
+CORRUPTION. Measured: **2,603 of 2,603 functions raised, 0 owners, a confident verdict about damage
+that did not exist.** R54 exactly — a guard downstream of the failure is not a guard.
+
+Three lessons, in order of reusability:
+
+1. **Separate the environmental failure from the per-item one.** `FileNotFoundError` on a derived
+   index is a fact about the CHECKOUT, not the subject: abort at the cause, naming the regeneration
+   command, instead of being re-read 100 lines later as evidence.
+2. **Count attempted vs raised and assert it (R32).** A scan where *everything* raised measured
+   nothing, whatever the exception was, and its zero is an artifact — not a finding.
+3. **Enumerate provisioners, not fixes.** The S69 write-up fixed a tool; the defect belonged to a
+   CLASS ("untracked derived deps a worktree needs"), and the class had two members. Both now
+   cross-reference each other; add a dependency to one and you must add it to the other. The two
+   are deliberately NOT merged — `parallel_gate` provisions one binary, `verify_worktree` all 213.

@@ -6635,3 +6635,61 @@ change IS a tool change, and owes the same docs).
   TU would have destroyed it. Re-gate against HEAD with the fixed tools instead.
 * **Say the denominator.** "20 waves of 3" was impossible — the pool held 33 undrawn, 4 of them free
   remaps. Saying so beat drafting 27 functions that already had drafts.
+
+## S75 progress (2026-09-02) — instrument fixes, and what they uncovered
+
+- **T10/S75-1 — `reconcile_tu.py` (the S74 "one unfixed defect") ROOT-CAUSED AND FIXED.** S74 named
+  the rung correctly ("manufactures declaration conflicts") but stopped there. Running it to ground
+  gave THREE defects, and the load-bearing one is a **false premise about cc1 written into the tool's
+  own docstring**. Four probes on the real front end (`cdecl._cc1_accepts`, R33 — the same oracle
+  `cdecl.compatible` was validated with):
+  `block-scope extern vs a TU decl BELOW` → **ACCEPT** (pedwarn `type mismatch with previous external
+  decl`) · `block-scope vs ABOVE` → REJECT · `file-scope vs BELOW` → REJECT (the case the rung really
+  fixes) · **the rung's own output** → REJECT `syntax error before 'D_x'`. So "a decl BELOW still
+  conflicts" is true at file scope and FALSE at block scope — and conforming it is destructive,
+  because the TU's decl names the TU's TYPE and a type declared below the splice point is not in
+  scope at it. Byte-witnessed on `resident:func_800D06E8`: a deliberate block-scoped
+  `extern Blk80078E78` rewritten to `extern Struct80078E78`, typedef 388 lines lower. It is also
+  the construct this ladder's OWN `scope_demote_drafts` (§8d) rung emits on purpose, used by three
+  already-banked functions in that TU — **one rung undoing another's work.** Also fixed: the cast
+  pass rewrote COMMENT PROSE (8 rewrites inside one header comment, including inside a quoted cc1
+  diagnostic), and `&sym` emitted `&` applied to a cast (`invalid lvalue in unary '&'`, measured, for
+  the array/fnptr arms). `gate_stage` gained **`--skip-stages`/`GATE_SKIP_STAGES`** (loud) so the next
+  bad rung costs a flag, not a session. Cookbook **§442**, SETUP rows, index regenerated.
+- **R39 negative control caught a regression in my own fix.** Over the stored-draft corpus: `&sym[i]`
+  is not `&` applied to the symbol — `[]` binds tighter, so `&((E *)&sym)[i]` is legal and correct,
+  and the fold silently changed what it MEANT (`ov_SC02_005:func_8018DFC4`). The pointer form now
+  applies only when no subscript follows. Final control: **661 adjudicated, 652 IDENTICAL, 9 CHANGED,
+  every one an intended class** (4,173 of 4,864 drafts unadjudicable — filenames that are not
+  `func_<ADDR>`, so the harness cannot resolve their binary; stated rather than hidden, R41).
+- **T10/S75-2 — the S74 worktree harness gap FIXED, and it was the SAME defect twice.**
+  `verify_worktree.provision` now symlinks every `.run/sig.*.jsonl` (main clone 259, provisioned
+  worktree **0**) — the third member of the class that already contains `extracted/` and
+  `.run/obj40`. `parallel_gate.stage_generated` had been fixed for this identical missing-sig bug in
+  **S69**; two worktree provisioners, no shared list, so it had to be found twice. They now
+  cross-reference each other. At the other end `jr_isolate_all`'s ownership scan swallowed the
+  resulting `FileNotFoundError` in a bare `except: continue` — **2,603 of 2,603 functions raised, 0
+  owners found, and the downstream R32 assert reported carve CORRUPTION that did not exist** (R54).
+  Now aborts at the cause naming `make sig-all`, plus `_assert_scan_covered` (attempted == raised ⇒
+  the scan measured nothing, so its zero is an artifact). NC: `jr_isolate_all ov_SC03_105 --dry-run`
+  unchanged in the main tree. Cookbook **§443**.
+- **THREE FINDINGS FROM RUNNING ONE REJECT TO GROUND** (`resident:func_800D06E8`, 344 ins) —
+  none of them the thing I set out to fix:
+  1. **The gate's jtbl prep MUTATES `config/overlays.mk` AND DOES NOT REVERT IT.** After the
+     rejected gate the file had a 4th `JTBL_PADS` entry and had **lost `--pre hdr.rodata.o`** — the
+     resident's §440 leading-rodata sandwich. The binary then would not build at all
+     (`consumed 3 rodata jump table(s) but 4 pad spec(s) given`) with `src/` perfectly clean, so
+     `git status` on `src/` says nothing is wrong. This damages SHARED COMMITTED CARVE STATE and is
+     more serious than the defect I was chasing. Recovered with `git checkout config/overlays.mk` +
+     a clean `make clean/extract/build BINARY=resident` → `8e17e02f… BYTE-IDENTICAL`.
+  2. **The classified ledger records the LADDER'S FINAL verdict, not the stage-0 one.** The recorded
+     `CC1-FAIL: syntax error before 'D_80078E78'` came from a LATE stage (`sig_unify` hoisting the
+     file-scope type into the block — exactly what the draft's own header warns about). The RAW
+     draft compiles fine and fails on BYTES. A verdict class attributed to the draft was a fact
+     about a transform (R40/R47).
+  3. **The function's real blocker is a JUMP TABLE.** With the raw draft spliced, the built binary is
+     20 bytes longer and `0x800CEDFC` holds `800D01F4, 800D0204, 800D0214 …` — a 4th rodata table;
+     everything downstream shifts (69,571 differing words, 332 inside the function). `match_one`
+     MATCH (344 ins) and `rtu_match` MATCH (344 ins, only the predicted pedwarn) both pass, because
+     both share a `%lo` mask and neither links. **Standalone match ≠ bankable**, again: this needs
+     the §8b/§440 carve, not a better body.

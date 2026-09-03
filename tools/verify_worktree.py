@@ -39,6 +39,7 @@ USAGE
     tools/verify_worktree.py --keep          # leave the worktree in place for inspection
 """
 import argparse
+import glob
 import hashlib
 import json
 import os
@@ -152,6 +153,32 @@ def provision(wt, prov):
         os.makedirs(os.path.dirname(o40), exist_ok=True)
         os.symlink(src_o40, o40)
     prov["obj40"] = "symlinked -> main clone (untracked, SDK-derived PsyQ ELF objects)"
+
+    # 3c. .run/sig.<bin>.jsonl — the per-binary function signature index.
+    #
+    # THIRD instance of the same class (extracted/ 3, obj40 3b, this): gitignored because it is
+    # derived, deterministic, regenerable (`make sig-all`), and READ-ONLY during a run. It is what
+    # `family_remap.nins_of/reloc_targets` reads to know a function's length, so ANY tool that walks
+    # relocations inside a worktree needs it.
+    #
+    # Measured P31 S74, and it produced a confident FALSE verdict: main clone 259 sig files,
+    # provisioned worktree 0. `jr_isolate_all`'s carve-ownership scan calls `reloc_targets` per
+    # function inside a `try/except: continue`, so all 2,603 of them raised FileNotFoundError, the
+    # scan found 0 owners, and the R32 "every carve resolves to exactly one owner" assertion fired —
+    # reporting carve CORRUPTION in a tree that had none. The swallow is fixed at that end too
+    # (R54: a guard downstream of the failure is not a guard); this end removes the cause.
+    sigs = sorted(glob.glob(os.path.join(REPO, ".run", "sig.*.jsonl")))
+    if not sigs:
+        return (".run/sig.*.jsonl absent in the main clone — run `make sig-all` first "
+                "(a worktree run without them reports FALSE carve corruption)")
+    os.makedirs(os.path.join(wt, ".run"), exist_ok=True)
+    linked = 0
+    for s in sigs:
+        dst = os.path.join(wt, ".run", os.path.basename(s))
+        if not os.path.exists(dst):
+            os.symlink(s, dst)
+            linked += 1
+    prov["sigs"] = f"symlinked {linked} of {len(sigs)} sig.*.jsonl -> main clone (untracked, derived)"
 
     # 4. maspsx — a pinned submodule. Record the gitlink the COMMIT expects and what we provide.
     want_sm = None

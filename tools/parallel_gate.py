@@ -170,7 +170,13 @@ def stage_generated(wt, binary):
             sp = os.path.join(a_src, f)
             if os.path.isfile(sp):
                 shutil.copy2(sp, os.path.join(a_dst, f))
-    # THE SIGNATURE REGISTRY (P31 S69, Fable-3). `jr_isolate_all.jr_inventory` resolves every
+    # THE SIGNATURE REGISTRY (P31 S69, Fable-3). SIBLING: `verify_worktree.provision` step 3c does
+    # the same job for the OTHER worktree provisioner, fleet-wide rather than per-binary — it hit
+    # this identical defect independently in S74, five sessions after this fix (2,603/2,603
+    # functions raised, 0 carve owners, a FALSE corruption verdict). Two provisioners, no shared
+    # list, so the fix had to be made twice: if you add a derived dependency here, add it there too
+    # (cookbook §442).
+    # `jr_isolate_all.jr_inventory` resolves every
     # committed `.rodata` carve's owner through `family_remap.reloc_targets`, whose `nins_of`
     # reads the gitignored `.run/sig.<binary>.jsonl`. A fresh worktree has no `.run/sig.*`, so
     # inside a worker EVERY carve reads UNOWNED, jr_inventory R32-aborts, harvest_verify prints

@@ -32,10 +32,53 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import overlay_src_split as oss
+
+
 import mk_write as MKW    # atomic, collapse-refusing overlays.mk writer (P31 S60)
 
 REPO = oss.REPO
 O0_SUFFIX = ("_o0", "_o0b")
+
+
+_SCAN = {"attempted": 0, "raised": 0}
+
+
+def _reloc_targets_or_die(family_remap, ov, addr, data=None):
+    """`family_remap.reloc_targets`, with the ENVIRONMENTAL failure separated from the per-function one.
+
+    Both callers used to wrap this in `try/except Exception: continue`. That is right for a single
+    function whose relocations cannot be walked, and catastrophically wrong for a missing
+    `.run/sig.<bin>.jsonl` — because then EVERY call raises, the scan finds zero owners, and the R32
+    "every committed carve resolves to exactly one owner" assertion downstream fires and reports
+    carve CORRUPTION. Measured P31 S74 inside a provisioned worktree: 2,603 of 2,603 functions
+    raised, 0 owners found, run aborted with a confident verdict about damage that did not exist.
+
+    A missing sig index is not a fact about the carves; it is a fact about the checkout (R40 —
+    exonerate the instrument). So it aborts here, at the cause, naming the fix — rather than being
+    re-interpreted 100 lines later as evidence about the subject (R54).
+
+    `_SCAN` counts attempted vs raised: a scan in which EVERYTHING raised measured nothing, whatever
+    the exception was, and may not be reported as a result (R32 — assert your coverage)."""
+    _SCAN["attempted"] += 1
+    try:
+        return family_remap.reloc_targets(ov, addr, data=data) if data is not None \
+            else family_remap.reloc_targets(ov, addr)
+    except FileNotFoundError as e:
+        sys.exit(f"jr_isolate_all({ov}): cannot walk relocations — {e}. This is a MISSING INDEX, "
+                 f"not a carve defect: run `make sig-all` (or, in a worktree, provision "
+                 f".run/sig.*.jsonl — tools/verify_worktree.py does this). Refusing to report "
+                 f"ownership from a scan that could not read the image index (R43).")
+    except Exception:
+        _SCAN["raised"] += 1
+        return None
+
+
+def _assert_scan_covered(ov, what):
+    """Fail loud if the ownership scan raised on EVERYTHING it attempted (R32)."""
+    a, r = _SCAN["attempted"], _SCAN["raised"]
+    if a and r == a:
+        sys.exit(f"jr_isolate_all({ov}): {what} attempted {a} function(s) and EVERY ONE raised — "
+                 f"the scan measured nothing, so its 0 owners are an artifact, not a finding (R32).")
 
 
 def sh(cmd):
@@ -137,9 +180,8 @@ def jr_inventory(ov):
         for addr, name, kind, _ in items:
             if kind not in ("def", "define") or not name or addr is None:
                 continue
-            try:
-                targets = family_remap.reloc_targets(ov, addr, data=img)
-            except Exception:
+            targets = _reloc_targets_or_die(family_remap, ov, addr, data=img)
+            if targets is None:
                 continue
             hits = {t - base for k, t in targets if k == "data" and (t - base) in carve_offs}
             if hits:
@@ -147,6 +189,7 @@ def jr_inventory(ov):
                 for off in hits:
                     owners.setdefault(off, []).append(name)
 
+    _assert_scan_covered(ov, "jr_inventory ownership scan")
     # R32: every committed carve resolves to EXACTLY ONE owner, or abort loud.
     #
     # OWNERSHIP HAS TWO MORE SOURCES THAN THE RELOC SCAN ABOVE (P31 S70). The scan finds an owner
@@ -262,13 +305,13 @@ def carve_owners(ov, banked, base, carve_offs):
     import family_remap
     owners = {}
     for addr, fn in banked.items():
-        try:
-            targets = family_remap.reloc_targets(ov, addr)
-        except Exception:
+        targets = _reloc_targets_or_die(family_remap, ov, addr)
+        if targets is None:
             continue
         for kind, t in targets:
             if kind == "data" and (t - base) in carve_offs:
                 owners[t - base] = fn
+    _assert_scan_covered(ov, "carve_owners")
     return owners
 
 
