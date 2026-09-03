@@ -29,6 +29,7 @@ PY = '.venv/bin/python'
 
 import corpus   # the derived corpus oracle (Phase 26-A) — a draft's home TU is a FACT of the tree
 import cdecl    # the C-declaration oracle (Phase 26-A) — the per-TU typedef strip-set (T4)
+import draft_prechecks as DP
 
 # P31 T0 import guard: the gate runs at module level by design (see docstring); importing must
 # fail LOUD before argv is parsed or any build runs, never execute a gate as a side effect.
@@ -248,7 +249,20 @@ for cf in sorted(glob.glob(a.drafts + '/*.c')):
     # and indistinguishable from a real decl conflict. cdecl.typedef_names already takes `above`
     # for exactly this; the gate simply never passed it.
     provided = cdecl.typedef_names(_stubs[fn].path, above=fn)
-    drafts[fn] = {'c': cdecl.strip_provided_typedefs(open(cf).read(), provided), 'conf': conf}
+    _txt = cdecl.strip_provided_typedefs(open(cf).read(), provided)
+    # A DRAFT THAT IS THE TARGET'S OWN ASSEMBLY IS A NO-OP THAT PASSES FOR FREE (P31 S76).
+    # A §265 verbatim body assembles to the bytes it was copied from, so match_one prints MATCH and
+    # this gate goes BYTE-IDENTICAL -- both truthfully -- while nothing is decompiled. gate_main
+    # gained this refusal earlier the same session after 9 functions round-tripped
+    # verbatim -> stub -> verbatim and "banked" with progress.py moving by exactly zero; the same
+    # wave then produced verbatim submissions for md_MAIN_003 and ov_SC06_010, which reach the
+    # tree through THIS gate, not that one. One defect, two doors (R43; the sibling-provisioner
+    # lesson of §442/S74 -- a fix made in one of two paths is a fix in neither).
+    if DP.is_verbatim_asm_draft(_txt, fn):
+        print('  SKIP %s: draft is the target\'s own asm in a file-scope __asm__ (a §265 verbatim '
+              'body), not a decompile — it would pass this gate for free and bank nothing' % fn)
+        continue
+    drafts[fn] = {'c': _txt, 'conf': conf}
 
 order = {'high': 0, 'medium': 1, 'low': 2}
 items = sorted(drafts, key=lambda fn: (order[drafts[fn]['conf']], len(drafts[fn]['c'])))
