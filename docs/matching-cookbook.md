@@ -35862,3 +35862,34 @@ than the real one.** Same shape as §478: a consumer that reads a draft and emit
 what the gate actually does to that draft, or it will route real work to the wrong lane and invent
 work that does not exist. When a static class and the gate disagree, **gate one and believe the
 bytes** — it costs one build.
+
+#### §481 ★★★ — `conflicting types` IS A SAME-SCOPE ERROR; ACROSS SCOPES IT IS ONLY A WARNING (P31 S77, `main:func_8001FC08`, 400 ins)
+
+**The law, and it is the escape hatch for most of the declaration-conflict class.** gcc-2.7.2 raises
+`conflicting types for X` as a hard ERROR only when the two declarations are in the SAME scope.
+Across scopes it degrades to `type mismatch with previous external decl` — a **WARNING**, which the
+build already emits elsewhere (the unmodified TU emits exactly that for `func_80012E0C`). So a draft
+whose spelling cannot be reconciled with the TU's does not need reconciling: **move the offending
+`extern` to BLOCK scope and the error becomes a warning.**
+
+**Measured.** `func_8001FC08`'s body was solved in S76 and had never banked, and nobody had asked
+why. Spliced into `src/800.c` it produced 3 hard cc1 errors (rc=33 against a baseline rc=0): its
+file-scope `typedef … MTX_80020248` plus `extern MTX_80020248 D_80074818[]/D_80075018[]` collide with
+the TU's own copies fifteen lines BELOW the `INCLUDE_ASM`. **Two anonymous struct typedefs in one TU
+are never compatible in C89**, so no duplicate spelling could ever have worked — the usual
+"adopt the TU's spelling" lever is structurally unavailable here. Renaming the struct to
+`MTX_8001FC08` and demoting the two externs to block scope gives **rc=0, +4 warnings, 0 errors**, and
+the whole-TU `.text` is byte-identical to the all-`INCLUDE_ASM` build. No `src/` hoist, no other
+function shifted.
+
+**Why this generalises.** The session's dominant bank-blocker is a declaration disagreement, and the
+existing ladder answers it by making the two declarations AGREE (`sync_tu_decls` copies the TU's
+spelling; `reconcile_tu` casts at the use site). §481 adds the case those cannot reach: when the two
+spellings are *incompatible by construction* — anonymous structs, or a type the TU declares below the
+splice point — you do not need agreement at all, only different scopes. It is also the mechanism
+behind §8d's scope-demote lever, stated as the general rule rather than one tool's trick.
+
+**Verification standard this came with (law 1c, worth copying):** 26 `jal` + 16 HI16/LO16 relocations
+identical in name AND order, all 16 internal `j` destinations decoded and compared (the §195-D blind
+spot), and the four `D_1F800020` words identified as splat FALSE-symbolisation of `lui $s1,0x1F80` +
+an `rm++` increment — ROM `3C111F80`/`26310020`, emitted identically.
