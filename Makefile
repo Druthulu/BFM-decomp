@@ -393,6 +393,23 @@ sig-main:
 	$(VENV_PY) tools/sig_image.py --image $(main_EXE) --vram-base $(main_VRAM_BASE) --seeds .run/seeds.main.txt --name main
 	echo "sig-main: signed $$(wc -l < .run/seeds.main.txt) main stubs (splat-true lengths) -> .run/sig.main.jsonl"
 
+# sig-main-oracle (P31 S77) — MAIN'S INDEPENDENT SECOND ORACLE (roadmap contract §1.3).
+# Distinct from `sig-main` above, which is splat-SEEDED on purpose. This one signs the ORIGINAL EXE
+# bytes with NO splat symbols: `--vram-base 0x8000F800` puts file offset 0 at vram (so the 0x800
+# PS-X EXE header simply falls below the first range), and `--segments` derives the game-code ranges
+# from the splat yaml's SEGMENT TYPES — coarse structure, never splat's FUNCTION boundaries, which
+# is the thing the oracle must stay free to disagree with. Entries inside each range are found by
+# byte-derived jal-closure, because seeding from splat's symbols would make every phantom look real
+# (docs/second-oracle.md names that trap). LINKED PsyQ blocks are excluded: real library objects,
+# outside the game-code denominator, and auditing them here would report ~960 phantoms that are
+# artefacts of comparing two oracles that never measured the same thing.
+sig-main-oracle:
+	@$(VENV_PY) -c "import sys;sys.path.insert(0,'tools');import progress;progress.set_binary('main');print(','.join(sorted(progress.LINKED_SEGS)))" > .run/main_linked_segs.txt
+	$(VENV_PY) tools/sig_image.py --image $(main_EXE) --vram-base 0x8000F800 \
+	    --segments config/splat.us.exe.yaml --exclude-subsegs "$$(cat .run/main_linked_segs.txt)" \
+	    --bootstrap --out .run/sig.main.oracle.jsonl
+	@$(VENV_PY) -c "import sys;sys.path.insert(0,'tools');import corpus;r=corpus.audit('main');print('sig-main-oracle: main is now INDEPENDENT — %d in-domain stubs, %d PHANTOM, %d TRUNCATED, %d PAD-TAIL'%(r['stubs'],len(r['phantom']),len(r['truncated']),len(r['pad_tail'])))"
+
 # sig-modules (P30 S44): sign every module-class binary at ITS OWN vram (from modules.mk) with its
 # own TEXT_LO (the §154 module-id-word law: code starts past the header; bootstrap from offset 0
 # yields 0 functions). Same derived-jobs shape as sig-overlays (R33). Empty MODULE_BINARIES = no-op.

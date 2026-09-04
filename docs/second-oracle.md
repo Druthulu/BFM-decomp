@@ -12,7 +12,7 @@
 |---|---|---|---|
 | 138 overlays | `sig_image` (byte-derived) | ✅ | validated 58,524/58,621 vs spimdisasm |
 | resident | `sig_image` (**Phase-27 T10**) | ✅ | `make sig-resident` — 144 fns, all 21 stubs present, 0 phantom/truncated |
-| main | — | ❌ **deferred** | `sig_image` cannot yet sign the EXE (below) |
+| main | `sig_image` multi-range (**P31 S77**) | ✅ | `make sig-main-oracle` — 28 game-code ranges, 986 fns, **0 phantom / 0 truncated / 1 pad-tail** |
 
 `corpus.sig_is_independent()` gates the check to exactly this domain: a boundary cross-check applied
 where the two oracles were never measuring the same thing is noise, not thoroughness (the audit's own
@@ -25,7 +25,42 @@ sig — run `make sig-resident` before `make audit-corpus` (a stale Ghidra sig t
 "measuring Ghidra's limits" artefact). `h_exact` is raw-byte SHA1, so `weighted_metrics` is unaffected
 by the swap (fleet % unchanged to the decimal).
 
-## Main EXE — why sig_image can't sign it yet (the deferral)
+## Main EXE — DELIVERED (P31 S77). The deferral below is kept as the design record.
+
+`make sig-main-oracle` signs the ORIGINAL EXE bytes and `corpus.sig_is_independent("main")` is now
+True whenever `.run/sig.main.oracle.jsonl` exists. All three structural blockers are closed:
+
+1. **The 0x800 header** — `--vram-base 0x8000F800` maps file offset 0 to vram, so the header simply
+   falls below the first code range. No `--skip` needed.
+2. **Interleaved data + linked islands** — new `--segments <splat yaml>`
+   (`sig_image.code_ranges_from_splat`) derives **28 game-code ranges** from the yaml's SEGMENT rows.
+   It reads `[file_off, type, name]` and NOTHING else: segment *types* are coarse structure, not
+   splat's *function* boundaries, so the two oracles stay independent exactly where it matters.
+   `--exclude-subsegs` drops the LINKED PsyQ blocks.
+3. **One text range** — the signer now loops ranges, bootstrapping entries INSIDE each. Per-range
+   discovery is what stops the linear partition running through a data island and minting functions
+   out of it, i.e. the detector manufacturing the phantom class it exists to detect.
+
+**The trap was avoided, not worked around.** Entries are still found by byte-derived jal-closure;
+nothing is seeded from splat's symbols. `.run/sig.main.jsonl` (the splat-SEEDED atlas sig, P31 T3)
+is a DIFFERENT file and the audit never reads it — `corpus.ORACLE_SIG` keeps them apart.
+
+**Domain (R14).** The oracle signs game code only, so `audit("main")` filters the LINKED stubs out.
+Auditing them against it would report ~960 phantoms that are artefacts of comparing two oracles that
+never measured the same thing — the same 914-vs-193 mistake this file already warns about.
+
+**First finding, and it is a real one.** `func_80062144`: splat's `.s` says 65 instructions, the
+byte-derived boundary says 64. The extra line is a `nop` at `0x80062244`, emitted one line BELOW
+`endlabel`. That is a **PAD-TAIL**, now its own audit class — a known alignment artefact the matching
+side handles by emitting the pad from C (cookbook §295; two S77 wave agents did exactly that on
+`func_8005E13C` and `func_8005D538`), not a splat mis-slice. Reporting it as TRUNCATED would have
+made the oracle's first real finding look like a defect and buried the class that is one.
+
+**Fleet status after wiring:** `make audit-corpus` → **0 PHANTOM + 0 TRUNCATED**, +1 PAD-TAIL.
+
+---
+
+## (Historical) Main EXE — why sig_image could not sign it
 
 `tools/sig_image.py` assumes a flat blob whose file offset 0 IS its vram base, one contiguous code
 region, and one `[lo,hi)` text range. The main EXE breaks all three — structurally, not with a flag:

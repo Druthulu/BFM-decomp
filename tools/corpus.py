@@ -322,6 +322,29 @@ def is_o0(src_path):
 # --------------------------------------------------------------------------------------------
 # the invariant
 # --------------------------------------------------------------------------------------------
+# The INDEPENDENT boundary oracle, where that is a DIFFERENT file from the working sig (P31 S77).
+# For main the working sig is deliberately splat-SEEDED (the atlas needs the boundaries a match must
+# hit, P31 T3) — auditing against it would be a mirror, not an oracle.
+ORACLE_SIG = {"main": ".run/sig.main.oracle.jsonl"}
+
+
+def oracle_sig(binary):
+    """addr -> sig row from the INDEPENDENT signer (falls back to sig() where they are one file)."""
+    rel = ORACLE_SIG.get(binary)
+    if not rel:
+        return sig(binary)
+    full = os.path.join(REPO, rel)
+    if not os.path.exists(full):
+        raise CorpusError(f"{binary}: no independent sig at {rel} — run `make sig-main-oracle`")
+    out = {}
+    for line in open(full):
+        line = line.strip()
+        if line:
+            r = json.loads(line)
+            out[int(r["addr"], 16)] = r
+    return out
+
+
 @functools.lru_cache(maxsize=None)
 def sig(binary):
     """addr -> sig row (.run/sig.<bin>.jsonl). Signs the ORIGINAL bytes: immutable w.r.t. src/."""
@@ -378,7 +401,17 @@ def sig_is_independent(binary):
     valid IFF .run/sig.resident.jsonl is the sig_image sig; run `make sig-resident` first (a stale
     Ghidra sig there would resurrect the 'measuring Ghidra's limits' artefact). MAIN stays excluded —
     sig_image cannot yet sign the EXE (0x800 header offset, interleaved data islands, one text range);
-    that second oracle is scoped-and-deferred in docs/second-oracle.md."""
+    MAIN (P31 S77): covered too, IFF the byte-derived oracle sig exists. sig_image gained
+    multi-range signing, so the EXE's three structural blockers are gone — the 0x800 header via
+    `--vram-base 0x8000F800`, the interleaved data/linked islands via 28 game-code ranges derived
+    from the splat yaml's SEGMENT TYPES. Types are coarse structure; they are NOT splat's FUNCTION
+    boundaries, which is exactly what this oracle must stay free to disagree with. Entries inside
+    each range are still found by byte-derived jal-closure, because seeding from splat's symbols
+    would make every phantom look real (docs/second-oracle.md's named trap).
+
+    Returns False until `make sig-main-oracle` has run — an honest deferral, never a fake green."""
+    if binary == "main":
+        return os.path.exists(os.path.join(REPO, ORACLE_SIG["main"]))
     return binary.startswith(("ov_", "md_")) or binary == "resident"
 
 
@@ -392,6 +425,32 @@ def s_ins_count(asm_path):
                if _INS.search(ln) and not _DATA_DIRECTIVE.search(ln))
 
 
+
+def pad_tail(asm_path):
+    """Instruction lines AFTER `endlabel` in a splat .s, and whether they are all zero words.
+
+    A splat slice can carry trailing pad past the function's own end — `func_80062144` ends
+    `jr $ra` + delay slot at 0x80062240 and the .s then emits a `nop` at 0x80062244, one line below
+    `endlabel`. `s_ins_count` counts it (65) while the byte-derived oracle ends the function at 64.
+    That is a PAD TAIL, not a mis-slice, and the two are worth telling apart: a mis-slice is a splat
+    defect, a pad tail is a known alignment artefact the MATCHING side already handles by emitting
+    the pad from C (cookbook §295; two S77 wave agents did exactly that on func_8005E13C and
+    func_8005D538). Reporting them in the same bucket would make the oracle's first real finding
+    look like a defect and bury the class that is one. (P31 S77)"""
+    p_ = asm_path if os.path.isabs(asm_path) else os.path.join(REPO, asm_path)
+    seen_end, n, allzero = False, 0, True
+    for ln in open(p_, errors="replace"):
+        if ln.strip().startswith("endlabel"):
+            seen_end = True
+            continue
+        if not (seen_end and _INS.search(ln) and not _DATA_DIRECTIVE.search(ln)):
+            continue
+        n += 1
+        m = re.search(r"/\*\s*\S+\s+\S+\s+([0-9A-Fa-f]{8})\s*\*/", ln)
+        if not m or int(m.group(1), 16) != 0:
+            allzero = False
+    return n, allzero
+
 def audit(binary):
     """Cross-check splat's function boundaries against the sig's independent ones.
 
@@ -402,8 +461,18 @@ def audit(binary):
     so the image stays byte-identical either way. Only a second, independent oracle can see them --
     which is the entire reason this function exists. See sig_is_independent(): the verdict is only
     meaningful where the sig genuinely is one."""
-    st, sg = stubs(binary), sig(binary)
-    phantom, truncated = [], []
+    st = stubs(binary)
+    sg = oracle_sig(binary) if sig_is_independent(binary) else sig(binary)
+    if binary == "main" and sig_is_independent(binary):
+        # DOMAIN (R14). The oracle signs GAME CODE only — the LINKED PsyQ blocks are excluded from
+        # its ranges on purpose, so auditing their stubs against it would report ~960 phantoms that
+        # are artefacts of comparing two oracles that never measured the same thing. That is the
+        # 914-vs-193 mistake this module's sig_is_independent docstring exists to prevent.
+        import progress as _pr
+        _pr.set_binary("main")
+        _lk = set(_pr.LINKED_SEGS)
+        st = {a: v for a, v in st.items() if v.asm_dir.split("/")[-1] not in _lk}
+    phantom, truncated, pad = [], [], []
     if sig_is_independent(binary):
         for a, s in sorted(st.items()):
             row = sg.get(a)
@@ -414,10 +483,14 @@ def audit(binary):
             if os.path.exists(p):
                 n = s_ins_count(s.asm_path)
                 if n != row["nins"]:
-                    truncated.append((s, n, row["nins"]))
+                    npad, zero = pad_tail(s.asm_path)
+                    if zero and n - row["nins"] == npad and npad > 0:
+                        pad.append((s, n, row["nins"], npad))
+                    else:
+                        truncated.append((s, n, row["nins"]))
     return {"binary": binary, "stubs": len(st), "matched": len(matched(binary)),
             "independent": sig_is_independent(binary),
-            "phantom": phantom, "truncated": truncated}
+            "phantom": phantom, "truncated": truncated, "pad_tail": pad}
 
 
 def main():
@@ -436,7 +509,7 @@ def main():
     import dup_report
     bins = sorted(dup_report.BINARIES) if (not args or args[0] == "--all") else args
 
-    tot_p = tot_t = 0
+    tot_p = tot_t = tot_pad = 0
     for b in bins:
         try:
             st, mt = stubs(b), matched(b)
@@ -451,6 +524,7 @@ def main():
             r = audit(b)
             tot_p += len(r["phantom"])
             tot_t += len(r["truncated"])
+            tot_pad += len(r["pad_tail"])
             flag = ""
             if r["phantom"]:
                 flag += f"  PHANTOM={len(r['phantom'])}"
@@ -460,7 +534,10 @@ def main():
         print(line + (f"   regions={dict(sorted(regions.items()))}" if len(bins) == 1 else ""))
 
     if do_audit:
-        print(f"\ncorpus audit: {tot_p} PHANTOM + {tot_t} TRUNCATED = {tot_p + tot_t} unmatchable slices")
+        print(f"\ncorpus audit: {tot_p} PHANTOM + {tot_t} TRUNCATED = {tot_p + tot_t} unmatchable slices"
+              + (f"  (+{tot_pad} PAD-TAIL: trailing zero words past `endlabel` — an alignment "
+                 f"artefact the matching side emits from C, cookbook §295, NOT a mis-slice)"
+                 if tot_pad else ""))
         if tot_p or tot_t:
             print("  splat's boundaries disagree with sig_image's. sig_image is the independent oracle;\n"
                   "  a stub it does not recognise is a function NOBODY CAN EVER MATCH.")

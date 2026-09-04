@@ -222,6 +222,44 @@ def sign_image(data, vram_base, seeds_map, lo, hi, ends=None):
     return rows
 
 
+def code_ranges_from_splat(yaml_path, vram_base, exclude=()):
+    """[(lo, hi)] game-code vram ranges from a splat config's SEGMENT rows. (P31 S77)
+
+    THE INDEPENDENCE RULE THIS OBEYS.  The main EXE is not one contiguous code region: it has a
+    0x800 header, rodata/data islands, and linked PsyQ blocks interleaved between game code, so the
+    single `[--text-lo, --text-hi)` sweep this tool was built on cannot sign it (docs/second-oracle.md
+    names exactly these three blockers).  The fix uses the splat yaml's SEGMENT rows — `[file_off,
+    type, name]` — and NOTHING else.  Segment types are coarse structure (where code is at all);
+    they are NOT splat's function boundaries, which is the thing this oracle exists to disagree with.
+
+    Seeding from splat's SYMBOLS would be the trap the design doc calls out: a phantom IS a
+    splat-invented address, so a symbol-seeded run makes every phantom look real and the oracle
+    becomes a mirror.  Ranges keep the two oracles independent where it counts — inside a range,
+    entries are still discovered by byte-derived jal-closure and ends by `func_end`.
+
+    `exclude` drops subsegments by name (the LINKED PsyQ blocks: real library objects, not
+    decompiled work, and progress.py already excludes them from the game-code denominator)."""
+    import re as _re
+    rows, txt = [], pathlib.Path(yaml_path).read_text()
+    for m in _re.finditer(r"^\s*-\s*\[\s*(0x[0-9A-Fa-f]+)\s*,\s*([A-Za-z_][\w]*)\s*(?:,\s*([\w.]+))?\s*\]",
+                          txt, _re.M):
+        rows.append((int(m.group(1), 0), m.group(2), m.group(3) or ""))
+    if not rows:
+        raise SystemExit("sig_image: no segment rows parsed from %s" % yaml_path)
+    rows.sort()
+    out = []
+    for i, (off, kind, name) in enumerate(rows):
+        nxt = rows[i + 1][0] if i + 1 < len(rows) else None
+        if kind != "c" or name in exclude or nxt is None:
+            continue
+        lo, hi = vram_base + off, vram_base + nxt
+        if out and out[-1][1] == lo:                    # merge adjacent kept ranges
+            out[-1] = (out[-1][0], hi)
+        else:
+            out.append((lo, hi))
+    return [tuple(r) for r in out]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--image", required=True, help="flat payload (0.4.dec / 1.1)")
@@ -232,6 +270,12 @@ def main():
     ap.add_argument("--text-lo", default=None, help="code region start vram (default: min seed)")
     ap.add_argument("--text-hi", default=None, help="code region end vram (default: image end)")
     ap.add_argument("--bootstrap", action="store_true", help="discover entries by jal-closure (no --seeds)")
+    ap.add_argument("--segments", default=None,
+                    help="splat yaml: derive MULTIPLE game-code ranges from its segment rows "
+                         "(types only, never function boundaries — see code_ranges_from_splat)")
+    ap.add_argument("--exclude-subsegs", default="",
+                    help="comma-separated subseg names to skip (the LINKED PsyQ blocks)")
+    ap.add_argument("--ranges", default=None, help="explicit lo:hi[,lo:hi...] vram code ranges")
     a = ap.parse_args()
 
     data = pathlib.Path(a.image).read_bytes()
@@ -256,13 +300,44 @@ def main():
             hi = detect_code_end(data, vram_base, lo, hi)
         seeds_map = {s: "" for s in bootstrap_seeds(data, vram_base, lo, hi)}
 
-    rows = sign_image(data, vram_base, seeds_map, lo, hi, ends=seed_ends)
+    ranges = None
+    if a.ranges:
+        ranges = [tuple(int(x, 0) for x in r.split(":")) for r in a.ranges.split(",") if r.strip()]
+    elif a.segments:
+        ranges = code_ranges_from_splat(a.segments, vram_base,
+                                        exclude=set(x for x in a.exclude_subsegs.split(",") if x))
+    if ranges:
+        # MULTI-RANGE: sign each island separately.  A single sweep over the union would let
+        # bootstrap's linear partition run straight through a data or linked island and mint
+        # functions out of it — the phantom class this oracle exists to detect, manufactured by the
+        # detector.  Per range: discover entries inside it, sign inside it.
+        rows, seen = [], set()
+        for rlo, rhi in ranges:
+            rlo, rhi = max(rlo, vram_base), min(rhi, img_end)
+            if rhi <= rlo:
+                continue
+            sm = dict(seeds_map) if seeds_map else {}
+            sm = {s: n for s, n in sm.items() if rlo <= s < rhi}
+            if not sm:
+                sm = {s: "" for s in bootstrap_seeds(data, vram_base, rlo, rhi)}
+            for r in sign_image(data, vram_base, sm, rlo, rhi, ends=seed_ends):
+                if r["addr"] in seen:
+                    continue
+                seen.add(r["addr"]); rows.append(r)
+        print("sig_image: %d code range(s), %d functions" % (len(ranges), len(rows)))
+    else:
+        rows = sign_image(data, vram_base, seeds_map, lo, hi, ends=seed_ends)
 
     name = a.name or pathlib.Path(a.image).stem
     out = pathlib.Path(a.out) if a.out else pathlib.Path(".run") / f"sig.{name}.jsonl"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, separators=(",", ":")) + "\n" for r in rows))
-    print(f"sig_image: {len(rows)} functions [{lo:#010x}..{hi:#010x}) -> {out}")
+    if ranges:
+        # the legacy [lo..hi) is meaningless in multi-range mode and printing it read as a
+        # one-range run over 0x6c bytes — a true number about the wrong scope.
+        print(f"sig_image: {len(rows)} functions across {len(ranges)} range(s) -> {out}")
+    else:
+        print(f"sig_image: {len(rows)} functions [{lo:#010x}..{hi:#010x}) -> {out}")
 
 
 if __name__ == "__main__":
