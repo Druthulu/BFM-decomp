@@ -1075,7 +1075,20 @@ s32 func_8005E528(Ctx *s) {
     return 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E79C);
+extern void func_8005E804(u8 *arg0);
+extern s32 func_8005E820(void *a0);
+
+s32 func_8005E79C(void *a0, void *a1) {
+extern s32 (*D_80072978)(void);
+    s32 v0 = ((s32 (*)(void *, void *))D_80072978)(a0, a1);
+    if (v0 != 0)
+        return 0;
+    *(u8 *)((u8 *)a0 + 0x46) = 1;
+    *(s32 *)((s32)a0 + 0x14) = (s32)func_8005E804;
+    *(s32 *)((s32)a0 + 0x20) = (s32)a1;
+    *(s32 *)((s32)a0 + 0x18) = (s32)func_8005E820;
+    return 1;
+}
 
 void func_8005E804(u8 *arg0) {
     u32 v1;
