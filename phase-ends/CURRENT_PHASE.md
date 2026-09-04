@@ -7400,3 +7400,104 @@ defects in one session, and **all eight had the same shape — a tool asserting 
 DRAFT that was true only of the HARNESS.** Related: R32 (assert coverage), R43 (refuse unsupported
 input), R47 (consume every verdict layer), R49 (a soft error inside a success envelope is still that
 error), R56 (a gate verdict measures the draft only), §478, §480.
+
+## 🛑 SESSION CHECKPOINT — S77 CLOSE (2026-09-03). SUPERSEDES the S77 FINAL block above. Phase 31 T10 CONTINUES.
+
+**Verified at close, clean rebuild:** `make check-all` **213/213 passed, 0 failed** (run FOUR times
+this session). `src/`, `config/`, `tools/`, `docs/` CLEAN. Drew pushes (R6).
+
+main REAL **911** (was 895) · LINKED 959 · VERBATIM 142 · **stubs 30** (was 46) · NON_MATCHING 0 ·
+`143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical.
+**MAIN game-code weighted 57.1% → 59.4%** · fleet distinct-code 99.3% → **99.4%** ·
+**fleet stubs 82 → 52**.
+
+```
+BANKED THIS SESSION : 30, every one confirmed from the SOURCE
+  §378 self-decl chain (16 routed, 16 banked): main func_80013154 · func_8005EAC8 · func_8005E3AC
+    · func_8005E79C ; overlays ov_SC01_005 · ov_SC01_006 · ov_SC02_041 · ov_SC03_105 · ov_SC03_111
+    · ov_SC03_124 · ov_SC04_002 · ov_SC04_005 · ov_SC04_007 · ov_SC04_011 · ov_SC05_003 · ov_SC05_018
+  in-tree gate : ov_SC06_032:func_8017D810 · ov_SC01_084:func_80182A00 (207 ins)
+  permuter ILS : func_80021174 · func_80040DE8 · func_80024054
+  S77w WAVE (9): func_8005E13C · func_8005EAE8 · func_8005D538 · func_8001FC08 (400) ·
+    func_8002FF0C (166) · func_8005D588 · func_8006252C · func_800301C8 (170) · func_8001EA14 (371)
+```
+
+# 1. THE WAVE
+
+30 single-agent workflows over main's drawable frontier (39 open non-linked stubs **minus 9 proven
+walls** — R45). **30/30 reported, 9 banked, 21 NEAR, 0 errors.** Model split 20 sonnet / 10 opus by
+the S73 ladder.
+
+**THE FRONTIER HAS CHANGED CHARACTER, and this is the finding of the wave.** Almost every one of the
+21 NEARs names its own mechanism — the gcc pass, usually the source file and line, often with a
+measured negative control — and concludes C cannot reach it. `func_80032A74` is at **1 of 422**;
+`func_8005F290` at 1 with cross-jump named; `func_8002AC98` at 1 with the commutative-operand
+canonicalisation named. **A NEAR whose note cites a pass and a file:line is a §474 WALL CANDIDATE,
+not a redraft.** Costing a redraft wave against this pool would be spending on already-answered
+questions.
+
+# 2. START HERE
+
+1. **The 4 wave MATCHes that did not bank, each with a KNOWN reason:**
+   `func_8002C410` (299 ins) — body MATCHES at **-O0**, and main has NO -O0 build rule (the globs
+   cover only `src/ov_*/` and `src/md_*/`). Needs a three-way pre/o0/post subsplit + a Makefile rule.
+   **This is the single largest banked-work-blocked-on-infrastructure item on the board.**
+   `func_8005D33C` — jump-table rodata placement (its own agent predicted the mass symbol shift the
+   gate then showed). `func_8005E8E8` — a §265 VERBATIM body, not a decompile; redraft or accept.
+   `func_8005FA94` — genuine byte reject after scope-demote.
+2. **Do NOT re-grind the NEAR pool** without reading each draft header first (§479 triage).
+3. `main:func_80011380` is §474's PROVED floor — never draw it.
+
+# 3. TEN INSTRUMENT DEFECTS THIS SESSION (all fixed and committed)
+
+The eight in the S77 FINAL block, plus:
+
+| # | tool | it asserted | what was true |
+|---|---|---|---|
+| 9 | `gate_main`'s clash pre-check | 2 drafts clash with the TU | it matched INDENTED, block-scope externs and compared them against file-scope spellings — **stricter than cc1** (§481). **566 instructions of byte-correct body refused by a rule the compiler does not apply**; both banked immediately after `_depth0` |
+| 10 | `sync_tu_decls` | "gave up after 6 rounds (6 synced)" | 6 no-op rounds re-syncing ONE symbol to identical text, **one clean rebuild each**. `replace_decl` returned True on a pattern match, not on a change |
+
+# 4. RULE ADDED — R61 (Drew, in-session)
+
+**(a) NOT-JUDGED IS NOT A VERDICT** — a tool reporting per-item outcomes carries a counted
+"not judged" state and never folds a skip/refusal/unsupported input into a failure class.
+**(b) MODEL THE REAL PIPELINE, OR DO NOT EMIT A BLOCKER** — a consumer that names what is wrong with
+a draft must apply the same rewrites the gate applies. Full text and rationale in the block above.
+
+# 5. IDIOMS BANKED — §477–§483 (7 sections, each verified present one at a time)
+
+§477 the `self_decl_tu` lane is mechanical (16/16) · §478 a verbatim draft is the strongest FALSE
+signal a scoper can emit · **§479 the permuter's yield curve — CORRECTED IN-SESSION from 3/3 to
+3/8** · §480 a static blocker class the real pipeline removes is a phantom · §481 `conflicting types`
+is a SAME-SCOPE error · §482 two independent re-ties, ordered · §483 the wave harvest (6 levers,
+4 byte-proven).
+
+**§479's correction is the one to read.** It first claimed the permuter is a one-shot at ≤4
+mismatched, on 3 data points. Five more runs made it **3 of 8**, and a residual of 1 failed while a
+residual of 4 banked — **mismatch count predicts nothing.** The predictor is PRIOR-ATTEMPT HISTORY:
+all 3 winners were drafts nobody had worked; every failure had already been ground (5, 6 and 4
+levers deep). Same predictor the triage paragraph reached from the opposite direction.
+
+# 6. TOOLING CHANGED
+
+**`claude_wave_packs`** now calls `neighbor_ref` for every target — the playbook has called it the
+biggest measured cost lever in the wave (~20x) since S68 while it was **wired into nothing**, so it
+ran for approximately zero cards. First run: **30/30 targets had a matched neighbour.** It also
+shipped a name bug that would have silently un-done it (it reports Ghidra's `FUN_8003a0e4`, absent
+from `src/`, where the function is `func_8003A0E4`) — **150 of 150 names needed resolving.**
+**FIXED:** `cast_self_callers` (×2), `sync_tu_decls` (×3), `blocker_probe`, `gate_main`.
+**config/wave_exclude.txt:** +4 §332 walls `wall_sweep` named and the list lacked; and 2 entries
+re-labelled — `func_8005F0C8`/`func_8005ECC0` were **stale wrong-oracle "compiler wall" verdicts**,
+re-measured as ordinary near-misses (3 of 88, 2 of 35). Excluded as UNSOLVED, not impossible.
+
+# 7. PLAIN ENGLISH
+
+Thirty more of the game's functions are real C instead of raw assembly, and all 213 binaries still
+rebuild byte-for-byte identical to the original disc. Main is now 59.4% decompiled by weight, up from
+57.1% this morning. Two things did most of the work: a whole class of "hard" functions turned out to
+be our own files disagreeing with new code about how a name is spelled, which a tool now fixes
+automatically; and a burst of thirty parallel agents on everything left in the main executable. Ten
+of our own measuring tools turned out to be lying to us in one way or another — including one that
+was refusing 566 instructions of perfectly correct work because it applied a rule stricter than the
+compiler's. The most useful correction was to something I had written myself earlier the same day: a
+rule about when the automatic optimiser is worth running, which more data showed was wrong.
