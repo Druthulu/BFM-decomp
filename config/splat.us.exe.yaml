@@ -174,6 +174,13 @@ segments:
       # the GS_001 class: SYS references .bss by section+offset but the original linker scattered the
       # commons across 0x80078xxx/0x800c5xxx, so no single NOLOAD base reproduces it). SYS stays a stub
       # in 800c. Curated dir .run/obj40/libgpu_used = {EXT,PRIM}.
+      # ⚠ P31 S77 — "no single base" is TRUE; "therefore unlinkable" is NOT (cookbook §484).
+      # tools/psyq_bss_probe.py derives SYS.o's bases from the bytes: exactly TWO, and their .bss
+      # offset ranges are DISJOINT (0x0000-0x0044 @ 0x80078830, 0x0148-0x0150 @ 0x800c53cc), so a
+      # split at 0x148 places each half NOLOAD. Only .text references .bss (.data: zero), so the
+      # split is complete. GS_001.o is the genuine wall (5 interleaved bases); 2D_BG0.o and VM_NO1.o
+      # have NO .bss at all and are excluded for some other, unrecorded reason.
+      # src/800c.c is 100% SYS.o — its span is exactly the object's .text size, not "game code".
       - [0x49090, c, libgpu]    # libgpu block -> src/libgpu.c (vram 0x80058890-0x80059234, EXT+PRIM)
       - [0x49A34, c, 800c]      # -O2 game code (incl. excluded libgpu SYS stub) -> src/800c.c (vram 0x80059234-0x8005C2C8)
       # PsyQ libc2 (Phase 8): C stdlib. Main block = 16 objs (BZERO/MEMCPY/STRCMP/PRINTF/PRNT[jtbl ok]/

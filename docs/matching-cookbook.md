@@ -36019,3 +36019,49 @@ every NEAR report cites the same shape**: the agent found the mechanism, named t
 the source line, and could not reach it from C. The frontier is no longer "we don't know why" — it is
 "we know exactly why and C cannot express it". Route accordingly: a NEAR whose note names a pass and
 a file:line is a WALL CANDIDATE for §474-style proof, not a redraft.
+
+#### §484 ★★★ — "NO SINGLE NOLOAD BASE" IS NOT "UNLINKABLE": ASK WHETHER THE `.bss` OFFSETS ARE DISJOINT (P31 S77)
+
+`config/splat.us.exe.yaml` has excluded four PsyQ objects from the LINKED build since **Phase 8**,
+under one reason:
+
+> SYS.o EXCLUDED — scattered-.bss commons (the GS_001 class: SYS references `.bss` by section+offset
+> but the original linker scattered the commons across 0x80078xxx/0x800c5xxx, so no single NOLOAD
+> base reproduces it)
+
+**Everything in that sentence is true, and three of the four objects are still not blocked by it.**
+`tools/psyq_bss_probe.py` derives each object's `.bss` bases FROM THE BYTES — for every
+`R_MIPS_HI16/LO16` pair against the bare `.bss` section, the OBJECT's immediates give the addend and
+the GAME's give the resolved address, so `base = resolved − addend` — and then asks the question
+nobody had asked: **are the offset ranges behind those bases DISJOINT?**
+
+| object | ins | `.bss` | verdict |
+|---|---|---|---|
+| `SYS.o` (libgpu) | **3,109** | 6,468 B, **2** bases | **SPLITTABLE** — `0x0000..0x0044` @ `0x80078830`, `0x0148..0x0150` @ `0x800c53cc`. Disjoint: split at `0x148` and place each half NOLOAD |
+| `GS_001.o` (libgs) | 384 | 194 B, **5** bases | **NOT splittable** — offsets `0x2a`, `0x32-36`, `0x3a`, `0x3e`, `0x50-ba` interleave. A genuine per-symbol scatter, and the real wall |
+| `2D_BG0.o` (libgs) | 526 | **none** | **no `.bss` section at all** — this reason cannot apply |
+| `VM_NO1.o` (libsnd) | 305 | **none** | same |
+
+**Why §9.2's escape does not reach these, and why that misled.** §9.2 solves scattered commons by
+weakening every `.bss`-defined NAMED symbol and `--defsym`-ing it to its recovered address. A
+relocation against the bare `.bss` SECTION has no name to defsym, so the recorded exclusion is right
+that §9.2 fails — and it is easy to read that as "therefore unlinkable". The missing step is that a
+*section* reference only needs the section PLACED, and a section can be split.
+
+**Completeness matters before you believe a split (R32).** The probe counts `.bss` references from
+EVERY section, not just `.text`: for `SYS.o`, `.data` has zero, so the two-way split covers every
+reference in the object. A split that fixes `.text` while `.data` still needs one base would be a
+silent half-fix.
+
+**The placement is derived, not configured.** The probe finds the object in the EXE by masking every
+relocated field and searching for the unique match — so a wrong `--vram` cannot manufacture a clean
+answer, and a unique hit is itself proof the object is present. It independently reproduced
+`SYS.o @ 0x80059234, 3,109 ins`, which matches both the yaml subseg bounds and the manifest's
+`psyq_identify` count. `src/800c.c` turns out to be **100% SYS.o** — its span is exactly the object's
+`.text` size — despite the subseg comment calling it "-O2 game code (incl. excluded libgpu SYS stub)".
+
+**The general law.** An exclusion reason is a claim about the TOOLING at the time it was written
+(the `reprobe-exclude-lists` lesson, applied to link state rather than a wave draw). When the reason
+is a mechanism, re-derive the mechanism's *premise* from the bytes before accepting the conclusion —
+"scattered" was true, "therefore unplaceable" was an inference, and it cost 3,109 instructions of
+library code sitting as verbatim asm for twenty-odd phases.
