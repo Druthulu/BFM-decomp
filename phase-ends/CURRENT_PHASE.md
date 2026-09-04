@@ -7637,3 +7637,71 @@ see a certain class of mistake — and we found that a large amount of "game cod
 Sony's own library code that one of our tools had been failing to recognise for twenty phases,
 because it was reading a human-readable listing that quietly abbreviates repeated lines. Twelve of
 our measuring tools turned out to be wrong in one way or another, three of them mine from today.
+
+## 🛑 SESSION CHECKPOINT — S78 OPEN (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT.
+
+Drew (2026-09-04): "assess the situation and tell me the smartest/best way to complete this decomp" →
+assessment delivered, **confirmed**, task list rebuilt (harness tasks #1–#13), work begins at #12.
+Model Fable 5.1 · effort xHigh (Max only for the SYS.o `.bss` split, #4). No Ultracode this sprint.
+
+# 1. THE CENSUS (measured this session — every number carries its denominator, R41)
+
+* Fleet **51 INCLUDE_ASM stubs of 363,151 matchable = 7,710 ins of 13.5 M** (`tools/frontier_classify.py`
+  → `.run/frontier_s78.json`, 52 rows incl. one data label): A-TWIN-REMAP 2 (144 ins) · B-CARVE jtbl 6
+  (1,089) · C-PLUMBING close=0 7 (315) · D-NEAR ≤25 14 (1,222) · F-FAR 10 (1,497) · G-DRAFTED-UNKNOWN 12
+  (3,442) · H-VIRGIN 1 (`md_MAIN_003:D_800D3200`, a data word mis-sliced as a stub). By binary: main 29 ·
+  resident 2 · md 7 · overlays 14 (11 binaries).
+* **180 verbatim `__asm__` bodies / 8,290 ins** (`verbatim_check` vs the S75 manifest; 20 rows converted
+  since): SDK-C-FRAG 56/1,878 (= SYS.o pieces) · SDK-C-VERSION 20/1,594 (2D_BG0/1, VM_NO1/NOWON, GsSortBg…)
+  · SDK-ASM 63/1,360 · SDK-C-REORDER 8/641 · GAME-C/GAME-O0-CARVED 15/1,136 (incl. `main()` 509 ins) ·
+  GAME-GTE UNCERTAIN 3/1,104 · **genuinely permanent 9/434** (crt0 `start`/`__main`/`__do_global_dtors`,
+  2 GAME-ASM, 2 GAME-GTE, 2 SDK frag). Square's own hand asm is ~4 bodies.
+* **Located-but-NOT-LINKED PsyQ objects: 5,827 ins** (fixed `psyq_identify`, surveys regenerated →
+  `.run/survey40` 4.0 / `.run/survey47` 4.7 / `.run/survey46` 4.6): SYS.o 3,109 (800c) · FGO_01–06 804
+  (800b_5) · VM_NO1 305 (sgap_7) · VM_NOWON 300 (sgap_8) · MSC01/02/05/09 276 (800b) · VM_F 237 (sgap_6) ·
+  libapi 800c3 trampolines 176 · FIRST.o 168 (800c2) · SMP/REG/MTX gap objects · PATCH/CHCLRPAD 68.
+* Disc: **5 unclaimed code payloads of 220** (MAIN/7, MAIN/9, SC03/53/54/56) — the explicit exclusion.
+
+# 2. THE DISCOVERY — the 800c3 "wall" band is LIBPAD 4.2.1 + LIBAPI 4.2, not game code
+
+The psx loader ships per-version PsyQ signature sets (`~/ghidra_12.1_PUBLIC/…/data/psyq/<ver>/<LIB>.LIB.json`,
+masked bytes + labels). Matched against the retail EXE they place, byte-exact, at the **4.2 set**:
+`PADENTRY.OBJ`@0x8005D0D8 (300 ins) · `PADCMD.OBJ`@0x8005E188 (600) · `PADPORTD.OBJ`@0x8005F0C8 (408) ·
+`PADSEQD.OBJ`@0x8005F728 (288) · `COUNTER.OBJ`@0x8005CF68 · `C114.OBJ` (`_96_remove`)@0x8005CE48 = **the
+PsyQ 4.2 `Ps` stamp** · `FIRST.OBJ`@0x80061FA8 · `PAD.OBJ`@0x80062388 · `PATCH.OBJ`@0x800626C8 ·
+`CHCLRPAD.OBJ`@0x80062768; the **4.3 set** adds `WAITRC2.OBJ`@0x8005FBA8; 4.6/4.7 `PDMAIINI.o`@0x8005D8B4
+(68 ins) is byte-identical. The 4.2.1x `Ps` stamp at 0x80072954 sits right before the band's callback
+tables (`D_8007295C..D_800729D8`) — libpad's `.data`. So `0x8005CF68–0x8005FC68` = COUNTER · PADENTRY ·
+PADMAIN(4.2.1) · L02/L03 · PADCMD · PADIF · PADPORTD · PADSEQD · WAITRC2, and **12 of main's 29 stubs
+(incl. all four §332 "%lo-in-a-delay-slot walls") are Sony library code assembled in reorder mode** — §332b
+was right about the mechanism; this is its provenance. No archive we hold carries libpad 4.2.1 (4.0 has no
+libpad; 4.6/4.7 differ except PDMAIINI). Free correction to SETUP §5.1: libnum 0 = libapi 4.2 @0x8005CE48,
+libnum 12 = libpad 4.2.1x.
+
+# 3. THE COMPLETION ORDER (Drew-confirmed; harness tasks #1–#13)
+
+| # | task | lane | effort |
+|---|---|---|---|
+| 12 | name the band from the 4.2/4.3 labels (symbols.us.txt + Ghidra, G6/R15); provenance docs | mechanical | xHigh |
+| 3 | LINKED step 1: 2D_BG0/1 (800b_7), VM_NO1 (sgap_7) + the other no-`.bss` located objects | tooling | xHigh |
+| 4 | LINKED step 2: SYS.o `.bss` split (§484) → 800c LINKED | tooling | **Max** |
+| 13 | bounded hunt for LIBPAD.LIB 4.2.1/4.3 (X2 data-only; sha-record) | research | xHigh |
+| 5 | the libpad band: link what is identical (PDMAIINI…); else C-under-reorder with the real names | mixed | xHigh |
+| 6 | mechanical: A-TWIN-REMAP 2 + B-CARVE 6 + `D_800D3200` | tooling | xHigh |
+| 7 | C-PLUMBING 7 via recover_route / §376–§378 | tooling | xHigh |
+| 8 | D-NEAR non-band 6: permuter/ILS/§31 or a §474 wall-proof each | per-fn | xHigh |
+| 9 | F-FAR 10 + G-UNKNOWN 12: one journal-noted agent per function (no waves) | agents | xHigh |
+| 10 | verbatim end-state: convert, ratify PERMANENT, `verbatim_check --update` | docs+C | xHigh |
+| 11 | Tclose PhaseEnd on the corrected denominators | synthesis | Max |
+
+Expected end-state: 0 game-code stubs · VERBATIM ≈ 9 genuine asm bodies · every SDK object LINKED or
+hand-matched with SDK provenance · 5 payloads excluded with evidence.
+
+# 4. START HERE
+Task #12 in progress. Then #3 → #4 → #13/#5 → #6 → #7 → #8 → #9 → #10 → #11. R22 clean-fleet after every
+banked batch; commit per task with this log; Drew pushes (R6).
+
+# 5. TREE STATE AT OPEN
+`src/`/`config/` clean. Fetched (gitignored `tools/psyq/`): `Psy-Q_46.zip` sha256 `ab473f97…` (→ `lib46/`,
+`.run/obj46/`), `PSYQ_SDevTC_v4.5.zip` sha256 `e7e4269e…` (7 split zips, not yet unpacked). Stray root
+scratch (`&1`, `p_I.o`, `scratchpad/`) to be removed (R12). `.run/backlog.jsonl` −51 rows (tool-pruned digest).
