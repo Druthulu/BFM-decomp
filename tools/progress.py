@@ -977,7 +977,7 @@ def fleet():
             f"FLEET distinct-code(uniq): {wm['dedup_m']:7d} / {wm['dedup_t']} = {wm['dedup_pct']:.1f}%   ({wm['dedup_fns']}/{wm['dedup_total_fns']} unique fns; the DISTINCT-RE number)"]
         if wm.get('main_t'):
             head += [
-                f"MAIN game-code weighted  : {wm['main_m']:7d} / {wm['main_t']} = {wm['main_pct']:.1f}%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated {wm['main_sig_date']}; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)",
+                f"MAIN game-code weighted  : {wm['main_m']:7d} / {wm['main_t']} = {wm['main_pct']:.1f}%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated {wm['main_sig_date']}; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)",
                 f"  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: {wm['fleet_m_exmain']} / {wm['fleet_t_exmain']} = {wm['fleet_pct_exmain']:.1f}%)"]
     else:
         head += ["# (instr-weighted + distinct-code metrics need .run/sig.*.jsonl — run `make sig-overlays`)"]

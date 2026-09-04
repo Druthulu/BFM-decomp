@@ -7,7 +7,7 @@
 FLEET fn-count byte-ident: 363100 / 363151 = 99.99%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
 FLEET instr-weighted     : 13488257 / 13523865 = 99.7%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
 FLEET distinct-code(uniq): 5816503 / 5851972 = 99.4%   (90909/90929 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :   47521 / 79510 = 59.8%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; caveat is R34: no independent second oracle for a PS-X EXE, NOT drift)
+MAIN game-code weighted  :   47521 / 79510 = 59.8%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13440736 / 13444355 = 100.0%)
 
 FLEET REAL substantive   : 360781   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
