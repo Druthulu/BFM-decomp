@@ -29,7 +29,7 @@ extern void func_8005CF08(void);
 extern void func_800626F0(void);
 extern void func_8005CF18(void);
 extern s32 ChangeClearPAD(s32 mode);
-extern void func_8006252C(void);
+extern s32 func_8006252C(void);
 extern s32 PAD_init2(s32, s32, s32, s32);
 extern s32 D_80072A24;
 
@@ -40,7 +40,7 @@ void func_800623A4(s32 a0, s32 a1, s32 a2, s32 a3)
     func_800626F0();
     func_8005CF18();
     ChangeClearPAD(0);
-    func_8006252C();
+    ((s32 (*)())func_8006252C)();
     PAD_init2(a0, a1, a2, a3);
     D_80072A24 = 1;
 }
@@ -52,7 +52,7 @@ extern void func_8005CF08(void);
 extern void func_800626F0(void);
 extern void func_8005CF18(void);
 extern s32 ChangeClearPAD(s32 mode);
-extern void func_8006252C(void);
+extern s32 func_8006252C(void);
 extern void InitPAD2(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 D_80072A24;
 
@@ -63,7 +63,7 @@ void func_80062434(s32 a0, s32 a1, s32 a2, s32 a3)
     func_800626F0();
     func_8005CF18();
     ChangeClearPAD(0);
-    func_8006252C();
+    ((s32 (*)())func_8006252C)();
     InitPAD2(a0, a1, a2, a3);
     D_80072A24 = 1;
 }
