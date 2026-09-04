@@ -35707,3 +35707,99 @@ a hard C89 error at bank time.
 
 **Verified by hand (law 1c):** 26 `jal` targets and 16 HI16/LO16 relocs identical in name and order;
 the four `D_1F800020` words are the scratchpad literal, byte-identical (`3c111f80` / `26310020`).
+
+---
+
+#### §477 ★★★ — THE `self_decl_tu` CLASS IS A SOLVED, MECHANICAL LANE: 16 DRAFTS, 16 BANKS (P31 S77)
+
+**The class.** The destination TU declares *the very function the draft defines*, with a different
+signature — `tu void () | def s32 (Ctx*, s32)`. cc1 rejects the TU, the draft never compiles, and the
+failure is recorded as `CC1-FAIL`, which says **nothing about the body underneath**. `blocker_probe`
+names it `self_decl_tu` and tiers it T1 (binary-local).
+
+**The chain, unchanged from §378, but note what it is NOT.** `sync_tu_decls` refuses this class by
+design (the call SITES must change too, which it does not do). The tool that handles it is
+`cast_self_callers --sync-decls`, and — the thing the S76 checkpoint got wrong — **it is
+binary-generic already**: `src_files(binary)` globs `src/<binary>/*.c` for an overlay and `src/*.c`
+for main. Nothing needed extending; `sync_tu_decls` is the only main-only tool in the chain.
+
+**MEASURED YIELD — the whole point.** Every draft the probe put in this class banked:
+
+| cohort | drafts | banked |
+|---|---|---|
+| main (`blocker_probe --binary main`, 36 stranded) | 7 | **4** (3 were NEARs — body, not plumbing) |
+| overlays (`blocker_probe` over 26 binaries) | 12 | **12 — 100%, 136 s wall, 8 workers** |
+
+Of main's three failures none was a plumbing failure: `func_80015608` closeness 3, `func_80015760`
+closeness 9, `func_80039DEC` 8 differing bytes. **The class has no observed plumbing residual.**
+Route it mechanically and spend zero agent tokens on it.
+
+**LAW 1 — PROVE THE PLUMBING IS BYTE-NEUTRAL *BEFORE* YOU GATE.** The casts and synced declarations
+are supposed to emit no code. Build the binary with the edits applied and **no draft substituted**;
+it must produce its locked SHA. main did (`143dbb89…`), and all 12 overlays did. This costs one
+build and converts every later gate failure into a statement about the draft — which is the whole
+reason the §20 fold is worth using instead of editing signatures by hand.
+
+**LAW 2 — A SYNCED DECLARATION MUST *PARSE WHERE IT SITS*.** `--sync-decls` copied the draft's
+parameter list verbatim into the TU. A draft names types the TU does not have in scope *at that
+line*, and both flavours broke the committed baseline in one apply:
+
+    src/800.c:2631   extern void func_80015760(Obj_80015760 *obj, s32 *ot);  // draft-local type
+    src/800c3.c:866  s32 func_8005E3AC(Ctx *s, s32 size);                    // Ctx typedef'd at :941
+    => src/800c3.c:866: parse error before `*'
+
+Once the call sites are cast the declaration emits no code, so it only has to be *compatible* and
+*parse*. `<ret> fn();` satisfies both without naming a type, and C89 6.5.4.3 makes it compatible with
+a prototyped definition exactly when no parameter is affected by the default argument promotions. So:
+**draft spelling first** (byte-proven, and informative), **no-proto only where that cannot parse**,
+**refuse loudly** where it cannot parse *and* a narrow parameter forbids no-proto. Never widen the
+fallback — a blanket no-proto churns 15 already-correct declarations to buy 3.
+
+**LAW 3 — A DEFINITION IS A DECLARATION.** `sync_tu_decls` looked only for `extern … sym …;`, so
+whenever the clashing symbol is a function the TU *defines* it stopped with "no `extern` line to
+copy". That was the terminal blocker of BOTH remaining main drafts. The definition header is the
+authoritative spelling — it is the one cc1 checks every other declaration against — and must be
+preferred over an `extern` when both exist:
+
+    src/800c3.c:916  void func_8005E480(void *arg0) {   ->  extern void func_8005E480(void *arg0);
+
+**LAW 4 — A STATEMENT KEYWORD IS NOT A RETURN TYPE.** `return func_X(a0, a1);` has the exact shape of
+a forward declaration, so a permissive `<type> <fn>(...);` regex reads a CALL as a DECLARATION.
+In `cast_self_callers` this hit three consumers at once, in opposite directions: `is_declaration` made
+`cast_sites` SKIP the site, `sync_decls` REWROTE the statement into a declaration (deleting the
+function's `return`), and `DEF_RE` read it as the definition itself. Blast radius **524
+`return func_X(...);` lines across 482 files**. One shared `_kw_prefixed()` guard, three call sites.
+
+**LAW 5 — CASCADE.** Every bank gives its TU a real definition that contradicts the stale `extern`
+each later draft in that TU still carries. Banking `func_8005DE78` is what blocked `func_8005EB28`.
+Re-run the sync after each bank; never conclude the draft went bad.
+
+**HOW TO RUN IT (the whole lane, ~4 commands):**
+
+    tools/blocker_probe.py --binary <bin> --drafts <wave dirs> --json .run/bp.<bin>.json   # read-only
+    tools/cast_self_callers.py --binary <bin> --funcs <self_decl_tu fns> --drafts <dir> \
+        --sync-decls --apply --journal .run/cast/<bin>.json
+    make check BINARY=<bin>          # LAW 1 — must be green with NO draft substituted
+    git commit                       # gates pin a worktree / checkout the TUs; uncommitted edits die
+    tools/parallel_gate.py --plan <plan> --workers 8 --commit
+    tools/cast_self_callers.py --undo-journal .run/cast/<bin>.json --keep <banked fns>
+
+#### §478 🔴 — A VERBATIM DRAFT IS THE STRONGEST *FALSE* SIGNAL YOUR SCOPING TOOL CAN EMIT
+
+A §265 verbatim draft is the target's own asm in a file-scope `__asm__`. It assembles to the bytes it
+was copied from, so **every body oracle reports the strongest possible result**: `match_one`
+closeness 0, `rtu_match` MATCH, `blocker_probe` static `none`. The byte gate then refuses it for free
+and `progress.py` moves by exactly zero.
+
+S76 closed this hole in `gate_main`, `harvest_verify` and `api_agent.prior_draft`. It stayed open in
+`blocker_probe` — **the tool that SCOPES the work** — and that is the expensive place to be blind:
+of the 13 MATCH rows in the S77 overlay pool, **six were verbatim**, and they had been ranked as the
+highest-value drafts available. The cohort gated 0/13 and read as a model failure until
+`harvest_verify` printed its SKIP line.
+
+**The law:** every consumer that reads a draft and emits a *quality* signal — gate, warm-start
+supplier, scoper, ranker — must run the same detector (`draft_prechecks.is_verbatim_asm_draft`), and
+a verbatim row must be excluded from match/agreement arithmetic rather than counted as a match. When
+you fix a blindness like this, **enumerate the consumers**: this was the fourth, found only because
+the third fix did not prompt anyone to ask who else reads drafts (R36's shape, applied to a property
+rather than a binary).
