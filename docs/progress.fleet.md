@@ -4,21 +4,21 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 363098 / 363149 = 99.99%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 13485298 / 13492892 = 99.9%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5813544 / 5820999 = 99.9%   (90909/90929 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :   44562 / 48537 = 91.8%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
+FLEET fn-count byte-ident: 363105 / 363156 = 99.99%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 13481631 / 13489225 = 99.9%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5809877 / 5817332 = 99.9%   (90909/90929 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :   40895 / 44870 = 91.1%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13440736 / 13444355 = 100.0%)
 
-FLEET REAL substantive   : 360755   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
-FLEET LINKED PsyQ objs   :   1040
+FLEET REAL substantive   : 360708   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
+FLEET LINKED PsyQ objs   :   1150
 FLEET NON_MATCHING       :      0   (0 in any default build — G4)
 FLEET INCLUDE_ASM stubs  :     51
-FLEET matchable          : 363149
+FLEET matchable          : 363156
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
-| main | 886 | 2 | 1040 | 2054 | 2083 | 98.6% |
+| main | 839 | 2 | 1150 | 2061 | 2090 | 98.6% |
 | resident | 141 | 0 | 0 | 143 | 145 | 98.6% |
 | md_MAIN_001 | 11 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_003 | 53 | 0 | 0 | 59 | 64 | 92.2% |

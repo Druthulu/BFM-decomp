@@ -29,6 +29,8 @@ Usage:
 Importable: link_object(obj, text_vram, *, vram_base, exe_path|exe_bytes) -> dict(result).
 """
 import struct, subprocess, sys, os, re, tempfile
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from psyq_bss_split import NOBITS_RE, SplitRefused, prepare_object, describe   # P31 S78 #4: scattered-.bss split at link-prepare
 
 # Phase 9: vram_base (the fileoff->vram delta) and the target binary are REQUIRED parameters —
 # no EXE default an overlay could silently inherit. AS is the cross-toolchain prefix (universal).
@@ -196,9 +198,26 @@ def link_object(obj, text_vram, name=None, exe_bytes=None, *, vram_base, exe_pat
     """
     name = name or os.path.basename(obj)
     exe = exe_bytes if exe_bytes is not None else open(exe_path, "rb").read()
+    tsize = section_table(obj).get(".text", (0, 0))[0]
+    res = {"name": name, "text_vram": text_vram, "tsize": tsize, "split": ""}
+    with tempfile.TemporaryDirectory(dir=".run") as td:
+        # P31 S78 #4: an object whose `.bss` is referenced through the SECTION symbol at more than one
+        # base (scattered commons, §9.1) is split into per-base NOBITS pieces first — the same prepare
+        # step the region verify and the build use, so this verdict is the build's verdict. A refusal
+        # is reported as a FAIL with its reason, never as a crash (this is a verification tool).
+        try:
+            obj, plans = prepare_object(obj, text_vram, exe, vram_base, os.path.join(td, "split"))
+        except SplitRefused as ex:
+            res.update(ok=False, error=f"bss split refused: {ex}", externals={}, unrecovered=[],
+                       rdata_vram=None, data_vram=None, bss_vram=None)
+            return res
+        res["split"] = describe(plans)
+        return _link_prepared(obj, text_vram, exe, vram_base, td, res)
+
+
+def _link_prepared(obj, text_vram, exe, vram_base, td, res):
     secs = section_table(obj)
-    tsize = secs.get(".text", (0, 0))[0]
-    res = {"name": name, "text_vram": text_vram, "tsize": tsize}
+    tsize = res["tsize"]
 
     symtab = symbol_table(obj)
     sym_addr = recover_sym_addrs(obj, text_vram, exe, vram_base)
@@ -210,10 +229,10 @@ def link_object(obj, text_vram, name=None, exe_bytes=None, *, vram_base, exe_pat
 
     # section bases for placement: byte-search (initialised) or the section-symbol reloc.
     bases = {}
-    for S in DATA_SECTIONS:
-        if S not in secs or secs[S][0] == 0:
+    for S in secs:                        # every data-like section, incl. the split pieces (.bss2 …)
+        if not (S in DATA_SECTIONS or NOBITS_RE.match(S)) or secs[S][0] == 0:
             continue
-        b = unique_byte_vram(obj, S, exe, vram_base) if S not in (".bss", ".sbss") else None
+        b = unique_byte_vram(obj, S, exe, vram_base) if not NOBITS_RE.match(S) else None
         if b is None:
             b = sym_addr.get(S)          # set iff the object referenced the section symbol
         bases[S] = b
@@ -243,30 +262,35 @@ def link_object(obj, text_vram, name=None, exe_bytes=None, *, vram_base, exe_pat
     res["externals"] = externals
     res["unrecovered"] = sorted(undefined_syms(obj) - set(externals))
 
-    with tempfile.TemporaryDirectory(dir=".run") as td:
-        aligned = os.path.join(td, "a.o")
-        align_args = ["--set-section-alignment", ".text=4"]
-        for S in placed:
-            align_args += ["--set-section-alignment", f"{S}=4"]
-        for s in weaken:
-            align_args += ["--weaken-symbol", s]
-        sh(f"{AS}objcopy", *align_args, obj, aligned)
-        ld = os.path.join(td, "link.ld")
-        lines = ["SECTIONS {", f"  . = 0x{text_vram:08X};", "  .text : { *(.text) }"]
-        for S, b in placed.items():
-            lines += [f"  . = 0x{b:08X};", f"  {S} : {{ *({S}) }}"]
-        lines += ["  /DISCARD/ : { *(*) }", "}"]
-        open(ld, "w").write("\n".join(lines) + "\n")
-        cmd = [f"{AS}ld", "-T", ld, "-o", os.path.join(td, "out.elf"), aligned]
-        for s, a in sorted(defs.items()):
-            cmd += ["--defsym", f"{s}=0x{a:08X}"]
-        p = subprocess.run(cmd, capture_output=True)
-        if p.returncode != 0:
-            res["ok"] = False
-            res["error"] = "ld: " + p.stderr.decode().strip().split("\n")[-1]
-            return res
-        got = sh(f"{AS}objcopy", "-O", "binary", "--only-section", ".text",
-                 os.path.join(td, "out.elf"), "/dev/stdout").stdout
+    aligned = os.path.join(td, "a.o")
+    align_args = ["--set-section-alignment", ".text=4"]
+    for S in placed:
+        if re.fullmatch(r"\.s?bss\d+", S):
+            continue                  # a split piece carries the alignment of its own base
+        align_args += ["--set-section-alignment", f"{S}=4"]
+    for s in weaken:
+        align_args += ["--weaken-symbol", s]
+    sh(f"{AS}objcopy", *align_args, obj, aligned)
+    ld = os.path.join(td, "link.ld")
+    lines = ["SECTIONS {", f"  . = 0x{text_vram:08X};", "  .text : { *(.text) }"]
+    for S, b in placed.items():
+        lines += [f"  . = 0x{b:08X};", f"  {S} : {{ *({S}) }}"]
+    lines += ["  /DISCARD/ : { *(*) }", "}"]
+    open(ld, "w").write("\n".join(lines) + "\n")
+    # --no-check-sections, exactly as the build and the region verify link: NOLOAD placements are
+    # addresses only, and a split piece's extent tiles the PACKED section, so an unreferenced common
+    # inside one piece may in truth live inside another piece's range (GS_001: PSDBASEX/PSDBASEY are
+    # adjacent in the game, 16 bytes apart in the packed .bss) — zero-byte overlaps, harmless.
+    cmd = [f"{AS}ld", "--no-check-sections", "-T", ld, "-o", os.path.join(td, "out.elf"), aligned]
+    for s, a in sorted(defs.items()):
+        cmd += ["--defsym", f"{s}=0x{a:08X}"]
+    p = subprocess.run(cmd, capture_output=True)
+    if p.returncode != 0:
+        res["ok"] = False
+        res["error"] = "ld: " + p.stderr.decode().strip().split("\n")[-1]
+        return res
+    got = sh(f"{AS}objcopy", "-O", "binary", "--only-section", ".text",
+             os.path.join(td, "out.elf"), "/dev/stdout").stdout
 
     want = exe[text_vram - vram_base: text_vram - vram_base + tsize]
     res["ok"] = (got == want)
@@ -295,6 +319,8 @@ def main():
     print(f"[{tag}] {r['name']:14s} .text@0x{text_vram:08X} ({r['tsize']} B) "
           f".rdata@{r['rdata_vram'] if not isinstance(r['rdata_vram'],int) else hex(r['rdata_vram'])} "
           f".data@{r['data_vram'] if not isinstance(r['data_vram'],int) else hex(r['data_vram'])}")
+    if r.get("split"):
+        print("   ", r["split"])
     if r.get("error"):
         print("   ", r["error"])
     if not r["ok"] and "ndiff" in r:

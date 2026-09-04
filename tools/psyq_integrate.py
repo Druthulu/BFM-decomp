@@ -3,8 +3,10 @@
 
 Run after `make extract`. Given a library's ELF objects and the stub subsegment(s) splat emitted
 for the library's text region(s), this:
-  1. prepares each object (objcopy: .text/.data/.rdata/.bss align=4; weaken every .bss/.sbss
-     named symbol so a strong --defsym beats its scattered weak def) -> <objdir>/*.o
+  1. prepares each object (P31 S78 #4: an object whose .bss is referenced at several bases through
+     the section symbol is first split into per-base NOBITS pieces by psyq_bss_split, §489; then
+     objcopy: .text/.data/.rdata/.bss align=4; weaken every .bss/.sbss named symbol so a strong
+     --defsym beats its scattered weak def) -> <objdir>/*.o
   2. rewrites the splat linker script: each `build/src/<stub>.o(.text);` line is replaced by the
      real objects' `<objdir>/<obj>.o(.text);` lines (the library's objects form one contiguous
      block per stub, so concatenation places them at their exact vrams); each object's
@@ -30,6 +32,7 @@ import glob, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from psyq_link import recover_sym_addrs, AS, sh, DATA_SECTIONS
 from psyq_link_region import classify, placement
+from psyq_bss_split import prepare_object, describe   # P31 S78 #4: scattered-.bss split at link-prepare
 
 
 def stub_ranges(yaml_path, stubs, vram_base):
@@ -120,9 +123,20 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
                   f"stub subsegs of {os.path.basename(elf_dir)} — byte-placed but NOT wired (LINKED residue):")
             for nm, v, n in residue:
                 print(f"     0x{v:08X} {nm:14s} {n:5d} ins")
-    recovered, weaken_by, bases_by = {}, {}, {}
+    recovered, weaken_by, bases_by, srcs = {}, {}, {}, {}
+    os.makedirs(objdir, exist_ok=True)
     for name, (vram, _) in order:
-        bases, weaken, sym_addr = classify(os.path.join(elf_dir, name), vram, exe, vram_base)
+        # P31 S78 #4 (cookbook §489): an object whose `.bss` is referenced through the SECTION symbol
+        # at more than one base (SYS.o, VM_F.o, GS_001.o — the §9.1 "scattered commons" exclusions)
+        # is rewritten into per-base NOBITS pieces (.bss/.bss2/…) under <objdir>/.split BEFORE
+        # classify(), whose per-piece section symbols then recover one base each. Derived from the
+        # bytes on every run — nothing recorded that could go stale (R51). A refusal is fatal (R43).
+        src, plans = prepare_object(os.path.join(elf_dir, name), vram, exe, vram_base,
+                                    os.path.join(objdir, ".split"))
+        if plans:
+            print(f"  .. {name}: {describe(plans)} — scattered commons tiled at link-prepare")
+        srcs[name] = src
+        bases, weaken, sym_addr = classify(src, vram, exe, vram_base)
         bases_by[name], weaken_by[name] = bases, weaken
         for s, a in sym_addr.items():
             if not s.startswith("."):
@@ -143,14 +157,13 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
         m = re.match(r"(\w+)\s*=\s*0x([0-9A-Fa-f]+)", ln)
         if m:
             curated_by_addr.setdefault(int(m.group(2), 16), m.group(1))
-    os.makedirs(objdir, exist_ok=True)
     for name, (vram, _) in order:
         args = []
         for S in (".text",) + DATA_SECTIONS:
             args += ["--set-section-alignment", f"{S}=4"]
         for w in weaken_by[name]:
             args += ["--weaken-symbol", w]
-        defined = subprocess.run([f"{AS}nm", "--defined-only", os.path.join(elf_dir, name)],
+        defined = subprocess.run([f"{AS}nm", "--defined-only", srcs[name]],
                                  capture_output=True, text=True).stdout
         for dl in defined.splitlines():
             parts = dl.split()
@@ -162,7 +175,7 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
                 if cn and cn != sym:
                     args += ["--redefine-sym", f"{sym}={cn}"]
                     print(f"  == {name}: exported `{sym}` @0x{addr:08X} is curated `{cn}` -> redefined (R15)")
-        sh(f"{AS}objcopy", *args, os.path.join(elf_dir, name), os.path.join(objdir, name))
+        sh(f"{AS}objcopy", *args, srcs[name], os.path.join(objdir, name))
 
     if yaml_path:
         # Stub<->objects by SUBSEG RANGE (P31 S78), not by run-contiguity: two adjacent stub subsegs are

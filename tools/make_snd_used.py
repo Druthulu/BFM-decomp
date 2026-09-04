@@ -6,12 +6,14 @@ they are linked as ONE combined region rather than two passes. This:
   - places both libraries' objects (psyq_identify) and merges them by vram,
   - for an aliased address (>1 object, same masked .text) picks the object whose linked .text
     byte-matches the EXE (psyq_link.link_object) — the real one,
-  - EXCLUDES 4 ADDRESSES that don't reconcile in the combined region (ALL candidates there stay
+  - EXCLUDES 3 ADDRESSES that don't reconcile in the combined region (ALL candidates there stay
     byte-identical stubs — excluding by address, not name, since the alias twin fails identically):
-      0x3C438 (S_R/S_W), 0x3D424 (S_GRMDT/FB/T) — scattered-.bss commons referenced at a minority
-        address the region's single defsym can't satisfy (cookbook §9.1, cross-object form),
-      0x3D94C (S_IH/UT_RON)                      — false placement: 0x3D94C is INSIDE libsnd SSSTART.o,
-      0x3FA64 (VM_F.o, 237 ins)                  — scattered-.bss commons (the one real value loss).
+      0x3C438 (S_R/S_W), 0x3D424 (S_GRMDT/FB/T) — commons referenced at a minority address the
+        region's single defsym can't satisfy (cookbook §9.1, cross-object form; these objects have NO
+        .bss of their own — psyq_bss_probe — so the S78 split does not apply to them),
+      0x3D94C (S_IH/UT_RON)                      — false placement: 0x3D94C is INSIDE libsnd SSSTART.o.
+    0x3FA64 (VM_F.o, 237 ins) was the 4th exclusion (scattered-.bss commons) until P31 S78 #4: its
+    `.bss` is now SPLIT at link-prepare (psyq_bss_split, cookbook §489) and it links as snd12.
   - copies the survivors into .run/obj40/snd_used.
 
 The build is byte-identical with OR without snd_used (stub fallback), so a fresh clone need not run
@@ -28,7 +30,7 @@ from psyq_link import link_object  # noqa: E402
 EXE = "extracted/retail/SLUS_007.26"
 VRAM_BASE = 0x8000F800
 RLO, RHI = 0x8003A444, 0x8004239C
-EXCLUDE_ADDR = {0x8003C438, 0x8003D424, 0x8003D94C, 0x8003FA64}   # see module docstring
+EXCLUDE_ADDR = {0x8003C438, 0x8003D424, 0x8003D94C}   # see module docstring (VM_F 0x8003FA64 rejoined S78 #4)
 
 
 def place(lib, exe, vram_base):

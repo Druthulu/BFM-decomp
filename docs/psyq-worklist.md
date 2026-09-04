@@ -13,12 +13,12 @@
 
 | Order | Library | Placed / total | Region(s) | ~banked B | Difficulty notes |
 |---|---|---|---|---|---|
-| 1 | **libgpu** | 3 / 12 | 800b2 (`0x80058890`) | ~14.9k | ✅ **DONE (T4): EXT+PRIM linked** (curated `libgpu_used`). **SYS.o EXCLUDED** — scattered-`.bss` (§9.1, GS_001 class; stays a stub in 800c). |
+| 1 | **libgpu** | 3 / 12 | 800b2 (`0x80058890`) | ~14.9k | ✅ **DONE (T4 + S78 #4): EXT+PRIM+SYS linked** (raw `.run/obj40/libgpu`, no curated dir). SYS.o was EXCLUDED Phase 8→P31 S78 as scattered-`.bss` (§9.1); linked since S78 #4 via the link-prepare `.bss` split (cookbook §489) as `libgpu2`. |
 | 2 | **libetc** | 5 / 7 | 800 tail (`0x8004239C`) | ~3.3k | VSYNC/INTR/INTR_VB/INTR_DMA/VMODE **contiguous**, ends exactly at libcd1 (`0x80043088`). Clean. |
 | 3 | **libmcrd** | 2 / 2 | 800b2 (`0x8005FC68`,`0x80062888`) | ~9.0k | LIBMCRD.o (2186 ins, huge, holds the 55 `LIBMCRD_OBJ_*`) + USERFUNC.o — **2 blocks**. `_card_*` h_norm dups collapse inside LIBMCRD. |
 | 4 | **libc2** | 17 / 46 | 800b2 (`0x8005C2C8`–`0x5CD98` + STRCAT `0x80061E90`) | ~3.1k | C stdlib (BZERO/MEMCPY/STRCMP/PRINTF/PRNT…); contiguous run + 1 outlier. **PRNT.o (418 ins) has an internal jtbl** — verify NOLOAD `.rodata` placement (the `PRNT_OBJ_24C` rodata note). |
 | 5+6 | **libapi+libcard** | 22 (800c2) | 800c2 (`0x80061F38`–`0x80062888`) | ~0.7k | ✅ **DONE (combined apicard region): 22 objs / 4 blocks / +24 fns** (`tools/make_apicard_used.py`, C112 dedup, 0 exclusions). **libapi's ~22 objects in the 800c3 region (`0x5CE18`..) DEFERRED** — lowest value, separate resegmentation. |
-| 7+8 | **libspu+libsnd** | 60 / (38+32) | 800 sound (`0x8003A444`–`0x8004239C`) | ~24k | ✅ **DONE (combined region): 60 objs / 9 blocks / +225 fns.** The two libs interleave, so linked as ONE region (`tools/make_snd_used.py` dedups + excludes 4 addresses; `gen_lib_subsegs.py` + window). **Excluded:** S_R/S_W `0x3C438`, S_GRMDT* `0x3D424`, S_IH/UT_RON `0x3D94C` (false-positive, inside SSSTART), VM_F `0x3FA64` (237 ins) — all scattered-`.bss`/false-pos, stay stubs. SSGM.o `0x1BD80` deferred (isolated in matched-C, 8 ins). |
+| 7+8 | **libspu+libsnd** | 63 / (38+32) | 800 sound (`0x8003A444`–`0x8004239C`) | ~24k | ✅ **DONE (combined region; S78 #3/#4): 63 objs / 12 blocks.** The two libs interleave, so linked as ONE region (`tools/make_snd_used.py` dedups + excludes 3 addresses; `gen_lib_subsegs.py` + window). **Excluded:** S_R/S_W `0x3C438`, S_GRMDT* `0x3D424` (cross-object commons — these objects have NO `.bss`, so the S78 split cannot apply), S_IH/UT_RON `0x3D94C` (false-positive, inside SSSTART). VM_F `0x3FA64` (237 ins) rejoined in S78 #4 (`snd12`, `.bss` split at `_svm_sreg_buf`). SSGM.o `0x1BD80` deferred (isolated in matched-C, 8 ins). |
 | 9 | **libgte** | 58 / 381 | 800b (`0x8004787C`–`0x5082C`) + **libgs gaps** | ~48k | ✅ **DONE (T11): 53 objs / 22 blocks linked** in 800b (subsegs via `gen_lib_subsegs.py`; integrate window 0x4787C..0x51804). **5 libgs-gap objects DEFERRED** (MTX_05/07/11/REG03/REG11 → gsgap1/2/4/5 stay stubs; gsgap2≠MTX_07 exactly so needs sub-split). |
 
 **SKIP — zero footprint (recorded, not linked by the EXE):** `libmath` 0/48, `libc` 0/56, `libsn` 0/51 (2 tiny ambiguous). BFM links **libc2**, not libc; no libmath/libsn. (Also unbuilt/no-footprint: libcomb, libds, libgun, libsio, libtap, libpress — never converted, no symbols.)
@@ -29,7 +29,7 @@
 800   (0x800123F0–0x80043088)  game code + libsnd(SSGM @1BD80; 3D454–42374) + libspu(3A444–422E8) + libetc(4239C–43088, tail)
 libcd (0x80043088–0x8004787C)  DONE
 800b  (0x8004787C–0x80051804)  libgte(4787C–5082C, multi-block) + game-code tail
-libgs (0x80051804–0x80057928)  DONE; gaps gsgap1/2/4/5 are actually libgte (MTX_05/07/11, REG03/11); gsgap3=GS_001 excluded
+libgs (0x8005080C–0x80057928)  DONE; gaps gsgap1/2/4/5 are actually libgte (MTX_05/07/11, REG03/11; wired S78 #3 as libgte27-30); gsgap3=GS_001 linked S78 #4 as libgs8 (six-piece `.bss` split)
 800b2 (0x80057928–0x800629DC)  game code + libgpu(58890–5Bxxx) + libc2(5C2C8–5CD98,+STRCAT 61E90) + libapi(5CE18–626B8 scattered) + libmcrd(5FC68 + 62888) + libcard(61F38–62808)
 ```
 
@@ -64,14 +64,14 @@ references resolve to >1 base in the EXE. Curate the library's `_used` dir to dr
 
 | Object | Library | Evidence | Status |
 |---|---|---|---|
-| `GS_001.o` | libgs | scattered `.bss` (Phase 7) | excluded (gsgap3 stub) |
-| `SYS.o` (3109 ins) | libgpu | `.bss`+0x150 → `0x800c551c` but base recovered `0x80078830`; commons scattered 0x80078xxx/0x800c5xxx | **excluded (T4); stub in 800c** |
+| `GS_001.o` | libgs | scattered `.bss` (Phase 7) — SIX bases | **LINKED S78 #4 (`libgs8`)**: `psyq_bss_split` cuts the section into six single-base pieces at symbol starts (PSDBASEX, CLIP2, PSDBASEY, POSITION, GsDRAWENV); the S77 probe's "5 interleaved bases, NOT splittable" grouped by base instead of by run (cookbook §489) |
+| `SYS.o` (3109 ins) | libgpu | `.bss`+0x150 → `0x800c551c` but base recovered `0x80078830`; commons scattered 0x80078xxx/0x800c5xxx | **LINKED S78 #4 (`libgpu2`)**: `.bss` [0,0x144) @0x80078830 + `.bss2` = `_que` @0x800C5510 |
 | `MTX_05/07/11`,`REG03`,`REG11` | libgte | sit in libgs gaps gsgap1/2/4/5; gsgap2(48B)≠MTX_07(36B) so the gap stub needs a sub-split | **deferred (T11)**; small GTE fns; link byte-identical, just need the gsgap region resegmented (low priority) |
-| `0x3C438`,`0x3D424`,`0x3D94C`,`0x3FA64` (S_R/S_GRMDT/S_IH/VM_F) | libspu/snd | scattered-`.bss` cross-object (S_R/S_GRMDT/VM_F) + a false placement inside SSSTART (S_IH) | **excluded (sound region)**; stay stubs; VM_F (237 ins) the only sizable one |
+| `0x3C438`,`0x3D424`,`0x3D94C` (S_R/S_GRMDT/S_IH) | libspu/snd | cross-object commons referenced at a minority address (S_R/S_GRMDT — these objects have NO `.bss` of their own, so the S78 split does not apply) + a false placement inside SSSTART (S_IH) | **excluded (sound region)**; stay stubs (24+4+24 ins). VM_F `0x3FA64` (237 ins) left this row in S78 #4 → `snd12` |
 | `SSGM.o` | libsnd | isolated @0x1BD80, inside the matched-C region (near func_8001Bxxx) | **deferred**; 8 ins; would need a 1-object carve amid matched C |
 | libapi 800c3 cluster (~22 objs) | libapi | C57..L10/L02/L03 @0x5CE18.. in the 800c3 region (separate from the 800c2 apicard region) | **deferred**; ~22 4-ins BIOS syscall stubs; lowest value; another region resegmentation |
 
-*If scattered-`.bss` proves prevalent across libgte/libspu/libsnd, escalate to a Max general fix (split each object's `.bss` into per-common NOLOAD sections at their EXE-resolved addresses); otherwise excluding the few affected objects is the GS_001-precedent decision.*
+*~~If scattered-`.bss` proves prevalent across libgte/libspu/libsnd, escalate to a Max general fix (split each object's `.bss` into per-common NOLOAD sections at their EXE-resolved addresses); otherwise excluding the few affected objects is the GS_001-precedent decision.~~ **Done in P31 S78 #4 — exactly that fix, twenty-three phases later: `tools/psyq_bss_split.py` runs inside the link-prepare step of `psyq_link` / `psyq_link_region` / `psyq_integrate` and tiles any such section into per-base NOBITS pieces from the bytes (cookbook §489). All three excluded objects link byte-identical; 235 placed objects across the 9 curated dirs, 0 refusals (R39 negative control).***
 
 ---
 
@@ -183,3 +183,29 @@ its sig excluded the LINKED objects; it never did — the 2026-08-05 Ghidra sig 
 linked-SDK instructions, whose stub records read as unmatched game code. Honest figure, LINKED now
 excluded live from the Makefile stub lists + yaml ranges: **91.8% (44,562 / 48,537)**, not 59.8%; the
 3,975-ins remainder equals the sum of main's open stubs in `frontier_classify` exactly.
+
+### S78 task #4 (S79, 2026-09-04) — the scattered-`.bss` class is closed: SYS.o, VM_F.o **and GS_001.o** linked via a link-prepare section split
+
+| new block | was | object | ins | `.bss` pieces (cut → base) | note |
+|---|---|---|---|---|---|
+| `libgpu2` | 800c (56 hand-matched SDK fns + 62 verbatim frags) | SYS.o | 3,109 | `.bss` [0,0x144) → 0x80078830 · `.bss2` = `_que` → 0x800C5510 | `_que` recovered BY NAME from SYS.o's own 4 named refs = 0x800C5510 — the cut is confirmed by an independent oracle |
+| `snd12` | sgap_6 tail (hand-matched `func_8003FA64` = `_SsVmFlush`) | VM_F.o | 237 | `.bss` [0,0x508) → 0x80079580 · `.bss2` = `_svm_sreg_buf` → 0x800B9B58 | 62 other sound objects recover `_svm_sreg_buf` = 0x800B9B58 |
+| `libgs8` | gsgap3 (hand-matched as game C: `func_800525DC`…) | GS_001.o | 384 | six pieces: 0x80078810 · PSDBASEX 0x800A4F3C · CLIP2 0x800AE820 · PSDBASEY 0x800A4F40 · POSITION 0x800A5E50 · GsDRAWENV 0x800A6438 | the S77 probe called this "5 interleaved bases, NOT splittable" — it grouped by BASE; by RUN it is six symbol-aligned pieces, and the other libgs objects recover all five cut symbols at exactly those addresses |
+
+**Mechanism** (`tools/psyq_bss_split.py`, cookbook §489): a pure-Python ELF32 REL rewrite that derives
+each reference's base from the game bytes, walks the references in offset order, cuts at symbol starts
+between runs, moves the symbols, inserts a LOCAL section symbol per piece, retargets the relocations
+with the addend rewritten in the instruction immediates, and self-diffs. It runs inside the shared
+link-prepare step (`psyq_link.link_object`, `psyq_link_region.build_region`, `psyq_integrate.integrate`),
+derived from the bytes on every build — nothing recorded, nothing to go stale. Negative control (R39):
+235 placed objects across the 9 curated dirs, 0 refusals, exactly these 3 splits; an end-of-buffer
+reference (`.bss + size`, libcd) caught the first bounds check and is why problems are fatal only when a
+split is actually needed.
+
+**Wiring:** `LIBGPU_ELF` is the raw `.run/obj40/libgpu` (the `libgpu_used` dir existed only to exclude
+SYS.o — retired); libgs 34 objects / 8 blocks (`make_libgs.sh` +GS_001); sound 63 / 12 (`make_snd_used.py`
+exclusions 4 → 3). Three TUs went: `src/800c.c`, `src/gsgap3.c`, and the `_SsVmFlush` body of
+`src/sgap_6.c` (its 4-ins game function stays). Main `143dbb89` byte-identical WITH and WITHOUT the SDK
+objects (fallback from a fresh extract). Remaining located-but-unwired SDK code in main: the libpad/libapi
+band pieces (task #5), `SSGM.o` 8 ins, and the two cross-object-common walls `S_R`/`S_W` + `S_GRMDT*`
+(no `.bss` of their own — a different class from this one).

@@ -20,6 +20,7 @@ import json, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from psyq_link import (section_table, symbol_table, recover_sym_addrs, unique_byte_vram,
                        DATA_SECTIONS, AS, sh)
+from psyq_bss_split import NOBITS_RE, prepare_object, describe   # P31 S78 #4
 
 
 def placement(elf_dir, lo, hi, vram_base, exe):
@@ -47,14 +48,14 @@ def classify(obj, text_vram, exe, vram_base):
     sym_addr = recover_sym_addrs(obj, text_vram, exe, vram_base)
 
     bases = {}
-    for S in DATA_SECTIONS:
-        if S in secs and secs[S][0] > 0:
-            b = unique_byte_vram(obj, S, exe, vram_base) if S not in (".bss", ".sbss") else None
+    for S in secs:                                # every data-like section, incl. split pieces (.bss2 …, §489)
+        if (S in DATA_SECTIONS or NOBITS_RE.match(S)) and secs[S][0] > 0:
+            b = unique_byte_vram(obj, S, exe, vram_base) if not NOBITS_RE.match(S) else None
             if b is None:
                 b = sym_addr.get(S)              # the object referenced the section symbol
             if b is not None:
                 bases[S] = b
-    weaken = [s for s, (sec, _) in symtab.items() if sec in (".bss", ".sbss")]
+    weaken = [s for s, (sec, _) in symtab.items() if NOBITS_RE.match(sec)]
     return bases, weaken, sym_addr
 
 
@@ -82,10 +83,16 @@ def build_region(elf_dir, lo=None, hi=None, emit=None, *, vram_base, exe_path):
     region_lo = order[0][1][0]
     region_hi = order[-1][1][0] + order[-1][1][1] * 4
 
-    recovered, weaken_by, bases_by = {}, {}, {}
+    td = tempfile.mkdtemp(dir=".run")
+    recovered, weaken_by, bases_by, srcs = {}, {}, {}, {}
     conflicts = []
     for name, (vram, _) in order:
-        obj = os.path.join(elf_dir, name)
+        # P31 S78 #4: split a scattered-.bss object into per-base pieces BEFORE classifying it — the
+        # pieces' own section symbols then yield one base each (SplitRefused propagates: loud, R43).
+        obj, plans = prepare_object(os.path.join(elf_dir, name), vram, exe, vram_base, os.path.join(td, "split"))
+        if plans:
+            print(f"  .. {name}: {describe(plans)}")
+        srcs[name] = obj
         bases, weaken, sym_addr = classify(obj, vram, exe, vram_base)
         bases_by[name] = bases
         weaken_by[name] = weaken
@@ -96,7 +103,6 @@ def build_region(elf_dir, lo=None, hi=None, emit=None, *, vram_base, exe_path):
                 conflicts.append((s, recovered[s], a))
             recovered[s] = a
 
-    td = tempfile.mkdtemp(dir=".run")
     prepared = []
     for name, (vram, _) in order:
         dst = os.path.join(td, name)
@@ -105,7 +111,7 @@ def build_region(elf_dir, lo=None, hi=None, emit=None, *, vram_base, exe_path):
             args += ["--set-section-alignment", f"{S}=4"]
         for w in weaken_by[name]:
             args += ["--weaken-symbol", w]
-        sh(f"{AS}objcopy", *args, os.path.join(elf_dir, name), dst)
+        sh(f"{AS}objcopy", *args, srcs[name], dst)
         prepared.append((name, vram, dst))
 
     # Each object's .text is placed at its EXACT vram (the region is two contiguous libcd

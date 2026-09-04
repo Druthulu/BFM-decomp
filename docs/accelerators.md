@@ -663,3 +663,17 @@ frontier's own stub sum (~4,000 ins), and nobody subtracted the two. One subtrac
 the denominator was carrying the 31,000 linked-SDK instructions. Accelerator: **every headline % ships
 with its remainder, and the remainder is reconciled against an independently-derived list of what is
 actually open.**
+
+## S79 — "no single base" means "partition it", and partition along the producer's structure
+
+Three SDK objects sat excluded for twenty-three phases as "scattered `.bss`, no single NOLOAD base".
+The general fix (cut the section into per-base NOBITS pieces at link-prepare, ~400 lines of ELF
+surgery, `tools/psyq_bss_split.py`) took one afternoon and closed the class 3/3 — including the object
+the previous session's probe had certified as a genuine wall, because that probe grouped by base while
+the original linker had scattered SYMBOLS. Accelerators: **(1)** a "no single X" verdict is a
+partition problem, not a wall — build the partition the day the exclusion is written; **(2)** partition
+along the structure the original producer used (the symbol table), and confirm every cut against an
+independent oracle (here the other objects' by-name recoveries agreed on all seven cuts); **(3)** put
+the transformation in the shared prepare path, not in a curated artifact, so it is re-derived from the
+bytes on every build and negative-controlled over the whole placed population for free.
+

@@ -3111,3 +3111,33 @@ exclusion derived live (Makefile stub lists → yaml ranges), main reads **91.8%
 the remainder equals the open-stub instruction sum to the instruction. Hindsight: a metric whose
 denominator is a snapshot will drift the first time the thing it snapshots changes; derive it (R33),
 and check it against a case whose answer you already know (the 28 stubs' size).
+
+### S79 addendum (2026-09-04, task #4) — the "scattered-`.bss`" wall class is closed, and the probe that measured it was too strict
+
+**Belief.** From Phase 8 to P31 S77 three SDK objects were excluded from the LINKED build as "scattered
+`.bss` commons — no single NOLOAD base reproduces them": SYS.o (3,109 ins, kept as 56 hand-matched
+Sony functions + 62 verbatim frags in `src/800c.c`), VM_F.o (237, hand-matched as game code in
+`sgap_6`), GS_001.o (384, hand-matched as game code in `gsgap3`). S77's probe reframed two of them as
+"disjoint ranges → splittable" and confirmed GS_001 as the genuine wall ("5 interleaved bases").
+
+**What happened.** Task #4 built the split as a link-time ELF rewrite (`psyq_bss_split.py`, §489)
+instead of a curated-dir artifact, and modelled the section as RUNS of one base in offset order with
+cuts snapped to symbol starts — because the original linker scattered *symbols*, not offset ranges.
+Under that model GS_001 is six symbol-aligned pieces, and the five cut symbols recover by name from
+the other libgs objects at exactly the piece bases. All three link byte-identical; main is `143dbb89`
+with and without the SDK objects; 235 placed objects across nine curated dirs pass through with zero
+refusals.
+
+**Why the probe was wrong.** It grouped references BY BASE and asked whether the per-base offset ranges
+were disjoint. A common that the linker placed between two others (PSDBASEY at +0x38 sits between
+PSDBASEX at +0x28 and CLIP2 at +0x30 in the packed section, but in the game X and Y are adjacent)
+makes two ranges interleave while every run is still single-base. The right unit was the run; the
+right tie-breaker was the symbol table.
+
+**Hindsight.** The worklist's own italic note from Phase 8 said "escalate to a Max general fix (split
+each object's `.bss` into per-common NOLOAD sections)". That fix is ~400 lines and one afternoon; it
+waited twenty-three phases because three exclusions never looked worth a general mechanism, and the
+probe's stricter test then ratified one of them as a wall. General form: when a tool says "no single
+X reproduces it", the next question is "can X be partitioned", and the partition should follow the
+structure the ORIGINAL producer used (here: symbols), not the structure the measurement happened to
+group by.

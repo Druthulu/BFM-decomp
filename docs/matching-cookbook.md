@@ -36238,3 +36238,62 @@ the fresh-clone fallback: move `.run/obj40` aside, **re-extract**, build, restor
 deleted, REAL −4 (inline-asm wrappers), 0 agent tokens. Remaining LINKED residue: `SYS.o` (3,109),
 `VM_F` (237), the libpad/libapi band pieces (task #5), `SSGM.o` (8 ins amid matched C), and the
 GS_001 / S_R / S_GRMDT scattered-`.bss` genuine walls.
+
+#### §489 ★★★ — SCATTERED `.bss` IS A PARTITION PROBLEM: SPLIT THE SECTION INTO PER-BASE PIECES AT LINK-PREPARE (P31 S78 #4; closes the §9.1 exclusion class 3/3)
+
+**The wall (§9.1, Phase 8).** psyq-obj-parser packs an object's common-style globals into ONE `.bss` with
+sequential offsets; the original linker allocated those commons individually, so the game has them at
+unrelated addresses. A common referenced BY NAME is weakened and `--defsym`'d (§9.2). But the compiler
+references the object's own statics through the `.bss` SECTION SYMBOL + offset — no name to defsym — and
+one section can be NOLOAD-placed at only one base. SYS.o (2 bases), VM_F.o (2) and GS_001.o (6) were
+excluded on that reason for twenty-three phases; §484 (S77) asked whether the bases' offset ranges were
+disjoint and said yes for two of them, "no, interleaved" for GS_001.
+
+**The model that is actually right: RUNS, cut at SYMBOL starts.** Walk the section-symbol references in
+offset order; each maximal run with one base is a piece. The cut between two runs snaps to the largest
+symbol start between them, because the linker scattered *symbols*: SYS.o's second run begins inside `_que`
+(+0x148) and the piece begins at `_que` (+0x144) — and `_que`, recovered BY NAME from SYS.o's own four
+named references, is 0x800C5510 = base2 + 0x144; VM_F.o's second run begins at `_svm_sreg_buf` (+0x508),
+which 62 other sound objects recover to 0x800B9B58 = base2 + 0x508; GS_001.o's five cuts land on
+PSDBASEX / CLIP2 / PSDBASEY / POSITION / GsDRAWENV, all five recovered by the other libgs objects at exactly
+the piece bases. Two unrelated oracles agree on all seven cuts (R34). §484's "interleaved" verdict came
+from grouping by BASE: PSDBASEY (+0x38) sits between PSDBASEX (+0x28) and CLIP2 (+0x30) in the packed
+section while X and Y are adjacent in the game — two base-ranges interleave, every run is single-base.
+Refuse (R43) only what the run model cannot tile: a SIZED symbol straddling a cut (one common at two
+bases), a HI16 whose LO16s need different pieces or high halves, an orphan LO16, a far-out addend.
+
+**The rewrite** (`tools/psyq_bss_split.py`, its own 60-line ELF32 REL reader/writer — no pyelftools):
+new NOBITS sections `.bss2…` sized [s_k, s_k+1); the original shrunk to [0, s_2); symbols at/after a cut
+moved (value −= piece start); one LOCAL section symbol per piece inserted with the existing section
+symbols and every later symbol index in every REL entry bumped; each reference retargeted to its piece's
+symbol with the addend rewritten in place — HI16/LO16 immediates in `.text` (`hi' = (A'+0x8000)>>16`,
+`lo' = A' & 0xFFFF`, `A' = A − s_k`; a shared `lui` is one cluster and all its LO16s must agree), or the
+R_MIPS_32 word in data. `classify()` then recovers one base per piece from the piece's own section symbol
+(base = resolved − addend, tautologically the game's address) and NOLOAD-places each; the NOBITS predicate
+in `psyq_link` / `psyq_link_region` / `psyq_integrate` is `^\.s?bss\d*$`. Self-check: the code/data
+sections differ from the original at exactly the retargeted sites whose value changed (R37, the tool
+diffs its own artifact).
+
+**Where it runs, and why there.** Not in the curated dirs — inside the ONE prepare step that
+`psyq_link.link_object` (per-object verify), `psyq_link_region.build_region` (region verify) and
+`psyq_integrate.integrate` (the build) share (`prepare_object()`, before `classify()`). The split is
+re-derived from the bytes on every build — no recorded offset to go stale (R51) — and the same call is the
+negative control: 235 placed objects across the 9 curated dirs, 0 refusals, exactly 3 splits (R39). The
+first build DID refuse: a libcd object references `.bss + size` (an end-of-buffer pointer) and the strict
+`addend < size` bound fired on an object one base already served. Law that fell out: **problems found
+while classifying references are fatal only when a split is actually needed** — an object that passed
+before this tool existed must pass through it untouched.
+
+**Two things the extents are NOT.** A piece's extent tiles the PACKED section, so an unreferenced common
+inside piece k may in truth live inside piece j's game range (GS_001's PSDBASEX/PSDBASEY: adjacent in the
+game, 16 bytes apart in the object) — NOLOAD pieces therefore overlap, harmlessly (zero bytes), and the
+verifiers link with `--no-check-sections` exactly like the build. And a named common whose recovered
+address disagrees with its piece is still handled by §9.2's weaken+defsym — the split only serves the
+section-symbol references; the two mechanisms compose.
+
+**Yield.** `800c` (56 hand-matched Sony functions + 62 verbatim frags, 100% SYS.o) → `libgpu2`;
+`gsgap3` (hand-matched as game C) → `libgs8`; `_SsVmFlush` out of `sgap_6` → `snd12`. `libgpu_used`
+retired (`LIBGPU_ELF` = the raw dir; identify drops the 8 objects the EXE never links). Main `143dbb89`
+with and without the SDK objects. The class that remains in the sound region — `S_R`/`S_W`, `S_GRMDT*` —
+has NO `.bss` of its own (cross-object commons at a minority address): a different wall, not this one.
+

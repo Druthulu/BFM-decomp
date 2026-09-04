@@ -69,6 +69,27 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     exclusion now derived live → **91.8% (44,562 / 48,537)**; remainder 3,975 ins == the open-stub sum.
     `VM_F.o` probed SPLITTABLE at 0x50c (same class as SYS.o → #4). cookbook §488; worklist/decision-log/
     accelerators/SETUP updated.
+    **#4 DONE (S79, 2026-09-04):** the scattered-`.bss` class (§9.1, excluded since Phase 8) is CLOSED
+    3/3 — `SYS.o` (3,109 ins → `libgpu2`, was `800c`), `VM_F.o` (237 → `snd12`, carved off `sgap_6`) AND
+    `GS_001.o` (384 → `libgs8`, was `gsgap3`; the S77 probe had certified it a wall by grouping per BASE —
+    by RUN it is six symbol-aligned pieces). Mechanism = NEW `tools/psyq_bss_split.py` (own ELF32 REL
+    reader/writer; runs in offset order, cuts snapped to symbol starts, relocs retargeted + immediates
+    rewritten, self-diffed) called from the ONE shared link-prepare step of `psyq_link` /
+    `psyq_link_region` / `psyq_integrate` (`prepare_object()` before `classify()`), derived from the
+    bytes every build; NOBITS predicate `^\.s?bss\d*$`; `link_object` links `--no-check-sections` like
+    the build. All seven cuts confirmed by the OTHER objects' by-name recoveries (`_que`
+    0x800C5510, `_svm_sreg_buf` 0x800B9B58, PSDBASEX/CLIP2/PSDBASEY/POSITION/GsDRAWENV). R39 negative
+    control: 235 placed objects / 9 curated dirs, 0 refusals, exactly 3 splits (the first build refused a
+    libcd `.bss+size` end-pointer → law: reference problems are fatal only when a split is needed).
+    `libgpu_used` retired (`LIBGPU_ELF` = raw dir); libgs 34 objs/8 blocks; snd 63/12 (exclusions 4→3).
+    TUs gone: `src/800c.c`, `src/gsgap3.c`, the `_SsVmFlush` body of `sgap_6.c`. main `143dbb89` WITH and
+    WITHOUT SDK (fresh-extract fallback). Metrics: REAL 886→**839** · LINKED 1,040→**1,150** · VERBATIM
+    85→**29** · stubs 29 (unchanged) · matchable 2,090 · **game-code 91.1% (40,895 / 44,870)** — both
+    numerator and denominator lost the 3,667 SDK ins that had been counted as matched game code; the
+    remainder is STILL exactly the 3,975-ins open-stub sum. Verbatim manifest `--update` run (200→33 rows,
+    subtractive only; #10 keeps the PERMANENT ratification). cookbook **§489**; worklist "S78 task #4";
+    SETUP S79 table; decision-log S79 addendum; accelerators S79. tools-health + R22 fleet: see the S79
+    FINAL 🛑 block.
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)
@@ -7985,3 +8006,190 @@ thirteen chunks labelled "game code" were Sony library objects too and linked th
 for free. Three of our own measuring tools were lying (one hid a broken build, one silently dropped
 saved names, one under-counted the main program by 32 points); all fixed, and the main program is now
 honestly 91.8% real C. Next: a small piece of linker surgery so two more Sony objects can be linked.
+
+## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #13 → #11 remain.
+
+Written for a FRESH SESSION with none of this context. Read it in full before doing anything.
+**HEAD = the S79 task-#4 commit (Drew pushes, R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the
+S78 decision).** Model Fable 5.1; effort **xHigh** default for #13/#5–#10, **Max** for #11 (R27: prompt Drew
+and WAIT for the actual `/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
+restarts via the SessionStart hook → Drew runs `/mcp` (R29); no RE task is next, so no G2 ping needed
+until one is. Ghidra DB churn (`db.*.gbf`, `~index`) is R23 restart-noise: do NOT stage it.
+
+**Verified at close (R22/R58):** main `143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical WITH the SDK
+objects (`.run/S79_build_main_sdk.log`) and WITHOUT them from a FRESH extract (`.run/S79_build_main_fallback.log`);
+`make tools-health` (`.run/S79_tools_health.log`) and the fleet `make clean && make extract-all && make
+check-all` (`.run/S79_check_all.log`): extract-all **212/212** (+ main), check-all **213 passed, 0 failed of 213** (rc=0, 2m42s).
+
+# 1. THE SESSION IN ONE PARAGRAPH
+
+Task #4 was the "small piece of linker surgery so two more Sony objects can be linked". It became a general
+mechanism that closed the whole scattered-`.bss` exclusion class (§9.1, Phase 8 → P31): `tools/psyq_bss_split.py`
+cuts an object's packed `.bss` into per-base NOBITS pieces at link-prepare, inside the one step that the
+per-object verify, the region verify and the build share. It took SYS.o and VM_F.o as planned — and GS_001.o,
+which the previous session's probe had certified "5 interleaved bases, NOT splittable" because it grouped by
+base where the linker had scattered SYMBOLS. Every cut is confirmed by the other objects' by-name recoveries.
+Three hand-matched-as-game-code TUs were Sony's and are now LINKED; main is byte-identical with and without
+the SDK objects; the game-code metric moved 91.8% → 91.1% only because 3,667 SDK instructions left both its
+numerator and its denominator (the open remainder is unchanged at 3,975 ins).
+
+# 2. THE CENSUS (S79 close; every number with its denominator, R41)
+
+* **Stubs: 51 of 363,151 matchable = 7,710 ins — UNCHANGED by #4** (`.run/frontier_s78.json`,
+  `tools/frontier_classify.py`; the three objects were REAL/VERBATIM, not stubs). Classes and names exactly as
+  the S78 FINAL block §2 listed them: A-TWIN-REMAP 2 · B-CARVE jtbl 6 · C-PLUMBING 7 · D-NEAR 14 · F-FAR 10 ·
+  G-DRAFTED-UNKNOWN 12 · H-VIRGIN 1 (`D_800D3200`, a data word). Per binary: **main 29 (3,975 ins)** ·
+  resident 2 · md 7 · overlays 14 across 11 binaries.
+  main's 29 by name: PadInfoAct (jtbl carve) · `_padSetMainMode` (plumbing) · `func_80011380` 192 (boot -O0
+  floor §474), `_padInitSioMode` 133, `func_80015760` 106, `func_8005D734` 91, `PadInitDirect` 88,
+  `func_80015608` 86, `func_80039B20` 79, `func_80038698` 74, `func_80062144` 65, `func_8005F290` 61,
+  `_dirFailAuto` 55, `_padStartCom` 51, `func_8005ECC0` 35 (D-NEAR) · `func_80032A74` 422, `func_8005F830`
+  153, `func_80015B6C` 120, `func_8002AC98` 114, `func_80020DA4` 100, `func_800391D4` 75, `func_80039DEC` 74,
+  `func_8002FDE8` 73, `func_8001BC6C` 69 (F-FAR) · `func_80039308` 518, `func_8001EFE0` 468, `func_80023BF0`
+  281, `func_8005ED4C` 223, `func_8005F450` 159 (G).
+* **Verbatim `__asm__` bodies: 33 in tree** (main 29 + 4 elsewhere); manifest `config/verbatim_manifest.json`
+  now **33 rows** (S79 `--update`, subtractive: 200 → 33; 32 PERMANENT-VERBATIM + 1 DECOMPILE-NOW). #10
+  ratifies the PERMANENT set (S78 estimated ≈ 9 genuinely permanent: crt0 `start`/`__main`/`__do_global_dtors`,
+  GAME-ASM `md_MAIN_003:func_800D3204/3234`, GAME-GTE `ov_SC05_005:func_80181828` + `ov_SC06_032:func_8017D810`,
+  2 SDK frags) and decompiles `main()` (509 ins) + the md_MAIN_003 -O0 cluster; the GAME-GTE UNCERTAIN ×3
+  (`ov_SC01_001:func_80181E04` 269, `ov_SC03_105:func_80185810` 489, `ov_SC07_002:func_8017DC80` 346) need a
+  verbatim-vs-C verdict first (#9).
+* **Located-but-unwired SDK objects** (the build PRINTS them per library as `~~ N located object(s) …`): after
+  #4 there is NO `~~` line for libgpu / libgs / snd. Still open: the libpad/libapi band pieces (#5), `SSGM.o`
+  8 ins @0x8001BD80 inside matched C (`800`), and the sound region's two cross-object-common walls `S_R`/`S_W`
+  @0x8003C438 + `S_GRMDT*` @0x8003D424 (these objects have NO `.bss` — a DIFFERENT class from §489; 24+4 ins).
+* **Disc: 5 unclaimed code payloads of 220** (MAIN/7, MAIN/9, SC03/53/54/56) — the explicit exclusion the
+  100% claim cites (`docs/disc-completeness.md`).
+* **Metrics at close** (`docs/progress.md` / `progress.fleet.md`, regenerated by tools-health): main REAL
+  **839** · LINKED **1,150** · VERBATIM **29** · stubs **29** · matchable 2,090 · byte-identical 2,061/2,090 =
+  98.6%; **MAIN game-code weighted 91.1% (40,895 / 44,870)**, remainder 3,975 = the open-stub sum exactly;
+  fleet instr 99.9% (13,481,631 / 13,489,225), distinct 99.9%, stubs 51. Linked libraries: libcd 18/2,
+  libgs 34/8, libetc 5/1, libgpu 3/2, libmcrd 2/2, libc2 17/2, libgte 70/30, snd 63/12, apicard 22/4.
+
+# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4
+
+| # | task | status | effort |
+|---|---|---|---|
+| 1 | assessment | DONE S78 | — |
+| 2 | provenance probe (4.0/4.6/4.7 placements; band = libpad 4.2.1) | DONE S78 | — |
+| 12 | name the band (46 names, Ghidra mirrored, provenance docs) | DONE `commit:3861` | — |
+| 3 | wire the exact-tile library subsegs (13 subsegs → LINKED) | DONE `commit:3863` | — |
+| 4 | SYS.o + VM_F (+ GS_001) `.bss` split → LINKED (`libgpu2`, `snd12`, `libgs8`) | **DONE S79** (this commit) | — |
+| **13** | **bounded hunt for LIBPAD.LIB 4.2.1 / 4.3** | **NEXT** | **xHigh** |
+| 5 | the libpad band: link what is identical, C-under-reorder the rest | pending | xHigh |
+| 6 | mechanical: A-TWIN-REMAP 2 + B-CARVE 6 + `D_800D3200` | pending | xHigh |
+| 7 | C-PLUMBING 7 via `recover_route` / §376–§378 | pending | xHigh |
+| 8 | D-NEAR non-band 6: permuter/ILS/§31 or §474 wall-proof each | pending | xHigh |
+| 9 | F-FAR 10 + G-UNKNOWN 12: one journal-noted agent per function | pending | xHigh |
+| 10 | verbatim end-state + PERMANENT ratification + `main()` | pending | xHigh |
+| 11 | Tclose PhaseEnd on the corrected denominators | pending | Max |
+
+# 4. WHAT #4 CHANGED (facts a fresh session must not re-derive)
+
+**(a) The mechanism** — cookbook **§489** is the full write-up. `tools/psyq_bss_split.py` (NEW): own ELF32 REL
+reader/writer (no pyelftools); `analyze()` derives each section-symbol reference's base from the game bytes
+(base = resolved − addend per HI16/LO16 pair, a shared `lui` is one cluster), walks references in OFFSET
+order into single-base RUNS, cuts between runs at the largest SYMBOL START in between (the linker scattered
+symbols), refuses (R43) a sized symbol straddling a cut / a cluster spanning pieces / an orphan LO16 / a
+far-out addend — **but only when a split is needed** (R39 law, learned from a libcd `.bss + size`
+end-pointer that refused the first build); `split()` emits `.bss` [0,s2) + NOBITS `.bss2…`, moves symbols,
+inserts LOCAL section symbols (REL indices bumped), retargets relocs and rewrites the immediates (`hi' =
+(A'+0x8000)>>16`, `lo' = A' & 0xFFFF`) or the R_MIPS_32 word, then self-diffs. `prepare_object()` is called
+by `psyq_link.link_object`, `psyq_link_region.build_region` and `psyq_integrate.integrate` BEFORE
+`classify()`, which recovers one base per piece from the piece's own section symbol. NOBITS predicate
+`^\.s?bss\d*$` in all three; `link_object` links `--no-check-sections` (piece extents tile the PACKED
+section → harmless zero-byte overlaps). `psyq_bss_probe.py` is now a reporter over `analyze()`.
+**(b) The pieces** (all cuts confirmed by other objects' by-name recoveries): SYS.o `.bss` [0,0x144)
+@0x80078830 · `.bss2` = `_que` @0x800C5510; VM_F.o `.bss` [0,0x508) @0x80079580 · `.bss2` = `_svm_sreg_buf`
+@0x800B9B58; GS_001.o six pieces @0x80078810 · PSDBASEX 0x800A4F3C · CLIP2 0x800AE820 · PSDBASEY 0x800A4F40 ·
+POSITION 0x800A5E50 · GsDRAWENV 0x800A6438.
+**(c) The wiring.** yaml: `800c` → `libgpu2` [0x49A34]; `sgap_6` [0x30254, 16 B: `func_8003FA54`] + NEW
+`snd12` [0x30264]; `gsgap3` → `libgs8` [0x42DDC]; comment blocks rewritten (no stale "EXCLUDED" text
+remains). Makefile: `LIBGPU_ELF := .run/obj40/libgpu` (curated `libgpu_used` RETIRED — fresh clone:
+`tools/psyq_build_libs.sh LIBGPU` is the whole step), stub lists `libgpu,libgpu2` / `…,libgs8` /
+`SND_STUBS … snd12`. `tools/make_libgs.sh` OBJS +GS_001 (34); `tools/make_snd_used.py` EXCLUDE_ADDR minus
+0x8003FA64 (63 objects). TUs: `git rm src/800c.c src/gsgap3.c`; `src/sgap_6.c` = only `func_8003FA54`;
+splat emitted `src/libgpu2.c` (103 INCLUDE_ASM), `src/libgs8.c` (6), `src/snd12.c` (1) for the no-SDK
+fallback. `progress.py` picks the new blocks up from the Makefile automatically (`_main_linked_segs_from_makefile`).
+**(d) Docs:** cookbook §489 (+ index regenerated), `docs/psyq-worklist.md` rows + "S78 task #4" section,
+SETUP S79 R21 table + tool rows, decision-log "S79 addendum", accelerators "S79". Verbatim manifest 200→33.
+**(e) Still true from S78 (do not re-derive):** the band identity (libpad 4.2.1 + libapi 4.2, the psx loader's
+per-version signature JSONs at `~/ghidra_12.1_PUBLIC/Ghidra/Extensions/ghidra_psx_ldr/data/psyq/<ver>/`,
+cookbook §487; no archive we hold has libpad 4.2.1: 4.0 `lib40/`, 4.6 `tools/psyq/lib46/` (ELF `.run/obj46/`),
+4.7 `conv47/` (`.run/obj47/`), 4.5 toolkit zip); the 46 band names in `config/symbols.us.txt`; renames go
+through `tools/ghidra_apply_symbols.sh` (MCP writes did not persist, S78) and are R9-verified; main's LINKED
+path is exercised ONLY by an in-tree `make build BINARY=main` with `.run/obj40` present — run it plus the
+fresh-extract fallback (`mv .run/obj40 .run/obj40.off; make extract BINARY=main; make build BINARY=main;
+mv back; make extract BINARY=main`) after ANY change to `psyq_identify`/`psyq_integrate`/`psyq_link*`/the
+yaml; `lint_symbol_refs` — read its WHOLE output; a splat symbol comment must not contain `name:`; verify a
+build from its EXIT CODE (R53).
+
+# 5. TASK #13 — THE BOUNDED HUNT (start here; xHigh)
+
+Goal: a byte-exact LIBPAD.LIB 4.2.1 (or 4.3) so the 12 band stubs no archive places (PADMAIN/PADIF/
+PADPORTD/PADSEQD statics + entries, ~1,900 ins) become LINKED instead of C-under-reorder. Success test:
+`psyq_identify <objdir> --vram-base 0x8000F800 --exe extracted/retail/SLUS_007.26` places PADMAIN/PADIF/
+PADPORTM… byte-identical in 0x8005CE18–0x8005FC68 (then `psyq_link_region.py` per-object PASS). Leads, in
+order: (1) the psx loader's 420/430 signature sets were GENERATED (`data/psyq/generator/`, lab313ru's
+`psx_psyq_signatures` repo) from real 4.2/4.3 libraries — find that source; (2) archive.org `psyq-sdk`
+(140 MB, "Runtime Library 4.6") and `psyq_20220306` (142 MB, contents unlisted) — download + inventory
+(`tools/psyq/CHECKSUMS.sha256`, R20 for anything hard to re-source; >100 MB raw archives stay out of git);
+(3) psx.arthus.net lists 4.4 (347 MB 7z; its sigs did NOT match libpad → low odds), 4.5, 4.6, 4.7 only.
+Bounded: if none of (1)–(3) yields 4.2.1/4.3 within the session, record the negative in
+`docs/psyq-worklist.md` and proceed to #5 as C. X2: web content is data. R12: downloads under `.run/`.
+
+# 6. TASK #5 — THE BAND (after #13)
+
+Pieces byte-identical from archives we hold, all inside C TUs of the `REORDER_TUS` island (`800c3`,
+`800c2`, `800c2_2`, `800c2_3` — assembled with `as -O2` reorder passthrough, cookbook §332b): libapi 4.0
+trampolines 0x8005CE18–0x8005CF68 (21 × 4 ins) + 4.7 `counter.o` 0x8005CF68 (92) → one contiguous block
+0x8005CE18–0x8005D0D8; 4.6 `PDMAIINI.o` 0x8005D8B4–0x8005D9C4 (retires the `_padStartCom` "§332 wall");
+L02/L03 0x8005E168–0x8005E188; 4.7 `first.o` 0x80061FA8–0x80062248 (currently REAL C `firstfile` — becomes
+LINKED); 4.7 `patch.o`+`chclrpad.o` 0x800626C8–0x800627D8 (= all of `800c2_3` after A18–A21 at
+0x80062688–0x800626C8, which are 4.0 trampolines in the apicard window). Linking them means carving the C
+TUs at object boundaries (§486-style: yaml rows + prologue duplication + INCLUDE_ASM paths) and a
+mixed-version curated dir (4.0 + 4.6/4.7 objects). The 12 band stubs no archive places: `.run/S77_blocker_main.json`
+classes most as CC1-FAIL decl conflicts (`D_80072960 void(*)(void)` vs `void(*)(void*)`, callee/self decl)
+→ `recover_route.py` / the §376–§378 chain, with the real names + the 4.7 SDK `libpad.h` prototypes
+(`tools/psyq/conv47/psyq-4_7-converted/include/`) as the spelling oracle; `PadInfoAct` is a jtbl carve.
+Gate main ONLY with `gate_main.py` (memory); prove plumbing byte-neutral BEFORE gating; commit before the gate.
+
+# 7. TASKS #6–#11 — CARRIED CONTEXT
+
+* #6: `tools/twin_rescan.py` / `family_remap` for the ov_SC04_018 pair (`func_80181804`/`func_80181CB8`,
+  twin ov_SC04_019); jtbl carves via `jtbl_carve`/`jtbl_family_bank` (resident `func_800D06E8` 344 +
+  `func_800D128C` 243 need the resident carve path; `o0_subsplit` refuses main → the §486 manual 5-piece
+  procedure for `PadInfoAct`); `D_800D3200` = splat symbol type fix.
+* #7: bodies proven (close=0); the TU's spelling refuses — `recover_route.py` (routes a DROP to the applicable
+  tool), `cast_self_callers`, `sync_tu_decls`, `--sync-decls`; prove plumbing byte-neutral BEFORE gating and
+  commit the plumbing before the gate (S77 laws). `gate_main.py` is the ONLY main gate.
+* #8: `permuter_sweep.py` / `permuter_ils.py` + the §31 map; a NEAR whose journal cites a gcc pass + file:line
+  is a §474 wall-proof candidate, not a redraft (`config/wave_exclude.txt` carries the walls;
+  `exclude_audit.py` refuses a stale list).
+* #9: single agents with `journal_notes.py` + `neighbor_ref` (via `claude_wave_packs`); the 3 GAME-GTE
+  UNCERTAIN bodies get a verbatim-vs-C verdict first. Route models per the ladder (Haiku ≤50 ins → Sonnet →
+  Opus; Fable only for a NEW wall class).
+* #10: ratify PERMANENT in the manifest `_README` (33 rows now; expected ≈ 9 truly permanent); decompile
+  `main()` (509 ins, GAME-C) + the md_MAIN_003 -O0 cluster.
+* #11: PhaseEnd per the format; the 5 unclaimed payloads as the explicit exclusion; wall ledger with proofs;
+  the dashboard on the corrected denominators (main 91.1%-class numbers, LINKED 1,150).
+
+# 8. HABITS THIS SESSION PAID FOR (keep)
+* Design before code, and probe the design's PREDICTION before trusting it: the raw objects failed by exactly
+  18 / 4 words, the count of second-base pairs — the split had a falsifiable blast radius (R14 extension).
+* Model the artifact the way its PRODUCER did (symbols), not the way the measurement grouped it (bases) —
+  that single change turned a certified wall into six pieces.
+* Put a transformation in the shared prepare path, then negative-control it over the whole population it now
+  touches (235 objects) — the R39 control caught the end-pointer refusal that the three targets never showed.
+* Confirm every derived cut against an oracle that did not derive it (the other objects' by-name recoveries).
+
+# 9. PLAIN ENGLISH
+Three chunks of the main program had been treated for months as "Sony library code we can't link because
+its variables were scattered around memory", so they were either hand-rewritten in C or left as raw
+assembly. We built a small tool that cuts each library object's variable block into the pieces the original
+linker actually scattered, lets the build place each piece where the game has it, and checks itself
+against the game's bytes. All three objects now link straight from Sony's SDK — including one the previous
+session had proved "impossible" (it wasn't; the test was asking the wrong question). Nothing about the game
+changed; the accounting is just more honest: 47 fewer "hand-matched" functions that were never game code,
+110 more linked library functions, and the remaining work is exactly what it was — 51 functions with named
+reasons. Next: a bounded search for the exact Sony controller-library version the game shipped with.
