@@ -11953,7 +11953,56 @@ void func_80021120(s32 *arg0) {
     *arg0 = *arg0 + 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80021174);
+
+typedef struct 
+{
+  s16 vx;
+  s16 vy;
+  s16 vz;
+  s16 pad;
+} SV_80021174;
+extern s32 D_800AE688[];
+s32 func_80021174(s32 a0, s32 a1)
+{
+  volatile s32 sp[4];
+  s32 lim;
+register s32 *p_a3 __asm__("$7");
+register s32 ret __asm__("$2");
+  if (a0 == 0x7FFF7FFF)
+  {
+    return 1;
+  }
+  p_a3 = D_800AE688;
+__asm__ volatile ( "lw $12, 0( %0 );" "lw $13, 4( %0 );" "ctc2 $12, $0;" "ctc2 $13, $1;" "lw $12, 8( %0 );" "lw $13, 12( %0 );" "lw $14, 16( %0 );" "ctc2 $12, $2;" "ctc2 $13, $3;" "ctc2 $14, $4;" "lw $12, 20( %0 );" "lw $13, 24( %0 );" "ctc2 $12, $5;" "lw $14, 28( %0 );" "ctc2 $13, $6;" "ctc2 $14, $7" : : "r"( p_a3 ) : "$12", "$13", "$14", "memory" );
+__asm__ volatile ( "lhu $13, 4( %0 );" "lhu $12, 0( %0 );" "sll $13, $13, 16;" "or $12, $12, $13;" "mtc2 $12, $0;" "lwc2 $1, 8( %0 )" : : "r"( (SV_80021174 *)a1 ) : "$12", "$13", "memory" );
+__asm__ volatile ( "nop;" "nop;" "rtps" : : : "memory" );
+__asm__ volatile ( "swc2 $14, 0( %0 )" : : "r"( sp ) : "memory" );
+__asm__ volatile ( "cfc2 $12, $31;" "nop;" "sw $12, 0( %0 )" : : "r"( &sp[1] ) : "$12", "memory" );
+__asm__ volatile ( "mfc2 $12, $19;" "nop;" "sra $12, $12, 2;" "sw $12, 0( %0 )" : : "r"( &sp[2] ) : "$12", "memory" );
+  if (sp[1] < 0)
+  {
+    return 0;
+  }
+  ret = 0;
+  lim = (s16) a0;
+  ;
+  if ((*((s16 *) sp)) <= (-lim))
+  {
+    return ret;
+  }
+  if (lim < (*((s16 *) sp)))
+  {
+    return ret;
+  }
+  a0 = a0 >> 16;
+  a1 = *((s16 *) (((char *) sp) + 2));
+  if (a1 <= (-a0))
+  {
+    return ret;
+  }
+  ret = !(a0 < a1);
+  return ret;
+}
 
 /* func_80021284 — POLY_G4 fan builder (12-spoke rotated fan + optional DR_MODE tail).
  *
