@@ -11,3 +11,9 @@ main:func_80062144  # WALL: no jump table — curated compiler fact, not a tooli
 md_MAIN_034:func_800CB00C  # WALL: compiler wall (merged from S68_walls_332.txt)
 ov_SC03_105:func_801834A4  # WALL: loop.c movable ordering, closeness 6 (S71)
 ov_SC06_022:func_8017DF28  # WALL: expand_block_move copy_addr_to_reg pseudo + cse reuse, closeness 2 (S71)
+# S77: wall_sweep named these and the list did not carry them — an agent handed one
+# always returns a NEAR with an unexplainable tail, indistinguishable from a hard function.
+main:func_8005D734  # WALL: §332 %lo in a delay slot (wall_sweep, 1 site) — no C can place it
+main:func_8005D8B4  # WALL: §332 %lo in a delay slot (wall_sweep, 1 site) — no C can place it
+main:func_8005ED4C  # WALL: §332 %lo in a delay slot (wall_sweep, 2 sites) — no C can place it
+main:func_8005F450  # WALL: §332 %lo in a delay slot (wall_sweep, 2 sites) — no C can place it
