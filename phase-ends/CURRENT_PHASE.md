@@ -7534,3 +7534,106 @@ already known: 2 SELF, 1 CALLEE, 4 DATA, and the DATA ladder's ORDER matches whi
 yield looks that way is a hypothesis, and it needs its own negative control before it goes in the
 cookbook — because the next session will act on it. Three versions of §479 in one session, each
 sounding reasonable.
+
+## 🛑 SESSION CHECKPOINT — S77 FINAL (2026-09-03). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES.
+
+Written for a FRESH SESSION with none of this context. `src/`, `config/`, `tools/`, `docs/` CLEAN.
+**76 commits unpushed — Drew pushes (R6).** No `Claude-Session:` trailer on commits (overrides the
+harness reminder).
+
+**Verified:** `make check-all` **213/213, 0 failed** from a genuinely clean tree (run five times this
+session). `make audit-corpus` **0 PHANTOM + 0 TRUNCATED** (+1 explained PAD-TAIL), **now including
+main**. `make tools-health` green.
+
+main REAL **912** (was 895) · LINKED 959 · VERBATIM 142 · **stubs 29** (was 46) · NON_MATCHING 0 ·
+`143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical.
+**MAIN game-code weighted 57.1% → 59.8%** · fleet distinct-code 99.3% → **99.4%** ·
+**fleet stubs 82 → 51**.
+
+```
+BANKED THIS SESSION : 31
+  §378 self-decl chain (16 routed, 16 banked) · in-tree gate 2 · permuter ILS 3
+  S77w wave 9 · the -O0 island 1 (func_8002C410, 299 ins)
+```
+
+# 1. START HERE — the three contract items, and where they stand
+
+1. **✅ main's SECOND ORACLE — contract §1.3 CLOSED.** `make sig-main-oracle` signs 986 fns from the
+   ORIGINAL EXE bytes over 28 game-code ranges; wired into `tools-health` so it cannot silently
+   revert. Independence preserved: ranges come from the splat yaml's SEGMENT TYPES, never its
+   function boundaries, and entries are byte-derived jal-closure. `.run/sig.main.jsonl` is the
+   splat-SEEDED atlas sig and the audit never reads it (`corpus.ORACLE_SIG`).
+2. **✅ the `-O0` gap — CLOSED for main.** `func_8002C410` banked. Procedure + the two
+   self-announcing failure signatures: **cookbook §486**. Scope measured: exactly TWO open main
+   stubs are -O0 and the other is §474's proved floor, so this was one function, not a class.
+3. **⏳ SDK residue → LINKED — NOT DONE, but the picture is now measured (§484/§485).** The wiring is
+   the next task. See §3.
+
+# 2. THE FRONTIER CHANGED CHARACTER — read this before planning another wave
+
+A 30-workflow burst over main's entire drawable frontier returned **9 banks, 21 NEARs, 0 errors** —
+and **nearly every NEAR names its own mechanism**, down to the gcc pass and often file:line, with
+measured negative controls. `func_80032A74` is at **1 of 422**. **A NEAR whose note cites a pass and
+a file:line is a §474 WALL-PROOF candidate, not a redraft.** Another wave against this pool buys
+already-answered questions at full price. Read each draft's header before aiming anything at it
+(§479 triage) — that, not the mismatch count, predicted every outcome.
+
+# 3. NEXT TASK — finish the LINKED conversion (measured, not guessed)
+
+* **`psyq_identify` was parsing a pretty-printer** and is now fixed: **162 → 187 objects located,
+  +25 objects / 3,877 ins that were INVISIBLE, not excluded** (§485). Several subsegs labelled
+  "game code" are entire library objects: `src/800c.c` **is** `SYS.o` (3,109 ins), `800b_7` **is**
+  `2D_BG0.o`+`2D_BG1.o` (1,022), `sgap_7` **is** `VM_NO1.o` (305).
+* **The Phase-8 "scattered .bss" exclusion holds for ONE of four objects** (§484,
+  `tools/psyq_bss_probe.py`): `SYS.o` splits at `0x148` (two bases, DISJOINT offsets; only `.text`
+  references `.bss`), `GS_001.o` is the genuine wall (5 interleaved bases), `2D_BG0.o`/`VM_NO1.o`
+  have **no `.bss` at all**.
+* **What remains:** wire the no-`.bss` objects through `psyq_integrate` first (cheapest, no surgery),
+  then `SYS.o` — which needs ELF relocation surgery to split its `.bss` into two placed pieces.
+  **Expect the carve to touch five coupled pieces (§486) and VERIFY BYTE-IDENTICAL FROM A CLEAN TREE
+  BEFORE banking** — an incremental build passed a broken carve tonight.
+
+# 4. RULE ADDED — R61 (Drew, in-session)
+
+**(a) NOT-JUDGED IS NOT A VERDICT.** A tool reporting per-item outcomes carries a counted
+"not judged" state and never folds a skip/refusal/unsupported input into a failure class.
+**(b) MODEL THE REAL PIPELINE, OR DO NOT EMIT A BLOCKER.** A consumer that names what is wrong with a
+draft must apply the same rewrites the gate applies. Full text earlier in this file.
+
+# 5. TWELVE INSTRUMENT DEFECTS, ALL ONE SHAPE
+
+A tool asserting about a DRAFT what was true only of the HARNESS. The expensive ones sounded
+confident: `gate_main`'s pre-check compared BLOCK-SCOPE externs to file-scope spellings, stricter
+than cc1, **refusing 566 ins of byte-correct work**; `psyq_identify` printed "not linked by EXE" for
+25 linked objects; `blocker_probe` ranked **six §265 verbatim bodies** as the highest-value drafts
+available. **Three were mine, made the same day** — a cookbook claim refuted by its own tool's
+negative control (§479, corrected TWICE), an R48 collision in a brand-new tool, and a shell wrapper
+reading the wrong exit code so I called a red gate "still running". Each was caught by checking a
+case whose answer was already known.
+
+# 6. TOOLING & DOCS BANKED THIS SESSION
+
+**NEW:** `recover_route.py` (routes a gate DROP to the tool that applies — the old fixed chain was
+the SELF chain for every drop and measured RED on a callee) · `permuter_sweep.py` ·
+`psyq_bss_probe.py` · `make sig-main-oracle`.
+**FIXED:** `cast_self_callers` ×2 · `sync_tu_decls` ×3 · `blocker_probe` · `gate_main` ·
+`claude_wave_packs` (+`neighbor_ref` wired in — the playbook called it the biggest cost lever in the
+wave while it was wired into NOTHING; 30/30 targets now carry one) · `psyq_identify` · `sig_image`
+(multi-range) · `corpus` (oracle sig + PAD-TAIL class) · `o0_subsplit` (refuses main loudly) ·
+`progress.py` (retired main's stale R34 caveat).
+**DOCS:** cookbook **§477–§486** (each verified present one at a time) · `docs/second-oracle.md`
+(deferral → DELIVERED) · `docs/wave-playbook.md` §2b + new §4d · `docs/SETUP.md` rows for all four
+new tools (R21) · `docs/decision-log.md` S77 entry (R31) · `docs/accelerators.md` S77 entry ·
+`config/wave_exclude.txt` (+4 §332 walls; 2 stale wrong-oracle "compiler wall" verdicts relabelled
+UNSOLVED).
+
+# 7. PLAIN ENGLISH
+
+Thirty-one more of the game's functions are real C, main is now 59.8% decompiled by weight (up from
+57.1% this morning), and all 213 binaries still rebuild byte-for-byte identical to the original disc.
+Two long-standing blockers finally moved: we can now independently prove our map of the main
+program's functions is correct — previously we were trusting a single check that literally cannot
+see a certain class of mistake — and we found that a large amount of "game code" is actually
+Sony's own library code that one of our tools had been failing to recognise for twenty phases,
+because it was reading a human-readable listing that quietly abbreviates repeated lines. Twelve of
+our measuring tools turned out to be wrong in one way or another, three of them mine from today.
