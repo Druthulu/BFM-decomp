@@ -10981,7 +10981,407 @@ void func_8001E7E0(u8 *arg0)
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/800", func_8001EA14);
+/* func_8001EA14 - src/800.c (main, -O2), 371 ins.  MATCH (match_one closeness 0).
+ *
+ * Sprite/billboard emitter: RTPS the entity origin through the global matrix D_800AF648,
+ * build a per-entity MATRIX from unk18/unk1A, then walk a 12-byte cell list (stride 0xC,
+ * terminated by a 0xFF low byte; cells whose u16 type == 8 are skipped) emitting one
+ * POLY_FT4 (0x28 bytes) per cell out of the D_800A5E60 bump allocator and linking it into
+ * the OT at D_800A6610 + (D_800B9A02 << 14).
+ *
+ * ============================================================================
+ * THE SIX LEVERS THAT CLOSED THIS (prior best was close=89; all byte-measured)
+ * ============================================================================
+ * The four levers inherited from the close=89 draft still hold and are NOT repeated here:
+ *   (1) loop.c must hoist EXACTLY ONE address (a 2-operand gte_ldv3 + gte_rt with the
+ *       output as operand 0 -- see S148-A / S193-F);
+ *   (2) prim fields via PLAIN CASTS (MEM_IN_STRUCT_P = 0) to keep the target's nops;
+ *   (3) the COND_EXPR singleton fold must be escaped by making the arms different TREES;
+ *   (4) spill slots follow DECLARATION order (`mode` before `base`).
+ *
+ * NEW, and between them worth 89 -> 0:
+ *
+ * L5. **STATEMENT ORDER IS THE ALIAS ORDER: put a struct load BEFORE the plain stores that
+ *     it must be hoisted over.**  gcc-2.7.2 `true_dependence` only exempts a load/store pair
+ *     when one side is MEM_IN_STRUCT_P *and* varying and the other is neither.  A local
+ *     `MATRIX m` (mem/s, frame address) vs `p->unk18` (mem/s, varying) is therefore
+ *     DEPENDENT -- so `m.m[0][0] = p->unk18;` can never float above an earlier `m.* = 0`.
+ *     The target's schedule (`lhu; sh 0; sh 0; sh 0; sh`) is only reachable if the LOAD's
+ *     statement comes FIRST in the source.  Writing the matrix init in NATURAL OFFSET ORDER
+ *     -- m[0][0], m[0][1], m[0][2], m[1][0], m[1][1], m[1][2], m[2][0], m[2][1], m[2][2],
+ *     t[] -- closed the entire 45-instruction init block in one edit.  (The `m.m[0][1]=0`-
+ *     first order the earlier drafts used is what forced the load down and cost the block.)
+ *     COROLLARY, worth another 20 in the loop: the four cell/entity loads only fill the
+ *     `lw $s0, D_800A5E60` load-delay if `sx`/`sy` are computed BEFORE the bump-pointer
+ *     store and `pk[3] = 9` -- the same law, one scope down.  Do NOT reach for the alias
+ *     dial (rewriting `m` as a non-struct frame buffer DOES delete the dependence, measured,
+ *     but then nothing constrains the block and the schedule is worse: 89 -> 90).
+ *
+ * L6. **AN INLINE-ASM "r" OPERAND THAT IS A BARE `symbol_ref` IS ALLOCATED BY *RELOAD*, NOT
+ *     BY THE REGISTER ALLOCATOR.**  `gte_SetRotMatrix(&D_800AF648)` leaves
+ *     `(asm_operands ... (symbol_ref "D_800AF648"))` in the RTL -- there is no pseudo at
+ *     all -- so reload materialises it into a scratch register and picks `$t0`.  Assigning
+ *     it to a local pointer first (`mp = &D_800AF648; gte_SetRotMatrix(mp);`) creates a real
+ *     pseudo, local-alloc gives it `$v0`, and all TEN mismatched instructions vanish
+ *     (the `lui/addiu` pair plus the eight `lw $tN, k($v0)` inside the two macros).
+ *     TELL: a residual that is "same instructions, one register wrong, and the register is a
+ *     high `$tN`" on an asm operand => check whether the operand is a constant address.
+ *
+ * L7. **LET loop.c HOIST THE OT ADDRESS: a loop-invariant computed INSIDE the loop lands at
+ *     `loop_start` with a LOWER LUID than one written before the loop.**  `addiu $s6,$sp,0x48`
+ *     (the &vo hoist, also emitted at loop_start) has to be emitted BEFORE `sll $v0,$a1,2`
+ *     / `addu $s4,$v0,$a2`.  While `ot` was a pre-loop statement its insns had the lower
+ *     LUID and sched2's `rank_for_schedule` tiebreak put `$s6` last.  Writing
+ *     `ot = (u32 *)((z << 2) + (s32)ob);` as the FIRST statement of the OT-link block inside
+ *     the loop makes loop.c hoist it after &vo, which is exactly the target's order.  This
+ *     does not violate lever (1): the address is a giv-free invariant, the movable count is
+ *     unchanged for the &vo decision.
+ *
+ * L8. **THE `?:` NEEDS *BOTH* HALVES: a different TREE to escape the expand_expr fold AND a
+ *     register pin to escape jump2's noop-move deletion.**  `uyx` must be materialised before
+ *     the branch (it is what fills the branch's delay slot -- `andi $v1,$a1,0xFFFF`), the arms
+ *     must be `(uyx - 0x100)` / `uyx`, and the else arm must survive as `move $v0,$v1`.
+ *     With plain locals gcc coalesces `vv` with `uyx`, the copy becomes a no-op, and jump2
+ *     deletes BOTH it and the `j` (371 -> 369 ins, measured on 5 spellings incl. if/else and
+ *     a second temp).  One pin -- `register s32 vv __asm__("$2")` -- forces the interference
+ *     and restores the copy.  `uyx` needs NO pin ($v1 falls out).  There is no call between
+ *     the pin's def and its last use, so S175's caller-saved-pin hazard does not apply, and
+ *     the byte-equality proves the emitted code is the target's.
+ *
+ * L9. **A COMMUTATIVE `+` KEEPS TREE OPERAND ORDER, BUT SWAPPING IT IN SOURCE ALSO SWAPS THE
+ *     OPERAND EVALUATION ORDER (and hence the register assignment).**  The target wants
+ *     `addu $a0,$a0,$v1` = plus(p->unk28, e->x>>shift) with the loads still emitted
+ *     e->x-first.  Writing `p->unk28 + (e->x >> shift)` gets the plus right but emits the
+ *     `lhu` first and costs 10 instructions of register churn.  Splitting the shift into its
+ *     own statement -- `xs = e->x >> shift; sx = p->unk28 + xs;` -- fixes the plus order while
+ *     leaving the load order alone.  Last instruction, 1 -> 0.
+ *
+ * METHOD NOTE (reusable): the whole close was driven off `cc1 -dS -dR` (sched1/sched2 ready
+ * lists + priorities) plus a 0.13s `match_one` loop, and a scripted 858-candidate sweep that
+ * PROVED statement placement of `mode`/`rot`/`shift` is completely inert here (all 858 == 90).
+ * When a source-order sweep is flat, the residual is a DAG fact (L5) or an allocation fact
+ * (L6/L8), not a LUID tiebreak.
+ */
+
+#define gte_SetRotMatrix_EA14(r0) __asm__ volatile ( \
+    "lw $12, 0( %0 );"                               \
+    "lw $13, 4( %0 );"                               \
+    "ctc2 $12, $0;"                                  \
+    "ctc2 $13, $1;"                                  \
+    "lw $12, 8( %0 );"                               \
+    "lw $13, 12( %0 );"                              \
+    "lw $14, 16( %0 );"                              \
+    "ctc2 $12, $2;"                                  \
+    "ctc2 $13, $3;"                                  \
+    "ctc2 $14, $4"                                   \
+    :                                                \
+    : "r"( r0 )                                      \
+    : "$12", "$13", "$14" )
+
+#define gte_SetTransMatrix_EA14(r0) __asm__ volatile ( \
+    "lw $12, 20( %0 );"                              \
+    "lw $13, 24( %0 );"                              \
+    "ctc2 $12, $5;"                                  \
+    "lw $14, 28( %0 );"                              \
+    "ctc2 $13, $6;"                                  \
+    "ctc2 $14, $7"                                   \
+    :                                                \
+    : "r"( r0 )                                      \
+    : "$12", "$13", "$14" )
+
+#define gte_ldv0_EA14(r0) __asm__ volatile (         \
+    "lwc2 $0, 0( %0 );"                              \
+    "lwc2 $1, 4( %0 )"                               \
+    :                                                \
+    : "r"( r0 ) )
+
+#define gte_ldv3_EA14(r0, r1) __asm__ volatile (     \
+    "lwc2 $0, 0( %0 );"                              \
+    "lwc2 $1, 4( %0 );"                              \
+    "lwc2 $2, 0( %1 );"                              \
+    "lwc2 $3, 4( %1 );"                              \
+    "lwc2 $4, 0( %1 );"                              \
+    "lwc2 $5, 4( %1 )"                               \
+    :                                                \
+    : "r"( r0 ), "r"( r1 ) )
+
+#define gte_rtps_EA14() __asm__ volatile ("nop;nop;rtps")
+#define gte_rtpt_EA14() __asm__ volatile ("nop;nop;rtpt")
+
+#define gte_stsxy_EA14(r0) __asm__ volatile (        \
+    "swc2 $14, 0( %0 )"                              \
+    :                                                \
+    : "r"( r0 )                                      \
+    : "memory" )
+
+#define gte_stsxy0_EA14(r0) __asm__ volatile (       \
+    "swc2 $12, 0( %0 )"                              \
+    :                                                \
+    : "r"( r0 )                                      \
+    : "memory" )
+
+#define gte_stsxy1_EA14(r0) __asm__ volatile (       \
+    "swc2 $13, 0( %0 )"                              \
+    :                                                \
+    : "r"( r0 )                                      \
+    : "memory" )
+
+#define gte_stflg_EA14(r0) __asm__ volatile (        \
+    "cfc2 $12, $31;"                                 \
+    "nop;"                                           \
+    "sw $12, 0( %0 )"                                \
+    :                                                \
+    : "r"( r0 )                                      \
+    : "$12", "memory" )
+
+#define gte_stsz_EA14(r0) __asm__ volatile (         \
+    "swc2 $19, 0( %0 )"                              \
+    :                                                \
+    : "r"( r0 )                                      \
+    : "memory" )
+
+#define gte_stszotz_EA14(r0) __asm__ volatile (      \
+    "mfc2 $12, $19;"                                 \
+    "nop;"                                           \
+    "sra $12, $12, 2;"                               \
+    "sw $12, 0( %0 )"                                \
+    :                                                \
+    : "r"( r0 )                                      \
+    : "$12", "memory" )
+
+#define gte_rt_EA14(r1, r0) __asm__ volatile (       \
+    "lwc2 $0, 0( %1 );"                              \
+    "lwc2 $1, 4( %1 );"                              \
+    "nop;"                                           \
+    "nop;"                                           \
+    "mvmva 1, 0, 0, 3, 0;"                           \
+    "swc2 $25, 0( %0 );"                             \
+    "swc2 $26, 4( %0 );"                             \
+    "swc2 $27, 8( %0 )"                              \
+    :                                                \
+    : "r"( r1 ), "r"( r0 )                           \
+    : "memory" )
+
+typedef struct { u16 vx, vy; }           DV_EA14;   /* 0x04 */
+typedef struct { u16 vx, vy, vz, pad; }  SV_EA14;   /* 0x08 */
+typedef struct { s32 vx, vy, vz, pad; }  VC_EA14;   /* 0x10 */
+typedef struct { s16 m[3][3]; s32 t[3]; } MT_EA14;  /* 0x20 */
+
+typedef struct {
+    /* 0x00 */ u32 tag;
+    /* 0x04 */ u8 r0, g0, b0, code;
+    /* 0x08 */ u16 x0, y0;
+    /* 0x0C */ u8 u0, v0;
+    /* 0x0E */ u16 clut;
+    /* 0x10 */ u16 x1, y1;
+    /* 0x14 */ u8 u1, v1;
+    /* 0x16 */ u16 tpage;
+    /* 0x18 */ u16 x2, y2;
+    /* 0x1C */ u8 u2, v2;
+    /* 0x1E */ u16 pad1E;
+    /* 0x20 */ u16 x3, y3;
+    /* 0x24 */ u8 u3, v3;
+    /* 0x26 */ u16 pad26;
+} Ft4_EA14; /* 0x28 */
+
+typedef struct {
+    /* 0x00 */ u16 unk00;
+    /* 0x02 */ u16 unk02;
+    /* 0x04 */ s32 unk04;
+    /* 0x08 */ SV_EA14 unk08;
+    /* 0x10 */ u8 unk10[8];
+    /* 0x18 */ u16 unk18;
+    /* 0x1A */ u16 unk1A;
+    /* 0x1C */ u8 unk1C[4];
+    /* 0x20 */ u8 *unk20;
+    /* 0x24 */ u8 unk24;
+    /* 0x25 */ u8 unk25;
+    /* 0x26 */ u8 unk26;
+    /* 0x27 */ u8 unk27;
+    /* 0x28 */ u16 unk28;
+    /* 0x2A */ u16 unk2A;
+    /* 0x2C */ u16 unk2C;
+} Ent_EA14;
+
+typedef struct {
+    /* 0x00 */ u16 type;
+    /* 0x02 */ u8  w;
+    /* 0x03 */ u8  h;
+    /* 0x04 */ s16 x;
+    /* 0x06 */ u16 y;
+    /* 0x08 */ u16 u;
+    /* 0x0A */ u16 v;
+} Cell_EA14; /* 0x0C */
+
+extern u8  D_800AF648;
+extern u16 D_800B9A02;
+extern u8  D_800A6610[];
+extern u8 *D_800A5E60;
+extern void func_8001F730(s32, void *, void *);
+
+#define B(o) (*(u8  *)(pk + (o)))
+#define H(o) (*(u16 *)(pk + (o)))
+#define W(o) (*(u32 *)(pk + (o)))
+
+void func_8001EA14(Ent_EA14 *p)
+{
+    MT_EA14 m;      /* 0x10 */
+    SV_EA14 sxy;    /* 0x30 */
+    SV_EA14 v[2];   /* 0x38 */
+    VC_EA14 vo;     /* 0x48 */
+    s32 flag;       /* 0x58 */
+    s32 sz;         /* 0x5C */
+    s32 otz;        /* 0x60 */
+    u32 sc0;        /* 0x64 */
+    u32 sc1;        /* 0x68 */
+    Cell_EA14 *e;
+    u32 fl;
+    s32 z;
+    s32 rot;
+    s32 shift;
+    s32 fpv;
+    u8 mode;
+    s32 base;
+    u8 *ob;
+    u32 *ot;
+    u8 *pk;
+    u8 *mp;
+    u32 sx, sy;
+    u16 ux, uy;
+    s32 cl;
+    s32 xs;
+    register s32 vv __asm__("$2");
+    u32 uyx;
+    u32 t;
+    u8 c8;
+
+    e = (Cell_EA14 *)p->unk20;
+    fl = p->unk04;
+
+    mp = &D_800AF648;
+    gte_SetRotMatrix_EA14(mp);
+    gte_SetTransMatrix_EA14(mp);
+    gte_ldv0_EA14(&p->unk08);
+    gte_rtps_EA14();
+    gte_stsxy_EA14(&sxy);
+    gte_stflg_EA14(&flag);
+    gte_stsz_EA14(&sz);
+    gte_stszotz_EA14(&otz);
+
+    if ((flag & ~0x1000) != 0) {
+        return;
+    }
+
+    z = otz + 1;
+    ob = (D_800B9A02 << 14) + D_800A6610;
+    if ((p->unk2C & 0xC000) != 0) {
+        if ((p->unk2C & 0xC000) == 0xC000) {
+            z -= (p->unk2C & 0xFFF);
+            if (z < 0) {
+                z = 0;
+            }
+        } else {
+            z += (p->unk2C & 0xFFF);
+        }
+    }
+    if ((u32)z >= 0x1000) {
+        return;
+    }
+
+    m.m[0][0] = p->unk18;
+    m.m[0][1] = 0;
+    m.m[0][2] = 0;
+    m.m[1][0] = 0;
+    mode = (fl >> 28) & 3;
+    m.m[1][1] = p->unk1A;
+    m.m[1][2] = 0;
+    m.m[2][0] = 0;
+    m.m[2][1] = 0;
+    m.m[2][2] = 0x1000;
+    m.t[0] = m.t[1] = m.t[2] = 0;
+    rot = (fl >> 24) & 3;
+    shift = 2 - rot;
+
+    gte_SetRotMatrix_EA14(&m);
+    gte_SetTransMatrix_EA14(&m);
+
+    fpv = rot << 7;
+    base = fpv | 0x20;
+
+    do {
+        t = e->type;
+        if (t != 8) {
+            pk = D_800A5E60;
+            xs = e->x >> shift;
+            sx = p->unk28 + xs;
+            ux = sx;
+            sy = p->unk2A + e->y;
+            uy = sy;
+            D_800A5E60 = pk + 0x28;
+            *(u8 *)(pk + 3) = 9;
+            B(7) = 0x2C;
+            if ((fl & 0x40000000) != 0) {
+                B(7) = 0x2E;
+                H(0x16) = (fpv | (mode << 5)) | ((sy & 0x100) >> 4) |
+                              ((sx & 0x3C0) >> 6) | ((sy & 0x200) << 2);
+            } else {
+                H(0x16) = base | ((sy & 0x100) >> 4) |
+                              ((sx & 0x3C0) >> 6) | ((sy & 0x200) << 2);
+            }
+            B(7) |= (fl & 0x40) >> 6;
+            B(0xC) = (ux - ((H(0x16) & 0xF) << 6)) << shift;
+            uyx = uy;
+            vv = (H(0x16) & 0x10) ? (uyx - 0x100) : uyx;
+            B(0xD) = vv;
+            B(0x14) = B(0xC) + e->w - 1;
+            B(0x15) = B(0xD);
+            B(0x1C) = B(0xC);
+            B(0x1D) = B(0xD) + e->h - 1;
+            B(0x24) = B(0x14);
+            B(0x25) = B(0x1D);
+            cl = (p->unk27 + 0x100) << 6;
+            H(0xE) = (p->unk27 < 0xE0) ? (cl | 0x16) : (cl | 0x10);
+            B(4) = p->unk24;
+            B(5) = p->unk25;
+            B(6) = p->unk26;
+            v[0].vx = e->u;
+            v[0].vy = e->v;
+            v[0].vz = sz;
+            v[1].vx = e->w;
+            v[1].vy = e->h;
+            v[1].vz = sz;
+            if (p->unk02 == 3) {
+                gte_ldv3_EA14(&v[0], &v[1]);
+                gte_rtpt_EA14();
+                gte_stsxy0_EA14(&sc0);
+                gte_stsxy1_EA14(&sc1);
+                H(8) = sxy.vx + ((u16 *)&sc0)[0];
+                H(0xA) = sxy.vy + ((u16 *)&sc0)[1];
+                H(0x10) = H(8) + ((u16 *)&sc1)[0];
+                H(0x1A) = H(0xA) + ((u16 *)&sc1)[1];
+            } else {
+                gte_rt_EA14(&vo, &v[0]);
+                H(8) = sxy.vx + vo.vx;
+                H(0xA) = sxy.vy + vo.vy;
+                gte_rt_EA14(&vo, &v[1]);
+                H(0x10) = H(8) + vo.vx;
+                H(0x1A) = H(0xA) + vo.vy;
+            }
+            H(0x12) = H(0xA);
+            H(0x18) = H(8);
+            H(0x20) = H(0x10);
+            H(0x22) = H(0x1A);
+            if ((p->unk04 & 0x8000000) != 0) {
+                func_8001F730((s32)p + 0x10, &sxy, pk);
+            }
+            ot = (u32 *)((z << 2) + (s32)ob);
+            W(0) = (W(0) & 0xFF000000) | (*ot & 0xFFFFFF);
+            *ot = (*ot & 0xFF000000) | ((u32)pk & 0xFFFFFF);
+        }
+        c8 = *(u8 *)e;
+        e++;
+    } while (c8 != 0xFF);
+}
 
 INCLUDE_ASM("asm/nonmatchings/800", func_8001EFE0);
 
