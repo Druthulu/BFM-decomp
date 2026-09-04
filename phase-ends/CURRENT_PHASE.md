@@ -7160,3 +7160,119 @@ about how a shared symbol is spelled — plumbing, not decompilation, and there 
 main half of it. Along the way five more of our own measuring tools turned out to be lying, four
 "impossible" functions turned out to be possible, and one genuinely impossible one finally has a
 proof instead of a shrug.
+
+- 2026-09-03 — **S77: 17 banked (4 main + 13 fleet), six instrument defects, and the `self_decl_tu`
+  class closed as a mechanical lane.** Started from the S76 FINAL checkpoint's task list.
+  - **T11 (main's 7 `self_decl_tu` drafts) — 4 banked**: `func_80013154` (a §265 VERBATIM body that
+    is now real C), `func_8005EAC8`, `func_8005E3AC`, `func_8005E79C`. The other three are proven
+    NEARs (closeness 3, closeness 9, 8 differing bytes at `0x80039ded`) — body work, not plumbing —
+    and their plumbing was reverted with `--undo-journal --keep`. main: REAL 895 → **899**,
+    stubs 46 → **42**.
+  - **T12 (the overlay drafts) — 13 banked.** `blocker_probe` over all 26 binaries holding a
+    stranded S76 draft: **34 drafts = 13 banked + 21 open**. The `self_decl_tu` cohort gated
+    **12 of 12 in 136 s wall on 8 workers**; `ov_SC06_032:func_8017D810` banked in-tree.
+  - **T13 R22 clean-fleet: 213/213 passed, 0 failed** — run twice, once as a green baseline before
+    any overlay bank (so a pre-existing red could not be attributed to this session's work) and once
+    after all 17. Fleet stubs **82 → 65**, distinct-code 99.3% → **99.4%**, MAIN game-code
+    57.1% → **57.3%**.
+  - **Idioms banked in-session: cookbook §477 + §478** (both verified present in the committed file,
+    one at a time — the S76 lesson that §462/§463 vanished silently after their commit).
+
+## 🛑 SESSION CHECKPOINT — S77 (2026-09-03). SUPERSEDES the S76 FINAL block above. Phase 31 T10 CONTINUES.
+
+Written for a FRESH SESSION with none of this context. `src/`, `config/`, `tools/`, `docs/` CLEAN.
+**Drew pushes (R6); commits from S76 onward are unpushed.**
+
+**Verified at close** (clean rebuild, not incremental): **`make check-all` 213/213 passed, 0 failed.**
+main REAL **899** · LINKED 959 · VERBATIM 142 · INCLUDE_ASM stubs **42** · NON_MATCHING 0 ·
+`143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical.
+Fleet instr-weighted 99.7% · distinct-code **99.4%** · **MAIN game-code 57.3%** · **65 open stubs
+fleet-wide**.
+
+```
+BANKED THIS SESSION : 17, all confirmed from the SOURCE (the stub is gone), not from a gate report
+  main    : func_80013154 (was a §265 verbatim body) · func_8005EAC8 · func_8005E3AC · func_8005E79C
+  overlays: ov_SC01_005 · ov_SC01_006 · ov_SC02_041 · ov_SC03_105 · ov_SC03_111 · ov_SC03_124
+            ov_SC04_002 · ov_SC04_005 · ov_SC04_007 · ov_SC04_011 · ov_SC05_003 · ov_SC05_018
+            ov_SC06_032
+```
+
+# 1. THE SESSION IN ONE LINE
+
+**The `self_decl_tu` class turned out to be a fully mechanical lane — 16 drafts routed to it, 16
+banked, zero agent tokens — and every one of the six defects found on the way was a tool telling me
+something about a DRAFT that was actually true of the HARNESS.**
+
+# 2. START HERE
+
+1. **T14 — the residual bodies.** Two are very close and are the best value left:
+   `ov_SC06_022:func_8017DF28` (**2** mismatched of 119) and `ov_SC03_105:func_801834A4` (**6** of
+   106). Then main's three NEARs (`func_80015608` closeness 3, `func_80015760` closeness 9,
+   `func_80039DEC` 8 bytes). **`main:func_80011380` is §474's PROVED floor — exclude it from draws.**
+2. **The 6 VERBATIM drafts are undecompiled work, not drafts.** `md_MAIN_003:func_800D0100`,
+   `func_800D0174`, `func_800D1D14`, `md_MAIN_020:func_800CB17C`, `ov_SC05_005:func_80181828`,
+   `ov_SC06_010:func_801809E4`. They must be REDRAFTED; no recovery lane applies (§478).
+3. **10 open plumbing residuals**, each with a measured verdict — see §5.
+4. **Open discrepancy (unexplained, do not guess):** `parallel_gate` reported `banked 0` for
+   `ov_SC06_032` in a 106 s worker run; the identical draft, same tool chain, banked in-tree, and the
+   bank then survived a full clean-fleet. The other 12 binaries in that run agreed exactly between
+   worktree and in-tree. One data point — reproduce before theorising.
+
+# 3. THE LANE THAT IS NOW SOLVED
+
+`self_decl_tu` = the destination TU declares the very function the draft defines, with a different
+signature. Fixed by `cast_self_callers --sync-decls`, which — contrary to the S76 checkpoint's note —
+**is already binary-generic**; only `sync_tu_decls` is main-only, so nothing needed extending.
+
+| cohort | drafts | banked |
+|---|---|---|
+| main | 7 | **4** (3 were NEARs — body, not plumbing) |
+| overlays | 12 | **12 — 100%** |
+
+**No observed plumbing residual in the class.** Route it mechanically. Full recipe: cookbook §477.
+
+# 4. SIX INSTRUMENT DEFECTS (all fixed and committed)
+
+| # | tool | it asserted | what was true |
+|---|---|---|---|
+| 1 | `cast_self_callers.is_declaration`/`sync_decls`/`DEF_RE` | `return func_X(a0);` is a declaration | a CALL. It would have DELETED a wrapper's `return`. 524 such lines / 482 files; 56 journals audited, no committed source ever damaged |
+| 2 | `cast_self_callers --sync-decls` | the draft's parameter spelling is legal in the TU | `Obj_80015760` is draft-local and `Ctx` is typedef'd 75 lines BELOW the decl — two parse errors that broke the committed baseline |
+| 3 | `sync_tu_decls.tu_decl` | "no `extern` line to copy" | the symbol was a function the TU **defines**; the definition header is the authoritative spelling. This was the terminal blocker of BOTH remaining main drafts |
+| 4 | `sync_tu_decls` round loop | "no declaration conflict named" | the GATE HAD REFUSED TO RUN (dirty tree). A harness refusal reported as a verdict about the body (R40) |
+| 5 | `blocker_probe` | 13 drafts MATCH, nothing blocking | **6 were §265 VERBATIM** — not decompiles. The 4th consumer with this blindness after S76 fixed three; and the one that SCOPES the work (§478) |
+| 6 | my own aggregation script | binary names | a slice off `basename` mangled every one (`ov_SC01_001` → `01_001`). Caught ONLY by checking a row whose answer the S76 checkpoint already recorded |
+
+# 5. THE 21 STILL-OPEN POOL MEMBERS, CLASSIFIED (not guessed)
+
+* **DIFF — body (5):** `ov_SC06_022:func_8017DF28` 2/119 · `ov_SC03_105:func_801834A4` 6/106 ·
+  `ov_SC07_002:func_8017DC80` 89/344 (the §473 body, known in progress) ·
+  `ov_SC05_018:func_80180BE0` 64 · `md_MAIN_003:func_800D06BC` **697 ins against a 33-ins target —
+  that draft is aimed at the wrong function; worthless until redrafted.**
+* **VERBATIM (6):** see §2.2.
+* **Plumbing (10), each with a measured class:** `ov_SC02_017:func_80186C64` CARVE-REFUSED
+  (jtbl_carve declined; §59(3) plumbing, NOT a codegen verdict) · `ov_SC04_018:func_80181CB8`
+  conflicting types for built-in `memcpy` · `ov_SC04_018:func_80181804` CC1-FAIL cascading from a
+  DIFFERENT TU (`ov_SC04_018_jr_80140608.c`, `func_801442F8`) · `resident:func_800D128C` parse error
+  before `cdFileLocTable` · `resident:func_800D06E8` DIFF · `md_MAIN_003:func_800CF3E8` redefinition
+  of `u8` · `ov_SC01_084:func_80182A00` `Blk16` · `ov_SC02_027:func_80180B3C` `Blk32_80180908` ·
+  `ov_SC01_001:func_80181E04` `D_801EDA44` · `ov_SC05_010:func_8017FFA8` (probe errored — re-probe).
+
+# 6. LAWS WORTH KEEPING
+
+* **Prove the plumbing byte-neutral BEFORE gating.** Build with the edits applied and NO draft
+  substituted; it must produce the locked SHA. main did, and all 12 overlays did. One build converts
+  every later gate failure into a statement about the draft.
+* **Commit the plumbing before the gate.** `gate_main` `git checkout`s main's TUs and
+  `parallel_gate` pins a worktree — uncommitted edits die either way. Then `--undo-journal --keep`.
+* **A verbatim draft is the strongest FALSE signal a scoper can emit** (§478). When you fix a
+  blindness, ENUMERATE THE CONSUMERS; this was the fourth.
+
+# 7. PLAIN ENGLISH
+
+Seventeen more functions of the game are now real C instead of raw assembly, and the whole 213-binary
+fleet still rebuilds byte-for-byte identical to the original discs. Most of that came from one
+realisation: a large group of "hard" functions were never hard at all — our own C files simply
+disagreed with the new code about how a function was spelled, and once a tool fixed that
+automatically, twelve of twelve went in at once in about two minutes. The rest of the session was
+spent catching six cases where one of our own measuring tools was quietly lying to us — including one
+that had ranked six pieces of copied assembly as the most promising work available.
