@@ -213,3 +213,4 @@ unsloth_compiled_cache/
 !/.run/s45/*.jsonl
 !/.run/s45/*.tsv
 !/.run/s45/onboard*.log
+/tools/psyq/lib46/
