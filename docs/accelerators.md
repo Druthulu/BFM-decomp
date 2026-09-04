@@ -612,3 +612,34 @@ cc1 emits no table for them); leaving that filter out made main report NEEDS SPL
 **Companion:** the *method* for doing the split late, if you inherit a project that did not do it
 early, is cookbook §431 (cut verbatim, let the compiler enumerate what crosses, MOVE typedefs to a
 shared header, and check every consumer that hardcoded the old filename).
+
+---
+
+## S77 — three accelerators, all of the same shape: make the tool state its own denominator
+
+**1. A tool that derives a byte-exact fact from a PRETTY-PRINTER inherits its liberties.**
+`psyq_identify` built its match pattern from `objdump -dr` disassembly lines, and objdump collapses
+runs of identical words into `...`. It read **520 words for a 526-word object**, misaligned, and
+printed "not linked by EXE" for objects that are linked — **25 objects / 3,877 instructions
+invisible**. The check that would have caught it on day one is one line: **compare the parsed word
+count against the section size.** Generalisation: whenever a tool parses a human-facing rendering
+(objdump, nm, a compiler's stderr, a report), assert the parse against the underlying size or count.
+
+**2. A refusal-check must be measured against what the real pipeline does to the input, not against
+a model of it.** `gate_main`'s clash pre-check matched *indented* (block-scope) `extern`s and
+compared them to file-scope spellings — stricter than cc1, refusing 566 instructions of correct
+work. `blocker_probe` reported `local_type` blockers the real gate strips before cc1 ever sees them.
+Both would have been caught by running the check over work that ALREADY SUCCEEDED (R39) — which is
+cheap, and which is now the standing rule for any new refusal.
+
+**3. An exclusion reason is a claim about the TOOLING on the day it was written.** A Phase-8 comment
+said four PsyQ objects were unlinkable for "scattered `.bss` commons — no single NOLOAD base". Every
+word true; three of the four are still not blocked by it (two have no `.bss` at all, and `SYS.o`'s
+two bases have disjoint offset ranges so the section splits). Same shape as the wave exclude-list
+lesson, and the same fix: **when the reason names a mechanism, re-derive the mechanism's PREMISE
+from the bytes before accepting its conclusion.** Cost of not doing so: 3,109 instructions of
+library code sat as verbatim asm for twenty-odd phases.
+
+**Would-have-sped-up-earlier-work verdict.** None of these needed a new technique or a better model.
+All three are self-assertions a tool can make about its own output in under five minutes of code,
+and each was worth thousands of instructions the moment it was added.
