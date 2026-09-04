@@ -36297,3 +36297,49 @@ retired (`LIBGPU_ELF` = the raw dir; identify drops the 8 objects the EXE never 
 with and without the SDK objects. The class that remains in the sound region — `S_R`/`S_W`, `S_GRMDT*` —
 has NO `.bss` of its own (cross-object commons at a minority address): a different wall, not this one.
 
+#### §490 ★★★ — THE "WALL" BAND WAS A LIBRARY VERSION AWAY: LIBPAD 4.2.1 + LIBAPI 4.2 FOUND, THE WHOLE 0x8005CE18–0x8005FC68 BAND + THE APICARD REGION LINKED FROM REAL OBJECTS (P31 S79 #13/#5)
+
+**Where §487 left it.** The psx loader's per-version signature sets named the band (libpad 4.2.1 + libapi
+4.2) but no archive we held could LINK it: 4.0 has no libpad, 4.6/4.7 differ, and the loader's own 4.2
+signatures showed PADMAIN drifting +4/+12. The plan was "C under the reorder island with real names" and
+twelve stubs — the four §332 "%lo-in-a-delay-slot walls" among them — sat in `config/wave_exclude.txt` as
+curated compiler facts.
+
+**The hunt took one lead.** archive.org's `play-station-programmer-tool-runtime-library-version-4.2.7z`
+(383 KB) is the PsyQ Runtime Library 4.2 (1998-01-21) plus `LIB/42PATCH/J421PD.ZIP`: SCE R&D's 1998-02-26
+notice "Libpad.lib version 4.2.1 for the Analog Controller (DUAL SHOCK)" with LIBPAD.LIB 4.2.1, LIBAPI.LIB
+4.2 and their headers. Converted with `psyq_lib_split.py` + `psyq-obj-parser`, `psyq_identify` places
+libpad 4.2.1 7/11 and libapi 4.2 39/88 over 0x8005CE18–0x800629DC, and `psyq_link.py` PASSES all 46 —
+PADMAIN at 760 ins exactly. Neighbours for the record: plain libpad 4.2 (the loader's signature source) and
+the 4.3 disc (DTL-S2340, 1998-05-18: PADMAIN 832, PADIF 380, PADSEQD 292) each place only 4. 4.2.1 is the
+unique exact match, which also dates the build to between February and May 1998.
+
+**The wiring is §488's procedure, twice.** The band is ONE contiguous run of 33 interleaved objects
+(21 libapi trampolines · COUNTER · PADENTRY · PADMAIN · L02/L03 · PADCMD · PADIF · PADPORTD · PADSEQD ·
+WAITRC2) and every yaml-relevant boundary sits on an object edge (checked against `.text` SECTION sizes —
+§9.6's align-pad gotcha). Because `psyq_integrate` tiles each stub with ONE library's objects, `800c3`
+became four rows — `libapi1`, `libpad1`, `libapi2`, `libpad2` — fed by two windowed calls from the RAW
+dirs (`.run/obj42/libapi42` 0x8005CE18..0x8005E188, `.run/obj42/libpad421` 0x8005D0D8..0x8005FC68). The
+apicard region's three "game code" rows were libapi 4.2's C objects to the byte — `800c2` = FIRST.o
+(`firstfile` + the "wall" stub `func_80062144`), `800c2_2` = PAD.o, `800c2_3` = PATCH.o+CHCLRPAD.o — so
+they became `apicard5/6/7`, `make_apicard_used.py` now sources libapi from 4.2 (the EXE's real libapi;
+libcard stays 4.0, byte-identical) and the region tiles 0x80061F38–0x80062888 with no game code left.
+Four TUs deleted (`800c3.c`: 129 hand-matched "C" + 62 verbatim bodies + 19 stubs; the three `800c2*`),
+and the `REORDER_TUS` island (§332b) is EMPTY — the variable stays for any future reorder-assembled TU.
+main `143dbb89` with all SDK dirs and, from a fresh extract, with none.
+
+**What the four "walls" were.** `_padInitSioMode`, `_padStartCom`, `func_8005ED4C`, `func_8005F450`
+(§332 "%lo in a delay slot — no C can place it") were TRUE as compiler facts and irrelevant as work: Sony
+assembled libpad in reorder mode and shipped the object. The same for `func_80062144` ("no jump table")
+inside FIRST.o and for `PopMatrix`/`PushMatrix`, which had sat in the exclude list since S68 while living
+in libgte3 — LINKED since Phase 8. The exclude audit kept all seven because its pinned-WALL class was
+decided BEFORE its LINKED class; fixed S79 (LINKED dominates: a function that is not a target has no
+wall). Law: **a wall verdict is a statement about a compiler and a function; whether the function is
+OURS to match is a provenance question that precedes it** (§487 → §490: name the band, find the archive,
+link it — in that order, before any C).
+
+**Fresh clone.** `tools/psyq/PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z` is tracked;
+`7z x` it, `psyq_lib_split.py` + `psyq-obj-parser` the two lib421 LIBs into `.run/obj42/{libpad421,libapi42}`,
+`tools/psyq_build_libs.sh LIBCARD`, `tools/make_apicard_used.py` — docs/SETUP.md carries the exact commands.
+The build is byte-identical without any of it (the seven stub TUs), as always.
+

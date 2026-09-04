@@ -607,13 +607,31 @@ SND_OBJDIR := build/psyq/snd
 SND_SYMS   := build/psyq/snd_externals.ld
 SND_STUBS  := snd1,snd2,snd3,snd4,snd5,snd6,snd7,snd8,snd9,snd10,snd11,snd12
 
-# Combined libapi+libcard 800c2 region (Phase 8): 22 objects in 4 blocks (apicard1..4). Curated dir
-# .run/obj40/apicard_used (tools/make_apicard_used.py). Window 0x61F38..0x62888. (libapi's ~22 objects
-# in the 800c3 region are DEFERRED — lowest value.)
-APICARD_ELF    := .run/obj40/apicard_used
+# Combined libapi+libcard 800c2 region (Phase 8; S79 #5): 26 objects in 7 blocks (apicard1..7) tiling
+# 0x80061F38..0x80062888 with no game code left between them. Curated dir .run/obj42/apicard_used
+# (tools/make_apicard_used.py: libapi from tools/psyq/lib421 = 4.2, the EXE's real libapi; libcard 4.0).
+# Window 0x61F38..0x62888. The former 800c2/800c2_2/800c2_3 "game code" rows were FIRST.o / PAD.o /
+# PATCH.o+CHCLRPAD.o (libapi 4.2 C objects) — apicard5/6/7.
+APICARD_ELF    := .run/obj42/apicard_used
 APICARD_OBJDIR := build/psyq/apicard
 APICARD_SYMS   := build/psyq/apicard_externals.ld
-APICARD_STUBS  := apicard1,apicard2,apicard3,apicard4
+APICARD_STUBS  := apicard1,apicard2,apicard3,apicard4,apicard5,apicard6,apicard7
+
+# The libapi 4.2 + libpad 4.2.1 band (S78 #12 named it, S79 #13 found the archive, S79 #5 wired it):
+# 0x8005CE18..0x8005FC68 = 33 interleaved Sony objects, all byte-identical from tools/psyq/lib421
+# (SCE's 1998-02-26 "libpad.lib 4.2.1 for the DUAL SHOCK" patch + libapi.lib 4.2; ELF regenerated into
+# .run/obj42/{libapi42,libpad421} by psyq_lib_split.py + psyq-obj-parser — see docs/SETUP.md). Two raw
+# dirs, two calls, each windowed to its own objects and tiling its own stubs (libapi1/libapi2,
+# libpad1/libpad2). This was the src/800c3.c "REORDER_TUS island" — 129 hand-matched "C", 62 verbatim
+# bodies, 19 stubs incl. the four §332 "%lo-in-a-delay-slot walls": Sony code assembled in reorder mode.
+LIBAPI42_ELF    := .run/obj42/libapi42
+LIBAPI42_OBJDIR := build/psyq/libapi42
+LIBAPI42_SYMS   := build/psyq/libapi42_externals.ld
+LIBAPI42_STUBS  := libapi1,libapi2
+LIBPAD_ELF      := .run/obj42/libpad421
+LIBPAD_OBJDIR   := build/psyq/libpad
+LIBPAD_SYMS     := build/psyq/libpad_externals.ld
+LIBPAD_STUBS    := libpad1,libpad2
 
 # Assembler flags (docs/SETUP.md §6.2). -G0 is confirmed by the disassembly
 # (ledger #8: zero $gp-relative addressing). -no-pad-sections keeps section ends
@@ -763,7 +781,10 @@ CC1FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 # `lui at / jr ra / sw a0,lo(at)` read as COMPILER-INEXPRESSIBLE (P31 S75): a probe showed cc1 +
 # reorder_passthrough + `as -O2` emits exactly that sequence. It was a build-config gap, not a
 # gcc limit (cookbook §452 corrected).
-REORDER_TUS   := 800c2 800c2_2 800c2_3 800c3
+# S79 #5: the island is EMPTY — all four TUs (800c2, 800c2_2, 800c2_3, 800c3) were libapi 4.2 / libpad 4.2.1
+# objects and are LINKED now (apicard5-7, libapi1/2, libpad1/2). The mechanism stays for any future
+# reorder-assembled TU (cookbook §332b); match_one/rtu_match read this list and tolerate it empty.
+REORDER_TUS   :=
 ASFLAGS_REORDER := -Iinclude -march=r3000 -mtune=r3000 -no-pad-sections -O2 -G0
 
 build/src/%.o: src/%.c
@@ -880,10 +901,20 @@ ifeq ($(BINARY),main)
 	if [ -d "$(APICARD_ELF)" ]; then
 		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) --yaml $(main_SPLAT_YAML) $(APICARD_ELF) $(LD_SCRIPT) $(APICARD_OBJDIR) $(APICARD_SYMS) $(APICARD_STUBS) 0x80061F38 0x80062888
 	else
-		echo "  (no $(APICARD_ELF) — apicard region stays asm stubs; run tools/psyq_build_libs.sh LIBAPI LIBCARD + tools/make_apicard_used.py)"
+		echo "  (no $(APICARD_ELF) — apicard region stays asm stubs; run tools/psyq_build_libs.sh LIBCARD + the lib421 ELF step in docs/SETUP.md + tools/make_apicard_used.py)"
+	fi
+	if [ -d "$(LIBAPI42_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) --yaml $(main_SPLAT_YAML) $(LIBAPI42_ELF) $(LD_SCRIPT) $(LIBAPI42_OBJDIR) $(LIBAPI42_SYMS) $(LIBAPI42_STUBS) 0x8005CE18 0x8005E188
+	else
+		echo "  (no $(LIBAPI42_ELF) — libapi band blocks stay asm stubs; convert tools/psyq/lib421/LIBAPI.LIB per docs/SETUP.md)"
+	fi
+	if [ -d "$(LIBPAD_ELF)" ]; then
+		$(PYTHON) tools/psyq_integrate.py --vram-base $(main_VRAM_BASE) --exe $(main_EXE) --symbols $(main_SYMBOLS) --yaml $(main_SPLAT_YAML) $(LIBPAD_ELF) $(LD_SCRIPT) $(LIBPAD_OBJDIR) $(LIBPAD_SYMS) $(LIBPAD_STUBS) 0x8005D0D8 0x8005FC68
+	else
+		echo "  (no $(LIBPAD_ELF) — libpad band blocks stay asm stubs; convert tools/psyq/lib421/LIBPAD.LIB per docs/SETUP.md)"
 	fi
 endif
-	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"; [ -f "$(SND_SYMS)" ] && SYMS="$$SYMS -T $(SND_SYMS)"; [ -f "$(APICARD_SYMS)" ] && SYMS="$$SYMS -T $(APICARD_SYMS)"
+	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"; [ -f "$(SND_SYMS)" ] && SYMS="$$SYMS -T $(SND_SYMS)"; [ -f "$(APICARD_SYMS)" ] && SYMS="$$SYMS -T $(APICARD_SYMS)"; [ -f "$(LIBAPI42_SYMS)" ] && SYMS="$$SYMS -T $(LIBAPI42_SYMS)"; [ -f "$(LIBPAD_SYMS)" ] && SYMS="$$SYMS -T $(LIBPAD_SYMS)"
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"

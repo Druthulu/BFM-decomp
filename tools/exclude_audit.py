@@ -116,14 +116,19 @@ def classify(path=None, rows=None):
         st = stubs.get(f)
         if st is None:
             out.append((b, f, 'BANKED', 'no INCLUDE_ASM stub in the source')); continue
+        sub = os.path.basename(os.path.dirname(st.asm_path))
+        if sub in linked_of.get(b, ()):
+            # LINKED outranks a pinned WALL (P31 S79 #5). A wall verdict is a fact about a compiler and
+            # a function; whether the function is OURS to match is a provenance question that precedes
+            # it. With the pin checked first, PopMatrix/PushMatrix sat here as "compiler walls" for
+            # eleven sessions while living in libgte3 (LINKED since Phase 8), and the four §332
+            # "%lo-in-a-delay-slot" walls survived the day libpad 4.2.1 linked their objects (§490).
+            out.append((b, f, 'LINKED', f'subseg {sub} is linked PsyQ — never a target')); continue
         if pinned == 'WALL':
-            # BANKED still wins above -- a wall that got matched is simply no longer a wall.
+            # BANKED and LINKED win above -- a wall that got matched or linked is simply no longer a wall.
             out.append((b, f, 'WALL',
                         why or 'curated compiler fact (pinned in the list; not re-derivable)'))
             continue
-        sub = os.path.basename(os.path.dirname(st.asm_path))
-        if sub in linked_of.get(b, ()):
-            out.append((b, f, 'LINKED', f'subseg {sub} is linked PsyQ — never a target')); continue
         txt = open(st.asm_path, errors='replace').read()
         # §401: a jtbl function jumps through a register that is NOT $ra; `jr $ra` ends every function
         if re.search(r'\bjr\s+\$(?!ra\b)\w+', txt):

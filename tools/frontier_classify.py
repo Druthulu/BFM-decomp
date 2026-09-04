@@ -22,11 +22,17 @@ def _load(m, rel):
     s = importlib.util.spec_from_file_location(m, os.path.join(REPO, rel))
     x = importlib.util.module_from_spec(s); sys.modules[m] = x; s.loader.exec_module(x); return x
 
-LINKED = set('apicard1 apicard2 apicard3 apicard4 libc2_1 libc2_2 libcd1 libcd2 libetc libgpu '
-             'libgs1 libgs2 libgs3 libgs4 libgs5 libgs6 libgte1 libgte10 libgte11 libgte12 libgte13 '
-             'libgte14 libgte15 libgte16 libgte17 libgte18 libgte19 libgte2 libgte20 libgte21 '
-             'libgte22 libgte3 libgte4 libgte5 libgte6 libgte7 libgte8 libgte9 libmcrd1 libmcrd2 '
-             'snd1 snd2 snd3 snd4 snd5 snd6 snd7 snd8 snd9'.split())
+def _linked_subsegs():
+    """main's LINKED subsegs, DERIVED from the Makefile's psyq_integrate stub lists (progress.py's parser).
+    P31 S79: this was a hard-coded 49-name set (R51 — a derived property stored as config goes stale and
+    takes a metric with it). It missed every block wired after it was written (libgte23-30, libgs7/8,
+    snd10-12, libgpu2, libapi1/2, libpad1/2, apicard5-7) and reported 337 "open stubs" — 300 of them the
+    INCLUDE_ASM records of linked Sony objects — while progress.py, reading the same Makefile, said 16."""
+    progress = _load('progress', 'tools/progress.py')
+    return set(progress._main_linked_segs_from_makefile())
+
+
+LINKED = _linked_subsegs()
 INS = re.compile(r'\s*/\* [0-9A-F]+ [0-9A-F]{8} ')
 
 

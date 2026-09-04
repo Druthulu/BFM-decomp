@@ -3141,3 +3141,32 @@ probe's stricter test then ratified one of them as a wall. General form: when a 
 X reproduces it", the next question is "can X be partitioned", and the partition should follow the
 structure the ORIGINAL producer used (here: symbols), not the structure the measurement happened to
 group by.
+
+### S79 addendum 2 (2026-09-04, tasks #13/#5) — the band's twelve "walls" were a library version away; the §332 wall verdicts are closed
+
+**Belief (S68 → S78).** Twelve of main's open stubs sat in `800c3`/`800c2`, four of them curated as §332
+"%lo-in-a-delay-slot" compiler walls, one as a "no jump table" wall, all excluded from waves as facts about
+gcc. S78 named the band (libpad 4.2.1 + libapi 4.2, §487) but expected to finish it as C under the
+reorder island because no archive we held could link it; the S78 brief budgeted a bounded hunt (#13) with
+three leads and a fallback to C.
+
+**What happened.** The first lead — archive.org — held a 383 KB 7z of the Runtime Library 4.2 with SCE's
+February-1998 libpad 4.2.1 patch inside. Every one of the 46 objects it places in main links byte-identical
+(cookbook §490). Task #5 then linked the whole band and the apicard region's C objects (FIRST, PAD, PATCH,
+CHCLRPAD) in one pass: four TUs deleted, the `REORDER_TUS` island empty, main byte-identical with and
+without the SDK dirs, fleet 213/213.
+
+**Why the walls were wrong as WORK while right as FACTS.** §332 is a true statement about cc1 + `as -O2`
+reorder output: no C source reproduces a `%lo` in a delay slot through our pipeline. But Sony never
+compiled that C through our pipeline; they shipped the object. A wall verdict answers "can we match this
+function?"; it never asks "is this function ours to match?" — and that provenance question, once asked
+(§487), was answered by a 383 KB download. The exclude audit had the same blind spot in code: a pinned
+`# WALL` outranked LINKED, so `PopMatrix`/`PushMatrix` sat as walls for eleven sessions while living in
+libgte3, linked since Phase 8. Fixed: LINKED dominates.
+
+**Hindsight.** The order of questions for any stubborn function in a mixed binary is provenance → archive
+→ link → (only then) compiler. We ran it backwards for the band: wall_sweep in S68/S77, names in S78,
+archive in S79. The §487 sentence — "a wall inside bytes no archive you hold can place is a provenance
+question before it is a compiler question" — now has its second half: **and a provenance answer is an
+archive to go and find, not a label to match under.**
+

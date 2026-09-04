@@ -677,3 +677,12 @@ independent oracle (here the other objects' by-name recoveries agreed on all sev
 the transformation in the shared prepare path, not in a curated artifact, so it is re-derived from the
 bytes on every build and negative-controlled over the whole placed population for free.
 
+## S79 (2) — provenance → archive → link → compiler, in that order
+
+Twelve stubs in one band carried compiler-wall verdicts from three sessions of wall-sweeping. The band was
+Sony's controller library; the exact library was a 383 KB archive.org download away; every object linked
+byte-identical on the first try. Accelerator: **before any wall verdict on a function in a mixed binary,
+ask whose code it is and whether the shipped object exists** — the loader's signature sets name the
+library and version for free (§487), and the SDK archives are indexed on archive.org by version. A wall
+verdict on code you were never going to compile is correct and worthless.
+

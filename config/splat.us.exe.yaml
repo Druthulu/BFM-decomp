@@ -201,21 +201,35 @@ segments:
       - [0x4CAC8, c, libc2_1]   # libc2 main block (16 objs) -> src/libc2_1.c (vram 0x8005C2C8-0x8005CE18);
                                 #   end = SETJMP.o's .text SECTION size (0x80, 8-aligned), NOT its 30-ins
                                 #   count (0x78) — the trailing 8-byte align pad belongs to the object.
-      - [0x4D618, c, 800c3]     # -O2 game code -> src/800c3.c (vram 0x8005CE18-0x8005FC68)
+      # PsyQ LIBAPI 4.2 + LIBPAD 4.2.1 band (P31 S78 #12 named it, S79 #13 found the archive, S79 #5 wired it):
+      # 0x8005CE18-0x8005FC68 is ONE contiguous run of 33 Sony objects, interleaved libapi/libpad, every one
+      # byte-identical from tools/psyq/lib421 (SCE's 1998-02-26 "libpad.lib 4.2.1 for the DUAL SHOCK" patch,
+      # shipped with libapi.lib 4.2 — the EXE's 4.2 / 4.2.1x `Ps` stamps). It used to be src/800c3.c: 129
+      # hand-matched "C", 62 verbatim bodies and 19 stubs incl. the four §332 "%lo-in-a-delay-slot walls" —
+      # all of it Sony code assembled in reorder mode (§332b), none of it game code. Split into 4 rows because
+      # psyq_integrate tiles each stub with ONE library's objects (windows: libapi 0x8005CE18..0x8005E188,
+      # libpad 0x8005D0D8..0x8005FC68). Object sizes are .text SECTION sizes (exact tile, verified S79).
+      - [0x4D618, c, libapi1]   # libapi 4.2 block 1: C57 C68 C73 C114 A07-A13 A23-A25 A36 A37 A52 A53 A91 L10 (21 trampolines) + COUNTER (92) -> src/libapi1.c (vram 0x8005CE18-0x8005D0D8)
+      - [0x4D8D8, c, libpad1]   # libpad 4.2.1 block 1: PADENTRY (300) + PADMAIN (760) -> src/libpad1.c (vram 0x8005D0D8-0x8005E168)
+      - [0x4E968, c, libapi2]   # libapi 4.2 block 2: L02 + L03 (SysEnqIntRP/SysDeqIntRP) -> src/libapi2.c (vram 0x8005E168-0x8005E188)
+      - [0x4E988, c, libpad2]   # libpad 4.2.1 block 2: PADCMD (600) PADIF (376) PADPORTD (408) PADSEQD (288) WAITRC2 (48) -> src/libpad2.c (vram 0x8005E188-0x8005FC68)
       # PsyQ libmcrd (Phase 8): 2 objects — LIBMCRD.o (2186 ins; the 55 LIBMCRD_OBJ_* + _card_* memcard
       # I/O) and USERFUNC.o (68 ins, at the very end), 2 non-adjacent blocks split by game/libc2/libapi/
       # libcard code (800c2). psyq_integrate libmcrd1,libmcrd2. (The GAME save logic / Q#5 is Phase 12.)
       - [0x50468, c, libmcrd1]  # libmcrd block 1: LIBMCRD.o -> src/libmcrd1.c (vram 0x8005FC68-0x80061E90)
       - [0x52690, c, libc2_2]   # libc2 block 2: STRCAT.o -> src/libc2_2.c (vram 0x80061E90-0x80061F38)
-      # PsyQ libapi+libcard COMBINED 800c2 region (Phase 8): BIOS syscall trampolines + card I/O,
-      # 22 objects in 4 blocks (curated by tools/make_apicard_used.py; C112.o shared, no exclusions).
-      # integrate window 0x61F38..0x62888. (libapi's ~22 objects in the 800c3 region are DEFERRED.)
+      # PsyQ libapi+libcard COMBINED 800c2 region (Phase 8; S79 #5): BIOS syscall trampolines + card I/O,
+      # now 26 objects in 7 blocks tiling 0x80061F38-0x80062888 with NO game code between them (curated by
+      # tools/make_apicard_used.py: libapi from tools/psyq/lib421 = 4.2, the EXE's real libapi; libcard 4.0,
+      # byte-identical; C112.o shared, no exclusions). integrate window 0x61F38..0x62888. The three former
+      # "game code" rows were libapi 4.2's C objects: 800c2 = FIRST.o (168 ins, `firstfile` + the "wall"
+      # stub func_80062144), 800c2_2 = PAD.o (192), 800c2_3 = PATCH.o (40) + CHCLRPAD.o (28) — exact tiles.
       - [0x52738, c, apicard1]  # apicard block 1: 7 obj (C112.o..A69.o) vram 0x80061F38-0x80061FA8
-      - [0x527A8, c, 800c2]  # game code (vram 0x80061FA8-0x80062248)
+      - [0x527A8, c, apicard5]  # apicard block 5 (S79 #5): FIRST.o (168 ins, exact tile) vram 0x80061FA8-0x80062248 — was '800c2'
       - [0x52A48, c, apicard2]  # apicard block 2: 7 obj (A66.o..INIT.o) vram 0x80062248-0x80062388
-      - [0x52B88, c, 800c2_2]  # game code (vram 0x80062388-0x80062688)
+      - [0x52B88, c, apicard6]  # apicard block 6 (S79 #5): PAD.o (192 ins, exact tile) vram 0x80062388-0x80062688 — was '800c2_2'
       - [0x52E88, c, apicard3]  # apicard block 3: 4 obj (A18.o..A21.o) vram 0x80062688-0x800626C8
-      - [0x52EC8, c, 800c2_3]  # game code (vram 0x800626C8-0x800627D8)
+      - [0x52EC8, c, apicard7]  # apicard block 7 (S79 #5): PATCH.o (40) + CHCLRPAD.o (28), exact tile, vram 0x800626C8-0x800627D8 — was '800c2_3'
       - [0x52FD8, c, apicard4]  # apicard block 4: 4 obj (A74.o..END.o) vram 0x800627D8-0x80062888
       - [0x53088, c, libmcrd2]  # libmcrd block 2: USERFUNC.o -> src/libmcrd2.c (vram 0x80062888-0x80062998)
       # Phase 7 (Task 2' / LZSS) — SURGICAL rodata carve for the LZSS switch only.

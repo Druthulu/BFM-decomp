@@ -105,6 +105,22 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     LINKABLE from real objects → #5 is re-scoped to a carve + wire (S79 FINAL block §6). The 4.3 disc is not
     banked (>100 MB; the item id is the pointer; its two LIBs kept in `.run/psyq_hunt/rtl43/lib43/`).
     Records: worklist "S79 task #13", SETUP archive table + §5.1 + S79 tool table.
+    **#5 DONE (S79, 2026-09-04, `commit:orphan-24`):** the whole band + the apicard region LINKED from libapi 4.2 +
+    libpad 4.2.1 (cookbook **§490**). `800c3` → 4 rows `libapi1` (21 trampolines + COUNTER, 176 ins) /
+    `libpad1` (PADENTRY+PADMAIN, 1,060) / `libapi2` (L02/L03, 8) / `libpad2` (PADCMD…WAITRC2, 1,720) fed by
+    two WINDOWED integrate calls from the raw `.run/obj42/{libapi42,libpad421}` dirs (integrate tiles each
+    stub with one library); `800c2`/`800c2_2`/`800c2_3` were FIRST.o / PAD.o / PATCH+CHCLRPAD → `apicard5/6/7`,
+    and `make_apicard_used.py` now sources libapi from 4.2 (`.run/obj42/apicard_used`, 26 objs / 7 blocks,
+    no game code left in 0x80061F38–0x80062888). Four TUs deleted; `REORDER_TUS` EMPTY (mechanism kept).
+    main `143dbb89` WITH all SDK dirs and, from a fresh extract, WITHOUT (`.run/S79_build_band_*.log`).
+    `exclude_audit` fixed (LINKED outranks a pinned WALL): `config/wave_exclude.txt` 13 → 3 (the four §332
+    walls, `func_80062144`, and `PopMatrix`/`PushMatrix` — libgte3 since Phase 8 — dropped); verbatim
+    manifest 33 → 6 (`--update`). Metrics: main REAL 839→**773** · LINKED 1,150→**1,256** · VERBATIM 29→**3** ·
+    stubs 29→**16** · byte-identical 2,075/2,091 = 99.2% · **game-code 93.3% (38,748 / 41,534)**, remainder
+    2,786 = the open-stub sum; fleet stubs 51→**38**. Docs: cookbook §490 (+index), worklist rows + "S79 task
+    #5", SETUP (fresh-clone obj42 commands, Makefile blocks, exclude_audit), decision-log "S79 addendum 2",
+    accelerators "S79 (2)". `frontier_classify` had a HARD-CODED LINKED set (R51) — derived from the Makefile
+    now. tools-health OK; R22 fleet 213/213 (`.run/S79_check_all_band.log`).
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)
@@ -8022,19 +8038,23 @@ for free. Three of our own measuring tools were lying (one hid a broken build, o
 saved names, one under-counted the main program by 32 points); all fixed, and the main program is now
 honestly 91.8% real C. Next: a small piece of linker surgery so two more Sony objects can be linked.
 
-## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #5 → #11 remain (#4 and #13 DONE this session).
+## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #6 → #11 remain (#4, #13 and #5 DONE this session).
 
 Written for a FRESH SESSION with none of this context. Read it in full before doing anything.
-**HEAD = the S79 task-#13 commit, on top of the task-#4 commit `commit:3865` (Drew pushes, R6); no
-`Claude-Session:`/`Co-Authored-By` trailers (R5 + the S78 decision).** Model Fable 5.1; effort **xHigh** default
-for #5–#10, **Max** for #11 (R27: prompt Drew and WAIT for the actual `/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
+**HEAD = the S79 task-#5 commit `commit:orphan-24` (amended with this block), on top of #13 `commit:3866` and #4
+`commit:3865` (Drew pushes, R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the S78 decision).** Model
+Fable 5.1; effort **xHigh** default for #6–#10, **Max** for #11 (R27: prompt Drew and WAIT for the actual
+`/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
 restarts via the SessionStart hook → Drew runs `/mcp` (R29); no RE task is next, so no G2 ping needed
 until one is. Ghidra DB churn (`db.*.gbf`, `~index`) is R23 restart-noise: do NOT stage it.
 
-**Verified at close (R22/R58):** main `143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical WITH the SDK
-objects (`.run/S79_build_main_sdk.log`) and WITHOUT them from a FRESH extract (`.run/S79_build_main_fallback.log`);
-`make tools-health` (`.run/S79_tools_health.log`) and the fleet `make clean && make extract-all && make
-check-all` (`.run/S79_check_all.log`): extract-all **212/212** (+ main), check-all **213 passed, 0 failed of 213** (rc=0, 2m42s).
+**Verified at close (R22/R58):** main `143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical WITH every SDK
+dir (`.run/obj40` + `.run/obj42`; `.run/S79_build_band_sdk.log`) and WITHOUT them from a FRESH extract
+(`.run/S79_build_band_fallback.log`); `make tools-health` (`.run/S79_tools_health_band.log`, rc=0); the fleet
+`make clean && make extract-all && make check-all` (`.run/S79_check_all_band.log`): extract-all **212/212**
+(+ main), check-all **213 passed, 0 failed of 213** (rc=0, 2m32s); `frontier_classify` regenerated after it:
+**39 rows = 38 stubs + the data word**, main 16. (The task-#4 state was verified the same way earlier in the
+session: `.run/S79_check_all.log` 213/213.)
 
 # 1. THE SESSION IN ONE PARAGRAPH
 
@@ -8049,44 +8069,55 @@ the SDK objects; the game-code metric moved 91.8% → 91.1% only because 3,667 S
 numerator and its denominator (the open remainder is unchanged at 3,975 ins).
 Then task #13, the bounded hunt, succeeded on its first lead: an archive.org 7z of the PsyQ Runtime Library 4.2
 carries SCE's February-1998 "libpad.lib 4.2.1 for the DUAL SHOCK" patch — the EXE's exact libpad and libapi.
-All 46 objects it places in main link byte-identical, so the whole 0x8005CE18–0x8005FC68 band (the twelve
-"wall"/plumbing stubs, the eight reorder verbatims and the band's hand-matched C) is Sony code that task #5
-now links instead of matching (§5/§6 below).
+All 46 objects it places in main link byte-identical, so task #5 linked the whole 0x8005CE18–0x8005FC68 band
+(the twelve "wall"/plumbing stubs, the reorder verbatims, the band's hand-matched C) and the apicard region's
+three C objects from the real objects: four TUs gone, the `REORDER_TUS` island empty, main's open stubs 29 → 16,
+fleet 51 → 38, game-code 93.3% with the remainder still equal to the open-stub sum. Two instruments were
+found stale on the way and fixed (the exclude audit's WALL-before-LINKED order; the frontier census's
+hard-coded LINKED set).
 
 # 2. THE CENSUS (S79 close; every number with its denominator, R41)
 
-* **Stubs: 51 of 363,151 matchable = 7,710 ins — UNCHANGED by #4** (`.run/frontier_s78.json`,
-  `tools/frontier_classify.py`; the three objects were REAL/VERBATIM, not stubs). Classes and names exactly as
-  the S78 FINAL block §2 listed them: A-TWIN-REMAP 2 · B-CARVE jtbl 6 · C-PLUMBING 7 · D-NEAR 14 · F-FAR 10 ·
-  G-DRAFTED-UNKNOWN 12 · H-VIRGIN 1 (`D_800D3200`, a data word). Per binary: **main 29 (3,975 ins)** ·
-  resident 2 · md 7 · overlays 14 across 11 binaries.
-  main's 29 by name: PadInfoAct (jtbl carve) · `_padSetMainMode` (plumbing) · `func_80011380` 192 (boot -O0
-  floor §474), `_padInitSioMode` 133, `func_80015760` 106, `func_8005D734` 91, `PadInitDirect` 88,
-  `func_80015608` 86, `func_80039B20` 79, `func_80038698` 74, `func_80062144` 65, `func_8005F290` 61,
-  `_dirFailAuto` 55, `_padStartCom` 51, `func_8005ECC0` 35 (D-NEAR) · `func_80032A74` 422, `func_8005F830`
-  153, `func_80015B6C` 120, `func_8002AC98` 114, `func_80020DA4` 100, `func_800391D4` 75, `func_80039DEC` 74,
-  `func_8002FDE8` 73, `func_8001BC6C` 69 (F-FAR) · `func_80039308` 518, `func_8001EFE0` 468, `func_80023BF0`
-  281, `func_8005ED4C` 223, `func_8005F450` 159 (G).
-* **Verbatim `__asm__` bodies: 33 in tree** (main 29 + 4 elsewhere); manifest `config/verbatim_manifest.json`
-  now **33 rows** (S79 `--update`, subtractive: 200 → 33; 32 PERMANENT-VERBATIM + 1 DECOMPILE-NOW). #10
-  ratifies the PERMANENT set (S78 estimated ≈ 9 genuinely permanent: crt0 `start`/`__main`/`__do_global_dtors`,
-  GAME-ASM `md_MAIN_003:func_800D3204/3234`, GAME-GTE `ov_SC05_005:func_80181828` + `ov_SC06_032:func_8017D810`,
-  2 SDK frags) and decompiles `main()` (509 ins) + the md_MAIN_003 -O0 cluster; the GAME-GTE UNCERTAIN ×3
-  (`ov_SC01_001:func_80181E04` 269, `ov_SC03_105:func_80185810` 489, `ov_SC07_002:func_8017DC80` 346) need a
-  verbatim-vs-C verdict first (#9).
-* **Located-but-unwired SDK objects** (the build PRINTS them per library as `~~ N located object(s) …`): after
-  #4 there is NO `~~` line for libgpu / libgs / snd. Still open: the libpad/libapi band pieces (#5), `SSGM.o`
-  8 ins @0x8001BD80 inside matched C (`800`), and the sound region's two cross-object-common walls `S_R`/`S_W`
-  @0x8003C438 + `S_GRMDT*` @0x8003D424 (these objects have NO `.bss` — a DIFFERENT class from §489; 24+4 ins).
+* **Stubs: 38 of 363,157 matchable (`.run/frontier_s79.json`, `tools/frontier_classify.py` — regenerated after
+  the fleet; #5 removed the 13 band stubs; #4 removed none, its objects were REAL/VERBATIM).** Classes:
+  A-TWIN-REMAP 2 (ov_SC04_018 `func_80181804` 77 / `func_80181CB8` 67, proven twin ov_SC04_019) ·
+  B-CARVE jtbl 5 (resident `func_800D06E8` 344 + `func_800D128C` 243, ov_SC02_017 `func_80186C64` 209,
+  md_MAIN_034 `func_800CB00C` 152, ov_SC05_010 `func_8017FFA8` 88) · C-PLUMBING close=0 6 (ov_SC05_005
+  `func_80181828` 87, ov_SC05_018 `func_80180BE0` 65, ov_SC06_010 `func_801809E4` 33, md_MAIN_003
+  `func_800D06BC` 33 + `func_800D0100` 29, md_MAIN_020 `func_800CB17C` 30) · D-NEAR ≤25 6 (main
+  `func_80011380` 192 boot -O0 floor §474, `func_80015760` 106, `func_80015608` 86, `func_80039B20` 79,
+  `func_80038698` 74; ov_SC03_105 `func_801834A4` 106) · F-FAR 9 (main `func_80032A74` 422, `func_80015B6C`
+  120, `func_8002AC98` 114, `func_80020DA4` 100, `func_800391D4` 75, `func_80039DEC` 74, `func_8002FDE8` 73,
+  `func_8001BC6C` 69; ov_SC02_027 `func_80180B3C` 297) · G-DRAFTED-UNKNOWN 10 (main `func_80039308` 518,
+  `func_8001EFE0` 468, `func_80023BF0` 281; ov_SC03_105 `func_80185810` 489; md_MAIN_003 `func_800CF3E8`
+  469 + `func_800D1D14` 65 + `func_800D0174` 36; ov_SC07_002 `func_8017DC80` 346; ov_SC01_001 `func_80181E04`
+  269; ov_SC06_022 `func_8017DF28` 119) · H-VIRGIN 1 (md_MAIN_003 `D_800D3200`, a data word → splat fix).
+  Per binary: **main 16 (2,786 ins)** · resident 2 · md 7 · overlays 13 across 10 binaries. The 13 that
+  left with #5: PadInfoAct, `_padSetMainMode`, `_padInitSioMode`, `func_8005D734`, `PadInitDirect`,
+  `func_80062144`, `func_8005F290`, `_dirFailAuto`, `_padStartCom`, `func_8005ECC0`, `func_8005F830`,
+  `func_8005ED4C`, `func_8005F450` — all libpad 4.2.1 / libapi 4.2 objects.
+* **Verbatim `__asm__` bodies: 6 in tree** (main 3 + md_MAIN_003 2 + ov_SC03_107 1); manifest
+  `config/verbatim_manifest.json` = **6 rows** after two subtractive `--update`s this session (200 → 33 → 6):
+  crt0 `start`/`__main`/`__do_global_dtors` (CRT, PERMANENT), GAME-ASM `md_MAIN_003:func_800D3204/3234`
+  (PERMANENT), and `ov_SC03_107:func_8017D878` (GAME-C, DECOMPILE-NOW). #10 ratifies the PERMANENT five in the
+  manifest `_README`, decompiles the one GAME-C, `main()` (509 ins) and the md_MAIN_003 -O0 cluster; the
+  GAME-GTE UNCERTAIN ×3 (`ov_SC01_001:func_80181E04` 269, `ov_SC03_105:func_80185810` 489,
+  `ov_SC07_002:func_8017DC80` 346) are G-class STUBS now, not verbatims — verdict first (#9).
+* **Located-but-unwired SDK objects** (the build PRINTS them per library as `~~ N located object(s) …`): NO
+  `~~` line remains for any library. Still unlinked by design: `SSGM.o` 8 ins @0x8001BD80 inside matched C
+  (`800`), and the sound region's two cross-object-common walls `S_R`/`S_W` @0x8003C438 + `S_GRMDT*`
+  @0x8003D424 (these objects have NO `.bss` — a DIFFERENT class from §489; 24+4 ins, byte-identical stubs).
 * **Disc: 5 unclaimed code payloads of 220** (MAIN/7, MAIN/9, SC03/53/54/56) — the explicit exclusion the
   100% claim cites (`docs/disc-completeness.md`).
 * **Metrics at close** (`docs/progress.md` / `progress.fleet.md`, regenerated by tools-health): main REAL
-  **839** · LINKED **1,150** · VERBATIM **29** · stubs **29** · matchable 2,090 · byte-identical 2,061/2,090 =
-  98.6%; **MAIN game-code weighted 91.1% (40,895 / 44,870)**, remainder 3,975 = the open-stub sum exactly;
-  fleet instr 99.9% (13,481,631 / 13,489,225), distinct 99.9%, stubs 51. Linked libraries: libcd 18/2,
-  libgs 34/8, libetc 5/1, libgpu 3/2, libmcrd 2/2, libc2 17/2, libgte 70/30, snd 63/12, apicard 22/4.
+  **773** · LINKED **1,256** · VERBATIM **3** · stubs **16** · matchable 2,091 · byte-identical 2,075/2,091 =
+  **99.2%**; **MAIN game-code weighted 93.3% (38,748 / 41,534)**, remainder 2,786 = the open-stub sum exactly
+  (S78 close: 91.8% / 44,562 / 48,537 — both terms have since lost ~7,000 Sony instructions that were counted
+  as matched game code); fleet instr 99.9%, distinct 99.9%, stubs **38** of 363,157. Linked libraries:
+  libcd 18/2, libgs 34/8, libetc 5/1, libgpu 3/2, libmcrd 2/2, libc2 17/2, libgte 70/30, snd 63/12,
+  apicard 26/7 (libapi 4.2 + libcard 4.0), libapi42 23/2, libpad421 7/2 — 268 objects / 70 blocks.
 
-# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4 #13
+# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4 #13 #5
 
 | # | task | status | effort |
 |---|---|---|---|
@@ -8095,9 +8126,9 @@ now links instead of matching (§5/§6 below).
 | 12 | name the band (46 names, Ghidra mirrored, provenance docs) | DONE `commit:3861` | — |
 | 3 | wire the exact-tile library subsegs (13 subsegs → LINKED) | DONE `commit:3863` | — |
 | 4 | SYS.o + VM_F (+ GS_001) `.bss` split → LINKED (`libgpu2`, `snd12`, `libgs8`) | DONE S79 `commit:3865` | — |
-| 13 | bounded hunt for LIBPAD.LIB 4.2.1 / 4.3 — **FOUND** (RTL 4.2 + the J421PD 4.2.1 patch; 46/46 byte-identical) | DONE S79 (this commit) | — |
-| **5** | **the band: LINK ALL OF IT from libpad 4.2.1 + libapi 4.2 (carve `800c3`/`800c2*` at object boundaries; re-source the apicard region's libapi from 4.2)** | **NEXT** | **xHigh** |
-| 6 | mechanical: A-TWIN-REMAP 2 + B-CARVE 6 + `D_800D3200` | pending | xHigh |
+| 13 | bounded hunt for LIBPAD.LIB 4.2.1 / 4.3 — **FOUND** (RTL 4.2 + the J421PD 4.2.1 patch; 46/46 byte-identical) | DONE S79 `commit:3866` | — |
+| 5 | the band + the apicard region LINKED from libpad 4.2.1 + libapi 4.2 (`libapi1/2`, `libpad1/2`, `apicard5-7`; 13 stubs, 4 TUs, the reorder island gone) | DONE S79 `commit:orphan-24` | — |
+| **6** | **mechanical: A-TWIN-REMAP 2 + B-CARVE 5 + `D_800D3200`** | **NEXT** | **xHigh** |
 | 7 | C-PLUMBING 7 via `recover_route` / §376–§378 | pending | xHigh |
 | 8 | D-NEAR non-band 6: permuter/ILS/§31 or §474 wall-proof each | pending | xHigh |
 | 9 | F-FAR 10 + G-UNKNOWN 12: one journal-noted agent per function | pending | xHigh |
@@ -8144,65 +8175,62 @@ mv back; make extract BINARY=main`) after ANY change to `psyq_identify`/`psyq_in
 yaml; `lint_symbol_refs` — read its WHOLE output; a splat symbol comment must not contain `name:`; verify a
 build from its EXIT CODE (R53).
 
-# 5. TASK #13 — DONE: THE ARCHIVE EXISTS (facts, not to re-derive)
+# 5. WHAT #13 AND #5 CHANGED (facts, not to re-derive)
 
-`tools/psyq/PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z` (tracked; sha256 `e4f5a678…`) →
-`tools/psyq/lib42/*.LIB` (RTL 4.2, 1998-01-21; 23 libs + `42PATCH/` + `MC42PTCH/`) and `tools/psyq/lib421/`
-(J421PD payload: `LIBPAD.LIB` 4.2.1 sha `eb41454b…`, `LIBAPI.LIB` 4.2 sha `88294cd8…`, `LIBPAD.H`, `LIBAPI.H`,
-`KERNEL.H`, `J421PD.txt`). ELF: `.run/obj42/libpad421/` (11 objects) and `.run/obj42/libapi42/` (88); regenerate
-with `python3 tools/psyq_lib_split.py <LIB> <dir>` then `tools/psyq/psyq-obj-parser <obj> -o <o>` per object.
-Placement over 0x8005CE18–0x800629DC (`psyq_identify … 0x8005CE18 0x800629DC`): libpad421 7/11, libapi42 39/88,
-every one `psyq_link.py` PASS. Neighbours for the record: plain libpad 4.2 and libpad 4.3 (disc DTL-S2340,
-1998-05-18, `.run/psyq_hunt/rtl43/lib43/`, `.run/obj43/`) each place only 4 — 4.2.1 is the unique exact match.
-The 4.2.1 headers, not 4.7's, are the band's prototype oracle from now on.
+**(a) The archive.** `tools/psyq/PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z` (tracked; sha256
+`e4f5a678…`) → `tools/psyq/lib42/*.LIB` (RTL 4.2, 1998-01-21) and `tools/psyq/lib421/` (J421PD: `LIBPAD.LIB`
+4.2.1 sha `eb41454b…`, `LIBAPI.LIB` 4.2 sha `88294cd8…`, `LIBPAD.H`, `LIBAPI.H`, `KERNEL.H` = the band's
+prototype oracle). ELF: `.run/obj42/libpad421/` (11 objects) and `.run/obj42/libapi42/` (88); regenerate with
+`python3 tools/psyq_lib_split.py <LIB> <dir>` then `tools/psyq/psyq-obj-parser <obj> -o <o>` (SETUP has the
+commands). Placement 0x8005CE18–0x800629DC: libpad421 7/11, libapi42 39/88, every one `psyq_link.py` PASS.
+Neighbours: plain libpad 4.2 and the 4.3 disc (DTL-S2340, 1998-05-18; `.run/psyq_hunt/rtl43/lib43/`) place 4
+each — 4.2.1 is the unique exact match; the game was built between Feb and May 1998.
+**(b) The wiring** (cookbook §490). Yaml: `800c3` → `libapi1` [0x4D618] · `libpad1` [0x4D8D8] · `libapi2`
+[0x4E968] · `libpad2` [0x4E988]; `800c2` → `apicard5`, `800c2_2` → `apicard6`, `800c2_3` → `apicard7`.
+Makefile: `LIBAPI42_*` (raw `.run/obj42/libapi42`, window 0x8005CE18 0x8005E188, stubs libapi1,libapi2),
+`LIBPAD_*` (raw `.run/obj42/libpad421`, window 0x8005D0D8 0x8005FC68, stubs libpad1,libpad2),
+`APICARD_ELF := .run/obj42/apicard_used` with `APICARD_STUBS` apicard1..7; the SYMS line carries the two new
+`*_externals.ld`; `REORDER_TUS :=` (empty, mechanism kept). `tools/make_apicard_used.py`: `SOURCES =
+(.run/obj42/libapi42, .run/obj40/libcard)` → 26 objects. TUs: `git rm src/800c3.c src/800c2.c src/800c2_2.c
+src/800c2_3.c`; splat emitted the 7 stub TUs (`libapi1.c` 25 stubs, `libpad1.c` 24, `libapi2.c` 2, `libpad2.c`
+40, `apicard5.c` 2, `apicard6.c` 10, `apicard7.c` 4) for the no-SDK fallback. `psyq_integrate` printed 26/7 ·
+23/2 · 7/2 blocks, no `~~`, no `!!`.
+**(c) Instruments fixed.** `tools/exclude_audit.py`: LINKED now outranks a pinned `# WALL` (`config/wave_exclude.txt`
+13 → 3: the four §332 walls, `func_80062144`, `PopMatrix`/`PushMatrix` — the last two in libgte3 since Phase 8).
+`tools/frontier_classify.py`: its LINKED set was a hard-coded 49-name literal (R51) and reported 337 "stubs" after
+#5; derived from the Makefile now (`progress._main_linked_segs_from_makefile`).
+**(d) Still true from S78/S79 #4:** §4 above (the `.bss` split, the band identity, ApplySymbols for renames,
+main's LINKED path only exercised in-tree with the obj dirs present, R53 exit codes, `lint_symbol_refs` whole
+output, no `name:` in splat symbol comments).
 
-# 6. TASK #5 — WIRE THE WHOLE BAND (start here; xHigh; design before code, X1)
+# 6. TASK #6 — MECHANICAL: A-TWIN-REMAP 2 + B-CARVE 5 + `D_800D3200` (start here; xHigh; design before code, X1)
 
-**Target:** every byte of 0x8005CE18–0x8005FC68 becomes LINKED, plus `FIRST.o`/`PAD.o`/`PATCH.o`/`CHCLRPAD.o`
-and the apicard trampolines re-sourced from libapi 4.2. Object tiling of the band, in vram order (all
-verified byte-identical S79): 21 libapi trampolines C57 C68 C73 C114 A07 A08 A09 A10 A11 A12 A13 A23 A24 A25
-A36 A37 A52 A53 A91 L10 at 0x8005CE18 + 0x10·k (4 ins each, 0x8005CE18–0x8005CF68) · COUNTER 0x8005CF68 (92)
-· PADENTRY 0x8005D0D8 (300) · PADMAIN 0x8005D588 (760, ends 0x8005E168) · L02 0x8005E168 · L03 0x8005E178 ·
-PADCMD 0x8005E188 (600) · PADIF 0x8005EAE8 (376) · PADPORTD 0x8005F0C8 (408) · PADSEQD 0x8005F728 (288) ·
-WAITRC2 0x8005FBA8 (48, ends 0x8005FC68). Check the tiling has NO gap (0x8005CE18 + 21·0x10 = 0x8005CF68 ✓;
-PADMAIN 760·4 = 0xBE0 → 0x8005D588+0xBE0 = 0x8005E168 ✓; PADENTRY ends 0x8005D588 ✓ …) before carving —
-integrate's exact-tiling check will refuse otherwise (R43).
-**The carve.** Today the band lives in the C TUs of the `REORDER_TUS` island (`800c3` = 0x8005CE18…, plus
-`800c2`, `800c2_2`, `800c2_3` for the apicard-side pieces; §332b). Follow the §486/§488 procedure: yaml rows
-at each object-block boundary (block names e.g. `libapi42_1` = the 21 trampolines + COUNTER 0x8005CE18–0x8005D0D8,
-`libpad1` = PADENTRY+PADMAIN 0x8005D0D8–0x8005E168, `libapi42_2` = L02/L03 0x8005E168–0x8005E188, `libpad2` =
-PADCMD…WAITRC2 0x8005E188–0x8005FC68 — or one block per object; pick what tiles the yaml cleanly), each
-row commented with objects + ins + "exact tile", then `git rm` the TUs that become 100% SDK (`800c3` is
-entirely band? CHECK the row range vs 0x8005FC68 — anything after the band inside `800c3` stays game C in a
-carved-off TU: split the TU at the object end, keep its game C, per §488). Curated dir: build
-`.run/obj42/band_used` = the 7 libpad421 objects + the band's 23 libapi42 objects (the apicard-region 16 go to
-the apicard call), or pass the raw dirs with WINDOWS (`lo hi`) so each call places only its region — two
-integrate calls: libpad421 window 0x8005D0D8–0x8005FC68, libapi42 window 0x8005CE18–0x8005E188 (+ a third
-libapi42 call for the apicard window 0x80061F38–0x80062888 REPLACING the 4.0 `apicard_used` libapi objects;
-`make_apicard_used.py` merges libapi+libcard — point its libapi source at obj42 and keep libcard 4.0, then
-`FIRST.o` needs a carved stub for the REAL-C `firstfile` in `800c2` [0x80061FA8,0x80062248) and `PATCH`+
-`CHCLRPAD` = all of `800c2_3` after A18–A21). Makefile: new `*_ELF/_OBJDIR/_SYMS` triples + stub lists;
-`$(main_SPLAT_YAML)` on every call; `progress.py` picks the blocks up from the Makefile automatically.
-**Names.** `config/symbols.us.txt` already carries the 46 band names (S78 #12); the objects export them
-(`--redefine-sym` covers any curated-vs-object spelling, R15). `PadInfoAct`'s jtbl (B-CARVE) disappears with
-the object — remove it from `config/wave_exclude.txt` via `exclude_audit.py --write` (a stale list is refused).
-Ghidra: no renames needed (names already mirrored S78); if any curated name changes, `tools/ghidra_apply_symbols.sh` + R9.
-**Gate exactly as #3/#4:** in-tree `make extract BINARY=main` → `make build BINARY=main -j` with `.run/obj40`+`obj42`
-present (watch the `integrate` lines: block counts, `~~` residue must be EMPTY for the band, `!!` unresolved
-none) → the fresh-extract fallback WITHOUT the SDK dirs → `make tools-health` → R22 fleet (background) → docs
-(cookbook § for "the band links", worklist rows incl. the "5+6 libapi+libcard" footprint row and the §332
-wall verdicts now VOID, SETUP, decision-log R31: the §332 "walls" were reorder-assembled SDK code — recorded
-S78, close the loop) → `verbatim_check --update` (the 8 SDK-C-REORDER verbatims go) → commit. Expect: main's
-open stubs 29 → 17 (the 12 band stubs), VERBATIM −8, REAL −(the band's hand-matched C incl. `firstfile`),
-LINKED +~60, game-code denominator −~3,200 ins with the remainder = the new open-stub sum (reconcile it, R41).
-Fresh-clone note (SETUP): `.run/obj42` is regenerable from the tracked 7z — document the two commands.
+**A-TWIN-REMAP (2, ov_SC04_018):** `func_80181804` (77) and `func_80181CB8` (67) have a PROVEN twin in
+ov_SC04_019 (banked). Run `tools/twin_rescan.py` first (a bank changes the twin graph; §397) to confirm the
+pairing, then `family_remap` / the structural-family mechanical remap (memory `structural-family-mechanical-remap`:
+h_exact remaps bank at 88.5%). Gate ov_SC04_018 with the parallel gate in a worktree (memory
+`parallel-gate-via-worktrees`; never xargs -P over gate_stage). Then `twin_rescan` again.
+**B-CARVE jtbl (5):** resident `func_800D06E8` (344) + `func_800D128C` (243) need the RESIDENT carve path
+(`jtbl_carve` / `jtbl_family_bank`; `o0_subsplit` refuses main only — check what it says for resident);
+ov_SC02_017 `func_80186C64` (209), ov_SC05_010 `func_8017FFA8` (88) via `jtbl_carve`; md_MAIN_034
+`func_800CB00C` (152) sits in `config/wave_exclude.txt` as "WALL: compiler wall (S68)" — it is B-CARVE in the
+census, so re-probe it under the CURRENT carve tooling before believing the S68 label (memory
+`reprobe-exclude-lists-after-tool-fixes`; `exclude_audit` keeps it only because it is pinned). `split_indicator.py`
+is the carve oracle (tools-health runs it as a hard gate): a subseg owning raw tables in >1 non-adjacent span
+must be split before any switch function in it can bank. Read `docs/matching-cookbook.md` §486 (the 5-piece
+manual carve) and §53 before carving.
+**H-VIRGIN `D_800D3200` (md_MAIN_003):** a data word mis-sliced as a stub — a splat symbol type fix in
+`config/splat.md_MAIN_003.yaml` / its symbols file (declare the word as data), then re-extract md_MAIN_003; it
+should vanish from `corpus.stubs` without any C.
+**Gate/verify per binary:** overlays/modules through `gate_stage`/`parallel_gate` (each carve edits that
+binary's yaml — R60: a gate commits only its own binary's carve-state lines; `interleave_check` + `pads_audit`
+after any yaml touch); resident through its own path; then `twin_rescan`, R22 fleet, `frontier_classify --json`,
+docs (cookbook idioms if any new), checkpoint, one commit per binary or per class (R42: commit before the next
+command that can touch src/).
 
 # 7. TASKS #6–#11 — CARRIED CONTEXT
 
-* #6: `tools/twin_rescan.py` / `family_remap` for the ov_SC04_018 pair (`func_80181804`/`func_80181CB8`,
-  twin ov_SC04_019); jtbl carves via `jtbl_carve`/`jtbl_family_bank` (resident `func_800D06E8` 344 +
-  `func_800D128C` 243 need the resident carve path; `o0_subsplit` refuses main → the §486 manual 5-piece
-  procedure for `PadInfoAct`); `D_800D3200` = splat symbol type fix.
+* #6: see §6 above (`PadInfoAct` is gone with the band — no main carve left in this class).
 * #7: bodies proven (close=0); the TU's spelling refuses — `recover_route.py` (routes a DROP to the applicable
   tool), `cast_self_callers`, `sync_tu_decls`, `--sync-decls`; prove plumbing byte-neutral BEFORE gating and
   commit the plumbing before the gate (S77 laws). `gate_main.py` is the ONLY main gate.
@@ -8212,10 +8240,11 @@ Fresh-clone note (SETUP): `.run/obj42` is regenerable from the tracked 7z — do
 * #9: single agents with `journal_notes.py` + `neighbor_ref` (via `claude_wave_packs`); the 3 GAME-GTE
   UNCERTAIN bodies get a verbatim-vs-C verdict first. Route models per the ladder (Haiku ≤50 ins → Sonnet →
   Opus; Fable only for a NEW wall class).
-* #10: ratify PERMANENT in the manifest `_README` (33 rows now; expected ≈ 9 truly permanent); decompile
-  `main()` (509 ins, GAME-C) + the md_MAIN_003 -O0 cluster.
-* #11: PhaseEnd per the format; the 5 unclaimed payloads as the explicit exclusion; wall ledger with proofs;
-  the dashboard on the corrected denominators (main 91.1%-class numbers, LINKED 1,150).
+* #10: ratify the 5 PERMANENT rows in the manifest `_README` (6 rows now); decompile `ov_SC03_107:func_8017D878`
+  (GAME-C, the one DECOMPILE-NOW), `main()` (509 ins) + the md_MAIN_003 -O0 cluster.
+* #11: PhaseEnd per the format; the 5 unclaimed payloads as the explicit exclusion; wall ledger with proofs
+  (3 pinned walls left: md_MAIN_034 `func_800CB00C` (re-probe in #6), ov_SC03_105 `func_801834A4`, ov_SC06_022
+  `func_8017DF28`); the dashboard on the corrected denominators (main 93.3% / 99.2% byte-identical, LINKED 1,256).
 
 # 8. HABITS THIS SESSION PAID FOR (keep)
 * Design before code, and probe the design's PREDICTION before trusting it: the raw objects failed by exactly
@@ -8225,6 +8254,11 @@ Fresh-clone note (SETUP): `.run/obj42` is regenerable from the tracked 7z — do
 * Put a transformation in the shared prepare path, then negative-control it over the whole population it now
   touches (235 objects) — the R39 control caught the end-pointer refusal that the three targets never showed.
 * Confirm every derived cut against an oracle that did not derive it (the other objects' by-name recoveries).
+* Provenance → archive → link → compiler, in that order (§490): twelve "walls" and a 383 KB download.
+* Every "linked" list must be DERIVED from the Makefile (R51): two hard-coded copies (exclude pins, the census)
+  each lied the day the link state changed.
+* Edit the LIVE checkpoint block through a slice of the file that starts at its own header: the S78 and S79
+  blocks share every section heading, and `str.index` on a heading duplicated a region twice this session.
 
 # 9. PLAIN ENGLISH
 Three chunks of the main program had been treated for months as "Sony library code we can't link because
@@ -8237,5 +8271,8 @@ changed; the accounting is just more honest: 47 fewer "hand-matched" functions t
 110 more linked library functions, and the remaining work is exactly what it was — 51 functions with named
 reasons. Then the bounded search for the exact Sony controller-library version the game shipped with found it
 in under an hour: a small archive on archive.org holds Sony's February-1998 controller-library patch, and every
-one of its pieces matches the game byte for byte. The hardest-looking stretch of the main program can now be
-linked straight from Sony's library instead of rewritten by hand. Next: wire it in.
+one of its pieces matches the game byte for byte. We then wired it in: the hardest-looking stretch of the main
+program — twelve functions carried as "compiler walls", plus the controller and BIOS-call code around it —
+now links straight from Sony's library instead of being rewritten by hand. Main's open functions went from 29
+to 16 and the whole game's from 51 to 38; nothing about the game changed. Next: the mechanical leftovers (two
+twin functions, five jump-table carves, one mis-typed data word).

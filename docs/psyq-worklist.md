@@ -17,7 +17,8 @@
 | 2 | **libetc** | 5 / 7 | 800 tail (`0x8004239C`) | ~3.3k | VSYNC/INTR/INTR_VB/INTR_DMA/VMODE **contiguous**, ends exactly at libcd1 (`0x80043088`). Clean. |
 | 3 | **libmcrd** | 2 / 2 | 800b2 (`0x8005FC68`,`0x80062888`) | ~9.0k | LIBMCRD.o (2186 ins, huge, holds the 55 `LIBMCRD_OBJ_*`) + USERFUNC.o — **2 blocks**. `_card_*` h_norm dups collapse inside LIBMCRD. |
 | 4 | **libc2** | 17 / 46 | 800b2 (`0x8005C2C8`–`0x5CD98` + STRCAT `0x80061E90`) | ~3.1k | C stdlib (BZERO/MEMCPY/STRCMP/PRINTF/PRNT…); contiguous run + 1 outlier. **PRNT.o (418 ins) has an internal jtbl** — verify NOLOAD `.rodata` placement (the `PRNT_OBJ_24C` rodata note). |
-| 5+6 | **libapi+libcard** | 22 (800c2) | 800c2 (`0x80061F38`–`0x80062888`) | ~0.7k | ✅ **DONE (combined apicard region): 22 objs / 4 blocks / +24 fns** (`tools/make_apicard_used.py`, C112 dedup, 0 exclusions). **libapi's ~22 objects in the 800c3 region (`0x5CE18`..) DEFERRED** — lowest value, separate resegmentation. |
+| 5+6 | **libapi+libcard** | 26 (800c2) + 23 (band) | 800c2 (`0x80061F38`–`0x80062888`) + the band (`0x8005CE18`–`0x8005E188`) | ~2.6k | ✅ **DONE (S79 #5): apicard region 26 objs / 7 blocks tiling the whole range** (`tools/make_apicard_used.py`, libapi **4.2** from `tools/psyq/lib421` + libcard 4.0; FIRST/PAD/PATCH/CHCLRPAD were the "game code" rows 800c2/800c2_2/800c2_3) **+ the band's 23 libapi 4.2 objects (libapi1/libapi2)** from the raw `.run/obj42/libapi42` dir, windowed. |
+| 9 | **libpad 4.2.1** | 7 / 11 | the band (`0x8005D0D8`–`0x8005FC68`) | ~11.5k | ✅ **DONE (S79 #13 found it, #5 wired it): PADENTRY PADMAIN PADCMD PADIF PADPORTD PADSEQD WAITRC2 as libpad1/libpad2** from the raw `.run/obj42/libpad421` dir (SCE's 1998-02-26 J421PD patch, `tools/psyq/lib421`). Absent: PADGUN/PADPORTM/PADSEQM/GUNHOOK (no gun, no multitap). |
 | 7+8 | **libspu+libsnd** | 63 / (38+32) | 800 sound (`0x8003A444`–`0x8004239C`) | ~24k | ✅ **DONE (combined region; S78 #3/#4): 63 objs / 12 blocks.** The two libs interleave, so linked as ONE region (`tools/make_snd_used.py` dedups + excludes 3 addresses; `gen_lib_subsegs.py` + window). **Excluded:** S_R/S_W `0x3C438`, S_GRMDT* `0x3D424` (cross-object commons — these objects have NO `.bss`, so the S78 split cannot apply), S_IH/UT_RON `0x3D94C` (false-positive, inside SSSTART). VM_F `0x3FA64` (237 ins) rejoined in S78 #4 (`snd12`, `.bss` split at `_svm_sreg_buf`). SSGM.o `0x1BD80` deferred (isolated in matched-C, 8 ins). |
 | 9 | **libgte** | 58 / 381 | 800b (`0x8004787C`–`0x5082C`) + **libgs gaps** | ~48k | ✅ **DONE (T11): 53 objs / 22 blocks linked** in 800b (subsegs via `gen_lib_subsegs.py`; integrate window 0x4787C..0x51804). **5 libgs-gap objects DEFERRED** (MTX_05/07/11/REG03/REG11 → gsgap1/2/4/5 stay stubs; gsgap2≠MTX_07 exactly so needs sub-split). |
 
@@ -69,7 +70,7 @@ references resolve to >1 base in the EXE. Curate the library's `_used` dir to dr
 | `MTX_05/07/11`,`REG03`,`REG11` | libgte | sit in libgs gaps gsgap1/2/4/5; gsgap2(48B)≠MTX_07(36B) so the gap stub needs a sub-split | **deferred (T11)**; small GTE fns; link byte-identical, just need the gsgap region resegmented (low priority) |
 | `0x3C438`,`0x3D424`,`0x3D94C` (S_R/S_GRMDT/S_IH) | libspu/snd | cross-object commons referenced at a minority address (S_R/S_GRMDT — these objects have NO `.bss` of their own, so the S78 split does not apply) + a false placement inside SSSTART (S_IH) | **excluded (sound region)**; stay stubs (24+4+24 ins). VM_F `0x3FA64` (237 ins) left this row in S78 #4 → `snd12` |
 | `SSGM.o` | libsnd | isolated @0x1BD80, inside the matched-C region (near func_8001Bxxx) | **deferred**; 8 ins; would need a 1-object carve amid matched C |
-| libapi 800c3 cluster (~22 objs) | libapi | C57..L10/L02/L03 @0x5CE18.. in the 800c3 region (separate from the 800c2 apicard region) | **deferred**; ~22 4-ins BIOS syscall stubs; lowest value; another region resegmentation |
+| libapi 800c3 cluster (~22 objs) | libapi | C57..L10/L02/L03 @0x5CE18.. in the 800c3 region (separate from the 800c2 apicard region) | **LINKED S79 #5** (`libapi1`/`libapi2`, from libapi **4.2** — the EXE's real libapi, cookbook §490); the row's "lowest value" verdict missed that the same region held libpad 4.2.1's 2,780 ins |
 
 *~~If scattered-`.bss` proves prevalent across libgte/libspu/libsnd, escalate to a Max general fix (split each object's `.bss` into per-common NOLOAD sections at their EXE-resolved addresses); otherwise excluding the few affected objects is the GS_001-precedent decision.~~ **Done in P31 S78 #4 — exactly that fix, twenty-three phases later: `tools/psyq_bss_split.py` runs inside the link-prepare step of `psyq_link` / `psyq_link_region` / `psyq_integrate` and tiles any such section into per-base NOBITS pieces from the bytes (cookbook §489). All three excluded objects link byte-identical; 235 placed objects across the 9 curated dirs, 0 refusals (R39 negative control).***
 
@@ -248,3 +249,26 @@ places the same 4 objects as plain 4.2 (PADENTRY, PADCMD, PADPORTD, WAITRC2) —
 PADSEQD 292 against the EXE's 760 / 376 / 288 — and its LIBAPI.LIB places 38 (no 4.2 `C114`). So 4.2.1 is the
 unique exact match: the game was built between the February 1998 patch and the May 1998 4.3 disc. Not banked
 (>100 MB, R20 exception; the item id is the pointer; the two LIBs sit in `.run/psyq_hunt/rtl43/lib43/`).
+
+### S79 task #5 — the band and the apicard region LINKED from libapi 4.2 + libpad 4.2.1 (0 tokens; cookbook §490)
+
+| new block | was | objects | ins | note |
+|---|---|---|---|---|
+| `libapi1` | 800c3 head | C57 C68 C73 C114 A07–A13 A23–A25 A36 A37 A52 A53 A91 L10 + COUNTER | 176 | 21 BIOS trampolines + the RCnt object; window 0x8005CE18–0x8005E188 |
+| `libpad1` | 800c3 | PADENTRY + PADMAIN | 1,060 | PADMAIN 760 = the 4.2.1 build |
+| `libapi2` | 800c3 | L02 + L03 | 8 | SysEnqIntRP / SysDeqIntRP |
+| `libpad2` | 800c3 tail | PADCMD PADIF PADPORTD PADSEQD WAITRC2 | 1,720 | window 0x8005D0D8–0x8005FC68 |
+| `apicard5` | 800c2 | FIRST | 168 | `firstfile` (REAL C until now) + the "no jump table wall" stub `func_80062144` |
+| `apicard6` | 800c2_2 | PAD | 192 | SetInitPadFlag … StopPAD + 4 statics (hand-matched C + 4 verbatims until now) |
+| `apicard7` | 800c2_3 | PATCH + CHCLRPAD | 68 | `_patch_pad`, `_remove_ChgclrPAD` (4 verbatims until now) |
+
+Two windowed integrate calls from the raw `.run/obj42/{libapi42,libpad421}` dirs (the band is one interleaved
+run and `psyq_integrate` tiles each stub with one library) + the apicard call from the re-sourced
+`.run/obj42/apicard_used` (libapi 4.2 + libcard 4.0, 26 objects / 7 blocks, no game code left in
+0x80061F38–0x80062888). TUs gone: `src/800c3.c` (129 hand-matched "C", 62 verbatim bodies, 19 stubs — Sony's
+reorder-assembled code all along, §332b), `src/800c2.c`, `src/800c2_2.c`, `src/800c2_3.c`; the `REORDER_TUS`
+island is EMPTY (the Makefile mechanism stays). main `143dbb89` with every SDK dir and, from a fresh extract,
+with none. `config/wave_exclude.txt` regenerated (`exclude_audit` now lets LINKED outrank a pinned WALL: the
+four §332 walls, `func_80062144`, and `PopMatrix`/`PushMatrix` — in libgte3 since Phase 8 — dropped);
+verbatim manifest 33 → 6 rows. Located-but-unwired SDK code left in main: `SSGM.o` (8 ins, inside matched C)
+and the sound region's two cross-object-common walls (S_R/S_W, S_GRMDT*).
