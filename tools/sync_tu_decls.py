@@ -49,13 +49,30 @@ DROP_RE = re.compile(r"DROP \S+: (?P<sym>[A-Za-z_]\w*) clashes with (?P<side>the
 COMPILE_RE = re.compile(r"COMPILE conflict on `(?P<sym>[A-Za-z_]\w*)' at (?P<tu>[^:]+):\d+")
 
 
+# A DEFINITION IS A DECLARATION (P31 S77). The first version looked only for an `extern` line, so
+# when the clashing symbol is a function the TU DEFINES — the common case once a TU has been banked
+# into — it reported "no `extern` line to copy" and stopped, though the authoritative spelling was
+# right there in the definition's own header. Measured: this was the terminal blocker of BOTH
+# remaining self_decl_tu drafts (func_8005E3AC on func_8005E480, func_8005E79C on func_8005E804,
+# each defined in src/800c3.c). The definition is preferred over an extern when both exist: it is
+# the one cc1 checks every other declaration against.
+DEF_HEAD = r"^[ \t]*((?:[A-Za-z_][\w]*[ \t\*]+)+?)%s[ \t]*\(([^;{)]*)\)[ \t]*\{"
+
+
 def tu_decl(tu_path, sym):
-    """The TU's own `extern … sym …;` line, verbatim — the authoritative spelling."""
-    pat = re.compile(r"^\s*extern\b[^;\n]*\b%s\b[^;\n]*;\s*$" % re.escape(sym), re.M)
+    """The TU's authoritative spelling of `sym` — its DEFINITION header if it has one, else its
+    own `extern … sym …;` line, rendered as an `extern` declaration."""
     try:
-        m = pat.search(open(os.path.join(REPO, tu_path), errors="replace").read())
+        text = open(os.path.join(REPO, tu_path), errors="replace").read()
     except OSError:
         return None
+    m = re.search(DEF_HEAD % re.escape(sym), text, re.M)
+    if m:
+        ret = " ".join(m.group(1).split())
+        params = " ".join(m.group(2).split()) or "void"
+        return "extern %s %s(%s);" % (ret, sym, params)
+    pat = re.compile(r"^\s*extern\b[^;\n]*\b%s\b[^;\n]*;\s*$" % re.escape(sym), re.M)
+    m = pat.search(text)
     return m.group(0).strip() if m else None
 
 
@@ -129,6 +146,16 @@ def main():
             print("BANKED %s after %d declaration sync(s): %s"
                   % (a.fn, len(synced), ", ".join(synced) or "none"))
             return 0
+        # A GATE REFUSAL IS NOT A VERDICT (P31 S77, R40/R49). gate_main refuses outright on a dirty
+        # src/ or a red baseline and never reaches a per-draft opinion. Falling through to "no
+        # declaration conflict named" reported that refusal as a property of the DRAFT — measured on
+        # func_8005E79C, whose gate was refused because the bank one command earlier had left src/
+        # uncommitted, and which read as "the body is the problem". Surface it instead.
+        refusal = re.search(r"^(gate_main: .*UNCOMMITTED changes|\*\*\* BASELINE RED.*)", out, re.M)
+        if refusal:
+            print("gate REFUSED to run — this says NOTHING about %s:" % a.fn, file=sys.stderr)
+            print("    " + refusal.group(1).strip()[:160], file=sys.stderr)
+            return 3
         m = DROP_RE.search(out) or COMPILE_RE.search(out)
         if not m:
             # No conflict left to fix — the residual is a real mismatch or another class entirely.
