@@ -14139,7 +14139,114 @@ void func_8002374C(s32 arg0)
 
 INCLUDE_ASM("asm/nonmatchings/800", func_80023BF0);
 
-INCLUDE_ASM("asm/nonmatchings/800", func_80024054);
+
+s32 func_80024054(u8 *arg0, s16 *arg1)
+{
+  extern u16 D_800636D8[];
+  extern u16 D_80063818[];
+  extern u16 D_80063770[];
+  s32 var_a3;
+  u8 c;
+  u16 val;
+  const u16 *tbl_81;
+  const u16 *tbl_82lo;
+  const u16 *tbl_83;
+  var_a3 = 0;
+  c = *arg0;
+  arg0++;
+  if (c != 0)
+  {
+    tbl_81 = D_80063818;
+    tbl_82lo = D_800636D8;
+    tbl_83 = D_80063770;
+    do
+    {
+      switch (c)
+      {
+        case 0x81:
+        {
+          s32 idx = (*arg0) - 0x40;
+__asm__ __volatile__("" : "=r"(idx) : "0"(idx));
+          val = tbl_81[idx];
+__asm__ __volatile__("");
+          break;
+        }
+
+        case 0x82:
+        {
+          u8 b = *arg0;
+          if (b < 0x9F)
+          {
+            s32 idx = b - 0x4F;
+__asm__ __volatile__("" : "=r"(idx) : "0"(idx));
+            val = tbl_82lo[idx];
+          }
+          else
+          {
+            s32 idx = b - 0x9F;
+__asm__ __volatile__("" : "=r"(idx) : "0"(idx));
+            val = tbl_83[idx];
+          }
+          break;
+        }
+
+        case 0x83:
+        {
+          u8 b = *arg0;
+          s16 off;
+          if (b < 0x80)
+          {
+            off = b - 0x40;
+          }
+          else
+          {
+            off = b - 0x41;
+          }
+          val = tbl_83[off] + 0x2000;
+          break;
+        }
+
+        default:
+          *arg1 = 0xFFFF;
+          return (s16) var_a3;
+
+      }
+
+      switch (val & 0xC000)
+      {
+        case 0x8000:
+          *arg1 = 0x1858;
+          arg1++;
+          *arg1 = val & 0x3FFF;
+          arg1++;
+          var_a3 += 4;
+          break;
+
+        case 0xC000:
+          *arg1 = 0x1850;
+          arg1++;
+          *arg1 = val & 0x3FFF;
+          arg1++;
+          var_a3 += 4;
+          break;
+
+        default:
+          *arg1 = val;
+          arg1++;
+          break;
+
+      }
+
+      var_a3 -= 4;
+      arg0++;
+      c = *arg0;
+      arg0++;
+    }
+    while (c != 0);
+  }
+  *arg1 = 0xFFFF;
+  return (s16) var_a3;
+}
 
 extern u16 D_800636D8[];
 extern u16 D_80063818[];
