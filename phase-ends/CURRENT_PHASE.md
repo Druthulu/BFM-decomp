@@ -7276,3 +7276,95 @@ disagreed with the new code about how a function was spelled, and once a tool fi
 automatically, twelve of twelve went in at once in about two minutes. The rest of the session was
 spent catching six cases where one of our own measuring tools was quietly lying to us — including one
 that had ranked six pieces of copied assembly as the most promising work available.
+
+## 🛑 SESSION CHECKPOINT — S77 FINAL (2026-09-03). SUPERSEDES the S77 block above. Phase 31 T10 CONTINUES.
+
+**Verified at close, clean rebuild:** `make check-all` **213/213 passed, 0 failed** (run three times
+this session — a green baseline BEFORE any overlay bank, once after the plumbing banks, once at
+close). `src/`, `config/`, `tools/`, `docs/` CLEAN. Drew pushes (R6).
+
+main REAL **902** (was 895) · LINKED 959 · VERBATIM 142 · **stubs 39** (was 46) · NON_MATCHING 0 ·
+`143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical.
+**MAIN game-code weighted 57.1% → 57.9%** · fleet distinct-code 99.3% → **99.4%** ·
+**fleet stubs 82 → 61**.
+
+```
+BANKED THIS SESSION : 21, every one confirmed from the SOURCE, not from a gate report
+  §378 self-decl chain (16 drafts routed, 16 banked):
+    main    : func_80013154 (was a §265 verbatim body) · func_8005EAC8 · func_8005E3AC · func_8005E79C
+    overlays: ov_SC01_005 · ov_SC01_006 · ov_SC02_041 · ov_SC03_105 · ov_SC03_111 · ov_SC03_124
+              ov_SC04_002 · ov_SC04_005 · ov_SC04_007 · ov_SC04_011 · ov_SC05_003 · ov_SC05_018
+              ov_SC01_084:func_80182A00 (207 ins — found only after §480)
+  in-tree gate  : ov_SC06_032:func_8017D810
+  permuter ILS  : main func_80021174 · func_80040DE8 · func_80024054
+```
+
+# T14 — WORKED, NOT FINISHED. Read §479 before spending anything here.
+
+**Banked 3.** The permuter is a ONE-SHOT at ≤4 mismatched (3/3, each inside one 150 s cycle) and
+**plateaus above ~10 no matter how long it runs** — one candidate went 37 → 1 and then bought nothing
+across 8 cycles × 240 s. Give ≤4 one cycle; give anything else 4 cycles ONCE; never run a plateau
+longer.
+
+**Still open, with measured state (do not re-derive):**
+* `func_8002AC98` — **1 mismatched**, `addu $s2,$v0,$v1` vs `$v1,$v0`. Permuter plateaued at 1.
+  Two hand levers REFUTED by bytes: source operand order (`b+r`→`r+b`, all 3 sites) changes nothing
+  because gcc canonicalises commutative operands by PSEUDO REGNO; a fresh later pseudo
+  (`{s32 rr=r; val=b+rr;}`) is folded by cse. It is `REGALLOC-PERM` — the lever must move the
+  ALLOCATION, not the expression. Waypoint: `.run/permuter/func_8002AC98/output-1-1/source.c`.
+* Plateaued seeds for a Fable/agent tier: `func_80039B20` (10), `func_80020DA4` (14),
+  `func_8001BC6C` (25). `func_80038698` never beat base.
+* Untouched larger residuals: `func_8002FDE8` 39 · `func_8001EA14` 89 · `func_8001EFE0` 89 ·
+  `func_80023BF0` 129 · `func_80039308` 154 · `func_8002C410` 261 · `func_800391D4` 60.
+* **`main:func_80011380` is §474's PROVED floor — never draw it.**
+* Overlay near-misses `ov_SC06_022:func_8017DF28` (2 of 119) and `ov_SC03_105:func_801834A4` (6 of
+  106) LOOK like the best targets in the fleet and are NOT: each draft header carries ~10
+  byte-measured refuted levers, one with an arithmetic proof of unreachability. **Read a draft's own
+  header before aiming anything at it** — that, not the mismatch count, predicted every outcome here.
+
+# EIGHT INSTRUMENT DEFECTS (all fixed and committed)
+
+| # | tool | it asserted | what was true |
+|---|---|---|---|
+| 1 | `cast_self_callers` (3 consumers) | `return func_X(a0);` is a declaration | a CALL — it would have DELETED a wrapper's `return`. 524 lines / 482 files; 56 journals audited, nothing damaged |
+| 2 | `cast_self_callers --sync-decls` | the draft's parameter spelling is legal in the TU | `Obj_80015760` is draft-local, `Ctx` is typedef'd 75 lines BELOW — two parse errors that broke the committed baseline |
+| 3 | `sync_tu_decls.tu_decl` | "no `extern` line to copy" | the symbol was a function the TU DEFINES; that header is the authoritative spelling |
+| 4 | `sync_tu_decls` round loop | "no declaration conflict named" | the GATE HAD REFUSED TO RUN (dirty tree) — a harness refusal reported as a verdict on the body (R40) |
+| 5 | `blocker_probe` | 13 drafts MATCH, nothing blocking | **6 were §265 VERBATIM**, not decompiles. 4th consumer with this blindness; the one that SCOPES work (§478) |
+| 6 | `blocker_probe` Oracle A | 3 drafts blocked by `local_type` | a PHANTOM — the real gate strips those typedefs first. True classes: DIFF, DIFF, and a §378 step-2 that BANKED 207 ins (§480) |
+| 7 | my aggregation script | binary names | a bad `basename` slice mangled every one; caught only by checking a row the S76 checkpoint already recorded |
+| 8 | my first hand lever | "hoisting the shift is semantics-preserving, so it should reorder" | true and USELESS — 23 mismatched at 67/68 ins; it lets gcc fold an instruction away |
+
+# OPEN, UNEXPLAINED — DO NOT GUESS
+
+`parallel_gate` reported `banked 0` for `ov_SC06_032` in a 106 s worker run; the identical draft
+banked in-tree and then survived two full clean-fleets. The other 12 binaries in that run agreed
+exactly between worktree and in-tree, and a later in-tree `gate_stage` on `ov_SC01_001` also agreed.
+**One data point — reproduce before theorising.**
+
+# STILL OPEN FROM THE 34-DRAFT OVERLAY POOL
+
+13 banked · **6 VERBATIM = undecompiled work needing a REDRAFT** (`md_MAIN_003:func_800D0100`,
+`func_800D0174`, `func_800D1D14`, `md_MAIN_020:func_800CB17C`, `ov_SC05_005:func_80181828`,
+`ov_SC06_010:func_801809E4`) · body DIFFs (`ov_SC02_027:func_80180B3C`, `md_MAIN_003:func_800CF3E8`,
+`ov_SC01_001:func_80181E04` — all three reclassified from "plumbing" to DIFF by an actual gate) ·
+`ov_SC02_017:func_80186C64` CARVE-REFUSED (jtbl plumbing, NOT codegen) ·
+`ov_SC04_018:func_80181CB8` conflicting types for built-in `memcpy` · `ov_SC04_018:func_80181804`
+and `ov_SC05_010:func_8017FFA8` CC1-FAIL cascading from a DIFFERENT TU ·
+`resident:func_800D128C` parse error before `cdFileLocTable` · `resident:func_800D06E8` DIFF ·
+`md_MAIN_003:func_800D06BC` **697 ins against a 33-ins target — aimed at the wrong function.**
+
+# IDIOMS BANKED IN-SESSION — §477, §478, §479, §480
+
+Each verified present in the committed file one at a time (the S76 lesson that §462/§463 vanished
+silently after their commit).
+
+# PLAIN ENGLISH
+
+Twenty-one more of the game's functions are now real C instead of raw assembly, and all 213 binaries
+still rebuild byte-for-byte identical to the original disc. Most of it came from one realisation: a
+whole group of "hard" functions were never hard — our own C files simply disagreed with the new code
+about how a name was spelled, and once a tool fixed that, sixteen out of sixteen went straight in.
+The rest of the session was spent catching eight cases where one of our own measuring tools was
+quietly telling us something false — including one that had ranked six pieces of copied assembly as
+the most promising work available, and one that invented a problem the real build already solves.
