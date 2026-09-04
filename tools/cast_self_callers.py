@@ -64,7 +64,13 @@ def draft_signature(draft_path, fn):
         text = open(os.path.join(REPO, draft_path)).read()
     except OSError as e:
         return None, None, "draft unreadable: %s" % e
-    m = re.search(DEF_RE % re.escape(fn), text, re.M)
+    # Skip statement-keyword matches (`return func_X(...)` inside an earlier body reads as a
+    # definition and would hand back ret="return"); keep scanning for the real one.
+    m = None
+    for cand in re.finditer(DEF_RE % re.escape(fn), text, re.M):
+        if not _kw_prefixed(cand.group(0), fn):
+            m = cand
+            break
     if not m:
         return None, None, "no definition of %s found in %s" % (fn, draft_path)
     ret = " ".join(m.group(1).split()).strip()
@@ -85,11 +91,31 @@ def draft_signature(draft_path, fn):
     return ret, params, None
 
 
+# A STATEMENT KEYWORD IS NOT A RETURN TYPE (P31 S77). `return func_X(a0, a1);` has the exact shape
+# of a forward declaration — leading identifier, name, parenthesised list, `;` — so a permissive
+# "<type> <fn>(...);" regex reads a CALL as a DECLARATION. That misclassification hit BOTH consumers
+# at once and in opposite directions: `is_declaration` made `cast_sites` SKIP the call site (leaving
+# the caller's bytes unfixed), and `sync_decls` REWROTE the whole statement into a declaration —
+# silently deleting the function's `return`. Witnessed dry-run on src/800.c:713
+# (`return func_80013154(a0, a1, a2);` -> `s32 func_80013154(s16 x, s16 y, s16 step);`).
+# The guard belongs in ONE place both consumers call (R33), never duplicated into two regexes.
+STMT_KW = frozenset(("return", "case", "goto", "if", "else", "while", "for", "switch", "do",
+                     "sizeof", "break", "continue"))
+
+
+def _kw_prefixed(s, fn):
+    """True when the text before `fn` opens with a statement keyword — i.e. this is a CALL."""
+    head = s.split(fn, 1)[0]
+    return any(w in STMT_KW for w in re.findall(r"[A-Za-z_]\w*", head))
+
+
 def is_declaration(line, fn):
     s = line.strip()
     if s.startswith("extern ") or s.startswith("DEFINE_") or "DEFINE_%s" % fn in s:
         return True
     # `void func_X(void);` — a bare forward declaration ends in `);`
+    if _kw_prefixed(s, fn):
+        return False
     return bool(re.match(r"^[A-Za-z_][\w \t\*]*\b%s[ \t]*\([^;]*\)[ \t]*;[ \t]*$" % re.escape(fn), s))
 
 
@@ -106,8 +132,8 @@ def cast_sites(binary, fn, ret, apply_=False):
         for i, line in enumerate(lines):
             if fn not in line or is_declaration(line, fn):
                 continue
-            if re.search(DEF_RE % re.escape(fn), line):      # the definition itself
-                continue
+            if re.search(DEF_RE % re.escape(fn), line) and not _kw_prefixed(line, fn):
+                continue                                     # the definition itself
             if "(*)()" in line and fn in line:               # already cast
                 continue
             if "INCLUDE_ASM" in line:
@@ -153,6 +179,8 @@ def sync_decls(binary, fn, ret, params, apply_=False):
                 continue
             m = decl_re.match(line)
             if not m:
+                continue
+            if _kw_prefixed(line, fn):       # `return func_X(a0);` is a CALL, not a declaration
                 continue
             new = m.group(1) + want + "\n"   # group(1) already carries the indent AND any `extern `
             if new == line:
