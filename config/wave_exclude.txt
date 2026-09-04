@@ -5,8 +5,13 @@
 main:PopMatrix  # WALL: compiler wall (merged from S68_walls_332.txt)
 main:PushMatrix  # WALL: compiler wall (merged from S68_walls_332.txt)
 main:func_8005D9C4  # WALL: no jump table — curated compiler fact, not a tooling limit
-main:func_8005ECC0  # WALL: no jump table — curated compiler fact, not a tooling limit
-main:func_8005F0C8  # WALL: compiler wall (merged from S68_walls.txt)
+main:func_8005ECC0  # NEAR-2/35 (DELAY-SLOT) — NOT a wall. Same wrong-oracle provenance as
+#   func_8005F0C8; re-measured S77 at 2 of 35. permuter_ils 4 cycles reached 5, not 0.
+#   Excluded as UNSOLVED, not as impossible.
+main:func_8005F0C8  # NEAR-3/88 (ADDRESSING/move!=lui) — NOT a wall. The S68 'compiler wall'
+#   verdict was measured under the WRONG oracle (800c3 is a REORDER_TUS island; S76 fixed
+#   match_one/rtu_match to use reorder_passthrough + as -O2). Re-measured S77: 3 of 88.
+#   permuter_ils 4 cycles reached 3, not 0. Excluded as UNSOLVED, not as impossible.
 main:func_80062144  # WALL: no jump table — curated compiler fact, not a tooling limit
 md_MAIN_034:func_800CB00C  # WALL: compiler wall (merged from S68_walls_332.txt)
 ov_SC03_105:func_801834A4  # WALL: loop.c movable ordering, closeness 6 (S71)
