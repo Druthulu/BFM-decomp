@@ -18,3 +18,5 @@ REAL matches: AverageZ3 CdQueueBusy CdReadRequest CdReadSectorReadyCB CdReadStat
 NON_MATCHING: 
 
 build SHA1: 143dbb89f34491258bbc27810d0a12ec8b43a8dd  (byte-identical)
+
+empties audit: 43/43 genuine jr;nop  (all clean)
