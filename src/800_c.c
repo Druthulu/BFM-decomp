@@ -3395,7 +3395,7 @@ void func_80039F14(u8 *arg0, s16 arg1, u8 arg2) {
 }
 
 extern void func_80039C70(u8 *arg0, s16 arg1, s16 arg2);   /* §376: matches the definition */
-extern void func_80039DEC(void *a0, s16 a1, s16 a2);
+extern void func_80039DEC(void *arg0, s16 arg1, u8 arg2);
 
 void func_80039F50(u8 **a0, s16 a1)
 {
@@ -3435,7 +3435,7 @@ void func_80039F50(u8 **a0, s16 a1)
         pbVar5[0x21] = bVar6 | 2;
         break;
     case 0x63:
-        ((void (*)())func_80039DEC)(pvVar4, a1, bVar2);
+        func_80039DEC(pvVar4, a1, bVar2);
         break;
     }
 }
