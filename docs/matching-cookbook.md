@@ -35893,3 +35893,38 @@ behind §8d's scope-demote lever, stated as the general rule rather than one too
 identical in name AND order, all 16 internal `j` destinations decoded and compared (the §195-D blind
 spot), and the four `D_1F800020` words identified as splat FALSE-symbolisation of `lui $s1,0x1F80` +
 an `rm++` increment — ROM `3C111F80`/`26310020`, emitted identically.
+
+#### §482 ★★★ — TWO INDEPENDENT RE-TIES, ORDERED: WHEN ONE BARRIER FIXES ONE RESIDUAL AND CREATES THE OTHER (P31 S77, `main:func_8006252C`, 30 ins → MATCH)
+
+**The trap.** `s32 *p = &D_80078D0C;` lets cse decide `p[1]`'s address is *refoldable*, so it emits a
+fresh `%hi/%lo(D_80078D0C)` through `$at` instead of reusing `$v1` (LENGTH-DRIFT, 31 ins vs 30).
+This is **not a spelling problem** — it was reproduced identically across SIX spellings: an
+array-typed global, a struct component-ref through a local pointer, the same through the global
+directly, and a register pin on `$v1`. cse is deciding, and no declaration form changes its mind.
+
+**The half-fix that creates a second bug.** An opaque re-tie right after the assignment —
+`__asm__ __volatile__("" : "=r"(p) : "0"(p));` — makes `p`'s value untrackable, every later `p[N]`
+reuses the register, and closeness goes **18 → 3**. But an asm insn is a **full block-wide scheduling
+barrier: nothing crosses it in either direction**, so the `li $a0,1` that the target materialises
+EARLY is now pinned *after* the barrier's `lui/addiu`, undoing a residual that was already correct.
+
+**The fix: give the OTHER value its own re-tie, FIRST.** Re-tie the `pri = 1` constant *before* `p`'s
+barrier, so cse cannot defer-materialise it to the call site. It then emits early exactly as the
+target does, while `p`'s barrier still protects the store-register reuse. **Two independent re-ties,
+ordered `pri`-then-`p`, close both residuals at once → MATCH 30/30.**
+
+**The general law.** A re-tie is not only a cse lever, it is a **scheduling barrier with a position**.
+When you insert one to fix residual A and residual B appears or returns, do not conclude the two are
+coupled and unreachable — that is the shape that gets a function written off. Ask which values needed
+to be materialised on the *other* side of the barrier you just created, and give each of them its own
+re-tie, ordered so that each barrier sits where it helps. The companion to §153/§195-I's re-tie
+family: **§153 says what a re-tie does to cse; §482 says what it costs the scheduler, and that the
+cost is payable with a second re-tie rather than by abandoning the first.**
+
+**Banking note (§378 is the other half).** The body above was MATCH 30/30 standalone and still took
+three tools to land, two of them wrong: `scope_demote_drafts` BROKE it (it aliased `D_80078D08`
+through `__asm__` and the build failed) because the clash was never a data extern; the real blocker
+was `func_8006252C` **itself** — TU `void(void)` vs draft `s32(void)`, the `self_decl_tu` class — so
+`cast_self_callers --sync-decls` (4 call sites) then `sync_tu_decls` (`func_800625DC`,
+`func_80062644`). **Read the DROP line's symbol before choosing the tool: if it names the function
+being banked, no data-scope tool applies.**
