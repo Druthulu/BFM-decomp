@@ -19,7 +19,150 @@
  * Byte-neutral by construction: the cut is verbatim, the include set is the
  * original TU's, and the declarations that CROSS the cut live in
  * src/ov_SC01_084/ov_SC01_084_shared.h (moved, never copied). */
-INCLUDE_ASM("asm/ov_SC01_084/nonmatchings/ov_SC01_084_jr_80182A00", func_80182A00);
+#include "common.h"
+
+extern s32 D_801270D4;
+extern s32 D_801270E4;
+extern u8 D_80062BDC;
+extern u8 D_8018AA9C[];
+extern u8 D_8018AAA8[];
+extern u8 D_801A1DA0[];
+extern unsigned char D_801A24C8;
+extern s32 D_801C611C;
+
+extern void func_80019064(void *a0);
+extern void func_8002D4C8(s32 a0, s32 a1);
+extern void func_8012A828(s32 a0, void *a1);
+extern void func_8012B14C(s32 a0, s32 a1);
+extern void func_8012B200(u8 *a0);
+extern void func_8012B23C(s32 a0);
+extern void func_8012B2CC(s32 a0);
+extern void func_8012C098(void *a0);
+extern void func_8012E9C0(s32 a0);
+extern void func_80130088(void *a0);
+extern s32 func_80143B6C(s32 a0, s32 a1);
+extern void func_80182D3C(s32 a0);
+
+/* The four sw to sp+0x10..0x1C are a DEAD 16-byte local copy of D_801C611C
+ * (a movstrsi block move). gcc-2.7.2's flow.c only kills a MEM that is
+ * immediately re-stored, so the copy survives to the frame. It is NOT four
+ * extra arguments to func_80143B6C -- $a2/$a3 are never written. */
+
+
+void func_80182A00(s32 a0) {
+    Blk16 sp10 = *(Blk16 *)&D_801C611C;
+
+    func_8012E9C0(a0);
+    if (*(u8 *)(a0 + 0x5E) == 5) {
+        func_80019064(&D_80062BDC);
+    }
+    *(u8 *)(a0 + 0xC1) = 0;
+    *(u16 *)(a0 + 0x76) = *(u16 *)(a0 + 0x76) - *(u16 *)(a0 + 0x60);
+    *(u16 *)(a0 + 0x5C) = *(u16 *)(a0 + 0x5C) & 0xFFFE;
+    *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) = (*(u16 *)(a0 + 0x62) + 0x800) & 0xFFF;
+    func_8012B2CC(a0);
+    func_8012B200((u8 *)a0);
+    *(u16 *)(a0 + 2) = 6;
+    func_80143B6C(a0, 0);
+    switch (*(u16 *)(a0 + 0x5E)) {
+    case 0xD:
+        *(u16 *)(a0 + 2) = 8;
+        *(u16 *)(a0 + 0x98) = 0;
+        *(s32 *)(a0 + 0x1C) = 0;
+        *(u16 *)(a0 + 0x5C) = 0;
+        break;
+    case 0xE:
+        if (*(s16 *)(a0 + 0x70) == 2) {
+            D_801270E4 -= 1;
+        } else {
+            D_801270D4 -= 1;
+        }
+        func_8012C098((void *)a0);
+        break;
+    case 0xA:
+        *(u16 *)(a0 + 2) = 9;
+        *(u16 *)(a0 + 0x98) = 0;
+        *(s32 *)(a0 + 0x1C) = 0x10;
+        break;
+    case 9:
+        *(u16 *)(a0 + 2) = 0xA;
+        func_8012A828(a0, &D_801A24C8);
+        func_8012B2CC(a0);
+        func_8012B23C(a0);
+        func_8012B14C(a0, (s32)D_8018AA9C);
+        *(s32 *)(a0 + 0x1C) = 0;
+        *(u16 *)(a0 + 0x76) = 0;
+        *(u16 *)(a0 + 0x5C) = 0;
+        func_80130088((void *)a0);
+        *(u8 *)(a0 + 0xC2) = 0;
+        *(u8 *)(a0 + 0xC3) = 0;
+        break;
+    case 0x11:
+        *(u8 *)(a0 + 0xC1) = 7;
+        *(u16 *)(a0 + 2) = 0xA;
+        func_8012A828(a0, &D_801A24C8);
+        func_8012B2CC(a0);
+        func_8012B23C(a0);
+        func_8012B14C(a0, (s32)D_8018AA9C);
+        *(s32 *)(a0 + 0x1C) = 0;
+        *(u16 *)(a0 + 0x76) = 0;
+        *(u16 *)(a0 + 0x5C) = 0;
+        func_80130088((void *)a0);
+        *(u8 *)(a0 + 0xC2) = 0;
+        *(u8 *)(a0 + 0xC3) = 0;
+        func_8012B14C(a0, (s32)D_8018AAA8);
+        break;
+    case 0x21:
+        *(u16 *)(a0 + 2) = 0xF;
+        *(s32 *)(a0 + 0x1C) = 6;
+        *(u16 *)(a0 + 0x5C) = 0;
+        break;
+    case 0xF:
+        if (*(s16 *)(a0 + 0x76) > 0) {
+            func_80182D3C(a0);
+        } else {
+            func_8002D4C8(0x6AA, 0);
+            *(u16 *)(a0 + 2) = 0xA;
+            func_8012A828(a0, &D_801A24C8);
+            func_8012B2CC(a0);
+            func_8012B23C(a0);
+            func_8012B14C(a0, (s32)D_8018AA9C);
+            *(s32 *)(a0 + 0x1C) = 0;
+            *(u16 *)(a0 + 0x76) = 0;
+            *(u16 *)(a0 + 0x5C) = 0;
+            func_80130088((void *)a0);
+            *(u8 *)(a0 + 0xC2) = 0;
+            *(u8 *)(a0 + 0xC3) = 0;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0x300;
+            *(s32 *)(a0 + 8) = *(s32 *)(a0 + 8) - 0x240000;
+            func_8012B2CC(a0);
+        }
+        break;
+    default:
+        if (*(s16 *)(a0 + 0x76) > 0) {
+            *(s32 *)(a0 + 0x1C) = 0x10;
+            func_8012A828(a0, D_801A1DA0);
+        } else {
+            func_8002D4C8(0x6AA, 0);
+            *(u16 *)(a0 + 2) = 0xA;
+            func_8012A828(a0, &D_801A24C8);
+            func_8012B2CC(a0);
+            func_8012B23C(a0);
+            func_8012B14C(a0, (s32)D_8018AA9C);
+            *(s32 *)(a0 + 0x1C) = 0;
+            *(u16 *)(a0 + 0x76) = 0;
+            *(u16 *)(a0 + 0x5C) = 0;
+            func_80130088((void *)a0);
+            *(u8 *)(a0 + 0xC2) = 0;
+            *(u8 *)(a0 + 0xC3) = 0;
+            *(u16 *)(*(s32 *)(a0 + 0x20) + 0x10) = 0x300;
+            *(s32 *)(a0 + 8) = *(s32 *)(a0 + 8) - 0x240000;
+            func_8012B2CC(a0);
+        }
+        break;
+    }
+}
+
 
 
 // @class: plumbing
