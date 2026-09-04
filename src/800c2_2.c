@@ -93,7 +93,36 @@ void func_800624F4(void)
     D_80072A24 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c2_2", func_8006252C);
+extern void func_8005CF08(void);
+extern void func_8005CF18(void);
+extern s32 SysDeqIntRP(s32 priority, void *intr);
+extern s32 SysEnqIntRP(s32 priority, void *intr);
+extern s32 func_800625DC(void);
+extern s32 func_80062644(void);
+extern s32 D_80078D0C;
+extern u8 D_80078D08[];
+extern s32 D_80078D14;
+
+s32 func_8006252C(void) {
+    s32 *p;
+    s32 *q;
+    s32 pri;
+
+    func_8005CF08();
+    pri = 1;
+    __asm__ __volatile__("" : "=r"(pri) : "0"(pri));
+    p = &D_80078D0C;
+    __asm__ __volatile__("" : "=r"(p) : "0"(p));
+    q = p - 1;
+    p[0] = (s32)func_800625DC;
+    p[1] = (s32)func_80062644;
+    *(s32 *)D_80078D08 = 0;
+    D_80078D14 = 0;
+    SysDeqIntRP(pri, q);
+    SysEnqIntRP(1, q);
+    func_8005CF18();
+    return 1;
+}
 
 extern void func_8005CF08(void);
 extern void func_8005CF18(void);
