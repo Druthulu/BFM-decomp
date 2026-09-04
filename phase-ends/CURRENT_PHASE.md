@@ -7501,3 +7501,36 @@ of our own measuring tools turned out to be lying to us in one way or another �
 was refusing 566 instructions of perfectly correct work because it applied a rule stricter than the
 compiler's. The most useful correction was to something I had written myself earlier the same day: a
 rule about when the automatic optimiser is worth running, which more data showed was wrong.
+
+### S77 ADDENDUM — the two tooling gaps the session NAMED but had not closed (Drew: "smells like we need a tooling update/fix")
+
+**1. `recover_route.py` (NEW), wired into `gate_main`.** `gate_main` printed ONE recovery chain for
+every dropped draft — the SELF chain — whatever the clashing symbol was. Two of the three classes are
+not that chain: a CALLEE run through `--any-proto` measured **60 decls no-protoed and the binary RED**
+(S69), and a DATA symbol is touched by neither tool in it. **Cost, this session:** following the shape
+of that text sent `func_8006252C` through `scope_demote_drafts` first, which aliased a symbol through
+`__asm__` and BROKE the build — the real blocker was one `--sync-decls` away. A drop is a ROUTE, so
+the report now routes per drop. Negative-controlled against all 7 S77 drops whose winning tool was
+already known: 2 SELF, 1 CALLEE, 4 DATA, and the DATA ladder's ORDER matches which rung actually won.
+
+**2. `permuter_sweep.py` (NEW).** Agents are briefed to STOP at a plateaued permuter-class residual
+(correct — tokens), so those residuals arrive unattempted while the local permuter costs nothing.
+
+**BOTH TOOLS CAUGHT ME OUT, AND THAT IS THE POINT:**
+
+* **`permuter_sweep` refuted a cookbook claim I had committed hours earlier.** §479 v2 said the
+  predictor of a permuter win is "prior-attempt history — all 3 winners were drafts nobody had
+  worked". `journal_notes` reports prior attempts for **all eight runs, winners included** (2, 3, 3).
+  The signal I had eyeballed was the DRAFT HEADER, a different corpus; the winners came from a
+  recovery pile whose files carry no header journal — **provenance, not evidence.** §479 now says
+  ~3 in 8 and **no validated predictor**, with the filter behind an off-by-default flag (R39).
+* **And it shipped with an R48 bug of its own**, caught only by cross-checking against residuals I
+  already knew: it globbed journals across EVERY session and did last-write-wins on a bare function
+  name, so an older wave's row won with its stale `draft_path` — reporting `func_8002AC98` at
+  closeness 73 and `func_80015608` at 65 when both measure 1 and 3. Scoped to the wave, all seven
+  cross-checkable residuals now agree with the agents' own reports (9, 8, 7, 3, 3, 1, 1).
+
+**The rule this earns (already folded into §479):** a yield table is evidence; a story about WHY the
+yield looks that way is a hypothesis, and it needs its own negative control before it goes in the
+cookbook — because the next session will act on it. Three versions of §479 in one session, each
+sounding reasonable.
