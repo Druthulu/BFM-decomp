@@ -3450,7 +3450,47 @@ int func_8017D77C(short *a0) {
 /* Handwritten GTE squared-distance check (§265 verbatim-asm lane, file-scope form).
  * Recovered C semantics: dx=D_80126CAC-a0[3]; dz=D_80126CB0-a0[7];
  * GTE SQR of {dx,0,dz}; return 0xC3FFF < (MAC1+MAC2+MAC3). */
-INCLUDE_ASM("asm/ov_SC06_032/nonmatchings/ov_SC06_032_jr_8017C24C", func_8017D810);
+/* Handwritten GTE squared-distance check (§265 verbatim-asm lane).
+ * Recovered C semantics: dx=D_80126CAC-a0[3]; dz=D_80126CB0-a0[7];
+ * GTE SQR of {dx,0,dz}; return 0xC3FFF < (MAC1+MAC2+MAC3). */
+void func_8017D810() {
+    __asm__ __volatile__(
+        ".set\tnoreorder\n"
+        "lui $2, %hi(D_80126CAC)\n"
+        "lh $2, %lo(D_80126CAC)($2)\n"
+        "lh $3, 6($4)\n"
+        "addiu $29, $29, -16\n"
+        "sw $0, 4($29)\n"
+        "subu $2, $2, $3\n"
+        "sw $2, 0($29)\n"
+        "lui $2, %hi(D_80126CB0)\n"
+        "lh $2, %lo(D_80126CB0)($2)\n"
+        "lh $3, 14($4)\n"
+        "nop\n"
+        "subu $2, $2, $3\n"
+        "sw $2, 8($29)\n"
+        "lwc2 $9, 0($29)\n"
+        "lwc2 $10, 4($29)\n"
+        "lwc2 $11, 8($29)\n"
+        "nop\n"
+        "nop\n"
+        "sqr 0\n"
+        "swc2 $25, 0($29)\n"
+        "swc2 $26, 4($29)\n"
+        "swc2 $27, 8($29)\n"
+        "lui $5, 12\n"
+        "ori $5, $5, 16383\n"
+        "lw $2, 0($29)\n"
+        "lw $3, 4($29)\n"
+        "lw $4, 8($29)\n"
+        "addu $2, $2, $3\n"
+        "addu $2, $2, $4\n"
+        "slt $2, $5, $2\n"
+        "addiu $29, $29, 16\n"
+        ".set\treorder\n"
+    );
+}
+
 
 
 
