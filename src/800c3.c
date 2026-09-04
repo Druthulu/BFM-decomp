@@ -805,7 +805,25 @@ s32 func_8005E0AC(void) {
 
 extern s32 *D_800729C0;
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E13C);
+
+extern s32 *D_800729C0;
+
+void func_8005E13C(void) {
+    s32 *ptr;
+
+    ptr = D_800729C0;
+    __asm__ __volatile__("nop");
+    while ((*(volatile u16 *)((s8 *)ptr + 0x4) & 0x2) == 0)
+        ;
+}
+
+/* The word at 0x8005E164 is an orphan inter-function pad: func_8005E13C's own
+ * .size is 0x28 (ends 0x8005E164) but SysEnqIntRP (config/symbols.us.txt) is
+ * fixed at 0x8005E168 — a 4-byte gap belonging to neither function. It is
+ * currently supplied by the INCLUDE_ASM stub's own verbatim .s inclusion;
+ * reproduce it here so the byte stream stays contiguous once this stub is
+ * replaced with real C. */
+__asm__(".text\n\tnop\n");
 
 /* §295 kernel-trap trampoline: A/B/C dispatch vector in $t2, syscall # in the jr delay slot;
  * unreachable from C (§179-C) -> file-scope verbatim asm (§265 form 1). Pad nop is load-bearing (stride 0x10). */
@@ -1234,7 +1252,15 @@ void func_8005EAC8(void *arg0) {
 
 __asm__(".text\n\tnop\n\tnop\n\tnop\n");
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAE8);
+extern void (*D_80072974)(void *);
+extern u32 D_800729DC;
+
+s32 func_8005DCA0(s32 ctx, s32 cmd);
+
+void func_8005EAE8(void *arg0) {
+    D_800729DC = ((s32 (*)(void *))D_80072974)(arg0);
+    func_8005DCA0((s32)arg0, -2);
+}
 
 /*
  * func_8005EB28 -- the target's epilogue restores TWO callee-saved registers
