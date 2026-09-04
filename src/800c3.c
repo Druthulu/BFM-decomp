@@ -494,7 +494,12 @@ void func_8005D4F0(s32 arg0, s32 arg1, s32 arg2) {
     func_8005E8E8(D_80072970(), (u8)arg1, (u8)arg2);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D538);
+extern void* (*D_80072970)(void);
+
+void func_8005D538(s32 arg0, void *arg1, s32 arg2) {
+    func_8005E188(D_80072970(), arg1, arg2);
+}
+__asm__("nop\nnop\n");
 
 
 
