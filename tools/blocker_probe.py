@@ -40,6 +40,7 @@ REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import cdecl
 import corpus
+import draft_prechecks as DP
 
 ENGINE_CORE = os.path.join(REPO, 'src/shared/engine_core.h')
 DRAFT_RE = re.compile(r'^func_[0-9A-Fa-f]{8}\.c$')      # wave dirs also hold scratch: _b.c, try2.c …
@@ -56,6 +57,7 @@ TIER = {
     'self_decl_tu':    'T1',   # normalize_self_decls on the overlay's own TU
     'self_decl_hdr':   'T1',   # de-macroize the one instantiation in the overlay's own TU (§63 escape)
     'parse':           '--',
+    'verbatim_asm':    '--',   # not a decompile at all -> redraft, never route to a recovery tier
 }
 
 
@@ -263,6 +265,17 @@ def main():
     def one(fn):
         stub = stubs[fn]
         text = open(stranded[fn], errors='replace').read()
+        # A VERBATIM DRAFT IS NOT A DECOMPILE (P31 S77, §265).  A draft that is the target's own asm
+        # in a file-scope __asm__ assembles to the bytes it was copied from, so BOTH oracles here
+        # report the strongest possible signal — static `none`, real cc1 `MATCH` — and the routing
+        # reads "byte-correct body, nothing blocking it".  The byte gate then banks nothing and
+        # progress.py moves by zero.  Measured: 6 of the 13 MATCH rows in the S77 overlay pool were
+        # verbatim, and the whole cohort gated 0.  S76 closed exactly this hole in gate_main,
+        # harvest_verify and api_agent.prior_draft; this is the fourth consumer, and the one that
+        # SCOPES the work.  Same detector as the gate's, so the two cannot drift (R33).
+        if DP.is_verbatim_asm_draft(text, fn):
+            return fn, [('verbatim_asm', 'the target\'s own asm in a file-scope __asm__ — not a '
+                                         'decompile; the byte gate will refuse it')], ('VERBATIM', '')
         return fn, static_verdict(fn, stub, text), cc1_verdict(fn, stub, stranded[fn], work)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=a.jobs) as ex:
@@ -280,6 +293,10 @@ def main():
     for fn in sorted(rows):
         r = rows[fn]
         sk = r['static'][0][0] if r['static'] else 'none'
+        if r['cc1'] == 'VERBATIM':
+            print('%-16s %-4s %-14s %-26s %s' % (fn, '--', 'verbatim_asm', 'VERBATIM (not a decompile)',
+                                                 'n/a'))
+            continue
         blocked_static = bool(r['static']) and sk != 'parse'
         blocked_cc1 = r['cc1'] == 'CC1-FAIL'
         if blocked_static == blocked_cc1:
