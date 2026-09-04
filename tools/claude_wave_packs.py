@@ -144,6 +144,60 @@ def _residual_block(t, where):
                "Note:" if j.get('nins') else "", rows, more, _index_bucket(klass)))
 
 
+_NEIGHBOR_HEADING = "## ALREADY-MATCHED NEIGHBOURS — READ THESE FIRST"
+
+
+def _src_name(tu_path, name, addr):
+    """The neighbour's name AS THE SOURCE SPELLS IT (P31 S77).
+
+    `neighbor_ref` reports the symbol-table name, which for an unnamed function is Ghidra's
+    `FUN_8003a0e4` — and that string appears NOWHERE in src/*.c, where the same function is
+    `func_8003A0E4`. A pack that tells an agent to read `FUN_8003a0e4` sends it to grep for a name
+    that does not exist, it finds nothing, and it concludes there is no neighbour — silently
+    defeating the ~20x lever this block exists to supply. Resolve against the TU text and fall back
+    to the address, which is never ambiguous. (R61: the pack asserted a name true of the symbol
+    table and false of the world the agent works in.)"""
+    try:
+        txt = open(tu_path, errors='replace').read()
+    except OSError:
+        return name
+    if name and name in txt:
+        return name
+    try:
+        cand = "func_%08X" % int(str(addr), 16)
+    except (TypeError, ValueError):
+        return name
+    return cand if cand in txt else name
+
+
+def _render_neighbors(r):
+    """The ranked worked examples, as pack markdown. SAME-TU first because it shares the decl
+    environment and the carve, and its header comment usually records the levers it needed."""
+    L = ["\n\n" + _NEIGHBOR_HEADING, ""]
+    L.append("A neighbour is a WORKED EXAMPLE TO READ, never a body to copy — cousin-remap measured "
+             "0/26 (§168 law 1). SAME-TU beats everything; an opt-level mismatch actively misleads "
+             "(an -O2 example against an -O0 target, §116).")
+    L.append("")
+    L.append("TU `%s` — %d matched function(s) in it, %d in the binary.%s"
+             % (r.get("tu"), r.get("matched_in_tu", 0), r.get("matched_in_binary", 0),
+                "  **THIS TARGET IS -O0.**" if r.get("o0") else ""))
+    for n in r["neighbors"]:
+        L.append("")
+        _nm = _src_name(r.get("tu"), n["name"], n["addr"])
+        L.append("* **%s** @ %s — %d ins, score %s%s%s"
+                 % (_nm, n["addr"], n["nins"], n["score"],
+                    "  **<< SAME TU**" if n["same_tu"] else "",
+                    ("  (symbol table calls it `%s`)" % n["name"]) if _nm != n["name"] else ""))
+        L.append("  * why: %s" % "; ".join(n["why"]))
+        if n.get("header"):
+            L.append("  * its header comment (often names the levers it needed):")
+            L.append("    ```")
+            for line in n["header"].splitlines():
+                L.append("    " + line)
+            L.append("    ```")
+    return "\n".join(L) + "\n"
+
+
 def main():
     global A_NO_RESIDUAL
     if len(sys.argv) < 3:
@@ -215,6 +269,35 @@ def main():
               % (_hit, len(targets), _add))
     except Exception as _e:            # fuel is additive — never fail a wave over it
         print('past-attempt notes SKIPPED: %s: %s' % (type(_e).__name__, _e))
+
+    # WORKED-EXAMPLE FUEL (P31 S77, playbook §2b). `neighbor_ref` answers the question that is
+    # weaker than seed_ref's "is there a byte-identical twin?" and FAR more often answerable:
+    # "which already-MATCHED function should this agent READ first?". S68 measured a ~20x token
+    # swing on exactly that variable — every cheap large match came from an agent finding a matched
+    # neighbour, and the ones with none cost 200-350k each. It has been a MANUAL per-card step in
+    # the playbook ever since, wired into nothing, so in practice it ran for approximately no cards.
+    # A lever the pack does not carry is a lever nobody pulls (§478's shape: enumerate the
+    # consumers). Same additive, never-fail-the-wave contract as the past-attempt notes above.
+    try:
+        import neighbor_ref as _nr
+        _nhit = _nadd = 0
+        for _t in targets:
+            _fn = _t.get('name') or _t.get('fn')
+            _p = os.path.join(out, "packs", "%s.md" % _fn)
+            if not os.path.exists(_p):
+                continue
+            _r = _nr.neighbors(_t.get('binary'), _fn, 5)
+            if _r.get('error') or not _r.get('neighbors'):
+                continue
+            _nhit += 1
+            if _NEIGHBOR_HEADING in open(_p, errors='replace').read():
+                continue
+            open(_p, 'a').write(_render_neighbors(_r))
+            _nadd += 1
+        print('worked-example neighbours: %d/%d target(s) have a matched neighbour; appended to %d pack(s)'
+              % (_nhit, len(targets), _nadd))
+    except Exception as _e:            # fuel is additive — never fail a wave over it
+        print('worked-example neighbours SKIPPED: %s: %s' % (type(_e).__name__, _e))
 
     print('packs: %d written to %s' % (n, out))
     print('cards: %d/%d matched on (binary, fn); %d target(s) have a same-named card in ANOTHER binary '

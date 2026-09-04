@@ -217,7 +217,30 @@ crack ONE exemplar -> gate -> BANK -> re-run seed_ref/--near for the rest of the
 **And never draft two members of the same cluster in parallel** — if either cracks, the other is
 free, so the second agent is pure waste (§397).
 
-### 2b. RUN `neighbor_ref` FOR EVERY CARD — the biggest measured cost lever in the wave
+### 2b. WORKED-EXAMPLE NEIGHBOURS — **AUTOMATIC SINCE S77**; read the coverage line
+
+```
+worked-example neighbours: 30/30 target(s) have a matched neighbour; appended to 30 pack(s)
+```
+
+`claude_wave_packs.py` now calls `neighbor_ref.neighbors()` for every target and appends an
+**ALREADY-MATCHED NEIGHBOURS — READ THESE FIRST** block to its pack, exactly like the past-attempt
+notes in §3b. Additive and never fails a wave.
+
+> **Why this changed (P31 S77).** From S68 to S77 this step was documented as a MANUAL per-card
+> command and wired into nothing — so on a 30-card wave it ran for approximately zero cards, while
+> the playbook called it the biggest measured cost lever in the wave. A lever the pack does not
+> carry is a lever nobody pulls. First automatic run: **30/30 targets had a matched neighbour.**
+>
+> **And it shipped with a name bug that would have silently un-done it.** `neighbor_ref` reports the
+> SYMBOL-TABLE name, which for an unnamed function is Ghidra's `FUN_8003a0e4` — a string that
+> appears NOWHERE in `src/*.c`, where that function is `func_8003A0E4`. An agent told to read
+> `FUN_8003a0e4` greps, finds nothing, and concludes there is no neighbour. The pack renderer now
+> resolves every name against the destination TU's own text and falls back to the address; the
+> symbol-table spelling is shown in parentheses. Measured on the first wave: **150 of 150 neighbour
+> names needed resolving.**
+
+Run it by hand only when you want the ranking outside a wave:
 
 ```
 python3 tools/neighbor_ref.py --binary <bin> --fn <fn> --top 5
