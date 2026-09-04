@@ -6539,7 +6539,7 @@ extern short D_8018FC3C;
 extern void func_8001C214(s32 a0, s32 a1);
 extern void func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
-extern void func_8018095C();
+extern s32 func_8018095C(void *a0);
 extern void func_801843E0(void*, s32);
 
 void func_801808B8(arg0)

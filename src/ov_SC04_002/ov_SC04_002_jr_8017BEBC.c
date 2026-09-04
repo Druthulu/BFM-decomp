@@ -7201,7 +7201,7 @@ void func_80182328(s32 a0)
 
 
 extern s32 func_801826E8(s32 a0);
-extern s32 func_80182CBC(s32 a0, void *a1);
+extern void func_80182CBC(s32 a0, void *a1);
 
 void func_801823BC(s32 arg0) {
     s32 ret;
@@ -7214,7 +7214,7 @@ void func_801823BC(s32 arg0) {
         *(s32 *)(arg0 + 0x18) = 0;
         *(s32 *)(arg0 + 0x4) = *(s32 *)(arg0 + 0x38);
         *(s32 *)(arg0 + 0xC) = *(s32 *)(arg0 + 0x40);
-        func_80182CBC(arg0, ret);
+        ((void (*)())func_80182CBC)(arg0, ret);
     }
 }
 
@@ -7253,7 +7253,7 @@ void func_80182424(void *a0) {
 extern void func_8012CBF4(s32 a0);
 extern void func_801319E0(s32 a0);
 extern s32 func_801826E8(s32 a0);
-extern s32 func_80182CBC(s32 a0, void *a1);
+extern void func_80182CBC(s32 a0, void *a1);
 extern void func_8012ADE4(u8 *a0);
 extern void func_80131E00(void *a0, s32 a1);
 extern void func_80131C78(s32 a0);
@@ -7269,7 +7269,7 @@ void func_801824A4(s32 param_1) {
     }
     hit = func_801826E8(param_1);
     if (hit != 0) {
-        func_80182CBC(param_1, hit);
+        ((void (*)())func_80182CBC)(param_1, hit);
         func_8012ADE4((u8 *)param_1);
     } else if (flag != 0x2000) {
         func_8012ADE4((u8 *)param_1);

@@ -3885,7 +3885,7 @@ s32 a0;
 }
 
 
-extern void func_8017FBCC(void);
+extern void func_8017FBCC(s32 arg0);
 extern void func_8017FD50(s32 a0);
 extern s32 func_801789AC(s32 arg0);
 extern void func_80178D18(void);
@@ -3896,7 +3896,7 @@ void func_80180974(s32 a0)
     s32 v0;
 
     if (*(s16 *)(a0 + 0x100) == 0) {
-        func_8017FBCC();
+        ((void (*)())func_8017FBCC)();
     } else {
         func_8017FD50(a0);
     }

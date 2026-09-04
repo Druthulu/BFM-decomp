@@ -11629,7 +11629,7 @@ void func_801896F8(s32 a0)
 #include "common.h"
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
-extern void func_8018985C(void *a0, void *a1);
+extern s32 func_8018985C(void *a0, void *a1);
 extern void func_8012C218(void *a0);
 extern unsigned char D_80194950;
 
@@ -11651,7 +11651,7 @@ void func_80189764(void *a0) {
     }
 
     if (*(s16 *)((s32)a0 + 0xFE) != 0) {
-        func_8018985C(a0, &D_80194950);
+        ((s32 (*)())func_8018985C)(a0, &D_80194950);
     }
 
     if (*(s16 *)(*(s32 *)((s32)a0 + 0x20) + 0x1A) <= 0) {
@@ -13641,7 +13641,7 @@ void func_8018C260(s32 a0) {
 
 #include "common.h"
 
-extern void func_8018985C(void *a0, void *a1);
+extern s32 func_8018985C(void *a0, void *a1);
 extern void func_80188764(s32 param_1);
 extern s32 D_80194818;
 
@@ -13652,7 +13652,7 @@ void func_8018C310(void *a0)
 
     *(u16 *)(obj + 0x1A) += 0x800;
 
-    func_8018985C(a0, &D_80194818);
+    ((s32 (*)())func_8018985C)(a0, &D_80194818);
 
     if (*(s16 *)(*(s32 *)((s32)s0 + 0x20) + 0x1A) >= 0x1800) {
         func_80188764((s32)s0);
@@ -13663,7 +13663,7 @@ void func_8018C310(void *a0)
 extern void func_8012BEE8(u8 *a0);
 extern void func_8012C218(void *a0);
 extern void func_80133298(s32 *a0);
-extern void func_8018985C(void *a0, void *a1);
+extern s32 func_8018985C(void *a0, void *a1);
 extern s32 D_80194818;
 
 void func_8018C378(void *arg0)
@@ -13682,7 +13682,7 @@ void func_8018C378(void *arg0)
     } else {
         if (*(u8 *)((s32)arg0 + 0x74)) {
             func_80133298((s32 *)arg0);
-            func_8018985C(arg0, &D_80194818);
+            ((s32 (*)())func_8018985C)(arg0, &D_80194818);
         }
     }
 }
@@ -13837,11 +13837,11 @@ void func_8018C64C(s32 param_1)
 }
 
 
-extern void func_8018985C(void *a0, void *a1);
+extern s32 func_8018985C(void *a0, void *a1);
     extern unsigned char D_80194950;
     void func_8018C72C(void *a0) {
         if (*(unsigned char *)((char *)a0 + 0x74)) {
-            func_8018985C(a0, &D_80194950);
+            ((s32 (*)())func_8018985C)(a0, &D_80194950);
         }
     }
 

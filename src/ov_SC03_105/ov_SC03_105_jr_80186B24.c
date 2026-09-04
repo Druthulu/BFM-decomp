@@ -2813,7 +2813,7 @@ extern u8   D_8018E11C[];
 extern void func_8017EC98(void *a0);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012C51C(void *a0, s32 a1);
-extern void func_8017F018(s32 a0);
+extern s32 func_8017F018(s32 a0);
 extern void func_8017EE34(s32 a0);
 extern void func_8017EF94(s32 a0);
 extern s32 func_80132EF4(s32 a0, s32 a1);

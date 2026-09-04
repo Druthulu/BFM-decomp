@@ -4821,7 +4821,7 @@ extern s16 D_801E664C;
 extern s32 rand(void);
 extern void func_80016714(void *a0, s32 a1);
 extern void func_8012C218(void *a0);
-extern s32 func_80181294(u16 a0, s16 a1);
+extern s32 func_80181294(u16 a0, s32 a1);
 extern void func_8018124C(void);
 extern void func_801810B0();
 
@@ -4839,7 +4839,7 @@ void func_80180DBC(void *a0) {
             D_801E664C = ((t - D_8018A9FC) << 12) / D_8018A9FE;
             for (i = 0; i < 0x10; i++) {
                 *(s16 *)((s32)&D_801E660C + i * 2) =
-                    func_80181294(*(u16 *)((s32)&D_801E662C + i * 2), D_801E664C);
+                    ((s32 (*)())func_80181294)(*(u16 *)((s32)&D_801E662C + i * 2), D_801E664C);
             }
             func_8018124C();
         } else {

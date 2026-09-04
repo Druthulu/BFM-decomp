@@ -4041,9 +4041,9 @@ s32 func_801812B4(void *arg0) {
 }
 
 
-extern s32 func_80181344(void);
+extern void func_80181344(void);
     void func_80181324(void) {
-        func_80181344();
+        ((void (*)())func_80181344)();
     }
 
 

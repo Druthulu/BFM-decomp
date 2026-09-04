@@ -6149,14 +6149,14 @@ void func_801814D8(s32 arg0, s32 arg1) {
 
 
 
-extern void func_80181720(void *a0);
+extern s32 func_80181720(void *arg0);
 
 void func_80181540(void *a0) {
 
     extern void (*D_801A47A8[])(void);
     D_801A47A8[*(u16 *)((s32)a0 + 0x2)]();
     if (*(u16 *)a0 != 0) {
-        func_80181720(a0);
+        ((s32 (*)())func_80181720)(a0);
     }
 }
 

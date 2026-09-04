@@ -4113,7 +4113,7 @@ extern s32 func_8012BEE8(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012C51C(void *a0, s32 a1);
-extern void func_8017F018(s32 a0);
+extern s32 func_8017F018(s32 a0);
 extern void func_8017F0C8(s32 a0, s32 a1);
 extern void func_8002D4C8(s32 a0, s32 a1);
 
@@ -4183,7 +4183,7 @@ void func_8017EE34(s32 a0) {
             return;
         }
     }
-    func_8017F018(s0);
+    ((s32 (*)())func_8017F018)(s0);
 }
 
 
