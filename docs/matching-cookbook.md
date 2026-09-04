@@ -35836,21 +35836,30 @@ draft of this entry.** The first version of §479 said "at ≤4 mismatched the p
 | `func_8005ECC0` | 2 | 5 | fail |
 
 **The mismatch count did not predict a single one of those outcomes** — a residual of 1 failed and a
-residual of 4 banked. **What predicts it is whether the draft has already been ground.** All three
-winners were drafts nobody had worked: no prior-attempt journal, straight from a recovery pile. Every
-failure was a body an agent or a prior wave had already optimised — `func_8005F290` had five prior
-attempts (best also 1), `func_80015608` six, `func_80039DEC` came out of a wave agent that had
-already applied four levers. A draft that a competent search has plateaued is plateaued for the
-permuter too; the permuter's wins come from *unexplored* neighbourhoods, not from small numbers.
+residual of 4 banked.
 
-**So the rule is: one 150 s cycle on any ≤4 residual whose draft carries NO prior-attempt history —
-that is cheap and it is where the 3 banks came from. On a draft that has already been ground, expect
-nothing and spend accordingly.** Above ~10 it plateaus regardless; the 37→1 case burned 32 minutes on
-cycles 2-8 for zero further progress. A plateaued score is a seed for a different tier, never a
-reason to run longer.
+**AND NEITHER DOES ANYTHING ELSE I COULD MEASURE. This paragraph is a CORRECTION of a correction.**
+v2 of this entry claimed the predictor was "prior-attempt history: all 3 winners were drafts nobody
+had worked." Building `tools/permuter_sweep.py` on that claim refuted it in one negative control:
+`journal_notes` — the same index the packs use — reports prior attempts for **all eight, winners
+included** (2, 3 and 3 for the three that banked). What I had actually eyeballed was the DRAFT HEADER
+narrative, and the two are different corpora; the winners came from a recovery pile whose files carry
+no header journal, which is **provenance, not evidence**.
 
-This is the same predictor as the triage paragraph below, arrived at from the opposite direction —
-which is why it is worth trusting: **prior-attempt history, not residual size, is the variable.**
+**So the honest state is: ~3 in 8 at ≤4, and no validated predictor.** Select on the two NECESSARY
+conditions — a small residual, and a `match_one` class the permuter can actually search
+(`SCHEDULE-REORDER` / `DELAY-SLOT` / `REGALLOC-PERM`; a `STRUCTURAL`, `WIDTH` or `LENGTH-DRIFT`
+residual is a different animal and a run on one is waste). At 150 s a cycle that yield is worth
+having; just do not believe a story about which ones will win. `permuter_sweep.py` implements exactly
+that and prints prior-attempt counts as information rather than enforcing them.
+
+Above ~10 it plateaus regardless: the 37→1 case burned 32 minutes on cycles 2-8 for zero further
+progress. A plateaued score is a seed for a different tier, never a reason to run longer.
+
+**The meta-lesson is the one worth keeping.** This entry was written, corrected, and corrected again
+inside a single session, and each version sounded reasonable. A yield table is evidence; a story
+about *why* the yield looks like that is a hypothesis, and it needs its own negative control before
+it goes in the cookbook — because the next session will act on it.
 
 **TRIAGE FIRST, AND IT IS FREE: READ THE DRAFT'S OWN HEADER.** The two closest *overlay* residuals
 (2 of 119, 6 of 106) look like the best targets in the fleet and are not: each draft carries a

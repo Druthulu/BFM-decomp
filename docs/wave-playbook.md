@@ -409,6 +409,28 @@ score against. Measured S71: `ov_SC01_006/func_8017F9F8` did exactly that, and f
 payload found **3 of 27** already banked. Also skip any target that already has a FRESH draft from
 this session — it needs a gate, not another agent.
 
+## 4d. HAND THE NEARs TO THE PERMUTER — it costs no tokens and the agents are told not to (S77)
+
+```
+tools/permuter_sweep.py --wave .run/<wave>          # dry: what it would run, and why not
+tools/permuter_sweep.py --wave .run/<wave> --apply
+```
+
+A drafting agent's brief tells it to STOP at a plateaued permuter-class residual, which is right —
+an agent grinding a register permutation burns tokens for nothing. The consequence is that every
+`SCHEDULE-REORDER` / `DELAY-SLOT` / `REGALLOC-PERM` residual lands **un-attempted**, while the local
+permuter costs no tokens at all. In S77 the hand-off happened only when someone remembered.
+
+**Expect ~3 in 8, and do not believe any story about which 3.** §479 was written and corrected TWICE
+in one session: "≤4 is a one-shot" (3/3) became 3 of 8, and the follow-up claim that prior-attempt
+history predicts the winners was refuted by its own negative control — the journal reports history
+for all eight, winners included. Select on the two necessary conditions (small residual, a class the
+permuter can search) and let the yield be the yield.
+
+**A winner is a CANDIDATE.** It lands in `.run/permuter-winners/` and must still pass the
+whole-binary gate (G3/P9) — the permuter rewrites for byte-proximity and intermediate waypoints can
+be semantically divergent.
+
 ## 5. Draft
 
 `tools/workflows/claude_wave_draft.js`, `args = {wave, targets}`. One agent per target,
