@@ -7368,3 +7368,35 @@ about how a name was spelled, and once a tool fixed that, sixteen out of sixteen
 The rest of the session was spent catching eight cases where one of our own measuring tools was
 quietly telling us something false — including one that had ranked six pieces of copied assembly as
 the most promising work available, and one that invented a problem the real build already solves.
+
+## RULE ADDED IN-SESSION — R61 (Drew, 2026-09-03: "agreed. make the rule about it.")
+
+**R61 — A TOOL MUST DISTINGUISH "I JUDGED IT AND IT FAILED" FROM "I DID NOT JUDGE IT", AND A TOOL
+THAT JUDGES A DRAFT MUST MODEL WHAT THE GATE ACTUALLY DOES TO THAT DRAFT.**
+
+Two clauses, because the S77 defect census split cleanly in two and each half is separately
+actionable.
+
+**(a) NOT-JUDGED IS NOT A VERDICT.** Any tool reporting per-item outcomes carries a distinct,
+COUNTED "not judged" state, and never folds a skip, a refusal, or an unsupported input into a
+failure/near/DIFF class. Measured this session: `harvest_verify`'s verbatim SKIP surfaced through
+`gate_stage` as `near: 1`; `sync_tu_decls` rendered a gate that REFUSED TO RUN (dirty tree) as "no
+declaration conflict named", which reads as a statement about the body; `parallel_gate` reported
+`banked 0` for drafts that were never judged at all. In each case the number was TRUE and the
+attribution was FALSE — and the attribution is what routes the next session's work.
+
+**(b) MODEL THE REAL PIPELINE, OR DO NOT EMIT A BLOCKER.** A consumer that inspects a draft and
+names what is wrong with it must apply the same rewrites the gate applies before judging
+(`strip_provided_typedefs`, `reconcile_tu`, the verbatim refusal), or it will both INVENT blockers
+the build already removes and HIDE the real one behind them. Measured: `blocker_probe`'s
+`local_type` class was a phantom on 3 of 3 drafts — the true classes were DIFF, DIFF, and a §378
+step-2 that banked 207 instructions once anyone actually gated it (§480). Corollary: **when a static
+class and the gate disagree, gate one and believe the bytes — it costs one build.**
+
+**Why this is not a restatement of R40.** R40 (exonerate the instrument) tells you to clear the
+harness once a verdict already looks wrong. R61 is upstream of that: it removes the two structural
+ways a harness manufactures a *plausible* verdict that never looks wrong in the first place. Eight
+defects in one session, and **all eight had the same shape — a tool asserting something about a
+DRAFT that was true only of the HARNESS.** Related: R32 (assert coverage), R43 (refuse unsupported
+input), R47 (consume every verdict layer), R49 (a soft error inside a success envelope is still that
+error), R56 (a gate verdict measures the draft only), §478, §480.
