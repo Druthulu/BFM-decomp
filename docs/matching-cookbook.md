@@ -35803,3 +35803,62 @@ a verbatim row must be excluded from match/agreement arithmetic rather than coun
 you fix a blindness like this, **enumerate the consumers**: this was the fourth, found only because
 the third fix did not prompt anyone to ask who else reads drafts (R36's shape, applied to a property
 rather than a binary).
+
+#### §479 ★★★ — WHERE THE PERMUTER ACTUALLY PAYS: A MEASURED YIELD CURVE (P31 S77, 8 candidates)
+
+Every candidate below is a `main` DIFF residual with **no prior-attempt journal** — i.e. nobody had
+ground it. `permuter_ils --klass SCHEDULE/REGALLOC --j 12`, 150 s cycles:
+
+| residual (mismatched) | class | outcome |
+|---|---|---|
+| 2 of 68 | SCHEDULE-REORDER | **score 0, cycle 1 → BANKED** (`func_80021174`) |
+| 2 of 347 | REGALLOC-PERM | **score 0, cycle 1 → BANKED** (`func_80040DE8`) |
+| 4 of 91 | DELAY-SLOT | **score 0, cycle 1 → BANKED** (`func_80024054`) |
+| 10 of 79 | schedule | plateau at 10, 4 cycles |
+| 11 of 74 | schedule | **no waypoint at all** — never beat base |
+| 20 of 100 | schedule | plateau at 14 |
+| 28 of 69 | schedule | plateau at 25 |
+| 37 of 114 | schedule | **37 → 1** then plateau at 1 over **8 cycles × 240 s** |
+
+**THE CURVE.** At **≤4 mismatched the permuter is a one-shot**: 3/3, each inside one 150 s cycle, each
+banked byte-identical. Above ~10 it plateaus and more cycles buy nothing — the 37→1 case burned 32
+minutes on cycles 2-8 for zero further progress. **So: give it one 150 s cycle on anything ≤4, give it
+4 cycles once on anything else, and never a long run on a plateau.** A plateaued score is a seed for a
+different tier (a Fable/agent lever), not a reason to run longer.
+
+**TRIAGE FIRST, AND IT IS FREE: READ THE DRAFT'S OWN HEADER.** The two closest *overlay* residuals
+(2 of 119, 6 of 106) look like the best targets in the fleet and are not: each draft carries a
+byte-measured journal of ~10 refuted levers, one of them with an arithmetic proof of unreachability
+(`expand_divmod`'s const bound is always ≥ the sra's bound, so no `insn_count` separates them).
+Main's residuals carried **no** journal at all. That asymmetry — not the mismatch count — is what
+predicted the yield. (R38, applied to a draft header rather than a failure ledger.)
+
+**TWO HAND LEVERS REFUTED BY BYTES, both worth not repeating:**
+
+1. *Moving a statement to reorder its instruction.* In `func_80021174` the residual was
+   `lh $a1,0($sp)` / `sra $a2,$v1,16` in the wrong order, and hoisting `a0 = a0 >> 16` above the load
+   is semantics-preserving (`a0` is untouched between). It scores **23 mismatched at 67/68 ins** —
+   *worse*, because it lets gcc fold an instruction away entirely. The permuter's winning edit was a
+   different kind of change: **delete the `a1 = *(s16 *)sp;` temporary** and inline the load into both
+   comparisons.
+2. *Reordering a commutative operand from the source.* `addu $s2,$v0,$v1` vs `addu $s2,$v1,$v0` is a
+   pure operand swap, and **`val = b + r` → `val = r + b` changes nothing** (all 3 sites): gcc
+   canonicalises commutative operands by *pseudo-register number*, not source order. Forcing a fresh
+   later-numbered pseudo (`{s32 rr = r; val = b + rr;}`) also changes nothing — cse folds the copy.
+   The class name was telling the truth all along: it is `REGALLOC-PERM`, so the lever must move the
+   ALLOCATION, not the expression.
+
+#### §480 🔴 — A STATIC BLOCKER CLASS THAT THE REAL PIPELINE ALREADY REMOVES IS A PHANTOM
+
+`blocker_probe`'s Oracle A reported `local_type` conflicts (`redefinition of u8`, `conflicting types
+for Blk16`, `Blk32_80180908`) as the blocker on three drafts. The real gate removes that class before
+cc1 ever sees it — `harvest_verify` runs `cdecl.strip_provided_typedefs` and `gate_stage` additionally
+runs `reconcile_tu`. Gated for real, the three drafts' true classes were **DIFF, DIFF, and "too few
+arguments to function"** — and that last one is §378 step 2, which banked
+`ov_SC01_084:func_80182A00` (207 ins) once the call sites were cast.
+
+**So a `local_type` row is not work; it is noise from an oracle that models a pipeline stage shorter
+than the real one.** Same shape as §478: a consumer that reads a draft and emits a verdict must model
+what the gate actually does to that draft, or it will route real work to the wrong lane and invent
+work that does not exist. When a static class and the gate disagree, **gate one and believe the
+bytes** — it costs one build.
