@@ -54,6 +54,21 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     byte-identical `143dbb89…` after the last src-only fix (the `DecDCToutCallback` caller) → 213/213.
     `tools-health` OK. Ghidra DB deliberately NOT staged (the mirror is text-derived and re-applicable;
     `db.*.gbf` churn stays restart-noise).
+    **#3 DONE (S78):** thirteen "game code" subsegs were library objects, exact tiles — wired as
+    LINKED for 0 tokens: `libgte23–26` (800b/800b_2/800b_5/800b_6: MSC01/02/05/09, SMP_00, FGO_01–06,
+    PATCHGTE), `libgte9` re-derived as SMP_05 `NormalClip` (800b_3+libgte9+800b_4; SMP_06 is its nested
+    sub-pattern — integrate now drops nested placements), `libgte27–30` (gsgap1/2/4/5: MTX_05/07/11,
+    REG03+REG11), `libgs7` (800b_7: 2D_BG0+2D_BG1), `snd10` (sgap_7: VM_NO1), `snd11` (VM_NOWON, carved
+    off sgap_8). libgte 53→70 objs/22→30 blocks · libgs 31→33/7 · snd 60→62/11 · LINKED 959→**1,040**
+    · REAL 912→886 (SDK inline-asm wrappers re-provenanced) · VERBATIM 146→**85** · 13 TUs deleted.
+    main `143dbb89` **with AND without** the SDK objects (the no-SDK fallback had been RED since
+    S7x — `CdReadyCallback` called by name, stub carried `func_800435B4`; curated + refs fixed).
+    **R22:** clean extract-all 212/212 + check-all **213/213**. `tools-health` OK.
+    **Instrument correction (R35):** `MAIN game-code weighted` fell 59.8%→56.1% on this change with no
+    game-code change → the 08-05 sig had carried ALL ~31k linked-SDK ins (its comment claimed otherwise);
+    exclusion now derived live → **91.8% (44,562 / 48,537)**; remainder 3,975 ins == the open-stub sum.
+    `VM_F.o` probed SPLITTABLE at 0x50c (same class as SYS.o → #4). cookbook §488; worklist/decision-log/
+    accelerators/SETUP updated.
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)

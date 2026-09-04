@@ -3100,3 +3100,14 @@ regex and to the string-masking linter — the linter now scans asm bodies (nega
 would have named the band, explained the 4.2 stamps, and kept the §332 wall verdicts from ever being
 written. General form (now cookbook §487): a wall inside bytes no archive you hold can place is a
 provenance question before it is a compiler question.
+
+### S78 addendum — main was 91.8% game-code all along; the instrument said 59.8%
+
+Wiring thirteen "game code" subsegs as LINKED (task #3) moved `MAIN game-code weighted` from 59.8%
+to **56.1%** with no game-code change — the tell of a broken denominator (R35). `progress.py`'s
+comment asserted the Ghidra sig excluded LINKED objects; measured, it carried every one of them
+(~31,000 ins), and their `INCLUDE_ASM` stub records counted as unmatched game code. With the
+exclusion derived live (Makefile stub lists → yaml ranges), main reads **91.8% (44,562 / 48,537)** and
+the remainder equals the open-stub instruction sum to the instruction. Hindsight: a metric whose
+denominator is a snapshot will drift the first time the thing it snapshots changes; derive it (R33),
+and check it against a case whose answer you already know (the 28 stubs' size).

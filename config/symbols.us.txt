@@ -6,7 +6,7 @@
 //   - `D_800629D4` added: a data label in the text->data boundary region that the boot code
 //     references but splat did not auto-label (keeps the all-asm link resolving; no bytes change).
 // Durable text record of manual RE work (the .rep is gitignored).
-// count=1081
+// count=1082
 
 lzss_ringBuffer                  = 0x1F800000; // data
 start                            = 0x80010000; // func
@@ -245,6 +245,7 @@ CdComstr                         = 0x800434F4; // func
 SYS_OBJ_110                      = 0x80043520; // func
 CdIntstr                         = 0x80043528; // func
 SYS_OBJ_144                      = 0x80043554; // func
+CdReadyCallback                  = 0x800435B4; // func  PsyQ libcd global (S78 - the no-SDK fallback needs the stub to carry the name the game C calls)
 SYS_OBJ_538                      = 0x80043948; // func
 BIOS_OBJ_64                      = 0x80043C00; // func
 BIOS_OBJ_26C                     = 0x80043E08; // func

@@ -50,7 +50,7 @@ INCLUDE_ASM("asm/nonmatchings/libcd1", func_8004357C);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", func_8004359C);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", func_800435B4);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CdReadyCallback);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", func_800435CC);
 

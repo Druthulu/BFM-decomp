@@ -655,3 +655,11 @@ the version that places the most objects byte-exact is the linked one.** Second,
 gates only ever built main WITHOUT the SDK objects (worktrees carry no `.run/obj40`), so the LINKED
 path was never gated — `make build BINARY=main` in the real tree is the only check of it; run it
 after any change to `psyq_identify`/`psyq_integrate`.
+
+## S78 (2) — check a percentage against a case you already know the answer to
+
+`MAIN game-code weighted 59.8%` stood for six weeks. Its remainder (~32,000 ins) never matched the
+frontier's own stub sum (~4,000 ins), and nobody subtracted the two. One subtraction would have shown
+the denominator was carrying the 31,000 linked-SDK instructions. Accelerator: **every headline % ships
+with its remainder, and the remainder is reconciled against an independently-derived list of what is
+actually open.**

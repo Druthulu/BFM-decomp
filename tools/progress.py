@@ -494,6 +494,12 @@ def linked_subsegs():
             "first. Returning an empty set here would silently claim 'no linked subsegs'.")
     if BINARY != "main":
         return set()
+    return _main_linked_segs_from_makefile()
+
+
+def _main_linked_segs_from_makefile():
+    """The EXE's LINKED subseg names, parsed from the Makefile's psyq_integrate calls — BINARY-independent
+    (P31 S78: the fleet's weighted metric needs main's link state while iterating other binaries)."""
     if not MAKEFILE.exists():
         return set()
     txt = MAKEFILE.read_text()
@@ -844,6 +850,29 @@ def _sig_binary(sigpath):
     return "main" if b == "SLUS_007.26" else b
 
 
+def _main_linked_ranges():
+    """[(vram_lo, vram_hi)] of main's LINKED subsegs, derived from the Makefile's psyq_integrate stub
+    lists (LINKED_SEGS) and the splat yaml's subseg rows (vram = fileoff + (segment vram - segment start)).
+    P31 S78 (R33): the game-code denominator must follow the LIVE link state, not a sig's snapshot."""
+    import yaml as _yaml
+    y = _yaml.safe_load(open(ROOT / "config/splat.us.exe.yaml"))
+    out, rows, vb = [], [], None
+    for seg in y["segments"]:
+        if isinstance(seg, dict) and "subsegments" in seg:
+            vb = int(seg["vram"]) - int(seg["start"])
+            for r in seg["subsegments"]:
+                if isinstance(r, list) and len(r) >= 3:
+                    rows.append((int(r[0]), str(r[2])))
+                elif isinstance(r, list) and len(r) == 1:
+                    rows.append((int(r[0]), None))
+    rows.sort()
+    linked = _main_linked_segs_from_makefile()
+    for i, (off, name) in enumerate(rows):
+        if name in linked and i + 1 < len(rows):
+            out.append((off + vb, rows[i + 1][0] + vb))
+    return out
+
+
 def weighted_metrics():
     """Instruction/byte-weighted matching % from the committed sigs (.run/sig.*.jsonl) + the DERIVED
     stub oracle (corpus.stubs, R33 — NOT a func_-only regex, which missed curated-named stubs and, for
@@ -907,11 +936,18 @@ def weighted_metrics():
         import datetime
         main_date = datetime.date.fromtimestamp(mp.stat().st_mtime).isoformat()
         mst = stub_addrs("main")
+        # P31 S78: exclude LINKED subsegs LIVE (R33 — derive from the Makefile stub lists + the yaml
+        # ranges), not by trusting the sig's generation-time exclusion. When 13 "game code" subsegs
+        # became libgte23..30/libgs7/snd10/snd11 the 2026-08-05 sig still carried their 2,907 ins,
+        # which then read as unmatched game code (59.8% -> 56.1% with no game-code change).
+        lr = _main_linked_ranges()
         for line in open(mp):
             r = json.loads(line)
             a, n = int(r["addr"], 16), r["nins"]
             if n == 0:
                 continue                           # GTE thunks / no-body
+            if any(lo <= a < hi for lo, hi in lr):
+                continue                           # LINKED PsyQ object — not game code
             mt += n
             if a not in mst:
                 mm += n
@@ -925,10 +961,16 @@ def weighted_metrics():
     # comes from Ghidra (2026-06-14), and function BOUNDARIES derive from the original bytes, which
     # do not change — matched-vs-stub comes from the LIVE corpus.stubs. So the numbers do not drift.
     # The real limitation is R34: `sig_image` cannot independently validate a PS-X EXE's boundaries,
-    # so main has no SECOND, DISAGREEING oracle for the PHANTOM/TRUNCATED class. The sig also
-    # EXCLUDES the LINKED PsyQ objects, which is exactly right for a GAME-CODE contract.
+    # so main has no SECOND, DISAGREEING oracle for the PHANTOM/TRUNCATED class (closed P31 S77:
+    # `make sig-main-oracle`).
     #
-    # Effect: the headline instr number DROPS, because main is ~0.7% matched. That is the point.
+    # CORRECTION (P31 S78): this block used to claim "the sig also EXCLUDES the LINKED PsyQ objects".
+    # It did not. The 2026-08-05 sig carried every Ghidra function including the ~31,000 ins of linked
+    # SDK objects, whose INCLUDE_ASM stub records read as UNMATCHED game code — so main's game-code
+    # weighted % was reported as 59.8% (47,521 / 79,510) when the game-code denominator is 48,537 ins
+    # and the honest figure was 91.8%. The LINKED exclusion is now applied LIVE above
+    # (_main_linked_ranges, R33/R35); the remainder 48,537 − 44,562 = 3,975 ins equals the sum of
+    # main's open stubs in `frontier_classify` (a known-true-case check).
     fleet_m_all, fleet_t_all = fm + mm, ft + mt
     dedup_m_all, dedup_t_all = um + mm, ut + mt      # main's fns are unique — no h_exact sharing
     return dict(fleet_m=fleet_m_all, fleet_t=fleet_t_all,

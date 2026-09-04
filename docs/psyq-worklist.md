@@ -154,3 +154,32 @@ RANGE with an exact-tiling check, residue printed; (2) a library object's DEFINE
 recovered address the curated file names differently is `--redefine-sym`'d to the curated name (R15)
 — `A66.o` `firstfile`→`firstfile2`, and it also exposed `TOC.o` `CdGetToc`@0x800430B8 mis-curated as
 `DecDCToutCallback` (an xdedup-vs-VS mislabel; libcd 4.0's linked object is the stronger oracle).
+
+### S78 task #3 — thirteen "game code" subsegs were library objects: wired as LINKED (exact tiles, 0 tokens)
+
+| new block | was | objects | ins | note |
+|---|---|---|---|---|
+| `libgte23` | 800b | MSC01, MSC02, MSC05, MSC09 | 276 | GTE macro wrappers (SetRGBfifo…) that had been hand-matched as REAL |
+| `libgte24` | 800b_2 | SMP_00 | 132 | |
+| `libgte9` (re-derived) | 800b_3 + libgte9 + 800b_4 | SMP_05 (`NormalClip`) | 12 | SMP_06 `NormalClipS` is its nested sub-pattern; the "3-nop NOTCODE-PAD" was the object's alignment |
+| `libgte25` | 800b_5 | FGO_01…FGO_06 | 804 | |
+| `libgte26` | 800b_6 | PATCHGTE | 40 | `.sbss` 0x10, single base |
+| `libgte27/28/29` | gsgap1/2/4 | MTX_05 / MTX_07 / MTX_11 | 20/12/12 | the Phase-8 "deferred (T11)" libgs-gap objects |
+| `libgte30` | gsgap5 | REG03 + REG11 | 76 | |
+| `libgs7` | 800b_7 | 2D_BG0 + 2D_BG1 | 1022 | §485's headline find |
+| `snd10` | sgap_7 | VM_NO1 | 305 | |
+| `snd11` | sgap_8 (head) | VM_NOWON | 300 | sgap_8 now starts at 0x80040DE8 with its game C |
+
+Result: libgte **70 objects / 30 blocks** (was 53/22), libgs **33 / 7**, sound **62 / 11**; LINKED fns
+959 → **1,040**; REAL 912 → 886 (26 inline-asm SDK wrappers re-provenanced); VERBATIM 146 → **85**;
+13 TUs deleted; main `143dbb89` byte-identical **with and without** the SDK objects (the fallback had
+been red since S7x: `CdReadyCallback` was called by its SDK name but the libcd stub carried
+`func_800435B4` — curated now). Remaining located-but-unwired: `SYS.o` 3,109 + `VM_F` 237 (both
+`.bss`-splittable, task #4), the libpad/libapi band pieces (task #5), `SSGM.o` 8, and the genuine
+scattered-`.bss` walls `GS_001` / `S_R` / `S_GRMDT`.
+
+**The metric correction this exposed (R35).** `progress.py`'s "MAIN game-code weighted" line claimed
+its sig excluded the LINKED objects; it never did — the 2026-08-05 Ghidra sig carried all ~31,000
+linked-SDK instructions, whose stub records read as unmatched game code. Honest figure, LINKED now
+excluded live from the Makefile stub lists + yaml ranges: **91.8% (44,562 / 48,537)**, not 59.8%; the
+3,975-ins remainder equals the sum of main's open stubs in `frontier_classify` exactly.

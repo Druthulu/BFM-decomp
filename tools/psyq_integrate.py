@@ -103,6 +103,16 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
         # named on this call are wired; the others are the LINKED RESIDUE and are printed, not swallowed
         # (the completion contract's "residue empties" line reads exactly this).
         ranges = stub_ranges(yaml_path, stubs, vram_base)
+        # A placement NESTED inside another object's placement is a sub-pattern match, not a link
+        # (libgte SMP_06.o `NormalClipS`, 4 ins, matches inside SMP_05.o `NormalClip`, 12 ins, which
+        # tiles the whole span byte-identically). Keep the enclosing object; print the nested one.
+        kept, prev = [], None
+        for nm, (v, n) in order:
+            if prev is not None and v >= prev[1] and v + n * 4 <= prev[1] + prev[2] * 4:
+                print(f"  .. {nm} @0x{v:08X} ({n} ins) is NESTED inside {prev[0]} — sub-pattern, not wired")
+                continue
+            kept.append((nm, (v, n))); prev = (nm, v, n)
+        order = kept
         residue = [(nm, v, n) for nm, (v, n) in order if not any(a <= v < b for a, b in ranges.values())]
         order = [(nm, vn) for nm, vn in order if any(a <= vn[0] < b for a, b in ranges.values())]
         if residue:

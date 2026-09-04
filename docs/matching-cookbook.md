@@ -36198,3 +36198,43 @@ name inside `__asm__("… .ent\tfunc_X …")`. The C-side rename regex with `\b`
 to a constant`, and the string-masking linter was blind to it by construction. The linter now scans
 asm string bodies too; negative control: red on the pre-fix TUs (4 hits), green on the fixed tree
 and on every previously-passing TU (the `func_8005C324`→`memcpy` `__asm__`-label binding exempted).
+
+#### §488 ★★ — THE "GAME CODE" GAPS BETWEEN LIBRARY BLOCKS WERE LIBRARY OBJECTS: 13 SUBSEGS → LINKED, EXACT-TILED, ZERO TOKENS (P31 S78)
+
+**What the residue printer said, and what it meant.** After §487's `--yaml` change, `make build` listed
+libgte's located-but-unwired objects: `MSC01/02/05/09` fill `800b` (276 ins) to the byte, `SMP_00`
+fills `800b_2`, `FGO_01–06` fill `800b_5` (804 ins), `PATCHGTE` fills `800b_6`, `MTX_05/07/11` and
+`REG03+REG11` fill the four `gsgap` stubs inside libgs, `2D_BG0+2D_BG1` fill `800b_7` (1,022), and
+`VM_NO1` / `VM_NOWON` fill `sgap_7` and the head of `sgap_8`. Every one an **exact tile** — the subseg
+IS the object. Those subsegs had carried 106 verbatim `__asm__` bodies (SDK-ASM "permanent" GTE
+macros, libsnd voice code) and four inline-asm wrappers counted as REAL for twenty phases.
+
+**The conversion is mechanical.** Per subseg: rename the yaml row to the next `<lib>N` block name
+(comment: objects, ins, "exact tile"), append the name to that library's stub list in the Makefile
+(and widen its scan window if the block sits outside it), add any newly-placed objects to the curated
+dir (`make_libgs.sh` OBJS, `make_snd_used.py` re-run), `git rm` the verbatim-only TU, and
+`make extract` — splat re-emits `src/<lib>N.c` as an `INCLUDE_ASM` stub record for the fallback. A
+subseg that is only PARTLY an object is split at the object's end (`sgap_8` → `snd11` + a shorter
+`sgap_8` keeping its game C). Gate: `make build BINARY=main` byte-identical WITH the SDK objects, then
+the fresh-clone fallback: move `.run/obj40` aside, **re-extract**, build, restore.
+
+**Three things the bytes settled on the way.**
+1. **A placement nested inside another placement is a sub-pattern, not a second object.** `SMP_06.o`
+   (`NormalClipS`, 4 ins) matches inside `SMP_05.o` (`NormalClip`, 12 ins), which tiles the whole
+   `800b_3`+`libgte9`+`800b_4` span byte-identically — including the "3-nop NOTCODE-PAD function"
+   that was the object's alignment padding. `psyq_integrate` now drops nested placements and says so.
+2. **The fallback build is a separate invariant and had been red.** With `.run/obj40` absent, the
+   libcd stub defined `func_800435B4` while `src/800.c`/`800_c.c` had called `CdReadyCallback` by
+   its SDK name since S7x — undefined at link. The SDK build hid it (the linked object defines the
+   name) and the worktree gates never build main. Curating `CdReadyCallback = 0x800435B4` fixes it;
+   **`lint_symbol_refs` reports the stale `INCLUDE_ASM` line — read its whole output, not the last
+   line.** Verify the fallback from a FRESH extract: a stale `.s` under `asm/nonmatchings/` still
+   defines the old name and masks the miss (the §486 signature again).
+3. **VM_F.o is SYS.o's class, not GS_001's:** `psyq_bss_probe` — two `.bss` bases, disjoint offset
+   ranges, split at `0x50c` → the `.bss`-split lever (task #4) covers both.
+
+**Yield:** libgte 53→70 objects / 22→30 blocks, libgs 31→33 / 7 blocks, sound 60→62 / 11 blocks;
+≈3,000 instructions of "game code" re-provenanced as LINKED, 106 verbatim bodies retired, 13 TUs
+deleted, REAL −4 (inline-asm wrappers), 0 agent tokens. Remaining LINKED residue: `SYS.o` (3,109),
+`VM_F` (237), the libpad/libapi band pieces (task #5), `SSGM.o` (8 ins amid matched C), and the
+GS_001 / S_R / S_GRMDT scattered-`.bss` genuine walls.

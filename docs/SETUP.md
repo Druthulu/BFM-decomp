@@ -732,6 +732,7 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/psyq_link.py` | Link identified PsyQ objects into the build. |
 | | `tools/psyq_link_lib.py` | Per-library link driver. |
 | | `tools/psyq_link_region.py` | Link a specific address region from PsyQ libs. |
+| | `tools/progress.py` (weighted main) | **(P31 S78)** `MAIN game-code weighted` now excludes LINKED subsegs LIVE (`_main_linked_ranges`: Makefile `psyq_integrate` stub lists → yaml ranges, R33); the 2026-08-05 sig had carried all linked-SDK instructions, under-reporting main by ~32 points (59.8% → 91.8%). |
 | | `tools/psyq_integrate.py` | Integrate linked PsyQ results back into the source tree. **P31 S78:** `--yaml <splat yaml>` (every main call passes `$(main_SPLAT_YAML)`) maps stub↔objects by SUBSEG RANGE with an exact-tiling check and PRINTS the located-but-unwired objects (`~~ N located object(s) / M ins OUTSIDE the stub subsegs`) — the completion contract's SDK-residue line; and a library object's DEFINED symbol whose recovered address the curated symbol file names differently is `--redefine-sym`'d to the curated name (R15; e.g. libapi 4.0 `A66.o` `firstfile`→`firstfile2`). Without `--yaml` the old contiguity mapping runs (overlay-free libraries only). |
 | | `tools/make_libgs.sh` | Build/link the `libgs` block (cookbook §9). |
 | | `tools/gen_lib_subsegs.py` | **(Phase 8)** Generate splat subseg lines + integrate stub list for a multi-block library (section-size-correct boundaries; cookbook §9.6). |

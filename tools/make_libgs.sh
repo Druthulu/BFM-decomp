@@ -27,7 +27,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 LIBGS=.run/obj40/libgs
 DST=.run/obj40/libgs_used
-OBJS=(2D_COM0 2D_LIN0 2D_COM1 2D_SP0 2D_SP1 \
+OBJS=(2D_COM0 2D_LIN0 2D_COM1 2D_SP0 2D_SP1 2D_BG0 2D_BG1 \
       GS_002 GS_003 MATRIX GS_103 GS_104 GS_105 GS_106 GS_107 GS_108 GS_109 \
       GS_110 GS_119 GS_120 GS_121 GS_122 GS_123 GS_127 GS_131 GS_133 GS_134 GS_135 GS_137 \
       PRESET PRESET3 OBJT OBJT3)
@@ -41,5 +41,5 @@ done
 echo "libgs_used: ${#OBJS[@]} objects -> $DST"
 # Optional self-check: verify the whole region links per-object .text byte-identical.
 if [ "${1:-}" = "--verify" ]; then
-    .venv/bin/python tools/psyq_link_region.py "$DST" 0x80051804 0x80057928
+    .venv/bin/python tools/psyq_link_region.py "$DST" 0x8005080C 0x80057928
 fi

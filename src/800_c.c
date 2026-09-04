@@ -777,7 +777,7 @@ void func_8003621C(void) {
 
 extern void func_80037334(void);
 extern void func_800434BC(void);
-extern void func_800435B4(void *);
+extern void *CdReadyCallback(void *);
 extern int  func_800435CC(s32, void *, void *);
 extern s32 func_8004355C(s32 mode, u8 *result);   /* §376: adopt the TU's spelling verbatim */
 extern void func_800415A8(s32);
@@ -825,7 +825,7 @@ int func_80036260(void) {
             break;
         case 12:
             if (streamLoad_cbActive != 0) {
-                func_800435B4(streamLoad_savedReadyCB);
+                CdReadyCallback(streamLoad_savedReadyCB);
                 streamLoad_savedReadyCB = 0;
                 streamLoad_cbActive = 0;
             }
@@ -1092,7 +1092,7 @@ int StreamLoadStateMachine(int param_1, void *param_2, int param_3) {  /* param_
 
 extern void func_80037334(void);
 extern void func_800434BC(void);
-extern void func_800435B4(void *);                /* CdReadyCallback; §376: keep the TU's void spelling */
+extern void *CdReadyCallback(void *);                /* CdReadyCallback; §376: keep the TU's void spelling */
 extern int  func_800435CC(s32, void *, void *);   /* CdControl  */
 extern s32  func_8004355C(s32 mode, u8 *result);  /* CdSync     */
 
@@ -1271,9 +1271,9 @@ int StreamLoadStateMachine(int arg0, void *loc, int n) {
             return 2;
         }
         if (streamLoad_cbActive == 0) {
-            streamLoad_savedReadyCB = ((void *(*)(void *))func_800435B4)((void *)func_800377D8);
+            streamLoad_savedReadyCB = ((void *(*)(void *))CdReadyCallback)((void *)func_800377D8);
         } else {
-            func_800435B4((void *)func_800377D8);
+            CdReadyCallback((void *)func_800377D8);
         }
         streamLoad_cbActive = 1;
         streamLoad_state++;
@@ -1287,7 +1287,7 @@ int StreamLoadStateMachine(int arg0, void *loc, int n) {
             }
             if (D_800A4F28 < 0x12D) break;
             if (streamLoad_cbActive != 0) {
-                func_800435B4(streamLoad_savedReadyCB);
+                CdReadyCallback(streamLoad_savedReadyCB);
                 streamLoad_savedReadyCB = 0;
                 streamLoad_cbActive = 0;
             }
@@ -1295,7 +1295,7 @@ int StreamLoadStateMachine(int arg0, void *loc, int n) {
             break;
         }
         if (streamLoad_cbActive != 0) {
-            func_800435B4(streamLoad_savedReadyCB);
+            CdReadyCallback(streamLoad_savedReadyCB);
             streamLoad_savedReadyCB = 0;
             streamLoad_cbActive = 0;
         }

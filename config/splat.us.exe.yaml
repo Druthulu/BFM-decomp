@@ -109,9 +109,10 @@ segments:
       - [0x2EB10, c, snd6]  # snd block 6: 12 obj (MIDIREAD.o..VM_ALOC2.o) vram 0x8003E310-0x8003FA54
       - [0x30254, c, sgap_6]  # game code + excluded VM_F stub (vram 0x8003FA54-0x8003FE18)
       - [0x30618, c, snd7]  # snd block 7: 5 obj (S_SNV.o..VM_N2P.o) vram 0x8003FE18-0x800403A4
-      - [0x30BA4, c, sgap_7]  # game code (vram 0x800403A4-0x80040868)
+      - [0x30BA4, c, snd10]  # snd block 10 (S78): VM_NO1.o (305 ins, exact tile) vram 0x800403A4-0x80040868 — was 'sgap_7' game code (§485)
       - [0x31068, c, snd8]  # snd block 8: 1 obj (VM_NOWOF.o) vram 0x80040868-0x80040938
-      - [0x31138, c, sgap_8]  # game code (vram 0x80040938-0x800414E4)
+      - [0x31138, c, snd11]  # snd block 11 (S78): VM_NOWON.o (300 ins, exact tile) vram 0x80040938-0x80040DE8 — carved off the old sgap_8
+      - [0x315E8, c, sgap_8]  # game code (vram 0x80040DE8-0x800414E4)
       - [0x31CE4, c, snd9]  # snd block 9: 11 obj (VM_VSU.o..VS_VTC.o) vram 0x800414E4-0x8004239C
       # PsyQ libetc region (Phase 8): 5 objects (VSYNC/INTR/INTR_VB/INTR_DMA/VMODE) form ONE
       # contiguous block at the tail of the old 800 subseg, ending exactly at libcd1 (0x80043088).
@@ -135,44 +136,42 @@ segments:
       # (section-size-correct boundaries). integrate window 0x4787C..0x51804. The 5 libgs-gap libgte
       # objects (MTX_05/07/11/REG03/REG11) are DEFERRED — gsgap1/2/4/5 stay stubs (see worklist).
       - [0x3807C, c, libgte1]  # libgte block 1: 5 obj (GEO_00.o..MSC00.o) vram 0x8004787C-0x80047D3C
-      - [0x3853C, c, 800b]  # game code (vram 0x80047D3C-0x8004818C)
+      - [0x3853C, c, libgte23]  # libgte block 23 (S78): MSC01/MSC02/MSC05/MSC09 (276 ins, exact tile) vram 0x80047D3C-0x8004818C — was '800b' game code
       - [0x3898C, c, libgte2]  # libgte block 2: 2 obj (MTX_000.o..MTX_001.o) vram 0x8004818C-0x8004838C
       - [0x38B8C, c, libgte3]  # libgte block 3: 5 obj (MTX_003.o..MTX_009.o) vram 0x8004838C-0x8004880C
       - [0x3900C, c, libgte4]  # libgte block 4: 3 obj (MTX_00B.o..MTX_01.o) vram 0x8004880C-0x80048CAC
       - [0x394AC, c, libgte5]  # libgte block 5: 5 obj (MTX_02.o..MTX_08.o) vram 0x80048CAC-0x8004914C
       - [0x3994C, c, libgte6]  # libgte block 6: 7 obj (MTX_09.o..REG12.o) vram 0x8004914C-0x8004923C
       - [0x39A3C, c, libgte7]  # libgte block 7: 1 obj (REG13.o) vram 0x8004923C-0x8004924C
-      - [0x39A4C, c, 800b_2]  # game code (vram 0x8004924C-0x8004945C)
+      - [0x39A4C, c, libgte24]  # libgte block 24 (S78): SMP_00.o (132 ins, exact tile) vram 0x8004924C-0x8004945C — was '800b_2'
       - [0x39C5C, c, libgte8]  # libgte block 8: 3 obj (SMP_01.o..SMP_03.o) vram 0x8004945C-0x800495EC
-      - [0x39DEC, c, 800b_3]  # game code (vram 0x800495EC-0x80049600)
-      - [0x39E00, c, libgte9]  # libgte block 9: 1 obj (SMP_06.o) vram 0x80049600-0x80049610
-      - [0x39E10, c, 800b_4]  # game code (vram 0x80049610-0x8004961C)
+      - [0x39DEC, c, libgte9]  # libgte block 9 (S78 re-derived): SMP_05.o NormalClip (12 ins, byte-identical over the whole span; SMP_06 NormalClipS is its nested sub-pattern) vram 0x800495EC-0x8004961C — absorbs the old 800b_3 / 800b_4 'game code' and the 3-nop pad
       - [0x39E1C, c, libgte10]  # libgte block 10: 1 obj (CMB_00.o) vram 0x8004961C-0x8004969C
       - [0x39E9C, c, libgte11]  # libgte block 11: 2 obj (CMB_05.o..FGO_00.o) vram 0x8004969C-0x8004978C
-      - [0x39F8C, c, 800b_5]  # game code (vram 0x8004978C-0x8004A41C)
+      - [0x39F8C, c, libgte25]  # libgte block 25 (S78): FGO_01..FGO_06 (804 ins, exact tile) vram 0x8004978C-0x8004A41C — was '800b_5'
       - [0x3AC1C, c, libgte12]  # libgte block 12: 2 obj (PRS_F3.o..PRS_F4.o) vram 0x8004A41C-0x8004AE3C
       - [0x3B63C, c, libgte13]  # libgte block 13: 3 obj (PRS_G3.o..PRS_FT3.o) vram 0x8004AE3C-0x8004BE8C
       - [0x3C68C, c, libgte14]  # libgte block 14: 2 obj (PRS_FT4.o..PRS_GT3.o) vram 0x8004BE8C-0x8004C98C
       - [0x3D18C, c, libgte15]  # libgte block 15: 1 obj (PRS_GT4.o) vram 0x8004C98C-0x8004CFEC
       - [0x3D7EC, c, libgte16]  # libgte block 16: 1 obj (RATAN.o) vram 0x8004CFEC-0x8004D16C
-      - [0x3D96C, c, 800b_6]  # game code (vram 0x8004D16C-0x8004D20C)
+      - [0x3D96C, c, libgte26]  # libgte block 26 (S78): PATCHGTE.o (40 ins, exact tile) vram 0x8004D16C-0x8004D20C — was '800b_6'
       - [0x3DA0C, c, libgte17]  # libgte block 17: 1 obj (TRR.o) vram 0x8004D20C-0x8004D6BC
       - [0x3DEBC, c, libgte18]  # libgte block 18: 2 obj (F3.o..F4.o) vram 0x8004D6BC-0x8004E19C
       - [0x3E99C, c, libgte19]  # libgte block 19: 1 obj (G3.o) vram 0x8004E19C-0x8004E74C
       - [0x3EF4C, c, libgte20]  # libgte block 20: 1 obj (G4.o) vram 0x8004E74C-0x8004EE0C
       - [0x3F60C, c, libgte21]  # libgte block 21: 2 obj (FT3.o..FT4.o) vram 0x8004EE0C-0x8004FA5C
       - [0x4025C, c, libgte22]  # libgte block 22: 2 obj (GT3.o..GT4.o) vram 0x8004FA5C-0x8005080C
-      - [0x4100C, c, 800b_7]  # game code (vram 0x8005080C-0x80051804)
+      - [0x4100C, c, libgs7]    # libgs block 7 (S78): 2D_BG0.o + 2D_BG1.o (1022 ins, exact tile) -> src/libgs7.c (vram 0x8005080C-0x80051804) — was '800b_7' game code (§485)
       - [0x42004, c, libgs1]    # libgs block 1: 2D_COM0      -> src/libgs1.c (vram 0x80051804-0x80051D78, 1 obj)
-      - [0x42578, c, gsgap1]    # gap 80 B (non-libgs stub)   -> src/gsgap1.c (vram 0x80051D78-0x80051DC8)
+      - [0x42578, c, libgte27]  # libgte block 27 (S78): MTX_05.o (20 ins, exact tile) vram 0x80051D78-0x80051DC8 — was gsgap1
       - [0x425C8, c, libgs2]    # libgs block 2: 2D_LIN0/COM1/SP0 -> src/libgs2.c (vram 0x80051DC8-0x80052430, 3 objs)
-      - [0x42C30, c, gsgap2]    # gap 48 B (non-libgs stub)   -> src/gsgap2.c (vram 0x80052430-0x80052460)
+      - [0x42C30, c, libgte28]  # libgte block 28 (S78): MTX_07.o (12 ins, exact tile) vram 0x80052430-0x80052460 — was gsgap2
       - [0x42C60, c, libgs3]    # libgs block 3: 2D_SP1       -> src/libgs3.c (vram 0x80052460-0x800525DC, 1 obj)
       - [0x42DDC, c, gsgap3]    # gap 1536 B: GS_001 excluded -> src/gsgap3.c (vram 0x800525DC-0x80052BDC)
       - [0x433DC, c, libgs4]    # libgs block 4: GS_002/003/MATRIX/103/104/105/106/107 -> src/libgs4.c (vram 0x80052BDC-0x800538BC, 8 objs)
-      - [0x440BC, c, gsgap4]    # gap 48 B (non-libgs stub)   -> src/gsgap4.c (vram 0x800538BC-0x800538EC)
+      - [0x440BC, c, libgte29]  # libgte block 29 (S78): MTX_11.o (12 ins, exact tile) vram 0x800538BC-0x800538EC — was gsgap4
       - [0x440EC, c, libgs5]    # libgs block 5: GS_108/109   -> src/libgs5.c (vram 0x800538EC-0x800539C8, 2 objs)
-      - [0x441C8, c, gsgap5]    # gap 304 B (non-libgs stub)  -> src/gsgap5.c (vram 0x800539C8-0x80053AF8)
+      - [0x441C8, c, libgte30]  # libgte block 30 (S78): REG03.o + REG11.o (76 ins, exact tile) vram 0x800539C8-0x80053AF8 — was gsgap5
       - [0x442F8, c, libgs6]    # libgs block 6 (16 objs)     -> src/libgs6.c (vram 0x80053AF8-0x80057928)
       - [0x48128, c, 800b2]     # -O2 game code (post-libgs, pre-libgpu) -> src/800b2.c (vram 0x80057928-0x80058890)
       # PsyQ libgpu (Phase 8): EXT/PRIM linked; SYS.o EXCLUDED — scattered-.bss commons (cookbook §9.1,

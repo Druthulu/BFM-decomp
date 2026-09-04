@@ -6891,7 +6891,7 @@ setDefault:
 
 extern s32   func_800435CC(s32 mode, void *buf, void *param);  /* CdControl        */
 extern s32   func_8004355C(s32 mode, u8 *result);             /* CdSync           */
-extern void *func_800435B4(void *func);                       /* CdReadyCallback  */
+extern void *CdReadyCallback(void *func);                       /* CdReadyCallback  */
 extern void  func_800434BC(void);                             /* CdFlush          */
 extern void CdReadSectorReadyCB(u8);   /* §376: def takes u8; only ever passed BY ADDRESS */
 extern s32   func_8002FD14(s32, s32);
@@ -7056,7 +7056,7 @@ void CdReadStateMachine(s32 pauseAfterSeek) {
             cdReq_sink = (s32)cdReq_dest;
         }
         p3 = (u8 *)&cdReq_savedReadyCB;
-        *(void **)p3 = func_800435B4(CdReadSectorReadyCB);
+        *(void **)p3 = CdReadyCallback(CdReadSectorReadyCB);
         func_800435CC(6, 0, p3 + 4);
         if ((p3[4] & 0x10) != 0) {
             goto setStateNine;
@@ -7067,7 +7067,7 @@ void CdReadStateMachine(s32 pauseAfterSeek) {
     case 6:
         dp = &cdReq_drainPhase;
         if (*dp == 1) {
-            func_800435B4(cdReq_savedReadyCB);
+            CdReadyCallback(cdReq_savedReadyCB);
             func_800435CC(9, 0, (u8 *)dp - 0x14);
             if ((*((u8 *)dp - 0x14) & 0x10) != 0) {
                 goto setStateNine;
@@ -7081,14 +7081,14 @@ void CdReadStateMachine(s32 pauseAfterSeek) {
             break;
         }
         if (*dp == 2) {
-            func_800435B4(cdReq_savedReadyCB);
+            CdReadyCallback(cdReq_savedReadyCB);
             goto resetState;
         }
         cdReq_retry++;
         if (cdReq_retry < 0x12C) {
             break;
         }
-        func_800435B4(cdReq_savedReadyCB);
+        CdReadyCallback(cdReq_savedReadyCB);
         cdReq_state = 0;
         func_800434BC();
         break;
