@@ -209,3 +209,42 @@ exclusions 4 → 3). Three TUs went: `src/800c.c`, `src/gsgap3.c`, and the `_SsV
 objects (fallback from a fresh extract). Remaining located-but-unwired SDK code in main: the libpad/libapi
 band pieces (task #5), `SSGM.o` 8 ins, and the two cross-object-common walls `S_R`/`S_W` + `S_GRMDT*`
 (no `.bss` of their own — a different class from this one).
+
+### S79 task #13 — FOUND: the archive that links the whole band (libpad 4.2.1 + libapi 4.2), 46/46 byte-identical
+
+**Where.** archive.org item `play-station-programmer-tool-runtime-library-version-4.2.7z` (383 KB; sha256 in
+`tools/psyq/CHECKSUMS.sha256`; now tracked as `tools/psyq/PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z`,
+R20). It is the PsyQ **Runtime Library 4.2** (LIB/*.LIB + INCLUDE, dated 1998-01-21) plus `LIB/42PATCH/J421PD.ZIP`
+— SCE R&D's "Libpad.lib version 4.2.1 for the Analog Controller (DUAL SHOCK)" notice of **1998-02-26**, which
+ships `LIBPAD.LIB` 4.2.1 together with `LIBAPI.LIB` 4.2 and the matching `LIBPAD.H`/`LIBAPI.H`/`KERNEL.H` (the
+prototype oracle for the band from now on — not the 4.7 headers). Extracted to `tools/psyq/lib42/` and
+`tools/psyq/lib421/` (gitignored, regenerable); ELF in `.run/obj42/{libpad421,libapi42}`.
+
+**Result (the success test from the S78 brief, passed).** `psyq_identify` over 0x8005CE18–0x800629DC, then
+`psyq_link.py` per object — every located object links byte-identical:
+
+| library | placed | objects (vram, ins) |
+|---|---|---|
+| libpad 4.2.1 | **7 / 11** | PADENTRY 0x8005D0D8 (300) · **PADMAIN 0x8005D588 (760 — the 4.2.1 build, exact)** · PADCMD 0x8005E188 (600) · PADIF 0x8005EAE8 (376) · PADPORTD 0x8005F0C8 (408) · PADSEQD 0x8005F728 (288) · WAITRC2 0x8005FBA8 (48); absent: PADGUN, PADPORTM, PADSEQM, GUNHOOK (the game uses neither multitap nor gun) |
+| libapi 4.2 | **39 / 88** | the 21 band trampolines C57 C68 C73 C114 A07–A13 A23–A25 A36 A37 A52 A53 A91 L10 (0x8005CE18–0x8005CF58) · COUNTER 0x8005CF68 (92) · L02/L03 0x8005E168 · and in the apicard region C112 A50 A51 A54 A65 A67 A69 (0x80061F38–) · **FIRST 0x80061FA8 (168, the C `firstfile` — REAL C today)** · A66 0x80062248 · PAD 0x80062388 (192) · A18–A21 0x80062688 · PATCH 0x800626C8 (40) · CHCLRPAD 0x80062768 (28) |
+| libpad 4.2 (plain, `LIB/LIBPAD.LIB`) | 4 / 11 | PADENTRY PADCMD PADPORTD PADSEQD only — PADMAIN/PADIF/WAITRC2 are the 4.2.1 fixes; this is what the loader's "4.2" signature set was generated from and why PADMAIN showed +4/+12 drift in S78 |
+
+`.data` anchors agree with S78: PADMAIN's `.data` is at **0x80072954** — the 4.2.1x `Ps` stamp stands at its
+head; COUNTER `.data` 0x80072934, PADIF 0x800729D4, PADPORTD 0x800729F4, PAD 0x80072A24; PADENTRY `.rdata`
+0x800744A0.
+
+**What this changes for task #5.** The band is no longer "C under the reorder island with real names": ALL of
+0x8005CE18–0x8005FC68 (2,872 ins: 21 trampolines + COUNTER + libpad's seven + L02/L03) is linkable from real
+objects — the 12 open band stubs, the 8 SDK-C-REORDER verbatims and the band's hand-matched C are all Sony
+code and become LINKED. The apicard region's libapi pieces (currently 4.0 objects in `apicard_used`, byte-identical
+twins) and `FIRST.o` (currently REAL C `firstfile`) come from the same 4.2 library — the EXE's actual libapi
+(the 4.2 `Ps` stamp, SETUP §5.1 libnum 0). #5 = carve `800c3` / `800c2*` at object boundaries (§486/§488
+procedure) + a curated `.run/obj42` dir + two integrate calls. The `REORDER_TUS` island (§332b) then holds no
+game code at all and can be retired with it.
+
+**The 4.3 disc for the record.** `Programmer Tool - Runtime Library Version 4.3 (Japan)_DTL-S2340_redump.zip`
+(archive.org item `ps1_sdks`, 403 MB; disc dated 1998-05-18) was fetched for comparison only: its `PSX/LIB/LIBPAD.LIB`
+places the same 4 objects as plain 4.2 (PADENTRY, PADCMD, PADPORTD, WAITRC2) — PADMAIN is 832 ins, PADIF 380,
+PADSEQD 292 against the EXE's 760 / 376 / 288 — and its LIBAPI.LIB places 38 (no 4.2 `C114`). So 4.2.1 is the
+unique exact match: the game was built between the February 1998 patch and the May 1998 4.3 disc. Not banked
+(>100 MB, R20 exception; the item id is the pointer; the two LIBs sit in `.run/psyq_hunt/rtl43/lib43/`).

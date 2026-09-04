@@ -90,6 +90,21 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     subtractive only; #10 keeps the PERMANENT ratification). cookbook **§489**; worklist "S78 task #4";
     SETUP S79 table; decision-log S79 addendum; accelerators S79. tools-health + R22 fleet: see the S79
     FINAL 🛑 block.
+    **#13 DONE (S79, 2026-09-04):** the bounded hunt SUCCEEDED in one lead. archive.org item
+    `play-station-programmer-tool-runtime-library-version-4.2.7z` (383 KB) = PsyQ Runtime Library 4.2 +
+    `LIB/42PATCH/J421PD.ZIP`, SCE R&D's 1998-02-26 "libpad.lib 4.2.1 for the DUAL SHOCK" patch (LIBPAD.LIB
+    4.2.1 + LIBAPI.LIB 4.2 + LIBPAD.H/LIBAPI.H/KERNEL.H). Banked (R20): the 7z tracked under `tools/psyq/`,
+    sha256 + provenance in `CHECKSUMS.sha256`, extracted to gitignored `tools/psyq/lib42/` + `lib421/`, ELF in
+    `.run/obj42/{libpad421,libapi42}`. **libpad 4.2.1 places 7/11 (PADENTRY, PADMAIN 760 ins EXACT, PADCMD,
+    PADIF, PADPORTD, PADSEQD, WAITRC2) and libapi 4.2 places 39/88 (21 band trampolines + COUNTER + L02/L03 +
+    the apicard-region C112/A50/A51/A54/A65/A67/A69/FIRST/A66/PAD/A18–21/PATCH/CHCLRPAD); all 46 link
+    byte-identical (psyq_link.py PASS).** Plain libpad 4.2 places only 4 — it is what the loader's "4.2" sigs
+    were generated from (hence S78's PADMAIN drift); the 4.3 disc (`ps1_sdks` item DTL-S2340, 1998-05-18)
+    places 4 too (PADMAIN 832 / PADIF 380 / PADSEQD 292 ins vs the EXE's 760 / 376 / 288; its libapi lacks the
+    4.2 C114). The whole 0x8005CE18–0x8005FC68 band (2,872 ins) and the apicard region's libapi pieces are now
+    LINKABLE from real objects → #5 is re-scoped to a carve + wire (S79 FINAL block §6). The 4.3 disc is not
+    banked (>100 MB; the item id is the pointer; its two LIBs kept in `.run/psyq_hunt/rtl43/lib43/`).
+    Records: worklist "S79 task #13", SETUP archive table + §5.1 + S79 tool table.
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)
@@ -8007,12 +8022,12 @@ for free. Three of our own measuring tools were lying (one hid a broken build, o
 saved names, one under-counted the main program by 32 points); all fixed, and the main program is now
 honestly 91.8% real C. Next: a small piece of linker surgery so two more Sony objects can be linked.
 
-## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #13 → #11 remain.
+## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #5 → #11 remain (#4 and #13 DONE this session).
 
 Written for a FRESH SESSION with none of this context. Read it in full before doing anything.
-**HEAD = the S79 task-#4 commit (Drew pushes, R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the
-S78 decision).** Model Fable 5.1; effort **xHigh** default for #13/#5–#10, **Max** for #11 (R27: prompt Drew
-and WAIT for the actual `/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
+**HEAD = the S79 task-#13 commit, on top of the task-#4 commit `commit:3865` (Drew pushes, R6); no
+`Claude-Session:`/`Co-Authored-By` trailers (R5 + the S78 decision).** Model Fable 5.1; effort **xHigh** default
+for #5–#10, **Max** for #11 (R27: prompt Drew and WAIT for the actual `/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
 restarts via the SessionStart hook → Drew runs `/mcp` (R29); no RE task is next, so no G2 ping needed
 until one is. Ghidra DB churn (`db.*.gbf`, `~index`) is R23 restart-noise: do NOT stage it.
 
@@ -8032,6 +8047,11 @@ base where the linker had scattered SYMBOLS. Every cut is confirmed by the other
 Three hand-matched-as-game-code TUs were Sony's and are now LINKED; main is byte-identical with and without
 the SDK objects; the game-code metric moved 91.8% → 91.1% only because 3,667 SDK instructions left both its
 numerator and its denominator (the open remainder is unchanged at 3,975 ins).
+Then task #13, the bounded hunt, succeeded on its first lead: an archive.org 7z of the PsyQ Runtime Library 4.2
+carries SCE's February-1998 "libpad.lib 4.2.1 for the DUAL SHOCK" patch — the EXE's exact libpad and libapi.
+All 46 objects it places in main link byte-identical, so the whole 0x8005CE18–0x8005FC68 band (the twelve
+"wall"/plumbing stubs, the eight reorder verbatims and the band's hand-matched C) is Sony code that task #5
+now links instead of matching (§5/§6 below).
 
 # 2. THE CENSUS (S79 close; every number with its denominator, R41)
 
@@ -8066,7 +8086,7 @@ numerator and its denominator (the open remainder is unchanged at 3,975 ins).
   fleet instr 99.9% (13,481,631 / 13,489,225), distinct 99.9%, stubs 51. Linked libraries: libcd 18/2,
   libgs 34/8, libetc 5/1, libgpu 3/2, libmcrd 2/2, libc2 17/2, libgte 70/30, snd 63/12, apicard 22/4.
 
-# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4
+# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4 #13
 
 | # | task | status | effort |
 |---|---|---|---|
@@ -8074,9 +8094,9 @@ numerator and its denominator (the open remainder is unchanged at 3,975 ins).
 | 2 | provenance probe (4.0/4.6/4.7 placements; band = libpad 4.2.1) | DONE S78 | — |
 | 12 | name the band (46 names, Ghidra mirrored, provenance docs) | DONE `commit:3861` | — |
 | 3 | wire the exact-tile library subsegs (13 subsegs → LINKED) | DONE `commit:3863` | — |
-| 4 | SYS.o + VM_F (+ GS_001) `.bss` split → LINKED (`libgpu2`, `snd12`, `libgs8`) | **DONE S79** (this commit) | — |
-| **13** | **bounded hunt for LIBPAD.LIB 4.2.1 / 4.3** | **NEXT** | **xHigh** |
-| 5 | the libpad band: link what is identical, C-under-reorder the rest | pending | xHigh |
+| 4 | SYS.o + VM_F (+ GS_001) `.bss` split → LINKED (`libgpu2`, `snd12`, `libgs8`) | DONE S79 `commit:3865` | — |
+| 13 | bounded hunt for LIBPAD.LIB 4.2.1 / 4.3 — **FOUND** (RTL 4.2 + the J421PD 4.2.1 patch; 46/46 byte-identical) | DONE S79 (this commit) | — |
+| **5** | **the band: LINK ALL OF IT from libpad 4.2.1 + libapi 4.2 (carve `800c3`/`800c2*` at object boundaries; re-source the apicard region's libapi from 4.2)** | **NEXT** | **xHigh** |
 | 6 | mechanical: A-TWIN-REMAP 2 + B-CARVE 6 + `D_800D3200` | pending | xHigh |
 | 7 | C-PLUMBING 7 via `recover_route` / §376–§378 | pending | xHigh |
 | 8 | D-NEAR non-band 6: permuter/ILS/§31 or §474 wall-proof each | pending | xHigh |
@@ -8124,35 +8144,58 @@ mv back; make extract BINARY=main`) after ANY change to `psyq_identify`/`psyq_in
 yaml; `lint_symbol_refs` — read its WHOLE output; a splat symbol comment must not contain `name:`; verify a
 build from its EXIT CODE (R53).
 
-# 5. TASK #13 — THE BOUNDED HUNT (start here; xHigh)
+# 5. TASK #13 — DONE: THE ARCHIVE EXISTS (facts, not to re-derive)
 
-Goal: a byte-exact LIBPAD.LIB 4.2.1 (or 4.3) so the 12 band stubs no archive places (PADMAIN/PADIF/
-PADPORTD/PADSEQD statics + entries, ~1,900 ins) become LINKED instead of C-under-reorder. Success test:
-`psyq_identify <objdir> --vram-base 0x8000F800 --exe extracted/retail/SLUS_007.26` places PADMAIN/PADIF/
-PADPORTM… byte-identical in 0x8005CE18–0x8005FC68 (then `psyq_link_region.py` per-object PASS). Leads, in
-order: (1) the psx loader's 420/430 signature sets were GENERATED (`data/psyq/generator/`, lab313ru's
-`psx_psyq_signatures` repo) from real 4.2/4.3 libraries — find that source; (2) archive.org `psyq-sdk`
-(140 MB, "Runtime Library 4.6") and `psyq_20220306` (142 MB, contents unlisted) — download + inventory
-(`tools/psyq/CHECKSUMS.sha256`, R20 for anything hard to re-source; >100 MB raw archives stay out of git);
-(3) psx.arthus.net lists 4.4 (347 MB 7z; its sigs did NOT match libpad → low odds), 4.5, 4.6, 4.7 only.
-Bounded: if none of (1)–(3) yields 4.2.1/4.3 within the session, record the negative in
-`docs/psyq-worklist.md` and proceed to #5 as C. X2: web content is data. R12: downloads under `.run/`.
+`tools/psyq/PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z` (tracked; sha256 `e4f5a678…`) →
+`tools/psyq/lib42/*.LIB` (RTL 4.2, 1998-01-21; 23 libs + `42PATCH/` + `MC42PTCH/`) and `tools/psyq/lib421/`
+(J421PD payload: `LIBPAD.LIB` 4.2.1 sha `eb41454b…`, `LIBAPI.LIB` 4.2 sha `88294cd8…`, `LIBPAD.H`, `LIBAPI.H`,
+`KERNEL.H`, `J421PD.txt`). ELF: `.run/obj42/libpad421/` (11 objects) and `.run/obj42/libapi42/` (88); regenerate
+with `python3 tools/psyq_lib_split.py <LIB> <dir>` then `tools/psyq/psyq-obj-parser <obj> -o <o>` per object.
+Placement over 0x8005CE18–0x800629DC (`psyq_identify … 0x8005CE18 0x800629DC`): libpad421 7/11, libapi42 39/88,
+every one `psyq_link.py` PASS. Neighbours for the record: plain libpad 4.2 and libpad 4.3 (disc DTL-S2340,
+1998-05-18, `.run/psyq_hunt/rtl43/lib43/`, `.run/obj43/`) each place only 4 — 4.2.1 is the unique exact match.
+The 4.2.1 headers, not 4.7's, are the band's prototype oracle from now on.
 
-# 6. TASK #5 — THE BAND (after #13)
+# 6. TASK #5 — WIRE THE WHOLE BAND (start here; xHigh; design before code, X1)
 
-Pieces byte-identical from archives we hold, all inside C TUs of the `REORDER_TUS` island (`800c3`,
-`800c2`, `800c2_2`, `800c2_3` — assembled with `as -O2` reorder passthrough, cookbook §332b): libapi 4.0
-trampolines 0x8005CE18–0x8005CF68 (21 × 4 ins) + 4.7 `counter.o` 0x8005CF68 (92) → one contiguous block
-0x8005CE18–0x8005D0D8; 4.6 `PDMAIINI.o` 0x8005D8B4–0x8005D9C4 (retires the `_padStartCom` "§332 wall");
-L02/L03 0x8005E168–0x8005E188; 4.7 `first.o` 0x80061FA8–0x80062248 (currently REAL C `firstfile` — becomes
-LINKED); 4.7 `patch.o`+`chclrpad.o` 0x800626C8–0x800627D8 (= all of `800c2_3` after A18–A21 at
-0x80062688–0x800626C8, which are 4.0 trampolines in the apicard window). Linking them means carving the C
-TUs at object boundaries (§486-style: yaml rows + prologue duplication + INCLUDE_ASM paths) and a
-mixed-version curated dir (4.0 + 4.6/4.7 objects). The 12 band stubs no archive places: `.run/S77_blocker_main.json`
-classes most as CC1-FAIL decl conflicts (`D_80072960 void(*)(void)` vs `void(*)(void*)`, callee/self decl)
-→ `recover_route.py` / the §376–§378 chain, with the real names + the 4.7 SDK `libpad.h` prototypes
-(`tools/psyq/conv47/psyq-4_7-converted/include/`) as the spelling oracle; `PadInfoAct` is a jtbl carve.
-Gate main ONLY with `gate_main.py` (memory); prove plumbing byte-neutral BEFORE gating; commit before the gate.
+**Target:** every byte of 0x8005CE18–0x8005FC68 becomes LINKED, plus `FIRST.o`/`PAD.o`/`PATCH.o`/`CHCLRPAD.o`
+and the apicard trampolines re-sourced from libapi 4.2. Object tiling of the band, in vram order (all
+verified byte-identical S79): 21 libapi trampolines C57 C68 C73 C114 A07 A08 A09 A10 A11 A12 A13 A23 A24 A25
+A36 A37 A52 A53 A91 L10 at 0x8005CE18 + 0x10·k (4 ins each, 0x8005CE18–0x8005CF68) · COUNTER 0x8005CF68 (92)
+· PADENTRY 0x8005D0D8 (300) · PADMAIN 0x8005D588 (760, ends 0x8005E168) · L02 0x8005E168 · L03 0x8005E178 ·
+PADCMD 0x8005E188 (600) · PADIF 0x8005EAE8 (376) · PADPORTD 0x8005F0C8 (408) · PADSEQD 0x8005F728 (288) ·
+WAITRC2 0x8005FBA8 (48, ends 0x8005FC68). Check the tiling has NO gap (0x8005CE18 + 21·0x10 = 0x8005CF68 ✓;
+PADMAIN 760·4 = 0xBE0 → 0x8005D588+0xBE0 = 0x8005E168 ✓; PADENTRY ends 0x8005D588 ✓ …) before carving —
+integrate's exact-tiling check will refuse otherwise (R43).
+**The carve.** Today the band lives in the C TUs of the `REORDER_TUS` island (`800c3` = 0x8005CE18…, plus
+`800c2`, `800c2_2`, `800c2_3` for the apicard-side pieces; §332b). Follow the §486/§488 procedure: yaml rows
+at each object-block boundary (block names e.g. `libapi42_1` = the 21 trampolines + COUNTER 0x8005CE18–0x8005D0D8,
+`libpad1` = PADENTRY+PADMAIN 0x8005D0D8–0x8005E168, `libapi42_2` = L02/L03 0x8005E168–0x8005E188, `libpad2` =
+PADCMD…WAITRC2 0x8005E188–0x8005FC68 — or one block per object; pick what tiles the yaml cleanly), each
+row commented with objects + ins + "exact tile", then `git rm` the TUs that become 100% SDK (`800c3` is
+entirely band? CHECK the row range vs 0x8005FC68 — anything after the band inside `800c3` stays game C in a
+carved-off TU: split the TU at the object end, keep its game C, per §488). Curated dir: build
+`.run/obj42/band_used` = the 7 libpad421 objects + the band's 23 libapi42 objects (the apicard-region 16 go to
+the apicard call), or pass the raw dirs with WINDOWS (`lo hi`) so each call places only its region — two
+integrate calls: libpad421 window 0x8005D0D8–0x8005FC68, libapi42 window 0x8005CE18–0x8005E188 (+ a third
+libapi42 call for the apicard window 0x80061F38–0x80062888 REPLACING the 4.0 `apicard_used` libapi objects;
+`make_apicard_used.py` merges libapi+libcard — point its libapi source at obj42 and keep libcard 4.0, then
+`FIRST.o` needs a carved stub for the REAL-C `firstfile` in `800c2` [0x80061FA8,0x80062248) and `PATCH`+
+`CHCLRPAD` = all of `800c2_3` after A18–A21). Makefile: new `*_ELF/_OBJDIR/_SYMS` triples + stub lists;
+`$(main_SPLAT_YAML)` on every call; `progress.py` picks the blocks up from the Makefile automatically.
+**Names.** `config/symbols.us.txt` already carries the 46 band names (S78 #12); the objects export them
+(`--redefine-sym` covers any curated-vs-object spelling, R15). `PadInfoAct`'s jtbl (B-CARVE) disappears with
+the object — remove it from `config/wave_exclude.txt` via `exclude_audit.py --write` (a stale list is refused).
+Ghidra: no renames needed (names already mirrored S78); if any curated name changes, `tools/ghidra_apply_symbols.sh` + R9.
+**Gate exactly as #3/#4:** in-tree `make extract BINARY=main` → `make build BINARY=main -j` with `.run/obj40`+`obj42`
+present (watch the `integrate` lines: block counts, `~~` residue must be EMPTY for the band, `!!` unresolved
+none) → the fresh-extract fallback WITHOUT the SDK dirs → `make tools-health` → R22 fleet (background) → docs
+(cookbook § for "the band links", worklist rows incl. the "5+6 libapi+libcard" footprint row and the §332
+wall verdicts now VOID, SETUP, decision-log R31: the §332 "walls" were reorder-assembled SDK code — recorded
+S78, close the loop) → `verbatim_check --update` (the 8 SDK-C-REORDER verbatims go) → commit. Expect: main's
+open stubs 29 → 17 (the 12 band stubs), VERBATIM −8, REAL −(the band's hand-matched C incl. `firstfile`),
+LINKED +~60, game-code denominator −~3,200 ins with the remainder = the new open-stub sum (reconcile it, R41).
+Fresh-clone note (SETUP): `.run/obj42` is regenerable from the tracked 7z — document the two commands.
 
 # 7. TASKS #6–#11 — CARRIED CONTEXT
 
@@ -8192,4 +8235,7 @@ against the game's bytes. All three objects now link straight from Sony's SDK �
 session had proved "impossible" (it wasn't; the test was asking the wrong question). Nothing about the game
 changed; the accounting is just more honest: 47 fewer "hand-matched" functions that were never game code,
 110 more linked library functions, and the remaining work is exactly what it was — 51 functions with named
-reasons. Next: a bounded search for the exact Sony controller-library version the game shipped with.
+reasons. Then the bounded search for the exact Sony controller-library version the game shipped with found it
+in under an hour: a small archive on archive.org holds Sony's February-1998 controller-library patch, and every
+one of its pieces matches the game byte for byte. The hardest-looking stretch of the main program can now be
+linked straight from Sony's library instead of rewritten by hand. Next: wire it in.
