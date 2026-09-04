@@ -4,13 +4,13 @@
 
 /* ==== P31 S74 §426/§431 jtbl-span isolation =================================
  * Second piece of the former single TU src/ov_SC01_084/ov_SC01_084_jr_8017F690.c,
- * cut VERBATIM at func_80182A00 (vram 0x80182A00 = file offset 0x5A8A8).
+ * cut VERBATIM at ((void (*)())func_80182A00)(vram 0x80182A00 = file offset 0x5A8A8).
  *
  * WHY: one compiled object contributes exactly ONE contiguous .rodata run, and
  * the old subseg owned raw jump tables in TWO non-adjacent spans of the data-tail
  * island:
  *     0x801C60C8-0x801C611C  owners func_8017F690 .. func_80182328   (piece 1)
- *     0x801C6130-0x801C6198  owner  func_80182A00                    (piece 2)
+ *     0x801C6130-0x801C6198  owner  ((void (*)())func_80182A00)(piece 2)
  * separated by D_801C611C (0x801C611C-0x801C6130, 20 bytes of NON-zero data, so
  * not alignment padding and not carveable). func_80182A00's table could therefore
  * never carve while it shared an object with func_80182328's — jtbl_carve.py fails
@@ -384,11 +384,11 @@ void func_80183244(s32 param_1) {
 
 
 void func_801834B8(u16 *param_1) {
-    extern void func_80182A00();
+    extern void func_80182A00(s32 a0);
     extern void (*D_8018AB4C[])(void *);
 
     if (param_1[1] != 0 && (param_1[0x2E] & 1)) {
-        func_80182A00();
+        ((void (*)())func_80182A00)();
     }
     if (param_1[0] != 0) {
         D_8018AB4C[param_1[1]](param_1);
