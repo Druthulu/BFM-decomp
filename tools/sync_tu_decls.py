@@ -81,7 +81,18 @@ def replace_decl(text, sym, decl):
     pat = re.compile(r"^\s*extern\b[^;\n]*\b%s\b[^;\n]*;\s*$" % re.escape(sym), re.M)
     if not pat.search(text):
         return text, False
-    return pat.sub(decl, text, count=1), True
+    out = pat.sub(decl, text, count=1)
+    # NO TEXT CHANGE IS NO PROGRESS (P31 S77). This returned True whenever the PATTERN matched, even
+    # when the substitution produced byte-identical text — so a draft that already carries the TU's
+    # exact spelling looped until --rounds ran out, spending ONE CLEAN REBUILD PER ROUND and then
+    # reporting "gave up after 6 rounds (6 synced)", which reads as six useful syncs. Measured on
+    # func_8005FA94: 6 rounds, all `D_80072960 -> extern void (*D_80072960)(void *);`, zero change,
+    # five wasted rebuilds. (R61(a): a no-op must not be reported as work.)
+    # Compare LINE-NORMALISED: `pat` ends in `\s*$`, so the substitution eats the matched line's
+    # trailing newline and a byte compare reports a change that is pure whitespace. (Caught by the
+    # known-true check, not by reading the code.)
+    _n = lambda x: "\n".join(l.rstrip() for l in x.splitlines())
+    return out, _n(out) != _n(text)
 
 
 def main():
@@ -179,7 +190,13 @@ def main():
             return 1
         txt, changed = replace_decl(open(draft, errors="replace").read(), sym, decl)
         if not changed:
-            print("stopping: the draft has no declaration of %s to replace." % sym)
+            print("stopping: the draft's declaration of %s is ALREADY the TU's spelling (%s) — "
+                  "syncing it again cannot change anything, so the residual is elsewhere (a body "
+                  "mismatch, or a conflict this tool does not model)." % (sym, decl))
+            return 1
+        if sym in synced:
+            print("stopping: %s was already synced this run and the gate named it again — the "
+                  "declaration is not the blocker." % sym)
             return 1
         open(draft, "w").write(txt)
         synced.append(sym)
