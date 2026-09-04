@@ -36101,3 +36101,48 @@ Read the section bytes and take relocation offsets from `objdump -r`; that is R3
 invariant, don't re-parse the world") applied to a disassembler's stdout. The tell that something is
 wrong is always available and always cheap: **compare the parsed word count against the section
 size.** 520 ≠ 526 would have exposed this at any point in the last twenty phases.
+
+#### §486 ★★★ — CARVING AN `-O0` ISLAND IN **main**: FIVE COUPLED PIECES, AND THE TWO THAT ANNOUNCE THEMSELVES (P31 S77)
+
+gcc-2.7.2 has no per-function optimize pragma, so opt level is per FILE (§116): an `-O0` function
+inside an `-O2` object must be cut into its own object. `tools/o0_subsplit.py` does this for
+overlays and **cannot do it for main** — `jr_isolate_all` wants `config/splat.<ov>.yaml` (main's is
+`config/splat.us.exe.yaml`) and `overlay_src_split` wants `src/<ov>/` (main's TUs are top-level
+`src/*.c`). It now refuses main loudly instead of dying on a missing file. The manual procedure,
+byte-proven on `func_8002C410` (299 ins):
+
+1. **splat code rows** — cut the subseg 3 ways: `[pre][<name>_o0a][post]`.
+2. **splat `.rodata`** — split the span **if** its jump-table owners land in different pieces. They
+   did here: `func_8002B0B4` (before the island) and `func_800335B8` (after) both own tables in
+   span B, and *one code object may contribute exactly ONE contiguous `.rodata` run*.
+3. **the `.c`** — split to match; duplicate the prologue (86 lines, 2 includes).
+4. **the Makefile `-O0` glob** — `src/ov_*/…` and `src/md_*/…` did not cover top-level `src/*_o0?.c`,
+   so **every `-O0` island in the EXE was outside the rule**. Same main-blindness family as
+   `draw_waves` drawing zero main functions (S76).
+5. **`ld_interleave --order`** — insert the new object after its sibling.
+
+**DERIVE THE RODATA BOUNDARY, DO NOT GUESS IT.** Compile the front piece and read its `.rodata`
+size: `800_b.o` is `0xf8`, so the front run ends at `0x80072E44+0xf8`. The build's own
+`jtbl_rodata_pads` names the missing piece before you can get it wrong — *"no yaml .rodata piece is
+bound to TU '800_b_2' — cannot place it"*.
+
+**TWO FAILURES THAT IDENTIFY THEMSELVES — learn the signatures:**
+
+* **A missing `--order` entry shifts every data symbol by exactly the floated piece's size.**
+  Measured: `+0x204` across **704 two-byte runs**, image size unchanged. Uniform delta on `%lo`
+  immediates = a section floated, and the delta IS the size of what floated.
+* **A stale `INCLUDE_ASM` path survives an incremental build and dies on a clean one.** The split
+  moved two stubs into `800_b_2`, their directives still said `asm/nonmatchings/800_b`, and the old
+  `.s` files were still on disk — so `make build` AND the byte gate both passed. `make clean`
+  deleted them, splat emitted under the new name, and the clean rebuild died in `jtbl_rodata_pads`
+  with `FileNotFoundError`. **This is the whole reason R22 demands a clean tree**, and it caught a
+  carve that had already been committed and called byte-neutral.
+
+**THE ORDER THAT MAKES IT SAFE.** Build **byte-identical with the stub still in assembly, from a
+CLEAN tree, before banking anything**. That proves the bounds independently of whether the draft is
+right — and separates "my carve is wrong" from "my body is wrong", which is otherwise one confusing
+failure.
+
+**PRICE IT FIRST (R37).** The `-O0` detector (`o0_detect`) flags exactly **two** open main stubs:
+this one, and `func_80011380`, which already lives in `-O0` `boot.c` and is §474's proved floor. So
+this carve unblocked ONE function, not a class. Worth knowing before budgeting for more.

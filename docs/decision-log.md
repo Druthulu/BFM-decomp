@@ -3012,3 +3012,54 @@ toolchain.** The reorder island landed 2026-09-01; the docs asserting it was unr
 swept, and four tools kept modelling the retired path. A build change must sweep every doc and every
 oracle that asserts what the build cannot do — that sweep is now the missing step in the wave
 playbook, not a habit to remember.
+
+---
+
+## S77 (2026-09-03) — the frontier stopped being a drafting problem, and three contract items moved
+
+**Context and belief going in.** Phase 31 T10 had been a drafting campaign: draw a wave, crack
+functions, bank them. The working belief was that the remaining frontier is *hard functions*, and
+that more/better drafting is the lever.
+
+**What the session measured instead.** A 30-workflow burst over main's entire drawable frontier
+returned **9 banks and 21 NEARs — and nearly every NEAR named its own mechanism**, down to the gcc
+pass and often the source file and line, with measured negative controls. `func_80032A74` reached
+**1 of 422**. The frontier has changed character: it is no longer "we don't know why", it is "we know
+exactly why and C cannot express it". **A NEAR whose note cites a pass and a file:line is a §474
+wall-proof candidate, not a redraft** — costing another wave against that pool would buy
+already-answered questions at full price.
+
+**The pivot.** Effort moved off drafting and onto the three things drafting can never deliver: the
+contract's second oracle for main, the SDK residue, and the `-O0` build gap. All three are
+deterministic, zero-token, and were blocking the completion claim rather than the completion.
+
+**What that immediately exposed — the session's real theme.** Twelve instrument defects, all one
+shape: *a tool asserting about a DRAFT what was true only of the HARNESS*. Ratified as **R61**. The
+expensive ones were not subtle-looking; they were confident:
+
+* `gate_main`'s clash pre-check compared **block-scope** externs against file-scope spellings,
+  making it stricter than cc1 — refusing **566 instructions of byte-correct work** (§481).
+* `psyq_identify`, the placement map the whole library-linking pipeline consumes, parsed
+  `objdump`'s **rendering**, which elides repeated words. It read 520 words for a 526-word object
+  and printed **"not linked by EXE"** for objects that are linked. **+25 objects / 3,877
+  instructions** were invisible, not excluded (§485).
+* A Phase-8 exclusion said four PsyQ objects were unlinkable for "scattered `.bss`". True — and
+  **three of the four are not blocked by it**: `SYS.o`'s two bases have DISJOINT offset ranges so
+  the section splits, and two of the objects have no `.bss` at all (§484).
+
+**Three of the twelve were mine, made the same day**, which is the part worth keeping: a cookbook
+claim refuted by its own tool's negative control (§479, corrected TWICE in one session), an R48
+collision bug in a brand-new tool, and a shell wrapper reading the wrong exit code so I reported a
+red gate as still running. Each was caught by checking against a case whose answer was already known.
+
+**The hindsight "better path".** Every one of these was cheaply detectable at any point in the last
+twenty phases by an assertion the tool could have made about itself: compare the parsed word count
+against the section size; compare the number of drops against the number of judgements; compare a
+static blocker class against what the gate actually does to the draft. **R32 said "assert your
+coverage" in Phase 26; the tools that broke here were the ones that never got that treatment.** The
+lesson is not "be careful" — it is that a derived number must carry its own denominator, and the
+five minutes to add that check is repaid the first time the tool is wrong and sounds right.
+
+**Also recorded:** a yield table is evidence; a story about WHY the yield looks that way is a
+hypothesis and needs its own negative control before it enters the cookbook, because the next session
+will act on it (§479's three versions).
