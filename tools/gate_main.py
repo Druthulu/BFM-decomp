@@ -276,6 +276,51 @@ def live_text(txt):
         out.append('' if dead else ln)
     return '\n'.join(out)
 
+
+def _depth0(text):
+    r"""`text` with every brace-nested region blanked, so DECL only sees FILE-SCOPE declarations.
+
+    A BLOCK-SCOPE `extern` CANNOT CLASH WITH THE TU's FILE-SCOPE ONE (P31 S77, cookbook §481).
+    gcc-2.7.2 raises `conflicting types' as an ERROR only in the SAME scope; across scopes it
+    degrades to `type mismatch with previous external decl' — a WARNING the build already emits
+    elsewhere. DECL is `^\s*extern`/MULTILINE, so it happily matched an INDENTED extern inside a
+    function body and this pre-check compared it against the TU's file-scope spelling — making the
+    checker STRICTER THAN CC1 and dropping byte-correct work.
+
+    Measured, in one gate: `func_8001FC08` (400 ins — a deliberately renamed `MTX_8001FC08` at
+    block scope, the §481 escape hatch, the ONLY legal fix because two anonymous struct typedefs in
+    one TU are never compatible in C89) and `func_8002FF0C` (166 ins — a deliberate block-scope
+    scalar shadow of `D_800A46D2`). 566 instructions refused by a rule the compiler does not apply.
+
+    R39 governs the direction of the error: a check that discards good work is worse than one that
+    lets a failure through, and a real conflict still surfaces as the COMPILE-conflict path plus a
+    byte gate that cannot be fooled."""
+    out, depth, i, n = [], 0, 0, len(text)
+    while i < n:
+        c = text[i]
+        if c == '/' and i + 1 < n and text[i + 1] == '/':          # line comment
+            j = text.find('\n', i)
+            j = n if j < 0 else j
+            out.append(text[i:j]); i = j; continue
+        if c == '/' and i + 1 < n and text[i + 1] == '*':          # block comment
+            j = text.find('*/', i + 2)
+            j = n if j < 0 else j + 2
+            out.append(re.sub(r'[^\n]', ' ', text[i:j])); i = j; continue
+        if c in '"\'':                                             # string / char literal
+            q, j = c, i + 1
+            while j < n and text[j] != q:
+                j += 2 if text[j] == '\\' else 1
+            j = min(j + 1, n)
+            out.append(re.sub(r'[^\n]', ' ', text[i:j])); i = j; continue
+        if c == '{':
+            depth += 1
+        elif c == '}':
+            depth = max(0, depth - 1)
+        out.append(c if (depth == 0 or c == '\n') else ' ')
+        i += 1
+    return ''.join(out)
+
+
 def resolve_conflicts(slate):
     """Drop drafts whose externs contradict (a) the destination TU's OWN existing declarations,
     or (b) an earlier draft landing in the SAME file.
@@ -303,7 +348,7 @@ def resolve_conflicts(slate):
         if path not in seen_by_file:
             t = {}
             try:
-                for d in DECL.findall(live_text(open(path).read())):
+                for d in DECL.findall(_depth0(live_text(open(path).read()))):
                     s = sym_of(d)
                     if s: t[s] = typesig(d)
             except OSError:
@@ -317,7 +362,7 @@ def resolve_conflicts(slate):
         path = st.path if st else '<unknown>'
         seen = table(path)
         body = open(e['draft']).read()
-        ds = [(sym_of(d), typesig(d)) for d in DECL.findall(body)]
+        ds = [(sym_of(d), typesig(d)) for d in DECL.findall(_depth0(body))]
         ds = [(s, t) for s, t in ds if s]
         # A DRAFT'S OWN DEFINITION IS A DECLARATION TOO (§20 / wave law 3, the DEF-side wall).
         # Only `extern` lines were being compared, so a draft defining `s32 func_X(...)` against a
