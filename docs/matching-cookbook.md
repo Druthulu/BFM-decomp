@@ -35954,3 +35954,59 @@ was `func_8006252C` **itself** — TU `void(void)` vs draft `s32(void)`, the `se
 `cast_self_callers --sync-decls` (4 call sites) then `sync_tu_decls` (`func_800625DC`,
 `func_80062644`). **Read the DROP line's symbol before choosing the tool: if it names the function
 being banked, no data-scope tool applies.**
+
+#### §483 ★★★ — THE S77w WAVE HARVEST: SIX LEVERS, FOUR FROM BANKED (BYTE-PROVEN) BODIES
+
+30 single-agent workflows over main's drawable frontier. **9 banked**, and the levers below are the
+generalisable part. ★ = came out of a body that BANKED byte-identical, so the lever is byte-proven.
+
+**★ 1. STATEMENT ORDER *IS* THE ALIAS ORDER (`func_8001EA14`, 371 ins, close 89 → 0).** A `mem/s`
+local-struct store can never be hoisted over by a `mem/s` *varying* `p->` load, because
+`true_dependence`'s exemption requires one side to be non-struct AND non-varying. So when the target
+initialises a local matrix in natural offset order, **writing it in natural offset order is not
+cosmetic — it is the only order that produces those bytes**: `m[0][0]` first closed a whole 45-insn
+init block. The same law one scope down (compute the scalars BEFORE a bump store) filled the lw-delay
+and removed a +1 length drift. *If a block of stores is scheduled wrongly, check the ALIAS relation
+before reaching for a fence.*
+
+**★ 2. AN INLINE-ASM `"r"` OPERAND THAT IS A BARE `symbol_ref` HAS NO PSEUDO** (`func_8001EA14`).
+It is allocated by *reload* (`$t0`), not local-alloc. Assign the address to a local pointer first and
+it becomes a pseudo that local-alloc places in `$v0`. Worth 10 instructions. *A launder's register is
+decided by whether its operand is a pseudo at all.*
+
+**★ 3. PIN THE INTERMEDIATE, NOT THE RESULT (`func_800301C8`, 170 ins, 18 → 0).** `expand_mult`
+passes `accum_target = target`, and a HARD target survives expand's generate-into-pseudos guard — so
+a `$17` pin on the *product* drags the whole `b*24` chain into `$s1`. Pin only the intermediate
+(`register s32 m3 __asm__("$2"); m3 = (b<<1)+b; k2 = m3<<3;`); a plain local is coalesced straight
+back. Corollary from the same function: `addu $s0,$s1,$s0` is **`expand_binop` swapping commutative
+operands to make `op0 == target`**, not tree order — so pin the DESTINATION to flip it (this is the
+allocation-side answer §479 law 2 said was required).
+
+**★ 4. TWO INDEPENDENT RE-TIES, ORDERED** (`func_8006252C`) — promoted to its own entry, §482.
+
+**5. A GLOBAL ARRAY'S BASE ASSIGNED TO A POINTER LOCAL *BEFORE* THE LOOP** (`func_80032A74`, 422 ins,
+12 → 1). That makes the symbol pseudo multi-block, so `local-alloc.c:472`
+(`reg_basic_block >= 0 && reg_n_deaths == 1`) skips it, global-alloc cannot place it, and
+`update_equiv_regs`' `REG_EQUIV(symbol_ref)` makes **reload DELETE the init insn and rematerialise
+`lui/addiu` into its spill register at every use** — reproducing three separate `$t0` symbol
+materialisations at zero cost. It replaces the older §153-launder + hard-pin recipe, and note the
+measured anti-lever: an `__asm__("$8")` pin can NEVER work here, it pushes every reload to `$t1`
+(+30 rows).
+
+**6. THE SPELLING THAT FIXES A MASK-SHIFT IS THE DESTINATION'S WIDTH, NOT THE EXPRESSION**
+(`func_8001EFE0`, 468 ins, 89 → 14). `(sy & 0x100) >> 4` converges on `srl;andi` across **all 10
+spellings tried, including §432's shift-pair** — which is why two prior agents filed it as
+permuter-class. It is fixed by making the DESTINATION a `u16` (`tpage`), not by rewriting the shift.
+From the same function: **POLY_FT4 stores must go per-VERTEX** (`x1=x0+w; y1=y0; x2=x0; y2=y0+h`),
+not in copy groups — that alone fixed a −1 length drift and a 42-insn tail.
+
+**7. `(idx<<2)+tbl` BEATS `&tbl[idx]`** (`func_80020DA4`, 100 ins, 20 → 8): plain integer address
+arithmetic fixes table-address register-coalescing mismatches that the pointer-index sugar cannot.
+Independently corroborated in the same session by a permuter run on the pointer-style source
+plateauing at exactly the closeness the integer form beat.
+
+**THE COST NOTE THAT MATTERS MORE THAN ANY LEVER.** 21 of 30 targets came back NEAR, and **almost
+every NEAR report cites the same shape**: the agent found the mechanism, named the gcc pass and often
+the source line, and could not reach it from C. The frontier is no longer "we don't know why" — it is
+"we know exactly why and C cannot express it". Route accordingly: a NEAR whose note names a pass and
+a file:line is a WALL CANDIDATE for §474-style proof, not a redraft.
