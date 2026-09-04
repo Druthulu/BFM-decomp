@@ -149,6 +149,89 @@ def cast_sites(binary, fn, ret, apply_=False):
     return edits
 
 
+# THE DRAFT'S SPELLING IS NOT ALWAYS LEGAL WHERE THE DECLARATION SITS (P31 S77).
+# `--sync-decls` copied the draft's parameter list verbatim into the TU, but a draft names types the
+# TU does not have IN SCOPE AT THAT LINE. Byte-witnessed, both from one apply:
+#     src/800.c:2631   extern void func_80015760(Obj_80015760 *obj, s32 *ot);  -> the type is
+#                      draft-local; the TU has never heard of it            => parse error before `*'
+#     src/800c3.c:866  s32 func_8005E3AC(Ctx *s, s32 size);                 -> `Ctx' is typedef'd at
+#                      line 941, SEVENTY-FIVE LINES BELOW the declaration   => parse error before `*'
+# Both broke the COMMITTED baseline, which is how gate_main caught them (BASELINE RED, no draft
+# substituted) rather than mis-attributing the failure to the drafts.
+#
+# THE FIX FOLLOWS THE TOOL'S OWN DOCTRINE. Once the call sites are cast (the step above), the
+# declaration emits no code; all it must do is be COMPATIBLE with the definition and PARSE. The
+# no-proto form `s32 func_X();` satisfies both without naming a single type — and C89 makes it
+# compatible with a prototyped definition exactly when no parameter is affected by the default
+# argument promotions. So: prefer no-proto whenever it is legal, fall back to the full prototype
+# only when a NARROW parameter forces it (the §378a case this flag exists for, e.g.
+# `void func_X(s16)`, which `--any-proto` cannot legally reach), and in that case REFUSE loudly
+# rather than emit a type the TU cannot parse (R43).
+NARROW = frozenset(("char", "short", "float", "s8", "u8", "s16", "u16", "signed", "unsigned"))
+PRIMITIVE = frozenset(("void", "int", "long", "double", "unsigned", "signed", "char", "short",
+                       "float", "const", "volatile", "struct", "union", "enum", "register",
+                       "s8", "u8", "s16", "u16", "s32", "u32", "s64", "u64", "f32", "f64"))
+
+
+def _param_types(params):
+    """[(text, is_pointer)] for each parameter in a verbatim parameter list."""
+    out, depth, cur = [], 0, ""
+    for ch in params:
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+        if ch == "," and depth == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    if cur.strip():
+        out.append(cur)
+    return [(p.strip(), "*" in p or "[" in p) for p in out if p.strip()]
+
+
+def noproto_is_legal(params):
+    """True when NO parameter is affected by the default argument promotions (C89 6.5.4.3).
+
+    Pointers and 32-bit-or-wider scalars are promotion-stable; char/short/float and the project's
+    narrow typedefs are not. A `void` list is stable (there are no parameters to promote)."""
+    for text, is_ptr in _param_types(params):
+        if is_ptr:
+            continue
+        words = set(re.findall(r"[A-Za-z_]\w*", text))
+        if words & NARROW:
+            return False
+        if not (words & PRIMITIVE) and words:
+            return False          # an unknown scalar typedef could be narrow -> do not assume
+    return True
+
+
+def _unresolved_types(params, tu_text, line_idx):
+    """Type identifiers in `params` that are not visible in the TU ABOVE `line_idx` (0-based).
+
+    Textual and deliberately over-cautious: a name counts as visible only if the TU introduces it
+    above the declaration as a typedef, tag, or macro. A false 'unresolved' costs a refusal; a
+    false 'resolved' costs a broken baseline."""
+    above = "".join(tu_text[:line_idx])
+    bad = []
+    for text, _ in _param_types(params):
+        words = re.findall(r"[A-Za-z_]\w*", text)
+        # The trailing identifier is the PARAMETER NAME, not a type — `s16 step` must not put
+        # `step` up for resolution. (Left alone for a function-pointer parameter, whose name is
+        # in the middle; an over-cautious refusal there is the safe direction.)
+        if len(words) > 1 and "(" not in text:
+            words = words[:-1]
+        for w in words:
+            if w in PRIMITIVE or w in NARROW:
+                continue
+            if re.search(r"\b(?:typedef\b[^;]*|struct|union|enum|#\s*define)\s+%s\b" % re.escape(w), above) \
+               or re.search(r"\b%s\s*;" % re.escape(w), above):
+                continue
+            bad.append(w)
+    return sorted(set(bad))
+
+
 def sync_decls(binary, fn, ret, params, apply_=False):
     """Rewrite every forward DECLARATION of `fn` to the draft's exact signature.
 
@@ -165,9 +248,10 @@ def sync_decls(binary, fn, ret, params, apply_=False):
     prototype would convert the arguments at the call site and move the caller's bytes.
     """
     edits = []
+    refusals = []
     decl_re = re.compile(r"^([ \t]*(?:extern[ \t]+)?)([A-Za-z_][\w \t\*]*?\b)%s[ \t]*\([^;{]*\)[ \t]*;"
                          % re.escape(fn))
-    want = "%s %s(%s);" % (ret, fn, params)
+    noproto = noproto_is_legal(params)
     for path in src_files(binary):
         try:
             lines = open(path).read().splitlines(keepends=True)
@@ -182,6 +266,20 @@ def sync_decls(binary, fn, ret, params, apply_=False):
                 continue
             if _kw_prefixed(line, fn):       # `return func_X(a0);` is a CALL, not a declaration
                 continue
+            # The DRAFT'S OWN SPELLING FIRST — it is the byte-proven behaviour and it keeps the
+            # declaration informative. Fall back only where that spelling cannot PARSE at this
+            # line, so a correct declaration is never churned into a weaker one.
+            unresolved = _unresolved_types(params, lines, i)
+            if not unresolved:
+                want = "%s %s(%s);" % (ret, fn, params)
+            elif noproto:
+                want = "%s %s();" % (ret, fn)
+            else:
+                refusals.append("%s: %s:%d — %s not in scope here, and a narrow parameter (%s) "
+                                "forbids the no-proto fallback"
+                                % (fn, os.path.relpath(path, REPO), i + 1,
+                                   ", ".join(unresolved), params))
+                continue
             new = m.group(1) + want + "\n"   # group(1) already carries the indent AND any `extern `
             if new == line:
                 continue
@@ -191,6 +289,11 @@ def sync_decls(binary, fn, ret, params, apply_=False):
             changed = True
         if changed and apply_:
             open(path, "w").write("".join(lines))
+    if refusals:
+        print("REFUSED %d declaration sync(s) (R43 — emitting a type the TU cannot parse would "
+              "break the baseline build, not the draft):" % len(refusals), file=sys.stderr)
+        for r in refusals:
+            print("  " + r, file=sys.stderr)
     return edits
 
 
