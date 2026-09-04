@@ -503,7 +503,48 @@ __asm__("nop\nnop\n");
 
 
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D588);
+
+
+u32 func_8005D588(u32 arg0) {
+
+    extern void (*D_80072960)(void *);
+    extern u32 D_80072994;
+    extern u32 D_800729AC;
+    extern u32 D_800729B0;
+    extern s32 D_80078998;
+    extern s32 D_8007899C;
+    u32 ret;
+    s32 *p1;
+    s32 *p2;
+
+    ret = (D_800729B0 << 1) | (D_800729AC == 0);
+    if (ret == arg0) {
+        return ret;
+    }
+    D_80072994 = 0;
+    if (arg0 & 1) {
+        p1 = &D_80078998;
+        D_800729AC = 0;
+        if (*p1 > 0x95) {
+            (*D_80072960)(D_80072990);
+        }
+        *p1 = 0;
+    } else {
+        D_800729AC = 1;
+    }
+    if (arg0 & 2) {
+        p2 = &D_8007899C;
+        D_800729B0 = 1;
+        if (*p2 > 0x95) {
+            (*D_80072960)(D_80072990 + 0xF0);
+        }
+        *p2 = 0;
+    } else {
+        D_800729B0 = 0;
+    }
+    D_80072994 = 1;
+    return ret;
+}
 
 void func_8005D6A0(void) {
     extern s32 D_8007898C;
