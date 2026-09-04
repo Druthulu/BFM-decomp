@@ -2812,7 +2812,7 @@ void func_8002FDC8(void) {
     func_80037D74();
 }
 
-INCLUDE_ASM("asm/nonmatchings/800_b", func_8002FDE8);
+INCLUDE_ASM("asm/nonmatchings/800_b_2", func_8002FDE8);
 
 /* func_8002FF0C -- start playback of resource `entry` from the buffer `arg`.
  *
@@ -4979,7 +4979,7 @@ done:
     return ret;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800_b", func_80032A74);
+INCLUDE_ASM("asm/nonmatchings/800_b_2", func_80032A74);
 
 extern u16 D_800A46E8[];
 extern void func_8003324C(s32);
