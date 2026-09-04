@@ -7667,7 +7667,20 @@ void func_80182C5C(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_002/nonmatchings/ov_SC04_002_jr_8017BEBC", func_80182CBC);
+extern s32 func_8012B6D4(s16 *a0, s16 *a1);
+
+void func_80182CBC(s32 a0, void *a1)
+{
+    if ((*(u16 *)(a1 + 0x5C) & 0x8000) != 0) {
+        if (*(u16 *)(a1 + 0x5E) != 0x1D) {
+            *(u16 *)(a1 + 0x5C) = *(u16 *)(a1 + 0x5C) | 1;
+            *(u16 *)(a1 + 0x60) = 0xa;
+            *(u16 *)(a1 + 0x62) = func_8012B6D4((s16 *)(a1 + 4), (s16 *)(a0 + 4));
+            *(u16 *)(a1 + 0x5E) = 0x1D;
+        }
+    }
+}
+
 
 #include "common.h"
 

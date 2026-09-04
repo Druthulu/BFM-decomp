@@ -3346,7 +3346,85 @@ s32 func_8017F9F8(s32 a0in) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC01_006/nonmatchings/ov_SC01_006_jr_8017ED5C", func_8017FBCC);
+extern s32 D_80126B58;
+extern void func_8014BB24(s32 a0, s32 a1, s32 a2);
+extern void func_8014B944(s32 a0, s32 a1, s32 a2);
+extern void func_8014B00C(s32 a0);
+extern void func_80029344(void);
+extern void func_8014BD24(s32 a0, s32 a1);
+extern void func_8017FD50(s32 a0);
+extern s32 func_801621CC(s32 a0);
+extern void func_801622C4(void);
+
+void func_8017FBCC(s32 arg0) {
+    s32 addr;
+    s32 v0;
+    s32 v1;
+    s32 t108;
+    s32 pad[6];
+
+    addr = (s32)&D_80126B58;
+    v0 = *(s16 *)(arg0 + 0x10A);
+    if (v0 != 0) {
+        register s32 zr __asm__("$0");
+        v1 = v0 + zr;
+        v0 = v1 - 1;
+        *(s16 *)(arg0 + 0x10A) = v0;
+        v1 = (v0 << 0x10) >> 0x10;
+        if (v1 >= 0x40) {
+            v1 = *(s16 *)(arg0 + 0x108);
+            {
+                register s32 zr2 __asm__("$0");
+                t108 = v1 + zr2;
+            }
+            v0 = 0xFF;
+            if (v1 != v0) {
+                v0 = t108 + 0x11;
+                *(s16 *)(arg0 + 0x108) = v0;
+                if (((v0 << 0x10) >> 0x10) >= 0x100) {
+                    v0 = 0xFF;
+                    *(s16 *)(arg0 + 0x108) = v0;
+                }
+            } else {
+                v0 = *(u16 *)(arg0 + 0x106);
+                v0 += 0x11;
+                *(u16 *)(arg0 + 0x106) = v0;
+                if (((v0 << 0x10) >> 0x10) >= 0x100) {
+                    *(u16 *)(arg0 + 0x106) = 0xFF;
+                }
+            }
+        } else if (v1 < 0x20) {
+            v0 = *(s16 *)(arg0 + 0x106);
+            if (v0 != 0) {
+                register s32 zr3 __asm__("$0");
+                v1 = v0 + zr3;
+                v0 = v1 - 0x11;
+                *(s16 *)(arg0 + 0x106) = v0;
+                if ((v0 << 0x10) < 0) {
+                    *(s16 *)(arg0 + 0x106) = 0;
+                }
+            } else {
+                v0 = *(u16 *)(arg0 + 0x108);
+                v0 -= 0x11;
+                *(u16 *)(arg0 + 0x108) = v0;
+                if ((v0 << 0x10) < 0) {
+                    *(u16 *)(arg0 + 0x108) = 0;
+                }
+            }
+        } else if (v1 == 0x30) {
+            func_8014BB24(addr, 0x3E7, 1);
+            func_8014B944(addr, 0x1000000, 1);
+            func_8014B00C(8);
+            func_80029344();
+            func_8014BD24(addr, 0x3E7);
+        }
+        func_8017FD50(arg0);
+        if ((*(s16 *)(arg0 + 0x10A) == 0) && (func_801621CC(8) != 0)) {
+            func_801622C4();
+        }
+    }
+}
+
 
 
 typedef struct { u32 addr : 24; u32 len : 8; } PTag_8017FD50;

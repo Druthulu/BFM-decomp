@@ -6238,7 +6238,99 @@ void func_801816C4(u8 *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_003/nonmatchings/ov_SC05_003_jr_8017BEBC", func_80181720);
+/* func_80181720 (ov_SC05_003, 87 ins) — MATCH.
+ * Callees / globals spelled from THIS target's own relocation lines (law 1) and
+ * typed per the destination TU's existing decls (law 2):
+ *   D_801270C0 / D_80126B5E / D_80126B62 / D_80126B66 : extern u16, read via (s16)
+ *     (the TU already declares all four u16 — lines 1129 / 3992 / body of
+ *      func_8017F1AC; the `lh %lo(...)` in the .s is the (s16) cast, not s16 decl)
+ *   func_8012F568 : extern void func_8012F568(s32 x6)  (TU line 4650 / 5662)
+ *   VectorNormal  : the .s says `jal VectorNormal` (NOT the TU's VectorNormalSS);
+ *                   repo idiom is the empty-param `extern void VectorNormal();`
+ *                   (src/md_SC07_004/md_SC07_004.c:4167).
+ *
+ * Two levers were needed on top of the neighbour shape (func_8017F1AC, §194-E):
+ *  1. cookbook §197-A — `lh $a1,0x18($v0) ; sra $a1,$a1,7` was coming out as
+ *     `lhu ; sll 16 ; sra 23` (LENGTH-DRIFT +1). The zero-byte asm re-tie
+ *     `__asm__("" : "=r"(h) : "0"(h))` takes the shift's operand out of the
+ *     sign-extension's equivalence class and restores the 2-instruction form.
+ *  2. §193-C cross-jumping — with plain `return 0;` in both arms of the
+ *     ±10 window test, gcc merged the common `slti ; bnez` suffix (-4 ins).
+ *     Routing the negative arm through `goto ret0;` (the same idiom the in-TU
+ *     neighbour func_8017F1AC uses) splits the two exits and reproduces the
+ *     target's bltz / j / beqz .L80181868 layout exactly.
+ * Statement order raw[0],raw[1],raw[2],vx,vy,vz is load-bearing: it fixes the
+ * $a0/$v1 roles of the 0x6 and 0xE halfwords (sched1 birth order).
+ */
+
+extern u16 D_801270C0;
+extern u16 D_80126B5E;
+extern u16 D_80126B62;
+extern u16 D_80126B66;
+extern void VectorNormal();
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+
+s32 func_80181720(void *arg0) {
+    typedef struct { s32 vx, vy, vz; } VEC3L;
+    VEC3L v;
+    s16 raw[4];
+    s16 buf[4];
+    s32 r;
+    s32 d;
+    s32 h;
+
+    if (*(s16 *)&D_801270C0 == 2) {
+        return 0;
+    }
+
+    h = *(s16 *)(*(s32 *)((s32)arg0 + 0x20) + 0x18);
+    __asm__("" : "=r"(h) : "0"(h));   /* §197-A re-tie: keeps lh + sra 7 */
+    r = h >> 7;
+    raw[0] = *(u16 *)((s32)arg0 + 0x6);
+    raw[1] = *(u16 *)((s32)arg0 + 0xA);
+    raw[2] = *(u16 *)((s32)arg0 + 0xE);
+    v.vx = (s16)D_80126B5E - raw[0];
+    v.vy = 0;
+    v.vz = (s16)D_80126B66 - raw[2];
+
+    /* gte SQR on the XZ difference vector (in place) */
+    __asm__ volatile (
+        "lwc2 $9, 0( %0 );"
+        "lwc2 $10, 4( %0 );"
+        "lwc2 $11, 8( %0 );"
+        "nop;"
+        "nop;"
+        "sqr 0;"
+        "swc2 $25, 0( %0 );"
+        "swc2 $26, 4( %0 );"
+        "swc2 $27, 8( %0 )"
+        :
+        : "r"(&v)
+        : "$9", "$10", "$11", "memory");
+
+    if (r * r <= v.vx + v.vz) {
+        return 0;
+    }
+
+    d = (s16)D_80126B62 - *(s16 *)((s32)arg0 + 0xA);
+    if (d < 0) {
+        if (9 < *(s16 *)((s32)arg0 + 0xA) - (s16)D_80126B62) {
+            goto ret0;
+        }
+    } else if (9 < d) {
+        return 0;
+    }
+
+    VectorNormal(&v, &v);
+    buf[0] = v.vx;
+    buf[1] = v.vy;
+    buf[2] = v.vz;
+    func_8012F568(1, 0x4014, 0, 0x18, (s32)raw, (s32)buf);
+    return 1;
+ret0:
+    return 0;
+}
+
 
 
 extern void (*D_801A47C4[])(void);

@@ -11660,7 +11660,63 @@ void func_80189764(void *a0) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC04_011/nonmatchings/ov_SC04_011_jr_8017D494", func_8018985C);
+#define GTE_SMR(r0) __asm__ __volatile__( \
+    "lw $12, 0(%0)\n" "lw $13, 4(%0)\n" \
+    "ctc2 $12, $0\n" "ctc2 $13, $1\n" \
+    "lw $12, 8(%0)\n" "lw $13, 12(%0)\n" "lw $14, 16(%0)\n" \
+    "ctc2 $12, $2\n" "ctc2 $13, $3\n" "ctc2 $14, $4\n" \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+#define GTE_LDV0(r0) __asm__ __volatile__( \
+    "lwc2 $0, 0(%0)\n" "lwc2 $1, 4(%0)\n" \
+    : : "r"(r0) : "memory")
+#define GTE_RTV0() __asm__ __volatile__( \
+    "nop\n" "nop\n" "mvmva 1, 0, 0, 3, 0\n" : : : "memory")
+#define GTE_STSV(r0) __asm__ __volatile__( \
+    "mfc2 $12, $9\n" "mfc2 $13, $10\n" "mfc2 $14, $11\n" \
+    "sh $12, 0(%0)\n" "sh $13, 2(%0)\n" "sh $14, 4(%0)\n" \
+    : : "r"(r0) : "$12", "$13", "$14", "memory")
+
+typedef struct { s16 m[3][3]; s32 t[3]; } MATRIX_8018985C;
+typedef struct { s16 vx, vy, vz, pad; } SVECTOR_8018985C;
+
+extern u16 D_80126B5E;
+extern u16 D_80126B66;
+extern s32 func_80017DC4(void *a0, void *a1);
+extern void func_8012F568(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+extern u8  D_801152A8[];
+
+s32 func_8018985C(void *a0, void *a1)
+{
+    MATRIX_8018985C mtx;
+    SVECTOR_8018985C sv[4];
+
+    sv[0].vx = D_80126B5E - *(u16 *)((s32)a0 + 6);
+    sv[0].vz = D_80126B66 - *(u16 *)((s32)a0 + 0xE);
+
+    func_80017DC4((void *)(*(s32 *)((s32)a0 + 0x20) + 0x18), &mtx);
+
+    sv[1].vx = *(u16 *)((s32)a1 + 4);
+    sv[2].vx = *(u16 *)((s32)a1 + 6);
+    sv[1].vz = *(u16 *)((s32)a1 + 0xC);
+    sv[2].vz = *(u16 *)((s32)a1 + 0xE);
+
+    GTE_SMR(&mtx);
+    GTE_LDV0(&sv[1]);
+    GTE_RTV0();
+    GTE_STSV(&sv[1]);
+    GTE_SMR(&mtx);
+    GTE_LDV0(&sv[2]);
+    GTE_RTV0();
+    GTE_STSV(&sv[2]);
+
+    if (sv[0].vx > sv[1].vx && sv[0].vx < sv[2].vx &&
+        sv[0].vz > sv[1].vz && sv[0].vz < sv[2].vz) {
+        func_8012F568(1, 0x4001, 0, 0x14, (s32)&sv[3], (s32)D_801152A8);
+        return 1;
+    }
+    return 0;
+}
+
 
 
 extern void (*D_801949B8[])(void);

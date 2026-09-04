@@ -4995,7 +4995,35 @@ void func_8018124C(void) {
 }
 
 
-INCLUDE_ASM("asm/ov_SC05_018/nonmatchings/ov_SC05_018_jr_8017D604", func_80181294);
+#include "common.h"
+
+s32 func_80181294(u16 a0, s32 a1) {
+    register s32 scale __asm__("$2");
+    s32 r;
+    s32 g;
+    s32 b;
+    s32 rp;
+    s32 gp;
+    s32 bp;
+    s32 t;
+    s32 out;
+
+    r = a0 & 0x1F;
+    scale = 0x1000 - a1;
+    rp = r * scale;
+    g = (a0 >> 5) & 0x1F;
+    gp = g * scale;
+    b = (a0 >> 10) & 0x1F;
+    bp = b * scale;
+
+    r = (rp >> 12) & 0x1F;
+    g = gp >> 7;
+    t = (g & 0x3E0) | -0x8000;
+    out = r | t;
+    b = bp >> 2;
+    return (out | (b & 0x7C00)) & 0xFFFF;
+}
+
 
 extern void func_8012A828(void);
 void func_801812FC(void) {
