@@ -1,4 +1,27 @@
 #include "common.h"
+/* hoisted by gate_main so drafts above can reuse them (§181) */
+typedef struct Entry {
+    /* 0x00 */ u8 b0;
+    /* 0x01 */ u8 unk1[3];
+    /* 0x04 */ u8 *p4;
+} Entry; /* size 8 */
+typedef struct Ctx {
+    /* 0x00 */ s16 *p00;
+    /* 0x04 */ u8 *p04;
+    /* 0x08 */ Entry *p08;
+    /* 0x0C */ u8 unk0C[0x3C - 0x0C];
+    /* 0x3C */ u8 *p3C;
+    /* 0x40 */ u8 unk40[0x46 - 0x40];
+    /* 0x46 */ u8 b46;
+    /* 0x47 */ u8 b47;
+    /* 0x48 */ u8 b48;
+    /* 0x49 */ u8 b49;
+    /* 0x4A */ u8 unk4A[0xE3 - 0x4A];
+    /* 0xE3 */ u8 bE3;
+    /* 0xE4 */ u8 unkE4[0xE9 - 0xE4];
+    /* 0xE9 */ u8 bE9;
+    /* 0xEA */ u8 bEA;
+} Ctx;
 
 __asm__(".text\n.align 2\n.globl InitHeap\n.ent\tInitHeap\n"
         "InitHeap:\n.frame $sp,0,$31\n"
@@ -906,7 +929,48 @@ s32 func_8005E374(u8 *a0) {
     return t + m + *(u32 *)(a0 + 0xEC);
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E3AC);
+
+
+extern s32 (*D_80072978)(void);
+extern void func_8005E480(void *arg0);
+extern s32 func_8005E528(Ctx *s);
+
+s32 func_8005E3AC(Ctx *s, s32 size) {
+    register s32 ret __asm__("$2");
+    register s32 t __asm__("$5");
+    s32 tmp;
+    u8 n1;
+    u8 n2;
+
+    if (size == 0) {
+        return 0;
+    }
+    if (s->p04 != 0) {
+        return 0;
+    }
+    if ((*D_80072978)() == 0) {
+        ret = 1;
+        __asm__ __volatile__("" : : "r"(ret));
+        tmp = 4;
+        __asm__("" : "=r"(tmp) : "0"(tmp));
+        t = (size + 3) >> 2;
+        s->b49 = tmp;
+        s->b46 = 1;
+        *(u32 *)((s8 *)s + 0x14) = (u32)func_8005E480;
+        n1 = s->bE3;
+        *(u32 *)((s8 *)s + 0x18) = (u32)func_8005E528;
+        n2 = s->bE9;
+        t *= 4;
+        *(s32 *)((s8 *)s + 0x00) = t;
+        s->b47 = 0;
+        t += ((n1 + 1) >> 1) * 4;
+        *(s32 *)((s8 *)s + 0x04) = t;
+        t += (n2 * 5 + 3) & ~3;
+        *(s32 *)((s8 *)s + 0x08) = t;
+        return ret;
+    }
+    return 0;
+}
 
 extern void func_8005EA68(void *arg0, s32 arg1);
 extern void func_8005EA88(void *arg0, s32 arg1);
@@ -932,29 +996,7 @@ void func_8005E480(void *arg0) {
 }
 
 
-typedef struct Entry {
-    /* 0x00 */ u8 b0;
-    /* 0x01 */ u8 unk1[3];
-    /* 0x04 */ u8 *p4;
-} Entry; /* size 8 */
 
-typedef struct Ctx {
-    /* 0x00 */ s16 *p00;
-    /* 0x04 */ u8 *p04;
-    /* 0x08 */ Entry *p08;
-    /* 0x0C */ u8 unk0C[0x3C - 0x0C];
-    /* 0x3C */ u8 *p3C;
-    /* 0x40 */ u8 unk40[0x46 - 0x40];
-    /* 0x46 */ u8 b46;
-    /* 0x47 */ u8 b47;
-    /* 0x48 */ u8 b48;
-    /* 0x49 */ u8 b49;
-    /* 0x4A */ u8 unk4A[0xE3 - 0x4A];
-    /* 0xE3 */ u8 bE3;
-    /* 0xE4 */ u8 unkE4[0xE9 - 0xE4];
-    /* 0xE9 */ u8 bE9;
-    /* 0xEA */ u8 bEA;
-} Ctx;
 
 extern u8 *D_800789A8;
 
