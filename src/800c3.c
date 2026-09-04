@@ -1171,7 +1171,13 @@ void func_8005EAA8(void *arg0, s32 arg1) {
     *(u8 *)((u8 *)arg0 + 0x35) = 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAC8);
+void func_8005EAC8(void *arg0) {
+    *(u8 *)((u8 *)arg0 + 0x36) = 0x4B;
+    *(u32 *)((u8 *)arg0 + 0x2C) = 0;
+    *(u8 *)((u8 *)arg0 + 0x35) = 0;
+}
+
+__asm__(".text\n\tnop\n\tnop\n\tnop\n");
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005EAE8);
 

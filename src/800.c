@@ -718,7 +718,37 @@ s16 func_8001311C(s16 a0, s16 a1, s16 a2) {
  * Byte-equivalent to the INCLUDE_ASM stub by construction; the function is NOT
  * decompiled (§265 ACCOUNTING). Immediates/offsets are decimal for maspsx (§383).
  */
-INCLUDE_ASM("asm/nonmatchings/800", func_80013154);
+/* func_80013154 (main) — step a 16-bit value toward a target; returns 0 when already
+ * there, the (signed) step while a full step fits, else the remaining distance.
+ *
+ * Parameters MUST be s16 (no PROMOTE_FUNCTION_ARGS: an s16 param is an HImode pseudo
+ * copied from $aN at entry, and cse's canon_reg reads the raw $a0/$a1/$a2 inside the
+ * entry extended block — that is the `addu $t0,$a2` / `negu $t0,$a2` / `subu $v0,$a1,$a0`
+ * shape).  `nx > y` (not `y < nx`) orders the two extensions in the join block.
+ * TU plumbing: the existing extern in src/800.c is `s32 (s32,s32,s32)`; it must be
+ * synced to this prototype — the wrapper func_8001311C compiles byte-identically either way.
+ */
+s32 func_80013154(s16 x, s16 y, s16 step) {
+    s16 nx;
+
+    if (x == y) {
+        return 0;
+    }
+    if (y < x) {
+        step = -step;
+    }
+    nx = x + step;
+    if (nx >= y && x <= y) {
+        return (s16)(y - x);
+    }
+    if (nx > y) {
+        return step;
+    }
+    if (x < y) {
+        return step;
+    }
+    return (s16)(y - x);
+}
 
 
 extern s32 func_80013228(s32 *a0, s32 *a1);
