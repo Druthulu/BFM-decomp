@@ -84,7 +84,12 @@ segments:
       # and the minimum: any extra split would be speculation. `800` keeps its legacy name so the
       # matched fns + their asm/nonmatchings/800 paths don't migrate.
       - [0x2BF0, c, 800]        # -O2 game code -> src/800.c    (vram 0x800123F0-0x8002B0B4); owns .rodata span A
-      - [0x1B8B4, c, 800_b]     # -O2 game code -> src/800_b.c  (vram 0x8002B0B4-0x80035270); owns .rodata span B
+      # P31 S77 — 3-way cut for the -O0 island func_8002C410 (0x8002C410-0x8002C8BC). gcc-2.7.2
+      # has no per-function optimize pragma, so the opt level is per FILE (§116): the island needs
+      # its own object for the Makefile -O0 glob. The outer pieces stay -O2.
+      - [0x1B8B4, c, 800_b]     # -O2 -> src/800_b.c     (vram 0x8002B0B4-0x8002C410); owns .rodata span B (front)
+      - [0x1CC10, c, 800_b_o0a] # -O0 ISLAND -> src/800_b_o0a.c (vram 0x8002C410-0x8002C8BC)
+      - [0x1D0BC, c, 800_b_2]   # -O2 -> src/800_b_2.c   (vram 0x8002C8BC-0x80035270); owns .rodata span B (tail)
       - [0x25A70, c, 800_c]     # -O2 game code -> src/800_c.c  (vram 0x80035270-0x8003A444); owns .rodata span C
       # PsyQ libspu+libsnd COMBINED sound region (Phase 8): the two SDK sound libs are interleaved here,
       # so they link as one 60-object region (curated by tools/make_snd_used.py; 4 addresses excluded as
@@ -239,7 +244,15 @@ segments:
       # address order. Span D (0x80073494-0x80073514) belongs to snd2, not to game code.
       - [0x63238, .rodata, 800]   # span A: LZSS jtbl + 11 game jtbls  (vram 0x80072A38-0x80072C70)
       - [0x63470, data, 63470]    # loadDestPtrTable + globals         (vram 0x80072C70-0x80072E44)
-      - [0x63644, .rodata, 800_b] # span B: 14 game jtbls              (vram 0x80072E44-0x80073140)
+      # P31 S77 — span B is now split, because the 3-way code cut for the -O0 island put its two
+      # jtbl owners in DIFFERENT objects (func_8002B0B4 in 800_b, func_800335B8 in 800_b_2) and
+      # one code object may contribute exactly ONE contiguous .rodata run. The boundary is
+      # DERIVED, not guessed: 800_b.o's compiled .rodata is 0xf8 bytes, so the front run ends at
+      # 0x80072E44+0xf8. The build's own jtbl_rodata_pads is what caught the missing piece
+      # ("no yaml .rodata piece is bound to TU '800_b_2' — cannot place it"). The -O0 island
+      # itself references no jump table, so it needs no piece.
+      - [0x63644, .rodata, 800_b]   # span B front: func_8002B0B4's jtbls (vram 0x80072E44-0x80072F3C)
+      - [0x6373C, .rodata, 800_b_2] # span B tail                        (vram 0x80072F3C-0x80073140)
       - [0x63940, data, 63940]    # globals                            (vram 0x80073140-0x800732A0)
       - [0x63AA0, .rodata, 800_c] # span C: 8 game jtbls               (vram 0x800732A0-0x8007344C)
       - [0x63C4C, data, 63C4C]    # tail: snd2 jtbls + globals         (vram 0x8007344C-0x80074800)

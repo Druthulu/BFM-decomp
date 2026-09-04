@@ -255,6 +255,12 @@ tools-health:
 	$(MAKE) --no-print-directory sig-overlays
 	$(MAKE) --no-print-directory sig-resident
 	$(MAKE) --no-print-directory sig-modules
+	# main's independent oracle (P31 S77, contract §1.3). Regenerated here for the same reason as
+	# the others: it is derived and gitignored, and an oracle wired into nothing runs for nobody —
+	# neighbor_ref sat MANUAL from S68 to S77 while the playbook called it the biggest cost lever
+	# in the wave. Without this line sig_is_independent("main") silently reverts to False on a
+	# fresh clone and main's boundary blind spot comes back with the audit still green.
+	$(MAKE) --no-print-directory sig-main-oracle
 	$(MAKE) --no-print-directory audit-corpus
 	$(MAKE) --no-print-directory audit-cdecl
 	$(MAKE) --no-print-directory audit-binaries
@@ -690,7 +696,7 @@ ifeq ($(BINARY),main)
 	# jtbl-span-owning code object), so --front/--tail can no longer express it. --order
 	# takes the address-ordered leaf list: a *.data.o leaf contributes its (.data), a code
 	# object leaf contributes its (.rodata) carve.
-	$(PYTHON) tools/ld_interleave.py --order 53198.data.o,800.o,63470.data.o,800_b.o,63940.data.o,800_c.o,63C4C.data.o $(LD_SCRIPT)
+	$(PYTHON) tools/ld_interleave.py --order 53198.data.o,800.o,63470.data.o,800_b.o,800_b_2.o,63940.data.o,800_c.o,63C4C.data.o $(LD_SCRIPT)
 endif
 	# Phase-26 §8: overlays that carve a jr-function's jtbl into a dotted .rodata subseg run
 	# ld_interleave to place the migrated .rodata between the pre/post data-tail chunks (the
@@ -790,7 +796,11 @@ build/src/ov_SC01_077/ov_SC01_077_o0.o: CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=
 # file silently compiled -O2: byte-neutral while stub-only (INCLUDE_ASM is verbatim asm),
 # but every -O0 draft banked into it would mystery-fail the gate (§362's trap class).
 # corpus.o0_sources() splits multi-glob $(wildcard ...) specs, so the -O0 oracle follows.
-WHALE_O0B_OBJS := $(patsubst src/%.c,build/src/%.o,$(wildcard src/ov_*/ov_*_o0?.c src/md_*/md_*_o0?.c))
+# P31 S77: the glob now covers TOP-LEVEL src/*_o0?.c too — main's TUs are top-level files, not
+# src/main/*, so every -O0 island in the EXE was outside this rule. Measured: func_8002C410
+# MATCHES 299/299 at -O0 and DIFFs 228-vs-299 at -O2, and could not bank for want of this one
+# glob. Same main-blindness family as draw_waves drawing zero main functions (S76).
+WHALE_O0B_OBJS := $(patsubst src/%.c,build/src/%.o,$(wildcard src/ov_*/ov_*_o0?.c src/md_*/md_*_o0?.c src/*_o0?.c))
 $(WHALE_O0B_OBJS): CC1FLAGS := -quiet -O0 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker
 
 # Phase-29 T2 Arm A: the -O0 cluster (0x8013B568..0x8013C98C) carved per single-file overlay into

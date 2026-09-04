@@ -69,6 +69,21 @@ def main():
     ap.add_argument("--hi", required=True, help="first vram AFTER the -O0 range (exclusive)")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
+
+    # MAIN IS NOT AN OVERLAY, AND CRASHING IS NOT REFUSING (P31 S77, R43/R61a). Every tool in this
+    # chain is overlay-shaped: jr_isolate_all reads `config/splat.<ov>.yaml` (main's is
+    # `config/splat.us.exe.yaml`) and overlay_src_split reads `src/<ov>/` (main's TUs are top-level
+    # `src/*.c`). Run on main it died with `FileNotFoundError: config/splat.main.yaml`, which reads
+    # as a missing file rather than an unsupported input — the same main-blindness that made
+    # draw_waves silently draw ZERO main functions for the whole project (S76). Say so instead.
+    if a.ov == "main":
+        sys.exit("o0_subsplit: main is NOT SUPPORTED — this chain is overlay-shaped (jr_isolate_all "
+                 "wants config/splat.main.yaml, overlay_src_split wants src/main/; main has "
+                 "config/splat.us.exe.yaml and top-level src/*.c). Main's -O0 sub-splits are carved "
+                 "by hand: cut the code subseg 3 ways in config/splat.us.exe.yaml, split the .rodata "
+                 "row if the span's jtbl owners land in different pieces, split the .c to match, and "
+                 "add the file to the -O0 glob. The byte-identical rebuild BEFORE banking is the "
+                 "check that the bounds are right.")
     ov, lo, hi = a.ov, int(a.lo, 16), int(a.hi, 16)
 
     p = J.plan(ov)
