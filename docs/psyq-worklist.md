@@ -94,3 +94,63 @@ All hits are the **§9.5 short-object coincidental class** (≤8 ins, masked pat
 **Ghidra corroboration (G1, sampled):** `DsMix` decompiles to `{ FUN_800d1bf8(); return 1; }` — a custom 2-line wrapper that **ignores its `vol` arg** (NOT the stock libsnd `DsMix`; the R13 tag in `symbols.resident.txt` is refuted). Other sampled functions are game logic (global accessors, engine init calling EXE REAL matches, entity-heading math calling the EXE's libgte `RATAN`). The resident's code makes **61 distinct EXE-range `jal` calls** (vs 37 internal) — it **calls** the EXE's resident SDK rather than embedding it.
 
 **Conclusion / architecture:** the PsyQ SDK lives in the **EXE** (959 LINKED); the **resident is ~143 functions of custom engine code** that calls the EXE's SDK + engine via fixed addresses (no RAM-wasting SDK duplication in an always-loaded blob). The DetectPsyQ "4.7.0" was a single coincidental DsMix-region signature, not a linked footprint. **Phase 12 matches the resident engine by hand (REAL), not by linking (LINKED stays 0).** R24's per-binary-provenance principle holds, but for the resident the practical consequence is "nothing to link." *(Regenerate: `for L in libsnd libspu libgte libgpu; do d=.run/obj47/$L; mkdir -p $d; (cd $d && ar x ../../tools/psyq/conv47/psyq-4_7-converted/lib/$L.a); python3 tools/psyq_identify.py $d 0x800CEDFC 0x800D3408 --vram-base 0x800CEDF8 --exe extracted/retail/MAIN.CD.dir/FILE_010.dir/1.1; done`)*
+
+---
+
+## S78 (2026-09-04): the `800c3` "wall" band is **LIBPAD 4.2.1 + LIBAPI 4.2**, and the LINKED residue is now printed by the build
+
+**How it was identified (a free oracle nobody had used).** `ghidra_psx_ldr` ships per-version PsyQ
+signature sets — `~/ghidra_12.1_PUBLIC/Ghidra/Extensions/ghidra_psx_ldr/data/psyq/<ver>/<LIB>.LIB.json`,
+one masked-byte signature + function labels per OBJECT, for 2.6 → 4.7. Matched against the retail EXE
+bytes (cookbook §487), the **4.2** set places these byte-exact:
+
+| object | vram | ins | functions (labels) |
+|---|---|---|---|
+| LIBAPI `COUNTER.OBJ` | 0x8005CF68 | 92 | SetRCnt · GetRCnt · StartRCnt · StopRCnt · ResetRCnt |
+| LIBAPI `C114.OBJ` | 0x8005CE48 | 8 | `_96_remove` — **the 4.2 `Ps` stamp** (SETUP §5.1 "libnum 0") |
+| LIBPAD `PADENTRY.OBJ` | 0x8005D0D8 | 300 | PadChkVsync · PadStartCom · PadStopCom · PadChkMtap · PadGetState · PadInfoMode · PadInfoAct · PadInfoComb · PadSetActAlign · PadSetMainMode · PadSetAct |
+| LIBPAD `PADMAIN.OBJ` (4.2.1) | 0x8005D588 | ~756 | PadEnableCom · `_padSetVsyncParam` · `_padChkVsync` · `_padStartCom` · `_padStopCom` · `_padInitSioMode` · `_padSioRW` (+ `_padSioRW2`/`_padClrIntSio0`/`_padWaitRXready`, order-inferred: the 4.2 sig drifts +4/+12 here — the EXE holds the 4.2.1 revision) |
+| LIBAPI `L02.OBJ`/`L03.OBJ` | 0x8005E168 | 4+4 | SysEnqIntRP · SysDeqIntRP |
+| LIBPAD `PADCMD.OBJ` | 0x8005E188 | 600 | `_padSetAct` · `_padSetCmd` · `_padSendAtLoadInfo` · `_padRecvAtLoadInfo` · `_padGetActSize` · `_padLoadActInfo` · `_padSetActAlign` · `_padSetMainMode` · `_padCmdParaMode` |
+| LIBPAD `PADIF.OBJ` | 0x8005EAE8 | ~376 | statics only (no public labels): `func_8005EAE8/EB28/EC00/ECC0/ED4C` |
+| LIBPAD `PADPORTD.OBJ` | 0x8005F0C8 | 408 | PadInitDirect |
+| LIBPAD `PADSEQD.OBJ` | 0x8005F728 | 288 | `_padInitDirSeq` · `_dirFailAuto` |
+| LIBPAD `WAITRC2.OBJ` (4.3 sig) | 0x8005FBA8 | 48 | setRC2wait · chkRC2wait |
+| LIBAPI `FIRST.OBJ` | 0x80061FA8 | 168 | firstfile (the 4.2 C wrapper; 4.0's `A66.o` trampoline at 0x80062248 is `firstfile2` in 4.2 naming) |
+| LIBAPI `PAD.OBJ` | 0x80062388 | 192 | SetInitPadFlag · ReadInitPadFlag · PAD_init · InitPAD · StartPAD · StopPAD |
+| LIBAPI `PATCH.OBJ` | 0x800626C8 | 40 | EnablePAD · DisablePAD · `_patch_pad` |
+| LIBAPI `CHCLRPAD.OBJ` | 0x80062768 | 28 | `_remove_ChgclrPAD` |
+
+The 4.2.1x `Ps` stamp at `0x80072954` ("libnum 12") stands directly in front of libpad's `.data` — the
+callback tables `D_8007295C..D_800729D8` the band's functions index. So **all 12 of main's open stubs
+in `800c3`** (incl. the four §332 "%lo-in-a-delay-slot" walls: `_padInitSioMode`, `_padStartCom`,
+`func_8005ED4C`, `func_8005F450`) and the 8 SDK-C-REORDER verbatims are **Sony library code assembled
+in reorder mode** — §332b's mechanism, with its provenance. Names applied to `config/symbols.us.txt` +
+Ghidra (46; `firstfile` after retiring Ghidra's 4.0-sig `firstfile` at 0x80062248 → `firstfile2`).
+
+**Which archives hold it.** Placed with `psyq_identify` after converting each to ELF: PsyQ **4.0**
+(`lib40/`, no LIBPAD at all), **4.6** (`lib46/`, S78 fetch), **4.7** (`conv47/`): only
+`PDMAIINI.o` (4.6/4.7, 68 ins @0x8005D8B4 = `_padStartCom`+`_padStopCom`) is byte-identical in the
+band; 4.6/4.7 libpad otherwise differs (PADMAIN 884 ins in 4.4+, PADCMD 768). The loader's **4.3**
+signature set matches PADENTRY/PADCMD/PADPORTD/WAITRC2 but not PADSEQD (292 vs 288). **A 4.2.1 or
+4.3 LIBPAD.LIB is the archive that would LINK the whole band** (task #13); until then the band is
+matched as C under the `REORDER_TUS` island with the real names.
+
+**The LINKED residue, now a build output.** `psyq_integrate --yaml` (S78) wires only the objects
+inside each library's stub subsegs and PRINTS the rest as `~~ N located object(s) / M ins OUTSIDE the
+stub subsegs` — the completion contract's "SDK residue empties" line, read straight off `make build`.
+At S78 close it reads, for libgte: **13 objects / 1,264 ins** — `MSC01/02/05/09` (800b, 276 ins,
+100% of that "game code" subseg), `SMP_00` (800b_2), `SMP_05` (800b_3), `FGO_01–06` (800b_5, 804 ins,
+100%), `PATCHGTE` (800b_6, 40 ins, 100%). Plus, outside libgte's window: `SYS.o` (800c, 3,109),
+`2D_BG0/1` (800b_7, 1,022), `VM_NO1` (sgap_7, 305), `VM_NOWON` (sgap_8, 300), `VM_F` (sgap_6, 237),
+libapi's 800c3 trampolines (176), `FIRST.o` (168). Task #3/#4 wire these.
+
+**Why the build was RED at HEAD (found S78).** The S77 `psyq_identify` fix (§485) started locating
+those in-gap objects, and `psyq_integrate.contiguous_blocks()` then merged libgte's 22 stub blocks
+into 3 (`3 object blocks but 22 stubs`) — every `make build BINARY=main` with `.run/obj40/libgte`
+present died at the link. It passed the S77 gates because the gate worktrees have no `.run/obj40` and
+take the stub fallback. Two fixes, both in `psyq_integrate.py`: (1) `--yaml`: stub↔objects by SUBSEG
+RANGE with an exact-tiling check, residue printed; (2) a library object's DEFINED symbol whose
+recovered address the curated file names differently is `--redefine-sym`'d to the curated name (R15)
+— `A66.o` `firstfile`→`firstfile2`, and it also exposed `TOC.o` `CdGetToc`@0x800430B8 mis-curated as
+`DecDCToutCallback` (an xdedup-vs-VS mislabel; libcd 4.0's linked object is the stronger oracle).

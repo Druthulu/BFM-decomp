@@ -346,28 +346,28 @@ s32 ResetRCnt(s32 spec) {
 
 __asm__(".word 0x00000000");
 
-extern s32 func_8005D8A0(void);
+extern s32 _padChkVsync(void);
 
-void func_8005D0D8(void) {
-    func_8005D8A0();
+void PadChkVsync(void) {
+    _padChkVsync();
 }
 
-extern void func_8005D8B4(void);
+extern void _padStartCom(void);
 
-void func_8005D0F8(void) {
-    func_8005D8B4();
+void PadStartCom(void) {
+    _padStartCom();
 }
 
-extern void func_8005D980(void);
+extern void _padStopCom(void);
 
-void func_8005D118(void) {
-    func_8005D980();
+void PadStopCom(void) {
+    _padStopCom();
 }
 
 extern s32 D_800729A8;
 extern s32 D_80072990;
 
-s32 func_8005D138(s32 arg0) {
+s32 PadChkMtap(s32 arg0) {
     if (D_800729A8 != 0) {
         return *(u8 *)(D_80072990 + (arg0 >> 4) * 0xF0 + 0xE8) == 8;
     }
@@ -377,7 +377,7 @@ s32 func_8005D138(s32 arg0) {
 
 extern void* (*D_80072970)(void);
 
-s32 func_8005D184(s32 arg0) {
+s32 PadGetState(s32 arg0) {
     void* v0;
     register s32 v1 __asm__("$3");
 
@@ -426,7 +426,7 @@ return_byte:
 
 extern void* (*D_80072970)(void);
 
-s32 func_8005D244(s32 arg0, s32 arg1, s32 arg2) {
+s32 PadInfoMode(s32 arg0, s32 arg1, s32 arg2) {
     void *p;
 
     p = (*D_80072970)();
@@ -453,7 +453,7 @@ s32 func_8005D244(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D33C);
+INCLUDE_ASM("asm/nonmatchings/800c3", PadInfoAct);
 
 extern void* (*D_80072970)(void);
 
@@ -461,7 +461,7 @@ extern void* (*D_80072970)(void);
 
 extern void* (*D_80072970)(void);
 
-s32 func_8005D410(s32 arg0, s32 arg1, s32 arg2) {
+s32 PadInfoComb(s32 arg0, s32 arg1, s32 arg2) {
     u8 *p;
 
     p = (u8 *)(*D_80072970)();
@@ -482,22 +482,22 @@ s32 func_8005D410(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 extern void* (*D_80072970)(void);
-extern s32 func_8005E79C(void *a0, void *a1);
+extern s32 _padSetActAlign(void *a0, void *a1);
 
-void func_8005D4B8(void *a0, void *a1) {
-    ((s32 (*)())func_8005E79C)(D_80072970(), a1);
+void PadSetActAlign(void *a0, void *a1) {
+    ((s32 (*)())_padSetActAlign)(D_80072970(), a1);
 }
 
 extern void* (*D_80072970)(void);
 
-void func_8005D4F0(s32 arg0, s32 arg1, s32 arg2) {
-    func_8005E8E8(D_80072970(), (u8)arg1, (u8)arg2);
+void PadSetMainMode(s32 arg0, s32 arg1, s32 arg2) {
+    _padSetMainMode(D_80072970(), (u8)arg1, (u8)arg2);
 }
 
 extern void* (*D_80072970)(void);
 
-void func_8005D538(s32 arg0, void *arg1, s32 arg2) {
-    func_8005E188(D_80072970(), arg1, arg2);
+void PadSetAct(s32 arg0, void *arg1, s32 arg2) {
+    _padSetAct(D_80072970(), arg1, arg2);
 }
 __asm__("nop\nnop\n");
 
@@ -505,7 +505,7 @@ __asm__("nop\nnop\n");
 
 
 
-u32 func_8005D588(u32 arg0) {
+u32 PadEnableCom(u32 arg0) {
 
     extern void (*D_80072960)(void *);
     extern u32 D_80072994;
@@ -546,7 +546,7 @@ u32 func_8005D588(u32 arg0) {
     return ret;
 }
 
-void func_8005D6A0(void) {
+void _padSetVsyncParam(void) {
     extern s32 D_8007898C;
     extern void func_8005D734(void);
     extern void func_8005D6CC(void);
@@ -588,7 +588,7 @@ extern s32 D_800729C4;
 asm(
     ".section .text\n"
     ".set noreorder\n"
-    "func_8005D8A0:\n"
+    "_padChkVsync:\n"
     "lui $v0, %hi(D_800729C4)\n"
     "lw $v0, %lo(D_800729C4)($v0)\n"
     "lui $at, %hi(D_800729C4)\n"
@@ -596,11 +596,11 @@ asm(
     "sw $zero, %lo(D_800729C4)($at)\n"
     ".set reorder\n");
 
-s32 func_8005D8A0(void);
+s32 _padChkVsync(void);
 
 
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D8B4);
+INCLUDE_ASM("asm/nonmatchings/800c3", _padStartCom);
 
 extern void func_8005CF08(void);
 extern void func_8005CF18(void);
@@ -608,7 +608,7 @@ extern s32 ChangeClearRCnt(s32 intr, s32 mode);
 extern s32 SysDeqIntRP(s32 priority, void *intr);
 extern unsigned char D_80078988[];
 
-void func_8005D980(void)
+void _padStopCom(void)
 {
     func_8005CF08();
     ChangeClearRCnt(3, 1);
@@ -616,14 +616,14 @@ void func_8005D980(void)
     func_8005CF18();
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005D9C4);
+INCLUDE_ASM("asm/nonmatchings/800c3", _padInitSioMode);
 
 extern s32 D_800729A0;
 extern s32 (*D_800729E0[])();
 extern s32 (*D_8007295C)();
 
-s32 func_8005E0AC(void);
-void func_8005FBA8(s32 a0);
+s32 _padClrIntSio0(void);
+void setRC2wait(s32 a0);
 
 void func_8005DBD8(void) {
     s32 (*fp)();
@@ -638,8 +638,8 @@ void func_8005DBD8(void) {
     ret = fp();
     if (ret >= 0) {
         if (D_800729A0 != 0) {
-            func_8005FBA8(0x3C);
-            if (func_8005E0AC() == 0) {
+            setRC2wait(0x3C);
+            if (_padClrIntSio0() == 0) {
                 (*D_8007295C)(-3);
             }
         }
@@ -657,9 +657,9 @@ extern s32 *D_800729C0;
 extern volatile s32 D_80078F24;
 extern volatile s32 D_800C5320;
 
-s32 func_8005FBC8(void);
+s32 chkRC2wait(void);
 
-s32 func_8005DCA0(s32 ctx, s32 cmd) {
+s32 _padSioRW(s32 ctx, s32 cmd) {
     u8 tmp;
     s32 first;
     u16 t;
@@ -677,7 +677,7 @@ s32 func_8005DCA0(s32 ctx, s32 cmd) {
         if ((*(volatile u16 *)((s8 *)D_800729C0 + 0x4) & 1) == 0) {
             do {} while ((*(volatile u16 *)((s8 *)D_800729C0 + 0x4) & 1) == 0);
         }
-        while (func_8005FBC8() == 0) {}
+        while (chkRC2wait() == 0) {}
         {
             register u8 nv __asm__("$2");
             nv = ~cmd;
@@ -706,7 +706,7 @@ s32 func_8005DCA0(s32 ctx, s32 cmd) {
         first = tmp;
         if ((*ptr & 0x80) == 0) {
             do {
-                if (func_8005FBC8() != 0) {
+                if (chkRC2wait() != 0) {
                     goto err;
                 }
             } while ((*D_800729BC & 0x80) == 0);
@@ -727,13 +727,13 @@ err:
 }
 
 
-/* func_8005DE78 — libcd command issue with a root-counter-1 timeout spin.
- * Structure is func_8005DCA0's (same TU) with func_8005FBC8's body INLINED as the
+/* _padSioRW2 — libcd command issue with a root-counter-1 timeout spin.
+ * Structure is _padSioRW's (same TU) with chkRC2wait's body INLINED as the
  * loop test; the four levers that closed it:
  *   1. `u8 tmp; s32 first; tmp = *(volatile u8 *)p; first = tmp;` — the volatile QI
  *      load blocks combine from folding the u8->s32 promotion into the lbu, so the
  *      zero-extend survives as its own `andi $s2,$v0,0xFF` (same idiom that produces
- *      `andi $v1,$v0,0xFFFF` after the 0x1F801120 lhu in banked func_8005FBC8).
+ *      `andi $v1,$v0,0xFFFF` after the 0x1F801120 lhu in banked chkRC2wait).
  *   2. `if (A || B) {store t} else {store 0x22}` — do_jump's TRUTH_ORIF drop-through
  *      label puts the `t` arm as the fall-through; the `&&` spelling swaps the arms.
  *   3. The 0xE store is VOLATILE: reorg's resource_conflicts_p returns 1 whenever
@@ -753,10 +753,10 @@ extern volatile s32 D_80078F24;
 extern volatile s32 D_800C5320;
 extern s32 D_800729A0;
 
-void func_8005FBA8(s32 a0);
-s32 func_8005FBC8(void);
+void setRC2wait(s32 a0);
+s32 chkRC2wait(void);
 
-s32 func_8005DE78(s32 ctx, s32 cmd) {
+s32 _padSioRW2(s32 ctx, s32 cmd) {
     u8 tmp;
     s32 first;
     u16 t;
@@ -773,7 +773,7 @@ s32 func_8005DE78(s32 ctx, s32 cmd) {
         t = 0x22;
     }
     do {} while ((*(volatile u16 *)((s8 *)D_800729C0 + 0x4) & 2) == 0);
-    func_8005FBA8(0x190);
+    setRC2wait(0x190);
     tmp = *(volatile u8 *)D_800729C0;
     first = tmp;
     if (*(u8 *)(ctx + 0x44) != 0 || (first >> 4) != 8) {
@@ -806,8 +806,8 @@ s32 func_8005DE78(s32 ctx, s32 cmd) {
         } while ((*D_800729BC & 0x80) == 0);
     }
     if (*(u8 *)(ctx + 0xE8) != 8 && D_800729A0 == 2) {
-        func_8005FBA8(0x3C);
-        while (func_8005FBC8() == 0) {}
+        setRC2wait(0x3C);
+        while (chkRC2wait() == 0) {}
     }
     *(u8 *)D_800729C0 = cmd;
     *(u8 *)(ctx + 0x45) += 1;
@@ -823,9 +823,9 @@ s32 func_8005DE78(s32 ctx, s32 cmd) {
 extern s32 *D_800729BC;
 extern s32 *D_800729C0;
 
-s32 func_8005FBC8(void);
+s32 chkRC2wait(void);
 
-s32 func_8005E0AC(void) {
+s32 _padClrIntSio0(void) {
     s32 *ptr1 = D_800729BC;
     s32 *ptr2;
     u16 v1_val;
@@ -835,7 +835,7 @@ s32 func_8005E0AC(void) {
         *ptr1 = -0x81;
         if ((*(u16 *)((s8 *)pre_ptr2 + 0x4) & 0x80) != 0) {
             do {
-                if (func_8005FBC8() != 0) {
+                if (chkRC2wait() != 0) {
                     return 0;
                 }
             } while ((*(u16 *)((s8 *)D_800729C0 + 0x4) & 0x80) != 0);
@@ -854,7 +854,7 @@ extern s32 *D_800729C0;
 
 extern s32 *D_800729C0;
 
-void func_8005E13C(void) {
+void _padWaitRXready(void) {
     s32 *ptr;
 
     ptr = D_800729C0;
@@ -863,7 +863,7 @@ void func_8005E13C(void) {
         ;
 }
 
-/* The word at 0x8005E164 is an orphan inter-function pad: func_8005E13C's own
+/* The word at 0x8005E164 is an orphan inter-function pad: _padWaitRXready's own
  * .size is 0x28 (ends 0x8005E164) but SysEnqIntRP (config/symbols.us.txt) is
  * fixed at 0x8005E168 — a 4-byte gap belonging to neither function. It is
  * currently supplied by the INCLUDE_ASM stub's own verbatim .s inclusion;
@@ -897,12 +897,12 @@ __asm__(
     "nop\n"
 );
 
-void func_8005E188(s32 arg0, s32 arg1, s8 arg2) {
+void _padSetAct(s32 arg0, s32 arg1, s8 arg2) {
     *(s32*)(arg0 + 0x28) = arg1;
     *(u8*)(arg0 + 0x34) = arg2;
 }
 
-void func_8005E194(void *arg0, u8 arg1, u32 arg2, u8 arg3) {
+void _padSetCmd(void *arg0, u8 arg1, u32 arg2, u8 arg3) {
     *(u8 *)((u8 *)arg0 + 0x36) = arg1;
     *(u32 *)((u8 *)arg0 + 0x2C) = arg2;
     *(u8 *)((u8 *)arg0 + 0x35) = arg3;
@@ -912,7 +912,7 @@ extern void func_8005EA54();
 extern void func_8005EA68(void *arg0, s32 arg1);
 extern void func_8005EAA8(void *arg0, s32 arg1);
 
-void func_8005E1A4(void *arg0) {
+void _padSendAtLoadInfo(void *arg0) {
     switch (*(u8 *)((u8 *)arg0 + 0x46)) {
     case 2:
         func_8005EA54(arg0);
@@ -949,10 +949,10 @@ typedef struct {
     /* 0xEC */ u32 wEC;
 } Ctx_8005E228;
 
-s32 func_8005E374();
-s32 func_8005E3AC();
+s32 _padGetActSize();
+s32 _padLoadActInfo();
 
-s32 func_8005E228(Ctx_8005E228 *s) {
+s32 _padRecvAtLoadInfo(Ctx_8005E228 *s) {
     u8 t;
     switch (s->b46) {
     case 2:
@@ -973,12 +973,12 @@ s32 func_8005E228(Ctx_8005E228 *s) {
         if (t < s->bEA) {
             return 0;
         }
-        if (func_8005E374(s) >= 0x81) {
+        if (_padGetActSize(s) >= 0x81) {
             s->b46 = 0xFE;
             s->b49 = 2;
         } else {
             s->b46 = 0xFF;
-            ((s32 (*)())func_8005E3AC)(s, (u8 *)s + 0x63);
+            ((s32 (*)())_padLoadActInfo)(s, (u8 *)s + 0x63);
             s->b46 = 2;
         }
         return 0;
@@ -987,7 +987,7 @@ s32 func_8005E228(Ctx_8005E228 *s) {
 }
 
 
-s32 func_8005E374(u8 *a0) {
+s32 _padGetActSize(u8 *a0) {
     s32 t = ((a0[0xE3] + 1) / 2) * 4;
     s32 m = (((a0[0xE9] * 5) + 3) & 0xFFC) + 4;
     return t + m + *(u32 *)(a0 + 0xEC);
@@ -999,7 +999,7 @@ extern s32 (*D_80072978)(void);
 extern void func_8005E480(void *arg0);
 extern s32 func_8005E528(Ctx *s);
 
-s32 func_8005E3AC(Ctx *s, s32 size) {
+s32 _padLoadActInfo(Ctx *s, s32 size) {
     register s32 ret __asm__("$2");
     register s32 t __asm__("$5");
     s32 tmp;
@@ -1142,7 +1142,7 @@ s32 func_8005E528(Ctx *s) {
 extern void func_8005E804(u8 *arg0);
 extern s32 func_8005E820(void *a0);
 
-s32 func_8005E79C(void *a0, void *a1) {
+s32 _padSetActAlign(void *a0, void *a1) {
 extern s32 (*D_80072978)(void);
     s32 v0 = ((s32 (*)(void *, void *))D_80072978)(a0, a1);
     if (v0 != 0)
@@ -1218,7 +1218,7 @@ s32 func_8005E820(void *a0)
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005E8E8);
+INCLUDE_ASM("asm/nonmatchings/800c3", _padSetMainMode);
 
 void func_8005E980(void)
 {
@@ -1253,9 +1253,9 @@ s32 func_8005E9D4(s32 a0)
     return 0;
 }
 
-extern void func_8005EA34(void *arg0, s32 arg1);
+extern void _padCmdParaMode(void *arg0, s32 arg1);
 
-void func_8005EA34(void *arg0, s32 arg1) {
+void _padCmdParaMode(void *arg0, s32 arg1) {
     *(u8 *)((u8 *)arg0 + 0x36) = 0x43;
     *(s32 *)((u8 *)arg0 + 0x2C) = (s32)((u8 *)arg0 + 0x24);
     *(u8 *)((u8 *)arg0 + 0x24) = arg1;
@@ -1301,11 +1301,11 @@ __asm__(".text\n\tnop\n\tnop\n\tnop\n");
 extern void (*D_80072974)(void *);
 extern u32 D_800729DC;
 
-s32 func_8005DCA0(s32 ctx, s32 cmd);
+s32 _padSioRW(s32 ctx, s32 cmd);
 
 void func_8005EAE8(void *arg0) {
     D_800729DC = ((s32 (*)(void *))D_80072974)(arg0);
-    func_8005DCA0((s32)arg0, -2);
+    _padSioRW((s32)arg0, -2);
 }
 
 /*
@@ -1356,9 +1356,9 @@ void func_8005EB28(void *param_1) {
         D_80072974((void *)(*(s32 *)((u8 *)param_1 + 0xC) + 0xF0));
     }
     if (*(volatile u8 *)((u8 *)param_1 + 0x36) == 0) {
-        func_8005DE78((s32)param_1, 0x42);
+        _padSioRW2((s32)param_1, 0x42);
     } else {
-        func_8005DE78((s32)param_1, *(u8 *)((u8 *)param_1 + 0x36));
+        _padSioRW2((s32)param_1, *(u8 *)((u8 *)param_1 + 0x36));
     }
 }
 
@@ -1385,7 +1385,7 @@ void func_8005EB28(void *param_1) {
  *       if (*(u8 *)((char *)arg0 + 0x36) == 0) {
  *           a1 = D_800729A8;
  *       }
- *       v1 = func_8005DE78(arg0, a1);
+ *       v1 = _padSioRW2(arg0, a1);
  *       if (v1 < 0) {
  *           return v1;
  *       }
@@ -1424,7 +1424,7 @@ void func_8005EB28(void *param_1) {
  *       if (*(u8 *)((char *)arg0 + 0x36) == 0) {
  *           a1 = D_800729A8;
  *       }
- *       v1 = func_8005DE78(arg0, a1);
+ *       v1 = _padSioRW2(arg0, a1);
  *       if (v1 < 0) {
  *           return v1;
  *       }
@@ -1461,7 +1461,7 @@ s32 func_8005EC00(void *arg0) {
         a1 = D_800729A8;
     }
 
-    v1 = func_8005DE78((s32)arg0, a1);
+    v1 = _padSioRW2((s32)arg0, a1);
     if (v1 < 0) {
         return v1;
     }
@@ -1493,7 +1493,7 @@ INCLUDE_ASM("asm/nonmatchings/800c3", func_8005ECC0);
  */
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005ED4C);
 
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F0C8);
+INCLUDE_ASM("asm/nonmatchings/800c3", PadInitDirect);
 
 void func_8005F228(void *arg0) {
     u8 *p;
@@ -1619,9 +1619,9 @@ __asm__(".word 0x00000000\n");
 __asm__(
     ".text\n"
     ".align\t2\n"
-    ".globl\tfunc_8005F728\n"
-    ".ent\tfunc_8005F728\n"
-    "func_8005F728:\n"
+    ".globl\t_padInitDirSeq\n"
+    ".ent\t_padInitDirSeq\n"
+    "_padInitDirSeq:\n"
     ".set\tnoreorder\n"
     "lui   $v0, %hi(func_8005F75C)\n"
     "addiu $v0, $v0, %lo(func_8005F75C)\n"
@@ -1637,12 +1637,12 @@ __asm__(
     "jr    $ra\n"
     "sw    $v0, %lo(D_8007297C)($at)\n"
     ".set\treorder\n"
-    ".end\tfunc_8005F728\n"
+    ".end\t_padInitDirSeq\n"
 );
 
 
-extern void func_8005EA34(void *arg0, s32 arg1);
-extern void func_8005E1A4(void *arg0);
+extern void _padCmdParaMode(void *arg0, s32 arg1);
+extern void _padSendAtLoadInfo(void *arg0);
 
 s32 func_8005F75C(void *arg0) {
     void *v0;
@@ -1676,11 +1676,11 @@ s32 func_8005F75C(void *arg0) {
     goto L8005F7F8;
 
 L8005F7D8:
-    func_8005EA34(arg0, 1);
+    _padCmdParaMode(arg0, 1);
     goto L8005F820;
 
 L8005F7E8:
-    func_8005EA34(arg0, 0);
+    _padCmdParaMode(arg0, 0);
     goto L8005F820;
 
 L8005F7F8:
@@ -1691,7 +1691,7 @@ L8005F7F8:
             goto L8005F820;
         }
     }
-    func_8005E1A4(arg0);
+    _padSendAtLoadInfo(arg0);
 
 L8005F820:
     return 0;
@@ -1699,12 +1699,12 @@ L8005F820:
 
 INCLUDE_ASM("asm/nonmatchings/800c3", func_8005F830);
 
-/* func_8005FA94 — cookbook §265 VERBATIM-ASM bank (file-scope form), generated by
- * tools/asm_verbatim.py from asm/nonmatchings/800c3/func_8005FA94.s.
+/* _dirFailAuto — cookbook §265 VERBATIM-ASM bank (file-scope form), generated by
+ * tools/asm_verbatim.py from asm/nonmatchings/800c3/_dirFailAuto.s.
  * Byte-equivalent to the INCLUDE_ASM stub by construction; the function is NOT
  * decompiled (§265 ACCOUNTING). Immediates/offsets are decimal for maspsx (§383).
  */
-INCLUDE_ASM("asm/nonmatchings/800c3", func_8005FA94);
+INCLUDE_ASM("asm/nonmatchings/800c3", _dirFailAuto);
 
 s32 func_8005FB70(void *arg0) {
     register s32 ff __asm__("$2");
@@ -1725,9 +1725,9 @@ __asm__(".nop\n.nop\n.nop");
 __asm__(
     ".text\n"
     ".align\t2\n"
-    ".globl\tfunc_8005FBA8\n"
-    ".ent\tfunc_8005FBA8\n"
-    "func_8005FBA8:\n"
+    ".globl\tsetRC2wait\n"
+    ".ent\tsetRC2wait\n"
+    "setRC2wait:\n"
     ".set\tnoreorder\n"
     "lui   $v0, 0x1F80\n"
     "ori   $v0, $v0, 0x1120\n"
@@ -1738,14 +1738,14 @@ __asm__(
     "jr    $ra\n"
     "sw    $v0, %lo(D_80078F24)($at)\n"
     ".set\treorder\n"
-    ".end\tfunc_8005FBA8\n"
+    ".end\tsetRC2wait\n"
 );
 
 
 extern volatile s32 D_80078F24;
 extern volatile s32 D_800C5320;
 
-s32 func_8005FBC8(void) {
+s32 chkRC2wait(void) {
     u16 val1;
     s32 a0;
     u16 status;

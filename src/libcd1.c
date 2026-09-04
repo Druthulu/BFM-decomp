@@ -2,7 +2,7 @@
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", StSetRing);
 
-INCLUDE_ASM("asm/nonmatchings/libcd1", DecDCToutCallback);
+INCLUDE_ASM("asm/nonmatchings/libcd1", CdGetToc);
 
 INCLUDE_ASM("asm/nonmatchings/libcd1", func_800430DC);
 

@@ -32,6 +32,31 @@ from psyq_link import recover_sym_addrs, AS, sh, DATA_SECTIONS
 from psyq_link_region import classify, placement
 
 
+def stub_ranges(yaml_path, stubs, vram_base):
+    """{stub_name: [vram_lo, vram_hi)} for the named code subsegs of a splat yaml (vram = fileoff + vram_base;
+    a subseg ends where the next subseg row begins). Loud on a stub the yaml does not name (R43)."""
+    import yaml as _yaml
+    y = _yaml.safe_load(open(yaml_path))
+    rows = []
+    for seg in y["segments"]:
+        if isinstance(seg, dict) and "subsegments" in seg:
+            for r in seg["subsegments"]:
+                if isinstance(r, list) and len(r) >= 3:
+                    rows.append((int(r[0]), str(r[2])))
+                elif isinstance(r, list) and len(r) == 1:
+                    rows.append((int(r[0]), None))
+    rows.sort()
+    out = {}
+    for i, (off, name) in enumerate(rows):
+        if name in stubs:
+            end = rows[i + 1][0] if i + 1 < len(rows) else off
+            out[name] = (off + vram_base, end + vram_base)
+    missing = [st for st in stubs if st not in out]
+    if missing:
+        sys.exit(f"integrate: stub subseg(s) {missing} not found in {yaml_path}")
+    return out
+
+
 def contiguous_blocks(order):
     """Split vram-ordered objects into contiguous runs (a non-library gap starts a new block)."""
     blocks, cur, end = [], [], None
@@ -67,9 +92,24 @@ def trial_undefined(ld_path, extra_syms=None):
 
 
 def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
-              *, vram_base, exe_path, symbols_path):
+              *, vram_base, exe_path, symbols_path, yaml_path=None):
     exe = open(exe_path, "rb").read()
     order = sorted(placement(elf_dir, lo, hi, vram_base, exe_path).items(), key=lambda kv: kv[1][0])
+    if yaml_path:
+        # P31 S78: the fixed psyq_identify (§485) locates objects inside subsegs that are NOT this
+        # library's stub blocks (e.g. libgte's FGO_01-06 fill the 800b_5 "game code" gap exactly), and
+        # contiguous_blocks() then MERGES adjacent blocks -> "3 object blocks but 22 stubs" -> the whole
+        # main link dies. Placement is not the same thing as wiring: only objects inside the stub subsegs
+        # named on this call are wired; the others are the LINKED RESIDUE and are printed, not swallowed
+        # (the completion contract's "residue empties" line reads exactly this).
+        ranges = stub_ranges(yaml_path, stubs, vram_base)
+        residue = [(nm, v, n) for nm, (v, n) in order if not any(a <= v < b for a, b in ranges.values())]
+        order = [(nm, vn) for nm, vn in order if any(a <= vn[0] < b for a, b in ranges.values())]
+        if residue:
+            print(f"  ~~ {len(residue)} located object(s) / {sum(n for _, _, n in residue)} ins OUTSIDE the "
+                  f"stub subsegs of {os.path.basename(elf_dir)} — byte-placed but NOT wired (LINKED residue):")
+            for nm, v, n in residue:
+                print(f"     0x{v:08X} {nm:14s} {n:5d} ins")
     recovered, weaken_by, bases_by = {}, {}, {}
     for name, (vram, _) in order:
         bases, weaken, sym_addr = classify(os.path.join(elf_dir, name), vram, exe, vram_base)
@@ -79,19 +119,72 @@ def integrate(elf_dir, ld_path, objdir, syms_path, stubs, lo=None, hi=None,
                 recovered[s] = a
 
     # 1. prepare objects (persistent)
+    # P31 S78 — CURATED NAMES WIN (R15) FOR A LIBRARY OBJECT'S *DEFINED* SYMBOLS TOO. A 4.0 object can
+    # export a name that the EXE's newer library assigned to a DIFFERENT address: libapi 4.0's A66.o
+    # exports `firstfile` (0x80062248), but the EXE links libapi 4.2, where that trampoline is
+    # `firstfile2` and `firstfile` is FIRST.o's C wrapper at 0x80061FA8 (LIBMCRD.o's `jal` word
+    # EA87010C targets 0x80061FA8 — the bytes say so). Once 0x80061FA8 carries its real name in C, the
+    # two object definitions collide at link. So: every symbol an object DEFINES whose recovered
+    # address the curated symbol file names differently is `--redefine-sym`'d to the curated name.
+    # Safe by construction: another object's reference to the OLD name is then undefined at the trial
+    # link and resolves through `recovered` to the address its own relocation bytes encode.
+    curated_by_addr = {}
+    for ln in open(symbols_path):
+        m = re.match(r"(\w+)\s*=\s*0x([0-9A-Fa-f]+)", ln)
+        if m:
+            curated_by_addr.setdefault(int(m.group(2), 16), m.group(1))
     os.makedirs(objdir, exist_ok=True)
-    for name, _ in order:
+    for name, (vram, _) in order:
         args = []
         for S in (".text",) + DATA_SECTIONS:
             args += ["--set-section-alignment", f"{S}=4"]
         for w in weaken_by[name]:
             args += ["--weaken-symbol", w]
+        defined = subprocess.run([f"{AS}nm", "--defined-only", os.path.join(elf_dir, name)],
+                                 capture_output=True, text=True).stdout
+        for dl in defined.splitlines():
+            parts = dl.split()
+            if len(parts) == 3 and parts[1] in "TtDdRrBb" and not parts[2].startswith("."):
+                sym = parts[2]
+                # a .text symbol's EXE address = object vram + its section offset (nm prints the offset)
+                addr = vram + int(parts[0], 16) if parts[1] in "Tt" else recovered.get(sym)
+                cn = curated_by_addr.get(addr) if addr is not None else None
+                if cn and cn != sym:
+                    args += ["--redefine-sym", f"{sym}={cn}"]
+                    print(f"  == {name}: exported `{sym}` @0x{addr:08X} is curated `{cn}` -> redefined (R15)")
         sh(f"{AS}objcopy", *args, os.path.join(elf_dir, name), os.path.join(objdir, name))
 
-    blocks = contiguous_blocks(order)
-    if len(blocks) != len(stubs):
-        sys.exit(f"integrate: {len(blocks)} object blocks but {len(stubs)} stub(s) given "
-                 f"({[len(b) for b in blocks]} objs/block)")
+    if yaml_path:
+        # Stub<->objects by SUBSEG RANGE (P31 S78), not by run-contiguity: two adjacent stub subsegs are
+        # one contiguous byte run (libgte2..libgte7 touch), and the fixed psyq_identify reports section
+        # words incl. the alignment pad, so contiguity-splitting can no longer reproduce the yaml's blocks.
+        # Each stub must be tiled EXACTLY by its objects (first at lo, each abutting, last ending at hi
+        # up to the 8-byte section alignment) — anything else is a carve error and fails loud (R43).
+        by_stub = {st: [] for st in stubs}
+        for nm, (v, n) in order:
+            for st, (a, b) in ranges.items():
+                if a <= v < b:
+                    by_stub[st].append((nm, v, n))
+        blocks = []
+        for st in stubs:
+            objs = sorted(by_stub[st], key=lambda t: t[1])
+            a, b = ranges[st]
+            if not objs:
+                sys.exit(f"integrate: stub subseg '{st}' [0x{a:08X},0x{b:08X}) has NO located object")
+            cur = a
+            for nm, v, n in objs:
+                if v != cur:
+                    sys.exit(f"integrate: stub '{st}' not tiled — expected an object at 0x{cur:08X}, "
+                             f"found {nm} at 0x{v:08X}")
+                cur = v + n * 4
+            if not (b - 8 < cur <= b):
+                sys.exit(f"integrate: stub '{st}' ends at 0x{b:08X} but its objects end at 0x{cur:08X}")
+            blocks.append(objs)
+    else:
+        blocks = contiguous_blocks(order)
+        if len(blocks) != len(stubs):
+            sys.exit(f"integrate: {len(blocks)} object blocks but {len(stubs)} stub(s) given "
+                     f"({[len(b) for b in blocks]} objs/block)")
 
     # 2. rewrite the linker script
     ld = open(ld_path).read()
@@ -215,11 +308,14 @@ def main():
     ap.add_argument("--exe", required=True, help="target binary path")
     ap.add_argument("--symbols", required=True,
                     help="symbol-address file for stub-name->address resolution")
+    ap.add_argument("--yaml", default=None,
+                    help="splat yaml of the target binary: wire ONLY objects inside the named stub subsegs; "
+                         "print the rest as the LINKED residue (P31 S78)")
     a = ap.parse_args()
     lo = a.window[0] if len(a.window) > 0 else None
     hi = a.window[1] if len(a.window) > 1 else None
     integrate(a.elf_dir, a.ld_path, a.objdir, a.syms_ld, a.stubs.split(","), lo, hi,
-              vram_base=int(a.vram_base, 0), exe_path=a.exe, symbols_path=a.symbols)
+              vram_base=int(a.vram_base, 0), exe_path=a.exe, symbols_path=a.symbols, yaml_path=a.yaml)
 
 
 if __name__ == "__main__":

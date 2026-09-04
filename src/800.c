@@ -5700,8 +5700,8 @@ extern u8 D_80078D98;
 extern u32 D_800AE610;
 extern u8 D_80078DA0;
 extern void ResetCallback(void);
-extern void func_8005F0C8(void *a0, void *a1);
-extern void func_8005D0F8(void);
+extern void PadInitDirect(void *a0, void *a1);
+extern void PadStartCom(void);
 
 void func_80018918(void) {
     u8 *p;
@@ -5720,8 +5720,8 @@ void func_80018918(void) {
     } while (i < 2);
     func_80018FC8();
     ResetCallback();
-    func_8005F0C8(&D_80078DA0, &D_80078DA0 + 0x4C);
-    func_8005D0F8();
+    PadInitDirect(&D_80078DA0, &D_80078DA0 + 0x4C);
+    PadStartCom();
 }
 
 extern s32 func_80018A20(s32 arg0);
@@ -5760,10 +5760,10 @@ extern u8 D_80062BBD;
 extern u8 D_800747B8;
 extern u8 D_800747B9;
 
-extern s32 func_8005D184(s32);
-extern s32 func_8005D244(s32, s32, s32);
-extern void func_8005D4B8(s32, void*);
-extern void func_8005D538(s32, void*, s32);
+extern s32 PadGetState(s32);
+extern s32 PadInfoMode(s32, s32, s32);
+extern void PadSetActAlign(s32, void*);
+extern void PadSetAct(s32, void*, s32);
 extern s32 func_80028D58(void);
 extern void func_80018F88(void*);
 extern void func_80018FC8(void);
@@ -5783,7 +5783,7 @@ s32 func_80018A20(s32 arg0) {
         break;
     }
 
-    switch (func_8005D184(chan)) {
+    switch (PadGetState(chan)) {
     case 0:
         if (arg0 == 0) {
             if (D_800AE610++ >= 10) {
@@ -5801,7 +5801,7 @@ s32 func_80018A20(s32 arg0) {
             return 1;
         }
         D_800AE610 = 0;
-        if (func_8005D244(chan, 2, 0) != 0) {
+        if (PadInfoMode(chan, 2, 0) != 0) {
             return 1;
         }
         if (func_80028D58() == 0) {
@@ -5815,8 +5815,8 @@ s32 func_80018A20(s32 arg0) {
         } else {
             func_80018FC8();
         }
-        func_8005D538(chan, &D_80062BBC, 2);
-        func_8005D4B8(chan, &D_80062BAC);
+        PadSetAct(chan, &D_80062BBC, 2);
+        PadSetActAlign(chan, &D_80062BAC);
         return 1;
 
     case 6:
@@ -5824,7 +5824,7 @@ s32 func_80018A20(s32 arg0) {
             return 1;
         }
         D_800AE610 = 0;
-        if (func_8005D244(chan, 2, 0) == 0) {
+        if (PadInfoMode(chan, 2, 0) == 0) {
             return 1;
         }
         if (func_80028D58() == 0) {
@@ -5835,8 +5835,8 @@ s32 func_80018A20(s32 arg0) {
         } else {
             func_80018FC8();
         }
-        func_8005D538(chan, &D_800747B8, 2);
-        func_8005D4B8(chan, &D_80062BB4);
+        PadSetAct(chan, &D_800747B8, 2);
+        PadSetActAlign(chan, &D_80062BB4);
         return 1;
     }
 }
@@ -8852,7 +8852,7 @@ extern void DrawSyncCallback(s32);
 extern void func_80059234(s32);
 extern void func_80059658(s32);
 extern int VSync(int mode);
-extern void func_8005D118(void);
+extern void PadStopCom(void);
 extern void StopRCnt(void);
 extern void func_80043300(void);
 extern void ResetCallback(void);
@@ -8867,7 +8867,7 @@ void func_8001BDA0(void) {
     VSync(0);
     func_800596F4(0);
     func_80059234(3);
-    func_8005D118();
+    PadStopCom();
     StopRCnt();
     func_80043300();
     ResetCallback();

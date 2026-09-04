@@ -643,3 +643,15 @@ library code sat as verbatim asm for twenty-odd phases.
 **Would-have-sped-up-earlier-work verdict.** None of these needed a new technique or a better model.
 All three are self-assertions a tool can make about its own output in under five minutes of code,
 and each was worth thousands of instructions the moment it was added.
+
+## S78 — the loader shipped the answer key: per-version SDK signatures name library bands you cannot link
+
+`ghidra_psx_ldr/data/psyq/<ver>/<LIB>.LIB.json` — masked signatures + labels per object, 2.6 → 4.7 —
+sat on disk since Phase 1. Regexed over the EXE bytes it names the library, the version and every
+function of a band **without the `.LIB`**, and it would have settled main's `800c3` band (LIBPAD
+4.2.1: twelve "wall" stubs, four §332 verdicts) in Phase 8, the day the 4.2 stamps were first read.
+Accelerator: **before calling a band a compiler wall, score every signature set you have against it;
+the version that places the most objects byte-exact is the linked one.** Second, cheaper lesson: the
+gates only ever built main WITHOUT the SDK objects (worktrees carry no `.run/obj40`), so the LINKED
+path was never gated — `make build BINARY=main` in the real tree is the only check of it; run it
+after any change to `psyq_identify`/`psyq_integrate`.

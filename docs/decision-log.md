@@ -3063,3 +3063,40 @@ five minutes to add that check is repaid the first time the tool is wrong and so
 **Also recorded:** a yield table is evidence; a story about WHY the yield looks that way is a
 hypothesis and needs its own negative control before it enters the cookbook, because the next session
 will act on it (§479's three versions).
+
+## S78 (2026-09-04) — the completion sprint is chartered on a census, and main's "wall" band turned out to be Sony's controller library
+
+**Context and belief going in.** Drew asked the direct question: what actually remains, are the
+waves done, is the rest tooling? The working belief from S77 was that main's residual stubs were
+compiler-wall work (§332 "%lo in a delay slot", §474 wall-proofs) — genuine codegen the pinned cc1
+cannot reproduce from C.
+
+**What was measured.** Fleet: 51 stubs / 7,710 ins of 13.5 M (0.06%), every one classified by its
+true blocker (`frontier_classify`); 180 verbatim bodies of which only ~9 are Square's or the CRT's
+own asm; 5,827 ins of located-but-unlinked SDK objects sitting in subsegs labelled "game code"; five
+unclaimed disc payloads. No class needs an agent wave. Then the provenance probe: the psx loader's
+per-version PsyQ signature sets (never used before) place the `800c3` band byte-exact as **LIBPAD
+4.2.1 + LIBAPI 4.2** — twelve of main's twenty-nine stubs, including all four §332 walls, are Sony's
+DualShock library assembled in reorder mode, not game code. PsyQ 4.0 (the archive we link from) has
+no LIBPAD; 4.6/4.7 differ except one object. The 4.2/4.2.1x `Ps` stamps identified in Phase 1 were
+these two libraries all along.
+
+**The pivot.** The finish is ordered around provenance and plumbing, not cracking: name the band
+(#12, done: 46 names, Ghidra-mirrored), wire every placed-but-unwired SDK object (#3/#4 — the
+residue the build now prints), hunt a 4.2.1/4.3 LIBPAD.LIB (#13) and otherwise finish the band as C
+under the reorder island with real names (#5), then the mechanical/plumbing/near classes, the ~22
+genuine redrafts as single journal-noted agents, the verbatim end-state, and the PhaseEnd.
+
+**What the first task exposed.** Main's LINKED build had been RED at HEAD since the S77
+`psyq_identify` fix (§485): newly-located in-gap objects merged libgte's 22 stub blocks into 3.
+It read green at the gates because worktree gates have no `.run/obj40` and take the stub fallback —
+the dual "with AND without SDK objects" invariant was only ever verified by hand. Fixed by wiring
+stub↔objects by subseg range (+ exact tiling) and by redefining a library object's exported symbol
+to the curated name (`firstfile`/`firstfile2`, which also caught a Phase-21 xdedup mislabel at
+0x800430B8). And a rename hazard: verbatim `__asm__` bodies spell `\tfunc_X`, invisible to a `\b`
+regex and to the string-masking linter — the linter now scans asm bodies (negative-controlled).
+
+**Hindsight.** The signature JSONs were on disk since Phase 1; one afternoon with them in Phase 8
+would have named the band, explained the 4.2 stamps, and kept the §332 wall verdicts from ever being
+written. General form (now cookbook §487): a wall inside bytes no archive you hold can place is a
+provenance question before it is a compiler question.

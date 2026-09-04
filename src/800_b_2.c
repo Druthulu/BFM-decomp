@@ -6648,7 +6648,7 @@ extern s32 D_80076114;
 extern u8 D_80076214;
 extern s32 D_80078F10;
 extern void D_800C7D30();
-extern int DecDCToutCallback(void (*func)());
+extern int CdGetToc(void (*func)());
 extern s32 D_800A5BC8;
 extern s32 D_800C6D28;
 
@@ -6676,7 +6676,7 @@ void func_80034C24(void) {
         p[i] = 0;
     }
 
-    D_800A5BC8 = DecDCToutCallback(D_800C7D30);
+    D_800A5BC8 = CdGetToc(D_800C7D30);
     D_800C6D28 = 0;
 }
 

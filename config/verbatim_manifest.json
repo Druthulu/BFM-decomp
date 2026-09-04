@@ -1574,7 +1574,7 @@
   },
   {
    "binary": "main",
-   "fn": "func_8005D33C",
+   "fn": "PadInfoAct",
    "addr": "0x8005d33c",
    "nins": 53,
    "cls": "SDK-C-REORDER",
@@ -1582,11 +1582,11 @@
    "unit_entry": "func_8005d33c",
    "unit_nins": 53,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005D410",
+   "fn": "PadInfoComb",
    "addr": "0x8005d410",
    "nins": 42,
    "cls": "SDK-C-REORDER",
@@ -1594,11 +1594,11 @@
    "unit_entry": "func_8005d410",
    "unit_nins": 42,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005D4B8",
+   "fn": "PadSetActAlign",
    "addr": "0x8005d4b8",
    "nins": 14,
    "cls": "SDK-C-REORDER",
@@ -1606,11 +1606,11 @@
    "unit_entry": "func_8005d4b8",
    "unit_nins": 14,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005D4F0",
+   "fn": "PadSetMainMode",
    "addr": "0x8005d4f0",
    "nins": 18,
    "cls": "SDK-C-REORDER",
@@ -1618,11 +1618,11 @@
    "unit_entry": "func_8005d4f0",
    "unit_nins": 18,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005D538",
+   "fn": "PadSetAct",
    "addr": "0x8005d538",
    "nins": 20,
    "cls": "SDK-C-REORDER",
@@ -1630,11 +1630,11 @@
    "unit_entry": "func_8005d538",
    "unit_nins": 20,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005D588",
+   "fn": "PadEnableCom",
    "addr": "0x8005d588",
    "nins": 70,
    "cls": "SDK-C-REORDER",
@@ -1642,7 +1642,7 @@
    "unit_entry": "func_8005d588",
    "unit_nins": 70,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 4 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 4 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
@@ -1658,19 +1658,19 @@
   },
   {
    "binary": "main",
-   "fn": "func_8005D8A0",
+   "fn": "_padChkVsync",
    "addr": "0x8005d8a0",
    "nins": 5,
    "cls": "SDK-C-REORDER",
    "disposition": "DECOMPILE-NOW",
-   "unit_entry": "func_8005D8A0",
+   "unit_entry": "_padChkVsync",
    "unit_nins": 5,
    "path": "src/800c3.c",
-   "why": "label-only `asm(\".section .text ... \"func_8005D8A0:\")` block MISSED by all three detectors; 5-ins leaf"
+   "why": "label-only `asm(\".section .text ... \"_padChkVsync:\")` block MISSED by all three detectors; 5-ins leaf"
   },
   {
    "binary": "main",
-   "fn": "func_8005D8B4",
+   "fn": "_padStartCom",
    "addr": "0x8005d8b4",
    "nins": 51,
    "cls": "SDK-C-REORDER",
@@ -1678,11 +1678,11 @@
    "unit_entry": "func_8005d8b4",
    "unit_nins": 51,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005E13C",
+   "fn": "_padWaitRXready",
    "addr": "0x8005e13c",
    "nins": 11,
    "cls": "SDK-C-REORDER",
@@ -1694,7 +1694,7 @@
   },
   {
    "binary": "main",
-   "fn": "func_8005E228",
+   "fn": "_padRecvAtLoadInfo",
    "addr": "0x8005e228",
    "nins": 83,
    "cls": "SDK-C-REORDER",
@@ -1702,11 +1702,11 @@
    "unit_entry": "func_8005e228",
    "unit_nins": 83,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005E3AC",
+   "fn": "_padLoadActInfo",
    "addr": "0x8005e3ac",
    "nins": 53,
    "cls": "SDK-C-REORDER",
@@ -1714,11 +1714,11 @@
    "unit_entry": "func_8005e3ac",
    "unit_nins": 53,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005E79C",
+   "fn": "_padSetActAlign",
    "addr": "0x8005e79c",
    "nins": 26,
    "cls": "SDK-C-REORDER",
@@ -1726,11 +1726,11 @@
    "unit_entry": "func_8005e79c",
    "unit_nins": 26,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 3 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005E8E8",
+   "fn": "_padSetMainMode",
    "addr": "0x8005e8e8",
    "nins": 38,
    "cls": "SDK-C-REORDER",
@@ -1738,7 +1738,7 @@
    "unit_entry": "func_8005e8e8",
    "unit_nins": 38,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 5 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 5 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
@@ -1762,7 +1762,7 @@
    "unit_entry": "func_8005eae8",
    "unit_nins": 16,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
@@ -1774,7 +1774,7 @@
    "unit_entry": "func_8005eb28",
    "unit_nins": 54,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
@@ -1786,7 +1786,7 @@
    "unit_entry": "func_8005ec00",
    "unit_nins": 48,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
@@ -1798,7 +1798,7 @@
    "unit_entry": "func_8005ed4c",
    "unit_nins": 223,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 7 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 7 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
@@ -1810,11 +1810,11 @@
    "unit_entry": "func_8005f450",
    "unit_nins": 159,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005F728",
+   "fn": "_padInitDirSeq",
    "addr": "0x8005f728",
    "nins": 13,
    "cls": "SDK-ASM",
@@ -1826,7 +1826,7 @@
   },
   {
    "binary": "main",
-   "fn": "func_8005FA94",
+   "fn": "_dirFailAuto",
    "addr": "0x8005fa94",
    "nins": 55,
    "cls": "SDK-C-REORDER",
@@ -1834,11 +1834,11 @@
    "unit_entry": "func_8005fa94",
    "unit_nins": 55,
    "path": "src/800c3.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_8005FBA8",
+   "fn": "setRC2wait",
    "addr": "0x8005fba8",
    "nins": 8,
    "cls": "SDK-ASM",
@@ -1850,19 +1850,19 @@
   },
   {
    "binary": "main",
-   "fn": "func_80062388",
+   "fn": "SetInitPadFlag",
    "addr": "0x80062388",
    "nins": 3,
    "cls": "SDK-ASM",
    "disposition": "PERMANENT-VERBATIM",
-   "unit_entry": "func_80062388",
+   "unit_entry": "SetInitPadFlag",
    "unit_nins": 3,
    "path": "src/800c2_2.c",
    "why": "lui $at; jr $ra; sw $a0,lo($at) \u2014 hand-written setter (libcard region, 800c2 reorder island)"
   },
   {
    "binary": "main",
-   "fn": "func_800623A4",
+   "fn": "PAD_init",
    "addr": "0x800623a4",
    "nins": 36,
    "cls": "SDK-C-REORDER",
@@ -1870,19 +1870,19 @@
    "unit_entry": "func_800623a4",
    "unit_nins": 36,
    "path": "src/800c2_2.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 5 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 5 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_80062434",
+   "fn": "InitPAD",
    "addr": "0x80062434",
    "nins": 36,
    "cls": "SDK-C-REORDER",
    "disposition": "DECOMPILE-NOW",
-   "unit_entry": "func_80062434",
+   "unit_entry": "InitPAD",
    "unit_nins": 36,
    "path": "src/800c2_2.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 5 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 5 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
@@ -1894,11 +1894,11 @@
    "unit_entry": "func_8006252c",
    "unit_nins": 30,
    "path": "src/800c2_2.c",
-   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL func_8005D244/func_8005DCA0/func_80061FA8 carry t"
+   "why": "\u00a7188 shape (jr $ra + addiu $sp in slot, 2 restores) \u2014 produced by the as -O2 REORDER island (Makefile REORDER_TUS, landed 2026-09-01, commit:3557); REAL PadInfoMode/_padSioRW/firstfile carry t"
   },
   {
    "binary": "main",
-   "fn": "func_800626C8",
+   "fn": "EnablePAD",
    "addr": "0x800626c8",
    "nins": 5,
    "cls": "SDK-ASM",
@@ -1910,7 +1910,7 @@
   },
   {
    "binary": "main",
-   "fn": "func_800626DC",
+   "fn": "DisablePAD",
    "addr": "0x800626dc",
    "nins": 5,
    "cls": "SDK-ASM",
@@ -1922,7 +1922,7 @@
   },
   {
    "binary": "main",
-   "fn": "func_800626F0",
+   "fn": "_patch_pad",
    "addr": "0x800626f0",
    "nins": 30,
    "cls": "SDK-ASM",
@@ -1930,16 +1930,16 @@
    "unit_entry": "func_800626f0",
    "unit_nins": 30,
    "path": "src/800c2_3.c",
-   "why": "hand-written (sibling of func_80062768)"
+   "why": "hand-written (sibling of _remove_ChgclrPAD)"
   },
   {
    "binary": "main",
-   "fn": "func_80062768",
+   "fn": "_remove_ChgclrPAD",
    "addr": "0x80062768",
    "nins": 28,
    "cls": "SDK-ASM",
    "disposition": "PERMANENT-VERBATIM",
-   "unit_entry": "func_80062768",
+   "unit_entry": "_remove_ChgclrPAD",
    "unit_nins": 28,
    "path": "src/800c2_3.c",
    "why": "splat Handwritten; B0-table call with $ra stashed in D_80078D28"

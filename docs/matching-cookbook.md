@@ -36146,3 +36146,55 @@ failure.
 **PRICE IT FIRST (R37).** The `-O0` detector (`o0_detect`) flags exactly **two** open main stubs:
 this one, and `func_80011380`, which already lives in `-O0` `boot.c` and is §474's proved floor. So
 this carve unblocked ONE function, not a class. Worth knowing before budgeting for more.
+
+#### §487 ★★★ — THE PSX LOADER'S PER-VERSION SIGNATURE SETS ARE A FREE PROVENANCE ORACLE: main's "WALL" BAND IS LIBPAD 4.2.1 (P31 S78)
+
+**The instrument.** `ghidra_psx_ldr` ships `data/psyq/<ver>/<LIB>.LIB.json` for every PsyQ release
+(260 … 470): per OBJECT, a masked-byte signature of its `.text` plus function labels with offsets.
+Matched as a regex over the retail EXE bytes (`??` → any byte, 4-aligned hits only), a set that places
+an object byte-exact tells you the LIBRARY, the VERSION, and every FUNCTION NAME in it — with no
+`.LIB` archive in hand. Score per (version, library) by in-band hits; the version whose set places
+the most objects exactly is the linked one.
+
+**What it found.** The `800c3` band `0x8005CF68–0x8005FC68` — twelve open main stubs, four of them
+recorded as §332 "%lo in a delay slot, no C can place it" walls — is **LIBPAD 4.2.1** (PADENTRY,
+PADMAIN, PADCMD, PADIF, PADPORTD, PADSEQD, WAITRC2) plus **LIBAPI 4.2** (COUNTER, L02/L03, FIRST,
+PAD, PATCH, CHCLRPAD). The 4.2 set places 4/11 libpad objects byte-exact; 4.3 swaps one (PADSEQD 292
+vs 288 ins) and adds WAITRC2; 4.4+ place only WAITRC2; the 4.2 `Ps` stamp sits on `C114.OBJ`
+(`_96_remove`) at the band's head and the 4.2.1x stamp on libpad's `.data`. PsyQ 4.0 has no LIBPAD
+(the DualShock library arrived in 4.2) — which is exactly why twenty phases of "not linked by EXE"
+never found it. 46 names applied (`docs/psyq-worklist.md` S78).
+
+**The reading rule.** Where the placed set's labels line up with the split's function starts
+(PADENTRY: 11/11, PADCMD: 9/9), name from the label. Where the object placed but the set's later
+labels drift by a few words (PADMAIN 4.2 vs the EXE's 4.2.1: +4 at `_padSioRW2`, +12 at
+`_padClrIntSio0`/`_padWaitRXready`), the function ORDER still names them — record that as
+order-inferred, not sig-exact. Statics carry no labels (PADIF) and stay `func_`.
+
+**Three laws.**
+1. **A "compiler wall" inside a band no archive you hold can place is a PROVENANCE question first.**
+   §332b already showed the band was assembled in reorder mode; that is what Sony's build did to
+   LIBPAD. Before pricing a wall-proof, ask which library version owns the bytes — a different
+   `.LIB` may link it outright (task #13), and even without it, the real name + the SDK header
+   turn "unknown 133-ins function" into `_padInitSioMode`.
+2. **Placement is not wiring.** With the §485-fixed `psyq_identify`, in-gap objects (FGO_01–06 fill
+   the 800b_5 "game code" subseg to the byte) made `psyq_integrate.contiguous_blocks()` merge
+   libgte's 22 stub blocks into 3 and killed every LINKED build of main — silently at the S77 gates,
+   because worktree gates carry no `.run/obj40` and take the stub fallback. Map stub↔objects by
+   subseg RANGE with an exact-tiling check (`--yaml`), and print what was placed but not wired: that
+   list IS the completion contract's SDK residue.
+3. **A library object's exported name is a claim of ITS version; the curated file's name at that
+   address wins (R15).** libapi 4.0's `A66.o` exports `firstfile` at 0x80062248 while the EXE links
+   4.2, where that trampoline is `firstfile2` and `firstfile` is `FIRST.o`'s C wrapper at
+   0x80061FA8 (LIBMCRD.o's `jal` word `EA87010C` says so). `--redefine-sym` at object-prep time;
+   references to the old name then resolve through the recovered relocation address, never by name.
+   The same rule caught libcd `TOC.o`'s `CdGetToc` @0x800430B8 curated as `DecDCToutCallback` — an
+   xdedup-vs-Vagrant-Story mislabel (a linked, byte-identical SDK object outranks a cross-project
+   name match).
+
+**Renaming hazard (R32/R39, closed in `lint_symbol_refs`).** The §265 verbatim bodies spell the
+name inside `__asm__("… .ent\tfunc_X …")`. The C-side rename regex with `\b` misses `\tfunc_X`
+(the escape's `t` is a word char), gas then dies with `.size expression for func_X does not evaluate
+to a constant`, and the string-masking linter was blind to it by construction. The linter now scans
+asm string bodies too; negative control: red on the pre-fix TUs (4 hits), green on the fixed tree
+and on every previously-passing TU (the `func_8005C324`→`memcpy` `__asm__`-label binding exempted).

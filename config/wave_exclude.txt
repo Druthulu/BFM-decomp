@@ -4,11 +4,11 @@
 # part of every tool fix, or it becomes a list of work you decided not to do.
 main:PopMatrix  # WALL: compiler wall (merged from S68_walls_332.txt)
 main:PushMatrix  # WALL: compiler wall (merged from S68_walls_332.txt)
-main:func_8005D9C4  # WALL: no jump table — curated compiler fact, not a tooling limit
+main:_padInitSioMode  # WALL: no jump table — curated compiler fact, not a tooling limit
 main:func_8005ECC0  # NEAR-2/35 (DELAY-SLOT) — NOT a wall. Same wrong-oracle provenance as
-#   func_8005F0C8; re-measured S77 at 2 of 35. permuter_ils 4 cycles reached 5, not 0.
+#   PadInitDirect; re-measured S77 at 2 of 35. permuter_ils 4 cycles reached 5, not 0.
 #   Excluded as UNSOLVED, not as impossible.
-main:func_8005F0C8  # NEAR-3/88 (ADDRESSING/move!=lui) — NOT a wall. The S68 'compiler wall'
+main:PadInitDirect  # NEAR-3/88 (ADDRESSING/move!=lui) — NOT a wall. The S68 'compiler wall'
 #   verdict was measured under the WRONG oracle (800c3 is a REORDER_TUS island; S76 fixed
 #   match_one/rtu_match to use reorder_passthrough + as -O2). Re-measured S77: 3 of 88.
 #   permuter_ils 4 cycles reached 3, not 0. Excluded as UNSOLVED, not as impossible.
@@ -19,6 +19,6 @@ ov_SC06_022:func_8017DF28  # WALL: expand_block_move copy_addr_to_reg pseudo + c
 # S77: wall_sweep named these and the list did not carry them — an agent handed one
 # always returns a NEAR with an unexplainable tail, indistinguishable from a hard function.
 main:func_8005D734  # WALL: §332 %lo in a delay slot (wall_sweep, 1 site) — no C can place it
-main:func_8005D8B4  # WALL: §332 %lo in a delay slot (wall_sweep, 1 site) — no C can place it
+main:_padStartCom  # WALL: §332 %lo in a delay slot (wall_sweep, 1 site) — no C can place it
 main:func_8005ED4C  # WALL: §332 %lo in a delay slot (wall_sweep, 2 sites) — no C can place it
 main:func_8005F450  # WALL: §332 %lo in a delay slot (wall_sweep, 2 sites) — no C can place it

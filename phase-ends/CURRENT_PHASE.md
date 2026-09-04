@@ -32,6 +32,28 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     fixed, six of them mine.** Discovered and mapped the **ASSEMBLY-POSING-AS-C class** (199 bodies,
     `config/verbatim_manifest.json` is the authoritative census); retired `asm_in_c.py` for a
     manifest + drift guard (R33). See the S75 FINAL 🛑 block at the end of this file.
+  - S78 (2026-09-04): **completion sprint chartered** (census + confirmed order, see the S78 OPEN block).
+    **#12 DONE:** the `800c3` band named from the psx loader's 4.2/4.3 signature sets — **46 libpad/libapi
+    names** (`PadInitDirect`, `_padSetAct`, `PadEnableCom`, `_padInitSioMode`…) + `firstfile`/`firstfile2`
+    (4.2 naming) + `CdGetToc` (0x800430B8 was mis-curated `DecDCToutCallback`, a Phase-21 xdedup-vs-VS
+    label; the linked libcd TOC.o is the byte oracle). Applied to `config/symbols.us.txt` (count 1081),
+    the band's TUs + `src/800_b_2.c` caller, the verbatim manifest, `config/wave_exclude.txt`, and
+    Ghidra (73 renames incl. the Phase-21 backlog, via the NEW headless `ApplySymbols.java` /
+    `tools/ghidra_apply_symbols.sh` — R9-verified ×4). Provenance: SETUP §5.1 corrected (libnum 0 =
+    libapi 4.2 `C114`@0x8005CE48, libnum 12 = libpad 4.2.1x), `docs/psyq-worklist.md` S78, cookbook
+    **§487**, decision-log + accelerators S78, `tools/psyq/CHECKSUMS.sha256` (+4.6/4.5 archives).
+    **Two instrument findings on the way:** (1) main's LINKED build was RED at HEAD since the S77
+    `psyq_identify` fix — in-gap libgte objects merged 22 stub blocks into 3; unseen because gate
+    worktrees carry no `.run/obj40` (stub fallback). Fixed: `psyq_integrate --yaml` (stub↔objects by
+    subseg RANGE + exact tiling; the unwired residue is PRINTED: libgte 13 objs / 1,264 ins) and
+    `--redefine-sym` of a library object's exported name to the curated one (A66 `firstfile`→
+    `firstfile2`). (2) 47 MCP `batch_rename`/`rename_symbol` writes did NOT persist through the
+    sentinel stop ("Save succeeded", DB grew, names gone) → renames now go through ApplySymbols.
+    Also `lint_symbol_refs` now scans verbatim `__asm__` bodies (the `\tfunc_X` miss broke gas).
+    **R22:** clean `extract-all` 212/212 + `check-all` 212 green on the final config; main rebuilt
+    byte-identical `143dbb89…` after the last src-only fix (the `DecDCToutCallback` caller) → 213/213.
+    `tools-health` OK. Ghidra DB deliberately NOT staged (the mirror is text-derived and re-applicable;
+    `db.*.gbf` churn stays restart-noise).
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)

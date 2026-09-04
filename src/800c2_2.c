@@ -3,9 +3,9 @@
 __asm__(
     ".text\n"
     ".align 2\n"
-    ".globl func_80062388\n"
-    ".ent\tfunc_80062388\n"
-    "func_80062388:\n"
+    ".globl SetInitPadFlag\n"
+    ".ent\tSetInitPadFlag\n"
+    "SetInitPadFlag:\n"
     ".frame $sp,0,$31\n"
     ".mask 0x00000000,0\n"
     ".fmask 0x00000000,0\n"
@@ -14,30 +14,30 @@ __asm__(
     "jr $ra\n"
     "sw $a0, %lo(D_80072A24)($at)\n"
     ".set\treorder\n"
-    ".end\tfunc_80062388\n"
+    ".end\tSetInitPadFlag\n"
 );
 
 extern s32 D_80072A24;
 
-s32 func_80062394(void)
+s32 ReadInitPadFlag(void)
 {
     return D_80072A24;
 }
 
-extern void func_80062768(void);
+extern void _remove_ChgclrPAD(void);
 extern void func_8005CF08(void);
-extern void func_800626F0(void);
+extern void _patch_pad(void);
 extern void func_8005CF18(void);
 extern s32 ChangeClearPAD(s32 mode);
 extern s32 func_8006252C(void);
 extern s32 PAD_init2(s32, s32, s32, s32);
 extern s32 D_80072A24;
 
-void func_800623A4(s32 a0, s32 a1, s32 a2, s32 a3)
+void PAD_init(s32 a0, s32 a1, s32 a2, s32 a3)
 {
-    func_80062768();
+    _remove_ChgclrPAD();
     func_8005CF08();
-    func_800626F0();
+    _patch_pad();
     func_8005CF18();
     ChangeClearPAD(0);
     ((s32 (*)())func_8006252C)();
@@ -47,20 +47,20 @@ void func_800623A4(s32 a0, s32 a1, s32 a2, s32 a3)
 
 
 
-extern void func_80062768(void);
+extern void _remove_ChgclrPAD(void);
 extern void func_8005CF08(void);
-extern void func_800626F0(void);
+extern void _patch_pad(void);
 extern void func_8005CF18(void);
 extern s32 ChangeClearPAD(s32 mode);
 extern s32 func_8006252C(void);
 extern void InitPAD2(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 D_80072A24;
 
-void func_80062434(s32 a0, s32 a1, s32 a2, s32 a3)
+void InitPAD(s32 a0, s32 a1, s32 a2, s32 a3)
 {
-    func_80062768();
+    _remove_ChgclrPAD();
     func_8005CF08();
-    func_800626F0();
+    _patch_pad();
     func_8005CF18();
     ChangeClearPAD(0);
     ((s32 (*)())func_8006252C)();
@@ -70,24 +70,24 @@ void func_80062434(s32 a0, s32 a1, s32 a2, s32 a3)
 
 extern void StartPAD2(void);
 extern s32 ChangeClearPAD(s32 mode);
-extern void func_800626C8(void);
+extern void EnablePAD(void);
 
-s32 func_800624C4(void)
+s32 StartPAD(void)
 {
     StartPAD2();
     ChangeClearPAD(0);
-    func_800626C8();
+    EnablePAD();
     return 1;
 }
 
-extern void func_800626DC(void);
+extern void DisablePAD(void);
 extern void StopPAD2(void);
 extern s32 func_800625A4(void);
 extern s32 D_80072A24;
 
-void func_800624F4(void)
+void StopPAD(void)
 {
-    func_800626DC();
+    DisablePAD();
     StopPAD2();
     func_800625A4();
     D_80072A24 = 0;

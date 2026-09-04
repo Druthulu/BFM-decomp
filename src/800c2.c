@@ -15,7 +15,7 @@ extern s32 func_8005C4DC();
 extern s32 firstfile2();
 extern void func_80062144();
 
-s32 func_80061FA8(char *name, s32 mode)
+s32 firstfile(char *name, s32 mode)
 {
     u8 *src;
     u8 *dst;

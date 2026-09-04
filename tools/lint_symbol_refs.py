@@ -99,6 +99,24 @@ def main():
                     continue
                 if a in curated:            # renamed to a curated name, no auto-name symbol -> DANGLING
                     stale.append((rel, i, m.group(0), curated[a]))
+    # Blind spot #4 (P31 S78): the §265 verbatim `__asm__("...")` bodies. `strip_comments_strings` blanks
+    # every string literal, so a renamed `func_<ADDR>` that survives INSIDE an asm body (`.ent\tfunc_X`,
+    # `.end\tfunc_X`, `.globl func_X`, `jal\tfunc_X`, `func_X:`) is invisible above — and gas then dies
+    # with `.size expression for func_X does not evaluate to a constant`. Scan the string bodies too,
+    # and do NOT rely on `\b`: the literal escape `\t` ends in the word char `t`, so `\tfunc_X` has no
+    # word boundary before the token (the exact miss that produced the first S78 red build).
+    for cf in files:
+        rel = os.path.relpath(cf, REPO)
+        raw = open(cf, errors="replace").read()
+        for sm in re.finditer(r'__asm__\s*\(((?:\s*"(?:[^"\\]|\\.)*")+)\s*\)', raw):
+            body = sm.group(1)
+            line0 = raw.count("\n", 0, sm.start()) + 1
+            for m in re.finditer(r'(?<![0-9A-Za-z_])(?:func_|D_)([0-9A-Fa-f]{6,8})(?![0-9A-Za-z_])', body):
+                a = "0x" + m.group(1).lower()
+                if a in autosym or a in asm_labeled:   # blind spot #3 applies here too (memcpy binding)
+                    continue
+                if a in curated:
+                    stale.append((rel, line0, m.group(0) + " (inside __asm__ body)", curated[a]))
     if stale:
         print(f"[lint_symbol_refs] {len(stale)} STALE func_<ADDR> ref(s) — renamed in symbols, "
               f"clean-build will FAIL (fix: rename to the curated name):")
