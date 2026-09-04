@@ -36065,3 +36065,39 @@ answer, and a unique hit is itself proof the object is present. It independently
 is a mechanism, re-derive the mechanism's *premise* from the bytes before accepting the conclusion —
 "scattered" was true, "therefore unplaceable" was an inference, and it cost 3,109 instructions of
 library code sitting as verbatim asm for twenty-odd phases.
+
+#### §485 ★★★ — THE PLACEMENT MAP WAS PARSING A PRETTY-PRINTER: 25 PsyQ OBJECTS WERE INVISIBLE, NOT ABSENT (P31 S77)
+
+`tools/psyq_identify.py` answers "where is each PsyQ library object linked in the EXE?" — the map the
+whole library-linking pipeline consumes. It built its match pattern by parsing **one word per
+`objdump -dr` disassembly line**, and **objdump collapses a run of identical words into a single
+`...` line**. Every collapsed word was silently absent from the pattern, so from the first run
+onward the pattern was MISALIGNED against the image and `find()` returned `None` — printed as the
+confident, wrong sentence **"not linked by EXE"**.
+
+| archive | located before | after | delta |
+|---|---|---|---|
+| LIBGS | 36 | **46** | +10 |
+| LIBGTE | 58 | **71** | +13 |
+| LIBSND | 32 | **34** | +2 |
+| LIBGPU / LIBAPI | 3 / 33 | 3 / 33 | 0 |
+| **total** | 162 | **187** | **+25 objects / 3,877 instructions** |
+
+**How it was caught, and it was not by reading the code.** `2D_BG0.o` is excluded from the LINKED
+build in `config/splat.us.exe.yaml` under a scattered-`.bss` reason — and the object **has no `.bss`
+section at all** (§484). Chasing that contradiction, a byte comparison put it at `0x8005080C` with
+**507 of 507 non-relocated words identical**, while `psyq_identify` listed it as absent. Its own
+parse read **520 words for a 526-word object**: three `...` lines, two words each.
+
+**What it cost.** These objects were never linked because they were *invisible*, not because anyone
+judged them unlinkable. `800b_7` — 1,022 instructions labelled "game code" in the yaml — is exactly
+`2D_BG0.o` (526) + `2D_BG1.o` (496), i.e. **100% library code**. `sgap_7` is exactly `VM_NO1.o`
+(305). `src/800c.c` is exactly `SYS.o` (3,109). Subsegs named as game-code gaps between library
+blocks are, in several cases, library objects nobody could see.
+
+**The law.** `objdump` output is a RENDERING, tuned for human reading — it elides, it abbreviates, it
+reformats. A tool that derives a byte-exact fact from it inherits every one of those liberties.
+Read the section bytes and take relocation offsets from `objdump -r`; that is R33 ("derive from the
+invariant, don't re-parse the world") applied to a disassembler's stdout. The tell that something is
+wrong is always available and always cheap: **compare the parsed word count against the section
+size.** 520 ≠ 526 would have exposed this at any point in the last twenty phases.
