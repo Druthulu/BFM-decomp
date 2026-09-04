@@ -362,6 +362,22 @@ tools/cast_self_callers.py --undo-journal J2 --keep <banked>    # MANDATORY — 
 
 Or in one driver: `recover_integration.py --binary B --stages arity,self-cast --max-tier fleet --r22`.
 
+> **DO NOT PICK THE TOOL BY HAND — `tools/recover_route.py` holds the table (P31 S77).** `gate_main`
+> used to print the SELF chain above for EVERY drop, whatever the clashing symbol was, and two of the
+> three classes are not that chain: a CALLEE drop run through `--any-proto` measured **60 decls
+> no-protoed and the binary RED** (S69), and a DATA drop is touched by neither tool in it. Following
+> the shape of that text is what sent S77's `func_8006252C` through `scope_demote_drafts` first,
+> which aliased a symbol through `__asm__` and BROKE the build — the real blocker was one
+> `--sync-decls` away. `gate_main` now routes each drop; run the router standalone with
+> `tools/recover_route.py .run/gate_main_dropped.json --drafts <dir>`. It refuses a verbatim draft
+> outright, and a route is the order to TRY, never a prediction — the byte gate still arbitrates.
+>
+> | drop | tool |
+> |---|---|
+> | symbol **is** the function being banked | `cast_self_callers --sync-decls` (§477, 16/16) |
+> | symbol is a **different function** | `sync_tu_decls` — adopt the TU's spelling, incl. from its DEFINITION header |
+> | symbol is **data** | `sync_tu_decls`, then `scope_demote_drafts` (§8d/§481) |
+
 > **THE UNDO IS NOT OPTIONAL.** The casts go in BEFORE the gate, in preparation. A cast left behind
 > for a draft that did not bank made `ov_SC07_000` fail to COMPILE at HEAD, so every later gate
 > verdict on that binary measured a broken baseline rather than a draft (found only because two

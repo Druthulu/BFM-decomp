@@ -1012,13 +1012,31 @@ def main():
         # to disk with the chain spelled out makes the recovery the obvious next command instead
         # of a paragraph someone has to remember.
         json.dump(dropped, open('.run/gate_main_dropped.json', 'w'), indent=1)
-        print(f"  -> .run/gate_main_dropped.json ({len(dropped)} to reconcile). The chain is:")
-        print(f"       tools/fix_arity_callers.py --apply --any-proto --funcs "
-              f"{','.join(d['fn'] for d in dropped)} \\\n"
-              f"           --drafts <dir> --journal .run/<id>/arity.json")
-        print(f"       tools/cast_self_callers.py --binary main --funcs <same> --drafts <dir> "
-              f"--apply --journal .run/<id>/cast.json")
-        print(f"       tools/gate_main.py <slate> --apply        # the byte-gate arbitrates")
+        print(f"  -> .run/gate_main_dropped.json ({len(dropped)} to reconcile). Routed per drop:")
+        # ONE CHAIN FOR EVERY DROP WAS WRONG FOR TWO OF THE THREE CLASSES (P31 S77).  What used to
+        # print here was the SELF chain (`fix_arity_callers --any-proto` + `cast_self_callers`)
+        # regardless of what the clashing symbol actually is.  For a CALLEE the playbook already
+        # records the cost -- §378 does not transfer, `--any-proto` runs unprotected over every call
+        # site, and S69 measured 60 decls no-protoed and the binary RED.  For a DATA symbol neither
+        # tool touches it at all.  Following the shape of this text is what sent S77's func_8006252C
+        # through `scope_demote_drafts` first, which aliased a symbol through __asm__ and BROKE the
+        # build, when the real blocker was one `--sync-decls` away.  A drop is a ROUTE (S72) -- so
+        # print the route, not a chain.  recover_route is the shared table; the byte gate still
+        # arbitrates (G3/P9).
+        try:
+            import recover_route as _rr
+            for _d in dropped:
+                _dd = os.path.dirname(next((e['draft'] for e in slate if e['fn'] == _d['fn']), '') or '')
+                _kind, _cmds, _why = _rr.route(_d['fn'], _d.get('symbol', ''), _d.get('kept', ''),
+                                               _d.get('this', ''),
+                                               draft=os.path.join(_dd, _d['fn'] + '.c') if _dd else None,
+                                               binary='main', tu=_d.get('file'))
+                print(f"     {_d['fn']:<16} {_kind:<9} on {_d.get('symbol')}  — {_why}")
+                for _c in _cmds:
+                    print(f"         {_c}")
+        except Exception as _e:
+            print(f"     (recover_route unavailable: {type(_e).__name__}: {_e}) "
+                  f"— tools/recover_route.py .run/gate_main_dropped.json")
     if not a.apply:
         print("\nDRY RUN. Re-run with --apply to substitute and clean-rebuild.")
         return
