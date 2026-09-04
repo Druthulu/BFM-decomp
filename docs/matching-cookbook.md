@@ -35820,11 +35820,37 @@ ground it. `permuter_ils --klass SCHEDULE/REGALLOC --j 12`, 150 s cycles:
 | 28 of 69 | schedule | plateau at 25 |
 | 37 of 114 | schedule | **37 → 1** then plateau at 1 over **8 cycles × 240 s** |
 
-**THE CURVE.** At **≤4 mismatched the permuter is a one-shot**: 3/3, each inside one 150 s cycle, each
-banked byte-identical. Above ~10 it plateaus and more cycles buy nothing — the 37→1 case burned 32
-minutes on cycles 2-8 for zero further progress. **So: give it one 150 s cycle on anything ≤4, give it
-4 cycles once on anything else, and never a long run on a plateau.** A plateaued score is a seed for a
-different tier (a Fable/agent lever), not a reason to run longer.
+**THE CURVE — CORRECTED THE SAME SESSION, ON A BIGGER SAMPLE. Read the correction, not the first
+draft of this entry.** The first version of §479 said "at ≤4 mismatched the permuter is a one-shot:
+3/3". Five more ≤4 runs later that is **3 of 8 (37.5%)**, and the failures are not marginal:
+
+| function | residual | permuter best | outcome |
+|---|---|---|---|
+| `func_80021174` | 2 | **0** | BANKED |
+| `func_80040DE8` | 2 | **0** | BANKED |
+| `func_80024054` | 4 | **0** | BANKED |
+| `func_8005F290` | 1 | 4 | fail |
+| `func_80039DEC` | 3 | 2 | fail |
+| `func_80015608` | 3 | 1 | fail |
+| `func_8005F0C8` | 3 | 3 | fail |
+| `func_8005ECC0` | 2 | 5 | fail |
+
+**The mismatch count did not predict a single one of those outcomes** — a residual of 1 failed and a
+residual of 4 banked. **What predicts it is whether the draft has already been ground.** All three
+winners were drafts nobody had worked: no prior-attempt journal, straight from a recovery pile. Every
+failure was a body an agent or a prior wave had already optimised — `func_8005F290` had five prior
+attempts (best also 1), `func_80015608` six, `func_80039DEC` came out of a wave agent that had
+already applied four levers. A draft that a competent search has plateaued is plateaued for the
+permuter too; the permuter's wins come from *unexplored* neighbourhoods, not from small numbers.
+
+**So the rule is: one 150 s cycle on any ≤4 residual whose draft carries NO prior-attempt history —
+that is cheap and it is where the 3 banks came from. On a draft that has already been ground, expect
+nothing and spend accordingly.** Above ~10 it plateaus regardless; the 37→1 case burned 32 minutes on
+cycles 2-8 for zero further progress. A plateaued score is a seed for a different tier, never a
+reason to run longer.
+
+This is the same predictor as the triage paragraph below, arrived at from the opposite direction —
+which is why it is worth trusting: **prior-attempt history, not residual size, is the variable.**
 
 **TRIAGE FIRST, AND IT IS FREE: READ THE DRAFT'S OWN HEADER.** The two closest *overlay* residuals
 (2 of 119, 6 of 106) look like the best targets in the fleet and are not: each draft carries a
