@@ -14,4 +14,9 @@ INCLUDE_ASM("asm/md_SC03_054/nonmatchings/md_SC03_054", func_801F00C8);
 
 INCLUDE_ASM("asm/md_SC03_054/nonmatchings/md_SC03_054", func_801F0104);
 
-INCLUDE_ASM("asm/md_SC03_054/nonmatchings/md_SC03_054", func_801F0134);
+
+extern s16 D_801F1480;
+void func_801F0134(void) {
+    D_801F1480 = 1;
+}
+

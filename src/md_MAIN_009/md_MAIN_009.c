@@ -1,6 +1,14 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/md_MAIN_009/nonmatchings/md_MAIN_009", func_800CD384);
+
+extern void (*D_800CDD08[])(void);
+
+void func_800CD384(void) {
+    register s32 idx __asm__("$2");
+    __asm__ __volatile__("" : : "r"(idx));
+    D_800CDD08[idx]();
+}
+
 
 INCLUDE_RODATA("asm/md_MAIN_009/nonmatchings/md_MAIN_009", D_800CD348);
 
