@@ -647,6 +647,12 @@ The tooling-inventory rows below are the per-tool REFERENCE; the playbook is the
 
 ## §7 Session-start ritual
 
+> **Claude Code load order (2026-09-05, R64 candidate):** `PROJECT_CONTEXT.md` → `phase-ends/DIGEST.md` (all phase synopses + all
+> rules in full) → the THREE most recent `phase-ends/PhaseEnd_*.md` → `phase-ends/CURRENT_PHASE.md`, then the 🛑 SESSION
+> CHECKPOINT block is replayed VERBATIM into the chat. Budget ≈100k tokens + the checkpoint. Never read all PhaseEnds,
+> `phase-ends/logs/`, the whole cookbook or `docs/cookbook-index.md` at session start (CLAUDE.md is the authority).
+> The Ghidra steps below apply only to RE sessions (G2) — the MCP server now runs headless via the SessionStart hook.
+
 Order is load-bearing — MCP tools fail (sometimes silently) without an open program.
 
 1. **Start Ghidra** (in WSL, under WSLg): `~/ghidra_12.1_PUBLIC/ghidraRun`.

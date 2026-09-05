@@ -4,24 +4,33 @@ Matching decompilation of **Brave Fencer Musashi** (PS1, SLUS-00726 USA). Goal: 
 
 ## Session Start Protocol — Do This First, Every Session
 
-Before doing any work, read these files in this order:
+**Budget: the whole protocol should cost about 100k tokens plus the verbatim checkpoint block** (Drew, 2026-09-05; R64
+candidate). Read these files in this order — nothing else at session start:
 
 1. Read `PROJECT_CONTEXT.md` in full (the permanent constitution: rules, protocols, roadmap).
-2. Read every `phase-ends/PhaseEnd_*.md` in numeric order (the build history). **Do NOT read `phase-ends/logs/`** — those are on-demand worklog archives (R19), deliberately out of the load order; consult one only when researching a past mechanism (see the `phase-worklogs-reference-only` memory).
-3. Read `phase-ends/CURRENT_PHASE.md` if it exists (the in-phase state).
-4. Then follow the **Session Start Protocol** in `PROJECT_CONTEXT.md` — state phase, completed tasks, the single next task, and acknowledge the rules before working.
-5. **For matching phases (Phase 6+):** before any function matching, also read `docs/matching-cookbook.md` (reusable compiler idioms asm↔C + techniques) and `docs/SETUP.md` §5.4 (the pinned triple). The matching knowledge base is a **compounding flywheel** — consult it before each match, and after each match (especially a hard-won near-miss) feed the generalizable lesson back into BOTH the cookbook AND the tooling (`tools/permuter/` PERM_ recipes/weights, the m2c `--context`) so future similar functions one-shot.
+2. Read `phase-ends/DIGEST.md` in full — every phase's synopsis, every rule's full text (R1–R64), the corrections that
+   supersede parts of PROJECT_CONTEXT.md, and the doc map. It REPLACES reading every PhaseEnd (the PhaseEnds are still
+   kept forever — read an older one on demand when a synopsis is not enough; **never** read `phase-ends/logs/` at
+   session start, R19).
+3. Read the **three most recent** `phase-ends/PhaseEnd_*.md` in full, in numeric order.
+4. Read `phase-ends/CURRENT_PHASE.md` in full if it exists (the in-phase state).
+5. For matching phases (Phase 6+): read `docs/matching-cookbook.md`'s first ~120 lines (the pinned triple + §1–§3) and its
+   most recent § only, and `docs/SETUP.md` §5.4 (the pinned triple). The cookbook is 3.5 MB and `docs/cookbook-index.md`
+   is 566 KB: grep them by §/symptom during matching, never read them whole. The knowledge base is a **compounding
+   flywheel** — consult it before each match, and after each match feed the generalizable lesson back into BOTH the
+   cookbook AND the tooling (`tools/permuter/` recipes, the m2c `--context`) so future similar functions one-shot.
 
-After reading, state the following and nothing else:
-- Current phase number and name
-- Which tasks in the current phase are already complete
-- Which single task is NEXT
-- The recommended **effort level** for that NEXT task per `docs/effort-map.md`, and confirm the developer has it set (Effort-map check)
-- Every AI Collaboration Rule from the context file plus every rule added in any PhaseEnd file's "Rules Added This Phase" section
+After reading, state the following and nothing else, in this order:
+- Current phase number and name; which tasks in the current phase are already complete; which single task is NEXT
+- The recommended **effort level** for that NEXT task per `docs/effort-map.md`, and confirm the developer has it set
+- Every AI Collaboration Rule from `PROJECT_CONTEXT.md` (P/G/H/X) plus every R-rule, **in full text**, transcribed from
+  `phase-ends/DIGEST.md` §3
+- **The last `## 🛑 SESSION CHECKPOINT` block of `phase-ends/CURRENT_PHASE.md`, reproduced VERBATIM and in full** — not
+  summarized. That block is written to be replayed: it is the complete seed for this session and it is the ONLY in-phase
+  context this session inherits from the previous one.
 
-Then wait for the developer to confirm before doing anything.
-
-Do not summarize the project. Do not list all remaining tasks. Do not start working. State what is next, list the rules, and wait.
+Then wait for the developer to confirm before doing anything. Do not summarize the project. Do not list all remaining
+tasks. Do not start working. State what is next, list the rules, replay the checkpoint, and wait.
 
 ---
 
@@ -119,6 +128,7 @@ When a phase milestone is confirmed complete:
 1. State: "🟡 PhaseEnd creation is a Tier 1 task. Confirm when ready."
 2. Wait for confirmation.
 3. Create the `PhaseEnd_Phase[N].md` file using the Write tool, taking time to reason carefully about the phase as a whole.
+3b. Append the phase's synopsis and its ratified rules to `phase-ends/DIGEST.md` (the session-start digest; a P7 checkbox — a PhaseEnd without its digest entry is not closed).
 4. Final message: "PhaseEnd file created. Commit the file and start a new Claude Code session for the next phase."
 5. HARD STOP. Do not preview the next phase. Do not continue working. Do not suggest what comes next.
 

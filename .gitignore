@@ -252,6 +252,7 @@ unsloth_compiled_cache/
 !/.run/P32/t3/verdicts.jsonl
 !/.run/P32/t3/pending_launch.txt
 !/.run/P32/t3/harvest_notes.md
+!/.run/P32/t3/PROMPT_TEMPLATE.md
 !/.run/P32/t3/haiku/
 /.run/P32/t3/haiku/*
 !/.run/P32/t3/haiku/func_*.c

@@ -1,0 +1,234 @@
+# phase-ends/DIGEST.md — the session-start digest (every PhaseEnd in one page + every rule in full)
+
+> **Purpose (R64 candidate, Drew 2026-09-05).** The Session Start Protocol used to read all 32 PhaseEnd files (~510 KB,
+> ~150k tokens) before any work. This digest replaces that read: it carries **every rule's full text** (the rules
+> acknowledgment is transcribed from here) and a **synopsis of every phase**, so a session reads `PROJECT_CONTEXT.md`
+> → this file → the **three most recent** `PhaseEnd_*.md` in full → `CURRENT_PHASE.md` (and replays its 🛑 block
+> verbatim into the chat). Budget: the whole protocol ≈ 100k tokens + the verbatim checkpoint. The PhaseEnd files are
+> still the durable record (never deleted, R19) — read an older one on demand when a synopsis is not enough.
+> **Maintenance:** at every PhaseEnd, append that phase's synopsis and its ratified rules here (a P7 checkbox).
+> This file is DERIVED from the PhaseEnds and may be corrected; PROJECT_CONTEXT.md is never edited (P1).
+
+## 0. Where the project stands (at the latest PhaseEnd — the live state is in CURRENT_PHASE.md)
+Brave Fencer Musashi (SLUS-00726) matching decomp. **Phase 31 closed 2026-09-05 (v1.30.0):** 213 binaries (main EXE +
+resident engine blob + 138 location overlays + 73 `md_*` code modules) rebuild byte-identical from source; fleet
+**100.0% instruction-weighted / 99.9% distinct-code / 99.99% fn-count**; 21 open stubs / 4,554 ins; main REAL 777 /
+LINKED 1,256 (real PsyQ objects incl. libpad 4.2.1) / 12 stubs (99.43% byte-identical, 95.0% game-code); 5 PERMANENT
+verbatim `__asm__` bodies; dedup registry 2,220 groups / 0 failures. **Phase 32 (in progress)** = the last stubs + the
+five parked disc payloads, short and kill-gated; then **P33 = verify + public flip**. Roadmap: `docs/roadmap-to-100.md`
+v2 (adopted 2026-07-15, rewritten 2026-07-30); jumping-off doc `docs/frontier-p32.md`.
+
+## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
+- **Session start** reads this digest + the last three PhaseEnds, not every PhaseEnd (R64 candidate, Drew 2026-09-05).
+- **P8 "absorb and delete CURRENT_PHASE.md"** → **R19**: `git mv` it to `phase-ends/logs/Phase<N>.md`, out of the load
+  order; consult a log only when researching a past mechanism.
+- **Commit cadence:** P4 per-task → R8 one-commit-at-phase-end (P2) → per-session checkpoint commits (P7) and R20
+  backups → today: **one commit per completed task after CURRENT_PHASE.md is updated; a bank commits the moment it
+  exists (R42)**. Claude commits; **Drew pushes** (R6); the PhaseEnd + archived log are left uncommitted for Drew's
+  milestone-close commit; no `Co-Authored-By` (R5).
+- **H1** relaxed while private (R1): ROM-derived content may be committed; the disc dump never.
+- **Environment:** all-in-WSL (R2); Ghidra runs **headless** (MCP server via `tools/ghidra_mcp_start.sh` / the
+  SessionStart hook; symbols persist only via `tools/ghidra_apply_symbols.sh`, MCP renames do not); PCSX-Redux is
+  Windows-native bridged over the web API (R11); no `/tmp`, scratch under `.run/` (R12).
+- **Roadmap:** the constitution's Gen1 roadmap ended at Phase 7 (Gen1 EXIT confirmed 2026-06-15); Gen2 phases 8–32 are
+  governed by `docs/gen2-roadmap.md` → `docs/roadmap-to-100.md` v2; **Phase 14 (public flip) is deferred to Gen3+** and
+  becomes P33.
+- **Effort doctrine (Drew 2026-07-04, `docs/effort-map.md` governs):** xHigh for most tasks, Max for deep tasks (phase
+  plans, PhaseEnds, non-obvious debugging), Ultracode for breadth; plan mode always Max; every transition is prompted
+  (R27). Model ladder for drafters: Haiku ≤~50 ins → Sonnet ~50–120 → Opus ≥120 → Fable only for a NEW wall class.
+- **Compiler triple pinned** (P6, SETUP §5.4): `gcc-2.7.2-psx cc1 -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float
+  -fgnu-linker` → `maspsx --aspsx-version=2.56 --expand-div` → `mipsel-as -march=r3000 -mtune=r3000 -no-pad-sections
+  -O1 -G0`; per-file `-O0` modules exist (boot, the `_o0` splits).
+
+## 2. Phase synopses (what each phase delivered, its key finding, the rules it added)
+**P1 (2026-06-13, v1.1.0) Repo governance + WSL RE stack.** Ghidra 12.1 + GhidrAssistMCP + ghidra_psx_ldr installed
+headless; `SLUS_007.26` imported (1,726 fns, PsyQ 4.0.0), PsyQ types imported; the LZSS decompressor at 0x80018730
+decompiled via MCP. Rules R1–R6.
+**P2 (2026-06-13, v1.2.0) Deterministic extraction.** `tools/bfm_extract` walks the disc/.CD/PAC/LZSS into 1,801
+manifest-tracked artifacts, byte-validated against CUE's `brave` (138/138 type-4). `docs/effort-map.md`. Rules R7, R8.
+**P3 (2026-06-14, v1.3.0) File-loader & overlay map.** The loader is a hand-rolled CdControl reader driven by
+`cdFileLocTable` (LIST.CD) + `resourceIdMap`; LZSS staging 0x80079A70; PCSX-Redux runtime oracle; resident blob
+@0x800CEDF8 and location overlays @0x80128158 byte-proven against live RAM; 13 area-states; player state verified.
+Rules R9–R12.
+**P3.5 (2026-06-14, v1.3.1) Prototype spike — NO-GO.** Neither US prototype carries symbols; Sep-8 = retail minus 3
+functions; protos kept only as assets. Rules R13, R14.
+**P4 (2026-06-14, v1.4.0) Build toolchain.** binutils-mipsel 2.42, splat64 0.41.0, pinned submodules
+(maspsx/asm-differ/m2c/decomp-permuter), gcc-2.7.2-psx/cdk cc1 (i386 static); `make check-env`. No rules.
+**P5 (2026-06-14, v1.5.0) All-asm byte-identical EXE** (`143dbb89…`) from the splat config; `-G0`; binutils 2.42
+byte-clean. Rule R15.
+**P6 (2026-06-14, v1.6.0) Compiler pinned + first matches.** The triple above (`--expand-div` required); 14 matches;
+`docs/matching-cookbook.md` and the permuter harness created. Rule R16.
+**P7 (2026-06-15, v1.7.0) Gen1 EXIT.** Reports (progress/difficulty/dup); the `-O0` boot module; **real PsyQ library
+objects linked byte-identical** (libcd + libgs); LZSS matched; 43 REAL. Rules R17–R19.
+**P8 (2026-06-15, v1.8.0)** Eight more PsyQ libraries linked; EXE 50.24% byte-identical-from-source. Rule R22.
+**P9 (2026-06-15, v1.9.0)** Binary-agnostic toolchain (`make build BINARY=<alias>`, required `--vram-base/--exe`). Rule R23.
+**P10 (2026-06-15, v1.10.0)** The resident engine blob is the 2nd byte-identical binary (`8e17e02f…`, flat-blob
+recipe); it detects PsyQ 4.7. Rules R24, R25.
+**P11 (2026-06-16, v1.11.0)** Cross-binary dedup pipeline (`sig_image.py`, `dup_report --cross`, `config/dedup.us.yaml`,
+`src/shared/`); all 134 overlays signed — 9,366 cross-binary groups. No rules.
+**P12 (2026-06-16, v1.12.0)** Resident harvest 1.4% → 85.6% via the Ultracode parallel-draft + whole-binary byte-gate
+(`harvest_verify.py`, `match_one.py`); the "script VM" is compiled-MIPS dispatch tables; save format documented. Rule R26.
+**P13 (2026-06-16, v1.13.0)** Representative overlays; 6 binaries; `tools/new_overlay.sh`; non-4-aligned overlay
+handling; dup-pair collapse. Rules R27–R29.
+**P15 (2026-06-18, v1.14.0)** All 134 overlays onboarded (136 binaries); `dedup_propagate` + `engine_core.h` (match once
+→ ×134); fleet 3.82% → 54.48%; `sig_unify`. No rules. (P14 public flip deferred.)
+**P16 (2026-06-19, v1.15.0) PIVOT.** m2c + permuter cannot crack the loose-typed engine core (~3%); `docs/struct-core-pivot.md`.
+**P17 (2026-06-20, v1.16.0)** Canonical-sig layer; the wall is the compiler's codegen, not signatures/types; 55.51%.
+**P18 (2026-06-20, v1.17.0)** Compiler-quirk research → the register-pin toolkit (cookbook §17); waves 33% → 56% → 90%
+close-rate; 56.64%.
+**P19 (2026-06-20, v1.18.0)** Scaled waves (88/92% match_one); `canon_resident_calls`, `fix_arity_callers`; propagation
+is the cap; 58.00%.
+**P20 (2026-06-21, v1.19.0)** `cast_call_sites` cap tool; typedef type-lift; the `%lo`-fold class cracked; 58.82%. Rule R30.
+**P21 (2026-06-26, v1.20.0)** The automation manager (`gate_stage`, `worker_wave`, `grinder`, `orchestrator`, backlog
+ledger, `idiom_loop`); 63.18%; automated ceiling byte-proven; a 5-scout sweep found no external shortcut.
+**P22 (2026-06-29, v1.21.0)** Tractable giants banked ×134; 63.66%; pivot to the local LLM tier.
+**P23 (2026-07-02, v1.22.0) THE BREAKTHROUGH.** Local 7B tier saturates ≤15-ins ($0); **Fable reading the gcc-2.7.2
+source cracks "unsteerable" classes** → the §31 codegen map (`docs/gcc-2.7.2-map/`); 64.86%; `gcc-papermario` is
+gcc 2.8.1 — vanilla 2.7.2 staged under `tools/reference/`.
+**P24 (2026-07-08, v1.23.0)** Permuter overhaul (masked scorer, §31 class weights, ILS); integration-recovery tools;
+every matched giant ×134 (incl. the 770-ins whale, the 400-ins flagship); 66.02%; the h_norm structural-family reframe.
+**P25 (2026-07-11, v1.24.0)** Family engine (`family_remap`/`family_sweep`, `canon_sig_reconcile` v3.2, `rtu_match`);
+giant endgame complete; 74.6% fn / 58.2% instr / 30.3% distinct; the h_seq reframe → `family-endgame-megaplan.md`. Rule R31.
+**P26 (2026-07-15, v1.25.0)** Family engine + the **26-A tooling-integrity audit** (`corpus.py`, `cdecl.py`,
+`audit-corpus` — the tools WERE several walls) + the §52 discovery flywheel; 68.9% instr / 49.2% distinct; mechanical
+harvest exhausted. Rules R32–R34.
+**P27 (2026-07-15, v1.26.0)** Instruments fixed (fail-closed Makefile, one typedef-strip primitive, second oracle on
+resident); disc audit 136 → 140 + 39 type-1 modules found; the pin-crash "wall" was a tool bug; 67.0% (denominator
+correction). Rule R35.
+**P28 (2026-07-16, v1.27.0)** Instrument repair; B2 LIVES (its 0/8 was a missing carve); SC07 pool wired via
+`dedup_extend` (6,174 members); resident 90%; 68.9%. Rule R36.
+**P29 (2026-07-30, v1.28.0) THE FAMILY CAMPAIGN.** 25 sessions / 552 commits; 68.9 → 87.5% instr, 49.5 → 78.0% distinct;
+`diff_regions.py` resolved the swing number (tooling); integration, not idioms, is the wave bottleneck; roadmap v2.
+Rule R37 proposed.
+**P30 (2026-08-14, v1.29.0)** Recovery & concentration; 87.5 → 95.3% instr; fleet 140 → 213 (disc audit + module
+onboarding); the zero-token mechanical pipeline (`aprop_autodraft`, `symfix`, `prechecks`, `gate_lane`); the §172 wall
+model. R37 operated as binding; R38–R39 proposed.
+**P31 (2026-09-05, v1.30.0) THE FRONTIER ATLAS & WIDE-TOLERANCE CAMPAIGN.** 30 sessions / ~1,660 commits; the atlas
+(`atlas.py`), 6,000-ins waves, autonomous lanes, a completion sprint; stubs 12,059 → 21; fleet 95.3 → 100.0% instr;
+main 1,041 → 12 open; libpad 4.2.1 + RTL 4.2 archive linked (twelve "walls" were Sony objects); the verbatim `__asm__`
+class censused to 5 PERMANENT rows; `gate_main` (main gates only by clean rebuild). R37–R39 ratified; R40–R43 + R61
+accepted; R44–R60, R62–R63 proposed → **all ratified at P32 gate 1 (2026-09-05)**.
+**P32 (open 2026-09-05)** The last 21 + the parked 5 (short, kill-gated) — see `CURRENT_PHASE.md`.
+
+## 3. Every rule, in full (transcribe these at session start; P/G/H/X are in PROJECT_CONTEXT.md)
+- **R1 — H1 relaxed while private.** ROM-derived content (`asm/`, `assets/`, `extracted/`, decompressed `.CD`) MAY be
+  committed while the repo is private; accidental inclusion is not a violation. The raw multi-GB disc dump stays ignored
+  regardless. Compliance before going public = history scrub + a rom→decoder regeneration tool.
+- **R2 — All-in-WSL (H2 restatement).** One ext4 clone at `~/bfm-decomp`; no Windows/WSL split, no second clone, no
+  `/mnt` builds; MCP is loopback `127.0.0.1:8080`.
+- **R3 — All tooling under `tools/`.** Including `tools/bin` (compilers), `tools/psyq*`, `tools/ghidra_scripts`.
+- **R4 — Plan mode every phase.** Present the task-by-task plan and get approval before executing (the Phase Start gate).
+- **R5 — No `Co-Authored-By` trailer on commits.**
+- **R6 — Git workflow = Claude commits in WSL, Drew pushes.** Never `git push` from the WSL CLI. Phase-boundary
+  exception: Claude writes `PhaseEnd_PhaseN.md` and archives `CURRENT_PHASE.md` but leaves them uncommitted; Drew
+  commits AND pushes the milestone close.
+- **R7 — Effort-map check.** Before each Phase Start, state the recommended effort for planning that phase per
+  `docs/effort-map.md` and confirm the developer has it set; annotate every task in the plan with its effort; restate the
+  recommended effort whenever presenting the NEXT task. `docs/effort-map.md` is the evolvable source of truth.
+- **R8 — One commit at phase end** (P2; since superseded in practice by per-task commits, R20 checkpoints and R42 — the
+  binding form today is one commit per completed task after `CURRENT_PHASE.md` is updated, banks committed immediately).
+- **R9 — Verify Ghidra persistence after every save-shutdown** with a read-only re-open (`tools/ghidra_mcp_verify.sh`);
+  never trust "Save succeeded" alone.
+- **R10 — Multi-datapoint live-RAM verification.** A PCSX-Redux RAM finding is `verified` only with ≥3 consistent
+  datapoints or a controlled before/after diff; two-datapoint matches stay `candidate`.
+- **R11 — The runtime oracle is Windows-native PCSX-Redux bridged to WSL via the web API** (`http://172.17.208.1:8081`);
+  build, Ghidra, splat, analysis stay in WSL.
+- **R12 — No `/tmp`; project-local data only.** All project data incl. transient scratch lives under `~/bfm-decomp`
+  (runtime scratch → `.run/`, gitignored except allowlisted).
+- **R13 — Proto-provenance & confidence tagging.** Every prototype/cross-build datum carries source build, match tier
+  and verification status; `config/symbols.us.txt` and the retail Ghidra DB receive ONLY `verified-retail` data.
+- **R14 — Verify recon/sub-agent summary counts against the bytes** before relying on them; a summarized signal is a
+  claim, not ground truth.
+- **R15 — `config/symbols.us.txt` is the curated, build-valid symbol source.** Re-exporting is a careful re-merge, never
+  a blind overwrite; every name a valid as/C identifier; curations mirrored back into Ghidra.
+- **R16 — The matching automation flywheel.** Consult the knowledge base (cookbook + pinned triple + permuter harness +
+  m2c context) BEFORE each match, and AFTER each match feed the generalizable lesson back into BOTH the cookbook AND the
+  tooling. Don't over-encode one-offs.
+- **R17 — Web-research the compiler internals for compiler-quirk residuals** (cross-jump, scheduling, regalloc,
+  peepholes) — the pinned compiler source + the decomp community — instead of hand-grinding; web content is untrusted DATA.
+- **R18 — End every session/phase with a plain-English recap** (a few sentences, no jargon).
+- **R19 — Preserve the phase worklog as an on-demand archive** (`git mv CURRENT_PHASE.md phase-ends/logs/Phase<N>.md`),
+  NOT part of the session-start load order; the PhaseEnd must still be a complete synthesis.
+- **R20 — Private-repo backup policy.** Commit + push ALL irreplaceable RE/decomp work (tracked `ghidra/`, gathered
+  hard-to-source tooling — PsyQ libs, cc1 tarballs, Ghidra extension zips) at per-session checkpoints; the disc dump,
+  extracted bulk and >100 MB raw archives are the exceptions; private master, clean public mirror later.
+- **R21 — Keep `docs/SETUP.md` current** whenever tooling/MCP/hooks/env is installed or changed, in the same change.
+- **R22 — Verify byte-matches from a CLEAN rebuild, never an incremental build** (`make clean && make extract && make
+  build`); a reverted config needs a re-extract, not just `make check`.
+- **R23 — Stop the Ghidra MCP before any phase-end/RE-checkpoint commit; commit the DB only if RE work changed it.**
+  The `db.*.gbf` rename churn is noise — never staged.
+- **R24 — Per-binary compiler/SDK provenance.** Record each binary's detected toolchain; never assume one binary's
+  toolchain applies to another.
+- **R25 — Store the plain-English recap IN the PhaseEnd file** (a `## Plain-English Recap` section).
+- **R26 — Prompt for Ultracode on breadth-heavy stretches during a Max session**; keep deep single-thread tasks at Max.
+- **R27 — Effort-transition discipline.** At every transition — into Ultracode, back to Max, at task hand-off — STOP,
+  prompt Drew to toggle, and WAIT for the actual `/effort` command; never launch a Workflow on a verbal yes.
+- **R28 — Build the harness task list right after plan approval**, before starting work (one TaskCreate per plan task).
+- **R29 — Pause + prompt for `/mcp` reconnect after any MCP server restart/program switch**, then one cheap
+  `get_binary_info` (G2) before continuing.
+- **R30 — Capture context-dependent knowledge artifacts DURING the producing session**, before any fresh-session handoff;
+  defer only mechanical/continuable work.
+- **R31 — Capture the WHY behind strategic pivots in `docs/decision-log.md` while fresh**: context+belief → what failed →
+  the pivot → the measurement-grounded why → a hindsight "better path".
+- **R32 — Assert your COVERAGE.** A corpus scanner compares what it found against an over-approximating candidate set
+  and fails on the gap; a silent skip is a defect, and a loud failure nobody counts is exactly as invisible.
+- **R33 — Derive, don't re-derive.** Where a proven invariant answers the question, derive from it rather than re-parse
+  the source; the best outcome is a DELETED scanner.
+- **R34 — A second, DISAGREEING oracle — not a better assertion** — when an oracle is structurally blind to an error class.
+- **R35 — Fix the measuring instrument before trusting its measurement; a probe from a broken tool is not evidence.**
+  Tool-integrity is a precondition of a measurement, not a parallel concern.
+- **R36 — A newly-discovered binary is not real until every consumer knows it** (sig set, family map, dedup registry,
+  shared-header include, reports) — asserted by a gate (`make audit-binaries`), not remembered.
+- **R37 — Probe before costing.** Ground every estimate/attribution on ONE instance; derive counts from `corpus.stubs`;
+  diff the artifact to prove an edit actually ran before judging the lever it carried.
+- **R38 — Read the recorded failure verdicts before designing an experiment** (`.run/harvest_failed.*.classified.txt`,
+  gate results, journals) — the answer is frequently already recorded.
+- **R39 — Negative-control every new refusal-check against the already-succeeded population**; zero false positives
+  before it ships.
+- **R40 — Exonerate the instrument before attributing a failure to its subject** (truncation, fences, rate limits, tool
+  faults first; ~a third of P31's "walls" were tooling).
+- **R41 — Every cost/rate/yield/effort number ships with its denominator.**
+- **R42 — Commit banked work the moment it exists**, before the next command that can touch `src/` (a gate IS one);
+  never blind-revert a dirty `src/`; count banks from the SOURCE.
+- **R43 — A tool must refuse an input it cannot handle, never process it wrongly.**
+- **R44 — A card may not name a lever the knowledge base does not contain.**
+- **R45 — Draw-time bankability: never draw a card the pipeline cannot bank.**
+- **R46 — A budget is part of the harness, not a constant.**
+- **R47 — Consume every verdict layer** (a stage reading one bit of one oracle staged garbage forever).
+- **R48 — Never key by bare function name** (scratch dirs, ledgers, drafts — collisions destroy work).
+- **R49 — A soft error inside a success envelope is still that error** (a 200 carrying code 429; `rc≠0` read as "no binary").
+- **R50 — Periodic whole-fleet verification** (a byte gate is silent about every binary it did not build).
+- **R51 — A derived property stored as config will go stale and take a binary with it**; derive it or give it a
+  byte-proven self-repair.
+- **R52 — A blanket committer must not adopt a collapsed file** (right for `src/`, wrong for config).
+- **R53 — Verify a build from its exit code, not its output file** (a failed build leaves the previous binary in place).
+- **R54 — A guard downstream of the failure is not a guard, and a guard that is not running is not a guard.**
+- **R55 — A lane that runs unattended must leave evidence** (progress logs; empty log + no ps hits = never started).
+- **R56 — A gate verdict measures the draft only while the binary's baseline is green**; check the baseline first.
+- **R57 — An instrument's own write path is part of the instrument.**
+- **R58 — A session-close "clean" must quote the fleet's green count** (tree-clean ≠ fleet-green).
+- **R59 — A blanket commit of another lane's mid-gate tree is a race, not a backup.**
+- **R60 — `config/overlays.mk` and the splat yamls are CARVE STATE**: a gate commit carries only its own binary's lines;
+  any blanket restore/commit is followed by `interleave_check` + `pads_audit` on every touched binary.
+- **R61 — A tool must distinguish "judged and failed" from "not judged", and a judging tool must model what the gate
+  does to the draft** (a loop tool that reports "unchanged" for N cycles must prove it iterated).
+- **R62 — A ledger's best draft may never be an `__asm__` body, and a bank whose body is `__asm__` is a verbatim, not a
+  bank** (`verbatim_check --strict` in the per-bank close).
+- **R63 — A permuter/waypoint score is not a closeness until its diff is read.**
+- **R64 (CANDIDATE, Drew-directed 2026-09-05; ratify at PhaseEnd_Phase32) — Session start reads PROJECT_CONTEXT.md →
+  `phase-ends/DIGEST.md` → the three most recent PhaseEnds → `CURRENT_PHASE.md`, then replays the 🛑 SESSION CHECKPOINT
+  block VERBATIM into the chat; the protocol costs ≈100k tokens + the checkpoint. Every PhaseEnd appends its synopsis
+  and rules to the digest (P7). A checkpoint is written to be replayed: self-sufficient, verbose, every path/command/hash
+  explicit (see `checkpoint-current-phase-before-pause` memory).**
+(R40–R43 and R61 were accepted mid-P31; their long forms are in `phase-ends/logs/Phase31.md` — the one-liners above are
+the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1.)
+
+## 4. Where things live (the doc map a session needs)
+`docs/SETUP.md` (environment, every tool's row, commands) · `docs/matching-cookbook.md` §1–§500 (idioms; 3.5 MB —
+grep by §, never read whole) + `docs/cookbook-index.md` (symptom-keyed, derived, 566 KB — grep) · `docs/gcc-2.7.2-map/`
+(the compiler map) · `docs/wave-playbook.md` (THE wave procedure; `docs/automation-runbook.md` is retired) ·
+`docs/effort-map.md` · `docs/roadmap-to-100.md` v2 · `docs/frontier-p32.md` · `docs/decision-log.md` (R31) ·
+`docs/accelerators.md` · `docs/memory-map.md` (addresses, provenance) · `docs/formats.md` · `docs/disc-completeness.md` +
+`docs/disc-ledger.md` · `docs/backlog.md` (near-miss ledger) · `config/wave_exclude.txt` (pinned walls) ·
+`config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/` (scratch; allowlisted subtrees are
+tracked — e.g. `.run/P32/t3/` drafts/ledger).
