@@ -1,0 +1,152 @@
+[
+ {
+  "name": "func_80039308",
+  "binary": "main",
+  "nins": 518,
+  "sub": "800_c",
+  "asm": "asm/nonmatchings/800_c/func_80039308.s",
+  "tu": "src/800_c.c",
+  "klass": "D-NEAR",
+  "closeness": 17
+ },
+ {
+  "name": "func_80032A74",
+  "binary": "main",
+  "nins": 422,
+  "sub": "800_b_2",
+  "asm": "asm/nonmatchings/800_b_2/func_80032A74.s",
+  "tu": "src/800_b_2.c",
+  "klass": "D-NEAR",
+  "closeness": 1
+ },
+ {
+  "name": "func_800CD92C",
+  "binary": "md_MAIN_009",
+  "nins": 247,
+  "sub": "md_MAIN_009",
+  "asm": "asm/md_MAIN_009/nonmatchings/md_MAIN_009/func_800CD92C.s",
+  "tu": "src/md_MAIN_009/md_MAIN_009.c",
+  "klass": "D-NEAR",
+  "closeness": 15
+ },
+ {
+  "name": "func_80011380",
+  "binary": "main",
+  "nins": 192,
+  "sub": "boot",
+  "asm": "asm/nonmatchings/boot/func_80011380.s",
+  "tu": "src/boot.c",
+  "klass": "D-NEAR",
+  "closeness": 6
+ },
+ {
+  "name": "func_800CD674",
+  "binary": "md_MAIN_009",
+  "nins": 174,
+  "sub": "md_MAIN_009",
+  "asm": "asm/md_MAIN_009/nonmatchings/md_MAIN_009/func_800CD674.s",
+  "tu": "src/md_MAIN_009/md_MAIN_009.c",
+  "klass": "D-NEAR",
+  "closeness": 2
+ },
+ {
+  "name": "func_8017DF28",
+  "binary": "ov_SC06_022",
+  "nins": 119,
+  "sub": "ov_SC06_022_jr_8017BEBC",
+  "asm": "asm/ov_SC06_022/nonmatchings/ov_SC06_022_jr_8017BEBC/func_8017DF28.s",
+  "tu": "src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c",
+  "klass": "D-NEAR",
+  "closeness": 2
+ },
+ {
+  "name": "func_801834A4",
+  "binary": "ov_SC03_105",
+  "nins": 106,
+  "sub": "ov_SC03_105_jr_80181C84",
+  "asm": "asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80181C84/func_801834A4.s",
+  "tu": "src/ov_SC03_105/ov_SC03_105_jr_80181C84.c",
+  "klass": "D-NEAR",
+  "closeness": 9
+ },
+ {
+  "name": "func_80020DA4",
+  "binary": "main",
+  "nins": 100,
+  "sub": "800",
+  "asm": "asm/nonmatchings/800/func_80020DA4.s",
+  "tu": "src/800.c",
+  "klass": "D-NEAR",
+  "closeness": 2
+ },
+ {
+  "name": "func_800391D4",
+  "binary": "main",
+  "nins": 75,
+  "sub": "800_c",
+  "asm": "asm/nonmatchings/800_c/func_800391D4.s",
+  "tu": "src/800_c.c",
+  "klass": "D-NEAR",
+  "closeness": 3
+ },
+ {
+  "name": "func_80039DEC",
+  "binary": "main",
+  "nins": 74,
+  "sub": "800_c",
+  "asm": "asm/nonmatchings/800_c/func_80039DEC.s",
+  "tu": "src/800_c.c",
+  "klass": "D-NEAR",
+  "closeness": 2
+ },
+ {
+  "name": "func_80185810",
+  "binary": "ov_SC03_105",
+  "nins": 489,
+  "sub": "ov_SC03_105_jr_80181C84",
+  "asm": "asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80181C84/func_80185810.s",
+  "tu": "src/ov_SC03_105/ov_SC03_105_jr_80181C84.c",
+  "klass": "F-FAR",
+  "closeness": 35
+ },
+ {
+  "name": "func_800CF3E8",
+  "binary": "md_MAIN_003",
+  "nins": 469,
+  "sub": "md_MAIN_003",
+  "asm": "asm/md_MAIN_003/nonmatchings/md_MAIN_003/func_800CF3E8.s",
+  "tu": "src/md_MAIN_003/md_MAIN_003.c",
+  "klass": "F-FAR",
+  "closeness": 27
+ },
+ {
+  "name": "func_8017DC80",
+  "binary": "ov_SC07_002",
+  "nins": 346,
+  "sub": "ov_SC07_002_jr_8017C8D0",
+  "asm": "asm/ov_SC07_002/nonmatchings/ov_SC07_002_jr_8017C8D0/func_8017DC80.s",
+  "tu": "src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c",
+  "klass": "F-FAR",
+  "closeness": 46
+ },
+ {
+  "name": "func_800CF6D0",
+  "binary": "md_MAIN_007",
+  "nins": 249,
+  "sub": "md_MAIN_007",
+  "asm": "asm/md_MAIN_007/nonmatchings/md_MAIN_007/func_800CF6D0.s",
+  "tu": "src/md_MAIN_007/md_MAIN_007.c",
+  "klass": "F-FAR",
+  "closeness": 137
+ },
+ {
+  "name": "func_800CF408",
+  "binary": "md_MAIN_007",
+  "nins": 178,
+  "sub": "md_MAIN_007",
+  "asm": "asm/md_MAIN_007/nonmatchings/md_MAIN_007/func_800CF408.s",
+  "tu": "src/md_MAIN_007/md_MAIN_007.c",
+  "klass": "F-FAR",
+  "closeness": 49
+ }
+]

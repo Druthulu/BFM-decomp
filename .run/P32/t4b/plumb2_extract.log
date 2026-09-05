@@ -1,0 +1,35 @@
+splat 0.41.0 (powered by spimdisasm 1.41.0)
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 149450.80it/s]
+  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 386533.90it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Scanning header:   0%|          | 0/2 [00:00<?, ?it/s]Scanning main:   0%|          | 0/2 [00:00<?, ?it/s]  
+Rodata segment '800' may belong to the text segment '800'
+    Based on the usage from the function LzssDecodeSector to the symbol jtbl_80072A38
+
+The rodata segment '800' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0x6324C, .rodata]
+      - [0x63388, .rodata]
+      - [0x633FC, .rodata]
+
+
+Rodata segment '800_b' may belong to the text segment '800_b'
+    Based on the usage from the function func_8002B0B4 to the symbol jtbl_80072E44
+
+Rodata segment '800_b_2' may belong to the text segment '800_b_2'
+    Based on the usage from the function func_8002DC68 to the symbol jtbl_80072F3C
+
+The rodata segment '800_b_2' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0x63920, .rodata]
+
+
+Rodata segment '800_c' may belong to the text segment '800_c'
+    Based on the usage from the function func_80035270 to the symbol jtbl_800732A0
+Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.17it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.17it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:02<00:00,  1.33s/it]Splitting main: 100%|██████████| 2/2 [00:02<00:00,  1.33s/it]
+  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 62.68it/s]
+Split 340 KB (82.28%) in defined segments
+              header:     2 KB (0.50%) 1 split, 0 cached
+                   c:   338 KB (81.78%) 85 split, 0 cached
+             unknown:      0 B (0.00%) from unknown bin files
+ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.o, 800_b.o, 800_b_2.o, 63940.data.o, 800_c.o, 63C4C.data.o]; pre=0 text=85 empties=166 bss=85

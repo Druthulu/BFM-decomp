@@ -290,3 +290,21 @@ unsloth_compiled_cache/
 !/.run/P32/t4/v391D4/
 /.run/P32/t4/v391D4/*
 !/.run/P32/t4/v391D4/*.c
+# P32 T4b/T5x (S83): the hand-pass notes + measured variant drafts, and the Fable pass's brief/targets/drafts/reports
+!/.run/P32/t4b/
+/.run/P32/t4b/*
+!/.run/P32/t4b/func_*/
+/.run/P32/t4b/func_*/*
+!/.run/P32/t4b/func_*/*.md
+!/.run/P32/t4b/func_*/*.c
+!/.run/P32/t4b/*.log
+!/.run/P32/t5x/
+/.run/P32/t5x/*
+!/.run/P32/t5x/BRIEF.md
+!/.run/P32/t5x/targets.json
+!/.run/P32/t5x/fable/
+/.run/P32/t5x/fable/*
+!/.run/P32/t5x/fable/func_*.c
+!/.run/P32/t5x/reports/
+/.run/P32/t5x/reports/*
+!/.run/P32/t5x/reports/*.md
