@@ -37173,3 +37173,18 @@ preheader tail is the target's `sll $5,$5,16 / sra $5,$5,16 / move $8,$0`, and r
 4. The verdict chain for a wall row: hand pass names the mechanism (done S83), the agent reads the dump the hand pass did not
    (the `.loop` desirability lines), and the byte gate decides. Cost: one Fable agent, two interruptions by usage limits, the
    draft written before the first crash — recovered from `.run/P32/t5x/fable/` (write deliverables EARLY, R55).
+
+**§501-B — DO NOT MERGE CASE TAILS IN C: cross-jump merges them AFTER allocation, and a merge deletes a REFERENCE that decides
+global-alloc's order (P32 T4b, `main:func_80039DEC`, a pinned wall banked by a Fable agent).** The row's residual was the raw
+copy of the K&R `s16 a2` landing in `$t1` instead of `$a3` (a1's copy in `$t0` in both). Pinned as "fixed by argument
+position"; the S83 hand pass guessed a block-local pseudo in `$a3` (global.c `local_reg_n_refs`) — both wrong: that check lives
+only in the `best_reg < 0` retry (global.c:1108–1160). **Mechanism (global.c:587–608 `allocno_compare`):** allocnos are ordered by
+`floor_log2(n_refs) * n_refs / live_length`; `find_reg` (:960–985) gives the LOWEST free hard reg to whichever allocno comes
+first. Every prior draft merged the 0x14/0x28 case tails at C level (`goto L_merge` + a `kind` temp), deleting one `sb a2` —
+a2-raw fell to 3 refs / 45 insns (pri 666) and a1-raw (3 / 26, pri 1153) took `$a3` first. The original wrote the natural
+`switch (a2)` with the tails DUPLICATED; jump.c cross-jump (:1923) merges them post-reload, so at flow time a2-raw has 4 refs /
+41 (`floor_log2(4) = 2` → pri 1951) and is allocated FIRST → `$a3`. Block-scope `u8 *p` per case, no pins, no fences, no
+`do { } while (0)`. Verified in `.run/c294/dumps_t5x_9DEC_sw2` (`73 in 8  75 in 7`). Corollaries: (1) a permuter "2" that reads
+an uninitialised temp is R63-unsound — its dead pseudo can be the thing occupying the wanted register; (2) when two parm copies
+swap registers, compute both allocnos' `n_refs`/`live_length` from the `-dl` dump and ask which SOURCE shape adds or removes a
+reference; (3) `docs/gcc-2.7.2-map/regalloc.md` gets the priority formula and the "cross-jump is post-alloc" law.
