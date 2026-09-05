@@ -1004,3 +1004,28 @@ but so are `MAIN/13, /20, /34, /42, /44`, which are **byte-proved to load** (the
 (`StreamLoadStateMachine`) and `resourceIdMap` paths are separate. **MAIN/7 and MAIN/9 remain open.**
 The S45 checkpoint's hope that this would be "the strongest dead-code evidence obtainable" does not
 survive its own control — recorded so a later session does not re-derive the false conclusion.
+
+#### S45 p7 (P32 T2a, 2026-09-05) — the parked five get STATIC base evidence: two STRONG, two consistent, one split
+
+> **Provenance (G5):** `static-derived` from the extracted payloads alone (`tools/payload_base_evidence.py`, controls-gated:
+> the seven banked modules' byte-proven bases re-derive top-ranked from their own bytes, 7/7). Region **US**. Rows in
+> `.run/P32/t2a/evidence.json`. **None of these is a load address until `tools/new_binary.sh`'s FIRST build is
+> byte-identical (the §S44 module-class law, P9)** — T2b runs the probes in the order given.
+
+Why this works where §S45 p5's three payload-side oracles failed: those looked for a module's base in its OWN
+prologue/table geometry (`derive_base`), or voted `jal` targets against prologues (`vote_base`, 4/12) and against
+"listed functions" (`vote_base2`, 0/4). The recall killer was the **function-start set**: MIPS leaf functions have no
+`addiu $sp` prologue, so a self-call into a leaf read as a miss. With starts = prologues ∪ the word after every
+`jr $ra`+delay (the linear-partition boundary), every self-calling module pins its own base; the non-self-calling
+ones fall to the bounded DESTPTR list + pointer/`lui` consistency instead of a guess.
+
+| payload | size | id | TEXT_LO | evidence | candidate base(s), probe order |
+|---|---|---|---|---|---|
+| MAIN/7 (`FILE_007`, raw) | 9,600 | 0x3A | 0x34 | **STRONG**: 9/9 internal `jal`s and 14/16 absolute pointers land on its own function starts; lui 0x800C/0x800D ×68 | **0x800CEDF8** (the boot slot — md_MAIN_001/008/011's) |
+| MAIN/9 (`FILE_009.dir/0.1`) | 2,544 | 0x2D | 0x3C | **STRONG**: 6/6 internal `jal`s and 9/9 pointers on starts at exactly one base; lui 0x800C/0x800D ×51 | **0x800CD348** (inside slot B's region, +0x82C; then slot A 0x800CAE08 / slot B 0x800CCB1C) |
+| SC03/53 (`FILE_053.dir/0.1`) | 6,616 | 0x40 | 0x4 | CONSISTENT (12-way tie): 52/75 pointers inside (3 on starts), its one internal `jal` on a start, lui 0x801F ×18 | **0x801EF468** (ov_SC03_001's DESTPTR, score 183 vs 42 for the runner-up ov_SC02_017 0x801EFD38) |
+| SC03/54 (`FILE_054.dir/0.1`) | 8,220 | 0x41 | 0xF0 | CONSISTENT (12-way tie): 106/115 pointers inside (5 on starts), lui 0x801F ×46, no internal `jal` | **0x801EF468** (score 157 vs 75 for 0x801EFD38) |
+| SC03/56 (`FILE_056.dir/0.1`) | 3,680 | 0x43 | 0x4 | SPLIT: the `jal` vote says **0x80178C8C** (two distinct self-call targets, 4/4 on starts — inside the location-overlay slot region) while its 17 pointers and lui 0x801D point at ~0x801CBxxx | 0x80178C8C, then the DESTPTRs in its pointer window: **0x801CBB50** (ov_SC03_002), 0x801CBD90 (ov_SC03_090), 0x801CC6E0 (ov_SC03_093) |
+
+Both OPDEMO modules (MAIN/7, MAIN/9) carry `C:\TIMPACK\OPDEMO0.PAT` / `OPDEMO1.PAT` at header offsets 0x4/0x1C
+(§S45 p5 addendum) — the header format here is [id][two 24-byte path strings][code], hence TEXT_LO 0x34/0x3C.
