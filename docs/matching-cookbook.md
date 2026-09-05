@@ -36616,3 +36616,44 @@ ins, ~3,600-compile floor) · `main:func_80015B6C` 44 (two documented walls) · 
 (469 ins, all four block sizes exact; a local-alloc birth-order tie — [permuter]/density fuel) ·
 `ov_SC07_002:func_8017DC80` 84 (cse unifying `otz<<2` across a call into pinned $s1 ~45 + a clamp delay-slot
 8 + a late `lui/addiu` pair ~14).
+
+#### §495 ★★★ — THE VERBATIM END-STATE (P31 S80 #10): TWO DEF-SIDE DECLARATION WALLS, A "BANK" THAT WAS THE ASSEMBLY, AND A GATE THAT DROPPED A BANK ON EXIT 0
+
+**The class.** After S79 #5 the whole game's `__asm__`-posing-as-C set was six bodies (`config/verbatim_manifest.json`):
+five PERMANENT (crt0 `start`/`__main`/`__do_global_dtors`, the two MDEC-side hand-asm routines of md_MAIN_003) and one
+GAME-C, `ov_SC03_107:func_8017D878` (45 ins, "37 stored drafts, no wall"). `verbatim_check.py --strict` then found a
+SEVENTH: `md_MAIN_020:func_800CB17C`, which S79 #7 had "banked by a RAW splice" — the splice had put the function's
+ASSEMBLY (the ledger's `best_draft` was the asm; every stored "draft" of it was) into the TU as a file-scope `__asm__`
+block. `rtu_match` says MATCH for such a body by construction, the byte gate is green by construction, and
+`progress.py` counted it banked. **A verbatim body is never a bank (P9); `verbatim_check --strict` in tools-health is
+what caught it, one session later.** Both were converted back to `INCLUDE_ASM` with `tools/verbatim_to_stub.py --apply
+--gate` (byte-identical each; the tool refuses to GUESS the asm subdir when a TU has no sibling stub left — pass
+`--asm-subdir asm/<bin>/nonmatchings/<subseg>`, the fleet spelling) and then decompiled.
+
+**Wall 1 — `extern void f(void)` for a callee used only as a POINTER.** The TU declared `extern void func_8017D878(void);`
+because its only use is `func_801788B8(s0, (s32)func_8017D878)`. The function actually takes the actor pointer and
+returns either 0 or the address of `func_80172710` (`lui/addiu $v0`). The 32-line stored draft was byte-correct
+(`match_one` 45/45) the moment its definition said `s32 f(s32)`; with `void` it dropped the `addu $v0,$zero,$zero` /
+`lui/addiu $v0` tail, and with the right signature the TU refused it (`conflicting types`). Thirty-seven drafts had
+died on a declaration that carried no information (only the address is taken). Fix: correct the TU decl (byte-neutral —
+the pointer value is the same), commit, gate. **Lesson: when a TU's only use of a callee is `(s32)callee`, its
+`extern` was GUESSED; treat the decl as unconstrained and take the signature from the callee's own body.**
+
+**Wall 2 — a block-scope `struct S` tag.** md_MAIN_020's TU declares `extern s32 func_800CB17C(struct S *a0);` INSIDE
+another function's body, and `struct S` is not declared at file scope in that TU. C then creates a BLOCK-LOCAL tag, and
+no file-scope definition — whatever it spells — is compatible with it (`conflicting types for func_800CB17C`, the
+previous declaration being the block-scope line). Fix: one file-scope `struct S;` before the first use (byte-neutral),
+so both spellings name the same incomplete type. The definition itself is seven straight calls with `s0 = a0` in `$s0`
+and NO `return` in an `s32` function (the target sets no `$v0` after the last `jal`; falling off the end is exactly that).
+
+**The gate that dropped a bank.** `parallel_gate` on `func_8017D878` printed `banked 1 … merged 0 file(s); REFUSED 0`
+and exited 0; the main tree still had the stub. The worker's `git status` capture came back empty (cause not
+recovered — the fixed-path results JSON was overwritten by the next run before anyone looked), so the byte-proven
+bank died with its worktree. Now: the worker's raw status + scope ride in the result, a banked-but-not-merged binary
+prints `!! BANKED-BUT-NOT-MERGED` and the run exits 2, and every run also writes `.run/pgate_runs/<ts>.json`. The
+recovery route is the one S79 #7 SHOULD have used: `rtu_match` MATCH → splice the C in-tree → `make build` (exit code,
+R53) → commit.
+
+**State after #10:** the tree's verbatim set == the manifest's five PERMANENT rows, RATIFIED in its `_README`;
+`ov_SC03_107` is 100% C; the open-stub census is unchanged at 21 (both functions went verbatim → stub → C in one
+session), but the S79 close had been ONE bank overstated.

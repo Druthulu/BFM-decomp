@@ -1,6 +1,6 @@
 # CURRENT PHASE — Phase 31: The Frontier Atlas & Wide-Tolerance Campaign
 
-> **⚠ READ THE LAST BLOCK FIRST — `## 🛑 SESSION CHECKPOINT — S80 #9 CLOSE` at the END of this file.**
+> **⚠ READ THE LAST BLOCK FIRST — `## 🛑 SESSION CHECKPOINT — S80 #10 CLOSE` at the END of this file.**
 > This log holds **37** `🛑` checkpoint blocks written across many sessions, and several older
 > ones also say "supersedes every earlier block" — true when written, false now. **The LAST 🛑 block
 > is always the live one**; everything above it is history. (S72 note: that rule was itself BROKEN
@@ -184,6 +184,23 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     **R22:** clean `extract-all` 212/212 + `check-all` **213/213** (`.run/S80/r22_*.log`); `tools-health` OK. Metrics:
     main REAL 777 · LINKED 1,256 · VERBATIM 3 · stubs **12** · byte-identical 2,079/2,091 = 99.43% · **game-code 95.1%
     (39,479 / 41,534)**; fleet instr **100.0%** (13,481,386 / 13,485,889) · distinct 99.9% · stubs **21**.
+    **#10 DONE (S80, 2026-09-05; `commit:3893` `commit:3894` `commit:3895` `commit:3896` + this docs commit; cookbook §495):**
+    the verbatim end-state. (1) The five PERMANENT-VERBATIM rows RATIFIED in `config/verbatim_manifest.json` `_README`
+    (crt0 `start`/`__main`/`__do_global_dtors`; md_MAIN_003 `func_800D3204`/`func_800D3234`). (2) `ov_SC03_107:func_8017D878`
+    (45 ins, the one GAME-C verbatim, "37 stored drafts") DECOMPILED — the stored best draft was byte-correct all along; it
+    needed its real `s32 (s32)` signature, and the TU's `extern void func_8017D878(void)` (the callee is only ever taken as
+    a pointer) was the def-side declaration wall; `verbatim_to_stub --gate` (byte-identical) → decl fix (byte-identical) →
+    rtu MATCH → banked `87d02b57`; **ov_SC03_107 is 100% C.** (3) **P9 CORRECTION:** `verbatim_check --strict` found a
+    seventh verbatim — `md_MAIN_020:func_800CB17C`, which S79 #7 had "banked by a raw splice" of the function's
+    ASSEMBLY (every stored draft was the asm) → reverted to a stub (byte-identical `0990e041`) and decompiled for real
+    (seven calls; the TU's block-scope `struct S` tag needed a file-scope `struct S;`); the S79 close had been ONE bank
+    overstated. Manifest `--update` 6 → **5 rows**, `--strict` no drift; `main()` was already C (`src/boot.c:277`) and the
+    md_MAIN_003 "-O0 cluster" is only the F-FAR `func_800CF3E8` — neither was #10 work. **Instrument:** `parallel_gate`
+    banked `func_8017D878` in its worktree and merged 0 files on exit 0 (the bank died with the worktree; cause not
+    recovered) → now exits 2 with `!! BANKED-BUT-NOT-MERGED`, keeps the worker's raw status, and writes a per-run
+    `.run/pgate_runs/<ts>.json`. **R22:** clean `extract-all` 212/212 + `check-all` **213/213** (`.run/S80/r22b_*.log`);
+    `tools-health` OK. Metrics unchanged by construction (verbatim → stub → C): main REAL 777 · LINKED 1,256 · VERBATIM 3
+    · stubs 12 · 99.43%; game-code 95.1%; fleet stubs **21**, instr 100.0%. decision-log "S80 addendum"; SETUP rows.
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)
@@ -8585,3 +8602,104 @@ be the polisher cheating (it swapped an instruction for a different one) and was
 ledger with its cause, four are formally pinned as compiler walls, and the whole game still rebuilds bit-for-bit
 (213 of 213 files). Twenty-one functions remain across the whole game. Next: bless the five hand-written assembly
 routines that will never be C, and decompile the one 45-instruction routine that is.
+
+## 🛑 SESSION CHECKPOINT — S80 #10 CLOSE (2026-09-05). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT; only **#11 (Tclose — PhaseEnd)** remains.
+
+Written for a FRESH SESSION with none of this context. Read it in full before doing anything. **HEAD = this docs commit,
+on top of `commit:3896` (#10 bank 2), `commit:3895` (#10 bank 1), `commit:3894` + `commit:3893` (#10 plumbing), `commit:3892` (the
+S80 #9 CLOSE checkpoint) — Drew pushes (R6); no trailers (R5 + S78).** Model Fable 5.1; effort **Max** (set at S80 start).
+**#11 is a Tier-1 task (Max) — the Phase Boundary Protocol applies: verify every checkbox (P7), demonstrate the milestone,
+WAIT for Drew's gate-2 confirmation, then write `PhaseEnd_Phase31.md`, `git mv` this file → `phase-ends/logs/Phase31.md`
+(R19), stop the Ghidra MCP (R23 — no DB change to commit), and leave both uncommitted for Drew's milestone-close commit.**
+Ghidra DB churn (`db.*.gbf`, `~index`) is R23 restart-noise: do NOT stage it.
+
+**Verified at close (R22/R58/R53):** `make clean && make extract-all && make check-all` → extract-all **212/212** (+ main),
+check-all **213 passed, 0 failed of 213**, exit codes 0/0 (`.run/S80/r22b_extract.log`, `.run/S80/r22b_check.log`);
+`make tools-health` → **OK** rc 0 (`.run/S80/tools_health_b.log`: sigs fresh; corpus(+resident) 0 PHANTOM + 0 TRUNCATED;
+cdecl; audit-binaries 213/213; report lint+dedup 0 failed; cookbook-index); `verbatim_check --strict`: 5 bodies in tree
+== 5 manifest rows, all PERMANENT, no drift; `make report BINARY=main` → `143dbb89f34491258bbc27810d0a12ec8b43a8dd`
+byte-identical (`.run/S80/report_main_b.log`). `twin_rescan`: 21 open, 1 with a banked twin (ov_SC02_017 d=2), nothing
+newly free.
+
+# 1. WHAT S80 DID (tasks #9 and #10 closed)
+* **#9** — see the S80 #9 CLOSE block §1 (still true): the 11 S79 agents aggregated (`tools/agent_verdicts.py`), 2 more
+  banks (ten in the task), 8 NEAR ledgered with mechanisms, the permuter instrument fixed (three defects; 436 K&R drafts
+  had been refused), an 8-seed ILS sweep (no score-0), WALL candidates pinned, §494 v2.
+* **#10** — the verbatim end-state (cookbook **§495**): the five PERMANENT rows RATIFIED; `ov_SC03_107:func_8017D878`
+  decompiled (a def-side `extern void f(void)` for a pointer-only callee was the whole wall; ov_SC03_107 now 100% C);
+  the S79 #7 "bank" of `md_MAIN_020:func_800CB17C` found to be the function's ASSEMBLY as a verbatim body (P9) →
+  stub → decompiled for real (the TU's block-scope `struct S` tag needed a file-scope declaration). Manifest 6 → 5 rows.
+  `parallel_gate` gained the banked-but-not-merged guard (exit 2 + evidence) after it dropped a bank on exit 0.
+
+# 2. THE CENSUS (S80 #10 close; every number with its denominator, R41)
+* **Stubs: 21 of 363,157 matchable** — unchanged from the #9 close (both #10 functions went verbatim → stub → C within
+  the session; the S79 close had been one bank overstated). `.run/frontier_s80.json` (regenerated after #9; #10 changed no
+  stub row): **main 12 (2,077 ins)** · resident 2 · md_MAIN_003 1 · md_MAIN_034 1 · ov_SC02_017 1 · ov_SC03_105 2 ·
+  ov_SC06_022 1 · ov_SC07_002 1; **4,554 ins**. Classes: **B-CARVE 4** (resident `func_800D06E8` 344 c292 [F-FAR really],
+  `func_800D128C` 243 [close-0 draft; NON-CONTIGUOUS carve → subseg split §486]; ov_SC02_017 `func_80186C64` 209 [same
+  refusal; d=2 twin ov_SC02_016]; md_MAIN_034 `func_800CB00C` 152 [wrong-sized draft under a WALL pin]) · **D-NEAR 10**
+  (main `func_80032A74` 422 c1 WALL-cand, `func_80023BF0` 281 c11, `func_80011380` 192 c6 §474 PROVED, `func_80020DA4` 100
+  c2 WALL-cand, `func_80039B20` 79 c7, `func_800391D4` 75 c3 WALL-cand, `func_80038698` 74 c11, `func_80039DEC` 74 c2
+  WALL-cand; ov_SC06_022 `func_8017DF28` 119 c2 WALL; ov_SC03_105 `func_801834A4` 106 c9 WALL S71) · **F-FAR 7** (main
+  `func_80039308` 518 c34, `func_80015B6C` 120 c44, `func_8002FDE8` 73 c35, `func_8001BC6C` 69 c28; ov_SC03_105
+  `func_80185810` 489 c37; md_MAIN_003 `func_800CF3E8` 469 c54; ov_SC07_002 `func_8017DC80` 346 c84).
+  `config/wave_exclude.txt` = 8 entries (1 PROVED + 3 pinned earlier + 4 S80 candidates); the backlog ledger has 18 open
+  near-misses with drafts (`docs/backlog.md`).
+* **Metrics** (regenerated): main **REAL 777 · LINKED 1,256 · VERBATIM 3 · stubs 12 · matchable 2,091 · byte-identical
+  2,079/2,091 = 99.43%**; **MAIN game-code weighted 95.1% (39,479 / 41,534)** — remainder 2,055 vs the census's main
+  open-stub sum 2,077: a **22-ins gap still unreconciled → #11 must reconcile or state it** (R14/R41). Fleet instr-weighted
+  **100.0% (13,481,386 / 13,485,889)** · distinct-code 99.9% (90,920 / 90,929 unique fns) · fn-count 99.99% (363,136 /
+  363,157) · stubs 21 · NON_MATCHING 0 (G4) · dedup 2,220 groups / 0 failed. Linked libraries: 268 objects / 70 blocks.
+* **Verbatim `__asm__` bodies: 5 in tree == 5 manifest rows, all PERMANENT, RATIFIED** (main 3: crt0 `start`/`__main`/
+  `__do_global_dtors`; md_MAIN_003 2: `func_800D3204`/`func_800D3234`). `main()` is C (`src/boot.c`).
+* **Disc: 5 unclaimed code payloads of 220** (the explicit exclusion, `docs/disc-completeness.md`); 213 binaries onboarded;
+  the 39 type-1 modules were onboarded as the `md_*` fleet in P30.
+
+# 3. THE TASK LIST — DONE: #1 #2 #12 #3 #4 #13 #5 #6 #7 #8 #9 **#10** · NEXT **#11** (the last)
+| # | task | status | effort |
+|---|---|---|---|
+| 1–10, 12, 13 | see the S79 FINAL block §3 + the S80 #9 CLOSE block §3 | DONE | — |
+| **11** | **Tclose — `PhaseEnd_Phase31.md` on the corrected denominators (gate 2)** | **NEXT** | **Max** |
+
+# 4. TASK #11 — BRIEF (the Phase Boundary Protocol, PROJECT_CONTEXT.md)
+1. **P7 — verify every checkbox** of this file's task checklist (T0–T9 + the T10+ bullets #1–#13) and the standing
+   verification line (R22 213/213 · tools-health green · 0 NON_MATCHING · dedup 0 failed).
+2. **Demonstrate the milestone** (P30-shaped: "campaign to ceiling; every remaining stub on a named ledger at close"):
+   R22 213/213 (`.run/S80/r22b_check.log`), tools-health OK, the 21-row census above with every row's class + closeness +
+   named blocker, the 8-entry exclude list, the 18-row backlog, the 5-row ratified verbatim manifest, the fleet dashboard
+   (instr 100.0% / distinct 99.9% / fn 99.99%; main 99.43% byte-identical / 95.1% game-code) — and the 22-ins gap named.
+   **Ask Drew to confirm gate 2 and WAIT.**
+3. On confirmation, at **Max** (prompt for the `/effort` line if it is not Max, R27): propose rules (P10) — candidates
+   already recorded in this file: R44–R50 (S59), R51–R55 (S60), R56–R60 (S61), R61 accepted S77; S80 adds two: (a) a
+   ledger `best_draft` may never be an `__asm__` body and a bank whose body is `__asm__` is a verbatim, not a bank (P9 —
+   `verbatim_check --strict` in the per-bank close); (b) a permuter/waypoint score is not a closeness until its diff is
+   read (R14 for instruments). Write `PhaseEnd_Phase31.md` per the PROJECT_CONTEXT format (+ the Roadmap delta line +
+   the Plain-English Recap, R25); `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/Phase31.md` (R19);
+   `tools/ghidra_mcp_stop.sh` (R23; no RE writes this phase → no DB commit); leave the PhaseEnd + the archived log
+   UNCOMMITTED for Drew (R6); end with the 🛑 stop and nothing more (P8).
+4. Sources for the synthesis: this file's T10+ bullets (#1–#13) and the 🛑 blocks S78 OPEN → S79 FINAL → S79 HANDOFF →
+   S80 #9 CLOSE → this; `docs/decision-log.md` S77/S78/S79/S80 entries (R31); cookbook §487–§495; `docs/roadmap-to-100.md`
+   v2 §3 P31/P32 (the roadmap delta: P31 absorbed P32's wall track and the module fleet; what remains for P32 is the
+   21-row census); `docs/disc-completeness.md`; `docs/backlog.md`; `config/wave_exclude.txt`.
+
+# 5. HABITS S80 PAID FOR (keep)
+* Exonerate the instrument before the subject (R40) — three permuter defects, one gate merge defect, one verbatim
+  "bank": every one of them read as a subject result until checked.
+* A byte gate is a NULL oracle for "is this C?" — an `__asm__` body matches by construction. `verbatim_check --strict`
+  belongs in the per-bank close, not only in tools-health.
+* When a TU's only use of a callee is `(s32)callee`, its `extern` was guessed: take the signature from the body.
+* A block-scope `struct S *` parameter in an `extern` declares a block-local tag; give it a file-scope `struct S;`.
+* Read a permuter waypoint's diff before recording its score; keep per-run evidence files.
+* Report every number with its denominator, including the one that does not reconcile.
+
+# 6. PLAIN ENGLISH
+This session finished the last two working tasks of the sprint. First it collected the answers of the eleven AI agents
+that were still running when the previous session ended: two more functions came back perfect and are banked, and the
+eight that stopped short are logged with the exact reason. It also found and fixed three bugs in our brute-force
+polisher (it had never been able to work on any draft that pins CPU registers, and it had silently refused 436 stored
+drafts for a month), then re-ran it — no new perfect matches, but honest numbers. Then it cleaned up the last
+"assembly pretending to be C": it blessed the five hand-written routines that will stay assembly forever, decompiled the
+one that was really C (its 37 failed attempts had all died on a single wrong declaration), and caught that a "bank" from
+the previous session was actually the assembly pasted back in — reverted it and decompiled it properly. Every one of
+the game's 213 pieces still rebuilds bit-for-bit, 21 functions remain open (each with its cause written down), and the
+only task left is to write the phase's closing report and ask Drew to confirm the milestone.

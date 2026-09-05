@@ -3170,3 +3170,34 @@ archive in S79. The §487 sentence — "a wall inside bytes no archive you hold 
 question before it is a compiler question" — now has its second half: **and a provenance answer is an
 archive to go and find, not a label to match under.**
 
+### S80 addendum (2026-09-05, tasks #9/#10) — a "bank" that was the assembly, and the permuter that could never see a pin
+
+**Context.** The completion sprint's task #9 (one agent per open function) ended S79 mid-flight; S80 aggregated the
+eleven agents that outlived that session from their transcripts (`tools/agent_verdicts.py`), banked the two MATCHes
+(`main:func_8001EFE0` 468, `ov_SC02_027:func_80180B3C` 297) and ledgered the eight NEARs. Task #10 was meant to be a
+formality — ratify five hand-asm routines, decompile one 45-instruction GAME-C verbatim.
+
+**What the instruments said, and what was true.** (1) The S79 #8 permuter verdicts on pinned seeds ("8 cycles, unchanged")
+were ONE cycle each: `permuter_ils` re-copied the decoded waypoint (raw pins) into base.c and every later cycle was a
+parser refusal; `hide_asm` only knew the `__asm__` spelling; and `defines_fn` could not see a K&R definition — the R39
+control over 5,311 stored drafts found 436 K&R backlog drafts that our own coverage check had refused for four phases.
+No permuter verdict on a pinned or K&R seed dated before S80 is a measurement. (2) S79 #7's `md_MAIN_020:func_800CB17C`
+"raw splice bank" had spliced the function's ASSEMBLY (the ledger's best_draft was the asm) as a verbatim `__asm__`
+body — a P9 fake bank the byte gate cannot see (it IS the bytes) and `progress.py` counted. `verbatim_check --strict`
+caught it in task #10, one session later. (3) The one GAME-C verbatim's 37 failed drafts were a declaration: the TU
+said `extern void f(void)` for a function it only ever takes the address of.
+
+**Decisions.** Fix the instrument before re-measuring (R35): the permuter fixes shipped with an R39 control and a
+positive control on the S79 refusal, then the 8-seed sweep re-ran (no score-0; `func_80039DEC` 9→2, `func_80023BF0`
+18→11; a "1" on `func_8017DF28` was a divergent store rewrite and was REFUSED as a closeness — R14). The ≤3 residuals with
+a mechanism citation and an ILS null are WALL candidates in `config/wave_exclude.txt`, distinct from §474-PROVED. The
+verbatim "bank" was reverted to a stub (byte-neutral) and decompiled properly; both def-side declaration walls fixed as
+byte-neutral TU plumbing committed BEFORE the gate (the S77 law). `parallel_gate` now exits 2 on banked-but-not-merged.
+
+**Cost.** Two fake or phantom results survived a session each because the instrument that would have caught them
+(tools-health's strict verbatim check; a re-read of the permuter's diff) was not in the per-bank loop. ~0 drafting tokens
+were spent on #10's two functions: the C existed (or was seven calls); the cost was the declarations.
+
+**Hindsight.** Run `verbatim_check --strict` in the per-bank close, not only at tools-health; never let a ledger's
+`best_draft` be an `__asm__` body (R48's cousin: a draft keyed by name with no "is this C?" check); and read a permuter
+waypoint's diff before recording its score.

@@ -402,10 +402,14 @@ def gate_one(idx, pin, job):
             strict=False)
         after = stubs_of(wt, binary)
         banked = sorted(before - after) if after is not None else []
-        files, ovl = {}, None
+        files, ovl, status_raw = {}, None, ""
         if banked:                       # capture the worker's resulting TU text for the merge
-            for rel in sh(["git", "status", "--porcelain", "--"] + scope,
-                          cwd=wt).stdout.splitlines():
+            # THE CAPTURE IS EVIDENCE, NOT A SIDE EFFECT (S80): a worker banked 1 and captured 0 files,
+            # the merge adopted 0 / refused 0, and the run exited 0 — the bank silently never reached the
+            # main tree. Keep the raw status + scope in the result so the next such case is diagnosable.
+            st = sh(["git", "status", "--porcelain", "--"] + scope, cwd=wt)
+            status_raw = st.stdout
+            for rel in status_raw.splitlines():
                 p = rel[3:].strip()
                 if p:
                     files[p] = open(os.path.join(wt, p)).read()
@@ -463,7 +467,7 @@ def gate_one(idx, pin, job):
             classes.append(part.split(":", 1)[0].strip())
         cls = " ".join(sorted(set(classes)))
         return {"binary": binary, "banked": banked, "files": files, "ovl": ovl,
-                "blind_suspect": blind,
+                "blind_suspect": blind, "scope": scope, "status_raw": status_raw[:2000],
                 "secs": round(time.time() - t0, 1),
                 "missing_generated": missing, "classes": cls, "verdicts": verdicts,
                 "rc": r.returncode, "tail": (r.stdout or r.stderr)[-200:] if not banked else ""}
@@ -578,6 +582,17 @@ def main():
               % (len(new_files), " ".join(new_files)), flush=True)
     print("[pgate] merged %d file(s); REFUSED %d (main tree moved under them): %s"
           % (len(adopted), len(refused), " ".join(refused[:5])), flush=True)
+    # BANKED-BUT-NOT-MERGED IS A FAILURE, NOT A QUIET ZERO (S80; R32/R61a). A worker whose bank oracle
+    # fired (a stub disappeared) but whose captured files were neither adopted nor refused has left a
+    # byte-proven bank in a worktree that is about to be deleted. Say so per binary, keep the evidence,
+    # and exit non-zero — the caller must splice by hand or re-run, never read "exit 0" as banked.
+    dropped = [r for r in results if r.get("banked")
+               and not any((p in adopted) or (p in refused) for p in (r.get("files") or {}))]
+    for r in dropped:
+        print("!! [pgate] BANKED-BUT-NOT-MERGED %s: banked %s but the worker captured %d file(s) "
+              "(scope=%s; git status=%r) — the bank is NOT in the main tree"
+              % (r["binary"], " ".join(r["banked"]), len(r.get("files") or {}),
+                 r.get("scope"), (r.get("status_raw") or "")[:300]), flush=True)
 
     # A CARVE THAT LANDS IN src/ + config/ LEAVES asm/ STALE, AND THE NEXT TOOL TO READ THE CORPUS
     # REFUSES ON THAT BINARY (P31 S74, the R22 corollary inside a gate). An isolation writes
@@ -649,6 +664,13 @@ def main():
         print("[pgate] committed %s" % head_commit()[:9], flush=True)
 
     json.dump(results, open(os.path.join(REPO, ".run/pgate_results.json"), "w"), indent=1)
+    # A per-run copy: the fixed path is overwritten by the next run, which is exactly how the S80
+    # banked-but-not-merged case lost its evidence before anyone looked.
+    os.makedirs(os.path.join(REPO, ".run/pgate_runs"), exist_ok=True)
+    json.dump(results, open(os.path.join(REPO, ".run/pgate_runs/%s.json"
+                                         % time.strftime("%Y%m%d-%H%M%S")), "w"), indent=1)
+    if dropped:
+        sys.exit(2)
 
 
 if __name__ == "__main__":

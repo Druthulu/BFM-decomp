@@ -72,18 +72,6 @@
    "unit_nins": 208,
    "path": "src/md_MAIN_003/md_MAIN_003_jr_800D1E18.c",
    "why": "`add`/`addi` (trapping) arithmetic throughout, no frame, $at use \u2014 hand-written (MDEC-side)"
-  },
-  {
-   "binary": "ov_SC03_107",
-   "fn": "func_8017D878",
-   "addr": "0x8017d878",
-   "nins": 45,
-   "cls": "GAME-C",
-   "disposition": "DECOMPILE-NOW",
-   "unit_entry": "func_8017D878",
-   "unit_nins": 45,
-   "path": "src/ov_SC03_107/ov_SC03_107_jr_801789AC.c",
-   "why": "ordinary -O2 shape; block comment gives semantics but no wall; 37 stored drafts"
   }
  ]
 }

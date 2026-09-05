@@ -10,7 +10,7 @@ FLEET distinct-code(uniq): 5809493 / 5813996 = 99.9%   (90920/90929 unique fns; 
 MAIN game-code weighted  :   39479 / 41534 = 95.1%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13441907 / 13444355 = 100.0%)
 
-FLEET REAL substantive   : 360658   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
+FLEET REAL substantive   : 360660   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
 FLEET LINKED PsyQ objs   :   1256
 FLEET NON_MATCHING       :      0   (0 in any default build — G4)
 FLEET INCLUDE_ASM stubs  :     21
@@ -31,7 +31,7 @@ FLEET matchable          : 363157
 | md_MAIN_017 | 10 | 0 | 0 | 10 | 10 | 100.0% |
 | md_MAIN_018 | 10 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_019 | 22 | 0 | 0 | 22 | 22 | 100.0% |
-| md_MAIN_020 | 12 | 0 | 0 | 14 | 14 | 100.0% |
+| md_MAIN_020 | 13 | 0 | 0 | 14 | 14 | 100.0% |
 | md_MAIN_021 | 10 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_022 | 31 | 0 | 0 | 33 | 33 | 100.0% |
 | md_MAIN_023 | 5 | 1 | 0 | 6 | 6 | 100.0% |
@@ -153,7 +153,7 @@ FLEET matchable          : 363157
 | ov_SC03_103 | 2507 | 1813 | 0 | 2510 | 2510 | 100.0% |
 | ov_SC03_104 | 2609 | 1824 | 0 | 2616 | 2616 | 100.0% |
 | ov_SC03_105 | 2588 | 1816 | 0 | 2595 | 2597 | 99.9% |
-| ov_SC03_107 | 2412 | 1693 | 0 | 2496 | 2496 | 100.0% |
+| ov_SC03_107 | 2413 | 1693 | 0 | 2496 | 2496 | 100.0% |
 | ov_SC03_108 | 2443 | 1819 | 0 | 2443 | 2443 | 100.0% |
 | ov_SC03_109 | 2422 | 1812 | 0 | 2424 | 2424 | 100.0% |
 | ov_SC03_110 | 2468 | 1835 | 0 | 2468 | 2468 | 100.0% |
