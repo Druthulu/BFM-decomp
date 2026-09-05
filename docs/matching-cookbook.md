@@ -37188,3 +37188,29 @@ a2-raw fell to 3 refs / 45 insns (pri 666) and a1-raw (3 / 26, pri 1153) took `$
 an uninitialised temp is R63-unsound — its dead pseudo can be the thing occupying the wanted register; (2) when two parm copies
 swap registers, compute both allocnos' `n_refs`/`live_length` from the `-dl` dump and ask which SOURCE shape adds or removes a
 reference; (3) `docs/gcc-2.7.2-map/regalloc.md` gets the priority formula and the "cross-jump is post-alloc" law.
+
+**§501-C — THE DYING-INPUT SUGGESTION vs THE BIRTHING BOOST: a shared local that dies in two places is not local-alloc's to give,
+and a fresh single-set pseudo is sched1's to glue (P32 T4b, `md_MAIN_009:func_800CD674`, the `$a3↔$t1` REGALLOC-PERM plateau
+banked by a Fable agent — 174/174).** The row: prim 4's masked pointer `and`/`or` wanted `$t1` (= the pinned mask `m24`'s
+register dying at that `and`); one shared `pm2` for prims 3 and 4 gave `$a3` to both; every "split it into two locals" form
+regressed to 31 (S82) and the S83 hand pass measured three short-lived-temp spellings at 31/44. Read in `-dl`/`-dS` + source:
+1. **A pseudo that "dies in 2 places" is excluded from `local_alloc` outright** (local-alloc.c:471 `reg_n_deaths != 1`) → it
+   becomes a GLOBAL allocno, conflicts with hard reg 9, lands in `$a3`. The target's `$t1` is `combine_regs`' hard-reg branch
+   (local-alloc.c:1806–1817): `$9` dying as an INPUT of the insn records `qty_phys_sugg` for the pseudo SET there, tried first
+   in `block_alloc` (:1470–1477) — but it wins only for a pseudo BORN at that `and` (`wipe_dead_reg` clears 9 before
+   `reg_is_set` births the dest). So prim 4 needs its own single-death pseudo.
+2. **Why the split regressed:** `sched.c adjust_priority` (2511–2545) boosts a ready `birthing_insn_p` SET (dest live,
+   `reg_n_sets == 1`) to `max_priority` in the BACKWARD list scheduler — prim 3's fresh `and` gets glued to its `or`, stops
+   filling the load-delay gap after prim 3's second `lhu`, and the `ori $s1,0x97 / lui $s1 / ori $s4,0x96` cascade into the
+   gaps: the old verdict "a fresh pseudo displaces the hoisted constants" was `reg_n_sets` (sched1), not pseudo count (regalloc).
+3. **The zero-byte fix:** prims 3/4 use different variables (`pm3`/`pm2`, single-death each) and `pm3` gets a trailing
+   `__asm__ volatile("" : "=r"(pm3));` after its last store — emits nothing, but its REG_UNUSED second set makes `pm3`
+   `reg_n_sets = 2` (no birthing boost, gap kept) and 2-death (global → `$a3`, as before), while prim 4's `pm2` stays
+   single-set/single-death → `Register 82 in 9`. Measured: fresh pm3+pm2 31; all four fresh 54; inline `(p-0x18)&m24` 175/159;
+   an asm re-setting `pm2` → `$a1` (a volatile asm re-lives all hard regs over the extended qty); asm on `pm3` only → MATCH.
+Map corollaries (regalloc.md / sched.md): `reg_n_deaths` gates local vs global; `reg_n_sets == 1` gates the birthing boost;
+a `__asm__ volatile("" : "=r"(x))` on a variable is a dial for BOTH counters at zero bytes.
+**Process note (coordinator, honest):** two ledger commits (`commit:3962`, `commit:3963`) claimed this bank before it existed —
+the bank helper had been called without the function name (it built the unchanged tree and exited 0) and then with the wrong
+draft directory (it refused). Write the commit message FROM the tool's output, never before it; the helper now refuses an empty
+function list and propagates a failed commit (R43), and takes `DRAFT_DIR`.
