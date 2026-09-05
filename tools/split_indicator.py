@@ -297,12 +297,20 @@ if __name__ == '__main__':
     a = ap.parse_args()
     if a.self_test:
         sys.exit(self_test())
-    bins = [a.binary] if a.binary else \
-        (open('.run/S70_bins_sorted.txt').read().split()
-         if os.path.exists('.run/S70_bins_sorted.txt')
-         else ['main'] + sorted(os.path.basename(p)[len('splat.'):-len('.yaml')]
+    # THE POPULATION IS DERIVED FROM THE YAMLS (R33/R36; P32 T2c). `.run/S70_bins_sorted.txt` used to BE the
+    # population when present — a stored list that went stale the moment a binary was onboarded (R51): tools-health
+    # printed "213 OK of 213" over a 218-binary fleet and nobody could tell. It is now an ORDER hint only; every
+    # yaml-derived binary it does not name is appended, and the denominator is asserted (R32).
+    derived = ['main'] + sorted(os.path.basename(p)[len('splat.'):-len('.yaml')]
                                 for p in glob.glob('config/splat.*.yaml')
-                                if 'us.exe' not in p and 'template' not in p))
+                                if 'us.exe' not in p and 'template' not in p)
+    if a.binary:
+        bins = [a.binary]
+    else:
+        order = open('.run/S70_bins_sorted.txt').read().split() if os.path.exists('.run/S70_bins_sorted.txt') else []
+        known = set(derived)
+        bins = [b for b in order if b in known] + [b for b in derived if b not in set(order)]
+        assert sorted(bins) == sorted(derived), "split_indicator: population != yaml-derived set (R32)"
     bad = 0
     for b in bins:
         st, lines = check(b)
