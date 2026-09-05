@@ -37214,3 +37214,24 @@ a `__asm__ volatile("" : "=r"(x))` on a variable is a dial for BOTH counters at 
 the bank helper had been called without the function name (it built the unchanged tree and exited 0) and then with the wrong
 draft directory (it refused). Write the commit message FROM the tool's output, never before it; the helper now refuses an empty
 function list and propagates a failed commit (R43), and takes `DRAFT_DIR`.
+
+**§501-D — ONE VALUE-RETURNING CALL MAKES THE CALL ITSELF A "BIRTHING" INSN: `reg_n_sets[$v0] == 1` hands the call sched1's
+max priority and drags a delay-slot filler above it (P32 T4b, `ov_SC06_022:func_8017DF28`, the `addiu $s2,$sp,0x10` jal-slot vs
+bnez-slot wall banked by a Fable agent — 119/119).** Pinned since S71 as `expand_block_move`'s `copy_addr_to_reg` pseudo being
+cse-reused for both later `&mtx` args; that reuse is REAL and present in the original too (cse follows the `bnez` as taken,
+cse.c:8118) — the prior levers (§H diamond, §194-K, §153, copy placement) aimed at the wrong pass. **Where the def lands is
+sched1's decision:** `sched.c:2469 birthing_insn_p` returns `reg_n_sets[i] == 1` for a SET whose dest is live, and it is
+evaluated for HARD registers too — the call's `(set (reg:SI 2 v0) (call …))` inside the PARALLEL. `regclass.c:1791` counts
+`reg_n_sets` for every REG dest. The draft had exactly ONE value-returning call (every other callee declared `void`), so that
+call was "birthing" (`adjust_priority` → `0x7f000001`), tied with the address def, and `rank_for_schedule`'s LUID tie-break
+(:2428) emitted the def ABOVE the jal in the backward schedule; reorg's backward search then filled the jal's slot with it
+(reorg.c:2904, delayed effects off). **The zero-byte lever: a SECOND `$v0` set** — call `RotMatrixY` through its real libgte
+pointer-returning type, `((void *(*)(s32, void *))RotMatrixY)(angle, mptr);`, TU `void` declaration untouched (cast at the
+use). The call drops to priority 1, the def lands right AFTER the call, reorg's FORWARD search refuses it for the jal slot
+(`mark_set_resources` reorg.c:542 marks every call-used reg incl. `$sp` as set — no `!fixed_regs` filter) and the `bnez`'s
+backward search takes it = the target. Known-true control: the banked same-TU twin `func_80180700` (3 `$v0` sets) shows the
+identical after-call placement in its own dumps. Tells: (1) a compiler-minted def parked in a jal slot where the target parks it
+in the next branch's slot; (2) exactly one non-void call in the function. Dial: any callee's true return type (libgte/libgpu
+functions return pointers/ints even when the TU declares them `void`), or a value-returning call whose result is discarded.
+Map corollary (sched.md): `birthing_insn_p` counts hard-reg sets; the number of value-returning calls in a function is a
+scheduling input.
