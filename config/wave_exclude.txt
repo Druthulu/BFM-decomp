@@ -5,3 +5,4 @@
 md_MAIN_034:func_800CB00C  # WALL: compiler wall (merged from S68_walls_332.txt)
 ov_SC03_105:func_801834A4  # WALL: loop.c movable ordering, closeness 6 (S71)
 ov_SC06_022:func_8017DF28  # WALL: expand_block_move copy_addr_to_reg pseudo + cse reuse, closeness 2 (S71)
+main:func_80011380  # WALL: §474 PROVED C-level floor (closeness 6) — fold-const.c:882 split_tree merges MULT(MULT(i,2),2); the two escapes each cost one instruction (stupid.c:497 adjacency / expand_decl use-brackets); §388 -O0 colouring oracle. Pinned S79 #8.

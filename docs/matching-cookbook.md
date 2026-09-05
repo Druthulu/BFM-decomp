@@ -36389,3 +36389,31 @@ standard tail carve at gate time, no draft exists. `md_MAIN_003:func_800D0100` (
 `func_80010B40`): `family_remap` raises on `main` as a source (its image reader expects a flat overlay blob) —
 hand-remap or the C-PLUMBING route (#7).
 
+#### §492 ★★ — "C-PLUMBING" WAS THREE DIFFERENT THINGS (P31 S79 #7): A RAW SPLICE THE GATE'S LADDER BROKE, TWO -O0 BODIES THE CHECKER COMPILED AT -O2, AND TWO DRAFTS THAT BELONGED TO OTHER OVERLAYS
+
+**The class as the census named it:** five stubs whose bodies were "proven close=0" and whose TU spelling
+refused them. The real-TU compile (`rtu_match`, §491's route) sorted them into three unrelated cases:
+
+**(a) The gate's ladder mutated a correct body.** `md_MAIN_020:func_800CB17C` (30 ins) was `rtu_match`
+MATCH and `parallel_gate` NEAR (`near: 1, failed: 0`) — the "match_one MATCH but the whole-binary gate
+rejected — CAUSE NOT DETERMINED" verdict the census had carried. Hand-splicing the raw draft into the TU
+and running `make build` was byte-identical first try. `gate_stage`'s stages (`canon_resident_calls` →
+`cast_call_sites` → `sig_unify`) are pure draft rewrites that usually help; here one of them changed the
+codegen. When rtu_match says MATCH and the gate says NEAR, the raw splice is the bank (or `--skip-stages`).
+
+**(b) An -O0 island TU.** `md_MAIN_003:func_800D06BC` (33) and `func_800D0100` (29) live in
+`md_MAIN_003_o0e`, a TU the Makefile's `-O0` wildcard compiles at -O0; their close-0 drafts had simply never
+been gated (attempts=0). `rtu_match` without `--o0` showed the target's `$fp` frames against an empty
+"mine" column — the checker's flag, not the draft, was wrong; with `--o0` both MATCH, and the worktree gate
+banked both (the build already compiled the TU right).
+
+**(c) Same name, other overlay (R48).** `ov_SC05_018:func_80180BE0` (target 65 ins) and
+`ov_SC06_010:func_801809E4` (33) had "drafts" of 15 and 220 ins: every on-disk `func_801809E4.c` is
+ov_SC01_080's function of that name (the `sweep_bb` dirs), and `.run/backlog_drafts/<fn>.c` is keyed by the
+bare function name, so the census's `drafts`/`closeness` columns and the ledger's `best_draft` pointed at a
+different function that happens to share the address. Two of five "plumbing" rows were phantoms: those two
+functions have NO draft and go to the drafting task. Fix to make: key `backlog_drafts` and the journal join
+by `(binary, fn)` — the same defect class as R48's three collisions.
+
+Net: 3 banks, 2 reclassified, 0 tokens; stubs 35 → 32.
+

@@ -4,16 +4,16 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 363122 / 363157 = 99.99%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 13479710 / 13485889 = 100.0%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5807817 / 5813996 = 99.9%   (90910/90929 unique fns; the DISTINCT-RE number)
+FLEET fn-count byte-ident: 363125 / 363157 = 99.99%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 13479802 / 13485889 = 100.0%   (shipped .text across main + resident + 211 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5807909 / 5813996 = 99.9%   (90913/90929 unique fns; the DISTINCT-RE number)
 MAIN game-code weighted  :   38748 / 41534 = 93.3%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13440962 / 13444355 = 100.0%)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13441054 / 13444355 = 100.0%)
 
-FLEET REAL substantive   : 360645   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
+FLEET REAL substantive   : 360647   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
 FLEET LINKED PsyQ objs   :   1256
 FLEET NON_MATCHING       :      0   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :     35
+FLEET INCLUDE_ASM stubs  :     32
 FLEET matchable          : 363157
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
@@ -21,7 +21,7 @@ FLEET matchable          : 363157
 | main | 773 | 2 | 1256 | 2075 | 2091 | 99.2% |
 | resident | 141 | 0 | 0 | 143 | 145 | 98.6% |
 | md_MAIN_001 | 11 | 0 | 0 | 11 | 11 | 100.0% |
-| md_MAIN_003 | 53 | 0 | 0 | 59 | 64 | 92.2% |
+| md_MAIN_003 | 55 | 0 | 0 | 61 | 64 | 95.3% |
 | md_MAIN_008 | 6 | 0 | 0 | 6 | 6 | 100.0% |
 | md_MAIN_011 | 20 | 0 | 0 | 21 | 21 | 100.0% |
 | md_MAIN_013 | 16 | 0 | 0 | 16 | 16 | 100.0% |
@@ -31,7 +31,7 @@ FLEET matchable          : 363157
 | md_MAIN_017 | 10 | 0 | 0 | 10 | 10 | 100.0% |
 | md_MAIN_018 | 10 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_019 | 22 | 0 | 0 | 22 | 22 | 100.0% |
-| md_MAIN_020 | 12 | 0 | 0 | 13 | 14 | 92.9% |
+| md_MAIN_020 | 12 | 0 | 0 | 14 | 14 | 100.0% |
 | md_MAIN_021 | 10 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_022 | 31 | 0 | 0 | 33 | 33 | 100.0% |
 | md_MAIN_023 | 5 | 1 | 0 | 6 | 6 | 100.0% |

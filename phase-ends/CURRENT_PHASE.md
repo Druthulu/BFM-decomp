@@ -139,6 +139,17 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     still needs its pad-spec entry; parallel_gate merges leave the main tree's split stale → extract first).
     tools-health/report regenerated; R22 fleet **213/213** (`.run/S79_check_all_6.log`); twin_rescan: 2 open
     stubs keep a banked twin (ov_SC02_017 d=2, md_MAIN_003 d=1), nothing newly free.
+    **#7 DONE (S79, 2026-09-04; `commit:3873` `commit:3874` `commit:orphan-26`):** the "C-PLUMBING 5" were three
+    things (cookbook **§492**): (a) `md_MAIN_020:func_800CB17C` — `rtu_match` MATCH, `parallel_gate` NEAR
+    ("CAUSE NOT DETERMINED" explained: gate_stage's transform ladder altered a correct body) → banked by a RAW
+    splice (0990e041); (b) `md_MAIN_003:func_800D06BC` + `func_800D0100` — an -O0 island TU; the standalone
+    checker needed `--o0`, the drafts had never been gated (attempts=0) → both banked via parallel_gate
+    (dd1b32ec); (c) `ov_SC05_018:func_80180BE0` (65) and `ov_SC06_010:func_801809E4` (33) — their "drafts" were
+    OTHER overlays' same-named functions (`.run/backlog_drafts/<fn>.c` and the journal join are keyed by bare
+    fn name, R48) → NO draft exists; reclassified to the drafting pool (#9). Stubs 35 → **32** (main 16,
+    md_MAIN_003 3, resident 2, ov 11). R22 fleet **213/213** (`.run/S79_check_all_7.log`); twin_rescan 1 twin
+    left (ov_SC02_017 d=2). `main:func_80011380` pinned WALL (§474 proof) in `config/wave_exclude.txt`.
+    Defect to fix later: key `backlog_drafts`/journal lookups by (binary, fn).
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)
@@ -8056,13 +8067,14 @@ for free. Three of our own measuring tools were lying (one hid a broken build, o
 saved names, one under-counted the main program by 32 points); all fixed, and the main program is now
 honestly 91.8% real C. Next: a small piece of linker surgery so two more Sony objects can be linked.
 
-## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #7 → #11 remain (#4, #13, #5 and #6 DONE this session).
+## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #8 → #11 remain (#4, #13, #5, #6 and #7 DONE this session).
 
 Written for a FRESH SESSION with none of this context. Read it in full before doing anything.
-**HEAD = the S79 task-#6 docs commit, on top of the #6 bank commits (`commit:3868` `commit:3869` `commit:3870`
-`commit:3871`), #5 `commit:3867`, #13 `commit:3866`, #4 `commit:3865` (Drew pushes, R6); no `Claude-Session:`/
-`Co-Authored-By` trailers (R5 + the S78 decision).** Model Fable 5.1; effort **xHigh** default for #7–#10,
-**Max** for #11 (R27: prompt Drew and WAIT for the actual `/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
+**HEAD = the S79 task-#7 docs commit (`commit:orphan-26`, amended with this block), on top of the #7 banks
+(`commit:3873` `commit:3874`), the #6 commits (`commit:3868` `commit:3869` `commit:3870` `commit:3871` `commit:3872`), #5
+`commit:3867`, #13 `commit:3866`, #4 `commit:3865` (Drew pushes, R6); no `Claude-Session:`/`Co-Authored-By` trailers
+(R5 + the S78 decision).** Model Fable 5.1; effort **xHigh** default for #8–#10, **Max** for #11 (R27: prompt
+Drew and WAIT for the actual `/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
 restarts via the SessionStart hook → Drew runs `/mcp` (R29); no RE task is next, so no G2 ping needed
 until one is. Ghidra DB churn (`db.*.gbf`, `~index`) is R23 restart-noise: do NOT stage it.
 
@@ -8073,6 +8085,8 @@ dir (`.run/obj40` + `.run/obj42`; `.run/S79_build_band_sdk.log`) and WITHOUT the
 (+ main), check-all **213 passed, 0 failed of 213** (rc=0, 2m32s); `frontier_classify` regenerated after it:
 **39 rows = 38 stubs + the data word**, main 16. After #6: fleet again **213 / 213** (`.run/S79_check_all_6.log`,
 2m35s); census **35 rows = 35 stubs** (main 16 · md_MAIN_003 5 · resident 2 · ov_SC03_105 2 · 10 singles).
+After #7: fleet **213 / 213** (`.run/S79_check_all_7.log`); census **32 stubs** (main 16 · md_MAIN_003 3 ·
+resident 2 · ov_SC03_105 2 · 9 singles).
 (The task-#4 state was verified the same way earlier in the session: `.run/S79_check_all.log` 213/213.)
 
 # 1. THE SESSION IN ONE PARAGRAPH
@@ -8100,14 +8114,14 @@ for the plumbing route).
 
 # 2. THE CENSUS (S79 close; every number with its denominator, R41)
 
-* **Stubs: 35 of 363,157 matchable (`.run/frontier_s79.json`, `tools/frontier_classify.py` — regenerated after
-  the #6 fleet; #5 removed the 13 band stubs, #6 removed 3 + the data-word row).** Classes:
+* **Stubs: 32 of 363,157 matchable (`.run/frontier_s79.json`, `tools/frontier_classify.py` — regenerated after
+  the #7 fleet; #5 removed the 13 band stubs, #6 removed 3 + the data-word row, #7 removed 3).** Classes:
   B-CARVE jtbl 5 (resident `func_800D06E8` 344 [close 292 — really F-FAR] + `func_800D128C` 243 [close-0
   draft; the carve is refused NON-CONTIGUOUS → subseg split], ov_SC02_017 `func_80186C64` 209 [same refusal;
   d=2 twin ov_SC02_016], md_MAIN_034 `func_800CB00C` 152 [leading-island table + wrong-sized draft],
-  ov_SC05_010 `func_8017FFA8` 88 [tail carve fine, no draft]) · C-PLUMBING close=0 5 (ov_SC05_018
-  `func_80180BE0` 65, ov_SC06_010 `func_801809E4` 33, md_MAIN_003 `func_800D06BC` 33 + `func_800D0100` 29
-  [d=1 twin of main `func_80010B40`], md_MAIN_020 `func_800CB17C` 30) · D-NEAR ≤25 6 (main
+  ov_SC05_010 `func_8017FFA8` 88 [tail carve fine, no draft]) · "C-PLUMBING" 2 — really NO-DRAFT (ov_SC05_018
+  `func_80180BE0` 65, ov_SC06_010 `func_801809E4` 33: the census's close=0 came from same-named functions in
+  other overlays, R48; drafting pool) · D-NEAR ≤25 6 (main
   `func_80011380` 192 boot -O0 floor §474, `func_80015760` 106, `func_80015608` 86, `func_80039B20` 79,
   `func_80038698` 74; ov_SC03_105 `func_801834A4` 106) · F-FAR 9 (main `func_80032A74` 422, `func_80015B6C`
   120, `func_8002AC98` 114, `func_80020DA4` 100, `func_800391D4` 75, `func_80039DEC` 74, `func_8002FDE8` 73,
@@ -8115,11 +8129,12 @@ for the plumbing route).
   `func_8001EFE0` 468, `func_80023BF0` 281; ov_SC03_105 `func_80185810` 489; md_MAIN_003 `func_800CF3E8`
   469 + `func_800D1D14` 65 + `func_800D0174` 36; ov_SC07_002 `func_8017DC80` 346; ov_SC01_001 `func_80181E04`
   269; ov_SC06_022 `func_8017DF28` 119) · H-VIRGIN 1 (md_MAIN_003 `D_800D3200`, a data word → splat fix).
-  Per binary: **main 16 (2,786 ins)** · resident 2 · md 7 · overlays 10 across 8 binaries. The 13 that
+  Per binary: **main 16 (2,786 ins)** · resident 2 · md 4 · overlays 10 across 8 binaries. The 13 that
   left with #5: PadInfoAct, `_padSetMainMode`, `_padInitSioMode`, `func_8005D734`, `PadInitDirect`,
   `func_80062144`, `func_8005F290`, `_dirFailAuto`, `_padStartCom`, `func_8005ECC0`, `func_8005F830`,
   `func_8005ED4C`, `func_8005F450` — all libpad 4.2.1 / libapi 4.2 objects. The 3 + 1 that left with #6:
-  ov_SC04_018 `func_80181804`/`func_80181CB8`, ov_SC05_005 `func_80181828`, and the `D_800D3200` row.
+  ov_SC04_018 `func_80181804`/`func_80181CB8`, ov_SC05_005 `func_80181828`, and the `D_800D3200` row. The 3
+  that left with #7: md_MAIN_020 `func_800CB17C`, md_MAIN_003 `func_800D06BC` + `func_800D0100`.
 * **Verbatim `__asm__` bodies: 6 in tree** (main 3 + md_MAIN_003 2 + ov_SC03_107 1); manifest
   `config/verbatim_manifest.json` = **6 rows** after two subtractive `--update`s this session (200 → 33 → 6):
   crt0 `start`/`__main`/`__do_global_dtors` (CRT, PERMANENT), GAME-ASM `md_MAIN_003:func_800D3204/3234`
@@ -8141,7 +8156,7 @@ for the plumbing route).
   libcd 18/2, libgs 34/8, libetc 5/1, libgpu 3/2, libmcrd 2/2, libc2 17/2, libgte 70/30, snd 63/12,
   apicard 26/7 (libapi 4.2 + libcard 4.0), libapi42 23/2, libpad421 7/2 — 268 objects / 70 blocks.
 
-# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4 #13 #5 #6
+# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4 #13 #5 #6 #7
 
 | # | task | status | effort |
 |---|---|---|---|
@@ -8153,8 +8168,8 @@ for the plumbing route).
 | 13 | bounded hunt for LIBPAD.LIB 4.2.1 / 4.3 — **FOUND** (RTL 4.2 + the J421PD 4.2.1 patch; 46/46 byte-identical) | DONE S79 `commit:3866` | — |
 | 5 | the band + the apicard region LINKED from libpad 4.2.1 + libapi 4.2 (`libapi1/2`, `libpad1/2`, `apicard5-7`; 13 stubs, 4 TUs, the reorder island gone) | DONE S79 `commit:orphan-24` | — |
 | 6 | mechanical: `D_800D3200` + the 2 ov_SC04_018 twins + ov_SC05_005's clone banked; the 5 carves deferred with named blockers (§491) | DONE S79 | — |
-| **7** | **C-PLUMBING 5 via `recover_route` / `rtu_match` / §376–§378 (bodies proven close=0)** | **NEXT** | **xHigh** |
-| 8 | D-NEAR non-band 6: permuter/ILS/§31 or §474 wall-proof each | pending | xHigh |
+| 7 | C-PLUMBING: 3 banked (raw splice; -O0 checker flag), 2 were phantoms (R48 same-name drafts) → drafting pool | DONE S79 | — |
+| **8** | **D-NEAR 6: permuter ILS on the four permuter-class residuals; §474 wall pinned for `func_80011380`; the S71 pin for ov_SC03_105 stands** | **NEXT** | **xHigh** |
 | 9 | F-FAR 10 + G-UNKNOWN 12: one journal-noted agent per function | pending | xHigh |
 | 10 | verbatim end-state + PERMANENT ratification + `main()` | pending | xHigh |
 | 11 | Tclose PhaseEnd on the corrected denominators | pending | Max |
@@ -8303,5 +8318,6 @@ program — twelve functions carried as "compiler walls", plus the controller an
 now links straight from Sony's library instead of being rewritten by hand. Main's open functions went from 29
 to 16 and the whole game's from 51 to 38; nothing about the game changed. The mechanical leftovers then
 went: the mis-typed data word, two twin functions and one exact clone banked for free (38 → 35), and each
-remaining jump-table case now has a named reason it is not free. Next: the five functions whose bodies are
-already right and only the file's declarations refuse them.
+remaining jump-table case now has a named reason it is not free. Of the five functions whose bodies were
+"already right", three really were and are banked (35 → 32); the other two had no draft at all — the ledger had
+handed us other overlays' functions of the same name. Next: the six near-misses.
