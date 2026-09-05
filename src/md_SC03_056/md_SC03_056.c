@@ -13,7 +13,15 @@ extern void func_80178CBC(s32*, s32);
 
 INCLUDE_ASM("asm/md_SC03_056/nonmatchings/md_SC03_056", func_801CBB80);
 
-INCLUDE_ASM("asm/md_SC03_056/nonmatchings/md_SC03_056", func_801CBBDC);
+
+
+extern void func_80178CBC(s32 *a0, s32 a1);
+    extern short D_801CC950;
+    void func_801CBBDC(void *a0) {
+        *(short *)((char *)a0 + 0x2) = 0xE;
+        func_80178CBC(a0, &D_801CC950);
+    }
+
 
 extern s32 func_80178970(s32 *a0);
 extern void func_80178D18(u8 *a0);
