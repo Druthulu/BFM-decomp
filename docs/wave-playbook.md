@@ -718,3 +718,29 @@ Agent-tool drafters OUTLIVE the session that spawned them: their final JSON verd
 `~/.claude/projects/<proj>/<session>/subagents/agent-*.jsonl`; harvest with `tools/agent_verdicts.py <transcripts> --append
 <ledger.jsonl>` — never cat a transcript. Measured S79/S80: 25 targets → 10 banks, 8 NEAR at exact length with the gcc
 mechanism cited, 0 verdicts lost across a session boundary (cookbook §494; `docs/frontier-p32.md` §3 for the routes).
+
+### S80 addendum-2 (P32 T3, 2026-09-05) — the one-agent-per-function shape at 31 agents: what broke, and the fixed shape
+
+The T3 pass ran 31 Agent-tool drafters against a 47-row census (Haiku ≤50 / Sonnet ≤120 / Opus above + the old near/far
+rows) and produced 20 MATCH / 9 NEAR-at-exact-length / 2 FAIL (cookbook §500). Two things broke that the S80 shape did
+not anticipate; both are now part of the shape:
+
+1. **Per-function work dirs; deliverables in a directory no agent owns.** All arms shared `.run/P32/t3/<arm>/` for scratch
+   AND deliverables; one agent's tidy-up (`find <dir> -maxdepth 1 -type f ! -name <mine> -exec mv {} _scratch/`) moved
+   eleven sibling deliverables, and `rm -f` globs hit sibling intermediates. Shape: scratch = `.run/<wave>/work/<fn>/`
+   (the agent may clean ONLY that), deliverable = `.run/<wave>/drafts/<arm>/<fn>.c`; the brief says in one line: "never
+   run `find`/`rm`/`mv` outside your own work dir". If a deliverable is missing anyway: `tools/agent_drafts_restore.py
+   <subagents-dir> --out <dir>` replays the transcript's Write/Edit/cp ops (verify the rebuilt file with `rtu_match`; a
+   replay that reports unreplayable ops may be stale — check `_scratch/`-style dirs for an on-disk copy first).
+2. **The agent's final message is exactly ONE JSON line.** The producing coordinator overflowed ("Prompt is too long")
+   four minutes after its ninth bank, and 22 completion notifications — 2–4 KB of prose each — arrived into a dead
+   session. Shape: the verdict JSON alone in the final message; the evidence prose goes to `.run/<wave>/reports/<fn>.md`
+   and is read only when routing a MATCH/NEAR. Harvest verdicts with `tools/agent_verdicts.py <tasks>/a*.output --append
+   <ledger>` (pass ONLY that wave's task files — the `/tmp/…/tasks/` dir holds older sessions' outputs too).
+3. The harness caps concurrent subagents at 20 (`CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`): keep `pending_launch.txt`,
+   dequeue-then-launch one per completion, and checkpoint the queue + recovery route BEFORE launching (T3 did; that is
+   why the successor session could recover everything).
+4. Per-result route unchanged (verbatim grep → the coordinator's OWN `rtu_match` → gate → commit per bank (R42) →
+   `twin_rescan`) with one addition: a Haiku FAIL whose note names a C-STRUCTURE residual at near-exact length ("three
+   jals where the target has one", "cannot be influenced from C") is an escalation to Sonnet with the shape hint, not a
+   wall — T3: 1/1 closed in one pass (§224).

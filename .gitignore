@@ -237,3 +237,30 @@ unsloth_compiled_cache/
 /tools/psyq/lib46/
 /tools/psyq/lib42/
 /tools/psyq/lib421/
+
+# P32 T3 (2026-09-05): the one-agent-per-function wave's ledger + drafts (R20 — the drafts are the only copy of
+# byte-verified MATCH/NEAR bodies outside the harness transcripts; scratch dirs stay ignored)
+!/.run/P32/
+/.run/P32/*
+!/.run/P32/*.json
+!/.run/P32/t3/
+/.run/P32/t3/*
+!/.run/P32/t3/SYS.md
+!/.run/P32/t3/BRIEF.md
+!/.run/P32/t3/LAUNCHED.md
+!/.run/P32/t3/targets.json
+!/.run/P32/t3/verdicts.jsonl
+!/.run/P32/t3/pending_launch.txt
+!/.run/P32/t3/harvest_notes.md
+!/.run/P32/t3/haiku/
+/.run/P32/t3/haiku/*
+!/.run/P32/t3/haiku/func_*.c
+!/.run/P32/t3/sonnet/
+/.run/P32/t3/sonnet/*
+!/.run/P32/t3/sonnet/func_*.c
+!/.run/P32/t3/opus/
+/.run/P32/t3/opus/*
+!/.run/P32/t3/opus/func_*.c
+!/.run/P32/t3/restored/
+/.run/P32/t3/restored/*
+!/.run/P32/t3/restored/sweep_*.py

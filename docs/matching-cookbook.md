@@ -36785,3 +36785,253 @@ base would surface later: a whole module's functions refusing at the same reloca
 **Result.** All five onboarded on their first candidate: `md_MAIN_007` @0x800CEDF8 (A4: no resident symbol stack),
 `md_MAIN_009` @0x800CD348, `md_SC03_053` + `md_SC03_054` @0x801EF468, `md_SC03_056` @0x801CBB50 — +56 stubs
 (~2,600 ins) into the census, the parked-for-L3 ledger empty. Provenance rows: memory-map §S45 p7.
+
+#### §500 ★★★ — THE T3 WAVE HARVEST (P32 T3, 2026-09-05): 31 one-agent-per-function drafters → 20 MATCH / 9 NEAR / 2 FAIL, every closer, two NEW named gcc mechanisms, and the wave-process defects
+
+**The wave.** 47 targets (the T2c census of 54 minus the 7 pinned walls) on the model ladder — Haiku ≤50 ins, Sonnet
+≤120, Opus above plus the 11 old near/far rows by escalation — one Agent-tool subagent each, packs from
+`claude_wave_packs` (journal notes + a matched same-TU neighbour), brief `.run/P32/t3/BRIEF.md`, laws `SYS.md`. The
+harness caps concurrent subagents at 20, so 31 launched and 17 Haiku rows stayed queued (`pending_launch.txt`). Verdicts
+(`.run/P32/t3/verdicts.jsonl`, from `agent_verdicts.py`): **Opus 16 → 7 MATCH + 9 NEAR at exact length (0 walls, 0
+FAIL) · Sonnet 4 → 4 MATCH · Haiku 11 → 9 MATCH + 2 FAIL**, and neither Haiku FAIL was a compiler wall (one was a
+C-structure question Sonnet closed in one pass, one a TU declaration). 2,111 instructions matched (1,063 banked in the
+producing session, 1,049 verified MATCH and awaiting the gate — see `phase-ends/CURRENT_PHASE.md` for the bank order).
+The producing coordinator overflowed its context four minutes after its ninth bank, so 22 of these results were
+harvested by the successor session from the transcripts (§E below). Everything here is byte-measured by the agents
+AND re-verified by the successor with `rtu_match` in the real TU.
+
+**A. Closers that BANKED (10 functions, 1,063 ins).**
+* `main:func_80039B20` (79) — the S80 "permuter plateau at 7" was an ALIAS FLAG: `*(s32*)(base + i*4)` is a
+  cast-wrapped PLUS and is DENIED `/s` (`MEM_IN_STRUCT_P`, `expr.c:4570-4576`), so `true_dependence` kept the edge to the
+  fixed-address `D_800C7D20` store and pinned the re-read below it; `((s32*)base)[i]` makes the INDIRECT_REF operand a
+  top-level PLUS_EXPR, grants `/s`, and the load hoists into the load-delay slot — zero drift, first compile. Addendum to
+  §30a#1: **when an integer LAUNDER (introduced to defeat move_movables) blocks `/s`, RE-INDEX rather than re-cast.**
+  Route law: "a redundant re-read scheduled at point-of-use instead of a preceding load-delay slot" → §30 first, never the
+  permuter (it cannot reach an alias flag from C — why the S80 ILS plateaued at 7 from a seed of 7). Load-bearing kept:
+  `$6/$7` pins on i/off (−23 without), the volatile launder on the base (−39 without).
+* `resident:func_800D06E8` (344 — the resident is now 145/145 C) — the closeness-0 body the journals pointed at
+  (`.run/S71b_1/fable/`) was hidden by the pack's inline 292-ins "previous attempt"; the real blocker was declaration
+  SCOPE: the TU defines `Struct80078E78` AFTER the slot (line ~894) with a layout lacking bytes 0x36/0x37, so only a
+  BLOCK-scoped typedef under a distinct tag (`Blk80078E78`) + a block-scoped `extern` compiles. **Never run such a draft
+  through a decl-hoisting resolver variant (`-s2in-uni`)** — hoisting recreates the `conflicting types`. Idioms: §162k1
+  QImode `(u8)(c-3) < 2` for `andi` + raw-`$a0` `addiu`; an explicit flag temp `t = (u32)(r-0x64) < 0x1E; s1 = t ^ 1;`
+  for `addiu/sltiu/xori`; both `currentLocationId` dispatches as `switch` decision trees. Its `jtbl_80113FA4` carved by
+  `jtbl_carve --func` (5 → 4 pieces, `--pre` kept).
+* `main:func_80038698` (74) — **"multi-block variable = global_alloc bank."** gcc-2.7.2 runs `local_alloc` (pseudos
+  whose refs sit in ONE block) BEFORE `global_alloc` (pseudos referenced in 2+ blocks); a value reused across blocks
+  lands in the leftover `$aN` bank and cannot self-coalesce with a block-local shift destination. Tell: `sll $v1,$a1,8`
+  (fresh dest, source in an arg reg). ONE function-scope variable for the three BE-16 hi-bytes fixed all three sites AND
+  the `lbu 8/7($a3)` sched1 hoist for free (the longer live range changed the DAG priority); the prior NEAR-11 drafts had
+  pinned `hi=$5` at one site only. Plus an in-place compound on a block temp (`u32 t = hi << 8; t |= p[11];`, §219
+  family — ties the `or` to the shift instead of the lo byte) and ONE pin `register u32 len asm("$6")` to rotate the last
+  two global allocnos (all 24 declaration orders inert, as this TU's `func_80035270` header already notes).
+* `main:func_80023BF0` (281) — third witness for §364's −O2 half: the OT link is libgpu's **P_TAG 24-bit BITFIELD
+  store**, not a hand-written `(A & 0xFF000000) | (B & 0xFFFFFF)`: `store_field → store_fixed_bit_field` expands the RHS
+  extract BEFORE the destination read, which fixes loop.c's movable order `[&otab[idx]; 0xFFFFFF; 0xFF000000]` AND the
+  `ior` operand roles / `$t3-$t4` pairing at once (the mask/or form can never satisfy both; operand swap alone = 35).
+  Kept from the S79w 90→18 chain: the §194-A fence in both arms, `code` split from its base with compound accumulation,
+  `register u32 base __asm__("$3")`, and exactly **13** zero-byte fences after `pkt = D_800A5E60` (0→15, 8→13,
+  10/11/12→7, 13→MATCH). The S80 permuter waypoint (closeness 11) was semantically UNSOUND (`m24` sunk into one arm) and
+  was not used — an R63 witness.
+* `md_MAIN_007:func_800CEE2C` (52, Sonnet) — an early `u8 *base = D_800AF630;` local keeps the address in `$s0` across
+  two calls; a neighbour global (`D_800B99E4` = base+0xA3B4) is read by RAW OFFSET with no relocation because the `.s`
+  has none; `&D_800CFABF` captured ONCE into a pointer local reused for the `p - 0xB` argument and the `*p = v` store
+  (two separate `&` expressions = three independent address computations).
+* `md_SC03_054:func_801EF558` (96, Sonnet, first draft) — a literal used at two sites (`6`) modelled as ONE local keeps
+  it in a callee-saved reg across the intervening `jal`s.
+* `md_SC03_053:func_801EF49C` (49, Haiku) — explicit `goto` labels reproduce a `beqz/beq` layout an if/else chain
+  reorders. `func_801EF6B0` (33) — a `switch` on the u16 state; `func_801EF95C` (20) — twin remap from
+  `ov_SC01_077:0x80151980` + one guarding `beqz` on a callee's return; `func_801EF624` (35) — a `$16` pin holds the
+  state pointer across both arms (the unpinned draft used `$s1` in the false arm).
+
+**B. Closers verified MATCH in the real TU, not yet banked at this writing (10 + 1).**
+* `md_SC03_054:func_801EF6D8` (604 code ins + six jump tables, Opus) — a 12-arm dispatcher on `*(u16*)(a0+0x34)` with a
+  7-arm sub-state-machine on `D_801F1480` duplicated in outer cases 6–11. **Idiom 1: `2($sN)` off a `lui/addiu`-
+  materialised base means a POINTER LOCAL in the source** — `p = &D_801F1480;` then `p[0]`/`p[1]`; array or struct access
+  on the extern emits the absolute `lui %hi(G+2) / sh %lo(G+2)($at)` pair for EVERY access (the banked neighbour
+  `func_801EF558` does exactly that for `D_801F1482`) — 7 ins × 6 copies = 42 of the 44-ins gap. Corollary tell: the
+  sub-switch selector still reads the global absolutely and the scheduler slots the `lui/addiu $s0` pair into that
+  load's delay, so `p = &G;` sits BEFORE `switch (G)` in the source although the address computation appears after the
+  load in the output. **Idiom 2: a constant-arm ternary chain consumed directly as a call ARGUMENT** lays the third arm's
+  value in its own block after the last arm plus a `j` (+2); the equivalent `if / else if` STATEMENT chain reproduces
+  the target — while the same ternary matched in cases 0/1, where the value lives across a later call and lands in
+  `$s0` (the distinction only bites when the result is coalesced into `$a0`). 85/85 relocations verified in order.
+* `main:func_80015B6C` (120, Opus) — both journal walls fell. (a) The "6-ins `$v0/$v1` swap in the index calc" was an
+  ARTEFACT of forcing width/height into a source-level frame slot (the `s32 wh[3]` hack); with the plain shape the
+  prologue is byte-exact and reload spills them to 0x10/0x18 by itself. (b) The corner-copy wall is `cse.c canon_reg`:
+  `make_regs_eqv` keeps the FIRST register of a quantity canonical and a copy that dies in-block can never become
+  canonical, so every use of `vx` before `x += w` is rewritten to `x`; the zero-cost fix is a barrier on the SOURCE
+  variable, `__asm__("" : "=r"(x) : "0"(x));`, not on the copy — it re-defines x's quantity without touching the live
+  ranges that decide the colour-vs-width spill (moving the `+=` earlier flips local-alloc's priority and spills two
+  colours, +5). (c) Four empty `__asm__ __volatile__("")` fences partition block 2 into the target's five phases at ZERO
+  cost when each phase fills its own load-delay slot (an earlier "+2 nops" probe was a placement fault). (d) The
+  `0xE1000200` trailer `lui` hoist is a register-LIFETIME effect: pin the block-2 tag to `$6` and REUSE the same variable
+  for the trailer constant, assigned after the packet-tag store. (e) Naming the addPrim mask `pmask = (u32)p & 0xFFFFFF;`
+  keeps the second RMW's `and` inside the first. Inert: pins on otp/$16, one/$8, m24/$5, p/$2 (+1 move), HImode
+  asm-pinned copies (+5), all mutation reordering.
+* `main:func_8002FDE8` (73, Opus) — the four prior attempts' "regalloc-priority wall" at 35 was the ARRAY spelling of
+  `D_800A46D2`; the same-TU neighbours `func_8002FF0C` (`src/800_b_2.c:2866`) and `func_800301C8` (`:3000`) document
+  the fix — a block-scope SCALAR `extern s16 D_800A46D2;` (the array spelling makes cse materialise the address into a
+  callee-saved reg; the scalar emits two independent `%hi/%lo`), 35 → 3 instantly (R38: read the neighbours the pack
+  names). Then: the third `return 1` INSIDE the `== -1` arm (a trailing fall-through inverts the final `beq` and swaps
+  the tail blocks); **the §47 live-length slider COMPUTED, not searched** — `-dl -dg` gives `data` = 2 refs/15 ins →
+  pri 1333 vs the `1` constant = 4 refs/58 → 1379, so one zero-byte fence placed where the constant is live and `data`
+  dead flips `allocno_order`; the `1` constant needs its own statement (`one = 1;`) so a fence can separate the `li`
+  from the `sb`; `i4 = idx * 4;` as a separate statement (the `sb`/`lw` memory dependence makes sched1 order them by
+  LUID). 118 fence-only variants plateaued at 4 — the shape facts, not the fence, closed it.
+* `md_SC03_053:func_801EF734` (44, Sonnet after a Haiku FAIL at 47) — §224: register-pin the pointer (`$16`, like its
+  sibling `func_801EF624`) and write the shared `func_80178CBC(s0, &D_xxx)` call LITERALLY in each of three uniform
+  `if / else if / else` arms with no early `return`; `cross_jump` merges the three identical `jal` + epilogue tails and
+  lands `move a0,s0` in each arm's delay slot. Haiku's plateau was a register-COALESCING failure (mixing an early-return
+  `if` with a separate nested `if/else` made gcc allocate `$s0` AND `$s1` for one value: spurious `move`, extra
+  `sw/lw`, frame 32 vs 24) — not the missing merge it reported.
+* `md_SC03_053:func_801EF7E4` (72, Sonnet) — §339's redundant-default test is the `switch` tell; **combined case labels
+  `case 0: case 3: { … }` place the shared body FIRST**, while two textually-duplicated bodies relying on `cross_jump`
+  land it LAST next to the epilogue regardless of source order — cross-jump placement is not steerable from C.
+* `md_MAIN_007` Haiku five — `func_800CF148` (33): the TU declares `func_800CF3B0` as `void (void*,void*,void*)`; a
+  block-scope redeclaration `s32 func_800CF3B0(void)` shadowed it (the call has no argument setup and tests `$v0`).
+  `func_800CF2BC` (32): post-increment passes the old counter to `func_800CF6D0(val, 0)`. `func_800CEEFC` (25),
+  `func_800CEF94` (25): `goto` shape + `(result << 16) == 0` forces the `sll` before the `beqz`. `func_800CF068` (21):
+  `family_remap` from `md_MAIN_008:0x800cee44` refused (reloc count 6≠7) — hand-drafted from the `.s` using the twin's
+  shape only. **`func_800CF3B0` (22) is leaf-exact (`match_one` 22/22) and refused only by the TU's own `extern void
+  func_800CF3B0(void*,void*,void*)`** (the asm returns `s32` in `$v0`, takes nothing): a §376/§495 def-side declaration
+  wall — the no-proto spelling `extern s32 func_800CF3B0();` keeps the banked 3-arg caller `func_800CF390` legal and
+  admits the `(void)` definition; the byte gate decides.
+
+**C. The NEAR residuals (9, all exact length, all `rtu_match`-clean) — classes and the levers measured INERT.**
+* `main:func_8001BC6C` 28 → **6** (69): (a) the `& 0xFF000000 | & 0xFFFFFF` RMW pair on a prim/OT word IS the libgpu
+  P_TAG bitfield and the two spellings are NOT byte-equivalent (28 → 16; exemplar `src/boot.c:1008-1029`
+  `func_8001212C`, the same routine at −O0); (b) `fold` REASSOCIATES `(a1<<16) | ((a1<<8)|K) | a1` → name the inner
+  term as a temp (invisible to `match_one`, same multiset); (c) the block emits in pure source/LUID order — write the
+  statements in emitted order, `c` as a two-set pair, and the OT lookup split into `idx = D_800B9A02 << 14` + the add
+  (the fused form costs a load-delay `nop`). Residual = a pure `$v0/$v1` swap across the six OT-chain insns:
+  `local-alloc.c qty_compare` priority `floor_log2(n_refs)·n_refs·size/(death−birth)`, ties → lower qty number, alloc
+  order ascending regno (MIPS has no `REG_ALLOC_ORDER`): base 2/2 = 1.0 > index 8/9 = 0.889 — one span unit; needs one
+  fewer insn between the `lhu` and the `addu` at sched1. `color` must stay pinned `$5` (−18 without). Class
+  REGALLOC-PERM; the permuter cannot take the pinned seed as-is (pycparser rejects `register __asm__`) → §494's repaired
+  `permuter_ils` recipe. **Meta-lesson: five agents had converged on 28 with an "RTL-proven sched1 unreachability" —
+  a converged multi-agent verdict on a MECHANISM is not evidence the BODY is right.**
+* `main:func_80039308` 34 → **17** (518): `s16 b4; n = b4;` — a `short` whose only def is an `lbu` emits the target's
+  widening `addu $v1,$s4,$zero` copy with NO extension (the journal's "conserved `andi`" verdict was about the mask;
+  the `s16` declaration is the lever); **the identity of the DEAD LOCAL a temp reuses is a first-class regalloc lever**
+  — sweeping ~25 candidate names per temp slot at ~1 compile each found 3 of the 6 wins (the 20-line sweeper is kept at
+  `.run/P32/t3/restored/sweep_func_80039308.py`; tool candidate); `register s32 two __asm__("$2")` on the S349
+  dead-reset constant (swept `$2..$8`, `$2` unique); TWO variables pinned to ONE hard reg (`$4`) when the address dies
+  into the loaded value (`lw $a0,0($a0)`); naming the byte offset in a dead local + computing `t9` before `cnt` takes
+  the MULT out of the MEM address so the PLUS keeps operand order. Residual: preheader 49/50 swap, the un-spellable
+  `addu $a2,$a0,$zero` (every `p = r` form is cse-propagated), a temp on `$t0` vs `$s7`, and 11 insns of one alias fact
+  (the second `D_80073140[j]` load cannot be scheduled above the `D_800C7D20` store from C; the `/s` unlock costs the
+  address allocation, net 20–24). `permuter_ils --klass REGALLOC` 2×150 s: no gain.
+* `md_MAIN_009:func_800CD674` 102 → **2** (174) and `func_800CD92C` → **15** (247) — the SPRT-with-tpage family. **Mirror
+  image of §364: the primitive's FIELD stores must be NON-STRUCT lvalues `*(T *)(p + off)` at −O2.** `true_dependence`
+  drops the store→load edge when the store is `MEM_IN_STRUCT_P` with a varying address and mode ≠ QImode, so with a
+  `Sprt24 *p` the five `sh` stores sink past the `lhu D_800BAE22` while the `sb`/`sw` ones stay — a store block split
+  exactly on instruction WIDTH, unreachable by any statement order (verified: order is preserved within each mode group,
+  the split point never moves). Also: the OT store as a genuine ARRAY_REF lvalue (`D_800ABA24[oi] = …`, not `*ot`) lets
+  the final cursor publish hop above the last OT RMW (5 ins); mutate the parameters (`x -= 0xA0`) rather than
+  `sx = x - 0xA0` (cse re-folds `sx + 0x100` into `x + 0x60`); one block-scoped `ot` binding per addPrim half (a
+  function-scope `ot` with 6 def/use pairs in one huge block gets a dedicated `$t8`); chained `r0 = g0 = b0 = c` for the
+  reversed 0xA/0x9/0x8 order; `y + 0x100` inline beats `y += 0x100` (the accumulate lengthens `$a1`'s chain and sched2
+  hoists the `addiu` to the prologue head: 16 → 7); an `otv = *ot;` temp splitting the RMW puts the `D_800A71D0` publish
+  in the last `lw`'s shadow (7 → 2). Residuals: `func_800CD674` REGALLOC-PERM `$a3↔$t1` (prim 3's masked `p` wants
+  `$a3`, prim 4's wants `$t1`, one shared local can only be one; splitting = +1 pseudo that displaces two hoisted
+  constants, 31) — a permuter seed; `func_800CD92C` = map §S7 prologue WEAVE (the `{sw,lui,ori}` groups for
+  0xE100008D/8F after the 9-insn `li` block instead of before: the §17 pins reproduce the ALLOCATION but the hoist then
+  happens in sched2). Inert: pin declaration order (8 perms), assignment placement (6 anchors), `volatile` on the
+  index, `p += 0x18` spellings, typing the cursor `u8 *`, every pin subset; worse: caller-saved pins (26), the index as
+  an array (−14, cse folds the loads).
+* `md_MAIN_007:func_800CF6D0` **137** (249, plateau) and `func_800CF408` **49** (178) — same family in another TU
+  (exemplars `src/boot.c func_8001212C` −O0, `src/ov_SC01_000/…_jr_8017BEBC.c func_8017DD04` −O2, §351): §351 plain-cast
+  tag word (a P_TAG COMPONENT_REF grants `/s` and lets cse keep the `D_800B9A02` index live across the store — 12 `lhu`
+  reloads collapse to 6, −25 ins: §364's −O2 half confirmed again, twice); §351 base-split (block 1 off the raw symbol,
+  `ob` thereafter); §195-I in-place `arg0 = arg0 - 0xA0`; `u32 pad[2]` for the +8 frame (§358). **New: `tpage` stored
+  BEFORE `len` in each block** is the only one of 19 swept field orders that hoists five single-use tpage constants to
+  the block top → the target's four callee-saved registers and 249 ins (`len`-first gives three and 247). `arg1 +=
+  0x100` IN PLACE inside block 2 (its anti-dependence is the target's y0-before-x0 inversion). **Two LENGTH-bearing
+  pins** in `func_800CF408`: `register u32 tp __asm__("$17")` shared by 0xE1000087/0xE1000097 forces the 6th
+  callee-saved register (unpinned, gcc hands `$s1`'s tail to the 0x40 constant → 5 regs, 176 ins = exactly the missing
+  `sw/lw` pair); `register u8 *ob __asm__("$10")` fixes the `$t1/$t2/$t3` rotation (56 → 49). Residuals: sched1
+  `rank_for_schedule` last-insn-CLASS tie (the `-dS` dump shows every store at priority 2 with equal ref counts; QImode
+  stores grouped, the two loads floated between them, HImode stores after — in 5 of 6 blocks) + a `$t1↔$t3` local-alloc
+  swap of the two masks; `func_800CF408`: two prologue sched2 slots, an `mlo/mhi` allocno tie, a 3-insn block-2 head
+  hoist. Inert (137 for ALL): pins on the tpage constants or masks, asm re-ties, `volatile`/`"memory"` fences,
+  `/s`-denial on any store subset, `*0x4000` vs `<<14`, `p++` vs `p+0x18`, `|` operand swap, 19 field orders. The
+  decomp-permuter's "122" moved block 5's `clut` store into block 4 — semantically wrong, rejected (R63).
+* `md_MAIN_003:func_800CF3E8` 54 → **27** (469; blocks 1–2 byte-exact, idx 0–361) — blk2 constant BIRTH order:
+  `mq2 = 0xFFFFFF;` AFTER the `0xE100008F` tag store lets `dbr` share the entry-`beq` delay-slot `lui $v1,0xE100` into
+  both `ori 0x8F` and the `j`'s `ori 0x8A` (5 rows; same lever in blk1 via a shared `mq2` + `ADDPRIM2`, 3 rows); a
+  3,697-candidate single-move climb over the p5/p6 tail (44 → 34); **a "birthing-boost LOCAL" for a per-prim constant**
+  (`w60 = 0x60; … pC->w = w60;`) decouples the `li 0x60` from the post-fence region so it schedules right after `sh
+  x0` — and ONLY then does relocating the §194-A fence from `[y0|u0]` to `[v0|clut]` work (inert separately, 7 rows
+  together). Residual = ONE cause, mechanism §D-1 below. Inert: all 9 pins load-bearing (ablation +5..+1409), the
+  `__asm__("" :: "r"(ot))` position across 7 slots (removing it +14), the h6 tag-read hoist at all 32 positions × 2
+  operand orders (the load moves early but a load-use `nop` appears, 470 ins), a leading `u32 tag` struct reshape,
+  the P_TAG bitfield ADDPRIM (75/83), array-based p6 stores (470), ~92k annealed tail variants — all hold at 27.
+* `ov_SC07_002:func_8017DC80` 84 → **46** (346 — the historic −33 LENGTH wall closed): (1) **the GTE macros must be
+  REAL macros** — undefined `gte_*()` compile to implicit `jal`s; use the TU's own house block
+  (`src/ov_SC07_002/ov_SC07_002_jr_8017C8D0.c:2701-2818`, `_1` at `:7010`), suffixed `_2`; `gte_stsxy0/1` (single `swc2
+  $12/$13`) and `gte_avsz4` were the two it lacked. (2) §30's `/s` lattice schedules the sxy block: the frame words must
+  be PLAIN SCALARS (no `/s`, fixed address) and the packet stores COMPONENT_REFs through a struct pointer (`/s`,
+  varying) — the other way puts a `nop` in every load-delay slot. (3) Derived pointers must exist as PINNED C variables:
+  plain `r + k` makes loop.c synthesise a FIFTH induction variable at `r+0x27` and `ot` spills; four unpinned pointers
+  get the IV count right and the register permutation wrong. (4) cse1 unifies the OT index and the `n < 4` test across
+  `func_80010A08(8)` (a call invalidates memory and hard regs but never pseudos — `cse.c:7241 invalidate_for_call`); a
+  zero-byte `__asm__("" : "=r"(n), "=r"(otz) : "0"(n), "1"(otz))` retires both pseudos so the target's second copy is
+  re-emitted — with mechanism §D-2 below. (5) `otp = (u32*)(otz<<2); otp = (u32*)((u32)otp + ot)` (two steps) coalesces
+  the shift temp into `otp` so `dbr` MOVES rather than duplicates the `sll` into the delay slot; a `$0`-add opaque
+  copy + `mm`/`mode` pins reproduce the OTZ-clamp's `addu $v1,$v0,$zero`; `register u32 w __asm__("$3")` stops `w`
+  coalescing into `n`'s `$s0`. Residual (46): frame 0x70 vs 0x60 — the target carries two extra 8-byte RELOAD slots
+  (`sp+0x38/0x40`) its own code never touches; a dead local always takes `sp+0x10` (aggregates get their slot at
+  `expand_decl`, measured with `long padx[5]`) so §162i1's frame-pad lever is REFUTED here — this is reload pressure,
+  unreachable from C; the `la $a0` prologue slot (every other prologue insn already in target order; source order
+  inert); two local-alloc dest-ties-dying-source picks (`t`→`$v1`, DR_TPAGE temp→`$s0`; pinning either is worse, +2/+12).
+* `ov_SC03_105:func_80185810` 37 → **35** (489; every register allocation now correct) — it IS compiler-emitted −O2 C
+  (splat's "Handwritten function" banner is wrong). GTE macro spellings reconstructed from the bytes: `gte_ldclmv` /
+  `gte_stclmv` via `lhu`+`mtc2` at 0/6/12 (the pack's prior body had `lwc2`), `gte_rtir`/`gte_rt` carry TWO nops not
+  six, `gte_ldlvl` loads +4 before +0 — in-tree precedents `src/800.c func_800139C8`/`func_80021D38`. Levers: `base =
+  D_800AF630;` as a local (gcc won't hoist a symbol used in 3 blocks into `$s4` by itself); the packet word `w` as ONE
+  expression at its store, not a `|=` chain (a variable with 5 sets is never `birthing_insn_p`, §49 — worth 40);
+  **`(tp + 0x100) << 6 | M` must be a TWO-USE temp** or `combine` folds the `addiu` away via `nonzero_bits` on an `lbu`;
+  `uu = (uu - …) << (2 - mode)` as ONE statement fixes `mode`'s register, splitting it back AFTER the fence fixes
+  `uu`'s; a zero-byte fence after `p[7] |= …` is the ONLY lever that puts the `$a0–$a3` quartet on the target
+  registers — and the same fence forbids the target's `sll/andi` interleave (trade measured both ways: no fence =
+  right order, wrong registers, 67); `ot16` split from `ob` around the fence; `cl &= 0xFFFF` in place. Residual =
+  [permuter] emission order in four windows of one 50-insn block (`rank_for_schedule`/LUID ties). Inert: all 6 orders of
+  the three loads, 9 placements of the `D_801BA6B0` read, `cl` spellings, a `shf` temp at 4 positions, signedness of
+  `uu/mode/w`, 4 operand orders of `ob + (otz<<2)`, 20 other fence positions.
+
+**D. Two NEW named mechanisms (byte-verified from `-dS`/`-dl` RTL dumps; not previously in the map).**
+1. **The pinned-base-vs-pseudo-address alias basin** (`func_800CF3E8`). sched1 runs BEFORE regalloc and fixes the final
+   order here. At that point a whole-word access through a pinned struct pointer, `*(u32*)p6`, expands with its
+   address in a PSEUDO (`(mem:SI (reg 429))`) while the field stores `p6->x` use the PINNED HARD reg (`(mem/s:QI (plus
+   (reg 3) 11))`). `sched.c:memrefs_conflict_p` can only disambiguate two refs off the SAME base rtx, and
+   `cse.c:canon_reg` explicitly refuses to canonicalise a hard register — so the tag load takes a true dependence on
+   all ten field stores and cannot hoist the 20 slots the target hoists it. **The `register … asm("$3")` pin on the
+   struct pointer is itself the blocker**: unpinning DOES hoist the load (verified) but relocates the whole tail into a
+   different allocation basin (188–197). Tell: a load through a pinned pointer that the target schedules early and
+   yours leaves last, with every other insn in place. Lever space: an unpinned base for the load only (a second,
+   unpinned alias of the pointer) is the untested next move.
+2. **`#line`-equalised ASM_OPERANDS for cross-jumping** (`func_8017DC80`). `jump.c` decides whether two tails can be
+   merged with `rtx_equal_p`, which for `ASM_OPERANDS` compares the source FILE AND LINE of the asm — so two identical
+   zero-byte launders in two tails that the target cross-jumps into one block (the two `j .L8017E0E0`) must carry
+   identical `#line` directives, or the merge is lost and the function grows (+13 here). Standard fix for "a zero-byte
+   launder costs 13 instructions": wrap both launders in the same `#line N "x"` pair.
+3. Corollaries banked above that generalise the map: the **local_alloc-before-global_alloc scope law** (A,
+   `func_80038698`), the **MEM_IN_STRUCT_P mode-keyed exemption as a per-access dial** (struct member = may float past
+   a fixed-address ref unless QImode; non-struct = anchored; §364 for the tag, C for the payload fields, the ARRAY_REF
+   lvalue for the OT store), and **`qty_compare`/§47 as a COMPUTATION** — read `n_refs`/`live_length` from `.lreg`,
+   evaluate `floor_log2(n)·n/L`, and you know how many static insns you need and where.
+
+**E. Wave-process defects (fixes in `docs/wave-playbook.md` §S80 addendum-2; accelerators P32 T3).**
+1. **A shared scratch directory is a shared blast radius (R48 class).** One agent's tidy-up — `find .run/P32/t3/opus
+   -maxdepth 1 -type f ! -name 'func_800CD674.c' -exec mv {} _scratch/` — swept ELEVEN sibling deliverables (two MATCHes,
+   604 + 120 ins) out of the contract path; another agent's `rm -f` globs in the same dir hit sibling intermediates. Fix:
+   per-function work dirs, deliverables in a dir no agent has a reason to clean, and a brief line forbidding any
+   `find/rm/mv` outside the agent's own dir. Recovery route (worked): `agent_drafts_restore.py` replays the transcript.
+2. **A coordinator that reads 31 prose results dies.** The producing session hit "Prompt is too long" four minutes after
+   its ninth bank; 22 completion notifications (2–4 KB each) then arrived into a dead session. Fix: the agent's final
+   message is exactly ONE JSON line; the prose goes to `.run/<wave>/reports/<fn>.md`, read only on routing.
+3. The harness caps concurrent subagents at 20 (`CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`) — keep a dequeue file, launch one
+   per completion. `masked_diff.py`'s per-PID probes live in `src/` and are visible to (and were deleted by) concurrent
+   agents — move them under `.run/` (tool fix candidate). A Haiku "cannot be influenced from C" verdict on an exact-ish
+   length structural residual is an ESCALATION signal, not a wall (1/1 closed by Sonnet in one pass).

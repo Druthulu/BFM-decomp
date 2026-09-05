@@ -720,3 +720,27 @@ the next run before anyone looked. Accelerator: every "X produced but Y consumed
 (`~/.claude/projects/<proj>/<session>/subagents/agent-*.jsonl`); `tools/agent_verdicts.py` extracts it without loading a
 transcript. Accelerator: when a session must end mid-wave, let the agents finish and harvest by tool; two of eleven
 were MATCHes worth 765 instructions. Cost avoided: re-drafting eleven functions.
+
+## P32 T3 (2026-09-05) — 31 concurrent one-agent-per-function drafters (cookbook §500, playbook §S80 addendum-2)
+
+**(1) A coordinator that reads prose results dies mid-wave.** The producing session overflowed four minutes after its
+ninth bank; 22 verdicts (two MATCHes worth 724 ins among them) sat unprocessed until a successor session replayed the
+transcripts. Accelerator: the agent's final message is exactly one JSON line; prose goes to a report file. Cost: one
+session boundary and ~45 minutes of recovery.
+
+**(2) A shared scratch directory is a shared blast radius.** One agent's `find … ! -name <mine> -exec mv {} _scratch/`
+swept eleven sibling deliverables out of the contract path (R48 class: bare-name files in one dir). Accelerator:
+per-function work dirs and a deliverable dir no agent cleans; recovery = `tools/agent_drafts_restore.py` (transcript
+replay) — but check the `_scratch/`-style dir first, the files were moved, not deleted. Cost: a new tool and an hour.
+
+**(3) A converged multi-agent plateau is not a mechanism proof.** `func_8001BC6C`: five agents converged on 28 with an
+"RTL-proven sched1 unreachability" — the real blockers were two source-idiom errors (a hand-written mask pair that is
+the libgpu P_TAG bitfield; a `fold`-reassociated or-tree). `func_8002FDE8`: four attempts called 35 a "regalloc-priority
+wall" while two same-TU neighbours (`src/800_b_2.c:2866`, `:3000`) documented the exact fix (block-scope scalar extern vs
+the TU's array spelling). Accelerator: the pack must carry the same-TU neighbours' DECLARATIONS of the shared globals
+(not only their bodies), and a plateau verdict must name the exemplar it was checked against (R38/R40). Cost: eight
+agent attempts across two sessions on two functions that closed in one pass each.
+
+**(4) The §47 slider is a computation, not a search.** `-dl -dg` prints `n_refs`/`live_length`; `floor_log2(n)·n/L`
+says exactly how many static instructions a fence must add and where. 118 fence-position variants had plateaued at 4
+before the arithmetic was read (`func_8002FDE8`). Accelerator: read the `.lreg` numbers before sweeping fence positions.

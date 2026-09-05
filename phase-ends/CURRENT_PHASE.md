@@ -82,6 +82,7 @@ Scale estimate: 3–5 sessions.
         the `resourceIdMap` sites) for a route producing global index 7 or 9; MCP (R29) only if the C is
         insufficient. Outcome: a base, or the strengthened exclusion evidence. **Progress report after T2.**
 - [ ] **T3 — one bounded crack pass, Opus agents, one per function** (xHigh orchestration — prompt R27):
+      **IN PROGRESS — checkpointed 2026-09-05 09:30 MDT (see the 🛑 block): 31/47 launched, 10 BANKED (1,063 ins, commits `commit:3923`..`commit:3931`), 10 more MATCH verified in the real TU awaiting the gate (1,049 ins) + 1 leaf-exact behind a TU decl, 9 NEAR at exact length, 17 Haiku rows still queued; the launching coordinator overflowed its context at 07:07Z. Census 44 stubs / 5,313 ins (`.run/P32/frontier_t3_checkpoint.json`).** Original brief:
       targets = `main:func_80023BF0` 11 · `func_80038698` 11 · `func_80039B20` 7 · `func_80039308` 34 ·
       `func_80015B6C` 40 · `func_8002FDE8` 35 · `func_8001BC6C` 28 · `ov_SC03_105:func_80185810` 37 ·
       `md_MAIN_003:func_800CF3E8` 54 · `ov_SC07_002:func_8017DC80` 84 · `resident:func_800D06E8` 344 (after a
@@ -114,10 +115,12 @@ task here + refresh the 🛑 checkpoint before any pause · rules check every 4 
 cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer (R5); keep the `Claude-Session:` line.
 
 ## Blockers
+- 2026-09-05 09:xx: the successor session's SessionStart hook launched a headless Ghidra MCP server (`.run/ghidra-mcp.log`); T3/T4 do not use it; no RE writes → never stage the `ghidra/` churn (R23).
 - Ghidra MCP not running at open (clean stop in the log; the SessionStart hook's server did not persist). Not
   needed for T0–T2b; if T2d needs it: `tools/ghidra_mcp_start.sh` → pause → Drew runs `/mcp` (R29) → G2 ping.
 
 ## Log
+- 2026-09-05 09:30 MDT — **T3 CHECKPOINT by the successor session (Max, Fable 5.1) after the launching session died.** The T3 coordinator (session c6a5fb71) banked 10 functions in 9 commits (T3 (1)–(9), 01:01–01:07 MDT) and then hit "Prompt is too long" at 01:07 MDT; 22 agent completions (07:07Z–08:04Z) arrived into a dead session. Recovered via the recorded route: `agent_verdicts.py` over the 31 task transcripts → `.run/P32/t3/verdicts.jsonl` (20 MATCH / 9 NEAR / 2 FAIL); every unbanked draft re-verified with `rtu_match` in its real TU (10 MATCH confirmed). **Instrument incident (R48 class):** one agent's tidy-up (`find .run/P32/t3/opus -maxdepth 1 -type f ! -name func_800CD674.c -exec mv {} _scratch/`, 07:52Z) had swept 11 sibling Opus deliverables — found in `_scratch/`, moved back, byte-verified at the reported closeness; `tools/agent_drafts_restore.py` (NEW — transcript replay) written as the fallback; `.gitignore` allowlist for `.run/P32/**` so the drafts/ledger/census are committed (R20). Harvest written IN-SESSION (R16/R30): cookbook **§500** (10 banked closers, 10 MATCH closers, 9 NEAR classes, two NEW mechanisms — the pinned-base alias basin and `#line`-equalised ASM_OPERANDS — and the process defects); `docs/wave-playbook.md` §S80 addendum-2 (per-function work dirs, JSON-only final message, the 20-agent cap, the recovery tools); `docs/accelerators.md` P32 T3; `docs/decision-log.md` P32 S82 (R31); SETUP row (R21). Read-only T4 pre-check results from the dead session preserved in the 🛑 block. Effort: this checkpoint at Max; **T3 resumes at xHigh** (R27).
 - 2026-09-05 — gate 1 approved; T0 opened at HEAD `commit:3900`.
 - 2026-09-05 — **T3 LAUNCHED** (xHigh): 47 targets = census 54 − 7 pinned walls (`.run/P32/t3/targets.json`, 5,288 ins); packs built (`claude_wave_packs`, 47/47 neighbours, 10 journals); brief `.run/P32/t3/BRIEF.md`. **20 Agent-tool drafters running** (16 Opus: the 11 old near/far rows + resident func_800D06E8 + the 4 largest new bodies · 3 Sonnet · 1 Haiku); **27 Haiku queued** behind the harness's 20-concurrent cap (`.run/P32/t3/pending_launch.txt`, launched one per freed slot). Recovery + per-result route: `.run/P32/t3/LAUNCHED.md`.
 - 2026-09-05 — **T2c DONE (R22 218/218 rc 0) · T2d not needed.** Twenty of the 56 new stubs fell to twin remaps and constant flips (0 tokens); the rest (36, all ≤50 ins but one, never drafted) join T3 on the model ladder. Session limit reset here (Drew); effort now xHigh via `/model` (the T3 orchestration level, R27 satisfied). Settings-file JSON defect fixed (a trailing comma).
@@ -126,13 +129,105 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
 - 2026-09-05 — **T1a DONE — `resident:func_800D128C` BANKED (243 ins, byte-identical 8e17e02f, R22 213/213).** The stored S71 closeness-0 draft was byte-correct all along; the whole task was three instrument defects the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed in overlay-only assumptions: (1) `jr_isolate_all` dropped a file-local typedef whose name engine_types.h also defines (§496 — fixed: provided types derived from the TU's own includes); (2) `jtbl_carve` regenerated `JTBL_INTERLEAVE` without the `--pre hdr.rodata.o` clause → extract refused → the gate linked a stale script and booked the byte-correct draft as DIFF; `harvest_verify` ignored that extract's rc (§498 — both fixed, R49/R61); (3) `interleave_check` read a `--pre` line as n=0 (false DRIFT; fixed). R38 then found two more stored MATCH bodies for T1b/T1c (see their rows). Effort stayed Max.
 - 2026-09-05 — **T0 DONE.** Baseline reads all green (`.run/P32/t0_baseline.log`): `verbatim_check --strict` 5 bodies == 5 rows; `exclude_audit --assert-fresh` 8 entries, 8 WALL, 0 stale; `frontier_classify` → 21 rows = the S80 census exactly; `make tools-health` OK (sigs fresh, corpus(+resident), cdecl, audit-binaries 213/213, report lint+dedup, cookbook-index, split_indicator 213 OK); `make check-all` 213 passed / 0 failed, rc 0. Harness task list #1–#11 built (R28). NEXT = T1a.
 
-## 🛑 SESSION CHECKPOINT — T0 CLOSED (2026-09-05)
-Written for a FRESH SESSION with none of this context. Phase 32 plan approved (gate 1, Drew, 2026-09-05, Max,
-Fable 5.1); rules R44–R63 ratified. **T0–T2d DONE — 3 + 20 banks, 5 onboardings, fleet 218/218 (R22 after every batch), census 54 stubs / 6,376 ins (7 pinned walls · 11 planned Opus targets · 36 new-module H-VIRGIN stubs). T3 (task #9) IN PROGRESS at xHigh — 20 drafters running, 27 queued (`.run/P32/t3/LAUNCHED.md` has the recovery route); on each completion: verdict → rtu_match → gate → commit → twin_rescan, then launch the next queued Haiku. Original: packs for 47 draftable targets on the model ladder (Haiku ≤50 / Sonnet ≤120 / Opus >120; the 11 old near/far rows Opus by escalation), one Agent-tool subagent each, per-result gate + commit (R42) + twin_rescan. Superseded: NEXT = T2c (task #7): after the close chain — twin_rescan / dedup_extend over the 56 new stubs, census regen, disc-completeness + disc-ledger + decision-log (R31), R22 quote. Superseded: 3 banks (resident func_800D128C · ov_SC02_017 func_80186C64 · md_MAIN_034 func_800CB00C), census 21 → 18, fleet 213/213 after each batch. NEXT = T2b (task #6): `new_binary.sh` probes in memory-map §S45 p7's order (MAIN/7 @0x800CEDF8 TEXT_LO 0x34 first; A4: the boot slot omits symbols.resident.txt). Superseded detail follows:** NEXT = T1b (task #3) — the carrier fix is committed (`commit:3903`); the twin-remap draft `.run/P32/t1b/drafts/func_80186C64.c` is being reconciled to the TU's spellings (§376: func_8012A828/D_801E0F44 done, func_80131E00/func_80185F88 next) before the isolate + gate. T1c (task #4) needs NO agent: `.run/O21/opus/func_800CB00C.c` and `.run/S75/redraft/func_800CB00C.c` are BOTH rtu_match MATCH 123/123 in the real md_MAIN_034 TU — splice + gate, then drop the WALL pin.** Effort **Max** for
-T0–T2 (see the Effort block). Census at open (= S80, unchanged): **21 stubs / 4,554 ins** — main 12 (2,077) ·
-resident 2 (587) · md_MAIN_003 1 (469) · md_MAIN_034 1 (152) · ov_SC02_017 1 (209) · ov_SC03_105 2 (595) ·
-ov_SC06_022 1 (119) · ov_SC07_002 1 (346); B-CARVE 4 / D-NEAR 10 / F-FAR 7 (`docs/frontier-p32.md` §1 has every
-row's blocker, draft and route). Fleet at open: 213/213 byte-identical (S80 R22), instr 100.0%, distinct 99.9%,
-main 99.43% byte-identical / 95.0% game-code (denominator 41,556). Exclude list 8 pinned walls; backlog 18 rows;
-verbatim manifest 5 PERMANENT. Parked 5 with deterministic candidate bases — see T2b. Ghidra DB churn
-(`ghidra/db.*.gbf`, `~index`, `*.prp`) is R23 restart-noise: do NOT stage it.
+## 🛑 SESSION CHECKPOINT — T3 MID-WAVE (2026-09-05 09:30 MDT; written by the successor session after the launching coordinator overflowed)
+Written for a FRESH SESSION with none of this context. Phase 32 plan approved (gate 1, Drew, 2026-09-05, Max, Fable 5.1);
+rules R44–R63 ratified. **T0–T2d DONE. T3 (task #9) IN PROGRESS — resume it at xHigh (R27; Drew sets the effort).**
+Fleet **218/218** byte-identical at the last R22 (T2c close, `.run/P32/t2c/r22.log`); the 10 T3 banks since were each
+built byte-identical in their own binary (main `143dbb89…` ×3 via `gate_main`, resident `8e17e02f…`, md_SC03_053
+`c0848f30…` ×4, md_SC03_054 `06bd73df…`, md_MAIN_007 `2ff702b6…`) — **no fleet R22 has run since those banks: run one
+before the first new bank** (R22/R58; a stale `.o` can false-pass). Non-ghidra `git status` was clean at this checkpoint;
+`ghidra/` churn is R23 restart-noise — never stage it.
+
+### What happened in T3 so far (the facts a fresh session needs)
+- **The wave:** 47 targets = the T2c census (54) minus the 7 pinned walls; packs `.run/P32/t3/packs/<fn>.md`, brief
+  `.run/P32/t3/BRIEF.md`, laws `.run/P32/t3/SYS.md`, targets `.run/P32/t3/targets.json`. Model ladder Haiku ≤50 /
+  Sonnet ≤120 / Opus >120 + the 11 old near/far rows on Opus. One Agent-tool subagent per function; the harness caps
+  concurrency at 20, so **31 launched, 17 Haiku rows still queued in `.run/P32/t3/pending_launch.txt`** (with their
+  twin hints; `md_SC03_054:func_801F00C8` needs a hand-adapt — `family_remap` refused, reloc-count 1≠2).
+- **The coordinator (session c6a5fb71) banked 10 functions in 9 commits `commit:3923`..`commit:3931` (01:01–01:07 MDT),
+  then hit "Prompt is too long" at 01:07 MDT.** 22 agent completions (07:07Z–08:04Z) arrived into the dead session.
+  This checkpoint harvested them: `.run/P32/t3/verdicts.jsonl` (31 rows: **20 MATCH / 9 NEAR / 2 FAIL**), rebuilt with
+  `tools/agent_verdicts.py /tmp/claude-1000/-home-musashi-bfm-decomp/7beebba8-05e9-4d18-98ea-ce208f45370f/tasks/a*.output`
+  (the transcripts themselves: `~/.claude/projects/-home-musashi-bfm-decomp/c6a5fb71-f2ae-4846-a4a9-a43a4c1c3496/subagents/`).
+- **Every unbanked draft was re-verified by the successor with `rtu_match` in its real TU** (results match the agents'
+  verdicts exactly). The Opus deliverables had been swept into `.run/P32/t3/opus/_scratch/` by one agent's tidy-up
+  (07:52Z, `find … -exec mv`) — moved back to `.run/P32/t3/opus/<fn>.c` and byte-verified; `tools/agent_drafts_restore.py`
+  (NEW) replays a transcript if a deliverable ever goes missing again. The drafts + ledger are git-tracked now.
+- **Harvest already written (R16/R30):** cookbook **§500** (every closer, the 9 NEAR classes with their inert-lever
+  lists, two NEW mechanisms, the process defects) · `docs/wave-playbook.md` §S80 addendum-2 · `docs/accelerators.md`
+  P32 T3 · `docs/decision-log.md` P32 S82. The 8 orchestrator notes in `.run/P32/t3/harvest_notes.md` are subsumed.
+
+### Census — 44 stubs / 5,313 ins (`.run/P32/frontier_t3_checkpoint.json`), every row with its state
+| binary | stubs | rows (nins · state) |
+|---|---|---|
+| main | 9 · 1,643 | **MATCH-unbanked:** func_80015B6C 120 (Opus, `.run/P32/t3/opus/func_80015B6C.c`, TU `src/800.c`) · func_8002FDE8 73 (Opus, `…/opus/func_8002FDE8.c`, TU `src/800_b_2.c`) · **NEAR:** func_80039308 518 → 17 (`…/opus/func_80039308.c`) · func_8001BC6C 69 → 6 (`…/opus/func_8001BC6C.c`) · **WALLS (pinned, T4):** func_80011380 192 (boot −O0; best `.run/m3/opus/func_80011380.c` 6-off) · func_80032A74 (800_b_2) · func_80020DA4 100 (800; 2-off) · func_80039DEC (800_c) · func_800391D4 (800_c) |
+| md_MAIN_003 | 1 · 469 | NEAR func_800CF3E8 469 → 27 (`…/opus/func_800CF3E8.c`) |
+| md_MAIN_007 | 14 · 701 | **MATCH-unbanked (Haiku):** func_800CF148 33 · func_800CF2BC 32 · func_800CEEFC 25 · func_800CEF94 25 · func_800CF068 21 (`.run/P32/t3/haiku/<fn>.c`) · **leaf-exact behind the TU decl:** func_800CF3B0 22 (`…/haiku/func_800CF3B0.c`; `src/md_MAIN_007/md_MAIN_007.c:91` declares `extern void func_800CF3B0(void*,void*,void*)`, the banked `func_800CF390` at `:94` calls it with 3 args; the real signature is `s32 (void)`) · **NEAR:** func_800CF6D0 249 → 137 · func_800CF408 178 → 49 (`…/opus/`) · **QUEUED Haiku:** func_800CF0F4 21 · func_800CF1CC 21 · func_800CF268 21 · func_800CF33C 21 · func_800CF220 19 (twin ov_SC03_001:0x80182860 d=4) · func_800CEFF8 13 (twin ov_SC02_005:0x801865d0 d=3) |
+| md_MAIN_009 | 10 · 603 | **NEAR:** func_800CD92C 247 → 15 · func_800CD674 174 → 2 (`…/opus/`) · **QUEUED Haiku:** func_800CD464 25 · func_800CD558 24 · func_800CD408 23 · func_800CD5B8 23 · func_800CD4C8 22 · func_800CD520 22 (twin ov_SC03_011:0x8017dbd8 d=3) · func_800CD614 22 · func_800CD3B8 21 |
+| md_SC03_053 | 2 · 116 | **MATCH-unbanked (Sonnet):** func_801EF734 44 (`.run/P32/t3/sonnet/func_801EF734.c`) · func_801EF7E4 72 (`…/sonnet/func_801EF7E4.c`) → the module reaches 100% C |
+| md_SC03_054 | 3 · 698 | **MATCH-unbanked:** func_801EF6D8 663-row (604 code ins + six jump tables → B-CARVE; `…/opus/func_801EF6D8.c`) · **QUEUED Haiku:** func_801F0048 20 · func_801F00C8 15 (twin md_SC03_053:0x801ef9dc d=5, hand-adapt) |
+| md_SC03_056 | 1 · 23 | QUEUED Haiku func_801CBB80 23 (twin ov_SC06_025:0x8017ded8 d=5) |
+| ov_SC03_105 | 2 · 595 | NEAR func_80185810 489 → 35 (`…/opus/func_80185810.c`) · WALL (pinned) func_801834A4 106 (S71_gate14 variants 6-off) |
+| ov_SC06_022 | 1 · 119 | WALL (pinned) func_8017DF28 119 (`.run/S79w/sonnet/func_8017DF28.c` 2-off) |
+| ov_SC07_002 | 1 · 346 | NEAR func_8017DC80 346 → 46 (`…/opus/func_8017DC80.c`) |
+
+**FAIL rows:** haiku func_801EF734 (47 vs 44 — superseded by the Sonnet MATCH), haiku func_800CF3B0 (leaf-exact; the TU decl).
+
+### NEXT — the T3 resume order (xHigh; each step's evidence quoted, R42 commit before the next command that can touch src/)
+0. **Preflight:** `git status` (only `ghidra/` churn) · `verbatim_check --strict` (5==5) · `make check-all` **218/218 rc 0**
+   (R22 baseline before any bank; if red, fix the baseline first — R56) · read cookbook §500-B for each MATCH's plumbing note.
+1. **md_SC03_053 ×2 (Sonnet MATCH):** for `func_801EF734` then `func_801EF7E4`: `rtu_match <fn> --split md_SC03_053 --source
+   md_SC03_053 --c .run/P32/t3/sonnet/<fn>.c --asm-subdir asm/md_SC03_053/nonmatchings/md_SC03_053 --work .run/P32/t3/verify/<fn>`
+   → splice over the `INCLUDE_ASM(…, <fn>);` line (the T3 (1)/(2) python one-liner) → `make build BINARY=md_SC03_053 -j8`
+   (rc via PIPESTATUS, R53) → sha `c0848f30…` == `config/check.md_SC03_053.sha` → commit → **md_SC03_053 is 100% C**.
+2. **main ×2 (Opus MATCH):** one slate `[{"fn":"func_80015B6C","draft":"<abs>/.run/P32/t3/opus/func_80015B6C.c"},
+   {"fn":"func_8002FDE8","draft":"<abs>/.run/P32/t3/opus/func_8002FDE8.c"}]` → `tools/gate_main.py <slate> --apply`
+   (read the BODY/TABLE/PLUMBING/MIXED line; clean rebuild) → sha `143dbb89…` → commit `src/800.c` + `src/800_b_2.c`.
+   Keep `func_8002FDE8`'s block-scope `extern s16 D_800A46D2;` (the scalar spelling IS the lever, §500-B).
+3. **md_SC03_054 `func_801EF6D8` (604 + six jtbls):** `tools/jtbl_carve.py md_SC03_054 --func func_801EF6D8` (as T3 (3)
+   did for the resident) → `make extract BINARY=md_SC03_054` (EXIT CODE) → splice → `make build BINARY=md_SC03_054 -j8` →
+   sha `06bd73df…` → `pads_audit md_SC03_054` + `interleave_check md_SC03_054` (R60) → commit carve state (only this
+   binary's `overlays.mk`/yaml lines) + the bank. Alternative: `parallel_gate --r22` (it carves). rtu_match MATCH was
+   re-confirmed against the CURRENT TU (after `func_801EF558` landed).
+4. **md_MAIN_007 six:** FIRST the byte-neutral plumbing commit (S77 law): `src/md_MAIN_007/md_MAIN_007.c:91`
+   `extern void func_800CF3B0(void *a0, void *a1, void *a2);` → `extern s32 func_800CF3B0();` (no-proto, §376 class —
+   keeps `func_800CF390`'s 3-arg call legal, admits the `s32 (void)` definition) → `make build BINARY=md_MAIN_007 -j8` sha
+   `2ff702b6…` UNCHANGED → commit. (If the sha moves: keep `void (void*,void*,void*)` and give the definition three unused
+   pointer params instead — the gate decides.) Then `rtu_match` each of func_800CEEFC, func_800CEF94, func_800CF068,
+   func_800CF148 (drop its block-scope redeclaration of `func_800CF3B0` only if cc1 objects), func_800CF2BC, func_800CF3B0
+   → splice → one build → sha → commit (one commit per bank or per verified same-TU batch).
+5. After 1–4: `tools/twin_rescan.py` (a bank changes the twin graph — the queued md_MAIN_009 rows may gain twins) ·
+   `verbatim_check --strict` · R22 `make clean && make extract-all && make check-all` → quote **218 passed / 0 failed rc 0**
+   (R58) · `make tools-health` · refresh this block + commit. Expected census after 1–4: **33 stubs / ~4,250 ins**.
+6. **Ledger the 9 NEAR** with `tools/backlog.py log` (closeness · class · best draft · cost "1 Opus agent, 30–70 min", R41):
+   func_800CD674 2 REGALLOC-PERM `$a3↔$t1` · func_8001BC6C 6 REGALLOC-PERM `$v0↔$v1` (qty_compare one span unit; pinned
+   seed → §494 `permuter_ils … --cycles 8 --secs 150 --j 3`) · func_800CD92C 15 §S7 prologue weave · func_80039308 17
+   sched2 + cross-block regalloc · func_800CF3E8 27 pinned-base alias basin (§500-D1) · func_80185810 35 [permuter] 4
+   emission windows · func_8017DC80 46 reload-slot frame + `la $a0` slot · func_800CF408 49 [permuter] 3 hunks ·
+   func_800CF6D0 137 sched1 rank_for_schedule class tie. `backlog.py render`.
+7. **Launch the 17 queued Haiku rows** (one per free slot, ≤20 concurrent, dequeue-then-launch; escalate a structural
+   FAIL to Sonnet) — but FIRST amend `BRIEF.md`'s output contract per §S80 addendum-2: final message = the JSON line ONLY
+   (prose → `.run/P32/t3/reports/<fn>.md`); scratch ONLY under `.run/P32/t3/work/<fn>/`; never `find/rm/mv` elsewhere.
+   Per result: verbatim grep → your own `rtu_match` → splice/build/sha → commit → `twin_rescan`.
+8. **The NEAR tail (bounded):** permuter on the two REGALLOC-PERM seeds (func_800CD674, func_8001BC6C) via the repaired
+   `permuter_ils`; one Opus second look ONLY where §500 names an untested lever (func_800CF3E8: an unpinned alias of `p6`
+   for the tag load alone). Plateaus stay in the backlog. **Kill gate stands:** a session with no bank and no new verdict
+   ends T3.
+9. **T3 close:** any new idiom from steps 7–8 → cookbook §500 addendum (R16/R30); `harvest_notes.md` pointer; then **T4**.
+
+### T4 pre-read (read-only, run by the dead session at 07:00Z — its ledger repairs are still owed)
+`exclude_audit --assert-fresh`: 7 entries, 7 WALL, 0 stale. Best drafts in the REAL TU today: `main:func_80011380`
+`.run/m3/opus/func_80011380.c` DIFF 6 (the ledger's `.run/backlog_drafts/func_80011380.c` is MISSING — R62 path fix) ·
+`main:func_80032A74` `.run/S79w/opus/…` **CC1 FAIL** (redefinition of `struct Slot`/`Slot`, conflicting `A12`/`B12` vs
+`src/800_shared.h:68/95` — a §376 plumbing class, re-probe before calling it a wall, R40) · `main:func_80020DA4`
+`.run/S79w/sonnet/…` DIFF 2 · `main:func_80039DEC` both S79w drafts **CC1 FAIL** (`conflicting types for func_80039DEC`
+— a def-side declaration wall, §495 class: fix the TU's own decl first) · `main:func_800391D4` **CC1 FAIL** (`D_80073140`
+conflicting types) · `ov_SC06_022:func_8017DF28` DIFF 2 · `ov_SC03_105:func_801834A4` S71_gate14 variants DIFF 6 (the
+ledger's `.run/backlog_drafts/func_801834A4.c` is MISSING). The backlog query for the seven wall rows returned nothing
+under the `addr`/`fn` keys — check `backlog.py`'s row schema before rendering.
+
+### Standing reminders
+Effort **xHigh** for T3/T4, **Max** for T5 (prompt at each transition, R27) · every bank commits before the next command
+that can touch `src/` (R42) · count banks from the SOURCE, quote the fleet's green count at every close (R58) · the
+Ghidra MCP is not needed for T3/T4; if a hook started one, do not stage `ghidra/` (R23) · Fable only if an agent names a
+wall class the codegen map lacks — STOP and prompt Drew first.

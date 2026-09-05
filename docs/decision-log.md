@@ -3247,3 +3247,51 @@ a new checker) caught the evidence tool's own two false scorers before they ship
 routes should have carried each row's JOURNAL verdict (R38) next to its best-draft path — two of its three "draft"
 routes were already MATCH; and the §S45 p6 "onboard at 0x801EF468 and let the first build decide" step should have run
 in P30 — with the finding that the first build decides less than it seemed to.
+
+## P32 S82 (2026-09-05) — the T3 wave: 31 drafters, 20 MATCH, a coordinator that died at bank 9, and eleven deliverables swept by one agent's tidy-up
+
+### Context and belief going in
+T2c had left 54 stubs (7 pinned walls, 11 old near/far rows, 36 never-drafted stubs in the five freshly onboarded
+modules). The plan's T3 was "one bounded crack pass, Opus agents, one per function" — the S80 one-agent-per-function
+shape, expected 1–4 banks from the 11 old rows. The belief: the old rows were the genuine hard tail (S79 had banked 3 of
+11 on the Opus tier); the new-module stubs were cheap Haiku work; the coordinator could process results one at a time
+as they arrived.
+
+### What actually happened
+* **Yield far above the estimate:** 20 MATCH / 9 NEAR / 2 FAIL of 31 — Opus 7/16 MATCH with the other 9 NEAR at exact
+  length and zero walls; Sonnet 4/4; Haiku 9/11 with both FAILs not compiler walls. Six of the eleven "hard" old rows
+  MATCHed (func_800D06E8, func_80039B20, func_80038698, func_80023BF0, func_80015B6C, func_8002FDE8), and their closers
+  were all things the journals had mis-labelled: an alias flag called a scheduler tie, a variable SCOPE called a
+  self-coalesce wall, a hand-written mask pair that is the libgpu P_TAG bitfield, an array-vs-scalar extern spelling
+  documented two functions away in the same TU, a frame-slot hack that itself caused the "wall" it was meant to fix.
+* **The coordinator overflowed** ("Prompt is too long") at 01:07 MDT, four minutes after its ninth bank; 22 completions
+  arrived into a dead session. The launch HAD been checkpointed (queue file + recovery route in `LAUNCHED.md`), so the
+  successor session recovered every verdict with `agent_verdicts.py`.
+* **Eleven Opus deliverables were missing.** One agent, tidying its own scratch in the SHARED `.run/P32/t3/opus/`, ran
+  `find … -maxdepth 1 -type f ! -name <mine> -exec mv {} _scratch/` and moved every sibling's file — two MATCHes among
+  them (604 + 120 ins). Found by reading the transcripts' commands; the files were moved, not deleted. A transcript-replay
+  tool (`agent_drafts_restore.py`) was written as the fallback and rebuilt 26 of 30 exactly (the 4 edited via shell
+  after their last Write were stale — the on-disk `_scratch/` copies were the truth).
+
+### The measurements that settle each one
+Every unbanked draft re-verified by the successor with `rtu_match` in its real TU: the 10 MATCHes are MATCH, the 9 NEARs
+reproduce the agents' closeness to the instruction (2 / 6 / 15 / 17 / 27 / 35 / 46 / 49 / 137). The 10 banks of the
+producing session each built byte-identical (main `143dbb89…` via `gate_main` ×3; resident `8e17e02f…`; md_SC03_053
+`c0848f30…` ×4; md_SC03_054 `06bd73df…`; md_MAIN_007 `2ff702b6…`); no fleet R22 has run since — the resume order starts
+with one. Census 54 → 44 stubs / 5,313 ins.
+
+### The shape they share
+Two process defects with one root: the S80 shape was designed for 11 agents and run at 31. A shared scratch dir is a
+shared blast radius (R48 — bare-name files, one dir), and a coordinator that ingests 2–4 KB of prose per result cannot
+survive 31 results in a session already eight hours old. Neither is a model failure; both are harness shape (R40). And
+the matching finding repeats S79/S80's: **not one of the six "hard" rows that fell was a compiler wall** — each was a
+mis-read mechanism, and in two cases (func_8001BC6C's five converged agents at 28; func_8002FDE8's four attempts at 35)
+a multi-agent consensus on a MECHANISM had been mistaken for evidence about the BODY.
+
+### Cost, and the hindsight path
+~16 Opus + 4 Sonnet + 11 Haiku agents (~30–70 min each for Opus) for 20 MATCH (2,111 ins) and 9 exact-length NEAR seeds
+with cited mechanisms; the recovery cost ~1 hour of a Max session and one new tool. Sooner: (1) the JSON-only final
+message and per-function work dirs should have been in the S80 shape from its first run; (2) start a 30-agent wave from
+a FRESH session, not at the end of a T0–T2c day; (3) packs should carry the same-TU neighbours' DECLARATIONS of the
+shared globals (the func_8002FDE8 fix was two functions away); (4) a "converged plateau" in the journal is a reason to
+re-read the body against a neighbour, not a reason to route to the permuter.
