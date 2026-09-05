@@ -191,7 +191,18 @@ void func_800CF1CC(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CF220);
+extern void func_8001AA98(void *a0);
+extern s32 D_800D1374;
+extern void func_800167B8(s32 a0);
+
+const char D_800CEE14[] = "C:\\TIMPACK\\OPDEMO1.PAT";
+
+void func_800CF220(void) {
+    func_8001AA98((void *)D_800CEE14);
+    func_800167B8(0);
+    D_800D1374++;
+}
+
 
 extern s32 func_800167F0(s32 a0);
 extern void func_800CF6D0(s32 a0, u32 a1);
