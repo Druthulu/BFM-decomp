@@ -446,7 +446,7 @@ build/src/ov_SC04_018/ov_SC04_018_jr_80159C84.o: JTBL_PADS := 0,4  # §8e pads (
 build/src/ov_SC04_018/ov_SC04_018_jr_8015AE2C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC04_018/ov_SC04_018_jr_8016AB6C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
 build/src/ov_SC04_018/ov_SC04_018_jr_80178D40.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x178
-build/src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14,+0x34 (S62 T2d: pads_audit — the TU compiles 3 tables; the carve's 4th (0xbd450, 5 entries) belongs to func_80181804, currently a stub whose .s supplies it after the C tables)
+build/src/ov_SC04_018/ov_SC04_018_jr_8017AE2C.o: JTBL_PADS := 0,0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x14,+0x34,+0x48 (S62 T2d trimmed this to 3 while func_80181804 was a stub; S79 #6 banked it from its ov_SC04_019 twin and the 4th table (0xbd450, 5 entries) is compiled again — 4th pad 0, byte-proven fe9b413f)
 build/src/ov_SC04_018/ov_SC04_018_jr_80183E6C.o: JTBL_PADS := 0,4  # §8e pads (jtbl_carve.py) tables=+0x0,+0x18
 build/src/ov_SC04_018/ov_SC04_018_jr_801878E8.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x38
 build/src/ov_SC04_018/ov_SC04_018_jr_80188E1C.o: JTBL_PADS := 0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x20
