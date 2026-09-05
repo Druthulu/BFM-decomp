@@ -37067,3 +37067,29 @@ three integration classes a per-draft `rtu_match` cannot see.**
   prints (`0,0t1,0t1,0t1,0t1,0t1,0`), no isolation, no yaml/`overlays.mk` line (R60 untouched). The probe's refusal text
   now says so. Census `nins` counts `.s` LINES including rodata `.word`s (`func_800CD520` "22" = 14 code + 8 data);
   `rtu_match`'s `MATCH (N ins)` is the code count — quote which one you mean.
+
+**G. The NEAR tail (S83, 11:35–12:10 MDT): one REGALLOC-PERM seed CRACKED by permuter_ils + an R63 read, one plateau confirmed,
+and a build-instrument collision fixed at the consumer.**
+* **`main:func_8001BC6C` 6 → 0 (69 ins, BANKED `143dbb89`).** `permuter_ils … --klass REGALLOC --cycles 8 --secs 150 --j 3`
+  on the pinned Opus seed (§494's repaired recipe) went 6 → 6/5/1 in cycles 6–8. **R63 read of the "1":** three mutations
+  — (a) `idx = D_800B9A02 << 14` moved AFTER `color = c2 | a1`; (b) a dead `tag = (a1 << 8) | k;` inserted at the top,
+  BEFORE k's assignment; (c) `(D_800B9A02 & 0xFFu) << 14` — and (c) narrows the target's `lhu` to an `lbu` (semantically
+  wrong; the masked scorer rewards it — the second such witness after S80's `addiu`→`sw`). (a)+(b) alone = leaf MATCH;
+  (a) alone 8, (b) alone 21. **The lever is the early BIRTH of the `tag`/`k` pseudos**, the §47/§500-C live-length
+  computation made real: `qty_compare` = `floor_log2(n_refs)·n_refs·size/(death−birth)`; lengthening `tag`'s range drops
+  its priority below the OT index's and the `$v0/$v1` swap across the six OT-chain insns disappears. **Well-defined
+  spelling that keeps the bytes: `k = 0; tag = (a1 << 8) | k;` at the top** (the value is recomputed below); every other
+  early birth measured off — `k = K` first 15, `tag = a1 << 8` 19, `tag = a1` 8, `tag = (a1<<8)|K` 20, `tag = 0` 8,
+  tag-then-k 8 (`.run/P32/t3s3/p1bc6c/`, 11 spellings). Route law: **when the permuter's waypoint carries a
+  width/semantics mutation, do not discard the waypoint — subtract the unsound mutation and re-measure; the sound
+  remainder was the whole answer here.**
+* **`md_MAIN_009:func_800CD674` stays 2.** The same recipe's best waypoint (`output-2-1`) is the SAME `$a3↔$t1` pair
+  (`and` 156 / `or` 164), no drift: a genuine local-alloc tie the permuter cannot cross from this seed; ledgered with its
+  cost (8 × 150 s, 0 tokens).
+* **Instrument: `gate_main`'s first clean rebuild died on `src/.masked_diff_probe.3973390.c`** — a concurrent agent's
+  `masked_diff` per-process probe (written and deleted within one call) was present when make parsed
+  `C_SRCS := $(shell find src -name '*.c' …)` and gone when its rule fired: "No rule to make target
+  build/src/.masked_diff_probe.N.o, needed by build/us/SLUS_007.26" → "batch FAILED (sha None); bisecting" → one wasted
+  rebuild, then BANKED. Fixed at the CONSUMER (R54): the find now carries `-not -name '.*'` (Makefile), so every tool that
+  probes in `src/` is covered at once; control = a throwaway dotfile absent from `make -pn`'s `C_SRCS`, `src/800.c` present.
+  (§500-E3's "move the probes under `.run/`" remains a nicety, no longer a correctness fix.)
