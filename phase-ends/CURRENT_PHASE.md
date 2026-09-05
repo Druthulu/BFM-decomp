@@ -41,7 +41,7 @@ Scale estimate: 3–5 sessions.
 - [x] **T0 — Phase open** (Max) — DONE 2026-09-05: verbatim 5==5 · exclude 8/8 fresh · census 21 (B-CARVE 4 / D-NEAR 10 / F-FAR 7, `.run/P32/frontier_p32_open.json`) · tools-health OK · check-all 213/213 rc 0 (`.run/P32/t0_baseline.log`): this file; harness task list (R28); baseline reads — `verbatim_check --strict`
       (5==5), `exclude_audit --assert-fresh`, `frontier_classify --json .run/P32/frontier_p32_open.json` (21),
       `make tools-health` OK, `make check-all` 213/213 (read of the on-disk S80 artifacts); commit.
-- [ ] **T1a — resident: split the code subseg, bank `func_800D128C` (243)** (Max/xHigh):
+- [x] **T1a — resident: split the code subseg, bank `func_800D128C` (243)** — DONE 2026-09-05: BANKED byte-identical `8e17e02f…` (commits `commit:3902` split + `commit:3904` bank); **R22 after the bank: check-all 213 passed / 0 failed, rc 0** (`.run/P32/t1a/r22.log`); resident stubs 2 → 1; THREE instrument fixes on the way (cookbook §496 carrier provided-types, §498 carve `--pre` drop + gate ignoring the extract rc + interleave_check false DRIFT); twin_rescan: 20 open, nothing newly free. Original brief:
       `jr_isolate_all resident --only func_800D128C` (dry-run CLEAN 2026-09-05: 3 region files, carve repoint
       `resident → resident_jr_800D00E4`, `--order` + `JTBL_PADS`) → `make extract BINARY=resident && make build
       BINARY=resident -j8` (EXIT CODE, R53; byte-neutral split) → commit carve state alone (R60) → `rtu_match` the
@@ -120,11 +120,12 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
 
 ## Log
 - 2026-09-05 — gate 1 approved; T0 opened at HEAD `commit:3900`.
+- 2026-09-05 — **T1a DONE — `resident:func_800D128C` BANKED (243 ins, byte-identical 8e17e02f, R22 213/213).** The stored S71 closeness-0 draft was byte-correct all along; the whole task was three instrument defects the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed in overlay-only assumptions: (1) `jr_isolate_all` dropped a file-local typedef whose name engine_types.h also defines (§496 — fixed: provided types derived from the TU's own includes); (2) `jtbl_carve` regenerated `JTBL_INTERLEAVE` without the `--pre hdr.rodata.o` clause → extract refused → the gate linked a stale script and booked the byte-correct draft as DIFF; `harvest_verify` ignored that extract's rc (§498 — both fixed, R49/R61); (3) `interleave_check` read a `--pre` line as n=0 (false DRIFT; fixed). R38 then found two more stored MATCH bodies for T1b/T1c (see their rows). Effort stayed Max.
 - 2026-09-05 — **T0 DONE.** Baseline reads all green (`.run/P32/t0_baseline.log`): `verbatim_check --strict` 5 bodies == 5 rows; `exclude_audit --assert-fresh` 8 entries, 8 WALL, 0 stale; `frontier_classify` → 21 rows = the S80 census exactly; `make tools-health` OK (sigs fresh, corpus(+resident), cdecl, audit-binaries 213/213, report lint+dedup, cookbook-index, split_indicator 213 OK); `make check-all` 213 passed / 0 failed, rc 0. Harness task list #1–#11 built (R28). NEXT = T1a.
 
 ## 🛑 SESSION CHECKPOINT — T0 CLOSED (2026-09-05)
 Written for a FRESH SESSION with none of this context. Phase 32 plan approved (gate 1, Drew, 2026-09-05, Max,
-Fable 5.1); rules R44–R63 ratified. **T0 is DONE (baseline all green, see the Log). NEXT = T1a — the resident code-subseg split + the `func_800D128C` bank (task list #2).** Effort **Max** for
+Fable 5.1); rules R44–R63 ratified. **T0 + T1a DONE (T1a: resident func_800D128C BANKED, R22 213/213). NEXT = T1b (task #3) — the carrier fix is committed (`commit:3903`); the twin-remap draft `.run/P32/t1b/drafts/func_80186C64.c` is being reconciled to the TU's spellings (§376: func_8012A828/D_801E0F44 done, func_80131E00/func_80185F88 next) before the isolate + gate. T1c (task #4) needs NO agent: `.run/O21/opus/func_800CB00C.c` and `.run/S75/redraft/func_800CB00C.c` are BOTH rtu_match MATCH 123/123 in the real md_MAIN_034 TU — splice + gate, then drop the WALL pin.** Effort **Max** for
 T0–T2 (see the Effort block). Census at open (= S80, unchanged): **21 stubs / 4,554 ins** — main 12 (2,077) ·
 resident 2 (587) · md_MAIN_003 1 (469) · md_MAIN_034 1 (152) · ov_SC02_017 1 (209) · ov_SC03_105 2 (595) ·
 ov_SC06_022 1 (119) · ov_SC07_002 1 (346); B-CARVE 4 / D-NEAR 10 / F-FAR 7 (`docs/frontier-p32.md` §1 has every
