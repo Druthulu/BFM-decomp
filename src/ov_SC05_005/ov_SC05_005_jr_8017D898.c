@@ -5183,7 +5183,7 @@ void func_801815E0(s32 arg0, s32 arg1) {
 
 
 
-extern void func_80181828(void *a0);
+extern s32 func_80181828(void *a0);  /* S79 #6: the body (twin of ov_SC05_003:func_80181720) returns s32; callers ignore it — byte-neutral */
 
 void func_80181648(void *a0) {
 
