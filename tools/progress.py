@@ -451,6 +451,10 @@ BINARIES = {
                         src="src/md_MAIN_007", asm="asm/md_MAIN_007/nonmatchings", out="docs/progress.md_MAIN_007.md"),
     "md_MAIN_009": dict(build="build/md_MAIN_009/md_MAIN_009", check="config/check.md_MAIN_009.sha",
                         src="src/md_MAIN_009", asm="asm/md_MAIN_009/nonmatchings", out="docs/progress.md_MAIN_009.md"),
+    "md_SC03_053": dict(build="build/md_SC03_053/md_SC03_053", check="config/check.md_SC03_053.sha",
+                        src="src/md_SC03_053", asm="asm/md_SC03_053/nonmatchings", out="docs/progress.md_SC03_053.md"),
+    "md_SC03_054": dict(build="build/md_SC03_054/md_SC03_054", check="config/check.md_SC03_054.sha",
+                        src="src/md_SC03_054", asm="asm/md_SC03_054/nonmatchings", out="docs/progress.md_SC03_054.md"),
     # <<< overlays: tools/new_overlay.sh inserts ov_* entries above this line (Phase 13) >>>
 }
 MAKEFILE = ROOT / "Makefile"
