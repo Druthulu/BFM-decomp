@@ -36343,3 +36343,49 @@ link it — in that order, before any C).
 `tools/psyq_build_libs.sh LIBCARD`, `tools/make_apicard_used.py` — docs/SETUP.md carries the exact commands.
 The build is byte-identical without any of it (the seven stub TUs), as always.
 
+#### §491 ★★ — THE MECHANICAL LEFTOVERS (P31 S79 #6): A PHANTOM STUB, TWO JTBL TWINS, ONE EXACT CLONE — AND THREE TOOL GAPS THE BANKS EXPOSED
+
+**Yield.** `md_MAIN_003:D_800D3200` was never a function: a one-word `0x00FFFFFF` sentinel in `.text` that
+`func_800D3204`/`func_800D3234` read and write. It was carried as an `INCLUDE_ASM` "stub" (the census's
+H-VIRGIN row) because splat had once split a function there; emitting the word INSIDE the hand-written asm
+island it belongs to (`__asm__(".globl D_800D3200\nD_800D3200:\n.word 0x00FFFFFF\n" …)`) keeps the bytes and
+deletes the stub record — no new verbatim row, since it joins an existing PERMANENT body. `ov_SC04_018`'s
+`func_80181804`/`func_80181CB8` (jump-table functions, exact twins of `ov_SC04_019`) and `ov_SC05_005`'s
+`func_80181828` (exact clone of `ov_SC05_003:func_80181720`, `family_remap`) banked byte-identical — three
+functions, zero drafting tokens, but each needed a plumbing fix the tools did not make.
+
+**Gap 1 — a "covered" jump table still needs its pad-spec entry.** `jtbl_carve --probe` answered
+"covered — table(s) already inside the existing `.rodata` carve" for `func_80181804`, which is true of the
+BYTES: S62's pads_audit had trimmed the TU's `JTBL_PADS` to the three tables the TU then compiled and left
+the fourth to the stub's `.s`. Splicing the C makes the TU emit four tables, and the build dies in
+`jtbl_rodata_pads` ("more rodata jump tables than pad specs (3)") — reported by the gate as
+`CC1-FAIL(no-diagnostic)` (the assembler failure has no cc1 line) and, for the sibling in the same TU, as
+`PLUMBING: conflicting types for built-in memcpy` (a pre-existing WARNING the verdict parser mistook for the
+error). `jtbl_pads_fix --apply` should have repaired it and reported "no pad-count drift"; the direct route
+worked: extend the spec by one entry and let the byte gate arbitrate the pad (`0,0,0,0` was byte-identical
+first try). Law: **a pad spec describes the CURRENT table population; banking a table's owner changes the
+population, so "covered" is a carve verdict, not a pads verdict.**
+
+**Gap 2 — an exact-clone remap still meets the destination TU's spelling.** The remapped body was
+byte-correct (twin d=0) and the gate said `DIFF`; `rtu_match` named the two real reasons: the draft carried
+its own `typedef … Prim_8016E7C8` (identical to the TU's, still a redeclaration for gcc 2.7.2) and the TU
+declared the stub `extern void` where the body returns `s32`. Strip the draft's typedef block; fix the TU's
+prototype as a separate byte-neutral plumbing commit (callers ignore the value); gate. `family_remap` could
+drop typedefs the destination already defines by name — it does not yet.
+
+**Gap 3 — a parallel-gate merge that changes carve state leaves the main tree's split stale.** `parallel_gate`
+merged `config/splat.ov_SC04_018.yaml` + `overlays.mk` from the worktree (the tail carve for
+`func_80181CB8`), and the in-tree `make build` then FAILED until `make extract BINARY=ov_SC04_018` regenerated
+the split. Rule of thumb after any merged bank that touched a yaml or `.mk`: extract before you build.
+
+**What stays open in this class, with its blocker named.** resident `func_800D128C` (243, close=0 draft on
+disk at `.run/S71_gate14/resident/`) and `ov_SC02_017:func_80186C64` (209, d=2 twin `ov_SC02_016:0x801810c8`):
+`jtbl_carve` refuses both as "subseg would host NON-CONTIGUOUS `.rodata` carves" — the existing carve and the
+new table are separated by other functions' raw tables, so the CODE subseg must be split first (the §486
+5-piece manual carve; for the resident that means splitting the single `resident` TU). `md_MAIN_034:func_800CB00C`
+(152): its table sits in the §154-A leading island AND its best draft compiles to 174 ins against 123 — the
+draft is wrong, the "compiler wall" pin is a label on a wrong draft. `ov_SC05_010:func_8017FFA8` (88): a
+standard tail carve at gate time, no draft exists. `md_MAIN_003:func_800D0100` (29, d=1 twin of main's
+`func_80010B40`): `family_remap` raises on `main` as a source (its image reader expects a flat overlay blob) —
+hand-remap or the C-PLUMBING route (#7).
+

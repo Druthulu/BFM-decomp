@@ -47,7 +47,11 @@ PAD_ERR = re.compile(r"consumed (\d+) rodata \.align\(s\) but (\d+) pad spec\(s\
 OBJ_ERR = re.compile(r"\[(?:Makefile:\d+:\s*)?(build/src/[^\]]+\.o)\]")
 # the OTHER drift direction: a NEW table appeared (a banked `switch`), so the object emits
 # MORE .aligns than the spec has entries; jtbl_rodata_pads phrases that without the emitted count.
-PAD_ERR_MORE = re.compile(r"more rodata \.align directives than pad specs \((\d+)\)")
+# P31 S79 #6: jtbl_rodata_pads phrases this "more rodata jump tables than pad specs (N)" (its .align
+# consumer was renamed); this regex still carried the OLD wording, so find_drift returned None over a
+# RED build and the tool reported "no pad-count drift (nothing to repair)" — the exact R32/R35 shape it
+# was written to end. Both spellings are accepted now.
+PAD_ERR_MORE = re.compile(r"more rodata (?:\.align directives|jump tables) than pad specs \((\d+)\)")
 
 
 def sh(cmd, **kw):

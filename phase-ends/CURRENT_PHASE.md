@@ -121,6 +121,24 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     #5", SETUP (fresh-clone obj42 commands, Makefile blocks, exclude_audit), decision-log "S79 addendum 2",
     accelerators "S79 (2)". `frontier_classify` had a HARD-CODED LINKED set (R51) — derived from the Makefile
     now. tools-health OK; R22 fleet 213/213 (`.run/S79_check_all_band.log`).
+    **#6 DONE (S79, 2026-09-04; commits `commit:3868` `commit:3869` `commit:3870` `commit:3871` + this docs commit):**
+    the mechanical class, 0 drafting tokens. (1) `md_MAIN_003:D_800D3200` — a data word carried as a stub —
+    emitted inside its asm island (dd1b32ec). (2) `ov_SC04_018:func_80181804` (twin of ov_SC04_019): its
+    table was already carved, only the `JTBL_PADS` spec had been trimmed to 3 (S62) → 4 entries, byte-proven
+    (fe9b413f). (3) `ov_SC04_018:func_80181CB8` (twin, tail carve at gate time) + `ov_SC05_005:func_80181828`
+    (exact clone of ov_SC05_003:func_80181720 via `family_remap`; needed the TU's `extern void`→`s32`
+    plumbing commit + the draft's duplicate typedef stripped) via `parallel_gate`, then re-extract + in-tree
+    rebuild (452897fc / fe9b413f). Stubs 38 → **35** (main 16 unchanged; md_MAIN_003 5, resident 2, ov 12).
+    DEFERRED with named blockers (cookbook §491): resident `func_800D128C` (close-0 draft on disk) and
+    `ov_SC02_017:func_80186C64` — `jtbl_carve` refuses "NON-CONTIGUOUS .rodata carves" → the code subseg
+    must be split first (§486); `md_MAIN_034:func_800CB00C` — leading-island table AND a wrong-sized draft
+    (174 vs 123 ins): the "wall" pin labels a wrong draft; `ov_SC05_010:func_8017FFA8` — carveable, no draft;
+    `md_MAIN_003:func_800D0100` — d=1 twin of main's `func_80010B40`, `family_remap` raises on `main` as a
+    source → #7. Tools: `jtbl_pads_fix` PAD_ERR_MORE regex fixed (it said "no drift" over a red build;
+    positive-controlled: detects "emits >4, spec declares 4"); gaps recorded in §491 (a "covered" table
+    still needs its pad-spec entry; parallel_gate merges leave the main tree's split stale → extract first).
+    tools-health/report regenerated; R22 fleet **213/213** (`.run/S79_check_all_6.log`); twin_rescan: 2 open
+    stubs keep a banked twin (ov_SC02_017 d=2, md_MAIN_003 d=1), nothing newly free.
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)
@@ -8038,13 +8056,13 @@ for free. Three of our own measuring tools were lying (one hid a broken build, o
 saved names, one under-counted the main program by 32 points); all fixed, and the main program is now
 honestly 91.8% real C. Next: a small piece of linker surgery so two more Sony objects can be linked.
 
-## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #6 → #11 remain (#4, #13 and #5 DONE this session).
+## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #7 → #11 remain (#4, #13, #5 and #6 DONE this session).
 
 Written for a FRESH SESSION with none of this context. Read it in full before doing anything.
-**HEAD = the S79 task-#5 commit `commit:orphan-24` (amended with this block), on top of #13 `commit:3866` and #4
-`commit:3865` (Drew pushes, R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the S78 decision).** Model
-Fable 5.1; effort **xHigh** default for #6–#10, **Max** for #11 (R27: prompt Drew and WAIT for the actual
-`/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
+**HEAD = the S79 task-#6 docs commit, on top of the #6 bank commits (`commit:3868` `commit:3869` `commit:3870`
+`commit:3871`), #5 `commit:3867`, #13 `commit:3866`, #4 `commit:3865` (Drew pushes, R6); no `Claude-Session:`/
+`Co-Authored-By` trailers (R5 + the S78 decision).** Model Fable 5.1; effort **xHigh** default for #7–#10,
+**Max** for #11 (R27: prompt Drew and WAIT for the actual `/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
 restarts via the SessionStart hook → Drew runs `/mcp` (R29); no RE task is next, so no G2 ping needed
 until one is. Ghidra DB churn (`db.*.gbf`, `~index`) is R23 restart-noise: do NOT stage it.
 
@@ -8053,8 +8071,9 @@ dir (`.run/obj40` + `.run/obj42`; `.run/S79_build_band_sdk.log`) and WITHOUT the
 (`.run/S79_build_band_fallback.log`); `make tools-health` (`.run/S79_tools_health_band.log`, rc=0); the fleet
 `make clean && make extract-all && make check-all` (`.run/S79_check_all_band.log`): extract-all **212/212**
 (+ main), check-all **213 passed, 0 failed of 213** (rc=0, 2m32s); `frontier_classify` regenerated after it:
-**39 rows = 38 stubs + the data word**, main 16. (The task-#4 state was verified the same way earlier in the
-session: `.run/S79_check_all.log` 213/213.)
+**39 rows = 38 stubs + the data word**, main 16. After #6: fleet again **213 / 213** (`.run/S79_check_all_6.log`,
+2m35s); census **35 rows = 35 stubs** (main 16 · md_MAIN_003 5 · resident 2 · ov_SC03_105 2 · 10 singles).
+(The task-#4 state was verified the same way earlier in the session: `.run/S79_check_all.log` 213/213.)
 
 # 1. THE SESSION IN ONE PARAGRAPH
 
@@ -8074,17 +8093,21 @@ All 46 objects it places in main link byte-identical, so task #5 linked the whol
 three C objects from the real objects: four TUs gone, the `REORDER_TUS` island empty, main's open stubs 29 → 16,
 fleet 51 → 38, game-code 93.3% with the remainder still equal to the open-stub sum. Two instruments were
 found stale on the way and fixed (the exclude audit's WALL-before-LINKED order; the frontier census's
-hard-coded LINKED set).
+hard-coded LINKED set). Task #6 then took the mechanical class for zero tokens: the data-word phantom, two
+jump-table twins of ov_SC04_019, one exact clone in ov_SC05_005 — stubs 38 → 35 — and named the blocker of
+each leftover (two code-subseg splits, one wrong draft under a "wall" pin, one missing draft, one near-twin
+for the plumbing route).
 
 # 2. THE CENSUS (S79 close; every number with its denominator, R41)
 
-* **Stubs: 38 of 363,157 matchable (`.run/frontier_s79.json`, `tools/frontier_classify.py` — regenerated after
-  the fleet; #5 removed the 13 band stubs; #4 removed none, its objects were REAL/VERBATIM).** Classes:
-  A-TWIN-REMAP 2 (ov_SC04_018 `func_80181804` 77 / `func_80181CB8` 67, proven twin ov_SC04_019) ·
-  B-CARVE jtbl 5 (resident `func_800D06E8` 344 + `func_800D128C` 243, ov_SC02_017 `func_80186C64` 209,
-  md_MAIN_034 `func_800CB00C` 152, ov_SC05_010 `func_8017FFA8` 88) · C-PLUMBING close=0 6 (ov_SC05_005
-  `func_80181828` 87, ov_SC05_018 `func_80180BE0` 65, ov_SC06_010 `func_801809E4` 33, md_MAIN_003
-  `func_800D06BC` 33 + `func_800D0100` 29, md_MAIN_020 `func_800CB17C` 30) · D-NEAR ≤25 6 (main
+* **Stubs: 35 of 363,157 matchable (`.run/frontier_s79.json`, `tools/frontier_classify.py` — regenerated after
+  the #6 fleet; #5 removed the 13 band stubs, #6 removed 3 + the data-word row).** Classes:
+  B-CARVE jtbl 5 (resident `func_800D06E8` 344 [close 292 — really F-FAR] + `func_800D128C` 243 [close-0
+  draft; the carve is refused NON-CONTIGUOUS → subseg split], ov_SC02_017 `func_80186C64` 209 [same refusal;
+  d=2 twin ov_SC02_016], md_MAIN_034 `func_800CB00C` 152 [leading-island table + wrong-sized draft],
+  ov_SC05_010 `func_8017FFA8` 88 [tail carve fine, no draft]) · C-PLUMBING close=0 5 (ov_SC05_018
+  `func_80180BE0` 65, ov_SC06_010 `func_801809E4` 33, md_MAIN_003 `func_800D06BC` 33 + `func_800D0100` 29
+  [d=1 twin of main `func_80010B40`], md_MAIN_020 `func_800CB17C` 30) · D-NEAR ≤25 6 (main
   `func_80011380` 192 boot -O0 floor §474, `func_80015760` 106, `func_80015608` 86, `func_80039B20` 79,
   `func_80038698` 74; ov_SC03_105 `func_801834A4` 106) · F-FAR 9 (main `func_80032A74` 422, `func_80015B6C`
   120, `func_8002AC98` 114, `func_80020DA4` 100, `func_800391D4` 75, `func_80039DEC` 74, `func_8002FDE8` 73,
@@ -8092,10 +8115,11 @@ hard-coded LINKED set).
   `func_8001EFE0` 468, `func_80023BF0` 281; ov_SC03_105 `func_80185810` 489; md_MAIN_003 `func_800CF3E8`
   469 + `func_800D1D14` 65 + `func_800D0174` 36; ov_SC07_002 `func_8017DC80` 346; ov_SC01_001 `func_80181E04`
   269; ov_SC06_022 `func_8017DF28` 119) · H-VIRGIN 1 (md_MAIN_003 `D_800D3200`, a data word → splat fix).
-  Per binary: **main 16 (2,786 ins)** · resident 2 · md 7 · overlays 13 across 10 binaries. The 13 that
+  Per binary: **main 16 (2,786 ins)** · resident 2 · md 7 · overlays 10 across 8 binaries. The 13 that
   left with #5: PadInfoAct, `_padSetMainMode`, `_padInitSioMode`, `func_8005D734`, `PadInitDirect`,
   `func_80062144`, `func_8005F290`, `_dirFailAuto`, `_padStartCom`, `func_8005ECC0`, `func_8005F830`,
-  `func_8005ED4C`, `func_8005F450` — all libpad 4.2.1 / libapi 4.2 objects.
+  `func_8005ED4C`, `func_8005F450` — all libpad 4.2.1 / libapi 4.2 objects. The 3 + 1 that left with #6:
+  ov_SC04_018 `func_80181804`/`func_80181CB8`, ov_SC05_005 `func_80181828`, and the `D_800D3200` row.
 * **Verbatim `__asm__` bodies: 6 in tree** (main 3 + md_MAIN_003 2 + ov_SC03_107 1); manifest
   `config/verbatim_manifest.json` = **6 rows** after two subtractive `--update`s this session (200 → 33 → 6):
   crt0 `start`/`__main`/`__do_global_dtors` (CRT, PERMANENT), GAME-ASM `md_MAIN_003:func_800D3204/3234`
@@ -8117,7 +8141,7 @@ hard-coded LINKED set).
   libcd 18/2, libgs 34/8, libetc 5/1, libgpu 3/2, libmcrd 2/2, libc2 17/2, libgte 70/30, snd 63/12,
   apicard 26/7 (libapi 4.2 + libcard 4.0), libapi42 23/2, libpad421 7/2 — 268 objects / 70 blocks.
 
-# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4 #13 #5
+# 3. THE TASK LIST (harness tasks; Drew-confirmed order 2026-09-04) — DONE: #1 #2 #12 #3 #4 #13 #5 #6
 
 | # | task | status | effort |
 |---|---|---|---|
@@ -8128,8 +8152,8 @@ hard-coded LINKED set).
 | 4 | SYS.o + VM_F (+ GS_001) `.bss` split → LINKED (`libgpu2`, `snd12`, `libgs8`) | DONE S79 `commit:3865` | — |
 | 13 | bounded hunt for LIBPAD.LIB 4.2.1 / 4.3 — **FOUND** (RTL 4.2 + the J421PD 4.2.1 patch; 46/46 byte-identical) | DONE S79 `commit:3866` | — |
 | 5 | the band + the apicard region LINKED from libpad 4.2.1 + libapi 4.2 (`libapi1/2`, `libpad1/2`, `apicard5-7`; 13 stubs, 4 TUs, the reorder island gone) | DONE S79 `commit:orphan-24` | — |
-| **6** | **mechanical: A-TWIN-REMAP 2 + B-CARVE 5 + `D_800D3200`** | **NEXT** | **xHigh** |
-| 7 | C-PLUMBING 7 via `recover_route` / §376–§378 | pending | xHigh |
+| 6 | mechanical: `D_800D3200` + the 2 ov_SC04_018 twins + ov_SC05_005's clone banked; the 5 carves deferred with named blockers (§491) | DONE S79 | — |
+| **7** | **C-PLUMBING 5 via `recover_route` / `rtu_match` / §376–§378 (bodies proven close=0)** | **NEXT** | **xHigh** |
 | 8 | D-NEAR non-band 6: permuter/ILS/§31 or §474 wall-proof each | pending | xHigh |
 | 9 | F-FAR 10 + G-UNKNOWN 12: one journal-noted agent per function | pending | xHigh |
 | 10 | verbatim end-state + PERMANENT ratification + `main()` | pending | xHigh |
@@ -8203,37 +8227,36 @@ src/800c2_3.c`; splat emitted the 7 stub TUs (`libapi1.c` 25 stubs, `libpad1.c` 
 main's LINKED path only exercised in-tree with the obj dirs present, R53 exit codes, `lint_symbol_refs` whole
 output, no `name:` in splat symbol comments).
 
-# 6. TASK #6 — MECHANICAL: A-TWIN-REMAP 2 + B-CARVE 5 + `D_800D3200` (start here; xHigh; design before code, X1)
+# 6. TASK #7 — C-PLUMBING 5 (start here; xHigh; design before code, X1) — and what #6 taught about the route
 
-**A-TWIN-REMAP (2, ov_SC04_018):** `func_80181804` (77) and `func_80181CB8` (67) have a PROVEN twin in
-ov_SC04_019 (banked). Run `tools/twin_rescan.py` first (a bank changes the twin graph; §397) to confirm the
-pairing, then `family_remap` / the structural-family mechanical remap (memory `structural-family-mechanical-remap`:
-h_exact remaps bank at 88.5%). Gate ov_SC04_018 with the parallel gate in a worktree (memory
-`parallel-gate-via-worktrees`; never xargs -P over gate_stage). Then `twin_rescan` again.
-**B-CARVE jtbl (5):** resident `func_800D06E8` (344) + `func_800D128C` (243) need the RESIDENT carve path
-(`jtbl_carve` / `jtbl_family_bank`; `o0_subsplit` refuses main only — check what it says for resident);
-ov_SC02_017 `func_80186C64` (209), ov_SC05_010 `func_8017FFA8` (88) via `jtbl_carve`; md_MAIN_034
-`func_800CB00C` (152) sits in `config/wave_exclude.txt` as "WALL: compiler wall (S68)" — it is B-CARVE in the
-census, so re-probe it under the CURRENT carve tooling before believing the S68 label (memory
-`reprobe-exclude-lists-after-tool-fixes`; `exclude_audit` keeps it only because it is pinned). `split_indicator.py`
-is the carve oracle (tools-health runs it as a hard gate): a subseg owning raw tables in >1 non-adjacent span
-must be split before any switch function in it can bank. Read `docs/matching-cookbook.md` §486 (the 5-piece
-manual carve) and §53 before carving.
-**H-VIRGIN `D_800D3200` (md_MAIN_003):** a data word mis-sliced as a stub — a splat symbol type fix in
-`config/splat.md_MAIN_003.yaml` / its symbols file (declare the word as data), then re-extract md_MAIN_003; it
-should vanish from `corpus.stubs` without any C.
-**Gate/verify per binary:** overlays/modules through `gate_stage`/`parallel_gate` (each carve edits that
-binary's yaml — R60: a gate commits only its own binary's carve-state lines; `interleave_check` + `pads_audit`
-after any yaml touch); resident through its own path; then `twin_rescan`, R22 fleet, `frontier_classify --json`,
-docs (cookbook idioms if any new), checkpoint, one commit per binary or per class (R42: commit before the next
-command that can touch src/).
+**The five** (bodies proven close=0 by an earlier wave; the TU's spelling refuses): ov_SC05_018
+`func_80180BE0` (65), ov_SC06_010 `func_801809E4` (33), md_MAIN_003 `func_800D06BC` (33) + `func_800D0100`
+(29; also a d=1 twin of main's `func_80010B40` — `family_remap` raises on `main` as a source, hand-remap
+from `src/…/func_80010B40` if the plumbing route stalls), md_MAIN_020 `func_800CB17C` (30; verdict
+"match_one MATCH but the whole-binary gate rejected — CAUSE NOT DETERMINED"). Best drafts:
+`.run/backlog_drafts/<fn>.c` (the ledger's best_draft) and the wave dirs under `.run/pgate_in4/<bin>*/`,
+`.run/S70final/`, `.run/S71_gate14/`.
+**The route that worked in #6, in order:** (1) `rtu_match.py <fn> --split <TU basename> --source <bin> --c
+<draft> --asm-subdir asm/<bin>/nonmatchings/<subseg> --stderr-out <log>` — the REAL-TU compile names the
+actual clash (typedef redeclared, prototype mismatch, extern type drift) where the gate's verdict parser
+had said `PLUMBING: memcpy` / `CC1-FAIL(no-diagnostic)`; (2) fix the DRAFT when the draft is wrong
+(duplicate typedefs, its own guessed externs → `sync_tu_decls --binary --fn --draft --apply` copies the
+TU's spelling), fix the TU when the TU is wrong (a stub's stale `extern void` → the body's real type),
+prove the TU edit byte-neutral with an in-tree build, COMMIT it before gating (S77 law); (3) gate with
+`parallel_gate --plan '[{binary, drafts}]'` (worktrees; never two in-tree gates at once — `assert_write_set`
+is global); (4) `make extract BINARY=<bin>` before any in-tree rebuild if the merge touched a yaml/`.mk`;
+(5) commit per binary, `twin_rescan`, R22 fleet, `frontier_classify --json`, checkpoint. `recover_route.py`
+names the tool for a gate_main DROP (main only); for overlays/modules the rtu_match stderr is the route.
+**Then #8/#9 inherit from #6:** the two NON-CONTIGUOUS carve refusals (resident `func_800D128C` with its
+close-0 draft at `.run/S71_gate14/resident/func_800D128C.c`; ov_SC02_017 `func_80186C64`) need a code-subseg
+split before any body can bank (§486); `md_MAIN_034:func_800CB00C` needs a correct draft (the S68 "wall" pin
+sits on a 174-vs-123-ins draft — re-draft, then the §154-A leading-island prep runs at gate time);
+`ov_SC05_010:func_8017FFA8` needs its first draft.
 
 # 7. TASKS #6–#11 — CARRIED CONTEXT
 
-* #6: see §6 above (`PadInfoAct` is gone with the band — no main carve left in this class).
-* #7: bodies proven (close=0); the TU's spelling refuses — `recover_route.py` (routes a DROP to the applicable
-  tool), `cast_self_callers`, `sync_tu_decls`, `--sync-decls`; prove plumbing byte-neutral BEFORE gating and
-  commit the plumbing before the gate (S77 laws). `gate_main.py` is the ONLY main gate.
+* #6: DONE — its leftovers are itemised in §6 above.
+* #7: see §6 above (the route as it actually worked in #6).
 * #8: `permuter_sweep.py` / `permuter_ils.py` + the §31 map; a NEAR whose journal cites a gcc pass + file:line
   is a §474 wall-proof candidate, not a redraft (`config/wave_exclude.txt` carries the walls;
   `exclude_audit.py` refuses a stale list).
@@ -8259,6 +8282,10 @@ command that can touch src/).
   each lied the day the link state changed.
 * Edit the LIVE checkpoint block through a slice of the file that starts at its own header: the S78 and S79
   blocks share every section heading, and `str.index` on a heading duplicated a region twice this session.
+* A gate's verdict parser is a witness, not a judge: `rtu_match`'s real-TU stderr named the true clash both
+  times the gate said `PLUMBING: memcpy` / `CC1-FAIL(no-diagnostic)` (§491).
+* Positive-control a fixed detector against a deliberately broken input (the pads regex: "no drift" → "emits
+  >4, spec declares 4").
 
 # 9. PLAIN ENGLISH
 Three chunks of the main program had been treated for months as "Sony library code we can't link because
@@ -8274,5 +8301,7 @@ in under an hour: a small archive on archive.org holds Sony's February-1998 cont
 one of its pieces matches the game byte for byte. We then wired it in: the hardest-looking stretch of the main
 program — twelve functions carried as "compiler walls", plus the controller and BIOS-call code around it —
 now links straight from Sony's library instead of being rewritten by hand. Main's open functions went from 29
-to 16 and the whole game's from 51 to 38; nothing about the game changed. Next: the mechanical leftovers (two
-twin functions, five jump-table carves, one mis-typed data word).
+to 16 and the whole game's from 51 to 38; nothing about the game changed. The mechanical leftovers then
+went: the mis-typed data word, two twin functions and one exact clone banked for free (38 → 35), and each
+remaining jump-table case now has a named reason it is not free. Next: the five functions whose bodies are
+already right and only the file's declarations refuse them.
