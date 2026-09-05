@@ -72,6 +72,11 @@
 #   md_SC05_028 .run/sig.md_SC05_028.jsonl  sha1=76b99a3ffc7c9e3c942b65b1408b0a9081ed874c
 #   md_SC05_029 .run/sig.md_SC05_029.jsonl  sha1=b0b01a503cb8e6ae34c7d8214b547011303024aa
 #   md_SC02_009 .run/sig.md_SC02_009.jsonl  sha1=bcd1074efc742a78d2de5fda08887f9d91b719ea
+#   md_MAIN_007 .run/sig.md_MAIN_007.jsonl  sha1=8b0afc8200b05fcf9b8c3e1000fe5fd0150ba439
+#   md_MAIN_009 .run/sig.md_MAIN_009.jsonl  sha1=ebdd93ab0f5761b7538d6fa8ad534fc631074c8d
+#   md_SC03_053 .run/sig.md_SC03_053.jsonl  sha1=2a1932d9d28dadf733a6198fbd490bf3bba66483
+#   md_SC03_054 .run/sig.md_SC03_054.jsonl  sha1=fc092d8184734c34b5dfb1b0659fa26a13d81ec0
+#   md_SC03_056 .run/sig.md_SC03_056.jsonl  sha1=7bb093a65a46b5c3b3e4287cef8817b38f9bdaf5
 #   overlays   141x (named+sig_image, deduped, nins>=8)  set-sha1=17474a5aae730987d8cf2edd2816ddf598b6e4b8
 # Collapsible bytes = (count-1)*nins*4 (bytes saved; one member stays the source).
 # A cross-binary group (binaries>1) is the Phase-12/13 work queue; lead with h_exact
@@ -81,7 +86,7 @@
 
 ## h_exact (byte-identical)
 
-### cross-binary  (binaries > 1) — 9657 groups, 30043392 collapsible bytes  (top 200 of 9657 shown)
+### cross-binary  (binaries > 1) — 9658 groups, 30043444 collapsible bytes  (top 200 of 9658 shown)
 | gid | bytes | nins | count | #bin | sample members (binary:addr) |
 |---|---|---|---|---|---|
 | ex0 | 431200 | 770 | 141 | 141 | ov_MAIN_012:0x80144b9c; ov_SC01_000:0x80144b9c; ov_SC01_001:0x80144b9c; ov_SC01_004:0x80144b9c; …+137 |
@@ -478,7 +483,7 @@
 
 ## h_norm (structural)
 
-### cross-binary  (binaries > 1) — 9336 groups, 40284972 collapsible bytes  (top 200 of 9336 shown)
+### cross-binary  (binaries > 1) — 9337 groups, 40285260 collapsible bytes  (top 200 of 9337 shown)
 | gid | bytes | nins | count | #bin | sample members (binary:addr) |
 |---|---|---|---|---|---|
 | nx0 | 431200 | 770 | 141 | 141 | ov_MAIN_012:0x80144b9c; ov_SC01_000:0x80144b9c; ov_SC01_001:0x80144b9c; ov_SC01_004:0x80144b9c; …+137 |
@@ -487,7 +492,7 @@
 | nx3 | 223440 | 399 | 141 | 141 | ov_MAIN_012:0x80133cd4; ov_SC01_000:0x80133cd4; ov_SC01_001:0x80133cd4; ov_SC01_004:0x80133cd4; …+137 |
 | nx4 | 211584 | 12 | 4409 | 145 | md_MAIN_027:0x800cb7fc; md_MAIN_034:0x800cc260; md_MAIN_035:0x800cafbc; md_MAIN_046:0x800cdba4; …+4405 |
 | nx5 | 206640 | 369 | 141 | 141 | ov_MAIN_012:0x80166994; ov_SC01_000:0x80166994; ov_SC01_001:0x80166994; ov_SC01_004:0x80166994; …+137 |
-| nx6 | 202144 | 8 | 6318 | 195 | md_MAIN_003:0x800d2c88; md_MAIN_015:0x800cb474; md_MAIN_019:0x800cb4a8; md_MAIN_019:0x800cbf60; …+6314 |
+| nx6 | 202208 | 8 | 6320 | 197 | md_MAIN_003:0x800d2c88; md_MAIN_007:0x800cf390; md_MAIN_015:0x800cb474; md_MAIN_019:0x800cb4a8; …+6316 |
 | nx7 | 186032 | 22 | 2115 | 141 | ov_MAIN_012:0x8014ccb4; ov_MAIN_012:0x8014d04c; ov_MAIN_012:0x8014d3e0; ov_MAIN_012:0x8014d738; …+2111 |
 | nx8 | 184828 | 41 | 1128 | 141 | ov_MAIN_012:0x80151fb4; ov_MAIN_012:0x801522cc; ov_MAIN_012:0x801525f4; ov_MAIN_012:0x80152ac8; …+1124 |
 | nx9 | 184240 | 329 | 141 | 141 | ov_MAIN_012:0x8013c414; ov_SC01_000:0x8013c414; ov_SC01_001:0x8013c414; ov_SC01_004:0x8013c414; …+137 |

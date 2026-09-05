@@ -132,6 +132,38 @@ tour (never present in RAM across boot/title/attract/menus/load/opening/endings/
 scene loads): **MAIN/7, MAIN/9, SC02/9, SC03/53, SC03/54, SC03/56.** Next tier: the CD-read
 tracer (log `cdFileLocTable` index per read during play), not further scene-guessing.
 
+## P32 T2 (2026-09-05): the parked ledger is EMPTY — all five payloads onboarded, `make audit-disc` UNCLAIMED = 0
+
+The five static-RE targets the S45 addendum left (MAIN/7, MAIN/9, SC03/53, SC03/54, SC03/56) are binaries:
+
+| payload | binary | base | TEXT_LO | base evidence (memory-map §S45 p7) | first build |
+|---|---|---|---|---|---|
+| MAIN/7 (raw `FILE_007`, 9,600 B, id 0x3A, OPDEMO0) | `md_MAIN_007` | 0x800CEDF8 (boot slot) | 0x34 | STRONG: 9/9 self-calls + 14/16 pointers on its own function starts | `2ff702b6…` |
+| MAIN/9 (`FILE_009.dir/0.1`, 2,544 B, id 0x2D, OPDEMO1) | `md_MAIN_009` | 0x800CD348 (inside slot B's region, +0x82C) | 0x3C | STRONG: 6/6 self-calls + 9/9 pointers on starts at exactly one base | `d270f695…` |
+| SC03/53 (6,616 B, id 0x40) | `md_SC03_053` | 0x801EF468 (ov_SC03_001's DESTPTR) | 0x4 | STRONG: 52/75 pointers inside, 3 + its one self-call on starts | `c0848f30…` |
+| SC03/54 (8,220 B, id 0x41) | `md_SC03_054` | 0x801EF468 | 0xF0 | STRONG: 106/115 pointers inside, 5 header fn-ptr entries on starts | `06bd73df…` |
+| SC03/56 (3,680 B, id 0x43) | `md_SC03_056` | 0x801CBB50 (ov_SC03_002's DESTPTR) | 0x4 | 15/17 pointers inside; an outward call to a function only ov_SC03_002 (+2) has | `bc768a6b…` |
+
+`make audit-disc` (2026-09-05, `.run/P32/t2b/close.log`): **UNCLAIMED code payloads: 0** — "0 UNCLAIMED of 220"
+(`docs/disc-ledger.md`); `make audit-binaries` 218/218 citizens; R22 218/218 byte-identical.
+
+**How the bases were derived — and what the first build does NOT prove.** `tools/payload_base_evidence.py`
+(controls-gated: seven banked modules re-derive their byte-proven bases from their payloads alone, 7/7) scores a
+bounded candidate list — the five §S44 slots, the 134 IDXTAB DESTPTRs, and a jal→function-start vote — on
+self-calls and fn-ptr-table entries landing exactly on the module's own function starts (starts = prologues ∪ the
+word after each `jr $ra`+delay; leaf functions have no prologue). The all-`INCLUDE_ASM` **first build is a NULL
+oracle for FINE base errors**: MAIN/7 builds byte-identical at base+8, and only a gross error (an internal `jal`
+leaving the window) fails — as a LINK error, not a hash (`.run/P32/t2b/control_{fine,full}.log`). So the §S44 line
+"byte-identical on its FIRST build at the derived address" corroborated the address CLASS, never the address; every
+base here is `static-derived STRONG` (G5) and is byte-PROVEN by the first C bank whose body calls an internal sibling —
+20 such banks landed the same session (T2c: twin remaps + constant flips across all five modules, every build
+byte-identical), which is that proof for md_MAIN_007 (func_800CF390 calls func_800CF3B0), md_SC03_053
+(func_801EF56C calls func_801858CC) and the others whose remapped bodies address their own data.
+
+**What this closes.** The 100% claim's explicit-exclusion list is empty: every code-bearing payload on the disc (220
+of 220 classified code payloads) is an onboarded, byte-identical binary. What remains is per-function work inside
+the binaries (the census), not scope.
+
 ## Reproduce
 > **⚠️ S45: `tools/disc_code_sweep.py` is RETIRED (R33)** — superseded by `make audit-disc`
 > (`tools/disc_audit.py`): whole-payload classification at BOTH the raw and LZSS layers, a
