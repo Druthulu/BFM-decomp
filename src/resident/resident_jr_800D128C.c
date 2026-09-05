@@ -193,7 +193,258 @@ extern s32 func_800D128C(s32 arg0, s32 arg1);
 extern s32 func_800D11F0(s32 arg0);
 /* ==== end §8b carried decl layer ==== */
 
-INCLUDE_ASM("asm/resident/nonmatchings/resident_jr_800D128C", func_800D128C);
+/* func_800D128C — two-stage switch dispatch (arg0 -> a "kind" code, then the kind
+ * -> the actual object call + a message id).  243 ins, jtbl_80113FB8 (119 entries,
+ * cases 1..119) + jtbl_80114198 (9 entries, cases 0..8).
+ *
+ * SIGNATURE: resident.c:1693 already declares this at FILE scope as
+ *   extern s32 func_800D128C(s32 arg0, s32 arg1);
+ * so the definition must be (s32, s32) and the narrowing is done in the body —
+ * `(u8)arg0` is the `andi $a0,$a0,0xFF` before the range check, `(s16)arg1` the
+ * `sll/sra 16` pair in case 107.  (SYS law 2: copy the TU's declaration exactly.)
+ *
+ * THREE ZERO-BYTE CONSTRUCTS BELOW ARE LOAD-BEARING — do not "clean them up":
+ *
+ * 1+2. §5a/§336 cross-jump barriers.  Three arms end in the identical suffix
+ *      [li $a2,1][jal func_8014BB24][li $s0,0x96][j .L800D154C] (case 1 / case 117)
+ *      or just [li $s0,0x96][j] (case 16).  find_cross_jump walks BACKWARD from the
+ *      converging jump, and for case 16 the CODE_LABEL clause (jump.c:2402
+ *      `if (GET_CODE (i1) == CODE_LABEL) { --minimum; break; }`) drops the 2-insn
+ *      floor to 1 — so gcc merges all three and the function comes out 4 ins short.
+ *      The barrier goes BETWEEN the call and the `val =` (not after it), or reorg
+ *      can no longer steal `li $s0,0x96` into the `j`'s delay slot and you get a nop.
+ *      THE TWO BARRIERS MUST NOT BE SPELLED THE SAME: two identical ASM_INPUTs are
+ *      `rtx_renumbered_equal_p`, so they match EACH OTHER and cross_jump merges the
+ *      two arms through them (measured: closeness 105, case 1 folded into case 16).
+ *
+ * 3.   The switch-2 index copy `addu $v1,$s1,$zero`.  `switch (ret)` alone compiles
+ *      to `sltiu $v0,$s1,9` with no copy: expand_end_case folds `ret - 0` away, so
+ *      the index IS ret's pseudo.  A plain `sel = ret;` does not survive either —
+ *      CSE canonicalises the uses back onto `ret` and flow deletes the copy.  The
+ *      empty volatile asm re-DEFINES `sel` so CSE cannot fold it back; the copy then
+ *      survives to regalloc, where local-alloc gives the single-block `sel` a
+ *      caller-saved reg ($v1) while global-alloc must give `ret` a call-saved one
+ *      ($s1, it is live across the calls in the arms that leave ret == 3).
+ *
+ * §162: case 3's `j .L800D1334` is BACKWARD into case 13's body — compiler tail-merge
+ * is always forward, so that edge is a source-level `goto`.
+ */
+
+extern void func_8014BB24(s32, s32, s32);
+extern void func_8014BCC0(s32, s32);
+extern void func_8014BD24(s32, s32);
+extern void func_8014B944(s32, s32, s32);
+extern void func_8014BC0C(s32, s32);
+extern void func_8014B2A8(void);
+extern void func_8002D4C8(s32, s32);
+extern u16 D_80126B58;
+
+s32 func_800D128C(s32 arg0, s32 arg1) {
+    s32 ret = 3;
+    s32 flag = 1;
+    s32 id = 0;
+    s32 obj = (s32)&D_80126B58;
+    s32 val;
+    s32 sel;
+
+    switch ((u8)arg0) {
+    case 9:
+        func_8014BD24(obj, 5);
+        val = 0;
+        ret = 1;
+        break;
+    case 106:
+        func_8014BB24(obj, 0x12C, 1);
+        val = 0x12C;
+        break;
+    case 1:
+        func_8014BB24(obj, 0x96, 1);
+        __asm__ __volatile__("");           /* §5a cross-jump barrier — load-bearing */
+        val = 0x96;
+        break;
+    case 2:
+        func_8014BCC0(obj, 5);
+        ret = 4;
+        /* fallthrough */
+    case 13:
+    lab1334:
+        val = 0x19;
+        break;
+    case 3:
+        func_8014BCC0(obj, 0x19);
+        ret = 5;
+        goto lab1334;                        /* §162: the backward j is a source goto */
+    case 17:
+        func_8014BCC0(obj, 5);
+        ret = 4;
+        val = 0xA;
+        break;
+    case 18:
+        func_8014BCC0(obj, 0xA);
+        ret = 5;
+        val = 0xA;
+        break;
+    case 12:
+        func_8014BCC0(obj, 5);
+        ret = 5;
+        val = 2;
+        break;
+    case 11:
+        func_8014BB24(obj, 0x1E, 1);
+        val = 0xA;
+        break;
+    case 8:
+        func_8014B944(obj, 0x500000, 1);
+        val = 5;
+        ret = 2;
+        break;
+    case 109:
+        func_8014B944(obj, 0x900000, 1);
+        val = 5;
+        ret = 2;
+        break;
+    case 4:
+        ret = 7;
+        /* fallthrough */
+    case 15:
+        val = 0x50;
+        break;
+    case 5:
+        ret = 7;
+        /* fallthrough */
+    case 16:
+        __asm__ __volatile__("" ::: "memory");  /* §5a barrier — MUST differ from case 1's */
+        val = 0x96;
+        break;
+    case 107:
+        if ((s16)arg1 >= 0x13) {
+            val = 0x14;
+        } else {
+            val = (s16)arg1 + 2;
+        }
+        val = val * 25;
+        func_8014BD24(obj, val);
+        ret = 7;
+        break;
+    case 6:
+        func_8014BD24(obj, 5);
+        ret = 7;
+        val = 0xFA;
+        break;
+    case 7:
+        func_8014BD24(obj, 5);
+        ret = 7;
+        val = 0x3E7;
+        break;
+    case 83:
+        func_8014BB24(obj, 0xA, 1);
+        val = 0xA;
+        break;
+    case 84:
+        func_8014BCC0(obj, 5);
+        ret = 5;
+        val = 5;
+        break;
+    case 85:
+        func_8014BB24(obj, 0x32, 1);
+        val = 0x32;
+        break;
+    case 112:
+        func_8014BC0C(obj, 0x19);
+        ret = 7;
+        val = 0x3E7;
+        break;
+    case 76:
+    case 113:
+        ret = 7;
+        val = 5;
+        break;
+    case 114:
+        func_8014BB24(obj, 0x64, 1);
+        /* fallthrough */
+    case 14:
+        val = 0x32;
+        break;
+    case 115:
+        func_8014BB24(obj, 0x96, 1);
+        /* fallthrough */
+    case 105:
+        val = 0x64;
+        break;
+    case 116:
+        func_8014BB24(obj, 0x96, 1);
+        val = 0xC8;
+        break;
+    case 117:
+        func_8014BB24(obj, 0xC8, 1);
+        val = 0x96;
+        break;
+    case 118:
+        func_8014BB24(obj, 0xFA, 1);
+        /* fallthrough */
+    case 104:
+        val = 0x12C;
+        break;
+    case 119:
+        func_8014BB24(obj, 0x1F4, 1);
+        val = 0x1F4;
+        break;
+    case 87:
+        val = 0xA;
+        ret = 1;
+        break;
+    default:
+        ret = 0;
+        break;
+    }
+
+    sel = ret;
+    __asm__ __volatile__("" : "=r"(sel) : "0"(sel));  /* keeps `addu $v1,$s1,$zero` alive */
+    switch (sel) {
+    case 0:
+        id = 0x45F;
+        flag = 0;
+        break;
+    case 1:
+        id = 0x464;
+        func_8014B2A8();
+        func_8014BB24(obj, val, 1);
+        break;
+    case 2:
+        func_8014BD24(obj, val);
+        id = 0x464;
+        break;
+    case 3:
+        func_8014BD24(obj, val);
+        id = 0x45C;
+        break;
+    case 4:
+        func_8014BD24(obj, val);
+        id = 0x463;
+        break;
+    case 5:
+        func_8014BD24(obj, val);
+        id = 0x465;
+        break;
+    case 7:
+        func_8014BB24(obj, val, 1);
+        id = 0x45C;
+        break;
+    case 8:
+        func_8014BCC0(obj, val);
+        id = 0x45C;
+        break;
+    default:
+        flag = 0;
+        break;
+    }
+
+    if ((u16)id != 0) {
+        func_8002D4C8((u16)id, 0);
+    }
+    return flag;
+}
+
 
 s16 func_800D1658(s32 arg0) {
     extern int func_800291B4(int);

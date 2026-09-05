@@ -635,7 +635,19 @@ def _jtbl_prep_one(fn):
     if not done:
         _jtbl_restore(snap)
         return False, None
-    _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary])
+    # R49/R61 (P32 T1a, cookbook §498): the post-carve re-extract's exit code was IGNORED. When the carve
+    # writes a layout ld_interleave refuses (measured: a regenerated JTBL_INTERLEAVE that dropped the
+    # resident's `--pre hdr.rodata.o`), `make extract` fails, the build then links the STALE script, and
+    # the draft is booked as DIFF — an instrument failure wearing a codegen verdict. Refuse loudly instead.
+    _rx = _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary])
+    if _rx.returncode:
+        _last = ((_rx.stdout or '') + (_rx.stderr or '')).strip().splitlines()[-3:] or ['']
+        print('  [jtbl] !! extract-after-carve FAILED %s (rc %d) — carve config restored; this is a CARVE '
+              'refusal, NOT a draft verdict: %s' % (done[0], _rx.returncode, ' | '.join(l[:100] for l in _last)))
+        _jtbl_restore(snap)
+        if _sh(['make', '--no-print-directory', 'extract', 'BINARY=%s' % a.binary]).returncode:
+            print('  [jtbl] !! RESTORE INCOMPLETE: re-extract FAILED after undoing the carve')
+        return False, None
     _reload_corpus()
     print('  [jtbl] carved %s' % done[0])
     return True, snap

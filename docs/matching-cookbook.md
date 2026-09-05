@@ -36714,3 +36714,33 @@ the overlay's dry-run went REFUSED → CLEAN (2 region files) with the source un
 **Tell + generalization.** A "CONFLICTING bodies" refusal whose two bodies are a struct DEFINITION and a bodiless
 `typedef struct <same tag> <other name>;` is this class — no rename, the carrier is wrong. Sibling of §496 (the
 provided-type set assumed the overlay include set): the carrier's failures are recogniser/namespace assumptions.
+
+#### §498 ★★★ — A CARVE THAT DROPS THE BINARY'S `--pre` CLAUSE, AND A GATE THAT IGNORED THE EXTRACT'S EXIT CODE: HOW A BYTE-CORRECT DRAFT WAS BOOKED "DIFF" (P32 T1a; resident `func_800D128C` BANKED 243 ins after two instrument fixes)
+
+**The verdicts.** `rtu_match` MATCH (243/243) in the real region TU; `parallel_gate` → `func_800D128C DIFF`, banked 0,
+53 s, rc 0, nothing merged. The in-tree reproduction (raw splice, §492a) showed why: `jtbl_carve --func` wrote the
+5-piece carve and REGENERATED `resident_JTBL_INTERLEAVE` as `--order tail.data.o,…,tail3.data.o` — without the
+committed line's `--pre hdr.rodata.o`. `make extract` refused (`ld_interleave --order: 1 extracted asm piece(s) are in
+neither --order nor --pre … hdr.rodata.o`), exited 1, and `make build` then linked against the STALE 3-piece script:
+sha `59b44f0f…`, **249,252 of 365,404 bytes differing from file offset 0x4** — the image shifted, not the function. The
+gate's worker did the same and reported the failure as a draft verdict, because `_jtbl_prep_one` never read the
+post-carve `make extract`'s exit code (the file-offset-0x4 shift is the tell: a DIFF that starts at the first code
+byte is never the draft).
+
+**Two fixes, both in our layer (R35/R40/R49/R61).** (1) `jtbl_carve._merge_pre`: `--order` is derived from the
+CARVE SET, `--pre` is a property of the binary's LAYOUT (the resident's §8f leading data word emitted as
+`hdr.rodata.o`); the rewrite now carries an existing `--pre` forward (idempotent; overlays unchanged — 4-shape unit
+control). (2) `harvest_verify._jtbl_prep_one`: a failed post-carve re-extract now restores the snapshot and refuses
+loudly (`CARVE refusal, NOT a draft verdict`) instead of letting the build judge a stale script. With both, the same
+draft carved (`JTBL_PADS 0,4`; tables at +0x0/+0x1e0 of the new `.rodata` piece at file 0x451c0, pads `tail3` at
+0x453c4) and built **byte-identical** (`8e17e02f…`).
+
+**Sequencing law that bit twice in one task.** After a FAILED extract, `asm/` is half-regenerated for the config that
+failed (splat writes before ld_interleave refuses), so the next `jtbl_carve` sees "table not found in the raw data asm —
+already carved / stale asm?" — re-extract with the restored config FIRST, then carve. And a build after a failed
+extract is never a measurement (R53): the previous binary or a stale script is what you are hashing.
+
+**Tell + generalization.** Any binary whose `JTBL_INTERLEAVE` carries `--pre` (today: the resident) was un-carvable by
+the gate since the §8f sandwich landed — the "NON-CONTIGUOUS carve" refusal of `frontier-p32.md` §1a was the FIRST wall,
+this was the second, and neither was the C. Sibling of §496/§497 (the isolation carrier's assumptions): the three
+resident blockers were all tooling that had only ever met overlays.

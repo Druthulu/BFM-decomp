@@ -1214,10 +1214,27 @@ def apply(ov, funcs):
           + (f"; JTBL_PADS = {multi}" if multi else ""))
 
 
+def _merge_pre(existing_line, args):
+    """Carry the binary's `--pre <obj>` clause forward into a regenerated JTBL_INTERLEAVE value (P32 T1a,
+    cookbook §498). `build_carve` derives `--order` from the CARVE SET; `--pre` is a property of the
+    binary's LAYOUT — the resident's §8f leading-rodata sandwich emits its leading data word as
+    `hdr.rodata.o` and ld_interleave must place it BEFORE the text — so a rewrite that rebuilds the value
+    from the carve set alone silently DROPS it: measured on the resident, `make extract` then refused
+    ("hdr.rodata.o … would be parked with .text"), the build linked a stale script, and the gate booked the
+    draft as DIFF (249,252 differing bytes of pure artefact). Idempotent: an `args` that already names
+    `--pre` is returned unchanged; a line with no `--pre` adds nothing (every overlay, byte-neutral)."""
+    if existing_line is None or "--pre" in args:
+        return args
+    m = re.search(r"--pre\s+(\S+)", existing_line)
+    return f"--pre {m.group(1)} {args}" if m else args
+
+
 def set_overlays_var(ov, args):
     mk = os.path.join(REPO, "config/overlays.mk")
     txt = open(mk).read()
     _mk_base = txt
+    _cur = re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", txt, re.M)
+    args = _merge_pre(_cur.group(0) if _cur else None, args)
     var = f"{ov}_JTBL_INTERLEAVE := {args}  # Phase-26 §8 jtbl-rodata carve"
     if re.search(rf"^{re.escape(ov)}_JTBL_INTERLEAVE\b", txt, re.M):
         txt = re.sub(rf"^{re.escape(ov)}_JTBL_INTERLEAVE.*$", var, txt, count=1, flags=re.M)

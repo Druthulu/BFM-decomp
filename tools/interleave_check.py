@@ -7,7 +7,9 @@ import re,sys
 ov=sys.argv[1]
 fix='--fix' in sys.argv[2:]
 mk=open('config/overlays.mk').read()
-m=re.search(r'^%s_JTBL_INTERLEAVE := --order (\S+)'%ov,mk,re.M)
+# P32 T1a (cookbook §498): a binary may carry `--pre <obj>` BEFORE `--order` (the resident's §8f leading-rodata
+# sandwich, `--pre hdr.rodata.o`); the old anchor `:= --order` read such a line as n=0 and reported a false DRIFT.
+m=re.search(r'^%s_JTBL_INTERLEAVE := (?:--pre \S+ )?--order (\S+)'%ov,mk,re.M)
 order=m.group(1).split(',') if m else []
 y=open('config/splat.%s.yaml'%ov).read()
 yseq=[]

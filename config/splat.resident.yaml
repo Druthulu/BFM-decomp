@@ -86,7 +86,9 @@ segments:
       - [0x4, c, resident]
       - [0x12ec, c, resident_jr_800D00E4]
       - [0x2494, c, resident_jr_800D128C]
-      - [0x4610, data, tail]    # data tail: vram 0x800D3408..0x80113ED8 (pre-carve)
+      - [0x4610, data, tail]
       - [0x450e0, .rodata, resident_jr_800D00E4]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
-      - [0x451ac, data, tail2]  # post-carve data tail -> EOF
+      - [0x451ac, data, tail2]
+      - [0x451c0, .rodata, resident_jr_800D128C]  # Phase-26 §8 jtbl-rodata carve (jtbl_carve.py)
+      - [0x453c4, data, tail3]
   - [0x5935C]   # EOF (365,404 B) -> end vram 0x80128154
