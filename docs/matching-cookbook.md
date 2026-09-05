@@ -36451,6 +36451,24 @@ seed the permuter's C parser refuses (`register u8 *a3 asm("$7")` — pins are n
 (positive-controlled). And `permuter_ils` seeds from a REGISTER-PINNED best draft cannot be permuted at all
 — the pinned 17→11 gain and the permuter are mutually exclusive on that function.
 
+**S80 CORRECTION — the "pinned seeds cannot be permuted" claim was the INSTRUMENT, not the permuter.** Two
+defects, both in our layer (R35/R40): (1) `p16_permute.hide_asm` carried only the `__asm__` spelling into
+the b64 pragma; `register u8 *a3 asm("$7")` (the `asm(`/`__asm(` spellings, 3 of the S79 seeds) stayed raw
+in base.c and pycparser refused it at cycle 1; (2) `permuter_ils`'s WARM RESTART copied the waypoint's
+`source.c` — which decomp-permuter serializes with the pragmas DECODED back to raw pins — straight into
+base.c, so on ANY pinned seed cycle 1 ran and cycles 2..N were parser refusals reported as "(unchanged)".
+The S79 `func_80020DA4` "8-cycle plateau at 2" was one cycle. Fixed: `hide_asm` matches all three
+spellings, followed by `(`/`volatile` (the bare word `asm` also lives inside `INCLUDE_ASM("asm/…")` path
+strings — the R39 control over 5,311 drafts caught that false positive before it shipped); the ILS re-hides
+every waypoint before restarting, asserts the definition survived, and ABORTS non-zero on a refusal
+instead of counting no-op cycles (R61a). `defines_fn` also now accepts a K&R-style definition
+(`void f(a, b) s32 a; s16 b; {` — the documented lever for an `s16` parameter's in-place promotion,
+func_80039DEC), which it had refused as "lost the definition" — the R39 control over 5,311 stored drafts found
+**436 K&R-style backlog drafts** that this check alone had kept out of the permuter lane. First re-run on the S79 seeds: every
+pinned seed iterates, and `ov_SC06_022:func_8017DF28` (pinned WALL, "closeness 2 on five RTL-verified
+attempts") reached **1** inside its first cycle. A permuter verdict on a pinned seed dated before S80 is
+NOT a measurement of that function.
+
 **The ledger the class leaves (for the PhaseEnd):** `main:func_80011380` 192 — WALL, §474 PROVED (pinned
 S79). `main:func_80015608` 86 — permuter plateau at **1** (REGALLOC-PERM: target `addu $s3,$s6,$s3` where the
 best draft emits `sll $s3,$s6,1` — a copy-then-add spelling of `x*2`, agent-sized). `main:func_80039B20` 79 —
@@ -36458,4 +36476,46 @@ permuter plateau at **7** (§461: the `$v0/$v1` tie + an early-scheduled re-read
 cycles). `main:func_80038698` 74 — best 11 (§ pins fix the interleave; the permuter refuses pins; sched1
 DAG-priority + local-alloc self-coalesce). `ov_SC03_105:func_801834A4` 106 — pinned WALL (S71, §148-A/§193-F,
 closeness 6 on four attempts).
+
+#### §494 ★★★ — SEVEN BANKS FROM ONE-AGENT-PER-FUNCTION DRAFTING (P31 S79 #9): THE IDIOMS, THE PLUMBING, AND THE THREE WAYS AN AGENT'S "MATCH" WAS NOT ONE
+
+**Yield.** 25 packs (`claude_wave_packs`: journal history + a matched neighbour each), one Agent-tool subagent
+per function (Haiku ≤50 ins, Sonnet ≤120, Opus above), no wave. Seven banked byte-identical the same day:
+`md_MAIN_003:func_800D0174` + `func_800D1D14` (-O0 island), `main:func_80015608` + `func_8002AC98`,
+`ov_SC05_018:func_80180BE0`, `ov_SC06_010:func_801809E4`, `ov_SC05_010:func_8017FFA8` (a 6-way jtbl switch).
+
+**Idioms that closed functions (each byte-proven today).**
+* **The fresh-temp lever for a commutative operand order** — target `addu $s3,$s6,$s3` where every source
+  order emits `addu $s3,$s3,$s6`: gcc 2.7.2's `expand_binop` swaps operands when op1 IS the expansion target
+  register; route the add through a NEW pseudo — `{ s32 xt = blockSize + x0; x0 = xt; }` — and the source order
+  survives, xt coalesces into the same hard register. Two banks (`func_80015608`, `func_8002AC98`); the temp AND
+  both operands must be `s32` (an `s16` temp re-coalesces with the target and the swap returns; an `s16` operand
+  costs a sign-extend pair).
+* **-O0: address-of + cast beats the `%lo` fold** — `D_800D3630` (4-byte stride, low 16 bits read) as
+  `s16[][2]` or a 2-field struct makes gcc fold `%lo` into the `lh` displacement through `$at` (-2 ins per site);
+  `extern s32 D_800D3630[]` + `*(s16*)&D_800D3630[i]` materialises `lui`+`addiu` first and matches.
+* **An early `return` that must fall through** — the Haiku plateau's missing 2 instructions and "frame -8 vs
+  -0x10" were a `return` inside a branch that should fall into the shared mask/store tail; the -0x10 no-save
+  frame was two `s16` locals (§186b), not a call. Branch polarity `if (v0 >= v1)` with the arms swapped.
+* **jtbl switch:** the loop index must be `s32` (an `s16` gives the fused `lhu+sll16+sra12`, §241) and a
+  table lookup goes into its own named temp BEFORE the `found=1`/zero-store statements, or the store schedules
+  ahead of the load.
+* **The phantom stack frame** — an address-taken `s32 frame_pad[3]` induces the target's unexplained 16-byte
+  frame (`func_80020DA4`, 8 → 2; the remaining 2 is a `mflo` destination, permuter class).
+* **`memcpy(…,12)` under a TU's `extern memcpy`** compiles to a `jal` (§48-C2/§160a); the inline
+  `lwl/lwr/swl/swr` shape needs a struct assign through an align-1 12-byte typedef (the TU's own Blk8 idiom).
+
+**Three ways an agent's "MATCH" was not one.** (1) A naked `__asm__` reproduction of the target — the verbatim
+class; sent back, it returned genuine C. (2) Standalone `match_one` MATCH, real-TU DIFF: the TU's typedefs and
+externs (`rtu_match` names them; §376). (3) rtu MATCH, gate NEAR: the gate's transform ladder altered the body
+(§492a) — raw splice. Rule for the coordinator: **grep the draft for `.ent`/`.word`, re-measure in the real TU,
+gate, commit — per result, never in bulk.**
+
+**Ledger rows this task leaves** (drafts in `.run/S79w/<arm>/`, notes in `.run/S79w/verdicts/verdicts.jsonl`):
+`main:func_8001BC6C` 28 (sched1 birthing-boost — two mutually exclusive schedules), `main:func_8002FDE8` 35
+(local-alloc caches `&D_800A46D2` across a call where the target rematerialises, §153), `main:func_80038698` 11
+(sched1 DAG priority on the byte-pair idiom ×3; the permuter refuses the pinned seed), `main:func_80039B20` 7
+(§461 tie-break), `main:func_80020DA4` 2 (mflo destination — permuter fuel), `main:func_80015B6C` 44 (two
+documented walls, better than 3 of 6 attempts), `ov_SC06_022:func_8017DF28` 2 (delay-slot fill from
+`expand_block_move`'s cse-reused address pseudo — five RTL-verified attempts, WALL).
 

@@ -11,9 +11,13 @@ intermediate waypoints can be semantically divergent (the permuter rewrites stor
       --asm-subdir asm/ov_SC01_077/nonmatchings/ov_SC01_077 --klass REGALLOC --cycles 10 --secs 180 --j 12
 On a score-0 winner -> .run/permuter-winners/<fn>.c (then winner_to_draft + gate whole-binary).
 """
-import argparse, glob, os, re, shutil, sys
+import argparse, functools, glob, os, re, shutil, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import p16_permute as P
+
+# stdout is BUFFERED when redirected to a log; an 8-cycle run then shows an EMPTY log for 20 minutes
+# (S80: eight parallel runs, no evidence of progress -- R55). Always flush.
+print = functools.partial(print, flush=True)
 
 
 def best_waypoint(pd):
@@ -46,8 +50,18 @@ def main():
     print(f"ILS {a.fn}: {a.cycles} cycles x {a.secs}s @ -j{a.j}, klass={a.klass}")
 
     prev = None
+    refused = os.path.join(pd, "PERMUTER_REFUSED.txt")
     for cyc in range(1, a.cycles + 1):
+        if os.path.exists(refused):
+            os.remove(refused)
         P.run_permuter(pd, a.secs, a.j)              # writes output-*/ ; kills stragglers
+        if os.path.exists(refused):
+            # NOT-JUDGED IS NOT A VERDICT (R61a). A refused cycle permuted nothing; reporting it as
+            # "(unchanged)" for the remaining cycles is how S79's func_80020DA4 run showed 8 cycles of
+            # work that were 1 cycle + 7 no-ops. Stop, say so, exit non-zero.
+            print(f"ILS ABORTED at cycle {cyc}: the permuter REFUSED base.c (see {refused}); "
+                  f"best so far={prev}")
+            sys.exit(2)
         bw = best_waypoint(pd)
         if bw is None:
             print(f"  cycle {cyc}: no waypoint (no improvement over base yet)")
@@ -61,7 +75,16 @@ def main():
             shutil.copy(os.path.join(d, "source.c"), dst)
             print(f"  WINNER score 0 -> {dst}  (gate whole-binary before banking)")
             return
-        shutil.copy(os.path.join(d, "source.c"), f"{pd}/base.c")   # warm restart
+        # WARM RESTART. The permuter DECODES the b64 pragma carrier when it serializes a candidate, so a
+        # waypoint's source.c holds the raw `register … __asm__("$N")` pins / `__asm__` statements again.
+        # Copying it verbatim made every cycle after the first a parser refusal on any pinned seed
+        # (P31 S79: func_80020DA4 = 1 real cycle + 7 silent no-ops). Re-hide before restarting, and assert
+        # the function definition survived the re-hide (R32).
+        wp = P.hide_asm(open(os.path.join(d, "source.c")).read())
+        if not P.defines_fn(wp, a.fn):
+            print(f"ILS ABORTED at cycle {cyc}: re-hiding the waypoint lost the definition of {a.fn} "
+                  f"(inspect {d}/source.c)"); sys.exit(2)
+        open(f"{pd}/base.c", "w").write(wp)
         prev = score
     print(f"ILS done: best={prev} (no score-0; seed for Fable5 or a longer run)")
 

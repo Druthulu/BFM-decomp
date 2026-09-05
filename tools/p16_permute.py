@@ -99,7 +99,13 @@ def hide_asm(c):
     steered, mvmva/GTE ops still compile), while pycparser never chokes on `__asm__`. (No submodule
     edit: this reuses decomp-permuter's OWN b64literal pragma carrier.)"""
     out, i = [], 0
-    pat = re.compile(r"\b__asm__\b")
+    # `asm(` and `__asm(` are the SAME gcc keyword and pycparser rejects all three spellings alike;
+    # the old `__asm__`-only pattern left `register u8 *a3 asm("$7")` raw in base.c -> "Syntax error in
+    # base.c" -> the whole run silently no-ops (P31 S79 #8 func_80038698; fixed S80).
+    # The keyword must be FOLLOWED by `(` or a volatile qualifier: the bare word `asm` also occurs
+    # inside path strings -- `INCLUDE_ASM("asm/ov_SC03_028/...", fn)` -- and treating that as a
+    # statement ate the line up to the function's own `{` (caught by the R39 control, S80).
+    pat = re.compile(r"\b(?:__asm__|__asm|asm)\b(?=\s*(?:\(|__volatile__\b|volatile\b))")
     while True:
         m = pat.search(c, i)
         if not m:
@@ -197,7 +203,13 @@ def defines_fn(base_c, fn):
     prep step here can swallow the function (hide_asm chewing an unexpanded multi-line macro block,
     an unterminated comment eating the rest of the file, a future cpp/typedef edge) so the check
     belongs on the OUTPUT, where it catches all of them, not on each cause."""
-    return re.search(r"^[^#/\n]*?\b" + re.escape(fn) + r"\s*\([^;{]*\)\s*\{", base_c, re.M) is not None
+    # A K&R-style definition -- `void fn(a0, a1, a2) s32 a0; s32 a1; s16 a2; {` -- carries a declaration
+    # list between `)` and `{`. It is the documented lever for an `s16` parameter's in-place sll/sra
+    # promotion (P31 S79 func_80039DEC), pycparser accepts it, and this check refused it as "lost the
+    # definition" (S80). Each K&R declaration must START with an identifier so a call `fn(1) ; x = 2; {`
+    # cannot chain into a false definition.
+    return re.search(r"^[^#/\n]*?\b" + re.escape(fn) + r"\s*\([^;{]*\)(?:\s*[A-Za-z_][^;{}]*;)*\s*\{",
+                     base_c, re.M) is not None
 
 
 def winner_to_draft(winner_c):
