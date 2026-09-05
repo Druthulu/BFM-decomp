@@ -9,7 +9,8 @@ want=$(cut -d' ' -f1 config/check.$bin.sha); log=.run/P32/t3s3/bank_${bin}_$(dat
 DD=${DRAFT_DIR:-.run/P32/t3/$arm}
 for fn in "${fns[@]}"; do d=$DD/$fn.c; [ -f "$d" ] || { echo "NO DRAFT $d"; exit 1; }
   n=$(grep -cE '\.ent|\.word|__asm__[^;]*"[^"]*\b[a-z]{2,5}[ \t]+\$' "$d" || true); [ "$n" = 0 ] || { echo "VERBATIM-SUSPECT $fn ($n): an asm carrying an instruction (zero-byte fences/launders are fine)"; exit 1; }
-  r=$(.venv/bin/python tools/rtu_match.py $fn --split $bin --source $bin --c "$d" --asm-subdir "$asmdir" --work .run/P32/t3s3/verify_bank/$fn 2>&1 | grep -m1 '^MATCH\|^DIFF\|^CC1'); echo "$fn: $r"
+  SPLIT=${SPLIT:-$bin}
+  out=$(.venv/bin/python tools/rtu_match.py $fn --split $SPLIT --source $bin --c "$d" --asm-subdir "$asmdir" --work .run/P32/t3s3/verify_bank/$fn 2>&1); r=$(echo "$out" | grep -m1 '^MATCH\|^DIFF\|^CC1'); echo "$fn: $r"; [ -n "$r" ] || echo "$out" | tail -3
   case "$r" in MATCH*) ;; *) echo "STOP: $fn not MATCH"; exit 1;; esac; done
 for fn in "${fns[@]}"; do .venv/bin/python .run/P32/t3s3/splice.py "$tu" "$asmdir" $fn "$DD/$fn.c" || exit 1; done
 make build BINARY=$bin -j8 > "$log" 2>&1; rc=$?; echo "BUILD_RC=$rc"
