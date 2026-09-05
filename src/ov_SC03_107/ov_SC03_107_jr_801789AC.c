@@ -6730,7 +6730,7 @@ extern s32 func_8012C354(s32 a0, s32 a1);
 extern void func_8012A828(s32, void*);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
-extern void func_8017D878(void);
+extern s32 func_8017D878(s32);   /* S80 #10: the real signature (returns the address of func_80172710 or 0); only its ADDRESS is used here */
 
 void func_8017D76C(s32 a0) {
 
@@ -6788,60 +6788,7 @@ void func_8017D838(s32 a0) {
    halfword at +2 of the object the word at +100 points to, calls func_80178BF8
    with no arguments, and returns the ADDRESS of func_80172710 in $v0. */
 
-__asm__(".text\n.align 2\n.globl func_8017D878\n.ent\tfunc_8017D878\n"
-"func_8017D878:\n.frame $sp,40,$31\n.mask 0x800F0000,-16\n.fmask 0,0\n"
-".set\tnoreorder\n"
-"addiu $sp, $sp, -40\n"
-"sw $s2, 24($sp)\n"
-"addu $s2, $a0, $zero\n"
-"sw $ra, 32($sp)\n"
-"sw $s3, 28($sp)\n"
-"sw $s1, 20($sp)\n"
-"sw $s0, 16($sp)\n"
-"lw $a0, 100($s2)\n"
-"jal func_8012BD14\n"
-"nop\n"
-"slti $v0, $v0, 4097\n"
-"bne $v0, $zero, .L8017D8B4\n"
-"addu $s1, $zero, $zero\n"
-"j .L8017D90C\n"
-"addu $v0, $zero, $zero\n"
-".L8017D8B4:\n"
-"lui $s0, %hi(D_801202A0)\n"
-"addiu $s0, $s0, %lo(D_801202A0)\n"
-"addiu $s3, $zero, 548\n"
-".L8017D8C0:\n"
-"lhu $v0, 0($s0)\n"
-"nop\n"
-"bne $v0, $s3, .L8017D8E4\n"
-"addiu $a0, $s2, 4\n"
-"jal func_8012BC60\n"
-"addiu $a1, $s0, 4\n"
-"slti $v0, $v0, 4096\n"
-"bne $v0, $zero, .L8017D90C\n"
-"addu $v0, $zero, $zero\n"
-".L8017D8E4:\n"
-"addiu $s1, $s1, 1\n"
-"slti $v0, $s1, 96\n"
-"bne $v0, $zero, .L8017D8C0\n"
-"addiu $s0, $s0, 268\n"
-"lw $v1, 100($s2)\n"
-"addiu $v0, $zero, 2\n"
-"jal func_80178BF8\n"
-"sh $v0, 2($v1)\n"
-"lui $v0, %hi(func_80172710)\n"
-"addiu $v0, $v0, %lo(func_80172710)\n"
-".L8017D90C:\n"
-"lw $ra, 32($sp)\n"
-"lw $s3, 28($sp)\n"
-"lw $s2, 24($sp)\n"
-"lw $s1, 20($sp)\n"
-"lw $s0, 16($sp)\n"
-"addiu $sp, $sp, 40\n"
-"jr $ra\n"
-"nop\n"
-".set\treorder\n"
-".end\tfunc_8017D878\n");
+INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017D878);
 
 
 extern s32 func_8012C044(s32 a0);

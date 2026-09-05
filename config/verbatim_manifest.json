@@ -8,7 +8,8 @@
   "tools/verbatim_check.py diffs the tree against this file and fails on drift.",
   "Dispositions: PERMANENT-VERBATIM (hand asm; never decompilable) \u00b7 DECOMPILE-NOW \u00b7",
   "DECOMPILE-AS-PARENT (a fragment; decompile its unit_entry, never the fragment) \u00b7",
-  "DECOMPILE-LOW-VALUE \u00b7 UNCERTAIN \u00b7 NOT-CODE \u00b7 NOT-VERBATIM (detector false positive)."
+  "DECOMPILE-LOW-VALUE \u00b7 UNCERTAIN \u00b7 NOT-CODE \u00b7 NOT-VERBATIM (detector false positive).",
+  "RATIFIED 2026-09-05 (P31 S80, task #10): the five PERMANENT-VERBATIM rows are hand assembly that no C can reproduce and stay verbatim for the life of the project \u2014 main:start (crt0: trapping `addi`, `break 1`, the $gp load), main:__main + main:__do_global_dtors (libgcc2.c compiled -O2 inside the -O0 boot TU; gcc-2.7.2 has no per-function opt level), md_MAIN_003:func_800D3204 + func_800D3234 (trapping `add`/`addi`, `$at`, no frame \u2014 MDEC-side). The one GAME-C row (ov_SC03_107:func_8017D878) is decompiled in task #10."
  ],
  "generated": "P31 S75 from .run/S75/triage/taxonomy.json",
  "rows": [
