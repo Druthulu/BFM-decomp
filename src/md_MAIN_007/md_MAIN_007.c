@@ -91,7 +91,15 @@ end:;
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CEFF8);
+extern s32 func_800167F0(s32 a0);
+extern u16 D_800B99E6;
+
+void func_800CEFF8(void) {
+    if (func_800167F0(0x4) & 0xFFFF) {
+        D_800B99E6 = 1;
+    }
+}
+
 
 
 extern u16 D_800B99E4;
@@ -131,7 +139,19 @@ void func_800CF0B8(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CF0F4);
+extern s32 D_800D1368;
+extern s32 D_800D1374;
+extern void func_800CF408(s32 a0, s32 a1);
+extern s32 func_800167F0(s32 a0);
+
+void func_800CF0F4(void) {
+    func_800CF408(0, D_800D1368);
+
+    if (func_800167F0(0) & 0xFFFF) {
+        D_800D1374++;
+    }
+}
+
 
 extern s32 D_800D1368;
 extern s32 D_800D1374;
@@ -157,11 +177,35 @@ void func_800CF148(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CF1CC);
+extern s32 D_800D1368;
+extern s32 D_800D1374;
+extern void func_800CF408(s32 a0, s32 a1);
+extern s32 func_800167F0(s32 a0);
+
+void func_800CF1CC(void) {
+    func_800CF408(0, D_800D1368);
+
+    if ((func_800167F0(4) & 0xFFFF) != 0) {
+        D_800D1374++;
+    }
+}
+
 
 INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CF220);
 
-INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CF268);
+extern s32 func_800167F0(s32 a0);
+extern void func_800CF6D0(s32 a0, u32 a1);
+extern s32 D_800D136C;
+extern s32 D_800D1374;
+
+void func_800CF268(void) {
+    func_800CF6D0(-0x400, 0);
+    if (func_800167F0(0) & 0xFFFF) {
+        D_800D136C = -0x340;
+        D_800D1374++;
+    }
+}
+
 
 extern void func_800CF6D0(s32 a0, u32 a1);
 extern void func_800167B8(s32 a0);
@@ -181,7 +225,18 @@ void func_800CF2BC(void) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CF33C);
+extern s32 D_800D136C;
+extern s32 D_800D1374;
+extern void func_800CF6D0(s32 a0, u32 a1);
+extern s32 func_800167F0(s32 a0);
+
+void func_800CF33C(void) {
+    func_800CF6D0(D_800D136C, 0);
+    if ((func_800167F0(4) & 0xFFFF) != 0) {
+        D_800D1374++;
+    }
+}
+
 
 extern s32 func_800CF3B0();
 
