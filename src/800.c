@@ -2658,7 +2658,7 @@ extern u8 D_800AF630[];
 extern u8 *D_800A5E60;
 extern s32 GetTPage(s32, s32, s32, s32);
 extern void func_80015608(s32, s32);
-extern void func_80015760(s32, s32);
+extern void func_80015760();
 
 void func_80015498(void)
 {
@@ -2700,7 +2700,7 @@ void func_80015498(void)
                 entry += 0x10;
                 continue;
             do_call2:
-                func_80015760((s32)entry, (s32)ot);
+                ((void (*)())func_80015760)((s32)entry, (s32)ot);
             incr_shared:
                 entry += 0x10;
             } while (entry < end);
