@@ -27,6 +27,11 @@ IDENTICAL to the target. Read `.run/P32/t3/SYS.md` (the laws) and your pack `.ru
   self-contained compile unit: the externs your body needs (spelled like the TU) + the function definition.
   NO `#include`, NO typedefs the TU already has, NO `__asm__` reproduction of the target (an assembly body is
   not a match and will be refused).
+* If your target `.s` carries a `dlabel D_xxx` block in its `.rodata` section, your draft must DEFINE that data at
+  file scope from the bytes (`const char D_xxx[] = "...";` / `const u32 D_xxx[] = { ... };`, cookbook §304) — an `extern`
+  for it fails at LINK because the stub `.s` was its only owner (rtu_match is compile-only and cannot see it). Declare
+  every shared global/function with the EXACT type the TU or its banked siblings already use — two drafts of one TU that
+  spell one symbol differently both MATCH alone and fail together (§500-F).
 * Write any evidence/prose you want to keep to `.run/P32/t3/reports/<fn>.md` (mkdir -p it). Your FINAL message is EXACTLY
   one JSON object on its own line and NOTHING else (the coordinator ingests 30+ of these; prose in the final message overflowed it once):
   {"fn": "...", "binary": "...", "arm": "...", "status": "MATCH|NEAR|FAIL", "closeness": <int or null>,

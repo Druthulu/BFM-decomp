@@ -268,3 +268,15 @@ unsloth_compiled_cache/
 !/.run/P32/t3/restored/
 /.run/P32/t3/restored/*
 !/.run/P32/t3/restored/sweep_*.py
+# P32 T3 session 491895ad (S83): the resume session's helpers, prompts, gate slates and logs (not the verify/ compile dirs)
+!/.run/P32/t3s3/
+/.run/P32/t3s3/*
+!/.run/P32/t3s3/*.sh
+!/.run/P32/t3s3/*.py
+!/.run/P32/t3s3/*.log
+!/.run/P32/t3s3/*.txt
+!/.run/P32/t3s3/prompts/
+!/.run/P32/t3s3/gate/
+/.run/P32/t3s3/gate/*
+!/.run/P32/t3s3/gate/*.json
+!/.run/P32/t3s3/gate/*.log

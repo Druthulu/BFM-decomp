@@ -1,0 +1,18 @@
+# T3 Haiku launches deferred by the 20-concurrent-subagent cap (2026-09-05). Launch one per freed slot; delete a line when launched.
+md_MAIN_007 func_800CF0F4 21
+md_MAIN_007 func_800CF1CC 21
+md_MAIN_007 func_800CF268 21
+md_MAIN_007 func_800CF33C 21
+md_MAIN_007 func_800CF220 19 twin=ov_SC03_001:0x80182860 d=4
+md_MAIN_007 func_800CEFF8 13 twin=ov_SC02_005:0x801865d0 d=3
+md_MAIN_009 func_800CD464 25
+md_MAIN_009 func_800CD558 24
+md_MAIN_009 func_800CD408 23
+md_MAIN_009 func_800CD5B8 23
+md_MAIN_009 func_800CD4C8 22
+md_MAIN_009 func_800CD520 22 twin=ov_SC03_011:0x8017dbd8 d=3
+md_MAIN_009 func_800CD614 22
+md_MAIN_009 func_800CD3B8 21
+md_SC03_056 func_801CBB80 23 twin=ov_SC06_025:0x8017ded8 d=5
+md_SC03_054 func_801F0048 20
+md_SC03_054 func_801F00C8 15 twin=md_SC03_053:0x801ef9dc d=5 (family_remap refused: reloc-count mismatch — hand-adapt)

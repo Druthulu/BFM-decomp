@@ -10,3 +10,4 @@
 - 2026-09-05 09:30 MDT (successor session): ALL of the above + the 22 unprocessed verdicts are distilled into cookbook §500
   (A banked / B MATCH-unbanked / C NEAR classes / D two new mechanisms / E process defects). New idioms from the queue's
   results go into §500 addenda at the T3 close.
+- 2026-09-05 11:20 MDT (session 491895ad): the 17 queued Haiku rows → 17/17 MATCH, all banked (md_MAIN_007 ×6, md_MAIN_009 ×8, md_SC03_054 ×2 → 100% C, md_SC03_056 ×1 → 100% C); plus the 11 S82 MATCH rows banked (md_SC03_053 ×2 → 100% C, main ×2 via gate_main, md_SC03_054 func_801EF6D8 604+7 jtbls via §303, md_MAIN_007 ×6). 28 banks / ~2,800 ins, 0 walls. Distilled into cookbook §500-F: same-TU decl conflicts across drafts (the BUILD is the verdict; bank.sh), §304 ×3 (prompt sentence now in BRIEF.md), verdict-relative-to-TU-at-verification (re-verify before splicing), the md_* jtbl route is §303 (probe text amended), census nins counts .word lines.

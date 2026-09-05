@@ -1,0 +1,9 @@
+  CC      build/src/md_SC03_056/md_SC03_056.o
+src/md_SC03_056/md_SC03_056.c: In function `func_801CBBDC':
+src/md_SC03_056/md_SC03_056.c:39: warning: passing arg 2 of `func_80178CBC' makes integer from pointer without a cast
+src/md_SC03_056/md_SC03_056.c: In function `func_801CBC08':
+src/md_SC03_056/md_SC03_056.c:48: warning: passing arg 1 of `func_80178970' from incompatible pointer type
+  LD      build/md_SC03_056/md_SC03_056.elf
+  OBJCOPY build/md_SC03_056/md_SC03_056
+[ OK ] build/md_SC03_056/md_SC03_056
+       sha1 bc768a6b7baa911e0a0cb9175b33550851d6c1eb == config/check.md_SC03_056.sha  (BYTE-IDENTICAL)

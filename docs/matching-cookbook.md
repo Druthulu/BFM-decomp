@@ -37035,3 +37035,35 @@ AND re-verified by the successor with `rtu_match` in the real TU.
    per completion. `masked_diff.py`'s per-PID probes live in `src/` and are visible to (and were deleted by) concurrent
    agents — move them under `.run/` (tool fix candidate). A Haiku "cannot be influenced from C" verdict on an exact-ish
    length structural residual is an ESCALATION signal, not a wall (1/1 closed by Sonnet in one pass).
+
+**F. The queue (S83, session 491895ad, 2026-09-05 10:57–11:20 MDT): 17 Haiku rows → 17/17 MATCH, 28 banks in the session, and the
+three integration classes a per-draft `rtu_match` cannot see.**
+* **Yield.** The 17 rows the 20-cap had queued (13–25 ins, module code: md_MAIN_007 ×6, md_MAIN_009 ×8, md_SC03_054 ×2,
+  md_SC03_056 ×1) were launched at once from the staged prompts (`.run/P32/t3s3/prompts/<fn>.txt` = PROMPT_TEMPLATE +
+  two integration sentences) and ALL 17 reported MATCH, 43–57k tokens and 46–126 s each; the five twin-hinted rows took
+  the `family_remap`/twin-shape route. With the morning's 11 (the S82 MATCH-unbanked rows) that is **28 banks / ~2,800 ins
+  in one session, zero walls, zero escalations**; md_SC03_053, md_SC03_054 and md_SC03_056 reached 100% C; census 44 → 16
+  (7 pinned walls + 9 NEAR, 3,827 ins). Haiku is the right tier for this whole band (§500 A/B agree: 9/11 → 26/28).
+* **Class 1 — two drafts of one TU spell one global differently.** `func_800CEEFC` (file-scope `extern s16 D_800B99E8`)
+  and `func_800CEF94` (block-scope `extern u16 D_800B99E8`) each MATCH alone — `rtu_match` splices ONE draft — and the
+  batch dies at cc1 (`conflicting types`). The byte-bearing spelling is the LOAD's (`u16` → `lhu`); a store of zero is
+  sign-blind. Law: **when N drafts land in one TU, the BUILD is the verdict, not N green rtu lines**; reconcile to the
+  spelling the bytes need. The session helper `.run/P32/t3s3/bank.sh` (verbatim grep → rtu ×N → splice ×N → ONE build →
+  sha vs `config/check` → commit only on green, tree left for diagnosis on red) is the shape a `rtu_match --batch` should take.
+* **Class 2 — §304 self-defining rodata, three times in one wave.** `func_800CF068` (`.asciz "C:\TIMPACK\OPDEMO0.PAT"` as
+  `D_800CEDFC`), `func_800CD3B8`, `func_800CD520` (`D_800CD364`, eight `.word`s — the last two, `0x3C02800C 0x9442AE04`,
+  LOOK like code and are the island's trailing junk; reproduce them as words). Compile-only `rtu_match` is BLIND to it
+  (the undefined reference appears at LINK). The one prompt sentence — "if your target .s carries a `dlabel` block in
+  `.rodata`, DEFINE it at file scope from the bytes" — made both later agents do it unprompted; it is now in BRIEF.md.
+  A file-scope definition at the extern's position keeps the island order under the §303 derive stage (0x0/0x4 held).
+* **Class 3 — a verdict is relative to the TU at verification time.** `func_800CD520`'s agent verified against a TU that
+  did not yet declare `func_8001AD38`; the sibling bank `func_800CD3B8` then added `extern void func_8001AD38(const char*)`
+  at file scope and the queued draft's `(void *)` prototype became a `conflicting types` CC1 FAIL. Re-verify EVERY draft in
+  the CURRENT TU immediately before splicing (bank.sh does), and re-spell to the TU (§376) — codegen is unchanged for a
+  pointer argument.
+* **Class 4 — the md_* leading-island jtbl route is §303, not §260.** `jtbl_carve --probe md_SC03_054 --func func_801EF6D8`
+  refused the tail carve (seven tables at file 0x4..0xF0) and named the §260 island split; for an `md_*` module the
+  Makefile's `jtbl_rodata_pads --derive` stage already reproduces the pads at build time — splice, build, read the spec it
+  prints (`0,0t1,0t1,0t1,0t1,0t1,0`), no isolation, no yaml/`overlays.mk` line (R60 untouched). The probe's refusal text
+  now says so. Census `nins` counts `.s` LINES including rodata `.word`s (`func_800CD520` "22" = 14 code + 8 data);
+  `rtu_match`'s `MATCH (N ins)` is the code count — quote which one you mean.

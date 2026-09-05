@@ -900,7 +900,10 @@ def build_carve(ov, funcs):
                     f"island, which a tail carve cannot reach. That is the island split (§260): "
                     f"jr_isolate_all.py --only {f}, then `jtbl_carve.py {ov} --island-split "
                     f"--func {f}` — automated at gate time by harvest_verify._jtbl_prep_one "
-                    f"(docs/tool-designs/jtbl-island-split-review.md).")
+                    f"(docs/tool-designs/jtbl-island-split-review.md). "
+                    f"FOR AN md_* MODULE, §303 SUPERSEDES THIS: no isolation, no carve state — splice and "
+                    f"`make build`; the Makefile's jtbl_rodata_pads --derive stage reproduces the island pads at "
+                    f"build time (P32 S83: md_SC03_054/func_801EF6D8, 7 tables, 0,0t1,0t1,0t1,0t1,0t1,0).")
             s_vram, e_vram = jtbl_range(ov, jh, labels, region_end_vram, fn=f, sub=sub)
             s_off, e_off = s_vram - base, e_vram - base
             if s_off in have:

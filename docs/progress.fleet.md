@@ -4,27 +4,27 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 363140 / 363214 = 99.98%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 13481963 / 13488497 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5810068 / 5816589 = 99.9%   (90923/90984 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :   39479 / 41534 = 95.1%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13442484 / 13446963 = 100.0%)
+FLEET fn-count byte-ident: 363181 / 363214 = 99.99%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 13484324 / 13488497 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5812416 / 5816589 = 99.9%   (90958/90984 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :   40084 / 41534 = 96.5%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13444240 / 13446963 = 100.0%)
 
-FLEET REAL substantive   : 360663   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
+FLEET REAL substantive   : 360704   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
 FLEET LINKED PsyQ objs   :   1256
 FLEET NON_MATCHING       :      0   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :     74
+FLEET INCLUDE_ASM stubs  :     33
 FLEET matchable          : 363214
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
-| main | 777 | 2 | 1256 | 2079 | 2091 | 99.4% |
-| resident | 142 | 0 | 0 | 144 | 145 | 99.3% |
+| main | 782 | 2 | 1256 | 2084 | 2091 | 99.7% |
+| resident | 143 | 0 | 0 | 145 | 145 | 100.0% |
 | md_MAIN_001 | 11 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_003 | 57 | 0 | 0 | 63 | 64 | 98.4% |
-| md_MAIN_007 | 0 | 0 | 0 | 0 | 19 | 0.0% |
+| md_MAIN_007 | 11 | 0 | 0 | 11 | 19 | 57.9% |
 | md_MAIN_008 | 6 | 0 | 0 | 6 | 6 | 100.0% |
-| md_MAIN_009 | 0 | 0 | 0 | 1 | 12 | 8.3% |
+| md_MAIN_009 | 1 | 0 | 0 | 2 | 12 | 16.7% |
 | md_MAIN_011 | 20 | 0 | 0 | 21 | 21 | 100.0% |
 | md_MAIN_013 | 16 | 0 | 0 | 16 | 16 | 100.0% |
 | md_MAIN_014 | 12 | 0 | 0 | 13 | 13 | 100.0% |
@@ -62,9 +62,9 @@ FLEET matchable          : 363214
 | md_MAIN_046 | 38 | 0 | 0 | 39 | 39 | 100.0% |
 | md_MAIN_047 | 11 | 0 | 0 | 12 | 12 | 100.0% |
 | md_SC02_009 | 40 | 0 | 0 | 40 | 40 | 100.0% |
-| md_SC03_053 | 0 | 0 | 0 | 0 | 15 | 0.0% |
-| md_SC03_054 | 0 | 0 | 0 | 0 | 7 | 0.0% |
-| md_SC03_056 | 0 | 0 | 0 | 0 | 4 | 0.0% |
+| md_SC03_053 | 15 | 0 | 0 | 15 | 15 | 100.0% |
+| md_SC03_054 | 5 | 0 | 0 | 5 | 7 | 71.4% |
+| md_SC03_056 | 3 | 0 | 0 | 3 | 4 | 75.0% |
 | md_SC03_073 | 28 | 10 | 0 | 28 | 28 | 100.0% |
 | md_SC03_074 | 29 | 10 | 0 | 29 | 29 | 100.0% |
 | md_SC03_075 | 41 | 10 | 0 | 41 | 41 | 100.0% |
