@@ -88,7 +88,7 @@ INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CF2BC);
 
 INCLUDE_ASM("asm/md_MAIN_007/nonmatchings/md_MAIN_007", func_800CF33C);
 
-extern void func_800CF3B0(void *a0, void *a1, void *a2);
+extern s32 func_800CF3B0();
 
 void func_800CF390(void *a0, void *a1, void *a2) {
     func_800CF3B0(a0, a1, a2);
