@@ -37093,3 +37093,29 @@ and a build-instrument collision fixed at the consumer.**
   rebuild, then BANKED. Fixed at the CONSUMER (R54): the find now carries `-not -name '.*'` (Makefile), so every tool that
   probes in `src/` is covered at once; control = a throwaway dotfile absent from `make -pn`'s `C_SRCS`, `src/800.c` present.
   (§500-E3's "move the probes under `.run/`" remains a nicety, no longer a correctness fix.)
+
+**H. `md_MAIN_003:func_800CF3E8` — §500-D1's mechanism CORRECTED and its open lever REFUTED (S83 bounded Opus second look:
+245k tokens, 29 min, ~16k compiles at 70/s; 27 holds).**
+* **Not `cse.c canon_reg`** (which returns hard registers unchanged; `-dr` shows the tag load BORN as `(mem:SI (reg/v:SI 3))`).
+  **It is `cse.c find_best_addr`, reached from `fold_rtx` case `MEM`:** it replaces a MEM's WHOLE address with the cheapest
+  equivalent in the hash table, and `COST()` scores a valid-quantity pseudo 0 against a hard register 1 — so a bare-REG
+  (offset-0) address is swapped to the pseudo copy (429) while `(plus (reg 3) N)` field addresses are not table values and
+  keep the hard reg. `expand_expr`'s "generate all results into pseudo registers" forces that copy at −O2, so **no address
+  spelling dodges it** (`b_+idx`, `(u8*)b_+idx*24`, `b_` then `+= idx`: all 27) — which is also why the leading-`u32`-tag
+  struct reshape was inert.
+* **The D-1 "unpinned alias of `p6` for the load" lever is REFUTED, 5/5 at 27** (alias load-only, alias load+store, alias
+  born from the same `&b_[idx]`, declared last, born before the chain): cse puts the alias in the SAME quantity, so
+  `find_best_addr` swaps it to a pseudo too; the load's base can never equal the stores'.
+* **What DOES move it (new): launder the PINNED pointer itself** — `__asm__("" : "=r"(p6) : "0"(p6));` zero bytes, retires
+  reg 3's quantity; the load keeps `(reg 3)`, its LOG_LINKS collapse from 11 field stores to 1 and it hoists ~15 slots.
+  With `p6->w` moved after `clut`: **idx 0–377 AND 385–399 byte-exact**, the load at 384 vs the target's 380 (+1 load-use
+  `nop`) → 79 @ 470: structurally far closer, numerically worse. Residual = ONE cause, class [permuter]/basin: the freed
+  load lands 4 slots late in a 7-slot window, flipping local-alloc so `0xFFFFFF` takes `$t2` not `$a2` (the 22 `and` rows).
+  Inert/worse: launder × w 2-D (324) floor 27 · × fence 3-D (5,832) floor 27 · ior-form (1,026) 27 · explicit `tag6` +
+  named `m24` + fence-after-read (8,704) floor 49 · tail-mask pins (93–132) · p5 x0/y0 swap (31) · ot-launder moves (39 /
+  45 / 143). Row stays in the backlog; only a NEW idiom that places the freed load exactly at slot 380 reopens it —
+  otherwise a T4-style CANDIDATE wall with this mechanism as its citation. Report:
+  `.run/P32/t3/reports/func_800CF3E8__opus_s83.md`; draft `.run/P32/t3/opus/func_800CF3E8_s83.c` (== the prior best).
+* **Map corollary:** for a pinned struct pointer at −O2, "the load through the pinned base is scheduled late while every
+  store is in place" = `find_best_addr` took the offset-0 address to a pseudo. The zero-byte pointer launder is the
+  release; where the released load must land is then a scheduling question the launder does not answer.

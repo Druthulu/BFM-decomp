@@ -744,3 +744,23 @@ agent attempts across two sessions on two functions that closed in one pass each
 **(4) The §47 slider is a computation, not a search.** `-dl -dg` prints `n_refs`/`live_length`; `floor_log2(n)·n/L`
 says exactly how many static instructions a fence must add and where. 118 fence-position variants had plateaued at 4
 before the arithmetic was read (`func_8002FDE8`). Accelerator: read the `.lreg` numbers before sweeping fence positions.
+
+**(5) The BUILD is the batch verdict; a per-draft oracle is blind to cross-draft integration (P32 T3 S83).** Eleven of
+twelve same-TU drafts were `rtu_match` MATCH alone and the batch failed twice — a `s16`/`u16` spelling of one global across
+two drafts, a §304 rodata block only the stub `.s` had defined (undefined at LINK, invisible to a compile-only oracle), and
+a prototype a sibling bank added between an agent's verification and the splice. Accelerator: (a) a per-TU bank chain —
+verbatim grep → rtu ×N in the CURRENT TU → splice ×N → ONE build → sha → commit only on green, tree left for diagnosis on
+red (`.run/P32/t3s3/bank.sh`; the shape `rtu_match --batch` should take); (b) two sentences in the drafter brief (define
+any `dlabel` block your `.s` owns; spell shared symbols exactly as the TU does) made the next agents self-serve it.
+Measured: 17/17 Haiku MATCH on the ≤25-ins module band at ~50k tokens each; the coordinator's whole cost was the plumbing.
+
+**(6) Read a permuter waypoint's diff before rejecting OR accepting it (R63 both ways).** `func_8001BC6C`'s masked "1"
+carried a wrong-width load (`lhu`→`lbu`) — but subtracting that one mutation left two sound levers that were the entire
+answer (6 → 0). Accelerator: on a waypoint with a semantic mutation, diff it against the seed, drop the unsound hunk,
+re-measure the remainder; then re-spell any uninitialised-read trick well-defined (`k = 0; tag = (a1 << 8) | k;` kept the
+bytes; five "cleaner" spellings did not — the lever was the pseudo's BIRTH point, the §47 slider again).
+
+**(7) A tool's live probe in `src/` is part of the build's input.** `make` parsed `find src -name '*.c'` while another
+agent's `src/.masked_diff_probe.<pid>.c` existed and compiled after it was deleted — gate_main reported a false batch
+FAIL and spent a rebuild. Accelerator: guard at the consumer (`-not -name '.*'` in the Makefile's find) so every probing
+tool is covered at once; a probe tool that must live in `src/` should also be listed in the cookbook §500-E3.
