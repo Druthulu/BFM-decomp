@@ -36691,3 +36691,26 @@ isolated region = a type the carrier believed the headers provide. Ask WHICH hea
 before believing any "the header has it" guard; the resident/md_/main TUs are the `common.h`-only class.
 Same class as §323 (attributes hid the name) and §321 (re-emission): the carrier's blind spots are always
 "a type-name recogniser or a provenance assumption", never the C.
+
+#### §497 ★ — A BODILESS `typedef struct Tag Alias;` DEFINES THE ALIAS, NOT THE TAG: THE CARRIER'S FALSE "CONFLICTING BODIES" REFUSAL (P32 T1b; ov_SC02_017 `func_80186C64` isolation)
+
+**The refusal.** `jr_isolate_all ov_SC02_017 --only func_80186C64` refused (R43): *1 carried type name(s) have CONFLICTING
+bodies — a rename is needed, not a dedupe: `Rec801806C8_s` — A: `struct Rec801806C8_s { s32 f0; s32 f1; s32 f2; }
+__attribute__((packed, aligned(1)));` B: `typedef struct Rec801806C8_s Rec801806C8;`*. Both lines are legal C in one TU
+(a tag definition, then a typedef naming it), so `docs/frontier-p32.md` had costed a source RENAME.
+
+**The mechanism.** The dedupe in `_file_scope_decls` keys a type block by `_type_names(block)`, whose recogniser
+`\b(?:struct|union|enum)\s+(\w+)` returns the TAG for a bodiless `typedef struct Tag Alias;`. The tag's definition block
+yields the same single name, so two DIFFERENT blocks shared one key, their normalised bodies differed, and the refusal
+that exists for a genuine redefinition fired. The line itself declares `Rec801806C8` (ordinary namespace) and only
+REFERENCES the tag — C's tag and ordinary namespaces are distinct, and the carrier had collapsed them.
+
+**The fix (tool, not rename).** `_TYPEDEF_TAG_ALIAS = ^\s*typedef\s+(struct|union|enum)\s+(\w+)\s+(\w+)\s*;\s*$`; when it
+matches and alias ≠ tag, `_type_names` returns `{alias}` and the `carried` set learns the alias. `typedef struct X X;`
+(alias == tag) keeps the old key on purpose: two of those in one TU ARE a redefinition and must still collapse or
+refuse. Unit control on seven block shapes (tag+body, typedef-anon, typedef-tag-body, fn-ptr typedef, `struct X;`);
+the overlay's dry-run went REFUSED → CLEAN (2 region files) with the source untouched.
+
+**Tell + generalization.** A "CONFLICTING bodies" refusal whose two bodies are a struct DEFINITION and a bodiless
+`typedef struct <same tag> <other name>;` is this class — no rename, the carrier is wrong. Sibling of §496 (the
+provided-type set assumed the overlay include set): the carrier's failures are recogniser/namespace assumptions.

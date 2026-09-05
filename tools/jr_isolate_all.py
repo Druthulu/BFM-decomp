@@ -684,6 +684,10 @@ def _strip_attrs(block):
     return _ATTR.sub(' ', block)
 
 
+# `typedef struct Tag Alias;` — a bodiless typedef of an existing tag (see _type_names, §497)
+_TYPEDEF_TAG_ALIAS = re.compile(r'^\s*typedef\s+(?:struct|union|enum)\s+([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\s*;\s*$')
+
+
 def _file_scope_decls(items, provided=None):
     """[(line, [syms])] for every decl that stood at FILE SCOPE in the original TU, in item
     order. TWO sources — the second is the §8b scoping-wall fix:
@@ -716,6 +720,9 @@ def _file_scope_decls(items, provided=None):
             block = _strip_attrs(block)
             for a, b in re.findall(r'\}\s*([A-Za-z_]\w*)\s*;|\b(?:struct|union|enum)\s+([A-Za-z_]\w*)', block):
                 carried.add(a or b)
+            m = _TYPEDEF_TAG_ALIAS.match(block.strip())      # the alias of `typedef struct Tag Alias;` (§497)
+            if m:
+                carried.add(m.group(2))
             carried |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', block))
     if provided is None:                                  # legacy callers: the overlay assumption
         provided = _engine_types()
@@ -738,6 +745,15 @@ def _file_scope_decls(items, provided=None):
 
     def _type_names(block):
         block = _strip_attrs(block)
+        # `typedef struct Tag Alias;` (no body) DEFINES the alias and merely REFERENCES the tag (P32 T1b,
+        # cookbook §497). Keying it by the tag made it collide with the tag's own `struct Tag {...};`
+        # definition block — same key, different bodies — and the R43 refusal fired on legal C
+        # (ov_SC02_017: `struct Rec801806C8_s {...} __attribute__((packed, aligned(1)));` +
+        # `typedef struct Rec801806C8_s Rec801806C8;`). A typedef whose alias EQUALS the tag
+        # (`typedef struct X X;`) keeps the old key so it still dedupes/refuses against a second one.
+        m = _TYPEDEF_TAG_ALIAS.match(block.strip())
+        if m and m.group(1) != m.group(2):
+            return {m.group(2)}
         names = {a or b for a, b in
                  re.findall(r'\}\s*([A-Za-z_]\w*)\s*;|\b(?:struct|union|enum)\s+([A-Za-z_]\w*)', block)}
         names |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', block))
