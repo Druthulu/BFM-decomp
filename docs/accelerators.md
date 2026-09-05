@@ -764,3 +764,10 @@ bytes; five "cleaner" spellings did not — the lever was the pseudo's BIRTH poi
 agent's `src/.masked_diff_probe.<pid>.c` existed and compiled after it was deleted — gate_main reported a false batch
 FAIL and spent a rebuild. Accelerator: guard at the consumer (`-not -name '.*'` in the Makefile's find) so every probing
 tool is covered at once; a probe tool that must live in `src/` should also be listed in the cookbook §500-E3.
+
+**(8) Re-probe a CC1-FAIL wall in a SANDBOX TU, not by editing `src/` (P32 T4 S83).** Three of seven pinned walls failed to
+compile in their TU for declaration reasons only (header typedefs a draft duplicated; a narrow-typed prototype vs a K&R
+definition; a load-bearing `[][1]` extern vs the TU's `[]`). Copying the TU under `.run/`, symlinking `src/*.h` +
+`src/shared` beside it, editing the declaration THERE and passing `--tu <copy>` to `rtu_match` reproduced every residual
+(1/2/3) with zero commits to `src/` — the byte-neutral TU edit is deferred to the day a row reaches closeness 0.
+Accelerator: `rtu_match --tu` accepts any path; a sandbox costs one `mkdir` + two symlinks.

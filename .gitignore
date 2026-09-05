@@ -280,3 +280,13 @@ unsloth_compiled_cache/
 /.run/P32/t3s3/gate/*
 !/.run/P32/t3s3/gate/*.json
 !/.run/P32/t3s3/gate/*.log
+# P32 T4 (S83): the walls' re-probe artefacts — synced/variant drafts only (the sandbox TU copies and rtu compile dirs are regenerable)
+!/.run/P32/t4/
+/.run/P32/t4/*
+!/.run/P32/t4/drafts/
+!/.run/P32/t4/v32A74/
+/.run/P32/t4/v32A74/*
+!/.run/P32/t4/v32A74/*.c
+!/.run/P32/t4/v391D4/
+/.run/P32/t4/v391D4/*
+!/.run/P32/t4/v391D4/*.c

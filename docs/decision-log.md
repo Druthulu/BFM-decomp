@@ -3295,3 +3295,36 @@ message and per-function work dirs should have been in the S80 shape from its fi
 a FRESH session, not at the end of a T0–T2c day; (3) packs should carry the same-TU neighbours' DECLARATIONS of the
 shared globals (the func_8002FDE8 fix was two functions away); (4) a "converged plateau" in the journal is a reason to
 re-read the body against a neighbour, not a reason to route to the permuter.
+
+## P32 S83 (2026-09-05) — the crack pass closed on 39 banks, the walls got their final ledger, and every remaining "wall" was re-probed in TU context without touching src/
+
+### Context and belief
+The 10:01 checkpoint handed S83 a census of 44 stubs: 10 verified-MATCH rows awaiting the gate, 17 Haiku rows never launched
+(the 20-agent cap), 9 NEAR seeds and 7 pinned walls. The belief going in: the MATCH rows were free banks, the Haiku rows were
+~50% yield on the ≤25-ins band, the walls were settled.
+
+### What happened, measured
+- **The MATCH rows were free only per draft.** Eleven of twelve same-TU drafts were `rtu_match` MATCH alone and the batch
+  failed twice: a `s16`/`u16` spelling of one global across two drafts, a §304 rodata block only the stub `.s` owned
+  (invisible to a compile-only oracle — it fails at LINK), and a prototype a sibling bank introduced between an agent's
+  verification and the splice. The BUILD is the batch verdict; a per-TU bank chain (`bank.sh`) made it deterministic.
+- **The Haiku band went 17/17 first pass** (13–25 ins, ~50k tokens each, 46–126 s) — the S82 9/11 was an under-estimate
+  because the two S82 FAILs were plumbing, not model failures. 28 banks in one session, then a 29th from the permuter.
+- **The permuter's "1" was two sound levers plus one wrong-width mutation.** Subtracting the unsound hunk left a leaf MATCH;
+  the lever was the §47 live-length slider (an early BIRTH of a pseudo), re-spelled well-defined. A waypoint carrying a
+  semantic mutation is a seed, not a rejection (R63 both ways).
+- **The `func_800CF3E8` second look corrected a mechanism and refuted a lever** (cse.c `find_best_addr`, not `canon_reg`;
+  the alias lever 5/5 inert; a new pinned-pointer launder frees the load but lands it 4 slots late) — 245k tokens for a
+  closeness that did not move, and a citation that is now right.
+- **T4: all seven pinned walls reproduce their residual in TU context** — and the three that were CC1 FAILs were
+  declaration plumbing, re-probed in a SANDBOX TU copy (`.run/P32/t4/tu/`) rather than by byte-neutral commits to `src/`.
+  1 PROVED (§474) + 6 CANDIDATE, citations current. Nothing changed; everything is now measured where it will be judged.
+
+### The shape, and the hindsight path
+Three sessions running (S81, S82, S83) the finding is the same: the last stubs fall to PLUMBING, not codegen — declaration
+environments, rodata ownership, TU spellings — and the instruments that judge them (a per-draft compile-only oracle; a
+`find src -name '*.c'` that admits a live probe) are the walls' co-authors. Sooner: (1) `rtu_match --batch` from the first
+multi-draft TU; (2) the §304 sentence in every drafter brief from the first module wave; (3) a sandbox TU for any CC1-FAIL
+re-probe — it costs a `mkdir` and two symlinks and spends no commit; (4) treat a permuter waypoint's diff as a lever list.
+What P32 leaves for P33: 15 functions (7 walls with citations, 8 near-misses with cost), every module at 100% C except the
+ones those rows sit in, the fleet byte-identical 218/218 on every sweep of the day.

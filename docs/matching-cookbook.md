@@ -37119,3 +37119,27 @@ and a build-instrument collision fixed at the consumer.**
 * **Map corollary:** for a pinned struct pointer at −O2, "the load through the pinned base is scheduled late while every
   store is in place" = `find_best_addr` took the offset-0 address to a pseudo. The zero-byte pointer launder is the
   release; where the released load must land is then a scheduling question the launder does not answer.
+
+**I. T4 — the seven pinned walls' FINAL verdicts, every one re-probed IN TU CONTEXT without touching `src/` (S83, 12:05–12:35 MDT).**
+* **Method.** Each row's best draft was re-run with `rtu_match` in its CURRENT real TU (S83 had changed `src/800.c` and
+  `src/800_b_2.c`). Four rows reproduced their recorded closeness directly (`func_80011380` 6 with `--o0`, `func_80020DA4`
+  2, `func_8017DF28` 2, `func_801834A4` 6 ×3 variants). **Three were CC1 FAILs — and all three were plumbing, none a verdict
+  (R40):** (1) `func_80032A74`'s draft redefined seven structs the TU provides via `800_shared.h` and spelled four
+  declarations its own way → `cdecl.strip_provided_typedefs(draft, cdecl.typedef_names(tu))` + adopt the TU's four lines →
+  DIFF 1 in the real TU, the recorded `lh`/`lhu` residual; (2) `func_80039DEC`'s TU carries a narrow-typed PROTOTYPE
+  (`extern void f(void *, s16, u8)`) that C forbids against a K&R definition; (3) `func_800391D4`'s lever spelling
+  `extern s32 D_80073140[][1]` conflicts with the TU's three `[]` externs — and the `[][1]` TYPE is load-bearing (the TU's
+  spelling, a `(s32 (*)[1])` cast and a byte-offset form all regress 3 → 65 @ 76 ins). **For (2) and (3) the re-probe used a
+  SANDBOX TU: copy the TU under `.run/P32/t4/tu/`, symlink `src/*.h` + `src/shared` beside it, edit the declaration there,
+  and pass `--tu <copy>`** — the residual reproduces (2 and 3) with zero edits to `src/`, and no byte-neutral commit is
+  spent on a row that will not bank. The TU-side edits are recorded in the backlog rows for the day closeness reaches 0.
+* **Verdicts.** `main:func_80011380` **PROVED** (§474, fold-const.c:882 `split_tree` + stupid.c:497, `--o0`; DIFF 6). Six
+  **CANDIDATE** with current citations and bounded attempt records: `func_80032A74` 1 (extendhisi2 force_not_mem / §172
+  producer 3, reload1.c:1445) · `func_80020DA4` 2 (mflo destination REGALLOC-PERM; pins regress to 79) · `func_80039DEC` 2
+  (K&R narrow-parameter argument-position promotion → `$a3`/`$t0` before global-alloc) · `func_800391D4` 3 (`move_movables`
+  splices hoisted invariants after preheader flow code, loop.c 2.7.2:1529 / map loop.md L4) · `ov_SC06_022:func_8017DF28`
+  2 (`expand_block_move` `copy_addr_to_reg` pseudo cse-reused, cse_expr.md [A23-2]) · `ov_SC03_105:func_801834A4` 6
+  (loop.c movable ordering). No verdict changed; the pin file (`config/wave_exclude.txt`) carries each row's S83 re-probe
+  line; `exclude_audit --assert-fresh` 7/7. Unpinned candidate with a cited mechanism: `md_MAIN_003:func_800CF3E8` 27 (§500-H).
+* **Law.** A wall's CC1 FAIL in its TU is evidence about the TU's declaration environment, never about the body; re-probe
+  before any verdict, and prefer a sandbox TU over a src/ edit when the row is not going to bank.

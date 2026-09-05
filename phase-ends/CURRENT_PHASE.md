@@ -94,7 +94,7 @@ Scale estimate: 3–5 sessions.
       (`parallel_gate --r22` / main: `gate_main <slate> --apply`, read the BODY/TABLE/PLUMBING/MIXED line) →
       commit per bank (R42) → `twin_rescan`; plateaus → `backlog.py log` with attempt + cost (R41).
       Expected 1–4 banks (S79: 3/11 on the Opus F/G tier), ~0.6–1.4M tokens. **Progress report after T3.**
-- [ ] **T4 — the walls' FINAL verdicts** (xHigh; no drafting): the 8 pinned rows — confirm each citation current
+- [x] **T4 — the walls' FINAL verdicts** — DONE 2026-09-05 (S83, xHigh, no drafting): all 7 pinned rows re-probed IN TU CONTEXT (`rtu_match` in the real TU; the three CC1-FAIL rows via a sandbox TU copy under `.run/P32/t4/tu/` — every CC1 FAIL was plumbing, R40) and every one reproduced its recorded residual: **1 PROVED** (`main:func_80011380` §474, DIFF 6) · **6 CANDIDATE** with current citations (`func_80032A74` 1 · `func_80020DA4` 2 · `func_80039DEC` 2 · `func_800391D4` 3 · `ov_SC06_022:func_8017DF28` 2 · `ov_SC03_105:func_801834A4` 6). No verdict changed. Deliverables: the wall table below; `config/wave_exclude.txt` annotated per row, `exclude_audit --assert-fresh` 7/7; backlog rows for all 7 (the two path-less rows given existing drafts, R62; `func_80032A74` got a TU-clean synced draft `.run/P32/t4/drafts/func_80032A74_tuclean.c`); cookbook **§500-I**; `docs/accelerators.md` (8); decision-log (the final wall doctrine, R31). Original brief: the 8 pinned rows — confirm each citation current
       + instrument exonerated (R40), PROVED vs CANDIDATE, ledger best-draft → an existing real-TU-clean C file (R62:
       `func_80011380` → `.run/m3/opus/func_80011380.c`; `func_801834A4` → `.run/S71_gate14/ov_SC03_105*/`),
       `exclude_audit --write`, `backlog.py render`; a T3 idiom naming a wall's mechanism re-opens that row
@@ -104,6 +104,20 @@ Scale estimate: 3–5 sessions.
       `make report` all three metrics + main `143dbb89…` with/without SDK dirs, corrected denominators); **WAIT
       for gate 2**; `PhaseEnd_Phase32.md` (+ Roadmap delta + Plain-English Recap); `git mv` this file →
       `phase-ends/logs/Phase32.md` (R19); R23 MCP stop if it ran; leave both uncommitted for Drew (R6); 🛑 (P8).
+
+## T4 — the walls' FINAL ledger (S83, 2026-09-05; every row re-probed in TU context; `config/wave_exclude.txt` carries the same lines)
+| row | ins | class | closeness leaf / real-TU (S83) | mechanism · citation | bounded attempt record | verdict | best draft |
+|---|---|---|---|---|---|---|---|
+| main:func_80011380 (boot, −O0) | 192 | C-level floor | 6 / 6 (`rtu --o0`) | fold-const.c:882 `split_tree` merges MULT(MULT(i,2),2); the two escapes each cost one insn (stupid.c:497 adjacency / expand_decl use-brackets) — cookbook §474, §388 −O0 colouring oracle | 20 spellings + statement-expression + `(t=i*2)*2` register form (S76 proof); pinned S79 #8 | **PROVED** | `.run/m3/opus/func_80011380.c` |
+| main:func_80032A74 (800_b_2) | 422 | FRAME/WIDTH | 1 / 1 (synced draft) | sole residual idx 244 `lh` vs `lhu`: extendhisi2 is a force_not_mem EXPAND (an orphan frame slot is minted only at an `lh`); the target's +8 frame bytes = §172 producer 3 (caller-save area, reload1.c:1445) | ~200 byte-probes + 100-variant retyping sweep (S79 Opus) + permuter_ils 8×150 s null (S80); S83: CC1 FAIL was 7 header typedefs + 4 decl spellings → synced copy DIFF 1 | CANDIDATE | `.run/P32/t4/drafts/func_80032A74_tuclean.c` |
+| main:func_80020DA4 (800) | 100 | REGALLOC-PERM | 2 / 2 | phantom 16-byte frame reproduced (address-taken `frame_pad[3]`); residual = `mflo` destination `$t0` vs `$a2`; pinning regresses to 79 | 5 attempts 51→20→14→8→2 (S7x/S79) + permuter_ils null (S80); S83 rtu DIFF 2 | CANDIDATE | `.run/S79w/sonnet/func_80020DA4.c` |
+| main:func_80039DEC (800_c) | 74 | REGALLOC (K&R) | 2 / 2 (sandbox TU, no-proto decl) | the `$a3↔$t0` swap of the two K&R raw-preserve parameter copies is fixed by ARGUMENT POSITION in gcc-2.7.2 narrow-parameter promotion (2nd → `$a3`, 3rd → `$t0`) before global-alloc; every pin regresses to 60–75 (cookbook §376/§495 K&R laws, lines ~1320/1508) | 3 attempts (S7x/S79 Sonnet 9) + permuter_ils 9→2 (S80); S83: CC1 FAIL = the TU's narrow prototype at 800_c.c:3496 vs the K&R def | CANDIDATE | `.run/S79w/permuter/func_80039DEC.c` |
+| main:func_800391D4 (800_c) | 75 | SCHED (loop) | 3 / 3 (sandbox TU, `[][1]` externs) | 3-insn SCHEDULE-REORDER (`off` init vs arg1's `sll/sra`): `move_movables` splices hoisted invariants after any pre-existing preheader flow code (loop.c 2.7.2:1529; map loop.md L4) | 4 prior + S79 Sonnet 64→3 (`i=$7` pin kills combine_givs, `D_80073140[][1]` decl, 7 `asm("")` pads) + permuter_ils null (S80); S83: the `[][1]` spelling is load-bearing (TU-compatible forms → 65 @ 76) | CANDIDATE | `.run/S79w/sonnet/func_800391D4.c` |
+| ov_SC06_022:func_8017DF28 (jr_8017BEBC) | 119 | SCHED (slot) | 2 / 2 | `expand_block_move` `copy_addr_to_reg` pseudo cse-reused for both later `&mtx` args (map cse_expr.md [A23-2]/§H); `addiu $s2,sp,0x10` in the jal delay slot vs the target's bnez slot | five RTL-verified attempts (S71/S79); permuter_ils "1" was a divergent rewrite (S80, R63); S83 rtu DIFF 2 | CANDIDATE | `.run/S79w/sonnet/func_8017DF28.c` |
+| ov_SC03_105:func_801834A4 (jr_80181C84) | 106 | SCHED (loop) | 6 / 6 (×3 variants) | loop.c movable ordering (S71) | S71 gate14 resolver variants cn-cast / -rc / -rc-sd all DIFF 6; S83 rtu DIFF 6 ×3 | CANDIDATE | `.run/S71_gate14/ov_SC03_105-cn-cast-rc-sd/func_801834A4.c` |
+| *(unpinned)* md_MAIN_003:func_800CF3E8 | 469 | ALIAS-BASIN | 27 / 27 | cse.c `find_best_addr` (fold_rtx MEM; COST pseudo 0 vs hard reg 1) swaps the bare-REG tag-load address to a pseudo; the alias lever refuted 5/5; the pinned-pointer launder frees the load but lands it 4 slots late (79 @ 470) — §500-H | S79/S82 Opus + S83 Opus second look (245k tokens, ~16k compiles) | CANDIDATE (backlog, not pinned) | `.run/P32/t3/opus/func_800CF3E8.c` |
+
+The other 7 NEAR rows (`func_80039308` 17, `func_800CD674` 2, `func_800CD92C` 15, `func_800CF408` 49, `func_800CF6D0` 137, `func_80185810` 35, `func_8017DC80` 46) are DEFERRED WITH COST in `docs/backlog.md` (class · closeness · best draft · agent/permuter cost), per the milestone's third disposition.
 
 ## Standing procedure (every task)
 Fix the TU by a byte-neutral plumbing commit BEFORE any gate (S77 law) · commit banked work before the next
@@ -120,6 +134,7 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
   needed for T0–T2b; if T2d needs it: `tools/ghidra_mcp_start.sh` → pause → Drew runs `/mcp` (R29) → G2 ping.
 
 ## Log
+- 2026-09-05 12:05–12:40 MDT (S83, continued) — **T4 DONE.** Preflight: tree clean, verbatim 5==5, R22 218/218 (12:00), `exclude_audit --assert-fresh` 7/7. Every pinned wall's best draft re-run with `rtu_match` in its CURRENT real TU: `func_80011380` DIFF 6 (`--o0`), `func_80020DA4` DIFF 2, `func_8017DF28` DIFF 2, `func_801834A4` DIFF 6 ×3 variants; the three CC1-FAIL rows re-probed after their plumbing was understood — `func_80032A74` (7 TU-provided typedefs + 4 decl spellings → `cdecl.strip_provided_typedefs` + the TU's lines → DIFF 1 in the real TU), `func_80039DEC` and `func_800391D4` (a sandbox TU copy under `.run/P32/t4/tu/` with the declaration edited THERE → DIFF 2 / DIFF 3) — no `src/` edit, no byte-neutral commit spent on rows that will not bank. Leaf `match_one` re-measured all three (1 / 2 (permuter) / 3). **No verdict changed: 1 PROVED (§474) + 6 CANDIDATE**, citations current (§474, §172 reload1.c:1445, loop.md L4 2.7.2:1529, cse_expr.md [A23-2], the K&R promotion laws). Deliverables: the wall table (above), `config/wave_exclude.txt` per-row S83 lines, backlog rows for all 7 (+ the two path-less rows fixed, R62; `docs/backlog.md` 16 open), cookbook §500-I, accelerators (8), decision-log. NEXT = **T5 (Max, Tier 1 — prompt R27, WAIT for gate 2)**.
 - 2026-09-05 11:30–12:30 MDT (S83, continued) — **T3 steps 8–9 DONE → T3 CLOSED.** Step 8: `permuter_ils` 8×150 s -j3 on the two REGALLOC-PERM seeds — `func_800CD674` plateau (best waypoint = the same 2-row `$a3↔$t1` pair; ledgered with cost), `func_8001BC6C` reached masked 1; the R63 read showed three mutations, one of them a WRONG-WIDTH `& 0xFF` (lhu→lbu); the two sound ones (idx after color; an early `tag`/`k` birth) = leaf MATCH, re-spelled well-defined as `k = 0; tag = (a1 << 8) | k;` (11 spellings measured), rtu MATCH in src/800.c, **gate_main BANKED 143dbb89** (`commit:3948`) — main 7 → 6 open. gate_main's first rebuild died on a concurrent agent's `src/.masked_diff_probe.<pid>.c` (present at parse, gone at compile) → **Makefile `C_SRCS` find now `-not -name '.*'`** (`commit:3949`, byte-neutral, control on `make -pn`). One bounded Opus second look at `func_800CF3E8` (245k tokens, 29 min): 27 holds; §500-D1's mechanism corrected to `cse.c find_best_addr` (fold_rtx MEM; COST pseudo 0 vs hard reg 1), the alias lever refuted 5/5, a new zero-byte pinned-pointer launder found (79 @ 470, structurally closer) — cookbook **§500-H**, backlog row updated. Step 9: `make report` (fleet instr 100.0% · distinct 99.9% · fn 100.00% · 15 stubs), `make report BINARY=main`, census `.run/P32/frontier_t3_close.json` (15 / 3,758), twin_rescan 0 free, cookbook §500-G/H + index, this file; R22 → see the 🛑 block. **Kill gate:** the session banked 29 and produced 3 new verdicts; the tail's three bounded attempts are spent — T3 closes on the evidence. NEXT = T4.
 - 2026-09-05 10:10–11:25 MDT (S83, session 491895ad, xHigh, Fable 5.1) — **T3 steps 0–7 DONE: 28 banks, fleet R22 218/218 twice.** Preflight R22 218/218 rc 0 (`.run/P32/t3s3/r22_check.log`) → the 11 S82 MATCH rows banked: md_SC03_053 ×2 (`commit:3935` `commit:3936`, 100% C) · main ×2 via gate_main (`commit:3937`: "slate 2 -> 2 compatible … BANKED 2 … 143dbb89 BYTE-IDENTICAL") · md_SC03_054 func_801EF6D8 604+7 jtbls (`commit:3938`; `jtbl_carve --probe` refused the tail carve → §303 derive stage reproduced the island pads `0,0t1,0t1,0t1,0t1,0t1,0` with NO carve state change) · md_MAIN_007 ×6 after the byte-neutral func_800CF3B0 no-proto decl commit (`commit:3939`, `commit:3940`) — two integration classes on the way (same-TU s16/u16 spelling of D_800B99E8; §304 self-defining rodata D_800CEDFC). twin_rescan 33 open / 0 free; verbatim 5==5; **R22 `make clean && make extract-all && make check-all` → 217+main extracted, 218 passed / 0 failed, exits 0/0/0** (`.run/P32/t3s3/r22_full.log`, 10:41–10:46); tools-health OK. The 9 NEAR rows ledgered (`backlog_near.sh`; docs/backlog.md 15 open). **17 Haiku agents launched 10:57 from staged prompts (`.run/P32/t3s3/prompts/`), 17/17 MATCH by 11:15**, each re-verified with rtu_match in the CURRENT TU and banked by `bank.sh` (verbatim grep → rtu → splice → one build → sha → commit-on-green): md_MAIN_007 ×6 (`commit:3941` `commit:3942`), md_MAIN_009 ×8 (`commit:3943` `commit:3946` — func_800CD520 needed a §376 re-spell after a sibling bank added the file-scope prototype), md_SC03_054 ×2 (`commit:3944`, 100% C), md_SC03_056 ×1 (`commit:3945`, 100% C). twin_rescan 16 open / 0 free. Harvest: cookbook **§500-F** (the four integration classes), BRIEF.md §304 sentence, `jtbl_carve --probe` text, harvest_notes. Post-batch R22 (after all 28 banks): 217+main extracted, **218 passed / 0 failed, exits 0/0/0** (`.run/P32/t3s3/r22b_full.log`, 11:04–11:09).
 - 2026-09-05 (successor session, later) — **Session-start protocol rewritten at Drew's direction (R64 candidate):** `phase-ends/DIGEST.md` created (every phase synopsis + every rule in full + the PROJECT_CONTEXT corrections + the doc map); CLAUDE.md load order = PROJECT_CONTEXT → DIGEST → the three most recent PhaseEnds → CURRENT_PHASE, ≈100k tokens, the 🛑 block replayed VERBATIM; Phase Boundary step 3b maintains the digest (P7); `phase-ends/README.md` + SETUP §7 updated; the two memories (`checkpoint-current-phase-before-pause`, `session-start-list-rules-in-full`) + MEMORY.md updated; `.run/P32/t3/PROMPT_TEMPLATE.md` saved (verbatim agent prompts). The 🛑 block below was REFRESHED to the verbatim-replay standard and SUPERSEDES the 09:30 block. Ratify R64 at PhaseEnd_Phase32.
@@ -132,15 +147,15 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
 - 2026-09-05 — **T1a DONE — `resident:func_800D128C` BANKED (243 ins, byte-identical 8e17e02f, R22 213/213).** The stored S71 closeness-0 draft was byte-correct all along; the whole task was three instrument defects the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed in overlay-only assumptions: (1) `jr_isolate_all` dropped a file-local typedef whose name engine_types.h also defines (§496 — fixed: provided types derived from the TU's own includes); (2) `jtbl_carve` regenerated `JTBL_INTERLEAVE` without the `--pre hdr.rodata.o` clause → extract refused → the gate linked a stale script and booked the byte-correct draft as DIFF; `harvest_verify` ignored that extract's rc (§498 — both fixed, R49/R61); (3) `interleave_check` read a `--pre` line as n=0 (false DRIFT; fixed). R38 then found two more stored MATCH bodies for T1b/T1c (see their rows). Effort stayed Max.
 - 2026-09-05 — **T0 DONE.** Baseline reads all green (`.run/P32/t0_baseline.log`): `verbatim_check --strict` 5 bodies == 5 rows; `exclude_audit --assert-fresh` 8 entries, 8 WALL, 0 stale; `frontier_classify` → 21 rows = the S80 census exactly; `make tools-health` OK (sigs fresh, corpus(+resident), cdecl, audit-binaries 213/213, report lint+dedup, cookbook-index, split_indicator 213 OK); `make check-all` 213 passed / 0 failed, rc 0. Harness task list #1–#11 built (R28). NEXT = T1a.
 
-## 🛑 SESSION CHECKPOINT — T3 CLOSED, T4 NEXT (2026-09-05 12:40 MDT; written by session 491895ad "S83"; SUPERSEDES the 11:30 block)
+## 🛑 SESSION CHECKPOINT — T3 + T4 DONE, T5 (PhaseEnd) NEXT (2026-09-05 12:45 MDT; written by session 491895ad "S83"; SUPERSEDES the 12:40 block)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase29/30/31.md` and this
 file, and nothing else (CLAUDE.md protocol, R64 candidate). Replay this block verbatim into your chat, state phase / done /
-NEXT / effort, list the rules from the digest, then WAIT for Drew. When he confirms, follow §4 in order. **Effort: xHigh for
-T4** (R27 — Drew sets it; if the status line does not say xHigh, prompt before the first command); **Max only for T5**
-(prompt R27 at the T4→T5 hand-off). T4 is NO-DRAFTING work: verdicts, citations, ledger hygiene. Fable only if a wall class
-the codegen map lacks appears — STOP and prompt Drew first. No Workflow / Ultracode.
+NEXT / effort, list the rules from the digest, then WAIT for Drew. **NEXT is T5 — the PhaseEnd — a Tier 1 task: state
+"🟡 PhaseEnd creation is a Tier 1 task. Confirm effort: Max is set" (R27) and WAIT for the actual `/effort` before the
+first command.** Then follow §4. T5 has TWO stops: the milestone demo → **WAIT for gate 2** (Drew confirms) → the
+PhaseEnd file → 🛑 (P8). No drafting, no agents, no Workflow.
 
 ### 1. Where we are
 **Phase 32 — the last 21 + the parked 5 (short, kill-gated).** Gate 1 approved 2026-09-05 (Drew, plan mode, Max, Fable 5.1);
@@ -149,8 +164,8 @@ R44–R63 ratified then; R64 is a candidate (DIGEST §3). Tasks: **T0 ✓** `com
 `commit:3912` `commit:3913` `commit:3914` (fleet 213 → 218) · **T2c ✓** `commit:3917` `commit:3918` `commit:3919` `commit:3920`, close
 `commit:3921` · **T2d not needed** · **T3 ✓ CLOSED 2026-09-05 12:40 MDT** (launch `commit:3922`; banks 1–9 `commit:3923`..`commit:3931`;
 S82 checkpoints `commit:3932` `commit:3933` `commit:3934`; S83 banks 10–38 `commit:3935`..`commit:3946` + `commit:3948`; S83 checkpoint
-`commit:3947`; Makefile guard `commit:3949`; §500-G `commit:3950`; the T3-close commit = HEAD) · **T4 NEXT · T5 pending.** Harness
-task list #1–#12 (#10 done at the close commit; #11 = T4 next). Fleet **218 binaries** (main + resident + 138 `ov_*` + 78
+`commit:3947`; Makefile guard `commit:3949`; §500-G `commit:3950`; the T3-close commit = HEAD) · **T4 ✓ DONE 12:45 MDT** (the walls' final ledger — 1 PROVED + 6 CANDIDATE, all re-probed in TU context, no verdict
+changed; the T4 commit = HEAD) · **T5 NEXT.** Harness task list #1–#12 (#11 done; #12 = T5 next). Fleet **218 binaries** (main + resident + 138 `ov_*` + 78
 `md_*`). **Fleet R22 at the T3 close (after ALL S83 banks + the Makefile guard): **217+main extracted, 218 passed / 0 failed, exits 0/0/0 at 12:00 MDT**** (`.run/P32/t3s3/r22c_full.log`);
 earlier S83 R22s 218/218 at 10:46 and 11:09. `make report` at the close: **instr 13,484,739 / 13,488,497 = 100.0% · distinct
 5,812,831 / 5,816,589 = 99.9% (90,975 / 90,984 unique fns) · fn-count 363,199 / 363,214 = 100.00% · INCLUDE_ASM 15**; main:
@@ -194,22 +209,30 @@ Modules at 100% C after S83: resident (145/145), md_SC03_053, md_SC03_054, md_SC
 launching session (§500-A) + S83's 29 (`git log --oneline commit:3934..HEAD`). Backlog: `docs/backlog.md` 14 open near-misses
 (every NEAR row carries class · closeness · best draft · cost, R41). `verdicts.jsonl`: 50 rows.
 
-### 4. NEXT — T4 then T5 (R42 still binds: any bank that lands commits before the next command that can touch src/)
-0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `.venv/bin/python tools/verbatim_check.py --strict` (5 == 5)
-   · `make check-all` → **218 passed, 0 failed of 218, exit 0** (R56 baseline) · `exclude_audit --assert-fresh` (7 entries, 7 WALL).
-1. **T4 — the walls' FINAL verdicts (xHigh, NO drafting; one bounded permuter-first attempt only where a T3 idiom names a
-   wall's mechanism):** for each of the 7 pinned rows (`config/wave_exclude.txt`): (a) re-run its best draft in the REAL TU
-   with `rtu_match` (main: `--tu src/<sub>.c`) and record the verdict line; (b) for the THREE CC1-FAIL rows (`func_80032A74`,
-   `func_80039DEC`, `func_800391D4`) fix the §376/§495 plumbing FIRST by a byte-neutral commit (the TU's own declaration;
-   `fix_arity_callers` / `cast_self_callers` / `--sync-decls` chain) and re-probe — a CC1 FAIL is not a wall verdict (R40);
-   (c) classify PROVED (a gcc-mechanism citation the codegen map carries + an instrument-exonerated bounded attempt) vs
-   CANDIDATE (citation present, attempt record bounded) — cite `docs/gcc-2.7.2-map/` + the cookbook §; (d) fix the two dangling
-   ledger best-draft paths (R62: `func_80011380` → `.run/m3/opus/func_80011380.c`; `func_801834A4` → the S71_gate14 variant) via
-   `tools/backlog.py log … --draft <existing path>`; (e) `exclude_audit --write`, `backlog.py render`; (f) the wall table into
-   this file (row · ins · class · closeness · citation · attempt record · PROVED/CANDIDATE), cookbook §501 if any verdict
-   changed, `docs/decision-log.md` (R31: the final wall doctrine), `docs/accelerators.md`; commit per row-batch; refresh this
-   block. Also consider `func_800CF3E8` (§500-H) for the CANDIDATE-wall ledger with its mechanism — it is NOT pinned; T4 decides.
-2. **T5 (Max, Tier 1 — prompt R27; WAIT for gate 2)** — §6 below.
+### 4. NEXT — T5, the PhaseEnd (Max, Tier 1 — prompt R27 FIRST; WAIT for gate 2)
+0. **Preflight (read-only):** `git status --short | grep -v ghidra/` (empty) · `.venv/bin/python tools/verbatim_check.py --strict`
+   (5 == 5) · `exclude_audit --assert-fresh config/wave_exclude.txt` (7 entries, 7 WALL).
+1. **P7 checkbox walk** over T0–T4 in this file (every `[x]` row has its commits/logs cited; T2d is NOT NEEDED, say so).
+2. **Milestone demo — run and QUOTE (P9/R58):** `make clean && make extract-all && make check-all` → 218 passed / 0 failed,
+   exits 0/0/0 · `make tools-health` → OK · `verbatim_check --strict` 5 == 5 · `.venv/bin/python tools/frontier_classify.py --json
+   .run/P32/frontier_p32_final.json` → the final census (15 rows: 7 pinned walls + 8 NEAR; every row with class · closeness ·
+   best draft · mechanism/cost) · the wall ledger table (this file, "T4 — the walls' FINAL ledger") · parked-5 dispositions:
+   `make audit-disc` → UNCLAIMED 0 of 220 (all five onboarded at T2b; `docs/disc-completeness.md` P32 section) · `make report`
+   → the three fleet metrics (T3-close values: instr 13,484,739 / 13,488,497 = 100.0% · distinct 5,812,831 / 5,816,589 = 99.9%
+   · fn-count 363,199 / 363,214 = 100.00% · 15 stubs) · `make report BINARY=main` → REAL 783 · LINKED 1,256 · VERBATIM 3 · stubs 6
+   · 2,085 / 2,091 = 99.71% · `143dbb89…` **WITH and WITHOUT the SDK object dirs** (`.run/obj40`, `.run/obj42` — the
+   fresh-extract fallback: move them aside, `make extract BINARY=main && make build BINARY=main`, sha, move back) · corrected
+   denominators (main game-code 41,556 — the 22-ins Ghidra-boundary gap; the fleet denominator grew by the five modules'
+   ~2,600 ins at T2b). Present all of it to Drew and **WAIT for gate 2.**
+3. **On confirmation:** `phase-ends/PhaseEnd_Phase32.md` in the constitution's format (Build Log · Deviations · Commit
+   Message · Rules Added — R64 to RATIFY, plus any candidates from S82/S83: the sandbox-TU re-probe law, "the build is the
+   batch verdict" · PhaseEnd Changelog v1.30.0 → v1.31.0 · Roadmap delta: P33 = verify + public flip, the 15-row remainder
+   stated, not redefined · Plain-English Recap · What we believed / what failed / what we would do sooner · 🛑 Stop Here)
+   → **append the P32 synopsis + rules to `phase-ends/DIGEST.md` §2/§3 (step 3b, P7)** → `git mv phase-ends/CURRENT_PHASE.md
+   phase-ends/logs/Phase32.md` (R19) → R23: the headless Ghidra MCP the SessionStart hook launched (`.run/ghidra-mcp.log`) is
+   stopped (`tools/ghidra_mcp_stop.sh` or the SessionEnd hook; no RE writes this phase — never stage `ghidra/`) → leave the
+   PhaseEnd + the archived log UNCOMMITTED for Drew (R6) → final message "PhaseEnd file created. Commit the file and start a
+   new Claude Code session for the next phase." → HARD STOP (P8).
 
 ### 5. Files, tools, exact invocations, gotchas
 - **`.run/P32/t3s3/` (S83; tracked: `*.sh *.py *.log *.txt prompts/ gate/*.json gate/*.log`; untracked: `verify*/` compile
@@ -240,7 +263,7 @@ launching session (§500-A) + S83's 29 (`git log --oneline commit:3934..HEAD`). 
   make extract-all` is in flight · the harness cap is 20 concurrent subagents · never `cd` inside a compound command ·
   `set -o pipefail` + `grep -c` exits 1 on zero matches.
 
-### 6. Carried context for T4 and T5
+### 6. Carried context for T5 (T4 is DONE — its ledger is the table above this block)
 **T4 (xHigh, no drafting) — the dead session's read-only pre-check (07:00Z) still stands (re-run each in the CURRENT TU first — S83 changed src/800.c and src/800_b_2.c):** `exclude_audit --assert-fresh`: 7
 entries, 7 WALL, 0 stale. Best drafts in their REAL TU: `main:func_80011380` `.run/m3/opus/func_80011380.c` DIFF 6 (the
 ledger's `.run/backlog_drafts/func_80011380.c` is MISSING — R62 path fix) · `main:func_80032A74` `.run/S79w/opus/
