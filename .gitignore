@@ -308,3 +308,4 @@ unsloth_compiled_cache/
 !/.run/P32/t5x/reports/
 /.run/P32/t5x/reports/*
 !/.run/P32/t5x/reports/*.md
+!/.run/P32/t5x/verdicts.jsonl
