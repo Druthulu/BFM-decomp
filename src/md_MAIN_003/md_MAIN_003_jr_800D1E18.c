@@ -931,11 +931,13 @@ s32 aF800D30D0(char *arg0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_jr_800D1E18", D_800D3200);
-
-extern s32 D_800D3200;  /* dup-def demoted: a sibling .s still emits it (S61) */
-
-__asm__(".text\n.align 2\n.globl func_800D3204\n.ent\tfunc_800D3204\n"
+/* 0x800D3200 is NOT a function: a one-word data sentinel (0x00FFFFFF, an invalid opcode) sitting in
+ * .text, which func_800D3204 / func_800D3234 materialise via lui/addiu and read/write (self-referencing
+ * data-in-text; S45 pin in config/symbols.md_MAIN_003.txt). It was carried as an INCLUDE_ASM "stub" —
+ * the census's H-VIRGIN phantom — until P31 S79 #6; the word is emitted here, inside the hand-written
+ * asm island it belongs to, so the stub record is gone and the bytes are unchanged (byte-gated). */
+__asm__(".text\n.align 2\n.globl D_800D3200\nD_800D3200:\n.word 0x00FFFFFF\n"
+".globl func_800D3204\n.ent\tfunc_800D3204\n"
 "func_800D3204:\n.frame $sp,0,$31\n.mask 0x00000000,0\n.fmask 0,0\n"
 ".set\tnoreorder\n.set\tnoat\n"
 "lui $t0, %hi(D_800D3200)\n"
