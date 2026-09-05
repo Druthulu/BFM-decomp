@@ -736,7 +736,9 @@ not anticipate; both are now part of the shape:
    four minutes after its ninth bank, and 22 completion notifications — 2–4 KB of prose each — arrived into a dead
    session. Shape: the verdict JSON alone in the final message; the evidence prose goes to `.run/<wave>/reports/<fn>.md`
    and is read only when routing a MATCH/NEAR. Harvest verdicts with `tools/agent_verdicts.py <tasks>/a*.output --append
-   <ledger>` (pass ONLY that wave's task files — the `/tmp/…/tasks/` dir holds older sessions' outputs too).
+   <ledger>` (pass ONLY that wave's task files — the `/tmp/…/tasks/` dir holds older sessions' outputs too). Save every agent's FULL final report with `tools/agent_reports.py <subagents-dir> --out .run/<wave>/reports/`
+   (the levers, inert lists and plumbing warnings a successor needs — T3's 31 are in `.run/P32/t3/reports/`); a dead
+   session's own transcript is read with `tools/transcript_dump.py`.
 3. The harness caps concurrent subagents at 20 (`CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS`): keep `pending_launch.txt`,
    dequeue-then-launch one per completion, and checkpoint the queue + recovery route BEFORE launching (T3 did; that is
    why the successor session could recover everything).

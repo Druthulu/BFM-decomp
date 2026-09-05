@@ -1,0 +1,27 @@
+# md_MAIN_003:func_800CF3E8 — arm opus — model claude-opus-5
+agent afb69f4023dd0ae0b · start 2026-09-05T06:54:00.730Z · end 2026-09-05T07:59:47.264Z · transcript /home/musashi/.claude/projects/-home-musashi-bfm-decomp/c6a5fb71-f2ae-4846-a4a9-a43a4c1c3496/subagents/agent-afb69f4023dd0ae0b.jsonl
+
+## Task prompt (first 600 chars)
+
+Byte-match ONE function for the Brave Fencer Musashi matching decomp. Repo: /home/musashi/bfm-decomp (run every command from there). Target: func_800CF3E8 in binary md_MAIN_003 (469 instructions, class F-FAR, best prior closeness 54 at exact length with all four block sizes exact; a GPU packet builder — the journal says fences at prim FIELD boundaries beat pins and that redundant pins block progress). Arm: opus. READ FIRST, in order: .run/P32/t3/BRIEF.md, .run/P32/t3/SYS.md, .run/P32/t3/packs/func_800CF3E8.md. Target asm (read IN FULL): asm/md_MAIN_003/nonmatchings/md_MAIN_003/func_800CF3E8.s.
+
+## Final report (verbatim)
+
+Done. I drove `func_800CF3E8` from the prior best **closeness 54 → 27** (469/469 instructions, real-TU clean), with **blk1 and blk2 now byte-exact end-to-end** (indices 0–361 all match).
+
+## What closed the 27 rows
+
+1. **blk2 constant birth order (5 rows)** — moving `mq2 = 0xFFFFFF;` *after* the `0xE100008F` tag store makes blk2 begin with `ori $v1,$v1,0x8F`, which lets `dbr` share the `lui $v1,0xE100` out of the entry `beq`'s delay slot into *both* blk2's `ori 0x8F` and the `j`'s `ori 0x8A`. Fixed entry 17/19 + blk2 133–135.
+2. **Same lever in blk1 (3 rows)** — birth the shared `0xFFFFFF` between `b1a` and `b1c` and route blk1's link steps through `ADDPRIM2(mq2,…)`.
+3. **p5/p6 boundary order + a 3,697-candidate single-move hill climb over the tail** (44 → 34).
+4. **New idiom — a "birthing-boost local" for a per-prim constant** (34 → 27): `w60 = 0x60; … pC->w = w60;` decouples the `li 0x60` from the post-fence region so it schedules right after `sh x0`. Only *then* does relocating the §194-A fence from `[y0|u0]` to `[v0|clut]` work — the two levers are useless separately and worth 7 rows together.
+
+## Root cause of the residual (byte-verified from `-dS`/`-dl` RTL dumps; not in the cookbook)
+
+All 27 rows are **one** cause: the target hoists `lw $t2,0($v1)` (the p6 OT-tag read of the first link step) 20 slots to its earliest legal position; mine leaves it last, shifting 378–399 by one and flipping local-alloc so the `0xFFFFFF` mask lands in `$t2` instead of `$a2` (13 rows).
+
+Why: gcc-2.7.2's **first** scheduling pass fixes the final order here, and at that point `*(u32*)p6` expands with its address in a **pseudo** (`(mem:SI (reg 429))`) while `p6->field` stores use the **pinned hard reg** (`(mem/s:QI (plus (reg 3) 11))`). `sched.c:memrefs_conflict_p` can only disambiguate off the *same* base rtx, and `cse.c:canon_reg` explicitly refuses to canonicalise a hard reg — so the load takes a true dependence on all ten p6 field stores and cannot hoist. **The `register asm("$3")` pin on p6 is itself the blocker.** Removing it *does* hoist the load (verified), but relocates the whole tail into a different allocation basin (188–197 mismatches).
+
+Files: draft `/home/musashi/bfm-decomp/.run/P32/t3/opus/func_800CF3E8.c`; the 20 relocation symbols and their counts in my object match the target's exactly.
+
+{"fn": "func_800CF3E8", "binary": "md_MAIN_003", "arm": "opus", "status": "NEAR", "closeness": 27, "compiles": true, "draft_path": "/home/musashi/bfm-decomp/.run/P32/t3/opus/func_800CF3E8.c", "note": "54->27 at 469/469, rtu_match agrees (no decl conflict); blk1+blk2 now byte-exact (idx 0-361). Four levers: (1) blk2 must birth tag 0xE100008F BEFORE the 0xFFFFFF mask so dbr shares the entry beq-delay-slot `lui $v1,0xE100` into both blk2's ori 0x8F and the j's ori 0x8A (5 rows); (2) same in blk1 via a shared mq2 + ADDPRIM2 (3 rows); (3) p5/p6 group order clut,w,h,len,tag + a 3697-cand single-move climb (44->34); (4) NEW IDIOM worth 7 rows: a birthing-boost LOCAL for a per-prim constant (`w60=0x60; ... pC->w=w60;`) decouples the `li 0x60` from the post-fence region so it schedules right after `sh x0` -- and ONLY then does moving the S194-A fence from [y0|u0] to [v0|clut] work; the two are inert separately. RESIDUAL = one cause, class [permuter]/basin: the target hoists `lw $t2,0($v1)` (p6's OT-tag read) 20 slots; mine cannot. ROOT CAUSE byte-verified from -dS/-dl dumps and NOT in the cookbook: sched1 (pre-regalloc) fixes the final order, and there `*(u32*)p6` expands with its address in a PSEUDO (mem:SI (reg 429)) while `p6->field` stores use the PINNED HARD reg (mem/s:QI (plus (reg 3) 11)); sched.c memrefs_conflict_p only disambiguates off the SAME base rtx and cse.c canon_reg refuses to canonicalise a hard reg, so the load true-depends on all ten p6 field stores. The register-asm(\"$3\") pin on p6 IS the blocker -- unpinning does hoist it (verified) but moves the whole tail to another allocation basin (188-197). MEASURED INERT: all 9 pins load-bearing (ablation +5..+1409); position of __asm__(\"\" :: \"r\"(ot)) byte-inert across 7 slots (removing it costs +14); h6 tag-read hoist at all 32 positions x 2 operand orders (load moves early but a load-use nop appears, 470 ins; a 3934-cand climb from that seed returns to 27); struct reshape to a leading `u32 tag` (RTL still uses pseudo 429); PsyQ P_TAG {addr:24,len:8} bitfield ADDPRIM (75/83); array-based p6 field stores (470 ins); c5/mlo/mhi mask steering (33-80); prim-C 540-variant and 226-move sweeps; ~92k annealed tail variants over 2 seeds -- all hold at 27."}

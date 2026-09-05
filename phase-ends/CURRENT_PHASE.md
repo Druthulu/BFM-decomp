@@ -168,8 +168,10 @@ session.** At 01:52 MDT one agent (func_800CD674's) tidied the SHARED `.run/P32/
 message (09:04): "97% context. checkpoint for fresh session, have next session analyze the completed subagents results".
 
 ### 3. What THIS session did (e40106e1, 2026-09-05 09:12 → 10:01 MDT, Max, Fable 5.1)
-(a) Dumped the dead session's transcript (`~/.claude/projects/-home-musashi-bfm-decomp/c6a5fb71-….jsonl` → condensed text:
-assistant text + tool calls + truncated results) and summarised all 31 subagent transcripts. (b) **Rebuilt the verdict
+(a) Dumped the dead session's transcript (`~/.claude/projects/-home-musashi-bfm-decomp/c6a5fb71-….jsonl` → condensed text
+with `tools/transcript_dump.py`, NEW) and saved **all 31 agents' full final reports** to `.run/P32/t3/reports/<fn>__<arm>__<id>.md`
+(`tools/agent_reports.py`, NEW; tracked) — the levers, inert-lever lists, residual mechanisms and plumbing warnings behind
+each verdict; read a row's report before banking or routing it. (b) **Rebuilt the verdict
 ledger by the recorded route:** `.venv/bin/python tools/agent_verdicts.py /tmp/claude-1000/-home-musashi-bfm-decomp/
 7beebba8-05e9-4d18-98ea-ce208f45370f/tasks/a*.output --append .run/P32/t3/verdicts.jsonl` → **31 rows: 20 MATCH / 9 NEAR /
 2 FAIL** (pass ONLY `a*.output` — the `b*.output` files there are older sessions' tasks). (c) Found the swept deliverables
@@ -272,7 +274,8 @@ func_80038698 74 (`commit:3931`) (all `143dbb89…` via `gate_main`) · md_MAIN_
    `docs/progress.fleet.md` (`make report`); then **T4**.
 
 ### 6. Files, tools, exact invocations, gotchas
-- **`.run/P32/t3/` (git-tracked unless noted):** `BRIEF.md` (agent brief, amended) · `SYS.md` (the laws) · `targets.json`
+- **`.run/P32/t3/` (git-tracked unless noted):** `reports/<fn>__<arm>__<id>.md` (**the 31 agents' full final reports — start
+  here for any row**) · `BRIEF.md` (agent brief, amended) · `SYS.md` (the laws) · `targets.json`
   (47 rows: name, binary, nins, sub, asm, tu, klass, closeness, model, twin, twin_d) · `pending_launch.txt` (17 rows
   `binary fn nins [twin=…]`) · `verdicts.jsonl` (31) · `LAUNCHED.md` (recovery route + status) · `harvest_notes.md` ·
   `PROMPT_TEMPLATE.md` · `{opus,sonnet,haiku}/func_*.c` (the deliverables: 12 + 4 + 11) · `restored/sweep_func_80039308.py`
@@ -282,8 +285,9 @@ func_80038698 74 (`commit:3931`) (all `143dbb89…` via `gate_main`) · md_MAIN_
   (transcript replays — inferior to the on-disk finals). Census jsons: `.run/P32/frontier_*.json` (tracked).
 - **Transcripts:** `~/.claude/projects/-home-musashi-bfm-decomp/c6a5fb71-f2ae-4846-a4a9-a43a4c1c3496/subagents/agent-<id>.jsonl`
   (31; `/tmp/claude-1000/-home-musashi-bfm-decomp/7beebba8-05e9-4d18-98ea-ce208f45370f/tasks/<id>.output` are symlinks to
-  them; the id→function map is the `file` field of each `verdicts.jsonl` row). Never cat one; use `agent_verdicts.py` /
-  `agent_drafts_restore.py`.
+  them; the id→function map is the `file` field of each `verdicts.jsonl` row). Never cat one; use `agent_verdicts.py` (JSON verdicts) /
+  `agent_reports.py` (full final reports) / `agent_drafts_restore.py` (rebuild a missing draft) / `transcript_dump.py` (a
+  session's own transcript).
 - **`rtu_match`:** `--split <sub> --source <binary> --c <draft> --asm-subdir <asmdir> --work <dir>`; **main adds `--tu
   src/<sub>.c`**; `<sub>`/`<asmdir>`/`<tu>` come from `targets.json` or `corpus.stubs(<binary>)` (`asm_path`, `path`). The
   verdict line starts `MATCH`/`DIFF`/`CC1`. It compiles the WHOLE TU with the draft spliced — the gate predictor.
