@@ -1,5 +1,10 @@
 #include "common.h"
 
+/* S80 #10: the block-scope `extern s32 func_800CB17C(struct S *)` below (in func_800CAFFC) used to
+ * declare a BLOCK-LOCAL `struct S` tag, so no file-scope definition of func_800CB17C could ever be
+ * compatible with it ("conflicting types"). A file-scope tag makes both spellings the same type. */
+struct S;
+
 extern s32 func_800183E0(s32 *a0);
 void func_800CAE0C(void) {
 
