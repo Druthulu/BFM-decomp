@@ -8341,3 +8341,97 @@ handed us other overlays' functions of the same name. Of the six near-misses, th
 its first 150 seconds (an agent had called it a compiler artifact), one is a proved wall now pinned, and the
 other four carry a named one-, seven- and eleven-instruction residual. Next: the twenty-one that need a
 fresh draft.
+
+## 🛑 SESSION CHECKPOINT — S79 HANDOFF (2026-09-04, evening; context exhausted MID-TASK #9). SUPERSEDES every earlier block. READ THIS FIRST, then the S79 FINAL block's §4, §5 and §7 (still true).
+
+**Why this block exists.** Task #9's drafting agents are Agent-tool subagents (not a Workflow); their results
+arrive as completion notifications that THIS session can no longer afford to read. Drew is letting this
+session run out so the agents finish; the FRESH session aggregates their output. Nothing is lost: every
+draft is on disk and every verdict is recoverable from its transcript.
+
+**HEAD** = `commit:3885` + this handoff commit (Drew pushes, R6; no trailers). Model Fable 5.1, effort **xHigh**.
+Tree: all banks committed (R42); `.run/backlog.jsonl`/`docs/backlog.md` may be dirty from gates — include them
+in the next docs commit. Ghidra DB churn = R23 noise, never staged.
+
+# 1. STATE OF #9 (the drafting pool, 25 targets; packs in `.run/S79w/packs/`, briefs' laws in `.run/S79w/SYS.md`)
+
+**BANKED this task (7, each its own commit, all in-tree byte-identical; open stubs 32 → 25):**
+`md_MAIN_003:func_800D0174` (commit:3879), `main:func_80015608` (commit:3880), `ov_SC05_018:func_80180BE0` (commit:3881),
+`md_MAIN_003:func_800D1D14` (commit:3882), `main:func_8002AC98` (commit:3883), `ov_SC06_010:func_801809E4`
+(commit:3884), `ov_SC05_010:func_8017FFA8` (commit:3885; its tail jtbl carve changed `config/splat.ov_SC05_010.yaml`
++ `overlays.mk`, both committed). Session total: 51 → 25 open stubs.
+**PLATEAUS with the residual named (drafts under `.run/S79w/<arm>/<fn>.c`; verdicts in
+`.run/S79w/verdicts/verdicts.jsonl`):** `main:func_8001BC6C` 28 (sched1 birthing-boost, two schedules),
+`main:func_8002FDE8` 35 (local-alloc caches &D_800A46D2 across a call, §153), `main:func_80038698` 11 (sched1
+DAG-priority on the byte-pair idiom ×3, permuter refuses the pinned seed), `main:func_80039B20` 7 (§461),
+`main:func_80020DA4` 2 (mflo destination $t0 vs $a2, REGALLOC-PERM — a `permuter_ils` run was started on it:
+`.run/ils_s79/func_80020DA4.log`, winners land in `.run/permuter-winners/func_80020DA4.c` → if present, run
+the §493 route: strip typedef preamble, TU spellings, `rtu_match --split 800 --source main --tu src/800.c`,
+`gate_main --apply`), `ov_SC06_022:func_8017DF28` 2 (delay-slot fill, 5 RTL-verified attempts — WALL),
+`main:func_80015B6C` 44 (two documented walls; better than 3 of 6 prior attempts).
+**STILL RUNNING when this was written (11 agents; each will finish on its own):** `main:func_800391D4`,
+`main:func_80039DEC`, `main:func_80039308`, `main:func_80023BF0`, `main:func_8001EFE0`, `main:func_80032A74`,
+`ov_SC03_105:func_80185810`, `md_MAIN_003:func_800CF3E8`, `ov_SC01_001:func_80181E04`, `ov_SC02_027:func_80180B3C`,
+`ov_SC07_002:func_8017DC80`.
+
+# 2. HOW TO AGGREGATE THE AGENTS' OUTPUT (do this FIRST in the fresh session)
+
+Their transcripts are JSONL files under
+`/tmp/claude-1000/-home-musashi-bfm-decomp/7f72985c-625a-4b68-b519-c1e93bd7eaf2/tasks/<agentId>.output`
+— NEVER cat one (they are huge). Use the helper written for this:
+```
+python3 tools/agent_verdicts.py /tmp/claude-1000/-home-musashi-bfm-decomp/7f72985c-625a-4b68-b519-c1e93bd7eaf2/tasks/*.output --append .run/S79w/verdicts/verdicts.jsonl
+```
+It prints one JSON verdict per transcript (fn, binary, arm, status, closeness, draft_path, note) and marks
+NO-VERDICT files. Copy the verdict rows somewhere durable at once (/tmp does not survive a reboot); the
+DRAFTS themselves are durable already: `ls .run/S79w/sonnet .run/S79w/opus .run/S79w/haiku`. The agent ids
+of the running eleven, in the order above: a15f03325810c04c5, a71657f5c4623875d, a40e8f1815c696dab,
+a3a77a6c78239acb2, adc6f4abf0b722ad3, a5cccfff2e8add6de, a5f7c1345cfd0ea90, a375b2cb39629bed0,
+ac4fc9b060a256868, a59218f108956697e, a96688e132d0d8d28. If the /tmp files are gone, the drafts + a
+`match_one`/`rtu_match` re-measure ARE the verdicts (R14: the bytes, not the note).
+
+# 3. WHAT TO DO WITH EACH RESULT (the procedure that banked 7 today)
+
+1. **Verbatim check first:** `grep -c '__asm__' draft.c` — a naked `.ent`/`.word` reproduction is NOT a match
+   (one agent submitted one; it was sent back and returned genuine C). Zero-byte `__asm__("" : "=r"(x) : "0"(x))`
+   re-ties are fine.
+2. **Re-measure in the real TU** (a standalone MATCH is a claim about the body, §376): overlays/modules
+   `rtu_match.py <fn> --split <TU basename> --source <bin> --c <draft> --asm-subdir asm/<bin>/nonmatchings/<sub>`;
+   main: add `--tu src/<TU>.c` (`--split` still required). Three real-TU refusals seen today and their fixes:
+   duplicate `typedef` already in the TU (strip it), `memcpy` → jal under the TU's `extern memcpy` (re-spell as a
+   struct assign through an align-1 typedef, the TU's Blk8 idiom), the permuter's typedef preamble (strip every
+   typedef `include/common.h` defines).
+3. **Gate:** overlays/modules → `parallel_gate.py --plan '[{"binary":…,"drafts":<dir with only that .c>}]'
+   --workers 1` (worktree; then `make extract BINARY=<bin>` if the merge changed a yaml/`.mk`, `make build`
+   in-tree, `pads_audit.py <bin>` if a carve happened); main → `gate_main.py <slate.json> --apply` (main TUs must
+   be clean; its pre-check names decl clashes → `sync_tu_decls`/`cast_self_callers --sync-decls` route, commit
+   plumbing byte-neutral BEFORE the gate). A gate NEAR on an rtu MATCH = the ladder mutated the body → raw splice.
+4. **Commit per bank immediately** (R42), message shape as the seven above. Then `twin_rescan.py`.
+5. **NEAR/NO-DRAFT:** log the row; a closeness ≤4 with a REGALLOC/SCHEDULE class → `permuter_ils` (8×150 s, -j6);
+   a gcc-mechanism citation + ≥3 independent attempts → WALL candidate for the PhaseEnd ledger (pin in
+   `config/wave_exclude.txt` with the citation; `exclude_audit --write` normalises).
+
+# 4. CLOSING #9 (after the eleven are in)
+
+R22 fleet (`make clean && make extract-all && make check-all`, background, ~2.5 min) → `frontier_classify --json
+.run/frontier_s79.json` → `make report BINARY=main` → cookbook **§494** (idioms this task produced: the fresh-temp
+lever `{ s32 xt = a + b; x = xt; }` beating expand_binop's target==op1 swap — 2 banks, both operands and the temp
+must be s32; the -O0 `*(s16*)&arr[i]` address-of+cast form that stops gcc folding %lo through $at; the early
+return that must fall through into a shared tail (§186b frame tell); s32 loop index vs §241 fused sign-extend +
+"lookup into its own temp before the stores"; the address-taken `frame_pad[3]` phantom-frame lever; the R48
+same-name draft phantoms) → SETUP row for `tools/agent_verdicts.py` → worklist not needed → the #9 T10 bullet +
+checkpoint (task table: #9 DONE; NEXT #10) — EDIT THE LIVE BLOCK THROUGH A SLICE FROM ITS OWN HEADER
+(`s.rindex('## 🛑 SESSION CHECKPOINT — S79')`), the blocks share headings → commit.
+
+# 5. THEN #10 and #11 (unchanged briefs — S79 FINAL block §7): #10 = ratify the 5 PERMANENT verbatims in the
+manifest `_README`, decompile `ov_SC03_107:func_8017D878` (GAME-C), `main()` (509 ins) + the md_MAIN_003 -O0 cluster
+(3 stubs left there: `func_800D06BC`? no — banked; check `frontier_classify`); #11 = PhaseEnd (Max — R27 toggle):
+census on the corrected denominators (main REAL 777 / LINKED 1,256 / game-code ≥93.5%), the wall ledger from
+`.run/S79w/verdicts/verdicts.jsonl` + `config/wave_exclude.txt`, the 5 unclaimed payloads as the explicit exclusion.
+
+# 6. PLAIN ENGLISH
+Twenty-five functions were handed to one AI agent each. Seven came back byte-perfect and are banked; several
+others stopped a few instructions short with the reason written down; eleven were still working when this
+session ran out of room. The next session's first job is to collect those eleven answers with the small
+script written for it, bank whatever matches, and record the rest.
+
