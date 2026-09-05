@@ -2268,7 +2268,7 @@ void func_80037D74(void) {
 
 extern u8 *D_800762B0;
 extern u8 D_800A4EFE[];
-extern s32 D_80073140[];
+extern s32 D_80073140[][1];  /* [][1] spelling: load-bearing for func_800391D4 (S79 lever; §500-I) */
 
 extern u8 D_800C6DE0[];
 extern u8 D_800C6DE4[];
@@ -2296,7 +2296,7 @@ void func_80037D98(void) {
     D_800762B0 = D_800A4EFE;
 
     i = 0;
-    table = D_80073140;
+    table = (s32 *)D_80073140;
     offset = 0;
     while (i < 0x10) {
         val = *table;
@@ -2570,7 +2570,7 @@ s32 func_8003836C(s32 a0) {
 extern u8 D_800B9CD8[];
 extern u8 D_800A4F1D;
 extern u8 D_800C6E2D[];
-extern s32 D_80073140[];
+extern s32 D_80073140[][1];  /* [][1] spelling: load-bearing for func_800391D4 (S79 lever; §500-I) */
 extern void func_8003916C(s16 arg0);
 extern void func_8002EFF8(s32 a0, s32 a1);
 
@@ -2593,7 +2593,7 @@ void func_800383A4(a0)
     p = base + 0x1A;
     i = 0;
     one = 1;
-    table = D_80073140;
+    table = (s32 *)D_80073140;
     D_800A4F1D = 1;
     base[0x1FA] = 0;
     do {
@@ -2619,7 +2619,7 @@ void func_800383A4(a0)
 }
 
 extern u8 D_800A4F1D;
-extern s32 D_80073140[];
+extern s32 D_80073140[][1];  /* [][1] spelling: load-bearing for func_800391D4 (S79 lever; §500-I) */
 extern u8 D_800B9CD8[];
 extern u8 D_800C6E2D[];
 extern void func_8002EFF8(s32 a0, s32 a1);
@@ -2641,7 +2641,7 @@ void func_800384A8(s16 arg0) {
     p = entry + 0x1A;
     i = 0;
     one = 1;
-    mb = D_80073140;
+    mb = (s32 *)D_80073140;
     D_800A4F1D = 1;
     entry[0x1FA] = 0;
     for (; i < 0x10; i++) {
@@ -3369,7 +3369,7 @@ void func_80039300(void) {
 
 INCLUDE_ASM("asm/nonmatchings/800_c", func_80039308);
 
-extern s32 D_80073140[];
+extern s32 D_80073140[][1];  /* [][1] spelling: load-bearing for func_800391D4 (S79 lever; §500-I) */
 extern u8 *D_800762B0;
 extern s32 D_800C7D20;
 extern u8 D_800762B4[];
@@ -3493,7 +3493,7 @@ void func_80039F14(u8 *arg0, s16 arg1, u8 arg2) {
 }
 
 extern void func_80039C70(u8 *arg0, s16 arg1, s16 arg2);   /* §376: matches the definition */
-extern void func_80039DEC(void *arg0, s16 arg1, u8 arg2);
+extern void func_80039DEC();  /* no-proto (§376/§495): the definition is K&R with narrow params — a narrow-typed prototype is incompatible */
 
 void func_80039F50(u8 **a0, s16 a1)
 {
