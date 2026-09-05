@@ -6788,7 +6788,38 @@ void func_8017D838(s32 a0) {
    halfword at +2 of the object the word at +100 points to, calls func_80178BF8
    with no arguments, and returns the ADDRESS of func_80172710 in $v0. */
 
-INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017D878);
+#include "common.h"
+
+struct Vec;
+
+extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern void func_8012BD14(s32 a0);
+extern void func_80172710(void);
+extern void func_80178BF8();
+
+s32 func_8017D878(s32 arg0)
+{
+    extern u8 D_801202A0[];
+    u8 *p;
+    s32 i;
+    s32 v1;
+
+    if (((s32 (*)(s32))func_8012BD14)(*(s32 *)(arg0 + 0x64)) >= 0x1001) {
+        return 0;
+    }
+    for (i = 0, p = D_801202A0; i < 0x60; i++, p += 0x10C) {
+        if (*(u16 *)p == 0x224) {
+            if (((s32 (*)(s32, s32))func_8012BC60)(arg0 + 4, (s32)(p + 4)) < 0x1000) {
+                return 0;
+            }
+        }
+    }
+    v1 = *(s32 *)(arg0 + 0x64);
+    *(s16 *)(v1 + 2) = 2;
+    /* zero-arg call: target jal carries no argument setup */
+    ((void (*)())func_80178BF8)();
+    return (s32)func_80172710;
+}
 
 
 extern s32 func_8012C044(s32 a0);
