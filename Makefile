@@ -668,7 +668,10 @@ OTHER_BINS := $(filter-out $(BINARY),$(BINARIES))
 ASM_PRUNE  := $(foreach b,$(OTHER_BINS),$(if $(filter $(ASM_DIR)/%,$($(b)_ASM_DIR)),-not -path '$($(b)_ASM_DIR)/*'))
 SRC_PRUNE  := $(foreach b,$(OTHER_BINS),$(if $(filter $(SRC_DIR)/%,$($(b)_SRC_DIR)),-not -path '$($(b)_SRC_DIR)/*'))
 ASM_SRCS := $(shell find $(ASM_DIR) -name '*.s' -not -path '$(ASM_DIR)/nonmatchings/*' $(ASM_PRUNE) 2>/dev/null)
-C_SRCS   := $(shell find $(SRC_DIR) -name '*.c' $(SRC_PRUNE) 2>/dev/null)
+# -not -name '.*': a tool's LIVE dotfile probe (masked_diff's src/.masked_diff_probe.<pid>.c, written and deleted
+# within one process) must never enter the object list — it was present at parse time and gone at compile time,
+# and gate_main's clean rebuild died on "No rule to make target build/src/.masked_diff_probe.N.o" (P32 S83).
+C_SRCS   := $(shell find $(SRC_DIR) -name '*.c' -not -name '.*' $(SRC_PRUNE) 2>/dev/null)
 OBJS     := $(ASM_SRCS:%.s=build/%.o) $(C_SRCS:%.c=build/%.o)
 
 # Header-dependency tracking (Phase 15): now that shared headers (src/shared/*.h, common.h)
