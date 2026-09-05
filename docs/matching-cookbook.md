@@ -36657,3 +36657,37 @@ R53) → commit.
 **State after #10:** the tree's verbatim set == the manifest's five PERMANENT rows, RATIFIED in its `_README`;
 `ov_SC03_107` is 100% C; the open-stub census is unchanged at 21 (both functions went verbatim → stub → C in one
 session), but the S79 close had been ONE bank overstated.
+
+#### §496 ★★ — A CARRIED-TYPE TEST THAT ASSUMES THE OVERLAY INCLUDE SET SILENTLY DROPS A RESIDENT TYPEDEF (P32 T1a; byte-proven, resident `func_800D128C` isolation)
+
+**The refusal.** `jr_isolate_all resident --only func_800D128C` (dry-run CLEAN) wrote a clean 3-region split, and
+`make build BINARY=resident` died in BOTH new region TUs: `parse error before cdFileLocTable` at every
+`extern CdFileLoc cdFileLocTable[];` (file-scope and block-scope — `D_800D3764`/`D_800D3768` too). The
+`sha1sum` of `build/resident/resident` still read `8e17e02f…` == the check file — the PREVIOUS binary on disk
+(R53: read the exit code, never the file). The carried decl layer had carried `P_TAG_800CFAD0`, `BYTES_800CFAD0`
+and `Struct80078E78` (all later in region 0) but not `typedef struct { s32 word0; s32 word4; } CdFileLoc;`.
+
+**The mechanism.** `_file_scope_decls` skips carrying any file-local type whose name the SHARED headers define
+("never re-emit one engine_types.h already has" — the §321 redefinition guard), testing against
+`_engine_types()` = engine_types.h + common.h. That guard is correct for an overlay region, whose header
+`#include`s `../shared/engine_core.h` → engine_types.h. It is wrong for the RESIDENT (and every `md_*`
+module and main TU), whose header includes only `common.h`: `CdFileLoc` sits in engine_types.h:1766
+(lifted from an overlay long ago), so the resident's own typedef was judged redundant and dropped into
+regions that never see engine_types.h. The tool's comment even said "every region `#include`s
+engine_core.h at its top" — true of the class it was written for, an assumption for the others (R35).
+
+**The fix (tool, not hand-patch — R43/R33).** `_provided_types(header)` derives the provided set from the
+TU's OWN `#include "…"` lines: `engine_core.h` ⇒ engine_types.h + common.h (engine_core.h itself is NOT
+scanned — its typedefs live inside `DEFINE_func_*()` macro bodies and reach a region only where that macro
+is invoked; the first draft of the fix scanned it and the R39 control caught 10 phantom "types" named
+`L`, `arg`, `buf`, `sp10`…); `common.h` ⇒ common.h only. `_file_scope_decls(items, provided)` uses that set
+at both decision points (the hoist predicate `known` and the "already provided" skip). Controls: an overlay
+header yields exactly the legacy set (1,197 names, byte-for-byte the old behaviour for every overlay carve
+ever run); the resident header's set is 15 names without `CdFileLoc`; the resident split then builds
+byte-identical with the typedef carried into both regions.
+
+**Tell + generalization.** `parse error before <symbol>` at an `extern <Type> <symbol>` line in a freshly
+isolated region = a type the carrier believed the headers provide. Ask WHICH headers this TU includes
+before believing any "the header has it" guard; the resident/md_/main TUs are the `common.h`-only class.
+Same class as §323 (attributes hid the name) and §321 (re-emission): the carrier's blind spots are always
+"a type-name recogniser or a provenance assumption", never the C.

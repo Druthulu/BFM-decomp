@@ -5124,6 +5124,6 @@ ov_SC03_107_UNDEF_SYMS  := build/ov_SC03_107/undefined_syms_auto.txt
 ov_SC03_107_UNDEF_FUNCS := build/ov_SC03_107/undefined_funcs_auto.txt
 
 # --- resident (engine blob) — §8e jtbl pad spec for the 0x450e0..0x451ac .rodata carve ---
-build/src/resident/resident.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x3c,+0xb4
+build/src/resident/resident_jr_800D00E4.o: JTBL_PADS := 0,0,0  # §8e pads (jtbl_carve.py) tables=+0x0,+0x3c,+0xb4
 # --- resident (engine blob) — §8f leading-rodata sandwich: rodata(hdr) -> text -> data -> rodata(carve) -> data ---
-resident_JTBL_INTERLEAVE := --pre hdr.rodata.o --order tail.data.o,resident.o,tail2.data.o  # Phase-26 §8 jtbl-rodata carve
+resident_JTBL_INTERLEAVE := --pre hdr.rodata.o --order tail.data.o,resident_jr_800D00E4.o,tail2.data.o  # Phase-26 §8 jtbl-rodata carve

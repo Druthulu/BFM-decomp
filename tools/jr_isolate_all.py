@@ -382,6 +382,7 @@ def build_new_config(ov, p):
             continue
         srcpath = os.path.join(REPO, f"src/{ov}/{nm}.c")
         header, regions = _partition(srcpath, cuts, syms)
+        provided = _provided_types(header)   # the types THIS TU's includes supply (P32 T1a)
         # region 0 (lo=None) keeps the object name; each jr-led region -> _jr_<lo>. Regions are
         # processed in address order, accumulating this object's file-scope decls as `ambient` so
         # each region carries the decl context it had in the original single object.
@@ -412,7 +413,7 @@ def build_new_config(ov, p):
             body = _render_region(header, items, old_sub=nm, new_sub=sub, ambient=ambient,
                                   syms=syms, obj_start=s)
             new_files[os.path.join(REPO, f"src/{ov}/{sub}.c")] = body
-            ambient = ambient + _file_scope_decls(items)      # context for later regions
+            ambient = ambient + _file_scope_decls(items, provided)   # context for later regions
             # EVERY already-banked jr that now falls in this region must have its `.rodata` carve
             # repointed to `sub` — not just one that LEADS it. A cut placed BELOW an already-banked jr
             # MOVES that jr into the new region, so its C-emitted jump table is linked into the new
@@ -591,37 +592,81 @@ _BASE_TYPE = re.compile(
 _ENGINE_TYPES = None
 
 
+def _header_types(paths):
+    """Every type name the given header files define — the same recognisers the carried-type test has
+    always used (typedef struct {...} X; attribute-between-brace-and-name; plain typedefs; bare tags;
+    body-defined tags; fn-ptr typedefs)."""
+    names = set()
+    for h in paths:
+        p = os.path.join(REPO, h)
+        if not os.path.exists(p):
+            continue
+        t = open(p, errors="replace").read()
+        names |= set(re.findall(r'\}\s*([A-Za-z_]\w*)\s*;', t))              # typedef struct {...} X;
+        # `} __attribute__((packed, aligned(1))) X;` — the lifted Block4/Blk4_E960 shape (P31 S62): the
+        # attribute sits between the brace and the name, so the pattern above never saw them.
+        names |= set(re.findall(r'\}\s*__attribute__\s*\(\(.*?\)\)\s*([A-Za-z_]\w*)\s*;', t))
+        names |= set(re.findall(r'^\s*typedef\s+[^;{}]*?\b([A-Za-z_]\w*)\s*;', t, re.M))
+        names |= set(re.findall(r'^\s*(?:struct|union|enum)\s+([A-Za-z_]\w*)\s*;', t, re.M))
+        # ...and the same TAGS defined WITH A BODY (`struct PW8017E6D8 { int w; };`). The
+        # forward-decl pattern above only catches `struct X;`, and the `}\s*X;` pattern above
+        # catches `typedef struct {...} X;` — a plain tagged definition matches NEITHER, so its
+        # tag was absent from _ENGINE_TYPES and any `extern struct X D_…;` failed the
+        # carried-type test. Phase 29 SESSION-19: that is what blocked the func_8017C954 carve
+        # (`extern struct PW8017E6D8 D_801E1EC4;`, and PW8017E6D8 sits at engine_types.h:658).
+        # Measured blast radius: 77 such tags in engine_types.h were invisible to this check.
+        names |= set(re.findall(r'^\s*(?:struct|union|enum)\s+([A-Za-z_]\w*)\s*\{', t, re.M))
+        # fn-ptr typedefs — the name sits INSIDE the parens (`typedef void (*ActorFn)(void);`), so
+        # every name-before-';' pattern above misses it. Measured: exactly the 5 residual drops
+        # (ActorFn, FuncPtr, DispatchFn, VoidFn, code_fn). Without this the coverage assertion below
+        # would fire on legitimate input.
+        names |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', t))
+    return names
+
+
+_PROVIDED_CACHE = {}
+
+
+def _provided_types(header):
+    """The type names THIS TU's own `#include` lines actually supply (P32 T1a fix, R33).
+
+    The carried-type test used to consult `_engine_types()` — engine_types.h + common.h — for EVERY
+    TU, on the assumption that every region `#include`s engine_core.h -> engine_types.h. Overlays do;
+    the RESIDENT, the md_* modules and main's TUs include only `common.h`. So a resident file-local
+    typedef whose NAME engine_types.h also defines (`CdFileLoc`, lifted from an overlay long ago) was
+    silently NOT carried ("the shared headers already define it") into regions that never include
+    those headers -> `parse error before cdFileLocTable` in both new region TUs (P32 T1a, resident
+    func_800D128C isolation). Derive the provided set from the header's include lines instead."""
+    incs = re.findall(r'^\s*#\s*include\s+"([^"]+)"', header or "", re.M)
+    paths = []
+    for inc in incs:
+        b = os.path.basename(inc)
+        if b == "engine_core.h":
+            # engine_core.h itself is NOT scanned: its typedefs live INSIDE `DEFINE_func_*()` macro
+            # bodies and reach a region only where that macro is invoked. What every includer gets at
+            # file scope is what engine_core.h #includes — engine_types.h + common.h (the legacy set).
+            paths += ["src/shared/engine_types.h", "include/common.h"]
+        elif b == "engine_types.h":
+            paths += ["src/shared/engine_types.h", "include/common.h"]
+        elif b == "common.h":
+            paths += ["include/common.h"]
+        else:
+            for cand in (f"include/{inc}", f"src/shared/{b}", f"include/{b}"):
+                if os.path.exists(os.path.join(REPO, cand)):
+                    paths.append(cand)
+                    break
+    key = tuple(sorted(set(paths)))
+    if key not in _PROVIDED_CACHE:
+        _PROVIDED_CACHE[key] = _header_types(key)
+    return _PROVIDED_CACHE[key]
+
+
 def _engine_types():
-    """Every type name the SHARED headers provide (engine_types.h / common.h). These are include-provided
-    in every region — a decl naming one is safe to hoist with no carried typedef at all."""
+    """Every type name the SHARED headers provide (engine_types.h / common.h) — the OVERLAY case, kept for
+    callers that have no TU header in hand. Region carrying uses `_provided_types(header)` (above)."""
     global _ENGINE_TYPES
     if _ENGINE_TYPES is None:
-        names = set()
-        for h in ("src/shared/engine_types.h", "include/common.h"):
-            p = os.path.join(REPO, h)
-            if not os.path.exists(p):
-                continue
-            t = open(p, errors="replace").read()
-            names |= set(re.findall(r'\}\s*([A-Za-z_]\w*)\s*;', t))              # typedef struct {...} X;
-            # `} __attribute__((packed, aligned(1))) X;` — the lifted Block4/Blk4_E960 shape (P31 S62): the
-            # attribute sits between the brace and the name, so the pattern above never saw them.
-            names |= set(re.findall(r'\}\s*__attribute__\s*\(\(.*?\)\)\s*([A-Za-z_]\w*)\s*;', t))
-            names |= set(re.findall(r'^\s*typedef\s+[^;{}]*?\b([A-Za-z_]\w*)\s*;', t, re.M))
-            names |= set(re.findall(r'^\s*(?:struct|union|enum)\s+([A-Za-z_]\w*)\s*;', t, re.M))
-            # ...and the same TAGS defined WITH A BODY (`struct PW8017E6D8 { int w; };`). The
-            # forward-decl pattern above only catches `struct X;`, and the `}\s*X;` pattern above
-            # catches `typedef struct {...} X;` — a plain tagged definition matches NEITHER, so its
-            # tag was absent from _ENGINE_TYPES and any `extern struct X D_…;` failed the
-            # carried-type test. Phase 29 SESSION-19: that is what blocked the func_8017C954 carve
-            # (`extern struct PW8017E6D8 D_801E1EC4;`, and PW8017E6D8 sits at engine_types.h:658).
-            # Measured blast radius: 77 such tags in engine_types.h were invisible to this check.
-            names |= set(re.findall(r'^\s*(?:struct|union|enum)\s+([A-Za-z_]\w*)\s*\{', t, re.M))
-            # fn-ptr typedefs — the name sits INSIDE the parens (`typedef void (*ActorFn)(void);`), so
-            # every name-before-';' pattern above misses it. Measured: exactly the 5 residual drops
-            # (ActorFn, FuncPtr, DispatchFn, VoidFn, code_fn). Without this the coverage assertion below
-            # would fire on legitimate input.
-            names |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', t))
-        _ENGINE_TYPES = names
+        _ENGINE_TYPES = _header_types(("src/shared/engine_types.h", "include/common.h"))
     return _ENGINE_TYPES
 
 
@@ -639,7 +684,7 @@ def _strip_attrs(block):
     return _ATTR.sub(' ', block)
 
 
-def _file_scope_decls(items):
+def _file_scope_decls(items, provided=None):
     """[(line, [syms])] for every decl that stood at FILE SCOPE in the original TU, in item
     order. TWO sources — the second is the §8b scoping-wall fix:
 
@@ -672,7 +717,9 @@ def _file_scope_decls(items):
             for a, b in re.findall(r'\}\s*([A-Za-z_]\w*)\s*;|\b(?:struct|union|enum)\s+([A-Za-z_]\w*)', block):
                 carried.add(a or b)
             carried |= set(re.findall(r'typedef\s+[^;{}]*?\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\([^;]*\)\s*;', block))
-    known = carried | _engine_types()
+    if provided is None:                                  # legacy callers: the overlay assumption
+        provided = _engine_types()
+    known = carried | provided
 
     out, dropped = [], []
     # A CARRIED TYPE MAY BE EMITTED ONCE PER REGION, NOT ONCE PER ITEM (P31 S67, cookbook §321).
@@ -713,7 +760,7 @@ def _file_scope_decls(items):
             # `struct sprite8` is engine_types.h:417, and the carry emitted it again into
             # ov_SC02_000_jr_80187B40.c. _engine_types() already recognises body-defined tags (the
             # SESSION-19 PW8017E6D8 fix); nothing was ever consulting it on this path.
-            if names <= _engine_types():
+            if names <= provided:      # P32 T1a: the TU's OWN includes, not the overlay assumption
                 continue
             key = tuple(sorted(names))
             body = _norm_body(block)
