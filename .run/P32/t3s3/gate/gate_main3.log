@@ -1,0 +1,47 @@
+slate 1 -> 1 compatible, 0 dropped for in-TU decl conflict
+
+BUILD FAILED (no binary produced). Error lines from the build:
+    make: *** No rule to make target 'build/src/.masked_diff_probe.3973390.o', needed by 'build/us/SLUS_007.26'.  Stop.
+    make: *** Waiting for unfinished jobs....
+    src/800_c.c:2855: warning: type mismatch with previous implicit declaration
+    src/800_c.c:2544: warning: previous implicit declaration of `func_80038908'
+    src/800_c.c:2855: warning: `func_80038908' was previously implicitly declared to return `int'
+    src/800.c:630: warning: type mismatch with previous implicit declaration
+    src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
+    src/800.c:686: warning: type mismatch with previous implicit declaration
+    src/800.c:683: warning: previous implicit declaration of `func_80013028'
+    src/800.c:1739: warning: type mismatch with previous implicit declaration
+    src/800.c:1659: warning: previous implicit declaration of `func_800143AC'
+    src/800.c:1739: warning: `func_800143AC' was previously implicitly declared to return `int'
+    src/800.c:1783: warning: type mismatch with previous implicit declaration
+    src/800.c:1660: warning: previous implicit declaration of `func_80014444'
+    src/800.c:1783: warning: `func_80014444' was previously implicitly declared to return `int'
+    src/800.c:1850: warning: type mismatch with previous implicit declaration
+    src/800.c:1662: warning: previous implicit declaration of `func_80014588'
+    src/800.c:1850: warning: `func_80014588' was previously implicitly declared to return `int'
+    src/800.c:2013: warning: type mismatch with previous implicit declaration
+    src/800.c:1654: warning: previous implicit declaration of `func_80014928'
+    src/800.c:2013: warning: `func_80014928' was previously implicitly declared to return `int'
+    src/800.c:2576: warning: type mismatch with previous implicit declaration
+    src/800.c:1663: warning: previous implicit declaration of `func_80015310'
+    src/800.c:2576: warning: `func_80015310' was previously implicitly declared to return `int'
+    src/800.c:2601: warning: type mismatch with previous implicit declaration
+    src/800.c:2597: warning: previous implicit declaration of `func_800153A4'
+    src/800.c:2601: warning: `func_800153A4' was previously implicitly declared to return `int'
+    src/800.c:2619: warning: type mismatch with previous implicit declaration
+    src/800.c:2615: warning: previous implicit declaration of `func_80015424'
+    src/800.c:2619: warning: `func_80015424' was previously implicitly declared to return `int'
+    src/800.c:4141: warning: type mismatch with previous implicit declaration
+    src/800.c:4108: warning: previous implicit declaration of `func_80016A7C'
+    src/800.c:4141: warning: `func_80016A7C' was previously implicitly declared to return `int'
+    src/800.c:4572: warning: type mismatch with previous implicit declaration
+    src/800.c:4470: warning: previous implicit declaration of `func_80016F18'
+    src/800.c:4572: warning: `func_80016F18' was previously implicitly declared to return `int'
+    src/800.c:4755: warning: type mismatch with previous implicit declaration
+    src/800.c:4706: warning: previous implicit declaration of `func_80017294'
+    src/800.c:4755: warning: `func_80017294' was previously implicitly declared to return `int'
+    src/800.c:4844: warning: type mismatch with previous implicit declaration
+
+batch FAILED (sha None); bisecting
+
+BANKED 1 of 1 after bisection in 1 rebuild(s) -- 143dbb89f34491258bbc27810d0a12ec8b43a8dd BYTE-IDENTICAL
