@@ -36417,3 +36417,45 @@ by `(binary, fn)` — the same defect class as R48's three collisions.
 
 Net: 3 banks, 2 reclassified, 0 tokens; stubs 35 → 32.
 
+#### §493 ★★ — THE PERMUTER ROUTE END-TO-END, AND THE THREE PLUMBING STEPS BETWEEN A SCORE-0 WINNER AND THE MAIN GATE (P31 S79 #8)
+
+**What the class was.** Six D-NEAR stubs (closeness 3–16) with agent journals naming the residual's gcc pass.
+The S78 brief's rule — "a NEAR whose journal cites a gcc pass + file:line is a wall-proof candidate, not a
+redraft" — held for two of them and was wrong for one: `main:func_80015760` (106 ins, closeness 9, filed by
+the S76 agent as "a genuine sched1 basic-block ordering artifact, verified via RTL dumps") fell to the local
+permuter in its FIRST 150-second cycle (`permuter_ils.py … --klass SCHEDULE --cycles 8 --secs 150 --j 6`,
+seeded from the journal's best draft `.run/wave_p31o/main/func_80015760.c`). A sched1 residual is a
+statement-order residual, and statement order is exactly what the permuter mutates. Try the permuter before
+writing "wall" on anything the permuter can parse.
+
+**From winner to bank — three plumbing steps, every one of which the byte gate would otherwise report as
+"RED image".** A permuter winner (`.run/permuter-winners/<fn>.c`) is a self-contained compile unit:
+(1) it carries the permuter's typedef preamble (`u8`… and the `M2C_UNK*` family) — strip every `typedef`
+whose name `include/common.h` already defines, or the real TU dies on "redefinition of `u8`"; (2) its
+externs are the SEED's guesses — `gate_main` names the clash (`D_800A5E60 kept=('u8*','') this=('s32','')`)
+and the fix is the TU's spelling plus a cast at the use (`D_800A5E60 = (u8 *) pkt;`); (3) the function's
+own forward decl and the TU's banked callees. The self decl is `cast_self_callers --sync-decls` (the TU's
+`extern void func_80015760(s32, s32)` became `extern void func_80015760();` + `((void (*)())func_80015760)(…)`
+at both call sites — proven byte-neutral and COMMITTED before the gate, S77 law). The callee was the subtle
+one: the seed declared `extern u16 *func_80015908(s32, u16)` and the TU DEFINES `s16 *func_80015908(s32, s32)`
+— adopting the TU's prototype turned the target's `andi $a1,$s6,0xFFFF` into a `move` (one instruction off);
+the original caller evidently saw a `u16` parameter, so the cast goes on the ARGUMENT: `func_80015908(tile,
+(u16) flags)` reproduces the `andi` under the TU's `s32` prototype. `rtu_match --split 800 --source main --tu
+src/800.c` (main's TUs are loose files; `--tu` is mandatory) confirms MATCH at each step before `gate_main
+--apply` spends a clean rebuild.
+
+**Two instrument corrections on the way.** `p16_permute.run_permuter` swallowed run_masked's stdout, so a
+seed the permuter's C parser refuses (`register u8 *a3 asm("$7")` — pins are not C to pycparser) reported
+"no waypoint (no improvement over base yet)" for 8 cycles in 20 seconds on `func_80038698`. It now prints
+`[permuter] REFUSED <fn>: Syntax error in base.c …` and leaves `PERMUTER_REFUSED.txt` in the scratch dir
+(positive-controlled). And `permuter_ils` seeds from a REGISTER-PINNED best draft cannot be permuted at all
+— the pinned 17→11 gain and the permuter are mutually exclusive on that function.
+
+**The ledger the class leaves (for the PhaseEnd):** `main:func_80011380` 192 — WALL, §474 PROVED (pinned
+S79). `main:func_80015608` 86 — permuter plateau at **1** (REGALLOC-PERM: target `addu $s3,$s6,$s3` where the
+best draft emits `sll $s3,$s6,1` — a copy-then-add spelling of `x*2`, agent-sized). `main:func_80039B20` 79 —
+permuter plateau at **7** (§461: the `$v0/$v1` tie + an early-scheduled re-read of `D_80073140[i]`; 17 + 8 ILS
+cycles). `main:func_80038698` 74 — best 11 (§ pins fix the interleave; the permuter refuses pins; sched1
+DAG-priority + local-alloc self-coalesce). `ov_SC03_105:func_801834A4` 106 — pinned WALL (S71, §148-A/§193-F,
+closeness 6 on four attempts).
+

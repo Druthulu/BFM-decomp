@@ -255,14 +255,26 @@ def setup(fn, draft_c, asm_subdir=ASM, klass=None, where=""):
 
 def run_permuter(pd, secs, j):
     env = dict(os.environ, PATH=f"{REPO}/tools/permuter/bin:" + os.environ["PATH"])
+    out = ""
     try:
         # run_masked.py = permuter.py + our floor-free relocation-masked scorer (Phase 24 T2, in-layer
         # rebind of src.main.Scorer; no submodule edit). Scores true masked-.text closeness (reaches 0)
         # instead of the stock mnemonic-diff floor that made the random walk diverge.
-        subprocess.run([PY, "tools/permuter/run_masked.py", pd, "-j", str(j), "--stop-on-zero"],
-                       cwd=REPO, env=env, capture_output=True, text=True, timeout=secs)
-    except subprocess.TimeoutExpired:
-        pass
+        r = subprocess.run([PY, "tools/permuter/run_masked.py", pd, "-j", str(j), "--stop-on-zero"],
+                           cwd=REPO, env=env, capture_output=True, text=True, timeout=secs)
+        out = (r.stdout or "") + (r.stderr or "")
+    except subprocess.TimeoutExpired as ex:
+        out = ((ex.stdout or b"") if isinstance(ex.stdout, (bytes, bytearray)) else (ex.stdout or ""))
+        out = out.decode(errors="replace") if isinstance(out, (bytes, bytearray)) else out
+    # A PARSER REFUSAL IS NOT "NO IMPROVEMENT" (R43; P31 S79 #8). The permuter's C parser (pycparser)
+    # rejects `register … asm("$7")` pins and a few other spellings; run_masked then prints
+    # "Syntax error in base.c" and exits at once, which this function used to swallow, so the ILS
+    # wrapper reported "no waypoint (no improvement over base yet)" for 8 cycles in 20 seconds on
+    # func_80038698 while nothing had been tried. Say so, loudly, and leave a marker next to the dir.
+    if "Syntax error" in out or "No perm macros found" in out and "Loading..." in out and "iteration" not in out and "score" not in out.lower():
+        msg = next((ln for ln in out.splitlines() if "Syntax error" in ln or "error" in ln.lower()), "permuter exited without iterating")
+        print(f"  [permuter] REFUSED {os.path.basename(pd)}: {msg.strip()} — nothing was permuted (fix the seed, e.g. drop register-asm pins)", flush=True)
+        open(os.path.join(pd, "PERMUTER_REFUSED.txt"), "w").write(out[-4000:])
     # Kill stragglers for THIS function only. The old pattern was `permuter/run_masked.py`, which
     # matches EVERY concurrent run — so two p16_permute processes on a 32-thread box silently killed
     # each other the moment the first one timed out, and the second's remaining budget vanished with
