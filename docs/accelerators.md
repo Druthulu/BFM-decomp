@@ -771,3 +771,9 @@ definition; a load-bearing `[][1]` extern vs the TU's `[]`). Copying the TU unde
 `src/shared` beside it, editing the declaration THERE and passing `--tu <copy>` to `rtu_match` reproduced every residual
 (1/2/3) with zero commits to `src/` — the byte-neutral TU edit is deferred to the day a row reaches closeness 0.
 Accelerator: `rtu_match --tu` accepts any path; a sandbox costs one `mkdir` + two symlinks.
+
+**(9) A lever that measures worse may be a cascade (P32 T4b, `func_800391D4`, §501).** The hand pass measured the right
+lever (explicit promotion before `off = 0`) at 18 and moved on; the agent's `.loop` dump showed the 18 was ONE hoist that the
+lever's -2 in-loop instructions had flipped past loop.c's desirability threshold, paid back with two more `__asm__("")` pads →
+MATCH. Accelerator: on any regression of a mechanism-grounded lever, diff the pass dumps for a second change before discarding
+the lever; treat `insn_count` pads as a dial that must be re-counted after every in-loop instruction change.

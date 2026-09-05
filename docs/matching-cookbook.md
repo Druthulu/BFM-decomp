@@ -37143,3 +37143,33 @@ and a build-instrument collision fixed at the consumer.**
   line; `exclude_audit --assert-fresh` 7/7. Unpinned candidate with a cited mechanism: `md_MAIN_003:func_800CF3E8` 27 (§500-H).
 * **Law.** A wall's CC1 FAIL in its TU is evidence about the TU's declaration environment, never about the body; re-probe
   before any verdict, and prefer a sandbox TU over a src/ edit when the row is not going to bank.
+
+#### §501 ★★★ — A LEVER THAT MEASURES WORSE MAY BE A CASCADE: READ THE `.loop` DUMP FOR THE DESIRABILITY FLIP BEFORE DISCARDING IT (P32 T4b, `main:func_800391D4`, a pinned wall banked by a Fable agent)
+
+**The row.** Pinned since S79 (closeness 3, "move_movables splices hoisted invariants after preheader flow code, so
+`off`'s init cannot follow arg1's hoisted sign-extend from C"); four attempts + permuter null; T4 re-probed 3 in a sandbox TU.
+**The S83 hand pass tried the obvious lever** — write the `s16` parameter's promotion as preheader SOURCE code
+(`a1v = arg1;` before `off = 0;`, compare against `a1v`) — measured **18** and recorded it as worse. It was the RIGHT lever.
+
+**What the 18 really was (the agent read `dumps/*.i.loop`).** Making the extend explicit moved its two insns OUT of the loop
+body: `Loop from 38 to 189: 59 real insns` → 57. `move_movables`' desirability test (loop.c:1631)
+`threshold * savings * lifetime >= insn_count` with `threshold = 2 * (1 + 28) = 58` (no call in the loop) flipped for the
+`lui/addiu D_800C6DD0` address (savings 1, lifetime 1): `58 < 59` "not desirable" became `58 >= 57` "moved" — +2 preheader
+insns and a register cascade. **Every one of the 18 rows was that single hoist.** The fix is to restore the knife-edge: the
+S79 draft's seven `__asm__("")` pads (each counts as a real insn for `insn_count`, emits nothing) become NINE. Then the
+preheader tail is the target's `sll $5,$5,16 / sra $5,$5,16 / move $8,$0`, and rtu_match MATCH 75/75 → `gate_main` BANKED.
+
+**Laws.**
+1. **When a mechanism-grounded lever regresses, do not trust the number — diff the `.loop`/`.greg` dump of the lever variant
+   against the seed and look for a SECOND change** (a hoist, a spill, a coalescing) that the lever triggered. Fix the second
+   change with its own zero-byte dial (pads for `insn_count`, a fence for a live range, a pin for an allocno) and re-measure.
+2. **`insn_count` is a dial and a knife-edge.** `__asm__("")` pads count as real insns for loop.c's threshold and emit nothing;
+   any source change that adds or removes in-loop instructions (hoisting a promotion, folding a temp) must be paid for by
+   re-counting the pads so the SAME movables stay un-hoisted. The S79 seed had already discovered the pads; the S83 hand pass
+   did not re-count them after moving the extend.
+3. **A `register … __asm__("$N")` pin on the loop counter keeps it from being a biv** (loop.c:3572: hard regs are not bivs), so
+   `D[i]` is never a giv — the target's per-iteration `sll/lui/addu/lw` survives. Keep such pins when the target shows an
+   un-strength-reduced index.
+4. The verdict chain for a wall row: hand pass names the mechanism (done S83), the agent reads the dump the hand pass did not
+   (the `.loop` desirability lines), and the byte gate decides. Cost: one Fable agent, two interruptions by usage limits, the
+   draft written before the first crash — recovered from `.run/P32/t5x/fable/` (write deliverables EARLY, R55).
