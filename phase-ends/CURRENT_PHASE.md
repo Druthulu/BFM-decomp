@@ -48,20 +48,19 @@ Scale estimate: 3–5 sessions.
       closeness-0 draft `.run/S71_gate14/resident/func_800D128C.c` in the new region TU → `parallel_gate --r22`
       (carves `jtbl_80113FB8` + `jtbl_80114198`; `pads_audit` after) → in-tree build exit code → commit →
       `twin_rescan`. TU refusal → §376/§378 chain as a byte-neutral plumbing commit BEFORE re-gating.
-- [ ] **T1b — ov_SC02_017: rename the `Rec801806C8_s` tag, split, remap the twin, bank `func_80186C64` (209)**
-      (Max/xHigh): byte-neutral tag rename in `src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c` (:4314/:4319; keep the
+- [x] **T1b — ov_SC02_017: split + remap the twin, bank `func_80186C64` (209)** — DONE 2026-09-05: BANKED byte-identical `c0253499…` (`commit:3903` carrier §497 fix — NO source rename needed · `commit:3906` split · `commit:3907` bank); 0 drafting tokens; four §376 TU spellings + one TU-provided typedef stripped. Original brief (Max/xHigh): byte-neutral tag rename in `src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c` (:4314/:4319; keep the
       typedef name) → build sha-unchanged → commit → `jr_isolate_all ov_SC02_017 --only func_80186C64` (dry-run
       REFUSED on the conflict 2026-09-05; expect CLEAN after the rename) → extract/build byte-neutral → commit carve
       state → `family_remap --addr 0x801810C8 --from ov_SC02_016 --to ov_SC02_017 --to-addr 0x80186C64` (d=2
       RELOC-ONLY twin; source `src/ov_SC02_016/ov_SC02_016_jr_801810C8.c:2839`) → strip typedefs the TU already
       defines (§491 gap 2) → `rtu_match` → `parallel_gate --r22` → commit → `twin_rescan`.
-- [ ] **T1c — md_MAIN_034: redraft + bank `func_800CB00C` (123)** (Max/xHigh; one Sonnet agent): pack via
+- [x] **T1c — md_MAIN_034: bank `func_800CB00C` (123)** — DONE 2026-09-05: BANKED byte-identical `46153c06…` (`commit:3908`) from the STORED S72 body `.run/O21/opus/func_800CB00C.c` (rtu MATCH 123/123; the census's best_draft was a name-collided WRONG file, R48/R38) — NO agent; WALL pin dropped (exclude 8→7); backlog 18→17. **R22 after the T1b+T1c batch: check-all 213 passed / 0 failed, rc 0** (`.run/P32/t1b/r22.log`). Original brief: pack via
       `claude_wave_packs` (the stored 174-ins draft is WRONG, not a seed; §494 jtbl idioms) → verbatim grep →
       `rtu_match --split md_MAIN_034 --source md_MAIN_034` → `parallel_gate` (island pads derive at build, §303)
       → commit → `twin_rescan`; drop the `md_MAIN_034:func_800CB00C` pin (`exclude_audit --write`).
       **Progress report to Drew after T1c.**
 - [ ] **T2 — the parked 5** (Max):
-  - [ ] **T2a** `tools/payload_base_evidence.py` (id word, first prologue → TEXT_LO, abs-pointer window, lui
+  - [x] **T2a** — DONE 2026-09-05 (`commit:3909`): controls 7/7 (5 STRONG, 2 CONSISTENT; TEXT_LO estimates == yaml); the five: MAIN/7 STRONG 0x800CEDF8 · MAIN/9 STRONG 0x800CD348 · SC03/53, /54 CONSISTENT top 0x801EF468 (12-way tie) · SC03/56 SPLIT (jal vote 0x80178C8C vs ptrs/lui ~0x801CBB50); memory-map §S45 p7; SETUP row. Brief: `tools/payload_base_evidence.py` (id word, first prologue → TEXT_LO, abs-pointer window, lui
         hi-half histogram, `jal` self-consistency per candidate base, DESTPTR lookup in the window from
         `.run/idxtab_map.json`) — R39 controls: must re-derive md_MAIN_008/011 (0x800CEDF8), md_MAIN_042
         (0x800CCB1C), md_MAIN_013 (0x800CAE08), md_SC03_073 (0x801EF468) from their payloads alone; refuses a
@@ -120,12 +119,13 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
 
 ## Log
 - 2026-09-05 — gate 1 approved; T0 opened at HEAD `commit:3900`.
+- 2026-09-05 — **T1b + T1c DONE (R22 213/213 rc 0 for the batch) · T2a DONE.** Both banks were ZERO-token: T1b's body came from `family_remap` of the d=2 twin (+ four TU spellings), T1c's from a stored S72 body the census had mis-keyed (R48) — the journals (R38) named both. Census 21 → **18 stubs** (resident 1 · main 12 · md_MAIN_003 1 · ov_SC03_105 2 · ov_SC06_022 1 · ov_SC07_002 1). T2a's instrument gives every parked payload a bounded probe list; two are STRONG.
 - 2026-09-05 — **T1a DONE — `resident:func_800D128C` BANKED (243 ins, byte-identical 8e17e02f, R22 213/213).** The stored S71 closeness-0 draft was byte-correct all along; the whole task was three instrument defects the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed in overlay-only assumptions: (1) `jr_isolate_all` dropped a file-local typedef whose name engine_types.h also defines (§496 — fixed: provided types derived from the TU's own includes); (2) `jtbl_carve` regenerated `JTBL_INTERLEAVE` without the `--pre hdr.rodata.o` clause → extract refused → the gate linked a stale script and booked the byte-correct draft as DIFF; `harvest_verify` ignored that extract's rc (§498 — both fixed, R49/R61); (3) `interleave_check` read a `--pre` line as n=0 (false DRIFT; fixed). R38 then found two more stored MATCH bodies for T1b/T1c (see their rows). Effort stayed Max.
 - 2026-09-05 — **T0 DONE.** Baseline reads all green (`.run/P32/t0_baseline.log`): `verbatim_check --strict` 5 bodies == 5 rows; `exclude_audit --assert-fresh` 8 entries, 8 WALL, 0 stale; `frontier_classify` → 21 rows = the S80 census exactly; `make tools-health` OK (sigs fresh, corpus(+resident), cdecl, audit-binaries 213/213, report lint+dedup, cookbook-index, split_indicator 213 OK); `make check-all` 213 passed / 0 failed, rc 0. Harness task list #1–#11 built (R28). NEXT = T1a.
 
 ## 🛑 SESSION CHECKPOINT — T0 CLOSED (2026-09-05)
 Written for a FRESH SESSION with none of this context. Phase 32 plan approved (gate 1, Drew, 2026-09-05, Max,
-Fable 5.1); rules R44–R63 ratified. **T0 + T1a DONE (T1a: resident func_800D128C BANKED, R22 213/213). NEXT = T1b (task #3) — the carrier fix is committed (`commit:3903`); the twin-remap draft `.run/P32/t1b/drafts/func_80186C64.c` is being reconciled to the TU's spellings (§376: func_8012A828/D_801E0F44 done, func_80131E00/func_80185F88 next) before the isolate + gate. T1c (task #4) needs NO agent: `.run/O21/opus/func_800CB00C.c` and `.run/S75/redraft/func_800CB00C.c` are BOTH rtu_match MATCH 123/123 in the real md_MAIN_034 TU — splice + gate, then drop the WALL pin.** Effort **Max** for
+Fable 5.1); rules R44–R63 ratified. **T0, T1a, T1b, T1c, T2a DONE — 3 banks (resident func_800D128C · ov_SC02_017 func_80186C64 · md_MAIN_034 func_800CB00C), census 21 → 18, fleet 213/213 after each batch. NEXT = T2b (task #6): `new_binary.sh` probes in memory-map §S45 p7's order (MAIN/7 @0x800CEDF8 TEXT_LO 0x34 first; A4: the boot slot omits symbols.resident.txt). Superseded detail follows:** NEXT = T1b (task #3) — the carrier fix is committed (`commit:3903`); the twin-remap draft `.run/P32/t1b/drafts/func_80186C64.c` is being reconciled to the TU's spellings (§376: func_8012A828/D_801E0F44 done, func_80131E00/func_80185F88 next) before the isolate + gate. T1c (task #4) needs NO agent: `.run/O21/opus/func_800CB00C.c` and `.run/S75/redraft/func_800CB00C.c` are BOTH rtu_match MATCH 123/123 in the real md_MAIN_034 TU — splice + gate, then drop the WALL pin.** Effort **Max** for
 T0–T2 (see the Effort block). Census at open (= S80, unchanged): **21 stubs / 4,554 ins** — main 12 (2,077) ·
 resident 2 (587) · md_MAIN_003 1 (469) · md_MAIN_034 1 (152) · ov_SC02_017 1 (209) · ov_SC03_105 2 (595) ·
 ov_SC06_022 1 (119) · ov_SC07_002 1 (346); B-CARVE 4 / D-NEAR 10 / F-FAR 7 (`docs/frontier-p32.md` §1 has every
