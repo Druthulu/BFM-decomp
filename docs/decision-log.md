@@ -3201,3 +3201,49 @@ were spent on #10's two functions: the C existed (or was seven calls); the cost 
 **Hindsight.** Run `verbatim_check --strict` in the per-bank close, not only at tools-health; never let a ledger's
 `best_draft` be an `__asm__` body (R48's cousin: a draft keyed by name with no "is this C?" check); and read a permuter
 waypoint's diff before recording its score.
+
+## P32 S81 (2026-09-05) — three zero-token banks and the parked five onboarded: every blocker was an instrument or a mis-keyed ledger
+
+### Context and belief going in
+Phase 32 opened on `docs/frontier-p32.md`: 21 stubs, four of them "B-CARVE" (a jump-table carve the tooling refused), and
+five disc payloads parked as static-RE targets whose loaders "are individual + condition-gated". The plan costed the carve
+class as tooling work, the md_MAIN_034 row as a Sonnet redraft (its best draft was "wrong-sized"), and the parked five as a
+static-RE session that might need the Ghidra MCP.
+
+### What actually happened
+* **resident `func_800D128C`** — the stored S71 draft was byte-correct all along. Three instruments stood in front of it,
+  each an overlay-only assumption the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed:
+  the isolation carrier dropped a typedef whose name engine_types.h also defines (§496); the carve tool regenerated
+  `JTBL_INTERLEAVE` without `--pre hdr.rodata.o`, the extract refused, and the gate linked a STALE script and booked
+  the draft as DIFF because `harvest_verify` never read the extract's exit code (§498); `interleave_check` read the
+  `--pre` line as n=0. Fixed all three; banked.
+* **ov_SC02_017 `func_80186C64`** — the "rename needed" refusal was the carrier keying a bodiless
+  `typedef struct Tag Alias;` by the TAG (§497); with the alias key the split was CLEAN with no source change, and the
+  d=2 twin remapped in one `family_remap` call plus four TU spellings the real-TU check named (§376).
+* **md_MAIN_034 `func_800CB00C`** — the census's best draft was a DIFFERENT function's file under the same bare name
+  (R48); the journal (R38) named the real one, `rtu_match` said MATCH 123/123, and the S72 resolver had gated only the
+  wrong file three times. The S68 "compiler wall" pin labelled that wrong draft. Banked; pin dropped.
+* **The parked five** — a static header probe (`payload_base_evidence.py`, §499) pinned MAIN/7 and MAIN/9 by their
+  self-calls (9/9, 6/6 on their own function starts) and SC03/53/54 by their fn-ptr tables (0x801EF468); SC03/56's
+  vote base was a shared-engine coincidence caught by asking whether its targets were overlay functions. All five
+  onboarded on the first candidate; fleet 213 → 218; the parked ledger is empty.
+
+### The measurements that settle each one
+Byte-identical builds: resident `8e17e02f…`, ov_SC02_017 `c0253499…`, md_MAIN_034 `46153c06…`; R22 213/213 after each
+batch. Instrument controls: carrier provided-types (overlay set identical, 1,197 names; resident set lacks `CdFileLoc`);
+`_merge_pre` 4 shapes; evidence tool 7/7 banked modules re-derive their bases. **The first-build byte check is base-
+lenient:** MAIN/7 at +8 builds byte-identical, at +0x1000 fails the link — so the §S44 corroboration never proved an
+address, only its class.
+
+### The shape they share
+Six defects, one shape: a tool written for the overlay class met the resident/module class and stayed silent (a
+dropped typedef, a dropped `--pre`, an ignored exit code, an n=0 parse, a tag/alias namespace collapse) — and a ledger
+keyed by bare name pointed a redraft at the wrong file. R40 (exonerate the instrument) and R38 (read the recorded
+verdicts) converted a planned agent redraft and a planned static-RE session into zero-token banks. R39 (negative-control
+a new checker) caught the evidence tool's own two false scorers before they shipped.
+
+### Cost, and the hindsight path
+~0 drafting tokens for three banks and five onboardings; the cost was the diagnosis. Sooner: the `frontier-p32.md`
+routes should have carried each row's JOURNAL verdict (R38) next to its best-draft path — two of its three "draft"
+routes were already MATCH; and the §S45 p6 "onboard at 0x801EF468 and let the first build decide" step should have run
+in P30 — with the finding that the first build decides less than it seemed to.

@@ -36744,3 +36744,44 @@ extract is never a measurement (R53): the previous binary or a stale script is w
 the gate since the §8f sandwich landed — the "NON-CONTIGUOUS carve" refusal of `frontier-p32.md` §1a was the FIRST wall,
 this was the second, and neither was the C. Sibling of §496/§497 (the isolation carrier's assumptions): the three
 resident blockers were all tooling that had only ever met overlays.
+
+#### §499 ★★★ — A NEVER-ONBOARDED PAYLOAD PINS ITS OWN BASE STATICALLY, AND THE FIRST BUILD CANNOT (P32 T2a/T2b: the parked five onboarded, 213 → 218 binaries, 0 UNCLAIMED)
+
+**The problem.** Five disc code payloads (MAIN/7, MAIN/9, SC03/53/54/56) had resisted every route for a month:
+no literal `cdFileLocTable` reference (§S45 p4), no `resourceIdMap` entry (p5), three payload-side base oracles refuted
+by their own controls (p5 addendum), a runtime tracer that never saw them load (p6). The §S44 module-class recipe's
+arbiter — "onboard at the derived address; the FIRST build's byte-identity decides" — had never been run on them.
+
+**What pins a base from the bytes alone (`tools/payload_base_evidence.py`).** Three self-references, scored over a
+BOUNDED candidate list (the five §S44 slots ∪ the 134 IDXTAB DESTPTRs ∪ the vote's bases — never a search):
+1. **Self-calls:** every `jal` target that lands inside the module at base B must land ON one of its own function
+   starts. The recall killer of S45's `vote_base` (4/12) was the start set: MIPS **leaf functions have no
+   `addiu $sp` prologue**, so starts = prologues ∪ the word after every `jr $ra`+delay (the linear-partition
+   boundary). With that, MAIN/7 lands 9/9 at 0x800CEDF8 and MAIN/9 6/6 at exactly one base (0x800CD348).
+2. **Function-pointer tables:** header/data pointers that land exactly on the module's own starts (SC03/54: 5 at
+   0x801EF468, 0 at every rival; SC03/53: 3 + its one self-call). As strong as self-calls.
+3. **`lui` hi-halves** must be able to reach [B, B+size) — a weak tie-breaker only.
+A `jal→start` VOTE (every `target − start` pair; ≥2 hits) proposes bases the slot/DESTPTR list lacks (MAIN/9's).
+
+**The two traps the controls caught (R39, seven banked modules must re-derive their byte-proven bases top-ranked):**
+* the first scorer FAILED 5/7 — prologue-only starts + a top-rank assertion on modules the bytes cannot discriminate.
+  Small non-self-calling modules are genuinely AMBIGUOUS among the 0x800Cxxxx slots; the tool must SAY so.
+* the requester cross-check ("a DESTPTR candidate's overlay should own the module's outward call targets") is
+  confounded by the fleet's SHARED engine code — every requester fits — and scoring it put NO-EVIDENCE candidates
+  above a true base (6/7). Informational only.
+* **OUTWARD-EXPLAINED:** SC03/56's vote base 0x80178C8C was STRONG (4/4 self-calls on starts) and WRONG: both
+  targets are function starts in 141 overlays (shared engine), the base is nobody's DESTPTR, and one outward call
+  hits a function only 3 overlays have — ov_SC03_002, whose DESTPTR 0x801CBB50 holds 15 of its 17 pointers. A pure
+  vote base whose "internal" targets are overlay function starts needs no internal explanation; downgrade it.
+
+**The first build is a NULL oracle for FINE base errors (R34, measured).** The same payload builds byte-identical at
+base+8 (`.run/P32/t2b/control_fine.log`) — splat names every reference by its absolute address, so a nearby wrong
+base re-assembles to the same bytes; only a GROSS error (an internal `jal` target leaving the window) fails, and it
+fails the LINK, not the hash (`undefined reference to func_800CEEA4/func_800CF3F4` at +0x1000). So "byte-identical
+on its first build at the derived address" corroborates the address class, never the address. The base is
+byte-PROVEN only when a C bank calls an internal sibling (the call encodes base+offset) — which is also how a WRONG
+base would surface later: a whole module's functions refusing at the same relocations, a fake "wall" (R40).
+
+**Result.** All five onboarded on their first candidate: `md_MAIN_007` @0x800CEDF8 (A4: no resident symbol stack),
+`md_MAIN_009` @0x800CD348, `md_SC03_053` + `md_SC03_054` @0x801EF468, `md_SC03_056` @0x801CBB50 — +56 stubs
+(~2,600 ins) into the census, the parked-for-L3 ledger empty. Provenance rows: memory-map §S45 p7.
