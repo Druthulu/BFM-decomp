@@ -48,6 +48,39 @@ def destptrs():
     return out
 
 
+_SIG_STARTS = {}
+
+
+def sig_starts(alias):
+    """Function-start addresses of an onboarded binary from its sig (.run/sig.<alias>.jsonl); {} if absent."""
+    if alias not in _SIG_STARTS:
+        st = set(); p = os.path.join(REPO, f".run/sig.{alias}.jsonl")
+        if os.path.exists(p):
+            for ln in open(p, errors="replace"):
+                try:
+                    r = json.loads(ln); st.add(int(r["addr"], 16) if isinstance(r["addr"], str) else int(r["addr"]))
+                except Exception:
+                    continue
+        _SIG_STARTS[alias] = st
+    return _SIG_STARTS[alias]
+
+
+_FLEET = None
+
+
+def fleet_starts():
+    """Union of function starts over every onboarded OVERLAY sig (the shared engine occupies the same
+    addresses fleet-wide, so membership means "an overlay function lives at this absolute address")."""
+    global _FLEET
+    if _FLEET is None:
+        import glob
+        st = set()
+        for p in glob.glob(os.path.join(REPO, ".run/sig.ov_*.jsonl")):
+            st |= sig_starts(os.path.basename(p)[4:-6])
+        _FLEET = st
+    return _FLEET
+
+
 def words(b):
     return [struct.unpack_from("<I", b, i)[0] for i in range(0, len(b) - 3, 4)]
 
@@ -91,19 +124,47 @@ def analyse(path, text_lo=None, extra_bases=()):
         # lui hi-halves that can reach [lo,hi) with a signed lo16
         reach = sum(c for h, c in lui.items() if (h << 16) - 0x8000 < hi and (h << 16) + 0x7FFF >= lo)
         self_ref = bool(in_ptrs) or bool(ij) or reach > 0
-        if ij and ij_on_pro == len(ij):
-            verdict = "STRONG" if ij_on_pro >= 2 else "CONSISTENT"
-        elif ij and ij_on_pro < len(ij):
-            verdict = "INCONSISTENT"      # an internal jal that misses every prologue: not this base
-        elif in_ptrs or reach:
+        # REQUESTER CROSS-CHECK (script modules): a candidate that is overlay X's DESTPTR predicts that the
+        # module's OUTWARD jal targets in the overlay slot are function starts of X. Fraction over such targets.
+        req_fit = None
+        if base in dp:
+            outward = [t for t in jals if 0x80128158 <= t < 0x801A0000 and not (lo <= t < hi)]
+            if outward:
+                best = 0
+                for alias in dp[base]:
+                    st = sig_starts(alias)
+                    if st:
+                        best = max(best, sum(1 for t in outward if t in st))
+                req_fit = (best, len(outward))
+        # OUTWARD-EXPLAINED (P32 T2b, SC03/56): a jal-vote base whose "internal" targets are function starts of the
+        # fleet's OVERLAYS at that absolute address needs no internal explanation — the module is calling overlay
+        # code, and the alignment with its own starts is a coincidence (two shared-engine functions happened to be
+        # spaced like two of SC03/56's five starts -> a false STRONG at 0x80178C8C, a base that is nobody's DESTPTR).
+        # Only a candidate that is a known slot / DESTPTR keeps its internal-jal credit; a pure vote base is
+        # downgraded when every internal target is an overlay function start.
+        explained = 0
+        if ij and base not in SLOTS and base not in dp:
+            fleet = fleet_starts()
+            explained = sum(1 for t in ij if t in fleet)
+        if ij and ij_on_pro < len(ij):
+            verdict = "INCONSISTENT"      # an internal jal that misses every function start: not this base
+        elif ij and explained == len(ij):
+            verdict = "OUTWARD-EXPLAINED"  # every "internal" target is an overlay function at that address
+            ij_on_pro = 0
+        elif ij_on_pro + in_ptrs_on_pro >= 2:
+            verdict = "STRONG"            # self-calls and/or a fn-ptr table landing exactly on the module's own starts
+        elif in_ptrs or reach or ij:
             verdict = "CONSISTENT"
         else:
             verdict = "NO-EVIDENCE"
-        score = (ij_on_pro * 100) - (len(ij) - ij_on_pro) * 1000 + in_ptrs_on_pro * 10 + len(in_ptrs) + (1 if reach else 0)
+        # SELF-evidence only. The requester cross-check is INFORMATIONAL: the fleet shares most engine code at
+        # identical addresses across overlays, so a module's outward calls "fit" nearly every requester (the R39
+        # control caught NO-EVIDENCE candidates outranking a true base on it — 6/7 — so it must not score).
+        score = (ij_on_pro * 100) - (len(ij) - ij_on_pro) * 1000 + in_ptrs_on_pro * 50 + len(in_ptrs) + (1 if reach else 0)
         rows.append({"base": base, "label": SLOTS.get(base) or ("DESTPTR of " + ",".join(dp.get(base, [])[:3])) if (base in SLOTS or base in dp) else "jal-vote",
                      "internal_ptrs": len(in_ptrs), "internal_ptrs_on_prologue": in_ptrs_on_pro,
                      "internal_jals": len(ij), "internal_jals_on_prologue": ij_on_pro, "lui_reach": reach,
-                     "verdict": verdict, "score": score, "self_ref": self_ref})
+                     "requester_fit": req_fit, "verdict": verdict, "score": score, "self_ref": self_ref})
     rows.sort(key=lambda r: -r["score"])
     any_self = any(r["self_ref"] for r in rows)
     return {"payload": os.path.relpath(path, REPO), "size": n, "id_word": w[0], "text_lo": text_lo, "code_end": code_end,
@@ -124,7 +185,8 @@ def render(r):
         print(f"  ~~ AMBIGUOUS: {len(ties)} candidates share the top verdict {top_v} — probe each with the byte gate, in this order")
     for c in r["candidates"][:5]:
         print(f"  0x{c['base']:08X} {c['verdict']:<12} ptrs_in={c['internal_ptrs']:<4}(on_pro {c['internal_ptrs_on_prologue']:<3}) "
-              f"jals_in={c['internal_jals']:<3}(on_pro {c['internal_jals_on_prologue']:<3}) lui_reach={c['lui_reach']:<4} score={c['score']:<6} {c['label']}")
+              f"jals_in={c['internal_jals']:<3}(on_pro {c['internal_jals_on_prologue']:<3}) lui_reach={c['lui_reach']:<4} "
+              f"req_fit={('%d/%d' % c['requester_fit']) if c['requester_fit'] else '-':<7} score={c['score']:<6} {c['label']}")
 
 
 def run_controls():
@@ -134,7 +196,7 @@ def run_controls():
         if not os.path.exists(p):
             print(f"[controls] {alias}: payload missing — {path}"); bad += 1; continue
         r = analyse(p, text_lo=None, extra_bases=(true_base,))
-        rank = {"STRONG": 3, "CONSISTENT": 2, "NO-EVIDENCE": 1, "INCONSISTENT": 0}
+        rank = {"STRONG": 3, "CONSISTENT": 2, "OUTWARD-EXPLAINED": 1, "NO-EVIDENCE": 1, "INCONSISTENT": 0}
         me = next((c for c in r["candidates"] if c["base"] == true_base), None)
         tl_ok = (r["text_lo"] == tlo)
         if me is None or r["base_independent"]:

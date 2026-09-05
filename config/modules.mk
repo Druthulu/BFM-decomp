@@ -3,7 +3,7 @@
 # absent); the hand-maintained Makefile body is never edited to add a binary. Each md_* loads at
 # its OWN vram (the §S44 loader table: docs/memory-map.md). _TEXT_LO is a VRAM (code start), read
 # by 'make sig-modules' as --text-lo (§154-A: bootstrap past the module-id header).
-MODULE_BINARIES := md_MAIN_013 md_MAIN_014 md_MAIN_015 md_MAIN_016 md_MAIN_017 md_MAIN_018 md_MAIN_019 md_MAIN_020 md_MAIN_021 md_MAIN_022 md_MAIN_023 md_MAIN_024 md_MAIN_025 md_MAIN_026 md_MAIN_027 md_MAIN_028 md_MAIN_029 md_MAIN_030 md_MAIN_031 md_MAIN_032 md_MAIN_033 md_MAIN_034 md_MAIN_035 md_MAIN_036 md_MAIN_037 md_MAIN_038 md_MAIN_039 md_MAIN_040 md_MAIN_041 md_MAIN_042 md_MAIN_043 md_MAIN_044 md_MAIN_045 md_MAIN_046 md_MAIN_047 md_MAIN_001 md_MAIN_008 md_MAIN_011 md_SC07_003 md_SC07_004 md_MAIN_003 md_SC03_073 md_SC03_074 md_SC03_075 md_SC03_076 md_SC03_077 md_SC03_078 md_SC03_079 md_SC03_132 md_SC03_133 md_SC03_134 md_SC03_135 md_SC03_136 md_SC03_137 md_SC03_138 md_SC04_024 md_SC04_025 md_SC04_026 md_SC04_027 md_SC04_028 md_SC04_029 md_SC04_030 md_SC05_023 md_SC05_024 md_SC05_025 md_SC05_026 md_SC05_027 md_SC05_028 md_SC05_029 md_SC02_009 md_MAIN_007 md_MAIN_009 md_SC03_053 md_SC03_054
+MODULE_BINARIES := md_MAIN_013 md_MAIN_014 md_MAIN_015 md_MAIN_016 md_MAIN_017 md_MAIN_018 md_MAIN_019 md_MAIN_020 md_MAIN_021 md_MAIN_022 md_MAIN_023 md_MAIN_024 md_MAIN_025 md_MAIN_026 md_MAIN_027 md_MAIN_028 md_MAIN_029 md_MAIN_030 md_MAIN_031 md_MAIN_032 md_MAIN_033 md_MAIN_034 md_MAIN_035 md_MAIN_036 md_MAIN_037 md_MAIN_038 md_MAIN_039 md_MAIN_040 md_MAIN_041 md_MAIN_042 md_MAIN_043 md_MAIN_044 md_MAIN_045 md_MAIN_046 md_MAIN_047 md_MAIN_001 md_MAIN_008 md_MAIN_011 md_SC07_003 md_SC07_004 md_MAIN_003 md_SC03_073 md_SC03_074 md_SC03_075 md_SC03_076 md_SC03_077 md_SC03_078 md_SC03_079 md_SC03_132 md_SC03_133 md_SC03_134 md_SC03_135 md_SC03_136 md_SC03_137 md_SC03_138 md_SC04_024 md_SC04_025 md_SC04_026 md_SC04_027 md_SC04_028 md_SC04_029 md_SC04_030 md_SC05_023 md_SC05_024 md_SC05_025 md_SC05_026 md_SC05_027 md_SC05_028 md_SC05_029 md_SC02_009 md_MAIN_007 md_MAIN_009 md_SC03_053 md_SC03_054 md_SC03_056
 
 # --- md_MAIN_013 (module, vram 0x800CAE08 — onboarded by new_binary.sh) ---
 md_MAIN_013_EXE        := extracted/retail/MAIN.CD.dir/FILE_013.dir/1.1
@@ -1559,3 +1559,24 @@ md_SC03_054_ASM_DIR     := asm/md_SC03_054
 md_SC03_054_SRC_DIR     := src/md_SC03_054
 md_SC03_054_UNDEF_SYMS  := build/md_SC03_054/undefined_syms_auto.txt
 md_SC03_054_UNDEF_FUNCS := build/md_SC03_054/undefined_funcs_auto.txt
+
+# --- md_SC03_056 (module, vram 0x801CBB50 — onboarded by new_binary.sh) ---
+md_SC03_056_EXE        := extracted/retail/SC03.CD.dir/FILE_056.dir/0.1
+md_SC03_056_NAME       := md_SC03_056
+md_SC03_056_OUT_DIR    := build/md_SC03_056
+md_SC03_056_OUT        := $(md_SC03_056_OUT_DIR)/$(md_SC03_056_NAME)
+md_SC03_056_ELF        := $(md_SC03_056_OUT).elf
+md_SC03_056_MAPFILE    := $(md_SC03_056_OUT).map
+md_SC03_056_LD_SCRIPT  := $(md_SC03_056_OUT).ld
+md_SC03_056_SPLAT_YAML := config/splat.md_SC03_056.yaml
+md_SC03_056_CHECK_SHA  := config/check.md_SC03_056.sha
+md_SC03_056_SYMBOLS    := config/symbols.md_SC03_056.txt
+md_SC03_056_SIG        := .run/sig.md_SC03_056.jsonl
+md_SC03_056_GHIDRA_PROG := md_SC03_056
+md_SC03_056_VRAM_BASE  := 0x801CBB50
+md_SC03_056_TEXT_LO    := 0x801CBB54
+md_SC03_056_TEXT_HI    := 0x801CC9B0
+md_SC03_056_ASM_DIR     := asm/md_SC03_056
+md_SC03_056_SRC_DIR     := src/md_SC03_056
+md_SC03_056_UNDEF_SYMS  := build/md_SC03_056/undefined_syms_auto.txt
+md_SC03_056_UNDEF_FUNCS := build/md_SC03_056/undefined_funcs_auto.txt

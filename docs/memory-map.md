@@ -1010,7 +1010,9 @@ survive its own control — recorded so a later session does not re-derive the f
 > **Provenance (G5):** `static-derived` from the extracted payloads alone (`tools/payload_base_evidence.py`, controls-gated:
 > the seven banked modules' byte-proven bases re-derive top-ranked from their own bytes, 7/7). Region **US**. Rows in
 > `.run/P32/t2a/evidence.json`. **None of these is a load address until `tools/new_binary.sh`'s FIRST build is
-> byte-identical (the §S44 module-class law, P9)** — T2b runs the probes in the order given.
+> byte-identical (the §S44 module-class law, P9)** — T2b ran the probes in the order given: **all five onboarded on their
+> first candidate** (fleet 213 → 218; `make audit-disc` UNCLAIMED 5 → 0). The first-build check is base-lenient (finding 1
+> below), so each base is recorded as static-derived STRONG, to be byte-proven by the first internal-call C bank.
 
 Why this works where §S45 p5's three payload-side oracles failed: those looked for a module's base in its OWN
 prologue/table geometry (`derive_base`), or voted `jal` targets against prologues (`vote_base`, 4/12) and against
@@ -1021,11 +1023,24 @@ ones fall to the bounded DESTPTR list + pointer/`lui` consistency instead of a g
 
 | payload | size | id | TEXT_LO | evidence | candidate base(s), probe order |
 |---|---|---|---|---|---|
-| MAIN/7 (`FILE_007`, raw) | 9,600 | 0x3A | 0x34 | **STRONG**: 9/9 internal `jal`s and 14/16 absolute pointers land on its own function starts; lui 0x800C/0x800D ×68 | **0x800CEDF8** (the boot slot — md_MAIN_001/008/011's) |
-| MAIN/9 (`FILE_009.dir/0.1`) | 2,544 | 0x2D | 0x3C | **STRONG**: 6/6 internal `jal`s and 9/9 pointers on starts at exactly one base; lui 0x800C/0x800D ×51 | **0x800CD348** (inside slot B's region, +0x82C; then slot A 0x800CAE08 / slot B 0x800CCB1C) |
-| SC03/53 (`FILE_053.dir/0.1`) | 6,616 | 0x40 | 0x4 | CONSISTENT (12-way tie): 52/75 pointers inside (3 on starts), its one internal `jal` on a start, lui 0x801F ×18 | **0x801EF468** (ov_SC03_001's DESTPTR, score 183 vs 42 for the runner-up ov_SC02_017 0x801EFD38) |
-| SC03/54 (`FILE_054.dir/0.1`) | 8,220 | 0x41 | 0xF0 | CONSISTENT (12-way tie): 106/115 pointers inside (5 on starts), lui 0x801F ×46, no internal `jal` | **0x801EF468** (score 157 vs 75 for 0x801EFD38) |
-| SC03/56 (`FILE_056.dir/0.1`) | 3,680 | 0x43 | 0x4 | SPLIT: the `jal` vote says **0x80178C8C** (two distinct self-call targets, 4/4 on starts — inside the location-overlay slot region) while its 17 pointers and lui 0x801D point at ~0x801CBxxx | 0x80178C8C, then the DESTPTRs in its pointer window: **0x801CBB50** (ov_SC03_002), 0x801CBD90 (ov_SC03_090), 0x801CC6E0 (ov_SC03_093) |
+| MAIN/7 (`FILE_007`, raw) | 9,600 | 0x3A | 0x34 | **STRONG**: 9/9 internal `jal`s and 14/16 absolute pointers land on its own function starts; lui 0x800C/0x800D ×68 | **0x800CEDF8** (the boot slot — md_MAIN_001/008/011's) — ONBOARDED `md_MAIN_007`, byte-identical `2ff702b6…`, A4 applied |
+| MAIN/9 (`FILE_009.dir/0.1`) | 2,544 | 0x2D | 0x3C | **STRONG**: 6/6 internal `jal`s and 9/9 pointers on starts at exactly one base; lui 0x800C/0x800D ×51 | **0x800CD348** (inside slot B's region, +0x82C; then slot A 0x800CAE08 / slot B 0x800CCB1C) — ONBOARDED `md_MAIN_009`, byte-identical `d270f695…` |
+| SC03/53 (`FILE_053.dir/0.1`) | 6,616 | 0x40 | 0x4 | **STRONG** (after the combined rule): 52/75 pointers inside, 3 of them + its one internal `jal` exactly on its own starts; 0 on starts at every rival; lui 0x801F ×18 | **0x801EF468** (ov_SC03_001's DESTPTR) — ONBOARDED `md_SC03_053`, byte-identical `c0848f30…` |
+| SC03/54 (`FILE_054.dir/0.1`) | 8,220 | 0x41 | 0xF0 | **STRONG**: 106/115 pointers inside, 5 header fn-ptr-table entries exactly on its own starts (0 at every rival), lui 0x801F ×46, no internal `jal` | **0x801EF468** — ONBOARDED `md_SC03_054`, byte-identical `06bd73df…` |
+| SC03/56 (`FILE_056.dir/0.1`) | 3,680 | 0x43 | 0x4 | the `jal` vote's 0x80178C8C was a COINCIDENCE (see below): both "internal" targets are function starts in **141 overlays** (shared engine code) and 0x80178C8C is nobody's DESTPTR; its 15/17 pointers cluster inside at ov_SC03_002's DESTPTR, and one outward call (0x8018151C) hits a function only 3 overlays have — ov_SC03_002 among them | **0x801CBB50** (ov_SC03_002's DESTPTR) — ONBOARDED `md_SC03_056`, byte-identical `bc768a6b…` (the two runners-up 0x801CBD90 / 0x801CC6E0 were never needed) |
+
+**Two instrument findings from the probes (2026-09-05, T2b):**
+1. **The all-`INCLUDE_ASM` first build is a NULL oracle for FINE base errors (R34).** Negative controls on MAIN/7: at
+   base+0x1000 the link FAILS (two internal `jal` targets leave the window → `undefined reference to
+   func_800CEEA4/func_800CF3F4`), but at base+8 the build is **byte-identical** (`.run/P32/t2b/control_{full,fine}.log`).
+   splat names every reference by its absolute address, so a nearby wrong base re-assembles to the same bytes. The §S44
+   "byte-identical on its FIRST build at the derived address" corroboration therefore rules out GROSS errors only; the
+   fine base rests on the static alignment (self-calls / fn-ptr-table entries exactly on the module's own function
+   starts) and is byte-PROVEN only by the first C bank that calls an internal sibling.
+2. **A `jal`-vote base whose "internal" targets are overlay function starts is explained by OUTWARD calls.** SC03/56's
+   two vote targets (0x80178CBC, 0x80178D18) are function starts in 141 overlays — the shared engine — so the 4/4
+   alignment at 0x80178C8C was two shared functions happening to be spaced like two of its five starts. The tool now
+   downgrades such a candidate to OUTWARD-EXPLAINED unless it is a known slot / DESTPTR (R39 controls still 7/7).
 
 Both OPDEMO modules (MAIN/7, MAIN/9) carry `C:\TIMPACK\OPDEMO0.PAT` / `OPDEMO1.PAT` at header offsets 0x4/0x1C
 (§S45 p5 addendum) — the header format here is [id][two 24-byte path strings][code], hence TEXT_LO 0x34/0x3C.
