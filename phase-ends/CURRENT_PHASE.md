@@ -148,15 +148,21 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
 - 2026-09-05 — **T1a DONE — `resident:func_800D128C` BANKED (243 ins, byte-identical 8e17e02f, R22 213/213).** The stored S71 closeness-0 draft was byte-correct all along; the whole task was three instrument defects the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed in overlay-only assumptions: (1) `jr_isolate_all` dropped a file-local typedef whose name engine_types.h also defines (§496 — fixed: provided types derived from the TU's own includes); (2) `jtbl_carve` regenerated `JTBL_INTERLEAVE` without the `--pre hdr.rodata.o` clause → extract refused → the gate linked a stale script and booked the byte-correct draft as DIFF; `harvest_verify` ignored that extract's rc (§498 — both fixed, R49/R61); (3) `interleave_check` read a `--pre` line as n=0 (false DRIFT; fixed). R38 then found two more stored MATCH bodies for T1b/T1c (see their rows). Effort stayed Max.
 - 2026-09-05 — **T0 DONE.** Baseline reads all green (`.run/P32/t0_baseline.log`): `verbatim_check --strict` 5 bodies == 5 rows; `exclude_audit --assert-fresh` 8 entries, 8 WALL, 0 stale; `frontier_classify` → 21 rows = the S80 census exactly; `make tools-health` OK (sigs fresh, corpus(+resident), cdecl, audit-binaries 213/213, report lint+dedup, cookbook-index, split_indicator 213 OK); `make check-all` 213 passed / 0 failed, rc 0. Harness task list #1–#11 built (R28). NEXT = T1a.
 
-## 🛑 SESSION CHECKPOINT — T3 + T4 DONE, T5 (PhaseEnd) NEXT (2026-09-05 12:45 MDT; written by session 491895ad "S83"; SUPERSEDES the 12:40 block)
+## 🛑 SESSION CHECKPOINT — T4b IN FLIGHT: 15 Fable agents cracking the final 15 (2026-09-05 13:40 MDT; written by session 491895ad "S83"; SUPERSEDES the 12:45 block)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase29/30/31.md` and this
 file, and nothing else (CLAUDE.md protocol, R64 candidate). Replay this block verbatim into your chat, state phase / done /
-NEXT / effort, list the rules from the digest, then WAIT for Drew. **NEXT is T5 — the PhaseEnd — a Tier 1 task: state
-"🟡 PhaseEnd creation is a Tier 1 task. Confirm effort: Max is set" (R27) and WAIT for the actual `/effort` before the
-first command.** Then follow §4. T5 has TWO stops: the milestone demo → **WAIT for gate 2** (Drew confirms) → the
-PhaseEnd file → 🛑 (P8). No drafting, no agents, no Workflow.
+NEXT / effort, list the rules from the digest, then WAIT for Drew. **NEXT is T4b (Drew's directive 2026-09-05: every function
+that is not original hand-asm or a PsyQ object must be cracked and banked before the phase closes; hand-crack first, Fable
+agents after) — 15 Fable agents were launched at ~13:05 MDT by session 491895ad and may have finished into a dead session.**
+Effort: xHigh (orchestration; Max for any hand-crack you do yourself — R27 prompt). RECOVERY ROUTE if the launching session
+died: (1) `ls .run/P32/t5x/fable/` (the deliverables) + `.run/P32/t5x/reports/` (the evidence); (2) `.venv/bin/python
+tools/agent_verdicts.py /tmp/claude-1000/-home-musashi-bfm-decomp/491895ad-3c84-4037-b04f-bf7e5ee16a0c/tasks/a*.output
+--append .run/P32/t5x/verdicts.jsonl` (pass ONLY `a*.output` — 17 of those are the S83 Haiku agents, already banked; the 15
+Fable rows are the ones whose `fn` is in `.run/P32/t5x/targets.json`); (3) re-verify every MATCH with `rtu_match` in the
+CURRENT real TU and bank with `.run/P32/t3s3/bank.sh` (overlays/modules) or a `gate_main` slate (main), one commit per bank
+(R42); (4) NEAR rows → backlog with cost; then T5. No Workflow / Ultracode.
 
 ### 1. Where we are
 **Phase 32 — the last 21 + the parked 5 (short, kill-gated).** Gate 1 approved 2026-09-05 (Drew, plan mode, Max, Fable 5.1);
@@ -165,8 +171,9 @@ R44–R63 ratified then; R64 is a candidate (DIGEST §3). Tasks: **T0 ✓** `com
 `commit:3912` `commit:3913` `commit:3914` (fleet 213 → 218) · **T2c ✓** `commit:3917` `commit:3918` `commit:3919` `commit:3920`, close
 `commit:3921` · **T2d not needed** · **T3 ✓ CLOSED 2026-09-05 12:40 MDT** (launch `commit:3922`; banks 1–9 `commit:3923`..`commit:3931`;
 S82 checkpoints `commit:3932` `commit:3933` `commit:3934`; S83 banks 10–38 `commit:3935`..`commit:3946` + `commit:3948`; S83 checkpoint
-`commit:3947`; Makefile guard `commit:3949`; §500-G `commit:3950`; the T3-close commit = HEAD) · **T4 ✓ DONE 12:45 MDT** (the walls' final ledger — 1 PROVED + 6 CANDIDATE, all re-probed in TU context, no verdict
-changed; the T4 commit = HEAD) · **T5 NEXT.** Harness task list #1–#12 (#11 done; #12 = T5 next). Fleet **218 binaries** (main + resident + 138 `ov_*` + 78
+`commit:3947`; Makefile guard `commit:3949`; §500-G `commit:3950`; the T3-close commit = HEAD) · **T4 ✓ DONE 12:45 MDT** (`commit:3952`) · **T4b IN FLIGHT** (added by Drew's directive; plumbing `commit:3953`, hand pass
+`commit:3954` — all 15 rows analysed, 22 spellings measured, 0 banks, blockers in `.run/P32/t4b/<fn>/NOTES.md`; 15 Fable agents
+launched ~13:05 MDT from `.run/P32/t5x/BRIEF.md` + `packs/` + the NOTES; harness #13) · **T5 after T4b.** Fleet **218 binaries** (main + resident + 138 `ov_*` + 78
 `md_*`). **Fleet R22 at the T3 close (after ALL S83 banks + the Makefile guard): **217+main extracted, 218 passed / 0 failed, exits 0/0/0 at 12:00 MDT**** (`.run/P32/t3s3/r22c_full.log`);
 earlier S83 R22s 218/218 at 10:46 and 11:09. `make report` at the close: **instr 13,484,739 / 13,488,497 = 100.0% · distinct
 5,812,831 / 5,816,589 = 99.9% (90,975 / 90,984 unique fns) · fn-count 363,199 / 363,214 = 100.00% · INCLUDE_ASM 15**; main:
@@ -210,32 +217,31 @@ Modules at 100% C after S83: resident (145/145), md_SC03_053, md_SC03_054, md_SC
 launching session (§500-A) + S83's 29 (`git log --oneline commit:3934..HEAD`). Backlog: `docs/backlog.md` 14 open near-misses
 (every NEAR row carries class · closeness · best draft · cost, R41). `verdicts.jsonl`: 50 rows.
 
-### 4. NEXT — T5, the PhaseEnd (Max, Tier 1 — prompt R27 FIRST; WAIT for gate 2)
-0. **Preflight (read-only):** `git status --short | grep -v ghidra/` (empty) · `.venv/bin/python tools/verbatim_check.py --strict`
-   (5 == 5) · `exclude_audit --assert-fresh config/wave_exclude.txt` (7 entries, 7 WALL).
-1. **P7 checkbox walk** over T0–T4 in this file (every `[x]` row has its commits/logs cited; T2d is NOT NEEDED, say so).
-2. **Milestone demo — run and QUOTE (P9/R58):** `make clean && make extract-all && make check-all` → 218 passed / 0 failed,
-   exits 0/0/0 · `make tools-health` → OK · `verbatim_check --strict` 5 == 5 · `.venv/bin/python tools/frontier_classify.py --json
-   .run/P32/frontier_p32_final.json` → the final census (15 rows: 7 pinned walls + 8 NEAR; every row with class · closeness ·
-   best draft · mechanism/cost) · the wall ledger table (this file, "T4 — the walls' FINAL ledger") · parked-5 dispositions:
-   `make audit-disc` → UNCLAIMED 0 of 220 (all five onboarded at T2b; `docs/disc-completeness.md` P32 section) · `make report`
-   → the three fleet metrics (T3-close values: instr 13,484,739 / 13,488,497 = 100.0% · distinct 5,812,831 / 5,816,589 = 99.9%
-   · fn-count 363,199 / 363,214 = 100.00% · 15 stubs) · `make report BINARY=main` → REAL 783 · LINKED 1,256 · VERBATIM 3 · stubs 6
-   · 2,085 / 2,091 = 99.71% · `143dbb89…` **WITH and WITHOUT the SDK object dirs** (`.run/obj40`, `.run/obj42` — the
-   fresh-extract fallback: move them aside, `make extract BINARY=main && make build BINARY=main`, sha, move back) · corrected
-   denominators (main game-code 41,556 — the 22-ins Ghidra-boundary gap; the fleet denominator grew by the five modules'
-   ~2,600 ins at T2b). Present all of it to Drew and **WAIT for gate 2.**
-3. **On confirmation:** `phase-ends/PhaseEnd_Phase32.md` in the constitution's format (Build Log · Deviations · Commit
-   Message · Rules Added — R64 to RATIFY, plus any candidates from S82/S83: the sandbox-TU re-probe law, "the build is the
-   batch verdict" · PhaseEnd Changelog v1.30.0 → v1.31.0 · Roadmap delta: P33 = verify + public flip, the 15-row remainder
-   stated, not redefined · Plain-English Recap · What we believed / what failed / what we would do sooner · 🛑 Stop Here)
-   → **append the P32 synopsis + rules to `phase-ends/DIGEST.md` §2/§3 (step 3b, P7)** → `git mv phase-ends/CURRENT_PHASE.md
-   phase-ends/logs/Phase32.md` (R19) → R23: the headless Ghidra MCP the SessionStart hook launched (`.run/ghidra-mcp.log`) is
-   stopped (`tools/ghidra_mcp_stop.sh` or the SessionEnd hook; no RE writes this phase — never stage `ghidra/`) → leave the
-   PhaseEnd + the archived log UNCOMMITTED for Drew (R6) → final message "PhaseEnd file created. Commit the file and start a
-   new Claude Code session for the next phase." → HARD STOP (P8).
+### 4. NEXT — T4b results, then T5
+0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `verbatim_check --strict` (5 == 5) · `make check-all` (218/218) —
+   and the RECOVERY ROUTE in §0 if the Fable agents finished into a dead session.
+1. **Per Fable result (never in bulk):** `grep -c '\.ent\|\.word\|__asm__' <draft>` (an `__asm__` body is a verbatim, R62 — zero-byte
+   launders/fences/pins are fine) → your OWN `rtu_match` in the CURRENT real TU (main rows: `--tu src/<sub>.c`; boot: `--o0`) →
+   overlays/modules: `.run/P32/t3s3/bank.sh <binary> <tu> <asmdir> fable "<title>" <fn>` (it refuses on red) · main: a
+   `gate_main` slate with the ABSOLUTE draft path, `--apply`, read the BANKED/BYTE-IDENTICAL line → `git add <tu>` + commit
+   (R42) → `twin_rescan`. A MATCH whose draft depends on the TU's declarations is fine; a `CC1 FAIL` names a spelling to adopt.
+2. **NEAR results:** `tools/backlog.py log … --closeness N --source "P32-T4b Fable agent <cost>"` with the mechanism; if a row is
+   pinned in `config/wave_exclude.txt`, update its comment line; `exclude_audit --assert-fresh config/wave_exclude.txt`.
+3. **Harvest (R16/R30):** every new idiom → cookbook §501 (T4b) + index regen; `docs/accelerators.md`; decision-log (R31) if the
+   finish-line doctrine changes; `make report`; census `frontier_classify --json .run/P32/frontier_t4b_close.json`; fleet R22
+   after the banks (`make clean && make extract-all && make check-all`, quote the count); refresh this block; commit.
+4. **Then T5 — the PhaseEnd (Max, Tier 1: prompt R27 and WAIT for `/effort`):** P7 walk (T0–T4b) → milestone demo → **WAIT for
+   gate 2** → `PhaseEnd_Phase32.md` (Build Log · Deviations incl. the T4b directive and its outcome · Commit Message · Rules
+   Added — R64 to RATIFY + candidates · Changelog v1.30.0 → v1.31.0 · Roadmap delta: P33 = verify + public flip · Plain-English
+   Recap · believed/failed/sooner · 🛑) → DIGEST.md §2/§3 (step 3b) → `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/Phase32.md`
+   (R19) → R23 → leave both uncommitted for Drew (R6) → "PhaseEnd file created. Commit the file and start a new Claude Code
+   session for the next phase." → HARD STOP (P8). If any of the 15 remain open at T5, the PhaseEnd says so (P9) with each
+   row's mechanism, cost and best draft — never redefined.
 
 ### 5. Files, tools, exact invocations, gotchas
+- **`.run/P32/t4b/<fn>/`** (S83 hand pass; tracked `*.md`, `*.c`): `NOTES.md`/`HYPOTHESIS.md` per row (mechanism + measured spellings + the
+  untried lever) and the variant drafts measured. **`.run/P32/t5x/`** (the Fable pass; tracked BRIEF.md, targets.json, `fable/func_*.c`,
+  `reports/*.md`; untracked packs/ work/ rtu/): one agent per row, budget ~2 h each, final message = the JSON line.
 - **`.run/P32/t3s3/` (S83; tracked: `*.sh *.py *.log *.txt prompts/ gate/*.json gate/*.log`; untracked: `verify*/` compile
   dirs):** `splice.py <tu> <asmdir> <fn> <draft>` (asserts the INCLUDE_ASM line occurs once, replaces it with the draft) ·
   `bank.sh <binary> <tu> <asmdir> <arm> "<commit title>" fn…` (the per-TU bank chain; refuses on `__asm__`/`.word` in a
