@@ -96,7 +96,14 @@ extern u8 D_800AF680;
  * reproduces the target bytes regardless of the TU's compile flags. No C externs
  * shipped (link-time resolution).
  */
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0100);
+extern u8 D_800AF630[];
+extern void (*D_800D363C[])(void);
+
+void func_800D0100(void) {
+    register u8 *p = D_800AF630;
+    D_800D363C[*(u16 *)(p + 0xA3B4)]();
+}
+
 
 
 INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D0174);
@@ -340,7 +347,23 @@ void func_800D0664(void) {
  * way; frame/mask (32/0xC0010000,-16) copied from it. All immediates decimal
  * (maspsx rejects hex in __asm__ strings). No C externs shipped (link-time resolution).
  */
-INCLUDE_ASM("asm/md_MAIN_003/nonmatchings/md_MAIN_003_o0e", func_800D06BC);
+extern void func_800D12D0(void);
+extern void func_800118AC(void);
+extern s32 D_800EC890;
+extern u8 D_800AF630[];
+
+void func_800D06BC(void) {
+    register u8 *base;
+
+    base = &D_800AF630;
+    func_800D12D0();
+    D_800EC890 += 4;
+    if (D_800EC890 >= 0x80) {
+        D_800EC890 = 0x80;
+        func_800118AC();
+    }
+}
+
 
 
 
