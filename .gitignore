@@ -78,6 +78,27 @@
 
 # The frontier ledgers every survey, worklist and plan consumes.
 !/.run/backlog.jsonl
+# S79/S80 task #9 — one-agent-per-function drafting: the arm drafts (the NEAR seeds), the briefs' laws, the
+# target list and the verdict ledger (the PhaseEnd's wall-proof source). Scratch under opus/w_* etc. stays ignored.
+!/.run/S79w/
+/.run/S79w/*
+!/.run/S79w/SYS.md
+!/.run/S79w/targets.json
+!/.run/S79w/verdicts/
+/.run/S79w/verdicts/*
+!/.run/S79w/verdicts/*.jsonl
+!/.run/S79w/haiku/
+/.run/S79w/haiku/*
+!/.run/S79w/haiku/func_*.c
+!/.run/S79w/sonnet/
+/.run/S79w/sonnet/*
+!/.run/S79w/sonnet/func_*.c
+!/.run/S79w/opus/
+/.run/S79w/opus/*
+!/.run/S79w/opus/func_*.c
+!/.run/S79w/permuter/
+/.run/S79w/permuter/*
+!/.run/S79w/permuter/func_*.c
 !/.run/fuel_manifest.json
 
 # Phase-27 pin-crash characterization: the minimal repro + gdb harness (the irreplaceable ~KB
