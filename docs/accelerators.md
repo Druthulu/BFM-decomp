@@ -686,3 +686,37 @@ ask whose code it is and whether the shipped object exists** — the loader's si
 library and version for free (§487), and the SDK archives are indexed on archive.org by version. A wall
 verdict on code you were never going to compile is correct and worthless.
 
+
+## S80 — five accelerators from a two-task session, all "the instrument was the wall"
+
+**(1) A tool that reports "unchanged" for N cycles must prove it iterated.** `permuter_ils` re-copied the permuter's
+DECODED waypoint (raw register pins) into `base.c`, so every cycle after the first on a pinned seed was a parser refusal
+printed as "(unchanged)"; `hide_asm` knew only the `__asm__` spelling; `defines_fn` could not see a K&R definition and
+had refused **436 stored backlog drafts for four phases**. Every permuter verdict on a pinned or K&R seed before S80 was
+one cold cycle. Accelerator: an R61a "not judged" state in every loop tool, and an R39 control over the WHOLE stored
+population when a parser/regex changes (the control caught the fix's own false positive — the bare word `asm` inside
+`INCLUDE_ASM("asm/…")` path strings). Cost of not having it: a month of "permuter-class plateau" verdicts that measured
+nothing. (`commit:3890`, cookbook §493 S80 correction.)
+
+**(2) A byte gate is a null oracle for "is this C?".** S79 #7 spliced a function's ASSEMBLY as a file-scope `__asm__`
+body and counted it banked — `rtu_match` MATCHes it by construction, the build is green by construction, `progress.py`
+counts it. `verbatim_check --strict` caught it one session later. Accelerator: run the strict verbatim check in the
+per-bank close (not only in tools-health), and never let a ledger's `best_draft` be an `__asm__` body (R62 candidate;
+§495). Cost: one fake bank and a census one function off for a session.
+
+**(3) A pointer-only callee's `extern` is a guess, not a constraint.** `extern void func_8017D878(void)` existed only
+because the TU takes `(s32)func_8017D878`; the function returns an address or 0. Thirty-seven drafts died on
+"conflicting types" against a declaration that carried no information. The same session: a block-scope `extern … (struct
+S *)` declares a BLOCK-LOCAL tag no file-scope definition can match. Accelerator: when a real-TU compile refuses a
+standalone MATCH, read the TU's own declaration of the FUNCTION before touching the body — and treat a pointer-only
+callee's decl as unconstrained. Cost: 37 drafts on a 45-instruction function that was byte-correct on its first try.
+
+**(4) "banked 1 / merged 0 / REFUSED 0 / exit 0" is a failure that prints as success.** `parallel_gate` banked a function
+in its worktree and adopted nothing; the bank died with the worktree and the fixed-path results JSON was overwritten by
+the next run before anyone looked. Accelerator: every "X produced but Y consumed" pair in a pipeline gets an assertion
+(X − adopted − refused = 0), a non-zero exit, and per-run evidence files. Cost: one lost bank, re-done by hand.
+
+**(5) Agent-tool drafters outlive the session that spawned them.** Their final JSON verdict sits in the transcript
+(`~/.claude/projects/<proj>/<session>/subagents/agent-*.jsonl`); `tools/agent_verdicts.py` extracts it without loading a
+transcript. Accelerator: when a session must end mid-wave, let the agents finish and harvest by tool; two of eleven
+were MATCHes worth 765 instructions. Cost avoided: re-drafting eleven functions.

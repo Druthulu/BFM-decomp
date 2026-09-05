@@ -522,6 +522,14 @@ was drafting quality. Classify before re-drafting anything:
 > message instead of a bare "refused" — but if you gate by hand, run `make extract BINARY=<b>`
 > yourself and confirm `corpus.stubs` is satisfiable before trusting the next verdict.
 
+> **P31 S80 — "banked 1 / merged 0 / REFUSED 0" is a FAILURE, and the run now says so.** A worker banked a
+> function in its worktree, the orchestrator adopted nothing, and the run exited 0 — the byte-proven bank died
+> with the worktree (cause not recovered: the fixed-path results JSON was overwritten by the next run).
+> `parallel_gate` now prints `!! [pgate] BANKED-BUT-NOT-MERGED <bin>` with the worker's raw `git status` and
+> exits **2**, and every run also writes `.run/pgate_runs/<ts>.json`. Recovery: `rtu_match` MATCH → splice the C
+> in-tree → `make build BINARY=<bin> -j8` (read the EXIT CODE, R53) → commit. Read the summary line, not the rc.
+> `--plan` takes a FILE path, not inline JSON.
+
 ```
 python3 tools/parallel_gate.py --plan plan.json --workers 12 --commit
       # plan.json: [{"binary": "...", "drafts": "/abs/path"}, ...]
@@ -699,3 +707,14 @@ Feeder documents for that template: `docs/decision-log.md` (R31 — the WHY behi
 pivot), `docs/accelerators.md` (discoveries that would have sped up earlier work),
 `docs/hindsight-study.md`, `docs/matching-cookbook.md` (the compiler-idiom knowledge base), and the
 `phase-ends/` series (the build history).
+
+## S80 addendum — the one-agent-per-function shape (no wave) and drafters that outlive the session
+
+When the open census fits on one page (S79/S80: 25 functions), the wave machinery is the wrong shape: build packs with
+`claude_wave_packs` (journal notes + a matched neighbour each), launch ONE Agent-tool subagent per function on the model
+ladder (Haiku ≤50 ins → Sonnet ≤120 → Opus above; Fable only for a NEW wall class), and process results one at a time —
+verbatim grep (`.ent`/`.word` = not a match) → `rtu_match` in the real TU → gate → commit per bank (R42) → `twin_rescan`.
+Agent-tool drafters OUTLIVE the session that spawned them: their final JSON verdict is the last assistant message in
+`~/.claude/projects/<proj>/<session>/subagents/agent-*.jsonl`; harvest with `tools/agent_verdicts.py <transcripts> --append
+<ledger.jsonl>` — never cat a transcript. Measured S79/S80: 25 targets → 10 banks, 8 NEAR at exact length with the gcc
+mechanism cited, 0 verdicts lost across a session boundary (cookbook §494; `docs/frontier-p32.md` §3 for the routes).
