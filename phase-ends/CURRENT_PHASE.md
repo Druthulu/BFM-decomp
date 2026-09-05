@@ -1,6 +1,6 @@
 # CURRENT PHASE — Phase 31: The Frontier Atlas & Wide-Tolerance Campaign
 
-> **⚠ READ THE LAST BLOCK FIRST — `## 🛑 SESSION CHECKPOINT — S73 CLOSE` at the END of this file.**
+> **⚠ READ THE LAST BLOCK FIRST — `## 🛑 SESSION CHECKPOINT — S80 #9 CLOSE` at the END of this file.**
 > This log holds **37** `🛑` checkpoint blocks written across many sessions, and several older
 > ones also say "supersedes every earlier block" — true when written, false now. **The LAST 🛑 block
 > is always the live one**; everything above it is history. (S72 note: that rule was itself BROKEN
@@ -165,6 +165,25 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     of "no improvement" in 20 s → it now prints REFUSED + writes `PERMUTER_REFUSED.txt` (positive-controlled).
     Stubs 32 → **31** (main 15); game-code **93.5% (38,854 / 41,534)**; R22 fleet **213/213**
     (`.run/S79_check_all_8.log`).
+    **#9 DONE (S79 → S80, 2026-09-04/05; banks `commit:3879` `commit:3880` `commit:3881` `commit:3882` `commit:3883` `commit:3884`
+    `commit:3885` `commit:3887` `commit:3888` `commit:3889`; instrument `commit:3890`; ledger `commit:3891`):** the drafting pool —
+    25 packs, one Agent-tool subagent each (Haiku ≤50 / Sonnet ≤120 / Opus above), no wave. **Ten banked byte-identical**
+    (7 in S79; S80 aggregated the 11 agents that outlived S79 from their transcripts with NEW `tools/agent_verdicts.py`
+    → `ov_SC01_001:func_80181E04` 269, `main:func_8001EFE0` 468 (the largest open main body; gate_main clean rebuild
+    `143dbb89`), `ov_SC02_027:func_80180B3C` 297 (worktree gate + in-tree `1f741f46`)). Stubs 31 → **21**. Eight NEAR at
+    EXACT length with the gcc mechanism cited → 15 rows logged to the backlog (`docs/backlog.md` 18 open) and the ≤3
+    residuals pinned as WALL candidates in `config/wave_exclude.txt` (8 entries). **Instrument (R35/R40, cookbook §493
+    S80 correction):** the permuter had NEVER permuted a pinned seed — `hide_asm` carried only the `__asm__` spelling,
+    `permuter_ils` warm-restarted from the DECODED waypoint (raw pins back → cycles 2..N silent refusals), and
+    `defines_fn` refused K&R definitions (436 stored backlog drafts kept out of the lane for four phases); fixed +
+    R39-controlled over 5,311 drafts. The re-run 8-seed ILS sweep: no score-0, `func_80039DEC` 9→2, `func_80023BF0`
+    18→11, `func_8017DF28`'s "1" a divergent store rewrite (stays 2, R14). cookbook **§494** (ten banks + the Opus
+    verdicts' idioms: P_TAG `addr:24` bitfield store, inverted arms, sibling-reading, the 518-ins spelling laws,
+    gdb-on-cc1 allocno arithmetic, K&R `s16` params, `true_dependence`, field-boundary fences, `extendhisi2` orphans,
+    `[][1]` decls). `.run/S79w` allowlisted (drafts + 3 permuter waypoints + verdict ledger + briefs, 264 KB, R20).
+    **R22:** clean `extract-all` 212/212 + `check-all` **213/213** (`.run/S80/r22_*.log`); `tools-health` OK. Metrics:
+    main REAL 777 · LINKED 1,256 · VERBATIM 3 · stubs **12** · byte-identical 2,079/2,091 = 99.43% · **game-code 95.1%
+    (39,479 / 41,534)**; fleet instr **100.0%** (13,481,386 / 13,485,889) · distinct 99.9% · stubs **21**.
 - [ ] **Tclose — PhaseEnd** (gate 2). (Max)
 
 ## Standing verification (every task)
@@ -8435,3 +8454,134 @@ others stopped a few instructions short with the reason written down; eleven wer
 session ran out of room. The next session's first job is to collect those eleven answers with the small
 script written for it, bank whatever matches, and record the rest.
 
+## 🛑 SESSION CHECKPOINT — S80 #9 CLOSE (2026-09-05). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #10 → #11 remain (#9 DONE this session).
+
+Written for a FRESH SESSION with none of this context. Read it in full before doing anything. **HEAD = this docs commit,
+on top of `commit:3891` (#9c ledger), `commit:3890` (the permuter instrument fix), `commit:3889` + `commit:3888` (#9 banks 10 and
+9), `commit:3887` (bank 8, the last S79 commit). Drew pushes (R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the
+S78 decision).** Model Fable 5.1; effort **Max** (Drew set it at S80 start). #10 is xHigh-shaped and #11 is Max (R27: prompt
+Drew for the actual `/effort` line at each transition; running #10 at Max is only slower, not wrong). The Ghidra MCP server
+restarts via the SessionStart hook → Drew runs `/mcp` (R29) only if an RE task appears (none is next). Ghidra DB churn
+(`db.*.gbf`, `~index`) is R23 restart-noise: do NOT stage it.
+
+**Verified at close (R22/R58/R53):** `make clean && make extract-all && make check-all` → extract-all **212/212** (+ main,
+serial), check-all **213 passed, 0 failed of 213**, exit codes 0/0 (`.run/S80/r22_extract.log`, `.run/S80/r22_check.log`);
+`make tools-health` → **OK** rc 0 (`.run/S80/tools_health.log`: sigs fresh; corpus(+resident) 0 PHANTOM + 0 TRUNCATED;
+cdecl; audit-binaries 213/213 citizens; report lint+dedup 0 failed; cookbook-index; split_indicator 213 OK of 213).
+`frontier_classify --json .run/frontier_s80.json` regenerated after the fleet: **21 rows = 21 stubs**. `make report
+BINARY=main` → build SHA1 `143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-identical.
+
+# 1. WHAT THIS SESSION DID (task #9 closed — the drafting pool)
+
+* **Aggregated the 11 S79 drafting agents** (Agent-tool subagents that outlived S79) from their transcripts with
+  `tools/agent_verdicts.py` (their verdict is the transcript's last JSON object; never cat a transcript): **2 more MATCH,
+  8 NEAR**; ledger `.run/S79w/verdicts/verdicts.jsonl` = 30 rows. Per result: verbatim grep → `rtu_match` in the real TU
+  (both MATCH 468/468 and 297/297) → gate → commit per bank (R42) → `twin_rescan` (nothing newly free; the one d≤5 twin is
+  the known ov_SC02_017/016 pair). **Banked: `main:func_8001EFE0` (468 ins, `gate_main --apply` clean rebuild, `commit:3888`)
+  and `ov_SC02_027:func_80180B3C` (297 ins, `parallel_gate` worktree + in-tree `1f741f46…`, `commit:3889`).** Task #9 = ten
+  banks; open stubs 31 → **21** (this session 25 → 21 incl. S79's late `func_80181E04`).
+* **The permuter instrument (R35/R40; cookbook §493 S80 correction; `commit:3890`).** The S79 ILS "8-cycle plateau" on
+  `func_80020DA4` was ONE cycle: `permuter_ils` copied the waypoint's `source.c` — which decomp-permuter serializes with the
+  b64 pragmas DECODED back to raw `register … __asm__("$N")` pins — into base.c, so every later cycle was a pycparser
+  refusal printed as "(unchanged)". Two more: `hide_asm` matched only the `__asm__` spelling (`asm("$7")` in 3 S79 seeds
+  stayed raw → refused at cycle 1), and `defines_fn` (the R32 "did prep eat the function?" check) could not see a K&R
+  definition (`void f(a0) void *a0; {`) — the R39 control over 5,311 stored drafts found **436 K&R backlog drafts** that
+  check alone had refused for four phases (the grinder's "0 banks since Phase 21" has a new suspect). Fixes: all three
+  spellings, keyword followed by `(`/`volatile` (the R39 control caught the bare word `asm` inside `INCLUDE_ASM("asm/…")`
+  path strings before it shipped), re-hide every warm-restart waypoint + assert `defines_fn` + abort exit-2 on a refusal
+  (R61a), flushed ILS logs (R55). Positive-controlled on the exact S79 refusal.
+* **8-seed `permuter_ils` sweep** (8×150 s, `-j3` each, all pinned seeds now iterate): **no score-0**. `func_80039DEC` 9 → **2**
+  (the same K&R raw-preserve register class, `$t1` vs `$a3`), `func_80023BF0` 18 → **11** (ADDRESSING — the 0xFFFFFF/0xFF000000
+  `lui/ori` moved across the `sll`/`bne`; verify semantics before seeding), `func_8017DF28` "1" = the waypoint REPLACED
+  `addiu $s2,$sp,0x10` with `sw zero,48(sp)` — divergent, closeness stays 2 (R14); `func_80020DA4` 2, `func_80032A74` 1,
+  `func_800391D4` 3, `func_80038698` 11, `func_80039B20` 7 held. Waypoints saved as gate-ready drafts in
+  `.run/S79w/permuter/`.
+* **Ledger:** 15 NEAR rows logged (`.run/backlog.jsonl`, `docs/backlog.md` 18 open near-misses, each with the gcc mechanism);
+  `config/wave_exclude.txt` **8 entries** — the ≤3 residuals with a mechanism citation + an ILS null pinned as **WALL
+  candidates** (`main:func_80032A74` 1 extendhisi2/caller-save orphan · `func_80020DA4` 2 mflo destination ·
+  `func_80039DEC` 2 K&R argument-position promotion · `func_800391D4` 3 move_movables splice order) beside the four
+  earlier pins (`func_80011380` §474 PROVED, `ov_SC06_022:func_8017DF28` 2, `ov_SC03_105:func_801834A4`,
+  `md_MAIN_034:func_800CB00C`); `exclude_audit --write` normalised. Cookbook **§494 v2** (ten banks + every idiom the
+  Opus/Sonnet verdicts produced + instrument findings + the ledger paragraph); `.run/S79w` allowlisted in `.gitignore`
+  (27 arm drafts + 3 permuter waypoints + `SYS.md` + `targets.json` + the verdict ledger, 264 KB — R20).
+
+# 2. THE CENSUS (S80 close; every number with its denominator, R41)
+
+* **Stubs: 21 of 363,157 matchable** (`.run/frontier_s80.json`): **main 12 (2,077 ins)** · resident 2 · md_MAIN_003 1 ·
+  md_MAIN_034 1 · ov_SC02_017 1 · ov_SC03_105 2 · ov_SC06_022 1 · ov_SC07_002 1; **4,554 ins** total. Classes:
+  **B-CARVE 4** — resident `func_800D06E8` 344 (close 292, really F-FAR) + `func_800D128C` 243 (close-0 draft at
+  `.run/S71_gate14/resident/func_800D128C.c`; `jtbl_carve` refuses NON-CONTIGUOUS → the code subseg must be split first,
+  §486), ov_SC02_017 `func_80186C64` 209 (same refusal; d=2 twin ov_SC02_016), md_MAIN_034 `func_800CB00C` 152 (a
+  174-vs-123-ins wrong draft under a WALL pin → re-draft, then the §154-A leading-island prep at gate time) ·
+  **D-NEAR 10** — main `func_80032A74` 422 c1, `func_80023BF0` 281 c11, `func_80011380` 192 c6 (§474 PROVED wall),
+  `func_80020DA4` 100 c2, `func_80039B20` 79 c7, `func_800391D4` 75 c3, `func_80038698` 74 c11, `func_80039DEC` 74 c2;
+  ov_SC06_022 `func_8017DF28` 119 c2 (wall); ov_SC03_105 `func_801834A4` 106 c9 (pinned S71) · **F-FAR 7** — main
+  `func_80039308` 518 c34, `func_80015B6C` 120 c44, `func_8002FDE8` 73 c35, `func_8001BC6C` 69 c28; ov_SC03_105
+  `func_80185810` 489 c37; md_MAIN_003 `func_800CF3E8` 469 c54 (o0=False — NOT the -O0 island); ov_SC07_002
+  `func_8017DC80` 346 c84.
+* **Metrics** (`docs/progress.md` / `progress.fleet.md`, regenerated by tools-health): main **REAL 777 · LINKED 1,256 ·
+  VERBATIM 3 · stubs 12 · matchable 2,091 · byte-identical 2,079/2,091 = 99.43%**; **MAIN game-code weighted 95.1%
+  (39,479 / 41,534)** — its remainder 2,055 is **22 ins short of the census's main open-stub sum 2,077**: an unreconciled
+  denominator gap, reconcile at #11 (R14/R41), do not smooth it. Fleet **instr-weighted 100.0% (13,481,386 / 13,485,889)**
+  · distinct-code 99.9% (90,920 / 90,929 unique fns) · fn-count 99.99% (363,136 / 363,157) · stubs 21 · NON_MATCHING 0
+  (G4) · dedup 0 failed. Linked libraries unchanged since S79 #5 (268 objects / 70 blocks).
+* **Verbatim `__asm__` bodies: 6 in tree**, manifest `config/verbatim_manifest.json` = 6 rows (5 PERMANENT: crt0
+  `start`/`__main`/`__do_global_dtors`, md_MAIN_003 `func_800D3204`/`func_800D3234`; 1 GAME-C DECOMPILE-NOW:
+  `ov_SC03_107:func_8017D878` 45 ins). **`main()` (509 ins) is ALREADY C** (`src/boot.c:277`, in main's REAL list) — the
+  S79 brief's "#10 decompiles main()" was stale; and "the md_MAIN_003 -O0 cluster" is down to `func_800CF3E8`, an
+  F-FAR ledger row, not an -O0 body. Neither is #10 work.
+* **Disc: 5 unclaimed code payloads of 220** (the explicit exclusion the 100% claim cites, `docs/disc-completeness.md`).
+
+# 3. THE TASK LIST — DONE: #1 #2 #12 #3 #4 #13 #5 #6 #7 #8 **#9** · NEXT **#10** · then #11
+
+| # | task | status | effort |
+|---|---|---|---|
+| 1–8, 12, 13 | see the S79 FINAL block §3 (unchanged) | DONE | — |
+| 9 | the drafting pool: 25 targets, one journal-noted agent each → **10 banked**, 8 NEAR ledgered, instrument fix, WALL pins | **DONE S80** | — |
+| **10** | **verbatim end-state: ratify the 5 PERMANENT rows in the manifest `_README`; decompile `ov_SC03_107:func_8017D878` (45 ins, GAME-C)** | **NEXT** | **xHigh** |
+| 11 | Tclose PhaseEnd on the corrected denominators (+ the 22-ins gap reconciled) | pending | Max |
+
+# 4. TASK #10 — DESIGN BRIEF (X1: design before code)
+
+**(a) Ratify the five PERMANENT rows.** `config/verbatim_manifest.json` `_README` is a list of strings: append a
+"RATIFIED 2026-09-05 (S80, task #10)" line naming the five rows and the reason each is hand assembly (crt0 `start`:
+trapping `addi`, `break 1`, `$gp` load; `__main`/`__do_global_dtors`: libgcc2 C compiled -O2 inside the -O0 boot TU —
+gcc-2.7.2 has no per-function opt level; md_MAIN_003 `func_800D3204`/`func_800D3234`: trapping `add`/`addi`, `$at`, no
+frame — MDEC-side). `tools/verbatim_check.py` diffs the tree against the manifest and must stay green; do NOT hand-edit
+`rows` (`--update` is subtractive).
+**(b) `ov_SC03_107:func_8017D878` (45 ins).** The verbatim bank is the file-scope `__asm__` at
+`src/ov_SC03_107/ov_SC03_107_jr_801789AC.c:6782`; the TU declares `extern void func_8017D878(void);` (line 6733) and
+passes it as a function pointer (`func_801788B8(s0, (s32)func_8017D878)`, line 6744). There is NO `.s` under `asm/`
+(the verbatim replaced the INCLUDE_ASM): regenerate it by temporarily restoring
+`INCLUDE_ASM("asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC", func_8017D878);` + `make extract
+BINARY=ov_SC03_107` (then put the verbatim back before any build), or read the 45 words straight from the verbatim body.
+Stored drafts (37, none banked): the best is `.run/backlog_drafts/func_8017D878.c` (32 lines); also
+`.run/ghidra_c/func_8017D878.c`, `.run/sweep_ak/ov_SC03_107/`, `.run/sweep_ba.949025/ov_SC03_107*/`. The manifest's own
+note: "ordinary -O2 shape; block comment gives semantics but no wall". Route: `rtu_match.py func_8017D878 --split
+ov_SC03_107_jr_801789AC --source ov_SC03_107 --c <draft> --asm-subdir asm/ov_SC03_107/nonmatchings/ov_SC03_107_jr_801789AC`
+→ replace the verbatim body with the C (keep the fn-ptr call site's `extern`) → `parallel_gate` (worktree) → in-tree
+`make build BINARY=ov_SC03_107` (exit code, R53) → commit → `python3 tools/verbatim_manifest.py --update` (check its CLI;
+subtractive → 5 rows) → `verbatim_check` green. If the 45 ins refuse after a bounded attempt (one Sonnet agent + the
+permuter on its best NEAR), it stays VERBATIM with an UNCERTAIN→"attempted, closeness N" disposition — not a fake C body
+(P9). **(c) Close:** R22 fleet, `tools-health`, worklist "S80 task #10", checkpoint, commit.
+
+# 5. HABITS THIS SESSION PAID FOR (keep)
+* Exonerate the instrument before the subject (R40): a "permuter plateau" on a pinned seed was one real cycle; three
+  defects sat in our own layer, and one had silently hidden 436 drafts for four phases.
+* An R39 control over the WHOLE population catches the fix's own false positive (the bare word `asm` in a path string).
+* A masked score is not closeness until the diff is READ (R14): a "1" had replaced an `addiu` with a store.
+* Agent-tool drafters outlive a session: extract the transcript's last JSON, never load the transcript.
+* One ledger row per NEAR at close, with the mechanism and the best draft path, or the next session re-derives it.
+* Report every number with its denominator, including the one that does not reconcile (the 22-ins gap).
+
+# 6. PLAIN ENGLISH
+Last session handed eleven functions to eleven AI agents and ran out of room before they finished. This session collected
+their answers with a small script: two more came back byte-perfect and are banked (one of them the biggest remaining
+piece of the main program), and eight stopped short with the exact reason written down. Then we found that our own
+brute-force polisher had never actually been able to work on the drafts that use CPU-register hints — three bugs in our
+tooling, one of which had quietly hidden 436 stored drafts from it for a month. We fixed all three, proved the fix on
+5,311 drafts, and re-ran the polisher on eight near-misses: none closed, two got closer, one "improvement" turned out to
+be the polisher cheating (it swapped an instruction for a different one) and was refused. Every leftover is now on a
+ledger with its cause, four are formally pinned as compiler walls, and the whole game still rebuilds bit-for-bit
+(213 of 213 files). Twenty-one functions remain across the whole game. Next: bless the five hand-written assembly
+routines that will never be C, and decompile the one 45-instruction routine that is.
