@@ -150,6 +150,35 @@ void func_800CB148(s32 a0) {
 }
 
 
-INCLUDE_ASM("asm/md_MAIN_020/nonmatchings/md_MAIN_020", func_800CB17C);
+#include "common.h"
+
+struct S;
+
+/* func_800CB17C (md_MAIN_020, 30 ins) — S80 #10. The S79 #7 "raw splice" had banked this
+ * function's ASSEMBLY as a verbatim __asm__ body (every stored draft was the asm); this is
+ * the decompile. The TU declares it `s32 (struct S *)` and both callers discard the result;
+ * the target sets no $v0 of its own (it falls off the end after the last jal), which is what
+ * an s32 function with no `return` compiles to. 0xFFE80000 is the `lui $a1,65512` literal. */
+s32 func_800CB17C(struct S *a0) {
+    extern void func_8012A304(s32 a0, s32 a1);
+    extern void func_801477E8(s32 a0, s32 a1);
+    extern void func_80154274(s32 *a0, s32 a1);
+    extern void func_80147324(s32 a0);
+    extern void func_8014C010(s32 a0, s32 a1);
+    extern void func_801483E8(s32 a0);
+    extern void func_80019064(void *a0);
+    extern s32 D_800CB1F4[];
+    extern u8 D_80062BD0[];
+    s32 s0 = (s32)a0;
+
+    func_8012A304(*(s16 *)(s0 + 0xA), 0x80);
+    func_801477E8(s0, 0xFFE80000);
+    func_80154274((s32 *)s0, (s32)D_800CB1F4);
+    func_80147324(0x47A);
+    func_8014C010(s0, 2);
+    func_801483E8(s0);
+    func_80019064(D_80062BD0);
+}
+
 
 
