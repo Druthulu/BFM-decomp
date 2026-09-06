@@ -1,0 +1,86 @@
+extern s32 rand(void);
+extern s32 func_801850D8();
+
+/* MATCH candidate (106/106 in match_one; see rtu_match below).  T5x Fable, 2026-09-05.
+ *
+ * Carried over from the S71 body (byte-proven, do not touch):
+ *  - `tmp` pinned to $2 forces the `addu $s6,$v0,$zero` base copy and makes the
+ *    modulus read the pre-copy pseudo (`sll $v0,$v0,16`, not `$v0,$s6,16`).
+ *  - `*(s32 *)(((rand() & 1) << 2) + (s32)D_8018E59C)` (sibling func_801831E0's
+ *    spelling) keeps the D_8018E59C address from being hoisted.
+ *
+ * THE RESIDUAL THAT WAS CALLED A WALL (idx 82-89) and how it closes:
+ *  The target hoists ONLY the /3 sign-correction `sra $s5,$s4,31` and keeps the
+ *  const+mult+mfhi+subu inline.  One `x / 3` can never do that: expand_divmod
+ *  (expmed.c:3034-3057) emits K(const) B(smulsi3_highpart) C(sra 31) D(minus)
+ *  ADJACENTLY from the SAME op0 rtx, so loop.c's invariant_p gives B and C the
+ *  same verdict; if B is a movable, force_movables (loop.c:1193-1228) links K to it
+ *  (K.lifetime += B.lifetime, K.savings DOUBLES) and K (29*6=174 >= 37) hoists.
+ *  A hard-reg dividend kills all four (scan_loop:596 forces n_times_set[hard]=1).
+ *
+ *  Lever = CSE, not loop.c.  cse.c's canon_reg NEVER rewrites a hard register, but
+ *  its hash/exp_equiv_p compare QUANTITIES.  So:
+ *    sign = half >> 31;      at the TOP of the body: a movable by criterion (1)
+ *                            (maybe_never==0 there, scan_loop:696-706); life 71 -> hoisted.
+ *    hh = half;              hard $2 <- pseudo: cse puts $2 in half's quantity.
+ *    pos[0] -= hh / 3;       B reads $2 (call-used hard reg -> invariant_p==0 -> not a
+ *                            movable, so K stays unlinked: life 1 * sav 1 * 29 < 37 =
+ *                            "not desirable" -> lui/ori inline); C `(ashiftrt $2 31)`
+ *                            hashes into sign's `(ashiftrt half 31)` -> replaced by
+ *                            (reg sign); D becomes `B - sign`.  The `hh = half` copy is
+ *                            then folded into the mult by combine (can_combine_p allows a
+ *                            hard i2dest with REG_DEAD in i3) -> no extra insn.
+ *  Why $2 and not a callee-saved pin: the pinned reg enters regs_ever_live (flow runs
+ *  before combine deletes the copy) -> global.c pass 0 hands it to the first callee-saved
+ *  allocno (j took $s4, closeness 7).  $2 is ever-live anyway and dead in that window.
+ *  Why `= 0` at the declaration: an unread `sign` store is deleted by jump.c before cse
+ *  (first_uid==last_uid).  An asm feed keeps it alive but adds +2 weighted refs
+ *  (sign 7/39 beats half 7/44 in allocno_compare -> half/sign swapped, closeness 4).
+ *  The dead initializer survives jump/cse (two references), is deleted by flow as a
+ *  dead store before regalloc and never counted, so sign = 5 refs/38 insns
+ *  (10/38=.263) lands exactly between half (14/44=.318) and base (10/50=.2): the
+ *  target's j,mod,i,half,sign,base,arg0 = $s1..$s7 order.  match_one MATCH 106/106,
+ *  rtu_match MATCH in the real TU (2026-09-05).
+ */
+void func_801834A4(s32 arg0) {
+
+    extern s32 D_8018E894[];
+    u16 pos[3];
+    s32 i;
+    s32 j;
+    s32 u;
+    s32 base;
+    register s32 tmp __asm__("$2");
+    s32 mod;
+    s32 step;
+    s32 obj;
+    s32 half;
+    register s32 hh __asm__("$2");
+    s32 sign = 0;
+
+    if ((D_800B99DA & 7) == 0) {
+        pos[1] = 0;
+        pos[2] = 0;
+        for (i = 0; i < 6; i++) {
+            u = D_8018E894[i];
+            tmp = u * 0x600 + 0x2000;
+            base = tmp;
+            __asm__ ("" : "=r"(tmp) : "0"(tmp));
+            mod = (tmp << 16) >> 18;
+            step = u * 6 + 0x12;
+            half = step * 2;
+            pos[0] = step;
+            pos[1] -= 0x24;
+            for (j = 0; j < 4; j++) {
+                sign = half >> 31;
+                obj = func_801850D8(1, (s16)(base + rand() % mod), 0, 0, pos, arg0,
+                                    *(s32 *)(((rand() & 1) << 2) + (s32)D_8018E59C), 0);
+                if (obj != 0) {
+                    *(s32 *)(obj + 0x20) |= 0x800000;
+                }
+                hh = half;
+                pos[0] -= hh / 3;
+            }
+        }
+    }
+}
