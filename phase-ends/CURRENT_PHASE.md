@@ -182,17 +182,15 @@ clean at HEAD; the `ghidra/` churn (`db.*.gbf`, `~index.*`, `*.prp`) is R23 rest
 Drew pushes (R6; ~50 unpushed at this writing).
 
 ### 1b. T4b state at this writing (the ledger that matters if this session dies)
-**BANKED 9** (each: coordinator `rtu_match` in the CURRENT real TU → `gate_main` slate for main / `SPLIT=… DRAFT_DIR=.run/P32/t5x/fable
+**BANKED 11** (each: coordinator `rtu_match` in the CURRENT real TU → `gate_main` slate for main / `SPLIT=… DRAFT_DIR=.run/P32/t5x/fable
 .run/P32/t3s3/bank.sh` for overlays+modules → one commit; pins dropped by `exclude_audit --write`; mechanisms in cookbook §501–§501-I):
 `main:func_800391D4` `commit:3956` · `main:func_80039DEC` `commit:3959` · `md_MAIN_009:func_800CD674` `commit:3964` · `ov_SC06_022:func_8017DF28`
 `commit:3966` · `main:func_80020DA4` `commit:3969` · `ov_SC03_105:func_801834A4` `commit:3972` · `md_MAIN_003:func_800CF3E8` `commit:3976` ·
-`md_MAIN_009:func_800CD92C` `commit:3979` · `ov_SC07_002:func_8017DC80` `commit:3983`. Now 100% C: md_MAIN_003, md_MAIN_009, ov_SC06_022,
-ov_SC07_002 (+ the T3 ones). main open = 3: `func_80032A74` (pinned, NEAR 1 — ghost pseudo, near-PROVED), `func_80011380` (pinned,
-§474, agent in flight), `func_80039308` (NEAR 4). **NEAR improved, in `docs/backlog.md` with next levers:** `func_80032A74` 1 (the
+`md_MAIN_009:func_800CD92C` `commit:3979` · `ov_SC07_002:func_8017DC80` `commit:3983` · **`main:func_80011380` `commit:3990` (the §474 "PROVED" −O0 wall: the nested MULT built at RTL level, §501-J)** · **`md_MAIN_007:func_800CF6D0` `commit:3992` (137 → 0, zero pins, §501-K)**. Now 100% C: md_MAIN_003, md_MAIN_009, ov_SC06_022,
+ov_SC07_002 (+ the T3 ones). main open = 2: `func_80032A74` (the LAST pin, NEAR 1 — ghost pseudo, near-PROVED), `func_80039308` (NEAR 4). **NEAR improved, in `docs/backlog.md` with next levers:** `func_80032A74` 1 (the
 0x48 slot is a ghost pseudo; the only memory-value ghost species is the lh SIGN_EXTEND split), `func_80185810` 35 → 13 (residual = the
 `cl &= 0xFFFF` second-set fence), `func_80039308` 17 → 4 (a phantom 8-byte spill slot at sp+8 + the hoisted constant's preheader
-order). **IN FLIGHT (3 Fable agents, resumed 3-at-a-time per Drew):** `md_MAIN_007:func_800CF408` (49), `md_MAIN_007:func_800CF6D0`
-(137), `main:func_80011380` (6, −O0). Queue `.run/P32/t5x/resume_queue.txt` is EMPTY. Their deliverables land in `.run/P32/t5x/fable/`
+order). **IN FLIGHT (1 Fable agent):** `md_MAIN_007:func_800CF408` (49) — the last of the 15. Queue `.run/P32/t5x/resume_queue.txt` is EMPTY. Their deliverables land in `.run/P32/t5x/fable/`
 + `reports/`; verdicts so far in `.run/P32/t5x/verdicts.jsonl` (12 rows). **Drew (15:0x MDT): Fable was permission, not a
 requirement — Opus is fine where a sibling recipe exists.** Fleet R22 has NOT run since the T4b banks — run `make clean && make
 extract-all && make check-all` (218/218 expected) before any close; `make report` for the metrics; then the final census.

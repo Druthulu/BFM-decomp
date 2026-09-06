@@ -37347,3 +37347,41 @@ a zero-byte `__asm__("" : "=r"(arg) : "0"(arg))` — otherwise combine substitut
 and deletes the first set (16 → MATCH). Inert (do not re-try): the P_TAG-bitfield `setlen/addPrim` here (76, 345 ins — the
 bitfield is the dial for the §351/§364 SPRT family, not for this DR_TPAGE shape), q/qt/ov pin ablations, DR_TPAGE statement
 re-orders without the shared scratch, an unlaundered or `$4`-pinned `arg`, call-first source order (33).
+
+**§501-J — A PROVED TREE WALL IS NOT AN RTL WALL: build the nested MULT at RTL level with the EXPAND_SUM distributive law (P32 T4b,
+`main:func_80011380`, boot −O0 — §474's "PROVED C-level floor" banked by a Fable agent, 192/192).** §474 proved from the source that
+no TREE can carry `MULT(MULT(i,2),2)` (fold-const.c:882 `split_tree` merges it) and that both escapes (a statement-expression's
+BLOCK_END note, a `register` decl's `(use)` brackets) cost a suid that stupid.c's born+2 rule turns into a deleted copy or a rotated
+colouring. All true — and beside the point: **the nested MULT can be built AFTER fold, by the expander.** Index spelled
+`(D_80074784 * 2 + 1) * 2 - 2` (== `i * 4`): fold has no MULT-over-PLUS distribution and `split_tree` only decomposes MULT/PLUS/MINUS,
+so `MULT(PLUS(MULT(i,2),1),2)` survives; `expr.c:5368` (MULT_EXPR, `EXPAND_SUM`, ptr_mode, constant op1) expands the inner `i*2` to
+the rtx `(mult X 2)`, `+ 1` gives `(plus (mult X 2) 1)` (`both_summands`, expr.c:5248), and the outer `* 2` returns
+`(plus (mult (mult X 2) 2) 2)` — a nested MULT rtx fold never sees. The source's `- 2` cancels the `+2`: the ARRAY_REF folds to
+`PLUS(PLUS(ADDR, −2), idx)`, `plus_constant` makes `(const (plus sym −2))`, and `both_summands` folds `sym − 2 + 2` to the bare
+symbol. `memory_address` rejects the PLUS-with-MULT and calls `force_operand`, which expands the two multiplies back to back
+(`expand_mult` alg_m `copy_to_mode_reg` expmed.c:2227 + alg_shift :2244, twice) with no note and no variable; every chain pseudo is
+length-2/2-ref, so stupid.c's born+2 adjacency 2-colours the `$v1/$a0` ping-pong exactly as the target, and `expand_binop`'s late
+`copy_to_mode_reg(sym)` gives `la $a0 / addu / lbu 0()` — the bare symbol (no addend survives to the asm). **Inert, from source:** a
+hard-reg pin + shift-outer `(t = i*2) << 1` → 191 LENGTH-DRIFT (a REG index makes `(plus sym reg)` a legitimate MIPS address, so
+`la/addu` vanish — the target's `la;addu;lbu 0()` shape REQUIRES the index to reach `memory_address` as a MULT rtx; every `<<`
+spelling is dead), COMPOUND_EXPR shield (fold-const.c:3335 distributes), SAVE_EXPR via `?:` (expr.c:4338 + function.c:5327),
+COND shields, builtin pseudo-constants (`li`), pin+MULT (`copy_to_mode_reg($4)` first-fits `$v1`). **Law:** at −O0 the expander is
+a second algebra with its own distributive law and constant folding (`EXPAND_SUM`, `both_summands`, `plus_constant`); a tree-level
+proof of unreachability must also close the EXPAND_SUM route before it is a proof.
+
+**§501-K — THE "sched1 CLASS TIE" WAS sched2's /s-STORE EXEMPTION, AND A HAND PAD CAN HIDE A PSEUDO'S OWN SLOT (P32 T4b,
+`md_MAIN_007:func_800CF6D0`, the 137-row plateau banked by a Fable agent — 249/249, zero pins; ladder 137 → 30 → 26 → 10 → 0).**
+(1) The QI-before/HI-after store grouping in five of six blocks is SCHED2 (`-dR`): sched.c:838–845 `true_dependence` exempts `/s`
+varying NON-QImode stores from a fixed non-`/s` read (the `lhu D_800B9A02` index), so the `sh/sw` were ready a clock early and won
+`schedule_select`'s potential-hazard rule (store > load > ALU), blocking the loads a cycle. CAST field stores `*(T *)(p + off)` (the
+banked twin `func_800CD92C`'s shape, §501-H) restore the dependence and pure LUID order. (2) The OT write must STAY a `/s` P_TAG
+bitfield so `D_800A5E60 = p` floats above block 6's OT write (the same exemption, as an output dependence). (3) The `$t2/$t3`
+`la`-vs-`0xFF000000` swap is a local-alloc `qty_compare` tie decided by FLOW's `reg_n_refs`: assign `ob = D_800AA60C` BEFORE block 1
+and use it in block 1's tag-side read too (13 refs, like the twin's compiler-made `la`; combine then folds the symbol back into
+read 1 as a 3-insn merge with the `la` def re-emitted as newi2pat, giving the raw-symbol `lui $at/addu/lw` form) — assigned after,
+12 refs, loses by 1.2 %. **Side effect that closed the frame:** the folded sum pseudo keeps `reg_n_refs = 2` (combine.c:2313/2336
+zero only a deleted i2's) and reload1.c:2309 `alter_reg` gives it a 4-byte slot — that slot IS the target's 0x18 frame, so the T3
+`u32 pad[2]` (§358) had to go (0x20 with it). Plus the twin's multi-set tag RMW, `v` before `t &= 0xFF000000`, `(ot & m24) & m24`,
+chained rgb stores, the TU prototype `(s32, u32)`. Inert/superseded: `pad[2]` with ob-first; array-indexed OT on the `u8` symbol
+without `ob` (254 ins); a cast OT write (the tail stops floating). **Law:** a frame that is "8 bytes short" may be one pseudo's own
+slot, not a pad — read `.greg` for the stack-slot assignment before declaring a pad.
