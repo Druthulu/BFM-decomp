@@ -196,8 +196,9 @@ order). **IN FLIGHT (3 Fable agents, resumed 3-at-a-time per Drew):** `md_MAIN_0
 + `reports/`; verdicts so far in `.run/P32/t5x/verdicts.jsonl` (12 rows). **Drew (15:0x MDT): Fable was permission, not a
 requirement — Opus is fine where a sibling recipe exists.** Fleet R22 has NOT run since the T4b banks — run `make clean && make
 extract-all && make check-all` (218/218 expected) before any close; `make report` for the metrics; then the final census.
-**After the three finish:** a second bounded round (3 at a time) on the remaining NEAR rows with their named next levers — Fable for
-unread compiler internals, Opus where the recipe is a sibling's (§501-H for md_MAIN_007's two if they come back NEAR).
+**After the three finish (Drew, 2026-09-05 ~15:40 MDT): NO second round this session.** Close T4b: fleet R22 (clean + extract-all +
+check-all, 218/218) → `make report` → final census → decision-log (R31) + accelerators for the T4b findings → refresh this block → T5 prompt.
+A second bounded round on the remaining NEAR rows (their next levers are in `docs/backlog.md`) is the NEXT session's call.
 
 ### 2. What S83 did (session 491895ad, 2026-09-05 10:10 → 12:40 MDT, xHigh, Fable 5.1) — T3 steps 0–9
 **Banks: 29** (the 11 S82 MATCH rows, the 17 queued Haiku rows — 17/17 MATCH first pass — and `func_8001BC6C` cracked 6 → 0);
