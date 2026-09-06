@@ -1,0 +1,97 @@
+  CC      build/src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.o
+In file included from src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:2:
+src/ov_SC06_022/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC06_022/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC06_022/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC06_022/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC06_022/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC06_022/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC06_022/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC06_022/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:1525: warning: conflicting types for built-in function `memcpy'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4131:61: warning: "/*" within comment [-Wcomment]
+ 4131 |  * family, all identical wherever declared — src/ov_SC06_022/*.c and the
+      |                                                              
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017D454':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3489: warning: passing arg 1 of `func_8012A018' makes integer from pointer without a cast
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017D518':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3526: warning: passing arg 1 of `func_8012A018' makes integer from pointer without a cast
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017D5D8':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3545: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3437: warning: previous external decl of `D_80126940'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017D6E0':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3590: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3437: warning: previous external decl of `D_80126940'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017D7CC':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3631: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3437: warning: previous external decl of `D_80126940'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017D8D4':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3674: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3437: warning: previous external decl of `D_80126940'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: At top level:
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3722: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3578: warning: previous external decl of `func_8017D9C0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3722: warning: type mismatch with previous implicit declaration
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3704: warning: previous implicit declaration of `func_8017D9C0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3722: warning: `func_8017D9C0' was previously implicitly declared to return `int'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3755: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3579: warning: previous external decl of `func_8017DB58'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3755: warning: type mismatch with previous implicit declaration
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3665: warning: previous implicit declaration of `func_8017DB58'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3755: warning: `func_8017DB58' was previously implicitly declared to return `int'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017DB58':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3760: warning: assignment from incompatible pointer type
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017DC0C':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3803: warning: passing arg 3 of `func_80128D60' from incompatible pointer type
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: At top level:
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4038: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3985: warning: previous external decl of `func_8017E2B0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4038: warning: type mismatch with previous implicit declaration
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4015: warning: previous implicit declaration of `func_8017E2B0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4038: warning: `func_8017E2B0' was previously implicitly declared to return `int'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4142: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3844: warning: previous external decl of `func_8012B0B4'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4142: warning: type mismatch with previous implicit declaration
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3855: warning: previous implicit declaration of `func_8012B0B4'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4142: warning: `func_8012B0B4' was previously implicitly declared to return `int'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: In function `func_8017EA6C':
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4353: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3818: warning: previous external decl of `func_8017EFE0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4353: warning: type mismatch with previous implicit declaration
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3818: warning: previous implicit declaration of `func_8017EFE0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4355: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3823: warning: previous external decl of `func_8012E9C0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4355: warning: type mismatch with previous implicit declaration
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3823: warning: previous implicit declaration of `func_8012E9C0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c: At top level:
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4546: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3818: warning: previous external decl of `func_8017EFE0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4546: warning: type mismatch with previous implicit declaration
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3818: warning: previous implicit declaration of `func_8017EFE0'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:4546: warning: `func_8017EFE0' was previously implicitly declared to return `int'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:5483: warning: type mismatch with previous external decl
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:5466: warning: previous external decl of `func_80180700'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:5483: warning: type mismatch with previous implicit declaration
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:5466: warning: previous implicit declaration of `func_80180700'
+src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:5483: warning: `func_80180700' was previously implicitly declared to return `int'
+  LD      build/ov_SC06_022/ov_SC06_022.elf
+  OBJCOPY build/ov_SC06_022/ov_SC06_022
+  TRIM    build/ov_SC06_022/ov_SC06_022 (-1 B linker end-align pad)
+[ OK ] build/ov_SC06_022/ov_SC06_022
+       sha1 2a7d7d4e2fe2f87a83a065686731c7942b3c70ef == config/check.ov_SC06_022.sha  (BYTE-IDENTICAL)
