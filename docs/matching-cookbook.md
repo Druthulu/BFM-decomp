@@ -37274,3 +37274,32 @@ deletes an UNREAD pseudo store (`regno_first_uid == regno_last_note_uid`) before
 initializer `s32 sign = 0;` gives the store a second reference that jump/cse respect and flow deletes, uncounted → the target's
 `$s1..$s7` order. Law: **a division by a constant is four insns from one rtx; to hoist a subset, give the subset a different
 QUANTITY (a hard-reg copy for the part that must stay, a named variable for the part that must move).**
+
+**§501-G — THREE PASSES, THREE DIALS: the 27-row "alias basin" was sched1's birthing boost + a phantom USE filling a delay slot only
+in sched2's model + a local-alloc priority tie (P32 T4b, `md_MAIN_003:func_800CF3E8`, 469/469, banked by a Fable agent after two
+Opus passes and ~16k compiles had located the window but not the passes).** Read from `-dS/-dR/-dl`:
+1. **sched1 — the tag load was birthing-boosted** (`adjust_priority` sched.c:2507 → `birthing_insn_p` :2469, `reg_n_sets == 1`,
+   dest live, priority `7f000001`): a boosted load sinks to just before its consumer and NO source position moves it while the
+   boost is alive (why the 14-position birth sweep and the 32-position hoist sweep were inert). **Dial: a second LIVE set of the
+   loaded pseudo — `tag6 = *(u32 *)p6; … tag6 &= 0xFF000000;`** (the compound reuses the variable's pseudo as the `and`'s dest →
+   `reg_n_sets = 2`, zero bytes, and the variable stays single-death/local). The `__asm__ volatile("" : "=r"(x))` dial of §501-C
+   measured 39 here — it makes the tag a 2-death GLOBAL allocno; choose the dial by what the register must remain.
+2. **sched2 decides the final slot.** Post-reload the load `(mem:SI (reg 3))` and the field stores `(mem/s (plus (reg 3) N))`
+   are disambiguated by `memrefs_conflict_p`, and the unit-hazard rule "a load is blocked one cycle after a store" (`-dR`:
+   `blocking insn … for 1 cycles`) walks the load upward past every consecutive store until it loses a LUID tie — which (1)
+   fixes. **Two byte-verified sched2 facts:** (a) the S83 "+1 nop" was the phantom `__asm__("" :: "r"(ot))` USE — in sched2 it
+   ties `and tag` at priority 7, wins on LUID, and is picked into the load-delay slot in the MODEL only, so gas emits a real
+   `nop`: **remove zero-byte USE phantoms whenever a nop appears next to them** (re-adding it: 70 @ 470); (b) `lui m24` reaches
+   slot 378 only through its `$a2` anti-dependence, so the `__asm__("")` fence after the tpage store had to go (everything after
+   a traditional asm depends on it; re-added: 8), while the fence BEFORE p6's birth stays (removed: 461 @ 471).
+3. **local-alloc — m24 must out-rank mhi.** `qty_compare` (local-alloc.c:1579) uses POST-sched1 birth/death and FLOW's `n_refs`
+   (flow.c:2067/2315/2501/2711, written BEFORE combine; combine.c:56 never adjusts them). With the hand-written
+   `(x & 0xFF000000) | (y & 0xFFFFFF)` both masks had 13 refs and mhi's shorter range won `$a2`. **Dial: spell the OT link as
+   libgpu's `P_TAG` bitfield `setaddr(p, getaddr(ot)); setaddr(ot, p)`** — `store_fixed_bit_field` re-masks the already-masked
+   value with `0xFFFFFF` (`must_and`), an `and` cse cannot fold and combine deletes later, but flow has ALREADY counted it: m24
+   13 → 18 refs, priority ~doubles → allocated before mhi → `$a2`; mhi → `$t0`; tag → `$t2` (74 → 2); the last two rows were
+   p5's x0/y0 in natural source order. **The bitfield store is therefore a REFERENCE-COUNT dial, not only a §364 shape.**
+Ablations (do not re-try): non-compound tag 89; phantom re-added 70 @ 470; fence re-added 8; manual masks on all six prims 74;
+the S83 pointer launder and the tag read's source position are non-load-bearing (byte-identical alternates `v_C1`/`v_X4`).
+Laws for the map (sched.md / regalloc.md): sched1 boost → position-insensitive sink; sched2 hazard walk + LUID; flow `n_refs`
+pre-combine; a zero-byte USE is a scheduling object with a real delay-slot cost.
