@@ -37303,3 +37303,27 @@ Ablations (do not re-try): non-compound tag 89; phantom re-added 70 @ 470; fence
 the S83 pointer launder and the tag read's source position are non-load-bearing (byte-identical alternates `v_C1`/`v_X4`).
 Laws for the map (sched.md / regalloc.md): sched1 boost → position-insensitive sink; sched2 hazard walk + LUID; flow `n_refs`
 pre-combine; a zero-byte USE is a scheduling object with a real delay-slot cost.
+
+**§501-H — LARGE CONSTANTS ARE UNBOOSTED FLOATERS; the "prologue weave" is decided by which ready-list STALLS eat them (P32 T4b,
+`md_MAIN_009:func_800CD92C`, the 15-row §S7 weave banked by a Fable agent — 247/247, ZERO register pins).** Two mechanisms, both
+in sched1/local-alloc, both fixed by spelling the addPrim the way libgpu's `P_TAG` macros expand:
+1. **m24's register is a REF-COUNT effect, not a pin.** `qty_compare` uses FLOW's `reg_n_refs` (pre-combine; combine.c:56 never
+   adjusts). `la` (13 refs, life 342) beats an unpinned `m24` (13 refs, life 420). The bitfield store `setaddr(p, getaddr(ot))`
+   re-masks its already-masked value (`store_fixed_bit_field` must_and, expmed.c:608–620): pre-combine `(and (and ot m24) m24)`,
+   folded by combine's associative rule (combine.c:3140–3170) to ONE `and` — but m24 keeps 19 refs (4·19 = 76 > la's 39) → `$9`.
+   Spelled `(ot & m24) & m24` with a plain `u32 m24 = 0xFFFFFF`. (Same dial as §501-G(3).)
+2. **tp8D/tp8F float to the top only when the tag load is a MULTI-SET pseudo.** sched1 `try_split`s every insn before scheduling
+   (sched.c:4826; mips.md `large_int` → `lui + ori`) and `update_n_sets` bumps `reg_n_sets` to 2 (sched.c:4617/4234), so EVERY
+   0xE10000xx constant is an unboosted priority-1 floater, pinned or not. The backward list scheduler consumes a floater only in an
+   EMPTY ready-list cycle, and each RMW chain has exactly one (the `lhu → sll` latency gap): prim k−1's two gaps eat prim k's
+   constant. The bitfield RMW shape `t = *p; t &= 0xFF000000; t |= v; *p = t;` sets ONE pseudo three times → no birthing boost
+   (sched.c:2490) → the tag load is not glued to its `and` and fills the `lhu → sll` gap itself → the tpage constants float to
+   the top, and local-alloc's life order gives `$16..$19` in the target's order. Sub-levers, each one probe: `v` must be a FRESH
+   expression (`v &= m24` in place is a 4-ref/2-insn qty that steals `$2` — the 178-row `$v0/$v1` swap); the OT read `v` must
+   precede `t &= 0xFF000000` (the constant is force_reg'd where its `and` is expanded — a lower UID than the index `sll` drops it
+   into prim 1's gap and the tag load lingers into the store stream, handing tp8F's `ori` the wrong LUID = the closeness-2
+   `li/ori` swap); `D_800BAE22` as a plain scalar (struct/array/cast spellings force one shared `la`); the tag store non-/s
+   `*(u32 *)p`. TU spelling: `extern u8 *D_800A71D0` (the `u32` spelling CC1-FAILs since the sibling bank).
+**Law (the whole prologue-weave class, three functions today):** a constant's position in the prologue is not steerable by its
+source position or by a hard-reg pin — it is decided by which latency stalls exist above it; change the stalls (a multi-set
+load fills them) and the constants move. Read `-dS`'s ready-list traces for the `T-nn` empty cycles.
