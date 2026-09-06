@@ -37327,3 +37327,23 @@ in sched1/local-alloc, both fixed by spelling the addPrim the way libgpu's `P_TA
 **Law (the whole prologue-weave class, three functions today):** a constant's position in the prologue is not steerable by its
 source position or by a hard-reg pin — it is decided by which latency stalls exist above it; change the stalls (a multi-set
 load fills them) and the constants move. Read `-dS`'s ready-list traces for the `T-nn` empty cycles.
+
+**§501-I — MANUFACTURING §172 PRODUCER-2 ORPHANS ON PURPOSE: read the `s16` from MEMORY at each use, and the shared-scratch
+store dependence (P32 T4b, `ov_SC07_002:func_8017DC80`, the historic −33 LENGTH wall's last 46 rows banked by a Fable agent —
+346/346).** Three mechanisms, each one hunk:
+(A) **Frame 0x70 = two combine USE-orphans, MANUFACTURED.** §172 v2 called an extra orphan "not reachable by re-spelling the same
+computation". The species that IS reachable: an `s16` field READ FROM MEMORY at each use — here the mode halfword, once in the
+branch (`& 0xC000`) and once arm-duplicated (`& 0xFFF`). `extendhisi2` (mips.md:2340) force_not_mems the load into a HI reg + the
+`sll/sra` pair; combine.c:1664 `added_sets_1` keeps the HI reg alive across the 3-way merge, so the `ashift` temp is orphaned by
+`distribute_notes` (~10835) into a `(use)` → `alter_reg` 8-byte slot per clamp block. The same spelling yields the target's
+`addu $v1,$v0,$zero` copy (46 → 24). **Corollary to §172:** the orphan rule "the HImode load's reg carries an extra HImode use"
+is satisfied by a SECOND MEMORY READ of the same halfword in the same block — no need to synthesize a `?:` copy.
+(B) **DR_TPAGE: one scratch variable carries the len byte AND the tpage word** — `tp = 1; q[3] = tp; … tp = tpage; *(u32 *)(q+4) =
+tp;`. `schedule_select`'s hazard rule always picks a ready store over ALU insns, so the `sb` must be UNREADY: the shared variable
+gives it an anti-dependence on the `or`; `tp` becomes 2-set (no birthing boost) and both share `$v1`. `n` must be UNPINNED (a
+hard-reg `n` dying at `sll n,5` hands `$s0` to the temp via `combine_regs`) (24 → 16; the same idiom is banked at src/800.c:3826).
+(C) **`la $a0` first:** sched2 places the lowest-LUID body insn first, so `arg = &D_800AF648;` must be the FIRST statement AND carry
+a zero-byte `__asm__("" : "=r"(arg) : "0"(arg))` — otherwise combine substitutes cse's REG_EQUAL constant into the call-site copy
+and deletes the first set (16 → MATCH). Inert (do not re-try): the P_TAG-bitfield `setlen/addPrim` here (76, 345 ins — the
+bitfield is the dial for the §351/§364 SPRT family, not for this DR_TPAGE shape), q/qt/ov pin ablations, DR_TPAGE statement
+re-orders without the shared scratch, an unlaundered or `$4`-pinned `arg`, call-first source order (33).
