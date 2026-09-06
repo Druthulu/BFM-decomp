@@ -777,3 +777,18 @@ lever (explicit promotion before `off = 0`) at 18 and moved on; the agent's `.lo
 lever's -2 in-loop instructions had flipped past loop.c's desirability threshold, paid back with two more `__asm__("")` pads →
 MATCH. Accelerator: on any regression of a mechanism-grounded lever, diff the pass dumps for a second change before discarding
 the lever; treat `insn_count` pads as a dial that must be re-counted after every in-loop instruction change.
+
+**(10) Fable on the compiler-internals class: 9 of 12 completed rows banked where every prior tier had 0 (P32 T4b S83).** The
+twelve rows were the residue of Sonnet/Opus waves, an Opus second look, ~16k permuter compiles and a bounded hand pass; one Fable
+agent per row (~2 h, ≈325k tokens each, 123k–655k) banked nine — six of them pinned "walls" whose citations named the wrong
+pass. The common move was reading the pass dumps (`-dS` ready lists, `.loop` desirability, `-dl` priorities, `.greg`, `-dR`)
+against the 2.7.2 source before the first probe. Accelerator: route a row to Fable when its blocker is an unread compiler pass;
+route it to Opus once a sibling's recipe exists (§501-H for the md_MAIN_007 pair). Budget for three usage-limit outages per
+batch and resume with SendMessage; make agents write the draft and report EARLY (the one crack recovered from a dead run had).
+
+**(11) Attribute the residual to a PASS before sweeping levers (P32 T4b, all nine cracks).** Every T4 wall citation named a
+mechanism; six of seven named the wrong pass, and 22 hand-pass spellings plus ~4,000 agent sweeps of the wrong lever family
+measured nothing. The cracks came from one dump each: the `7f000001` birthing boost in `-dS` (§501-C/D/G/H), the `.loop`
+"not desirable" line (§501), the `-dl` quantity priorities (§501-B/E), the `.greg` "Register N in M" (§501-B/E), the `-dR`
+hazard walk (§501-G). Accelerator: a residual's first artefact is the dump line that owns it — `tools/cc1_dumps.sh` gives all of
+them in one run; a wall verdict without a pass and a dump line is a hypothesis, not a proof (extends (9) and R40).

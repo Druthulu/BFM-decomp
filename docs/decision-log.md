@@ -3328,3 +3328,48 @@ multi-draft TU; (2) the §304 sentence in every drafter brief from the first mod
 re-probe — it costs a `mkdir` and two symlinks and spends no commit; (4) treat a permuter waypoint's diff as a lever list.
 What P32 leaves for P33: 15 functions (7 walls with citations, 8 near-misses with cost), every module at 100% C except the
 ones those rows sit in, the fleet byte-identical 218/218 on every sweep of the day.
+
+## P32 S83 T4b (2026-09-05) — the "final 15" directive: hand-crack first, then one Fable agent per row — 9 of 12 completed rows banked, six of them former pinned walls
+
+### Context and belief
+At the T4 close the ledger said: 7 pinned walls (1 PROVED, 6 CANDIDATE with gcc citations and 3–5 bounded attempts each, permuter
+null, an Opus second look on one) and 8 near-misses (2…137 rows off at exact length). The belief, held since S79 and re-affirmed at
+T4 with TU-context re-probes: the candidates were real compiler walls; the phase would close with 15 rows "ledgered with cost".
+Drew's directive changed the finish line: nothing but the original hand-asm and the PsyQ objects may remain; hand-crack each row
+and name its blocker before spawning agents; Fable agents permitted (later clarified: permitted, not required).
+
+### What happened, measured
+- **The hand pass (Fable 5.1 as coordinator, ≤3 probes per row, 22 spellings): 0 banks.** It refined every blocker to a named
+  mechanism and wrote the untried lever per row (`.run/P32/t4b/<fn>/NOTES.md`) — and was WRONG about the lever on the two rows it
+  measured hardest (func_800391D4's explicit promotion "18, worse" was a cascade; func_80032A74's caller-save area was refuted by
+  the agent with citations). Its value was the mechanism map handed to the agents, not the probes.
+- **One Fable agent per row, ~2 h budget, pass dumps + gcc source in the brief:** of the 12 rows completed at this writing, **9
+  MATCH** (banked byte-identical, one commit each, pins dropped) and **3 NEAR** with the residual attributed to a pass:
+  func_80032A74 1 (a ghost pseudo — near-proved), func_80185810 35 → 13, func_80039308 17 → 4. Three rows are in flight.
+  Six of the nine were the T4 "CANDIDATE walls" — every one fell to a mechanism the pin's citation had mis-attributed
+  (loop.c → cse quantity; cse → sched1 birthing boost; argument position → allocno priority; alias basin → three passes).
+  The one "PROVED" wall (§474, −O0) is still in flight.
+- **Cost (R41):** ≈3.9M subagent tokens for 12 rows (≈325k/row; 123k–655k), three usage-limit outages that killed every
+  agent mid-run (resumed with context intact via SendMessage each time; deliverables written early survived). For comparison,
+  the same 12 rows had absorbed the S79 Sonnet/Opus passes, the S82 Opus wave, the S83 Opus second look (245k tokens, 27 → 27)
+  and ~16k permuter/sweep compiles with 0 banks.
+- **What every crack had in common:** the agent READ the pass dump the prior attempts had not (`-dS` ready lists with the
+  `7f000001` birthing boost, `.loop` desirability lines, `-dl` quantity priorities, `.greg` dispositions, `-dR` hazard walks)
+  and attributed the residual to a specific pass and line of the 2.7.2 source before touching a lever; then the lever was
+  usually one zero-byte dial (a second live set, a hard-reg copy, a launder, two more pads) or a libgpu-idiom spelling.
+- **Instrument defects met on the way:** the bank helper called with an empty function list built the unchanged tree and
+  exited 0 (two premature "banked" ledger messages — corrected in the next commit; R43 hardening); gate_main's
+  `--assert-baseline --allow-dirty` restores the working tree before building (its GREEN measured the committed tree);
+  the helper derived the rtu `--split` from the binary name and refused `_jr_` TUs (SPLIT override).
+
+### The shape, and the hindsight path
+The T4 wall ledger was "instrument-exonerated" but not "pass-attributed": each pin cited a mechanism, and six of seven were
+the wrong pass. The distinguishing discipline of the agents that cracked them was not model size alone but a budget that
+allowed reading three dumps and the source before the first probe — the hand pass, at three probes per row, could not afford it
+and mis-read two cascades. Sooner: (1) a wall verdict must name the PASS and the dump line that proves it, never a mechanism
+alone (R40 → "pass-attributed"); (2) the §172 "canonicalization wall" and §474 should have been re-tested by a dump-reading agent
+before being cited as proofs for years of pins; (3) write deliverables early — every agent lost to a usage limit had to be
+resumed, and the one that had written its draft first (func_800391D4) banked from the dead run; (4) Fable on the
+compiler-internals class is cheaper than another Opus wave on the same rows (9/12 vs 0/12), and Opus is the right tier once a
+sibling's recipe exists (§501-H → the md_MAIN_007 pair). No second round this session (Drew); the three NEAR rows carry their
+next lever in the backlog.
