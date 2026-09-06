@@ -1,5 +1,4 @@
 # T4b Fable resume queue (Drew 2026-09-05: "resume agents, but not all at once, just 3 at a time"). Delete a line when resumed.
 # fn agentId closeness
-func_800CF6D0 a7f7e477e9878acdd 137
 func_80011380 a60ffea4022b891fc 6 (-O0, §474 PROVED — last)
-# RUNNING: func_80039308 a55fbfb4fb896bd71 · func_8017DC80 a7c2c1e4865e5590d · func_800CF408 aac6ce9fdfdcc093c (DONE MATCH: 391D4 39DEC CD674 DF28 20DA4 1834A4 CF3E8 CD92C; NEAR: 32A74 1, 185810 13)
+# RUNNING: func_80039308 a55fbfb4fb896bd71 · func_800CF408 aac6ce9fdfdcc093c · func_800CF6D0 a7f7e477e9878acdd (DONE MATCH: 391D4 39DEC CD674 DF28 20DA4 1834A4 CF3E8 CD92C DC80; NEAR: 32A74 1, 185810 13)
