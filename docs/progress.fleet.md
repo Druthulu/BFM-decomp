@@ -4,16 +4,16 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 363210 / 363214 = 100.00%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 13486890 / 13488497 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5814982 / 5816589 = 100.0%   (90982/90984 unique fns; the DISTINCT-RE number)
+FLEET fn-count byte-ident: 363212 / 363214 = 100.00%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 13487557 / 13488497 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5815649 / 5816589 = 100.0%   (90984/90984 unique fns; the DISTINCT-RE number)
 MAIN game-code weighted  :   40594 / 41534 = 97.7%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
-  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13446296 / 13446963 = 100.0%)
+  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13446963 / 13446963 = 100.0%)
 
-FLEET REAL substantive   : 360733   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
+FLEET REAL substantive   : 360735   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
 FLEET LINKED PsyQ objs   :   1256
 FLEET NON_MATCHING       :      0   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :      4
+FLEET INCLUDE_ASM stubs  :      2
 FLEET matchable          : 363214
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
@@ -22,7 +22,7 @@ FLEET matchable          : 363214
 | resident | 143 | 0 | 0 | 145 | 145 | 100.0% |
 | md_MAIN_001 | 11 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_003 | 58 | 0 | 0 | 64 | 64 | 100.0% |
-| md_MAIN_007 | 18 | 0 | 0 | 18 | 19 | 94.7% |
+| md_MAIN_007 | 19 | 0 | 0 | 19 | 19 | 100.0% |
 | md_MAIN_008 | 6 | 0 | 0 | 6 | 6 | 100.0% |
 | md_MAIN_009 | 11 | 0 | 0 | 12 | 12 | 100.0% |
 | md_MAIN_011 | 20 | 0 | 0 | 21 | 21 | 100.0% |
@@ -157,7 +157,7 @@ FLEET matchable          : 363214
 | ov_SC03_102 | 2489 | 1811 | 0 | 2492 | 2492 | 100.0% |
 | ov_SC03_103 | 2507 | 1813 | 0 | 2510 | 2510 | 100.0% |
 | ov_SC03_104 | 2609 | 1824 | 0 | 2616 | 2616 | 100.0% |
-| ov_SC03_105 | 2589 | 1816 | 0 | 2596 | 2597 | 100.0% |
+| ov_SC03_105 | 2590 | 1816 | 0 | 2597 | 2597 | 100.0% |
 | ov_SC03_107 | 2413 | 1693 | 0 | 2496 | 2496 | 100.0% |
 | ov_SC03_108 | 2443 | 1819 | 0 | 2443 | 2443 | 100.0% |
 | ov_SC03_109 | 2422 | 1812 | 0 | 2424 | 2424 | 100.0% |
