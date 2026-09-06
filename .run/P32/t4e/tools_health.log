@@ -1,3 +1,569 @@
+# Regenerate the byte-derived boundary oracles FIRST (they're gitignored/regenerable), so the
+# audit checks CURRENT sigs and never crashes on an absent one — the resident audit (T10) needs
+# the sig_image resident sig, and a fresh clone has neither it nor the overlay sigs.
+make --no-print-directory sig-overlays
+make --no-print-directory sig-resident
+make --no-print-directory sig-modules
+# main's independent oracle (P31 S77, contract §1.3). Regenerated here for the same reason as
+# the others: it is derived and gitignored, and an oracle wired into nothing runs for nobody —
+# neighbor_ref sat MANUAL from S68 to S77 while the playbook called it the biggest cost lever
+# in the wave. Without this line sig_is_independent("main") silently reverts to False on a
+# fresh clone and main's boundary blind spot comes back with the audit still green.
+make --no-print-directory sig-main-oracle
+make --no-print-directory audit-corpus
+make --no-print-directory audit-cdecl
+make --no-print-directory audit-binaries
+make --no-print-directory audit-text-sources
+make --no-print-directory report BINARY=main
+# AFTER report (which regenerates the digest), so this asserts the freshly-written digest agrees
+# with the tree — and, on a tree whose digest was committed stale, says so instead of staying green.
+make --no-print-directory audit-digest
+# The cookbook index is DERIVED (R33) and self-asserts its coverage (R32). Stale = agents can't
+# find documented idioms and re-derive them at full token cost (measured, P30 wave 1).
+.venv/bin/python tools/cookbook_index.py --check
+# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
+# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).
+.venv/bin/python tools/work_evidence.py --selftest
+# P31 S72: a code subseg owning raw jump tables in >1 non-adjacent span makes every switch
+# function outside the one carveable span UNBANKABLE — `main` sat in that state from Phase 7 to
+# Phase 31 and eleven functions were written off as "PROVEN gate-rejects" because of it. The
+# evidence is derivable from the raw image on day one; nothing was comparing it. 3.7s fleet-wide.
+.venv/bin/python tools/split_indicator.py --self-test
+# P31 S74: A HARD GATE NOW, exactly as the informational form said it would become. The four
+# violations it was waiting on (ov_SC01_084, ov_SC02_005, ov_SC02_011, ov_SC03_105 — 16 open
+# fns / 3,613 ins) are split, so the fleet is 213/213 OK and any NEW subseg owning raw tables
+# in >1 non-adjacent span is a regression that must fail here rather than be echoed past.
+.venv/bin/python tools/split_indicator.py --quiet
+echo "tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green."
+# PARALLEL (P31 S70). 211 independent per-overlay invocations that each write ONLY their own
+# .run/sig.<alias>.jsonl (sig_image has exactly one write path, verified) — embarrassingly
+# parallel, and it was a serial `for` loop on a 32-core box while extract-all/check-all in this
+# same file already fan out. MEASURED, correcting my first claim: this was only ~52s of
+# tools-health, NOT the bulk — audit-cdecl's pure-Python collection pass (~787s) is the real cost.
+# Still worth it (52s -> 3.9s, 141/141 outputs byte-identical) and it is Drew's standing bar:
+# a slow gate is a BUG, nothing serial.
+mkdir -p .run; : > .run/sig-overlays.txt
+echo "ov_SC01_077:extracted/retail/SC01.CD.dir/FILE_077.dir/0.4.dec ov_SC01_005:extracted/retail/SC01.CD.dir/FILE_005.dir/0.4.dec ov_SC01_006:extracted/retail/SC01.CD.dir/FILE_006.dir/0.4.dec ov_SC03_001:extracted/retail/SC03.CD.dir/FILE_001.dir/0.4.dec ov_SC01_000:extracted/retail/SC01.CD.dir/FILE_000.dir/0.4.dec ov_SC01_001:extracted/retail/SC01.CD.dir/FILE_001.dir/0.4.dec ov_SC02_000:extracted/retail/SC02.CD.dir/FILE_000.dir/0.4.dec ov_SC02_003:extracted/retail/SC02.CD.dir/FILE_003.dir/0.4.dec ov_SC03_002:extracted/retail/SC03.CD.dir/FILE_002.dir/0.4.dec ov_SC03_006:extracted/retail/SC03.CD.dir/FILE_006.dir/0.4.dec ov_SC04_000:extracted/retail/SC04.CD.dir/FILE_000.dir/0.4.dec ov_SC04_018:extracted/retail/SC04.CD.dir/FILE_018.dir/0.4.dec ov_SC04_019:extracted/retail/SC04.CD.dir/FILE_019.dir/0.4.dec ov_SC05_000:extracted/retail/SC05.CD.dir/FILE_000.dir/0.4.dec ov_SC06_000:extracted/retail/SC06.CD.dir/FILE_000.dir/0.4.dec ov_SC07_000:extracted/retail/SC07.CD.dir/FILE_000.dir/0.4.dec ov_SC01_004:extracted/retail/SC01.CD.dir/FILE_004.dir/0.4.dec ov_SC01_008:extracted/retail/SC01.CD.dir/FILE_008.dir/0.4.dec ov_SC01_009:extracted/retail/SC01.CD.dir/FILE_009.dir/0.4.dec ov_SC01_074:extracted/retail/SC01.CD.dir/FILE_074.dir/0.4.dec ov_SC01_080:extracted/retail/SC01.CD.dir/FILE_080.dir/0.4.dec ov_SC01_084:extracted/retail/SC01.CD.dir/FILE_084.dir/0.4.dec ov_SC02_004:extracted/retail/SC02.CD.dir/FILE_004.dir/0.4.dec ov_SC02_005:extracted/retail/SC02.CD.dir/FILE_005.dir/0.4.dec ov_SC02_011:extracted/retail/SC02.CD.dir/FILE_011.dir/0.4.dec ov_SC02_015:extracted/retail/SC02.CD.dir/FILE_015.dir/0.4.dec ov_SC02_016:extracted/retail/SC02.CD.dir/FILE_016.dir/0.4.dec ov_SC02_017:extracted/retail/SC02.CD.dir/FILE_017.dir/0.4.dec ov_SC02_021:extracted/retail/SC02.CD.dir/FILE_021.dir/0.4.dec ov_SC02_026:extracted/retail/SC02.CD.dir/FILE_026.dir/0.4.dec ov_SC02_027:extracted/retail/SC02.CD.dir/FILE_027.dir/0.4.dec ov_SC02_028:extracted/retail/SC02.CD.dir/FILE_028.dir/0.4.dec ov_SC02_031:extracted/retail/SC02.CD.dir/FILE_031.dir/0.4.dec ov_SC02_035:extracted/retail/SC02.CD.dir/FILE_035.dir/0.4.dec ov_SC02_039:extracted/retail/SC02.CD.dir/FILE_039.dir/0.4.dec ov_SC02_041:extracted/retail/SC02.CD.dir/FILE_041.dir/0.4.dec ov_SC03_003:extracted/retail/SC03.CD.dir/FILE_003.dir/0.4.dec ov_SC03_007:extracted/retail/SC03.CD.dir/FILE_007.dir/0.4.dec ov_SC03_010:extracted/retail/SC03.CD.dir/FILE_010.dir/0.4.dec ov_SC03_011:extracted/retail/SC03.CD.dir/FILE_011.dir/0.4.dec ov_SC03_012:extracted/retail/SC03.CD.dir/FILE_012.dir/0.4.dec ov_SC03_013:extracted/retail/SC03.CD.dir/FILE_013.dir/0.4.dec ov_SC03_014:extracted/retail/SC03.CD.dir/FILE_014.dir/0.4.dec ov_SC03_015:extracted/retail/SC03.CD.dir/FILE_015.dir/0.4.dec ov_SC03_023:extracted/retail/SC03.CD.dir/FILE_023.dir/0.4.dec ov_SC03_024:extracted/retail/SC03.CD.dir/FILE_024.dir/0.4.dec ov_SC03_028:extracted/retail/SC03.CD.dir/FILE_028.dir/0.4.dec ov_SC03_029:extracted/retail/SC03.CD.dir/FILE_029.dir/0.4.dec ov_SC03_030:extracted/retail/SC03.CD.dir/FILE_030.dir/0.4.dec ov_SC03_031:extracted/retail/SC03.CD.dir/FILE_031.dir/0.4.dec ov_SC03_089:extracted/retail/SC03.CD.dir/FILE_089.dir/0.4.dec ov_SC03_090:extracted/retail/SC03.CD.dir/FILE_090.dir/0.4.dec ov_SC03_091:extracted/retail/SC03.CD.dir/FILE_091.dir/0.4.dec ov_SC03_092:extracted/retail/SC03.CD.dir/FILE_092.dir/0.4.dec ov_SC03_093:extracted/retail/SC03.CD.dir/FILE_093.dir/0.4.dec ov_SC03_094:extracted/retail/SC03.CD.dir/FILE_094.dir/0.4.dec ov_SC03_095:extracted/retail/SC03.CD.dir/FILE_095.dir/0.4.dec ov_SC03_096:extracted/retail/SC03.CD.dir/FILE_096.dir/0.4.dec ov_SC03_097:extracted/retail/SC03.CD.dir/FILE_097.dir/0.4.dec ov_SC03_098:extracted/retail/SC03.CD.dir/FILE_098.dir/0.4.dec ov_SC03_099:extracted/retail/SC03.CD.dir/FILE_099.dir/0.4.dec ov_SC03_100:extracted/retail/SC03.CD.dir/FILE_100.dir/0.4.dec ov_SC03_101:extracted/retail/SC03.CD.dir/FILE_101.dir/0.4.dec ov_SC03_102:extracted/retail/SC03.CD.dir/FILE_102.dir/0.4.dec ov_SC03_103:extracted/retail/SC03.CD.dir/FILE_103.dir/0.4.dec ov_SC03_104:extracted/retail/SC03.CD.dir/FILE_104.dir/0.4.dec ov_SC03_105:extracted/retail/SC03.CD.dir/FILE_105.dir/0.4.dec ov_SC03_108:extracted/retail/SC03.CD.dir/FILE_108.dir/0.4.dec ov_SC03_109:extracted/retail/SC03.CD.dir/FILE_109.dir/0.4.dec ov_SC03_110:extracted/retail/SC03.CD.dir/FILE_110.dir/0.4.dec ov_SC03_111:extracted/retail/SC03.CD.dir/FILE_111.dir/0.4.dec ov_SC03_112:extracted/retail/SC03.CD.dir/FILE_112.dir/0.4.dec ov_SC03_113:extracted/retail/SC03.CD.dir/FILE_113.dir/0.4.dec ov_SC03_114:extracted/retail/SC03.CD.dir/FILE_114.dir/0.4.dec ov_SC03_115:extracted/retail/SC03.CD.dir/FILE_115.dir/0.4.dec ov_SC03_116:extracted/retail/SC03.CD.dir/FILE_116.dir/0.4.dec ov_SC03_117:extracted/retail/SC03.CD.dir/FILE_117.dir/0.4.dec ov_SC03_118:extracted/retail/SC03.CD.dir/FILE_118.dir/0.4.dec ov_SC03_119:extracted/retail/SC03.CD.dir/FILE_119.dir/0.4.dec ov_SC03_121:extracted/retail/SC03.CD.dir/FILE_121.dir/0.4.dec ov_SC03_124:extracted/retail/SC03.CD.dir/FILE_124.dir/0.4.dec ov_SC03_125:extracted/retail/SC03.CD.dir/FILE_125.dir/0.4.dec ov_SC03_126:extracted/retail/SC03.CD.dir/FILE_126.dir/0.4.dec ov_SC04_002:extracted/retail/SC04.CD.dir/FILE_002.dir/0.4.dec ov_SC04_003:extracted/retail/SC04.CD.dir/FILE_003.dir/0.4.dec ov_SC04_004:extracted/retail/SC04.CD.dir/FILE_004.dir/0.4.dec ov_SC04_005:extracted/retail/SC04.CD.dir/FILE_005.dir/0.4.dec ov_SC04_006:extracted/retail/SC04.CD.dir/FILE_006.dir/0.4.dec ov_SC04_007:extracted/retail/SC04.CD.dir/FILE_007.dir/0.4.dec ov_SC04_008:extracted/retail/SC04.CD.dir/FILE_008.dir/0.4.dec ov_SC04_009:extracted/retail/SC04.CD.dir/FILE_009.dir/0.4.dec ov_SC04_010:extracted/retail/SC04.CD.dir/FILE_010.dir/0.4.dec ov_SC04_011:extracted/retail/SC04.CD.dir/FILE_011.dir/0.4.dec ov_SC04_012:extracted/retail/SC04.CD.dir/FILE_012.dir/0.4.dec ov_SC04_015:extracted/retail/SC04.CD.dir/FILE_015.dir/0.4.dec ov_SC04_016:extracted/retail/SC04.CD.dir/FILE_016.dir/0.4.dec ov_SC04_020:extracted/retail/SC04.CD.dir/FILE_020.dir/0.4.dec ov_SC04_021:extracted/retail/SC04.CD.dir/FILE_021.dir/0.4.dec ov_SC05_001:extracted/retail/SC05.CD.dir/FILE_001.dir/0.4.dec ov_SC05_002:extracted/retail/SC05.CD.dir/FILE_002.dir/0.4.dec ov_SC05_003:extracted/retail/SC05.CD.dir/FILE_003.dir/0.4.dec ov_SC05_004:extracted/retail/SC05.CD.dir/FILE_004.dir/0.4.dec ov_SC05_005:extracted/retail/SC05.CD.dir/FILE_005.dir/0.4.dec ov_SC05_006:extracted/retail/SC05.CD.dir/FILE_006.dir/0.4.dec ov_SC05_007:extracted/retail/SC05.CD.dir/FILE_007.dir/0.4.dec ov_SC05_008:extracted/retail/SC05.CD.dir/FILE_008.dir/0.4.dec ov_SC05_009:extracted/retail/SC05.CD.dir/FILE_009.dir/0.4.dec ov_SC05_010:extracted/retail/SC05.CD.dir/FILE_010.dir/0.4.dec ov_SC05_011:extracted/retail/SC05.CD.dir/FILE_011.dir/0.4.dec ov_SC05_017:extracted/retail/SC05.CD.dir/FILE_017.dir/0.4.dec ov_SC05_018:extracted/retail/SC05.CD.dir/FILE_018.dir/0.4.dec ov_SC05_019:extracted/retail/SC05.CD.dir/FILE_019.dir/0.4.dec ov_SC06_006:extracted/retail/SC06.CD.dir/FILE_006.dir/0.4.dec ov_SC06_008:extracted/retail/SC06.CD.dir/FILE_008.dir/0.4.dec ov_SC06_010:extracted/retail/SC06.CD.dir/FILE_010.dir/0.4.dec ov_SC06_011:extracted/retail/SC06.CD.dir/FILE_011.dir/0.4.dec ov_SC06_013:extracted/retail/SC06.CD.dir/FILE_013.dir/0.4.dec ov_SC06_014:extracted/retail/SC06.CD.dir/FILE_014.dir/0.4.dec ov_SC06_015:extracted/retail/SC06.CD.dir/FILE_015.dir/0.4.dec ov_SC06_016:extracted/retail/SC06.CD.dir/FILE_016.dir/0.4.dec ov_SC06_018:extracted/retail/SC06.CD.dir/FILE_018.dir/0.4.dec ov_SC06_020:extracted/retail/SC06.CD.dir/FILE_020.dir/0.4.dec ov_SC06_022:extracted/retail/SC06.CD.dir/FILE_022.dir/0.4.dec ov_SC06_024:extracted/retail/SC06.CD.dir/FILE_024.dir/0.4.dec ov_SC06_025:extracted/retail/SC06.CD.dir/FILE_025.dir/0.4.dec ov_SC06_027:extracted/retail/SC06.CD.dir/FILE_027.dir/0.4.dec ov_SC06_029:extracted/retail/SC06.CD.dir/FILE_029.dir/0.4.dec ov_SC06_030:extracted/retail/SC06.CD.dir/FILE_030.dir/0.4.dec ov_SC06_032:extracted/retail/SC06.CD.dir/FILE_032.dir/0.4.dec ov_SC06_033:extracted/retail/SC06.CD.dir/FILE_033.dir/0.4.dec ov_SC07_001:extracted/retail/SC07.CD.dir/FILE_001.dir/0.4.dec ov_SC07_002:extracted/retail/SC07.CD.dir/FILE_002.dir/0.4.dec ov_SC07_008:extracted/retail/SC07.CD.dir/FILE_008.dir/0.4.dec ov_SC07_009:extracted/retail/SC07.CD.dir/FILE_009.dir/0.4.dec ov_SC07_006:extracted/retail/SC07.CD.dir/FILE_006.dir/1.4.dec ov_SC07_007:extracted/retail/SC07.CD.dir/FILE_007.dir/1.4.dec ov_SC07_010:extracted/retail/SC07.CD.dir/FILE_010.dir/1.4.dec ov_SC07_011:extracted/retail/SC07.CD.dir/FILE_011.dir/1.4.dec ov_MAIN_012:extracted/retail/MAIN.CD.dir/FILE_012.dir/1.1 ov_SC02_037:extracted/retail/SC02.CD.dir/FILE_037.dir/0.1 ov_SC03_107:extracted/retail/SC03.CD.dir/FILE_107.dir/0.1" | tr ' ' '\n' | sed '/^$/d' | xargs -P16     -I{} sh -c '\
+  job="{}"; alias=${job%%:*}; f=${job#*:}; \
+  if [ ! -f "$f" ]; then echo "[WARN no payload] $alias ($f)"; \
+  elif .venv/bin/python tools/sig_image.py --image "$f" --vram-base 0x80128158 --bootstrap --name "$alias" >/dev/null 2>&1; \
+  then echo "[ OK ] $alias"; else echo "[SIG FAIL] $alias"; fi' | tee .run/sig-overlays.txt
+n=$(grep -c "^\[ OK \]" .run/sig-overlays.txt || true)
+bad=$(grep -c "^\[SIG FAIL\]" .run/sig-overlays.txt || true)
+echo "sig-overlays: signed $n overlays -> .run/sig.ov_*.jsonl (of 141 onboarded)"
+# The serial form had NO failure detection at all — a sig_image crash just vanished (R32).
+if [ "$bad" -ne 0 ]; then echo "[FAIL] sig-overlays: $bad overlay(s) failed to sign"; exit 1; fi
+[ OK ] ov_SC01_000
+[ OK ] ov_SC01_001
+[ OK ] ov_SC05_000
+[ OK ] ov_SC01_006
+[ OK ] ov_SC01_005
+[ OK ] ov_SC02_003
+[ OK ] ov_SC03_002
+[ OK ] ov_SC04_000
+[ OK ] ov_SC04_018
+[ OK ] ov_SC03_001
+[ OK ] ov_SC03_006
+[ OK ] ov_SC07_000
+[ OK ] ov_SC02_000
+[ OK ] ov_SC06_000
+[ OK ] ov_SC04_019
+[ OK ] ov_SC01_077
+[ OK ] ov_SC01_004
+[ OK ] ov_SC01_008
+[ OK ] ov_SC02_015
+[ OK ] ov_SC01_074
+[ OK ] ov_SC01_080
+[ OK ] ov_SC02_004
+[ OK ] ov_SC01_009
+[ OK ] ov_SC02_026
+[ OK ] ov_SC02_021
+[ OK ] ov_SC01_084
+[ OK ] ov_SC02_016
+[ OK ] ov_SC02_005
+[ OK ] ov_SC02_011
+[ OK ] ov_SC02_028
+[ OK ] ov_SC02_017
+[ OK ] ov_SC02_027
+[ OK ] ov_SC02_035
+[ OK ] ov_SC02_041
+[ OK ] ov_SC02_031
+[ OK ] ov_SC03_003
+[ OK ] ov_SC03_011
+[ OK ] ov_SC02_039
+[ OK ] ov_SC03_012
+[ OK ] ov_SC03_007
+[ OK ] ov_SC03_010
+[ OK ] ov_SC03_013
+[ OK ] ov_SC03_023
+[ OK ] ov_SC03_024
+[ OK ] ov_SC03_014
+[ OK ] ov_SC03_015
+[ OK ] ov_SC03_029
+[ OK ] ov_SC03_028
+[ OK ] ov_SC03_030
+[ OK ] ov_SC03_031
+[ OK ] ov_SC03_092
+[ OK ] ov_SC03_091
+[ OK ] ov_SC03_090
+[ OK ] ov_SC03_094
+[ OK ] ov_SC03_089
+[ OK ] ov_SC03_096
+[ OK ] ov_SC03_093
+[ OK ] ov_SC03_095
+[ OK ] ov_SC03_097
+[ OK ] ov_SC03_098
+[ OK ] ov_SC03_099
+[ OK ] ov_SC03_100
+[ OK ] ov_SC03_101
+[ OK ] ov_SC03_102
+[ OK ] ov_SC03_103
+[ OK ] ov_SC03_108
+[ OK ] ov_SC03_109
+[ OK ] ov_SC03_114
+[ OK ] ov_SC03_104
+[ OK ] ov_SC03_112
+[ OK ] ov_SC03_111
+[ OK ] ov_SC03_113
+[ OK ] ov_SC03_110
+[ OK ] ov_SC03_105
+[ OK ] ov_SC03_115
+[ OK ] ov_SC03_116
+[ OK ] ov_SC03_117
+[ OK ] ov_SC03_121
+[ OK ] ov_SC03_118
+[ OK ] ov_SC03_119
+[ OK ] ov_SC03_124
+[ OK ] ov_SC03_126
+[ OK ] ov_SC04_008
+[ OK ] ov_SC03_125
+[ OK ] ov_SC04_009
+[ OK ] ov_SC04_003
+[ OK ] ov_SC04_004
+[ OK ] ov_SC04_005
+[ OK ] ov_SC04_006
+[ OK ] ov_SC04_002
+[ OK ] ov_SC04_007
+[ OK ] ov_SC04_010
+[ OK ] ov_SC04_012
+[ OK ] ov_SC04_016
+[ OK ] ov_SC04_015
+[ OK ] ov_SC04_011
+[ OK ] ov_SC04_020
+[ OK ] ov_SC05_002
+[ OK ] ov_SC04_021
+[ OK ] ov_SC05_003
+[ OK ] ov_SC05_004
+[ OK ] ov_SC05_006
+[ OK ] ov_SC05_009
+[ OK ] ov_SC05_001
+[ OK ] ov_SC05_007
+[ OK ] ov_SC05_008
+[ OK ] ov_SC05_005
+[ OK ] ov_SC05_010
+[ OK ] ov_SC05_019
+[ OK ] ov_SC05_011
+[ OK ] ov_SC05_018
+[ OK ] ov_SC05_017
+[ OK ] ov_SC06_011
+[ OK ] ov_SC06_008
+[ OK ] ov_SC06_006
+[ OK ] ov_SC06_013
+[ OK ] ov_SC06_015
+[ OK ] ov_SC06_010
+[ OK ] ov_SC06_014
+[ OK ] ov_SC06_016
+[ OK ] ov_SC06_020
+[ OK ] ov_SC06_018
+[ OK ] ov_SC06_022
+[ OK ] ov_SC06_027
+[ OK ] ov_SC06_024
+[ OK ] ov_SC06_025
+[ OK ] ov_SC06_030
+[ OK ] ov_SC06_029
+[ OK ] ov_SC07_008
+[ OK ] ov_SC07_009
+[ OK ] ov_SC06_032
+[ OK ] ov_SC06_033
+[ OK ] ov_SC07_002
+[ OK ] ov_SC07_001
+[ OK ] ov_SC07_007
+[ OK ] ov_SC07_006
+[ OK ] ov_SC07_010
+[ OK ] ov_MAIN_012
+[ OK ] ov_SC07_011
+[ OK ] ov_SC02_037
+[ OK ] ov_SC03_107
+sig-overlays: signed 141 overlays -> .run/sig.ov_*.jsonl (of 141 onboarded)
+elf="build/resident/resident.elf"
+if [ -f "$elf" ]; then
+mipsel-linux-gnu-nm "$elf" | awk '
+$2=="T" { a=strtonum("0x" $1); sym[$3]=a; if (a%4==0) addr[a]=1 }
+END { lo=sym["resident_TEXT_START"]; hi=sym["resident_TEXT_END"];
+for (a in addr) if (a>=lo && a<hi) printf "0x%08X\n", a }' \
+	  | sort -u > .run/seeds.resident.txt
+.venv/bin/python tools/sig_image.py --image extracted/retail/MAIN.CD.dir/FILE_010.dir/1.1 --vram-base 0x800CEDF8 \
+	  --seeds .run/seeds.resident.txt --name resident
+echo "sig-resident: signed the resident (ELF-seeded, $(wc -l < .run/seeds.resident.txt) fns) -> .run/sig.resident.jsonl"
+else
+.venv/bin/python tools/sig_image.py --image extracted/retail/MAIN.CD.dir/FILE_010.dir/1.1 --vram-base 0x800CEDF8 --bootstrap --name resident
+echo "sig-resident: signed the resident (bootstrap fallback — re-run after a build for seeded boundaries)"
+fi
+sig_image: 145 functions [0x800cedf8..0x80128154) -> .run/sig.resident.jsonl
+sig-resident: signed the resident (ELF-seeded, 145 fns) -> .run/sig.resident.jsonl
+# PARALLEL (P31 S70) — same rationale as sig-overlays. Each job writes only its own
+# .run/seeds.<alias>.txt and .run/sig.<alias>.jsonl, so the fan-out is safe.
+mkdir -p .run; : > .run/sig-modules.txt
+echo "md_MAIN_013:extracted/retail/MAIN.CD.dir/FILE_013.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_014:extracted/retail/MAIN.CD.dir/FILE_014.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_015:extracted/retail/MAIN.CD.dir/FILE_015.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_016:extracted/retail/MAIN.CD.dir/FILE_016.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_017:extracted/retail/MAIN.CD.dir/FILE_017.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_018:extracted/retail/MAIN.CD.dir/FILE_018.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_019:extracted/retail/MAIN.CD.dir/FILE_019.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_020:extracted/retail/MAIN.CD.dir/FILE_020.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_021:extracted/retail/MAIN.CD.dir/FILE_021.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_022:extracted/retail/MAIN.CD.dir/FILE_022.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_023:extracted/retail/MAIN.CD.dir/FILE_023.dir/0.1:0x800CAE08:0x800CAE0C md_MAIN_024:extracted/retail/MAIN.CD.dir/FILE_024.dir/0.1:0x800CAE08:0x800CAE0C md_MAIN_025:extracted/retail/MAIN.CD.dir/FILE_025.dir/1.1:0x800CAE08:0x800CAE14 md_MAIN_026:extracted/retail/MAIN.CD.dir/FILE_026.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_027:extracted/retail/MAIN.CD.dir/FILE_027.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_028:extracted/retail/MAIN.CD.dir/FILE_028.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_029:extracted/retail/MAIN.CD.dir/FILE_029.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_030:extracted/retail/MAIN.CD.dir/FILE_030.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_031:extracted/retail/MAIN.CD.dir/FILE_031.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_032:extracted/retail/MAIN.CD.dir/FILE_032.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_033:extracted/retail/MAIN.CD.dir/FILE_033.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_034:extracted/retail/MAIN.CD.dir/FILE_034.dir/1.1:0x800CAE08:0x800CAE88 md_MAIN_035:extracted/retail/MAIN.CD.dir/FILE_035.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_036:extracted/retail/MAIN.CD.dir/FILE_036.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_037:extracted/retail/MAIN.CD.dir/FILE_037.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_038:extracted/retail/MAIN.CD.dir/FILE_038.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_039:extracted/retail/MAIN.CD.dir/FILE_039.dir/1.1:0x800CAE08:0x800CAE14 md_MAIN_040:extracted/retail/MAIN.CD.dir/FILE_040.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_041:extracted/retail/MAIN.CD.dir/FILE_041.dir/1.1:0x800CAE08:0x800CAE0C md_MAIN_042:extracted/retail/MAIN.CD.dir/FILE_042.dir/0.1:0x800CCB1C:0x800CCB20 md_MAIN_043:extracted/retail/MAIN.CD.dir/FILE_043.dir/0.1:0x800CCB1C:0x800CCB20 md_MAIN_044:extracted/retail/MAIN.CD.dir/FILE_044.dir/0.1:0x800CCB1C:0x800CCB20 md_MAIN_045:extracted/retail/MAIN.CD.dir/FILE_045.dir/0.1:0x800CCB1C:0x800CCB20 md_MAIN_046:extracted/retail/MAIN.CD.dir/FILE_046.dir/0.1:0x800CCB1C:0x800CCB20 md_MAIN_047:extracted/retail/MAIN.CD.dir/FILE_047.dir/0.1:0x800CCB1C:0x800CCB20 md_MAIN_001:extracted/retail/MAIN.CD.dir/FILE_001.dir/1.1:0x800CEDF8:0x800CEDFC md_MAIN_008:extracted/retail/MAIN.CD.dir/FILE_008.dir/1.1:0x800CEDF8:0x800CEDFC md_MAIN_011:extracted/retail/MAIN.CD.dir/FILE_011.dir/1.1:0x800CEDF8:0x800CEE74 md_SC07_003:extracted/retail/SC07.CD.dir/FILE_003.dir/1.1:0x801A00D8:0x801A01D4 md_SC07_004:extracted/retail/SC07.CD.dir/FILE_004.dir/1.1:0x801A00D8:0x801A0230 md_MAIN_003:extracted/retail/MAIN.CD.dir/FILE_003.dir/1.1:0x800CEDF8:0x800CEED0 md_SC03_073:extracted/retail/SC03.CD.dir/FILE_073.dir/2.1:0x801EF468:0x801EF47C md_SC03_074:extracted/retail/SC03.CD.dir/FILE_074.dir/2.1:0x801EF468:0x801EF47C md_SC03_075:extracted/retail/SC03.CD.dir/FILE_075.dir/2.1:0x801EF468:0x801EF47C md_SC03_076:extracted/retail/SC03.CD.dir/FILE_076.dir/2.1:0x801EF468:0x801EF6E4 md_SC03_077:extracted/retail/SC03.CD.dir/FILE_077.dir/2.1:0x801EF468:0x801EF490 md_SC03_078:extracted/retail/SC03.CD.dir/FILE_078.dir/2.1:0x801EF468:0x801EF47C md_SC03_079:extracted/retail/SC03.CD.dir/FILE_079.dir/2.1:0x801EF468:0x801EF48C md_SC03_132:extracted/retail/SC03.CD.dir/FILE_132.dir/2.1:0x801E25E8:0x801E25F4 md_SC03_133:extracted/retail/SC03.CD.dir/FILE_133.dir/2.1:0x801E25E8:0x801E25FC md_SC03_134:extracted/retail/SC03.CD.dir/FILE_134.dir/2.1:0x801E25E8:0x801E25FC md_SC03_135:extracted/retail/SC03.CD.dir/FILE_135.dir/2.1:0x801E25E8:0x801E2864 md_SC03_136:extracted/retail/SC03.CD.dir/FILE_136.dir/2.1:0x801E25E8:0x801E2610 md_SC03_137:extracted/retail/SC03.CD.dir/FILE_137.dir/2.1:0x801E25E8:0x801E25FC md_SC03_138:extracted/retail/SC03.CD.dir/FILE_138.dir/2.1:0x801E25E8:0x801E25FC md_SC04_024:extracted/retail/SC04.CD.dir/FILE_024.dir/2.1:0x801E7B28:0x801E7B34 md_SC04_025:extracted/retail/SC04.CD.dir/FILE_025.dir/2.1:0x801E7B28:0x801E7B3C md_SC04_026:extracted/retail/SC04.CD.dir/FILE_026.dir/2.1:0x801E7B28:0x801E7B3C md_SC04_027:extracted/retail/SC04.CD.dir/FILE_027.dir/2.1:0x801E7B28:0x801E7DA4 md_SC04_028:extracted/retail/SC04.CD.dir/FILE_028.dir/2.1:0x801E7B28:0x801E7B50 md_SC04_029:extracted/retail/SC04.CD.dir/FILE_029.dir/2.1:0x801E7B28:0x801E7B3C md_SC04_030:extracted/retail/SC04.CD.dir/FILE_030.dir/2.1:0x801E7B28:0x801E7B3C md_SC05_023:extracted/retail/SC05.CD.dir/FILE_023.dir/2.1:0x801ED988:0x801ED99C md_SC05_024:extracted/retail/SC05.CD.dir/FILE_024.dir/2.1:0x801ED988:0x801ED99C md_SC05_025:extracted/retail/SC05.CD.dir/FILE_025.dir/2.1:0x801ED988:0x801ED99C md_SC05_026:extracted/retail/SC05.CD.dir/FILE_026.dir/2.1:0x801ED988:0x801EDC04 md_SC05_027:extracted/retail/SC05.CD.dir/FILE_027.dir/2.1:0x801ED988:0x801ED9B0 md_SC05_028:extracted/retail/SC05.CD.dir/FILE_028.dir/2.1:0x801ED988:0x801ED99C md_SC05_029:extracted/retail/SC05.CD.dir/FILE_029.dir/2.1:0x801ED988:0x801ED99C md_SC02_009:extracted/retail/SC02.CD.dir/FILE_009.dir/0.1:0x801E4C60:0x801E4C64 md_MAIN_007:extracted/retail/MAIN.CD.dir/FILE_007:0x800CEDF8:0x800CEE2C md_MAIN_009:extracted/retail/MAIN.CD.dir/FILE_009.dir/0.1:0x800CD348:0x800CD384 md_SC03_053:extracted/retail/SC03.CD.dir/FILE_053.dir/0.1:0x801EF468:0x801EF46C md_SC03_054:extracted/retail/SC03.CD.dir/FILE_054.dir/0.1:0x801EF468:0x801EF558 md_SC03_056:extracted/retail/SC03.CD.dir/FILE_056.dir/0.1:0x801CBB50:0x801CBB54" | tr ' ' '\n' | sed '/^$/d' | xargs -P16     -I{} sh -c '\
+  job="{}"; alias=${job%%:*}; rest=${job#*:}; f=${rest%%:*}; rest=${rest#*:}; \
+  vram=${rest%%:*}; tlo=${rest#*:}; \
+  if [ ! -f "$f" ]; then echo "[WARN no payload] $alias ($f)"; exit 0; fi; \
+  elf="build/$alias/$alias.elf"; \
+  if [ -f "$elf" ]; then \
+    mipsel-linux-gnu-nm "$elf" | awk -v lo=$(($tlo)) '"'"'$2=="T" && $3~"^func_" { a=strtonum("0x" $1); if (a>=lo && a%4==0) printf "0x%X\n", a }'"'"' | sort -u > ".run/seeds.$alias.txt"; \
+    .venv/bin/python tools/sig_image.py --image "$f" --vram-base "$vram" --seeds ".run/seeds.$alias.txt" --name "$alias" ${tlo:+--text-lo "$tlo"} >/dev/null 2>&1 \
+      && echo "[ OK ] $alias" || echo "[SIG FAIL] $alias"; \
+  else \
+    .venv/bin/python tools/sig_image.py --image "$f" --vram-base "$vram" --bootstrap --name "$alias" ${tlo:+--text-lo "$tlo"} >/dev/null 2>&1 \
+      && echo "[ OK ] $alias" || echo "[SIG FAIL] $alias"; \
+  fi' | tee .run/sig-modules.txt
+n=$(grep -c "^\[ OK \]" .run/sig-modules.txt || true)
+bad=$(grep -c "^\[SIG FAIL\]" .run/sig-modules.txt || true)
+echo "sig-modules: signed $n modules (of 75 onboarded)"
+if [ "$bad" -ne 0 ]; then echo "[FAIL] sig-modules: $bad module(s) failed to sign"; exit 1; fi
+[ OK ] md_MAIN_013
+[ OK ] md_MAIN_015
+[ OK ] md_MAIN_014
+[ OK ] md_MAIN_023
+[ OK ] md_MAIN_021
+[ OK ] md_MAIN_027
+[ OK ] md_MAIN_016
+[ OK ] md_MAIN_020
+[ OK ] md_MAIN_019
+[ OK ] md_MAIN_026
+[ OK ] md_MAIN_024
+[ OK ] md_MAIN_018
+[ OK ] md_MAIN_017
+[ OK ] md_MAIN_022
+[ OK ] md_MAIN_025
+[ OK ] md_MAIN_028
+[ OK ] md_MAIN_032
+[ OK ] md_MAIN_031
+[ OK ] md_MAIN_036
+[ OK ] md_MAIN_030
+[ OK ] md_MAIN_029
+[ OK ] md_MAIN_033
+[ OK ] md_MAIN_035
+[ OK ] md_MAIN_039
+[ OK ] md_MAIN_037
+[ OK ] md_MAIN_042
+[ OK ] md_MAIN_038
+[ OK ] md_MAIN_041
+[ OK ] md_MAIN_034
+[ OK ] md_MAIN_040
+[ OK ] md_MAIN_043
+[ OK ] md_MAIN_044
+[ OK ] md_MAIN_045
+[ OK ] md_MAIN_008
+[ OK ] md_MAIN_047
+[ OK ] md_MAIN_046
+[ OK ] md_SC03_073
+[ OK ] md_MAIN_001
+[ OK ] md_SC03_077
+[ OK ] md_MAIN_011
+[ OK ] md_SC03_074
+[ OK ] md_SC03_075
+[ OK ] md_MAIN_003
+[ OK ] md_SC03_078
+[ OK ] md_SC07_003
+[ OK ] md_SC03_079
+[ OK ] md_SC03_076
+[ OK ] md_SC07_004
+[ OK ] md_SC03_132
+[ OK ] md_SC03_134
+[ OK ] md_SC04_024
+[ OK ] md_SC03_137
+[ OK ] md_SC03_133
+[ OK ] md_SC03_135
+[ OK ] md_SC03_138
+[ OK ] md_SC03_136
+[ OK ] md_SC04_026
+[ OK ] md_SC04_028
+[ OK ] md_SC04_029
+[ OK ] md_SC04_027
+[ OK ] md_SC05_023
+[ OK ] md_SC04_025
+[ OK ] md_SC04_030
+[ OK ] md_SC05_024
+[ OK ] md_SC05_027
+[ OK ] md_SC05_025
+[ OK ] md_SC05_026
+[ OK ] md_MAIN_007
+[ OK ] md_SC05_029
+[ OK ] md_MAIN_009
+[ OK ] md_SC02_009
+[ OK ] md_SC05_028
+[ OK ] md_SC03_053
+[ OK ] md_SC03_054
+[ OK ] md_SC03_056
+sig-modules: signed 75 modules (of 75 onboarded)
+sig_image: 10 code range(s), 798 functions
+sig_image: 798 functions across 10 range(s) -> .run/sig.main.oracle.jsonl
+sig-main-oracle: main is now INDEPENDENT — 0 in-domain stubs, 0 PHANTOM, 0 TRUNCATED, 0 PAD-TAIL
+.venv/bin/python tools/corpus.py --all --audit
+main             files=85  stubs= 1258  matched=  947
+md_MAIN_001      files= 1  stubs=    0  matched=   11
+md_MAIN_003      files= 5  stubs=    0  matched=   60
+md_MAIN_007      files= 1  stubs=    0  matched=   19
+md_MAIN_008      files= 1  stubs=    0  matched=    6
+md_MAIN_009      files= 1  stubs=    0  matched=   12
+md_MAIN_011      files= 1  stubs=    0  matched=   21
+md_MAIN_013      files= 1  stubs=    0  matched=   16
+md_MAIN_014      files= 1  stubs=    0  matched=   13
+md_MAIN_015      files= 1  stubs=    0  matched=   20
+md_MAIN_016      files= 1  stubs=    0  matched=   13
+md_MAIN_017      files= 1  stubs=    0  matched=   10
+md_MAIN_018      files= 1  stubs=    0  matched=   11
+md_MAIN_019      files= 1  stubs=    0  matched=   22
+md_MAIN_020      files= 1  stubs=    0  matched=   14
+md_MAIN_021      files= 1  stubs=    0  matched=   11
+md_MAIN_022      files= 1  stubs=    0  matched=   33
+md_MAIN_023      files= 1  stubs=    0  matched=    6
+md_MAIN_024      files= 1  stubs=    0  matched=    6
+md_MAIN_025      files= 1  stubs=    0  matched=   30
+md_MAIN_026      files= 1  stubs=    0  matched=   24
+md_MAIN_027      files= 1  stubs=    0  matched=   29
+md_MAIN_028      files= 1  stubs=    0  matched=   22
+md_MAIN_029      files= 1  stubs=    0  matched=   11
+md_MAIN_030      files= 1  stubs=    0  matched=   10
+md_MAIN_031      files= 1  stubs=    0  matched=   18
+md_MAIN_032      files= 1  stubs=    0  matched=   10
+md_MAIN_033      files= 1  stubs=    0  matched=   19
+md_MAIN_034      files= 1  stubs=    0  matched=   28
+md_MAIN_035      files= 1  stubs=    0  matched=   16
+md_MAIN_036      files= 1  stubs=    0  matched=   28
+md_MAIN_037      files= 1  stubs=    0  matched=   17
+md_MAIN_038      files= 1  stubs=    0  matched=   20
+md_MAIN_039      files= 1  stubs=    0  matched=   26
+md_MAIN_040      files= 1  stubs=    0  matched=   19
+md_MAIN_041      files= 1  stubs=    0  matched=   15
+md_MAIN_042      files= 1  stubs=    0  matched=    4
+md_MAIN_043      files= 1  stubs=    0  matched=   23
+md_MAIN_044      files= 1  stubs=    0  matched=   44
+md_MAIN_045      files= 1  stubs=    0  matched=   21
+md_MAIN_046      files= 1  stubs=    0  matched=   39
+md_MAIN_047      files= 1  stubs=    0  matched=   12
+md_SC02_009      files= 1  stubs=    0  matched=   40
+md_SC03_053      files= 1  stubs=    0  matched=   15
+md_SC03_054      files= 1  stubs=    0  matched=    7
+md_SC03_056      files= 1  stubs=    0  matched=    4
+md_SC03_073      files= 1  stubs=    0  matched=   28
+md_SC03_074      files= 1  stubs=    0  matched=   29
+md_SC03_075      files= 1  stubs=    0  matched=   41
+md_SC03_076      files= 2  stubs=    0  matched=   66
+md_SC03_077      files= 2  stubs=    0  matched=   35
+md_SC03_078      files= 1  stubs=    0  matched=   27
+md_SC03_079      files= 1  stubs=    0  matched=   29
+md_SC03_132      files= 1  stubs=    0  matched=   28
+md_SC03_133      files= 1  stubs=    0  matched=   29
+md_SC03_134      files= 1  stubs=    0  matched=   41
+md_SC03_135      files= 2  stubs=    0  matched=   66
+md_SC03_136      files= 2  stubs=    0  matched=   35
+md_SC03_137      files= 1  stubs=    0  matched=   27
+md_SC03_138      files= 1  stubs=    0  matched=   37
+md_SC04_024      files= 1  stubs=    0  matched=   28
+md_SC04_025      files= 1  stubs=    0  matched=   29
+md_SC04_026      files= 1  stubs=    0  matched=   41
+md_SC04_027      files= 2  stubs=    0  matched=   66
+md_SC04_028      files= 2  stubs=    0  matched=   35
+md_SC04_029      files= 1  stubs=    0  matched=   27
+md_SC04_030      files= 1  stubs=    0  matched=   31
+md_SC05_023      files= 1  stubs=    0  matched=   28
+md_SC05_024      files= 1  stubs=    0  matched=   29
+md_SC05_025      files= 1  stubs=    0  matched=   41
+md_SC05_026      files= 2  stubs=    0  matched=   66
+md_SC05_027      files= 2  stubs=    0  matched=   35
+md_SC05_028      files= 1  stubs=    0  matched=   27
+md_SC05_029      files= 1  stubs=    0  matched=   31
+md_SC07_003      files= 1  stubs=    0  matched=  100
+md_SC07_004      files= 1  stubs=    0  matched=  315
+ov_MAIN_012      files=23  stubs=    0  matched= 2403
+ov_SC01_000      files=28  stubs=    0  matched= 2403
+ov_SC01_001      files=29  stubs=    0  matched= 2466
+ov_SC01_004      files=30  stubs=    0  matched= 2416
+ov_SC01_005      files=30  stubs=    0  matched= 2503
+ov_SC01_006      files=30  stubs=    0  matched= 2503
+ov_SC01_008      files=30  stubs=    0  matched= 2428
+ov_SC01_009      files=31  stubs=    0  matched= 2509
+ov_SC01_074      files=28  stubs=    0  matched= 2427
+ov_SC01_077      files=35  stubs=    0  matched= 2585
+ov_SC01_080      files=27  stubs=    0  matched= 2514
+ov_SC01_084      files=30  stubs=    0  matched= 2581
+ov_SC02_000      files=37  stubs=    0  matched= 2683
+ov_SC02_003      files=37  stubs=    0  matched= 2683
+ov_SC02_004      files=27  stubs=    0  matched= 2403
+ov_SC02_005      files=33  stubs=    0  matched= 2929
+ov_SC02_011      files=29  stubs=    0  matched= 2895
+ov_SC02_015      files=27  stubs=    0  matched= 2416
+ov_SC02_016      files=29  stubs=    0  matched= 2547
+ov_SC02_017      files=29  stubs=    0  matched= 2734
+ov_SC02_021      files=30  stubs=    0  matched= 2439
+ov_SC02_026      files=29  stubs=    0  matched= 2574
+ov_SC02_027      files=29  stubs=    0  matched= 2694
+ov_SC02_028      files=30  stubs=    0  matched= 2703
+ov_SC02_031      files=27  stubs=    0  matched= 2564
+ov_SC02_035      files=29  stubs=    0  matched= 2522
+ov_SC02_037      files=21  stubs=    0  matched= 2516
+ov_SC02_039      files=28  stubs=    0  matched= 2418
+ov_SC02_041      files=28  stubs=    0  matched= 2563
+ov_SC03_001      files=35  stubs=    0  matched= 2869
+ov_SC03_002      files=32  stubs=    0  matched= 2631
+ov_SC03_003      files=28  stubs=    0  matched= 2425
+ov_SC03_006      files=27  stubs=    0  matched= 2767
+ov_SC03_007      files=29  stubs=    0  matched= 2625
+ov_SC03_010      files=29  stubs=    0  matched= 2472
+ov_SC03_011      files=29  stubs=    0  matched= 2529
+ov_SC03_012      files=27  stubs=    0  matched= 2408
+ov_SC03_013      files=30  stubs=    0  matched= 2494
+ov_SC03_014      files=32  stubs=    0  matched= 2687
+ov_SC03_015      files=34  stubs=    0  matched= 2687
+ov_SC03_023      files=27  stubs=    0  matched= 2437
+ov_SC03_024      files=30  stubs=    0  matched= 2643
+ov_SC03_028      files=34  stubs=    0  matched= 2666
+ov_SC03_029      files=30  stubs=    0  matched= 2646
+ov_SC03_030      files=27  stubs=    0  matched= 2497
+ov_SC03_031      files=28  stubs=    0  matched= 2516
+ov_SC03_089      files=30  stubs=    0  matched= 2583
+ov_SC03_090      files=30  stubs=    0  matched= 2627
+ov_SC03_091      files=32  stubs=    0  matched= 2642
+ov_SC03_092      files=29  stubs=    0  matched= 2589
+ov_SC03_093      files=30  stubs=    0  matched= 2565
+ov_SC03_094      files=30  stubs=    0  matched= 2579
+ov_SC03_095      files=29  stubs=    0  matched= 2476
+ov_SC03_096      files=29  stubs=    0  matched= 2467
+ov_SC03_097      files=30  stubs=    0  matched= 2605
+ov_SC03_098      files=29  stubs=    0  matched= 2543
+ov_SC03_099      files=29  stubs=    0  matched= 2506
+ov_SC03_100      files=29  stubs=    0  matched= 2541
+ov_SC03_101      files=29  stubs=    0  matched= 2530
+ov_SC03_102      files=29  stubs=    0  matched= 2494
+ov_SC03_103      files=29  stubs=    0  matched= 2512
+ov_SC03_104      files=31  stubs=    0  matched= 2618
+ov_SC03_105      files=34  stubs=    0  matched= 2599
+ov_SC03_107      files=20  stubs=    0  matched= 2497
+ov_SC03_108      files=29  stubs=    0  matched= 2445
+ov_SC03_109      files=28  stubs=    0  matched= 2426
+ov_SC03_110      files=29  stubs=    0  matched= 2470
+ov_SC03_111      files=28  stubs=    0  matched= 2512
+ov_SC03_112      files=32  stubs=    0  matched= 2528
+ov_SC03_113      files=28  stubs=    0  matched= 2470
+ov_SC03_114      files=28  stubs=    0  matched= 2417
+ov_SC03_115      files=28  stubs=    0  matched= 2474
+ov_SC03_116      files=27  stubs=    0  matched= 2440
+ov_SC03_117      files=30  stubs=    0  matched= 2559
+ov_SC03_118      files=31  stubs=    0  matched= 2687
+ov_SC03_119      files=31  stubs=    0  matched= 2687
+ov_SC03_121      files=30  stubs=    0  matched= 2461
+ov_SC03_124      files=32  stubs=    0  matched= 2743
+ov_SC03_125      files=29  stubs=    0  matched= 2590
+ov_SC03_126      files=28  stubs=    0  matched= 2425
+ov_SC04_000      files=29  stubs=    0  matched= 2546
+ov_SC04_002      files=28  stubs=    0  matched= 2638
+ov_SC04_003      files=28  stubs=    0  matched= 2504
+ov_SC04_004      files=27  stubs=    0  matched= 2560
+ov_SC04_005      files=28  stubs=    0  matched= 2614
+ov_SC04_006      files=28  stubs=    0  matched= 2456
+ov_SC04_007      files=28  stubs=    0  matched= 2571
+ov_SC04_008      files=26  stubs=    0  matched= 2417
+ov_SC04_009      files=28  stubs=    0  matched= 2443
+ov_SC04_010      files=28  stubs=    0  matched= 2421
+ov_SC04_011      files=28  stubs=    0  matched= 2805
+ov_SC04_012      files=27  stubs=    0  matched= 2422
+ov_SC04_015      files=28  stubs=    0  matched= 2613
+ov_SC04_016      files=29  stubs=    0  matched= 2442
+ov_SC04_018      files=33  stubs=    0  matched= 2857
+ov_SC04_019      files=34  stubs=    0  matched= 2857
+ov_SC04_020      files=29  stubs=    0  matched= 2569
+ov_SC04_021      files=28  stubs=    0  matched= 2425
+ov_SC05_000      files=28  stubs=    0  matched= 2422
+ov_SC05_001      files=29  stubs=    0  matched= 2576
+ov_SC05_002      files=28  stubs=    0  matched= 2444
+ov_SC05_003      files=28  stubs=    0  matched= 2483
+ov_SC05_004      files=29  stubs=    0  matched= 2466
+ov_SC05_005      files=28  stubs=    0  matched= 2493
+ov_SC05_006      files=28  stubs=    0  matched= 2432
+ov_SC05_007      files=28  stubs=    0  matched= 2484
+ov_SC05_008      files=27  stubs=    0  matched= 2545
+ov_SC05_009      files=27  stubs=    0  matched= 2440
+ov_SC05_010      files=31  stubs=    0  matched= 2590
+ov_SC05_011      files=28  stubs=    0  matched= 2411
+ov_SC05_017      files=35  stubs=    0  matched= 2844
+ov_SC05_018      files=29  stubs=    0  matched= 2675
+ov_SC05_019      files=28  stubs=    0  matched= 2425
+ov_SC06_000      files=27  stubs=    0  matched= 2691
+ov_SC06_006      files=29  stubs=    0  matched= 2513
+ov_SC06_008      files=28  stubs=    0  matched= 2544
+ov_SC06_010      files=26  stubs=    0  matched= 2519
+ov_SC06_011      files=29  stubs=    0  matched= 2470
+ov_SC06_013      files=28  stubs=    0  matched= 2427
+ov_SC06_014      files=28  stubs=    0  matched= 2455
+ov_SC06_015      files=28  stubs=    0  matched= 2423
+ov_SC06_016      files=30  stubs=    0  matched= 2551
+ov_SC06_018      files=33  stubs=    0  matched= 2667
+ov_SC06_020      files=30  stubs=    0  matched= 2520
+ov_SC06_022      files=32  stubs=    0  matched= 2644
+ov_SC06_024      files=33  stubs=    0  matched= 2669
+ov_SC06_025      files=29  stubs=    0  matched= 2574
+ov_SC06_027      files=28  stubs=    0  matched= 2410
+ov_SC06_029      files=30  stubs=    0  matched= 2664
+ov_SC06_030      files=29  stubs=    0  matched= 2458
+ov_SC06_032      files=33  stubs=    0  matched= 2660
+ov_SC06_033      files=34  stubs=    0  matched= 2633
+ov_SC07_000      files=30  stubs=    0  matched= 2521
+ov_SC07_001      files=28  stubs=    0  matched= 2456
+ov_SC07_002      files=28  stubs=    0  matched= 2581
+ov_SC07_006      files=28  stubs=    0  matched= 2456
+ov_SC07_007      files=27  stubs=    0  matched= 2614
+ov_SC07_008      files=28  stubs=    0  matched= 2388
+ov_SC07_009      files=27  stubs=    0  matched= 2432
+ov_SC07_010      files=26  stubs=    0  matched= 2526
+ov_SC07_011      files=27  stubs=    0  matched= 2450
+resident         files= 3  stubs=    0  matched=  145
+
+corpus audit: 0 PHANTOM + 0 TRUNCATED = 0 unmatchable slices
+.venv/bin/python tools/cdecl.py --audit --gcc --limit 60
+[coverage] 60 TUs (cpp-derived) + 600 drafts (raw)
+[coverage] depth-0 statements: 175222   declarators parsed: 166814
+[coverage] unparsed: 4  ->  PARSER DEFECTS (gcc accepts, cdecl does not): 0   NOT-C (gcc rejects it too — corrupt input): 4
+    NOT-C in 1 dir(s) (all scratch, none in src/): ['.run/drafts-T6-recanon']
+      e.g. 'extern if ((func_80029178(0x119) & 0xFF) != 0);' -> expected ')', got '!=' in 'extern if ((func_800
+
+[differential] expanded 5147 DEFINE_ macros through cpp -> 7430 names
+[differential] engine_core.h — D_ symbols (raw-text scan vs cpp-expanded file scope)
+    incumbent                             theirs   cdecl  cdecl-only  MY DEFECT  their block-scope error
+    gen_harvest_targets.DATA_DECL_RE        2238    2319         601          0                      520
+        they count BLOCK-scope externs as file-scope canonicals: ['D_800636C8', 'D_80078EAF', 'D_800A5E8C', 'D_800A5E90']
+    sig_unify.DATA_DECL_RE                  2238    2319         601          0                      520
+        they count BLOCK-scope externs as file-scope canonicals: ['D_800636C8', 'D_80078EAF', 'D_800A5E8C', 'D_800A5E90']
+    the audit's named blind symbols (engine_core.h), now resolved WITH THEIR KIND:
+      D_80127530     kind=array        (expected array)  [ok]  s32 [4]
+      D_80127088     kind=fnptr        (expected fnptr)  [ok]  void (*)(void)
+      D_8011DB28     kind=fnptr        (expected fnptr)  [ok]  void (*)(s32)
+      D_801274D0     kind=fnptr        (expected fnptr)  [ok]  s32 (*)(s32)
+      D_8018E858     kind=fnptr_array  (expected fnptr_array)  [ok]  void (*[])(void)
+
+[gcc] 4777 distinct declarations -> the real cross-compiler
+[gcc] adjudicated: 4777   env-skipped (gcc cannot compile the original out of its TU): 0
+[gcc] accepted: 4777   REJECTED (my reconstruction is a DIFFERENT TYPE): 0
+
+cdecl: ALL ORACLES GREEN
+.venv/bin/python tools/audit_binaries.py
+audit-binaries: 218 onboarded (main + resident + 141 overlays + 75 modules)
+  [warn] .run/family_hseq.json is missing 6 onboarded overlay(s) (regenerate: tools/family_hseq.py): ['md_MAIN_007', 'md_MAIN_008', 'md_MAIN_009', 'md_SC03_053', 'md_SC03_054', 'md_SC03_056']
+audit-binaries: OK — every onboarded binary is a full citizen of every enumerating consumer.
+.venv/bin/python tools/audit_text_sources.py
+audit-text-sources: scanned 4299 tracked .c/.h file(s) under src/include
+audit-text-sources: OK — every source is TEXT (grep can see all of them).
 .venv/bin/python tools/progress.py --binary main --audit
 .venv/bin/python tools/difficulty.py --binary main
 .venv/bin/python tools/dup_report.py --binary main
@@ -2384,4 +2950,33 @@ backlog prune: 1 rows -> 1 open near-misses (dropped 0 banked/superseded)
 [ OK ] E_func_80181270: 2 members [ov_SC04_018,ov_SC04_019] share h_exact 8fb47979c405… (source src/shared/engine_core.h)
 [ OK ] E_func_80182AF8: 2 members [ov_SC04_018,ov_SC04_019] share h_exact f54d97698772… (source src/shared/engine_core.h)
 dedup-check: 2220 validated, 0 failed  | C1 coverage 255708/255708 members signed
+.venv/bin/python tools/audit_digest.py
+audit-digest: OK — docs/progress.fleet.md describes the current tree (instr 13488497/13488497, distinct 90984/90984 uniq).
+cookbook-index OK (1169 sections)
+[work-evidence] WARNING: t: ZERO readable inputs at '/d' — refusing to report a zero-yield RESULT for what is an empty INPUT.
+  [PASS] inputs: 57 drafts -> accept                no raise
+  [PASS] inputs: 0 drafts -> REFUSE                 raised
+  [PASS] inputs: None -> REFUSE                     raised
+  [PASS] floor: 102s build -> accept                no raise
+  [PASS] floor: 1.4s 'build' -> REFUSE (the §402 tell) raised
+  [PASS] floor: elapsed unknown -> accept           no raise
+  [PASS] effect: claimed 0 -> accept (nothing to prove) no raise
+  [PASS] effect: claimed 1, stub set SHRANK -> accept no raise
+  [PASS] effect: claimed 1, tree UNCHANGED -> REFUSE (the §404 tell) raised
+  [PASS] effect: explicit effect=True -> accept     no raise
+  [PASS] non-strict returns False instead of raising
+work_evidence selftest: OK
+  main, as it is now                     -> OK           OK
+  main's island BEFORE the S72 split     -> NEEDS SPLIT  OK
+      NEEDS SPLIT — subseg `800` owns raw tables in 3 non-adjacent spans; only ONE can carve:
+          span 0x80072a38-0x80072c70 (1 tables) — owners 0x8001a114..0x80024448
+              func_8001A114, func_80024448
+          span 0x80072e44-0x80073140 (1 tables) — owners 0x8002b0b4..0x8002eed8
+              func_8002B0B4, func_8002EED8
+  one span, one subseg (must NOT fire)   -> OK           OK
+SELF-TEST PASS
+
+split_indicator: 218 OK, 0 needing attention, of 218 binaries
+tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green.
 EXIT=0
+16:27:37 MDT

@@ -10,13 +10,14 @@
 > This file is DERIVED from the PhaseEnds and may be corrected; PROJECT_CONTEXT.md is never edited (P1).
 
 ## 0. Where the project stands (at the latest PhaseEnd — the live state is in CURRENT_PHASE.md)
-Brave Fencer Musashi (SLUS-00726) matching decomp. **Phase 31 closed 2026-09-05 (v1.30.0):** 213 binaries (main EXE +
-resident engine blob + 138 location overlays + 73 `md_*` code modules) rebuild byte-identical from source; fleet
-**100.0% instruction-weighted / 99.9% distinct-code / 99.99% fn-count**; 21 open stubs / 4,554 ins; main REAL 777 /
-LINKED 1,256 (real PsyQ objects incl. libpad 4.2.1) / 12 stubs (99.43% byte-identical, 95.0% game-code); 5 PERMANENT
-verbatim `__asm__` bodies; dedup registry 2,220 groups / 0 failures. **Phase 32 (in progress)** = the last stubs + the
-five parked disc payloads, short and kill-gated; then **P33 = verify + public flip**. Roadmap: `docs/roadmap-to-100.md`
-v2 (adopted 2026-07-15, rewritten 2026-07-30); jumping-off doc `docs/frontier-p32.md`.
+Brave Fencer Musashi (SLUS-00726) matching decomp. **Phase 32 closed 2026-09-06 (v1.31.0): THE FRONTIER IS EMPTY.** 218
+binaries (main EXE + resident engine blob + 138 location overlays + 78 `md_*` code modules) rebuild byte-identical from source
+from a clean rebuild after the last bank (218/218, exits 0/0/0); fleet **100.00% fn-count / 100.0% instruction-weighted /
+100.0% distinct-code, INCLUDE_ASM stubs 0, NON_MATCHING 0**; main **2,091 / 2,091 = 100.00% byte-identical** (REAL 789 ·
+LINKED 1,256 real PsyQ objects incl. libpad 4.2.1 · VERBATIM 3); 5 PERMANENT verbatim `__asm__` bodies fleet-wide; dedup
+registry 2,220 groups / 0 failures; disc UNCLAIMED 0 of 220; `config/wave_exclude.txt` 0 entries. What is not our C: the 1,256
+linked Sony objects (by design; libs-from-source is a Gen3 stretch) and the 5 hand-asm bodies. **Next: P33 = contract
+verification + the public flip + Gen2 exit** (roadmap v2 §3 P33, ≈2–4 sessions); plan it fresh in plan mode at Max.
 
 ## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
 - **Session start** reads this digest + the last three PhaseEnds, not every PhaseEnd (R64 candidate, Drew 2026-09-05).
@@ -108,7 +109,16 @@ model. R37 operated as binding; R38–R39 proposed.
 main 1,041 → 12 open; libpad 4.2.1 + RTL 4.2 archive linked (twelve "walls" were Sony objects); the verbatim `__asm__`
 class censused to 5 PERMANENT rows; `gate_main` (main gates only by clean rebuild). R37–R39 ratified; R40–R43 + R61
 accepted; R44–R60, R62–R63 proposed → **all ratified at P32 gate 1 (2026-09-05)**.
-**P32 (open 2026-09-05)** The last 21 + the parked 5 (short, kill-gated) — see `CURRENT_PHASE.md`.
+**P32 (2026-09-06, v1.31.0) THE FRONTIER EMPTIED.** 5 sessions (S81–S85) / 111 commits. The five parked disc payloads
+onboarded on their first static-derived bases (fleet 213 → 218, UNCLAIMED 0 of 220); 77 functions banked — 3 tooling-first,
+20 free, 39 by a one-agent-per-function pass, 13 in T4b (Drew's directive: everything short of Sony's objects and the original
+hand-asm must be C — 11 by a Fable pass reading pass dumps, 2 by hand), 2 in T4c (the "PROVED"/"PLATEAU" main rows) — every
+final bank pin-free. Two written verdicts fell to producers missing from their censuses: combine's self-update bookkeeping
+gap that mints a no-traffic frame slot (§501-Q) and loop.c's user-variable rule + cse's later-mention canonicalization
+(§501-R: three inline temps merged by `combine_movables`, `u16` as a cse firewall, the allocation order IS the callee-saved
+bank). Census 0 stubs; fleet 100.00 / 100.0 / 100.0; main 2,091 / 2,091. `phase-ends/DIGEST.md` created (R64). Rules: R44–R63
+ratified at gate 1; **R64 ratified**; candidates (i)–(ix) recorded. Instruments: `payload_base_evidence.py`, `ghost_census.py`,
+`agent_drafts_restore.py`, `cc1_dumps_tu.sh`, `alloc_table.py`, `bank.sh`.
 
 ## 3. Every rule, in full (transcribe these at session start; P/G/H/X are in PROJECT_CONTEXT.md)
 - **R1 — H1 relaxed while private.** ROM-derived content (`asm/`, `assets/`, `extracted/`, decompressed `.CD`) MAY be
@@ -215,13 +225,21 @@ accepted; R44–R60, R62–R63 proposed → **all ratified at P32 gate 1 (2026-0
 - **R62 — A ledger's best draft may never be an `__asm__` body, and a bank whose body is `__asm__` is a verbatim, not a
   bank** (`verbatim_check --strict` in the per-bank close).
 - **R63 — A permuter/waypoint score is not a closeness until its diff is read.**
-- **R64 (CANDIDATE, Drew-directed 2026-09-05; ratify at PhaseEnd_Phase32) — Session start reads PROJECT_CONTEXT.md →
+- **R64 (RATIFIED at PhaseEnd_Phase32, 2026-09-06; Drew-directed 2026-09-05) — Session start reads PROJECT_CONTEXT.md →
   `phase-ends/DIGEST.md` → the three most recent PhaseEnds → `CURRENT_PHASE.md`, then replays the 🛑 SESSION CHECKPOINT
   block VERBATIM into the chat; the protocol costs ≈100k tokens + the checkpoint. Every PhaseEnd appends its synopsis
   and rules to the digest (P7). A checkpoint is written to be replayed: self-sufficient, verbose, every path/command/hash
   explicit (see `checkpoint-current-phase-before-pause` memory).**
 (R40–R43 and R61 were accepted mid-P31; their long forms are in `phase-ends/logs/Phase31.md` — the one-liners above are
 the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1.)
+**Candidates proposed at PhaseEnd_Phase32 (2026-09-06) — for Drew to accept/modify/reject; NOT binding until ratified:**
+(i) a wall verdict is PASS-attributed with a dump line; (ii) write "banked" only from the tool's printed success line; (iii)
+agents write deliverables early; (iv) a helper refuses an empty work list (R43 restated); (v) a residual gets a PRODUCER
+CENSUS before a spelling sweep and "PROVED" means every producer on a NAMED list refuted on the bytes; (vi) a ledger's
+tie-break is part of the instrument; (vii) port a banked sibling's SPELLING before any dial (§501-N/P); (viii) a similarity
+score is not a shape oracle — grep the idiom's constants and objdump the hits (§501-P); (ix) build the 1-second reproducer
+battery for a mechanism BEFORE probing the real function, and read the allocation ORDER before any register lever
+(accelerators (15)/(16)). Full text: `PhaseEnd_Phase32.md` "Rules Added".
 
 ## 4. Where things live (the doc map a session needs)
 `docs/SETUP.md` (environment, every tool's row, commands) · `docs/matching-cookbook.md` §1–§500 (idioms; 3.5 MB —
