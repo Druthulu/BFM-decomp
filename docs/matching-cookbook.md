@@ -37385,3 +37385,19 @@ zero only a deleted i2's) and reload1.c:2309 `alter_reg` gives it a 4-byte slot 
 chained rgb stores, the TU prototype `(s32, u32)`. Inert/superseded: `pad[2]` with ob-first; array-indexed OT on the `u8` symbol
 without `ob` (254 ins); a cast OT write (the tail stops floating). **Law:** a frame that is "8 bytes short" may be one pseudo's own
 slot, not a pad — read `.greg` for the stack-slot assignment before declaring a pad.
+
+**§501-L — WHEN TWO DIALS SHARE A SLOT, THEY COUPLE: the floater cure and the qty_compare contest in `md_MAIN_007:func_800CF408`
+(P32 T4b, 49 → 3 at exact length, zero pins, NEAR — the one §351-family row not closed).** Closers were §501-H's shape verbatim plus
+two additions worth keeping: a dead `arg1 = 0;` kill after `y1 = arg1 - 0x78` so cse's `fold_rtx` cannot re-associate `y2 = y1 + 0x100`
+into `a1copy + 0x88` (that fold made `y` a 2-death GLOBAL allocno → `$t8`; 48 → 22), and a NAMED `u32 mhi = 0xFF000000` born before
+block 1's RMW so its boosted `li` takes the `lhu → sll` gap one slot earlier and lengthens mhi's life by one, letting `ob` win the
+`$t2/$t3` `qty_compare` contest by 11 (refs 9 vs 8, lives 113 vs 100: 2389 < 2400; 18 → 3). **The residual (idx 10–12) is
+§501-H's floater mechanism: the unboosted tag load lingers up block 1's store stream, blocks one cycle behind the tpage `sw`, and the
+empty cycle eats the highest-LUID floater (`ori $s5,0x96`).** Its cure — mhi's `li` UID above the index `sll` — moves mhi's birth one
+slot later and flips the contest back (2411 > 2400 → 18); moving `ob` after the index fixes the contest but opens a bubble in the
+OT-chain `lhu` gap that eats the same floater (13). The target fills that gap with `and $a3,$v0,$t1` = an UNBOOSTED `p & m24`; a 2-set
+`a3` is re-merged by combine with `reg_n_sets--` (combine.c:2309; 36) and an asm launder there becomes a sched2 delay-slot phantom
+nop (179 ins). **Law:** when the same ready-list slot decides both a scheduling floater and an allocation contest, one-dial probes
+oscillate between two closeness floors (here 3 and 13/18); decouple by adding a filler that changes neither count (an unboosted
+temp combine cannot re-merge — a different mode/width, or a `volatile` temp) or by moving the contest margin with a reference in a
+block that does not touch the slot. 135-variant sweep floor 3 (×24). Next lever recorded in `docs/backlog.md`.
