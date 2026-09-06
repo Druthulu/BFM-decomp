@@ -37454,3 +37454,25 @@ position and flips the m24/colour `$t1/$t0` order. **Law:** when a same-family s
 constants BEFORE touching a dial on the draft; the residual class name (§501-H) is the family's signature, not a lever list. The
 target's `vars= 8` here is a combine-minted ghost (§501-M species, `ghost_census.py`: `ST_REGS or none` → SLOT) reproduced by the
 port for free. Notes and every variant: `.run/P32/t4c/func_800CF408/`.
+
+**§501-O — A PHANTOM SLOT BETWEEN A PARAMETER'S SPILL AND AN EVICTED PSEUDO'S SLOT: the census for a LEAF, and what it leaves
+open (P32 T4b hand pass, S84 2026-09-06; `main:func_80039308` 518 ins, PLATEAU at 4).** Target frame `[s16 arg1 spill @0x0][8 bytes,
+no traffic @0x8][cnt @0x10]`; the natural spelling (`*(s16 *)(p + 6) = arg1`, Fable's Y4) is register-exact — the HImode parameter
+pseudo is spilled by global (`sh $a1,0($sp)` at entry, the head promotions keep reading `$a1` because reload's `find_equiv_reg` still
+finds the value there, and the late use reloads `lhu $s7` = the spill register) — and lands `[arg1 @0][cnt @8]`. Read from `.greg`:
+`cnt` is global-allocated to `$s7`, `order_regs_for_reload` picks `$s7` as the GR spill register (the least-used GPR in a function that
+uses all 24), `spill_hard_reg` evicts it (its retry fails), and `alter_reg(cnt, 23)` mints `spill_stack_slot[23]` AFTER the initial
+`alter_reg` loop. So the phantom must be an INITIAL-LOOP slot (any regno above the parameter's) with no traffic, or a main-loop slot
+before the first spill. Refuted here, each on a dump fact: caller-save area (leaf: every `reg_n_calls_crossed` is 0); a LO-evicted
+product's `spill_stack_slot[65]` (GR_REGS is spilled before LO_REG, so it would follow cnt's slot — and a product's alternate class is
+`GR_REGS`: two overlapping products allocate to `$a1`/`$v1`, C3); reload1.c:879 (needs an unallocated single-block equivalence pseudo;
+local-alloc allocates every short temp — `$t0` is free at the `k2` site because s18 dies one insn earlier); expand-time locals (they
+precede every reload slot: Y1/Y3/Y4 measured the parameter at 0x10/0x8); global's local-alloc kick-out (its victim's traffic shows
+unless def/use are adjacent through `$s7`, and the only such pairs are the six LO-class `mflo $s7` products); a combine ghost (all
+thirteen `lh` are single-use — `bne/mult/sll/addiu/slti` consumers —, no `lb`, and a HImode `pan` would leave real `sll/sra` in the
+arms the target does not have). **What this row teaches:** (1) `tools/ghost_census.py` + the `.greg` "Spilling reg N / now on stack"
+lines give the slot ORDER for free — read them before any frame probe; (2) the six `mflo $s7 / op $s7` pairs are byte-identical whether
+the product is LO-homed with an input reload or slot-homed with a deleted output reload (§501-M's inheritance species), so a phantom
+whose traffic-free pseudo is a product cannot be excluded by the bytes alone — only by allocation (alternate class `GR_REGS` always
+saves a product); (3) rows 49/50 are two `move_movables` hoists in BODY order — the original computed `vol = b2 * 0x100` in the loop;
+steering the hoisted invariant into `$s2` without the `$18` pin (X2 = 495) is the open lever (§501-E launders).

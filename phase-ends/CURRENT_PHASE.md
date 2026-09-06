@@ -99,7 +99,7 @@ Scale estimate: 3–5 sessions.
       `func_80011380` → `.run/m3/opus/func_80011380.c`; `func_801834A4` → `.run/S71_gate14/ov_SC03_105*/`),
       `exclude_audit --write`, `backlog.py render`; a T3 idiom naming a wall's mechanism re-opens that row
       (bounded: one attempt, permuter first). Wall table into this file; cookbook §496+; decision log; accelerators.
-- [~] **T4b — crack and bank the final 15 (ADDED 2026-09-05 by Drew's directive; supersedes the kill gate: "anything that isn't the original hand-written asm or the PsyQ libs needs to be cracked and banked before we finish")** — **FIRST PASS COMPLETE 2026-09-05 (S83): 11 of 15 BANKED byte-identical, 4 carried to the NEXT session's HAND pass (Drew: no second agent round; hand-crack the remaining ones).** Hand pass first (22 spellings, 0 banks, every blocker refined to a mechanism in `.run/P32/t4b/<fn>/NOTES.md`), then one Fable agent per row (permission, not requirement — Drew), resumed 3-at-a-time through three usage-limit outages. Banked (each: coordinator `rtu_match` in the CURRENT real TU → `gate_main` / `bank.sh` byte-identical → one commit; pins dropped by `exclude_audit --write`; mechanism in cookbook §501–§501-L): `main:func_800391D4` `commit:3956` · `main:func_80039DEC` `commit:3959` · `md_MAIN_009:func_800CD674` `commit:3964` · `ov_SC06_022:func_8017DF28` `commit:3966` · `main:func_80020DA4` `commit:3969` · `ov_SC03_105:func_801834A4` `commit:3972` · `md_MAIN_003:func_800CF3E8` `commit:3976` · `md_MAIN_009:func_800CD92C` `commit:3979` · `ov_SC07_002:func_8017DC80` `commit:3983` · `main:func_80011380` `commit:3990` (the §474 "PROVED" wall) · `md_MAIN_007:func_800CF6D0` `commit:3992`. Ten of the eleven were T4 "walls" or long-standing NEARs. **HAND PASS S84 (2026-09-06, Fable Max, no agents): row (a) `main:func_80032A74` → PROVED at 1 (§501-M producer census: the 0x48 slot can only be a combine-minted ghost, which needs an `lh`/`lb`; the pin stays with its final verdict; ledger + `tools/ghost_census.py` + `cc1_dumps.sh` repair; row (b) `md_MAIN_007:func_800CF408` → **BANKED byte-identical `commit:4001`** (the banked sibling func_800CD92C's spelling ported with a u32 array alias of the OT symbol, §501-N; zero pins/asm); rows (c)(d) next).** Carried (4, all exact length, in `docs/backlog.md` with next levers): `main:func_80032A74` 1 (the last pin; ghost pseudo — near-proved) · `md_MAIN_007:func_800CF408` 3 · `main:func_80039308` 4 · `ov_SC03_105:func_80185810` 13. Close: fleet R22 **218 passed / 0 failed, exits 0/0/0** (23:33–23:36 MDT, `.run/P32/t4b/r22_full.log`); `make report`: instr 13,486,890 / 13,488,497 = 100.0% · distinct 5,814,982 / 5,816,589 = 100.0% (90,982 / 90,984 unique) · fn-count 363,210 / 363,214 = 100.00% · **INCLUDE_ASM 4**; main REAL 787 · LINKED 1,256 · VERBATIM 3 · stubs 2 · 2,089 / 2,091 = 99.90% · `143dbb89…`; census `.run/P32/frontier_t4b_close.json` 4 stubs / 1,607 ins; decision-log P32 S83 T4b (R31); accelerators (10)–(11); tools-health OK (`.run/P32/t4b/tools_health.log`).
+- [~] **T4b — crack and bank the final 15 (ADDED 2026-09-05 by Drew's directive; supersedes the kill gate: "anything that isn't the original hand-written asm or the PsyQ libs needs to be cracked and banked before we finish")** — **FIRST PASS COMPLETE 2026-09-05 (S83): 11 of 15 BANKED byte-identical, 4 carried to the NEXT session's HAND pass (Drew: no second agent round; hand-crack the remaining ones).** Hand pass first (22 spellings, 0 banks, every blocker refined to a mechanism in `.run/P32/t4b/<fn>/NOTES.md`), then one Fable agent per row (permission, not requirement — Drew), resumed 3-at-a-time through three usage-limit outages. Banked (each: coordinator `rtu_match` in the CURRENT real TU → `gate_main` / `bank.sh` byte-identical → one commit; pins dropped by `exclude_audit --write`; mechanism in cookbook §501–§501-L): `main:func_800391D4` `commit:3956` · `main:func_80039DEC` `commit:3959` · `md_MAIN_009:func_800CD674` `commit:3964` · `ov_SC06_022:func_8017DF28` `commit:3966` · `main:func_80020DA4` `commit:3969` · `ov_SC03_105:func_801834A4` `commit:3972` · `md_MAIN_003:func_800CF3E8` `commit:3976` · `md_MAIN_009:func_800CD92C` `commit:3979` · `ov_SC07_002:func_8017DC80` `commit:3983` · `main:func_80011380` `commit:3990` (the §474 "PROVED" wall) · `md_MAIN_007:func_800CF6D0` `commit:3992`. Ten of the eleven were T4 "walls" or long-standing NEARs. **HAND PASS S84 (2026-09-06, Fable Max, no agents): row (a) `main:func_80032A74` → PROVED at 1 (§501-M producer census: the 0x48 slot can only be a combine-minted ghost, which needs an `lh`/`lb`; the pin stays with its final verdict; ledger + `tools/ghost_census.py` + `cc1_dumps.sh` repair; row (b) `md_MAIN_007:func_800CF408` → **BANKED byte-identical `commit:4001`** (the banked sibling func_800CD92C's spelling ported with a u32 array alias of the OT symbol, §501-N; zero pins/asm); row (c) `main:func_80039308` → PLATEAU at 4 (S84 verdict, §501-O: the phantom slot's producer census refutes every route; Y4 is register-exact); row (d) NEXT).** Carried (4, all exact length, in `docs/backlog.md` with next levers): `main:func_80032A74` 1 (the last pin; ghost pseudo — near-proved) · `md_MAIN_007:func_800CF408` 3 · `main:func_80039308` 4 · `ov_SC03_105:func_80185810` 13. Close: fleet R22 **218 passed / 0 failed, exits 0/0/0** (23:33–23:36 MDT, `.run/P32/t4b/r22_full.log`); `make report`: instr 13,486,890 / 13,488,497 = 100.0% · distinct 5,814,982 / 5,816,589 = 100.0% (90,982 / 90,984 unique) · fn-count 363,210 / 363,214 = 100.00% · **INCLUDE_ASM 4**; main REAL 787 · LINKED 1,256 · VERBATIM 3 · stubs 2 · 2,089 / 2,091 = 99.90% · `143dbb89…`; census `.run/P32/frontier_t4b_close.json` 4 stubs / 1,607 ins; decision-log P32 S83 T4b (R31); accelerators (10)–(11); tools-health OK (`.run/P32/t4b/tools_health.log`).
 - [ ] **T5 — PhaseEnd** (Max, Tier 1 — prompt R27): P7 checkbox walk; milestone demo (R22 fleet N/N, tools-health,
       `verbatim_check --strict`, final census, wall ledger, parked-5 dispositions via `make audit-disc`,
       `make report` all three metrics + main `143dbb89…` with/without SDK dirs, corrected denominators); **WAIT
@@ -135,6 +135,7 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
   needed for T0–T2b; if T2d needs it: `tools/ghidra_mcp_start.sh` → pause → Drew runs `/mcp` (R29) → G2 ping.
 
 ## Log
+- 2026-09-06 (S84, continued) — **T4b hand pass, row (c) `main:func_80039308` → PLATEAU at 4 (verdict).** Producer census for the target's phantom slot `[arg1 @0][8 @8][cnt @0x10]` (§501-O): cnt's slot is `spill_stack_slot[23]` (cnt evicted from `$s7`, `.greg` "Register 95 now on stack"), so the phantom is an initial-loop slot with no traffic; every producer refuted on dump facts (leaf → no save area; LO spilled after GR; products alternate to GR_REGS — C3 measured `mflo $a1/$v1`; no unallocated single-block equiv pseudo; expand-time locals precede; all 13 `lh` single-use, no `lb`). Rows 49/50 = two `move_movables` hoists in body order (open: steer the hoisted `b2 * 0x100` into `$s2` without the pin). Ledger row updated (closeness 4, FRAME+SCHED), NOTES `.run/P32/t4c/func_80039308/NOTES.md`, probe `c3_twoprod.c`. **Row (d) `ov_SC03_105:func_80185810` (13) read (report + rtu DIFF 13 re-verified) — NOT started; per §501-N its step 0 is a banked-sibling search on its symbol set (`D_800A5E60`, `D_801BC9B4/BC`, `D_801BA6B0`, `D_800AF630`, `D_800A6610`).** Session paused here at Drew's request (87% context).
 - 2026-09-06 (S84, continued) — **T4b hand pass, row (b) `md_MAIN_007:func_800CF408` BANKED byte-identical (`commit:4001`: bank.sh — rtu MATCH 178/178 in the real TU, splice, `make build BINARY=md_MAIN_007 -j8` rc 0, sha `2ff702b6…` == `config/check.md_MAIN_007.sha`).** The Fable draft's 3-row prologue-weave residual (§501-L) was a shape symptom: the same-family banked sibling `md_MAIN_009:func_800CD92C` (§501-H) had matched with the plain libgpu addPrim shape; porting it with this function's constants matched first try (`b0d_sibport_alias.c`). The TU declares `extern u8 D_800AA60C[]`, which kills the sibling's `u32` ARRAY_REF (the form whose address `memory_address → force_reg` lets cse bind the OT base into `$t2`; every `u8` respelling emits the `$at` macro form ×8) — solved with the fleet's asm-label alias `extern u32 wD_800AA60C[] __asm__("D_800AA60C");` (1,438 banked files carry the pattern; a declaration, not an asm body). Measured and refuted on the way: the sibling's lever-7 trailing volatile asm 2-set dial (flips `$t1/$t0`), the struct-view and P_TAG-on-`u8` forms. Post-bank: `twin_rescan` 3 open / 0 newly free; `verbatim_check --strict` 5==5; backlog rendered 4 open (the row pruned). Harvest: cookbook **§501-N**, accelerators (13), NOTES `.run/P32/t4c/func_800CF408/NOTES.md` (7 variants). bank.sh's `Claude-Session` trailer now comes from `$CLAUDE_SESSION` (was S83's id hard-coded). NEXT = row (c) `main:func_80039308` (4).
 - 2026-09-06 (S84, session 72d8b4b1, Max, Fable 5.1) — **T4b hand pass, row (a) `main:func_80032A74` CLOSED: PROVED at 1 (verdict, not a bank).** Preflight: tree clean, `verbatim_check --strict` 5==5, `make check-all` 218 passed / 0 failed rc 0 (`.run/P32/t4c/check_all_preflight.log`). Re-verified in the real TU (`rtu_match … --tu src/800_b_2.c --asm-subdir asm/nonmatchings/800_b_2`): the `s16 u18` draft DIFF 1 (idx 244 `lh` vs `lhu`, frame exact); the `u16 u18` TU-clean variant DIFF 22 = the 22 frame rows only (422/422 code). The residual is ONE reload-time slot at sp+0x48. Instead of a spelling sweep, enumerated every post-parameter stack-slot producer from the 2.7.2 source (reload1.c:658 ghost `alter_reg` · caller-save.c:249 area · reload1.c:879 invalid-equiv address · reload1.c:3499 `spill_stack_slot`) and refuted each on the bytes/dumps: combine's `newi2pat` ghosts re-derive a narrow load (`lh`/`lb`) and the site is `lhu` with no `lb`/double load; a save area without `sw/lw` needs sched.c:4962 staleness and no register-only insn shares a block with any of the 7 calls; unallocated single-block equiv pseudos cannot exist; `$t0` holds no pseudo (`order_regs_for_reload`) and LO mult results retry into `GR_REGS`. Found and measured a NEW ghost producer — `local-alloc.c optimize_reg_copy_2` on `tmp = x; tmp op= c; x = tmp;` (P13 refs 5, P14 refs 1) — which cannot slot because it is minted after regclass (class `GR_REGS`, no conflicts → allocated, vars=0). 18 isolated reproducers, 0 draft variants. Deliverables: cookbook **§501-M**, `tools/ghost_census.py` (new) + `tools/cc1_dumps.sh` (repaired: frame line + census, the under-counting `(use)` grep gone) + SETUP rows (R21), accelerators (12), backlog row (WALL-PROVED) + `tools/backlog.py` tie-break repair (kept the EARLIEST record at equal closeness — the S84 row never rendered), `config/wave_exclude.txt` annotated (`exclude_audit --assert-fresh` 1/1), notes `.run/P32/t4c/func_80032A74/NOTES.md`. NEXT = row (b) `md_MAIN_007:func_800CF408` (3).
 - 2026-09-05 13:05–23:40 MDT (S83, continued) — **T4b first pass COMPLETE: 11 of 15 banked, 4 carried.** Fifteen Fable agents launched from `.run/P32/t5x/` (BRIEF + packs + the hand-pass NOTES); three usage-limit outages killed every run (resumed each time via SendMessage with context intact; "write deliverables early" saved one crack from a dead run); from the second outage on, resumed 3 at a time (Drew). Verdicts: 11 MATCH (each re-verified by the coordinator in the CURRENT real TU and banked byte-identical — main rows via `gate_main` slates, overlays/modules via `SPLIT=… DRAFT_DIR=.run/P32/t5x/fable bank.sh`), 4 NEAR at exact length (1 / 3 / 4 / 13) with pass-attributed residuals and next levers ledgered. Every crack came from READING a pass dump against the 2.7.2 source; cookbook §501–§501-L (12 new laws: cascades, cross-jump-after-alloc, dying-input vs birthing boost, hard-reg sets count, pins forbid retry regs, CSE-quantity split, three-passes-three-dials, constants as floaters, manufactured orphans, a proved tree wall is not an RTL wall, sched2's /s exemption, coupled dials); decision-log P32 S83 T4b; accelerators (10)–(11). Instrument defects: bank.sh (empty fn list → built the unchanged tree, exit 0; `_jr_` TU split; draft dir) hardened, and two premature "banked" ledger messages corrected in the next commit (memory: write the message from the tool's output). Pins 7 → 1. Fleet R22 218/218 at the close; `make report` fleet 100.0/100.0/100.00, 4 stubs. **Drew: no second agent round; hand-crack the remaining four next session.** NEXT = the hand pass on the four (see the 🛑 block), then T5.
@@ -151,150 +152,131 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
 - 2026-09-05 — **T1a DONE — `resident:func_800D128C` BANKED (243 ins, byte-identical 8e17e02f, R22 213/213).** The stored S71 closeness-0 draft was byte-correct all along; the whole task was three instrument defects the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed in overlay-only assumptions: (1) `jr_isolate_all` dropped a file-local typedef whose name engine_types.h also defines (§496 — fixed: provided types derived from the TU's own includes); (2) `jtbl_carve` regenerated `JTBL_INTERLEAVE` without the `--pre hdr.rodata.o` clause → extract refused → the gate linked a stale script and booked the byte-correct draft as DIFF; `harvest_verify` ignored that extract's rc (§498 — both fixed, R49/R61); (3) `interleave_check` read a `--pre` line as n=0 (false DRIFT; fixed). R38 then found two more stored MATCH bodies for T1b/T1c (see their rows). Effort stayed Max.
 - 2026-09-05 — **T0 DONE.** Baseline reads all green (`.run/P32/t0_baseline.log`): `verbatim_check --strict` 5 bodies == 5 rows; `exclude_audit --assert-fresh` 8 entries, 8 WALL, 0 stale; `frontier_classify` → 21 rows = the S80 census exactly; `make tools-health` OK (sigs fresh, corpus(+resident), cdecl, audit-binaries 213/213, report lint+dedup, cookbook-index, split_indicator 213 OK); `make check-all` 213 passed / 0 failed, rc 0. Harness task list #1–#11 built (R28). NEXT = T1a.
 
-## 🛑 SESSION CHECKPOINT — T4b HAND PASS IN PROGRESS: row (a) PROVED at 1, row (b) BANKED, rows (c)(d) NEXT, then T5 (2026-09-06 ~13:30 MDT; written by session 72d8b4b1 "S84"; SUPERSEDES the 2026-09-05 23:45 block)
+## 🛑 SESSION CHECKPOINT — T4b HAND PASS: (a) PROVED at 1 · (b) BANKED · (c) PLATEAU at 4 · (d) NEXT, then T4b close and T5 (2026-09-06 ~15:00 MDT; written by session 72d8b4b1 "S84" at Drew's pause request; SUPERSEDES the two earlier S84 blocks and the 2026-09-05 23:45 block)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase29/30/31.md` and this file, and
 nothing else (CLAUDE.md protocol, R64 candidate). Replay this block verbatim into your chat, state phase / done / NEXT / effort,
-list the rules from the digest, then WAIT for Drew. **NEXT is the HAND pass on rows (c) → (d) — Drew (2026-09-05 23:2x MDT):
-"we will hand crack the remaining ones next session instead of using agents."** Non-obvious root-cause work: recommend
-**effort: Max** (R7/R27 — prompt and wait for the `/effort`). No Agent tool, no Workflow. After the two (banked or honestly
-ledgered), T5 = the PhaseEnd (Tier 1, Max, WAIT for gate 2).
+list the rules from the digest, then WAIT for Drew. **NEXT is the HAND pass on row (d) `ov_SC03_105:func_80185810` (13) — Drew
+(2026-09-05): "we will hand crack the remaining ones next session instead of using agents."** Non-obvious root-cause work: recommend
+**effort: Max** (R7/R27 — prompt and wait for the `/effort`). No Agent tool, no Workflow. After (d) (banked or honestly ledgered):
+the T4b close (§4 step 2), then T5 = the PhaseEnd (Tier 1, Max, WAIT for gate 2).
 
 ### 1. Where we are
 **Phase 32 — the last 21 + the parked 5 (short, kill-gated) — extended by Drew's T4b directive: every function that is not original
 hand-asm or a PsyQ object must be cracked and banked before the phase closes.** Gate 1 approved 2026-09-05; R44–R63 ratified then;
 R64 candidate. Tasks: **T0 ✓ T1a ✓ T1b ✓ T1c ✓ T2a–c ✓ (T2d not needed) T3 ✓ T4 ✓ T4b first pass ✓ (11 of 15 banked)** ·
-**T4b hand pass IN PROGRESS: row (a) `main:func_80032A74` CLOSED as PROVED at 1 (S84, a verdict); row (b)
-`md_MAIN_007:func_800CF408` BANKED byte-identical `commit:4001` (S84 — md_MAIN_007 is now 100% C); rows (c)(d) open** · **T5 pending.** Harness tasks #1–#13 (#13 = T4b in_progress).
-Fleet **218 binaries**. **S84 `src/` change: ONE bank (`src/md_MAIN_007/md_MAIN_007.c`, `commit:4001`, sha byte-identical by `make build`); no `config/` (except the `wave_exclude.txt` annotation) or carve-state change; a fleet R22 is still owed at the T4b close.** Last fleet R22:
-`make clean && make extract-all && make check-all` → 217+main extracted, **218 passed / 0 failed, exits 0/0/0 at 2026-09-05 23:36 MDT**
-(`.run/P32/t4b/r22_full.log`); S84 preflight `make check-all` → **218 passed / 0 failed, EXIT=0** (`.run/P32/t4c/check_all_preflight.log`).
-`make report` (S83 close, still current): **instr 13,486,890 / 13,488,497 = 100.0% · distinct 5,814,982 / 5,816,589 = 100.0% (90,982 /
-90,984 unique fns) · fn-count 363,210 / 363,214 = 100.00% · INCLUDE_ASM 4**; main REAL 787 · LINKED 1,256 · VERBATIM 3 · stubs 2 ·
-byte-identical 2,089 / 2,091 = 99.90% · sha `143dbb89…`. `verbatim_check --strict` 5 == 5 (S84). `config/wave_exclude.txt`: **1 entry**
-(`main:func_80032A74`, now carrying its S84 PROVED verdict), `exclude_audit --assert-fresh` 1/1 OK (S84). Census
-`.run/P32/frontier_t4b_close.json`: **4 stubs / 1,607 ins** at the S83 close — now **3 stubs / 1,429 ins** open after (b) (regenerate at the T4b close). `make tools-health` → OK at the S83 close (`.run/P32/t4b/tools_health.log`);
-`cookbook_index.py --check` OK (S84). Non-ghidra tree clean at HEAD after the S84 commit; the `ghidra/` churn is R23 restart-noise —
-never stage it. Claude commits, Drew pushes (R6; ~100 unpushed). 100% C: resident, md_SC03_053/054/056, md_MAIN_003, md_MAIN_009,
+**T4b hand pass (S84): (a) `main:func_80032A74` PROVED at 1 (verdict) · (b) `md_MAIN_007:func_800CF408` BANKED byte-identical
+`commit:4001` (md_MAIN_007 is now 100% C) · (c) `main:func_80039308` PLATEAU at 4 (verdict) · (d) `ov_SC03_105:func_80185810` 13,
+NOT started** · **T5 pending.** Harness tasks #1–#13 (#13 = T4b in_progress).
+Fleet **218 binaries**. **S84 `src/` change: ONE bank (`src/md_MAIN_007/md_MAIN_007.c`, `commit:4001`, sha byte-identical by `make build
+BINARY=md_MAIN_007 -j8` rc 0); no `config/` (except the `wave_exclude.txt` annotation) or carve-state change; a fleet R22 is still owed
+at the T4b close.** Last fleet R22: `make clean && make extract-all && make check-all` → 217+main extracted, **218 passed / 0 failed,
+exits 0/0/0 at 2026-09-05 23:36 MDT** (`.run/P32/t4b/r22_full.log`); S84 preflight `make check-all` → **218 passed / 0 failed, EXIT=0**
+(`.run/P32/t4c/check_all_preflight.log`, before the bank). `make report` (S83 close, still current for the fleet numbers): **instr
+13,486,890 / 13,488,497 = 100.0% · distinct 5,814,982 / 5,816,589 = 100.0% (90,982 / 90,984 unique fns) · fn-count 363,210 / 363,214 =
+100.00% · INCLUDE_ASM 4** → now **3 stubs / 1,429 ins** open after (b) (regenerate at the T4b close: `frontier_classify --json
+.run/P32/frontier_t4b_final.json`). Main: REAL 787 · LINKED 1,256 · VERBATIM 3 · stubs 2 · byte-identical 2,089 / 2,091 = 99.90% · sha
+`143dbb89…`. `verbatim_check --strict` 5 == 5 (S84, after the bank). `config/wave_exclude.txt`: **1 entry** (`main:func_80032A74`, with
+its S84 PROVED verdict), `exclude_audit --assert-fresh` 1/1 OK. `docs/backlog.md`: **4 open** (`func_80032A74` WALL-PROVED 1 ·
+`func_80039308` FRAME+SCHED 4 · `func_80185810` SCHED 13 · `func_80062144` legacy failed row). `make tools-health` → OK at the S83 close;
+`cookbook_index.py --check` OK (S84). Non-ghidra tree clean at HEAD after the S84 commits; the `ghidra/` churn is R23 restart-noise —
+never stage it. Claude commits, Drew pushes (R6; ~105 unpushed). 100% C: resident, md_MAIN_007, md_MAIN_009, md_MAIN_003, md_SC03_053/054/056,
 ov_SC06_022, ov_SC07_002.
 
-### 2. What S84 did (session 72d8b4b1, 2026-09-06, Max, Fable 5.1, no agents)
-Row (a) (verdict) and row (b) (BANKED). **Row (b):** the banked sibling `func_800CD92C`'s spelling ported with this row's constants =
-MATCH first try; the TU's `u8` declaration of the OT symbol needed the fleet's asm-label alias `extern u32 wD_800AA60C[]
-__asm__("D_800AA60C");` (§501-N, accelerators (13)); bank.sh (`.run/P32/t3s3/bank.sh`) did the rtu → splice → build → sha → commit chain.
-**Row (a):** Re-verified both best drafts in the real TU; then, instead of a spelling sweep, read every post-parameter stack-slot
-producer out of `tools/reference/gcc-2.7.2` and refuted each on the bytes/dumps — the producer census is cookbook **§501-M** and
-`.run/P32/t4c/func_80032A74/NOTES.md`. Found a NEW ghost producer (`local-alloc.c optimize_reg_copy_2`) and measured why it cannot
-slot (post-regclass → allocatable). Tooling: **`tools/ghost_census.py`** (new; ghosts with stale refs and their class), **`tools/cc1_dumps.sh`
-repaired** (prints the `.frame` line + ins count + spill lines + the census; its `(use)` grep under-counted), **`tools/backlog.py`
-tie-break repaired** (kept the EARLIEST record at equal closeness — the S84 PROVED row never rendered), SETUP rows (R21), accelerators
-(12), backlog row `WALL-PROVED`, the pin annotated. 18 isolated reproducers (`.run/P32/t4c/func_80032A74/p1..p18.c`), 0 draft
-variants. **Verdict for (a): PROVED at 1** — the honest final disposition the plan allows for this row (P9; nothing redefined).
+### 2. What S84 did (session 72d8b4b1, 2026-09-06, Max, Fable 5.1, no agents; commits `commit:4000` `commit:4001` `commit:4002` + the close commit)
+* **(a) PROVED at 1** by a PRODUCER CENSUS from the compiler source instead of a spelling sweep (cookbook **§501-M**, accelerators (12)):
+  the 0x48 slot can only be a combine-minted ghost (`newi2pat` split, combine.c:1887/1963 → reload1.c:658), which re-derives a signed
+  narrow load; the site is `lhu`, no `lb`, no double load. Caller-save area / reload1.c:879 / `spill_stack_slot` refuted on the bytes.
+  Found and measured a NEW ghost producer (`local-alloc.c optimize_reg_copy_2`, P13/P14) that cannot slot (post-regclass → allocated).
+* **(b) BANKED** by porting the banked sibling `md_MAIN_009:func_800CD92C`'s spelling with this row's constants (cookbook **§501-N**,
+  accelerators (13)) — the TU's `extern u8 D_800AA60C[]` needed the fleet's asm-label alias `extern u32 wD_800AA60C[]
+  __asm__("D_800AA60C");` (1,438 banked files carry the pattern; a declaration, not an asm body). MATCH first try; `bank.sh` chain.
+* **(c) PLATEAU at 4** with the phantom-slot producer census for a leaf (cookbook **§501-O**) and the 49/50 mechanism (two
+  `move_movables` hoists in body order).
+* **Tools:** `tools/ghost_census.py` (new: ghosts in a `.lreg` dump with class → SLOT / allocatable); `tools/cc1_dumps.sh` repaired
+  (frame line + ins + spill lines + census; the under-counting `(use)` grep is gone); `tools/backlog.py` tie-break repaired (kept the
+  EARLIEST record at equal closeness → a re-verdict never rendered); `.run/P32/t3s3/bank.sh` session trailer from `$CLAUDE_SESSION`;
+  SETUP rows (R21) for all three; `.run/P32/t4c/dump.sh` (private dump + census under `.run/P32/t4c/dumps_<tag>/`).
 
-### 3. THE REMAINING ROWS — the hand-crack briefs (all at EXACT length, all rtu-clean; (c)(d) unchanged from the 23:45 block)
-Verify any draft with `rtu_match` in the REAL TU (main: `--tu src/<sub>.c --asm-subdir asm/nonmatchings/<sub>`; overlays/modules:
-`--split <tu-basename> --source <binary>`); bank via `gate_main` (main) or `SPLIT=<tu-basename> DRAFT_DIR=<dir> .run/P32/t3s3/bank.sh
-<binary> <tu> <asmdir> <arm> "<title>" <fn>` (it refuses on red). RTL dumps: `tools/cc1_dumps.sh <self-contained draft> <tag>` →
-`.run/c294/dumps_<tag>/<tag>.i.{rtl,jump,cse,loop,flow,combine,sched,lreg,greg}` + the `.frame`/ins/spill/ghost summary (the draft
-must carry its own typedefs/externs; add `-O0` by editing the script's cc1 line for boot). Each row's Fable report
-(`.run/P32/t5x/reports/<fn>.md`) carries the dump citations and the measured-inert list — READ IT FIRST, do not repeat its sweeps.
-**Do the producer census BEFORE any spelling probe (§501-M, accelerators (12)): name the pass and the dump line that owns the residual — and
-BEFORE that, `grep -l` for a banked same-family sibling and port its spelling with the row's constants (§501-N, accelerators (13)).**
+### 3. ROW (d) — the brief for the next session (all facts re-verified S84 unless marked S83)
+**`ov_SC03_105:func_80185810` — 489 ins, closeness 13, exact length, every register allocation matches.** TU
+`src/ov_SC03_105/ov_SC03_105_jr_80181C84.c`, sub `ov_SC03_105_jr_80181C84`, asm `asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80181C84/`.
+Draft `.run/P32/t5x/fable/func_80185810.c` (= Fable work `v7.c`) — **rtu DIFF 13 in the real TU (S84):** rows 363–380, the tpage/code
+RMW window: mine `sh v1,22(s0); lbu v1,7(s0); srl; or; sb; andi a3,0xffff; li v1,2; subu; … sll a2,14; … sllv a0; lui/addiu v1 (D_800A6610);
+addu s1,a2,v1` vs target `srl; sll $a2,14; sh; lbu; andi $a3,0xFFFF; or; sb; li; subu; lui/addiu $v0; addu $s1,$a2,$v0; sllv` — i.e. the
+target interleaves `sll $a2,14`, `andi $a3,0xFFFF`, `li/subu` INTO the tpage/code window and puts `la D_800A6610`/`addu $s1` before the
+`sllv`. Report `.run/P32/t5x/reports/func_80185810.md` (READ IT FIRST); harness `.run/P32/t5x/work/func_80185810/` (`dump.sh`, `exp/run.py`
+named-edit A/B, `exp/sweep.py` = the 3,360-variant region-2 sweep — do NOT repeat, `exp/rtlsum.py`). Three windows were closed by Fable
+with pins (`register u32 uu __asm__("$4"), mode ("$5"), ot16 ("$6")`, `shf ("$3")`) and HI temps (`t20/t22` with `tp = D_801BA6B0` loaded
+between the loads and the stores — sched1's `flush_pending_lists` at the 33rd memory op) and the libgpu `P_TAG` bitfield OT link.
+**The residual's ONE cause (S83, read from the dumps):** `cl &= 0xFFFF` is an unboosted 2nd set whose anti-dependences hold the w-chain's
+two `cl` reads; the zero-byte `__asm__ volatile("")` fence after `p[7] |= …` is needed (without it the reads float to the block head and
+take `$a0/$a1`: 43/51) yet it forbids sched2's fillers from crossing into the tpage/code window. A fresh single-set `clx` is boosted but
+combine folds the `andi` via `nonzero_bits(cl)` into any same-block consumer (59); 2-set `clx` unboosted (49/39/42); an arm-duplicated store
+does not cross-jump (490 ins); a launder asm is a real move for block_alloc. **Next levers, in order:** (0) **§501-N first — search for a
+BANKED sibling with this shape and PORT its spelling before touching any dial:** `grep -ln 'D_800A5E60' src/*.c src/*/*.c` (the prim-buffer
+cursor also used by (b)'s family), `grep -ln 'D_801BC9B4\|D_801BA6B0\|D_800A6610' src/ov_SC03_*/*.c`, and the §501-I banked exemplar
+`ov_SC07_002:func_8017DC80` (DR_TPAGE shared-scratch idiom) + `src/800.c:3826` (the same idiom banked in main); compare their tpage/code
+window spelling (`tp = 1; q[3] = tp; … tp = tpage; *(u32 *)(q+4) = tp;`) with the draft's `cl` chain. (1) If no sibling: make `cl`
+single-set with its high half cleared at birth (`cl = *(u16 *)…` or a shift form) so no fence is needed, or give the two reads a fresh copy
+combine cannot fold (a HImode/subreg temp defeats `nonzero_bits`) — §501-L's "different-mode temp" — and read the `-dS` trace at the
+window (T-14/T-20 in `dumps_NOFENCE`) before each probe; ≤ ~10 probes, then the verdict. Pins are dials to be removed at the end if a
+sibling shows the natural form (§501-E: a pin forbids its register to every retried allocno).
 
-**(a) `main:func_80032A74` — CLOSED: PROVED at 1 (S84).** Best drafts: `.run/P32/t4/drafts/func_80032A74_tuclean.c` (`s16 u18`, rtu
-DIFF 1 = idx 244 `lh` vs `lhu`, frame exact) and `.run/P32/t4c/func_80032A74/lhu_tuclean.c` (`u16 u18`, 422/422 code, DIFF 22 = the
-frame rows: vars 56 vs 64). Proof: the residual is one reload-time slot at sp+0x48; its only zero-code producer is a combine-minted
-ghost (`newi2pat` split, combine.c:1887/1963 → reload1.c:658), which re-derives a narrow signed load; the site is `lhu`, the function
-has no `lb` and no double load, all nine `lh` are single-use. Caller-save area (caller-save.c:249) needs sched.c:4962 staleness and no
-register-only insn shares a block with any call; reload1.c:879 needs an unallocated single-block equiv pseudo; `spill_stack_slot`
-needs a pseudo in `$t0` (impossible: `lw $t0` param reloads) or a failed LO retry (mult results have alternate `GR_REGS`).
-`optimize_reg_copy_2` ghosts are post-regclass and allocatable (P14 vars=0). Do NOT reopen without a new producer.
-
-**(b) `md_MAIN_007:func_800CF408` — CLOSED: BANKED byte-identical `commit:4001` (S84).** Draft `.run/P32/t4c/bank/func_800CF408.c` = the sibling
-port (`b0d_sibport_alias.c`); notes `.run/P32/t4c/func_800CF408/NOTES.md`. The brief below is kept for the record only.
-**(b, superseded) `md_MAIN_007:func_800CF408` — 178 ins, closeness 3, zero pins.** TU `src/md_MAIN_007/md_MAIN_007.c`, sub `md_MAIN_007`, asm
-`asm/md_MAIN_007/nonmatchings/md_MAIN_007/`. Draft `.run/P32/t5x/fable/func_800CF408.c`; report `.run/P32/t5x/reports/func_800CF408.md`;
-probes/dumps `.run/P32/t5x/work/func_800CF408/`. **Residual idx 10–12** (`ori $s5,0x96` below `sw $s0` / `li $s0,5`): §501-H's floater
-mechanism — the unboosted tag load lingers up block 1's store stream, is `blocking` one cycle behind the tpage `sw` at T-139, and the
-empty cycle consumes the highest-LUID floater — COUPLED to the `$t2/$t3` `qty_compare` contest (ob vs 0xFF000000: 2389 vs 2400, one
-ref apart): mhi's `li` UID above the index `sll` cures the floater but moves mhi's birth one slot later and flips the contest (18);
-`ob` after the index fixes the contest but opens a bubble in the OT-chain `lhu` gap that eats the same floater (13). The target fills
-that gap with `and $a3,$v0,$t1` = an UNBOOSTED `p & m24`; a 2-set `a3` is re-merged by combine (`reg_n_sets--`, combine.c:2309 → 36),
-an asm launder there is a sched2 delay-slot phantom nop (179 ins). **Next lever (§501-L):** a filler for that gap that combine cannot
-re-merge and that changes neither count — a different-mode temp (`u16`/HImode view of `p & m24`), a `volatile` temp, or moving the
-contest margin by one `ob` reference in a block that does not touch the tag load. 135-variant sweep floor 3 (×24) — do not repeat.
-
-**(c) `main:func_80039308` — 518 ins, closeness 4.** TU `src/800_c.c` (which now spells `extern s32 D_80073140[][1]`), sub `800_c`,
-asm `asm/nonmatchings/800_c/`. Draft `.run/P32/t5x/fable/func_80039308.c`; report `.run/P32/t5x/reports/func_80039308.md`. **Residual =
-two causes:** rows 49/50 — the hoisted constant `2` vs the pinned `vbase` preheader order (move_movables splices after source
-preheader code; unpinning/moving vbase → 515/495; a named `cst2` → 520/286); rows 412/415 — `lhu $s7` is reload's SPILL REGISTER:
-storing `arg1` directly spills the HImode parameter and reproduces `sh $a1 / lhu $s7` exactly, but the target frame is [arg1 spill
-@0][8-byte slot with NO traffic @8][cnt @0x10] and the phantom slot could not be induced (frame 0x38 vs 0x40). **Next lever:** run the
-§501-M producer census on THIS frame first — the phantom slot sits BETWEEN the arg1 spill (regno-lowest) and `cnt`, i.e. it is an
-`alter_reg` slot of a pseudo numbered between them (or a `spill_stack_slot`): read the `.greg` "Spilling reg N" / "now on stack" lines
-and the `.lreg` headers (`tools/ghost_census.py`) before any spelling; the S83 hypotheses (a hard-reg `spill_stack_slot` on LO or `$s7`
-during `retry_global_alloc`, or a ghost as in (a)) are now testable with the census; cf. §501-E. Corrected law from this row: at an
-equal-priority load/store tie sched2 issues the STORE via `potential_hazard`, not LUID (sched.c:2616–2680).
-
-**(d) `ov_SC03_105:func_80185810` — 489 ins, closeness 13.** TU `src/ov_SC03_105/ov_SC03_105_jr_80181C84.c`, sub
-`ov_SC03_105_jr_80181C84`, asm `asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80181C84/`. Draft `.run/P32/t5x/fable/func_80185810.c`;
-report `.run/P32/t5x/reports/func_80185810.md`; harness `.run/P32/t5x/work/func_80185810/`. Three of four windows closed (P_TAG
-bitfield OT link + integer add `(otz<<2)+(u32)ob` for the addu operand order; sched1 `flush_pending_lists` at the 33rd memory op
-explains the load order → HI temps t20/t22 with tp loaded between loads and stores; pins uu `$4` / mode `$5` / ot16 `$6` — a hard-reg
-destination is NOT birthing-boosted, so the LUID tie-break gives the load order; shf pinned `$3`). **Residual ONE cause, idx
-363–380:** `cl &= 0xFFFF` is an unboosted 2nd set whose anti-deps hold the w-chain's two `cl` reads — the zero-byte fence after
-`p[7] |=` is needed (without it the reads float to the block head and take `$a0/$a1`: 43/51) yet it forbids sched2's fillers (`sll $a2`,
-`andi $a3`, `li/subu`) from crossing into the tpage/code window. A fresh single-set `clx` is boosted but combine folds the `andi` via
-`nonzero_bits(cl)` into any same-block consumer (59); 2-set `clx` unboosted (49/39/42); an arm-duplicated store does not cross-jump
-(490 ins); a launder asm is a real move for block_alloc. **Next lever:** make `cl` single-set with its high half cleared at birth
-(`cl = *(u16 *)…` or a shift form) so no fence is needed, or give the two reads a fresh copy combine cannot fold (a HImode/subreg
-temp defeats `nonzero_bits`). 3,360-variant region-2 sweep best 14 — do not repeat.
+**(a) `main:func_80032A74` — CLOSED: PROVED at 1 (S84).** Best drafts `.run/P32/t4/drafts/func_80032A74_tuclean.c` (`s16 u18`, DIFF 1) and
+`.run/P32/t4c/func_80032A74/lhu_tuclean.c` (`u16 u18`, 422/422 code, DIFF 22 frame rows). Proof in `.run/P32/t4c/func_80032A74/NOTES.md`
++ §501-M. Do NOT reopen without a new producer.
+**(b) `md_MAIN_007:func_800CF408` — CLOSED: BANKED `commit:4001` (S84).** `.run/P32/t4c/bank/func_800CF408.c` = `func_800CF408/b0d_sibport_alias.c`.
+**(c) `main:func_80039308` — CLOSED for this phase: PLATEAU at 4 (S84).** Best draft `.run/P32/t5x/fable/func_80039308.c` (4);
+register-exact spill form `.run/P32/t5x/work/func_80039308/v_Y4.c` (8: the frame). Census + open levers in
+`.run/P32/t4c/func_80039308/NOTES.md` and §501-O: the phantom slot `[arg1 @0][8 @8][cnt @0x10]` has no identified producer (initial-loop
+slot with no traffic; every route refuted); rows 49/50 = hoisted-invariant order (`vol = b2 * 0x100` in the body, needs `$s2` steering
+without the `$18` pin). Reopen only with a new idea for the slot — the row is honestly ledgered (R41 cost: ~3 h S84 + Fable 655k tokens S83).
 
 ### 4. NEXT — in order
-0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `verbatim_check --strict` (5 == 5) · `make check-all` → 218/218 (R56 baseline). Prompt `/effort max` (R27) and WAIT.
-1. **The hand pass on (c) → (d), one row at a time:** FIRST `grep -l` the family's banked bodies (for (c): the main `800_c.c` neighbours;
-   for (d): the `ov_SC03_105`/`jr_80181C84` OT/DR_TPAGE shapes and §501-I) and port a sibling's spelling if one exists; then read the report, reproduce the residual with `rtu_match`, dump the RTL
-   (`cc1_dumps.sh`), run the producer census where the residual is a frame/slot (§501-M), attribute the residual to a PASS and a dump
-   line before the first probe (§501, accelerators (11)/(12)), then the row's next lever; ≤ ~10 draft probes per row before writing the
-   verdict. A MATCH → bank + commit + `backlog.py render` + cookbook §501-N…; a plateau → `backlog.py log` (closeness, class, best draft,
-   cost) — write "banked" only from the tool's printed success line; a PROVED verdict names the pass and the refuted producers (P9).
+0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `verbatim_check --strict` (5 == 5) · `make check-all` → 218/218 (R56
+   baseline; the last one was BEFORE the (b) bank — run it). Prompt `/effort max` (R27) and WAIT.
+1. **Row (d)** per §3 (sibling search → port → else the `cl` lever; rtu_match with `--split ov_SC03_105_jr_80181C84 --source ov_SC03_105`;
+   bank via `SPLIT=ov_SC03_105_jr_80181C84 DRAFT_DIR=<dir> .run/P32/t3s3/bank.sh ov_SC03_105 src/ov_SC03_105/ov_SC03_105_jr_80181C84.c
+   asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80181C84 hand "<title>" func_80185810`; a plateau → `backlog.py log` with closeness, class,
+   best draft, cost — write "banked" only from the tool's printed success line).
 2. **T4b close:** `make clean && make extract-all && make check-all` (quote 218/218) · `make report` + `make report BINARY=main` ·
-   `frontier_classify --json .run/P32/frontier_t4b_final.json` · refresh this block · commit · harness #13 done.
+   `frontier_classify --json .run/P32/frontier_t4b_final.json` · `make tools-health` · `twin_rescan` · refresh this block · commit · harness #13 done.
 3. **T5 (Max, Tier 1 — prompt R27; WAIT for gate 2):** P7 walk (T0–T4b) → milestone demo (R22 218/218 · tools-health · verbatim 5==5 ·
-   the final census · the wall ledger — ONE pin, PROVED · `make audit-disc` UNCLAIMED 0 of 220 · `make report` ×3 metrics + main
-   `143dbb89…` WITH and WITHOUT the SDK object dirs · denominators) → WAIT → `PhaseEnd_Phase32.md` (Build Log · Deviations incl.
-   the T4b directive and the remainder stated plainly · Commit Message · Rules Added — R64 to RATIFY + the S83/S84 candidates
-   below · Changelog v1.30.0 → v1.31.0 · Roadmap delta: P33 = verify + public flip · Plain-English Recap · believed/failed/sooner ·
-   🛑) → DIGEST.md §2/§3 (step 3b) → `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/Phase32.md` (R19) → R23 → leave both
-   uncommitted for Drew (R6) → "PhaseEnd file created. Commit the file and start a new Claude Code session for the next phase." →
-   HARD STOP (P8). **Rule candidates for the PhaseEnd table:** (i) a wall verdict must be PASS-attributed with a dump line
-   (R40 → "exonerate the instrument, then name the pass"); (ii) write "banked" only from the tool's printed success line; (iii) agents
-   write deliverables early (a dead run's draft banked); (iv) a helper must refuse an empty work list (R43 restated); **(v) S84: a
-   residual gets a PRODUCER CENSUS from the compiler source before a spelling sweep, and "PROVED" means every producer refuted on the
-   bytes (accelerators (12)); (vi) S84: a ledger's tie-break is part of the instrument — a re-verdict that cannot surface is a silent
-   skip (backlog.py kept the earliest record at equal closeness; R43/R61 family).**
+   the final census · the wall ledger — ONE pin, PROVED, plus the two ledgered plateaus (c)(d?) stated plainly · `make audit-disc` UNCLAIMED
+   0 of 220 · `make report` ×3 metrics + main `143dbb89…` WITH and WITHOUT the SDK object dirs · denominators) → WAIT → `PhaseEnd_Phase32.md`
+   (Build Log · Deviations incl. the T4b directive and the remainder · Commit Message · Rules Added — R64 to RATIFY + the candidates below ·
+   Changelog v1.30.0 → v1.31.0 · Roadmap delta: P33 = verify + public flip · Plain-English Recap · believed/failed/sooner · 🛑) → DIGEST.md
+   §2/§3 (step 3b) → `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/Phase32.md` (R19) → R23 → leave both uncommitted for Drew (R6) →
+   "PhaseEnd file created. Commit the file and start a new Claude Code session for the next phase." → HARD STOP (P8).
+   **Rule candidates for the PhaseEnd table:** (i) a wall verdict must be PASS-attributed with a dump line (R40 → "exonerate the
+   instrument, then name the pass"); (ii) write "banked" only from the tool's printed success line; (iii) agents write deliverables early;
+   (iv) a helper must refuse an empty work list (R43 restated); **(v) S84: a residual gets a PRODUCER CENSUS from the compiler source before
+   a spelling sweep, and "PROVED" means every producer refuted on the bytes (accelerators (12)); (vi) S84: a ledger's tie-break is part of
+   the instrument (backlog.py kept the earliest record at equal closeness — a re-verdict that cannot surface is a silent skip); (vii) S84:
+   when a same-family sibling is banked, port its SPELLING before touching a dial on the draft (§501-N, accelerators (13)).**
 
 ### 5. Files, tools, exact invocations, gotchas
-- **`.run/P32/t4c/`** (S84, tracked: `dump.sh` (private dump + census, writes `dumps_<tag>/` under t4c), `check_all_preflight.log`,
-  `func_80032A74/{NOTES.md,lhu_tuclean.c,p1..p18.c}`; ignored: `dumps_*/`, `rtu/`). **`.run/P32/t5x/`** (tracked: BRIEF.md, targets.json,
-  `fable/func_*.c` (15), `reports/*.md` (15), `verdicts.jsonl`; untracked: packs/, work/, rtu/). **`.run/P32/t4b/`** (tracked:
-  `<fn>/NOTES.md|HYPOTHESIS.md`, `<fn>/*.c`, `*.log`). **`.run/P32/t3s3/`**: `bank.sh` (env `SPLIT=`, `DRAFT_DIR=`), `splice.py`, logs.
-  **`.run/c294/dumps_*`**: `cc1_dumps.sh` output (regenerable).
-- **`tools/ghost_census.py <tag>.i.lreg`** — headers with no occurrence in the post-sched stream: `ST_REGS or none` ⇒ an 8-byte slot
-  (combine-minted); `GR_REGS …` ⇒ allocatable, no slot. `tools/cc1_dumps.sh` runs it and prints `vars=` (the arbiter).
-- **Gotchas that bit in S84:** `rtu_match` on a MAIN function needs `--asm-subdir asm/nonmatchings/<sub>` (its default is the overlay
-  layout: "No such file … asm/ov_SC01_077/nonmatchings/…") · `.run/P32/t4b/func_80032A74/lhu.c` carries the TU-provided typedefs
-  (`Rec14`, `Slot54` …) and FAILS cc1 in the real TU — use the `*_tuclean.c` drafts (`cdecl.strip_provided_typedefs`) · a mechanism probe
-  must keep the temp's LAST mention after the variable's (cse `make_regs_eqv` canonicalizes the shorter-lived reg away) and sched can
-  sink a protecting store below a copy · `backlog.py` ties are now latest-wins (repaired) · the cookbook index does not index the bold
-  `§501-x` sub-entries (only `## §` headings) — `--check` stays green after appending one.
-- **Gotchas from S83 (still live):** `gate_main --assert-baseline --allow-dirty` RESTORES the working tree's TUs before building (use an
-  in-tree `make extract BINARY=main && make build BINARY=main` for an uncommitted TU edit) · `make extract BINARY=main` rewrites main's
-  `asm/` — never while something reads those `.s` files · a bank helper called with no function name built the unchanged tree and
-  exited 0 (fixed, R43) · backticks inside a double-quoted `--where` argument are command substitution (use single quotes) ·
-  `.run/P32/**` allowlists are per-subdir — an ignored path silently breaks a `git add … &&` chain · an agent's masked_diff probe in
-  `src/` is build input (Makefile guard `commit:3949`).
+- **`.run/P32/t4c/`** (S84, tracked: `dump.sh`, `check_all_preflight.log`, `func_80032A74/{NOTES.md,lhu_tuclean.c,p1..p18.c}`,
+  `func_800CF408/{NOTES.md,b0..b3*.c}` (b0d = the banked body), `func_80039308/{NOTES.md,c3_twoprod.c}`; ignored: `dumps_*/`, `rtu/`, `bank/`).
+  **`.run/P32/t5x/`** (Fable drafts/reports/work), **`.run/P32/t4b/`** (S83 hand-pass notes), **`.run/P32/t3s3/`**: `bank.sh` (env `SPLIT=`,
+  `DRAFT_DIR=`, `CLAUDE_SESSION=`), `splice.py`, bank logs. **`.run/c294/dumps_*`**: `tools/cc1_dumps.sh` output (regenerable).
+- **Instruments:** `tools/cc1_dumps.sh <self-contained draft> <tag>` (`.frame` line, ins, `Spilling reg`/`now on stack`, ghost census) ·
+  `tools/ghost_census.py <tag>.i.lreg` (`ST_REGS or none` ⇒ an 8-byte slot; `GR_REGS` ⇒ allocatable) · `.run/P32/t4c/dump.sh` (same,
+  private dir) · `tools/rtu_match.py` (main: `--tu src/<sub>.c --asm-subdir asm/nonmatchings/<sub>`; overlays/modules: `--split <tu-basename>
+  --source <binary>`).
+- **Gotchas that bit in S84:** `rtu_match` on a MAIN function needs `--asm-subdir` (its default is the overlay layout) · the T4b `lhu.c`
+  draft of (a) carries TU-provided typedefs and CC1-FAILs in the real TU — use `*_tuclean.c` · a TU may declare a symbol with another
+  type (`extern u8 D_800AA60C[]` in md_MAIN_007) — the alias `extern u32 wSYM[] __asm__("SYM");` is the fleet's spelling, a plain
+  redeclaration CC1-FAILs · the sibling's lever-7 trailing `__asm__ volatile("" : "=r"(x))` 2-set dial is NOT portable (a volatile asm
+  makes hard regs live at its position: m24/colour `$t1/$t0` swap) · a mechanism probe must keep the temp's LAST mention after the
+  variable's (cse `make_regs_eqv` canonicalizes the shorter-lived reg away) · `grep "\$t2\b"` in double quotes anchors on `$` — use
+  `'[$]t2[^0-9]'` · `backlog.py` ties are latest-wins now · the cookbook index does not index bold `§501-x` sub-entries.
+- **Gotchas from S83 (still live):** `gate_main --assert-baseline --allow-dirty` RESTORES the working tree's TUs before building · `make
+  extract BINARY=main` rewrites main's `asm/` — never while something reads those `.s` files · backticks inside a double-quoted `--where`
+  are command substitution (use single quotes) · `.run/P32/**` allowlists are per-subdir · an agent's masked_diff probe in `src/` is build
+  input (Makefile guard `commit:3949`).
 
 ### 6. Environment
 Fleet 218; shas: main `143dbb89f34491258bbc27810d0a12ec8b43a8dd` · md_MAIN_007 `2ff702b605ab5cfc18474c464c4c07e5f8ffd48c` · ov_SC03_105
@@ -305,18 +287,17 @@ Drew pushes.
 ### 7. Standing reminders
 Every bank commits before the next command that can touch `src/` (R42) · count banks from the SOURCE and quote the fleet's green count
 at every close (R58) · verify a build from its exit code (R53) · a masked/permuter score is not a closeness until its diff is read
-(R63) · an `__asm__` body that reproduces instructions is a verbatim, not a bank (R62; zero-byte fences/launders are dials) · re-verify in
-the CURRENT TU before splicing (§500-F) · attribute a residual to a PASS before sweeping levers (§501, accelerators (11)) · census the
-PRODUCERS of a frame residual before any spelling (§501-M, accelerators (12)) · write "banked" only from the tool's printed success
-line · rules check every 4 tasks (P6) · harvest into the cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` (R5) ·
-never stage `ghidra/` (R23).
+(R63) · an `__asm__` body that reproduces instructions is a verbatim, not a bank (R62; zero-byte fences/launders are dials; asm-label
+DECLARATIONS are the fleet's alias spelling) · re-verify in the CURRENT TU before splicing (§500-F) · port a banked sibling before dialing
+(§501-N) · attribute a residual to a PASS before sweeping levers (§501, accelerators (11)) · census the PRODUCERS of a frame residual
+before any spelling (§501-M/O, accelerators (12)) · write "banked" only from the tool's printed success line · rules check every 4 tasks
+(P6) · harvest into the cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` (R5) · never stage `ghidra/` (R23).
 
-**Plain-English recap (R18).** This session banked the second leftover function outright: instead of tuning the previous draft further, it
-copied the wording of an already-finished cousin function from the same family, adjusted the numbers, and it matched on the first
-try (the only snag was a type declaration in the file, solved the way 1,400 other files already do). It also took the first of the four leftover functions — the one that was a single instruction
-away — and, instead of trying more rewordings, listed every way the 1995 compiler can leave an unused slot in a function's stack
-frame and struck each off against the bytes. The only way that could produce this slot at zero cost needs a signed 16-bit load, and
-the original uses an unsigned one, so the function is now recorded as proved-unreachable by re-spelling, with the compiler pass named.
-Along the way a genuinely new compiler quirk was found and measured (a temporary copied in and out of a variable leaves a ghost
-register behind), a small measuring tool was written, an old one repaired, and a ledger bug fixed that had been hiding updated
-verdicts. Three functions remain, each with its cause written down; nothing in the game's rebuilt code changed.
+**Plain-English recap (R18).** Four functions were left; this session settled three of them by hand. One is now proved unreachable by
+rewording (we listed every way the 1995 compiler can leave an unused stack slot and struck each off against the bytes), one was matched
+outright and banked by copying the wording of an already-finished cousin function and adjusting its numbers (the game's md_MAIN_007
+module is now 100% C), and one was measured to its floor with the same census and left honestly recorded with its open levers. Along
+the way a new compiler quirk was found and measured, a measuring tool was written and an old one repaired, and a ledger bug that hid
+updated verdicts was fixed. One function remains, thirteen instructions from done, with its cause written down and a cheap first move
+(look for a finished cousin) queued for the next session; nothing else in the game's rebuilt code changed, and the last fleet-wide
+rebuild check was green.
