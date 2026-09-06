@@ -3400,3 +3400,27 @@ fence necessary.
 Step 0 of every hand pass and every wave card for a packet-building function: grep `src/` for the idiom constants and objdump the
 hits' windows against the target BEFORE the first dial — the whole crack was one grep, one port and 25 minutes, after ~1M tokens
 of dial work on the draft. Remaining open: the two main rows with their verdicts (PROVED 1, PLATEAU 4), carried into the PhaseEnd.
+
+## P32 S85 (2026-09-06) — T4c: the last two "final verdicts" banked; the frontier is empty
+
+### Context and belief
+After the T4b close the phase held 2 stubs, both in main, both carrying verdicts written by producer censuses: `func_80032A74`
+PROVED at 1 (every stack-slot producer refuted), `func_80039308` PLATEAU at 4 (the phantom slot + a hoist order). Drew:
+"let's crack these before closing the phase."
+
+### What happened
+The §501-N step 0 found the shape cousins in main's own TUs but the cracks were compiler mechanisms the censuses lacked:
+combine's self-update bookkeeping gap mints a no-traffic frame slot (§501-Q — one chain, first probe, `commit:4007`), and a
+hoisted invariant read three times needs three inline temps merged by loop.c plus a `u16` accumulator so cse leaves the arms
+on the hoisted register (§501-R — 56 variants, then MATCH with zero pins, `commit:4008`). Every pin the S79–S84 drafts carried
+came off byte-identical. Census: 0 stubs.
+
+### Why (measurement-grounded)
+Both verdicts were "instrument-exonerated and pass-attributed" (R40, §501) yet wrong, because a census is only as complete
+as its list of producers: `i2dest_in_i2src` was not in the list, and "a named variable can hoist" was assumed where loop.c
+refuses it. The reproducer battery (1-second compiles of 5-line functions) settled in minutes what the real function could
+not in hours: the mechanism first, the site second.
+
+### Hindsight path
+Build the reproducer battery for every species BEFORE the census (accelerators (15)), read the allocation order before any
+register lever (accelerators (16)), and treat "PROVED" as "proved against this list" — a wall verdict should name the list.

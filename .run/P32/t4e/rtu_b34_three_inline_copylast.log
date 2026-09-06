@@ -1,0 +1,62 @@
+DIFF  func_80039308   mine=519 ins, target=518 ins, 240 mismatched
+  idx | MINE                          | TARGET
+   20 | 13c0019c beqz	s8,475c <func_80039308+0x6c4> | 13c0019b beqz $fp, .L800399C8
+   28 | 144001de bnez	v0,4884 <func_80039308+0x7ec> | 144001dd bnez $v0, .L80039AF0
+   46 | 104001cc beqz	v0,4884 <func_80039308+0x7ec> | 104001cb beqz $v0, .L80039AF0
+   56 | 1440016f bnez	v0,4738 <func_80039308+0x6a0> | 1440016e bnez $v0, .L800399A4
+   61 | 1440016a bnez	v0,4738 <func_80039308+0x6a0> | 14400169 bnez $v0, .L800399A4
+  140 | 0460011b bltz	v1,4738 <func_80039308+0x6a0> | 0460011a bltz $v1, .L800399A4
+  280 | 28820040 slti	v0,a0,64       | 02402821 addu $a1, $s2, $zero
+  286 | 08001150 j	4540 <func_80039308+0x4a8> | 0800e5eb j .L800397AC
+  287 | 02422021 addu	a0,s2,v0       | 02422821 addu $a1, $s2, $v0
+  288 | 10400008 beqz	v0,453c <func_80039308+0x4a4> | 28820040 slti $v0, $a0, 0x40
+  289 | 24020040 li	v0,64            | 10400007 beqz $v0, .L800397AC
+  290 | 9183000b lbu	v1,11(t4)       | 24020040 addiu $v0, $zero, 0x40
+  291 | 00441023 subu	v0,v0,a0       | 9183000b lbu $v1, 0xB($t4)
+  292 | 00430018 mult	v0,v1          | 00441023 subu $v0, $v0, $a0
+  293 | 0000b812 mflo	s7             | 00430018 mult $v0, $v1
+  294 | 00171080 sll	v0,s7,0x2       | 0000b812 mflo $s7
+  295 | 08001150 j	4540 <func_80039308+0x4a8> | 00171080 sll $v0, $s7, 2
+  296 | 02422023 subu	a0,s2,v0       | 02422823 subu $a1, $s2, $v0
+  297 | 02402021 move	a0,s2          | 91820003 lbu $v0, 0x3($t4)
+  298 | 91820003 lbu	v0,3(t4)        | 91830004 lbu $v1, 0x4($t4)
+  299 | 91830004 lbu	v1,4(t4)        | 00021200 sll $v0, $v0, 8
+  300 | 00021200 sll	v0,v0,0x8       | 00431023 subu $v0, $v0, $v1
+  301 | 00431023 subu	v0,v0,v1       | acc20054 sw $v0, 0x54($a2)
+  302 | acc20054 sw	v0,84(a2)        | 2442c400 addiu $v0, $v0, -0x3C00
+  303 | 2442c400 addiu	v0,v0,-15360  | 00a22823 subu $a1, $a1, $v0
+  304 | 00822023 subu	a0,a0,v0       | 9183000b lbu $v1, 0xB($t4)
+  305 | 9183000b lbu	v1,11(t4)       | 30a4ffff andi $a0, $a1, 0xFFFF
+  306 | 3084ffff andi	a0,a0,0xffff   | a0c30058 sb $v1, 0x58($a2)
+  307 | a0c30058 sb	v1,88(a2)        | 9183000c lbu $v1, 0xC($t4)
+  308 | 9183000c lbu	v1,12(t4)       | 2c825301 sltiu $v0, $a0, 0x5301
+  309 | 2c825301 sltiu	v0,a0,21249   | 14400004 bnez $v0, .L800397F0
+  310 | 14400004 bnez	v0,4584 <func_80039308+0x4ec> | a0c30059 sb $v1, 0x59($a2)
+  311 | a0c30059 sb	v1,89(a2)        | 24023fff addiu $v0, $zero, 0x3FFF
+  312 | 24023fff li	v0,16383         | 0800e60a j .L80039828
+  313 | 0800116f j	45bc <func_80039308+0x524> | a4e20014 sh $v0, 0x14($a3)
+  314 | a4e20014 sh	v0,20(a3)        | 00041202 srl $v0, $a0, 8
+  315 | 00041202 srl	v0,a0,0x8       | 00021040 sll $v0, $v0, 1
+  316 | 00021040 sll	v0,v0,0x1       | 3c018007 lui $at, %hi(D_8006AB30)
+  317 | 3c010000 lui	at,0x0          | 00220821 addu $at, $at, $v0
+  318 | 00220821 addu	at,at,v0       | 9423ab30 lhu $v1, %lo(D_8006AB30)($at)
+  319 | 94230000 lhu	v1,0(at)        | 308200fe andi $v0, $a0, 0xFE
+  320 | 308200fe andi	v0,a0,0xfe     | 3c018007 lui $at, %hi(D_8006ABD8)
+  321 | 3c010000 lui	at,0x0          | 00220821 addu $at, $at, $v0
+  322 | 00220821 addu	at,at,v0       | 9422abd8 lhu $v0, %lo(D_8006ABD8)($at)
+  323 | 94220000 lhu	v0,0(at)        | 00000000 nop
+  324 | 00000000 nop                 | 00620018 mult $v1, $v0
+  325 | 00620018 mult	v1,v0          | 00001812 mflo $v1
+  326 | 00001812 mflo	v1             | 00031bc2 srl $v1, $v1, 15
+  327 | 00031bc2 srl	v1,v1,0xf       | a4e30014 sh $v1, 0x14($a3)
+  328 | a4e30014 sh	v1,20(a3)        | a0d1005d sb $s1, 0x5D($a2)
+  329 | a0d1005d sb	s1,93(a2)        | 8ce30000 lw $v1, 0x0($a3)
+  330 | 8ce30000 lw	v1,0(a3)         | 3c02800a lui $v0, %hi(D_800A2B98)
+  331 | 3c020000 lui	v0,0x0          | 8c422b98 lw $v0, %lo(D_800A2B98)($v0)
+  332 | 8c420000 lw	v0,0(v0)         | 3c04800c lui $a0, %hi(D_800C7D20)
+  333 | 3c040000 lui	a0,0x0          | 8c847d20 lw $a0, %lo(D_800C7D20)($a0)
+  334 | 8c840000 lw	a0,0(a0)         | 8ce50000 lw $a1, 0x0($a3)
+  335 | 8ce50000 lw	a1,0(a3)         | 00031827 nor $v1, $zero, $v1
+  336 | 00031827 nor	v1,zero,v1      | 00431024 and $v0, $v0, $v1
+  337 | 00431024 and	v0,v0,v1        | 00852025 or $a0, $a0, $a1
+  338 | 00852025 or	a0,a0,a1         | 3c01800a lui $at, %hi(D_800A2B98)

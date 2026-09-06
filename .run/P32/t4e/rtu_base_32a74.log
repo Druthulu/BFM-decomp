@@ -1,0 +1,3 @@
+DIFF  func_80032A74   mine=422 ins, target=422 ins, 1 mismatched
+  idx | MINE                          | TARGET
+  244 | 86220018 lh	v0,24(s1)        | 96220018 lhu $v0, 0x18($s1)

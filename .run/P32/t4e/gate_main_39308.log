@@ -1,0 +1,4 @@
+slate 1 -> 1 compatible, 0 dropped for in-TU decl conflict
+
+BANKED 1 main functions -- 143dbb89f34491258bbc27810d0a12ec8b43a8dd BYTE-IDENTICAL
+EXIT=0

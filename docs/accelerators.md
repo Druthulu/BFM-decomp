@@ -822,3 +822,17 @@ scheduling/allocation dial on a packet-building function, grep `src/` for the id
 `+ 0x100) << 6` cluts, `0xE1000000` tags) and objdump each hit's window against the target; a same-shape sibling with different
 base registers scores as a stranger in every similarity metric we have, and its spelling is worth more than the diff's
 mechanism (extends (13); the twin oracle, family maps and atlas knn all reported nothing for this row).
+
+**(15) Re-run the producer census with combine's bookkeeping in view before writing "PROVED" (P32 T4c, `func_80032A74`, S85).**
+Two sessions and a Fable agent had proved the 8-byte orphan unreachable; the proof's census enumerated reload's slot
+producers but not combine's `i2dest_in_i2src` gap (combine.c:2306), which leaves a pseudo with references and no insns.
+Eighteen 1-second reproducers found it (§501-Q); the bank was one three-statement chain. Accelerator: a "PROVED" frame
+verdict needs the reproducer battery (`tools/cc1_dumps.sh` on 5-line functions) for every ghost SPECIES, not only the ones
+already in the cookbook — and the S84 statement "only combine mints those" was right; the list of combine paths was short.
+
+**(16) Read the allocation ORDER before the register (P32 T4c, `func_80039308`, S85).** Forty variants tried to steer one
+hoisted value into $s2 with pins, dead mentions and sliders; the dumps' "regs to allocate" line + `tools/alloc_table.py`
+showed in one read that the callee-saved bank is global's priority order (refs/live length) and that the value needed
+exactly 7 weighted refs = three body reads — which forced the source shape (three inline expressions + `u16 vol`, §501-R).
+Accelerator: for any callee-saved-register residual, dump the REAL TU (`tools/cc1_dumps_tu.sh`) and print the allocation
+table first; the number of uses the target's register order implies is a hard constraint on the C, and pins only mask it.

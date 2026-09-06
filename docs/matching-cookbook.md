@@ -37506,3 +37506,44 @@ against the target before touching the draft (§501-N, accelerators (13)/(14)); 
 property of the draft's other dials — after a sibling port, remove every pin and re-measure before banking (§501-E), and record the
 census so the next row inherits the elements, not the dials; (3) a residual's mechanism read from the dumps can be right and its
 "blocked" verdict wrong: the block's OTHER births (2-set `uu`, the polarity) were what made the honest fix look blocked.
+
+**§501-Q — THE SELF-UPDATE GHOST: a no-traffic 8-byte frame slot from a combine bookkeeping gap (P32 T4c, S85 2026-09-06;
+`main:func_80032A74` 422/422 BANKED `commit:4007` — the S84 "PROVED wall"; also the [arg1 @0][8 @8][cnt @0x10] slot of
+`main:func_80039308`).** The §501-M producer census missed one producer. In `try_combine` (combine.c:2306) the deleted i2's
+dest gets its `reg_n_sets`/`reg_n_refs` decremented ONLY `if (! added_sets_2 && newi2pat == 0 && ! i2dest_in_i2src)`: when
+the deleted insn is a SELF-UPDATE (`x = x op c`, its dest re-mentioned in its source) the bookkeeping is skipped. So the chain
+`gx = <load>; gx -= 0x100; ... (u32)(u8)gx ...` compiles to the plain `lbu` of the direct spelling — combine first folds the
+self-update into the `(u8)` use (`(and (plus gx -256) 0xFF)` → `(and gx 0xFF)`, i2 deleted without bookkeeping), then merges
+the load into the rewritten use (`(and (zext (mem:QI)) 0xFF)` → `lbu`, i2 deleted with `reg_n_sets` going from a stale 2 to 1,
+so `reg_n_refs` is never zeroed) — and `gx` survives as a pseudo with references and no insns: regclass never sees it
+("ST_REGS or none"), global does not allocate it, and reload's initial `alter_reg` loop (reload1.c:658) mints an 8-byte slot
+for it in REGNO order (after the parameter spills; before any `spill_stack_slot`). Measured (`.run/P32/t4e/ghost/`,
+`tools/cc1_dumps.sh` + `ghost_census.py`): the host must be a word-width `(u8)x`/`x & 0xFF` conversion consumed by an
+insn (return, add, compare operand) — k4/k5/k7/k14/k16/k17 mint the slot (u32/u16/u8/s16 loads, `&= 0xFFF` or `-= 0x100`);
+byte STORES `*q = x` / `*q = (u8)x + w` do not (k8/k11–k13/k15/k18 — the store absorbs the mask or keeps the arithmetic);
+copy+constant chains do not (g1–g5: cse folds them before flow); a no-op mask into a load-absorbing use does not (h1–h7:
+the def merges first). **Law:** a phantom slot with no traffic and an `lbu`/`lhu` site where a narrower value is consumed
+at word width = plant `gx = <wider load>; gx -= 0x100; … (u8)gx` at that site (zero instructions; the slot position is
+the ghost's regno order). Add this row to the §501-M census before calling any frame residual proved.
+
+**§501-R — A HOISTED INVARIANT READ THREE TIMES: temps, not variables; `u16` keeps cse off the copy; the pins were never
+needed (P32 T4c, S85 2026-09-06; `main:func_80039308` 518/518 BANKED, the phase's last stub, ZERO pins).** The target's
+preheader `[li $s3,2][sll $s2,$s5,8][li $s1,1]` reads the volume base `b2 << 8` in $s2 at three body sites (the copy in the
+first branch's delay slot and both pan arms); the S79–S84 drafts pinned `vbase` to `$18` in the preheader and ended two rows
+short (the hoist order). Measured in the real TU, 56 variants (`.run/P32/t4e/NOTES.md`): (1) a NAMED variable set after the
+inner loop's jumps is never a movable (loop.c:695-700 — user var + `maybe_never` + uses in other blocks), and a movable
+TEMP with one use and life 1 is "not desirable" (threshold × savings × lifetime < insn_count); (2) copy-first `vol = vbase`
+with the arms reading `vbase` is folded by cse1 onto `vol` (cse.c `make_regs_eqv`: the register with the LATER last mention
+becomes canonical — `vol` is used after the arms), so the arms read `vol` and the hoisted value has one use; copy-last keeps
+the arms on the base but `vol` is then born after the tests, takes $a0 and reorg cannot lift the copy; (3) THE FIX: write the
+expression inline three times — `vol = b2 * 0x100; if (A) vol = (b2 * 0x100) + X; else if (B) vol = (b2 * 0x100) - Y;` —
+so the three temps are merged by loop.c `combine_movables` (savings 3, one hoisted `sll`, the arms read it), and declare
+the accumulator **`u16 vol`**: in this TU it is a HImode pseudo, so `vol = <expr>` expands as a subreg move that cse never
+canonicalizes — `vol` never joins the shift's quantity, the arms keep the temp, and `vol` is born before the tests (in $a1,
+conflicting with `pan` in $a0; the copy lands in the delay slot). The hoisted temp then has 7 weighted refs → priority 470
+between the hoisted constants 1 (657) and 2 (452) → $s2 by global's numeric scan (`tools/alloc_table.py` reads that order
+straight from the dumps). (4) The else head ($t1/$t0) was the note-on arm's `s17`/`s18` variables REUSED as the release
+loop's pointer and compare temp. (5) With the structure right, every remaining pin (`$18`, `$4`×2, `$2`) came off
+byte-identical. **Laws:** an invariant read N times must be N inline expressions (or a single-block temp), never a named
+variable set after a jump; before pinning anything, read `alloc_table.py`'s order — the callee-saved bank IS the priority
+order; a `u16`/`s16` accumulator is a cse firewall, not just a width.

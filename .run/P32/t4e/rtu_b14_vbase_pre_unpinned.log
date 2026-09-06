@@ -1,0 +1,39 @@
+DIFF  func_80039308   mine=518 ins, target=518 ins, 37 mismatched
+  idx | MINE                          | TARGET
+   15 | 90540000 lbu	s4,0(v0)        | 90550000 lbu $s5, 0x0($v0)
+   18 | 90570001 lbu	s7,1(v0)        | 905e0001 lbu $fp, 0x1($v0)
+   20 | 12e0019b beqz	s7,4758 <func_80039308+0x6c0> | 13c0019b beqz $fp, .L800399C8
+   37 | 92130000 lbu	s3,0(s0)        | 92140000 lbu $s4, 0x0($s0)
+   39 | 02601821 move	v1,s3          | 02801821 addu $v1, $s4, $zero
+   48 | 0280a821 move	s5,s4          | 02a0b021 addu $s6, $s5, $zero
+   49 | 0014f200 sll	s8,s4,0x8       | 24130002 addiu $s3, $zero, 0x2
+   50 | 24120002 li	s2,2             | 00159200 sll $s2, $s5, 8
+   55 | 02a2102a slt	v0,s5,v0        | 02c2102a slt $v0, $s6, $v0
+   60 | 0055102a slt	v0,v0,s5        | 0056102a slt $v0, $v0, $s6
+   95 | 14520006 bne	v0,s2,4230 <func_80039308+0x198> | 14530006 bne $v0, $s3, .L800394A0
+  125 | 14520005 bne	v0,s2,42a4 <func_80039308+0x20c> | 14530005 bne $v0, $s3, .L80039514
+  154 | 1453000e bne	v0,s3,433c <func_80039308+0x2a4> | 1454000e bne $v0, $s4, .L800395AC
+  193 | 02e20018 mult	s7,v0          | 03c20018 mult $fp, $v0
+  236 | 0000b012 mflo	s6             | 0000b812 mflo $s7
+  238 | 00161080 sll	v0,s6,0x2       | 00171080 sll $v0, $s7, 2
+  248 | 0000b012 mflo	s6             | 0000b812 mflo $s7
+  249 | 00161080 sll	v0,s6,0x2       | 00171080 sll $v0, $s7, 2
+  266 | 0000b012 mflo	s6             | 0000b812 mflo $s7
+  267 | 00161382 srl	v0,s6,0xe       | 00171382 srl $v0, $s7, 14
+  273 | 0000b012 mflo	s6             | 0000b812 mflo $s7
+  274 | 00161382 srl	v0,s6,0xe       | 00171382 srl $v0, $s7, 14
+  280 | 03c02821 move	a1,s8          | 02402821 addu $a1, $s2, $zero
+  284 | 0000b012 mflo	s6             | 0000b812 mflo $s7
+  285 | 00161080 sll	v0,s6,0x2       | 00171080 sll $v0, $s7, 2
+  287 | 00a22821 addu	a1,a1,v0       | 02422821 addu $a1, $s2, $v0
+  294 | 0000b012 mflo	s6             | 0000b812 mflo $s7
+  295 | 00161080 sll	v0,s6,0x2       | 00171080 sll $v0, $s7, 2
+  296 | 00a22823 subu	a1,a1,v0       | 02422823 subu $a1, $s2, $v0
+  406 | a4d40004 sh	s4,4(a2)         | a4d50004 sh $s5, 0x4($a2)
+  407 | a4d30008 sh	s3,8(a2)         | a4d40008 sh $s4, 0x8($a2)
+  412 | 97b60000 lhu	s6,0(sp)        | 97b70000 lhu $s7, 0x0($sp)
+  415 | a4d60006 sh	s6,6(a2)         | a4d70006 sh $s7, 0x6($a2)
+  421 | a0d2005a sb	s2,90(a2)        | a0d3005a sb $s3, 0x5A($a2)
+  425 | 8fb60010 lw	s6,16(sp)        | 8fb70010 lw $s7, 0x10($sp)
+  427 | 0316102a slt	v0,t8,s6        | 0317102a slt $v0, $t8, $s7
+  441 | 02804021 move	t0,s4          | 02a04021 addu $t0, $s5, $zero

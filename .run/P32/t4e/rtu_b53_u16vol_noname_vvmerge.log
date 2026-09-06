@@ -1,0 +1,4 @@
+DIFF  func_80039308   mine=518 ins, target=518 ins, 2 mismatched
+  idx | MINE                          | TARGET
+  303 | 00a21023 subu	v0,a1,v0       | 00a22823 subu $a1, $a1, $v0
+  305 | 3044ffff andi	a0,v0,0xffff   | 30a4ffff andi $a0, $a1, 0xFFFF

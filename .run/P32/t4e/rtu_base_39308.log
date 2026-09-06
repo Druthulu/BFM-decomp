@@ -1,0 +1,6 @@
+DIFF  func_80039308   mine=518 ins, target=518 ins, 4 mismatched
+  idx | MINE                          | TARGET
+   49 | 00159200 sll	s2,s5,0x8       | 24130002 addiu $s3, $zero, 0x2
+   50 | 24130002 li	s3,2             | 00159200 sll $s2, $s5, 8
+  412 | 97a80000 lhu	t0,0(sp)        | 97b70000 lhu $s7, 0x0($sp)
+  415 | a4c80006 sh	t0,6(a2)         | a4d70006 sh $s7, 0x6($a2)

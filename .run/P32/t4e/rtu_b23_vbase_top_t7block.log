@@ -1,0 +1,62 @@
+DIFF  func_80039308   mine=517 ins, target=518 ins, 237 mismatched
+  idx | MINE                          | TARGET
+    0 | 27bdffc8 addiu	sp,sp,-56     | 27bdffc0 addiu $sp, $sp, -0x40
+    2 | afbe0030 sw	s8,48(sp)        | afbe0038 sw $fp, 0x38($sp)
+    3 | afb7002c sw	s7,44(sp)        | afb70034 sw $s7, 0x34($sp)
+    4 | afb60028 sw	s6,40(sp)        | afb60030 sw $s6, 0x30($sp)
+    5 | afb50024 sw	s5,36(sp)        | afb5002c sw $s5, 0x2C($sp)
+    6 | afb40020 sw	s4,32(sp)        | afb40028 sw $s4, 0x28($sp)
+    7 | afb3001c sw	s3,28(sp)        | afb30024 sw $s3, 0x24($sp)
+    8 | afb20018 sw	s2,24(sp)        | afb20020 sw $s2, 0x20($sp)
+    9 | afb10014 sw	s1,20(sp)        | afb1001c sw $s1, 0x1C($sp)
+   10 | afb00010 sw	s0,16(sp)        | afb00018 sw $s0, 0x18($sp)
+   15 | 90530000 lbu	s3,0(v0)        | 90550000 lbu $s5, 0x0($v0)
+   18 | 90570001 lbu	s7,1(v0)        | 905e0001 lbu $fp, 0x1($v0)
+   20 | 12e0019a beqz	s7,4754 <func_80039308+0x6bc> | 13c0019b beqz $fp, .L800399C8
+   21 | 00a0f021 move	s8,a1          | a7a50000 sh $a1, 0x0($sp)
+   28 | 144001dc bnez	v0,487c <func_80039308+0x7e4> | 144001dd bnez $v0, .L80039AF0
+   46 | 104001ca beqz	v0,487c <func_80039308+0x7e4> | 104001cb beqz $v0, .L80039AF0
+   47 | afa20008 sw	v0,8(sp)         | afa20010 sw $v0, 0x10($sp)
+   48 | 0260a821 move	s5,s3          | 02a0b021 addu $s6, $s5, $zero
+   49 | 24120002 li	s2,2             | 24130002 addiu $s3, $zero, 0x2
+   50 | 24110001 li	s1,1             | 00159200 sll $s2, $s5, 8
+   51 | 272c0001 addiu	t4,t9,1       | 24110001 addiu $s1, $zero, 0x1
+   52 | 91820005 lbu	v0,5(t4)        | 272c0001 addiu $t4, $t9, 0x1
+   53 | 00000000 nop                 | 91820005 lbu $v0, 0x5($t4)
+   54 | 02a2102a slt	v0,s5,v0        | 00000000 nop
+   55 | 1440016e bnez	v0,4730 <func_80039308+0x698> | 02c2102a slt $v0, $s6, $v0
+   56 | 00000000 nop                 | 1440016e bnez $v0, .L800399A4
+   57 | 91820006 lbu	v0,6(t4)        | 00000000 nop
+   58 | 00000000 nop                 | 91820006 lbu $v0, 0x6($t4)
+   59 | 0055102a slt	v0,v0,s5        | 00000000 nop
+   60 | 14400169 bnez	v0,4730 <func_80039308+0x698> | 0056102a slt $v0, $v0, $s6
+   61 | 240a0100 li	t2,256           | 14400169 bnez $v0, .L800399A4
+   62 | 00005821 move	t3,zero        | 240a0100 addiu $t2, $zero, 0x100
+   63 | 00006821 move	t5,zero        | 00005821 addu $t3, $zero, $zero
+   64 | 240fffff li	t7,-1            | 00006821 addu $t5, $zero, $zero
+   65 | 00004021 move	t0,zero        | 240fffff addiu $t7, $zero, -0x1
+   66 | 3c070000 lui	a3,0x0          | 00004021 addu $t0, $zero, $zero
+   67 | 24e70000 addiu	a3,a3,0       | 3c07800c lui $a3, %hi(D_800C6DDD)
+   68 | 24060001 li	a2,1             | 24e76ddd addiu $a3, $a3, %lo(D_800C6DDD)
+   69 | 3c090000 lui	t1,0x0          | 24060001 addiu $a2, $zero, 0x1
+   70 | 8d290000 lw	t1,0(t1)         | 3c098007 lui $t1, %hi(D_800762B0)
+   71 | 90e2004e lbu	v0,78(a3)       | 8d2962b0 lw $t1, %lo(D_800762B0)($t1)
+   72 | 00000000 nop                 | 90e2004e lbu $v0, 0x4E($a3)
+   73 | 10400018 beqz	v0,4220 <func_80039308+0x188> | 00000000 nop
+   74 | 314300ff andi	v1,t2,0xff     | 10400018 beqz $v0, .L80039494
+   75 | 90e50000 lbu	a1,0(a3)        | 314300ff andi $v1, $t2, 0xFF
+   76 | 00000000 nop                 | 90e50000 lbu $a1, 0x0($a3)
+   77 | 30a400ff andi	a0,a1,0xff     | 00000000 nop
+   78 | 0083102b sltu	v0,a0,v1       | 30a400ff andi $a0, $a1, 0xFF
+   79 | 10400004 beqz	v0,41e8 <func_80039308+0x150> | 0083102b sltu $v0, $a0, $v1
+   80 | 00000000 nop                 | 10400004 beqz $v0, .L8003945C
+   81 | 00c05821 move	t3,a2          | 00000000 nop
+   82 | 0800108b j	422c <func_80039308+0x194> | 00c05821 addu $t3, $a2, $zero
+   83 | 30aa00ff andi	t2,a1,0xff     | 0800e528 j .L800394A0
+   84 | 14830010 bne	a0,v1,422c <func_80039308+0x194> | 30aa00ff andi $t2, $a1, 0xFF
+   85 | 00000000 nop                 | 14830010 bne $a0, $v1, .L800394A0
+   86 | 3c010000 lui	at,0x0          | 00000000 nop
+   87 | 00260821 addu	at,at,a2       | 3c018007 lui $at, %hi(D_800762B3)
+   88 | 90220000 lbu	v0,0(at)        | 00260821 addu $at, $at, $a2
+   89 | 00000000 nop                 | 902262b3 lbu $v0, %lo(D_800762B3)($at)
+   90 | 1440000a bnez	v0,422c <func_80039308+0x194> | 00000000 nop

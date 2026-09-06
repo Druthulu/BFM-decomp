@@ -12,7 +12,7 @@ src=$d/$tag.c
 if ! grep -q '#include "common.h"' "$f"; then echo '#include "common.h"' > $src; fi
 cat "$f" >> $src
 mipsel-linux-gnu-cpp -lang-c -Iinclude -undef -Wall -fno-builtin -Dmips -D__GNUC__=2 -D__OPTIMIZE__ -Dpsx -D_PSYQ -D_MIPSEL -D_LANGUAGE_C $src > $d/$tag.i
-(cd $d && ../../../tools/bin/gcc-2.7.2-psx/cc1 -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -dr -ds -dj -df -dc -dS -dl -dg $tag.i -o $tag.s 2>$tag.err)
+(cd $d && ../../../tools/bin/gcc-2.7.2-psx/cc1 -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -dr -ds -dj -df -dc -dS -dl -dg -dL $tag.i -o $tag.s 2>$tag.err)
 echo "== $tag: $(grep -m1 '\.frame' $d/$tag.s | sed 's/\t/ /g')  ins=$(grep -cE '^\s+[a-z]' $d/$tag.s)  (dumps in $d)"
 grep -n "Spilling reg\|now on stack\|now in" $d/$tag.i.greg | head -8
 python3 tools/ghost_census.py "$d/$tag.i.lreg"

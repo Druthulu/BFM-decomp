@@ -1,0 +1,16 @@
+DIFF  func_80039308   mine=518 ins, target=518 ins, 14 mismatched
+  idx | MINE                          | TARGET
+   49 | 00159200 sll	s2,s5,0x8       | 24130002 addiu $s3, $zero, 0x2
+   50 | 24130002 li	s3,2             | 00159200 sll $s2, $s5, 8
+  240 | 00024403 sra	t0,v0,0x10      | 00024c03 sra $t1, $v0, 16
+  251 | 00024c03 sra	t1,v0,0x10      | 00024403 sra $t0, $v0, 16
+  260 | 00024b83 sra	t1,v0,0xe       | 00024383 sra $t0, $v0, 14
+  261 | 01204021 move	t0,t1          | 01004821 addu $t1, $t0, $zero
+  262 | 00081400 sll	v0,t0,0x10      | 00091400 sll $v0, $t1, 16
+  269 | 00091400 sll	v0,t1,0x10      | 00081400 sll $v0, $t0, 16
+  410 | a4c80000 sh	t0,0(a2)         | a4c90000 sh $t1, 0x0($a2)
+  411 | a4c90002 sh	t1,2(a2)         | a4c80002 sh $t0, 0x2($a2)
+  440 | 01c24021 addu	t0,t6,v0       | 01c24821 addu $t1, $t6, $v0
+  441 | 02a04821 move	t1,s5          | 02a04021 addu $t0, $s5, $zero
+  443 | 01061021 addu	v0,t0,a2       | 01261021 addu $v0, $t1, $a2
+  452 | 14490031 bne	v0,t1,4870 <func_80039308+0x7d8> | 14480031 bne $v0, $t0, .L80039AE0

@@ -331,3 +331,18 @@ unsloth_compiled_cache/
 !/.run/P32/t4d/bank/
 /.run/P32/t4d/bank/*
 !/.run/P32/t4d/bank/*.c
+# P32 T4c hand pass (S85, 2026-09-06): the two main rows' variants, rtu logs, notes, reproducers, bank bodies, slates, gate/R22 logs (not dumps_*/ or rtu/)
+!/.run/P32/t4e/
+/.run/P32/t4e/*
+!/.run/P32/t4e/*.c
+!/.run/P32/t4e/*.md
+!/.run/P32/t4e/*.log
+!/.run/P32/t4e/*.json
+!/.run/P32/t4e/*.sh
+!/.run/P32/t4e/*.py
+!/.run/P32/t4e/bank/
+/.run/P32/t4e/bank/*
+!/.run/P32/t4e/bank/*.c
+!/.run/P32/t4e/ghost/
+/.run/P32/t4e/ghost/*
+!/.run/P32/t4e/ghost/*.c
