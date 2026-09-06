@@ -37401,3 +37401,36 @@ nop (179 ins). **Law:** when the same ready-list slot decides both a scheduling 
 oscillate between two closeness floors (here 3 and 13/18); decouple by adding a filler that changes neither count (an unboosted
 temp combine cannot re-merge — a different mode/width, or a `volatile` temp) or by moving the contest margin with a reference in a
 block that does not touch the slot. 135-variant sweep floor 3 (×24). Next lever recorded in `docs/backlog.md`.
+
+**§501-M — THE PHANTOM-SLOT PRODUCER CENSUS, and the ghost that cannot slot (P32 T4b hand pass, S84 2026-09-06;
+`main:func_80032A74` PROVED at 1).** A never-referenced stack slot that sits AFTER the parameter spill slots (sp+0x48 here;
+the params at 0x30/0x38/0x40 are `alter_reg` slots in regno order, so any expand-time local would displace them) can only
+come from four reload-time sites, all read out of `tools/reference/gcc-2.7.2`: (1) `reload1.c:658` `alter_reg(i,-1)` for a
+GHOST pseudo — `reg_n_refs>0`, no occurrence, no REG_EQUIV, class `ST_REGS or none` because regclass never saw it; (2)
+`caller-save.c:249 setup_save_areas` — a 4-byte area per call-used hard reg holding ANY pseudo with `reg_n_calls_crossed>0`,
+once `caller_save_needed` is set by the profitability retry (global.c:1085, local-alloc.c:2209; `4*calls < refs`); it leaves no
+`sw/lw` only when the count is STALE-HIGH, and the sole staleness route is sched.c:4962 (a multi-block pseudo keeps flow's
+count when sched's is 0 — the comment says why) after sched1 moved a register-only def/use across a call inside the call's
+own block (combine never crosses a call except with a constant source, combine.c:924; `update_equiv_regs` moves nothing);
+(3) `reload1.c:879` — a `reg_equiv_memory_loc` whose address eliminates to a SPILLED pseudo gets a fresh slot, but only an
+UNALLOCATED pseudo qualifies and those equivalences are single-block (`update_equiv_regs`), so local-alloc takes them; (4)
+`reload1.c:3499 spill_stack_slot` — a pseudo evicted from a spilled hard reg with no retry (local-alloc'd) or a failed
+`retry_global_alloc`; `$t0` can hold no pseudo at all (`order_regs_for_reload` lists zero-use call-used regs first, so a
+pseudo in `$t0` moves every param reload to `$t1`), and LO-pref mult results carry alternate class `GR_REGS` and re-home.
+**The one producer reachable from C at zero code cost is combine's `newi2pat` split** (combine.c:1887 SIGN_EXTEND-of-narrow-
+load, combine.c:1963 two-independent-SETs) whose `i2dest` vanishes with `reg_n_refs` kept (the zeroing at combine.c:2306 is
+skipped whenever `newi2pat != 0`); both re-derive a NARROW LOAD (`lh`/`lb`, or a duplicate `lhu`) from the chain's memory
+head — a register head folds at tree/cse level or has its middle temp re-used by `find_split_point`, so path (b) never runs
+(18 reproducers). Hence a phantom slot whose site loads `lhu`, has no `lb` and no double load is unreachable: PROVED.
+**The NEW ghost producer, measured, and why it does not slot:** `local-alloc.c optimize_reg_copy_2` on
+`tmp = x; <use tmp>; tmp = tmp op c; <use tmp>; x = tmp;` (one block; x dead at the head copy, live after the copy-back;
+the head copy survives combine when tmp's FIRST use is not its last and no 3-insn chain passes through it — combine.c:904;
+the copy-back survives when tmp has an intervening use that sched keeps above it) rewrites every `tmp` to `x`, leaves two
+no-op self-moves, and decrements `reg_n_refs[tmp]` once per insn while flow counted the in-place insn twice → a ghost with
+stale refs (P13 refs 5, P14 refs 1). **It is minted AFTER regclass, keeps `GR_REGS` with no conflicts, and global simply
+allocates it: vars=0.** Only pre-regclass (combine) ghosts take slots. **Instrument:** `tools/ghost_census.py <tag>.i.lreg`
+(headers with no occurrence, class → SLOT / allocatable), now run by `tools/cc1_dumps.sh` in place of its `(use)` grep (which
+under-counted, §172 note); `vars=` on the `.frame` line remains the arbiter. **Law:** before probing spellings for a frame
+residual, enumerate the artefact's PRODUCERS from the source and refute each on the bytes — the site's load width (`lh` vs
+`lhu`), the call blocks' contents, the spill register's identity and the mult results' alternate class each kill one
+producer without a compile. Probes and notes: `.run/P32/t4c/func_80032A74/`.

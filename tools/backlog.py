@@ -205,8 +205,12 @@ def load_best():
         cur = best.get((key, subkey))
         c = r.get("closeness")
         cscore = c if isinstance(c, int) else 10 ** 9
-        if cur is None or (cscore, r.get("ts", "")) <= (cur[0], cur[1]):
-            best[(key, subkey)] = (cscore, r.get("ts", ""), r)
+        # Lower closeness wins; at EQUAL closeness the LATEST record wins (the docstring's contract).
+        # The old `(cscore, ts) <= (cur…)` kept the EARLIEST at a tie, so a re-verdict at the same
+        # closeness (S84: func_80032A74 CANDIDATE -> PROVED, both 1) never reached render (R43/R61).
+        ts = r.get("ts", "")
+        if cur is None or cscore < cur[0] or (cscore == cur[0] and ts >= cur[1]):
+            best[(key, subkey)] = (cscore, ts, r)
 
     # fold each addr's unknown-nins record into its body when that body is unambiguous
     sized = collections.defaultdict(list)

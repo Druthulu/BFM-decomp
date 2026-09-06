@@ -792,3 +792,13 @@ measured nothing. The cracks came from one dump each: the `7f000001` birthing bo
 "not desirable" line (§501), the `-dl` quantity priorities (§501-B/E), the `.greg` "Register N in M" (§501-B/E), the `-dR`
 hazard walk (§501-G). Accelerator: a residual's first artefact is the dump line that owns it — `tools/cc1_dumps.sh` gives all of
 them in one run; a wall verdict without a pass and a dump line is a hypothesis, not a proof (extends (9) and R40).
+
+**(12) Enumerate the artefact's PRODUCERS from the compiler source before probing a single spelling (P32 T4b hand pass,
+`func_80032A74`, S84).** Two sessions (S79 ~200 byte-probes + a 100-variant sweep, S83 22 spellings, a 402k-token Fable agent)
+had chased the 8 phantom frame bytes as a spelling problem. Reading every stack-slot allocation site in reload1.c /
+caller-save.c / combine.c / local-alloc.c gave a four-row producer census, and each row died on a fact already in the bytes
+or a dump — the site's `lhu`, the call blocks' contents, the spill register's identity (`lw $t0` ⇒ no pseudo lived in `$t0`),
+the mult results' alternate class — without compiling a variant of the draft (18 isolated reproducers, 0 draft variants).
+It also found a new ghost producer (`optimize_reg_copy_2`, §501-M) and measured why it cannot slot. Accelerator: a frame
+residual gets a producer table first (`tools/cc1_dumps.sh` + `tools/ghost_census.py`), a spelling sweep last — and a
+"PROVED" verdict is the table with every row refuted, not a sweep that came back empty (extends (9), (11), R40).

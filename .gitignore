@@ -310,3 +310,15 @@ unsloth_compiled_cache/
 !/.run/P32/t5x/reports/*.md
 !/.run/P32/t5x/verdicts.jsonl
 !/.run/P32/t5x/resume_queue.txt
+# P32 T4b hand pass (S84, 2026-09-06): notes, mechanism probes, verdict drafts and the private dump script (not the dumps_*/ or rtu/ dirs)
+!/.run/P32/t4c/
+/.run/P32/t4c/*
+!/.run/P32/t4c/*.sh
+!/.run/P32/t4c/*.py
+!/.run/P32/t4c/*.md
+!/.run/P32/t4c/*.log
+!/.run/P32/t4c/*.json
+!/.run/P32/t4c/func_*/
+/.run/P32/t4c/func_*/*
+!/.run/P32/t4c/func_*/*.c
+!/.run/P32/t4c/func_*/*.md
