@@ -1,0 +1,2 @@
+clean: removed build/, expected/, and the regenerated splat tree (asm/, assets/, include macros, undefined_*_auto.txt).
+EXIT=0

@@ -4,21 +4,21 @@
 # cross-binary collapsible-byte leverage: docs/duplicates.cross.md.
 
 # THREE progress metrics (all matter — see the labels):
-FLEET fn-count byte-ident: 363212 / 363214 = 100.00%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 13487557 / 13488497 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5815649 / 5816589 = 100.0%   (90984/90984 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :   40594 / 41534 = 97.7%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
+FLEET fn-count byte-ident: 363214 / 363214 = 100.00%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
+FLEET instr-weighted     : 13488497 / 13488497 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5816589 / 5816589 = 100.0%   (90984/90984 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :   41534 / 41534 = 100.0%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13446963 / 13446963 = 100.0%)
 
-FLEET REAL substantive   : 360735   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
+FLEET REAL substantive   : 360737   (of which dedup-shared 255632 via 2220 groups / 255708 instances)
 FLEET LINKED PsyQ objs   :   1256
 FLEET NON_MATCHING       :      0   (0 in any default build — G4)
-FLEET INCLUDE_ASM stubs  :      2
+FLEET INCLUDE_ASM stubs  :      0
 FLEET matchable          : 363214
 
 | binary | REAL | shared | LINKED | byte-ident | matchable | byte-ident % |
 |---|---:|---:|---:|---:|---:|---:|
-| main | 787 | 2 | 1256 | 2089 | 2091 | 99.9% |
+| main | 789 | 2 | 1256 | 2091 | 2091 | 100.0% |
 | resident | 143 | 0 | 0 | 145 | 145 | 100.0% |
 | md_MAIN_001 | 11 | 0 | 0 | 11 | 11 | 100.0% |
 | md_MAIN_003 | 58 | 0 | 0 | 64 | 64 | 100.0% |
