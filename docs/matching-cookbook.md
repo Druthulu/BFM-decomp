@@ -37434,3 +37434,23 @@ under-counted, §172 note); `vars=` on the `.frame` line remains the arbiter. **
 residual, enumerate the artefact's PRODUCERS from the source and refute each on the bytes — the site's load width (`lh` vs
 `lhu`), the call blocks' contents, the spill register's identity and the mult results' alternate class each kill one
 producer without a compile. Probes and notes: `.run/P32/t4c/func_80032A74/`.
+
+**§501-N — A BANKED SIBLING'S SPELLING BEATS THE DRAFT'S DIALS; the `u32` array view of a `u8`-declared symbol is the fleet's
+asm-label alias (P32 T4b hand pass, S84 2026-09-06; `md_MAIN_007:func_800CF408` 178/178 BANKED `commit:4001`, zero pins, zero asm
+bodies).** The 3-row prologue-weave residual (§501-L: the T-139 memory-unit bubble handing `ori 0x96` the wrong LUID, coupled to
+the `$t2/$t3` `qty_compare` contest) was a SHAPE symptom: the draft carried a named `mhi`, an `ob` base pointer, `y1/y2` temps
+and an `arg1 = 0` kill, each a dial against the previous dial. The same-family sibling `md_MAIN_009:func_800CD92C` (§501-H) had
+banked with the plain libgpu shape — `v = (OT[idx * 0x1000] & m24) & m24; t = *(u32 *)p; t &= 0xFF000000; t |= v; *(u32 *)p =
+t;` then `OT[oi] = (OT[oi] & 0xFF000000) | ((u32)p & m24);` on a TRUE `u32` ARRAY_REF, `x -= 0xA0; y -= 0x78;` in place and
+`x + 0xA0` / `y + 0x100` inline, colours chained `*(p+8) = *(p+9) = *(p+0xA) = c` — and porting it with this function's constants
+matched first try. **Why the ARRAY_REF matters:** with element size 4 the address `(plus (mult idx 4) sym)` goes through
+`memory_address → force_reg (sym)`, so cse keeps prim 1's read in the gas `lui $at/addu $at/lw %lo(sym)($at)` form and binds the
+base into `$t2` for every later access (the target's shape); a `u8`-array spelling (`*(u32 *)&sym[oi]`, a one-member struct view,
+a P_TAG bitfield on `&sym[oi]`) has `(plus sym idx)`, never binds, and emits the macro form eight times (measured). When the TU
+declares the symbol with another type, take the fleet's alias: `extern u32 wD_800AA60C[] __asm__("D_800AA60C");` (1,438 banked
+files carry `extern T name __asm__("D_…")` views; a declaration, not an asm body — R62 untouched). Also measured: the sibling's
+lever-7 trailing `__asm__ volatile("" : "=r"(tmp))` 2-set dial is NOT portable here — the volatile asm makes hard regs live at its
+position and flips the m24/colour `$t1/$t0` order. **Law:** when a same-family sibling is banked, port its spelling with the row's
+constants BEFORE touching a dial on the draft; the residual class name (§501-H) is the family's signature, not a lever list. The
+target's `vars= 8` here is a combine-minted ghost (§501-M species, `ghost_census.py`: `ST_REGS or none` → SLOT) reproduced by the
+port for free. Notes and every variant: `.run/P32/t4c/func_800CF408/`.

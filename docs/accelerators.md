@@ -802,3 +802,12 @@ the mult results' alternate class — without compiling a variant of the draft (
 It also found a new ghost producer (`optimize_reg_copy_2`, §501-M) and measured why it cannot slot. Accelerator: a frame
 residual gets a producer table first (`tools/cc1_dumps.sh` + `tools/ghost_census.py`), a spelling sweep last — and a
 "PROVED" verdict is the table with every row refuted, not a sweep that came back empty (extends (9), (11), R40).
+
+**(13) When a same-family sibling is banked, port its SPELLING with the row's constants before touching a dial on the draft
+(P32 T4b hand pass, `md_MAIN_007:func_800CF408`, S84).** The row had consumed three agent passes, a 135-variant sweep and a hand
+pass on a draft that carried five dials (named mask, base pointer, two temps, a dead parameter kill); its residual class had
+been named correctly (§501-H/L) and every cure oscillated. The banked sibling `func_800CD92C` (§501-H, same four-prim family)
+had matched with the plain libgpu shape; porting that body with this function's constants matched first try — the only work
+was the TU's `u8` declaration of the OT symbol, solved by the fleet's asm-label alias (§501-N). Accelerator: a wave card for a
+row whose family has a banked exemplar must carry that exemplar's SOURCE as the seed (family_cousins/seed_ref), and a hand pass
+must open with `grep -l` for the family's banked bodies; a residual-class name is the family's signature, not a lever list.

@@ -27,6 +27,6 @@ $title
 $body- one build for the same-TU batch: make build BINARY=$bin -j8 rc 0; sha1 $got == config/check.$bin.sha (BYTE-IDENTICAL)
 - $tu: $left INCLUDE_ASM left
 
-Claude-Session: 491895ad-3c84-4037-b04f-bf7e5ee16a0c
+Claude-Session: ${CLAUDE_SESSION:-72d8b4b1-048d-4361-b177-a5261ede0e07}
 EOM
 git log --oneline -1
