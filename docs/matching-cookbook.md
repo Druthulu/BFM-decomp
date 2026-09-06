@@ -37253,3 +37253,24 @@ copy emits a `move` (101 ins) — launder the destination variable. **Law:** whe
 permutation that every pin-set fails to move, the pin may be the wall: pins forbid their register to every retried allocno.
 Remove the pin, read `-dl` for the local quantities' priorities, and steer with launders (birth/death dials) instead. Corollary
 for the map (regalloc.md): `retry_global_alloc` + `bad_spill_regs`; `qty_compare` = `floor_log2(n_refs)·n_refs·size/(death−birth)`.
+
+**§501-F — WHEN loop.c PROVES THE HOIST SPLIT UNREACHABLE, SPLIT THE CSE QUANTITY INSTEAD: a hard-register copy of the dividend
+makes the divide's multiply non-movable while the divide's own sign correction is CSE'd into a hoisted variable (P32 T4b,
+`ov_SC03_105:func_801834A4`, the "hoist only the sra" wall banked by a Fable agent — 106/106).** The S71 proof stands and is now
+dump-confirmed: `expand_divmod` (expmed.c:3034–3057) emits K=const, B=`smulsi3_highpart`, C=`op0 >> 31`, D=`B − C` adjacently from ONE
+`op0`, so loop.c gives B and C the same `invariant_p` verdict; if B is movable, `force_movables` (loop.c:1193–1228) links K to B
+and DOUBLES its savings (`174 >= 37` → everything hoists, the 75 baseline), and a hard-register dividend kills B, C and D
+alike. From one division of one register the target's split (sra hoisted, K/B/D inline) is unreachable — **so the lever is in
+cse, not loop.c.** `canon_reg` never rewrites a hard register, but `canon_hash`/`exp_equiv_p` compare by `reg_qty`: write
+`sign = half >> 31;` at the TOP of the loop body (a movable by criterion (1), `maybe_never == 0`), copy the dividend into a
+hard register `register s32 hh __asm__("$2"); hh = half;`, and divide THAT: `pos[0] -= hh / 3;`. B reads `(reg 2)` (call-used
+hard reg → `invariant_p == 0` → not movable → K unlinked, life 1 → inline; D not movable), while C = `(ashiftrt (reg 2) 31)`
+hashes into `sign`'s quantity → replaced by `(reg sign)` → D becomes `B − sign`; `sign`'s store hoists (life 71); combine folds
+the `hh = half` copy into the mult (`can_combine_p` allows a hard i2dest with REG_DEAD in i3) → zero extra insns. Two traps,
+both measured: (1) pin `hh` to `$2`, not a callee-saved reg — a callee-saved pin enters `regs_ever_live` before combine deletes
+the copy and global.c pass 0 hands the already-live reg to the first callee-saved allocno (closeness 7); (2) jump.c:548–556
+deletes an UNREAD pseudo store (`regno_first_uid == regno_last_note_uid`) before cse sees it — keeping `sign` alive with an
+`__asm__("" :: "r"(sign))` feed adds +2 loop-weighted refs and swaps `half`/`sign` in `allocno_compare` (closeness 4); a dead
+initializer `s32 sign = 0;` gives the store a second reference that jump/cse respect and flow deletes, uncounted → the target's
+`$s1..$s7` order. Law: **a division by a constant is four insns from one rtx; to hoist a subset, give the subset a different
+QUANTITY (a hard-reg copy for the part that must stay, a named variable for the part that must move).**
