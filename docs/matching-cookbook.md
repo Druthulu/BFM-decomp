@@ -37235,3 +37235,21 @@ in the next branch's slot; (2) exactly one non-void call in the function. Dial: 
 functions return pointers/ints even when the TU declares them `void`), or a value-returning call whose result is discarded.
 Map corollary (sched.md): `birthing_insn_p` counts hard-reg sets; the number of value-returning calls in a function is a
 scheduling input.
+
+**§501-E — A REGISTER PIN FORBIDS THAT REGISTER TO EVERY RETRIED ALLOCNO: `regs_ever_live` seeds reload's `bad_spill_regs`, so a
+`register … __asm__("$6")` on one variable can be the reason another value cannot take `$a2` (P32 T4b, `main:func_80020DA4`,
+the `mflo $t0` vs `$a2` REGALLOC-PERM wall banked by a Fable agent — 100/100).** Read in the dumps and the source: the products of
+`mult` are GLOBAL allocnos (`mulsi3_internal` constraint `=l`, mips.md:848; `-dl` shows "pref LO_REG", none in local-alloc's
+list). `global.c` parks m3/m8/m13 in LO; reload spills LO ("Spilling reg 65") and retries them through `retry_global_alloc`
+(reload1.c:3497) with `losers = forbidden_regs`, and `forbidden_regs` is seeded from `bad_spill_regs = regs_explicitly_used =
+regs_ever_live` at reload entry (reload1.c:486, 3651–3660, 709). The S76 pin `register s32 e0 __asm__("$6")` made `$a2`
+ever-live → forbidden at m13's retry → first-fit gave `$t0`. **Fix: unpin, and reproduce the target's LOCAL allocation with two
+zero-byte launders steering `qty_compare` (local-alloc.c:1579):** `__asm__("" : "=r"(e1) : "0"(e1))` immediately before
+`dst[6] = -e1` (e1's quantity 6666 → 8750, allocated before e0's 7894, holds `$v1`, so e0's first fit drops to `$a2`; placed after
+e1's LOAD instead it lands inside lo1's range and flips a 2500 tie → 15), plus `__asm__("" : "=r"(p1) : "0"(p1))` between p1's
+`andi` and `sll` to undo the global-allocno tie the first launder created (the `$t6/$t7/$t8` rotation). Ladder: 2 (pinned) → 37
+(unpinned) → 15 → 6 → MATCH; laundering `addr1` after its `addu` is a byte-identical alternate; a launder on the SOURCE of the
+copy emits a `move` (101 ins) — launder the destination variable. **Law:** when a pinned draft sits at a 1–2-row register
+permutation that every pin-set fails to move, the pin may be the wall: pins forbid their register to every retried allocno.
+Remove the pin, read `-dl` for the local quantities' priorities, and steer with launders (birth/death dials) instead. Corollary
+for the map (regalloc.md): `retry_global_alloc` + `bad_spill_regs`; `qty_compare` = `floor_log2(n_refs)·n_refs·size/(death−birth)`.
