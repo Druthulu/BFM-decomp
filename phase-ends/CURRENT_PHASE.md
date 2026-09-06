@@ -99,7 +99,7 @@ Scale estimate: 3–5 sessions.
       `func_80011380` → `.run/m3/opus/func_80011380.c`; `func_801834A4` → `.run/S71_gate14/ov_SC03_105*/`),
       `exclude_audit --write`, `backlog.py render`; a T3 idiom naming a wall's mechanism re-opens that row
       (bounded: one attempt, permuter first). Wall table into this file; cookbook §496+; decision log; accelerators.
-- [ ] **T4b — crack and bank the final 15 (ADDED 2026-09-05 by Drew's directive, supersedes the kill gate: "anything that isn't the original hand-written asm or the PsyQ libs needs to be cracked and banked before we finish"; "before you spawn Fable agents, hand crack each and figure out the blocker to fix it")** (xHigh→Max recommended; Fable agents authorised AFTER the hand pass): for each of the 15 rows (8 NEAR + 7 walls) the coordinator hand-cracks — read the diff + the recorded mechanism, read the compiler (dumps + source), find the lever the record did not try, measure, bank through the verified chain (rtu in the real TU → bank.sh / gate_main) — and only then hands the leftovers to one Fable agent each (brief `.run/P32/t5x/BRIEF.md`). Plumbing landed first: `src/800_c.c` decl/extern edits byte-neutral (this commit). Work dirs `.run/P32/t4b/<fn>/`. **Hand pass DONE 2026-09-05 (S83): all 15 rows read against their diffs and the compiler; 22 spellings measured (all regressions), 0 banks; every row's blocker refined to a named mechanism with the untried lever written in `.run/P32/t4b/<fn>/NOTES.md` (func_80032A74: the transient caller-save area — reload1.c order proven; func_8017DF28: the block-move pseudo reuse vs reorg's branch-target hoist; func_80011380: the target's assignment shape; func_801834A4: sign-hoist vs const-hoist thresholds; …). TU plumbing for func_80039DEC/func_800391D4 committed byte-neutral (`commit:3953`). 15 Fable agents launched ~13:05 MDT (two usage-limit outages, resumed each time via SendMessage). **T4b (1): `main:func_800391D4` BANKED 143dbb89 (`commit:3956`) — a pinned wall: explicit promotion + insn_count pads 7→9 (§501); pin dropped. **T4b (2): `main:func_80039DEC` BANKED 143dbb89 (`commit:3959`) — a pinned wall: the natural switch with duplicated tails, so a2's raw copy keeps 4 refs and wins $a3 (§501-B); pins 7 → 5. **T4b (3): `md_MAIN_009:func_800CD674` BANKED d270f695 (`commit:3964`) — the $a3↔$t1 plateau: a 2-death pseudo is excluded from local_alloc; a fresh single-death pseudo for prim 4 + a zero-byte asm set on prim 3's copy against sched1's birthing boost (§501-C). **T4b (4): `ov_SC06_022:func_8017DF28` BANKED 2a7d7d4e (`commit:3966`) — a pinned wall: one value-returning call made the call a sched1 "birthing" insn (reg_n_sets[$v0]==1); a second $v0 set via RotMatrixY's real pointer-returning type (§501-D); pins 5 → 4. **T4b (5): `main:func_80020DA4` BANKED 143dbb89 (`commit:3969`) — a pinned wall: the $6 pin forbade $a2 at reload's retry (regs_ever_live → bad_spill_regs); unpinned + two zero-byte launders (§501-E); pins 4 → 3; main 3 open. **T4b (6): `ov_SC03_105:func_801834A4` BANKED d305ff6d (`commit:3972`) — a pinned wall: the S71 loop.c proof holds, the lever is cse — a hard-reg copy of the dividend + `sign = half >> 31` at the loop top splits the quantity (§501-F); pins 3 → 2. **T4b (7): `md_MAIN_003:func_800CF3E8` BANKED dd1b32ec (`commit:3976`, module 100% C) — the 27-row alias basin was three passes: sched1 birthing boost (second live set), a phantom USE nop in sched2's model, a local-alloc tie broken by the P_TAG bitfield's flow ref count (§501-G). `main:func_80032A74` stays NEAR 1 — the 0x48 slot is a ghost pseudo, the caller-save route refuted (Fable, 402k tokens).** Agents 3 at a time from `.run/P32/t5x/resume_queue.txt`; **T4b (8): `md_MAIN_009:func_800CD92C` BANKED d270f695 (`commit:3979`, module 100% C) — zero pins: m24 by flow ref count, the tpage constants float when the tag load is multi-set (§501-H). **T4b (9): `ov_SC07_002:func_8017DC80` BANKED fad71342 (`commit:3983`, the overlay's jr TU 100% C) — manufactured §172 producer-2 orphans (s16 read from memory at each use), the shared-scratch store dependence, a laundered first-statement address (§501-I). `func_80185810` 35 → 13 NEAR (Fable, 471k tokens; residual = the `cl &= 0xFFFF` second-set fence).** 4 rows remain (3 running: 39308, CF408, CF6D0; queued: 11380). Drew 2026-09-05: Fable was permission, not a requirement — Opus is fine where a sibling recipe exists.**
+- [~] **T4b — crack and bank the final 15 (ADDED 2026-09-05 by Drew's directive; supersedes the kill gate: "anything that isn't the original hand-written asm or the PsyQ libs needs to be cracked and banked before we finish")** — **FIRST PASS COMPLETE 2026-09-05 (S83): 11 of 15 BANKED byte-identical, 4 carried to the NEXT session's HAND pass (Drew: no second agent round; hand-crack the remaining ones).** Hand pass first (22 spellings, 0 banks, every blocker refined to a mechanism in `.run/P32/t4b/<fn>/NOTES.md`), then one Fable agent per row (permission, not requirement — Drew), resumed 3-at-a-time through three usage-limit outages. Banked (each: coordinator `rtu_match` in the CURRENT real TU → `gate_main` / `bank.sh` byte-identical → one commit; pins dropped by `exclude_audit --write`; mechanism in cookbook §501–§501-L): `main:func_800391D4` `commit:3956` · `main:func_80039DEC` `commit:3959` · `md_MAIN_009:func_800CD674` `commit:3964` · `ov_SC06_022:func_8017DF28` `commit:3966` · `main:func_80020DA4` `commit:3969` · `ov_SC03_105:func_801834A4` `commit:3972` · `md_MAIN_003:func_800CF3E8` `commit:3976` · `md_MAIN_009:func_800CD92C` `commit:3979` · `ov_SC07_002:func_8017DC80` `commit:3983` · `main:func_80011380` `commit:3990` (the §474 "PROVED" wall) · `md_MAIN_007:func_800CF6D0` `commit:3992`. Ten of the eleven were T4 "walls" or long-standing NEARs. **Carried (4, all exact length, in `docs/backlog.md` with next levers):** `main:func_80032A74` 1 (the last pin; ghost pseudo — near-proved) · `md_MAIN_007:func_800CF408` 3 · `main:func_80039308` 4 · `ov_SC03_105:func_80185810` 13. Close: fleet R22 **218 passed / 0 failed, exits 0/0/0** (23:33–23:36 MDT, `.run/P32/t4b/r22_full.log`); `make report`: instr 13,486,890 / 13,488,497 = 100.0% · distinct 5,814,982 / 5,816,589 = 100.0% (90,982 / 90,984 unique) · fn-count 363,210 / 363,214 = 100.00% · **INCLUDE_ASM 4**; main REAL 787 · LINKED 1,256 · VERBATIM 3 · stubs 2 · 2,089 / 2,091 = 99.90% · `143dbb89…`; census `.run/P32/frontier_t4b_close.json` 4 stubs / 1,607 ins; decision-log P32 S83 T4b (R31); accelerators (10)–(11); tools-health running at the checkpoint (`.run/P32/t4b/tools_health.log`).
 - [ ] **T5 — PhaseEnd** (Max, Tier 1 — prompt R27): P7 checkbox walk; milestone demo (R22 fleet N/N, tools-health,
       `verbatim_check --strict`, final census, wall ledger, parked-5 dispositions via `make audit-disc`,
       `make report` all three metrics + main `143dbb89…` with/without SDK dirs, corrected denominators); **WAIT
@@ -135,6 +135,7 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
   needed for T0–T2b; if T2d needs it: `tools/ghidra_mcp_start.sh` → pause → Drew runs `/mcp` (R29) → G2 ping.
 
 ## Log
+- 2026-09-05 13:05–23:40 MDT (S83, continued) — **T4b first pass COMPLETE: 11 of 15 banked, 4 carried.** Fifteen Fable agents launched from `.run/P32/t5x/` (BRIEF + packs + the hand-pass NOTES); three usage-limit outages killed every run (resumed each time via SendMessage with context intact; "write deliverables early" saved one crack from a dead run); from the second outage on, resumed 3 at a time (Drew). Verdicts: 11 MATCH (each re-verified by the coordinator in the CURRENT real TU and banked byte-identical — main rows via `gate_main` slates, overlays/modules via `SPLIT=… DRAFT_DIR=.run/P32/t5x/fable bank.sh`), 4 NEAR at exact length (1 / 3 / 4 / 13) with pass-attributed residuals and next levers ledgered. Every crack came from READING a pass dump against the 2.7.2 source; cookbook §501–§501-L (12 new laws: cascades, cross-jump-after-alloc, dying-input vs birthing boost, hard-reg sets count, pins forbid retry regs, CSE-quantity split, three-passes-three-dials, constants as floaters, manufactured orphans, a proved tree wall is not an RTL wall, sched2's /s exemption, coupled dials); decision-log P32 S83 T4b; accelerators (10)–(11). Instrument defects: bank.sh (empty fn list → built the unchanged tree, exit 0; `_jr_` TU split; draft dir) hardened, and two premature "banked" ledger messages corrected in the next commit (memory: write the message from the tool's output). Pins 7 → 1. Fleet R22 218/218 at the close; `make report` fleet 100.0/100.0/100.00, 4 stubs. **Drew: no second agent round; hand-crack the remaining four next session.** NEXT = the hand pass on the four (see the 🛑 block), then T5.
 - 2026-09-05 12:05–12:40 MDT (S83, continued) — **T4 DONE.** Preflight: tree clean, verbatim 5==5, R22 218/218 (12:00), `exclude_audit --assert-fresh` 7/7. Every pinned wall's best draft re-run with `rtu_match` in its CURRENT real TU: `func_80011380` DIFF 6 (`--o0`), `func_80020DA4` DIFF 2, `func_8017DF28` DIFF 2, `func_801834A4` DIFF 6 ×3 variants; the three CC1-FAIL rows re-probed after their plumbing was understood — `func_80032A74` (7 TU-provided typedefs + 4 decl spellings → `cdecl.strip_provided_typedefs` + the TU's lines → DIFF 1 in the real TU), `func_80039DEC` and `func_800391D4` (a sandbox TU copy under `.run/P32/t4/tu/` with the declaration edited THERE → DIFF 2 / DIFF 3) — no `src/` edit, no byte-neutral commit spent on rows that will not bank. Leaf `match_one` re-measured all three (1 / 2 (permuter) / 3). **No verdict changed: 1 PROVED (§474) + 6 CANDIDATE**, citations current (§474, §172 reload1.c:1445, loop.md L4 2.7.2:1529, cse_expr.md [A23-2], the K&R promotion laws). Deliverables: the wall table (above), `config/wave_exclude.txt` per-row S83 lines, backlog rows for all 7 (+ the two path-less rows fixed, R62; `docs/backlog.md` 16 open), cookbook §500-I, accelerators (8), decision-log. NEXT = **T5 (Max, Tier 1 — prompt R27, WAIT for gate 2)**.
 - 2026-09-05 11:30–12:30 MDT (S83, continued) — **T3 steps 8–9 DONE → T3 CLOSED.** Step 8: `permuter_ils` 8×150 s -j3 on the two REGALLOC-PERM seeds — `func_800CD674` plateau (best waypoint = the same 2-row `$a3↔$t1` pair; ledgered with cost), `func_8001BC6C` reached masked 1; the R63 read showed three mutations, one of them a WRONG-WIDTH `& 0xFF` (lhu→lbu); the two sound ones (idx after color; an early `tag`/`k` birth) = leaf MATCH, re-spelled well-defined as `k = 0; tag = (a1 << 8) | k;` (11 spellings measured), rtu MATCH in src/800.c, **gate_main BANKED 143dbb89** (`commit:3948`) — main 7 → 6 open. gate_main's first rebuild died on a concurrent agent's `src/.masked_diff_probe.<pid>.c` (present at parse, gone at compile) → **Makefile `C_SRCS` find now `-not -name '.*'`** (`commit:3949`, byte-neutral, control on `make -pn`). One bounded Opus second look at `func_800CF3E8` (245k tokens, 29 min): 27 holds; §500-D1's mechanism corrected to `cse.c find_best_addr` (fold_rtx MEM; COST pseudo 0 vs hard reg 1), the alias lever refuted 5/5, a new zero-byte pinned-pointer launder found (79 @ 470, structurally closer) — cookbook **§500-H**, backlog row updated. Step 9: `make report` (fleet instr 100.0% · distinct 99.9% · fn 100.00% · 15 stubs), `make report BINARY=main`, census `.run/P32/frontier_t3_close.json` (15 / 3,758), twin_rescan 0 free, cookbook §500-G/H + index, this file; R22 → see the 🛑 block. **Kill gate:** the session banked 29 and produced 3 new verdicts; the tail's three bounded attempts are spent — T3 closes on the evidence. NEXT = T4.
 - 2026-09-05 10:10–11:25 MDT (S83, session 491895ad, xHigh, Fable 5.1) — **T3 steps 0–7 DONE: 28 banks, fleet R22 218/218 twice.** Preflight R22 218/218 rc 0 (`.run/P32/t3s3/r22_check.log`) → the 11 S82 MATCH rows banked: md_SC03_053 ×2 (`commit:3935` `commit:3936`, 100% C) · main ×2 via gate_main (`commit:3937`: "slate 2 -> 2 compatible … BANKED 2 … 143dbb89 BYTE-IDENTICAL") · md_SC03_054 func_801EF6D8 604+7 jtbls (`commit:3938`; `jtbl_carve --probe` refused the tail carve → §303 derive stage reproduced the island pads `0,0t1,0t1,0t1,0t1,0t1,0` with NO carve state change) · md_MAIN_007 ×6 after the byte-neutral func_800CF3B0 no-proto decl commit (`commit:3939`, `commit:3940`) — two integration classes on the way (same-TU s16/u16 spelling of D_800B99E8; §304 self-defining rodata D_800CEDFC). twin_rescan 33 open / 0 free; verbatim 5==5; **R22 `make clean && make extract-all && make check-all` → 217+main extracted, 218 passed / 0 failed, exits 0/0/0** (`.run/P32/t3s3/r22_full.log`, 10:41–10:46); tools-health OK. The 9 NEAR rows ledgered (`backlog_near.sh`; docs/backlog.md 15 open). **17 Haiku agents launched 10:57 from staged prompts (`.run/P32/t3s3/prompts/`), 17/17 MATCH by 11:15**, each re-verified with rtu_match in the CURRENT TU and banked by `bank.sh` (verbatim grep → rtu → splice → one build → sha → commit-on-green): md_MAIN_007 ×6 (`commit:3941` `commit:3942`), md_MAIN_009 ×8 (`commit:3943` `commit:3946` — func_800CD520 needed a §376 re-spell after a sibling bank added the file-scope prototype), md_SC03_054 ×2 (`commit:3944`, 100% C), md_SC03_056 ×1 (`commit:3945`, 100% C). twin_rescan 16 open / 0 free. Harvest: cookbook **§500-F** (the four integration classes), BRIEF.md §304 sentence, `jtbl_carve --probe` text, harvest_notes. Post-batch R22 (after all 28 banks): 217+main extracted, **218 passed / 0 failed, exits 0/0/0** (`.run/P32/t3s3/r22b_full.log`, 11:04–11:09).
@@ -148,190 +149,159 @@ cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` trailer 
 - 2026-09-05 — **T1a DONE — `resident:func_800D128C` BANKED (243 ins, byte-identical 8e17e02f, R22 213/213).** The stored S71 closeness-0 draft was byte-correct all along; the whole task was three instrument defects the resident (the fleet's one `common.h`-only, `--pre`-sandwich binary) exposed in overlay-only assumptions: (1) `jr_isolate_all` dropped a file-local typedef whose name engine_types.h also defines (§496 — fixed: provided types derived from the TU's own includes); (2) `jtbl_carve` regenerated `JTBL_INTERLEAVE` without the `--pre hdr.rodata.o` clause → extract refused → the gate linked a stale script and booked the byte-correct draft as DIFF; `harvest_verify` ignored that extract's rc (§498 — both fixed, R49/R61); (3) `interleave_check` read a `--pre` line as n=0 (false DRIFT; fixed). R38 then found two more stored MATCH bodies for T1b/T1c (see their rows). Effort stayed Max.
 - 2026-09-05 — **T0 DONE.** Baseline reads all green (`.run/P32/t0_baseline.log`): `verbatim_check --strict` 5 bodies == 5 rows; `exclude_audit --assert-fresh` 8 entries, 8 WALL, 0 stale; `frontier_classify` → 21 rows = the S80 census exactly; `make tools-health` OK (sigs fresh, corpus(+resident), cdecl, audit-binaries 213/213, report lint+dedup, cookbook-index, split_indicator 213 OK); `make check-all` 213 passed / 0 failed, rc 0. Harness task list #1–#11 built (R28). NEXT = T1a.
 
-## 🛑 SESSION CHECKPOINT — T4b: 9 of 15 BANKED, 3 NEAR improved, 3 agents in flight (2026-09-05 ~15:30 MDT; written by session 491895ad "S83"; SUPERSEDES the 13:40 block)
+## 🛑 SESSION CHECKPOINT — T4b FIRST PASS COMPLETE: 4 rows left, HAND-CRACK NEXT (no agents), then T5 (2026-09-05 23:45 MDT; written by session 491895ad "S83"; SUPERSEDES the 13:40/15:30 blocks)
 
 ### 0. How to use this block
-You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase29/30/31.md` and this
-file, and nothing else (CLAUDE.md protocol, R64 candidate). Replay this block verbatim into your chat, state phase / done /
-NEXT / effort, list the rules from the digest, then WAIT for Drew. **NEXT is T4b (Drew's directive 2026-09-05: every function
-that is not original hand-asm or a PsyQ object must be cracked and banked before the phase closes; hand-crack first, Fable
-agents after) — 15 Fable agents were launched at ~13:05 MDT by session 491895ad and may have finished into a dead session.**
-Effort: xHigh (orchestration; Max for any hand-crack you do yourself — R27 prompt). RECOVERY ROUTE if the launching session
-died: (1) `ls .run/P32/t5x/fable/` (the deliverables) + `.run/P32/t5x/reports/` (the evidence); (2) `.venv/bin/python
-tools/agent_verdicts.py /tmp/claude-1000/-home-musashi-bfm-decomp/491895ad-3c84-4037-b04f-bf7e5ee16a0c/tasks/a*.output
---append .run/P32/t5x/verdicts.jsonl` (pass ONLY `a*.output` — 17 of those are the S83 Haiku agents, already banked; the 15
-Fable rows are the ones whose `fn` is in `.run/P32/t5x/targets.json`); (3) re-verify every MATCH with `rtu_match` in the
-CURRENT real TU and bank with `.run/P32/t3s3/bank.sh` (overlays/modules) or a `gate_main` slate (main), one commit per bank
-(R42); (4) NEAR rows → backlog with cost; then T5. No Workflow / Ultracode.
+You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase29/30/31.md` and this file, and
+nothing else (CLAUDE.md protocol, R64 candidate). Replay this block verbatim into your chat, state phase / done / NEXT / effort,
+list the rules from the digest, then WAIT for Drew. **NEXT is the HAND pass on the four remaining rows — Drew (2026-09-05 23:2x MDT):
+"we will hand crack the remaining ones next session instead of using agents."** That is non-obvious root-cause work: recommend
+**effort: Max** (R7/R27 — prompt and wait for the `/effort`). No Agent tool, no Workflow. After the four (banked or honestly
+ledgered), T5 = the PhaseEnd (Tier 1, Max, WAIT for gate 2).
 
 ### 1. Where we are
-**Phase 32 — the last 21 + the parked 5 (short, kill-gated).** Gate 1 approved 2026-09-05 (Drew, plan mode, Max, Fable 5.1);
-R44–R63 ratified then; R64 is a candidate (DIGEST §3). Tasks: **T0 ✓** `commit:3901` · **T1a ✓** `commit:3902` `commit:3904` ·
-**T1b ✓** `commit:3903` `commit:3906` `commit:3907` · **T1c ✓** `commit:3908` · **T2a ✓** `commit:3909` · **T2b ✓** `commit:3911`
-`commit:3912` `commit:3913` `commit:3914` (fleet 213 → 218) · **T2c ✓** `commit:3917` `commit:3918` `commit:3919` `commit:3920`, close
-`commit:3921` · **T2d not needed** · **T3 ✓ CLOSED 2026-09-05 12:40 MDT** (launch `commit:3922`; banks 1–9 `commit:3923`..`commit:3931`;
-S82 checkpoints `commit:3932` `commit:3933` `commit:3934`; S83 banks 10–38 `commit:3935`..`commit:3946` + `commit:3948`; S83 checkpoint
-`commit:3947`; Makefile guard `commit:3949`; §500-G `commit:3950`; the T3-close commit = HEAD) · **T4 ✓ DONE 12:45 MDT** (`commit:3952`) · **T4b IN FLIGHT** (added by Drew's directive; plumbing `commit:3953`, hand pass
-`commit:3954` — all 15 rows analysed, 22 spellings measured, 0 banks, blockers in `.run/P32/t4b/<fn>/NOTES.md`; 15 Fable agents
-launched ~13:05 MDT from `.run/P32/t5x/BRIEF.md` + `packs/` + the NOTES; harness #13) · **T5 after T4b.** Fleet **218 binaries** (main + resident + 138 `ov_*` + 78
-`md_*`). **Fleet R22 at the T3 close (after ALL S83 banks + the Makefile guard): **217+main extracted, 218 passed / 0 failed, exits 0/0/0 at 12:00 MDT**** (`.run/P32/t3s3/r22c_full.log`);
-earlier S83 R22s 218/218 at 10:46 and 11:09. `make report` at the close: **instr 13,484,739 / 13,488,497 = 100.0% · distinct
-5,812,831 / 5,816,589 = 99.9% (90,975 / 90,984 unique fns) · fn-count 363,199 / 363,214 = 100.00% · INCLUDE_ASM 15**; main:
-REAL 783 · LINKED 1,256 · VERBATIM 3 · stubs 6 · byte-identical 2,085 / 2,091 = 99.71% · sha `143dbb89…`. Non-ghidra tree
-clean at HEAD; the `ghidra/` churn (`db.*.gbf`, `~index.*`, `*.prp`) is R23 restart-noise — never stage it. Claude commits,
-Drew pushes (R6; ~50 unpushed at this writing).
+**Phase 32 — the last 21 + the parked 5 (short, kill-gated) — extended by Drew's T4b directive: every function that is not original
+hand-asm or a PsyQ object must be cracked and banked before the phase closes.** Gate 1 approved 2026-09-05; R44–R63 ratified then;
+R64 candidate. Tasks: **T0 ✓ T1a ✓ T1b ✓ T1c ✓ T2a–c ✓ (T2d not needed) T3 ✓ T4 ✓** (commits in the task rows above) · **T4b first
+pass ✓ — 11 of 15 banked** (`commit:3956` `commit:3959` `commit:3964` `commit:3966` `commit:3969` `commit:3972` `commit:3976` `commit:3979`
+`commit:3983` `commit:3990` `commit:3992`), **4 carried** (below) · **T5 pending.** Harness tasks #1–#13 (#13 = T4b in_progress).
+Fleet **218 binaries**. **Last fleet R22: `make clean && make extract-all && make check-all` → 217+main extracted, 218 passed /
+0 failed, exits 0/0/0 at 23:36 MDT** (`.run/P32/t4b/r22_full.log`) — AFTER every bank of the session. `make report` at the close:
+**instr 13,486,890 / 13,488,497 = 100.0% · distinct 5,814,982 / 5,816,589 = 100.0% (90,982 / 90,984 unique fns) · fn-count
+363,210 / 363,214 = 100.00% · INCLUDE_ASM 4**; main REAL 787 · LINKED 1,256 · VERBATIM 3 · stubs 2 · byte-identical 2,089 /
+2,091 = 99.90% · sha `143dbb89…`. `verbatim_check --strict` 5 == 5. `config/wave_exclude.txt`: **1 entry** (`main:func_80032A74`),
+`exclude_audit --assert-fresh` OK. Census `.run/P32/frontier_t4b_close.json`: **4 stubs / 1,607 ins**. tools-health was launched at
+the checkpoint (`.run/P32/t4b/tools_health.log` — read its last line; if it did not finish, run `make tools-health`). Non-ghidra
+tree clean at HEAD; the `ghidra/` churn is R23 restart-noise — never stage it. Claude commits, Drew pushes (R6; ~100 unpushed).
+100% C after today: resident, md_SC03_053/054/056, md_MAIN_003, md_MAIN_009, ov_SC06_022, ov_SC07_002.
 
-### 1b. T4b state at this writing (the ledger that matters if this session dies)
-**BANKED 11** (each: coordinator `rtu_match` in the CURRENT real TU → `gate_main` slate for main / `SPLIT=… DRAFT_DIR=.run/P32/t5x/fable
-.run/P32/t3s3/bank.sh` for overlays+modules → one commit; pins dropped by `exclude_audit --write`; mechanisms in cookbook §501–§501-I):
-`main:func_800391D4` `commit:3956` · `main:func_80039DEC` `commit:3959` · `md_MAIN_009:func_800CD674` `commit:3964` · `ov_SC06_022:func_8017DF28`
-`commit:3966` · `main:func_80020DA4` `commit:3969` · `ov_SC03_105:func_801834A4` `commit:3972` · `md_MAIN_003:func_800CF3E8` `commit:3976` ·
-`md_MAIN_009:func_800CD92C` `commit:3979` · `ov_SC07_002:func_8017DC80` `commit:3983` · **`main:func_80011380` `commit:3990` (the §474 "PROVED" −O0 wall: the nested MULT built at RTL level, §501-J)** · **`md_MAIN_007:func_800CF6D0` `commit:3992` (137 → 0, zero pins, §501-K)**. Now 100% C: md_MAIN_003, md_MAIN_009, ov_SC06_022,
-ov_SC07_002 (+ the T3 ones). main open = 2: `func_80032A74` (the LAST pin, NEAR 1 — ghost pseudo, near-PROVED), `func_80039308` (NEAR 4). **NEAR improved, in `docs/backlog.md` with next levers:** `func_80032A74` 1 (the
-0x48 slot is a ghost pseudo; the only memory-value ghost species is the lh SIGN_EXTEND split), `func_80185810` 35 → 13 (residual = the
-`cl &= 0xFFFF` second-set fence), `func_80039308` 17 → 4 (a phantom 8-byte spill slot at sp+8 + the hoisted constant's preheader
-order). **IN FLIGHT (1 Fable agent):** `md_MAIN_007:func_800CF408` (49) — the last of the 15. Queue `.run/P32/t5x/resume_queue.txt` is EMPTY. Their deliverables land in `.run/P32/t5x/fable/`
-+ `reports/`; verdicts so far in `.run/P32/t5x/verdicts.jsonl` (12 rows). **Drew (15:0x MDT): Fable was permission, not a
-requirement — Opus is fine where a sibling recipe exists.** Fleet R22 has NOT run since the T4b banks — run `make clean && make
-extract-all && make check-all` (218/218 expected) before any close; `make report` for the metrics; then the final census.
-**After the three finish (Drew, 2026-09-05 ~15:40 MDT): NO second round this session.** Close T4b: fleet R22 (clean + extract-all +
-check-all, 218/218) → `make report` → final census → decision-log (R31) + accelerators for the T4b findings → refresh this block → T5 prompt.
-A second bounded round on the remaining NEAR rows (their next levers are in `docs/backlog.md`) is the NEXT session's call.
+### 2. What S83 did (session 491895ad, 2026-09-05 10:10 → 23:45 MDT)
+T3 steps 0–9 (28 banks; §500-F/G/H), T4 (the walls' ledger; §500-I), then **T4b**: the hand pass (22 spellings, 0 banks, blockers
+named in `.run/P32/t4b/<fn>/NOTES.md`), 15 Fable agents (one per row, ~2 h budget, brief `.run/P32/t5x/BRIEF.md`, packs, the NOTES),
+three usage-limit outages (every agent resumed via SendMessage with its context; from the second outage on, 3 at a time — Drew),
+**11 MATCH banked + 4 NEAR ledgered**. The T4b cracks are cookbook **§501–§501-L**; the doctrine is in `docs/decision-log.md` (P32
+S83 T4b) and `docs/accelerators.md` (10)–(11): every crack came from reading a pass dump (`-dS` ready lists, `.loop` desirability,
+`-dl` priorities, `.greg` dispositions, `-dR` hazard walks) against `tools/reference/gcc-2.7.2/` BEFORE the first probe; six of the
+seven T4 "wall" citations named the wrong pass. Instrument fixes: `.run/P32/t3s3/bank.sh` (refuses an empty fn list; `SPLIT=` for
+`_jr_` TUs; `DRAFT_DIR=`; verbatim check = instruction-bearing asm only; propagates a failed commit); Makefile `C_SRCS` dotfile
+guard; `jtbl_carve --probe` names §303 for `md_*`. Two premature "banked" ledger messages (`commit:3962`, `commit:3963`) were corrected
+in `commit:3964`'s message. **Nothing under `config/` changed except `wave_exclude.txt` (pins 7 → 1) and the T4b plumbing in
+`src/800_c.c` (`commit:3953`, byte-neutral).**
 
-### 2. What S83 did (session 491895ad, 2026-09-05 10:10 → 12:40 MDT, xHigh, Fable 5.1) — T3 steps 0–9
-**Banks: 29** (the 11 S82 MATCH rows, the 17 queued Haiku rows — 17/17 MATCH first pass — and `func_8001BC6C` cracked 6 → 0);
-**census 44 → 15 stubs / 3,758 ins** (7 pinned walls + 8 NEAR); md_SC03_053/054/056 → 100% C; main 9 → 6 open. **Steps 0–7:**
-preflight R22 218/218 → the 11 S82 rows banked (md_SC03_053 ×2; main ×2 via `gate_main`; md_SC03_054 `func_801EF6D8` 604 +
-7 jump tables via the §303 derive stage, NO carve; md_MAIN_007 ×6 after the byte-neutral `func_800CF3B0` no-proto decl) →
-R22 218/218 → the 9 NEAR ledgered → 17 Haiku agents launched at once from staged prompts, every verdict re-verified in the
-CURRENT TU and banked by `bank.sh` (md_MAIN_007 ×6, md_MAIN_009 ×8, md_SC03_054 ×2, md_SC03_056 ×1) → R22 218/218 → checkpoint
-`commit:3947`. **Step 8 (bounded tail):** `permuter_ils` 8×150 s -j3 on both REGALLOC-PERM seeds — `func_800CD674` plateau
-(same `$a3↔$t1` pair, ledgered), `func_8001BC6C` masked 1 → R63 read → the `& 0xFF` width mutation dropped, the two sound
-levers (idx after color; early `tag`/`k` birth) re-spelled well-defined `k = 0; tag = (a1 << 8) | k;` → rtu MATCH → `gate_main`
-BANKED `143dbb89` (`commit:3948`). `gate_main`'s first rebuild died on a concurrent agent's `src/.masked_diff_probe.<pid>.c` →
-Makefile `C_SRCS` find `-not -name '.*'` (`commit:3949`, byte-neutral, controlled). One bounded Opus second look at
-`func_800CF3E8` (245k tokens, 29 min, ~16k compiles): 27 HOLDS; §500-D1's mechanism corrected to `cse.c find_best_addr`
-(fold_rtx MEM; COST pseudo 0 vs hard reg 1), the alias lever refuted 5/5, a new zero-byte pinned-pointer launder found
-(79 @ 470, structurally closer) — cookbook §500-H, backlog row updated with cost. **Step 9:** `make report`, `make report
-BINARY=main`, census `.run/P32/frontier_t3_close.json`, `twin_rescan` 0 free, cookbook §500-F/G/H + index, this file.
-**Kill gate:** 29 banks + 3 new verdicts this session; the tail's three bounded attempts are spent → T3 closes on the evidence.
-**Integration classes learned (§500-F):** two drafts of one TU can each MATCH alone and fail together (same-symbol
-spellings, §304 self-defining rodata ×3, a prototype a sibling bank introduced) — the BUILD is the batch verdict; re-verify
-in the CURRENT TU right before splicing. **Nothing under `config/` changed this session; `src/` changed only by the banks.**
+### 3. THE FOUR REMAINING ROWS — the hand-crack briefs (everything a fresh session needs; all at EXACT length, all rtu-clean)
+Verify any draft with `rtu_match` in the REAL TU (main: `--tu src/<sub>.c`); bank via `gate_main` (main) or
+`SPLIT=<tu-basename> DRAFT_DIR=<dir> .run/P32/t3s3/bank.sh <binary> <tu> <asmdir> <arm> "<title>" <fn>` (it refuses on red). RTL
+dumps: `tools/cc1_dumps.sh <self-contained draft> <tag>` → `.run/c294/dumps_<tag>/<tag>.i.{rtl,cse,loop,combine,lreg,greg,sched,...}`
+(the draft must carry its own typedefs/externs; add `-O0` by editing the script's cc1 line for boot). Each row's Fable report
+(`.run/P32/t5x/reports/<fn>.md`) carries the dump citations and the measured-inert list — READ IT FIRST, do not repeat its sweeps.
 
-### 3. Census — 15 stubs / 3,758 ins (`.run/P32/frontier_t3_close.json`; 7 pinned walls + 8 NEAR, 0 undrafted)
-| binary | stubs · ins | rows |
-|---|---|---|
-| main | 6 · 1,381 | **NEAR (backlog):** func_80039308 518 → 17 (`.run/P32/t3/opus/func_80039308.c`, TU `src/800_c.c`; sched2 + cross-block regalloc + 11 rows of one alias fact) · **WALLS (pinned, `config/wave_exclude.txt`, T4):** func_80011380 192 (boot −O0; `.run/m3/opus/func_80011380.c` DIFF 6) · func_80032A74 422 (800_b_2; the S79w draft is a CC1 FAIL in the TU — §376 re-probe first; the census prints closeness 1 from a stored masked diff) · func_80020DA4 100 (`.run/S79w/sonnet/func_80020DA4.c` DIFF 2) · func_80039DEC 74 (S79w drafts CC1 FAIL — def-side decl, §495) · func_800391D4 75 (S79w sonnet draft CC1 FAIL `conflicting types for D_80073140`) |
-| md_MAIN_009 | 2 · 421 | NEAR func_800CD674 174 → 2 REGALLOC-PERM `$a3↔$t1` (permuter plateau S83; `…/opus/func_800CD674.c`) · func_800CD92C 247 → 15 §S7 prologue weave (`…/opus/func_800CD92C.c`) |
-| md_MAIN_007 | 2 · 427 | NEAR func_800CF408 178 → 49 [permuter] 3 hunks · func_800CF6D0 249 → 137 sched1 class tie (`…/opus/`) |
-| md_MAIN_003 | 1 · 469 | NEAR func_800CF3E8 469 → 27 — §500-H: `cse.c find_best_addr` basin; the alias lever REFUTED; the pinned-pointer launder gets 79 @ 470; a CANDIDATE wall unless a new idiom places the freed load at slot 380 (`…/opus/func_800CF3E8.c` = `…_s83.c`) |
-| ov_SC03_105 | 2 · 595 | NEAR func_80185810 489 → 35 [permuter] 4 emission windows (`…/opus/func_80185810.c`) · WALL (pinned) func_801834A4 106 (`.run/S71_gate14/ov_SC03_105*/func_801834A4.c` DIFF 6) |
-| ov_SC06_022 | 1 · 119 | WALL (pinned) func_8017DF28 119 (`.run/S79w/sonnet/func_8017DF28.c` DIFF 2) |
-| ov_SC07_002 | 1 · 346 | NEAR func_8017DC80 346 → 46 reload-slot frame + `la $a0` slot (`…/opus/func_8017DC80.c`) |
+**(a) `main:func_80032A74` — 422 ins, closeness 1, the LAST pin.** TU `src/800_b_2.c`, sub `800_b_2`, asm `asm/nonmatchings/800_b_2/`.
+Best drafts: `.run/P32/t4/drafts/func_80032A74_tuclean.c` (TU-clean, rtu DIFF 1: idx 244 `lh` vs target `lhu`) and the code-exact
+`lhu` respelling `.run/P32/t4b/func_80032A74/lhu.c` (422/422 identical EXCEPT the frame: vars 56 vs 64 → 22 offset rows); the
+self-contained ancestor `.run/S79w/opus/func_80032A74.c` for dumps. **Mechanism (Fable, 402k tokens, `.run/P32/t5x/reports/
+func_80032A74.md`):** the target's never-referenced 8-byte slot at 0x48 is a GHOST pseudo — a stranded middle temp of a 3-insn
+combine whose refs-zeroing is skipped when `newi2pat != 0` (combine.c:2306–2313); zero occurrences → regclass "ST_REGS or none" →
+reload1.c:658 `alter_reg` 8-byte slot in regno order = right after the three param slots (reproducer `ghost1`: vars=8, no code).
+The S83 caller-save-area hypothesis is REFUTED (order_regs_for_reload picks zero-use regs first; an area needs `caller_save_needed`
+and saves at every live call). The only ghost species from a memory value is the SIGN_EXTEND narrow-load split (combine.c:1887–
+1930) whose signature IS `lh`; a jump-target second promotion is folded by cse follow-jumps; a fall-through one needs a register
+sign_extend MIPS lacks; the generic two-SETs split (combine.c:1963–2020) has no candidate (cse pre-folds constant offsets). **Next
+lever:** a ghost from a NON-memory value — a 3-insn combine over a register-only expression whose middle temp is stranded
+(`newi2pat != 0` path) — e.g. a shift/mask/add chain on an already-loaded value whose intermediate has a second use in a LATER
+block; enumerate the target's `and/sll/addu` triples on register operands and test each for the `(use)` orphan in `.combine`
+(count vars= in the `.frame` line). If none, the row is PROVED at 1 (write the proof: "no C spelling mints an orphan without an lh").
 
-Modules at 100% C after S83: resident (145/145), md_SC03_053, md_SC03_054, md_SC03_056. **The 39 T3 banks:** the 10 of the
-launching session (§500-A) + S83's 29 (`git log --oneline commit:3934..HEAD`). Backlog: `docs/backlog.md` 14 open near-misses
-(every NEAR row carries class · closeness · best draft · cost, R41). `verdicts.jsonl`: 50 rows.
+**(b) `md_MAIN_007:func_800CF408` — 178 ins, closeness 3, zero pins.** TU `src/md_MAIN_007/md_MAIN_007.c`, sub `md_MAIN_007`, asm
+`asm/md_MAIN_007/nonmatchings/md_MAIN_007/`. Draft `.run/P32/t5x/fable/func_800CF408.c`; report `.run/P32/t5x/reports/func_800CF408.md`;
+probes/dumps `.run/P32/t5x/work/func_800CF408/`. **Residual idx 10–12** (`ori $s5,0x96` below `sw $s0` / `li $s0,5`): §501-H's floater
+mechanism — the unboosted tag load lingers up block 1's store stream, is `blocking` one cycle behind the tpage `sw` at T-139, and the
+empty cycle consumes the highest-LUID floater — COUPLED to the `$t2/$t3` `qty_compare` contest (ob vs 0xFF000000: 2389 vs 2400, one
+ref apart): mhi's `li` UID above the index `sll` cures the floater but moves mhi's birth one slot later and flips the contest (18);
+`ob` after the index fixes the contest but opens a bubble in the OT-chain `lhu` gap that eats the same floater (13). The target fills
+that gap with `and $a3,$v0,$t1` = an UNBOOSTED `p & m24`; a 2-set `a3` is re-merged by combine (`reg_n_sets--`, combine.c:2309 → 36),
+an asm launder there is a sched2 delay-slot phantom nop (179 ins). **Next lever (§501-L):** a filler for that gap that combine cannot
+re-merge and that changes neither count — a different-mode temp (`u16`/HImode view of `p & m24`), a `volatile` temp, or moving the
+contest margin by one `ob` reference in a block that does not touch the tag load. 135-variant sweep floor 3 (×24) — do not repeat.
 
-### 4. NEXT — T4b results, then T5
-0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `verbatim_check --strict` (5 == 5) · `make check-all` (218/218) —
-   and the RECOVERY ROUTE in §0 if the Fable agents finished into a dead session.
-1. **Per Fable result (never in bulk):** `grep -c '\.ent\|\.word\|__asm__' <draft>` (an `__asm__` body is a verbatim, R62 — zero-byte
-   launders/fences/pins are fine) → your OWN `rtu_match` in the CURRENT real TU (main rows: `--tu src/<sub>.c`; boot: `--o0`) →
-   overlays/modules: `.run/P32/t3s3/bank.sh <binary> <tu> <asmdir> fable "<title>" <fn>` (it refuses on red) · main: a
-   `gate_main` slate with the ABSOLUTE draft path, `--apply`, read the BANKED/BYTE-IDENTICAL line → `git add <tu>` + commit
-   (R42) → `twin_rescan`. A MATCH whose draft depends on the TU's declarations is fine; a `CC1 FAIL` names a spelling to adopt.
-2. **NEAR results:** `tools/backlog.py log … --closeness N --source "P32-T4b Fable agent <cost>"` with the mechanism; if a row is
-   pinned in `config/wave_exclude.txt`, update its comment line; `exclude_audit --assert-fresh config/wave_exclude.txt`.
-3. **Harvest (R16/R30):** every new idiom → cookbook §501 (T4b) + index regen; `docs/accelerators.md`; decision-log (R31) if the
-   finish-line doctrine changes; `make report`; census `frontier_classify --json .run/P32/frontier_t4b_close.json`; fleet R22
-   after the banks (`make clean && make extract-all && make check-all`, quote the count); refresh this block; commit.
-4. **Then T5 — the PhaseEnd (Max, Tier 1: prompt R27 and WAIT for `/effort`):** P7 walk (T0–T4b) → milestone demo → **WAIT for
-   gate 2** → `PhaseEnd_Phase32.md` (Build Log · Deviations incl. the T4b directive and its outcome · Commit Message · Rules
-   Added — R64 to RATIFY + candidates · Changelog v1.30.0 → v1.31.0 · Roadmap delta: P33 = verify + public flip · Plain-English
-   Recap · believed/failed/sooner · 🛑) → DIGEST.md §2/§3 (step 3b) → `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/Phase32.md`
-   (R19) → R23 → leave both uncommitted for Drew (R6) → "PhaseEnd file created. Commit the file and start a new Claude Code
-   session for the next phase." → HARD STOP (P8). If any of the 15 remain open at T5, the PhaseEnd says so (P9) with each
-   row's mechanism, cost and best draft — never redefined.
+**(c) `main:func_80039308` — 518 ins, closeness 4.** TU `src/800_c.c` (which now spells `extern s32 D_80073140[][1]`), sub `800_c`,
+asm `asm/nonmatchings/800_c/`. Draft `.run/P32/t5x/fable/func_80039308.c`; report `.run/P32/t5x/reports/func_80039308.md`. **Residual =
+two causes:** rows 49/50 — the hoisted constant `2` vs the pinned `vbase` preheader order (move_movables splices after source
+preheader code; unpinning/moving vbase → 515/495; a named `cst2` → 520/286); rows 412/415 — `lhu $s7` is reload's SPILL REGISTER:
+storing `arg1` directly spills the HImode parameter and reproduces `sh $a1 / lhu $s7` exactly, but the target frame is [arg1 spill
+@0][8-byte slot with NO traffic @8][cnt @0x10] and the phantom slot could not be induced (frame 0x38 vs 0x40). **Next lever:** the
+phantom slot is a hard-reg `spill_stack_slot` (reload1.c `spill_hard_reg` on LO or `$s7` during `retry_global_alloc`) or a ghost
+pseudo (as in (a)) — read the target's frame layout against `.greg` "Spilling reg N" lines; a pseudo that global parks in LO and
+reload respills (as `func_80020DA4`'s m13 did) mints the 8 bytes; cf. §501-E. Corrected law from this row: at an equal-priority
+load/store tie sched2 issues the STORE via `potential_hazard`, not LUID (sched.c:2616–2680).
+
+**(d) `ov_SC03_105:func_80185810` — 489 ins, closeness 13.** TU `src/ov_SC03_105/ov_SC03_105_jr_80181C84.c`, sub
+`ov_SC03_105_jr_80181C84`, asm `asm/ov_SC03_105/nonmatchings/ov_SC03_105_jr_80181C84/`. Draft `.run/P32/t5x/fable/func_80185810.c`;
+report `.run/P32/t5x/reports/func_80185810.md`; harness `.run/P32/t5x/work/func_80185810/`. Three of four windows closed (P_TAG
+bitfield OT link + integer add `(otz<<2)+(u32)ob` for the addu operand order; sched1 `flush_pending_lists` at the 33rd memory op
+explains the load order → HI temps t20/t22 with tp loaded between loads and stores; pins uu `$4` / mode `$5` / ot16 `$6` — a hard-reg
+destination is NOT birthing-boosted, so the LUID tie-break gives the load order; shf pinned `$3`). **Residual ONE cause, idx
+363–380:** `cl &= 0xFFFF` is an unboosted 2nd set whose anti-deps hold the w-chain's two `cl` reads — the zero-byte fence after
+`p[7] |=` is needed (without it the reads float to the block head and take `$a0/$a1`: 43/51) yet it forbids sched2's fillers (`sll $a2`,
+`andi $a3`, `li/subu`) from crossing into the tpage/code window. A fresh single-set `clx` is boosted but combine folds the `andi` via
+`nonzero_bits(cl)` into any same-block consumer (59); 2-set `clx` unboosted (49/39/42); an arm-duplicated store does not cross-jump
+(490 ins); a launder asm is a real move for block_alloc. **Next lever:** make `cl` single-set with its high half cleared at birth
+(`cl = *(u16 *)…` or a shift form) so no fence is needed, or give the two reads a fresh copy combine cannot fold (a HImode/subreg
+temp defeats `nonzero_bits`). 3,360-variant region-2 sweep best 14 — do not repeat.
+
+### 4. NEXT — in order
+0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `verbatim_check --strict` (5 == 5) · `tail -1 .run/P32/t4b/
+   tools_health.log` (OK, else run it) · `make check-all` → 218/218 (R56 baseline). Prompt `/effort max` (R27) and WAIT.
+1. **The hand pass on (a)–(d), one row at a time, closest first (a → b → c → d):** read the report, reproduce the residual with
+   `rtu_match`, dump the RTL (`cc1_dumps.sh`), attribute the residual to a PASS and a dump line before the first probe (§501,
+   accelerators (11)), then the row's next lever; ≤ ~10 probes per row before writing the verdict. A MATCH → bank + commit + pin
+   drop (`exclude_audit --write config/wave_exclude.txt config/wave_exclude.txt`) + `backlog.py render` + cookbook §501-M…; a
+   plateau → `backlog.py log` with closeness, class, best draft, cost; for (a) at 1, a written PROOF that names the pass is an
+   acceptable final verdict (P9 — never redefine).
+2. **T4b close:** `make clean && make extract-all && make check-all` (quote 218/218) · `make report` + `make report BINARY=main` ·
+   `frontier_classify --json .run/P32/frontier_t4b_final.json` · refresh this block · commit · harness #13 done.
+3. **T5 (Max, Tier 1 — prompt R27; WAIT for gate 2):** P7 walk (T0–T4b) → milestone demo (R22 218/218 · tools-health · verbatim 5==5 ·
+   the final census · the wall ledger — now ONE pin or none · `make audit-disc` UNCLAIMED 0 of 220 · `make report` ×3 metrics + main
+   `143dbb89…` WITH and WITHOUT the SDK object dirs · denominators) → WAIT → `PhaseEnd_Phase32.md` (Build Log · Deviations incl.
+   the T4b directive and the 4-row remainder stated plainly · Commit Message · Rules Added — R64 to RATIFY + the S83 candidates
+   below · Changelog v1.30.0 → v1.31.0 · Roadmap delta: P33 = verify + public flip · Plain-English Recap · believed/failed/sooner ·
+   🛑) → DIGEST.md §2/§3 (step 3b) → `git mv phase-ends/CURRENT_PHASE.md phase-ends/logs/Phase32.md` (R19) → R23 → leave both
+   uncommitted for Drew (R6) → "PhaseEnd file created. Commit the file and start a new Claude Code session for the next phase." →
+   HARD STOP (P8). **Rule candidates from S83 for the PhaseEnd table:** (i) a wall verdict must be PASS-attributed with a dump line
+   (R40 → "exonerate the instrument, then name the pass"); (ii) write "banked" only from the tool's printed success line; (iii) agents
+   write deliverables early (a dead run's draft banked); (iv) a helper must refuse an empty work list (R43 restated).
 
 ### 5. Files, tools, exact invocations, gotchas
-- **`.run/P32/t4b/<fn>/`** (S83 hand pass; tracked `*.md`, `*.c`): `NOTES.md`/`HYPOTHESIS.md` per row (mechanism + measured spellings + the
-  untried lever) and the variant drafts measured. **`.run/P32/t5x/`** (the Fable pass; tracked BRIEF.md, targets.json, `fable/func_*.c`,
-  `reports/*.md`; untracked packs/ work/ rtu/): one agent per row, budget ~2 h each, final message = the JSON line.
-- **`.run/P32/t3s3/` (S83; tracked: `*.sh *.py *.log *.txt prompts/ gate/*.json gate/*.log`; untracked: `verify*/` compile
-  dirs):** `splice.py <tu> <asmdir> <fn> <draft>` (asserts the INCLUDE_ASM line occurs once, replaces it with the draft) ·
-  `bank.sh <binary> <tu> <asmdir> <arm> "<commit title>" fn…` (the per-TU bank chain; refuses on `__asm__`/`.word` in a
-  draft, any rtu non-MATCH, build rc≠0 or sha mismatch, and never commits on red — the tree is left for diagnosis) ·
-  `backlog_near.sh` (the 9 rows, re-runnable) · `prompts/<fn>.txt` (the 17 launched prompts) · `gate/slate_main{2,3}.json` +
-  `gate/gate_main{2,3}.log` · `ils_func_*.log` (the two permuter runs) · `p1bc6c/` (the 11 func_8001BC6C spellings) · `r22_*.log` / `r22b_*.log` / `r22c_*.log` / `report_close.log` / `report_main_close.log` / `tools_health.log` / `build_*.log` / `bank_*.log` / `twin_rescan*.log`.
-- **`.run/P32/t3/`:** `verdicts.jsonl` now 48 rows (31 + 17; the S83 rows carry `"session": "491895ad"`) · `haiku/` 28 drafts
-  (all banked) · `opus/` 14 (banked S83: func_80015B6C, func_8002FDE8, func_801EF6D8, func_8001BC6C_s83; 8 NEAR incl. func_800CF3E8_s83 == the prior best) · `sonnet/` 4 (all
-  banked) · `reports/` (the 31 S82 reports + 3 Haiku reports) · `pending_launch.txt` (EMPTY — all 17 launched 10:57) ·
-  `BRIEF.md` (amended: §304 + exact-TU-spelling) · `PROMPT_TEMPLATE.md` · `harvest_notes.md`.
-- **Transcripts of the 17 S83 agents:** `~/.claude/projects/-home-musashi-bfm-decomp/491895ad-3c84-4037-b04f-bf7e5ee16a0c/subagents/agent-<id>.jsonl`
-  (`/tmp/claude-1000/-home-musashi-bfm-decomp/491895ad-3c84-4037-b04f-bf7e5ee16a0c/tasks/a*.output` are symlinks; the
-  `b*.output` there are this session's Bash jobs). All 17 verdicts are already in `verdicts.jsonl`; `agent_verdicts.py
-  <tasks>/a*.output` rebuilds them; `agent_reports.py` saves the full reports.
-- **`rtu_match`:** `--split <sub> --source <binary> --c <draft> --asm-subdir <asmdir> --work <dir>`; **main adds `--tu
-  src/<sub>.c`**; verdict line `MATCH (N ins)` / `DIFF` / `CC1 FAIL` (compile-only: BLIND to link-time §304 and to cross-draft
-  same-TU conflicts — the BUILD is the batch verdict). **Build check:** `make build BINARY=<b> -j8`, read the EXIT CODE (R53;
-  a failed build leaves the OLD binary in place — the printed sha is then stale). **`gate_main`:** the ONLY way to gate main
-  (slate JSON of `{fn, draft(ABSOLUTE)}`, `--apply`). **Carves:** for `md_*` island tables do NOT carve (§303 — the derive
-  stage prints the pad spec in the build log); for overlays `jtbl_carve.py <b> --func <fn>` → `make extract` (rc) → build →
-  `pads_audit`/`interleave_check` (R60).
-- **Gotchas that bit today:** two drafts of one TU can each MATCH alone and fail together (spelling / §304 / a prototype a
-  sibling bank introduced) — always rtu in the CURRENT TU right before splicing (bank.sh does) · `backlog.py`/`corpus.stubs`
-  raise `CorpusError … NO .s on disk` while `make extract-all` is running (the instrument's environment, not a defect — R40)
-  · census `nins` counts `.s` lines incl. rodata `.word`s · agents read `asm/` — never launch them while a `make clean &&
-  make extract-all` is in flight · the harness cap is 20 concurrent subagents · never `cd` inside a compound command ·
-  `set -o pipefail` + `grep -c` exits 1 on zero matches.
+- **`.run/P32/t5x/`** (tracked: BRIEF.md, targets.json, `fable/func_*.c` (15 drafts), `reports/*.md` (15), `verdicts.jsonl` (16 rows),
+  resume_queue.txt; untracked: packs/, work/, rtu/). **`.run/P32/t4b/`** (tracked: `<fn>/NOTES.md|HYPOTHESIS.md`, `<fn>/*.c`
+  variants, `*.log`; gate slates under `gate/` are ignored — recreate). **`.run/P32/t3s3/`**: `bank.sh` (env `SPLIT=`, `DRAFT_DIR=`),
+  `splice.py`, logs. **`.run/c294/dumps_*`**: cc1 dump dirs (regenerable).
+- **Transcripts of the 15 Fable agents:** `~/.claude/projects/-home-musashi-bfm-decomp/491895ad-3c84-4037-b04f-bf7e5ee16a0c/subagents/
+  agent-<id>.jsonl`; `tools/agent_verdicts.py <tasks>/a*.output` rebuilds verdicts (the S83 Haiku agents are in the same dir — filter by
+  `fn` against `.run/P32/t5x/targets.json`); `tools/agent_reports.py` saves full reports.
+- **Gotchas that bit today:** `gate_main --assert-baseline --allow-dirty` RESTORES the working tree's TUs before building (its GREEN
+  measured the committed tree — use an in-tree `make extract BINARY=main && make build BINARY=main` for an uncommitted TU edit) ·
+  `make extract BINARY=main` rewrites main's `asm/` — never while something reads those `.s` files · a bank helper called with no
+  function name built the unchanged tree and exited 0 (fixed, R43) · backticks inside a double-quoted `--where` argument are
+  command substitution (log rows were mangled twice; use single quotes) · `.run/P32/**` allowlists are per-subdir — an ignored
+  path silently breaks a `git add … &&` chain · an agent's masked_diff probe in `src/` is build input (Makefile guard `commit:3949`).
 
-### 6. Carried context for T5 (T4 is DONE — its ledger is the table above this block)
-**T4 (xHigh, no drafting) — the dead session's read-only pre-check (07:00Z) still stands (re-run each in the CURRENT TU first — S83 changed src/800.c and src/800_b_2.c):** `exclude_audit --assert-fresh`: 7
-entries, 7 WALL, 0 stale. Best drafts in their REAL TU: `main:func_80011380` `.run/m3/opus/func_80011380.c` DIFF 6 (the
-ledger's `.run/backlog_drafts/func_80011380.c` is MISSING — R62 path fix) · `main:func_80032A74` `.run/S79w/opus/
-func_80032A74.c` **CC1 FAIL** (`redefinition of struct Slot`/`Slot`, `conflicting types for A12`/`B12` vs
-`src/800_shared.h:68/95` — §376 plumbing, re-probe before a final verdict, R40; the census prints closeness 1 for it from a
-stored masked diff) · `main:func_80020DA4` `.run/S79w/sonnet/func_80020DA4.c` DIFF 2 · `main:func_80039DEC` both
-`.run/S79w/{permuter,sonnet}/func_80039DEC.c` **CC1 FAIL** (`conflicting types for func_80039DEC` — def-side declaration,
-§495: fix the TU's own decl first) · `main:func_800391D4` `.run/S79w/sonnet/func_800391D4.c` **CC1 FAIL** (`conflicting
-types for D_80073140` at t.c:3310 vs :2622) · `ov_SC06_022:func_8017DF28` DIFF 2 · `ov_SC03_105:func_801834A4` S71_gate14
-variants DIFF 6 (ledger `.run/backlog_drafts/func_801834A4.c` MISSING). Deliverables: each of the 7 rows PROVED vs
-CANDIDATE with a current citation + an instrument-exonerated bounded attempt (R40 — the three CC1-FAIL rows get their §376
-plumbing fixed byte-neutrally and are re-probed BEFORE any verdict), `exclude_audit --write`, `backlog.py render`, the wall
-table into this file, cookbook §501 if a verdict changes, decision-log, accelerators. A T3 idiom naming a wall's mechanism
-re-opens that row (one bounded attempt, permuter first).
-**T5 (Max, Tier 1 — prompt R27; WAIT for gate 2):** P7 checkbox walk over every task above; milestone demo = R22 fleet
-218/218 · `make tools-health` OK · `verbatim_check --strict` 5==5 · the final census (`tools/frontier_classify.py --json`) ·
-the wall ledger · parked-5 dispositions via `make audit-disc` (UNCLAIMED 0 of 220 at T2c) · `make report` all three metrics +
-main `143dbb89…` WITH and WITHOUT the SDK object dirs (`.run/obj40`, `.run/obj42`; fresh-extract fallback) · corrected
-denominators (main game-code 41,556 — the 22-ins Ghidra-boundary gap; the fleet denominator grew by the five modules' ~2,600
-ins at T2b). Then `PhaseEnd_Phase32.md` (+ Roadmap delta: P33 = verify + flip; + Plain-English Recap; + the rules table incl.
-R64) → **append the P32 synopsis + rules to `phase-ends/DIGEST.md` (step 3b)** → `git mv CURRENT_PHASE.md
-phase-ends/logs/Phase32.md` (R19) → R23 MCP stop if it ran → leave both uncommitted for Drew (R6) → 🛑.
+### 6. Environment
+Fleet 218; shas: main `143dbb89f34491258bbc27810d0a12ec8b43a8dd` · md_MAIN_007 `2ff702b605ab5cfc18474c464c4c07e5f8ffd48c` · ov_SC03_105
+`d305ff6da199b52d0d44023766643a8b661ed524` (`config/check.<b>.sha` is authoritative). Toolchain unchanged (SETUP §5.4). The SessionStart
+hook launches a headless Ghidra MCP (`.run/ghidra-mcp.log`); nothing in T4b/T5 uses it (R23: never stage `ghidra/`). Claude commits,
+Drew pushes.
 
-### 7. Environment
-Fleet 218; shas: main `143dbb89f34491258bbc27810d0a12ec8b43a8dd` · resident `8e17e02ff8954d07c979449198f7e1645046b353` ·
-md_SC03_053 `c0848f308342e499e2bd8c2db86f6225a29e1592` · md_SC03_054 `06bd73dfbdb10748adcbac7093ead5d76131206a` · md_MAIN_007
-`2ff702b605ab5cfc18474c464c4c07e5f8ffd48c` · md_MAIN_009 `d270f695b793b5c03db159b7aabcc066daa87eda` · md_SC03_056
-`bc768a6b7baa911e0a0cb9175b33550851d6c1eb` (`config/check.<b>.sha` is authoritative). Toolchain unchanged (SETUP §5.4). The
-SessionStart hook launches a headless Ghidra MCP (`.run/ghidra-mcp.log`); this session's MCP failed to connect and nothing
-needed it — T4/T5 do not either (R23: never stage `ghidra/`). Harness: 20 concurrent Agent-tool subagents max. Metrics:
-regenerate with `make report` at the T3 close (218 binaries; last published = P31 close, 213 binaries: instr 100.0% ·
-distinct 99.9% · fn 99.99%).
+### 7. Standing reminders
+Every bank commits before the next command that can touch `src/` (R42) · count banks from the SOURCE and quote the fleet's green count
+at every close (R58) · verify a build from its exit code (R53) · a masked/permuter score is not a closeness until its diff is read
+(R63) · an `__asm__` body that reproduces instructions is a verbatim, not a bank (R62; zero-byte fences/launders are dials) · re-verify in
+the CURRENT TU before splicing (§500-F) · attribute a residual to a PASS before sweeping levers (§501, accelerators (11)) · write
+"banked" only from the tool's printed success line · rules check every 4 tasks (P6) · harvest into the cookbook before the next
+drafting step (R16/R30) · no `Co-Authored-By` (R5) · never stage `ghidra/` (R23).
 
-### 8. Standing reminders (the rules that bite now)
-Every bank commits before the next command that can touch `src/` (R42) · count banks from the SOURCE and quote the fleet's
-green count at every close (R58) · verify a build from its exit code (R53) · a masked/permuter score is not a closeness until
-its diff is read (R63) · an `__asm__` body is a verbatim, not a bank (R62) · fix the TU by a byte-neutral plumbing commit
-BEFORE any gate (S77 law) · re-verify in the CURRENT TU before splicing (§500-F) · rules check every 4 tasks (P6) · harvest
-idioms into the cookbook before the next drafting step (R16/R30) · no `Co-Authored-By` (R5) · never stage `ghidra/` (R23).
-
-**Plain-English recap (R18).** This session finished the crack pass. Twenty-nine functions were banked byte-for-byte: the
-ten exact matches the overnight agents had produced, seventeen small functions drafted by seventeen cheap agents launched
-together (all seventeen exact on the first try), and one stubborn near-miss that the brute-force polisher found the key
-to — after we threw away the part of its answer that was actually wrong. Three code modules are now fully rebuilt from C,
-and every rebuild of all 218 files stayed identical. Of the sixteen leftovers, one careful second look confirmed a
-near-miss really is stuck (and corrected our explanation of why), and the rest are the seven long-standing "walls" plus
-seven near-misses with their causes written down. Next: the walls get their final written verdicts, then the phase closes.
+**Plain-English recap (R18).** Today the crack pass banked twenty-eight functions, the walls got their written verdicts, and then the
+owner moved the finish line: nothing may remain but the original hand-written assembly and Sony's library. A hand pass named every
+blocker; fifteen deep agents then took one function each, survived three quota outages, and banked eleven of them — ten of which
+had been declared unmatchable, one with a written proof — each by reading the compiler's own pass dumps rather than by guessing.
+Every rebuild of all 218 files is still identical, and by instruction count the game is at 100.0%. Four functions remain, each within
+one to thirteen instructions with its cause written down; the next session cracks them by hand, then the phase closes.
