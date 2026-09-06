@@ -37476,3 +37476,33 @@ the product is LO-homed with an input reload or slot-homed with a deleted output
 whose traffic-free pseudo is a product cannot be excluded by the bytes alone — only by allocation (alternate class `GR_REGS` always
 saves a product); (3) rows 49/50 are two `move_movables` hoists in BODY order — the original computed `vol = b2 * 0x100` in the loop;
 steering the hoisted invariant into `$s2` without the `$18` pin (X2 = 495) is the open lever (§501-E launders).
+
+**§501-P — THE ATLAS'S "WEAK COUSIN" WAS THE SAME-SHAPE SIBLING; a ported natural spelling needs NO pins and NO fence, and the
+census shows WHICH spelling elements carry a scheduling window (P32 T4b hand pass, S85 2026-09-06; `ov_SC03_105:func_80185810`
+489/489 BANKED `commit:4004` — the phase's last overlay stub; zero pins, zero fences, zero asm bodies).** The S83 Fable draft sat at
+DIFF 13 (rows 363–380, the tpage/code RMW window) after 3,360 region-2 variants, five register pins, HI temps and a zero-byte
+fence; its report had correctly read the residual's mechanism (an unboosted 2nd set `cl &= 0xFFFF` whose anti-dependences hold
+the w-chain's reads; the fence releases them but forbids sched2's fillers) and concluded the honest fix was blocked by combine.
+**The §501-N step 0 found the answer in 25 minutes:** the atlas lists `ov_SC02_027:func_80180B3C` as a 0.55 knn cousin — a
+"weak" score — yet a shape grep on the idiom's constants (`grep -rln '0x200) << 2' src` = the libgpu getTPage bit chain) shows it
+is the SAME billboard-sprite drawer (POLY_FT4 off the `D_800A5E60` bump, `code = 0x2C; code |= 2`, the tpage chain, `code |=
+(w & 0x40) >> 6`, the u/v loads, the v0 conditional, the P_TAG link), and its COMPILED window (`objdump -d build/src/ov_SC02_027/
+ov_SC02_027_jr_8017D898.o` 0x34f8–0x3560) is instruction-for-instruction the target's rows 362–386 with only the base registers
+renamed. Porting its window spelling onto the draft matched first try WITH the cousin's three pins, and then with none. **The
+element census (12 real-TU variants, `.run/P32/t4d/NOTES.md`):** (a) the v mask is a FRESH single-set copy `vm = cl & 0xFFFF`
+whose consumers are the two arms of the v0 conditional — a lone insn is never simplified by combine and the `lhu` setting `cl` has
+intermediate uses, so the `andi` survives WITHOUT a hard-register pin (d5: the `$7` pin removed, MATCH — the S83 "hard reg hides
+nonzero_bits" guess is refuted as the mechanism); being single-set it is birthing-boosted, so nothing is starved and no fence is
+needed; (b) `u = (uu - ((tpage & 0xF) << 6)) << shift` as a fresh single-set value — the 2-set `uu -= …; uu <<= …` form re-rolls
+63 rows, moving allocations 100+ rows away (d12); (c) the branch polarity `if (!(tpage & 0x10)) vv = vm; else vv = vm - 0x100;`
+— the copy arm is the fall-through that coalesces to nothing, leaving `beqz → skip; addiu $a3,-0x100`; the opposite polarity
+re-rolls 42 rows (d11), which is what the S83 F2 variant (59) actually measured; (d) `shift = 2 - mode` born early and unpinned —
+the boost sinks it to rows 370/372; (e) the OT base computed right after the code byte, before the u/v loads. With every birth in
+the window single-set, sched1's boost ties them all and the LUID tie-break yields source order, so the S83 window-1 `ot16` pin is
+load-bearing ONLY in the mixed form (d3: DIFF 4 with 2-set neighbours; d9: MATCH with none). **Laws:** (1) the atlas's knn score
+is NOT a shape oracle — a 0.55 "weak cousin" can be the exact sibling when the register bases differ; step 0 of every hand pass
+greps the idiom's CONSTANTS across `src/` (`0x200) << 2`, `0xE1000000`, `+ 0x100) << 6`…) and reads the sibling's OBJDUMP window
+against the target before touching the draft (§501-N, accelerators (13)/(14)); (2) a pin or a fence that a draft "needs" is a
+property of the draft's other dials — after a sibling port, remove every pin and re-measure before banking (§501-E), and record the
+census so the next row inherits the elements, not the dials; (3) a residual's mechanism read from the dumps can be right and its
+"blocked" verdict wrong: the block's OTHER births (2-set `uu`, the polarity) were what made the honest fix look blocked.

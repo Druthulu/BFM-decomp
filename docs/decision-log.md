@@ -3373,3 +3373,30 @@ resumed, and the one that had written its draft first (func_800391D4) banked fro
 compiler-internals class is cheaper than another Opus wave on the same rows (9/12 vs 0/12), and Opus is the right tier once a
 sibling's recipe exists (§501-H → the md_MAIN_007 pair). No second round this session (Drew); the three NEAR rows carry their
 next lever in the backlog.
+
+## P32 S85 (2026-09-06) — T4b hand pass row (d): the last overlay stub falls to a sibling the atlas had scored 0.55
+
+### Context and belief
+Four rows were left after the S83 Fable pass; S84 settled three (one PROVED, one BANKED by a sibling port, one PLATEAU). Row (d)
+`ov_SC03_105:func_80185810` (489 ins, DIFF 13) carried a report that had read its residual's mechanism from the dumps — the
+unboosted 2nd set behind a needed fence — and judged every honest fix blocked by combine. The checkpoint's step 0 was the §501-N
+sibling search; the twin oracle, the family maps and the atlas's own knn entry for the row all said "nothing".
+
+### What happened
+A grep for the idiom's constant (`'0x200) << 2'`, the libgpu getTPage chain) across `src/` listed `ov_SC02_027:func_80180B3C`
+— which the atlas had recorded only as a reverse 0.55 "weak cousin" — and its objdump window was the target's rows 362–386
+instruction for instruction. Porting its window spelling matched in the real TU on the first draft, then with every pin removed:
+zero pins, zero fences, zero asm dials, BANKED `commit:4004`, ov_SC03_105 100% C. A 12-variant census then measured which spelling
+elements carry the window (the fresh single-set masks, the branch polarity, the early unpinned shift) and refuted the S83 guess
+that a hard-register pin was what kept the `andi` alive (§501-P).
+
+### Why (measurement-grounded)
+The similarity metrics score REGISTER-RENAMED same-shape functions as strangers (base registers s0/s2/s1 vs t0/t1/t2 change most
+of the instruction words); the idiom's literal constants do not change. The draft's "blocked" verdict was correct about the
+mechanism and wrong about the cause: the block's other 2-set births (the `uu -= …` pair, the polarity) were what made the
+fence necessary.
+
+### Hindsight path
+Step 0 of every hand pass and every wave card for a packet-building function: grep `src/` for the idiom constants and objdump the
+hits' windows against the target BEFORE the first dial — the whole crack was one grep, one port and 25 minutes, after ~1M tokens
+of dial work on the draft. Remaining open: the two main rows with their verdicts (PROVED 1, PLATEAU 4), carried into the PhaseEnd.

@@ -811,3 +811,14 @@ had matched with the plain libgpu shape; porting that body with this function's 
 was the TU's `u8` declaration of the OT symbol, solved by the fleet's asm-label alias (§501-N). Accelerator: a wave card for a
 row whose family has a banked exemplar must carry that exemplar's SOURCE as the seed (family_cousins/seed_ref), and a hand pass
 must open with `grep -l` for the family's banked bodies; a residual-class name is the family's signature, not a lever list.
+
+**(14) The atlas's similarity score is not a shape oracle — grep the idiom's CONSTANTS and read the sibling's OBJDUMP window
+(P32 T4b hand pass, `ov_SC03_105:func_80185810`, S85).** The row had consumed an Opus pass, a 655k-token Fable pass with a
+3,360-variant sweep, five pins and a fence, and sat at DIFF 13 with its mechanism correctly read and its cure judged blocked. The
+atlas had listed the answer all along as a 0.55 "weak cousin" (`ov_SC02_027:func_80180B3C`): a grep for the getTPage chain's
+constant (`'0x200) << 2'`) across `src/` surfaced it as the same billboard drawer, and its compiled window was the target's rows
+362–386 verbatim. Porting the spelling matched in one draft, then with every pin removed (§501-P). Accelerator: before ANY
+scheduling/allocation dial on a packet-building function, grep `src/` for the idiom's literal constants (tpage chain, prim codes,
+`+ 0x100) << 6` cluts, `0xE1000000` tags) and objdump each hit's window against the target; a same-shape sibling with different
+base registers scores as a stranger in every similarity metric we have, and its spelling is worth more than the diff's
+mechanism (extends (13); the twin oracle, family maps and atlas knn all reported nothing for this row).

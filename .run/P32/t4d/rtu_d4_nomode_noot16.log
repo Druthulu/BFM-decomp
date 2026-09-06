@@ -1,0 +1,6 @@
+DIFF  func_80185810   mine=489 ins, target=489 ins, 4 mismatched
+  idx | MINE                          | TARGET
+  343 | 96440004 lhu	a0,4(s2)        | 3c010001 lui $at, (0x10000 >> 16)
+  344 | 3c010001 lui	at,0x1          | 02810821 addu $at, $s4, $at
+  345 | 02810821 addu	at,s4,at       | 9426a3d2 lhu $a2, -0x5C2E($at)
+  346 | 9426a3d2 lhu	a2,-23598(at)   | 96440004 lhu $a0, 0x4($s2)

@@ -322,3 +322,12 @@ unsloth_compiled_cache/
 /.run/P32/t4c/func_*/*
 !/.run/P32/t4c/func_*/*.c
 !/.run/P32/t4c/func_*/*.md
+# P32 T4b hand pass row (d) (S85, 2026-09-06): the sibling-port variants, their rtu verdict logs, the notes and the banked body (not the rtu/ compile dirs)
+!/.run/P32/t4d/
+/.run/P32/t4d/*
+!/.run/P32/t4d/*.c
+!/.run/P32/t4d/*.md
+!/.run/P32/t4d/*.log
+!/.run/P32/t4d/bank/
+/.run/P32/t4d/bank/*
+!/.run/P32/t4d/bank/*.c

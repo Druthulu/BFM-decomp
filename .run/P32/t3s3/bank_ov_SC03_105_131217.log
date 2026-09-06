@@ -1,0 +1,49 @@
+  CC      build/src/ov_SC03_105/ov_SC03_105_jr_80181C84.o
+In file included from src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:2:
+src/ov_SC03_105/../shared/engine_core.h:161199: warning: "DEFINE_func_8013FFD8" redefined
+161199 | #define DEFINE_func_8013FFD8() \
+       | 
+src/ov_SC03_105/../shared/engine_core.h:32633: note: this is the location of the previous definition
+32633 | #define DEFINE_func_8013FFD8() \
+      | 
+src/ov_SC03_105/../shared/engine_core.h:169456: warning: "DEFINE_func_8013F350" redefined
+169456 | #define DEFINE_func_8013F350() \
+       | 
+src/ov_SC03_105/../shared/engine_core.h:40890: note: this is the location of the previous definition
+40890 | #define DEFINE_func_8013F350() \
+      | 
+src/ov_SC03_105/../shared/engine_core.h:185848: warning: "DEFINE_func_80181538" redefined
+185848 | #define DEFINE_func_80181538() \
+       | 
+src/ov_SC03_105/../shared/engine_core.h:57282: note: this is the location of the previous definition
+57282 | #define DEFINE_func_80181538() \
+      | 
+src/ov_SC03_105/../shared/engine_core.h:190943: warning: "DEFINE_func_801808C4" redefined
+190943 | #define DEFINE_func_801808C4() \
+       | 
+src/ov_SC03_105/../shared/engine_core.h:62377: note: this is the location of the previous definition
+62377 | #define DEFINE_func_801808C4() \
+      | 
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:1558: warning: conflicting types for built-in function `memcpy'
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3827: warning: type mismatch with previous external decl
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3804: warning: previous external decl of `func_8018383C'
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3827: warning: type mismatch with previous implicit declaration
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3820: warning: previous implicit declaration of `func_8018383C'
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3827: warning: `func_8018383C' was previously implicitly declared to return `int'
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c: In function `func_8018388C':
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3871: warning: passing arg 3 of `func_8013361C' from incompatible pointer type
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3871: warning: passing arg 4 of `func_8013361C' from incompatible pointer type
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3878: warning: passing arg 5 of `func_8012F568' makes integer from pointer without a cast
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3878: warning: passing arg 6 of `func_8012F568' makes integer from pointer without a cast
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c: In function `func_80184500':
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:4472: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c: At top level:
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:4607: warning: type mismatch with previous external decl
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:3339: warning: previous external decl of `D_801BA5A8'
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c: In function `func_80185480':
+src/ov_SC03_105/ov_SC03_105_jr_80181C84.c:5196: warning: passing arg 2 makes pointer from integer without a cast
+  LD      build/ov_SC03_105/ov_SC03_105.elf
+  OBJCOPY build/ov_SC03_105/ov_SC03_105
+  TRIM    build/ov_SC03_105/ov_SC03_105 (-1 B linker end-align pad)
+[ OK ] build/ov_SC03_105/ov_SC03_105
+       sha1 d305ff6da199b52d0d44023766643a8b661ed524 == config/check.ov_SC03_105.sha  (BYTE-IDENTICAL)
