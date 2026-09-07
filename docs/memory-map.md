@@ -217,6 +217,8 @@ consistent with TCRF's per-region debug codes:
 **UNVERIFIED inconsistency** carried from research: AP-world notes the town-ID-check patch at
 US 0x8015A7E4 with "JP equivalent 0x8015AB20, delta +0x2A8", but 0x8015AB20 − 0x8015A7E4 =
 0x33C, not 0x2A8. Do not resolve by guesswork; re-check `client.py` when importing.
+**Status (P33 E2, 2026-09-07): HISTORIC.** `client.py` v0.8.1 contains neither 0x8015A7E4 nor 0x8015AB20 — the town-ID
+check patch was dropped; town/portal handling now writes portal-table entries (`fix_town_id`). Nothing left to resolve.
 
 ### Address-base conversion for external sources
 
@@ -356,7 +358,8 @@ struct clearly lives here — good candidate for a single Ghidra struct.
 | 0x80078E80 | `storyProgress` (u32) | US | autosplitter (octoshock conversion cross-verified) | reported | Progress/story counter |
 | **0x80078E8C** | `gold` (u16, stored as **gold ÷ 10**) | US | **VERIFIED live (T6b, 4-state triangulation 2026-06-14)** | **verified** | Holds 145/155/165 for displayed gold 1450/1550/1650 (game stores gold/10 — gold is always ×10, which defeated naive value searches). Mirror copy at 0x8011F804. **Supersedes the reported 0x80078E8E** ("money", which reads 0 — refuted) |
 | 0x80078EA4 | `tiredness_raw` (u16) | US | **VERIFIED live (T7): 12984→55620→0 (accumulates w/ activity, resets to 0 on sleep)** | **verified** | Raw tiredness accumulator; displayed % is derived (likely overflow-counted). **Supersedes 0x80078EA6** ("tiredness" — refuted: moved 119→160 on sleep, not →0) |
-| 0x80078EAC | `dayCounter` (u8) | US | **VERIFIED live (T7): 1→2 on the Day1→Day2 sleep rollover** | **verified** | In-game day number (day N = day-of-week N early game; dow not yet separable; 0x80078EAF refuted as dow) |
+| 0x80078EAC | `dayCounter` (**u16**) | US | **VERIFIED live (T7): 1→2 on the Day1→Day2 sleep rollover**; type + writer from the decompiled source (P33 E2, 2026-09-07) | **verified** | In-game day number. Written by the shared rollover function `func_8014B084` (`src/shared/engine_core.h`, every location overlay): `day = day + 1`, wraps to **1 at 0x16E (366)**. The day-of-week is the SEPARATE byte below (the old "dow not yet separable" note is resolved; 0x80078EAF refuted as dow stands) |
+| 0x80078EBA | `dayOfWeek` (u8) | US | **code-derived (P33 E2):** `func_8014B084` sets `dow = (dow + 1) % 7` on the same rollover; AP-world `client.py` v0.8.1 reads `0x078eba` as "#32 day of the week" (JP −0xEA0) | **verified** (code) | 0..6. The AP-world address is CORRECT; it is not the day counter. Read alongside 0x80078EAC by many overlay scripts (`D_80078EBA == 4` etc.) |
 | 0x80078EB1 | `hour` (u8) | US | **VERIFIED live (T7): 13→14→15→18→19→3 across 6 dumps** | **verified** | In-game hour 0-23; time advances in 15-min jumps (~7.5 IRL s each). Minute field not cleanly located; old 0x8007CE82 "clock" refuted (coincidence) |
 | 0x80078EB2 | `hp_max` (u16) | US | **VERIFIED live (T6b change-detection 2026-06-13)** | **verified** | =150 across two states (HP max); pairs {max,cur} with 0xEB4 |
 | 0x80078EB4 | `hp_current` (u16) | US | **VERIFIED live** (146→136 tracked Drew's HP) | **verified** | **Resolves Q#12**: AP-world right — 0xEB4 = current HP, 0xEB2 = max |
@@ -439,10 +442,11 @@ Boss HP living at 0x8012xxxx–0x801Exxxx is the key observation that overlays l
 | 0x80126B8E | player Y-velocity area ("moon jump") | US | gamehacking / cht | reported | code/data in overlay |
 | 0x80126C00 | jump/physics code | US | libretro cht | reported | code patch site |
 | 0x80126D98 | midair-jump counter | US | gamehacking / cht | reported | |
-| 0x8013F430 | scroll-cursor patch site | US | AP-world (code patch; JP delta +0x344) | reported | instruction rewrite site |
-| 0x8014BCF8 | max-BP calculation patch site | US | AP-world (nop'd `addu $v0,$a1`; JP delta +0x2D0) | reported | |
-| 0x8015A7E4 | town-ID check patch site (`andi $v0,$s0,0x4000`) | US | AP-world (JP noted 0x8015AB20 — see delta inconsistency in header) | reported | |
-| 0x8018E096 | entrance-index patch site | US | AP-world (JP delta +0xE8) | reported | |
+| 0x8013F430 | scroll-cursor patch site | US | AP-world (code patch; JP delta +0x344) | reported; **function resolved (P33 E2)** | inside `func_8013F350` (490 ins; a shared engine body — the same bytes in every location overlay; `src/shared/engine_core.h` `DEFINE_func_8013F350`) |
+| 0x8014BCF8 | max-BP calculation patch site | US | AP-world (nop'd `addu $v0,$a1`; JP delta +0x2D0) | reported; **function resolved (P33 E2)** | inside `func_8014BCEC(a0, a1)` (14 ins, shared ×every location overlay): `bp_max (0x80078EB6) += a1`, clamped to 0x662 — the nop removes the increase |
+| 0x8015A7E4 | town-ID check patch site (`andi $v0,$s0,0x4000`) | US | AP-world (historic: absent from `client.py` v0.8.1; the JP-delta inconsistency in the header is moot) | reported; **function resolved (P33 E2)** | inside `func_8015A3C8` (493 ins, shared ×every location overlay) |
+| 0x8018E096 | entrance-index patch site | US | AP-world `client.py` v0.8.1 (`0x18e096 + jp*0xe8`, writes one byte 1 → 0 "to prevent softlock"; JP delta +0xE8) | reported | per-overlay code (7 location overlays carry code here, 7 different functions) — a byte inside an instruction immediate, not a shared body |
+| 0x80146280 | Time-Sanity hook site | US | AP-world `client.py` v0.8.1 (`time_hook`; JP 0x80146550 = +0x2D0) | reported; **function resolved (P33 E2)** | inside `func_80146128` (142 ins, shared ×every location overlay): a jump rewritten to the AP-injected `setTimec.bin` routine |
 | 0x8018EE00 | bossHp_RelicKeeper | US | autosplitter | reported | |
 | 0x801E4398 | bossHp_SteamKnight | US | autosplitter; **VERIFIED live (T6b 2026-06-14): 27→0 as boss defeated** | **verified** (state-dependent) | Valid only while the Allucaneet Castle overlay (`SC02/FILE_005`) is loaded; live-anchors the §4.2 boss-HP region |
 | 0x801EFD28 | bossHp_FrostDragon | US | autosplitter | reported | |
@@ -551,7 +555,7 @@ in retail too (shipped data, not a debug build). The proto's scene-select shares
 | 10 | **RESOLVED (Phase 3.5):** the demo's scene-select is the SAME architectural feature as the retail L3 debug menu — identical 18-entry `gameModeHandlerTable` (same order + same idx[10]==idx[15] duplicate), game mode #7 — BUT the slot-7 handler CODE diverged and the demo is **unnamed** ⇒ **no free labels**. Shared architecture, not shared labels. | Free labels for retail RE | Done — see `docs/proto-correspondence.md` |
 | 11 | $gp usage: header `gp0` = 0 (verified) — is the build −G0? | Pins a compiler flag for matching (Phase 6) | Check for `$gp`-relative loads in Ghidra |
 | 12 | **RESOLVED (T6b, change-detection)** — 0x80078EB2 = hp_max, 0x80078EB4 = hp_current (HP 146→136 tracked live); same {max,cur} pattern for BP at 0xEB6/0xEB8 | Correct struct field names | Done |
-| 13 | Nature of `buildIdBytes` @ 0x8000BA94 (kernel-area RAM) | Used by AP-world for region detect; odd location | Inspect live; check if BIOS/kernel structure or game-written |
+| 13 | Nature of `buildIdBytes` @ 0x8000BA94 (kernel-area RAM) | **ANSWERED (P33 E2, 2026-09-07)** — not a game variable. AP-world `client.py` v0.8.1 matches the ASCII string `SLUS-00726MUSASHI` at MAIN_RAM 0x00BA94, then 0x009F9A, then 0x072E02, then `SLUS_007.26;1` at eight more addresses, then the JP `SLPS_014.90;1`: a fallback cascade over BIOS/emulator-dependent kernel-area copies of the disc ID / boot path. The game's OWN copy is the product-code string **`BASLUS-00726MUSASHI` at 0x80072DFC in EXE `.data`** (fileoff 0x635FC; disc sector 222) — so the `0x072E02` fallback starts at the string's 5th character and cannot match on the US EXE (harmless: the kernel-area check hits first) | Nothing to import; row kept as the record |
 | 14 | Where are `LOGOA/LOGOB.STR` and `.DA` paths referenced (absent from `CdPathTable`)? | Completeness of the file-access map | String scan for other path tables; CdSearchFile xrefs |
 
 ---

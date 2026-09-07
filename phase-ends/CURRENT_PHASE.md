@@ -84,7 +84,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **E5** permuter upstream PR branch — Max (FULL, Drew 2026-09-07) — see Log 2026-09-07 E5
 - [x] **E6** drafter write-up — Max — see Log 2026-09-07 E6
 - [x] **E1** decomp.me preset — `docs/decompme-preset.md` + `tools/decompme_replica.sh` (PASS through decomp.me's own toolchain, locally); Drew's post-flip step (prove the scratch, file decomp.me's preset-request issue, the manual search) — xHigh — see Log 2026-09-07 E1
-- [ ] **E2** Archipelago outreach (after the flip) — xHigh
+- [x] **E2** Archipelago outreach — `docs/outreach/archipelago.md` (the note + our source's answers, banked in memory-map); Drew SENDS after the flip — xHigh — see Log 2026-09-07 E2
 - [ ] **C11** Aftercare (other clones, archive remote removed, `.run/` pruned, DIGEST/decision-log) — xHigh
 - [x] **G1** `docs/gen3-handoff.md` — Max — see Log 2026-09-07 G1
 - [ ] **G2** PhaseEnd v2.0.0 + DIGEST + archive this file + tag — Max, Tier 1, WAIT for gate 2
@@ -659,18 +659,31 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   `doc_links` default set (`--strict` PASS), `.gitignore` allowlist for the verdict log only (the target `.s` is game disassembly),
   SETUP §6.5 rewritten + 2 inventory rows + the P33 E1 section + ledger row 14. Gotcha, recorded: a `cd` in one Bash call
   persists into the next — the first download landed inside `tools/maspsx/` (moved out; submodule clean). Commit: see below.
+- **2026-09-07 (S89, Max) — E2 `docs/outreach/archipelago.md`: the Archipelago note, with the decomp's answers to their data.**
+  Read the AP world (v0.8.1, pushed 2026-09-07; BizHawk-only; US+JP; 342 polled addresses; runtime MIPS injection via
+  `patch/en/*c.bin` + hook words; no license) as data. Derived and BANKED in `docs/memory-map.md` (P33 E2 tags): the dow byte
+  `0x80078EBA` is real and theirs is right (`func_8014B084`: `day+1` wraps at 366 into u16 0x80078EAC; `dow = (dow+1) % 7`) —
+  our `dayCounter` row was u8 and said "dow not yet separable" (corrected); their patch sites → functions via a sig-registry
+  scan over 141 `ov_*` images (`func_8013F350`, `func_8014BCEC` = `bp_max += a1` clamp 0x662, `func_8015A3C8`, hook
+  `func_80146128`; all 141/141 = shared bodies; `0x8018E096` per-map 7/7 distinct); the town-ID patch is gone from v0.8.1 → the
+  memory map's JP-delta inconsistency marked HISTORIC; **Q#13 answered** (`BASLUS-00726MUSASHI` at 0x80072DFC in EXE `.data`,
+  disc sector 222; the client's kernel-area cascade; its `0x072e02` fallback is +4 off on US). The note: §1 what AP/the world is
+  (for Drew), §2 the evidence table, §3 the two asks (unpublished US RAM notes; attribution consent), §4 the GitHub-issue text +
+  a Discord short form (plain style, no em-dashes, every number from §2; SEND AFTER THE FLIP), §5 the G5 procedure for the reply.
+  Wiring (R21): `doc_links` default (`--strict` PASS), SETUP row + P33 E2 section. **Nothing is left for Claude before the flip.**
+  Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E1 ✓ E3–E6 ✓, G1 ✓ (35 of 41); C10 = SUPPORT TICKET #4736982 FILED, PROBE DAILY; NEXT = E2's document, then the probe-gated chain (Drew), C11, G2 (2026-09-07, written by S88, updated by S89 after the ticket + E1; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E1–E6 ✓, G1 ✓ (36 of 41); C10 = SUPPORT TICKET #4736982 FILED, PROBE DAILY; NEXT = the probe-gated chain (Drew: flip → E1/E2/D3 outward → wiki push), then C11, G2 (2026-09-07, written by S88, updated by S89 after the ticket + E1; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **Claude's pre-flip work: E1 is DONE (S89, the document + the local proof); E2's document is the one item left before the flip** (35 of 41; G1 was pulled ahead of the
+(R1–R73), then WAIT for Drew. **Everything Claude can do before the flip is DONE — E1 and E2 included (S89)** (36 of 41; G1 was pulled ahead of the
 plan's C11 → G1 order because it depends on nothing gated — recorded as a sequencing deviation). **NEXT = step 6, the flip
 chain, with Claude walking Drew through it (his instruction at the S88 close).** Order: run `tools/public_rewrite/
 probe_github.sh` first (≈1 min; it must print PASS) → C10 the flip (Drew: Settings → General → Danger Zone → Change
 visibility → Public; then `gh api repos/Druthulu/BFM-decomp --jq .private` → false, `probe_github.sh --after-flip`, and the
-Actions tab green) → E1 outward (Drew: the browser session of `docs/decompme-preset.md` §5 — the document and the local proof are DONE, S89) → E2 (Claude WRITES `docs/outreach/archipelago.md`; Drew sends it) → D3 outward (Drew: decomp.dev
+Actions tab green) → E1 outward (Drew: the browser session of `docs/decompme-preset.md` §5 — the document and the local proof are DONE, S89) → E2 outward (Drew SENDS the issue text in `docs/outreach/archipelago.md` §4 — the document is DONE, S89) → D3 outward (Drew: decomp.dev
 `manage/new` with the `SLUS_007.26_report` artifact; frogress slug `bfm` + key; then `tools/frogress_upload.py --push`) →
 the wiki push (Drew: Wiki → "Create the first page", then `tools/wiki_sync.sh --push`) → Claude's **C11** (aftercare) →
 **G2** (the PhaseEnd, Tier 1, WAIT for gate 2). **If the probe still FAILS:** the two documents (E1's page, E2's note) can
@@ -703,7 +716,7 @@ local-model tier's pipeline, its measured arc, the portable lessons, what is NOT
 `docs/gen3-handoff.md` — the derived census incl. 44,243 register pins, the invariant, the levers, shiftability scoped, the
 parked ideas, the governance for Gen3; `583ec85d6e`).** **In progress (Drew, C10):** the GitHub
 Support ticket **FILED 2026-09-07 as #4736982** (S89, via the Virtual Agent "Clear cached views" flow, runbook §11) and the daily
-`tools/public_rewrite/probe_github.sh` until it prints PASS (S88's last run: **31 of 33 old hashes still ALIVE; no purge yet**). **Remaining (6):** E2's document (Claude, now); then, gated on the probe PASS: C10 (the flip — Drew), E1's browser step (Drew), E2's send (Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
+`tools/public_rewrite/probe_github.sh` until it prints PASS (S88's last run: **31 of 33 old hashes still ALIVE; no purge yet**). **Remaining (5):** all gated on the probe PASS: C10 (the flip — Drew), E1's browser step (Drew), E2's send (Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
 (Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare) and G2
 (the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
 
@@ -766,8 +779,8 @@ Support ticket **FILED 2026-09-07 as #4736982** (S89, via the Virtual Agent "Cle
    (`tools/public_rewrite/probe_github.sh` — ~1 min, gh-authenticated, safe to run from Claude since S88).
 2. **E3, E4 and E5 are DONE, outward actions included** (see the log): `https://github.com/Druthulu/xsig` (public);
    PR simonlindholm/decomp-permuter#213 + issue #214. **E6, G1 and E1 (S89) are DONE too** (`docs/matching-drafter-pipeline.md`,
-   `docs/gen3-handoff.md`, `docs/decompme-preset.md` + `tools/decompme_replica.sh`). **E2's document (`docs/outreach/archipelago.md`)
-   is the one Claude item left before the probe passes — do it next.**
+   `docs/gen3-handoff.md`, `docs/decompme-preset.md` + `tools/decompme_replica.sh`). **E2's document (`docs/outreach/archipelago.md`) is DONE too (S89) — nothing is left for Claude before the probe passes;
+   the daily probe is the only pre-flip action.**
 3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → **E1, Drew's
    six steps (~20 min; the paste-ready bundle is `.run/decompme/drew_bundle/` — regenerate with `tools/decompme_replica.sh`
    then the commands in the E1 log entry if `.run/` was pruned):** (1) log in to decomp.me with GitHub; (2) decomp.me/new →
@@ -779,7 +792,7 @@ Support ticket **FILED 2026-09-07 as #4736982** (S89, via the Virtual Agent "Cle
    14); (6) send Claude the scratch URL + issue URL → recorded in SETUP §6.5 + ledger 14 + this log. Then → E1
    (`docs/decompme-preset.md`; Drew creates the preset in the browser: platform ps1, `gcc2.7.2-psx`, flags `-O2 -G0 -mips1
    -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div`; prove on `func_80018F20` first; the manual
-   scratch search closes SETUP ledger row 14) → E2 (`docs/outreach/archipelago.md`; Drew sends; on reply a G5 row) → D3
+   scratch search closes SETUP ledger row 14) → E2 (Drew sends the §4 text of `docs/outreach/archipelago.md` as a GitHub issue on their repo; on reply, G5 rows per its §5) → D3
    outward (decomp.dev `manage/new` with the `SLUS_007.26_report` artifact; frogress slug `bfm` + key; then `tools/
    frogress_upload.py --push`) → **the wiki push** (Drew: create the first page in the GitHub UI, then `tools/wiki_sync.sh
    --push`; verify the pages render and the sidebar links resolve) → **C11** (other clones: `git fetch origin && git reset
@@ -789,7 +802,7 @@ Support ticket **FILED 2026-09-07 as #4736982** (S89, via the Virtual Agent "Cle
    the milestone evidence, WAIT for gate 2; then `PhaseEnd_Phase33.md` v2.0.0 with the rule candidates (a)–(h), `CURRENT_PHASE.md`
    → `phase-ends/logs/Phase33.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`).
 
-### 4. Files touched — S89 (2026-09-07): `docs/public-flip-runbook.md` §11 (the Activity-view finding, the ticket route, #4736982), `phase-ends/CURRENT_PHASE.md`, `tools/decompme_replica.sh` (NEW), `docs/decompme-preset.md` (NEW), `tools/doc_links.py` (default set), `.gitignore` (`.run/P33/e1/` log allowlist), `docs/SETUP.md` (§6.5, maspsx rows, 2 inventory rows, P33 E1 section, ledger row 14); evidence `.run/P33/e1/decompme_replica.log` (tracked), `.run/decompme/` (scratch: the 0.13 tarball, maspsx 86ccd7d8, the probe dirs), `.run/P33/activity_all.txt` (scratch).
+### 4. Files touched — S89 (2026-09-07): `docs/outreach/archipelago.md` (NEW), `docs/memory-map.md` (dow row + dayCounter u16, patch-site functions, the Time-Sanity hook row, the historic inconsistency, Q#13 answered), `docs/public-flip-runbook.md` §11 (the Activity-view finding, the ticket route, #4736982), `phase-ends/CURRENT_PHASE.md`, `tools/decompme_replica.sh` (NEW), `docs/decompme-preset.md` (NEW), `tools/doc_links.py` (default set), `.gitignore` (`.run/P33/e1/` log allowlist), `docs/SETUP.md` (§6.5, maspsx rows, 2 inventory rows, P33 E1 section, ledger row 14); evidence `.run/P33/e1/decompme_replica.log` (tracked), `.run/decompme/` (scratch: the 0.13 tarball, maspsx 86ccd7d8, the probe dirs), `.run/P33/activity_all.txt` (scratch).
 
 ### 4b. Files S88 touched (11 commits after the F2 tip: the eight task commits, the checkpoint, the outward pushes, this update)
 Tools (new): `tools/wiki_render.py`, `tools/wiki_sync.sh`, `tools/gccmap_cites.py`, `tools/xsig/` (xsig.py, README, LICENSE,
