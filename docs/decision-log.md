@@ -3424,3 +3424,38 @@ not in hours: the mechanism first, the site second.
 ### Hindsight path
 Build the reproducer battery for every species BEFORE the census (accelerators (15)), read the allocation order before any
 register lever (accelerators (16)), and treat "PROVED" as "proved against this list" — a wall verdict should name the list.
+
+## P33 S86 (2026-09-06) — the public flip is IN PLACE with the full history, not a fresh mirror
+- Context / belief: roadmap v2 §3 P33 and gen2-roadmap Phase 14 planned a curated, freshly-created public mirror
+  (copy-in, no history rewrite, the private master untouched). The S86 history audit (every blob on every ref) found the
+  ROM-derived and proprietary content confined to five path sets — the EXE (two historical paths), 28 RAM dumps, the
+  Ghidra project (verified to embed the EXE's bytes under Ghidra's page XOR mask), Sony's PsyQ SDK, and a 271 MB
+  session-transcript archive holding ~260k lines of game disassembly — plus two redistributed third-party binaries; no
+  secrets anywhere; the disc, `asm/`, `assets/`, `expected/`, `build/` never committed.
+- Dead-end (if any): none tried; the mirror model was rejected on the owner's stated priority — "maintain the commit
+  history, timeline, commit amount" — which a fresh mirror discards.
+- Pivot: rewrite the history with git-filter-repo (every commit, date, message and order kept; hashes change; one
+  all-purged commit drops), scrub the ~700 cited old hashes from every historical blob and message into inert
+  `commit:NNNN` tokens with a committed map and a tip commit that resolves them at HEAD, map the two personal e-mail
+  identities to the GitHub noreply address, push the current history to a private archive repo first, force-push the
+  rewrite over `Druthulu/BFM-decomp`, and gate the visibility flip on GitHub no longer serving the old hashes (Support
+  purge, probed by script; delete-and-recreate under the same name is the fallback).
+- Why: hashes are not secrets by obscurity here — our own docs publish them, so old objects reachable by hash on GitHub
+  would be reachable by anyone; a content-preserving rewrite keeps everything the story and retrospective are mined
+  from (dates, messages, the historical `docs/progress*.md`); the fixed-point argument (a new hash written into a doc
+  changes every descendant hash) is why tokens live in history and real hashes only at the tip.
+- Hindsight / for the wiki: decide the public/private boundary on day one and keep ROM-derived bytes out of git from
+  the first commit even while private (R1's relaxation bought convenience and cost a full-history rewrite); cite commits
+  by date + subject in long-lived docs, never by hash alone, if a rewrite is ever conceivable.
+
+## P33 S86 (2026-09-06) — main's game-code denominator was Ghidra's, and Ghidra under-counted by 3,616 instructions
+- Context / belief: the published "MAIN game-code weighted 41,534 / 41,534" came from a Ghidra sig whose function
+  boundaries are flow-derived; P31 S79 had corrected one instance (+22 on FUN_80023bf0).
+- Pivot: `make sig-main` now derives every game-code function's boundary from the BUILD (link-map `.text` sections ×
+  each object's `nm` symbols; tiling asserted), Ghidra-free and regenerable on a public clone.
+- Why: the derived sig tiles the game-code text exactly (45,150 words) and is never shorter than Ghidra's; Ghidra left
+  3,628 words of real game code owned by no function (unresolved switch tails, 52 two-to-four-instruction thunks, a
+  jump-table target labelled as a function). All still 100% — the denominator moved, not the verdict.
+- Hindsight / for the wiki: a metric's denominator should come from the artifact you control (the build), not from the
+  analysis tool; when two instruments disagree by a systematic offset, the "corrected" instance you found is usually one
+  of a class.
