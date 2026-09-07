@@ -320,6 +320,8 @@ ifeq ($(BINARY),main)
 	$(VENV_PY) tools/dup_report.py --cross
 	# Fleet roll-up (Phase 15): deterministic per-binary table + fleet totals -> docs/progress.fleet.md.
 	$(VENV_PY) tools/progress.py --fleet
+	# P33 D1/D3: the same numbers as DATA — docs/progress.json + the README block (never typed by hand)
+	$(VENV_PY) tools/progress.py --json --readme
 	# Backlog compaction (Phase 29): the near-miss log is append-only, so it fills with already-banked
 	# noise (measured 6,867 rows, 98% banked). prune rewrites .run/backlog.jsonl to the open near-misses
 	# (drop-now-matched P9 + best-per-addr) so the ledger tracks reality instead of drifting stale.
