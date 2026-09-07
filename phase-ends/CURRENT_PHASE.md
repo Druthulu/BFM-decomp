@@ -692,6 +692,14 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   ~~The wiki can be pushed NOW~~ — **WRONG (R14, corrected minutes later):** GitHub's settings page reads "Upgrade or make this
   repository public to enable Wikis"; on the free plan wikis exist only on public repos, so the wiki waits for the flip. `wiki_sync.sh`
   message and checklist item 5 corrected back. Commit: see below.
+- **2026-09-07 (S89) — Drew's Gen3 questions; the standard researched (web, as data) and the gap measured → `docs/gen3-handoff.md`
+  §2.2.** sotn-decomp's STYLE.md rules + its CONTRIBUTING AI clause ("submitted without autonomous tooling such as an LLM or coding
+  agent … changes must be justifiable and manually operable"), decomp.me's FAQ ("do not … hook up an LLM"), rood-reverse's
+  readability goals; the community's gripe decomposed into five items, two of which ARE Gen3 (bytes without understanding; invented
+  names). Tree today: 1,094 named vs 16,335 `func_`; 61,898 `D_`; 1,232 struct variants; 43,857 pins (grep); **5,147 shared bodies as
+  macros in one 8.4 MB header**; 3,558 of 4,287 C files are carve splits. Sequencing decided: Gen3 execution after v2.0.0 in a fresh
+  plan-mode session; measurement-only preparation under G1 meanwhile; delete-and-recreate if Support stalls past ~a week. Drew replied
+  to the permuter maintainer in his own words (sent). Commit: see below.
 
 ## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E1–E6 ✓, G1 ✓ (36 of 41); C10 = SUPPORT TICKET #4736982 FILED, PROBE DAILY; NEXT = the probe-gated chain (Drew: flip → E1/E2/D3 outward → wiki push), then C11, G2 (2026-09-07, written by S88, updated by S89 after the ticket + E1; SUPERSEDES the earlier blocks)
 

@@ -56,6 +56,63 @@ that repository at all, or can we derive the structures from our own decomp?* An
   evidence (xrefs, strings, the AP names, TCRF/debug-menu strings). Plan Gen3 in that order, and measure each class's
   size before pricing it (R37/R41).
 
+### 2.2 The standard to meet, and where the tree stands against it (measured 2026-09-07, P33 S89)
+
+The owner's aim for Gen3 is stated plainly: *turn a machine-produced matching decomp into a decomp the human community would
+accept as proper, at the level of sotn-decomp or the Vagrant Story project.* What those projects actually require, read from
+their documents on 2026-09-07 (as data):
+
+- **sotn-decomp `docs/STYLE.md`:** a full naming scheme (locals `camelCase`, globals `g_PascalCase`, statics `s_PascalCase`,
+  struct members `camelCase`, types/functions `PascalCase`, enum values and macros `SCREAMING_SNAKE_CASE`, files `snake_case`);
+  "We always write our enums and structs as typedefs"; the custom `u8…u32` types; clang-format (4 spaces, 80 columns, pointer
+  on the type); decimal for counts and timers, hex for angles, addresses and masks; `bool` for 0/1 returns; braces on every
+  block; "It's better to not hardcode array sizes (easier to mod)"; comments for anything strange, `//! @bug`, `// !FAKE:` on
+  code that exists only to force a match; **"If you are not sure what something does, it is better to leave it unnamed than
+  name it wrongly"**; "All functions should go in the main C file in the same order as the assembly".
+- **sotn-decomp `CONTRIBUTING.md`:** `func_`/`D_`/`Unk` placeholders are the to-be-improved state, renaming is a first-class
+  contribution; and, verbatim: **"We require commit messages and Pull Requests to be submitted without autonomous tooling such
+  as an LLM or coding agent. Assistance from coding agents is allowed, but changes must be justifiable and manually operable."**
+- **decomp.me FAQ:** "Please do not attempt to scrape the site, hook up an LLM, or otherwise make repeated, automated,
+  requests to decomp.me"; contributions accepted "from people who use the site or are actively involved in the wider
+  decompilation community".
+- **Vagrant Story (`ser-pounce/rood-reverse`, 62.66% on decomp.dev):** readability refactors called out as goals ("Much of the
+  menu code has been refactored and is readable"), `make format` before a PR, the decomp.me claim-and-PR workflow.
+
+**What the community's gripe with "AI decomp" actually is** (the record: our own `docs/history/` psxrecomp post-mortem; the
+2026 Macabeus 60-function study; today's permuter episode; the policies above): (1) unsound claims — matches asserted that
+are not, the model "wrongly assuming there is a perfect match when there isn't"; (2) matches that are bytes without
+understanding — register pins, raw casts, magic numbers, macro bodies, anything that forces the compiler without saying what
+the code does; (3) maintainers' time spent on machine-written PRs and issues; (4) automated load on shared infrastructure;
+(5) names invented rather than evidenced — the sotn rule "leave it unnamed rather than name it wrongly" is the one Gen3 must
+honour most, because a model will happily guess. Item (1) this project answers with the byte gate over 218 whole binaries;
+items (2) and (5) are exactly the Gen3 work; (3) and (4) are conduct, governed by rule candidate (j) and the decomp.me rule.
+
+**Where the tree stands, measured today:**
+
+| Bar | This tree (2026-09-07) |
+|---|---|
+| Byte-identical build, splat, permuter/asm-differ, CI, no-ROM policy, progress publishing | met, and stricter than most: whole-binary SHA1 on every build, 218/218 |
+| Named functions | 1,094 named in the symbol files vs **16,335** `func_80xxxxxx` |
+| Named data | **61,898** `D_80xxxxxx`; most are per-overlay script data |
+| Typed structures | **1,232** struct definitions, many drafter-invented variants of one type; 143 raw address casts remain |
+| No match-forcing tricks | **43,857** `register … __asm__("$N")` pins (grep today; the §3 census counted 44,243 declarations) — sotn would want each either gone or marked `// !FAKE:` |
+| Readable organisation | **5,147** shared engine functions live as `DEFINE_func_…()` macro bodies in one 8.4 MB, 227,730-line header (`src/shared/engine_core.h`), instantiated per overlay; 3,558 of the 4,287 C files are `_jr_` carve splits — the layout follows the carving tool, not the game's systems |
+| Formatting | no `.clang-format` in the tree and no `make format` target |
+| Documentation | the method, the cookbook, the decision log and the wiki are unusually complete; the CODE carries almost no comments |
+
+The gap is therefore not matching and not process; it is the five rows in the middle. In Gen3 planning order they are:
+pins off (mechanical, family-batched, byte-gated), the macro-body architecture → shared `.c` files a human can read (a
+byte-neutral restructuring; measure it on one family first), struct unification then naming (types from access patterns,
+names only with evidence — xrefs, strings, the debug menu, live RAM, the AP world's labels — else stay `func_`/`D_`),
+formatting, then comments. Each step is checked the only way this project checks anything: 218 binaries rebuild identical.
+
+**Sequencing against Phase 33 (owner's question, 2026-09-07):** Gen3 execution — any edit to `src/` — starts after the
+v2.0.0 close in a fresh plan-mode session (P8; the Gen3 plan is Tier 1). While the flip waits on GitHub Support, Gen3
+*preparation* that is measurement-only is legitimate Phase-33 work under G1 and lands in this file: the struct-duplicate
+census, a pins-off dry run on ONE family in a scratch worktree (measured yield and cost, nothing committed to `src/`), a
+naming pilot's evidence ladder. If Support stalls beyond about a week, the runbook's delete-and-recreate route flips the
+repository the same day and the close follows.
+
 ## 3. The starter census (derived 2026-09-07 — re-derive, do not trust)
 
 ```bash
