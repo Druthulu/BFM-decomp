@@ -127,7 +127,7 @@ void func_80189050(s32 param_1) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern s16 D_801960CC;
 extern s16 D_801960CE;
@@ -1003,7 +1003,7 @@ void func_8018A2C0(s32 param_1)
 }
 
 
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"  /* match_one-only: gives MATRIX/SVECTOR; the real TU already includes this */
+#include "../shared/engine_core.h"  /* match_one-only: gives MATRIX/SVECTOR; the real TU already includes this */
 
 extern s32 func_80012C6C(s32 a0, s32 a1, s32 a2);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
@@ -3919,7 +3919,7 @@ u8 * func_8018D820(s32 a0, s32 a1, s32 a2) {
 }
 
 
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"  /* match_one-only: gives Mat32_8018A390_8018FE94; the real TU already includes this */
+#include "../shared/engine_core.h"  /* match_one-only: gives Mat32_8018A390_8018FE94; the real TU already includes this */
 
 extern u16 D_80126CB4;
 extern u16 D_80126CB6;
@@ -4205,7 +4205,7 @@ s32 func_8018DDD0(s32 a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 func_80134510(s32 arg);

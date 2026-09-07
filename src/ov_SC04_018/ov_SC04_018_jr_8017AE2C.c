@@ -6571,7 +6571,7 @@ void func_80180B6C(void *a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern void func_8012E8E0(s32 a0, s32 a1);
 extern void func_8012E88C(s32 a0);

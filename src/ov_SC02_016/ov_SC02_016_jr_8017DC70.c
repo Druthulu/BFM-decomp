@@ -3562,7 +3562,7 @@ void func_8017F33C(void *a0)
 }
 
 
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern u16 D_80126B5E;
 extern u16 D_80126B62;

@@ -3129,7 +3129,7 @@ s32 func_801870E8(s32 a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern s32 rand(void);
 extern s32 func_8012C51C(void *a0, s32 a1);

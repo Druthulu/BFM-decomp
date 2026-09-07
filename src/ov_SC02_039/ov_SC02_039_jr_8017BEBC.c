@@ -4661,7 +4661,7 @@ void func_8017EED8(s32 a0in) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 /* func_8012DEB8: shared engine-core collision-probe routine, verified sig at
  * src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:3492 (also used TU:375,6408,6479). */

@@ -4171,7 +4171,7 @@ void func_8017C710(s32 arg0)
 }
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 /* fleet-modal spelling (engine_core.h, n=1411 occurrences) */
 extern void func_8012ADE4(u8 *a0);

@@ -3918,7 +3918,7 @@ void func_801883EC(s32 a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 void func_80188430(s32 a0) {
     extern s32 func_80133784(s32 a0, void *a1, s32 a2);
@@ -3971,7 +3971,7 @@ void func_80188508(s32 a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern s32 rand(void);
 extern s32 func_8012B744(void *a0, void *a1);

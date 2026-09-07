@@ -10509,7 +10509,7 @@ s32 func_80185EFC(s32 a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 func_80134510(s32 arg);

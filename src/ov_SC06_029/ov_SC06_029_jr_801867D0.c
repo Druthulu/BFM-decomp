@@ -4076,7 +4076,7 @@ s32 func_80187CE4(void) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern s32 func_80047948(s32 a0);
 extern s32 func_8004787C(s32 a0);

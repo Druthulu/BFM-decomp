@@ -4280,7 +4280,7 @@ void func_80189A70(s32 *a0)
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 typedef struct {
     s16 start;

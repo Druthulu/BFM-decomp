@@ -5336,7 +5336,7 @@ void func_801863AC(void *a0) {
 DEFINE_func_801863E8()  /* dedup: shared engine-core @0x801863E8 (src/shared) */
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 DEFINE_func_80186424()  /* dedup: shared engine-core @0x80186424 (src/shared) */
 

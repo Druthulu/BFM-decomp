@@ -6533,7 +6533,7 @@ void func_80183790(s32 param_1)
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 /* neighbour func_80187D80 (same TU) uses SV3 in/out + func_8012F214 with the
    same call convention; house style adopted here (§tu_ref). */
@@ -8516,7 +8516,7 @@ u8 *a0;
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_8012B23C(s32 a0);
@@ -8579,7 +8579,7 @@ void func_8018626C(s32 a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern s32 rand(void);
 extern s32 func_8012B744(void *a0, void *a1);

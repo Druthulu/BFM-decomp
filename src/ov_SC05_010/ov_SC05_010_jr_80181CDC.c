@@ -3137,7 +3137,7 @@ void func_80182AC0(void *a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 extern void (*D_80192A28[])(void);
 extern u8 D_80192924[];

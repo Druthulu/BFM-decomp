@@ -3432,7 +3432,7 @@ void func_80189B74(void *a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern Blk20 D_800AE620;
 extern u8 D_801B5EC8;
@@ -3592,7 +3592,7 @@ void func_80189F50(void) {
 }
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 extern s32 func_8012C1B8(void);
 extern void func_8012CAE4(void *a0);
@@ -3641,7 +3641,7 @@ void func_8018A07C(void) {
 }
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern Blk20 D_800AE620;
 extern s32 D_801A7A34;

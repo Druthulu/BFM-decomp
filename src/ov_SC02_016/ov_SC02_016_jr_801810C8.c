@@ -3020,7 +3020,7 @@ void func_801814A8(s32 a0) {
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern s16 D_8018864C;
 extern s16 D_8018864E;

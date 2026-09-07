@@ -2923,7 +2923,7 @@ void func_801826C8(s32 a0) {
 }
 
 
-#include "/home/musashi/bfm-decomp/src/shared/engine_core.h"
+#include "../shared/engine_core.h"
 
 extern u16 func_80148800(s32 *a0);
 extern void func_80182B48(s32 param_1, s16 *param_2);

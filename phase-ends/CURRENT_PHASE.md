@@ -51,7 +51,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **A4** `tools/family_hseq.py` regen — Low (became an instrument fix: the map now carries its own coverage) — see Log
 - [x] **B1** `make disc-extract` (extract.py `--expect-manifest` / `--allow-missing-audio`; check-env; `.gitignore`
       re-tightened; the 4 splat preset headers tracked; `clean` fixed) — Max — see Log 2026-09-06 B1
-- [ ] **B2** 34 absolute includes → `../shared/` + portable-include audit + 15-binary re-gate — xHigh
+- [x] **B2** 34 absolute includes → `../shared/` + portable-include audit + 15-binary re-gate — xHigh — see Log 2026-09-06 B2
 - [ ] **B3** `tools/bootstrap.sh` / `make bootstrap` + check-env extensions + fresh-clone proof 218/218 — xHigh
 - [ ] **B4** `tools/fetch_psyq.sh` + CHECKSUMS rows (20 lib40 LIBs, psyq-obj-parser) BEFORE `tools/psyq/` leaves git — xHigh
 - [ ] **B5** Ghidra regenerability (ExportAnnotations/ImportAnnotations/ghidra_rebuild.sh `--proof` on SLUS_007.26 +
@@ -142,18 +142,25 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   tree IDENTICAL for all 1,801 retail files; second run "up to date" in 0.7 s; `make check-env` OK with the new PASS lines.
   Slip, recorded: the previous tree also held `extracted/proto/` (the two prototype EXEs from the prototype discs, not the
   retail one) and I removed the moved-aside copy in the same command as the diff — regenerated from `disks/` with
-  `tools/bfm_extract/extract_proto_exe.py` (see the next line).
+  `tools/bfm_extract/extract_proto_exe.py` (sep8 413,696 B sha1 `43006a31…`, aug31 415,744 B sha1 `6150b0f8…`). Commit
+  `commit:4016`.
+- **2026-09-06 (S86) — B2 (portable includes).** `tools/audit_text_sources.py` gained the portable-include class (absolute /
+  angle-bracket / unresolvable / outside-repo `#include`); positive control BEFORE the fix: 34 offenders in 19 files, all
+  ABSOLUTE (4,299 sources scanned); the sed → `../shared/engine_core.h` ×30 + `../shared/engine_types.h` ×4;
+  `grep -rn /home/musashi src include` → 0; negative control → OK. Re-gate of the 15 binaries (derived from the diff, 5 in
+  parallel): 15/15 `[ OK ]` BYTE-IDENTICAL in 29 s wall (`.run/P33/b2_gate/<bin>.log`). SETUP: P33 B2 section (R21).
 
-## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1 ✓; NEXT = B2 (the 34 absolute includes + the portable-include audit + 15-binary re-gate, xHigh) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1 ✓, B2 ✓; NEXT = B3 (`tools/bootstrap.sh` + `make bootstrap` + check-env extensions + the fresh-clone proof, xHigh) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = B2** (xHigh: the 34 absolute `#include "/home/musashi/bfm-decomp/src/shared/…"`
-lines in 19 `src/ov_*/…_jr_*.c` files across 15 binaries → `../shared/`; extend `tools/audit_text_sources.py` with a
-portability class; controls 34 → 0; re-gate the 15 binaries with `make extract BINARY=<b> && make check BINARY=<b>`).
-If `git log -1 --format=%s` does not start with `feat(phase-33): B1`, B1's commit did not land: re-run `make disc-extract`
-(expect "up to date" in ~1 s) and `make check-env` (OK) before committing.
+(R1–R73), then WAIT for Drew. **NEXT = B3** (xHigh: `tools/bootstrap.sh` / `make bootstrap` — apt presence check, venv +
+requirements, submodules, cc1 tarball checksums + untar, `make check-env`; check-env gains submodule state, the 4 tracked
+headers, disc/extracted state; the fresh-clone proof: `git clone --no-local` into `.run/P33/fresh/` → bootstrap → disc
+symlinked → `make disc-extract && make extract-all && make check-all` → 218/218). If `git log -1 --format=%s` does not start
+with `feat(phase-33): B2`, B2's commit did not land: `tools/audit_text_sources.py` must print OK and the 15 gate logs under
+`.run/P33/b2_gate/` must each say BYTE-IDENTICAL before committing.
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified at
@@ -222,14 +229,16 @@ items can be cut). Harness tasks: #1 A1 done, #2 A2 done, #3 A3 next … #41 G2.
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~` (≈13 GB free) ·
    `.venv/bin/python -c 'import splat'` · `ls build/us/SLUS_007.26.map` (main is built; `make check BINARY=main` if not).
-1. **B2** (xHigh): `grep -rl '#include "/home/musashi/bfm-decomp/src/shared/' src | xargs sed -i 's|#include
-   "/home/musashi/bfm-decomp/src/shared/|#include "../shared/|'`; `grep -rn '/home/musashi' src include` must print nothing;
-   `tools/audit_text_sources.py` gains the portability class (absolute, `<…>`, outside-repo includes are offenders; run it
-   BEFORE the sed → exactly 34 offenders in 19 files, AFTER → 0); re-gate the 15 binaries: `for b in ov_SC02_000 ov_SC02_011
-   ov_SC02_016 ov_SC02_017 ov_SC02_026 ov_SC02_039 ov_SC03_001 ov_SC03_006 ov_SC03_091 ov_SC03_105 ov_SC04_018 ov_SC05_003
-   ov_SC05_010 ov_SC06_000 ov_SC06_029; do make extract BINARY=$b && make -j8 check BINARY=$b || exit 1; done` (derive the
-   list from the grep, do not trust this one). Commit "feat(phase-33): B2 …".
-2. Then B3 → B4 → B5 (MCP stopped) → B6 → B7 → B8 → A5 → B9/C3 … per the task list. After every task: tick the box,
+1. **B3** (xHigh) per the plan's Block B: `tools/bootstrap.sh` (idempotent; prints the apt line for missing packages from
+   SETUP §4.3, no sudo; `python3 -m venv .venv && .venv/bin/pip install -r requirements-python.txt`; `git submodule update
+   --init`; `sha256sum --check tools/bin/CHECKSUMS.sha256` then `tar xzf` each cc1 tarball into `tools/bin/gcc-2.7.2-{psx,cdk}/`
+   unless `cc1` exists; `make check-env`), `make bootstrap`; check-env additions (submodule gitlinks populated, the 4 tracked
+   headers present, extracted/ state). Proof = the "stranger with their own dump" criterion: `git clone --no-local ~/bfm-decomp
+   .run/P33/fresh` → `tools/bootstrap.sh` → `ln -s ~/bfm-decomp/disks .run/P33/fresh/disks` → `make disc-extract && make
+   extract-all && make check-all` in the clone → `check-all: 218 passed, 0 failed of 218`. Disk: the clone + its extracted/ +
+   build ≈ 3 GB (13 GB free); delete `.run/P33/fresh` afterwards. NOTE the clone's HEAD still tracks the EXE and the
+   purge paths until C3 — that is fine for the proof (the EXE arrives from git AND from disc-extract, same bytes).
+2. Then B4 → B5 (MCP stopped) → B6 → B7 → B8 → A5 → B9/C3 … per the task list. After every task: tick the box,
    add a Log line, refresh this checkpoint block (the 🛑 block is the ONLY in-phase context the next session inherits),
    commit. Next P6 rules check after B4 (8 tasks done). `extracted/proto/` (sep8 + aug31 EXEs) is regenerated from the
    prototype discs by `tools/bfm_extract/extract_proto_exe.py` (docstring examples) — B5 needs both files.

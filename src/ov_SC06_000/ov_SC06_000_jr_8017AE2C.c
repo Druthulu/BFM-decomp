@@ -8288,7 +8288,7 @@ void func_8018371C(s32 a0)
 
 
 #include "common.h"
-#include "/home/musashi/bfm-decomp/src/shared/engine_types.h"
+#include "../shared/engine_types.h"
 
 extern MatEntry D_8018C558[];
 extern s32 func_80178B18(s32 param_1, s32 param_2);
