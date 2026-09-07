@@ -19,7 +19,7 @@ import sys
 REPO = pathlib.Path(__file__).resolve().parent.parent
 DEFAULT = ["README.md", "THIRD_PARTY.md", "CLAUDE.md", "src/NOTICE.md", "tools/README.md", "docs/SETUP.md",
            "docs/verification.md", "docs/public-flip-runbook.md", "docs/decision-log.md", "docs/accelerators.md",
-           "phase-ends/README.md", "phase-ends/DIGEST.md"]
+           "docs/story.md", "docs/story-timeline.md", "docs/retrospective.md", "phase-ends/README.md", "phase-ends/DIGEST.md"]
 PENDING_FILE = REPO / "docs" / "doc_links_pending.txt"
 LINK_RE = re.compile(r"(?<!\!)\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 SKIP_PREFIX = ("http://", "https://", "mailto:", "#", "ftp://")
