@@ -12,6 +12,13 @@
 
 ---
 
+> **Status at Phase 33 (2026-09-07):** P30–P32 are closed — **218 binaries** byte-identical from a clean rebuild, **0**
+> INCLUDE_ASM stubs, fleet 100.00 / 100.0 / 100.0, main 2,091 / 2,091, main's independent boundary oracle closed (P31 S77),
+> disc UNCLAIMED 0 of 220. P33 is running: the contract re-verified (`docs/verification.md`), the history rewritten in
+> place and force-pushed (this file's P33 text below still describes the two-repo mirror — SUPERSEDED, see the decision
+> log P33 S86 and `docs/public-flip-runbook.md`), the public surface (README, LICENSE, NOTICE, THIRD_PARTY, badges) in
+> place; the visibility flip waits on GitHub's purge of the old objects. Gen2 EXIT = the P33 PhaseEnd (v2.0.0).
+
 ## 0. Authority, maintenance & how future sessions use this
 
 - **This document is docs-layer and ADVISORY.** `PROJECT_CONTEXT.md` remains the constitution;

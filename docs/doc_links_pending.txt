@@ -1,0 +1,4 @@
+# docs/doc_links_pending.txt — pages the public docs already link to and a LATER Phase-33 task creates (tools/doc_links.py).
+# path<TAB>creating task. Must be EMPTY before gate 2 (`tools/doc_links.py --strict`).
+docs/story.md	F1 (timeline + story)
+docs/retrospective.md	F2 (retrospective)

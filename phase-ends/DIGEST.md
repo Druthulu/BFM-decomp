@@ -27,13 +27,13 @@ verification + the public flip + Gen2 exit** (roadmap v2 §3 P33, ≈2–4 sessi
   backups → today: **one commit per completed task after CURRENT_PHASE.md is updated; a bank commits the moment it
   exists (R42)**. Claude commits; **Drew pushes** (R6); the PhaseEnd + archived log are left uncommitted for Drew's
   milestone-close commit; no `Co-Authored-By` (R5).
-- **H1** relaxed while private (R1): ROM-derived content may be committed; the disc dump never.
+- **H1** was relaxed while private (R1, 2026-06-10 → 2026-09-06) and is **IN FORCE again since Phase 33 C3 (2026-09-06)**: the ROM-derived and proprietary paths left the index and were purged from the whole history before the public flip (`docs/public-flip-runbook.md`); R1 is historical. **R20's backup home** is now the text export `config/ghidra/` (+ `tools/ghidra_rebuild.sh --proof`), `dumps/CHECKSUMS.sha1`, `tools/psyq_CHECKSUMS.sha256`, and the private archive repo `Druthulu/BFM-decomp-archive` (the pre-rewrite history); **never `git clean -x`** (CLAUDE.md fail-safe).
 - **Environment:** all-in-WSL (R2); Ghidra runs **headless** (MCP server via `tools/ghidra_mcp_start.sh` / the
   SessionStart hook; symbols persist only via `tools/ghidra_apply_symbols.sh`, MCP renames do not); PCSX-Redux is
   Windows-native bridged over the web API (R11); no `/tmp`, scratch under `.run/` (R12).
 - **Roadmap:** the constitution's Gen1 roadmap ended at Phase 7 (Gen1 EXIT confirmed 2026-06-15); Gen2 phases 8–32 are
-  governed by `docs/gen2-roadmap.md` → `docs/roadmap-to-100.md` v2; **Phase 14 (public flip) is deferred to Gen3+** and
-  becomes P33.
+  governed by `docs/gen2-roadmap.md` → `docs/roadmap-to-100.md` v2; **Phase 14 (public flip) became P33** — executed as an
+  IN-PLACE flip with the full rewritten history (not gen2-roadmap's two-repo mirror; decision log P33 S86), 2026-09-06/07.
 - **Effort doctrine (Drew 2026-07-04, `docs/effort-map.md` governs):** xHigh for most tasks, Max for deep tasks (phase
   plans, PhaseEnds, non-obvious debugging), Ultracode for breadth; plan mode always Max; every transition is prompted
   (R27). Model ladder for drafters: Haiku ≤~50 ins → Sonnet ~50–120 → Opus ≥120 → Fable only for a NEW wall class.

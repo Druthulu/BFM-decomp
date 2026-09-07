@@ -148,6 +148,11 @@ Almost all of BFM's game code lives **outside** the 404 KiB EXE — in a residen
 - **Effort tier:** **Tier-1 (Max)** for the overlay template + first overlay (the pattern inherited by ~134 overlays); **Tier-2 (xHigh)** for subsequent ones; **breadth (Workflow)** for per-overlay harvest.
 
 ### Phase 14 — Public flip via a curated public repo (LATE CAPSTONE — Gen2 EXIT)
+> **⟶ SUPERSEDED at Phase 33 (2026-09-06/07).** The flip was executed IN PLACE on `Druthulu/BFM-decomp` with the full
+> history rewritten (git-filter-repo: ROM-derived paths purged from every commit, old hashes tokenized, identities mapped)
+> and force-pushed — not via a separate curated repo. The pre-rewrite history lives in the private archive
+> `Druthulu/BFM-decomp-archive`. Procedure and rationale: `docs/public-flip-runbook.md`, `docs/decision-log.md` (P33 S86).
+> The text below is kept unchanged as the historical plan.
 > **⟶ DEFERRED to Gen3+ (Drew, 2026-06-16).** The public flip is parked until later; Gen2 proceeds *without* declaring formal EXIT this arc. The entire two-repo design below stands unchanged for whenever it resumes (likely a Gen3 capstone). Phase 15 (overlay long-tail) is the active phase meanwhile.
 - **Goal:** Publish the project as a **separate, freshly-created public repo** — AGPL-3.0 LICENSE, the `rom→decoder` regeneration tool, no-ROM CI, frogress/decomp.dev — while **this private repo remains the untouched master/backup**. (Replaces the earlier in-place history-scrub approach — owner decision 2026-06-15: the two-repo model is safer and cleaner.)
 - **Why here:** Owner constraint #2 (late capstone), after substantial matching. The two-repo model avoids any destructive history rewrite of the master: the public repo is built by **copying an allowlisted subset into a fresh repo with new history**, so there is nothing to scrub and no force-push, and the master's full ROM-relaxed working history + backup value is preserved. It also cleanly separates "my private storage/backup" from "what I share." It touches governance/infra, not matching, so it can't regress any byte-identical result.

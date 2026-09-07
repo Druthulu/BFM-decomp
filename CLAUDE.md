@@ -58,7 +58,7 @@ These rules govern every session. They are not suggestions.
 
 ## Fail-safe hard rules (duplicated from PROJECT_CONTEXT.md in case the above is ever skipped)
 
-- **Never commit ROM-derived content.** The game dump, `disks/`, `asm/`, `assets/`, `build/`, `expected/`, extracted `.CD` contents, and the Ghidra project stay out of git. Review `git status` before every commit.
+- **Never commit ROM-derived content.** The game dump, `disks/`, `asm/`, `assets/`, `build/`, `expected/`, extracted `.CD` contents, the Ghidra project (`ghidra/`), the RAM dumps (`dumps/*.bin`), Sony's SDK (`tools/psyq/`) and the session archive stay out of git — in force again since the public flip (Phase 33); `tools/audit_public.py` and CI enforce it. Review `git status` before every commit.
 - **Never edit `PROJECT_CONTEXT.md`.** It is permanent and static. Corrections and state go in `phase-ends/`.
 - **Never `git clean -x` / `git clean -fdx` in this tree.** Since Phase 33 C3 (2026-09-06) the Ghidra project (`ghidra/`), the RAM dumps (`dumps/*.bin`), the PsyQ SDK (`tools/psyq/`), the session archive and the extension zips are IGNORED BUT PRESENT on disk — a `-x` clean deletes the reverse-engineering database. `make clean` is the only clean. (Regenerable in principle from `config/ghidra/` + the disc via `tools/ghidra_rebuild.sh`, but the dumps are not.)
 - **A "match" is byte-for-byte assembly equality AND the full-binary SHA1 check staying green.** Never report a functionally-equivalent function, a passing-looking build, or any unverified outcome as done.
