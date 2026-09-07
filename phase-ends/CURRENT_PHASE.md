@@ -617,6 +617,11 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   kept identical to the standalone copy. `tools/permuter/upstream/0001-reloc-masked-scorer.patch` regenerated (2 commits;
   `git am` onto upstream `main` OK). **Drew: open the PR** from `https://github.com/Druthulu/decomp-permuter/pull/new/reloc-masked-scorer`
   (title = the first commit's subject, body = its message) and **file the issue** (`docs/permuter-ils.md` §3). Commit: see below.
+- **2026-09-07 (S88, last) — E5's outward actions DONE by Drew:** PR **simonlindholm/decomp-permuter#213** (the
+  `reloc-masked-scorer` branch) and issue **#214** (the `symbol_regex` proposal; the issue text references #213 as the MIPS
+  workaround). Recorded in `docs/permuter-ils.md` §2–§3 and the SETUP row. Every Block-E outward action except the two
+  flip-gated ones (E1 the decomp.me preset, E2 the Archipelago note) is now done. **Drew's instruction for the next
+  session: start with step 6, the flip chain.** Commit: see below.
 
 ## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3–E6 ✓, G1 ✓ (34 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = THE PROBE-GATED CHAIN (Drew) then C11 then G2 (2026-09-07, written by session 4555f4e4 "S88", updated after the outward pushes; SUPERSEDES the earlier blocks)
 
@@ -624,17 +629,22 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
 (R1–R73), then WAIT for Drew. **Everything Claude can do before the flip is DONE** (34 of 41; G1 was pulled ahead of the
-plan's C11 → G1 order because it depends on nothing gated — recorded as a sequencing deviation). **NEXT = the probe-gated
-chain on Drew's side**: `tools/public_rewrite/probe_github.sh` PASS → C10 the flip → E1 → E2 → D3 outward → the wiki push →
-then Claude's **C11** (aftercare) → **G2** (the PhaseEnd, Tier 1, WAIT for gate 2). If the probe still fails, there is
-nothing to draft: ask Drew about the Support ticket and stop. Rebuild the harness task list (40 items, R28) marking A1–A5,
+plan's C11 → G1 order because it depends on nothing gated — recorded as a sequencing deviation). **NEXT = step 6, the flip
+chain, with Claude walking Drew through it (his instruction at the S88 close).** Order: run `tools/public_rewrite/
+probe_github.sh` first (≈1 min; it must print PASS) → C10 the flip (Drew: Settings → General → Danger Zone → Change
+visibility → Public; then `gh api repos/Druthulu/BFM-decomp --jq .private` → false, `probe_github.sh --after-flip`, and the
+Actions tab green) → E1 (Claude WRITES `docs/decompme-preset.md`; Drew creates the preset in the browser and proves it on
+`func_80018F20`) → E2 (Claude WRITES `docs/outreach/archipelago.md`; Drew sends it) → D3 outward (Drew: decomp.dev
+`manage/new` with the `SLUS_007.26_report` artifact; frogress slug `bfm` + key; then `tools/frogress_upload.py --push`) →
+the wiki push (Drew: Wiki → "Create the first page", then `tools/wiki_sync.sh --push`) → Claude's **C11** (aftercare) →
+**G2** (the PhaseEnd, Tier 1, WAIT for gate 2). **If the probe still FAILS:** the two documents (E1's page, E2's note) can
+still be drafted and committed — only their outward actions wait; do that, then ask Drew about the Support ticket and stop. Rebuild the harness task list (40 items, R28) marking A1–A5,
 B1–B9/C3, C1–C9, D1–D5, F1–F3, E3–E6, G1 completed and C10 in progress. **Drew's to-do at the S88 close, in order:** (1) DONE — the nine S88 commits are pushed and both workflows ran GREEN on them
 (run 34148516143 `no-rom` 1 m 34 s incl. the new gccmap_cites + xsig steps; 34148515883 `progress`); push the last two
 (`git push origin main`); (2) DONE — the local gc ran: one pack, 80 MB; (3) confirm or file the GitHub Support ticket
 (runbook §11) and run `tools/public_rewrite/probe_github.sh` daily until PASS (the last S88 run: 31 of 33 ALIVE); (4) DONE by Claude at
-Drew's instruction: `Druthulu/xsig` is public (`c8d862c`); (5) the fork + branch are pushed (`Druthulu/decomp-permuter`
-`reloc-masked-scorer` @ `f276733`) — **Drew opens the PR** (`…/pull/new/reloc-masked-scorer`, title = the first commit's subject,
-body = its message) **and files the issue** (`docs/permuter-ils.md` §3); (6) after PASS: the flip chain (§3.3). **Every commit cites NEW
+Drew's instruction: `Druthulu/xsig` is public (`c8d862c`); (5) DONE — PR simonlindholm/decomp-permuter#213 opened and issue #214 filed by Drew; (6) after PASS: the flip chain (§3.3) —
+**the next session starts here (Drew's instruction).** **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
@@ -719,10 +729,8 @@ Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was neve
    Druthulu/BFM-decomp --limit 4`) · `git count-objects -v` (packs: 1 after Drew's gc; 30 = not yet run) · `df -h ~` ·
    `.venv/bin/python tools/doc_links.py --strict` (PASS) · ask Drew: pushed? gc run? ticket filed? latest probe result?
    (`tools/public_rewrite/probe_github.sh` — ~1 min, gh-authenticated, safe to run from Claude since S88).
-2. **E3, E4 and E5 are DONE** (see the log; every one in full scope). E4's repo is live (`https://github.com/Druthulu/xsig`,
-   public); E5's branch is on the fork (`Druthulu/decomp-permuter` `reloc-masked-scorer` @ `f276733`) — Drew opens the PR
-   (`https://github.com/Druthulu/decomp-permuter/pull/new/reloc-masked-scorer`, base `simonlindholm/decomp-permuter` `main`, title
-   = the first commit's subject, body = its message) and files the issue from `docs/permuter-ils.md` §3. **E6 and G1 are DONE too** (`docs/matching-drafter-pipeline.md`, `docs/gen3-handoff.md`). Nothing remains for Claude before
+2. **E3, E4 and E5 are DONE, outward actions included** (see the log): `https://github.com/Druthulu/xsig` (public);
+   PR simonlindholm/decomp-permuter#213 + issue #214. **E6 and G1 are DONE too** (`docs/matching-drafter-pipeline.md`, `docs/gen3-handoff.md`). Nothing remains for Claude before
    the probe passes.
 3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → E1
    (`docs/decompme-preset.md`; Drew creates the preset in the browser: platform ps1, `gcc2.7.2-psx`, flags `-O2 -G0 -mips1

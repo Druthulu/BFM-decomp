@@ -62,11 +62,10 @@ reloc-masked base score 4 (the debug diff names the four operand differences) an
 40 s with `-j4`; the default scorer read the same base as **3,585** and sat at 3,420 twenty iterations later
 (`.run/P33/permuter-e2e/`, `settings.toml` `objdump_command = "mipsel-linux-gnu-objdump -drz -m mips:4300"`).
 
-**What Drew does:** the fork exists and the branch is pushed (S88). Open the PR from
-`https://github.com/Druthulu/decomp-permuter/pull/new/reloc-masked-scorer` against `simonlindholm/decomp-permuter`
-`main`, title `Add --score-mode reloc-masked: relocation-masked scoring for MIPS`, body = the first commit's message.
+**Submitted (2026-09-07):** the PR is https://github.com/simonlindholm/decomp-permuter/pull/213 (from the fork's
+`reloc-masked-scorer` branch) and the symbol-regex issue below is https://github.com/simonlindholm/decomp-permuter/issues/214.
 
-## 3. The issue for upstream (PR-2, or an issue first): a configurable symbol regex
+## 3. The issue for upstream (filed as #214): a configurable symbol regex
 
 Title: *MIPS scorer: `field_matches_any_symbol` recognises a relocation only when the field contains "."*
 
