@@ -177,10 +177,18 @@ git push --force origin main
 git push origin :refs/tags/S76-pre-scrub-backup     # if it was
 git fetch --prune origin && git rev-parse origin/main main    # equal
 ```
-**Claude, after Drew's word:** `git reflog expire --expire=now --all && git -c pack.threads=16 repack -adf --window=250
---depth=50 && git prune --expire=now`; checks: `git rev-list --all --count` = old main − pruned + the tip commits (the map
-predicts it), `gate_scan.py --all` PASS, `absent_scan.py --repo ~/bfm-decomp` PASS, `.git` size recorded (trial #2: the
-rewritten pack is 80 MB after the aggressive repack, from 929 MB).
+**Claude, after Drew's word — measured S87:** (1) `git remote remove archive` (its remote-tracking ref pins the old
+lineage; the mirror push is done); (2) **`git worktree list` — every linked worktree's HEAD counts as REACHABLE**: S87 found
+12 stale campaign worktrees (`.run/S74/wt_*`, `.run/pgate/wt*`, `.run/S69_fable3/…`, `~/bfm-verify`) at old commits — 12 GB
+of old-history checkouts, each holding the SDK/EXE/Ghidra on disk — `git worktree remove --force <path>` each, then `git
+worktree prune` (`rev-list --all` went 8,146 → 7,763 after the remote, → 4,034 only after the worktrees); (3) `git reflog
+expire --expire=now --all && rm -f .git/objects/info/commit-graph && git -c pack.threads=16 repack -adf --window=250
+--depth=50 && git prune --expire=now && git commit-graph write --reachable` (a stale commit-graph names pruned commits and
+makes `fsck` fail; 163 s). Checks: `git rev-list --all --count` == `git rev-list --count main` (4,034), objects in store ==
+reachable (176,056), `git fsck` clean, `gate_scan.py --all --worktree` PASS, `absent_scan.py --repo ~/bfm-decomp` PASS
+(≈7 min), `.git` size (S87: one 80 MB pack, `.git` 93 MB, from 1.5 GB). Then the probe baseline (`probe_github.sh`): every
+sampled old hash still ALIVE is expected until the Support purge — that count (S87: 31 of 33) is what the ticket asks
+GitHub to make zero.
 
 ## 11. C10 — the Support purge, the probe, the flip (Drew; decision Max)
 
@@ -208,7 +216,7 @@ rewritten history (nothing else exists to lose — the archive repo and the bund
 - **Every other clone of the old history** (the Windows tree, any other machine): `git fetch origin && git reset --hard
   origin/main && git reflog expire --expire=now --all && git gc --prune=now` — or re-clone. **Never `git pull`** (an
   8,000-commit merge of two unrelated lineages).
-- `git remote remove archive` from the working repo (habit guard against a stray `git push archive`).
+- `git remote remove archive` — done at C9 (it pinned the old lineage); never re-add it to the working repo.
 - `.run/` (38 GB) → prune regenerables; `.run/public_rewrite/` (old hashes, the mailmap, the bundle) → keep until the
   probe has passed, then delete the clone and the dictionary; keep the bundle off-machine if wanted.
 - Docs: `phase-ends/DIGEST.md` §1 (H1 in force again; R1/R20 historical), `docs/decision-log.md` (R31), SETUP's posture

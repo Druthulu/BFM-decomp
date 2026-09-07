@@ -5,7 +5,7 @@
 #
 # Needs `gh auth login` in the running shell (Drew's) and .run/public_rewrite/old-to-new.tsv (build_commit_map.py).
 # Samples N old hashes evenly over the map + the pruned commit's old hash + the old tag tip (if recorded) and, for each:
-#   * `gh api repos/<repo>/commits/<sha>` must FAIL with 404 (still 200 = GitHub still serves the old object);
+#   * `gh api repos/<repo>/commits/<sha>` must FAIL with 404/422 (still 200 = GitHub still serves the old object);
 #   * `git fetch origin <sha>` must FAIL (still fetchable = still on the server, cached views or not).
 # Positive control: the current `main` sha MUST succeed both ways (proves the probe can see a live commit).
 # --after-flip additionally probes 7-char prefixes UNAUTHENTICATED at https://github.com/<repo>/commit/<7> (expect 404).
@@ -28,7 +28,9 @@ echo "probe: $GH_REPO — ${#SAMPLE[@]} old hashes (every ${step}th of $total + 
 alive=0
 for sha in "${SAMPLE[@]}"; do
     code="$(gh api "repos/$GH_REPO/commits/$sha" --silent 2>&1 | grep -oE 'HTTP [0-9]{3}' | head -1)"
-    api_gone=0; [ -z "$code" ] && code="HTTP 200"; [[ "$code" == *404* ]] && api_gone=1
+    # GitHub's commits API answers 422 ("No commit found for SHA") for an object it does not have, 404 for a repo it
+    # cannot see; both mean gone (measured S87: the old tag tip = 422 + fetch fails)
+    api_gone=0; [ -z "$code" ] && code="HTTP 200"; [[ "$code" == *404* || "$code" == *422* ]] && api_gone=1
     if git fetch --quiet origin "$sha" 2>/dev/null; then fetch_gone=0; else fetch_gone=1; fi
     if [ $api_gone = 1 ] && [ $fetch_gone = 1 ]; then echo "  gone  $sha"; else echo "  ALIVE $sha (api $code, fetch $([ $fetch_gone = 1 ] && echo fails || echo SUCCEEDS))"; alive=$((alive+1)); fi
     if [ $AFTER = 1 ]; then
