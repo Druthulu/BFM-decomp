@@ -749,6 +749,8 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `DefineFunctions.java` | Disassemble + create functions at splat's validated entry points (`.run/<prog>_funcs.txt`) — completes a raw-blob program's function set (Phase 10). |
 | | `ApplySymbols.java` + `tools/ghidra_apply_symbols.sh` | **(P31 S78) The Ghidra MIRROR of the curated symbol file (R15/G6), headless with a real save.** `tools/ghidra_apply_symbols.sh [PROG] [symbols files…]` (defaults `SLUS_007.26 config/symbols.us.txt`; MCP must be STOPPED first) reads `name = 0xADDR;` rows and sets every function/label to its curated name; a name held by another address is moved to that address's own curated name first (`firstfile`/`firstfile2`), else to `<name>__at_<addr>`. Idempotent; prints `BFMAPPLY renamed_funcs=… unchanged=…`; R9-verify with `ghidra_mcp_verify.sh`. **Use this, not MCP `rename_symbol`/`batch_rename`, for renames:** S78 observed 47 MCP renames NOT persisting through the sentinel stop ("Save succeeded", DB grew, names gone — R9 caught it; cause not yet isolated), while the postScript path persisted 73/73 on the first run. |
 | **Public flip / CI** | `.github/workflows/no-rom.yml` | **(P33 B7) The ROM-free CI**: job `audits` (audit_public, audit_text_sources, verbatim_check --strict, cookbook_index --check, ghidra_roster --check, work_evidence --selftest, test_lzss, lint_symbol_refs — ≈45 s of checks) + job `compile-only` (binutils-mipsel + `cpp-mipsel-linux-gnu` from apt, cc1 from the tracked tarball sha256-checked, maspsx submodule; PR scope `main resident ov_SC01_077 md_MAIN_013`; `--all` weekly Mon 06:17 UTC + `workflow_dispatch`). Byte-identity is NOT proven in CI (needs the disc) — `docs/verification.md`. |
+| | `tools/public_rewrite/` (P33 C1) | **The history-rewrite package** (`docs/public-flip-runbook.md` §3 is the operating table). `common.py` (shared: the purge rules, the DERIVED content-hash sets, identities from the log, the one hash regex, a persistent `cat-file --batch`) · `hash_dict.py [--write-mailmap]` (every commit OBJECT → `commit:NNNN` / twin / orphan; prefix index 7..40; asserts 0 ambiguous; records content-hash collisions as excluded; writes the scratch mailmap) · `scrub.py --test \| --sample \| --file` (THE scrub: hash tokens, addresses → noreply, trailer lines in messages; 12 known-true cases; the HEAD sample with git's own object lookup as the independent oracle) · `gate_scan.py --all\|--refs … [--worktree] [--expect-fail FIXTURE]` (paths ever touched × purge rules; every reachable blob's content sha1 × the ROM set; 5 byte signatures; 50 MiB; emits `rom_blob_ids.txt` = hits ∪ every blob ever under a purge path; the fixture `expected_offenders.txt` is the R39 negative control) · `run_filter.py [--sample]` (the git-filter-repo 2.47.0 module-API run inside the scratch bare clone; refuses elsewhere) · `verify_rewrite.py --old --new` (the pairwise proof) · `build_commit_map.py [--out]` (`docs/commit-map.tsv`, asserted free of old hashes) · `resolve_tokens.py [--check] [--map]` (tokens → shortest unique ≥9-char new abbreviations at the tip) · `absent_scan.py [--repo] [--tree]` (nothing old anywhere) · `probe_github.sh [--after-flip]` (Drew's purge probe). Scratch (`.run/public_rewrite/`, never committed): `dict.json`, `mailmap`, `rom_blob_ids.txt`, `old-to-new.tsv`, `repo.git`, the bundle. |
+| | `.venv/bin/git-filter-repo` 2.47.0 | (P33 C1) `pip install git-filter-repo==2.47.0` (in `requirements-python.txt`); used through its module API by `run_filter.py`. |
 | | `tools/audit_public.py [--paths …]` | **(P33 B7) The first-push gate**: no tracked file under `tools/public_rewrite/purge_set.txt` (the C1 rewrite's own input, filter-repo syntax), none whose SHA1 is ROM-derived (DERIVED set: every `sha1` in `extracted/retail/manifest.jsonl` + `config/check.*.sha` + the redump Track-1 SHA1; zero-length files exempt — the empty-file SHA1 is also SC04/SC05 `FILE_029/1.6`'s), none > 50 MiB. Names every offender, exits 1. ≈1 s over 6,798 paths. |
 | | `tools/compile_only.py <aliases…> \| --all [-j N] [--list]` | **(P33 B7)** cpp → cc1 → maspsx → as on every eligible TU with the Makefile's flags PARSED at run time; TUs per binary from `<alias>_SRC_DIR` with nested-binary pruning (= the Makefile's `C_SRCS`); skips main's 70 LINKED tiles (`progress._main_linked_segs_from_makefile`) and the 47 `INCLUDE_ASM(`/`INCLUDE_RODATA(` TUs (they `.include` asm/); -O0 TUs (`corpus.o0_sources`) compile at -O0. Coverage line with every denominator. Measured: PR scope 54 of 124 TUs in 1.6 s; fleet 4,170 of 4,287 in 123 s at -j32 (≈50 CPU-min). |
 | | `tools/public_rewrite/purge_set.txt` | **(P33 B7)** THE purge set (Drew's decisions 3+11): the EXE at both historical paths, `glob:dumps/*.bin`, `ghidra/`, `tools/psyq/`, `session archive/`, `glob:tools/ghidra-ext/*.zip`, `tools/brave-CUE/brave.exe`. Read by audit_public now and by C1's `git filter-repo --paths-from-file` later. |
@@ -1129,6 +1131,42 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   `DefineFunctions.java` list path = arg 1; `ImportPsyqGdt.java` default gdt from the Ghidra install dir; the six
   `tools/ghidra_*.sh` are repo-relative (`BFM_GHIDRA_PROJ` overrides the project dir; `ghidra_mcp_verify.sh <addr> <name>
   [PROG]`); Makefile `GHIDRA_PROJ := $(or $(BFM_GHIDRA_PROJ),$(CURDIR)/ghidra)`.
+
+### P33 C1 (S87, 2026-09-07) — the history-rewrite tooling, measured before the irreversible run
+- **Design points.** The scrub replaces a hex token only when the WHOLE token is a prefix (≥ 7) of an old commit hash —
+  so a 16-char sig hash can never be mistaken for a commit; only 7–8-char tokens carry any false-positive risk (≈1.6e-5
+  per 7-char token) and the sample prints every 7-char replacement in context to be READ (R63). Tokens that are also
+  prefixes of a cited CONTENT hash (1,480: the manifest, `check.*.sha`, the dumps, the sha256 checksum files, the redump
+  CRC32) are excluded — measured 0 collisions. `rom_blob_ids.txt` is content/signature hits ∪ every blob that ever sat
+  under a purge path, so `--strip-blobs-with-ids` kills a renamed copy that a path rule would miss. Bare session UUIDs in
+  checkpoint prose (68 at HEAD) are NOT scrubbed (out of scope; no `claude.ai` URL exists in any HEAD blob) — reported
+  as INFO by `absent_scan`. The mailmap and the dictionary are scratch: no personal address and no old hash is a
+  literal in the package.
+- **Measured (S87):** dictionary 4,420 commit objects (4,030 main, 339 twins, 51 orphans), 150,280 prefixes, **0
+  ambiguous, 0 content-hash collisions**, 2 personal identities → noreply, 4 s. Sample over HEAD: 397 MB of text in
+  7.9 s (50 MB/s), 1,238 replacements in 98 files, 731 distinct tokens (7-char 186 · 8-char 326 · 9-char 721 · 40-char
+  5), 6 address replacements; **git's own lookup resolves exactly the same 731 tokens** (only-git 0, only-ours 0).
+  `gate_scan --all --expect-fail`: 112,390 reachable blobs / 16.79 GB in 2 m 25 s; every purge rule named (ghidra/ 42
+  paths ever, tools/psyq/ 190, dumps 28, archive 3, zips 2, brave.exe 1, the EXE 1+1), 0 stray content offenders, 52
+  content/signature ids + 269 blobs ever under a purge path. `absent_scan` on the current repo → FAIL with 82,362
+  offenders in 7 m 24 s (its positive control). `scrub --test` 12/12.
+- **Trial rewrite #1 (S87, on a scratch bare clone — the reason a trial exists):** filter 274 s (72,500 hash replacements
+  over every historical blob version, 60 trailers, 81 address replacements, 192 binary blobs untouched); the purge is
+  real (archive/ghidra/dump blobs absent from the store; 0 purge paths reachable) but it found TWO defects that would have
+  corrupted the real run: (1) the EMPTY blob was in `rom_blob_ids.txt` (an empty file once sat under a purge path) and
+  `--strip-blobs-with-ids` dropped every "file emptied" change in history — 7 files silently kept their previous content
+  and a restore commit became empty and was pruned (a second zero row); fixed: a blob shared with a non-purge path is
+  never stripped by id (content/signature hits always are), and `verify_rewrite` now asserts no purge path survives and
+  that the pruned set equals the derived purge-only set; (2) a commit the rewrite leaves byte-identical keeps its hash
+  (the noreply-authored "Initial commit") and tripped the map's old-hash assertion — unchanged commits are recorded and
+  exempted in the map, `absent_scan` and the probe. Also: the post-rewrite `gate_scan` must accept 0 blobs under purge
+  paths (the guard now fires only when path offenders exist), and filter-repo's own gc leaves a ≈500 MB pack (re-deltaing
+  16 GB of scrubbed text) — the purged binaries are gone regardless; C9 repacks aggressively.
+- **Gotchas:** `git log --raw` abbreviates blob ids — `--no-abbrev` or the id filter drops everything (caught by the
+  count "0 ever under a purge path"; the function refuses that result when path offenders exist, R43). git-filter-repo gc's the OLD objects
+  out of the clone after the run, so `verify_rewrite` reads the old side from the working repo (`--old`) and the new
+  side from the clone (`--new`). The clone stops being a "fresh clone" once the tag is deleted → `--force` is passed by
+  `run_filter.py` (the only deviation from filter-repo's defaults). `--prune-empty auto`, never `always`.
 
 ### P33 B7 (S87, 2026-09-06) — the ROM-free CI: `.github/workflows/no-rom.yml`, `tools/audit_public.py`, `tools/compile_only.py`
 - **What CI proves and what it cannot.** The contract (218 binaries byte-identical) needs the disc, never in CI. CI proves

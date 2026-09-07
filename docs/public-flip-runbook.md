@@ -60,27 +60,27 @@ valid for this tip: a `--cached` removal changes no tracked-content byte.
 
 `.venv/bin/pip install git-filter-repo==2.47.0` (SETUP row, R21). `tools/public_rewrite/`:
 
-| Tool | Does | Measured expectation (S86 audit — re-measure in C2) |
+| Tool | Does | Measured (S87; C2 re-measures on the final tree) |
 |---|---|---|
 | `purge_set.txt` | the purge paths (exists since B7) | 8 rules |
-| `gate_scan.py --refs <refs> [--worktree] [--expect-fail EXPECTED.txt]` | the first-push gate over history: scans every blob reachable from the refs (and the worktree) for purge-path prefixes, content SHA1s in the known-ROM set (the EXE, the redump Track 1, every `sha1` in `extracted/retail/manifest.jsonl`, every `config/check.*.sha`), byte signatures (`PS-X EXE` at offset 0; the 2,097,152-byte RAM image with the resident's first words at 0xCEDF8; the EXE entry code; PsyQ `LIB\x01` / `LNK\x02` magics), any blob > 50 MiB; emits `rom_blob_ids.txt`. `--expect-fail` = the R39 negative control: exit 0 only when the scan fails naming exactly the expected offender set | on the current repo: the EXE at both paths, 28 dumps, all `ghidra/**` (41 unique blobs across history), all `tools/psyq/**`, the 3 archive parts, 2 zips, `brave.exe`; signature hits = the EXE blob(s) + 28 RAM images |
-| `hash_dict.py` | every commit hash → ordinal (`git rev-list --reverse main`); off-main commits (the tag lineage, 126) → the ordinal of their (tree, author-timestamp, subject) twin, else `orphan-NNN`; all prefixes 7..40; asserts 0 ambiguous prefixes and 0 collisions with the content-hash set | 4,401 commit objects at S86 (now more: P33 commits), 149,634 prefixes, 126 twins |
-| `scrub.py` | THE one scrub function: `\b[0-9a-f]{7,40}\b` → dictionary lookup → `commit:NNNN` (non-hex in the first 7 chars, so it can never re-match; no Markdown side effects); NUL-sniff binary skip; idempotent | at HEAD: 711 resolving citations, 0 word-embedded false hits (`func_800D128C` / `0x800d128c` do not match); 125 MB/s |
-| `run_filter.py [--sample]` | composes the `git filter-repo` call (below); refuses to run outside a bare repo under `.run/public_rewrite/`; logs versions + wall time; `--sample` first (R37): must reproduce ≈1,202 hits / 93 files / ≈3 s over HEAD's 395 MB and the replaced-token set must equal the citations `git cat-file -e` resolves | — |
-| `build_commit_map.py` | public `docs/commit-map.tsv` (`ordinal  new_hash  author_date  committer_date  subject`, no old hash anywhere — asserted by running scrub over its own output); private `.run/public_rewrite/old-to-new.tsv` for the probe | 4,0xx rows, exactly one mapped to zeros (the pruned archive-upload commit) |
-| `resolve_tokens.py [--check]` | at HEAD of the adopted checkout: `commit:NNNN` → the unique 9-char new abbreviation (asserted by `git cat-file --batch-check`); `--check` asserts zero resolvable tokens remain and lists the orphan residue | ≥1 orphan: `tools/verify_worktree.py` cites a dropped TEMP commit |
-| `verify_rewrite.py` | the pairwise proof (C5) | every pair |
-| `absent_scan.py [--tree HEAD]` | every blob incl. binaries + every message → 0 dictionary prefixes, 0 `Claude-Session:`, 0 personal-address strings | 0 / 0 / 0 |
+| `gate_scan.py --all \| --refs <refs> [--worktree] [--expect-fail tools/public_rewrite/expected_offenders.txt]` | the first-push gate over history: scans every blob reachable from the refs (and the worktree) for purge-path prefixes, content SHA1s in the known-ROM set (the EXE, the redump Track 1, every `sha1` in `extracted/retail/manifest.jsonl`, every `config/check.*.sha`), byte signatures (`PS-X EXE` at offset 0; the 2,097,152-byte RAM image with the resident's first words at 0xCEDF8; the EXE entry code; PsyQ `LIB\x01` / `LNK\x02` magics), any blob > 50 MiB; emits `rom_blob_ids.txt`. `--expect-fail FIXTURE` = the R39 negative control: the fixture lists `rule<TAB>min offending paths`; exit 0 only when every rule has at least that many AND no content/signature/size offender sits outside the purge rules; `rom_blob_ids.txt` = content hits ∪ every blob ever under a purge path | measured S87 on the current repo: 112,390 blobs / 16.8 GB in 2 m 25 s; paths ever: ghidra/ 42, tools/psyq/ 190, dumps 28, archive 3, zips 2, brave.exe 1, the EXE 1+1; 0 strays; 52 content/signature ids + 269 blobs ever under a purge path |
+| `hash_dict.py [--write-mailmap]` | every commit hash → ordinal (`git rev-list --reverse main`); off-main commits (the tag lineage, 126) → the ordinal of their (tree, author-timestamp, subject) twin, else `orphan-NNN`; all prefixes 7..40; asserts 0 ambiguous prefixes and 0 collisions with the content-hash set | measured S87: 4,420 commit objects (4,030 main, 339 twins incl. the 126 tag-lineage re-authorings, 51 orphans), 150,280 prefixes, 0 ambiguous, 0 content collisions |
+| `scrub.py` | THE one scrub function: `\b[0-9a-f]{7,40}\b` → dictionary lookup → `commit:NNNN` (non-hex in the first 7 chars, so it can never re-match; no Markdown side effects); NUL-sniff binary skip; idempotent | at HEAD (S87): 731 distinct resolving tokens, 1,238 replacements in 98 files, git's own lookup agrees exactly; 397 MB in 7.9 s |
+| `run_filter.py [--sample]` | composes the `git filter-repo` call (below); refuses to run outside a bare repo under `.run/public_rewrite/`; logs versions + wall time; `--sample` first (R37) = `scrub.py --sample`, the independent-oracle check | the trial run's numbers are in phase-ends/CURRENT_PHASE.md (S87 C1) |
+| `build_commit_map.py [--out PATH]` | public `docs/commit-map.tsv` (`ordinal  new_hash  author_date  committer_date  subject`, no old hash anywhere — asserted by running scrub over its own output); private `.run/public_rewrite/old-to-new.tsv` for the probe | 4,0xx rows, exactly one mapped to zeros (the pruned archive-upload commit) |
+| `resolve_tokens.py [--check] [--map PATH]` | at HEAD of the adopted checkout: `commit:NNNN` → the unique 9-char new abbreviation (asserted by `git cat-file --batch-check`); `--check` asserts zero resolvable tokens remain and lists the orphan residue | ≥1 orphan: `tools/verify_worktree.py` cites a dropped TEMP commit |
+| `verify_rewrite.py --old ~/bfm-decomp --new .run/public_rewrite/repo.git` | the pairwise proof (C5): old commits from the ORIGINAL repo (the clone gc's them away), new from the clone | every pair |
+| `absent_scan.py [--repo PATH] [--tree HEAD]` | every text blob + every message + every ref → 0 old-hash prefixes, 0 personal addresses, 0 session URLs, 0 trailer lines, every identity = noreply, no replace/original/tag refs (≈7 min over all objects; INFO: bare UUID count) | 0 offenders (the current repo: FAIL, 82,362 — its positive control) |
 | `probe_github.sh` | Drew's post-purge probe (C10) | — |
-| `mailmap` (scratch, `.run/public_rewrite/mailmap`, generated from `git log --format='%an <%ae>' \| sort -u`) | the two personal identities → the noreply identity | never committed |
+| `mailmap` (scratch, `.run/public_rewrite/mailmap`, written by `hash_dict.py --write-mailmap` from the log's identities) | the two personal identities → the noreply identity | never committed |
 
 Budget: regex+lookup ≈2.2 CPU-min over 16.8 GB of blobs; the filter-repo stream dominates (10–30 min). Disk: a bare
 `--no-local` clone ≈0.6 GB + the bundle ≈0.6 GB; no working-tree copy (the WSL disk is capped at 75 GB, ≈13 GB free).
 
 ## 4. C2 — negative control, dictionary, sample (Claude)
 
-1. `gate_scan.py --refs --all --worktree --expect-fail .run/public_rewrite/expected_offenders.txt` on the CURRENT repo →
-   must FAIL naming exactly the S86 set above (the scan that PASSES in C5 is this same tool).
+1. `gate_scan.py --all --worktree --expect-fail tools/public_rewrite/expected_offenders.txt` on the CURRENT repo → must
+   report PASS (= the scan fails exactly as the fixture says; the scan that PASSES with 0 offenders in C5 is this same tool).
 2. `hash_dict.py` → prints the counts; assert 0 ambiguous, 0 collisions.
 3. `run_filter.py --sample` → the sample numbers above.
 
@@ -116,8 +116,18 @@ Why each flag: `--prune-empty auto`, never `always` (main carries one pre-existi
 survive); `--replace-refs delete-no-add` (no `refs/replace/<old>` names may be minted — they would leak old hashes);
 `--strip-blobs-with-ids` catches the EXE wherever it was renamed; the message callback also strips the 60 remaining
 `Claude-Session:` trailer lines the S76 scrub missed.
-Checks: exit 0; the commit map has (old main count) rows with exactly one mapped to zeros; no `refs/replace`; one pack;
-pack size recorded (expect 150–250 MB).
+Checks: exit 0; the commit map has (old main count) rows; the rows mapped to zeros are EXACTLY the commits whose every
+change was a purge path (`verify_rewrite` derives that set — 1 on this history: "session archive update"); no
+`refs/replace`; one pack. Pack size: filter-repo's own gc leaves ≈500 MB (trial #1: 534 → 520 MB — the 16 GB of scrubbed
+text history re-deltas poorly; the purged binaries ARE gone: the archive/ghidra/dump blobs are absent from the store);
+C9's local gc uses an aggressive repack — measured on trial #2: `git -c pack.threads=16 repack -adf --window=250
+--depth=50` took the 500 MB pack to **80 MB in 166 s**.
+**Lesson from trial #1 (S87):** stripping blobs BY ID must never include a blob that also lives under a non-purge path —
+the EMPTY blob (an empty file once sat under `ghidra/`) was in the list, and `--strip-blobs-with-ids` then dropped every
+"file emptied" change in history: those files silently kept their previous content and a later restore commit became
+empty and was pruned. `gate_scan` now excludes shared blobs from `rom_blob_ids.txt` (content/signature hits are always
+kept), and `verify_rewrite` asserts both that no purge path survives in any new tree and that the pruned set equals the
+derived purge-only set.
 
 ## 6. C5 — verification on the rewritten clone (Claude; every check an exit code)
 
@@ -125,8 +135,12 @@ pack size recorded (expect 150–250 MB).
 scrub(old.message)`; new parents = map(old parents) with the pruned commit spliced out; `git diff-tree -r --no-renames old
 new`: every `D` is a purge path or a ROM blob id, every `M` satisfies `hash-object(scrub(old_blob)) == new_blob`, any `A`
 FAILS; prints the pair count. Then `gate_scan.py --refs --all` → PASS (the same tool that failed in C2); `absent_scan.py`
-→ 0/0/0; `git rev-list --count main` = old count − 1 (the pruned commit); the `%at %ct` lists match with the pruned commit
-removed; the pre-existing empty commit's twin exists.
+→ 0/0/0; `git rev-list --count main` = old count − pruned; the `%at %ct` lists match with the pruned commits removed; the
+pre-existing empty commit's twin exists; no purge path in any new tree; the pruned set == the purge-only commits.
+A commit the rewrite leaves BYTE-IDENTICAL keeps its hash (old == new — the noreply-authored "Initial commit", which cites
+no hash and touches no purge path): `build_commit_map` records those in `.run/public_rewrite/unchanged_commits.txt`,
+`absent_scan` does not count their prefixes as old hashes, and `probe_github.sh` skips them (they legitimately still
+resolve on GitHub). Measured trial #1: filter 274 s, verify 385 s, absent_scan 346 s over 16.2 GB of text.
 
 ## 7. C6 — adoption in `~/bfm-decomp` (Claude; NO gc yet)
 
@@ -163,9 +177,10 @@ git push --force origin main
 git push origin :refs/tags/S76-pre-scrub-backup     # if it was
 git fetch --prune origin && git rev-parse origin/main main    # equal
 ```
-**Claude, after Drew's word:** `git reflog expire --expire=now --all && git gc --prune=now`; checks: `git rev-list --all
---count` = the number the map predicts (old main − 1 pruned + the tip commits); `gate_scan.py --refs --all` PASS;
-`absent_scan.py` PASS; `.git` size recorded (expect < 400 MB, from 929 MB).
+**Claude, after Drew's word:** `git reflog expire --expire=now --all && git -c pack.threads=16 repack -adf --window=250
+--depth=50 && git prune --expire=now`; checks: `git rev-list --all --count` = old main − pruned + the tip commits (the map
+predicts it), `gate_scan.py --all` PASS, `absent_scan.py --repo ~/bfm-decomp` PASS, `.git` size recorded (trial #2: the
+rewritten pack is 80 MB after the aggressive repack, from 929 MB).
 
 ## 11. C10 — the Support purge, the probe, the flip (Drew; decision Max)
 

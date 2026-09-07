@@ -1,0 +1,12 @@
+# tools/public_rewrite/expected_offenders.txt — the R39 NEGATIVE CONTROL fixture for gate_scan.py --expect-fail (P33 C1/C2).
+# On the CURRENT (pre-rewrite) history the gate MUST fail naming every purge rule below with at least this many
+# offending paths (paths ever touched, `git log --all --name-only`), and MUST report no content/signature/size
+# offender outside the purge rules. Measured S87 (2026-09-06) on 4,300 reachable commits. Format: rule<TAB>min.
+extracted/SLUS_007.26	1
+extracted/retail/SLUS_007.26	1
+glob:dumps/*.bin	28
+ghidra/	27
+tools/psyq/	189
+session archive/	3
+glob:tools/ghidra-ext/*.zip	2
+tools/brave-CUE/brave.exe	1
