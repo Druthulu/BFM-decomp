@@ -32,6 +32,30 @@ Stated at the Phase-33 plan: *casts → structs, pins off, names.* Concretely:
 3. **Names.** `func_80xxxxxx` / `D_80xxxxxx` → meaningful names, curated in the symbol files and mirrored into
    Ghidra (G6, R15) — never edited in generated assembly.
 
+### 2.1 External labels versus derived structure (owner Q&A, 2026-09-07, P33 E2)
+
+Asked at the E2 outreach: *do the Archipelago world's "structs" let us turn the unknown casts into structs, and do we need
+that repository at all, or can we derive the structures from our own decomp?* Answer, recorded for the Gen3 plan:
+
+- **The AP world carries no structs.** `client.py` (v0.8.1) polls ~342 RAM addresses and attaches gameplay meaning to them
+  (HP, BP cap, day of week, chest flags, portal entries). That is *labelling for globals* plus the implied layout of a few
+  tables. Against the census in §3 it covers ~342 of 61,898 data symbols, none of the 1,232 struct definitions, none of the
+  16,335 function names and none of the 44,243 pins. Most of its player-state block is already imported (memory-map §3.4–§3.6).
+- **Structure is derived from our own source, and ours is the better instrument for it.** Shape comes from access patterns
+  the compiler locked into the bytes: many functions reading a `u16` at `+0x3C` from one base means a struct with a `u16`
+  there; Ghidra's decompiler already propagates these; `docs/actor-struct.md` and the load-slot map are recovered examples.
+  Every struct/name edit is byte-neutral, so the 218-binary gate rejects any mistake for free (§4).
+- **The two sources answer different questions.** The decomp gives the shape (`u16` at 0x80078EB6, written by the
+  14-instruction `func_8014BCEC` as `+= a1`, clamped at 0x662); an observer gives the meaning (that is the BP cap). Meaning
+  comes from the AP world, our live-RAM harness (R10), string references, the debug menu and community cheat tables. Plan:
+  **types and structure from the decomp; names from observation wherever someone already made one, cited (G5).**
+- **Ordering caution (census-derived):** most of the 61,898 data symbols are per-overlay script data that may never earn a
+  human name; the 1,232 struct definitions include many drafter-invented duplicates of one type — **unify before naming**
+  (`tools/lift_types.py` knows the collision classes); pins-off is mechanical and family-batchable; struct unification is
+  semi-mechanical (access-pattern clustering, then a person or model names fields); function naming is judgment plus
+  evidence (xrefs, strings, the AP names, TCRF/debug-menu strings). Plan Gen3 in that order, and measure each class's
+  size before pricing it (R37/R41).
+
 ## 3. The starter census (derived 2026-09-07 — re-derive, do not trust)
 
 ```bash
