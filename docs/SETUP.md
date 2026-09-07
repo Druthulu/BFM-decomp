@@ -238,6 +238,10 @@ The single clone lives at `~/bfm-decomp` (ext4). Builds, splat, asm-differ, Ghid
 
 ### §4.4 Copy the disc dump into the clone
 
+> **As-built (P33 B1/B8):** after the copy, **`make disc-extract`** regenerates `extracted/` from `disks/` and verifies every
+> file against the committed manifest (`disc-extract: OK`, 15.7 s; `PARTIAL` for a Track-1-only dump; the "P33 B1" section
+> below has the flags and controls). `make extract-all` runs it once first; `make check-env` warns when the EXE is absent.
+
 One-shot copy onto ext4 is fine (and required once):
 
 ```bash
@@ -268,6 +272,11 @@ sudo apt-get update && sudo apt-get install -y \
 > **✅ VERDICT (Phase 5, 2026-06-14): binutils 2.42 is byte-clean — no regression with our flags.** The all-asm `make build` reproduces `SLUS_007.26` **SHA1-identical** (`143dbb89…`) using `mipsel-as` 2.42 with `-march=r3000 -mtune=r3000 -no-pad-sections -O1 -G0`. The open-ribbon "≥2.38 broken" warning does **not** bite here; **no downgrade to 2.35 needed.** (Revisit only if Phase-6 C-compiled objects ever diff where the asm is right.)
 
 ### §4.6 Python venv + splat + submodules
+
+> **As-built (P33 B3/B8): `make bootstrap`** (`tools/bootstrap.sh`) does all of this idempotently on a fresh clone — apt
+> presence check (prints the install line), the venv from `requirements-python.txt`, the submodules, the two cc1 tarballs
+> sha256-checked and extracted, then `make check-env` — proven fresh-clone → 218/218 in 4 m 18 s (the "P33 B3" section).
+> The manual steps below remain the reference for what it does.
 
 ```bash
 cd ~/bfm-decomp
@@ -313,6 +322,11 @@ tar xzf gcc-2.7.2-cdk.tar.gz -C gcc-2.7.2-cdk
 - **CORRECTION (Phase 4):** these are **32-bit i386 statically-linked** ELF binaries (NOT x86-64 as previously written) — they run on x86-64 WSL2 via the kernel's IA-32 emulation (verified: `cc1` smoke-compiles to MIPS asm and self-identifies as `GNU C 2.7.2 [AL 1.1, MM 40] Sony Playstation`). Still Linux-only — *why* the build side must be Linux/WSL2. As-built layout: `tools/bin/gcc-2.7.2-psx/cc1` + `tools/bin/gcc-2.7.2-cdk/cc1` (matches the §6.2 path).
 
 ### §4.8 Optional: PsyQ 4.0/4.1 binaries for arbitration (via Wine)
+
+> **As-built (P33 B4/B8):** the OPTIONAL Sony SDK *objects* that let `make check BINARY=main` link the real PsyQ libraries
+> are obtained, sha256-verified and built by **`tools/fetch_psyq.sh`** (user-supplied 4.0 LIBs from the DTL-S2002 disc or
+> `--from DIR`; the RTL 4.2 archive; `psyq-obj-parser`) — see the "P33 B4" section. Byte-identity never needs them
+> (`make sdk-dual`). The Wine arbitration path below is the Phase-6 fingerprinting tool, unrelated to linking.
 
 For byte-exact arbitration when maspsx output is in doubt, the **real** PsyQ Win32 tools can be driven from WSL under Wine (`sudo apt-get install -y wine`):
 
@@ -436,6 +450,11 @@ mipsel-linux-gnu-cpp -lang-c -Iinclude -undef -Wall -fno-builtin \
 Modern cpp preprocesses → **vintage cc1** compiles to asm → **maspsx** emulates ASPSX quirks → modern GNU `as` assembles. Then `mipsel-linux-gnu-ld` with the splat-generated linker script, `objcopy -O binary` to the PS-EXE, SHA1-compare. cc1 path/flags above reflect the §5.4 first candidate — the exact flag set is **pinned only after Phase-6 fingerprinting** (`-funsigned-char`, `-fpeephole`, etc. are decided then; the cpp defines list is the sotn convention, adjust as evidence dictates).
 
 ### §6.3 Planned make targets (Phase 5 builds these; names fixed now)
+
+> **As-built at P33 (B8): `make help` is the live list.** Added since this table: `bootstrap`, `disc-extract`, `extract-all`,
+> `check-all` (the R22 contract proof: `make clean && make extract-all && make check-all` → `check-all: 218 passed, 0
+> failed of 218`), `sdk-dual`, `report`, `tools-health`, the `sig-*` and `audit-*` families, `print-<VAR>`. The public
+> recipe with every expected last line is **`docs/verification.md`**.
 
 | Target | Does |
 |---|---|
@@ -894,6 +913,14 @@ This project lives in a **private** remote (rule H1, relaxed: ROM-derived materi
 - `.venv/` — recreate from `tools/requirements-python.txt`.
 - The two >100 MB raw PsyQ archives (the `psyq40usa.zip` + DTL-S2002 disc).
 - The unused PCSX-Redux Linux AppImage — the real runtime oracle is the Windows-native build.
+
+**P33 update (B5/B8, 2026-09-06) — R20's new home after the public flip.** The Ghidra project, the RAM dumps, the PsyQ
+SDK, the session archive and the extension zips leave git at C3 (`tools/public_rewrite/purge_set.txt`). What R20 backs up
+INSTEAD: the RE work as text — **`config/ghidra/<program>.jsonl` + `ROSTER.md`**, proven regenerable by
+`tools/ghidra_rebuild.sh <program> --proof` (all six PASS); the dumps' identity in `dumps/CHECKSUMS.sha1`; the SDK's
+identity in `tools/psyq_CHECKSUMS.sha256` (+ `tools/fetch_psyq.sh`); the zips' sha256s (§2.3/§2.4). The one-time snapshot
+of the binaries is the private archive repo `Druthulu/BFM-decomp-archive` (C4). **Never `git clean -x` in this tree** —
+the purged paths become ignored files and a `-x` clean deletes the RE database (R20 amendment proposed at PhaseEnd_Phase33).
 
 **Rules:**
 
