@@ -22,7 +22,7 @@ DEFAULT = ["README.md", "THIRD_PARTY.md", "CLAUDE.md", "src/NOTICE.md", "tools/R
            "docs/story.md", "docs/story-timeline.md", "docs/retrospective.md", "phase-ends/README.md", "phase-ends/DIGEST.md",
            "docs/gcc-2.7.2-map/README.md", "tools/xsig/README.md",
            "docs/permuter-ils.md", "docs/matching-drafter-pipeline.md",
-           "docs/gen3-handoff.md", "docs/decompme-preset.md", "docs/outreach/archipelago.md"]
+           "docs/gen3-handoff.md", "docs/decompme-preset.md", "docs/outreach/archipelago.md", "docs/outreach/tools-announcement.md"]
 # whole directories in the default set (P33 F3): the wiki pages and the how-to chapters — every file, so a new page is
 # checked the moment it exists (the glob is expanded at run time; the count is printed with the rest, R41)
 DEFAULT_GLOBS = ["docs/wiki/*.md", "docs/how-to-ai-decomp/*.md"]

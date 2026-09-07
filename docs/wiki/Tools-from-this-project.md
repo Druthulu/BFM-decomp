@@ -1,0 +1,16 @@
+# Tools from this project
+
+Things built for the decompilation that stand on their own and may be useful to other projects. Each links to its
+documentation in the repository; the two with standalone homes are noted.
+
+| Tool | What it does | Where |
+|---|---|---|
+| **xsig** | Relocation-masked function signatures: the same function at two link addresses gets the same signature, so shared code is found across overlays and across games. Stdlib only, MIT, tested with a game-free fixture. Its worked example: against Xenogears, Vagrant Story and Tomba it found 103 shared functions, all PsyQ library code — so its real use is spotting library functions and shared overlay code. | standalone repo [github.com/Druthulu/xsig](https://github.com/Druthulu/xsig); in-tree [`tools/xsig/`](../../tools/xsig/README.md) |
+| **The permuter driver** | An unattended way to run simonlindholm's [decomp-permuter](https://github.com/simonlindholm/decomp-permuter) inside a byte-gated pipeline: a restart loop from the best candidate with guards (abort on a refused cycle, re-hide register pins each cycle, never bank a winner without the gate) and a relocation-masked scorer that reaches zero only when the object is link-identical. The upstream permuter stays a pinned, unmodified submodule; the driver swaps one class on top. Offered upstream and declined — the stock scorer's wildcard is intentional for interactive use — so the only copy lives here. | [`docs/permuter-ils.md`](../permuter-ils.md), [`tools/permuter/`](../../tools/permuter/run_masked.py) |
+| **The gcc 2.7.2 codegen map** | What the pinned compiler does to your C, pass by pass (cse, loop, combine, reload, the scheduler, the MIPS back end), each claim tagged with the source tree it was read from and byte-proven on this game. The thing that turned "compiler walls" into matches. | [`docs/gcc-2.7.2-map/`](../gcc-2.7.2-map/README.md) |
+| **The decomp.me replica** | Rebuilds decomp.me's own PS1 `gcc2.7.2-psx` toolchain locally from its published recipe and runs a function through it, comparing the words to the target — a preset or a scratch is proven before it exists, and a disagreement between decomp.me and a local build names its producer. | [`tools/decompme_replica.sh`](../../tools/decompme_replica.sh), [`docs/decompme-preset.md`](../decompme-preset.md) |
+| **The drafter write-up** | How a small local model was fine-tuned to draft matches under the byte gate, every measurement in order, the portable lessons, and what it was worth. The paired dataset is game-derived and not published. | [`docs/matching-drafter-pipeline.md`](../matching-drafter-pipeline.md) |
+| **How to AI-decomp** | The whole method as thirteen chapters, for anyone doing this with an agent. | [Index](How-to-AI-decomp.md) |
+
+What is deliberately **not** offered as a tool: the ROM-derived artifacts (the disc extraction, the dumps, the Ghidra database),
+the Sony SDK, and the fine-tuning dataset. See [Contributing and the no-ROM policy](Contributing-and-the-no-ROM-policy.md).

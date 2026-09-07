@@ -29,6 +29,7 @@ phase system, in twelve weeks. How that was done — and what it cost — is the
 | [Ghidra rebuild from text](Ghidra-rebuild-from-text.md) | The reverse-engineering database is not in git; here is how it regenerates from text + the disc, and the proof that it does |
 | [Verification and progress](Verification-and-progress.md) | The contract run, the three metrics and how they are computed, what CI proves without a disc, the published numbers |
 | [Contributing and the no-ROM policy](Contributing-and-the-no-ROM-policy.md) | What may never enter the repository, what a useful contribution looks like now that the frontier is empty, the license split |
+| [Tools from this project](Tools-from-this-project.md) | xsig, the permuter driver, the codegen map, the decomp.me replica, the drafter write-up — what stands on its own for other projects |
 
 ## How to AI-decomp
 

@@ -684,6 +684,13 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   register; the decomp.me template's own bullets kept); the bundle file replaced; rule candidate (j), the decision log P33 S89, the
   failure museum row 37 and how-to §11 reworded to the decision. Also: check a target project for an AI-contribution policy before
   submitting (the permuter had none; we checked). Commit: see below.
+- **2026-09-07 (S89) — "Tools from this project": README section + wiki page (`docs/wiki/Tools-from-this-project.md`, sidebar + Home
+  row) — xsig, the permuter driver (architecture confirmed with Drew: upstream decomp-permuter stays a pinned UNMODIFIED submodule, our
+  `run_masked.py` swaps one class on top; the only copy lives here; no fork, no standalone repo unless asked; the rejected PR's patch
+  stays as the record), the codegen map, the decomp.me replica, the drafter write-up, the how-to. `docs/outreach/tools-announcement.md`
+  (the post-flip xsig post, developer's voice) stored; xsig topics/homepage + fork deletion + the post added to the checklist as 5b.
+  **The wiki can be pushed NOW** (private wiki flips with the repo) — `wiki_sync.sh` comment/message corrected; checklist item 5
+  reworded. Commit: see below.
 
 ## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E1–E6 ✓, G1 ✓ (36 of 41); C10 = SUPPORT TICKET #4736982 FILED, PROBE DAILY; NEXT = the probe-gated chain (Drew: flip → E1/E2/D3 outward → wiki push), then C11, G2 (2026-09-07, written by S88, updated by S89 after the ticket + E1; SUPERSEDES the earlier blocks)
 
@@ -722,7 +729,12 @@ holds the old ones and stays until the probe passes). **Never `git clean -x`** (
 4. **D3 outward (progress boards):** decomp.dev → log in with GitHub → `decomp.dev/manage/new` → add `Druthulu/BFM-decomp` (it reads the
    `SLUS_007.26_report` artifact `progress.yml` already uploads). frogress: request slug `bfm` + an API key from the maintainers, then
    `FROGRESS_API_SECRET=… .venv/bin/python tools/frogress_upload.py --push`.
-5. **F3 outward (the wiki):** GitHub → Wiki → "Create the first page" (any content) → `tools/wiki_sync.sh --push` → check the sidebar links.
+5. **F3 outward (the wiki) — CAN BE DONE NOW, before the flip** (a private repo's wiki is private and flips with it): Settings → General →
+   Features → enable Wikis → Wiki tab → "Create the first page" (any content) → `tools/wiki_sync.sh --push` → check the sidebar links render.
+5b. **xsig discoverability (post-flip):** `gh repo edit Druthulu/xsig --add-topic decompilation --add-topic mips --add-topic playstation
+   --add-topic psx --add-topic psyq --add-topic dedup --add-topic reverse-engineering -h https://github.com/Druthulu/BFM-decomp`;
+   delete the fork `Druthulu/decomp-permuter` (`gh repo delete Druthulu/decomp-permuter --yes`; the patch stays tracked in-tree);
+   post the tools announcement from `docs/outreach/tools-announcement.md` in your own words.
 6. **Tell Claude "flip chain done"** → Claude runs C11 (aftercare: other clones reset, `gh auth logout`, `.run/public_rewrite/` +
    `.run/objdiff/` deleted, `.run/` pruned, DIGEST/decision-log entries) → then G2 (the PhaseEnd v2.0.0, Tier 1, gate 2 — you confirm the
    milestone, commit and push `main --tags`).

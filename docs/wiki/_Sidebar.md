@@ -10,6 +10,7 @@
 - [Ghidra rebuild from text](Ghidra-rebuild-from-text.md)
 - [Verification and progress](Verification-and-progress.md)
 - [Contributing and the no-ROM policy](Contributing-and-the-no-ROM-policy.md)
+- [Tools from this project](Tools-from-this-project.md)
 
 **How to AI-decomp**
 - [Index](How-to-AI-decomp.md)

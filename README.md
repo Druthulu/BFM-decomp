@@ -101,6 +101,27 @@ before publication to remove game-derived files from every revision. Old commit 
 were replaced by inert tokens (`commit:NNNN`, the commit's ordinal); [`docs/commit-map.tsv`](docs/commit-map.tsv) maps
 them to the commits you see, and documents at the tip cite the current hashes directly.
 
+## Tools from this project
+
+Things built here that stand on their own, for other decompilation projects:
+
+- [**xsig**](https://github.com/Druthulu/xsig) (MIT; also in [`tools/xsig/`](tools/xsig/)) — relocation-masked function
+  signatures: the same function at two link addresses gets the same signature, so shared code is found across overlays and
+  across games. Against Xenogears, Vagrant Story and Tomba it found 103 shared functions, all PsyQ library code, which is what
+  it is good for: spotting library functions and shared overlay code.
+- [**The permuter driver**](docs/permuter-ils.md) ([`tools/permuter/`](tools/permuter/)) — an unattended way to run
+  simonlindholm's [decomp-permuter](https://github.com/simonlindholm/decomp-permuter) for byte-gated pipelines: a restart
+  loop with guards and a relocation-masked scorer that reaches zero only when the object is link-identical. The upstream
+  permuter is a pinned, unmodified submodule; the driver swaps one class on top of it. Offered upstream and declined (the
+  stock scorer's behaviour is intentional for interactive use), so the only copy lives here.
+- [**The gcc 2.7.2 codegen map**](docs/gcc-2.7.2-map/) — what the pinned compiler does to your C, pass by pass, each claim
+  tagged with the source tree it was read from and byte-proven on this game.
+- [**The decomp.me replica**](tools/decompme_replica.sh) — runs a function through decomp.me's own PS1 toolchain locally
+  and compares the words to the target, so a preset or a scratch is proven before it exists ([how](docs/decompme-preset.md)).
+- [**The drafter write-up**](docs/matching-drafter-pipeline.md) — how a small local model was fine-tuned to draft matches
+  under the byte gate, every measurement in order, and what it was worth.
+- [**How to AI-decomp**](docs/how-to-ai-decomp/00-README.md) — the whole method, for anyone doing this with an agent.
+
 ## License
 
 - `tools/` and `docs/` (the project's own work): **AGPL-3.0** — see [`LICENSE`](LICENSE).
