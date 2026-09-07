@@ -42,7 +42,10 @@ def check(files, strict):
     for f in files:
         fp = REPO / f
         if not fp.exists():
-            broken.append((f, "<file itself>", "document missing"))
+            if f in pend:
+                pend_hits.append((f, "<the document itself>", pend[f]))   # promised by a later task, tracked
+            else:
+                broken.append((f, "<file itself>", "document missing"))
             continue
         text = fp.read_text(encoding="utf-8", errors="replace")
         for m in LINK_RE.finditer(text):
