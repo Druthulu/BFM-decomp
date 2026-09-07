@@ -42,6 +42,7 @@ the third: **why it looked right**. A failure that looks wrong gets fixed the sa
 | 34 | The permuter plateaued; the ILS logs are quiet | Empty logs for 20 minutes: never started | Quiet looks like working | R55: an unattended lane leaves evidence |
 | 35 | The rate limit is ~95 req/min | A launch burst; the steady state was far higher | The first measurement was a real number | Measure the steady state, bucketed over time |
 | 36 | An agent's "no draft" after a rate limit | One sat three instructions from a match with its candidate history on disk | The verdict said no draft | R40: exonerate the instrument; read the scratch directory |
+| 37 | An upstream PR + issue drafted by the model, then given a "plain contributor-style" pass to remove AI tells | The maintainer read it as LLM-generated anyway, said it felt disrespectful of his time, and closed both; his technical answer (fix symbol names in the asm; nonzero floors are fine interactively) was reasonable for his tool | The content was byte-proven and the style pass looked like courtesy | A closed PR, a lost goodwill margin, and the rule: outward text in the owner's own words or with disclosure — the model supplies the facts list |
 
 ## The pattern, stated once
 

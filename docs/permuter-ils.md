@@ -65,7 +65,9 @@ reloc-masked base score 4 (the debug diff names the four operand differences) an
 **Submitted (2026-09-07):** the PR is https://github.com/simonlindholm/decomp-permuter/pull/213 (from the fork's
 `reloc-masked-scorer` branch) and the symbol-regex issue below is https://github.com/simonlindholm/decomp-permuter/issues/214.
 
-## 3. The issue for upstream (filed as #214): a configurable symbol regex
+**Outcome (2026-09-07): CLOSED, not merged.** the maintainer closed PR #213 and issue #214 on 2026-09-07 without merge: `field_matches_any_symbol` is intentional (it covers temporary `.text+0x…` names), a name mismatch between C and asm should be fixed by renaming the symbol in the target asm (splat's symbol files), and a nonzero optimal score is acceptable in the interactive workflow; he also said the issue text read as LLM-generated and felt disrespectful of his time. What stands: the scorer stays a local tool (`tools/permuter/run_masked.py`, the tracked patch as its record); his alternative — make the target asm carry the same symbol names as the C via splat's symbol files, so a name difference surfaces as the real error it is — is untested here and is recorded as a Gen3-adjacent tooling item, not adopted. The lesson on authorship is in `docs/decision-log.md` (P33 S89) and the failure museum.
+
+## 3. The issue for upstream (filed as #214; closed 2026-09-07 with the PR): a configurable symbol regex
 
 Title: *MIPS scorer: `field_matches_any_symbol` recognises a relocation only when the field contains "."*
 

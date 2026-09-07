@@ -3479,3 +3479,28 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
   are one `git clean -x` from deletion, so the guard (CLAUDE.md fail-safe line, the bundle, the archive repo, the text
   export) belongs in the same commit; and a mailmap or a runbook that names the personal addresses would itself need
   scrubbing, so the mailmap is scratch and the runbook refers to it by path.
+
+
+## P33 S89 (2026-09-07) — the permuter PR and issue were closed unmerged; the maintainer read the text as LLM-written
+
+- **Context and belief.** E5 offered upstream a relocation-masked scorer (`--score-mode reloc-masked`, PR simonlindholm/decomp-permuter#213)
+  and an issue proposing a configurable symbol regex (#214). Both were byte-grounded (the floor on `func_80176D94`: base ≈225 with a
+  byte-exact answer in hand; the miniature 4 → 0 in 256 iterations where the stock scorer read 3,585). Before pushing, the text got a
+  "plain contributor-style pass" whose stated goal was zero AI or em-dash tells — i.e. to read as human-written.
+- **What happened.** The maintainer closed both the same day. Technical position: `field_matches_any_symbol` is deliberate — it covers
+  `.text+0x1234` vs `D_12345678`, where the asm uses a temporary name by necessity; where both sides use proper names, rename the symbol
+  in the asm (splat supports it), which surfaces real symbol-name mismatches instead of hiding them; and a nonzero optimal permuter
+  score is fine because the usual workflow reads all improvements anyway. Side note, verbatim in spirit: the LLM-generated issue text
+  "feels disrespectful of my time", "kinda similar to getting a robocall".
+- **Assessment.** On the merits he is largely right for HIS tool: it is interactive and human-in-the-loop, and a name mismatch is
+  information. Our scorer was right for OUR use — unattended ILS restarts under a byte gate, where nobody reads improvements and a
+  guaranteed zero is the stop condition — and it stays local. His alternative (align the target asm's names with the C through the
+  symbol files) is plausible for our floor class and untested here; recorded, not adopted. On authorship he is right without
+  qualification: the de-tell pass optimised for passing as human rather than for being short, useful, or honest about who wrote it.
+- **The pivot (binding from now):** outward text to third parties — issues, PRs, forum posts, outreach notes — is written by Drew in
+  his own words, or says plainly that a model drafted it; the model supplies the FACTS list, never a finished text tuned to hide its
+  origin. Applied immediately to the two pending outreach texts (E1's preset request, E2's Archipelago note): both re-labelled as
+  facts-to-convey, and the checkpoint's post-flip checklist says so. Rule candidate (j) for the PhaseEnd.
+- **Hindsight path.** Ask before offering: "what does this maintainer's workflow need?" — an interactive tool's author does not want a
+  mode for unattended search; a short issue describing the floor with the two numbers, in Drew's voice, asking whether a symbol
+  rename would be the intended fix, would have got the same technical answer at a tenth of everyone's cost and no ill will.

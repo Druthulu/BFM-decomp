@@ -112,7 +112,10 @@ decomp.me but matches locally is a toolchain question first: run the replica wit
    the three typedefs the function needs (`u8`, `u32`, `s32`, as in `include/common.h`). Source = the function's body from
    `src/800.c`. Set the compiler flags to the §1 string. Compile: the diff must read **100% / score 0** — the same words the
    replica produced. If it does not, stop and run `tools/decompme_replica.sh --upstream` (a moved pin) before anything else.
-3. **Request the preset** — open an issue on `decompme/decomp.me` with the preset template (FAQ → "compiler preset issue
+3. **Request the preset** — open an issue on `decompme/decomp.me` with the preset template. **Write it in your own words** (the block
+   below is the model-drafted list of what it must contain; keep the five template fields and the scratch link; an upstream maintainer
+   closed our permuter PR on 2026-09-07 partly because the text read as LLM-generated — decision log P33 S89) or say the draft was model-written.
+   Template (FAQ → "compiler preset issue
    template"), title `[PRESET] Create Compiler Preset Brave Fencer Musashi (SLUS-00726)`, body:
 
    ```

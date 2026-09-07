@@ -102,7 +102,7 @@ tracked, and the phase cannot close while any entry remains.
 ## Releases worth separating
 
 The codegen map with its citation audit; a cross-project signature tool with a fixture that contains no game bytes; the
-masked-scorer improvement offered upstream to the permuter; the drafter-pipeline write-up (the paired dataset of
+masked-scorer improvement offered upstream to the permuter (declined: the maintainer keeps the wildcard rule and prefers symbol renames in the asm, and he read the model-drafted text as LLM-written — write outward text in your own words or disclose; failure museum row 37); the drafter-pipeline write-up (the paired dataset of
 disassembly and matched C is ROM-derived and stays private); a decomp.me preset for the pinned compiler; a note to the
 neighbouring community project whose RAM map cited yours.
 

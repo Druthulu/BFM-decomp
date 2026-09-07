@@ -55,6 +55,11 @@ site (`tools/…` one-off in the S89 log; re-run from the registries, never from
 
 ## 4. The message (Drew sends; GitHub issue on their repo, which has issues enabled)
 
+> **Authorship (S89, 2026-09-07):** the text below is a model-drafted list of the facts in §2 in message form. **Rewrite it in your own
+> words, shorter if you like, or say plainly that a model drafted it.** The permuter maintainer closed our PR and issue the same day
+> partly because the text read as LLM-generated ("kinda similar to getting a robocall") — decision log P33 S89, failure museum. The
+> facts and offsets are what matter; the wording is yours.
+
 **Title:** `Matching decompilation of BFM (USA) is public: source and symbols behind your patch sites and RAM addresses`
 
 **Body:**
