@@ -190,7 +190,8 @@ def main():
     # The denominator facts, DERIVED (P33 A5, S87): this used to be a typed caveat naming "the 39 un-onboarded
     # modules" and "main's missing oracle" — both resolved in P30/P31 while the text stayed. R51.
     linked = {f"src/{seg}.c" for seg in progress._main_linked_segs_from_makefile()}
-    n_linked_stubs = sum(1 for b, st in ref.items() if b in ("main", "SLUS_007.26") for x in st if getattr(x, "path", "") in linked)
+    # ref holds ADDRESSES (set(corpus.stubs(b))); the Stub records with their TU path come from the dict itself
+    n_linked_stubs = sum(1 for st in corpus.stubs("main").values() if st.path in linked) if "main" in ref else 0
     n_total = total_open
     print(f"DENOMINATOR (R34/R36): agreement above says nothing about code never onboarded, so:")
     print(f"  stubs {n_total} total, {n_linked_stubs} inside main's LINKED (Sony-object) regions by design, "
