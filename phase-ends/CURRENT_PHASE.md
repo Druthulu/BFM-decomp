@@ -438,6 +438,24 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   heading/line or the PhaseEnd. `docs/doc_links_pending.txt` is now EMPTY — `tools/doc_links.py --strict` PASSES (the
   gate-2 condition); SETUP row (R21). Commit: see below. **S87 ends here at 87% context (Drew's call) — the checkpoint
   below is the successor's seed.**
+- **2026-09-07 (S88, Max, Fable 5.1) — preflight + an R57 instrument defect in the probe.** Session start per R64; the
+  harness task list rebuilt (40 items; A1–A5, B1–B9/C3, C1–C9, D1–D5, F1–F2 completed; C10 + F3 in progress). Preflight:
+  tree clean; `origin/main == main == 5e57e88de2` — **Drew pushed** the post-C9 commits; the first-ever runs of BOTH
+  workflows on GitHub are GREEN (`no-rom` 1 m 35 s, `progress` 15 s, run ids 34095194524 / 34095194479); repo still
+  PRIVATE; `doc_links --strict` PASS; 18 GB free. **Drew: F3 runs in FULL.** The probe (run here, gh-authenticated):
+  **31 of 33 old hashes still ALIVE** — identical to the S87 baseline, no purge yet. **Defect found (R57 — the instrument's
+  own write path):** the probe's `git fetch origin <old-sha>` succeeds for every ALIVE sha and thereby imports that commit's
+  whole closure — the purged EXE, dumps, Ghidra DB, SDK — into the working repo as unreachable objects: `git count-objects`
+  read **30 packs / 5.97 GiB / 415,712 objects** (C9 had left one 80 MB pack / 176,056 objects), two sampled old shas
+  `cat-file -e` PRESENT, `fsck --unreachable` 13,403 heads; refs/reflogs all on the new lineage, `rev-list --all` == main
+  (4,043). Fix: `probe_github.sh` now fetches into a throwaway bare repo (`.run/public_rewrite/probe_scratch.git`, remote
+  `origin`, `--filter=blob:none --depth=1` — commit + trees only; `trap` removes it) and ends with a self-check that names
+  any sampled old commit the WORKING repo holds, printing the gc recipe. **Control:** `git count-objects -v` identical
+  before and after the fixed run (101 loose / 415,712 in-pack / 30 packs both times), scratch removed, positive control
+  OK, self-check "holds 31 of 33" (the pre-fix residue), verdict unchanged (31 ALIVE, rc 1). The repair itself —
+  `git reflog expire --expire-unreachable=now --all && git gc --prune=now` — is REFUSED by the auto-mode classifier from a
+  Claude shell; **Drew runs it** (expected: one pack ≈ 80 MB, `.git` ≈ 93 MB, the two sampled shas absent). Runbook §11 +
+  SETUP row (R21). Commit: see below.
 
 ## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F2 ✓ (28 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = F3 (2026-09-07 ~11:00 UTC, written by session fa49faf3 "S87" at its 87%-context close; SUPERSEDES the earlier blocks)
 

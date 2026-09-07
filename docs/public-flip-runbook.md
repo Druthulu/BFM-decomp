@@ -202,9 +202,15 @@ GitHub to make zero.
 
 **The probe** (`tools/public_rewrite/probe_github.sh`, needs `gh auth login` in Drew's shell): for 30 sampled full old
 hashes + the pruned commit + the old tag tip: `gh api repos/Druthulu/BFM-decomp/commits/<sha>` must return 404 and
-`git fetch origin <sha>` must fail; positive control: the current `main` sha must succeed. After the flip, also probe
+a `git fetch` of the sha must fail; positive control: the current `main` sha must succeed. After the flip, also probe
 7-char prefixes unauthenticated at `github.com/Druthulu/BFM-decomp/commit/<7>`. While ANY probe returns 200: wait and
-re-run daily. **Fallback** if Support stalls: delete the repository and recreate it under the same name, push the same
+re-run daily. **R57 (S88, 2026-09-07): the fetch check runs in a THROWAWAY bare repo** (`.run/public_rewrite/
+probe_scratch.git`, `--filter=blob:none --depth=1`, deleted on exit) — a successful `git fetch origin <old-sha>` pulls
+that commit's whole closure (the purged EXE, dumps, Ghidra DB, SDK) into the repository that runs it. The S87 baseline
+run and the first S88 run did exactly that to `~/bfm-decomp` (30 packs / 5.97 GiB of unreachable old objects on top of
+C9's one 80 MB pack); the probe now ends with a self-check that names any sampled old commit the working repo still
+holds and prints the C11 recipe (`git reflog expire --expire-unreachable=now --all && git gc --prune=now`) — run it
+(Drew; the auto-mode classifier refuses it from a Claude shell) and the store returns to one pack. **Fallback** if Support stalls: delete the repository and recreate it under the same name, push the same
 rewritten history (nothing else exists to lose — the archive repo and the bundle hold the old history).
 
 **The flip:** Settings → General → Danger Zone → Change visibility → Public — ONLY after the probe exits 0 and Blocks D
