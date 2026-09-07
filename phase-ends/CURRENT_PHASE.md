@@ -79,7 +79,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **F1** timeline.py + story — xHigh tool / Max narrative — see Log 2026-09-07 F1
 - [x] **F2** retrospective — Max — see Log 2026-09-07 F2
 - [x] **F3** wiki + how-to-ai-decomp + `wiki_sync.sh` — Max (FULL, Drew 2026-09-07) — see Log 2026-09-07 F3
-- [ ] **E3** gcc-2.7.2 map README + `gccmap_cites.py` — xHigh
+- [x] **E3** gcc-2.7.2 map README + `gccmap_cites.py` — xHigh — see Log 2026-09-07 E3
 - [ ] **E4** xsig packaging — xHigh
 - [ ] **E5** permuter upstream PR branch — Max
 - [ ] **E6** drafter write-up — Max
@@ -482,36 +482,64 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   the P33 F3 section. `make tools-health` re-run with the new line: **`tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green.` (EXIT=0)**. Commits: `954362c81e` (the pages +
   the tooling), then the wiring commit (Makefile · SETUP · runbook · this log · the checkpoint). **What this session did NOT
   do:** the local gc (classifier-refused; Drew's), the wiki push (post-flip; Drew's).
+- **2026-09-07 (S88, Max) — E3 the codegen map's README + every citation tagged with its source tree.**
+  `docs/gcc-2.7.2-map/README.md` (NEW, in `doc_links`' default set): the five files and their pass groups, the condensed §31
+  triage table, the byte-proof method, the provenance legend (the vanilla 2.7.2 subset from the GNU tarball, sha256
+  `7cd8bce5…`; `pmret/gcc-papermario` @`a6afc2af…` = gcc **2.8.1**), the 2.8.1 line-number caveat (drift up to +611 lines),
+  the S23 audit numbers (184 claims: 119 confirmed · 40 line-drift · 7 refuted of 21 raised · 4 unverifiable) and the tag
+  census. **`tools/gccmap_cites.py`**: tags every `file.c:NNN` cite in the map (135 cites in 5 files) as `[2.7.2]` /
+  `[2.8.1 pm]` / `[repo]`, derived from the trees (R33): a quoted source snippet near the cite → an underscore identifier's
+  function extent (`^name (` GNU-style headers) → the nearest occurrence within ±60 lines → the author's cues (`papermario`,
+  `2.7.2`, the decisive `→2.7.2 :NNN` arrow) → `docs/gcc-2.7.2-map/cite_overrides.tsv` (20 rows, each with the construct and
+  its line in the other tree; 2 of them resolve a tie) → a tie is a valid 2.7.2 line; a cue that contradicts the evidence
+  leaves `[?]` (R34); a line past the end of the 2.7.2 file is 2.8.1. Modes: write (idempotent; never silently changes an
+  existing tag — `--retag` accepts), `--dry-run`, `--check` (textual: every cite tagged, no stale override — in
+  `make tools-health` + the CI `audits` job), `--verify` (re-derives every written tag), `--controls` (6 known-true cases
+  from the map's own text, both drift directions), `--explain` (the undecided cites with the map's sentence and both trees'
+  lines — the input to an override). **Three instrument defects, found by its own controls/verify before any tag was written
+  (R39/R57):** (1) span pairing inside a ±160-char window inverted the backtick pairs and dropped the identifiers right
+  next to a cite (`must_and`, `QTY_CMP_PRI`, `CONSTANT_P`…); (2) fenced code blocks inverted the pairing for the rest of a
+  document; (3) after writing, a neighbouring cite's tag read as a `2.8.1` cue — the instrument reading its own output —
+  caught by `--verify`. Bare ALL-CAPS prose words (`NOT`, `AND`, `DEST`) had also passed as evidence: identifiers now need an
+  underscore, as every real gcc macro/function cited has. **Final census:** `[2.7.2]` 79 · `[2.8.1 pm]` 55 · `[repo]` 1 ·
+  undecided 0; `--verify` 0 disagreements; `--controls` 6/6; second write 0 files. Wiring (R21): Makefile `tools-health`
+  (`--check` after `cookbook_index --check`), `.github/workflows/no-rom.yml` audits step, `doc_links` default set, SETUP row +
+  the P33 E3 section. `make tools-health` re-run with the new line: **`tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green.` (EXIT=0)** (`.run/P33/e3_tools_health.log`);
+  `doc_links --strict` PASS (41 documents, 301 links, 0 broken). Gotcha, recorded: the first tools-health run was KILLED by the
+  harness's low-memory guard during the report step (a transient spike; 29 GB available afterwards) — and the process table
+  held **8 orphaned `tools/permuter/run_masked.py` workers from a closed phase, 49 h old (parent PID 18)**, stopped by PID
+  (never `pkill -f` with a literal the calling shell carries); the foreground re-run passed. Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓ (29 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = E3 (2026-09-07, written by session 4555f4e4 "S88" at the F3 close; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3 ✓ (30 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = E4 (2026-09-07, written by session 4555f4e4 "S88" at the E3 close; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = E3** (xHigh, ≈1 session — a tool + a README, no cut candidate; the plan's cut points
-were F3 (now DONE in full), E5 and E3 — Drew already chose full scope for F3, so ask only if he raises it). Rebuild the harness
-task list (40 items, R28) marking A1–A5, B1–B9/C3, C1–C9, D1–D5, F1–F3 completed and C10 in progress. **Every commit cites NEW
+(R1–R73), then WAIT for Drew. **NEXT = E4** (xHigh, ≈0.5 session — the xsig packaging; the plan's remaining cut candidate is
+E5 (the permuter PR, Max, 1 session) — Drew chose full scope for F3 and E3 ran in full, so ask only if he raises it). Rebuild
+the harness task list (40 items, R28) marking A1–A5, B1–B9/C3, C1–C9, D1–D5, F1–F3, E3 completed and C10 in progress. **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). The approved plan
-is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (29):** A1–A5, B1–B9/C3,
+is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (30):** A1–A5, B1–B9/C3,
 C1–C9 (the rewrite, adopted, force-pushed by Drew, gc'd), D1–D5 (README, LICENSE/NOTICE/THIRD_PARTY, badges/objdiff/frogress,
 SETUP public-clean, governing docs + `doc_links`), F1 (timeline + story), F2 (retrospective), **F3 (S88: the wiki — 12 files
 under `docs/wiki/` + the 13 how-to chapters under `docs/how-to-ai-decomp/`, `tools/wiki_render.py` + `tools/wiki_sync.sh`,
-`doc_links` DEFAULT_GLOBS; `954362c81e` + the wiring commit that carries this block).** **In progress (Drew, C10):** the GitHub
+`doc_links` DEFAULT_GLOBS; `954362c81e` + `0cf971d1f4`), **E3 (S88: `docs/gcc-2.7.2-map/README.md` + `tools/gccmap_cites.py`
++ `cite_overrides.tsv`; all 135 map citations tagged `[2.7.2]`/`[2.8.1 pm]`/`[repo]` — 79/55/1 — verified, controls 6/6;
+the commit that carries this block).** **In progress (Drew, C10):** the GitHub
 Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was never confirmed to S88; ask) and the daily
 `tools/public_rewrite/probe_github.sh` until it prints PASS (S88's run: **31 of 33 old hashes still ALIVE = the S87 baseline;
-no purge yet**). **Remaining (11):** E3 (gcc map README + `gccmap_cites.py`) · E4 (xsig) · E5 (permuter PR branch) · E6
-(drafter write-up) — all on the still-private repo; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
+no purge yet**). **Remaining (10):** E4 (xsig) · E5 (permuter PR branch) · E6 (drafter write-up) — all on the still-private repo; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
 — Drew), E2 (Archipelago — Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
 (Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare), G1
 (`docs/gen3-handoff.md`), G2 (the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
 
 ### 2. Facts the remaining tasks depend on (measured S88; verify if in doubt, R14)
 - **Repository state:** `main` = the rewritten history (4,031 commits) + the S87 tip commits (C7 → F2) + the S88 commits
-  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, the wiring commit = HEAD); `origin/main` == the F2 commit
+  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, the E3 commit = HEAD); `origin/main` == the F2 commit
   `5e57e88de2` — **Drew pushed the S87 tip on 2026-09-07 07:23Z; the S88 commits are NOT pushed** (a normal fast-forward push;
   R6). The first-ever GitHub runs of both workflows were GREEN on that push (`no-rom` 1 m 35 s, run 34095194524; `progress`
   15 s, run 34095194479) — read the Actions tab again after the next push, fix red, never claim green unseen (P9). The repo is
@@ -536,6 +564,9 @@ no purge yet**). **Remaining (11):** E3 (gcc map README + `gccmap_cites.py`) · 
   --strict` PASS: 40 documents, 290 relative links, 0 pending, 0 broken; `docs/doc_links_pending.txt` is EMPTY — keep it so;
   any new forward link must be listed there with its creating task (gate 2 requires empty). `tools/wiki_render.py --selftest`
   12/12; `tools/wiki_sync.sh` dry run: 25 pages, 264 links rewritten, "not clonable yet … dry run OK" (exit 0).
+  `tools/gccmap_cites.py --check` OK / `--verify` 0 disagreements / `--controls` 6/6 (needs both `tools/reference/` trees —
+  gitignored; `--check` alone is textual and is what CI and tools-health run); `make tools-health` at the E3 close:
+  `tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green.` (EXIT=0) (`.run/P33/e3_tools_health.log`).
 - **Generated, never typed (R51):** `docs/progress.json`, the README block, `docs/badges/*.json`, `docs/story-timeline.md/.svg`,
   `docs/commit-map.tsv`, `config/ghidra/ROSTER.md`, `docs/progress*.md`, `docs/cookbook-index.md` — regenerate with
   `make report BINARY=main`, `tools/timeline.py`, `tools/ghidra_roster.py`, `tools/cookbook_index.py`. The rendered wiki
@@ -561,15 +592,7 @@ no purge yet**). **Remaining (11):** E3 (gcc map README + `gccmap_cites.py`) · 
    Druthulu/BFM-decomp --limit 4`) · `git count-objects -v` (packs: 1 after Drew's gc; 30 = not yet run) · `df -h ~` ·
    `.venv/bin/python tools/doc_links.py --strict` (PASS) · ask Drew: pushed? gc run? ticket filed? latest probe result?
    (`tools/public_rewrite/probe_github.sh` — ~1 min, gh-authenticated, safe to run from Claude since S88).
-2. **E3** (xHigh, 1): `docs/gcc-2.7.2-map/README.md` (cookbook §31's triage table + per-file scope + provenance legend + the
-   gcc-source fetch note + the byte-proof method + the 2.8.1-line-number caveat — the map files are `docs/gcc-2.7.2-map/
-   {sched,regalloc,loop,cse_expr,t7g-giant-harvest}.md`; `regalloc.md` carries the S23 source-version audit banner: written
-   against `tools/reference/gcc-papermario` = gcc 2.8.1, vanilla 2.7.2 at `tools/reference/gcc-2.7.2`; 184 citations
-   re-derived: 119 CONFIRMED · 40 LINE-DRIFT · 7 REFUTED of 21 raised · 4 unverifiable) + `tools/gccmap_cites.py` tagging every
-   `file.c:NNN` cite `[2.7.2]` or `[2.8.1 pm]` against `tools/reference/gcc-2.7.2` (`--check` exits 0 when every cite is
-   tagged; both reference trees are gitignored — the tool must refuse loudly when a tree is absent, R43, and a fresh clone
-   has neither, so `--check` must not be in CI). Add `docs/gcc-2.7.2-map/README.md` to `tools/doc_links.py`'s DEFAULT set.
-   **E4** (xHigh, 0.5): `.run/xdedup/xsig.py` → `tools/xsig/` (library + CLI `sign-s | sign-objdump | cross | verify`, MIT
+2. **E3 is DONE** (see the log). **E4** (xHigh, 0.5): `.run/xdedup/xsig.py` → `tools/xsig/` (library + CLI `sign-s | sign-objdump | cross | verify`, MIT
    `LICENSE`, README with the Xenogears/Vagrant Story/Tomba hits, `tests/` from one 10-line C function compiled at two link
    addresses — no game bytes); standalone repo prepared under `.run/P33/xsig-repo/` (Drew creates + pushes). **E5** (Max, 1):
    the permuter upstream PR branch (`RelocMaskedScorer` behind `--score-mode reloc-masked`; upstream's `Scorer.__init__` gained
@@ -592,13 +615,15 @@ no purge yet**). **Remaining (11):** E3 (gcc map README + `gccmap_cites.py`) · 
    the milestone evidence, WAIT for gate 2; then `PhaseEnd_Phase33.md` v2.0.0 with the rule candidates (a)–(h), `CURRENT_PHASE.md`
    → `phase-ends/logs/Phase33.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`).
 
-### 4. Files S88 touched (3 commits after the F2 tip)
-Tools (new): `tools/wiki_render.py`, `tools/wiki_sync.sh`; changed: `tools/public_rewrite/probe_github.sh` (scratch-repo fetch +
-self-check), `tools/doc_links.py` (DEFAULT_GLOBS), `Makefile` (`wiki_render --selftest` in tools-health). Docs (new):
-`docs/wiki/*.md` (12), `docs/how-to-ai-decomp/*.md` (13); changed: `docs/SETUP.md` (the probe clause in the public_rewrite row;
+### 4. Files S88 touched (4 commits after the F2 tip)
+Tools (new): `tools/wiki_render.py`, `tools/wiki_sync.sh`, `tools/gccmap_cites.py`; changed: `tools/public_rewrite/probe_github.sh` (scratch-repo fetch +
+self-check), `tools/doc_links.py` (DEFAULT_GLOBS + the map README), `Makefile` (`wiki_render --selftest` + `gccmap_cites --check` in
+tools-health), `.github/workflows/no-rom.yml` (the gccmap_cites step). Docs (new): `docs/wiki/*.md` (12),
+`docs/how-to-ai-decomp/*.md` (13), `docs/gcc-2.7.2-map/README.md` + `cite_overrides.tsv`; changed: the five map files (135
+cites tagged in place), `docs/SETUP.md` (the probe clause in the public_rewrite row;
 2 wiki rows; the P33 F3 section), `docs/public-flip-runbook.md` (§11: the R57 probe paragraph; the wiki push step),
 `docs/doc_links_pending.txt` (10 entries mid-task → EMPTY), `phase-ends/CURRENT_PHASE.md` (F3 ticked; the S88 preflight + F3 log
-entries; this block). Evidence: `.run/P33/f3_tools_health.log`, `.run/wiki/render/` (regenerable). The plan file:
+entries; this block). Evidence: `.run/P33/f3_tools_health.log`, `.run/P33/e3_tools_health.log`, `.run/wiki/render/` (regenerable). The plan file:
 `~/.claude/plans/max-effort-set-plan-twinkling-moonbeam.md` (copied below).
 
 ---

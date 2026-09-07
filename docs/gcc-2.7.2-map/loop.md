@@ -53,7 +53,7 @@ line refs below are to that tree.** (2.8.1 refs marked "pm:".)
   58 (no call)**; decays `-= 3` per moved insn (`move_movables`), and `insn_count *= 2`
   for regs already moved out of another loop (`moved_once`).
 - Strength-reduce threshold (`strength_reduce:3241`): `(call?1:2)*(3+28)` = **31 / 62**.
-- `add_cost` = rtx_cost(PLUS) = `COSTS_N_INSNS(1)` = **2** (2.7.2 `cse.c:680`:
+- `add_cost` = rtx_cost(PLUS) = `COSTS_N_INSNS(1)` = **2** (2.7.2 `cse.c:680 [2.7.2]`:
   `(N)*4-2`); `copy_cost` = **4**. Benefit unit: 2 ≈ one insn.
 - **Giv worth-while test** (`strength_reduce`): reduce iff
   `lifetime × threshold × (benefit − 2×biv_count) ≥ insn_count`. A bare `reg = biv<<k`
@@ -70,7 +70,7 @@ line refs below are to that tree.** (2.8.1 refs marked "pm:".)
 
 ## L1 — IV COUNT & SHAPE (combine_givs / basic_induction_var) — **STEERABLE**
 
-**Source:** `basic_induction_var` (2.7.2 loop.c:4819), `find_mem_givs` (:4198
+**Source:** `basic_induction_var` (2.7.2 loop.c:4819 [2.7.2]), `find_mem_givs` (:4198
 exclusion), `record_giv` (:4341), `combine_givs_p`/`express_from` (:5457/:5419),
 `combine_givs` (:5494), reduction loop in `strength_reduce` (:3670-3960).
 
@@ -92,7 +92,7 @@ exclusion), `record_giv` (:4341), `combine_givs_p`/`express_from` (:5457/:5419),
    DEST_REG giv goes `maybe_dead`, uses fold into DEST_ADDR givs — proven expD `d3`,
    expE e1/e2: cast/conditional/cross-bb loads all still dissolve).
 6. **Anchor choice**: `bl->giv` is prepend-built during the forward scan, and
-   `combine_givs` (2.7.2 loop.c:5494) takes g1 from the list head first (pass 0 =
+   `combine_givs` (2.7.2 loop.c:5494 [2.7.2]) takes g1 from the list head first (pass 0 =
    replaceable g1 only) → **the LAST-emitted DEST_ADDR giv anchors** and all others
    become `anchor+delta` offsets. ~~NB call args are expanded right-to-left, so *the
    first arg's load is emitted last*~~ — **[A23] FALSE: args are emitted LEFT-TO-RIGHT.** The audit's
@@ -229,7 +229,7 @@ substitution (:735-770), `combine_movables` (:1239), desirability + emission
   loop containing a call** (proven expC c3: `lw D_SRC` stays in-loop). Don't fight
   it with cached locals — match the target's in-loop reloads by NOT caching.~~
   **[A23] "EVER" is FALSE — there is a real exception.** `invariant_p`'s `case MEM:` arm
-  (2.7.2 `loop.c:2760-2775`) checks `RTX_UNCHANGING_P (x)` **before** consulting
+  (2.7.2 `loop.c:2760-2775 [2.7.2]`) checks `RTX_UNCHANGING_P (x)` **before** consulting
   `unknown_address_altered` and `break`s — i.e. **read-only items ARE invariant and DO hoist even
   with a call in the loop.** Byte-proven during the audit on the pinned cc1:
   `int t(const int *p,int n){int s=0,i;for(i=0;i<n;i++){s+=*p;f(i);}return s;}` puts
@@ -359,11 +359,11 @@ order. A user-mask statement materializes its constants in C expression order �
 AND/OR compute shape (reordering `&`-operands flips both). The one C form that materializes
 `0x00ffffff` BEFORE `0xff000000` while still computing `dest & 0xff000000` first is the
 **BITFIELD store** (libgpu `setaddr`/`addPrim`): `store_fixed_bit_field` masks the VALUE first
-(expmed.c:667 `must_and` → :679-681), the dest second (:694-696), `ior` dest-first (:706).
+(expmed.c:667 [2.7.2] `must_and` → :679-681), the dest second (:694-696), `ior` dest-first (:706).
 Downstream, preheader birth order sets the K2 tie-break (later-born = shorter LL = higher
-priority), and a lui+ori const additionally SKIPS local-alloc.c:1064's LL-doubling (sched.c:4830
+priority), and a lui+ori const additionally SKIPS local-alloc.c:1064 [2.7.2]'s LL-doubling (sched.c:4830 [2.7.2]
 `try_split` → mips.md:3208 `large_int` split → `reg_n_sets==2` fails the :1021 gate) — see
 regalloc.md RC-7. Full chain + gdb numbers: cookbook §36.
 
 ### The giv-init fence — force `emit_iv_add_mult`'s giv-init MOVE (Phase 24 T5, cookbook §34) — **STEERABLE**
-When a loop's counter-derived pointer (a general induction var) has its init COALESCED with the invariant address, gcc drops one instruction → a full count mismatch vs a target that kept the `addu dst,base,$zero`. **Fix:** `asm("":"=r"(base):"0"(base)); dst = base;` forces `emit_iv_add_mult`'s giv-init move (`loop.c:5556 if (reg != result) emit_move_insn(reg,result)`) to materialize = the target's `addu dst,base,$zero`. The general fix for the "gcc coalesced the giv init, dropping an instruction" class on any giant with a counter-derived pointer.
+When a loop's counter-derived pointer (a general induction var) has its init COALESCED with the invariant address, gcc drops one instruction → a full count mismatch vs a target that kept the `addu dst,base,$zero`. **Fix:** `asm("":"=r"(base):"0"(base)); dst = base;` forces `emit_iv_add_mult`'s giv-init move (`loop.c:5556 [2.7.2] if (reg != result) emit_move_insn(reg,result)`) to materialize = the target's `addu dst,base,$zero`. The general fix for the "gcc coalesced the giv init, dropping an instruction" class on any giant with a counter-derived pointer.

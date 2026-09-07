@@ -10,9 +10,9 @@ Source: `tools/reference/gcc-papermario/` (line numbers below are that tree). Pi
 >
 > **This is not hypothetical — one claim is already byte-refuted.** §1 item 7 and §S12 both state that
 > the S2 birthing boost requires `SET(REG_pseudo, …)`, and therefore that a `register __asm__` pin on the
-> dest kills the boost ("Unpin first"). In real 2.7.2, `birthing_insn_p` (sched.c:2469) tests only
+> dest kills the boost ("Unpin first"). In real 2.7.2, `birthing_insn_p` (sched.c:2469 [2.7.2]) tests only
 > `GET_CODE (SET_DEST (pat)) == REG` — **there is no `>= FIRST_PSEUDO_REGISTER` check anywhere in the
-> function**; the discriminator is `reg_n_sets[i] == 1` (sched.c:2490). **Hard-reg dests ARE boosted.**
+> function**; the discriminator is `reg_n_sets[i] == 1` (sched.c:2490 [2.7.2]). **Hard-reg dests ARE boosted.**
 > Both sites are corrected below. We had been advising agents to drop pins for no reason.
 >
 > **Hand-verified 2.7.2 definition lines** (`grep -n '^<sym> ('`), for the symbols this file leans on:
@@ -47,7 +47,7 @@ Byte-proofs: dump experiments in `.run/gccmap/exp/` (`run.sh <name>` = full pipe
 | **sched1** (`schedule_block`, pre-reload) | order of insns within each bb, on **pseudos** — this order becomes sched2's LUID (tie-break) input | `.i.sched` dump |
 | reload/local-alloc | scratch-register assignment **follows sched1's insn order** (fixing order usually fixes $v1/$a2/$t0 rotations for free) | |
 | **sched2** (post-reload) | final order incl. **RTL prologue/epilogue saves** (MIPS prologue IS RTL: `mips.md:6490 define_expand "prologue"` → `mips.c:mips_expand_prologue`/`save_restore_insns:4955`) | `.i.sched2` dump |
-| **dbr** (`reorg.c:dbr_schedule:4408`) | delay-slot contents, join-block steals, jump threading | `.i.dbr`; cc1 asm: filled slot = wrapped `.set noreorder/nomacro` (`mips.c:3983 '%*'`) |
+| **dbr** (`reorg.c:dbr_schedule:4408`) | delay-slot contents, join-block steals, jump threading | `.i.dbr`; cc1 asm: filled slot = wrapped `.set noreorder/nomacro` (`mips.c:3983 [2.8.1 pm] '%*'`) |
 | **maspsx** (`--aspsx-version=2.56`) | inserts the explicit `nop` after every UNfilled branch (`# DEBUG: branch/jump`) | |
 | **gas -O1** | **NOTHING** — it never branch-swaps here (maspsx already nop'd every open slot). Also expands `-G0` macro loads/stores (`lw r,SYM` → `lui $at + lw`) | `lui $1(at)` pairs in .dis = assembler macro, not cc1 |
 
@@ -59,10 +59,10 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 
 ## 1. THE PICK ALGORITHM (exhaustive — how one bb gets its order)
 
-`schedule_block` (sched.c:3172) schedules each bb **BACKWARD** (from the tail): *picked early = placed late*.
+`schedule_block` (sched.c:3172 [2.7.2]) schedules each bb **BACKWARD** (from the tail): *picked early = placed late*.
 
 1. **Dependences** (`sched_analyze:2190`): true/anti/output on regs; memory via `pending_read/write` lists + `memrefs_conflict_p:627` (same-base different-const-offset stores DON'T conflict → mutually reorderable); every MEM op and every reg dep on a CALL: calls flush the pending lists (`flush_pending_lists:1647`) → **no memory op ever crosses a call**; `MEM_IN_STRUCT_P` (`/s`) enters via `true/anti/output_dependence:829-907` (the §30 store-vs-load flag).
-2. **Latency** (`insn_cost:1390`→**2.7.2 :1363** + `mips.md` function units): load **2** (r3000), xfer 2, store 1, ALU 1, imul **12**, idiv **35**, call result **1** (no unit). `mips.h:3204 ADJUST_COST`: **anti/output dep cost = 0 → clamped to 1 (LINK_COST_FREE)**. A dep INTO a `USE` insn is also cost-free (sched.c:1419 — arg setup overlaps the call).
+2. **Latency** (`insn_cost:1390`→**2.7.2 :1363** + `mips.md` function units): load **2** (r3000), xfer 2, store 1, ALU 1, imul **12**, idiv **35**, call result **1** (no unit). `mips.h:3204 [2.8.1 pm] ADJUST_COST`: **anti/output dep cost = 0 → clamped to 1 (LINK_COST_FREE)**. A dep INTO a `USE` insn is also cost-free (sched.c:1419 [2.7.2] — arg setup overlaps the call).
    **[A23] `insn_cost` is DEP-KIND-BLIND in 2.7.2** — it has no `REG_DEP_ANTI` zero-case (added in ≥2.8), so an anti-dep of a latency-2 load still contributes **+1** to priority rather than 0. Consequence for the §4 aliasing levers: **restoring `/s` anti edges is NOT free — it RE-GROUPS downstream stores.** Budget for that before using `/s` to steer.
 3. **Priority** (`priority:1452`) = longest-chain-from-bb-top: `pri(insn) = max over LOG_LINKS preds of (pri(pred) + cost(pred) − 1)`, min 1. So: **all-latency-1 code ties at pri 1**; each load on the path adds **+1**, imul +11, idiv +34; anti/output links propagate the pred's priority unchanged (+0). Priorities can only be RAISED by C edits, never lowered.
 4. **Ready list** = insns whose successors are all scheduled. Sort (`rank_for_schedule:2414`), pick `ready[0]`:
@@ -72,8 +72,8 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 5. **`schedule_select:2646`** (runs because MAX_BLOCKAGE>1 on MIPS): within an equal-priority group, (a) function-unit-blocked insns are queued (`actual_hazard`) — observed: two memory ops back-to-back get spaced when an alternative exists (t1 dump: `;; blocking insn 14 for 1 cycles`); (b) among the rest, **the insn with the largest `potential_hazard:1345` goes first** — memory/imuldiv-unit users beat plain ALU insns *even against the LUID rule* (t4 dump: `;; insn 20 has a greater potential hazard`). This is a 4th rank rule the cookbook §25 summary lacked.
 6. **Launch/queue** (`schedule_insn:2587`): when a pred's last successor is scheduled, it becomes ready — but if the link cost >1 (load feeding the just-scheduled consumer) it is **queued `cost` cycles**: one independent insn gets wedged between a load and its consumer whenever one is ready; if none, they stay adjacent.
 7. **`adjust_priority:2534` (2.7.2: **2507**) — THE BIRTHING BOOST (pre-reload ONLY, `reload_completed==0`)**: on becoming ready, an insn whose pattern is `SET(REG, …)` — **any REG, pseudo OR hard; CORRECTED 2026-07-28, there is no `>= FIRST_PSEUDO_REGISTER` test in the function** — with the dest live and **`REG_N_SETS(dest)==1`** (`birthing_insn_p:2498`; 2.7.2: **2469**, the `reg_n_sets` test at **2490**) has its priority raised to `max_priority` (≈ the launching insn's) → it wins every tie → **single-set defs sink to just before their first consumer**. Dump tell: `(7f000001)` priorities in the ready list. NB: REG_N_SETS is counted **after cse/flow** — a source-level 2nd assignment that cse copy-propagates or flow dead-store-eliminates does NOT kill the boost (proof: `exp/t5.c`, `exp/t6.c` — both still boosted).
-8. Special pins: **bb0 head-skip** (sched.c:3218-3244): the leading run of `pseudo = hard-arg-reg` param copies is excluded from scheduling (stays first, in arg order). **Tail pin** (3313-3360): trailing JUMP/CALL/USE insns stay at bb end (TAIL_PRIORITY). `SCHED_GROUP_P`: a call + its immediately-preceding `USE argreg` insns move as one unit.
-9. **sched2 differences**: no boost, no head-skip; hard-reg anti/output webs (scratch reuse) now pin most of sched1's order in place; **nop-moves are deleted** (sched.c:4926); RTL prologue ~~/epilogue~~ saves are now in the pool (see S7) — **[A23] PROLOGUE ONLY; the epilogue expander is dead on MIPS in 2.7.2, so epilogue restores never enter sched2's pool.** sched2's LUID = sched1's output order → **pre-reload placement persists**.
+8. Special pins: **bb0 head-skip** (sched.c:3218-3244 [2.8.1 pm]): the leading run of `pseudo = hard-arg-reg` param copies is excluded from scheduling (stays first, in arg order). **Tail pin** (3313-3360): trailing JUMP/CALL/USE insns stay at bb end (TAIL_PRIORITY). `SCHED_GROUP_P`: a call + its immediately-preceding `USE argreg` insns move as one unit.
+9. **sched2 differences**: no boost, no head-skip; hard-reg anti/output webs (scratch reuse) now pin most of sched1's order in place; **nop-moves are deleted** (sched.c:4926 [2.8.1 pm]); RTL prologue ~~/epilogue~~ saves are now in the pool (see S7) — **[A23] PROLOGUE ONLY; the epilogue expander is dead on MIPS in 2.7.2, so epilogue restores never enter sched2's pool.** sched2's LUID = sched1's output order → **pre-reload placement persists**.
 
 ---
 
@@ -121,7 +121,7 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 > **[A23] RE-SCOPED, not deleted (audit 2026-07-28).** The **prologue** half is CONFIRMED: the MIPS
 > prologue really is RTL, so its saves are in sched2's pool. The **epilogue** half is FALSE for our
 > build — `grep -n 'define_expand "epilogue"' config/mips/mips.md` finds only a DEAD entry, and
-> `thread_prologue_and_epilogue_insns` (`function.c:5515`) is split by two independent guards
+> `thread_prologue_and_epilogue_insns` (`function.c:5515 [2.7.2]`) is split by two independent guards
 > (`HAVE_prologue` / `HAVE_epilogue`), so the epilogue restores are NOT scheduled RTL here.
 > **Do not look for epilogue-restore interleave as a sched2 artifact — it cannot occur.**
 - MIPS prologue is **RTL**: saves emitted `$ra` down to `$s0` (**descending regno**, `save_restore_insns:5077`), sp-adjust first. sched2 weaves body insns among them under the same rank rules (anti-deps: `sw $sN` must precede the first body write of `$sN`).
@@ -129,7 +129,7 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 - The saves' RELATIVE order is fixed (descending regno) — if the target shows otherwise it's sched2 weaving, steered by the body insns' priorities/LUIDs, not by any prologue-side lever.
 
 ### S8 — Leading param copies never scheduled (bb0 head-skip)
-- sched.c:3218-3244 (pre-reload, bb0): the leading run of `pseudo = $a0..$a3` copies is pinned in arg order. Anything before the first non-param-copy insn is immovable — don't fight it; it also anchors LUIDs for the block below.
+- sched.c:3218-3244 [2.8.1 pm] (pre-reload, bb0): the leading run of `pseudo = $a0..$a3` copies is pinned in arg order. Anything before the first non-param-copy insn is immovable — don't fight it; it also anchors LUIDs for the block below.
 
 ### S9 — sched1 order persists through sched2 (the LUID relay)
 - sched2's LUIDs are sched1's OUTPUT order; post-reload scratch anti-webs freeze most of it. So: **diagnose order residuals in `.i.sched` (sched1) first**; sched2-only deltas are basically prologue weave (S7) + reload-insn placement + deleted nop-moves. (This is why `-fno-schedule-insns2` rarely changes anything but prologue weave, and why "the register allocation follows the schedule" — S11.)
@@ -143,7 +143,7 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 - func_801571C4 remains the canonical intrinsic exemplar of LUID-lever ⊗ alloc coupling: every LUID-raising construct shrinks a live range → `allocno_compare` order flips. Route to permuter; revisit only with pins-first protocol.
 
 ### D1 — Delay-slot content = the nearest ELIGIBLE insn above the branch/call ⇒ STEERABLE via S1/S2 (adjacency)
-- **Decision point:** `fill_simple_delay_slots:3083` — backward scan from the slot-owner; FIRST eligible candidate wins. `needed` for a CALL is computed WITHOUT delayed effects (reorg.c:3080-3081) → **arg-reg setups are eligible for their own call's slot** (`li $a1,4`, `move $a0,$sX` — the classic jal-slot fills); for a cond-branch the condition-feeding insn is excluded (it's `needed`).
+- **Decision point:** `fill_simple_delay_slots:3083` — backward scan from the slot-owner; FIRST eligible candidate wins. `needed` for a CALL is computed WITHOUT delayed effects (reorg.c:3080-3081 [2.7.2]) → **arg-reg setups are eligible for their own call's slot** (`li $a1,4`, `move $a0,$sX` — the classic jal-slot fills); for a cond-branch the condition-feeding insn is excluded (it's `needed`).
 - So the residual "wrong insn in the jal/branch slot" is really "wrong insn ADJACENT to it pre-dbr" ⇒ fix with S2 (boost) / S1 (LUID). **Byte-proven: func_801770E0 both slots (S2 above).**
 - Also fills `j $31` slots with the return-value insn (t1) and branch slots with prologue saves (t2 f2).
 
@@ -157,18 +157,18 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 - If no backward candidate AND no eager/target steal qualifies (D3) → maspsx `nop`. A target `nop` you can't reproduce = you HAVE an eligible adjacent insn the target didn't → S1/S2 to move it away, or your candidate differs in form (macro vs split).
 
 ### D3 — Join/target-block head insn in a conditional branch's slot (the STEAL) ⇒ shape- and polarity-STEERABLE
-- **Decision point:** `fill_eager_delay_slots:3849` → `fill_slots_from_thread:3454`, direction picked by `mostly_true_jump:1352`; runs only if D1 backward-fill found nothing (fill order per pass: simple(calls) → simple(jumps) → eager → relax, ×2 — reorg.c:4559).
+- **Decision point:** `fill_eager_delay_slots:3849` → `fill_slots_from_thread:3454`, direction picked by `mostly_true_jump:1352`; runs only if D1 backward-fill found nothing (fill order per pass: simple(calls) → simple(jumps) → eager → relax, ×2 — reorg.c:4559 [2.8.1 pm]).
 - **Prediction ladder** (`mostly_true_jump`): branch-out-of-loop → very-unlikely; target preceded by LOOP_BEG → very-likely (loop-back); fallthrough/target rarity (RETURN-reachability) comparison; then **EQ→not-taken, NE→taken, `<0`/`<=0`→not-taken, `>=0`/`>0`→taken**; else backward=taken / forward=not-taken. Predicted-taken ⇒ steal from TARGET thread first; else FALLTHROUGH thread.
 - **Eligibility in a NON-ANNULLED slot (MIPS1 has NO annulled slots — `branch_likely=no` at -mips1, mips.md:96/121, so `eligible_for_annul_* = 0` always):** candidate must not conflict with insns skipped, must NOT set anything live at the OPPOSITE thread, and `!may_trap_p` ⇒ **a STORE can never be eager-stolen** (memory is always in `opposite_needed`, `mark_target_live_regs:2722`) and loads are out anyway (D2). Register sets qualify iff the dest is DEAD on the opposite path (e.g. overwritten there — exp/t3 g3/g4: both arms' `addiu $2,…` — the slot executes on BOTH paths and the fallthrough overwrite masks it).
 - **MOVE vs COPY** (`own_thread_p:2195`): thread owned (label used once && preceded by BARRIER — i.e. only reachable via this branch) ⇒ insn MOVED out of the thread (deleted there) and the branch redirected past it — this is the "join-block first statement stolen and deleted" case, which requires the 'join' to have NO fallthrough predecessor. Not owned ⇒ insn **COPIED** (`copy_rtx`, code GROWS) and the branch redirected to `label+4` — tell: branch target = join label + one insn, with the same insn duplicated in the slot.
 - **Levers:** (a) **branch polarity** (§3-T4) flips prediction AND thread choice → moves the slot fill to the other arm (t3 g3 vs g4: `c==0` vs `c!=0` swap which `addiu` sits in the slot); (b) **provide a backward candidate** — an independent statement placed before the branch preempts the eager steal entirely (D1 runs first); (c) **join-head statement choice** — make the join's first statement a store/macro/load (ineligible → nop) or a dead-dest reg op (eligible); (d) the steal itself is sched-invariant (survives `-fno-schedule-insns`) — if the target shows a steal you can't get, fix CFG shape/polarity, not statement order.
-- **relax_delay_slots:3969** afterwards: threads jump-to-jump, deletes jumps-to-next, inverts a cond-jump over an unconditional (reorg.c:4224), redirects a branch past a target-head insn redundant with its slot (`redundant_insn:1989`) — tells: "branch to label+4", inverted-polarity-with-swapped-targets vs your draft.
+- **relax_delay_slots:3969** afterwards: threads jump-to-jump, deletes jumps-to-next, inverts a cond-jump over an unconditional (reorg.c:4224 [2.8.1 pm]), redirects a branch past a target-head insn redundant with its slot (`redundant_insn:1989`) — tells: "branch to label+4", inverted-polarity-with-swapped-targets vs your draft.
 
 ### D4 — Slot insn reads the WRONG source register (pre-copy operand) ⇒ recognize, then reshape
-- **Decision point:** reorg.c:3689-3701 — if a thread starts `reg2=reg1; use reg2…`, dbr rewrites the use to `reg1` (validate_replace_rtx) so the use becomes slot-fillable next iteration. Tell: slot insn operand = the copy's SOURCE where the join code uses the DEST. If the target lacks this rewrite, your thread has an extra head copy the target didn't (reshape the join head).
+- **Decision point:** reorg.c:3689-3701 [2.8.1 pm] — if a thread starts `reg2=reg1; use reg2…`, dbr rewrites the use to `reg1` (validate_replace_rtx) so the use becomes slot-fillable next iteration. Tell: slot insn operand = the copy's SOURCE where the join code uses the DEST. If the target lacks this rewrite, your thread has an extra head copy the target didn't (reshape the join head).
 
 ### D5 — Two identical return/exit paths merged vs kept separate
-- `fill_simple` case reorg.c:3277: when the scan stops at `j SAME_TARGET`, the branch copies the insn AT the shared target into its slot and both jumps get redirected — one shape of the cross-jump/§10 family, plus optimize_skip is dead on MIPS1 (annul-only). See cookbook §5a/§10 for the cross-jump side (jump.c territory, not this pass-group).
+- `fill_simple` case reorg.c:3277 [2.8.1 pm]: when the scan stops at `j SAME_TARGET`, the branch copies the insn AT the shared target into its slot and both jumps get redirected — one shape of the cross-jump/§10 family, plus optimize_skip is dead on MIPS1 (annul-only). See cookbook §5a/§10 for the cross-jump side (jump.c territory, not this pass-group).
 
 ---
 
@@ -229,7 +229,7 @@ The scheduler **never moves an insn across a basic-block boundary** (gcc-2.7.2 h
 - **Pin interaction (CORRECTED 2026-07-28 — the old text was FALSE for 2.7.2):** a `register __asm__`
   pin on the subu DEST is a hard reg → `qty_phys_copy_sugg` pulls a load temp INTO the pinned reg
   (`lhu s0`). ~~and the dest fails `birthing_insn_p` (needs `SET(REG_pseudo,…)`) → no S2 boost. Unpin
-  first;~~ **That reasoning does not hold.** `birthing_insn_p` (2.7.2 sched.c:2469) tests only
+  first;~~ **That reasoning does not hold.** `birthing_insn_p` (2.7.2 sched.c:2469 [2.7.2]) tests only
   `GET_CODE (SET_DEST (pat)) == REG` — hard regs qualify — and gates on `reg_n_sets[i] == 1` (2490).
   A pinned dest is boost-ELIGIBLE; the boost is lost only if the value is SET more than once (e.g. a
   `lui`+`ori` constant pair, which is two sets, vs a single-insn constant). **So do NOT unpin

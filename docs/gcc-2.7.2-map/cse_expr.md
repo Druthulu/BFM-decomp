@@ -21,7 +21,7 @@ Phase 20). Both canonical stub exemplars now MATCH** (`func_80149374` 23 ins, `f
 > ### [A23-1] THE 1000-INSN CSE FLUSH DOES NOT EXIST IN gcc 2.7.2 — it is 2.8.1-only
 > `grep -n num_insns tools/reference/gcc-2.7.2/cse.c` → **no hits**; no `flush_hash_table`, no
 > "quadratic", no "Perhaps for 2.9" anywhere in the 8,779-line file. It was added in 2.8.1
-> (`gcc-papermario/cse.c:8621-8644`). **In our compiler a CSE class NEVER expires by instruction
+> (`gcc-papermario/cse.c:8621-8644 [2.8.1 pm]`). **In our compiler a CSE class NEVER expires by instruction
 > count.** This invalidates THREE places below — §1's table row, §6's "long straight-line giant"
 > tell, and §7's "check `num_insns` distance / shift ±insns across the 1000 boundary" bullet — i.e.
 > **a lever aimed at a counter our compiler does not have, in exactly the giants this map is
@@ -32,7 +32,7 @@ Phase 20). Both canonical stub exemplars now MATCH** (`func_80149374` 23 ins, `f
 > the output-only asm kill can only ever name one of them. Byte-reproduced with the pinned cc1 during
 > the audit: adding one line `v[1] = v[0];` to a working case defeats the recipe completely (working:
 > frame 56 / 2 saved regs / `addiu` remat at site 2 → broken: frame 64 / 3 saved regs / `addu
-> $16,$sp,16` hoist / both sites `move $aN,$16`). **Mechanism:** `config/mips/mips.c:2350-2351`
+> $16,$sp,16` hoist / both sites `move $aN,$16`). **Mechanism:** `config/mips/mips.c:2350-2351 [2.7.2]`
 > (`expand_block_move`) calls `copy_addr_to_reg` on **BOTH** aggregate addresses, creating
 > `(set (reg:SI 77) (plus:SI (reg:SI 30 $fp) 16))`; cse substitutes reg 77 into the FIRST call's
 > arg-load, so by the time the asm kill fires it invalidates a register **already out of the chain**
@@ -47,7 +47,7 @@ Phase 20). Both canonical stub exemplars now MATCH** (`func_80149374` 23 ins, `f
 >
 > ### The other upheld corrections (each struck or annotated at its site)
 > - **§1's "complete list" of class killers is NOT complete** (upheld narrowly — the word "complete"
->   fails). Notably a **volatile SET's dest is invalidated** via `do_not_record` (`cse.c:7110-7114`),
+>   fails). Notably a **volatile SET's dest is invalidated** via `do_not_record` (`cse.c:7110-7114 [2.7.2]`),
 >   which is the source line for §2's own lever — as written, §1 says that lever cannot exist.
 > - **§4a: `assign_temp` does not exist in gcc 2.7.2** (added in 2.8; `grep -rn assign_temp` → 0 hits)
 >   and **2.7.2's `assign_stack_temp` does NO `/s` reset**, so a **RECYCLED slot INHERITS `/s` and
@@ -57,8 +57,8 @@ Phase 20). Both canonical stub exemplars now MATCH** (`func_80149374` 23 ins, `f
 >   ordinary library CALL (which flushes the whole cse memory table), never an inline `/s` BLKmode
 >   block move. The "memcpy/memset/strcpy" trio is really **memcpy/strcpy** sharing one path.
 > - **§6's "recompute right after a join is NORMAL — never a residual" is FALSE at -O2**, where
->   `flag_cse_follow_jumps` and `flag_cse_skip_blocks` are both set (`toplev.c:3389-3390`) and
->   `cse_end_of_basic_block` extends the table across a join (TAKEN `cse.c:8118`, AROUND `:8150`).
+>   `flag_cse_follow_jumps` and `flag_cse_skip_blocks` are both set (`toplev.c:3389-3390 [2.7.2]`) and
+>   `cse_end_of_basic_block` extends the table across a join (TAKEN `cse.c:8118 [2.7.2]`, AROUND `:8150`).
 >   As written, that row would have blocked §H.1's own antidote.
 > - **§5's "`frame_offset` starts at 0 (= sp+0x10 at runtime)"** — only the parenthetical is wrong.
 >   `STARTING_FRAME_OFFSET` is `current_function_outgoing_args_size`, which is **0 for a leaf with no
@@ -68,11 +68,11 @@ Phase 20). Both canonical stub exemplars now MATCH** (`func_80149374` 23 ins, `f
 >   Only two coupled ties survive. §H's own two mechanisms both CONFIRMED, with one correction: the
 >   diamond antidote's barrier-preceded label is the **ELSE** label, not the merge label (the merge
 >   label works because it is neither followable nor skip-block-able, so `new_basic_block()`
->   (`cse.c:8430`) clears the table).
+>   (`cse.c:8430 [2.7.2]`) clears the table).
 > - **§H's `update_equiv_regs` live-length doubling is exactly ×2 on global priority**
->   (`local-alloc.c:1064`, and `allocno_live_length` is the DENOMINATOR — `global.c:594-597`); the
+>   (`local-alloc.c:1064 [2.7.2]`, and `allocno_live_length` is the DENOMINATOR — `global.c:594-597 [2.7.2]`); the
 >   rest of the informal "~×4" comes from the `floor_log2(n_refs)*n_refs` numerator. It applies only
->   to pseudos carrying a REG_EQUIV note, and `CONSTANT_P` (`rtl.h:237-240`) **excludes a bare PLUS**
+>   to pseudos carrying a REG_EQUIV note, and `CONSTANT_P` (`rtl.h:237-240 [2.7.2]`) **excludes a bare PLUS**
 >   — so a frame address never qualifies (same correction as `regalloc.md` RC-7).
 
 ---
@@ -91,7 +91,7 @@ cd wd && <repo>/tools/bin/gcc-2.7.2-psx/cc1 -quiet -O2 -G0 -mips1 -mcpu=3000 -mg
 ```
 
 Reading the dumps: ~~pseudos start ≈ reg 70 (MIPS: 0-31 GPR, 32-63 FPR, 64-66 hi/lo/fpsw,
-67-70 virtuals).~~ **[A23] corrected — `FIRST_PSEUDO_REGISTER` is 68** (`config/mips/mips.h:1179`),
+67-70 virtuals).~~ **[A23] corrected — `FIRST_PSEUDO_REGISTER` is 68** (`config/mips/mips.h:1179 [2.7.2]`),
 so the four virtuals are **68-71** and **the first pseudo is 72**, not ~70. (The headline
 `(reg:SI 69)` below is still right: virtual-stack-vars is the 2nd virtual.) `(reg:SI 69)` in `.rtl`
 = **virtual-stack-vars** (frame base, = first local's address). In `.cse` and later, frame addresses appear as `(plus (reg 30 $fp) k)` — `$fp` is
@@ -112,13 +112,13 @@ not reuse that value" reduces to whether the class was still valid at the second
 
 | Event | Effect on classes | Source |
 |---|---|---|
-| reg SET again | that reg leaves its class; `reg_tick[reg]++` stales every EXPR containing it | `cse.c:7418-7441` (cse_insn tail), `invalidate` |
-| CALL_INSN | `invalidate_for_call`: **hard call-clobbered regs only. Pseudos + their exprs SURVIVE calls** | `cse.c:1756` |
-| CALL_INSN | `invalidate_memory(everything)`: ALL `MEM` entries die (non-const calls) | `cse.c:7409-7415` |
-| memory store | selective MEM-entry kill via `note_mem_written` — see §4 aliasing table | `cse.c:7709`, `1732` |
-| CODE_LABEL | **total flush** (`new_basic_block`) — every class dies at every label | `cse.c:797, 8614` |
-| ~~1000 insns~~ | ~~**total flush** mid-block ("extreme quadratic behavior" kludge)~~ **[A23-1] DOES NOT EXIST IN 2.7.2** — 2.8.1-only; no `num_insns` in our `cse.c`. A class never expires by insn count. | ~~`cse.c:8626`~~ |
-| volatile asm | **NOTHING** (no reg-class invalidation; a `"memory"` clobber kills only MEM entries via BLKmode→`all=1`) | `cse.c:6340-6355` |
+| reg SET again | that reg leaves its class; `reg_tick[reg]++` stales every EXPR containing it | `cse.c:7418-7441 [2.8.1 pm]` (cse_insn tail), `invalidate` |
+| CALL_INSN | `invalidate_for_call`: **hard call-clobbered regs only. Pseudos + their exprs SURVIVE calls** | `cse.c:1756 [2.8.1 pm]` |
+| CALL_INSN | `invalidate_memory(everything)`: ALL `MEM` entries die (non-const calls) | `cse.c:7409-7415 [2.8.1 pm]` |
+| memory store | selective MEM-entry kill via `note_mem_written` — see §4 aliasing table | `cse.c:7709 [2.8.1 pm]`, `1732` |
+| CODE_LABEL | **total flush** (`new_basic_block`) — every class dies at every label | `cse.c:797 [2.7.2], 8614` |
+| ~~1000 insns~~ | ~~**total flush** mid-block ("extreme quadratic behavior" kludge)~~ **[A23-1] DOES NOT EXIST IN 2.7.2** — 2.8.1-only; no `num_insns` in our `cse.c`. A class never expires by insn count. | ~~`cse.c:8626 [2.8.1 pm]`~~ |
+| volatile asm | **NOTHING** (no reg-class invalidation; a `"memory"` clobber kills only MEM entries via BLKmode→`all=1`) | `cse.c:6340-6355 [2.8.1 pm]` |
 
 Consequences you will see in diffs:
 - **Pseudo-held subexpressions get reused ACROSS CALLS** (the phantom-$s-reg §30 class and the
@@ -128,7 +128,7 @@ Consequences you will see in diffs:
 - **Recomputation after any label/join is NORMAL** (table flushed) — never chase a "missed CSE"
   across a branch target; conversely you cannot make gcc REUSE a value into a label'd block.
 - With `-fcse-follow-jumps` (in `-O2`) the EBB follows the TAKEN path of a conditional
-  (`cse.c:8647-8667`, `invalidate_skipped_block` handles the not-taken side) — so reuse INTO
+  (`cse.c:8647-8667 [2.8.1 pm]`, `invalidate_skipped_block` handles the not-taken side) — so reuse INTO
   the fall-through-only path may differ from the taken path.
 
 ---
@@ -140,7 +140,7 @@ ours computes it once into a freed callee-saved reg (`addiu $s0,$sp,K` + `move $
 use). +1 insn, one extra $s-reg touched, cascades into the schedule.
 
 **Mechanism (three cooperating decision points):**
-1. `calls.c:1632-1650` — every register-parameter value is precomputed by
+1. `calls.c:1632-1650 [2.8.1 pm]` — every register-parameter value is precomputed by
    `expand_expr(..., NULL_RTX, ...)`; for `&local` at frame offset ≠ 0 this **forces a fresh
    pseudo** `rN = (plus vsv K)` per call site (`memory_address`/`force_reg`). Offset-0 locals
    are the exception: `&first_local` IS `virtual-stack-vars` (already a reg) → no pseudo →
@@ -149,7 +149,7 @@ use). +1 insn, one extra $s-reg touched, cascades into the schedule.
 2. `cse.c` unifies the second site's pseudo with the first (`(plus $fp K)` class holds a valid
    pseudo — calls don't kill pseudos, §1) → one pseudo now live across the call.
 3. `global.c` happily gives that call-crossing pseudo a callee-saved reg (free if one is
-   already saved) → the cached form. (`local-alloc.c:1007 update_equiv_regs` does NOT rescue:
+   already saved) → the cached form. (`local-alloc.c:1007 [2.7.2] update_equiv_regs` does NOT rescue:
    it only REG_EQUIVs CONSTANT_P notes / unchanging MEMs, and only moves REG_N_REFS==2
    pseudos — an address used at 2 call sites has 3 refs.)
 
@@ -207,7 +207,7 @@ the first call's args AND again late in the function; gcc computes it once, park
 extra callee-saved reg across all the calls (+1 `sw/lw` pair, 7th $s-reg, count +1).
 
 **Mechanism:** same §1 chain as §2 but for a VALUE: pseudo classes survive calls
-(`cse.c:1756`), so the tail occurrence is replaced by the pre-call pseudo.
+(`cse.c:1756 [2.8.1 pm]`), so the tail occurrence is replaced by the pre-call pseudo.
 
 **Lever (byte-proven, cookbook §30 #3 / toolkit `func_80176D94`):** the zero-byte
 **input-tied re-tie** `__asm__("" : "=r"(x) : "0"(x));` placed between the two occurrences.
@@ -227,7 +227,7 @@ recomputes in place (`andi $s2,$s2,0xffff` at its natural position).
 
 ### 4a. Setter sites (complete for this pass-group)
 
-**Loads/derefs — `expr.c` INDIRECT_REF case (expr.c:5506, grant at 5535):** `/s` iff
+**Loads/derefs — `expr.c` INDIRECT_REF case (expr.c:5506 [2.8.1 pm], grant at 5535):** `/s` iff
 ```c
 TREE_OPERAND(exp,0) == PLUS_EXPR                      /* top-level pointer sum: q[k], *(q+k) with q TYPED */
 || (SAVE_EXPR && its operand is PLUS_EXPR)            /* same sum reused inside ONE expression */
@@ -238,27 +238,27 @@ New vs cookbook §30/§30a (which only knew arm 1): **a bare `*(struct S*)p` str
 `/s` via arm 3 with no PLUS at all**, and a cast-wrapped sum `*(T*)(p+k)` — NOP_EXPR on top —
 still gets NO `/s` (§30a stands). Scalar `*p` never gets `/s`.
 
-**Member/array refs — `expr.c:5891`** (the COMPONENT_REF/ARRAY_REF/BIT_FIELD_REF bundle after
+**Member/array refs — `expr.c:5891 [2.8.1 pm]`** (the COMPONENT_REF/ARRAY_REF/BIT_FIELD_REF bundle after
 `get_inner_reference`): **unconditional `/s`**. This is why the anon-struct member cast
 `((struct{s32 f;}*)p)->f` is the universal GRANT (§30) — front end emits COMPONENT_REF.
 
-**Store side — `expr.c:4292`** (`expand_assignment`, component/array dest): unconditional
+**Store side — `expr.c:4292 [2.8.1 pm]`** (`expand_assignment`, component/array dest): unconditional
 `/s` on the dest MEM. An INDIRECT_REF dest reuses the 5535 rule symmetrically. So store-`/s`
 is steered by the same syntax choices as loads.
 
 **Temps & locals:**
-- `function.c:949` — **reusing a temp slot RESETS `/s`=0**, then `assign_temp`
-  (`function.c:985`) sets `/s = AGGREGATE_TYPE_P(type)`.
-- `stmt.c:3646` — every memory-resident LOCAL's DECL_RTL gets `/s = AGGREGATE_TYPE_P(decl
+- `function.c:949 [2.8.1 pm]` — **reusing a temp slot RESETS `/s`=0**, then `assign_temp`
+  (`function.c:985 [2.8.1 pm]`) sets `/s = AGGREGATE_TYPE_P(type)`.
+- `stmt.c:3646 [2.8.1 pm]` — every memory-resident LOCAL's DECL_RTL gets `/s = AGGREGATE_TYPE_P(decl
   type)`: **an array/struct local's home MEM is `/s`, a scalar local's spill home is not.**
-- `function.c:3876/4025/4082/4136/4386` — parameter stack homes: `/s = aggregate-ness`.
-- `expr.c:9012/9029/9097` — memcpy/memset/strcpy builtin block MEMs: `/s = AGGREGATE_TYPE_P`.
-- `expr.c:465` + emit-rtl `change_address` — derived MEMs COPY the flag.
+- `function.c:3876 [2.7.2]/4025/4082/4136/4386` — parameter stack homes: `/s = aggregate-ness`.
+- `expr.c:9012 [2.8.1 pm]/9029/9097` — memcpy/memset/strcpy builtin block MEMs: `/s = AGGREGATE_TYPE_P`.
+- `expr.c:465 [2.8.1 pm]` + emit-rtl `change_address` — derived MEMs COPY the flag.
 
 ### 4b. Consumers — where `/s` changes codegen
 
-**Scheduler (sched.c:830 `true_dependence`, 862 `anti_dependence` — SYMMETRIC):** two memrefs
-conflict unless `memrefs_conflict_p` (base+offset window reasoning, sched.c:628) proves
+**Scheduler (sched.c:830 [2.7.2] `true_dependence`, 862 `anti_dependence` — SYMMETRIC):** two memrefs
+conflict unless `memrefs_conflict_p` (base+offset window reasoning, sched.c:628 [2.7.2]) proves
 disjoint, **except** the escape: a `/s`+varying-address+non-QImode access does NOT conflict
 with a non-`/s`+fixed-address access. Because true AND anti dependence share the clause, the
 `/s` lever moves loads over stores AND stores over loads (§30's rule, now proven both ways).
@@ -266,12 +266,12 @@ with a non-`/s`+fixed-address access. Because true AND anti dependence share the
 byte access over a fixed store by struct-casting; retype to u16/u32 member if the target shows
 it floating.
 
-**CSE store-side (cse.c:7709 `note_mem_written` → 1732 `invalidate_memory`):** what a STORE
+**CSE store-side (cse.c:7709 [2.8.1 pm] `note_mem_written` → 1732 `invalidate_memory`):** what a STORE
 kills in the load-cache table:
 
 | Store written | writes flags | Cached loads killed |
 |---|---|---|
-| fixed symbol `D_x = v` | var=1 | all varying-address (pointer) loads; **fixed-symbol loads survive** (own address killed exactly, `cse.c:7433`) |
+| fixed symbol `D_x = v` | var=1 | all varying-address (pointer) loads; **fixed-symbol loads survive** (own address killed exactly, `cse.c:7433 [2.8.1 pm]`) |
 | `p->f = v`, `p[k] = v` (`/s` or PLUS addr, non-QI) | var+nonscalar | varying + `/s` loads; **fixed-symbol scalar loads SURVIVE** |
 | bare `*p = v` (no `/s`, no PLUS, non-QI) | **all=1** | **EVERYTHING** — total memory-table flush |
 | any `u8` store through a pointer (QImode) | all=1 | everything |
@@ -294,7 +294,7 @@ touching the scheduler.
 
 ## §5 Stack frame layout (function.c) — offsets, rounding, recycling
 
-**Allocator (`function.c:681 assign_stack_local`):** MIPS has no FRAME_GROWS_DOWNWARD →
+**Allocator (`function.c:681 [2.7.2] assign_stack_local`):** MIPS has no FRAME_GROWS_DOWNWARD →
 `frame_offset` starts at 0 (= sp+0x10 at runtime: 0x10 arg-save area below) and grows UP in
 ALLOCATION ORDER. Alignment: `align=0` → mode alignment (u64 → 8); `align=-1` (all BLKmode:
 arrays, structs) → `BIGGEST_ALIGNMENT` = **8 bytes, and size CEIL-rounded to 8**. So:
@@ -302,10 +302,10 @@ arrays, structs) → `BIGGEST_ALIGNMENT` = **8 bytes, and size CEIL-rounded to 8
 - every array/struct occupies an 8-aligned, 8-rounded slot (`u8 buf[4]` eats 8 bytes);
 - a u64/double scalar also 8-aligns; u32 4-aligns — reorder declarations to steer gaps.
 
-**Locals go through the TEMP-SLOT machinery** (`stmt.c:3643` → `assign_stack_temp(mode,size,
-keep=1)`, `function.c:826`): before allocating fresh, it **reuses a free slot of the same
+**Locals go through the TEMP-SLOT machinery** (`stmt.c:3643 [2.8.1 pm]` → `assign_stack_temp(mode,size,
+keep=1)`, `function.c:826 [2.7.2]`): before allocating fresh, it **reuses a free slot of the same
 mode+size, else splits the smallest larger free BLKmode slot** (leftover ≥8 becomes a new
-free slot). Compiler temps (struct-return staging, block copies `expr.c:5868/4170`,
+free slot). Compiler temps (struct-return staging, block copies `expr.c:5868 [2.8.1 pm]/4170`,
 `assign_temp` aggregates) share this pool and are freed at statement end (`free_temp_slots`,
 levels pushed around call-arg evaluation by calls.c). **Consequence: a later local can land in
 a RECYCLED earlier-temp slot — frame offsets out of declaration order, or a frame ±8 vs the
@@ -317,7 +317,7 @@ is entered?
 **Diagnosis recipe:** compare the target's `$sp` offsets cluster-by-cluster; each 8-aligned
 cluster = one BLKmode object (or a recycled temp). Draft SEPARATE locals per cluster in target
 offset order rather than one giant `u8 buf[N]` — a monolithic buffer forces you to guess
-internal offsets AND changes `/s` (stmt.c:3646 gives the array home `/s`) and IV behavior
+internal offsets AND changes `/s` (stmt.c:3646 [2.8.1 pm] gives the array home `/s`) and IV behavior
 (§30a #2 single-base rule) in one blob. (This is exactly what's wrong with the current
 `func_80132784` draft — see §7.)
 
@@ -385,5 +385,5 @@ internal offsets AND changes `/s` (stmt.c:3646 gives the array home `/s`) and IV
 Fresh-core pass (`.run/giants/func_80176734.fable.md`, full pass dumps `.run/giants/fable_76734/`) — no bank (5 permuter-shaped clusters), but two byte-proven CSE mechanisms with pure-C antidotes worth reusing:
 
 1. **The cse address-fold pair — killed by a balanced if/else diamond (zero asm).** `find_best_addr`'s cost-ungated qty-const fold + `from_plus` re-association eat reg-based global accesses and derived pointers on *every* cse walk (so a target that recomputes `&g + k` per use, instead of folding, looks unreachable). The pure-C antidote: wrap the merge in a **balanced `if/else` diamond** so its label is **barrier-preceded** → cse starts a FRESH table there → both folds die with no `#APP`. This replaced two asm dials on this function — prefer it to an inline-asm fence whenever the divergence is a cse fold across a join.
-2. **`update_equiv_regs` doubles live_length for single-set REG_EQUIV pseudos** (`local-alloc.c:1064`) — a **2nd set** of an address pointer forfeits the doubling and ~quadruples its allocno priority, rotating the callee-saved bank. Explains a whole "my zero-byte dial broke the $s-order" class: the dial added a second set. (Companion to regalloc §H; recorded there too.)
-3. **`record_jump_equiv` fall-through recording** (`cse.c:7511`) deletes a target's provably-dead branch; only an identity-asm 2nd-set re-opaques the value. A recognition **tell**: if the original keeps a branch cse would prove dead, the source had a genuine (non-constant-foldable) second writer.
+2. **`update_equiv_regs` doubles live_length for single-set REG_EQUIV pseudos** (`local-alloc.c:1064 [2.7.2]`) — a **2nd set** of an address pointer forfeits the doubling and ~quadruples its allocno priority, rotating the callee-saved bank. Explains a whole "my zero-byte dial broke the $s-order" class: the dial added a second set. (Companion to regalloc §H; recorded there too.)
+3. **`record_jump_equiv` fall-through recording** (`cse.c:7511 [2.7.2]`) deletes a target's provably-dead branch; only an identity-asm 2nd-set re-opaques the value. A recognition **tell**: if the original keeps a branch cse would prove dead, the source had a genuine (non-constant-foldable) second writer.

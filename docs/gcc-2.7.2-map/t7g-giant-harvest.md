@@ -2,7 +2,7 @@
 
 > **[A23] SOURCE-VERSION AUDIT (2026-07-28).** 30 claims re-derived against `tools/reference/gcc-2.7.2/`;
 > 2 REFUTED raised. **Provenance here is MIXED, not uniformly contaminated** — some cites are already
-> 2.7.2-correct (e.g. `sched.c:2469` = the true `birthing_insn_p` line) while others came from the
+> 2.7.2-correct (e.g. `sched.c:2469 [2.7.2]` = the true `birthing_insn_p` line) while others came from the
 > 2.8.1 `gcc-papermario` tree. So check each citation individually rather than assuming a uniform
 > offset. This is a session harvest log, not a primary reference: where it disagrees with
 > `sched.md` / `regalloc.md` / `cse_expr.md` (all audited the same day), those files win.
@@ -175,19 +175,19 @@ frame pointer; same-slot triple-reloads; unfilled load-delay nops). -O0 compile 
 ## ✅ func_8014EA4C — FABLE5 MATCH (183 ins), banked ×1 (2026-07-07) — the 1st Fable5 crack
 Zero pins, pure source structure. **METHOD UPGRADES (fold into cookbook + all future Fable5):**
 - **SIBLING-GREP shortcut:** the pre-call idiom was already solved in banked `DEFINE_func_8014EE14`
-  (engine_core.h:24926). Grep src/ for the idiom (symbol+callee) BEFORE cc1. C1+C2 fell in 1 edit each.
+  (engine_core.h:24926 [repo]). Grep src/ for the idiom (symbol+callee) BEFORE cc1. C1+C2 fell in 1 edit each.
 - **⚠ RTL DUMPS ARE NOT STRIPPED** (§34 correction): pinned cc1 with `-dr -dj -dc -dl -dg` emits full
   `.rtl/.jump/.combine/.lreg/.greg` — readable ground truth before gdb. Upgrades every future run.
 - **LEVER — C1 `/s`-flag COMPONENT_REF arg read:** an arg/operand load with a ZERO pointer offset that
   must cross a fixed-symbol store needs `((struct{s32 w;}*)q)->w` (COMPONENT_REF → `/s`=MEM_IN_STRUCT_P →
-  `sched.c:817 true_dependence` lets it hoist); `q[0]` front-end-folds the +0 → plain MEM → spurious
+  `sched.c:817 [2.7.2] true_dependence` lets it hoist); `q[0]` front-end-folds the +0 → plain MEM → spurious
   true-dep → pinned below the store. NONZERO offsets cross free. This is the LOAD-side mirror of
-  func_80176D94's store-side `/s` lever — same flag, both directions proven. (`expr.c:4568` case INDIRECT_REF.)
+  func_80176D94's store-side `/s` lever — same flag, both directions proven. (`expr.c:4568 [2.7.2]` case INDIRECT_REF.)
 - **LEVER — C2 s32-abs, `(s16)` cast at the USE:** `s32 t=..; if(t<0)t=-t; if(0x800<(s16)t)` → `negu $2,$2`
   in place; a NARROW `s16 t` gives `move $3,$2; negu $3` (HImode neg into a fresh pseudo + subreg truncate).
   Rule: `negu rX,rX` in place = word-sized abs var + narrowing cast at the use; move+negu pair = narrow var.
 - **LEVER (headline) — PHANTOM-SLOT PARITY:** frame-parity residuals on s16-heavy fns = uncounted stack
-  slots from label-headed orphaned extend-intermediates (`combine.c:10829` parks a REG_DEAD note on a bare
+  slots from label-headed orphaned extend-intermediates (`combine.c:10829 [2.7.2]` parks a REG_DEAD note on a bare
   `(use (reg))` at a CODE_LABEL → regclass sees no constraint → `alter_reg` gives a stack slot: +8 bytes,
   0 insns). **Count `(use (reg:SI` in `.combine`.** Locals size = declared aggregates + 8×phantom-count.
   The §34 toolkit ISN'T unavailable on such fns — trade a phantom for 8 buffer bytes freely (`buf[16]→buf[24]`
@@ -196,7 +196,7 @@ Zero pins, pure source structure. **METHOD UPGRADES (fold into cookbook + all fu
   did it; byte-identical). Sibling macro ⇒ possible engine-core dedup candidate.
 
 ## ✅ func_801372B0 — FABLE5 MATCH (207), banked ×1 (asm-label-alias bank) — 3rd crack
-- **Lever A (S2-kill on single-set PINNED vars):** `birthing_insn_p` (sched.c:2469) boosts single-set REG
+- **Lever A (S2-kill on single-set PINNED vars):** `birthing_insn_p` (sched.c:2469 [2.7.2]) boosts single-set REG
   dests INCLUDING register-asm hard regs (corrects the "non-boosted pinned const" briefing). A post-use
   re-tie `__asm__("":"=r"(v):"0"(v))` → `reg_n_sets==2` → no boost → source order. In an in-place-update
   pinned pair (`ax=ay+K; … ay+=K'`) the fresh single-set half boost-glues above the in-place half; the
@@ -223,12 +223,12 @@ Drove 37→7 (count-exact, ALL registers correct); last 7 = a compiler-internal 
 barrier: the two-base store split (puVar3=$a0 off-0; q=$a1 off 4/8/12 as −8/−4/0) forces q a separate
 biv, and "separate base AND late init" is not co-reachable from C — q pinned → init is an early-LUID
 source stmt (emits before the movables); q as giv → the −8/−4/0 offsets fold into the `sw` so
-`emit_iv_add_mult` gets ELIMINATED (benefit→0, loop.c:3803/3823) → one base, −1 insn. Permuter plateaus
+`emit_iv_add_mult` gets ELIMINATED (benefit→0, loop.c:3803 [2.7.2]/3823) → one base, −1 insn. Permuter plateaus
 at 5 via semantically-divergent waypoints. → INCLUDE_ASM (or a per-fn `_o0`-style split TU to host a
 scheduling hack — heavy, declined for now). Draft `.run/t7b/close/func_80178004.c`.
 - **LEVER 1 (NEW, headline, BANKABLE, broadly applicable → §36):** the **coalescable-copy insn_count
   bump.** When the whole `$t`-file is shifted by ONE extra-hoisted loop const, `move_movables`' hoist
-  threshold `2*(1+n_non_fixed_regs)` (decays −3/hoist, loop.c:1717/1904) is sitting at its `>=` boundary
+  threshold `2*(1+n_non_fixed_regs)` (decays −3/hoist, loop.c:1717 [2.7.2]/1904) is sitting at its `>=` boundary
   (`43>=43` TRUE → the 6th const grabs a persistent reg). Nudge `insn_count +1` with ONE coalescable copy
   `{ u32 m2 = uVar6; q[-1] = m2 | …; }` → `43>=44` FALSE → hoist REFUSED (gdb: reg "not desirable"), and
   combine/regalloc coalesce `m2`→$s0 = **zero final bytes**. This is the FUNCTION-LOCAL, BANKABLE
@@ -247,7 +247,7 @@ resolve themselves + every edit becomes local/monotone. The "every edit moves 20
 dep-free insns re-floating. **Audit "RC-6 unsteerable" verdicts — check the dep graph first.**
 - **LEVER (headline, structural, 47→12; zero bytes) — the `/s`-LOAD DEP LATTICE:** `expr.c` marks
   INDIRECT_REF-of-PLUS as `MEM_IN_STRUCT_P` — `p[k]` (k≠0) stores are `mem/s`, bare `*p` is not.
-  `sched.c:829-907` DROPS a store↔load conflict when one side is /s+varying(+!QI) and the other
+  `sched.c:829-907 [2.7.2]` DROPS a store↔load conflict when one side is /s+varying(+!QI) and the other
   non-/s+fixed → plain `lhu D_global` never orders against `puVar3[k]` stores → global loads float, tail
   schedule collapses. **Fix: load the global as a struct-member-at-offset-0** —
   `((struct { u16 h; } *)&D_8011F830)->h` — COMPONENT_REF sets `/s` on the LOAD → both exception clauses
@@ -294,7 +294,7 @@ Permuter reached 26 only via an ILLEGAL mutation (reads a pin before its set) �
   → tie broken by qty NUMBER = block-scan order → the loser cascades the whole $t-file rotation + store
   order. A window-temp pin (or inline reuse taking a dying reg via `qty_phys_sugg`) flips the tie → dozens
   of diffs collapse. **Audit "schedule" residuals for an equal-priority qty tie FIRST (gdb find_free_reg).**
-- **LEVER — multi-death block-var law (`local-alloc.c:472`):** a block-local with `reg_n_deaths != 1` is
+- **LEVER — multi-death block-var law (`local-alloc.c:472 [2.7.2]`):** a block-local with `reg_n_deaths != 1` is
   REJECTED by local-alloc → becomes a GLOBAL allocno → alloc chaos. Use one-statement fresh-per-window
   single-death locals (`o = OTLINK; o[2]=…` = 4 deaths → split them).
 - **LEVER — dead-variable reuse = the register oracle:** the target's "impossible" register choices are
@@ -305,13 +305,13 @@ Permuter reached 26 only via an ILLEGAL mutation (reads a pin before its set) �
   `hard_reg_conflicts` EVICTION. Corollary: input-only asm dummies (no dependents) go to block END —
   can't fence from below in a big block (matches 78004's finding).
 - **SCOPE NOTE — the `/s`-dep-lattice lever is INAPPLICABLE when all mem ops are register-addressed:**
-  `sched.c:820-865` drop clause needs one side /s+varying AND the other **non-/s + FIXED-address**; if
+  `sched.c:820-865 [2.7.2]` drop clause needs one side /s+varying AND the other **non-/s + FIXED-address**; if
   every mem op is register-addressed (varying), all edges already exist → /s changes nothing. (770E0/76D94
   had FIXED-address `D_global` loads; 412A8 does not.)
 
 ## ✅ func_80148094 — FABLE5 MATCH (213), banked ×1 — cracked from RTL dumps alone (no gdb, no permuter)
 Root cause (corrects the close-draft): NOT local-alloc first-fit — a global-alloc **`allocno_compare`
-NEAR-TIE** (`global.c:588`: `pri = floor_log2(refs)*refs/live_length*10000*size`): fac (pseudo-79, 7refs/33)
+NEAR-TIE** (`global.c:588 [2.7.2]`: `pri = floor_log2(refs)*refs/live_length*10000*size`): fac (pseudo-79, 7refs/33)
 = 4242 vs the arm-local p2c (pseudo-183, 3refs/7) = 4285 → 183 allocated first, its preferences {4,5}
 (`set_preference` unwrap rule) pref-take $a0, push fac→$a1. **Preference beats first-fit** — explains the
 target's "impossible" `lw $a1,0x2C` skipping free $v1.
