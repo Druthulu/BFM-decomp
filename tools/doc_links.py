@@ -20,6 +20,16 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 DEFAULT = ["README.md", "THIRD_PARTY.md", "CLAUDE.md", "src/NOTICE.md", "tools/README.md", "docs/SETUP.md",
            "docs/verification.md", "docs/public-flip-runbook.md", "docs/decision-log.md", "docs/accelerators.md",
            "docs/story.md", "docs/story-timeline.md", "docs/retrospective.md", "phase-ends/README.md", "phase-ends/DIGEST.md"]
+# whole directories in the default set (P33 F3): the wiki pages and the how-to chapters — every file, so a new page is
+# checked the moment it exists (the glob is expanded at run time; the count is printed with the rest, R41)
+DEFAULT_GLOBS = ["docs/wiki/*.md", "docs/how-to-ai-decomp/*.md"]
+
+
+def default_files():
+    out = list(DEFAULT)
+    for g in DEFAULT_GLOBS:
+        out += [p.relative_to(REPO).as_posix() for p in sorted(REPO.glob(g))]
+    return out
 PENDING_FILE = REPO / "docs" / "doc_links_pending.txt"
 LINK_RE = re.compile(r"(?<!\!)\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 SKIP_PREFIX = ("http://", "https://", "mailto:", "#", "ftp://")
@@ -84,7 +94,7 @@ def main(argv):
     ap.add_argument("files", nargs="*")
     ap.add_argument("--strict", action="store_true")
     a = ap.parse_args(argv)
-    return check(a.files or DEFAULT, a.strict)
+    return check(a.files or default_files(), a.strict)
 
 
 if __name__ == "__main__":

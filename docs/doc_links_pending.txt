@@ -1,2 +1,3 @@
-# docs/doc_links_pending.txt — pages the public docs already link to and a LATER Phase-33 task creates (tools/doc_links.py).
-# path<TAB>creating task. Must be EMPTY before gate 2 (`tools/doc_links.py --strict`).
+# docs/doc_links_pending.txt — link targets promised by a document and created by a later task of the SAME phase.
+# Format: <repo-relative path><TAB><the task that creates it>. tools/doc_links.py reports these as PENDING instead of
+# BROKEN; `--strict` (gate 2) refuses any entry, so this file must be EMPTY before a PhaseEnd.
