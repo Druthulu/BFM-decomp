@@ -9,7 +9,9 @@ Support ticket and a daily probe. "ROM-derived" is wider than the executable: th
 memory dumps, the **reverse-engineering database** (a Ghidra project embeds the program's bytes under a page XOR mask),
 the vendor SDK, session transcripts that quote disassembly, re-downloadable extension archives, and compiled tool
 binaries. Decide the public/private boundary on day one, and **cite commits by date and subject in long-lived documents,
-never by hash alone** — a rewrite changes every hash.
+never by hash alone** — a rewrite changes every hash. The firewall as this project finally installed it — the nine
+classes with the tracked form each takes instead, a copyable `.gitignore`, the audit with its negative control and its
+content check, the CI — is the wiki page [The ROM firewall](../wiki/The-ROM-firewall.md).
 
 ## If you must rewrite history anyway
 
@@ -106,7 +108,7 @@ masked-scorer improvement offered upstream to the permuter (declined: the mainta
 disassembly and matched C is ROM-derived and stays private); a decomp.me preset for the pinned compiler; a note to the
 neighbouring community project whose RAM map cited yours.
 
-## Rules this chapter proposes (recorded for the PhaseEnd)
+## Rules this chapter proposes (recorded for the PhaseEnd; ratified as R74–R80 at the Phase-33.5 gate, 2026-09-07)
 
 - No ROM-derived bytes in **any** published artifact — test fixtures, JSON, badges and reports included.
 - Published numbers are generated, never typed (R51 applied to documents).

@@ -18,7 +18,10 @@ three ways:
    publication every revision was rewritten to remove them, proven pair by pair, and force-pushed. The procedure and its
    controls are in [`docs/public-flip-runbook.md`](../public-flip-runbook.md). Do not reintroduce what it removed.
 
-If you are unsure whether something is ROM-derived, open an issue first.
+The policy in full — the nine classes of ROM-derived content (the executable is the obvious one; the reverse-engineering
+database, transcripts that quote disassembly and a pasted instruction listing are the ones people miss), the copyable
+`.gitignore`, the audit's design and its content check, and what a history rewrite costs — is
+[The ROM firewall](The-ROM-firewall.md). If you are unsure whether something is ROM-derived, open an issue first.
 
 ## What a useful contribution looks like
 
@@ -75,6 +78,6 @@ remote of the working repository.
 ## Running the AI workflow yourself
 
 The project was carried out by an AI coding agent under a written constitution ([`PROJECT_CONTEXT.md`](../../PROJECT_CONTEXT.md)),
-a session protocol ([`CLAUDE.md`](../../CLAUDE.md)) and a rule set that grew to 73 numbered rules. All of it is public
+a session protocol ([`CLAUDE.md`](../../CLAUDE.md)) and a rule set that grew to 83 numbered rules. All of it is public
 and the framework is published separately as [ProjectArchitect](https://github.com/Druthulu/ProjectArchitect). The
 transferable part — how to run a byte-exact decompilation with agents — is [How to AI-decomp](How-to-AI-decomp.md).

@@ -12,6 +12,10 @@
 - [Contributing and the no-ROM policy](Contributing-and-the-no-ROM-policy.md)
 - [Tools from this project](Tools-from-this-project.md)
 
+**Working conventions**
+- [Docs and scratch conventions](Docs-and-scratch-conventions.md)
+- [The ROM firewall](The-ROM-firewall.md)
+
 **How to AI-decomp**
 - [Index](How-to-AI-decomp.md)
 - [00 Read me first](../how-to-ai-decomp/00-README.md)
