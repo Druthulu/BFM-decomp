@@ -8,7 +8,7 @@ Matching decompilation of **Brave Fencer Musashi** (PS1, SLUS-00726 USA). Goal: 
 candidate). Read these files in this order — nothing else at session start:
 
 1. Read `PROJECT_CONTEXT.md` in full (the permanent constitution: rules, protocols, roadmap).
-2. Read `phase-ends/DIGEST.md` in full — every phase's synopsis, every rule's full text (R1–R64), the corrections that
+2. Read `phase-ends/DIGEST.md` in full — every phase's synopsis, every rule's full text (R1–R83), the corrections that
    supersede parts of PROJECT_CONTEXT.md, and the doc map. It REPLACES reading every PhaseEnd (the PhaseEnds are still
    kept forever — read an older one on demand when a synopsis is not enough; **never** read `phase-ends/logs/` at
    session start, R19).
@@ -58,7 +58,7 @@ These rules govern every session. They are not suggestions.
 
 ## Fail-safe hard rules (duplicated from PROJECT_CONTEXT.md in case the above is ever skipped)
 
-- **Never commit ROM-derived content.** The game dump, `disks/`, `asm/`, `assets/`, `build/`, `expected/`, extracted `.CD` contents, the Ghidra project (`ghidra/`), the RAM dumps (`dumps/*.bin`), Sony's SDK (`tools/psyq/`) and the session archive stay out of git — in force again since the public flip (Phase 33); `tools/audit_public.py` and CI enforce it. Review `git status` before every commit.
+- **Never commit ROM-derived content.** The game dump, `disks/`, `asm/`, `assets/`, `build/`, `expected/`, extracted `.CD` contents, the Ghidra project (`ghidra/`), the RAM dumps (`dumps/*.bin`), Sony's SDK (`tools/psyq/`) and the session archive stay out of git — in force again since Phase 33 C3 (2026-09-06, the history rewrite); `tools/audit_public.py` and CI enforce it. Review `git status` before every commit.
 - **Never edit `PROJECT_CONTEXT.md`.** It is permanent and static. Corrections and state go in `phase-ends/`.
 - **Never `git clean -x` / `git clean -fdx` in this tree.** Since Phase 33 C3 (2026-09-06) the Ghidra project (`ghidra/`), the RAM dumps (`dumps/*.bin`), the PsyQ SDK (`tools/psyq/`), the session archive and the extension zips are IGNORED BUT PRESENT on disk — a `-x` clean deletes the reverse-engineering database. `make clean` is the only clean. (Regenerable in principle from `config/ghidra/` + the disc via `tools/ghidra_rebuild.sh`, but the dumps are not.)
 - **A "match" is byte-for-byte assembly equality AND the full-binary SHA1 check staying green.** Never report a functionally-equivalent function, a passing-looking build, or any unverified outcome as done.
@@ -76,7 +76,7 @@ These rules govern every session. They are not suggestions.
 
 ## Reasoning & Model Protocol
 
-Effort is set with `/effort` on the ladder `low / medium / high / xHigh / Max` (this is *depth* — how hard one agent reasons). **Max** = deepest single-agent reasoning, **session-only** (re-apply each session; xHigh is the highest level that persists). **Ultracode is NOT a deeper level** — it runs at xHigh and adds multi-agent orchestration (breadth, not depth); also session-only. **The project default working level is Max** (usage is not a constraint; the only downside is mild overthinking/latency on trivial tasks); drop to xHigh only for routine work when faster turns are wanted, and **never globally enable Ultracode for the deep tasks** (it would cap them at xHigh). Breadth is applied surgically — Claude proposes a Workflow fan-out for genuinely parallel tasks.
+Effort is set with `/effort` on the ladder `low / medium / high / xHigh / Max` (this is *depth* — how hard one agent reasons). **Max** = deepest single-agent reasoning, **session-only** (re-apply each session; xHigh is the highest level that persists). **Ultracode is NOT a deeper level** — it runs at xHigh and adds multi-agent orchestration (breadth, not depth); also session-only. **The doctrine (Drew, 2026-07-04; `docs/effort-map.md` governs): xHigh for most tasks, Max for the deep tasks (phase plans, PhaseEnds, architectural forks, non-obvious debugging — plan mode always Max), Ultracode for breadth**; Max and Ultracode are session-only, and **never globally enable Ultracode for the deep tasks** (it would cap them at xHigh). Breadth is applied surgically — Claude proposes a Workflow fan-out for genuinely parallel tasks.
 
 **Effort-map check (rule — formalized as R7 at PhaseEnd_Phase2):** the full task→effort map, the Max-vs-Ultracode decision rule, verified harness mechanics, and per-phase guidance live in `docs/effort-map.md` (evolvable; it governs where this section's tier language differs). Before each Phase Start plan, state the recommended effort for *planning that phase* per that file and confirm the developer has it set; annotate every task in the phase plan with its effort level; restate the recommended effort whenever you present the NEXT task. The complexity tiers below map onto the ladder.
 

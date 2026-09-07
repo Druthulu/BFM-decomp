@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """residual_class.py — the DETERMINISTIC residual→class classifier (Phase-29 Task-13A).
 
-The permuter-failure autopsy (docs/hindsight-study.md §7) needs to route every plateau to one of
+The permuter-failure autopsy (the permuter track of docs/how-to-ai-decomp/03-bootstrap-order.md, Phase 2b;
+originally §7 of the July-2026 hindsight study, since archived) needs to route every plateau to one of
   missing-transform | mis-classified | seed-structural | genuine-wall
 and today that routing is done by an LLM reading a scalar (`closeness`) plus a free-text
 `where_stuck` label a wave agent typed months ago. Both are weak: 91% of the open backlog has NO

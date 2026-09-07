@@ -743,7 +743,7 @@ def island_split(ov, func):
     Writes ONLY config/splat.<ov>.yaml (one inserted line). No overlays.mk var (a single-table
     piece needs none — §8e), no extract (the caller extracts). The island piece at 0x0 is left
     untouched: its extent shrinks automatically (end = next piece's offset) — the review-proven
-    correction to the `_pre` design (docs/tool-designs/jtbl-island-split-review.md #7)."""
+    correction to the `_pre` design (cookbook §260, the review's correction #7)."""
     kind, detail = island_probe(ov, func)
     if kind == "covered":
         print(f"jtbl_carve --island-split {ov} {func}: already split — no-op ({detail})")
@@ -891,7 +891,7 @@ def build_carve(ov, funcs):
             # rewrites [tail_start, region_end), so the piece line would land out of address order
             # and splat would mis-slice the module. That is the island-split lane's job — ONE
             # inserted `.rodata` line at the table's own offset plus jr_isolate_all.py --only
-            # (docs/tool-designs/jtbl-island-split-review.md) — so name it and refuse (R43).
+            # (cookbook §260) — so name it and refuse (R43).
             isl_off = int(jh, 16) - base
             if isl_off < tail_start:
                 sys.exit(
@@ -900,7 +900,7 @@ def build_carve(ov, funcs):
                     f"island, which a tail carve cannot reach. That is the island split (§260): "
                     f"jr_isolate_all.py --only {f}, then `jtbl_carve.py {ov} --island-split "
                     f"--func {f}` — automated at gate time by harvest_verify._jtbl_prep_one "
-                    f"(docs/tool-designs/jtbl-island-split-review.md). "
+                    f"(cookbook §260). "
                     f"FOR AN md_* MODULE, §303 SUPERSEDES THIS: no isolation, no carve state — splice and "
                     f"`make build`; the Makefile's jtbl_rodata_pads --derive stage reproduces the island pads at "
                     f"build time (P32 S83: md_SC03_054/func_801EF6D8, 7 tables, 0,0t1,0t1,0t1,0t1,0t1,0).")

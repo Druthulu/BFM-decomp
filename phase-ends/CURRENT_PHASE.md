@@ -39,7 +39,7 @@ in-tree links to `docs/wiki/<Page>.md`. 8. `.run/`: only what git tracks; no sca
 
 ## Tasks (strict order; one commit per task after this file is updated; harness task list = the same 16 rows, R28)
 - [x] **0** Gate 1 close-out: this file (ledgers + checkpoint), R74–R83 into DIGEST §3 (+ §0), `phase34-seed.md` amended, TaskCreate ×16 — Max
-- [ ] **1** Unblock, code side: tool docstrings re-pointed (`decl_from_use.py`, `integration_resolver.py`, `jtbl_carve.py`, `autopsy.py`, `residual_class.py`); CLAUDE.md lines 11 / 61 / the effort-default sentence — xHigh
+- [x] **1** Unblock, code side: tool docstrings re-pointed (`decl_from_use.py`, `integration_resolver.py`, `jtbl_carve.py`, `autopsy.py`, `residual_class.py`); CLAUDE.md lines 11 / 61 / the effort-default sentence — xHigh — see Log 2026-09-07 Task 1
 - [ ] **2** Unblock, doc side: banners (`concurrency-design`, `gen2-mips-matching-model`, `psyq-worklist`, `distill/*`, `hindsight-study` HISTORICAL + supersession table); SETUP §1a rewritten; the pin count re-derived (one dated number + its command, both gen3 docs) — xHigh
 - [ ] **3** Wiki — conventions + firewall: `Docs-and-scratch-conventions.md`, `The-ROM-firewall.md` (the gitignore template block); sidebar rows; Repository-layout/Contributing/ch.11 links; forward links in `doc_links_pending.txt` — Max
 - [ ] **4** Wiki — reference + direction: `Reference-index.md` (list-driven), `Where-the-project-goes-next.md`, Contributing "AI use — conduct", Home rewritten, sidebar sections — xHigh — **then P6 rules check**
@@ -212,31 +212,54 @@ check whose shapes come from the offenders; disk-independent citation checks; th
 document for PA's own interview; dry-run write guardrails; a cut line). Spot-checked the claims the plan leans on (172 tracked-but-
 ignored; the two disassembly files; §265–§269 landed; the tools-health chain). R74–R83 written into DIGEST §3 from the Phase-33
 candidates' text; DIGEST §0 notes the sub-phase; `phase34-seed.md` amended. Harness task list built (16 rows). Effort for task 1 is
-xHigh — the transition is prompted (R27).
+xHigh — the transition is prompted (R27). Commit `39d524991`.
 
-## 🛑 SESSION CHECKPOINT — Task 0 ✓ (gate 1 closed, R74–R83 ratified); NEXT = task 1 (unblock, code side; xHigh)
+### 2026-09-07 — Task 1 — Unblock, code side (xHigh; Drew set `/effort xhigh`)
+Seven docstring/comment cites re-pointed to durable records: `decl_from_use.py` + `integration_resolver.py` → the decision log's
+2026-08-25 (P31 S61) "the wall is an integration wall" entry (the S60 frontier analysis's 178/292 = 61% and ~571 finished-draft
+measurements live there); `jtbl_carve.py` ×3 → cookbook §260 (the leading-island split; the review's correction #7); `autopsy.py` +
+`residual_class.py` → `docs/how-to-ai-decomp/03-bootstrap-order.md` Phase 2b (the permuter track — task 5 adds the "mine the permuter's
+failures" paragraph there; "originally hindsight-study §7, archived" kept as provenance). `CLAUDE.md`: R-range R1–R83; the H1 fail-safe
+dates the re-tightening to Phase 33 C3 (2026-09-06, the history rewrite) — the flip has not happened; the Reasoning section's "default
+working level is Max" replaced by the DIGEST §1 doctrine (xHigh for most tasks, Max for deep tasks, Ultracode for breadth; plan mode
+always Max). Verify: `py_compile` on the five tools OK; `git grep -E 'tool-designs|hindsight-study' tools/ Makefile` = 0; `doc_links`
+OK. **Deviation from the plan's verify column:** `make tools-health` was NOT run for docstring-only edits (proportionality — nothing it
+measures changed); the first tools-health of the phase runs at task 7, where the Makefile and the checkers change.
+
+## 🛑 SESSION CHECKPOINT — Tasks 0–1 ✓; NEXT = task 2 (unblock, doc side: banners, SETUP §1a, the pin count; xHigh)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase31/32/33.md` and this file, and
 nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest (R1–R83), then
-WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking task 0 completed and task 1 in progress.
+WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–1 completed and task 2 in progress.
 
 ### 1. Where we are
-**Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max. Baseline HEAD `80d45b29b`.
-Task 0 is committed (this file, DIGEST §0/§3, `docs/phase34-seed.md`). Nothing under `src/`, `config/`, `Makefile` or `tools/` has
-changed yet; the fleet is 218/218 at the Phase-33 close.
+**Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; Drew set `/effort xhigh` after
+task 0 (the Max tasks are 3, 10, 12, 15 — prompt at each, R27). Baseline HEAD `80d45b29b`; task 0 = `39d524991`; task 1 = the commit
+after it (docstrings + CLAUDE.md only). Nothing under `src/`, `config/` or the `Makefile` has changed; the fleet is 218/218 at the
+Phase-33 close. `docs/doc_links_pending.txt` is empty (comments only).
 
-### 2. What NEXT does (task 1, xHigh) — exact steps
-1. `git grep -n -F 'tool-designs' tools/` and `git grep -n -F 'hindsight-study' tools/` → the docstring cites in `tools/decl_from_use.py`,
-   `tools/integration_resolver.py`, `tools/jtbl_carve.py` (→ the cookbook § that carries each finding: §8/§8a/§8b/§8e/§61b–d/§62 for the
-   jtbl lane, §236 for main-lane-fix, the S60 "571 already-drafted" finding → PhaseEnd_Phase31 / cookbook) and in `tools/autopsy.py`,
-   `tools/residual_class.py` (→ `docs/how-to-ai-decomp/03-bootstrap-order.md`'s "mine the permuter's failures" anchor, which task 5
-   creates — cite the chapter file, the anchor lands in task 5).
-2. `CLAUDE.md`: line 11 "R1–R64" → "R1–R83"; line 61 "since the public flip (Phase 33)" → "since Phase 33 C3 (2026-09-06)"; the
-   Reasoning section's "The project default working level is Max" sentence → the DIGEST §1 doctrine (xHigh for most tasks, Max for
-   deep tasks, Ultracode for breadth, plan mode always Max; Max/Ultracode session-only). Keep everything else verbatim (H5).
-3. `make tools-health` in the FOREGROUND (~15 min; never background it) → OK; then this file's log + checkpoint; commit
-   `docs(phase-33.5): task 1 — …` by explicit path. Then prompt: task 2 is xHigh (no change).
+### 2. What NEXT does (task 2, xHigh) — exact steps
+1. Banners/status lines (H5: add, never drop): `docs/concurrency-design.md` — replace "**Not yet implemented.**" with "implemented in
+   `tools/shared_lock.py` + the gate snapshot layer (P31); cited by `gate_stage.py`, `bulk_harvest.py`, `dedup_propagate.py`,
+   `ox_campaign.py`, `verify_worktree.py`"; `docs/gen2-mips-matching-model.md` — "**Status:** design / not started" → built (P22–P23;
+   `train_lora.py`/`export_pairs.py`/`format_finetune.py`; distilled by `docs/matching-drafter-pipeline.md`); `docs/psyq-worklist.md` — a
+   top banner "COMPLETE at P31 S79 #5 — the residue (SSGM.o 8 ins inside matched C; the sound region's two cross-object-common walls) is
+   named at the tail"; `docs/distill/atbhbkbl.md` + `axbm.md` — replace the "PROPOSED ONLY" banner with "LANDED as cookbook §265, §266,
+   §267 (this file) / §268, §269 (axbm) on P31 S59b/c; kept as the A/B evidence ledger those sections cite"; `docs/hindsight-study.md` —
+   a top banner "HISTORICAL — written 2026-07-20 mid-P29 at ~78%; superseded part by part" + the supersession table (§0–§2 → how-to
+   ch.03 + `generic-decomp-package.md`; §3 → `portable-decomp-workflow.md`/the chapters; §4 → `gen3-handoff.md` §5 + wiki
+   Tools-from-this-project; §5 → `retrospective.md` §5; §6 → fulfilled by `retrospective.md` + the how-to + `tools/mine_hindsight.py`;
+   §7 → `tools/autopsy.py` — live pointer stays in ch.03).
+2. `docs/SETUP.md` §1a (line ~68): rewrite — `.run/` is gitignored by the contents-exclude rule `/.run/*` with 22 dated `!` allowlist
+   blocks (R20: "commit what a rerun CANNOT reproduce"); what IS tracked (P32/P33 evidence, the giants recon, the R20 ledgers) and what
+   never is (the 29 GB of regenerable scratch); point at the wiki conventions page (task 3 — register the forward link in
+   `docs/doc_links_pending.txt` if you link it; or just name it in prose).
+3. The pin count: run ONE grep over `src/` (e.g. `grep -rhoE 'register [^;]*__asm__\("\$[a-z0-9]+"\)' src | wc -l` — check what each doc's
+   number was derived from first: `gen3-handoff.md` §3 shows its six commands) and write the same dated number + the exact command into
+   `docs/gen3-standards.md` §4 and `docs/gen3-handoff.md` §3 (R75: a number in prose is a dated snapshot with its command).
+4. Verify: `.venv/bin/python tools/doc_links.py` OK; the pin-count command reproduces the number; then this file's log + checkpoint;
+   commit by explicit path (`docs(phase-33.5): task 2 — …`). Task 3 is **Max** — prompt Drew and WAIT (R27).
 
 ### 3. Standing facts for every task of this phase
 - One commit per task, after this file's log line (R8/R42 form); commit by explicit path; no trailers (R5); Drew pushes (R6).

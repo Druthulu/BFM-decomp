@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """integration_resolver.py — the zero-token lane over drafts that are ALREADY CORRECT (P31 S61).
 
-WHY THIS EXISTS. The S60 frontier analysis (docs/tool-designs/frontier-analysis-s60.md §4) measured
+WHY THIS EXISTS. The S60 frontier analysis (recorded in docs/decision-log.md, the 2026-08-25 "the wall is
+an integration wall" entry) measured
 that the gen6+ "wall" is an INTEGRATION wall, not a codegen wall: of the 292 functions the gate had
 refused six or more times, 178 (61%) had already produced a closeness-0 draft — match_one byte-
 equality at the object level, whole-binary gate rejection — and across the whole open pool ~571

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """autopsy.py — the permuter-failure autopsy: mine the search-closer's FAILURES (Phase-29 Task-13).
 
-docs/hindsight-study.md §7. Our flywheel (R16) has always evolved the offline tooling REACTIVELY
+The permuter track of docs/how-to-ai-decomp/03-bootstrap-order.md (Phase 2b; originally §7 of the July-2026
+hindsight study, since archived). Our flywheel (R16) has always evolved the offline tooling REACTIVELY
 FROM SUCCESSES: a human or an LLM cracks a function, we distil the idiom into the cookbook and the
 permuter weights. The permuter's FAILURES — every near-miss it plateaued on — are a larger and
 completely unused signal. This tool turns that log into a corpus, classifies it deterministically,

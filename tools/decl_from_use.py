@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """decl_from_use.py — infer a draft's MISSING data extern from the target .s + the draft's own use.
 
-WHY THIS EXISTS (P31 S61; docs/tool-designs/frontier-analysis-s60.md §5 step 4). Two refusal sites
+WHY THIS EXISTS (P31 S61; the S60 frontier analysis — recorded in docs/decision-log.md, the 2026-08-25
+"the wall is an integration wall" entry). Two refusal sites
 throw away drafts whose only defect is a data symbol the destination TU never declares:
   * aprop_autodraft.py (~:522) refuses `no seed decl for D_x` — the member body is correct, but no
     seed/destination/fleet TU spells the extern, so the A-prop lane never emits the draft;
