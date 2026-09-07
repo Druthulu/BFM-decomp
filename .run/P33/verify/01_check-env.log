@@ -1,0 +1,139 @@
+# check-env
+# cmd: make check-env
+# started: 2026-09-07T02:58:30Z
+# DELIBERATE opt-out from the global `-e` (.SHELLFLAGS, Phase-27 T2). This recipe's contract is
+# "run EVERY preflight check, print EVERY [FAIL], exit with the accumulated status" — it manages
+# its own `fail` and exits 1 at the end. Under `-e` a probe assignment (e.g. `pyver=$(python3
+# ...)` on a box without python3) would abort at the FIRST problem and hide the rest, turning a
+# diagnostic into a stop-on-first-error. Accumulate-and-report is correct here; nowhere else.
+set +e
+fail=0
+echo "== BFM-decomp environment preflight (Phase 4 check-env) =="
+echo
+# 1) Python >= 3.12 (system python3 drives tooling + the EXE-hash import)
+pyver=$(python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])' 2>/dev/null)
+if python3 -c 'import sys; raise SystemExit(0 if sys.version_info[:2] >= (3,12) else 1)' 2>/dev/null; then
+echo "[PASS] python3 $pyver (>= 3.12)"
+else
+echo "[FAIL] python3 ${pyver:-not-found} (need >= 3.12)"; fail=1
+fi
+# 2) venv present + splat importable
+if [ -x ".venv/bin/python" ]; then
+if .venv/bin/python -c 'import splat' 2>/dev/null; then
+sv=$(.venv/bin/python -c 'import importlib.metadata as m; print(m.version("splat64"))' 2>/dev/null)
+echo "[PASS] venv 'import splat' OK (splat64 ${sv:-?})"
+else
+echo "[FAIL] venv present but 'import splat' failed (run: .venv/bin/python -m pip install 'splat64[mips]>=0.41.0,<1.0.0')"; fail=1
+fi
+else
+echo "[FAIL] .venv/bin/python missing (run: python3 -m venv .venv && .venv/bin/pip install 'splat64[mips]>=0.41.0,<1.0.0')"; fail=1
+fi
+# 3) cc1 candidates executable — R12-clean smoke (stdin -> /dev/null, no temp file)
+for cc1 in "tools/bin/gcc-2.7.2-psx/cc1" "tools/bin/gcc-2.7.2-cdk/cc1"; do
+if [ -x "$cc1" ] && echo 'int _ce(){return 0;}' | "$cc1" -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -o /dev/null 2>/dev/null; then
+echo "[PASS] cc1 runs: $cc1"
+else
+echo "[FAIL] cc1 not runnable: $cc1 (see docs/SETUP.md §4.7)"; fail=1
+fi
+done
+# 4) maspsx submodule populated
+if [ -f "tools/maspsx/maspsx.py" ]; then
+echo "[PASS] maspsx present: tools/maspsx/maspsx.py"
+else
+echo "[FAIL] tools/maspsx/maspsx.py missing (run: git submodule update --init)"; fail=1
+fi
+# 4b) the other three submodules (P33 B3) — matching tooling, not build inputs: WARN, not FAIL
+for sub in tools/asm-differ tools/m2c tools/decomp-permuter; do
+if [ -n "$(ls -A "$sub" 2>/dev/null)" ]; then
+echo "[PASS] submodule populated: $sub"
+else
+echo "[WARN] submodule empty: $sub (matching tooling only; run: git submodule update --init)"
+fi
+done
+# 4c) the four TRACKED splat preset headers (P33 B1) — assembled into every object
+for h in include/include_asm.h include/macro.inc include/labels.inc include/gte_macros.inc; do
+if [ -f "$h" ]; then
+echo "[PASS] preset header present: $h"
+else
+echo "[FAIL] $h missing (tracked since P33 B1; 'make extract' regenerates it)"; fail=1
+fi
+done
+# 5) mipsel binutils on PATH (as / ld / objcopy)
+for t in mipsel-linux-gnu-as mipsel-linux-gnu-ld mipsel-linux-gnu-objcopy; do
+if command -v $t >/dev/null 2>&1; then
+echo "[PASS] $t: $($t --version | head -1)"
+else
+echo "[FAIL] $t not on PATH (apt install binutils-mipsel-linux-gnu)"; fail=1
+fi
+done
+# 5b) binutils regression line: >= 2.38 -> WARN (not FAIL); §4.5
+asver=$(mipsel-linux-gnu-as --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+if [ -n "$asver" ]; then
+amaj=${asver%%.*}; amin=${asver##*.}
+if [ "$amaj" -gt 2 ] || { [ "$amaj" -eq 2 ] && [ "$amin" -ge 38 ]; }; then
+echo "[WARN] mipsel binutils $asver >= 2.38 — PS1-matching regression suspect (2.35 known-good); revisit in Phase 5 (docs/SETUP.md §4.5)"
+else
+echo "[PASS] mipsel binutils $asver (< 2.38)"
+fi
+fi
+# 6) the extracted EXE hash == EXPECTED_EXE_SHA1 (reused constant). P33 B1: the EXE is no longer
+#    committed — it is regenerated from the user's disc by `make disc-extract`, so its absence is a
+#    WARN with the instruction, not a FAIL; a PRESENT but wrong EXE is still a FAIL.
+if [ -f "extracted/retail/SLUS_007.26" ]; then
+want=$(python3 -c 'from tools.bfm_extract.extract_exe import EXPECTED_EXE_SHA1 as h; print(h)' 2>/dev/null)
+got=$(sha1sum "extracted/retail/SLUS_007.26" | cut -d' ' -f1)
+if [ -n "$want" ] && [ "$got" = "$want" ]; then
+echo "[PASS] extracted/retail/SLUS_007.26 sha1 $got == EXPECTED_EXE_SHA1"
+else
+echo "[FAIL] extracted/retail/SLUS_007.26 sha1 ${got:-none} != expected ${want:-unknown}"; fail=1
+fi
+else
+echo "[WARN] extracted/retail/SLUS_007.26 absent — run 'make disc-extract' with your redump dump in disks/ (docs/SETUP.md §4.4)"
+fi
+# 7) the committed manifest oracle is self-consistent (manifest.sha1 == sha1(manifest.jsonl)); ms.
+if [ -f "extracted/retail/manifest.jsonl" ] && [ -f "extracted/retail/manifest.sha1" ]; then
+mgot=$(sha1sum "extracted/retail/manifest.jsonl" | cut -d' ' -f1)
+mwant=$(cat "extracted/retail/manifest.sha1")
+if [ "$mgot" = "$mwant" ]; then
+echo "[PASS] extracted/retail/manifest.sha1 == sha1(manifest.jsonl) ($mgot)"
+else
+echo "[FAIL] extracted/retail/manifest.sha1 ($mwant) != sha1(manifest.jsonl) ($mgot) — the committed oracle is inconsistent"; fail=1
+fi
+else
+echo "[FAIL] extracted/retail/manifest.jsonl + manifest.sha1 missing (the committed extraction oracle)"; fail=1
+fi
+if [ -f "disks/Brave Fencer Musashi (USA) (Track 1).bin" ]; then echo "[INFO] disc dump present: 'disks/Brave Fencer Musashi (USA) (Track 1).bin'"; else echo "[INFO] no disc dump under disks/ (needed only to (re)generate extracted/)"; fi
+# 8) the extracted payload census (P33 B3): how many of the fleet's inputs exist (INFO — disc-extract makes them)
+present=0; for p in extracted/retail/SLUS_007.26 extracted/retail/MAIN.CD.dir/FILE_010.dir/1.1 extracted/retail/SC01.CD.dir/FILE_077.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_005.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_006.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_001.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_000.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_001.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_000.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_003.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_002.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_006.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_000.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_018.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_019.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_000.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_000.dir/0.4.dec extracted/retail/SC07.CD.dir/FILE_000.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_004.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_008.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_009.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_074.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_080.dir/0.4.dec extracted/retail/SC01.CD.dir/FILE_084.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_004.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_005.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_011.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_015.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_016.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_017.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_021.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_026.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_027.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_028.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_031.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_035.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_039.dir/0.4.dec extracted/retail/SC02.CD.dir/FILE_041.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_003.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_007.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_010.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_011.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_012.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_013.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_014.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_015.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_023.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_024.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_028.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_029.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_030.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_031.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_089.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_090.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_091.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_092.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_093.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_094.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_095.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_096.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_097.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_098.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_099.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_100.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_101.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_102.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_103.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_104.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_105.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_108.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_109.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_110.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_111.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_112.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_113.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_114.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_115.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_116.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_117.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_118.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_119.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_121.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_124.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_125.dir/0.4.dec extracted/retail/SC03.CD.dir/FILE_126.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_002.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_003.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_004.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_005.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_006.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_007.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_008.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_009.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_010.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_011.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_012.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_015.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_016.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_020.dir/0.4.dec extracted/retail/SC04.CD.dir/FILE_021.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_001.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_002.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_003.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_004.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_005.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_006.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_007.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_008.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_009.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_010.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_011.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_017.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_018.dir/0.4.dec extracted/retail/SC05.CD.dir/FILE_019.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_006.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_008.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_010.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_011.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_013.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_014.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_015.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_016.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_018.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_020.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_022.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_024.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_025.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_027.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_029.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_030.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_032.dir/0.4.dec extracted/retail/SC06.CD.dir/FILE_033.dir/0.4.dec extracted/retail/SC07.CD.dir/FILE_001.dir/0.4.dec extracted/retail/SC07.CD.dir/FILE_002.dir/0.4.dec extracted/retail/SC07.CD.dir/FILE_008.dir/0.4.dec extracted/retail/SC07.CD.dir/FILE_009.dir/0.4.dec extracted/retail/SC07.CD.dir/FILE_006.dir/1.4.dec extracted/retail/SC07.CD.dir/FILE_007.dir/1.4.dec extracted/retail/SC07.CD.dir/FILE_010.dir/1.4.dec extracted/retail/SC07.CD.dir/FILE_011.dir/1.4.dec extracted/retail/MAIN.CD.dir/FILE_012.dir/1.1 extracted/retail/SC02.CD.dir/FILE_037.dir/0.1 extracted/retail/SC03.CD.dir/FILE_107.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_013.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_014.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_015.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_016.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_017.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_018.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_019.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_020.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_021.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_022.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_023.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_024.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_025.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_026.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_027.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_028.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_029.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_030.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_031.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_032.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_033.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_034.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_035.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_036.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_037.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_038.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_039.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_040.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_041.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_042.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_043.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_044.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_045.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_046.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_047.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_001.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_008.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_011.dir/1.1 extracted/retail/SC07.CD.dir/FILE_003.dir/1.1 extracted/retail/SC07.CD.dir/FILE_004.dir/1.1 extracted/retail/MAIN.CD.dir/FILE_003.dir/1.1 extracted/retail/SC03.CD.dir/FILE_073.dir/2.1 extracted/retail/SC03.CD.dir/FILE_074.dir/2.1 extracted/retail/SC03.CD.dir/FILE_075.dir/2.1 extracted/retail/SC03.CD.dir/FILE_076.dir/2.1 extracted/retail/SC03.CD.dir/FILE_077.dir/2.1 extracted/retail/SC03.CD.dir/FILE_078.dir/2.1 extracted/retail/SC03.CD.dir/FILE_079.dir/2.1 extracted/retail/SC03.CD.dir/FILE_132.dir/2.1 extracted/retail/SC03.CD.dir/FILE_133.dir/2.1 extracted/retail/SC03.CD.dir/FILE_134.dir/2.1 extracted/retail/SC03.CD.dir/FILE_135.dir/2.1 extracted/retail/SC03.CD.dir/FILE_136.dir/2.1 extracted/retail/SC03.CD.dir/FILE_137.dir/2.1 extracted/retail/SC03.CD.dir/FILE_138.dir/2.1 extracted/retail/SC04.CD.dir/FILE_024.dir/2.1 extracted/retail/SC04.CD.dir/FILE_025.dir/2.1 extracted/retail/SC04.CD.dir/FILE_026.dir/2.1 extracted/retail/SC04.CD.dir/FILE_027.dir/2.1 extracted/retail/SC04.CD.dir/FILE_028.dir/2.1 extracted/retail/SC04.CD.dir/FILE_029.dir/2.1 extracted/retail/SC04.CD.dir/FILE_030.dir/2.1 extracted/retail/SC05.CD.dir/FILE_023.dir/2.1 extracted/retail/SC05.CD.dir/FILE_024.dir/2.1 extracted/retail/SC05.CD.dir/FILE_025.dir/2.1 extracted/retail/SC05.CD.dir/FILE_026.dir/2.1 extracted/retail/SC05.CD.dir/FILE_027.dir/2.1 extracted/retail/SC05.CD.dir/FILE_028.dir/2.1 extracted/retail/SC05.CD.dir/FILE_029.dir/2.1 extracted/retail/SC02.CD.dir/FILE_009.dir/0.1 extracted/retail/MAIN.CD.dir/FILE_007 extracted/retail/MAIN.CD.dir/FILE_009.dir/0.1 extracted/retail/SC03.CD.dir/FILE_053.dir/0.1 extracted/retail/SC03.CD.dir/FILE_054.dir/0.1 extracted/retail/SC03.CD.dir/FILE_056.dir/0.1; do [ -f "$p" ] && present=$((present+1)); done
+echo "[INFO] extracted payloads present: $present / 218 binaries$( [ "$present" -eq 218 ] || echo ' — run: make disc-extract')"
+echo
+if [ "$fail" -ne 0 ]; then
+echo "check-env: FAIL — see the [FAIL] lines above."
+exit 1
+fi
+echo "check-env: OK — Phase-4 toolchain ready."
+== BFM-decomp environment preflight (Phase 4 check-env) ==
+
+[PASS] python3 3.12 (>= 3.12)
+[PASS] venv 'import splat' OK (splat64 0.41.0)
+[PASS] cc1 runs: tools/bin/gcc-2.7.2-psx/cc1
+[PASS] cc1 runs: tools/bin/gcc-2.7.2-cdk/cc1
+[PASS] maspsx present: tools/maspsx/maspsx.py
+[PASS] submodule populated: tools/asm-differ
+[PASS] submodule populated: tools/m2c
+[PASS] submodule populated: tools/decomp-permuter
+[PASS] preset header present: include/include_asm.h
+[PASS] preset header present: include/macro.inc
+[PASS] preset header present: include/labels.inc
+[PASS] preset header present: include/gte_macros.inc
+[PASS] mipsel-linux-gnu-as: GNU assembler (GNU Binutils for Ubuntu) 2.42
+[PASS] mipsel-linux-gnu-ld: GNU ld (GNU Binutils for Ubuntu) 2.42
+[PASS] mipsel-linux-gnu-objcopy: GNU objcopy (GNU Binutils for Ubuntu) 2.42
+[WARN] mipsel binutils 2.42 >= 2.38 — PS1-matching regression suspect (2.35 known-good); revisit in Phase 5 (docs/SETUP.md §4.5)
+[PASS] extracted/retail/SLUS_007.26 sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == EXPECTED_EXE_SHA1
+[PASS] extracted/retail/manifest.sha1 == sha1(manifest.jsonl) (e5c6019249dec3c71bb2cf40658a78439dddb037)
+[INFO] disc dump present: 'disks/Brave Fencer Musashi (USA) (Track 1).bin'
+[INFO] extracted payloads present: 218 / 218 binaries
+
+check-env: OK — Phase-4 toolchain ready.
+EXIT=0  wall=0s  finished: 2026-09-07T02:58:30Z

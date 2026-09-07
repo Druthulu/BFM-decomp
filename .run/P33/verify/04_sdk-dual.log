@@ -1,0 +1,2808 @@
+# sdk-dual
+# cmd: step_sdk_dual
+# started: 2026-09-07T03:01:18Z
+sdk-dual: leg 1 — WITH the PsyQ objects
+splat 0.41.0 (powered by spimdisasm 1.41.0)
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 214430.32it/s]
+  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 627809.83it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Scanning header:   0%|          | 0/2 [00:00<?, ?it/s]Scanning main:   0%|          | 0/2 [00:00<?, ?it/s]  
+Rodata segment '800' may belong to the text segment '800'
+    Based on the usage from the function LzssDecodeSector to the symbol jtbl_80072A38
+
+The rodata segment '800' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0x6324C, .rodata]
+      - [0x63388, .rodata]
+      - [0x633FC, .rodata]
+
+
+Rodata segment '800_b' may belong to the text segment '800_b'
+    Based on the usage from the function func_8002B0B4 to the symbol jtbl_80072E44
+
+Rodata segment '800_b_2' may belong to the text segment '800_b_2'
+    Based on the usage from the function func_8002DC68 to the symbol jtbl_80072F3C
+
+The rodata segment '800_b_2' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0x63920, .rodata]
+
+
+Rodata segment '800_c' may belong to the text segment '800_c'
+    Based on the usage from the function func_80035270 to the symbol jtbl_800732A0
+Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.66it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.66it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.56it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.56it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 107.61it/s]
+Split 340 KB (82.28%) in defined segments
+              header:     2 KB (0.50%) 1 split, 0 cached
+                   c:   338 KB (81.78%) 85 split, 0 cached
+             unknown:      0 B (0.00%) from unknown bin files
+ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.o, 800_b.o, 800_b_2.o, 63940.data.o, 800_c.o, 63C4C.data.o]; pre=0 text=85 empties=166 bss=85
+  AS      build/asm/header.o
+  AS      build/asm/data/63C4C.data.o
+  AS      build/asm/data/63470.data.o
+  AS      build/asm/data/53198.data.o
+  AS      build/asm/data/63940.data.o
+  CC      build/src/libgte23.o
+  CC      build/src/libgte21.o
+  CC      build/src/libgte11.o
+  CC      build/src/libgte17.o
+  CC      build/src/libgs6.o
+  CC      build/src/800_c.o
+  CC      build/src/snd8.o
+  CC      build/src/800_b.o
+  CC      build/src/snd5.o
+  CC      build/src/libc2_1.o
+  CC      build/src/gap.o
+  CC      build/src/libgte12.o
+  CC      build/src/snd11.o
+  CC      build/src/snd7.o
+  CC      build/src/libgte10.o
+  CC      build/src/libpad1.o
+  CC      build/src/libgpu2.o
+  CC      build/src/800b2.o
+  CC      build/src/apicard5.o
+  CC      build/src/boot.o
+  CC      build/src/snd4.o
+  CC      build/src/libgte27.o
+  CC      build/src/sgap_6.o
+  CC      build/src/libgs1.o
+  CC      build/src/libmcrd1.o
+  CC      build/src/libgte22.o
+  CC      build/src/libcd1.o
+  CC      build/src/sgap.o
+src/boot.c: In function `func_80010ED4':
+src/boot.c:581: warning: passing arg 4 of `CdReadRequest' makes integer from pointer without a cast
+  CC      build/src/libgpu.o
+  CC      build/src/libgte29.o
+  CC      build/src/libgte16.o
+  CC      build/src/libc2_2.o
+  CC      build/src/libetc.o
+  CC      build/src/800.o
+  CC      build/src/snd9.o
+  CC      build/src/libapi2.o
+src/800_c.c: In function `func_800387C0':
+src/800_c.c:2776: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2778: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2780: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2785: warning: assignment makes integer from pointer without a cast
+src/800_c.c: At top level:
+src/800_c.c:2855: warning: type mismatch with previous external decl
+src/800_c.c:2544: warning: previous external decl of `func_80038908'
+src/800_c.c:2855: warning: type mismatch with previous implicit declaration
+src/800_c.c:2544: warning: previous implicit declaration of `func_80038908'
+src/800_c.c:2855: warning: `func_80038908' was previously implicitly declared to return `int'
+  CC      build/src/libgte4.o
+  CC      build/src/libgte15.o
+  CC      build/src/libgte5.o
+  CC      build/src/libapi1.o
+jtbl_rodata_pads --derive main: 0,0,0,0,0
+  CC      build/src/apicard4.o
+  CC      build/src/sgap_3.o
+src/800.c:630: warning: type mismatch with previous external decl
+src/800.c:625: warning: previous external decl of `func_80012E0C'
+src/800.c:630: warning: type mismatch with previous implicit declaration
+src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
+src/800_c.c: In function `func_800391D4':
+src/800_c.c:3394: warning: assignment makes pointer from integer without a cast
+src/800_c.c:3413: warning: assignment makes pointer from integer without a cast
+  CC      build/src/libpad2.o
+  CC      build/src/libgs2.o
+src/800.c:686: warning: type mismatch with previous external decl
+src/800.c:683: warning: previous external decl of `func_80013028'
+src/800.c:686: warning: type mismatch with previous implicit declaration
+src/800.c:683: warning: previous implicit declaration of `func_80013028'
+  CC      build/src/libgte18.o
+src/800_c.c: At top level:
+src/800_c.c:3478: warning: type mismatch with previous external decl
+src/800_c.c:3272: warning: previous external decl of `func_80039308'
+  CC      build/src/libgte2.o
+  CC      build/src/libgte7.o
+src/800.c: In function `func_800134FC':
+src/800.c:980: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800.c: In function `func_8001382C':
+src/800.c:1208: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/libgte20.o
+src/800.c: In function `func_80013B64':
+src/800.c:1399: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800_c.c:3759: warning: type mismatch with previous external decl
+src/800_c.c:3271: warning: previous external decl of `func_80039B20'
+  CC      build/src/snd1.o
+src/800_c.c:3793: warning: type mismatch with previous external decl
+src/800_c.c:3273: warning: previous external decl of `func_80039C5C'
+  CC      build/src/libgte1.o
+  CC      build/src/snd6.o
+  CC      build/src/libgte19.o
+src/800_c.c:3924: warning: type mismatch with previous external decl
+src/800_c.c:3274: warning: previous external decl of `func_80039F50'
+src/800_c.c: In function `func_80039F50':
+src/800_c.c:3941: warning: passing arg 1 of `func_80039C70' from incompatible pointer type
+src/800.c: In function `func_800141AC':
+src/800.c:1633: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1633: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+src/800_c.c: At top level:
+src/800_c.c:3977: warning: type mismatch with previous external decl
+src/800_c.c:3275: warning: previous external decl of `func_8003A098'
+  CC      build/src/libgte6.o
+src/800_c.c:3985: warning: type mismatch with previous external decl
+src/800_c.c:3276: warning: previous external decl of `func_8003A0D0'
+src/800_c.c:4000: warning: type mismatch with previous external decl
+src/800_c.c:3277: warning: previous external decl of `func_8003A0E4'
+  CC      build/src/libmcrd2.o
+src/800_c.c:4056: warning: type mismatch with previous external decl
+src/800_c.c:3278: warning: previous external decl of `func_8003A234'
+  CC      build/src/apicard3.o
+src/800.c: At top level:
+src/800.c:1739: warning: type mismatch with previous external decl
+src/800.c:1659: warning: previous external decl of `func_800143AC'
+src/800.c:1739: warning: type mismatch with previous implicit declaration
+src/800.c:1659: warning: previous implicit declaration of `func_800143AC'
+src/800.c:1739: warning: `func_800143AC' was previously implicitly declared to return `int'
+src/800.c:1783: warning: type mismatch with previous external decl
+src/800.c:1660: warning: previous external decl of `func_80014444'
+src/800.c:1783: warning: type mismatch with previous implicit declaration
+src/800.c:1660: warning: previous implicit declaration of `func_80014444'
+src/800.c:1783: warning: `func_80014444' was previously implicitly declared to return `int'
+  CC      build/src/libgte28.o
+src/800.c:1850: warning: type mismatch with previous external decl
+src/800.c:1662: warning: previous external decl of `func_80014588'
+src/800.c:1850: warning: type mismatch with previous implicit declaration
+src/800.c:1662: warning: previous implicit declaration of `func_80014588'
+src/800.c:1850: warning: `func_80014588' was previously implicitly declared to return `int'
+  CC      build/src/sgap_2.o
+  CC      build/src/800_b_2.o
+  CC      build/src/libgte8.o
+  CC      build/src/apicard2.o
+src/800.c:2013: warning: type mismatch with previous external decl
+src/800.c:1654: warning: previous external decl of `func_80014928'
+src/800.c:2013: warning: type mismatch with previous implicit declaration
+src/800.c:1654: warning: previous implicit declaration of `func_80014928'
+src/800.c:2013: warning: `func_80014928' was previously implicitly declared to return `int'
+  CC      build/src/apicard6.o
+{standard input}: Assembler messages:
+{standard input}:24: Warning: used $at without ".set noat"
+{standard input}:25: Warning: used $at without ".set noat"
+{standard input}:44: Warning: used $at without ".set noat"
+{standard input}:45: Warning: used $at without ".set noat"
+{standard input}:47: Warning: used $at without ".set noat"
+{standard input}:48: Warning: used $at without ".set noat"
+{standard input}:49: Warning: used $at without ".set noat"
+{standard input}:50: Warning: used $at without ".set noat"
+{standard input}:78: Warning: used $at without ".set noat"
+{standard input}:79: Warning: used $at without ".set noat"
+src/800_b_2.c: In function `func_8002D320':
+src/800_b_2.c:662: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:663: warning: type mismatch with previous external decl
+src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
+src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
+  CC      build/src/libcd2.o
+  CC      build/src/sgap_4.o
+src/800.c:2576: warning: type mismatch with previous external decl
+src/800.c:1663: warning: previous external decl of `func_80015310'
+src/800.c:2576: warning: type mismatch with previous implicit declaration
+src/800.c:1663: warning: previous implicit declaration of `func_80015310'
+src/800.c:2576: warning: `func_80015310' was previously implicitly declared to return `int'
+src/800.c: In function `func_80015310':
+src/800.c:2577: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/snd10.o
+src/800.c: At top level:
+src/800.c:2601: warning: type mismatch with previous external decl
+src/800.c:2597: warning: previous external decl of `func_800153A4'
+src/800.c:2601: warning: type mismatch with previous implicit declaration
+src/800.c:2597: warning: previous implicit declaration of `func_800153A4'
+src/800.c:2601: warning: `func_800153A4' was previously implicitly declared to return `int'
+src/800.c:2619: warning: type mismatch with previous external decl
+src/800.c:2615: warning: previous external decl of `func_80015424'
+src/800.c:2619: warning: type mismatch with previous implicit declaration
+src/800.c:2615: warning: previous implicit declaration of `func_80015424'
+src/800.c:2619: warning: `func_80015424' was previously implicitly declared to return `int'
+src/800.c: In function `func_8001544C':
+src/800.c:2632: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/sgap_8.o
+  CC      build/src/libgs7.o
+  CC      build/src/libgte24.o
+  CC      build/src/apicard1.o
+  CC      build/src/libgte9.o
+src/800.c: In function `func_80015B6C':
+src/800.c:3110: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+src/800_b_2.c: In function `func_8002F5C8':
+src/800_b_2.c:2440: warning: assignment from incompatible pointer type
+  CC      build/src/libgs4.o
+  CC      build/src/libgte13.o
+src/800.c: In function `func_80015F04':
+src/800.c:3447: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/snd12.o
+  CC      build/src/libgs3.o
+src/800.c: In function `func_80016224':
+src/800.c:3596: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+src/800.c: At top level:
+src/800.c:3766: warning: type mismatch with previous external decl
+src/800.c:3597: warning: previous external decl of `D_800AE7BC'
+  CC      build/src/snd2.o
+  CC      build/src/libgs5.o
+  CC      build/src/apicard7.o
+src/800.c:4141: warning: type mismatch with previous external decl
+src/800.c:4104: warning: previous external decl of `func_80016A7C'
+src/800.c:4141: warning: type mismatch with previous implicit declaration
+src/800.c:4108: warning: previous implicit declaration of `func_80016A7C'
+src/800.c:4141: warning: `func_80016A7C' was previously implicitly declared to return `int'
+src/800_b_2.c: At top level:
+src/800_b_2.c:3286: warning: type mismatch with previous external decl
+src/800_b_2.c:2855: warning: previous external decl of `D_800A46D2'
+  CC      build/src/libgte26.o
+  CC      build/src/sgap_5.o
+src/800.c:4572: warning: type mismatch with previous external decl
+src/800.c:4460: warning: previous external decl of `func_80016F18'
+src/800.c:4572: warning: type mismatch with previous implicit declaration
+src/800.c:4470: warning: previous implicit declaration of `func_80016F18'
+src/800.c:4572: warning: `func_80016F18' was previously implicitly declared to return `int'
+src/800.c:4755: warning: type mismatch with previous external decl
+src/800.c:4701: warning: previous external decl of `func_80017294'
+src/800.c:4755: warning: type mismatch with previous implicit declaration
+src/800.c:4706: warning: previous implicit declaration of `func_80017294'
+src/800.c:4755: warning: `func_80017294' was previously implicitly declared to return `int'
+  CC      build/src/libgte14.o
+src/800.c:4844: warning: type mismatch with previous external decl
+src/800.c:4792: warning: previous external decl of `func_800173DC'
+src/800.c:4844: warning: type mismatch with previous implicit declaration
+src/800.c:4797: warning: previous implicit declaration of `func_800173DC'
+src/800.c:4844: warning: `func_800173DC' was previously implicitly declared to return `int'
+src/800_b_2.c:3693: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:3693: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:3693: warning: `func_8003D3B4' was previously implicitly declared to return `int'
+  CC      build/src/snd3.o
+src/800.c:4900: warning: type mismatch with previous external decl
+src/800.c:4877: warning: previous external decl of `func_8001751C'
+src/800.c:4900: warning: type mismatch with previous implicit declaration
+src/800.c:4882: warning: previous implicit declaration of `func_8001751C'
+src/800.c:4900: warning: `func_8001751C' was previously implicitly declared to return `int'
+src/800.c: In function `func_80017714':
+src/800.c:4985: warning: type mismatch with previous external decl
+src/800.c:4981: warning: previous external decl of `func_80017778'
+src/800.c:4985: warning: type mismatch with previous implicit declaration
+src/800.c:4981: warning: previous implicit declaration of `func_80017778'
+  CC      build/src/libgte3.o
+src/800.c: At top level:
+src/800.c:5049: warning: type mismatch with previous external decl
+src/800.c:4981: warning: previous external decl of `func_80017778'
+src/800.c:5049: warning: type mismatch with previous implicit declaration
+src/800.c:4996: warning: previous implicit declaration of `func_80017778'
+src/800.c:5049: warning: `func_80017778' was previously implicitly declared to return `int'
+  CC      build/src/800_b_o0a.o
+src/800.c:5201: warning: type mismatch with previous external decl
+src/800.c:5087: warning: previous external decl of `func_80017930'
+src/800.c:5201: warning: type mismatch with previous implicit declaration
+src/800.c:5095: warning: previous implicit declaration of `func_80017930'
+src/800.c:5201: warning: `func_80017930' was previously implicitly declared to return `int'
+jtbl_rodata_pads --derive main: 0t1,0t1,0,0,0,0,0,0
+  CC      build/src/libgte25.o
+  CC      build/src/libgs8.o
+  CC      build/src/libgte30.o
+src/800.c: In function `func_80017F14':
+src/800.c:5545: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+src/800.c: In function `func_80018194':
+src/800.c:5615: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+src/800_b_2.c: In function `func_80031988':
+src/800_b_2.c:4151: warning: cast to pointer from integer of different size
+src/800_b_2.c:4156: warning: cast to pointer from integer of different size
+src/800_b_2.c:4160: warning: cast to pointer from integer of different size
+src/800_b_2.c:4165: warning: cast to pointer from integer of different size
+src/800_b_2.c:4169: warning: cast to pointer from integer of different size
+src/800_b_2.c:4174: warning: cast to pointer from integer of different size
+src/800_b_2.c:4178: warning: cast to pointer from integer of different size
+src/800_b_2.c:4183: warning: cast to pointer from integer of different size
+src/800.c: At top level:
+src/800.c:5756: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+src/800.c: In function `func_80019064':
+src/800.c:6342: warning: assignment makes integer from pointer without a cast
+src/800_b_2.c: In function `func_80032A74':
+src/800_b_2.c:5529: warning: passing arg 1 of `func_800316F8' makes integer from pointer without a cast
+src/800.c: At top level:
+src/800.c:7849: warning: prototype for `func_80018714' follows
+src/800.c:5854: warning: non-prototype definition here
+src/800.c: In function `CdReadSectorReadyCB':
+src/800.c:7890: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+src/800.c:7976: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+src/800_b_2.c: In function `func_80034314':
+src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
+src/800.c: At top level:
+src/800.c:9379: warning: type mismatch with previous external decl
+src/800.c:1661: warning: previous external decl of `func_8001C044'
+src/800.c:9379: warning: type mismatch with previous implicit declaration
+src/800.c:1661: warning: previous implicit declaration of `func_8001C044'
+src/800.c:9379: warning: `func_8001C044' was previously implicitly declared to return `int'
+src/800.c: In function `func_8001C5B8':
+src/800.c:9638: warning: type mismatch with previous external decl
+src/800.c:9473: warning: previous external decl of `GsMapModelingData'
+src/800.c: At top level:
+src/800.c:9748: warning: type mismatch with previous external decl
+src/800.c:9473: warning: previous external decl of `GsMapModelingData'
+src/800.c: In function `func_8001CB6C':
+src/800.c:9923: warning: passing arg 1 of `func_8001CF48' makes integer from pointer without a cast
+src/800.c: In function `func_8001D074_impl':
+src/800.c:10147: warning: return makes integer from pointer without a cast
+src/800.c:13779: warning: "gte_ldv0" redefined
+13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:11203: note: this is the location of the previous definition
+11203 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:13796: warning: "gte_stflg" redefined
+13796 | #define gte_stflg(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:11227: note: this is the location of the previous definition
+11227 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:13906: warning: "gte_ldv0" redefined
+13906 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:13779: note: this is the location of the previous definition
+13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:13946: warning: "gte_stflg" redefined
+13946 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:13796: note: this is the location of the previous definition
+13796 | #define gte_stflg(r0)  __asm__ __volatile__( \
+      | 
+src/800.c: In function `func_8001F9F8':
+src/800.c:12328: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12337: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12346: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12355: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12364: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12373: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12382: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c: At top level:
+src/800.c:12807: warning: type mismatch with previous external decl
+src/800.c:12591: warning: previous external decl of `D_80074818'
+src/800.c:12808: warning: type mismatch with previous external decl
+src/800.c:12592: warning: previous external decl of `D_80075018'
+src/800.c:16823: warning: "gte_stflg" redefined
+16823 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:16702: note: this is the location of the previous definition
+16702 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:16957: warning: "gte_stflg" redefined
+16957 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:16823: note: this is the location of the previous definition
+16823 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:17149: warning: "gte_stsxy3_g3" redefined
+17149 | #define gte_stsxy3_g3(r0) __asm__ volatile (     \
+      | 
+src/800.c:16849: note: this is the location of the previous definition
+16849 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
+src/800.c:17259: warning: "gte_ldv0" redefined
+17259 | #define gte_ldv0(r0)  __asm__ volatile("lwc2 $0, 0(%0);lwc2 $1, 4(%0)" : : "r"(r0))
+      | 
+src/800.c:16930: note: this is the location of the previous definition
+16930 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:17260: warning: "gte_ldv3" redefined
+17260 | #define gte_ldv3(r0, r1, r2) __asm__ volatile(                              \
+      | 
+src/800.c:17101: note: this is the location of the previous definition
+17101 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:17264: warning: "gte_ldrgb" redefined
+17264 | #define gte_ldrgb(r0) __asm__ volatile("lwc2 $6, 0(%0)" : : "r"(r0))
+      | 
+src/800.c:17111: note: this is the location of the previous definition
+17111 | #define gte_ldrgb(r0) __asm__ volatile (         \
+      | 
+src/800.c:17266: warning: "gte_rtpt" redefined
+17266 | #define gte_rtpt()  __asm__ volatile("nop;nop;cop2 0x0280030")
+      | 
+src/800.c:17116: note: this is the location of the previous definition
+17116 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:17267: warning: "gte_rtps" redefined
+17267 | #define gte_rtps()  __asm__ volatile("nop;nop;cop2 0x0180001")
+      | 
+src/800.c:16951: note: this is the location of the previous definition
+16951 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:17268: warning: "gte_nclip" redefined
+17268 | #define gte_nclip() __asm__ volatile("nop;nop;cop2 0x1400006")
+      | 
+src/800.c:17117: note: this is the location of the previous definition
+17117 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:17269: warning: "gte_avsz4" redefined
+17269 | #define gte_avsz4() __asm__ volatile("nop;nop;cop2 0x168002e")
+      | 
+src/800.c:16954: note: this is the location of the previous definition
+16954 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:17270: warning: "gte_ncct" redefined
+17270 | #define gte_ncct()  __asm__ volatile("nop;nop;cop2 0x118043f")
+      | 
+src/800.c:17119: note: this is the location of the previous definition
+17119 | #define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+      | 
+src/800.c:17271: warning: "gte_nccs" redefined
+17271 | #define gte_nccs()  __asm__ volatile("nop;nop;cop2 0x108041b")
+      | 
+src/800.c:16955: note: this is the location of the previous definition
+16955 | #define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+      | 
+src/800.c:17273: warning: "gte_stflg" redefined
+17273 | #define gte_stflg(r0) __asm__ volatile("cfc2 $12, $31;nop;sw $12, 0(%0)" : : "r"(r0) : "$12", "memory")
+      | 
+src/800.c:17121: note: this is the location of the previous definition
+17121 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:17274: warning: "gte_stopz" redefined
+17274 | #define gte_stopz(r0) __asm__ volatile("swc2 $24, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17129: note: this is the location of the previous definition
+17129 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:17275: warning: "gte_stotz" redefined
+17275 | #define gte_stotz(r0) __asm__ volatile("swc2 $7, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17135: note: this is the location of the previous definition
+17135 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:17278: warning: "gte_stsxy3_g4" redefined
+17278 | #define gte_stsxy3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c:16983: note: this is the location of the previous definition
+16983 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17408: warning: "gte_ldv0" redefined
+17408 | #define gte_ldv0(r0) __asm__ volatile (                  \
+      | 
+src/800.c:17259: note: this is the location of the previous definition
+17259 | #define gte_ldv0(r0)  __asm__ volatile("lwc2 $0, 0(%0);lwc2 $1, 4(%0)" : : "r"(r0))
+      | 
+src/800.c:17413: warning: "gte_ldv3" redefined
+17413 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (          \
+      | 
+src/800.c:17260: note: this is the location of the previous definition
+17260 | #define gte_ldv3(r0, r1, r2) __asm__ volatile(                              \
+      | 
+src/800.c:17422: warning: "gte_ldrgb" redefined
+17422 | #define gte_ldrgb(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17264: note: this is the location of the previous definition
+17264 | #define gte_ldrgb(r0) __asm__ volatile("lwc2 $6, 0(%0)" : : "r"(r0))
+      | 
+src/800.c:17426: warning: "gte_rtpt" redefined
+17426 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4A280030")
+      | 
+src/800.c:17266: note: this is the location of the previous definition
+17266 | #define gte_rtpt()  __asm__ volatile("nop;nop;cop2 0x0280030")
+      | 
+src/800.c:17427: warning: "gte_nclip" redefined
+17427 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4B400006")
+      | 
+src/800.c:17268: note: this is the location of the previous definition
+17268 | #define gte_nclip() __asm__ volatile("nop;nop;cop2 0x1400006")
+      | 
+src/800.c:17428: warning: "gte_avsz3" redefined
+17428 | #define gte_avsz3() __asm__ volatile ("nop;nop;.word 0x4B58002D")
+      | 
+src/800.c:17118: note: this is the location of the previous definition
+17118 | #define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+      | 
+src/800.c:17429: warning: "gte_nccs" redefined
+17429 | #define gte_nccs()  __asm__ volatile ("nop;nop;.word 0x4B08041B")
+      | 
+src/800.c:17271: note: this is the location of the previous definition
+17271 | #define gte_nccs()  __asm__ volatile("nop;nop;cop2 0x108041b")
+      | 
+src/800.c:17430: warning: "gte_stflg" redefined
+17430 | #define gte_stflg(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17273: note: this is the location of the previous definition
+17273 | #define gte_stflg(r0) __asm__ volatile("cfc2 $12, $31;nop;sw $12, 0(%0)" : : "r"(r0) : "$12", "memory")
+      | 
+src/800.c:17437: warning: "gte_stopz" redefined
+17437 | #define gte_stopz(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17274: note: this is the location of the previous definition
+17274 | #define gte_stopz(r0) __asm__ volatile("swc2 $24, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17442: warning: "gte_stotz" redefined
+17442 | #define gte_stotz(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17275: note: this is the location of the previous definition
+17275 | #define gte_stotz(r0) __asm__ volatile("swc2 $7, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17606: warning: "gte_rtps" redefined
+17606 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:17267: note: this is the location of the previous definition
+17267 | #define gte_rtps()  __asm__ volatile("nop;nop;cop2 0x0180001")
+      | 
+src/800.c:17607: warning: "gte_rtpt" redefined
+17607 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:17426: note: this is the location of the previous definition
+17426 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4A280030")
+      | 
+src/800.c:17608: warning: "gte_nclip" redefined
+17608 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:17427: note: this is the location of the previous definition
+17427 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4B400006")
+      | 
+src/800.c:17609: warning: "gte_avsz4" redefined
+17609 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:17269: note: this is the location of the previous definition
+17269 | #define gte_avsz4() __asm__ volatile("nop;nop;cop2 0x168002e")
+      | 
+src/800.c:17610: warning: "gte_nccs" redefined
+17610 | #define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+      | 
+src/800.c:17429: note: this is the location of the previous definition
+17429 | #define gte_nccs()  __asm__ volatile ("nop;nop;.word 0x4B08041B")
+      | 
+src/800.c:17644: warning: "gte_stsxy3_g4" redefined
+17644 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17278: note: this is the location of the previous definition
+17278 | #define gte_stsxy3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c: In function `func_800221A8':
+src/800.c:14885: warning: passing arg 1 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 2 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 3 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 4 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:17979: warning: "gte_stsz4" redefined
+17979 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:17282: note: this is the location of the previous definition
+17282 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile(                         \
+      | 
+src/800.c:17987: warning: "gte_strgb2" redefined
+17987 | #define gte_strgb2(r0) __asm__ volatile (         \
+      | 
+src/800.c:17277: note: this is the location of the previous definition
+17277 | #define gte_strgb2(r0) __asm__ volatile("swc2 $22, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:18121: warning: "gte_avsz3" redefined
+18121 | #define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+      | 
+src/800.c:17428: note: this is the location of the previous definition
+17428 | #define gte_avsz3() __asm__ volatile ("nop;nop;.word 0x4B58002D")
+      | 
+src/800.c:18122: warning: "gte_ncct" redefined
+18122 | #define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+      | 
+src/800.c:17270: note: this is the location of the previous definition
+17270 | #define gte_ncct()  __asm__ volatile("nop;nop;cop2 0x118043f")
+      | 
+src/800.c:18163:41: warning: "/*" within comment [-Wcomment]
+18163 |  * NOTE: the target .s carries splat's "/* Handwritten function * /" marker (and marks
+      |                                          
+src/800.c:19349: warning: "gte_stflg" redefined
+19349 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:18248: note: this is the location of the previous definition
+18248 | #define gte_stflg(r0) __asm__ volatile (          \
+      | 
+src/800.c:19369: warning: "gte_stsxy3_g3" redefined
+19369 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+src/800.c:17452: note: this is the location of the previous definition
+17452 | #define gte_stsxy3_g3(r0) __asm__ volatile (             \
+      | 
+src/800.c:19428: warning: "gte_ldv0" redefined
+19428 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:18225: note: this is the location of the previous definition
+18225 | #define gte_ldv0(r0) __asm__ volatile (           \
+      | 
+src/800.c:19433: warning: "gte_ldv3" redefined
+19433 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19335: note: this is the location of the previous definition
+19335 | #define gte_ldv3(r0, r1, r2) __asm__ volatile ( \
+      | 
+src/800.c:19442: warning: "gte_rtps" redefined
+19442 | #define gte_rtps()  __asm__ volatile ("nop;nop;.word 0x4a180001")
+      | 
+src/800.c:18241: note: this is the location of the previous definition
+18241 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:19443: warning: "gte_rtpt" redefined
+19443 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4a280030")
+      | 
+src/800.c:19345: note: this is the location of the previous definition
+19345 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19444: warning: "gte_nclip" redefined
+19444 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4b400006")
+      | 
+src/800.c:19346: note: this is the location of the previous definition
+19346 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19445: warning: "gte_avsz4" redefined
+19445 | #define gte_avsz4() __asm__ volatile ("nop;nop;.word 0x4b68002e")
+      | 
+src/800.c:18244: note: this is the location of the previous definition
+18244 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:19447: warning: "gte_stflg" redefined
+19447 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19349: note: this is the location of the previous definition
+19349 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:19453: warning: "gte_stsxy2" redefined
+19453 | #define gte_stsxy2(r0) __asm__ volatile (        \
+      | 
+src/800.c:17276: note: this is the location of the previous definition
+17276 | #define gte_stsxy2(r0) __asm__ volatile("swc2 $14, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:19457: warning: "gte_stsxy3_g4" redefined
+19457 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17644: note: this is the location of the previous definition
+17644 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19463: warning: "gte_stotz" redefined
+19463 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19363: note: this is the location of the previous definition
+19363 | #define gte_stotz(r0) __asm__ volatile (        \
+      | 
+src/800.c:19467: warning: "gte_stopz" redefined
+19467 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19357: note: this is the location of the previous definition
+19357 | #define gte_stopz(r0) __asm__ volatile (        \
+      | 
+src/800.c:19554: warning: "gte_ldv3" redefined
+19554 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19433: note: this is the location of the previous definition
+19433 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19564: warning: "gte_rtpt" redefined
+19564 | #define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19443: note: this is the location of the previous definition
+19443 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4a280030")
+      | 
+src/800.c:19565: warning: "gte_nclip" redefined
+19565 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19444: note: this is the location of the previous definition
+19444 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4b400006")
+      | 
+src/800.c:19567: warning: "gte_stflg" redefined
+19567 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19447: note: this is the location of the previous definition
+19447 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19575: warning: "gte_stopz" redefined
+19575 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19467: note: this is the location of the previous definition
+19467 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19599: warning: "gte_stotz" redefined
+19599 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19463: note: this is the location of the previous definition
+19463 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c: At top level:
+src/800.c:16744: warning: type mismatch with previous external decl
+src/800.c:16398: warning: previous external decl of `func_80024BC0'
+src/800.c:19722: warning: "gte_ldv3" redefined
+19722 | #define gte_ldv3(r0, r1, r2) __asm__ __volatile__ ( \
+      | 
+src/800.c:19554: note: this is the location of the previous definition
+19554 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19732: warning: "gte_ldv0" redefined
+19732 | #define gte_ldv0(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19428: note: this is the location of the previous definition
+19428 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:19738: warning: "gte_rtpt" redefined
+19738 | #define gte_rtpt() __asm__ __volatile__ ("nop;nop;rtpt")
+      | 
+src/800.c:19564: note: this is the location of the previous definition
+19564 | #define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19739: warning: "gte_rtps" redefined
+19739 | #define gte_rtps() __asm__ __volatile__ ("nop;nop;rtps")
+      | 
+src/800.c:19442: note: this is the location of the previous definition
+19442 | #define gte_rtps()  __asm__ volatile ("nop;nop;.word 0x4a180001")
+      | 
+src/800.c:19740: warning: "gte_nclip" redefined
+19740 | #define gte_nclip() __asm__ __volatile__ ("nop;nop;nclip")
+      | 
+src/800.c:19565: note: this is the location of the previous definition
+19565 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19741: warning: "gte_avsz4" redefined
+19741 | #define gte_avsz4() __asm__ __volatile__ ("nop;nop;avsz4")
+      | 
+src/800.c:19445: note: this is the location of the previous definition
+19445 | #define gte_avsz4() __asm__ volatile ("nop;nop;.word 0x4b68002e")
+      | 
+src/800.c:19743: warning: "gte_stflg" redefined
+19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19567: note: this is the location of the previous definition
+19567 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19751: warning: "gte_stopz" redefined
+19751 | #define gte_stopz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19575: note: this is the location of the previous definition
+19575 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19757: warning: "gte_stotz" redefined
+19757 | #define gte_stotz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19599: note: this is the location of the previous definition
+19599 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19763: warning: "gte_stsxy" redefined
+19763 | #define gte_stsxy(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:18268: note: this is the location of the previous definition
+18268 | #define gte_stsxy(r0) __asm__ volatile (          \
+      | 
+src/800.c:19769: warning: "gte_stsxy3_g4" redefined
+19769 | #define gte_stsxy3_g4(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19457: note: this is the location of the previous definition
+19457 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19777: warning: "gte_stsz4" redefined
+19777 | #define gte_stsz4(r0, r1, r2, r3) __asm__ __volatile__ ( \
+      | 
+src/800.c:17979: note: this is the location of the previous definition
+17979 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:19951: warning: "gte_ldv3" redefined
+19951 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19722: note: this is the location of the previous definition
+19722 | #define gte_ldv3(r0, r1, r2) __asm__ __volatile__ ( \
+      | 
+src/800.c:19966: warning: "gte_rtpt" redefined
+19966 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19738: note: this is the location of the previous definition
+19738 | #define gte_rtpt() __asm__ __volatile__ ("nop;nop;rtpt")
+      | 
+src/800.c:19967: warning: "gte_nclip" redefined
+19967 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19740: note: this is the location of the previous definition
+19740 | #define gte_nclip() __asm__ __volatile__ ("nop;nop;nclip")
+      | 
+src/800.c:19970: warning: "gte_stflg" redefined
+19970 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19743: note: this is the location of the previous definition
+19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:17032: warning: type mismatch with previous external decl
+src/800.c:16399: warning: previous external decl of `func_80025000'
+src/800.c:19978: warning: "gte_stopz" redefined
+19978 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19751: note: this is the location of the previous definition
+19751 | #define gte_stopz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19992: warning: "gte_stsxy3_g3" redefined
+19992 | #define gte_stsxy3_g3(r0) __asm__ volatile (     \
+      | 
+src/800.c:19369: note: this is the location of the previous definition
+19369 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+src/800.c:20056: warning: "gte_ldv0" redefined
+20056 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:19732: note: this is the location of the previous definition
+19732 | #define gte_ldv0(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20077: warning: "gte_rtps" redefined
+20077 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:19739: note: this is the location of the previous definition
+19739 | #define gte_rtps() __asm__ __volatile__ ("nop;nop;rtps")
+      | 
+src/800.c:20097: warning: "gte_stsxy" redefined
+20097 | #define gte_stsxy(r0) __asm__ volatile (         \
+      | 
+src/800.c:19763: note: this is the location of the previous definition
+19763 | #define gte_stsxy(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20109: warning: "gte_stsz4" redefined
+20109 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:19777: note: this is the location of the previous definition
+19777 | #define gte_stsz4(r0, r1, r2, r3) __asm__ __volatile__ ( \
+      | 
+src/800.c:20118: warning: "gte_stsxy3_g4" redefined
+20118 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19769: note: this is the location of the previous definition
+19769 | #define gte_stsxy3_g4(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20126: warning: "gte_strgb3_g4" redefined
+20126 | #define gte_strgb3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17280: note: this is the location of the previous definition
+17280 | #define gte_strgb3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c:17491: warning: type mismatch with previous external decl
+src/800.c:16400: warning: previous external decl of `func_80025818'
+src/800.c:18172: warning: type mismatch with previous external decl
+src/800.c:16401: warning: previous external decl of `func_80026128'
+src/800.c:18330: warning: type mismatch with previous external decl
+src/800.c:16402: warning: previous external decl of `func_800262D8'
+src/800.c:19911: warning: type mismatch with previous external decl
+src/800.c:19896: warning: previous external decl of `func_80027C10'
+src/800.c:19911: warning: type mismatch with previous implicit declaration
+src/800.c:19896: warning: previous implicit declaration of `func_80027C10'
+src/800.c:19911: warning: `func_80027C10' was previously implicitly declared to return `int'
+src/800.c:20603: warning: type mismatch with previous external decl
+src/800.c:1664: warning: previous external decl of `func_80028A48'
+src/800.c:20603: warning: type mismatch with previous implicit declaration
+src/800.c:1664: warning: previous implicit declaration of `func_80028A48'
+src/800.c:20603: warning: `func_80028A48' was previously implicitly declared to return `int'
+src/800.c:20673: warning: type mismatch with previous external decl
+src/800.c:1665: warning: previous external decl of `func_80028C50'
+src/800.c:20673: warning: type mismatch with previous implicit declaration
+src/800.c:1665: warning: previous implicit declaration of `func_80028C50'
+src/800.c:20673: warning: `func_80028C50' was previously implicitly declared to return `int'
+src/800.c:21977: warning: type mismatch with previous external decl
+src/800.c:21934: warning: previous external decl of `func_8002A960'
+src/800.c:21977: warning: type mismatch with previous implicit declaration
+src/800.c:21934: warning: previous implicit declaration of `func_8002A960'
+src/800.c:21977: warning: `func_8002A960' was previously implicitly declared to return `int'
+jtbl_rodata_pads --derive main: 0,0t1,0,0t1,0t1,0,0,0t1,0t1,0,0,0
+{standard input}: Assembler messages:
+{standard input}:26846: Warning: used $at without ".set noat"
+{standard input}:26847: Warning: used $at without ".set noat"
+{standard input}:26848: Warning: used $at without ".set noat"
+{standard input}:26877: Warning: used $at without ".set noat"
+{standard input}:26878: Warning: used $at without ".set noat"
+{standard input}:26879: Warning: used $at without ".set noat"
+{standard input}:27138: Warning: used $at without ".set noat"
+{standard input}:27139: Warning: used $at without ".set noat"
+{standard input}:27140: Warning: used $at without ".set noat"
+{standard input}:27169: Warning: used $at without ".set noat"
+{standard input}:27170: Warning: used $at without ".set noat"
+{standard input}:27171: Warning: used $at without ".set noat"
+integrate libcd: 18 objects in 2 block(s) -> stubs ['libcd1', 'libcd2']; 18 NOLOAD sections; 45 externals -> build/psyq/libcd_externals.ld
+  .. GS_001.o: .bss split ×6: .bss [0x0000,0x0028) @0x80078810 · .bss2 [0x0028,0x0030) @0x800a4f3c (cut at `PSDBASEX`) · .bss3 [0x0030,0x0038) @0x800ae820 (cut at `CLIP2`) · .bss4 [0x0038,0x003c) @0x800a4f40 (cut at `PSDBASEY`) · .bss5 [0x003c,0x0048) @0x800a5e50 (cut at `POSITION`) · .bss6 [0x0048,0x00c2) @0x800a6438 (cut at `GsDRAWENV`) — scattered commons tiled at link-prepare
+integrate libgs_used: 34 objects in 8 block(s) -> stubs ['libgs1', 'libgs2', 'libgs3', 'libgs4', 'libgs5', 'libgs6', 'libgs7', 'libgs8']; 18 NOLOAD sections; 179 externals -> build/psyq/libgs_externals.ld
+integrate libetc: 5 objects in 1 block(s) -> stubs ['libetc']; 8 NOLOAD sections; 7 externals -> build/psyq/libetc_externals.ld
+  .. SYS.o: .bss split ×2: .bss [0x0000,0x0144) @0x80078830 · .bss2 [0x0144,0x1944) @0x800c5510 (cut at `_que`) — scattered commons tiled at link-prepare
+integrate libgpu: 3 objects in 2 block(s) -> stubs ['libgpu', 'libgpu2']; 5 NOLOAD sections; 23 externals -> build/psyq/libgpu_externals.ld
+integrate libmcrd: 2 objects in 2 block(s) -> stubs ['libmcrd1', 'libmcrd2']; 6 NOLOAD sections; 37 externals -> build/psyq/libmcrd_externals.ld
+integrate libc2: 17 objects in 2 block(s) -> stubs ['libc2_1', 'libc2_2']; 6 NOLOAD sections; 32 externals -> build/psyq/libc2_externals.ld
+  .. SMP_06.o @0x80049600 (4 ins) is NESTED inside SMP_05.o — sub-pattern, not wired
+integrate libgte: 70 objects in 30 block(s) -> stubs ['libgte1', 'libgte2', 'libgte3', 'libgte4', 'libgte5', 'libgte6', 'libgte7', 'libgte8', 'libgte9', 'libgte10', 'libgte11', 'libgte12', 'libgte13', 'libgte14', 'libgte15', 'libgte16', 'libgte17', 'libgte18', 'libgte19', 'libgte20', 'libgte21', 'libgte22', 'libgte23', 'libgte24', 'libgte25', 'libgte26', 'libgte27', 'libgte28', 'libgte29', 'libgte30']; 6 NOLOAD sections; 24 externals -> build/psyq/libgte_externals.ld
+  .. VM_F.o: .bss split ×2: .bss [0x0000,0x0508) @0x80079580 · .bss2 [0x0508,0x06d8) @0x800b9b58 (cut at `_svm_sreg_buf`) — scattered commons tiled at link-prepare
+integrate snd_used: 63 objects in 12 block(s) -> stubs ['snd1', 'snd2', 'snd3', 'snd4', 'snd5', 'snd6', 'snd7', 'snd8', 'snd9', 'snd10', 'snd11', 'snd12']; 13 NOLOAD sections; 106 externals -> build/psyq/snd_externals.ld
+integrate apicard_used: 26 objects in 7 block(s) -> stubs ['apicard1', 'apicard2', 'apicard3', 'apicard4', 'apicard5', 'apicard6', 'apicard7']; 7 NOLOAD sections; 0 externals -> build/psyq/apicard_externals.ld
+integrate libapi42: 23 objects in 2 block(s) -> stubs ['libapi1', 'libapi2']; 1 NOLOAD sections; 2 externals -> build/psyq/libapi42_externals.ld
+integrate libpad421: 7 objects in 2 block(s) -> stubs ['libpad1', 'libpad2']; 7 NOLOAD sections; 7 externals -> build/psyq/libpad_externals.ld
+  LD      build/us/SLUS_007.26.elf
+  OBJCOPY build/us/SLUS_007.26
+[ OK ] build/us/SLUS_007.26
+       sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == config/check.us.sha  (BYTE-IDENTICAL)
+sdk-dual: leg 2 — WITHOUT (NO_SDK=1, build/psyq removed)
+splat 0.41.0 (powered by spimdisasm 1.41.0)
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 209935.48it/s]
+  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 617969.55it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Scanning header:   0%|          | 0/2 [00:00<?, ?it/s]Scanning main:   0%|          | 0/2 [00:00<?, ?it/s]  
+Rodata segment '800' may belong to the text segment '800'
+    Based on the usage from the function LzssDecodeSector to the symbol jtbl_80072A38
+
+The rodata segment '800' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0x6324C, .rodata]
+      - [0x63388, .rodata]
+      - [0x633FC, .rodata]
+
+
+Rodata segment '800_b' may belong to the text segment '800_b'
+    Based on the usage from the function func_8002B0B4 to the symbol jtbl_80072E44
+
+Rodata segment '800_b_2' may belong to the text segment '800_b_2'
+    Based on the usage from the function func_8002DC68 to the symbol jtbl_80072F3C
+
+The rodata segment '800_b_2' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0x63920, .rodata]
+
+
+Rodata segment '800_c' may belong to the text segment '800_c'
+    Based on the usage from the function func_80035270 to the symbol jtbl_800732A0
+Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.70it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.70it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.73it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.73it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 103.38it/s]
+Split 340 KB (82.28%) in defined segments
+              header:     2 KB (0.50%) 1 split, 0 cached
+                   c:   338 KB (81.78%) 85 split, 0 cached
+             unknown:      0 B (0.00%) from unknown bin files
+ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.o, 800_b.o, 800_b_2.o, 63940.data.o, 800_c.o, 63C4C.data.o]; pre=0 text=85 empties=166 bss=85
+  AS      build/asm/data/63C4C.data.o
+  AS      build/asm/header.o
+  AS      build/asm/data/53198.data.o
+  AS      build/asm/data/63470.data.o
+  AS      build/asm/data/63940.data.o
+  CC      build/src/libgte23.o
+  CC      build/src/libgte21.o
+  CC      build/src/libgte11.o
+  CC      build/src/libgte17.o
+  CC      build/src/800_c.o
+  CC      build/src/snd8.o
+  CC      build/src/libgs6.o
+  CC      build/src/snd5.o
+  CC      build/src/800_b.o
+  CC      build/src/libc2_1.o
+  CC      build/src/snd11.o
+  CC      build/src/gap.o
+  CC      build/src/libgte12.o
+  CC      build/src/snd7.o
+  CC      build/src/libgte10.o
+  CC      build/src/libgpu2.o
+  CC      build/src/800b2.o
+  CC      build/src/boot.o
+  CC      build/src/apicard5.o
+  CC      build/src/snd4.o
+  CC      build/src/libpad1.o
+  CC      build/src/sgap_6.o
+  CC      build/src/libgte27.o
+  CC      build/src/libmcrd1.o
+src/boot.c: In function `func_80010ED4':
+src/boot.c:581: warning: passing arg 4 of `CdReadRequest' makes integer from pointer without a cast
+  CC      build/src/libcd1.o
+  CC      build/src/libgs1.o
+  CC      build/src/libgte22.o
+  CC      build/src/sgap.o
+  CC      build/src/libgte16.o
+  CC      build/src/libgpu.o
+  CC      build/src/libgte29.o
+  CC      build/src/libc2_2.o
+src/800_c.c: In function `func_800387C0':
+src/800_c.c:2776: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2778: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2780: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2785: warning: assignment makes integer from pointer without a cast
+src/800_c.c: At top level:
+src/800_c.c:2855: warning: type mismatch with previous external decl
+src/800_c.c:2544: warning: previous external decl of `func_80038908'
+src/800_c.c:2855: warning: type mismatch with previous implicit declaration
+src/800_c.c:2544: warning: previous implicit declaration of `func_80038908'
+src/800_c.c:2855: warning: `func_80038908' was previously implicitly declared to return `int'
+  CC      build/src/libetc.o
+  CC      build/src/800.o
+src/800_c.c: In function `func_800391D4':
+src/800_c.c:3394: warning: assignment makes pointer from integer without a cast
+src/800_c.c:3413: warning: assignment makes pointer from integer without a cast
+src/800_c.c: At top level:
+src/800_c.c:3478: warning: type mismatch with previous external decl
+src/800_c.c:3272: warning: previous external decl of `func_80039308'
+  CC      build/src/libapi2.o
+  CC      build/src/snd9.o
+src/800_c.c:3759: warning: type mismatch with previous external decl
+src/800_c.c:3271: warning: previous external decl of `func_80039B20'
+src/800_c.c:3793: warning: type mismatch with previous external decl
+src/800_c.c:3273: warning: previous external decl of `func_80039C5C'
+  CC      build/src/libgte4.o
+  CC      build/src/libgte15.o
+  CC      build/src/libgte5.o
+src/800_c.c:3924: warning: type mismatch with previous external decl
+src/800_c.c:3274: warning: previous external decl of `func_80039F50'
+src/800_c.c: In function `func_80039F50':
+src/800_c.c:3941: warning: passing arg 1 of `func_80039C70' from incompatible pointer type
+  CC      build/src/libapi1.o
+src/800_c.c: At top level:
+src/800_c.c:3977: warning: type mismatch with previous external decl
+src/800_c.c:3275: warning: previous external decl of `func_8003A098'
+  CC      build/src/apicard4.o
+src/800_c.c:3985: warning: type mismatch with previous external decl
+src/800_c.c:3276: warning: previous external decl of `func_8003A0D0'
+src/800_c.c:4000: warning: type mismatch with previous external decl
+src/800_c.c:3277: warning: previous external decl of `func_8003A0E4'
+src/800.c:630: warning: type mismatch with previous external decl
+src/800.c:625: warning: previous external decl of `func_80012E0C'
+src/800.c:630: warning: type mismatch with previous implicit declaration
+src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
+src/800_c.c:4056: warning: type mismatch with previous external decl
+src/800_c.c:3278: warning: previous external decl of `func_8003A234'
+  CC      build/src/sgap_3.o
+src/800.c:686: warning: type mismatch with previous external decl
+src/800.c:683: warning: previous external decl of `func_80013028'
+src/800.c:686: warning: type mismatch with previous implicit declaration
+src/800.c:683: warning: previous implicit declaration of `func_80013028'
+  CC      build/src/libgs2.o
+  CC      build/src/libpad2.o
+  CC      build/src/libgte7.o
+src/800.c: In function `func_800134FC':
+src/800.c:980: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/libgte18.o
+  CC      build/src/libgte2.o
+  CC      build/src/libgte20.o
+src/800.c: In function `func_8001382C':
+src/800.c:1208: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+src/800.c: In function `func_80013B64':
+src/800.c:1399: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+jtbl_rodata_pads --derive main: 0,0,0,0,0
+src/800.c: In function `func_800141AC':
+src/800.c:1633: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1633: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+src/800.c: At top level:
+src/800.c:1739: warning: type mismatch with previous external decl
+src/800.c:1659: warning: previous external decl of `func_800143AC'
+src/800.c:1739: warning: type mismatch with previous implicit declaration
+src/800.c:1659: warning: previous implicit declaration of `func_800143AC'
+src/800.c:1739: warning: `func_800143AC' was previously implicitly declared to return `int'
+src/800.c:1783: warning: type mismatch with previous external decl
+src/800.c:1660: warning: previous external decl of `func_80014444'
+src/800.c:1783: warning: type mismatch with previous implicit declaration
+src/800.c:1660: warning: previous implicit declaration of `func_80014444'
+src/800.c:1783: warning: `func_80014444' was previously implicitly declared to return `int'
+src/800.c:1850: warning: type mismatch with previous external decl
+src/800.c:1662: warning: previous external decl of `func_80014588'
+src/800.c:1850: warning: type mismatch with previous implicit declaration
+src/800.c:1662: warning: previous implicit declaration of `func_80014588'
+src/800.c:1850: warning: `func_80014588' was previously implicitly declared to return `int'
+  CC      build/src/snd1.o
+src/800.c:2013: warning: type mismatch with previous external decl
+src/800.c:1654: warning: previous external decl of `func_80014928'
+src/800.c:2013: warning: type mismatch with previous implicit declaration
+src/800.c:1654: warning: previous implicit declaration of `func_80014928'
+src/800.c:2013: warning: `func_80014928' was previously implicitly declared to return `int'
+  CC      build/src/libgte19.o
+  CC      build/src/snd6.o
+  CC      build/src/libgte1.o
+  CC      build/src/libgte6.o
+src/800.c:2576: warning: type mismatch with previous external decl
+src/800.c:1663: warning: previous external decl of `func_80015310'
+src/800.c:2576: warning: type mismatch with previous implicit declaration
+src/800.c:1663: warning: previous implicit declaration of `func_80015310'
+src/800.c:2576: warning: `func_80015310' was previously implicitly declared to return `int'
+src/800.c: In function `func_80015310':
+src/800.c:2577: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+src/800.c: At top level:
+src/800.c:2601: warning: type mismatch with previous external decl
+src/800.c:2597: warning: previous external decl of `func_800153A4'
+src/800.c:2601: warning: type mismatch with previous implicit declaration
+src/800.c:2597: warning: previous implicit declaration of `func_800153A4'
+src/800.c:2601: warning: `func_800153A4' was previously implicitly declared to return `int'
+  CC      build/src/libmcrd2.o
+src/800.c:2619: warning: type mismatch with previous external decl
+src/800.c:2615: warning: previous external decl of `func_80015424'
+src/800.c:2619: warning: type mismatch with previous implicit declaration
+src/800.c:2615: warning: previous implicit declaration of `func_80015424'
+src/800.c:2619: warning: `func_80015424' was previously implicitly declared to return `int'
+src/800.c: In function `func_8001544C':
+src/800.c:2632: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/apicard3.o
+  CC      build/src/sgap_2.o
+{standard input}: Assembler messages:
+{standard input}:24: Warning: used $at without ".set noat"
+{standard input}:25: Warning: used $at without ".set noat"
+{standard input}:44: Warning: used $at without ".set noat"
+{standard input}:45: Warning: used $at without ".set noat"
+{standard input}:47: Warning: used $at without ".set noat"
+{standard input}:48: Warning: used $at without ".set noat"
+{standard input}:49: Warning: used $at without ".set noat"
+{standard input}:50: Warning: used $at without ".set noat"
+{standard input}:78: Warning: used $at without ".set noat"
+{standard input}:79: Warning: used $at without ".set noat"
+src/800.c: In function `func_80015B6C':
+src/800.c:3110: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/libgte28.o
+  CC      build/src/libgte8.o
+src/800.c: In function `func_80015F04':
+src/800.c:3447: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+src/800.c: In function `func_80016224':
+src/800.c:3596: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/apicard6.o
+src/800.c: At top level:
+src/800.c:3766: warning: type mismatch with previous external decl
+src/800.c:3597: warning: previous external decl of `D_800AE7BC'
+  CC      build/src/apicard2.o
+  CC      build/src/800_b_2.o
+  CC      build/src/sgap_4.o
+  CC      build/src/snd10.o
+src/800.c:4141: warning: type mismatch with previous external decl
+src/800.c:4104: warning: previous external decl of `func_80016A7C'
+src/800.c:4141: warning: type mismatch with previous implicit declaration
+src/800.c:4108: warning: previous implicit declaration of `func_80016A7C'
+src/800.c:4141: warning: `func_80016A7C' was previously implicitly declared to return `int'
+  CC      build/src/libcd2.o
+src/800.c:4572: warning: type mismatch with previous external decl
+src/800.c:4460: warning: previous external decl of `func_80016F18'
+src/800.c:4572: warning: type mismatch with previous implicit declaration
+src/800.c:4470: warning: previous implicit declaration of `func_80016F18'
+src/800.c:4572: warning: `func_80016F18' was previously implicitly declared to return `int'
+  CC      build/src/libgte24.o
+src/800_b_2.c: In function `func_8002D320':
+src/800_b_2.c:662: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:663: warning: type mismatch with previous external decl
+src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
+src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
+src/800.c:4755: warning: type mismatch with previous external decl
+src/800.c:4701: warning: previous external decl of `func_80017294'
+src/800.c:4755: warning: type mismatch with previous implicit declaration
+src/800.c:4706: warning: previous implicit declaration of `func_80017294'
+src/800.c:4755: warning: `func_80017294' was previously implicitly declared to return `int'
+src/800.c:4844: warning: type mismatch with previous external decl
+src/800.c:4792: warning: previous external decl of `func_800173DC'
+src/800.c:4844: warning: type mismatch with previous implicit declaration
+src/800.c:4797: warning: previous implicit declaration of `func_800173DC'
+src/800.c:4844: warning: `func_800173DC' was previously implicitly declared to return `int'
+  CC      build/src/libgs7.o
+src/800.c:4900: warning: type mismatch with previous external decl
+src/800.c:4877: warning: previous external decl of `func_8001751C'
+src/800.c:4900: warning: type mismatch with previous implicit declaration
+src/800.c:4882: warning: previous implicit declaration of `func_8001751C'
+src/800.c:4900: warning: `func_8001751C' was previously implicitly declared to return `int'
+jtbl_rodata_pads --derive main: 0t1,0t1,0,0,0,0,0,0
+src/800.c: In function `func_80017714':
+src/800.c:4985: warning: type mismatch with previous external decl
+src/800.c:4981: warning: previous external decl of `func_80017778'
+src/800.c:4985: warning: type mismatch with previous implicit declaration
+src/800.c:4981: warning: previous implicit declaration of `func_80017778'
+src/800.c: At top level:
+src/800.c:5049: warning: type mismatch with previous external decl
+src/800.c:4981: warning: previous external decl of `func_80017778'
+src/800.c:5049: warning: type mismatch with previous implicit declaration
+src/800.c:4996: warning: previous implicit declaration of `func_80017778'
+src/800.c:5049: warning: `func_80017778' was previously implicitly declared to return `int'
+src/800.c:5201: warning: type mismatch with previous external decl
+src/800.c:5087: warning: previous external decl of `func_80017930'
+src/800.c:5201: warning: type mismatch with previous implicit declaration
+src/800.c:5095: warning: previous implicit declaration of `func_80017930'
+src/800.c:5201: warning: `func_80017930' was previously implicitly declared to return `int'
+  CC      build/src/sgap_8.o
+  CC      build/src/apicard1.o
+src/800.c: In function `func_80017F14':
+src/800.c:5545: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/snd12.o
+  CC      build/src/libgte13.o
+  CC      build/src/libgte9.o
+src/800.c: In function `func_80018194':
+src/800.c:5615: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+src/800.c: At top level:
+src/800.c:5756: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/libgs4.o
+  CC      build/src/libgs3.o
+  CC      build/src/snd2.o
+  CC      build/src/libgs5.o
+  CC      build/src/apicard7.o
+src/800.c: In function `func_80019064':
+src/800.c:6342: warning: assignment makes integer from pointer without a cast
+  CC      build/src/sgap_5.o
+  CC      build/src/snd3.o
+  CC      build/src/libgte26.o
+  CC      build/src/800_b_o0a.o
+  CC      build/src/libgte25.o
+  CC      build/src/libgte14.o
+  CC      build/src/libgs8.o
+src/800_b_2.c: In function `func_8002F5C8':
+src/800_b_2.c:2440: warning: assignment from incompatible pointer type
+src/800.c: At top level:
+src/800.c:7849: warning: prototype for `func_80018714' follows
+src/800.c:5854: warning: non-prototype definition here
+src/800.c: In function `CdReadSectorReadyCB':
+src/800.c:7890: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+src/800.c:7976: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+  CC      build/src/libgte3.o
+  CC      build/src/libgte30.o
+src/800_b_2.c: At top level:
+src/800_b_2.c:3286: warning: type mismatch with previous external decl
+src/800_b_2.c:2855: warning: previous external decl of `D_800A46D2'
+src/800_b_2.c:3693: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:3693: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:3693: warning: `func_8003D3B4' was previously implicitly declared to return `int'
+src/800.c: At top level:
+src/800.c:9379: warning: type mismatch with previous external decl
+src/800.c:1661: warning: previous external decl of `func_8001C044'
+src/800.c:9379: warning: type mismatch with previous implicit declaration
+src/800.c:1661: warning: previous implicit declaration of `func_8001C044'
+src/800.c:9379: warning: `func_8001C044' was previously implicitly declared to return `int'
+src/800.c: In function `func_8001C5B8':
+src/800.c:9638: warning: type mismatch with previous external decl
+src/800.c:9473: warning: previous external decl of `GsMapModelingData'
+src/800.c: At top level:
+src/800.c:9748: warning: type mismatch with previous external decl
+src/800.c:9473: warning: previous external decl of `GsMapModelingData'
+src/800_b_2.c: In function `func_80031988':
+src/800_b_2.c:4151: warning: cast to pointer from integer of different size
+src/800_b_2.c:4156: warning: cast to pointer from integer of different size
+src/800_b_2.c:4160: warning: cast to pointer from integer of different size
+src/800_b_2.c:4165: warning: cast to pointer from integer of different size
+src/800_b_2.c:4169: warning: cast to pointer from integer of different size
+src/800_b_2.c:4174: warning: cast to pointer from integer of different size
+src/800_b_2.c:4178: warning: cast to pointer from integer of different size
+src/800_b_2.c:4183: warning: cast to pointer from integer of different size
+src/800.c: In function `func_8001CB6C':
+src/800.c:9923: warning: passing arg 1 of `func_8001CF48' makes integer from pointer without a cast
+src/800.c: In function `func_8001D074_impl':
+src/800.c:10147: warning: return makes integer from pointer without a cast
+src/800.c:13779: warning: "gte_ldv0" redefined
+13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:11203: note: this is the location of the previous definition
+11203 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:13796: warning: "gte_stflg" redefined
+13796 | #define gte_stflg(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:11227: note: this is the location of the previous definition
+11227 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:13906: warning: "gte_ldv0" redefined
+13906 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:13779: note: this is the location of the previous definition
+13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:13946: warning: "gte_stflg" redefined
+13946 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:13796: note: this is the location of the previous definition
+13796 | #define gte_stflg(r0)  __asm__ __volatile__( \
+      | 
+src/800_b_2.c: In function `func_80032A74':
+src/800_b_2.c:5529: warning: passing arg 1 of `func_800316F8' makes integer from pointer without a cast
+src/800.c: In function `func_8001F9F8':
+src/800.c:12328: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12337: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12346: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12355: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12364: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12373: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12382: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800_b_2.c: In function `func_80034314':
+src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
+src/800.c: At top level:
+src/800.c:12807: warning: type mismatch with previous external decl
+src/800.c:12591: warning: previous external decl of `D_80074818'
+src/800.c:12808: warning: type mismatch with previous external decl
+src/800.c:12592: warning: previous external decl of `D_80075018'
+src/800.c:16823: warning: "gte_stflg" redefined
+16823 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:16702: note: this is the location of the previous definition
+16702 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:16957: warning: "gte_stflg" redefined
+16957 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:16823: note: this is the location of the previous definition
+16823 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:17149: warning: "gte_stsxy3_g3" redefined
+17149 | #define gte_stsxy3_g3(r0) __asm__ volatile (     \
+      | 
+src/800.c:16849: note: this is the location of the previous definition
+16849 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+src/800.c:17259: warning: "gte_ldv0" redefined
+17259 | #define gte_ldv0(r0)  __asm__ volatile("lwc2 $0, 0(%0);lwc2 $1, 4(%0)" : : "r"(r0))
+      | 
+src/800.c:16930: note: this is the location of the previous definition
+16930 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:17260: warning: "gte_ldv3" redefined
+17260 | #define gte_ldv3(r0, r1, r2) __asm__ volatile(                              \
+      | 
+src/800.c:17101: note: this is the location of the previous definition
+17101 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:17264: warning: "gte_ldrgb" redefined
+17264 | #define gte_ldrgb(r0) __asm__ volatile("lwc2 $6, 0(%0)" : : "r"(r0))
+      | 
+src/800.c:17111: note: this is the location of the previous definition
+17111 | #define gte_ldrgb(r0) __asm__ volatile (         \
+      | 
+src/800.c:17266: warning: "gte_rtpt" redefined
+17266 | #define gte_rtpt()  __asm__ volatile("nop;nop;cop2 0x0280030")
+      | 
+src/800.c:17116: note: this is the location of the previous definition
+17116 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:17267: warning: "gte_rtps" redefined
+17267 | #define gte_rtps()  __asm__ volatile("nop;nop;cop2 0x0180001")
+      | 
+src/800.c:16951: note: this is the location of the previous definition
+16951 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:17268: warning: "gte_nclip" redefined
+17268 | #define gte_nclip() __asm__ volatile("nop;nop;cop2 0x1400006")
+      | 
+src/800.c:17117: note: this is the location of the previous definition
+17117 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:17269: warning: "gte_avsz4" redefined
+17269 | #define gte_avsz4() __asm__ volatile("nop;nop;cop2 0x168002e")
+      | 
+src/800.c:16954: note: this is the location of the previous definition
+16954 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:17270: warning: "gte_ncct" redefined
+17270 | #define gte_ncct()  __asm__ volatile("nop;nop;cop2 0x118043f")
+      | 
+src/800.c:17119: note: this is the location of the previous definition
+17119 | #define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+      | 
+src/800.c:17271: warning: "gte_nccs" redefined
+17271 | #define gte_nccs()  __asm__ volatile("nop;nop;cop2 0x108041b")
+      | 
+src/800.c:16955: note: this is the location of the previous definition
+16955 | #define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+      | 
+src/800.c:17273: warning: "gte_stflg" redefined
+17273 | #define gte_stflg(r0) __asm__ volatile("cfc2 $12, $31;nop;sw $12, 0(%0)" : : "r"(r0) : "$12", "memory")
+      | 
+src/800.c:17121: note: this is the location of the previous definition
+17121 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:17274: warning: "gte_stopz" redefined
+17274 | #define gte_stopz(r0) __asm__ volatile("swc2 $24, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17129: note: this is the location of the previous definition
+17129 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:17275: warning: "gte_stotz" redefined
+17275 | #define gte_stotz(r0) __asm__ volatile("swc2 $7, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17135: note: this is the location of the previous definition
+17135 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:17278: warning: "gte_stsxy3_g4" redefined
+17278 | #define gte_stsxy3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c:16983: note: this is the location of the previous definition
+16983 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17408: warning: "gte_ldv0" redefined
+17408 | #define gte_ldv0(r0) __asm__ volatile (                  \
+      | 
+src/800.c:17259: note: this is the location of the previous definition
+17259 | #define gte_ldv0(r0)  __asm__ volatile("lwc2 $0, 0(%0);lwc2 $1, 4(%0)" : : "r"(r0))
+      | 
+src/800.c:17413: warning: "gte_ldv3" redefined
+17413 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (          \
+      | 
+src/800.c:17260: note: this is the location of the previous definition
+17260 | #define gte_ldv3(r0, r1, r2) __asm__ volatile(                              \
+      | 
+src/800.c:17422: warning: "gte_ldrgb" redefined
+17422 | #define gte_ldrgb(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17264: note: this is the location of the previous definition
+17264 | #define gte_ldrgb(r0) __asm__ volatile("lwc2 $6, 0(%0)" : : "r"(r0))
+      | 
+src/800.c:17426: warning: "gte_rtpt" redefined
+17426 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4A280030")
+      | 
+src/800.c:17266: note: this is the location of the previous definition
+17266 | #define gte_rtpt()  __asm__ volatile("nop;nop;cop2 0x0280030")
+      | 
+src/800.c:17427: warning: "gte_nclip" redefined
+17427 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4B400006")
+      | 
+src/800.c:17268: note: this is the location of the previous definition
+17268 | #define gte_nclip() __asm__ volatile("nop;nop;cop2 0x1400006")
+      | 
+src/800.c:17428: warning: "gte_avsz3" redefined
+17428 | #define gte_avsz3() __asm__ volatile ("nop;nop;.word 0x4B58002D")
+      | 
+src/800.c:17118: note: this is the location of the previous definition
+17118 | #define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+      | 
+src/800.c:17429: warning: "gte_nccs" redefined
+17429 | #define gte_nccs()  __asm__ volatile ("nop;nop;.word 0x4B08041B")
+      | 
+src/800.c:17271: note: this is the location of the previous definition
+17271 | #define gte_nccs()  __asm__ volatile("nop;nop;cop2 0x108041b")
+      | 
+src/800.c:17430: warning: "gte_stflg" redefined
+17430 | #define gte_stflg(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17273: note: this is the location of the previous definition
+17273 | #define gte_stflg(r0) __asm__ volatile("cfc2 $12, $31;nop;sw $12, 0(%0)" : : "r"(r0) : "$12", "memory")
+      | 
+src/800.c:17437: warning: "gte_stopz" redefined
+17437 | #define gte_stopz(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17274: note: this is the location of the previous definition
+17274 | #define gte_stopz(r0) __asm__ volatile("swc2 $24, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17442: warning: "gte_stotz" redefined
+17442 | #define gte_stotz(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17275: note: this is the location of the previous definition
+17275 | #define gte_stotz(r0) __asm__ volatile("swc2 $7, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17606: warning: "gte_rtps" redefined
+17606 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:17267: note: this is the location of the previous definition
+17267 | #define gte_rtps()  __asm__ volatile("nop;nop;cop2 0x0180001")
+      | 
+src/800.c:17607: warning: "gte_rtpt" redefined
+17607 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:17426: note: this is the location of the previous definition
+17426 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4A280030")
+      | 
+src/800.c:17608: warning: "gte_nclip" redefined
+17608 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:17427: note: this is the location of the previous definition
+17427 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4B400006")
+      | 
+src/800.c:17609: warning: "gte_avsz4" redefined
+17609 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:17269: note: this is the location of the previous definition
+17269 | #define gte_avsz4() __asm__ volatile("nop;nop;cop2 0x168002e")
+      | 
+src/800.c:17610: warning: "gte_nccs" redefined
+17610 | #define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+      | 
+src/800.c:17429: note: this is the location of the previous definition
+17429 | #define gte_nccs()  __asm__ volatile ("nop;nop;.word 0x4B08041B")
+      | 
+src/800.c:17644: warning: "gte_stsxy3_g4" redefined
+17644 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17278: note: this is the location of the previous definition
+17278 | #define gte_stsxy3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c: In function `func_800221A8':
+src/800.c:14885: warning: passing arg 1 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 2 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 3 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 4 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:17979: warning: "gte_stsz4" redefined
+17979 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:17282: note: this is the location of the previous definition
+17282 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile(                         \
+      | 
+src/800.c:17987: warning: "gte_strgb2" redefined
+17987 | #define gte_strgb2(r0) __asm__ volatile (         \
+      | 
+src/800.c:17277: note: this is the location of the previous definition
+17277 | #define gte_strgb2(r0) __asm__ volatile("swc2 $22, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:18121: warning: "gte_avsz3" redefined
+18121 | #define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+      | 
+src/800.c:17428: note: this is the location of the previous definition
+17428 | #define gte_avsz3() __asm__ volatile ("nop;nop;.word 0x4B58002D")
+      | 
+src/800.c:18122: warning: "gte_ncct" redefined
+18122 | #define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+      | 
+src/800.c:17270: note: this is the location of the previous definition
+17270 | #define gte_ncct()  __asm__ volatile("nop;nop;cop2 0x118043f")
+      | 
+src/800.c:18163:41: warning: "/*" within comment [-Wcomment]
+18163 |  * NOTE: the target .s carries splat's "/* Handwritten function * /" marker (and marks
+      |                                          
+src/800.c:19349: warning: "gte_stflg" redefined
+19349 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:18248: note: this is the location of the previous definition
+18248 | #define gte_stflg(r0) __asm__ volatile (          \
+      | 
+src/800.c:19369: warning: "gte_stsxy3_g3" redefined
+19369 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+src/800.c:17452: note: this is the location of the previous definition
+17452 | #define gte_stsxy3_g3(r0) __asm__ volatile (             \
+      | 
+src/800.c:19428: warning: "gte_ldv0" redefined
+19428 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:18225: note: this is the location of the previous definition
+18225 | #define gte_ldv0(r0) __asm__ volatile (           \
+      | 
+src/800.c:19433: warning: "gte_ldv3" redefined
+19433 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19335: note: this is the location of the previous definition
+19335 | #define gte_ldv3(r0, r1, r2) __asm__ volatile ( \
+      | 
+src/800.c:19442: warning: "gte_rtps" redefined
+19442 | #define gte_rtps()  __asm__ volatile ("nop;nop;.word 0x4a180001")
+      | 
+src/800.c:18241: note: this is the location of the previous definition
+18241 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:19443: warning: "gte_rtpt" redefined
+19443 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4a280030")
+      | 
+src/800.c:19345: note: this is the location of the previous definition
+19345 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19444: warning: "gte_nclip" redefined
+19444 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4b400006")
+      | 
+src/800.c:19346: note: this is the location of the previous definition
+19346 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19445: warning: "gte_avsz4" redefined
+19445 | #define gte_avsz4() __asm__ volatile ("nop;nop;.word 0x4b68002e")
+      | 
+src/800.c:18244: note: this is the location of the previous definition
+18244 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:19447: warning: "gte_stflg" redefined
+19447 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19349: note: this is the location of the previous definition
+19349 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:19453: warning: "gte_stsxy2" redefined
+19453 | #define gte_stsxy2(r0) __asm__ volatile (        \
+      | 
+src/800.c:17276: note: this is the location of the previous definition
+17276 | #define gte_stsxy2(r0) __asm__ volatile("swc2 $14, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:19457: warning: "gte_stsxy3_g4" redefined
+19457 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17644: note: this is the location of the previous definition
+17644 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19463: warning: "gte_stotz" redefined
+19463 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19363: note: this is the location of the previous definition
+19363 | #define gte_stotz(r0) __asm__ volatile (        \
+      | 
+src/800.c:19467: warning: "gte_stopz" redefined
+19467 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19357: note: this is the location of the previous definition
+19357 | #define gte_stopz(r0) __asm__ volatile (        \
+      | 
+src/800.c:19554: warning: "gte_ldv3" redefined
+19554 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19433: note: this is the location of the previous definition
+19433 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19564: warning: "gte_rtpt" redefined
+19564 | #define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19443: note: this is the location of the previous definition
+19443 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4a280030")
+      | 
+src/800.c:19565: warning: "gte_nclip" redefined
+19565 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19444: note: this is the location of the previous definition
+19444 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4b400006")
+      | 
+src/800.c:19567: warning: "gte_stflg" redefined
+19567 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19447: note: this is the location of the previous definition
+19447 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19575: warning: "gte_stopz" redefined
+19575 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19467: note: this is the location of the previous definition
+19467 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19599: warning: "gte_stotz" redefined
+19599 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19463: note: this is the location of the previous definition
+19463 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c: At top level:
+src/800.c:16744: warning: type mismatch with previous external decl
+src/800.c:16398: warning: previous external decl of `func_80024BC0'
+src/800.c:19722: warning: "gte_ldv3" redefined
+19722 | #define gte_ldv3(r0, r1, r2) __asm__ __volatile__ ( \
+      | 
+src/800.c:19554: note: this is the location of the previous definition
+19554 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19732: warning: "gte_ldv0" redefined
+19732 | #define gte_ldv0(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19428: note: this is the location of the previous definition
+19428 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:19738: warning: "gte_rtpt" redefined
+19738 | #define gte_rtpt() __asm__ __volatile__ ("nop;nop;rtpt")
+      | 
+src/800.c:19564: note: this is the location of the previous definition
+19564 | #define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19739: warning: "gte_rtps" redefined
+19739 | #define gte_rtps() __asm__ __volatile__ ("nop;nop;rtps")
+      | 
+src/800.c:19442: note: this is the location of the previous definition
+19442 | #define gte_rtps()  __asm__ volatile ("nop;nop;.word 0x4a180001")
+      | 
+src/800.c:19740: warning: "gte_nclip" redefined
+19740 | #define gte_nclip() __asm__ __volatile__ ("nop;nop;nclip")
+      | 
+src/800.c:19565: note: this is the location of the previous definition
+19565 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19741: warning: "gte_avsz4" redefined
+19741 | #define gte_avsz4() __asm__ __volatile__ ("nop;nop;avsz4")
+      | 
+src/800.c:19445: note: this is the location of the previous definition
+19445 | #define gte_avsz4() __asm__ volatile ("nop;nop;.word 0x4b68002e")
+      | 
+src/800.c:19743: warning: "gte_stflg" redefined
+19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19567: note: this is the location of the previous definition
+19567 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19751: warning: "gte_stopz" redefined
+19751 | #define gte_stopz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19575: note: this is the location of the previous definition
+19575 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19757: warning: "gte_stotz" redefined
+19757 | #define gte_stotz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19599: note: this is the location of the previous definition
+19599 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19763: warning: "gte_stsxy" redefined
+19763 | #define gte_stsxy(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:18268: note: this is the location of the previous definition
+18268 | #define gte_stsxy(r0) __asm__ volatile (          \
+      | 
+src/800.c:19769: warning: "gte_stsxy3_g4" redefined
+19769 | #define gte_stsxy3_g4(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19457: note: this is the location of the previous definition
+19457 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19777: warning: "gte_stsz4" redefined
+19777 | #define gte_stsz4(r0, r1, r2, r3) __asm__ __volatile__ ( \
+      | 
+src/800.c:17979: note: this is the location of the previous definition
+17979 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:19951: warning: "gte_ldv3" redefined
+19951 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19722: note: this is the location of the previous definition
+19722 | #define gte_ldv3(r0, r1, r2) __asm__ __volatile__ ( \
+      | 
+src/800.c:19966: warning: "gte_rtpt" redefined
+19966 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19738: note: this is the location of the previous definition
+19738 | #define gte_rtpt() __asm__ __volatile__ ("nop;nop;rtpt")
+      | 
+src/800.c:19967: warning: "gte_nclip" redefined
+19967 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19740: note: this is the location of the previous definition
+19740 | #define gte_nclip() __asm__ __volatile__ ("nop;nop;nclip")
+      | 
+src/800.c:19970: warning: "gte_stflg" redefined
+19970 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19743: note: this is the location of the previous definition
+19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19978: warning: "gte_stopz" redefined
+19978 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19751: note: this is the location of the previous definition
+19751 | #define gte_stopz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19992: warning: "gte_stsxy3_g3" redefined
+19992 | #define gte_stsxy3_g3(r0) __asm__ volatile (     \
+      | 
+src/800.c:19369: note: this is the location of the previous definition
+19369 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+src/800.c:20056: warning: "gte_ldv0" redefined
+20056 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:19732: note: this is the location of the previous definition
+19732 | #define gte_ldv0(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20077: warning: "gte_rtps" redefined
+20077 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:19739: note: this is the location of the previous definition
+19739 | #define gte_rtps() __asm__ __volatile__ ("nop;nop;rtps")
+      | 
+src/800.c:20097: warning: "gte_stsxy" redefined
+20097 | #define gte_stsxy(r0) __asm__ volatile (         \
+      | 
+src/800.c:19763: note: this is the location of the previous definition
+19763 | #define gte_stsxy(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20109: warning: "gte_stsz4" redefined
+20109 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:19777: note: this is the location of the previous definition
+19777 | #define gte_stsz4(r0, r1, r2, r3) __asm__ __volatile__ ( \
+      | 
+src/800.c:17032: warning: type mismatch with previous external decl
+src/800.c:16399: warning: previous external decl of `func_80025000'
+src/800.c:20118: warning: "gte_stsxy3_g4" redefined
+20118 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19769: note: this is the location of the previous definition
+19769 | #define gte_stsxy3_g4(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20126: warning: "gte_strgb3_g4" redefined
+20126 | #define gte_strgb3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17280: note: this is the location of the previous definition
+17280 | #define gte_strgb3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c:17491: warning: type mismatch with previous external decl
+src/800.c:16400: warning: previous external decl of `func_80025818'
+jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
+src/800.c:18172: warning: type mismatch with previous external decl
+src/800.c:16401: warning: previous external decl of `func_80026128'
+src/800.c:18330: warning: type mismatch with previous external decl
+src/800.c:16402: warning: previous external decl of `func_800262D8'
+src/800.c:19911: warning: type mismatch with previous external decl
+src/800.c:19896: warning: previous external decl of `func_80027C10'
+src/800.c:19911: warning: type mismatch with previous implicit declaration
+src/800.c:19896: warning: previous implicit declaration of `func_80027C10'
+src/800.c:19911: warning: `func_80027C10' was previously implicitly declared to return `int'
+src/800.c:20603: warning: type mismatch with previous external decl
+src/800.c:1664: warning: previous external decl of `func_80028A48'
+src/800.c:20603: warning: type mismatch with previous implicit declaration
+src/800.c:1664: warning: previous implicit declaration of `func_80028A48'
+src/800.c:20603: warning: `func_80028A48' was previously implicitly declared to return `int'
+src/800.c:20673: warning: type mismatch with previous external decl
+src/800.c:1665: warning: previous external decl of `func_80028C50'
+src/800.c:20673: warning: type mismatch with previous implicit declaration
+src/800.c:1665: warning: previous implicit declaration of `func_80028C50'
+src/800.c:20673: warning: `func_80028C50' was previously implicitly declared to return `int'
+src/800.c:21977: warning: type mismatch with previous external decl
+src/800.c:21934: warning: previous external decl of `func_8002A960'
+src/800.c:21977: warning: type mismatch with previous implicit declaration
+src/800.c:21934: warning: previous implicit declaration of `func_8002A960'
+src/800.c:21977: warning: `func_8002A960' was previously implicitly declared to return `int'
+jtbl_rodata_pads --derive main: 0,0t1,0,0t1,0t1,0,0,0t1,0t1,0,0,0
+{standard input}: Assembler messages:
+{standard input}:26846: Warning: used $at without ".set noat"
+{standard input}:26847: Warning: used $at without ".set noat"
+{standard input}:26848: Warning: used $at without ".set noat"
+{standard input}:26877: Warning: used $at without ".set noat"
+{standard input}:26878: Warning: used $at without ".set noat"
+{standard input}:26879: Warning: used $at without ".set noat"
+{standard input}:27138: Warning: used $at without ".set noat"
+{standard input}:27139: Warning: used $at without ".set noat"
+{standard input}:27140: Warning: used $at without ".set noat"
+{standard input}:27169: Warning: used $at without ".set noat"
+{standard input}:27170: Warning: used $at without ".set noat"
+{standard input}:27171: Warning: used $at without ".set noat"
+  NO_SDK=1: the PsyQ object integrations are SKIPPED — main links its INCLUDE_ASM stub tiles (the fresh-clone leg)
+  LD      build/us/SLUS_007.26.elf
+  OBJCOPY build/us/SLUS_007.26
+[ OK ] build/us/SLUS_007.26
+       sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == config/check.us.sha  (BYTE-IDENTICAL)
+sdk-dual: leg 3 — restoring the default (WITH) state
+splat 0.41.0 (powered by spimdisasm 1.41.0)
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 224023.25it/s]
+  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 644223.16it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Scanning header:   0%|          | 0/2 [00:00<?, ?it/s]Scanning main:   0%|          | 0/2 [00:00<?, ?it/s]  
+Rodata segment '800' may belong to the text segment '800'
+    Based on the usage from the function LzssDecodeSector to the symbol jtbl_80072A38
+
+The rodata segment '800' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0x6324C, .rodata]
+      - [0x63388, .rodata]
+      - [0x633FC, .rodata]
+
+
+Rodata segment '800_b' may belong to the text segment '800_b'
+    Based on the usage from the function func_8002B0B4 to the symbol jtbl_80072E44
+
+Rodata segment '800_b_2' may belong to the text segment '800_b_2'
+    Based on the usage from the function func_8002DC68 to the symbol jtbl_80072F3C
+
+The rodata segment '800_b_2' has jumptables that are not aligned properly file-wise, indicating one or more likely file split.
+File split suggestions for this segment will follow in config yaml format:
+      - [0x63920, .rodata]
+
+
+Rodata segment '800_c' may belong to the text segment '800_c'
+    Based on the usage from the function func_80035270 to the symbol jtbl_800732A0
+Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.70it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.70it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.69it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.69it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 105.45it/s]
+Split 340 KB (82.28%) in defined segments
+              header:     2 KB (0.50%) 1 split, 0 cached
+                   c:   338 KB (81.78%) 85 split, 0 cached
+             unknown:      0 B (0.00%) from unknown bin files
+ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.o, 800_b.o, 800_b_2.o, 63940.data.o, 800_c.o, 63C4C.data.o]; pre=0 text=85 empties=166 bss=85
+  AS      build/asm/data/63C4C.data.o
+  AS      build/asm/header.o
+  AS      build/asm/data/53198.data.o
+  CC      build/src/libgte10.o
+  AS      build/asm/data/63470.data.o
+  AS      build/asm/data/63940.data.o
+  CC      build/src/libgte23.o
+  CC      build/src/libpad1.o
+  CC      build/src/libgte21.o
+  CC      build/src/libgte11.o
+  CC      build/src/libgte17.o
+  CC      build/src/800_c.o
+  CC      build/src/libgs6.o
+  CC      build/src/800b2.o
+  CC      build/src/snd8.o
+  CC      build/src/800_b.o
+  CC      build/src/boot.o
+  CC      build/src/snd5.o
+  CC      build/src/sgap_6.o
+  CC      build/src/apicard5.o
+  CC      build/src/libc2_1.o
+  CC      build/src/libmcrd1.o
+  CC      build/src/gap.o
+  CC      build/src/libgte12.o
+  CC      build/src/snd4.o
+  CC      build/src/snd11.o
+  CC      build/src/libgte27.o
+  CC      build/src/snd7.o
+  CC      build/src/libcd1.o
+  CC      build/src/libgpu2.o
+  CC      build/src/libgs1.o
+  CC      build/src/libgte22.o
+src/boot.c: In function `func_80010ED4':
+src/boot.c:581: warning: passing arg 4 of `CdReadRequest' makes integer from pointer without a cast
+  CC      build/src/libgpu.o
+  CC      build/src/libgte29.o
+  CC      build/src/sgap.o
+  CC      build/src/libgte16.o
+  CC      build/src/libc2_2.o
+  CC      build/src/libetc.o
+  CC      build/src/800.o
+  CC      build/src/snd9.o
+  CC      build/src/libapi2.o
+  CC      build/src/libgte4.o
+jtbl_rodata_pads --derive main: 0,0,0,0,0
+src/800_c.c: In function `func_800387C0':
+src/800_c.c:2776: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2778: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2780: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2785: warning: assignment makes integer from pointer without a cast
+src/800_c.c: At top level:
+src/800_c.c:2855: warning: type mismatch with previous external decl
+src/800_c.c:2544: warning: previous external decl of `func_80038908'
+src/800_c.c:2855: warning: type mismatch with previous implicit declaration
+src/800_c.c:2544: warning: previous implicit declaration of `func_80038908'
+src/800_c.c:2855: warning: `func_80038908' was previously implicitly declared to return `int'
+  CC      build/src/libapi1.o
+  CC      build/src/libgte15.o
+  CC      build/src/apicard4.o
+  CC      build/src/sgap_3.o
+src/800_c.c: In function `func_800391D4':
+src/800_c.c:3394: warning: assignment makes pointer from integer without a cast
+src/800_c.c:3413: warning: assignment makes pointer from integer without a cast
+src/800_c.c: At top level:
+src/800_c.c:3478: warning: type mismatch with previous external decl
+src/800_c.c:3272: warning: previous external decl of `func_80039308'
+  CC      build/src/libgs2.o
+src/800.c:630: warning: type mismatch with previous external decl
+src/800.c:625: warning: previous external decl of `func_80012E0C'
+src/800.c:630: warning: type mismatch with previous implicit declaration
+src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
+  CC      build/src/libgte5.o
+  CC      build/src/libgte18.o
+  CC      build/src/libgte7.o
+src/800.c:686: warning: type mismatch with previous external decl
+src/800.c:683: warning: previous external decl of `func_80013028'
+src/800.c:686: warning: type mismatch with previous implicit declaration
+src/800.c:683: warning: previous implicit declaration of `func_80013028'
+  CC      build/src/libpad2.o
+src/800_c.c:3759: warning: type mismatch with previous external decl
+src/800_c.c:3271: warning: previous external decl of `func_80039B20'
+src/800_c.c:3793: warning: type mismatch with previous external decl
+src/800_c.c:3273: warning: previous external decl of `func_80039C5C'
+src/800.c: In function `func_800134FC':
+src/800.c:980: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800.c: In function `func_8001382C':
+src/800.c:1208: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/libgte2.o
+src/800_c.c:3924: warning: type mismatch with previous external decl
+src/800_c.c:3274: warning: previous external decl of `func_80039F50'
+src/800_c.c: In function `func_80039F50':
+src/800_c.c:3941: warning: passing arg 1 of `func_80039C70' from incompatible pointer type
+src/800.c: In function `func_80013B64':
+src/800.c:1399: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800_c.c: At top level:
+src/800_c.c:3977: warning: type mismatch with previous external decl
+src/800_c.c:3275: warning: previous external decl of `func_8003A098'
+src/800_c.c:3985: warning: type mismatch with previous external decl
+src/800_c.c:3276: warning: previous external decl of `func_8003A0D0'
+src/800_c.c:4000: warning: type mismatch with previous external decl
+src/800_c.c:3277: warning: previous external decl of `func_8003A0E4'
+  CC      build/src/libgte20.o
+  CC      build/src/snd1.o
+src/800_c.c:4056: warning: type mismatch with previous external decl
+src/800_c.c:3278: warning: previous external decl of `func_8003A234'
+  CC      build/src/libgte1.o
+src/800.c: In function `func_800141AC':
+src/800.c:1633: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1633: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/snd6.o
+  CC      build/src/libgte19.o
+src/800.c: At top level:
+src/800.c:1739: warning: type mismatch with previous external decl
+src/800.c:1659: warning: previous external decl of `func_800143AC'
+src/800.c:1739: warning: type mismatch with previous implicit declaration
+src/800.c:1659: warning: previous implicit declaration of `func_800143AC'
+src/800.c:1739: warning: `func_800143AC' was previously implicitly declared to return `int'
+src/800.c:1783: warning: type mismatch with previous external decl
+src/800.c:1660: warning: previous external decl of `func_80014444'
+src/800.c:1783: warning: type mismatch with previous implicit declaration
+src/800.c:1660: warning: previous implicit declaration of `func_80014444'
+src/800.c:1783: warning: `func_80014444' was previously implicitly declared to return `int'
+src/800.c:1850: warning: type mismatch with previous external decl
+src/800.c:1662: warning: previous external decl of `func_80014588'
+src/800.c:1850: warning: type mismatch with previous implicit declaration
+src/800.c:1662: warning: previous implicit declaration of `func_80014588'
+src/800.c:1850: warning: `func_80014588' was previously implicitly declared to return `int'
+src/800.c:2013: warning: type mismatch with previous external decl
+src/800.c:1654: warning: previous external decl of `func_80014928'
+src/800.c:2013: warning: type mismatch with previous implicit declaration
+src/800.c:1654: warning: previous implicit declaration of `func_80014928'
+src/800.c:2013: warning: `func_80014928' was previously implicitly declared to return `int'
+  CC      build/src/libgte6.o
+  CC      build/src/sgap_2.o
+  CC      build/src/apicard3.o
+  CC      build/src/libgte8.o
+  CC      build/src/libmcrd2.o
+src/800.c:2576: warning: type mismatch with previous external decl
+src/800.c:1663: warning: previous external decl of `func_80015310'
+src/800.c:2576: warning: type mismatch with previous implicit declaration
+src/800.c:1663: warning: previous implicit declaration of `func_80015310'
+src/800.c:2576: warning: `func_80015310' was previously implicitly declared to return `int'
+src/800.c: In function `func_80015310':
+src/800.c:2577: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+src/800.c: At top level:
+src/800.c:2601: warning: type mismatch with previous external decl
+src/800.c:2597: warning: previous external decl of `func_800153A4'
+src/800.c:2601: warning: type mismatch with previous implicit declaration
+src/800.c:2597: warning: previous implicit declaration of `func_800153A4'
+src/800.c:2601: warning: `func_800153A4' was previously implicitly declared to return `int'
+src/800.c:2619: warning: type mismatch with previous external decl
+src/800.c:2615: warning: previous external decl of `func_80015424'
+src/800.c:2619: warning: type mismatch with previous implicit declaration
+src/800.c:2615: warning: previous implicit declaration of `func_80015424'
+src/800.c:2619: warning: `func_80015424' was previously implicitly declared to return `int'
+src/800.c: In function `func_8001544C':
+src/800.c:2632: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/apicard2.o
+{standard input}: Assembler messages:
+{standard input}:24: Warning: used $at without ".set noat"
+{standard input}:25: Warning: used $at without ".set noat"
+{standard input}:44: Warning: used $at without ".set noat"
+{standard input}:45: Warning: used $at without ".set noat"
+{standard input}:47: Warning: used $at without ".set noat"
+{standard input}:48: Warning: used $at without ".set noat"
+{standard input}:49: Warning: used $at without ".set noat"
+{standard input}:50: Warning: used $at without ".set noat"
+{standard input}:78: Warning: used $at without ".set noat"
+{standard input}:79: Warning: used $at without ".set noat"
+  CC      build/src/libgte28.o
+  CC      build/src/800_b_2.o
+  CC      build/src/apicard6.o
+src/800.c: In function `func_80015B6C':
+src/800.c:3110: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/libcd2.o
+src/800.c: In function `func_80015F04':
+src/800.c:3447: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+src/800.c: In function `func_80016224':
+src/800.c:3596: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/libgs7.o
+src/800.c: At top level:
+src/800.c:3766: warning: type mismatch with previous external decl
+src/800.c:3597: warning: previous external decl of `D_800AE7BC'
+  CC      build/src/sgap_4.o
+  CC      build/src/snd10.o
+src/800_b_2.c: In function `func_8002D320':
+src/800_b_2.c:662: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:663: warning: type mismatch with previous external decl
+src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
+src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
+src/800.c:4141: warning: type mismatch with previous external decl
+src/800.c:4104: warning: previous external decl of `func_80016A7C'
+src/800.c:4141: warning: type mismatch with previous implicit declaration
+src/800.c:4108: warning: previous implicit declaration of `func_80016A7C'
+src/800.c:4141: warning: `func_80016A7C' was previously implicitly declared to return `int'
+  CC      build/src/libgte24.o
+src/800.c:4572: warning: type mismatch with previous external decl
+src/800.c:4460: warning: previous external decl of `func_80016F18'
+src/800.c:4572: warning: type mismatch with previous implicit declaration
+src/800.c:4470: warning: previous implicit declaration of `func_80016F18'
+src/800.c:4572: warning: `func_80016F18' was previously implicitly declared to return `int'
+  CC      build/src/sgap_8.o
+src/800.c:4755: warning: type mismatch with previous external decl
+src/800.c:4701: warning: previous external decl of `func_80017294'
+src/800.c:4755: warning: type mismatch with previous implicit declaration
+src/800.c:4706: warning: previous implicit declaration of `func_80017294'
+src/800.c:4755: warning: `func_80017294' was previously implicitly declared to return `int'
+  CC      build/src/libgte9.o
+src/800.c:4844: warning: type mismatch with previous external decl
+src/800.c:4792: warning: previous external decl of `func_800173DC'
+src/800.c:4844: warning: type mismatch with previous implicit declaration
+src/800.c:4797: warning: previous implicit declaration of `func_800173DC'
+src/800.c:4844: warning: `func_800173DC' was previously implicitly declared to return `int'
+  CC      build/src/apicard1.o
+src/800.c:4900: warning: type mismatch with previous external decl
+src/800.c:4877: warning: previous external decl of `func_8001751C'
+src/800.c:4900: warning: type mismatch with previous implicit declaration
+src/800.c:4882: warning: previous implicit declaration of `func_8001751C'
+src/800.c:4900: warning: `func_8001751C' was previously implicitly declared to return `int'
+src/800.c: In function `func_80017714':
+src/800.c:4985: warning: type mismatch with previous external decl
+src/800.c:4981: warning: previous external decl of `func_80017778'
+src/800.c:4985: warning: type mismatch with previous implicit declaration
+src/800.c:4981: warning: previous implicit declaration of `func_80017778'
+src/800.c: At top level:
+src/800.c:5049: warning: type mismatch with previous external decl
+src/800.c:4981: warning: previous external decl of `func_80017778'
+src/800.c:5049: warning: type mismatch with previous implicit declaration
+src/800.c:4996: warning: previous implicit declaration of `func_80017778'
+src/800.c:5049: warning: `func_80017778' was previously implicitly declared to return `int'
+jtbl_rodata_pads --derive main: 0t1,0t1,0,0,0,0,0,0
+src/800.c:5201: warning: type mismatch with previous external decl
+src/800.c:5087: warning: previous external decl of `func_80017930'
+src/800.c:5201: warning: type mismatch with previous implicit declaration
+src/800.c:5095: warning: previous implicit declaration of `func_80017930'
+src/800.c:5201: warning: `func_80017930' was previously implicitly declared to return `int'
+  CC      build/src/snd12.o
+src/800.c: In function `func_80017F14':
+src/800.c:5545: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/libgte13.o
+  CC      build/src/libgs4.o
+  CC      build/src/libgs3.o
+src/800.c: In function `func_80018194':
+src/800.c:5615: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/libgs5.o
+src/800.c: At top level:
+src/800.c:5756: warning: type mismatch with previous external decl
+src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/snd2.o
+  CC      build/src/apicard7.o
+  CC      build/src/sgap_5.o
+  CC      build/src/libgte26.o
+  CC      build/src/snd3.o
+src/800.c: In function `func_80019064':
+src/800.c:6342: warning: assignment makes integer from pointer without a cast
+  CC      build/src/800_b_o0a.o
+  CC      build/src/libgte14.o
+  CC      build/src/libgte3.o
+src/800_b_2.c: In function `func_8002F5C8':
+src/800_b_2.c:2440: warning: assignment from incompatible pointer type
+  CC      build/src/libgs8.o
+  CC      build/src/libgte25.o
+  CC      build/src/libgte30.o
+src/800.c: At top level:
+src/800.c:7849: warning: prototype for `func_80018714' follows
+src/800.c:5854: warning: non-prototype definition here
+src/800.c: In function `CdReadSectorReadyCB':
+src/800.c:7890: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+src/800.c:7976: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+src/800_b_2.c: At top level:
+src/800_b_2.c:3286: warning: type mismatch with previous external decl
+src/800_b_2.c:2855: warning: previous external decl of `D_800A46D2'
+src/800_b_2.c:3693: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:3693: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:3693: warning: `func_8003D3B4' was previously implicitly declared to return `int'
+src/800_b_2.c: In function `func_80031988':
+src/800_b_2.c:4151: warning: cast to pointer from integer of different size
+src/800_b_2.c:4156: warning: cast to pointer from integer of different size
+src/800_b_2.c:4160: warning: cast to pointer from integer of different size
+src/800_b_2.c:4165: warning: cast to pointer from integer of different size
+src/800_b_2.c:4169: warning: cast to pointer from integer of different size
+src/800_b_2.c:4174: warning: cast to pointer from integer of different size
+src/800_b_2.c:4178: warning: cast to pointer from integer of different size
+src/800_b_2.c:4183: warning: cast to pointer from integer of different size
+src/800.c: At top level:
+src/800.c:9379: warning: type mismatch with previous external decl
+src/800.c:1661: warning: previous external decl of `func_8001C044'
+src/800.c:9379: warning: type mismatch with previous implicit declaration
+src/800.c:1661: warning: previous implicit declaration of `func_8001C044'
+src/800.c:9379: warning: `func_8001C044' was previously implicitly declared to return `int'
+src/800.c: In function `func_8001C5B8':
+src/800.c:9638: warning: type mismatch with previous external decl
+src/800.c:9473: warning: previous external decl of `GsMapModelingData'
+src/800.c: At top level:
+src/800.c:9748: warning: type mismatch with previous external decl
+src/800.c:9473: warning: previous external decl of `GsMapModelingData'
+src/800.c: In function `func_8001CB6C':
+src/800.c:9923: warning: passing arg 1 of `func_8001CF48' makes integer from pointer without a cast
+src/800_b_2.c: In function `func_80032A74':
+src/800_b_2.c:5529: warning: passing arg 1 of `func_800316F8' makes integer from pointer without a cast
+src/800.c: In function `func_8001D074_impl':
+src/800.c:10147: warning: return makes integer from pointer without a cast
+src/800.c:13779: warning: "gte_ldv0" redefined
+13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:11203: note: this is the location of the previous definition
+11203 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:13796: warning: "gte_stflg" redefined
+13796 | #define gte_stflg(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:11227: note: this is the location of the previous definition
+11227 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:13906: warning: "gte_ldv0" redefined
+13906 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:13779: note: this is the location of the previous definition
+13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
+      | 
+src/800.c:13946: warning: "gte_stflg" redefined
+13946 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:13796: note: this is the location of the previous definition
+13796 | #define gte_stflg(r0)  __asm__ __volatile__( \
+      | 
+src/800_b_2.c: In function `func_80034314':
+src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
+src/800.c: In function `func_8001F9F8':
+src/800.c:12328: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12337: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12346: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12355: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12364: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12373: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c:12382: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800.c: At top level:
+src/800.c:12807: warning: type mismatch with previous external decl
+src/800.c:12591: warning: previous external decl of `D_80074818'
+src/800.c:12808: warning: type mismatch with previous external decl
+src/800.c:12592: warning: previous external decl of `D_80075018'
+src/800.c:16823: warning: "gte_stflg" redefined
+16823 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:16702: note: this is the location of the previous definition
+16702 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:16957: warning: "gte_stflg" redefined
+16957 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:16823: note: this is the location of the previous definition
+16823 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:17149: warning: "gte_stsxy3_g3" redefined
+17149 | #define gte_stsxy3_g3(r0) __asm__ volatile (     \
+      | 
+src/800.c:16849: note: this is the location of the previous definition
+16849 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+src/800.c:17259: warning: "gte_ldv0" redefined
+17259 | #define gte_ldv0(r0)  __asm__ volatile("lwc2 $0, 0(%0);lwc2 $1, 4(%0)" : : "r"(r0))
+      | 
+src/800.c:16930: note: this is the location of the previous definition
+16930 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:17260: warning: "gte_ldv3" redefined
+17260 | #define gte_ldv3(r0, r1, r2) __asm__ volatile(                              \
+      | 
+src/800.c:17101: note: this is the location of the previous definition
+17101 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:17264: warning: "gte_ldrgb" redefined
+17264 | #define gte_ldrgb(r0) __asm__ volatile("lwc2 $6, 0(%0)" : : "r"(r0))
+      | 
+src/800.c:17111: note: this is the location of the previous definition
+17111 | #define gte_ldrgb(r0) __asm__ volatile (         \
+      | 
+src/800.c:17266: warning: "gte_rtpt" redefined
+17266 | #define gte_rtpt()  __asm__ volatile("nop;nop;cop2 0x0280030")
+      | 
+src/800.c:17116: note: this is the location of the previous definition
+17116 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:17267: warning: "gte_rtps" redefined
+17267 | #define gte_rtps()  __asm__ volatile("nop;nop;cop2 0x0180001")
+      | 
+src/800.c:16951: note: this is the location of the previous definition
+16951 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:17268: warning: "gte_nclip" redefined
+17268 | #define gte_nclip() __asm__ volatile("nop;nop;cop2 0x1400006")
+      | 
+src/800.c:17117: note: this is the location of the previous definition
+17117 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:17269: warning: "gte_avsz4" redefined
+17269 | #define gte_avsz4() __asm__ volatile("nop;nop;cop2 0x168002e")
+      | 
+src/800.c:16954: note: this is the location of the previous definition
+16954 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:17270: warning: "gte_ncct" redefined
+17270 | #define gte_ncct()  __asm__ volatile("nop;nop;cop2 0x118043f")
+      | 
+src/800.c:17119: note: this is the location of the previous definition
+17119 | #define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+      | 
+src/800.c:17271: warning: "gte_nccs" redefined
+17271 | #define gte_nccs()  __asm__ volatile("nop;nop;cop2 0x108041b")
+      | 
+src/800.c:16955: note: this is the location of the previous definition
+16955 | #define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+      | 
+src/800.c:17273: warning: "gte_stflg" redefined
+17273 | #define gte_stflg(r0) __asm__ volatile("cfc2 $12, $31;nop;sw $12, 0(%0)" : : "r"(r0) : "$12", "memory")
+      | 
+src/800.c:17121: note: this is the location of the previous definition
+17121 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:17274: warning: "gte_stopz" redefined
+17274 | #define gte_stopz(r0) __asm__ volatile("swc2 $24, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17129: note: this is the location of the previous definition
+17129 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:17275: warning: "gte_stotz" redefined
+17275 | #define gte_stotz(r0) __asm__ volatile("swc2 $7, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17135: note: this is the location of the previous definition
+17135 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:17278: warning: "gte_stsxy3_g4" redefined
+17278 | #define gte_stsxy3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c:16983: note: this is the location of the previous definition
+16983 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17408: warning: "gte_ldv0" redefined
+17408 | #define gte_ldv0(r0) __asm__ volatile (                  \
+      | 
+src/800.c:17259: note: this is the location of the previous definition
+17259 | #define gte_ldv0(r0)  __asm__ volatile("lwc2 $0, 0(%0);lwc2 $1, 4(%0)" : : "r"(r0))
+      | 
+src/800.c:17413: warning: "gte_ldv3" redefined
+17413 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (          \
+      | 
+src/800.c:17260: note: this is the location of the previous definition
+17260 | #define gte_ldv3(r0, r1, r2) __asm__ volatile(                              \
+      | 
+src/800.c:17422: warning: "gte_ldrgb" redefined
+17422 | #define gte_ldrgb(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17264: note: this is the location of the previous definition
+17264 | #define gte_ldrgb(r0) __asm__ volatile("lwc2 $6, 0(%0)" : : "r"(r0))
+      | 
+src/800.c:17426: warning: "gte_rtpt" redefined
+17426 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4A280030")
+      | 
+src/800.c:17266: note: this is the location of the previous definition
+17266 | #define gte_rtpt()  __asm__ volatile("nop;nop;cop2 0x0280030")
+      | 
+src/800.c:17427: warning: "gte_nclip" redefined
+17427 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4B400006")
+      | 
+src/800.c:17268: note: this is the location of the previous definition
+17268 | #define gte_nclip() __asm__ volatile("nop;nop;cop2 0x1400006")
+      | 
+src/800.c:17428: warning: "gte_avsz3" redefined
+17428 | #define gte_avsz3() __asm__ volatile ("nop;nop;.word 0x4B58002D")
+      | 
+src/800.c:17118: note: this is the location of the previous definition
+17118 | #define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+      | 
+src/800.c:17429: warning: "gte_nccs" redefined
+17429 | #define gte_nccs()  __asm__ volatile ("nop;nop;.word 0x4B08041B")
+      | 
+src/800.c:17271: note: this is the location of the previous definition
+17271 | #define gte_nccs()  __asm__ volatile("nop;nop;cop2 0x108041b")
+      | 
+src/800.c:17430: warning: "gte_stflg" redefined
+17430 | #define gte_stflg(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17273: note: this is the location of the previous definition
+17273 | #define gte_stflg(r0) __asm__ volatile("cfc2 $12, $31;nop;sw $12, 0(%0)" : : "r"(r0) : "$12", "memory")
+      | 
+src/800.c:17437: warning: "gte_stopz" redefined
+17437 | #define gte_stopz(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17274: note: this is the location of the previous definition
+17274 | #define gte_stopz(r0) __asm__ volatile("swc2 $24, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17442: warning: "gte_stotz" redefined
+17442 | #define gte_stotz(r0) __asm__ volatile (                 \
+      | 
+src/800.c:17275: note: this is the location of the previous definition
+17275 | #define gte_stotz(r0) __asm__ volatile("swc2 $7, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:17606: warning: "gte_rtps" redefined
+17606 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:17267: note: this is the location of the previous definition
+17267 | #define gte_rtps()  __asm__ volatile("nop;nop;cop2 0x0180001")
+      | 
+src/800.c:17607: warning: "gte_rtpt" redefined
+17607 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:17426: note: this is the location of the previous definition
+17426 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4A280030")
+      | 
+src/800.c:17608: warning: "gte_nclip" redefined
+17608 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:17427: note: this is the location of the previous definition
+17427 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4B400006")
+      | 
+src/800.c:17609: warning: "gte_avsz4" redefined
+17609 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:17269: note: this is the location of the previous definition
+17269 | #define gte_avsz4() __asm__ volatile("nop;nop;cop2 0x168002e")
+      | 
+src/800.c:17610: warning: "gte_nccs" redefined
+17610 | #define gte_nccs()  __asm__ volatile ("nop;nop;nccs")
+      | 
+src/800.c:17429: note: this is the location of the previous definition
+17429 | #define gte_nccs()  __asm__ volatile ("nop;nop;.word 0x4B08041B")
+      | 
+src/800.c:17644: warning: "gte_stsxy3_g4" redefined
+17644 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17278: note: this is the location of the previous definition
+17278 | #define gte_stsxy3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c: In function `func_800221A8':
+src/800.c:14885: warning: passing arg 1 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 2 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 3 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:14885: warning: passing arg 4 of `func_800226C0' makes pointer from integer without a cast
+src/800.c:17979: warning: "gte_stsz4" redefined
+17979 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:17282: note: this is the location of the previous definition
+17282 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile(                         \
+      | 
+src/800.c:17987: warning: "gte_strgb2" redefined
+17987 | #define gte_strgb2(r0) __asm__ volatile (         \
+      | 
+src/800.c:17277: note: this is the location of the previous definition
+17277 | #define gte_strgb2(r0) __asm__ volatile("swc2 $22, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:18121: warning: "gte_avsz3" redefined
+18121 | #define gte_avsz3() __asm__ volatile ("nop;nop;avsz3")
+      | 
+src/800.c:17428: note: this is the location of the previous definition
+17428 | #define gte_avsz3() __asm__ volatile ("nop;nop;.word 0x4B58002D")
+      | 
+src/800.c:18122: warning: "gte_ncct" redefined
+18122 | #define gte_ncct()  __asm__ volatile ("nop;nop;ncct")
+      | 
+src/800.c:17270: note: this is the location of the previous definition
+17270 | #define gte_ncct()  __asm__ volatile("nop;nop;cop2 0x118043f")
+      | 
+src/800.c:18163:41: warning: "/*" within comment [-Wcomment]
+18163 |  * NOTE: the target .s carries splat's "/* Handwritten function * /" marker (and marks
+      |                                          
+src/800.c:19349: warning: "gte_stflg" redefined
+19349 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:18248: note: this is the location of the previous definition
+18248 | #define gte_stflg(r0) __asm__ volatile (          \
+      | 
+src/800.c:19369: warning: "gte_stsxy3_g3" redefined
+19369 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+src/800.c:17452: note: this is the location of the previous definition
+17452 | #define gte_stsxy3_g3(r0) __asm__ volatile (             \
+      | 
+src/800.c:19428: warning: "gte_ldv0" redefined
+19428 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:18225: note: this is the location of the previous definition
+18225 | #define gte_ldv0(r0) __asm__ volatile (           \
+      | 
+src/800.c:19433: warning: "gte_ldv3" redefined
+19433 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19335: note: this is the location of the previous definition
+19335 | #define gte_ldv3(r0, r1, r2) __asm__ volatile ( \
+      | 
+src/800.c:19442: warning: "gte_rtps" redefined
+19442 | #define gte_rtps()  __asm__ volatile ("nop;nop;.word 0x4a180001")
+      | 
+src/800.c:18241: note: this is the location of the previous definition
+18241 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:19443: warning: "gte_rtpt" redefined
+19443 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4a280030")
+      | 
+src/800.c:19345: note: this is the location of the previous definition
+19345 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19444: warning: "gte_nclip" redefined
+19444 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4b400006")
+      | 
+src/800.c:19346: note: this is the location of the previous definition
+19346 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19445: warning: "gte_avsz4" redefined
+19445 | #define gte_avsz4() __asm__ volatile ("nop;nop;.word 0x4b68002e")
+      | 
+src/800.c:18244: note: this is the location of the previous definition
+18244 | #define gte_avsz4() __asm__ volatile ("nop;nop;avsz4")
+      | 
+src/800.c:19447: warning: "gte_stflg" redefined
+19447 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19349: note: this is the location of the previous definition
+19349 | #define gte_stflg(r0) __asm__ volatile (        \
+      | 
+src/800.c:19453: warning: "gte_stsxy2" redefined
+19453 | #define gte_stsxy2(r0) __asm__ volatile (        \
+      | 
+src/800.c:17276: note: this is the location of the previous definition
+17276 | #define gte_stsxy2(r0) __asm__ volatile("swc2 $14, 0(%0)" : : "r"(r0) : "memory")
+      | 
+src/800.c:19457: warning: "gte_stsxy3_g4" redefined
+19457 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17644: note: this is the location of the previous definition
+17644 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19463: warning: "gte_stotz" redefined
+19463 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19363: note: this is the location of the previous definition
+19363 | #define gte_stotz(r0) __asm__ volatile (        \
+      | 
+src/800.c:19467: warning: "gte_stopz" redefined
+19467 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19357: note: this is the location of the previous definition
+19357 | #define gte_stopz(r0) __asm__ volatile (        \
+      | 
+src/800.c:19554: warning: "gte_ldv3" redefined
+19554 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19433: note: this is the location of the previous definition
+19433 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19564: warning: "gte_rtpt" redefined
+19564 | #define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19443: note: this is the location of the previous definition
+19443 | #define gte_rtpt()  __asm__ volatile ("nop;nop;.word 0x4a280030")
+      | 
+src/800.c:19565: warning: "gte_nclip" redefined
+19565 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19444: note: this is the location of the previous definition
+19444 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4b400006")
+      | 
+src/800.c:19567: warning: "gte_stflg" redefined
+19567 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19447: note: this is the location of the previous definition
+19447 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19575: warning: "gte_stopz" redefined
+19575 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19467: note: this is the location of the previous definition
+19467 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19599: warning: "gte_stotz" redefined
+19599 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19463: note: this is the location of the previous definition
+19463 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c: At top level:
+src/800.c:16744: warning: type mismatch with previous external decl
+src/800.c:16398: warning: previous external decl of `func_80024BC0'
+src/800.c:19722: warning: "gte_ldv3" redefined
+19722 | #define gte_ldv3(r0, r1, r2) __asm__ __volatile__ ( \
+      | 
+src/800.c:19554: note: this is the location of the previous definition
+19554 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19732: warning: "gte_ldv0" redefined
+19732 | #define gte_ldv0(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19428: note: this is the location of the previous definition
+19428 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:19738: warning: "gte_rtpt" redefined
+19738 | #define gte_rtpt() __asm__ __volatile__ ("nop;nop;rtpt")
+      | 
+src/800.c:19564: note: this is the location of the previous definition
+19564 | #define gte_rtpt() __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19739: warning: "gte_rtps" redefined
+19739 | #define gte_rtps() __asm__ __volatile__ ("nop;nop;rtps")
+      | 
+src/800.c:19442: note: this is the location of the previous definition
+19442 | #define gte_rtps()  __asm__ volatile ("nop;nop;.word 0x4a180001")
+      | 
+src/800.c:19740: warning: "gte_nclip" redefined
+19740 | #define gte_nclip() __asm__ __volatile__ ("nop;nop;nclip")
+      | 
+src/800.c:19565: note: this is the location of the previous definition
+19565 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19741: warning: "gte_avsz4" redefined
+19741 | #define gte_avsz4() __asm__ __volatile__ ("nop;nop;avsz4")
+      | 
+src/800.c:19445: note: this is the location of the previous definition
+19445 | #define gte_avsz4() __asm__ volatile ("nop;nop;.word 0x4b68002e")
+      | 
+src/800.c:19743: warning: "gte_stflg" redefined
+19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19567: note: this is the location of the previous definition
+19567 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:19751: warning: "gte_stopz" redefined
+19751 | #define gte_stopz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19575: note: this is the location of the previous definition
+19575 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19757: warning: "gte_stotz" redefined
+19757 | #define gte_stotz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19599: note: this is the location of the previous definition
+19599 | #define gte_stotz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19763: warning: "gte_stsxy" redefined
+19763 | #define gte_stsxy(r0) __asm__ __volatile__ ( \
+      | 
+jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
+src/800.c:18268: note: this is the location of the previous definition
+18268 | #define gte_stsxy(r0) __asm__ volatile (          \
+      | 
+src/800.c:19769: warning: "gte_stsxy3_g4" redefined
+19769 | #define gte_stsxy3_g4(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19457: note: this is the location of the previous definition
+19457 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19777: warning: "gte_stsz4" redefined
+19777 | #define gte_stsz4(r0, r1, r2, r3) __asm__ __volatile__ ( \
+      | 
+src/800.c:17979: note: this is the location of the previous definition
+17979 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:19951: warning: "gte_ldv3" redefined
+19951 | #define gte_ldv3(r0, r1, r2) __asm__ volatile (  \
+      | 
+src/800.c:19722: note: this is the location of the previous definition
+19722 | #define gte_ldv3(r0, r1, r2) __asm__ __volatile__ ( \
+      | 
+src/800.c:19966: warning: "gte_rtpt" redefined
+19966 | #define gte_rtpt()  __asm__ volatile ("nop;nop;rtpt")
+      | 
+src/800.c:19738: note: this is the location of the previous definition
+19738 | #define gte_rtpt() __asm__ __volatile__ ("nop;nop;rtpt")
+      | 
+src/800.c:19967: warning: "gte_nclip" redefined
+19967 | #define gte_nclip() __asm__ volatile ("nop;nop;nclip")
+      | 
+src/800.c:19740: note: this is the location of the previous definition
+19740 | #define gte_nclip() __asm__ __volatile__ ("nop;nop;nclip")
+      | 
+src/800.c:19970: warning: "gte_stflg" redefined
+19970 | #define gte_stflg(r0) __asm__ volatile (         \
+      | 
+src/800.c:17032: warning: type mismatch with previous external decl
+src/800.c:16399: warning: previous external decl of `func_80025000'
+src/800.c:19743: note: this is the location of the previous definition
+19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19978: warning: "gte_stopz" redefined
+19978 | #define gte_stopz(r0) __asm__ volatile (         \
+      | 
+src/800.c:19751: note: this is the location of the previous definition
+19751 | #define gte_stopz(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:19992: warning: "gte_stsxy3_g3" redefined
+19992 | #define gte_stsxy3_g3(r0) __asm__ volatile (     \
+      | 
+src/800.c:19369: note: this is the location of the previous definition
+19369 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
+      | 
+src/800.c:20056: warning: "gte_ldv0" redefined
+20056 | #define gte_ldv0(r0) __asm__ volatile (          \
+      | 
+src/800.c:19732: note: this is the location of the previous definition
+19732 | #define gte_ldv0(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20077: warning: "gte_rtps" redefined
+20077 | #define gte_rtps()  __asm__ volatile ("nop;nop;rtps")
+      | 
+src/800.c:19739: note: this is the location of the previous definition
+19739 | #define gte_rtps() __asm__ __volatile__ ("nop;nop;rtps")
+      | 
+src/800.c:20097: warning: "gte_stsxy" redefined
+20097 | #define gte_stsxy(r0) __asm__ volatile (         \
+      | 
+src/800.c:19763: note: this is the location of the previous definition
+19763 | #define gte_stsxy(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20109: warning: "gte_stsz4" redefined
+20109 | #define gte_stsz4(r0, r1, r2, r3) __asm__ volatile ( \
+      | 
+src/800.c:19777: note: this is the location of the previous definition
+19777 | #define gte_stsz4(r0, r1, r2, r3) __asm__ __volatile__ ( \
+      | 
+src/800.c:20118: warning: "gte_stsxy3_g4" redefined
+20118 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:19769: note: this is the location of the previous definition
+19769 | #define gte_stsxy3_g4(r0) __asm__ __volatile__ ( \
+      | 
+src/800.c:20126: warning: "gte_strgb3_g4" redefined
+20126 | #define gte_strgb3_g4(r0) __asm__ volatile (     \
+      | 
+src/800.c:17280: note: this is the location of the previous definition
+17280 | #define gte_strgb3_g4(r0) __asm__ volatile(                                 \
+      | 
+src/800.c:17491: warning: type mismatch with previous external decl
+src/800.c:16400: warning: previous external decl of `func_80025818'
+src/800.c:18172: warning: type mismatch with previous external decl
+src/800.c:16401: warning: previous external decl of `func_80026128'
+src/800.c:18330: warning: type mismatch with previous external decl
+src/800.c:16402: warning: previous external decl of `func_800262D8'
+src/800.c:19911: warning: type mismatch with previous external decl
+src/800.c:19896: warning: previous external decl of `func_80027C10'
+src/800.c:19911: warning: type mismatch with previous implicit declaration
+src/800.c:19896: warning: previous implicit declaration of `func_80027C10'
+src/800.c:19911: warning: `func_80027C10' was previously implicitly declared to return `int'
+src/800.c:20603: warning: type mismatch with previous external decl
+src/800.c:1664: warning: previous external decl of `func_80028A48'
+src/800.c:20603: warning: type mismatch with previous implicit declaration
+src/800.c:1664: warning: previous implicit declaration of `func_80028A48'
+src/800.c:20603: warning: `func_80028A48' was previously implicitly declared to return `int'
+src/800.c:20673: warning: type mismatch with previous external decl
+src/800.c:1665: warning: previous external decl of `func_80028C50'
+src/800.c:20673: warning: type mismatch with previous implicit declaration
+src/800.c:1665: warning: previous implicit declaration of `func_80028C50'
+src/800.c:20673: warning: `func_80028C50' was previously implicitly declared to return `int'
+src/800.c:21977: warning: type mismatch with previous external decl
+src/800.c:21934: warning: previous external decl of `func_8002A960'
+src/800.c:21977: warning: type mismatch with previous implicit declaration
+src/800.c:21934: warning: previous implicit declaration of `func_8002A960'
+src/800.c:21977: warning: `func_8002A960' was previously implicitly declared to return `int'
+jtbl_rodata_pads --derive main: 0,0t1,0,0t1,0t1,0,0,0t1,0t1,0,0,0
+{standard input}: Assembler messages:
+{standard input}:26846: Warning: used $at without ".set noat"
+{standard input}:26847: Warning: used $at without ".set noat"
+{standard input}:26848: Warning: used $at without ".set noat"
+{standard input}:26877: Warning: used $at without ".set noat"
+{standard input}:26878: Warning: used $at without ".set noat"
+{standard input}:26879: Warning: used $at without ".set noat"
+{standard input}:27138: Warning: used $at without ".set noat"
+{standard input}:27139: Warning: used $at without ".set noat"
+{standard input}:27140: Warning: used $at without ".set noat"
+{standard input}:27169: Warning: used $at without ".set noat"
+{standard input}:27170: Warning: used $at without ".set noat"
+{standard input}:27171: Warning: used $at without ".set noat"
+integrate libcd: 18 objects in 2 block(s) -> stubs ['libcd1', 'libcd2']; 18 NOLOAD sections; 45 externals -> build/psyq/libcd_externals.ld
+  .. GS_001.o: .bss split ×6: .bss [0x0000,0x0028) @0x80078810 · .bss2 [0x0028,0x0030) @0x800a4f3c (cut at `PSDBASEX`) · .bss3 [0x0030,0x0038) @0x800ae820 (cut at `CLIP2`) · .bss4 [0x0038,0x003c) @0x800a4f40 (cut at `PSDBASEY`) · .bss5 [0x003c,0x0048) @0x800a5e50 (cut at `POSITION`) · .bss6 [0x0048,0x00c2) @0x800a6438 (cut at `GsDRAWENV`) — scattered commons tiled at link-prepare
+integrate libgs_used: 34 objects in 8 block(s) -> stubs ['libgs1', 'libgs2', 'libgs3', 'libgs4', 'libgs5', 'libgs6', 'libgs7', 'libgs8']; 18 NOLOAD sections; 179 externals -> build/psyq/libgs_externals.ld
+integrate libetc: 5 objects in 1 block(s) -> stubs ['libetc']; 8 NOLOAD sections; 7 externals -> build/psyq/libetc_externals.ld
+  .. SYS.o: .bss split ×2: .bss [0x0000,0x0144) @0x80078830 · .bss2 [0x0144,0x1944) @0x800c5510 (cut at `_que`) — scattered commons tiled at link-prepare
+integrate libgpu: 3 objects in 2 block(s) -> stubs ['libgpu', 'libgpu2']; 5 NOLOAD sections; 23 externals -> build/psyq/libgpu_externals.ld
+integrate libmcrd: 2 objects in 2 block(s) -> stubs ['libmcrd1', 'libmcrd2']; 6 NOLOAD sections; 37 externals -> build/psyq/libmcrd_externals.ld
+integrate libc2: 17 objects in 2 block(s) -> stubs ['libc2_1', 'libc2_2']; 6 NOLOAD sections; 32 externals -> build/psyq/libc2_externals.ld
+  .. SMP_06.o @0x80049600 (4 ins) is NESTED inside SMP_05.o — sub-pattern, not wired
+integrate libgte: 70 objects in 30 block(s) -> stubs ['libgte1', 'libgte2', 'libgte3', 'libgte4', 'libgte5', 'libgte6', 'libgte7', 'libgte8', 'libgte9', 'libgte10', 'libgte11', 'libgte12', 'libgte13', 'libgte14', 'libgte15', 'libgte16', 'libgte17', 'libgte18', 'libgte19', 'libgte20', 'libgte21', 'libgte22', 'libgte23', 'libgte24', 'libgte25', 'libgte26', 'libgte27', 'libgte28', 'libgte29', 'libgte30']; 6 NOLOAD sections; 24 externals -> build/psyq/libgte_externals.ld
+  .. VM_F.o: .bss split ×2: .bss [0x0000,0x0508) @0x80079580 · .bss2 [0x0508,0x06d8) @0x800b9b58 (cut at `_svm_sreg_buf`) — scattered commons tiled at link-prepare
+integrate snd_used: 63 objects in 12 block(s) -> stubs ['snd1', 'snd2', 'snd3', 'snd4', 'snd5', 'snd6', 'snd7', 'snd8', 'snd9', 'snd10', 'snd11', 'snd12']; 13 NOLOAD sections; 106 externals -> build/psyq/snd_externals.ld
+integrate apicard_used: 26 objects in 7 block(s) -> stubs ['apicard1', 'apicard2', 'apicard3', 'apicard4', 'apicard5', 'apicard6', 'apicard7']; 7 NOLOAD sections; 0 externals -> build/psyq/apicard_externals.ld
+integrate libapi42: 23 objects in 2 block(s) -> stubs ['libapi1', 'libapi2']; 1 NOLOAD sections; 2 externals -> build/psyq/libapi42_externals.ld
+integrate libpad421: 7 objects in 2 block(s) -> stubs ['libpad1', 'libpad2']; 7 NOLOAD sections; 7 externals -> build/psyq/libpad_externals.ld
+  LD      build/us/SLUS_007.26.elf
+  OBJCOPY build/us/SLUS_007.26
+[ OK ] build/us/SLUS_007.26
+       sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == config/check.us.sha  (BYTE-IDENTICAL)
+sdk-dual: OK — main 143dbb89f34491258bbc27810d0a12ec8b43a8dd byte-identical WITH and WITHOUT the PsyQ objects (maps: .run/P33/verify/main_with_sdk.map, main_no_sdk.map)
+EXIT=0  wall=28s  finished: 2026-09-07T03:01:46Z

@@ -63,9 +63,21 @@ The project's own full run is recorded, log by log, under `.run/P33/verify/` (tr
 `EXIT=<rc>` and a timestamp, plus `SUMMARY.md`), produced by `tools/verify_contract.sh` on the committed tree. The table
 below is copied from that `SUMMARY.md`; regenerate it with the script, never by hand.
 
-| # | Step | Result | Log |
-|---|---|---|---|
-| — | *(pending: filled by the Phase-33 A5 run — see `phase-ends/CURRENT_PHASE.md`)* | | |
+- **Tree:** `commit:4028` (2026-09-06) · **Host:** Linux 6.18.33.1-microsoft-standard-WSL2, 32 CPUs, JOBS=16 · **Run:** 2026-09-07T03:11:58Z
+
+| # | Step | EXIT | wall | contract line |
+|---|---|---|---|---|
+| 00 | `tree` | 0 | 1s | HEAD commit:4028 2026-09-06 fix(phase-33): audit_frontier's LINKED-stub count reads the Stub records (the refer |
+| 01 | `check-env` | 0 | 0s | check-env: OK — Phase-4 toolchain ready. |
+| 02 | `family-hseq` | 0 | 11s | family_hseq regenerated: 217 binaries scanned, 0 open instances |
+| 03 | `r22-clean-fleet` | 0 | 157s | check-all: 218 passed, 0 failed of 218 |
+| 04 | `sdk-dual` | 0 | 28s | sdk-dual: OK — main 143dbb89f34491258bbc27810d0a12ec8b43a8dd byte-identical WITH and WITHOUT the PsyQ objects (maps: .run/P33/verify/main_ |
+| 05 | `tools-health` | 0 | 356s | tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green. |
+| 06 | `audit-frontier` | 0 | 9s | audit-frontier: reference = corpus.stubs over 218 binaries -> 1258 open stubs |
+| 07 | `audit-disc` | 0 | 36s | UNCLAIMED code payloads: 0 |
+| 08 | `report` | 0 | 211s | FLEET distinct-code(uniq): 5820205 / 5820205 = 100.0%   (90984/90984 unique fns; the DISTINCT-RE number) |
+
+Every `NN_<step>.log` is tracked under `.run/P33/verify/`; the tools-health log also carries `sig-main-oracle: main is now INDEPENDENT — 0 in-domain stubs, 0 PHANTOM, 0 TRUNCATED, 0 PAD-TAIL` and the report `INCLUDE_ASM stubs : 0`, `Open near-misses: 0`. Total wall 14 min on 32 CPUs.
 
 The same run was performed after every banked batch of Phases 30–32 (218/218 at every one; the P32 close run is
 `.run/P32/t4e/r22_check.log`) and the history-rewrite of the public flip is followed by one more (C8) on the adopted tree —

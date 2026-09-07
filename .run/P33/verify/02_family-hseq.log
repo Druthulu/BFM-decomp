@@ -1,0 +1,9 @@
+# family-hseq
+# cmd: step_family
+# started: 2026-09-07T02:58:30Z
+fleet (OVERLAYS ONLY — not comparable to `make report`; excludes main + resident): 100.0% fn / 100.0% instr / 100.0% distinct
+tailcheck: 0 families ≥2, 0 substantial / 0 ins   [Task-2 snapshot 2026-07-11: 663 / 186 / 1.85M — this number SHRINKS as banking proceeds; it is a point-in-time reference, NOT an invariant to match]
+frontier: 0 target families (0 substantial, 0 w/ matched sib) + 0 singletons
+-> .run/family_hseq.json + docs/family-hseq.md
+family_hseq regenerated: 217 binaries scanned, 0 open instances
+EXIT=0  wall=11s  finished: 2026-09-07T02:58:41Z

@@ -1,0 +1,29 @@
+# audit-disc
+# cmd: make audit-disc
+# started: 2026-09-07T03:07:51Z
+.venv/bin/python tools/disc_audit.py
+disc: 416,021,760 bytes across 4 tracks; onboarded payload hashes: 213
+ISO root files: 27
+  ! LIST.CD: TOC walk failed (sub-file 0 [2048:24576] out of bounds (.CD is 4096 bytes)) — whole file booked as data
+  onboarded-code             50,878,697
+  unclaimed-code                      0
+  classified-data           134,017,708
+  audio-video               184,338,000
+  filesystem-metadata        46,787,355
+  TOTAL                     416,021,760   disc 416,021,760   residue 0
+L2 disagreements (review queue): 80
+    SC06.CD/6 entry=0 type=4 854,543 B  L1=data L2=code fns=3 0.87/0.0118
+    SC03.CD/6 entry=0 type=4 849,759 B  L1=data L2=code fns=3 0.87/0.0130
+    SC07.CD/6 entry=1 type=4 844,311 B  L1=data L2=code fns=3 0.84/0.0116
+    SC01.CD/9 entry=0 type=4 832,263 B  L1=data L2=code fns=3 0.85/0.0121
+    SC01.CD/1 entry=0 type=4 831,599 B  L1=data L2=code fns=3 0.74/0.0119
+    SC04.CD/11 entry=0 type=4 824,663 B  L1=data L2=code fns=3 0.79/0.0136
+    SC02.CD/17 entry=0 type=4 818,143 B  L1=data L2=code fns=3 0.89/0.0134
+    SC03.CD/28 entry=0 type=4 804,015 B  L1=data L2=code fns=3 0.88/0.0133
+    SC02.CD/11 entry=0 type=4 801,063 B  L1=data L2=code fns=3 0.89/0.0145
+    SC03.CD/7 entry=0 type=4 799,087 B  L1=data L2=code fns=3 0.88/0.0131
+    SC03.CD/14 entry=0 type=4 798,439 B  L1=data L2=code fns=3 0.87/0.0135
+    SC03.CD/15 entry=0 type=4 798,439 B  L1=data L2=code fns=3 0.87/0.0135
+UNCLAIMED code payloads: 0
+ledger -> docs/disc-ledger.md
+EXIT=0  wall=36s  finished: 2026-09-07T03:08:27Z

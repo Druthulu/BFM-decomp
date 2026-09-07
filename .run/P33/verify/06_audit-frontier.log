@@ -1,0 +1,17 @@
+# audit-frontier
+# cmd: make audit-frontier
+# started: 2026-09-07T03:07:42Z
+.venv/bin/python tools/audit_frontier.py
+audit-frontier: reference = corpus.stubs over 218 binaries -> 1258 open stubs
+  family_hseq    {'claimed_unmatched_instances': 0, 'members_still_open_per_corpus': 0}
+  worklist       {'claimed_n_stubs': 79, 'rows': 79, 'rows_already_banked': 0}
+  backlog        {'rows': 0, 'rows_already_banked': 0}
+  fuel_manifest  {'targets': 23, 'targets_already_banked': 0}
+
+All views agree with the corpus oracle.
+
+DENOMINATOR (R34/R36): agreement above says nothing about code never onboarded, so:
+  stubs 1258 total, 1258 inside main's LINKED (Sony-object) regions by design, 0 game-code stubs open
+  disc: 0 UNCLAIMED of 220 code payloads (docs/disc-ledger.md, from make audit-disc)
+  main's build-derived boundary sig: present (.run/sig.main.jsonl; the Ghidra sig is the second, independent oracle)
+EXIT=0  wall=9s  finished: 2026-09-07T03:07:51Z

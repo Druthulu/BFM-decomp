@@ -1,0 +1,21 @@
+verify_contract: recorded run -> /home/musashi/bfm-decomp/.run/P33/verify (HEAD commit:4028)
+verify_contract: step 00 tree: step_tree
+verify_contract: step 00 tree OK (rc=0, 1 s)
+verify_contract: step 01 check-env: make check-env
+verify_contract: step 01 check-env OK (rc=0, 0 s)
+verify_contract: step 02 family-hseq: step_family
+verify_contract: step 02 family-hseq OK (rc=0, 11 s)
+verify_contract: step 03 r22-clean-fleet: step_fleet
+verify_contract: step 03 r22-clean-fleet OK (rc=0, 157 s)
+verify_contract: step 04 sdk-dual: step_sdk_dual
+verify_contract: step 04 sdk-dual OK (rc=0, 28 s)
+verify_contract: step 05 tools-health: step_tools_health
+verify_contract: step 05 tools-health OK (rc=0, 356 s)
+verify_contract: step 06 audit-frontier: make audit-frontier
+verify_contract: step 06 audit-frontier OK (rc=0, 9 s)
+verify_contract: step 07 audit-disc: make audit-disc
+verify_contract: step 07 audit-disc OK (rc=0, 36 s)
+verify_contract: step 08 report: step_report
+verify_contract: step 08 report OK (rc=0, 211 s)
+verify_contract: SUMMARY written: /home/musashi/bfm-decomp/.run/P33/verify/SUMMARY.md
+verify_contract: PASS
