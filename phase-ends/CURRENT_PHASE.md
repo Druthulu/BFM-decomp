@@ -611,7 +611,11 @@ plan's C11 → G1 order because it depends on nothing gated — recorded as a se
 chain on Drew's side**: `tools/public_rewrite/probe_github.sh` PASS → C10 the flip → E1 → E2 → D3 outward → the wiki push →
 then Claude's **C11** (aftercare) → **G2** (the PhaseEnd, Tier 1, WAIT for gate 2). If the probe still fails, there is
 nothing to draft: ask Drew about the Support ticket and stop. Rebuild the harness task list (40 items, R28) marking A1–A5,
-B1–B9/C3, C1–C9, D1–D5, F1–F3, E3–E6, G1 completed and C10 in progress. **Every commit cites NEW
+B1–B9/C3, C1–C9, D1–D5, F1–F3, E3–E6, G1 completed and C10 in progress. **Drew's to-do at the S88 close, in order:** (1) push the S88 commits (`git push origin main`, a fast-forward; then read the
+Actions tab); (2) run the local gc `git reflog expire --expire-unreachable=now --all && git gc --prune=now` (§2); (3) confirm or
+file the GitHub Support ticket (runbook §11) and run `tools/public_rewrite/probe_github.sh` daily until PASS; (4) create
+`Druthulu/xsig` EMPTY and push `.run/P33/xsig-repo` (§3.2); (5) fork decomp-permuter, push `reloc-masked-scorer`, open the PR
+and file the issue (§3.2, `docs/permuter-ils.md` §2–§3); (6) after PASS: the flip chain (§3.3). **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
@@ -632,17 +636,17 @@ upstream's baseline, the real permuter 4 → 0 in 256 iterations where the defau
 to his fork and opens the PR + files the issue; `bf002f84d2`), **E6 (S88: `docs/matching-drafter-pipeline.md` — the
 local-model tier's pipeline, its measured arc, the portable lessons, what is NOT published; `98e5846662`), **G1 (S88:
 `docs/gen3-handoff.md` — the derived census incl. 44,243 register pins, the invariant, the levers, shiftability scoped, the
-parked ideas, the governance for Gen3; the commit that carries this block).** **In progress (Drew, C10):** the GitHub
+parked ideas, the governance for Gen3; `583ec85d6e`).** **In progress (Drew, C10):** the GitHub
 Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was never confirmed to S88; ask) and the daily
 `tools/public_rewrite/probe_github.sh` until it prints PASS (S88's run: **31 of 33 old hashes still ALIVE = the S87 baseline;
 no purge yet**). **Remaining (6):** nothing more that Claude can do before the flip; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
 — Drew), E2 (Archipelago — Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
-(Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare), G1
-(`docs/gen3-handoff.md`), G2 (the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
+(Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare) and G2
+(the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
 
 ### 2. Facts the remaining tasks depend on (measured S88; verify if in doubt, R14)
 - **Repository state:** `main` = the rewritten history (4,031 commits) + the S87 tip commits (C7 → F2) + the S88 commits
-  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, `50c1b69e4d` E3, `9c4d32d651` E4, `bf002f84d2` E5, `98e5846662` E6, the G1 commit = HEAD); `origin/main` == the F2 commit
+  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, `50c1b69e4d` E3, `9c4d32d651` E4, `bf002f84d2` E5, `98e5846662` E6, `583ec85d6e` G1, the S88 checkpoint commit = HEAD); `origin/main` == the F2 commit
   `5e57e88de2` — **Drew pushed the S87 tip on 2026-09-07 07:23Z; the S88 commits are NOT pushed** (a normal fast-forward push;
   R6). The first-ever GitHub runs of both workflows were GREEN on that push (`no-rom` 1 m 35 s, run 34095194524; `progress`
   15 s, run 34095194479) — read the Actions tab again after the next push, fix red, never claim green unseen (P9). The repo is
@@ -668,7 +672,7 @@ no purge yet**). **Remaining (6):** nothing more that Claude can do before the f
 - **Contract state:** unchanged since C8 — `docs/verification.md` §2 quotes the C8 run (218/218 clean fleet, sdk-dual OK,
   tools-health OK 0 PAD-TAIL, UNCLAIMED 0, report 100.00/100.0/100.0, stubs 0). `make tools-health` at the F3 close (S88, after
   the `wiki_render --selftest` line was added): **`tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green.` (EXIT=0)** (`.run/P33/f3_tools_health.log`). `tools/doc_links.py
-  --strict` PASS: 40 documents, 290 relative links, 0 pending, 0 broken; `docs/doc_links_pending.txt` is EMPTY — keep it so;
+  --strict` PASS at the S88 close: 45 documents, 318 relative links, 0 pending, 0 broken; `docs/doc_links_pending.txt` is EMPTY — keep it so;
   any new forward link must be listed there with its creating task (gate 2 requires empty). `tools/wiki_render.py --selftest`
   12/12; `tools/wiki_sync.sh` dry run: 25 pages, 264 links rewritten, "not clonable yet … dry run OK" (exit 0).
   `tools/gccmap_cites.py --check` OK / `--verify` 0 disagreements / `--controls` 6/6 (needs both `tools/reference/` trees —
@@ -700,13 +704,12 @@ no purge yet**). **Remaining (6):** nothing more that Claude can do before the f
    Druthulu/BFM-decomp --limit 4`) · `git count-objects -v` (packs: 1 after Drew's gc; 30 = not yet run) · `df -h ~` ·
    `.venv/bin/python tools/doc_links.py --strict` (PASS) · ask Drew: pushed? gc run? ticket filed? latest probe result?
    (`tools/public_rewrite/probe_github.sh` — ~1 min, gh-authenticated, safe to run from Claude since S88).
-2. **E3, E4 and E5 are DONE** (see the log). Outward actions pending on Drew: E4 — create `Druthulu/xsig` EMPTY, then
+2. **E3, E4 and E5 are DONE** (see the log; every one in full scope). Outward actions pending on Drew: E4 — create `Druthulu/xsig` EMPTY, then
    `git -C .run/P33/xsig-repo remote add origin https://github.com/Druthulu/xsig.git && git -C .run/P33/xsig-repo push -u origin
    main`; E5 — fork `simonlindholm/decomp-permuter`, `git -C .run/P33/permuter-upstream remote add fork <fork-url> && git -C
    .run/P33/permuter-upstream push -u fork reloc-masked-scorer`, open the PR (the commit message is the description) and
-   file the issue from `docs/permuter-ils.md` §3. **E6 is DONE too** (`docs/matching-drafter-pipeline.md`). The old E6 spec, for the record: `docs/matching-drafter-pipeline.md` from `docs/community-matching-model-plan.md`,
-   `docs/gen2-mips-matching-model.md`, cookbook §12/§500, `docs/wave-playbook.md`; the ROM-derived pair dataset is NOT published.
-   One commit per task after this file is updated; log; refresh this block.
+   file the issue from `docs/permuter-ils.md` §3. **E6 and G1 are DONE too** (`docs/matching-drafter-pipeline.md`, `docs/gen3-handoff.md`). Nothing remains for Claude before
+   the probe passes.
 3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → E1
    (`docs/decompme-preset.md`; Drew creates the preset in the browser: platform ps1, `gcc2.7.2-psx`, flags `-O2 -G0 -mips1
    -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div`; prove on `func_80018F20` first; the manual
@@ -715,22 +718,22 @@ no purge yet**). **Remaining (6):** nothing more that Claude can do before the f
    frogress_upload.py --push`) → **the wiki push** (Drew: create the first page in the GitHub UI, then `tools/wiki_sync.sh
    --push`; verify the pages render and the sidebar links resolve) → **C11** (other clones: `git fetch origin && git reset
    --hard origin/main && git reflog expire --expire=now --all && git gc --prune=now`, never `git pull`; `gh auth logout`; delete
-   `.run/public_rewrite/` + `.run/objdiff/`; prune `.run/`; DIGEST §0/§1 + decision-log entries) → **G1** `docs/gen3-handoff.md`
-   (Drew's next intent: readability/shiftability prep; the starter census 143 raw `*)0x80xxxxxx` casts / 61,898 `D_80xxxxxx` /
-   16,335 `func_80xxxxxx` / 1,092 named; the byte-gate invariant; the existing levers) → **G2** (Tier 1: prompt for Max, present
+   `.run/public_rewrite/` + `.run/objdiff/`; prune `.run/`; DIGEST §0/§1 + decision-log entries — the P33 entry is written at C11,
+   R31) → **G2** (Tier 1: prompt for Max, present
    the milestone evidence, WAIT for gate 2; then `PhaseEnd_Phase33.md` v2.0.0 with the rule candidates (a)–(h), `CURRENT_PHASE.md`
    → `phase-ends/logs/Phase33.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`).
 
-### 4. Files S88 touched (8 commits after the F2 tip)
+### 4. Files S88 touched (9 commits after the F2 tip, incl. this checkpoint)
 Tools (new): `tools/wiki_render.py`, `tools/wiki_sync.sh`, `tools/gccmap_cites.py`, `tools/xsig/` (xsig.py, README, LICENSE,
 tests/: fixture.c, make_fixtures.sh, test_xsig.py, fixture_a.txt, fixture_b.txt, fixture_a.s),
 `tools/permuter/upstream/0001-reloc-masked-scorer.patch`; changed: `tools/public_rewrite/probe_github.sh` (scratch-repo fetch +
 self-check), `tools/doc_links.py` (DEFAULT_GLOBS + the map README), `Makefile` (`wiki_render --selftest` + `gccmap_cites --check` + the xsig tests in
 tools-health), `.github/workflows/no-rom.yml` (the gccmap_cites + xsig steps). Docs (new): `docs/wiki/*.md` (12),
 `docs/how-to-ai-decomp/*.md` (13), `docs/gcc-2.7.2-map/README.md` + `cite_overrides.tsv`, `docs/permuter-ils.md`, `docs/matching-drafter-pipeline.md`, `docs/gen3-handoff.md`; changed: the five map files (135
-cites tagged in place), `docs/SETUP.md` (the probe clause in the public_rewrite row;
-2 wiki rows; the P33 F3 section), `docs/public-flip-runbook.md` (§11: the R57 probe paragraph; the wiki push step),
-`docs/doc_links_pending.txt` (10 entries mid-task → EMPTY), `phase-ends/CURRENT_PHASE.md` (F3 ticked; the S88 preflight + F3 log
+cites tagged in place), `docs/SETUP.md` (the probe clause in the public_rewrite row; rows for
+wiki_render/wiki_sync/gccmap_cites/xsig/the permuter patch/permuter-ils/drafter-pipeline/gen3-handoff; the P33 F3, E3, E4, E5, E6, G1
+sections), `docs/public-flip-runbook.md` (§11: the R57 probe paragraph; the wiki push step),
+`docs/doc_links_pending.txt` (10 entries mid-task → EMPTY), `phase-ends/CURRENT_PHASE.md` (F3, E3–E6, G1 ticked; the S88 preflight + six task log
 entries; this block). Evidence: `.run/P33/f3_tools_health.log`, `.run/P33/e3_tools_health.log`, `.run/P33/e4_tools_health.log`, `.run/wiki/render/`
 (regenerable), `.run/P33/xsig-repo/` (the standalone copy, one commit), `.run/P33/permuter-upstream/` (the upstream clone +
 branch + dev venv), `.run/P33/permuter-e2e/` (the demo dir). The plan file:
