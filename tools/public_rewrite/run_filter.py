@@ -42,6 +42,13 @@ def precheck(clone):
     for f in (C.DICT_FILE, C.MAILMAP_FILE, C.ROM_IDS_FILE):
         if not f.exists():
             C.die(f"{f} missing")
+    # the dictionary must describe THIS history: a stale one (built before the last commit) would leave commits without
+    # an ordinal and drop rows from the public map (R43; trial #2 matched only because it was built from the same HEAD)
+    d = C.load_dict()
+    n_clone = int(C.git(["rev-list", "--count", "main"], clone))
+    if d["main_count"] != n_clone or d["built_from"]["head"] != C.git(["rev-parse", "main"], clone).strip():
+        C.die(f"dict.json is STALE (main {d['main_count']} @ {d['built_from']['head'][:9]} vs the clone's {n_clone} @ "
+              f"{C.git(['rev-parse', 'main'], clone).strip()[:9]}) — rebuild it: hash_dict.py --write-mailmap, then gate_scan")
     return clone
 
 

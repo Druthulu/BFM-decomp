@@ -63,7 +63,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **B9/C3** The preparatory commit (`git rm --cached` purge set; psyq CHECKSUMS moved; zip sha256s; runbook;
       decision-log entry) — Max (P5c-class) — see Log 2026-09-06 B9/C3
 - [x] **C1** filter-repo 2.47.0 + `tools/public_rewrite/` — design Max, execution xHigh — see Log 2026-09-07 C1
-- [ ] **C2** Negative control + dictionary + sample — xHigh
+- [x] **C2** Negative control + dictionary + sample — xHigh — see Log 2026-09-07 C2
 - [ ] **C4** Bundle + Drew's archive mirror push + bare clone + the rewrite — xHigh
 - [ ] **C5** Verification suite on the rewritten clone — xHigh
 - [ ] **C6** Adoption in `~/bfm-decomp` (no gc yet) — xHigh
@@ -274,21 +274,33 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   §3/§5/§6/§10 updated with the measured facts and the strip-by-id lesson. Trial scratch deleted (C4 re-clones fresh).
   For Drew's decision (not in the plan's scope, reported by absent_scan as INFO): 370 bare session UUIDs across history / 68
   at HEAD in checkpoint prose; no `claude.ai` URL anywhere. Commit: see below.
+- **2026-09-07 (S87) — C2 the recorded controls on the final pre-rewrite tree (HEAD `commit:4031`, the C1 commit).**
+  `hash_dict.py --write-mailmap`: 4,421 commit objects (4,031 main, 339 twins, 51 orphans), 150,314 prefixes, **0 ambiguous,
+  0 collisions** with 1,480 cited content hashes, 2 identities → noreply. `scrub.py --test` 12/12; `scrub.py --sample`: 397 MB
+  in 7.9 s, 1,239 replacements in 98 files, **732 distinct tokens == the 732 git's own lookup resolves** (only-git 0 /
+  only-ours 0), 186 seven-char replacements read (`.run/public_rewrite/c2_sample.log`, scratch — it prints old hashes).
+  `gate_scan.py --all --worktree --expect-fail`: 112,405 reachable blobs / 16.79 GB in 3 m 13 s, every rule named with its
+  count (ghidra/ 42 paths ever, tools/psyq/ 190, dumps 28, archive 3, zips 2, brave.exe 1, the EXE 1+1), 0 strays, 268 ids
+  to strip (the shared EMPTY blob excluded), **`audit_public` OK 0 offenders among 6,578 tracked paths**. One more R43 guard
+  added to `run_filter.py`: it refuses a dictionary whose main count/HEAD differ from the clone's (a stale dictionary would
+  drop rows from the public map; trial #2 matched by construction). **Sequencing law for C4:** the dictionary + ids are
+  rebuilt from the FINAL tree right before the clone (4 s + 3 min) — any commit after that invalidates them (the guard
+  enforces it). Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1 ✓; NEXT = C2 (2026-09-07 ~04:45 UTC, written by session fa49faf3 "S87" after the C1 commit; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C2 ✓; NEXT = C4 — WAITING ON DREW (the archive repo + mirror push, C4b) (2026-09-07 ~05:00 UTC, written by session fa49faf3 "S87" after the C2 commit; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = C2** (xHigh: the formal negative control + dictionary + sample on the FINAL pre-rewrite tree — the three commands below, ≈5 min). **The purge set has left the index: NEVER `git clean -x` (CLAUDE.md fail-safe).** The harness task list must be REBUILT (Drew wants to monitor it —
-one TaskCreate per plan item A1…G2, 40 items, mark A1–A5 + B1–B9/C3 + C1 completed; R28). The SessionStart hook restarts the headless
+(R1–R73), then WAIT for Drew. **NEXT = C4** (xHigh): C4a the bundle is DONE by S87 if `.run/public_rewrite/pre-rewrite.bundle` exists and verifies (`git bundle verify`); **C4b is Drew's** (see §3 step 1 — do NOT clone or filter before Drew confirms the mirror push, and re-check `git ls-remote archive` yourself); then C4c. **The purge set has left the index: NEVER `git clean -x` (CLAUDE.md fail-safe).** The harness task list must be REBUILT (Drew wants to monitor it —
+one TaskCreate per plan item A1…G2, 40 items, mark A1–A5 + B1–B9/C3 + C1–C2 completed; R28). The SessionStart hook restarts the headless
 MCP server when `ghidra/bfm.rep` exists (it did not stay up in S87 — `ss -tln` showed nothing on :8080; harmless): B6/B7/B8
 need no Ghidra; run `tools/ghidra_mcp_stop.sh` before any headless step (R23).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified.
 **Done: A1 (`commit:4012`), A2 (`commit:4013`), A3 (`commit:4014`), A4 (`commit:4015`), B1 (`commit:4016`), B2 (`commit:4017`), B3
-(`commit:4018`), B4 (`commit:4019`), B5 (`commit:4022`), B6 (`commit:4023`), B7 (`commit:4024`), B8 (`commit:4025`), A5 (`commit:4026` prep + `commit:4027`/`commit:4028` fixes + `commit:4029`), B9/C3 (`commit:4030` — 251 index entries removed), C1 (the S87 `feat(phase-33): C1 …` commit).** The approved plan is
+(`commit:4018`), B4 (`commit:4019`), B5 (`commit:4022`), B6 (`commit:4023`), B7 (`commit:4024`), B8 (`commit:4025`), A5 (`commit:4026` prep + `commit:4027`/`commit:4028` fixes + `commit:4029`), B9/C3 (`commit:4030` — 251 index entries removed), C1 (`commit:4031`), C2 (the S87 `chore(phase-33): C2 …` commit).** The approved plan is
 VERBATIM at the end of this file — Blocks A–G give every task's files, commands and verification; "Execution order and why"
 is the sequence. Effort: Drew ran S87 at **medium** by explicit choice (the plan says Max for B5); the plan's annotations
 still stand for the tasks ahead — restate them, Drew decides (R7/R27).
@@ -314,24 +326,18 @@ still stand for the tasks ahead — restate them, Drew decides (R7/R27).
 
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~`.
-1. **C2 — negative control + dictionary + sample** (xHigh; every tool already proven on two trial rewrites — this is the
-   RECORDED run on the final pre-rewrite tree, so it must be re-run after ANY further commit before C4): (a) `.venv/bin/python
-   tools/public_rewrite/hash_dict.py --write-mailmap` (expect 0 ambiguous, 0 collisions; the count grows by the C1/C2 commits);
-   (b) `.venv/bin/python tools/public_rewrite/scrub.py --test && … scrub.py --sample` (only-git 0 / only-ours 0);
-   (c) `.venv/bin/python tools/public_rewrite/gate_scan.py --all --worktree --expect-fail tools/public_rewrite/expected_offenders.txt`
-   (PASS = fails exactly as the fixture says; `--worktree` = audit_public OK). Log the three verdicts, tick, refresh, commit.
-   NOTE: C2's dictionary is built from THIS repo and must be built AFTER the last commit that precedes C4 (the C2 commit
-   itself is fine to leave out of the dictionary? NO — rebuild the dictionary once more right before C4c, after C2's commit,
-   or make the C2 log entry the last commit before the clone: simplest = C2 commit, then C4a bundle, then hash_dict again
-   (4 s) before the clone).
-2. **C4** — (a) Claude: `git bundle create .run/public_rewrite/pre-rewrite.bundle --all --reflog && git bundle verify …`;
-   (b) **Drew**: create `Druthulu/BFM-decomp-archive` EMPTY + private, `git remote add archive https://github.com/Druthulu/
-   BFM-decomp-archive.git && git push --mirror archive`; Claude checks `git for-each-ref` == `git ls-remote archive`; (c) Claude:
-   `rm -rf .run/public_rewrite/repo.git && git clone --no-local --bare ~/bfm-decomp .run/public_rewrite/repo.git && git -C
-   .run/public_rewrite/repo.git tag -d S76-pre-scrub-backup && git rev-parse S76-pre-scrub-backup > .run/public_rewrite/
-   old_tag_tip.txt`, then `hash_dict.py --write-mailmap` + `gate_scan.py --all --expect-fail …` (fresh dict + ids for the
-   final tree), then `run_filter.py` (≈5 min; expect 1 pruned). The trial chains are the template: `.run/public_rewrite/
-   trial2.sh` (scratch, not tracked) ran gate → clone → filter → verify → map → absent → gate → resolve → absent-tree → repack.
+1. **C4b — DREW (R6), then C4c — Claude.** Drew: on GitHub create **`Druthulu/BFM-decomp-archive`**, Private, EMPTY (no README /
+   .gitignore / license; NOT an import, NOT a fork — those share GitHub's object store with the public repo); then in the WSL
+   clone: `git remote add archive https://github.com/Druthulu/BFM-decomp-archive.git && git push --mirror archive`. Claude
+   then checks `git for-each-ref --format='%(objectname) %(refname)' | sort` == `git ls-remote archive | sort` (every ref
+   incl. the tag and refs/stash; same hashes). ONLY THEN C4c: (i) `rm -rf .run/public_rewrite/repo.git && git clone --no-local
+   --bare ~/bfm-decomp .run/public_rewrite/repo.git && git -C .run/public_rewrite/repo.git tag -d S76-pre-scrub-backup &&
+   git rev-parse S76-pre-scrub-backup > .run/public_rewrite/old_tag_tip.txt`; (ii) `hash_dict.py --write-mailmap` + `gate_scan.py
+   --all --expect-fail tools/public_rewrite/expected_offenders.txt` (the FINAL dictionary + ids — no commit may follow;
+   `run_filter` refuses a stale dictionary); (iii) `run_filter.py` (≈5 min; expect "1 -> zeros = pruned", main N → N−1,
+   1 pack, 0 loose). If the bundle from C4a predates any new commit, redo `git bundle create … --all --reflog` first.
+2. The trial chain `.run/public_rewrite/trial2.sh` (scratch) is the template for C4c–C7: gate → clone → filter → verify →
+   map → absent → gate → resolve → absent-tree → repack.
 3. **C5** `verify_rewrite.py` (≈7 min, 0 failures) + `absent_scan.py` (≈7 min) + `gate_scan.py --all --repo .run/public_rewrite/
    repo.git` (≈1 min) → **C6** adopt → **C7** `build_commit_map.py` (writes docs/commit-map.tsv) + `resolve_tokens.py` (noreply
    identity first: `git config user.email 50529377+Druthulu@users.noreply.github.com`) + `absent_scan.py --tree HEAD` + the tip
