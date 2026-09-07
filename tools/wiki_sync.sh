@@ -10,8 +10,9 @@
 #   tools/wiki_sync.sh            # dry run: render, refresh the clone if it exists, print `git status --short` of the sync
 #   tools/wiki_sync.sh --push     # Drew: the same, then commit + push to <repo>.wiki.git
 #
-# The wiki repository (https://github.com/Druthulu/BFM-decomp.wiki.git) exists only after Wikis is ENABLED in the repo settings
-# (works while the repo is still private — a private repo's wiki is private and flips with it; S89) AND
+# The wiki repository (https://github.com/Druthulu/BFM-decomp.wiki.git) exists only after Wikis is ENABLED in the repo settings —
+# on a free plan GitHub offers wikis only on PUBLIC repositories ("Upgrade or make this repository public to enable Wikis",
+# measured 2026-09-07), so this waits for the flip (C10) — AND
 # after someone creates the first page in the GitHub UI (Wiki → "Create the first page"); until then the clone fails and
 # the dry run still renders and lists the pages (exit 0) while --push refuses (exit 2). A page edited on GitHub is
 # overwritten by the next sync — edit docs/wiki/ instead.
@@ -33,7 +34,7 @@ n=$(ls "$RENDER"/*.md | wc -l)
 if [ -d "$CLONE/.git" ]; then
     git -C "$CLONE" pull -q --ff-only || { echo "wiki_sync: the wiki clone at $CLONE did not fast-forward — resolve by hand (or rm -rf it)"; exit 1; }
 elif ! git clone -q "$URL" "$CLONE" 2>/dev/null; then
-    echo "wiki_sync: $URL is not clonable yet — the wiki exists only after Wikis is enabled in Settings (private is fine) AND after the first page is created"
+    echo "wiki_sync: $URL is not clonable yet — the wiki exists only after the flip (free plan: wikis need a public repo), Wikis enabled in Settings, AND the first page is created"
     echo "           in the GitHub UI (Wiki → Create the first page). Rendered $n pages into $RENDER:"
     ls "$RENDER" | sed 's/^/             /'
     [ $PUSH = 1 ] && { echo "wiki_sync: --push refused (no wiki repository)"; exit 2; }
