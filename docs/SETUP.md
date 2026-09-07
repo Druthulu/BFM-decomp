@@ -400,7 +400,7 @@ Phase 18 (raise the match-% ceiling by understanding gcc-2.7.2's blocking codege
 | **vanilla gcc-2.7.2** (the REAL source of our pinned cc1) | authoritative source for the codegen map (cookbook §31/§34 + `docs/gcc-2.7.2-map/`): `sched.c`/`reorg.c` (scheduling), `local-alloc.c`/`global.c`/`reload1.c` (regalloc), `loop.c` (IV/hoist), `cse.c`/`expr.c` (CSE/aliasing). Staged Phase 23; **completed Phase 24 T5** (18 `.c` files — +toplev.c/function.c/flow.c/… from the FSF tarball; sched.c/loop.c/mips.c verified byte-identical to vanilla → §34's `local-alloc.c:1441` 3-qty-sort-bug citation is sound). **P31 T2: +6 files** — `calls.c` + `caller-save.c` (both cited by §172's frame-residue producer model, previously MISSING) + `integrate.c`/`optabs.c`/`varasm.c`/`recog.c` — from GNU ftp `gcc-2.7.2.tar.gz`, sha256 `7cd8bce5c3aeec59a72ecc2d3d5123864a817b14cdbd0680b1a969c3bccc5da5`. | `tools/reference/gcc-2.7.2` | GNU 2.7.2 release | (re-fetch: GNU ftp `gcc-2.7.2.tar.gz`; tarball kept at `.run/t7/fable/gcc-2.7.2.tar.gz`) |
 | `ladysilverberg/xenogears-decomp` | Square, Oct 1998, **gcc-2.7.2-psx + -cdk** (our exact compiler); mine transferable quirk idioms + `gears.toml` per-module presets | `tools/reference/xenogears-decomp` | `main` | `f27c0768b1ad10812cec776cadadb85ae70aadee` |
 | **PsyQ Runtime Library 4.2 + the libpad 4.2.1 patch** (P31 S79, 2026-09-04, task #13) | archive.org item `play-station-programmer-tool-runtime-library-version-4.2.7z` (383 KB) → tracked as `tools/psyq/PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z` (sha256 in `CHECKSUMS.sha256`) → `tools/psyq/lib42/` (the 4.2 LIBs, 1998-01-21) + `tools/psyq/lib421/` (`LIB/42PATCH/J421PD.ZIP` = SCE R&D "libpad.lib 4.2.1 for the DUAL SHOCK", 1998-02-26: LIBPAD.LIB 4.2.1 + LIBAPI.LIB 4.2 + LIBPAD.H/LIBAPI.H/KERNEL.H) → ELF via `psyq_lib_split.py` + `psyq-obj-parser` into `.run/obj42/{libpad421,libapi42}`. **This is the EXE's libpad/libapi**: 7 + 39 objects place and link byte-identical (`psyq_link.py` PASS ×46) — the whole 0x8005CE18–0x8005FC68 band + the apicard-region libapi pieces. The 4.2.1 headers are the band's prototype oracle | `tools/psyq/lib42/`, `lib421/` (gitignored, regenerable) | — | — |
-| **PsyQ 4.6 libraries** (P31 S78, 2026-09-04) | `Psy-Q_46.zip` (psx.arthus.net; sha256 in `tools/psyq/CHECKSUMS.sha256`) → `tools/psyq/lib46/*.LIB` (23 libs) → ELF via `psyq_lib_split.py` + `psyq-obj-parser` into `.run/obj46/<lib>/`; placed against the EXE (`.run/survey46/`). Only `PDMAIINI.o` is byte-identical in the libpad-4.2.1 band | `tools/psyq/lib46/` (gitignored, sha-recorded) | — | — |
+| **PsyQ 4.6 libraries** (P31 S78, 2026-09-04) | `Psy-Q_46.zip` (psx.arthus.net; sha256 in `tools/psyq_CHECKSUMS.sha256`) → `tools/psyq/lib46/*.LIB` (23 libs) → ELF via `psyq_lib_split.py` + `psyq-obj-parser` into `.run/obj46/<lib>/`; placed against the EXE (`.run/survey46/`). Only `PDMAIINI.o` is byte-identical in the libpad-4.2.1 band | `tools/psyq/lib46/` (gitignored, sha-recorded) | — | — |
 | **PsyQ 4.5 toolkit** (P31 S78) | `PSYQ_SDevTC_v4.5.zip` (psx.arthus.net; 7 split zips, unpacked on demand; sha-recorded) | `tools/psyq/` | — | — |
 | **PsyQ 4.0 dev-CD SDK tree** (P31 T2, 2026-08-14) | the SDK **sample C source** (400 `.c`: 373 in `PSX/SAMPLE/` — CD/GRAPHICS/SOUND/MODULE/CMPLR/…) = the canonical source shapes era game code was written from → drafting-agent style priors, esp. for main (see `docs/psyq-sample-idioms.md`). Also `GNU/SNGNUVER.TXT` — SN's build history (`2.7.2.SN32.3.7.0002`, 14.5.97) naming SN's exact patches vs vanilla (only `UNROLL.C` codegen-relevant). | `tools/reference/psyq-sdk` | n/a (extracted, not cloned) | regenerate: walk the on-disk Track-1 image (`tools/psyq/…(Track 1).bin`, MODE2/2352) with `tools/bfm_extract/iso9660.py` — 2,374 files / 231.6 MB, 7 out-of-track `.DA` audio skipped (script pattern preserved in `phase-ends/logs/` P31 T2) |
 
@@ -645,7 +645,7 @@ Full how-to in `docs/matching-cookbook.md` §11. Command crib:
   `h_norm` is self-consistent within the overlay fleet (not Ghidra-byte-exact — D2); overlay boundaries via linear
   partition + `detect_code_end` (BFS fails — overlays dispatch via function-pointer tables, not `jal`).
 - **PsyQ provenance (R24)**: the resident is PsyQ **4.7** (`tools/psyq/conv47/`, sha-recorded in
-  `tools/psyq/CHECKSUMS.sha256`) — Phase 12 links its embedded SDK code from 4.7, not the EXE's 4.0 libs.
+  `tools/psyq_CHECKSUMS.sha256`) — Phase 12 links its embedded SDK code from 4.7, not the EXE's 4.0 libs.
 
 ## §6.9 Running a matching wave — see `docs/wave-playbook.md`
 
@@ -1068,6 +1068,34 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   slate → bisect on failure.
 * `gate_main` **REFUSES a draft containing its own `INCLUDE_ASM`** (substituting it restores the stub,
   so the build passes for free and the function counts as banked), and counts banks from the SOURCE.
+
+### P33 B4 (S86, 2026-09-06) — `tools/fetch_psyq.sh`: the OPTIONAL PsyQ SDK objects, user-supplied and verified
+- **What it is for.** Byte-identity never needs Sony's libraries (without them main links its INCLUDE_ASM tiles — the
+  fresh-clone proof in B3 built all 218 that way). `tools/fetch_psyq.sh [--disc <RTL-4.0 Track 1 .bin>] [--from <dir>]
+  [--no-build]` is for a developer who wants `make check BINARY=main` to link Sony's REAL objects (the 1,256 LINKED
+  functions): it obtains and verifies every piece against `tools/psyq_CHECKSUMS.sha256` (rows relative to `tools/psyq/`,
+  which is gitignored — nothing Sony-copyrighted is redistributed), then runs the existing builders and `make sdk-dual`.
+- **Pieces and provenance:** `psyq-obj-parser` — decomp.me's release tarball
+  `https://github.com/decompme/compilers/releases/download/compilers/psyq-obj-parser.tar.gz` (tarball sha256 `353495f1…`,
+  the static x86-64 binary inside `4fba623a…` — identical to the copy this project used since Phase 7); the **Runtime
+  Library 4.2** 7z — archive.org `https://archive.org/download/play-station-programmer-tool-runtime-library-version-4.2.7z/
+  PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z` (383,431 B, sha256 `e4f5a678…`) → `tools/psyq/lib421/`
+  (the `LIB/42PATCH/J421PD.ZIP` payload: LIBPAD.LIB 4.2.1 + LIBAPI.LIB 4.2, both sha256-rowed); the **20 PsyQ 4.0 libraries
+  — NO public download**: they are `PSX/LIB/*.LIB` on the redump disc *PlayStation - Programmer Tools - Run-time Library
+  4.0 (USA) (PC-CD ROM Release 2.0)* (DTL-S2002, ISO volume `PROGTOOL`); `tools/psyq_libs_from_disc.py <Track 1 .bin>
+  <out>` extracts them with the project's own ISO9660 walker (`tools/bfm_extract/iso9660.py`, the same reader
+  `make disc-extract` uses) — every LIB is checked against its recorded sha256 (LIBCD.LIB from the disc == the copy used
+  since Phase 7). Without `--disc`/`--from` and without `tools/psyq/lib40/` the script REFUSES and names the disc (R43).
+- **Builders it runs (unchanged, all regenerable):** `tools/psyq_build_libs.sh LIBCD LIBETC LIBGPU LIBMCRD LIBC2 LIBGTE
+  LIBGS LIBSPU LIBSND LIBCARD` (→ `.run/obj40/<lib>` + `tools/psyq/lib40_elf/*.a`), `tools/make_libgs.sh` (→
+  `.run/obj40/libgs_used`), `tools/make_snd_used.py` (→ `.run/obj40/snd_used`), the lib421 ELF step (→
+  `.run/obj42/{libpad421,libapi42}`), `tools/make_apicard_used.py` (→ `.run/obj42/apicard_used`); then `make -j$(nproc)
+  sdk-dual`. Which region needs which: `.run/obj40/{libcd,libetc,libgpu,libmcrd,libc2,libgte}` + `libgs_used` + `snd_used`
+  from the 4.0 LIBs; `.run/obj42/{apicard_used,libapi42,libpad421}` from LIBCARD 4.0 + the 4.2 archive. `Psy-Q_46.zip`,
+  `PSYQ_SDevTC_v4.5.zip`, `conv47/` and the 4.0 Win32 tools feed NO linked region (research artifacts; archive repo only).
+- **Controls (S86):** no source → refuse (rc 1, the message); `--from` a directory with one corrupted LIB → `sha256 MISMATCH
+  for tools/psyq/lib40/LIBTAP.LIB`, rc 1, nothing built; the disc path → see `phase-ends/CURRENT_PHASE.md` B4 for the run.
+- `tools/psyq/CHECKSUMS.sha256` → **`tools/psyq_CHECKSUMS.sha256`** (git mv; the directory it lived in leaves git at C3).
 
 ### P33 B3 (S86, 2026-09-06) — `tools/bootstrap.sh` / `make bootstrap`: the fresh-clone setup
 - **`tools/bootstrap.sh`** (idempotent, never sudo): apt packages of §4.5 checked with `dpkg -s` and the missing ones printed

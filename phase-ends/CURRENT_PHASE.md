@@ -53,7 +53,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
       re-tightened; the 4 splat preset headers tracked; `clean` fixed) — Max — see Log 2026-09-06 B1
 - [x] **B2** 34 absolute includes → `../shared/` + portable-include audit + 15-binary re-gate — xHigh — see Log 2026-09-06 B2
 - [x] **B3** `tools/bootstrap.sh` / `make bootstrap` + check-env extensions + fresh-clone proof 218/218 — xHigh — see Log 2026-09-06 B3
-- [ ] **B4** `tools/fetch_psyq.sh` + CHECKSUMS rows (20 lib40 LIBs, psyq-obj-parser) BEFORE `tools/psyq/` leaves git — xHigh
+- [x] **B4** `tools/fetch_psyq.sh` + CHECKSUMS rows (20 lib40 LIBs, psyq-obj-parser) BEFORE `tools/psyq/` leaves git — xHigh — see Log 2026-09-06 B4
 - [ ] **B5** Ghidra regenerability (ExportAnnotations/ImportAnnotations/ghidra_rebuild.sh `--proof` on SLUS_007.26 +
       resident; roster; ExportSymbols R15 fix; path hardcodes; hooks) — Max, MCP stopped
 - [ ] **B6** `dumps/CHECKSUMS.sha1` + INDEX.md rewrite + memory-map Source-index row — Low/xHigh
@@ -158,16 +158,30 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   `tools/bootstrap.sh` created its own `.venv`, extracted both cc1s, fetched the submodules, `check-env: OK` → `disks` symlinked
   → `disc-extract: OK` → `extract-all: 217 extracted, 0 failed of 217` → **`check-all: 218 passed, 0 failed of 218`**, EXIT=0,
   **4 m 18 s wall** (user 45 m 48 s) — with NO SDK objects in the clone (`.run/obj40` absent), i.e. every binary built the way a
-  public user builds it. Clone deleted afterwards (3.1 GB). SETUP: P33 B3 section (R21).
+  public user builds it. Clone deleted afterwards (3.1 GB). SETUP: P33 B3 section (R21). Commit `commit:4018`.
+- **2026-09-06 (S86) — B4 (the optional SDK, user-supplied and verified).** `git mv tools/psyq/CHECKSUMS.sha256
+  tools/psyq_CHECKSUMS.sha256` (done here rather than in C3 so the script's path is final) + rows for the parser tarball
+  (`353495f1…`, decomp.me's release), the parser binary (`4fba623a…`, identical to our Phase-7 copy) and the 20 PsyQ 4.0
+  LIBs; `docs/SETUP.md` + `.gitignore` references repointed. New `tools/psyq_libs_from_disc.py` (the 20 `PSX/LIB/*.LIB` off
+  the DTL-S2002 redump disc via our own ISO walker; refuses a disc without `PSX/LIB`; asserts 20) and `tools/fetch_psyq.sh
+  [--disc|--from] [--no-build]` (parser → RTL 4.2 7z → lib421 → the 4.0 LIBs, each sha256-verified before use; then
+  `psyq_build_libs.sh` ×10, `make_libgs.sh`, `make_snd_used.py`, the lib421 ELF step, `make_apicard_used.py`, `make sdk-dual`).
+  **Controls:** no 4.0 source → refuses naming the redump title (rc 1) after verifying the parser + 4.2 pieces; `--from` a dir
+  with one corrupted LIB → `sha256 MISMATCH for tools/psyq/lib40/LIBTAP.LIB`, rc 1, nothing built. **The run:** with
+  `tools/psyq/lib40/` moved aside, `fetch_psyq.sh --disc "<our Track 1 .bin>"` extracted the 20 LIBs from the disc
+  (`diff -rq` against the tracked copies: identical), verified them, rebuilt `.run/obj40/*`, `.run/obj42/*`,
+  `tools/psyq/lib40_elf/`, and `sdk-dual: OK` — **36.9 s wall**, EXIT=0 (`.run/P33/b4_fetch.log`). SETUP: P33 B4 (R21).
 
-## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B3 ✓; NEXT = B4 (`tools/fetch_psyq.sh` + the SDK checksums, xHigh) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B4 ✓ (8 tasks; P6 rules check done after B4); NEXT = B5 Ghidra regenerability (Max, MCP stopped) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = B4** (xHigh: `tools/fetch_psyq.sh` — see §3 step 1 for the measured facts). If
-`git log -1 --format=%s` does not start with `feat(phase-33): B3`, B3's commit did not land: `tools/bootstrap.sh` must print
-`check-env: OK` (1–2 s on this tree) before committing; the proof log is `.run/P33/b3_fresh.log`.
+(R1–R73), then WAIT for Drew. **NEXT = B5** (Max; the Ghidra text export + rebuild proof — the plan's Block B5 and §3 step 1
+below; the headless MCP server holds the project lock: `tools/ghidra_mcp_stop.sh` FIRST, then every headless step; the
+SessionStart hook restarts the server next session and R29 applies). If `git log -1 --format=%s` does not start with
+`feat(phase-33): B4`, B4's commit did not land: `tools/fetch_psyq.sh --no-build` must print `verified …` for every piece and
+exit 0 before committing (`.run/P33/b4_fetch.log` is the full run).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified at
@@ -236,27 +250,23 @@ items can be cut). Harness tasks: #1 A1 done, #2 A2 done, #3 A3 next … #41 G2.
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~` (≈13 GB free) ·
    `.venv/bin/python -c 'import splat'` · `ls build/us/SLUS_007.26.map` (main is built; `make check BINARY=main` if not).
-1. **B4** (xHigh) — measured facts (S86): the 20 PsyQ **4.0** LIBs come from the redump disc "PlayStation - Programmer Tools -
-   Run-time Library 4.0 (USA) (PC-CD ROM Release 2.0)" (DTL-S2002; our copy: `tools/psyq/PlayStation - Programmer Tools -
-   Run-time Library 4.0 (USA) (PC-CD ROM Release 2.0) (Track 1).bin`, 270 MB, gitignored; volume `PROGTOOL`) — its ISO
-   directory `PSX/LIB/` holds exactly the 20 `*.LIB` (names `LIBCD.LIB;1` …), and `tools/bfm_extract/iso9660.py`
-   (`img.find('PSX')` → `img.find('LIB', psx)` → `img.iter_directory(lib)` / `img.extract_file(name, lib)`) extracts them
-   byte-identical to `tools/psyq/lib40/` (LIBCD.LIB sha256 `db4e1a71…` both ways). The RTL 4.2 7z's archive.org URL is
-   `https://archive.org/download/play-station-programmer-tool-runtime-library-version-4.2.7z/PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z`
-   (383,431 B; sha256 already recorded `e4f5a678…`). `psyq-obj-parser`: `https://github.com/decompme/compilers/releases/
-   download/compilers/psyq-obj-parser.tar.gz` — tarball sha256 `353495f13f6756773cd905ba3a0743843232f95719e306fc6ee56cbf7d731a3e`
-   (3,507,359 B), the binary inside is BYTE-IDENTICAL to our tracked `tools/psyq/psyq-obj-parser` (sha256
-   `4fba623a31bb5830ceea95b5081bc13504629686b0b4904c533b7be2a5f2377a`). Plan: `git mv tools/psyq/CHECKSUMS.sha256
-   tools/psyq_CHECKSUMS.sha256` NOW (the plan put it in C3; doing it in B4 keeps the script's path final) and add rows for the
-   20 lib40 LIBs + the parser tarball + the parser binary; `tools/fetch_psyq.sh [--disc <RTL-4.0 Track 1 .bin>] [--from DIR]`:
-   (1) parser: download + verify or reuse; (2) RTL 4.2 7z: download + verify → `lib42/` + `lib421/` (the J421PD.ZIP payload)
-   → `.run/obj42/{libpad421,libapi42}` via `psyq_lib_split.py` + the parser; (3) the 4.0 LIBs: from `--disc` via the ISO
-   walker (new `tools/psyq_libs_from_disc.py`) or `--from DIR`, verified against the checksum rows → `tools/psyq/lib40/`;
-   REFUSE with the redump title when neither is given and `lib40/` is absent; (4) the builders: `tools/psyq_build_libs.sh`
-   (LIBCD LIBETC LIBGPU LIBMCRD LIBC2 LIBGTE LIBGS LIBSPU LIBSND LIBCARD), `tools/make_libgs.sh`, `tools/make_snd_used.py`,
-   `tools/make_apicard_used.py`; (5) `make -j$(nproc) sdk-dual`. Verify on this machine by rebuilding into the real dirs
-   (they are regenerable) and the dual passing; the checksum rows are verified by `sha256sum --check`.
-2. Then B5 (MCP stopped) → B6 → B7 → B8 → A5 → B9/C3 … per the task list. After every task: tick the box,
+1. **B5** (Max) — facts gathered (S86): the existing scripts and their conventions are in `tools/ghidra_scripts/`
+   (`ExportSymbols.java` symbols-only, hardcoded output + blind overwrite — the R15 violation to fix; `ApplySymbols.java` the
+   proven text→DB mirror with `BFMAPPLY` counts; `DumpFunctionSignatures.java` has the `jsonEsc` helper + JSONL style to reuse;
+   `DefineFunctions.java` reads `~/bfm-decomp/.run/<prog>_funcs.txt` (hardcoded `user.home`); `ImportPsyqGdt.java` hardcodes
+   `/home/musashi/ghidra_12.1_PUBLIC/.../psyq400.gdt`); wrappers `tools/ghidra_import.sh <exe>` (PSX loader auto-detect +
+   analysis + gdt + info; `-overwrite`), `tools/ghidra_import_raw.sh <blob> <vram> <name>` (BinaryLoader; stages the blob to
+   `.run/<name>`), `tools/ghidra_apply_symbols.sh [PROG] [files…]`, `tools/ghidra_mcp_{start,stop,verify}.sh` — ALL hardcode
+   `PROJ_DIR="$HOME/bfm-decomp/ghidra"` and `SCRIPTS="$HOME/bfm-decomp/tools/ghidra_scripts"`; `tools/prefetch_fleet.py`
+   (`vram_of(ov)` from the yaml, `import_overlay`, `run_define`, `mcp_stop_if_running`). The project has **129 programs**
+   (`ghidra/bfm.rep/idata/*/*.prp`, `.prp` XML with `STATE NAME=… VALUE=…`), `.run/<prog>_funcs.txt` exists for 125. The MCP
+   server is SERVING on :8080 (two analyzeHeadless pids) — stop it first. Headless `-process` without a name processes every
+   program in the project folder (one `-readOnly` run can export all 129). Design per the plan: `ExportAnnotations.java
+   <out.jsonl> [symbols…]`, `ImportAnnotations.java <in.jsonl>`, `tools/ghidra_rebuild.sh <program> [--proof|--into-live]`
+   (scratch project under `.run/ghidra_rebuild/`), baseline-before-import to filter analysis noise, negative control, roster
+   `config/ghidra/ROSTER.md`, proof REQUIRED on `SLUS_007.26` + `resident`; the R15 fix + the path hardcodes + the
+   `.claude/settings.json` hooks.
+2. Then B6 → B7 → B8 → A5 → B9/C3 … per the task list. Next P6 rules check after B8 (12 tasks done). After every task: tick the box,
    add a Log line, refresh this checkpoint block (the 🛑 block is the ONLY in-phase context the next session inherits),
    commit. Next P6 rules check after B4 (8 tasks done). `extracted/proto/` (sep8 + aug31 EXEs) is regenerated from the
    prototype discs by `tools/bfm_extract/extract_proto_exe.py` (docstring examples) — B5 needs both files.

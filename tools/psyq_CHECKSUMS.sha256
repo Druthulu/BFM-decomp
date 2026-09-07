@@ -1,0 +1,68 @@
+# tools/psyq/CHECKSUMS.sha256 — integrity record for the hard-to-source PsyQ archive (R20).
+# Verify:  cd tools/psyq && sha256sum --check CHECKSUMS.sha256
+#
+# psyq-4.7-converted.zip — the community-converted PsyQ 4.7 SDK (ELF .o objects + headers,
+# extracted under conv47/psyq-4_7-converted/{lib,include}; 55 objects). PROVENANCE/USE: the
+# resident engine blob is PsyQ 4.7 (DetectPsyQ 4.7.0 + the DsMix/libsnd signature hit — R24),
+# so Phase 12 links the resident's embedded PsyQ code (libsnd / libgte / libspu) from conv47/,
+# NOT the EXE's 4.0 libs (which won't byte-match the 4.7 objects). Git already tracks these
+# files (R20 backup); this file records integrity + the Phase-12 provenance. (The 4.0 .LIBs in
+# lib40/ are the EXE's, used Phases 7-8.)
+10ffdcd912feffddebe6955ea346bbd5de2f912ce952bfc703994cde49180c2a  psyq-4.7-converted.zip
+#
+# P31 S78 (2026-09-04) — two more hard-to-source SDK archives, fetched from psx.arthus.net/sdk/Psy-Q/
+# (X2: treated as data). PROVENANCE/USE: the EXE's 0x8005CF68-0x8005FC68 band is PsyQ LIBPAD 4.2.1 +
+# LIBAPI 4.2 (the loader's per-version signature sets place PADENTRY/PADCMD/PADPORTD/PADSEQD/COUNTER/
+# FIRST/PAD/PATCH/CHCLRPAD byte-exact; docs/psyq-worklist.md "S78"). 4.6's libs were converted to ELF
+# (tools/psyq/lib46/ -> .run/obj46/) and placed: only PDMAIINI.o (0x8005D8B4, 68 ins) is byte-identical
+# in that band; 4.6/4.7 libpad otherwise differ from 4.2.1. Kept as the nearest surviving neighbours
+# until a 4.2.1/4.3 LIBPAD.LIB surfaces (task #13). The 4.5 toolkit zip (7 split archives) is unpacked
+# only on demand.
+ab473f979652c9254c18f041b8325522774d9f25bb157faa19f475e12383cbd4  Psy-Q_46.zip
+e7e4269efcf5482d9c4c5b64610dd4e4daf4bfc00ebe0600597100975748e52b  PSYQ_SDevTC_v4.5.zip
+#
+# P31 S79 (2026-09-04, task #13) — THE archive that links main's 0x8005CE18-0x8005FC68 band: archive.org item
+# `play-station-programmer-tool-runtime-library-version-4.2.7z` ("Play Station Programmer Tool Runtime Library
+# Version 4.2", X2: data). Contents: PsyQ Runtime Library 4.2 (LIB/*.LIB + INCLUDE, 1998-01-21) AND the
+# LIB/42PATCH/J421PD.ZIP patch = "Libpad.lib version 4.2.1 for the Analog Controller (DUAL SHOCK)", SCE R&D,
+# 1998-02-26, shipped with libapi.lib 4.2 + LIBPAD.H/LIBAPI.H/KERNEL.H. Extracted: tools/psyq/lib42/ (the 4.2
+# LIBs + the two patch dirs) and tools/psyq/lib421/ (the J421PD payload), both gitignored/regenerable from the
+# 7z; ELF via psyq_lib_split.py + psyq-obj-parser into .run/obj42/{libpad421,libapi42}. RESULT: libpad 4.2.1
+# places 7/11 objects (PADENTRY PADMAIN PADCMD PADIF PADPORTD PADSEQD WAITRC2 = the whole band's pad code,
+# PADMAIN 760 ins exact) and libapi 4.2 places 39/88 (the 21 band trampolines, COUNTER, L02/L03, and the
+# apicard-region C112/A50/A51/A54/A65/A67/A69/FIRST/A66/PAD/A18-21/PATCH/CHCLRPAD); ALL 46 link byte-identical
+# (psyq_link.py PASS). docs/psyq-worklist.md "S79 task #13". Plain libpad 4.2 (LIB/LIBPAD.LIB) places only 4.
+e4f5a6785e981051d910c3534a0f05ea1d4f6ef4fbcfb1d09db93eca6223e5fe  PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z
+# inner payloads (lib421/, from J421PD.ZIP):
+eb41454b3678fdeee1065ff2c892882cdeadd1d04c9d8ad0c7a7c8ba41012fc4  lib421/LIBPAD.LIB
+88294cd8eb6f0b623e8847628e375250411da5b36d67bca178b0d274d76928c5  lib421/LIBAPI.LIB
+#
+# P33 B4 (2026-09-06) — the rows tools/fetch_psyq.sh verifies before building the SDK object dirs. This file now lives at
+# tools/psyq_CHECKSUMS.sha256 (tools/psyq/ itself is gitignored: Sony-copyrighted, user-supplied, never distributed).
+# Verify: cd tools/psyq && sha256sum --check ../psyq_CHECKSUMS.sha256
+# psyq-obj-parser: https://github.com/decompme/compilers/releases/download/compilers/psyq-obj-parser.tar.gz (the
+# tarball AND the static x86-64 binary inside it; identical to the copy this project used since Phase 7).
+353495f13f6756773cd905ba3a0743843232f95719e306fc6ee56cbf7d731a3e  psyq-obj-parser.tar.gz
+4fba623a31bb5830ceea95b5081bc13504629686b0b4904c533b7be2a5f2377a  psyq-obj-parser
+# PsyQ 4.0 libraries — NO public URL: PSX/LIB/*.LIB on the redump disc "PlayStation - Programmer Tools - Run-time
+# Library 4.0 (USA) (PC-CD ROM Release 2.0)" (DTL-S2002, volume PROGTOOL); tools/psyq_libs_from_disc.py extracts them.
+3c082a4fd4b00c5b191b717a96035e5453b7db2f5b906b2bd68e5fca6350031d  lib40/LIBAPI.LIB
+14847db1c85806630867c1be95e7440474fef47997f398863380360695adee6e  lib40/LIBC.LIB
+3d6c0464728e014cb341a8eae337303c7c03e0dcd8c897a2549ef16e1e231c46  lib40/LIBC2.LIB
+d398c47818824ce96c280ba9ae7a6cdf7bab5386c82292566d1caf723a540764  lib40/LIBCARD.LIB
+db4e1a716b3b49a0776fb85c7802d839e5cae4acadaeaf3b16621aa5c61ad79d  lib40/LIBCD.LIB
+d6c8b3312e9420dcd539c3f8cdbd20fd1a2fa6d2c1e1d2b3196e23af08c14120  lib40/LIBCOMB.LIB
+0b152beb505441d5b7b7c8198ec2dcba597d935f8d8867b748e51622b160a01b  lib40/LIBDS.LIB
+71a57b08c6a406148061cb5bb66aeadcbfac736b4d45d0ccc7f26635aaadae54  lib40/LIBETC.LIB
+d296e33ff3599a9962d28d59fd1883e20160f252ca85b28b8a44333199d331bf  lib40/LIBGPU.LIB
+d3341cd5c813f53078a72376c80d15f6f502ecc44487e2bb21ed95d585d83046  lib40/LIBGS.LIB
+bec029730c9a8bc529b1980519c5cacbbbb63132c28cb524fa72ea6e4b0debea  lib40/LIBGTE.LIB
+12ff5443876496bf35023a04bb7c052076b82e00a1027202bb3624483bb55ba4  lib40/LIBGUN.LIB
+f4cf1719fb07b6daa02dba5144d8d5b09c504ad745af061ffbadc70d6f1b5bbc  lib40/LIBMATH.LIB
+8cc75e2b840944906d9ce8bf33e91e603cfd56bdcbb5fe9044ffeb7a2bc3807d  lib40/LIBMCRD.LIB
+f78f42abbd8a21ef56f0f6bdfcc4f1b9f1b4b903dfd8c3ae3add6a7f355d8a6c  lib40/LIBPRESS.LIB
+9ff3e830d32692ac72a5d675188f770707fbb31b77c7538b496616372acc39c4  lib40/LIBSIO.LIB
+1ef99108b065166613a4bf6c5b46a74bd0f584e8a570926e8e0c66497e64f547  lib40/LIBSN.LIB
+f70695798e42b4c94d907bf1ef8af6f90618ca42a1b302c122efc8de51fda53a  lib40/LIBSND.LIB
+ee099de953b355e580e34a83e37b44e4276cb14202afbfd2ea4ba2d4926e6d13  lib40/LIBSPU.LIB
+cd4c5d17246fdf301126f4f37388516bcc0e73782f11ed3f521314d23b898654  lib40/LIBTAP.LIB
