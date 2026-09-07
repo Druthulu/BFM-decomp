@@ -75,10 +75,12 @@ declare -A LINES=(
 
 step_tree() {
     echo "HEAD $(git rev-parse HEAD) $(git log -1 --format='%cs %s' | cut -c1-100)"
-    # tracked-file modifications only (-uno): this run's own logs under .run/P33/verify/ are untracked until the A5 commit
-    local dirty; dirty="$(git status --porcelain -uno | grep -v ' ghidra/' || true)"
-    if [ -n "$dirty" ]; then echo "DIRTY (tracked files modified beyond the R23 ghidra/ churn):"; echo "$dirty"; return 1; fi
-    echo "porcelain -uno clean apart from ghidra/ ($(git status --porcelain -uno | grep -c ' ghidra/' || true) churn lines); untracked: $(git status --porcelain | grep -c '^??' || true) paths"
+    # tracked-file modifications only (-uno), EXCLUDING this run's own output directory: the per-step logs under
+    # .run/P33/verify/ have been tracked evidence since the A5 commit, and run_step writes 00_tree.log before this check
+    # runs (C8, S87: the run failed step 00 on its own log, twice)
+    local dirty; dirty="$(git status --porcelain -uno -- . ':!.run/P33/verify' | grep -v ' ghidra/' || true)"
+    if [ -n "$dirty" ]; then echo "DIRTY (tracked files modified beyond the R23 ghidra/ churn and this run's own logs):"; echo "$dirty"; return 1; fi
+    echo "porcelain -uno clean apart from ghidra/ and .run/P33/verify/ (this run's outputs); untracked: $(git status --porcelain | grep -c '^??' || true) paths"
 }
 step_family() { .venv/bin/python tools/family_hseq.py && echo "family_hseq regenerated: $(.venv/bin/python -c 'import json;d=json.load(open(".run/family_hseq.json"));print(len(d.get("binaries",[])),"binaries scanned,",d.get("open_instances"),"open instances")')"; }
 step_fleet() { make clean && make -j"$NPROC" extract-all JOBS="$JOBS" && make -j"$NPROC" check-all JOBS="$JOBS"; }
