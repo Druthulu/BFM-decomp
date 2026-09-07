@@ -168,7 +168,7 @@ help:
 # Phase 7 reports: deterministic, committable docs/ digests. progress/difficulty/dup_report
 # are Ghidra-free; sig-refresh regenerates dup_report's input from the saved Ghidra DB.
 GHIDRA       := $(or $(GHIDRA_INSTALL_DIR),$(HOME)/ghidra_12.1_PUBLIC)
-GHIDRA_PROJ  := $(HOME)/bfm-decomp/ghidra
+GHIDRA_PROJ := $(or $(BFM_GHIDRA_PROJ),$(CURDIR)/ghidra)   # P33 B5: repo-relative (override: BFM_GHIDRA_PROJ)
 
 # The corpus oracle (Phase 26-A, R32/R33). A SECOND, INDEPENDENT oracle: it cross-checks splat's
 # function boundaries against sig_image's, which are derived from the ORIGINAL bytes without splat.
@@ -518,6 +518,12 @@ sig-modules:
 	bad=$$(grep -c "^\[SIG FAIL\]" .run/sig-modules.txt || true)
 	echo "sig-modules: signed $$n modules (of $(words $(MODULE_BINARIES)) onboarded)"
 	if [ "$$bad" -ne 0 ]; then echo "[FAIL] sig-modules: $$bad module(s) failed to sign"; exit 1; fi
+
+# print-<VAR> (P33 B5): echo one Makefile variable so tools derive per-binary facts from the ONE registry
+# (R33) instead of re-parsing overlays.mk/modules.mk — e.g. `make -s print-EXE BINARY=ov_SC01_077`,
+# `make -s print-VRAM_BASE BINARY=resident`, `make -s print-BINARIES`.
+print-%:
+	@echo '$($*)'
 
 # bootstrap (P33 B3): the fresh-clone setup — apt presence (printed, never run), the venv from
 # requirements-python.txt, the submodules, the two cc1 tarballs verified + extracted, then check-env.

@@ -9,15 +9,16 @@
 # Example (after a phase's last edit was renaming 0x80018730 to LzssDecodeSector):
 #   tools/ghidra_mcp_stop.sh && tools/ghidra_mcp_verify.sh 0x80018730 LzssDecodeSector
 set -uo pipefail
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # P33 B5: repo-relative, no $HOME/bfm-decomp assumption
 
 ADDR="${1:?usage: ghidra_mcp_verify.sh <addr e.g. 0x80018730> <expected-name>}"
 EXPECT="${2:?usage: ghidra_mcp_verify.sh <addr> <expected-name>}"
 
 GHIDRA="${GHIDRA_INSTALL_DIR:-$HOME/ghidra_12.1_PUBLIC}"
-PROJ_DIR="$HOME/bfm-decomp/ghidra"
+PROJ_DIR="${BFM_GHIDRA_PROJ:-$REPO/ghidra}"
 PROJ="bfm"
-PROG="SLUS_007.26"
-SCRIPTS="$HOME/bfm-decomp/tools/ghidra_scripts"
+PROG="${3:-${BFM_GHIDRA_PROG:-SLUS_007.26}}"   # P33 B5: 3rd arg / env selects the program
+SCRIPTS="$REPO/tools/ghidra_scripts"
 PORT="8080"
 
 if ss -tln 2>/dev/null | grep -qE ":$PORT([^0-9]|$)"; then

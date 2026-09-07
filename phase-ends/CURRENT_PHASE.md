@@ -170,24 +170,45 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   with one corrupted LIB → `sha256 MISMATCH for tools/psyq/lib40/LIBTAP.LIB`, rc 1, nothing built. **The run:** with
   `tools/psyq/lib40/` moved aside, `fetch_psyq.sh --disc "<our Track 1 .bin>"` extracted the 20 LIBs from the disc
   (`diff -rq` against the tracked copies: identical), verified them, rebuilt `.run/obj40/*`, `.run/obj42/*`,
-  `tools/psyq/lib40_elf/`, and `sdk-dual: OK` — **36.9 s wall**, EXIT=0 (`.run/P33/b4_fetch.log`). SETUP: P33 B4 (R21).
+  `tools/psyq/lib40_elf/`, and `sdk-dual: OK` — **36.9 s wall**, EXIT=0 (`.run/P33/b4_fetch.log`). SETUP: P33 B4 (R21). Commit
+  `commit:4019`.
+- **2026-09-06 (S86) — B5 IN PROGRESS (checkpointed at 87% context; WIP commit).** Done and proven: MCP stopped cleanly;
+  `tools/ghidra_scripts/ExportAnnotations.java` + `tools/ghidra_export_annotations.sh` — byte-stable JSONL export of a
+  program's container facts, LOCAL types, every function signature (params/locals/storage/sources), defined data, the 5
+  comment kinds, bookmarks, equates, and labels the symbol files do not carry; **all 129 programs exported in 18.5 s** →
+  `.run/ghidra_export/<prog>.jsonl` (139 MB; resident 2,573 rows in 5.7 s). `tools/ghidra_annotations_delta.py` (live −
+  baseline; container rows always kept; `--census`). Makefile `print-%` helper + `GHIDRA_PROJ` repo-relative; the six
+  `tools/ghidra_*.sh` wrappers repo-relative (`BFM_GHIDRA_PROJ` override; `ghidra_mcp_verify.sh` takes the program as arg 3
+  / `BFM_GHIDRA_PROG`); `DefineFunctions.java` takes the list path as arg 1; `ImportPsyqGdt.java` finds the gdt under
+  `Application.getInstallationDirectory()`; `ExportSymbols.java` R15 fix (output path arg, refuses to overwrite, refuses
+  `config/`). Written, NOT yet proven: `tools/ghidra_scripts/ImportAnnotations.java`, `tools/ghidra_rebuild.sh` (its import
+  step works: the scratch project must live under `build/ghidra_rebuild/proj` — Ghidra refuses a path component starting
+  with '.'; `resident_funcs.txt` from the ELF = 1,304 entries). **Blocker found:** in the resident rebuild the runs after the
+  import failed with `Failed to get OSGi bundle containing script: …/tools/ghidra_scripts/ApplySymbols.java` (same for
+  ExportAnnotations) — Ghidra compiles the script DIRECTORY as one bundle, so ONE file that does not compile breaks every
+  script in it; `ExportAnnotations` worked on 129 programs BEFORE `ImportAnnotations.java` existed ⇒ the new file almost
+  certainly has a compile error (one known: `new LocalVariableImpl(name, first, dt, stackOffset, program)` — no such ctor;
+  the stack form is `(String, DataType, int, Program)` without first-use, or `(String, int, DataType, VariableStorage/Address/
+  Register, Program)`). Census of the live exports (heuristic, before baselines): `types=0` in EVERY program (no hand-authored
+  structs in the DB at all); the 154/402 "USER_DEFINED" variables per program are the loader's GTEMAC functions
+  (analysis-origin, will subtract); real user labels beyond the symbol files: aug31 382, sep8 15, SLUS_007.26 1, overlays 1–2.
 
-## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B4 ✓ (8 tasks; P6 rules check done after B4); NEXT = B5 Ghidra regenerability (Max, MCP stopped) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B4 ✓, B5 IN PROGRESS (exporter proven; importer + rebuild proof pending on one compile error); NEXT = finish B5 (2026-09-06 ~19:35 MDT, written by session bd19e14a "S86" at Drew's 87%-context pause; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = B5** (Max; the Ghidra text export + rebuild proof — the plan's Block B5 and §3 step 1
-below; the headless MCP server holds the project lock: `tools/ghidra_mcp_stop.sh` FIRST, then every headless step; the
-SessionStart hook restarts the server next session and R29 applies). If `git log -1 --format=%s` does not start with
-`feat(phase-33): B4`, B4's commit did not land: `tools/fetch_psyq.sh --no-build` must print `verified …` for every piece and
-exit 0 before committing (`.run/P33/b4_fetch.log` is the full run).
+(R1–R73), then WAIT for Drew. **NEXT = finish B5** (Max). The WIP commit `wip(phase-33): B5 …` holds every B5 file (see
+the Log's B5 entry for what is proven and what is not). The SessionStart hook will have RESTARTED the headless MCP server
+(it serves `SLUS_007.26` and holds the project lock): run `tools/ghidra_mcp_stop.sh` before ANY headless step (R23), and
+prompt Drew for `/mcp` only if you actually need the MCP tools (R29) — B5 needs none. §3 step 1 is the exact resume path.
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified at
 gate 1 (DIGEST §3). **Done: A1 (`commit:4012`), A2 (`commit:4013` — the corrected main denominator 45,150 is now the published
-number; `.run/sig.main.jsonl` is the sig main is weighed by; `tools/main_seed_ends.py` is new), A3 (the `NO_SDK` knob +
-`make sdk-dual`, proven 28 s: both legs `143dbb89…`).** The approved plan is VERBATIM
+number; `.run/sig.main.jsonl` is the sig main is weighed by; `tools/main_seed_ends.py` is new), A3 (`commit:4014`, the
+`NO_SDK` knob + `make sdk-dual`, proven 28 s: both legs `143dbb89…`), A4 (`commit:4015`), B1 (`commit:4016`), B2 (`commit:4017`),
+B3 (`commit:4018`), B4 (`commit:4019`); B5 in progress (the WIP commit).** The approved plan is VERBATIM
 at the end of this file — read its Blocks A–G for every task's files, commands and verification; the "Execution order and
 why" section is the sequence; the "Honest scale" table is the budget (≈17–21 sessions; the flip precedes the writing so later
 items can be cut). Harness tasks: #1 A1 done, #2 A2 done, #3 A3 next … #41 G2.
@@ -250,7 +271,31 @@ items can be cut). Harness tasks: #1 A1 done, #2 A2 done, #3 A3 next … #41 G2.
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~` (≈13 GB free) ·
    `.venv/bin/python -c 'import splat'` · `ls build/us/SLUS_007.26.map` (main is built; `make check BINARY=main` if not).
-1. **B5** (Max) — facts gathered (S86): the existing scripts and their conventions are in `tools/ghidra_scripts/`
+1. **B5 — RESUME HERE** (Max). (a) `tools/ghidra_mcp_stop.sh`. (b) Find the compile error: `mv tools/ghidra_scripts/
+   ImportAnnotations.java /tmp`-style moves are FORBIDDEN (R12) — instead run `~/ghidra_12.1_PUBLIC/support/analyzeHeadless
+   build/ghidra_rebuild/proj bfm -process resident -noanalysis -scriptPath tools/ghidra_scripts -postScript
+   ImportAnnotations.java /dev/null 2>&1 | grep -iE 'error|cannot find|symbol' | head` (the scratch project from the last
+   run still exists) and read the javac messages; fix `ImportAnnotations.java` (known: the stack-local ctor — use
+   `new LocalVariableImpl(name, dt, off, currentProgram)` (no first-use) or `new LocalVariableImpl(name, first, dt, new
+   VariableStorage(currentProgram, off, size), currentProgram)` if that ctor exists — check with `javap -cp ~/ghidra_12.1_PUBLIC/
+   Ghidra/Framework/SoftwareModeling/lib/SoftwareModeling.jar ghidra.program.model.listing.LocalVariableImpl`); re-run until
+   the bundle loads (a bundle failure names EVERY script in the dir — one bad file breaks all). (c) `tools/ghidra_rebuild.sh
+   resident --keep` → candidate delta `.run/ghidra_rebuild/resident.candidate.jsonl` (census printed): inspect what remains
+   after the baseline subtraction (expect: few rows — the DB holds no hand-authored types; check the comment/bookmark/label
+   residue is real RE, not analysis noise; if analysis noise remains, it means auto-analysis is NOT deterministic between the
+   live import (Phase 10) and today's — then filter those row kinds explicitly and record why). (d) `mkdir -p config/ghidra;
+   cp .run/ghidra_rebuild/resident.candidate.jsonl config/ghidra/resident.jsonl; tools/ghidra_rebuild.sh resident --proof` →
+   must print `PROOF PASS`. (e) Negative control (R39): copy the config, change one field name in the copy, point a proof at it
+   (temporarily swap the file) → must FAIL; restore. (f) The same for `SLUS_007.26` (main; import + analysis ≈ 3 min); then
+   `ov_SC01_077`, `ov_SC06_018`, `sep8_SLUS_007.26`, `aug31_USA_DEMO.EXE` (the protos need `extracted/proto/*`, present).
+   (g) `config/ghidra/ROSTER.md` (generated by a tiny script or by hand: program, kind, payload, vram, rows kept, proof
+   date) — the roster = the 6 formerly-tracked programs; the other 123 regenerate on demand via `prefetch_fleet.py`.
+   (h) `.claude/settings.json` hooks → `"command": "bash \"$CLAUDE_PROJECT_DIR\"/tools/ghidra_mcp_start.sh"` (and stop);
+   `tools/ghidra_mcp_start.sh` exits 0 silently when `$GHIDRA/support/analyzeHeadless` is absent (a contributor's session
+   must not try to launch Ghidra). (i) `docs/SETUP.md` P33 B5 section (R21): every new tool + the OSGi-bundle gotcha + the
+   '.'-path gotcha + the delta model; `docs/second-oracle.md`/§2.8 pointers as needed. (j) Log entry, tick B5, refresh this
+   block, commit `feat(phase-33): B5 …`. Then **B6**.
+   Facts gathered (S86): the existing scripts and their conventions are in `tools/ghidra_scripts/`
    (`ExportSymbols.java` symbols-only, hardcoded output + blind overwrite — the R15 violation to fix; `ApplySymbols.java` the
    proven text→DB mirror with `BFMAPPLY` counts; `DumpFunctionSignatures.java` has the `jsonEsc` helper + JSONL style to reuse;
    `DefineFunctions.java` reads `~/bfm-decomp/.run/<prog>_funcs.txt` (hardcoded `user.home`); `ImportPsyqGdt.java` hardcodes
@@ -279,6 +324,12 @@ section), regenerated `docs/progress.fleet.md`, `docs/duplicates.md`, `docs/dupl
 `.run/backlog.jsonl`. A3: `Makefile` (`NO_SDK`, `sdk-dual`, tools-health wiring, `.PHONY`), `docs/SETUP.md` (P33 A3 section).
 A4: `tools/family_hseq.py` (`binaries` + `open_instances` in the json; `load()` returns a pair), `tools/audit_binaries.py`
 (CHECK 4 reads the scanned set), `docs/family-hseq.md` (regenerated, 0 families), `docs/SETUP.md` (P33 A4 section).
+B1–B4: see their Log entries. B5 (WIP): `tools/ghidra_scripts/{ExportAnnotations,ImportAnnotations}.java` (new),
+`tools/ghidra_export_annotations.sh`, `tools/ghidra_annotations_delta.py`, `tools/ghidra_rebuild.sh` (new),
+`tools/ghidra_scripts/{DefineFunctions,ImportPsyqGdt,ExportSymbols}.java`, the six `tools/ghidra_*.sh`, `Makefile`
+(`print-%`, `GHIDRA_PROJ`). Scratch: `.run/ghidra_export/` (129 exports), `.run/ghidra_rebuild/`, `build/ghidra_rebuild/`.
+Environment at the pause: the MCP server is STOPPED (saved cleanly, "Save succeeded"); disk ≈ 13 GB free; the SDK object dirs
+are rebuilt and the tree's main build is in the WITH-SDK state; `extracted/proto/` regenerated.
 Scratch: `.run/public_audit/` (the history inventory), `.run/P33/a2_report.log`, `.run/P33/a3_sdk_dual.log`,
 `.run/P33/verify/main_{with_sdk,no_sdk}.map` (to be allowlisted by A5).
 The plan file: `~/.claude/plans/max-effort-set-plan-twinkling-moonbeam.md` (copied below).

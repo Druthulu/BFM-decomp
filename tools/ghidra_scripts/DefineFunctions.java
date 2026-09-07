@@ -18,8 +18,12 @@ import java.util.List;
 public class DefineFunctions extends GhidraScript {
     public void run() throws Exception {
         String prog = currentProgram.getName();
-        Path in = Paths.get(System.getProperty("user.home"), "bfm-decomp", ".run", prog + "_funcs.txt");
-        if (!Files.exists(in)) { println("DefineFunctions: no list at " + in); return; }
+        // P33 B5: the list path is arg 1 (tools/ghidra_rebuild.sh passes .run/ghidra_rebuild/<prog>_funcs.txt);
+        // without an arg the historical location .run/<prog>_funcs.txt under the CWD (the repo) is used —
+        // no more `user.home/bfm-decomp` assumption.
+        String[] args = getScriptArgs();
+        Path in = (args != null && args.length > 0) ? Paths.get(args[0]) : Paths.get(".run", prog + "_funcs.txt");
+        if (!Files.exists(in)) { println("DefineFunctions: no list at " + in.toAbsolutePath()); return; }
         List<String> lines = Files.readAllLines(in);
         int created = 0, existed = 0, failed = 0;
         for (String ln : lines) {

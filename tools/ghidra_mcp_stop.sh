@@ -4,9 +4,10 @@
 # analyzeHeadless COMMITS the pending transaction and saves+closes the project (releasing
 # the .rep lock). The next session resumes from the saved state. Use at task/phase boundaries.
 set -uo pipefail
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # P33 B5: repo-relative, no $HOME/bfm-decomp assumption
 
 PORT="8080"
-RUNDIR="$HOME/bfm-decomp/.run"
+RUNDIR="$REPO/.run"
 LOG="$RUNDIR/ghidra-mcp.log"
 STOPREQ="${BFM_MCP_STOPREQ:-$RUNDIR/mcp-stop.req}"
 

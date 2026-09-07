@@ -14,12 +14,13 @@
 # Run tools/ghidra_mcp_stop.sh first. Used in Phase 3.5 to add the two prototypes
 # (sep8_SLUS_007.26, aug31_USA_DEMO.EXE) alongside retail; reusable for any PS-X EXE.
 set -uo pipefail
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # P33 B5: repo-relative, no $HOME/bfm-decomp assumption
 
 EXE="${1:?usage: ghidra_import.sh <path-to-ps-x-exe>}"
 GHIDRA="${GHIDRA_INSTALL_DIR:-$HOME/ghidra_12.1_PUBLIC}"
-PROJ_DIR="$HOME/bfm-decomp/ghidra"
+PROJ_DIR="${BFM_GHIDRA_PROJ:-$REPO/ghidra}"
 PROJ="bfm"
-SCRIPTS="$HOME/bfm-decomp/tools/ghidra_scripts"
+SCRIPTS="$REPO/tools/ghidra_scripts"
 GDT="${PSYQ_GDT:-$GHIDRA/Ghidra/Extensions/ghidra_psx_ldr/data/psyq400.gdt}"
 PORT="8080"
 

@@ -17,7 +17,9 @@ import java.util.Iterator;
 public class ImportPsyqGdt extends GhidraScript {
     @Override
     public void run() throws Exception {
-        String gdt = "/home/musashi/ghidra_12.1_PUBLIC/Ghidra/Extensions/ghidra_psx_ldr/data/psyq400.gdt";
+        // P33 B5: default = THIS Ghidra installation's ghidra_psx_ldr extension (no home-directory assumption)
+        String gdt = new File(ghidra.framework.Application.getInstallationDirectory().getFile(false),
+                              "Ghidra/Extensions/ghidra_psx_ldr/data/psyq400.gdt").getPath();
         String[] a = getScriptArgs();
         if (a.length > 0) gdt = a[0];
         File f = new File(gdt);

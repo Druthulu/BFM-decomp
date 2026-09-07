@@ -38,7 +38,22 @@ public class ExportSymbols extends GhidraScript {
         sb.append("// Durable text record of manual RE work (the .rep is gitignored). Phase-5 splat refines this.\n");
         sb.append("// count=").append(n).append("\n\n");
         for (String v : rows.values()) sb.append(v).append("\n");
-        java.nio.file.Path out = Paths.get(System.getProperty("user.home"), "bfm-decomp", "config", "symbols.us.txt");
+        // P33 B5 (rule R15): NEVER overwrite the curated config/symbols.us.txt — re-exporting is a reviewed
+        // re-merge. Arg 1 = output path (default .run/ghidra_export/<program>.symbols.txt under the CWD);
+        // an existing output is refused unless arg 2 is the literal `overwrite`.
+        String[] args = getScriptArgs();
+        java.nio.file.Path out = (args != null && args.length > 0) ? Paths.get(args[0])
+                : Paths.get(".run", "ghidra_export", currentProgram.getName() + ".symbols.txt");
+        boolean overwrite = args != null && args.length > 1 && "overwrite".equals(args[1]);
+        if (Files.exists(out) && !overwrite) {
+            println("BFMSYM REFUSED: " + out + " exists (pass `overwrite` as the 2nd arg; config/symbols*.txt is merged by hand, R15)");
+            return;
+        }
+        if (out.toAbsolutePath().normalize().toString().contains("/config/")) {
+            println("BFMSYM REFUSED: will not write into config/ (R15 — merge the export by hand): " + out);
+            return;
+        }
+        Files.createDirectories(out.toAbsolutePath().getParent());
         Files.write(out, sb.toString().getBytes());
         println("BFMSYM exported " + n + " USER_DEFINED symbols -> " + out);
     }

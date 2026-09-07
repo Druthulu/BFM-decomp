@@ -19,15 +19,16 @@
 # open transaction + saves on close). Save+stop with tools/ghidra_mcp_stop.sh; resume by
 # re-running this script. There is no mid-session save (GhidrAssist holds an open txn).
 set -uo pipefail
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # P33 B5: repo-relative, no $HOME/bfm-decomp assumption
 
 GHIDRA="${GHIDRA_INSTALL_DIR:-$HOME/ghidra_12.1_PUBLIC}"
-PROJ_DIR="$HOME/bfm-decomp/ghidra"
+PROJ_DIR="${BFM_GHIDRA_PROJ:-$REPO/ghidra}"
 PROJ="bfm"
 PROG="${1:-SLUS_007.26}"   # program to serve; default retail, pass a proto name to override
 PORT="8080"
-RUNDIR="$HOME/bfm-decomp/.run"; mkdir -p "$RUNDIR"   # project-local runtime scratch (never /tmp)
+RUNDIR="$REPO/.run"; mkdir -p "$RUNDIR"   # project-local runtime scratch (never /tmp)
 LOG="$RUNDIR/ghidra-mcp.log"
-SCRIPTS="$HOME/bfm-decomp/tools/ghidra_scripts"
+SCRIPTS="$REPO/tools/ghidra_scripts"
 STOPREQ="${BFM_MCP_STOPREQ:-$RUNDIR/mcp-stop.req}"
 
 # 1) Already serving? no-op (idempotent across sessions).

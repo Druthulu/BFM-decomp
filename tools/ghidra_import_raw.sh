@@ -18,18 +18,19 @@
 # PRECONDITION: the MCP server must be STOPPED (exclusive project lock) — run
 # tools/ghidra_mcp_stop.sh first. analyzeHeadless commits + saves on a clean exit.
 set -uo pipefail
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # P33 B5: repo-relative, no $HOME/bfm-decomp assumption
 
 BLOB="${1:?usage: ghidra_import_raw.sh <blob-path> <base-vram> <program-name>}"
 BASE="${2:?usage: ghidra_import_raw.sh <blob-path> <base-vram> <program-name>}"
 NAME="${3:?usage: ghidra_import_raw.sh <blob-path> <base-vram> <program-name>}"
 GHIDRA="${GHIDRA_INSTALL_DIR:-$HOME/ghidra_12.1_PUBLIC}"
-PROJ_DIR="$HOME/bfm-decomp/ghidra"
+PROJ_DIR="${BFM_GHIDRA_PROJ:-$REPO/ghidra}"
 PROJ="bfm"
-SCRIPTS="$HOME/bfm-decomp/tools/ghidra_scripts"
+SCRIPTS="$REPO/tools/ghidra_scripts"
 GDT="${PSYQ_GDT:-$GHIDRA/Ghidra/Extensions/ghidra_psx_ldr/data/psyq400.gdt}"
 LANG_ID="PSX:LE:32:default"
 PORT="8080"
-STAGE="$HOME/bfm-decomp/.run/$NAME"   # import filename -> program name
+STAGE="$REPO/.run/$NAME"   # import filename -> program name
 
 [ -f "$BLOB" ] || { echo "import-raw: ERROR — blob not found: $BLOB" >&2; exit 2; }
 [ -f "$GDT" ]  || { echo "import-raw: ERROR — PsyQ gdt not found: $GDT" >&2; exit 2; }
