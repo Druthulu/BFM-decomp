@@ -1309,7 +1309,8 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   renderer rewrites links rather than the authors avoiding them; the sync replaces the wiki's page set wholesale.
   Measured S88: 25 pages rendered, 264 relative links rewritten, 1,896 lines / 163 KB of source; `doc_links --strict`: 40 documents, 290 links, 0 broken; dry run before the wiki exists → "not clonable yet … dry run OK", exit 0.
 - **Sources the pages were distilled from** (no new facts were invented; every number is a recorded measurement):
-  `docs/portable-decomp-workflow.md`, `docs/hindsight-study.md`, `docs/generic-decomp-package.md`, `docs/accelerators.md`
+  `docs/portable-decomp-workflow.md` and `docs/hindsight-study.md` (both since archived under `docs/sunset/`, Phase 33.5 — the
+  chapters absorbed them), `docs/generic-decomp-package.md`, `docs/accelerators.md`
   (A1–A4, #15), `docs/effort-map.md`, `docs/retrospective.md`, `docs/story.md`, `docs/wave-playbook.md`,
   `docs/public-flip-runbook.md`, `docs/verification.md`, `README.md`, SETUP §4 / P33 B5 / P33 D1–D3, `docs/disc-completeness.md`,
   `docs/memory-map.md` (the load slots), the docstrings of `match_one` / `rtu_match` / `harvest_verify` / `gate_main` /

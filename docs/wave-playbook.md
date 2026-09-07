@@ -443,6 +443,66 @@ be semantically divergent.
   banking starts immediately. `claude_wave_draft.js` with a single target IS a one-agent workflow;
   no new script needed.
 
+**The execution block that settled batch vs stream (S37, `.run/s37w.js` — the file is untracked scratch; this is
+the part worth keeping).** Two batched halves with a barrier ran 14 targets in 136 min at 2.5× effective
+parallelism with 37–50-minute dead gaps at the boundary; this barrier-free `pipeline()` ran 16 in 82 min at 3.8×.
+The escalation ladder in it (haiku → sonnet → opus) is the S37 one — the routing line below supersedes it; the
+shape (draft → escalate per target, no barrier; the reduction that returns every agent's `index_hit`/`index_gap`
+for the harvest) is what transfers:
+
+```js
+phase('Draft')
+// pipeline() has NO barrier: each target flows draft -> escalate independently, so wall-clock is
+// the slowest SINGLE chain rather than the sum of two batch maxima.
+const results = await pipeline(
+  T,
+  (t) => agent(prompt(t, false), {
+    label: `draft:${t.fn}(${t.n}i,x${t.m})`,
+    phase: 'Draft',
+    model: t.model,
+    schema: VERDICT,
+  }).then((v) => ({ t, v })),
+
+  async ({ t, v }) => {
+    if (!v) return { t, v: { fn: t.fn, status: 'BLOCKED', summary: 'agent returned no verdict' }, tier: t.model }
+    if (v.status === 'MATCH' || t.model === 'opus') return { t, v, tier: t.model }
+    const nextTier = t.model === 'haiku' ? 'sonnet' : 'opus'
+    const v2 = await agent(prompt(t, true), {
+      label: `escalate:${t.fn}`,
+      phase: 'Escalate',
+      model: nextTier,
+      schema: VERDICT,
+    })
+    return { t, v: v2 && v2.status === 'MATCH' ? v2 : (v2 || v), tier: nextTier + '-escalated' }
+  },
+)
+
+const ok = results.filter(Boolean)
+const matched = ok.filter((r) => r.v && r.v.status === 'MATCH')
+log(`wave: ${matched.length}/${T.length} claim MATCH (the gate is the arbiter)`)
+
+return {
+  claimed_match: matched.map((r) => r.t.fn),
+  verdicts: ok.map((r) => ({
+    fn: r.t.fn, ov: r.t.ov, nins: r.t.n, members: r.t.m, tier: r.tier,
+    status: r.v ? r.v.status : 'NONE',
+    closeness: r.v ? r.v.closeness : null,
+    klass: r.v ? r.v.klass : null,
+    levers: r.v ? r.v.levers : null,
+    index_hit: r.v ? r.v.index_hit : null,
+    index_gap: r.v ? r.v.index_gap : null,
+    summary: r.v ? r.v.summary : null,
+  })),
+}
+```
+
+The harness already caps workflow agents at `min(16, cores-2)`, so a batch that exists to dodge a provider throttle
+buys nothing; the floor is the slowest single chain (~50 min at 200–300 turns), so past that point the lever is
+target selection, not concurrency. The coverage assertion that once lived in the S6f gate script (every draft comes
+back as exactly one of banked / failed / no-verdict — `banked + failed + no-verdict == drafts` — or the gate exits
+non-zero) is §5b's law below; whichever driver batches the gate today must assert it, because a crashed child once
+turned a byte-identical 579-instruction match into a silent zero.
+
 Streaming **burns the 5-hour window faster** (it removes the idle gaps), so slots are the budget
 dial. Model routing (P31 S73): **≤120 ins Sonnet · >120 Opus**; Fable is the tier above Opus for >~340 ins BUT WAS EXHAUSTED account-wide in S73 (three agents died on "You've reached your Fable limit" after ~10 min / ~133k tokens each) — check `/usage-credits` before routing to it. Opus handled 424/459/464/663-ins targets fine; 1165 is beyond its measured band. Never Haiku→Opus directly.
 
@@ -704,9 +764,10 @@ measurement that produced it. A generic decomp guide can tell you to verify your
 project log can tell you that a failed build leaves a stale binary whose hash reads green.
 
 Feeder documents for that template: `docs/decision-log.md` (R31 — the WHY behind every strategic
-pivot), `docs/accelerators.md` (discoveries that would have sped up earlier work),
-`docs/hindsight-study.md`, `docs/matching-cookbook.md` (the compiler-idiom knowledge base), and the
-`phase-ends/` series (the build history).
+pivot), `docs/accelerators.md` (discoveries that would have sped up earlier work), the how-to chapters
+(`docs/how-to-ai-decomp/`, which absorbed the July hindsight study), `docs/matching-cookbook.md` (the
+compiler-idiom knowledge base), and the `phase-ends/` series (the build history). The template itself
+is the day-one decomp kit, `decomp-architect/` (Phase 33.5).
 
 ## S80 addendum — the one-agent-per-function shape (no wave) and drafters that outlive the session
 

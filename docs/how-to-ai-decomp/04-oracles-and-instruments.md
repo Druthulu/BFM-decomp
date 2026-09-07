@@ -23,6 +23,10 @@ nothing in either diff said why.
 
 ## The four instances, and the rules they produced
 
+(These four are the ones with a rule attached. The full record of the class — the Phase-26 tooling-integrity audit,
+finding by finding, in which several "compiler walls" turned out to be the instruments — is
+[`docs/tooling-audit.md`](../tooling-audit.md).)
+
 1. Functions compiled at a different optimization level than their object was drawn as work **79 times across 19
    waves**. None could ever have banked. Every failure looked like a model failure. → **R45 draw-time bankability:**
    never hand out work the pipeline cannot bank; filter at the source and *count what you filtered* in a visible census.

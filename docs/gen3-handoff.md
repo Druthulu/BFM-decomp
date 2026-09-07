@@ -207,7 +207,7 @@ The framework carries over unchanged: the constitution, the session protocol, th
 a time, the rules R1–R83 (the Phase-33 candidates were ratified as R74–R83 at the Phase-33.5 gate). A new generation starts with a fresh
 plan in plan mode at Max. Three things the record says to do first:
 
-1. **Measure the shape before choosing** (`docs/hindsight-study.md` §2.1): which structures own most of the 61,898
+1. **Measure the shape before choosing** (the "characterize the corpus SHAPE first" principle — `docs/how-to-ai-decomp/03-bootstrap-order.md`, Phase 1): which structures own most of the 61,898
    data symbols, and which families own most of the 43,925 pins — a census with a self-asserting scanner, checked
    against a case whose answer is known.
 2. **Build the differential harness for the new question** before the campaign: "is this rename/type change

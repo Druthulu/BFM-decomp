@@ -46,6 +46,9 @@ against the wrong hash — was one of its own instruments.
 
 ## What transfers, and what does not
 
+The test, for any claim in these chapters or in a project's own notes: *if it would still be true for a PS2 game built
+with a different compiler, it transfers; if it is a fact about gcc 2.7.2 or about this game, it does not.*
+
 **Transfers:** the gate discipline, the oracle ladder, lanes and cards, draw-time refusal, free-before-paid, per-population
 clocks, model routing, the flywheel and its inert-rider law, the governance cadence, the publishing discipline, and the
 *shape* of the economics (not its constants).
@@ -56,8 +59,10 @@ the machine that builds it is universal.** That is the whole point of these chap
 
 ## The records these chapters are distilled from
 
-- [`docs/portable-decomp-workflow.md`](../portable-decomp-workflow.md) — the system, written target-agnostic during the campaign
-- [`docs/hindsight-study.md`](../hindsight-study.md) — the optimal *order*, with seven meta-principles, tagged UNIVERSAL / COMPILER-CLASS / BFM-SPECIFIC
+- two earlier syntheses these chapters absorbed and superseded — the target-agnostic system written during the campaign
+  (`portable-decomp-workflow.md`) and the mid-campaign study of the optimal *order* with its seven meta-principles
+  (`hindsight-study.md`, written at 78%) — both archived at the Phase-33.5 consolidation; the wiki's Archive index records
+  what each became
 - [`docs/generic-decomp-package.md`](../generic-decomp-package.md) — what the next project should inherit on day one
 - [`docs/accelerators.md`](../accelerators.md) — what was learned late that day one should know, each entry dated with when it *could* have been found
 - [`docs/retrospective.md`](../retrospective.md) and [`docs/story.md`](../story.md) — what we believed, what failed, what it cost; and the narrative

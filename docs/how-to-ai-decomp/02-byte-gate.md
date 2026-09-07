@@ -12,8 +12,8 @@ The first thing to establish — before writing a line of C — is a build that 
 byte-identical binary, with the hash check wired into the build so there is **no third state** between "identical" and
 "failed". BFM had this on day five (an all-`INCLUDE_ASM` build of the executable, SHA1-identical); every claim of
 progress after that was measured against an incorruptible oracle. The two things that were correctly done first, in
-this order: deterministic extraction with a committed manifest, then the all-assembly byte-identical baseline
-([`docs/hindsight-study.md`](../hindsight-study.md) §1).
+this order: deterministic extraction with a committed manifest, then the all-assembly byte-identical baseline — the
+first two rungs of the order [chapter 03](03-bootstrap-order.md) argues for.
 
 The mechanics on BFM: one SHA1 contract file per binary (`config/check.<alias>.sha`), a Makefile whose `check` target
 builds and compares and exits non-zero on any mismatch, a `NON_MATCHING` guard so that logically-correct-but-unmatched
@@ -41,14 +41,25 @@ Populations differ. BFM had ~216 small overlay binaries (build ≈ seconds, one 
 large executable (must rebuild wholly, ≈15 s clean when the batch is right, bisects when it is not).
 
 - **Parallel by default, never serial.** Overlays gate in git worktrees so a worker that carves (splits a translation
-  unit at a jump table) writes only inside its own tree — a carving worker corrupts a shared `asm/`. Sixteen binaries
+  unit at a jump table) writes only inside its own tree — a carving worker corrupts a shared `asm/` — and under a
+  per-binary lock, so two lanes never gate the same binary at once (the worktree gives isolation; the lock gives
+  mutual exclusion; a gate needs both to run as a lane). Sixteen binaries
   gated serially to protect one carving job cost an hour where the parallel form takes ten minutes; the project's
   standing bar became *a slow gate is a bug*. Pass `-j` to every build (a single-binary build without it is
   single-threaded: measured 7.2 s → 1.2 s).
 - **Batch the expensive one.** One clean rebuild verifies a whole batch of drafts; on failure, bisect so one bad draft
   cannot sink the rest. Two conditions make batching work: a pre-filter strong enough that most of the batch is right
   ([chapter 04](04-oracles-and-instruments.md)'s real-TU probe), and the bisect. Measure the gate before you fear it:
-  BFM's was believed to cost 40–60 minutes and cost ~15 seconds when clean; the stalls were bisects.
+  BFM's was believed to cost 40–60 minutes and cost ~15 seconds when clean; the stalls were bisects. One case where the
+  bisect blames the wrong draft: parallel drafters declare a shared callee two different ways, and the batch's failure
+  is the clash, not either draft — one early wave's whole gap between standalone matches and banks was such conflicts
+  (compile errors, zero codegen mismatches). Normalise the declarations before the gate, gate one draft at a time
+  when the failure class is conflicts, and keep a recovery pass that re-normalises the failures and re-gates.
+- **A red gate is a hash, not a diagnosis.** Turn it into a named symbol with two commands: substitute the draft into
+  a copy of its destination file and read the compiler's first `conflicting`/`redefinition` line. Propagation is a
+  gate too — a fail-closed one that byte-gates every member, writes the shared body and registers the group — and a
+  propagated body ships its signature change to every member; its sweep mode also catches earlier matches never
+  propagated, which is the "banked in one binary only" drift the table above names.
 - **Give the expensive population its own lane** rather than excluding it. Excluded "for a good reason", the main
   executable got no attention at all for weeks while the fast loop ran at a quarter of capacity for lack of work items
   ([chapter 05](05-cards-lanes-waves.md)).

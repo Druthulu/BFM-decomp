@@ -4,7 +4,8 @@
 PhaseEnds record *what happened*; `docs/decision-log.md` (R31) records *why we pivoted*. Neither
 answers the question this file exists for: **"what should phase 1 of the NEXT game do differently?"**
 
-**Companion (added P31 S59):** `docs/portable-decomp-workflow.md` holds the part that TRANSFERS —
+**Companion (added P31 S59; re-pointed at Phase 33.5):** the how-to chapters (`docs/how-to-ai-decomp/`, which absorbed the
+earlier `portable-decomp-workflow.md`, now archived) hold the part that TRANSFERS —
 the system (gate discipline, the oracle ladder, lanes, cards, draw-time refusal, per-population
 clocks, model routing, the flywheel, the measured economics) written target- and compiler-agnostic,
 for the public "how to AI-decomp" deliverable. This file stays the BFM-specific ledger of *what we

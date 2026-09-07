@@ -21,6 +21,36 @@ compiler-internal levers without reading 80,000 lines of source.
 Whole classes long "confirmed unsteerable" fell to it: hoist-vs-rematerialize across calls, store-vs-load ordering, the
 delay-slot filler's choice, the spill-slot order (which is the *declaration* order, not first-assignment order).
 
+**Levers from the hand-matching era**, each byte-proven before the map existed and each a one-line entry in it now —
+the shape of what such a catalogue holds:
+
+- *The scaffold's arithmetic.* The decompiler writes `&D_X + (i * K)` with pointer arithmetic that scales by four; the
+  tell is a shift off by ×4 in the diff (`sll v0, 4` against `sll v0, 2`); the fix casts through a byte pointer.
+- *Branch polarity.* Put the target's fall-through block in the `if` and the branched-to block in the `else`; the
+  scaffold's `== 0` form was right, and "improving" it to `!= 0` with swapped arms broke the match.
+- *Rematerialize versus spill.* A cheap constant held live across a call is spilled to a callee-saved register and
+  grows the frame; set the constant on the exits instead (`if (cond && call() == 0) v = f(); else v = 1;`).
+- *The cross-jump count law.* One call site and the compiler hoists (too few instructions); four or more and it
+  under-merges (too many); exactly the shared-block count matches — a shape choice turned into arithmetic.
+- *Two base pointers, two callee-saved registers,* allocated in first-use order — the source-side prediction that the
+  allocation table (below) confirms.
+- *The mask-local idiom.* `*(s16 *)f & (x & 0xFFFF)` written inline lets the compiler prove the result fits sixteen
+  bits and fold the load to `lhu`; hoisting the mask to a local (`s32 m = x & 0xFFFF;`) hides the range fact and keeps
+  the `lh`. Deliberately withholding a fact from the optimizer is a lever.
+- *Shared returns cluster.* Write both early exits as `goto ret0;` to one trailing `ret0: return 0;`; a lone
+  `if (x) return 0;` inlines the return, inverts the polarity and moves the constant into the result register — one
+  shape, three effects.
+- *Result-register coalescing (`v0`/`v1`)* was not reliably source-steerable — a variable at the top made it worse, an
+  early return broke polarity — and is a permuter target; recording the *failed* steers is what stops the next reader
+  repeating them.
+- *The walking pointer.* The loop optimizer strength-reduces `*q++` to an indexed form where the original keeps the
+  walk; and the "phantom frame" class has two variants with different fixes, keyed to the optimization level.
+- *When the permuter cannot help:* a residual on a call to an external callee is outside its search space entirely,
+  and it rejects register pins (a pinned draft is hand-tier work).
+- *The triage routing that came out of it:* pure structure → reconstruct; a stack buffer passed to a callee → array
+  decay; a register swap across a call → the source *shape* (not a pin — R73); a last-instruction schedule → a
+  scheduling barrier.
+
 **The source-version trap.** The "gcc 2.7.2" tree in community circulation is gcc **2.8.1** — a behavioural difference
 (a biv-elimination path disabled in 2.8.1 is live in the real 2.7.2 `cc1`) and a line-number drift large enough to land
 inside a different function. The map's citations were audited line by line against the vanilla 2.7.2 source by parallel

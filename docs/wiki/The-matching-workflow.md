@@ -63,6 +63,68 @@ intent to bank.
    pattern and the C-level lever, and the last functions of the project fell to five-line reproducers compiled with
    `-da` dumps rather than to more variants of the 500-instruction function ([chapter 07](../how-to-ai-decomp/07-compiler-source.md)).
 
+## Matching by hand
+
+Most of the fleet was matched by agents under the wave machinery; the hand loop is what those agents ran inside, and it
+is what a person runs on the residue. It was written down mid-project as a guide for the struct-heavy engine core
+(cookbook §16 and §17, the compiler-quirk toolkit); this is the part of it that stayed true.
+
+**Two decompiles, and the assembly as arbiter.** Use both Ghidra's whole-program decompile and m2c's, not one chained
+pipeline: Ghidra resolves locals against globals and callee identities from the whole binary, which m2c lacks; m2c
+gives the better starting shape. They disagree, and the assembly decides — one made a struct of what the other made
+separate globals, and the reuse of one `lui` base settled it. Two mechanics that cost time: the MCP server must be
+serving the *overlay* (`tools/ghidra_mcp_start.sh <alias>`, then `/mcp`, R29) and its decompile is asynchronous (poll
+the task); and the decompile wrapper hardcodes the main executable, so an overlay is decompiled by calling m2c
+directly (`tools/m2c/m2c.py -t mipsel-gcc-c -f <function> --context <ctx> <file.s>`).
+
+**The loop.** Standalone probe (`tools/match_one.py <fn> --c <draft> --asm-subdir asm/<alias>/nonmatchings/<alias>`)
+until the shape matches; the real-TU probe; the gate. A red gate is a hash, not a diagnosis — substitute the draft into
+a copy of the destination file and read the compiler's first conflict:
+`make build BINARY=<alias> 2>&1 | grep -iE 'conflicting|redefin|error'`.
+
+**The five signature moves.** The wall the project first called "fundamental" was a *signature-consistency* problem,
+and it dissolved under byte-neutral canonical widening plus the codebase's own cast idioms, applied surgically — a
+blanket declarations header broke loose matches (Phase 16); per-callee, byte-gated canonicalisation worked.
+1. *Return widening.* A function with no explicit `return` compiles identically as `void` or `s32`, so widening the
+   canonical return type is free fleet-wide; the mechanizable predicate: a `void` function whose result some call site
+   uses → widen to `s32` everywhere.
+2. *The sign cast at the use site.* Keep the canonical `s16`; write `(u16)D_X` where the assembly loads `lhu`.
+3. *The arity cast.* `((ret (*)(argtypes))func_X)(args)` at a call whose arity the canonical signature does not carry.
+   Its boundary is default argument promotion: pointer arguments cast safely, narrow scalars did not — until the K&R
+   `s16`-parameter definition form dissolved that wall too (cookbook §43).
+4. *Canonical-matching the target's own parameters.* If the consensus signature passes an address as `s32`, take it as
+   `s32` and access through `*(s32 *)(arg + 0xNN)` — the int-to-pointer cast is byte-neutral.
+5. *Function-pointer-table typing.* `extern void (*D_x[])(argtypes);` turns an indirect-dispatch residual class from
+   "cannot express" into "compiles".
+The layer lives in the overlay's own `.c` file, never in the shared header (a reach-1 name would collide across 134
+overlays). Two width facts: **types are byte-neutral for matching** — the compiler reads the access width off the
+instruction (`lh`, `lbu`, `lw`), not off a struct, so recovered structures help comprehension and not the byte-close —
+while **the widths of locals and parameters are not**: a value loaded with `lh` wants an `s32` local, because an `s16`
+local adds a redundant `sll`/`sra` re-extension.
+
+**Choosing what to hand-match.** Sorting candidates by *ascending* scaffold mismatch selects for the compiler-quirk
+tail (the scaffold already got the structure right, so only a codegen quirk remains); clean closes came from
+function-pointer calls, relocation-free few-call bodies, and mis-structured-but-fixable scaffolds. The tractable shape
+was ≤ 80 instructions and ≤ 4 calls. The progress metric was function-count-weighted, so a giant banks more bytes for
+the same percentage — "fewest largest" has no edge — and declaration work removes friction without unlocking matches:
+there was no "magic five that unlock hundreds". Match shared callees before their callers, so the definition fixes the
+signature fleet-wide, and watch for the circular callee — a residual that is also a callee in other drafts broke three
+of them at once.
+
+**Running it as a wave.** Parallel agents manufacture signature conflicts: one wave's whole gap between standalone
+matches (60%) and whole-binary banks (33%) was compile errors — every one a callee declared differently by two drafts
+in the same translation unit, and zero codegen mismatches. Hence the order *draft → normalise the declarations
+(`tools/sig_unify.py`) → gate*, a gate that batches at chunk size 1 when the failure class is signature conflicts
+(a batched bisect blames a good draft for another draft's clash), and a recovery pass that re-normalises the failures
+and re-gates. Pre-decompile the targets headlessly rather than through live MCP contention (stop the server, then
+`analyzeHeadless … -noanalysis -postScript DecompileFunctions.java`; rename Ghidra's lowercase `FUN_` outputs to the
+project's `func_` form; Ghidra's program ids are opaque, so map the alias first). The harness's workflow `args`
+channel does not transit arrays — embed the target list in the script. Filter agent scratch (`_try`, `_v2`) to the
+canonical draft name before gating, and make "no draft" a valid result: agents told to write a file *only on a
+standalone match* diagnosed twelve of thirty quirk walls precisely and correctly wrote nothing. Propagation is itself a
+fail-closed byte gate — it authors the shared macro body, registers the group, and its `--auto-from` sweep catches any
+earlier inline match never propagated — and a propagated body ships its signature change to every member.
+
 ## The knowledge base, and feeding it
 
 Before each match, consult [`docs/matching-cookbook.md`](../matching-cookbook.md) (grep it by symptom through

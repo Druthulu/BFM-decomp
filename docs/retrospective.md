@@ -6,9 +6,10 @@
 > PhaseEnds that carry a "What we believed, what failed, and what we would do sooner" section (`PhaseEnd_Phase31.md`,
 > `PhaseEnd_Phase32.md`), and the Deviations table of every PhaseEnd (237 rows across 32 phases — what was planned
 > against what happened). `tools/mine_hindsight.py` gathers all three with `file:line` anchors; nothing here is
-> backfilled into the log (R31). Two earlier syntheses are folded in by reference rather than rewritten:
-> [`docs/hindsight-study.md`](hindsight-study.md) (the optimal ORDER for an AI-driven matching decompilation, with its
-> seven meta-principles) and [`docs/generic-decomp-package.md`](generic-decomp-package.md) (what the next project should
+> backfilled into the log (R31). Two earlier syntheses are folded in by reference rather than rewritten: the July
+> hindsight study (the optimal ORDER for an AI-driven matching decompilation, with its seven meta-principles — written
+> at 78%, superseded by the how-to chapters and archived as `docs/sunset/hindsight-study.md` at the Phase-33.5
+> consolidation) and [`docs/generic-decomp-package.md`](generic-decomp-package.md) (what the next project should
 > inherit on day one). Every cost carries its denominator (R41).
 
 ## 1. What we believed, turn by turn — and what was actually true
@@ -93,7 +94,7 @@ claim"). The economics of the project are the ratio between those two rows.
 
 ## 4. What we would do sooner
 
-*In the order `docs/hindsight-study.md` §0 argues for — byte-match baseline → pin the compiler by evidence → honest corpus
+*In the order the July hindsight study first argued for and `docs/how-to-ai-decomp/03-bootstrap-order.md` now carries — byte-match baseline → pin the compiler by evidence → honest corpus
 census with self-asserting tools → propagation and reconcile tooling → the codegen map and the permuter → then crack,
 leverage-first — and with the specific lessons this project paid for:*
 
@@ -127,8 +128,8 @@ leverage-first — and with the specific lessons this project paid for:*
 
 ## 5. What stayed genuinely hard
 
-Not everything was tooling. `docs/hindsight-study.md` §5 names the classes that remain hard for any matching
-decompilation of this compiler, and this project's last phases confirm them:
+Not everything was tooling. The July hindsight study's §5 (archived as `docs/sunset/hindsight-study.md`) named the
+classes that remain hard for any matching decompilation of this compiler, and this project's last phases confirm them:
 
 - **The novel unique tail** — functions with no duplicate, no structural sibling and a scaffold too far from byte-exact
   for the permuter. They need reasoning; they were the last and most expensive fraction (the 21 of Phase 32).
@@ -140,7 +141,7 @@ decompilation of this compiler, and this project's last phases confirm them:
 - **The human gate.** ~99% of the work was the agent's, but every wrong *direction* was caught at a plan or milestone
   gate by a person — the re-charter of P31, the "everything short of Sony's objects and the original hand-asm must be C"
   directive of P32, the in-place-flip decision of P33. Automation filled between the gates; it did not replace them
-  (`docs/hindsight-study.md` §3, principle 7).
+  (the July hindsight study's principle 7; the chapters carry it as governance — `docs/how-to-ai-decomp/01-governance.md`).
 
 ## 6. For the wiki, in one paragraph
 

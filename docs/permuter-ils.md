@@ -115,5 +115,7 @@ and let the residual class decide whose turn it is). And a masked "1" is not a c
 
 - Cookbook §3 (the harness), §42/§45 (the F-band cracks where pins beat the permuter), §66d–§66d-5 (the permuter⇄reader
   loop), §137 (REGALLOC-PERM as a two-compile arithmetic problem), §493–§495 (the S80 repairs).
-- `docs/hindsight-study.md` §7, mine the permuter's failures, not just its wins (the offline-automatic endgame).
+- Mine the permuter's failures, not just its wins (the offline-automatic endgame): `tools/autopsy.py` turns the plateau
+  log into a classified corpus and `tools/residual_class.py` decides each class from the bytes; the track is described in
+  `docs/how-to-ai-decomp/03-bootstrap-order.md`, Phase 2b (first proposed in the July hindsight study's §7, archived).
 - `docs/how-to-ai-decomp/07-compiler-source.md`, when the residual is the compiler's, read the pass instead.

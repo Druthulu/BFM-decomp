@@ -58,7 +58,8 @@ ordering alone. What to build the moment you have two binaries ([chapter 10](10-
 
 - the corpus/coverage oracle; the signature layer (exact, relocation-normalized, mnemonic-sequence);
 - the twin join — **as a band, not a point**: an edit-distance band found 3.4× more reachable twins than the exact hash
-  on a corpus believed fully mined, and pays from the very first banks;
+  on a corpus believed fully mined (22 of 352 by exact hash, 75 of 352 by the band — [`docs/generic-decomp-package.md`](../generic-decomp-package.md)
+  §2b, which also says to rank the candidates by the *work* each needs, not by distance), and pays from the very first banks;
 - propagation (author once, instantiate at each member, byte-gate each, register fail-closed) and the family remap;
 - the **reconcile ladder** — declaration sync, callee casts, canonical-signature reconciliation, carve tools — because
   once cracking is systematic, banking a correct body past its translation unit is the bottleneck. This is the part
@@ -77,6 +78,13 @@ Two compounding assets BFM built late ([chapter 07](07-compiler-source.md)):
   register-allocation and scheduling residuals. It runs on a different budget from everything else and should be
   grinding the near-miss backlog from the first close draft. (And verify that it actually runs on your drafts: BFM's had
   silently never run on a whole class — [chapter 12](12-failure-museum.md).)
+- **Mine the permuter's failures, not just its wins.** A flywheel that only distils *successes* into the cookbook and the
+  permuter's weights leaves its largest signal unread: every near-miss the search plateaued on. BFM turned that log into
+  a corpus (`tools/autopsy.py`) and classified each plateau deterministically from the bytes (`tools/residual_class.py`)
+  into *missing transform* (the byte-match is reachable by a local mutation the search never tries — extend the
+  mutation set, a permanent offline win), *mis-classified* (fix the routing), *seed-structural* (redraft) or *genuine
+  wall*. The first bucket is the one that closes a whole class with no model at all. Build the classifier before the
+  backlog is large; 91% of BFM's open backlog carried no class label when the tool was written.
 
 Also seed the knowledge base from **sibling projects on the same compiler** — same-generation idioms transfer.
 
