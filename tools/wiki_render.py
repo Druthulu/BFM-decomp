@@ -128,7 +128,26 @@ def selftest():
         print("  FAIL a dead link rendered instead of raising")
     except RenderError:
         pass
-    print(f"wiki_render --selftest: {len(cases) + 1} cases, {bad} failed")
+    # reachability (P33.5 task 7): every wiki page is linked from the sidebar, every chapter from the sidebar AND the
+    # how-to index — a page nobody can navigate to is published but invisible
+    sidebar = (WIKI_DIR / "_Sidebar.md").read_text(encoding="utf-8")
+    howto_index = (WIKI_DIR / "How-to-AI-decomp.md").read_text(encoding="utf-8")
+    unlisted = []
+    for p in sorted(WIKI_DIR.glob("*.md")):
+        if p.name in ("_Sidebar.md", "_Footer.md", "Home.md"):
+            continue
+        if f"({p.name})" not in sidebar and f"({p.name}#" not in sidebar:
+            unlisted.append(f"{p.name} not in _Sidebar.md")
+    for p in sorted(HOWTO_DIR.glob("*.md")):
+        if f"../how-to-ai-decomp/{p.name}" not in sidebar:
+            unlisted.append(f"{p.name} not in _Sidebar.md")
+        if f"../how-to-ai-decomp/{p.name}" not in howto_index:
+            unlisted.append(f"{p.name} not in How-to-AI-decomp.md")
+    for u in unlisted:
+        bad += 1
+        print(f"  FAIL unreachable: {u}")
+    n_pages = len(list(WIKI_DIR.glob("*.md"))) + len(list(HOWTO_DIR.glob("*.md")))
+    print(f"wiki_render --selftest: {len(cases) + 1} cases, {bad} failed; reachability: {n_pages} pages, {len(unlisted)} unlisted")
     return 1 if bad else 0
 
 

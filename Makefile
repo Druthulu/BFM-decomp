@@ -231,6 +231,8 @@ audit-digest:
 	# P33 D3: the published DATA must describe the current tree too — docs/progress.json, the README's
 	# generated block and the badge files (the same numbers as the digest; R51: never typed)
 	$(VENV_PY) tools/progress.py --json --readme --check
+	# P33.5 task 7: the committed timeline must match what the digests generate (it used to be wired to nothing and sat stale)
+	$(VENV_PY) tools/timeline.py --check
 
 # P30 S39 (Drew's MASTER_REMAINING proposal, derived form — docs/decision-log.md 2026-08-04):
 # "what's left" is answered by six artifacts, each individually derived and NONE ever checked
@@ -295,9 +297,19 @@ tools-health:
 	# P33 B5: the Ghidra roster is DERIVED from config/ghidra/*.jsonl (R33); a stale roster misreports
 	# which programs' RE work is tracked as text. Pure text check, no Ghidra needed.
 	$(VENV_PY) tools/ghidra_roster.py --check
-	# P33 D5: every relative link in the public-facing docs resolves (pending pages are listed, and must be gone by gate 2)
+	# P33 D5 (+ P33.5 task 7): every relative link in the public-facing docs resolves (pending pages are listed, and must be
+	# gone by gate 2); nothing links into docs/sunset/; a wiki page links into docs/ only at a Reference-index/README target;
+	# every docs/ file is covered by one; a wiki page cites only TRACKED paths. The render selftest also asserts every page
+	# is reachable from the sidebar.
 	$(VENV_PY) tools/doc_links.py
 	$(VENV_PY) tools/wiki_render.py --selftest
+	# P33.5 task 7: the ROM-firewall page's ```gitignore fence IS the kit's template (one source, two copies). Skips loudly
+	# until the kit's template exists (task 11); exit 2 from the tool = "nothing to compare", never a pass (R43).
+	if [ -f decomp-architect/templates/gitignore.decomp ]; then
+		$(VENV_PY) tools/gitignore_template_check.py
+	else
+		echo "[skip] gitignore-template: decomp-architect/templates/gitignore.decomp does not exist yet (Phase 33.5 task 11)"
+	fi
 	$(VENV_PY) tools/xsig/tests/test_xsig.py 2>&1 | tail -1 | grep -q '^OK' && echo 'xsig tests: OK (8)' || { echo 'xsig tests: FAIL'; exit 1; }
 	# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
 	# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).
@@ -330,6 +342,9 @@ ifeq ($(BINARY),main)
 	$(VENV_PY) tools/progress.py --fleet
 	# P33 D1/D3: the same numbers as DATA — docs/progress.json + the README block (never typed by hand)
 	$(VENV_PY) tools/progress.py --json --readme
+	# P33.5 task 7: the dated timeline is generated from the committed digests (R75) — regenerated here, after
+	# progress.json, so its self-check against the last row sees the fresh data; audit-digest asserts it is fresh
+	$(VENV_PY) tools/timeline.py
 	# Backlog compaction (Phase 29): the near-miss log is append-only, so it fills with already-banked
 	# noise (measured 6,867 rows, 98% banked). prune rewrites .run/backlog.jsonl to the open near-misses
 	# (drop-now-matched P9 + best-per-addr) so the ledger tracks reality instead of drifting stale.

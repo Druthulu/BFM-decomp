@@ -88,5 +88,6 @@
 | 2026-09-04 | 57 |  | 213 | 100.0% | 100.0% | 99.9% | 95.1% | 21 | 777 / 2091 |
 | 2026-09-05 | 83 | P31 (v1.30.0) | 218 | 100.0% | 100.0% | 100.0% | 97.7% | 4 | 787 / 2091 |
 | 2026-09-06 | 36 | P32 (v1.31.0) | 218 | 100.0% | 100.0% | 100.0% | 100.0% | 0 | 789 / 2091 |
+| 2026-09-07 | 43 | P33 (v1.32.0) | 218 | 100.0% | 100.0% | 100.0% | 100.0% | 0 | — |
 
-72 dated rows · phase ticks from the 32 PhaseEnds · the chart: `docs/story-timeline.svg`.
+73 dated rows · phase ticks from the 33 PhaseEnds · the chart: `docs/story-timeline.svg`.

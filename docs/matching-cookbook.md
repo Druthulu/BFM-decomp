@@ -1275,7 +1275,7 @@ for defined/declared callees; infer for stubs), self-check with `match_one`, and
 **Operational gotcha (cost real work):** NEVER `git checkout src/<overlay>.c` during an active harvest.
 It silently reverts banked matches while the propagation artifacts (`engine_core.h` macros, other
 overlays' `DEFINE_func_X()` instantiations, `dedup.us.yaml` groups) survive — an inconsistent (though
-byte-recoverable: the next gate re-verifies) state. Use a `.run/_bak.c` copy for diagnostic
+byte-recoverable: the next gate re-verifies) state. Use a `.run/_bak.c` (not kept) copy for diagnostic
 substitute/build/revert, never `git checkout`.
 
 **Resilient incremental loop (proven under server-side API rate limiting):** the draft Workflow is the
@@ -1354,7 +1354,7 @@ Established by **running m2c on real `ov_SC01_077` stubs** (R14) — it corrects
 ## §16 Guided hand-matching the struct-heavy core (Phase 17 — beats the §15 brute-force)
 **Phase 16 called the loose-typing wall "fundamental." Phase 17 disproves it for the majority.** The wall is
 a signature-CONSISTENCY problem, not a comprehension one — the §1 loop reconstructs correct bodies ~100% of
-the time; the work is byte-closing + sig reconciliation. **Full process: `docs/hand-matching-process.md`**
+the time; the work is byte-closing + sig reconciliation. **Full process: `docs/sunset/hand-matching-process.md`**
 (§1 loop, §2 idioms, §3a the 5-move signature-consistency playbook, §7 the Ultracode wave + canonical-sig wall).
 
 **New byte-idioms (Phase 17, §2 there):**
@@ -1388,7 +1388,7 @@ conflicts, since resolved by banking. **The real wall is the gcc-quirk tail, not
 highest-reach circular targets are ALL §10-hoist / regalloc / layout-bound (0 closed by hand or permuter).
 The layer makes a wave *sig-clean*; it does NOT unlock the quirk tail. **→ The match-% lever is understanding
 gcc-2.7.2 (R17 compiler-source research, Phase 18), not more brute waves.** Wave deferred; infra staged
-(`.run/harvest_wave_s4.js`, 40 tractable reach-134 targets). See `docs/hand-matching-process.md` §8.
+(`.run/harvest_wave_s4.js`, 40 tractable reach-134 targets). See `docs/sunset/hand-matching-process.md` §8.
 **§17 (CORRECTED) answers it: the call-crossing register-ORDER class IS matchable — with `register __asm__`
 pins + a scheduling barrier (byte-proven). The "brute waves won't help" point stands; HAND levers (pins) do.**
 
@@ -1713,7 +1713,7 @@ true failure was a `conflicting types` compile error).
   byte-neutral (`--strip` removes the defs; type decls emit no code).
 - **T2 — the residual router** (`tools/exemplar_miner.py`). Consumes `wall_taxonomy.json` + per-overlay reach
   (dedup_propagate's computation) → routes every residual to a lever (WAVE / STRUCT / PINS / STUB) →
-  `docs/exemplar_curriculum.md` + the reach-134 wave-target list + `.run/exemplar_routing.json`. The "scan all
+  `docs/sunset/exemplar_curriculum.md` + the reach-134 wave-target list + `.run/exemplar_routing.json`. The "scan all
   residuals, pick the teachers / size the pools" router. Caveat: its `mismatch` is the M2C-DRAFT mismatch, NOT
   the hand-match floor (a loop-guard buckets STRUCTURAL_MISS at mismatch-16 yet hand-floors to 1).
 
@@ -3116,7 +3116,7 @@ caller-saved temp-numbering residual, no responsive C lever) — decomp-permuter
 ### §42d addendum — wave 4 (rtu_match fan-out over the mapped frontier, 2026-07-10c): 24/26 MATCH, +5 durable levers
 
 **META-YIELD (validates the frontier-map "reconcile-first" bucket):** a 26-worker rtu_match fan-out over the
-tractable-band draftable exemplars (the frontier map, `docs/phase25-frontier-map.md`) landed **24/26 MATCH**
+tractable-band draftable exemplars (the frontier map, `docs/sunset/phase25-frontier-map.md`) landed **24/26 MATCH**
 (20 banked byte-identical, 2 permuter, 4 needing per-fn link/drift fixes). Confirmed: **for the F-band exemplars,
 reconcile-first is often the WHOLE fix** — several (func_80131B14) were byte-correct in the body and only their
 TU-canonical decl layer conflicted; strip/align the decls → MATCH with no schedule/regalloc grind. The engine =
@@ -4071,7 +4071,7 @@ Omit one and the gate rejects every sibling — a result that reads exactly like
 Phase-27 T5 swept it with `family_sweep`, banked **0 of 8**, recorded *"all genuine byte-DIFF"*, and
 generalized it to **"h_seq/h_norm structural families do not mechanically template (≈0%)"** — which
 rewrote the endgame's arithmetic to "(cores cracked) × (reach), NOT (families) × 120"
-(`PhaseEnd_Phase27` Roadmap delta; `docs/calibration.md` called it *"the decisive P28/P29 input"*).
+(`PhaseEnd_Phase27` Roadmap delta; `docs/sunset/calibration.md` called it *"the decisive P28/P29 input"*).
 
 **Re-run through the carve path: 8 of 8 BANKED** (4 same-address + 4 cross-address via `to_addr`),
 `make clean` + extract-all + `check-all` → **140/140 byte-identical**.
@@ -5137,7 +5137,7 @@ costs seconds and it re-prices the whole task.
 `tools/blocker_probe.py` runs a STATIC oracle (`cdecl.parse` + **`cdecl.compatible`** — cc1's own
 acceptance question) beside the REAL cc1 (via `rtu_match`), and reports where they disagree. Two things
 this bought immediately:
-* **Text equality is never the question.** The deleted `.run/diag_plumbing.py` compared declaration
+* **Text equality is never the question.** The deleted `.run/diag_plumbing.py` (not kept) compared declaration
   TEXT, so `extern u8 D_X;` vs `extern unsigned char D_X;` read as a conflict although `common.h`
   typedefs make them the same type and cc1 accepts both silently. That artifact alone accounted for the
   pre-probe "~10 data-extern co-blockers" estimate.
@@ -9056,7 +9056,7 @@ ov_SC01_077-only `.run/uc_capture.py` is its ancestor). It reverts the TU in a `
 process performs no undo (the S27 law).
 
 **Corollary — mandate a PRIVATE scratch path in the agent prompt.** A wave-4a reconcile agent chose
-`.run/s7/scratch/spliced.c` on its own initiative; a concurrent agent in the same wave overwrote it
+`.run/s7/scratch/spliced.c` (not kept) on its own initiative; a concurrent agent in the same wave overwrote it
 mid-run, so its first verification compiled *another agent's TU* and returned a meaningless `rc=0`.
 It caught the swap only because the emitted `.s` did not contain its own function. This is the
 Phase-28 `match_one` fake-isolation defect recurring one level up — at the AGENT layer, where no
@@ -13420,7 +13420,7 @@ Target shape — the incoming arg register is used in place, and the only copy i
 
 **THE LAW.** sched1 runs BEFORE reload and its scope is the basic block; jump2's `cross_jump` runs AFTER (pass order per §45-B). **Duplicated**, arm+tail is ONE block at sched1 time, so the tail's `lw 0x20($s3)` is hoisted INTO the arm's or-chain and recycles the `$v1` the chain's `lui` constants just vacated; the identical suffix is merged back for free afterwards. **Hand-factored**, the tail is its own block, the load is pinned in the arm at its source position, and it takes a different register. ⇒ **duplication here is not the byte-count trick of §48-A1/A4/§50-B — it is a SCHEDULING-SCOPE lever, and no pin substitutes for it.**
 
-**BYTE EVIDENCE.** `src/ov_SC06_018/ov_SC06_018_jr_8018FF98.c:3299-3331` (both arms longhand, no shared local, no `goto` into a join) gates **MATCH 385/385**, banked, whole-binary green. Seven join spellings measured and all lost (`.run/wave3/func_8018FF98/vA,v1,v2,v3,p1,p2.c`): `obj` moved to four source positions, retyped `s32`→`u16*`, pinned `register s32 obj __asm__("$3")` (the pin only moves the constant temp to `$a0`), and a `w` temp interposed. Reported best 6 mismatched.
+**BYTE EVIDENCE.** `src/ov_SC06_018/ov_SC06_018_jr_8018FF98.c:3299-3331` (both arms longhand, no shared local, no `goto` into a join) gates **MATCH 385/385**, banked, whole-binary green. Seven join spellings measured and all lost (`.run/wave3/func_8018FF98/vA,v1,v2,v3,p1,p2.c` (not kept)): `obj` moved to four source positions, retyped `s32`→`u16*`, pinned `register s32 obj __asm__("$3")` (the pin only moves the constant temp to `$a0`), and a `w` temp interposed. Reported best 6 mismatched.
 
 **DIAGNOSTIC TELL — read the INTERLEAVE, not the register.** *"The merged block uses a register the arms loaded"* does **not** discriminate: a `goto`-join needs a shared local for the same value, so its arms load into a register the join reads too. The discriminating signature is that **the arm's copy of the tail's load sits in the MIDDLE of the arm's own unrelated computation, reusing a register that computation has just finished with** — a load the source placed in the arm ahead of a `goto` sits at its source position and has no reason to recycle that register. Corroborate with a second read: here the merged block **re-loads** the same base for its second use (`lw $v1,0x20($s3)` again at 0x801903C4), which a shared `obj` local would have made redundant.
 
@@ -15725,7 +15725,7 @@ Duplicating the store hands the BASE POINTER one extra `REG_N_REFS` at allocatio
 
 So **`if (C) { P; return X; } Q; return Y;` emits Q-then-P**, branch-if-`C` to P, and **P — the arm you wrote FIRST — is the epilogue-adjacent block with no `j`.** Put the target's no-jump arm **inside the `if`**, never after it. **The spelling is inert:** `… return Y;` and `… else { return Y; }` are byte-identical, both ways round; only WHICH arm is the then-arm moves anything.
 
-**Byte evidence — `func_80187130` (ov_SC06_018, 86 ins, banked `874f942fe`, `src/ov_SC06_018/ov_SC06_018_jr_80186270.c:3243`).** Five variants through the pinned triple, re-run at vetting (`cpp / cc1-2.7.2 -O2 -G0 -mips1 -mcpu=3000 / maspsx / as`; probe artifacts `.run/match/func_80187130.246967/` and `.242624/`):
+**Byte evidence — `func_80187130` (ov_SC06_018, 86 ins, banked `874f942fe`, `src/ov_SC06_018/ov_SC06_018_jr_80186270.c:3243`).** Five variants through the pinned triple, re-run at vetting (`cpp / cc1-2.7.2 -O2 -G0 -mips1 -mcpu=3000 / maspsx / as`; probe artifacts `.run/match/func_80187130.246967/` (not kept) and `.242624/`):
 
 | spelling | cc1 `.s` layout | verdict |
 |---|---|---|
@@ -20828,7 +20828,7 @@ Sweep script (mine): `/home/musashi/bfm-decomp/.run/harvest_x/vscan.py` — 8 se
 
 **COST.** 6! = 720 compiles ≈ 4 min at 16–24-way; 7! = 5,040 ≈ 30 min. Past 7 independent statements the exhaustive sweep stops being affordable — that is where §3/§3b's permuter takes over, not before.
 
-*(Evidence: `func_801A2014` md_SC07_003 154 ins banked, `src/md_SC07_003/md_SC07_003.c:784`; `func_80182A24` ov_SC01_077 158 ins banked, `src/ov_SC01_077/ov_SC01_077_jr_80182268.c:3404`. 1,440 compiles, independently reproduced 2026-08-18: `.run/harvest_x/vsweep.py|vsweep.json`, `vsweep2.py|vsweep2.json`, `vattr.py`.)*
+*(Evidence: `func_801A2014` md_SC07_003 154 ins banked, `src/md_SC07_003/md_SC07_003.c:784`; `func_80182A24` ov_SC01_077 158 ins banked, `src/ov_SC01_077/ov_SC01_077_jr_80182268.c:3404`. 1,440 compiles, independently reproduced 2026-08-18: `.run/harvest_x/vsweep.py|vsweep.json` (not kept)|vsweep.json` (not kept)|vsweep.json`, `vsweep2.py|vsweep2.json`, `vattr.py`.)*
 
 **BOUND.** **Where it does NOT apply.**
 
@@ -24844,7 +24844,7 @@ until the body is real C. Drafter nuance that cost the only iteration: a callee 
 eagerly-filled branch delay slot (`a0=s0` serving the ELSE path) reads like an argument — 
 func_801EF6E4 takes NONE (`extern void f(void)`), and the one-mismatch signature is a redundant
 `move a0,s0` in the jal's own slot. Full design + failure semantics:
-`docs/tool-designs/jtbl-automation-s59.md`.
+`docs/sunset/tool-designs/jtbl-automation-s59.md`.
 
 ## §261 — THE -O0 ORACLE: DERIVE THE OPT LEVEL FROM THE TARGET, AND `$fp` IS NOT THE TELL (P31 S59)
 
@@ -24971,7 +24971,7 @@ The `extend-tell` / `swaprepeat-tell` / `s16-div-tell` population banks well bel
 and the measured cause is not the models: **the card names a lever that appears nowhere in this
 cookbook** (see the LANE ALIASES block at §172b) and the drafts stack 3-5 idioms. These four were
 proven this session by taking real failed wave drafts to `MATCH`; full derivations, transcripts and
-probe files in `docs/tool-designs/tells-lane-s59.md` and `.run/s59_tells/`.
+probe files in `docs/sunset/tool-designs/tells-lane-s59.md` and `.run/s59_tells/`.
 
 **1. The `(s16)` promotion belongs INLINE in the call argument** (`func_8017D8E8`, 33/33). Spelled
 inline, its `sra` lands in the `jal` delay slot; hoisting it into a temp kills that fill. Three
@@ -25123,7 +25123,7 @@ attribution`, `solo A/B`, `pin did nothing`, `volatile did nothing`.
 which were already covered — the harvest is mostly re-derivation, which is itself the finding). Each
 block names the section it amends, so a grep for that § finds the amendment too. Six of the eleven
 carry a fresh `match_one` A/B; the rest are artifact-verified. Sources and per-candidate dispositions:
-`docs/distill/atbhbkbl.md`.*
+`docs/sunset/distill/atbhbkbl.md`.*
 
 ### ADD-1 → §231 addendum (also cross-ref from §195-D) — THE MASKED-`jal` "MISSING CALL" ILLUSION
 
@@ -25341,7 +25341,7 @@ one as a rider, check whether its range crosses a call. Grep bait: `pin ignored`
 *Ten amendments to existing sections, distilled from 82 byte-gate-banked harvest notes — 67 of which
 (81.7%) were already covered, the same ~85% re-derivation rate the previous batch measured. Each
 block names the section it amends, so a grep for that § finds the amendment too. Sources, the
-per-candidate ledger and the re-runnable A/B files: `docs/distill/axbm.md`, `.run/s59_distill2/`.*
+per-candidate ledger and the re-runnable A/B files: `docs/sunset/distill/axbm.md`, `.run/s59_distill2/`.*
 
 **THE INERT-RIDER RATE IS NOW A MEASUREMENT, NOT AN ANECDOTE (§266).** This batch ran 19 solo-lever
 strip-tests across 13 banked bodies (34 `match_one` runs): **6 of 19 credited levers were byte-inert**
@@ -30287,7 +30287,7 @@ prim.uv[0].u = 0xC00; prim.uv[0].v = 0x180; prim.uv[1].u = 0xC7F; prim.uv[1].v =
 prim.uv[2].u = 0xC00; prim.uv[2].v = 0x1FF; prim.uv[3].u = 0xC7F; prim.uv[3].v = 0x1FF;
 ```
 
-**EVIDENCE — a 40-variant combinatorial sweep, differential only.** `.run/.../sweep2.py`, 5 v-shapes × 4 u-shapes × 2 tails, masked-diff against the real target `.s` via `match_one`. Baseline backlog draft (source order + single-expression tail) = **32** (`sig":"WIDTH/sw!=lw"`). A load-hoist variant = **34** (worse). Splitting the colour expression alone with unchanged write order = **38** (worse still). Then: `grp+nat+B` = **16**, `vdsc+nat+B` = **10**, **`fdsc+nat+B` = 5** (best), against `fdsc+base+A` = 28, `fdsc+natd+A` = 28, `vasc+nat+A` = 28. The three levers are **jointly required** — swap any one out and it reverts to double digits.
+**EVIDENCE — a 40-variant combinatorial sweep, differential only.** `.run/.../sweep2.py` (not kept), 5 v-shapes × 4 u-shapes × 2 tails, masked-diff against the real target `.s` via `match_one`. Baseline backlog draft (source order + single-expression tail) = **32** (`sig":"WIDTH/sw!=lw"`). A load-hoist variant = **34** (worse). Splitting the colour expression alone with unchanged write order = **38** (worse still). Then: `grp+nat+B` = **16**, `vdsc+nat+B` = **10**, **`fdsc+nat+B` = 5** (best), against `fdsc+base+A` = 28, `fdsc+natd+A` = 28, `vasc+nat+A` = 28. The three levers are **jointly required** — swap any one out and it reverts to double digits.
 
 **WHAT THE FLOOR ACTUALLY IS, AND WHY IT MATTERS.** The surviving 5-instruction window is **not** the fill body — it is the prologue schedule:
 
@@ -36697,7 +36697,7 @@ Same class as §323 (attributes hid the name) and §321 (re-emission): the carri
 **The refusal.** `jr_isolate_all ov_SC02_017 --only func_80186C64` refused (R43): *1 carried type name(s) have CONFLICTING
 bodies — a rename is needed, not a dedupe: `Rec801806C8_s` — A: `struct Rec801806C8_s { s32 f0; s32 f1; s32 f2; }
 __attribute__((packed, aligned(1)));` B: `typedef struct Rec801806C8_s Rec801806C8;`*. Both lines are legal C in one TU
-(a tag definition, then a typedef naming it), so `docs/frontier-p32.md` had costed a source RENAME.
+(a tag definition, then a typedef naming it), so `docs/sunset/frontier-p32.md` had costed a source RENAME.
 
 **The mechanism.** The dedupe in `_file_scope_decls` keys a type block by `_type_names(block)`, whose recogniser
 `\b(?:struct|union|enum)\s+(\w+)` returns the TAG for a bodiless `typedef struct Tag Alias;`. The tag's definition block
@@ -36915,7 +36915,7 @@ AND re-verified by the successor with `rtu_match` in the real TU.
   widening `addu $v1,$s4,$zero` copy with NO extension (the journal's "conserved `andi`" verdict was about the mask;
   the `s16` declaration is the lever); **the identity of the DEAD LOCAL a temp reuses is a first-class regalloc lever**
   — sweeping ~25 candidate names per temp slot at ~1 compile each found 3 of the 6 wins (the 20-line sweeper is kept at
-  `.run/P32/t3/restored/sweep_func_80039308.py`; tool candidate); `register s32 two __asm__("$2")` on the S349
+  `.run/P32/t3/restored/sweep_func_80039308.py` (not kept); tool candidate); `register s32 two __asm__("$2")` on the S349
   dead-reset constant (swept `$2..$8`, `$2` unique); TWO variables pinned to ONE hard reg (`$4`) when the address dies
   into the loaded value (`lw $a0,0($a0)`); naming the byte offset in a dead local + computing `t9` before `cnt` takes
   the MULT out of the MEM address so the PLUS keeps operand order. Residual: preheader 49/50 swap, the un-spellable

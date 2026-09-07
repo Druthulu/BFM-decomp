@@ -135,6 +135,6 @@ content check looks for exactly that.
 
 ## For a new project
 
-The day-one kit built from this project stamps these conventions into a fresh repository as `docs/README.md` and
-`.run/README.md`, together with the `.gitignore` firewall, so that the first session already has a place for each kind
-of knowledge and never has to consolidate the way this one did.
+The day-one kit built from this project stamps these conventions into a fresh repository as a README in its docs folder
+and one in its scratch folder, together with the `.gitignore` firewall, so that the first session already has a place
+for each kind of knowledge and never has to consolidate the way this one did.

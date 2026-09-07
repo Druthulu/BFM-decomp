@@ -45,7 +45,7 @@ in-tree links to `docs/wiki/<Page>.md`. 8. `.run/`: only what git tracks; no sca
 - [x] **4** Wiki — reference + direction: `Reference-index.md` (list-driven), `Where-the-project-goes-next.md`, Contributing "AI use — conduct", Home rewritten, sidebar sections — xHigh — see Log 2026-09-07 Task 4 — **P6 rules check done after it**
 - [x] **5** Integrate the six (hand-matching-process; wave-metrics + the s37w block → wave-playbook; portable-decomp-workflow vs the 13 chapters; generic-decomp-package attributed; hindsight §2.1/§7 → ch.03 + permuter-ils; the gen3 docs → the direction page); re-point every referrer incl. `retrospective.md:10–11` — xHigh — see Log 2026-09-07 Task 5
 - [x] **6** Sunset moves (59 files — `family-hseq.md` stays, see the log) with the referrer census by command; `docs/sunset/README.md`; `Archive-index.md` rows (backticked paths + `v1.32.1`); DIGEST §4 + `docs/history/README.md` refreshed; coverage: 0 `docs/` files outside wiki/how-to/sunset uncovered — xHigh — see Log 2026-09-07 Task 6
-- [ ] **7** Checkers: `doc_links.py` (sunset refusal, index-derived allowlist, wiki-first warnings, TRACKED/UNTRACKED citation classifier + `--disk`, coverage ⊆); reachability in `wiki_render --selftest`; `timeline.py` regen in `report BINARY=main` + `--check` in `audit-digest`; the 14 dangling cookbook cites; the gitignore-template diff; tools-health wiring; SETUP rows — xHigh
+- [x] **7** Checkers: `doc_links.py` (sunset refusal, index-derived allowlist, wiki-first warnings, TRACKED/UNTRACKED citation classifier + `--disk`, coverage ⊆); reachability in `wiki_render --selftest`; `timeline.py` regen in `report BINARY=main` + `--check` in `audit-digest`; the 13 dangling cookbook cites; the gitignore-template diff; tools-health wiring; SETUP rows — xHigh — see Log 2026-09-07 Task 7
 - [ ] **8** Tracked `.run/` prune (the 172 + the session logs + the 2 firewall files; `untracked_after_rewrite.txt`; `audit_public` check 4 with both controls; runbook §11; the four tool notes) — xHigh — **then P6 rules check**
 - [ ] **9** Memory reconciliation (move the off-project file; the 7 stale updated; `bfm-decomp-context-system` refreshed; the seed set under `decomp-architect/memory-seed/` with `upstream: PA` tags) — xHigh
 - [ ] **10** Kit part 1: `README.md`, `intake.decomp.md`, `decomp-architect.md`, `templates/registry-E.decomp.md`, `corpus/decomp-kernels.md`, `templates/PLACEHOLDERS.md` — Max
@@ -363,55 +363,80 @@ in the Archive index (0 missing); the coverage check: 64 `docs/` files outside w
 documents, 429 links, 0 pending, 0 broken; render selftest 12/12; `git log --follow` on three samples confirmed AFTER the commit
 (a staged rename shows no history until committed).
 
-## 🛑 SESSION CHECKPOINT — Tasks 0–6 ✓; NEXT = task 7 (the checkers: doc_links extensions, render reachability, timeline wiring, the 14 dangling cites; xHigh)
+### 2026-09-07 — Task 7 — The checkers (xHigh)
+`tools/doc_links.py` rewritten around six checks, every count with its denominator: (1) links as before + the pending list;
+(2) the archive refusal — any link into `docs/sunset/` is BROKEN; (3) wiki-first — a wiki/how-to link into `docs/` must be a target of
+`Reference-index.md` or `README.md` (the allow-list is DERIVED from those two pages; the two index pages exempt); (4) coverage —
+every tracked `docs/` file outside wiki/how-to/sunset is covered the same way (64 of 64); (5) citations — every backticked `docs/…`
+/ `.run/…` path is TRACKED or UNTRACKED by `git ls-files` (disk-independent; `<…>`/globs/ellipses skipped; `path:12-19` forms look
+up the file; `` `path` (not kept) `` is declared gone and skipped); a wiki page citing an UNTRACKED path fails; `--disk` adds the
+PRIVATE/DANGLING split; (6) wiki-first WARNINGS (exit 0) from a small topic→page map — today 2 (gen3-handoff and story link
+`verification.md`; left, they are records/narrative). `tools/wiki_render.py --selftest` gained the reachability assertion (every
+wiki page in the sidebar; every chapter in the sidebar AND the how-to index): 31 pages, 0 unlisted. `tools/timeline.py` wired:
+regenerated in `report BINARY=main` after `progress.py --json`, `--check` in `audit-digest` — it WAS stale at HEAD (72 → 73 rows: the
+Phase-33 close day); the two files regenerated and committed. New `tools/gitignore_template_check.py` (the page's ```gitignore
+fence == the kit's template; rc 1 drift, rc 2 no template yet — never a pass; refuses ≠1 fence) behind an existence test in
+tools-health that skips loudly until task 11. **What the new checks found immediately:** the conventions page cited two files only
+the future kit stamps (`docs/README.md`, `.run/README.md`) → reworded; the classifier's first cut read `path:line` cites as unknown
+paths → fixed. **The R39 control on the cookbook** (`--disk docs/matching-cookbook.md`, not in the default set): BEFORE = 13
+DANGLING of 276 untracked citations (the audit's "14" — its regex differed by one); of the 13, FIVE were documents this phase
+archived (`tool-designs/jtbl-automation-s59.md`, `tells-lane-s59.md`, `distill/atbhbkbl.md`, `distill/axbm.md`, `frontier-p32.md`)
+→ re-pointed to their tracked `docs/sunset/…` paths (my first pass had wrongly marked them "(not kept)" — caught by reading the list;
+plus 5 more archived-doc cites re-pointed earlier in the task: `hand-matching-process` ×2, `exemplar_curriculum`, `phase25-frontier-map`,
+`calibration`); the other EIGHT are `.run/` scratch that exists nowhere (`.run/_bak.c`, `.run/diag_plumbing.py`,
+`.run/s7/scratch/spliced.c`, `.run/wave3/func_8018FF98/vA,…c`, `.run/match/func_80187130.246967/`, `.run/harvest_x/vsweep.py|vsweep.json`,
+`.run/.../sweep2.py`, `.run/P32/t3/restored/sweep_func_80039308.py`) → annotated `` (not kept) `` in place. AFTER = 0 DANGLING, 263
+PRIVATE (breadcrumbs, allowed in a record). `cookbook_index.py --check` OK (1,169 sections; no heading changed). Default set:
+56 documents, 429 links, 0 pending, 0 broken, 551 citations (430 tracked / 121 untracked, none in a wiki page), coverage 64/64;
+`--strict` OK. `make audit-digest` rc 0 with the timeline check. SETUP rows for `doc_links`, `wiki_render`, `timeline` and the new
+tool (R21). The conventions page's description of the checks matches the implementation.
+
+## 🛑 SESSION CHECKPOINT — Tasks 0–7 ✓; NEXT = task 8 (the tracked-`.run/` prune + the audit-only rules file + the content check; xHigh; then the P6 rules check)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase31/32/33.md` and this file, and
 nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest (R1–R83), then
-WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–6 completed and task 7 in progress.
+WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–7 completed and task 8 in progress.
 
 ### 1. Where we are
 **Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; effort follows the plan's
 column (Max for tasks 10, 12, 15 — prompt at each transition, R27; xHigh now). Baseline HEAD `80d45b29b`; task 0 = `39d524991`;
-task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 = the commit
-after it (59 renames + the two indexes). Nothing under `src/`, `config/` or the `Makefile` has changed; the fleet is 218/218 at the
-Phase-33 close. `docs/doc_links_pending.txt` is EMPTY (comments only). Wiki: 17 pages (Home, the 10 "Using", Docs-and-scratch-
-conventions, The-ROM-firewall, Reference-index, Where-the-project-goes-next, Archive-index, How-to-AI-decomp) + 13 chapters; every
-sidebar row resolves. `docs/` outside wiki/how-to/sunset = 64 files, all covered by the Reference index or the README;
-`docs/sunset/` = 59 files + README. The coverage one-liner (task-4 log) and the census command (D3) are the prototypes task 7
-turns into `tools/doc_links.py` checks.
+task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 = `6ec4786bd`;
+task 7 = the commit after it (the checkers). `Makefile` changed (three lines: timeline regen/check, the template diff step) — no
+build input changed; the fleet is 218/218 at the Phase-33 close. `docs/doc_links_pending.txt` is EMPTY. `doc_links --strict` is
+green; the cookbook control reads 0 dangling. Wiki: 17 pages + 13 chapters, all reachable. `.run/` is still at 1,086 tracked files.
 
-### 2. What NEXT does (task 7, xHigh) — exact steps
-1. `tools/doc_links.py` extensions (keep the existing behaviour and output shape; add checks, each printed with its denominator, R41):
-   (a) **sunset refusal** — any relative link whose resolved target starts with `docs/sunset/` is BROKEN, from any document (the two
-   index pages included; they use backticked paths); (b) **the index-derived allow-list** — for every document under `docs/wiki/` or
-   `docs/how-to-ai-decomp/`, a relative link that resolves under `docs/` but outside `docs/wiki/`, `docs/how-to-ai-decomp/` must be a
-   target of `docs/wiki/Reference-index.md` (a file, or under a directory the index links) or of `README.md`; `Reference-index.md` and
-   `Archive-index.md` themselves are exempt; (c) **coverage** — every `git ls-files docs` path outside wiki/how-to/sunset must be covered
-   the same way (the task-4 one-liner, as a check); (d) **wiki-first warnings** (exit 0) — a non-README, non-wiki document linking a
-   `docs/` file that has a wiki page for its topic: a small map {`SETUP.md`→Toolchain-setup, `verification.md`→Verification-and-progress,
-   `public-flip-runbook.md`→The-ROM-firewall, `gen3-standards.md`/`gen3-handoff.md`→Where-the-project-goes-next, `wave-playbook.md`→
-   The-matching-workflow, `formats.md`/`memory-map.md`→Overlays-and-modules} — print, never fail; (e) **backticked citations** — every
-   `` `docs/…` `` or `` `.run/…` `` path in the checked set (regex over backticks; skip `<…>` placeholders and globs) is TRACKED (in
-   `git ls-files`) or UNTRACKED; FAIL only when a `docs/wiki/` or `docs/how-to-ai-decomp/` document cites an UNTRACKED path; print
-   counts for the rest; `--disk` adds an on-disk PRIVATE/DANGLING split for local use. PhaseEnds and `phase-ends/logs/` are not in the
-   checked set (records). Negative control (R39): before fixing them, `--disk` must name exactly the 14 dangling cookbook cites the
-   audit found (cookbook :36918 `.run/P32/t3/restored/sweep_func_80039308.py`, `.run/frontier_p32.json`, `.run/backlog_drafts/…`,
-   `.run/banked_func_*.json`, `.run/distill_inflight/*.json`, `.run/rtu_shadow/X.jsonl`, `.run/s7/scratch/spliced.c`, `.run/diag_plumbing.py`
-   in `tools/blocker_probe.py:26` — the cookbook is NOT in the checked set, so run the control over it explicitly with a path argument);
-   then fix those 14 lines in `docs/matching-cookbook.md` (rewrite each as "(scratch, not kept)" or point at the tracked copy) and
-   regenerate `docs/cookbook-index.md` (`tools/cookbook_index.py`) if a § heading line changed (it should not).
-2. `tools/wiki_render.py --selftest`: add the reachability assertion — every `docs/wiki/*.md` except `_Sidebar`/`_Footer`/`Home` is linked
-   from `_Sidebar.md`, and every how-to chapter appears in both `_Sidebar.md` and `How-to-AI-decomp.md`; 0 unlisted today.
-3. `Makefile`: in the `report BINARY=main` block add `$(VENV_PY) tools/timeline.py` (regen — check its CLI first: `--out`? the docstring);
-   in `audit-digest` add `$(VENV_PY) tools/timeline.py --check`; in `tools-health` after `doc_links` add the gitignore-template diff:
-   extract the ```` ```gitignore ```` fence of `docs/wiki/The-ROM-firewall.md` and `diff` it against `decomp-architect/templates/gitignore.decomp`
-   — that file lands in task 11, so make the diff step SKIP loudly when the template is absent (R43: "[skip] gitignore-template: no
-   decomp-architect/templates/gitignore.decomp yet") rather than fail.
-4. SETUP rows (R21) for the three changed tools; the conventions page already describes the checks — confirm its wording matches.
-5. Verify: `doc_links.py --strict` → 0 broken / 0 pending / 0 untracked-cited; the R39 control recorded in the log (14 before, 0 after);
-   `wiki_render --selftest` with the new assertion; `make audit-digest` green with the timeline check; then this file's log + checkpoint;
-   commit by explicit path. Task 8 is xHigh (the P6 rules check follows it).
+### 2. What NEXT does (task 8, xHigh) — exact steps (plan D4)
+1. **Inertia set (172):** `git ls-files .run | git check-ignore --stdin --no-index > .run/P33.5_inertia.txt` (must be 172 lines);
+   `git rm -r --cached --quiet $(cat .run/P33.5_inertia.txt)` (paths have no spaces; verify with `grep -c ' '` first). Self-sealing —
+   no `.gitignore` edit. Before that, the two prose citations in `wave-metrics.md` are already gone (it is archived); check
+   `git grep -n -E 's37w\.js|s6f_gate\.py' -- docs/wave-playbook.md docs/wiki docs/how-to-ai-decomp` mentions only the playbook's
+   "(untracked scratch)" line. Annotate the four tool defaults/comments: `tools/wave_judge.py:8` (`WAVE=.run/t4` — "untracked since
+   P33.5; pass WAVE=…"), `tools/claude_wave_packs.py:16`, `tools/jtbl_family_bank.py:380`, `tools/dedup_propagate.py:114`.
+2. **Allowlisted finished logs:** enumerate `git ls-files .run/P32/t3s3 | grep '\.log$'` (44) and the duplicate `tools_health.log` /
+   `report_close.log` under `.run/P32/{t3s3,t4b,t4d,t4e}` — KEEP any copy a doc cites (`git grep -n -F '<name>' docs phase-ends` —
+   `verification.md` cites `.run/P32/t4e/r22_check.log`; PhaseEnd_Phase32 cites `.run/P32/t4e/r22_{clean,extract,check}.log`,
+   `report_close.log`, `tools_health.log` under t4d/t4e — those stay). `git rm --cached` the rest; narrow the `.gitignore` re-includes
+   (`!/.run/P32/t3s3/*.log` → drop; add explicit `!` lines only for kept files if a wildcard would re-include the removed ones) so that
+   `git status --porcelain .run | grep -c '^??'` stays 0.
+3. **The firewall pair:** `git rm --cached .run/giants/fable_cd4/mine_full.txt .run/giants/fable_cd4/target_full.txt`; in `.gitignore`
+   after `!/.run/giants/fable_cd4/*.txt` add `/.run/giants/fable_cd4/*_full.txt` (re-exclude); create
+   `tools/public_rewrite/untracked_after_rewrite.txt` (header: audit-only; "remains in the published history by owner decision
+   2026-09-07 — the tracked C + the pinned compiler reproduce the bytes; not in purge_set.txt because gate_scan reads that as the
+   history census") with `glob:.run/giants/fable_cd4/*_full.txt`; `tools/audit_public.py` check 1 reads BOTH files (refuse an empty
+   sibling too, R43); `purge_set.txt` UNCHANGED; `gate_scan.py --all --worktree` still PASS (run it — it is the history gate).
+4. **`audit_public.py` check 4 — CONTENT:** for every tracked TEXT file (decode utf-8; skip binaries), the longest CONTIGUOUS run of
+   lines matching any of: asm-differ `^\s*\d+:\s+[a-z]{2,8}(\.[a-z]+)?\s+(\$|-?0x|-?\d|[a-z_])`, objdump `^\s*[0-9a-f]+:\s+[0-9a-f]{8}\s+\w+`,
+   splat `^\s*/\* [0-9A-F]{5,} [0-9A-F]{8} [0-9A-F]{8} \*/`, `^(glabel|dlabel) `; refuse a file whose max run ≥ 64; print the file count and
+   the top runs with denominators. **Controls (R39), recorded in the log:** BEFORE step 3, exactly the 2 `fable_cd4` files fail; AFTER, 0
+   fail; `tools/xsig/tests/fixture_{a,b}.txt` (40 lines) pass. Run `audit_public.py` in full (checks 1–4) → OK.
+5. Runbook §11: a "residue" paragraph naming the pair and the sibling file; the ROM-firewall page already describes it.
+6. Verify (all in the log): removal list == `git diff --cached --name-only --diff-filter=D | sort`; `git ls-files -ci --exclude-standard
+   .run | wc -l` = 0; `git status --porcelain .run | grep -c '^??'` = 0; every removed path still exists on disk (`while read f; do [ -e
+   "$f" ] || echo MISSING $f; done`); `git ls-files .run | wc -l` (expect ≈ 1,086 − 172 − ~45 − 2 ≈ 865); `audit_public` OK; py_compile.
+   Commit by explicit path (`git add -u .run .gitignore tools/audit_public.py tools/public_rewrite/untracked_after_rewrite.txt
+   docs/public-flip-runbook.md tools/wave_judge.py tools/claude_wave_packs.py tools/jtbl_family_bank.py tools/dedup_propagate.py
+   docs/SETUP.md phase-ends/CURRENT_PHASE.md`). **Then the P6 rules check.** Task 9 is xHigh.
 
 ### 3. Standing facts for every task of this phase
 - One commit per task, after this file's log line (R8/R42 form); commit by explicit path; no trailers (R5); Drew pushes (R6).
