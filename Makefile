@@ -144,12 +144,13 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env disc-extract extract build check expected clean report sig-refresh sig-overlays sig-resident sig-main sdk-dual build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health
+.PHONY: help bootstrap check-env disc-extract extract build check expected clean report sig-refresh sig-overlays sig-resident sig-main sdk-dual build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health
 
 # -----------------------------------------------------------------------------
 help:
 	@echo "BFM-decomp — make targets (218 binaries: main + resident + 141 overlays + 75 modules; BINARY=<alias> scopes a target)"
-	echo "  make check-env        toolchain preflight (python/venv/cc1/maspsx/binutils; the extracted EXE if present)"
+	echo "  make bootstrap        fresh-clone setup: apt check (printed), venv, submodules, the two cc1 tarballs, then check-env"
+	echo "  make check-env        toolchain preflight (python/venv/cc1/maspsx/binutils/headers; the extracted EXE + payload census)"
 	echo "  make disc-extract     regenerate extracted/ from YOUR redump dump in disks/ and verify it against the committed manifest (H1: no ROM in the repo)"
 	echo "  make extract          splat split one binary -> asm/, the linker script (runs disc-extract if its payload is absent)"
 	echo "  make extract-all      disc-extract + splat split every binary (main first, then parallel)"
@@ -518,6 +519,11 @@ sig-modules:
 	echo "sig-modules: signed $$n modules (of $(words $(MODULE_BINARIES)) onboarded)"
 	if [ "$$bad" -ne 0 ]; then echo "[FAIL] sig-modules: $$bad module(s) failed to sign"; exit 1; fi
 
+# bootstrap (P33 B3): the fresh-clone setup — apt presence (printed, never run), the venv from
+# requirements-python.txt, the submodules, the two cc1 tarballs verified + extracted, then check-env.
+bootstrap:
+	@tools/bootstrap.sh
+
 # -----------------------------------------------------------------------------
 # check-env: assert every Phase-4 toolchain component. Runs ALL checks (does not
 # stop at the first failure) so the report is complete, then exits nonzero if any
@@ -564,6 +570,22 @@ check-env:
 	else
 		echo "[FAIL] $(MASPSX) missing (run: git submodule update --init)"; fail=1
 	fi
+	# 4b) the other three submodules (P33 B3) — matching tooling, not build inputs: WARN, not FAIL
+	for sub in tools/asm-differ tools/m2c tools/decomp-permuter; do
+		if [ -n "$$(ls -A "$$sub" 2>/dev/null)" ]; then
+			echo "[PASS] submodule populated: $$sub"
+		else
+			echo "[WARN] submodule empty: $$sub (matching tooling only; run: git submodule update --init)"
+		fi
+	done
+	# 4c) the four TRACKED splat preset headers (P33 B1) — assembled into every object
+	for h in include/include_asm.h include/macro.inc include/labels.inc include/gte_macros.inc; do
+		if [ -f "$$h" ]; then
+			echo "[PASS] preset header present: $$h"
+		else
+			echo "[FAIL] $$h missing (tracked since P33 B1; 'make extract' regenerates it)"; fail=1
+		fi
+	done
 	# 5) mipsel binutils on PATH (as / ld / objcopy)
 	for t in $(AS) $(LD) $(OBJCOPY); do
 		if command -v $$t >/dev/null 2>&1; then
@@ -609,6 +631,9 @@ check-env:
 		echo "[FAIL] $(EXTRACT_ROOT)/manifest.jsonl + manifest.sha1 missing (the committed extraction oracle)"; fail=1
 	fi
 	if [ -f "$(DISC_TRACK1)" ]; then echo "[INFO] disc dump present: '$(DISC_TRACK1)'"; else echo "[INFO] no disc dump under $(DISC_DIR)/ (needed only to (re)generate extracted/)"; fi
+	# 8) the extracted payload census (P33 B3): how many of the fleet's inputs exist (INFO — disc-extract makes them)
+	present=0; for p in $(foreach b,$(BINARIES),$($(b)_EXE)); do [ -f "$$p" ] && present=$$((present+1)); done
+	echo "[INFO] extracted payloads present: $$present / $(words $(BINARIES)) binaries$$( [ "$$present" -eq $(words $(BINARIES)) ] || echo ' — run: make disc-extract')"
 	echo
 	if [ "$$fail" -ne 0 ]; then
 		echo "check-env: FAIL — see the [FAIL] lines above."

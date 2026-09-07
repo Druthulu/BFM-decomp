@@ -52,7 +52,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **B1** `make disc-extract` (extract.py `--expect-manifest` / `--allow-missing-audio`; check-env; `.gitignore`
       re-tightened; the 4 splat preset headers tracked; `clean` fixed) — Max — see Log 2026-09-06 B1
 - [x] **B2** 34 absolute includes → `../shared/` + portable-include audit + 15-binary re-gate — xHigh — see Log 2026-09-06 B2
-- [ ] **B3** `tools/bootstrap.sh` / `make bootstrap` + check-env extensions + fresh-clone proof 218/218 — xHigh
+- [x] **B3** `tools/bootstrap.sh` / `make bootstrap` + check-env extensions + fresh-clone proof 218/218 — xHigh — see Log 2026-09-06 B3
 - [ ] **B4** `tools/fetch_psyq.sh` + CHECKSUMS rows (20 lib40 LIBs, psyq-obj-parser) BEFORE `tools/psyq/` leaves git — xHigh
 - [ ] **B5** Ghidra regenerability (ExportAnnotations/ImportAnnotations/ghidra_rebuild.sh `--proof` on SLUS_007.26 +
       resident; roster; ExportSymbols R15 fix; path hardcodes; hooks) — Max, MCP stopped
@@ -148,19 +148,26 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   angle-bracket / unresolvable / outside-repo `#include`); positive control BEFORE the fix: 34 offenders in 19 files, all
   ABSOLUTE (4,299 sources scanned); the sed → `../shared/engine_core.h` ×30 + `../shared/engine_types.h` ×4;
   `grep -rn /home/musashi src include` → 0; negative control → OK. Re-gate of the 15 binaries (derived from the diff, 5 in
-  parallel): 15/15 `[ OK ]` BYTE-IDENTICAL in 29 s wall (`.run/P33/b2_gate/<bin>.log`). SETUP: P33 B2 section (R21).
+  parallel): 15/15 `[ OK ]` BYTE-IDENTICAL in 29 s wall (`.run/P33/b2_gate/<bin>.log`). SETUP: P33 B2 section (R21). Commit
+  `commit:4017`.
+- **2026-09-06 (S86) — B3 (bootstrap + the fresh-clone proof).** `tools/bootstrap.sh` (apt presence → printed install line;
+  venv from `requirements-python.txt`; submodules; cc1 tarballs sha256-checked + extracted into their own dirs; `make
+  check-env`), `make bootstrap`; check-env gained 4b (the other three submodules, WARN), 4c (the four tracked preset headers,
+  FAIL) and 8 (`[INFO] extracted payloads present: N / 218`). Idempotent run here: 1.4 s, OK. **The proof** (`.run/P33/
+  b3_fresh.log`): `git clone --no-local` into `.run/P33/fresh` (the uncommitted Makefile + bootstrap.sh copied in) →
+  `tools/bootstrap.sh` created its own `.venv`, extracted both cc1s, fetched the submodules, `check-env: OK` → `disks` symlinked
+  → `disc-extract: OK` → `extract-all: 217 extracted, 0 failed of 217` → **`check-all: 218 passed, 0 failed of 218`**, EXIT=0,
+  **4 m 18 s wall** (user 45 m 48 s) — with NO SDK objects in the clone (`.run/obj40` absent), i.e. every binary built the way a
+  public user builds it. Clone deleted afterwards (3.1 GB). SETUP: P33 B3 section (R21).
 
-## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1 ✓, B2 ✓; NEXT = B3 (`tools/bootstrap.sh` + `make bootstrap` + check-env extensions + the fresh-clone proof, xHigh) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B3 ✓; NEXT = B4 (`tools/fetch_psyq.sh` + the SDK checksums, xHigh) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = B3** (xHigh: `tools/bootstrap.sh` / `make bootstrap` — apt presence check, venv +
-requirements, submodules, cc1 tarball checksums + untar, `make check-env`; check-env gains submodule state, the 4 tracked
-headers, disc/extracted state; the fresh-clone proof: `git clone --no-local` into `.run/P33/fresh/` → bootstrap → disc
-symlinked → `make disc-extract && make extract-all && make check-all` → 218/218). If `git log -1 --format=%s` does not start
-with `feat(phase-33): B2`, B2's commit did not land: `tools/audit_text_sources.py` must print OK and the 15 gate logs under
-`.run/P33/b2_gate/` must each say BYTE-IDENTICAL before committing.
+(R1–R73), then WAIT for Drew. **NEXT = B4** (xHigh: `tools/fetch_psyq.sh` — see §3 step 1 for the measured facts). If
+`git log -1 --format=%s` does not start with `feat(phase-33): B3`, B3's commit did not land: `tools/bootstrap.sh` must print
+`check-env: OK` (1–2 s on this tree) before committing; the proof log is `.run/P33/b3_fresh.log`.
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified at
@@ -229,16 +236,27 @@ items can be cut). Harness tasks: #1 A1 done, #2 A2 done, #3 A3 next … #41 G2.
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~` (≈13 GB free) ·
    `.venv/bin/python -c 'import splat'` · `ls build/us/SLUS_007.26.map` (main is built; `make check BINARY=main` if not).
-1. **B3** (xHigh) per the plan's Block B: `tools/bootstrap.sh` (idempotent; prints the apt line for missing packages from
-   SETUP §4.3, no sudo; `python3 -m venv .venv && .venv/bin/pip install -r requirements-python.txt`; `git submodule update
-   --init`; `sha256sum --check tools/bin/CHECKSUMS.sha256` then `tar xzf` each cc1 tarball into `tools/bin/gcc-2.7.2-{psx,cdk}/`
-   unless `cc1` exists; `make check-env`), `make bootstrap`; check-env additions (submodule gitlinks populated, the 4 tracked
-   headers present, extracted/ state). Proof = the "stranger with their own dump" criterion: `git clone --no-local ~/bfm-decomp
-   .run/P33/fresh` → `tools/bootstrap.sh` → `ln -s ~/bfm-decomp/disks .run/P33/fresh/disks` → `make disc-extract && make
-   extract-all && make check-all` in the clone → `check-all: 218 passed, 0 failed of 218`. Disk: the clone + its extracted/ +
-   build ≈ 3 GB (13 GB free); delete `.run/P33/fresh` afterwards. NOTE the clone's HEAD still tracks the EXE and the
-   purge paths until C3 — that is fine for the proof (the EXE arrives from git AND from disc-extract, same bytes).
-2. Then B4 → B5 (MCP stopped) → B6 → B7 → B8 → A5 → B9/C3 … per the task list. After every task: tick the box,
+1. **B4** (xHigh) — measured facts (S86): the 20 PsyQ **4.0** LIBs come from the redump disc "PlayStation - Programmer Tools -
+   Run-time Library 4.0 (USA) (PC-CD ROM Release 2.0)" (DTL-S2002; our copy: `tools/psyq/PlayStation - Programmer Tools -
+   Run-time Library 4.0 (USA) (PC-CD ROM Release 2.0) (Track 1).bin`, 270 MB, gitignored; volume `PROGTOOL`) — its ISO
+   directory `PSX/LIB/` holds exactly the 20 `*.LIB` (names `LIBCD.LIB;1` …), and `tools/bfm_extract/iso9660.py`
+   (`img.find('PSX')` → `img.find('LIB', psx)` → `img.iter_directory(lib)` / `img.extract_file(name, lib)`) extracts them
+   byte-identical to `tools/psyq/lib40/` (LIBCD.LIB sha256 `db4e1a71…` both ways). The RTL 4.2 7z's archive.org URL is
+   `https://archive.org/download/play-station-programmer-tool-runtime-library-version-4.2.7z/PlayStation_Programmer_Tool_-_Runtime_Library_Version_4.2.7z`
+   (383,431 B; sha256 already recorded `e4f5a678…`). `psyq-obj-parser`: `https://github.com/decompme/compilers/releases/
+   download/compilers/psyq-obj-parser.tar.gz` — tarball sha256 `353495f13f6756773cd905ba3a0743843232f95719e306fc6ee56cbf7d731a3e`
+   (3,507,359 B), the binary inside is BYTE-IDENTICAL to our tracked `tools/psyq/psyq-obj-parser` (sha256
+   `4fba623a31bb5830ceea95b5081bc13504629686b0b4904c533b7be2a5f2377a`). Plan: `git mv tools/psyq/CHECKSUMS.sha256
+   tools/psyq_CHECKSUMS.sha256` NOW (the plan put it in C3; doing it in B4 keeps the script's path final) and add rows for the
+   20 lib40 LIBs + the parser tarball + the parser binary; `tools/fetch_psyq.sh [--disc <RTL-4.0 Track 1 .bin>] [--from DIR]`:
+   (1) parser: download + verify or reuse; (2) RTL 4.2 7z: download + verify → `lib42/` + `lib421/` (the J421PD.ZIP payload)
+   → `.run/obj42/{libpad421,libapi42}` via `psyq_lib_split.py` + the parser; (3) the 4.0 LIBs: from `--disc` via the ISO
+   walker (new `tools/psyq_libs_from_disc.py`) or `--from DIR`, verified against the checksum rows → `tools/psyq/lib40/`;
+   REFUSE with the redump title when neither is given and `lib40/` is absent; (4) the builders: `tools/psyq_build_libs.sh`
+   (LIBCD LIBETC LIBGPU LIBMCRD LIBC2 LIBGTE LIBGS LIBSPU LIBSND LIBCARD), `tools/make_libgs.sh`, `tools/make_snd_used.py`,
+   `tools/make_apicard_used.py`; (5) `make -j$(nproc) sdk-dual`. Verify on this machine by rebuilding into the real dirs
+   (they are regenerable) and the dual passing; the checksum rows are verified by `sha256sum --check`.
+2. Then B5 (MCP stopped) → B6 → B7 → B8 → A5 → B9/C3 … per the task list. After every task: tick the box,
    add a Log line, refresh this checkpoint block (the 🛑 block is the ONLY in-phase context the next session inherits),
    commit. Next P6 rules check after B4 (8 tasks done). `extracted/proto/` (sep8 + aug31 EXEs) is regenerated from the
    prototype discs by `tools/bfm_extract/extract_proto_exe.py` (docstring examples) — B5 needs both files.
