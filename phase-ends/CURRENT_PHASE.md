@@ -40,7 +40,7 @@ in-tree links to `docs/wiki/<Page>.md`. 8. `.run/`: only what git tracks; no sca
 ## Tasks (strict order; one commit per task after this file is updated; harness task list = the same 16 rows, R28)
 - [x] **0** Gate 1 close-out: this file (ledgers + checkpoint), R74–R83 into DIGEST §3 (+ §0), `phase34-seed.md` amended, TaskCreate ×16 — Max
 - [x] **1** Unblock, code side: tool docstrings re-pointed (`decl_from_use.py`, `integration_resolver.py`, `jtbl_carve.py`, `autopsy.py`, `residual_class.py`); CLAUDE.md lines 11 / 61 / the effort-default sentence — xHigh — see Log 2026-09-07 Task 1
-- [ ] **2** Unblock, doc side: banners (`concurrency-design`, `gen2-mips-matching-model`, `psyq-worklist`, `distill/*`, `hindsight-study` HISTORICAL + supersession table); SETUP §1a rewritten; the pin count re-derived (one dated number + its command, both gen3 docs) — xHigh
+- [x] **2** Unblock, doc side: banners (`concurrency-design`, `gen2-mips-matching-model`, `psyq-worklist`, `distill/*`, `hindsight-study` HISTORICAL + supersession table); SETUP §1a rewritten; the pin count re-derived (one dated number + its command, both gen3 docs) — xHigh — see Log 2026-09-07 Task 2
 - [ ] **3** Wiki — conventions + firewall: `Docs-and-scratch-conventions.md`, `The-ROM-firewall.md` (the gitignore template block); sidebar rows; Repository-layout/Contributing/ch.11 links; forward links in `doc_links_pending.txt` — Max
 - [ ] **4** Wiki — reference + direction: `Reference-index.md` (list-driven), `Where-the-project-goes-next.md`, Contributing "AI use — conduct", Home rewritten, sidebar sections — xHigh — **then P6 rules check**
 - [ ] **5** Integrate the six (hand-matching-process; wave-metrics + the s37w block → wave-playbook; portable-decomp-workflow vs the 13 chapters; generic-decomp-package attributed; hindsight §2.1/§7 → ch.03 + permuter-ils; the gen3 docs → the direction page); re-point every referrer incl. `retrospective.md:10–11` — xHigh
@@ -224,42 +224,63 @@ dates the re-tightening to Phase 33 C3 (2026-09-06, the history rewrite) — the
 working level is Max" replaced by the DIGEST §1 doctrine (xHigh for most tasks, Max for deep tasks, Ultracode for breadth; plan mode
 always Max). Verify: `py_compile` on the five tools OK; `git grep -E 'tool-designs|hindsight-study' tools/ Makefile` = 0; `doc_links`
 OK. **Deviation from the plan's verify column:** `make tools-health` was NOT run for docstring-only edits (proportionality — nothing it
-measures changed); the first tools-health of the phase runs at task 7, where the Makefile and the checkers change.
+measures changed); the first tools-health of the phase runs at task 7, where the Makefile and the checkers change. Commit `a0cf302e5`.
 
-## 🛑 SESSION CHECKPOINT — Tasks 0–1 ✓; NEXT = task 2 (unblock, doc side: banners, SETUP §1a, the pin count; xHigh)
+### 2026-09-07 — Task 2 — Unblock, doc side (xHigh)
+Six banners/status lines corrected in place (H5 — nothing dropped): `concurrency-design.md` "Not yet implemented" → implemented in
+`shared_lock.py` + the gate snapshot layer, five citing tools named; `gen2-mips-matching-model.md` "design / not started" → built in
+P22–P23, distilled by the published `matching-drafter-pipeline.md`; `psyq-worklist.md` COMPLETE at P31 S79 #5 with the residue named;
+`distill/atbhbkbl.md` + `axbm.md` "PROPOSED ONLY" → LANDED as cookbook §265–§267 / §268–§269 (the banners had been false since S59b/c);
+`hindsight-study.md` HISTORICAL banner + the seven-row supersession table (its §7 → `autopsy.py`/`residual_class.py`, live pointer in
+how-to ch.03). `SETUP.md` §1a rewritten: `.run/` is ignored by contents (`/.run/*`) with 22 dated `!` allowlist blocks; the R20 test
+("commit what a rerun cannot reproduce"); what is tracked at the prune; untracked citations are breadcrumbs; the wiki page named in
+prose (no link yet — task 3 creates it). **The pin count (R75):** two published numbers came from two greps — the broad
+`register\s+[^;]*__asm__` (44,243) also matched ~290 comment lines (two comment sentences repeated across 141 files, plus a `"$N"`
+placeholder), the strict `\("\$[0-9a-z]+"\)` form (43,857) missed 68 pins written without `$` (`"a0"`, `"v0"`, `"v1"`, `"6"`…). Canonical
+command `grep -rhoE 'register [^;/]*__asm__\("\$?[a-z0-9]+"\)' src --include=*.c --include=*.h | wc -l` = **43,925** (42,985 `.c` +
+940 `.h`), written with its command into `gen3-standards.md` §4 and `gen3-handoff.md` §3 (both rows + the command block). Verify:
+`doc_links` OK; the command reproduces 43,925.
+
+## 🛑 SESSION CHECKPOINT — Tasks 0–2 ✓; NEXT = task 3 (wiki: the conventions page + the ROM-firewall page; **Max** — prompt Drew, R27)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase31/32/33.md` and this file, and
 nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest (R1–R83), then
-WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–1 completed and task 2 in progress.
+WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–2 completed and task 3 in progress.
 
 ### 1. Where we are
 **Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; Drew set `/effort xhigh` after
-task 0 (the Max tasks are 3, 10, 12, 15 — prompt at each, R27). Baseline HEAD `80d45b29b`; task 0 = `39d524991`; task 1 = the commit
-after it (docstrings + CLAUDE.md only). Nothing under `src/`, `config/` or the `Makefile` has changed; the fleet is 218/218 at the
-Phase-33 close. `docs/doc_links_pending.txt` is empty (comments only).
+task 0 (the Max tasks are 3, 10, 12, 15 — prompt at each, R27). Baseline HEAD `80d45b29b`; task 0 = `39d524991`; task 1 = `a0cf302e5`;
+task 2 = the commit after it (banners, SETUP §1a, the pin count). Nothing under `src/`, `config/` or the `Makefile` has changed; the
+fleet is 218/218 at the Phase-33 close. `docs/doc_links_pending.txt` is empty (comments only).
 
-### 2. What NEXT does (task 2, xHigh) — exact steps
-1. Banners/status lines (H5: add, never drop): `docs/concurrency-design.md` — replace "**Not yet implemented.**" with "implemented in
-   `tools/shared_lock.py` + the gate snapshot layer (P31); cited by `gate_stage.py`, `bulk_harvest.py`, `dedup_propagate.py`,
-   `ox_campaign.py`, `verify_worktree.py`"; `docs/gen2-mips-matching-model.md` — "**Status:** design / not started" → built (P22–P23;
-   `train_lora.py`/`export_pairs.py`/`format_finetune.py`; distilled by `docs/matching-drafter-pipeline.md`); `docs/psyq-worklist.md` — a
-   top banner "COMPLETE at P31 S79 #5 — the residue (SSGM.o 8 ins inside matched C; the sound region's two cross-object-common walls) is
-   named at the tail"; `docs/distill/atbhbkbl.md` + `axbm.md` — replace the "PROPOSED ONLY" banner with "LANDED as cookbook §265, §266,
-   §267 (this file) / §268, §269 (axbm) on P31 S59b/c; kept as the A/B evidence ledger those sections cite"; `docs/hindsight-study.md` —
-   a top banner "HISTORICAL — written 2026-07-20 mid-P29 at ~78%; superseded part by part" + the supersession table (§0–§2 → how-to
-   ch.03 + `generic-decomp-package.md`; §3 → `portable-decomp-workflow.md`/the chapters; §4 → `gen3-handoff.md` §5 + wiki
-   Tools-from-this-project; §5 → `retrospective.md` §5; §6 → fulfilled by `retrospective.md` + the how-to + `tools/mine_hindsight.py`;
-   §7 → `tools/autopsy.py` — live pointer stays in ch.03).
-2. `docs/SETUP.md` §1a (line ~68): rewrite — `.run/` is gitignored by the contents-exclude rule `/.run/*` with 22 dated `!` allowlist
-   blocks (R20: "commit what a rerun CANNOT reproduce"); what IS tracked (P32/P33 evidence, the giants recon, the R20 ledgers) and what
-   never is (the 29 GB of regenerable scratch); point at the wiki conventions page (task 3 — register the forward link in
-   `docs/doc_links_pending.txt` if you link it; or just name it in prose).
-3. The pin count: run ONE grep over `src/` (e.g. `grep -rhoE 'register [^;]*__asm__\("\$[a-z0-9]+"\)' src | wc -l` — check what each doc's
-   number was derived from first: `gen3-handoff.md` §3 shows its six commands) and write the same dated number + the exact command into
-   `docs/gen3-standards.md` §4 and `docs/gen3-handoff.md` §3 (R75: a number in prose is a dated snapshot with its command).
-4. Verify: `.venv/bin/python tools/doc_links.py` OK; the pin-count command reproduces the number; then this file's log + checkpoint;
-   commit by explicit path (`docs(phase-33.5): task 2 — …`). Task 3 is **Max** — prompt Drew and WAIT (R27).
+### 2. What NEXT does (task 3, **Max**) — exact steps
+1. Write `docs/wiki/Docs-and-scratch-conventions.md`: (a) `docs/` — what each kind of knowledge goes in (a byte-proven idiom → the
+   cookbook § + its index; a strategic pivot with its measurement → `decision-log.md` (R31); a late discovery that would have sped an
+   earlier phase → `accelerators.md`; a procedure → a runbook (`wave-playbook.md`, `public-flip-runbook.md`); phase state → `CURRENT_PHASE.md`
+   → PhaseEnd → DIGEST); authored vs generated files ("numbers are generated, never typed", R75 — `progress.py`, `badges/`, `timeline.py`,
+   `cookbook_index.py`, `disc_audit.py`; a generated file says so on line 1); `tools/doc_links.py` and the pending list (R80); the
+   Reference index as the map; `docs/sunset/` + the Archive index; frontier snapshots frozen at the closed frontier; (b) `.run/` — R12,
+   the contents-exclude + `!` idiom with the dated provenance comment (quote one block), the R20 test, the per-session layout
+   (`.run/<session>/<work>/` scratch vs `.run/<session>/drafts/` deliverables — playbook S80 addendum-2), what is tracked and why,
+   untracked citations are breadcrumbs, the citation checker (task 7), the "never `git clean -x`" fail-safe.
+2. Write `docs/wiki/The-ROM-firewall.md`: H1 with **no private exemption** (the R1 relaxation and what it cost — retrospective §4 item 1);
+   the nine classes of ROM-derived content (audit B §C.9: the EXE under both historical paths, payloads, generated disassembly/assets,
+   memory images, the RE database, the vendor SDK, transcripts that quote disassembly, training pairs, third-party binaries —
+   each with its survivable form: manifest of hashes / text export + rebuild proof / checksums + fetch script / …); the copyable
+   `.gitignore` template in a fenced block (platform placeholders; this block must `diff` clean against the kit's
+   `templates/gitignore.decomp` written in task 11 — write it here first, copy it there); the three-way enforcement (ignore firewall /
+   `audit_public` derived from the manifests with coverage assertions and an expected-offenders control / the no-ROM CI) and the purge
+   set as one file consumed by audit AND rewrite; the content check (task 8); cite commits by date+subject; the post-purge realities
+   (R77, R81, R82, never `git clean -x`); the one recorded residue (the two `fable_cd4` listings — in history by owner decision
+   2026-09-07, untracked at task 8, listed in `tools/public_rewrite/untracked_after_rewrite.txt`).
+3. Same commit: `_Sidebar.md` gains a "Working conventions" section with both rows; `Repository-layout.md`'s `docs/` and `.run/` rows and
+   `Contributing-and-the-no-ROM-policy.md`'s firewall section and how-to `11-publishing.md` link the new pages (relative links
+   `Docs-and-scratch-conventions.md` / `The-ROM-firewall.md` from wiki pages, `../wiki/The-ROM-firewall.md` from a chapter). Forward
+   links to pages that do not exist yet (`Reference-index.md`, `Archive-index.md` — task 4/6) go into `docs/doc_links_pending.txt` as
+   `docs/wiki/<Page>.md<TAB>task N`.
+4. Verify: `.venv/bin/python tools/wiki_render.py --selftest`; `.venv/bin/python tools/doc_links.py` (0 broken; pending allowed); then
+   this file's log + checkpoint; commit by explicit path. Task 4 is xHigh — prompt Drew to drop back (R27).
 
 ### 3. Standing facts for every task of this phase
 - One commit per task, after this file's log line (R8/R42 form); commit by explicit path; no trailers (R5); Drew pushes (R6).

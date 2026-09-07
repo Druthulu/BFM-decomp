@@ -1,6 +1,10 @@
 # Gen2 idea — a BFM/PSX-gcc-2.7.2 *matching* specialist model
 
-**Status:** design / not started. Captured 2026-06-29. The high-ceiling idea from the cheap-tier thread.
+**Status:** captured 2026-06-29 as the high-ceiling idea from the cheap-tier thread; **built in Phases 22–23** (the local
+drafter tier — `tools/train_lora.py`, `tools/export_pairs.py`, `tools/format_finetune.py`; its measured arc and the portable
+lessons are the published write-up `docs/matching-drafter-pipeline.md`; the weights and dataset wait on a licensing decision,
+`docs/gen3-handoff.md` §7). This file is the design and the measurement record behind that write-up (status corrected
+2026-09-07, Phase 33.5).
 
 ## The gap, and why it's ours to fill
 

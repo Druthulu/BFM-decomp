@@ -1,6 +1,9 @@
 # Concurrency Contract — overlapping draft / gate / propagate / R22 without weakening the byte-gate
 
-**Status:** design (P30), authored by a Fable-5 planning pass 2026-08-07. **Not yet implemented.**
+**Status:** design (P30), authored by a Fable-5 planning pass 2026-08-07. **Implemented (P31):** the contract lives in
+`tools/shared_lock.py` and the gate snapshot layer, and its findings F1/F2 are cited by `tools/gate_stage.py`,
+`tools/bulk_harvest.py`, `tools/dedup_propagate.py`, `tools/ox_campaign.py` and `tools/verify_worktree.py` (status corrected
+2026-09-07, Phase 33.5 — the "not yet implemented" line had outlived the implementation).
 **Scope:** the pipeline around `tools/gate_stage.py`, `tools/bulk_harvest.py`,
 `tools/harvest_verify.py`, `tools/dedup_propagate.py`, `tools/wave_snapshot.py`, and the R22
 clean-fleet verify.

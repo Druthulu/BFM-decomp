@@ -1,7 +1,9 @@
 # Distillation — waves at · bh · bk · bl (batch `.run/distill_inflight/atbhbkbl.json`)
 
-**PROPOSED ONLY — nothing here has been applied to `docs/matching-cookbook.md` or `docs/cookbook-index.md`.**
-Reviewer lands the sections. All A/B evidence lives under `.run/s59_distill/` (each variant file re-runnable
+**LANDED (P31 S59b) as cookbook §265 (the verbatim-asm bank lane), §266 (the inert-rider law) and §267 (the addenda harvested
+from waves at/bh/bk/bl) — §267 cites this file as its evidence ledger.** The banner below it once read "PROPOSED ONLY — nothing
+here has been applied"; that was true on 2026-08-24 and false by the end of S59b (banner corrected 2026-09-07, Phase 33.5; the
+file is kept as the A/B evidence behind those sections). All A/B evidence lives under `.run/s59_distill/` (each variant file re-runnable
 with the `match_one` line quoted beside it).
 
 ## 0. The ledger — counts first (R41: every number's denominator stated)

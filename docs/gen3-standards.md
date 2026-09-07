@@ -90,7 +90,7 @@ The conduct rules below are what keep that fact from being a liability:
 | Named functions | 1,094 named in the symbol files vs **16,335** `func_80xxxxxx` |
 | Named data | **61,898** `D_80xxxxxx` (most are per-overlay script data; many will honestly stay unnamed) |
 | Typed structures | **1,232** struct definitions, many drafter-invented variants of one type; **143** raw address casts |
-| No match-forcing tricks | **43,857** register pins (`grep -rhoE 'register [^;]*__asm__\("\$[0-9a-z]+"\)' src \| wc -l`) |
+| No match-forcing tricks | **43,925** register-pin declarations (snapshot 2026-09-07: `grep -rhoE 'register [^;/]*__asm__\("\$?[a-z0-9]+"\)' src --include=*.c --include=*.h \| wc -l` — 43,857 in the `"$reg"` form + 68 in the bare `"reg"` form; 42,985 in `.c`, 940 in `.h`; the same command and number as `gen3-handoff.md` §3 — re-derive, do not trust) |
 | Readable organisation | **5,147** shared bodies as macros in one 8.4 MB, 227,730-line header; **3,558** of 4,287 C files are `_jr_` carve splits |
 | Formatting, comments | no `.clang-format`, no `make format`; almost no code comments |
 

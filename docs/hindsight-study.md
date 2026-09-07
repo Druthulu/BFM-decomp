@@ -1,6 +1,22 @@
 # Hindsight Study — the optimal order to run an AI-driven matching decompilation
 
-> **Purpose.** This document is a *study substrate*, not a status report. It distills what the Brave
+> **HISTORICAL (marked 2026-09-07, Phase 33.5).** Written 2026-07-20, mid-Phase 29, at ~78% instruction-weighted / ~66%
+> distinct-code — four phases and the largest lessons of the project (integration, not idioms, as the bottleneck; the
+> instrument-diagnosis campaign; the twin *band*; the differential-oracle harness; the ROM-firewall cost) still ahead of it. Its
+> §6 commission — "a study pass that turns this into a general roadmap" — was fulfilled by other documents. Read those; this
+> file is kept as the record of what the project believed at 78%. **Superseded part by part:**
+>
+> | Part | Superseded by |
+> |---|---|
+> | §0 the thesis and the order | `docs/how-to-ai-decomp/03-bootstrap-order.md` (fuller, later, with the 12-item new-project checklist) |
+> | §1–§2 the reordering argument | `docs/generic-decomp-package.md` (adds the twin band and the widening review) + how-to ch.03 |
+> | §3 the seven meta-principles | `docs/portable-decomp-workflow.md` and the how-to chapters (written target-agnostically during the campaign) |
+> | §4 the tool inventory | `docs/gen3-handoff.md` §5 (the current lever table) + the wiki page *Tools from this project* |
+> | §5 what stays hard | `docs/retrospective.md` §5 (which cites this §5 and extends it from the last phases) |
+> | §6 the study commission | fulfilled — `docs/retrospective.md`, the how-to, `tools/mine_hindsight.py` |
+> | §7 mine the permuter's failures | realised as `tools/autopsy.py` + `tools/residual_class.py`; the live pointer is how-to ch.03, Phase 2b |
+>
+> **Purpose (as written in July).** This document is a *study substrate*, not a status report. It distills what the Brave
 > Fencer Musashi (BFM) decompilation taught us about **how to sequence a matching decomp**, separated
 > into (a) BFM-specific facts and (b) platform/compiler-agnostic principles. It is written to be handed
 > to a reasoning agent (a "Fable" study pass) that will read the full project history — `PROJECT_CONTEXT.md`,

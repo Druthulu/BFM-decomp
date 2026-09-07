@@ -40,7 +40,7 @@ that repository at all, or can we derive the structures from our own decomp?* An
 - **The AP world carries no structs.** `client.py` (v0.8.1) polls ~342 RAM addresses and attaches gameplay meaning to them
   (HP, BP cap, day of week, chest flags, portal entries). That is *labelling for globals* plus the implied layout of a few
   tables. Against the census in §3 it covers ~342 of 61,898 data symbols, none of the 1,232 struct definitions, none of the
-  16,335 function names and none of the 44,243 pins. Most of its player-state block is already imported (memory-map §3.4–§3.6).
+  16,335 function names and none of the 43,925 pins. Most of its player-state block is already imported (memory-map §3.4–§3.6).
 - **Structure is derived from our own source, and ours is the better instrument for it.** Shape comes from access patterns
   the compiler locked into the bytes: many functions reading a `u16` at `+0x3C` from one base means a struct with a `u16`
   there; Ghidra's decompiler already propagates these; `docs/actor-struct.md` and the load-slot map are recovered examples.
@@ -95,7 +95,7 @@ items (2) and (5) are exactly the Gen3 work; (3) and (4) are conduct, governed b
 | Named functions | 1,094 named in the symbol files vs **16,335** `func_80xxxxxx` |
 | Named data | **61,898** `D_80xxxxxx`; most are per-overlay script data |
 | Typed structures | **1,232** struct definitions, many drafter-invented variants of one type; 143 raw address casts remain |
-| No match-forcing tricks | **43,857** `register … __asm__("$N")` pins (grep today; the §3 census counted 44,243 declarations) — sotn would want each either gone or marked `// !FAKE:` |
+| No match-forcing tricks | **43,925** `register … __asm__("…")` pin declarations (the §3 command, snapshot 2026-09-07; two earlier figures — 43,857 and 44,243 — came from a stricter and a looser grep, the looser one counting 290 comment lines) — sotn would want each either gone or marked `// !FAKE:` |
 | Readable organisation | **5,147** shared engine functions live as `DEFINE_func_…()` macro bodies in one 8.4 MB, 227,730-line header (`src/shared/engine_core.h`), instantiated per overlay; 3,558 of the 4,287 C files are `_jr_` carve splits — the layout follows the carving tool, not the game's systems |
 | Formatting | no `.clang-format` in the tree and no `make format` target |
 | Documentation | the method, the cookbook, the decision log and the wiki are unusually complete; the CODE carries almost no comments |
@@ -119,7 +119,7 @@ repository the same day and the close follows.
 grep -rhoE '\*\)\s*0x80[0-9A-Fa-f]{6}' src --include=*.c --include=*.h | wc -l          # raw address casts
 grep -rhoE '\bD_80[0-9A-Fa-f]{6}\b'   src --include=*.c --include=*.h | sort -u | wc -l # distinct data symbols
 grep -rhoE '\bfunc_80[0-9A-Fa-f]{6}\b' src --include=*.c --include=*.h | sort -u | wc -l # distinct function names
-grep -rhoE 'register\s+[^;]*__asm__' src --include=*.c --include=*.h | wc -l             # register pins
+grep -rhoE 'register [^;/]*__asm__\("\$?[a-z0-9]+"\)' src --include=*.c --include=*.h | wc -l  # register pins (declarations only; excludes comment text)
 grep -rhoE '^\s*INCLUDE_ASM\(' src --include=*.c | wc -l                                  # assembly tiles
 cat config/symbols.us*.txt | grep -cE '^[A-Za-z_]'                                        # symbol-file entries
 ```
@@ -129,7 +129,7 @@ cat config/symbols.us*.txt | grep -cE '^[A-Za-z_]'                              
 | Raw address casts `*(T *)0x80…` | **143** | the low-hanging fruit; each becomes a declared symbol |
 | Distinct `D_80xxxxxx` data symbols | **61,898** | most are fields of a handful of structures the engine indexes; `docs/actor-struct.md` recovered one of them (base `0x80078E00`, ~154 fields, live-verified) |
 | Distinct `func_80xxxxxx` names | **16,335** | across 4,287 C files; the overlays' shared engine functions have one name each fleet-wide (position-locked) |
-| Register-pin declarations | **44,243** | a campaign, not a chore — but batched by family, since a shared body's pins come off once for every member |
+| Register-pin declarations | **43,925** (43,857 `"$reg"` + 68 bare `"reg"`; 42,985 in `.c`, 940 in `.h`; snapshot 2026-09-07 — the earlier 44,243 counted 290 comment lines, the earlier 43,857 missed the bare form) | a campaign, not a chore — but batched by family, since a shared body's pins come off once for every member |
 | `INCLUDE_ASM` tiles | 1,258 | all inside the executable's linked Sony regions; not Gen3 work |
 | Symbol-file entries | 1,083 (1,081 curated names, 2 address-named) | `config/symbols.us*.txt` — the names the build already knows |
 | Struct definitions in `src/shared/engine_types.h` | 1,232 | many are drafter-invented variants of the same type (`tools/lift_types.py` knows the collision landscape) |

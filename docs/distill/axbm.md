@@ -1,7 +1,9 @@
 # Distillation — waves ax · bm (batch `.run/distill_inflight/axbm.json`)
 
-**PROPOSED ONLY — nothing here has been applied to `docs/matching-cookbook.md` or `docs/cookbook-index.md`.**
-Reviewer lands the sections. All A/B evidence lives under `.run/s59_distill2/` — every variant file
+**LANDED (P31 S59c) as cookbook §268 (the `register __asm__` pin law on call-clobbered registers) and §269 (the addenda
+harvested from waves ax/bm) — §269 cites this file as its evidence ledger.** The banner below it once read "PROPOSED ONLY —
+nothing here has been applied"; that was true on 2026-08-24 and false by the end of S59c (banner corrected 2026-09-07,
+Phase 33.5; the file is kept as the A/B evidence behind those sections). All A/B evidence lives under `.run/s59_distill2/` — every variant file
 re-runnable via `tools/match_one.py <fn> --c <file> --asm-subdir <the card's own asm dir>` (the
 homonym trap bit this review's own harness once: `find`-first-hit returned ov_SC06_030's
 func_80181164.s, 265 ins — always pass the card's exact subdir).
