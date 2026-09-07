@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -348,13 +349,47 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Re-hash the output tree against its manifest and exit (no extraction).",
     )
+    p.add_argument(
+        "--expect-manifest",
+        type=Path,
+        default=None,
+        help=(
+            "P33 B1 (the public `make disc-extract`): compare the extraction against this committed "
+            "manifest.jsonl (the oracle) INSTEAD of writing one. Identical -> nothing written, exit 0; "
+            "different -> the actual manifest goes to .run/extract/, the first differences are listed, "
+            "exit 1. The committed oracle is never overwritten by a build step."
+        ),
+    )
+    p.add_argument(
+        "--allow-missing-audio",
+        action="store_true",
+        help=(
+            "With no sibling `(Track 2).bin` staged, compare/verify WITHOUT the 3 .DA audio rows and "
+            "report PARTIAL instead of failing (a Track-1-only dump). Without this flag a partial "
+            "extraction against the 4-track oracle FAILS."
+        ),
+    )
     return p.parse_args(argv)
 
 
-def cmd_verify(out_root: Path) -> int:
+def _is_audio_row(path: str) -> bool:
+    return path.upper().endswith(".DA")
+
+
+def cmd_verify(out_root: Path, allow_missing_audio: bool = False) -> int:
     ok, problems = manifest.verify(out_root)
+    partial = []
+    if allow_missing_audio:
+        partial = [p for p in problems if p.startswith("missing file: ") and _is_audio_row(p)]
+        problems = [p for p in problems if p not in partial]
+        ok = not problems
     if ok:
-        print(f"RESULT: PASS - every artifact under {out_root}/ matches {manifest.MANIFEST_NAME}.")
+        if partial:
+            print(f"RESULT: PASS (PARTIAL) - every artifact under {out_root}/ matches "
+                  f"{manifest.MANIFEST_NAME} except {len(partial)} unstaged .DA audio file(s): "
+                  + ", ".join(p.split(': ', 1)[1] for p in partial))
+        else:
+            print(f"RESULT: PASS - every artifact under {out_root}/ matches {manifest.MANIFEST_NAME}.")
         return 0
     print(f"RESULT: FAIL - {len(problems)} problem(s):", file=sys.stderr)
     for p in problems[:20]:
@@ -362,10 +397,66 @@ def cmd_verify(out_root: Path) -> int:
     return 1
 
 
+ACTUAL_DIR = Path(".run") / "extract"   # where a NON-matching extraction's manifest is written (R12)
+
+
+def compare_with_oracle(records: list[dict], oracle: Path, allow_missing_audio: bool) -> int:
+    """Compare the freshly built records against the committed oracle manifest.jsonl.
+
+    Never writes into the oracle's directory. On a match prints the oracle's own SHA1 (the single
+    value a contributor quotes to prove their extraction). On a mismatch writes the ACTUAL manifest
+    to .run/extract/ and prints the first 20 differences (missing / extra / mismatched paths)."""
+    if not oracle.is_file():
+        print(f"ERROR: oracle manifest not found: {oracle}", file=sys.stderr)
+        return 2
+    text = oracle.read_text(encoding="ascii")
+    oracle_sha1 = hashlib.sha1(text.encode("ascii")).hexdigest()
+    sha_file = oracle.with_name(manifest.MANIFEST_SHA1_NAME)
+    if sha_file.is_file():
+        recorded = sha_file.read_text(encoding="ascii").strip()
+        if recorded != oracle_sha1:
+            print(f"ERROR: {sha_file} records {recorded} but {oracle.name} hashes to {oracle_sha1} — "
+                  f"the committed oracle is internally inconsistent; refusing to compare", file=sys.stderr)
+            return 2
+    expected = {}
+    for line in text.splitlines():
+        if line.strip():
+            r = json.loads(line)
+            expected[r["path"]] = (r["size"], r["sha1"])
+    actual = {r["path"]: (r["size"], r["sha1"]) for r in records}
+    partial = []
+    if allow_missing_audio:
+        partial = sorted(p for p in expected if _is_audio_row(p) and p not in actual)
+        for p in partial:
+            del expected[p]
+    missing = sorted(set(expected) - set(actual))
+    extra = sorted(set(actual) - set(expected))
+    mismatch = sorted(p for p in expected if p in actual and expected[p] != actual[p])
+    if not (missing or extra or mismatch):
+        note = (f" PARTIAL: {len(partial)} .DA audio row(s) unverified ({', '.join(partial)})"
+                if partial else "")
+        print(f"\nManifest: {len(actual)} artifacts == the committed oracle {oracle} "
+              f"(sha1 {oracle_sha1}); nothing written.{note}")
+        return 0
+    ACTUAL_DIR.mkdir(parents=True, exist_ok=True)
+    digest = manifest.write(ACTUAL_DIR, records)
+    print(f"\nManifest MISMATCH against the oracle {oracle} (sha1 {oracle_sha1}): "
+          f"{len(missing)} missing, {len(extra)} extra, {len(mismatch)} mismatched — "
+          f"actual manifest written to {ACTUAL_DIR}/ (sha1 {digest})", file=sys.stderr)
+    shown = 0
+    for label, paths in (("missing", missing), ("extra", extra), ("mismatch", mismatch)):
+        for p in paths:
+            if shown >= 20:
+                break
+            print(f"  - {label}: {p}", file=sys.stderr)
+            shown += 1
+    return 1
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     if args.verify:
-        return cmd_verify(args.out)
+        return cmd_verify(args.out, args.allow_missing_audio)
     try:
         with Iso9660Image(args.bin) as img:
             if args.list:
@@ -377,11 +468,17 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     records = manifest.build(args.out)
-    digest = manifest.write(args.out, records)
-    print(
-        f"\nManifest: {len(records)} artifacts -> "
-        f"{args.out}/{manifest.MANIFEST_NAME} (sha1 {digest})"
-    )
+    if args.expect_manifest:
+        rc = compare_with_oracle(records, args.expect_manifest,
+                                 allow_missing_audio=args.allow_missing_audio and not audio_tracks)
+        if rc:
+            return rc
+    else:
+        digest = manifest.write(args.out, records)
+        print(
+            f"\nManifest: {len(records)} artifacts -> "
+            f"{args.out}/{manifest.MANIFEST_NAME} (sha1 {digest})"
+        )
 
     if check_exe_roundtrip(exe_data):
         print("\nRESULT: PASS - full disc extracted; EXE reproduces the known-good binary.")

@@ -144,19 +144,24 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident sig-main sdk-dual build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health
+.PHONY: help check-env disc-extract extract build check expected clean report sig-refresh sig-overlays sig-resident sig-main sdk-dual build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health
 
 # -----------------------------------------------------------------------------
 help:
-	@echo "BFM-decomp — make targets:"
-	echo "  make check-env   Phase-4 toolchain preflight (the only live target)"
-	echo "  make extract     [Phase 5] splat split -> asm/ + linker scripts"
-	echo "  make build       [Phase 5] full pipeline -> build/us/SLUS_007.26 (+ SHA1 check)"
-	echo "  make check       [Phase 5] standalone SHA1 verification"
-	echo "  make expected    [Phase 5] snapshot build/us -> expected/ (asm-differ baseline)"
-	echo "  make clean       [Phase 5] remove build output"
-	echo "  make report      [Phase 7] regenerate docs/ progress+difficulty+duplicate digests"
-	echo "  make sig-refresh [Phase 7] regenerate .run/sig.*.jsonl from Ghidra (MCP must be stopped)"
+	@echo "BFM-decomp — make targets (218 binaries: main + resident + 141 overlays + 75 modules; BINARY=<alias> scopes a target)"
+	echo "  make check-env        toolchain preflight (python/venv/cc1/maspsx/binutils; the extracted EXE if present)"
+	echo "  make disc-extract     regenerate extracted/ from YOUR redump dump in disks/ and verify it against the committed manifest (H1: no ROM in the repo)"
+	echo "  make extract          splat split one binary -> asm/, the linker script (runs disc-extract if its payload is absent)"
+	echo "  make extract-all      disc-extract + splat split every binary (main first, then parallel)"
+	echo "  make check            build one binary and compare its SHA1 to config/check.<alias>.sha (build is an alias)"
+	echo "  make check-all        build + SHA1-check every binary in parallel (build-all is an alias)"
+	echo "  make sdk-dual         main byte-identical WITH and WITHOUT the (optional, user-supplied) PsyQ objects"
+	echo "  make report           regenerate docs/ progress + difficulty + duplicate digests (BINARY=main also the fleet roll-up)"
+	echo "  make tools-health     the pre-work ritual: fresh sigs, both boundary oracles, every audit, report, digest assertion"
+	echo "  make sig-main | sig-main-oracle | sig-overlays | sig-resident | sig-modules   the byte-derived function sigs (.run/sig.*.jsonl)"
+	echo "  make audit-corpus | audit-binaries | audit-text-sources | audit-digest | audit-disc | audit-frontier   the oracles"
+	echo "  make clean            remove build/, expected/, asm/, assets/ (fleet-wide; then: make extract-all && make check-all)"
+	echo "The R22 contract proof: make clean && make extract-all && make check-all  (expects: check-all: 218 passed, 0 failed of 218)"
 
 # -----------------------------------------------------------------------------
 # Phase 7 reports: deterministic, committable docs/ digests. progress/difficulty/dup_report
@@ -577,7 +582,9 @@ check-env:
 			echo "[PASS] mipsel binutils $$asver (< 2.38)"
 		fi
 	fi
-	# 6) committed EXE hash == EXPECTED_EXE_SHA1 (reused constant; fresh-clone-safe)
+	# 6) the extracted EXE hash == EXPECTED_EXE_SHA1 (reused constant). P33 B1: the EXE is no longer
+	#    committed — it is regenerated from the user's disc by `make disc-extract`, so its absence is a
+	#    WARN with the instruction, not a FAIL; a PRESENT but wrong EXE is still a FAIL.
 	if [ -f "$(EXE)" ]; then
 		want=$$($(PYTHON) -c 'from tools.bfm_extract.extract_exe import EXPECTED_EXE_SHA1 as h; print(h)' 2>/dev/null)
 		got=$$(sha1sum "$(EXE)" | cut -d' ' -f1)
@@ -587,8 +594,21 @@ check-env:
 			echo "[FAIL] $(EXE) sha1 $${got:-none} != expected $${want:-unknown}"; fail=1
 		fi
 	else
-		echo "[FAIL] $(EXE) missing (committed retail EXE)"; fail=1
+		echo "[WARN] $(EXE) absent — run 'make disc-extract' with your redump dump in $(DISC_DIR)/ (docs/SETUP.md §4.4)"
 	fi
+	# 7) the committed manifest oracle is self-consistent (manifest.sha1 == sha1(manifest.jsonl)); ms.
+	if [ -f "$(EXTRACT_ROOT)/manifest.jsonl" ] && [ -f "$(EXTRACT_ROOT)/manifest.sha1" ]; then
+		mgot=$$(sha1sum "$(EXTRACT_ROOT)/manifest.jsonl" | cut -d' ' -f1)
+		mwant=$$(cat "$(EXTRACT_ROOT)/manifest.sha1")
+		if [ "$$mgot" = "$$mwant" ]; then
+			echo "[PASS] $(EXTRACT_ROOT)/manifest.sha1 == sha1(manifest.jsonl) ($$mgot)"
+		else
+			echo "[FAIL] $(EXTRACT_ROOT)/manifest.sha1 ($$mwant) != sha1(manifest.jsonl) ($$mgot) — the committed oracle is inconsistent"; fail=1
+		fi
+	else
+		echo "[FAIL] $(EXTRACT_ROOT)/manifest.jsonl + manifest.sha1 missing (the committed extraction oracle)"; fail=1
+	fi
+	if [ -f "$(DISC_TRACK1)" ]; then echo "[INFO] disc dump present: '$(DISC_TRACK1)'"; else echo "[INFO] no disc dump under $(DISC_DIR)/ (needed only to (re)generate extracted/)"; fi
 	echo
 	if [ "$$fail" -ne 0 ]; then
 		echo "check-env: FAIL — see the [FAIL] lines above."
@@ -764,9 +784,48 @@ C_DEPS   := $(C_SRCS:%.c=build/%.d)
 ASSET_BINS := $(shell find assets/$(BINARY) -name '*.bin' 2>/dev/null)
 ASSET_OBJS := $(ASSET_BINS:assets/%.bin=build/assets/%.o)
 
+# -----------------------------------------------------------------------------
+# disc-extract (P33 B1): the rom->decoder step. The repository ships NO ROM bytes (H1): every
+# payload under extracted/ — the EXE, the .CD archives, the PAC entries, the LZSS-decoded 0.4.dec
+# overlays and module blobs — is regenerated from the USER'S OWN redump dump by
+# tools/bfm_extract/extract.py, and the result is compared against the COMMITTED oracle
+# extracted/retail/manifest.jsonl (1,801 rows; manifest.sha1 is its hash). The oracle is never
+# written by a build step (--expect-manifest compares; a plain `extract.py` run is how the oracle
+# was made). Idempotent: a tree that already matches the oracle is a ~5 s hash probe and a no-op.
+# The oracle lists the 3 .DA audio files from Tracks 2-4, so the canonical input is the 4-track
+# BIN/CUE; a Track-1-only dump is accepted with an explicit PARTIAL verdict (never a silent pass).
+DISC_DIR     ?= disks
+DISC_TRACK1  := $(DISC_DIR)/Brave Fencer Musashi (USA) (Track 1).bin
+DISC_TRACK2  := $(DISC_DIR)/Brave Fencer Musashi (USA) (Track 2).bin
+EXTRACT_ROOT := extracted/retail
+disc-extract:
+	@set -e
+	audio=""
+	if [ ! -f "$(DISC_TRACK2)" ]; then audio="--allow-missing-audio"; fi
+	if $(PYTHON) tools/bfm_extract/extract.py --verify --out "$(EXTRACT_ROOT)" $$audio >/dev/null 2>&1; then
+		echo "disc-extract: up to date — $(EXTRACT_ROOT)/ matches the committed manifest (sha1 $$(cat $(EXTRACT_ROOT)/manifest.sha1))"
+		exit 0
+	fi
+	if [ ! -f "$(DISC_TRACK1)" ]; then
+		echo "[FAIL] disc-extract: no disc dump at '$(DISC_TRACK1)'"
+		echo "       Stage your own redump dump of Brave Fencer Musashi (USA) — the 4-track BIN/CUE (Track 1 = data;"
+		echo "       Tracks 2-4 = the .DA audio) — under $(DISC_DIR)/ (docs/SETUP.md §4.4). The repository ships no ROM bytes (H1)."
+		exit 2
+	fi
+	# 1) the dump is the canonical one: full-track SHA1 + CRC32 vs redump (refuses a non-canonical dump)
+	$(PYTHON) tools/bfm_extract/extract_exe.py --bin "$(DISC_TRACK1)" --verify-disc
+	if [ -n "$$audio" ]; then echo "disc-extract: NOTE — '$(DISC_TRACK2)' absent: the 3 .DA audio files are not extracted; the result is PARTIAL"; fi
+	# 2) extract everything and COMPARE against the committed oracle (writes nothing on a match)
+	$(PYTHON) tools/bfm_extract/extract.py --bin "$(DISC_TRACK1)" --out "$(EXTRACT_ROOT)" --expect-manifest "$(EXTRACT_ROOT)/manifest.jsonl" $$audio
+	# 3) the idempotency probe of the tree that was just written
+	$(PYTHON) tools/bfm_extract/extract.py --verify --out "$(EXTRACT_ROOT)" $$audio
+	echo "disc-extract: OK — $(EXTRACT_ROOT)/ regenerated from '$(DISC_TRACK1)' and verified against the committed manifest (sha1 $$(cat $(EXTRACT_ROOT)/manifest.sha1))"
+
 # extract: splat split -> asm/, the linker script, include/ macros, undefined_*_auto.txt.
 extract:
 	@mkdir -p $(OUT_DIR)
+	# P33 B1: the payload is the user's — regenerate extracted/ from the disc when it is absent (H1).
+	if [ ! -f "$(EXE)" ]; then $(MAKE) --no-print-directory disc-extract; fi
 	# A re-extract REWRITES every .s — and an object's assembly arrives through INCLUDE_ASM, which
 	# expands to a `.include` consumed by maspsx/as AFTER cpp. So `.o <- .s` is NOT a dependency make
 	# can see (-MMD tracks headers only), and an incremental build after an extract silently links
@@ -1034,6 +1093,9 @@ JOBS ?= 16    # parallel binary builds/extracts (override: `make check-all JOBS=
 # (+ build/psyq) exist before the parallel fan-out; then extract the rest in parallel.
 extract-all:
 	@mkdir -p .run; : > .run/extract-all.txt
+	# P33 B1: the payloads come from the user's disc — regenerate/verify extracted/ ONCE, serially,
+	# before anything reads it (a ~5 s no-op when the tree already matches the committed manifest).
+	$(MAKE) --no-print-directory disc-extract
 	# Under the global `-e` a failing main extract now aborts here. It previously did NOT: its status
 	# was swallowed by .ONESHELL, and the closing `! grep -q` then passed regardless — a seed failure
 	# could sail through as green.
@@ -1114,7 +1176,10 @@ clean:
 	  echo "clean: this removes asm/ for ALL binaries. Recover with 'make extract-all'."; \
 	fi
 	@rm -rf build expected asm assets undefined_syms_auto.txt undefined_funcs_auto.txt
-	@rm -f include/include_asm.h include/macro.inc include/labels.inc include/gte_macros.inc
-	@echo "clean: removed build/, expected/, and the regenerated splat tree (asm/, assets/, include macros, undefined_*_auto.txt)."
+	@# P33 B1: the four splat preset headers (include/include_asm.h, macro.inc, labels.inc, gte_macros.inc)
+	@# are TRACKED now — generic splat presets, identical for every binary and ROM-free, so a compile-only
+	@# CI can assemble without a disc. `make extract` rewrites them only if splat's presets change (a
+	@# visible diff), so clean no longer deletes them.
+	@echo "clean: removed build/, expected/, and the regenerated splat tree (asm/, assets/, undefined_*_auto.txt)."
 
 

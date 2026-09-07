@@ -1,22 +1,32 @@
 # ============================================================
-# ROM-content policy — see PROJECT_CONTEXT.md rule H1
+# ROM-content policy — PROJECT_CONTEXT.md rule H1, IN FORCE (Phase 33, the public flip).
 #
-# While the repo is PRIVATE, ROM-derived content MAY be committed
-# (asm/, assets/, extracted/, decompressed .CD output). Compliance is
-# handled by a pre-public history scrub + a rom->decoder regeneration
-# tool. Two things stay ignored regardless:
-#   1. the raw multi-GB disc dump (GitHub rejects >100 MB files; it is
-#      trivially reproducible from the disc), and
-#   2. pure regenerated build churn / large binary caches.
-# Re-add asm/ assets/ extracted/ to this list before going public.
+# The repository ships NO ROM-derived bytes and NO proprietary SDK: the game disc, the
+# extracted payloads (`extracted/`, regenerated from YOUR dump by `make disc-extract` and
+# verified against the committed manifest), the splat disassembly (`asm/`, `assets/`), the
+# RAM-dump corpus (`dumps/*.bin`), the Ghidra project (`ghidra/`, whose database embeds the
+# program bytes — regenerable from text via tools/ghidra_rebuild.sh), Sony's PsyQ SDK
+# (`tools/psyq/`, optional and user-supplied), the session-transcript archive, and
+# redistributed third-party binaries. Symbol names, addresses, hashes, configs and the
+# decompiled C are what a decomp publishes (sotn precedent). The private history that
+# carried these while the repo was private (rule R1, 2026-06-10 .. 2026-09-06) lives in the
+# archive repo only.
 # ============================================================
 
-# Raw disc dump — never committed (size + reproducible)
+# Raw disc dump — never committed (size + reproducible; your own dump goes here)
 /Brave Fencer Musashi (USA)/
 /disks/
 
-# RAM-dump corpus (dumps/*.bin) is COMMITTED while private (H1 relaxed; static, not regenerable;
-# off-machine backup). Joins the pre-public ROM-content scrub. INDEX.md documents each.
+# RAM-dump corpus — 28 × 2 MB images of the running game (local-only; dumps/INDEX.md +
+# dumps/CHECKSUMS.sha1 stay tracked and describe them)
+/dumps/*.bin
+
+# The Claude Code session-transcript archive (private; the archive repo holds it)
+/session archive/
+
+# Redistributed third-party binaries: download per docs/SETUP.md (sha256 recorded there)
+/tools/ghidra-ext/*.zip
+/tools/brave-CUE/brave.exe
 
 # Project-local runtime scratch (MCP server log + stop sentinel) — replaces /tmp use.
 # Contents-exclude form (the /tools/bin/*.sha256 precedent) so the IRREPLACEABLE recon
@@ -115,27 +125,20 @@
 /expected/
 
 # Regenerated splat outputs — recreated by `make extract` from the committed
-# config/splat.us.exe.yaml + config/symbols.us.txt + the EXE. The durable RE record
-# is the symbol file, not these (build scaffolding, not committed work).
+# config/splat.*.yaml + config/symbols*.txt + the extracted payloads. The durable RE record
+# is the symbol file, not these (build scaffolding, not committed work). The four splat preset
+# headers (include/include_asm.h, macro.inc, labels.inc, gte_macros.inc) are TRACKED since P33 B1:
+# generic presets, identical for every binary, ROM-free — the compile-only CI needs them.
 /asm/
 /assets/
-/include/include_asm.h
-/include/macro.inc
-/include/labels.inc
-/include/gte_macros.inc
 /undefined_syms_auto.txt
 /undefined_funcs_auto.txt
 
-# Ghidra project — COMMITTED as the irreplaceable RE-work backup (private repo; rule R20,
-# Drew 2026-06-15). NOT regenerable by hand (annotations/types/structs beyond symbols.us.txt).
-# Track the project; exclude ONLY live-session transients so a running/restarted MCP server
-# doesn't dirty the tree. Re-commit after significant RE + a Ghidra save. (Ghidra pinned at
-# 12.1 -> the committed .rep restores directly.) Joins the pre-public ROM-content scrub list.
-/ghidra/*.lock
-/ghidra/**/*.lock
-/ghidra/*.lock~
-/ghidra/**/*.lock~
-/ghidra/**/tmp*.ps
+# Ghidra project — its database embeds the program bytes (ROM-derived), so it is not tracked
+# (P33 B1; it was committed while private under rule R20). The RE work it holds is exported to
+# text (config/ghidra/*.jsonl) and the project is rebuilt from that + the disc by
+# tools/ghidra_rebuild.sh. NEVER `git clean -x` here — that deletes the working database.
+/ghidra/
 
 # Toolchain downloads & caches (not source)
 /.venv/
@@ -145,14 +148,12 @@ __pycache__/
 # pattern). Contents-exclude form (not /tools/bin/) so the !re-include can apply.
 /tools/bin/*
 !/tools/bin/*.sha256
-# PsyQ SDK — Sony-copyrighted (stays PRIVATE; excluded from the public mirror, like ROM content).
-# Back up the SMALL gathered working artifacts (lib40/ *.LIB, lib40_elf/ *.a, the PsyQ *.EXE tools,
-# psyq-obj-parser, conv47/) — hard to re-source if the upstream archives go down (rule R20). Ignore
-# ONLY the >100MB raw source archives (GitHub rejects them; the working libs are already extracted
-# from them — the disc-dump-equivalent, re-sourceable from redump if ever truly needed).
-/tools/psyq/psyq40usa.zip
-/tools/psyq/*.bin
-/tools/psyq/*.cue
+# PsyQ SDK — Sony-copyrighted; OPTIONAL and user-supplied (tools/fetch_psyq.sh), never distributed.
+# The whole directory is ignored (P33 B1; the small working artifacts were committed while private
+# under rule R20 and live in the archive repo). The build is byte-identical without it (the
+# INCLUDE_ASM fallback tiles); with it, main links Sony's real objects (`make sdk-dual` proves both).
+# The checksums of the archives a user must supply are tracked at tools/psyq_CHECKSUMS.sha256.
+/tools/psyq/
 /tools/pcsx-redux/
 *.tar.gz
 # ...EXCEPT the old-gcc cc1 compiler tarballs — back them up (gathered compilers; small; verified by
@@ -177,19 +178,17 @@ Thumbs.db
 # incl. FMV) and NOT the prototype EXEs. Per-ROM subfolders under extracted/:
 #   extracted/retail/  — retail SLUS-00726 disc extraction (3 files committed)
 #   extracted/proto/   — prototype main EXEs (ROM-derived; fully ignored)
-# Nested allowlist: ignore everything under extracted/, re-include only the 3
-# retail committed files (EXE + manifest + manifest hash — always safe; sotn
-# precedent). This keeps the "zero ROM-derived bulk staged" guarantee.
+# Nested allowlist: ignore everything under extracted/, re-include only the 2 manifest
+# files (hashes, never bytes — the oracle `make disc-extract` verifies YOUR extraction
+# against). The EXE itself left the tree at P33 B1 (H1): it is regenerated from your disc.
 /extracted/*
 !/extracted/retail/
 /extracted/retail/*
-!/extracted/retail/SLUS_007.26
 !/extracted/retail/manifest.jsonl
 !/extracted/retail/manifest.sha1
 
-# NOTE (H1 relaxed, private phase): assets/ and other ROM-derived content stay
-# committable while the repo is private. asm/ + the splat-generated include macros +
-# undefined_*_auto.txt are IGNORED above: `make extract` regenerates them deterministically
+# NOTE: asm/ + assets/ + undefined_*_auto.txt are IGNORED above: `make extract` regenerates
+# them deterministically from the extracted payloads
 # from the committed yaml + symbols, so they are build scaffolding, not durable RE work.
 # (Phase 5 refined the earlier "commit asm/" stance once the regeneration flow existed;
 # the durable record is config/symbols.us.txt.)
@@ -234,9 +233,6 @@ unsloth_compiled_cache/
 !/.run/s45/*.jsonl
 !/.run/s45/*.tsv
 !/.run/s45/onboard*.log
-/tools/psyq/lib46/
-/tools/psyq/lib42/
-/tools/psyq/lib421/
 
 # P32 T3 (2026-09-05): the one-agent-per-function wave's ledger + drafts (R20 — the drafts are the only copy of
 # byte-verified MATCH/NEAR bodies outside the harness transcripts; scratch dirs stay ignored)
