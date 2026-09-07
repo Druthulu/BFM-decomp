@@ -768,7 +768,15 @@ Support ticket **FILED 2026-09-07 as #4736982** (S89, via the Virtual Agent "Cle
    PR simonlindholm/decomp-permuter#213 + issue #214. **E6, G1 and E1 (S89) are DONE too** (`docs/matching-drafter-pipeline.md`,
    `docs/gen3-handoff.md`, `docs/decompme-preset.md` + `tools/decompme_replica.sh`). **E2's document (`docs/outreach/archipelago.md`)
    is the one Claude item left before the probe passes — do it next.**
-3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → E1
+3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → **E1, Drew's
+   six steps (~20 min; the paste-ready bundle is `.run/decompme/drew_bundle/` — regenerate with `tools/decompme_replica.sh`
+   then the commands in the E1 log entry if `.run/` was pruned):** (1) log in to decomp.me with GitHub; (2) decomp.me/new →
+   PlayStation, `gcc2.7.2-psx`, preset Custom; Target assembly = `1_target_asm.s`, Context = `2_context.c`, create, Source =
+   `3_source.c`; (3) Compiler options → paste `4_compiler_flags.txt` → compile → must read 100%; (4) open an issue on
+   `decompme/decomp.me` with the "Create or update a compiler preset" template, title `[PRESET] Create Compiler Preset Brave
+   Fencer Musashi (SLUS-00726)`, body `5_issue_body.md` with the scratch URL filled in (no UI creates presets; maintainers do);
+   (5) search decomp.me for `Musashi`, `Brave Fencer`, `SLUS-00726`, `SLUS_007` and report what exists (closes SETUP ledger row
+   14); (6) send Claude the scratch URL + issue URL → recorded in SETUP §6.5 + ledger 14 + this log. Then → E1
    (`docs/decompme-preset.md`; Drew creates the preset in the browser: platform ps1, `gcc2.7.2-psx`, flags `-O2 -G0 -mips1
    -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div`; prove on `func_80018F20` first; the manual
    scratch search closes SETUP ledger row 14) → E2 (`docs/outreach/archipelago.md`; Drew sends; on reply a G5 row) → D3
