@@ -1,0 +1,87 @@
+# .github/workflows/no-rom.yml — the ROM-free CI (P33 B7).
+#
+# What CI can and cannot prove here: this repository's contract is BYTE-IDENTITY of 218 binaries against the
+# original disc (`make check-all`, docs/verification.md). That needs the game disc, which is never in the repo
+# or in CI. So CI proves everything that does NOT need the disc:
+#   * audits   — the tracked tree is public-clean (tools/audit_public.py: no ROM-derived bytes, no purge path,
+#                nothing > 50 MiB), every source is text with portable includes, the verbatim-asm manifest has
+#                no drift, the cookbook index / Ghidra roster / work-evidence self-tests are fresh, the LZSS
+#                decoder's unit tests pass, no stale symbol references;
+#   * compile-only — the committed C still compiles with the pinned vintage toolchain (gcc-2.7.2 cc1 from the
+#                tracked tarball, maspsx, GNU as) with the Makefile's exact flags; the PR scope is four
+#                representative binaries (~1 min), the whole fleet (4,170 TUs) weekly and on demand.
+# Byte-identity is verified locally with the disc and recorded in .run/P33/verify/ (docs/verification.md).
+name: no-rom
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"        # weekly, Monday 06:17 UTC: the full-fleet compile
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audits:
+    name: public-clean + text audits (no ROM)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python deps (the pinned venv set)
+        run: python -m pip install --quiet -r requirements-python.txt
+      - name: audit_public — no ROM-derived bytes, no purge path, nothing > 50 MiB among tracked files
+        run: python tools/audit_public.py
+      - name: audit_text_sources — every source is text, every #include portable
+        run: python tools/audit_text_sources.py
+      - name: verbatim_check — the hand-asm manifest has no drift
+        run: python tools/verbatim_check.py --strict
+      - name: cookbook_index — derived index is fresh
+        run: python tools/cookbook_index.py --check
+      - name: ghidra_roster — derived roster is fresh
+        run: python tools/ghidra_roster.py --check
+      - name: work_evidence self-test
+        run: python tools/work_evidence.py --selftest
+      - name: LZSS decoder unit tests
+        run: python tools/bfm_extract/test_lzss.py
+      - name: lint_symbol_refs — no stale renamed func_<ADDR> refs in src/
+        run: python tools/lint_symbol_refs.py
+
+  compile-only:
+    name: compile every eligible TU with the pinned toolchain (no ROM)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive        # tools/maspsx
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: MIPS binutils (cpp + as)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq binutils-mipsel-linux-gnu cpp-mipsel-linux-gnu
+          mipsel-linux-gnu-as --version | head -1
+          mipsel-linux-gnu-cpp --version | head -1
+      - name: The vintage compiler from the tracked tarball (sha256-checked)
+        run: |
+          cd tools/bin
+          sha256sum --check --ignore-missing CHECKSUMS.sha256
+          mkdir -p gcc-2.7.2-psx && tar -xzf gcc-2.7.2-psx.tar.gz -C gcc-2.7.2-psx
+          test -x gcc-2.7.2-psx/cc1 || { echo "cc1 not at tools/bin/gcc-2.7.2-psx/cc1 after extraction"; find gcc-2.7.2-psx -maxdepth 3 -name cc1; exit 1; }
+          file gcc-2.7.2-psx/cc1
+      - name: compile-only — PR scope (main resident ov_SC01_077 md_MAIN_013)
+        if: github.event_name != 'schedule' && github.event_name != 'workflow_dispatch'
+        run: python tools/compile_only.py main resident ov_SC01_077 md_MAIN_013
+      - name: compile-only — the whole fleet
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: python tools/compile_only.py --all

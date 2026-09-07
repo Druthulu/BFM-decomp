@@ -1,0 +1,17 @@
+# tools/public_rewrite/purge_set.txt — THE purge set for the public flip (P33; Drew's decisions 3 + 11, 2026-09-06).
+# Single source of truth: read by tools/audit_public.py (the first-push gate / CI) and by the C1 history
+# rewrite (`git filter-repo --invert-paths --paths-from-file` — this IS its syntax: a bare line is a path
+# prefix, `glob:` a glob; `#` comments and blank lines are ignored by both consumers).
+#
+# Everything here is ROM-derived or proprietary and leaves git AND its history: the retail EXE (both
+# historical paths, same blob), the 28 RAM images, the Ghidra project (its DB embeds the EXE bytes under the
+# page XOR mask), Sony's PsyQ SDK, the session-transcript archive (~260k lines of game disassembly), the two
+# Ghidra extension zips (re-downloadable, sha256s in docs/SETUP.md), and CUE's compiled brave.exe.
+extracted/SLUS_007.26
+extracted/retail/SLUS_007.26
+glob:dumps/*.bin
+ghidra/
+tools/psyq/
+session archive/
+glob:tools/ghidra-ext/*.zip
+tools/brave-CUE/brave.exe

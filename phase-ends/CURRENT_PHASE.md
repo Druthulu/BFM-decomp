@@ -57,7 +57,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **B5** Ghidra regenerability (ExportAnnotations/ImportAnnotations/ghidra_rebuild.sh `--proof` on SLUS_007.26 +
       resident; roster; ExportSymbols R15 fix; path hardcodes; hooks) — Max (finished at medium, Drew's call) — see Log 2026-09-06 B5
 - [x] **B6** `dumps/CHECKSUMS.sha1` + INDEX.md rewrite + memory-map Source-index row — Low/xHigh — see Log 2026-09-06 B6
-- [ ] **B7** No-ROM CI (`no-rom.yml`, `audit_public.py`, `compile_only.py`) — xHigh
+- [x] **B7** No-ROM CI (`no-rom.yml`, `audit_public.py`, `compile_only.py`) — xHigh — see Log 2026-09-06 B7
 - [ ] **B8** SETUP.md rows/sections (R21) + `docs/verification.md` — xHigh
 - [ ] **A5** THE RECORDED RUN (`tools/verify_contract.sh` → `.run/P33/verify/`, SUMMARY all EXIT=0) — run Low, read Max
 - [ ] **B9/C3** The preparatory commit (`git rm --cached` purge set; psyq CHECKSUMS moved; zip sha256s; runbook;
@@ -197,21 +197,34 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   for new adds since B1); `dumps/INDEX.md` status bullets rewritten (LOCAL-ONLY from the flip; the archive repo holds the
   committed copy; a re-capture via `tools/ram_probe.py snapshot` is a new state snapshot, never byte-identical — the
   table of 28 states preserved verbatim); `docs/memory-map.md` Source-index row for the corpus. Commit: see below.
+- **2026-09-06 (S87) — B7 (the ROM-free CI).** `tools/public_rewrite/purge_set.txt` (THE purge set, filter-repo syntax —
+  created here so `audit_public` and C1 share one file); `tools/audit_public.py` (purge paths + a DERIVED ROM-hash set
+  [1,801 manifest rows + 218 check.*.sha + redump] + 50 MiB cap; controls: the current tree FAILS with exactly the purge
+  set — 255 offender rows — a clean subset OK, a renamed EXE copy caught by content; empty-file SHA1 collision with the
+  zero-length SC04/SC05 `FILE_029/1.6` payloads found and exempted); `tools/compile_only.py` (flags parsed from the Makefile,
+  TUs from `<alias>_SRC_DIR` with nested pruning, skips DERIVED: 70 LINKED + 47 INCLUDE_ASM, -O0 TUs compiled at -O0;
+  measured PR scope 54/54 in 1.6 s, **fleet 4,170/4,170 in 123 s at -j32, failed 0**; unknown alias refused);
+  `.github/workflows/no-rom.yml` (jobs `audits` + `compile-only`; every audit command re-run under the SYSTEM python
+  without the venv/obj40 → rc 0 ×8; apt needs `cpp-mipsel-linux-gnu` for the MIPS cpp — `dpkg -S` measured; `cdecl --audit
+  --gcc` left out: > 5 min exhaustive). The `audits` job is RED until C3 by design (the purge set is still tracked).
+  Gotcha, recorded: `pkill -f '<pattern>'` from a shell whose own command line contains the pattern kills that shell
+  (exit 144) — match on the child's distinctive argv or use `pgrep -f … | grep -v $$`. SETUP: P33 B7 section + 4
+  inventory rows (R21). Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B6 ✓; NEXT = B7 (2026-09-06 ~21:15 MDT, written by session fa49faf3 "S87" after the B6 commit; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B7 ✓; NEXT = B8 (2026-09-06 ~22:00 MDT, written by session fa49faf3 "S87" after the B7 commit; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = B7** (xHigh). The harness task list must be REBUILT (Drew wants to monitor it —
-one TaskCreate per plan item A1…G2, 40 items, mark A1–A4 + B1–B6 completed; R28). The SessionStart hook restarts the headless
+(R1–R73), then WAIT for Drew. **NEXT = B8** (xHigh), then the P6 rules check (12 tasks done), then A5. The harness task list must be REBUILT (Drew wants to monitor it —
+one TaskCreate per plan item A1…G2, 40 items, mark A1–A4 + B1–B7 completed; R28). The SessionStart hook restarts the headless
 MCP server when `ghidra/bfm.rep` exists (it did not stay up in S87 — `ss -tln` showed nothing on :8080; harmless): B6/B7/B8
 need no Ghidra; run `tools/ghidra_mcp_stop.sh` before any headless step (R23).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified.
 **Done: A1 (`commit:4012`), A2 (`commit:4013`), A3 (`commit:4014`), A4 (`commit:4015`), B1 (`commit:4016`), B2 (`commit:4017`), B3
-(`commit:4018`), B4 (`commit:4019`), B5 (`commit:4022`), B6 (the S87 `docs(phase-33): B6 …` commit).** The approved plan is
+(`commit:4018`), B4 (`commit:4019`), B5 (`commit:4022`), B6 (`commit:4023`), B7 (the S87 `feat(phase-33): B7 …` commit).** The approved plan is
 VERBATIM at the end of this file — Blocks A–G give every task's files, commands and verification; "Execution order and why"
 is the sequence. Effort: Drew ran S87 at **medium** by explicit choice (the plan says Max for B5); the plan's annotations
 still stand for the tasks ahead — restate them, Drew decides (R7/R27).
@@ -237,12 +250,22 @@ still stand for the tasks ahead — restate them, Drew decides (R7/R27).
 
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~`.
-1. **B7 — No-ROM CI** (xHigh): per the plan's B7 paragraph (`.github/workflows/no-rom.yml`, `tools/audit_public.py`,
-   `tools/compile_only.py` with a DERIVED skip list + coverage line; time ONE TU first, R37). Then **B8** (SETUP rows +
-   `docs/verification.md`), then the **P6 rules check** (12 tasks), then **A5** (the recorded run), then **B9/C3**.
-
+1. **B8 — SETUP.md rows/sections (R21) + `docs/verification.md`** (xHigh): SETUP already carries P33 A2/A3/A4/B1/B2/B3/B4/B5/B7
+   sections and inventory rows (written in the same change as each task); B8 = the plan's §4.4 disc-extract / §4.6 bootstrap /
+   §4.8 fetch_psyq / §6.3 new-targets cross-references (check each exists; add what is missing), the "Backup & private-repo
+   posture" paragraph pointing at `config/ghidra/` + `ghidra_rebuild.sh --proof` as R20's new home, and NEW
+   `docs/verification.md` — the public "verify it yourself" page: the commands (`make bootstrap` → `make disc-extract` →
+   `make extract-all` → `make check-all` → `make sdk-dual` [optional] → `make tools-health` → `make report`), each with its
+   expected last line, the R22 shape, the SHA1s (EXE `143dbb89…`, redump Track-1 `b44f0f0a…`), what CI proves vs what needs
+   the disc, and a placeholder table that A5's SUMMARY fills (A5 runs `tools/verify_contract.sh`, which B8 may write now or
+   A5 may — the plan puts the script under A5). Log, tick, refresh, commit.
+2. **P6 rules check** (12 tasks done) → **A5 THE RECORDED RUN** (the plan's A5 paragraph: `tools/verify_contract.sh` →
+   `.run/P33/verify/NN_<step>.log` + `SUMMARY.md`; allowlist `.run/P33/verify/` in `.gitignore` like `.run/P32/t4e/`; ≈1 h
+   for the clean fleet + sdk-dual + tools-health + audit-disc + report) → **B9/C3** (Max, P5c-class: the `git rm --cached`
+   commit — `git mv tools/psyq/CHECKSUMS.sha256` is ALREADY done (B4); the zip sha256s go into SETUP §2.3/§2.4;
+   `docs/public-flip-runbook.md`; decision-log entry).
 ### 4. Files S87 touched
-B6: `dumps/CHECKSUMS.sha1` (new), `dumps/INDEX.md`, `docs/memory-map.md`. B5: `tools/ghidra_scripts/ImportAnnotations.java` (3 compile fixes + the `/undefined` resolver), `tools/ghidra_rebuild.sh`
+B7: `.github/workflows/no-rom.yml`, `tools/audit_public.py`, `tools/compile_only.py`, `tools/public_rewrite/purge_set.txt` (all new), `docs/SETUP.md`. B6: `dumps/CHECKSUMS.sha1` (new), `dumps/INDEX.md`, `docs/memory-map.md`. B5: `tools/ghidra_scripts/ImportAnnotations.java` (3 compile fixes + the `/undefined` resolver), `tools/ghidra_rebuild.sh`
 (`.proof` markers; dies unless `failed=0`), `tools/ghidra_annotations_delta.py` (the three drift classes), new
 `tools/ghidra_roster.py`, `tools/ghidra_mcp_start.sh` (silent no-op guard), `.claude/settings.json` (relative hooks),
 `Makefile` (roster check in tools-health), `docs/SETUP.md` (P33 B5 section, 5 inventory rows, §2.8), `config/ghidra/*`
