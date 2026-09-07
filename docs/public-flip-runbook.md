@@ -194,11 +194,34 @@ GitHub to make zero.
 
 **The ticket** (GitHub Support → "Remove data from a repository" / force-push cleanup), text:
 
-> Repository: `Druthulu/BFM-decomp` (private, no forks, no pull requests from forks). I force-pushed a rewritten history
-> that removes proprietary game binaries (a PlayStation executable, memory dumps and a vendor SDK) and personal session
-> links from every commit. Please garbage-collect the unreachable objects and purge cached views (commit pages, raw
-> blob URLs, API lookups by SHA) so that the old commit SHAs no longer resolve. The repository will be made public only
-> after that. Thank you.
+> Repository: `Druthulu/BFM-decomp` (private; no forks — network_count 0; no pull requests). On 2026-09-07 05:55 UTC I
+> force-pushed a rewritten history to `main` that removes proprietary game binaries (a PlayStation executable, RAM dumps and
+> a vendor SDK) and personal session data from every commit; an earlier force-push on 2026-09-03 22:05 UTC left a second
+> unreachable lineage. The old commits are still served by SHA — for example the two pre-force-push tips
+> `3a8af85160f1ae837d9c1b24e78d6fc7530d27fd` and `71fc1600397e93c78850e2079832d62b1a8bf664` (both listed as "before" in the
+> repository's Activity view) return 200 from the commits API and can be fetched. Please garbage-collect all unreachable
+> objects in this repository and purge cached views (commit pages, raw blob URLs, API lookups by SHA) so those SHAs return
+> 404. The repository will be made public only after that; please let me know when it is done so I can re-verify. Thank you.
+
+Filing: <https://support.github.com/request> signed in as the owner → the repository category (the sensitive-data /
+data-removal item if offered) → subject "Purge unreachable objects and cached views after a history rewrite
+(Druthulu/BFM-decomp)" → the text above. Turnaround is days, not hours, and GitHub publishes no GC schedule.
+
+**Why the flip cannot precede the purge (measured S89, 2026-09-07 — the "no one has the old hashes" premise is false):**
+GitHub's repository **Activity view** (`GET /repos/Druthulu/BFM-decomp/activity`, the Activity tab in the UI) lists every
+ref update since the repo was created — 157 rows back to 2026-06-11, including both force-pushes with their `before` SHA
+(the pre-rewrite tip `3a8af85160…` and the S76 tip `71fc1600…`) and 154 pushes whose before/after are old-lineage SHAs.
+Unlike the events API (whose rows carry `public: false`), these rows carry no visibility flag; assume every reader of a
+public repo sees them. From those SHAs, today, the API serves the commit, `extracted/retail/SLUS_007.26` (413,696 bytes,
+download URL present), all 28 `dumps/*.bin` and the 3 `session archive` parts, and `git fetch origin <sha>` succeeds (the
+probe: 31 of 33 sampled old hashes ALIVE; the S76 lineage has been unreachable for 4 days with no GC). So a clean tree and a
+clean history are necessary but not sufficient: until the objects are gone from GitHub's store, the repo's own Activity tab
+is a one-click path to the purged binaries. A hash that resolves to 404 is harmless, so the purge alone closes it.
+**The deterministic alternative** (the fallback below, promoted): delete the repository and recreate it under the same name,
+then push the rewritten `main` — a new repository is a new object network AND a fresh Activity log, so the probe passes by
+construction; nothing registered against the repo id yet (no issues/PRs/stars/wiki/secrets; the Actions runs re-run on the
+new push; the archive repo, `Druthulu/xsig` and the permuter fork are separate). `gh repo delete` needs the `delete_repo`
+scope (`gh auth refresh -h github.com -s delete_repo`); a deleted repo stays owner-restorable for 90 days, not servable.
 
 **The probe** (`tools/public_rewrite/probe_github.sh`, needs `gh auth login` in Drew's shell): for 30 sampled full old
 hashes + the pruned commit + the old tag tip: `gh api repos/Druthulu/BFM-decomp/commits/<sha>` must return 404 and
@@ -213,7 +236,7 @@ holds and prints the C11 recipe (`git reflog expire --expire-unreachable=now --a
 (Drew; the auto-mode classifier refuses it from a Claude shell) and the store returns to one pack. **Fallback** if Support stalls: delete the repository and recreate it under the same name, push the same
 rewritten history (nothing else exists to lose — the archive repo and the bundle hold the old history).
 
-**The flip:** Settings → General → Danger Zone → Change visibility → Public — ONLY after the probe exits 0 and Blocks D
+**The flip:** Settings → General → Danger Zone → Change visibility → Public — ONLY after the probe exits 0 (and enable Settings → General → Features → Wikis first: `has_wiki` read false on 2026-09-07, and F3's push needs it) and Blocks D
 (README, LICENSE, NOTICE, THIRD_PARTY, badges), E and F have landed on the still-private repo. Then D3's outward actions
 (frogress slug, decomp.dev registration), E1 (the decomp.me preset), E2 (the Archipelago message), F3 (the wiki push: create the first page in the GitHub UI — Wiki → "Create the first page" — then `tools/wiki_sync.sh --push`; the pages are authored in `docs/wiki/` + `docs/how-to-ai-decomp/` and the script replaces the wiki's pages with the rendered set).
 

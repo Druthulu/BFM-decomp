@@ -622,6 +622,16 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   workaround). Recorded in `docs/permuter-ils.md` §2–§3 and the SETUP row. Every Block-E outward action except the two
   flip-gated ones (E1 the decomp.me preset, E2 the Archipelago note) is now done. **Drew's instruction for the next
   session: start with step 6, the flip chain.** Commit: see below.
+- **2026-09-07 (S89, Max, Fable 5.1) — C10 preflight: the Activity-view leak (why the flip cannot precede the purge).** Session start
+  per R64; tree clean at `78857d7ca`; Drew asked what the harm of flipping early is if no one holds the old hashes. Measured
+  (R37): `GET repos/Druthulu/BFM-decomp/activity` returns **157 rows back to 2026-06-11** — both force-pushes with their
+  `before` SHAs (the pre-rewrite tip `3a8af85160…`, the S76 tip `71fc1600…`) and 154 pushes with old-lineage before/after; no
+  visibility flag on the rows (the events API's rows say `public: false`). From the pre-rewrite tip the API still serves the
+  commit, the EXE (413,696 B, download URL), the 28 dumps and the 3 session-archive parts; the probe (throwaway scratch, R57):
+  **31 of 33 ALIVE**, control OK, rc 1 — the S76 lineage unreachable 4 days with no GC. `has_wiki` is false (enable before the
+  wiki push). Runbook §11: the ticket text now names both tips and the Activity view, the filing route, the measured paragraph,
+  and delete+recreate promoted from fallback to the deterministic alternative. Rule candidate (i) added to the checkpoint.
+  Commit: see below.
 
 ## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3–E6 ✓, G1 ✓ (34 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = THE PROBE-GATED CHAIN (Drew) then C11 then G2 (2026-09-07, written by session 4555f4e4 "S88", updated after the outward pushes; SUPERSEDES the earlier blocks)
 
@@ -721,7 +731,7 @@ Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was neve
   shell's own command line contains (S87 killed its own shell twice); (g) a checker that widens its document set must classify a
   missing promised page as PENDING, never BROKEN (doc_links); **(h) (S88) a probe or guard must never write into the repository
   it guards — a "read-only" check that fetches, clones or builds does so in a throwaway scratch (R57 exemplar: the purge probe
-  re-imported 5.97 GiB of the purged history on every run)**.
+  re-imported 5.97 GiB of the purged history on every run)**; **(i) (S89) a rewritten history is not private until the objects are gone from the host — GitHub's repository Activity view publishes every pre-force-push tip SHA, and a servable SHA is the whole old tree; gate a flip on the probe (or recreate the repository), never on a clean tree.**
 
 ### 3. NEXT — in order
 1. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `git fetch --prune origin &&
