@@ -700,8 +700,18 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   macros in one 8.4 MB header**; 3,558 of 4,287 C files are carve splits. Sequencing decided: Gen3 execution after v2.0.0 in a fresh
   plan-mode session; measurement-only preparation under G1 meanwhile; delete-and-recreate if Support stalls past ~a week. Drew replied
   to the permuter maintainer in his own words (sent). Commit: see below.
+- **2026-09-07 (S89, Max) — the Gen3 charter, the memory, the README stance, and the RE-CHARTER into Phase 34.** `docs/gen3-standards.md`
+  (NEW): accuracy met and stricter than the field; readability = sotn STYLE.md as baseline + four rules of ours (names only with
+  evidence; every pin off or `// !FAKE:`; shared bodies as C not macros; types from code, names from observation); the conduct rules
+  for using AI; the measured gap and the order of work; a proposed definition of done. Memory `decomp-community-ai-standards`
+  written (the essentials, so no future session slips). README gains "Standards, and how the AI was used" (accuracy / readability /
+  how the AI was used, plain voice). **Drew's decision:** close Phase 33 NOW on what is done (v1.32.0); the flip-gated remainder is
+  **Phase 34 — the flip and the Gen2 exit** (`docs/phase34-seed.md`, NEW: tasks with actor/effort/carrying doc, the full inventory of
+  P33 deliverables, the milestone = P33's original items 2–4; v2.0.0 = Gen2 EXIT); Gen3 opens at Phase 35. Recorded as a P33
+  deviation (the milestone's items 2–4 move, not redefined — P9). Wiring: doc_links default (+2), SETUP rows (+2), checkpoint §0a +
+  header. NEXT = G2 (gate 2). Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E1–E6 ✓, G1 ✓ (36 of 41); C10 = SUPPORT TICKET #4736982 FILED, PROBE DAILY; NEXT = the probe-gated chain (Drew: flip → E1/E2/D3 outward → wiki push), then C11, G2 (2026-09-07, written by S88, updated by S89 after the ticket + E1; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E1–E6 ✓, G1 ✓ (36 of 41); C10 = SUPPORT TICKET #4736982 FILED, PROBE DAILY; RE-CHARTERED 2026-09-07: NEXT = G2 = the Phase 33 close at v1.32.0 (gate 2, Tier 1) — the flip chain is PHASE 34 (`docs/phase34-seed.md`), Gen3 = PHASE 35+ (written by S88, updated by S89; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
@@ -724,6 +734,13 @@ Drew's instruction: `Druthulu/xsig` is public (`c8d862c`); (5) DONE — PR simon
 **the next session starts here (Drew's instruction).** **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
+
+### 0a. RE-CHARTER (Drew, 2026-09-07, S89): Phase 33 CLOSES NOW on what is done; the flip-gated remainder is PHASE 34; Gen3 opens at PHASE 35
+The flip waits on GitHub Support (ticket #4736982) — calendar time nobody controls. Owner's decision: close Phase 33 at **v1.32.0** with
+A1–A5, B1–B9/C3, C1–C9, D1–D5, E1–E6 (documents + local proofs; outward halves pending), F1–F3, G1 done and C10/C11 + the outward
+actions moved to **Phase 34 — the flip and the Gen2 exit** (`docs/phase34-seed.md`: every task, actor, effort, carrying document, the
+milestone = Phase 33's original items 2–4; closes at **v2.0.0 = Gen2 EXIT**). Gen3 = Phase 35+ (`docs/gen3-handoff.md`,
+`docs/gen3-standards.md`). The checklist below is now Phase 34's task list; it stays here for the replay.
 
 ### 0b. DREW'S POST-FLIP CHECKLIST (consolidated 2026-09-07, S89 — the one list to replay; every item's detail is in the doc named)
 0. **Before the flip:** run `tools/public_rewrite/probe_github.sh` daily until it prints PASS (Support ticket #4736982; S89: 31 of 33 ALIVE).

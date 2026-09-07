@@ -101,6 +101,25 @@ before publication to remove game-derived files from every revision. Old commit 
 were replaced by inert tokens (`commit:NNNN`, the commit's ordinal); [`docs/commit-map.tsv`](docs/commit-map.tsv) maps
 them to the commits you see, and documents at the tip cite the current hashes directly.
 
+## Standards, and how the AI was used
+
+**Accuracy.** A function is matched only when its compiled instructions are identical to the original, register allocation
+included, and the whole binary's SHA1 equals the original's. That check runs inside every build of every binary, and a clean
+rebuild follows every batch of banked functions. Nothing "functionally equivalent" is counted, and the default build never
+links unmatched C. What is not our C is listed above, not hidden.
+
+**Readability.** The code is matched but not yet finished in the sense other decompilation projects mean. Most functions still
+carry generated names, thousands of register hints that were matching levers remain, and shared engine code lives in one large
+header. Bringing it to the community's standard is the next generation of the project; we adopt sotn-decomp's style guide as the
+baseline, and the rules are written down in [`docs/gen3-standards.md`](docs/gen3-standards.md): names only with recorded
+evidence, every match-forcing trick removed or marked, structures unified before they are named, and everything still
+byte-identical.
+
+**How the AI was used.** An agent did the work under a written constitution, two human gates per phase, and a rule set
+distilled from what went wrong. The byte gate, not the model, decides what counts as done. Communication with other projects is
+written by the maintainer, we do not automate against community infrastructure such as decomp.me, and other projects' policies
+on AI-assisted contributions are read and followed before anything is submitted.
+
 ## Tools from this project
 
 Things built here that stand on their own, for other decompilation projects:
