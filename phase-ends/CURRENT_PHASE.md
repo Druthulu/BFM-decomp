@@ -82,7 +82,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **E3** gcc-2.7.2 map README + `gccmap_cites.py` — xHigh — see Log 2026-09-07 E3
 - [x] **E4** xsig packaging — xHigh — see Log 2026-09-07 E4
 - [x] **E5** permuter upstream PR branch — Max (FULL, Drew 2026-09-07) — see Log 2026-09-07 E5
-- [ ] **E6** drafter write-up — Max
+- [x] **E6** drafter write-up — Max — see Log 2026-09-07 E6
 - [ ] **E1** decomp.me preset (after the flip) — xHigh
 - [ ] **E2** Archipelago outreach (after the flip) — xHigh
 - [ ] **C11** Aftercare (other clones, archive remote removed, `.run/` pruned, DIGEST/decision-log) — xHigh
@@ -564,21 +564,41 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   flushed stdout R55; winner ≠ bank), §5 related. SETUP: row + the P33 E5 section (R21). **Drew:** fork upstream,
   `git -C .run/P33/permuter-upstream push -u fork reloc-masked-scorer`, open the PR (the commit message is the
   description), file the issue. Commit: see below.
+- **2026-09-07 (S88, Max) — E6 `docs/matching-drafter-pipeline.md`, the drafter write-up.** Distilled from
+  `docs/gen2-mips-matching-model.md` (every measurement of the local-model tier, 2026-06-29 → 07-08) and
+  `docs/community-matching-model-plan.md` (the parked community release), with the drafting loops of cookbook §12 / §500:
+  §1 why a specialist is safe under the byte gate (the model affects throughput, never correctness); §2 the
+  toolchain-agnostic pipeline — `export_pairs` → `format_finetune` → `train_lora` → `eval_lora` → `serve_local` →
+  `api_draft` / `lora_grind` / `bulk_harvest` → the byte gate; `ab_score` + `workflows/ab_match.js`; `grinder` — every
+  tool verified present; §3 the measured arc as ONE table with dates (the stock 35B floor ~0; v1 39/41 trivial and 0/34
+  non-trivial on 638 pairs; corpus-v2 with the `extern` block: 85% on 6–15 ins; the 0/222 broad run that was two harness
+  bugs, R40; 7/15 on open stubs; 0/15 on shared code → corpus-v3 with the 1,623 shared macro bodies + the "never an empty
+  body" clause: 57.5% held-out, ~352 production banks, fleet +502 fns at $0; `bulk_harvest` 65% with a 0.4 s/fn gate;
+  GLM5.2 on the hard band: 10/18 bodies right, 3/18 banked — the def-side declaration wall caps every drafter; v4
+  discarded — the 7B is capacity-bound; the 4.8× Haiku A/B); §4 the portable lessons (data > size; self-contained
+  completions; weight by regime; dense > MoE; drop over-length examples; train at the inference context; the gate makes
+  quality a throughput question; exonerate the harness; route by measured difficulty); §5 hardware; §6 a five-step
+  recipe for another project; §7 **what is NOT published** — the ROM-derived pair dataset (`datasets/match_pairs/`) and
+  the adapter weights (`models/`), both gitignored (`git check-ignore` confirmed), a Gen3 licensing decision. Cites the
+  decision-log entry "2026-07-08 · Phase 25 — the local-7B tier is capacity-bound and off the endgame critical path".
+  Wiring: `doc_links` default set (`--strict` PASS), SETUP row + the P33 E6 section (R21). Commit: see below.
+  **Block E is complete on the still-private repo** (E3–E6 in full); E1/E2 and D3's outward actions wait for the flip.
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3 ✓, E4 ✓, E5 ✓ (32 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = E6 (2026-09-07, written by session 4555f4e4 "S88" at the E5 close; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3–E6 ✓ (33 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = G1 (2026-09-07, written by session 4555f4e4 "S88" at the E6 close; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = E6** (Max, ≈0.5–1 session — the drafter write-up `docs/matching-drafter-pipeline.md`;
-no cut candidates remain: F3, E3, E4, E5 all ran in full). Rebuild the harness task list (40 items, R28) marking A1–A5,
-B1–B9/C3, C1–C9, D1–D5, F1–F3, E3, E4, E5 completed and C10 in progress. **Every commit cites NEW
+(R1–R73), then WAIT for Drew. **NEXT = G1** (Max, ≈0.5 session — `docs/gen3-handoff.md`; it has NO dependency on the flip,
+so it is pulled ahead of the probe-gated items — a sequencing deviation from the plan's C11 → G1 order, recorded here; the
+probe-gated items C10 → E1 → E2 → D3 outward → C11 stay on Drew's side until `probe_github.sh` prints PASS). Rebuild the
+harness task list (40 items, R28) marking A1–A5, B1–B9/C3, C1–C9, D1–D5, F1–F3, E3–E6 completed and C10 in progress. **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). The approved plan
-is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (32):** A1–A5, B1–B9/C3,
+is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (33):** A1–A5, B1–B9/C3,
 C1–C9 (the rewrite, adopted, force-pushed by Drew, gc'd), D1–D5 (README, LICENSE/NOTICE/THIRD_PARTY, badges/objdiff/frogress,
 SETUP public-clean, governing docs + `doc_links`), F1 (timeline + story), F2 (retrospective), **F3 (S88: the wiki — 12 files
 under `docs/wiki/` + the 13 how-to chapters under `docs/how-to-ai-decomp/`, `tools/wiki_render.py` + `tools/wiki_sync.sh`,
@@ -590,17 +610,19 @@ with one commit under the noreply identity — Drew creates `Druthulu/xsig` EMPT
 upstream PR branch `reloc-masked-scorer` in `.run/P33/permuter-upstream/` + its tracked copy
 `tools/permuter/upstream/0001-reloc-masked-scorer.patch` + `docs/permuter-ils.md`; 10/10 tests, black clean, mypy at
 upstream's baseline, the real permuter 4 → 0 in 256 iterations where the default scorer read 3,585 — Drew pushes the branch
-to his fork and opens the PR + files the issue; the commit that carries this block).** **In progress (Drew, C10):** the GitHub
+to his fork and opens the PR + files the issue; `bf002f84d2`), **E6 (S88: `docs/matching-drafter-pipeline.md` — the
+local-model tier's pipeline, its measured arc, the portable lessons, what is NOT published; the commit that carries this
+block).** **In progress (Drew, C10):** the GitHub
 Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was never confirmed to S88; ask) and the daily
 `tools/public_rewrite/probe_github.sh` until it prints PASS (S88's run: **31 of 33 old hashes still ALIVE = the S87 baseline;
-no purge yet**). **Remaining (8):** E6 (drafter write-up) — on the still-private repo; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
+no purge yet**). **Remaining (7):** nothing more on the still-private repo except G1 (pre-flip-able) and G2 (after everything); then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
 — Drew), E2 (Archipelago — Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
 (Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare), G1
 (`docs/gen3-handoff.md`), G2 (the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
 
 ### 2. Facts the remaining tasks depend on (measured S88; verify if in doubt, R14)
 - **Repository state:** `main` = the rewritten history (4,031 commits) + the S87 tip commits (C7 → F2) + the S88 commits
-  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, `50c1b69e4d` E3, `9c4d32d651` E4, the E5 commit = HEAD); `origin/main` == the F2 commit
+  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, `50c1b69e4d` E3, `9c4d32d651` E4, `bf002f84d2` E5, the E6 commit = HEAD); `origin/main` == the F2 commit
   `5e57e88de2` — **Drew pushed the S87 tip on 2026-09-07 07:23Z; the S88 commits are NOT pushed** (a normal fast-forward push;
   R6). The first-ever GitHub runs of both workflows were GREEN on that push (`no-rom` 1 m 35 s, run 34095194524; `progress`
   15 s, run 34095194479) — read the Actions tab again after the next push, fix red, never claim green unseen (P9). The repo is
@@ -662,7 +684,7 @@ no purge yet**). **Remaining (8):** E6 (drafter write-up) — on the still-priva
    `git -C .run/P33/xsig-repo remote add origin https://github.com/Druthulu/xsig.git && git -C .run/P33/xsig-repo push -u origin
    main`; E5 — fork `simonlindholm/decomp-permuter`, `git -C .run/P33/permuter-upstream remote add fork <fork-url> && git -C
    .run/P33/permuter-upstream push -u fork reloc-masked-scorer`, open the PR (the commit message is the description) and
-   file the issue from `docs/permuter-ils.md` §3. **E6** (Max, 0.5–1): `docs/matching-drafter-pipeline.md` from `docs/community-matching-model-plan.md`,
+   file the issue from `docs/permuter-ils.md` §3. **E6 is DONE too** (`docs/matching-drafter-pipeline.md`). The old E6 spec, for the record: `docs/matching-drafter-pipeline.md` from `docs/community-matching-model-plan.md`,
    `docs/gen2-mips-matching-model.md`, cookbook §12/§500, `docs/wave-playbook.md`; the ROM-derived pair dataset is NOT published.
    One commit per task after this file is updated; log; refresh this block.
 3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → E1
@@ -679,13 +701,13 @@ no purge yet**). **Remaining (8):** E6 (drafter write-up) — on the still-priva
    the milestone evidence, WAIT for gate 2; then `PhaseEnd_Phase33.md` v2.0.0 with the rule candidates (a)–(h), `CURRENT_PHASE.md`
    → `phase-ends/logs/Phase33.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`).
 
-### 4. Files S88 touched (6 commits after the F2 tip)
+### 4. Files S88 touched (7 commits after the F2 tip)
 Tools (new): `tools/wiki_render.py`, `tools/wiki_sync.sh`, `tools/gccmap_cites.py`, `tools/xsig/` (xsig.py, README, LICENSE,
 tests/: fixture.c, make_fixtures.sh, test_xsig.py, fixture_a.txt, fixture_b.txt, fixture_a.s),
 `tools/permuter/upstream/0001-reloc-masked-scorer.patch`; changed: `tools/public_rewrite/probe_github.sh` (scratch-repo fetch +
 self-check), `tools/doc_links.py` (DEFAULT_GLOBS + the map README), `Makefile` (`wiki_render --selftest` + `gccmap_cites --check` + the xsig tests in
 tools-health), `.github/workflows/no-rom.yml` (the gccmap_cites + xsig steps). Docs (new): `docs/wiki/*.md` (12),
-`docs/how-to-ai-decomp/*.md` (13), `docs/gcc-2.7.2-map/README.md` + `cite_overrides.tsv`, `docs/permuter-ils.md`; changed: the five map files (135
+`docs/how-to-ai-decomp/*.md` (13), `docs/gcc-2.7.2-map/README.md` + `cite_overrides.tsv`, `docs/permuter-ils.md`, `docs/matching-drafter-pipeline.md`; changed: the five map files (135
 cites tagged in place), `docs/SETUP.md` (the probe clause in the public_rewrite row;
 2 wiki rows; the P33 F3 section), `docs/public-flip-runbook.md` (§11: the R57 probe paragraph; the wiki push step),
 `docs/doc_links_pending.txt` (10 entries mid-task → EMPTY), `phase-ends/CURRENT_PHASE.md` (F3 ticked; the S88 preflight + F3 log
