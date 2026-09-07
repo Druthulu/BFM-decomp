@@ -20,8 +20,12 @@ no license asserted over `src/`, NOTICE, THIRD_PARTY, badges, ROM-free CI), the 
 offered upstream and declined, the drafter write-up, the decomp.me preset proven through decomp.me's own toolchain), the outreach notes,
 story, retrospective, wiki (13 pages) + how-to (13 chapters), and the **Gen3 charter** (`docs/gen3-handoff.md`, `docs/gen3-standards.md`)
 are written. **The repository is still PRIVATE:** GitHub Support must purge the old objects first (ticket #4736982; the Activity view
-publishes every pre-force-push tip, so a clean tree is not enough). **Next: Phase 34 = the flip + the outward actions + C11 + the v2.0.0
-PhaseEnd = Gen2 EXIT** (`docs/phase34-seed.md`; plan it fresh in plan mode at Max). **Gen3 opens at Phase 35.**
+publishes every pre-force-push tip, so a clean tree is not enough). **Phase 33.5 is OPEN (gate 1 2026-09-07, v1.32.0 → v1.32.1;
+`phase-ends/CURRENT_PHASE.md`):** a docs sub-phase before the flip — the wiki becomes the single source of truth (five new pages, six
+documents folded in, ~61 files sunset into `docs/sunset/` with an archive index), the tracked `.run/` is pruned to flip-ready, the
+memory store is reconciled, and the day-one decomp kit `decomp-architect/` (a Phase-0.5 overlay on ProjectArchitect 2.0) is built and
+dry-run installed; R74–R83 ratified at its gate 1. **Then Phase 34 = the flip + the outward actions + C11 + the v2.0.0 PhaseEnd = Gen2
+EXIT** (`docs/phase34-seed.md`; plan it fresh in plan mode at Max). **Gen3 opens at Phase 35.**
 
 ## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
 - **Session start** reads this digest + the last three PhaseEnds, not every PhaseEnd (R64 candidate, Drew 2026-09-05).
@@ -274,14 +278,31 @@ the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1
 - **R73 — Build the 1-second reproducer battery for a mechanism BEFORE probing the real function, and read the allocation
   ORDER (`tools/alloc_table.py`) before any register lever** (§501-Q from 18 five-line reproducers after two sessions of
   real-function probes; §501-R from an 8-variant reproducer sweep; every pin then came off — accelerators (15)/(16)).
-**Candidates (a)–(j) proposed at PhaseEnd_Phase33 (2026-09-07) for ratification at Phase 34 gate 1** (full text + reasons in
-`phase-ends/PhaseEnd_Phase33.md`): (a) no ROM-derived bytes in any published artifact; (b) published numbers are generated, never typed;
-(c) rehearse every irreversible repository operation on a scratch copy with positive pairwise assertions; (d) a linked worktree's HEAD is
-a ref — audit `git worktree list` before gc/purge; (e) R20 amendment — text export + checksums + the archive repo are the backup, never
-`git clean -x`; (f) `pkill -f` never with a literal the calling shell carries; (g) a widened checker classifies a missing promised page as
-PENDING; (h) a probe never writes into the repository it guards; (i) a rewritten history is not private until the objects are gone from
-the host (the Activity view publishes every pre-force-push tip); (j) outward text is written by Drew the way a developer writes — no AI
-acknowledgement, no de-telled model drafts, the target project's AI policy read first.
+**R74–R83 — RATIFIED at Phase 33.5 gate 1 (Drew, 2026-09-07; the PhaseEnd_Phase33 candidates (a)–(j), operated through P33):**
+- **R74 — No ROM-derived bytes in ANY published artifact** — test fixtures, JSON, badges, reports, wiki pages and tracked scratch
+  included. The xsig fixture was built from our own C at two link addresses for exactly this reason; the regenerated target `.s`
+  stays under the ignored `.run/`. (Phase 33.5 found one tracked residue — two `fable_cd4` disassembly listings — and untracks it.)
+- **R75 — Published numbers are generated, never typed** (R51 applied to documents). `docs/progress.json`, the README block, the
+  badges, the timeline: every hand-typed number in the old README was stale. A number that must appear in prose is a dated snapshot
+  that carries the command that produced it.
+- **R76 — Rehearse every irreversible repository operation on a scratch copy and prove it pair by pair with POSITIVE assertions.**
+  Trial rewrite #1 exposed the empty-blob strip-list defect and the unchanged-commit case; the real run had 0 failures.
+- **R77 — A linked worktree's HEAD is a ref — audit `git worktree list` before any gc or purge.** 12 stale worktrees (12 GB) pinned
+  3,729 old commits through the gc.
+- **R78 — R20 amendment: the text export + checksums + the archive repository are the backup; never `git clean -x`.** The purged
+  paths are ignored-but-present; a `-x` clean deletes the RE database (CLAUDE.md fail-safe since C3).
+- **R79 — `pkill -f` never with a literal the calling shell's own command line contains.** S87 killed its own shell twice (exit 144).
+- **R80 — A checker that widens its document set must classify a missing promised page as PENDING, never BROKEN.** `doc_links` +
+  `doc_links_pending.txt`: 10 planned pages mid-F3, 0 false failures; the pending list must be EMPTY at a PhaseEnd (`--strict`).
+- **R81 — A probe or guard must never write into the repository it guards** — a "read-only" check that fetches, clones or builds does
+  so in a throwaway (R57 exemplar). The purge probe re-imported 5.97 GiB of the purged history on every run.
+- **R82 — A rewritten history is not private until the objects are gone from the HOST** — its Activity view publishes every
+  pre-force-push tip; gate a flip on the probe (or recreate the repository), never on a clean tree. 157 activity rows to 2026-06-11;
+  the old tip still served the EXE, the dumps and the archive.
+- **R83 — Outward text to third parties is written by Drew the way a developer writes** — short, plain, few or no code spans, no
+  bullet walls, no evidence scaffolding — rewritten from the facts, never a model draft with the tells removed; **no AI
+  acknowledgement**; the target project's AI-contribution policy is read first. The permuter maintainer closed #213/#214 and named
+  the LLM-looking text as the reason he minded; sotn-decomp forbids autonomous-tool PRs outright.
 
 ## 4. Where things live (the doc map a session needs)
 `docs/SETUP.md` (environment, every tool's row, commands) · `docs/matching-cookbook.md` §1–§500 (idioms; 3.5 MB —

@@ -20,7 +20,11 @@
 | 5 | **F3 outward — the wiki:** Wiki tab → "Create the first page" → `tools/wiki_sync.sh --push` → check the sidebar links render. | Drew | Low | `tools/wiki_sync.sh`; `docs/wiki/`, `docs/how-to-ai-decomp/` |
 | 6 | **Tool discoverability:** `gh repo edit Druthulu/xsig --add-topic decompilation --add-topic mips --add-topic playstation --add-topic psx --add-topic psyq --add-topic dedup --add-topic reverse-engineering -h https://github.com/Druthulu/BFM-decomp`; delete the fork `Druthulu/decomp-permuter` (the patch stays tracked in-tree); post the tools announcement in Drew's words. | Drew (or Claude on Drew's word) | Low | `docs/outreach/tools-announcement.md`; README "Tools from this project" |
 | 7 | **C11 aftercare:** other clones `git fetch origin && git reset --hard origin/main && git reflog expire --expire=now --all && git gc --prune=now` (never `git pull`); `gh auth logout`; delete `.run/public_rewrite/` and `.run/objdiff/`; prune `.run/`; DIGEST §0/§1 and the decision-log entry for the flip. | Claude | xHigh | runbook §12 |
-| 8 | **G2 — PhaseEnd_Phase34 v2.0.0 (Gen2 EXIT):** the PhaseEnd, `CURRENT_PHASE.md` → `phase-ends/logs/Phase34.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`. Rule candidates (a)–(j) of Phase 33 are proposed at the Phase 33 close; any Phase 34 candidates are added here. | Claude, then Drew (gate 2, push) | Max, Tier 1 | this file; `phase-ends/PhaseEnd_Phase33.md` |
+| 8 | **G2 — PhaseEnd_Phase34 v2.0.0 (Gen2 EXIT):** the PhaseEnd, `CURRENT_PHASE.md` → `phase-ends/logs/Phase34.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`. Rule candidates (a)–(j) of Phase 33 were **ratified as R74–R83 at Phase 33.5 gate 1 (2026-09-07)**; any Phase 34 candidates are added here. | Claude, then Drew (gate 2, push) | Max, Tier 1 | this file; `phase-ends/PhaseEnd_Phase33.md` |
+
+> **Phase 33.5 runs before this phase** (opened 2026-09-07; `phase-ends/CURRENT_PHASE.md`): docs consolidation into the wiki, the
+> tracked-`.run/` prune, the memory reconciliation and the day-one decomp kit — v1.32.1. It changes no build input and no flip step;
+> task 0's daily probe continues in parallel. Phase 34 opens from this file once 33.5 closes.
 
 Every outward action is done by Drew or **explicitly recorded as pending** in the PhaseEnd (P9 — never claimed). Every outward
 text is written by Drew the way a developer writes it (rule candidate (j); `docs/gen3-standards.md` §3).
