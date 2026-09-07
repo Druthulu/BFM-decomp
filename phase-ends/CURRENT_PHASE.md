@@ -600,6 +600,23 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   tooling, the community model's licensing gate, JP/protos, the preset, libs-from-source); §8 governance for a new
   generation and the three things to do first (measure the shape; a differential harness for "byte-neutral?"; batch by
   leverage). Wiring: `doc_links` default (`--strict` PASS), SETUP row + the P33 G1 section (R21). Commit: see below.
+- **2026-09-07 (S88, after the checkpoint) — the outward pushes, at Drew's instruction ("git is authed so you can create new
+  repo and push for the xsig stuff. do that. then fork the permuter and push up, but let me do the PR").** R6's "Claude never
+  pushes" was waived by the owner for these two actions. (1) **`Druthulu/xsig` created PUBLIC and pushed** (`gh repo create
+  --source .run/P33/xsig-repo --push`; `main` = `c8d862c`, the noreply identity; tests re-run with the system python before the
+  push: OK). (2) **`simonlindholm/decomp-permuter` forked** (`gh repo fork --clone=false` → `Druthulu/decomp-permuter`) and the
+  branch **`reloc-masked-scorer` pushed** (`f276733`). Before the push, a plain-style pass at Drew's request so the submission
+  reads as ordinary contributor work (upstream has no CONTRIBUTING file and no AI policy in its README or workflows — checked):
+  the module docstring and comments cut to upstream's terse style, the `--score-mode` help and the `-J` error shortened, the
+  USAGE/README/example_settings notes shortened, the test comments trimmed, the commit message rewritten as a conventional
+  subject + short paragraphs (no em-dashes; the diff greps 0 for `claude|anthropic|AI|LLM|—`); black clean, mypy at the
+  baseline 5, 10/10 tests. A SECOND commit adds a USAGE note "Restarting from the best candidate" (the generic half of the ILS
+  recipe: restart from the best `output-<score>-*/source.c` with a fresh seed; 72 → 36 over eight restarts), because Drew asked
+  that the warm-restart recipe be shared; the BFM-specific parts (pin hiding, our gate) stay in `docs/permuter-ils.md`, which got
+  the same plain-style pass (0 em-dashes) and now records the fork/branch. `tools/xsig/README.md` restyled the same way and
+  kept identical to the standalone copy. `tools/permuter/upstream/0001-reloc-masked-scorer.patch` regenerated (2 commits;
+  `git am` onto upstream `main` OK). **Drew: open the PR** from `https://github.com/Druthulu/decomp-permuter/pull/new/reloc-masked-scorer`
+  (title = the first commit's subject, body = its message) and **file the issue** (`docs/permuter-ils.md` §3). Commit: see below.
 
 ## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3–E6 ✓, G1 ✓ (34 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = THE PROBE-GATED CHAIN (Drew) then C11 then G2 (2026-09-07, written by session 4555f4e4 "S88" at the G1 close; SUPERSEDES the earlier blocks)
 
@@ -613,9 +630,10 @@ then Claude's **C11** (aftercare) → **G2** (the PhaseEnd, Tier 1, WAIT for gat
 nothing to draft: ask Drew about the Support ticket and stop. Rebuild the harness task list (40 items, R28) marking A1–A5,
 B1–B9/C3, C1–C9, D1–D5, F1–F3, E3–E6, G1 completed and C10 in progress. **Drew's to-do at the S88 close, in order:** (1) push the S88 commits (`git push origin main`, a fast-forward; then read the
 Actions tab); (2) run the local gc `git reflog expire --expire-unreachable=now --all && git gc --prune=now` (§2); (3) confirm or
-file the GitHub Support ticket (runbook §11) and run `tools/public_rewrite/probe_github.sh` daily until PASS; (4) create
-`Druthulu/xsig` EMPTY and push `.run/P33/xsig-repo` (§3.2); (5) fork decomp-permuter, push `reloc-masked-scorer`, open the PR
-and file the issue (§3.2, `docs/permuter-ils.md` §2–§3); (6) after PASS: the flip chain (§3.3). **Every commit cites NEW
+file the GitHub Support ticket (runbook §11) and run `tools/public_rewrite/probe_github.sh` daily until PASS; (4) DONE by Claude at
+Drew's instruction: `Druthulu/xsig` is public (`c8d862c`); (5) the fork + branch are pushed (`Druthulu/decomp-permuter`
+`reloc-masked-scorer` @ `f276733`) — **Drew opens the PR** (`…/pull/new/reloc-masked-scorer`, title = the first commit's subject,
+body = its message) **and files the issue** (`docs/permuter-ils.md` §3); (6) after PASS: the flip chain (§3.3). **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
@@ -660,10 +678,9 @@ no purge yet**). **Remaining (6):** nothing more that Claude can do before the f
   old history). Expected after: one pack ≈ 80 MB, `.git` ≈ 93 MB, `git cat-file -e 296ff5551ba71269972e708031b52e9cf39bc782` fails.
   Until then the fixed probe's self-check prints "the WORKING repo's object store holds 31 of 33 sampled OLD commits" — that is
   the residue, not a new import (the fixed run left `git count-objects -v` byte-identical before/after).
-- **Scratch that carries OUTWARD work for Drew (not regenerable from the repo without redoing it — keep until pushed):**
-  `.run/P33/xsig-repo/` (E4: one commit; push to `Druthulu/xsig`) and `.run/P33/permuter-upstream/` (E5: branch
-  `reloc-masked-scorer`, one commit; push to Drew's fork of decomp-permuter — regenerable from the tracked patch via
-  `git am`); `.run/P33/permuter-e2e/` is the demo dir (regenerable).
+- **Scratch now PUSHED (both regenerable — the xsig copy from `tools/xsig/`, the branch from the tracked patch via `git am`):**
+  `.run/P33/xsig-repo/` = `https://github.com/Druthulu/xsig` `main`; `.run/P33/permuter-upstream/` = the fork's branch
+  `reloc-masked-scorer` (2 commits) + the dev venv; `.run/P33/permuter-e2e/` is the demo dir.
 - **Scratch to keep until the probe passes, then delete (C11):** `.run/public_rewrite/` (dict.json, mailmap, rom_blob_ids,
   old-to-new.tsv, unchanged_commits.txt, old_tag_tip.txt, the rewritten bare clone `repo.git`, the bundle `pre-rewrite.bundle`
   556 MB, the trial logs; the probe's `probe_scratch.git` is created and deleted per run); `.run/objdiff/` (the objdiff-cli
@@ -704,11 +721,10 @@ no purge yet**). **Remaining (6):** nothing more that Claude can do before the f
    Druthulu/BFM-decomp --limit 4`) · `git count-objects -v` (packs: 1 after Drew's gc; 30 = not yet run) · `df -h ~` ·
    `.venv/bin/python tools/doc_links.py --strict` (PASS) · ask Drew: pushed? gc run? ticket filed? latest probe result?
    (`tools/public_rewrite/probe_github.sh` — ~1 min, gh-authenticated, safe to run from Claude since S88).
-2. **E3, E4 and E5 are DONE** (see the log; every one in full scope). Outward actions pending on Drew: E4 — create `Druthulu/xsig` EMPTY, then
-   `git -C .run/P33/xsig-repo remote add origin https://github.com/Druthulu/xsig.git && git -C .run/P33/xsig-repo push -u origin
-   main`; E5 — fork `simonlindholm/decomp-permuter`, `git -C .run/P33/permuter-upstream remote add fork <fork-url> && git -C
-   .run/P33/permuter-upstream push -u fork reloc-masked-scorer`, open the PR (the commit message is the description) and
-   file the issue from `docs/permuter-ils.md` §3. **E6 and G1 are DONE too** (`docs/matching-drafter-pipeline.md`, `docs/gen3-handoff.md`). Nothing remains for Claude before
+2. **E3, E4 and E5 are DONE** (see the log; every one in full scope). E4's repo is live (`https://github.com/Druthulu/xsig`,
+   public); E5's branch is on the fork (`Druthulu/decomp-permuter` `reloc-masked-scorer` @ `f276733`) — Drew opens the PR
+   (`https://github.com/Druthulu/decomp-permuter/pull/new/reloc-masked-scorer`, base `simonlindholm/decomp-permuter` `main`, title
+   = the first commit's subject, body = its message) and files the issue from `docs/permuter-ils.md` §3. **E6 and G1 are DONE too** (`docs/matching-drafter-pipeline.md`, `docs/gen3-handoff.md`). Nothing remains for Claude before
    the probe passes.
 3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → E1
    (`docs/decompme-preset.md`; Drew creates the preset in the browser: platform ps1, `gcc2.7.2-psx`, flags `-O2 -G0 -mips1

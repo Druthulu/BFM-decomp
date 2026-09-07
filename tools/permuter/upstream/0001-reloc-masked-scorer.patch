@@ -1,111 +1,90 @@
-From 09079705e56cc6ea535bd7456fc5c1216bc63288 Mon Sep 17 00:00:00 2001
+From 949c459bab197ca0e2191e93fb1a61ffee5ea5ee Mon Sep 17 00:00:00 2001
 From: Drew T <50529377+Druthulu@users.noreply.github.com>
 Date: Mon, 7 Sep 2026 11:24:21 -0600
-Subject: [PATCH] Add a relocation-masked scoring mode for MIPS (--score-mode
- reloc-masked)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH 1/2] Add --score-mode reloc-masked: relocation-masked scoring
+ for MIPS
 
-The default scorer diffs symbolised objdump rows and, on MIPS, recognises a
-relocation slot only when the field contains a "." (scorer.py's
-field_matches_any_symbol). For projects whose symbols carry no "." — e.g.
-splat's func_80012345 / D_80054C10 — every relocation slot that differs by
-symbol name is charged as a register difference the search can never reduce,
-so the score floats on a floor above zero and the random walk has no gradient
-toward a real match (measured on a 225-instruction function with a byte-exact
-answer: base ~225, best ~210, never 0).
+The default scorer only treats a MIPS operand as a relocation when the field
+contains a "." (field_matches_any_symbol). Projects whose symbols don't have
+one (e.g. splat's func_80012345) get a register penalty for every relocation
+slot with a different symbol name, so the score can't reach 0 even for a
+candidate that would link to the same bytes. In practice the search then
+wanders around a floor: on one 225-instruction function the base score was
+~225, the best ~210, and it never hit 0 although a byte-exact answer existed.
 
-RelocMaskedScorer (src/reloc_scorer.py) compares the two objects' instruction
-words directly, masking exactly the fields the linker fills in — taken from
-the TARGET's relocation records — and requiring the relocation operands to
-agree there:
-  * R_MIPS_26: keep the opcode, mask the 26-bit target, same symbol+addend;
-  * HI16/LO16/PC16/LITERAL/GPREL16/GOT16/CALL16: keep opcode+rs+rt, mask the
-    16-bit immediate, same symbol+addend;
-  * a `j` relocated against .text (a label inside the function): compared
-    relative to the function start;
-  * everything else, registers included: the full word.
-score = mismatching positions + |length difference|; 0 iff the candidate links
-to the same bytes. It subclasses Scorer so Permuter/Candidate need no change,
-and is selected with --score-mode reloc-masked or score_mode = "reloc-masked"
-in settings.toml (default "mnemonic" = unchanged behaviour). --debug prints
-the per-instruction differences. Refused with -J: remote evaluators use the
-default scorer. MIPS only; other architectures raise.
+RelocMaskedScorer (src/reloc_scorer.py) compares the raw instruction words
+instead, masking the fields the linker fills in based on the target's
+relocation records (R_MIPS_26: opcode only; HI16/LO16/PC16/LITERAL/GPREL16/
+GOT16/CALL16: opcode+rs+rt) and requiring the relocation symbol to match at
+those positions. A j against .text is compared by its target relative to the
+function start. Score = differing positions + length difference, 0 iff the
+candidate links to the same bytes.
 
-Tests (test/test_reloc_scorer.py) run on an embedded objdump -drz listing of a
-small gcc 2.7.2 object and need no cross toolchain: link-time fields masked,
-symbol/register/opcode/branch/length differences each counted, internal jump
-targets compared, and the scorer end to end through objdump_command.
+It's a Scorer subclass, so Permuter/Candidate are unchanged. Selected with
+--score-mode reloc-masked or score_mode = "reloc-masked" in settings.toml;
+the default is unchanged. Refused together with -J since the remote
+evaluator uses the default scorer. MIPS only. --debug prints the differing
+instructions.
 
-Written for the Brave Fencer Musashi decompilation, where this scorer (as an
-out-of-tree drop-in) took the permuter from a non-zero floor to score-0
-matches on the register-allocation tail.
+Tests use an embedded objdump -drz listing of a small gcc 2.7.2 object so no
+cross toolchain is needed.
 ---
  README.md                 |   3 +
- USAGE.md                  |  18 ++++
- example_settings.toml     |   4 +
- src/main.py               |  51 ++++++++--
- src/reloc_scorer.py       | 209 ++++++++++++++++++++++++++++++++++++++
- test/test_reloc_scorer.py | 209 ++++++++++++++++++++++++++++++++++++++
- 6 files changed, 487 insertions(+), 7 deletions(-)
+ USAGE.md                  |  11 ++
+ example_settings.toml     |   3 +
+ src/main.py               |  47 +++++++--
+ src/reloc_scorer.py       | 190 +++++++++++++++++++++++++++++++++++
+ test/test_reloc_scorer.py | 204 ++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 451 insertions(+), 7 deletions(-)
  create mode 100644 src/reloc_scorer.py
  create mode 100644 test/test_reloc_scorer.py
 
 diff --git a/README.md b/README.md
-index 6ffed6a..c7160b6 100644
+index 6ffed6a..3f3f42b 100644
 --- a/README.md
 +++ b/README.md
 @@ -101,6 +101,9 @@ permuter is currently quite bad at resolving stack differences). For more detail
  see scorer.py. It's far from a perfect system, and should probably be tweaked to
  look at e.g. the register diff graph.
  
-+For MIPS targets `--score-mode reloc-masked` scores relocation-masked instruction
-+words instead (0 exactly when the candidate links to the same bytes) — see USAGE.md.
++On MIPS, `--score-mode reloc-masked` compares instruction words with the linker-filled
++fields masked instead; see USAGE.md.
 +
  **What sort of non-matchings are the permuter good at?** It's generally best towards
  the end, when mostly regalloc changes remain. If there are reorderings or functional
  changes, it's often easy to resolve those by hand, and neither the scorer nor the
 diff --git a/USAGE.md b/USAGE.md
-index 4f3e89d..5f28d69 100644
+index 4f3e89d..42734da 100644
 --- a/USAGE.md
 +++ b/USAGE.md
-@@ -13,3 +13,21 @@ does all this for you. See README.md for more details.
+@@ -13,3 +13,14 @@ does all this for you. See README.md for more details.
    - `<dir>/compile.sh <dir>/base.c -o <dir>/base.o`
    - `./permuter.py <dir> --debug`
  * `./permuter.py <dir>`
 +
 +## Scoring modes
 +
-+By default candidates are scored by a penalty-weighted diff of the objdump'd rows
-+(`src/scorer.py`). `--score-mode reloc-masked` (or `score_mode = "reloc-masked"`
-+in `settings.toml`) switches MIPS targets to a relocation-masked word comparison
-+(`src/reloc_scorer.py`): the fields the linker fills in (`j`/`jal` targets,
-+`%hi`/`%lo` and other 16-bit relocations) are masked using the target object's
-+relocation records, the relocation symbols must still agree, a `j` to a label
-+inside the function is compared relative to the function start, and everything
-+else — registers included — is compared as a full word. The score is the number
-+of instructions that differ plus the length difference, so it is 0 exactly when
-+the candidate links to the same bytes. Use it when the default score floats above
-+0 for a function that has a byte-exact answer — typically a project whose symbols
-+carry no `.` (splat's `func_80012345`), where the default scorer cannot recognise a
-+relocation slot and charges every differing symbol as a register difference.
-+`--debug` prints the per-instruction differences. Not available with the network
-+(`-J`), whose evaluators use the default scorer.
++`--score-mode reloc-masked` (or `score_mode = "reloc-masked"` in settings.toml) switches
++MIPS targets from the default mnemonic diff to a comparison of raw instruction words,
++with the fields the linker fills in masked based on the target's relocation records
++(see `src/reloc_scorer.py`). The score is the number of instructions that differ plus the
++length difference, so it is 0 exactly when the candidate links to the same bytes. This
++helps in projects whose symbols don't contain a "." (e.g. `func_80012345`), where the
++default scorer can't tell a relocation slot from a register difference and gets stuck
++above 0. `--debug` prints the differing instructions. Not available together with `-J`.
 diff --git a/example_settings.toml b/example_settings.toml
-index dd8098a..152873f 100644
+index dd8098a..5fba4ca 100644
 --- a/example_settings.toml
 +++ b/example_settings.toml
-@@ -3,3 +3,7 @@ compiler_type = "ido" # examples: base, ido, mwcc, gcc
+@@ -3,3 +3,6 @@ compiler_type = "ido" # examples: base, ido, mwcc, gcc
  
  [weight_overrides]
  perm_temp_for_expr = 100
 +
-+# How candidates are scored: "mnemonic" (default) or "reloc-masked" (MIPS only; see
-+# USAGE.md "Scoring modes"). The --score-mode flag overrides this.
++# Scoring mode: "mnemonic" (default) or "reloc-masked" (MIPS only, see USAGE.md).
 +# score_mode = "reloc-masked"
 diff --git a/src/main.py b/src/main.py
-index 32965fc..457aedd 100644
+index 32965fc..d40e24f 100644
 --- a/src/main.py
 +++ b/src/main.py
 @@ -51,6 +51,7 @@ from .preprocess import preprocess
@@ -142,8 +121,8 @@ index 32965fc..457aedd 100644
 +        if score_mode == "reloc-masked":
 +            if options.use_network:
 +                print(
-+                    "--score-mode reloc-masked cannot be combined with the network "
-+                    "(-J): remote evaluators score with the default scorer.",
++                    "--score-mode reloc-masked can't be used with -J "
++                    "(remote evaluators use the default scorer)",
 +                    file=sys.stderr,
 +                )
 +                sys.exit(1)
@@ -168,7 +147,7 @@ index 32965fc..457aedd 100644
          c_source = preprocess(base_c)
  
          try:
-@@ -701,6 +725,18 @@ def main() -> None:
+@@ -701,6 +725,14 @@ def main() -> None:
          choices=["difflib", "levenshtein"],
          help="Diff algorithm to use",
      )
@@ -176,18 +155,14 @@ index 32965fc..457aedd 100644
 +        "--score-mode",
 +        dest="score_mode",
 +        choices=["mnemonic", "reloc-masked"],
-+        help="""How candidates are scored (default: the `score_mode` setting, else
-+            "mnemonic"). "mnemonic" is the penalty-weighted diff of objdump'd rows.
-+            "reloc-masked" (MIPS only) counts the instruction words that still differ
-+            once the linker-filled fields are masked, and reaches 0 exactly when the
-+            candidate links to the same bytes; use it when the default score floats
-+            above 0 for a function that has a byte-exact answer (e.g. symbols without
-+            a "." in their name).""",
++        help="""Scoring mode (default: the score_mode setting, else "mnemonic").
++            "reloc-masked" (MIPS only) compares instruction words with the
++            linker-filled fields masked; see USAGE.md.""",
 +    )
      parser.add_argument(
          "--keep-prob",
          dest="keep_prob",
-@@ -808,6 +844,7 @@ def main() -> None:
+@@ -808,6 +840,7 @@ def main() -> None:
          debug_mode=args.debug_mode,
          speed=args.speed,
          ign_branch_targets=args.ign_branch_targets,
@@ -197,39 +172,30 @@ index 32965fc..457aedd 100644
      run(options)
 diff --git a/src/reloc_scorer.py b/src/reloc_scorer.py
 new file mode 100644
-index 0000000..7ccc14b
+index 0000000..9af765f
 --- /dev/null
 +++ b/src/reloc_scorer.py
-@@ -0,0 +1,209 @@
-+"""Relocation-masked scoring for MIPS objects (`--score-mode reloc-masked`).
+@@ -0,0 +1,190 @@
++"""Relocation-masked scorer for MIPS (--score-mode reloc-masked).
 +
-+The default scorer diffs objdump'd mnemonic rows with relocations symbolised and
-+counts register, stack, branch, reordering and insertion/deletion penalties. For a
-+project whose symbols contain no "." (e.g. splat's `func_80012345` / `D_80054C10`),
-+`field_matches_any_symbol` never fires, so every relocation slot that differs by
-+symbol name is a REGALLOC penalty the search can never reduce: the score floats on
-+a floor above zero and the random walk has no gradient toward a real match. That
-+floor was measured on a 225-instruction function that had a byte-exact answer.
++Compares the raw instruction words of the candidate and target objects. Fields
++that the linker fills in are masked based on the target's relocation records:
 +
-+This scorer compares the two objects' instruction WORDS directly, masking exactly
-+the fields the linker fills in and requiring the relocation operands to agree
-+there. The mask is taken from the TARGET's relocation records:
++* R_MIPS_26 (j/jal): keep the opcode, mask the 26-bit target.
++* 16-bit relocations (HI16/LO16/PC16/LITERAL/GPREL16/GOT16/CALL16): keep
++  opcode + rs + rt, mask the immediate.
 +
-+* `R_MIPS_26` (a `j`/`jal` to a symbol): keep the opcode, mask the 26-bit target,
-+  and require the same symbol+addend on both sides;
-+* a 16-bit-immediate relocation (`R_MIPS_HI16`, `LO16`, `PC16`, `LITERAL`,
-+  `GPREL16`, `GOT16`, `CALL16`): keep opcode + rs + rt, mask the low 16 bits, and
-+  require the same symbol+addend;
-+* a `j` whose relocation is against the section (a label inside the function):
-+  the target is compared RELATIVE to the function start, so two candidates that
-+  jump to different labels differ even though both words carry a section reloc;
-+* everything else: the full 32-bit word — registers, constants, branch offsets.
++At a masked position the relocation symbol (plus addend) still has to match.
++A `j` relocated against .text (a jump to a label in the same function) is
++compared by its target relative to the start of the function. Everything else
++is compared as a full word, registers included.
 +
-+    score = mismatching positions + |length difference|
-+
-+It is 0 exactly when the two objects link to identical bytes for that function,
-+and every unit is one instruction, so the number is a closeness, not a weighted
-+guess. MIPS only; other architectures keep the default scorer.
++The score is the number of positions that differ plus the difference in
++instruction count, so it is 0 exactly when the candidate would link to the
++same bytes. This gives the permuter a gradient down to 0 in projects whose
++symbols never contain a "." (e.g. splat's func_80012345), where the default
++scorer treats every relocation slot with a different symbol name as a
++register difference and never reaches 0.
 +"""
 +
 +import hashlib
@@ -248,8 +214,8 @@ index 0000000..7ccc14b
 +_IMM16_RELOCS = {"HI16", "LO16", "PC16", "LITERAL", "GPREL16", "GOT16", "CALL16"}
 +
 +MASK_FULL = 0xFFFFFFFF
-+MASK_OPCODE = 0xFC000000  # a relocated j/jal: the 26-bit target is the linker's
-+MASK_NO_IMM16 = 0xFFFF0000  # a relocated 16-bit immediate: opcode + rs + rt stay
++MASK_OPCODE = 0xFC000000
++MASK_NO_IMM16 = 0xFFFF0000
 +
 +
 +@dataclass
@@ -259,9 +225,7 @@ index 0000000..7ccc14b
 +    text: str
 +    reloc_kind: Optional[str] = None
 +    reloc_op: Optional[str] = None
-+    jrel: Optional[int] = (
-+        None  # an internal `j`: its target relative to the function start
-+    )
++    jrel: Optional[int] = None  # target of an in-function j, relative to fn start
 +
 +
 +def mask_for(reloc_kind: Optional[str]) -> int:
@@ -273,12 +237,8 @@ index 0000000..7ccc14b
 +
 +
 +def parse_listing(lines: Sequence[str], fn_name: Optional[str] = None) -> List[Insn]:
-+    """Parse `objdump -drz` output into instructions with their relocation records.
-+
-+    With `fn_name`, only that function's instructions are returned when the listing
-+    has such a label; otherwise (or when the label is absent) the whole `.text` is
-+    used, in order — the same scope the default scorer diffs.
-+    """
++    """Parse `objdump -dr` output. With fn_name, restrict to that function if the
++    listing has it; otherwise use all of .text (same scope as the default scorer)."""
 +    insns: List[Insn] = []
 +    fn_start: Optional[int] = None
 +    in_fn = fn_name is None
@@ -298,9 +258,8 @@ index 0000000..7ccc14b
 +            continue
 +        reloc = _RELOC_RE.search(line)
 +        if reloc and insns:
-+            kind, op = reloc.group(1), reloc.group(2)
-+            insns[-1].reloc_kind = kind
-+            insns[-1].reloc_op = op
++            insns[-1].reloc_kind = reloc.group(1)
++            insns[-1].reloc_op = reloc.group(2)
 +    if fn_name is not None and not insns:
 +        return parse_listing(lines, None)
 +    start = fn_start or 0
@@ -315,7 +274,7 @@ index 0000000..7ccc14b
 +
 +
 +def classify(cand: Insn, target: Insn) -> Optional[str]:
-+    """None when the two instructions agree up to relocation, else why they differ."""
++    """Return None if the two instructions match up to relocation, else a reason."""
 +    mask = mask_for(target.reloc_kind)
 +    if (cand.word & mask) != (target.word & mask):
 +        if (cand.word >> 26) != (target.word >> 26):
@@ -331,7 +290,7 @@ index 0000000..7ccc14b
 +def masked_diff(
 +    cand: Sequence[Insn], target: Sequence[Insn]
 +) -> Tuple[int, List[Tuple[int, Optional[Insn], Optional[Insn], str]]]:
-+    """(score, [(index, cand_insn, target_insn, reason)]) — one unit per position."""
++    """Return (score, diffs) where diffs lists (index, cand, target, reason)."""
 +    diffs: List[Tuple[int, Optional[Insn], Optional[Insn], str]] = []
 +    for i in range(max(len(cand), len(target))):
 +        if i >= len(cand) or i >= len(target):
@@ -351,13 +310,10 @@ index 0000000..7ccc14b
 +
 +
 +class RelocMaskedScorer(Scorer):
-+    """A drop-in for `Scorer` that scores relocation-masked instruction words.
-+
-+    `Scorer.__init__` is deliberately not called: this scorer neither symbolises nor
-+    diffs mnemonic rows, so none of that state exists. The public contract is the
-+    same — `score(cand_o) -> (int, hash)`, `PENALTY_INF`, `target_o`, `arch`,
-+    `debug_mode`, `objdump_command`.
-+    """
++    """Scorer that compares relocation-masked instruction words. Doesn't call
++    Scorer.__init__ since none of the mnemonic-diff state is used; the public
++    interface (score(), PENALTY_INF, target_o, arch, debug_mode,
++    objdump_command) is the same."""
 +
 +    def __init__(
 +        self,
@@ -376,7 +332,7 @@ index 0000000..7ccc14b
 +        self.fn_name = fn_name
 +        self.debug_mode = debug_mode
 +        self.objdump_command = objdump_command or ""
-+        self.stack_differences = False  # read by the network client; unused here
++        self.stack_differences = False  # read by net/client.py
 +        self.algorithm = "reloc-masked"
 +        self.target_insns = self._insns(target_o)
 +
@@ -412,10 +368,10 @@ index 0000000..7ccc14b
 +        return value, digest
 diff --git a/test/test_reloc_scorer.py b/test/test_reloc_scorer.py
 new file mode 100644
-index 0000000..8bb4e4c
+index 0000000..ce02ff2
 --- /dev/null
 +++ b/test/test_reloc_scorer.py
-@@ -0,0 +1,209 @@
+@@ -0,0 +1,204 @@
 +import os
 +import tempfile
 +import unittest
@@ -432,9 +388,8 @@ index 0000000..8bb4e4c
 +)
 +from src.scorer import Scorer
 +
-+# `objdump -drz -j .text` of a small function compiled by gcc 2.7.2 (MIPS I, -O2 -G0):
-+# a %hi/%lo pair (HI16/LO16 against `table`), a jal (R_MIPS_26 against `helper`),
-+# two branches (PC-relative, encoded in the word), and a second function.
++# objdump -drz of a small object built with gcc 2.7.2 (MIPS I, -O2 -G0): a %hi/%lo
++# pair, a jal, two branches, and a second function.
 +LISTING = """
 +fixture.o:     file format elf32-tradlittlemips
 +
@@ -491,7 +446,6 @@ index 0000000..8bb4e4c
 +
 +
 +def listing(edits: Dict[str, str]) -> str:
-+    """LISTING with exact textual replacements applied (each key must occur)."""
 +    text = LISTING
 +    for old, new in edits.items():
 +        assert old in text, old
@@ -508,7 +462,7 @@ index 0000000..8bb4e4c
 +            [i.word for i in only],
 +            [0x00041040, 0x00441021, 0x00052883, 0x03E00008, 0x00451026],
 +        )
-+        # an absent label falls back to the whole section, like the default scorer's scope
++        # unknown function name -> whole .text
 +        self.assertEqual(len(parse_listing(LISTING.splitlines(), "no_such_fn")), 40)
 +
 +    def test_relocations_are_attached(self) -> None:
@@ -523,7 +477,7 @@ index 0000000..8bb4e4c
 +        self.assertEqual(
 +            (by_off[0x50].reloc_kind, by_off[0x50].reloc_op), ("26", "helper")
 +        )
-+        self.assertIsNone(by_off[0x48].reloc_kind)  # a branch is encoded, not relocated
++        self.assertIsNone(by_off[0x48].reloc_kind)  # branch: no reloc
 +
 +    def test_masks(self) -> None:
 +        self.assertEqual(mask_for("26"), MASK_OPCODE)
@@ -540,7 +494,7 @@ index 0000000..8bb4e4c
 +        self.assertEqual(masked_diff(self.insns(), self.insns())[0], 0)
 +
 +    def test_link_time_fields_are_masked(self) -> None:
-+        # the same code with the linker's fields filled differently (a jal target, a %hi/%lo pair)
++        # same code, different link-time values in the jal target and the %hi/%lo pair
 +        cand = listing(
 +            {
 +                "0c000000 ": "0c004800 ",
@@ -563,12 +517,12 @@ index 0000000..8bb4e4c
 +        self.assertEqual(masked_diff(self.insns(cand), self.insns())[0], 2)
 +
 +    def test_register_branch_and_opcode_differences_count(self) -> None:
-+        cand = listing({"00521021 ": "00531021 "})  # addu v0,v0,s3 instead of s2
++        cand = listing({"00521021 ": "00531021 "})  # s3 instead of s2
 +        score, diffs = masked_diff(self.insns(cand), self.insns())
 +        self.assertEqual((score, diffs[0][3]), (1, "operand"))
-+        cand = listing({"14400004 ": "14400005 "})  # bnez to a different label
++        cand = listing({"14400004 ": "14400005 "})  # different branch target
 +        self.assertEqual(masked_diff(self.insns(cand), self.insns())[0], 1)
-+        cand = listing({"8c420000 ": "94420000 "})  # lw -> lhu: a different opcode
++        cand = listing({"8c420000 ": "94420000 "})  # lw -> lhu
 +        score, diffs = masked_diff(self.insns(cand), self.insns())
 +        self.assertEqual((score, diffs[0][3]), (1, "opcode"))
 +
@@ -578,8 +532,7 @@ index 0000000..8bb4e4c
 +        self.assertEqual((score, diffs[-1][3]), (1, "length"))
 +
 +    def test_internal_jump_targets_are_compared(self) -> None:
-+        # a `j` to a label inside the function carries `R_MIPS_26 .text`: its target is compared
-+        # relative to the function start, so a jump to a different label is a mismatch
++        # j to a label in the same function: R_MIPS_26 against .text, compared by target
 +        target = LISTING.replace(
 +            "  4c:\t00000000 \tnop\n",
 +            "  4c:\t08000018 \tj\t60 <fixture+0x60>\n\t\t\t4c: R_MIPS_26\t.text\n",
@@ -596,10 +549,8 @@ index 0000000..8bb4e4c
 +
 +class TestScorer(unittest.TestCase):
 +    def test_scorer_end_to_end_with_a_stand_in_objdump(self) -> None:
-+        # `objdump_command` may be any command that prints the listing: `cat` turns a listing file
-+        # into an "object", so the whole scorer path runs without a cross toolchain
-+        # get_arch() reads the ELF ident + e_machine (20 bytes): a little-endian MIPS header in
-+        # front of the listing is all the scorer needs from the file itself
++        # objdump_command=cat lets a listing file stand in for an object
++        # get_arch() only reads the first 20 bytes (ident + e_machine)
 +        header = b"\x7fELF\x01\x01\x01" + bytes(9) + b"\x01\x00\x08\x00"
 +
 +        def fake_object(path: str, text: str) -> str:
@@ -625,6 +576,35 @@ index 0000000..8bb4e4c
 +
 +if __name__ == "__main__":
 +    unittest.main()
+-- 
+2.43.0
+
+
+From f27673357898026239c6d9721fb1c86b095babae Mon Sep 17 00:00:00 2001
+From: Drew T <50529377+Druthulu@users.noreply.github.com>
+Date: Mon, 7 Sep 2026 11:49:02 -0600
+Subject: [PATCH 2/2] USAGE: note on restarting from the best candidate
+
+---
+ USAGE.md | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/USAGE.md b/USAGE.md
+index 42734da..33571a6 100644
+--- a/USAGE.md
++++ b/USAGE.md
+@@ -24,3 +24,11 @@ length difference, so it is 0 exactly when the candidate links to the same bytes
+ helps in projects whose symbols don't contain a "." (e.g. `func_80012345`), where the
+ default scorer can't tell a relocation slot from a register difference and gets stuck
+ above 0. `--debug` prints the differing instructions. Not available together with `-J`.
++
++## Restarting from the best candidate
++
++A long run tends to plateau at the base score. Restarting the permuter with the best
++`output-<score>-*/source.c` copied over `base.c` (and a fresh seed) usually gets further
++than continuing the same run: on one 72-mismatch function, eight such restarts got the
++score down to 36, with most of the drop coming right after each restart. A `--stop-on-zero`
++hit found this way is still only a candidate until the full build confirms the bytes.
 -- 
 2.43.0
 
