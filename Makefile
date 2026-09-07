@@ -144,7 +144,7 @@ CC1_SMOKE_FLAGS := -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-lin
 BINUTILS_WARN_MAJOR := 2
 BINUTILS_WARN_MINOR := 38
 
-.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health
+.PHONY: help check-env extract build check expected clean report sig-refresh sig-overlays sig-resident sig-main sdk-dual build-all check-all audit-corpus audit-cdecl audit-binaries audit-text-sources audit-digest audit-frontier tools-health
 
 # -----------------------------------------------------------------------------
 help:
@@ -264,6 +264,13 @@ tools-health:
 	# P33 A2: main's build-derived game-code sig — the one the fleet digest weighs main by. Regenerated
 	# here for the R51 reason: progress.py prefers it, so a stale copy would be a stale denominator.
 	$(MAKE) --no-print-directory sig-main
+	# P33 A3: the with/without-SDK dual (contract §1.2). Skipped, loudly, on a machine without the SDK
+	# objects — there every build already IS the without leg, and running it twice would prove nothing.
+	if [ -d "$(LIBCD_ELF)" ] && [ -d "$(LIBPAD_ELF)" ]; then
+		$(MAKE) --no-print-directory sdk-dual
+	else
+		echo "[skip] sdk-dual: no SDK objects on this machine — the default build IS the no-SDK leg"
+	fi
 	$(MAKE) --no-print-directory audit-corpus
 	$(MAKE) --no-print-directory audit-cdecl
 	$(MAKE) --no-print-directory audit-binaries
@@ -419,6 +426,46 @@ sig-main:
 		echo "sig-main: no main build ($(main_MAPFILE) absent) — run 'make check BINARY=main' first; .run/sig.main.jsonl left as is"
 	fi
 
+# sdk-dual (P33 A3) — main byte-identical WITH the real PsyQ objects AND WITHOUT them (roadmap contract
+# §1.2, the fresh-clone fallback invariant), both legs against config/check.us.sha, as ONE target:
+#   leg 1  extract + check            -> the SDK objects linked (map must list build/psyq/libcd/)
+#   leg 2  extract + rm build/psyq + check NO_SDK=1 -> the INCLUDE_ASM stub tiles (map must list
+#          build/src/libcd1.o and no build/psyq/)
+#   leg 3  extract + check            -> the tree back in its default (WITH) state
+# `extract BINARY=main` sits between the legs because psyq_integrate rewrites build/us/SLUS_007.26.ld
+# IN PLACE and extract regenerates it (the incremental trap tools/gate_main.py documents). Refuses to
+# run when any SDK object dir is absent — running the same leg twice and calling it a dual is exactly
+# the false green R32 forbids; a public clone's every `make check BINARY=main` already IS leg 2.
+# Run as `make -j$(nproc) sdk-dual` (the sub-makes inherit the jobserver). Maps kept for the record.
+# (recursively expanded — the *_ELF variables are defined further down the file)
+SDK_ELF_DIRS = $(LIBCD_ELF) $(LIBGS_ELF) $(LIBETC_ELF) $(LIBGPU_ELF) $(LIBMCRD_ELF) $(LIBC2_ELF) $(LIBGTE_ELF) $(SND_ELF) $(APICARD_ELF) $(LIBAPI42_ELF) $(LIBPAD_ELF)
+SDK_DUAL_DIR := .run/P33/verify
+sdk-dual:
+	@set -e
+	for d in $(SDK_ELF_DIRS); do
+		if [ ! -d "$$d" ]; then
+			echo "[FAIL] sdk-dual: the WITH leg cannot run — $$d is absent (tools/fetch_psyq.sh); refusing to run one leg twice and call it a dual (R32)"
+			exit 1
+		fi
+	done
+	mkdir -p $(SDK_DUAL_DIR)
+	echo "sdk-dual: leg 1 — WITH the PsyQ objects"
+	$(MAKE) --no-print-directory extract BINARY=main
+	$(MAKE) --no-print-directory check BINARY=main
+	cp $(main_MAPFILE) $(SDK_DUAL_DIR)/main_with_sdk.map
+	grep -q 'build/psyq/libcd/' $(SDK_DUAL_DIR)/main_with_sdk.map || { echo "[FAIL] sdk-dual: leg 1 did not link build/psyq/libcd/ — not a WITH build"; exit 1; }
+	echo "sdk-dual: leg 2 — WITHOUT (NO_SDK=1, build/psyq removed)"
+	$(MAKE) --no-print-directory extract BINARY=main
+	rm -rf build/psyq
+	$(MAKE) --no-print-directory check BINARY=main NO_SDK=1
+	cp $(main_MAPFILE) $(SDK_DUAL_DIR)/main_no_sdk.map
+	if grep -q 'build/psyq/' $(SDK_DUAL_DIR)/main_no_sdk.map; then echo "[FAIL] sdk-dual: leg 2 linked build/psyq/ — not a WITHOUT build"; exit 1; fi
+	grep -q 'build/src/libcd1.o' $(SDK_DUAL_DIR)/main_no_sdk.map || { echo "[FAIL] sdk-dual: leg 2 did not link the libcd1 stub tile"; exit 1; }
+	echo "sdk-dual: leg 3 — restoring the default (WITH) state"
+	$(MAKE) --no-print-directory extract BINARY=main
+	$(MAKE) --no-print-directory check BINARY=main
+	echo "sdk-dual: OK — main $$(cut -d' ' -f1 $(main_CHECK_SHA)) byte-identical WITH and WITHOUT the PsyQ objects (maps: $(SDK_DUAL_DIR)/main_with_sdk.map, main_no_sdk.map)"
+
 # sig-main-oracle (P31 S77) — MAIN'S INDEPENDENT SECOND ORACLE (roadmap contract §1.3).
 # Distinct from `sig-main` above, which is splat-SEEDED on purpose. This one signs the ORIGINAL EXE
 # bytes with NO splat symbols: `--vram-base 0x8000F800` puts file offset 0 at vram (so the 0x800
@@ -559,6 +606,14 @@ CPP         := $(MIPS_PREFIX)cpp
 #  aliases in the "Binaries" data block near the top of this file — Phase 9. UNDEF_SYMS /
 #  UNDEF_FUNCS / ASM_DIR / SRC_DIR joined them per-binary in Phase 10: a second binary
 #  writes its undefined_*_auto under build/<bin>/ and nests its sources under <bin>/.)
+
+# P33 A3 — NO_SDK=1 builds main from splat's INCLUDE_ASM stub tiles even when the SDK object dirs
+# exist: the WITHOUT leg of the with/without-SDK dual (roadmap contract §1.2 — the fresh-clone
+# fallback invariant). Skips every psyq_integrate rewrite below AND the -T externals fragments, so
+# the link is exactly what a public clone without Sony's objects performs. `make sdk-dual` runs both
+# legs and asserts both SHA1s; until now the WITHOUT leg was only ever exercised by hand
+# (`mv .run/obj40 .run/obj40.off`) and it regressed once unnoticed (config/symbols.us.txt:248).
+NO_SDK ?=
 
 # Phase 7 (Task 2'): link the real PsyQ libcd SDK objects in place of the libcd-region asm stubs.
 # tools/psyq_integrate.py rewrites the splat .ld (swap stub objects -> build/psyq/libcd/*.o + NOLOAD
@@ -879,6 +934,7 @@ $(OUT): $(OBJS) $(ASSET_OBJS) $(LD_SCRIPT)
 # its own stubs. NB: ifeq/endif are make directives (column 0, no tab), resolved at
 # parse time; with .ONESHELL the included recipe lines still run as one shell.
 ifeq ($(BINARY),main)
+ifeq ($(NO_SDK),)
 	# Wire in the real libcd objects (after the build objects exist — the externals discovery
 	# trial-links the whole image). Idempotent: re-running re-derives the externals only.
 	if [ -d "$(LIBCD_ELF)" ]; then
@@ -936,8 +992,17 @@ ifeq ($(BINARY),main)
 	else
 		echo "  (no $(LIBPAD_ELF) — libpad band blocks stay asm stubs; convert tools/psyq/lib421/LIBPAD.LIB per docs/SETUP.md)"
 	fi
+else
+	echo "  NO_SDK=1: the PsyQ object integrations are SKIPPED — main links its INCLUDE_ASM stub tiles (the fresh-clone leg)"
 endif
-	SYMS=""; [ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"; [ -f "$(SND_SYMS)" ] && SYMS="$$SYMS -T $(SND_SYMS)"; [ -f "$(APICARD_SYMS)" ] && SYMS="$$SYMS -T $(APICARD_SYMS)"; [ -f "$(LIBAPI42_SYMS)" ] && SYMS="$$SYMS -T $(LIBAPI42_SYMS)"; [ -f "$(LIBPAD_SYMS)" ] && SYMS="$$SYMS -T $(LIBPAD_SYMS)"
+endif
+	# The externals fragments belong to the SDK-object link only: under NO_SDK the stale files left by a
+	# previous WITH build must not be picked up (they would defsym names the stub tiles already carry).
+	SYMS=""
+	if [ -z "$(NO_SDK)" ]; then
+		[ -f "$(LIBCD_SYMS)" ] && SYMS="-T $(LIBCD_SYMS)"; [ -f "$(LIBGS_SYMS)" ] && SYMS="$$SYMS -T $(LIBGS_SYMS)"; [ -f "$(LIBETC_SYMS)" ] && SYMS="$$SYMS -T $(LIBETC_SYMS)"; [ -f "$(LIBGPU_SYMS)" ] && SYMS="$$SYMS -T $(LIBGPU_SYMS)"; [ -f "$(LIBMCRD_SYMS)" ] && SYMS="$$SYMS -T $(LIBMCRD_SYMS)"; [ -f "$(LIBC2_SYMS)" ] && SYMS="$$SYMS -T $(LIBC2_SYMS)"; [ -f "$(LIBGTE_SYMS)" ] && SYMS="$$SYMS -T $(LIBGTE_SYMS)"; [ -f "$(SND_SYMS)" ] && SYMS="$$SYMS -T $(SND_SYMS)"; [ -f "$(APICARD_SYMS)" ] && SYMS="$$SYMS -T $(APICARD_SYMS)"; [ -f "$(LIBAPI42_SYMS)" ] && SYMS="$$SYMS -T $(LIBAPI42_SYMS)"; [ -f "$(LIBPAD_SYMS)" ] && SYMS="$$SYMS -T $(LIBPAD_SYMS)"
+		true
+	fi
 	echo "  LD      $(ELF)"
 	$(LD) -T $(LD_SCRIPT) -T $(UNDEF_SYMS) -T $(UNDEF_FUNCS) $$SYMS --no-check-sections -Map $(MAPFILE) -o $(ELF)
 	echo "  OBJCOPY $@"
