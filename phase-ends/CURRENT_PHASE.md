@@ -48,7 +48,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **A2** Reporting-instrument fixes (pad-tail literal → derived; backlog LINKED-aware prune; `sig-main` build-derived +
       `progress.py` loud-fail) — xHigh, R39 controls — see Log 2026-09-06 A2
 - [x] **A3** `NO_SDK` knob + `make sdk-dual` (+ tools-health wiring, `[skip]` without SDK dirs) — Max — see Log 2026-09-06 A3
-- [ ] **A4** `tools/family_hseq.py` regen — Low
+- [x] **A4** `tools/family_hseq.py` regen — Low (became an instrument fix: the map now carries its own coverage) — see Log
 - [ ] **B1** `make disc-extract` (extract.py `--expect-manifest` / `--allow-missing-audio`; check-env; `.gitignore`
       re-tightened; the 4 splat preset headers tracked; `clean` fixed) — Max
 - [ ] **B2** 34 absolute includes → `../shared/` + portable-include audit + 15-binary re-gate — xHigh
@@ -123,15 +123,22 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   tool: `main_seed_ends.py` on both maps → identical seed files (the NO-SDK map exercises the LINKED-subseg skip: 70 objects
   skipped by name, vs 268 `build/psyq/` objects by path). Dry-run controls: `make -n check BINARY=main NO_SDK=1` shows 0
   `psyq_integrate` lines and `if [ -z "1" ]` around the externals. SETUP: P33 A3 section (R21).
+- **2026-09-06 (S86) — A4 (family map regen → instrument fix, R35).** Regenerating `.run/family_hseq.json` made the
+  `audit-binaries` warning WORSE (6 → 217 "missing"): at 100% the map's `families` list is empty and CHECK 4 inferred coverage
+  from family members, so a complete map read as empty; the P32-close warning had been a stale pre-onboarding file. Fix:
+  `family_hseq.py` writes `"binaries"` (scanned: 217) + `"open_instances"` (0); `audit_binaries.py` CHECK 4 reads that
+  denominator and warns "predates the coverage field" on an old-format map. Controls: current map → 0 `[warn]`; the same map
+  with the keys removed → the predates warning; restored → 0. No other tool calls `family_hseq.load()` (grep; consumers read
+  the json's `families` key, unchanged). `docs/family-hseq.md` regenerated (0 families). SETUP: P33 A4 section (R21).
 
-## 🛑 SESSION CHECKPOINT — A1 ✓ A2 ✓ A3 ✓; NEXT = A4 (family_hseq regen, Low) then the P6 rules check, then B1 (Max) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1 ✓ A2 ✓ A3 ✓ A4 ✓ (P6 rules check done after A4); NEXT = B1 `make disc-extract` (Max) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = A4** (`.venv/bin/python tools/family_hseq.py`, Low; then the P6 mid-phase rules
-check — 4 tasks done — then **B1**, Max). If `git log -1 --format=%s` does not start with `feat(phase-33): A3`, A3's commit
-did not land: re-run `make -j$(nproc) sdk-dual` (28 s) and check `.run/P33/a3_sdk_dual.log` ends `sdk-dual: OK` before committing.
+(R1–R73), then WAIT for Drew. **NEXT = B1** (`make disc-extract`, Max — a build-input step; wrong = a green build on the
+wrong bytes). If `git log -1 --format=%s` does not start with `fix(phase-33): A4`, A4's commit did not land: re-run
+`.venv/bin/python tools/family_hseq.py` and `tools/audit_binaries.py` (expect 0 `[warn]`) before committing.
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified at
@@ -200,17 +207,14 @@ items can be cut). Harness tasks: #1 A1 done, #2 A2 done, #3 A3 next … #41 G2.
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~` (≈13 GB free) ·
    `.venv/bin/python -c 'import splat'` · `ls build/us/SLUS_007.26.map` (main is built; `make check BINARY=main` if not).
-1. **A4** `.venv/bin/python tools/family_hseq.py` (clears the audit-binaries `[warn] .run/family_hseq.json is missing 6
-   onboarded overlay(s)`); confirm with `.venv/bin/python tools/audit_binaries.py 2>&1 | grep -c '\[warn\]'` → 0; commit
-   "chore(phase-33): A4 …" (the json is gitignored — the commit is the Log line + this block). Then the **P6 rules check**
-   (re-read CLAUDE.md's rules section; state "Rules check — re-read complete. Continuing with B1").
-2. **B1** (Max) per the plan's Block B: `tools/bfm_extract/extract.py` gains `--expect-manifest` + `--allow-missing-audio`;
+1. **B1** (Max) per the plan's Block B: `tools/bfm_extract/extract.py` gains `--expect-manifest` + `--allow-missing-audio`;
    `make disc-extract`; `extract`/`extract-all`/`check-env`/`help`/`clean` changes; `.gitignore` re-tightened; the 4 splat
    preset headers tracked. Gotchas: `extract.py:379-381` overwrites the manifest on every run (compare, never write); the
    committed manifest has 1,801 rows incl. 3 `.DA` audio files from Tracks 2–4; `disks/` here holds all 4 tracks + cue; the
    verification moves `extracted/` aside (`mv extracted .run/extracted.off`) — put it back if anything fails.
-3. After every task: tick the box, add a Log line, refresh this checkpoint block (the 🛑 block is the ONLY in-phase context
-   the next session inherits), commit.
+2. Then B2 → B3 → B4 → B5 (MCP stopped) → B6 → B7 → B8 → A5 → B9/C3 … per the task list. After every task: tick the box,
+   add a Log line, refresh this checkpoint block (the 🛑 block is the ONLY in-phase context the next session inherits),
+   commit. Next P6 rules check after B4 (8 tasks done).
 
 ### 4. Files this session touched
 A1: `phase-ends/DIGEST.md`, `phase-ends/CURRENT_PHASE.md`. A2: `tools/main_seed_ends.py` (new), `Makefile` (`sig-main`
@@ -218,6 +222,8 @@ rewritten; `tools-health` + `report` wiring), `tools/progress.py` (sig selection
 header line), `tools/backlog.py` (`linked_closed`), `tools/dup_report.py` (main sig path), `docs/SETUP.md` (§6.8 + P33 A2
 section), regenerated `docs/progress.fleet.md`, `docs/duplicates.md`, `docs/duplicates.cross.md`, `docs/backlog.md`,
 `.run/backlog.jsonl`. A3: `Makefile` (`NO_SDK`, `sdk-dual`, tools-health wiring, `.PHONY`), `docs/SETUP.md` (P33 A3 section).
+A4: `tools/family_hseq.py` (`binaries` + `open_instances` in the json; `load()` returns a pair), `tools/audit_binaries.py`
+(CHECK 4 reads the scanned set), `docs/family-hseq.md` (regenerated, 0 families), `docs/SETUP.md` (P33 A4 section).
 Scratch: `.run/public_audit/` (the history inventory), `.run/P33/a2_report.log`, `.run/P33/a3_sdk_dual.log`,
 `.run/P33/verify/main_{with_sdk,no_sdk}.map` (to be allowlisted by A5).
 The plan file: `~/.claude/plans/max-effort-set-plan-twinkling-moonbeam.md` (copied below).

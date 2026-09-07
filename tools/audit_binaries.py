@@ -113,10 +113,18 @@ def main():
     fam_path = os.path.join(REPO, ".run/family_hseq.json")
     if os.path.exists(fam_path):
         fam = json.load(open(fam_path))
-        fam_ovs = set()
-        for g in fam.get("families", []):
-            for o, _ in g.get("members", []) + g.get("matched_members", []):
-                fam_ovs.add(o)
+        if "binaries" in fam:
+            # P33 A4: the map records the binaries it SCANNED (its own denominator, R41). Inferring
+            # coverage from family members is only valid while families exist — at 100% the family
+            # list is empty and that inference reported every binary missing from a complete map.
+            fam_ovs = set(fam["binaries"])
+        else:
+            fam_ovs = set()
+            for g in fam.get("families", []):
+                for o, _ in g.get("members", []) + g.get("matched_members", []):
+                    fam_ovs.add(o)
+            warns.append(".run/family_hseq.json predates the coverage field (P33 A4) — coverage inferred "
+                         "from family members; regenerate: tools/family_hseq.py")
         # S44: modules (md_*) carry shareable engine functions too; only main is exempt
         # (structurally barren, checked twice — S39). Resident + overlays + modules must appear.
         map_missing = {b for b in onb if b != "main"} - fam_ovs

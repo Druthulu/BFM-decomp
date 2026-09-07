@@ -48,6 +48,7 @@ def load():
     if os.path.isdir("src/resident"):
         stubs["resident"] = set(corpus.stubs("resident"))
     inst = []
+    seen = []       # P33 A4: the binaries this map actually scanned — its own denominator (R41)
     for p in sorted(glob.glob(".run/sig.ov_*.jsonl")) + sorted(glob.glob(".run/sig.md_*.jsonl")) \
              + sorted(glob.glob(".run/sig.resident.jsonl")):
         base = os.path.basename(p)[len("sig."):-len(".jsonl")]
@@ -55,6 +56,7 @@ def load():
         st = stubs.get(ov)
         if st is None:
             continue
+        seen.append(ov)
         for line in open(p):
             line = line.strip()
             if not line:
@@ -62,7 +64,7 @@ def load():
             d = json.loads(line)
             a = int(d["addr"], 16)
             inst.append((ov, a, d["nins"], d["h_exact"], d["h_norm"], d["h_seq"], a not in st))
-    return inst
+    return inst, seen
 
 
 def has_mid_jr(words):
@@ -90,7 +92,7 @@ def pick_exemplar(members, matched):
 
 
 def main():
-    inst = load()
+    inst, scanned = load()
     nins_of = {(o, a): n for o, a, n, *_ in inst}
 
     # ---- honest fleet metrics (cross-check vs progress.py --weighted) ----
@@ -167,7 +169,11 @@ def main():
         })
     families.sort(key=lambda f: -f["byte_weight_templatable"])
 
-    out = {"metrics": metrics, "tailcheck": tailcheck, "families": families}
+    # P33 A4: the map carries its OWN coverage — the binaries it scanned and how many instances were
+    # still open. At 100% `families` is empty, and a consumer that inferred coverage from family
+    # members (audit_binaries CHECK 4) read "217 binaries missing" off an empty-but-complete map.
+    out = {"metrics": metrics, "tailcheck": tailcheck, "binaries": sorted(scanned),
+           "open_instances": sum(1 for i in inst if not i[-1]), "families": families}
     json.dump(out, open(".run/family_hseq.json", "w"))
 
     # ---- digest ----
