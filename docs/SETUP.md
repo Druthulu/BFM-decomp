@@ -101,6 +101,9 @@ cd ~ && unzip ghidra_12.1_PUBLIC_20260513.zip
 - Asset for our Ghidra: **`ghidra_12.1_PUBLIC_20260530_GhidrAssistMCP.zip`** from
   `https://github.com/symgraph/GhidrAssistMCP/releases/tag/2.8.0`
   (repo moved from `jtang613/GhidrAssistMCP` to `symgraph/GhidrAssistMCP`; GitHub redirects. The release carries TWO assets — take the `12.1` one, not `12.0`.)
+- **Verify the download (P33 C3):** the copy this project used was tracked as `tools/ghidra-ext/GhidrAssistMCP_2.8.0.zip`
+  until 2026-09-06 and is now download-only (gitignored): sha256
+  `983e2add88d70552596dc3160c1ece52ca6ba8ac006c6c61446a780696815dc1` (16,462,609 bytes) — `sha256sum` your copy.
 - Install: Ghidra → **File → Install Extensions… → `+`** → select zip → restart Ghidra.
 - Enable plugin: **File → Configure → Configure Plugins → check `GhidrAssistMCP`**.
 - Control panel: **Window → GhidrAssistMCP** → set **Host = localhost, Port = 8080**. Server exposes `/sse` (SSE), `/message`, and `/mcp` (streamable HTTP). No Python bridge process — Claude Code connects directly.
@@ -119,6 +122,8 @@ cd ~ && unzip ghidra_12.1_PUBLIC_20260513.zip
 
 - Asset: **`ghidra_12.1_PUBLIC_20260604_ghidra_psx_ldr.zip`** (~9.15 MB, PsyQ signatures bundled — no separate OBJ download needed) from
   `https://github.com/lab313ru/ghidra_psx_ldr/releases/tag/2026.06.04`
+- **Verify the download (P33 C3):** tracked as `tools/ghidra-ext/ghidra_psx_ldr_2026.06.04.zip` until 2026-09-06, now
+  download-only (gitignored): sha256 `dc57cf1ad126c717f69be63f777d747c9cc0af3b2f833af83eeeac644f8e7c11` (9,155,980 bytes).
 - Install via the same **File → Install Extensions…** path → restart.
 - Coexists with GhidrAssistMCP without conflicts (PSX loader/analyzer/SLEIGH vs HTTP-server plugin).
 

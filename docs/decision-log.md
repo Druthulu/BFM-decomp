@@ -3459,3 +3459,23 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
 - Hindsight / for the wiki: a metric's denominator should come from the artifact you control (the build), not from the
   analysis tool; when two instruments disagree by a systematic offset, the "corrected" instance you found is usually one
   of a class.
+
+## P33 S87 (2026-09-06) — the purge set leaves the INDEX before the history rewrite, as its own commit (C3)
+- Context / belief: the rewrite (git-filter-repo, Block C) removes the ROM-derived paths from every historical commit;
+  the natural reading was that the tip's removal is just the last instance of that and needs no separate step.
+- Pivot: a separate preparatory commit first — `git rm --cached` of the whole purge set (`tools/public_rewrite/
+  purge_set.txt`), files kept on disk and already gitignored — so the rewrite starts from a tip whose tree equals the
+  working tree, and only THEN the bundle, the archive mirror, the bare clone and the filter.
+- Why (measurement-grounded): (1) the rewrite becomes purely content-preserving — `verify_rewrite`'s rule that any added
+  path fails, and A5's recorded run (which cannot see the index) stays valid for the tip, since a `--cached` removal changes
+  no tracked-content byte; (2) the first-push gate (`tools/audit_public.py`) is exercised on a real state: it named exactly
+  the purge set (255 offender rows) before this commit and passes after it; (3) the ignore rules were proven with
+  `git check-ignore --no-index` on every path BEFORE the paths became untracked — a gap there means a blanket `git add -A`
+  re-adds ROM bytes into the public history; (4) the build was proven not to need any of it (main byte-identical with
+  `tools/psyq/` and both SDK object dirs moved aside — B3's fresh-clone proof still had `tools/psyq/` in the clone);
+  (5) a census showed nothing project-authored under a purged directory (the SDK checksums file had already moved out in B4)
+  — anything left there vanishes from ALL history, not just the tip.
+- Hindsight / for the wiki: the data-loss hazard flips at this commit, not at the flip — ignored-but-present directories
+  are one `git clean -x` from deletion, so the guard (CLAUDE.md fail-safe line, the bundle, the archive repo, the text
+  export) belongs in the same commit; and a mailmap or a runbook that names the personal addresses would itself need
+  scrubbing, so the mailmap is scratch and the runbook refers to it by path.

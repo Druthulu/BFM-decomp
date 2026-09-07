@@ -79,6 +79,9 @@ below is copied from that `SUMMARY.md`; regenerate it with the script, never by 
 
 Every `NN_<step>.log` is tracked under `.run/P33/verify/`; the tools-health log also carries `sig-main-oracle: main is now INDEPENDENT — 0 in-domain stubs, 0 PHANTOM, 0 TRUNCATED, 0 PAD-TAIL` and the report `INCLUDE_ASM stubs : 0`, `Open near-misses: 0`. Total wall 14 min on 32 CPUs.
 
+The C3 preparatory commit that followed removed the ROM-derived paths from the index with `git rm --cached` — no
+tracked-content byte changed, so this run's evidence holds for that tip as well; C8 repeats the run on the rewritten tree.
+
 The same run was performed after every banked batch of Phases 30–32 (218/218 at every one; the P32 close run is
 `.run/P32/t4e/r22_check.log`) and the history-rewrite of the public flip is followed by one more (C8) on the adopted tree —
 a content-preserving rewrite changes no tracked byte, and that run proves it.
