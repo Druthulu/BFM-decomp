@@ -3,6 +3,7 @@
 > **This file is the EVOLVABLE reference layer.** Unlike `PROJECT_CONTEXT.md` (permanent, never edited), this document holds volatile facts — pinned versions, URLs, commands, ports — and **may be updated freely** as tools move. Note each change in the active phase log (`CURRENT_PHASE.md`). Items marked **TBD** / **UNVERIFIED** / **JP-only — re-derive for US** are honest gaps: confirm before relying on them, then update this file.
 
 Last full revision: 2026-06-10 (initial authoring, pre-Phase-1 — nothing below is installed yet except the repo itself; same-day conversion to the all-in-WSL / Linux-first architecture — everything now runs inside a single WSL2 Ubuntu 24.04 clone, no Windows/WSL split).
+**Refresh 2026-09-07 (P33 D4, the public-clean pass):** the repository is PUBLIC from Phase 33 (in-place flip with the full, rewritten history — `docs/public-flip-runbook.md`); H1 is in force again (no ROM-derived bytes in git); every "private repo / vendored / mirror" passage below was reviewed and rewritten or dated as history; the canonical remote is `https://github.com/Druthulu/BFM-decomp.git`.
 **Refresh 2026-06-15:** added a tooling/MCP-lifecycle/session-hooks/backup-posture pass after the doc had drifted past the as-built reality — new §1a (`.run/` scratch), §2.8 (MCP lifecycle, persistence model & session hooks), a `## Tooling inventory` table, and a `## Backup & private-repo posture` section. Rule **R21** (added this session) now requires keeping THIS file current whenever tooling / MCP / hooks / env change.
 
 ## Version pin summary
@@ -239,7 +240,7 @@ Under the all-in-WSL architecture there is **no cross-OS networking**. Ghidra/Gh
 cd ~ && git clone <remote-url> bfm-decomp
 ```
 
-The single clone lives at `~/bfm-decomp` (ext4). Builds, splat, asm-differ, Ghidra, and Claude Code all run here. In this clone: `git config core.filemode true`. **TBD:** the canonical remote URL (GitHub private repo planned; not created as of this writing).
+The single clone lives at `~/bfm-decomp` (ext4). Builds, splat, asm-differ, Ghidra, and Claude Code all run here. In this clone: `git config core.filemode true`. **Remote (P33):** `origin` = `https://github.com/Druthulu/BFM-decomp.git` (public from Phase 33 C10); the pre-rewrite history lives in the private archive `Druthulu/BFM-decomp-archive`. Claude commits, Drew pushes (R6).
 
 ### §4.4 Copy the disc dump into the clone
 
@@ -257,7 +258,7 @@ cp '<dump-source>/Brave Fencer Musashi (USA)/'*.bin \
 
 `<dump-source>` is wherever the disc dump currently lives (e.g. a one-time download into `~/Downloads`, or a one-shot copy from external media). `disks/` is gitignored — no ROM-derived bytes ever reach the remote (rule H1).
 
-**Status (Phase 2, 2026-06-13):** the disc was staged early — extraction needs it before Phase 4. Track 1 alone (it holds all 27 root files) was copied once from the `/mnt/z` dump to ext4 at `disks/Brave Fencer Musashi (USA) (Track 1).bin` (364,846,944 bytes). WSL `extract_exe.py --bin "disks/…(Track 1).bin" --verify-disc` **PASSED** — SHA1 `b44f0f0a19936f23b26188b658e13201a6a9c211`, CRC32 `c238191b`, both == redump — which **closes the Phase-1 deferral** (verify-disc had previously only run on Windows; PhaseEnd_Phase1 Deviations).
+**Status (Phase 2, 2026-06-13):** the disc was staged early — extraction needs it before Phase 4. Track 1 alone (it holds all 27 root files) was copied once from the author's dump location (a `<dump-source>` as above) to ext4 at `disks/Brave Fencer Musashi (USA) (Track 1).bin` (364,846,944 bytes). WSL `extract_exe.py --bin "disks/…(Track 1).bin" --verify-disc` **PASSED** — SHA1 `b44f0f0a19936f23b26188b658e13201a6a9c211`, CRC32 `c238191b`, both == redump — which **closes the Phase-1 deferral** (verify-disc had previously only run on Windows; PhaseEnd_Phase1 Deviations).
 
 ### §4.5 apt packages
 
@@ -320,6 +321,10 @@ mkdir -p gcc-2.7.2-psx gcc-2.7.2-cdk
 tar xzf gcc-2.7.2-psx.tar.gz -C gcc-2.7.2-psx
 tar xzf gcc-2.7.2-cdk.tar.gz -C gcc-2.7.2-cdk
 ```
+
+**As-built (P33 B3):** the two tarballs are TRACKED in the repository (`tools/bin/*.tar.gz`, GCC = GPL; sha256s in
+`tools/bin/CHECKSUMS.sha256`) and `tools/bootstrap.sh` does exactly the check-and-extract above on a fresh clone — the
+`wget` lines are how they were first obtained, not a step a contributor runs.
 
 - `gcc-2.7.2-psx` = community GCC 2.7.2 PSX build (primary candidate).
 - `gcc-2.7.2-cdk` = **cygnus-2.7.2-970404**, the exact base of PsyQ 4.0/4.1's CC1PSX (added in old-gcc 0.14).
@@ -513,6 +518,9 @@ Modern cpp preprocesses → **vintage cc1** compiles to asm → **maspsx** emula
 - Starting flags: `-O2 -G0` (adjust per §5).
 - **Do NOT use the SOTN preset** (`Castlevania: Symphony of the Night` / `gcc 2.6.3-psx` / `psyq_263_221`) — wrong era, guaranteed near-miss diffs.
 - decomp.me's API is Cloudflare-challenged (403 to scripts) — scratch searches/uploads needing the API must be done manually in a browser.
+- **The project's preset (P33 E1, `docs/decompme-preset.md`):** platform `ps1`, compiler `gcc2.7.2-psx`, flags
+  `-O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div` (decomp.me's image wraps
+  `as` with maspsx and forwards `-Wa,` args). Presets are created in the browser by a logged-in user (Drew, after the flip).
 
 ### §6.6 Matching a function (INCLUDE_ASM → C; the NON_MATCHING guard) — As-built Phase 6
 
@@ -749,6 +757,7 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `DefineFunctions.java` | Disassemble + create functions at splat's validated entry points (`.run/<prog>_funcs.txt`) — completes a raw-blob program's function set (Phase 10). |
 | | `ApplySymbols.java` + `tools/ghidra_apply_symbols.sh` | **(P31 S78) The Ghidra MIRROR of the curated symbol file (R15/G6), headless with a real save.** `tools/ghidra_apply_symbols.sh [PROG] [symbols files…]` (defaults `SLUS_007.26 config/symbols.us.txt`; MCP must be STOPPED first) reads `name = 0xADDR;` rows and sets every function/label to its curated name; a name held by another address is moved to that address's own curated name first (`firstfile`/`firstfile2`), else to `<name>__at_<addr>`. Idempotent; prints `BFMAPPLY renamed_funcs=… unchanged=…`; R9-verify with `ghidra_mcp_verify.sh`. **Use this, not MCP `rename_symbol`/`batch_rename`, for renames:** S78 observed 47 MCP renames NOT persisting through the sentinel stop ("Save succeeded", DB grew, names gone — R9 caught it; cause not yet isolated), while the postScript path persisted 73/73 on the first run. |
 | **Public flip / CI** | `.github/workflows/no-rom.yml` | **(P33 B7) The ROM-free CI**: job `audits` (audit_public, audit_text_sources, verbatim_check --strict, cookbook_index --check, ghidra_roster --check, work_evidence --selftest, test_lzss, lint_symbol_refs — ≈45 s of checks) + job `compile-only` (binutils-mipsel + `cpp-mipsel-linux-gnu` from apt, cc1 from the tracked tarball sha256-checked, maspsx submodule; PR scope `main resident ov_SC01_077 md_MAIN_013`; `--all` weekly Mon 06:17 UTC + `workflow_dispatch`). Byte-identity is NOT proven in CI (needs the disc) — `docs/verification.md`. |
+| **Verification** | `tools/verify_contract.sh` | **(P33 A5/C8) THE recorded contract run**: 00 tree · 01 check-env · 02 family_hseq · 03 `make clean && extract-all && check-all` · 04 sdk-dual (or a recorded SKIP) · 05 tools-health (zero `[warn]`) · 06 audit-frontier · 07 audit-disc · 08 report; one log per step ending `EXIT=<rc>`, abort on the first red (R53), every step asserted by its contract line (R49), `SUMMARY.md` generated → `.run/P33/verify/` (tracked evidence, quoted by `docs/verification.md` §2); step 00 ignores its own output dir. ≈14 min on 32 CPUs. |
 | **Publishing** | `tools/progress.py --json \| --readme [--check]` | **(P33 D1/D3)** The same numbers as DATA: `--json` → `docs/progress.json` (schema 1: the four metrics with numerator/denominator/pct, the counts, 218 per-binary rows incl. instruction totals; no run date) + `docs/badges/{fleet_instr,fleet_fn,distinct,binaries}.json` (shields endpoint format; the README references `fleet_instr` + `binaries` by name); `--readme` rewrites the README's `<!-- progress:begin/end -->` block (refuses a README without the markers); `--check` asserts JSON + block + badges are fresh (in `make audit-digest`). Run by `make report BINARY=main`. |
 | | `tools/objdiff_report.py [--in docs/progress.json] [--out report.json]` | **(P33 D3)** progress.json → objdiff's report format (report.proto v2, snake_case — validated with `objdiff-cli` 3.8.1 `report changes`): one unit per binary (code = instructions × 4, functions byte-identical / matchable, metadata complete), categories `game-code` and `linked-sony-objects` (functions only). `.github/workflows/progress.yml` runs it on every push (no rebuild — the committed JSON) and uploads the artifact **`SLUS_007.26_report`** for decomp.dev (Drew registers at decomp.dev/manage/new after the flip). |
 | | `tools/frogress_upload.py [--push --project bfm --version us]` | **(P33 D3)** stdlib; `--dry-run` is the default (prints the payload); `--push` POSTs `{"api_key","entries":[{git_hash,timestamp,categories:{default:{measures…}}}]}` to `progress.deco.mp/data/<project>/<version>/` with `FROGRESS_API_SECRET` from the environment (never a file). frogress projects are admin-created — Drew requests the slug + key after the flip. |
@@ -904,25 +913,19 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 
 ---
 
-## Backup & private-repo posture (rules R20/R21)
+## Backup & repository posture (rules R20/R21) — PUBLIC since Phase 33
 
-This project lives in a **private** remote (rule H1, relaxed: ROM-derived material may be committed while the repo is private). Per-session checkpoint backups (R20) push all irreplaceable work; the lists below record what is and is not pushed as of 2026-06-15.
+The repository is **public** (`https://github.com/Druthulu/BFM-decomp`, AGPL-3.0 for `tools/`+`docs/`, `src/NOTICE.md`
+for the game sources, `THIRD_PARTY.md`). **H1 is in force:** no ROM-derived or proprietary bytes are in git or in its
+history — the retail EXE, the RAM dumps, the Ghidra project, the Sony SDK, the session archive, the extension zips and
+`brave.exe` were purged from every commit before the flip (`docs/public-flip-runbook.md`), and `tools/audit_public.py` +
+CI (`.github/workflows/no-rom.yml`) keep it that way. The disc dump (`disks/`), `extracted/`, `build/`, `asm/`, `expected/`
+and `.venv/` are regenerable or user-supplied and are never committed (`.venv/` from `requirements-python.txt`).
 
-**Backed up to the private remote (2026-06-15):**
-
-- The **Ghidra project** (`ghidra/`) — with `*.lock` / `tmp*.ps` transients excluded (regenerable / ext4-local lock files).
-- **PsyQ SDK working artifacts** (`tools/psyq/`) **MINUS** the two >100 MB raw source archives — the `psyq40usa.zip` and the DTL-S2002 disc `.bin`/`.cue` (re-sourceable, over GitHub's file-size limit).
-- **Old-gcc cc1 compiler tarballs** (`tools/bin/*.tar.gz`) — the extracted binaries are regenerable from these, so only the tarballs are kept.
-- **Ghidra extension installers** — `tools/ghidra-ext/GhidrAssistMCP_2.8.0.zip` + `ghidra_psx_ldr_2026.06.04.zip` (hard to re-source at exact pinned versions).
-
-**Deliberately NOT backed up** (regenerable, or >100 MB and re-sourceable):
-
-- The disc dump (`disks/`).
-- The `extracted/` bulk — regenerate via `make extract`.
-- `build/`, `expected/`, `asm/` — all generated.
-- `.venv/` — recreate from `tools/requirements-python.txt`.
-- The two >100 MB raw PsyQ archives (the `psyq40usa.zip` + DTL-S2002 disc).
-- The unused PCSX-Redux Linux AppImage — the real runtime oracle is the Windows-native build.
+*Historical note (2026-06-15 → 2026-09-06, the private era):* while the repository was private, rule R1 relaxed H1 and the
+Ghidra project, the PsyQ working artifacts (minus the >100 MB raw archives), the cc1 tarballs and the extension installers
+were committed as the R20 backup. That state is preserved, unrewritten, in the private archive repository
+`Druthulu/BFM-decomp-archive` and in the local bundle made at C4 — it is not the public history.
 
 **P33 update (B5/B8, 2026-09-06) — R20's new home after the public flip.** The Ghidra project, the RAM dumps, the PsyQ
 SDK, the session archive and the extension zips leave git at C3 (`tools/public_rewrite/purge_set.txt`). What R20 backs up
@@ -937,7 +940,7 @@ the purged paths become ignored files and a `-x` clean deletes the RE database (
 - **R20** — back up all irreplaceable RE/decomp work plus gathered hard-to-re-source tooling at per-session checkpoints. This **loosens R8** (which mandated a single commit at phase end): checkpoint commits are now expected within a phase.
 - **R21** — keep **THIS file** (`docs/SETUP.md`) current whenever tooling, the MCP setup, the session hooks, or the environment changes.
 
-Sony **PsyQ libs and cc1 stay PRIVATE** — they are excluded from the future curated public mirror (the two-repo public-release plan; see `docs/gen2-roadmap.md`). The four submodules (asm-differ / m2c / maspsx / decomp-permuter) stay **gitlinks** on GitHub (the deliberate no-bloat choice over vendoring); residual risk = upstream deletion of a pinned commit.
+Sony's **PsyQ libraries are never distributed** (user-supplied, `tools/fetch_psyq.sh`, checksums only); the gcc-2.7.2 **cc1 tarballs ARE tracked** (GCC, GPL; sha256-verified). The two-repo "curated public mirror" plan of `docs/gen2-roadmap.md` was SUPERSEDED by the in-place flip with the full rewritten history (decision log, P33 S86). The four submodules (asm-differ / m2c / maspsx / decomp-permuter) stay **gitlinks** on GitHub (the deliberate no-bloat choice over vendoring); residual risk = upstream deletion of a pinned commit.
 
 ---
 
@@ -970,10 +973,10 @@ A Track-1 match proves the dump is the canonical redump dump, which transitively
 | 8 | `gp_value` in SLUS_007.26 header → -G0 vs -G8 | **RESOLVED (Phase 5): -G0** — zero $gp-relative addressing in the disasm (§5.3) |
 | 9 | ASPSX tier for game code: 2.56 vs 2.67 | **OPEN** — Phase 6 empirical (§5.2 tell) |
 | 10 | Cross-OS networking | **N/A under all-in-WSL** — MCP is local loopback (§4.2); no mirrored mode, firewall rule, or host-IP discovery |
-| 11 | Canonical git remote URL (off-box push/pull backup) | **TBD** (§4.3) |
+| 11 | Canonical git remote URL (off-box push/pull backup) | **CLOSED (P33 C9, 2026-09-07):** `https://github.com/Druthulu/BFM-decomp.git`, public from C10; the pre-rewrite history in the private archive `Druthulu/BFM-decomp-archive` (§4.3) |
 | 12 | Per-libnum stamp detail (raw-track scan reported 16 hits vs 12 genuine in extracted EXE — extracted-EXE scan is ground truth, see §5.1) | **RESOLVED 2026-06-13** — DetectPsyQ at headless import recorded `PsyQ Version = 4.0.0` (§2.5 step 3) |
 | 13 | Overlay load addresses (resident 0x800CDF58 / location 0x80128508, EXE ptr table ~0x62620) | **JP-only — re-derive for US** (owned by docs/memory-map.md) |
-| 14 | Greenfield claim: decomp.me scratch search is script-blocked (Cloudflare) | **TBD** — one-time manual browser check for BFM scratches |
+| 14 | Greenfield claim: decomp.me scratch search is script-blocked (Cloudflare) | **TBD → closes at P33 E1:** the preset-creation session (Drew, in the browser, after the flip) includes the one-time manual search for BFM scratches; record the result here |
 
 ### `tools/gap_triage.py` — harvest pre-filter (added P31 S55)
 
