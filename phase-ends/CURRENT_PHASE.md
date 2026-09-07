@@ -86,7 +86,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [ ] **E1** decomp.me preset (after the flip) — xHigh
 - [ ] **E2** Archipelago outreach (after the flip) — xHigh
 - [ ] **C11** Aftercare (other clones, archive remote removed, `.run/` pruned, DIGEST/decision-log) — xHigh
-- [ ] **G1** `docs/gen3-handoff.md` — Max
+- [x] **G1** `docs/gen3-handoff.md` — Max — see Log 2026-09-07 G1
 - [ ] **G2** PhaseEnd v2.0.0 + DIGEST + archive this file + tag — Max, Tier 1, WAIT for gate 2
 
 Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifacts immediately (R42); count from the SOURCE.
@@ -583,22 +583,41 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   decision-log entry "2026-07-08 · Phase 25 — the local-7B tier is capacity-bound and off the endgame critical path".
   Wiring: `doc_links` default set (`--strict` PASS), SETUP row + the P33 E6 section (R21). Commit: see below.
   **Block E is complete on the still-private repo** (E3–E6 in full); E1/E2 and D3's outward actions wait for the flip.
+- **2026-09-07 (S88, Max) — G1 `docs/gen3-handoff.md` (pulled ahead of the probe-gated C10 → E1 → E2 → D3-outward → C11
+  chain: it depends on none of them — a sequencing deviation from the plan's C11 → G1 order, recorded).** §1 where Gen2
+  ends (the contract, what is not C); §2 the owner's next intent (casts → structs, pins off, names); §3 the starter census
+  DERIVED from the tree with its commands (R33/R41): **143** raw address casts, **61,898** distinct `D_80xxxxxx`,
+  **16,335** distinct `func_80xxxxxx` — the plan's numbers reproduced exactly — and the numbers the plan did not have:
+  **44,243** register-pin declarations (the "pins off" campaign's true size — batch by family), 1,258 `INCLUDE_ASM`
+  tiles (all Sony regions), 1,083 symbol-file entries (1,081 curated), 1,232 struct definitions in `engine_types.h`
+  (drafter-invented variants included), 2,220 dedup groups, 5 verbatim bodies; §4 the one invariant (every edit
+  byte-gated like a match; a shared body changes every member; types are a comprehension lever, not a byte lever —
+  Phase 17's byte-neutral struct recovery); §5 the inherited levers (`lift_types`, `cast_call_sites`,
+  `canon_sig_reconcile`, the declaration ladder, `alloc_table` + `cc1_dumps_tu` for pins, the propagation/registry
+  machinery, the Ghidra text path, the atlas, the actor struct / idxtab map / memory map — every one checked to exist);
+  §6 shiftability honestly scoped (position-locked slots, LZSS recompression not byte-stable → a rebuilt disc verifies
+  by booting, the Sony regions relink); §7 the parked Gen3 ideas with their state (asset export survey, recomp, randomizer
+  tooling, the community model's licensing gate, JP/protos, the preset, libs-from-source); §8 governance for a new
+  generation and the three things to do first (measure the shape; a differential harness for "byte-neutral?"; batch by
+  leverage). Wiring: `doc_links` default (`--strict` PASS), SETUP row + the P33 G1 section (R21). Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3–E6 ✓ (33 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = G1 (2026-09-07, written by session 4555f4e4 "S88" at the E6 close; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3–E6 ✓, G1 ✓ (34 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = THE PROBE-GATED CHAIN (Drew) then C11 then G2 (2026-09-07, written by session 4555f4e4 "S88" at the G1 close; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = G1** (Max, ≈0.5 session — `docs/gen3-handoff.md`; it has NO dependency on the flip,
-so it is pulled ahead of the probe-gated items — a sequencing deviation from the plan's C11 → G1 order, recorded here; the
-probe-gated items C10 → E1 → E2 → D3 outward → C11 stay on Drew's side until `probe_github.sh` prints PASS). Rebuild the
-harness task list (40 items, R28) marking A1–A5, B1–B9/C3, C1–C9, D1–D5, F1–F3, E3–E6 completed and C10 in progress. **Every commit cites NEW
+(R1–R73), then WAIT for Drew. **Everything Claude can do before the flip is DONE** (34 of 41; G1 was pulled ahead of the
+plan's C11 → G1 order because it depends on nothing gated — recorded as a sequencing deviation). **NEXT = the probe-gated
+chain on Drew's side**: `tools/public_rewrite/probe_github.sh` PASS → C10 the flip → E1 → E2 → D3 outward → the wiki push →
+then Claude's **C11** (aftercare) → **G2** (the PhaseEnd, Tier 1, WAIT for gate 2). If the probe still fails, there is
+nothing to draft: ask Drew about the Support ticket and stop. Rebuild the harness task list (40 items, R28) marking A1–A5,
+B1–B9/C3, C1–C9, D1–D5, F1–F3, E3–E6, G1 completed and C10 in progress. **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). The approved plan
-is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (33):** A1–A5, B1–B9/C3,
+is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (34):** A1–A5, B1–B9/C3,
 C1–C9 (the rewrite, adopted, force-pushed by Drew, gc'd), D1–D5 (README, LICENSE/NOTICE/THIRD_PARTY, badges/objdiff/frogress,
 SETUP public-clean, governing docs + `doc_links`), F1 (timeline + story), F2 (retrospective), **F3 (S88: the wiki — 12 files
 under `docs/wiki/` + the 13 how-to chapters under `docs/how-to-ai-decomp/`, `tools/wiki_render.py` + `tools/wiki_sync.sh`,
@@ -611,18 +630,19 @@ upstream PR branch `reloc-masked-scorer` in `.run/P33/permuter-upstream/` + its 
 `tools/permuter/upstream/0001-reloc-masked-scorer.patch` + `docs/permuter-ils.md`; 10/10 tests, black clean, mypy at
 upstream's baseline, the real permuter 4 → 0 in 256 iterations where the default scorer read 3,585 — Drew pushes the branch
 to his fork and opens the PR + files the issue; `bf002f84d2`), **E6 (S88: `docs/matching-drafter-pipeline.md` — the
-local-model tier's pipeline, its measured arc, the portable lessons, what is NOT published; the commit that carries this
-block).** **In progress (Drew, C10):** the GitHub
+local-model tier's pipeline, its measured arc, the portable lessons, what is NOT published; `98e5846662`), **G1 (S88:
+`docs/gen3-handoff.md` — the derived census incl. 44,243 register pins, the invariant, the levers, shiftability scoped, the
+parked ideas, the governance for Gen3; the commit that carries this block).** **In progress (Drew, C10):** the GitHub
 Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was never confirmed to S88; ask) and the daily
 `tools/public_rewrite/probe_github.sh` until it prints PASS (S88's run: **31 of 33 old hashes still ALIVE = the S87 baseline;
-no purge yet**). **Remaining (7):** nothing more on the still-private repo except G1 (pre-flip-able) and G2 (after everything); then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
+no purge yet**). **Remaining (6):** nothing more that Claude can do before the flip; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
 — Drew), E2 (Archipelago — Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
 (Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare), G1
 (`docs/gen3-handoff.md`), G2 (the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
 
 ### 2. Facts the remaining tasks depend on (measured S88; verify if in doubt, R14)
 - **Repository state:** `main` = the rewritten history (4,031 commits) + the S87 tip commits (C7 → F2) + the S88 commits
-  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, `50c1b69e4d` E3, `9c4d32d651` E4, `bf002f84d2` E5, the E6 commit = HEAD); `origin/main` == the F2 commit
+  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, `50c1b69e4d` E3, `9c4d32d651` E4, `bf002f84d2` E5, `98e5846662` E6, the G1 commit = HEAD); `origin/main` == the F2 commit
   `5e57e88de2` — **Drew pushed the S87 tip on 2026-09-07 07:23Z; the S88 commits are NOT pushed** (a normal fast-forward push;
   R6). The first-ever GitHub runs of both workflows were GREEN on that push (`no-rom` 1 m 35 s, run 34095194524; `progress`
   15 s, run 34095194479) — read the Actions tab again after the next push, fix red, never claim green unseen (P9). The repo is
@@ -701,13 +721,13 @@ no purge yet**). **Remaining (7):** nothing more on the still-private repo excep
    the milestone evidence, WAIT for gate 2; then `PhaseEnd_Phase33.md` v2.0.0 with the rule candidates (a)–(h), `CURRENT_PHASE.md`
    → `phase-ends/logs/Phase33.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`).
 
-### 4. Files S88 touched (7 commits after the F2 tip)
+### 4. Files S88 touched (8 commits after the F2 tip)
 Tools (new): `tools/wiki_render.py`, `tools/wiki_sync.sh`, `tools/gccmap_cites.py`, `tools/xsig/` (xsig.py, README, LICENSE,
 tests/: fixture.c, make_fixtures.sh, test_xsig.py, fixture_a.txt, fixture_b.txt, fixture_a.s),
 `tools/permuter/upstream/0001-reloc-masked-scorer.patch`; changed: `tools/public_rewrite/probe_github.sh` (scratch-repo fetch +
 self-check), `tools/doc_links.py` (DEFAULT_GLOBS + the map README), `Makefile` (`wiki_render --selftest` + `gccmap_cites --check` + the xsig tests in
 tools-health), `.github/workflows/no-rom.yml` (the gccmap_cites + xsig steps). Docs (new): `docs/wiki/*.md` (12),
-`docs/how-to-ai-decomp/*.md` (13), `docs/gcc-2.7.2-map/README.md` + `cite_overrides.tsv`, `docs/permuter-ils.md`, `docs/matching-drafter-pipeline.md`; changed: the five map files (135
+`docs/how-to-ai-decomp/*.md` (13), `docs/gcc-2.7.2-map/README.md` + `cite_overrides.tsv`, `docs/permuter-ils.md`, `docs/matching-drafter-pipeline.md`, `docs/gen3-handoff.md`; changed: the five map files (135
 cites tagged in place), `docs/SETUP.md` (the probe clause in the public_rewrite row;
 2 wiki rows; the P33 F3 section), `docs/public-flip-runbook.md` (§11: the R57 probe paragraph; the wiki push step),
 `docs/doc_links_pending.txt` (10 entries mid-task → EMPTY), `phase-ends/CURRENT_PHASE.md` (F3 ticked; the S88 preflight + F3 log
