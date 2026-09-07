@@ -52,7 +52,7 @@
 
 ## Commit Message
 ```
-(Phase 27 landed as 14 per-task commits commit:0629..commit:0642 + this PhaseEnd.)
+(Phase 27 landed as 14 per-task commits 002f6d7c7..d1ef983af + this PhaseEnd.)
 
 feat(phase-27): the honest frontier — fix the instruments, audit the disc, dissolve a wall (v1.26.0)
 
@@ -95,4 +95,4 @@ This was a "fix the instruments, then look" phase — and looking through honest
 - **B4 dissolved** (its remedy was already run 1/7; the residuals are the T4 debts). The `func_80178004` ledger myth is corrected. `worklist --assert-partition` is the standing R32 partition guard.
 
 ## 🛑 Stop Here
-PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase27.md` (R19, via `git mv` — left uncommitted for Drew's milestone-close commit). The Phase-27 work is committed across the session (`commit:0629`..`commit:0642`); **Drew commits AND pushes** this PhaseEnd + the archived log (R6/R8 — the milestone-close is the human-controlled gate-2 sign-off). No Ghidra DB change this phase (R23 no-op — the `db.*.gbf` churn is restart-noise; do NOT stage). Gen2 continues — do **NOT** start Phase 28 here. Start a **fresh session** (effort **Max**, **plan mode**) for **Phase 28 — The Endgame Engine**, opening by measuring the member-adapt close-rate (`docs/calibration.md`). Keep this file forever.
+PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase27.md` (R19, via `git mv` — left uncommitted for Drew's milestone-close commit). The Phase-27 work is committed across the session (`002f6d7c7`..`d1ef983af`); **Drew commits AND pushes** this PhaseEnd + the archived log (R6/R8 — the milestone-close is the human-controlled gate-2 sign-off). No Ghidra DB change this phase (R23 no-op — the `db.*.gbf` churn is restart-noise; do NOT stage). Gen2 continues — do **NOT** start Phase 28 here. Start a **fresh session** (effort **Max**, **plan mode**) for **Phase 28 — The Endgame Engine**, opening by measuring the member-adapt close-rate (`docs/calibration.md`). Keep this file forever.

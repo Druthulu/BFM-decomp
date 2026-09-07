@@ -58,8 +58,8 @@
 
 ## Commit Message
 ```
-(Phase 24 landed across many sessions of checkpoint commits commit:0438..commit:0467; this close = the
-archived log + this PhaseEnd. Key hashes: whale commit:0463/commit:0464, §G commit:0462, this session commit:0466/commit:0467.)
+(Phase 24 landed across many sessions of checkpoint commits 9c8bb5183..f62cd42c3; this close = the
+archived log + this PhaseEnd. Key hashes: whale 3b0cc190b/8cfbbf2d4, §G c10677477, this session 8e6658ee8/f62cd42c3.)
 
 feat(phase-24): permuter overhaul + integration-recovery + the giant endgame (all giants ×134); fleet 64.86->66.02% (v1.23.0)
 
@@ -131,4 +131,4 @@ Each family is byte-*variant* (127 distinct h_exact), so it is **not** an automa
 - **Gen2 public-flip release candidates** (Drew, carried from Phase 24): upstream an ILS/warm-restart mode to decomp-permuter; release the gcc-2.7.2 codegen map (§31/§36) + the "shipped cc1 RTL dumps are NOT stripped" method; the `xsig` cross-project dedup tool. Sequence at the public flip (Gen3+).
 
 ## 🛑 Stop Here
-PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase24.md` (R19, via `git mv` — left uncommitted). The Phase-24 matching work is committed across the session (…`commit:0466`, `commit:0467`); **Drew commits AND pushes** this PhaseEnd + the archived log (R6/R8 — the milestone-close is the human-controlled gate-2 sign-off). No Ghidra DB change this phase (R23 no-op — the `db.*.gbf` churn is restart-noise; do NOT stage; the untracked `gccdump.lreg` is scratch, do NOT stage). Gen2 continues — do **NOT** start Phase 25 here. Start a **fresh session** (effort **Max**, **plan mode**) for **Phase 25 — The structural-family endgame (idiom curriculum)**, opening from the Backlog above (re-run the surveys → the `func_80133CD4` relocation-vs-immediate probe → Step A data-prep → the Fable5Max plan-mode evaluation → the curriculum). Keep this file forever.
+PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase24.md` (R19, via `git mv` — left uncommitted). The Phase-24 matching work is committed across the session (…`8e6658ee8`, `f62cd42c3`); **Drew commits AND pushes** this PhaseEnd + the archived log (R6/R8 — the milestone-close is the human-controlled gate-2 sign-off). No Ghidra DB change this phase (R23 no-op — the `db.*.gbf` churn is restart-noise; do NOT stage; the untracked `gccdump.lreg` is scratch, do NOT stage). Gen2 continues — do **NOT** start Phase 25 here. Start a **fresh session** (effort **Max**, **plan mode**) for **Phase 25 — The structural-family endgame (idiom curriculum)**, opening from the Backlog above (re-run the surveys → the `func_80133CD4` relocation-vs-immediate probe → Step A data-prep → the Fable5Max plan-mode evaluation → the curriculum). Keep this file forever.

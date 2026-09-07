@@ -51,7 +51,7 @@ base = scoped if moved else body
 # byte-match). What each recovery rung actually runs:
 #   scoped     — §8d block-scope demotion of carried D_ externs (only when scope_data_fix moved any).
 #   recovered  — fb.recover = cast_call_sites (callee-sig casts) THEN reconcile_tu (the DATA-symbol
-#                per-TU oracle, wired A3d/commit:0601): conform each D_ decl to what THIS TU can SEE and
+#                per-TU oracle, wired A3d/4aae5e758): conform each D_ decl to what THIS TU can SEE and
 #                cast at use. This is how reconcile_tu reaches bank_exemplar — no separate rung needed.
 #   reconciled — canon_sig_reconcile (the def-side loose-typing sig wall; A9a made it fn-ptr-aware).
 stages = [("raw", lambda: body)]

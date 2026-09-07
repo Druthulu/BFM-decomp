@@ -108,19 +108,19 @@ byte-verified EXE↔resident pair (the Phase-9 sigs + this phase's `.run/sig.res
 
 ## Commit Message
 ```
-(Phase 10 landed as 4 per-task checkpoint commits commit:0054..commit:0057 + this PhaseEnd.)
+(Phase 10 landed as 4 per-task checkpoint commits 95ade8476..03978ec4b + this PhaseEnd.)
 
 feat(phase-10): resident engine blob — 2nd binary byte-identical from source (v1.10.0)
 
-- T1 (commit:0054): scaffold the `resident` binary — Makefile BINARIES+=resident, resident_* block,
+- T1 (95ade8476): scaffold the `resident` binary — Makefile BINARIES+=resident, resident_* block,
   per-binary OBJS prune-list ($(BINARIES)-derived) + UNDEF aliases; config/splat.resident.yaml
   (flat: no header/gp_value, vram 0x800CEDF8, stacked symbols); proven a no-op on main (143dbb89)
-- T2 (commit:0055): split iterated to byte-identical — [0x0,rodata,hdr]+[0x4,c]+[0x4610,data];
+- T2 (f06785bcf): split iterated to byte-identical — [0x0,rodata,hdr]+[0x4,c]+[0x4610,data];
   leading data word emitted rodata (section_order first, no ld_interleave); build_path=build;
   make build BINARY=resident -> 8e17e02f BYTE-IDENTICAL (365,404 B), -G0, R22 clean-rebuild
-- T3 (commit:0056): per-binary reports + diff_settings + per-binary-safe expected (no clobber);
+- T3 (cc7395112): per-binary reports + diff_settings + per-binary-safe expected (no clobber);
   dup_report degrades on absent sig; progress linked_subsegs scoped to main; main reports unchanged
-- T4 (commit:0057): tools/ghidra_import_raw.sh (raw-blob importer) + DefineFunctions.java; resident
+- T4 (03978ec4b): tools/ghidra_import_raw.sh (raw-blob importer) + DefineFunctions.java; resident
   imported as the bfm project's 2nd binary @0x800CEDF8 (PsyQ 4.7.0 detected, DsMix=libsnd);
   143 boundaries defined + R9-verified; config/symbols.resident.txt seeded; sig-refresh per-binary;
   Ghidra DB committed (R23)
@@ -183,7 +183,7 @@ proven without them.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase10.md` (R19). The Phase-10 work is
-committed (4 checkpoints `commit:0054`..`commit:0057` + this PhaseEnd commit, which also lands the SETUP §6.7 update);
+committed (4 checkpoints `95ade8476`..`03978ec4b` + this PhaseEnd commit, which also lands the SETUP §6.7 update);
 **Drew pushes** (R6). Gen2 continues — do **NOT** start Phase 11 here. Start a **fresh session** (effort
 **Max**, plan mode) for **Phase 11 — Cross-binary dedup pipeline** (opening with the PsyQ 4.7 `.LIB` fetch).
 Keep this file forever.

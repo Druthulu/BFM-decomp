@@ -15,7 +15,7 @@
 
 **Fleet 63.18%** (217,332/344,010, +0.01% this session — reach-1 is ×1, % negligible BY DESIGN; value = ov_SC01_077 completeness + idiom-mining) · 136/136 byte-identical · 0 NON_MATCHING.
 
-**★ ARC:** reach-1 wave-1 (69-86 ins) **+10 ×1** (`commit:0289`) · distill **+1 idiom** (chained-store-fanout `*a=*b=*c=v;` from func_80143D28, `commit:0290`) · wave-2 (76-101) **+6 ×1** (`commit:0291`). Self-MATCH→bank gap stark (21→10, 21→6 — the whole-binary gate is the honest arbiter; the rest = loose-typing/regalloc walls). **Yield 42%→25%→falling as the band climbs** (EASY reach-1 fuel consumed; remaining reach-1 is medium-large).
+**★ ARC:** reach-1 wave-1 (69-86 ins) **+10 ×1** (`3d9e8f0a9`) · distill **+1 idiom** (chained-store-fanout `*a=*b=*c=v;` from func_80143D28, `2b6931696`) · wave-2 (76-101) **+6 ×1** (`ac7f2dcdd`). Self-MATCH→bank gap stark (21→10, 21→6 — the whole-binary gate is the honest arbiter; the rest = loose-typing/regalloc walls). **Yield 42%→25%→falling as the band climbs** (EASY reach-1 fuel consumed; remaining reach-1 is medium-large).
 
 **★ GIANTS PIVOT (Drew's gate-2 AskUserQuestion):** reach-1's cheap vein thinned → pivot waves to the reach-134 GIANTS as **backlog-fuel** (NOT for %): workers get them structurally close + log ranked near-misses for hand-finish (the Phase-21 backlog's purpose). 14 stubbed giants cached; **6 fresh tractable (167-254 ins) batched first** (func_80163C2C/801571C4/80148094/80156B74/8014EE14/8015126C); the 770-ins monster func_80144B9C deferred to a deep session. **CAVEAT (cont.7d, unfixed):** gate_stage's canon/cast/sig_unify can REGRESS giant near-miss closeness → log the WORKER's self-reported closeness (true source) + raw draft to the backlog, not the post-transform value.
 
@@ -217,7 +217,7 @@ token-heavy (fresh-session work, Drew's ROI greenlight per R26/R27/§20):**
    silently DROPPED every `_a`/`_o0` split-file draft (0 unified vs 21 with the flag) → split-file near-misses
    never got the def-side arity-adopt recovery. Now `--src-file src/ov_SC01_077/ov_SC01_077_a.c` reads the split
    file. `gate_stage` passes it to BOTH `cast_call_sites` and `sig_unify` in `--src-file` mode. → banked
-   func_8012F568 ×134 from the `_a` close=0 backlog (commit:0277).
+   func_8012F568 ×134 from the `_a` close=0 backlog (e5ae5958d).
 2. **`gate_stage.py` is now CANON-FIRST two-stage (§19 design folded into the shared gate).** It ran
    canon→cast→sig_unify in ONE pass; sig_unify REGRESSED the func_80128ED8 crack (rewrote its byte-correct def
    `s32 f(s32,s32*)` → a banked caller's `void* f(void*,void*)` → gate reject). Fix: **stage 1** canon+cast →
@@ -240,7 +240,7 @@ count is OPTIMISTIC; the `schedule` class is NOT a confirmed ×134 vein (its 2 c
 coalescing crack + 1 §10 wall). **Before a token-heavy wave, probe ×134-shareability on the cracked exemplar**
 (`dedup_propagate --addr <fn>`), don't trust the h_exact count.
 
-**★ SESSION BANKS:** func_8012F568 ×134 (commit:0277, `_a` recovery) + func_80128ED8 ×1 (commit:0278, schedule crack).
+**★ SESSION BANKS:** func_8012F568 ×134 (e5ae5958d, `_a` recovery) + func_80128ED8 ×1 (1ca0faef2, schedule crack).
 The MAIN-region close=0 recovery banked 0/40 (the §20 def-side wall, as expected — sig_unify already tried on them).
 
 **★ NEXT — the schedule WAVE (cont.5 step 4) is NOT yet justified (ROI-gated, §20 "don't wave a wall"):** the
@@ -306,26 +306,26 @@ the first idiom wall.**
 HEAD = the commit below. Grinder still running (token-free, banked 0 — the permuter-resistant hard tail; don't stop). Local, not pushed (R6).
 
 **★ THE RESULT — `_a` is a ×134 lever (probe-proven):**
-- Wave: 24 xHigh agents over `wave_targets.py --pool tractable --region a` (61–129 ins) → **16/24 self-MATCH, 11 byte-banked** in `ov_SC01_077_a.c` (commit `commit:0266`). All 11 are reach-134 (members=134).
+- Wave: 24 xHigh agents over `wave_targets.py --pool tractable --region a` (61–129 ins) → **16/24 self-MATCH, 11 byte-banked** in `ov_SC01_077_a.c` (commit `19c163d3b`). All 11 are reach-134 (members=134).
 - The gate reported **`propagated: 0`** — a TOOLING artifact, NOT the §24 wall. Two stacked bugs:
   1. **`dedup_propagate` batch propagation is ALL-OR-NOTHING** (lines 456–464): one cross-overlay-incompatible fn reverts the whole batch.
   2. The poison was **`func_8013C360`** — the pre-existing **-O0 overlay-local** straggler (§18/§20: masked h_exact falsely reports reach-134, but its real bytes reference per-overlay data → fails the cross-overlay byte-gate). Swept into `--auto-from`, it reverted all 10 clean matches.
   3. **`gate_stage`'s `sh()` swallows dedup_propagate's non-zero exit** (no return-code check) → reported 0 with no error surfaced.
 - **Per-function probe (each vs ov_SC01_000, gate.lock held): 10/11 PASS, 1 FAIL** (the FAIL = func_8013C360 ONLY).
-- **Realized the gain:** propagated the 10 clean fns ×134 (`dedup_propagate --addr <10> --source-overlay ov_SC01_077 --min-reach 2`, straggler excluded) → `[ OK ] 134 overlays byte-identical`, 10 new dedup groups → **commit `commit:0267`, fleet 62.31→62.70%**.
+- **Realized the gain:** propagated the 10 clean fns ×134 (`dedup_propagate --addr <10> --source-overlay ov_SC01_077 --min-reach 2`, straggler excluded) → `[ OK ] 134 overlays byte-identical`, 10 new dedup groups → **commit `1e3410ffc`, fleet 62.31→62.70%**.
 
 **★ THE 10 PROPAGATED ×134:** `0x80128DB4 0x801300F4 0x80136D08 0x80130AF0 0x8012944C 0x8012D4B4 0x80137030 0x80132288 0x8012DBD0 0x8013339C`. **×1 (local-types-skip → needs the §20 type-lift):** func_8012EA90 (banked in `_a.c` only). **Excluded straggler:** func_8013C360 (-O0 overlay-local — keep OUT of cross-overlay propagation).
 
 **★ ENABLER FIX (committed this session):** `worker_wave.js` now derives each agent's `match_one` self-check `--asm-subdir` from `t.asm` (was hardcoded to the MAIN subdir → every `_a` agent self-check crashed on a missing `.s` → blind drafting). THIS produced the high close rate (16/24); without it the `_a` wave drafts blind.
 
 **★ FIXES DONE + VALIDATED (this session) — the `_a` pipeline is now HANDS-FREE:**
-1. **`gate_stage` surfaces propagation failures** (`commit:0269`): `prop_error` + `.run/auto/last_propagate_error.log` — no more silent swallow (it caught wave-2's failure live).
-2. **`dedup_propagate` excludes -O0 overlay-local fns from `--auto-from`** (`commit:0269`): `*_o0.c` defs (incl. func_8013C360) never cross-overlay-propagate (find_site-detected; --addr still forces).
+1. **`gate_stage` surfaces propagation failures** (`04c5c9b47`): `prop_error` + `.run/auto/last_propagate_error.log` — no more silent swallow (it caught wave-2's failure live).
+2. **`dedup_propagate` excludes -O0 overlay-local fns from `--auto-from`** (`04c5c9b47`): `*_o0.c` defs (incl. func_8013C360) never cross-overlay-propagate (find_site-detected; --addr still forces).
 3. **`dedup_propagate` DROP-STRAGGLER retry** (refactor): on a byte-gate fail it isolates the culprit(s) for the failing overlay (per-fn trial), drops them (kept ×1), and retries the survivors — handles BOTH straggler classes (-O0 byte-mismatch + cross-overlay loose-typing compile-error) failing ANY overlay. Byte-gate stays sole arbiter; the plan strictly shrinks so it always terminates.
 
-**★ WAVE-2 (validated the fixes end-to-end):** 24 fresh `_a` targets → 13 self-MATCH → gate banked **6** (the `_a` path SKIPS sig_unify, so def-side near-misses don't auto-recover → lower bank rate than main). Drop-straggler `--auto-from` then auto-dropped 2 loose-typing stragglers (func_8012E5CC/func_8012C750 — compile-fail ov_SC01_000, kept ×1) + propagated **3 clean ×134** (`commit:0271`). The 11 near-misses are permuter-class schedule/regalloc walls (grinder fuel; 7 were last wave's re-attempts, still walls).
+**★ WAVE-2 (validated the fixes end-to-end):** 24 fresh `_a` targets → 13 self-MATCH → gate banked **6** (the `_a` path SKIPS sig_unify, so def-side near-misses don't auto-recover → lower bank rate than main). Drop-straggler `--auto-from` then auto-dropped 2 loose-typing stragglers (func_8012E5CC/func_8012C750 — compile-fail ov_SC01_000, kept ×1) + propagated **3 clean ×134** (`05e98070b`). The 11 near-misses are permuter-class schedule/regalloc walls (grinder fuel; 7 were last wave's re-attempts, still walls).
 
-**★ SESSION ARC: 62.31% → 62.82% (+0.51%):** wave-1 +10 ×134 (`commit:0267`) · wave-2 +6 ×1 (`commit:0270`) +3 ×134 (`commit:0271`). 136/136 byte-identical, 0 NON_MATCHING throughout.
+**★ SESSION ARC: 62.31% → 62.82% (+0.51%):** wave-1 +10 ×134 (`1e3410ffc`) · wave-2 +6 ×1 (`881e462e0`) +3 ×134 (`05e98070b`). 136/136 byte-identical, 0 NON_MATCHING throughout.
 
 **★ NEXT — the `_a` scaling loop is now hands-free (~55 fresh `_a` reach-134 fns remain):** `wave_targets --pool tractable --region a` → worker_wave → `gate_stage --src-file --commit` (auto-drops stragglers + auto-propagates clean ×134). ~+0.2–0.4% fleet/wave. **Improvement idea:** a def-side recovery that doesn't drop `_a` drafts would lift the `_a` bank rate (sig_unify-skip is the current cap). **Pending Drew's direction** (continue scaling vs checkpoint/close).
 
@@ -396,7 +396,7 @@ correctness either way (a wrong/conflicting draft reverts, never banks). Cookboo
 > near-miss; the rest are stale-draft RE-DRAFT work. A diag self-correction (R14) — the byte-gate was right.
 
 **Fleet 62.31%** (214,358/344,010) · 136/136 byte-identical · 0 NON_MATCHING · banked_total 288 · waves 34.
-**No new banks this turn** (func_80153E00 ×134 was the prior turn). HEAD `commit:0261`+ (docs). Grinder STOPPED.
+**No new banks this turn** (func_80153E00 ×134 was the prior turn). HEAD `72a5da614`+ (docs). Grinder STOPPED.
 
 **★ THE GIANT VERDICT (byte-proven, P9/R14):** the 14 MAIN-file giants' prior-wave drafts are **STALE +
 INCOMPLETE** vs the grown `engine_core.h` — `conflicting types` (draft `u8 D_80126B58` vs canonical `s32`;
@@ -432,7 +432,7 @@ Recommendation: (b) for steady % now, with (a) as a focused deep session for the
 > corrected by cont. 2 (most giant drafts are stale+incomplete → re-draft, not recover).
 
 **Fleet 62.31%** byte-identical (**214,358 / 344,010**, +134 vs the checkpoint) · 136/136 binaries byte-identical · 0 NON_MATCHING.
-banked_total 288 · waves 34 · grinder STOPPED (`.run/auto/STOP` present). Committed locally (`commit:0260`), **not pushed** (R6).
+banked_total 288 · waves 34 · grinder STOPPED (`.run/auto/STOP` present). Committed locally (`ccd61d652`), **not pushed** (R6).
 This session (Drew's `/loop`, one giants cycle): **banked `func_80153E00` ×134** (the 195-ins giant), fleet 62.27→62.31%.
 
 **★ THE CORRECTED GIANTS FINDING (R14, byte-proven — supersedes the FINAL HANDOFF "callee-declaration plumbing" claim):**
@@ -453,7 +453,7 @@ instructions + bank ×134.** Full write-up: **cookbook §23**.
 
 **★ NEXT (fresh cycle) — diagnose the OTHER 4 giants the same way (drafts in `.run/drafts-wave-cn/`):**
 `func_8013339C` (schedule), `func_8012EC04` (GTE — verify on RAW bytes via objcopy, NOT objdump/match_one, idiom
-`commit:0253`), `func_8012D098` (struct), `func_80129CF8` (struct; its note already flags `D_80126DB8` lh-vs-lw — likely the
+`f555a441a`), `func_8012D098` (struct), `func_80129CF8` (struct; its note already flags `D_80126DB8` lh-vs-lw — likely the
 SAME scalar-data-cast class). For each: `cp .run/drafts-wave-cn/<fn>.c .run/dg/` → `diag_funcdiff` → fix the diffs →
 `cp` to `.run/drafts-wave/` → `orchestrator.py finish --drafts .run/drafts-wave --commit` (BACKGROUNDED +
 dangerouslyDisableSandbox). **Struct-class giants** (D_*-struct local typedefs) also need the type-lift
@@ -483,9 +483,9 @@ The giants prove the BODIES are crackable; the wall is purely **callee-declarati
 
 **SECONDARY:** (a) more giant-scout waves to grow the body-correct ×134 backlog (only valuable once recovery banks them — the 28 giants are in `.run/fuel_manifest.json` class=GIANT; 5 body-banked, rest fresh/near); (b) the grinder (relaunch, token-free) for permuter-walls; (c) the reach-1 big-fn tail remains (×1, low-ROI — skip).
 
-**12 NEW COOKBOOK IDIOMS this session** (the durable knowledge): `commit:0225 commit:0227 commit:0230 commit:0232 commit:0235 commit:0237 commit:0240 commit:0243 commit:0245 commit:0247 commit:0249 commit:0253`. The last CRACKED the GTE-sqr "unproducible" false dead-end — **verify GTE/cop2-nop fns on RAW bytes (`objcopy -O binary --only-section=.text`), NOT objdump/match_one** (they elide zero-word runs → false mismatch). `func_8012EC04` confirms a 2nd GTE fn matches this way.
+**12 NEW COOKBOOK IDIOMS this session** (the durable knowledge): `bbfe27d09 478aeeee2 43d089ec6 c694c9d7a 279662bbe 1e5cc1b28 8e892ad49 934c007df d07c6edb0 28afb3c49 e8b1f8f25 f555a441a`. The last CRACKED the GTE-sqr "unproducible" false dead-end — **verify GTE/cop2-nop fns on RAW bytes (`objcopy -O binary --only-section=.text`), NOT objdump/match_one** (they elide zero-word runs → false mismatch). `func_8012EC04` confirms a 2nd GTE fn matches this way.
 
-**3 POOL-TOOLING FIXES this session:** `commit:0228` (plumbing_blocked scans ALL raw backlog records) · `commit:0239` (NEW reserved_walls skips ≥2×-redrafted near-miss walls) · `commit:0257` (--class filters to still-unbanked genuine near-misses) → ~149+ churners correctly skipped from worker waves.
+**3 POOL-TOOLING FIXES this session:** `d09248361` (plumbing_blocked scans ALL raw backlog records) · `39164b7b6` (NEW reserved_walls skips ≥2×-redrafted near-miss walls) · `90b94971c` (--class filters to still-unbanked genuine near-misses) → ~149+ churners correctly skipped from worker waves.
 
 **RESUME COMMANDS (fresh session):**
 - **Grinder** (token-free, relaunch): `rm -f .run/auto/STOP && DRIVER=tools/grinder.py setsid nohup bash tools/auto_supervisor.sh --permute-secs 120 -j 14 >/dev/null 2>&1 &` (dangerouslyDisableSandbox). Stop: `bash tools/auto_stop.sh`. Monitor: `bash tools/auto_status.sh`.
@@ -510,13 +510,13 @@ scheduler/regalloc walls). **Wave 30 = the PIVOT (Drew's call): worker → `any-
 `tractable` pool never covered) is the live ×134 fuel. **GRINDER RUNNING** (token-free decomp-permuter on backlog
 close≤30 near-misses; `.run/auto/STOP` CLEARED per Drew's explicit authorization "run the grinder / permission to do
 whatever"; kill switch is now `bash tools/auto_stop.sh` / interrupt). **12 new cookbook idioms** distilled
-(`commit:0225 commit:0227 commit:0230 commit:0232 commit:0235 commit:0237 commit:0240 commit:0243 commit:0245 commit:0247 commit:0249 commit:0253`); the last CRACKS
+(`bbfe27d09 478aeeee2 43d089ec6 c694c9d7a 279662bbe 1e5cc1b28 8e892ad49 934c007df d07c6edb0 28afb3c49 e8b1f8f25 f555a441a`); the last CRACKS
 a false dead-end — the GTE-`sqr` cop2-nop family was wrongly recorded "unproducible" (objdump elides zero-word runs →
-false match_one miss; verify on RAW bytes via `objcopy`). **TWO pool-exclusion bugs FIXED** (`commit:0228`
-`plumbing_blocked` scans ALL raw backlog records; `commit:0239` NEW `reserved_walls` skips ≥2×-redrafted near-miss walls)
+false match_one miss; verify on RAW bytes via `objcopy`). **TWO pool-exclusion bugs FIXED** (`d09248361`
+`plumbing_blocked` scans ALL raw backlog records; `39164b7b6` NEW `reserved_walls` skips ≥2×-redrafted near-miss walls)
 → ~149+ churners skipped. **CURRENT:** orch_state `pool=any-reach134 waves=30`; worker continues reach-134 (fresh
 `any-reach134` thinning → then `--mode auto`/`--class` to re-attempt reach-134 backlog walls with the 12 new idioms,
-each ×134); grinder grinds alongside. NEXT cookbook fuel: the ~7-fn GTE-sqr family (idiom `commit:0253`).
+each ×134); grinder grinds alongside. NEXT cookbook fuel: the ~7-fn GTE-sqr family (idiom `f555a441a`).
 
 **Fleet ≈ 61.16% byte-identical** *(↑ 61.19% — see SESSION UPDATE above)* · 136/136 binaries byte-identical · 0 NON_MATCHING.
 **Nothing running** — grinder STOPPED (Drew; `.run/auto/STOP` present), no worker wave in flight. Paused at a
@@ -527,7 +527,7 @@ clean, committed checkpoint (HEAD = the reach-1 handoff commit). Committed local
   + 1 grinder bank; **fleet 60.93% → 61.16%**. Yield diminished 3→2→0→1: the reach-134 ≤150-ins cached fuel is
   now **confirmed walls** (§20 IV-combine / LICM-hoist / schedule + DEF-side loose-typing; o0 pool empty; the
   capped-7 = the Phase-16 loose-typing wall). Re-firing them is the poor-ROI anti-pattern (Drew agreed).
-- **Guard committed (`commit:0219`):** worker drafters now write ONLY their draft `.c` — a wave-13 drafter had
+- **Guard committed (`f13765817`):** worker drafters now write ONLY their draft `.c` — a wave-13 drafter had
   appended UNVERIFIED near-miss idioms to the cookbook directly (distill owns the cookbook). See "Open for Drew".
 - **PIVOT (Drew's call, gate-2 AskUserQuestion):** stop the reach-134 wall-waves + grinder; harvest the
   **reach-1 (overlay-unique) fuel** instead — abundant, small, far less loose-typed → much higher crack rate.
@@ -571,15 +571,15 @@ instruction; the fresh session launches them.)
 
 **Fleet: 209,593 / 344,010 = 60.93% byte-identical** · 136/136 binaries byte-identical · 0 NON_MATCHING.
 **Nothing running** — grinder STOPPED (`.run/auto/STOP` present; `rm` it to allow relaunch), no worker wave in flight.
-The loop is **paused at a clean, fully-committed checkpoint** (HEAD = `commit:0214`). All work committed locally; **not pushed** (R6 — Drew pushes).
+The loop is **paused at a clean, fully-committed checkpoint** (HEAD = `9e9278d4a`). All work committed locally; **not pushed** (R6 — Drew pushes).
 
 **What this (overnight `/loop`) session did** (Drew: "keep waves going, don't stop till I check in ~8h" → ran 12 worker waves + the grinder):
 - Fleet **59.05% → 60.93%** (+1.88%); ~55 functions banked (worker gates + 1 recovery gate + 1 grinder bank), each propagated ×134 where shared. dedup groups → 1560.
 - **3 gate-safe tooling upgrades** (Option C + follow-ons), all committed:
-  - `tools/sig_unify.py` — **DEF-side arity-extend recovery**: adopt the canonical engine_core.h param list on arity mismatch (unused params free at -O2). Banks the DEF-side loose-typing wall. (`commit:0200`)
-  - `tools/grinder.py` — **blacklist** of permuter-won-but-gate-rejected (plumbing) fns → `.run/auto/grinder_blacklist.json` (13 fns); stops the futile churn. (`commit:0200`)
-  - `tools/wave_targets.py` — **pool excludes self-MATCH-but-gate-rejected** near-misses (closeness==0 OR drafter "none — MATCH" verdict) so waves draft FRESH targets. (`commit:0205`, `commit:0208`)
-- **6 new cookbook idioms** (4 distilled + 2 drafter-authored): cookbook §21 + §22. (`commit:0194 commit:0196 commit:0198 commit:0203 commit:0211`)
+  - `tools/sig_unify.py` — **DEF-side arity-extend recovery**: adopt the canonical engine_core.h param list on arity mismatch (unused params free at -O2). Banks the DEF-side loose-typing wall. (`4927f38c4`)
+  - `tools/grinder.py` — **blacklist** of permuter-won-but-gate-rejected (plumbing) fns → `.run/auto/grinder_blacklist.json` (13 fns); stops the futile churn. (`4927f38c4`)
+  - `tools/wave_targets.py` — **pool excludes self-MATCH-but-gate-rejected** near-misses (closeness==0 OR drafter "none — MATCH" verdict) so waves draft FRESH targets. (`40fa76284`, `7b477c82b`)
+- **6 new cookbook idioms** (4 distilled + 2 drafter-authored): cookbook §21 + §22. (`fc3b7d25e 0744e5ad8 9dcabfbdc 29858df0b 0b77956d5`)
 - **Grinder's work:** banked 1 (`func_801493D0`, permuter), blacklisted 13 plumbing-bound near-misses, token-free. It went 0→1 banks *after* the Option-C fixes.
 
 **Key finding (where the wall is now):** the **tractable reach-134 ≤150-ins pool is depleting** — easy fresh wins are banked; close-rate fell from ~0.25 to **0.037 on wave 12**. What remains in this size-band is the genuine hard tail: DEF-side plumbing (`sig_unify` handles the simple arity case; the rest is multi-way loose typing) + the §20 **IV-combine** (`combine_givs` won't fold byte+halfword-RMW) and **LICM-hoist** (`move_movables` threshold) walls — drafters correctly stub these "unsteerable from C." They are **backlog / hand-finish fuel**, not re-draftable.
@@ -722,12 +722,12 @@ Both engines are RUNNING:
 **Run progress (worker waves):**
 | Cycle | Wave drafted | Byte-banked | Fleet | Commit |
 |---|---|---|---|---|
-| 1 | 24 (19 self-MATCH) | 7 (4 ×134) | 59.05→59.21% | `commit:0193`; distill `commit:0194` (cookbook §21 added) |
-| 2 | 24 (18 self-MATCH) | 5 (4 ×134) | 59.21→59.37% | `commit:0195` |
-| 3 | 24 (17 self-MATCH) | 7 (6 ×134) | 59.37→59.60% | `commit:0197`; distill `commit:0198` |
-| recovery | 7 close=0 re-gated | 2 (×134) | 59.60→**59.68%** | `commit:0199` (sig_unify DEF-side fix) |
-- **Distill flywheel:** 3 NEW byte-verified cookbook idioms added across the 3 waves (`commit:0194` Blk16/memcpy
-  unaligned-copy; `commit:0196` disjoint-bits add→ori re-tie barrier; `commit:0198` giv-anchor store-order).
+| 1 | 24 (19 self-MATCH) | 7 (4 ×134) | 59.05→59.21% | `1d7c31393`; distill `fc3b7d25e` (cookbook §21 added) |
+| 2 | 24 (18 self-MATCH) | 5 (4 ×134) | 59.21→59.37% | `7f272eb6b` |
+| 3 | 24 (17 self-MATCH) | 7 (6 ×134) | 59.37→59.60% | `125222d14`; distill `9dcabfbdc` |
+| recovery | 7 close=0 re-gated | 2 (×134) | 59.60→**59.68%** | `a1b29eac8` (sig_unify DEF-side fix) |
+- **Distill flywheel:** 3 NEW byte-verified cookbook idioms added across the 3 waves (`fc3b7d25e` Blk16/memcpy
+  unaligned-copy; `0744e5ad8` disjoint-bits add→ori re-tie barrier; `9dcabfbdc` giv-anchor store-order).
 - **Wave-2 "6.5h" was NOT throttling** — it was idle on a CC **permission prompt** (Drew approved on check-in);
   waves 1 & 3 ran in ~25–32 min. (R14: corrected my earlier rate-limit read.)
 
@@ -742,7 +742,7 @@ cycle; after idle it did `tried.clear()` and looped forever (§20 trap). Fixed B
   `conflicting types`). `rewrite_def` previously only rewrote params on arity MATCH (return-type-only fallback
   otherwise). Patched it to **adopt the canonical param list on arity mismatch** (draft names + synth `_argN` for
   the unused extras; they sit in `$a0–$a3`, free at -O2). Validated: banked `func_8016EDEC` + `func_8016EE40`
-  through the real gate (`commit:0199`). **Compounds: it's in the gate pipeline, so every future wave + the grinder
+  through the real gate (`a1b29eac8`). **Compounds: it's in the gate pipeline, so every future wave + the grinder
   now auto-recover DEF-side near-misses.** (Remaining close=0: a data-conflict + narrow-param arity gcc's
   promotion rule blocks + multi-way loose typing — genuinely harder, diminishing returns.)
 
@@ -763,7 +763,7 @@ scripts have no fs access; transcribe carefully). Gate/finish run **backgrounded
   via re-drafting — they're hand-finish fuel.
 - **Running tally (this session, fleet 59.05% start):** waves 1-6 launched; banked via worker gates + the sig_unify
   recovery. Fleet **59.87%** after wave 5 (wave 6 in flight). 4 new cookbook idioms distilled
-  (`commit:0194 commit:0196 commit:0198 commit:0203`). Commits `commit:0193…commit:0202` + option-C `commit:0200`.
+  (`fc3b7d25e 0744e5ad8 9dcabfbdc 29858df0b`). Commits `1d7c31393…1332f43d5` + option-C `4927f38c4`.
 - **To resume after compaction:** read this section + `docs/automation-runbook.md`; the next step is always
   gate the in-flight wave (`.run/auto/finish_wave<N>.log` / orchestrator finish) → distill → prep --mode pool →
   launch. Stop only when Drew says so (`bash tools/auto_stop.sh` halts the grinder).

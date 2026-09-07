@@ -422,7 +422,7 @@ def member_lever(k, v, ev):
     if led:
         # PROVENANCE GATE. A ledger verdict is evidence about the draft that produced it, not about
         # the member. func_801898E4's DIFF came from .run/s34/.../func_801898E4.c dated 2026-08-04 --
-        # SIX DAYS BEFORE its seed was banked (commit:1541, 2026-08-10). A 607-instruction hand-draft
+        # SIX DAYS BEFORE its seed was banked (b0c1e14fd, 2026-08-10). A 607-instruction hand-draft
         # that predates the 611-instruction twin cannot be evidence that remapping the twin fails.
         # When the record carries no usable provenance, say so in the confidence string rather than
         # presenting a stale token as a measurement (R35: fix the instrument before trusting it).

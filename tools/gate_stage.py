@@ -626,7 +626,7 @@ def _run_gate_locked(drafts, binary, src, asm, out, good_sha, propagate, source_
         sh(["git", "add", "-u", "src/"])
         # NEVER stage main's TUs from the overlay gate (S59): a concurrent gate_main substitution
         # in top-level src/*.c is unverified by construction, and adopting one mid-flight is how
-        # commit:2693 turned main's baseline RED for 3h46m. gate_main writes them; main_lane
+        # 24bd25993 turned main's baseline RED for 3h46m. gate_main writes them; main_lane
         # commits them after the whole-EXE SHA re-checks green; nobody else touches them.
         sh(["git", "reset", "-q", "--"] + sorted(_glob.glob("src/*.c")))
         # P30 T3 pre-work: `-u` cannot stage NEW files — a jr bank's jtbl prep CREATES

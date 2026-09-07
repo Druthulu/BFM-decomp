@@ -19,7 +19,7 @@ in `<ref>:<path>`, insert it, build again.  Repeat to convergence.  Nothing is i
 compiler did not ask for, so a declaration whose symbol the DEFINE_ macros already supply is never
 re-added (that would be `conflicting types`, trading one break for another).
 
-    tools/restore_dropped_decls.py --binary ov_SC04_018 --ref commit:3354^
+    tools/restore_dropped_decls.py --binary ov_SC04_018 --ref 4daf41702^
 """
 import argparse
 import os

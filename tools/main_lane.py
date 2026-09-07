@@ -57,7 +57,7 @@ class BaselineRed(RuntimeError):
     """The committed tree does not build byte-identical with NO draft substituted.
 
     Raised instead of judging (or retrying) any draft: against a red baseline every gate verdict
-    is FALSE — S59 measured it the hard way, when auto-commit commit:2693 adopted a mid-flight
+    is FALSE — S59 measured it the hard way, when auto-commit 24bd25993 adopted a mid-flight
     gate_main substitution at 14:57 and this lane then drafted four 200-card rounds (m00-m03
     cycles, ~737 drafts) and banked ZERO until 18:43, burning ~50 clean rebuilds and a tries
     strike on every parked draft it falsely rejected (R40/R43)."""

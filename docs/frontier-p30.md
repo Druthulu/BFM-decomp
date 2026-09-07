@@ -1,6 +1,6 @@
 # The P30 frontier report (T0(f) — report point #1)
 
-> **Generated 2026-07-30 at HEAD `commit:1218`**, after the T0 instrument repairs (a–e), from
+> **Generated 2026-07-30 at HEAD `407ff8f85`**, after the T0 instrument repairs (a–e), from
 > same-tree regenerations only: `progress.fleet.md` · `family-hseq.md` (+`.run/family_hseq.json`) ·
 > `worklist.md` · `.run/fuel_manifest.json` · `.run/autopsy/residuals.jsonl` · `docs/autopsy.md`.
 > Every number below is re-derivable from those artifacts at this HEAD (R33/R35). This file is a

@@ -7,4 +7,4 @@ alike: global.c find_reg's FIRST pass avoids hard regs with local_reg_n_refs>0 (
 target a2_raw got $a3 → no local pseudo sat in $a3 there. Find which block-local temp the draft puts in $a3 (compile the draft
 with `-dl -dg` via tools/cc1_dumps.sh, read "Register dispositions" for `in 7`), and remove/reshape it (the pinned $2/$3/$4
 temps `pc/bc/pd/bd/kind` and `cnt`/`tmp` are the candidates — the pins themselves may be what pushes a local into $a3).
-TU: the prototype at 800_c.c is now `extern void func_80039DEC();` (committed commit:3953) — rtu_match in the real TU works.
+TU: the prototype at 800_c.c is now `extern void func_80039DEC();` (committed e39229051) — rtu_match in the real TU works.

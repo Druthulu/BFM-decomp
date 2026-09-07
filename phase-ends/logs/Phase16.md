@@ -44,12 +44,12 @@
 - **Pending fixes for next gate:** (1) add `NULL` to common.h (recovers ~58); (2) re-include recovered CC1-fails; (3) try `--stack-structs` for sp* cases.
 
 ### Yield reality + overnight test (2026-06-18 late Thu) — the go/no-go crux
-- **NULL fix DONE** (byte-neutral, committed commit:0124): recovers **54/106** CC1-fails. Compiling drafts now 341/393.
+- **NULL fix DONE** (byte-neutral, committed c8c9fd20c): recovers **54/106** CC1-fails. Compiling drafts now 341/393.
 - **Known-answer WHOLE-BINARY capability (the honest number):** m2c+sig_unify = **4/16 = 25%** on KNOWN-matchable fns (match_one's 9/16 over-counts — masks relocations). Unmatched hard tail ≈ **1%** (the 964 are the residual Phase-15 couldn't crack — hard by selection).
 - **THE KEY UNKNOWN = the permuter close-rate on near-misses.** One 120s test didn't close (out-of-search-space). Built `tools/p16_permute.py` (M2C_FIELD→cast expander + permuter setup/run/parse). **Overnight test RUNNING:** macro+sig_unify+NULL full gate (banks direct matches) → then 40 near-misses × 7min permuter each (~4.5h) → `.run/permute_overnight.log`. **Friday AM: read the close-rate = the 5-day-run go/no-go.**
 - **Honest framing (P9):** the "85-90% ceiling" was theoretical. Practical reality: modest-but-real yield. Even 10% of 964 × 134 propagation ≈ +3-4% fleet — worth the CHEAP compute run IF the permuter adds meaningful lift. The weekend tests (small tonight → overnight → analyze Fri → trial Sat → go Sun) resolve it — exactly the de-risk Drew wanted.
 - **S5 driver/supervisor/safe-exit BUILT + committed** (untested end-to-end — test Fri after the yield read). S1 struct_infer RESOLVED as not-needed-for-matching (struct typing byte-neutral vs macros).
-- Commits this session: commit:0122 (S0+common.h) → commit:0123 (known-answer 67%) → commit:0124 (S5+NULL+sig_unify). Working .c has ~5 banked leaf matches (uncommitted; the running gate will add more).
+- Commits this session: 7141e9752 (S0+common.h) → 381b0652a (known-answer 67%) → c8c9fd20c (S5+NULL+sig_unify). Working .c has ~5 banked leaf matches (uncommitted; the running gate will add more).
 
 ## New tools/files
 `tools/struct_infer.py`, `tools/m2c_ctx.py`, `src/shared/engine_struct.h` (#ifdef M2C skeleton / #else real layout), `tools/auto_driver.py`, `tools/auto_supervisor.sh`, opt `src/shared/engine_decls.h`. Reused: sig_unify, match_one, harvest_verify, dedup_propagate (patch compiles_standalone += struct header), decompile.py --context, permuter/compile.sh, progress.py --fleet, build_engine_types.py (additive). m2c context MUST be flat directive-free C (rejects #include/#ifndef).

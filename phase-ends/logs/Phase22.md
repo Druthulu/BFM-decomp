@@ -19,16 +19,16 @@ C. If general → fan out a few waves (Ultracode, prompt R26/R27) applying it �
 D. Rinse and repeat (next giant, highest byte-weight first).
 
 ## Tasks
-- [x] **T0 — Unified byte-weighted ranked worklist** *(done — `commit:0296`)* — `tools/worklist.py` → `docs/worklist.md` + `.run/worklist.json`.
+- [x] **T0 — Unified byte-weighted ranked worklist** *(done — `013806b07`)* — `tools/worklist.py` → `docs/worklist.md` + `.run/worklist.json`.
 - [x] **T1 — Calibrate on func_8015126C** *(done — banked ×134, fleet 63.18→63.22%, check-all 136/136)* — pin idiom + canonical-extern/block-scope recovery cracked it; all 23 giants confirmed Ghidra-C-cached (no prefetch needed).
 - [ ] **T2 — Hand-decomp giants by byte-weight (loop)** — func_8014EE14 → … → func_80144B9C; one at a time, byte-gated, propagated ×134, committed. Report each (P3).
-- [x] **T3 — Distill idioms → cookbook** *(done for func_8015126C — cookbook §28/§28a + `tools/recover_giant.py`, `commit:0298`)* — recurring per future crack.
+- [x] **T3 — Distill idioms → cookbook** *(done for func_8015126C — cookbook §28/§28a + `tools/recover_giant.py`, `0375cd529`)* — recurring per future crack.
 - [ ] **T4 — Idiom fan-out waves (Ultracode)** — a few waves per learned idiom over its class (prompt R27). *(close=0 canonical-extern "wave" was probed → R14 refuted near-free; only func_8015126C banked.)*
 - [x] **T5 — Background grinder** *(started + STOPPED for handoff; STOP sentinel set; banked 0 on the hard giants it sampled)* — RESUME: `rm .run/auto/STOP` then `DRIVER=tools/grinder.py setsid nohup bash tools/auto_supervisor.sh --permute-secs 120 -j 14 >/dev/null 2>&1 & disown`; monitor `bash tools/auto_status.sh`.
 - [ ] **T6 — Progress honesty + PhaseEnd** — keep worklist/backlog/progress.fleet.md fresh; track both %s; PhaseEnd_Phase22.md at close (Tier-1 Max).
 
 ## ▶ RESUME HERE (fresh session)
-**State:** Phase 22 in progress (NOT a phase end — no PhaseEnd file). 3 commits this session on top of Phase-21 close `commit:0295`: `commit:0296` (T0 worklist) · `commit:0297` (T1 func_8015126C ×134) · `commit:0298` (T3 cookbook §28 + recover_giant.py) + a reports-regen checkpoint commit. All 136 binaries byte-identical (`make check-all` 136/136); fleet **63.22%** function-count; dedup-check 1617/0. Working tree clean except the R23 `db.*.gbf` churn (do NOT stage). **Drew commits AND pushes the session work (R6/R8).** Grinder STOPPED (STOP sentinel set).
+**State:** Phase 22 in progress (NOT a phase end — no PhaseEnd file). 3 commits this session on top of Phase-21 close `ddf9266ab`: `013806b07` (T0 worklist) · `75dc86909` (T1 func_8015126C ×134) · `0375cd529` (T3 cookbook §28 + recover_giant.py) + a reports-regen checkpoint commit. All 136 binaries byte-identical (`make check-all` 136/136); fleet **63.22%** function-count; dedup-check 1617/0. Working tree clean except the R23 `db.*.gbf` churn (do NOT stage). **Drew commits AND pushes the session work (R6/R8).** Grinder STOPPED (STOP sentinel set).
 
 **NEXT TASK — T2: hand-decomp the next giants by byte-weight** (effort **Max**; the loop is A hand-crack → B distill → C fan-out). Use `docs/worklist.md` (the GIANT queue, refreshed) as the decision spine. Concrete queue:
 1. **func_80132784** (400 ins, #2 byte-weight giant; backlog close=240: prologue+GTE pipelines match, residual = else-branch `$s0` pointer regalloc + GTE-section stack-ptr allocation → §17 pins). The biggest reachable hand target.
@@ -55,7 +55,7 @@ orchestrator / wave_targets / worker_wave.js / distill.js / gate_stage / idiom_l
 
 ## Progress log
 - 2026-06-26: Phase plan approved (gate 1). Task list built (R28). CURRENT_PHASE.md written. Starting T0.
-- 2026-06-26: **T0 done** (commit `commit:0296`) — `tools/worklist.py` + `docs/worklist.md` + `.run/worklist.json`. 451 live stubs / 1.85M ins remaining gain; GIANT queue = 23 fns = 37.2% of remaining gain; top = func_80144B9C (770 ins, 5.58%).
+- 2026-06-26: **T0 done** (commit `013806b07`) — `tools/worklist.py` + `docs/worklist.md` + `.run/worklist.json`. 451 live stubs / 1.85M ins remaining gain; GIANT queue = 23 fns = 37.2% of remaining gain; top = func_80144B9C (770 ins, 5.58%).
 - 2026-06-26: **T1 calibration on func_8015126C (254 ins, top-5 giant) — CRACKED, byte-identical in ov_SC01_077; ×134 propagation running (bg bl73feigi).** Key findings (→ T3 distill):
   - **(idiom) §17 pin for the coalescing residual:** the `(s16)p[0x79]!=1000` compare wanted `$a0` (coalesced) not `$v1`. Lever: `register s32 cmp79 __asm__("$4")` + assign **inside** the `&&` (lazy, not hoisted) → MATCH. Reusable for the regalloc-coalescing giant group.
   - **(THE close=0 wall, byte-proven) why match_one MATCH ≠ whole-binary bank:** the saved draft's *self-contained file-scope externs* conflict with engine_core.h's canonical sigs (e.g. my `extern void func_8015173C(void*)` vs canonical `void func_8015173C(s32*)`). `cast_call_sites`/`sig_unify` do NOT canonicalize these → the close=0 giants sit unbanked. **Fix (deterministic):** rewrite each engine_core.h-callee extern to its canonical def-sig AND move ALL externs **block-scope** (inside the body) so `find_site`/`compiles_standalone`/`dedup_propagate` accept them (file-scope externs are excluded from the lifted body → "not self-contained"). This is a missing gate-stage recovery step.

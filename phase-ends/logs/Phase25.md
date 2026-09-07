@@ -61,7 +61,7 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > the directed ILS → **ALL WALLED (masked 22/31/2), 0 banks** — the free permuter tier is exhausted on these
 > intrinsic ties (→ Fable5 or the fuzzy-family tail). func_801549F8 is masked-2 (jump-table; a `.text`-0 still
 > needs the rodata `jtbl` §8-verified).
-> **COMMITTED this session:** flagship func_80133CD4 ×134 (`commit:0515`, R22 136/136) + cookbook §45. This
+> **COMMITTED this session:** flagship func_80133CD4 ×134 (`8270e7692`, R22 136/136) + cookbook §45. This
 > checkpoint commit = the megaplan + this pivot note.
 
 ### SESSION 2026-07-11 — GIANT ESCALATION ROUND (Max orch; TASK A giant #2 flagship + flywheel) — [src banked; commit pending R22]
@@ -75,7 +75,7 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > **FABLE5 QUEUE (2-day window; strategic read, Drew 2026-07-11):** Fable5's deliverable is PERMANENT IDIOMS, not matched fns → burn it on distinct HARD CLASSES (reach-134 giants + the 2 walls + new-class exemplars), NOT unique-shape behemoths (×1, worst ROI, non-transferable, LAST). Run **parallel-isolated agents** (NOT one batched agent — context-accumulation makes batching ~N× costlier; the §31 map already amortizes the compiler-source read), **distill after each**, let cheap-Opus mop up transfers. Queue: (1) the 3 walled giants [recon done]; (2) the 2 permanent walls func_801412A8 (198×134, S11 LUID×alloc) + func_80178004 (165×134, matched-with-pins → needs pin-free); (3) func_80166690 (193×134), func_8017C294 (246×15); (4) new-class small walls func_801778A8 (iv-combine). The cheap flywheel (≤180-ins draftable) + the **5.9 MB matched-free propagation** run ALONGSIDE (no Fable5), anytime.
 
 > **📊 THREE metrics (`progress.py --weighted`; regen every `make report`):** fn-count 74.58% (×134-inflated), **instr-weighted 57.7%** (the decomp.dev-DISPLAY number, shipped .text), distinct-code 29.3% (each unique fn once, the distinct-RE truth; ~74k unique-monster tail is the long grind). Executable code only (resident+134 overlays; main EXE excluded).
-> **✅ TASK A — GIANT CAMPAIGN batch 1 DONE (2026-07-11, Max orch; 3 giants banked ×134, R22 136/136 GREEN, instr-weighted 56.8→57.7%, distinct 27.3→29.3%):** 6 cheap-Opus crackers (+1 Fable5 for giant #1) over the 6 frontier giants (209–399 ins, all remap-clean 133/133). **BANKED ×134 (3):** `func_80166994` (369, §43 K&R s16-param, Fable5, COMMITTED commit:0513) · `func_80135480` (258, block-scoped-pointer-split §44#3) · `func_80163EC8` (234, cross-jump-duplicated-tail §44#4, 1 benign `$v0` pin). **6 reusable levers → cookbook §43 + §44** (§43 K&R + §43-extension callee-stash + pointer-var-decl + block-scoped-split + cross-jump-tail + the intrinsic-wall taxonomy). R14: giant #1's prior "MATCH" note was STALE/FALSE; **§43 does NOT universally transfer — only 1 of 6 was K&R-s16; each giant is its own class.**
+> **✅ TASK A — GIANT CAMPAIGN batch 1 DONE (2026-07-11, Max orch; 3 giants banked ×134, R22 136/136 GREEN, instr-weighted 56.8→57.7%, distinct 27.3→29.3%):** 6 cheap-Opus crackers (+1 Fable5 for giant #1) over the 6 frontier giants (209–399 ins, all remap-clean 133/133). **BANKED ×134 (3):** `func_80166994` (369, §43 K&R s16-param, Fable5, COMMITTED c62fe7f7e) · `func_80135480` (258, block-scoped-pointer-split §44#3) · `func_80163EC8` (234, cross-jump-duplicated-tail §44#4, 1 benign `$v0` pin). **6 reusable levers → cookbook §43 + §44** (§43 K&R + §43-extension callee-stash + pointer-var-decl + block-scoped-split + cross-jump-tail + the intrinsic-wall taxonomy). R14: giant #1's prior "MATCH" note was STALE/FALSE; **§43 does NOT universally transfer — only 1 of 6 was K&R-s16; each giant is its own class.**
 > **🔁 THE 4 GIANT SEEDS → ESCALATION ROUND (permuter-first, then Fable5). Seeds in `.run/giants/func_*.c` + `.run/giants_seeds.txt`; §44#5 = the intrinsic-wall taxonomy. Bodies are pin-free/×134-clean once cracked:**
 >   - `func_80133CD4` (399, **FLAGSHIP**) — close≈30 true (pin-free), §37 allocno-tie (caller-vs-callee `s0v→$v0`-vs-`$s0`); §43-double-copy already in the body. NO //@EDIT/ec_edit. → **Fable5 §34 gdb-on-cc1 `find_reg`/`post_mark_life`** (the clearest Fable5 target).
 >   - `func_8014D820` (304) — close=67, **PIN-FREE** (RC-6/S3 pressure-lock). **ec_edit:** engine_core.h `DEFINE_func_8014D790` `extern void func_8014D820(s32,void*,void*)` → `extern s32` (byte-neutral, caller discards). → **permuter-first NOW** (pin-free).
@@ -113,7 +113,7 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > decision-log corrected. **LESSON (R14): trace a tool's real exception, not its summary label.**
 
 > **WAVE 4 (2026-07-10c, Max orch + Ultracode fan-out over the FRONTIER MAP) — COMMITTED, R22 clean-fleet 136/136 GREEN, fleet 73.97% → 74.36% (+1350 fns):**
-> Built the systematic **frontier map** (`docs/phase25-frontier-map.md`, committed commit:0506): endgame = 42 draftable
+> Built the systematic **frontier map** (`docs/phase25-frontier-map.md`, committed b09916943): endgame = 42 draftable
 > (crack) + 235 matched-free (propagate) + 2481 absent; `rtu_match`-measured all 42 → 37 crack targets. Crack fan-out
 > `wf_b54b5d98-380` (26 tractable-band exemplars, ~2.36 M tok): **24/26 MATCH**. Gated → **20 banked byte-identical**
 > (incl. the **22×1996** func_8014FBC0 inline-asm trampoline + the **27×539** func_80132144; func_8016CF04 via the
@@ -194,14 +194,14 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > func_80141A60 133 siblings ALL byte-DRIFT (frame-pad lever is ov077-specific, doesn't remap per-sibling →
 > frame-pad families are EXEMPLAR-ONLY, not ×134-sweepable — backlog); func_80180F10 = standalone (no h_norm
 > siblings). **BATCH = 4 exemplars + 266 siblings = 270 new matched fns.** `family_sweep --commit` AUTO-COMMITTED
-> (commit:0500, src/ov_*/*.c only, no ROM — R6/H1 OK; Drew pushes) — note it committed BEFORE R22 (running `bfpt9lgm0`);
-> revert commit:0500 if R22 ≠ 136/136. Banked-but-not-swept-cleanly func_80141A60 stands as exemplar (+1).
+> (0d28aed67, src/ov_*/*.c only, no ROM — R6/H1 OK; Drew pushes) — note it committed BEFORE R22 (running `bfpt9lgm0`);
+> revert 0d28aed67 if R22 ≠ 136/136. Banked-but-not-swept-cleanly func_80141A60 stands as exemplar (+1).
 > **F-band ≤28 residual after this wave:** 3 real-TU-drift (func_80136824/8017B614/80164930) + 2 near
 > (func_801365B8 c=2 / func_8012E364 c=6) + 4 schedule/jtbl/iso-drift (func_8017EF50 c=4-perm-softened /
 > func_80168828 c=5 / func_8012FCC4 / func_801549F8 jtbl / func_8017B490 real-TU). func_80141A60's 133 frame-pad siblings.
 > **✅ R22 CLEAN-FLEET 136/136 GREEN** (corrected recipe: `make clean` nukes asm/, so re-extract ALL 136 via
 > `for b in $BINS; do make extract BINARY=$b; done` THEN check-all — cookbook §42c). **Fleet 73.66% → 73.73%**,
-> dedup 1813, NON_MATCHING 7 (0 in default build). Commit `commit:0500` (src banks) VERIFIED. Cookbook **§42** written
+> dedup 1813, NON_MATCHING 7 (0 in default build). Commit `0d28aed67` (src banks) VERIFIED. Cookbook **§42** written
 > (density-lever catalog + 3 tooling gotchas). Doc checkpoint commit next. F-band ≤28 wave = **DONE** (4/9 banked,
 > residuals backlogged above); NEXT F-band sub-tiers = 29–100 §31-Opus band + the residual re-cracks (memcpy-class
 > func_8017B614, jtbl func_801549F8) + func_80141A60's frame-pad siblings (per-sibling frame analysis).
@@ -215,9 +215,9 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > workers MUST do this, not isolation-only.** DURABLE LEVER (cookbook): memcpy-builtin→CALL fix = replace `memcpy(x,y,8)`
 > with `typedef struct{u8 b[8];}Blk8; *(Blk8*)x=*(Blk8*)y;` (routes emit_block_move lwl/lwr/swl/swr, references NO memcpy
 > symbol → immune to the TU-wide builtin-disable; mirrors sibling func_8017B368's SV4 struct-assign idiom).
-> **✅ WAVE 2 R22 CLEAN-FLEET 136/136 GREEN. Fleet 73.73% → 73.85%.** Sweep 399/0 (`commit:0502`); cookbook §42a written
+> **✅ WAVE 2 R22 CLEAN-FLEET 136/136 GREEN. Fleet 73.73% → 73.85%.** Sweep 399/0 (`8bfb7694b`); cookbook §42a written
 > (real-TU-verify rule + memcpy fix + 5 levers). **SESSION TOTAL: fleet 73.66% → 73.85% (+0.19%, ~673 fns): wave 1
-> 4 exemplars + 266 siblings (commit:0500/commit:0501), wave 2 4 exemplars + 399 siblings (commit:0502).** dedup 1813,
+> 4 exemplars + 266 siblings (0d28aed67/67a8fe670), wave 2 4 exemplars + 399 siblings (8bfb7694b).** dedup 1813,
 > NON_MATCHING 7 (0 in default build). **NEXT (fresh session recommended, phase OPEN): WAVE 3 with the real-TU-verify
 > rule (§42a) baked into the worker prompt** over: the 5 wave-2 iso-drift fns (func_80136824/80164930/8014DD8C/8016C188/
 > 80168828) + the 5 nears (func_80134A74 c=16, func_80133AB0 c=28, func_8012FCC4 c=3, func_80185BA4 c=65, func_801670E4 c=70)
@@ -235,7 +235,7 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > DIRECT `register __asm__("$21")` pins OFTEN BACKFIRE on giants (wreck prologue save-birthing) — density levers beat them.
 > **T7 MECHANICAL DONE (2026-07-10, Opus-Max):** the curriculum's mechanical tiers are banked + swept ×134,
 > fleet **72.29% → 73.66% (+1.37%, ~4,694 fleet fns)**, R22 clean-fleet **136/136** at every checkpoint,
-> dedup 1813/0, 0 NON_MATCHING. Commits: M1 `commit:0495`, M2 `commit:0496`, M3 `commit:0497`. Tools:
+> dedup 1813/0, 0 NON_MATCHING. Commits: M1 `5b94a8247`, M2 `c908c3913`, M3 `1ea7c2925`. Tools:
 > `tools/t7_bank.py` (M1 driver), `canon_sig_reconcile` **v3.2** (5 defects + type-uniquify fixed),
 > `family_sweep --reconcile` (the ×134 per-sibling re-reconcile). See the T7 log below + cookbook §41a/b/c.
 > **M4 RESOLVED 2026-07-10 — NOT mechanical (0/8 via reconcile_decls, R14 correction, cookbook §41b-addendum):**
@@ -262,8 +262,8 @@ idiom curriculum → sweep one exemplar per family (curriculum-ordered), each cr
 > permuter ≤28-band first, then §31-Opus, Fable5 only on new-idiom evidence — R27 prompt) + 2 tiny `_o0` drafts.
 > T7 discipline: re-reconcile at bank time (TU mutates); good-sha from `config/check.*.sha` (NEVER hand-typed); R22
 > clean-fleet after first-5 banks and every batch; probe≠gate (jal-symbol-blind) — harvest_verify is the sole arbiter.
-> **T6 HAND-OFF (2026-07-09):** Step A (measure wave) DONE — 125/127 exemplars measured, batches 1–3 complete, def-side wall cracked (`canon_sig_reconcile.py`, cookbook §41), fleet **72.29%** committed `commit:0492`. **The mechanical reconcile-sweep is NOT the clean 51-target ×134 win first hoped (R14-corrected: the frontier "match" status carried un-verified agent claims; a 5-sample spot-check = 3/5 genuine, and even genuine MATCHes hit VARIED walls — callee-sig conflicts, non-identical types Vec3/SVEC, macro-local data). ~19/51 have clean engine_core.h canonicals = the reliable mechanical tier; the rest need per-fn work → this is genuinely the Fable5/T6 residual.** So NEXT = **T6: Fable5Max authors the crack curriculum** from the measured frontier + the diagnosed wall-classes → the full input package is **`docs/phase25-t6-fable-brief.md`** (self-contained; read it first). Then T7 executes the curriculum (back at Opus-Max + surgical tiers). Drew: start the fresh session AS Fable5 (session model), confirm the system-reminder (R27).
-> **BATCH-3 DONE (measured, banking deferred to T7) — PAUSED 2026-07-09 at Drew's request.** The 3 `_o0` giants (`func_8013C414`/329, `func_8013BD74`/198, `func_8013C0F8`/154, all inst=134) drafted (Workflow `wf_f22bdea4-50d`, drafts `.run/drafts-t5-batch3/`): **3/3 isolation-MATCH at -O0** (R14-verified via new **`match_one.py --o0`**). But **0 banked** — all 3 hit an **-O0 in-context byte-diff** (compile OK, SHA differs; NOT the def-side sig wall — `canon_sig_reconcile`'s void→s32 return change is NOT byte-neutral at -O0, and `gate_stage`'s call-site transforms don't fix it either → 3 near). Cause = callee canonical sigs changing -O0 call codegen; needs an **-O0-specific reconcile (T7)**. Frontier updated: **125/127 draftable measured** (2 tiny `_o0` stragglers left: `0x8013bc7c`/24, `0x8013bcdc`/22). `func_801457A4` = whale-region -O0 tail, deferred. **Uncommitted (safe on ext4):** `tools/match_one.py` (--o0 flag), `docs/backlog.md` (gate re-render), this file. No src/ banks (tree = committed commit:0492 state).
+> **T6 HAND-OFF (2026-07-09):** Step A (measure wave) DONE — 125/127 exemplars measured, batches 1–3 complete, def-side wall cracked (`canon_sig_reconcile.py`, cookbook §41), fleet **72.29%** committed `20747321c`. **The mechanical reconcile-sweep is NOT the clean 51-target ×134 win first hoped (R14-corrected: the frontier "match" status carried un-verified agent claims; a 5-sample spot-check = 3/5 genuine, and even genuine MATCHes hit VARIED walls — callee-sig conflicts, non-identical types Vec3/SVEC, macro-local data). ~19/51 have clean engine_core.h canonicals = the reliable mechanical tier; the rest need per-fn work → this is genuinely the Fable5/T6 residual.** So NEXT = **T6: Fable5Max authors the crack curriculum** from the measured frontier + the diagnosed wall-classes → the full input package is **`docs/phase25-t6-fable-brief.md`** (self-contained; read it first). Then T7 executes the curriculum (back at Opus-Max + surgical tiers). Drew: start the fresh session AS Fable5 (session model), confirm the system-reminder (R27).
+> **BATCH-3 DONE (measured, banking deferred to T7) — PAUSED 2026-07-09 at Drew's request.** The 3 `_o0` giants (`func_8013C414`/329, `func_8013BD74`/198, `func_8013C0F8`/154, all inst=134) drafted (Workflow `wf_f22bdea4-50d`, drafts `.run/drafts-t5-batch3/`): **3/3 isolation-MATCH at -O0** (R14-verified via new **`match_one.py --o0`**). But **0 banked** — all 3 hit an **-O0 in-context byte-diff** (compile OK, SHA differs; NOT the def-side sig wall — `canon_sig_reconcile`'s void→s32 return change is NOT byte-neutral at -O0, and `gate_stage`'s call-site transforms don't fix it either → 3 near). Cause = callee canonical sigs changing -O0 call codegen; needs an **-O0-specific reconcile (T7)**. Frontier updated: **125/127 draftable measured** (2 tiny `_o0` stragglers left: `0x8013bc7c`/24, `0x8013bcdc`/22). `func_801457A4` = whale-region -O0 tail, deferred. **Uncommitted (safe on ext4):** `tools/match_one.py` (--o0 flag), `docs/backlog.md` (gate re-render), this file. No src/ banks (tree = committed 20747321c state).
 > **BATCH-2 DONE — DEF-SIDE WALL CRACKED MECHANICALLY (2026-07-09); R22 verifying, then COMMIT.** 29 non-`_o0` un-measured giants drafted (Workflow `wf_9ce827ee-933`, drafts `.run/drafts-t5-batch2/`); **16 R14-isolation-MATCH** (`.run/t5_batch2_verify.json`) but **0 auto-banked** — ALL blocked by the **def-side canonical-sig wall** (drafts use Ghidra-typed sigs conflicting with the engine_core.h canonical, which lives inside `DEFINE_func_*` macros so `sig_unify` can't reach it). **CRACKED** → new tool **`tools/canon_sig_reconcile.py`** (strip ambient-dup typedefs/externs → rewrite def to canonical sig → **cast changed params AT USE, never intermediate locals** [locals shift regalloc → byte-diff, measured `70ff4748`≠`d19c9580`]). Cookbook **§41** + decision-log **R31 entry** written (R30/R31).
 > **BANKED 5 giants mechanically:** `func_8013B274 func_80130D48 func_80167DBC` (swept **×134**) + `func_8016DC20 func_8018514C` (exemplar-only — reconciled body carries ov-specific decls, siblings failed remap). ~404 new fn-defs. Frontier map appended (29 giants → `.run/t5_frontier.jsonl`: 13 near, 11 wall, 5 banked).
 > **11 walls backlogged (per-fn T7):** non-identical ambient types (`func_80167AE0` SVEC, `func_8016A290` ApplyMatrixSV), macro-local data symbols (`func_80162438` D_80078EB0, `func_80161E08` D_801D9670, +others `reconcile_decls`/§33 territory), `u8` primitive redef (`func_8016CF04`), byte-diff (`func_801824D0`). **13 nears** = permuter-ILS/Fable5 fuel (`func_80134C20` c=3, `func_801365B8` c=11, `func_80136824` c=28 closest).
@@ -286,8 +286,8 @@ pre-advanced seeds. Bank free wins via `gate_stage` as they land. **This is BREA
 for `/effort ultracode` and WAIT for the toggle (R27); Claude cannot set effort.** Tools: `wave_targets.py` /
 `gen_harvest_targets.py`, `tools/workflows/worker_wave.js` + `distill.js`, `permuter_ils.py`, `bulk_harvest.py`.
 
-**Done + committed:** T0–T3 + T7-part-1 (matched-free sweep, `commit:0476`) + **T7.2 decl-reconcile** (`commit:0479`) +
-**T7.3 h_exact stragglers** (`commit:0481`) + **T4 (v4 retrain — FAILED, keep v3)** — fleet **66.02% → 70.82% → 71.32%
+**Done + committed:** T0–T3 + T7-part-1 (matched-free sweep, `c993029f0`) + **T7.2 decl-reconcile** (`903d59472`) +
+**T7.3 h_exact stragglers** (`c62f85371`) + **T4 (v4 retrain — FAILED, keep v3)** — fleet **66.02% → 70.82% → 71.32%
 → 71.36%**. T7.2 banked **1,729** (base 532 + `_after` 1,197) via type-lift + mechanical remap; T7.3 banked **~200**
 via `dedup_propagate`; **R22 clean-fleet 136/136** every batch, dedup-check 1813/0.
 
@@ -306,7 +306,7 @@ and `_a` defines `MATRIX`/`VECTOR` = PsyQ SDK names (fleet-wide lift SHADOWS the
 = base types + `_after` minus `Buf`. New tool knobs: `build_engine_types --file <split.c>` + `--exclude <names>`.
 
 **NEXT — resume the planned order (T7-mechanical was pulled ahead):**
-1. ✅ T7.1 surveys · ✅ T7.2 decl-reconcile (1,729; `commit:0479`) · ✅ T7.3 h_exact stragglers (~200; `commit:0481`).
+1. ✅ T7.1 surveys · ✅ T7.2 decl-reconcile (1,729; `903d59472`) · ✅ T7.3 h_exact stragglers (~200; `c62f85371`).
 2. **T4 — v4 retrain + A/B gate** *(xHigh pipeline; Max to judge A/B)*. Retrain v4 on the Phase-23/24 banked-idiom
    corpus; A/B vs v3 (`ab_match.js`/`ab_score.py`). Keep v4 in the wave only where it beats v3. $0 to run.
    (`models/bfm-match-7b-v3` is the current; doc `docs/gen2-mips-matching-model.md`.)
@@ -354,7 +354,7 @@ None.
     near-free; 2 permanent walls `func_801412A8`/`func_80178004` stay INCLUDE_ASM (G4).
 
 ### T1 — Integration-recovery pass ✅ (2026-07-08) — cheap cohort exhausted; deliverable = the split-aware fix
-- **Deliverable (committed `commit:0470`):** `recover_integration` made split-aware (§39 gap). It was silently
+- **Deliverable (committed `d7b877f12`):** `recover_integration` made split-aware (§39 gap). It was silently
   skipping the **263-stub `ov_SC01_077_after`** cohort (drift-check hardcoded the main asm subdir; gate_stage
   never got src/asm/src_file). Now `stub_map()` reads each stub's asm subdir from its INCLUDE_ASM line and
   `reconcile_and_gate` gates per split-file group (run_gate self-filters; propagate idempotent). Reusable T5/T7.
@@ -401,10 +401,10 @@ None.
 - **Endgame reshaped:** the 11.1 MB h_norm families are cheaply, MECHANICALLY recoverable — crack ONE exemplar per
   family → remap+gate members (~0 agent tokens/member). Members no longer need drafting; only exemplars do.
 
-### T7 (part 1) — MECHANICAL family sweep: matched-free harvest ✅ (2026-07-08, `commit:0476`)
+### T7 (part 1) — MECHANICAL family sweep: matched-free harvest ✅ (2026-07-08, `c993029f0`)
 - Built `tools/family_sweep.py` (two-phase: stage all remaps per overlay, gate each (overlay,split) group ONCE via
   plain `harvest_verify`; a `match_one` pre-classify defers compile-failing type-using families to avoid bisection
-  blowup). Driver validated on `func_80141100` (133/133 banked, committed `commit:0475`).
+  blowup). Driver validated on `func_80141100` (133/133 banked, committed `03601b044`).
 - **BANKED 16,512 member-matches** (131 simple exemplars × ~133 siblings) + the 133 validation; **0 remap-fail**.
   **R22 clean-fleet verify: 136/136 byte-identical** from a fully clean tree (make clean + extract-all + check-all).
   **Fleet 66.02% → 70.82%** (+4.8% in ONE deterministic, ~0-agent-token pass). dedup-check 1813/0.
@@ -412,7 +412,7 @@ None.
 - 683 / 17,195 simple drafts failed the whole-binary gate (match_one-MATCH but TU-context diff, ~4%; auto-reverted).
 - **Reproduce:** `family_sweep.py --limit 0` (after `make sig-overlays`). The remap is `family_remap.py`.
 
-### T7.2 — decl-reconcile the 29 type/decl families ✅ (2026-07-08, `commit:0479`) — 1,729 banked; split-TU wall found
+### T7.2 — decl-reconcile the 29 type/decl families ✅ (2026-07-08, `903d59472`) — 1,729 banked; split-TU wall found
 - **T7.1 refresh:** `make sig-overlays` (134 re-signed) + `family_manifest.py` — levers unchanged (2,764 families;
   127 draftable / 156 matched-free) because they key on ov077 membership, which the 16.5k sibling-banks didn't change.
 - **Base type-lift:** `build_engine_types --source ov_SC01_077 --strip` lifted 4 base-local types (`MatEntry`,
@@ -432,7 +432,7 @@ None.
 - **Reproduce:** `build_engine_types --source ov_SC01_077 --strip` ; `build_engine_types --file
   src/ov_SC01_077/ov_SC01_077_after.c --exclude Buf --strip` ; `family_sweep --only <29 addrs> --no-preclassify`.
 
-### T7.3 — edge-case triage: 2 h_exact stragglers banked ✅ (2026-07-08, `commit:0481`) — +~200 members
+### T7.3 — edge-case triage: 2 h_exact stragglers banked ✅ (2026-07-08, `c62f85371`) — +~200 members
 - Triaged the 8 T7-part-1 edge cases (4 diff + 4 remap-fail). **Finding:** the 4 remap-fails are matched in ov077 via
   the `DEFINE_func_<ADDR>()` engine-core MACRO (§11 h_exact source-share), NOT an inline def — so `family_remap`'s
   `extract_unit` (keys on a `func_<ADDR>(` DEFINITION) can't extract them. 2 of them (`func_80128EA8`, `func_80132EC4`)
@@ -445,7 +445,7 @@ None.
 
 ## SESSION PROGRESS (2026-07-08) — T7-mechanical pulled ahead; phase OPEN (T4→T5→T6→T7-cracking remain)
 **This session (T7.1–T7.3, all committed, R6 = Drew pushes):** fleet **70.82% → 71.36%**; **+1,929 member-matches**
-(T7.2 1,729 via type-lift+remap `commit:0479`/`commit:0480`; T7.3 ~200 via h_exact propagation `commit:0481`/`commit:0482`).
+(T7.2 1,729 via type-lift+remap `903d59472`/`aa0736a4f`; T7.3 ~200 via h_exact propagation `c62f85371`/`744cb59de`).
 Every batch R22 clean-fleet **136/136**, dedup-check 1813/0. Tools added: `family_sweep --no-preclassify`;
 `build_engine_types --file/--exclude`. Cookbook **§40a** written (R30). **NEXT = T4** (see the RESUME section above);
 NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's core, still ahead.
@@ -536,7 +536,7 @@ NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's 
 ### T7 — EXECUTE the crack curriculum: mechanical tiers M1/M2/M3 (2026-07-10, Opus-Max orchestrator, ~0 agent tokens)
 **Fleet 72.29% → 73.66% (+1.37%, ~4,694 fleet fns); R22 clean-fleet 136/136 at every checkpoint; dedup 1813/0; 0 NON_MATCHING (G4).**
 
-- **M1 (commit `commit:0495`) — 37 exemplars banked ×1.** `tools/t7_bank.py` (reconcile-at-bank-time + `harvest_verify`
+- **M1 (commit `5b94a8247`) — 37 exemplars banked ×1.** `tools/t7_bank.py` (reconcile-at-bank-time + `harvest_verify`
   whole-binary gate; chunk-bet + per-round re-reconcile for cross-fn ambient mutation; giants first). Two
   `canon_sig_reconcile` fixes surfaced during execution: (a) **v3.2 uniquify ALL draft-defined type names + struct
   tags** to `<name>_<addr>` (the `redefinition of struct Fr` inter-draft-collision class when many exemplars bank
@@ -545,11 +545,11 @@ NOT closing — the curriculum + 127-draftable exemplar-cracking is the phase's 
   (3 `_o0` giants + `func_8012ACE0`) have byte-perfect `.text` but a switch **jump table in rodata** diverges
   (REFUTES the T6 "Q3 -O0 REFUTED" claim → F-jumptable); **3 last-referencer link-walls** (`func_8016D688/D1D8/165240`)
   C-ify the only asm referencer of a scratch data symbol → `ld undefined reference` → M-linkwall.
-- **M2 (commit `commit:0496`) — 4,389 members swept ×134.** `family_sweep --reconcile`: per (exemplar, sibling),
+- **M2 (commit `c908c3913`) — 4,389 members swept ×134.** `family_sweep --reconcile`: per (exemplar, sibling),
   symbol-remap the RAW draft then **RE-RUN canon_sig_reconcile against THAT sibling's TU** (the Q5 law — plain
   remap of the ov077-reconciled body banks 0; per-sibling reconcile banks 94%). 4,389/4,655 (266 per-sibling
   loose-typing-wall misses → backlog). cookbook §41c.
-- **M3 (commit `commit:0497`) — 2 no-proto exemplars + 266 swept.** Rewrote 4 clean fns' `engine_core.h` macro-internal
+- **M3 (commit `1ea7c2925`) — 2 no-proto exemplars + 266 swept.** Rewrote 4 clean fns' `engine_core.h` macro-internal
   externs to no-proto (10 byte-neutral decl edits); banked `func_8012D664`+`func_8015D01C`, swept 266/266 (100%).
   The fleet-wide EC change R22-verified neutral (136/136). 4 residue deferred.
 

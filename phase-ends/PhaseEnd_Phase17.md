@@ -28,7 +28,7 @@
   is BUILT; the "~2× lever" framing was wrong; the gate pipeline is now **draft → `sig_unify` (MANDATORY) →
   `harvest_verify --chunk 1`**; the finding + the leverage analysis + the deferred-wave handoff.
 
-*Earlier this phase (sessions 1–3, already committed `commit:0132`→`commit:0139`):*
+*Earlier this phase (sessions 1–3, already committed `1431b523a`→`f0dd9351e`):*
 - `tools/wall_taxonomy.py` + `docs/wall-taxonomy.md` (T1 census); the T3 K&R sig_unify wins (+0.52%);
   `tools/ram_probe.py` + `docs/actor-struct.md` + `.run/actor_*` (T5 actor struct, recovered + live-verified,
   byte-neutral for matching); the guided-hand-matching demo + idioms; `docs/hand-matching-process.md` (created,

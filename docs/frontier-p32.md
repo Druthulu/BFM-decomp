@@ -102,7 +102,7 @@ asserts the residue-0 partition (UNCLAIMED = 5).
   main → `tools/gate_main.py <slate.json> --apply` (clean rebuild; main TUs must be clean; its pre-check names
   decl clashes → `sync_tu_decls` / `cast_self_callers --sync-decls`, committed byte-neutral first). **Commit every
   bank immediately (R42)**, then `tools/twin_rescan.py`.
-* **The permuter is now honest on pinned and K&R seeds** (§493 S80 correction, `commit:3890`): `tools/permuter_ils.py
+* **The permuter is now honest on pinned and K&R seeds** (§493 S80 correction, `7fbdb8fd6`): `tools/permuter_ils.py
   <fn> --draft <seed> --asm-subdir <dir> --klass REGALLOC|SCHEDULE --cycles 8 --secs 150 --j 3`; it re-hides pins on
   every warm restart, aborts exit-2 on a refusal, and flushes its log. **Read a waypoint's diff (`match_one`) before
   recording its score** — one S80 "1" was a divergent store rewrite. Winners → `tools/p16_permute.winner_to_draft`

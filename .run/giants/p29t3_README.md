@@ -2,7 +2,7 @@
 
 **Provenance:** two ultracode `worker_wave` runs (2026-07-16/17), ~2.6M agent tokens total. Every draft here
 is either a **match_one MATCH** (relocation-masked byte-correct, standalone) or a characterized near-miss.
-The 5 that banked cleanly are already in `src/` (commits `commit:0668`, `commit:0669`) and are NOT duplicated here.
+The 5 that banked cleanly are already in `src/` (commits `b5340f920`, `fd564a2cf`) and are NOT duplicated here.
 
 **Why preserved (R20):** reproducing these costs ~2.6M tokens. Each is blocked on *integration plumbing*,
 not codegen — a fresh session can bank several cheaply with the named fix.
@@ -24,7 +24,7 @@ draft STANDALONE, so it is blind to the member TU's conflicting decls. The whole
 | `p29t3_func_8013C414.c` | **329** | **`_o0.c` (-O0!)** | MATCH 329/329 **at -O0** | **§8a rodata island**: needs `jtbl_801D836C` (27 entries @ `0x801D836C`, still nonmatching in `asm/ov_SC01_077/data/tail3.data.s`) carved into a `.rodata` subseg co-located with its code object + `ld_interleave --section`. A matched jr-fn's C emits its jtbl into `.rodata` (section_order floats it FRONT) while the raw copy stays in the data tail ⇒ duplicate + wrong address. See `config/splat.ov_SC01_077.yaml` lines 78-86 (the `func_8012ACE0` / `jtbl_801D8078` PoC). |
 
 **-O0 note:** `func_8013C414` only matched because `worker_wave` now passes `--o0` to `match_one` (committed
-`commit:0670`). Against an `-O2` self-check it can never match — the wrong-build-step trap (§53/§54, Task-1).
+`c91611529`). Against an `-O2` self-check it can never match — the wrong-build-step trap (§53/§54, Task-1).
 
 ## B. Wave-1 leftovers — byte-correct or near, not banked
 
@@ -46,9 +46,9 @@ draft STANDALONE, so it is blind to the member TU's conflicting decls. The whole
 **✅ DONE (both NON-jtbl giants, fully banked + propagated fleet-wide):**
 - **`func_8013FAF8` (312)** — banked x1 (cookbook §56 multi-symbol reconciliation) + **propagated x137**
   via `family_sweep --hseq` (h_seq family; §56b — align the exemplar's callee externs to fleet-canonical
-  first or it banks 0/137). Commits `commit:0673`, `commit:0675`. ~+42.7k ins.
+  first or it banks 0/137). Commits `def16c8b1`, `c5e8af5cf`. ~+42.7k ins.
 - **`func_8014F4C0` (141)** — banked x1 (clean; earlier reject was §55b propagate-damage) + **propagated
-  x134** via `dedup_propagate --recover` (h_exact). Commit `commit:0674`. ~+19k ins.
+  x134** via `dedup_propagate --recover` (h_exact). Commit `c7fedced1`. ~+19k ins.
 
 **⏸ DEFERRED — the 4 jtbl giants are BLOCKED on ONE tooling gap (the teed-up next-session task):**
 `func_80131340` (424), `func_80159C84` (337, +a trivial D_801891B8 (u8*/void*) plumbing fix),

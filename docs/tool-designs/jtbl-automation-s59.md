@@ -175,10 +175,10 @@ $ .venv/bin/python tools/jtbl_lane.py --targets func_8017DCC0@ov_SC03_014 --draf
 [12:20:27] jtbl lane: 1 target(s): func_8017DCC0@ov_SC03_014[tail]
 [12:20:27]   waiting for the campaign draw lock (gates never overlap) …
 [12:20:27]   gating func_8017DCC0@ov_SC03_014 (per-binary flock + shared lock; the gate carves)
-[12:23:48]   BANKED func_8017DCC0@ov_SC03_014 -> commit commit:2661
+[12:23:48]   BANKED func_8017DCC0@ov_SC03_014 -> commit b801b499e
 ```
 
-Byte evidence (commit `commit:2661`, live campaign running throughout):
+Byte evidence (commit `b801b499e`, live campaign running throughout):
 
 | check | before | after |
 |---|---|---|
@@ -190,7 +190,7 @@ Byte evidence (commit `commit:2661`, live campaign running throughout):
 
 ### 6b. md_SC03_076 / func_801F218C — `covered` class (83 ins; §260 stage 2, the missing half)
 
-The committed S59 split (`commit:2646`) proved stage 1 (stub state byte-neutral). This bank is
+The committed S59 split (`a931423c7`) proved stage 1 (stub state byte-neutral). This bank is
 stage 2: the matched C emits the table itself into the jr object at the same address.
 **First md_* jr function ever banked.**
 
@@ -201,10 +201,10 @@ MATCH (83 ins)  func_801F218C
 
 $ .venv/bin/python tools/jtbl_lane.py --targets func_801F218C@md_SC03_076 --draft-dir .run/s59_jtbl/drafts
 [12:24:21] jtbl lane: 1 target(s): func_801F218C@md_SC03_076[covered]
-[12:26:58]   BANKED func_801F218C@md_SC03_076 -> commit commit:2663
+[12:26:58]   BANKED func_801F218C@md_SC03_076 -> commit bad793c73
 ```
 
-| check | stub state (§260 stage 1, commit `commit:2646`) | matched (commit `commit:2663`) |
+| check | stub state (§260 stage 1, commit `a931423c7`) | matched (commit `bad793c73`) |
 |---|---|---|
 | whole-binary sha1 | `9a165e368009a79bcc2ebb06bcb13e6da20d460e` | **`9a165e368009a79bcc2ebb06bcb13e6da20d460e`** — identical bytes |
 | `md_SC03_076.o` `.rodata` | 0x268 | 0x268 |
@@ -232,7 +232,7 @@ MATCH (83 ins)  func_801E5358
 
 $ .venv/bin/python tools/jtbl_lane.py --targets func_801E5358@md_SC03_135 --draft-dir .run/s59_jtbl/drafts
 [12:27:28] jtbl lane: 1 target(s): func_801E5358@md_SC03_135[island-end]
-[12:27:29]   BANKED func_801E5358@md_SC03_135 -> commit commit:2664
+[12:27:29]   BANKED func_801E5358@md_SC03_135 -> commit f74ad7ac8
 ```
 
 Yes, ~1.1 s wall for the WHOLE §260 pipeline — splice → island refusal → `jr_isolate_all --only`
@@ -243,7 +243,7 @@ it: the artifact mtimes show the ld at 28.54 s, the re-extracted jr `.s` at 28.8
 two TUs; its splat and cc1-2.7.2 really are that fast. (The ov gate above took ~40 s of real
 work — a 30-TU overlay.)
 
-| check | before (virgin) | after (commit `commit:2664`) |
+| check | before (virgin) | after (commit `f74ad7ac8`) |
 |---|---|---|
 | whole-binary sha1 | `b901fda5…` (locked) | **`b901fda523c83376bd8b7f1c57104d8e13aef5e4`** == `config/check.md_SC03_135.sha` |
 | config | `[0x0 island][0x27C c]` | + `[0x268, .rodata, md_SC03_135_jr_801E5358]` **and** + `[0x2d70, c, …_jr_801E5358]` — split AND isolation, both inserted by the gate |

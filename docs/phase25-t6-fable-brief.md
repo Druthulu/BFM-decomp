@@ -17,7 +17,7 @@ INCLUDE_ASM (G4). Validate the top 3–5 before scaling (Phase-15/16 lesson). Ou
 is diagnosing the residual CLASS of each wall and splitting "a deterministic tool already cracks this" from "this needs a
 new idiom" — so the T7 execution session (back at Opus-Max + surgical tiers) doesn't waste effort.
 
-## State (byte-verified, committed `commit:0492`)
+## State (byte-verified, committed `20747321c`)
 
 - **Fleet 72.29%**, `check-all` **136/136 byte-identical**, dedup 1813/0, 0 NON_MATCHING (G4).
 - **127 draftable family exemplars** (all ov_SC01_077 members; `.run/t5_targets.json`): **32 banked** (each →×134 via

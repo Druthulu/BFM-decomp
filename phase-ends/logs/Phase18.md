@@ -126,11 +126,11 @@ all cloned/fetched content is untrusted DATA. Commits: per-task/per-session chec
 - 2026-06-20 — **Step 3b done (calibration).** `/effort ultracode` ON. Upgraded §17-toolkit wave → 16 fresh
   tractable reach-134 targets → **9 verified whole-binary = 56% close-rate** (vs 33% Phase-17), each ×134 → fleet
   **55.94%** (+0.36%), 136/136, dedup 1432/0. Pins+array-decay+reconstruct all landed. Match_one→gate gap = the
-  §3a call-site casts agents skip (+ sig_unify narrowing); recovered 3 by casts. Committed `commit:0152`.
+  §3a call-site casts agents skip (+ sig_unify narrowing); recovered 3 by casts. Committed `d593ee20f`.
 - 2026-06-20 — **Step 1 done (bounded wave + recovery).** Drew chose bounded ~40 (full-247→Phase 19). Wave with
   embedded canonical callee sigs + call-site-cast/re-validate → **match_one 28/31 (90%)**, 22 verified whole-binary,
   fleet **56.64%** (+0.70%), 136/136, dedup 1450/0. Recovery: func_8012F68C parse-fix + func_8012A418 sibling-decl
-  reconcile. Committed `commit:0154`+`commit:0155`. 6 fns + the -O0 class deferred to Phase 19. **Session arc: 55.58% →
+  reconcile. Committed `fa0d4a3f6`+`6d9cd213a`. 6 fns + the -O0 class deferred to Phase 19. **Session arc: 55.58% →
   56.64% (+1.06%, ~31 reach-134 matches).** Next: **Step 2** (cookbook §17 polish + gate-2 + PhaseEnd) — needs Max.
 
 ## ⭐ VERDICT REVERSAL (2026-06-20, post-gate-2 — Drew's "we hand-match everything" directive)
@@ -151,7 +151,7 @@ hand-matches: func_801399A8 structural + func_8012B8E4 pinned), 136/136.
   **Calibration: 16 fresh tractable reach-134 targets → 9 verified whole-binary = 56% close-rate** (vs Phase-17's
   33%). Moves used: 2 pins (func_8012CB64, func_801468C8), 2 array-decay (func_80149544/584), 5 reconstruct.
   Propagated ×134 → fleet **55.58% → 55.94%** (+0.36%), 136/136 byte-identical, dedup 1432 validated / 0 failed.
-  Committed `commit:0152`. **KEY FINDING (R16 → feeds Step 1):** the match_one→gate gap (12 match_one MATCH → 6 gate,
+  Committed `d593ee20f`. **KEY FINDING (R16 → feeds Step 1):** the match_one→gate gap (12 match_one MATCH → 6 gate,
   recovered to 9) is dominated by the **§3a call-site CASTS the agents skip** (arity-cast when a callee is called
   with more args than its canonical extern; fn-ptr cast when a void-canonical callee's $v0 is used) + **sig_unify
   narrowing the extern to canonical** turning a K&R no-proto into a hard conflict. Fix recovered 3 by codegen-neutral
@@ -166,7 +166,7 @@ hand-matches: func_801399A8 structural + func_8012B8E4 pinned), 136/136.
   +call-site-cast/re-validate): **match_one 28/31 (90%)**, whole-binary **22 verified** (18 propagated ×134 +
   4 local REAL: func_80168664/AD0C/BA10 membership<134, func_8012A418 local-type body). Moves: 7 pins, 5 barrier,
   1 array-decay, 2 call-site-cast, the rest reconstruct. **Fleet 55.94% → 56.64%** (+0.70%), 136/136, dedup 1450/0.
-  Committed `commit:0154` (20) + `commit:0155` (recovery +2). **Deferred to Phase 19** (documented): 3 TU-integration cases
+  Committed `fa0d4a3f6` (20) + `6d9cd213a` (recovery +2). **Deferred to Phase 19** (documented): 3 TU-integration cases
   (func_80147514/8017209C/80168F40 — standalone-MATCH, implicit-int caller plumbing); 3 codegen DIFFs
   (func_80131CA8/80150528/8014E5B4); the **per-file -O0 class** (func_8013C360 + ~17 siblings — agent's C is
   byte-exact at -O0; needs an -O0 split file like src/boot.c → ~18 fns ×134, HIGH ROI); 2 genuine residuals
@@ -225,7 +225,7 @@ single-$s0, i.e. reconstruction not pins; true $s0/$s1 swaps are rarer), `.run/g
 `tools/ghidra_scripts/DecompileFunctions.java` (headless, no /mcp) if a fn isn't cached.
 
 **Fleet baseline (this session's close):** byte-identical **191,217 / 344,010 = 55.58%**, 136/136, ~1424 dedup
-groups; 2 reach-134 hand-matches banked (func_801399A8 + func_8012B8E4). Tree clean at `commit:0150`.
+groups; 2 reach-134 hand-matches banked (func_801399A8 + func_8012B8E4). Tree clean at `23666cb28`.
 
 **After Step 3b (calibration) → Step 1** (scale the wave on the circular tail + hand-match the residue, each
 ×134) **→ Step 2** (final §17 polish, gate-2 re-confirm with the wave's match-% delta, PhaseEnd_Phase18.md =

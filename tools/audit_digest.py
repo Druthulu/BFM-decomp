@@ -8,11 +8,11 @@ re-baselines, and every "is this lever paying?" call are read off its three numb
 by `tools/progress.py --fleet` from whatever tree happened to be on disk at that moment — and then
 COMMITTED, at which point nothing ever checks it again.
 
-That gap produced a real, costly false alarm. The S38 digest committed at `commit:1426` claimed:
+That gap produced a real, costly false alarm. The S38 digest committed at `10f954627` claimed:
 
     instr 12402412   distinct 5029324   (78025 uniq)
 
-The same metric recomputed from `commit:1426`'s own committed tree gives:
+The same metric recomputed from `10f954627`'s own committed tree gives:
 
     instr 12394533   distinct 5022306   (77895 uniq)
 

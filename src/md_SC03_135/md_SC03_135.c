@@ -916,7 +916,7 @@ s32 func_801E38B4(void)
  *   jtbl_801E27FC sits at island file offset 0x214 (vram 0x801E27FC, base
  *   D_801E25E8@0x0). Per cookbook §260-A the md_* leading island is a STACK:
  *   only the END-ADJACENT table converts. This module's island-end member
- *   func_801E5358 was already peeled by the gate (commit commit:2664). Island
+ *   func_801E5358 was already peeled by the gate (commit f74ad7ac8). Island
  *   stack census (verified against each .s): jtbl_801E272C @0x144 (owner is
  *   func_801E2D34 or func_801E3390 — both still INCLUDE_ASM stubs, TU :286/
  *   :288), jtbl_801E27D4 @0x1EC (func_801E38B4, stub @TU :439), THIS table
@@ -929,8 +929,8 @@ s32 func_801E38B4(void)
  *   REMEDY: bank func_801E40A8 first (same lane), then run
  *     tools/jtbl_lane.py --targets func_801E3C1C@md_SC03_135 --draft-dir <dir>
  *   (gate-time _jtbl_prep_one isolates -> island-splits -> carves; §81 chain,
- *   §88d order). Proof shapes: func_801F218C@md_SC03_076 commit commit:2663
- *   (covered), func_801E5358@md_SC03_135 commit commit:2664 (island-end).
+ *   §88d order). Proof shapes: func_801F218C@md_SC03_076 commit bad793c73
+ *   (covered), func_801E5358@md_SC03_135 commit f74ad7ac8 (island-end).
  *   DO NOT substitute a hand-emitted table or computed-goto dispatch: the
  *   gate's covered/no-op path requires cc1 itself to emit this switch's
  *   table (plain switch only).

@@ -291,7 +291,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `.rodata` 0xE0 / Al=4 / table 2 TIGHT at 0xCC — the filter ran in the real pipeline. NEXT: Step 5
   — ×137 family sweep (`jtbl_family_bank --raw`).
 - **✅ 2026-07-18 — func_80131340 family COMPLETE ×138 (the §8e mechanism's ×N proof): 137/137 siblings
-  BANKED, 0 failed.** 3 bounded chunks (50+50+37, committed per chunk `commit:0680`/`commit:0681`/`commit:0682`),
+  BANKED, 0 failed.** 3 bounded chunks (50+50+37, committed per chunk `387e224ea`/`224bf44ca`/`9b463f2f9`),
   every sibling whole-binary gated, per-sibling §8e carve+`JTBL_PADS` auto-derived from each overlay's own
   island addresses. **R22 clean-fleet: 140/140 byte-identical; tools-health green; dedup 1846/0.**
   Fleet **72.1→72.5% instr · 54.0→55.0% distinct-code · 86.61% fn-count** (~+58.5k ins from one family —
@@ -311,7 +311,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   zero-word spec rule + `tables=` persistence + `--like` role-transfer (built after the F350 pre-§8e merged-double
   archaeology); the SC07 `_o2b` composition class (fail-loud, 4 overlays); commit-per-chunk sweeps with
   auto-commit chaining. Tooling: `jtbl_carve` span-structure engine + `jtbl_rodata_pads` filter +
-  `jtbl_family_bank --like`/stub-uniqueness (commits `commit:0678`..`commit:0696`).
+  `jtbl_family_bank --like`/stub-uniqueness (commits `5e78dccf0`..`ece9c6ee8`).
   **Burn-down residuals (named):** 4× SC07 59C84-members (o2b span composition) · 137× C414 members (-O0
   rollout dependency) · the -O0 cluster rollout itself (Arm-A splat wall). Ghidra-C/Task-5, permuter
   backlog/Task-6-tail, Task-7 ROI-close remain the open phase items.
@@ -337,7 +337,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 - **✅ 2026-07-16 — Task 6 tiny-IMM mega-pools CRACKED (+4,801 members).** `0x80131eec` (2887) +
   `0x80130d0c` (2679) went from **1/4966 (0.0%)** to **pool1 2331/2470 (94%) + pool2 2470/2496 (99%) =
   4,801 banked**. Root cause (byte-proven after 3 masked-metric mis-reads — R14/R35, see decision-log):
-  NOT a symbol-definition gap (my `commit:0665` scout was WRONG) — it's a **def-signature conflict**:
+  NOT a symbol-definition gap (my `53ee97494` scout was WRONG) — it's a **def-signature conflict**:
   `engine_core.h` forward-declares the member (`extern void func_8015FAAC(s32 *a0)`, a shared fn calls it)
   while `family_remap` copies the EXEMPLAR's sig (`void *a0`) → `conflicting types` → the member TU never
   compiles (invisible to standalone diff_regions/match_one AND to --reconcile). FIX: **new
@@ -382,7 +382,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > Fleet **72.1% instr · 54.0% distinct-code · 86.57% fn-count** (session opened 71.4/53.3/86.42 → **+0.7pp instr**).
 > **This session banked ~94k ins across 4 fns ×~137 overlays:** func_8013FAF8 (312) ×137 + func_8014F4C0 (141) ×134
 > (the 2 NON-jtbl giants, fully done) + func_8014E284 (108) ×138 + func_80137DD4 (129) ×138 (the 2-core type-lift).
-> Commits `commit:0673`, `commit:0674`, `commit:0675` + the type-lift commit (Drew pushes). Cookbook **§56/§56b** added.
+> Commits `def16c8b1`, `c7fedced1`, `c5e8af5cf` + the type-lift commit (Drew pushes). Cookbook **§56/§56b** added.
 > **THE TEED-UP NEXT TASK (Drew-directed): the jtbl 8-align tooling fix** — unblocks the 4 remaining giants
 > (`func_80131340`/`func_80159C84`/`func_8013C414`/`func_8013F350`), ceiling ≈ **+1 to +1.5pp instr** (biggest lever
 > left). Root cause HALF-PINNED (do not re-derive): cc1 AND maspsx both emit the jtbl `.align 2` (correct) — the
@@ -429,7 +429,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   (the §53/§54 wrong-build-step trap, Task-1's "~3%" artifact). Drafts + exact blockers + a suggested
   cheapest-first bank order → **`.run/giants/p29t3_README.md`** (12 drafts, tracked; ~2.6M agent tokens
   to reproduce — do NOT re-draft, bank them).
-  **(b) The §53 `has_mid_jr` INTERLOCK — BUILT + negative-control-proven** (`commit:0670`): `family_sweep`
+  **(b) The §53 `has_mid_jr` INTERLOCK — BUILT + negative-control-proven** (`c91611529`): `family_sweep`
   now refuses to sweep a `has_mid_jr` family carve-less, names `jtbl_family_bank`, and states that a 0%
   from that path is a TOOL ARTIFACT not a wall. Uses the manifest's `has_mid_jr` (R33 — one oracle, shared
   with `dedup_extend`). Verified: 11 jr families / 163 slots of 1418 sweepable; `--band substantial` skips
@@ -480,7 +480,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   in the stale map → family_sweep finds 0; --reconcile-raw mishandles per-overlay externs (0/137). FIX: bank ×1 →
   `make sig-overlays` + `family_hseq.py` regen (→matched-ov077) → standard `family_sweep --hseq --only` (137/137).
   **BATCH R22: check-all 140/140 byte-identical; tools-health green; dedup 1846/0.** Fleet **73.4→73.7% instr ·
-  56.9→57.5% distinct · 86.73% fn-count**. Commit `commit:0699`.
+  56.9→57.5% distinct · 86.73% fn-count**. Commit `33ed9a909`.
 
 - **✅ 2026-07-18 — CRACK-WAVE 2 + FABLE AGENTS + TYPE-LIFT RECOVERY (Ultracode→xHigh). Fleet 73.4→74.6% instr.**
   **Two Opus crack-waves (15 fresh-core agents) + 3 Fable5 agents (gcc-2.7.2 source-readers) + a permuter track.**
@@ -495,7 +495,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   8015ea3c 134 / 8015d738 134 / 8015f448 138 / 8014ffdc 135) + type-lift recovery (8012956c **137/137**,
   801670e4 partial 4). **R22 clean-fleet 140/140 byte-identical; tools-health green; dedup 1846/0; 0 NON_MATCHING.**
   Fleet **74.6% instr · 59.4% distinct-code · 86.92% fn-count** (crack-wave arc start 73.4/56.9/86.61;
-  **session-total 72.1→74.6 = +2.5pp instr**). Commits `commit:0699`..`commit:0708`.
+  **session-total 72.1→74.6 = +2.5pp instr**). Commits `33ed9a909`..`f281c6cf4`.
   **NEW LESSONS (R30):** (a) crack-wave sweep needs a **map-regen** step (freshly-cracked exemplar is draft-ov077
   → family_sweep finds 0; bank ×1 → sig-overlays + family_hseq.py → matched-ov077 → standard sweep). (b) The
   reconcile ladder (cast_call_sites→reconcile_tu→scope_data_externs) handles most, but recurring manual fixups:
@@ -580,12 +580,12 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 
 > **🛑 SESSION-3 CHECKPOINT (2026-07-18) — safe to open a FRESH session here.** Tree clean (only db.*.gbf R23
 > churn), **140/140 byte-identical**, tools-health OK (dedup 1846/0, C1 234205/234205), 0 NON_MATCHING (G4).
-> Main `commit:0712`. Fleet **75.1% instr · 60.6% distinct-code · 87.00% fn-count** (session opened 74.6/59.4/86.92).
+> Main `65c93ea03`. Fleet **75.1% instr · 60.6% distinct-code · 87.00% fn-count** (session opened 74.6/59.4/86.92).
 > **This session delivered the DECL-NORMALIZE ENHANCEMENT (Drew's teed-up BUILD SPEC) + banked both its validation
 > families:** `func_801670E4` 4→137/137 (+133, the new §17a-1 self-decl pass, `tools/normalize_self_decls.py` +
 > `family_sweep --normalize-self-decls`, cookbook §57) and `func_8016CBC0` 1→138/138 (+137, a 6-typedef
 > engine_types.h lift — the R14 survey proved it was a DIFFERENT blocker than it looked). **+270 members, +0.5pp
-> instr**, commits `commit:0711` + `commit:0712` (Drew pushes). **NEXT levers (BUILD SPEC residue):** `func_8013D53C`
+> instr**, commits `ad11c491a` + `65c93ea03` (Drew pushes). **NEXT levers (BUILD SPEC residue):** `func_8013D53C`
 > (the DISTINCT void*-def-sig + per-sibling caller-thread class — NOT the self-decl pass), the SC07 span-composition
 > tails (§8e-2), and the permuter/Fable close-1..N backlog (Task 6). The decl-normalize pass is now a standing
 > `family_sweep` stage for any future family whose members' own callers declare F divergently.
@@ -595,7 +595,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   → cookbook **§57a**. **(1) The substantial-family frontier is NOT broadly mechanical (R14/R35):** 60 families /
   2,169 stubbed members STAGE but only **137 bank** with --fix-def-sig — staging ≠ banking; I over-projected ~1,500
   from the staged count instead of gate-probing a sample (the phase's own invariant, violated). Banked func_801502EC
-  ×134 + func_80131B14 ×3 (commit `commit:0714`). **(2) NSD is SURGICAL-ONLY:** broad `--normalize-self-decls` (esp.
+  ×134 + func_80131B14 ×3 (commit `6b0bb5440`). **(2) NSD is SURGICAL-ONLY:** broad `--normalize-self-decls` (esp.
   combined with `--fix-def-sig`, which changes NSD's reference sig) makes byte-neutral-but-wrong TU edits that poison
   whole (overlay,split) groups — the backstop reverts them (0 false banks) but banked **7** / reverted **752**.
   `--fix-def-sig` edits DRAFTS (bisect-safe per member) so it IS broad-safe. Law: NSD per-family, --fix-def-sig broad.
@@ -607,7 +607,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   fully template → permuter/Fable fuel). Reverted the 123 bankless NSD edits (byte-neutral but churn on matched code
   — §57a NB). R22 clean-fleet **140/140**; tools-health OK (dedup 1846/0, C1 234205/234205); 0 NON_MATCHING (G4).
   Fleet **75.2% instr · 60.6% distinct · 87.04% fn-count**. **SESSION-TOTAL from 74.6/59.4/86.92: +0.6pp instr,
-  +1.2pp distinct, ~+421 members** across 4 commits (commit:0711, commit:0712, commit:0714, + this).
+  +1.2pp distinct, ~+421 members** across 4 commits (ad11c491a, 65c93ea03, 6b0bb5440, + this).
   **REFRAME (the session's strategic finding):** the family campaign is **per-family cracking, not one broad sweep** —
   each substantial family carries its own blocker (self-decl / type-lift / def-sig+caller / genuine codegen), and the
   mechanical fraction is small (~137 broad + 14 D53C). Remaining Task-4/6 levers: the permuter backlog (551 close-1..4
@@ -637,9 +637,9 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 
 - **✅ 2026-07-18 — SESSION-4 FLEET-MULTIPLIER PASS (Ultracode auto, resumed): +275 members / 2 commits.**
   Propagated the 6-core bank fleet-wide: **`func_80150170` ×138** (`dedup_propagate --addr`, hexR=138 group
-  registered — commit `commit:0717`; first run SIGTERM'd mid-gate at the 2-min timeout → reverted the half-gated
+  registered — commit `2605f206d`; first run SIGTERM'd mid-gate at the 2-min timeout → reverted the half-gated
   state, re-ran clean fail-closed) + **`func_80164E40` ×137** (`family_sweep --hseq --only --normalize-self-decls`;
-  the fleet-wide engine_core void→s32 narrow made it clean — commit `commit:0718`). Map-regen (sig-overlays +
+  the fleet-wide engine_core void→s32 narrow made it clean — commit `30812b85e`). Map-regen (sig-overlays +
   family_hseq) done first (crack-wave-map-regen rule). **R22 clean-fleet checkpoint: 140/140 byte-identical,
   extract-all 139/0.** Fleet ~75.3% instr (`make report` will confirm; the ×137/×138 propagations register now).
   **3 sweep-residuals (delegated):** `func_80165240` (63, byte-DIFF/reconcile — compiles standalone),
@@ -649,26 +649,26 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 
 - **✅ 2026-07-19 — SESSION-4 RESIDUALS BANKED + VERIFIED (delegated agent): +412 more members, 3 commits.**
   A focused agent ROI-triaged the 3 residual classes (byte-gate arbitrated): **`func_80165240` 137/137**
-  (`commit:0720` — the sweep dropped the exemplar's LOCAL `struct W4` type → per-member memcpy DIFF; carried the
-  decl into each member draft, §59#1), **`func_8016D1D8`+`func_8016D688` 274/274** (`commit:0721` — my "fixed
+  (`43a6ded6b` — the sweep dropped the exemplar's LOCAL `struct W4` type → per-member memcpy DIFF; carried the
+  decl into each member draft, §59#1), **`func_8016D1D8`+`func_8016D688` 274/274** (`af6e70afe` — my "fixed
   0x801D9C20 data" premise was WRONG: h_seq data is per-overlay RELOCATED, no fleet-fixed address; derived each
   overlay's base `= symbol_map[offset]−offset`, declared `D_<base>` per sibling + re-extract, §59#2), and
-  **`func_8013C0F8` ×1** (`commit:0722` — jtbl_801D82FC carve, def-sig reconcile). **BLOCKED (genuine tooling
+  **`func_8013C0F8` ×1** (`768676ac0` — jtbl_801D82FC carve, def-sig reconcile). **BLOCKED (genuine tooling
   walls, §59#3):** `func_801549F8` ×137 (jtbl §8c isolation — `trim` can't partition the Phase-17 canonical-sig
   layer TU) + `func_8013BD74` ×1 (§8e-2 table-count drift). **R22 clean-fleet: 140/140 byte-identical,
   extract-all 139/0; tools-health OK (dedup 1847/0, C1 234343/234343); 0 NON_MATCHING linked (G4).**
   **SESSION-4 TOTAL (from the 74.6→ session open, this conversation): fleet 75.2→75.7% instr · 60.6→61.3%
   distinct · 87.04→87.24% fn-count** — 6 cores cracked + propagated ≈ **687 member-banks** across
-  `commit:0716`/`commit:0717`/`commit:0718`/`commit:0720`/`commit:0721`/`commit:0722` (+ `commit:0719` checkpoint). Cookbook §58/§59
+  `c9e12a079`/`2605f206d`/`30812b85e`/`43a6ded6b`/`af6e70afe`/`768676ac0` (+ `08588968a` checkpoint). Cookbook §58/§59
   captured (R30). 2 near cores preserved (`func_8014D820` close-11, `func_8012E364` close-22 — permuter fuel).
   NEXT: next Ultracode crack-wave over a freshly-regenerated frontier + the permuter backlog (Task 7).
 
 > **🛑 SESSION-4 CHECKPOINT (2026-07-19) — safe to open a FRESH session here.** Tree clean (only db.*.gbf R23
 > churn + 2 preserved near-drafts + progress.fleet.md digest), **140/140 byte-identical**, tools-health OK
-> (dedup 1847/0, C1 234343/234343), 0 NON_MATCHING (G4). Main `commit:0734`.
+> (dedup 1847/0, C1 234343/234343), 0 NON_MATCHING (G4). Main `dd184d3ee`.
 > **Fleet 76.3% instr · 62.8% distinct-code · 87.47% fn-count** (session opened 75.2/60.6/87.04 → **+1.1pp instr,
 > +2.2pp distinct** — ~1,500 member-banks across TWO crack-waves).
-- **✅ 2026-07-19 — CRACK-WAVE 2 (absent-from-ov077 pool) + propagation: +819 members, HEAD `commit:0734`.**
+- **✅ 2026-07-19 — CRACK-WAVE 2 (absent-from-ov077 pool) + propagation: +819 members, HEAD `dd184d3ee`.**
   Broad substantial sweep first = **0 banked / 858 failed** (the mechanical frontier is DRAINED — §57a confirmed).
   So cracked the FRESH absent-from-ov077 substantial pool instead: 9 families drafted from **ov_SC01_000** (cached
   Ghidra-C, NON-MCP) → **7 MATCH / 2 near**. Banked ×1 (4 clean via the §58 ladder, 2 residuals via §18 cast-at-use
@@ -690,7 +690,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   func_801549F8 ×137 + func_8013BD74). This is the ROI-floor signal for non-MCP cracking (Task 7).
 
 - **✅ 2026-07-20 — CRACK-WAVE 3 (16 fresh cached ov077 substantial families) + propagation: ~1,378 instances,
-  23 commits (`commit:0736..commit:0759`).** The h_seq frontier revealed ~95 cached substantial families still crackable
+  23 commits (`6a367f424..5dc984f94`).** The h_seq frontier revealed ~95 cached substantial families still crackable
   NON-MCP (the h_norm view had undercounted); 16 fresh (non-attempted) cracked → **12 MATCH / 4 near** (100% on the
   first 8; wave hit + recovered from a session-limit mid-run via resume). Banked ×1 + propagated (delegated agent,
   §58/§59 ladder, K&R self-decl reconcile NOT NSD per §57a): **9 cores fully 138/138** (func_80160534/8016C998/
@@ -715,7 +715,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   cached fuel), 10 (permuter backlog), 11 (burn-down tracker).
 
 - **✅ 2026-07-20 — CRACK-WAVE 4 (cached-fuel tail) + the crack-track FLOOR.** 10 fresh cached targets from
-  ov_SC01_000 → **10/10 MATCH**, but the tail is thin: **6 -O2 cores banked ×1** (`commit:0766`, reconciled: func_80142C84
+  ov_SC01_000 → **10/10 MATCH**, but the tail is thin: **6 -O2 cores banked ×1** (`b6549a5f6`, reconciled: func_80142C84
   cast + func_80143994 s32-cast; R22 clean-fleet 140/140), the 6 -O2 **×138 propagation banked 0** (per-family §59
   reconcile bottleneck — deferred to Task-14 gate_stage-ladder enrichment), and the **4 -O0 cores didn't bank** (the
   ov_SC01_000 -O0-build wall; drafts in .run/drafts_wave4/). **The non-MCP cached substantial crack-fuel is now
@@ -728,7 +728,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   reverted clean. The grinder needs (a) a fast/clean STOP between functions, (b) durable winner-C saving BEFORE
   gate_stage banks, (c) clear commit boundaries — folded into Tasks 12/14.
 
-- **✅ 2026-07-20 — TASK 12 (permuter-autopsy prerequisite) DONE + committed commit:0768.** Structured failure
+- **✅ 2026-07-20 — TASK 12 (permuter-autopsy prerequisite) DONE + committed eec96f76a.** Structured failure
   telemetry now FLOWS: `masked_diff.structured_diff()` (per-instruction masked residual) + `match_one --json`
   ({status,closeness,nins,residual}) + `backlog` fields `residual`/`passes_tried` + `gate_stage` logs the
   residual on every near/fail (verified end-to-end: a near-miss's [idx,mine,tgt] residual lands in
@@ -813,7 +813,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `func_800D0214`@resident). **Conversion 21/77 = 27%**, vs the ≥10% bar Drew and I set as the go/no-go.
   **The classifier's pre-run verdicts held exactly** — every bank came from the admitted bucket, by class:
   REGALLOC-PERM 7 · IMM-VALUE 6 · SCHEDULE-REORDER 6 · DELAY-SLOT 2. All four permuter classes converted.
-  Landed as **20 gate auto-commits** `commit:0774`..`commit:0793` (generic `grinder gate — +N fns` messages; the
+  Landed as **20 gate auto-commits** `dfb17fc49`..`e3e4d329a` (generic `grinder gate — +N fns` messages; the
   per-commit "+N" counts are bank EVENTS — a shared fn re-banks in every binary that stubs it, so the
   running "42" is events, **21** is distinct, taken from the SOURCE not the report).
   **R22 clean-fleet: 140 passed, 0 failed of 140**; tools-health OK (dedup 1847/0, C1 234343/234343).
@@ -909,7 +909,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   catch. Reverted; **clean-fleet re-verified 140/140**, tools-health OK (dedup 1848/0). Also cleared
   my ladder scratch dirs, which were tripping `audit-cdecl` (it scans draft dirs; agent drafts carry
   `\`-continuations it can't parse — NOT a corpus defect).
-  **All 12 wave cracks preserved at `.run/giants/t5wave_*`.** Commits `commit:0800`, `commit:0801`.
+  **All 12 wave cracks preserved at `.run/giants/t5wave_*`.** Commits `96d1324ac`, `aa1b8b3c1`.
 
 - **✅ 2026-07-21 — jr_inventory ownership INVESTIGATED (the tool was RIGHT) + the CLEAN-REBUILD
   BLOCKER that stops all jtbl banking.** Drew asked to fix `jr_inventory` and bank the 9. Root-caused
@@ -934,33 +934,33 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **MEASURED (do not re-derive):** of 11 preserved cracks exactly **ONE** (`func_80135A4C`) reaches
   byte-identical through the carve path; the other 4 table-bearing ones fail **one-at-a-time too**, on
   PLUMBING (§57 self-decl et al), not the carve. **Tree reverted; clean-fleet 140/140; nothing banked.**
-  All 12 cracks preserved at `.run/giants/t5wave_*`. Commit `commit:0803`.
+  All 12 cracks preserved at `.run/giants/t5wave_*`. Commit `41d65af73`.
 
 > **🛑 SESSION-6 CHECKPOINT (2026-07-21, superseded by SESSION-7 below) — Task 13A/13B.**
 > The classifier + the targeting finding: of the **972** grinder-admissible records only **75 (7.7%)**
 > are permuter-shaped, so ~92% of its CPU was unreachable work. Directed run: 24 wins → **21 banked**
 > (27%); `func_80141B90` propagated **×138**. Plateau autopsy: **ZERO missing-transforms** — the
 > plateaus are wrong drafts, so the win was NARROWING admission (permuter bucket 389→84), not widening
-> the mutation set. Commits `commit:0771`, `commit:0772`, `commit:0796`, `commit:0794`.
+> the mutation set. Commits `b3ab5c225`, `b8ee9fa9d`, `835c45905`, `5c894c1e6`.
 
 > **🛑 SESSION-7 CHECKPOINT (2026-07-22) — THE CURRENT ONE; safe to open a FRESH session here.**
 > Tree clean (only R23 `db.*.gbf` churn + preserved drafts). **R22 clean-fleet 140/140 byte-identical**;
-> `make tools-health` OK (dedup 1848/0, C1 234481/234481); 0 NON_MATCHING (G4). HEAD `commit:0804`.
+> `make tools-health` OK (dedup 1848/0, C1 234481/234481); 0 NON_MATCHING (G4). HEAD `0cf6356ff`.
 > **Fleet 78.0% instr · 66.5% distinct-code · 87.9% fn-count** (flat this session — see "banked: 0").
 > **Drew pushes** all commits (R6/R20).
 >
 > **THIS SESSION (after 13A/13B): Task-14 stage 1, Task 5, a 12-agent wave, and the jtbl campaign.**
-> * **Task 14 stage 1 — the ARITY pre-pass** (`commit:0797`): diagnosed from REAL cc1 stderr (the gate's
+> * **Task 14 stage 1 — the ARITY pre-pass** (`1074f2f20`): diagnosed from REAL cc1 stderr (the gate's
 >   own `memcpy` label is the §58 red-herring, 10/11 identical). Banks **2 of 7** vs a **1/12**
 >   baseline. **NEW HARD CONSTRAINT (§61):** any ladder stage mutating SHARED state must undo by
 >   SNAPSHOT-RESTORE, never an inverse transform, and be verified FLEET-WIDE — it broke 138/140 once.
-> * **Task 5 — Ghidra-C prefetch** (`commit:0798`): `ov_SC06_018` imported, **101 stubs decompiled**
+> * **Task 5 — Ghidra-C prefetch** (`be43af8b5`): `ov_SC06_018` imported, **101 stubs decompiled**
 >   (cache 882→983). Scoping corrected my own claim: the substantial mass is **1,398 h_seq families**;
 >   **340 (7.72pp) are already-attempted/walled**, **1,058 (5.40pp) fresh**, and the 877 needing a
 >   prefetch have **median 1 member** (overlay-unique) → prefetch is PER-OVERLAY, one import ≈ 1.59pp.
-> * **The wave** (`commit:0799`): 12 agents, ~2M tokens → **11 MATCH / 1 near**, incl. all 3 giants
+> * **The wave** (`a7f3fce4c`): 12 agents, ~2M tokens → **11 MATCH / 1 near**, incl. all 3 giants
 >   (710/673/478). **Gate banked ZERO.** All 12 preserved at `.run/giants/t5wave_*` — **DO NOT re-draft.**
-> * **jtbl campaign** (`commit:0800`, `commit:0801`, `commit:0803`): the carve-must-follow-splice law
+> * **jtbl campaign** (`96d1324ac`, `aa1b8b3c1`, `41d65af73`): the carve-must-follow-splice law
 >   implemented in `harvest_verify` (temporary splice → carve → isolate → un-splice → re-extract →
 >   re-derive stub map). `jr_inventory`'s ownership assertion was **RIGHT** — it caught MY stranded
 >   carve. Fixed per-function snapshot-restore; found per-function undo is unsound in a batch
@@ -1004,7 +1004,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   on the tree left by the *batch* `_jtbl_prep` (`6 table-bearing → 1 carved, 4 isolate-FAILED, 1 stale-asm
   carve fail`), i.e. five failed preps' residue of stranded carves + half-applied isolations. The
   per-function snapshot-restore that removes exactly that residue landed **after** those runs, in
-  `commit:0803` — the same commit that named the blocker.
+  `41d65af73` — the same commit that named the blocker.
   **THE LESSON (R35 turned on ourselves, → decision-log):** "twice, identically" was not a replication —
   it was two reads of the SAME contaminated state, which is one observation. A replication must RE-CREATE
   the state, not re-run the check. Standing guard, one command: **before writing a fault down as a property
@@ -1014,7 +1014,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **Faults 1-2 of §61c stand** (a stranded carve poisons the overlay; per-function undo is unsound in a
   batch because isolation repartitions shared source) → the standing constraint is **one jtbl draft per
   `harvest_verify` invocation** until the undo is region-aware. `jr_inventory`'s 1:1 ownership assertion
-  was RIGHT (already settled in `commit:0804`) and needs no change.
+  was RIGHT (already settled in `0cf6356ff`) and needs no change.
   **BANKED:** `func_80135A4C` ×1 in ov_SC06_018 (isolated into the new `ov_SC06_018_jr_80135A4C` code
   subseg + its own `.rodata` carve; single-table, so no `JTBL_PADS` var; `tail3..tail18` renumbered).
   **R22 clean-fleet 140/140 byte-identical ×2; `make tools-health` OK** (corpus 0 PHANTOM/0 TRUNCATED,
@@ -1086,7 +1086,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-8 CHECKPOINT (2026-07-22) — supersedes SESSION-7; safe to open a FRESH session here.**
 > Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** (run 3× this session);
 > `make tools-health` OK (dedup 1848/0, C1 234481/234481, cdecl 53189/53189, audit-binaries 140 citizens);
-> 0 NON_MATCHING (G4). HEAD `commit:0812`. **Drew pushes** all commits (R6/R20).
+> 0 NON_MATCHING (G4). HEAD `02b16fa7a`. **Drew pushes** all commits (R6/R20).
 > **Fleet 78.2% instr · 67.0% distinct-code · 87.98% fn-count** (opened 78.0/66.5/87.9).
 > **Banked: +138 function-instances = +25,275 ins** — exactly 137×181 (the `func_80135A4C` family) + 478
 > (the giant `func_8018F694`). Predicted and measured agree to the instruction.
@@ -1394,12 +1394,12 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   byte-neutral §17a-1 callee-cast reconcile of func_8012F14C to the TU's 1-arg convention) → swept **70/82
   (85%)** (+3 gate-fail, +8 remap-refused unresolved-immediates). **⇒ across 3 thesis families the sweep rate
   is 100% / 0% / 85%** — the majority sweep at high per-family rates; func_80133AB0 is the per-member-wall
-  minority. Commit `commit:0841` (batch 2); `commit:0840` (batch 1). Drew pushes.
+  minority. Commit `215c5e263` (batch 2); `f142a6858` (batch 1). Drew pushes.
 
 > **🛑 SESSION-11 CHECKPOINT (2026-07-22, ultracode) — supersedes SESSION-10; safe to open a FRESH session here.**
 > Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** (verified per batch);
 > `tools-health` OK (dedup 1849/0, C1 234615/234615, cdecl green, audit-binaries 140); 0 NON_MATCHING (G4).
-> **Drew pushes** (R6/R20). Commits `commit:0840`, `commit:0841`.
+> **Drew pushes** (R6/R20). Commits `f142a6858`, `215c5e263`.
 > **Fleet: 78.6% instr · 67.5% distinct · 88.20% fn-count** (session opened 78.4/67.1/88.14 → **+0.2pp instr,
 > +0.4pp distinct**).
 >
@@ -1458,7 +1458,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   `%hi`-sharing residual is a decent permuter seed; func_8012AAAC/80135EB0 are documented walls.
 
 - **✅ 2026-07-22/23 (SESSION-11 cont., ultracode) — NON-JTBL ov_SC06_018 wave (80 targets, 3 batches of 25/25/30).
-  BATCH-1 COMMITTED `commit:0844`: 8 ×1 + 30 swept = 38 instances; distinct 67.5→67.6%.**
+  BATCH-1 COMMITTED `57af7ea88`: 8 ×1 + 30 swept = 38 instances; distinct 67.5→67.6%.**
   Ran `wave_binary.js` over the 80 non-jtbl undrafted stubs (`.run/wave_sc06018_nonjtbl.json`, all reach 2-14
   modal — 65k leverage ≈0.5pp total, low per-crack yield). **Batch-1: 13/25 match_one MATCH → 8 whole-binary
   banked** (4 plain harvest_verify + 4 via `gate_stage --src-file <jr TU>` — non-jtbl fns in a jr-split file
@@ -1476,8 +1476,8 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 
 > **🛑 SESSION-12 CHECKPOINT (2026-07-23, ultracode) — supersedes SESSION-11; safe to open a FRESH session here.**
 > Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical**; audit-binaries OK;
-> 0 NON_MATCHING (G4). **Drew pushes** (R6/R20). Commits this session: `commit:0840` `commit:0841` `commit:0842`
-> `commit:0843` `commit:0844` `commit:0845` `commit:0846`.
+> 0 NON_MATCHING (G4). **Drew pushes** (R6/R20). Commits this session: `f142a6858` `215c5e263` `7e3a23498`
+> `3ebdd91fc` `57af7ea88` `0aae4b2ce` `e94593336`.
 > **Fleet: 78.6% instr · 67.6% distinct · 88.22% fn-count** (session-11 opened 78.4/67.1/88.14 → **+0.2 instr,
 > +0.5 distinct**). Long multi-part session (several usage-limit/crash interruptions, all recovered).
 >
@@ -1525,11 +1525,11 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   — the tail banks easily (has a sibling to port; 5 of 6 banks) but +few; the fresh families are the HARD tail
   (def-side plumbing `conflicting types for func_XXXX` → §54 `--fix-def-sig`; DIFF → permuter; per-member
   walls). A fresh crack does NOT reliably unlock its family. `build_wave_args.py --rank live` now ranks by the
-  true lever + reports the fresh/tail split. Commits: `commit:0848` (6 banks) + the propagation/tooling commit.
+  true lever + reports the fresh/tail split. Commits: `b76ad8515` (6 banks) + the propagation/tooling commit.
 
 > **🛑 SESSION-13 CHECKPOINT (2026-07-23, ultracode) — supersedes SESSION-12; safe to open a FRESH session here.**
 > Tree clean after commit (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** ×2;
-> tools-health OK (dedup 1850/0, 0 NON_MATCHING G4). **Drew pushes** (R6/R20). Commits: `commit:0848` + the
+> tools-health OK (dedup 1850/0, 0 NON_MATCHING G4). **Drew pushes** (R6/R20). Commits: `b76ad8515` + the
 > propagation/tooling/checkpoint commit.
 > **Fleet: 78.7% instr · 67.6% distinct · 88.22% fn-count** (SESSION-12 opened 78.6/67.6/88.22 → **+0.1 instr,
 > flat distinct/fn** — a SMALL, honest delta; the reach-138 wave path is LOW-ROI, 3rd such data point).
@@ -1611,8 +1611,8 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > Tree clean (R23 db churn only). **R22 clean-fleet 140/140** (verified 4× this session); tools-health OK
 > (dedup 1853/0); 0 NON_MATCHING. **Drew pushes** (R6/R20). **Fleet: 78.9% instr · 67.6% distinct · 88.34%
 > fn-count** (opened 78.6/67.6/88.22 → +0.3 instr, +0.12 fn-count; distinct flat — shared-family work).
-> ov_SC07_006 84.6→85.1%. Commits: `commit:0848 commit:0849 commit:0850 commit:0851 commit:0852 commit:0853 commit:0854
-> commit:0855 commit:0856` (9).
+> ov_SC07_006 84.6→85.1%. Commits: `b76ad8515 57ef4ebcb 5760b39a1 7f18dbad2 cbb52ebce f8d8f13b9 3814de981
+> 3c8fd8a0b 1dd80e928` (9).
 >
 > **WHAT LANDED:**
 > 1. **func_8014CD80 ×138** — the header-reconcile PROOF (fresh-138 def-side blocker → byte-neutral header fix).
@@ -1655,7 +1655,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > retires the `[^;]*` regex that broke twice — R35). Lifted the CLEAN types **Mat32 + Cam8012E138** fleet-wide
 > (139 files stripped) → unblocked + propagated **func_8012B4B8 + func_8012E138 ×138 (+276 stubs)**. R22 140/140.
 > **Fleet 79.0% instr · 67.6% distinct · 88.38% fn-count** (session opened 78.6/67.6/88.22). Commits through
-> `commit:0860` (16 this session). **DOCTRINE (decision-log):** classify types first; lift 1-def/copy-only-variant
+> `b3597c08e` (16 this session). **DOCTRINE (decision-log):** classify types first; lift 1-def/copy-only-variant
 > types NOW (byte-neutral, R22-verified); DEFER fleet-split variants (MATRIX 3-def, Vec8 180/139, Buf 3-def, M8)
 > to a per-camp field-access reconcile pass — the remaining hard part of roadmap B4.
 > **▶ NEXT:** (1) the variant-reconcile pass for MATRIX/Vec8/Buf (per-camp: pick canonical, rewrite variant
@@ -1725,7 +1725,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical** (verified 2× this
 > session); `tools-health` OK (corpus 0 PHANTOM/0 TRUNCATED, cdecl ALL ORACLES GREEN, audit-binaries 140
 > full citizens); **dedup-check 1867 validated / 0 failed**, C1 236964/236964; 0 NON_MATCHING (G4).
-> **Drew pushes** (R6/R20). Commits: `commit:0863`, `commit:0864`.
+> **Drew pushes** (R6/R20). Commits: `5ab80517d`, `3642b5458`.
 > **Fleet: 79.3% instr · 67.6% distinct · 88.61% fn-count** (opened 79.0/67.6/88.38 → **+0.3pp instr,
 > +0.23pp fn-count, −831 INCLUDE_ASM stubs**; distinct flat — shared-family propagation, not fresh cracks).
 >
@@ -1795,7 +1795,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical — verified 4× this
 > session** (after the broad lift, after the 13-core propagate, after the Buf lift, after the final
 > propagate). `tools-health` OK; **dedup-check 1868 validated / 0 failed**, C1 237102/237102;
-> 0 NON_MATCHING (G4). **Drew pushes** (R6/R20). Commits: `commit:0863` `commit:0864` `commit:0865` `commit:0866`.
+> 0 NON_MATCHING (G4). **Drew pushes** (R6/R20). Commits: `5ab80517d` `3642b5458` `5c3a2bb69` `e393c320e`.
 > **Fleet: 79.3% instr · 67.6% distinct · 88.61% fn-count** (opened 79.0/67.6/88.38).
 > **Burn-down `--session-close` logged: +0.60pp instr / +0.47pp fn-count.** NB its "distinct −0.30pp" is
 > against an OLDER baseline snapshot under a different denominator convention — **this session's
@@ -1911,8 +1911,8 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-14 CLOSING CHECKPOINT (2026-07-23) — supersedes ALL earlier SESSION-14 blocks. Fresh session safe here.**
 > Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140 byte-identical — verified 6× this session.**
 > `tools-health` green; **dedup 1872 validated / 0 failed**, C1 237654/237654; 0 NON_MATCHING (G4).
-> **Drew pushes** (R6/R20). Commits: `commit:0863` `commit:0864` `commit:0865` `commit:0866` `commit:0867` `commit:0868`
-> `commit:0869` `commit:0870` `commit:0871` `commit:0872`.
+> **Drew pushes** (R6/R20). Commits: `5ab80517d` `3642b5458` `5c3a2bb69` `e393c320e` `43041f7fa` `72b7a7227`
+> `23b9b5750` `f9ad13e03` `0d60e53db` `22af9ab2c`.
 > **Fleet: 79.3% instr · 67.6% distinct · 88.61% fn-count · 40,275 stubs** (opened 79.0 / 67.6 / 88.38 / 41,112).
 >
 > **⚠️ BURN-DOWN: do NOT log another `--session-close`.** One was logged MID-session at 79.3% instr (my
@@ -1973,8 +1973,8 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 - **✅ 2026-07-23 (SESSION-14, ULTRACODE) — fresh-crack wave: 6 reach-138 cores banked; the FIRST distinct-code gain.**
   `wave_binary` fanned 24 xHigh drafters over FRESH (unmatched, live=138) ov_SC07_006 families → 20
   self-reported match_one MATCH. **Whole-binary byte-gate (sole arbiter, R14/G3) banked 6:** func_8014C6F4,
-  func_801463A0, func_8012B77C, func_80136F3C, func_80156670, func_801749C8 (`commit:0877`). 1 propagated ×138
-  (func_80136F3C), 4 §20-capped, 1 straggler (`commit:0878`). **THE WIN (byte-verified): distinct-code UNIQUE
+  func_801463A0, func_8012B77C, func_80136F3C, func_80156670, func_801749C8 (`e9c950a30`). 1 propagated ×138
+  (func_80136F3C), 4 §20-capped, 1 straggler (`8ea520213`). **THE WIN (byte-verified): distinct-code UNIQUE
   count 64832 → 64837 (+5) — the FIRST distinct-code movement of the entire session.** Every prior lever
   today was de-duplication (0 on distinct-code); these are genuinely UNMATCHED cores. Fleet instr 79.3→79.4%,
   fn-count 88.61→88.65%. **The pivot to fresh cracks is byte-validated as the correct lever.**
@@ -1987,7 +1987,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   broke.** `fix_header_decl --check`'s `[SAFE]` verdict is FLEET-BLIND (inspects only the one caller's
   return-use; a shared engine_core.h decl widen reaches all ~137 matched overlays and shifts a caller's
   codegen). Reverting the 12-ref func_8012CC88 didn't fix it → the 2-ref widenings break it too. **Entire
-  recovery pass reverted to `commit:0878`; 0 broken landed; R22 re-verified 140/140.** RULE (cookbook §63
+  recovery pass reverted to `8ea520213`; 0 broken landed; R22 re-verified 140/140.** RULE (cookbook §63
   UPDATE): a fix_header_decl edit is §61 shared-state — validate with full R22, the per-binary gate is
   necessary-not-sufficient. The 3 drafts are byte-correct in isolation → backlog (need a per-overlay-local
   decl path, not a fleet header widen).
@@ -1997,7 +1997,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 
 > **🛑 SESSION-14 ULTRACODE CHECKPOINT (2026-07-23) — supersedes the earlier SESSION-14 closing block. Fresh session safe here.**
 > Tree clean (only R23 db churn). **R22 clean-fleet 140/140 byte-identical** (verified many times this session);
-> 0 NON_MATCHING (G4); dedup 1873/0. **Drew pushes** (R6/R20). HEAD `commit:0879`.
+> 0 NON_MATCHING (G4); dedup 1873/0. **Drew pushes** (R6/R20). HEAD `daba4bd5b`.
 > **Fleet: 79.4% instr · 67.6% distinct (count 64,837, +5 this wave) · 88.65% fn-count · 40,275→~ stubs.**
 >
 > **THIS ULTRACODE STRETCH (after the /effort ultracode toggle):**
@@ -2006,7 +2006,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 >    (Task 9, oracle-sourced via Ghidra `types get`).
 > 2. **FRESH-CRACK WAVE (Task 10, the headline):** 24 xHigh drafters over fresh reach-138 ov_SC07_006 families
 >    → **6 banked ×1** → **distinct-code count 64832→64837, the session's FIRST distinct-code gain.** The pivot
->    to fresh cracks is byte-validated. Commits commit:0877 / commit:0878 / commit:0879.
+>    to fresh cracks is byte-validated. Commits e9c950a30 / 8ea520213 / daba4bd5b.
 >
 > **THREE HARD LESSONS (all → docs, all cost real time):**
 > - **wave_binary drafters lose their winners** to scratch filenames — recovered all 24 from transcripts;
@@ -2056,7 +2056,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 
 > **🛑 SESSION-15 CHECKPOINT (2026-07-24) — supersedes all earlier SESSION-14/15 blocks. Fresh session safe here.**
 > Tree clean (only R23 db churn). **R22 clean-fleet 140/140 byte-identical** (verified many times); 0
-> NON_MATCHING (G4); dedup 1879/0. **Drew pushes** (R6/R20). HEAD `commit:0914`.
+> NON_MATCHING (G4); dedup 1879/0. **Drew pushes** (R6/R20). HEAD `ef85803b1`.
 > **Fleet: 79.6% instr · 67.7% distinct (count 64,860) · 88.86% fn-count.**
 >
 > **WHAT LANDED THIS SESSION (all byte-gated, committed):**
@@ -2213,7 +2213,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-16 CHECKPOINT (2026-07-24, Max) — supersedes SESSION-15. Fresh session safe here.**
 > Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140 byte-identical**
 > (verified 3× this session); 0 NON_MATCHING (G4); dedup 1879/0. **Drew pushes** (R6/R20).
-> HEAD `commit:0919`. Commits: `commit:0916` `commit:0917` `commit:0918` `commit:0919`.
+> HEAD `f1f623825`. Commits: `1ea54fa59` `09fb069cf` `732128b1f` `f1f623825`.
 > **Fleet: 79.6% instr · 67.7% distinct (count 64,874, +14) · 88.86% fn-count.**
 >
 > **THE SESSION IN ONE LINE:** the wave-integration bottleneck was measured rather than assumed, and
@@ -2300,8 +2300,8 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-16 FINAL CHECKPOINT (2026-07-24) — supersedes the SESSION-16 block above. Fresh session safe here.**
 > Tree clean (only R23 `db.*.gbf` churn). **R22 clean-fleet 140/140** (3× this session); `make check
 > BINARY=ov_SC07_006` BYTE-IDENTICAL after the T8 revert; 0 NON_MATCHING (G4); dedup 1879/0.
-> **Drew pushes** (R6/R20). HEAD `commit:0922`. Commits `commit:0916` `commit:0917` `commit:0918` `commit:0919`
-> `commit:0920` `commit:0921` `commit:0922`.
+> **Drew pushes** (R6/R20). HEAD `d6194365a`. Commits `1ea54fa59` `09fb069cf` `732128b1f` `f1f623825`
+> `f4f070683` `9137d3b78` `d6194365a`.
 > **Fleet: 79.6% instr · 67.7% distinct (count 64,874, +14) · 88.86% fn-count.**
 >
 > **DELIVERED:** the measurement (Gate A, two oracles, 9 s for 36 drafts) · `tools/blocker_probe.py` ·
@@ -2348,7 +2348,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 
 > **🛑 SESSION-16 CLOSING CHECKPOINT (2026-07-24) — supersedes ALL earlier SESSION-16 blocks. Fresh session safe here.**
 > Tree clean (only R23 `db.*.gbf` churn). `make check BINARY=ov_SC07_006` **BYTE-IDENTICAL**; last full
-> R22 **140/140**; 0 NON_MATCHING (G4); dedup 1879/0. **Drew pushes** (R6/R20). HEAD `commit:0925`.
+> R22 **140/140**; 0 NON_MATCHING (G4); dedup 1879/0. **Drew pushes** (R6/R20). HEAD `1b9ffe1fb`.
 > **Fleet: 79.6% instr · 67.7% distinct (count 64,874, +14) · 88.86% fn-count.** ov_SC07_006 stubs 344→330.
 >
 > **THE SESSION'S RESULT IN ONE LINE:** the integration-recovery pass is BUILT, PROVEN, and ENCODED —
@@ -2435,10 +2435,10 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   the R22 corollary in its source-reverted form.
   **THE RUN:** `recover_integration.py --draft-dir .run/drafts-t17a --binary ov_SC07_006 --run-id t17a
   --stages demacroize --no-propagate --commit --r22 --report` → `pass 1 banked 1/1` → exact restore →
-  `pass 2 banked 1/1` → commit **`commit:0928`** → **R22 `check-all: 140 passed, 0 failed of 140`** →
+  `pass 2 banked 1/1` → commit **`5c6704f63`** → **R22 `check-all: 140 passed, 0 failed of 140`** →
   `report.json {"banked":["func_801778A8"],"r22":true,"tier":"binary"}`. Bank confirmed from the SOURCE
   (`grep INCLUDE_ASM` → gone), never the report (§55b trap 4).
-  **THE EQUIVALENCE CHECK — the part that makes this a test and not a smoke test:** `git diff commit:0927
+  **THE EQUIVALENCE CHECK — the part that makes this a test and not a smoke test:** `git diff 9c85afc53
   -- src/` = **one blank line**, which I introduced in the hand revert. The driver reproduced SESSION-16's
   banked state character-for-character.
   **⚠️ DEFECT 1 (SAFETY — found by READING the path before firing it).** **Propagation is a FLEET-tier
@@ -2461,7 +2461,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **STALE DIGEST (R14, caught in passing).** `docs/progress.fleet.md` at HEAD disagreed with HEAD's own
   source by 45 in the dedup-shared attribution (`238365` vs `238410`; ov_SC07_006 `1503` vs `1548`).
   Regenerating from committed source gives 238410 in **two independent runs** (in-gate and standalone),
-  and `commit:0919` had already recorded 1548 — so the committed digest was generated during the §65g
+  and `f1f623825` had already recorded 1548 — so the committed digest was generated during the §65g
   `local_type` trial, whose edits were then reverted. Headline percentages unaffected (79.6/67.7/88.86);
   the regenerated file is committed. Lesson: regenerate digests on a CLEAN tree.
   **VERIFICATION:** `make tools-health` → **OK** (corpus(+resident) 0 PHANTOM/0 TRUNCATED · cdecl ALL
@@ -2572,7 +2572,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > Fresh session safe here.**
 > Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140 byte-identical**
 > (verified 3× this session: after the driver test, after the bank, after the propagation); 0
-> NON_MATCHING (G4); dedup **1880**/0. **Drew pushes** (R6/R20). HEAD `commit:0935`.
+> NON_MATCHING (G4); dedup **1880**/0. **Drew pushes** (R6/R20). HEAD `cfa421eef`.
 > **Fleet: 79.7% instr · 67.7% distinct (64,875) · 88.90% fn-count** (opened at 79.6 / 67.7 / 88.86).
 >
 > **WHAT LANDED (all byte-gated, committed):**
@@ -2952,7 +2952,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **🛑 SESSION-17 CLOSING CHECKPOINT (2026-07-24, high on Opus 5) — supersedes ALL earlier SESSION-17
 > blocks. Fresh session safe here. NEXT SESSION STARTS ON THE GIANTS (Drew, at close).**
 > Tree clean (only R23 `db.*.gbf` churn — never staged). **R22 clean-fleet 140/140** (verified 5× this
-> session); 0 NON_MATCHING (G4); **dedup 1882 / 0 failed**. **Drew pushes** (R6/R20). HEAD `commit:0953`.
+> session); 0 NON_MATCHING (G4); **dedup 1882 / 0 failed**. **Drew pushes** (R6/R20). HEAD `11e6895e5`.
 > **Fleet: 79.9% instr · 67.7% distinct (64,875) · 88.98% fn-count** (opened 79.6 / 67.7 / 88.86).
 >
 > **BANKED: 3 fns, all propagated ×138 ≈ +40,020 ins** — `func_80177940` (101, §66d loop) ·
@@ -3497,7 +3497,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   **Applied as ONE fleet edit** (`find src -name '*.c' -o -name '*.h' | xargs sed -E -i
   's/extern void (func_8014F3E8|func_8014D4C0)/extern s32 \1/g'`) → 1,731 files changed; post-state
   15+1 / 3,349+1,730 `extern s32`, **0 `extern void` remaining**. Snapshot discipline (§61/§63): `src/`
-  was clean at `commit:0991`, so `git checkout -- src/` is the restore path — no inverse transform.
+  was clean at `5d19a4823`, so `git checkout -- src/` is the restore path — no inverse transform.
   **BYTE-NEUTRALITY OF THE WIDEN, ISOLATED FIRST (cheap, before spending a gate cycle):**
   `make build BINARY=ov_SC07_006` → `7ca772be…` and `BINARY=ov_SC01_000` → `9052dc0e…`, both
   **BYTE-IDENTICAL**. ov_SC01_000 was chosen deliberately — it instantiates the two return-CASTING
@@ -4026,7 +4026,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
   + the **18 `gte_*` macros** defined in that region file (helper+externs alone left −34, so the gte
   macros are the likely remainder) — then the **§81 carve chain**, because this sibling is ALSO a jr
   function (`jr` count = 1). Draft preserved: `.run/giants/s19_func_8017C730_SC03_013_nearmiss.c`.
-  **⇒ §77 GAINED ITS 5th MEASURED VARIANT (`static` helper — NOW FOLDED INTO THE COOKBOOK, commit `commit:1027`) and a NEW COROLLARY: the right carry is the
+  **⇒ §77 GAINED ITS 5th MEASURED VARIANT (`static` helper — NOW FOLDED INTO THE COOKBOOK, commit `2199c7119`) and a NEW COROLLARY: the right carry is the
   MINIMAL closure of what the body references, not the whole file — over-carrying trades a
   `match_one` failure for an in-TU collision.** My `s19_remap_tu.py`'s walk-back-to-previous-`}`
   heuristic also breaks on an **isolated region file**, where the preceding construct IS the needed
@@ -4036,7 +4036,7 @@ conditional) · main-EXE/B9 + GLM/B6 + resident's 14 walls (P30) · behemoths B7
 > **No background job is running.** Tree clean (only R23 `db.*.gbf` churn — never staged).
 > **R22 clean-fleet 140/140, run 12×** (the last after the `func_8017C730` bank). `make tools-health`
 > → **OK**. **0 NON_MATCHING** (G4). dedup **1886 validated / 0 failed**, C1 coverage complete.
-> HEAD `commit:1025`, **38 commits this session**. **Drew pushes** (R6/R20).
+> HEAD `9d04c0d6d`, **38 commits this session**. **Drew pushes** (R6/R20).
 >
 > ## FLEET
 > **80.6% instr** (10,587,608 / 13,141,652) · **distinct-code 3,845,161 = 68.2%** · fn-count **89.18%**
@@ -4613,7 +4613,7 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
 > **🛑 SESSION-20 CHECKPOINT (2026-07-26) — fresh session safe here.**
 > **Nothing running.** Tree clean except the R23 `db.*.gbf` churn (never stage). **R22 clean-fleet
 > 140/140** (run 5× this session), `tools-health` **OK**, dedup **1886/0**, **0 NON_MATCHING** (G4).
-> HEAD `commit:1041`. **Drew pushes** (R6/R20).
+> HEAD `772b5c4e0`. **Drew pushes** (R6/R20).
 > **FLEET: 80.6% instr · 68.3% distinct-code · 89.19% fn-count** (opened 80.6 / 68.2 / 89.18).
 >
 > ## BANKED THIS SESSION
@@ -4664,7 +4664,7 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
 
 > **🛑 SESSION-20 FINAL CHECKPOINT (2026-07-26) — fresh session safe here.**
 > **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). **R22 140/140**
-> (run 8× this session), `tools-health` **OK**, dedup **1886/0**, **0 NON_MATCHING**, HEAD `commit:1044`.
+> (run 8× this session), `tools-health` **OK**, dedup **1886/0**, **0 NON_MATCHING**, HEAD `015ebff53`.
 > **FLEET: 81.0% instr · 68.8% distinct-code · 89.30% fn-count.** **Drew pushes** (R6/R20).
 >
 > ## ▶ START HERE NEXT SESSION
@@ -4713,7 +4713,7 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
 > **🛑 SESSION-20 CLOSING CHECKPOINT (2026-07-26) — FINAL. Fresh session safe here.**
 > **Nothing running.** Tree clean but for R23 `db.*.gbf` churn (never stage). **R22 140/140** (run
 > 11× this session), `tools-health` **OK**, dedup **1886/0**, **0 NON_MATCHING** (G4).
-> HEAD `commit:1047`. **Drew pushes** (R6/R20).
+> HEAD `c2566010f`. **Drew pushes** (R6/R20).
 > **FLEET: 81.5% instr · 69.0% distinct-code · 89.49% fn-count** — session **+0.9 / +0.8 / +0.31 pp**.
 >
 > ## THE SESSION IN ONE LINE
@@ -4742,7 +4742,7 @@ resolves. T0.1/T0.3 only read sigs/configs and write `.run/` + `docs/` ⇒ safe 
 
 # 🛑 SESSION-20 FINAL CHECKPOINT (2026-07-26) — FRESH SESSION STARTS HERE
 
-**Nothing running.** Tree clean but for R23 `db.*.gbf` churn (never stage). HEAD **`commit:1055`**,
+**Nothing running.** Tree clean but for R23 `db.*.gbf` churn (never stage). HEAD **`5c422e842`**,
 **26 commits this session**. **R22 clean-fleet 140/140** (run 13×), `tools-health` **OK**, dedup
 **1886/0**, **0 NON_MATCHING** (G4). **Drew pushes** (R6/R20).
 
@@ -4853,7 +4853,7 @@ family_sweep --stage-only → sweep_parallel.py -j 12 → blast_radius.py
 # SESSION-21 (2026-07-26/27) — THE FAMILY-EXEMPLAR MASS WAVE
 
 **Opened:** effort **ultracode** (Drew toggled; R27 honoured — prompted and waited).
-**Opening state:** HEAD `commit:1056`, fleet **81.7% instr · 69.3% distinct-code · 89.52% fn-count**,
+**Opening state:** HEAD `2d2c01f04`, fleet **81.7% instr · 69.3% distinct-code · 89.52% fn-count**,
 140/140 byte-identical, dedup 1886/0, 0 NON_MATCHING.
 
 ## ✅ T1 — THE SUB-500 FRONTIER, MEASURED (zero agent tokens, R35: tool verified before its scan)
@@ -5273,7 +5273,7 @@ working as designed). 140/140 byte-identical, verified twice from a genuinely cl
 # 🛑 SESSION-21 CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
 
 **Nothing running** (the wave was stopped at Drew's request; 9 of 24 agents never returned).
-Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1064`**.
+Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`5be4c2148`**.
 **R22 clean-fleet 140/140** (run twice), `dedup` **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 81.9% instr · 69.3% distinct-code · 89.60% fn-count.** Drew pushes (R6/R20).
 
@@ -5396,7 +5396,7 @@ remove a conflict every sibling would otherwise hit at bank time).
 
 # 🛑 SESSION-21 FINAL CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
 
-**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1069`**.
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`1f0f33b16`**.
 **R22 clean-fleet 140/140** (run 4× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 81.9% instr · 69.3% distinct-code · 89.60% fn-count.** Drew pushes (R6/R20).
 
@@ -5532,7 +5532,7 @@ next step rather than run on tired context.
 
 # 🛑 SESSION-21 CLOSING CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
 
-**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1074`**.
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`7c1640888`**.
 **R22 clean-fleet 140/140** (run 8× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 82.0% instr · 69.5% distinct-code · 89.64% fn-count** (opened 81.7 / 69.3 / 89.52).
 
@@ -5734,12 +5734,12 @@ here, with cookbook §92/§93 written in-session (R30).
 > **First: closing the checkpoint gap.** Two SESSION-22 commits landed *after* the SESSION-21 FINAL
 > CHECKPOINT and were recorded only in commit messages, leaving this file stale for that stretch
 > (the exact defect Drew caught between T11 and T12):
-> - `commit:1089` — **`func_8016B6BC` 0/137 → 137/137.** Not a wall: a TYPE-CARRY failure. cc1 reported
+> - `1670fe293` — **`func_8016B6BC` 0/137 → 137/137.** Not a wall: a TYPE-CARRY failure. cc1 reported
 >   ordinary locals (`c`, `v`, `off`) undeclared because it aborted the declaration block at an
 >   unknown TYPE. **The lift must be TRANSITIVE** — the real set was four, found by following each
 >   definition's own references: `M8_8016B6BC → Prim_8016B6BC → Vtx_8016B6BC` (named only inside
 >   Prim's body) `→ DVec_8016B6BC`. Cookbook §94. Read the FIRST error, not the loudest.
-> - `commit:1090` — **`reconcile_tu` dropped the sibling declarators** of a multi-symbol `extern` line.
+> - `db620d4b8` — **`reconcile_tu` dropped the sibling declarators** of a multi-symbol `extern` line.
 >   Cookbook §95.
 
 ## ✅ T13 — `func_80176218` BANKED (327 ins ×138 = 45,126 templated ins) + the §96 tool fix
@@ -5909,7 +5909,7 @@ re-extract), and R32 turning a would-be mystery into one `make extract`.
 
 # 🛑 SESSION-22 CHECKPOINT (2026-07-27) — FRESH SESSION SAFE HERE
 
-**Tree clean** but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1094`**.
+**Tree clean** but for the R23 `db.*.gbf` churn (never stage). HEAD **`ad57c16e6`**.
 **R22 clean-fleet 140/140** (run 4× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 83.2% instr · 72.3% distinct-code · 89.87% fn-count** (SESSION-21 close: 82.8 / 71.3 / 89.80).
 
@@ -6379,7 +6379,7 @@ grinder's admission rule correctly rejects (§60a: `partial` plateaus scored 0/1
 
 `grinder.py --once --batch 20 --permute-secs 180 -j14 --max-closeness 30`:
 **4 permuter WINS → 2 banked**, 2 blacklisted as **won-but-gate-rejected** (plumbing-bound — a
-permuter win is NOT a bank). It auto-commits per-binary (`commit:1118`, `commit:1117`); **R22 clean-fleet
+permuter win is NOT a bank). It auto-commits per-binary (`5e701049d`, `1300f07a8`); **R22 clean-fleet
 140/140**. Both banks are **reach<2** → `dedup_propagate` correctly refused ("nothing to propagate"),
 so this is the reach-1 tail Phase 21 measured as poor fleet-ROI: real matches, ×1 leverage.
 Measured: fn-count 318,857 → **318,859 (+2)**; instr/distinct unchanged at 84.4% / 74.4%.
@@ -6458,7 +6458,7 @@ the per-sibling reconcile to drop a draft decl whose symbol the TU already decla
 # 🛑 SESSION-22 FINAL CHECKPOINT — WAVE22 (2026-07-28) — FRESH SESSION SAFE HERE
 > Supersedes every earlier SESSION-22 checkpoint block above.
 
-**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1126`**.
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`75bed1569`**.
 **R22 clean-fleet 140/140** (run **23×** this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 84.8% instr · 74.7% distinct-code · 90.34% fn-count** (session opened 82.9 / 71.5 / 89.83).
 
@@ -6534,7 +6534,7 @@ distinct binaries, -j12`. When I shipped it I could only smoke-test 4 fail-fast 
 
 Opened from the WAVE22 final checkpoint at Drew's direction: **item 1, the 6 wave NEAR results.**
 Effort **xHigh** (settled-design execution; confirmed by Drew before starting).
-Preflight: `make tools-health` → **exit 0** (green, fail-closed). HEAD `commit:1128`, tree clean but
+Preflight: `make tools-health` → **exit 0** (green, fail-closed). HEAD `72e6a096c`, tree clean but
 for the R23 `db.*.gbf` churn.
 
 ## ✅/⚠️ T31 — the 6 NEAR: all measured, 2 improved, 0 banked. The honest result is a ROUTING finding.
@@ -7213,7 +7213,7 @@ wrong tool and its 0% is not evidence). The carve then refused with a precise re
 # 🛑 SESSION-23 FINAL CHECKPOINT (2026-07-28) — FRESH SESSION SAFE HERE
 > Supersedes every earlier SESSION-22 checkpoint block above.
 
-**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1140`**.
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`6fad5d19c`**.
 **R22 clean-fleet 140/140** (run **7×** this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 85.5% instr · 76.1% distinct · 90.61% fn-count** (opened 84.8 / 74.7 / 90.34).
 
@@ -7449,7 +7449,7 @@ fix — worth fixing so it stops masking real causes.
 # 🛑 SESSION-23 FINAL CHECKPOINT — REVISED (2026-07-28) — FRESH SESSION SAFE HERE
 > Supersedes the earlier SESSION-23 block above (which was written before T44-T50).
 
-**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1149`**.
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`f3e8317bd`**.
 **R22 clean-fleet 140/140** (run **11×** this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 85.5% instr · 76.1% distinct · 90.62% fn-count** (opened 84.8 / 74.7 / 90.34).
 
@@ -7997,7 +7997,7 @@ behaviours, no identified variable. **Still not guessed at** — it stays the qu
 
 # 🛑 SESSION-24 FINAL CHECKPOINT (2026-07-28) — FRESH SESSION SAFE HERE
 
-**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1159`**.
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`2d7694ba2`**.
 **R22 clean-fleet 140/140** (run **5×** this session), `tools-health` OK, dedup **1886/0**,
 **0 NON_MATCHING** (G4).
 **FLEET: 86.0% instr · 76.7% distinct · 90.77% fn-count** (opened 85.5 / 76.1 / 90.62).
@@ -8282,7 +8282,7 @@ R22 clean-fleet **140 passed, 0 failed of 140** after every bank and after both 
 # 🛑 SESSION-24 FINAL CHECKPOINT — REVISED (2026-07-28) — FRESH SESSION SAFE HERE
 > Supersedes the earlier SESSION-24 block (written before T59–T65).
 
-**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1169`**.
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`ec34c31b6`**.
 **R22 clean-fleet 140/140** (run **11×** this session), `tools-health` OK, dedup **1886/0**,
 **0 NON_MATCHING** (G4).
 **FLEET: 86.3% instr · 76.9% distinct · 90.88% fn-count** (opened 85.5 / 76.1 / 90.62).
@@ -8500,7 +8500,7 @@ R22 clean-fleet **140 passed, 0 failed of 140** · `tools-health` OK · **0 NON_
 # 🛑 SESSION-24 FINAL CHECKPOINT — REVISED 2 (2026-07-28) — FRESH SESSION SAFE HERE
 > Supersedes both earlier SESSION-24 blocks (written before T59 and before T67).
 
-**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`commit:1175`**.
+**Nothing running.** Tree clean but for the R23 `db.*.gbf` churn (never stage). HEAD **`283937ed8`**.
 **R22 clean-fleet 140/140** (run **17×** this session), `tools-health` OK, dedup **1886/0**,
 **0 NON_MATCHING** (G4).
 **FLEET: 86.6% instr · 76.9% distinct · 91.12% fn-count** (opened 85.5 / 76.1 / 90.62).
@@ -8845,7 +8845,7 @@ R22 clean-fleet **140 passed, 0 failed of 140** · `tools-health` OK · dedup **
 > Supersedes all three earlier SESSION-24 blocks (written before T59, T67, and T76).
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn and a pre-existing
-`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1186`**.
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`611622c9e`**.
 **R22 clean-fleet 140/140** (run **24×** this session), `tools-health` OK, dedup **1886/0**,
 **0 NON_MATCHING** (G4).
 **FLEET: 86.7% instr · 76.9% distinct · 91.23% fn-count** (opened 85.5 / 76.1 / 90.62).
@@ -9088,7 +9088,7 @@ apart from docs). Fleet unchanged from T79: **86.9% instr · 77.4% distinct · 9
 > Supersedes the SESSION-24 REVISED-3 block for "what to do next"; that block's history stands.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn and the pre-existing
-`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1188`** + this
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`774592c45`** + this
 docs commit. **R22 clean-fleet 140/140**, `tools-health` RC=0, dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 86.9% instr · 77.4% distinct · 91.41% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -9241,7 +9241,7 @@ them.
 > Supersedes the mid-session SESSION-25 block above (written before T82/T83) and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn and the pre-existing
-`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1191`**.
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`9d0ce2001`**.
 **R22 clean-fleet 140/140** (run 4× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.2% instr · 77.8% distinct · 91.72% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -9400,7 +9400,7 @@ surface left to apply to.
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
-`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1194`**.
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`1175849d0`**.
 **R22 clean-fleet 140/140** (run 6× this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.3% instr · 77.9% distinct · 91.79% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -9494,7 +9494,7 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
-`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1196`**.
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`bf71232d0`**.
 **R22 clean-fleet 140/140** (run 8x this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.3% instr · 78.0% distinct · 91.84% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -9559,7 +9559,7 @@ counting asm uses against source tokens must exclude compiler-synthesised uses).
 
 ### ⚠️ FIRST, A CORRECTION TO T84 (R14/P9) — I mis-attributed 137 banks
 T84 reported "137 banked (all of `0x80161c98`)". **That was wrong and it is committed wrong**
-(`commit:1193`). The 137 banks were **`func_80146750`** — one of the three known byte-identical
+(`dcbeebaf4`). The 137 banks were **`func_80146750`** — one of the three known byte-identical
 stragglers — banked 1-per-overlay in `<ov>_after.c`. `0x80161c98`'s members live in
 `_jr_8015C32C.c` and were **still stubs**; I checked `func_80161D20` in `ov_SC01_000` and it was
 still `INCLUDE_ASM`.
@@ -9604,7 +9604,7 @@ R22 clean-fleet **140 passed, 0 failed of 140** · dedup **1886/0** · **0 NON_M
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
-`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`commit:1198`**.
+`.run/backlog.jsonl` edit (neither mine; never stage the db churn). HEAD **`f7c6d2eb2`**.
 **R22 clean-fleet 140/140** (run 10x this session), dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.3% instr · 78.0% distinct · 91.88% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -9643,7 +9643,7 @@ T85 133 · T87 149 · T88 9 · T89 138 · T90 23). **instr +0.6pp · distinct-co
 - **Promoted the backlog item as "126 entries / reach 2,983"; the real figure was 8** — a raw logged
   count quoted without the still-a-stub filter.
 - **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** — and that one is
-  committed wrong in `commit:1193`, corrected in `commit:1198`.
+  committed wrong in `dcbeebaf4`, corrected in `f7c6d2eb2`.
 - **`new_distinct` estimator over-projects ~2x** (priced 259, measured 125).
 - **The through-line: four of five are the SAME error — asserting the composition of a number I did
   not derive.** The fix is mechanical and I should apply it by default: *derive the attribution from
@@ -9717,7 +9717,7 @@ Fleet unchanged from T90: **87.3% instr · 78.0% distinct · 91.88% fn-count**.
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
-`.run/backlog.jsonl` edit. HEAD **`commit:1200`**. **R22 clean-fleet 140/140** (10x this session),
+`.run/backlog.jsonl` edit. HEAD **`dac90f0fa`**. **R22 clean-fleet 140/140** (10x this session),
 dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.3% instr · 78.0% distinct · 91.88% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -9752,7 +9752,7 @@ T79 641 · T82 251 · T83 821 · T84 137 · T85 133 · T87 149 · T88 9 · T89 1
   a table I printed myself (the T76 shape, cited T76 the same session).
 - **Promoted the backlog item as "126 entries"; it was 8** — raw count, no still-a-stub filter.
 - **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** — committed wrong in
-  `commit:1193`, corrected in `commit:1198`.
+  `dcbeebaf4`, corrected in `f7c6d2eb2`.
 - **`new_distinct` over-projects ~2x** (priced 259, measured 125).
 - **Four of five are ONE habit: asserting the composition of a number I did not derive.** Standing fix:
   *derive attribution from `corpus.stubs` before/after — never from whatever I was looking at.*
@@ -9822,7 +9822,7 @@ No banks -> nothing to verify. Tree clean; the T91 wiring stays reverted; the pr
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
-`.run/backlog.jsonl` edit. HEAD **`commit:1202`**. **R22 clean-fleet 140/140** (10x this session),
+`.run/backlog.jsonl` edit. HEAD **`2b76b73f7`**. **R22 clean-fleet 140/140** (10x this session),
 dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.3% instr · 78.0% distinct · 91.88% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -9862,7 +9862,7 @@ backlog (8 eligible, 0) · the §119 flag matrix.
   a table I printed myself — the T76 shape, in the session where I cited T76.
 - **Promoted the backlog item as "126 entries"; it was 8** — a raw count without the still-a-stub filter.
 - **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** — committed wrong in
-  `commit:1193`, corrected in `commit:1198`.
+  `dcbeebaf4`, corrected in `f7c6d2eb2`.
 - **`new_distinct` over-projects ~2x** (priced 259, measured 125).
 - **Four of five are ONE habit: asserting the composition of a number I did not derive.**
   Standing fix: *derive attribution from `corpus.stubs` before/after — never from what I was looking at.*
@@ -9970,7 +9970,7 @@ Useful prior for pricing the next fix *before* building it.
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
-`.run/backlog.jsonl` edit. HEAD **`commit:1205`**. **R22 clean-fleet 140/140** (13x this session),
+`.run/backlog.jsonl` edit. HEAD **`7e32da8f6`**. **R22 clean-fleet 140/140** (13x this session),
 dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.4% instr · 78.0% distinct · 91.96% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -10014,9 +10014,9 @@ pre-§117 masked-MATCH backlog (8 eligible, 0) · the §119 flag matrix (all 4 c
   a table I printed myself (the T76 shape, in the session where I cited T76).
 - **Promoted the backlog item as "126 entries"; it was 8** — raw count, no still-a-stub filter.
 - **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** — committed wrong in
-  `commit:1193`, corrected in `commit:1198`.
+  `dcbeebaf4`, corrected in `f7c6d2eb2`.
 - **T92 recorded a WRONG recipe** ("strip-if-ambient") and a **phantom second blocker** — both
-  artifacts of my own bad fix; corrected in `commit:1204` (rename, don't remove).
+  artifacts of my own bad fix; corrected in `9a1507462` (rename, don't remove).
 - **Patched the wrong one of THREE identical staging sites, twice** (`rindex`), then concluded from a
   patch that never ran that the lever was ineffective. → §120's law: *prove the lever RAN — diff the
   staged artifact — before concluding it does not work.*
@@ -10087,7 +10087,7 @@ not just before scaling.**
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
-`.run/backlog.jsonl` edit. HEAD **`commit:1207`**. **R22 clean-fleet 140/140** (14x this session),
+`.run/backlog.jsonl` edit. HEAD **`ceae8bb4c`**. **R22 clean-fleet 140/140** (14x this session),
 `tools-health` **RC=0**, dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.5% instr · 78.0% distinct · 92.00% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -10129,9 +10129,9 @@ grep -v "warning:" /tmp/e.txt | grep -vE "In function|At top level|^###|^\s*$"
   a table I printed myself (the T76 shape, in the session where I cited T76).
 - **Promoted the backlog item as "126 entries"; it was 8** — raw count, no still-a-stub filter.
 - **Mis-attributed T84's 137 banks to `0x80161c98`; they were `func_80146750`** (committed wrong in
-  `commit:1193`, corrected in `commit:1198`).
+  `dcbeebaf4`, corrected in `f7c6d2eb2`).
 - **T92 recorded a WRONG recipe + a phantom second blocker** — artifacts of my own bad fix
-  (corrected in `commit:1204`).
+  (corrected in `9a1507462`).
 - **Patched the wrong one of three identical staging sites, twice**, then concluded a lever was
   ineffective from a patch that never ran (§120's law: prove it RAN).
 - **Costed T97 as a 3-part job over 2,022 decls; it was one 4-line edit** — I read the symptom
@@ -10191,7 +10191,7 @@ Fleet unchanged from T97: **87.5% instr · 78.0% distinct · 92.00% fn-count**.
 > Supersedes every earlier SESSION-25 block and SESSION-24 REVISED-3.
 
 **Nothing running.** Tree clean but for the R23 `db.*.gbf` churn + the pre-existing
-`.run/backlog.jsonl` edit. HEAD **`commit:1209`**. **R22 clean-fleet 140/140** (14x), `tools-health`
+`.run/backlog.jsonl` edit. HEAD **`411527999`**. **R22 clean-fleet 140/140** (14x), `tools-health`
 **RC=0**, dedup **1886/0**, **0 NON_MATCHING** (G4).
 **FLEET: 87.5% instr · 78.0% distinct · 92.00% fn-count** (opened 86.7 / 76.9 / 91.23).
 
@@ -10233,9 +10233,9 @@ grep -v "warning:" /tmp/e.txt | grep -vE "In function|At top level|^###|^\s*$"
   printed myself (the T76 shape, in the session where I cited T76).
 - **Promoted a backlog item as "126 entries"; it was 8** — no still-a-stub filter.
 - **Mis-attributed T84's 137 banks** (`0x80161c98` → really `func_80146750`); committed wrong in
-  `commit:1193`, corrected in `commit:1198`.
+  `dcbeebaf4`, corrected in `f7c6d2eb2`.
 - **T92 recorded a wrong recipe + a phantom second blocker** — artifacts of my own bad fix
-  (corrected in `commit:1204`).
+  (corrected in `9a1507462`).
 - **Patched the wrong one of three identical staging sites, twice**, then judged a lever ineffective
   from a patch that never ran (§120: prove it RAN).
 - **Costed T97 as a 3-part job over 2,022 decls; it was one 4-line edit** — read the symptom instead

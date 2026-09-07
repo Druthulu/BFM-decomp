@@ -90,7 +90,7 @@ below — plan from it.
 
 ## Commit Message
 ```
-(Phase 20 landed across multi-session commits; final session commit:0173..commit:0177 + this PhaseEnd.)
+(Phase 20 landed across multi-session commits; final session 6c5bd1c4a..f1a7e518f + this PhaseEnd.)
 
 feat(phase-20): close — cap tool + T3a %lo crack + 3 byte-proven findings; fleet 58.00%->58.82% (v1.19.0)
 
@@ -202,7 +202,7 @@ phase, planned from the design captured below.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase20.md` (R19). **Drew commits AND pushes**
-this PhaseEnd + the archived log + the final-session matching commits (`commit:0173`..`commit:0177`) (R6/R8 — Drew's
+this PhaseEnd + the archived log + the final-session matching commits (`6c5bd1c4a`..`f1a7e518f`) (R6/R8 — Drew's
 commit is the gate-2 sign-off). No Ghidra DB change this phase (R23 no-op — the `db.*.gbf` churn is restart-noise,
 do NOT stage it). Gen2 continues — do **NOT** start Phase 21 here. Start a **fresh session** (effort **Max**,
 **plan mode**) for **Phase 21 — the automation manager** (the Backlog above; verify giants → prefetch fuel →

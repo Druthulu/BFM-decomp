@@ -99,7 +99,7 @@ gcc-research spike on the last residual classes). The infra is BUILT and staged.
 
 ## Commit Message
 ```
-(Phase 18 landed as 16 commits commit:0141..commit:0156 + this PhaseEnd.)
+(Phase 18 landed as 16 commits d20b20c64..151da542a + this PhaseEnd.)
 
 feat(phase-18): compiler-quirk research -> the matching TOOLKIT, taught to waves (v1.17.0)
 
@@ -216,7 +216,7 @@ route stays parked — we already have the answer it would give.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase18.md` (R19). **Drew commits AND pushes**
-this PhaseEnd + any uncommitted Phase-18 work (R6/R8 — the matching commits `commit:0152`..`commit:0156` are already
+this PhaseEnd + any uncommitted Phase-18 work (R6/R8 — the matching commits `d593ee20f`..`151da542a` are already
 landed; this PhaseEnd + the archived log are the close). No Ghidra DB change this phase (R23 no-op — the
 `db.*.gbf` churn is restart-noise, do NOT stage it). Gen2 continues — do **NOT** start Phase 19 here. Start a
 **fresh session** (plan mode) for **Phase 19 — Scale the toolkit** (the backlog above; -O0 fix first, then

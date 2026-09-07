@@ -151,7 +151,7 @@ PY
       # NEVER stage main's TUs (top-level src/*.c) from this lane (S59): sweep_parallel refuses
       # main, so any dirt there is another lane's in-flight gate_main work — unverified by
       # construction. One writer (gate_main), one committer (main_lane); adopting a mid-flight
-      # substitution is how commit:2693 turned main's baseline RED for 3h46m.
+      # substitution is how 24bd25993 turned main's baseline RED for 3h46m.
       git reset -q -- src/*.c 2>/dev/null || true
       if git diff --cached --quiet; then
         say "only main-TU dirt found — leaving it to gate_main/main_lane; nothing to commit"

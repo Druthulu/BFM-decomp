@@ -1,6 +1,6 @@
 # Frontier analysis — S61 (2026-08-26, midday; post-ox)
 
-**What this is.** A read-only analysis of everything that remains between HEAD `commit:3070` and
+**What this is.** A read-only analysis of everything that remains between HEAD `252dc930c` and
 100%, written for a session that has NO memory of today, as the ground truth for a
 Phase-32-shaped FINISH PLAN. Every number carries its denominator and source; Appendix A lists
 the exact commands. Nothing in the tree was modified except `make atlas` and
@@ -40,7 +40,7 @@ has already banked its kind — the only genuinely unproven territory is the dee
 
 **Verified against the tree by me today (commands in Appendix A):** the fleet digests
 (regenerated: 98.4% instr / 96.7% distinct / 99.31% fn-count / 2,517 stubs); the atlas
-(regenerated at HEAD `commit:3070`: 2,520 open / 1,931 skeletons / 1,596 groups / 191,556 ins);
+(regenerated at HEAD `252dc930c`: 2,520 open / 1,931 skeletons / 1,596 groups / 191,556 ins);
 the full stub-counter reconciliation to the last line (3,495 = 2,517 + 959 + 3 + 3 + 13, §1);
 the per-bucket `classify()` sums over all 213 binaries; the main weighted-metric divergence
 (§1.3 — sig-row join over `corpus.stubs('main')`, both sig files); the exhaustive class
@@ -50,7 +50,7 @@ ds1/ds2 costs summed from per-shard agent logs ($1.9227 / $3.0413) and ds2 bank 
 per-commit INCLUDE_ASM diffs; the resolver's converged state (last pass 12:09: 302 items → 85
 staged → 0 banked); the grinder's S61 yield (0; its 29-bank file is dated Jul 24); the
 main-lane n-pass logs (drafts=0 — its ox half is dead); lane quiescence (`ps` empty);
-`decl_from_use.py` exists (commit:3008) and no dup-def-demotion tool exists.
+`decl_from_use.py` exists (0488903e5) and no dup-def-demotion tool exists.
 
 **Repo-recorded measurements I did not independently re-derive:** the S61 session narrative
 (resolver 63 banked, maintenance 24+11, wave re-gates fa–ff 17/~5,000, gen0 77+119+10+6 banks,
@@ -107,7 +107,7 @@ total = 53 RODATA + 3 ASM).
 
 ### 1.2 The full open decomposition
 
-At HEAD `commit:3070` (all three metrics regenerated today):
+At HEAD `252dc930c` (all three metrics regenerated today):
 
 - **Fleet:** instr-weighted **98.4%** (13,306,357 / 13,523,865) · distinct-code **96.7%**
   (5,656,025 / 5,851,972; 89,008 / 90,929 unique fns) · fn-count **99.31%** (360,468 /
@@ -383,7 +383,7 @@ not the belief.
 
 - Fleet: `.venv/bin/python tools/progress.py --fleet` → `docs/progress.fleet.md` (also the
   per-binary table used for red-binary open counts). Atlas: `make atlas` →
-  `.run/atlas.json` + `docs/frontier-atlas.md` (HEAD `commit:3070`; scope/totals blocks).
+  `.run/atlas.json` + `docs/frontier-atlas.md` (HEAD `252dc930c`; scope/totals blocks).
 - Counter reconciliation: `git grep -c 'INCLUDE_ASM(' HEAD -- src/ | awk -F: '{s+=$NF}
   END{print s}'` = 3,495; per-binary split with the n==2 path test (main = src/*.c
   top-level, 1,125); bucket sums via `.run/frontier_s61/recon2.py` (imports
@@ -417,7 +417,7 @@ not the belief.
   1997–2206), `docs/decision-log.md` last three entries, `phase-ends/PhaseEnd_Phase30.md`,
   `docs/roadmap-to-100.md` v2, `docs/disc-ledger.md:111` (5 UNCLAIMED of 220),
   `docs/calibration.md`, `.run/baseline_red.txt` = `.run/fleet_red.txt` (5). Tools:
-  `ls tools/decl_from_use.py` (exists; commit:3008); no dup-def-demotion tool matches
+  `ls tools/decl_from_use.py` (exists; 0488903e5); no dup-def-demotion tool matches
   `demot|dupsym|dup_def` in tools/.
 
 ---
@@ -465,10 +465,10 @@ raise wave quality, priced in via the warm-start assumption), and the refuted §
 
 ## Addendum 2 — 2026-08-26 (S62), plan step 1 executed: the falsifier FIRED; premises corrected
 
-*Append-only. Every number below was measured on the tree at `commit:3078` → `commit:3080`.*
+*Append-only. Every number below was measured on the tree at `528f543d8` → `f449a455b`.*
 
 **Premise corrections (R35/R40, checked before building anything).** (a) The dup-def→extern
-demotion was NOT "not yet built": `integration_resolver.dup_def_demote()` landed at `commit:3012`
+demotion was NOT "not yet built": `integration_resolver.dup_def_demote()` landed at `3222eb454`
 (01:14, an ancestor of this document's HEAD) and had already BANKED its own probe case
 (md_MAIN_003/func_800D3204, ledger run 011436: `dupfix:backlog … BANKED`). (b) `decl_from_use` was
 already wired into A-prop (`aprop_autodraft.py` :522 branch, same commit); only the resolver's CC1
@@ -493,7 +493,7 @@ binary by ONE byte, inside the function, at a `j` word — a wrong internal jump
 rtu/match_one could not see because `R_MIPS_26 .text` (which the assembler DOES emit for an
 in-section `j`) was masked. Both drafts had a genuine control-flow error (goto-to-recheck vs the
 cross-jumped call; a shared post-join negation vs an else-arm `negu`); one-line fixes, gated
-through `sweep_parallel`, **banked 2/2** (`commit:3080`). The comparer is fixed (`masked_diff` `jrel`;
+through `sweep_parallel`, **banked 2/2** (`f449a455b`). The comparer is fixed (`masked_diff` `jrel`;
 `rtu_match` now shares `structured_diff`), positive-controlled (originals → DIFF 1, fixes → MATCH)
 and negative-controlled over all 3,475 stubs (`tools/stub_invariant_audit.py`: 1,097 stubs / 4,043
 internal `j` exercised, 0 new mismatches). Cookbook §301. **Consequence for this document:** every
@@ -501,7 +501,7 @@ internal `j` exercised, 0 new mismatches). Cookbook §301. **Consequence for thi
 `j` targets; re-judge under the new comparer before spending builds.
 
 **§295 sweep:** ResetEntryInt, HookEntryInt, read, SysEnqIntRP → `gate_main` clean rebuild, main
-SHA `143dbb89…` byte-identical, **banked 4/4** (`commit:3079`).
+SHA `143dbb89…` byte-identical, **banked 4/4** (`80124c681`).
 
 **Net T1: +6 banks (2,517 → 2,511 stubs; fleet 98.4% instr / 96.7% distinct), 1 instrument defect
 closed, 2 tools promoted.** The deterministic-first mass is unchanged in shape: the resolver's
@@ -518,7 +518,7 @@ not compiled since an 08-13 propagation (four text defects incl. an offset/value
 `tools/interleave_check.py`, `tools/pads_audit.py` (derive, never search).
 Yield: **red list 5 → 0**; the 40 held resolver drafts gated **39/40** (7+4+9+1+18; the 40th was
 already banked by propagation); the 241 held fns re-enter their natural classes; class A is
-dissolved. Commits `commit:3084 … commit:3093`. The fleet-wide R22 proof (clean → extract-all →
+dissolved. Commits `5a87e741e … b3e879a95`. The fleet-wide R22 proof (clean → extract-all →
 check-all, GREEN count) runs next and is quoted in CURRENT_PHASE.md.
 
 ## Addendum 4 — 2026-08-26 (S62), plan step 3 executed: classes E/F/J are engines now, not walls

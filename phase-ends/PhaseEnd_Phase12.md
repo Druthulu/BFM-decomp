@@ -90,7 +90,7 @@ task** (R26): prompt to enable it.
 
 ## Commit Message
 ```
-(Phase 12 landed as ~17 per-task/per-batch checkpoint commits commit:0068..commit:0082 + this PhaseEnd.)
+(Phase 12 landed as ~17 per-task/per-batch checkpoint commits ce7909654..373418dc8 + this PhaseEnd.)
 
 feat(phase-12): key engine systems — resident harvest 1.4%->85.6% + script/save/SQV resolved (v1.12.0)
 
@@ -148,7 +148,7 @@ enormously. Both the engine and the main program still rebuild perfectly.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase12.md` (R19). The Phase-12 work is committed
-(~17 checkpoints `commit:0068`..`commit:0082` + this PhaseEnd commit, which also lands the gen2-roadmap amendment); **Drew
+(~17 checkpoints `ce7909654`..`373418dc8` + this PhaseEnd commit, which also lands the gen2-roadmap amendment); **Drew
 pushes** (R6). Gen2 continues — do **NOT** start Phase 13 here. Start a **fresh session** (effort **Max**, plan mode)
 for **Phase 13 — Representative location overlays**; the 134-overlay harvest is the canonical Ultracode breadth task
 (R26 — prompt to enable it). Keep this file forever.

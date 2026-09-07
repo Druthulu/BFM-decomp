@@ -44,7 +44,7 @@ re-measured there.**
 > **Compounding:** the family is one of only **3 of 163** with `has_mid_jr` — i.e. the roadmap generalized
 > from n=1, on the least representative family in the population, using the wrong tool for its class. And
 > the three Phase-26 exhaustion probes it corroborated (tiny-IMM 0/241, PURE 0/134, pinned 0/133) all
-> **predate** `_carry_macros` (Phase-27 T5, `commit:0637`) — Phase 27's decision-log itself calls its re-probe
+> **predate** `_carry_macros` (Phase-27 T5, `ee4b3a02e`) — Phase 27's decision-log itself calls its re-probe
 > "a **fourth** phantom exhaustion proof" while never re-running the first three. **R35: a 0% from a broken
 > tool and a 0% from a working one are the same number and opposite facts.**
 

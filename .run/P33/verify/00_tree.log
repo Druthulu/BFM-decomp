@@ -1,6 +1,6 @@
 # tree
 # cmd: step_tree
 # started: 2026-09-07T02:58:29Z
-HEAD commit:4028 2026-09-06 fix(phase-33): audit_frontier's LINKED-stub count reads the Stub records (the reference v
+HEAD 3e0ecfacc 2026-09-06 fix(phase-33): audit_frontier's LINKED-stub count reads the Stub records (the reference v
 porcelain -uno clean apart from ghidra/ (3 churn lines); untracked: 1 paths
 EXIT=0  wall=1s  finished: 2026-09-07T02:58:30Z

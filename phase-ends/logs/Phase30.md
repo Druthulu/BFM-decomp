@@ -102,7 +102,7 @@ proceeds; the first P30 commit waits on it.
       diagnoses + permuter backlog via the T4-fixed grinder.
       Per-session checkpoint + velocity + 3 metrics. **ROI floor: 2 consecutive sessions < +0.3pp
       instr each with all lanes exercised.**
-- [x] **T4 — Carried-tool resolution [xHigh]** ✅ (S28, `commit:1279`). The 2 "Phase-22 grinder bugs"
+- [x] **T4 — Carried-tool resolution [xHigh]** ✅ (S28, `feb32ed23`). The 2 "Phase-22 grinder bugs"
       were struck as STALE in S27 (already fixed). This session: **`--fix-def-sig` posture audited
       clean** (defaults False, one consumer, no caller passes it) — and the audit found the live
       hazard the earlier pass missed: `docs/decision-log.md` still recommended making it
@@ -177,7 +177,7 @@ proceeds; the first P30 commit waits on it.
 stub on a named wall/behemoth/queue ledger** — 140/140 byte-identical throughout.
 
 ## Blockers
-- (none) — the precondition (Drew's milestone-close commit) landed at `commit:1213`.
+- (none) — the precondition (Drew's milestone-close commit) landed at `0acd4cc5d`.
 
 ---
 
@@ -321,7 +321,7 @@ the R34 second oracle for the one class it cannot see, and it costs no build.
 
 # ▶ (superseded by S50) SESSION S49 CHECKPOINT — FINAL (2026-08-13)
 > **Tree CLEAN** but for R23 `db.*.gbf` churn + a regenerable `.run/backlog.jsonl` edit — never
-> stage either. **Nothing running.** 179 commits this session (`commit:1776`..`commit:1891`).
+> stage either. **Nothing running.** 179 commits this session (`b3713cc3c`..`bcc3130eb`).
 > Gate at close: **`check-all` 213 passed / 0 failed of 213** from a CLEAN rebuild (R22 run **5×**
 > this session, 213/213 every time).
 > **Fleet: 95.2% instr · 89.9% distinct · 96.56% fn-count · INCLUDE_ASM stubs 12,468.**
@@ -569,7 +569,7 @@ curve, not a regression: its tier was 29 Opus-band / 14 jr vs wave 2's 8 / 5, me
 2. **The 4 wave-2 binary-gate misses** (cheap, named): `func_80187960` PLUMBING
    (`conflicting types for func_8012CAE4` → §161c cast-at-call-site) · `func_8017EEEC`
    CARVE-REFUSED · `func_8017DF40` + `func_8018A974` DIFF (the §52b population).
-3. ~~Wave-2/3 idiom harvest~~ — **PARTIALLY DONE (`commit:1675`, §163a-e, cookbook 497 sections).**
+3. ~~Wave-2/3 idiom harvest~~ — **PARTIALLY DONE (`57cef6325`, §163a-e, cookbook 497 sections).**
    The waves flagged ~40 candidates; **5 were vetted and banked**, the other **~35 are catalogued by
    function in §163z** and are explicitly UNVETTED (R14 — one agent's reconstruction until
    re-measured). A skeptic-agent dedupe pass over §163z is real remaining value: §163d alone
@@ -625,14 +625,14 @@ he was right.** Every agent tool call is recorded in the run transcript, content
 the transcripts proved recoverable.
 
 **THE md_ MODULE LANE** — two mechanisms, both misfiled as "module problems", neither actually one:
-· **FIXED (`commit:1626`), and it was never module-specific.** `scope_data_externs._body_open_brace`
+· **FIXED (`ba1fead35`), and it was never module-specific.** `scope_data_externs._body_open_brace`
   ran both scans on UNMASKED text, so for a draft whose header comment says *"the `do { } while (0)`
   around the loop-1 call is a REGISTER-ALLOCATION lever"*, the signature regex matched the COMMENT
   line naming the function and the brace search found the COMMENT's `do {`. Carried externs were
   spliced INTO the comment — silently commented out → `'D_8011511A' undeclared`, classified
   CC1-FAIL, so it read as a property of the SIBLING when it was a property of the EXEMPLAR'S PROSE.
   **Every richly-commented agent draft is a carrier.** Measured: 0/4 → **4/4**.
-· **NAMED, NOT FIXED (`commit:1627`).** §154-A leading-island layout: a module binds `.rodata` at 0x0
+· **NAMED, NOT FIXED (`ec1f388d1`).** §154-A leading-island layout: a module binds `.rodata` at 0x0
   to the SAME subseg as its code, so the object's rodata order IS the C file's include chain —
   INCLUDE_RODATA pieces, then each INCLUDE_ASM'd function's MIGRATED table, in address order. That
   reproduces the island exactly WHILE THE FUNCTION IS A STUB; matching it PRUNES the `.s`, the table
@@ -651,7 +651,7 @@ the transcripts proved recoverable.
 **1. THE HARDENED HARNESS HELD — 0 drafts lost** (wave 2 lost 21 of 26). Per-agent output dir
 `.run/wave3/<fn>/` + "never delete or modify anything outside your own directory, do not clean up"
 + a verifier that re-runs `sha1sum` LAST and reports it separately. **Keep this contract in every
-wave prompt.** `tools/recover_drafts.py` (`commit:1650`) is the backstop if it ever fails again.
+wave prompt.** `tools/recover_drafts.py` (`c0e64f48b`) is the backstop if it ever fails again.
 **2. PRIOR-NOTES SEEDING IS THE BEST LEVER FOUND THIS SESSION — 7 of 9 seeded targets converted**,
 including ALL THREE wave-2 whole-binary-gate misses and both long-standing NEARs: `func_80189540`
 (551 ins, was NEAR +2 — the session's largest crack) and `func_8017C3BC` (407 ins, was NEAR 17).
@@ -685,7 +685,7 @@ gets read as "17 codegen walls". Reverted, re-gated clean: **9 banked**, and 9 o
 re-gated TOGETHER per binary. **One stray comment had masked eight real matches.**
 **STILL OPEN:** `gate_stage` has no revert guarantee for an exception raised OUTSIDE its stage loop
 (`jtbl_family_bank._bank` documents fixing exactly this class in its own wrapper — port it).
-**THE HARNESS IS NOW IN THE REPO** (`tools/wave/crack_wave.js` + README, `commit:1703`). It had lived
+**THE HARNESS IS NOW IN THE REPO** (`tools/wave/crack_wave.js` + README, `54de1bf24`). It had lived
 only in the workflow scratch dir, so each wave rebuilt it from memory — which is how its cookbook
 citation list went stale at §162 while §163 (5) and §164 (82) were banked in between. **A wave 5
 launched from the old script would have re-derived laws already on disk.** The README records the
@@ -699,7 +699,7 @@ prior-notes seeding, size routing, and "name every banked block in the citation 
 verifiers). Resuming with **byte-identical args** replayed the 22 finished cracks from cache and
 re-ran only the dead ones: **a limit outage costs the unfinished work only.** Worth knowing before
 anyone kills a wave that hit a limit.
-**⚠ AND IT EXPOSED A REPORTING BUG OF MINE (fixed, `commit:1742`).** `crack_wave.js` classified
+**⚠ AND IT EXPOSED A REPORTING BUG OF MINE (fixed, `a867deab6`).** `crack_wave.js` classified
 anything without `verdict_check.confirmed` as **refuted** — so 22 drafts whose VERIFIER DIED were
 reported as 22 refutations, with `evidence: "verifier died"` the only tell. **Acting on that would
 have discarded the wave.** Same disease as S47's `no-diagnostic` classifier and this session's
@@ -723,7 +723,7 @@ fingerprint of a version mismatch, **not** a codegen residual. Use `--aspsx-vers
 **0 UNVERIFIED** (the new field earning its keep), 4 NEAR → **24 BANKED (60%)**; propagation 23 of
 24 families. **Oracle delta 110.** The 60% is honest: this tier was mostly residue that had already
 resisted 1-5 attempts, and the first pool where ×2 families dominate.
-**🔑 THE FINDING OF THE CAMPAIGN — AND IT IS NOT A COMPILER IDIOM (`commit:1748`, §166a).**
+**🔑 THE FINDING OF THE CAMPAIGN — AND IT IS NOT A COMPILER IDIOM (`80f3ee739`, §166a).**
 `func_8017F2D4` was "MATCH standalone / DIFF at gate" **SEVEN times across five waves**. Every attempt
 hunted codegen. **The body was byte-correct from the first draft.** The fault: the notes named the
 WRONG DESTINATION TU — `..._jr_8017C340.c` holds only a CALLER and a prototype, while the
@@ -756,7 +756,7 @@ weight (members × nins), not by tier.** (The plan's "×2 pays only 2×" also un
 crack banks ~109 ins vs a singleton's ~62, i.e. ~1.8× — thin, but still the better lane.)
 
 ## ✅ WHAT S48 LANDED — three instrument repairs, 91 banks, 0 decompilation
-**1. `JTBL_PADS` did not follow its span through jr isolation** (`commit:1578`) — THE 0b blocker,
+**1. `JTBL_PADS` did not follow its span through jr isolation** (`ec749fa58`) — THE 0b blocker,
 and it fails TWO ways: the bare-isolate path leaves the stale line on the residual object
 (`consumed 0 rodata .align(s) but 4 pad spec(s) given` — S47's hard error), while the
 `jtbl_family_bank` path re-runs `jtbl_carve`, whose `set_pads_vars` regenerates the block keyed by
@@ -767,7 +767,7 @@ reported only as `built, bytes differ`. Fix: `jr_isolate_all` repoints the pads 
 DISAGREEING oracle in `jtbl_carve.set_pads_vars` that refuses when a spec would vanish for a subseg
 no longer in the carve set (R34). R37 probe: `func_801789AC` → ov_SC02_037 went
 `built, bytes differ` → **BANKED**.
-**2. A def item can OPEN inside a block comment** (`commit:1606`) — item boundaries are
+**2. A def item can OPEN inside a block comment** (`dba6defb1`) — item boundaries are
 `;`-terminated, so a decl whose TRAILING comment wraps hands the continuation to the next item;
 `_proto_from_lines` starts `_strip` with `in_block=False` and renders comment prose as the return
 type: `extern * a prototyped (s32) decl is …  */ void func_80151664(void);`. It COMPILED (the
@@ -776,7 +776,7 @@ hoist emits the opening `/*` right above, so the garbage lands back inside a com
 **That was the whole isolate-fail class: 23 slots.** Applied `family_remap`'s D1 backstop (a `*/`
 with no `/*` before it ⇒ the chunk opened inside a comment) and repaired the 16 already-polluted
 region files; all 3 binaries re-gate BYTE-IDENTICAL.
-**3. `_carry_typedefs`' already-carried test was line-oriented** (`commit:1607`) — it required the
+**3. `_carry_typedefs`' already-carried test was line-oriented** (`6eea1ac6a`) — it required the
 name on the same line as the keyword, which `typedef struct Foo { … } Foo;` never satisfies, so the
 preamble's own multi-line typedefs were carried TWICE (`redefinition of struct Foo_8013C0F8`).
 One parser (`_typedef_blocks`) now serves both callers (R33).
@@ -795,8 +795,8 @@ One parser (`_typedef_blocks`) now serves both callers (R33).
 **The wave** (`wf_45e34026-aed`, 21 agents, 3.36M tok, 70 min): 12 top-weight zero-crack families,
 cracked against `match_one`, EVERY claimed MATCH re-gated by an independent adversarial verifier,
 then gated whole-binary. **9/12 agent-MATCH · 0 refuted · 8/12 banked (67%) · 3 NEAR · 0 FAIL.**
-Then propagation: **18 of 35 open member slots** banked (`commit:1621` `commit:1622` `commit:1623`
-`commit:1624`), R22 213/213. Full cycle = 8 cracks → **26 banked instances / 3.36M tok ≈ 129k per
+Then propagation: **18 of 35 open member slots** banked (`65204c205` `c824c19a3` `b1f03be9e`
+`e4471fd03`), R22 213/213. Full cycle = 8 cracks → **26 banked instances / 3.36M tok ≈ 129k per
 instance** — but see the md_ residue above before using that as wave 2's price.
 **THE ONE THAT PROVES THE GATE:** `func_8017F2D4` passed `match_one`, passed an INDEPENDENT
 adversarial verifier that re-ran the gate itself, and the whole-binary gate still classified it
@@ -807,7 +807,7 @@ supplied the exact signature, and one where reading the DESTINATION TU fixed eve
 free. That agent's line is worth keeping: *"reading the destination TU first was worth more than any
 cross-overlay grep."* Keep it as wave step 0 (it is already in the prompt template).
 
-## 📚 THE IDIOM HARVEST — §162 (`commit:1620`, cookbook now 495 sections)
+## 📚 THE IDIOM HARVEST — §162 (`0c5d6fa90`, cookbook now 495 sections)
 17 candidates → an independent SKEPTIC agent per candidate, deduped against the whole cookbook
 (1.59M tok): **NEW 3 · SHARPENS 13 · COVERED 0**, 1 agent died mid-response (its entry §162c is
 orchestrator-written and labelled the least-audited). The three new laws: **§162e** LICM — uniform
@@ -1278,7 +1278,7 @@ parameter into a local can cost a second callee-saved register (+8 frame, +3 ins
 before touching pins · §161c loose-prototype engine helpers: don't fight the TU's `(void)` decl,
 cast at the call site.
 
-## 📋 THE ADOPTED ENDGAME PLAN (Fable-5 frontier analysis, 2026-08-11, HEAD commit:1572)
+## 📋 THE ADOPTED ENDGAME PLAN (Fable-5 frontier analysis, 2026-08-11, HEAD d3f3d8ba2)
 Independent analysis re-derived EVERY headline number from `.run/family_hseq.json` (6,694 / 12,516 /
 678,195; the four-way split; reach and size bands; jr 56/208/36,939 — all reproduce exactly), then
 corrected four claims. **Full report is in this session's transcript; the operative content is here.**
@@ -1462,12 +1462,12 @@ exemplars** (idiom discovery — the only remaining multiplier). Batch ~50 for a
 fails closed.
 
 ## ✅ WHAT S46 LANDED (10 commits)
-- **S45 blocker closed** (`commit:1532`) — instrumentation, not a repair: it did not reproduce at HEAD.
-- **IDXTAB/DESTPTR load map** (`commit:1533`) — `tools/idxtab_map.py`, controls-gated; the blocker was our
+- **S45 blocker closed** (`91c64ce92`) — instrumentation, not a repair: it did not reproduce at HEAD.
+- **IDXTAB/DESTPTR load map** (`9351b17f4`) — `tools/idxtab_map.py`, controls-gated; the blocker was our
   own tracker being blind to gcc's indexed global-array read (cookbook §155c). Corrects §S45 p6.
-- **29 fns / +2,815 member-instances** (`commit:1534`), then **propagation 24min → 11.4min AND +62 MORE
-  instances** (`commit:1535`) — the faster path was also more correct (the old necessity probe over-excluded).
-- **Crack wave batch 1** (`commit:1537`) — 14 fns / 27 sites; **recovery ladder +6** (`commit:1538`).
+- **29 fns / +2,815 member-instances** (`b00531212`), then **propagation 24min → 11.4min AND +62 MORE
+  instances** (`f6e48b60c`) — the faster path was also more correct (the old necessity probe over-excluded).
+- **Crack wave batch 1** (`0b303f7fe`) — 14 fns / 27 sites; **recovery ladder +6** (`d54d0a899`).
 - **400+ cascade** — 20/47 match_one, **11 banked** (400–952 ins), 6 near (jr/§53), 1 failed.
 - **Waste prevention** — `tools/validate_targets.py` + wired into `wave_snapshot` (fails closed,
   negative-control-proven) + the cascade `done()` short-circuit on SKIPPED. See accelerators A9.
@@ -1499,7 +1499,7 @@ wrong, not finding another route.*
 
 # 🛑 (superseded by FINAL) SESSION S46 CHECKPOINT (2026-08-08)
 > **Tree CLEAN** (`src/`+`config/` = 0 modified) but for R23 `db.*.gbf` churn — never stage.
-> **Nothing running.** HEAD `commit:1535`. **NO phase close** — T5 unopened, needs Drew's gate-2.
+> **Nothing running.** HEAD `f6e48b60c`. **NO phase close** — T5 unopened, needs Drew's gate-2.
 > Gates at close: `check-all` **213/213**, `tools-health` **OK**, dedup **1949 validated / 0 failed**,
 > C1 coverage 249,233/249,233. Fleet **93.8% instr / 87.2% distinct / 95.69% fn-count**, 0 NON_MATCHING.
 
@@ -1547,19 +1547,19 @@ wrong, not finding another route.*
    as open, and design the test so the disagreement resolves itself.**
 
 ## ✅ WHAT THIS SESSION LANDED (4 commits, all gate-verified)
-- `commit:1532` **the S45p9 blocker closed** — but the honest finding first: the failure does NOT
+- `91c64ce92` **the S45p9 blocker closed** — but the honest finding first: the failure does NOT
   reproduce at HEAD, so the fix is *instrumentation*, not a repair. `apply_plan` no longer silently
   skips an unplaceable site (R32 gaps + per-site diagnosis), `find_site`'s `'stub'` verdict is
   honoured (a stub whose asm-subdir ≠ its file stem was invisible), and every abort restores kept
   reconciles AND diffs the worktree to PROVE it (the §156 class, different path). NC-proven.
-- `commit:1533` **the master IDXTAB/DESTPTR load map** (Drew's idea) — `tools/idxtab_map.py`,
+- `9351b17f4` **the master IDXTAB/DESTPTR load map** (Drew's idea) — `tools/idxtab_map.py`,
   controls-gated; 213 binaries → 143 with a table (294), 141 destinations. The blocker was our own
   tracker: blind to gcc's indexed global-array read (`lui`/`addu`/`lh lo(base)`), so both tables
   returned ZERO references. **Corrects §S45 p6** (the SC03 trio is NOT ov_SC03_001's — that table is
   identical in all 141 overlays) and **records what it CANNOT do**: absence ≠ dead code, since
   byte-proved loaders are absent from this route too. → `docs/idxtab-map.md`, cookbook §155c.
-- `commit:1534` **the bank**: 29 functions ×N = **+2,815 member instances**, R22 213/213.
-- `commit:1535` **the propagation parallelised**: 24 min → 11.4 min AND **+62 more instances** (the old
+- `b00531212` **the bank**: 29 functions ×N = **+2,815 member instances**, R22 213/213.
+- `f6e48b60c` **the propagation parallelised**: 24 min → 11.4 min AND **+62 more instances** (the old
   necessity probe was over-excluding). Threads → PROCESSES was the fix; my thread version measured
   0–4 builds at load 3. → `docs/accelerators.md` A8, memory `fleet-tool-parallelism-defaults`.
 - **NEW (Drew, standing): `docs/accelerators.md`** — the reusable-workflow ledger. Every late
@@ -1648,7 +1648,7 @@ eight separate slips. Propose at T5 alongside R37.
 ---
 
 # 🛑 (superseded by part 9) SESSION S45 CHECKPOINT part 8 (2026-08-07 late) — the SC03 trio SOLVED · Stage 1+2 landed · propagation in flight
-> **Effort ultracode.** HEAD `commit:1528`. ⚠️ **A PROPAGATION WAS RUNNING AT CHECKPOINT TIME** —
+> **Effort ultracode.** HEAD `537bd90a9`. ⚠️ **A PROPAGATION WAS RUNNING AT CHECKPOINT TIME** —
 > see "IF THE TREE IS DIRTY" below before anything else.
 
 ## ✅ THE SC03 TRIO IS SOLVED (static decode, after the runtime tracer supplied the anchor)
@@ -1696,7 +1696,7 @@ engine_core.h +2485). Expected: 30 fns → ~3,163 member-instances.
    propagation now restores itself — but verify, don't assume.
 
 ## 📌 ALSO CARRIED
-- 44 functions banked this session (R22 213/213 at `commit:1519`); ov_SC02_037 626→597 stubs.
+- 44 functions banked this session (R22 213/213 at `dcc76228b`); ov_SC02_037 626→597 stubs.
 - **Stage 1** (reconcile ledger + shared-state RW lock, 3 NCs) and **Stage 2**
   (`verify_worktree`, GREEN 87s, NC fires RED) of `docs/concurrency-design.md` are DONE.
   **Stage 5 CANCELLED** (verify is 87s; it cannot lag). **Stage 3** (wave dispatcher/gate farm)
@@ -1714,7 +1714,7 @@ engine_core.h +2485). Expected: 30 fns → ~3,163 member-instances.
 
 # 🛑 (superseded by part 8) SESSION S45 CHECKPOINT part 7 (2026-08-07 late) — 29 BANKED · R22 213/213 · F1 CONFIRMED LIVE — FRESH SESSION SAFE HERE
 > **Tree CLEAN** but for R23 `db.*.gbf` churn. **Nothing running.** Effort ultracode.
-> **NO phase close** — T5 unopened, needs Drew's gate-2. HEAD `commit:1519`.
+> **NO phase close** — T5 unopened, needs Drew's gate-2. HEAD `dcc76228b`.
 
 ## ✅ BANKED: 29 novel functions · `make clean && extract-all && check-all` → **213 passed / 0 failed**
 `ov_SC02_037` 626 → **597 live stubs**. Gated with BOTH guards: `GATE_NO_ARITY=1` +
@@ -1727,9 +1727,9 @@ reconcile on disk when it buys the byte-match; a fn dropped by a LATER iteration
 "all candidates dropped" exit) left that edit behind → no-proto'd externs for functions never
 propagated → `ov_SC07_010: passing arg 2 of func_80146A6C makes pointer from integer` → 141/213 fail.
 - **My first attribution to F1 was WRONG** (R14): no arity journal touched func_80146A6C (74/26/4
-  entries checked) and the arity undo reported success in every log. `commit:1519`'s commit message
+  entries checked) and the arity undo reported success in every log. `dcc76228b`'s commit message
   carries the wrong attribution — corrected forward in cookbook §156, history not rewritten.
-- **FIXED + PROVEN** (`commit:1521`, `commit:1522`): a reconcile LEDGER — every kept reconcile recorded
+- **FIXED + PROVEN** (`fe946595f`, `0ef53c7b2`): a reconcile LEDGER — every kept reconcile recorded
   against its fn, undone when the fn leaves `plan`, all outstanding restored before the failure exit.
   `tools/test_reconcile_ledger.py` applies a real reconcile for the exact overlay+fn (35 edits /
   18 files) then asserts all 25 files byte-identical after the undo. PASS.
@@ -1776,7 +1776,7 @@ apparent false claim was MY verifier missing `--o0` on an -O0 function — alway
 # 🛑 (superseded by part 7) SESSION S45 CHECKPOINT part 6 (2026-08-07 late) — WAVE-1 BANKED 0; the frontier DEFINITION was the bug — FRESH SESSION SAFE HERE
 > **Tree CLEAN** (verified: `git checkout -- src/ config/` after the gate left 659 files dirty;
 > `git status` on src/+config = 0). **Nothing running.** Effort ultracode. **NO phase close.**
-> Commits: `commit:1514`, `commit:1515`, `commit:1517`, `commit:1516` + this one.
+> Commits: `a3976d73e`, `0bd334c30`, `0499c1ec8`, `f5c73c51f` + this one.
 
 ## ⚠️ WAVE 1 (wf_077a5ee7-afd) BANKED **ZERO**. Read this before re-running anything.
 **50 Sonnet agents, 2.5M tokens, 0 banked.** Root cause was MINE, in two layers:
@@ -1835,7 +1835,7 @@ from it, with args READ FROM THE FILE, never hand-typed.
 
 # 🛑 (superseded by part 6) SESSION S45 CHECKPOINT part 5 (2026-08-07 late) — THE LAST 5 ARE STATIC-UNRESOLVABLE (proven)
 > **Tree CLEAN** but for R23 `db.*.gbf` churn (never stage). **Nothing running.** Effort Max.
-> **NO phase close** — T5 unopened, needs Drew's gate-2. Commits: `commit:1514`, `commit:1515`.
+> **NO phase close** — T5 unopened, needs Drew's gate-2. Commits: `a3976d73e`, `0bd334c30`.
 
 ## ▶ THE HEADLINE: p3/p4's "static-RE homework" is CLOSED — as a NEGATIVE, with evidence
 The last 5 (MAIN/7, MAIN/9, SC03/53/54/56) are **not statically derivable**. Two independent
@@ -2265,7 +2265,7 @@ shipping.** In `gate_stage`'s DEFAULT pipeline since Phase 20; **318 of 44,833 s
 line it mis-reads. **→ §143.**
 
 ### S1e — the "distinct-code regression" NEVER HAPPENED
-A **stale committed digest** (`commit:1426` generated from a tree holding work reverted before the
+A **stale committed digest** (`10f954627` generated from a tree holding work reverted before the
 commit landed; overstated +7,879 ins / +130 uniq). True delta: **everything rose.** Fixes:
 `progress.py stub_addrs` no longer swallows `corpus.stubs` (it had reported **100.00%/100.00%** in a
 tree with no `asm/`); the same swallow fixed in `cast_call_sites.tu_for` + `reconcile_tu.tu_for`
@@ -2388,14 +2388,14 @@ an honest denominator moves the headline DOWN.
 
 ## 🔑 THE SESSION'S HEADLINE — S38's "distinct-code REGRESSION" NEVER HAPPENED
 The v4 checkpoint gated the phase's best lever on it (*"do NOT scale the alias lever"*). It was a
-**STALE COMMITTED DIGEST**. `commit:1426`'s digest was generated from a working tree still holding work
+**STALE COMMITTED DIGEST**. `10f954627`'s digest was generated from a working tree still holding work
 **reverted before the commit landed** (+7,879 ins / +130 uniq overstated) and never regenerated, so
 the next HONEST digest read as a fall.
 
 | | instr | distinct | uniq |
 |---|---|---|---|
-| `commit:1426` **true** | 12,394,533 | 5,022,306 | 77,895 |
-| `commit:1426` *as committed* | 12,402,412 | 5,029,324 | **78,025** |
+| `10f954627` **true** | 12,394,533 | 5,022,306 | 77,895 |
+| `10f954627` *as committed* | 12,402,412 | 5,029,324 | **78,025** |
 | its successor, true **=** committed | 12,405,402 | 5,025,082 | 77,952 |
 
 **True delta over that span: instr +10,869 · distinct +2,776 / +57 uniq — EVERYTHING ROSE.**
@@ -2656,7 +2656,7 @@ Both passed their per-binary/per-draft gate and FAILED the clean-tree rebuild:
 | **S2** jr families | DONE — 10 members; 7 families now CLASSIFIED |
 | **S3** the whale | ✅ **COMPLETE — 138/138 (S39).** `ov_SC07_010` closed: `o0_subsplit --lo 0x80144B9C --hi 0x801457A4` (1 stub, **0 already-matched in range** ⇒ no §126 island; 3 regions, `_o0c` free) → split byte-neutral → banked via `../shared/func_80144B9C.h` → **R22 140/140 clean-tree**, fleet instr **+770** (12,405,402 → 12,406,172). The S38 cause ("reused an existing `_o0c`") did not recur — `o0_subsplit.free_letters` picks an unused suffix. Two decl conflicts hit on the way, enumerated with `cdecl` in ONE pass (R33) instead of one build at a time: of the header's 94 symbols the §8b carried layer re-declared 3, and 2 conflicted (`D_801274D0` `s32(*)(s32)`, `D_801274CC` `void*` vs header `s32`) — dropped, matching all 137 precedents (0 of them carry either), byte-neutral per §8c. **The 61 SC07 `-O0` members remain NOT attempted.** |
 | **S1d** the alias class | **138/138 on family 1**; generalised harvest committed w/ the accounting caveat |
-| **S1e** (#11) | ✅ **RESOLVED — THE REGRESSION NEVER HAPPENED (S39).** The `commit:1426` digest was committed **STALE** (generated from a tree still holding work reverted before the commit landed; overstated **+7,879 ins / +130 uniq**, never regenerated), so the next honest digest read as a fall. True delta 843→HEAD: **instr +10,869 · distinct +2,776 ins / +57 uniq — everything ROSE.** HEAD's digest reproduces EXACTLY. **⇒ THE ALIAS LEVER IS UNGATED — scale it (§61 small batches).** Both recorded leads were wrong (R14): `progress.py:423`'s `SIG` feeds **fn-count only**, and "reverted to INCLUDE_ASM" died on one grep (483 removed, **0 added**). Fixes: `stub_addrs` no longer swallows `corpus.stubs` (the bare `except` byte-witnessed reporting **100.00%/100.00%** in a tree with no `asm/`); **NEW `make audit-digest`** in `tools-health` (integers, not percentages — the staleness printed as "94.4%" both sides), negative-control-proven vs the stale digest; the SAME swallow fixed in `cast_call_sites.tu_for` + `reconcile_tu.tu_for`, where it reconciled against the **wrong TU** (the bug that file's own docstring exists to fix). cookbook **§140** · decision-log 2026-08-04. |
+| **S1e** (#11) | ✅ **RESOLVED — THE REGRESSION NEVER HAPPENED (S39).** The `10f954627` digest was committed **STALE** (generated from a tree still holding work reverted before the commit landed; overstated **+7,879 ins / +130 uniq**, never regenerated), so the next honest digest read as a fall. True delta 843→HEAD: **instr +10,869 · distinct +2,776 ins / +57 uniq — everything ROSE.** HEAD's digest reproduces EXACTLY. **⇒ THE ALIAS LEVER IS UNGATED — scale it (§61 small batches).** Both recorded leads were wrong (R14): `progress.py:423`'s `SIG` feeds **fn-count only**, and "reverted to INCLUDE_ASM" died on one grep (483 removed, **0 added**). Fixes: `stub_addrs` no longer swallows `corpus.stubs` (the bare `except` byte-witnessed reporting **100.00%/100.00%** in a tree with no `asm/`); **NEW `make audit-digest`** in `tools-health` (integers, not percentages — the staleness printed as "94.4%" both sides), negative-control-proven vs the stale digest; the SAME swallow fixed in `cast_call_sites.tu_for` + `reconcile_tu.tu_for`, where it reconciled against the **wrong TU** (the bug that file's own docstring exists to fix). cookbook **§140** · decision-log 2026-08-04. |
 | **S4** draft-recovery | 🔄 **IN PROGRESS (S39) — the 6 open wave-6 drafts triaged; 4 BANKED (+1,905 ins), R22 140/140.** `func_801919A0` (ov_SC06_032, 710) · `func_80189030` (ov_SC03_001, 557) · `func_801878E8` (ov_SC04_018, 513) · `func_8018A564` (ov_SC02_027, 125). **⚠️ THE FINDING: all four banked UNCHANGED — no new work on the drafts.** S38 recorded them blocked on a class needing a fix ("cracking this one class frees 6 drafts at once"); they were already freed by S38's own tool repairs (the `jr_isolate_all`/`overlay_src_split` alias-DELETION blindness + `harvest_verify._reload_corpus`). The drafts were correct; the instruments were failing them. **⇒ RE-GATE STORED DRAFTS AFTER ANY TOOL REPAIR before treating a stored verdict as a fact about the code** — this is the 5th "wall" this phase to resolve to our own tooling. Note each bank also did a jtbl carve ⇒ config touched ⇒ fleet blast radius (R22 mandatory, run). **Left on the backlog as GENUINE codegen residuals (not forced, P9):** `func_8017C974` (ov_SC01_077, 947, close=47 REGALLOC-PERM, 12 permuter variants inert) · `func_80188C68` (ov_SC03_124, 551, close=370, no twin anywhere). **Family propagation DONE:** `func_801878E8` **4/4 siblings BANKED** (+2,052 ins, ~0 agent tokens) via `jtbl_family_bank.py` — `family_sweep --hseq` had correctly REFUSED it (§53 interlock: `has_mid_jr` ⇒ jtbl carve route, "a 0% from this path would be a TOOL artifact, not a wall"), and the tool requires a CLEAN tree (it reverts from HEAD per sibling), so the ×1 banks had to commit first. R22 140/140. **Stored-draft re-gate MEASURED (S39, `docs/calibration.md`):** A10's "0/958" was re-tested after S38's tool repairs — **fresh wave-6 drafts 4/6 · unbiased stored sample 1/12 · the two REVERTED overlays 3/17** (+146 ins banked: `ov_SC06_030` func_80161208/func_80162CCC, `ov_SC07_010` func_801506A4/func_8016F0AC; R22 140/140, incl. a fleet-wide `engine_core.h` no-proto arity edit proven byte-neutral). **A10 broadly STANDS** — ~8% on the general pool is not a harvest and a 1,155-wide sweep (1,155 whole-binary builds) is NOT justified. The real rule: **re-gate the drafts a repair plausibly touched, targeted by its blast radius — not the whole ledger.** **Still to do in S4:** the 39 draft-exemplar families (382 members) + the 2 resident stubs with gate-rejected match_one-MATCH drafts. |
 | S5 · S6 · S7 | pending |
 
@@ -3064,7 +3064,7 @@ No bad bytes from any of them — the byte-gate and R22 caught everything.
 # 🛑 SESSION-33..37 CHECKPOINT (2026-08-04, wave 5 BANKED) — FRESH SESSION SAFE HERE
 > **NOTHING IS RUNNING. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort: **ultracode**. **R22 clean-fleet run TWENTY times this session, 140/140 every time.**
-> Last CODE commit `commit:1393` (wave-5 bank); this checkpoint commits on top of it.
+> Last CODE commit `af16c38a6` (wave-5 bank); this checkpoint commits on top of it.
 > **Drew's standing decision: NO phase close — keep grinding.**
 > **VERIFY THIS BLOCK IS CURRENT BEFORE TRUSTING IT** (it goes stale, and stale is worse than
 > absent): `git log --oneline -3` should show this checkpoint at or near HEAD, and
@@ -3176,7 +3176,7 @@ Manifest: `.run/s37_wave.json` (16 targets / 16,884 templatable ins). Script: `.
 
 ## FLEET (at the last commit, before the ungated drafts)
 **96.27% fn-count · 94.1% instr-weighted · 88.6% distinct-code** (77,723 uniq) · dedup **1910/0** ·
-C1 241216/241216 · **0 NON_MATCHING** (G4). HEAD `commit:1391` + this checkpoint.
+C1 241216/241216 · **0 NON_MATCHING** (G4). HEAD `906484075` + this checkpoint.
 Session opened 96.01 / 93.6 / 88.0. Phase opened 92.00 / 87.5 / 78.0 ⇒ **+4.27 / +6.6 / +10.6pp.**
 
 ## WHAT THIS SESSION DID
@@ -3265,7 +3265,7 @@ No bad bytes from any of them — the byte-gate and R22 caught everything.
 
 # 🛑 (superseded) SESSION-33/34/35 CHECKPOINT (2026-08-04)
 > **Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage. Effort: **ultracode**.
-> **R22 clean-fleet run FIFTEEN times, 140/140 every time.** HEAD `commit:1388`.
+> **R22 clean-fleet run FIFTEEN times, 140/140 every time.** HEAD `7a4abddbf`.
 > **Drew's standing decision: NO phase close — keep grinding, run waves all night.**
 > ⚠️ A wave (`.run/s35w.js`, 13 targets / 17,644 ins) may still be IN FLIGHT — check
 > `/workflows` and `.run/s35/*/*.c` before assuming the tree is idle. Agents write `.run/` ONLY.
@@ -3354,7 +3354,7 @@ No bad bytes from any of them — the byte-gate and R22 caught everything.
 # 🛑 (superseded) SESSION-33 CHECKPOINT (2026-08-04)
 > **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
 > Effort: **ultracode**. **R22 clean-fleet run FOUR times this session, 140/140 every time.**
-> HEAD `commit:1380`. **Drew's standing decision: NO phase close — keep grinding.**
+> HEAD `62042f65c`. **Drew's standing decision: NO phase close — keep grinding.**
 
 ## FLEET — R22 **140 passed / 0 failed of 140**
 **96.10% fn-count · 93.7% instr-weighted · 88.0% distinct-code** · dedup **1908/0** ·
@@ -3363,9 +3363,9 @@ Phase opened 92.00 / 87.5 / 78.0 ⇒ **+4.10pp fn, +6.2pp instr, +10.0pp distinc
 
 ## WHAT S33 DID — lane 2 of the S10 checkpoint (the propagation lag), taken FIRST on the
 standing "probe the cheap lever before funding the expensive one" doctrine. **~0 agent tokens.**
-- **SC07 EXTEND: 0/36 → 31/36.** Commits `commit:1377` · `commit:1378`.
+- **SC07 EXTEND: 0/36 → 31/36.** Commits `eb2e72328` · `16a1dabc7`.
 - **PROPAGATE head: 7,398 of 18,545 ins banked** — `func_80147364` ×137 (4,110) + `func_8012A598`
-  ×138 (3,288). Commits `commit:1379` · `commit:1380`.
+  ×138 (3,288). Commits `c7ad41c8a` · `62042f65c`.
 - **Distilled to cookbook §138** (+ index regenerated) — the full triage is there, not here.
 
 ## 🔑 THE FINDING: a gate refusal in these lanes is a DECLARATION, not codegen
@@ -3438,7 +3438,7 @@ current single-line regex matches **90**, and the one miss is `func_801466F0`. T
 class; it is one function worth 3,288 ins. Fix the regex (join-and-map, the §134 shape) or hand-author.
 
 ## ⚠️ MY WRONG PREDICTION, CORRECTED BY THE BYTES (R14/R37) — and it refines §138
-Commit `commit:1382` relaxed 42 `extern void func_80146C3C(void);` decls and its message implies that
+Commit `7a6a09379` relaxed 42 `extern void func_80146C3C(void);` decls and its message implies that
 unblocked the PROPAGATE remainder. **It did not.** The re-run banked **0/1 in every one of the 134
 overlays**, with the same error — because **`DEFINE_func_8016BA68` declares that symbol
 `(u8*)`, not `(void)`**, and the TU declares it `(void)`. That is the **MIRROR** of the EXTEND-lane
@@ -3503,7 +3503,7 @@ No bad bytes from any of them — the byte-gate and R22 caught everything.
 
 # 🛑 (superseded) SESSION-31/32 CHECKPOINT (2026-08-03)
 > **Nothing is running. Tree lock FREE. Tree CLEAN** but for the R23 `db.*.gbf` churn — never stage.
-> Effort: **ultracode**. **R22 clean-fleet run TWELVE times, 140/140 every time.** HEAD `commit:1375`.
+> Effort: **ultracode**. **R22 clean-fleet run TWELVE times, 140/140 every time.** HEAD `1859266d6`.
 > **Drew's standing decision: NO phase close — keep grinding** (task #15).
 
 ## FLEET — R22 **140 passed / 0 failed of 140**
@@ -3616,7 +3616,7 @@ No bad bytes from any of them — the byte-gate and R22 caught everything.
 
 # 🛑 (superseded) SESSION-30 CHECKPOINT (2026-08-01, S6 complete through wave 3)
 > **Nothing is running. Tree lock FREE. Tree CLEAN** (0 non-ghidra entries; the `db.*.gbf` churn is
-> R23 restart-noise — never stage). **HEAD `commit:1352`.** Effort: xHigh → **ultracode** (Drew enabled
+> R23 restart-noise — never stage). **HEAD `bfbcb86b3`.** Effort: xHigh → **ultracode** (Drew enabled
 > mid-session for the waves). `make tools-health` green at session open; frontier REGENERATED at HEAD
 > after the last bank, so every number below is current (not carried forward).
 
@@ -3625,9 +3625,9 @@ No bad bytes from any of them — the byte-gate and R22 caught everything.
 0 NON_MATCHING. Phase opened 92.00 / 87.5 / 78.0 ⇒ **+3.42pp fn, +4.9pp instr, +7.5pp distinct.**
 
 ## WHAT S6 DID — ~3,500 member-matches in 11 commits
-`commit:1343` S6a 842 · `commit:1344` S6b +740 · `commit:1345` S6e fix · `commit:1346` B +268 ·
-`commit:1347` S6f calib +65 · `commit:1348` S6f wave-1 +544 · `commit:1349` S6g wave-2 +342 ·
-`commit:1351` S6h wave-3 +673 · `commit:1352` cookbook §135 (+ 2 checkpoint/doc commits).
+`8a519addf` S6a 842 · `39558b299` S6b +740 · `aa600c56e` S6e fix · `381cd56d4` B +268 ·
+`e6cec3073` S6f calib +65 · `6e181db77` S6f wave-1 +544 · `372dc62d3` S6g wave-2 +342 ·
+`6fe9b66f2` S6h wave-3 +673 · `bfbcb86b3` cookbook §135 (+ 2 checkpoint/doc commits).
 
 **Two distinct engines ran, and BOTH paid:**
 1. **Tooling repair (deterministic, ~0 agent tokens).** The pre-fix tools scored the zero-crack
@@ -3682,7 +3682,7 @@ via `.run/s6f_gate.py '<glob>'` (derives every TU/split; agents' `match_one` MAT
 # 🛑 (superseded) SESSION-29 CHECKPOINT (2026-08-01, refreshed ~11:2x)
 > Supersedes the earlier S29 block below (which said "AT GATE 2"; Drew then directed **P30 stays
 > OPEN** and approved the T6 continuation). **Nothing is running. Tree lock FREE. Tree clean** but
-> for the R23 `db.*.gbf` churn (never stage). **HEAD `commit:1335`.** Effort: Max → **xHigh** (Drew).
+> for the R23 `db.*.gbf` churn (never stage). **HEAD `1a1463b1c`.** Effort: Max → **xHigh** (Drew).
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed** (run 7× this session, 140/140 every time)
 **94.43% fn-count · 91.4% instr-weighted · 84.0% distinct-code** (73,787 unique fns) · dedup 1905/0 ·
@@ -3774,7 +3774,7 @@ Overlays: **94.7% fn / 91.8% instr / 85.0% distinct**; unmatched **18,635 instan
 
 # 🛑 (superseded) SESSION-29 CHECKPOINT (2026-08-01 ~00:40) — AT GATE 2
 > Supersedes SESSION-28 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1303`.** Effort: **Max** all session.
+> `db.*.gbf` churn (never stage). **HEAD `34c667cc2`.** Effort: **Max** all session.
 > `make tools-health` **RC=0** at close; **R22 clean-fleet run TWICE this session, 140/140 both times.**
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed**
@@ -3803,13 +3803,13 @@ measured ROI floor (the end of the ×138 era after S2), not on a session count.
 **Start here:** S1's head — `0x8014032C` (183 ins ×137, jr, per-location, exemplar matched in
 ov_SC01_077) via `jtbl_family_bank`, **probing ONE sibling first** (the S29 discipline: 1 build
 instead of 137). Then `0x8017BEBC`, then the ×4-straggler families.
-Frontier data: `.run/family_hseq.json` (regenerated at HEAD `commit:1303`, same-tree as the digests).
+Frontier data: `.run/family_hseq.json` (regenerated at HEAD `34c667cc2`, same-tree as the digests).
 
 ---
 
 # 🛑 (superseded) SESSION-28 CHECKPOINT (2026-07-31 08:1x)
 > Supersedes SESSION-27 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1293`** (+ this doc commit).
+> `db.*.gbf` churn (never stage). **HEAD `095812000`** (+ this doc commit).
 > Effort: opened **xHigh** → **Max** for the jr re-measurement and the T2 probe ladder → back to
 > **xHigh** for the driver + sweep. `make tools-health` RC=0 at session open.
 > **R22 clean-fleet run THIRTEEN times this session, 140/140 every time** (one 139/140 and one
@@ -3821,10 +3821,10 @@ dedup 1905/0 · C1 240496/240496 · 0 NON_MATCHING. Phase opened 92.00 / 87.5 / 
 ⇒ **+1.25pp fn-count, +1.7pp instr, +2.5pp distinct this phase.**
 
 ## 🎯 THE THREE REACH-138 TARGETS + THE SWEEP RESIDUE — 270 members banked, 1 wall
-**✅ `func_8013C08C` 0/137 → 137/137** (`commit:1286`) — §94 type-carry; `E_13C08C` was a MULTI-LINE
+**✅ `func_8013C08C` 0/137 → 137/137** (`197004fb5`) — §94 type-carry; `E_13C08C` was a MULTI-LINE
 typedef at FILE scope and `extract_unit`'s backscan cannot carry one (it presents its CLOSING line
 first). Fix = §100 draft-local. Byte-neutral.
-**✅ `0x8013BC7C` 133/133** (`commit:1291`) — the sweep residue. My hypothesis (split tracks the `-O0`
+**✅ `0x8013BC7C` 133/133** (`6f6dc6db5`) — the sweep residue. My hypothesis (split tracks the `-O0`
 file) was REFUTED (SC07_006/007/011 were sub-split today and banked anyway), so I staged one member
 and READ the error: (1) a typedef textually identical to `engine_types.h`'s, which C89 still rejects
 — already handled by `harvest_verify`'s `cdecl.strip_provided_typedefs`; (2) §57 self-decl divergence
@@ -3847,7 +3847,7 @@ code subseg so each object owns exactly one table.** Drafts preserved at `.run/s
    (`.run/p30w4_pool.json`). ⚠️ **S28 ROI evidence: a 15-target wave cost 1.33M tokens for 12 banks
    and +0.00pp headline.** Only worth resuming against HIGH-REACH targets; ×2-reach drafting is not
    where the leverage is. Deal ACROSS binaries so the gate fans out.
-3. ~~**[Max] #9 — `jtbl_carve` diverges on ov_SC06_018**~~ ✅ **SOLVED + BANKED (S28, `commit:1293`).**
+3. ~~**[Max] #9 — `jtbl_carve` diverges on ov_SC06_018**~~ ✅ **SOLVED + BANKED (S28, `095812000`).**
    Root cause: a jtbl **OVER-SPAN**. `sltiu 0xC` names 12 entries, the object emits 12 words, the carve
    reserved 13 — the 13th being ordinary NON-ZERO data spimdisasm ran into the dlabel, which the
    zero-word trim cannot see. The piece under-filled ⇒ every later symbol slid −4 ⇒ 812 `%lo`
@@ -3914,7 +3914,7 @@ measurement* (SESSION-27's law, re-earned). Re-derive after the campaign exits.
 
 # 🛑 (superseded) SESSION-27 CHECKPOINT (2026-07-31 01:25)
 > Supersedes SESSION-26 below. **Nothing is running. Tree lock FREE. Tree clean** but for the R23
-> `db.*.gbf` churn (never stage). **HEAD `commit:1258`.**
+> `db.*.gbf` churn (never stage). **HEAD `0130fb340`.**
 
 ## FLEET — R22 clean-fleet **140 passed / 0 failed** (verified at HEAD)
 **92.67% fn-count · 88.3% instr-weighted · 78.7% distinct-code** (70,590 / 87,459 unique fns).
@@ -3974,8 +3974,8 @@ closing on itself.
 > 00:47 (2026-07-31)** to resume — but cron is SESSION-ONLY and dies with this session, so if the
 > session ended, just follow "RESUME HERE" manually.
 
-**HEAD `commit:1254`.** Fleet at last verified point: **92.59% fn-count · 88.2% instr · 78.7%
-distinct · R22 140/140** (commit `commit:1252`).
+**HEAD `c0407e7a8`.** Fleet at last verified point: **92.59% fn-count · 88.2% instr · 78.7%
+distinct · R22 140/140** (commit `471314da5`).
 
 ## ⏳ RUNNING AT PAUSE (check these FIRST)
 - **`w4-gate`** under `tools/treelock.sh` (pid at pause 1313761): gating wave-4's **68 drafts across
@@ -4036,7 +4036,7 @@ gate_stage's scoped add; **OWED AFTER IT LANDS:** a config sweep-up commit — j
 `config/overlays.mk` + splat yamls which `gate_stage --commit` does NOT stage — then R22 clean-fleet
 + report point #2).
 
-**HEAD at checkpoint:** `commit:1223`. **Fleet:** 87.5 / 78.0 / 92.00 (pre-T1a-banks). Tree: T1a's
+**HEAD at checkpoint:** `fe8095a24`. **Fleet:** 87.5 / 78.0 / 92.00 (pre-T1a-banks). Tree: T1a's
 in-flight src/config edits (theirs); `.run/` artifacts.
 
 **T0 ✅ (6 commits) · T0.5 ▶ (batch running; main+3 overlays done: +2,241 cached) · T1a ▶ ·
@@ -4401,7 +4401,7 @@ in it, `exec` that function's source (`ast.get_source_segment`) — never `impor
 The S40 close and the S42 checkpoint both list this as item #1/#3 cheap fuel — *"20 CC1-FAIL + 5 callee
 conflicts; the recovery ladder already has every lever."* **Measured today: it does not.**
 
-**Re-derived from the tree, not inherited (R35):** the S40 propagation commit `commit:1465` banked **59**
+**Re-derived from the tree, not inherited (R35):** the S40 propagation commit `669367dab` banked **59**
 function families; **22 of them still have open members — 31 instances**, not 26 (the stale count was
 taken before later sessions moved the board).
 
@@ -4527,7 +4527,7 @@ choice is empirical: `pkt` ⇒ MATCH, `ot` ⇒ 705 off, doubling the first host 
 
 ## ✅ R22 CLEAN-FLEET — **140 passed, 0 failed of 140**
 `make clean && make extract-all && make check-all` from a genuinely clean tree. **This discharges the
-`[R22 PENDING]` caveat on commit `commit:1484`** — all five of today's banks are confirmed, not
+`[R22 PENDING]` caveat on commit `25402b2eb`** — all five of today's banks are confirmed, not
 incremental-build artifacts (§130).
 
 ### FLEET AFTER S43
@@ -5147,7 +5147,7 @@ with no matching process. The poll sampled one of those gaps, read "clear", and 
 of-a-process is a sampling test on a gappy signal; it cannot express "a campaign owns the tree."
 
 **Recovery (clean, nothing lost that mattered).** Killed the writers; `git checkout -- src/ config/`
-back to `commit:1245` (the last R22-verified 140/140 commit); all 58 drafts survive untouched in
+back to `5d4167bb3` (the last R22-verified 140/140 commit); all 58 drafts survive untouched in
 `.run/` because agents never write the tree — the discipline that made this cheap. Re-verifying
 baseline, then re-gating and re-propagating serially under the lock.
 
@@ -5280,7 +5280,7 @@ defect.** First probe: identify WHICH symbol shifts on a failing overlay's re-ca
 splat re-GUESSES a data-symbol boundary the carve moves → pin it in config symbols and re-probe.
 
 ### T0.5 ▶ launched + probed (2026-07-30)
-`tools/prefetch_fleet.py` (committed `commit:1220`): 126 programs / 7,966 uncached representatives.
+`tools/prefetch_fleet.py` (committed `19766a6dc`): 126 programs / 7,966 uncached representatives.
 **Probe 1 (main):** +1,525/2,002 cached in <1 min — the decompile leg is CHEAP; **477 main addrs
 have no defined function in the program** (main's 06-14 auto-analysis gap) → follow-up: a
 `DefineFunctions.java` completion pass over main from splat entries (the Phase-10 mechanism), then

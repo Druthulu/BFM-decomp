@@ -158,7 +158,7 @@ def main():
     # ---- totals ----------------------------------------------------------------------------------
     # BANKED TODAY IS DERIVED FROM THE INCLUDE_ASM INVARIANT, NOT FROM COMMIT SUBJECTS (S61, R33).
     # The subject regex summed "— N banked" and missed every bank that rode in a chore/maint commit:
-    # the S60 A-prop pass put 357 banks in commit:2904 ("chore: ...") and the regex reported 2,185
+    # the S60 A-prop pass put 357 banks in 274932d20 ("chore: ...") and the regex reported 2,185
     # for a day whose stub count fell by 2,644 net (frontier-analysis-s60 §1). Stubs are counted at
     # the last commit before midnight, at HEAD, and in the working tree (uncommitted banks — R42
     # says commit them, the number says whether anyone did). Carves re-add stubs, so this is NET.

@@ -3,7 +3,7 @@
 
 > Gen2 phase 23 (8→…→31→**32**). Fifth phase off `docs/roadmap-to-100.md` v2 (§3 P32 as written was already consumed by
 > P31; this phase was chartered from `docs/frontier-p32.md` as the 21-row census + the 5 parked payloads, short and kill-gated).
-> Ran **5 sessions (S81–S85, 2026-09-05 → 2026-09-06)** and **111 commits** (`commit:3900..HEAD`). The granular trail (every
+> Ran **5 sessions (S81–S85, 2026-09-05 → 2026-09-06)** and **111 commits** (`77df1092e..HEAD`). The granular trail (every
 > variant, verdict, instrument defect and its repair, and the session checkpoints) is preserved on-demand at
 > **`phase-ends/logs/Phase32.md`** (R19 — NOT auto-loaded). Owner decisions (Drew): gate 1 (2026-09-05, plan mode, Max;
 > R44–R63 ratified); the T4b directive (2026-09-05: "anything that isn't the original hand-written asm or the PsyQ libs needs
@@ -20,18 +20,18 @@ reads **100.00% fn-count / 100.0% instruction-weighted / 100.0% distinct-code wi
 register pins, fences or asm bodies in the final two banks**.
 
 **Files created/changed and complete — do not recreate** (category summaries; the per-commit list is `git log
-commit:3900..HEAD` and `phase-ends/logs/Phase32.md`):
+77df1092e..HEAD` and `phase-ends/logs/Phase32.md`):
 
-- **Source — 77 functions banked byte-identical** (`src/**`): T1a `resident:func_800D128C` (`commit:3904`, a stored
-  closeness-0 draft freed by three instrument fixes), T1b `ov_SC02_017:func_80186C64` (`commit:3907`, a RELOC-ONLY twin
-  remap), T1c `md_MAIN_034:func_800CB00C` (`commit:3908`, a stored S72 body the census had mis-keyed), T2c ×20 (twins,
+- **Source — 77 functions banked byte-identical** (`src/**`): T1a `resident:func_800D128C` (`c513e1fbb`, a stored
+  closeness-0 draft freed by three instrument fixes), T1b `ov_SC02_017:func_80186C64` (`c7f5b498a`, a RELOC-ONLY twin
+  remap), T1c `md_MAIN_034:func_800CB00C` (`059266afc`, a stored S72 body the census had mis-keyed), T2c ×20 (twins,
   constant flips, pass-throughs — 0 drafting tokens), T3 ×39 (the one-agent-per-function pass), T4b ×13 (the Fable first pass
-  ×11 incl. the §474 "PROVED" wall `func_80011380` `commit:3990`; the hand pass `md_MAIN_007:func_800CF408` `commit:4001` and
-  `ov_SC03_105:func_80185810` `commit:4004`), T4c ×2 (`main:func_80032A74` `commit:4007`, `main:func_80039308` `commit:4008`).
+  ×11 incl. the §474 "PROVED" wall `func_80011380` `35fa11674`; the hand pass `md_MAIN_007:func_800CF408` `8fa12bc22` and
+  `ov_SC03_105:func_80185810` `cdd9a2cb8`), T4c ×2 (`main:func_80032A74` `f9a90affb`, `main:func_80039308` `ffb1949a1`).
   `config/dedup.us.yaml` 2,220 groups / 0 failures (unchanged count; 255,708 instances).
 - **Five binaries onboarded** (T2b, `config/splat.md_*.yaml`, `config/check.md_*.sha`, `config/overlays.mk`, `src/md_*/`):
-  `md_MAIN_007` @0x800CEDF8 (`commit:3911`), `md_MAIN_009` @0x800CD348 (`commit:3912`), `md_SC03_053` + `md_SC03_054` @0x801EF468
-  (`commit:3913`), `md_SC03_056` @0x801CBB50 (`commit:3914`) — every base static-derived (`tools/payload_base_evidence.py`, controls
+  `md_MAIN_007` @0x800CEDF8 (`1a696a851`), `md_MAIN_009` @0x800CD348 (`10aaf5c29`), `md_SC03_053` + `md_SC03_054` @0x801EF468
+  (`b52d67be0`), `md_SC03_056` @0x801CBB50 (`1e843c607`) — every base static-derived (`tools/payload_base_evidence.py`, controls
   7/7) and byte-proven by the first internal-call C bank; `make audit-disc` residue 0, **UNCLAIMED 0 of 220**;
   `docs/disc-completeness.md` P32 section, `docs/memory-map.md` §S45 p7.
 - **Instruments (new/repaired, all under `tools/`, SETUP rows per R21):** `payload_base_evidence.py` (T2a);
@@ -40,7 +40,7 @@ commit:3900..HEAD` and `phase-ends/logs/Phase32.md`):
   --work` dir — the standalone compile is NOT faithful on main TUs) + **`alloc_table.py`** (global's allocation order /
   priorities / hard regs from the dumps) (S85); `backlog.py` tie-break repair (a re-verdict could never render); the
   `jr_isolate_all` provided-types fix (§496), `jtbl_carve --pre` + `harvest_verify` extract-rc + `interleave_check --pre`
-  fixes (§498); the Makefile `C_SRCS` dotfile guard (`commit:3949`); `.run/P32/t3s3/bank.sh` + `splice.py` (the overlay bank
+  fixes (§498); the Makefile `C_SRCS` dotfile guard (`563a21144`); `.run/P32/t3s3/bank.sh` + `splice.py` (the overlay bank
   chain: verbatim grep → rtu → splice → one build → sha → commit-on-green; session trailer from `$CLAUDE_SESSION`);
   `exclude_audit --write` drops banked pins; `frontier_classify` census JSONs for every step (`.run/P32/frontier_*.json`).
 - **Knowledge base:** `docs/matching-cookbook.md` **§496–§501-R** (the four T1a instrument classes; §499 module onboarding; §500
@@ -62,7 +62,7 @@ commit:3900..HEAD` and `phase-ends/logs/Phase32.md`):
 never written to; the `ghidra/` churn is R23 restart-noise, never staged).
 
 **Verification results (literal, at close):**
-- `make clean && make extract-all && make check-all` (after the last bank, `commit:4008`) → clean EXIT=0 · **extract-all: 217
+- `make clean && make extract-all && make check-all` (after the last bank, `ffb1949a1`) → clean EXIT=0 · **extract-all: 217
   extracted, 0 failed of 217 (+ main, serial)** EXIT=0 · **check-all: 218 passed, 0 failed of 218** EXIT=0 at 16:13:17 MDT
   (`.run/P32/t4e/r22_{clean,extract,check}.log`). R22 was also run after every earlier banked batch of the phase (T1a 213/213;
   T1b+T1c 213/213; T2c 218/218; T3 218/218 ×3; T4b 218/218 ×2; the row-(d) bank 218/218) — no batch closed red.
@@ -156,7 +156,7 @@ the three-metric dashboard) as one recorded run, then the public-flip checklist.
 
 ## Commit Message
 ```
-(Phase 32 landed as 111 commits commit:3900..HEAD, 2026-09-05 → 2026-09-06 (S81–S85). This close = the archived log +
+(Phase 32 landed as 111 commits 77df1092e..HEAD, 2026-09-05 → 2026-09-06 (S81–S85). This close = the archived log +
 this PhaseEnd + the DIGEST update, Drew's milestone-close commit.)
 
 chore(phase-32): CLOSE — the frontier is empty: 0 stubs across 218 binaries, fleet 100.00 / 100.0 / 100.0, main 2,091/2,091 (v1.31.0)
@@ -230,7 +230,7 @@ verifying the whole thing once more end to end, cleaning the repository's histor
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase32.md` (R19, via `git mv`); `phase-ends/DIGEST.md`
 appended (step 3b) — **all three left uncommitted for Drew's milestone-close commit** (R6 gate-2 sign-off). The Phase-32 work
-is committed across the sessions (`commit:3900..HEAD`); **Drew commits AND pushes** this PhaseEnd + the archived log + the
+is committed across the sessions (`77df1092e..HEAD`); **Drew commits AND pushes** this PhaseEnd + the archived log + the
 digest. The Ghidra MCP (the SessionStart hook's headless server) was stopped cleanly (R23); no DB change to commit — the
 `db.*.gbf` churn is restart-noise, do NOT stage it. Gen2 continues — do **NOT** start Phase 33 here. Start a **fresh session**
 (effort **Max**, **plan mode**) for **Phase 33 — 100% verification + the public flip + Gen2 exit**, planning from roadmap v2

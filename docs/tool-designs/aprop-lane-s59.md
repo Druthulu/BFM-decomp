@@ -196,7 +196,7 @@ session; my diff names only `func_80162CCC`):
   this lane; left RED and **named here rather than papered over** — needs the jtbl tooling
   owner.
 
-The "how did that pass report green" question for commit:2694 is open and belongs to gate_stage's
+The "how did that pass report green" question for 3e9ef768b is open and belongs to gate_stage's
 splice/undo ordering; the arity journals of that pass contain no entry for func_8017F2BC, so the
 `(void)` decl was reintroduced by a later splice or restore *after* the last green build.
 

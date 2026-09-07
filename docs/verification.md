@@ -63,11 +63,11 @@ The project's own full run is recorded, log by log, under `.run/P33/verify/` (tr
 `EXIT=<rc>` and a timestamp, plus `SUMMARY.md`), produced by `tools/verify_contract.sh` on the committed tree. The table
 below is copied from that `SUMMARY.md`; regenerate it with the script, never by hand.
 
-- **Tree:** `commit:4028` (2026-09-06) · **Host:** Linux 6.18.33.1-microsoft-standard-WSL2, 32 CPUs, JOBS=16 · **Run:** 2026-09-07T03:11:58Z
+- **Tree:** `3e0ecfacc` (2026-09-06) · **Host:** Linux 6.18.33.1-microsoft-standard-WSL2, 32 CPUs, JOBS=16 · **Run:** 2026-09-07T03:11:58Z
 
 | # | Step | EXIT | wall | contract line |
 |---|---|---|---|---|
-| 00 | `tree` | 0 | 1s | HEAD commit:4028 2026-09-06 fix(phase-33): audit_frontier's LINKED-stub count reads the Stub records (the refer |
+| 00 | `tree` | 0 | 1s | HEAD 3e0ecfacc 2026-09-06 fix(phase-33): audit_frontier's LINKED-stub count reads the Stub records (the refer |
 | 01 | `check-env` | 0 | 0s | check-env: OK — Phase-4 toolchain ready. |
 | 02 | `family-hseq` | 0 | 11s | family_hseq regenerated: 217 binaries scanned, 0 open instances |
 | 03 | `r22-clean-fleet` | 0 | 157s | check-all: 218 passed, 0 failed of 218 |

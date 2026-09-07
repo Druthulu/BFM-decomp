@@ -140,7 +140,7 @@ def write_pads(idx, lines, pads, note):
     """Rewrite ONE armed-object line, atomically, in the exact live format.
 
     TWO defects lived here until S61 and one poisoned the whole registry (committed by the
-    gater blanket commit commit:2996 as `...o: JTBL_PADS : JTBL_PADS := 0,0` -> make dies at
+    gater blanket commit a9e7f20d3 as `...o: JTBL_PADS : JTBL_PADS := 0,0` -> make dies at
     parse with "target pattern contains no %" and EVERY build of EVERY binary fails):
     (1) the line was split on ':' but `:=` CONTAINS a colon, so each write appended a second
     `: JTBL_PADS`; (2) the file was written with a raw truncating open(MK,"w") - the S60 wipe

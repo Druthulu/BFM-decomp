@@ -1224,7 +1224,7 @@ def _macro_unit(addr):
     # exactly 4 spaces — so anchoring at column 0 excludes them by construction. That matters: a macro
     # body line like `    extern void func_80144B9C(void); \` would otherwise be read as a DEFINITION,
     # because the trailing line-continuation means the line does not end in ';' and the decl guard never
-    # fires. That is exactly the declaration-read-as-definition bug fixed at commit:0552 — do not re-open
+    # fires. That is exactly the declaration-read-as-definition bug fixed at cc6220eba — do not re-open
     # it. The whale's direct definition (`void func_80144B9C(void) {`) is at column 0, as any real
     # file-scope definition must be.
     pat = re.compile(rf'^[A-Za-z_][\w \*]*\bfunc_{addr:08X}\s*\(', re.I)

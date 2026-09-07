@@ -14,7 +14,7 @@ Per result (never in bulk): grep the draft for .ent/.word (verbatim = not a matc
 ## overflowed at 07:07Z, four minutes after its 9th bank commit; see phase-ends/CURRENT_PHASE.md 🛑 for the resume order)
 - 31 of 47 launched (16 Opus / 4 Sonnet incl. one escalation / 11 Haiku); 17 Haiku rows still queued in pending_launch.txt.
 - Verdicts: 20 MATCH / 9 NEAR / 2 FAIL → .run/P32/t3/verdicts.jsonl (31 rows, rebuilt from tasks/a*.output only).
-- Banked in the producing session (10 fns, 9 commits commit:3923..commit:3931): func_801EF558 · func_801EF49C · func_800D06E8 ·
+- Banked in the producing session (10 fns, 9 commits 4ecedb40b..0240fa5f6): func_801EF558 · func_801EF49C · func_800D06E8 ·
   func_80039B20 · func_801EF6B0 + func_801EF95C · func_801EF624 · func_800CEE2C · func_80023BF0 · func_80038698.
 - MATCH, verified by the successor with rtu_match in the real TU, NOT yet banked: main func_80015B6C (120) · main func_8002FDE8 (73)
   · md_SC03_054 func_801EF6D8 (604, six jtbls → carve) · md_SC03_053 func_801EF734 (44) + func_801EF7E4 (72) · md_MAIN_007

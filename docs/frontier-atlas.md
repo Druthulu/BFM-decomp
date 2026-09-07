@@ -1,6 +1,6 @@
 # The Frontier Atlas (P31 T5)
 
-> Generated at HEAD `commit:3070` by `tools/atlas.py` — REGENERATE, never edit. Groups are ADVISORY (the byte-gate is the arbiter). Calibration: warm merge at norm-ratio ≥ 0.7, kNN floor 0.55.
+> Generated at HEAD `252dc930c` by `tools/atlas.py` — REGENERATE, never edit. Groups are ADVISORY (the byte-gate is the arbiter). Calibration: warm merge at norm-ratio ≥ 0.7, kNN floor 0.55.
 
 **Scope:** 2520 open instances / 1931 skeletons across 213 binaries (main: 151 — atlas-layer join (family maps stay non-main)).  
 **Tiers:** T1.5 h_seqn merges 0 · warm merges 164 (from 3399 ratio calls) · seed sweep: 1443 skeletons carry a ≥0.55 seed from the 7700-skeleton matched pool.

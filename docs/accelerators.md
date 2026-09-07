@@ -235,7 +235,7 @@ startup banner echoing the values it actually parsed.
 The main lane drafted at 84–98% completion all day and banked ZERO for 3h46m — and every log line
 blamed the drafts (`reject func_…`, `COMPILE conflict … drafts declaring it: []`, tries burned,
 bisects to MAX_STEPS). One `try_batch([])` control — build the committed tree with NOTHING
-substituted — would have named the real defect (`commit:2693` had adopted a mid-flight substitution;
+substituted — would have named the real defect (`24bd25993` had adopted a mid-flight substitution;
 HEAD itself built RED) in ~40 seconds. Measured cost of not having it: ~737 drafts drafted, 160
 slated, ~50 clean whole-EXE rebuilds burned, and a day's lane output read as a model failure
 (P31 S59, `docs/tool-designs/main-lane-fix-s59.md`). The generalization for ANY gated pipeline:
@@ -538,7 +538,7 @@ a TU, separated by other data across TUs).
 
 **When we found it.** P31 S72, 2026-09-02.
 
-**When it COULD have been found.** **2026-06-15, Phase 7** — commit `commit:0025` wrote the island's
+**When it COULD have been found.** **2026-06-15, Phase 7** — commit `038e7de53` wrote the island's
 contents into `config/splat.us.exe.yaml` by hand, naming the game jtbls, `loadDestPtrTable @0x80072C70`
 as the divider, and the library tables at `0x800737CC+`. Everything needed to compute the spans and
 their owner address ranges was in that comment, 2.5 months before it was used. The signal needs **no
@@ -696,7 +696,7 @@ had refused **436 stored backlog drafts for four phases**. Every permuter verdic
 one cold cycle. Accelerator: an R61a "not judged" state in every loop tool, and an R39 control over the WHOLE stored
 population when a parser/regex changes (the control caught the fix's own false positive — the bare word `asm` inside
 `INCLUDE_ASM("asm/…")` path strings). Cost of not having it: a month of "permuter-class plateau" verdicts that measured
-nothing. (`commit:3890`, cookbook §493 S80 correction.)
+nothing. (`7fbdb8fd6`, cookbook §493 S80 correction.)
 
 **(2) A byte gate is a null oracle for "is this C?".** S79 #7 spliced a function's ASSEMBLY as a file-scope `__asm__`
 body and counted it banked — `rtu_match` MATCHes it by construction, the build is green by construction, `progress.py`

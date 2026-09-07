@@ -1,6 +1,6 @@
 # func_80185810 (ov_SC03_105, 489 ins) — T4b hand pass row (d), S85 (2026-09-06, session 3a7e207c, Max, Fable 5.1, no agents)
 
-**Outcome: BANKED byte-identical `commit:4004`** (bank.sh: rtu MATCH 489/489 in the real TU → splice → `make build
+**Outcome: BANKED byte-identical `cdd9a2cb8`** (bank.sh: rtu MATCH 489/489 in the real TU → splice → `make build
 BINARY=ov_SC03_105 -j8` rc 0 → sha `d305ff6da199b52d0d44023766643a8b661ed524` == `config/check.ov_SC03_105.sha`).
 ov_SC03_105 is now 100% C. Zero pins, zero fences, zero asm dials — the cousin's natural spelling.
 

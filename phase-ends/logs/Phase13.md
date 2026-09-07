@@ -23,7 +23,7 @@
 - [ ] **T6** — docs (cookbook §13 runbook + overlay-handling additions, SETUP, gen2-roadmap status, per-ov digests) + PhaseEnd (Tier-1 Max). Includes the clean fleet proof (`make clean` → extract-all → `check-all`, R22).
 
 ## Commits (this phase)
-commit:0084 T0 · commit:0085 T1a/b · commit:0086 T1c · commit:0088/commit:0089/commit:0090/commit:0091/commit:0092 harvest p1-5 · commit:0087 T1c-Ghidra · commit:0093 T3+T4 · commit:0094 T2 · commit:0095 T5
+50c5c9ea3 T0 · 144839f24 T1a/b · 3b59354c7 T1c · 0278a902d/fdc9e22a8/b6a82b8c4/5ccdd2b22/ce07b7279 harvest p1-5 · 3262cbca3 T1c-Ghidra · 67592993e T3+T4 · eee4cb319 T2 · e2200e17d T5
 
 ## Blockers / next
 → **Gate 2** (Drew confirms milestone) + **T7** (needs `/effort ultracode` for arm A, then `/effort max` for arm B) → **T6** PhaseEnd at Max.

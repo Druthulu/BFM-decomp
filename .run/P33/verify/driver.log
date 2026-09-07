@@ -1,4 +1,4 @@
-verify_contract: recorded run -> /home/musashi/bfm-decomp/.run/P33/verify (HEAD commit:4028)
+verify_contract: recorded run -> /home/musashi/bfm-decomp/.run/P33/verify (HEAD 3e0ecfacc)
 verify_contract: step 00 tree: step_tree
 verify_contract: step 00 tree OK (rc=0, 1 s)
 verify_contract: step 01 check-env: make check-env

@@ -38,7 +38,7 @@
 
 ## Commit Message
 ```
-(Phase 22 landed across the 06-26/27 giant sessions + the 06-29 pivot; checkpoint commits commit:0296..; this close = the archived log + this PhaseEnd.)
+(Phase 22 landed across the 06-26/27 giant sessions + the 06-29 pivot; checkpoint commits 013806b07..; this close = the archived log + this PhaseEnd.)
 
 feat(phase-22): close — tractable giants banked ×134 (fleet 63.18->63.66%), irreducible tail byte-deferred; pivot to the LLM tier (v1.21.0)
 

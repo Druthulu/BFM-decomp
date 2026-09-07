@@ -1,4 +1,4 @@
-# md_MAIN_007:func_800CF408 (178 ins) — T4b HAND PASS, S84 (2026-09-06) — **BANKED byte-identical** (`commit:4001`)
+# md_MAIN_007:func_800CF408 (178 ins) — T4b HAND PASS, S84 (2026-09-06) — **BANKED byte-identical** (`8fa12bc22`)
 
 ## What closed it (one probe of the right kind after 135 of the wrong kind)
 The residual (3 rows, idx 10–12: `ori $s5,0x96` two slots below its `lui`) was correctly attributed by the T4b Fable agent to

@@ -1,9 +1,9 @@
 # The Road to 100% — the BFM-decomp endgame roadmap (v2, Phase 30+)
 
 > **v2 re-baseline adopted:** 2026-07-30 (Drew, plan-mode gate at Phase-29 close; authored on
-> Fable 5 at Max effort) · **Baseline:** the 2026-07-30 committed digests at HEAD `commit:1211`
+> Fable 5 at Max effort) · **Baseline:** the 2026-07-30 committed digests at HEAD `f382a8180`
 > (post-T98/T99) · **Supersedes:** roadmap v1 (2026-07-15, this same file — full v1 text in git
-> history at `commit:1210` and earlier; §7 records what changed and why) · **Status:** ACTIVE —
+> history at `0e5d64956` and earlier; §7 records what changed and why) · **Status:** ACTIVE —
 > re-baselined by every PhaseEnd.
 >
 > v1 chartered P27 (honest frontier) → P28 (endgame engine) → P29 (family campaign) → P30
@@ -298,7 +298,7 @@ Build-along-the-way remains the doctrine (R16) — this table is the *foreseen* 
 ## 7. Superseded & side notes
 
 - **Roadmap v1 (2026-07-15) is superseded by this v2 (2026-07-30);** full v1 text in git
-  history (`commit:1210`). What v1 held open, P27–P29 resolved: the member-adapt swing number
+  history (`0e5d64956`). What v1 held open, P27–P29 resolved: the member-adapt swing number
   (dissolved — the "~3%" was an `-O0` compile-flag artifact; `member_adapt` + the family-adapt
   fine-tune vacated); the "structural families ≈0%" doctrine (retired — B2 lives, 102/115);
   the pin-crash wall (dissolved P27); the Fable5-window urgency (lapsed; availability proved

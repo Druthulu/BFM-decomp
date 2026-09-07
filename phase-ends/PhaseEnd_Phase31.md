@@ -153,7 +153,7 @@ payloads, close with the final ledger; then P33 = verify + flip.
 
 ## Commit Message
 ```
-(Phase 31 landed as ~1,660 commits 2026-08-14 → 2026-09-05; the last in-phase commit is commit:3898 (docs/frontier-p32.md).
+(Phase 31 landed as ~1,660 commits 2026-08-14 → 2026-09-05; the last in-phase commit is 3c292ef09 (docs/frontier-p32.md).
 This close = the archived log + this PhaseEnd, Drew's milestone-close commit.)
 
 chore(phase-31): CLOSE — the frontier atlas & wide-tolerance campaign; fleet 95.3% -> 100.0% instr (213/213), main 1,041 -> 12 open, the last 21 ledgered (v1.30.0)
@@ -245,7 +245,7 @@ careful attempt), plus five small disc files we have never seen the game load. T
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase31.md` (R19, via `git mv` — **left uncommitted
 with this file for Drew's milestone-close commit**, R6 gate-2 sign-off). The Phase-31 work is committed across the
-sessions (through `commit:3898`); **Drew commits AND pushes** this PhaseEnd + the archived log. The Ghidra MCP was
+sessions (through `3c292ef09`); **Drew commits AND pushes** this PhaseEnd + the archived log. The Ghidra MCP was
 stopped cleanly (R23); no DB change to commit (the `db.*.gbf` churn is restart-noise — do NOT stage it). Gen2
 continues — do **NOT** start Phase 32 here. Start a **fresh session** (effort **Max**, **plan mode**) for
 **Phase 32 — the last 21 + the parked 5**, opening from `docs/frontier-p32.md`. Keep this file forever.

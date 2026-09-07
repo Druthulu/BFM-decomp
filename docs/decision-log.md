@@ -1162,7 +1162,7 @@ largest cheap win left") is byte-refuted.
 2. **n=1, on the least representative family in the population.** `has_mid_jr` is **3 of 163**
    matched-exemplar families (120 of 13,232 members). The rarest class was generalized to the whole frontier.
 3. **Its corroborating evidence was pre-fix.** The three Phase-26 exhaustion probes (tiny-IMM 0/241,
-   PURE 0/134, pinned 0/133) all predate `_carry_macros` (P27 T5, `commit:0637`). P27's decision-log calls its
+   PURE 0/134, pinned 0/133) all predate `_carry_macros` (P27 T5, `ee4b3a02e`). P27's decision-log calls its
    own re-probe *"a **fourth** phantom exhaustion proof"* — it named the mechanism that would have faked the
    first three and never re-ran them. **The ≈0% doctrine now has no surviving post-fix evidence.**
 4. **A second instrument was lying underneath.** `family_remap.img_path` hardcoded `0.4.dec`, so the 4 SC07
@@ -1328,7 +1328,7 @@ dispatchers repeated per location) were the biggest unbanked pool (~5,116). `fam
 
 **Three wrong diagnoses, each refuted by the byte-gate/build (the R35 lesson, live, three times).** (1) I
 first read `diff_regions`'s `O2:MATCH(0)` as "just a symbol-definition gap" and committed that finding
-(`commit:0665`) — WRONG: masked_diff masks `%hi/%lo`, so a masked-MATCH cannot prove the reloc target resolves.
+(`53ee97494`) — WRONG: masked_diff masks `%hi/%lo`, so a masked-MATCH cannot prove the reloc target resolves.
 (2) I traced it to a "splat-local undefined symbol" — WRONG: the symbol (`D_801815EC`) is a defined `dlabel`
 in the data tail. (3) The failure is a **compile** error, not a link/symbol issue: substituting one member
 draft gave `conflicting types for func_8015FAAC` (cc1 exit 33), and the `family_sweep --reconcile`
@@ -1475,7 +1475,7 @@ There is no extraction-order effect and no mid-flow asm.
 *batch* `_jtbl_prep` — the run that ended `6 table-bearing → 1 carved, 4 isolate-FAILED, 1 stale-asm carve
 fail`, i.e. a tree carrying the residue of five failed preps (stranded carves, half-applied isolations).
 The per-function snapshot-restore that removes exactly that residue landed **after** those runs, in the very
-commit that named the blocker (`commit:0803`). The measurement was real; the attribution was to the mechanism
+commit that named the blocker (`41d65af73`). The measurement was real; the attribution was to the mechanism
 rather than to the tree it ran on. The failing tree is gone, so that stays the best-supported explanation
 rather than a byte-proof — but the load-bearing claim (the path is clean-invalid) is byte-refuted twice.
 
@@ -2062,12 +2062,12 @@ tree (0 unresolved symbols):
 
 | | instr | distinct | unique fns |
 |---|---|---|---|
-| `commit:1426` **true** | 12,394,533 | 5,022,306 | 77,895 |
-| `commit:1426` *as committed* | 12,402,412 | 5,029,324 | **78,025** |
+| `10f954627` **true** | 12,394,533 | 5,022,306 | 77,895 |
+| `10f954627` *as committed* | 12,402,412 | 5,029,324 | **78,025** |
 | `HEAD` true **= committed** | 12,405,402 | 5,025,082 | 77,952 |
 
 True delta: **instr +10,869, distinct +2,776 ins / +57 unique fns — everything rose.** The
-`commit:1426` digest was **committed stale** (generated from a working tree still holding work that was
+`10f954627` digest was **committed stale** (generated from a working tree still holding work that was
 reverted before the commit landed; overstated +7,879 ins / +130 unique fns, never regenerated). The
 next honest digest was lower than the stale one, so the metric *appeared* to fall.
 
@@ -2919,7 +2919,7 @@ sweeps the WHOLE binary, not the function just banked, and that overlay held **5
 matched-but-never-shared functions**. The fleet census came to **~2,073 distinct functions /
 ~12,116 sweep items across 174 of 217 binaries**, every one already matched.
 
-Origin: the July 2026 mechanical family sweeps (`commit:0476` +16,512 members, `commit:0531` +17,975
+Origin: the July 2026 mechanical family sweeps (`c993029f0` +16,512 members, `025cc03f6` +17,975
 member-matches) bank a proven body as a **private copy per overlay** and register no dedup group.
 That was a deliberate throughput trade — it moved the fleet 66%→71% in one commit — and it left
 tidying behind that nobody has done since.
@@ -3386,7 +3386,7 @@ sibling search; the twin oracle, the family maps and the atlas's own knn entry f
 A grep for the idiom's constant (`'0x200) << 2'`, the libgpu getTPage chain) across `src/` listed `ov_SC02_027:func_80180B3C`
 — which the atlas had recorded only as a reverse 0.55 "weak cousin" — and its objdump window was the target's rows 362–386
 instruction for instruction. Porting its window spelling matched in the real TU on the first draft, then with every pin removed:
-zero pins, zero fences, zero asm dials, BANKED `commit:4004`, ov_SC03_105 100% C. A 12-variant census then measured which spelling
+zero pins, zero fences, zero asm dials, BANKED `cdd9a2cb8`, ov_SC03_105 100% C. A 12-variant census then measured which spelling
 elements carry the window (the fresh single-set masks, the branch polarity, the early unpinned shift) and refuted the S83 guess
 that a hard-register pin was what kept the `andi` alive (§501-P).
 
@@ -3410,9 +3410,9 @@ PROVED at 1 (every stack-slot producer refuted), `func_80039308` PLATEAU at 4 (t
 
 ### What happened
 The §501-N step 0 found the shape cousins in main's own TUs but the cracks were compiler mechanisms the censuses lacked:
-combine's self-update bookkeeping gap mints a no-traffic frame slot (§501-Q — one chain, first probe, `commit:4007`), and a
+combine's self-update bookkeeping gap mints a no-traffic frame slot (§501-Q — one chain, first probe, `f9a90affb`), and a
 hoisted invariant read three times needs three inline temps merged by loop.c plus a `u16` accumulator so cse leaves the arms
-on the hoisted register (§501-R — 56 variants, then MATCH with zero pins, `commit:4008`). Every pin the S79–S84 drafts carried
+on the hoisted register (§501-R — 56 variants, then MATCH with zero pins, `ffb1949a1`). Every pin the S79–S84 drafts carried
 came off byte-identical. Census: 0 stubs.
 
 ### Why (measurement-grounded)

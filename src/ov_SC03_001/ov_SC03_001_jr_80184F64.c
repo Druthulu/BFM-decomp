@@ -3360,7 +3360,7 @@ extern s32 func_8018766C(s32 arg0, s32 arg1);
  * `tail` member =>
  *   tools/jtbl_lane.py --targets func_801856A8@ov_SC03_001 --draft-dir <dir>
  * (gate-time _jtbl_prep_one carves; §61b order; proof shapes func_8017DCC0@
- * ov_SC03_014 commit commit:2661 and func_8017EDA4@ov_SC04_018).  NOTE: raw
+ * ov_SC03_014 commit b801b499e and func_8017EDA4@ov_SC04_018).  NOTE: raw
  * jtbls sit in .section .data here (tail20.data.s:3); §81 applies identically.
  * NOTE for the banker: func_801859AC (adjacent jtbl_801ECE88/ECEA0 owner) is an
  * INCLUDE_ASM stub IN THIS SAME TU — isolation WILL repartition it; check

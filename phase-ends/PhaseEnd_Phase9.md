@@ -105,7 +105,7 @@ extracted payload. The Phase-9 parameterized tools + the documented convention (
 
 ## Commit Message
 ```
-(Phase 9 landed as 11 per-tool checkpoint commits commit:0042..commit:0052 + this PhaseEnd.)
+(Phase 9 landed as 11 per-tool checkpoint commits 170586d6b..6345b5012 + this PhaseEnd.)
 
 feat(phase-9): binary-agnostic toolchain refactor — one pipeline builds any binary (v1.9.0)
 
@@ -159,6 +159,6 @@ first overlay binary.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase9.md` (R19). The Phase-9 work is
-committed (11 checkpoints `commit:0042`..`commit:0052` + this PhaseEnd commit, which also reconciles the Ghidra DB per
+committed (11 checkpoints `170586d6b`..`6345b5012` + this PhaseEnd commit, which also reconciles the Ghidra DB per
 R23); **Drew pushes** (R6). Gen2 continues — do **NOT** start Phase 10 here. Start a **fresh session**
 (effort **Max**, plan mode) for **Phase 10 — Resident engine blob**. Keep this file forever.

@@ -4,7 +4,7 @@
 > in `phase-ends/DIGEST.md` §3). The approved plan is reproduced VERBATIM at the end of this file (§"Approved plan") — its
 > `~/.claude/plans/` copy is not part of the repo. Roadmap: `docs/roadmap-to-100.md` v2 §3 P33 (all six items, Drew's
 > "everything as written"); `docs/gen2-roadmap.md` Phase 14's two-repo model is SUPERSEDED by the in-place flip.
-> **Baseline HEAD at open: `commit:4011`** (the Phase-32 CLOSE commit; tree clean apart from the R23 `ghidra/` churn).
+> **Baseline HEAD at open: `b5b79b3ac`** (the Phase-32 CLOSE commit; tree clean apart from the R23 `ghidra/` churn).
 
 ## Milestone (gate 2)
 1. `.run/P33/verify/SUMMARY.md`: every step EXIT=0 (218/218 clean fleet; `sdk-dual` both legs; oracles green incl. `0 PAD-TAIL`;
@@ -44,7 +44,7 @@ R20's new home = the Ghidra text export (`config/ghidra/*.jsonl`) + `ghidra_rebu
 one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment proposed at the PhaseEnd).
 
 ## Tasks (strict order; one commit per task after this file is updated; harness task list = the same 41 items, R28)
-- [x] **A1** Governance commit (R65–R73 in DIGEST §3; this file; the harness list) — xHigh — `commit:4012`
+- [x] **A1** Governance commit (R65–R73 in DIGEST §3; this file; the harness list) — xHigh — `73068f39f`
 - [x] **A2** Reporting-instrument fixes (pad-tail literal → derived; backlog LINKED-aware prune; `sig-main` build-derived +
       `progress.py` loud-fail) — xHigh, R39 controls — see Log 2026-09-06 A2
 - [x] **A3** `NO_SDK` knob + `make sdk-dual` (+ tools-health wiring, `[skip]` without SDK dirs) — Max — see Log 2026-09-06 A3
@@ -64,10 +64,10 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
       decision-log entry) — Max (P5c-class) — see Log 2026-09-06 B9/C3
 - [x] **C1** filter-repo 2.47.0 + `tools/public_rewrite/` — design Max, execution xHigh — see Log 2026-09-07 C1
 - [x] **C2** Negative control + dictionary + sample — xHigh — see Log 2026-09-07 C2
-- [ ] **C4** Bundle + Drew's archive mirror push + bare clone + the rewrite — xHigh
-- [ ] **C5** Verification suite on the rewritten clone — xHigh
-- [ ] **C6** Adoption in `~/bfm-decomp` (no gc yet) — xHigh
-- [ ] **C7** `docs/commit-map.tsv` + tip resolution commit — design Max, run xHigh
+- [x] **C4** Bundle + Drew's archive mirror push + bare clone + the rewrite — xHigh — see Log 2026-09-07 C4
+- [x] **C5** Verification suite on the rewritten clone — xHigh — see Log 2026-09-07 C5
+- [x] **C6** Adoption in `~/bfm-decomp` (no gc yet) — xHigh — see Log 2026-09-07 C6
+- [x] **C7** `docs/commit-map.tsv` + tip resolution commit — design Max, run xHigh — see Log 2026-09-07 C7
 - [ ] **C8** R22 clean rebuild on the adopted tree — xHigh
 - [ ] **C9** Final gate + Drew's force-push + local gc — xHigh
 - [ ] **C10** Support purge → probe gate → FLIP (Drew) — decision Max
@@ -96,7 +96,7 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   (every blob on every ref; the Ghidra DB proven to embed the EXE bytes under the page XOR mask; 28/28 RAM dumps carry the
   EXE's code; no secrets in tree, history diffs or the 1.27 GB transcript archive); Drew's decisions 1–11 (above); three
   read-only exploration agents + three design agents; the plan approved via plan mode. No repo change before A1.
-- **2026-09-06 (S86) — A1** `commit:4012`: R65–R73 appended to DIGEST §3; this file opened with the plan verbatim; 41 harness tasks.
+- **2026-09-06 (S86) — A1** `73068f39f`: R65–R73 appended to DIGEST §3; this file opened with the plan verbatim; 41 harness tasks.
 - **2026-09-06 (S86) — A2 (reporting instruments).** `make sig-main` REWRITTEN: `tools/main_seed_ends.py` derives main's
   game-code function boundaries from the build (link-map `.text` sections × each object's `nm` symbols; tiling asserted) and
   `sig_image` hashes the original EXE bytes at them → `.run/sig.main.jsonl` (809 fns / 45,150 ins); wired into `tools-health`
@@ -143,13 +143,13 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   Slip, recorded: the previous tree also held `extracted/proto/` (the two prototype EXEs from the prototype discs, not the
   retail one) and I removed the moved-aside copy in the same command as the diff — regenerated from `disks/` with
   `tools/bfm_extract/extract_proto_exe.py` (sep8 413,696 B sha1 `43006a31…`, aug31 415,744 B sha1 `6150b0f8…`). Commit
-  `commit:4016`.
+  `026571291`.
 - **2026-09-06 (S86) — B2 (portable includes).** `tools/audit_text_sources.py` gained the portable-include class (absolute /
   angle-bracket / unresolvable / outside-repo `#include`); positive control BEFORE the fix: 34 offenders in 19 files, all
   ABSOLUTE (4,299 sources scanned); the sed → `../shared/engine_core.h` ×30 + `../shared/engine_types.h` ×4;
   `grep -rn /home/musashi src include` → 0; negative control → OK. Re-gate of the 15 binaries (derived from the diff, 5 in
   parallel): 15/15 `[ OK ]` BYTE-IDENTICAL in 29 s wall (`.run/P33/b2_gate/<bin>.log`). SETUP: P33 B2 section (R21). Commit
-  `commit:4017`.
+  `9be6364a5`.
 - **2026-09-06 (S86) — B3 (bootstrap + the fresh-clone proof).** `tools/bootstrap.sh` (apt presence → printed install line;
   venv from `requirements-python.txt`; submodules; cc1 tarballs sha256-checked + extracted into their own dirs; `make
   check-env`), `make bootstrap`; check-env gained 4b (the other three submodules, WARN), 4c (the four tracked preset headers,
@@ -158,7 +158,7 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   `tools/bootstrap.sh` created its own `.venv`, extracted both cc1s, fetched the submodules, `check-env: OK` → `disks` symlinked
   → `disc-extract: OK` → `extract-all: 217 extracted, 0 failed of 217` → **`check-all: 218 passed, 0 failed of 218`**, EXIT=0,
   **4 m 18 s wall** (user 45 m 48 s) — with NO SDK objects in the clone (`.run/obj40` absent), i.e. every binary built the way a
-  public user builds it. Clone deleted afterwards (3.1 GB). SETUP: P33 B3 section (R21). Commit `commit:4018`.
+  public user builds it. Clone deleted afterwards (3.1 GB). SETUP: P33 B3 section (R21). Commit `89e087f52`.
 - **2026-09-06 (S86) — B4 (the optional SDK, user-supplied and verified).** `git mv tools/psyq/CHECKSUMS.sha256
   tools/psyq_CHECKSUMS.sha256` (done here rather than in C3 so the script's path is final) + rows for the parser tarball
   (`353495f1…`, decomp.me's release), the parser binary (`4fba623a…`, identical to our Phase-7 copy) and the 20 PsyQ 4.0
@@ -171,7 +171,7 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   `tools/psyq/lib40/` moved aside, `fetch_psyq.sh --disc "<our Track 1 .bin>"` extracted the 20 LIBs from the disc
   (`diff -rq` against the tracked copies: identical), verified them, rebuilt `.run/obj40/*`, `.run/obj42/*`,
   `tools/psyq/lib40_elf/`, and `sdk-dual: OK` — **36.9 s wall**, EXIT=0 (`.run/P33/b4_fetch.log`). SETUP: P33 B4 (R21). Commit
-  `commit:4019`.
+  `707ec491e`.
 - **2026-09-06 (S86) — B5 IN PROGRESS (checkpointed at 87% context; WIP commit).** Done and proven: MCP stopped cleanly;
   `tools/ghidra_scripts/ExportAnnotations.java` + `tools/ghidra_export_annotations.sh` — byte-stable JSONL export of a
   program's container facts, LOCAL types, every function signature (params/locals/storage/sources), defined data, the 5
@@ -219,7 +219,7 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   current digest: 363,214 / 13,492,113 / 5,820,205 / main 45,150), what is NOT our C (1,256 LINKED + 5 verbatim), the
   last-recorded-run table (placeholder until A5 fills it from `SUMMARY.md`), what CI proves without the disc, the
   regenerable RE artifacts. `tools/verify_contract.sh` is A5's (next). Commit: see below.
-- **2026-09-06 (S87) — A5 THE RECORDED RUN: PASS.** `tools/verify_contract.sh` on HEAD `commit:4028` → `.run/P33/verify/`
+- **2026-09-06 (S87) — A5 THE RECORDED RUN: PASS.** `tools/verify_contract.sh` on HEAD `3e0ecfacc` → `.run/P33/verify/`
   (tracked): 00 tree · 01 `check-env: OK` · 02 family_hseq 217 scanned / 0 open · **03 `check-all: 218 passed, 0 failed of
   218` (157 s, clean fleet)** · 04 `sdk-dual: OK — main 143dbb89… WITH and WITHOUT` (28 s) · 05 `tools-health: OK` (356 s;
   `sig-main-oracle: 0 PHANTOM, 0 TRUNCATED, 0 PAD-TAIL`; zero `[warn]`) · 06 audit-frontier (1,258 stubs = all in main's
@@ -274,7 +274,7 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   §3/§5/§6/§10 updated with the measured facts and the strip-by-id lesson. Trial scratch deleted (C4 re-clones fresh).
   For Drew's decision (not in the plan's scope, reported by absent_scan as INFO): 370 bare session UUIDs across history / 68
   at HEAD in checkpoint prose; no `claude.ai` URL anywhere. Commit: see below.
-- **2026-09-07 (S87) — C2 the recorded controls on the final pre-rewrite tree (HEAD `commit:4031`, the C1 commit).**
+- **2026-09-07 (S87) — C2 the recorded controls on the final pre-rewrite tree (HEAD `fca383904`, the C1 commit).**
   `hash_dict.py --write-mailmap`: 4,421 commit objects (4,031 main, 339 twins, 51 orphans), 150,314 prefixes, **0 ambiguous,
   0 collisions** with 1,480 cited content hashes, 2 identities → noreply. `scrub.py --test` 12/12; `scrub.py --sample`: 397 MB
   in 7.9 s, 1,239 replacements in 98 files, **732 distinct tokens == the 732 git's own lookup resolves** (only-git 0 /
@@ -286,21 +286,57 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   drop rows from the public map; trial #2 matched by construction). **Sequencing law for C4:** the dictionary + ids are
   rebuilt from the FINAL tree right before the clone (4 s + 3 min) — any commit after that invalidates them (the guard
   enforces it). Commit: see below.
+- **2026-09-07 (S87) — C4 the backups and THE REWRITE.** C4a: `.run/public_rewrite/pre-rewrite.bundle` (556 MB, `--all
+  --reflog`, `git bundle verify`: complete history, 6 refs) made after the C2 commit. C4b (Drew, R6): WSL had no GitHub
+  credentials (password auth refused) → `gh auth login -h github.com -p https -w` (device flow, browser opened by hand — the
+  "failed opening a web browser" line is cosmetic, Ctrl-C cancels the login) + `gh auth setup-git`; `Druthulu/BFM-decomp-archive`
+  created (Private; it carried GitHub's own `.gitattributes` initial commit — force-updated, harmless) and `git push --mirror
+  archive` (176,533 objects, 530 MiB; GH001 large-file warnings for the 3 archive parts, accepted). Verified via `gh api`:
+  **private, not a fork, no parent**; `git ls-remote archive` == local refs except **`refs/stash`, which `--mirror` does not
+  push** (the bundle holds it; Drew may push it as a branch). C4c: FINAL dictionary on the committed tip (4,422 commit objects,
+  4,032 main, 0 ambiguous, 0 collisions) + FINAL ids (`gate_scan --expect-fail` PASS; 268 ids, the shared empty blob
+  excluded) → bare `--no-local` clone (1 pack, 0 loose) → tag deleted (its tip recorded in scratch) → **`run_filter.py`:
+  311 s, commit-map 4,032 rows, exactly 1 pruned ("session archive update", ordinal 1712), main 4,032 → 4,031, new tip
+  `494fbd3c8`, 1 pack / 0 loose / 500 MB, scrub stats: 72,568 hash replacements, 85 address replacements, 60 trailers dropped,
+  192 binary blobs untouched.** Logs: `.run/public_rewrite/c4c5.log`, `filter.log` (scratch).
+- **2026-09-07 (S87) — C5 the verification suite on the rewritten clone — ALL PASS.** `verify_rewrite.py`: **4,031 pairs / 0
+  failures** (identities post-mailmap, both timestamps, message == scrub(old), parents with the pruned commit spliced,
+  241,734 changed blobs re-derived as git-hash(scrub(old)), 989,166 path removals justified, no purge path survives in any new
+  tree, pruned set == the derived purge-only set, the pre-existing empty commit survived) in 433 s. `build_commit_map` (scratch
+  copy): 4,032 rows / 1 pruned / 0 old hashes / 1 unchanged (the noreply-authored "Initial commit", ordinal 1, byte-identical).
+  `absent_scan.py` on the clone: **0 offenders** across 112,138 blobs (16.2 GB text) + 4,031 commits + refs (INFO 370 bare
+  UUIDs) in 360 s. `gate_scan.py --all --repo <clone>`: **PASS, 0 offenders** over 16.22 GB in 56 s.
+- **2026-09-07 (S87) — C6 adoption in `~/bfm-decomp` (NO gc).** `git fetch <clone> +refs/heads/main:refs/heads/main-rewritten`;
+  `git diff --name-only main main-rewritten` = **100 files, all text (0 binary), 0 purge paths, 0 added/deleted** (the
+  token-scrubbed docs/logs/tool comments at the tip); `git reset --hard main-rewritten` → HEAD `494fbd3c8`; tracked 6,578 ==
+  the clone's tree; `main-rewritten`, `refs/original/refs/heads/main`, the tag and the 1 stash dropped (bundle + archive hold
+  them); refs now: `main`, `remotes/origin/{HEAD,main}` (the P32 close, pinning the old lineage until Drew's push),
+  `remotes/archive/main` (the pre-rewrite tip); `rev-list --all --count` 8,143 (both lineages); the purged paths still on disk.
+- **2026-09-07 (S87) — C7 the commit map + the tip resolution.** Repo-local identity → `Drew T
+  <50529377+Druthulu@users.noreply.github.com>`. `build_commit_map.py` → **`docs/commit-map.tsv` (4,032 rows, 1 pruned row of
+  zeros, 0 old hashes asserted)** + private `old-to-new.tsv` + `unchanged_commits.txt` (1). `resolve_tokens.py`: **1,238 tokens
+  → shortest-unique ≥9-char new hashes in 98 files** (phase-ends 24, logs 20, docs 23, tools 14 — comments/docstrings only,
+  checked; 2 `src/` files — C comments only, checked; `.run/P33/verify` 3, `.run` notes); `--check` 0 remaining; **residue 8
+  in 4 tokens: `commit:1712` ×4 (the pruned commit), `commit:orphan-24` ×2, `commit:orphan-26`, `commit:orphan-35` (cited
+  commits that exist in no lineage — one is the dropped TEMP commit in tools/verify_worktree.py)**. Defect caught and fixed
+  before the commit: the resolver had rewritten `scrub.py`'s self-test fixtures (`commit:0012` etc. are the grammar's own
+  examples) — restored from HEAD, and `tools/public_rewrite/` is now skipped by rule. `absent_scan --tree HEAD` PASS,
+  `audit_public` OK. The tip commit (this one) cites NEW hashes only. Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C2 ✓; NEXT = C4 — WAITING ON DREW (the archive repo + mirror push, C4b) (2026-09-07 ~05:00 UTC, written by session fa49faf3 "S87" after the C2 commit; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C7 ✓ — THE HISTORY IS REWRITTEN AND ADOPTED (tip 494fbd3c8 + this tip commit); NEXT = C8 (2026-09-07 ~05:45 UTC, written by session fa49faf3 "S87" after the C7 tip commit; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = C4** (xHigh): C4a the bundle is DONE by S87 if `.run/public_rewrite/pre-rewrite.bundle` exists and verifies (`git bundle verify`); **C4b is Drew's** (see §3 step 1 — do NOT clone or filter before Drew confirms the mirror push, and re-check `git ls-remote archive` yourself); then C4c. **The purge set has left the index: NEVER `git clean -x` (CLAUDE.md fail-safe).** The harness task list must be REBUILT (Drew wants to monitor it —
-one TaskCreate per plan item A1…G2, 40 items, mark A1–A5 + B1–B9/C3 + C1–C2 completed; R28). The SessionStart hook restarts the headless
+(R1–R73), then WAIT for Drew. **NEXT = C8** (xHigh): `tools/verify_contract.sh` on the ADOPTED tree (≈14 min) → commit the refreshed `.run/P33/verify/` evidence → then **C9** (`gate_scan.py --refs main --worktree` PASS → **Drew**: `git push --force origin main` + delete the remote tag if present + `git fetch --prune origin` → Claude: reflog expire + the aggressive repack + `absent_scan`/`gate_scan --all` + size). **Every commit from here cites NEW hashes only (the fixed-point rule); `docs/commit-map.tsv` maps ordinals → new hashes; `.run/public_rewrite/` (scratch: dict, mailmap, old-to-new, bundle 556 MB, the clone) holds the old ones — never commit it, keep it until the probe passes.**
+one TaskCreate per plan item A1…G2, 40 items, mark A1–A5 + B1–B9/C3 + C1–C7 completed; R28). The SessionStart hook restarts the headless
 MCP server when `ghidra/bfm.rep` exists (it did not stay up in S87 — `ss -tln` showed nothing on :8080; harmless): B6/B7/B8
 need no Ghidra; run `tools/ghidra_mcp_stop.sh` before any headless step (R23).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified.
-**Done: A1 (`commit:4012`), A2 (`commit:4013`), A3 (`commit:4014`), A4 (`commit:4015`), B1 (`commit:4016`), B2 (`commit:4017`), B3
-(`commit:4018`), B4 (`commit:4019`), B5 (`commit:4022`), B6 (`commit:4023`), B7 (`commit:4024`), B8 (`commit:4025`), A5 (`commit:4026` prep + `commit:4027`/`commit:4028` fixes + `commit:4029`), B9/C3 (`commit:4030` — 251 index entries removed), C1 (`commit:4031`), C2 (the S87 `chore(phase-33): C2 …` commit).** The approved plan is
+**Done: A1 (`73068f39f`), A2 (`b23300fc2`), A3 (`4bb29544a`), A4 (`62854caca`), B1 (`026571291`), B2 (`9be6364a5`), B3
+(`89e087f52`), B4 (`707ec491e`), B5 (`936d7d741`), B6 (`d37953732`), B7 (`6732771fe`), B8 (`b2fb392ad`), A5 (`1e3ce6c1c` prep + `8845fdd99`/`3e0ecfacc` fixes + `19832e169`), B9/C3 (`2b45081b5` — 251 index entries removed), C1 (`fca383904`), C2 (the S87 `chore(phase-33): C2 …` commit).** The approved plan is
 VERBATIM at the end of this file — Blocks A–G give every task's files, commands and verification; "Execution order and why"
 is the sequence. Effort: Drew ran S87 at **medium** by explicit choice (the plan says Max for B5); the plan's annotations
 still stand for the tasks ahead — restate them, Drew decides (R7/R27).
@@ -309,7 +345,7 @@ still stand for the tasks ahead — restate them, Drew decides (R7/R27).
 - **History / purge set / citations / identities / build facts / external facts:** unchanged from the S86 block — see the
   Log entries and the Approved plan (C1–C7 carry the numbers: main 4,011 commits, `--all` 4,282, 711 resolving hex
   citations, the purge paths and the two ghidra-ext zip sha256s `983e2add…` / `dc57cf1a…`, `brave.exe` `fdc9f486…`, the
-  Gmail identities ×3,816/×162, the empty commit `commit:2782`, the purge-only commit `commit:1712`).
+  Gmail identities ×3,816/×162, the empty commit `133c1d45a`, the purge-only commit `commit:1712`).
 - **Ghidra (B5, PROVEN S87):** the RE work is text now — `config/ghidra/{SLUS_007.26,resident,ov_SC01_077,ov_SC06_018,
   sep8_SLUS_007.26,aug31_USA_DEMO.EXE}.jsonl` (145 rows; only main carries hand-authored rows: 38) + `ROSTER.md`
   (`tools/ghidra_roster.py`, `--check` in tools-health). `tools/ghidra_rebuild.sh <prog> --proof` rebuilds from disc +
@@ -317,7 +353,7 @@ still stand for the tasks ahead — restate them, Drew decides (R7/R27).
   in the psx_ldr extension, the built ELF, the extracted payload — protos need `extracted/proto/*` from
   `tools/bfm_extract/extract_proto_exe.py`). The delta filter's three drift classes are documented in SETUP (P33 B5). The
   live `ghidra/` project is untouched and still on disk (leaves git at B9/C3; the archive repo keeps its history).
-- **Verification state:** **A5 PASS on `commit:4028`** (`.run/P33/verify/SUMMARY.md`: 218/218 clean fleet, sdk-dual both legs,
+- **Verification state:** **A5 PASS on `3e0ecfacc`** (`.run/P33/verify/SUMMARY.md`: 218/218 clean fleet, sdk-dual both legs,
   tools-health OK with 0 PHANTOM/TRUNCATED/PAD-TAIL and zero warns, UNCLAIMED 0, report 100.00/100.0/100.0, stubs 0, backlog 0).
   C8 re-runs it on the adopted (rewritten) tree; a `--cached` removal (B9/C3) changes no tracked-content bytes.
 - **Environment:** the purge set is IGNORED-BUT-PRESENT on disk since C3 — never `git clean -x`; `gh` not authenticated; `git-filter-repo` 2.47.0 in the venv; disk ≈ 13 GB free of 75 (`.run/` 38 GB —
@@ -326,25 +362,25 @@ still stand for the tasks ahead — restate them, Drew decides (R7/R27).
 
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~`.
-1. **C4b — DREW (R6), then C4c — Claude.** Drew: on GitHub create **`Druthulu/BFM-decomp-archive`**, Private, EMPTY (no README /
-   .gitignore / license; NOT an import, NOT a fork — those share GitHub's object store with the public repo); then in the WSL
-   clone: `git remote add archive https://github.com/Druthulu/BFM-decomp-archive.git && git push --mirror archive`. Claude
-   then checks `git for-each-ref --format='%(objectname) %(refname)' | sort` == `git ls-remote archive | sort` (every ref
-   incl. the tag and refs/stash; same hashes). ONLY THEN C4c: (i) `rm -rf .run/public_rewrite/repo.git && git clone --no-local
-   --bare ~/bfm-decomp .run/public_rewrite/repo.git && git -C .run/public_rewrite/repo.git tag -d S76-pre-scrub-backup &&
-   git rev-parse S76-pre-scrub-backup > .run/public_rewrite/old_tag_tip.txt`; (ii) `hash_dict.py --write-mailmap` + `gate_scan.py
-   --all --expect-fail tools/public_rewrite/expected_offenders.txt` (the FINAL dictionary + ids — no commit may follow;
-   `run_filter` refuses a stale dictionary); (iii) `run_filter.py` (≈5 min; expect "1 -> zeros = pruned", main N → N−1,
-   1 pack, 0 loose). If the bundle from C4a predates any new commit, redo `git bundle create … --all --reflog` first.
-2. The trial chain `.run/public_rewrite/trial2.sh` (scratch) is the template for C4c–C7: gate → clone → filter → verify →
-   map → absent → gate → resolve → absent-tree → repack.
-3. **C5** `verify_rewrite.py` (≈7 min, 0 failures) + `absent_scan.py` (≈7 min) + `gate_scan.py --all --repo .run/public_rewrite/
-   repo.git` (≈1 min) → **C6** adopt → **C7** `build_commit_map.py` (writes docs/commit-map.tsv) + `resolve_tokens.py` (noreply
-   identity first: `git config user.email 50529377+Druthulu@users.noreply.github.com`) + `absent_scan.py --tree HEAD` + the tip
-   commit → **C8** `tools/verify_contract.sh` → **C9** gate + Drew force-push + aggressive repack (80 MB) → D/E/F during the
-   Support wait → **C10** flip → **C11**.
+1. **C8 — R22 on the adopted tree** (xHigh): `nohup tools/verify_contract.sh > .run/P33/verify/driver.log 2>&1 &` (step 00
+   requires a clean tracked tree: commit first); expect every step EXIT=0, `check-all: 218 passed, 0 failed of 218`, report
+   100.00 / 100.0 / 100.0, stubs 0 — a content-preserving rewrite changed no tracked-content byte, this run proves it. Then
+   paste SUMMARY into `docs/verification.md` §2 (replace the previous table — the tree hash line now shows the NEW tip),
+   log, tick, refresh, commit (`verify(phase-33): C8 …`).
+2. **C9** (xHigh; Drew pushes): Claude `tools/public_rewrite/gate_scan.py --refs main --worktree` → PASS. **Drew:** `git ls-remote
+   --tags origin` (is `S76-pre-scrub-backup` on origin?) → `git push --force origin main` → `git push origin
+   :refs/tags/S76-pre-scrub-backup` if it was there → `git fetch --prune origin` → `git rev-parse origin/main main` equal.
+   **Claude after Drew's word:** `git reflog expire --expire=now --all && git -c pack.threads=16 repack -adf --window=250
+   --depth=50 && git prune --expire=now`; checks: `git rev-list --all --count` == 4,031 + the tip commits (C7, C8, C9-era;
+   the map predicts: old main 4,032 − 1 pruned = 4,031 rewritten + N new), `gate_scan.py --all` PASS, `absent_scan.py --repo
+   ~/bfm-decomp` PASS (≈7 min), `.git` size (trial: 80 MB pack). Log, tick, refresh, commit.
+3. **C10** (Drew; decision Max): the Support ticket (text in `docs/public-flip-runbook.md` §11), then `tools/public_rewrite/
+   probe_github.sh` daily until PASS (needs `gh auth` — done in S87; `old-to-new.tsv` + `old_tag_tip.txt` are in scratch);
+   meanwhile Blocks D, E3–E6, F land on the still-private repo; the flip only after the probe passes.
+4. Aftercare reminders (C11): `gh auth logout` in WSL after the flip; `git remote remove archive`; other clones reset, never
+   pull; `.run/public_rewrite/` deleted after the probe passes (keep the bundle off-machine if wanted).
 ### 4. Files S87 touched
-C1: `tools/public_rewrite/{common,hash_dict,scrub,gate_scan,run_filter,verify_rewrite,build_commit_map,resolve_tokens,absent_scan}.py`, `probe_github.sh`, `expected_offenders.txt` (all new), `requirements-python.txt`, `docs/SETUP.md`, `docs/public-flip-runbook.md`. Scratch `.run/public_rewrite/`: `dict.json`, `mailmap`, `rom_blob_ids.txt`, `old_tag_tip.txt`, `trial*.{sh,log}`, `trial_commit-map.tsv`, `trial_old-to-new.tsv`, `unchanged_commits.txt`, `nonpurge_blob_ids.txt`, `filter.log`. B9/C3: 251 index removals (files on disk), `docs/public-flip-runbook.md` (new), `docs/SETUP.md` §2.3/§2.4, `docs/verification.md`, `CLAUDE.md`, `docs/decision-log.md`. A5: `tools/verify_contract.sh` (new), `tools/audit_frontier.py` (derived denominator lines), `.gitignore` (the `.run/P33/verify/` allowlist), `.run/P33/verify/*` (tracked evidence), `docs/verification.md` §2, regenerated `docs/family-hseq.md` + `docs/progress*.md`/`duplicates*.md`. B8: `docs/verification.md` (new), `docs/SETUP.md` (§4.4/§4.6/§4.8/§6.3 pointers, backup posture). B7: `.github/workflows/no-rom.yml`, `tools/audit_public.py`, `tools/compile_only.py`, `tools/public_rewrite/purge_set.txt` (all new), `docs/SETUP.md`. B6: `dumps/CHECKSUMS.sha1` (new), `dumps/INDEX.md`, `docs/memory-map.md`. B5: `tools/ghidra_scripts/ImportAnnotations.java` (3 compile fixes + the `/undefined` resolver), `tools/ghidra_rebuild.sh`
+C4–C7: `docs/commit-map.tsv` (new), the 98 token-resolved files (see the C7 entry), `tools/public_rewrite/resolve_tokens.py` (the skip rule), `.git/config` (repo-local noreply identity). Scratch `.run/public_rewrite/`: `pre-rewrite.bundle`, `repo.git` (the rewritten bare clone, keep until C9), `c4c5.{sh,log}`, `old-to-new.tsv`, `unchanged_commits.txt`, `old_tag_tip.txt`, `c5_commit-map.tsv`, `ids_after.txt`, `refs_*.txt`. C1: `tools/public_rewrite/{common,hash_dict,scrub,gate_scan,run_filter,verify_rewrite,build_commit_map,resolve_tokens,absent_scan}.py`, `probe_github.sh`, `expected_offenders.txt` (all new), `requirements-python.txt`, `docs/SETUP.md`, `docs/public-flip-runbook.md`. Scratch `.run/public_rewrite/`: `dict.json`, `mailmap`, `rom_blob_ids.txt`, `old_tag_tip.txt`, `trial*.{sh,log}`, `trial_commit-map.tsv`, `trial_old-to-new.tsv`, `unchanged_commits.txt`, `nonpurge_blob_ids.txt`, `filter.log`. B9/C3: 251 index removals (files on disk), `docs/public-flip-runbook.md` (new), `docs/SETUP.md` §2.3/§2.4, `docs/verification.md`, `CLAUDE.md`, `docs/decision-log.md`. A5: `tools/verify_contract.sh` (new), `tools/audit_frontier.py` (derived denominator lines), `.gitignore` (the `.run/P33/verify/` allowlist), `.run/P33/verify/*` (tracked evidence), `docs/verification.md` §2, regenerated `docs/family-hseq.md` + `docs/progress*.md`/`duplicates*.md`. B8: `docs/verification.md` (new), `docs/SETUP.md` (§4.4/§4.6/§4.8/§6.3 pointers, backup posture). B7: `.github/workflows/no-rom.yml`, `tools/audit_public.py`, `tools/compile_only.py`, `tools/public_rewrite/purge_set.txt` (all new), `docs/SETUP.md`. B6: `dumps/CHECKSUMS.sha1` (new), `dumps/INDEX.md`, `docs/memory-map.md`. B5: `tools/ghidra_scripts/ImportAnnotations.java` (3 compile fixes + the `/undefined` resolver), `tools/ghidra_rebuild.sh`
 (`.proof` markers; dies unless `failed=0`), `tools/ghidra_annotations_delta.py` (the three drift classes), new
 `tools/ghidra_roster.py`, `tools/ghidra_mcp_start.sh` (silent no-op guard), `.claude/settings.json` (relative hooks),
 `Makefile` (roster check in tools-health), `docs/SETUP.md` (P33 B5 section, 5 inventory rows, §2.8), `config/ghidra/*`
@@ -602,7 +638,7 @@ B7 → B8 → **A5 (the recorded run on the final tree)** → B9 → Block C.
   holds only `refs/heads/main` at the prep commit, one pack, zero loose objects; `run_filter.py` = `git filter-repo
   --invert-paths --paths-from-file purge_set.txt --strip-blobs-with-ids rom_blob_ids.txt --blob-callback …
   --message-callback … --prune-empty auto --replace-refs delete-no-add --mailmap …` (never `--prune-empty always`:
-  main has one pre-existing empty commit `commit:2782` that must survive; `delete-no-add` so no `refs/replace/<old>`
+  main has one pre-existing empty commit `133c1d45a` that must survive; `delete-no-add` so no `refs/replace/<old>`
   names are minted). Checks: exit 0; commit-map has 4,012 rows (4,011 + prep) with exactly one mapped to zeros (the
   pruned archive upload); no `refs/replace`; one pack; size recorded (expect 150–250 MB).
 - **C5 Verification suite on the rewritten clone** (xHigh; every check an exit code): `verify_rewrite.py` — for every

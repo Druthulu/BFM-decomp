@@ -261,7 +261,7 @@ def _drafts_carry_jtbl(binary, drafts):
 #   2. config/splat.<bin>.yaml per-binary, adopted whole (baseline-checked)
 #   3. config/overlays.mk      SHARED — adopt ONLY this binary's block (see ovl_block)
 # Carrying 1 without 2+3 is what turned a green worker into 13 red binaries of 213 in P31 S67
-# (reverted in commit:3396): the C body referenced a carve the config never described.
+# (reverted in a732097c3): the C body referenced a carve the config never described.
 def isolate_asm(wt, binary):
     """Give this worker a WRITABLE asm/ for ONE binary so a jtbl carve can re-extract safely.
 

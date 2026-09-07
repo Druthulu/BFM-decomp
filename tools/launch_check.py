@@ -4,7 +4,7 @@
 `wave_args.py` asserts a target is open AT DRAW TIME. A wave's payload then sits on disk while gates
 run, so by launch time some of its targets are banked — and an agent handed one burns a full run to
 report "STALE CARD — already banked today", with no `.s` left to even score against. Measured S71:
-`ov_SC01_006/func_8017F9F8` was banked by gate `commit:3604` and drafted afterwards from a payload
+`ov_SC01_006/func_8017F9F8` was banked by gate `27cc083de` and drafted afterwards from a payload
 built before it.
 
 The open oracle is the same one everything else uses: a bank REMOVES the INCLUDE_ASM stub, so

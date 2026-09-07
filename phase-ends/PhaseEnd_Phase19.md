@@ -101,16 +101,16 @@ reach-134, R23/R29) and the deferred -O0 ×134 rollout. See the Phase-20 Backlog
 
 ## Commit Message
 ```
-(Phase 19 landed as commits commit:0158..commit:0164 + this PhaseEnd.)
+(Phase 19 landed as commits be33b887f..c43b6d083 + this PhaseEnd.)
 
 feat(phase-19): scale the toolkit — 2 waves (88%/92%), fleet 56.64%->58.00%, propagation is the cap (v1.18.0)
 
-- T1 (prior session, commit:0158/commit:0159): per-file -O0 split infra + 6 -O0 matches; deferred the
+- T1 (prior session, be33b887f/c8e925842): per-file -O0 split infra + 6 -O0 matches; deferred the
   10 %lo-folding-quirk fns + the ×134 rollout (R14 corrected "free ×134")
-- T2 (commit:0161): recovery tooling. R14: the 3 Phase-18 "implicit-int" near-misses are NOT
+- T2 (85afa0dc8): recovery tooling. R14: the 3 Phase-18 "implicit-int" near-misses are NOT
   implicit-int -> resident-callee link-miss (NEW canon_resident_calls.py) + shared-caller arity
   (no-proto caller-extern fix). 3 matches; cookbook §17a-3 corrected
-- T3 (commit:0162/commit:0163/commit:0164): 2 Ultracode waves over reach-134 tractable residuals. batch-1
+- T3 (2f9b0d990/3e99d2836/c43b6d083): 2 Ultracode waves over reach-134 tractable residuals. batch-1
   44/50 match_one (30 banked, 25 propagated ×134); batch-2 35/38 (25 banked, 10 propagated).
   NEW fix_arity_callers.py (no-proto, ALL 18 batch-2 failures were the arity class); canon-first
   2-stage gate (sig_unify REGRESSES canonical drafts); gen_harvest_targets garbled-sig fix
@@ -198,7 +198,7 @@ grind for a higher number, with everything we learned written down. Nothing we a
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase19.md` (R19). The Phase-19 matching work is
-committed (`commit:0158`..`commit:0164`); **Drew commits AND pushes** this PhaseEnd + the archived log (R6/R8). No Ghidra
+committed (`be33b887f`..`c43b6d083`); **Drew commits AND pushes** this PhaseEnd + the archived log (R6/R8). No Ghidra
 DB change this phase (R23 no-op — the `db.*.gbf` churn is restart-noise, do NOT stage it). Gen2 continues — do
 **NOT** start Phase 20 here. Start a **fresh session** (plan mode) for **Phase 20 — close the propagation cap,
 then scale** (the backlog above; the typedef/local-type lift first). Keep this file forever.

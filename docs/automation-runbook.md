@@ -167,13 +167,13 @@ build_wave_atlas --only-bins main                  ─┴→ draft → reloc fil
   HEAD still builds byte-identical BEFORE any tokens are spent. On red the lane refuses (R43), writes
   `.run/main_lane.BASELINE_RED`, and re-checks every 30 min. `gate_main` runs the same control on any
   batch failure and exits 3 without bisecting when the TREE, not the slate, is broken (R40). Why:
-  auto-commit `commit:2693` adopted a mid-flight substitution at 14:57 and the lane then banked 0 from
+  auto-commit `24bd25993` adopted a mid-flight substitution at 14:57 and the lane then banked 0 from
   four 200-card rounds until 18:43 — every rejection a false verdict. Full story:
   `docs/tool-designs/main-lane-fix-s59.md`.
 * **main's TUs (top-level `src/*.c`) have ONE writer (`gate_main`) and ONE committer (`main_lane`)**
   (S59). Every overlay/maintenance adopter (`ox_campaign` ×3, `maintenance.sh`, `gate_stage`,
   `gate_lane`, `idiom_serial`) unstages them before committing and never reverts them — the old
-  revert-then-add carve-out was the losing half of the TOCTOU that produced `commit:2693`.
+  revert-then-add carve-out was the losing half of the TOCTOU that produced `24bd25993`.
 
 ---
 

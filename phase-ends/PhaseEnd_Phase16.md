@@ -134,7 +134,7 @@ still rebuild perfectly.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase16.md` (R19). The Phase-16 work is
-committed (`commit:0122`..`commit:0127` + this PhaseEnd commit); **Drew pushes** (R6). No Ghidra DB change this phase
+committed (`7141e9752`..`9062f0fcc` + this PhaseEnd commit); **Drew pushes** (R6). No Ghidra DB change this phase
 (pure tooling/matching — R23 no-op). Gen2 continues — do **NOT** start the next phase here. Start a **fresh
 session** (effort **Max**) for the **deep-research** (the 3 questions in `docs/struct-core-pivot.md`), then plan
 the new **type-recovery** phase. Keep this file forever.

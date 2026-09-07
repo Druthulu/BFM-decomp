@@ -95,27 +95,27 @@ and the SQV driver — each engine match auto-credited across the 134 overlays v
 
 ## Commit Message
 ```
-(Phase 11 landed as 7 per-task checkpoint commits commit:0060..commit:0066 + this PhaseEnd.)
+(Phase 11 landed as 7 per-task checkpoint commits 7cc291145..190afe10f + this PhaseEnd.)
 
 feat(phase-11): cross-binary dedup pipeline — one match unlocks many (v1.11.0)
 
-- T1 (commit:0060): dup_report --cross -> docs/duplicates.cross.md (multi-binary bucketing,
+- T1 (7cc291145): dup_report --cross -> docs/duplicates.cross.md (multi-binary bucketing,
   cross/intra split, collapsible-bytes ranking); per-binary reports byte-stable
-- T2 (commit:0061): config/dedup.us.yaml registry + tools/dedup_integrate.py byte-honesty
+- T2 (b06d74c1b): config/dedup.us.yaml registry + tools/dedup_integrate.py byte-honesty
   validator (fail-closed on sig-hash drift); make report gate. DEVIATION D1: game-code
   dedup is SOURCE-LEVEL (shared macro body), not a psyq_integrate object-swap (fns are
   interior to one object/binary); the byte-gate is per-binary make check
-- T3 (commit:0062): intra-binary collapse PROOF — src/shared/clearTbl40.h CLEAR_TBL40 fills
+- T3 (a8ae190fa): intra-binary collapse PROOF — src/shared/clearTbl40.h CLEAR_TBL40 fills
   func_80037004 + func_80037334 from one body; EXE 143dbb89 WITH the share AND WITHOUT
   (stub fallback); negative gate tests fail-closed; REAL 52->54
-- T4 (commit:0063): tools/sig_image.py Ghidra-free h_exact signer (raw-byte SHA1) + boundary
+- T4 (685e35fdc): tools/sig_image.py Ghidra-free h_exact signer (raw-byte SHA1) + boundary
   detection; validated 100% on the resident contiguous/non-GTE set, 0 UNEXPLAINED
-- T5 (commit:0064): sig_image self-consistent h_norm + h_seq (DEVIATION D2 — scope-guard, not
+- T5 (81e33c7a1): sig_image self-consistent h_norm + h_seq (DEVIATION D2 — scope-guard, not
   a Ghidra-byte-exact normToken replica; byte-gate is the truth)
-- T6 (commit:0065): make sig-overlays signs all 134 overlays (linear partition + code-end
+- T6 (f672c709c): make sig-overlays signs all 134 overlays (linear partition + code-end
   detection; BFS dead-ends on function-pointer dispatch). Cross-report spans 136 binaries:
   9366 h_exact groups / 28.5 MB collapsible; one 770-ins fn byte-identical in all 134
-- T7 (commit:0066): tools/psyq/CHECKSUMS.sha256 (4.7, R20/R24); cookbook §11; SETUP §6.8 +
+- T7 (190afe10f): tools/psyq/CHECKSUMS.sha256 (4.7, R20/R24); cookbook §11; SETUP §6.8 +
   inventory; psyq-worklist + README
 - MILESTONE: clean dual-binary rebuild green (main 143dbb89, resident 8e17e02f);
   cross-report spans >=2 binaries; one shared body byte-gated in both states; 0 NON_MATCHING
@@ -158,6 +158,6 @@ already had broke, and we now have a ranked to-do list of the highest-value func
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase11.md` (R19). The Phase-11 work is
-committed (7 checkpoints `commit:0060`..`commit:0066` + this PhaseEnd commit); **Drew pushes** (R6). Gen2 continues — do
+committed (7 checkpoints `7cc291145`..`190afe10f` + this PhaseEnd commit); **Drew pushes** (R6). Gen2 continues — do
 **NOT** start Phase 12 here. Start a **fresh session** (effort **Max**, plan mode) for **Phase 12 — Key engine
 systems**, opening with the resident's PsyQ 4.7 library linking. Keep this file forever.

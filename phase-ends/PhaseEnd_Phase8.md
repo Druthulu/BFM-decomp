@@ -132,6 +132,6 @@ that Gen2's binary-agnostic refactor (Phase 9), resident-blob (Phase 10), and ov
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase8.md` (R19). The Phase-8 work is
-committed (`commit:0030`→ this commit); **Drew pushes** (R6). Gen2 is underway — do NOT start Phase 9 here.
+committed (`c27a4432e`→ this commit); **Drew pushes** (R6). Gen2 is underway — do NOT start Phase 9 here.
 Start a **fresh session** (effort **Max**, plan mode) for **Phase 9 — Binary-agnostic toolchain refactor**
 (a Tier-1 Phase-Start planning task). Keep this file forever.

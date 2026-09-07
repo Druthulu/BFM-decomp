@@ -8,7 +8,7 @@ SHA lines. Companion docs: `main-gate-defects.md`, `docs/automation-runbook.md`,
 
 The main lane's drafts were fine and its gate was fine; **the committed baseline was RED**. From
 14:57:01 to 18:43:23 on 2026-08-24, HEAD's `src/800.c` carried at least one byte-wrong body
-(adopted by auto-commit `commit:2693`), so `make build BINARY=main` produced
+(adopted by auto-commit `24bd25993`), so `make build BINARY=main` produced
 `307aa45dc2aff265043a60c9ad2f6b30777852b1` against the expected
 `143dbb89f34491258bbc27810d0a12ec8b43a8dd` **with no draft substituted at all**. Every batch
 gated in that window was doomed before its first draft was judged: four 200-card draft rounds
@@ -24,21 +24,21 @@ Holding `.run/auto/gate.main.lock`, with `pgrep -f 'tools/gate_mai[n]\.py'` empt
 
     rm -f build/us/SLUS_007.26 && make extract BINARY=main && make build BINARY=main
 
-* At `commit:2711` (HEAD during the failures): rc=2, binary produced,
+* At `86ebc95a8` (HEAD during the failures): rc=2, binary produced,
   `307aa45d…` — **RED**. The build log also always carries
   `src/800.c:479: warning: previous implicit declaration of 'func_800143AC'`
   (line 479 calls it before its decl at 559 — harmless, but load-bearing below).
-* With `src/800.c`+`src/800c.c` restored from `commit:2692` (the last lane-verified-green main
+* With `src/800.c`+`src/800c.c` restored from `78db16c7c` (the last lane-verified-green main
   commit, m00baaa 14:56:47): rc=0, `143dbb89…` **BYTE-IDENTICAL** — so those two files carried
   the entire breakage.
-* With the files from `commit:2693` (14:57:01): RED at **exactly HEAD's wrong SHA** — `commit:2693`
-  is the breaking commit, and the two later adopters (`commit:2694`, `commit:2706`) are byte-neutral
+* With the files from `24bd25993` (14:57:01): RED at **exactly HEAD's wrong SHA** — `24bd25993`
+  is the breaking commit, and the two later adopters (`3e9ef768b`, `1f7fdc791`) are byte-neutral
   (their adopted bodies were correct; only never verified).
 
 ## 2. Root cause: adoption-during-gate (a TOCTOU race, not a bad tool)
 
-`commit:2693` is ox_campaign's gate-entry auto-commit ("commit in-tree banked work before the next
-gate"). Its main-source carve-out (from `commit:2638`, same morning) DID run — it reverted the dirty
+`24bd25993` is ox_campaign's gate-entry auto-commit ("commit in-tree banked work before the next
+gate"). Its main-source carve-out (from `d53c4bf79`, same morning) DID run — it reverted the dirty
 main TUs — but a `gate_main` bisect chunk was live at that moment (the commit landed 14 s after
 m00baaa banked, exactly one chunk cadence), and gate_main's `substitute()` re-wrote `src/800.c`
 between the carve-out's `git checkout` and the site's `git add -A src/`. The add swept the
@@ -48,8 +48,8 @@ gate_main "reverted" — to the newly poisoned HEAD. Two unverified bodies (`fun
 
 Three separate adopters could do this (all blanket-add `src/`): ox_campaign's gate-entry commit,
 its pre-main-batch overlay commit ("Committed before the main batch…", which adopted five more
-bodies at 16:50 `commit:2706` and — luckily — the *investigation's own green checkout* at 18:43
-`commit:2712`, which is what restored the baseline), and `maintenance.sh`. `gate_stage`
+bodies at 16:50 `1f7fdc791` and — luckily — the *investigation's own green checkout* at 18:43
+`88673d370`, which is what restored the baseline), and `maintenance.sh`. `gate_stage`
 (`git add -u src/`), `gate_lane`, and `idiom_serial` had the same latent hazard.
 
 ## 3. The amplifier: why the gate LIED about why batches failed
@@ -100,18 +100,18 @@ one: `BANKED 0 of 36 … STILL MISMATCHED`.
 **Recovery**
 * `.run/main_queue/s59_recovery.json`: the 56 unique falsely-rejected drafts from the m00–m04
   slates (tries reset — their strikes were false verdicts) plus the 7 byte-correct bodies
-  (`func_8001D70C`, `func_800291A0/B4/C8/DC`, `func_8003A0D0`, `SYS_OBJ_E34`) that `commit:2712`'s
-  sweep re-stubbed, re-extracted from `commit:2694`/`commit:2706` into
+  (`func_8001D70C`, `func_800291A0/B4/C8/DC`, `func_8003A0D0`, `SYS_OBJ_E34`) that `88673d370`'s
+  sweep re-stubbed, re-extracted from `3e9ef768b`/`1f7fdc791` into
   `.run/s59_mainfix/recovered/`.
 
 ## 5. Proof
 
-* Baseline at current HEAD (`commit:2712`), measured under the lock, no gate alive, clean sources:
+* Baseline at current HEAD (`88673d370`), measured under the lock, no gate alive, clean sources:
   rc=0, `143dbb89f34491258bbc27810d0a12ec8b43a8dd  build/us/SLUS_007.26` — **BYTE-IDENTICAL**.
 * Proof run (19:15–19:22): one `main_lane.py --once` cycle through the fixed machinery over the
   recovery queue — `--assert-baseline` GREEN, then **40 drafts → 32 banked in ONE clean rebuild**,
   `sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == config/check.us.sha (BYTE-IDENTICAL)`,
-  committed as `commit:2717` (feat(decomp): main lane m05 — 32 banked). The 32 include all 7
+  committed as `2aea2261d` (feat(decomp): main lane m05 — 32 banked). The 32 include all 7
   recovered bodies AND drafts the red-window gates had "rejected" by name (`func_80015A08`,
   `func_8002A520`, …). 8 genuinely failed and parked with a try count. The same draft population
   had banked 0/160 all day against the red baseline — the drafts were never the problem.

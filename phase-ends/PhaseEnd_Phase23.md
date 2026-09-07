@@ -47,7 +47,7 @@
 
 ## Commit Message
 ```
-(Phase 23 landed across many sessions T1–T10.9 + the 07-02 giant/map session; commits commit:0424..commit:0433 + this PhaseEnd.)
+(Phase 23 landed across many sessions T1–T10.9 + the 07-02 giant/map session; commits 09e80573b..da4eb3ff6 + this PhaseEnd.)
 
 feat(phase-23): LLM matching tier + the Fable5 wall-breaker + the gcc-2.7.2 codegen map (v1.22.0)
 
@@ -106,4 +106,4 @@ This was the phase where the project cracked its hardest problem. We started by 
 **Carried LLM-tier state:** v3 = `models/bfm-match-7b-v3`; serve via `tools/serve_local.py` (Unsloth GPU, NOT LM Studio); `bulk_harvest.py` for the ≤15 tail (~92% saturated, ~383 low-value untried left); corpus `datasets/match_pairs/`; OpenRouter key in `.env` (`open_router_key`, ~$21/$25 left). serve_local is DOWN, GPU free.
 
 ## 🛑 Stop Here
-PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase23.md` (R19). The Phase-23 work is committed across the session (`commit:0424`..`commit:0433`); **Drew commits AND pushes** this PhaseEnd + the archived log + the regenerated digests (`docs/progress.fleet.md`) (R6/R8 — the milestone-close is the human-controlled gate). No Ghidra DB change (R23 no-op — the `db.*.gbf` churn is restart-noise; do NOT stage; the pre-session `.gitignore`/`docs/backlog.md` edits are unrelated). Keep this file forever. Gen2 continues — do **NOT** start Phase 24 here. Start a **fresh session** (effort **Max**, **plan mode**) for **Phase 24 — Fix + evolve the permuter (§31-class-aware) · build the integration-recovery tool · scale the §31 wave** (the Backlog above; permuter first — it's the highest byte-weight lever, and the flagship `func_80132784` is 4 instructions from ×134).
+PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase23.md` (R19). The Phase-23 work is committed across the session (`09e80573b`..`da4eb3ff6`); **Drew commits AND pushes** this PhaseEnd + the archived log + the regenerated digests (`docs/progress.fleet.md`) (R6/R8 — the milestone-close is the human-controlled gate). No Ghidra DB change (R23 no-op — the `db.*.gbf` churn is restart-noise; do NOT stage; the pre-session `.gitignore`/`docs/backlog.md` edits are unrelated). Keep this file forever. Gen2 continues — do **NOT** start Phase 24 here. Start a **fresh session** (effort **Max**, **plan mode**) for **Phase 24 — Fix + evolve the permuter (§31-class-aware) · build the integration-recovery tool · scale the §31 wave** (the Backlog above; permuter first — it's the highest byte-weight lever, and the flagship `func_80132784` is 4 instructions from ×134).

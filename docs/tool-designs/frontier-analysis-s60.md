@@ -60,7 +60,7 @@ instr-weighted **97.4%** (13,171,872 / 13,523,865); distinct-code **94.6%** (86,
 unique fns); **main game-code 23.5%** (18,697 / 79,510 weighted) — main is the largest coherent
 open mass left. Overlays excluding main: 97.8%.
 
-Open pool (`.run/atlas.json`, regenerated 17:25 today at head commit:2911): **3,106 open non-main
+Open pool (`.run/atlas.json`, regenerated 17:25 today at head dc70f5320): **3,106 open non-main
 instances** in 1,772 structural groups (2,245 distinct skeletons), plus **313 crackable main
 stubs** (atlas `main_open`; consistent with the owner's number).
 
@@ -94,7 +94,7 @@ carves re-add stubs, hence gross > net). Attribution by diffing every commit:
 | main lane | 255 | its own clean-rebuild gate |
 
 `campaign_status.py`'s "today: 2185 banked" is a **regex undercount** — it sums "— N banked"
-commit subjects, and e.g. the A-prop lane's 357 banks rode in a chore commit (commit:2904, 358
+commit subjects, and e.g. the A-prop lane's 357 banks rode in a chore commit (274932d20, 358
 removals) that the regex cannot see. Count banks from the stub invariant, not from subjects
 (the derive-from-invariants rule; this is the R32 "silently narrowed scope" class again).
 
@@ -105,15 +105,15 @@ dd **217/422** (12.4 min gate) · de **192/388** · df **124/278** · dg **100/2
 eating the never-drafted pool at 20–51%.
 
 Then **dk 2/201** — the cliff. **It coincides exactly with the first `config/overlays.mk` wipe**
-(dk's own gate commit commit:2863 at 12:37 committed the registry as a zero-line file). With no
+(dk's own gate commit 7891069c4 at 12:37 committed the registry as a zero-line file). With no
 binaries registered, overlay builds cannot succeed; the gate verdicts of that window are
 measurements of a broken harness, not of the drafts.
 
 Recovery + mixed period: dl 12/160, dm 3/149 (re-gates), dp 54/233, dr 28/188, dt 9/169,
 dq 8/167, ds 35/159, du 3/159, dx 21/158, dy 12/127, eb–ee 1–10 each, **eh 129/380** (a fresh
 625-target draw). Then **ei 1/221, ej 0/215, ek 0/220, el 0/211, em 1/225 — all inside wipe #2**
-(committed by ei's gate commit ~17:14, restored 17:43:55 = commit:2913, root-caused 17:48:45 =
-commit:2915: four truncating `open(mk,"w").write()` sites in `jr_isolate_all.py:593` and
+(committed by ei's gate commit ~17:14, restored 17:43:55 = 3251a0600, root-caused 17:48:45 =
+d801b8f17: four truncating `open(mk,"w").write()` sites in `jr_isolate_all.py:593` and
 `jtbl_carve.py:1077/1118/1165`). The giveaway is in the gate walls: those five "gates" ran
 **3.4–6 min for ~220 drafts each** — instant build failures, not judgments. Post-fix, honest:
 **en 14/227 (6.2%), eo 3/216 (1.4%), and a clean re-gate of ei banked 34/184 (18.5%) where its
@@ -142,7 +142,7 @@ at zero tokens** (15:54–16:26, `.run/maintenance.log`).
    in the log is `time.time() − wave_draft_t0` — it includes drafting and queue wait. Real gate
    walls today: 12–31 min healthy, 3–6 min when broken. The "-j was decorative" serialization
    (every worker taking the fleet lock exclusively because `GATE_NO_ARITY` was unset) was
-   diagnosed and **fixed at 10:43 today** (commit:2844). What remains is §3's failure-proportional
+   diagnosed and **fixed at 10:43 today** (ece28737b). What remains is §3's failure-proportional
    cost plus (inferred, see §3c) cross-gate lock contention.
 5. **"5,388 backlog rows at closeness ≤2" is a row count, not a workload.** I count 8,596 such
    rows across the ledgers — but rows are re-attempts of the same functions. The de-duplicated,
@@ -314,7 +314,7 @@ the architecture left 18% of the pool re-drafting solved functions and paid 3 bu
 
 - **Lead "the gate is mysteriously slow at 8% CPU":** resolved, not mysterious — a metric
   artifact (wall_min includes drafting), a real serialization bug already fixed at 10:43
-  (commit:2844), failure-proportional ladder cost (§3), and probable cross-gate lock contention.
+  (ece28737b), failure-proportional ladder cost (§3), and probable cross-gate lock contention.
   A raw "make builds parallel within a binary" project is NOT the fix; builds within a binary are
   serial by design (each mutates the same tree), and the win is not running them at all (§3).
 - **Lead "the gen6+ wall hides an unnamed cookbook class":** refuted for the majority — 61% of
@@ -334,11 +334,11 @@ the architecture left 18% of the pool re-drafting solved functions and paid 3 bu
 
 - Wave conversions/walls: `.run/gater.log` (`=== GATE <tag>` to `GATE <tag>: banked` intervals);
   `.run/ox_campaign_ledger.jsonl` for lane/band/targets.
-- Wipe windows: `git log/show commit:2863 commit:2913 commit:2915` + `config_sane()` docstring in
+- Wipe windows: `git log/show 7891069c4 3251a0600 d801b8f17` + `config_sane()` docstring in
   `tools/ox_campaign.py`.
 - Bank attribution: for each `git log --since=00:00` commit, `git show --unified=0 -- src/ |
   grep -c '^-.*INCLUDE_ASM('`; net: `git grep -c 'INCLUDE_ASM(' <midnight-commit>|HEAD -- src/`.
-- Atlas: `.run/atlas.json` (head commit:2911, 17:25) — groups/cat/inst/n_skel/ins/lever/members.
+- Atlas: `.run/atlas.json` (head dc70f5320, 17:25) — groups/cat/inst/n_skel/ins/lever/members.
 - Generations: fn occurrences across `.run/wave_*_cards.json` (204 files) joined to atlas members.
 - Stock: `.run/backlog.jsonl` + `.run/auto/bulk/*.backlog.jsonl` (16,837 rows; closeness by fn),
   `.run/reloc_rejects.jsonl` (10,049 rows; `shape` field), `.run/backlog_drafts/` (5,010 files),

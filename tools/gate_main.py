@@ -1054,7 +1054,7 @@ def main():
     err = (r.stderr or '') + (r.stdout or '')
 
     # R40 — EXONERATE THE INSTRUMENT BEFORE JUDGING THE DRAFTS (S59). From 14:57 to 18:43 on
-    # 2026-08-24 the committed baseline built RED (an overlay-lane auto-commit, commit:2693, had
+    # 2026-08-24 the committed baseline built RED (an overlay-lane auto-commit, 24bd25993, had
     # adopted a mid-flight substitution), and this gate judged four 200-card draft rounds against
     # it: 0 banked, ~50 clean rebuilds burned, every rejection a false verdict. One control
     # rebuild answers the only question that matters first: does HEAD, with NO draft substituted,

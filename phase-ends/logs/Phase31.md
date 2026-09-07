@@ -121,7 +121,7 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     #5", SETUP (fresh-clone obj42 commands, Makefile blocks, exclude_audit), decision-log "S79 addendum 2",
     accelerators "S79 (2)". `frontier_classify` had a HARD-CODED LINKED set (R51) — derived from the Makefile
     now. tools-health OK; R22 fleet 213/213 (`.run/S79_check_all_band.log`).
-    **#6 DONE (S79, 2026-09-04; commits `commit:3868` `commit:3869` `commit:3870` `commit:3871` + this docs commit):**
+    **#6 DONE (S79, 2026-09-04; commits `0ab51c803` `af1644c02` `02e2cb265` `62475f788` + this docs commit):**
     the mechanical class, 0 drafting tokens. (1) `md_MAIN_003:D_800D3200` — a data word carried as a stub —
     emitted inside its asm island (dd1b32ec). (2) `ov_SC04_018:func_80181804` (twin of ov_SC04_019): its
     table was already carved, only the `JTBL_PADS` spec had been trimmed to 3 (S62) → 4 entries, byte-proven
@@ -139,7 +139,7 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     still needs its pad-spec entry; parallel_gate merges leave the main tree's split stale → extract first).
     tools-health/report regenerated; R22 fleet **213/213** (`.run/S79_check_all_6.log`); twin_rescan: 2 open
     stubs keep a banked twin (ov_SC02_017 d=2, md_MAIN_003 d=1), nothing newly free.
-    **#7 DONE (S79, 2026-09-04; `commit:3873` `commit:3874` `commit:orphan-26`):** the "C-PLUMBING 5" were three
+    **#7 DONE (S79, 2026-09-04; `bf1b266e0` `42d432770` `commit:orphan-26`):** the "C-PLUMBING 5" were three
     things (cookbook **§492**): (a) `md_MAIN_020:func_800CB17C` — `rtu_match` MATCH, `parallel_gate` NEAR
     ("CAUSE NOT DETERMINED" explained: gate_stage's transform ladder altered a correct body) → banked by a RAW
     splice (0990e041); (b) `md_MAIN_003:func_800D06BC` + `func_800D0100` — an -O0 island TU; the standalone
@@ -150,7 +150,7 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     md_MAIN_003 3, resident 2, ov 11). R22 fleet **213/213** (`.run/S79_check_all_7.log`); twin_rescan 1 twin
     left (ov_SC02_017 d=2). `main:func_80011380` pinned WALL (§474 proof) in `config/wave_exclude.txt`.
     Defect to fix later: key `backlog_drafts`/journal lookups by (binary, fn).
-    **#8 DONE (S79, 2026-09-04; `commit:3876` `commit:3877` + this docs commit; cookbook §493):** the D-NEAR six, by
+    **#8 DONE (S79, 2026-09-04; `7129b6cac` `06ee3c123` + this docs commit; cookbook §493):** the D-NEAR six, by
     local permuter ILS (`permuter_ils --cycles 8 --secs 150 --j 6`, 0 tokens) + the §474 proof. BANKED:
     `main:func_80015760` (106 ins) — score 0 in the FIRST cycle from the journal's best draft (the S76 agent
     had filed it as "a genuine sched1 artifact"); to the bank via three plumbing steps (typedef preamble
@@ -165,8 +165,8 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     of "no improvement" in 20 s → it now prints REFUSED + writes `PERMUTER_REFUSED.txt` (positive-controlled).
     Stubs 32 → **31** (main 15); game-code **93.5% (38,854 / 41,534)**; R22 fleet **213/213**
     (`.run/S79_check_all_8.log`).
-    **#9 DONE (S79 → S80, 2026-09-04/05; banks `commit:3879` `commit:3880` `commit:3881` `commit:3882` `commit:3883` `commit:3884`
-    `commit:3885` `commit:3887` `commit:3888` `commit:3889`; instrument `commit:3890`; ledger `commit:3891`):** the drafting pool —
+    **#9 DONE (S79 → S80, 2026-09-04/05; banks `80eed5e9e` `ec786e0a4` `0833b418e` `a296bba0f` `1961a7bfb` `cdf50f96d`
+    `96c0fc02a` `618e0907d` `d04fe3188` `402b7520c`; instrument `7fbdb8fd6`; ledger `09e0b2781`):** the drafting pool —
     25 packs, one Agent-tool subagent each (Haiku ≤50 / Sonnet ≤120 / Opus above), no wave. **Ten banked byte-identical**
     (7 in S79; S80 aggregated the 11 agents that outlived S79 from their transcripts with NEW `tools/agent_verdicts.py`
     → `ov_SC01_001:func_80181E04` 269, `main:func_8001EFE0` 468 (the largest open main body; gate_main clean rebuild
@@ -184,7 +184,7 @@ Instead of roadmap-v2 P31's per-function grind, Phase 31 organizes the 12,059 re
     **R22:** clean `extract-all` 212/212 + `check-all` **213/213** (`.run/S80/r22_*.log`); `tools-health` OK. Metrics:
     main REAL 777 · LINKED 1,256 · VERBATIM 3 · stubs **12** · byte-identical 2,079/2,091 = 99.43% · **game-code 95.1%
     (39,479 / 41,534)**; fleet instr **100.0%** (13,481,386 / 13,485,889) · distinct 99.9% · stubs **21**.
-    **#10 DONE (S80, 2026-09-05; `commit:3893` `commit:3894` `commit:3895` `commit:3896` + this docs commit; cookbook §495):**
+    **#10 DONE (S80, 2026-09-05; `dd4561798` `ec15509e6` `b7f73e718` `082ddc859` + this docs commit; cookbook §495):**
     the verbatim end-state. (1) The five PERMANENT-VERBATIM rows RATIFIED in `config/verbatim_manifest.json` `_README`
     (crt0 `start`/`__main`/`__do_global_dtors`; md_MAIN_003 `func_800D3204`/`func_800D3234`). (2) `ov_SC03_107:func_8017D878`
     (45 ins, the one GAME-C verbatim, "37 stored drafts") DECOMPILED — the stored best draft was byte-correct all along; it
@@ -209,7 +209,7 @@ R22 clean-fleet **213/213** after every banked batch · tools-health green · 0 
 ## Progress log
 
 - 2026-08-14 — Phase planned and approved (3 Explore + 2 Plan agents; full design in the plan file). Task list built (harness tasks #1–#12). T0 started.
-- 2026-08-14 — **T0 COMPLETE.** (1) R31 decision-log entry (the re-charter WHY + R37–R39 ratification). (2) `harvest_verify.py` import guard: a bare import now RAISES instead of running a gate (verified both directions; CLI behavior unchanged). (3) **Resident ±1 RESOLVED + FIXED**: `--bootstrap`'s linear partition had fused the +0 data word with `func_800CEDFC` (row `0x800CEDF8` nins=18) and dropped `func_800D33E0` past a glued tail — the true denominator is **145** (progress was right, the sig wrong). `sig-resident` now ELF-seeds (S45 pattern: unique 4-aligned T-symbol addrs inside the `resident_TEXT_START/END` markers → exactly 145; bootstrap fresh-clone fallback). All three oracles now agree (sig 145 · corpus matched 131 · progress byte-ident 131); `audit-corpus` 0 PHANTOM + 0 TRUNCATED. (4) Family maps regenerated at HEAD `commit:2161`: **11,025 open non-main members = 12,059 − main's 1,034 EXACT** (the stale map's 102 phantoms cleared); cousins totals now A-prop 1,125 / seeded 1,293 / cousin-multi 5,373 / cold 3,234 inst; adapt cards 704, aprop cards **204 (full emission)**. (5) **Main fuel gap is DEAD**: 2,001/2,002 main stubs have cached Ghidra-C (only `func_80049600` missing) — the roadmap's "0/2,096" note was stale. (6) `make tools-health` → OK (dedup 2,063/0; C1 254,521/254,521; audit-digest confirms the fleet digest; resident fix moved instr num+denom by the same +9).
+- 2026-08-14 — **T0 COMPLETE.** (1) R31 decision-log entry (the re-charter WHY + R37–R39 ratification). (2) `harvest_verify.py` import guard: a bare import now RAISES instead of running a gate (verified both directions; CLI behavior unchanged). (3) **Resident ±1 RESOLVED + FIXED**: `--bootstrap`'s linear partition had fused the +0 data word with `func_800CEDFC` (row `0x800CEDF8` nins=18) and dropped `func_800D33E0` past a glued tail — the true denominator is **145** (progress was right, the sig wrong). `sig-resident` now ELF-seeds (S45 pattern: unique 4-aligned T-symbol addrs inside the `resident_TEXT_START/END` markers → exactly 145; bootstrap fresh-clone fallback). All three oracles now agree (sig 145 · corpus matched 131 · progress byte-ident 131); `audit-corpus` 0 PHANTOM + 0 TRUNCATED. (4) Family maps regenerated at HEAD `d6b38245e`: **11,025 open non-main members = 12,059 − main's 1,034 EXACT** (the stale map's 102 phantoms cleared); cousins totals now A-prop 1,125 / seeded 1,293 / cousin-multi 5,373 / cold 3,234 inst; adapt cards 704, aprop cards **204 (full emission)**. (5) **Main fuel gap is DEAD**: 2,001/2,002 main stubs have cached Ghidra-C (only `func_80049600` missing) — the roadmap's "0/2,096" note was stale. (6) `make tools-health` → OK (dedup 2,063/0; C1 254,521/254,521; audit-digest confirms the fleet digest; resident fix moved instr num+denom by the same +9).
 
 - 2026-08-14 — **T1 COMPLETE: 8 banked for 0 agent tokens.** R38-first: partitioned the MATCH-108 pile against current stubs (75 still open) and against the S50 gate history (62 gated-and-failed with verdicts · 13 never-gated). The lanes and their measured outcomes:
   - **Never-gated 13** → gate_lane: 0/13, but the verdicts decomposed to 11× `undefined reference to D_*` = the §171 stale-seed-symbol class. **Extended `aprop_symfix` with STALE-DELTA** (n:n uniform-delta rebase; R39 synthetic + snapshot NCs, zero false positives; the delta test even refused a pair my hand-check wrongly accepted) → 4 rebased, **4/4 banked** (`func_8016BCC0`, `func_8017F1C8`, `func_80186BD8`, `func_80186BF8`). Cookbook **§171-D** written in-session.
@@ -294,7 +294,7 @@ writes `docs/tool-designs/frontier-analysis-s60.md` — **READ THAT FIRST NEXT S
 ### THE STRATEGIC PICTURE (this is what next session must act on)
 * **3,062 open crackable.** main is **313** crackable, not 1,274 — 961 of its stubs are LINKED PsyQ
   segments and data blobs, linked byte-exact, never decompiled.
-* **CORRECTED 19:45 by the Fable audit, and I had this wrong all session.** The atlas at commit:2911
+* **CORRECTED 19:45 by the Fable audit, and I had this wrong all session.** The atlas at dc70f5320
   measures: 3,106 open instances · 2,245 open skeletons · 1,772 groups, of which **480 are
   multi-member holding 1,334 siblings** and **1,292 are SINGLETONS carrying 57% of the open
   instruction mass**. My "~3,900 siblings behind ~334 skeletons" conflated two different
@@ -597,7 +597,7 @@ process (`/proc/<pid>/cmdline`), never from the file you edited** — `pgrep` ma
 
 ## SESSION S53 (2026-08-16, ultracode) — wave R + the leftover-draft harvest
 
-- 2026-08-16 — **S53-1 PREFLIGHT + ATLAS REGEN.** Tree clean at `commit:2416`, no gate in flight. `make atlas`
+- 2026-08-16 — **S53-1 PREFLIGHT + ATLAS REGEN.** Tree clean at `9202c5f54`, no gate in flight. `make atlas`
   regenerated at HEAD (the S52 atlas predated waves P+Q, whose banks grew main's matched seed pool 175→293):
   **4,985 groups / 11,352 open instances / 579,571 ins**, warm merges 880, seeded 4,714/6,911 skeletons, all
   assertions green. (Watch-for confirmed live: my own `pgrep -f atlas` waiter self-matched its shell wrapper —
@@ -799,14 +799,14 @@ process (`/proc/<pid>/cmdline`), never from the file you edited** — `pgrep` ma
     `func_800CC4E8` banked a `Quad4_800CCB14` typedef, `strip_provided_typedefs` correctly dropped
     `func_800CC310`'s duplicate, and `func_800CC310` splices EARLIER in address order — survivor below
     its uses. First fix (rename to dodge the stripper) was WRONG and the gate caught it: one symbol,
-    two types. Hoisting the typedef to the top of the TU banked it (`commit:2558`). Cookbook **§203**.
+    two types. Hoisting the typedef to the top of the TU banked it (`fd7d26e3c`). Cookbook **§203**.
     **Correction (same session):** the text that banked is the RENAMED variant — `gate_stage`'s
     `backlog.save_draft()` overwrote the original draft on the failed attempt, so "copying the
     original back" copied the rename. Bytes are correct (R22 213/213); the TU carries two names for
     one shape and a transform mangled a COMMENT. A backlog draft path is not a stable original.
     `func_8018280C` (ov_SC05_001) — the reconciler's IMMOVABLE §183.3 DEF-SIDE-RETURN wall (asm proves
     `s32`, TU declares `void` at three sites with live callers). The **§200 alias applied to a
-    DEFINITION** — `s32 aF8018280C(s32) __asm__("func_8018280C")` — banked first try (`commit:2559`),
+    DEFINITION** — `s32 aF8018280C(s32) __asm__("func_8018280C")` — banked first try (`18b0eb40a`),
     body untouched. Cookbook **§202**; the idiom existed in-tree only on declarations.
   - **Sibling sweep: 3, then 50 — the difference was MY scoping error, not the tree.** The first
     `family_sweep --hseq` passed the ATLAS gid-exemplar addresses to `--only`, which filters on
@@ -951,25 +951,25 @@ campaign banked 145 more (waves bk 110, bl 35) while they worked, undisturbed.
 | **-O0, stranded in -O2** | **deliberately refused** | no | unbankable by construction until U2/U3/U5 land — the draw says `o0-in-an-O2-object` |
 
 ### WHAT LANDED AFTER THE AGENTS RETURNED
-* **tells** (`commit:2667`): `LEVER_CRIB` in `api_agent._fuel` (what each tell MEANS, the § to grep,
+* **tells** (`6ae2c5580`): `LEVER_CRIB` in `api_agent._fuel` (what each tell MEANS, the § to grep,
   the byte-proven C spellings) · a **LANE ALIASES grep-bait block at §172b** — the card named a word
   the 750-section cookbook contained **zero times**, and 108 failure transcripts grepped it for
   nothing · `LANE_BUDGET` = 40 turns / $0.40 for tells (98 of 270 attempts had ended AT the 24-turn
   cap on cards 2.4x the default size) · two new SYS laws (grep the crib's §; stop when the class
   says `[permuter]`) · cookbook **§264** = the four recipes the agent drove to MATCH, including two
   NEW laws (save-order = a bb0 anti-dependence; an opaque bound must be a LATE-assigned local).
-* **-O0** (`commit:2669`): **md_MAIN_011 now compiles -O0** — whole-object override, the boot
+* **-O0** (`05a4aeaf4`): **md_MAIN_011 now compiles -O0** — whole-object override, the boot
   precedent, no carve, no §18-P29 risk. Byte-proven by a CLEAN per-binary rebuild:
   `sha1 80731bac0ddd6b3e354f43b2c179582b12590752`. Landed with its coupling fix: three tools decided
   -O0-ness from the subseg NAME, and this object keeps its plain name, so `corpus.o0_subseg()` now
   derives it from the Makefile (R33). Verified end to end — match_one compiles those targets -O0
   with the cannot-bank warning correctly gone, and the draw emits cards for them.
-* **jtbl** (`commit:2670`): the lever alone was **inert** — jtbl cards are one-per-binary by
+* **jtbl** (`9f2b9755c`): the lever alone was **inert** — jtbl cards are one-per-binary by
   construction, so they are maximally un-concentrated and the gate-group ranking (which exists to
   pack drafts behind one rebuild) selected **0 of 71** candidates. `--jtbl-quota 6` seeds them
   before the ranked fill. Measured: 6 jtbl cards in a 200-card wave, 13,470 ins across 7 gate groups
   (was 11,451 in 1).
-* **§263** (`commit:2666`): the `func_801F218C` residual I could not close was an **ARITY error**, not
+* **§263** (`35c486b3b`): the `func_801F218C` residual I could not close was an **ARITY error**, not
   a schedule — I had given a no-argument callee a parameter, so the copy had to dominate the call
   and the delay-slot filler took it. `func_801EF6E4(a0)` → `func_801EF6E4()` = MATCH (83 ins). The
   §5a fence (both placements), if/else inversion, an early-break form and a 1,200 s permuter at -j12
@@ -1000,7 +1000,7 @@ campaign banked 145 more (waves bk 110, bl 35) while they worked, undisturbed.
 
 ## 🛑 SESSION CHECKPOINT — S59 LIVE (2026-08-24 ~11:45). Phase 31 CONTINUES. **THREE FABLE AGENTS IN FLIGHT.**
 
-**HEAD `commit:2656` · autonomous lanes RUNNING (drafter · gater · maintenance · stallguard, ~130
+**HEAD `db02d837d` · autonomous lanes RUNNING (drafter · gater · maintenance · stallguard, ~130
 agents) · `src/`+`config/` carry live campaign work — COMMIT IT, NEVER REVERT (R42).**
 
 ### WHAT S59 DID — the S58 handoff's three tooling lanes, worked to a verdict each
@@ -1081,8 +1081,8 @@ the campaign's own gates carry it.
 RUNNING right now. If you are reading this after a crash, the first question is not "what next"
 but "what is still alive" — see RESTART below.
 
-**HEAD `commit:2600` · 1,790 functions banked today across 36 commits · 7,581 open overlay/md/resident
-stubs · tree clean · R22 last verified GREEN 213/213 at `commit:2587` (re-verify before trusting).**
+**HEAD `a13fd38ee` · 1,790 functions banked today across 36 commits · 7,581 open overlay/md/resident
+stubs · tree clean · R22 last verified GREEN 213/213 at `5d8d497c4` (re-verify before trusting).**
 
 ### WHAT IS RUNNING (all `setsid`-detached, all self-restarting)
 | lane | script | role |
@@ -1274,7 +1274,7 @@ tells failure signature. **Cheap test:** draw one tells wave with §235 in the b
 
 ## 🛑 SESSION CHECKPOINT — S57 FINAL (2026-08-19/23). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `commit:2565` · R22 `make check-all` 213/213 from a clean tree still VALID (no src/ change since
+**HEAD `cb65a62ca` · R22 `make check-all` 213/213 from a clean tree still VALID (no src/ change since
 S56; this session banked NOTHING) · EXE `143dbb89` · 0 NON_MATCHING · fleet unchanged at 96.1 /
 91.8 / 97.11.** No process running, no wave launched, no cron armed.
 
@@ -1372,7 +1372,7 @@ watch-for below.
 
 ## 🛑 (superseded by S57) SESSION CHECKPOINT — S56 FINAL (2026-08-18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `commit:2563` · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) and
+**HEAD `e9ac4db9b` · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) and
 `.run/` scratch · R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree · EXE
 `143dbb89` · 0 NON_MATCHING in any default build (G4) · dedup-check 2,165 validated / 0 failed · C1
 254,731/254,731.** No process running, no cron armed, no workflow in flight. Drew pushes.
@@ -1498,7 +1498,7 @@ lands after it.**
 
 ## 🛑 (superseded by S56) SESSION CHECKPOINT — S54/S55 FINAL (2026-08-17/18). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `commit:2546` · tree clean except `.run/backlog.jsonl` churn + Ghidra `db.*.gbf` restart-noise
+**HEAD `68481253d` · tree clean except `.run/backlog.jsonl` churn + Ghidra `db.*.gbf` restart-noise
 (R23: do NOT stage) · R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree, run
 SEVEN times this session (after every wave and after wave Y's recovery) · EXE `143dbb89` ·
 0 NON_MATCHING.** No process running, no cron armed, no workflow in flight. Drew pushes.
@@ -1613,7 +1613,7 @@ session — and refresh it if any work lands after it.**
 
 ## 🛑 (superseded by S54/S55) SESSION CHECKPOINT — S54 FINAL (2026-08-17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `commit:2541`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
+**HEAD `c33df3329`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
 R22 `make check-all` = 213 passed / 0 failed of 213 from a CLEAN tree (run 3x this session, after
 each wave) · EXE `143dbb89` · 0 NON_MATCHING.** No process running, no cron armed, no workflow in
 flight. Drew pushes.
@@ -1709,7 +1709,7 @@ refuse-on-zero-files · `masked_diff.mask_for`: internal `j` compared.
 
 ## 🛑 (superseded by S54) SESSION CHECKPOINT — S53 FINAL (2026-08-16/17). Phase 31 CONTINUES. NOTHING IN FLIGHT.
 
-**HEAD `commit:2453`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
+**HEAD `c973d0e80`+ · tree clean except Ghidra `db.*.gbf` restart-noise (R23: do NOT stage) ·
 R22 `make check-all` = 213 passed / 0 failed of 213 from a clean tree · EXE `143dbb89` · 0 NON_MATCHING.**
 No process running, no cron armed, no workflow in flight. 39 commits this session; Drew pushes.
 
@@ -1812,7 +1812,7 @@ adversarial verifier per candidate defaulting to REJECT → **10 CONFIRMED / 4 W
 
 ## SESSION S52 TASK LIST (2026-08-15, ultracode) — the monitorable view (no TaskCreate tool in this harness build)
 
-- [x] **S52-1 — Preflight + wave-selector repair.** Tree clean @ `commit:2390`, no gate/grinder in flight. Fixed `build_wave_atlas.py`: (a) the already-waved set was a hardcoded `'abcdefghijkl'` wave-letter literal → now a `glob('.run/wave_*_cards.json')` derivation (R33); **NC: old 634 → new 726 taken, strict superset, +92 previously-missable cards from waves m/n**; (b) `--exclude-bins` defaulted to `main` carrying the REFUTED link-defect rationale → default now empty, help corrected to the real (gate-path) reason; (c) new `--only-bins` allow-list (main waves need it — `gate_main` rebuilds once per SLATE, so main has no per-TU gate cost).
+- [x] **S52-1 — Preflight + wave-selector repair.** Tree clean @ `683c44e15`, no gate/grinder in flight. Fixed `build_wave_atlas.py`: (a) the already-waved set was a hardcoded `'abcdefghijkl'` wave-letter literal → now a `glob('.run/wave_*_cards.json')` derivation (R33); **NC: old 634 → new 726 taken, strict superset, +92 previously-missable cards from waves m/n**; (b) `--exclude-bins` defaulted to `main` carrying the REFUTED link-defect rationale → default now empty, help corrected to the real (gate-path) reason; (c) new `--only-bins` allow-list (main waves need it — `gate_main` rebuilds once per SLATE, so main has no per-TU gate cost).
 - [x] **S52-2 — Atlas regen** (`make atlas`, $0) — the selector was stale by ~448 banks (last regen predates waves J–N).
 - [x] **S52-8 — `gate_lane` crash-vs-empty fixed.** A non-zero rc or a missing JSON line is now labelled `‼ CRASH`, prints the stderr tail, records `{'CRASH':True,…}` in the results JSON, lists the never-gated groups in the summary, and exits non-zero. R39 NC both ways: crash→CRASH, honest-empty→not-CRASH.
 - [~] **S52-3 — Wave O: MAIN + the UNKNOWN probe** — LAUNCHED (`wf_278b05de-bae`, 49 cards / **6,266 ins**, 2 gate groups). **The selection finding that reshaped this wave: main's agent-lane pool at ≥20 ins is nearly SPENT (21 left after 113 already waved) — main's remaining 52,714 ins are overwhelmingly UNKNOWN-lever, as are 138k fleet-wide.** So wave O is deliberately three arms: 21 main head-crack (avg 145 ins, opus) + 18 main UNKNOWN (avg 122) + 10 overlay UNKNOWN (`ov_SC04_011`, avg 103, sonnet). The UNKNOWN arms are an R37 probe of the biggest unclaimed block on the atlas — 1,239 candidates at 60–120 ins alone. Wave prompt gained §175/§176A–C (statement-order-around-a-call first; pin the interloper; **a pin cannot schedule across a call and can silently DELETE an instruction**).
@@ -1898,7 +1898,7 @@ instruction-weighted metric moves fastest per agent spent.
 
 - 2026-08-14 — **CAMPAIGN OPEN (T10+, Ultracode).** Wave A: 24 adapt cards → 18/24 standalone (75%) → symfix-first (0 stale — the prompt-law worked) → gate **12 banked + 1 propagation** (~117k tok/bank e2e; stubs → 12,030). 6 NEARs (3 at close ≤3) enqueued to the grinder. Wave B (48 cards, all haiku, 29 binaries) launched with the decl-matching lesson. Grinder pass 1: 0/10 but func_800CB4CC at best-1.
 
-- 2026-08-14 (resume session) — **Checkpoint resume steps 1–2 DONE.** (1) **R22 owed proof banked: `make clean && make extract-all && make check-all` → 213 passed, 0 failed of 213** (`.run/r22_p31_resume.log` EXIT=0) — wave B's banks verified fleet-clean. (2) **`make atlas` regenerated at HEAD `commit:2234`**: 363,525 feature rows / 92,855 distinct bodies (0 newly computed — memo hit); **5,144 groups / 11,994 open instances / 612,325 ins**; warm merges 1,014; seeded 4,710/7,247 skeletons; all assertions green. Open count 12,058→11,994 reconciles with the session's 65 banks. (3) Wave C fuel verified: `.run/wave_p31c_cards.json` = 38 cards (14 tell/sonnet + 24 weak/haiku); grinder idle (heartbeat `done`); gate free. Drew's re-extraction question answered (disc/splat layers gain nothing — deterministic + continuously regenerated; sig/atlas layer regenerated by this step; Ghidra-C re-analysis = targeted-probe candidate only, R37). NOTE: this harness build has no TaskCreate tool — this checklist + log is the monitorable task view (R28 noted plainly).
+- 2026-08-14 (resume session) — **Checkpoint resume steps 1–2 DONE.** (1) **R22 owed proof banked: `make clean && make extract-all && make check-all` → 213 passed, 0 failed of 213** (`.run/r22_p31_resume.log` EXIT=0) — wave B's banks verified fleet-clean. (2) **`make atlas` regenerated at HEAD `496e3757f`**: 363,525 feature rows / 92,855 distinct bodies (0 newly computed — memo hit); **5,144 groups / 11,994 open instances / 612,325 ins**; warm merges 1,014; seeded 4,710/7,247 skeletons; all assertions green. Open count 12,058→11,994 reconciles with the session's 65 banks. (3) Wave C fuel verified: `.run/wave_p31c_cards.json` = 38 cards (14 tell/sonnet + 24 weak/haiku); grinder idle (heartbeat `done`); gate free. Drew's re-extraction question answered (disc/splat layers gain nothing — deterministic + continuously regenerated; sig/atlas layer regenerated by this step; Ghidra-C re-analysis = targeted-probe candidate only, R37). NOTE: this harness build has no TaskCreate tool — this checklist + log is the monitorable task view (R28 noted plainly).
 
 - 2026-08-14 (resume session, cont.) — **WAVE C COMPLETE: 32 banked, R22 213/213.** Probe→wave cadence (§174 law 3) paid: the 3-card probe cost ~300k tok and returned Law 4, which the 35-card wave then converted at 91% gate with zero symbol failures. Independent re-verify of all 35 drafts by me (R14) before gating: 35/35 MATCH held. **Reach measured honestly: 32 exemplars, only 8 had any sharer, each ×2 → ~1.25× effective.** The ×134 era is over (P25/29/30 harvested the shared cores); fleet-% now moves ~1:1 with exemplars banked, so THROUGHPUT is the lever, not leverage.
   - **THREE instrument defects found+fixed in my own new tooling this cycle** (the R32/R35/R39 class, and the reason R39 exists): (1) `build_wave.py`'s gate-guard used `pgrep -f` via `shell=True` — the wrapping `sh -c` carries the pattern in its own cmdline so it self-matched and refused forever; fixed by invoking pgrep without a shell. (2) The open-stub predicate did `fn in corpus.stubs(binary)` — but `stubs()` returns **addr→Stub**, so every card looked "already-banked" and BOTH pools reported ~0 candidates (I nearly concluded the 622-card adapt pile and 954-card weak pile were spent). Fixed to `{st.symbol for st in ...values()}` and **negative-controlled against the known population** (35 wave-C cards, 32 banked → exactly 3 still open: PASS). (3) I fired wave D once with hand-typed placeholder card names instead of the generated file — caught and stopped within a minute, relaunched from `.run/wave_p31d_args.json`. Recorded, not buried (P9).
@@ -1915,13 +1915,13 @@ instruction-weighted metric moves fastest per agent spent.
 - 2026-08-14 (resume session, cont. 3) — **MAIN'S BLOCKER DIAGNOSED — it is LINK-LEVEL, not matching.** Main probe: 4/6 standalone MATCH (my independent re-verify; the workflow's own repair stage claimed 6/6 — the gate and my check disagree with the agents, R14), then **gate 0/4 banked, 4 near**. Reproduced one (`func_80013228`, a clean 27-ins `Square0` wrapper) through `harvest_verify` and byte-diffed the built EXE against the original: **exactly 2 bytes differ in 413,696**, and NOT inside the drafted function — a `jal` at **vaddr 0x80060E74** retargeted from **`func_80061FA8`** (game code, `build/src/800c2.o`) to **`firstfile`/`firstfile2`** (**PsyQ libapi object `build/psyq/apicard/A66.o`**, symbols.us.txt line: `firstfile2 = 0x80062248`). So adding ONE byte-correct C function to `src/800.c` perturbs **symbol resolution between game code and the LINKED PsyQ library objects** — the C is right; the link binds a call to a different definition. This is main-specific (main is the only binary with `psyq_integrate` archive objects, per the `ifeq ($(BINARY),main)` blocks) and explains why main has sat at 0.5%: it is an INTEGRATION wall, not a matching wall. **Main is NOT ready for bulk waves; it needs a named link-resolution investigation lane** (candidate leads: duplicate `.NON_MATCHING` symbol definitions visible in the map at both `Square0` and `func_80061FA8`; archive-member selection order when a new undefined ref appears in `src/800.o`). Recorded here + decision-log (R31). The 4 main drafts are preserved in `.run/wave_p31e/main/` as fuel for that lane.
 - 2026-08-14 — **Campaign returned to the lanes that bank.** Wave D (48 adapt cards) drafted; independent re-verify **42/48 MATCH (87.5%)**; 6 DIFF handed to the near/grinder path. Gating now.
 
-- 2026-08-15 — **Wave D closed: 45/48 banked. R22 clean fleet 213/213. Stubs 12,059 → 11,876** (183 banked this phase; ~118 tonight). Committed `commit:2324`. **Wave F LAUNCHED — the first TU-packed wave**: `build_wave_atlas.py` now packs by **(binary, home .c)** — the real `gate_lane` group key — giving **60 drafts / 3,508 ins in ONE gate group** (vs wave D's 42 drafts / 23 groups). Target `ov_SC02_011` `jr_8017AE2C`, avg 48 ins (vs the card lanes' 12–42), 70 head-crack + 17 redraft + 4 seeded + 2 integration + 2 len-vein + 1 family-sweep; 32 sonnet / 28 haiku. **This is the throughput experiment**: same gate cost as ~2 wave-D groups for 60 functions of larger mass. 6,981 candidates remain in the atlas's agent-draftable levers (`main` excluded).
+- 2026-08-15 — **Wave D closed: 45/48 banked. R22 clean fleet 213/213. Stubs 12,059 → 11,876** (183 banked this phase; ~118 tonight). Committed `dde7a35ca`. **Wave F LAUNCHED — the first TU-packed wave**: `build_wave_atlas.py` now packs by **(binary, home .c)** — the real `gate_lane` group key — giving **60 drafts / 3,508 ins in ONE gate group** (vs wave D's 42 drafts / 23 groups). Target `ov_SC02_011` `jr_8017AE2C`, avg 48 ins (vs the card lanes' 12–42), 70 head-crack + 17 redraft + 4 seeded + 2 integration + 2 len-vein + 1 family-sweep; 32 sonnet / 28 haiku. **This is the throughput experiment**: same gate cost as ~2 wave-D groups for 60 functions of larger mass. 6,981 candidates remain in the atlas's agent-draftable levers (`main` excluded).
 
 - 2026-08-15 — **WAVE F RESULT: the TU-packing thesis is CONFIRMED, and the fresh-crack lane works.** 60 atlas `mass` cards (no proven seed to edit — agents decompile from the .s) → **55/60 = 91% standalone**, **3,203 of 3,508 instructions**, in **ONE gate group**. Wave D needed 23 whole-binary rebuilds for 42 drafts; wave F needs 1 for 60. Per-card mass is ~3× the card lanes'. **This is the wave shape for the rest of the campaign** — `build_wave_atlas.py --max-bins 1..6`, 60–96 cards.
   - **NEW TOOL DEFECT (logged, not yet fixed): `aprop_symfix` CRASHES on non-hex symbol names.** `deltas[int(new[-8:],16) - int(old[-8:],16)]` assumes every symbol is `func_XXXXXXXX`/`D_XXXXXXXX`; a draft calling **PsyQ `Square0`** raises `ValueError: invalid literal for int() with base 16: 'Square0'` and takes the whole audit down. This will recur on every PsyQ-calling draft. **Fix wanted:** treat a stale pair whose names are not hex-suffixed as a direct 1:1 rename (no delta), and never let one unparseable pair abort the batch (R32: a crash is not a coverage answer). Workaround used: gate the 53 clean drafts, hold the 2 genuine STALE for a hand rename.
   - **Grinder ran concurrently with drafting** (free CPU, no tree writes during permute) on the close≤6 seeds: 3 ILS cycles each on the md_MAIN_* band, **0 banked, all parked at best-1** — plus it re-surfaced the Phase-22 split-file blindness (`func_800CB270: no .s under md_MAIN_027 — skip`). Stopped via the STOP sentinel to hand the tree to the wave-F gate (single-writer discipline; the gate is chained to start on grinder release).
 
-- 2026-08-15 — **Wave G: 36/36 drafted (100%), 32 banked, fleet 95.3→95.4%.** Two TU-packed waves now confirm the shape. **`aprop_symfix` non-hex fix landed** (`commit:2330`): a curated PsyQ name (`Square0`) made `int(name[-8:],16)` raise and abort a 55-draft audit *after* the renames had already succeeded; now counted as a `named-1:1` rename and the batch survives. Verified on the literal incident values (old aborts, new completes + still buckets the hex pair by its `0x484c` delta); honest caveat — the live slates could not re-trigger the path because those drafts are banked, so the changed expression was exercised directly.
+- 2026-08-15 — **Wave G: 36/36 drafted (100%), 32 banked, fleet 95.3→95.4%.** Two TU-packed waves now confirm the shape. **`aprop_symfix` non-hex fix landed** (`e64a80360`): a curated PsyQ name (`Square0`) made `int(name[-8:],16)` raise and abort a 55-draft audit *after* the renames had already succeeded; now counted as a `named-1:1` rename and the batch survives. Verified on the literal incident values (old aborts, new completes + still buckets the hex pair by its `0x484c` delta); honest caveat — the live slates could not re-trigger the path because those drafts are banked, so the changed expression was exercised directly.
   - **Standing pattern worth keeping in the prompt:** agents reconstruct CODE reliably (91–100% standalone) but guess **PsyQ symbol NAMES** unreliably (wave F: `S80131E00`→`Square0`, `Mat32_…`→`RotMatrixY`; wave G: `SRM_…`/`STM_…`→`RotTransSV`, `Blk20_…`→`RotMatrixY`). The deterministic symfix audit — not the model, and not `match_one` (which masks relocations and is BLIND to a wrong callee name) — is what catches this every time. Consider adding "if the target's .s calls a PsyQ symbol, use that exact name" to the wave LAWS.
 
 - 2026-08-15 — **`aprop_symfix` FALSE-POSITIVE class found (R39), and it cost real banks — my error, not the tool's alone.** I withheld 3 wave-G drafts from the gate because symfix reported them `STALE`/`AMBIGUOUS`. On inspection **all 3 already used the correct PsyQ names** (`RotMatrixY`, `RotTransSV`); what symfix flagged as "draft-only symbols" were **local identifiers** — a typedef (`Mtx8_8017DE10_8017E710`), inline-asm macro names (`SRM_80186334`/`STM_80186334`), and local struct typedefs (`Blk20_…`/`Vec32_…`). Gated unchanged: **3/3 banked** (wave G → 35/36). Two defects behind it: (a) the classifier counts local typedef/macro names as symbol references; (b) its draft-symbol extraction misses some `extern` declaration forms, so a name the draft *does* declare (`RotMatrixY`, line 8) still shows as `asm-only`.
@@ -1941,7 +1941,7 @@ instruction-weighted metric moves fastest per agent spent.
 
 ## 🛑 (superseded by S53) SESSION CHECKPOINT — S52 FINAL (2026-08-15/16)
 
-**Tree CLEAN at `commit:2415`. No process running. R22 verified 213/213 from a clean tree after the last bank.**
+**Tree CLEAN at `f8bf50d8c`. No process running. R22 verified 213/213 from a clean tree after the last bank.**
 
 ### Banked this session: 131
 Wave O 46 main + 4 ov · re-gate probe 1 · wave P 32 main + 8 md · wave Q 40 main.
@@ -2021,7 +2021,7 @@ success: link errors and byte mismatches are outside what any text check can see
 
 ## 🛑 (superseded) SESSION CHECKPOINT — S52 mid-day
 
-**Tree CLEAN at `commit:2407`. R22 verified 213/213 from a fully clean tree after the last bank. Nothing owed, nothing in flight.**
+**Tree CLEAN at `74a95af4c`. R22 verified 213/213 from a fully clean tree after the last bank. Nothing owed, nothing in flight.**
 
 ### Banked: 91 functions
 46 main + 4 ov (wave O) · 1 (re-gate probe) · 32 main + 8 md (wave P). **main 175 → 253 matched · stubs 1,881 → 1,803.** Fleet 213/213 byte-identical, 0 NON_MATCHING.
@@ -2053,7 +2053,7 @@ success: link errors and byte mismatches are outside what any text check can see
 
 ## 🛑 (superseded) checkpoint — S52 mid-session
 
-**State at checkpoint:** tree CLEAN at `commit:2402` + wave-O bank commit. **R22 verified 213/213 from a fully clean tree** after wave O. Nothing owed.
+**State at checkpoint:** tree CLEAN at `0753641d4` + wave-O bank commit. **R22 verified 213/213 from a fully clean tree** after wave O. Nothing owed.
 
 ### What S52 banked
 **51 functions** — 46 main (ONE clean rebuild, `143dbb89` byte-identical) + 4 overlay (`ov_SC04_011`) + 1 from the re-gate probe. **main 175 → 221 matched, stubs 1,881 → 1,835.**
@@ -2170,7 +2170,7 @@ Every serious stall traced to **an instrument trusted without a control**, never
 **Watch-fors:** gate_lane aborts on dirty src/config (clean first); symfix-first before every gate (§173); the safety-classifier can rate-limit under 48-agent bursts (harmless — retry).
 
 ## (superseded) previous checkpoint (end of build arc)
-**T0–T9 ALL COMPLETE AND COMMITTED** (through `commit:2181`). Phase totals: **17 banked, 0 agent tokens**; stubs 12,059 → 12,042; R22 213/213 verified twice (post-T1, post-T6). The machine: the Atlas (5,139 groups, `make atlas`), the widened lanes (symfix STALE-DELTA, recover_integration isolation + macro-externs/tu-scope, family_align + len_tells + lenmiss routing), the armed queues (grinder: 59 warmstart records; cards: 954 weak + 192 len + 704 adapt; permuter-49). NEXT = **T10+ the campaign loop**: L3 grinder running in background (launched at checkpoint time); **card/crack WAVES need Drew's `/effort ultracode` toggle first (R27)** — prompt and WAIT. Campaign cadence + close criterion: the plan file §Leg-C. If resuming fresh: read the approved plan + this log; check `.run/auto/grinder_heartbeat.json`; run `make atlas` to refresh; continue the loop.
+**T0–T9 ALL COMPLETE AND COMMITTED** (through `6cd81173c`). Phase totals: **17 banked, 0 agent tokens**; stubs 12,059 → 12,042; R22 213/213 verified twice (post-T1, post-T6). The machine: the Atlas (5,139 groups, `make atlas`), the widened lanes (symfix STALE-DELTA, recover_integration isolation + macro-externs/tu-scope, family_align + len_tells + lenmiss routing), the armed queues (grinder: 59 warmstart records; cards: 954 weak + 192 len + 704 adapt; permuter-49). NEXT = **T10+ the campaign loop**: L3 grinder running in background (launched at checkpoint time); **card/crack WAVES need Drew's `/effort ultracode` toggle first (R27)** — prompt and WAIT. Campaign cadence + close criterion: the plan file §Leg-C. If resuming fresh: read the approved plan + this log; check `.run/auto/grinder_heartbeat.json`; run `make atlas` to refresh; continue the loop.
 
 ---
 
@@ -2179,7 +2179,7 @@ Every serious stall traced to **an instrument trusted without a control**, never
 **The session so far, in one paragraph.** Read `frontier-analysis-s60.md` and executed its sequence:
 built the INTEGRATION-RESOLVER (tools/integration_resolver.py + lanes/resolver_lane.sh) — first pass
 1,352 nominated → 424 judged in 41 s → 245 staged (57.8%) → **63 banked, zero tokens, ~10 min**
-(commit:2991; subject says 72 = gross incl. 9 carve moves). Probing why 182 doubly-verified drafts
+(6e25fc910; subject says 72 = gross incl. 9 carve moves). Probing why 182 doubly-verified drafts
 still refused exposed the night's real story: **15 of 214 binaries were baseline-RED at HEAD**
 (stale JTBL_PADS / missing interleave entries / half-committed carves from S60's evening), refusing
 174 of those 182 regardless of draft quality; the fleet R22 sweep had been guard-skipped since
@@ -2217,7 +2217,7 @@ first relaunched wave; (5) escalation tier only after the resolver stock drains.
 self-matches your own wrapper — it killed two restart helpers AND the gater tonight); never let a
 script's own text contain the pattern it pkills; the gater blanket-commits src/ config/ at gate
 entry — probes that splice into src/ must hold the per-binary lock AND finish before gate entry, or
-ride into a chore commit (the ov_MAIN_012 repair did — commit commit:2998 — harmless but
+ride into a chore commit (the ov_MAIN_012 repair did — commit c3c904eb0 — harmless but
 mis-attributed). Stop sentinels are CLEAR; `.run/baseline_red.txt` is live gate input — keep it
 current as repairs land.
 
@@ -2260,11 +2260,11 @@ winner), ov_SC04_018 (pads drift 'consumed 3 but 4' AND a TU whose rtu-view dive
 pipeline — likely per-TU flags; two src attempts reverted), ov_SC06_022 ('consumed 1 but 2',
 byte-proof refused). All four are skip-listed so no draft is billed for them.
 
-**Record corrections (honesty over tidiness; do NOT rebuild history):** commit commit:3004
+**Record corrections (honesty over tidiness; do NOT rebuild history):** commit ad9b57328
 ("ox wave fc banks recovered") actually captured 10 of fd's MID-GATE splices — 6 were later
-reverted by their own judgments (verified; HEAD correct throughout). Commit commit:3006's message
-describes a repair; its content actually REVERTS commit:3005 (the TU stands at its pre-S61 state).
-Commit commit:2998 (gater chore) carries the ov_MAIN_012 interleave repair. Lesson for the rulebook:
+reverted by their own judgments (verified; HEAD correct throughout). Commit 92e8ed522's message
+describes a repair; its content actually REVERTS d7bb3ae8d (the TU stands at its pre-S61 state).
+Commit c3c904eb0 (gater chore) carries the ov_MAIN_012 interleave repair. Lesson for the rulebook:
 NEVER blanket-commit another lane's mid-gate tree — R42's "commit, don't revert" is for trees AT
 REST.
 
@@ -2295,7 +2295,7 @@ Truncated turns 6/1/0/0 — truncation recovers across the turn loop and does no
 S60 inverse-correlation, now paired-confirmed). **Decision: overlay drafting at MAXTOK=8000**
 (fastest turns, most shots/hour); the main lane keeps its own tuned 16000 (also a 10/10 arm).
 Caveat (R41): n=10 at 22–55 ins; the gen0 tail (p90 246 ins) is extrapolation. The 10 winners
-were staged and banked for real (commit:3023; 6 first-pass, remainder accounted in the ledger).
+were staged and banked for real (2502eff0e; 6 first-pass, remainder accounted in the ledger).
 Gen0 sweep launched at 8000/700: 196 sweepable non-main fns in waves g0a–g0d (size-ascending,
 <=60 agents), each wave queued to the gater as its drafts land; main's 231 gen0 run through the
 main lane. Rule-candidate data point for the effort doctrine: MORE OUTPUT BUDGET IS NOT MORE
@@ -2390,7 +2390,7 @@ route and are corrected in-line: resumed-turn budgets (real but minor) and a gen
 ## 🛑 SESSION CHECKPOINT — S61 FINAL-2 (2026-08-26 ~13:00). MACHINE FULLY QUIESCED. Two closing agents may still be writing — see HANDOFF below. Next session: read `docs/tool-designs/frontier-analysis-s61.md` FIRST, then plan Phase 32 with Drew.
 
 **State at close.** All lanes STOPPED and verified from ps (0 lane processes, 0 drafting agents);
-stop sentinels `.run/ox_campaign.stop` + `.run/auto/STOP` are SET. Tree clean at `commit:3070`+docs
+stop sentinels `.run/ox_campaign.stop` + `.run/auto/STOP` are SET. Tree clean at `252dc930c`+docs
 commits. **Today: 401+ net stubs banked (3,896 → ~3,495 committed, 76+ commits)** — the resolver
 (67+), gen0 sweep (60 overlay waves + ABCD 6), main parked slates (119+ gen0 + ds2's 20), g0f
 feedback redrafts (10), repairs unlocking the rest. Fleet: **98.4% instr-weighted · 96.6%
@@ -2457,11 +2457,11 @@ Harness task list built (15 tasks, T0–T9, dependencies wired). Compressed sess
 left — nothing needed before T4; ~$100 + an uncapped key recommended before T5's DeepSeek arm.
 
 **T0 resume ritual:** clean (src/config clean, overlays.mk 5,086, red 5, sentinels set 12:19, 0 lanes,
-HEAD commit:3078).
+HEAD 528f543d8).
 
 **T1 — outcome (falsifier fired; +6 banks; 1 instrument defect closed).** Full record in
 `docs/tool-designs/frontier-analysis-s61.md` Addendum 2 and cookbook §301. In brief:
-- Premises corrected before building (R35): dup-def demotion EXISTED (commit:3012) and had banked its
+- Premises corrected before building (R35): dup-def demotion EXISTED (3222eb454) and had banked its
   probe case; decl_from_use was already wired in A-prop; the resolver's `undeclared` path is now
   wired (`declfix`, additive) but its class is 39/42 TU-BROKEN in red SC04_018 → 0 bankable until T2d.
 - Fresh resolver pass + live gate: 98 staged → 0 banked = 40 red-held + 54 CARVE-REFUSED (→ T3) +
@@ -2469,10 +2469,10 @@ HEAD commit:3078).
   split, queued with T3).
 - The 2 DIFFs autopsied to bytes: ONE byte each, a wrong internal `j` target that rtu/match_one
   masked (`R_MIPS_26 .text` IS emitted for in-section `j`; §195's premise was wrong). Fixed the
-  drafts (banked 2/2, commit:3080) AND the comparer (`masked_diff` jrel; rtu_match shares
+  drafts (banked 2/2, f449a455b) AND the comparer (`masked_diff` jrel; rtu_match shares
   structured_diff): positive controls ORIG→DIFF 1 / FIX→MATCH; negative control over all 3,475
   stubs (1,097 with internal j, 4,043 instructions) → 0 new mismatches.
-- §295 kernel-trap sweep: 4/4 banked via gate_main clean rebuild (commit:3079).
+- §295 kernel-trap sweep: 4/4 banked via gate_main clean rebuild (80124c681).
 - Tools promoted: `tools/diff_autopsy.sh`, `tools/stub_invariant_audit.py` (SETUP.md rows, R21).
 - Fleet after T1: **2,511 stubs · 98.4% instr · 96.7% distinct**.
 - Standing consequence: every historical rtu/match_one MATCH / closeness-0 verdict was blind to `j`
@@ -2487,7 +2487,7 @@ HEAD commit:3078).
 JTBL_PADS value could ever win the S61 search (the order was wrong, not the pads). Retail words at
 0xc1308–0xc139c read as 12 | 8 | 6 | 11 entries: jr_80184F14's table, then jr_80185B44's three
 (func_80185B44 / func_801874C0 / func_80187884) — exactly the 3 `.align 3` tables the TU now emits.
-Fix: order re-aligned to the yaml, pads `0,0,0` (`commit:3084`); R22 clean rebuild byte-identical
+Fix: order re-aligned to the yaml, pads `0,0,0` (`5a87e741e`); R22 clean rebuild byte-identical
 (`d84b01a2`); then the 7 resolver drafts it held gated 7/7 (the gate's own §8a carve for the new
 switch fns updated yaml+mk; re-verified clean). Lesson for R59: a blanket restore of overlays.mk
 must be diffed against every yaml it describes (order ⇔ subseg sequence) — `tools/`-worthy check.
@@ -2498,7 +2498,7 @@ the object emits two 5-entry tables that retail lays back-to-back (+0x0, +0x14);
 `JTBL_PADS` line for the object (git log -S: it never existed) the pads stage never ran and the
 default `.align 3` inserted a 4-byte zero word between them → every %lo downstream +4, binary +4
 (+1 trim), 1,041 sparse diffs from 0x4B8. S61's "pads-VALUE search found no unique winner" was a
-search over a nonexistent line (R40). Spec `0,0` added (`commit:3086`), R22 clean rebuild
+search over a nonexistent line (R40). Spec `0,0` added (`46ad1a2de`), R22 clean rebuild
 byte-identical (`c2cd16c4`), then its 4 held resolver drafts gated 4/4, re-verified clean.
 `.run/t1/interleave_check.py` (order ⇔ yaml) is ALIGNED for SC06_022/SC04_018 and shows a DRIFT on
 ov_SC02_005 (`jr_8018EA04.o` + `tail21` in the order, absent from the yaml) — T2e input.
@@ -2511,7 +2511,7 @@ tables (func_80185B80, whose table is the second, is still a stub) and the 17:43
 the two-table `0,4`. Built `.run/t1/pads_audit.py <binary>` (offline-tooling-first): compiles each
 TU with a pads line to count its tables, walks the retail bytes inside the yaml carve with those
 sizes (pad 4 ⇔ one zero word before a table), and DERIVES the spec — it reproduced all 15 correct
-specs (negative control) and flagged exactly the two drifts. Specs set (`commit:3088`), R22 clean
+specs (negative control) and flagged exactly the two drifts. Specs set (`bf10227de`), R22 clean
 rebuild byte-identical (`2a7d7d4e`), 11 held drafts gated 9/11 (2 already banked by propagation),
 re-verified clean. The same audit pre-diagnoses T2d: ov_SC04_018/jr_8017AE2C spec has 4 entries, the
 TU compiles 3, the carve holds a 4th 5-entry table (func_80181804, reverted to a stub).
@@ -2521,8 +2521,8 @@ TU compiles 3, the carve holds a 4th 5-entry table (func_80181804, reverted to a
 defects" collapsed into one: the 04:06 g0b gate wrote a `_JTBL_INTERLEAVE` order for a yaml state
 (a `jr_8018EA04` c-subseg + `tail21`) that a later restore removed — func_8018EA04 is a stub inside
 TU jr_80181D30; the "+0xAE8 rodata shift" was that order's consequence. Order re-aligned to the
-yaml + the stale `asm/…/jr_8018EA04/` dir dropped → 0 differing bytes (`commit:3090`). Its one held
-draft then banked and the gate's §8a carve re-split jr_8018EA04 consistently (`commit:3091`).
+yaml + the stale `asm/…/jr_8018EA04/` dir dropped → 0 differing bytes (`7898b9faf`). Its one held
+draft then banked and the gate's §8a carve re-split jr_8018EA04 consistently (`315699b59`).
 
 **T2d DONE (ov_SC04_018 GREEN, RED LIST EMPTY, +18 banks).** Two real defects in one TU
 (jr_8017AE2C): the pads spec had 4 entries for 3 compiled tables (the carve's 4th table is
@@ -2533,7 +2533,7 @@ three later block-scope externs ("used prior to declaration"), an address-of-a-c
 (caller cast per §20), and func_8017E7CC's first store with offset/value swapped (retail
 `li v0,3; sh v0,2(s0)`; the two-byte diff located it). This is the "rtu-vs-real-pipeline TU
 divergence" — rtu's neutralized view compiled where the real TU could not; decl_from_use's 39
-TU-BROKEN cases become judgeable now. `commit:3092`; R22 clean rebuild byte-identical
+TU-BROKEN cases become judgeable now. `00e26c78d`; R22 clean rebuild byte-identical
 (`fe9b413f`); 18 held drafts gated 18/18, re-verified clean.
 
 **T2 total: 5/5 reds healed in one session, +39 banks from held drafts (7+4+9+1+18), 241 held fns
@@ -2550,7 +2550,7 @@ maintenance repair to `0` was blanket-reverted by the 10:21 ds1 wave commit, the
 and md_SC07_003 (`[EXTRACT FAIL]` under the parallel extract-all, yet `make extract` succeeds
 serially — a suspected race, re-measured by the second sweep). `interleave_check --fix` (order
 regenerated from the yaml) + a pads_audit-derived spec healed all five overlays byte-identically
-(commit:3095). Second clean sweep launched for the definitive GREEN count.
+(05f13d6c9). Second clean sweep launched for the definitive GREEN count.
 Rule candidate for the PhaseEnd (R60): config/overlays.mk and the splat yamls are CARVE STATE, not
 plain config — a gate/lane commit may only carry its own binary's lines, and any blanket
 restore/commit of either file is followed by `interleave_check` + `pads_audit` on every binary it
@@ -2566,13 +2566,13 @@ stream — no stored spec, nothing to drift; cookbook §303), the Makefile runs 
 object, `harvest_verify` hands module island walls to it. Negative control: all 70 module binaries
 rebuilt byte-identical through the derive stage (7 first failed in the deriver on blob alignment
 gaps — fixed; md_MAIN_003's blob sizing is 34 bytes short but it has no C tables, so the early
-return covers it and any future table there refuses loudly). Commits `commit:3098`, `commit:3099`,
-`commit:3100` + this one. NEXT: fleet sweep #3 (definitive GREEN count with the deriver live), then
+return covers it and any future table there refuses loudly). Commits `ddd902946`, `0b75da6a3`,
+`c71cd7edb` + this one. NEXT: fleet sweep #3 (definitive GREEN count with the deriver live), then
 a fresh resolver pass to bank the 32 tail + 25 md_ island drafts through the official gate.
 
 **T3 progress (S62).** Fleet sweep #3: **213/213 GREEN, extract-all 212/212** (14:52, from
 `make clean`, deriver live) — the honest R58 count for T2+T3a. T3b: ov_SC03_118/119 -O0 region
-`o0d` (0x80183178..0x80183830, 9 stubs each) carved, byte-neutral (`commit:3102`); the five md_MAIN
+`o0d` (0x80183178..0x80183830, 9 stubs each) carved, byte-neutral (`7a3ce3434`); the five md_MAIN
 "F" members are NOT -O0 (func_800D0C50's draft matches at both levels) — their rejections were
 module-island/plumbing, now covered. §304: md_MAIN_011/func_800D04F4 banked by defining its own
 rodata strings in the C body (the resolver's PLUMBING class). A fresh resolver pass is running to
@@ -2602,7 +2602,7 @@ never read `asm/` while a sweep's extract-all runs.
 
 ## 🛑 SESSION CHECKPOINT — S62 (2026-08-26 ~16:05). Plan approved; T0–T3 + T5pre DONE; paused at the R27 gate for T4 (Ultracode).
 
-**State.** Tree clean at `commit:3123`+; NO lanes running (sentinels `.run/ox_campaign.stop` +
+**State.** Tree clean at `ceab8ad72`+; NO lanes running (sentinels `.run/ox_campaign.stop` +
 `.run/auto/STOP` still SET — delete both before any relaunch); OpenRouter key $63.03/$70, account
 $5.57 credit (T4's DeepSeek arm needs ~$1; ~$100 + an uncapped key recommended before T5).
 **Fleet:** 2,397 stubs · 98.5% instr · 96.8% distinct (2,517 at session start; −120 today).
@@ -2668,7 +2668,7 @@ Opus escalation · >120 → Opus · haiku dropped from the ladder (adds 0 on top
 its value was only ever cost, and the cheap slot is DeepSeek's at ~$0.03/fn) · the three fns no
 arm banked are all M-extend-tell → T6 wall track, never waves. §3.5 falsifiers: "Haiku ≥ Sonnet on
 ≤50" refuted (7 vs 9); arms disagree by band → split routing stands. Caveat (R41): n=20, one fn
-per band is 9–14pp; the union numbers are the robust ones. Union commit `commit:3128` (+17 fns;
+per band is 9–14pp; the union numbers are the robust ones. Union commit `ad273e7b6` (+17 fns;
 fleet 2,380 stubs, 98.5% / 96.8%). Artifacts: `.run/t4/judge.json`, `claude_banked.json`,
 `distill_out.json`, `sample.json`, `targets.json`. Harness fixes shipped en route: `prior_draft`
 law-1c filter; the judge's corpus-cache blind spot; the serial-vs-sharded api_agent launch
@@ -2677,7 +2677,7 @@ law-1c filter; the judge's corpus-cache blind spot; the serial-vs-sharded api_ag
 ## 🛑 SESSION CHECKPOINT (refresh) — S62, ~18:35. T0–T4 + T5pre DONE. Paused at the R27 gate: Ultracode → back to Max before T5's plan review.
 Tree clean; no lanes running (stop sentinels still SET); fleet 2,380 stubs (last clean sweep #7 213/213 at 16:02, then 17 union banks each byte-identical per clean per-binary rebuild). NEXT: T5 — relaunch drafting as Ultracode ladder waves over K+L+M with the T4 routing rule (Sonnet+DeepSeek on ≤50, Sonnet on 51–120, Opus on >120/residue), warm starts law-1c-filtered, cards with §296 frame check, main lane on the rebuilt queue; delete both sentinels at launch. Drew-side before T5: OpenRouter credit (~$5 left) — the DeepSeek arm at ~$0.03/fn needs ~$25–40 for the ≤50 band; raise the key cap accordingly.
 
-## 🛑 SESSION CHECKPOINT — S62 FINAL (2026-08-26 ~18:50). Supersedes the 18:35 refresh. T0–T4 + T5pre DONE; tree clean at `commit:3133` (55 commits this session); NO lanes running; stop sentinels `.run/ox_campaign.stop` + `.run/auto/STOP` still SET.
+## 🛑 SESSION CHECKPOINT — S62 FINAL (2026-08-26 ~18:50). Supersedes the 18:35 refresh. T0–T4 + T5pre DONE; tree clean at `5962bb70e` (55 commits this session); NO lanes running; stop sentinels `.run/ox_campaign.stop` + `.run/auto/STOP` still SET.
 
 **Read first in the fresh session:** this block → `docs/tool-designs/frontier-analysis-s61.md` (the
 plan, with Addenda 2–5 = what each executed step changed) → the S62 blocks above for detail.
@@ -2712,7 +2712,7 @@ a sweep, verify from the gate not the classification ledger, shard `api_agent` b
 
 ## S63 (2026-08-26 evening, Max) — T5 OPENED: session start compressed (~30k tokens), sweep #8, the wave tooling
 
-**Resume ritual:** tree clean at `commit:3134`, overlays.mk 5,090 lines, red list EMPTY, no lanes, both stop
+**Resume ritual:** tree clean at `20e700585`, overlays.mk 5,090 lines, red list EMPTY, no lanes, both stop
 sentinels SET (Claude harness ignores them). **Fleet sweep #8 (R22, from `make clean`): 213/213 GREEN,
 extract-all 212/212, exit 0** (`.run/t5/sweep8.log`). Task list built (R28): T5.0–T5.7, T6–T9.
 **T5.1 DONE — the draw and bank halves around the promoted T4 harness** (SETUP row): `tools/t5_targets.py`
@@ -2728,19 +2728,19 @@ draw holds one name per wave; `claude_wave_packs.py` and `wave_judge.py` now REF
 4 opus; 13 binaries), packs 48/48 with cards. NEXT: one free maintenance (lane G) pass, then the R27
 prompt for Ultracode and the t5a Workflow.
 
-**T5.2 — lane G (free A-prop), one pass: 23 banked, zero model tokens** (`commit:3136`). 104 mechanical
+**T5.2 — lane G (free A-prop), one pass: 23 banked, zero model tokens** (`3591ac656`). 104 mechanical
 drafts → 45 staged (dropped 38 COMPILE-FAIL / 16 AGREE-but-shape-DIFF / 5 mismatch) + 4 recovered by
 `rtu_second_chance` + 1 by `fix_tu_ret_decls`; its own fleet R22 read 213/213. Zero overlap with the
 t5a slate (asserted before the wave gated).
 
 **T5.3 — WAVE t5a: 43/48 banked = 89.6%.** 48 agents (44 Sonnet ≤120 ins, 4 Opus >120), 13 binaries,
 4.48M subagent tokens, 25.7 min drafting, 0 agent errors. Gate (`t5_bank.sh` → `wave_judge --union`):
-sonnet **39/44**, opus **2/4**, union 41 banked, fleet **213 passed, 0 failed of 213** → `commit:3137`.
+sonnet **39/44**, opus **2/4**, union 41 banked, fleet **213 passed, 0 failed of 213** → `bfd591c9c`.
 Per band: sonnet ≤50 **32/33**, 51–120 **7/11**, >120 0/4; opus >120 **2/4**.
 Then the RECOVERY step (wave-closing sequence): 2 self-MATCH drafts the gate refused were both
 byte-exact in isolation (`match_one` MATCH, closeness 0, bucket `integration`) and both failed for
 ONE reason — the destination TU declared `extern void func_X(...)` for an **s32-returning** function.
-`fix_tu_ret_decls` retyped 3 decls and banked **2/2** (`commit:3138`), clean sweep #9 **213/213**.
+`fix_tu_ret_decls` retyped 3 decls and banked **2/2** (`827b0b156`), clean sweep #9 **213/213**.
 Self-reports vs gate (R14): 43 MATCH claimed → 41 banked at the gate → 43 after recovery.
 **Residue (5):** func_8017E92C (c=3, prologue birth-order), func_8017FC44 (c=14, §201-C eager
 delay-slot fill), func_8017EA24 (c=13, symmetric delay-slot swap §224/§263), func_8017DD80 (c=4,
@@ -2757,7 +2757,7 @@ declarations). Nine agents reported discarding it unprompted ("the pack's warm-s
 'banked twin' were both wrong", "decl-hints belonged to a different overlay's function at the same
 address"). t5a's 89.6% was scored *through* that handicap. T4's ladder comparison still stands (all
 arms carried the same handicap) but its absolute rates were depressed.
-**Fix (`commit:3139`):** cards keyed **(binary, fn)**; a card from another binary is DROPPED and
+**Fix (`41b259e52`):** cards keyed **(binary, fn)**; a card from another binary is DROPPED and
 counted, never substituted (R43). That leaves K-class targets with no card at all — so
 **`tools/t5_cards.py`** now BUILDS the target's own fuel: `tu_ref` (already-banked neighbours in the
 target's OWN TU, ranked by shared .s relocation symbols — §194-E, the exact lever t5a's agents kept
@@ -2778,7 +2778,7 @@ number and opposite facts; the corrected run read 98%.
 t5a alone is **89.6%**, six times the threshold. Wave t5b (48 fresh + 4 residue escalated to Opus,
 15 binaries) is drafting with the repaired packs.
 
-**T5.5 — R16 distill of t5a (41 byte-proven transcripts, `commit:3142`).** 39 distilled (3 lost to API
+**T5.5 — R16 distill of t5a (41 byte-proven transcripts, `3ae63a9b2`).** 39 distilled (3 lost to API
 rate limits, RECORDED not silently skipped — R32): 16 trivial, 5 novelty claims → the Opus verifier
 returned **1 ADDENDUM, 2 COVERED, 2 REFUTED**. Banked: a §164-55 addendum, byte-proven on
 `func_8017E2CC` — when one if/else arm is a SINGLE CONSTANT assignment, writing it as the TRUE arm
@@ -2791,7 +2791,7 @@ read this backwards** ("put the target's fall-through block in the `if`" names t
 are worth as much as the addendum — they stopped wrong laws entering the book. Cookbook **888 → 913
 sections**, index green.
 
-**T5.6 — WAVE t5d: 42/48 banked = 87.5%** (`commit:3143`; sonnet 38/44, **opus 4/4 on >120 ins**;
+**T5.6 — WAVE t5d: 42/48 banked = 87.5%** (`4f1ff29a6`; sonnet 38/44, **opus 4/4 on >120 ins**;
 fleet 213/213). Per band: sonnet ≤50 29/33, 51–120 9/11, >120 0/4; opus >120 4/4.
 **Its 6 misses decomposed, and the split is the finding:** ONE genuine codegen residual
 (func_80180808, closeness 2, branch polarity) and **FIVE byte-correct bodies blocked purely by TU
@@ -2803,7 +2803,7 @@ exact MIRROR of the class `fix_tu_ret_decls` repairs, which is why the automatic
 ("definition return is 'void'"). This is the `matching-is-solved-integration-is-the-bottleneck` law
 measured again: **5 of 6 wave misses were integration, not codegen.**
 Since the class recurs every wave, it got a tool rather than five hand-edits:
-**`tools/workflows/claude_integration_recover.js`** (`commit:3144`) — one agent per blocked draft,
+**`tools/workflows/claude_integration_recover.js`** (`c865841db`) — one agent per blocked draft,
 fixing the DRAFT's own declarations only, forbidden from `src/shared/engine_core.h` or any other
 binary (§65a blast-radius law), and required to re-pass BOTH oracles (the real-TU compile AND an
 unchanged `match_one` MATCH) before writing out.
@@ -2823,16 +2823,16 @@ pseudo; a bare-PARAMETER-vs-local rule for cross-jumped duplicate call sites) �
 
 | wave | targets | banked | per-band | commit |
 |---|---|---|---|---|
-| t5a | 48 | **43** (41 gate + 2 recovery) | sonnet ≤50 32/33 · 51–120 7/11 · opus >120 2/4 | `commit:3137` `commit:3138` |
-| t5b | 52 (48 + 4 residue) | **44** | sonnet 37/43 · **opus 7/8** | `commit:3147` |
-| t5c | 48 | **39** | sonnet 36/43 · opus 2/4 | `commit:3148` |
-| t5d | 48 | **42** | sonnet 38/44 · **opus 4/4 >120** | `commit:3143` |
-| t5e | 64 (48 + 16 residue) | **53** | sonnet 37/41 · **opus 16/18** | `commit:3153` |
-| t5f | 48 | **34** of 35 drafted | sonnet 34/35 | `commit:3154` |
-| t5h | 19 (the limit-killed) | **13** | sonnet 8/14 · **opus 5/5 >120** | `commit:3156` |
-| main | 11 | **9** (`gate_main` clean rebuild) | main SHA `143dbb89` byte-identical | `commit:3150` |
-| integration recovery | 5 | **5** | all byte-correct already; TU plumbing only | `commit:3149` |
-| lane G (free) | — | **23 + 3** | zero model tokens | `commit:3136` `commit:3155` |
+| t5a | 48 | **43** (41 gate + 2 recovery) | sonnet ≤50 32/33 · 51–120 7/11 · opus >120 2/4 | `bfd591c9c` `827b0b156` |
+| t5b | 52 (48 + 4 residue) | **44** | sonnet 37/43 · **opus 7/8** | `0b6f1039c` |
+| t5c | 48 | **39** | sonnet 36/43 · opus 2/4 | `eaf423f1d` |
+| t5d | 48 | **42** | sonnet 38/44 · **opus 4/4 >120** | `4f1ff29a6` |
+| t5e | 64 (48 + 16 residue) | **53** | sonnet 37/41 · **opus 16/18** | `b2365aeeb` |
+| t5f | 48 | **34** of 35 drafted | sonnet 34/35 | `1fffccf85` |
+| t5h | 19 (the limit-killed) | **13** | sonnet 8/14 · **opus 5/5 >120** | `37cd7e2e0` |
+| main | 11 | **9** (`gate_main` clean rebuild) | main SHA `143dbb89` byte-identical | `b1a0d49a5` |
+| integration recovery | 5 | **5** | all byte-correct already; TU plumbing only | `923bd5ec6` |
+| lane G (free) | — | **23 + 3** | zero model tokens | `3591ac656` `a4d66a27c` |
 
 **FLEET: 2,380 → 2,068 stubs = 312 closed this session** (derived from `corpus.stubs`, not the
 commit-subject regex, which reads 282 and undercounts — R33/R41). **98.5% → 98.6% instruction-weighted,
@@ -2908,7 +2908,7 @@ compile-time zero), func_8017EDD4 (c=33, sched1/dbr tie-break, 9 variants tried)
 main's func_8001BC6C (§307) and func_80021284 (c=25, REGALLOC-PERM). Opus-refused twice → wall:
 ov_SC06_025:func_8017EF94, ov_SC06_025:func_8017FD28, ov_SC03_028:func_8017D8B8.
 
-## 🛑 SESSION CHECKPOINT — S63 (2026-08-27 ~09:45). Phase 31 T5 CONTINUES. Tree clean at `commit:3158`. NO lanes running; stop sentinel `.run/ox_campaign.stop` SET.
+## 🛑 SESSION CHECKPOINT — S63 (2026-08-27 ~09:45). Phase 31 T5 CONTINUES. Tree clean at `bd472c5fc`. NO lanes running; stop sentinel `.run/ox_campaign.stop` SET.
 
 **Read first in a fresh session:** this block → the S63 results block above → `docs/tool-designs/frontier-analysis-s61.md` §4 (the plan; T1–T4 done in S62, T5 running).
 **FLEET: 2,068 stubs · 98.6% instr · 97.1% distinct · GREEN 213/213** (R58; last clean sweep at the
@@ -3004,20 +3004,20 @@ later in t5h/t5i — re-derive the ledger from the drawn ledger before trusting 
 ## S64 (2026-08-27, Ultracode) — 11 waves, the decl-mirror tool, and an R14 self-correction
 
 **Waves (banked / drafted):** t5j 45/48 · t5k 47/50 · t5l 39/48 · t5m 53/61 · t5n 43/48 · t5o 36/39 ·
-t5p 30/33 · t5q 28/30 · t5r 30/47 · plus the 741-ins single-function recovery. Commits `commit:3167`,
-`commit:3168`, `commit:3170`, `commit:3171`, `commit:3173`, `commit:3175`, `commit:3176`, `commit:3177`,
-`commit:3179`, `commit:3178`. **Every wave closed with a clean-rebuild fleet sweep at 213/213.**
+t5p 30/33 · t5q 28/30 · t5r 30/47 · plus the 741-ins single-function recovery. Commits `5e5fd1cb7`,
+`5365db0f8`, `78f4934ef`, `ab3fffda1`, `e2d153132`, `6a601a0fc`, `0bcd8b3d2`, `34963d42e`,
+`d9a30167d`, `4ed883d0f`. **Every wave closed with a clean-rebuild fleet sweep at 213/213.**
 
 **FLEET: 1,741 → 1,616 stubs this session; 2,380 → 1,616 across S63+S64 = 764 closed.**
 **98.7% → 98.8% instruction-weighted · 97.3% → 97.4% distinct** (89,763/90,929 unique fns).
 Cookbook **919 → 920 sections**, index green. 46 commits. Tree clean.
 
 **R14 SELF-CORRECTION — READ THIS BEFORE TRUSTING ANY WAVE SUMMARY.** I reported
-`ov_SC03_107:func_8017BEBC` (741 ins) as banked in t5n, in chat AND in commit `commit:3173`'s message.
+`ov_SC03_107:func_8017BEBC` (741 ins) as banked in t5n, in chat AND in commit `e2d153132`'s message.
 **It was not.** The drafting agent self-reported MATCH, its local `match_one` said closeness 0, and I
 repeated that without reading the judge — which recorded 42 union banks with that function excluded.
 It stayed an `INCLUDE_ASM` stub for three more waves. Caught only when the distill slate (banked-only
-by contract) failed to include it. **It is banked NOW** (`commit:3178`), byte-proven at the whole-binary
+by contract) failed to include it. **It is banked NOW** (`4ed883d0f`), byte-proven at the whole-binary
 gate. The body had been correct the whole time; the sole blocker was `conflicting types for
 ApplyMatrixSV` at tu:5758 — the draft re-declared a callee the TU already declares with a different
 param spelling, and deleting the draft's own extern fixed it (the call site's `(void*)` casts convert
@@ -3132,13 +3132,13 @@ rewritten to say this. Consequence: fixed per-wave overheads (draw, both gate ar
 the distill) now amortize over 15 targets, so **pull the agent-free levers first**.
 
 ### BANKED THIS SESSION — 27 functions, every one committed as it landed (R42)
-* **t5s wave (29 agents, the last 29-slate):** 24 banked — sonnet 22/25, opus 2/4. Commit `commit:3187`.
+* **t5s wave (29 agents, the last 29-slate):** 24 banked — sonnet 22/25, opus 2/4. Commit `dd1112728`.
 * **Integration recovery: 3**, and **2 of those were only reachable because of a fix made this
   session** — `ov_SC03_012:func_8017BEBC` (246 ins) and `ov_SC03_107:func_80157808`, both banked as
   RAW drafts at the pass-1a that did not exist before. Plus `ov_SC04_004:func_8017F9F4`.
 
 ### FOUR TOOL DEFECTS FOUND AND FIXED (all committed, all negative-controlled)
-1. **`recover_integration` gated only its own REWRITE of a draft** (`commit:3186`, cookbook **§313**).
+1. **`recover_integration` gated only its own REWRITE of a draft** (`6ed0f77b6`, cookbook **§313**).
    `macro-externs` rewrites a draft's callee `extern` to the FLEET `DEFINE_` macro's head — but
    `func_ADDR` names are per-ADDRESS, not per-function, so another overlay's `extern void
    func_8017C338(void)` replaced this overlay's correct 4-arg decl and manufactured the CC1-FAIL it
@@ -3147,7 +3147,7 @@ the distill) now amortize over 15 targets, so **pull the agent-free levers first
 2. **`harvest_verify.classify_fail` labelled a BUILT draft `CC1-FAIL`** using the orphaned `note:`
    half of a benign warning pair. Notes now drop with their warnings. Negative-controlled over 5
    diagnostic shapes; only warning+note-only changed (to the honest `no-diagnostic` label).
-3. **`masked_diff` compared NOTHING at `R_MIPS_26` slots** (`commit:3188`) — `mask_for` returned 0, and
+3. **`masked_diff` compared NOTHING at `R_MIPS_26` slots** (`048666600`) — `mask_for` returned 0, and
    since each comparer takes its mask from ONE side, a `j`/`jal` there swallowed whatever the other
    side held. Byte-reproduced: my `j` vs target `bne` → 0, vs `nop` → 0, my `jal` vs `bne` → 0, while
    the mirror (my `bne` vs target `j`) → 1. Fix: mask `0xFC000000` — the 26-bit field stays masked,
@@ -3155,7 +3155,7 @@ the distill) now amortize over 15 targets, so **pull the agent-free levers first
    AND after** (the same three main length-delta survivors), over a population that exercises the
    path (812 stubs carry internal-`j` `.text` relocs / 3,164 such instructions). Found by a t5s
    drafting agent on func_8017EB30; verified BROADER than it reported. No bank was ever at risk (G3).
-4. **`--probe-only` crashed for `--funcs`/`--auto`/`--from-file`** (`commit:3190`) — it exec'd
+4. **`--probe-only` crashed for `--funcs`/`--auto`/`--from-file`** (`edec2adb9`) — it exec'd
    `blocker_probe` BEFORE staging. Only `--draft-dir` worked. Staging now happens first; control =
    the `--draft-dir` path returns its pre-edit verdict verbatim.
 
@@ -3215,25 +3215,25 @@ number as the standing cap; ask before scaling. Memory `endgame-budget-unconstra
 throughput, NOT quality.** Remaining K+L population: **231 fns / 13,498 ins across 135 binaries.**
 
 ### BANKED — 42 functions, each committed as it landed (R42)
-`commit:3184` func_8017F9F4 · `commit:3185` **func_8017BEBC (246 ins)** · `commit:3187` **t5s = 24** ·
-`commit:3189` func_80157808 · `commit:3193` md_MAIN_026 · `commit:3197` **t5t = 13** · `commit:3198`
+`beba65174` func_8017F9F4 · `75a6639e5` **func_8017BEBC (246 ins)** · `dd1112728` **t5s = 24** ·
+`cbd89e192` func_80157808 · `e75f38484` md_MAIN_026 · `83334a6c9` **t5t = 13** · `2bd4dcf86`
 func_8018452C. **5 of the 42 came from integration recovery, and 4 of those 5 banked as RAW drafts —
 the pass that did not exist before this session.**
 
 ### FIVE TOOL DEFECTS FIXED (all committed, all negative-controlled)
-1. **`recover_integration` gated only its own REWRITE** (`commit:3186`, cookbook **§313**). `macro-externs`
+1. **`recover_integration` gated only its own REWRITE** (`6ed0f77b6`, cookbook **§313**). `macro-externs`
    rewrites a callee `extern` to the FLEET `DEFINE_` macro's head — but `func_ADDR` is per-ADDRESS,
    so another overlay's `extern void func_8017C338(void)` replaced this overlay's correct 4-arg decl
    and MANUFACTURED the CC1-FAIL it reported as the draft's failure. Now **pass 1a raw → pass 1b
    rewrite only what raw refused**, winning variant recorded per fn.
 2. **`harvest_verify.classify_fail` labelled a BUILT draft `CC1-FAIL`** from the orphaned `note:` half
    of a benign warning. Controlled over 5 diagnostic shapes; only warning+note-only changed.
-3. **`masked_diff` compared NOTHING at `R_MIPS_26` slots** (`commit:3188`) — `mask_for` returned 0 and
+3. **`masked_diff` compared NOTHING at `R_MIPS_26` slots** (`048666600`) — `mask_for` returned 0 and
    each comparer takes its mask from ONE side, so a `j`/`jal` swallowed the other side's instruction.
    my `j` vs `bne` → 0, vs `nop` → 0, `jal` vs `bne` → 0; mirror → 1. Fix `0xFC000000`. **R39: 2,554
    stubs, nonzero 3 before AND after** (812 stubs / 3,164 internal-`j` instructions exercise it).
-4. **`--probe-only` crashed for `--funcs`/`--auto`/`--from-file`** (`commit:3190`) — exec'd before staging.
-5. **The distill novelty selector was INVERTED** (`commit:3194`): `'no cookbook lever'` matched "no
+4. **`--probe-only` crashed for `--funcs`/`--auto`/`--from-file`** (`edec2adb9`) — exec'd before staging.
+5. **The distill novelty selector was INVERTED** (`91e624c04`): `'no cookbook lever'` matched "no
    cookbook lever *needed*" (a TRIVIAL note) and was the only pick of 24, while three multi-lever
    notes went unseen — **and it structurally could not see UNBANKED functions at all**, which is where
    the hardest functions write their richest notes (defeating cookbook §52 with the flywheel's own
@@ -3244,7 +3244,7 @@ the pass that did not exist before this session.**
   GLOBAL `git status`, an abort does NOT restore stage edits, and gate_stage's commit is a
   deliberately broad `git add -u src/` — so md_MAIN_026's +1 commit swept **696 broken lines of
   ov_MAIN_012** into itself; `check-all` went 212/213 and the t5t bank was blocked behind it for ~1h.
-  Repaired at `commit:3195`; **single-instance flock added** (`commit:3196`). NARROWING the gate's
+  Repaired at `3e6912f53`; **single-instance flock added** (`25b72baa8`). NARROWING the gate's
   `git add` would have been the WRONG fix — that breadth is deliberate (a narrower glob once dropped
   4 R22-verified banks). **RUN THE DRIVER SERIALLY.**
 * A `pgrep -f` wait-loop that **matched its own wrapper** (never exits) and a `pkill -f` that **killed
@@ -3322,7 +3322,7 @@ actively say "no banked twin — derive from the .s" for them. Measured cost: a 
 `ov_SC03_023:func_8017BEBC` to closeness 45 while `ov_SC02_004` held a byte-identical banked copy;
 `family_remap` produced it exactly, in one command. **Filter every draw against the twin list.**
 
-### PARALLEL GATING — `tools/parallel_gate.py` (NEW, committed `commit:3275`)
+### PARALLEL GATING — `tools/parallel_gate.py` (NEW, committed `e9449ef0f`)
 The per-binary gate was serial BY HARNESS, not by nature (each binary has its own `build/`, `.ld`,
 SHA). One `git worktree` per worker; workers gate and NEVER commit; the orchestrator adopts only
 gate-ACCEPTED drafts and only where the main tree still equals the pinned baseline (else REFUSED, not
@@ -3350,7 +3350,7 @@ t5s 24/29 · t5t 13/15 · t5v 14/15 · t5u 12/15 · t5w 5/5 · t5y 5/5 · t5x 3/
 
 ### MY OWN ERRORS (do not repeat)
 * `xargs -P 4` over the recovery driver put **696 broken lines of ov_MAIN_012 into another binary's
-  commit**; fleet went 212/213 and the t5t bank was blocked ~1h. Repaired at `commit:3195`.
+  commit**; fleet went 212/213 and the t5t bank was blocked ~1h. Repaired at `3e6912f53`.
 * THREE `pkill -f` / `pgrep -f` calls matched **my own wrapper shell** — twice killing my shell, once
   making `t5_bank` refuse ("another gate is running" = my own waiter). **Monitor by ARTIFACT (git log,
   file counts, output files), never by pattern-matching the process table.**
@@ -3412,7 +3412,7 @@ lock cost a t7b agent its \$0 diagnostic).
 
 ### MY ERRORS — all repaired, all accounted
 * `xargs -P 4` over the recovery driver swept **696 broken lines of ov_MAIN_012** into another
-  binary's commit → fleet 212/213, ~1h of banking blocked. Repaired `commit:3195`. **Blast radius fully
+  binary's commit → fleet 212/213, ~1h of banking blocked. Repaired `3e6912f53`. **Blast radius fully
   measured: exactly ONE draft was falsely rejected (`ov_MAIN_012:func_80174888`) and it has since
   banked UNCHANGED.**
 * 3 × `pkill -f`/`pgrep -f` matched my own wrapper (twice killed my shell; once made `t5_bank` refuse
@@ -3437,7 +3437,7 @@ lock cost a t7b agent its \$0 diagnostic).
 ## 🛑 SESSION CHECKPOINT — S65 FINAL-4 (2026-08-29, end of session). Supersedes EVERY earlier block in this file. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
 **Machine QUIESCED:** no lanes, no workflows, no background jobs. `src/`, `config/`, `include/` CLEAN.
-HEAD `commit:3291`. 108 commits this session (Drew pushes — R6). `ghidra/` churn in `git status` is MCP
+HEAD `5ef1c0e61`. 108 commits this session (Drew pushes — R6). `ghidra/` churn in `git status` is MCP
 noise, do not commit. `.run/ox_campaign.stop` remains SET.
 
 ### STATE (measured from `corpus.stubs`, not summed from reports)
@@ -3491,7 +3491,7 @@ times. Consequences, both now addressed but only because Drew asked:
   §8e JTBL_PADS; probe first, it is $0; includes `ov_MAIN_012:func_80144B9C` at **770 ins**),
   **33 NEAR-MISSES** (closest are closeness 1, 2, 2, 2, 2, 2, 3, 4, 4, 5), **22 ERRORED** (no draft
   ever written — rate limits — so not failures at all).
-* **Step 6 ran once, for t5s+t5t only.** The catch-up harvest (commit `commit:3291`) distilled 14
+* **Step 6 ran once, for t5s+t5t only.** The catch-up harvest (commit `5ef1c0e61`) distilled 14
   novelty-flagged transcripts from the other 12 waves: **7 COVERED (rediscoveries), 6 ADDENDUM, 1 NEW
   (§314)**. Four are marked ⚠ UNPROVEN — they came from gate-REFUSED drafts.
 * **A checkpoint written before the harvest is stale by construction.** I wrote FINAL-3 before
@@ -3528,7 +3528,7 @@ reproduced incl. the same +1 barrier overshoot) · `ov_SC06_018:func_8018AD74` (
 ### MY OWN ERRORS (all repaired; listed so a fresh session does not repeat them)
 * **`xargs -P 4` over the recovery driver corrupted the tree** — an aborted run's stage edits were
   swept into a concurrent run's commit (696 broken lines into `ov_MAIN_012`), fleet went 212/213 and
-  the t5t bank was blocked ~1h. Repaired `commit:3195`. **Blast radius fully measured: exactly ONE draft
+  the t5t bank was blocked ~1h. Repaired `3e6912f53`. **Blast radius fully measured: exactly ONE draft
   was falsely rejected (`ov_MAIN_012:func_80174888`) and it has since banked UNCHANGED.**
 * **3 × `pkill -f`/`pgrep -f` matched my own wrapper shell** (twice killed my own shell; once made
   `t5_bank` refuse with "another gate is running" — that was my own waiter). **Monitor by ARTIFACT
@@ -3644,7 +3644,7 @@ Written for a FRESH SESSION that has none of this context, AFTER the last harves
 checkpoint is always the last thing written).
 
 **Machine QUIESCED:** no lanes, no workflows, no background jobs. `src/`, `config/`, `include/`,
-`tools/`, `docs/` all CLEAN and committed. HEAD `commit:3350`. Drew pushes (R6). `ghidra/` churn in
+`tools/`, `docs/` all CLEAN and committed. HEAD `d343892b4`. Drew pushes (R6). `ghidra/` churn in
 `git status` is MCP noise — do not commit. `.run/ox_campaign.stop` remains SET.
 
 ### STATE — measured from `corpus.stubs` + `progress.LINKED_SEGS`, not summed from reports
@@ -3764,14 +3764,14 @@ source, and the F18 wall retraction. The Fable free-win review is `.run/fable_fr
 Written for a FRESH SESSION that has none of this context.
 
 **Machine QUIESCED:** no lanes, no workflows, no background jobs. `src/`, `config/`, `include/`,
-`tools/`, `docs/` CLEAN and committed. HEAD `commit:3357`. Drew pushes (R6). `ghidra/` churn in
+`tools/`, `docs/` CLEAN and committed. HEAD `bac753756`. Drew pushes (R6). `ghidra/` churn in
 `git status` is MCP noise — do not commit (verified excluded from both S67 commits).
 
 ### STATE — measured from `corpus.stubs`, not summed from reports
 * `make clean && make extract-all && make check-all` = **213 passed, 0 failed of 213**.
 * **FRONTIER = 526 open: 432 non-main + 94 main.** Session start 530 → **4 closed**, byte-verified.
-* Session commits: `commit:3352` (tools), `commit:3353` / `commit:3354` / `commit:3355` / `commit:3356`
-  (gate banks), `commit:3357` (the ov_SC04_018 repair).
+* Session commits: `c4380c19e` (tools), `91197e1b5` / `4daf41702` / `29cb50454` / `1c21f0a1e`
+  (gate banks), `bac753756` (the ov_SC04_018 repair).
 * dedup-check clean: 2193 validated, 0 failed, C1 255302/255302.
 * `make tools-health` has ONE **pre-existing** cdecl defect (1 of 74,749 declarations,
   `func_8017EE08_p55352` / `struct ZnRec`). cdecl.py and its inputs are byte-identical to HEAD, so
@@ -3780,7 +3780,7 @@ Written for a FRESH SESSION that has none of this context.
 ### THE FOUR THINGS A FRESH SESSION MUST NOT RE-LEARN
 1. **PROPAGATION IS NOT BYTE-GATED, AND THAT COST A RED BINARY.** `gate_stage` byte-gates the
    SOURCE binary, then `dedup_propagate` writes to N OTHER binaries and nothing re-verifies them.
-   Commit `commit:3354` replaced three bodies in `ov_SC04_018_jr_80135D20.c` with `DEFINE_func_*()`
+   Commit `4daf41702` replaced three bodies in `ov_SC04_018_jr_80135D20.c` with `DEFINE_func_*()`
    and deleted the 981 lines they occupied — **including the file-scope declaration layer the two
    surviving non-deduped bodies still used**. A duplicate of those decls survived at line 225,
    BELOW the function using them at line 42; C89 ordering made it fatal. The per-binary gate said
@@ -3967,7 +3967,7 @@ The codebase said a carve could not run in a worktree. Both halves are required:
 
   **I shipped (a) alone and declared victory. R22 then failed 13 of 213 — every one a jtbl binary
   from that run.** The bodies merged and the carve config did not, so the C referenced a carve the
-  config never described. Reverted `commit:3396`, fixed with `ovl_block()`/`splice_ovl_block()` (cut on
+  config never described. Reverted `a732097c3`, fixed with `ovl_block()`/`splice_ovl_block()` (cut on
   the `# --- <binary> (...) ---` headers so two workers edit DISJOINT regions), rerun clean.
   The tell that it worked: **32 files merged instead of 18.**
 * **ALWAYS run a jtbl gate with `--r22`** — it aborts on a non-green fleet instead of committing red
@@ -4513,7 +4513,7 @@ It generalises to the CALLEE named in the diagnostic (banked `main:func_80021D38
    byte-perfect: `make extract BINARY=<b> && make build` -> BYTE-IDENTICAL, proven on both. A jtbl
    bank changes CARVE CONFIG (JTBL_PADS + splat yaml), which are splat INPUTS — so a build-only check
    links newly-carved C against STALE extracted state. I reverted a legitimate 96-line match on that
-   reading (restored in commit:3481) after writing "it may not even be false" and not testing it.
+   reading (restored in 5450f1818) after writing "it may not even be false" and not testing it.
    **STANDING FIX: if a gate touched `config/`, the per-binary verify is `make extract && make build`,
    never build alone.** Build-only is valid only when nothing under config/ changed.
 2. **`cast_self_callers` left casts behind for drafts that did not bank**, and one of them made
@@ -4904,7 +4904,7 @@ integration. `decl_prior` already computes the destination's environment.
   R12 puts ALL scratch under `.run/`, so any plan following the project's own convention pointed at a
   nonexistent directory: `gate_stage` found **0 drafts**, banked 0, exited **rc=0**. 35 binaries / 57
   drafts all "banked 0" **in 1-2 seconds each** while the SAME drafts gated in-tree banked 15/16 and
-  3/6. Fixed at `commit:3536` (resolve against REPO + refuse an unreadable drafts dir, R32/R43); the
+  3/6. Fixed at `52208ae6d` (resolve against REPO + refuse an unreadable drafts dir, R32/R43); the
   same job now takes 100s instead of 1s. **The 1-2s runtime was the only tell** — I nearly recorded
   "57 drafts failed" as a fact about the drafts (R40: exonerate the instrument first).
   **⚠ UNAUDITED BLAST RADIUS:** any earlier wave that pointed `parallel_gate` at a `.run/` drafts dir
@@ -4937,7 +4937,7 @@ integration. `decl_prior` already computes the destination's environment.
 
 **STATE:** tree clean, no lanes running, **21 banked** *(corrected later in S70 — see the S70 FINAL-2
 block: the "main +1" reported here NEVER LANDED. `harvest_verify` invoked directly reports `verified 1`
-but does not PERSIST the splice — `gate_stage` wraps it with that step. Commit `commit:3538` carries only
+but does not PERSIST the splice — `gate_stage` wraps it with that step. Commit `55c263d59` carries only
 a comment; `INCLUDE_ASM(..., func_8002B0B4)` is still at src/800.c:18341.)* **R22 GREEN — `check-all: 213 passed, 0 failed
 of 213` from a clean rebuild at 17:21:36** (a second green; the session also opened with one at 15:55,
 clearing S69's `--no-r22` debt). No `.run/R22_DEBT` standing. Drew pushes (R6). `ghidra/` churn is MCP noise.
@@ -4977,7 +4977,7 @@ prototypes SWAPPED, and both print full success. Byte-witnessed twice this sessi
 the FLEET-SHARED `engine_core.h`. Journal file+occurrence, hash-verify the restore, fail loud.
 
 **4. AUDIT THE `parallel_gate` BLAST RADIUS (§402).** It was gating NOTHING at rc=0 for any plan whose
-drafts lived under `.run/` (fixed at `commit:3536`). Earlier waves using that shape produced honest-looking
+drafts lived under `.run/` (fixed at `52208ae6d`). Earlier waves using that shape produced honest-looking
 zeros — backlog rows marked `failed` from such a run **may never have been gated**. Until audited, do not
 trust a historical "gated and failed" verdict (this is R38's lesson with a harness cause).
 
@@ -4995,7 +4995,7 @@ as gated when it STAGES it, not when the gate COMPLETES.
 
 ## WHAT S70 ACTUALLY CHANGED
 * **22 banks** (355 -> 333) from the standalone-MATCH sweep; **15 came from ONE cluster** (ov_SC06_011).
-* **Three tool defects found, one fixed:** `parallel_gate` gating nothing at rc=0 (FIXED, `commit:3536`);
+* **Three tool defects found, one fixed:** `parallel_gate` gating nothing at rc=0 (FIXED, `52208ae6d`);
   both undo-journals corrupting on duplicate decls (open, task 3 above); `make report` burying its own
   summary under the match list.
 * **Cookbook 1,062 -> 1,065 sections:** **§401** the jtbl-carve probe blind spot (a probe that does not
@@ -5046,7 +5046,7 @@ candidates produced **52/52 IDENTICAL drafts, 0 changed**. Whatever made these b
 environment was not the blocker. Re-run `twin_rescan` — 20 banks just changed the twin graph again (§397).
 
 ## FOUR TOOL DEFECTS FOUND, THREE FIXED — the session's real yield
-1. **`parallel_gate` gated NOTHING at rc=0** (FIXED `commit:3536`). It ran `gate_stage` with
+1. **`parallel_gate` gated NOTHING at rc=0** (FIXED `52208ae6d`). It ran `gate_stage` with
    `cwd=<worktree>` and passed a RELATIVE `--drafts` through, so any plan under `.run/` (R12's own
    convention) resolved to nothing: 0 drafts, banked 0, **rc=0**, 1-2s per binary. Same drafts in-tree
    banked 15/16. **BLAST RADIUS AUDITED AND THE WARNING REFUTED (S70, after the fix):** every one of the
@@ -5056,14 +5056,14 @@ environment was not the blocker. Re-run `twin_rescan` — 20 banks just changed 
    suspect.** My earlier "backlog rows marked `failed` may never have been gated" was a mechanism
    generalised into a consequence without measuring it — the exact error the
    `verify-blast-radius-not-just-defect` memory names. Cookbook §402.
-2. **Both undo-journals corrupted files and reported success** (FIXED `commit:3544`). `replace(after,
+2. **Both undo-journals corrupted files and reported success** (FIXED `da0a3e6cb`). `replace(after,
    before, 1)` hits the FIRST occurrence; `--any-proto` collapses distinct decls to identical `after`
    text, so originals land on the wrong occurrences. Witnessed: `engine_core.h` 97+/97- after
    "restored 382, kept 0, missing 0"; `src/800.c` decls of `func_80031988` swapped. Now REFUSES (rc=2)
    on an ambiguous group + records `sha_before` + hash-verifies. NC'd against the very journal that
    broke it: refuses, writes nothing. The refusal showed why guessing was hopeless — one `after` maps
    back to **four** distinct originals. Cookbook §403.
-3. **`gater_lane` ledgered drafts the gate never examined** (FIXED `commit:3545`). Now only ledgers a
+3. **`gater_lane` ledgered drafts the gate never examined** (FIXED `98e923fdd`). Now only ledgers a
    binary whose worker banked, wrote verdict rows, or reported a draft count; refused/blind binaries
    stay eligible and are named loudly (R55).
 4. **`harvest_verify` VERIFIES but does not BANK** (OPEN — task queued). It reported
@@ -5366,8 +5366,8 @@ FLEET instr-weighted      : 13,456,476 / 13,523,865 = 99.5%   (session start 13,
 FLEET distinct-code(uniq) :  5,785,422 / 5,851,972  = 98.9%   (session start  5,774,885 -> +10,537 ins)
 REAL FRONTIER (PsyQ libs excluded) : 355 -> 210
 ```
-Gate commits, all R22-green: `commit:3571` (31) · `commit:3573` (23) · `commit:3574` (31) · `commit:3577`
-· `commit:3579` (2), plus the standalone/carve/§332b banks earlier in the session.
+Gate commits, all R22-green: `2ad58ddc3` (31) · `69d6c76a3` (23) · `027f4f2d2` (31) · `9df00e71f`
+· `2e87d246f` (2), plus the standalone/carve/§332b banks earlier in the session.
 
 ## THE WAVE: 130 AGENTS, 115 MATCH / 3 NEAR, ~14M SUBAGENT TOKENS
 Three waves drawn/carded/packed/validated through the playbook (`.run/S70w_1` 50 · `.run/S70x_1` 40 ·
@@ -5378,15 +5378,15 @@ twin graph, so prior failures were materially different.
 
 ## FIVE CARD-FUEL DEFECTS — one root, four faces, three fixed
 Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/R51):
-1. **warm-start homonym body** — FIXED (`commit:3570`). The law-1c guard exempted any body with 0-1
+1. **warm-start homonym body** — FIXED (`c16fd3cf5`). The law-1c guard exempted any body with 0-1
    symbols (exactly the small-function case) and needed a strict majority foreign to reject. Now ANY
    foreign symbol disqualifies. NC over all 50 targets: 46 -> 42 admitted, and the 4 rejected are
    precisely the ones four agents independently called "a different function entirely".
-2. **SYS.md invisible to every agent** — FIXED (`commit:3572`). The PLAYBOOK's own documented
+2. **SYS.md invisible to every agent** — FIXED (`f33c45574`). The PLAYBOOK's own documented
    invocation passed `<wave>/packs` as out_dir, so SYS.md landed at `<wave>/packs/SYS.md` while
    `claude_wave_draft.js` tells every agent to read `<wave>/SYS.md`. **Every agent in every wave has
    been drafting without its laws file**; two said so verbatim, the rest never noticed.
-3. **false "NO banked twin"** — FIXED (`commit:3575`). **MEASURED: 110 of 130 cards said "no banked
+3. **false "NO banked twin"** — FIXED (`97cbaf040`). **MEASURED: 110 of 130 cards said "no banked
    twin" and 75 of those (68%) had that function ALREADY BANKED at the same address in a sibling
    overlay.** seed_ref is blind to reloc-only twins (§389); overlays share code at the same VRAM, so
    one address lookup answers it. Controls: positive returns the exact binary an agent found by hand.
@@ -5431,7 +5431,7 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
    been accumulating on disk while we kept looking at the open questions.
 5. Carve route blocker 2 (§323 file-local type, 2 binaries) — blockers 1 and 3 fell this session.
 
-- **S70 POST-CHECKPOINT — CARD DEFECT 4 FIXED (`commit:3581`); DEFECT 5 REFUSED BY ITS OWN REVIEW.**
+- **S70 POST-CHECKPOINT — CARD DEFECT 4 FIXED (`e532033c5`); DEFECT 5 REFUSED BY ITS OWN REVIEW.**
   A 4-agent diagnose→adversarially-verify workflow produced one patch per defect. **Opposite verdicts,
   and the review is what made this safe:**
   * **#4 SYMBOL MISMATCHES — sound=True, SHIPPED.** `gate_feedback` gated on `shape=='MATCH'` when
@@ -5496,7 +5496,7 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   number that included it. Fixed with `src_scope()`, which takes the scope from the binary's OWN stub
   rows (each names its TU) and keeps the directory prefix for overlays that have one — negative-
   controlled: main scope 0 → **54 TUs**, `ov_SC07_006` 1 → 3 (superset, no regression). Re-gated main:
-  **11 banked, committed commit:3586** (`src/800.c`, +928 lines), main's real frontier **64 → 53**.
+  **11 banked, committed 588208d50** (`src/800.c`, +928 lines), main's real frontier **64 → 53**.
   Same commit: a reused worktree's stale `.run/harvest_failed*.classified.txt` was being read by the
   NEXT job, so verdict rows appeared under the wrong binary (an `ov_SC04_011` row whose own text names
   `src/ov_SC01_009/…`); the worker now clears them first. New `tools/gate_triage.py` routes a gate's
@@ -5555,7 +5555,7 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   notes are the lever: agents recovered surviving MATCH bodies from disk instead of re-deriving
   (`func_80181720`), skipped measured-inert levers, and deleted warm-start pins that were themselves
   the residual (`func_800D0488`). Gates: 2 banked of 11, then **9 banked of 32 across 7 binaries**
-  (`commit:3591`) — the rest are named TU/carve lanes, not codegen. Cookbook **§409** (the wave + its nine
+  (`c97ccee98`) — the rest are named TU/carve lanes, not codegen. Cookbook **§409** (the wave + its nine
   laws) and **§410** (COPY-THEN-ACCUMULATE-ON-THE-COPY, byte-proven, with its refutation list) written
   in-session; index 1078.
   **§409 law 1 is the important one:** a draft can sit at `match_one` closeness 0 with its RELOCATION
@@ -5564,8 +5564,8 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   permuter scorer and every similarity tier — the §195-D blind spot, for HI16/LO16. It retroactively
   explains a class of "MATCH but the gate rejected it" verdicts.
 
-- 2026-09-02 — **S71 gate cycle 3.** Gates so far this session: 12 (integration pile) + 2 + 9 (`commit:3591`)
-  + 6 (`commit:3594`) = **29 banked**. Wave 1 is 43/50 landed at ~97% MATCH. Wave-2 (27 targets) drawn,
+- 2026-09-02 — **S71 gate cycle 3.** Gates so far this session: 12 (integration pile) + 2 + 9 (`c97ccee98`)
+  + 6 (`2064b5bee`) = **29 banked**. Wave 1 is 43/50 landed at ~97% MATCH. Wave-2 (27 targets) drawn,
   carded, packed, journal-fuelled (16/27 with history) and launching at the current cap.
   **Journal notes made permanent this cycle** (Drew's instruction, measured first): `tools/journal_notes.py`
   + auto-call from `claude_wave_packs.py`, memory `journal-notes-are-pack-fuel`, cookbook **§411**,
@@ -5599,7 +5599,7 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   a real resegmentation question, not a scanner gap. Cookbook 1080.
 
 - 2026-09-02 — **S71 gate cycle 4 — FRONTIER 210 → 176 (34 banked this session).** Gates: 12 (integration
-  pile) + 2 + 9 (`commit:3591`) + 6 (`commit:3594`) + 5 (`commit:3604`). main 64 → 53, non-main 146 → 123.
+  pile) + 2 + 9 (`c97ccee98`) + 6 (`2064b5bee`) + 5 (`27cc083de`). main 64 → 53, non-main 146 → 123.
   Wave 1 closed at 45/50 landed with a ~97% self-reported MATCH rate; wave 2 running at the current cap.
   **Model routing changed (Drew, measured):** difficulty is the prior RESIDUAL CLASS, not `nins` —
   a 26-ins function took 18 min / 31 tool calls while a 122-ins one took 80 s / 10. `draw_waves.arm_from_history()`
@@ -5615,13 +5615,13 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   ~03:5x with `You've hit your session limit · resets 4:10am` and returned `NO-DRAFT` — **that is a
   harness kill, not a verdict about those functions** (R40); they are relaunched unchanged, not
   demoted or parked. Gate 5 (28 still-open drafts, re-gated after the five jr-isolates) banked **2**
-  (`commit:3614`). New: `tools/launch_check.py` refuses to launch an agent at an already-banked target —
+  (`0fb99b763`). New: `tools/launch_check.py` refuses to launch an agent at an already-banked target —
   the wave-2 payload held 3 of 27 (`ov_SC07_002:func_8017FCA8`, `md_MAIN_028:func_800CB8A0`,
   `ov_SC01_006:func_8017F9F8`), one of which had already burned a full agent run reporting
   "STALE CARD". Cookbook **§415** (a file-scope decl merges the TU's later BLOCK-scope externs into it,
   gcc-2.7.2 pushdecl) written in-session; index 1083.
 
-- 2026-09-02 04:45 — **S71 gate cycle 6: +4 (`commit:3616`), frontier 181** (main 64 + non-main 117; from
+- 2026-09-02 04:45 — **S71 gate cycle 6: +4 (`6d21bed9d`), frontier 181** (main 64 + non-main 117; from
   210 at session start = **29 banked**, all R22-lineage). Post-limit lane is producing: `func_80181A60`,
   `func_80180D54`, `func_80181310`, `func_80183398`, `func_800D128C` all MATCH at closeness 0.
   **Three of those recovered a body off disk rather than re-deriving it** — the killed agents' scratch
@@ -5632,7 +5632,7 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   defect that the same-address twin hint was FALSE three times tonight while the same-TU neighbour was
   the real fuel every time. Index 1084.
 
-- 2026-09-02 05:00 — **S71 gate cycle 7: +3 (`commit:3619`), frontier 178** (main 64 + non-main 114;
+- 2026-09-02 05:00 — **S71 gate cycle 7: +3 (`7b256d1c3`), frontier 178** (main 64 + non-main 114;
   **32 banked** from 210). Post-limit MATCH run continues: `func_8017E6F4`, `func_80182184`,
   `func_8017EB30`, `func_8017EC68`, `func_8017FFD0` — **five of the last seven recovered a body off
   disk** rather than re-deriving (killed-agent scratch dirs, never-gated `pool_1` drafts).
@@ -5647,7 +5647,7 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   Cookbook **§417** (a pin blocks `jump.c`'s select collapse; unpinning then exposes `cse` skip-blocks
   — the misattribution that plateaued that function for three attempts). Index 1085.
 
-- 2026-09-02 05:15 — **S71 gate cycle 8: +2 (`commit:3622`), frontier 176 = 34 banked.** Overnight lane
+- 2026-09-02 05:15 — **S71 gate cycle 8: +2 (`e1f6c5cdd`), frontier 176 = 34 banked.** Overnight lane
   still ~100% MATCH on what it finishes: `func_8017DF8C` (32→0), `func_80183374` (296 ins),
   `func_8017EC68`, `func_8017EB30`, `func_80182184`, `func_8017FFD0`.
   **Two more proven WALLS recorded instead of redrafted** (`.run/S71_walls_found.txt` +
@@ -5662,7 +5662,7 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   8 latch rows in one respelling; and hoist a table pointer OUT of the loop so reload rematerialises
   it and combine cannot fold). Index 1086.
 
-- 2026-09-02 05:35 — **S71 gate cycle 9: +2 (`commit:3625`), frontier 174 = 36 banked.** Cookbook **§419**
+- 2026-09-02 05:35 — **S71 gate cycle 9: +2 (`ca813cb5a`), frontier 174 = 36 banked.** Cookbook **§419**
   is the night's best technique: *when a register pin is structurally impossible, win the local-alloc
   DENSITY contest instead.* On `ov_SC01_000/func_8017DD04` (297 ins) pinning `0x80` to `$7` loses its
   sched1 birthing boost because the function sets `$a2`/`$a3` itself for call args (`reg_n_sets==2`) —
@@ -5685,7 +5685,7 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   `md_*` rows now name `jr_isolate_all --only <fn>` themselves. **All 17 already had drafts on disk**
   (some with hundreds of stored variants), so this was a pure GATE opportunity: scoring the best draft
   each put **10 of 17 at closeness 0** for zero drafting.
-  **Carve gate: +5 (`commit:3627`) — and the five are EXACTLY the five overlays jr-isolated tonight**
+  **Carve gate: +5 (`c0e873194`) — and the five are EXACTLY the five overlays jr-isolated tonight**
   (ov_SC03_010, ov_SC03_013, ov_SC03_029, ov_SC03_092, ov_SC07_000). Causal confirmation, not
   correlation. **Frontier 169 = 41 banked** (from 210).
   The 4 remaining closeness-0 rows are the shared `func_8016AB6C` across ov_SC03_107/ov_SC07_007/010/011
@@ -5705,10 +5705,10 @@ Every one is fuel keyed by BARE NAME or asserted without a freshness check (R48/
   identical in shape across all four overlays (−0x7F64/−0x5A650, −0x74DC/−0x2E898, −0x844C/−0x4E3A0,
   −0xBD8C/−0x65D08) — one seed's two data clusters each moving as a block.
   Rebased under the generalised rule (runs of constant delta, **every run ≥2 members**, `D_` only,
-  re-verify with `match_one` after rewriting), all four still MATCH, gate banked **4/4** (`commit:3629`).
+  re-verify with `match_one` after rewriting), all four still MATCH, gate banked **4/4** (`24d501703`).
   Cookbook **§420**; index 1088.
 
-- 2026-09-02 05:50 — **Gate 10: +3 (`commit:3634`). FRONTIER 162 = 48 banked** (from 210).
+- 2026-09-02 05:50 — **Gate 10: +3 (`f778dd3f6`). FRONTIER 162 = 48 banked** (from 210).
   Four cookbook sections harvested this stretch, all byte-proven, all one-line respellings no permuter
   reaches: **§421** (a `la $tN` + `addiu` pair is RELOAD's scratch, not an allocation — `regalloc.md`
   L80 takes the first wholly-unused call-clobbered reg, so no C dial reaches it; §385's
@@ -5817,7 +5817,7 @@ above, and re-probe the exclude list after any tool change.
 ## 🛑 SESSION CHECKPOINT — S71 (2026-09-02). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-5. Phase 31 T10 CONTINUES.
 
 **STATE: fleet VERIFIED GREEN from a clean rebuild — `check-all: 213 passed, 0 failed of 213`**
-(`.run/S71_r22b.log`, 01:47). `.run/R22_DEBT` cleared. Tree clean at `commit:3609`. No agents live, no
+(`.run/S71_r22b.log`, 01:47). `.run/R22_DEBT` cleared. Tree clean at `dff33f66d`. No agents live, no
 lanes in flight (`lane_inflight list` → 0). Drew pushes (R6).
 
 **HONEST FRONTIER: 187 (main 64 + non-main 123), from 210 at session start = 23 banked.**
@@ -5834,15 +5834,15 @@ MAIN game-code weighted   :    39,320 / 79,510     = 49.5%
 # 1. THE MAIN INCIDENT — READ THIS BEFORE GATING ANYTHING
 
 `parallel_gate` was run on **main**, reported **11 banked**, and the merge was committed
-(`commit:3586`). R22 then returned **212/213**: main did not compile from clean (two `conflicting
+(`588208d50`). R22 then returned **212/213**: main did not compile from clean (two `conflicting
 types` errors), and once both declarations were reconciled it built and was **still not
 byte-identical**. All 11 were re-gated one at a time against a clean build — **11 of 11 REJECT**.
-Reverted in `commit:3607`; the bodies are kept at `.run/S71_main_suspect/800.c.banked11`.
+Reverted in `6fbdfdb36`; the bodies are kept at `.run/S71_main_suspect/800.c.banked11`.
 
 **The rule already existed** in `ox_campaign.gate_main_batch`: *main is gated by ONE CLEAN REBUILD,
 never incrementally — its extract rewrites the linker script.* `parallel_gate`'s worker IS
 `gate_stage`, so it inherited that; S58 recorded the false-DIFF direction, this was the false-PASS
-one. **Now a hard refusal** (`commit:3608`): `parallel_gate` returns REFUSED for `binary == 'main'` and
+one. **Now a hard refusal** (`2f72f8b20`): `parallel_gate` returns REFUSED for `binary == 'main'` and
 names `tools/gate_main.py`. Cookbook **§414**.
 
 **Use `tools/gate_main.py` for every main draft. Never `parallel_gate`, never `gate_stage`.**
@@ -5853,7 +5853,7 @@ names `tools/gate_main.py`. Cookbook **§414**.
 
 **The wave (50 one-agent workflows, journal-fuelled packs): ~97% first-pass MATCH on the hardest
 frontier we have.** 45 of 50 landed, 45 self-reported MATCH at closeness 0, 1 NEAR. Non-main gates
-banked 2 + 9 (`commit:3591`) + 6 (`commit:3594`) + 5 (`commit:3604`); the integration pile earlier banked 1
+banked 2 + 9 (`c97ccee98`) + 6 (`2064b5bee`) + 5 (`27cc083de`); the integration pile earlier banked 1
 (`ov_SC07_006`). **23 net, all R22-verified.**
 
 **Journal notes are now permanent** (`tools/journal_notes.py`, auto-called by `claude_wave_packs.py`;
@@ -5899,7 +5899,7 @@ every similarity tier.
 
 ## 🛑 SESSION CHECKPOINT — S70 FINAL-5 (2026-09-01, TRUE session close). SUPERSEDES EVERY earlier block in this file, including S70 FINAL-4. Phase 31 T5 CONTINUES. Written for a FRESH SESSION that has none of this context.
 
-**STATE:** tree clean at `commit:3582`, no lanes running, nothing in flight. **145 banked this session.**
+**STATE:** tree clean at `a1e8c5964`, no lanes running, nothing in flight. **145 banked this session.**
 **R22 GREEN — `check-all: 213 passed, 0 failed of 213`**, verified before every one of the five gate
 commits. Drew pushes (R6). `ghidra/` churn in `git status` is MCP noise — never stage it.
 
@@ -6072,7 +6072,7 @@ caps concurrency at 16). Every payload comes from `wave_args.py`; never hand-typ
 was two SHA1s; this attributes the differing bytes to symbols via the linker map (per byte, so a run
 straddling two symbols is split correctly) and prints a routing verdict. Negative-controlled both
 directions: a 1-byte flip at a known address names the containing symbol (and its exclusive end names
-the NEXT symbol), an identical pair reports zero. `git commit:3650`.
+the NEXT symbol), an identical pair reports zero. `git cbf5bae04`.
 
 **Task 2 — the 11 "PROVEN gate-rejects" re-adjudicated. NONE is a body reject.**
 The S71 verdict came from an ad-hoc script (`.run/S71_main_bisect.py`), not `gate_main.py`, so the
@@ -6098,10 +6098,10 @@ switch DOUBLE-EMITS its table and the image grows. Cookbook **§426**; the instr
    `-j` on the build and `.run/gate_main_dropped.json` carrying the §376/§378 chain.
 4. `gate_main.typesig` struct-tag false conflict fixed (`struct Ent30D80 *` vs its own typedef
    `Ent30D80 *`). R39 control over the already-succeeded population — 452 drafts, 54 binaries:
-   **0 new refusals, exactly 1 removed** (`main:func_80031988`). `git commit:3653`.
+   **0 new refusals, exactly 1 removed** (`main:func_80031988`). `git ab5d1e318`.
 
 **Result — BANKED BYTE-IDENTICAL:** `func_8001A114`, `func_8001AAD0`, `func_8001AF34` (14 s for the
-batch). `git commit:3650`. **The span model is predictive:** exactly the three span-A members of the 11
+batch). `git cbf5bae04`. **The span model is predictive:** exactly the three span-A members of the 11
 banked, and the other eight are all span B/C.
 
 **THE NEXT LEVER (task #5).** 25 of main's 59 frontier functions (6,215 of 12,912 instructions, 48%)
@@ -6280,7 +6280,7 @@ src/800_shared.h — the 19 typedefs + 2 includes that cross (of 1,247 declared 
 ```
 main's island is a **7-piece** sandwich now: `ld_interleave --order`, not `--front/--tail`.
 Cookbook **§426** (the carve) and **§431** (the split method). Accelerators **#20** records that the
-evidence for this was in `commit:0025` on **2026-06-15** and that a split costs a yaml edit at 0%
+evidence for this was in `038e7de53` on **2026-06-15** and that a split costs a yaml edit at 0%
 matched versus a declaration refactor at 94%.
 
 # 3. BANKED (14, all verified from the SOURCE, not from a tool's report)
@@ -6529,7 +6529,7 @@ does.* Rank them accordingly and record the provenance in the entry.
 1. **§429 had been SILENTLY DELETED from the cookbook.** My §428a rewrite wrote
    `t[:start] + new` instead of `t[:start] + new + t[end:]`, truncating everything below it. §429
    ("every held pointer needs its own local") was gone for the rest of the session. Restored from
-   `commit:3658`; §426–§434 all present; index 1103 sections. **When editing a doc by index slicing,
+   `4001ff0c6`; §426–§434 all present; index 1103 sections. **When editing a doc by index slicing,
    re-read the tail.**
 2. **§434 accused an agent of inventing its §265 citation. §265 EXISTS** — *"THE VERBATIM-ASM BANK
    LANE"*, four named byte-banked precedents. I ran `cookbook_index --resolve 265`, which resolves a
@@ -6779,7 +6779,7 @@ worktree-run isolation before this is fixed reports damage that is not there.
   verbatim body as byte-neutral preamble).
 
 **DOC STATE: current as of this checkpoint.** All twelve tool changes carry a `docs/SETUP.md` row and
-a cookbook entry (`commit:3728` closed a gap where five agent-authored fixes had shipped with only a
+a cookbook entry (`eb0329b3a` closed a gap where five agent-authored fixes had shipped with only a
 commit message — see the `tool-change-updates-siblings-and-docs` memory: integrating an agent's tool
 change IS a tool change, and owes the same docs).
 
@@ -6901,8 +6901,8 @@ change IS a tool change, and owes the same docs).
   (`.run/S75/backlog_census.py`, validated against that known-true 557): **~2,073 distinct functions
   / ~12,116 per-binary sweep items across 174 of 217 binaries** — all ALREADY MATCHED, so it is
   duplicate-copy cleanup and **not remaining work**; project completion is unaffected by every item
-  of it. Origin traced to the July mechanical family sweeps (`commit:0476` +16,512 members,
-  `commit:0531` +17,975 member-matches), which bank a body as a private copy per overlay and register
+  of it. Origin traced to the July mechanical family sweeps (`c993029f0` +16,512 members,
+  `025cc03f6` +17,975 member-matches), which bank a body as a private copy per overlay and register
   no dedup group — a deliberate throughput trade that took the fleet 66%→71% in one commit.
   **Drew's decision (2026-09-02), on the sotn precedent our own cookbook records ("sotn writes
   duplicate funcs explicitly"): DO NOT convert the ~12,000. Gate with `--no-propagate` from here;
@@ -6914,7 +6914,7 @@ change IS a tool change, and owes the same docs).
 
 Written for a FRESH SESSION with none of this context. Every number was measured this session.
 
-**STATE.** Tree CLEAN at `commit:3735`; six commits this session; Drew pushes (R6). **R22 clean-fleet
+**STATE.** Tree CLEAN at `cf7f83723`; six commits this session; Drew pushes (R6). **R22 clean-fleet
 NOT YET RUN for S75 — run `make clean && make extract-all && make check-all` before trusting any
 banked count below.** `src/` holds **1,029 INCLUDE_ASM lines**, of which **69 stubs / 68 distinct
 functions / 12,657 instructions** are real work (the rest are LINKED PsyQ library objects).
@@ -7011,7 +7011,7 @@ print what they ignored.
 (`.run/S75/backlog_census.py`, validated against that known-true 557): **~2,073 distinct functions /
 ~12,116 sweep items across 174 of 217 binaries — ALL ALREADY MATCHED.** It is duplicate-copy
 cleanup, **not remaining work**; completion % is unaffected by every item of it. Origin: the July
-mechanical family sweeps (`commit:0476` +16,512 members, `commit:0531` +17,975), which bank a private
+mechanical family sweeps (`c993029f0` +16,512 members, `025cc03f6` +17,975), which bank a private
 copy per overlay and register no dedup group.
 
 **DECISION (Drew, 2026-09-02), on the sotn precedent our own cookbook records ("sotn writes
@@ -7203,7 +7203,7 @@ DECOMPILE-LOW-VALUE  20 / 4 · UNCERTAIN 5 · NOT-VERBATIM 7 · NOT-CODE 1
 ## 🛑 SESSION CHECKPOINT — S76 FINAL (2026-09-03). SUPERSEDES the S75 FINAL block above. Phase 31 T10 CONTINUES.
 
 Written for a FRESH SESSION with none of this context. **31 commits this session**; `src/`, `config/`,
-`tools/`, `docs/` all CLEAN. HEAD `commit:3798`. **19 commits unpushed** — Drew pushes (R6); he
+`tools/`, `docs/` all CLEAN. HEAD `e0229af90`. **19 commits unpushed** — Drew pushes (R6); he
 force-pushed mid-session after a history rewrite (see §6).
 
 **Verified at close** (`tools/progress.py`, main): REAL **895** · LINKED 959 · VERBATIM **142** ·
@@ -7287,7 +7287,7 @@ controlled; **one gate cycle measures 16 s**, not the 1-2 min previously assumed
 **FIXED:** `gate_main` (durability journal + verbatim refusal), `harvest_verify`, `api_agent`,
 `match_one`, `rtu_match`, `draw_waves` (`--main` no-op + `--redraw-open`), `verbatim_to_stub`
 (§179-C guard + derived subdir).
-**HISTORY REWRITTEN:** 126 commits from `commit:3650` forward had a `Claude-Session:` trailer removed
+**HISTORY REWRITTEN:** 126 commits from `cbf5bae04` forward had a `Claude-Session:` trailer removed
 (tree hash provably unchanged; backup tag `S76-pre-scrub-backup`). **No Claude attribution in commits
 — this overrides the harness reminder that asks for it.**
 
@@ -7878,7 +7878,7 @@ scratch (`&1`, `p_I.o`, `scratchpad/`) to be removed (R12). `.run/backlog.jsonl`
 ## 🛑 SESSION CHECKPOINT — S78 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #4 → #11 remain.
 
 Written for a FRESH SESSION with none of this context. Read it in full before doing anything.
-**HEAD `commit:3863`, 4 commits unpushed — Drew pushes (R6).** No `Claude-Session:` trailer on commits
+**HEAD `a85733a48`, 4 commits unpushed — Drew pushes (R6).** No `Claude-Session:` trailer on commits
 (project rule overrides the harness reminder). Model Fable 5.1; effort **xHigh** default, **Max only for
 task #4** (R27: prompt Drew for the toggle and WAIT for the actual `/effort` line before starting it).
 No Ultracode / no waves anywhere in this sprint — the frontier is 51 stubs with named blockers.
@@ -7945,8 +7945,8 @@ not persisting, main's game-code % under-reported by 32 points) and fixed.
 |---|---|---|---|
 | 1 | assessment | DONE | — |
 | 2 | provenance probe (4.0/4.6/4.7 placements; band = libpad 4.2.1) | DONE | — |
-| 12 | name the band (46 names, Ghidra mirrored, provenance docs) | DONE `commit:3861` | — |
-| 3 | wire the exact-tile library subsegs (13 subsegs → LINKED) | DONE `commit:3863` | — |
+| 12 | name the band (46 names, Ghidra mirrored, provenance docs) | DONE `a7394f44d` | — |
+| 3 | wire the exact-tile library subsegs (13 subsegs → LINKED) | DONE `a85733a48` | — |
 | **4** | **SYS.o + VM_F `.bss` split → LINKED (800c → libgpu; sgap_6 → snd12)** | **NEXT** | **Max** |
 | 13 | bounded hunt for LIBPAD.LIB 4.2.1 / 4.3 | pending | xHigh |
 | 5 | the libpad band: link what is identical, C-under-reorder the rest | pending | xHigh |
@@ -8121,9 +8121,9 @@ honestly 91.8% real C. Next: a small piece of linker surgery so two more Sony ob
 ## 🛑 SESSION CHECKPOINT — S79 FINAL (2026-09-04). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #9 → #11 remain (#4, #13, #5, #6, #7 and #8 DONE this session).
 
 Written for a FRESH SESSION with none of this context. Read it in full before doing anything.
-**HEAD = the S79 task-#8 docs commit, on top of #8 (`commit:3876` `commit:3877`), #7 (`commit:3873` `commit:3874`
-`commit:3875`), #6 (`commit:3868` `commit:3869` `commit:3870` `commit:3871` `commit:3872`), #5 `commit:3867`, #13 `commit:3866`,
-#4 `commit:3865` (Drew pushes, R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the S78 decision).**
+**HEAD = the S79 task-#8 docs commit, on top of #8 (`7129b6cac` `06ee3c123`), #7 (`bf1b266e0` `42d432770`
+`80ddd40d2`), #6 (`0ab51c803` `af1644c02` `02e2cb265` `62475f788` `595fc9fa4`), #5 `02f060f60`, #13 `58996ca4f`,
+#4 `757bd82a0` (Drew pushes, R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the S78 decision).**
 Model Fable 5.1; effort **xHigh** default for #9–#10, **Max** for #11 (R27: prompt Drew and WAIT for the actual
 `/effort` line). No Ultracode / no waves in this sprint. The Ghidra MCP server
 restarts via the SessionStart hook → Drew runs `/mcp` (R29); no RE task is next, so no G2 ping needed
@@ -8215,10 +8215,10 @@ for the plumbing route).
 |---|---|---|---|
 | 1 | assessment | DONE S78 | — |
 | 2 | provenance probe (4.0/4.6/4.7 placements; band = libpad 4.2.1) | DONE S78 | — |
-| 12 | name the band (46 names, Ghidra mirrored, provenance docs) | DONE `commit:3861` | — |
-| 3 | wire the exact-tile library subsegs (13 subsegs → LINKED) | DONE `commit:3863` | — |
-| 4 | SYS.o + VM_F (+ GS_001) `.bss` split → LINKED (`libgpu2`, `snd12`, `libgs8`) | DONE S79 `commit:3865` | — |
-| 13 | bounded hunt for LIBPAD.LIB 4.2.1 / 4.3 — **FOUND** (RTL 4.2 + the J421PD 4.2.1 patch; 46/46 byte-identical) | DONE S79 `commit:3866` | — |
+| 12 | name the band (46 names, Ghidra mirrored, provenance docs) | DONE `a7394f44d` | — |
+| 3 | wire the exact-tile library subsegs (13 subsegs → LINKED) | DONE `a85733a48` | — |
+| 4 | SYS.o + VM_F (+ GS_001) `.bss` split → LINKED (`libgpu2`, `snd12`, `libgs8`) | DONE S79 `757bd82a0` | — |
+| 13 | bounded hunt for LIBPAD.LIB 4.2.1 / 4.3 — **FOUND** (RTL 4.2 + the J421PD 4.2.1 patch; 46/46 byte-identical) | DONE S79 `58996ca4f` | — |
 | 5 | the band + the apicard region LINKED from libpad 4.2.1 + libapi 4.2 (`libapi1/2`, `libpad1/2`, `apicard5-7`; 13 stubs, 4 TUs, the reorder island gone) | DONE S79 `commit:orphan-24` | — |
 | 6 | mechanical: `D_800D3200` + the 2 ov_SC04_018 twins + ov_SC05_005's clone banked; the 5 carves deferred with named blockers (§491) | DONE S79 | — |
 | 7 | C-PLUMBING: 3 banked (raw splice; -O0 checker flag), 2 were phantoms (R48 same-name drafts) → drafting pool | DONE S79 | — |
@@ -8385,16 +8385,16 @@ arrive as completion notifications that THIS session can no longer afford to rea
 session run out so the agents finish; the FRESH session aggregates their output. Nothing is lost: every
 draft is on disk and every verdict is recoverable from its transcript.
 
-**HEAD** = `commit:3885` + this handoff commit (Drew pushes, R6; no trailers). Model Fable 5.1, effort **xHigh**.
+**HEAD** = `96c0fc02a` + this handoff commit (Drew pushes, R6; no trailers). Model Fable 5.1, effort **xHigh**.
 Tree: all banks committed (R42); `.run/backlog.jsonl`/`docs/backlog.md` may be dirty from gates — include them
 in the next docs commit. Ghidra DB churn = R23 noise, never staged.
 
 # 1. STATE OF #9 (the drafting pool, 25 targets; packs in `.run/S79w/packs/`, briefs' laws in `.run/S79w/SYS.md`)
 
 **BANKED this task (7, each its own commit, all in-tree byte-identical; open stubs 32 → 25):**
-`md_MAIN_003:func_800D0174` (commit:3879), `main:func_80015608` (commit:3880), `ov_SC05_018:func_80180BE0` (commit:3881),
-`md_MAIN_003:func_800D1D14` (commit:3882), `main:func_8002AC98` (commit:3883), `ov_SC06_010:func_801809E4`
-(commit:3884), `ov_SC05_010:func_8017FFA8` (commit:3885; its tail jtbl carve changed `config/splat.ov_SC05_010.yaml`
+`md_MAIN_003:func_800D0174` (80eed5e9e), `main:func_80015608` (ec786e0a4), `ov_SC05_018:func_80180BE0` (0833b418e),
+`md_MAIN_003:func_800D1D14` (a296bba0f), `main:func_8002AC98` (1961a7bfb), `ov_SC06_010:func_801809E4`
+(cdf50f96d), `ov_SC05_010:func_8017FFA8` (96c0fc02a; its tail jtbl carve changed `config/splat.ov_SC05_010.yaml`
 + `overlays.mk`, both committed). Session total: 51 → 25 open stubs.
 **PLATEAUS with the residual named (drafts under `.run/S79w/<arm>/<fn>.c`; verdicts in
 `.run/S79w/verdicts/verdicts.jsonl`):** `main:func_8001BC6C` 28 (sched1 birthing-boost, two schedules),
@@ -8474,8 +8474,8 @@ script written for it, bank whatever matches, and record the rest.
 ## 🛑 SESSION CHECKPOINT — S80 #9 CLOSE (2026-09-05). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT, tasks #10 → #11 remain (#9 DONE this session).
 
 Written for a FRESH SESSION with none of this context. Read it in full before doing anything. **HEAD = this docs commit,
-on top of `commit:3891` (#9c ledger), `commit:3890` (the permuter instrument fix), `commit:3889` + `commit:3888` (#9 banks 10 and
-9), `commit:3887` (bank 8, the last S79 commit). Drew pushes (R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the
+on top of `09e0b2781` (#9c ledger), `7fbdb8fd6` (the permuter instrument fix), `402b7520c` + `d04fe3188` (#9 banks 10 and
+9), `618e0907d` (bank 8, the last S79 commit). Drew pushes (R6); no `Claude-Session:`/`Co-Authored-By` trailers (R5 + the
 S78 decision).** Model Fable 5.1; effort **Max** (Drew set it at S80 start). #10 is xHigh-shaped and #11 is Max (R27: prompt
 Drew for the actual `/effort` line at each transition; running #10 at Max is only slower, not wrong). The Ghidra MCP server
 restarts via the SessionStart hook → Drew runs `/mcp` (R29) only if an RE task appears (none is next). Ghidra DB churn
@@ -8494,10 +8494,10 @@ BINARY=main` → build SHA1 `143dbb89f34491258bbc27810d0a12ec8b43a8dd` byte-iden
   `tools/agent_verdicts.py` (their verdict is the transcript's last JSON object; never cat a transcript): **2 more MATCH,
   8 NEAR**; ledger `.run/S79w/verdicts/verdicts.jsonl` = 30 rows. Per result: verbatim grep → `rtu_match` in the real TU
   (both MATCH 468/468 and 297/297) → gate → commit per bank (R42) → `twin_rescan` (nothing newly free; the one d≤5 twin is
-  the known ov_SC02_017/016 pair). **Banked: `main:func_8001EFE0` (468 ins, `gate_main --apply` clean rebuild, `commit:3888`)
-  and `ov_SC02_027:func_80180B3C` (297 ins, `parallel_gate` worktree + in-tree `1f741f46…`, `commit:3889`).** Task #9 = ten
+  the known ov_SC02_017/016 pair). **Banked: `main:func_8001EFE0` (468 ins, `gate_main --apply` clean rebuild, `d04fe3188`)
+  and `ov_SC02_027:func_80180B3C` (297 ins, `parallel_gate` worktree + in-tree `1f741f46…`, `402b7520c`).** Task #9 = ten
   banks; open stubs 31 → **21** (this session 25 → 21 incl. S79's late `func_80181E04`).
-* **The permuter instrument (R35/R40; cookbook §493 S80 correction; `commit:3890`).** The S79 ILS "8-cycle plateau" on
+* **The permuter instrument (R35/R40; cookbook §493 S80 correction; `7fbdb8fd6`).** The S79 ILS "8-cycle plateau" on
   `func_80020DA4` was ONE cycle: `permuter_ils` copied the waypoint's `source.c` — which decomp-permuter serializes with the
   b64 pragmas DECODED back to raw `register … __asm__("$N")` pins — into base.c, so every later cycle was a pycparser
   refusal printed as "(unchanged)". Two more: `hide_asm` matched only the `__asm__` spelling (`asm("$7")` in 3 S79 seeds
@@ -8606,7 +8606,7 @@ routines that will never be C, and decompile the one 45-instruction routine that
 ## 🛑 SESSION CHECKPOINT — S80 #10 CLOSE (2026-09-05). SUPERSEDES every earlier block in this file. Phase 31 T10 CONTINUES — the COMPLETION SPRINT; only **#11 (Tclose — PhaseEnd)** remains.
 
 Written for a FRESH SESSION with none of this context. Read it in full before doing anything. **HEAD = this docs commit,
-on top of `commit:3896` (#10 bank 2), `commit:3895` (#10 bank 1), `commit:3894` + `commit:3893` (#10 plumbing), `commit:3892` (the
+on top of `082ddc859` (#10 bank 2), `b7f73e718` (#10 bank 1), `ec15509e6` + `dd4561798` (#10 plumbing), `846c6d589` (the
 S80 #9 CLOSE checkpoint) — Drew pushes (R6); no trailers (R5 + S78).** Model Fable 5.1; effort **Max** (set at S80 start).
 **#11 is a Tier-1 task (Max) — the Phase Boundary Protocol applies: verify every checkbox (P7), demonstrate the milestone,
 WAIT for Drew's gate-2 confirmation, then write `PhaseEnd_Phase31.md`, `git mv` this file → `phase-ends/logs/Phase31.md`

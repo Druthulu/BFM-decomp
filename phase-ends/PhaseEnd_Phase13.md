@@ -105,7 +105,7 @@ decision for Drew. Start a fresh session (effort **Max**, plan mode).
 
 ## Commit Message
 ```
-(Phase 13 landed as ~18 per-task/per-batch checkpoint commits commit:0084..commit:0099 + this PhaseEnd.)
+(Phase 13 landed as ~18 per-task/per-batch checkpoint commits 50c5c9ea3..52514b5f4 + this PhaseEnd.)
 
 feat(phase-13): representative location overlays — 6 binaries byte-identical + fleet runbook (v1.13.0)
 
@@ -164,6 +164,6 @@ optional to-do list — deliberately not blocking the project.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase13.md` (R19). The Phase-13 work is committed
-(~18 checkpoints `commit:0084`..`commit:0099` + this PhaseEnd commit); **Drew pushes** (R6). Gen2 continues — do **NOT**
+(~18 checkpoints `50c5c9ea3`..`52514b5f4` + this PhaseEnd commit); **Drew pushes** (R6). Gen2 continues — do **NOT**
 start the next phase here. Start a **fresh session** (effort **Max**, plan mode) to plan **Phase 14 (public flip —
 Gen2 EXIT)** or **Phase 15 (overlay long-tail)** — Drew's choice at the Phase-Start gate. Keep this file forever.

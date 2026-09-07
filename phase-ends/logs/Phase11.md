@@ -19,7 +19,7 @@
 ## Task checklist
 - [x] **T1** [xHigh] — `dup_report.py --cross` → `docs/duplicates.cross.md` (multi-sig ingest, binary tag, cross/intra
       split, `(count−1)×nins×4` rank, per-member rows); wired `make report` (gated BINARY=main). Per-binary reports
-      byte-stable. **DONE** (commit `commit:0060`). EXE↔resident cross groups = 0 (confirms the byte-finding).
+      byte-stable. **DONE** (commit `7cc291145`). EXE↔resident cross groups = 0 (confirms the byte-finding).
 - [x] **T2** [Max] — `config/dedup.us.yaml` schema + `tools/dedup_integrate.py` (byte-honesty VALIDATOR, fail-closed on
       hash drift) + `make report` dedup-check gate. **DONE.** Verified: --check passes on empty registry; clean rebuild
       main → `143dbb89` (no-op proven, R22). *Refinement below.*
@@ -74,7 +74,7 @@ change; 0 NON_MATCHING in default build.
 ## Progress log
 - 2026-06-16: Phase planned at Max via 3 Explore + 2 Plan agents; owner approved. Key finding (EXE↔resident share
   nothing) reshaped the milestone to "report + machinery; defer collapse."
-- 2026-06-16: **T1 done** (`commit:0060`) — `dup_report --cross` → `duplicates.cross.md`; per-binary reports byte-stable;
+- 2026-06-16: **T1 done** (`7cc291145`) — `dup_report --cross` → `duplicates.cross.md`; per-binary reports byte-stable;
   EXE↔resident cross groups = 0.
 - 2026-06-16: **T2 done** — `dedup.us.yaml` registry + `dedup_integrate.py` validator + `make report` gate; clean
   rebuild main `143dbb89` (no-op, R22). Recorded deviation D1 (source-level share). Next: T3 proof.

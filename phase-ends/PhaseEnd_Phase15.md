@@ -89,7 +89,7 @@ manual RE on them).
   ~4.1M tokens; the **deterministic recovery** (types-header + permuter + `sig_unify` + the `find_site` bug-fix +
   types follow-up) added **+2.67% for ~0 agent tokens** — ~7× the agent wave's yield, free.
 - `git status`: only `config/`/`tools/`/`src/`/`docs/`/`phase-ends/` tracked; **zero ROM-derived/generated bulk
-  staged**. Session committed as `commit:0117 → commit:0118 → commit:0119 → commit:0120` (+ this PhaseEnd), each clean-rebuild-verified.
+  staged**. Session committed as `be0ceae55 → 4b0f4d100 → a10f7f8a1 → ab8b857cd` (+ this PhaseEnd), each clean-rebuild-verified.
 
 **Milestone achieved (confirmed by Drew, gate 2):** the fleet rebuilds **136/136 binaries byte-identical from a
 clean tree** at **54.48% byte-identical-from-source** (was 3.82% at phase start, 51.41% at this session's start);
@@ -117,7 +117,7 @@ design phase). First task: validate the actor-struct + m2c-context + permuter pi
 
 ## Commit Message
 ```
-(Phase 15 landed across many session commits; this session: commit:0117..commit:0120 + this PhaseEnd.)
+(Phase 15 landed across many session commits; this session: be0ceae55..ab8b857cd + this PhaseEnd.)
 
 feat(phase-15): close — fleet 3.82% -> 54.48%, dedup-propagate + sig_unify proven (v1.14.0)
 
@@ -228,7 +228,7 @@ broke.
 
 ## 🛑 Stop Here
 PhaseEnd written; `CURRENT_PHASE.md` archived → `phase-ends/logs/Phase15.md` (R19). The Phase-15 matching work is
-committed (`commit:0117`..`commit:0120` + this PhaseEnd commit, which lands the PhaseEnd + cookbook §14d/§14e + SETUP +
+committed (`be0ceae55`..`ab8b857cd` + this PhaseEnd commit, which lands the PhaseEnd + cookbook §14d/§14e + SETUP +
 gen2-roadmap); **Drew pushes** (R6). No Ghidra DB change this phase (pure build-tooling/matching — R23 no-op).
 Gen2 continues
 — do **NOT** start Phase 16 here. Start a **fresh session** (effort **Max**, plan mode) for **Phase 16 — Crack the

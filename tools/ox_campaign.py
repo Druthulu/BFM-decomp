@@ -61,7 +61,7 @@ def unstage_main_tus():
     """Drop TOP-LEVEL src/*.c from the index before an overlay/maintenance commit (S59).
 
     A concurrent gate_main substitution in main's TUs is unverified by construction, and this
-    campaign's blanket `git add -A src/` adopted one mid-flight at 14:57:01 (commit:2693): main
+    campaign's blanket `git add -A src/` adopted one mid-flight at 14:57:01 (24bd25993): main
     built RED until 18:43 and the main lane banked 0 from four 200-card draft rounds — every
     rejection a false verdict. main's TUs have exactly ONE writer (gate_main) and ONE committer
     (main_lane, after the whole-EXE SHA re-checks green); every other lane must neither commit
@@ -613,7 +613,7 @@ def config_sane(min_ratio=0.8):
 
     P31 S60, the most expensive defect of the campaign: config/overlays.mk — the 5,077-line
     registry defining all 141 overlay binaries — was committed as a ZERO-LINE file by
-    commit:2863 ("ox wave dk overlays — 2 banked"). Two failures, neither sufficient alone:
+    7891069c4 ("ox wave dk overlays — 2 banked"). Two failures, neither sufficient alone:
     some writer rewrites that file in place with no tmp+rename while lanes edit it
     concurrently (the version before the deletion already carried a stray partial line), and
     THIS committer swept the wreckage in, because "the tree is dirty at gate entry" cannot
@@ -691,7 +691,7 @@ def gate(tag, keep, jobs, run_id=None):
         if main_dirty:
             # NEITHER COMMIT NOR REVERT main's TUs (S59). The old carve-out REVERTED them here —
             # and lost a TOCTOU race with the live gate_main, whose substitute() re-wrote
-            # src/800.c between our checkout and the `git add -A` below: auto-commit commit:2693
+            # src/800.c between our checkout and the `git add -A` below: auto-commit 24bd25993
             # adopted two unverified bodies at 14:57:01 (14 s after a main bisect chunk banked —
             # exactly one chunk cadence), main built RED until 18:43, and the main lane burned
             # four 200-card draft rounds against it, banking zero. Reverting is not safe either:

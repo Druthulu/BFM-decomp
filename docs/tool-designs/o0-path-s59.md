@@ -6,7 +6,7 @@ this session; the one build allowance was spent on the gate that BANKED `func_80
 
 **Headline results:**
 1. `func_80184058` (131 ins, `ov_SC03_014_o0c`) went **first-compile MATCH → whole-binary
-   BYTE-IDENTICAL → committed** (`commit:2659`). The -O0 idiom set exists, transfers from banked
+   BYTE-IDENTICAL → committed** (`a1e8b9a5f`). The -O0 idiom set exists, transfers from banked
    siblings, and one-shots without iteration. Q3 is answered YES with bytes.
 2. **md_MAIN_011 needs NO carve at all.** Its entire code subseg (0x7C..0x4400 = 17,284 B =
    4,321 ins) is exactly the 21 stranded -O0 functions, and `src/md_MAIN_011/md_MAIN_011.c` is
@@ -75,7 +75,7 @@ then spliced into the TU and gated under the binary's lock:
        sha1 d84b01a2bd4c712e1127707f5cd2007d79f4afb0 == config/check.ov_SC03_014.sha  (BYTE-IDENTICAL)
 ```
 
-Committed as `commit:2659` (R42). The identical stub remains in `ov_SC03_015_o0c.c` — the same body
+Committed as `a1e8b9a5f` (R42). The identical stub remains in `ov_SC03_015_o0c.c` — the same body
 banks it (byte-twin), one gate away; left for the campaign since the task's one-build allowance was
 spent.
 

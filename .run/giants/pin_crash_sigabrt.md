@@ -129,7 +129,7 @@ dependencies; the staged sibling body arrives WITHOUT them:
   `Map_80133AB0 undeclared` → **exit 33** (plain error), both era layouts tested (`histA/histB`).
   Properly staged (typedef + the sibling's `extern int func_80133AB0(int,s16,s16,int);` →
   s16-form decl flip): **exit 0 in 133/133 sibling TUs today** (`sweep.sh`) **and 133/133 at the
-  era commit commit:0510** (`era_sweep.sh`). The Error-134 attribution: in the era one-big-split
+  era commit c84bcb35c** (`era_sweep.sh`). The Error-134 attribution: in the era one-big-split
   layout its stub shared `ov_SC01_XXX.c` — and therefore the (overlay,split) gate compile —
   with func_8013D9B0's stub; d9b0's genuine abort killed the shared TU compile and the 134 was
   blamed on every family staged there.
@@ -156,7 +156,7 @@ context reproduces every result (ddmin `mask_min.txt`: the masking "TU context" 
 # the genuine SIGABRT (minimal):
 tools/bin/gcc-2.7.2-psx/cc1 -quiet -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker \
     .run/giants/pincrash/minimal_repro.c -o /dev/null          # exit 134
-# the historical crash, era-exact (staged macro-less GTE body in the commit:0510 sibling TU):
+# the historical crash, era-exact (staged macro-less GTE body in the c84bcb35c sibling TU):
 tools/bin/gcc-2.7.2-psx/cc1 <same flags> .run/giants/pincrash/era_d9b0.i -o /dev/null   # exit 134
 # the same body properly staged (macros carried) — clean:
 tools/bin/gcc-2.7.2-psx/cc1 <same flags> .run/giants/pincrash/d9b0_000.tu3.i -o /dev/null  # exit 0
@@ -164,7 +164,7 @@ tools/bin/gcc-2.7.2-psx/cc1 <same flags> .run/giants/pincrash/d9b0_000.tu3.i -o 
 ```
 
 Fleet evidence: `sweep_results.txt` (80133AB0 today, 133×exit=0), `era_sweep_results.txt`
-(80133AB0 at commit:0510, 133×exit=0), `d9b0_fleet.py` output (8013D9B0 today, 133×exit=0).
+(80133AB0 at c84bcb35c, 133×exit=0), `d9b0_fleet.py` output (8013D9B0 today, 133×exit=0).
 
 ## 6. Implications for Phase 31 (the pin-×1 endgame)
 

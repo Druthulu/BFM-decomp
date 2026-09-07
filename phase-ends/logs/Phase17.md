@@ -1,7 +1,7 @@
 # CURRENT PHASE — Phase 17: Raise the harness ceiling to "eureka level", then gate the compute run
 
 **Generation:** Gen2 (9th phase) · **Arc:** 8→9→10→11→12→13→15→16→**17** (14 deferred to Gen3+)
-**Plan approved (gate 1):** 2026-06-19 (Drew) · **Status:** T1–T6 DONE & committed (`commit:0129`→`commit:0133`).
+**Plan approved (gate 1):** 2026-06-19 (Drew) · **Status:** T1–T6 DONE & committed (`edb0360d3`→`40f2bc8bd`).
 The "raise the ceiling" thesis FAILED across all 5 avenues → **PIVOT to guided hand-matching** (see START
 HERE). T7 (go/no-go + PhaseEnd) is reframed: NO-GO on brute force, GO on hand-matching pending the demo.
 
@@ -10,7 +10,7 @@ HERE). T7 (go/no-go + PhaseEnd) is reframed: NO-GO on brute force, GO on hand-ma
 
 ## 🚩 START HERE (fresh session 4, after session 3) — BUILD THE CANONICAL-SIG LAYER, then scale the wave
 **Guided hand-matching is GO and proven at scale.** Demo (session 2) = 4/5; session 3 = the calibration
-Ultracode wave (+0.47% → fleet **55.51%**, 136/136 byte-identical, committed `commit:0136`/`commit:0137`/`commit:0138`).
+Ultracode wave (+0.47% → fleet **55.51%**, 136/136 byte-identical, committed `28c23f4be`/`0dd9bf6ba`/`d369da816`).
 **The bottleneck is now identified and singular** — read `docs/hand-matching-process.md` §7 first.
 
 **THE FINDING:** in the calibration wave the agents hit **60% match_one MATCH but only 33% whole-binary**, and
@@ -241,7 +241,7 @@ types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidat
   build the canonical-widening pass + harvest → document fully + automate.** Tasks 5/6/7 created. **NEXT:
   sample 2 more, then the giant.** Effort: Max (hand-matching, Tier-1).
 - 2026-06-19 (session 3, normal Max→Ultracode): **TASK 1 (sample 2 more) DONE + DECISION + CALIBRATION WAVE DONE.**
-  - **Task 1:** banked **func_8015F9A4** (fnptr, ×1, CLEAN) `commit:0136`; 3 struct near-misses had 100%-correct
+  - **Task 1:** banked **func_8015F9A4** (fnptr, ×1, CLEAN) `28c23f4be`; 3 struct near-misses had 100%-correct
     bodies but gcc-quirk tails (§10 remat, phantom -O2 frame, v0/v1 coalescing — even the permuter couldn't
     close relocs=0 func_8014C308 in 12min). New idioms → hand-matching-process.md §2 (mask-local; shared-ret0
     goto). **Selection lesson:** low-m2c-mismatch struct = the quirk tail; clean closes = fnptr/relocs-low/
@@ -254,7 +254,7 @@ types — 67% reach incl. the giants) → T6 (validate the 146 permuter candidat
     300 Ghidra-C cached to `.run/ghidra_c/func_<ADDR>.c` (high quality, better than m2c on local/global).
   - **CALIBRATION WAVE (Ultracode, `.run/harvest_wave_s3.js`, top-30 by reach):** 18/30 match_one MATCH (60%);
     **10/30 whole-binary verified (33%)** after sig_unify recovered 2 → propagated ×134 (+2 demo catch-ups);
-    **fleet 55.04%→55.51% (+0.47%), 136/136 (R22)**, `commit:0137`. **KEY FINDING: the match_one→whole-binary gap
+    **fleet 55.04%→55.51% (+0.47%), 136/136 (R22)**, `0dd9bf6ba`. **KEY FINDING: the match_one→whole-binary gap
     (60%→33%) is 100% SIG CONFLICTS** (shared callees like func_80131CA8 declared inconsistently across
     parallel agents), NOT codegen → **the canonical-sig layer is the ESSENTIAL enabler** (would lift 33%→~60%,
     ~2× yield/token). 12/30 = genuine gcc-quirk tail. **NEXT (scaling, Max):** build the canonical-sig layer

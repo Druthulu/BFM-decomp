@@ -42,7 +42,7 @@ REFUSALS (R43) — loud, classed, one ledger row per case (R32, nothing silent):
   TU-BROKEN        the DESTINATION TU fails cc1 with NO draft spliced (validation compile, cached
                    per TU): the `undeclared` diagnostic belongs to the TU, not the draft. 39/42 of
                    the measured cases are ONE such TU (ov_SC04_018_jr_8017AE2C.c, RED since commit
-                   commit:2833 restored func_8017E7CC without its `extern s32 D_801B9AA8;`).
+                   82238e82d restored func_8017E7CC without its `extern s32 D_801B9AA8;`).
   FUNCTION         the symbol is a jal target / func_ name — a callee tool's class, not data
   STRUCT           the use needs a struct type (SYM.f / SYM->f / SYM[i].f / SYM[i][j]) — the
                    A-prop lane's separate STRUCT class

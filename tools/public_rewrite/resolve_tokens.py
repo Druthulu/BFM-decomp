@@ -57,8 +57,12 @@ def main(argv):
     m = load_map(__import__("pathlib").Path(a.map))
     files = C.git(["ls-files", "-z"], repo, text=False).decode("utf-8", "surrogateescape").split("\0")
     n_files, n_resolved, residue, remaining = 0, 0, {}, 0
+    skipped = 0
     for rel in files:
         if not rel or rel == "docs/commit-map.tsv":
+            continue
+        if rel.startswith("tools/public_rewrite/"):      # the token grammar's own definition + self-test fixtures, never citations
+            skipped += 1
             continue
         p = repo / rel
         if not p.is_file():
@@ -93,7 +97,7 @@ def main(argv):
         for t, n in sorted(residue.items()):
             print(f"  residue {t} ×{n}")
         return 1 if remaining else 0
-    print(f"resolve_tokens: {n_resolved} tokens resolved in {n_files} files; residue {sum(residue.values())} "
+    print(f"resolve_tokens: {n_resolved} tokens resolved in {n_files} files ({skipped} files under tools/public_rewrite/ skipped by rule); residue {sum(residue.values())} "
           f"({', '.join(f'{t}×{n}' for t, n in sorted(residue.items())) or 'none'})")
     return 0
 

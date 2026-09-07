@@ -47,7 +47,7 @@ S1–S4 ≈ **80–115k instructions moved from the 490-t/ins column to ~0** (11
 Distribution survives (I measure 5,793 fams / 709,920 ins at HEAD vs claimed 5,792/701,508 — snapshot drift; the 100+ band is 74,741 ins exactly). The 147-family pool is real (148 / 1,585 / 75,383 at HEAD). Fleet 96.29/94.2/88.9 confirmed. What does NOT survive: "chance collision" (all four refuted), "ledgered not-templatable" (both contradicted), "free-sweep 0/0 undiagnosed" (both diagnosed, on disk, PLUMBING), and "the ×138 era is over."
 
 ## False-wall watch list
-1. CURRENT_PHASE.md:228's ×138-era paragraph (S38) — rests entirely on the two undiagnosed zeros; should be rewritten against the classified files. *(DONE — struck in commit `commit:1413`.)*
+1. CURRENT_PHASE.md:228's ×138-era paragraph (S38) — rests entirely on the two undiagnosed zeros; should be rewritten against the classified files. *(DONE — struck in commit `d053d71a2`.)*
 2. The `0x80175820`/`0x80132018` "not-templatable" ledger entries — provenance predates or ignores the current classifier.
 3. Any post-S1 sweep still returning 0% on an h_norm-identical family is a NEW undiagnosed zero — the one-line h_norm check against the sig files should become a standard pre-probe step (it would have predicted both of today's zeros as compile-error certainties before spending the probe).
 

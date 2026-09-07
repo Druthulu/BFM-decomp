@@ -33,7 +33,7 @@ So `match_one` **over-counts bankable yield** on reach1/split-file functions. Th
 capability* comparison above still stands (Haiku ties Opus on the small tractable band at the proxy
 level), but BANKABLE yield is gated by a further, **model-independent** TU-plumbing filter. Of the 4
 that banked, Haiku had proxy-matched 3 (the ≤52-ins ones) — the cheap tier still owns the small band.
-Banked + committed @ commit:0307; ov_SC01_077 stays byte-identical (d19c9580).
+Banked + committed @ 6d5fe3dfd; ov_SC01_077 stays byte-identical (d19c9580).
 
 **Haiku closes ~4.8× as many functions per dollar as Opus.** Cost from measured workflow tokens
 (opus 1,968,371; haiku 1,365,666) at a 35%-in/65%-out split, June-2026 ladder (Opus $5/$25, Haiku
@@ -73,7 +73,7 @@ around ~50–90 ins**. That boundary is the empirical Tier-2 → Tier-3 line.
    extends the cheap band upward vs Haiku — worth an identical A/B next.
 3. Score the cheap tier on the WHOLE-BINARY gate, not `match_one` — the proxy over-counts on
    reach1/split functions (15 proxy → 4 banked here). The cheap-vs-Opus *drafting* delta is real,
-   but route/measure on banks. 4 fns banked from this experiment (@commit:0307); the rest are backlog fuel.
+   but route/measure on banks. 4 fns banked from this experiment (@6d5fe3dfd); the rest are backlog fuel.
 
 ## Artifacts
 - `tools/workflows/ab_match.js` — per-arm-model fan-out (reusable for glm/local arms)

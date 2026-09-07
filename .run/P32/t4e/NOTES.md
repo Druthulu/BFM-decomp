@@ -4,7 +4,7 @@ Drew's directive after the T4b close: "do that now, lets crack these before clos
 "final verdicts" (PROVED at 1 / PLATEAU at 4). Both fell. Step 0 (the §501-N/P shape grep) found the cousins but the
 cracks came from two compiler mechanisms the earlier censuses had missed.
 
-## A. `main:func_80032A74` (422 ins, 800_b_2) — PROVED wall → BANKED `commit:4007`
+## A. `main:func_80032A74` (422 ins, 800_b_2) — PROVED wall → BANKED `f9a90affb`
 * The S84 "PROVED" verdict enumerated every stack-slot producer and refuted each; it missed one: **combine's
   reference bookkeeping skips the decrement when the deleted insn's dest also appears in its source**
   (`i2dest_in_i2src`, combine.c:2306). A local `x = <load>; x -= 0x100; ... (u8)x ...` compiles to the plain `lbu`

@@ -162,7 +162,7 @@ those (Drew's "convert to C to find groups" idea, done right):
 
 ## 6. CARRIED CONTEXT — this session's other findings (fold into the plan, most-value-first)
 
-### Committed this session (`commit:0515`)
+### Committed this session (`8270e7692`)
 - **🎯 FLAGSHIP `func_80133CD4` (399 ins) CRACKED ×134** (Fable5 gdb-on-cc1) — the ~22-phase "unsteerable
   whole-function register permutation" retired. Fleet instr-weighted 57.7→58.2%, distinct-code 29.3→30.3%.
   **Idiom → cookbook §45** (READ IT — it's the template for the family-core cracks): (a) **merged-accumulator
