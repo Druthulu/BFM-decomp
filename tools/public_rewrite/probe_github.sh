@@ -54,7 +54,8 @@ for sha in "${SAMPLE[@]}"; do
         [ "$http" = 404 ] || { echo "  ALIVE unauthenticated /commit/${sha:0:7} -> HTTP $http"; alive=$((alive+1)); }
     fi
 done
-cur="$(git rev-parse main)"
+cur="$(git rev-parse origin/main)"     # the PUSHED tip, not the local main: an unpushed local commit is not on GitHub
+                                       # and would fail the control for a reason that has nothing to do with the purge (S88)
 if gh api "repos/$GH_REPO/commits/$cur" --silent >/dev/null 2>&1 && fetchable "$cur"; then
     echo "  control: current main $cur resolves (OK)"
 else

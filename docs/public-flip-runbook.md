@@ -202,7 +202,7 @@ GitHub to make zero.
 
 **The probe** (`tools/public_rewrite/probe_github.sh`, needs `gh auth login` in Drew's shell): for 30 sampled full old
 hashes + the pruned commit + the old tag tip: `gh api repos/Druthulu/BFM-decomp/commits/<sha>` must return 404 and
-a `git fetch` of the sha must fail; positive control: the current `main` sha must succeed. After the flip, also probe
+a `git fetch` of the sha must fail; positive control: the PUSHED tip (`origin/main`) must succeed (the local `main` may carry unpushed commits, S88). After the flip, also probe
 7-char prefixes unauthenticated at `github.com/Druthulu/BFM-decomp/commit/<7>`. While ANY probe returns 200: wait and
 re-run daily. **R57 (S88, 2026-09-07): the fetch check runs in a THROWAWAY bare repo** (`.run/public_rewrite/
 probe_scratch.git`, `--filter=blob:none --depth=1`, deleted on exit) — a successful `git fetch origin <old-sha>` pulls
