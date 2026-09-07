@@ -3497,10 +3497,10 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
   guaranteed zero is the stop condition — and it stays local. His alternative (align the target asm's names with the C through the
   symbol files) is plausible for our floor class and untested here; recorded, not adopted. On authorship he is right without
   qualification: the de-tell pass optimised for passing as human rather than for being short, useful, or honest about who wrote it.
-- **The pivot (binding from now):** outward text to third parties — issues, PRs, forum posts, outreach notes — is written by Drew in
-  his own words, or says plainly that a model drafted it; the model supplies the FACTS list, never a finished text tuned to hide its
-  origin. Applied immediately to the two pending outreach texts (E1's preset request, E2's Archipelago note): both re-labelled as
-  facts-to-convey, and the checkpoint's post-flip checklist says so. Rule candidate (j) for the PhaseEnd.
+- **The pivot (binding from now; Drew's decision the same day, superseding the disclosure idea I first proposed):** outward text to third parties (issues, PRs, outreach) is written the way a developer writes — short, plain, few or no code spans, no exhaustive bullet walls, no evidence scaffolding — REWRITTEN from the facts, never a model draft with the tells removed; no AI disclosure (Drew's decision, 2026-09-07); check the target project for an AI-contribution policy first.
+  Drew's diagnosis of the giveaway, shared: the pass ran an anti-AI filter over model prose (every term in backticks, exhaustive
+  bullets, evidence scaffolding, sheer length) instead of writing the way a person writes an issue. Applied immediately to the two
+  pending outreach texts (E1's preset request, E2's Archipelago note), both rewritten in a developer's voice. Rule candidate (j).
 - **Hindsight path.** Ask before offering: "what does this maintainer's workflow need?" — an interactive tool's author does not want a
   mode for unattended search; a short issue describing the floor with the two numbers, in Drew's voice, asking whether a symbol
   rename would be the intended fix, would have got the same technical answer at a tenth of everyone's cost and no ill will.
