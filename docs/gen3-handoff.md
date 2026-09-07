@@ -204,11 +204,11 @@ PCSX-Redux, then the disc rebuild with recompressed payloads.
 ## 8. Governance for Gen3
 
 The framework carries over unchanged: the constitution, the session protocol, the digest, the two gates, one task at
-a time, the rules R1–R73 plus the Phase-33 candidates (a)–(h) once ratified. A new generation starts with a fresh
+a time, the rules R1–R83 (the Phase-33 candidates were ratified as R74–R83 at the Phase-33.5 gate). A new generation starts with a fresh
 plan in plan mode at Max. Three things the record says to do first:
 
 1. **Measure the shape before choosing** (`docs/hindsight-study.md` §2.1): which structures own most of the 61,898
-   data symbols, and which families own most of the 44,243 pins — a census with a self-asserting scanner, checked
+   data symbols, and which families own most of the 43,925 pins — a census with a self-asserting scanner, checked
    against a case whose answer is known.
 2. **Build the differential harness for the new question** before the campaign: "is this rename/type change
    byte-neutral?" has two paths — the per-binary gate and the fleet run — and a scanner that asserts every reference

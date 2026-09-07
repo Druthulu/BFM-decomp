@@ -36,6 +36,26 @@ The matching frontier is empty, so new matches are not the need. The work that h
 - **Tooling and documentation** — every tool has a row in [`docs/SETUP.md`](../SETUP.md)'s inventory; a tool change
   ships with its siblings wired to use it and its docs in the same change.
 
+## AI use — conduct
+
+The project was carried out by an AI coding agent and says so once, at the project level; that is the disclosure. What
+keeps it from being a liability is a short set of conduct rules, which apply to any contribution made with an agent's
+help (the charter is [`docs/gen3-standards.md`](../gen3-standards.md) §3; the direction they serve is
+[Where the project goes next](Where-the-project-goes-next.md)):
+
+1. **The byte gate is the only claim of success.** No match is reported that the gate has not proven; "the compiler ran"
+   and "looks equivalent" are not results, and every "done" is written from a tool's printed success line.
+2. **Names and types are evidence-based, never guessed.** A function or variable is renamed only on a recorded basis — a
+   string it prints, a cross-reference chain, the debug menu, a live-RAM datapoint, a community label with provenance. No
+   evidence, no name: `func_80xxxxxx` is honest and greppable. A model may propose; it may never assert.
+3. **Outward text is written by a person.** Issues, pull requests, posts and notes to other projects are written by the
+   maintainer the way a developer writes — short and plain — never a model draft with the tells removed; and the target
+   project's own AI policy is read first (sotn-decomp, for one, requires pull requests made without autonomous tooling).
+4. **No automated traffic against community infrastructure.** decomp.me asks that nobody scrape it or hook an LLM to it;
+   the project's use of it is a person in a browser, and its local replica of that toolchain exists so proofs run at home.
+5. **Agents assist; a person owns.** Every change is justifiable by a person from the record — the phase logs, the
+   decision log, the cookbook's byte proofs.
+
 ## The one invariant
 
 Every change to `src/`, `config/` or `include/` is held to the byte gate: `make check BINARY=<alias>` stays green for

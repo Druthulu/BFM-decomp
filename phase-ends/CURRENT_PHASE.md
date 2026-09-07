@@ -42,7 +42,7 @@ in-tree links to `docs/wiki/<Page>.md`. 8. `.run/`: only what git tracks; no sca
 - [x] **1** Unblock, code side: tool docstrings re-pointed (`decl_from_use.py`, `integration_resolver.py`, `jtbl_carve.py`, `autopsy.py`, `residual_class.py`); CLAUDE.md lines 11 / 61 / the effort-default sentence — xHigh — see Log 2026-09-07 Task 1
 - [x] **2** Unblock, doc side: banners (`concurrency-design`, `gen2-mips-matching-model`, `psyq-worklist`, `distill/*`, `hindsight-study` HISTORICAL + supersession table); SETUP §1a rewritten; the pin count re-derived (one dated number + its command, both gen3 docs) — xHigh — see Log 2026-09-07 Task 2
 - [x] **3** Wiki — conventions + firewall: `Docs-and-scratch-conventions.md`, `The-ROM-firewall.md` (the gitignore template block); sidebar rows; Repository-layout/Contributing/ch.11 links; forward links in `doc_links_pending.txt` — Max — see Log 2026-09-07 Task 3
-- [ ] **4** Wiki — reference + direction: `Reference-index.md` (list-driven), `Where-the-project-goes-next.md`, Contributing "AI use — conduct", Home rewritten, sidebar sections — xHigh — **then P6 rules check**
+- [x] **4** Wiki — reference + direction: `Reference-index.md` (list-driven), `Where-the-project-goes-next.md`, Contributing "AI use — conduct", Home rewritten, sidebar sections — xHigh — see Log 2026-09-07 Task 4 — **P6 rules check done after it**
 - [ ] **5** Integrate the six (hand-matching-process; wave-metrics + the s37w block → wave-playbook; portable-decomp-workflow vs the 13 chapters; generic-decomp-package attributed; hindsight §2.1/§7 → ch.03 + permuter-ils; the gen3 docs → the direction page); re-point every referrer incl. `retrospective.md:10–11` — xHigh
 - [ ] **6** Sunset moves (~61 files incl. the 6 frozen snapshots) with the referrer census by command; `docs/sunset/README.md`; `Archive-index.md` rows (backticked paths + `v1.32.1`); DIGEST §4 + `docs/history/README.md` refreshed; ledger coverage: every `git ls-files docs` path outside wiki/how-to/sunset is KEEP in the ledger — xHigh
 - [ ] **7** Checkers: `doc_links.py` (sunset refusal, index-derived allowlist, wiki-first warnings, TRACKED/UNTRACKED citation classifier + `--disk`, coverage ⊆); reachability in `wiki_render --selftest`; `timeline.py` regen in `report BINARY=main` + `--check` in `audit-digest`; the 14 dangling cookbook cites; the gitignore-template diff; tools-health wiring; SETUP rows — xHigh
@@ -259,57 +259,71 @@ one-list rule with the `untracked_after_rewrite.txt` sibling, the rewrite lesson
 layout (`docs/` row, `.run/` row, the not-in-repo section, R1…R83), Contributing (the firewall paragraph; "83 numbered rules"), how-to
 ch.11 (the day-one section + the proposed-rules heading now says "ratified as R74–R80"). Forward links registered as PENDING:
 `Reference-index.md` (task 4), `Archive-index.md` (task 6). Verify: `wiki_render --selftest` OK; `doc_links` 0 broken / 2 pending.
+Commit `5d10a0d12`.
 
-## 🛑 SESSION CHECKPOINT — Tasks 0–3 ✓; NEXT = task 4 (wiki: Reference-index + Where-the-project-goes-next + Contributing conduct + Home/Sidebar; xHigh — prompt Drew to drop back, R27; then the P6 rules check)
+### 2026-09-07 — Task 4 — Wiki: the Reference index, the direction page, Contributing's conduct section, Home + sidebar (xHigh)
+`Reference-index.md`: 47 rows in seven groups (environment and verification; formats and addresses; the knowledge base; verification
+and progress (generated); releases and outreach; the record; Gen3 inputs) + four directory rows (`gcc-2.7.2-map/`, `badges/`,
+`outreach/`, `history/`) — each with what it is, how to read it (the 3.5 MB / 560 KB warnings), who writes it; the page states it is the
+only sanctioned wiki→`docs/` link site and that the two index pages are exempt. `Where-the-project-goes-next.md`: Phase 34 (the
+probe-gated flip, the outward actions in the maintainer's words, aftercare, v2.0.0), Gen3 (the floor, the bar — sotn's guide + the four
+rules —, the census table with the ONE pin count and its command, the invariant, the order of work, the levers, the conduct rules,
+shiftability scoped, the parked ideas), and the day-one-kit pointer in prose. Contributing gained "AI use — conduct" (the five rules of
+gen3-standards §3, linking the direction page). `Home.md` rewritten: the source-of-truth statement + sections Using / Working conventions
+/ Reference / How to AI-decomp / Where next / History; `_Sidebar.md` gained Reference, Where-next and History (Archive index, pending).
+`gen3-handoff.md` §8: "R1–R73 plus candidates" → R1–R83; the last 44,243 → 43,925. `doc_links_pending.txt`: the Reference-index line
+removed (1 entry left: Archive-index, task 6). **Coverage check** (a Python one-liner over `doc_links`' LINK_RE — the task-7 checker's
+prototype): 132 `docs/` files outside wiki/how-to; index ∪ README covers 66; the 66 uncovered are EXACTLY the task-6 leavers (33 root
+sunset + 4 integrate + 6 frozen + 12 per-binary snapshots + 11 tool-designs + 2 distill + 4 history files with spaces in their names)
+plus one KEEP file the first draft omitted — `generic-decomp-package.md`, added as a row (how-to 00/06 link it). Verify:
+`wiki_render --selftest` 12/12; `doc_links` 0 broken / 1 pending.
+
+**P6 rules check — re-read complete** (CLAUDE.md's Mandatory Behavior + fail-safes, DIGEST §3 R1–R83): one task at a time, one commit
+per task after this log; never overwrite blind (H5 — every banner was added, none replaced); never commit ROM content (the two
+`fable_cd4` listings leave at task 8, before any push Drew makes of this phase would matter — they are already in the pushed history);
+never `git clean -x`; a match is byte-for-byte (no build input has changed). Continuing with task 5.
+
+## 🛑 SESSION CHECKPOINT — Tasks 0–4 ✓ (P6 check done); NEXT = task 5 (integrate the six documents into the wiki; xHigh)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase31/32/33.md` and this file, and
 nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest (R1–R83), then
-WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–3 completed and task 4 in progress.
+WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–4 completed and task 5 in progress.
 
 ### 1. Where we are
 **Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; effort follows the plan's
-column (Max for tasks 3, 10, 12, 15 — Drew toggled Max for task 3; xHigh otherwise; prompt at each transition, R27). Baseline HEAD
-`80d45b29b`; task 0 = `39d524991`; task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = the commit after it (the two wiki pages).
-Nothing under `src/`, `config/` or the `Makefile` has changed; the fleet is 218/218 at the Phase-33 close. `docs/doc_links_pending.txt`
-carries TWO entries (`docs/wiki/Reference-index.md` → task 4; `docs/wiki/Archive-index.md` → task 6) — remove each when its page lands.
-Wiki pages now: the 12 original + `Docs-and-scratch-conventions.md` + `The-ROM-firewall.md`; `_Sidebar.md` has a "Working conventions"
-section between "Using the project" and "How to AI-decomp".
+column (Max for tasks 10, 12, 15 — prompt at each transition, R27; xHigh now). Baseline HEAD `80d45b29b`; task 0 = `39d524991`;
+task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = the commit after it. Nothing under `src/`, `config/` or the
+`Makefile` has changed; the fleet is 218/218 at the Phase-33 close. `docs/doc_links_pending.txt` carries ONE entry
+(`docs/wiki/Archive-index.md` → task 6). Wiki pages now: 12 original + Docs-and-scratch-conventions, The-ROM-firewall, Reference-index,
+Where-the-project-goes-next (16 + the 13 how-to chapters); the sidebar has sections Using / Working conventions / Reference / How to
+AI-decomp / Where next / History (Archive index, pending). The coverage one-liner in the task-4 log entry is the prototype of task 7's
+check: the 66 files it lists as uncovered are the task-6 leavers.
 
-### 2. What NEXT does (task 4, xHigh) — exact steps
-1. `docs/wiki/Reference-index.md` — list-driven from ledger L1 (this file): one row per KEEP-LIVE / KEEP-GEN file, grouped: environment
-   (`SETUP.md`, `effort-map.md`, `verification.md`, `second-oracle.md`, `doc_links_pending.txt`) · formats and addresses (`formats.md`,
-   `memory-map.md`, `idxtab-map.md`, `debug-menu-list.txt`, `disc-completeness.md`, `disc-ledger.md`) · the knowledge base
-   (`matching-cookbook.md`, `cookbook-index.md`, `gcc-2.7.2-map/` as a directory row, `wave-playbook.md`, `accelerators.md`,
-   `decision-log.md`, `psyq-sample-idioms.md`, `psyq-worklist.md`, `concurrency-design.md`, `tooling-audit.md`) · verification and
-   progress (`progress.md/.json/.fleet.md`, `difficulty.md`, `duplicates.md/.cross.md`, `backlog.md`, `badges/` directory row,
-   `story-timeline.md/.svg`, `commit-map.tsv`, `public-flip-runbook.md`) · releases and outreach (`permuter-ils.md`,
-   `matching-drafter-pipeline.md`, `gen2-mips-matching-model.md`, `community-matching-model-plan.md`, `decompme-preset.md`,
-   `outreach/` directory row) · the record (`story.md`, `retrospective.md`, `phase34-seed.md`, `history/` directory row) · Gen3 inputs
-   (`gen3-standards.md`, `gen3-handoff.md`, `gen3-parking-lot.md`, `actor-struct.md`, `struct-core-pivot.md`, `wall-taxonomy.md`).
-   Columns: file (a relative link `../<path>`) · what it is · how to read it (grep by §, the size warning for the 3.5 MB cookbook and
-   the 566 KB index) · generated by (tool + target) or "authored". The INTEGRATE→SUNSET four (`hand-matching-process`, `wave-metrics`,
-   `portable-decomp-workflow`, `hindsight-study`) are NOT rows — they leave in task 6; the 6 frozen snapshots are NOT rows. The
-   directory rows (`gcc-2.7.2-map/`, `badges/`, `outreach/`, `history/`) are prefixes for the task-7 allow-list. State at the top that
-   this page is the only sanctioned place for wiki→`docs/` links and that the index pages are exempt from that rule.
-2. `docs/wiki/Where-the-project-goes-next.md` — Phase 34 (from `docs/phase34-seed.md` §1: the daily probe, the flip, the outward
-   actions, aftercare, v2.0.0 = Gen2 exit; the Support ticket as the gate) and Gen3 (from `gen3-standards.md` §1–§3 in summary —
-   accuracy met, the readability bar, the AI-use conduct — and `gen3-handoff.md`: the census with the ONE pin count 43,925 + its
-   command + date, the invariant "every Gen3 edit is gated like a match", the levers table condensed, the order of work
-   pins → macro bodies → struct unification → names → formatting, the parked ideas). Link both docs via the Reference index row form.
-3. `Contributing-and-the-no-ROM-policy.md` — a new section "AI use — conduct" after "What a useful contribution looks like": the five
-   rules of `gen3-standards.md` §3 (the byte gate is the only claim of success; names/types evidence-based never guessed — unnamed
-   beats wrong; outward text is written by a person, the target project's AI policy read first; no automated traffic against
-   community infrastructure; agents assist, a person owns), linking the direction page.
-4. `Home.md` rewritten: the lead as is; sections "Using the project" (table as is + the two conventions rows), "Working conventions",
-   "Reference" (one paragraph → the index), "How to AI-decomp" (as is), "Where the project goes next" (one paragraph), "History"
-   (story / timeline / retrospective / the Archive index — pending) ; the "records behind the wiki" list becomes the index pointer.
-   `_Sidebar.md`: add "Reference" (Reference index), "Where the project goes next", "History" (Story and timeline → via index? — no:
-   sidebar rows must be wiki pages; History = Archive index (pending) + the direction page); keep the how-to list.
-5. Remove the `Reference-index.md` line from `docs/doc_links_pending.txt`. Verify: `wiki_render --selftest`; `doc_links` 0 broken /
-   1 pending; the list-driven check — every L1 KEEP path appears as a link target or under a directory row (a small Python one-liner
-   over the page with `doc_links.LINK_RE`). Log + checkpoint; commit by explicit path. **Then the P6 rules check** (re-read CLAUDE.md's
-   Mandatory Behavior + the fail-safes; state "Rules check — re-read complete. Continuing with task 5"). Task 5 is xHigh.
+### 2. What NEXT does (task 5, xHigh) — exact steps
+Fold the six INTEGRATE documents into the wiki/how-to and re-point every referrer, so task 6 can move the four that leave:
+1. `docs/hand-matching-process.md` (32 KB, P17 Ghidra-driven hand-matching guide) → read it; fold what the wiki lacks into
+   `The-matching-workflow.md` (a "Matching by hand" section: the Ghidra-driven loop, the differ discipline, the register-pin toolkit
+   pointer §17, when to hand the near-miss to the permuter) and, for the transferable parts, how-to `07-compiler-source.md`; record
+   the "unique claims folded" list in this log.
+2. `docs/wave-metrics.md` (20 KB, one row per crack wave) → the measurement source of how-to `09-economics.md` and `05-cards-lanes-
+   waves.md`: fold the per-wave table's headline numbers (agents, tokens, wall, banked per wave; the 76%→77%→100% bank-rate arc) where
+   the chapters cite economics without a table; move its two `.run/` prose citations FIRST: line 62's "Use `.run/s37w.js`'s execution
+   block for every future wave" → copy the execution block itself into `docs/wave-playbook.md` (a short fenced block in §5 Draft) and
+   line 153's `.run/s6f_gate.py` assertion → name it as archived. Then the file can leave.
+3. `docs/portable-decomp-workflow.md` (14 KB, §0–§11) → diff each § against the 13 chapters (this is the breadth-shaped part — three
+   read-only agents may take §0–§4 / §5–§8 / §9–§11); fold any unique claim into ch.03 (bootstrap order), ch.05 (lanes/cards), ch.09
+   (economics), ch.04 (refuse work the pipeline cannot bank — R43/R45 framing); re-point how-to `00-README.md:59`'s link to the chapters.
+4. `docs/generic-decomp-package.md` (KEEP) → attribute it in ch.03 and ch.06 where its claims are used without citation (the twin BAND
+   3.4× widening; "rank by work, not distance"; the widening review); it stays and is in the Reference index.
+5. `docs/hindsight-study.md` → re-point how-to `00-README.md:60`, `02-byte-gate.md:16`, `docs/retrospective.md:10–11` and
+   `docs/gen3-handoff.md` §8 item 1 (which cites its §2.1: "measure the shape before choosing") to the chapters/the retrospective;
+   add to ch.03 Phase 2b the "mine the permuter's failures" paragraph (its §7 → `tools/autopsy.py` + `residual_class.py`; the
+   docstrings of both tools already cite ch.03 Phase 2b) and to `docs/permuter-ils.md` a one-line pointer to the autopsy.
+6. `docs/gen3-standards.md` / `gen3-handoff.md` (KEEP) → already summarised in the direction page (task 4); nothing more.
+7. ch.04 gains a citation of `docs/tooling-audit.md` as its evidence base (one sentence + a Reference-index-form link).
+8. Referrer census for the four leavers (the D3 command) → must be 0 outside PhaseEnds/logs before task 6. Verify `doc_links` 0 broken;
+   log the folded-claims checklist; commit by explicit path. Task 6 is xHigh.
 
 ### 3. Standing facts for every task of this phase
 - One commit per task, after this file's log line (R8/R42 form); commit by explicit path; no trailers (R5); Drew pushes (R6).

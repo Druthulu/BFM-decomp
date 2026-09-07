@@ -1,5 +1,4 @@
 # docs/doc_links_pending.txt — link targets promised by a document and created by a later task of the SAME phase.
 # Format: <repo-relative path><TAB><the task that creates it>. tools/doc_links.py reports these as PENDING instead of
 # BROKEN; `--strict` (gate 2) refuses any entry, so this file must be EMPTY before a PhaseEnd.
-docs/wiki/Reference-index.md	Phase 33.5 task 4 (the Reference index — the only sanctioned place for wiki→docs links)
 docs/wiki/Archive-index.md	Phase 33.5 task 6 (the Archive index — one row per sunset document)

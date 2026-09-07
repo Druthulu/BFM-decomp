@@ -16,6 +16,9 @@
 - [Docs and scratch conventions](Docs-and-scratch-conventions.md)
 - [The ROM firewall](The-ROM-firewall.md)
 
+**Reference**
+- [Reference index](Reference-index.md)
+
 **How to AI-decomp**
 - [Index](How-to-AI-decomp.md)
 - [00 Read me first](../how-to-ai-decomp/00-README.md)
@@ -31,3 +34,9 @@
 - [10 Integration and propagation](../how-to-ai-decomp/10-integration-and-propagation.md)
 - [11 Publishing](../how-to-ai-decomp/11-publishing.md)
 - [12 The failure museum](../how-to-ai-decomp/12-failure-museum.md)
+
+**Where the project goes next**
+- [Where the project goes next](Where-the-project-goes-next.md)
+
+**History**
+- [Archive index](Archive-index.md)

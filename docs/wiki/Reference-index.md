@@ -1,0 +1,92 @@
+# Reference index
+
+Every live reference and generated file under `docs/`, in one place: what it is, how to read it, and who writes it.
+This page is the **only** place a wiki page links into `docs/` — every other page links a wiki page for its topic, and
+the link checker (`tools/doc_links.py`) derives its allow-list of `docs/` targets from the rows below (a directory row
+covers everything under it). The two index pages, this one and the [Archive index](Archive-index.md), are exempt from
+that rule; the README keeps its own handful of direct links. Files that left `docs/` at the Phase-33.5 consolidation are
+in the Archive index, not here. The conventions behind this page: [Docs and scratch conventions](Docs-and-scratch-conventions.md).
+
+## Environment and verification
+
+| File | What it is | How to read it | Written by |
+|---|---|---|---|
+| [`SETUP.md`](../SETUP.md) | The environment reference: every tool's install row, the pinned compiler triple (§5.4), the daily command crib, the MCP lifecycle, the scratch conventions (§1a). 270 KB. | Grep by `§` or by tool name; §5.4 for the triple; the `## Tooling inventory` table for a tool's one-line row. | authored; kept current in the same change as any tool (R21) |
+| [`verification.md`](../verification.md) | The byte-identity contract and the recorded run that proved it (218 of 218 from a clean rebuild, both SDK legs). | Read whole; §2 quotes the run's summary from `.run/P33/verify/`. | authored; quotes `tools/verify_contract.sh`'s output |
+| [`second-oracle.md`](../second-oracle.md) | The independent boundary oracle (R34): what it covers, where it disagrees with the primary one by design. | Read whole. | authored; read by the Makefile and four tools |
+| [`effort-map.md`](../effort-map.md) | The reasoning-effort doctrine for the AI agent: depth vs breadth, the per-phase map, the decision rule. Governs where `CLAUDE.md`'s tier language differs. | Read whole. | authored |
+| [`doc_links_pending.txt`](../doc_links_pending.txt) | Link targets promised by a document and created by a later task of the same phase (R80). Empty at every phase close. | One `path<TAB>task` per line. | authored per task |
+| [`public-flip-runbook.md`](../public-flip-runbook.md) | The history-rewrite and publication procedure, its controls, its risk register, and what the host kept serving afterwards (§11). | By section; §11 for the purge and the probe. | authored |
+
+## Formats and addresses
+
+| File | What it is | How to read it | Written by |
+|---|---|---|---|
+| [`formats.md`](../formats.md) | The disc, the `.CD` containers, the PAC archives, the LZSS codec (game semantics), the SQV split. Anything not byte-verified is marked. | By section. | authored |
+| [`memory-map.md`](../memory-map.md) | Every address with its source and verification status (G5): the loader, the overlay slots, player state, the RAM-dump datapoints, the community labels. | By section (`§S…` = the session that established it); Ghidra is authoritative once an address is imported. | authored |
+| [`idxtab-map.md`](../idxtab-map.md) | The master load map: every payload's index-table and destination-pointer entries. | Read whole. | authored from `tools/idxtab_map.py` |
+| [`debug-menu-list.txt`](../debug-menu-list.txt) | The retail debug menu's AREA/SCENE list, transcribed from the live menu. | Read whole. | authored (primary data) |
+| [`disc-completeness.md`](../disc-completeness.md) | The disc-completeness audit: every payload claimed by a binary or explicitly excluded, with evidence. | Read whole. | authored; reproduce with `tools/disc_code_sweep.py` |
+| [`disc-ledger.md`](../disc-ledger.md) | The completeness partition, residue 0. | Read the summary line; the table is per payload. | **generated** — `tools/disc_audit.py`, `make audit-disc` |
+
+## The knowledge base
+
+| File | What it is | How to read it | Written by |
+|---|---|---|---|
+| [`matching-cookbook.md`](../matching-cookbook.md) | Some 500 compiler idioms, each with its residual, mechanism, lever and byte proof. **3.5 MB — never read whole.** | Grep by `§` number or by symptom; the index below maps symptoms to sections. | authored, one section per proven idiom (R16) |
+| [`cookbook-index.md`](../cookbook-index.md) | The symptom → section index of the cookbook. 560 KB. | Grep the symptom. | **generated** — `tools/cookbook_index.py`, checked in `make tools-health` |
+| [`gcc-2.7.2-map/`](../gcc-2.7.2-map/) | The codegen map of the pinned compiler by pass (scheduling, register allocation, loop, CSE/expression), with a citation audit; its README is the catalogue. | Start at the README's pass → residual → lever table. | authored; `tools/gccmap_cites.py --check` in tools-health |
+| [`wave-playbook.md`](../wave-playbook.md) | The matching-campaign procedure: draw, cards, packs, draft, gate, harvest, checkpoint — each guard paired with the measurement that produced it. | By numbered step; the S80 addenda for the one-agent-per-function shape. | authored |
+| [`accelerators.md`](../accelerators.md) | What was learned late that a future project should know on day one: each entry with when it was found, when it could have been, what it would have saved. | Read whole; the entries are short. | authored |
+| [`generic-decomp-package.md`](../generic-decomp-package.md) | The thesis for the next project: what it inherits and does before cracking — the knowledge base seeded from the compiler's source and sibling projects, the structural tooling, the similarity join as a band not a point, the differential-oracle harness, the widening review. | Read whole. | authored |
+| [`decision-log.md`](../decision-log.md) | Every strategic pivot with its context, what failed, the measurement and the hindsight (R31). 280 KB, append-only. | By date heading. | authored |
+| [`psyq-worklist.md`](../psyq-worklist.md) | The per-object record of the 1,256 Sony library functions linked into the executable, and the named residue. | By library. | authored from `tools/psyq_identify.py`; complete |
+| [`psyq-sample-idioms.md`](../psyq-sample-idioms.md) | Style notes mined from the SDK's sample sources. | Read whole. | authored (a seed) |
+| [`concurrency-design.md`](../concurrency-design.md) | The concurrency contract for overlapping draft, gate, propagate and fleet-verify runs; implemented in the gate snapshot layer. | Read whole. | authored |
+| [`tooling-audit.md`](../tooling-audit.md) | The Phase-26 tooling-integrity audit, finding by finding — the evidence that several "walls" were the instruments. 400 KB. | By finding number. | authored |
+
+## Verification and progress (generated)
+
+| File | What it is | Written by |
+|---|---|---|
+| [`progress.md`](../progress.md), [`progress.fleet.md`](../progress.fleet.md), [`progress.json`](../progress.json) | The executable's digest, the fleet roll-up, and the published data the README block, the badges and CI read. | `tools/progress.py`, `make report BINARY=main`; freshness asserted by `make audit-digest` |
+| [`badges/`](../badges/) | The four shields endpoints. | `tools/progress.py` |
+| [`difficulty.md`](../difficulty.md), [`duplicates.md`](../duplicates.md), [`duplicates.cross.md`](../duplicates.cross.md) | The executable's harvest queue and self-duplicates; the cross-binary duplicate groups. | `tools/difficulty.py`, `tools/dup_report.py`, `make report BINARY=main` |
+| [`backlog.md`](../backlog.md) | The near-miss ledger (0 open). | `tools/backlog.py`, `make report BINARY=main` |
+| [`story-timeline.md`](../story-timeline.md), [`story-timeline.svg`](../story-timeline.svg) | The dated digest timeline and its chart. | `tools/timeline.py`; `--check` in `make audit-digest` |
+| [`commit-map.tsv`](../commit-map.tsv) | The ordinal → hash map for commits cited in historical documents after the history rewrite. | `tools/public_rewrite/build_commit_map.py`, one-shot |
+
+## Releases and outreach
+
+| File | What it is | How to read it | Written by |
+|---|---|---|---|
+| [`permuter-ils.md`](../permuter-ils.md) | The permuter recipe, the masked scorer and the local-search driver, and the upstream offer's outcome. | Read whole. | authored |
+| [`matching-drafter-pipeline.md`](../matching-drafter-pipeline.md) | The local drafter model's pipeline, its measured arc, and what is not published. | Read whole. | authored |
+| [`gen2-mips-matching-model.md`](../gen2-mips-matching-model.md) | The design and every measurement behind that write-up. | By section. | authored |
+| [`community-matching-model-plan.md`](../community-matching-model-plan.md) | The parked plan to publish the drafter's weights and dataset (waits on a licensing decision). | Read whole. | authored |
+| [`decompme-preset.md`](../decompme-preset.md) | The decomp.me preset for the pinned compiler, its local proof, and the post-flip request procedure. | §5 for the procedure. | authored |
+| [`outreach/`](../outreach/) | The notes to neighbouring projects, written for the maintainer to send after the flip. | Read whole. | authored |
+
+## The record
+
+| File | What it is | How to read it | Written by |
+|---|---|---|---|
+| [`story.md`](../story.md) | The narrative, first commit to public flip. | Read whole. | authored |
+| [`retrospective.md`](../retrospective.md) | What was believed, what failed, what it cost, what to do sooner. | Read whole; §4 is the list for the next project. | authored; assembled with `tools/mine_hindsight.py` |
+| [`phase34-seed.md`](../phase34-seed.md) | The plan seed for the flip phase (Phase 34): every task, actor, effort and carrying document. | Read whole. | authored |
+| [`history/`](../history/) | The provenance archive: the original brief (superseded, with its corrected claims), the methodology version the constitution was generated from, an early experiment. Nothing current. | Its README. | authored |
+| `phase-ends/` | Not under `docs/`, but the record proper: one PhaseEnd per phase, the digest of every phase and every rule, the working logs. | [Repository layout](Repository-layout.md). | authored per phase |
+
+## Gen3 inputs
+
+| File | What it is | How to read it | Written by |
+|---|---|---|---|
+| [`gen3-standards.md`](../gen3-standards.md) | The charter for the readability generation: accuracy met, the style bar (sotn's guide plus four rules), the AI-use conduct, the measured gap, a definition of done. | Read whole. | authored |
+| [`gen3-handoff.md`](../gen3-handoff.md) | Where Gen2 ends, the starter census with its commands, the one invariant, the levers, shiftability scoped, the parked ideas. | §3 for the census, §5 for the levers. | authored |
+| [`gen3-parking-lot.md`](../gen3-parking-lot.md) | The asset-export / native-rebuild survey, with the decisive probes. | Read whole. | authored |
+| [`actor-struct.md`](../actor-struct.md) | The recovered player/actor structure (~154 fields, live-verified) and the byte-neutrality finding. | Read whole. | authored |
+| [`struct-core-pivot.md`](../struct-core-pivot.md) | What struct recovery can and cannot do for matching — the Phase-16 wall and the pivot. | Read whole. | authored |
+| [`wall-taxonomy.md`](../wall-taxonomy.md) | The census of residual stubs by blocker class, validated against the bytes. | By class. | authored from `tools/wall_taxonomy.py` |
+
+Not listed: `docs/wiki/` and `docs/how-to-ai-decomp/` are this wiki's sources; `docs/sunset/` is the archive, indexed by
+the [Archive index](Archive-index.md).
