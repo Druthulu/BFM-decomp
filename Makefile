@@ -261,6 +261,9 @@ tools-health:
 	# in the wave. Without this line sig_is_independent("main") silently reverts to False on a
 	# fresh clone and main's boundary blind spot comes back with the audit still green.
 	$(MAKE) --no-print-directory sig-main-oracle
+	# P33 A2: main's build-derived game-code sig — the one the fleet digest weighs main by. Regenerated
+	# here for the R51 reason: progress.py prefers it, so a stale copy would be a stale denominator.
+	$(MAKE) --no-print-directory sig-main
 	$(MAKE) --no-print-directory audit-corpus
 	$(MAKE) --no-print-directory audit-cdecl
 	$(MAKE) --no-print-directory audit-binaries
@@ -295,6 +298,9 @@ report:
 # only fires for the default binary — avoids `make report BINARY=resident` rewriting the
 # identical file. --cross ignores --binary and scans every sig in BINARIES.
 ifeq ($(BINARY),main)
+	# P33 A2: refresh main's build-derived sig before anything weighs main by it (a no-op message when
+	# main is not built; progress.py then falls back to the legacy Ghidra sig or fails loudly — R32).
+	$(MAKE) --no-print-directory sig-main
 	$(VENV_PY) tools/dup_report.py --cross
 	# Fleet roll-up (Phase 15): deterministic per-binary table + fleet totals -> docs/progress.fleet.md.
 	$(VENV_PY) tools/progress.py --fleet
@@ -394,10 +400,24 @@ atlas:
 # beyond each function's own slice. This sig is deliberately splat-SEEDED (the atlas needs the
 # boundaries a match must hit); it is NOT main's independent second oracle
 # (docs/second-oracle.md — sig_is_independent stays False for main).
+# P33 A2 — REWRITTEN: main's GAME-CODE sig at BUILD-TRUE lengths, Ghidra-free and splat-free. The stub
+# seeding above became a sig of nothing at 100% (0 stubs), and the whole-EXE alternative was the
+# 2026-08-05 Ghidra sig (.run/sig.SLUS_007.26.jsonl), which a public clone cannot regenerate and whose
+# flow-derived boundary on FUN_80023bf0 was 22 ins short (P31 S79). Seeds now come from the linked
+# objects themselves — tools/main_seed_ends.py reads each game-code object's .text section from the
+# link map and slices it at its own nm symbols (the data islands and the LINKED blocks sit BETWEEN
+# objects, so every slice is exact); sig_image then hashes the ORIGINAL EXE bytes at those boundaries.
+# This is the sig progress.py weighs main by. Needs a built main (map + objects): without one it
+# leaves any existing .run/sig.main.jsonl alone and says so — never a heuristic sig under the same
+# name (R51).
 sig-main:
-	$(VENV_PY) tools/corpus.py main --seed-ends > .run/seeds.main.txt
-	$(VENV_PY) tools/sig_image.py --image $(main_EXE) --vram-base $(main_VRAM_BASE) --seeds .run/seeds.main.txt --name main
-	echo "sig-main: signed $$(wc -l < .run/seeds.main.txt) main stubs (splat-true lengths) -> .run/sig.main.jsonl"
+	if [ -f "$(main_MAPFILE)" ]; then
+		$(VENV_PY) tools/main_seed_ends.py --map $(main_MAPFILE) --out .run/seeds.main.txt
+		$(VENV_PY) tools/sig_image.py --image $(main_EXE) --vram-base $(main_VRAM_BASE) --seeds .run/seeds.main.txt --name main
+		echo "sig-main: signed $$(wc -l < .run/seeds.main.txt) main game-code fns (build-true lengths, from the link map + objects) -> .run/sig.main.jsonl"
+	else
+		echo "sig-main: no main build ($(main_MAPFILE) absent) — run 'make check BINARY=main' first; .run/sig.main.jsonl left as is"
+	fi
 
 # sig-main-oracle (P31 S77) — MAIN'S INDEPENDENT SECOND ORACLE (roadmap contract §1.3).
 # Distinct from `sig-main` above, which is splat-SEEDED on purpose. This one signs the ORIGINAL EXE

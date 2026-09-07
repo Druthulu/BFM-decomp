@@ -156,11 +156,33 @@ def _open_anywhere(nm):
     return key in _ANYWHERE_CACHE
 
 
+_LINKED_RANGES = None
+
+
+def linked_closed(binary, addr):
+    """True iff `addr` lies inside one of main's LINKED PsyQ subsegs (P33 A2, R33 — derived from the
+    Makefile's psyq_integrate stub lists + the splat yaml, exactly as progress.py weighs main).
+
+    Such a function is byte-identical by LINK (a Sony object, or its INCLUDE_ASM fallback tile on a
+    machine without the SDK) — it is not decomp work, and corpus.stubs('main') still lists its
+    INCLUDE_ASM stub, so the "no longer an open stub" test alone can never retire it. That is how
+    the legacy row func_80062144 (inside apicard5, S70) survived every prune to the P32 close as the
+    tree's only "open near-miss" at 100%."""
+    global _LINKED_RANGES
+    if binary != "main" or addr is None:
+        return False
+    if _LINKED_RANGES is None:
+        import progress
+        _LINKED_RANGES = progress._main_linked_ranges()
+    return any(lo <= addr < hi for lo, hi in _LINKED_RANGES)
+
+
 def load_best():
     """Best (lowest closeness, latest ts) record per addr, restricted to fns still OPEN in their OWN
     binary (rec['binary']; legacy records default ov_SC01_077). Fleet-aware so a 077-matched-but-
     stuck-local fn surfaces via its overlay record — the grinder must SEE it to grind it (P9 honesty:
-    a fn banked in its own binary since logged is dropped)."""
+    a fn banked in its own binary since logged is dropped; a fn inside a LINKED PsyQ subseg is not
+    work at all and is dropped too — linked_closed, P33 A2)."""
     if not os.path.exists(JSONL):
         return []
     _STUB_CACHE.clear()
@@ -172,6 +194,8 @@ def load_best():
         r = json.loads(line)
         nm = r.get("name")
         binary = r.get("binary") or _binary_of(r) or "ov_SC01_077"
+        if linked_closed(binary, addr_of(r)):
+            continue                                # a Sony object — byte-identical by link, not work
         # banked in ITS binary since logged -> drop (P9). Hex-case-canonical on BOTH sides (T0d):
         # corpus-derived names are upper-hex; a lower-hex record name must not silently drop (R32).
         if nm and nm.upper().replace("FUNC_", "func_") not in _open_stubs(binary):

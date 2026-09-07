@@ -938,29 +938,40 @@ def weighted_metrics():
     ut = sum(cls_nins.values())
     um = sum(n for hx, n in cls_nins.items() if hx in matched_cls)
 
-    # main — separate, game-code-only, from its (stale, LINKED-excluding) Ghidra sig. See docstring.
+    # main — game-code only. P33 A2: the sig is the BUILD-DERIVED one (`make sig-main` →
+    # .run/sig.main.jsonl: every game-code object's functions at build-true lengths, from the link map
+    # + the objects' own symbols; Ghidra-free, splat-free, regenerable on a public clone). The
+    # 2026-08-05 Ghidra sig (.run/sig.SLUS_007.26.jsonl) is the legacy fallback. NO sig at all is an
+    # ERROR (R32): this block used to set mt=0 and carry on, which made the digest read "217 binaries"
+    # and MAIN 0/0 on any machine without the Ghidra file — a public clone would have published a
+    # headline that quietly omitted the EXE.
     mm = mt = 0
-    main_date = None
-    mp = ROOT / ".run/sig.SLUS_007.26.jsonl"
-    if mp.exists():
-        import datetime
-        main_date = datetime.date.fromtimestamp(mp.stat().st_mtime).isoformat()
-        mst = stub_addrs("main")
-        # P31 S78: exclude LINKED subsegs LIVE (R33 — derive from the Makefile stub lists + the yaml
-        # ranges), not by trusting the sig's generation-time exclusion. When 13 "game code" subsegs
-        # became libgte23..30/libgs7/snd10/snd11 the 2026-08-05 sig still carried their 2,907 ins,
-        # which then read as unmatched game code (59.8% -> 56.1% with no game-code change).
-        lr = _main_linked_ranges()
-        for line in open(mp):
-            r = json.loads(line)
-            a, n = int(r["addr"], 16), r["nins"]
-            if n == 0:
-                continue                           # GTE thunks / no-body
-            if any(lo <= a < hi for lo, hi in lr):
-                continue                           # LINKED PsyQ object — not game code
-            mt += n
-            if a not in mst:
-                mm += n
+    mp = ROOT / ".run/sig.main.jsonl"
+    main_prov = "build-derived sig (make sig-main)"
+    if not mp.exists():
+        mp = ROOT / ".run/sig.SLUS_007.26.jsonl"
+        main_prov = "LEGACY Ghidra sig"
+    if not mp.exists():
+        raise SystemExit("progress: no main sig — run `make check BINARY=main && make sig-main` "
+                         "(.run/sig.main.jsonl); the fleet digest is not written without the EXE (R32)")
+    import datetime
+    main_date = datetime.date.fromtimestamp(mp.stat().st_mtime).isoformat()
+    mst = stub_addrs("main")
+    # P31 S78: exclude LINKED subsegs LIVE (R33 — derive from the Makefile stub lists + the yaml
+    # ranges), not by trusting the sig's generation-time exclusion. When 13 "game code" subsegs
+    # became libgte23..30/libgs7/snd10/snd11 the 2026-08-05 sig still carried their 2,907 ins,
+    # which then read as unmatched game code (59.8% -> 56.1% with no game-code change).
+    lr = _main_linked_ranges()
+    for line in open(mp):
+        r = json.loads(line)
+        a, n = int(r["addr"], 16), r["nins"]
+        if n == 0:
+            continue                           # GTE thunks / no-body
+        if any(lo <= a < hi for lo, hi in lr):
+            continue                           # LINKED PsyQ object — not game code
+        mt += n
+        if a not in mst:
+            mm += n
 
     # MAIN IS NOW IN THE WEIGHTED DENOMINATORS (roadmap §1 metrics contract, 2026-07-22).
     # The contract requires all three headline metrics to include the main EXE; it had been reported
@@ -991,7 +1002,20 @@ def weighted_metrics():
                 dedup_fns=len(matched_cls), dedup_total_fns=len(cls_nins),
                 fleet_m_exmain=fm, fleet_t_exmain=ft,
                 fleet_pct_exmain=(100 * fm / ft if ft else 0.0),
-                main_m=mm, main_t=mt, main_pct=(100 * mm / mt if mt else 0.0), main_sig_date=main_date)
+                main_m=mm, main_t=mt, main_pct=(100 * mm / mt if mt else 0.0), main_sig_date=main_date,
+                main_sig_prov=main_prov)
+
+
+def main_oracle_line():
+    """main's independent-oracle verdict, DERIVED at render time (P33 A2). The fleet digest used to
+    carry the literal "0 phantom, 0 truncated, 1 explained pad-tail", which went stale the moment the
+    last pad-tail function was banked (S85) — a published number nobody was computing (R51)."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import corpus
+    if not corpus.sig_is_independent("main"):
+        return "oracle sig absent — run `make sig-main-oracle`"
+    r = corpus.audit("main")
+    return f"{len(r['phantom'])} phantom, {len(r['truncated'])} truncated, {len(r['pad_tail'])} pad-tail"
 
 
 def fleet():
@@ -1029,7 +1053,7 @@ def fleet():
             f"FLEET distinct-code(uniq): {wm['dedup_m']:7d} / {wm['dedup_t']} = {wm['dedup_pct']:.1f}%   ({wm['dedup_fns']}/{wm['dedup_total_fns']} unique fns; the DISTINCT-RE number)"]
         if wm.get('main_t'):
             head += [
-                f"MAIN game-code weighted  : {wm['main_m']:7d} / {wm['main_t']} = {wm['main_pct']:.1f}%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated {wm['main_sig_date']}; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)",
+                f"MAIN game-code weighted  : {wm['main_m']:7d} / {wm['main_t']} = {wm['main_pct']:.1f}%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; {wm['main_sig_prov']} dated {wm['main_sig_date']}; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: {main_oracle_line()})",
                 f"  (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: {wm['fleet_m_exmain']} / {wm['fleet_t_exmain']} = {wm['fleet_pct_exmain']:.1f}%)"]
     else:
         head += ["# (instr-weighted + distinct-code metrics need .run/sig.*.jsonl — run `make sig-overlays`)"]

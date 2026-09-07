@@ -44,9 +44,9 @@ R20's new home = the Ghidra text export (`config/ghidra/*.jsonl`) + `ghidra_rebu
 one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment proposed at the PhaseEnd).
 
 ## Tasks (strict order; one commit per task after this file is updated; harness task list = the same 41 items, R28)
-- [ ] **A1** Governance commit (R65–R73 in DIGEST §3; this file; the harness list) — xHigh
-- [ ] **A2** Reporting-instrument fixes (pad-tail literal → derived; backlog LINKED-aware prune; `sig-main` ELF-seeded +
-      `progress.py` loud-fail) — xHigh, R39 controls
+- [x] **A1** Governance commit (R65–R73 in DIGEST §3; this file; the harness list) — xHigh — `commit:4012`
+- [x] **A2** Reporting-instrument fixes (pad-tail literal → derived; backlog LINKED-aware prune; `sig-main` build-derived +
+      `progress.py` loud-fail) — xHigh, R39 controls — see Log 2026-09-06 A2
 - [ ] **A3** `NO_SDK` knob + `make sdk-dual` (+ tools-health wiring, `[skip]` without SDK dirs) — Max
 - [ ] **A4** `tools/family_hseq.py` regen — Low
 - [ ] **B1** `make disc-extract` (extract.py `--expect-manifest` / `--allow-missing-audio`; check-env; `.gitignore`
@@ -96,20 +96,38 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   (every blob on every ref; the Ghidra DB proven to embed the EXE bytes under the page XOR mask; 28/28 RAM dumps carry the
   EXE's code; no secrets in tree, history diffs or the 1.27 GB transcript archive); Drew's decisions 1–11 (above); three
   read-only exploration agents + three design agents; the plan approved via plan mode. No repo change before A1.
+- **2026-09-06 (S86) — A1** `commit:4012`: R65–R73 appended to DIGEST §3; this file opened with the plan verbatim; 41 harness tasks.
+- **2026-09-06 (S86) — A2 (reporting instruments).** `make sig-main` REWRITTEN: `tools/main_seed_ends.py` derives main's
+  game-code function boundaries from the build (link-map `.text` sections × each object's `nm` symbols; tiling asserted) and
+  `sig_image` hashes the original EXE bytes at them → `.run/sig.main.jsonl` (809 fns / 45,150 ins); wired into `tools-health`
+  and `report BINARY=main`; `progress.py` prefers it, falls back to the legacy Ghidra sig, and EXITS 1 with no sig (control:
+  both hidden → rc=1 + the message); the digest's oracle clause is derived live (`main_oracle_line`: "0 phantom, 0 truncated,
+  0 pad-tail"); `backlog.linked_closed` retires main addresses inside LINKED ranges (controls 4/4; `backlog prune: 1 rows ->
+  0`; `docs/backlog.md` 0 open); `dup_report` main sig → `.run/sig.main.jsonl`. **Measured correction (R14/R41):** the derived
+  sig tiles the 15 game-code objects' text EXACTLY (45,150 words, no overlaps, never shorter than Ghidra's), while the Ghidra
+  sig covered 41,522 words and left **3,628 words of real game code owned by no function** (switch tails after unresolved
+  jump tables, 52 two-to-four-ins thunks, and `SaveLoadRoutine` = the `case 0:` body inside `func_8002b0b4`) — so **MAIN
+  game-code weighted is 45,150 / 45,150**, not 41,534 (P31 S79's +22 was one instance of this class); fleet instr
+  13,488,497 → **13,492,113**, distinct 5,816,589 → **5,820,205**, all still 100%. `make report BINARY=main` EXIT=0
+  (`.run/P33/a2_report.log`: lint OK, dedup-check 2220/0); `make audit-digest` OK; `docs/duplicates*.md` regenerated
+  (main's table now game-code-only). SETUP §6.8 + a P33 A2 section (R21).
 
-## 🛑 SESSION CHECKPOINT — PHASE 33 OPEN, GATE 1 APPROVED; NEXT = A1 commit, then A2 (2026-09-06, written by session bd19e14a "S86" at gate 1; SUPERSEDES nothing — first block of the phase)
+## 🛑 SESSION CHECKPOINT — A1 ✓ A2 ✓; NEXT = A3 (the `NO_SDK` knob + `make sdk-dual`, Max) (2026-09-06, written by session bd19e14a "S86"; SUPERSEDES the gate-1 block)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = task A1 if its commit is not yet at HEAD (`git log -1 --format=%s` should read
-`docs(phase-33): A1 …`); otherwise A2.** Effort for A1/A2: xHigh-class (Max, the session default, is fine).
+(R1–R73), then WAIT for Drew. **NEXT = A3** (`NO_SDK` knob + `make sdk-dual`; Max — it touches main's link recipe, a wrong
+knob is a false green). If `git log -1 --format=%s` does not start with `feat(phase-33): A2`, A2's commit did not land: re-run
+its controls from the Log entry before committing.
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified at
-gate 1 (DIGEST §3). Tasks done: NONE yet (A1 is the first commit of the phase). The approved plan is VERBATIM at the end of this
-file — read its Blocks A–G for every task's files, commands and verification; the "Execution order and why" section is the
-sequence; the "Honest scale" table is the budget (≈17–21 sessions; the flip precedes the writing so later items can be cut).
+gate 1 (DIGEST §3). **Done: A1 (`commit:4012`), A2 (see the Log — the corrected main denominator 45,150 is now the published
+number; `.run/sig.main.jsonl` is the sig main is weighed by; `tools/main_seed_ends.py` is new).** The approved plan is VERBATIM
+at the end of this file — read its Blocks A–G for every task's files, commands and verification; the "Execution order and
+why" section is the sequence; the "Honest scale" table is the budget (≈17–21 sessions; the flip precedes the writing so later
+items can be cut). Harness tasks: #1 A1 done, #2 A2 done, #3 A3 next … #41 G2.
 
 ### 2. Facts measured this session that every task depends on (do not re-derive; verify if in doubt, R14)
 - **History:** `main` = 4,011 commits (HEAD `commit:4011`); `git rev-list --all` = 4,282 because the `S76-pre-scrub-backup` tag
@@ -167,16 +185,28 @@ sequence; the "Honest scale" table is the budget (≈17–21 sessions; the flip 
   `ign_branch_targets, objdump_command` after our pin and its MIPS symbol wildcard is `"." in field` (`scorer.py:66-67`).
 
 ### 3. NEXT — in order
-0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~` (13 GB free) ·
-   `.venv/bin/python -c 'import splat'`.
-1. **A1** (if not committed): `git add phase-ends/DIGEST.md phase-ends/CURRENT_PHASE.md && git commit -m "docs(phase-33): A1
-   governance — R65–R73 ratified at gate 1 (DIGEST §3), CURRENT_PHASE.md opened with the approved plan + checkpoint"`.
-2. **A2** per the plan's Block A (each fix with its known-true control; commit "feat(phase-33): A2 …").
-3. Then A3 → A4 → B1 … in the task order above. After every task: tick the box, add a Log line, refresh this checkpoint
-   block (the 🛑 block is the ONLY in-phase context the next session inherits), commit.
+0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~` (≈13 GB free) ·
+   `.venv/bin/python -c 'import splat'` · `ls build/us/SLUS_007.26.map` (main is built; `make check BINARY=main` if not).
+1. **A3** per the plan's Block A: `NO_SDK ?=` knob in the Makefile; the 11 `psyq_integrate` calls and the `-T` externals
+   fragments skipped when set; `sdk-dual` target (refuses without every SDK ELF dir — they exist on this machine:
+   `.run/obj40/{libcd,libetc,libgpu,libmcrd,libc2,libgte,libgs_used,snd_used}`, `.run/obj42/{apicard_used,libapi42,libpad421}`
+   — check with `ls`); runs `extract BINARY=main` between legs; asserts the WITH map contains `build/psyq/libcd/` and the NO-SDK
+   map contains `build/src/libcd1.o` and no `build/psyq/`; both legs == `config/check.us.sha`; add to `tools-health` after
+   `sig-main` with a `[skip]` when no SDK dirs exist. Gotcha: psyq_integrate rewrites `build/us/SLUS_007.26.ld` in place, and
+   `make extract BINARY=main` regenerates it and deletes main's objects (Makefile:706-712) — that is why the legs are separated
+   by an extract. After the NO-SDK leg, run `make check BINARY=main` once more WITHOUT `NO_SDK` so the tree's main build is
+   the WITH-SDK one again (the map is what `sig-main` reads; either leg gives the same game-code seeds). Commit
+   "feat(phase-33): A3 …" with a Log line + this block refreshed.
+2. **A4** `.venv/bin/python tools/family_hseq.py` (clears the audit-binaries `[warn]`), commit. Then **B1** (Max).
+3. After every task: tick the box, add a Log line, refresh this checkpoint block (the 🛑 block is the ONLY in-phase context
+   the next session inherits), commit. Mid-phase rules check after A4 (4 tasks done).
 
 ### 4. Files this session touched
-`phase-ends/DIGEST.md` (R65–R73 appended to §3), `phase-ends/CURRENT_PHASE.md` (this file), `.run/public_audit/` (scratch).
+A1: `phase-ends/DIGEST.md`, `phase-ends/CURRENT_PHASE.md`. A2: `tools/main_seed_ends.py` (new), `Makefile` (`sig-main`
+rewritten; `tools-health` + `report` wiring), `tools/progress.py` (sig selection + SystemExit + `main_oracle_line` + the MAIN
+header line), `tools/backlog.py` (`linked_closed`), `tools/dup_report.py` (main sig path), `docs/SETUP.md` (§6.8 + P33 A2
+section), regenerated `docs/progress.fleet.md`, `docs/duplicates.md`, `docs/duplicates.cross.md`, `docs/backlog.md`,
+`.run/backlog.jsonl`. Scratch: `.run/public_audit/` (the history inventory), `.run/P33/a2_report.log`.
 The plan file: `~/.claude/plans/max-effort-set-plan-twinkling-moonbeam.md` (copied below).
 
 ---

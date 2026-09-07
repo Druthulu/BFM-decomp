@@ -1,1 +1,0 @@
-{"ts": "2026-09-01 20:34:37", "addr": "0x80062144", "name": "func_80062144", "reach": null, "klass": null, "nins": null, "status": "failed", "closeness": null, "where_stuck": "won't compile standalone (loose-typing / missing decl)", "best_draft": null, "binary": "main", "source": "S70-332b", "residual": null, "passes_tried": null}

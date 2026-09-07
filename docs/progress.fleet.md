@@ -5,9 +5,9 @@
 
 # THREE progress metrics (all matter — see the labels):
 FLEET fn-count byte-ident: 363214 / 363214 = 100.00%   (REAL+LINKED+empties; FUNCTION-count, ×134-inflated — one crack counts per overlay)
-FLEET instr-weighted     : 13488497 / 13488497 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
-FLEET distinct-code(uniq): 5816589 / 5816589 = 100.0%   (90984/90984 unique fns; the DISTINCT-RE number)
-MAIN game-code weighted  :   41534 / 41534 = 100.0%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; LINKED-excluding Ghidra sig dated 2026-08-05; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 1 explained pad-tail)
+FLEET instr-weighted     : 13492113 / 13492113 = 100.0%   (shipped .text across main + resident + 216 overlays; the decomp.dev-DISPLAY number)
+FLEET distinct-code(uniq): 5820205 / 5820205 = 100.0%   (90984/90984 unique fns; the DISTINCT-RE number)
+MAIN game-code weighted  :   45150 / 45150 = 100.0%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; build-derived sig (make sig-main) dated 2026-09-06; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 0 pad-tail)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13446963 / 13446963 = 100.0%)
 
 FLEET REAL substantive   : 360737   (of which dedup-shared 255632 via 2220 groups / 255708 instances)

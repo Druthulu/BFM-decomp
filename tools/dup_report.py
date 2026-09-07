@@ -24,7 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # here, so a new overlay binary (Phase 13) joins the cross report automatically. The dict
 # insertion order is the report's deterministic source order (committable digests).
 BINARIES = {
-    "main": dict(sig=".run/sig.SLUS_007.26.jsonl", md="docs/duplicates.md"),
+    "main": dict(sig=".run/sig.main.jsonl", md="docs/duplicates.md"),   # P33 A2: build-derived (make sig-main), was the Ghidra sig
     "resident": dict(sig=".run/sig.resident.jsonl", md="docs/duplicates.resident.md"),
     "ov_SC01_077": dict(sig=".run/sig.ov_SC01_077.jsonl", md="docs/duplicates.ov_SC01_077.md"),
     "ov_SC01_005": dict(sig=".run/sig.ov_SC01_005.jsonl", md="docs/duplicates.ov_SC01_005.md"),
