@@ -1,0 +1,5 @@
+{"k":"program","name":"ov_SC01_077","lang":"PSX:LE:32:default","cspec":"default","image_base":"0x00000000","format":"Raw Binary"}
+{"k":"block","name":"GTEMAC","start":"0x20000000","end":"0x20000263","perm":"r-x","init":false}
+{"k":"block","name":"ram","start":"0x80128158","end":"0x801dab2e","perm":"rwx","init":true}
+{"k":"archive","name":"psyq400"}
+{"k":"archive","name":"psyq470"}

@@ -288,6 +288,9 @@ tools-health:
 	# The cookbook index is DERIVED (R33) and self-asserts its coverage (R32). Stale = agents can't
 	# find documented idioms and re-derive them at full token cost (measured, P30 wave 1).
 	$(VENV_PY) tools/cookbook_index.py --check
+	# P33 B5: the Ghidra roster is DERIVED from config/ghidra/*.jsonl (R33); a stale roster misreports
+	# which programs' RE work is tracked as text. Pure text check, no Ghidra needed.
+	$(VENV_PY) tools/ghidra_roster.py --check
 	# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
 	# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).
 	$(VENV_PY) tools/work_evidence.py --selftest

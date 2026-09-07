@@ -109,17 +109,23 @@ if [ ! -f "$CONF" ]; then
 fi
 
 say "5. import $CONF"
-run_headless -process "$PROG" -noanalysis -scriptPath "$SCRIPTS" -postScript ImportAnnotations.java "$CONF" || die "ImportAnnotations failed"
+run_headless -process "$PROG" -noanalysis -scriptPath "$SCRIPTS" -postScript ImportAnnotations.java "$CONF" | tee "$SCR/$PROG.import.log" || die "ImportAnnotations failed"
+# R49: a per-row failure inside a rc-0 run is still a failure — a proof over a partial import proves nothing
+# (S87: main's 13 func rows failed on "/undefined" while the plate comments made the delta match anyway).
+grep -q 'BFMANN .*failed=0 ' "$SCR/$PROG.import.log" || die "ImportAnnotations reported failures (or no BFMANN line) — see $SCR/$PROG.import.log"
 say "6. export after import + delta"
 run_headless -process "$PROG" -noanalysis -readOnly -scriptPath "$SCRIPTS" -postScript ExportAnnotations.java "$SCR/$PROG.after.jsonl" "${SYMS[@]}" || die "export failed"
 .venv/bin/python tools/ghidra_annotations_delta.py "$SCR/$PROG.after.jsonl" "$SCR/$PROG.baseline.jsonl" "$SCR/$PROG.delta.jsonl" --census
 if [ "$PROOF" = 1 ]; then
     if cmp -s "$SCR/$PROG.delta.jsonl" "$CONF"; then
         say "PROOF PASS — the rebuilt program's hand-authored delta == $CONF ($(wc -l < "$CONF") rows)"
+        # the marker config/ghidra/ROSTER.md (tools/ghidra_roster.py) reports; scratch, never committed
+        printf 'PASS %s config-sha1 %s\n' "$(date -u +%Y-%m-%dT%H:%MZ)" "$(sha1sum < "$CONF" | cut -c1-12)" > "$SCR/$PROG.proof"
         [ "$KEEP" = 1 ] || rm -rf "$PROJ_DIR"
         exit 0
     fi
     say "PROOF FAIL — delta differs from $CONF (diff below, first 40 lines; scratch kept in $SCR)"
+    printf 'FAIL %s config-sha1 %s\n' "$(date -u +%Y-%m-%dT%H:%MZ)" "$(sha1sum < "$CONF" | cut -c1-12)" > "$SCR/$PROG.proof"
     diff "$CONF" "$SCR/$PROG.delta.jsonl" | head -40
     exit 1
 fi

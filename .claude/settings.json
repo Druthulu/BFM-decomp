@@ -8,7 +8,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash /home/musashi/bfm-decomp/tools/ghidra_mcp_start.sh"
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/tools/ghidra_mcp_start.sh"
           }
         ]
       }
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash /home/musashi/bfm-decomp/tools/ghidra_mcp_stop.sh",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/tools/ghidra_mcp_stop.sh",
             "timeout": 150
           }
         ]

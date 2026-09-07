@@ -31,6 +31,12 @@ LOG="$RUNDIR/ghidra-mcp.log"
 SCRIPTS="$REPO/tools/ghidra_scripts"
 STOPREQ="${BFM_MCP_STOPREQ:-$RUNDIR/mcp-stop.req}"
 
+# 0) Not this machine's job? A contributor's clone has no Ghidra install and no ghidra/ project
+#    (the DB left git at P33 B5); the SessionStart hook must then be a silent, successful no-op.
+if [ ! -x "$GHIDRA/support/analyzeHeadless" ] || [ ! -d "$PROJ_DIR/$PROJ.rep" ]; then
+  exit 0
+fi
+
 # 1) Already serving? no-op (idempotent across sessions).
 if ss -tln 2>/dev/null | grep -qE ":$PORT([^0-9]|$)"; then
   echo "ghidra-mcp: already serving on :$PORT — no-op"

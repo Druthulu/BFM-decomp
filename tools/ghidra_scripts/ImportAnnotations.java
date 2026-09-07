@@ -104,7 +104,9 @@ public class ImportAnnotations extends GhidraScript {
         }
         String suffix = "";
         if (cut >= 0) { base = spec.substring(0, cut).trim(); suffix = spec.substring(cut); }
-        DataType dt = dtm.getDataType(base);
+        // "/undefined" is Ghidra's DefaultDataType (DataType.DEFAULT) — the default return/param type of every
+        // analysis-created function; it lives in NEITHER data type manager (S87: 13 of main's 13 func rows failed on it).
+        DataType dt = (base.equals("/undefined") || base.equals("undefined")) ? DataType.DEFAULT : dtm.getDataType(base);
         if (dt == null) dt = BuiltInDataTypeManager.getDataTypeManager().getDataType(base);
         if (dt == null && !base.startsWith("/")) dt = dtm.getDataType("/" + base);
         if (dt == null) throw new IllegalArgumentException("unresolvable type " + spec);
@@ -202,7 +204,7 @@ public class ImportAnnotations extends GhidraScript {
         try {
             if (spec.startsWith("Stack[")) {
                 int j = spec.indexOf(']');
-                int off = (int) Long.decode(spec.substring(6, j));
+                int off = Long.decode(spec.substring(6, j)).intValue();
                 int size = Integer.parseInt(spec.substring(spec.lastIndexOf(':') + 1));
                 return new VariableStorage(currentProgram, off, size);
             }
@@ -277,8 +279,11 @@ public class ImportAnnotations extends GhidraScript {
             }
             Variable nv;
             if (storage.startsWith("Stack[")) {
-                int off = (int) Long.decode(storage.substring(6, storage.indexOf(']')));
-                nv = new LocalVariableImpl(s(l, "name"), first, lt, off, currentProgram);
+                // stack local: "Stack[-0x10]:4" -> VariableStorage(program, offset, size); the (String,int,DataType,int,Program)
+                // ctor does not exist in Ghidra 12.1 (the S86 OSGi-bundle blocker)
+                VariableStorage vs = storageOf(storage);
+                if (vs == null) { skippedStorage++; continue; }
+                nv = new LocalVariableImpl(s(l, "name"), first, lt, vs, currentProgram);
             } else {
                 String rn = storage.contains(":") ? storage.substring(0, storage.indexOf(':')) : storage;
                 Register r = currentProgram.getRegister(rn);

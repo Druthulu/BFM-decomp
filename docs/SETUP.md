@@ -185,8 +185,8 @@ Lifecycle scripts (under `tools/`):
 
 **Session hooks (committed `.claude/settings.json`, as of 2026-06-15):**
 
-- `SessionStart` → runs `ghidra_mcp_start.sh` (auto-starts the MCP server when a Claude Code session begins).
-- `SessionEnd` → runs `ghidra_mcp_stop.sh` with **`timeout: 150`** s (auto-saves Ghidra on a clean session exit).
+- `SessionStart` → runs `bash "$CLAUDE_PROJECT_DIR"/tools/ghidra_mcp_start.sh` (auto-starts the MCP server when a Claude Code session begins; **P33 B5:** repo-relative, and the script is a silent `exit 0` when `$GHIDRA/support/analyzeHeadless` or `ghidra/bfm.rep` is absent — a contributor's clone has neither).
+- `SessionEnd` → runs `bash "$CLAUDE_PROJECT_DIR"/tools/ghidra_mcp_stop.sh` with **`timeout: 150`** s (auto-saves Ghidra on a clean session exit; a no-op when nothing serves on :8080).
 
 These hooks live in the **committed `settings.json`** — NOT the gitignored `settings.local.json` — specifically so they are backed up to the remote. Consequence to internalize: **closing Claude Code does NOT save unless the `SessionEnd` hook fires**, and it fires only on *clean* exits — a hard crash of the CC process still loses RAM-only writes. This is exactly why mid-RE clean-stop checkpoints matter.
 
@@ -724,6 +724,11 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `DecompileAt.java` | Decompile the function at a given address (scripted scaffold). |
 | | `DefineFunctions.java` | Disassemble + create functions at splat's validated entry points (`.run/<prog>_funcs.txt`) — completes a raw-blob program's function set (Phase 10). |
 | | `ApplySymbols.java` + `tools/ghidra_apply_symbols.sh` | **(P31 S78) The Ghidra MIRROR of the curated symbol file (R15/G6), headless with a real save.** `tools/ghidra_apply_symbols.sh [PROG] [symbols files…]` (defaults `SLUS_007.26 config/symbols.us.txt`; MCP must be STOPPED first) reads `name = 0xADDR;` rows and sets every function/label to its curated name; a name held by another address is moved to that address's own curated name first (`firstfile`/`firstfile2`), else to `<name>__at_<addr>`. Idempotent; prints `BFMAPPLY renamed_funcs=… unchanged=…`; R9-verify with `ghidra_mcp_verify.sh`. **Use this, not MCP `rename_symbol`/`batch_rename`, for renames:** S78 observed 47 MCP renames NOT persisting through the sentinel stop ("Save succeeded", DB grew, names gone — R9 caught it; cause not yet isolated), while the postScript path persisted 73/73 on the first run. |
+| | `ExportAnnotations.java` + `tools/ghidra_export_annotations.sh` | **(P33 B5) The read-only TEXT export of a program** — byte-stable JSONL (fixed key order, sorted, `0x%08x`): `program`/`block`/`archive` container rows, LOCAL-archive types, every function signature (params/locals/storage/sources/comment), defined data, the 5 comment kinds, bookmarks, equates, labels not in the symbol files. `tools/ghidra_export_annotations.sh [PROG…]` → `.run/ghidra_export/<prog>.jsonl` (no arg = all programs in one `-readOnly` run; 129 in 18.5 s). MCP must be STOPPED. |
+| | `ImportAnnotations.java` | **(P33 B5)** Idempotent compare-before-write import of that JSONL (creates a missing function for a `func` row; refuses unknown row kinds, R43); prints `BFMANN types=… funcs=… … failed=0 rows=N`. **OSGi gotcha:** Ghidra compiles `tools/ghidra_scripts/` as ONE bundle — a compile error in ANY `.java` there breaks EVERY script ("Failed to get OSGi bundle containing script"); javac diagnostics are not shown — compile by hand: `javac -nowarn -d .run/javac_check -cp "$(find ~/ghidra_12.1_PUBLIC/Ghidra -name '*.jar' -path '*/lib/*' | tr '\n' ':')" tools/ghidra_scripts/*.java`. |
+| | `tools/ghidra_annotations_delta.py` | **(P33 B5)** `live.jsonl baseline.jsonl out.jsonl [--census]` — the HAND-AUTHORED part of a program = live rows not in the fresh rebuild's baseline (container rows always kept), minus three counted analysis-drift classes: `Error`/`Analysis` bookmarks; `func` rows absent from the baseline with a DEFAULT signature, no comment and an auto name (function-set drift); `func` rows differing from the baseline only by an auto name (the DB lagging the curated symbol file, R15). Prints the census + the dropped counts. |
+| | `tools/ghidra_rebuild.sh <program> [--proof] [--keep]` | **(P33 B5) Rebuild ONE program FROM TEXT + the disc** in a scratch project (`build/ghidra_rebuild/proj` — Ghidra refuses a path component starting with `.`, so not `.run/`): import (PSX loader for the 3 EXEs, raw blob at `make -s print-VRAM_BASE` otherwise) + analysis + psyq400.gdt → `DefineFunctions` from the built ELF → `ApplySymbols` (the yaml's symbol files) → baseline export → `ImportAnnotations config/ghidra/<program>.jsonl` → export → delta. `--proof`: `cmp` delta vs the committed file → `PROOF PASS`/`FAIL` (+ `.run/ghidra_rebuild/<program>.proof` marker). Without a committed file it writes `<program>.candidate.jsonl` to review. MCP must be STOPPED. ≈65 s resident/overlays, ≈200 s the EXEs. |
+| | `tools/ghidra_roster.py [--check]` | **(P33 B5)** `config/ghidra/ROSTER.md` from the committed files: kind/payload/vram (from the build registry), blocks, hand-authored census, last proof marker. |
 | | `DecompileFunctions.java` | **Batch**-decompile a list of addresses (arg0 = addr-per-line file, arg1 = out-dir) → `<name>.c` each. Headless harvest Ghidra-C pre-pass (Phase 17); no live MCP / `/mcp` needed. Run: stop MCP, `analyzeHeadless ghidra bfm -process <prog> -noanalysis -postScript DecompileFunctions.java <addrfile> <outdir>`. |
 | | `tools/ghidra_import.sh` | Headless `analyzeHeadless` import/analysis driver (PS-X EXE; auto-detect PSX loader). |
 | | `tools/ghidra_import_raw.sh` | Headless import of a RAW flat blob — `BinaryLoader` + `--loader-baseAddr <vram>` + `PSX:LE:32:default` (resident blob / Gen2 overlays; no PS-X EXE header). |
@@ -1088,6 +1093,43 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   `DefineFunctions.java` list path = arg 1; `ImportPsyqGdt.java` default gdt from the Ghidra install dir; the six
   `tools/ghidra_*.sh` are repo-relative (`BFM_GHIDRA_PROJ` overrides the project dir; `ghidra_mcp_verify.sh <addr> <name>
   [PROG]`); Makefile `GHIDRA_PROJ := $(or $(BFM_GHIDRA_PROJ),$(CURDIR)/ghidra)`.
+
+### P33 B5 (S86–S87, 2026-09-06) — Ghidra regenerability: the RE work as text, the binary DB rebuilt and PROVEN from it
+- **Why.** The Ghidra project embeds the game's bytes (verified under the page XOR mask) and leaves git at C3. What R20
+  backed up as `ghidra/` is now **`config/ghidra/<program>.jsonl`** — the hand-authored rows only — plus the proof that the
+  program regenerates from the disc + the symbol files + that file. Roster: `config/ghidra/ROSTER.md` (6 programs: the
+  retail EXE, the resident, `ov_SC01_077`, `ov_SC06_018`, the two prototypes); the other 123 live programs carry no
+  hand-authored rows and regenerate on demand (`tools/prefetch_fleet.py`).
+- **The delta model.** `ExportAnnotations` dumps EVERYTHING; the hand-authored part is what a fresh rebuild does NOT
+  reproduce (baseline subtraction), minus three measured analysis-drift classes (see the `ghidra_annotations_delta.py` row).
+  Measured (S87): resident / both overlays → container rows only (their names all come from the symbol files); the retail
+  EXE → **38 hand-authored rows** (13 annotated functions incl. 3 the ELF does not define — `SaveLoadRoutine`, `SPU_OBJ_B44`,
+  `SYS_OBJ_25B0` — 22 plate/EOL comments, 3 labels) after dropping 29 set-drift functions in the LINKED regions and 1 Error
+  bookmark; the two prototypes → 0 after dropping 10 + 5 name-lag rows (their DBs were never re-mirrored from the curated
+  proto symbol files). **The DB held no hand-authored types at all** (`types=0` in every program).
+- **Controls (R39, S87, resident):** negative — one `block` row's end address mutated in the committed file → `PROOF FAIL`
+  (rc 1); positive round-trip — a synthetic EOL comment, `Note` bookmark, user label and retyped signature appended → run 1
+  `BFMANN funcs=1 comments=1 bookmarks=1 labels=1 failed=0`, the re-exported delta contains them, `PROOF PASS`; run 2 with
+  that delta as the file → `PROOF PASS` (idempotent). The delta filter's own controls: the synthetic rows survive it; a
+  hand-renamed name-only diff is KEPT (only auto names count as lag).
+- **Gotchas that cost the S86 session:** (1) the OSGi bundle — one uncompilable script disables the whole directory and
+  the headless log names every script, never the error; the fix was a hand `javac` (3 errors: `Long`→`int` unboxing ×2,
+  and no `LocalVariableImpl(String,int,DataType,int,Program)` ctor — use `VariableStorage(program, off, size)`);
+  (2) Ghidra refuses a project path with a `.`-prefixed component — the scratch project lives under `build/`;
+  (3) `-process` without a name processes every program in the folder (one `-readOnly` run exports all 129);
+  (4) `/undefined` is `DataType.DEFAULT`, in NEITHER type manager — main's first proof "passed" the cmp while 13 of 13
+  func rows had failed to import (the plate-comment rows had set the same function comments); the resolver maps it
+  explicitly and `ghidra_rebuild.sh` now dies unless the import printed `failed=0` (R49; fake `failed=2` refused,
+  the passing population re-proven); (5) the live EXE's RAM tail block (0x800c7f08+) is `init:true` from the Phase-1
+  import and `init:false` rebuilt — no hand-authored row lives there (7 auto functions + 1 Error bookmark), the
+  committed row takes the rebuild's value.
+- **Proofs (S87, all `PROOF PASS`, `failed=0`):** resident 65 s · ov_SC01_077 169 s · ov_SC06_018 173 s · SLUS_007.26
+  210 s (`BFMANN funcs=11 comments=11 unchanged=16 rows=70`) · sep8 202 s · aug31 206 s. `tools/ghidra_roster.py --check`
+  is in `tools-health` (ignores the per-machine proof column; controls: proof marker removed → OK, census edited → STALE).
+- **Same change:** `ExportSymbols.java` R15 fix (output-path arg, refuses to overwrite, refuses `config/`); every
+  `tools/ghidra_*.sh` and `Makefile` `GHIDRA_PROJ` repo-relative (`BFM_GHIDRA_PROJ` override); `DefineFunctions.java`
+  takes its list path as arg 1; `ImportPsyqGdt.java` finds the gdt under the install dir; `make print-<VAR>`; the
+  `.claude/settings.json` hooks `$CLAUDE_PROJECT_DIR`-relative with the silent no-op (§2.8).
 
 ### P33 B4 (S86, 2026-09-06) — `tools/fetch_psyq.sh`: the OPTIONAL PsyQ SDK objects, user-supplied and verified
 - **What it is for.** Byte-identity never needs Sony's libraries (without them main links its INCLUDE_ASM tiles — the
