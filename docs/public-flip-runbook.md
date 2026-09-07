@@ -203,9 +203,14 @@ GitHub to make zero.
 > objects in this repository and purge cached views (commit pages, raw blob URLs, API lookups by SHA) so those SHAs return
 > 404. The repository will be made public only after that; please let me know when it is done so I can re-verify. Thank you.
 
-Filing: <https://support.github.com/request> signed in as the owner → the repository category (the sensitive-data /
-data-removal item if offered) → subject "Purge unreachable objects and cached views after a history rewrite
-(Druthulu/BFM-decomp)" → the text above. Turnaround is days, not hours, and GitHub publishes no GC schedule.
+Filing — the route that worked (2026-09-07, ticket **#4736982**): <https://support.github.com/request> signed in as the
+owner → "Remove data from a repository I own or control" → "Clear cached views" → on the Repositories form press the blue
+**"Clear cached views with our Virtual Agent"** button (NOT the static form) → "Yes, but I need help removing of cached
+commits" → "No - Just the repository" (repository-wide, not one commit) → `Druthulu/BFM-decomp` → in a pull request? No →
+the reason, in ≤500 characters: third-party proprietary binaries were in the history, removed and force-pushed, purge the
+whole repository's unreachable objects before it goes public. The agent files the ticket itself. **Trap:** the static form's
+"Deletes" sub-option is the delete-the-whole-repository flow (asks for the URL to delete and a purge confirmation) — never
+submit it. Turnaround is days, not hours, and GitHub publishes no GC schedule; the long text above is for a human follow-up.
 
 **Why the flip cannot precede the purge (measured S89, 2026-09-07 — the "no one has the old hashes" premise is false):**
 GitHub's repository **Activity view** (`GET /repos/Druthulu/BFM-decomp/activity`, the Activity tab in the UI) lists every

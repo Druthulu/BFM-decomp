@@ -632,6 +632,14 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   wiki push). Runbook §11: the ticket text now names both tips and the Activity view, the filing route, the measured paragraph,
   and delete+recreate promoted from fallback to the deterministic alternative. Rule candidate (i) added to the checkpoint.
   Commit: see below.
+- **2026-09-07 (S89) — C10: the GitHub Support ticket is FILED — #4736982** (`https://support.github.com/ticket/personal/0/4736982`,
+  Drew, via the Support portal's **Virtual Agent "Clear cached views"** flow — the route that actually works: Repositories form →
+  the blue "Clear cached views with our Virtual Agent" button → "Yes, but I need help removing of cached commits" → "No - Just the
+  repository" → `Druthulu/BFM-decomp` → in a PR? No → the reason (third-party proprietary binaries removed from history, whole
+  repository's unreachable objects to be purged before going public; the field is ~500 chars). The static "Repositories" form's
+  "Deletes" sub-option is a trap: it is the delete-the-whole-repository flow — never submit it. Status: "Ticket created, we'll
+  update you once we've clear the cached views." Daily until PASS: `tools/public_rewrite/probe_github.sh` (S89 baseline 31 of 33
+  ALIVE). Commit: see below.
 
 ## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3–E6 ✓, G1 ✓ (34 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = THE PROBE-GATED CHAIN (Drew) then C11 then G2 (2026-09-07, written by session 4555f4e4 "S88", updated after the outward pushes; SUPERSEDES the earlier blocks)
 
@@ -651,8 +659,8 @@ the wiki push (Drew: Wiki → "Create the first page", then `tools/wiki_sync.sh 
 still be drafted and committed — only their outward actions wait; do that, then ask Drew about the Support ticket and stop. Rebuild the harness task list (40 items, R28) marking A1–A5,
 B1–B9/C3, C1–C9, D1–D5, F1–F3, E3–E6, G1 completed and C10 in progress. **Drew's to-do at the S88 close, in order:** (1) DONE — the nine S88 commits are pushed and both workflows ran GREEN on them
 (run 34148516143 `no-rom` 1 m 34 s incl. the new gccmap_cites + xsig steps; 34148515883 `progress`); push the last two
-(`git push origin main`); (2) DONE — the local gc ran: one pack, 80 MB; (3) confirm or file the GitHub Support ticket
-(runbook §11) and run `tools/public_rewrite/probe_github.sh` daily until PASS (the last S88 run: 31 of 33 ALIVE); (4) DONE by Claude at
+(`git push origin main`); (2) DONE — the local gc ran: one pack, 80 MB; (3) DONE 2026-09-07 — GitHub Support ticket **#4736982** filed via the
+Virtual Agent "Clear cached views" flow (runbook §11); run `tools/public_rewrite/probe_github.sh` daily until PASS (S89 run: 31 of 33 ALIVE); (4) DONE by Claude at
 Drew's instruction: `Druthulu/xsig` is public (`c8d862c`); (5) DONE — PR simonlindholm/decomp-permuter#213 opened and issue #214 filed by Drew; (6) after PASS: the flip chain (§3.3) —
 **the next session starts here (Drew's instruction).** **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
@@ -676,7 +684,7 @@ to his fork and opens the PR + files the issue; `bf002f84d2`), **E6 (S88: `docs/
 local-model tier's pipeline, its measured arc, the portable lessons, what is NOT published; `98e5846662`), **G1 (S88:
 `docs/gen3-handoff.md` — the derived census incl. 44,243 register pins, the invariant, the levers, shiftability scoped, the
 parked ideas, the governance for Gen3; `583ec85d6e`).** **In progress (Drew, C10):** the GitHub
-Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was never confirmed to S88; ask) and the daily
+Support ticket **FILED 2026-09-07 as #4736982** (S89, via the Virtual Agent "Clear cached views" flow, runbook §11) and the daily
 `tools/public_rewrite/probe_github.sh` until it prints PASS (S88's last run: **31 of 33 old hashes still ALIVE; no purge yet**). **Remaining (6):** nothing more that Claude can do before the flip; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
 — Drew), E2 (Archipelago — Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
 (Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare) and G2
@@ -719,7 +727,7 @@ Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was neve
   `docs/commit-map.tsv`, `config/ghidra/ROSTER.md`, `docs/progress*.md`, `docs/cookbook-index.md` — regenerate with
   `make report BINARY=main`, `tools/timeline.py`, `tools/ghidra_roster.py`, `tools/cookbook_index.py`. The rendered wiki
   (`.run/wiki/render/`) is derived from `docs/wiki/` + `docs/how-to-ai-decomp/` by `tools/wiki_render.py` — edit the sources.
-- **Open decisions for Drew (defaults in force):** the Support ticket status (S88 could not confirm it was filed); `docs/history/project_architect_v1.3.0.md` KEPT (THIRD_PARTY links the repo); bare session UUIDs
+- **Open decisions for Drew (defaults in force):** (the Support ticket is filed: #4736982, 2026-09-07); `docs/history/project_architect_v1.3.0.md` KEPT (THIRD_PARTY links the repo); bare session UUIDs
   in checkpoint prose NOT scrubbed (375 across history, 68 at HEAD; no `claude.ai` URL exists); the stash not mirrored to the
   archive (the bundle has it). F3's scope is RESOLVED (full, Drew 2026-09-07).
 - **Rule candidates for the PhaseEnd (G2), recorded as they arose:** (a) no ROM-derived bytes in ANY published artifact — test
