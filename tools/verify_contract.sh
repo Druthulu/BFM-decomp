@@ -75,9 +75,10 @@ declare -A LINES=(
 
 step_tree() {
     echo "HEAD $(git rev-parse HEAD) $(git log -1 --format='%cs %s' | cut -c1-100)"
-    local dirty; dirty="$(git status --porcelain | grep -v ' ghidra/' || true)"
-    if [ -n "$dirty" ]; then echo "DIRTY (beyond the R23 ghidra/ churn):"; echo "$dirty"; return 1; fi
-    echo "porcelain clean apart from ghidra/ ($(git status --porcelain | grep -c ' ghidra/' || true) churn lines)"
+    # tracked-file modifications only (-uno): this run's own logs under .run/P33/verify/ are untracked until the A5 commit
+    local dirty; dirty="$(git status --porcelain -uno | grep -v ' ghidra/' || true)"
+    if [ -n "$dirty" ]; then echo "DIRTY (tracked files modified beyond the R23 ghidra/ churn):"; echo "$dirty"; return 1; fi
+    echo "porcelain -uno clean apart from ghidra/ ($(git status --porcelain -uno | grep -c ' ghidra/' || true) churn lines); untracked: $(git status --porcelain | grep -c '^??' || true) paths"
 }
 step_family() { .venv/bin/python tools/family_hseq.py && echo "family_hseq regenerated: $(.venv/bin/python -c 'import json;d=json.load(open(".run/family_hseq.json"));print(len(d.get("binaries",[])),"binaries scanned,",d.get("open_instances"),"open instances")')"; }
 step_fleet() { make clean && make -j"$NPROC" extract-all JOBS="$JOBS" && make -j"$NPROC" check-all JOBS="$JOBS"; }
