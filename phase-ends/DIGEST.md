@@ -10,14 +10,18 @@
 > This file is DERIVED from the PhaseEnds and may be corrected; PROJECT_CONTEXT.md is never edited (P1).
 
 ## 0. Where the project stands (at the latest PhaseEnd — the live state is in CURRENT_PHASE.md)
-Brave Fencer Musashi (SLUS-00726) matching decomp. **Phase 32 closed 2026-09-06 (v1.31.0): THE FRONTIER IS EMPTY.** 218
-binaries (main EXE + resident engine blob + 138 location overlays + 78 `md_*` code modules) rebuild byte-identical from source
-from a clean rebuild after the last bank (218/218, exits 0/0/0); fleet **100.00% fn-count / 100.0% instruction-weighted /
-100.0% distinct-code, INCLUDE_ASM stubs 0, NON_MATCHING 0**; main **2,091 / 2,091 = 100.00% byte-identical** (REAL 789 ·
-LINKED 1,256 real PsyQ objects incl. libpad 4.2.1 · VERBATIM 3); 5 PERMANENT verbatim `__asm__` bodies fleet-wide; dedup
-registry 2,220 groups / 0 failures; disc UNCLAIMED 0 of 220; `config/wave_exclude.txt` 0 entries. What is not our C: the 1,256
-linked Sony objects (by design; libs-from-source is a Gen3 stretch) and the 5 hand-asm bodies. **Next: P33 = contract
-verification + the public flip + Gen2 exit** (roadmap v2 §3 P33, ≈2–4 sessions); plan it fresh in plan mode at Max.
+Brave Fencer Musashi (SLUS-00726) matching decomp. **Phase 33 closed 2026-09-07 (v1.32.0) on a RE-CHARTERED milestone: everything
+before the public flip is done.** The 100% contract was re-proven as one recorded run (218/218 from a clean rebuild; `sdk-dual` both legs;
+every oracle green; fleet 363,214 / 13,492,113 / 5,820,205 all 100%; main game-code **45,150 / 45,150** — the build-derived denominator,
+3,616 words above Ghidra's) on a tree a stranger can build (`make disc-extract`, `make bootstrap`, the fresh-clone proof, the Ghidra
+database regenerable from `config/ghidra/`). The whole history was rewritten with git-filter-repo (4,031 commits verified pair by pair,
+`docs/commit-map.tsv`), force-pushed IN PLACE, `.git` 93 MB; the publishing surface (README with generated numbers, AGPL for tools/docs,
+no license asserted over `src/`, NOTICE, THIRD_PARTY, badges, ROM-free CI), the releases (gcc-2.7.2 map, xsig, the permuter driver —
+offered upstream and declined, the drafter write-up, the decomp.me preset proven through decomp.me's own toolchain), the outreach notes,
+story, retrospective, wiki (13 pages) + how-to (13 chapters), and the **Gen3 charter** (`docs/gen3-handoff.md`, `docs/gen3-standards.md`)
+are written. **The repository is still PRIVATE:** GitHub Support must purge the old objects first (ticket #4736982; the Activity view
+publishes every pre-force-push tip, so a clean tree is not enough). **Next: Phase 34 = the flip + the outward actions + C11 + the v2.0.0
+PhaseEnd = Gen2 EXIT** (`docs/phase34-seed.md`; plan it fresh in plan mode at Max). **Gen3 opens at Phase 35.**
 
 ## 1. Corrections and supersessions of PROJECT_CONTEXT.md recorded in PhaseEnds (P1: the constitution is never edited)
 - **Session start** reads this digest + the last three PhaseEnds, not every PhaseEnd (R64 candidate, Drew 2026-09-05).
@@ -119,6 +123,21 @@ gap that mints a no-traffic frame slot (§501-Q) and loop.c's user-variable rule
 bank). Census 0 stubs; fleet 100.00 / 100.0 / 100.0; main 2,091 / 2,091. `phase-ends/DIGEST.md` created (R64). Rules: R44–R63
 ratified at gate 1; **R64 ratified**; candidates (i)–(ix) recorded. Instruments: `payload_base_evidence.py`, `ghost_census.py`,
 `agent_drafts_restore.py`, `cc1_dumps_tu.sh`, `alloc_table.py`, `bank.sh`.
+**P33 (2026-09-07, v1.32.0) VERIFIED, REWRITTEN, PUBLISHED-READY (re-chartered close).** 4 sessions (S86–S89) / 59 commits. Block A:
+instruments fixed (build-derived `sig-main`: main game-code 45,150 not 41,534; `NO_SDK` + `make sdk-dual`) and THE RECORDED RUN
+(`tools/verify_contract.sh`, `docs/verification.md`, 218/218). Block B: the public build path (`make disc-extract`, portable includes,
+`tools/bootstrap.sh` + the fresh-clone proof 218/218 in 4 m 18 s, `tools/fetch_psyq.sh`, Ghidra export/import/rebuild `--proof`,
+`dumps/CHECKSUMS.sha1`, the ROM-free CI with `audit_public.py` + `compile_only.py`). Block C: `tools/public_rewrite/` — two trial rewrites
+caught two corrupting defects; the real rewrite 4,032 → 4,031 commits / 0 old hashes / 4,031 pairs verified; adoption, `commit-map.tsv`,
+C8 R22, Drew's force-push, gc (12 stale worktrees pinned 12 GB), `.git` 1.5 GB → 93 MB. Block D: README/LICENSE/NOTICE/THIRD_PARTY,
+badges + objdiff + frogress, SETUP public-clean, `doc_links`. Block E: gcc-map README + `gccmap_cites`, `tools/xsig/` + `Druthulu/xsig`
+(public), the permuter PR (#213/#214 **closed unmerged** — the maintainer keeps the wildcard, prefers symbol renames in the asm, and
+read the model-drafted text as LLM-written → Drew's rule: outward text in a developer's voice, no AI acknowledgement), the drafter
+write-up, `decompme-preset.md` + `tools/decompme_replica.sh` (decomp.me = old-gcc 0.13 + maspsx 86ccd7d8, rebuilt locally, 26/26 words),
+`outreach/archipelago.md` (+ four memory-map corrections from reading their addresses against our source). Block F: `timeline.py` +
+story, `mine_hindsight.py` + retrospective, the wiki + how-to + `wiki_render`/`wiki_sync`. Block G: `gen3-handoff.md`, `gen3-standards.md`,
+`phase34-seed.md`. Findings: GitHub's Activity view publishes every pre-force-push tip (the flip must wait for the purge); the probe was
+a writer (R57). Rules: R65–R73 ratified at gate 1; candidates (a)–(j) proposed for P34 gate 1.
 
 ## 3. Every rule, in full (transcribe these at session start; P/G/H/X are in PROJECT_CONTEXT.md)
 - **R1 — H1 relaxed while private.** ROM-derived content (`asm/`, `assets/`, `extracted/`, decompressed `.CD`) MAY be
@@ -255,6 +274,14 @@ the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1
 - **R73 — Build the 1-second reproducer battery for a mechanism BEFORE probing the real function, and read the allocation
   ORDER (`tools/alloc_table.py`) before any register lever** (§501-Q from 18 five-line reproducers after two sessions of
   real-function probes; §501-R from an 8-variant reproducer sweep; every pin then came off — accelerators (15)/(16)).
+**Candidates (a)–(j) proposed at PhaseEnd_Phase33 (2026-09-07) for ratification at Phase 34 gate 1** (full text + reasons in
+`phase-ends/PhaseEnd_Phase33.md`): (a) no ROM-derived bytes in any published artifact; (b) published numbers are generated, never typed;
+(c) rehearse every irreversible repository operation on a scratch copy with positive pairwise assertions; (d) a linked worktree's HEAD is
+a ref — audit `git worktree list` before gc/purge; (e) R20 amendment — text export + checksums + the archive repo are the backup, never
+`git clean -x`; (f) `pkill -f` never with a literal the calling shell carries; (g) a widened checker classifies a missing promised page as
+PENDING; (h) a probe never writes into the repository it guards; (i) a rewritten history is not private until the objects are gone from
+the host (the Activity view publishes every pre-force-push tip); (j) outward text is written by Drew the way a developer writes — no AI
+acknowledgement, no de-telled model drafts, the target project's AI policy read first.
 
 ## 4. Where things live (the doc map a session needs)
 `docs/SETUP.md` (environment, every tool's row, commands) · `docs/matching-cookbook.md` §1–§500 (idioms; 3.5 MB —
