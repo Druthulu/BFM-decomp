@@ -78,7 +78,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **D5** Governing-docs consistency pass + `tools/doc_links.py` — xHigh — see Log 2026-09-07 D5
 - [x] **F1** timeline.py + story — xHigh tool / Max narrative — see Log 2026-09-07 F1
 - [x] **F2** retrospective — Max — see Log 2026-09-07 F2
-- [ ] **F3** wiki + how-to-ai-decomp + `wiki_sync.sh` — Max
+- [x] **F3** wiki + how-to-ai-decomp + `wiki_sync.sh` — Max (FULL, Drew 2026-09-07) — see Log 2026-09-07 F3
 - [ ] **E3** gcc-2.7.2 map README + `gccmap_cites.py` — xHigh
 - [ ] **E4** xsig packaging — xHigh
 - [ ] **E5** permuter upstream PR branch — Max
@@ -456,120 +456,149 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   `git reflog expire --expire-unreachable=now --all && git gc --prune=now` — is REFUSED by the auto-mode classifier from a
   Claude shell; **Drew runs it** (expected: one pack ≈ 80 MB, `.git` ≈ 93 MB, the two sampled shas absent). Runbook §11 +
   SETUP row (R21). Commit: see below.
+- **2026-09-07 (S88, Max) — F3 the wiki + how-to-AI-decomp, IN FULL (Drew's call at the S88 preflight).** Authored in-repo
+  per decision 8: **`docs/wiki/`** — `Home.md`, `_Sidebar.md`, `Build-from-your-own-disc.md`, `Toolchain-setup.md`,
+  `Repository-layout.md`, `The-matching-workflow.md`, `The-dedup-engine.md`, `Overlays-and-modules.md`,
+  `Ghidra-rebuild-from-text.md`, `Verification-and-progress.md`, `Contributing-and-the-no-ROM-policy.md`,
+  `How-to-AI-decomp.md` (the chapter index) — and **`docs/how-to-ai-decomp/`** `00-README` … `12-failure-museum` (the 13
+  chapters the plan named). 25 files, 1,896 lines / 163 KB; every page distilled from the records listed in SETUP's P33 F3
+  section (portable-decomp-workflow, hindsight-study, generic-decomp-package, accelerators, effort-map, retrospective,
+  story, wave-playbook, runbook, verification, README, SETUP §4/B5/D1–D3, disc-completeness, memory-map's load slots, the
+  core tools' docstrings) — no new facts, every number a recorded measurement with its denominator; the failure museum is
+  36 rows (what it looked like / what it was / why it looked right / what it produced), incl. the S88 probe defect.
+  **Tooling (same change, R21):** `tools/wiki_render.py OUT_DIR | --list | --selftest` — a GitHub wiki addresses pages by
+  NAME (no `.md`, no directories), so the in-repo pages carry ordinary RELATIVE links (checkable) and the renderer rewrites
+  them deterministically (wiki→wiki = the page name; a chapter → `How-to-AI-decomp-NN-name`; anything else inside the repo →
+  `blob/main` / `tree/main` / `raw.githubusercontent.com`; URLs/mailto/anchors untouched; **a dead link is an ERROR** — R43);
+  `--selftest` = 12 cases incl. the dead-link negative control (12/12), wired into `make tools-health` after `doc_links`.
+  `tools/wiki_sync.sh [--push]` — render into `.run/wiki/render/` → clone/fast-forward `BFM-decomp.wiki.git` under `.run/wiki/`
+  → REPLACE the wiki's pages (the repo is the source of truth) → `git status --short`; `--push` is Drew's (R6). The wiki repo
+  exists only after the flip AND the first page is created in the GitHub UI — until then the dry run renders + lists (exit 0;
+  measured: **25 pages, 264 relative links rewritten, "not clonable yet … dry run OK"**) and `--push` refuses (exit 2).
+  `tools/doc_links.py` gained `DEFAULT_GLOBS` (`docs/wiki/*.md`, `docs/how-to-ai-decomp/*.md`, expanded at run time) —
+  **`--strict` PASS: 40 documents, 290 relative links, 0 pending, 0 broken**; `docs/doc_links_pending.txt` carried the 10
+  not-yet-written pages mid-task (the PENDING mechanism worked as designed: 24 pending hits, 0 broken at that point) and is
+  EMPTY again. Runbook §11 gained the post-flip wiki step (first page in the UI, then `wiki_sync.sh --push`); SETUP: 2 rows +
+  the P33 F3 section. `make tools-health` re-run with the new line: **`tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green.` (EXIT=0)**. Commits: `954362c81e` (the pages +
+  the tooling), then the wiring commit (Makefile · SETUP · runbook · this log · the checkpoint). **What this session did NOT
+  do:** the local gc (classifier-refused; Drew's), the wiki push (post-flip; Drew's).
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F2 ✓ (28 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = F3 (2026-09-07 ~11:00 UTC, written by session fa49faf3 "S87" at its 87%-context close; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓ (29 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = E3 (2026-09-07, written by session 4555f4e4 "S88" at the F3 close; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = F3** (Max — it is a 2–3-session writing task AND a cut candidate: ask Drew whether F3
-runs in full, trimmed, or is cut; the plan's "Cut points that cost nothing later" names F3 first). Rebuild the harness task
-list (40 items, R28) marking A1–A5, B1–B9/C3, C1–C9, D1–D5, F1–F2 completed and C10 in progress. **Every commit from here
-cites NEW hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch
-`.run/public_rewrite/` holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
+(R1–R73), then WAIT for Drew. **NEXT = E3** (xHigh, ≈1 session — a tool + a README, no cut candidate; the plan's cut points
+were F3 (now DONE in full), E5 and E3 — Drew already chose full scope for F3, so ask only if he raises it). Rebuild the harness
+task list (40 items, R28) marking A1–A5, B1–B9/C3, C1–C9, D1–D5, F1–F3 completed and C10 in progress. **Every commit cites NEW
+hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
+holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). The approved plan
-is VERBATIM at the end of this file — its Blocks D–G paragraphs are the specs for what remains. **Done (28):** A1–A5, B1–B9/C3
-(the purge commit), C1 (the rewrite package, proven by two trial rewrites), C2, C4 (bundle + Drew's archive mirror + the real
-filter: 311 s, 1 pruned, main 4,032 → 4,031), C5 (pairwise proof 4,031/0), C6 (adopted), C7 (`docs/commit-map.tsv`, 1,238
-tokens resolved at the tip, residue 8 in 4 tokens), C8 (R22 on the adopted tree: 218/218, `docs/verification.md` §2 is the
-C8 run), C9 (**force-pushed by Drew**; local gc → one 80 MB pack, `.git` 93 MB; 12 stale campaign worktrees removed; probe
-baseline 31 of 33 old hashes alive), D1 (README, generated numbers block), D2 (LICENSE/NOTICE/THIRD_PARTY), D3 (badges,
-objdiff report validated with objdiff-cli, frogress dry-run, `progress.yml`), D4 (SETUP public-clean), D5 (governing docs +
-`tools/doc_links.py`), F1 (`tools/timeline.py`, `docs/story-timeline.md/.svg`, `docs/story.md`), F2 (`tools/mine_hindsight.py`,
-`docs/retrospective.md`). **In progress (Drew, C10):** the GitHub Support ticket (text: `docs/public-flip-runbook.md` §11)
-and the daily `tools/public_rewrite/probe_github.sh` until it prints PASS. **Remaining (13):** F3 (wiki + how-to) · E3 (gcc
-map README + `gccmap_cites.py`) · E4 (xsig) · E5 (permuter PR branch) · E6 (drafter write-up) — all on the still-private
-repo; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset — Drew), E2 (Archipelago — Drew), D3's
-outward actions (decomp.dev registration, frogress slug/key — Drew); then C11 (aftercare), G1 (`docs/gen3-handoff.md`), G2
-(the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
+is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (29):** A1–A5, B1–B9/C3,
+C1–C9 (the rewrite, adopted, force-pushed by Drew, gc'd), D1–D5 (README, LICENSE/NOTICE/THIRD_PARTY, badges/objdiff/frogress,
+SETUP public-clean, governing docs + `doc_links`), F1 (timeline + story), F2 (retrospective), **F3 (S88: the wiki — 12 files
+under `docs/wiki/` + the 13 how-to chapters under `docs/how-to-ai-decomp/`, `tools/wiki_render.py` + `tools/wiki_sync.sh`,
+`doc_links` DEFAULT_GLOBS; `954362c81e` + the wiring commit that carries this block).** **In progress (Drew, C10):** the GitHub
+Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was never confirmed to S88; ask) and the daily
+`tools/public_rewrite/probe_github.sh` until it prints PASS (S88's run: **31 of 33 old hashes still ALIVE = the S87 baseline;
+no purge yet**). **Remaining (11):** E3 (gcc map README + `gccmap_cites.py`) · E4 (xsig) · E5 (permuter PR branch) · E6
+(drafter write-up) — all on the still-private repo; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
+— Drew), E2 (Archipelago — Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
+(Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare), G1
+(`docs/gen3-handoff.md`), G2 (the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
 
-### 2. Facts the remaining tasks depend on (measured S87; verify if in doubt, R14)
-- **Repository state:** `main` = the rewritten history (4,031 commits) + the S87 tip commits (C7 → F2; `git rev-list --count
-  main` ≈ 4,047 at this checkpoint); `origin/main` == the C9 force-push tip — **the commits after it (C9 log, D1–D5, F1–F2)
-  are NOT pushed: Drew pushes (a normal fast-forward push; R6)**. On push, two workflows run on GitHub for the first time:
-  `no-rom` (audits + compile-only — both should be GREEN now) and `progress` (uploads `SLUS_007.26_report`); read the Actions
-  tab, fix red, never claim green unseen (P9). The repo is still PRIVATE. No linked worktrees (`git worktree list` = 1);
-  repo-local identity = the noreply address; `gh` authenticated in WSL as Druthulu (`gh auth logout` at C11); the `archive`
-  remote is REMOVED (the private archive `Druthulu/BFM-decomp-archive` holds the pre-rewrite history; the local bundle
-  `.run/public_rewrite/pre-rewrite.bundle`, 556 MB, holds it too incl. the stash `--mirror` skipped).
+### 2. Facts the remaining tasks depend on (measured S88; verify if in doubt, R14)
+- **Repository state:** `main` = the rewritten history (4,031 commits) + the S87 tip commits (C7 → F2) + the S88 commits
+  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, the wiring commit = HEAD); `origin/main` == the F2 commit
+  `5e57e88de2` — **Drew pushed the S87 tip on 2026-09-07 07:23Z; the S88 commits are NOT pushed** (a normal fast-forward push;
+  R6). The first-ever GitHub runs of both workflows were GREEN on that push (`no-rom` 1 m 35 s, run 34095194524; `progress`
+  15 s, run 34095194479) — read the Actions tab again after the next push, fix red, never claim green unseen (P9). The repo is
+  still PRIVATE (`gh api repos/Druthulu/BFM-decomp --jq .private` → true). No linked worktrees; repo-local identity = the
+  noreply address; `gh` authenticated in WSL as Druthulu (`gh auth logout` at C11); the `archive` remote is REMOVED.
+- **⚠ The object store holds the purged history again (unreachable): 30 packs / 5.97 GiB / 415,712 objects** (C9 had left one
+  80 MB pack / 176,056). Cause (R57, fixed S88): the pre-fix probe's `git fetch origin <old-sha>` succeeded for every ALIVE sha
+  and imported each commit's closure. The auto-mode classifier refuses the repair from a Claude shell, so **Drew runs:**
+  `git reflog expire --expire-unreachable=now --all && git gc --prune=now` (evidence it is safe: refs = main + origin/{HEAD,main}
+  at one tip; all 21 reflog entries on the new lineage; `rev-list --all --count` == main; the bundle + the archive repo hold the
+  old history). Expected after: one pack ≈ 80 MB, `.git` ≈ 93 MB, `git cat-file -e 296ff5551ba71269972e708031b52e9cf39bc782` fails.
+  Until then the fixed probe's self-check prints "the WORKING repo's object store holds 31 of 33 sampled OLD commits" — that is
+  the residue, not a new import (the fixed run left `git count-objects -v` byte-identical before/after).
 - **Scratch to keep until the probe passes, then delete (C11):** `.run/public_rewrite/` (dict.json, mailmap, rom_blob_ids,
-  old-to-new.tsv, unchanged_commits.txt, old_tag_tip.txt, the rewritten bare clone `repo.git`, the bundle, the trial logs);
-  `.run/objdiff/` (the objdiff-cli 3.8.1 validator); `.run/P33/hindsight.md`. Disk ≈ 24 GB free of 75.
-- **Contract state:** `docs/verification.md` §2 quotes the C8 run (HEAD of that run = the step-00 fix commit): 218/218 clean
-  fleet, sdk-dual OK, tools-health OK 0 PAD-TAIL, UNCLAIMED 0, report 100.00/100.0/100.0, stubs 0. `make tools-health` now
-  also runs `ghidra_roster --check`, `doc_links`, and `audit-digest` runs `progress.py --json --readme --check` (JSON + README
-  block + badges fresh). `docs/doc_links_pending.txt` is EMPTY and `tools/doc_links.py --strict` PASSES — keep it so; any new
-  forward link must be listed there with its creating task (gate 2 requires empty).
+  old-to-new.tsv, unchanged_commits.txt, old_tag_tip.txt, the rewritten bare clone `repo.git`, the bundle `pre-rewrite.bundle`
+  556 MB, the trial logs; the probe's `probe_scratch.git` is created and deleted per run); `.run/objdiff/` (the objdiff-cli
+  3.8.1 validator); `.run/P33/hindsight.md`; `.run/wiki/` (the render dir; later the wiki clone — regenerable). Disk ≈ 18 GB
+  free of 75 before Drew's gc (+6 GB after it).
+- **Contract state:** unchanged since C8 — `docs/verification.md` §2 quotes the C8 run (218/218 clean fleet, sdk-dual OK,
+  tools-health OK 0 PAD-TAIL, UNCLAIMED 0, report 100.00/100.0/100.0, stubs 0). `make tools-health` at the F3 close (S88, after
+  the `wiki_render --selftest` line was added): **`tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green.` (EXIT=0)** (`.run/P33/f3_tools_health.log`). `tools/doc_links.py
+  --strict` PASS: 40 documents, 290 relative links, 0 pending, 0 broken; `docs/doc_links_pending.txt` is EMPTY — keep it so;
+  any new forward link must be listed there with its creating task (gate 2 requires empty). `tools/wiki_render.py --selftest`
+  12/12; `tools/wiki_sync.sh` dry run: 25 pages, 264 links rewritten, "not clonable yet … dry run OK" (exit 0).
 - **Generated, never typed (R51):** `docs/progress.json`, the README block, `docs/badges/*.json`, `docs/story-timeline.md/.svg`,
-  `docs/commit-map.tsv`, `config/ghidra/ROSTER.md`, `docs/progress*.md` — regenerate with `make report BINARY=main`,
-  `tools/timeline.py`, `tools/ghidra_roster.py`.
-- **Open decisions for Drew (defaults in force):** `docs/history/project_architect_v1.3.0.md` KEPT (THIRD_PARTY links the
-  repo); bare session UUIDs in checkpoint prose NOT scrubbed (375 across history, 68 at HEAD; no `claude.ai` URL exists);
-  the stash not mirrored to the archive (the bundle has it); F3's scope (full / trimmed / cut).
-- **Rule candidates for the PhaseEnd (G2), recorded as they arose:** (a) no ROM-derived bytes in ANY published artifact —
-  test fixtures, JSON, badges, reports included; (b) published numbers are generated, never typed (R51 applied to docs);
-  (c) rehearse every irreversible repository operation on a scratch copy and prove it pair by pair with POSITIVE assertions
-  (the strip-list/empty-blob defect; the unchanged-commit case); (d) a linked worktree's HEAD is a ref — audit `git worktree
-  list` before any gc/purge (12 GB pinned the old lineage); (e) an R20 amendment: the text export + checksums + the archive
-  repo are the backup; never `git clean -x` (CLAUDE.md fail-safe line exists since C3); (f) `pkill -f` never with a literal the
-  calling shell's own command line contains (S87 killed its own shell twice); (g) a checker that widens its document set
-  must classify a missing promised page as PENDING, never BROKEN (doc_links).
+  `docs/commit-map.tsv`, `config/ghidra/ROSTER.md`, `docs/progress*.md`, `docs/cookbook-index.md` — regenerate with
+  `make report BINARY=main`, `tools/timeline.py`, `tools/ghidra_roster.py`, `tools/cookbook_index.py`. The rendered wiki
+  (`.run/wiki/render/`) is derived from `docs/wiki/` + `docs/how-to-ai-decomp/` by `tools/wiki_render.py` — edit the sources.
+- **Open decisions for Drew (defaults in force):** the local gc (above — please run it); the Support ticket status (S88 could
+  not confirm it was filed); `docs/history/project_architect_v1.3.0.md` KEPT (THIRD_PARTY links the repo); bare session UUIDs
+  in checkpoint prose NOT scrubbed (375 across history, 68 at HEAD; no `claude.ai` URL exists); the stash not mirrored to the
+  archive (the bundle has it). F3's scope is RESOLVED (full, Drew 2026-09-07).
+- **Rule candidates for the PhaseEnd (G2), recorded as they arose:** (a) no ROM-derived bytes in ANY published artifact — test
+  fixtures, JSON, badges, reports included; (b) published numbers are generated, never typed (R51 applied to docs); (c) rehearse
+  every irreversible repository operation on a scratch copy and prove it pair by pair with POSITIVE assertions (the
+  strip-list/empty-blob defect; the unchanged-commit case); (d) a linked worktree's HEAD is a ref — audit `git worktree list`
+  before any gc/purge (12 GB pinned the old lineage); (e) an R20 amendment: the text export + checksums + the archive repo are
+  the backup; never `git clean -x` (CLAUDE.md fail-safe line exists since C3); (f) `pkill -f` never with a literal the calling
+  shell's own command line contains (S87 killed its own shell twice); (g) a checker that widens its document set must classify a
+  missing promised page as PENDING, never BROKEN (doc_links); **(h) (S88) a probe or guard must never write into the repository
+  it guards — a "read-only" check that fetches, clones or builds does so in a throwaway scratch (R57 exemplar: the purge probe
+  re-imported 5.97 GiB of the purged history on every run)**.
 
 ### 3. NEXT — in order
-1. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `git rev-parse origin/main
-   main` (differ until Drew pushes) · `df -h ~` · `.venv/bin/python tools/doc_links.py --strict` (PASS) · ask Drew: pushed?
-   ticket filed? latest probe result? F3 scope?
-2. **F3 — wiki + how-to-AI-decomp + `tools/wiki_sync.sh`** (Max, 2–3 sessions, CUT CANDIDATE — Drew decides at step 1):
-   `docs/wiki/` = the project wiki pages (decision 8: Home · Build from your own disc · Toolchain setup · Repository layout ·
-   The matching workflow (draft → gate → bank) · The dedup engine · Overlays & modules (the 218 binaries, the disc map) ·
-   Ghidra rebuild from text · Verification & progress · Contributing / no-ROM policy · the how-to chapters);
-   `docs/how-to-ai-decomp/` = `00-README` · `01-governance` (ProjectArchitect: constitution, two gates, PhaseEnds, R-rules,
-   the digest, replayable checkpoints) · `02-byte-gate` · `03-bootstrap-order` · `04-oracles-and-instruments` ·
-   `05-cards-lanes-waves` · `06-knowledge-base` · `07-compiler-source` · `08-models-and-budgets` · `09-economics` ·
-   `10-integration-and-propagation` · `11-publishing` · `12-failure-museum`; sources: `docs/portable-decomp-workflow.md`
-   §0–§11, `docs/accelerators.md`, `docs/hindsight-study.md` §3, `docs/effort-map.md`, `docs/retrospective.md`, `docs/story.md`,
-   `docs/wave-playbook.md`, `docs/public-flip-runbook.md`; `tools/wiki_sync.sh` pushes `docs/wiki/` to
-   `BFM-decomp.wiki.git` (Drew runs the push; the wiki repo exists only after the flip — until then `--dry-run`); add
-   `docs/wiki/*.md` + `docs/how-to-ai-decomp/*.md` to `tools/doc_links.py`'s DEFAULT set (link-checked). One commit per page
-   group; log; refresh this block.
-3. **E3** (xHigh, 1): `docs/gcc-2.7.2-map/README.md` (cookbook §31's triage table + per-file scope + provenance legend + the
-   gcc-source fetch note + the byte-proof method + the 2.8.1-line-number caveat) + `tools/gccmap_cites.py` tagging every
+1. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `git fetch --prune origin &&
+   git rev-parse origin/main main` (differ until Drew pushes; if equal, read the Actions tab: `gh run list --repo
+   Druthulu/BFM-decomp --limit 4`) · `git count-objects -v` (packs: 1 after Drew's gc; 30 = not yet run) · `df -h ~` ·
+   `.venv/bin/python tools/doc_links.py --strict` (PASS) · ask Drew: pushed? gc run? ticket filed? latest probe result?
+   (`tools/public_rewrite/probe_github.sh` — ~1 min, gh-authenticated, safe to run from Claude since S88).
+2. **E3** (xHigh, 1): `docs/gcc-2.7.2-map/README.md` (cookbook §31's triage table + per-file scope + provenance legend + the
+   gcc-source fetch note + the byte-proof method + the 2.8.1-line-number caveat — the map files are `docs/gcc-2.7.2-map/
+   {sched,regalloc,loop,cse_expr,t7g-giant-harvest}.md`; `regalloc.md` carries the S23 source-version audit banner: written
+   against `tools/reference/gcc-papermario` = gcc 2.8.1, vanilla 2.7.2 at `tools/reference/gcc-2.7.2`; 184 citations
+   re-derived: 119 CONFIRMED · 40 LINE-DRIFT · 7 REFUTED of 21 raised · 4 unverifiable) + `tools/gccmap_cites.py` tagging every
    `file.c:NNN` cite `[2.7.2]` or `[2.8.1 pm]` against `tools/reference/gcc-2.7.2` (`--check` exits 0 when every cite is
-   tagged). **E4** (xHigh, 0.5): `.run/xdedup/xsig.py` → `tools/xsig/` (library + CLI `sign-s | sign-objdump | cross | verify`,
-   MIT `LICENSE`, README with the Xenogears/Vagrant Story/Tomba hits, `tests/` from one 10-line C function compiled at two link
+   tagged; both reference trees are gitignored — the tool must refuse loudly when a tree is absent, R43, and a fresh clone
+   has neither, so `--check` must not be in CI). Add `docs/gcc-2.7.2-map/README.md` to `tools/doc_links.py`'s DEFAULT set.
+   **E4** (xHigh, 0.5): `.run/xdedup/xsig.py` → `tools/xsig/` (library + CLI `sign-s | sign-objdump | cross | verify`, MIT
+   `LICENSE`, README with the Xenogears/Vagrant Story/Tomba hits, `tests/` from one 10-line C function compiled at two link
    addresses — no game bytes); standalone repo prepared under `.run/P33/xsig-repo/` (Drew creates + pushes). **E5** (Max, 1):
    the permuter upstream PR branch (`RelocMaskedScorer` behind `--score-mode reloc-masked`; upstream's `Scorer.__init__` gained
    `ign_branch_targets, objdump_command`; the MIPS symbol wildcard `"." in field` at `scorer.py:66-67`; fixture tests, mypy,
    black, `./run-tests.sh`; PR-2/issue: configurable `symbol_regex`; `docs/permuter-ils.md`); Drew opens the issue/PR. **E6**
    (Max, 0.5–1): `docs/matching-drafter-pipeline.md` from `docs/community-matching-model-plan.md`,
    `docs/gen2-mips-matching-model.md`, cookbook §12/§500, `docs/wave-playbook.md`; the ROM-derived pair dataset is NOT published.
-4. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → E1
+   One commit per task after this file is updated; log; refresh this block.
+3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → E1
    (`docs/decompme-preset.md`; Drew creates the preset in the browser: platform ps1, `gcc2.7.2-psx`, flags `-O2 -G0 -mips1
    -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div`; prove on `func_80018F20` first; the manual
    scratch search closes SETUP ledger row 14) → E2 (`docs/outreach/archipelago.md`; Drew sends; on reply a G5 row) → D3
    outward (decomp.dev `manage/new` with the `SLUS_007.26_report` artifact; frogress slug `bfm` + key; then `tools/
-   frogress_upload.py --push`) → **C11** (other clones: `git fetch origin && git reset --hard origin/main && git reflog expire
-   --expire=now --all && git gc --prune=now`, never `git pull`; `gh auth logout`; delete `.run/public_rewrite/` + `.run/objdiff/`;
-   prune `.run/`; DIGEST §0/§1 + decision-log entries) → **G1** `docs/gen3-handoff.md` (Drew's next intent: readability/
-   shiftability prep; the starter census 143 raw `*)0x80xxxxxx` casts / 61,898 `D_80xxxxxx` / 16,335 `func_80xxxxxx` / 1,092
-   named; the byte-gate invariant; the existing levers) → **G2** (Tier 1: prompt for Max, present the milestone evidence,
-   WAIT for gate 2; then `PhaseEnd_Phase33.md` v2.0.0 with the rule candidates above, `CURRENT_PHASE.md` → `phase-ends/logs/
-   Phase33.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`).
+   frogress_upload.py --push`) → **the wiki push** (Drew: create the first page in the GitHub UI, then `tools/wiki_sync.sh
+   --push`; verify the pages render and the sidebar links resolve) → **C11** (other clones: `git fetch origin && git reset
+   --hard origin/main && git reflog expire --expire=now --all && git gc --prune=now`, never `git pull`; `gh auth logout`; delete
+   `.run/public_rewrite/` + `.run/objdiff/`; prune `.run/`; DIGEST §0/§1 + decision-log entries) → **G1** `docs/gen3-handoff.md`
+   (Drew's next intent: readability/shiftability prep; the starter census 143 raw `*)0x80xxxxxx` casts / 61,898 `D_80xxxxxx` /
+   16,335 `func_80xxxxxx` / 1,092 named; the byte-gate invariant; the existing levers) → **G2** (Tier 1: prompt for Max, present
+   the milestone evidence, WAIT for gate 2; then `PhaseEnd_Phase33.md` v2.0.0 with the rule candidates (a)–(h), `CURRENT_PHASE.md`
+   → `phase-ends/logs/Phase33.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`).
 
-### 4. Files S87 touched (the session ran C-block start to F2; ≈30 commits after the C3 purge commit)
-Tools (new): `tools/public_rewrite/*` (10 files), `tools/audit_public.py`, `tools/compile_only.py`, `tools/verify_contract.sh`,
-`tools/ghidra_roster.py`, `tools/objdiff_report.py`, `tools/frogress_upload.py`, `tools/doc_links.py`, `tools/timeline.py`,
-`tools/mine_hindsight.py`; changed: `tools/progress.py` (`--json/--readme/--check`, per-binary instr, badges),
-`tools/audit_frontier.py`, `tools/ghidra_scripts/ImportAnnotations.java`, `tools/ghidra_rebuild.sh`,
-`tools/ghidra_annotations_delta.py`, `tools/ghidra_mcp_start.sh`. Docs (new): `README.md` (rewritten), `LICENSE`, `src/NOTICE.md`,
-`THIRD_PARTY.md`, `tools/README.md`, `docs/verification.md`, `docs/public-flip-runbook.md`, `docs/commit-map.tsv`,
-`docs/progress.json`, `docs/badges/*.json`, `docs/story.md`, `docs/story-timeline.md/.svg`, `docs/retrospective.md`,
-`docs/doc_links_pending.txt`, `config/ghidra/*` (7), `dumps/CHECKSUMS.sha1`; changed: `docs/SETUP.md` (P33 A2–F2 sections and
-rows), `CLAUDE.md`, `phase-ends/DIGEST.md` §1, `docs/roadmap-to-100.md`, `docs/gen2-roadmap.md`, `docs/decision-log.md` (P33
-S87 entry), `docs/memory-map.md`, `dumps/INDEX.md`, `.gitignore`, `.github/workflows/{no-rom,progress}.yml`, `Makefile`,
-`requirements-python.txt`, `.claude/settings.json`. Evidence: `.run/P33/verify/*` (the C8 run). The plan file:
+### 4. Files S88 touched (3 commits after the F2 tip)
+Tools (new): `tools/wiki_render.py`, `tools/wiki_sync.sh`; changed: `tools/public_rewrite/probe_github.sh` (scratch-repo fetch +
+self-check), `tools/doc_links.py` (DEFAULT_GLOBS), `Makefile` (`wiki_render --selftest` in tools-health). Docs (new):
+`docs/wiki/*.md` (12), `docs/how-to-ai-decomp/*.md` (13); changed: `docs/SETUP.md` (the probe clause in the public_rewrite row;
+2 wiki rows; the P33 F3 section), `docs/public-flip-runbook.md` (§11: the R57 probe paragraph; the wiki push step),
+`docs/doc_links_pending.txt` (10 entries mid-task → EMPTY), `phase-ends/CURRENT_PHASE.md` (F3 ticked; the S88 preflight + F3 log
+entries; this block). Evidence: `.run/P33/f3_tools_health.log`, `.run/wiki/render/` (regenerable). The plan file:
 `~/.claude/plans/max-effort-set-plan-twinkling-moonbeam.md` (copied below).
 
 ---

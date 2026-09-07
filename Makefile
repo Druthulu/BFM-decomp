@@ -296,6 +296,7 @@ tools-health:
 	$(VENV_PY) tools/ghidra_roster.py --check
 	# P33 D5: every relative link in the public-facing docs resolves (pending pages are listed, and must be gone by gate 2)
 	$(VENV_PY) tools/doc_links.py
+	$(VENV_PY) tools/wiki_render.py --selftest
 	# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
 	# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).
 	$(VENV_PY) tools/work_evidence.py --selftest
