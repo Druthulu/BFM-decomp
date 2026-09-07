@@ -44,7 +44,7 @@ in-tree links to `docs/wiki/<Page>.md`. 8. `.run/`: only what git tracks; no sca
 - [x] **3** Wiki — conventions + firewall: `Docs-and-scratch-conventions.md`, `The-ROM-firewall.md` (the gitignore template block); sidebar rows; Repository-layout/Contributing/ch.11 links; forward links in `doc_links_pending.txt` — Max — see Log 2026-09-07 Task 3
 - [x] **4** Wiki — reference + direction: `Reference-index.md` (list-driven), `Where-the-project-goes-next.md`, Contributing "AI use — conduct", Home rewritten, sidebar sections — xHigh — see Log 2026-09-07 Task 4 — **P6 rules check done after it**
 - [x] **5** Integrate the six (hand-matching-process; wave-metrics + the s37w block → wave-playbook; portable-decomp-workflow vs the 13 chapters; generic-decomp-package attributed; hindsight §2.1/§7 → ch.03 + permuter-ils; the gen3 docs → the direction page); re-point every referrer incl. `retrospective.md:10–11` — xHigh — see Log 2026-09-07 Task 5
-- [ ] **6** Sunset moves (~61 files incl. the 6 frozen snapshots) with the referrer census by command; `docs/sunset/README.md`; `Archive-index.md` rows (backticked paths + `v1.32.1`); DIGEST §4 + `docs/history/README.md` refreshed; ledger coverage: every `git ls-files docs` path outside wiki/how-to/sunset is KEEP in the ledger — xHigh
+- [x] **6** Sunset moves (59 files — `family-hseq.md` stays, see the log) with the referrer census by command; `docs/sunset/README.md`; `Archive-index.md` rows (backticked paths + `v1.32.1`); DIGEST §4 + `docs/history/README.md` refreshed; coverage: 0 `docs/` files outside wiki/how-to/sunset uncovered — xHigh — see Log 2026-09-07 Task 6
 - [ ] **7** Checkers: `doc_links.py` (sunset refusal, index-derived allowlist, wiki-first warnings, TRACKED/UNTRACKED citation classifier + `--disk`, coverage ⊆); reachability in `wiki_render --selftest`; `timeline.py` regen in `report BINARY=main` + `--check` in `audit-digest`; the 14 dangling cookbook cites; the gitignore-template diff; tools-health wiring; SETUP rows — xHigh
 - [ ] **8** Tracked `.run/` prune (the 172 + the session logs + the 2 firewall files; `untracked_after_rewrite.txt`; `audit_public` check 4 with both controls; runbook §11; the four tool notes) — xHigh — **then P6 rules check**
 - [ ] **9** Memory reconciliation (move the off-project file; the 7 stale updated; `bfm-decomp-context-system` refreshed; the seed set under `decomp-architect/memory-seed/` with `upstream: PA` tags) — xHigh
@@ -342,48 +342,76 @@ kit pointer), accelerators :7, SETUP :1312 (the S88 record line notes the archiv
 leavers outside records; 6 backticked prose mentions remain, each naming the archive (`docs/sunset/…` or "archived") — the
 sanctioned citation form. Verify: `doc_links` OK (1 pending), `wiki_render --selftest` 12/12.
 
-## 🛑 SESSION CHECKPOINT — Tasks 0–5 ✓; NEXT = task 6 (the sunset moves + the Archive index; xHigh)
+### 2026-09-07 — Task 6 — The sunset moves + the Archive index (xHigh)
+The move list was built from ledger L1 (`.run/P33.5_sunset_list.txt`, scratch) and checked against the task-4 coverage one-liner.
+**One correction to the plan (R14):** `docs/family-hseq.md` is NOT a frozen snapshot — `tools/verify_contract.sh` step 02 regenerates it
+as part of the recorded contract run ("family_hseq regenerated: 217 binaries scanned, 0 open instances" is the contract's own
+statement) and `tools/burndown.py` reads it; it stays as KEEP-GENERATED and got a Reference-index row. The other five frozen
+snapshots (`frontier-atlas`, `family-cousins`, `worklist`, `autopsy`, `burndown.jsonl`) moved. **The referrer census** (the D3 command
+over all 59 basenames, excluding records/self/indexes): every hit was either a substring false positive (`calibration`, `worklist`,
+`autopsy` are ordinary words and tool names), an "archived"-style prose mention written in task 5, a provenance label in a tool
+comment naming an S60/S61 analysis by its short name (left as provenance — not a path), or a digest/SETUP line, which were refreshed:
+DIGEST §4 rewritten around the wiki (the index pages first; `roadmap-to-100` / `frontier-p32` / `automation-runbook` named as archived,
+`phase34-seed` + the Gen3 pair added), DIGEST §1's gen2-roadmap line marked archived, `SETUP.md`'s integration_resolver row and
+`docs/history/README.md` updated. `resident-dossier.md`'s eight cookbook § cites all resolve to headings (§17, §37, §41, §43, §47,
+§52a, §52b, §53) → safe to move. **Moved:** 59 files by `git mv` into `docs/sunset/` — 25 root documents, `distill/` 2, `history/` 4,
+`tool-designs/` 11, `generated-snapshots/` 17 (the 5 frozen + the 12 per-binary reports); `docs/tool-designs/` and `docs/distill/` are
+gone. **Indexes:** `docs/wiki/Archive-index.md` (six groups; every file as a backticked path + what it was / what came of it / where
+it lives now, with wiki-page links only), `docs/sunset/README.md` (the ☐ review table, 59 rows; deletion is the owner's); the last
+pending entry cleared. **Verify:** README rows == `git ls-files docs/sunset` (59 = 59, `comm -3` empty); every sunset basename appears
+in the Archive index (0 missing); the coverage check: 64 `docs/` files outside wiki/how-to/sunset, **0 uncovered**; `doc_links`: 56
+documents, 429 links, 0 pending, 0 broken; render selftest 12/12; `git log --follow` on three samples confirmed AFTER the commit
+(a staged rename shows no history until committed).
+
+## 🛑 SESSION CHECKPOINT — Tasks 0–6 ✓; NEXT = task 7 (the checkers: doc_links extensions, render reachability, timeline wiring, the 14 dangling cites; xHigh)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase31/32/33.md` and this file, and
 nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest (R1–R83), then
-WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–5 completed and task 6 in progress.
+WAIT for Drew. Rebuild the harness task list (16 rows, R28) marking tasks 0–6 completed and task 7 in progress.
 
 ### 1. Where we are
 **Phase 33.5** (sub-phase; v1.32.0 → v1.32.1), gate 1 approved 2026-09-07 by Drew in plan mode at Max; effort follows the plan's
 column (Max for tasks 10, 12, 15 — prompt at each transition, R27; xHigh now). Baseline HEAD `80d45b29b`; task 0 = `39d524991`;
-task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = the commit after it. Nothing under
-`src/`, `config/` or the `Makefile` has changed; the fleet is 218/218 at the Phase-33 close. `docs/doc_links_pending.txt` carries ONE
-entry (`docs/wiki/Archive-index.md` → task 6). Wiki: 16 pages + 13 chapters; sidebar sections Using / Working conventions / Reference /
-How to AI-decomp / Where next / History (Archive index, pending). The six INTEGRATE documents are folded; the four that leave
-(`hand-matching-process.md`, `wave-metrics.md`, `portable-decomp-workflow.md`, `hindsight-study.md`) have 0 links pointing at them
-outside the records and only "archived"-style prose mentions.
+task 1 = `a0cf302e5`; task 2 = `d06923a06`; task 3 = `5d10a0d12`; task 4 = `9970f1e62`; task 5 = `a0d4ae836`; task 6 = the commit
+after it (59 renames + the two indexes). Nothing under `src/`, `config/` or the `Makefile` has changed; the fleet is 218/218 at the
+Phase-33 close. `docs/doc_links_pending.txt` is EMPTY (comments only). Wiki: 17 pages (Home, the 10 "Using", Docs-and-scratch-
+conventions, The-ROM-firewall, Reference-index, Where-the-project-goes-next, Archive-index, How-to-AI-decomp) + 13 chapters; every
+sidebar row resolves. `docs/` outside wiki/how-to/sunset = 64 files, all covered by the Reference index or the README;
+`docs/sunset/` = 59 files + README. The coverage one-liner (task-4 log) and the census command (D3) are the prototypes task 7
+turns into `tools/doc_links.py` checks.
 
-### 2. What NEXT does (task 6, xHigh) — exact steps
-1. Build the move list from ledger L1 (this file): SUNSET (33 root files incl. the 12 per-binary snapshots) + FROZEN (6:
-   `frontier-atlas.md`, `family-hseq.md`, `family-cousins.md`, `worklist.md`, `autopsy.md`, `burndown.jsonl`) + INTEGRATE residue (4)
-   + `distill/` (2) + `history/` (the `.output` + the 3 `*link.txt`) + `tool-designs/` (11) = **61 files**. Cross-check against the
-   task-4 coverage one-liner's uncovered list (66 lines = 61 files + the 5 split by spaces in the history names) — they must agree.
-2. Per file, the D3 census: `git grep -n -F '<basename>' -- '*.md' '*.py' '*.sh' Makefile ':!phase-ends/PhaseEnd_*' ':!phase-ends/logs'
-   ':!phase-ends/CURRENT_PHASE.md' ':!docs/matching-cookbook.md' ':!docs/cookbook-index.md' ':!docs/decision-log.md' ':!docs/commit-map.tsv'`
-   must return only the file itself, the two index pages, and "archived" prose mentions. Known referrers to fix BEFORE moving:
-   `resident-dossier.md` — check each lever it records has a cookbook § (grep its §-cites); `tool-designs/frontier-analysis-s60.md`
-   (docstrings already re-pointed, task 1); `frontier-p32.md` (DIGEST §4 names it — refresh §4 in this task); `roadmap-to-100.md`,
-   `automation-runbook.md` (DIGEST §4 + `wave-playbook.md:4` name them — the playbook line says "retired"; keep as an archived mention);
-   `gen2-roadmap.md` (DIGEST §1 names it — it is a record; add "(archived)" there). The cookbook/decision-log/PhaseEnds are records and
-   keep their citations untouched.
-3. `mkdir -p docs/sunset/{generated-snapshots,tool-designs,distill,history}`; `git mv` each file to `docs/sunset/<same relative path>`
-   (root files → `docs/sunset/<name>`; the 6 frozen + the 12 per-binary snapshots → `docs/sunset/generated-snapshots/`).
-4. `docs/sunset/README.md`: the review checklist — one row per file: path · class · the Archive-index row title · ☐ reviewed; the
-   header says deletion is Drew's decision after review and that nothing links into this folder.
-5. `docs/wiki/Archive-index.md`: one row per moved file — `` `docs/sunset/<path>` `` (backticked, never a link) · archived at v1.32.1 ·
-   what it was (one line) · what came of it · where the information lives now (a wiki page link, a PhaseEnd, a cookbook §). Group by
-   the ledger's classes. Then remove the `Archive-index.md` line from `docs/doc_links_pending.txt` (the last pending entry).
-6. Refresh DIGEST §4 (the doc map: drop the sunset names, add the wiki index pages) and `docs/history/README.md` (what left, where).
-7. Verify: `comm -3 <(paths from Archive-index) <(paths from sunset README) <(git ls-files docs/sunset ':!docs/sunset/README.md')` empty;
-   `git log --follow --oneline docs/sunset/hindsight-study.md | wc -l` > 1 (history kept) on 3 samples; the task-4 coverage one-liner
-   now lists 0 uncovered; `doc_links` 0 broken / 0 pending; `wiki_render --selftest`. Log + checkpoint; commit by explicit path
-   (`git add docs/sunset docs/wiki/Archive-index.md …` — `git mv` stages the renames). Task 7 is xHigh.
+### 2. What NEXT does (task 7, xHigh) — exact steps
+1. `tools/doc_links.py` extensions (keep the existing behaviour and output shape; add checks, each printed with its denominator, R41):
+   (a) **sunset refusal** — any relative link whose resolved target starts with `docs/sunset/` is BROKEN, from any document (the two
+   index pages included; they use backticked paths); (b) **the index-derived allow-list** — for every document under `docs/wiki/` or
+   `docs/how-to-ai-decomp/`, a relative link that resolves under `docs/` but outside `docs/wiki/`, `docs/how-to-ai-decomp/` must be a
+   target of `docs/wiki/Reference-index.md` (a file, or under a directory the index links) or of `README.md`; `Reference-index.md` and
+   `Archive-index.md` themselves are exempt; (c) **coverage** — every `git ls-files docs` path outside wiki/how-to/sunset must be covered
+   the same way (the task-4 one-liner, as a check); (d) **wiki-first warnings** (exit 0) — a non-README, non-wiki document linking a
+   `docs/` file that has a wiki page for its topic: a small map {`SETUP.md`→Toolchain-setup, `verification.md`→Verification-and-progress,
+   `public-flip-runbook.md`→The-ROM-firewall, `gen3-standards.md`/`gen3-handoff.md`→Where-the-project-goes-next, `wave-playbook.md`→
+   The-matching-workflow, `formats.md`/`memory-map.md`→Overlays-and-modules} — print, never fail; (e) **backticked citations** — every
+   `` `docs/…` `` or `` `.run/…` `` path in the checked set (regex over backticks; skip `<…>` placeholders and globs) is TRACKED (in
+   `git ls-files`) or UNTRACKED; FAIL only when a `docs/wiki/` or `docs/how-to-ai-decomp/` document cites an UNTRACKED path; print
+   counts for the rest; `--disk` adds an on-disk PRIVATE/DANGLING split for local use. PhaseEnds and `phase-ends/logs/` are not in the
+   checked set (records). Negative control (R39): before fixing them, `--disk` must name exactly the 14 dangling cookbook cites the
+   audit found (cookbook :36918 `.run/P32/t3/restored/sweep_func_80039308.py`, `.run/frontier_p32.json`, `.run/backlog_drafts/…`,
+   `.run/banked_func_*.json`, `.run/distill_inflight/*.json`, `.run/rtu_shadow/X.jsonl`, `.run/s7/scratch/spliced.c`, `.run/diag_plumbing.py`
+   in `tools/blocker_probe.py:26` — the cookbook is NOT in the checked set, so run the control over it explicitly with a path argument);
+   then fix those 14 lines in `docs/matching-cookbook.md` (rewrite each as "(scratch, not kept)" or point at the tracked copy) and
+   regenerate `docs/cookbook-index.md` (`tools/cookbook_index.py`) if a § heading line changed (it should not).
+2. `tools/wiki_render.py --selftest`: add the reachability assertion — every `docs/wiki/*.md` except `_Sidebar`/`_Footer`/`Home` is linked
+   from `_Sidebar.md`, and every how-to chapter appears in both `_Sidebar.md` and `How-to-AI-decomp.md`; 0 unlisted today.
+3. `Makefile`: in the `report BINARY=main` block add `$(VENV_PY) tools/timeline.py` (regen — check its CLI first: `--out`? the docstring);
+   in `audit-digest` add `$(VENV_PY) tools/timeline.py --check`; in `tools-health` after `doc_links` add the gitignore-template diff:
+   extract the ```` ```gitignore ```` fence of `docs/wiki/The-ROM-firewall.md` and `diff` it against `decomp-architect/templates/gitignore.decomp`
+   — that file lands in task 11, so make the diff step SKIP loudly when the template is absent (R43: "[skip] gitignore-template: no
+   decomp-architect/templates/gitignore.decomp yet") rather than fail.
+4. SETUP rows (R21) for the three changed tools; the conventions page already describes the checks — confirm its wording matches.
+5. Verify: `doc_links.py --strict` → 0 broken / 0 pending / 0 untracked-cited; the R39 control recorded in the log (14 before, 0 after);
+   `wiki_render --selftest` with the new assertion; `make audit-digest` green with the timeline check; then this file's log + checkpoint;
+   commit by explicit path. Task 8 is xHigh (the P6 rules check follows it).
 
 ### 3. Standing facts for every task of this phase
 - One commit per task, after this file's log line (R8/R42 form); commit by explicit path; no trailers (R5); Drew pushes (R6).

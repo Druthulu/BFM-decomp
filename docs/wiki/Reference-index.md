@@ -53,6 +53,7 @@ in the Archive index, not here. The conventions behind this page: [Docs and scra
 | [`badges/`](../badges/) | The four shields endpoints. | `tools/progress.py` |
 | [`difficulty.md`](../difficulty.md), [`duplicates.md`](../duplicates.md), [`duplicates.cross.md`](../duplicates.cross.md) | The executable's harvest queue and self-duplicates; the cross-binary duplicate groups. | `tools/difficulty.py`, `tools/dup_report.py`, `make report BINARY=main` |
 | [`backlog.md`](../backlog.md) | The near-miss ledger (0 open). | `tools/backlog.py`, `make report BINARY=main` |
+| [`family-hseq.md`](../family-hseq.md) | The structural-family survey with its own coverage line — step 02 of the recorded contract run; at the closed frontier it reads "0 open instances", which is the statement. | `tools/family_hseq.py`; `tools/verify_contract.sh` step 02, `make atlas` |
 | [`story-timeline.md`](../story-timeline.md), [`story-timeline.svg`](../story-timeline.svg) | The dated digest timeline and its chart. | `tools/timeline.py`; `--check` in `make audit-digest` |
 | [`commit-map.tsv`](../commit-map.tsv) | The ordinal → hash map for commits cited in historical documents after the history rewrite. | `tools/public_rewrite/build_commit_map.py`, one-shot |
 

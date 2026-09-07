@@ -40,7 +40,8 @@ EXIT** (`docs/phase34-seed.md`; plan it fresh in plan mode at Max). **Gen3 opens
   SessionStart hook; symbols persist only via `tools/ghidra_apply_symbols.sh`, MCP renames do not); PCSX-Redux is
   Windows-native bridged over the web API (R11); no `/tmp`, scratch under `.run/` (R12).
 - **Roadmap:** the constitution's Gen1 roadmap ended at Phase 7 (Gen1 EXIT confirmed 2026-06-15); Gen2 phases 8–32 are
-  governed by `docs/gen2-roadmap.md` → `docs/roadmap-to-100.md` v2; **Phase 14 (public flip) became P33** — executed as an
+  governed by `docs/gen2-roadmap.md` → `docs/roadmap-to-100.md` v2 (both archived under `docs/sunset/` at Phase 33.5; the
+  outcomes are in the PhaseEnds); **Phase 14 (public flip) became P33** — executed as an
   IN-PLACE flip with the full rewritten history (not gen2-roadmap's two-repo mirror; decision log P33 S86), 2026-09-06/07.
 - **Effort doctrine (Drew 2026-07-04, `docs/effort-map.md` governs):** xHigh for most tasks, Max for deep tasks (phase
   plans, PhaseEnds, non-obvious debugging), Ultracode for breadth; plan mode always Max; every transition is prompted
@@ -305,11 +306,15 @@ the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1
   the LLM-looking text as the reason he minded; sotn-decomp forbids autonomous-tool PRs outright.
 
 ## 4. Where things live (the doc map a session needs)
-`docs/SETUP.md` (environment, every tool's row, commands) · `docs/matching-cookbook.md` §1–§500 (idioms; 3.5 MB —
-grep by §, never read whole) + `docs/cookbook-index.md` (symptom-keyed, derived, 566 KB — grep) · `docs/gcc-2.7.2-map/`
-(the compiler map) · `docs/wave-playbook.md` (THE wave procedure; `docs/automation-runbook.md` is retired) ·
-`docs/effort-map.md` · `docs/roadmap-to-100.md` v2 · `docs/frontier-p32.md` · `docs/decision-log.md` (R31) ·
+**The wiki is the source of truth for documentation (Phase 33.5):** `docs/wiki/Reference-index.md` lists every live reference and
+generated file with how to read it — start there; `docs/wiki/Docs-and-scratch-conventions.md` says where each kind of knowledge goes;
+`docs/wiki/The-ROM-firewall.md` is the no-ROM policy; `docs/wiki/Archive-index.md` records every document retired to `docs/sunset/`
+(kept for the owner's review; nothing links into it). The files a session touches most: `docs/SETUP.md` (environment, every tool's
+row, commands) · `docs/matching-cookbook.md` §1–§500 (idioms; 3.5 MB — grep by §, never read whole) + `docs/cookbook-index.md`
+(symptom-keyed, derived, 566 KB — grep) · `docs/gcc-2.7.2-map/` (the compiler map) · `docs/wave-playbook.md` (THE wave procedure;
+the OpenRouter-era `automation-runbook.md` is archived) · `docs/effort-map.md` · `docs/phase34-seed.md` (the next phase's seed;
+`roadmap-to-100.md` v2 and `frontier-p32.md` are archived — their outcomes are in the PhaseEnds) · `docs/decision-log.md` (R31) ·
 `docs/accelerators.md` · `docs/memory-map.md` (addresses, provenance) · `docs/formats.md` · `docs/disc-completeness.md` +
-`docs/disc-ledger.md` · `docs/backlog.md` (near-miss ledger) · `config/wave_exclude.txt` (pinned walls) ·
-`config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/` (scratch; allowlisted subtrees are
-tracked — e.g. `.run/P32/t3/` drafts/ledger).
+`docs/disc-ledger.md` · `docs/backlog.md` (near-miss ledger) · `docs/gen3-handoff.md` + `docs/gen3-standards.md` (Gen3) ·
+`config/wave_exclude.txt` (pinned walls) · `config/verbatim_manifest.json` · `phase-ends/logs/` (on demand only, R19) · `.run/`
+(scratch; allowlisted subtrees are tracked — e.g. `.run/P32/t3/` drafts/ledger; the rules are on the conventions page).
