@@ -1,6 +1,6 @@
 # audit-disc
 # cmd: make audit-disc
-# started: 2026-09-07T03:07:51Z
+# started: 2026-09-07T05:40:01Z
 .venv/bin/python tools/disc_audit.py
 disc: 416,021,760 bytes across 4 tracks; onboarded payload hashes: 213
 ISO root files: 27
@@ -26,4 +26,4 @@ L2 disagreements (review queue): 80
     SC03.CD/15 entry=0 type=4 798,439 B  L1=data L2=code fns=3 0.87/0.0135
 UNCLAIMED code payloads: 0
 ledger -> docs/disc-ledger.md
-EXIT=0  wall=36s  finished: 2026-09-07T03:08:27Z
+EXIT=0  wall=40s  finished: 2026-09-07T05:40:41Z

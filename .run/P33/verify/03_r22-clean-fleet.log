@@ -1,11 +1,11 @@
 # r22-clean-fleet
 # cmd: step_fleet
-# started: 2026-09-07T02:58:41Z
+# started: 2026-09-07T05:30:28Z
 clean: removed build/, expected/, and the regenerated splat tree (asm/, assets/, undefined_*_auto.txt).
 disc-extract: up to date — extracted/retail/ matches the committed manifest (sha1 e5c6019249dec3c71bb2cf40658a78439dddb037)
 splat 0.41.0 (powered by spimdisasm 1.41.0)
-  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 212851.65it/s]
-  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 631834.26it/s]
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 214600.49it/s]
+  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 564848.96it/s]
   0%|          | 0/2 [00:00<?, ?it/s]Scanning header:   0%|          | 0/2 [00:00<?, ?it/s]Scanning main:   0%|          | 0/2 [00:00<?, ?it/s]  
 Rodata segment '800' may belong to the text segment '800'
     Based on the usage from the function LzssDecodeSector to the symbol jtbl_80072A38
@@ -30,90 +30,90 @@ File split suggestions for this segment will follow in config yaml format:
 
 Rodata segment '800_c' may belong to the text segment '800_c'
     Based on the usage from the function func_80035270 to the symbol jtbl_800732A0
-Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.72it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.72it/s]
-  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.82it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.82it/s]
-  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 100.52it/s]
+Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.57it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.57it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.11it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.11it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 97.62it/s]
 Split 340 KB (82.28%) in defined segments
               header:     2 KB (0.50%) 1 split, 0 cached
                    c:   338 KB (81.78%) 85 split, 0 cached
              unknown:      0 B (0.00%) from unknown bin files
 ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.o, 800_b.o, 800_b_2.o, 63940.data.o, 800_c.o, 63C4C.data.o]; pre=0 text=85 empties=166 bss=85
-[ OK ] resident
 [ OK ] ov_SC05_000
-[ OK ] ov_SC01_000
+[ OK ] resident
 [ OK ] ov_SC04_000
+[ OK ] ov_SC01_000
 [ OK ] ov_SC06_000
-[ OK ] ov_SC01_005
-[ OK ] ov_SC01_006
 [ OK ] ov_SC03_002
-[ OK ] ov_SC04_019
-[ OK ] ov_SC02_003
+[ OK ] ov_SC01_006
+[ OK ] ov_SC01_005
 [ OK ] ov_SC01_077
+[ OK ] ov_SC02_003
 [ OK ] ov_SC04_018
 [ OK ] ov_SC02_000
-[ OK ] ov_SC01_001
-[ OK ] ov_SC03_001
-[ OK ] ov_SC03_006
+[ OK ] ov_SC04_019
 [ OK ] ov_SC01_004
-[ OK ] ov_SC01_074
+[ OK ] ov_SC03_006
+[ OK ] ov_SC03_001
+[ OK ] ov_SC01_001
 [ OK ] ov_SC01_008
+[ OK ] ov_SC01_074
 [ OK ] ov_SC07_000
 [ OK ] ov_SC02_004
 [ OK ] ov_SC02_015
-[ OK ] ov_SC02_021
-[ OK ] ov_SC01_080
 [ OK ] ov_SC01_084
+[ OK ] ov_SC01_080
 [ OK ] ov_SC01_009
+[ OK ] ov_SC02_021
 [ OK ] ov_SC02_016
-[ OK ] ov_SC02_031
-[ OK ] ov_SC02_005
 [ OK ] ov_SC02_039
-[ OK ] ov_SC02_028
-[ OK ] ov_SC02_026
-[ OK ] ov_SC02_035
-[ OK ] ov_SC03_003
-[ OK ] ov_SC02_027
+[ OK ] ov_SC02_005
 [ OK ] ov_SC02_011
+[ OK ] ov_SC02_026
+[ OK ] ov_SC02_031
+[ OK ] ov_SC02_028
+[ OK ] ov_SC03_003
+[ OK ] ov_SC02_035
+[ OK ] ov_SC02_027
 [ OK ] ov_SC02_017
 [ OK ] ov_SC02_041
-[ OK ] ov_SC03_012
 [ OK ] ov_SC03_010
+[ OK ] ov_SC03_012
 [ OK ] ov_SC03_011
-[ OK ] ov_SC03_013
 [ OK ] ov_SC03_023
+[ OK ] ov_SC03_013
 [ OK ] ov_SC03_007
 [ OK ] ov_SC03_024
 [ OK ] ov_SC03_031
-[ OK ] ov_SC03_089
-[ OK ] ov_SC03_029
-[ OK ] ov_SC03_015
 [ OK ] ov_SC03_014
+[ OK ] ov_SC03_089
+[ OK ] ov_SC03_015
+[ OK ] ov_SC03_029
 [ OK ] ov_SC03_092
-[ OK ] ov_SC03_090
-[ OK ] ov_SC03_095
 [ OK ] ov_SC03_030
+[ OK ] ov_SC03_090
+[ OK ] ov_SC03_091
 [ OK ] ov_SC03_028
+[ OK ] ov_SC03_095
 [ OK ] ov_SC03_096
 [ OK ] ov_SC03_093
-[ OK ] ov_SC03_091
 [ OK ] ov_SC03_094
 [ OK ] ov_SC03_097
 [ OK ] ov_SC03_101
 [ OK ] ov_SC03_109
 [ OK ] ov_SC03_098
-[ OK ] ov_SC03_108
-[ OK ] ov_SC03_110
-[ OK ] ov_SC03_102
 [ OK ] ov_SC03_099
-[ OK ] ov_SC03_112
+[ OK ] ov_SC03_110
+[ OK ] ov_SC03_108
 [ OK ] ov_SC03_100
+[ OK ] ov_SC03_102
+[ OK ] ov_SC03_115
 [ OK ] ov_SC03_103
 [ OK ] ov_SC03_104
-[ OK ] ov_SC03_115
-[ OK ] ov_SC03_105
-[ OK ] ov_SC03_113
-[ OK ] ov_SC03_111
 [ OK ] ov_SC03_114
+[ OK ] ov_SC03_113
+[ OK ] ov_SC03_112
+[ OK ] ov_SC03_105
+[ OK ] ov_SC03_111
 [ OK ] ov_SC03_116
 [ OK ] ov_SC03_126
 [ OK ] ov_SC04_008
@@ -121,358 +121,358 @@ ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.
 [ OK ] ov_SC03_121
 [ OK ] ov_SC04_009
 [ OK ] ov_SC04_006
-[ OK ] ov_SC03_117
 [ OK ] ov_SC04_004
 [ OK ] ov_SC03_125
-[ OK ] ov_SC03_118
-[ OK ] ov_SC03_119
 [ OK ] ov_SC04_007
+[ OK ] ov_SC03_119
+[ OK ] ov_SC03_117
 [ OK ] ov_SC04_002
+[ OK ] ov_SC03_118
 [ OK ] ov_SC04_005
 [ OK ] ov_SC04_010
 [ OK ] ov_SC03_124
 [ OK ] ov_SC04_012
 [ OK ] ov_SC04_021
-[ OK ] ov_SC04_016
 [ OK ] ov_SC05_006
+[ OK ] ov_SC04_016
 [ OK ] ov_SC05_002
-[ OK ] ov_SC05_007
 [ OK ] ov_SC05_004
-[ OK ] ov_SC05_009
-[ OK ] ov_SC04_020
+[ OK ] ov_SC05_007
 [ OK ] ov_SC05_001
-[ OK ] ov_SC04_015
-[ OK ] ov_SC05_008
 [ OK ] ov_SC05_003
+[ OK ] ov_SC05_008
+[ OK ] ov_SC04_020
+[ OK ] ov_SC05_009
 [ OK ] ov_SC05_005
+[ OK ] ov_SC04_015
 [ OK ] ov_SC04_011
 [ OK ] ov_SC05_011
-[ OK ] ov_SC05_010
 [ OK ] ov_SC05_019
-[ OK ] ov_SC06_013
-[ OK ] ov_SC06_015
+[ OK ] ov_SC05_010
 [ OK ] ov_SC06_008
-[ OK ] ov_SC06_016
-[ OK ] ov_SC06_011
+[ OK ] ov_SC06_015
+[ OK ] ov_SC06_013
 [ OK ] ov_SC06_014
+[ OK ] ov_SC06_011
+[ OK ] ov_SC06_016
 [ OK ] ov_SC06_010
-[ OK ] ov_SC05_017
 [ OK ] ov_SC05_018
+[ OK ] ov_SC05_017
 [ OK ] ov_SC06_020
 [ OK ] ov_SC06_018
-[ OK ] ov_SC06_025
 [ OK ] ov_SC06_027
 [ OK ] ov_SC06_006
 [ OK ] ov_SC06_022
-[ OK ] ov_SC06_024
+[ OK ] ov_SC06_025
 [ OK ] ov_SC07_008
+[ OK ] ov_SC06_024
+[ OK ] md_MAIN_014
 [ OK ] md_MAIN_013
 [ OK ] ov_SC07_002
-[ OK ] md_MAIN_014
-[ OK ] md_MAIN_016
-[ OK ] md_MAIN_015
-[ OK ] md_MAIN_017
 [ OK ] ov_SC07_001
-[ OK ] md_MAIN_018
-[ OK ] md_MAIN_021
-[ OK ] md_MAIN_019
+[ OK ] md_MAIN_015
+[ OK ] md_MAIN_016
+[ OK ] md_MAIN_017
 [ OK ] ov_SC06_030
+[ OK ] ov_SC07_009
+[ OK ] md_MAIN_018
 [ OK ] md_MAIN_020
+[ OK ] md_MAIN_019
+[ OK ] md_MAIN_021
 [ OK ] md_MAIN_023
 [ OK ] md_MAIN_022
 [ OK ] md_MAIN_024
-[ OK ] md_MAIN_025
 [ OK ] md_MAIN_026
-[ OK ] ov_SC07_009
-[ OK ] md_MAIN_029
-[ OK ] md_MAIN_028
-[ OK ] md_MAIN_027
-[ OK ] md_MAIN_030
+[ OK ] md_MAIN_025
 [ OK ] ov_SC06_032
-[ OK ] md_MAIN_031
+[ OK ] md_MAIN_027
+[ OK ] md_MAIN_028
+[ OK ] md_MAIN_029
+[ OK ] md_MAIN_030
 [ OK ] md_MAIN_032
-[ OK ] md_MAIN_033
-[ OK ] md_MAIN_035
-[ OK ] md_MAIN_034
-[ OK ] md_MAIN_036
+[ OK ] md_MAIN_031
 [ OK ] ov_SC06_033
+[ OK ] md_MAIN_033
+[ OK ] md_MAIN_034
+[ OK ] md_MAIN_035
+[ OK ] ov_SC06_029
+[ OK ] md_MAIN_036
 [ OK ] ov_MAIN_012
 [ OK ] md_MAIN_037
 [ OK ] md_MAIN_038
 [ OK ] ov_SC07_011
+[ OK ] md_MAIN_041
 [ OK ] md_MAIN_039
 [ OK ] md_MAIN_040
-[ OK ] ov_SC06_029
 [ OK ] md_MAIN_042
-[ OK ] md_MAIN_041
 [ OK ] md_MAIN_043
 [ OK ] md_MAIN_045
 [ OK ] md_MAIN_044
 [ OK ] md_MAIN_046
+[ OK ] ov_SC07_010
 [ OK ] md_MAIN_047
 [ OK ] md_MAIN_008
-[ OK ] ov_SC07_010
 [ OK ] md_MAIN_001
 [ OK ] md_MAIN_011
-[ OK ] ov_SC03_107
-[ OK ] md_SC03_073
 [ OK ] md_SC03_078
 [ OK ] md_SC03_074
+[ OK ] md_SC03_073
 [ OK ] md_SC03_075
+[ OK ] ov_SC03_107
 [ OK ] md_SC03_077
-[ OK ] ov_SC07_007
 [ OK ] md_SC03_076
 [ OK ] md_SC03_132
-[ OK ] md_SC03_133
 [ OK ] md_SC03_079
+[ OK ] ov_SC07_007
+[ OK ] md_SC03_133
 [ OK ] md_SC03_137
 [ OK ] md_SC03_134
-[ OK ] md_SC03_135
 [ OK ] md_SC03_136
-[ OK ] md_SC03_138
+[ OK ] md_SC03_135
 [ OK ] md_SC04_024
+[ OK ] md_SC03_138
 [ OK ] md_SC04_025
 [ OK ] md_SC04_029
-[ OK ] md_SC04_026
 [ OK ] md_MAIN_003
+[ OK ] md_SC04_026
 [ OK ] md_SC04_028
-[ OK ] md_SC05_023
 [ OK ] md_SC04_027
 [ OK ] md_SC04_030
+[ OK ] md_SC05_023
 [ OK ] md_SC05_024
 [ OK ] md_SC05_028
 [ OK ] md_SC05_025
-[ OK ] md_SC05_027
 [ OK ] md_MAIN_007
 [ OK ] md_MAIN_009
-[ OK ] md_SC05_026
+[ OK ] md_SC05_027
 [ OK ] md_SC03_053
+[ OK ] md_SC05_026
+[ OK ] md_SC05_029
 [ OK ] md_SC03_056
 [ OK ] md_SC03_054
-[ OK ] md_SC05_029
-[ OK ] ov_SC02_037
 [ OK ] md_SC02_009
+[ OK ] ov_SC02_037
 [ OK ] ov_SC07_006
 [ OK ] md_SC07_004
 [ OK ] md_SC07_003
 extract-all: 217 extracted, 0 failed of 217 (+ main, serial)
 [ OK ] resident
+[ OK ] ov_SC04_000
+[ OK ] ov_SC01_006
+[ OK ] ov_SC05_000
 [ OK ] ov_SC01_005
 [ OK ] ov_SC06_000
-[ OK ] ov_SC05_000
 [ OK ] ov_SC03_006
-[ OK ] ov_SC04_000
 [ OK ] ov_SC01_001
+[ OK ] ov_SC01_000
+[ OK ] ov_SC03_001
+[ OK ] ov_SC04_019
 [ OK ] ov_SC03_002
 [ OK ] ov_SC02_000
-[ OK ] ov_SC01_006
-[ OK ] ov_SC01_000
-[ OK ] ov_SC04_018
-[ OK ] ov_SC01_077
 [ OK ] ov_SC02_003
-[ OK ] ov_SC04_019
-[ OK ] ov_SC03_001
+[ OK ] ov_SC01_077
+[ OK ] ov_SC04_018
 [ OK ] ov_SC07_000
 [ OK ] ov_SC01_008
-[ OK ] ov_SC01_004
-[ OK ] ov_SC02_004
 [ OK ] ov_SC01_074
-[ OK ] ov_SC01_080
+[ OK ] ov_SC01_004
 [ OK ] ov_SC01_009
-[ OK ] ov_SC01_084
+[ OK ] ov_SC02_004
+[ OK ] ov_SC01_080
 [ OK ] ov_SC02_015
-[ OK ] ov_SC02_017
-[ OK ] ov_SC02_026
-[ OK ] ov_SC02_016
-[ OK ] ov_SC02_021
 [ OK ] ov_SC02_011
+[ OK ] ov_SC01_084
+[ OK ] ov_SC02_016
+[ OK ] ov_SC02_017
+[ OK ] ov_SC02_021
+[ OK ] ov_SC02_026
 [ OK ] ov_SC02_005
-[ OK ] ov_SC02_027
-[ OK ] ov_SC02_039
-[ OK ] ov_SC02_028
 [ OK ] ov_SC02_031
 [ OK ] ov_SC02_035
+[ OK ] ov_SC02_039
+[ OK ] ov_SC02_028
+[ OK ] ov_SC02_027
 [ OK ] ov_SC02_041
 [ OK ] ov_SC03_003
-[ OK ] ov_SC03_007
-[ OK ] ov_SC03_012
 [ OK ] ov_SC03_010
 [ OK ] ov_SC03_011
+[ OK ] ov_SC03_012
 [ OK ] ov_SC03_023
 [ OK ] ov_SC03_013
+[ OK ] ov_SC03_007
 [ OK ] ov_SC03_014
 [ OK ] ov_SC03_015
-[ OK ] ov_SC03_024
-[ OK ] ov_SC03_089
-[ OK ] ov_SC03_031
 [ OK ] ov_SC03_030
+[ OK ] ov_SC03_029
+[ OK ] ov_SC03_024
+[ OK ] ov_SC03_031
 [ OK ] ov_SC03_090
 [ OK ] ov_SC03_028
-[ OK ] ov_SC03_029
-[ OK ] ov_SC03_092
-[ OK ] ov_SC03_096
-[ OK ] ov_SC03_091
+[ OK ] ov_SC03_089
 [ OK ] ov_SC03_093
 [ OK ] ov_SC03_094
-[ OK ] ov_SC03_097
-[ OK ] ov_SC03_098
 [ OK ] ov_SC03_095
-[ OK ] main
+[ OK ] ov_SC03_096
+[ OK ] ov_SC03_098
+[ OK ] ov_SC03_091
+[ OK ] ov_SC03_092
+[ OK ] ov_SC03_097
 [ OK ] ov_SC03_099
-[ OK ] ov_SC03_100
 [ OK ] ov_SC03_101
+[ OK ] ov_SC03_100
+[ OK ] main
 [ OK ] ov_SC03_102
-[ OK ] ov_SC03_108
-[ OK ] ov_SC03_109
-[ OK ] ov_SC03_104
 [ OK ] ov_SC03_103
-[ OK ] ov_SC03_113
-[ OK ] ov_SC03_111
-[ OK ] ov_SC03_112
-[ OK ] ov_SC03_110
+[ OK ] ov_SC03_104
+[ OK ] ov_SC03_108
 [ OK ] ov_SC03_105
-[ OK ] ov_SC03_115
+[ OK ] ov_SC03_109
+[ OK ] ov_SC03_110
 [ OK ] ov_SC03_114
+[ OK ] ov_SC03_111
+[ OK ] ov_SC03_113
+[ OK ] ov_SC03_112
 [ OK ] ov_SC03_116
-[ OK ] ov_SC03_117
+[ OK ] ov_SC03_115
 [ OK ] ov_SC03_118
+[ OK ] ov_SC03_117
 [ OK ] ov_SC03_119
 [ OK ] ov_SC03_121
-[ OK ] ov_SC03_126
-[ OK ] ov_SC03_124
 [ OK ] ov_SC03_125
-[ OK ] ov_SC04_006
-[ OK ] ov_SC04_003
+[ OK ] ov_SC03_126
 [ OK ] ov_SC04_002
+[ OK ] ov_SC04_004
+[ OK ] ov_SC04_003
+[ OK ] ov_SC03_124
+[ OK ] ov_SC04_007
+[ OK ] ov_SC04_006
 [ OK ] ov_SC04_005
 [ OK ] ov_SC04_008
-[ OK ] ov_SC04_004
 [ OK ] ov_SC04_009
-[ OK ] ov_SC04_010
-[ OK ] ov_SC04_007
-[ OK ] ov_SC04_012
 [ OK ] ov_SC04_011
-[ OK ] ov_SC04_015
+[ OK ] ov_SC04_012
+[ OK ] ov_SC04_010
 [ OK ] ov_SC04_016
+[ OK ] ov_SC04_015
 [ OK ] ov_SC04_021
+[ OK ] ov_SC05_002
 [ OK ] ov_SC04_020
 [ OK ] ov_SC05_003
-[ OK ] ov_SC05_002
-[ OK ] ov_SC05_008
-[ OK ] ov_SC05_006
-[ OK ] ov_SC05_009
 [ OK ] ov_SC05_001
+[ OK ] ov_SC05_006
 [ OK ] ov_SC05_005
-[ OK ] ov_SC05_007
-[ OK ] ov_SC05_010
 [ OK ] ov_SC05_004
+[ OK ] ov_SC05_007
+[ OK ] ov_SC05_008
+[ OK ] ov_SC05_009
+[ OK ] ov_SC05_010
 [ OK ] ov_SC05_011
+[ OK ] ov_SC05_019
 [ OK ] ov_SC05_018
 [ OK ] ov_SC05_017
-[ OK ] ov_SC05_019
-[ OK ] ov_SC06_008
 [ OK ] ov_SC06_006
 [ OK ] ov_SC06_010
+[ OK ] ov_SC06_008
+[ OK ] ov_SC06_014
 [ OK ] ov_SC06_011
 [ OK ] ov_SC06_015
-[ OK ] ov_SC06_014
 [ OK ] ov_SC06_013
 [ OK ] ov_SC06_020
+[ OK ] ov_SC06_018
 [ OK ] ov_SC06_016
 [ OK ] ov_SC06_025
 [ OK ] ov_SC06_022
-[ OK ] ov_SC06_018
+[ OK ] ov_SC06_030
 [ OK ] ov_SC06_024
+[ OK ] ov_SC06_029
 [ OK ] ov_SC06_027
 [ OK ] md_MAIN_013
 [ OK ] md_MAIN_014
-[ OK ] ov_SC06_029
-[ OK ] md_MAIN_015
 [ OK ] md_MAIN_016
-[ OK ] ov_SC06_030
+[ OK ] ov_SC06_032
 [ OK ] md_MAIN_017
 [ OK ] md_MAIN_018
 [ OK ] md_MAIN_019
 [ OK ] md_MAIN_020
+[ OK ] md_MAIN_015
 [ OK ] md_MAIN_021
 [ OK ] md_MAIN_022
+[ OK ] ov_SC07_001
 [ OK ] md_MAIN_024
-[ OK ] ov_SC06_032
-[ OK ] md_MAIN_025
 [ OK ] md_MAIN_026
+[ OK ] md_MAIN_025
 [ OK ] md_MAIN_027
 [ OK ] md_MAIN_029
-[ OK ] md_MAIN_028
-[ OK ] md_MAIN_023
 [ OK ] md_MAIN_030
+[ OK ] md_MAIN_028
+[ OK ] ov_SC07_002
+[ OK ] ov_SC07_009
+[ OK ] md_MAIN_023
 [ OK ] md_MAIN_031
 [ OK ] md_MAIN_033
 [ OK ] md_MAIN_034
-[ OK ] md_MAIN_036
 [ OK ] md_MAIN_035
-[ OK ] ov_SC06_033
-[ OK ] ov_SC07_001
 [ OK ] md_MAIN_037
-[ OK ] md_MAIN_032
-[ OK ] md_MAIN_040
-[ OK ] md_MAIN_039
+[ OK ] md_MAIN_036
 [ OK ] md_MAIN_038
-[ OK ] md_MAIN_042
-[ OK ] ov_SC07_007
+[ OK ] ov_SC07_006
+[ OK ] md_MAIN_039
+[ OK ] md_MAIN_040
 [ OK ] md_MAIN_043
 [ OK ] md_MAIN_045
-[ OK ] md_MAIN_046
+[ OK ] md_MAIN_042
 [ OK ] md_MAIN_044
-[ OK ] ov_SC07_006
-[ OK ] md_MAIN_047
+[ OK ] md_MAIN_046
+[ OK ] md_MAIN_032
 [ OK ] md_MAIN_001
+[ OK ] md_MAIN_047
 [ OK ] md_MAIN_008
-[ OK ] md_MAIN_041
-[ OK ] md_MAIN_011
-[ OK ] ov_SC07_002
-[ OK ] md_MAIN_003
-[ OK ] md_SC07_003
-[ OK ] md_SC03_076
-[ OK ] md_SC03_077
-[ OK ] ov_SC07_009
-[ OK ] ov_SC07_010
 [ OK ] ov_SC07_008
+[ OK ] md_MAIN_011
 [ OK ] ov_SC07_011
-[ OK ] ov_MAIN_012
+[ OK ] md_MAIN_003
+[ OK ] md_MAIN_041
+[ OK ] md_SC07_003
+[ OK ] ov_SC06_033
+[ OK ] md_SC03_077
+[ OK ] md_SC03_076
 [ OK ] md_SC03_079
-[ OK ] ov_SC02_037
 [ OK ] md_SC03_132
-[ OK ] ov_SC03_107
-[ OK ] md_SC03_136
+[ OK ] ov_SC07_007
+[ OK ] ov_SC07_010
+[ OK ] ov_SC02_037
 [ OK ] md_SC03_135
+[ OK ] md_SC07_004
+[ OK ] md_SC03_136
+[ OK ] md_SC03_074
+[ OK ] md_SC03_073
 [ OK ] md_SC04_024
 [ OK ] md_SC04_025
-[ OK ] md_SC07_004
+[ OK ] md_SC03_075
+[ OK ] ov_MAIN_012
 [ OK ] md_SC04_026
 [ OK ] md_SC04_028
-[ OK ] md_SC03_074
-[ OK ] md_SC04_027
-[ OK ] md_SC03_073
-[ OK ] md_SC03_075
 [ OK ] md_SC04_029
-[ OK ] md_SC04_030
 [ OK ] md_SC05_023
+[ OK ] md_SC04_030
+[ OK ] md_SC04_027
 [ OK ] md_SC05_024
-[ OK ] md_SC03_078
 [ OK ] md_SC05_025
+[ OK ] md_SC03_078
+[ OK ] ov_SC03_107
+[ OK ] md_SC05_029
+[ OK ] md_SC05_028
 [ OK ] md_SC05_027
 [ OK ] md_SC05_026
-[ OK ] md_SC05_028
-[ OK ] md_SC05_029
-[ OK ] md_SC02_009
-[ OK ] md_MAIN_007
-[ OK ] md_MAIN_009
-[ OK ] md_SC03_056
-[ OK ] md_SC03_053
-[ OK ] md_SC03_054
 [ OK ] md_SC03_133
 [ OK ] md_SC03_134
+[ OK ] md_SC02_009
+[ OK ] md_SC03_056
+[ OK ] md_MAIN_009
+[ OK ] md_SC03_053
+[ OK ] md_MAIN_007
+[ OK ] md_SC03_054
 [ OK ] md_SC03_137
 [ OK ] md_SC03_138
 check-all: 218 passed, 0 failed of 218
-EXIT=0  wall=157s  finished: 2026-09-07T03:01:18Z
+EXIT=0  wall=176s  finished: 2026-09-07T05:33:24Z

@@ -1,6 +1,6 @@
 # check-env
 # cmd: make check-env
-# started: 2026-09-07T02:58:30Z
+# started: 2026-09-07T05:30:14Z
 # DELIBERATE opt-out from the global `-e` (.SHELLFLAGS, Phase-27 T2). This recipe's contract is
 # "run EVERY preflight check, print EVERY [FAIL], exit with the accumulated status" — it manages
 # its own `fail` and exits 1 at the end. Under `-e` a probe assignment (e.g. `pyver=$(python3
@@ -136,4 +136,4 @@ echo "check-env: OK — Phase-4 toolchain ready."
 [INFO] extracted payloads present: 218 / 218 binaries
 
 check-env: OK — Phase-4 toolchain ready.
-EXIT=0  wall=0s  finished: 2026-09-07T02:58:30Z
+EXIT=0  wall=1s  finished: 2026-09-07T05:30:15Z

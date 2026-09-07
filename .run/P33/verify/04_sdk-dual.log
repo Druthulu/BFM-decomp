@@ -1,10 +1,10 @@
 # sdk-dual
 # cmd: step_sdk_dual
-# started: 2026-09-07T03:01:18Z
+# started: 2026-09-07T05:33:24Z
 sdk-dual: leg 1 — WITH the PsyQ objects
 splat 0.41.0 (powered by spimdisasm 1.41.0)
-  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 214430.32it/s]
-  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 627809.83it/s]
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 221614.87it/s]
+  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 601013.07it/s]
   0%|          | 0/2 [00:00<?, ?it/s]Scanning header:   0%|          | 0/2 [00:00<?, ?it/s]Scanning main:   0%|          | 0/2 [00:00<?, ?it/s]  
 Rodata segment '800' may belong to the text segment '800'
     Based on the usage from the function LzssDecodeSector to the symbol jtbl_80072A38
@@ -29,9 +29,9 @@ File split suggestions for this segment will follow in config yaml format:
 
 Rodata segment '800_c' may belong to the text segment '800_c'
     Based on the usage from the function func_80035270 to the symbol jtbl_800732A0
-Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.66it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.66it/s]
-  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.56it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.56it/s]
-  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 107.61it/s]
+Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.63it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.63it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.30it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.30it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 110.23it/s]
 Split 340 KB (82.28%) in defined segments
               header:     2 KB (0.50%) 1 split, 0 cached
                    c:   338 KB (81.78%) 85 split, 0 cached
@@ -40,8 +40,8 @@ ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.
   AS      build/asm/header.o
   AS      build/asm/data/63C4C.data.o
   AS      build/asm/data/63470.data.o
-  AS      build/asm/data/53198.data.o
   AS      build/asm/data/63940.data.o
+  AS      build/asm/data/53198.data.o
   CC      build/src/libgte23.o
   CC      build/src/libgte21.o
   CC      build/src/libgte11.o
@@ -50,136 +50,38 @@ ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.
   CC      build/src/800_c.o
   CC      build/src/snd8.o
   CC      build/src/800_b.o
-  CC      build/src/snd5.o
-  CC      build/src/libc2_1.o
   CC      build/src/gap.o
+  CC      build/src/snd5.o
   CC      build/src/libgte12.o
+  CC      build/src/libc2_1.o
   CC      build/src/snd11.o
   CC      build/src/snd7.o
   CC      build/src/libgte10.o
-  CC      build/src/libpad1.o
   CC      build/src/libgpu2.o
+  CC      build/src/libpad1.o
   CC      build/src/800b2.o
   CC      build/src/apicard5.o
   CC      build/src/boot.o
   CC      build/src/snd4.o
-  CC      build/src/libgte27.o
   CC      build/src/sgap_6.o
-  CC      build/src/libgs1.o
-  CC      build/src/libmcrd1.o
-  CC      build/src/libgte22.o
-  CC      build/src/libcd1.o
-  CC      build/src/sgap.o
 src/boot.c: In function `func_80010ED4':
 src/boot.c:581: warning: passing arg 4 of `CdReadRequest' makes integer from pointer without a cast
+  CC      build/src/libgs1.o
+  CC      build/src/libgte27.o
+  CC      build/src/libmcrd1.o
+  CC      build/src/libcd1.o
+  CC      build/src/libgte22.o
+  CC      build/src/sgap.o
   CC      build/src/libgpu.o
-  CC      build/src/libgte29.o
   CC      build/src/libgte16.o
+  CC      build/src/libgte29.o
   CC      build/src/libc2_2.o
   CC      build/src/libetc.o
+jtbl_rodata_pads --derive main: 0,0,0,0,0
   CC      build/src/800.o
   CC      build/src/snd9.o
   CC      build/src/libapi2.o
-src/800_c.c: In function `func_800387C0':
-src/800_c.c:2776: warning: assignment makes integer from pointer without a cast
-src/800_c.c:2778: warning: assignment makes integer from pointer without a cast
-src/800_c.c:2780: warning: assignment makes integer from pointer without a cast
-src/800_c.c:2785: warning: assignment makes integer from pointer without a cast
-src/800_c.c: At top level:
-src/800_c.c:2855: warning: type mismatch with previous external decl
-src/800_c.c:2544: warning: previous external decl of `func_80038908'
-src/800_c.c:2855: warning: type mismatch with previous implicit declaration
-src/800_c.c:2544: warning: previous implicit declaration of `func_80038908'
-src/800_c.c:2855: warning: `func_80038908' was previously implicitly declared to return `int'
   CC      build/src/libgte4.o
-  CC      build/src/libgte15.o
-  CC      build/src/libgte5.o
-  CC      build/src/libapi1.o
-jtbl_rodata_pads --derive main: 0,0,0,0,0
-  CC      build/src/apicard4.o
-  CC      build/src/sgap_3.o
-src/800.c:630: warning: type mismatch with previous external decl
-src/800.c:625: warning: previous external decl of `func_80012E0C'
-src/800.c:630: warning: type mismatch with previous implicit declaration
-src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
-src/800_c.c: In function `func_800391D4':
-src/800_c.c:3394: warning: assignment makes pointer from integer without a cast
-src/800_c.c:3413: warning: assignment makes pointer from integer without a cast
-  CC      build/src/libpad2.o
-  CC      build/src/libgs2.o
-src/800.c:686: warning: type mismatch with previous external decl
-src/800.c:683: warning: previous external decl of `func_80013028'
-src/800.c:686: warning: type mismatch with previous implicit declaration
-src/800.c:683: warning: previous implicit declaration of `func_80013028'
-  CC      build/src/libgte18.o
-src/800_c.c: At top level:
-src/800_c.c:3478: warning: type mismatch with previous external decl
-src/800_c.c:3272: warning: previous external decl of `func_80039308'
-  CC      build/src/libgte2.o
-  CC      build/src/libgte7.o
-src/800.c: In function `func_800134FC':
-src/800.c:980: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
-src/800.c: In function `func_8001382C':
-src/800.c:1208: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
-src/800.c:1208: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
-src/800.c:1208: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
-  CC      build/src/libgte20.o
-src/800.c: In function `func_80013B64':
-src/800.c:1399: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
-src/800_c.c:3759: warning: type mismatch with previous external decl
-src/800_c.c:3271: warning: previous external decl of `func_80039B20'
-  CC      build/src/snd1.o
-src/800_c.c:3793: warning: type mismatch with previous external decl
-src/800_c.c:3273: warning: previous external decl of `func_80039C5C'
-  CC      build/src/libgte1.o
-  CC      build/src/snd6.o
-  CC      build/src/libgte19.o
-src/800_c.c:3924: warning: type mismatch with previous external decl
-src/800_c.c:3274: warning: previous external decl of `func_80039F50'
-src/800_c.c: In function `func_80039F50':
-src/800_c.c:3941: warning: passing arg 1 of `func_80039C70' from incompatible pointer type
-src/800.c: In function `func_800141AC':
-src/800.c:1633: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
-src/800.c:1633: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
-src/800_c.c: At top level:
-src/800_c.c:3977: warning: type mismatch with previous external decl
-src/800_c.c:3275: warning: previous external decl of `func_8003A098'
-  CC      build/src/libgte6.o
-src/800_c.c:3985: warning: type mismatch with previous external decl
-src/800_c.c:3276: warning: previous external decl of `func_8003A0D0'
-src/800_c.c:4000: warning: type mismatch with previous external decl
-src/800_c.c:3277: warning: previous external decl of `func_8003A0E4'
-  CC      build/src/libmcrd2.o
-src/800_c.c:4056: warning: type mismatch with previous external decl
-src/800_c.c:3278: warning: previous external decl of `func_8003A234'
-  CC      build/src/apicard3.o
-src/800.c: At top level:
-src/800.c:1739: warning: type mismatch with previous external decl
-src/800.c:1659: warning: previous external decl of `func_800143AC'
-src/800.c:1739: warning: type mismatch with previous implicit declaration
-src/800.c:1659: warning: previous implicit declaration of `func_800143AC'
-src/800.c:1739: warning: `func_800143AC' was previously implicitly declared to return `int'
-src/800.c:1783: warning: type mismatch with previous external decl
-src/800.c:1660: warning: previous external decl of `func_80014444'
-src/800.c:1783: warning: type mismatch with previous implicit declaration
-src/800.c:1660: warning: previous implicit declaration of `func_80014444'
-src/800.c:1783: warning: `func_80014444' was previously implicitly declared to return `int'
-  CC      build/src/libgte28.o
-src/800.c:1850: warning: type mismatch with previous external decl
-src/800.c:1662: warning: previous external decl of `func_80014588'
-src/800.c:1850: warning: type mismatch with previous implicit declaration
-src/800.c:1662: warning: previous implicit declaration of `func_80014588'
-src/800.c:1850: warning: `func_80014588' was previously implicitly declared to return `int'
-  CC      build/src/sgap_2.o
-  CC      build/src/800_b_2.o
-  CC      build/src/libgte8.o
-  CC      build/src/apicard2.o
-src/800.c:2013: warning: type mismatch with previous external decl
-src/800.c:1654: warning: previous external decl of `func_80014928'
-src/800.c:2013: warning: type mismatch with previous implicit declaration
-src/800.c:1654: warning: previous implicit declaration of `func_80014928'
-src/800.c:2013: warning: `func_80014928' was previously implicitly declared to return `int'
-  CC      build/src/apicard6.o
 {standard input}: Assembler messages:
 {standard input}:24: Warning: used $at without ".set noat"
 {standard input}:25: Warning: used $at without ".set noat"
@@ -191,17 +93,94 @@ src/800.c:2013: warning: `func_80014928' was previously implicitly declared to r
 {standard input}:50: Warning: used $at without ".set noat"
 {standard input}:78: Warning: used $at without ".set noat"
 {standard input}:79: Warning: used $at without ".set noat"
-src/800_b_2.c: In function `func_8002D320':
-src/800_b_2.c:662: warning: type mismatch with previous external decl
-src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
-src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
-src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
-src/800_b_2.c:663: warning: type mismatch with previous external decl
-src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
-src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
-src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
-  CC      build/src/libcd2.o
-  CC      build/src/sgap_4.o
+src/800.c:630: warning: type mismatch with previous external decl
+src/800.c:625: warning: previous external decl of `func_80012E0C'
+src/800.c:630: warning: type mismatch with previous implicit declaration
+src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
+  CC      build/src/libgte5.o
+src/800.c:686: warning: type mismatch with previous external decl
+src/800.c:683: warning: previous external decl of `func_80013028'
+src/800.c:686: warning: type mismatch with previous implicit declaration
+src/800.c:683: warning: previous implicit declaration of `func_80013028'
+src/800_c.c: In function `func_800387C0':
+src/800_c.c:2776: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2778: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2780: warning: assignment makes integer from pointer without a cast
+src/800_c.c:2785: warning: assignment makes integer from pointer without a cast
+src/800_c.c: At top level:
+src/800_c.c:2855: warning: type mismatch with previous external decl
+src/800_c.c:2544: warning: previous external decl of `func_80038908'
+src/800_c.c:2855: warning: type mismatch with previous implicit declaration
+src/800_c.c:2544: warning: previous implicit declaration of `func_80038908'
+src/800_c.c:2855: warning: `func_80038908' was previously implicitly declared to return `int'
+  CC      build/src/libgte15.o
+src/800.c: In function `func_800134FC':
+src/800.c:980: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/libapi1.o
+src/800.c: In function `func_8001382C':
+src/800.c:1208: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/apicard4.o
+src/800.c: In function `func_80013B64':
+src/800.c:1399: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/sgap_3.o
+src/800_c.c: In function `func_800391D4':
+src/800_c.c:3394: warning: assignment makes pointer from integer without a cast
+src/800_c.c:3413: warning: assignment makes pointer from integer without a cast
+src/800_c.c: At top level:
+src/800_c.c:3478: warning: type mismatch with previous external decl
+src/800_c.c:3272: warning: previous external decl of `func_80039308'
+src/800.c: In function `func_800141AC':
+src/800.c:1633: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1633: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+src/800.c: At top level:
+src/800.c:1739: warning: type mismatch with previous external decl
+src/800.c:1659: warning: previous external decl of `func_800143AC'
+src/800.c:1739: warning: type mismatch with previous implicit declaration
+src/800.c:1659: warning: previous implicit declaration of `func_800143AC'
+src/800.c:1739: warning: `func_800143AC' was previously implicitly declared to return `int'
+src/800.c:1783: warning: type mismatch with previous external decl
+src/800.c:1660: warning: previous external decl of `func_80014444'
+src/800.c:1783: warning: type mismatch with previous implicit declaration
+src/800.c:1660: warning: previous implicit declaration of `func_80014444'
+src/800.c:1783: warning: `func_80014444' was previously implicitly declared to return `int'
+  CC      build/src/libpad2.o
+src/800.c:1850: warning: type mismatch with previous external decl
+src/800.c:1662: warning: previous external decl of `func_80014588'
+src/800.c:1850: warning: type mismatch with previous implicit declaration
+src/800.c:1662: warning: previous implicit declaration of `func_80014588'
+src/800.c:1850: warning: `func_80014588' was previously implicitly declared to return `int'
+  CC      build/src/libgte7.o
+src/800.c:2013: warning: type mismatch with previous external decl
+src/800.c:1654: warning: previous external decl of `func_80014928'
+src/800.c:2013: warning: type mismatch with previous implicit declaration
+src/800.c:1654: warning: previous implicit declaration of `func_80014928'
+src/800.c:2013: warning: `func_80014928' was previously implicitly declared to return `int'
+  CC      build/src/libgs2.o
+  CC      build/src/libgte18.o
+src/800_c.c:3759: warning: type mismatch with previous external decl
+src/800_c.c:3271: warning: previous external decl of `func_80039B20'
+  CC      build/src/libgte20.o
+  CC      build/src/libgte2.o
+src/800_c.c:3793: warning: type mismatch with previous external decl
+src/800_c.c:3273: warning: previous external decl of `func_80039C5C'
+  CC      build/src/snd1.o
+src/800_c.c:3924: warning: type mismatch with previous external decl
+src/800_c.c:3274: warning: previous external decl of `func_80039F50'
+src/800_c.c: In function `func_80039F50':
+src/800_c.c:3941: warning: passing arg 1 of `func_80039C70' from incompatible pointer type
+src/800_c.c: At top level:
+src/800_c.c:3977: warning: type mismatch with previous external decl
+src/800_c.c:3275: warning: previous external decl of `func_8003A098'
+src/800_c.c:3985: warning: type mismatch with previous external decl
+src/800_c.c:3276: warning: previous external decl of `func_8003A0D0'
+src/800_c.c:4000: warning: type mismatch with previous external decl
+src/800_c.c:3277: warning: previous external decl of `func_8003A0E4'
+  CC      build/src/libgte1.o
+  CC      build/src/snd6.o
+src/800_c.c:4056: warning: type mismatch with previous external decl
+src/800_c.c:3278: warning: previous external decl of `func_8003A234'
 src/800.c:2576: warning: type mismatch with previous external decl
 src/800.c:1663: warning: previous external decl of `func_80015310'
 src/800.c:2576: warning: type mismatch with previous implicit declaration
@@ -210,7 +189,6 @@ src/800.c:2576: warning: `func_80015310' was previously implicitly declared to r
 src/800.c: In function `func_80015310':
 src/800.c:2577: warning: type mismatch with previous external decl
 src/800.c:1852: warning: previous external decl of `D_800B97D8'
-  CC      build/src/snd10.o
 src/800.c: At top level:
 src/800.c:2601: warning: type mismatch with previous external decl
 src/800.c:2597: warning: previous external decl of `func_800153A4'
@@ -225,121 +203,122 @@ src/800.c:2619: warning: `func_80015424' was previously implicitly declared to r
 src/800.c: In function `func_8001544C':
 src/800.c:2632: warning: type mismatch with previous external decl
 src/800.c:1852: warning: previous external decl of `D_800B97D8'
-  CC      build/src/sgap_8.o
-  CC      build/src/libgs7.o
-  CC      build/src/libgte24.o
-  CC      build/src/apicard1.o
-  CC      build/src/libgte9.o
+  CC      build/src/libgte19.o
+  CC      build/src/libgte6.o
 src/800.c: In function `func_80015B6C':
 src/800.c:3110: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
-src/800_b_2.c: In function `func_8002F5C8':
-src/800_b_2.c:2440: warning: assignment from incompatible pointer type
-  CC      build/src/libgs4.o
-  CC      build/src/libgte13.o
+  CC      build/src/apicard3.o
 src/800.c: In function `func_80015F04':
 src/800.c:3447: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
-  CC      build/src/snd12.o
-  CC      build/src/libgs3.o
+  CC      build/src/libmcrd2.o
+  CC      build/src/sgap_2.o
+  CC      build/src/libgte8.o
 src/800.c: In function `func_80016224':
 src/800.c:3596: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/libgte28.o
 src/800.c: At top level:
 src/800.c:3766: warning: type mismatch with previous external decl
 src/800.c:3597: warning: previous external decl of `D_800AE7BC'
-  CC      build/src/snd2.o
-  CC      build/src/libgs5.o
-  CC      build/src/apicard7.o
 src/800.c:4141: warning: type mismatch with previous external decl
 src/800.c:4104: warning: previous external decl of `func_80016A7C'
 src/800.c:4141: warning: type mismatch with previous implicit declaration
 src/800.c:4108: warning: previous implicit declaration of `func_80016A7C'
 src/800.c:4141: warning: `func_80016A7C' was previously implicitly declared to return `int'
-src/800_b_2.c: At top level:
-src/800_b_2.c:3286: warning: type mismatch with previous external decl
-src/800_b_2.c:2855: warning: previous external decl of `D_800A46D2'
-  CC      build/src/libgte26.o
-  CC      build/src/sgap_5.o
+  CC      build/src/800_b_2.o
+  CC      build/src/apicard2.o
 src/800.c:4572: warning: type mismatch with previous external decl
 src/800.c:4460: warning: previous external decl of `func_80016F18'
 src/800.c:4572: warning: type mismatch with previous implicit declaration
 src/800.c:4470: warning: previous implicit declaration of `func_80016F18'
 src/800.c:4572: warning: `func_80016F18' was previously implicitly declared to return `int'
+  CC      build/src/apicard6.o
 src/800.c:4755: warning: type mismatch with previous external decl
 src/800.c:4701: warning: previous external decl of `func_80017294'
 src/800.c:4755: warning: type mismatch with previous implicit declaration
 src/800.c:4706: warning: previous implicit declaration of `func_80017294'
 src/800.c:4755: warning: `func_80017294' was previously implicitly declared to return `int'
-  CC      build/src/libgte14.o
+  CC      build/src/libcd2.o
 src/800.c:4844: warning: type mismatch with previous external decl
 src/800.c:4792: warning: previous external decl of `func_800173DC'
 src/800.c:4844: warning: type mismatch with previous implicit declaration
 src/800.c:4797: warning: previous implicit declaration of `func_800173DC'
 src/800.c:4844: warning: `func_800173DC' was previously implicitly declared to return `int'
-src/800_b_2.c:3693: warning: type mismatch with previous external decl
-src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
-src/800_b_2.c:3693: warning: type mismatch with previous implicit declaration
-src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
-src/800_b_2.c:3693: warning: `func_8003D3B4' was previously implicitly declared to return `int'
-  CC      build/src/snd3.o
 src/800.c:4900: warning: type mismatch with previous external decl
 src/800.c:4877: warning: previous external decl of `func_8001751C'
 src/800.c:4900: warning: type mismatch with previous implicit declaration
 src/800.c:4882: warning: previous implicit declaration of `func_8001751C'
 src/800.c:4900: warning: `func_8001751C' was previously implicitly declared to return `int'
+  CC      build/src/sgap_4.o
 src/800.c: In function `func_80017714':
 src/800.c:4985: warning: type mismatch with previous external decl
 src/800.c:4981: warning: previous external decl of `func_80017778'
 src/800.c:4985: warning: type mismatch with previous implicit declaration
 src/800.c:4981: warning: previous implicit declaration of `func_80017778'
-  CC      build/src/libgte3.o
+  CC      build/src/libgs7.o
 src/800.c: At top level:
 src/800.c:5049: warning: type mismatch with previous external decl
 src/800.c:4981: warning: previous external decl of `func_80017778'
 src/800.c:5049: warning: type mismatch with previous implicit declaration
 src/800.c:4996: warning: previous implicit declaration of `func_80017778'
 src/800.c:5049: warning: `func_80017778' was previously implicitly declared to return `int'
-  CC      build/src/800_b_o0a.o
+  CC      build/src/sgap_8.o
+  CC      build/src/snd10.o
 src/800.c:5201: warning: type mismatch with previous external decl
 src/800.c:5087: warning: previous external decl of `func_80017930'
 src/800.c:5201: warning: type mismatch with previous implicit declaration
 src/800.c:5095: warning: previous implicit declaration of `func_80017930'
 src/800.c:5201: warning: `func_80017930' was previously implicitly declared to return `int'
-jtbl_rodata_pads --derive main: 0t1,0t1,0,0,0,0,0,0
-  CC      build/src/libgte25.o
-  CC      build/src/libgs8.o
-  CC      build/src/libgte30.o
+  CC      build/src/libgte24.o
+  CC      build/src/apicard1.o
+src/800_b_2.c: In function `func_8002D320':
+src/800_b_2.c:662: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:663: warning: type mismatch with previous external decl
+src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
+src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
 src/800.c: In function `func_80017F14':
 src/800.c:5545: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
 src/800.c: In function `func_80018194':
 src/800.c:5615: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
-src/800_b_2.c: In function `func_80031988':
-src/800_b_2.c:4151: warning: cast to pointer from integer of different size
-src/800_b_2.c:4156: warning: cast to pointer from integer of different size
-src/800_b_2.c:4160: warning: cast to pointer from integer of different size
-src/800_b_2.c:4165: warning: cast to pointer from integer of different size
-src/800_b_2.c:4169: warning: cast to pointer from integer of different size
-src/800_b_2.c:4174: warning: cast to pointer from integer of different size
-src/800_b_2.c:4178: warning: cast to pointer from integer of different size
-src/800_b_2.c:4183: warning: cast to pointer from integer of different size
 src/800.c: At top level:
 src/800.c:5756: warning: type mismatch with previous external decl
 src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/libgte9.o
+  CC      build/src/libgte13.o
+  CC      build/src/snd12.o
+  CC      build/src/libgs4.o
 src/800.c: In function `func_80019064':
 src/800.c:6342: warning: assignment makes integer from pointer without a cast
-src/800_b_2.c: In function `func_80032A74':
-src/800_b_2.c:5529: warning: passing arg 1 of `func_800316F8' makes integer from pointer without a cast
+  CC      build/src/libgs3.o
+  CC      build/src/snd2.o
+  CC      build/src/libgs5.o
+  CC      build/src/sgap_5.o
+  CC      build/src/apicard7.o
 src/800.c: At top level:
 src/800.c:7849: warning: prototype for `func_80018714' follows
 src/800.c:5854: warning: non-prototype definition here
+  CC      build/src/libgte26.o
 src/800.c: In function `CdReadSectorReadyCB':
 src/800.c:7890: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
 src/800.c:7976: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
-src/800_b_2.c: In function `func_80034314':
-src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
+  CC      build/src/snd3.o
+jtbl_rodata_pads --derive main: 0t1,0t1,0,0,0,0,0,0
+  CC      build/src/800_b_o0a.o
+  CC      build/src/libgte14.o
+  CC      build/src/libgte3.o
+  CC      build/src/libgte25.o
+  CC      build/src/libgte30.o
+  CC      build/src/libgs8.o
+src/800_b_2.c: In function `func_8002F5C8':
+src/800_b_2.c:2440: warning: assignment from incompatible pointer type
 src/800.c: At top level:
 src/800.c:9379: warning: type mismatch with previous external decl
 src/800.c:1661: warning: previous external decl of `func_8001C044'
@@ -356,6 +335,9 @@ src/800.c: In function `func_8001CB6C':
 src/800.c:9923: warning: passing arg 1 of `func_8001CF48' makes integer from pointer without a cast
 src/800.c: In function `func_8001D074_impl':
 src/800.c:10147: warning: return makes integer from pointer without a cast
+src/800_b_2.c: At top level:
+src/800_b_2.c:3286: warning: type mismatch with previous external decl
+src/800_b_2.c:2855: warning: previous external decl of `D_800A46D2'
 src/800.c:13779: warning: "gte_ldv0" redefined
 13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
       | 
@@ -380,6 +362,20 @@ src/800.c:13946: warning: "gte_stflg" redefined
 src/800.c:13796: note: this is the location of the previous definition
 13796 | #define gte_stflg(r0)  __asm__ __volatile__( \
       | 
+src/800_b_2.c:3693: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:3693: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:3693: warning: `func_8003D3B4' was previously implicitly declared to return `int'
+src/800_b_2.c: In function `func_80031988':
+src/800_b_2.c:4151: warning: cast to pointer from integer of different size
+src/800_b_2.c:4156: warning: cast to pointer from integer of different size
+src/800_b_2.c:4160: warning: cast to pointer from integer of different size
+src/800_b_2.c:4165: warning: cast to pointer from integer of different size
+src/800_b_2.c:4169: warning: cast to pointer from integer of different size
+src/800_b_2.c:4174: warning: cast to pointer from integer of different size
+src/800_b_2.c:4178: warning: cast to pointer from integer of different size
+src/800_b_2.c:4183: warning: cast to pointer from integer of different size
 src/800.c: In function `func_8001F9F8':
 src/800.c:12328: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
 src/800.c:12337: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
@@ -388,6 +384,8 @@ src/800.c:12355: warning: passing arg 1 of `func_8001FB8C' from incompatible poi
 src/800.c:12364: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
 src/800.c:12373: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
 src/800.c:12382: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800_b_2.c: In function `func_80032A74':
+src/800_b_2.c:5529: warning: passing arg 1 of `func_800316F8' makes integer from pointer without a cast
 src/800.c: At top level:
 src/800.c:12807: warning: type mismatch with previous external decl
 src/800.c:12591: warning: previous external decl of `D_80074818'
@@ -411,7 +409,6 @@ src/800.c:17149: warning: "gte_stsxy3_g3" redefined
 src/800.c:16849: note: this is the location of the previous definition
 16849 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
       | 
-jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
 src/800.c:17259: warning: "gte_ldv0" redefined
 17259 | #define gte_ldv0(r0)  __asm__ volatile("lwc2 $0, 0(%0);lwc2 $1, 4(%0)" : : "r"(r0))
       | 
@@ -514,6 +511,8 @@ src/800.c:17426: warning: "gte_rtpt" redefined
 src/800.c:17266: note: this is the location of the previous definition
 17266 | #define gte_rtpt()  __asm__ volatile("nop;nop;cop2 0x0280030")
       | 
+src/800_b_2.c: In function `func_80034314':
+src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
 src/800.c:17427: warning: "gte_nclip" redefined
 17427 | #define gte_nclip() __asm__ volatile ("nop;nop;.word 0x4B400006")
       | 
@@ -831,14 +830,14 @@ src/800.c:19970: warning: "gte_stflg" redefined
 src/800.c:19743: note: this is the location of the previous definition
 19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
       | 
-src/800.c:17032: warning: type mismatch with previous external decl
-src/800.c:16399: warning: previous external decl of `func_80025000'
 src/800.c:19978: warning: "gte_stopz" redefined
 19978 | #define gte_stopz(r0) __asm__ volatile (         \
       | 
 src/800.c:19751: note: this is the location of the previous definition
 19751 | #define gte_stopz(r0) __asm__ __volatile__ ( \
       | 
+src/800.c:17032: warning: type mismatch with previous external decl
+src/800.c:16399: warning: previous external decl of `func_80025000'
 src/800.c:19992: warning: "gte_stsxy3_g3" redefined
 19992 | #define gte_stsxy3_g3(r0) __asm__ volatile (     \
       | 
@@ -892,6 +891,7 @@ src/800.c:19896: warning: previous external decl of `func_80027C10'
 src/800.c:19911: warning: type mismatch with previous implicit declaration
 src/800.c:19896: warning: previous implicit declaration of `func_80027C10'
 src/800.c:19911: warning: `func_80027C10' was previously implicitly declared to return `int'
+jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
 src/800.c:20603: warning: type mismatch with previous external decl
 src/800.c:1664: warning: previous external decl of `func_80028A48'
 src/800.c:20603: warning: type mismatch with previous implicit declaration
@@ -942,8 +942,8 @@ integrate libpad421: 7 objects in 2 block(s) -> stubs ['libpad1', 'libpad2']; 7 
        sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == config/check.us.sha  (BYTE-IDENTICAL)
 sdk-dual: leg 2 — WITHOUT (NO_SDK=1, build/psyq removed)
 splat 0.41.0 (powered by spimdisasm 1.41.0)
-  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 209935.48it/s]
-  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 617969.55it/s]
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 209247.45it/s]
+  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 640039.90it/s]
   0%|          | 0/2 [00:00<?, ?it/s]Scanning header:   0%|          | 0/2 [00:00<?, ?it/s]Scanning main:   0%|          | 0/2 [00:00<?, ?it/s]  
 Rodata segment '800' may belong to the text segment '800'
     Based on the usage from the function LzssDecodeSector to the symbol jtbl_80072A38
@@ -968,9 +968,9 @@ File split suggestions for this segment will follow in config yaml format:
 
 Rodata segment '800_c' may belong to the text segment '800_c'
     Based on the usage from the function func_80035270 to the symbol jtbl_800732A0
-Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.70it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.70it/s]
-  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.73it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.73it/s]
-  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 103.38it/s]
+Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.65it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.65it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.84it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.84it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 108.08it/s]
 Split 340 KB (82.28%) in defined segments
               header:     2 KB (0.50%) 1 split, 0 cached
                    c:   338 KB (81.78%) 85 split, 0 cached
@@ -978,41 +978,41 @@ Split 340 KB (82.28%) in defined segments
 ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.o, 800_b.o, 800_b_2.o, 63940.data.o, 800_c.o, 63C4C.data.o]; pre=0 text=85 empties=166 bss=85
   AS      build/asm/data/63C4C.data.o
   AS      build/asm/header.o
-  AS      build/asm/data/53198.data.o
   AS      build/asm/data/63470.data.o
   AS      build/asm/data/63940.data.o
+  AS      build/asm/data/53198.data.o
   CC      build/src/libgte23.o
   CC      build/src/libgte21.o
   CC      build/src/libgte11.o
-  CC      build/src/libgte17.o
   CC      build/src/800_c.o
-  CC      build/src/snd8.o
+  CC      build/src/libgte17.o
   CC      build/src/libgs6.o
-  CC      build/src/snd5.o
   CC      build/src/800_b.o
+  CC      build/src/snd8.o
   CC      build/src/libc2_1.o
+  CC      build/src/snd5.o
+  CC      build/src/libgte12.o
   CC      build/src/snd11.o
   CC      build/src/gap.o
-  CC      build/src/libgte12.o
   CC      build/src/snd7.o
   CC      build/src/libgte10.o
-  CC      build/src/libgpu2.o
   CC      build/src/800b2.o
-  CC      build/src/boot.o
+  CC      build/src/libgpu2.o
   CC      build/src/apicard5.o
-  CC      build/src/snd4.o
   CC      build/src/libpad1.o
-  CC      build/src/sgap_6.o
+  CC      build/src/boot.o
+  CC      build/src/snd4.o
   CC      build/src/libgte27.o
-  CC      build/src/libmcrd1.o
+  CC      build/src/sgap_6.o
 src/boot.c: In function `func_80010ED4':
 src/boot.c:581: warning: passing arg 4 of `CdReadRequest' makes integer from pointer without a cast
-  CC      build/src/libcd1.o
+  CC      build/src/libmcrd1.o
   CC      build/src/libgs1.o
   CC      build/src/libgte22.o
-  CC      build/src/sgap.o
-  CC      build/src/libgte16.o
   CC      build/src/libgpu.o
+  CC      build/src/libcd1.o
+  CC      build/src/libgte16.o
+  CC      build/src/sgap.o
   CC      build/src/libgte29.o
   CC      build/src/libc2_2.o
 src/800_c.c: In function `func_800387C0':
@@ -1026,62 +1026,70 @@ src/800_c.c:2544: warning: previous external decl of `func_80038908'
 src/800_c.c:2855: warning: type mismatch with previous implicit declaration
 src/800_c.c:2544: warning: previous implicit declaration of `func_80038908'
 src/800_c.c:2855: warning: `func_80038908' was previously implicitly declared to return `int'
-  CC      build/src/libetc.o
-  CC      build/src/800.o
 src/800_c.c: In function `func_800391D4':
 src/800_c.c:3394: warning: assignment makes pointer from integer without a cast
 src/800_c.c:3413: warning: assignment makes pointer from integer without a cast
 src/800_c.c: At top level:
 src/800_c.c:3478: warning: type mismatch with previous external decl
 src/800_c.c:3272: warning: previous external decl of `func_80039308'
-  CC      build/src/libapi2.o
-  CC      build/src/snd9.o
+  CC      build/src/800.o
+  CC      build/src/libetc.o
 src/800_c.c:3759: warning: type mismatch with previous external decl
 src/800_c.c:3271: warning: previous external decl of `func_80039B20'
 src/800_c.c:3793: warning: type mismatch with previous external decl
 src/800_c.c:3273: warning: previous external decl of `func_80039C5C'
-  CC      build/src/libgte4.o
-  CC      build/src/libgte15.o
-  CC      build/src/libgte5.o
 src/800_c.c:3924: warning: type mismatch with previous external decl
 src/800_c.c:3274: warning: previous external decl of `func_80039F50'
 src/800_c.c: In function `func_80039F50':
 src/800_c.c:3941: warning: passing arg 1 of `func_80039C70' from incompatible pointer type
-  CC      build/src/libapi1.o
+  CC      build/src/snd9.o
 src/800_c.c: At top level:
 src/800_c.c:3977: warning: type mismatch with previous external decl
 src/800_c.c:3275: warning: previous external decl of `func_8003A098'
-  CC      build/src/apicard4.o
+  CC      build/src/libapi2.o
 src/800_c.c:3985: warning: type mismatch with previous external decl
 src/800_c.c:3276: warning: previous external decl of `func_8003A0D0'
 src/800_c.c:4000: warning: type mismatch with previous external decl
 src/800_c.c:3277: warning: previous external decl of `func_8003A0E4'
+  CC      build/src/libgte4.o
+src/800_c.c:4056: warning: type mismatch with previous external decl
+src/800_c.c:3278: warning: previous external decl of `func_8003A234'
+  CC      build/src/libgte5.o
+  CC      build/src/libapi1.o
+  CC      build/src/libgte15.o
 src/800.c:630: warning: type mismatch with previous external decl
 src/800.c:625: warning: previous external decl of `func_80012E0C'
 src/800.c:630: warning: type mismatch with previous implicit declaration
 src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
-src/800_c.c:4056: warning: type mismatch with previous external decl
-src/800_c.c:3278: warning: previous external decl of `func_8003A234'
-  CC      build/src/sgap_3.o
 src/800.c:686: warning: type mismatch with previous external decl
 src/800.c:683: warning: previous external decl of `func_80013028'
 src/800.c:686: warning: type mismatch with previous implicit declaration
 src/800.c:683: warning: previous implicit declaration of `func_80013028'
-  CC      build/src/libgs2.o
-  CC      build/src/libpad2.o
-  CC      build/src/libgte7.o
+  CC      build/src/apicard4.o
+  CC      build/src/sgap_3.o
 src/800.c: In function `func_800134FC':
 src/800.c:980: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
-  CC      build/src/libgte18.o
-  CC      build/src/libgte2.o
-  CC      build/src/libgte20.o
+  CC      build/src/libgs2.o
 src/800.c: In function `func_8001382C':
 src/800.c:1208: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
 src/800.c:1208: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
 src/800.c:1208: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
 src/800.c: In function `func_80013B64':
 src/800.c:1399: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
-jtbl_rodata_pads --derive main: 0,0,0,0,0
+  CC      build/src/libgte18.o
+{standard input}: Assembler messages:
+{standard input}:24: Warning: used $at without ".set noat"
+{standard input}:25: Warning: used $at without ".set noat"
+{standard input}:44: Warning: used $at without ".set noat"
+{standard input}:45: Warning: used $at without ".set noat"
+{standard input}:47: Warning: used $at without ".set noat"
+{standard input}:48: Warning: used $at without ".set noat"
+{standard input}:49: Warning: used $at without ".set noat"
+{standard input}:50: Warning: used $at without ".set noat"
+{standard input}:78: Warning: used $at without ".set noat"
+{standard input}:79: Warning: used $at without ".set noat"
+  CC      build/src/libgte7.o
+  CC      build/src/libpad2.o
 src/800.c: In function `func_800141AC':
 src/800.c:1633: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
 src/800.c:1633: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
@@ -1101,16 +1109,19 @@ src/800.c:1662: warning: previous external decl of `func_80014588'
 src/800.c:1850: warning: type mismatch with previous implicit declaration
 src/800.c:1662: warning: previous implicit declaration of `func_80014588'
 src/800.c:1850: warning: `func_80014588' was previously implicitly declared to return `int'
-  CC      build/src/snd1.o
+  CC      build/src/libgte2.o
 src/800.c:2013: warning: type mismatch with previous external decl
 src/800.c:1654: warning: previous external decl of `func_80014928'
 src/800.c:2013: warning: type mismatch with previous implicit declaration
 src/800.c:1654: warning: previous implicit declaration of `func_80014928'
 src/800.c:2013: warning: `func_80014928' was previously implicitly declared to return `int'
+  CC      build/src/libgte20.o
+  CC      build/src/snd1.o
+jtbl_rodata_pads --derive main: 0,0,0,0,0
   CC      build/src/libgte19.o
   CC      build/src/snd6.o
-  CC      build/src/libgte1.o
   CC      build/src/libgte6.o
+  CC      build/src/libgte1.o
 src/800.c:2576: warning: type mismatch with previous external decl
 src/800.c:1663: warning: previous external decl of `func_80015310'
 src/800.c:2576: warning: type mismatch with previous implicit declaration
@@ -1126,6 +1137,8 @@ src/800.c:2601: warning: type mismatch with previous implicit declaration
 src/800.c:2597: warning: previous implicit declaration of `func_800153A4'
 src/800.c:2601: warning: `func_800153A4' was previously implicitly declared to return `int'
   CC      build/src/libmcrd2.o
+  CC      build/src/apicard3.o
+  CC      build/src/sgap_2.o
 src/800.c:2619: warning: type mismatch with previous external decl
 src/800.c:2615: warning: previous external decl of `func_80015424'
 src/800.c:2619: warning: type mismatch with previous implicit declaration
@@ -1134,59 +1147,36 @@ src/800.c:2619: warning: `func_80015424' was previously implicitly declared to r
 src/800.c: In function `func_8001544C':
 src/800.c:2632: warning: type mismatch with previous external decl
 src/800.c:1852: warning: previous external decl of `D_800B97D8'
-  CC      build/src/apicard3.o
-  CC      build/src/sgap_2.o
-{standard input}: Assembler messages:
-{standard input}:24: Warning: used $at without ".set noat"
-{standard input}:25: Warning: used $at without ".set noat"
-{standard input}:44: Warning: used $at without ".set noat"
-{standard input}:45: Warning: used $at without ".set noat"
-{standard input}:47: Warning: used $at without ".set noat"
-{standard input}:48: Warning: used $at without ".set noat"
-{standard input}:49: Warning: used $at without ".set noat"
-{standard input}:50: Warning: used $at without ".set noat"
-{standard input}:78: Warning: used $at without ".set noat"
-{standard input}:79: Warning: used $at without ".set noat"
+  CC      build/src/libgte8.o
 src/800.c: In function `func_80015B6C':
 src/800.c:3110: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
+jtbl_rodata_pads --derive main: 0t1,0t1,0,0,0,0,0,0
   CC      build/src/libgte28.o
-  CC      build/src/libgte8.o
 src/800.c: In function `func_80015F04':
 src/800.c:3447: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/800_b_2.o
 src/800.c: In function `func_80016224':
 src/800.c:3596: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
-  CC      build/src/apicard6.o
 src/800.c: At top level:
 src/800.c:3766: warning: type mismatch with previous external decl
 src/800.c:3597: warning: previous external decl of `D_800AE7BC'
-  CC      build/src/apicard2.o
-  CC      build/src/800_b_2.o
-  CC      build/src/sgap_4.o
-  CC      build/src/snd10.o
+  CC      build/src/libcd2.o
+  CC      build/src/apicard6.o
 src/800.c:4141: warning: type mismatch with previous external decl
 src/800.c:4104: warning: previous external decl of `func_80016A7C'
 src/800.c:4141: warning: type mismatch with previous implicit declaration
 src/800.c:4108: warning: previous implicit declaration of `func_80016A7C'
 src/800.c:4141: warning: `func_80016A7C' was previously implicitly declared to return `int'
-  CC      build/src/libcd2.o
+  CC      build/src/apicard2.o
 src/800.c:4572: warning: type mismatch with previous external decl
 src/800.c:4460: warning: previous external decl of `func_80016F18'
 src/800.c:4572: warning: type mismatch with previous implicit declaration
 src/800.c:4470: warning: previous implicit declaration of `func_80016F18'
 src/800.c:4572: warning: `func_80016F18' was previously implicitly declared to return `int'
-  CC      build/src/libgte24.o
-src/800_b_2.c: In function `func_8002D320':
-src/800_b_2.c:662: warning: type mismatch with previous external decl
-src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
-src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
-src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
-src/800_b_2.c:663: warning: type mismatch with previous external decl
-src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
-src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
-src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
+  CC      build/src/sgap_4.o
 src/800.c:4755: warning: type mismatch with previous external decl
 src/800.c:4701: warning: previous external decl of `func_80017294'
 src/800.c:4755: warning: type mismatch with previous implicit declaration
@@ -1197,18 +1187,18 @@ src/800.c:4792: warning: previous external decl of `func_800173DC'
 src/800.c:4844: warning: type mismatch with previous implicit declaration
 src/800.c:4797: warning: previous implicit declaration of `func_800173DC'
 src/800.c:4844: warning: `func_800173DC' was previously implicitly declared to return `int'
-  CC      build/src/libgs7.o
 src/800.c:4900: warning: type mismatch with previous external decl
 src/800.c:4877: warning: previous external decl of `func_8001751C'
 src/800.c:4900: warning: type mismatch with previous implicit declaration
 src/800.c:4882: warning: previous implicit declaration of `func_8001751C'
 src/800.c:4900: warning: `func_8001751C' was previously implicitly declared to return `int'
-jtbl_rodata_pads --derive main: 0t1,0t1,0,0,0,0,0,0
+  CC      build/src/snd10.o
 src/800.c: In function `func_80017714':
 src/800.c:4985: warning: type mismatch with previous external decl
 src/800.c:4981: warning: previous external decl of `func_80017778'
 src/800.c:4985: warning: type mismatch with previous implicit declaration
 src/800.c:4981: warning: previous implicit declaration of `func_80017778'
+  CC      build/src/libgs7.o
 src/800.c: At top level:
 src/800.c:5049: warning: type mismatch with previous external decl
 src/800.c:4981: warning: previous external decl of `func_80017778'
@@ -1221,54 +1211,59 @@ src/800.c:5201: warning: type mismatch with previous implicit declaration
 src/800.c:5095: warning: previous implicit declaration of `func_80017930'
 src/800.c:5201: warning: `func_80017930' was previously implicitly declared to return `int'
   CC      build/src/sgap_8.o
-  CC      build/src/apicard1.o
+  CC      build/src/libgte24.o
 src/800.c: In function `func_80017F14':
 src/800.c:5545: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
-  CC      build/src/snd12.o
-  CC      build/src/libgte13.o
   CC      build/src/libgte9.o
+  CC      build/src/apicard1.o
 src/800.c: In function `func_80018194':
 src/800.c:5615: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/snd12.o
 src/800.c: At top level:
 src/800.c:5756: warning: type mismatch with previous external decl
 src/800.c:1852: warning: previous external decl of `D_800B97D8'
+src/800_b_2.c: In function `func_8002D320':
+src/800_b_2.c:662: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:663: warning: type mismatch with previous external decl
+src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
+src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
+  CC      build/src/libgte13.o
   CC      build/src/libgs4.o
   CC      build/src/libgs3.o
+src/800.c: In function `func_80019064':
+src/800.c:6342: warning: assignment makes integer from pointer without a cast
   CC      build/src/snd2.o
   CC      build/src/libgs5.o
   CC      build/src/apicard7.o
-src/800.c: In function `func_80019064':
-src/800.c:6342: warning: assignment makes integer from pointer without a cast
-  CC      build/src/sgap_5.o
-  CC      build/src/snd3.o
-  CC      build/src/libgte26.o
-  CC      build/src/800_b_o0a.o
-  CC      build/src/libgte25.o
-  CC      build/src/libgte14.o
-  CC      build/src/libgs8.o
-src/800_b_2.c: In function `func_8002F5C8':
-src/800_b_2.c:2440: warning: assignment from incompatible pointer type
 src/800.c: At top level:
 src/800.c:7849: warning: prototype for `func_80018714' follows
 src/800.c:5854: warning: non-prototype definition here
 src/800.c: In function `CdReadSectorReadyCB':
 src/800.c:7890: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
 src/800.c:7976: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+  CC      build/src/libgte26.o
+  CC      build/src/sgap_5.o
+  CC      build/src/snd3.o
+src/800_b_2.c: In function `func_8002F5C8':
+src/800_b_2.c:2440: warning: assignment from incompatible pointer type
+  CC      build/src/800_b_o0a.o
+  CC      build/src/libgte14.o
   CC      build/src/libgte3.o
+  CC      build/src/libgs8.o
+  CC      build/src/libgte25.o
   CC      build/src/libgte30.o
-src/800_b_2.c: At top level:
-src/800_b_2.c:3286: warning: type mismatch with previous external decl
-src/800_b_2.c:2855: warning: previous external decl of `D_800A46D2'
-src/800_b_2.c:3693: warning: type mismatch with previous external decl
-src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
-src/800_b_2.c:3693: warning: type mismatch with previous implicit declaration
-src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
-src/800_b_2.c:3693: warning: `func_8003D3B4' was previously implicitly declared to return `int'
-src/800.c: At top level:
-src/800.c:9379: warning: type mismatch with previous external decl
-src/800.c:1661: warning: previous external decl of `func_8001C044'
+src/800_b_2.c: src/800.c: At top level:
+At top level:
+src/800_b_2.c:3286: src/800.c:9379: warning: warning: type mismatch with previous external decltype mismatch with previous external decl
+
+src/800.c:1661: src/800_b_2.c:2855: warning: warning: previous external decl of `previous external decl of `func_8001C044D_800A46D2''
+
 src/800.c:9379: warning: type mismatch with previous implicit declaration
 src/800.c:1661: warning: previous implicit declaration of `func_8001C044'
 src/800.c:9379: warning: `func_8001C044' was previously implicitly declared to return `int'
@@ -1278,6 +1273,15 @@ src/800.c:9473: warning: previous external decl of `GsMapModelingData'
 src/800.c: At top level:
 src/800.c:9748: warning: type mismatch with previous external decl
 src/800.c:9473: warning: previous external decl of `GsMapModelingData'
+src/800.c: In function `func_8001CB6C':
+src/800.c:9923: warning: passing arg 1 of `func_8001CF48' makes integer from pointer without a cast
+src/800_b_2.c:3693: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:3693: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:3693: warning: `func_8003D3B4' was previously implicitly declared to return `int'
+src/800.c: In function `func_8001D074_impl':
+src/800.c:10147: warning: return makes integer from pointer without a cast
 src/800_b_2.c: In function `func_80031988':
 src/800_b_2.c:4151: warning: cast to pointer from integer of different size
 src/800_b_2.c:4156: warning: cast to pointer from integer of different size
@@ -1287,10 +1291,6 @@ src/800_b_2.c:4169: warning: cast to pointer from integer of different size
 src/800_b_2.c:4174: warning: cast to pointer from integer of different size
 src/800_b_2.c:4178: warning: cast to pointer from integer of different size
 src/800_b_2.c:4183: warning: cast to pointer from integer of different size
-src/800.c: In function `func_8001CB6C':
-src/800.c:9923: warning: passing arg 1 of `func_8001CF48' makes integer from pointer without a cast
-src/800.c: In function `func_8001D074_impl':
-src/800.c:10147: warning: return makes integer from pointer without a cast
 src/800.c:13779: warning: "gte_ldv0" redefined
 13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
       | 
@@ -1325,13 +1325,13 @@ src/800.c:12355: warning: passing arg 1 of `func_8001FB8C' from incompatible poi
 src/800.c:12364: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
 src/800.c:12373: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
 src/800.c:12382: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
-src/800_b_2.c: In function `func_80034314':
-src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
 src/800.c: At top level:
 src/800.c:12807: warning: type mismatch with previous external decl
 src/800.c:12591: warning: previous external decl of `D_80074818'
 src/800.c:12808: warning: type mismatch with previous external decl
 src/800.c:12592: warning: previous external decl of `D_80075018'
+src/800_b_2.c: In function `func_80034314':
+src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
 src/800.c:16823: warning: "gte_stflg" redefined
 16823 | #define gte_stflg(r0) __asm__ volatile (        \
       | 
@@ -1769,6 +1769,8 @@ src/800.c:19970: warning: "gte_stflg" redefined
 src/800.c:19743: note: this is the location of the previous definition
 19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
       | 
+src/800.c:17032: warning: type mismatch with previous external decl
+src/800.c:16399: warning: previous external decl of `func_80025000'
 src/800.c:19978: warning: "gte_stopz" redefined
 19978 | #define gte_stopz(r0) __asm__ volatile (         \
       | 
@@ -1805,8 +1807,6 @@ src/800.c:20109: warning: "gte_stsz4" redefined
 src/800.c:19777: note: this is the location of the previous definition
 19777 | #define gte_stsz4(r0, r1, r2, r3) __asm__ __volatile__ ( \
       | 
-src/800.c:17032: warning: type mismatch with previous external decl
-src/800.c:16399: warning: previous external decl of `func_80025000'
 src/800.c:20118: warning: "gte_stsxy3_g4" redefined
 20118 | #define gte_stsxy3_g4(r0) __asm__ volatile (     \
       | 
@@ -1821,11 +1821,11 @@ src/800.c:17280: note: this is the location of the previous definition
       | 
 src/800.c:17491: warning: type mismatch with previous external decl
 src/800.c:16400: warning: previous external decl of `func_80025818'
-jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
 src/800.c:18172: warning: type mismatch with previous external decl
 src/800.c:16401: warning: previous external decl of `func_80026128'
 src/800.c:18330: warning: type mismatch with previous external decl
 src/800.c:16402: warning: previous external decl of `func_800262D8'
+jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
 src/800.c:19911: warning: type mismatch with previous external decl
 src/800.c:19896: warning: previous external decl of `func_80027C10'
 src/800.c:19911: warning: type mismatch with previous implicit declaration
@@ -1867,8 +1867,8 @@ jtbl_rodata_pads --derive main: 0,0t1,0,0t1,0t1,0,0,0t1,0t1,0,0,0
        sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == config/check.us.sha  (BYTE-IDENTICAL)
 sdk-dual: leg 3 — restoring the default (WITH) state
 splat 0.41.0 (powered by spimdisasm 1.41.0)
-  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 224023.25it/s]
-  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 644223.16it/s]
+  0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us):   0%|          | 0/1096 [00:00<?, ?it/s]Loading symbols (symbols.us): 100%|██████████| 1096/1096 [00:00<00:00, 208063.60it/s]
+  0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram):   0%|          | 0/47 [00:00<?, ?it/s]Loading symbols (symbols.us.ram): 100%|██████████| 47/47 [00:00<00:00, 623836.35it/s]
   0%|          | 0/2 [00:00<?, ?it/s]Scanning header:   0%|          | 0/2 [00:00<?, ?it/s]Scanning main:   0%|          | 0/2 [00:00<?, ?it/s]  
 Rodata segment '800' may belong to the text segment '800'
     Based on the usage from the function LzssDecodeSector to the symbol jtbl_80072A38
@@ -1894,8 +1894,8 @@ File split suggestions for this segment will follow in config yaml format:
 Rodata segment '800_c' may belong to the text segment '800_c'
     Based on the usage from the function func_80035270 to the symbol jtbl_800732A0
 Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.70it/s]Scanning main: 100%|██████████| 2/2 [00:01<00:00,  1.70it/s]
-  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.69it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.69it/s]
-  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 105.45it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Splitting header:   0%|          | 0/2 [00:00<?, ?it/s]Splitting main:   0%|          | 0/2 [00:00<?, ?it/s]  Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.59it/s]Splitting main: 100%|██████████| 2/2 [00:00<00:00,  2.59it/s]
+  0%|          | 0/2 [00:00<?, ?it/s]Linker script header:   0%|          | 0/2 [00:00<?, ?it/s]Linker script main:   0%|          | 0/2 [00:00<?, ?it/s]  Linker script main: 100%|██████████| 2/2 [00:00<00:00, 104.13it/s]
 Split 340 KB (82.28%) in defined segments
               header:     2 KB (0.50%) 1 split, 0 cached
                    c:   338 KB (81.78%) 85 split, 0 cached
@@ -1903,49 +1903,44 @@ Split 340 KB (82.28%) in defined segments
 ld_interleave --order: .main island = 8 pieces [53198.data.o, 800.o, 63470.data.o, 800_b.o, 800_b_2.o, 63940.data.o, 800_c.o, 63C4C.data.o]; pre=0 text=85 empties=166 bss=85
   AS      build/asm/data/63C4C.data.o
   AS      build/asm/header.o
-  AS      build/asm/data/53198.data.o
-  CC      build/src/libgte10.o
   AS      build/asm/data/63470.data.o
-  AS      build/asm/data/63940.data.o
+  AS      build/asm/data/53198.data.o
   CC      build/src/libgte23.o
-  CC      build/src/libpad1.o
+  AS      build/asm/data/63940.data.o
   CC      build/src/libgte21.o
   CC      build/src/libgte11.o
   CC      build/src/libgte17.o
   CC      build/src/800_c.o
   CC      build/src/libgs6.o
-  CC      build/src/800b2.o
   CC      build/src/snd8.o
   CC      build/src/800_b.o
-  CC      build/src/boot.o
   CC      build/src/snd5.o
-  CC      build/src/sgap_6.o
-  CC      build/src/apicard5.o
-  CC      build/src/libc2_1.o
-  CC      build/src/libmcrd1.o
   CC      build/src/gap.o
   CC      build/src/libgte12.o
-  CC      build/src/snd4.o
   CC      build/src/snd11.o
-  CC      build/src/libgte27.o
   CC      build/src/snd7.o
-  CC      build/src/libcd1.o
+  CC      build/src/libpad1.o
   CC      build/src/libgpu2.o
-  CC      build/src/libgs1.o
-  CC      build/src/libgte22.o
+  CC      build/src/libc2_1.o
+  CC      build/src/libgte10.o
+  CC      build/src/800b2.o
+  CC      build/src/apicard5.o
+  CC      build/src/boot.o
+  CC      build/src/snd4.o
+  CC      build/src/libgte27.o
 src/boot.c: In function `func_80010ED4':
 src/boot.c:581: warning: passing arg 4 of `CdReadRequest' makes integer from pointer without a cast
+  CC      build/src/sgap_6.o
+  CC      build/src/libcd1.o
+  CC      build/src/libgte22.o
+  CC      build/src/libmcrd1.o
+  CC      build/src/libgs1.o
   CC      build/src/libgpu.o
-  CC      build/src/libgte29.o
   CC      build/src/sgap.o
+  CC      build/src/libgte29.o
   CC      build/src/libgte16.o
   CC      build/src/libc2_2.o
   CC      build/src/libetc.o
-  CC      build/src/800.o
-  CC      build/src/snd9.o
-  CC      build/src/libapi2.o
-  CC      build/src/libgte4.o
-jtbl_rodata_pads --derive main: 0,0,0,0,0
 src/800_c.c: In function `func_800387C0':
 src/800_c.c:2776: warning: assignment makes integer from pointer without a cast
 src/800_c.c:2778: warning: assignment makes integer from pointer without a cast
@@ -1957,63 +1952,62 @@ src/800_c.c:2544: warning: previous external decl of `func_80038908'
 src/800_c.c:2855: warning: type mismatch with previous implicit declaration
 src/800_c.c:2544: warning: previous implicit declaration of `func_80038908'
 src/800_c.c:2855: warning: `func_80038908' was previously implicitly declared to return `int'
-  CC      build/src/libapi1.o
-  CC      build/src/libgte15.o
-  CC      build/src/apicard4.o
-  CC      build/src/sgap_3.o
 src/800_c.c: In function `func_800391D4':
 src/800_c.c:3394: warning: assignment makes pointer from integer without a cast
 src/800_c.c:3413: warning: assignment makes pointer from integer without a cast
 src/800_c.c: At top level:
 src/800_c.c:3478: warning: type mismatch with previous external decl
 src/800_c.c:3272: warning: previous external decl of `func_80039308'
-  CC      build/src/libgs2.o
-src/800.c:630: warning: type mismatch with previous external decl
-src/800.c:625: warning: previous external decl of `func_80012E0C'
-src/800.c:630: warning: type mismatch with previous implicit declaration
-src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
-  CC      build/src/libgte5.o
-  CC      build/src/libgte18.o
-  CC      build/src/libgte7.o
-src/800.c:686: warning: type mismatch with previous external decl
-src/800.c:683: warning: previous external decl of `func_80013028'
-src/800.c:686: warning: type mismatch with previous implicit declaration
-src/800.c:683: warning: previous implicit declaration of `func_80013028'
-  CC      build/src/libpad2.o
+  CC      build/src/800.o
 src/800_c.c:3759: warning: type mismatch with previous external decl
 src/800_c.c:3271: warning: previous external decl of `func_80039B20'
 src/800_c.c:3793: warning: type mismatch with previous external decl
 src/800_c.c:3273: warning: previous external decl of `func_80039C5C'
-src/800.c: In function `func_800134FC':
-src/800.c:980: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
-src/800.c: In function `func_8001382C':
-src/800.c:1208: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
-src/800.c:1208: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
-src/800.c:1208: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
-  CC      build/src/libgte2.o
+  CC      build/src/snd9.o
+  CC      build/src/libapi2.o
 src/800_c.c:3924: warning: type mismatch with previous external decl
 src/800_c.c:3274: warning: previous external decl of `func_80039F50'
 src/800_c.c: In function `func_80039F50':
 src/800_c.c:3941: warning: passing arg 1 of `func_80039C70' from incompatible pointer type
-src/800.c: In function `func_80013B64':
-src/800.c:1399: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/libgte4.o
 src/800_c.c: At top level:
 src/800_c.c:3977: warning: type mismatch with previous external decl
 src/800_c.c:3275: warning: previous external decl of `func_8003A098'
+  CC      build/src/libgte5.o
 src/800_c.c:3985: warning: type mismatch with previous external decl
 src/800_c.c:3276: warning: previous external decl of `func_8003A0D0'
 src/800_c.c:4000: warning: type mismatch with previous external decl
 src/800_c.c:3277: warning: previous external decl of `func_8003A0E4'
-  CC      build/src/libgte20.o
-  CC      build/src/snd1.o
 src/800_c.c:4056: warning: type mismatch with previous external decl
 src/800_c.c:3278: warning: previous external decl of `func_8003A234'
-  CC      build/src/libgte1.o
+  CC      build/src/libgte15.o
+  CC      build/src/libapi1.o
+src/800.c:630: warning: type mismatch with previous external decl
+src/800.c:625: warning: previous external decl of `func_80012E0C'
+src/800.c:630: warning: type mismatch with previous implicit declaration
+src/800.c:625: warning: previous implicit declaration of `func_80012E0C'
+src/800.c:686: warning: type mismatch with previous external decl
+src/800.c:683: warning: previous external decl of `func_80013028'
+src/800.c:686: warning: type mismatch with previous implicit declaration
+src/800.c:683: warning: previous implicit declaration of `func_80013028'
+  CC      build/src/libgs2.o
+  CC      build/src/sgap_3.o
+  CC      build/src/apicard4.o
+src/800.c: In function `func_800134FC':
+src/800.c:980: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/libpad2.o
+src/800.c: In function `func_8001382C':
+src/800.c:1208: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
+src/800.c:1208: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/libgte18.o
+src/800.c: In function `func_80013B64':
+src/800.c:1399: warning: passing arg 1 of `func_800484EC' makes integer from pointer without a cast
+  CC      build/src/libgte7.o
 src/800.c: In function `func_800141AC':
 src/800.c:1633: warning: passing arg 2 of `func_800484EC' makes integer from pointer without a cast
 src/800.c:1633: warning: passing arg 3 of `func_800484EC' makes integer from pointer without a cast
-  CC      build/src/snd6.o
-  CC      build/src/libgte19.o
+jtbl_rodata_pads --derive main: 0,0,0,0,0
 src/800.c: At top level:
 src/800.c:1739: warning: type mismatch with previous external decl
 src/800.c:1659: warning: previous external decl of `func_800143AC'
@@ -2025,6 +2019,7 @@ src/800.c:1660: warning: previous external decl of `func_80014444'
 src/800.c:1783: warning: type mismatch with previous implicit declaration
 src/800.c:1660: warning: previous implicit declaration of `func_80014444'
 src/800.c:1783: warning: `func_80014444' was previously implicitly declared to return `int'
+  CC      build/src/libgte2.o
 src/800.c:1850: warning: type mismatch with previous external decl
 src/800.c:1662: warning: previous external decl of `func_80014588'
 src/800.c:1850: warning: type mismatch with previous implicit declaration
@@ -2035,11 +2030,13 @@ src/800.c:1654: warning: previous external decl of `func_80014928'
 src/800.c:2013: warning: type mismatch with previous implicit declaration
 src/800.c:1654: warning: previous implicit declaration of `func_80014928'
 src/800.c:2013: warning: `func_80014928' was previously implicitly declared to return `int'
+  CC      build/src/libgte20.o
+  CC      build/src/libgte1.o
+  CC      build/src/snd6.o
   CC      build/src/libgte6.o
+  CC      build/src/snd1.o
   CC      build/src/sgap_2.o
   CC      build/src/apicard3.o
-  CC      build/src/libgte8.o
-  CC      build/src/libmcrd2.o
 src/800.c:2576: warning: type mismatch with previous external decl
 src/800.c:1663: warning: previous external decl of `func_80015310'
 src/800.c:2576: warning: type mismatch with previous implicit declaration
@@ -2048,21 +2045,28 @@ src/800.c:2576: warning: `func_80015310' was previously implicitly declared to r
 src/800.c: In function `func_80015310':
 src/800.c:2577: warning: type mismatch with previous external decl
 src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/libmcrd2.o
 src/800.c: At top level:
 src/800.c:2601: warning: type mismatch with previous external decl
 src/800.c:2597: warning: previous external decl of `func_800153A4'
 src/800.c:2601: warning: type mismatch with previous implicit declaration
 src/800.c:2597: warning: previous implicit declaration of `func_800153A4'
 src/800.c:2601: warning: `func_800153A4' was previously implicitly declared to return `int'
+  CC      build/src/libgte8.o
 src/800.c:2619: warning: type mismatch with previous external decl
 src/800.c:2615: warning: previous external decl of `func_80015424'
 src/800.c:2619: warning: type mismatch with previous implicit declaration
 src/800.c:2615: warning: previous implicit declaration of `func_80015424'
 src/800.c:2619: warning: `func_80015424' was previously implicitly declared to return `int'
+  CC      build/src/libgte19.o
 src/800.c: In function `func_8001544C':
 src/800.c:2632: warning: type mismatch with previous external decl
 src/800.c:1852: warning: previous external decl of `D_800B97D8'
-  CC      build/src/apicard2.o
+  CC      build/src/libgte28.o
+src/800.c: In function `func_80015B6C':
+src/800.c:3110: warning: type mismatch with previous external decl
+src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/800_b_2.o
 {standard input}: Assembler messages:
 {standard input}:24: Warning: used $at without ".set noat"
 {standard input}:25: Warning: used $at without ".set noat"
@@ -2074,58 +2078,42 @@ src/800.c:1852: warning: previous external decl of `D_800B97D8'
 {standard input}:50: Warning: used $at without ".set noat"
 {standard input}:78: Warning: used $at without ".set noat"
 {standard input}:79: Warning: used $at without ".set noat"
-  CC      build/src/libgte28.o
-  CC      build/src/800_b_2.o
-  CC      build/src/apicard6.o
-src/800.c: In function `func_80015B6C':
-src/800.c:3110: warning: type mismatch with previous external decl
-src/800.c:1740: warning: previous external decl of `D_800A651C'
-  CC      build/src/libcd2.o
 src/800.c: In function `func_80015F04':
 src/800.c:3447: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
+  CC      build/src/apicard2.o
+  CC      build/src/apicard6.o
+  CC      build/src/libcd2.o
+  CC      build/src/sgap_4.o
 src/800.c: In function `func_80016224':
 src/800.c:3596: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
-  CC      build/src/libgs7.o
 src/800.c: At top level:
 src/800.c:3766: warning: type mismatch with previous external decl
 src/800.c:3597: warning: previous external decl of `D_800AE7BC'
-  CC      build/src/sgap_4.o
   CC      build/src/snd10.o
-src/800_b_2.c: In function `func_8002D320':
-src/800_b_2.c:662: warning: type mismatch with previous external decl
-src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
-src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
-src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
-src/800_b_2.c:663: warning: type mismatch with previous external decl
-src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
-src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
-src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
 src/800.c:4141: warning: type mismatch with previous external decl
 src/800.c:4104: warning: previous external decl of `func_80016A7C'
 src/800.c:4141: warning: type mismatch with previous implicit declaration
 src/800.c:4108: warning: previous implicit declaration of `func_80016A7C'
 src/800.c:4141: warning: `func_80016A7C' was previously implicitly declared to return `int'
-  CC      build/src/libgte24.o
 src/800.c:4572: warning: type mismatch with previous external decl
 src/800.c:4460: warning: previous external decl of `func_80016F18'
 src/800.c:4572: warning: type mismatch with previous implicit declaration
 src/800.c:4470: warning: previous implicit declaration of `func_80016F18'
 src/800.c:4572: warning: `func_80016F18' was previously implicitly declared to return `int'
-  CC      build/src/sgap_8.o
+  CC      build/src/libgs7.o
 src/800.c:4755: warning: type mismatch with previous external decl
 src/800.c:4701: warning: previous external decl of `func_80017294'
 src/800.c:4755: warning: type mismatch with previous implicit declaration
 src/800.c:4706: warning: previous implicit declaration of `func_80017294'
 src/800.c:4755: warning: `func_80017294' was previously implicitly declared to return `int'
-  CC      build/src/libgte9.o
+  CC      build/src/libgte24.o
 src/800.c:4844: warning: type mismatch with previous external decl
 src/800.c:4792: warning: previous external decl of `func_800173DC'
 src/800.c:4844: warning: type mismatch with previous implicit declaration
 src/800.c:4797: warning: previous implicit declaration of `func_800173DC'
 src/800.c:4844: warning: `func_800173DC' was previously implicitly declared to return `int'
-  CC      build/src/apicard1.o
 src/800.c:4900: warning: type mismatch with previous external decl
 src/800.c:4877: warning: previous external decl of `func_8001751C'
 src/800.c:4900: warning: type mismatch with previous implicit declaration
@@ -2142,47 +2130,59 @@ src/800.c:4981: warning: previous external decl of `func_80017778'
 src/800.c:5049: warning: type mismatch with previous implicit declaration
 src/800.c:4996: warning: previous implicit declaration of `func_80017778'
 src/800.c:5049: warning: `func_80017778' was previously implicitly declared to return `int'
+src/800_b_2.c: In function `func_8002D320':
+src/800_b_2.c:662: warning: type mismatch with previous external decl
+src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
+src/800_b_2.c:662: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
+src/800_b_2.c:663: warning: type mismatch with previous external decl
+src/800_b_2.c:375: warning: previous external decl of `func_8003C23C'
+src/800_b_2.c:663: warning: type mismatch with previous implicit declaration
+src/800_b_2.c:375: warning: previous implicit declaration of `func_8003C23C'
 jtbl_rodata_pads --derive main: 0t1,0t1,0,0,0,0,0,0
 src/800.c:5201: warning: type mismatch with previous external decl
 src/800.c:5087: warning: previous external decl of `func_80017930'
 src/800.c:5201: warning: type mismatch with previous implicit declaration
 src/800.c:5095: warning: previous implicit declaration of `func_80017930'
 src/800.c:5201: warning: `func_80017930' was previously implicitly declared to return `int'
-  CC      build/src/snd12.o
+  CC      build/src/sgap_8.o
+  CC      build/src/apicard1.o
+  CC      build/src/libgte9.o
 src/800.c: In function `func_80017F14':
 src/800.c:5545: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
   CC      build/src/libgte13.o
-  CC      build/src/libgs4.o
-  CC      build/src/libgs3.o
+  CC      build/src/snd12.o
 src/800.c: In function `func_80018194':
 src/800.c:5615: warning: type mismatch with previous external decl
 src/800.c:1740: warning: previous external decl of `D_800A651C'
-  CC      build/src/libgs5.o
+  CC      build/src/libgs4.o
 src/800.c: At top level:
 src/800.c:5756: warning: type mismatch with previous external decl
 src/800.c:1852: warning: previous external decl of `D_800B97D8'
+  CC      build/src/libgs3.o
   CC      build/src/snd2.o
+src/800.c: In function `func_80019064':
+src/800.c:6342: warning: assignment makes integer from pointer without a cast
+  CC      build/src/libgs5.o
   CC      build/src/apicard7.o
   CC      build/src/sgap_5.o
   CC      build/src/libgte26.o
-  CC      build/src/snd3.o
-src/800.c: In function `func_80019064':
-src/800.c:6342: warning: assignment makes integer from pointer without a cast
-  CC      build/src/800_b_o0a.o
-  CC      build/src/libgte14.o
-  CC      build/src/libgte3.o
 src/800_b_2.c: In function `func_8002F5C8':
 src/800_b_2.c:2440: warning: assignment from incompatible pointer type
-  CC      build/src/libgs8.o
-  CC      build/src/libgte25.o
-  CC      build/src/libgte30.o
 src/800.c: At top level:
 src/800.c:7849: warning: prototype for `func_80018714' follows
 src/800.c:5854: warning: non-prototype definition here
 src/800.c: In function `CdReadSectorReadyCB':
 src/800.c:7890: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
 src/800.c:7976: warning: passing arg 1 of `func_800599B8' from incompatible pointer type
+  CC      build/src/snd3.o
+  CC      build/src/libgte3.o
+  CC      build/src/libgte14.o
+  CC      build/src/800_b_o0a.o
+  CC      build/src/libgte25.o
+  CC      build/src/libgs8.o
+  CC      build/src/libgte30.o
 src/800_b_2.c: At top level:
 src/800_b_2.c:3286: warning: type mismatch with previous external decl
 src/800_b_2.c:2855: warning: previous external decl of `D_800A46D2'
@@ -2191,15 +2191,6 @@ src/800_b_2.c:373: warning: previous external decl of `func_8003D3B4'
 src/800_b_2.c:3693: warning: type mismatch with previous implicit declaration
 src/800_b_2.c:373: warning: previous implicit declaration of `func_8003D3B4'
 src/800_b_2.c:3693: warning: `func_8003D3B4' was previously implicitly declared to return `int'
-src/800_b_2.c: In function `func_80031988':
-src/800_b_2.c:4151: warning: cast to pointer from integer of different size
-src/800_b_2.c:4156: warning: cast to pointer from integer of different size
-src/800_b_2.c:4160: warning: cast to pointer from integer of different size
-src/800_b_2.c:4165: warning: cast to pointer from integer of different size
-src/800_b_2.c:4169: warning: cast to pointer from integer of different size
-src/800_b_2.c:4174: warning: cast to pointer from integer of different size
-src/800_b_2.c:4178: warning: cast to pointer from integer of different size
-src/800_b_2.c:4183: warning: cast to pointer from integer of different size
 src/800.c: At top level:
 src/800.c:9379: warning: type mismatch with previous external decl
 src/800.c:1661: warning: previous external decl of `func_8001C044'
@@ -2212,12 +2203,21 @@ src/800.c:9473: warning: previous external decl of `GsMapModelingData'
 src/800.c: At top level:
 src/800.c:9748: warning: type mismatch with previous external decl
 src/800.c:9473: warning: previous external decl of `GsMapModelingData'
+src/800_b_2.c: In function `func_80031988':
+src/800_b_2.c:4151: warning: cast to pointer from integer of different size
+src/800_b_2.c:4156: warning: cast to pointer from integer of different size
+src/800_b_2.c:4160: warning: cast to pointer from integer of different size
+src/800_b_2.c:4165: warning: cast to pointer from integer of different size
+src/800_b_2.c:4169: warning: cast to pointer from integer of different size
+src/800_b_2.c:4174: warning: cast to pointer from integer of different size
+src/800_b_2.c:4178: warning: cast to pointer from integer of different size
+src/800_b_2.c:4183: warning: cast to pointer from integer of different size
 src/800.c: In function `func_8001CB6C':
 src/800.c:9923: warning: passing arg 1 of `func_8001CF48' makes integer from pointer without a cast
-src/800_b_2.c: In function `func_80032A74':
-src/800_b_2.c:5529: warning: passing arg 1 of `func_800316F8' makes integer from pointer without a cast
 src/800.c: In function `func_8001D074_impl':
 src/800.c:10147: warning: return makes integer from pointer without a cast
+src/800_b_2.c: In function `func_80032A74':
+src/800_b_2.c:5529: warning: passing arg 1 of `func_800316F8' makes integer from pointer without a cast
 src/800.c:13779: warning: "gte_ldv0" redefined
 13779 | #define gte_ldv0(r0)  __asm__ __volatile__( \
       | 
@@ -2242,10 +2242,10 @@ src/800.c:13946: warning: "gte_stflg" redefined
 src/800.c:13796: note: this is the location of the previous definition
 13796 | #define gte_stflg(r0)  __asm__ __volatile__( \
       | 
-src/800_b_2.c: In function `func_80034314':
-src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
 src/800.c: In function `func_8001F9F8':
 src/800.c:12328: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
+src/800_b_2.c: In function `func_80034314':
+src/800_b_2.c:6862: warning: passing arg 1 of `func_80034650' from incompatible pointer type
 src/800.c:12337: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
 src/800.c:12346: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
 src/800.c:12355: warning: passing arg 1 of `func_8001FB8C' from incompatible pointer type
@@ -2655,7 +2655,6 @@ src/800.c:19599: note: this is the location of the previous definition
 src/800.c:19763: warning: "gte_stsxy" redefined
 19763 | #define gte_stsxy(r0) __asm__ __volatile__ ( \
       | 
-jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
 src/800.c:18268: note: this is the location of the previous definition
 18268 | #define gte_stsxy(r0) __asm__ volatile (          \
       | 
@@ -2692,8 +2691,6 @@ src/800.c:19740: note: this is the location of the previous definition
 src/800.c:19970: warning: "gte_stflg" redefined
 19970 | #define gte_stflg(r0) __asm__ volatile (         \
       | 
-src/800.c:17032: warning: type mismatch with previous external decl
-src/800.c:16399: warning: previous external decl of `func_80025000'
 src/800.c:19743: note: this is the location of the previous definition
 19743 | #define gte_stflg(r0) __asm__ __volatile__ ( \
       | 
@@ -2703,9 +2700,11 @@ src/800.c:19978: warning: "gte_stopz" redefined
 src/800.c:19751: note: this is the location of the previous definition
 19751 | #define gte_stopz(r0) __asm__ __volatile__ ( \
       | 
-src/800.c:19992: warning: "gte_stsxy3_g3" redefined
+src/800.c:17032: warning: type mismatch with previous external decl
+src/800.c:16399: warning: src/800.c:19992: warning: "gte_stsxy3_g3" redefined
 19992 | #define gte_stsxy3_g3(r0) __asm__ volatile (     \
       | 
+previous external decl of `func_80025000'
 src/800.c:19369: note: this is the location of the previous definition
 19369 | #define gte_stsxy3_g3(r0) __asm__ volatile (    \
       | 
@@ -2749,6 +2748,7 @@ src/800.c:17491: warning: type mismatch with previous external decl
 src/800.c:16400: warning: previous external decl of `func_80025818'
 src/800.c:18172: warning: type mismatch with previous external decl
 src/800.c:16401: warning: previous external decl of `func_80026128'
+jtbl_rodata_pads --derive main: 0,0,0,0,0,0,0t1,0,0
 src/800.c:18330: warning: type mismatch with previous external decl
 src/800.c:16402: warning: previous external decl of `func_800262D8'
 src/800.c:19911: warning: type mismatch with previous external decl
@@ -2805,4 +2805,4 @@ integrate libpad421: 7 objects in 2 block(s) -> stubs ['libpad1', 'libpad2']; 7 
 [ OK ] build/us/SLUS_007.26
        sha1 143dbb89f34491258bbc27810d0a12ec8b43a8dd == config/check.us.sha  (BYTE-IDENTICAL)
 sdk-dual: OK — main 143dbb89f34491258bbc27810d0a12ec8b43a8dd byte-identical WITH and WITHOUT the PsyQ objects (maps: .run/P33/verify/main_with_sdk.map, main_no_sdk.map)
-EXIT=0  wall=28s  finished: 2026-09-07T03:01:46Z
+EXIT=0  wall=29s  finished: 2026-09-07T05:33:53Z

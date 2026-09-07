@@ -1,6 +1,6 @@
 # tree
 # cmd: step_tree
-# started: 2026-09-07T02:58:29Z
-HEAD 3e0ecfacc 2026-09-06 fix(phase-33): audit_frontier's LINKED-stub count reads the Stub records (the reference v
-porcelain -uno clean apart from ghidra/ (3 churn lines); untracked: 1 paths
-EXIT=0  wall=1s  finished: 2026-09-07T02:58:30Z
+# started: 2026-09-07T05:30:13Z
+HEAD 5bc4a5c0ab27c94fd52f45d0cc1647427ed0468f 2026-09-06 fix(phase-33): verify_contract step 00 ignores its own output directory — the per-step 
+porcelain -uno clean apart from ghidra/ and .run/P33/verify/ (this run's outputs); untracked: 0 paths
+EXIT=0  wall=1s  finished: 2026-09-07T05:30:14Z

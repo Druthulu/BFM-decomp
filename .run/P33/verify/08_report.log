@@ -1,6 +1,6 @@
 # report
 # cmd: step_report
-# started: 2026-09-07T03:08:27Z
+# started: 2026-09-07T05:40:41Z
 .venv/bin/python tools/progress.py --binary main --audit
 .venv/bin/python tools/difficulty.py --binary main
 .venv/bin/python tools/dup_report.py --binary main
@@ -2412,4 +2412,4 @@ FLEET distinct-code(uniq): 5820205 / 5820205 = 100.0%   (90984/90984 unique fns;
 MAIN game-code weighted  :   45150 / 45150 = 100.0%   (INCLUDED in the fleet numbers above since 2026-07-22 — roadmap §1 metrics contract; build-derived sig (make sig-main) dated 2026-09-06; boundaries INDEPENDENTLY VERIFIED since P31 S77 — `make sig-main-oracle` + `make audit-corpus`: 0 phantom, 0 truncated, 0 pad-tail)
   (fleet EXCLUDING main, for continuity with pre-2026-07-22 readings: 13446963 / 13446963 = 100.0%)
 
-EXIT=0  wall=211s  finished: 2026-09-07T03:11:58Z
+EXIT=0  wall=223s  finished: 2026-09-07T05:44:24Z
