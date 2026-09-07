@@ -81,7 +81,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **F3** wiki + how-to-ai-decomp + `wiki_sync.sh` — Max (FULL, Drew 2026-09-07) — see Log 2026-09-07 F3
 - [x] **E3** gcc-2.7.2 map README + `gccmap_cites.py` — xHigh — see Log 2026-09-07 E3
 - [x] **E4** xsig packaging — xHigh — see Log 2026-09-07 E4
-- [ ] **E5** permuter upstream PR branch — Max
+- [x] **E5** permuter upstream PR branch — Max (FULL, Drew 2026-09-07) — see Log 2026-09-07 E5
 - [ ] **E6** drafter write-up — Max
 - [ ] **E1** decomp.me preset (after the flip) — xHigh
 - [ ] **E2** Archipelago outreach (after the flip) — xHigh
@@ -534,22 +534,51 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   initial commit — **Drew creates `Druthulu/xsig` on GitHub (EMPTY) and pushes** (`git -C .run/P33/xsig-repo remote add
   origin … && git push -u origin main`). `make tools-health` re-run with the new line: **`tools-health: OK — sigs fresh; corpus(+resident) + cdecl + binaries + report(lint+dedup) + cookbook-index all green.` (EXIT=0)**
   (`.run/P33/e4_tools_health.log`). Commit: see below.
+- **2026-09-07 (S88, Max) — E5 the permuter upstream PR branch + `docs/permuter-ils.md` — IN FULL (Drew's call).**
+  Scratch clone of `simonlindholm/decomp-permuter` at `main` `41bd0bfc` (2026-09-05; 39 commits past our pin `b44b0622`) →
+  branch **`reloc-masked-scorer`**, one commit under the noreply identity: `src/reloc_scorer.py` (`RelocMaskedScorer`, a
+  `Scorer` subclass — the in-tree `masked_diff` rule: mask from the TARGET's relocation records, `R_MIPS_26` → opcode only,
+  the 16-bit-immediate relocs → opcode+rs+rt, a `j` against `.text` compared relative to the function start, everything
+  else the full word, symbol+addend equality at masked slots, `score = mismatches + |Δlength|`, 0 iff link-identical;
+  MIPS only), `--score-mode {mnemonic,reloc-masked}` + the `score_mode` settings key (default unchanged), a refusal with
+  `-J` (remote evaluators build a stock `Scorer`), `--debug` per-instruction diff, USAGE/README/example_settings notes,
+  `test/test_reloc_scorer.py` (10 tests on an embedded `objdump -drz` listing of the xsig fixture object — real gcc 2.7.2
+  output, no game bytes; the end-to-end test feeds `objdump_command="cat"` a file with a 20-byte MIPS ELF header ahead of
+  the listing, since `get_arch` reads ident + e_machine). **Verified at the commit:** 10/10; `black --check` clean;
+  `mypy` = upstream's baseline (5 pre-existing: `toml` stubs, `Levenshtein`, `helpers.py` Any — none added, checked by
+  stashing); `./run-tests.sh`: only upstream's `test_perm` fails (needs `mips-linux-gnu-gcc`); **the real permuter end to
+  end** (`.run/P33/permuter-e2e/`: our `compile.sh`, `settings.toml` with `objdump_command = "mipsel-linux-gnu-objdump
+  -drz -m mips:4300"` because upstream looks for `mips-linux-gnu-objdump`): base == target → base score 0 →
+  `--stop-on-zero`; **the floor in miniature** — `other()` (5 ins) with its `xor` operands swapped: reloc-masked base 4 →
+  **score 0 at iteration 256** (<40 s, `-j4`; the winner restored `(a * 3) ^ (b >> 2)`), while the DEFAULT scorer read the
+  same base as **3,585** and sat at 3,420 after 20 iterations. Two gotchas fixed on the way (both caught by the tests /
+  mypy before the commit): a `Match`-typed loop variable shadowed by the instruction loop (mypy union-attr ×3); the
+  stand-in object needing a real ELF header. **The tracked copy (R20):** `tools/permuter/upstream/
+  0001-reloc-masked-scorer.patch` (`git format-patch`; proven to `git am` cleanly onto upstream `main`; the one whitespace
+  warning — a doubled newline at USAGE.md's end — fixed and the commit amended). A dev venv (`.venv-dev/`: mypy 2.3.1,
+  black 26.5.1, toml, pycparser) lives in the scratch clone, never in the project venv. **`docs/permuter-ils.md`** (NEW; in
+  `doc_links`' default set, `--strict` PASS): §1 why the stock scorer floats (the `"." in field` wildcard), §2 the scorer +
+  the PR + the four byte-bought rules (`-drz`, the internal-`j` target, keep-the-opcode, PC16) + Drew's push/PR commands,
+  §3 the issue text for PR-2 (a configurable `symbol_regex`), §4 the ILS warm-restart recipe and its five guards
+  (`func_80148094` 72 → 36 over ~8 restarts; hidden pins re-hidden per cycle; refused-cycle abort R61; comment strip;
+  flushed stdout R55; winner ≠ bank), §5 related. SETUP: row + the P33 E5 section (R21). **Drew:** fork upstream,
+  `git -C .run/P33/permuter-upstream push -u fork reloc-masked-scorer`, open the PR (the commit message is the
+  description), file the issue. Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3 ✓, E4 ✓ (31 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = E5 (2026-09-07, written by session 4555f4e4 "S88" at the E4 close; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E3 ✓, E4 ✓, E5 ✓ (32 of 41); C10 IN PROGRESS ON DREW'S SIDE; NEXT = E6 (2026-09-07, written by session 4555f4e4 "S88" at the E5 close; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = E5** (Max, ≈1 session — the permuter upstream PR branch; it is the plan's last
-named CUT CANDIDATE: ask Drew whether E5 runs in full, trimmed to the issue + `docs/permuter-ils.md`, or is cut — F3 and E3
-ran in full). Rebuild the harness task list (40 items, R28) marking A1–A5, B1–B9/C3, C1–C9, D1–D5, F1–F3, E3, E4 completed and
-C10 in progress. **Every commit cites NEW
+(R1–R73), then WAIT for Drew. **NEXT = E6** (Max, ≈0.5–1 session — the drafter write-up `docs/matching-drafter-pipeline.md`;
+no cut candidates remain: F3, E3, E4, E5 all ran in full). Rebuild the harness task list (40 items, R28) marking A1–A5,
+B1–B9/C3, C1–C9, D1–D5, F1–F3, E3, E4, E5 completed and C10 in progress. **Every commit cites NEW
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). The approved plan
-is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (31):** A1–A5, B1–B9/C3,
+is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (32):** A1–A5, B1–B9/C3,
 C1–C9 (the rewrite, adopted, force-pushed by Drew, gc'd), D1–D5 (README, LICENSE/NOTICE/THIRD_PARTY, badges/objdiff/frogress,
 SETUP public-clean, governing docs + `doc_links`), F1 (timeline + story), F2 (retrospective), **F3 (S88: the wiki — 12 files
 under `docs/wiki/` + the 13 how-to chapters under `docs/how-to-ai-decomp/`, `tools/wiki_render.py` + `tools/wiki_sync.sh`,
@@ -557,18 +586,21 @@ under `docs/wiki/` + the 13 how-to chapters under `docs/how-to-ai-decomp/`, `too
 + `cite_overrides.tsv`; all 135 map citations tagged `[2.7.2]`/`[2.8.1 pm]`/`[repo]` — 79/55/1 — verified, controls 6/6;
 `50c1b69e4d`), **E4 (S88: `tools/xsig/` — `xsig.py` library+CLI, README with the Phase-21 worked example, MIT LICENSE,
 `tests/` from a game-free fixture at two link addresses, 8/8; in tools-health + CI; the standalone copy at `.run/P33/xsig-repo/`
-with one commit under the noreply identity — Drew creates `Druthulu/xsig` EMPTY and pushes; the commit that carries this
-block).** **In progress (Drew, C10):** the GitHub
+with one commit under the noreply identity — Drew creates `Druthulu/xsig` EMPTY and pushes; `9c4d32d651`), **E5 (S88: the
+upstream PR branch `reloc-masked-scorer` in `.run/P33/permuter-upstream/` + its tracked copy
+`tools/permuter/upstream/0001-reloc-masked-scorer.patch` + `docs/permuter-ils.md`; 10/10 tests, black clean, mypy at
+upstream's baseline, the real permuter 4 → 0 in 256 iterations where the default scorer read 3,585 — Drew pushes the branch
+to his fork and opens the PR + files the issue; the commit that carries this block).** **In progress (Drew, C10):** the GitHub
 Support ticket (text: `docs/public-flip-runbook.md` §11 — its filing was never confirmed to S88; ask) and the daily
 `tools/public_rewrite/probe_github.sh` until it prints PASS (S88's run: **31 of 33 old hashes still ALIVE = the S87 baseline;
-no purge yet**). **Remaining (9):** E5 (permuter PR branch) · E6 (drafter write-up) — on the still-private repo; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
+no purge yet**). **Remaining (8):** E6 (drafter write-up) — on the still-private repo; then, gated on the probe PASS: C10 (the flip — Drew), E1 (decomp.me preset
 — Drew), E2 (Archipelago — Drew), D3's outward actions (decomp.dev registration, frogress slug/key — Drew), **the wiki push
 (Drew: Wiki → "Create the first page" in the GitHub UI, then `tools/wiki_sync.sh --push`)**; then C11 (aftercare), G1
 (`docs/gen3-handoff.md`), G2 (the PhaseEnd v2.0.0 + DIGEST + `v2.0.0` tag; Tier 1; WAIT for gate 2).
 
 ### 2. Facts the remaining tasks depend on (measured S88; verify if in doubt, R14)
 - **Repository state:** `main` = the rewritten history (4,031 commits) + the S87 tip commits (C7 → F2) + the S88 commits
-  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, `50c1b69e4d` E3, the E4 commit = HEAD); `origin/main` == the F2 commit
+  (`214d0dd15b` the probe fix, `954362c81e` F3 pages + tooling, `0cf971d1f4` the F3 wiring, `50c1b69e4d` E3, `9c4d32d651` E4, the E5 commit = HEAD); `origin/main` == the F2 commit
   `5e57e88de2` — **Drew pushed the S87 tip on 2026-09-07 07:23Z; the S88 commits are NOT pushed** (a normal fast-forward push;
   R6). The first-ever GitHub runs of both workflows were GREEN on that push (`no-rom` 1 m 35 s, run 34095194524; `progress`
   15 s, run 34095194479) — read the Actions tab again after the next push, fix red, never claim green unseen (P9). The repo is
@@ -582,6 +614,10 @@ no purge yet**). **Remaining (9):** E5 (permuter PR branch) · E6 (drafter write
   old history). Expected after: one pack ≈ 80 MB, `.git` ≈ 93 MB, `git cat-file -e 296ff5551ba71269972e708031b52e9cf39bc782` fails.
   Until then the fixed probe's self-check prints "the WORKING repo's object store holds 31 of 33 sampled OLD commits" — that is
   the residue, not a new import (the fixed run left `git count-objects -v` byte-identical before/after).
+- **Scratch that carries OUTWARD work for Drew (not regenerable from the repo without redoing it — keep until pushed):**
+  `.run/P33/xsig-repo/` (E4: one commit; push to `Druthulu/xsig`) and `.run/P33/permuter-upstream/` (E5: branch
+  `reloc-masked-scorer`, one commit; push to Drew's fork of decomp-permuter — regenerable from the tracked patch via
+  `git am`); `.run/P33/permuter-e2e/` is the demo dir (regenerable).
 - **Scratch to keep until the probe passes, then delete (C11):** `.run/public_rewrite/` (dict.json, mailmap, rom_blob_ids,
   old-to-new.tsv, unchanged_commits.txt, old_tag_tip.txt, the rewritten bare clone `repo.git`, the bundle `pre-rewrite.bundle`
   556 MB, the trial logs; the probe's `probe_scratch.git` is created and deleted per run); `.run/objdiff/` (the objdiff-cli
@@ -622,13 +658,11 @@ no purge yet**). **Remaining (9):** E5 (permuter PR branch) · E6 (drafter write
    Druthulu/BFM-decomp --limit 4`) · `git count-objects -v` (packs: 1 after Drew's gc; 30 = not yet run) · `df -h ~` ·
    `.venv/bin/python tools/doc_links.py --strict` (PASS) · ask Drew: pushed? gc run? ticket filed? latest probe result?
    (`tools/public_rewrite/probe_github.sh` — ~1 min, gh-authenticated, safe to run from Claude since S88).
-2. **E3 and E4 are DONE** (see the log; E4's outward action — Drew creates `Druthulu/xsig` EMPTY on GitHub, then
+2. **E3, E4 and E5 are DONE** (see the log). Outward actions pending on Drew: E4 — create `Druthulu/xsig` EMPTY, then
    `git -C .run/P33/xsig-repo remote add origin https://github.com/Druthulu/xsig.git && git -C .run/P33/xsig-repo push -u origin
-   main` — is pending until Drew does it; the `.run/P33/xsig-repo/` copy is regenerable from `tools/xsig/`). **E5** (Max, 1):
-   the permuter upstream PR branch (`RelocMaskedScorer` behind `--score-mode reloc-masked`; upstream's `Scorer.__init__` gained
-   `ign_branch_targets, objdump_command`; the MIPS symbol wildcard `"." in field` at `scorer.py:66-67`; fixture tests, mypy,
-   black, `./run-tests.sh`; PR-2/issue: configurable `symbol_regex`; `docs/permuter-ils.md`); Drew opens the issue/PR. **E6**
-   (Max, 0.5–1): `docs/matching-drafter-pipeline.md` from `docs/community-matching-model-plan.md`,
+   main`; E5 — fork `simonlindholm/decomp-permuter`, `git -C .run/P33/permuter-upstream remote add fork <fork-url> && git -C
+   .run/P33/permuter-upstream push -u fork reloc-masked-scorer`, open the PR (the commit message is the description) and
+   file the issue from `docs/permuter-ils.md` §3. **E6** (Max, 0.5–1): `docs/matching-drafter-pipeline.md` from `docs/community-matching-model-plan.md`,
    `docs/gen2-mips-matching-model.md`, cookbook §12/§500, `docs/wave-playbook.md`; the ROM-derived pair dataset is NOT published.
    One commit per task after this file is updated; log; refresh this block.
 3. **After the probe PASSES (Drew):** C10 the flip (Settings → Change visibility → Public, only with D/E/F landed) → E1
@@ -645,17 +679,19 @@ no purge yet**). **Remaining (9):** E5 (permuter PR branch) · E6 (drafter write
    the milestone evidence, WAIT for gate 2; then `PhaseEnd_Phase33.md` v2.0.0 with the rule candidates (a)–(h), `CURRENT_PHASE.md`
    → `phase-ends/logs/Phase33.md`, DIGEST §0/§2/§3 appended, the annotated `v2.0.0` tag; Drew pushes `main --tags`).
 
-### 4. Files S88 touched (5 commits after the F2 tip)
+### 4. Files S88 touched (6 commits after the F2 tip)
 Tools (new): `tools/wiki_render.py`, `tools/wiki_sync.sh`, `tools/gccmap_cites.py`, `tools/xsig/` (xsig.py, README, LICENSE,
-tests/: fixture.c, make_fixtures.sh, test_xsig.py, fixture_a.txt, fixture_b.txt, fixture_a.s); changed: `tools/public_rewrite/probe_github.sh` (scratch-repo fetch +
+tests/: fixture.c, make_fixtures.sh, test_xsig.py, fixture_a.txt, fixture_b.txt, fixture_a.s),
+`tools/permuter/upstream/0001-reloc-masked-scorer.patch`; changed: `tools/public_rewrite/probe_github.sh` (scratch-repo fetch +
 self-check), `tools/doc_links.py` (DEFAULT_GLOBS + the map README), `Makefile` (`wiki_render --selftest` + `gccmap_cites --check` + the xsig tests in
 tools-health), `.github/workflows/no-rom.yml` (the gccmap_cites + xsig steps). Docs (new): `docs/wiki/*.md` (12),
-`docs/how-to-ai-decomp/*.md` (13), `docs/gcc-2.7.2-map/README.md` + `cite_overrides.tsv`; changed: the five map files (135
+`docs/how-to-ai-decomp/*.md` (13), `docs/gcc-2.7.2-map/README.md` + `cite_overrides.tsv`, `docs/permuter-ils.md`; changed: the five map files (135
 cites tagged in place), `docs/SETUP.md` (the probe clause in the public_rewrite row;
 2 wiki rows; the P33 F3 section), `docs/public-flip-runbook.md` (§11: the R57 probe paragraph; the wiki push step),
 `docs/doc_links_pending.txt` (10 entries mid-task → EMPTY), `phase-ends/CURRENT_PHASE.md` (F3 ticked; the S88 preflight + F3 log
 entries; this block). Evidence: `.run/P33/f3_tools_health.log`, `.run/P33/e3_tools_health.log`, `.run/P33/e4_tools_health.log`, `.run/wiki/render/`
-(regenerable), `.run/P33/xsig-repo/` (the standalone copy, one commit). The plan file:
+(regenerable), `.run/P33/xsig-repo/` (the standalone copy, one commit), `.run/P33/permuter-upstream/` (the upstream clone +
+branch + dev venv), `.run/P33/permuter-e2e/` (the demo dir). The plan file:
 `~/.claude/plans/max-effort-set-plan-twinkling-moonbeam.md` (copied below).
 
 ---
