@@ -335,6 +335,11 @@ unsloth_compiled_cache/
 !/.run/P33/verify/
 /.run/P33/verify/*
 !/.run/P33/verify/*.log
+# P33 E1 (S89, 2026-09-07): the decomp.me toolchain-replica verdict log (tools/decompme_replica.sh) — the log only; the
+# regenerated target .s (game disassembly, H1), the probe objects and the old-gcc tarball under .run/P33/e1/ stay ignored
+!/.run/P33/e1/
+/.run/P33/e1/*
+!/.run/P33/e1/decompme_replica.log
 !/.run/P33/verify/*.map
 !/.run/P33/verify/*.md
 !/.run/P33/verify/*.txt

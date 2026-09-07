@@ -20,7 +20,7 @@ All components run inside WSL2 Ubuntu 24.04 (single ext4 clone). The "Side" colu
 | WSL2 distro | Ubuntu-24.04 (Python 3.12 ships with it) | WSL2 (Linux) | 4 |
 | splat | pip `splat64[mips]` `>=0.41.0,<1.0.0` — **as-built 0.41.0** (Phase 4); freeze exact once Phase 5 green | WSL2 (Linux) | 4 |
 | Vintage compiler | decompals/old-gcc **release 0.17**: `gcc-2.7.2-psx` + `gcc-2.7.2-cdk` | WSL2 (Linux) | 4 |
-| maspsx | git submodule, `mkst/maspsx` (decomp.me pins commit `874855c53f65f8fa57447e1da6bde6236dbef9d5` — reasonable default pin) | WSL2 (Linux) | 4 |
+| maspsx | git submodule, `mkst/maspsx` at `874855c53f65f8fa57447e1da6bde6236dbef9d5` (decomp.me's pin when we adopted it, June 2026; decomp.me moved to `86ccd7d8` on 2026-08-29 — 4 commits later, behaviour identical for `--aspsx-version` ≥ 2.30; see `docs/decompme-preset.md` §3) | WSL2 (Linux) | 4 |
 | asm-differ / m2c / decomp-permuter | git submodules (URLs in §4.6) | WSL2 (Linux) | 4 |
 | binutils (mipsel) | apt `binutils-mipsel-linux-gnu` — **as-built 2.42** (Phase 4; ≥2.38 → check-env WARN, verdict deferred to Phase 5), 2.35 known-good | WSL2 (Linux) | 4 |
 
@@ -296,7 +296,7 @@ Submodules (add under `tools/`):
 
 | Submodule | URL | Pin |
 |---|---|---|
-| `tools/maspsx` | `https://github.com/mkst/maspsx.git` | commit `874855c53f65f8fa57447e1da6bde6236dbef9d5` (decomp.me's pin — keeps local results comparable to decomp.me scratches) |
+| `tools/maspsx` | `https://github.com/mkst/maspsx.git` | commit `874855c53f65f8fa57447e1da6bde6236dbef9d5` (decomp.me's pin in June 2026; decomp.me now runs `86ccd7d8` — measured byte-equivalent for our aspsx version, `docs/decompme-preset.md` §3; `tools/decompme_replica.sh --upstream` reports drift) |
 | `tools/asm-differ` | `https://github.com/simonlindholm/asm-differ.git` | pin current HEAD at adoption |
 | `tools/m2c` | `https://github.com/matt-kempster/m2c.git` | pin current HEAD at adoption |
 | `tools/decomp-permuter` | `https://github.com/simonlindholm/decomp-permuter` | sotn pins `b44b0622269fb4bff29e79fbbad26b9f47beda79` — sane default |
@@ -514,13 +514,19 @@ Modern cpp preprocesses → **vintage cc1** compiles to asm → **maspsx** emula
 
 ### §6.5 decomp.me settings for BFM
 
-- Platform: **PlayStation**; Compiler: **`gcc2.7.2-psx`** (or `gcc2.7.2-cdk`) **+ maspsx** family — these images bundle old-gcc cc1 + maspsx at the same pinned commit we use.
-- Starting flags: `-O2 -G0` (adjust per §5).
+- Platform: **PlayStation** (`ps1`); Compiler: **`gcc2.7.2-psx`**. **The project's preset — `docs/decompme-preset.md` (P33 E1):**
+  flags `-O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div`; name
+  `Brave Fencer Musashi (SLUS-00726)`; **requested from decomp.me's maintainers via their GitHub issue template** (there is no
+  create button in the UI and no owner delete) by Drew after the flip, with a proving scratch attached — proven before it is
+  requested (`docs/decompme-preset.md` §5 carries the ready-to-paste issue).
+- **decomp.me does NOT run our binaries** (measured 2026-09-07 from `decompme/compilers`): its image is old-gcc **0.13** +
+  maspsx **`86ccd7d8`** with `as` = a maspsx `--run-assembler` wrapper (so `-Wa,` args reach maspsx); we run old-gcc 0.17 +
+  maspsx `874855c5`. Both deltas measured text-identical on the probe; the maspsx delta is gated on aspsx < 2.30 anyway.
+  **`tools/decompme_replica.sh`** rebuilds decomp.me's toolchain under `.run/decompme/` and proves a function through it
+  locally (PASS on `func_80018F20`, 26/26 words); `--upstream` reports when decomp.me's pins drift.
 - **Do NOT use the SOTN preset** (`Castlevania: Symphony of the Night` / `gcc 2.6.3-psx` / `psyq_263_221`) — wrong era, guaranteed near-miss diffs.
-- decomp.me's API is Cloudflare-challenged (403 to scripts) — scratch searches/uploads needing the API must be done manually in a browser.
-- **The project's preset (P33 E1, `docs/decompme-preset.md`):** platform `ps1`, compiler `gcc2.7.2-psx`, flags
-  `-O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div` (decomp.me's image wraps
-  `as` with maspsx and forwards `-Wa,` args). Presets are created in the browser by a logged-in user (Drew, after the flip).
+- decomp.me's API is Cloudflare-challenged (403 to scripts) — scratch searches/uploads needing the API must be done manually in a browser
+  (the one-time manual BFM search is ledger row 14, closed by the E1 browser session).
 
 ### §6.6 Matching a function (INCLUDE_ASM → C; the NON_MATCHING guard) — As-built Phase 6
 
@@ -769,6 +775,8 @@ Every script under `tools/` (plus the two report make-targets), grouped by purpo
 | | `tools/permuter/upstream/0001-reloc-masked-scorer.patch` | **(P33 E5)** The upstream PR as a `git format-patch` (one commit against `simonlindholm/decomp-permuter` main `41bd0bfc`, 2026-09-05): `src/reloc_scorer.py` (`RelocMaskedScorer`, a `Scorer` subclass), `--score-mode {mnemonic,reloc-masked}` + the `score_mode` settings key, docs, `test/test_reloc_scorer.py` (10, no cross toolchain). Regenerate the branch: clone upstream, `git am` the patch (proven clean). Two commits (the scorer; a USAGE note on restarting from the best candidate), plain contributor style. Submitted 2026-09-07: PR simonlindholm/decomp-permuter#213 (from the fork's `reloc-masked-scorer`), issue #214 (the symbol-regex proposal; `docs/permuter-ils.md` §3). |
 | | `docs/matching-drafter-pipeline.md` | **(P33 E6)** The write-up of the fine-tuned local matching drafter (Phases 22–25): the pipeline (`export_pairs` → `format_finetune` → `train_lora` → `eval_lora` → `serve_local` → `api_draft` / `lora_grind` / `bulk_harvest` → the byte gate; `ab_score` + `workflows/ab_match.js`; `grinder`), every measurement in order (stock floor ~0 → v2 85% on 6–15 ins → v3 57.5% held-out and ~352 production banks → v4 negative → the GLM hard-band A/B and the def-side wall), the portable lessons, the hardware, a five-step recipe, and what is NOT published (the ROM-derived pair dataset `datasets/`, the adapter weights `models/` — both gitignored). |
 | | `docs/gen3-handoff.md` | **(P33 G1)** The Gen3 seed: where Gen2 ends, the owner's next intent (casts → structs, pins off, names), the starter census with the commands that re-derive it (143 raw address casts · 61,898 `D_` · 16,335 `func_` · 44,243 register pins · 1,083 symbol-file entries · 1,232 struct defs · 2,220 dedup groups · 5 verbatim bodies), the one invariant (every edit byte-gated; shared bodies change every member; types are comprehension not bytes), the inherited levers, shiftability honestly scoped (position-locked slots, LZSS not byte-stable, the Sony regions), the parked ideas, and the governance for a new generation. |
+| | `tools/decompme_replica.sh` | **(P33 E1)** Runs a function through decomp.me's EXACT PS1 `gcc2.7.2-psx` toolchain locally — old-gcc 0.13 (tarball sha256-checked into `.run/decompme/`) + maspsx `86ccd7d8` (from the submodule's object store) behind the image's two-line `as` wrapper, driven by the backend's own two commands — and compares the code words to the ROM-derived target (`verbatim_target_s.py`); our Makefile pipeline on the same TU is the control (exit 3 if IT fails), then cc1 and maspsx are swapped one at a time so a difference names its producer. Default probe `func_80018F20`; `--src TU --fn NAME [--binary B] [--flags "…"]`; `--upstream` compares decomp.me's current Dockerfile pins with the script's constants. Trailing gas padding is reported, never counted. Exit 0 = the preset reproduces the function byte-identically on decomp.me's toolchain. |
+| | `docs/decompme-preset.md` | **(P33 E1)** The decomp.me preset (fields, name, flags), why each flag, the measured decomp.me-vs-ours toolchain table (0.13 vs 0.17 cc1; maspsx `86ccd7d8` vs `874855c5` — 4 commits, both behavioural ones gated on aspsx < 2.30), the recorded `decompme_replica.sh` PASS + its two negative controls, and Drew's post-flip browser session (scratch → 100% → the preset-request issue on decompme/decomp.me → the manual search closing ledger row 14). |
 | | `tools/objdiff_report.py [--in docs/progress.json] [--out report.json]` | **(P33 D3)** progress.json → objdiff's report format (report.proto v2, snake_case — validated with `objdiff-cli` 3.8.1 `report changes`): one unit per binary (code = instructions × 4, functions byte-identical / matchable, metadata complete), categories `game-code` and `linked-sony-objects` (functions only). `.github/workflows/progress.yml` runs it on every push (no rebuild — the committed JSON) and uploads the artifact **`SLUS_007.26_report`** for decomp.dev (Drew registers at decomp.dev/manage/new after the flip). |
 | | `tools/frogress_upload.py [--push --project bfm --version us]` | **(P33 D3)** stdlib; `--dry-run` is the default (prints the payload); `--push` POSTs `{"api_key","entries":[{git_hash,timestamp,categories:{default:{measures…}}}]}` to `progress.deco.mp/data/<project>/<version>/` with `FROGRESS_API_SECRET` from the environment (never a file). frogress projects are admin-created — Drew requests the slug + key after the flip. |
 | | `tools/public_rewrite/` (P33 C1) | **The history-rewrite package** (`docs/public-flip-runbook.md` §3 is the operating table). `common.py` (shared: the purge rules, the DERIVED content-hash sets, identities from the log, the one hash regex, a persistent `cat-file --batch`) · `hash_dict.py [--write-mailmap]` (every commit OBJECT → `commit:NNNN` / twin / orphan; prefix index 7..40; asserts 0 ambiguous; records content-hash collisions as excluded; writes the scratch mailmap) · `scrub.py --test \| --sample \| --file` (THE scrub: hash tokens, addresses → noreply, trailer lines in messages; 12 known-true cases; the HEAD sample with git's own object lookup as the independent oracle) · `gate_scan.py --all\|--refs … [--worktree] [--expect-fail FIXTURE]` (paths ever touched × purge rules; every reachable blob's content sha1 × the ROM set; 5 byte signatures; 50 MiB; emits `rom_blob_ids.txt` = hits ∪ every blob ever under a purge path; the fixture `expected_offenders.txt` is the R39 negative control) · `run_filter.py [--sample]` (the git-filter-repo 2.47.0 module-API run inside the scratch bare clone; refuses elsewhere) · `verify_rewrite.py --old --new` (the pairwise proof) · `build_commit_map.py [--out]` (`docs/commit-map.tsv`, asserted free of old hashes) · `resolve_tokens.py [--check] [--map]` (tokens → shortest unique ≥9-char new abbreviations at the tip) · `absent_scan.py [--repo] [--tree]` (nothing old anywhere) · `probe_github.sh [--after-flip]` (Drew's purge probe). Scratch (`.run/public_rewrite/`, never committed): `dict.json`, `mailmap`, `rom_blob_ids.txt`, `old-to-new.tsv`, `repo.git`, the bundle. · `probe_github.sh [--after-flip]` (Drew's daily post-purge probe, C10: 33 sampled old shas via `gh api` + a fetch; **S88, R57:** the fetch runs in a throwaway bare repo under `.run/public_rewrite/` with `--filter=blob:none --depth=1`, never in the working repo — a successful fetch of an old sha imports its purged closure, which the S87/S88 runs did (5.97 GiB unreachable) — and it ends with a self-check naming any sampled old commit the working repo still holds + the gc recipe) |
@@ -986,7 +994,7 @@ A Track-1 match proves the dump is the canonical redump dump, which transitively
 | 11 | Canonical git remote URL (off-box push/pull backup) | **CLOSED (P33 C9, 2026-09-07):** `https://github.com/Druthulu/BFM-decomp.git`, public from C10; the pre-rewrite history in the private archive `Druthulu/BFM-decomp-archive` (§4.3) |
 | 12 | Per-libnum stamp detail (raw-track scan reported 16 hits vs 12 genuine in extracted EXE — extracted-EXE scan is ground truth, see §5.1) | **RESOLVED 2026-06-13** — DetectPsyQ at headless import recorded `PsyQ Version = 4.0.0` (§2.5 step 3) |
 | 13 | Overlay load addresses (resident 0x800CDF58 / location 0x80128508, EXE ptr table ~0x62620) | **JP-only — re-derive for US** (owned by docs/memory-map.md) |
-| 14 | Greenfield claim: decomp.me scratch search is script-blocked (Cloudflare) | **TBD → closes at P33 E1:** the preset-creation session (Drew, in the browser, after the flip) includes the one-time manual search for BFM scratches; record the result here |
+| 14 | Greenfield claim: decomp.me scratch search is script-blocked (Cloudflare) | **Open until the E1 browser session (Drew, after the flip; `docs/decompme-preset.md` §5 step 4):** the one-time manual search for BFM scratches — record the result here. The preset itself is already PROVEN locally (2026-09-07, `tools/decompme_replica.sh` PASS through decomp.me's 0.13 + `86ccd7d8` toolchain). |
 
 ### `tools/gap_triage.py` — harvest pre-filter (added P31 S55)
 
@@ -1147,6 +1155,29 @@ fills fast). Nothing is leaking — but the host does not get the memory back on
   `DefineFunctions.java` list path = arg 1; `ImportPsyqGdt.java` default gdt from the Ghidra install dir; the six
   `tools/ghidra_*.sh` are repo-relative (`BFM_GHIDRA_PROJ` overrides the project dir; `ghidra_mcp_verify.sh <addr> <name>
   [PROG]`); Makefile `GHIDRA_PROJ := $(or $(BFM_GHIDRA_PROJ),$(CURDIR)/ghidra)`.
+
+### P33 E1 (S89, 2026-09-07) — the decomp.me preset, proven through decomp.me's own toolchain before it exists
+- `docs/decompme-preset.md` (NEW; in `doc_links`' default set). The preset: platform `ps1`, `gcc2.7.2-psx`,
+  `-O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div`, name
+  `Brave Fencer Musashi (SLUS-00726)`; **no create-preset UI exists** (the frontend only reads presets) — decomp.me's
+  maintainers create them from the `create-or-update-a-compiler-preset.md` issue template; `name`/`platform` immutable and no
+  owner delete (`views/preset.py`: 405) → proven before it is requested.
+- **Measured (R14) — the stale claim "decomp.me bundles maspsx at the same pinned commit we use" (§6.5, rows for maspsx)
+  was wrong:** decomp.me's image (`decompme/compilers` `platforms/ps1/gcc2.7.2-psx/Dockerfile` + `values.yaml`) is old-gcc
+  **0.13** (sha256 `aca64479…ffbc`) + maspsx **`86ccd7d8`** (2026-08-29) with `as` = `python3 maspsx.py --run-assembler
+  -I${COMPILER_DIR} "$@"`; the backend (`coreapp/compilers.py` `PS1_GCC`) runs `/usr/bin/cpp -nostdinc | sed` then
+  `gcc ${FLAGS} -c -pipe -B${COMPILER_DIR}/`. Our pin `874855c5` is 4 commits behind; the two behavioural commits (lw,lw and
+  lwl/lwr nop handling) are gated on aspsx < 2.30. old-gcc 0.13→0.17 changed build scripts and the cdk patches only
+  (`compare/0.13...0.17`). The three §6.5/maspsx rows were corrected in place.
+- **`tools/decompme_replica.sh`** (NEW): the replica + control + attribution matrix described in its inventory row. Recorded run
+  (`.run/P33/e1/decompme_replica.log`): **decomp.me replica BYTE-IDENTICAL on all 26 words of `func_80018F20`** (+2 trailing
+  zero words = gas padding, reported not counted) · our pipeline BYTE-IDENTICAL (control) · C1 cc1 0.13 vs 0.17 identical
+  text · C2 maspsx 86ccd7d8 vs 874855c5 identical text · `PASS`. Controls (R39): `-O1` flags → FAIL listing the words (rc 1);
+  an empty-body TU → the CONTROL fails first (rc 3, R56). `--upstream` 2026-09-07: `pins UNCHANGED`. Instrument lesson (R40):
+  the first comparison read the padded `.text` and called the identical object DIFFERS.
+- `.gitignore`: `.run/P33/e1/` allowlisted for the verdict log only (the regenerated target `.s` is game disassembly — H1).
+- Pending (Drew, after the flip — `docs/decompme-preset.md` §5): create the scratch, see 100%, file the preset-request issue
+  (text in §5), run the manual search, record the issue/preset URL + search result here and in ledger row 14.
 
 ### P33 G1 (S88, 2026-09-07) — `docs/gen3-handoff.md`
 - The census was DERIVED from the tree at writing (R33/R41; the commands are in the doc): 143 raw address casts, 61,898
