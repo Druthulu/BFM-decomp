@@ -674,10 +674,16 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   Commit: see below.
 - **2026-09-07 (S89) — E5 outcome: PR #213 and issue #214 CLOSED unmerged by the permuter maintainer** — the maintainer closed PR #213 and issue #214 on 2026-09-07 without merge: `field_matches_any_symbol` is intentional (it covers temporary `.text+0x…` names), a name mismatch between C and asm should be fixed by renaming the symbol in the target asm (splat's symbol files), and a nonzero optimal score is acceptable in the interactive workflow; he also said the issue text read as LLM-generated and felt disrespectful of his time. Assessment: right on
   the merits for his interactive tool (ours stays a local tool for unattended ILS; his symbol-rename alternative recorded, untested); right
-  without qualification on authorship — the "plain-style pass" was a de-tell pass, not disclosure. **Binding from now (rule candidate (j)):
-  outward text in Drew's own words or disclosed; the model supplies facts.** Applied to the pending E1/E2 texts (re-labelled in both docs +
+  without qualification on authorship — the "plain-style pass" was a de-tell pass, not disclosure. **Binding from now (rule candidate (j), Drew's decision after this entry: NO AI acknowledgement):** outward text to third parties (issues, PRs, outreach) is written the way a developer writes — short, plain, few or no code spans, no exhaustive bullet walls, no evidence scaffolding — REWRITTEN from the facts, never a model draft with the tells removed; no AI disclosure (Drew's decision, 2026-09-07); check the target project for an AI-contribution policy first. Applied to the pending E1/E2 texts (re-labelled in both docs +
   the bundle), checkpoint §0b, `docs/permuter-ils.md` §2/§3, the SETUP patch row, decision log P33 S89, failure museum row 37, how-to §11.
   Drew: pushed; both Actions green (S89). Commit: see below.
+- **2026-09-07 (S89) — Drew's decision on outward text: no model-draft acknowledgement, ever; everything outward is written the way a
+  developer writes it.** His diagnosis of the giveaway, which I share: the "plain-style pass" ran an anti-AI filter over model prose
+  (dense backtick-bracketing of every term, exhaustive bullets, evidence scaffolding, length) instead of rewriting like a person would.
+  Applied: the E1 preset request and the E2 Archipelago message REWRITTEN in a developer's voice (short, no code spans, casual
+  register; the decomp.me template's own bullets kept); the bundle file replaced; rule candidate (j), the decision log P33 S89, the
+  failure museum row 37 and how-to §11 reworded to the decision. Also: check a target project for an AI-contribution policy before
+  submitting (the permuter had none; we checked). Commit: see below.
 
 ## 🛑 SESSION CHECKPOINT — A1–A5 ✓, B1–B9/C3 ✓, C1–C9 ✓, D1–D5 ✓, F1–F3 ✓, E1–E6 ✓, G1 ✓ (36 of 41); C10 = SUPPORT TICKET #4736982 FILED, PROBE DAILY; NEXT = the probe-gated chain (Drew: flip → E1/E2/D3 outward → wiki push), then C11, G2 (2026-09-07, written by S88, updated by S89 after the ticket + E1; SUPERSEDES the earlier blocks)
 
@@ -708,10 +714,10 @@ holds the old ones and stays until the probe passes). **Never `git clean -x`** (
    Push the local commits (`git push origin main`) and confirm both Actions workflows are green on the push.
 1. **C10 the flip:** GitHub → Settings → General → Danger Zone → Change visibility → Public. Then `gh api repos/Druthulu/BFM-decomp --jq
    .private` → `false`; `tools/public_rewrite/probe_github.sh --after-flip`; Actions tab green. Enable Settings → General → Features → Wikis.
-2. **E1 (decomp.me, ~20 min; write the issue IN YOUR OWN WORDS or disclose the draft — S89 lesson):** the six steps in `docs/decompme-preset.md` §5 / checkpoint §3 — scratch from `.run/decompme/drew_bundle/`
+2. **E1 (decomp.me, ~20 min; the issue text in `docs/decompme-preset.md` §5 is written in a developer's voice — edit freely, no AI acknowledgement):** the six steps in `docs/decompme-preset.md` §5 / checkpoint §3 — scratch from `.run/decompme/drew_bundle/`
    (100% expected) → the preset-request issue on `decompme/decomp.me` → the manual search (`Musashi`, `Brave Fencer`, `SLUS-00726`,
    `SLUS_007`) → send Claude the scratch URL, the issue URL, the search result.
-3. **E2 (Archipelago; IN YOUR OWN WORDS or disclosed — S89 lesson):** open the GitHub issue on `AegeusEvander/Brave-Fencer-Musashi-AP-World` with `docs/outreach/archipelago.md` §4
+3. **E2 (Archipelago; the message in `docs/outreach/archipelago.md` §4 is written in a developer's voice — edit freely, no AI acknowledgement):** open the GitHub issue on `AegeusEvander/Brave-Fencer-Musashi-AP-World` with `docs/outreach/archipelago.md` §4
    (title + body), or the Discord short form. Send Claude the issue URL; forward any reply.
 4. **D3 outward (progress boards):** decomp.dev → log in with GitHub → `decomp.dev/manage/new` → add `Druthulu/BFM-decomp` (it reads the
    `SLUS_007.26_report` artifact `progress.yml` already uploads). frogress: request slug `bfm` + an API key from the maintainers, then

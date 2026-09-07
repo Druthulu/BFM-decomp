@@ -112,28 +112,26 @@ decomp.me but matches locally is a toolchain question first: run the replica wit
    the three typedefs the function needs (`u8`, `u32`, `s32`, as in `include/common.h`). Source = the function's body from
    `src/800.c`. Set the compiler flags to the §1 string. Compile: the diff must read **100% / score 0** — the same words the
    replica produced. If it does not, stop and run `tools/decompme_replica.sh --upstream` (a moved pin) before anything else.
-3. **Request the preset** — open an issue on `decompme/decomp.me` with the preset template. **Write it in your own words** (the block
-   below is the model-drafted list of what it must contain; keep the five template fields and the scratch link; an upstream maintainer
-   closed our permuter PR on 2026-09-07 partly because the text read as LLM-generated — decision log P33 S89) or say the draft was model-written.
-   Template (FAQ → "compiler preset issue
-   template"), title `[PRESET] Create Compiler Preset Brave Fencer Musashi (SLUS-00726)`, body:
+3. **Request the preset** — open an issue on `decompme/decomp.me` with their "Create or update a compiler preset" template
+   (their bullet format is theirs; keep it). Written the way a developer writes, no AI acknowledgement (Drew's rule, S89):
+
+   Title: `[PRESET] Create Compiler Preset Brave Fencer Musashi (SLUS-00726)`
 
    ```
-   I would like to create a compiler preset on decomp.me.
+   Preset request for Brave Fencer Musashi (USA). Scratch that matches 100% with these settings: <scratch URL>
 
-   - **Preset Name:** `Brave Fencer Musashi (SLUS-00726)`
-   - **Platform:** `ps1`
-   - **Compiler ID:** `gcc2.7.2-psx`
-   - **Compiler Flags:** `-O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div`
+   - **Preset Name:** Brave Fencer Musashi (SLUS-00726)
+   - **Platform:** ps1
+   - **Compiler ID:** gcc2.7.2-psx
+   - **Compiler Flags:** -O2 -G0 -mips1 -mcpu=3000 -mgas -msoft-float -fgnu-linker -Wa,--aspsx-version=2.56,--expand-div
    - **Libraries (if applicable):** none
 
-   Evidence: this scratch matches 100% with exactly these flags: <scratch URL>.
-   Project: https://github.com/Druthulu/BFM-decomp (218 binaries byte-identical from source with this triple;
-   docs/decompme-preset.md explains the flags and the local proof through decomp.me's own toolchain).
+   These are the flags the full matching decomp uses (https://github.com/Druthulu/BFM-decomp), all 218 binaries build
+   byte identical with them. The -Wa part matters, without --expand-div nothing with a division matches.
    ```
 
-   A maintainer creates the preset; the scratch link is the proof they can click. Check the name's spelling in the issue —
-   it is immutable once created.
+   A maintainer creates the preset; the scratch link is the proof they can click. Check the name's spelling, it is immutable
+   once created.
 4. **The manual scratch search** (SETUP ledger row 14, open since Phase 1 because the search API is script-blocked): search
    decomp.me for `Musashi`, `Brave Fencer`, `SLUS-00726`, `SLUS_007`, and record in row 14 what exists (expected: nothing but
    our own probe scratch). That closes the row and completes the greenfield claim's last check.

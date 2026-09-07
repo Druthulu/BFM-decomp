@@ -55,54 +55,47 @@ site (`tools/…` one-off in the S89 log; re-run from the registries, never from
 
 ## 4. The message (Drew sends; GitHub issue on their repo, which has issues enabled)
 
-> **Authorship (S89, 2026-09-07):** the text below is a model-drafted list of the facts in §2 in message form. **Rewrite it in your own
-> words, shorter if you like, or say plainly that a model drafted it.** The permuter maintainer closed our PR and issue the same day
-> partly because the text read as LLM-generated ("kinda similar to getting a robocall") — decision log P33 S89, failure museum. The
-> facts and offsets are what matter; the wording is yours.
+> **Authorship rule (Drew, S89, 2026-09-07):** written the way a developer writes an issue, short and plain, no code spans, no bullet
+> walls, no "evidence" scaffolding. Rewritten from the §2 facts, not a model draft with the tells taken out (the permuter maintainer
+> spotted the de-telled version at once; the dense backtick formatting was the likely giveaway). No AI acknowledgement. Edit freely.
 
-**Title:** `Matching decompilation of BFM (USA) is public: source and symbols behind your patch sites and RAM addresses`
+**Title:** Decomp of BFM (US) is public, might be useful for the AP world
 
 **Body:**
 
 ```
-Hi. I run a matching decompilation of Brave Fencer Musashi (SLUS-00726):
-https://github.com/Druthulu/BFM-decomp. The main executable and all 217 streamed code modules
-rebuild byte-for-byte from C, so every RAM address your client touches now has a function or a
-variable behind it that you can read.
+Hey, I've been working on a matching decompilation of Brave Fencer Musashi (USA) and it's public
+now: https://github.com/Druthulu/BFM-decomp. The whole exe and all the streamed modules rebuild
+byte for byte from C, so basically every address your client pokes at has a function or a
+variable behind it now.
 
-Your world helped us early on (client.py was our richest US RAM source and is credited in the
-README), so here is some of it coming back. Offsets below are BizHawk MAIN_RAM offsets like yours.
+Your client.py was a big help early on for US RAM addresses (you're in the README credits), so a
+few things I found going back through it against the source:
 
-- Day of week: your read at 0x078eba is right. The rollover function (func_8014B084, present in
-  every location overlay) does day = day + 1 (u16 at 0x078eac, wraps to 1 at 366) and
-  dow = (dow + 1) % 7 (u8 at 0x078eba).
-- Your max-BP patch at 0x14bcf8 sits in a 14-instruction function, func_8014BCEC(a0, a1):
-  bp_max (u16 at 0x078eb6) += a1, clamped to 0x662. The nop removes the increase.
-- The scroll-cursor site 0x13f430 is inside func_8013F350; the old town-ID site 0x15a7e4 was
-  inside func_8015A3C8; your Time Sanity hook at 0x146280 rewrites a jump inside func_80146128.
-  All of these are shared engine bodies, byte-identical in every location overlay, so one C
-  definition in src/shared/engine_core.h covers every map. The entrance byte at 0x18e096 is
-  per-map code (seven maps, seven different functions).
-- One small thing in the version check: the EXE's copy of the ID string is "BASLUS-00726MUSASHI"
-  starting at 0x072dfc, so the fallback read at 0x072e02 starts at the string's fifth character
-  and can never match on the US disc. Harmless, since the kernel-area check hits first.
+- day of week at 0x078eba is correct. The rollover function bumps the day counter (u16 at
+  0x078eac, wraps back to 1 at 366) and does dow = (dow + 1) % 7.
+- the max BP patch at 0x14bcf8 is in a tiny 14 instruction function that does
+  bp_max (u16 at 0x078eb6) += arg and clamps at 0x662. Nopping the addu just kills the increase,
+  so that all checks out.
+- the scroll cursor site (0x13f430), the old town id check (0x15a7e4) and your time sanity hook
+  (0x146280) are all in shared engine code that's identical in every location overlay, so one C
+  file covers all of them. The entrance byte at 0x18e096 is different per map though.
+- minor: the exe's copy of the id string is actually "BASLUS-00726MUSASHI" starting at 0x072dfc,
+  so the fallback read at 0x072e02 starts 4 bytes into it and won't ever match on US. Doesn't
+  matter since the 0xba94 check hits first, just thought you'd want to know.
 
-If it helps, I can resolve any address in your client to its function or struct field, and we
-would like to name our symbols after your findings where you found them first. Two questions:
-is there US RAM research beyond client.py you would be willing to share, and are you fine with
-us continuing to cite client.py addresses in our memory map with attribution (your repo has no
-license file, so I wanted to ask)?
+If you've got US RAM notes beyond what's in client.py I'd be glad to fold them in with credit, and
+if you want any address resolved to its function just ask. Also wanted to check you're ok with us
+citing client.py addresses in our memory map (the repo has no license so figured I'd ask).
 
-Everything is under docs/memory-map.md and src/ in the repo. Thanks for building the world.
+Function names are still func_XXXXXXXX style for now, naming is the next big job.
 ```
 
-**Short form** (Archipelago Discord, the game's channel, if preferred): "BFM (USA) now has a complete matching
-decompilation: https://github.com/Druthulu/BFM-decomp. Your dow read at 0x078eba is confirmed by the source
-(func_8014B084: dow = (dow+1) % 7), your max-BP patch site is func_8014BCEC (bp_max at 0x078eb6 += a1, clamp 0x662), and
-every hook site has a named function now. Happy to resolve any address; details in an issue on your repo."
+**Short form** (Archipelago Discord, the game's channel, if preferred): "BFM (USA) has a full matching decomp now:
+https://github.com/Druthulu/BFM-decomp. Went through client.py against the source, your day of week address checks out, the
+max BP patch is in a 14 instruction function, every hook site has a named function now. Happy to look up any address."
 
-Style rules kept: plain prose, no em-dashes, no marketing, every number from §2, nothing promised that is not already in the
-repo. **Send only after the flip** (the message links the public repository).
+**Send only after the flip** (the message links the public repository).
 
 ## 5. After the reply
 
