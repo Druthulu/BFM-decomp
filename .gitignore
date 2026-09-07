@@ -328,6 +328,16 @@ unsloth_compiled_cache/
 /.run/P32/t4d/bank/*
 !/.run/P32/t4d/bank/*.c
 # P32 T4c hand pass (S85, 2026-09-06): the two main rows' variants, rtu logs, notes, reproducers, bank bodies, slates, gate/R22 logs (not dumps_*/ or rtu/)
+# P33 A5 (S87, 2026-09-06): THE recorded contract run — tools/verify_contract.sh's per-step logs, the two link
+# maps of the with/without-SDK dual and SUMMARY.md (quoted by docs/verification.md). Evidence, tracked.
+!/.run/P33/
+/.run/P33/*
+!/.run/P33/verify/
+/.run/P33/verify/*
+!/.run/P33/verify/*.log
+!/.run/P33/verify/*.map
+!/.run/P33/verify/*.md
+!/.run/P33/verify/*.txt
 !/.run/P32/t4e/
 /.run/P32/t4e/*
 !/.run/P32/t4e/*.c

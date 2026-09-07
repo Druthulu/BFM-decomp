@@ -43,6 +43,7 @@ import collections
 import glob
 import json
 import os
+import re
 import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -186,11 +187,19 @@ def main():
     else:
         print("All views agree with the corpus oracle.")
     print()
-    print("SCOPE CAVEAT (R34/R36, printed deliberately): agreement here does NOT mean the")
-    print("denominator is complete. Every view above — and the byte-gate itself — is blind to code")
-    print("that was never onboarded. Open: the 39 un-onboarded type-1 modules")
-    print("(docs/disc-completeness.md) and main's missing independent boundary oracle")
-    print("(docs/second-oracle.md). No 100% claim is meaningful until those resolve.")
+    # The denominator facts, DERIVED (P33 A5, S87): this used to be a typed caveat naming "the 39 un-onboarded
+    # modules" and "main's missing oracle" — both resolved in P30/P31 while the text stayed. R51.
+    linked = {f"src/{seg}.c" for seg in progress._main_linked_segs_from_makefile()}
+    n_linked_stubs = sum(1 for b, st in ref.items() if b == "main" for x in st if getattr(x, "path", "") in linked)
+    n_total = total_open
+    print(f"DENOMINATOR (R34/R36): agreement above says nothing about code never onboarded, so:")
+    print(f"  stubs {n_total} total, {n_linked_stubs} inside main's LINKED (Sony-object) regions by design, "
+          f"{n_total - n_linked_stubs} game-code stubs open")
+    ledger = os.path.join(REPO, "docs/disc-ledger.md")
+    m = re.search(r"## Code payloads — (\d+) UNCLAIMED of (\d+)", open(ledger, encoding="utf-8").read()) if os.path.exists(ledger) else None
+    print(f"  disc: {m.group(1) + ' UNCLAIMED of ' + m.group(2) + ' code payloads (docs/disc-ledger.md, from make audit-disc)' if m else 'docs/disc-ledger.md ABSENT — run make audit-disc'}")
+    sig_main = os.path.join(REPO, ".run/sig.main.jsonl")
+    print(f"  main's build-derived boundary sig: {'present' if os.path.exists(sig_main) else 'ABSENT — run make sig-main'} (.run/sig.main.jsonl; the Ghidra sig is the second, independent oracle)")
     return 1 if (problems and a.strict) else 0
 
 
