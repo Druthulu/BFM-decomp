@@ -228,6 +228,9 @@ audit-disc:
 # phantom. R34: the byte-gate is a null oracle for documents, so this is a second one that disagrees.
 audit-digest:
 	$(VENV_PY) tools/audit_digest.py
+	# P33 D3: the published DATA must describe the current tree too — docs/progress.json, the README's
+	# generated block and the badge files (the same numbers as the digest; R51: never typed)
+	$(VENV_PY) tools/progress.py --json --readme --check
 
 # P30 S39 (Drew's MASTER_REMAINING proposal, derived form — docs/decision-log.md 2026-08-04):
 # "what's left" is answered by six artifacts, each individually derived and NONE ever checked

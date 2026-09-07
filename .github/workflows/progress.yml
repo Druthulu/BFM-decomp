@@ -1,0 +1,37 @@
+# .github/workflows/progress.yml — publish the progress report for decomp.dev (P33 D3).
+#
+# CI has no game disc, so it never rebuilds the game. The numbers come from the COMMITTED docs/progress.json, which
+# `make report` regenerates from a local clean rebuild (and `make audit-digest` asserts describes the tree). This
+# workflow converts that file to objdiff's report format (tools/objdiff_report.py, validated with objdiff-cli) and
+# uploads it as the artifact decomp.dev reads: `<VERSION>_report` = SLUS_007.26_report.
+name: progress
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    name: objdiff report from docs/progress.json (no rebuild)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Convert the committed progress.json to an objdiff report
+        run: python tools/objdiff_report.py --in docs/progress.json --out report.json
+      - name: Print the headline
+        run: python -c "import json; m=json.load(open('report.json'))['measures']; print(f\"code {m['matched_code']}/{m['total_code']} = {m['matched_code_percent']:.2f}%  functions {m['matched_functions']}/{m['total_functions']}  units {m['complete_units']}/{m['total_units']}\")"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SLUS_007.26_report
+          path: report.json
+          if-no-files-found: error

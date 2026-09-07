@@ -925,16 +925,20 @@ def weighted_metrics():
 
     fm = ft = 0
     cls_nins, matched_cls = {}, set()
+    per_bin = {}                                   # P33 D3: binary -> [matched ins, total ins] (the objdiff units)
     for p in paths:
-        st = stub_addrs(_sig_binary(p))
+        b = _sig_binary(p)
+        st = stub_addrs(b)
+        bm = bt = 0
         for line in open(p):
             r = json.loads(line)
             a, n, hx = int(r["addr"], 16), r["nins"], r["h_exact"]
-            ft += n
+            ft += n; bt += n
             cls_nins[hx] = n                       # h_exact-identical -> identical nins
             if a not in st:                        # non-stub == matched (fleet is byte-identical)
-                fm += n
+                fm += n; bm += n
                 matched_cls.add(hx)
+        per_bin[b] = [bm, bt]
     ut = sum(cls_nins.values())
     um = sum(n for hx, n in cls_nins.items() if hx in matched_cls)
 
@@ -994,7 +998,8 @@ def weighted_metrics():
     # main's open stubs in `frontier_classify` (a known-true-case check).
     fleet_m_all, fleet_t_all = fm + mm, ft + mt
     dedup_m_all, dedup_t_all = um + mm, ut + mt      # main's fns are unique — no h_exact sharing
-    return dict(fleet_m=fleet_m_all, fleet_t=fleet_t_all,
+    per_bin["main"] = [mm, mt]
+    return dict(fleet_m=fleet_m_all, fleet_t=fleet_t_all, per_bin=per_bin,
                 fleet_pct=(100 * fleet_m_all / fleet_t_all if fleet_t_all else 0.0),
                 dedup_m=dedup_m_all, dedup_t=dedup_t_all,
                 dedup_pct=(100 * dedup_m_all / dedup_t_all if dedup_t_all else 0.0),
@@ -1101,8 +1106,38 @@ def fleet():
                    "verbatim_asm_bodies": nverb, "include_asm_stubs": STUBS, "non_matching": NM, "matchable": MATCH,
                    "dedup_groups": ngroups, "dedup_instances": nmembers},
         "per_binary": [{"binary": r['binary'], "real": r['real'], "shared": r['shared'], "linked": r['linked'],
-                        "byte_identical": r['byteident'], "matchable": r['matchable']} for r in rows],
+                        "byte_identical": r['byteident'], "matchable": r['matchable'],
+                        "instr_matched": (wm['per_bin'].get(r['binary'], [None, None])[0] if wm else None),
+                        "instr_total": (wm['per_bin'].get(r['binary'], [None, None])[1] if wm else None)} for r in rows],
     }
+
+
+def badge(label, message, pct):
+    color = "brightgreen" if pct >= 99.95 else "green" if pct >= 75 else "yellow" if pct >= 50 else "orange"
+    return {"schemaVersion": 1, "label": label, "message": message, "color": color}
+
+
+def badge_files(d):
+    """{name: json text} for docs/badges/*.json in the shields.io endpoint format (README:
+    img.shields.io/endpoint?url=…). Names are fixed: the README references exactly these files."""
+    import json as _json
+    f, c = d["fleet"], d["counts"]
+    ok_bins = sum(1 for r in d["per_binary"] if r["matchable"] and r["byte_identical"] == r["matchable"])
+    files = {
+        "fleet_instr.json": badge("matched (instructions)", f"{f['instr_weighted']['pct']:.1f}%", f['instr_weighted']['pct']) if f['instr_weighted'] else None,
+        "fleet_fn.json": badge("matched (functions)", f"{f['fn_count']['pct']:.2f}%", f['fn_count']['pct']),
+        "distinct.json": badge("distinct code matched", f"{f['distinct_code']['pct']:.1f}%", f['distinct_code']['pct']) if f['distinct_code'] else None,
+        "binaries.json": badge("byte-identical binaries", f"{ok_bins}/{d['binaries']}", 100.0 * ok_bins / d['binaries']),
+    }
+    return {n: _json.dumps(v) + "\n" for n, v in files.items() if v is not None}
+
+
+def write_badges(d):
+    bd = ROOT / "docs/badges"; bd.mkdir(exist_ok=True)
+    files = badge_files(d)
+    for name, text in files.items():
+        (bd / name).write_text(text)
+    return sorted(files)
 
 
 README_BEGIN, README_END = "<!-- progress:begin -->", "<!-- progress:end -->"
@@ -1140,8 +1175,13 @@ def write_json_and_readme(check=False):
     if check:
         if not jp.exists() or jp.read_text() != text:
             sys.exit("progress.py --json --check: docs/progress.json is STALE — run `make report BINARY=main`")
+        for name, want in badge_files(d).items():
+            bp = ROOT / "docs/badges" / name
+            if not bp.exists() or bp.read_text() != want:
+                sys.exit(f"progress.py --check: docs/badges/{name} is STALE or missing — run `make report BINARY=main`")
     else:
         jp.write_text(text)
+        write_badges(d)
     rp = ROOT / "README.md"
     if not rp.exists():
         sys.exit("progress.py --readme: README.md missing")
