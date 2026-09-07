@@ -697,6 +697,24 @@ Drew's instruction: `Druthulu/xsig` is public (`c8d862c`); (5) DONE — PR simon
 hashes only** (the history was rewritten; `docs/commit-map.tsv` maps ordinals → new hashes; the scratch `.run/public_rewrite/`
 holds the old ones and stays until the probe passes). **Never `git clean -x`** (CLAUDE.md fail-safe).
 
+### 0b. DREW'S POST-FLIP CHECKLIST (consolidated 2026-09-07, S89 — the one list to replay; every item's detail is in the doc named)
+0. **Before the flip:** run `tools/public_rewrite/probe_github.sh` daily until it prints PASS (Support ticket #4736982; S89: 31 of 33 ALIVE).
+   Push the local commits (`git push origin main`) and confirm both Actions workflows are green on the push.
+1. **C10 the flip:** GitHub → Settings → General → Danger Zone → Change visibility → Public. Then `gh api repos/Druthulu/BFM-decomp --jq
+   .private` → `false`; `tools/public_rewrite/probe_github.sh --after-flip`; Actions tab green. Enable Settings → General → Features → Wikis.
+2. **E1 (decomp.me, ~20 min):** the six steps in `docs/decompme-preset.md` §5 / checkpoint §3 — scratch from `.run/decompme/drew_bundle/`
+   (100% expected) → the preset-request issue on `decompme/decomp.me` → the manual search (`Musashi`, `Brave Fencer`, `SLUS-00726`,
+   `SLUS_007`) → send Claude the scratch URL, the issue URL, the search result.
+3. **E2 (Archipelago):** open the GitHub issue on `AegeusEvander/Brave-Fencer-Musashi-AP-World` with `docs/outreach/archipelago.md` §4
+   (title + body), or the Discord short form. Send Claude the issue URL; forward any reply.
+4. **D3 outward (progress boards):** decomp.dev → log in with GitHub → `decomp.dev/manage/new` → add `Druthulu/BFM-decomp` (it reads the
+   `SLUS_007.26_report` artifact `progress.yml` already uploads). frogress: request slug `bfm` + an API key from the maintainers, then
+   `FROGRESS_API_SECRET=… .venv/bin/python tools/frogress_upload.py --push`.
+5. **F3 outward (the wiki):** GitHub → Wiki → "Create the first page" (any content) → `tools/wiki_sync.sh --push` → check the sidebar links.
+6. **Tell Claude "flip chain done"** → Claude runs C11 (aftercare: other clones reset, `gh auth logout`, `.run/public_rewrite/` +
+   `.run/objdiff/` deleted, `.run/` pruned, DIGEST/decision-log entries) → then G2 (the PhaseEnd v2.0.0, Tier 1, gate 2 — you confirm the
+   milestone, commit and push `main --tags`).
+
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). The approved plan
 is VERBATIM at the end of this file — its Blocks E–G paragraphs are the specs for what remains. **Done (34):** A1–A5, B1–B9/C3,

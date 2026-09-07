@@ -245,6 +245,11 @@ rewritten history (nothing else exists to lose — the archive repo and the bund
 (README, LICENSE, NOTICE, THIRD_PARTY, badges), E and F have landed on the still-private repo. Then D3's outward actions
 (frogress slug, decomp.dev registration), E1 (the decomp.me preset — Drew's six steps are in `docs/decompme-preset.md` §5 and the phase checkpoint §3; bundle `.run/decompme/drew_bundle/`), E2 (the Archipelago message), F3 (the wiki push: create the first page in the GitHub UI — Wiki → "Create the first page" — then `tools/wiki_sync.sh --push`; the pages are authored in `docs/wiki/` + `docs/how-to-ai-decomp/` and the script replaces the wiki's pages with the rendered set).
 
+**Drew's post-flip checklist (consolidated S89, 2026-09-07):** (0) probe daily until PASS; push; Actions green → (1) the flip + `--after-flip`
+probe + enable Wikis → (2) E1: `docs/decompme-preset.md` §5 (scratch → 100% → preset-request issue → manual search) → (3) E2: the issue in
+`docs/outreach/archipelago.md` §4 → (4) D3 outward: decomp.dev `manage/new`, frogress slug `bfm` + key, `frogress_upload.py --push` →
+(5) wiki: first page in the UI, `tools/wiki_sync.sh --push` → (6) tell Claude → C11 → G2. The same list is `phase-ends/CURRENT_PHASE.md` §0b.
+
 ## 12. C11 — aftercare
 
 - **Every other clone of the old history** (the Windows tree, any other machine): `git fetch origin && git reset --hard
