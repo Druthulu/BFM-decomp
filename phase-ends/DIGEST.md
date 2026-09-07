@@ -232,14 +232,29 @@ ratified at gate 1; **R64 ratified**; candidates (i)–(ix) recorded. Instrument
   explicit (see `checkpoint-current-phase-before-pause` memory).**
 (R40–R43 and R61 were accepted mid-P31; their long forms are in `phase-ends/logs/Phase31.md` — the one-liners above are
 the binding text. R44–R63 one-liners are the P31 table, ratified at P32 gate 1.)
-**Candidates proposed at PhaseEnd_Phase32 (2026-09-06) — for Drew to accept/modify/reject; NOT binding until ratified:**
-(i) a wall verdict is PASS-attributed with a dump line; (ii) write "banked" only from the tool's printed success line; (iii)
-agents write deliverables early; (iv) a helper refuses an empty work list (R43 restated); (v) a residual gets a PRODUCER
-CENSUS before a spelling sweep and "PROVED" means every producer on a NAMED list refuted on the bytes; (vi) a ledger's
-tie-break is part of the instrument; (vii) port a banked sibling's SPELLING before any dial (§501-N/P); (viii) a similarity
-score is not a shape oracle — grep the idiom's constants and objdump the hits (§501-P); (ix) build the 1-second reproducer
-battery for a mechanism BEFORE probing the real function, and read the allocation ORDER before any register lever
-(accelerators (15)/(16)). Full text: `PhaseEnd_Phase32.md` "Rules Added".
+**R65–R73 — RATIFIED at Phase 33 gate 1 (Drew, 2026-09-06; the PhaseEnd_Phase32 candidates (i)–(ix), operated all of P32):**
+- **R65 — A wall verdict must be PASS-attributed with a dump line** (R40 extended: exonerate the instrument, then NAME the
+  compiler pass, quoting the dump line that shows it). Six of the seven P32 T4 wall citations named the wrong pass; each crack
+  came from one dump line (§501).
+- **R66 — Write "banked" only from the tool's printed success line** (`gate_main`'s BANKED line, `bank.sh`'s sha == config
+  line); never from the intent to bank. Two S83 ledger messages claimed banks that had not happened (a helper no-op on an
+  empty list; a wrong draft dir).
+- **R67 — Agents write their deliverables early** (draft file first, verdict JSON last); every agent lost to a usage limit
+  had to be resumed, and the one that had written its draft first banked from the dead run.
+- **R68 — A helper must refuse an empty work list** (R43 restated for helpers): `bank.sh` built the unchanged tree and exited
+  0 on an empty function list.
+- **R69 — A residual gets a PRODUCER CENSUS from the compiler source before any spelling sweep, and "PROVED" means every
+  producer on a NAMED list was refuted on the bytes** — a verdict says what it was proved against. §501-M/O were right about
+  their lists; §501-Q/R were the producers missing from them.
+- **R70 — A ledger's tie-break is part of the instrument.** `backlog.py` kept the earliest record at equal closeness, so a
+  re-verdict could never render (S84).
+- **R71 — When a same-family sibling is banked, port its SPELLING before touching a dial on the draft** (§501-N first try;
+  §501-P first try after 3,360 sweep variants).
+- **R72 — A similarity score is not a shape oracle:** a hand pass opens with a grep for the idiom's literal constants across
+  `src/` and an objdump of each hit's window against the target (the atlas scored the exact sibling 0.55, §501-P).
+- **R73 — Build the 1-second reproducer battery for a mechanism BEFORE probing the real function, and read the allocation
+  ORDER (`tools/alloc_table.py`) before any register lever** (§501-Q from 18 five-line reproducers after two sessions of
+  real-function probes; §501-R from an 8-variant reproducer sweep; every pin then came off — accelerators (15)/(16)).
 
 ## 4. Where things live (the doc map a session needs)
 `docs/SETUP.md` (environment, every tool's row, commands) · `docs/matching-cookbook.md` §1–§500 (idioms; 3.5 MB —
