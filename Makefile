@@ -298,6 +298,7 @@ tools-health:
 	# P33 D5: every relative link in the public-facing docs resolves (pending pages are listed, and must be gone by gate 2)
 	$(VENV_PY) tools/doc_links.py
 	$(VENV_PY) tools/wiki_render.py --selftest
+	$(VENV_PY) tools/xsig/tests/test_xsig.py 2>&1 | tail -1 | grep -q '^OK' && echo 'xsig tests: OK (8)' || { echo 'xsig tests: FAIL'; exit 1; }
 	# Behavioural guards (P31 S70): tools-health audits DATA integrity; these assert that a tool
 	# ACTUALLY DID the work it reports. A guard that is not running is not a guard (R54).
 	$(VENV_PY) tools/work_evidence.py --selftest

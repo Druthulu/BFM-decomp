@@ -48,6 +48,8 @@ jobs:
         run: python tools/cookbook_index.py --check
       - name: gccmap_cites — every codegen-map citation carries its source-tree tag
         run: python tools/gccmap_cites.py --check
+      - name: xsig — the cross-project signature tool's tests (fixtures carry no game bytes)
+        run: python tools/xsig/tests/test_xsig.py
       - name: ghidra_roster — derived roster is fresh
         run: python tools/ghidra_roster.py --check
       - name: work_evidence self-test
