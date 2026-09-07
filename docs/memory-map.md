@@ -567,6 +567,7 @@ in retail too (shipped data, not a debug build). The proto's scene-select shares
 | LiveSplit autosplitter (Aalaizah gist `f9cc6e8c8fba5a2457762f4fab8679c7`) | Story counter, location IDs, boss HP, chest/armor bytes | octoshock offsets: −0x30DF90 +0x80000000 |
 | gamehacking.org #88529 (US) / #93476 (JP) via libretro-database GameShark `.cht` | Player stat block, flags, misc | gamehacking.org Cloudflare-blocks scripts; cht mirror: `raw.githubusercontent.com/libretro/libretro-database/master/cht/Sony%20-%20PlayStation/Brave%20Fencer%20Musashi%20(USA,%20Japan)%20(GameShark).cht` |
 | jywjyw `bravefencer-hack` `doc/note.md` | JP overlay/memory map, LIST.CD-in-RAM behavior, pointer table | **All addresses JP (SLPS-01490)** — re-derive for US |
+| Local RAM-dump corpus `dumps/ram_*.bin` (28 × 2 MB, PCSX-Redux web API, Phase 3) | Every `verified` live-RAM entry (§3.4, §4.3, the Q#s), the overlay map proof, the save header | LOCAL-ONLY from P33 (ROM-derived); identity = `dumps/CHECKSUMS.sha1`; states catalogued in `dumps/INDEX.md`; a re-capture is a new snapshot, never byte-identical |
 | Hidden Palace / archive.org | Prototype facts | pages fetchable via `hiddenpalace.org/w/index.php?title=PAGE&action=raw` |
 
 ## Phase 30 S44 — the COMPLETE loader routing table (static-derived; supersedes "runtime-indexed, no static xref")

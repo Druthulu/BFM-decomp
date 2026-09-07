@@ -56,7 +56,7 @@ one-time snapshot, `CLAUDE.md` gains "never `git clean -x`" (R20 amendment propo
 - [x] **B4** `tools/fetch_psyq.sh` + CHECKSUMS rows (20 lib40 LIBs, psyq-obj-parser) BEFORE `tools/psyq/` leaves git — xHigh — see Log 2026-09-06 B4
 - [x] **B5** Ghidra regenerability (ExportAnnotations/ImportAnnotations/ghidra_rebuild.sh `--proof` on SLUS_007.26 +
       resident; roster; ExportSymbols R15 fix; path hardcodes; hooks) — Max (finished at medium, Drew's call) — see Log 2026-09-06 B5
-- [ ] **B6** `dumps/CHECKSUMS.sha1` + INDEX.md rewrite + memory-map Source-index row — Low/xHigh
+- [x] **B6** `dumps/CHECKSUMS.sha1` + INDEX.md rewrite + memory-map Source-index row — Low/xHigh — see Log 2026-09-06 B6
 - [ ] **B7** No-ROM CI (`no-rom.yml`, `audit_public.py`, `compile_only.py`) — xHigh
 - [ ] **B8** SETUP.md rows/sections (R21) + `docs/verification.md` — xHigh
 - [ ] **A5** THE RECORDED RUN (`tools/verify_contract.sh` → `.run/P33/verify/`, SUMMARY all EXIT=0) — run Low, read Max
@@ -192,21 +192,26 @@ Mid-phase rules check after every 4 completed tasks (P6). Commit banked artifact
   Register, Program)`). Census of the live exports (heuristic, before baselines): `types=0` in EVERY program (no hand-authored
   structs in the DB at all); the 154/402 "USER_DEFINED" variables per program are the loader's GTEMAC functions
   (analysis-origin, will subtract); real user labels beyond the symbol files: aug31 382, sep8 15, SLUS_007.26 1, overlays 1–2.
+- **2026-09-06 (S87) — B6 (dumps).** `dumps/CHECKSUMS.sha1` (28 rows from `sha1sum ram_*.bin`; `sha1sum --check` 28/28 —
+  `ls dumps/*.bin | wc -l` = 28, `git ls-files dumps` = 29 incl. INDEX; the `.bin` are still TRACKED until C3, ignored
+  for new adds since B1); `dumps/INDEX.md` status bullets rewritten (LOCAL-ONLY from the flip; the archive repo holds the
+  committed copy; a re-capture via `tools/ram_probe.py snapshot` is a new state snapshot, never byte-identical — the
+  table of 28 states preserved verbatim); `docs/memory-map.md` Source-index row for the corpus. Commit: see below.
 
-## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B5 ✓; NEXT = B6 (2026-09-06 ~21:00 MDT, written by session fa49faf3 "S87" after the B5 commit; SUPERSEDES the earlier blocks)
+## 🛑 SESSION CHECKPOINT — A1–A4 ✓, B1–B6 ✓; NEXT = B7 (2026-09-06 ~21:15 MDT, written by session fa49faf3 "S87" after the B6 commit; SUPERSEDES the earlier blocks)
 
 ### 0. How to use this block
 You are a FRESH SESSION that has read `PROJECT_CONTEXT.md`, `phase-ends/DIGEST.md`, `PhaseEnd_Phase30/31/32.md` and this file,
 and nothing else (R64). Replay this block verbatim, state phase / done / NEXT / effort, list the rules from the digest
-(R1–R73), then WAIT for Drew. **NEXT = B6** (Low/xHigh). The harness task list must be REBUILT (Drew wants to monitor it —
-one TaskCreate per plan item A1…G2, 40 items, mark A1–A4 + B1–B5 completed; R28). The SessionStart hook restarts the headless
+(R1–R73), then WAIT for Drew. **NEXT = B7** (xHigh). The harness task list must be REBUILT (Drew wants to monitor it —
+one TaskCreate per plan item A1…G2, 40 items, mark A1–A4 + B1–B6 completed; R28). The SessionStart hook restarts the headless
 MCP server when `ghidra/bfm.rep` exists (it did not stay up in S87 — `ss -tln` showed nothing on :8080; harmless): B6/B7/B8
 need no Ghidra; run `tools/ghidra_mcp_stop.sh` before any headless step (R23).
 
 ### 1. Where we are
 **Phase 33 — 100% verification + the public flip + Gen2 exit.** Gate 1 approved 2026-09-06 (plan mode, Max). R65–R73 ratified.
 **Done: A1 (`commit:4012`), A2 (`commit:4013`), A3 (`commit:4014`), A4 (`commit:4015`), B1 (`commit:4016`), B2 (`commit:4017`), B3
-(`commit:4018`), B4 (`commit:4019`), B5 (WIP `commit:4020` + the S87 close commit `feat(phase-33): B5 …`).** The approved plan is
+(`commit:4018`), B4 (`commit:4019`), B5 (`commit:4022`), B6 (the S87 `docs(phase-33): B6 …` commit).** The approved plan is
 VERBATIM at the end of this file — Blocks A–G give every task's files, commands and verification; "Execution order and why"
 is the sequence. Effort: Drew ran S87 at **medium** by explicit choice (the plan says Max for B5); the plan's annotations
 still stand for the tasks ahead — restate them, Drew decides (R7/R27).
@@ -232,18 +237,12 @@ still stand for the tasks ahead — restate them, Drew decides (R7/R27).
 
 ### 3. NEXT — in order
 0. **Preflight:** `git status --short | grep -v ghidra/` (empty) · `git log -1 --format='%h %s'` · `df -h ~`.
-1. **B6 — dumps** (Low; wording xHigh): `sha1sum dumps/ram_*.bin > dumps/CHECKSUMS.sha1` (expect 28 rows; check
-   `ls dumps/*.bin | wc -l` first, R41) — committed BEFORE the `.bin` leave git (C3); rewrite `dumps/INDEX.md` (local-only
-   from P33; the hashes; the re-capture recipe `tools/ram_probe.py snapshot <name>` → `.run/ram/`, with the honest caveat
-   that a re-capture is a new state snapshot, never byte-identical to the original); `docs/memory-map.md` Source-index row
-   for the corpus. Verify: `git ls-files dumps` = INDEX + CHECKSUMS (+ the .bin until C3); `sha1sum --check` 28/28.
-   Log, tick, refresh this block, commit `docs(phase-33): B6 …`.
-2. **B7 — No-ROM CI** (xHigh): per the plan's B7 paragraph (`.github/workflows/no-rom.yml`, `tools/audit_public.py`,
+1. **B7 — No-ROM CI** (xHigh): per the plan's B7 paragraph (`.github/workflows/no-rom.yml`, `tools/audit_public.py`,
    `tools/compile_only.py` with a DERIVED skip list + coverage line; time ONE TU first, R37). Then **B8** (SETUP rows +
    `docs/verification.md`), then the **P6 rules check** (12 tasks), then **A5** (the recorded run), then **B9/C3**.
 
 ### 4. Files S87 touched
-`tools/ghidra_scripts/ImportAnnotations.java` (3 compile fixes + the `/undefined` resolver), `tools/ghidra_rebuild.sh`
+B6: `dumps/CHECKSUMS.sha1` (new), `dumps/INDEX.md`, `docs/memory-map.md`. B5: `tools/ghidra_scripts/ImportAnnotations.java` (3 compile fixes + the `/undefined` resolver), `tools/ghidra_rebuild.sh`
 (`.proof` markers; dies unless `failed=0`), `tools/ghidra_annotations_delta.py` (the three drift classes), new
 `tools/ghidra_roster.py`, `tools/ghidra_mcp_start.sh` (silent no-op guard), `.claude/settings.json` (relative hooks),
 `Makefile` (roster check in tools-health), `docs/SETUP.md` (P33 B5 section, 5 inventory rows, §2.8), `config/ghidra/*`

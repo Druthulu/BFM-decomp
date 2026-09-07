@@ -5,10 +5,14 @@ Full 2 MB PS1 RAM images pulled from the Windows-native PCSX-Redux web API
 Each is a labeled game-state snapshot — a reusable corpus for offline RE in later phases
 (overlay map, player-state, save-format) **without re-playing the game**.
 
-- **The `.bin` files are gitignored** (ROM-derived 2 MB game memory; 57 MB total). This INDEX is committed.
-- They are **NOT cheaply regenerable** (each needs replay to the exact state) — back up `dumps/` off-machine
-  if you want them safe against disk loss (same as `disks/`). While private, they *could* be pushed (H1
-  relaxed), but local + this index matches the `disks/`/`extracted/` hygiene.
+- **Status (P33 B6, 2026-09-06): LOCAL-ONLY.** The 28 `.bin` images are ROM-derived game memory (2 MB each, 57 MB;
+  the retail EXE's code sits in every one) and leave git at the public flip; `dumps/INDEX.md` + `dumps/CHECKSUMS.sha1`
+  (one SHA1 per image, `cd dumps && sha1sum --check CHECKSUMS.sha1` → 28/28) stay tracked and describe them. The
+  private archive repo (`Druthulu/BFM-decomp-archive`, the pre-rewrite history) holds the one committed copy.
+- **Not regenerable byte-for-byte.** Each image is one moment of one play-through; a re-capture with
+  `tools/ram_probe.py snapshot <name>` (PCSX-Redux web API → `.run/ram/<name>.bin`) is a NEW state snapshot of a
+  different run — the same addresses hold the same kinds of facts, the bytes differ. Treat the SHA1s as the identity of
+  THIS corpus, not as a target to reproduce. Back `dumps/` up off-machine like `disks/`.
 - Resident blob always @0x800CEDF8 (`MAIN.CD/FILE_010/1.1`); location overlay slot @0x80128158.
 - Verified addresses derived from these live in `docs/memory-map.md` (§3.4, §4.3, Q#1/#3-#6/#9/#12).
 
