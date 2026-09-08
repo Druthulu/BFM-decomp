@@ -356,5 +356,5 @@ harness defects wearing model-failure costumes.
 
 ## Coverage
 Thirteen sections; every claim outside a calibration fence is stated to transfer. The rules are the registry seed
-(`templates/registry-E.decomp.md`, G1–G67); the kernels with their costs are `corpus/decomp-kernels.md` (DK-1 … DK-68 and
+(`templates/registry-E.decomp.md`, G1–G67); the kernels with their costs are `corpus/decomp-kernels.md` (DK-1 … DK-80 and
 the failure museum); the ladder with its milestones is `intake.decomp.md` Part B; the day-one inversions are its Part C.

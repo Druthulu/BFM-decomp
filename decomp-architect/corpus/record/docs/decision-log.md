@@ -3617,3 +3617,31 @@ register lever (accelerators (16)), and treat "PROVED" as "proved against this l
   (`lift_types`, `canon_sig_reconcile`, `sync_tu_decls`, `decl_prior`, `conform_decls`) point at Phase 6, not only Phase 10, and the
   cookbook front page names the width class as the one place a type moves bytes; (e) the methodology's integration section states the
   two-sided verdict in one paragraph. The source project's own Gen3 (Phase 35+) is the proof the kit will later cite.
+
+## P33.5 S92 (2026-09-07) — the kit's distillation gets a coverage check, a verbatim record and a pass over the worklogs (Drew's question: "the whole of our experience?")
+
+- **Context and belief.** Task 14 closed with the kit's wiki page written and the belief that the kit held the project's experience: the
+  tools and the cookbook verbatim (task 13.5), the rules G1–G67 and the kernels DK-1–DK-65 distilled from the retrospective, the
+  accelerators, the failure museum, the how-to and the memories (task 10), the S91-b types hindsight implemented (task 14).
+- **What the question exposed.** Drew asked whether the PhaseEnds, the logs, the rules and the memories had all gone in. Measured from the
+  kit's provenance lines (not from memory): 57 of 83 rules cited, 40 of 53 accelerator entries, 0 PhaseEnds, 0 worklogs; the record
+  itself (the how-to, the decision log, the accelerators, the retrospective, the playbook, the digest) absent verbatim, so a reader of
+  the kit could not follow a provenance line to its evidence. The distillation had been honest about its sources and silent about its
+  coverage — the same defect class as a scanner without a coverage assertion (R32), applied to a document.
+- **The pivot (plan amendment 3, task 14.5, Drew: "do all three").** (1) `decomp-architect/corpus/record/` — the record verbatim behind a
+  front page, regenerated and asserted equal like the other two corpora. (2) `tools/kit_coverage.py` — both populations derived (rules
+  from the digest, accelerator entries from the ledger at item granularity), each entry cited by a kit provenance line or dispositioned in
+  `config/kit_coverage_map.tsv` with a checked vocabulary; in tools-health. Its first run: 26 + 21 uncovered → DK-66/67/68 written for the
+  three genuine gaps, 41 dispositions authored (15 ProjectArchitect's own, 3 environment, the rest folds into named G/DK entries).
+  (3) The worklog pass: 21 read-only Opus agents over 30,510 lines, each with the "already banked?" grep protocol, deliverables early;
+  777 candidates, 634 already banked, 143 new, every cited line verified by script and read; clustered into DK-69–DK-80 with generated
+  provenance lines; one dropped on the miner's own verdict. The harvest table is `.run/P33.5/log-mining/HARVEST_TABLE.md`.
+- **Why it was right, measured.** The "capture while it hurts" rule (R30/R31) captured 634 of 777 lessons the agents found — 82% — and
+  missed 18%, concentrated in things that were FIXED and never GENERALISED (a selftest blind by construction, a roster in ignored scratch,
+  a red guard nobody wired, a timeout shorter than a tool's budget). The instrument-shaped lessons dominate the new kernels, which is the
+  retrospective's own finding restated from the raw record. A summary-only distillation would have shipped without them.
+- **Hindsight — the better path.** Build the coverage check the day the distillation is designed (task 10), not after it ships; and
+  schedule the worklog pass as the LAST harvest of the project by design, since its yield (one new lesson per five candidates) is far
+  above any mid-campaign harvest's. Both are now the kit's own rules: the coverage check is in the kit's health target, and the record's
+  front page tells the next project that its logs deserve one final read.
+

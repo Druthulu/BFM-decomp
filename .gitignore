@@ -385,6 +385,13 @@ unsloth_compiled_cache/
 !/.run/P33.5/kit-dryrun/*.json
 !/.run/P33.5/kit-dryrun/*.py
 
+# P33.5 task 14.5 (S92, 2026-09-07): the phase-log mining pass — the brief, the 21 slice reports, the harvest and its table,
+# the two scripts. Evidence of what the kit's kernels DK-69–DK-80 were distilled from; quotes of our own worklogs, nothing ROM-derived.
+!/.run/P33.5/log-mining/
+/.run/P33.5/log-mining/*
+!/.run/P33.5/log-mining/*.md
+!/.run/P33.5/log-mining/*.py
+
 # P33.5 task 13.5 (S91, 2026-09-07): the tools-audit evidence — the survey inputs, the review verdicts, the need-keys, the layout
 # probe and the run-4 judgment. Evidence, tracked.
 !/.run/P33.5/tools_audit/

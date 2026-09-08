@@ -866,3 +866,29 @@ coverage asserted both ways turned that into a need-keyed index in one task, and
 whose successors had existed for phases. Accelerator: from the first phase that has ten tools, adding a tool means adding its
 dictionary row (need · phase · what it hard-codes) or the health check fails; the index is generated, and the kit's corpus is
 generated from the same row.
+
+## P33.5 S92 (2026-09-07) — the log-mining pass: the distillation had never read the worklogs, and a coverage check found what the kit lacked
+
+Drew asked whether the kit held "the whole of our experience". Measured from the kit's own provenance lines: the tools and the cookbook
+were in verbatim; the rules were a distillation citing 57 of 83; the kernels cited 40 of 53 accelerator entries; **no PhaseEnd and no
+phase worklog was cited anywhere** — the kit had been written from the summaries (this ledger, the decision log, the retrospective, the
+how-to), never from the 30,510 lines of `phase-ends/logs/`. Three things followed in one task. **(1) A coverage check for a
+distillation** (`tools/kit_coverage.py`): derive both source populations (every rule from the digest, every entry of this ledger at
+numbered-item granularity) and refuse one that no kit provenance line cites unless an authored map says where it went. Its first run
+found 26 uncited rules and 21 uncited entries; three were genuine gaps and became kernels (a ledger's tie-break, a checker's widening and
+a blanket commit are part of the instrument; the ignore file's directory-form wall; a summarised signal is a claim, not ground truth).
+**Accelerator: a distillation ships with a coverage check against the populations it claims to distil, or it silently drops the lessons
+nobody remembered to cite.** **(2) The record as a verbatim dictionary** (`decomp-architect/corpus/record/`): the how-to, this ledger, the
+decision log, the retrospective, the story, the playbook, the effort doctrine, the readability charter, the digest and every PhaseEnd,
+asserted equal on every health check, so that a rule's or kernel's provenance line leads to its evidence. **(3) The worklogs, read once
+more:** 21 read-only agent slices over the 26 logs (the three giants split by line range), each briefed to extract only lessons that a
+grep over every distilled record could not find, with the greps recorded — **777 candidates, 634 already banked, 143 new**, every cited
+log line verified to exist and to say what the candidate claims, clustered into twelve kernels (DK-69–DK-80: instrument blind spots;
+verdict staleness and the health suite; what earns belief; denominators and units; leverage versus tractability; models and prompts;
+the unattended run; agents and the tree; edits that keep their proofs; the search harness and the compiler as evidence; maintaining the
+knowledge base; hosts and services), each provenance line naming the worklog lines. **Accelerator: the "capture while it hurts" rule
+does not capture everything — an end-of-project pass over the raw worklogs, with an "already banked?" grep per candidate, recovers the
+lessons that were fixed but never generalised; on this project one in five candidates was such a lesson.** Cost (R41): 21 Opus agents,
+~4.3M tokens, ~13 min wall each in two batches; the coordinator's cost was the brief, the harvest script, the clustering and the
+provenance generation.
+

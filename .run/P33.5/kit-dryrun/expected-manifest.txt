@@ -42,6 +42,7 @@ CREATED config/mcp.json.template
 CREATED docs/README.md
 CREATED docs/decomp-architect.md
 CREATED docs/decomp-kernels.md
+CREATED docs/inherited-record.md
 CREATED docs/knowledge-corpus.md
 CREATED docs/tools-manifest.md
 CREATED docs/wave-playbook.md

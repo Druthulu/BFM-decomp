@@ -99,7 +99,7 @@ def accel_cited(key, prov_text):
     elif num:
         pat = rf"\b{tok}\b(?: [A-Z]\w*)? \({num}\b"
     else:
-        pat = rf"(?<![\w.]){tok}\b(?! \()"
+        pat = rf"(?<![\w.]){re.escape(group)}\b(?! \()"   # the whole group text: 'P33.5 S92' is not cited by 'P33.5 S91 (1)'
     for ln in prov_text:
         if "accelerator" in ln.lower() and re.search(pat, ln):
             return True
